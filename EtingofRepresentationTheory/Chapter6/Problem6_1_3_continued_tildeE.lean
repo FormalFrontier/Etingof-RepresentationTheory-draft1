@@ -3245,6 +3245,763 @@ lemma affine_arm_walk {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
       have h3 := hdeg3 x
       omega)
 
+/-- **Harmonic implies linear along a path.** If `g 0, g 1, …, g k` satisfies the interior harmonic
+relation `2·g i = g (i-1) + g (i+1)` for `1 ≤ i ≤ k-1`, then `g` is an affine function of the index:
+`g i = g 0 + i·(g 1 - g 0)`. This is the spine-linearity core (no leaf condition, unlike
+`arm_linear`). -/
+private lemma linear_of_harmonic (g : ℕ → ℤ) (k : ℕ)
+    (hint : ∀ i, 1 ≤ i → i + 1 ≤ k → 2 * g i = g (i - 1) + g (i + 1)) :
+    ∀ i, i ≤ k → g i = g 0 + (i : ℤ) * (g 1 - g 0) := by
+  intro i
+  induction i using Nat.strong_induction_on with
+  | _ i ih =>
+    intro hi
+    match i with
+    | 0 => simp
+    | 1 => push_cast; ring
+    | (j + 2) =>
+      have e1 := ih (j + 1) (by omega) (by omega)
+      have e0 := ih j (by omega) (by omega)
+      have hrec : 2 * g (j + 1) = g j + g (j + 2) := by
+        have h := hint (j + 1) (by omega) (by omega)
+        simpa using h
+      have hval : g (j + 2) = 2 * g (j + 1) - g j := by linarith [hrec]
+      rw [hval, e1, e0]; push_cast; ring
+
+/-- **Spine endpoint identity.** For a harmonic sequence `g 0 … g k` (`k ≥ 1`) the two inner
+endpoint values satisfy `g 1 + g (k-1) = g 0 + g k` — the affine slope is constant, so the
+increment at each end agrees. This is exactly the `hspine` hypothesis of `affine_two_branch_pinch`. -/
+private lemma spine_endpoint_sum (g : ℕ → ℤ) (k : ℕ) (hk : 1 ≤ k)
+    (hint : ∀ i, 1 ≤ i → i + 1 ≤ k → 2 * g i = g (i - 1) + g (i + 1)) :
+    g 1 + g (k - 1) = g 0 + g k := by
+  have hlin := linear_of_harmonic g k hint
+  have h1 : g 1 = g 0 + (1 : ℤ) * (g 1 - g 0) := hlin 1 hk
+  have hk1 : g (k - 1) = g 0 + ((k - 1 : ℕ) : ℤ) * (g 1 - g 0) := hlin (k - 1) (by omega)
+  have hkk : g k = g 0 + (k : ℤ) * (g 1 - g 0) := hlin k (le_refl k)
+  have hcast : ((k - 1 : ℕ) : ℤ) = (k : ℤ) - 1 := by
+    have : 1 ≤ k := hk; push_cast [Nat.cast_sub this]; ring
+  rw [h1, hk1, hkk, hcast]; ring
+
+/-- **Neighbour-sum of a null vector.** Reduce the harmonic sum `2·f x = ∑ⱼ adjₓⱼ fⱼ` to a sum over
+the explicit neighbour finset `T = {y | adj x y = 1}`. -/
+private lemma harm_neighbor_finset {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (f : Fin n → ℤ)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (hharm : ∀ x, 2 * f x = ∑ y, adj x y * f y)
+    (x : Fin n) (T : Finset (Fin n)) (hN : ∀ y, adj x y = 1 ↔ y ∈ T) :
+    2 * f x = ∑ y ∈ T, f y := by
+  have hterm : ∀ y, adj x y * f y = if y ∈ T then f y else 0 := by
+    intro y
+    by_cases hy : y ∈ T
+    · rw [if_pos hy, (hN y).mpr hy, one_mul]
+    · rw [if_neg hy]
+      rcases h01 x y with h0 | h1
+      · rw [h0, zero_mul]
+      · exact absurd ((hN y).mp h1) hy
+  rw [hharm x, Finset.sum_congr rfl (fun y _ => hterm y), Finset.sum_ite_mem, Finset.univ_inter]
+
+/-- Neighbour-sum specialised to a single neighbour. -/
+private lemma harm_one {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (f : Fin n → ℤ)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (hharm : ∀ x, 2 * f x = ∑ y, adj x y * f y)
+    (x a : Fin n) (hN : ∀ y, adj x y = 1 ↔ y = a) : 2 * f x = f a := by
+  have h := harm_neighbor_finset adj f h01 hharm x {a}
+    (fun y => by rw [Finset.mem_singleton]; exact hN y)
+  rwa [Finset.sum_singleton] at h
+
+/-- Neighbour-sum specialised to two distinct neighbours. -/
+private lemma harm_two {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (f : Fin n → ℤ)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (hharm : ∀ x, 2 * f x = ∑ y, adj x y * f y)
+    (x a b : Fin n) (hab : a ≠ b) (hN : ∀ y, adj x y = 1 ↔ y = a ∨ y = b) :
+    2 * f x = f a + f b := by
+  have h := harm_neighbor_finset adj f h01 hharm x {a, b}
+    (fun y => by rw [Finset.mem_insert, Finset.mem_singleton]; exact hN y)
+  rwa [Finset.sum_insert (by rwa [Finset.mem_singleton]), Finset.sum_singleton] at h
+
+/-- Neighbour-sum specialised to three distinct neighbours. -/
+private lemma harm_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (f : Fin n → ℤ)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (hharm : ∀ x, 2 * f x = ∑ y, adj x y * f y)
+    (x a b c : Fin n) (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c)
+    (hN : ∀ y, adj x y = 1 ↔ y = a ∨ y = b ∨ y = c) :
+    2 * f x = f a + f b + f c := by
+  have h := harm_neighbor_finset adj f h01 hharm x {a, b, c}
+    (fun y => by simp only [Finset.mem_insert, Finset.mem_singleton]; exact hN y)
+  rw [Finset.sum_insert (by simp only [Finset.mem_insert, Finset.mem_singleton]; tauto),
+      Finset.sum_insert (by rwa [Finset.mem_singleton]), Finset.sum_singleton] at h
+  linarith [h]
+
+/-- **Linearise one outer arm of a null vector.** An outer-arm component `S` at hub `h` (nonempty,
+`h`-avoiding, internally connected, all vertices of degree `≤ 2`, closed under adjacency inside
+`S ∪ {h}`, with unique `h`-neighbour `nb`) carries the strictly-positive null vector `f` as a linear
+function from the far tip inward: writing `a > 0` for the tip value, `f h = (L+1)·a` (hub value) and
+`f nb = L·a` (root value), where `L = S.card` is the arm length. When `L = 1` the root `nb` is
+itself a leaf. This is the per-arm ingredient feeding the two-branch fork pinch. -/
+private lemma outer_arm_linear {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
+    (f : Fin n → ℤ) (hf_pos : ∀ i, 0 < f i)
+    (hharm : ∀ x, 2 * f x = ∑ y, adj x y * f y)
+    (h : Fin n)
+    (S : Finset (Fin n)) (hhS : h ∉ S) (hSne : S.Nonempty)
+    (hSconn : ∀ a ∈ S, ∀ b ∈ S, ∃ p : List (Fin n),
+        p.head? = some a ∧ p.getLast? = some b ∧ (∀ x ∈ p, x ∈ S) ∧
+        ∀ k, (hk : k + 1 < p.length) →
+          adj (p.get ⟨k, by omega⟩) (p.get ⟨k + 1, hk⟩) = 1)
+    (nb : Fin n) (hnbS : nb ∈ S) (hnbh : adj h nb = 1)
+    (hnb_uniq : ∀ a ∈ S, adj h a = 1 → a = nb)
+    (hSdeg : ∀ x ∈ S, Etingof.vertexDegree adj x ≤ 2)
+    (hClosed : ∀ x ∈ S, ∀ y, adj x y = 1 → y = h ∨ y ∈ S) :
+    ∃ (L : ℕ) (a : ℤ), 1 ≤ L ∧ 0 < a ∧ f h = (L + 1) * a ∧ f nb = L * a ∧
+      (L = 1 → Etingof.vertexDegree adj nb = 1) := by
+  classical
+  have h01 := hD.2.2.1
+  have hsymm := hD.1
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have hh := congrFun (congrFun hsymm b) a
+    rw [Matrix.transpose_apply] at hh; exact hh
+  -- Walk the arm: `g 0 = nb` (root, `h`-neighbour) … `g (L-1)` (far tip).
+  obtain ⟨L, g, hL1, hg0, hmemS, himg, hginj, hghub, hgedge⟩ :=
+    affine_arm_walk' adj hn hD h S hhS hSne hSconn nb hnbS hnbh hnb_uniq hSdeg
+  -- Every `S`-vertex is some `g m`.
+  have hmemg : ∀ y, y ∈ S → ∃ m, m < L ∧ g m = y := by
+    intro y hy; rw [himg, Finset.mem_image] at hy
+    obtain ⟨m, hm, hgm⟩ := hy; exact ⟨m, Finset.mem_range.mp hm, hgm⟩
+  -- Neighbours of an arm vertex land in `{h} ∪ (g '' range L)`.
+  have hclose' : ∀ k y, k < L → adj (g k) y = 1 → y = h ∨ ∃ m, m < L ∧ g m = y := by
+    intro k y hk hy
+    rcases hClosed (g k) (hmemS k hk) y hy with hh | hh
+    · exact Or.inl hh
+    · exact Or.inr (hmemg y hh)
+  -- `h` is not in the arm image.
+  have hne_h : ∀ m, m < L → g m ≠ h := fun m hm hgm => hhS (hgm ▸ hmemS m hm)
+  -- Only the root `g 0` is adjacent to the hub `h`.
+  have hnoh : ∀ k, k < L → adj (g k) h = 1 → k = 0 := by
+    intro k hk hkh
+    rw [hsymm' (g k) h] at hkh
+    exact (hghub k hk).mp hkh
+  -- The null vector along the arm, indexed from the far tip: `seq i = f (g (L-1-i))`, `seq L = f h`
+  -- (so the arm is walked tip → hub).
+  set seq : ℕ → ℤ := fun i => if hi : i < L then f (g (L - 1 - i)) else f h with hseq_def
+  have hseqlt : ∀ i, i < L → seq i = f (g (L - 1 - i)) := by
+    intro i hi; simp only [hseq_def, dif_pos hi]
+  have hseqL : seq L = f h := by simp only [hseq_def, dif_neg (lt_irrefl L)]
+  -- Leaf condition: the tip `g (L-1)` has a unique neighbour, giving `2·seq 0 = seq 1`.
+  have hleaf : 2 * seq 0 = seq 1 := by
+    have htip : seq 0 = f (g (L - 1)) := by
+      rw [hseqlt 0 hL1, show L - 1 - 0 = L - 1 from Nat.sub_zero _]
+    rcases Nat.lt_or_ge 1 L with hL2 | hL1'
+    · -- `L ≥ 2`: unique neighbour is `g (L-2)`.
+      have hs1 : seq 1 = f (g (L - 2)) := by
+        rw [hseqlt 1 hL2, show L - 1 - 1 = L - 2 from by omega]
+      have hN : ∀ y, adj (g (L - 1)) y = 1 ↔ y = g (L - 2) := by
+        intro y; constructor
+        · intro hy
+          rcases hclose' (L - 1) y (by omega) hy with hh | ⟨m, hm, hgm⟩
+          · exfalso; rw [hh] at hy; have := hnoh (L - 1) (by omega) hy; omega
+          · rw [← hgm]; congr 1
+            have := (hgedge (L - 1) m (by omega) hm).mp (hgm ▸ hy)
+            omega
+        · intro hy; rw [hy, hgedge (L - 1) (L - 2) (by omega) (by omega)]; omega
+      rw [htip, hs1]; exact harm_one adj f h01 hharm _ _ hN
+    · -- `L = 1`: the root `nb = g 0` is the tip, unique neighbour is `h`.
+      have hLeq : L = 1 := le_antisymm hL1' hL1
+      have hs1 : seq 1 = f h := by rw [← hseqL, hLeq]
+      have hN : ∀ y, adj (g (L - 1)) y = 1 ↔ y = h := by
+        intro y; constructor
+        · intro hy
+          rcases hclose' (L - 1) y (by omega) hy with hh | ⟨m, hm, hgm⟩
+          · exact hh
+          · exfalso
+            have := (hgedge (L - 1) m (by omega) hm).mp (hgm ▸ hy); omega
+        · intro hy; rw [hy, hsymm' (g (L-1)) h]
+          have : (L - 1 : ℕ) = 0 := by omega
+          rw [this, hg0]; exact hnbh
+      rw [htip, hs1]; exact harm_one adj f h01 hharm _ _ hN
+  -- Interior harmonic condition for `seq`.
+  have hintr : ∀ i, 1 ≤ i → i + 1 ≤ L → 2 * seq i = seq (i - 1) + seq (i + 1) := by
+    intro i hi1 hiL
+    -- `seq i = f (g j)` with `j = L-1-i`.
+    have hjlt : L - 1 - i < L := by omega
+    have hsi : seq i = f (g (L - 1 - i)) := hseqlt i (by omega)
+    have hsim : seq (i - 1) = f (g (L - i)) := by
+      rw [hseqlt (i - 1) (by omega)]; congr 2; omega
+    rcases Nat.lt_or_ge (i + 1) L with hlt | hge
+    · -- interior of the arm: neighbours `g (L-i)` and `g (L-2-i)`.
+      have hsip : seq (i + 1) = f (g (L - 2 - i)) := by
+        rw [hseqlt (i + 1) hlt]; congr 2; omega
+      have hab : g (L - i) ≠ g (L - 2 - i) := by
+        intro heq; have := (hginj (L - i) (L - 2 - i) (by omega) (by omega)).mp heq; omega
+      have hN : ∀ y, adj (g (L - 1 - i)) y = 1 ↔ y = g (L - i) ∨ y = g (L - 2 - i) := by
+        intro y; constructor
+        · intro hy
+          rcases hclose' (L - 1 - i) y hjlt hy with hh | ⟨m, hm, hgm⟩
+          · exfalso; rw [hh] at hy; have := hnoh (L - 1 - i) hjlt hy; omega
+          · have := (hgedge (L - 1 - i) m hjlt hm).mp (hgm ▸ hy)
+            rcases this with h | h
+            · left; rw [← hgm]; congr 1; omega
+            · right; rw [← hgm]; congr 1; omega
+        · rintro (hy | hy)
+          · rw [hy, hgedge (L - 1 - i) (L - i) hjlt (by omega)]; omega
+          · rw [hy, hgedge (L - 1 - i) (L - 2 - i) hjlt (by omega)]; omega
+      rw [hsi, hsim, hsip]; exact harm_two adj f h01 hharm _ _ _ hab hN
+    · -- root of the arm (`i = L-1`, `j = 0`): neighbours `g 1` and the hub `h`.
+      have hiL1 : i = L - 1 := by omega
+      have hsip : seq (i + 1) = f h := by
+        have : i + 1 = L := by omega
+        rw [this]; exact hseqL
+      have hj0 : L - 1 - i = 0 := by omega
+      have hLi1 : L - i = 1 := by omega
+      have hab : g 1 ≠ h := hne_h 1 (by omega)
+      have hN : ∀ y, adj (g 0) y = 1 ↔ y = g 1 ∨ y = h := by
+        intro y; constructor
+        · intro hy
+          rcases hclose' 0 y (by omega) hy with hh | ⟨m, hm, hgm⟩
+          · exact Or.inr hh
+          · left; rw [← hgm]; congr 1
+            have := (hgedge 0 m (by omega) hm).mp (hgm ▸ hy); omega
+        · rintro (hy | hy)
+          · rw [hy, hgedge 0 1 (by omega) (by omega)]; omega
+          · rw [hy, hsymm' (g 0) h, hg0]; exact hnbh
+      rw [hsi, hj0, hsim, hLi1, hsip]
+      have := harm_two adj f h01 hharm (g 0) (g 1) h hab hN
+      linarith [this]
+  -- Linearity of `seq`: `seq i = (i+1)·seq 0`.
+  have hlin := arm_linear seq L hleaf hintr
+  -- Tip value `a = seq 0 = f (g (L-1)) > 0`.
+  refine ⟨L, seq 0, hL1, ?_, ?_, ?_, ?_⟩
+  · rw [hseqlt 0 hL1]; exact hf_pos _
+  · -- `f h = (L+1)·a`.
+    have := hlin L (le_refl L); rw [hseqL] at this; linarith [this]
+  · -- `f nb = L·a`, since `nb = g 0 = g (L-1-(L-1))` i.e. `seq (L-1) = f nb`.
+    have hnbseq : seq (L - 1) = f nb := by
+      rw [hseqlt (L - 1) (by omega)]
+      have : L - 1 - (L - 1) = 0 := by omega
+      rw [this, hg0]
+    have := hlin (L - 1) (by omega)
+    rw [hnbseq] at this
+    have hcast : ((L - 1 : ℕ) : ℤ) + 1 = (L : ℤ) := by
+      have : 1 ≤ L := hL1; push_cast [Nat.cast_sub this]; ring
+    rw [this, hcast]
+  · -- `L = 1 → nb` is a leaf.
+    intro hLeq
+    have hN : (univ.filter (fun j => adj nb j = 1)) = {h} := by
+      apply Finset.ext; intro y
+      rw [Finset.mem_filter, Finset.mem_singleton]
+      constructor
+      · rintro ⟨_, hy⟩
+        rcases hClosed nb hnbS y hy with hh | hh
+        · exact hh
+        · exfalso
+          obtain ⟨m, hm, hgm⟩ := hmemg y hh
+          rw [hLeq] at hm
+          have hm0 : m = 0 := by omega
+          rw [hm0, hg0] at hgm
+          rw [← hgm] at hy
+          rw [hD.2.1 nb] at hy; exact absurd hy (by norm_num)
+      · intro hy; rw [hy]; exact ⟨mem_univ _, by rw [hsymm' nb h]; exact hnbh⟩
+    change (univ.filter (fun j => adj nb j = 1)).card = 1
+    rw [hN, Finset.card_singleton]
+
+/-- **Two-branch fork ⟹ two leaves at each branch vertex.** A connected acyclic affine Dynkin
+diagram with all degrees `≤ 3` and exactly two branch (degree-3) vertices `v, w` has, at each branch
+vertex, two distinct leaf-neighbours. This is the `D̃ₙ` discriminator: the tree is an "H" — a spine
+`v … w` with two length-1 outer arms at each end. The affine degeneracy (tested against the
+strictly-positive null vector, which is linear along each arm and along the spine) forces all four
+outer arms to length `1` (`affine_two_branch_pinch`), so each branch vertex has two leaf-neighbours.
+Consumed by `affine_two_branch_deleted_isD` to rule out the `E₆/E₇/E₈` survivors (whose unique
+branch vertex has only one leaf-neighbour). -/
+lemma affine_two_branch_fork_leaves {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
+    (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
+    (hdeg3 : ∀ v, Etingof.Problem6_1_3_E7E8.vertexDegree adj v ≤ 3)
+    (v w : Fin n) (hvw : v ≠ w)
+    (hv : Etingof.Problem6_1_3_E7E8.vertexDegree adj v = 3)
+    (hw : Etingof.Problem6_1_3_E7E8.vertexDegree adj w = 3)
+    (huniq : ∀ u, Etingof.Problem6_1_3_E7E8.vertexDegree adj u = 3 → u = v ∨ u = w) :
+    ∃ ℓ₁ ℓ₂, ℓ₁ ≠ ℓ₂ ∧
+      adj w ℓ₁ = 1 ∧ adj w ℓ₂ = 1 ∧
+      Etingof.Problem6_1_3_E7E8.vertexDegree adj ℓ₁ = 1 ∧
+      Etingof.Problem6_1_3_E7E8.vertexDegree adj ℓ₂ = 1 := by
+  classical
+  have hdeg3' : ∀ u, Etingof.vertexDegree adj u ≤ 3 := fun u => hdeg3 u
+  have huniq' : ∀ u, Etingof.vertexDegree adj u = 3 → u = v ∨ u = w := fun u => huniq u
+  have hsymm := hD.1
+  have hdiag := hD.2.1
+  have h01 := hD.2.2.1
+  have hconn := hD.2.2.2.1
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have h := congrFun (congrFun hsymm b) a
+    rw [Matrix.transpose_apply] at h; exact h
+  -- Strictly-positive null vector; its harmonic (row) equation.
+  obtain ⟨f, hf_pos, hf_ker⟩ := affineNullVector_pos adj hn hD
+  have hharm : ∀ x : Fin n, 2 * f x = ∑ j, adj x j * f j := by
+    intro x
+    have hx := congrFun hf_ker x
+    simp only [Pi.zero_apply] at hx
+    have hMij : ∀ j, (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) x j
+        = (if x = j then (2:ℤ) else 0) - adj x j := by
+      intro j
+      rw [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, nsmul_eq_mul]
+      split_ifs <;> norm_num
+    have hrow_eq : ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec f) x
+        = ∑ j, ((if x = j then (2:ℤ) else 0) - adj x j) * f j := by
+      simp only [Matrix.mulVec, dotProduct]
+      exact Finset.sum_congr rfl (fun j _ => by rw [hMij j])
+    rw [hrow_eq] at hx
+    have hsplit : ∑ j, ((if x = j then (2:ℤ) else 0) - adj x j) * f j
+        = (∑ j, (if x = j then (2:ℤ) else 0) * f j) - ∑ j, adj x j * f j := by
+      rw [← Finset.sum_sub_distrib]
+      exact Finset.sum_congr rfl (fun j _ => by ring)
+    have hdiagsum : ∑ j, (if x = j then (2:ℤ) else 0) * f j = 2 * f x := by
+      rw [Finset.sum_eq_single x]
+      · rw [if_pos rfl]
+      · intro b _ hb; rw [if_neg (fun h => hb h.symm), zero_mul]
+      · intro h; exact absurd (Finset.mem_univ x) h
+    rw [hsplit, hdiagsum] at hx
+    linarith [hx]
+  -- The `SimpleGraph` of the adjacency, and its tree structure (connected acyclic).
+  let G : SimpleGraph (Fin n) :=
+    { Adj := fun i j => adj i j = 1
+      symm := ⟨fun i j (h : adj i j = 1) => by rw [hsymm' j i]; exact h⟩
+      loopless := ⟨fun i (h : adj i i = 1) => by rw [hdiag i] at h; exact absurd h (by norm_num)⟩ }
+  have hGadj : ∀ a b, G.Adj a b ↔ adj a b = 1 := fun _ _ => Iff.rfl
+  haveI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
+  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have hG_conn : G.Connected := ⟨fun a b => by
+    obtain ⟨path, hhead, hlast, hedges⟩ := hconn a b
+    exact list_path_reachable G path a b hhead hlast (fun m hm => hedges m hm)⟩
+  have hcount : (∑ i, ∑ j, adj i j) = 2 * (#G.edgeFinset : ℤ) := by
+    have hterm : ∀ p : Fin n × Fin n,
+        adj p.1 p.2 = (if adj p.1 p.2 = 1 then (1 : ℤ) else 0) := by
+      intro p; rcases h01 p.1 p.2 with h | h <;> simp [h]
+    calc (∑ i, ∑ j, adj i j)
+        = ∑ p : Fin n × Fin n, adj p.1 p.2 := (Fintype.sum_prod_type' adj).symm
+      _ = ∑ p : Fin n × Fin n, (if adj p.1 p.2 = 1 then (1 : ℤ) else 0) :=
+            Finset.sum_congr rfl (fun p _ => hterm p)
+      _ = ((univ.filter fun p : Fin n × Fin n => adj p.1 p.2 = 1).card : ℤ) := by
+            rw [Finset.sum_boole]
+      _ = ((2 * #G.edgeFinset : ℕ) : ℤ) := by rw [G.two_mul_card_edgeFinset]
+      _ = 2 * (#G.edgeFinset : ℤ) := by push_cast; ring
+  have hlb : n ≤ #G.edgeFinset + 1 := by
+    have h := hG_conn.card_vert_le_card_edgeSet_add_one
+    rwa [Nat.card_fin, Nat.card_eq_fintype_card, ← SimpleGraph.edgeFinset_card] at h
+  have hub' : #G.edgeFinset < n := by
+    have h2 : 2 * (#G.edgeFinset : ℤ) < 2 * ((n : ℕ) : ℤ) := by
+      rw [← hcount]; exact_mod_cast hacyc
+    have : (#G.edgeFinset : ℤ) < (n : ℤ) := by linarith [h2]
+    exact_mod_cast this
+  have hTree : G.IsTree := by
+    rw [SimpleGraph.isTree_iff_connected_and_card]
+    refine ⟨hG_conn, ?_⟩
+    have hNatEdge : Nat.card G.edgeSet = n - 1 := by
+      rw [Nat.card_eq_fintype_card, ← SimpleGraph.edgeFinset_card]; omega
+    rw [hNatEdge, Nat.card_fin]; omega
+  have hAcyc : G.IsAcyclic := hTree.isAcyclic
+  -- Vertex degree equals the neighbour-filter cardinality.
+  have hdeg_eq : ∀ u, G.degree u = Etingof.vertexDegree adj u := by
+    intro u
+    rw [← SimpleGraph.card_neighborFinset_eq_degree]
+    unfold Etingof.vertexDegree
+    congr 1; ext j
+    simp only [SimpleGraph.mem_neighborFinset, Finset.mem_filter, Finset.mem_univ, true_and]
+    exact Iff.rfl
+  -- Bridge the two `vertexDegree` spellings to the explicit neighbour-filter cardinality.
+  have hVD : ∀ x, Etingof.Problem6_1_3_E7E8.vertexDegree adj x
+      = (univ.filter (fun j => adj x j = 1)).card := by
+    intro x; unfold Etingof.Problem6_1_3_E7E8.vertexDegree; congr 1
+    ext j; simp only [Finset.mem_filter]
+  have hVD' : ∀ x, Etingof.vertexDegree adj x
+      = (univ.filter (fun j => adj x j = 1)).card := by
+    intro x; unfold Etingof.vertexDegree; congr 1
+    ext j; simp only [Finset.mem_filter]
+  -- === Generic component machinery: `comp hub c` = vertices reachable from `c` avoiding `hub`. ===
+  let comp : Fin n → Fin n → Finset (Fin n) :=
+    fun hub c => univ.filter (fun x => ∃ q : G.Walk c x, hub ∉ q.support)
+  have hcompmem : ∀ hub c x, x ∈ comp hub c ↔ ∃ q : G.Walk c x, hub ∉ q.support := by
+    intro hub c x
+    change x ∈ univ.filter (fun x => ∃ q : G.Walk c x, hub ∉ q.support) ↔ _
+    rw [Finset.mem_filter]; simp only [Finset.mem_univ, true_and]
+  have hself : ∀ hub c, hub ≠ c → c ∈ comp hub c := by
+    intro hub c hhc
+    rw [hcompmem]
+    refine ⟨SimpleGraph.Walk.nil, ?_⟩
+    simp only [SimpleGraph.Walk.support_nil, List.mem_singleton]
+    exact fun h => hhc h
+  have hhub_ni : ∀ hub c, hub ∉ comp hub c := by
+    intro hub c hmem
+    rw [hcompmem] at hmem; obtain ⟨q, hq⟩ := hmem; exact hq q.end_mem_support
+  have hclosed : ∀ hub c x y, x ∈ comp hub c → adj x y = 1 → y ≠ hub → y ∈ comp hub c := by
+    intro hub c x y hx hxy hyv
+    rw [hcompmem] at hx ⊢
+    obtain ⟨q, hq⟩ := hx
+    refine ⟨q.append (SimpleGraph.Walk.cons (show G.Adj x y from hxy) SimpleGraph.Walk.nil), ?_⟩
+    rw [SimpleGraph.Walk.support_append]
+    intro hmem
+    rw [List.mem_append] at hmem
+    rcases hmem with h | h
+    · exact hq h
+    · simp only [SimpleGraph.Walk.support_cons, SimpleGraph.Walk.support_nil, List.tail_cons,
+        List.mem_singleton] at h
+      exact hyv h.symm
+  -- Unique `hub`-neighbour within a component (acyclicity ⟹ unique path).
+  have hnbeq : ∀ hub c a, G.Adj hub c → (∃ q : G.Walk c a, hub ∉ q.support) →
+      G.Adj hub a → a = c := by
+    intro hub c a hhc hcomp hadj
+    obtain ⟨q, hq⟩ := hcomp
+    set qv : G.Walk c a := (q.toPath : G.Walk c a) with hqv
+    have hqvpath : qv.IsPath := q.toPath.2
+    have hqvsub : qv.support ⊆ q.support := SimpleGraph.Walk.support_toPath_subset_support q
+    have hv_notin : hub ∉ qv.support := fun hh => hq (hqvsub hh)
+    have hcne : c ≠ hub := (hhc.symm).ne
+    have hpathV : (qv.concat (hadj.symm : G.Adj a hub)).IsPath := hqvpath.concat hv_notin hadj.symm
+    have hedge : G.Adj c hub := hhc.symm
+    have hpathE : (SimpleGraph.Walk.cons hedge SimpleGraph.Walk.nil).IsPath := by
+      rw [SimpleGraph.Walk.cons_isPath_iff]
+      refine ⟨SimpleGraph.Walk.IsPath.nil, ?_⟩
+      simp only [SimpleGraph.Walk.support_nil, List.mem_singleton]
+      exact fun h => hcne h
+    have huniqp := SimpleGraph.isAcyclic_iff_path_unique.mp hAcyc
+      (⟨qv.concat (hadj.symm : G.Adj a hub), hpathV⟩ : G.Path c hub)
+      (⟨SimpleGraph.Walk.cons hedge SimpleGraph.Walk.nil, hpathE⟩ : G.Path c hub)
+    have hval := congrArg Subtype.val huniqp
+    have hlen := congrArg SimpleGraph.Walk.length hval
+    rw [SimpleGraph.Walk.length_concat] at hlen
+    simp only [SimpleGraph.Walk.length_cons, SimpleGraph.Walk.length_nil] at hlen
+    have hqv0 : qv.length = 0 := by omega
+    exact (SimpleGraph.Walk.eq_of_length_eq_zero hqv0).symm
+  -- Distinct-neighbour components are disjoint.
+  have hdisj : ∀ hub c c', G.Adj hub c → G.Adj hub c' → c ≠ c' →
+      Disjoint (comp hub c) (comp hub c') := by
+    intro hub c c' hc hc' hcc'
+    rw [Finset.disjoint_left]
+    intro x hxc hxc'
+    rw [hcompmem] at hxc hxc'
+    obtain ⟨pc, hpc⟩ := hxc
+    obtain ⟨pc', hpc'⟩ := hxc'
+    have hcomp : ∃ q : G.Walk c c', hub ∉ q.support := by
+      refine ⟨pc.append pc'.reverse, ?_⟩
+      rw [SimpleGraph.Walk.support_append]
+      intro hmem
+      rw [List.mem_append] at hmem
+      rcases hmem with h | h
+      · exact hpc h
+      · have h2 := List.mem_of_mem_tail h
+        rw [SimpleGraph.Walk.support_reverse, List.mem_reverse] at h2; exact hpc' h2
+    exact hcc' ((hnbeq hub c c' hc hcomp hc').symm)
+  -- Internal connectivity of each component (list form for `outer_arm_linear`).
+  have hconn_comp : ∀ hub c, ∀ a ∈ comp hub c, ∀ b ∈ comp hub c, ∃ p : List (Fin n),
+      p.head? = some a ∧ p.getLast? = some b ∧ (∀ x ∈ p, x ∈ comp hub c) ∧
+      ∀ k, (hk : k + 1 < p.length) →
+        adj (p.get ⟨k, by omega⟩) (p.get ⟨k + 1, hk⟩) = 1 := by
+    intro hub c a ha b hb
+    rw [hcompmem] at ha hb
+    obtain ⟨pa, hpa⟩ := ha
+    obtain ⟨pb, hpb⟩ := hb
+    let W : G.Walk a b := pa.reverse.append pb
+    refine ⟨W.support, ?_, ?_, ?_, ?_⟩
+    · rw [W.support_eq_cons]; rfl
+    · rw [List.getLast?_eq_getLast_of_ne_nil W.support_ne_nil]
+      exact congrArg some W.getLast_support
+    · intro x hx
+      rw [hcompmem]
+      rw [show W = pa.reverse.append pb from rfl, SimpleGraph.Walk.support_append,
+        List.mem_append] at hx
+      rcases hx with hx | hx
+      · rw [SimpleGraph.Walk.support_reverse, List.mem_reverse] at hx
+        exact ⟨pa.takeUntil x hx,
+          fun hmem => hpa (SimpleGraph.Walk.support_takeUntil_subset_support pa hx hmem)⟩
+      · have hx' : x ∈ pb.support := List.mem_of_mem_tail hx
+        exact ⟨pb.takeUntil x hx',
+          fun hmem => hpb (SimpleGraph.Walk.support_takeUntil_subset_support pb hx' hmem)⟩
+    · intro k hk
+      have hchain : List.IsChain G.Adj W.support := W.isChain_adj_support
+      have hedge := (List.isChain_iff_getElem.mp hchain) k hk
+      simpa only [List.get_eq_getElem] using hedge
+  -- === The spine: the unique `v`–`w` path in the tree. ===
+  have hreach : G.Reachable v w := by
+    obtain ⟨l, hh, hl, hc⟩ := hconn v w
+    exact list_path_reachable G l v w hh hl (fun mm hm => hc mm hm)
+  obtain ⟨p, hpath, hlen⟩ := hreach.exists_path_of_dist
+  set m := G.dist v w with hmdef
+  have hm1 : 1 ≤ m := by
+    rw [Nat.one_le_iff_ne_zero]; intro h0
+    exact hvw (hreach.dist_eq_zero_iff.mp h0)
+  have hp0 : p.getVert 0 = v := p.getVert_zero
+  have hpm : p.getVert m = w := by rw [← hlen]; exact p.getVert_length
+  have hadjc : ∀ k, k < m → adj (p.getVert k) (p.getVert (k + 1)) = 1 := by
+    intro k hk; exact (hGadj _ _).mp (p.adj_getVert_succ (by rw [hlen]; exact hk))
+  have hinj : ∀ i j, i ≤ m → j ≤ m → p.getVert i = p.getVert j → i = j := by
+    intro i j hi hj he
+    exact hpath.getVert_injOn (by simp only [Set.mem_setOf_eq, hlen]; exact hi)
+      (by simp only [Set.mem_setOf_eq, hlen]; exact hj) he
+  -- Spine neighbours: `sv` next to `v`, `sw` next to `w`.
+  set sv := p.getVert 1 with hsvdef
+  set sw := p.getVert (m - 1) with hswdef
+  have hsv_adj : adj v sv = 1 := by have := hadjc 0 hm1; rwa [hp0] at this
+  have hsw_adj : adj w sw = 1 := by
+    have := hadjc (m - 1) (by omega)
+    rw [show m - 1 + 1 = m by omega, hpm] at this
+    rw [hsymm' w sw]; exact this
+  -- `v` lies in `sw`'s component (walk `v → sw` along the path, avoiding `w`).
+  have hv_in_sw : v ∈ comp w sw := by
+    rw [hcompmem]
+    refine ⟨(p.take (m - 1)).reverse.copy hswdef.symm rfl, ?_⟩
+    rw [SimpleGraph.Walk.support_copy, SimpleGraph.Walk.support_reverse, List.mem_reverse]
+    intro hmem
+    rw [SimpleGraph.Walk.mem_support_iff_exists_getVert] at hmem
+    obtain ⟨k, hk_eq, hk_le⟩ := hmem
+    rw [SimpleGraph.Walk.take_getVert] at hk_eq
+    rw [SimpleGraph.Walk.take_length, hlen] at hk_le
+    have hk_le' : k ≤ m - 1 := by omega
+    rw [show (m - 1) ⊓ k = k by omega] at hk_eq
+    have : k = m := hinj k m (by omega) (by omega) (by rw [hk_eq, hpm])
+    omega
+  -- `w` lies in `sv`'s component (walk `sv → w` along the path, avoiding `v`).
+  have hw_in_sv : w ∈ comp v sv := by
+    rw [hcompmem]
+    refine ⟨(p.drop 1).copy hsvdef.symm rfl, ?_⟩
+    rw [SimpleGraph.Walk.support_copy]
+    intro hmem
+    rw [SimpleGraph.Walk.mem_support_iff_exists_getVert] at hmem
+    obtain ⟨k, hk_eq, hk_le⟩ := hmem
+    rw [SimpleGraph.Walk.drop_getVert] at hk_eq
+    have : 1 + k = 0 := hinj (1 + k) 0 (by rw [SimpleGraph.Walk.drop_length, hlen] at hk_le; omega)
+      (by omega) (by rw [hk_eq, hp0])
+    omega
+  -- === Extract the two outer arms at each branch vertex. ===
+  -- Helper: process one branch vertex `hub` (with spine-neighbour `sh`, `other` on the far side).
+  -- We inline the extraction twice.
+  -- Neighbour filters.
+  have hswmem : sw ∈ univ.filter (fun j => adj w j = 1) := by
+    simp only [mem_filter, mem_univ, true_and]; exact hsw_adj
+  have hsvmem : sv ∈ univ.filter (fun j => adj v j = 1) := by
+    simp only [mem_filter, mem_univ, true_and]; exact hsv_adj
+  have hcardW : ((univ.filter (fun j => adj w j = 1)).erase sw).card = 2 := by
+    rw [Finset.card_erase_of_mem hswmem]
+    have h3 : (univ.filter (fun j => adj w j = 1)).card = 3 := by rw [← hVD]; exact hw
+    omega
+  have hcardV : ((univ.filter (fun j => adj v j = 1)).erase sv).card = 2 := by
+    rw [Finset.card_erase_of_mem hsvmem]
+    have h3 : (univ.filter (fun j => adj v j = 1)).card = 3 := by rw [← hVD]; exact hv
+    omega
+  obtain ⟨r₁, r₂, hr12, hWset⟩ := Finset.card_eq_two.mp hcardW
+  obtain ⟨s₁, s₂, hs12, hVset⟩ := Finset.card_eq_two.mp hcardV
+  -- Membership / adjacency of the four outer roots.
+  have hr1E : r₁ ∈ (univ.filter (fun j => adj w j = 1)).erase sw := by rw [hWset]; simp
+  have hr2E : r₂ ∈ (univ.filter (fun j => adj w j = 1)).erase sw := by rw [hWset]; simp
+  have hs1E : s₁ ∈ (univ.filter (fun j => adj v j = 1)).erase sv := by rw [hVset]; simp
+  have hs2E : s₂ ∈ (univ.filter (fun j => adj v j = 1)).erase sv := by rw [hVset]; simp
+  have hr1sw : r₁ ≠ sw := (Finset.mem_erase.mp hr1E).1
+  have hr2sw : r₂ ≠ sw := (Finset.mem_erase.mp hr2E).1
+  have hs1sv : s₁ ≠ sv := (Finset.mem_erase.mp hs1E).1
+  have hs2sv : s₂ ≠ sv := (Finset.mem_erase.mp hs2E).1
+  have hr1w : adj w r₁ = 1 := (mem_filter.mp (Finset.mem_erase.mp hr1E).2).2
+  have hr2w : adj w r₂ = 1 := (mem_filter.mp (Finset.mem_erase.mp hr2E).2).2
+  have hs1v : adj v s₁ = 1 := (mem_filter.mp (Finset.mem_erase.mp hs1E).2).2
+  have hs2v : adj v s₂ = 1 := (mem_filter.mp (Finset.mem_erase.mp hs2E).2).2
+  -- The full neighbour filter of `w` is `{r₁, r₂, sw}` (resp. `v` is `{s₁, s₂, sv}`).
+  have hWfull : (univ.filter (fun j => adj w j = 1)) = {r₁, r₂, sw} := by
+    have h := Finset.insert_erase hswmem
+    rw [hWset] at h
+    rw [← h]; ext y
+    simp only [Finset.mem_insert, Finset.mem_singleton]; tauto
+  have hVfull : (univ.filter (fun j => adj v j = 1)) = {s₁, s₂, sv} := by
+    have h := Finset.insert_erase hsvmem
+    rw [hVset] at h
+    rw [← h]; ext y
+    simp only [Finset.mem_insert, Finset.mem_singleton]; tauto
+  -- Degree-≤2 for an outer component at `w` (its vertices avoid `w` and `v`).
+  have hdegW : ∀ (c : Fin n), adj w c = 1 → c ≠ sw →
+      ∀ x ∈ comp w c, Etingof.vertexDegree adj x ≤ 2 := by
+    intro c hcw hcsw x hx
+    have hxw : x ≠ w := fun h => hhub_ni w c (h ▸ hx)
+    have hxv : x ≠ v := by
+      intro h
+      have : v ∈ comp w c := h ▸ hx
+      exact (Finset.disjoint_left.mp
+        (hdisj w c sw ((hGadj _ _).mpr hcw) ((hGadj _ _).mpr hsw_adj) hcsw) this) hv_in_sw
+    have hne3 : Etingof.vertexDegree adj x ≠ 3 := by
+      intro h; rcases huniq' x h with h' | h'
+      · exact hxv h'
+      · exact hxw h'
+    have := hdeg3' x; omega
+  have hdegV : ∀ (c : Fin n), adj v c = 1 → c ≠ sv →
+      ∀ x ∈ comp v c, Etingof.vertexDegree adj x ≤ 2 := by
+    intro c hcv hcsv x hx
+    have hxv : x ≠ v := fun h => hhub_ni v c (h ▸ hx)
+    have hxw : x ≠ w := by
+      intro h
+      have : w ∈ comp v c := h ▸ hx
+      exact (Finset.disjoint_left.mp
+        (hdisj v c sv ((hGadj _ _).mpr hcv) ((hGadj _ _).mpr hsv_adj) hcsv) this) hw_in_sv
+    have hne3 : Etingof.vertexDegree adj x ≠ 3 := by
+      intro h; rcases huniq' x h with h' | h'
+      · exact hxv h'
+      · exact hxw h'
+    have := hdeg3' x; omega
+  -- Run `outer_arm_linear` on each of the four outer arms.
+  obtain ⟨L, a₁, hL1, ha₁, hWL, hr1val, hr1leaf⟩ :=
+    outer_arm_linear adj hn hD f hf_pos hharm w (comp w r₁) (hhub_ni w r₁)
+      ⟨r₁, hself w r₁ (fun h => by rw [← h] at hr1w; exact absurd hr1w (by rw [hdiag]; norm_num))⟩
+      (hconn_comp w r₁) r₁
+      (hself w r₁ (fun h => by rw [← h] at hr1w; exact absurd hr1w (by rw [hdiag]; norm_num)))
+      hr1w
+      (fun a ha had => hnbeq w r₁ a ((hGadj _ _).mpr hr1w)
+        ((hcompmem w r₁ a).mp ha) ((hGadj _ _).mpr had))
+      (hdegW r₁ hr1w hr1sw)
+      (fun x hx y hy => by
+        by_cases hyw : y = w
+        · exact Or.inl hyw
+        · exact Or.inr (hclosed w r₁ x y hx hy hyw))
+  obtain ⟨M, a₂, hM1, ha₂, hWM, hr2val, hr2leaf⟩ :=
+    outer_arm_linear adj hn hD f hf_pos hharm w (comp w r₂) (hhub_ni w r₂)
+      ⟨r₂, hself w r₂ (fun h => by rw [← h] at hr2w; exact absurd hr2w (by rw [hdiag]; norm_num))⟩
+      (hconn_comp w r₂) r₂
+      (hself w r₂ (fun h => by rw [← h] at hr2w; exact absurd hr2w (by rw [hdiag]; norm_num)))
+      hr2w
+      (fun a ha had => hnbeq w r₂ a ((hGadj _ _).mpr hr2w)
+        ((hcompmem w r₂ a).mp ha) ((hGadj _ _).mpr had))
+      (hdegW r₂ hr2w hr2sw)
+      (fun x hx y hy => by
+        by_cases hyw : y = w
+        · exact Or.inl hyw
+        · exact Or.inr (hclosed w r₂ x y hx hy hyw))
+  obtain ⟨P, b₁, hP1, hb₁, hVP, hs1val, hs1leaf⟩ :=
+    outer_arm_linear adj hn hD f hf_pos hharm v (comp v s₁) (hhub_ni v s₁)
+      ⟨s₁, hself v s₁ (fun h => by rw [← h] at hs1v; exact absurd hs1v (by rw [hdiag]; norm_num))⟩
+      (hconn_comp v s₁) s₁
+      (hself v s₁ (fun h => by rw [← h] at hs1v; exact absurd hs1v (by rw [hdiag]; norm_num)))
+      hs1v
+      (fun a ha had => hnbeq v s₁ a ((hGadj _ _).mpr hs1v)
+        ((hcompmem v s₁ a).mp ha) ((hGadj _ _).mpr had))
+      (hdegV s₁ hs1v hs1sv)
+      (fun x hx y hy => by
+        by_cases hyv : y = v
+        · exact Or.inl hyv
+        · exact Or.inr (hclosed v s₁ x y hx hy hyv))
+  obtain ⟨Q, b₂, hQ1, hb₂, hVQ, hs2val, hs2leaf⟩ :=
+    outer_arm_linear adj hn hD f hf_pos hharm v (comp v s₂) (hhub_ni v s₂)
+      ⟨s₂, hself v s₂ (fun h => by rw [← h] at hs2v; exact absurd hs2v (by rw [hdiag]; norm_num))⟩
+      (hconn_comp v s₂) s₂
+      (hself v s₂ (fun h => by rw [← h] at hs2v; exact absurd hs2v (by rw [hdiag]; norm_num)))
+      hs2v
+      (fun a ha had => hnbeq v s₂ a ((hGadj _ _).mpr hs2v)
+        ((hcompmem v s₂ a).mp ha) ((hGadj _ _).mpr had))
+      (hdegV s₂ hs2v hs2sv)
+      (fun x hx y hy => by
+        by_cases hyv : y = v
+        · exact Or.inl hyv
+        · exact Or.inr (hclosed v s₂ x y hx hy hyv))
+  -- === Hub harmonicity at `w` and `v`. ===
+  have hubw : 2 * f w = ↑L * a₁ + ↑M * a₂ + f sw := by
+    have hN : ∀ y, adj w y = 1 ↔ y = r₁ ∨ y = r₂ ∨ y = sw := by
+      intro y
+      have : y ∈ (univ.filter (fun j => adj w j = 1)) ↔ y ∈ ({r₁, r₂, sw} : Finset (Fin n)) := by
+        rw [hWfull]
+      simp only [mem_filter, mem_univ, true_and, Finset.mem_insert, Finset.mem_singleton] at this
+      exact this
+    have h3 := harm_three adj f h01 hharm w r₁ r₂ sw hr12
+      (fun h => hr1sw h) (fun h => hr2sw h) hN
+    rw [hr1val, hr2val] at h3; linarith [h3]
+  have hubv : 2 * f v = ↑P * b₁ + ↑Q * b₂ + f sv := by
+    have hN : ∀ y, adj v y = 1 ↔ y = s₁ ∨ y = s₂ ∨ y = sv := by
+      intro y
+      have : y ∈ (univ.filter (fun j => adj v j = 1)) ↔ y ∈ ({s₁, s₂, sv} : Finset (Fin n)) := by
+        rw [hVfull]
+      simp only [mem_filter, mem_univ, true_and, Finset.mem_insert, Finset.mem_singleton] at this
+      exact this
+    have h3 := harm_three adj f h01 hharm v s₁ s₂ sv hs12
+      (fun h => hs1sv h) (fun h => hs2sv h) hN
+    rw [hs1val, hs2val] at h3; linarith [h3]
+  -- === Spine linearity: `f sw + f sv = f w + f v`. ===
+  have hspine : f sw + f sv = f w + f v := by
+    -- Interior spine harmonic: `2 f (getVert i) = f (getVert (i-1)) + f (getVert (i+1))`.
+    have hint : ∀ i, 1 ≤ i → i + 1 ≤ m →
+        2 * f (p.getVert i) = f (p.getVert (i - 1)) + f (p.getVert (i + 1)) := by
+      intro i hi1 hiL
+      -- The interior vertex `p.getVert i` has degree 2, neighbours `getVert (i±1)`.
+      have hiv : p.getVert i ≠ v := by
+        intro h; have := hinj i 0 (by omega) (by omega) (by rw [h, hp0]); omega
+      have hiw : p.getVert i ≠ w := by
+        intro h; have := hinj i m (by omega) (by omega) (by rw [h, hpm]); omega
+      have hdeg2 : (univ.filter (fun j => adj (p.getVert i) j = 1)).card = 2 := by
+        have hne3 : (univ.filter (fun j => adj (p.getVert i) j = 1)).card ≠ 3 := by
+          rw [← hVD']; intro h; rcases huniq' _ h with h' | h' <;> [exact hiv h'; exact hiw h']
+        -- Two distinct neighbours `getVert (i-1)`, `getVert (i+1)` ⟹ degree ≥ 2.
+        have hadj_prev : adj (p.getVert i) (p.getVert (i - 1)) = 1 := by
+          rw [hsymm']; have := hadjc (i - 1) (by omega); rwa [show i - 1 + 1 = i by omega] at this
+        have hadj_next : adj (p.getVert i) (p.getVert (i + 1)) = 1 := hadjc i (by omega)
+        have hprevmem : p.getVert (i - 1) ∈ univ.filter (fun j => adj (p.getVert i) j = 1) := by
+          simp only [mem_filter, mem_univ, true_and]; exact hadj_prev
+        have hnextmem : p.getVert (i + 1) ∈ univ.filter (fun j => adj (p.getVert i) j = 1) := by
+          simp only [mem_filter, mem_univ, true_and]; exact hadj_next
+        have hne_pn : p.getVert (i - 1) ≠ p.getVert (i + 1) := by
+          intro h; have := hinj (i - 1) (i + 1) (by omega) (by omega) h; omega
+        have hge2 : 2 ≤ (univ.filter (fun j => adj (p.getVert i) j = 1)).card := by
+          have hsub : ({p.getVert (i - 1), p.getVert (i + 1)} : Finset (Fin n)) ⊆
+              univ.filter (fun j => adj (p.getVert i) j = 1) := by
+            intro y hy
+            simp only [Finset.mem_insert, Finset.mem_singleton] at hy
+            rcases hy with h | h <;> rw [h]; · exact hprevmem
+            · exact hnextmem
+          calc 2 = ({p.getVert (i - 1), p.getVert (i + 1)} : Finset (Fin n)).card := by
+                rw [Finset.card_insert_of_notMem (by simp [hne_pn]), Finset.card_singleton]
+            _ ≤ _ := Finset.card_le_card hsub
+        have hle3 : (univ.filter (fun j => adj (p.getVert i) j = 1)).card ≤ 3 := by
+          rw [← hVD']; exact hdeg3' (p.getVert i)
+        omega
+      -- Neighbour set is exactly the pair; reduce the harmonic sum.
+      have hadj_prev : adj (p.getVert i) (p.getVert (i - 1)) = 1 := by
+        rw [hsymm']; have := hadjc (i - 1) (by omega); rwa [show i - 1 + 1 = i by omega] at this
+      have hadj_next : adj (p.getVert i) (p.getVert (i + 1)) = 1 := hadjc i (by omega)
+      have hne_pn : p.getVert (i - 1) ≠ p.getVert (i + 1) := by
+        intro h; have := hinj (i - 1) (i + 1) (by omega) (by omega) h; omega
+      have hN : ∀ y, adj (p.getVert i) y = 1 ↔ y = p.getVert (i - 1) ∨ y = p.getVert (i + 1) := by
+        intro y
+        constructor
+        · intro hy
+          by_contra hcon
+          rw [not_or] at hcon
+          have hymem : y ∈ univ.filter (fun j => adj (p.getVert i) j = 1) := by
+            simp only [mem_filter, mem_univ, true_and]; exact hy
+          have hpair : ({p.getVert (i - 1), p.getVert (i + 1)} : Finset (Fin n)) ⊆
+              univ.filter (fun j => adj (p.getVert i) j = 1) := by
+            intro z hz
+            simp only [Finset.mem_insert, Finset.mem_singleton] at hz
+            rcases hz with h | h <;> rw [h] <;> simp only [mem_filter, mem_univ, true_and]
+            · exact hadj_prev
+            · exact hadj_next
+          have hcard2 : (univ.filter (fun j => adj (p.getVert i) j = 1)).card = 2 := hdeg2
+          have hins : insert y ({p.getVert (i - 1), p.getVert (i + 1)} : Finset (Fin n)) ⊆
+              univ.filter (fun j => adj (p.getVert i) j = 1) :=
+            Finset.insert_subset hymem hpair
+          have hycard :
+              (insert y ({p.getVert (i - 1), p.getVert (i + 1)} : Finset (Fin n))).card = 3 := by
+            rw [Finset.card_insert_of_notMem (by
+              simp only [Finset.mem_insert, Finset.mem_singleton, not_or]
+              exact ⟨hcon.1, hcon.2⟩),
+              Finset.card_insert_of_notMem (by simp [hne_pn]), Finset.card_singleton]
+          have := Finset.card_le_card hins
+          rw [hycard, hcard2] at this; omega
+        · rintro (h | h) <;> rw [h]
+          · exact hadj_prev
+          · exact hadj_next
+      exact harm_two adj f h01 hharm (p.getVert i) (p.getVert (i - 1)) (p.getVert (i + 1))
+        hne_pn hN
+    -- Apply the spine endpoint identity to `F i = f (p.getVert i)`.
+    have hend := spine_endpoint_sum (fun i => f (p.getVert i)) m hm1
+      (fun i hi1 hiL => hint i hi1 hiL)
+    simp only [hp0, hpm] at hend
+    -- `sv = getVert 1`, `sw = getVert (m-1)`.
+    rw [hswdef, hsvdef]; linarith [hend]
+  -- === Pinch: all four outer arms have length 1. ===
+  obtain ⟨hLeq, hMeq, _, _⟩ := affine_two_branch_pinch L M P Q (f w) (f v) a₁ a₂ b₁ b₂ (f sw) (f sv)
+    hL1 hM1 hP1 hQ1 ha₁ ha₂ hb₁ hb₂ hWL hWM hVP hVQ hubw hubv (by linarith [hspine])
+  -- === Conclusion: `r₁, r₂` are two distinct leaf-neighbours of `w`. ===
+  refine ⟨r₁, r₂, hr12, hr1w, hr2w, ?_, ?_⟩
+  · exact hr1leaf hLeq
+  · exact hr2leaf hMeq
+
 /-- **Three arms of a one-branch affine tree.** A connected acyclic affine Dynkin diagram with all
 degrees `≤ 3` and a *unique* degree-3 (branch) vertex `v` decomposes, after deleting `v`, into
 exactly three connected components. `affine_arm_walk` linearises each component into a rooted arm
