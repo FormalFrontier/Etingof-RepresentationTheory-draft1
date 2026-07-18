@@ -1625,7 +1625,99 @@ theorem so3_tetrahedral_of_poleData
     (heq : 2 * (1 - (Nat.card (↥G) : ℚ)⁻¹) = (m.map (fun x => 1 - (x : ℚ)⁻¹)).sum)
     (hpole : ∀ x ∈ m, ∃ b : ↥(poleSet G), Nat.card (MulAction.stabilizer (↥G) b) = x) :
     Nonempty (G ≃* alternatingGroup (Fin 4)) := by
-  sorry
+  classical
+  -- **Step 1.** The counting identity on `{2, 3, 3}` forces `|G| = 12`.
+  have hcard : Nat.card (↥G) = 12 := by
+    have hpos : 0 < Nat.card (↥G) := Nat.card_pos
+    have hne : (Nat.card (↥G) : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr (by omega)
+    rw [hclass] at heq
+    have hsum : (({2, 3, 3} : Multiset ℕ).map (fun x => 1 - (x : ℚ)⁻¹)).sum = 11 / 6 := by
+      simp only [Multiset.insert_eq_cons]
+      norm_num
+    rw [hsum] at heq
+    have hq : (Nat.card (↥G) : ℚ) = 12 := by
+      field_simp [hne] at heq
+      linarith
+    exact_mod_cast hq
+  -- **Step 2.** Pick an order-`3` pole `b`; its `G`-orbit (the four tetrahedron vertices) has `4`
+  -- elements by orbit-stabilizer.
+  obtain ⟨b, hb⟩ := hpole 3 (by rw [hclass]; decide)
+  have horbit_card : Nat.card (↥(MulAction.orbit ↥G b)) = 4 := by
+    have hos : Nat.card (↥(MulAction.orbit ↥G b)) * Nat.card (↥(MulAction.stabilizer ↥G b))
+        = Nat.card (↥G) := by
+      rw [← Nat.card_prod]
+      exact Nat.card_congr (MulAction.orbitProdStabilizerEquivGroup ↥G b)
+    rw [hb, hcard] at hos
+    omega
+  -- **Step 3.** `G` acts faithfully on this `4`-pole orbit: a nontrivial rotation fixes only two
+  -- poles, but a kernel element would fix all four.
+  have hinj : Function.Injective (MulAction.toPermHom ↥G ↥(MulAction.orbit ↥G b)) := by
+    rw [injective_iff_map_eq_one]
+    intro g hg
+    by_contra hgne
+    have hg0 : (g : specialOrthogonalGroup (Fin 3) ℝ) ≠ 1 := by
+      intro h
+      exact hgne (Subtype.ext (h.trans (OneMemClass.coe_one G).symm))
+    obtain ⟨v₀, _hv₀unit, hset⟩ := nontrivial_fixed_unit_vectors (g : _) hg0
+    -- The kernel element `g` fixes every pole of the orbit.
+    have hfixorb : ∀ x : ↥(MulAction.orbit ↥G b), g • x = x := by
+      intro x
+      have h1 : (MulAction.toPermHom ↥G ↥(MulAction.orbit ↥G b)) g x = x := by rw [hg]; rfl
+      exact h1
+    have hfixvec : ∀ x : ↥(MulAction.orbit ↥G b),
+        ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ x.1.1 = x.1.1 := by
+      intro x
+      have h2 : (g • x.1 : ↥(poleSet G)) = x.1 := by
+        have h3 := congrArg (Subtype.val) (hfixorb x)
+        rwa [MulAction.orbit.coe_smul] at h3
+      have h4 := congrArg (Subtype.val) h2
+      rwa [poleSet_coe_smul] at h4
+    -- Hence the four orbit poles inject into `fixedUnitVectors g = {v₀, -v₀}`, of size `≤ 2`.
+    have hmem : ∀ x : ↥(MulAction.orbit ↥G b),
+        x.1.1 ∈ fixedUnitVectors (g : specialOrthogonalGroup (Fin 3) ℝ) :=
+      fun x => ⟨x.1.2.1, hfixvec x⟩
+    haveI : Finite ↥(fixedUnitVectors (g : specialOrthogonalGroup (Fin 3) ℝ)) :=
+      (finite_fixedUnitVectors (g : _) hg0).to_subtype
+    have hFinj : Function.Injective
+        (fun x : ↥(MulAction.orbit ↥G b) =>
+          (⟨x.1.1, hmem x⟩ : ↥(fixedUnitVectors (g : specialOrthogonalGroup (Fin 3) ℝ)))) := by
+      intro x y hxy
+      apply Subtype.ext
+      apply Subtype.ext
+      simpa using hxy
+    have hle : Nat.card (↥(MulAction.orbit ↥G b))
+        ≤ Nat.card (↥(fixedUnitVectors (g : specialOrthogonalGroup (Fin 3) ℝ))) :=
+      Nat.card_le_card_of_injective _ hFinj
+    have hle2 : Nat.card (↥(fixedUnitVectors (g : specialOrthogonalGroup (Fin 3) ℝ))) ≤ 2 := by
+      rw [hset, Nat.card_coe_set_eq]
+      calc ({v₀, -v₀} : Set (Fin 3 → ℝ)).ncard
+            ≤ ({-v₀} : Set (Fin 3 → ℝ)).ncard + 1 := Set.ncard_insert_le _ _
+        _ = 2 := by rw [Set.ncard_singleton]
+    rw [horbit_card] at hle
+    omega
+  -- **Step 4.** Transport the faithful action to `Fin 4`, giving `G ≃* H ≤ S₄` with `|H| = 12`.
+  haveI : Finite ↥(MulAction.orbit ↥G b) := (Finite.finite_mulAction_orbit b).to_subtype
+  haveI : Fintype ↥(MulAction.orbit ↥G b) := Fintype.ofFinite _
+  have hfin4 : Fintype.card ↥(MulAction.orbit ↥G b) = 4 := by
+    rw [← Nat.card_eq_fintype_card]; exact horbit_card
+  let e := Fintype.equivFinOfCardEq hfin4
+  let ψ : ↥G →* Equiv.Perm (Fin 4) :=
+    e.permCongrHom.toMonoidHom.comp (MulAction.toPermHom ↥G ↥(MulAction.orbit ↥G b))
+  have hψinj : Function.Injective ψ := by
+    intro p q hpq
+    exact hinj (e.permCongrHom.injective hpq)
+  let H := ψ.range
+  have hGH : ↥G ≃* ↥H := MonoidHom.ofInjective hψinj
+  have hHcard : Nat.card (↥H) = 12 := by rw [← Nat.card_congr hGH.toEquiv, hcard]
+  -- **Step 5.** `H` has index `2` in `S₄`, hence equals `A₄`; assemble the isomorphism.
+  have hindex : H.index = 2 := by
+    have hmul : H.index * Nat.card (↥H) = Nat.card (Equiv.Perm (Fin 4)) := Subgroup.index_mul_card H
+    have hperm : Nat.card (Equiv.Perm (Fin 4)) = 24 := by rw [Nat.card_perm, Nat.card_fin]; decide
+    rw [hHcard, hperm] at hmul
+    omega
+  have hHeq : H = alternatingGroup (Fin 4) :=
+    Equiv.Perm.eq_alternatingGroup_of_index_eq_two hindex
+  exact ⟨hGH.trans (MulEquiv.subgroupCongr hHeq)⟩
 
 /-- **Octahedral disjunct of `so3_classification_aux`.** From the octahedral pole family
 `m = {2, 3, 4}` (which forces `Nat.card G = 24`) together with the pole-realization data of
