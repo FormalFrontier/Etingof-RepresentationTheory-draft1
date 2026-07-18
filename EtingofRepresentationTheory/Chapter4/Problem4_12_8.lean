@@ -1611,20 +1611,92 @@ theorem so3_dihedral_of_poleData
   -- Feed the generators and relations to the algebraic core.
   exact mulEquiv_dihedralGroup_of_conj_inv k ρ s hρord hsord hconj hsnotin hcard
 
+/-- **Tetrahedral disjunct of `so3_classification_aux`.** From the tetrahedral pole family
+`m = {2, 3, 3}` (which forces `Nat.card G = 12`) together with the pole-realization data of
+`pole_order_data`, produce `G ≃* alternatingGroup (Fin 4)`. `G` acts on the four order-`3`
+poles (the vertices of the tetrahedron); the action lands in `A₄` and is an isomorphism by a
+cardinality argument (`|G| = 12 = |A₄|`). `m`, `heq`, and `hpole` are supplied verbatim by
+`pole_order_data`.
+
+The realization is deferred to its own child sub-issue (the tetrahedral case of #6864). -/
+theorem so3_tetrahedral_of_poleData
+    (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
+    (hclass : m = {2, 3, 3})
+    (heq : 2 * (1 - (Nat.card (↥G) : ℚ)⁻¹) = (m.map (fun x => 1 - (x : ℚ)⁻¹)).sum)
+    (hpole : ∀ x ∈ m, ∃ b : ↥(poleSet G), Nat.card (MulAction.stabilizer (↥G) b) = x) :
+    Nonempty (G ≃* alternatingGroup (Fin 4)) := by
+  sorry
+
+/-- **Octahedral disjunct of `so3_classification_aux`.** From the octahedral pole family
+`m = {2, 3, 4}` (which forces `Nat.card G = 24`) together with the pole-realization data of
+`pole_order_data`, produce `G ≃* Equiv.Perm (Fin 4)`. `G` acts on the four body diagonals of
+the cube (equivalently the three pairs of order-`4` poles); the action gives all of `S₄` and is
+an isomorphism by a cardinality argument (`|G| = 24 = |S₄|`). `m`, `heq`, and `hpole` are
+supplied verbatim by `pole_order_data`.
+
+The realization is deferred to its own child sub-issue (the octahedral case of #6864). -/
+theorem so3_octahedral_of_poleData
+    (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
+    (hclass : m = {2, 3, 4})
+    (heq : 2 * (1 - (Nat.card (↥G) : ℚ)⁻¹) = (m.map (fun x => 1 - (x : ℚ)⁻¹)).sum)
+    (hpole : ∀ x ∈ m, ∃ b : ↥(poleSet G), Nat.card (MulAction.stabilizer (↥G) b) = x) :
+    Nonempty (G ≃* Equiv.Perm (Fin 4)) := by
+  sorry
+
+/-- **Icosahedral disjunct of `so3_classification_aux`.** From the icosahedral pole family
+`m = {2, 3, 5}` (which forces `Nat.card G = 60`) together with the pole-realization data of
+`pole_order_data`, produce `G ≃* alternatingGroup (Fin 5)`. `G` acts on the five inscribed
+tetrahedra (equivalently the six order-`5` axes) of the icosahedron; the action lands in `A₅`
+and is an isomorphism by a cardinality argument (`|G| = 60 = |A₅|`). `m`, `heq`, and `hpole`
+are supplied verbatim by `pole_order_data`.
+
+The realization is deferred to its own child sub-issue (the icosahedral case of #6864); this is
+the hardest of the three and may warrant its own multi-step decomposition. -/
+theorem so3_icosahedral_of_poleData
+    (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
+    (hclass : m = {2, 3, 5})
+    (heq : 2 * (1 - (Nat.card (↥G) : ℚ)⁻¹) = (m.map (fun x => 1 - (x : ℚ)⁻¹)).sum)
+    (hpole : ∀ x ∈ m, ∃ b : ↥(poleSet G), Nat.card (MulAction.stabilizer (↥G) b) = x) :
+    Nonempty (G ≃* alternatingGroup (Fin 5)) := by
+  sorry
+
 /-- The substantive content of part (a): the Burnside counting that turns the geometry
-(milestones (i), (ii)) into the pole-order multiset, the application of milestone (iii), and
-the five `MulEquiv` constructions realizing each solution family as `ℤ/nℤ`, `Dₙ`, `A₄`, `S₄`,
-or `A₅`. This is the remaining glue, deferred to its own child issue; the public statement
-`so3_finite_subgroup_classification` delegates to it so that no `sorry` appears in part (a)'s
-own body. -/
+(milestones (i), (ii)) into the pole-order multiset (`pole_order_data`), the application of
+milestone (iii), and the five `MulEquiv` constructions realizing each solution family as
+`ℤ/nℤ`, `Dₙ`, `A₄`, `S₄`, or `A₅`. Groups of order `< 2` are cyclic outright; otherwise
+`pole_order_data` pins the multiset to one of the five families and each disjunct is discharged
+by its dedicated helper (`so3_cyclic_of_poleData`, `so3_dihedral_of_poleData`,
+`so3_tetrahedral_of_poleData`, `so3_octahedral_of_poleData`, `so3_icosahedral_of_poleData`). The
+public statement `so3_finite_subgroup_classification` delegates to it. -/
 theorem so3_classification_aux
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] :
     IsCyclic G ∨
     (∃ n : ℕ, Nonempty (G ≃* DihedralGroup n)) ∨
     Nonempty (G ≃* alternatingGroup (Fin 4)) ∨
     Nonempty (G ≃* Equiv.Perm (Fin 4)) ∨
-    Nonempty (G ≃* alternatingGroup (Fin 5)) :=
-  sorry
+    Nonempty (G ≃* alternatingGroup (Fin 5)) := by
+  classical
+  -- Trivial (order `< 2`) groups are cyclic; the pole-counting only applies for `|G| ≥ 2`.
+  by_cases hn : 2 ≤ Nat.card (↥G)
+  · obtain ⟨m, hm2, _hmdvd, heq, hclass, hpole⟩ := pole_order_data G hn
+    rcases hclass with h | ⟨k, hnk, h⟩ | h | h | h
+    · -- Cyclic family `{n, n}`.
+      exact Or.inl (so3_cyclic_of_poleData G m h hpole)
+    · -- Dihedral family `{2, 2, k}` with `n = 2k`; `k ≥ 2` since `k ∈ m` and each entry is `≥ 2`.
+      have hk : 2 ≤ k := hm2 k (by rw [h]; simp)
+      exact Or.inr (Or.inl ⟨k, so3_dihedral_of_poleData G k hk hnk (h ▸ hpole)⟩)
+    · -- Tetrahedral family `{2, 3, 3}` (`A₄`).
+      exact Or.inr (Or.inr (Or.inl (so3_tetrahedral_of_poleData G m h heq hpole)))
+    · -- Octahedral family `{2, 3, 4}` (`S₄`).
+      exact Or.inr (Or.inr (Or.inr (Or.inl (so3_octahedral_of_poleData G m h heq hpole))))
+    · -- Icosahedral family `{2, 3, 5}` (`A₅`).
+      exact Or.inr (Or.inr (Or.inr (Or.inr (so3_icosahedral_of_poleData G m h heq hpole))))
+  · -- `|G| ≥ 1` (finite, nonempty) and `¬ 2 ≤ |G|` force `|G| = 1`, so `G` is subsingleton.
+    have h1 : Nat.card (↥G) = 1 := by
+      have hpos : 0 < Nat.card (↥G) := Nat.card_pos
+      omega
+    have : Subsingleton (↥G) := (Nat.card_eq_one_iff_unique.mp h1).1
+    exact Or.inl (isCyclic_of_subsingleton)
 
 /-- **Part (a).** Every finite subgroup `G` of `SO(3)` is isomorphic to one of: a cyclic group
 `ℤ/nℤ`, a dihedral group `Dₙ`, the tetrahedral group `A₄`, the octahedral group `S₄`, or the
