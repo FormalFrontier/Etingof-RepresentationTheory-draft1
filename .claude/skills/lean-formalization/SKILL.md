@@ -4758,6 +4758,29 @@ theorem hard_theorem : conclusion := by
 
 **Evidence:** Problem6_9_1 was decomposed from 1 sorry into 8 sub-goals, 6 proved (#1807). Theorem5_22_1 was decomposed into coefficient extraction + core identity (#1806). BasicAlgebraExistence was split into 2 targeted helpers (#1803). All three patterns created visible, committable progress.
 
+### Reframe a geometric crux algebraically when the deliverable is abstract (SO(3) icosahedral, #6971)
+
+When an issue *describes* a hard geometric construction ("the five inscribed tetrahedra / Kepler
+cubes of the dodecahedron", "the four body diagonals of the cube") but the actual **deliverable
+is an abstract existence statement** (`∃ φ : G →* Equiv.Perm (Fin 5), Function.Injective φ`, or
+`Nonempty (G ≃* …)`), do NOT reach for a coordinate model (golden-ratio matrices, explicit vertex
+sets) first — that path is thousands of lines. Look for a purely group-theoretic reduction that
+delivers the *same abstract object* without the geometry.
+
+Concretely for #6971 (icosahedral, `|G| = 60`): "faithful action on the 5 tetrahedra" reduces to
+**"`G` is simple + has an index-5 subgroup"**, because a finite simple group with an index-5
+subgroup embeds faithfully into `Equiv.Perm (Fin 5)` via the **core-free coset action** —
+`Subgroup.normalCore_eq_ker H` says the kernel of `MulAction.toPermHom G (G ⧸ H)` is
+`H.normalCore`, which simplicity forces to `⊥` (`Subgroup.Normal.eq_bot_or_eq_top`); transport
+`G ⧸ H ≃ Fin 5` (from `H.index = 5`) with `Equiv.permCongrHom`. This dissolves the entire
+"construct the 5-element G-set" difficulty (no icosahedron coordinates), leaving two standard
+group-theory sorries (`G` simple; index-5 subgroup) — see #6982/#6983. Before checking Mathlib for
+"heavy" infrastructure, note Mathlib has NO order-60→A₅ classification and NO Sylow⟶simple lemma,
+but DOES have every Sylow-counting primitive plus `normalCore_eq_ker`, `MonoidHom.ker_eq_bot_iff`,
+`Equiv.Perm.eq_alternatingGroup_of_index_eq_two`. Rule of thumb: **the coset/normalCore embedding
+is the standard way to realize an abstract finite group as a concrete permutation group of a given
+degree** — prefer it over any explicit configuration whenever the target is `Equiv.Perm (Fin n)`.
+
 ## Rewriting Inside Coercion Wrappers (`.ker`, `↥`, `Module.finrank`)
 
 When `rw [h]` fails to find a pattern that is visibly present in the goal — especially inside
