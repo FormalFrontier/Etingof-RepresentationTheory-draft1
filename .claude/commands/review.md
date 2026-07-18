@@ -39,6 +39,20 @@ Rotate through these areas across sessions:
 **Security**:
 - Check for new issues in recent code, verify past fixes
 
+## Completing the Review
+
+Post your report as a comment on the review issue. Then close the issue yourself —
+a review's deliverable is the report, not a code change, so there is usually **no PR**
+to swap `claimed` → `has-pr`, and an unclosed issue would stay stuck in `claimed`:
+
+- **No defect found:** `gh issue close <N> --comment "Review complete — PASS. See report above."`
+- **Defect found:** open a fix PR (`coordination create-pr <N>` — this closes the issue on
+  merge) **or** a follow-up `feature` issue for the fix, then close the review issue with a
+  link to it. Do not leave the review issue open waiting on a human.
+
+Any progress-file commit lives on your branch; there is no need to push or PR it for a
+report-only review.
+
 ## Updating Skills
 
 When you discover a recurring pattern or encounter a situation not covered by
