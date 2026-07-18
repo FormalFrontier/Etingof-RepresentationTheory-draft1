@@ -131,10 +131,29 @@ noncomputable def extAbelianIsoExtₖ (n : ℕ) :
     -- the degreewise scalar `r • 𝟙` on `linearYonedaObj`. Residual tracing through the three chain
     -- steps (`extAddEquivCohomologyClass`, `homologyAddEquiv`, `homComplexHomologyAddEquivₖ`);
     -- follow-up to #6935.
+    -- **Crux (naturality on generators).** By `extMk_surjective` every element of `Ext M N n`
+    -- is `P.extMk f (n+1) rfl hf` for a cocycle `f : P.complex.X n ⟶ N`. The scalar action on such
+    -- a generator is `r • extMk f = extMk (r • f)` (`smul_eq_comp_mk₀` + `extMk_comp_mk₀` +
+    -- `Linear.comp_smul`). The remaining content is that `e123 ∘ extMk` is `k`-homogeneous: the
+    -- steps-1–3 composite sends the cocycle `r • f` to `r •` the class of `f`. This is the purely
+    -- categorical residual traced through `extAddEquivCohomologyClass`, `homologyAddEquiv`, and the
+    -- `homComplexHomologyAddEquivₖ` tower.
+    have crux : ∀ (f : P.complex.X n ⟶ N) (hf : P.complex.d (n + 1) n ≫ f = 0),
+        e123 (P.extMk (r • f) (n + 1) rfl
+              (by rw [Linear.comp_smul, hf, smul_zero]))
+          = r • e123 (P.extMk f (n + 1) rfl hf) := by
+      sorry
     have hnat : ∀ y, e123 (r • y)
         = (HomologicalComplex.homologyMap (r • 𝟙 (P.complex.linearYonedaObj k N)) n).hom
             (e123 y) := by
-      sorry
+      intro y
+      obtain ⟨f, hf, rfl⟩ := P.extMk_surjective y (n + 1) rfl
+      have hrf : P.complex.d (n + 1) n ≫ (r • f) = 0 := by
+        rw [Linear.comp_smul, hf, smul_zero]
+      have hsmul : r • P.extMk f (n + 1) rfl hf = P.extMk (r • f) (n + 1) rfl hrf := by
+        rw [Abelian.Ext.smul_eq_comp_mk₀, ProjectiveResolution.extMk_comp_mk₀]
+        congr 1
+      rw [hsmul, ← smul_homology_eq k N P r n (e123 (P.extMk f (n + 1) rfl hf)), crux f hf]
     have key123 : ∀ y, e123 (r • y) = r • e123 y := fun y => by
       rw [hnat y, smul_homology_eq k N P r n (e123 y)]
     have hfactor : ∀ y, extAbelianAddEquivExtₖ k N P n y = step4 (e123 y) := fun _ => rfl
