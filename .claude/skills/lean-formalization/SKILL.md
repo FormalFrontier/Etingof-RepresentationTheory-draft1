@@ -142,6 +142,16 @@ Same #6852. Fix: open each branch with `change <goal with (0 : Fin 3)/(1 : Fin 3
 restate at the `OfNat` literals (defeq, so `change` accepts), *then* `rw`/`decide`-facts match.
 Prefer `change` over `show` here (the linter flags `show` for non-readability goal changes).
 
+**`omega` treats `(⟨c, _⟩ : Fin n).val` as an *opaque* atom (it does NOT reduce `Fin.mk`'s value to
+`c`), so a goal `x = ⟨c, _⟩` — or `x.val = (⟨c, _⟩).val` after `apply Fin.ext` — is unprovable by
+`omega` even when `x.val = c` is derivable.** Tell-tale: the omega counterexample lists a variable
+like `h := ↑↑⟨1, ⋯⟩` (the literal appears as an opaque unknown, unconstrained to `1`). Fix: prove the
+plain `ℕ` goal `x.val = c` first (with the literal `c`, e.g. `1`), then `exact Fin.ext h`. Cost two
+build cycles in `affine_two_branch_deleted_isD` (#6940, `Chapter6/Problem6_1_3_continued_tildeE.lean`)
+where the target was `σ.symm v' = ⟨1, _⟩` over a variable-rank `Dₖ`. Relatedly, when `subst h` with
+`h : n' = k` could eliminate either variable, name the one to drop (`subst n'`) so the kept variable
+(here `k`, used in the goal type) survives.
+
 **Heavy category-theory objects (total complexes / coproducts) make `isDefEq`, `whnf`, and
 typeclass search blow up — unfold *one step short* and finish by hand.** Cost real iterations in
 #6683 (`Chapter8/ExternalTensorResolution.lean`, `Projective ((mapBifunctor …).total.X n)`). Two
