@@ -1258,6 +1258,194 @@ theorem so3_cyclic_of_poleData
   obtain ⟨b, hb⟩ := hpole (Nat.card (↥G)) (by rw [hclass]; simp)
   exact so3_cyclic_of_full_stabilizer_pole G b hb
 
+section DihedralGeom
+open scoped RealInnerProductSpace
+open Matrix EuclideanSpace Submodule WithLp Module
+
+/-- **Induced plane isometry of a pole-swap is a reflection.** Shared plane-decomposition setup:
+for `g ∈ SO(3)` sending the Euclidean unit vector `β₀` to `-β₀`, the plane `W = (ℝ·β₀)ᗮ` is
+`g`-invariant, and the induced isometry `f : W ≃ₗᵢ W` has determinant `< 0` (orientation-reversing),
+with `↑(f y) = euclideanIso g ↑y`. -/
+private lemma so3_swap_induced_plane (g : specialOrthogonalGroup (Fin 3) ℝ)
+    (β₀ : EuclideanSpace ℝ (Fin 3)) (hβ₀unit : ⟪β₀, β₀⟫ = (1 : ℝ))
+    (hswap₀ : euclideanIso g β₀ = -β₀) :
+    ∃ (W : Submodule ℝ (EuclideanSpace ℝ (Fin 3))) (_ : finrank ℝ W = 2)
+      (f : W ≃ₗᵢ[ℝ] W),
+      (ℝ ∙ β₀) ⊔ W = ⊤ ∧ β₀ ∉ W ∧
+      (∀ y : W, ((f y : W) : EuclideanSpace ℝ (Fin 3)) = euclideanIso g (y : W)) ∧
+      LinearMap.det (f.toLinearEquiv : W →ₗ[ℝ] W) < 0 ∧
+      (∀ y : W, f (f y) = y) := by
+  have hβ₀ : β₀ ≠ 0 := fun h => by simp [h] at hβ₀unit
+  have hWfin : finrank ℝ (ℝ ∙ β₀)ᗮ = 2 := by
+    haveI : Fact (finrank ℝ (EuclideanSpace ℝ (Fin 3)) = 2 + 1) :=
+      ⟨by norm_num [finrank_euclideanSpace_fin]⟩
+    exact Submodule.finrank_orthogonal_span_singleton (n := 2) hβ₀
+  set W : Submodule ℝ (EuclideanSpace ℝ (Fin 3)) := (ℝ ∙ β₀)ᗮ with hWdef
+  haveI : Fact (finrank ℝ W = 2) := ⟨hWfin⟩
+  have hβ₀W : β₀ ∉ W := by
+    rw [hWdef]
+    intro hmem
+    have h0 : ⟪β₀, β₀⟫ = (0 : ℝ) :=
+      (Submodule.mem_orthogonal _ _).mp hmem β₀ (Submodule.mem_span_singleton_self _)
+    exact hβ₀ (inner_self_eq_zero.mp h0)
+  have hsup : (ℝ ∙ β₀) ⊔ W = ⊤ := by
+    rw [hWdef]; exact Submodule.sup_orthogonal_of_hasOrthogonalProjection
+  -- `g` preserves `W` (it maps the axis line to itself).
+  have hWinv : W.map ((euclideanIso g).toLinearEquiv :
+      EuclideanSpace ℝ (Fin 3) →ₗ[ℝ] EuclideanSpace ℝ (Fin 3)) = W := by
+    rw [hWdef, Submodule.map_orthogonal_equiv]
+    congr 1
+    rw [Submodule.map_span, Set.image_singleton, LinearEquiv.coe_coe,
+      LinearIsometryEquiv.coe_toLinearEquiv, hswap₀, ← Set.neg_singleton, Submodule.span_neg]
+  let f : W ≃ₗᵢ[ℝ] W :=
+    (LinearIsometryEquiv.submoduleMap W (euclideanIso g)).trans
+      (LinearIsometryEquiv.ofEq _ W hWinv)
+  have coef : ∀ y : W, ((f y : W) : EuclideanSpace ℝ (Fin 3)) = euclideanIso g (y : W) := by
+    intro y
+    change ((LinearIsometryEquiv.ofEq _ W hWinv
+      (LinearIsometryEquiv.submoduleMap W (euclideanIso g) y) : W) :
+        EuclideanSpace ℝ (Fin 3)) = _
+    rw [LinearIsometryEquiv.coe_ofEq_apply, LinearIsometryEquiv.submoduleMap_apply_coe]
+  -- `g` restricts to `W` as `f`, with the axis quotient acting as `-1`, so `det f < 0`.
+  have hmaps : W ≤ W.comap (euclideanIso g).toLinearMap := by
+    intro y hy
+    have hmem : (euclideanIso g) y ∈ W := by
+      have := hWinv ▸ Submodule.mem_map_of_mem
+        (f := (euclideanIso g).toLinearEquiv.toLinearMap) hy
+      simpa using this
+    exact hmem
+  have hrestrict : (euclideanIso g).toLinearMap.restrict hmaps = f.toLinearMap := by
+    refine LinearMap.ext fun y => ?_
+    apply Subtype.ext
+    rw [LinearMap.restrict_coe_apply]
+    exact (coef y).symm
+  have hquot : W.mapQ W (euclideanIso g).toLinearMap hmaps = -LinearMap.id := by
+    have hne : W.mkQ β₀ ≠ 0 := by
+      rw [Submodule.mkQ_apply, Ne, Submodule.Quotient.mk_eq_zero]; exact hβ₀W
+    have hspan : Submodule.span ℝ {W.mkQ β₀} = ⊤ := by
+      apply Submodule.eq_top_of_finrank_eq
+      have hq : finrank ℝ (EuclideanSpace ℝ (Fin 3) ⧸ W) + finrank ℝ W
+          = finrank ℝ (EuclideanSpace ℝ (Fin 3)) := Submodule.finrank_quotient_add_finrank W
+      rw [hWfin, finrank_euclideanSpace_fin] at hq
+      rw [finrank_span_singleton hne]
+      omega
+    refine LinearMap.ext_on hspan ?_
+    intro z hz
+    simp only [Set.mem_singleton_iff] at hz
+    subst hz
+    rw [Submodule.mkQ_apply, Submodule.mapQ_apply, LinearMap.neg_apply, LinearMap.id_apply,
+      show (euclideanIso g).toLinearMap β₀ = -β₀ from hswap₀, ← Submodule.mkQ_apply, map_neg,
+      Submodule.mkQ_apply]
+  have hfrankQ : finrank ℝ (EuclideanSpace ℝ (Fin 3) ⧸ W) = 1 := by
+    have hq : finrank ℝ (EuclideanSpace ℝ (Fin 3) ⧸ W) + finrank ℝ W
+        = finrank ℝ (EuclideanSpace ℝ (Fin 3)) := Submodule.finrank_quotient_add_finrank W
+    rw [hWfin, finrank_euclideanSpace_fin] at hq; omega
+  have hE : LinearMap.det (euclideanIso g).toLinearMap = 1 := euclideanIso_det g
+  rw [LinearMap.det_eq_det_mul_det (W := W) _ hmaps, hrestrict, hquot] at hE
+  have hdetQ : LinearMap.det (-LinearMap.id : (EuclideanSpace ℝ (Fin 3) ⧸ W) →ₗ[ℝ] _) = -1 := by
+    rw [show (-LinearMap.id : (EuclideanSpace ℝ (Fin 3) ⧸ W) →ₗ[ℝ] _)
+        = (-1 : ℝ) • LinearMap.id from by ext x; simp, LinearMap.det_smul, hfrankQ, LinearMap.det_id]
+    norm_num
+  rw [hdetQ] at hE
+  have hdetf : LinearMap.det (f.toLinearEquiv : W →ₗ[ℝ] W) < 0 := by
+    have : LinearMap.det f.toLinearMap = -1 := by linarith [hE]
+    rw [show (f.toLinearEquiv : W →ₗ[ℝ] W) = f.toLinearMap from rfl, this]; norm_num
+  -- The induced plane isometry reverses orientation, hence is a reflection (`f² = id`).
+  let o : Orientation ℝ W (Fin 2) := (Module.finBasisOfFinrankEq ℝ W hWfin).orientation
+  have hmapo : Orientation.map (Fin 2) f.toLinearEquiv o = -o :=
+    (o.map_eq_neg_iff_det_neg f.toLinearEquiv (by rw [Fintype.card_fin, hWfin])).mpr hdetf
+  have hf2 : ∀ y : W, f (f y) = y := by
+    intro y
+    rcases eq_or_ne y 0 with hy | hy
+    · rw [hy, map_zero, map_zero]
+    · have hfy : f y ≠ 0 := fun h => hy (f.injective (by rw [h, map_zero]))
+      have hf2y : f (f y) ≠ 0 := fun h => hfy (f.injective (by rw [h, map_zero]))
+      have step1 : o.oangle (f y) (f (f y)) = -o.oangle y (f y) := by
+        have h := o.oangle_map (f y) (f (f y)) f
+        rw [f.symm_apply_apply, f.symm_apply_apply, hmapo,
+          o.oangle_neg_orientation_eq_neg] at h
+        exact neg_eq_iff_eq_neg.mp h
+      have step2 : o.oangle y (f (f y)) = 0 := by
+        rw [← o.oangle_add hy hfy hf2y, step1, add_neg_cancel]
+      have hnorm : ‖(y : W)‖ = ‖(f (f y) : W)‖ := by rw [f.norm_map, f.norm_map]
+      have hrot := (o.rotation_oangle_eq_iff_norm_eq y (f (f y))).mpr hnorm
+      rw [step2, o.rotation_zero] at hrot
+      simp only [LinearIsometryEquiv.coe_refl, id_eq] at hrot
+      exact hrot.symm
+  exact ⟨W, hWfin, f, hsup, hβ₀W, coef, hdetf, hf2⟩
+
+private lemma so3_sq_of_swap (g : specialOrthogonalGroup (Fin 3) ℝ)
+    (β : Fin 3 → ℝ) (hβ : β ⬝ᵥ β = 1)
+    (hswap : (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ β = -β) :
+    g * g = 1 := by
+  classical
+  set β₀ : EuclideanSpace ℝ (Fin 3) := toLp 2 β with hβ₀def
+  have hofLp : ofLp β₀ = β := rfl
+  have hβ₀unit : ⟪β₀, β₀⟫ = (1 : ℝ) := by rw [inner_toLp]; exact hβ
+  have hswap₀ : euclideanIso g β₀ = -β₀ := by
+    apply WithLp.ofLp_injective
+    rw [euclideanIso_apply, ofLp_toEuclideanLin_apply, hofLp, hswap, ofLp_neg, hofLp]
+  obtain ⟨W, _hWfin, f, hsup, _hβ₀W, coef, _hdetf, hf2⟩ :=
+    so3_swap_induced_plane g β₀ hβ₀unit hswap₀
+  -- Lift `f² = id` to `euclideanIso g ∘ euclideanIso g = id` on all of Euclidean 3-space.
+  have hgg2 : (euclideanIso g).toLinearMap.comp (euclideanIso g).toLinearMap = LinearMap.id := by
+    have hle : (⊤ : Submodule ℝ (EuclideanSpace ℝ (Fin 3))) ≤
+        LinearMap.eqLocus ((euclideanIso g).toLinearMap.comp (euclideanIso g).toLinearMap)
+          LinearMap.id := by
+      rw [← hsup]
+      refine sup_le ?_ ?_
+      · rw [Submodule.span_le]
+        intro z hz
+        simp only [Set.mem_singleton_iff] at hz
+        subst hz
+        simp only [SetLike.mem_coe, LinearMap.mem_eqLocus, LinearMap.comp_apply, LinearMap.id_coe,
+          id_eq]
+        show euclideanIso g (euclideanIso g β₀) = β₀
+        rw [hswap₀, map_neg, hswap₀, neg_neg]
+      · intro z hz
+        simp only [LinearMap.mem_eqLocus, LinearMap.comp_apply, LinearMap.id_coe, id_eq]
+        show euclideanIso g (euclideanIso g z) = z
+        have e1 : euclideanIso g z = ((f ⟨z, hz⟩ : W) : EuclideanSpace ℝ (Fin 3)) :=
+          (coef ⟨z, hz⟩).symm
+        have e2 : euclideanIso g ((f ⟨z, hz⟩ : W) : EuclideanSpace ℝ (Fin 3))
+            = ((f (f ⟨z, hz⟩) : W) : EuclideanSpace ℝ (Fin 3)) := (coef (f ⟨z, hz⟩)).symm
+        rw [e1, e2, hf2]
+    have htop := top_le_iff.mp hle
+    exact LinearMap.ext fun z => (LinearMap.mem_eqLocus.mp (htop ▸ Submodule.mem_top))
+  -- Conclude at the matrix / group level.
+  have hmat : (g : Matrix (Fin 3) (Fin 3) ℝ) * (g : Matrix (Fin 3) (Fin 3) ℝ) = 1 := by
+    have hlin : toEuclideanLin ((g : Matrix (Fin 3) (Fin 3) ℝ) * (g : Matrix (Fin 3) (Fin 3) ℝ))
+        = toEuclideanLin (1 : Matrix (Fin 3) (Fin 3) ℝ) := by
+      rw [← toEuclideanLin_comp, toEuclideanLin_one]
+      exact hgg2
+    exact toEuclideanLin.injective hlin
+  apply Subtype.ext
+  rw [Submonoid.coe_mul, Submonoid.coe_one]
+  exact hmat
+
+/-- **Conjugation by a pole-swap inverts an axis rotation.** If `g ∈ SO(3)` sends the unit vector
+`β` to `-β` (reversing the plane orientation of `βᗮ`) and `ρ ∈ SO(3)` fixes `β` (a rotation about
+`ℝ·β`), then conjugating `ρ` by `g` reverses the rotation angle: `g * ρ * g⁻¹ = ρ⁻¹`. -/
+private lemma so3_conj_of_swap (g ρ : specialOrthogonalGroup (Fin 3) ℝ)
+    (β : Fin 3 → ℝ) (hβ : β ⬝ᵥ β = 1)
+    (hswap : (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ β = -β)
+    (hρfix : (ρ : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ β = β) :
+    g * ρ * g⁻¹ = ρ⁻¹ := by
+  -- `g` is an involution (pole-swaps are `π`-rotations).
+  have hgg : g * g = 1 := so3_sq_of_swap g β hβ hswap
+  have hginv : g⁻¹ = g := inv_eq_of_mul_eq_one_right hgg
+  -- `g * ρ` also swaps `β ↦ -β`, so it too is an involution: `(gρ)² = 1`.
+  have hswap' : ((g * ρ : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ β
+      = -β := by
+    rw [Submonoid.coe_mul, ← mulVec_mulVec, hρfix, hswap]
+  have hgρ : (g * ρ) * (g * ρ) = 1 := so3_sq_of_swap (g * ρ) β hβ hswap'
+  -- `gρgρ = 1` gives `gρg = ρ⁻¹`, and `g⁻¹ = g` finishes.
+  rw [hginv]
+  have h1 : g * ρ * g * ρ = 1 := by rw [mul_assoc (g * ρ) g ρ]; exact hgρ
+  exact mul_eq_one_iff_eq_inv.mp h1
+
+end DihedralGeom
+
 /-- **Dihedral disjunct — geometric crux (the pole-swap involution).** In the `{2, 2, k}` family,
 `G` has order `2k`, a principal pole `b` whose stabilizer is cyclic of order `k` (generated by a
 rotation `ρ` about the axis `ℝ·b`, `ρ • b = b`), and the principal poles `±b` form a single
@@ -1278,9 +1466,100 @@ theorem exists_dihedral_swap
     ∃ s : ↥G, orderOf s = 2 ∧
       ((s • b : ↥(poleSet G)) : Fin 3 → ℝ) = -((b : ↥(poleSet G)) : Fin 3 → ℝ) ∧
       s * ρ * s⁻¹ = ρ⁻¹ := by
-  -- Geometric crux: extract the equatorial `π`-rotation swapping `±b` from the size-`2` orbit of
-  -- the principal pole, and show conjugation by it inverts the axis rotation. Tracked separately.
-  sorry
+  classical
+  haveI hinj : Function.Injective (G.subtype) := Subgroup.subtype_injective G
+  -- The principal pole's underlying unit vector.
+  set β : Fin 3 → ℝ := (b : ↥(poleSet G)).1 with hβdef
+  have hβunit : β ⬝ᵥ β = 1 := b.2.1
+  -- `ρ` fixes `β` at the matrix level, and `ρ ≠ 1`.
+  have hρfixv : ((ρ : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ β = β := by
+    have h := congrArg (fun P : ↥(poleSet G) => (P : Fin 3 → ℝ)) hρfix
+    rwa [poleSet_coe_smul] at h
+  have hρne1 : ρ ≠ 1 := by
+    intro h; rw [h, orderOf_one] at hρord; omega
+  -- The stabilizer `H` of `b`; it has order `k`, hence index `2`, hence is normal.
+  set H : Subgroup (↥G) := MulAction.stabilizer (↥G) b with hHdef
+  have hρmemH : ρ ∈ H := (MulAction.mem_stabilizer_iff).mpr hρfix
+  have hHcard : Nat.card H = k := hbcard
+  have hHindex : H.index = 2 := by
+    have h := Subgroup.card_mul_index H
+    rw [hHcard, hcard] at h
+    have h2 : k * H.index = k * 2 := by rw [h]; ring
+    exact Nat.eq_of_mul_eq_mul_left (by omega) h2
+  haveI hHnormal : H.Normal := Subgroup.normal_of_index_eq_two hHindex
+  -- Some `g ∉ H`, so `g • b ≠ b`.
+  have hHnetop : H ≠ ⊤ := by
+    intro h; rw [h, Subgroup.index_top] at hHindex; omega
+  obtain ⟨g, -, hgnotH⟩ := SetLike.exists_of_lt (lt_of_le_of_ne le_top hHnetop)
+  have hgb_ne : g • b ≠ b := fun h => hgnotH ((MulAction.mem_stabilizer_iff).mpr h)
+  -- The conjugate `τ = g ρ g⁻¹` lies in `H` (normality); its `SO(3)` image `σ` fixes `β` and
+  -- fixes `g • b`, and is nontrivial (its order is that of `ρ`).
+  set τ : ↥G := g * ρ * g⁻¹ with hτdef
+  have hτH : τ ∈ H := hHnormal.conj_mem ρ hρmemH g
+  have hτfix : τ • b = b := (MulAction.mem_stabilizer_iff).mp hτH
+  set σ : specialOrthogonalGroup (Fin 3) ℝ := (τ : specialOrthogonalGroup (Fin 3) ℝ) with hσdef
+  have hσfixβ : (σ : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ β = β := by
+    have h := congrArg (fun P : ↥(poleSet G) => (P : Fin 3 → ℝ)) hτfix
+    rwa [poleSet_coe_smul] at h
+  have hσne1 : σ ≠ 1 := by
+    intro h
+    have hτv : (τ : specialOrthogonalGroup (Fin 3) ℝ) = 1 := by rw [← hσdef]; exact h
+    have hτ1 : τ = 1 := hinj (by simpa using hτv)
+    have hg1 : g * ρ * g⁻¹ = 1 := by rw [← hτdef]; exact hτ1
+    have hρ1 : ρ = 1 := by
+      calc ρ = g⁻¹ * (g * ρ * g⁻¹) * g := by group
+        _ = g⁻¹ * 1 * g := by rw [hg1]
+        _ = 1 := by group
+    exact hρne1 hρ1
+  -- `σ` fixes the pole `g • b`, since `τ • (g • b) = (g ρ) • b = g • b`.
+  have hσfixgb : (σ : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ ((g • b : ↥(poleSet G)) : Fin 3 → ℝ)
+      = ((g • b : ↥(poleSet G)) : Fin 3 → ℝ) := by
+    have haction : τ • (g • b) = g • b := by
+      rw [← mul_smul, hτdef, show g * ρ * g⁻¹ * g = g * ρ from by group, mul_smul, hρfix]
+    have h := congrArg (fun P : ↥(poleSet G) => (P : Fin 3 → ℝ)) haction
+    rwa [poleSet_coe_smul] at h
+  -- `β` and `(g • b).1` are both fixed unit vectors of `σ`, which are exactly `{v₀, -v₀}`.
+  obtain ⟨v₀, hv₀unit, hset⟩ := nontrivial_fixed_unit_vectors σ hσne1
+  have hβmem : β = v₀ ∨ β = -v₀ := by
+    have : β ∈ fixedUnitVectors σ := ⟨hβunit, hσfixβ⟩
+    rw [hset] at this; simpa [Set.mem_insert_iff] using this
+  have hgbv_unit : ((g • b : ↥(poleSet G)) : Fin 3 → ℝ) ⬝ᵥ ((g • b : ↥(poleSet G)) : Fin 3 → ℝ)
+      = 1 := (g • b).2.1
+  have hgbvmem : ((g • b : ↥(poleSet G)) : Fin 3 → ℝ) = v₀
+      ∨ ((g • b : ↥(poleSet G)) : Fin 3 → ℝ) = -v₀ := by
+    have : ((g • b : ↥(poleSet G)) : Fin 3 → ℝ) ∈ fixedUnitVectors σ := ⟨hgbv_unit, hσfixgb⟩
+    rw [hset] at this; simpa [Set.mem_insert_iff] using this
+  have hne : ((g • b : ↥(poleSet G)) : Fin 3 → ℝ) ≠ β := by
+    intro h; exact hgb_ne (Subtype.ext h)
+  -- Hence `g • b` has underlying vector `-β`: the pole-swap.
+  have hgbv_eq : ((g • b : ↥(poleSet G)) : Fin 3 → ℝ) = -β := by
+    rcases hβmem with hβ0 | hβ0 <;> rcases hgbvmem with hg0 | hg0
+    · exact absurd (hg0.trans hβ0.symm) hne
+    · rw [hg0, hβ0]
+    · rw [hg0, hβ0, neg_neg]
+    · exact absurd (hg0.trans hβ0.symm) hne
+  have hswapv : ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ β = -β := by
+    have h : ((g • b : ↥(poleSet G)) : Fin 3 → ℝ)
+        = ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ β :=
+      poleSet_coe_smul g b
+    rw [← h]; exact hgbv_eq
+  -- `s := g` is the required involution.
+  refine ⟨g, ?_, ?_, ?_⟩
+  · -- order `2`: `g² = 1` (the reflection is an involution) and `g ≠ 1`.
+    have hgg : g * g = 1 := by
+      apply hinj
+      rw [map_mul, map_one]
+      exact so3_sq_of_swap (G.subtype g) β hβunit hswapv
+    have hgne1 : g ≠ 1 := by
+      intro h; exact hgb_ne (by rw [h, one_smul])
+    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    exact orderOf_eq_prime (by rw [pow_two]; exact hgg) hgne1
+  · -- pole-swap.
+    rw [hgbv_eq, hβdef]
+  · -- conjugation inverts.
+    apply hinj
+    rw [map_mul, map_mul, map_inv]
+    exact so3_conj_of_swap (G.subtype g) (G.subtype ρ) β hβunit hswapv hρfixv
 
 /-- **Dihedral disjunct of `so3_classification_aux`.** From the dihedral pole family `m = {2, 2, k}`
 (`n = Nat.card G = 2k`, `k ≥ 2`) together with the pole-realization data of `pole_order_data`,
