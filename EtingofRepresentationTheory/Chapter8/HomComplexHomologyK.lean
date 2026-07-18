@@ -305,4 +305,160 @@ noncomputable def homCochainComplexPostcomp (g : N ⟶ N') :
       z.comp (Cochain.ofHom ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).map g))
         (add_zero i) := rfl
 
+/-!
+## `homologyAddEquiv` naturality under postcomposition
+
+The middle step of the additive tower `e123` (crux of #6951) is
+`(homologyAddEquiv P.cochainComplex N[0] n).symm ∘ CohomologyClass.mk`. We record its naturality
+under the postcomposition chain map `homCochainComplexPostcomp N P g`: on a cocycle representative
+`c` it intertwines `Cocycle.postcomp` (on the class) with `HomologicalComplex.homologyMap` of the
+chain map. The proof builds the `ShortComplex.LeftHomologyMapData` for `homCochainComplexPostcomp`
+between the two `leftHomologyData` presentations of the cohomology (whose `π` is
+`CohomologyClass.mkAddMonoidHom`), with `φK = Cocycle.postcomp` and `φH = ` the descended
+postcomposition on cohomology classes, and applies `LeftHomologyMapData.homologyMap_eq`.
+-/
+
+variable (g : N ⟶ N')
+
+/-- Postcomposition of `n`-cocycles into `N[0]` with `(singleFunctor _ 0).map g`, as an additive
+hom; the cocycle-level restriction of `homCochainComplexPostcomp N P g` (its `φK`). -/
+noncomputable def cocyclePostcompHom (n : ℤ) :
+    Cocycle P.cochainComplex ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N) n →+
+      Cocycle P.cochainComplex ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N') n where
+  toFun z := z.postcomp ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).map g)
+  map_zero' := by
+    apply Cocycle.ext
+    simp only [Cocycle.postcomp, Cocycle.mk_coe, Cocycle.coe_zero, Cochain.zero_comp]
+  map_add' z z' := by
+    apply Cocycle.ext
+    simp only [Cocycle.postcomp, Cocycle.mk_coe, Cocycle.coe_add, Cochain.add_comp]
+
+@[simp] lemma cocyclePostcompHom_apply (n : ℤ)
+    (z : Cocycle P.cochainComplex ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N) n) :
+    cocyclePostcompHom N P g n z =
+      z.postcomp ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).map g) := rfl
+
+/-- Coboundaries land in coboundaries under postcomposition: this is the kernel condition that
+descends `mk ∘ cocyclePostcompHom` to cohomology classes. Postcomposition commutes with `δ`
+(`δ_comp_ofHom`), so the image of a coboundary `δ β` is the coboundary `δ (β.postcomp)`. -/
+lemma coboundaries_le_ker_mk_cocyclePostcomp (n : ℤ) :
+    coboundaries P.cochainComplex ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N) n ≤
+      ((CohomologyClass.mkAddMonoidHom P.cochainComplex
+          ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N') n).comp
+        (cocyclePostcompHom N P g n)).ker := by
+  rintro α ⟨m, hm, β, hβ⟩
+  simp only [AddMonoidHom.mem_ker, AddMonoidHom.coe_comp, Function.comp_apply,
+    cocyclePostcompHom_apply, CohomologyClass.mkAddMonoidHom_apply, CohomologyClass.mk_eq_zero_iff,
+    mem_coboundaries_iff _ m hm]
+  refine ⟨β.comp (Cochain.ofHom ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).map g))
+    (add_zero m), ?_⟩
+  rw [δ_comp_ofHom, hβ]
+  rfl
+
+/-- Postcomposition on cohomology classes with `(singleFunctor _ 0).map g`, the descent of
+`mk ∘ cocyclePostcompHom` (its `φH`). -/
+noncomputable def cohomologyClassPostcompHom (n : ℤ) :
+    CohomologyClass P.cochainComplex ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N) n →+
+      CohomologyClass P.cochainComplex
+        ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N') n :=
+  CohomologyClass.descAddMonoidHom
+    ((CohomologyClass.mkAddMonoidHom P.cochainComplex
+        ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N') n).comp
+      (cocyclePostcompHom N P g n))
+    (coboundaries_le_ker_mk_cocyclePostcomp N P g n)
+
+@[simp] lemma cohomologyClassPostcompHom_mk (n : ℤ)
+    (c : Cocycle P.cochainComplex ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N) n) :
+    cohomologyClassPostcompHom N P g n (CohomologyClass.mk c) =
+      CohomologyClass.mk
+        (c.postcomp ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).map g)) := rfl
+
+/-- The `ShortComplex.LeftHomologyMapData` for the postcomposition chain map
+`homCochainComplexPostcomp N P g`, between the two `leftHomologyData` presentations of the
+degree-`n` cohomology. Its `φK` is `Cocycle.postcomp`; its `φH` is `cohomologyClassPostcompHom`. -/
+noncomputable def leftHomologyMapDataPostcomp (n : ℤ) :
+    ShortComplex.LeftHomologyMapData
+      ((HomologicalComplex.shortComplexFunctor AddCommGrpCat.{u} (ComplexShape.up ℤ) n).map
+        (homCochainComplexPostcomp N P g))
+      (CochainComplex.HomComplex.leftHomologyData P.cochainComplex
+        ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N) n)
+      (CochainComplex.HomComplex.leftHomologyData P.cochainComplex
+        ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N') n) := by
+  set h₂ := CochainComplex.HomComplex.leftHomologyData P.cochainComplex
+    ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N') n with hh₂
+  have hcommi :
+      AddCommGrpCat.ofHom (cocyclePostcompHom N P g n) ≫ h₂.i
+        = (CochainComplex.HomComplex.leftHomologyData P.cochainComplex
+            ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N) n).i
+          ≫ ((HomologicalComplex.shortComplexFunctor AddCommGrpCat.{u} (ComplexShape.up ℤ) n).map
+              (homCochainComplexPostcomp N P g)).τ₂ := by
+    ext c
+    rw [AddCommGrpCat.comp_apply, AddCommGrpCat.comp_apply]
+    rfl
+  haveI : Mono h₂.i := by
+    rw [AddCommGrpCat.mono_iff_injective]
+    exact fun a b hab => Subtype.ext hab
+  exact
+  { φK := AddCommGrpCat.ofHom (cocyclePostcompHom N P g n)
+    φH := AddCommGrpCat.ofHom (cohomologyClassPostcompHom N P g n)
+    commi := hcommi
+    commπ := by
+      ext c
+      rw [AddCommGrpCat.comp_apply, AddCommGrpCat.comp_apply]
+      rfl
+    commf' := by
+      rw [← cancel_mono h₂.i]
+      simp only [Category.assoc, hcommi]
+      rw [h₂.f'_i, ← Category.assoc,
+        (CochainComplex.HomComplex.leftHomologyData P.cochainComplex
+          ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N) n).f'_i]
+      exact (((HomologicalComplex.shortComplexFunctor AddCommGrpCat.{u} (ComplexShape.up ℤ) n).map
+        (homCochainComplexPostcomp N P g)).comm₁₂).symm }
+
+@[simp] lemma leftHomologyMapDataPostcomp_φH (n : ℤ) :
+    (leftHomologyMapDataPostcomp N P g n).φH
+      = AddCommGrpCat.ofHom (cohomologyClassPostcompHom N P g n) := rfl
+
+/-- `homologyAddEquiv` is `homologyIso.hom`, with types stated so downstream rewrites keep the
+`HomologicalComplex.homology` presentation (avoids unfolding the `def` into `(sc n).homology`). -/
+lemma homologyAddEquiv_apply_hom (L : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ)
+    (y : (P.cochainComplex.HomComplex L).homology n) :
+    CochainComplex.HomComplex.homologyAddEquiv P.cochainComplex L n y
+      = (CochainComplex.HomComplex.leftHomologyData P.cochainComplex L n).homologyIso.hom y := rfl
+
+/-- **Forward naturality square of `homologyAddEquiv` under postcomposition.** `homologyAddEquiv`
+intertwines `HomologicalComplex.homologyMap (homCochainComplexPostcomp N P g)` with
+`cohomologyClassPostcompHom` (postcomposition on cohomology classes). Proved from
+`LeftHomologyMapData.homologyMap_comm` transported through `homologyIso`. -/
+lemma homologyAddEquiv_homologyMap (n : ℤ)
+    (y : (homCochainComplex N P).homology n) :
+    CochainComplex.HomComplex.homologyAddEquiv P.cochainComplex
+        ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N') n
+        ((HomologicalComplex.homologyMap (homCochainComplexPostcomp N P g) n) y)
+      = cohomologyClassPostcompHom N P g n
+          (CochainComplex.HomComplex.homologyAddEquiv P.cochainComplex
+            ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N) n y) := by
+  have h := ConcreteCategory.congr_hom
+    (leftHomologyMapDataPostcomp N P g n).homologyMap_comm y
+  rw [AddCommGrpCat.comp_apply, AddCommGrpCat.comp_apply] at h
+  exact h
+
+/-- **Naturality of the middle step `homologyAddEquiv.symm ∘ mk` under postcomposition.** For a
+cocycle `c` and `g : N ⟶ N'`, applying `homCochainComplexPostcomp N P g` on homology after
+`homologyAddEquiv.symm (mk c)` equals `homologyAddEquiv.symm (mk (c.postcomp g))`. This is the
+`N`-side naturality feeding the `k`-homogeneity crux of #6951. -/
+lemma homologyAddEquiv_symm_mk_postcomp (n : ℤ)
+    (c : Cocycle P.cochainComplex
+      ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N) n) :
+    (CochainComplex.HomComplex.homologyAddEquiv P.cochainComplex
+        ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N') n).symm
+        (CohomologyClass.mk
+          (c.postcomp ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).map g)))
+      = (HomologicalComplex.homologyMap (homCochainComplexPostcomp N P g) n)
+          ((CochainComplex.HomComplex.homologyAddEquiv P.cochainComplex
+            ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N) n).symm
+            (CohomologyClass.mk c)) := by
+  rw [AddEquiv.symm_apply_eq, homologyAddEquiv_homologyMap, AddEquiv.apply_symm_apply,
+    cohomologyClassPostcompHom_mk]
+
 end Etingof

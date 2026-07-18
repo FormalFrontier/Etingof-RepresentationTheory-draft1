@@ -66,6 +66,20 @@ instead of `rw`. For subalgebra/subtype coercions specifically, the `Subalgebra.
 /`coe_zero` lemmas are `rfl`, so `rw` on them is brittle — prefer `Subtype.ext (R-level eq)` to
 prove a `↥S`-level equation and `congrArg S.val (↥S-level eq)` to prove an `R`-level one.
 
+**Same failure for `AddCommGrpCat`/`ModuleCat` homology goals in `ConcreteCategory.hom` form**
+(cost ~5 iterations in #6952, `Chapter8/HomComplexHomologyK.lean`). After
+`AddCommGrpCat.comp_apply`, terms read `ConcreteCategory.hom f (ConcreteCategory.hom g x)`; the
+element `x` often has type `CohomologyClass …` while a lemma expects `↑(AddCommGrpCat.of …)`. These
+are defeq but `AddCommGrpCat.of`/carrier is not reducible, so `rw [hcancel]` and even
+`simp only [Iso.inv_hom_id_apply]` **silently do not fire** (reported "unused"/"pattern not found").
+Fixes: (a) don't expand-and-cancel isos elementwise — prove the *forward* naturality square via
+`ShortComplex.LeftHomologyMapData.homologyMap_comm` + `ConcreteCategory.congr_hom … y` +
+`AddCommGrpCat.comp_apply`, then close with **`exact h`** (full-transparency defeq bridges the
+`homology n` vs `(sc n).homology` and carrier-coe gaps that `rw` cannot); (b) derive the `.symm`
+form from the forward square by pure `AddEquiv` algebra (`AddEquiv.symm_apply_eq`,
+`apply_symm_apply`) rather than unfolding `homologyAddEquiv` (which retypes to `(sc n).homology`
+and breaks surrounding applications).
+
 **Cast lifted out of a `Multiset`/`Finset` map inside a hypothesis.** A statement summand like
 `(m.map (fun x => 1 - (x : ℚ)⁻¹)).sum` (with `m : Multiset ℕ`) elaborates with the coercion
 lifted OFF the function and ONTO `m`: the hypothesis becomes
