@@ -1719,6 +1719,74 @@ theorem so3_tetrahedral_of_poleData
     Equiv.Perm.eq_alternatingGroup_of_index_eq_two hindex
   exact ⟨hGH.trans (MulEquiv.subgroupCongr hHeq)⟩
 
+section OctahedralFaithful
+open scoped RealInnerProductSpace
+open Matrix EuclideanSpace Submodule WithLp Module MulAction
+
+/-- **Kernel triviality for the four-diagonal action (octahedral crux, geometric core).**
+Any `g ∈ G` (with `|G| = 24`, `b` an order-`3` pole) that sends every pole `w` in the orbit
+`O = orbit b` to `±w` — i.e. fixes every body diagonal setwise — is the identity. This is the
+kernel-triviality that makes the action of `G` on the four body diagonals faithful.
+
+Route: `g` sends each `w ∈ O` to `±w`, so `g²` fixes all `8` unit vectors of `O`; since a
+nontrivial rotation fixes only an antipodal pair, `g² = 1`. If `g ≠ 1` it has order `2`; it
+cannot fix any `w ∈ O` (its stabilizer is cyclic of order `3`), so `g` negates *every* `w ∈ O`.
+Then the axis `n` of `g` is orthogonal to all of `O`; an order-`3` generator `r` of
+`stabilizer b` permutes `O`, so `r • n` is also orthogonal to all of `O`, and since `O` spans
+the plane `nᗮ` this forces `r • n = n`. But then `r` fixes the two orthogonal unit vectors `b.1`
+and `n`, contradicting that a nontrivial rotation fixes only an antipodal pair. -/
+theorem octahedral_kernel_negates_or_fixes_trivial
+    (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G]
+    (hcard : Nat.card (↥G) = 24)
+    (b : ↥(poleSet G)) (hb : Nat.card (MulAction.stabilizer (↥G) b) = 3)
+    (g : ↥G)
+    (hg : ∀ w : ↥(MulAction.orbit ↥G b),
+      ((g • w : ↥(MulAction.orbit ↥G b)) : ↥(poleSet G)).1
+          = ((w : ↥(MulAction.orbit ↥G b)) : ↥(poleSet G)).1
+      ∨ ((g • w : ↥(MulAction.orbit ↥G b)) : ↥(poleSet G)).1
+          = -(((w : ↥(MulAction.orbit ↥G b)) : ↥(poleSet G)).1)) :
+    g = 1 := by
+  classical
+  -- The `G`-orbit `O` of `b` has `24 / 3 = 8` elements.
+  have horbit_card : Nat.card (↥(MulAction.orbit ↥G b)) = 8 := by
+    have hos : Nat.card (↥(MulAction.orbit ↥G b)) * Nat.card (↥(MulAction.stabilizer ↥G b))
+        = Nat.card (↥G) := by
+      rw [← Nat.card_prod]
+      exact Nat.card_congr (MulAction.orbitProdStabilizerEquivGroup ↥G b)
+    rw [hb, hcard] at hos
+    omega
+  haveI : Finite ↥(MulAction.orbit ↥G b) := (Finite.finite_mulAction_orbit b).to_subtype
+  -- Reformulate `hg` in terms of the matrix action on the underlying unit vectors.
+  have haction : ∀ w : ↥(MulAction.orbit ↥G b),
+      ((g • w : ↥(MulAction.orbit ↥G b)) : ↥(poleSet G)).1
+        = ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ
+            ((w : ↥(MulAction.orbit ↥G b)) : ↥(poleSet G)).1 := by
+    intro w
+    rw [MulAction.orbit.coe_smul, poleSet_coe_smul]
+  -- Every orbit vector is a unit vector.
+  have hunit : ∀ w : ↥(MulAction.orbit ↥G b),
+      ((w : ↥(MulAction.orbit ↥G b)) : ↥(poleSet G)).1
+        ⬝ᵥ ((w : ↥(MulAction.orbit ↥G b)) : ↥(poleSet G)).1 = 1 :=
+    fun w => (w : ↥(poleSet G)).2.1
+  -- The `±` hypothesis on unit vectors.
+  have hpm : ∀ w : ↥(MulAction.orbit ↥G b),
+      ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ
+          ((w : ↥(MulAction.orbit ↥G b)) : ↥(poleSet G)).1
+        = ((w : ↥(MulAction.orbit ↥G b)) : ↥(poleSet G)).1
+      ∨ ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ
+          ((w : ↥(MulAction.orbit ↥G b)) : ↥(poleSet G)).1
+        = -(((w : ↥(MulAction.orbit ↥G b)) : ↥(poleSet G)).1) := by
+    intro w
+    have := hg w
+    rwa [haction w] at this
+  by_contra hgne
+  have hg0 : (g : specialOrthogonalGroup (Fin 3) ℝ) ≠ 1 := by
+    intro h
+    exact hgne (Subtype.ext (h.trans (OneMemClass.coe_one G).symm))
+  sorry
+
+end OctahedralFaithful
+
 /-- **Faithful octahedral action on the four body diagonals (crux).** For the octahedral pole
 family `m = {2, 3, 4}` with `|G| = 24`, `G` acts faithfully on a four-element set, giving an
 injective `φ : G →* S₄`. Combined with `|G| = 24 = |S₄|` in `so3_octahedral_of_poleData`, this
