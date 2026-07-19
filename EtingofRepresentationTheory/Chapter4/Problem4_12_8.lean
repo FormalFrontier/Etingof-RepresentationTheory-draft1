@@ -1863,6 +1863,35 @@ theorem simpleGroup_card60_exists_index_five
     ∃ H : Subgroup Grp, H.index = 5 := by
   sorry
 
+/-- **Order-`60` groups with more than one Sylow `5`-subgroup are simple (pure group theory).**
+A finite group of order `60` with a nontrivial family of Sylow `5`-subgroups (equivalently
+`n₅ = 6`, since `n₅ ≡ 1 mod 5` and `n₅ ∣ 12` force `n₅ ∈ {1, 6}`) is simple.
+
+This is the `SO(3)`-free half of `so3_icosahedral_G_simple`; the geometric input only supplies
+`Nontrivial (Sylow 5 G)`. The standard argument: let `N ◁ G` be a nontrivial proper normal
+subgroup, so `Nat.card N ∈ {2, 3, 4, 5, 6, 10, 12, 15, 20, 30}`.
+
+* `n₅ = 6` gives `6 · 4 = 24` elements of order `5` (distinct Sylow `5`-subgroups meet trivially).
+* If `5 ∣ Nat.card N`: `N` contains a Sylow `5` of `G`, hence (by normality) all `6`, hence all
+  `24` order-`5` elements, forcing `Nat.card N = 30` (the only divisor of `60` that is a proper
+  multiple of `5` and `≥ 25`). A group of order `30` has a unique Sylow `5` (counting: `n₅(N) = 6`
+  and `n₃(N) = 10` are jointly impossible, `24 + 20 > 30`), contradicting `n₅(N) = 6`.
+* If `5 ∤ Nat.card N`: `Nat.card N ∈ {2, 3, 4, 6, 12}`. For `Nat.card N ∈ {3, 4, 6}` the quotient
+  `G ⧸ N` has `n₅ = 1`; the preimage of its normal Sylow `5` is a normal subgroup of order
+  `5 · Nat.card N ∈ {15, 20, 30}` containing all `24` order-`5` elements, impossible for
+  `{15, 20}` and reducing to the order-`30` case otherwise. The residual orders `2` and `12` are
+  killed by the coset action `G → S_{[G:N]}` and a `2`-element / Sylow-`3` count.
+
+TODO (sub-issue of #6864): discharge this `sorry`. It is portable finite group theory with no
+`SO(3)` dependency; the required Mathlib primitives are `card_sylow_modEq_one`,
+`Sylow.card_dvd_index`, `IsPGroup.toSylow`, `Sylow.normal_of_subsingleton`,
+`Subgroup.normalCore_eq_ker`, and `isSimpleGroup_iff`. -/
+theorem isSimpleGroup_of_card_sixty_of_nontrivial_sylow5
+    {Grp : Type*} [Group Grp] [Finite Grp] (hcard : Nat.card Grp = 60)
+    (hn5 : Nontrivial (Sylow 5 Grp)) :
+    IsSimpleGroup Grp := by
+  sorry
+
 /-- **Simplicity of the icosahedral group (geometric input).** An order-`60` finite subgroup
 `G ≤ SO(3)` with the icosahedral pole data `{2, 3, 5}` is simple.
 
@@ -1883,7 +1912,124 @@ theorem so3_icosahedral_G_simple
     (hcard : Nat.card (↥G) = 60)
     (hpole : ∀ x ∈ m, ∃ b : ↥(poleSet G), Nat.card (MulAction.stabilizer (↥G) b) = x) :
     IsSimpleGroup (↥G) := by
-  sorry
+  classical
+  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  -- **Step 1.** Extract an order-`5` pole `b`; its `G`-orbit has `60 / 5 = 12` elements.
+  obtain ⟨b, hb⟩ := hpole 5 (by rw [hclass]; decide)
+  have horbit_card : Nat.card (↥(MulAction.orbit ↥G b)) = 12 := by
+    have hos : Nat.card (↥(MulAction.orbit ↥G b)) * Nat.card (↥(MulAction.stabilizer ↥G b))
+        = Nat.card (↥G) := by
+      rw [← Nat.card_prod]
+      exact Nat.card_congr (MulAction.orbitProdStabilizerEquivGroup ↥G b)
+    rw [hb, hcard] at hos
+    omega
+  -- **Step 2.** The `12`-element orbit cannot lie on the single axis `{b, -b}`, so some
+  -- `g • b` is a pole off `b`'s axis.
+  have hoffaxis : ∃ g : ↥G, ((g • b : ↥(poleSet G)) : Fin 3 → ℝ) ≠ (b : ↥(poleSet G)).1
+      ∧ ((g • b : ↥(poleSet G)) : Fin 3 → ℝ) ≠ -((b : ↥(poleSet G)).1) := by
+    by_contra hcon
+    push_neg at hcon
+    -- Every group element sends `b` onto its own axis `{b, -b}`.
+    have hmem : ∀ g : ↥G, ((g • b : ↥(poleSet G)) : Fin 3 → ℝ) = (b : ↥(poleSet G)).1
+        ∨ ((g • b : ↥(poleSet G)) : Fin 3 → ℝ) = -((b : ↥(poleSet G)).1) := by
+      intro g
+      by_cases h : ((g • b : ↥(poleSet G)) : Fin 3 → ℝ) = (b : ↥(poleSet G)).1
+      · exact Or.inl h
+      · exact Or.inr (hcon g h)
+    -- Hence the whole orbit injects into the two-element set `{b.1, -b.1}`.
+    set S : Set (Fin 3 → ℝ) := {(b : ↥(poleSet G)).1, -((b : ↥(poleSet G)).1)} with hS
+    have hmemset : ∀ x : ↥(MulAction.orbit ↥G b), x.1.1 ∈ S := by
+      intro x
+      obtain ⟨g, hgx⟩ := x.2
+      have hval : ((g • b : ↥(poleSet G)) : Fin 3 → ℝ) = x.1.1 := congrArg Subtype.val hgx
+      rw [hS, Set.mem_insert_iff, Set.mem_singleton_iff, ← hval]
+      exact hmem g
+    haveI : Finite ↥S := ((Set.finite_singleton _).insert _).to_subtype
+    have hinj : Function.Injective
+        (fun x : ↥(MulAction.orbit ↥G b) => (⟨x.1.1, hmemset x⟩ : ↥S)) := by
+      intro x y hxy
+      apply Subtype.ext; apply Subtype.ext
+      simpa using hxy
+    have hle : Nat.card (↥(MulAction.orbit ↥G b)) ≤ Nat.card ↥S :=
+      Nat.card_le_card_of_injective _ hinj
+    have hle2 : Nat.card ↥S ≤ 2 := by
+      rw [hS, Nat.card_coe_set_eq]
+      calc ({(b : ↥(poleSet G)).1, -((b : ↥(poleSet G)).1)} : Set (Fin 3 → ℝ)).ncard
+            ≤ ({-((b : ↥(poleSet G)).1)} : Set (Fin 3 → ℝ)).ncard + 1 := Set.ncard_insert_le _ _
+        _ = 2 := by rw [Set.ncard_singleton]
+    rw [horbit_card] at hle
+    omega
+  obtain ⟨g, hg1, hg2⟩ := hoffaxis
+  set c : ↥(poleSet G) := g • b with hc
+  -- **Step 3.** `c = g • b` is another order-`5` pole (same orbit ⇒ stabilizer of card `5`).
+  have hcstab : Nat.card (↥(MulAction.stabilizer ↥G c)) = 5 := by
+    have horbc : Nat.card (↥(MulAction.orbit ↥G c)) = 12 := by
+      rw [hc, MulAction.orbit_smul]; exact horbit_card
+    have hos : Nat.card (↥(MulAction.orbit ↥G c)) * Nat.card (↥(MulAction.stabilizer ↥G c))
+        = Nat.card (↥G) := by
+      rw [← Nat.card_prod]
+      exact Nat.card_congr (MulAction.orbitProdStabilizerEquivGroup ↥G c)
+    rw [horbc, hcard] at hos
+    omega
+  -- **Step 4.** Both stabilizers are Sylow `5`-subgroups (order `5`, index `12` coprime to `5`).
+  have hidxb : (MulAction.stabilizer ↥G b).index = 12 := by
+    have h := Subgroup.index_mul_card (MulAction.stabilizer ↥G b)
+    rw [hb, hcard] at h; omega
+  have hidxc : (MulAction.stabilizer ↥G c).index = 12 := by
+    have h := Subgroup.index_mul_card (MulAction.stabilizer ↥G c)
+    rw [hcstab, hcard] at h; omega
+  have hpgb : IsPGroup 5 (MulAction.stabilizer ↥G b) := IsPGroup.of_card (n := 1) (by rw [hb]; norm_num)
+  have hpgc : IsPGroup 5 (MulAction.stabilizer ↥G c) :=
+    IsPGroup.of_card (n := 1) (by rw [hcstab]; norm_num)
+  let Sb : Sylow 5 ↥G := hpgb.toSylow (by rw [hidxb]; decide)
+  let Sc : Sylow 5 ↥G := hpgc.toSylow (by rw [hidxc]; decide)
+  -- **Step 5.** `Sb ≠ Sc`: else a generator of `stabilizer b = stabilizer c` would fix both
+  -- axes, forcing `c` onto `b`'s axis, contradicting Step 2.
+  have hSne : Sb ≠ Sc := by
+    intro hSeq
+    have hsub : MulAction.stabilizer ↥G b = MulAction.stabilizer ↥G c :=
+      congrArg (fun S : Sylow 5 ↥G => (S : Subgroup ↥G)) hSeq
+    haveI : Nontrivial (MulAction.stabilizer ↥G b) := by
+      rw [← Finite.one_lt_card_iff_nontrivial, hb]; norm_num
+    obtain ⟨ρ, hρne⟩ := exists_ne (1 : MulAction.stabilizer ↥G b)
+    -- The underlying rotation is nontrivial.
+    have hρ0 : ((ρ : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) ≠ 1 := by
+      intro h
+      exact hρne (Subtype.ext (Subtype.ext (h.trans (OneMemClass.coe_one G).symm)))
+    obtain ⟨v₀, _hv₀unit, hset⟩ :=
+      nontrivial_fixed_unit_vectors ((ρ : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) hρ0
+    -- `ρ` fixes `b`'s vector.
+    have hfixb : (((ρ : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ)
+        *ᵥ (b : ↥(poleSet G)).1 = (b : ↥(poleSet G)).1 := by
+      have hstab := (MulAction.mem_stabilizer_iff).mp ρ.2
+      have h := congrArg (fun P : ↥(poleSet G) => (P : Fin 3 → ℝ)) hstab
+      rwa [poleSet_coe_smul] at h
+    -- `ρ ∈ stabilizer c` too, so it fixes `c`'s vector.
+    have hρc : (ρ : ↥G) ∈ MulAction.stabilizer ↥G c := hsub ▸ ρ.2
+    have hfixc : (((ρ : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ)
+        *ᵥ (c : ↥(poleSet G)).1 = (c : ↥(poleSet G)).1 := by
+      have hstab := (MulAction.mem_stabilizer_iff).mp hρc
+      have h := congrArg (fun P : ↥(poleSet G) => (P : Fin 3 → ℝ)) hstab
+      rwa [poleSet_coe_smul] at h
+    have hbin : (b : ↥(poleSet G)).1
+        ∈ fixedUnitVectors ((ρ : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) := ⟨b.2.1, hfixb⟩
+    have hcin : (c : ↥(poleSet G)).1
+        ∈ fixedUnitVectors ((ρ : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) := ⟨c.2.1, hfixc⟩
+    rw [hset, Set.mem_insert_iff, Set.mem_singleton_iff] at hbin hcin
+    -- Both `b.1` and `c.1` lie in `{v₀, -v₀}`, forcing `c.1 = ± b.1`, contradicting Step 2.
+    have hcb : (c : ↥(poleSet G)).1 = (b : ↥(poleSet G)).1
+        ∨ (c : ↥(poleSet G)).1 = -((b : ↥(poleSet G)).1) := by
+      rcases hbin with hbv | hbv <;> rcases hcin with hcv | hcv
+      · exact Or.inl (by rw [hcv, hbv])
+      · exact Or.inr (by rw [hcv, hbv])
+      · exact Or.inr (by rw [hcv, hbv, neg_neg])
+      · exact Or.inl (by rw [hcv, hbv])
+    rcases hcb with h | h
+    · exact hg1 h
+    · exact hg2 h
+  -- **Step 6.** Two distinct Sylow `5`-subgroups ⇒ `Nontrivial (Sylow 5 G)`; apply the
+  -- `SO(3)`-free simplicity lemma.
+  exact isSimpleGroup_of_card_sixty_of_nontrivial_sylow5 hcard ⟨Sb, Sc, hSne⟩
 
 /-- **Realization crux of the icosahedral disjunct.** An order-`60` finite subgroup `G ≤ SO(3)`
 with the icosahedral pole data acts faithfully on a `5`-element set — geometrically, the five
