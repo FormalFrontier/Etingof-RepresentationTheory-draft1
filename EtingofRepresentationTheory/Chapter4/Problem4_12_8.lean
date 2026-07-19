@@ -1863,6 +1863,23 @@ theorem simpleGroup_card60_exists_index_five
     ∃ H : Subgroup Grp, H.index = 5 := by
   sorry
 
+/-- A Sylow `5`-subgroup has order exactly `5` when `5 ∣ |G|` but `25 ∤ |G|`. -/
+private theorem sylow5_card_eq_five {G : Type*} [Group G] [Finite G] (P : Sylow 5 G)
+    (h5 : (5 : ℕ) ∣ Nat.card G) (h25 : ¬ (25 : ℕ) ∣ Nat.card G) :
+    Nat.card (P : Subgroup G) = 5 := by
+  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have hne : Nat.card G ≠ 0 := Nat.card_pos.ne'
+  have hf : (Nat.card G).factorization 5 = 1 := by
+    have h1 : 1 ≤ (Nat.card G).factorization 5 := by
+      rw [← Nat.Prime.pow_dvd_iff_le_factorization (by norm_num) hne, pow_one]; exact h5
+    have h2 : (Nat.card G).factorization 5 ≤ 1 := by
+      by_contra hc
+      have hge : 2 ≤ (Nat.card G).factorization 5 := by omega
+      rw [← Nat.Prime.pow_dvd_iff_le_factorization (by norm_num) hne] at hge
+      exact h25 (by rw [show (25 : ℕ) = 5 ^ 2 from by norm_num]; exact hge)
+    omega
+  rw [P.card_eq_multiplicity, hf, pow_one]
+
 /-- **Counting elements of order `p`.** In a finite group `H` with `p ∣ |H|` but `p² ∤ |H|`
 (so every Sylow `p`-subgroup has order exactly `p`), the number of elements of order `p` equals
 `(p - 1) · n_p`: each Sylow `p`-subgroup contributes its `p - 1` non-identity elements, distinct
@@ -1876,7 +1893,22 @@ private theorem card_orderOf_eq_prime_mul_card_sylow {H : Type*} [Group H] [Fini
 `n₅ ∣ k ≤ 4` and `n₅ ≡ 1 mod 5` force `n₅ = 1`. -/
 private theorem subsingleton_sylow5_of_card_le {H : Type*} [Group H] [Finite H]
     {k : ℕ} (hk : Nat.card H = 5 * k) (hk4 : k ≤ 4) : Subsingleton (Sylow 5 H) := by
-  sorry
+  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have hk1 : 1 ≤ k := by
+    have : 0 < Nat.card H := Nat.card_pos
+    omega
+  obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 5 H))
+  have hPcard : Nat.card (P : Subgroup H) = 5 :=
+    sylow5_card_eq_five P ⟨k, hk⟩ (by rw [hk]; omega)
+  have hidx : (P : Subgroup H).index = k := by
+    have hmul := Subgroup.card_mul_index (P : Subgroup H)
+    rw [hPcard, hk] at hmul; omega
+  have hdvd5 : Nat.card (Sylow 5 H) ∣ k := hidx ▸ P.card_dvd_index
+  have hn5le : Nat.card (Sylow 5 H) ≤ 4 := le_trans (Nat.le_of_dvd (by omega) hdvd5) hk4
+  have hmod : Nat.card (Sylow 5 H) % 5 = 1 % 5 := card_sylow_modEq_one 5 H
+  have hn5pos : 0 < Nat.card (Sylow 5 H) := Nat.card_pos
+  have hn5eq : Nat.card (Sylow 5 H) = 1 := by omega
+  exact (Nat.card_eq_one_iff_unique.mp hn5eq).1
 
 /-- **Lift a normal Sylow `5`-subgroup of a quotient.** If `N ◁ H` (finite) and the quotient
 `H ⧸ N` has a unique Sylow `5`-subgroup whose order is `5` (`5 ∣ |H⧸N|`, `25 ∤ |H⧸N|`), its
@@ -1885,7 +1917,27 @@ private theorem exists_normal_of_subsingleton_sylow5_quot {H : Type*} [Group H] 
     (N : Subgroup H) [N.Normal] [Subsingleton (Sylow 5 (H ⧸ N))]
     (hq5 : (5 : ℕ) ∣ Nat.card (H ⧸ N)) (hq25 : ¬ (25 : ℕ) ∣ Nat.card (H ⧸ N)) :
     ∃ M : Subgroup H, M.Normal ∧ Nat.card M = 5 * Nat.card N := by
-  sorry
+  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 5 (H ⧸ N)))
+  have hScard : Nat.card (S : Subgroup (H ⧸ N)) = 5 := sylow5_card_eq_five S hq5 hq25
+  haveI hSnormal : (S : Subgroup (H ⧸ N)).Normal := S.normal_of_subsingleton
+  let f : H →* H ⧸ N := QuotientGroup.mk' N
+  have hfsurj : Function.Surjective f := QuotientGroup.mk'_surjective N
+  refine ⟨(S : Subgroup (H ⧸ N)).comap f, inferInstance, ?_⟩
+  have hidx : ((S : Subgroup (H ⧸ N)).comap f).index = (S : Subgroup (H ⧸ N)).index :=
+    (S : Subgroup (H ⧸ N)).index_comap_of_surjective hfsurj
+  have hmulM := Subgroup.card_mul_index ((S : Subgroup (H ⧸ N)).comap f)
+  rw [hidx] at hmulM
+  have hmulS := Subgroup.card_mul_index (S : Subgroup (H ⧸ N))
+  rw [hScard] at hmulS
+  have hquot : Nat.card H = Nat.card (H ⧸ N) * Nat.card N :=
+    Subgroup.card_eq_card_quotient_mul_card_subgroup N
+  have hqpos : 0 < Nat.card (H ⧸ N) := Nat.card_pos
+  have hSidxpos : 0 < (S : Subgroup (H ⧸ N)).index := by omega
+  have key : Nat.card ((S : Subgroup (H ⧸ N)).comap f) * (S : Subgroup (H ⧸ N)).index
+      = (5 * Nat.card N) * (S : Subgroup (H ⧸ N)).index := by
+    rw [hmulM, hquot, ← hmulS]; ring
+  exact Nat.eq_of_mul_eq_mul_right hSidxpos key
 
 /-- **Push a unique Sylow `5`-subgroup up from a normal subgroup.** If `M ◁ H` has a unique
 (hence characteristic) Sylow `5`-subgroup `P`, and `P` is a Sylow `5`-subgroup of `H` (which
@@ -1894,7 +1946,29 @@ private theorem subsingleton_sylow5_of_normal_subgroup {H : Type*} [Group H] [Fi
     (M : Subgroup H) [M.Normal] [Subsingleton (Sylow 5 M)]
     (h5M : (5 : ℕ) ∣ Nat.card M) (h25H : ¬ (25 : ℕ) ∣ Nat.card H) :
     Subsingleton (Sylow 5 H) := by
-  sorry
+  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 5 M))
+  have h25M : ¬ (25 : ℕ) ∣ Nat.card M :=
+    fun h => h25H (h.trans (Subgroup.card_subgroup_dvd_card M))
+  have hPcard : Nat.card (P : Subgroup M) = 5 := sylow5_card_eq_five P h5M h25M
+  haveI : (P : Subgroup M).Characteristic := Sylow.characteristic_of_subsingleton P
+  have hQnormal : ((P : Subgroup M).map M.subtype).Normal := inferInstance
+  have hcardQ : Nat.card ((P : Subgroup M).map M.subtype) = 5 := by
+    have e := Subgroup.equivMapOfInjective (P : Subgroup M) M.subtype M.subtype_injective
+    rw [← Nat.card_congr e.toEquiv, hPcard]
+  have hpg : IsPGroup 5 ((P : Subgroup M).map M.subtype) :=
+    IsPGroup.of_card (hcardQ.trans (show (5 : ℕ) = 5 ^ 1 by norm_num))
+  have hQidx : ¬ (5 : ℕ) ∣ ((P : Subgroup M).map M.subtype).index := by
+    intro hdvd
+    have hmul := Subgroup.card_mul_index ((P : Subgroup M).map M.subtype)
+    rw [hcardQ] at hmul
+    obtain ⟨j, hj⟩ := hdvd
+    exact h25H (by rw [← hmul, hj]; exact ⟨j, by ring⟩)
+  let QS : Sylow 5 H := hpg.toSylow hQidx
+  have hQScoe : (QS : Subgroup H) = (P : Subgroup M).map M.subtype := hpg.toSylow_coe hQidx
+  haveI : Unique (Sylow 5 H) :=
+    Sylow.unique_of_normal QS (by rw [hQScoe]; exact hQnormal)
+  infer_instance
 
 /-- **Groups of order `30` have a unique Sylow `5`-subgroup.** If `n₅ = 6` then there are `24`
 elements of order `5`, forcing `n₃ = 1`; the normal Sylow `3` lifts (via an order-`15` normal
