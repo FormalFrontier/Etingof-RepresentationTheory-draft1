@@ -1863,6 +1863,73 @@ theorem simpleGroup_card60_exists_index_five
     ∃ H : Subgroup Grp, H.index = 5 := by
   sorry
 
+/-- **Counting elements of order `p`.** In a finite group `H` with `p ∣ |H|` but `p² ∤ |H|`
+(so every Sylow `p`-subgroup has order exactly `p`), the number of elements of order `p` equals
+`(p - 1) · n_p`: each Sylow `p`-subgroup contributes its `p - 1` non-identity elements, distinct
+Sylow `p`-subgroups meet only in `1`, and every order-`p` element generates such a subgroup. -/
+private theorem card_orderOf_eq_prime_mul_card_sylow {H : Type*} [Group H] [Finite H]
+    (p : ℕ) [Fact p.Prime] (hp1 : p ∣ Nat.card H) (hp2 : ¬ (p : ℕ) ^ 2 ∣ Nat.card H) :
+    Nat.card {g : H // orderOf g = p} = (p - 1) * Nat.card (Sylow p H) := by
+  sorry
+
+/-- **Small groups have a unique Sylow `5`-subgroup.** If `|H| = 5 · k` with `k ≤ 4` then
+`n₅ ∣ k ≤ 4` and `n₅ ≡ 1 mod 5` force `n₅ = 1`. -/
+private theorem subsingleton_sylow5_of_card_le {H : Type*} [Group H] [Finite H]
+    {k : ℕ} (hk : Nat.card H = 5 * k) (hk4 : k ≤ 4) : Subsingleton (Sylow 5 H) := by
+  sorry
+
+/-- **Lift a normal Sylow `5`-subgroup of a quotient.** If `N ◁ H` (finite) and the quotient
+`H ⧸ N` has a unique Sylow `5`-subgroup whose order is `5` (`5 ∣ |H⧸N|`, `25 ∤ |H⧸N|`), its
+preimage is a normal subgroup `M` with `|M| = 5 · |N|`. -/
+private theorem exists_normal_of_subsingleton_sylow5_quot {H : Type*} [Group H] [Finite H]
+    (N : Subgroup H) [N.Normal] [Subsingleton (Sylow 5 (H ⧸ N))]
+    (hq5 : (5 : ℕ) ∣ Nat.card (H ⧸ N)) (hq25 : ¬ (25 : ℕ) ∣ Nat.card (H ⧸ N)) :
+    ∃ M : Subgroup H, M.Normal ∧ Nat.card M = 5 * Nat.card N := by
+  sorry
+
+/-- **Push a unique Sylow `5`-subgroup up from a normal subgroup.** If `M ◁ H` has a unique
+(hence characteristic) Sylow `5`-subgroup `P`, and `P` is a Sylow `5`-subgroup of `H` (which
+holds when `5 ∣ |M|` and `25 ∤ |H|`), then `H` itself has a unique Sylow `5`-subgroup. -/
+private theorem subsingleton_sylow5_of_normal_subgroup {H : Type*} [Group H] [Finite H]
+    (M : Subgroup H) [M.Normal] [Subsingleton (Sylow 5 M)]
+    (h5M : (5 : ℕ) ∣ Nat.card M) (h25H : ¬ (25 : ℕ) ∣ Nat.card H) :
+    Subsingleton (Sylow 5 H) := by
+  sorry
+
+/-- **Groups of order `30` have a unique Sylow `5`-subgroup.** If `n₅ = 6` then there are `24`
+elements of order `5`, forcing `n₃ = 1`; the normal Sylow `3` lifts (via an order-`15` normal
+subgroup) to a normal Sylow `5`, contradicting `n₅ = 6`. -/
+private theorem card_thirty_subsingleton_sylow5 {H : Type*} [Group H] [Finite H]
+    (hH : Nat.card H = 30) : Subsingleton (Sylow 5 H) := by
+  sorry
+
+/-- **Order-`60`, `n₅ = 6`: a normal subgroup with order divisible by `5` is everything.** Such
+an `N` contains a Sylow `5` of `G`, hence (by normality) at least two distinct Sylow `5`-subgroups
+of `G`; every proper divisor of `60` divisible by `5` (namely `5, 10, 15, 20, 30`) forces a
+*unique* Sylow `5`-subgroup, a contradiction, so `|N| = 60`. -/
+private theorem eq_top_of_five_dvd_card_normal {G : Type*} [Group G] [Finite G]
+    (hG : Nat.card G = 60) (hn5 : Nontrivial (Sylow 5 G))
+    (N : Subgroup G) [N.Normal] (h5 : (5 : ℕ) ∣ Nat.card N) : N = ⊤ := by
+  sorry
+
+/-- **Order-`60`, `n₅ = 6`: no normal subgroup of order `2, 3, 4` or `6`.** The quotient `G ⧸ N`
+(order `30, 20, 15, 10`) has a unique Sylow `5`; its preimage is a normal subgroup of order
+`5 · |N| ∈ {10, 15, 20, 30}` with order divisible by `5`, which by `eq_top_of_five_dvd_card_normal`
+would have to be all of `G` (order `60`) — impossible. -/
+private theorem not_normal_card_mem_two_three_four_six {G : Type*} [Group G] [Finite G]
+    (hG : Nat.card G = 60) (hn5 : Nontrivial (Sylow 5 G))
+    (N : Subgroup G) [N.Normal]
+    (hcard : Nat.card N = 2 ∨ Nat.card N = 3 ∨ Nat.card N = 4 ∨ Nat.card N = 6) : False := by
+  sorry
+
+/-- **Order-`12` normal subgroups contain a smaller normal subgroup.** A group of order `12` has
+either a normal Sylow `3` (order `3`) or a normal Sylow `2` (order `4`); being characteristic, it
+is normal in the ambient group. -/
+private theorem exists_normal_prime_of_card_twelve {G : Type*} [Group G] [Finite G]
+    (N : Subgroup G) [N.Normal] (hN : Nat.card N = 12) :
+    ∃ M : Subgroup G, M.Normal ∧ (Nat.card M = 3 ∨ Nat.card M = 4) := by
+  sorry
+
 /-- **Order-`60` groups with more than one Sylow `5`-subgroup are simple (pure group theory).**
 A finite group of order `60` with a nontrivial family of Sylow `5`-subgroups (equivalently
 `n₅ = 6`, since `n₅ ≡ 1 mod 5` and `n₅ ∣ 12` force `n₅ ∈ {1, 6}`) is simple.
@@ -1890,7 +1957,39 @@ theorem isSimpleGroup_of_card_sixty_of_nontrivial_sylow5
     {Grp : Type*} [Group Grp] [Finite Grp] (hcard : Nat.card Grp = 60)
     (hn5 : Nontrivial (Sylow 5 Grp)) :
     IsSimpleGroup Grp := by
-  sorry
+  haveI : Nontrivial Grp := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
+  refine { eq_bot_or_eq_top_of_normal := fun N hN => ?_ }
+  haveI : N.Normal := hN
+  by_contra hcon
+  push_neg at hcon
+  obtain ⟨hNbot, hNtop⟩ := hcon
+  -- `|N|` divides `60`, and is neither `1` (else `N = ⊥`) nor `60` (else `N = ⊤`).
+  have hdvd : Nat.card N ∣ 60 := by
+    rw [← hcard]; exact Subgroup.card_subgroup_dvd_card N
+  have hNe1 : Nat.card N ≠ 1 := fun h => hNbot (Subgroup.eq_bot_of_card_eq _ h)
+  have hNe60 : Nat.card N ≠ 60 := by
+    intro h
+    exact hNtop (Subgroup.eq_top_of_card_eq _ (by rw [h, hcard]))
+  -- Case split on whether `5 ∣ |N|`.
+  by_cases h5 : (5 : ℕ) ∣ Nat.card N
+  · exact hNtop (eq_top_of_five_dvd_card_normal hcard hn5 N h5)
+  · -- `5 ∤ |N|`, so `|N| ∈ {2, 3, 4, 6, 12}`.
+    have key : ∀ n : ℕ, n ∣ 60 → n ≠ 1 → n ≠ 60 → ¬ (5 ∣ n) →
+        n = 2 ∨ n = 3 ∨ n = 4 ∨ n = 6 ∨ n = 12 := by
+      intro n hn h1 h60 h5n
+      have hle : n ≤ 60 := Nat.le_of_dvd (by norm_num) hn
+      interval_cases n <;> omega
+    rcases key (Nat.card N) hdvd hNe1 hNe60 h5 with h | h | h | h | h
+    · exact not_normal_card_mem_two_three_four_six hcard hn5 N (Or.inl h)
+    · exact not_normal_card_mem_two_three_four_six hcard hn5 N (Or.inr (Or.inl h))
+    · exact not_normal_card_mem_two_three_four_six hcard hn5 N (Or.inr (Or.inr (Or.inl h)))
+    · exact not_normal_card_mem_two_three_four_six hcard hn5 N (Or.inr (Or.inr (Or.inr h)))
+    · -- `|N| = 12`: reduce to a normal subgroup of order `3` or `4`.
+      obtain ⟨M, hMnorm, hMcard⟩ := exists_normal_prime_of_card_twelve N h
+      haveI : M.Normal := hMnorm
+      rcases hMcard with h3 | h4
+      · exact not_normal_card_mem_two_three_four_six hcard hn5 M (Or.inr (Or.inl h3))
+      · exact not_normal_card_mem_two_three_four_six hcard hn5 M (Or.inr (Or.inr (Or.inl h4)))
 
 /-- **Simplicity of the icosahedral group (geometric input).** An order-`60` finite subgroup
 `G ≤ SO(3)` with the icosahedral pole data `{2, 3, 5}` is simple.
