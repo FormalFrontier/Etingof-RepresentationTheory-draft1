@@ -35,12 +35,14 @@ products, not the (much larger) group-level `⊗_ℤ`.
 
 ## What is formalized here
 
-The `Tor` statement is proved sorry-free below. The `Ext` statement (`Problem_8_2_8_ext`) is
-fully assembled from its `k`-linear core `Problem_8_2_8_extₖ`, the comparison bridge
-`extAbelianIsoExtₖ` (`Etingof.Ext ≃ₗ[k] Extₖ`), the finitely generated projective `barResolution`,
-and the coproduct-to-direct-sum identification (`ModuleCat.coprodIsoDirectSum`); the sole remaining
-`sorry` is the `hXM` object identification (a factor `k`-module-diamond reconciliation, see the
-comment there).
+Both the `Tor` and `Ext` statements are proved sorry-free below. The `Ext` statement
+(`Problem_8_2_8_ext`) is assembled from its `k`-linear core `Problem_8_2_8_extₖ`, the comparison
+bridge `extAbelianIsoExtₖ` (`Etingof.Ext ≃ₗ[k] Extₖ`), the finitely generated projective
+`barResolution`, and the coproduct-to-direct-sum identification (`ModuleCat.coprodIsoDirectSum`).
+The `hXM` object identification — the factor `k`-module-diamond reconciliation that identifies the
+statement's `ModuleCat.of (A₁⊗A₂)(M₁⊗M₂)` with the canonical `extTensorFunctorLeftObj` — is
+discharged inside the proof by `subst`ing the ambient `Module k Mᵢ` with its restricted form and
+then `instModule_eq_extTensorModuleLeft` (see the comment there).
 
 ### The external tensor product module structures
 
@@ -329,20 +331,35 @@ theorem Problem_8_2_8_ext (i : ℕ)
   haveI : IsScalarTower k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) := isScalarTower_extTensor instN hN
   have hXM : (ModuleCat.of (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂) : ModuleCat.{u} (A₁ ⊗[k] A₂))
       = extTensorFunctorLeftObj k A₁ A₂ (ModuleCat.of A₁ M₁) (ModuleCat.of A₂ M₂) := by
-    -- **Deliverable 2 residual (object identification).** The two objects have carrier `M₁ ⊗[k] M₂`
-    -- and both act componentwise, but they are not *definitionally* equal: `extTensorFunctorLeftObj`
-    -- bakes in `restrictModule₂L` (the `k`-structure on each factor obtained by restricting the
-    -- `Aᵢ`-action along `k → Aᵢ`), whereas the statement's `ModuleCat.of (A₁⊗A₂)(M₁⊗M₂)` carries the
-    -- ambient `Module k Mᵢ`. These agree by `IsScalarTower k Aᵢ Mᵢ` (so the objects are equal), but
-    -- reconciling the two `k`-structures — hence the `AddCommMonoid`/`Module k` instances threaded
-    -- through `extTensorModuleLeft` / `extTensorRepLeft` — is a self-contained module-reconciliation
-    -- step. `instModule_eq_extTensorModuleLeft` handles the `A₁⊗A₂`-action agreement; the residual is
-    -- the factor `k`-structure identification (`restrictModule₁L`/`restrictModule₂L`
-    -- `= Module.compHom _ (algebraMap k Aᵢ)` vs the ambient `Module k Mᵢ`, equal by
-    -- `IsScalarTower.algebraMap_smul`). The same `k`-module *diamond* is reconciled elsewhere in this
-    -- development (`Chapter8/RearrangeBifunctorNatIso.lean`: `extModuleK_algebraMap_smul`,
-    -- `rearrangeSourceEquiv`) — reuse that pattern. Tracked as a follow-up sub-issue.
-    sorry
+    -- **Deliverable 2 residual (object identification).** The two objects both have carrier
+    -- `M₁ ⊗[k] M₂` and act componentwise, but they are not *definitionally* equal:
+    -- `extTensorFunctorLeftObj` bakes in `restrictModule₂L` (the `k`-structure on each factor
+    -- obtained by restricting the `Aᵢ`-action along `k → Aᵢ`), whereas the statement's
+    -- `ModuleCat.of (A₁⊗A₂)(M₁⊗M₂)` carries the ambient `Module k Mᵢ`. These agree by
+    -- `IsScalarTower k Aᵢ Mᵢ`, but reconciling the two `k`-structures — threaded through
+    -- `extTensorModuleLeft` / `extTensorRepLeft` — is a self-contained module reconciliation.
+    -- The factor identification is `restrictModule₁L`/`restrictModule₂L`
+    -- (`= Module.compHom _ (algebraMap k Aᵢ)`) vs the ambient `Module k Mᵢ`, equal by
+    -- `IsScalarTower.algebraMap_smul`. We reconcile by `subst`ing the ambient `Module k Mᵢ` with
+    -- its restricted form `Module.compHom Mᵢ (algebraMap k Aᵢ)` (equal via `Module.ext'`), which
+    -- makes the carriers `M₁ ⊗[k] M₂` definitionally equal. The residual `A₁⊗A₂`-action agreement
+    -- is then `instModule_eq_extTensorModuleLeft`.
+    have e1 : (inferInstance : Module k M₁) = Module.compHom M₁ (algebraMap k A₁) :=
+      Module.ext' _ _ fun c m => (IsScalarTower.algebraMap_smul (A := A₁) c m).symm
+    have e2 : (inferInstance : Module k M₂) = Module.compHom M₂ (algebraMap k A₂) :=
+      Module.ext' _ _ fun c m => (IsScalarTower.algebraMap_smul (A := A₂) c m).symm
+    subst e1 e2
+    -- `subst` eliminated the ambient `Module k Mᵢ` instance binders; re-register the (now
+    -- identical) restricted forms so typeclass resolution can feed
+    -- `instModule_eq_extTensorModuleLeft`. `letI` (not `haveI`) keeps the binding transparent, so
+    -- the synthesized instance is *definitionally* the `Module.compHom Mᵢ (algebraMap k Aᵢ)` that
+    -- `subst` baked into `instM`'s carrier type.
+    letI : Module k M₁ := Module.compHom M₁ (algebraMap k A₁)
+    letI : Module k M₂ := Module.compHom M₂ (algebraMap k A₂)
+    rw [instModule_eq_extTensorModuleLeft instM hM]
+    -- Both sides are now `ModuleCat.of (A₁⊗A₂) (M₁ ⊗[k] M₂)` with the `extTensorModuleLeft`
+    -- action over the restricted factor `k`-structures, to which `extTensorFunctorLeftObj` unfolds.
+    rfl
   refine ⟨?_⟩
   refine (extAbelianIsoExtₖ k (ModuleCat.of (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂))
       (barResolution k (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂)) i) ≪≫ₗ ?_
