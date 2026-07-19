@@ -239,6 +239,25 @@ finite `∑` over `Finset.univ`/`Fintype` of the fiber with per-summand `ι`/`π
 `CategoryTheory.op_sum`. Beware `Functor.map_id`/`map_sum` name-clash with Lean's monad `Functor`: use
 `CategoryTheory.Functor.map_id`.
 
+**A *factor-level* `Module k` diamond makes the two `M₁ ⊗[k] M₂` carriers different types — `subst`
+the factor instances (not `congr 1`/`LinearEquiv`).** The two diamond notes above are *same-carrier*
+(both objects are `ModuleCat.of _ (same M₁⊗M₂)`, only the `Module` arg differs), so `congr 1` +
+`Module.ext'` closes them. In #6980 (`Chapter8/Problem8_2_8.lean`, the `hXM` object identification
+`ModuleCat.of (A₁⊗A₂)(M₁⊗M₂) = extTensorFunctorLeftObj k A₁ A₂ (of A₁ M₁)(of A₂ M₂)`) the diamond is
+on the *factors*: the statement builds `M₁ ⊗[k] M₂` from the ambient `Module k Mᵢ`, but
+`extTensorFunctorLeftObj` builds it from the restricted `restrictModule₁L = Module.compHom Mᵢ
+(algebraMap k Aᵢ)`. Those `Module k Mᵢ` are propositionally-not-definitionally equal, so the two
+`@TensorProduct k _ M₁ M₂ …` *carriers are different types* and `congr 1` leaves an unclosable
+`TensorProduct ≠ TensorProduct`. **Fix (sorry-free):** `have eᵢ : (inferInstance : Module k Mᵢ) =
+Module.compHom Mᵢ (algebraMap k Aᵢ) := Module.ext' _ _ fun c m => (IsScalarTower.algebraMap_smul
+(A := Aᵢ) c m).symm`, then `subst e1 e2` (eliminates the ambient factor instances → carriers now
+defeq). `subst` *removes* the `Module k Mᵢ` instance binder, so re-register the restricted form with
+**`letI` (transparent), not `haveI`** — `haveI`'s opaque fvar fails the defeq check against the
+`Module.compHom …` term `subst` baked into `instM`'s carrier ("synthesized `this✝` / inferred
+`Module.compHom …`"). Finish with `rw [instModule_eq_extTensorModuleLeft instM hM]` (the `A₁⊗A₂`-action
+half) then a plain `rfl` — `rw`'s reducible auto-`rfl` won't unfold the non-reducible
+`extTensorFunctorLeftObj`, but the default-transparency `rfl` tactic does.
+
 **Distinct-but-defeq local `Module k` instances break `rw`/`simp` on imported lemmas — use `erw`
 or a `rfl`-restatement.** This file's own `instModuleK`/`instModuleKObj` and `ExternalTensorFunctor`'s
 *private* `restrictModule₁` are all `Module.compHom X (algebraMap k Bᵐᵒᵖ)` — defeq but **syntactically
