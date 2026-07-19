@@ -7062,8 +7062,8 @@
     "end_page": "210",
     "start_line": 27,
     "end_line": 40,
-    "status": "statement_formalized",
-    "coverage_note": "Tor half (`Problem_8_2_8_tor`) proved sorry-free and axiom-clean over ⊗_k (#6796, 2026-07-16), via tensor-of-resolutions + rearrangeComplex + kunnethChainComplexNat; RHS corrected from the false ⊗_ℤ to the k-linear ⊗_k. Ext half (`Problem_8_2_8_ext`) spec corrected (#6814, 2026-07-16): added `[FiniteDimensional k Aᵢ]`/`[FiniteDimensional k Mᵢ]` hypotheses (needed so the `Pᵢ` are f.g. projective — the ill-posed original only asked `Nᵢ` finite-dim) and strengthened the conclusion from a bare `≃+` to a k-linear `≃ₗ[k]`, matching the `Tor` half's strength. Proof still `sorry` against the corrected signature; decomposed into sub-issues (left-module external-tensor stack; f.g.-projective Hom-tensor iso; cohomological Künneth; assembly)."
+    "status": "sorry_free",
+    "coverage_note": "Both halves proved sorry-free and axiom-clean over ⊗_k ([propext, Classical.choice, Quot.sound]). Tor half (`Problem_8_2_8_tor`, #6796, 2026-07-16): tensor-of-resolutions + rearrangeComplex + kunnethChainComplexNat; RHS corrected from the false ⊗_ℤ to the k-linear ⊗_k. Ext half (`Problem_8_2_8_ext`) spec corrected (#6814, 2026-07-16): added `[FiniteDimensional k Aᵢ]`/`[FiniteDimensional k Mᵢ]` (needed so the `Pᵢ` are f.g. projective) and strengthened the conclusion to k-linear `≃ₗ[k]`. Ext proof completed (#6980, 2026-07-19): the final `hXM` object identification — the factor `k`-module diamond between the statement's ambient `Module k Mᵢ` and `extTensorFunctorLeftObj`'s restricted `Module.compHom Mᵢ (algebraMap k Aᵢ)` — is discharged by `subst`ing the ambient factor `k`-structures (equal via `IsScalarTower.algebraMap_smul` + `Module.ext'`), then `instModule_eq_extTensorModuleLeft` for the `A₁⊗A₂`-action and `rfl`."
   },
   {
     "id": "Chapter8/Discussion_after_Problem8.2.8",
