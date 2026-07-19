@@ -24,6 +24,15 @@ vanishes). Re-resolve each time with
 verify signatures against the compiler (`example : <sig> := by exact?` / a scratch `#check`)
 rather than trusting a cached source path.
 
+**Scope that `find` to `<project-root>`, never to `/`.** An unrelated project's checkout on the
+same machine pins a *different* Mathlib revision, so a name-not-found there means nothing and a
+signature found there may be stale. If you do fall back to a foreign checkout, first compare
+`git -C <that>/.lake/packages/mathlib rev-parse HEAD` against this project's; when they differ,
+treat every hit as a hypothesis and let the build adjudicate. Symptom that you are in the wrong
+tree: greps for plausible Mathlib names (`exists_prime_orderOf_dvd_card`,
+`Nat.one_lt_card_iff_nontrivial`) come back empty and you start inventing workarounds for
+lemmas that do exist in your version.
+
 **In this Mathlib version `Basis` lives in the `Module` namespace.** The type is
 `Module.Basis ι R M` and explicit lemma references need the prefix: `Module.Basis.ext`,
 `Module.Basis.constr_basis`, `Module.finBasis` (returns a `Module.Basis`). A bare identifier
