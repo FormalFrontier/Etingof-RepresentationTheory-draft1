@@ -1813,6 +1813,78 @@ theorem so3_icosahedral_card
     linarith
   exact_mod_cast hq
 
+/-- **Coset-action embedding.** A finite simple group with a subgroup `H` of index `5` embeds
+faithfully into `Equiv.Perm (Fin 5)`. The permutation action on the `5` cosets `Grp ⧸ H` is a
+homomorphism `ψ : Grp →* Equiv.Perm (Grp ⧸ H)` whose kernel is `H.normalCore`
+(`Subgroup.normalCore_eq_ker`). Being normal, `H.normalCore` is `⊥` or `⊤` by simplicity; it is
+not `⊤` (else `H = ⊤`, of index `1 ≠ 5`), hence `⊥`, so `ψ` is injective. Transporting along an
+equivalence `Grp ⧸ H ≃ Fin 5` (the index is `5`) yields the desired `φ : Grp →* Equiv.Perm (Fin
+5)`. This is the group-theoretic assembly that turns "`G` simple with an index-`5` subgroup" into
+the faithful degree-`5` permutation representation used by the icosahedral disjunct. -/
+theorem faithful_perm5_of_simple_index_five
+    {Grp : Type*} [Group Grp] [Finite Grp] (hsimple : IsSimpleGroup Grp)
+    (H : Subgroup Grp) (hindex : H.index = 5) :
+    ∃ φ : Grp →* Equiv.Perm (Fin 5), Function.Injective φ := by
+  classical
+  haveI := hsimple
+  -- The `5` cosets `Grp ⧸ H` form a type of cardinality `5`.
+  have hcard5 : Nat.card (Grp ⧸ H) = 5 := by rw [← Subgroup.index_eq_card]; exact hindex
+  -- The coset action `ψ : Grp →* Perm (Grp ⧸ H)` has kernel `H.normalCore`.
+  set ψ : Grp →* Equiv.Perm (Grp ⧸ H) := MulAction.toPermHom Grp (Grp ⧸ H) with hψ
+  have hker : ψ.ker = H.normalCore := (Subgroup.normalCore_eq_ker H).symm
+  -- `H.normalCore` is normal, hence `⊥` or `⊤`; it is not `⊤`, else `H = ⊤` has index `1`.
+  have hnc : H.normalCore = ⊥ := by
+    rcases (Subgroup.normalCore_normal H).eq_bot_or_eq_top with h | h
+    · exact h
+    · exact absurd (Subgroup.index_eq_one.mpr (top_le_iff.mp (h ▸ H.normalCore_le)) ▸ hindex)
+        (by norm_num)
+  have hψinj : Function.Injective ψ := by
+    rw [← MonoidHom.ker_eq_bot_iff, hker, hnc]
+  -- Transport along an equivalence `Grp ⧸ H ≃ Fin 5`.
+  haveI : Fintype (Grp ⧸ H) := Fintype.ofFinite _
+  have hfin5 : Fintype.card (Grp ⧸ H) = 5 := by rw [← Nat.card_eq_fintype_card]; exact hcard5
+  let e := Fintype.equivFinOfCardEq hfin5
+  refine ⟨e.permCongrHom.toMonoidHom.comp ψ, fun p q hpq => ?_⟩
+  exact hψinj (e.permCongrHom.injective hpq)
+
+/-- **Index-`5` subgroup of a simple group of order `60`.** Every finite simple group of order
+`60` has a subgroup of index `5` — geometrically the point-stabilizer of the degree-`5` action,
+group-theoretically the normalizer of a Sylow `2`-subgroup (there are exactly `n₂ = 5` of them).
+
+This is pure finite group theory, independent of the `SO(3)` geometry, and is the standard first
+half of "a simple group of order `60` is `A₅`". Route (Sylow counting): `n₅ = 6` (`≡ 1 mod 5`,
+`∣ 12`, `≠ 1` by simplicity) gives `24` elements of order `5`; `n₃ = 10` (`≠ 4`, else a core-free
+action on `4` cosets embeds `G ↪ S₄`, impossible for `|G| = 60`) gives `20` elements of order
+`3`; the remaining `15` non-identity elements are `2`-elements, forcing `n₂ = 5` (`n₂ = 15` would
+need `45` distinct `2`-elements). Then `|normalizer (Sylow 2)| = 60 / 5 = 12`, index `5`. -/
+theorem simpleGroup_card60_exists_index_five
+    {Grp : Type*} [Group Grp] [Finite Grp] (hsimple : IsSimpleGroup Grp)
+    (hcard : Nat.card Grp = 60) :
+    ∃ H : Subgroup Grp, H.index = 5 := by
+  sorry
+
+/-- **Simplicity of the icosahedral group (geometric input).** An order-`60` finite subgroup
+`G ≤ SO(3)` with the icosahedral pole data `{2, 3, 5}` is simple.
+
+The only geometry needed is that `G` has *more than one* Sylow `5`-subgroup: the order-`5` poles
+form a single `G`-orbit of size `12` (`= 60/5` by orbit-stabilizer), i.e. `6` distinct axes; the
+stabilizer of an order-`5` pole is its (cyclic, order-`5`) Sylow `5`-subgroup, and poles on
+distinct axes have distinct stabilizers (a nontrivial rotation fixes only its own axis), so
+`n₅ ≥ 6 > 1`. The rest is the standard finite-group fact that a group of order `60` with more
+than one Sylow `5`-subgroup is simple: any nontrivial proper normal subgroup `N` would have order
+in `{2, 3, 4, 5, 6, 10, 12, 15, 20, 30}`; each case either forces a normal (hence unique) Sylow
+`5`-subgroup or embeds `G` into too small a symmetric group via the core-free action on `G ⧸ N`,
+contradiction. This isolates the *only* place the icosahedral case needs `SO(3)` geometry;
+everything downstream is pure group theory (`simpleGroup_card60_exists_index_five`,
+`faithful_perm5_of_simple_index_five`). -/
+theorem so3_icosahedral_G_simple
+    (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
+    (hclass : m = {2, 3, 5})
+    (hcard : Nat.card (↥G) = 60)
+    (hpole : ∀ x ∈ m, ∃ b : ↥(poleSet G), Nat.card (MulAction.stabilizer (↥G) b) = x) :
+    IsSimpleGroup (↥G) := by
+  sorry
+
 /-- **Realization crux of the icosahedral disjunct.** An order-`60` finite subgroup `G ≤ SO(3)`
 with the icosahedral pole data acts faithfully on a `5`-element set — geometrically, the five
 inscribed tetrahedra (equivalently the five "Kepler cubes") of the dodecahedron/icosahedron —
@@ -1832,7 +1904,11 @@ theorem so3_icosahedral_exists_faithful_perm5
     (hcard : Nat.card (↥G) = 60)
     (hpole : ∀ x ∈ m, ∃ b : ↥(poleSet G), Nat.card (MulAction.stabilizer (↥G) b) = x) :
     ∃ φ : ↥G →* Equiv.Perm (Fin 5), Function.Injective φ := by
-  sorry
+  -- `G` is simple (the geometric input); a simple group of order `60` has an index-`5`
+  -- subgroup, and the coset action embeds it faithfully into `Equiv.Perm (Fin 5)`.
+  have hsimple : IsSimpleGroup (↥G) := so3_icosahedral_G_simple G m hclass hcard hpole
+  obtain ⟨H, hindex⟩ := simpleGroup_card60_exists_index_five hsimple hcard
+  exact faithful_perm5_of_simple_index_five hsimple H hindex
 
 /-- **Icosahedral disjunct of `so3_classification_aux`.** From the icosahedral pole family
 `m = {2, 3, 5}` (which forces `Nat.card G = 60`) together with the pole-realization data of
