@@ -1723,6 +1723,7 @@ section OctahedralFaithful
 open scoped RealInnerProductSpace
 open Matrix EuclideanSpace Submodule WithLp Module MulAction
 
+set_option maxHeartbeats 400000 in
 /-- **Kernel triviality for the four-diagonal action (octahedral crux, geometric core).**
 Any `g ∈ G` (with `|G| = 24`, `b` an order-`3` pole) that sends every pole `w` in the orbit
 `O = orbit b` to `±w` — i.e. fixes every body diagonal setwise — is the identity. This is the
@@ -1853,7 +1854,205 @@ theorem octahedral_kernel_negates_or_fixes_trivial
         Subgroup.orderOf_dvd_natCard _ hgstab
       rw [hord, hcard3] at hdvd; omega
     · exact hneg
-  sorry
+  -- **Step 4.** The axis `n` of `g` is orthogonal to every orbit vector.
+  obtain ⟨n, hnunit, hnset⟩ :=
+    nontrivial_fixed_unit_vectors (g : specialOrthogonalGroup (Fin 3) ℝ) hg0
+  have hnfix : ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ n = n :=
+    (show n ∈ fixedUnitVectors (g : specialOrthogonalGroup (Fin 3) ℝ) by
+      rw [hnset]; exact Set.mem_insert _ _).2
+  have hperp : ∀ w : ↥(MulAction.orbit ↥G b), w.1.1 ⬝ᵥ n = 0 := by
+    intro w
+    have h := so3_mulVec_dotProduct (g : specialOrthogonalGroup (Fin 3) ℝ) w.1.1 n
+    rw [hneg w, hnfix, neg_dotProduct] at h
+    linarith
+  -- **Step 5.** A nontrivial element `r` of `stabilizer b`: it has order `3` and fixes `b.1`.
+  haveI : Fintype ↥(MulAction.stabilizer ↥G b) := Fintype.ofFinite _
+  haveI : Nontrivial ↥(MulAction.stabilizer ↥G b) := by
+    rw [← Fintype.one_lt_card_iff_nontrivial, ← Nat.card_eq_fintype_card, hb]
+    norm_num
+  obtain ⟨r0, hr0⟩ := exists_ne (1 : ↥(MulAction.stabilizer ↥G b))
+  have hrne : (r0 : ↥G) ≠ 1 := fun h => hr0 (Subtype.ext h)
+  have hrcube : (r0 : ↥G) ^ 3 = 1 := by
+    have hdvd : orderOf (r0 : ↥G) ∣ 3 := by
+      have h := Subgroup.orderOf_dvd_natCard (MulAction.stabilizer ↥G b) r0.2
+      rwa [hb] at h
+    exact orderOf_dvd_iff_pow_eq_one.mp hdvd
+  have hrfixb : (((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ
+      (b : ↥(poleSet G)).1 = (b : ↥(poleSet G)).1 := by
+    have h := congrArg (fun P : ↥(poleSet G) => P.1) (MulAction.mem_stabilizer_iff.mp r0.2)
+    rwa [poleSet_coe_smul] at h
+  -- The orbit action in vector form, for an arbitrary group element.
+  have haction' : ∀ (c : ↥G) (x : ↥(MulAction.orbit ↥G b)),
+      ((c • x : ↥(MulAction.orbit ↥G b)) : ↥(poleSet G)).1
+        = ((c : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ x.1.1 := by
+    intro c x
+    rw [MulAction.orbit.coe_smul, poleSet_coe_smul]
+  -- `r • n` is orthogonal to every orbit vector too (`r` permutes the orbit).
+  have hperpR : ∀ w : ↥(MulAction.orbit ↥G b),
+      ((((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ n)
+        ⬝ᵥ w.1.1 = 0 := by
+    intro w
+    have hvec : (((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ
+        (((r0 : ↥G)⁻¹ • w : ↥(MulAction.orbit ↥G b)) : ↥(poleSet G)).1 = w.1.1 := by
+      rw [← haction' (r0 : ↥G) ((r0 : ↥G)⁻¹ • w), smul_inv_smul]
+    have h := so3_mulVec_dotProduct ((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) n
+      (((r0 : ↥G)⁻¹ • w : ↥(MulAction.orbit ↥G b)) : ↥(poleSet G)).1
+    rw [hvec] at h
+    rw [h, dotProduct_comm]
+    exact hperp _
+  -- **Step 6.** Pass to Euclidean space: the orbit spans the plane `nᗮ`, forcing `r • n = ±n`.
+  have hNne : (toLp 2 n : EuclideanSpace ℝ (Fin 3)) ≠ 0 := by
+    intro h
+    have h0 : n ⬝ᵥ n = 0 := by rw [← inner_toLp, h, inner_zero_left]
+    rw [hnunit] at h0; norm_num at h0
+  have hBne : (toLp 2 (b : ↥(poleSet G)).1 : EuclideanSpace ℝ (Fin 3)) ≠ 0 := by
+    intro h
+    have h0 : (b : ↥(poleSet G)).1 ⬝ᵥ (b : ↥(poleSet G)).1 = 0 := by
+      rw [← inner_toLp, h, inner_zero_left]
+    rw [b.2.1] at h0; norm_num at h0
+  haveI : Fact (finrank ℝ (EuclideanSpace ℝ (Fin 3)) = 2 + 1) :=
+    ⟨by norm_num [finrank_euclideanSpace_fin]⟩
+  have hTle : Submodule.span ℝ (Set.range (fun w : ↥(MulAction.orbit ↥G b) =>
+      (toLp 2 w.1.1 : EuclideanSpace ℝ (Fin 3)))) ≤ (ℝ ∙ (toLp 2 n : EuclideanSpace ℝ (Fin 3)))ᗮ := by
+    rw [Submodule.span_le]
+    rintro x ⟨w, rfl⟩
+    rw [SetLike.mem_coe, Submodule.mem_orthogonal_singleton_iff_inner_left, inner_toLp]
+    exact hperp w
+  have hPfr : finrank ℝ ((ℝ ∙ (toLp 2 n : EuclideanSpace ℝ (Fin 3)))ᗮ) = 2 :=
+    Submodule.finrank_orthogonal_span_singleton (n := 2) hNne
+  -- The orbit is not contained in a line: otherwise all `8` orbit vectors would be `±b.1`.
+  have hTfr : 2 ≤ finrank ℝ (Submodule.span ℝ (Set.range (fun w : ↥(MulAction.orbit ↥G b) =>
+      (toLp 2 w.1.1 : EuclideanSpace ℝ (Fin 3))))) := by
+    by_contra hlt
+    push_neg at hlt
+    have hspanle : (ℝ ∙ (toLp 2 (b : ↥(poleSet G)).1 : EuclideanSpace ℝ (Fin 3)))
+        ≤ Submodule.span ℝ (Set.range (fun w : ↥(MulAction.orbit ↥G b) =>
+          (toLp 2 w.1.1 : EuclideanSpace ℝ (Fin 3)))) := by
+      rw [Submodule.span_singleton_le_iff_mem]
+      exact Submodule.subset_span ⟨⟨b, MulAction.mem_orbit_self b⟩, rfl⟩
+    have hfr1 : finrank ℝ (ℝ ∙ (toLp 2 (b : ↥(poleSet G)).1 : EuclideanSpace ℝ (Fin 3))) = 1 :=
+      finrank_span_singleton hBne
+    have heq : (ℝ ∙ (toLp 2 (b : ↥(poleSet G)).1 : EuclideanSpace ℝ (Fin 3)))
+        = Submodule.span ℝ (Set.range (fun w : ↥(MulAction.orbit ↥G b) =>
+          (toLp 2 w.1.1 : EuclideanSpace ℝ (Fin 3)))) :=
+      Submodule.eq_of_le_of_finrank_le hspanle (by rw [hfr1]; omega)
+    have hpar : ∀ w : ↥(MulAction.orbit ↥G b),
+        w.1.1 ∈ ({(b : ↥(poleSet G)).1, -(b : ↥(poleSet G)).1} : Set (Fin 3 → ℝ)) := by
+      intro w
+      have hmem : (toLp 2 w.1.1 : EuclideanSpace ℝ (Fin 3))
+          ∈ (ℝ ∙ (toLp 2 (b : ↥(poleSet G)).1 : EuclideanSpace ℝ (Fin 3))) := by
+        rw [heq]; exact Submodule.subset_span ⟨w, rfl⟩
+      rw [Submodule.mem_span_singleton] at hmem
+      obtain ⟨c, hc⟩ := hmem
+      have hcv : c • (b : ↥(poleSet G)).1 = w.1.1 := by
+        have h := congrArg WithLp.ofLp hc
+        simpa using h
+      have hcsq : c * c = 1 := by
+        have h1 : (c • (b : ↥(poleSet G)).1) ⬝ᵥ (c • (b : ↥(poleSet G)).1) = 1 := by
+          rw [hcv]; exact hunit w
+        rw [smul_dotProduct, dotProduct_smul, smul_eq_mul, smul_eq_mul, b.2.1] at h1
+        linarith
+      rcases mul_self_eq_one_iff.mp hcsq with h | h
+      · exact Or.inl (by rw [← hcv, h, one_smul])
+      · refine Or.inr ?_
+        rw [Set.mem_singleton_iff, ← hcv, h, neg_one_smul]
+    have hFinj : Function.Injective (fun w : ↥(MulAction.orbit ↥G b) =>
+        (⟨w.1.1, hpar w⟩ :
+          ↥({(b : ↥(poleSet G)).1, -(b : ↥(poleSet G)).1} : Set (Fin 3 → ℝ)))) := by
+      intro x y hxy
+      apply Subtype.ext; apply Subtype.ext
+      simpa using hxy
+    have hle : Nat.card (↥(MulAction.orbit ↥G b))
+        ≤ Nat.card (↥({(b : ↥(poleSet G)).1, -(b : ↥(poleSet G)).1} : Set (Fin 3 → ℝ))) :=
+      Nat.card_le_card_of_injective _ hFinj
+    have hle2 : Nat.card (↥({(b : ↥(poleSet G)).1, -(b : ↥(poleSet G)).1} : Set (Fin 3 → ℝ)))
+        ≤ 2 := by
+      rw [Nat.card_coe_set_eq]
+      calc ({(b : ↥(poleSet G)).1, -(b : ↥(poleSet G)).1} : Set (Fin 3 → ℝ)).ncard
+            ≤ ({-(b : ↥(poleSet G)).1} : Set (Fin 3 → ℝ)).ncard + 1 := Set.ncard_insert_le _ _
+        _ = 2 := by rw [Set.ncard_singleton]
+    rw [horbit_card] at hle; omega
+  -- So the span *is* the plane `nᗮ`, and `r • n` lies in its orthogonal complement `ℝ ∙ n`.
+  have hTeq : Submodule.span ℝ (Set.range (fun w : ↥(MulAction.orbit ↥G b) =>
+      (toLp 2 w.1.1 : EuclideanSpace ℝ (Fin 3))))
+        = (ℝ ∙ (toLp 2 n : EuclideanSpace ℝ (Fin 3)))ᗮ :=
+    Submodule.eq_of_le_of_finrank_le hTle (by rw [hPfr]; exact hTfr)
+  have hRNmem : (toLp 2 ((((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) :
+      Matrix (Fin 3) (Fin 3) ℝ) *ᵥ n) : EuclideanSpace ℝ (Fin 3))
+        ∈ (ℝ ∙ (toLp 2 n : EuclideanSpace ℝ (Fin 3))) := by
+    have hTperp : Submodule.span ℝ (Set.range (fun w : ↥(MulAction.orbit ↥G b) =>
+        (toLp 2 w.1.1 : EuclideanSpace ℝ (Fin 3))))
+          ≤ (ℝ ∙ (toLp 2 ((((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) :
+              Matrix (Fin 3) (Fin 3) ℝ) *ᵥ n) : EuclideanSpace ℝ (Fin 3)))ᗮ := by
+      rw [Submodule.span_le]
+      rintro x ⟨w, rfl⟩
+      rw [SetLike.mem_coe, Submodule.mem_orthogonal_singleton_iff_inner_right, inner_toLp]
+      exact hperpR w
+    have h2 : (Submodule.span ℝ (Set.range (fun w : ↥(MulAction.orbit ↥G b) =>
+        (toLp 2 w.1.1 : EuclideanSpace ℝ (Fin 3)))))ᗮ
+          = (ℝ ∙ (toLp 2 n : EuclideanSpace ℝ (Fin 3))) := by
+      rw [hTeq, Submodule.orthogonal_orthogonal]
+    rw [← h2]
+    exact (le_trans (Submodule.le_orthogonal_orthogonal _) (Submodule.orthogonal_le hTperp))
+      (Submodule.mem_span_singleton_self _)
+  -- Read off `r • n = ±n`, and rule out `-n` using `r³ = 1`.
+  rw [Submodule.mem_span_singleton] at hRNmem
+  obtain ⟨c, hc⟩ := hRNmem
+  have hcv : c • n = (((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) :
+      Matrix (Fin 3) (Fin 3) ℝ) *ᵥ n := by
+    have h := congrArg WithLp.ofLp hc
+    simpa using h
+  have hcsq : c * c = 1 := by
+    have h1 : (c • n) ⬝ᵥ (c • n) = 1 := by rw [hcv, so3_mulVec_dotProduct]; exact hnunit
+    rw [smul_dotProduct, dotProduct_smul, smul_eq_mul, smul_eq_mul, hnunit] at h1
+    linarith
+  have hrfixn : (((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) :
+      Matrix (Fin 3) (Fin 3) ℝ) *ᵥ n = n := by
+    rcases mul_self_eq_one_iff.mp hcsq with h | h
+    · rw [← hcv, h, one_smul]
+    · exfalso
+      have hneg1 : (((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) :
+          Matrix (Fin 3) (Fin 3) ℝ) *ᵥ n = -n := by rw [← hcv, h, neg_one_smul]
+      have hm3 : ((((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) :
+            Matrix (Fin 3) (Fin 3) ℝ) * (((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) :
+            Matrix (Fin 3) (Fin 3) ℝ)) * (((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) :
+            Matrix (Fin 3) (Fin 3) ℝ) = 1 := by
+        have h1 := congrArg (fun x : ↥G =>
+          ((x : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ)) hrcube
+        simpa [pow_succ] using h1
+      have hcube : (((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) :
+          Matrix (Fin 3) (Fin 3) ℝ) *ᵥ ((((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) :
+            Matrix (Fin 3) (Fin 3) ℝ) *ᵥ ((((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) :
+            Matrix (Fin 3) (Fin 3) ℝ) *ᵥ n)) = n := by
+        rw [mulVec_mulVec, mulVec_mulVec, hm3, one_mulVec]
+      have e1 : (((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) :
+          Matrix (Fin 3) (Fin 3) ℝ) *ᵥ ((((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) :
+            Matrix (Fin 3) (Fin 3) ℝ) *ᵥ n) = n := by
+        rw [hneg1, mulVec_neg, hneg1, neg_neg]
+      rw [e1, hneg1] at hcube
+      have hcontra : (1 : ℝ) = -1 := by
+        calc (1 : ℝ) = n ⬝ᵥ n := hnunit.symm
+          _ = (-n) ⬝ᵥ n := by rw [hcube]
+          _ = -(n ⬝ᵥ n) := neg_dotProduct _ _
+          _ = -1 := by rw [hnunit]
+      norm_num at hcontra
+  -- **Step 7.** `r` fixes the two orthogonal unit vectors `b.1` and `n` — impossible.
+  have hrso : ((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) ≠ 1 := by
+    intro h
+    exact hrne (Subtype.ext (h.trans (OneMemClass.coe_one G).symm))
+  obtain ⟨v₁, hv₁unit, hv₁set⟩ :=
+    nontrivial_fixed_unit_vectors ((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) hrso
+  have hnmem : n ∈ fixedUnitVectors ((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) :=
+    ⟨hnunit, hrfixn⟩
+  have hbmem : (b : ↥(poleSet G)).1
+      ∈ fixedUnitVectors ((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) := ⟨b.2.1, hrfixb⟩
+  have hbn : (b : ↥(poleSet G)).1 ⬝ᵥ n = 0 := hperp ⟨b, MulAction.mem_orbit_self b⟩
+  rw [hv₁set] at hnmem hbmem
+  simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hnmem hbmem
+  rcases hnmem with hn | hn <;> rcases hbmem with hbv | hbv <;>
+    rw [hn, hbv] at hbn <;>
+    simp only [dotProduct_neg, neg_dotProduct, neg_neg, hv₁unit] at hbn <;>
+    norm_num at hbn
 
 end OctahedralFaithful
 
