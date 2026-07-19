@@ -1719,6 +1719,174 @@ theorem so3_tetrahedral_of_poleData
     Equiv.Perm.eq_alternatingGroup_of_index_eq_two hindex
   exact ⟨hGH.trans (MulEquiv.subgroupCongr hHeq)⟩
 
+/-- **Antipode of an order-`3` pole lies in its own `G`-orbit.** For a finite subgroup
+`G ≤ SO(3)` of order `24` and an order-`3` pole `b` (`|stabilizer G b| = 3`), the antipode `-b`
+is again an order-`3` pole and belongs to the `G`-orbit of `b`.
+
+Route (Sylow `n₃ = 4`): `|G| = 24 = 2³·3`, so a Sylow-`3` subgroup has order `3`, index `8`, and
+`n₃ := |Sylow₃ G|` satisfies `n₃ ∣ 8` and `n₃ ≡ 1 [MOD 3]`, hence `n₃ ≤ 4`. Each order-`3` pole
+`v` has cyclic stabilizer of order `3`, a Sylow-`3`; the fibre of `v ↦ stabilizer v` over a fixed
+Sylow-`3` has `≤ 2` elements (a nontrivial rotation fixes only `{u, -u}`,
+`nontrivial_fixed_unit_vectors`), so the set `P₃` of order-`3` poles has `|P₃| ≤ 2·n₃ ≤ 8`. The
+orbit of `b` has `|orbit b| = 24 / 3 = 8` and is contained in `P₃`, forcing `orbit b = P₃`. Since
+`-b ∈ P₃`, we get `-b ∈ orbit b`.
+
+This is the antipode-closure helper feeding the faithful four-diagonal action of
+`exists_octahedral_faithful_hom` (parent #6972). -/
+theorem octahedral_order3_pole_neg_mem_orbit
+    (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G]
+    (hcard : Nat.card (↥G) = 24)
+    (b : ↥(poleSet G)) (hb : Nat.card (MulAction.stabilizer (↥G) b) = 3) :
+    ∃ g : ↥G, ((g • b : ↥(poleSet G)) : Fin 3 → ℝ)
+      = -((b : ↥(poleSet G)) : Fin 3 → ℝ) := by
+  classical
+  haveI : Fintype ↥G := Fintype.ofFinite _
+  haveI : Finite ↥(poleSet G) := (finite_poleSet G).to_subtype
+  haveI : Fintype ↥(poleSet G) := Fintype.ofFinite _
+  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  -- `3` is the full `3`-part of `|G| = 24`.
+  have hfact3 : (Nat.card ↥G).factorization 3 = 1 := by
+    rw [hcard, show (24 : ℕ) = 3 * 8 by norm_num,
+      Nat.factorization_mul (by norm_num) (by norm_num), Finsupp.add_apply,
+      Nat.Prime.factorization_self (by norm_num),
+      Nat.factorization_eq_zero_of_not_dvd (by norm_num)]
+  -- A default Sylow-`3` from the stabiliser of `b`, giving finiteness of `Sylow 3 ↥G`.
+  let P : Sylow 3 ↥G := Sylow.ofCard (MulAction.stabilizer ↥G b) (by rw [hb, hfact3, pow_one])
+  haveI : Finite (Sylow 3 ↥G) := P.finite_of_finiteIndex
+  haveI : Fintype (Sylow 3 ↥G) := Fintype.ofFinite _
+  -- Matrix-action characterisation of stabiliser membership on the pole set.
+  have hsmul_iff : ∀ (x : ↥G) (Q : ↥(poleSet G)),
+      x • Q = Q ↔
+        ((x : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ Q.1 = Q.1 := by
+    intro x Q
+    rw [Subtype.ext_iff, poleSet_coe_smul]
+  -- The antipode `-b` is a pole.
+  have hnbpole : IsPole G (-(b : ↥(poleSet G)).1) := by
+    obtain ⟨hunit, g, hg, hne, hfix⟩ := b.2
+    refine ⟨?_, g, hg, hne, ?_⟩
+    · rw [dotProduct_neg, neg_dotProduct, neg_neg]; exact hunit
+    · rw [mulVec_neg, hfix]
+  set nb : ↥(poleSet G) := ⟨-(b : ↥(poleSet G)).1, hnbpole⟩ with hnbdef
+  have hnbval : (nb : ↥(poleSet G)).1 = -(b : ↥(poleSet G)).1 := rfl
+  -- `stabilizer nb = stabilizer b`, so `nb` is again an order-`3` pole.
+  have hstab_eq : MulAction.stabilizer ↥G nb = MulAction.stabilizer ↥G b := by
+    ext x
+    simp only [MulAction.mem_stabilizer_iff, hsmul_iff, hnbval, mulVec_neg, neg_inj]
+  have hnb3 : Nat.card (MulAction.stabilizer ↥G nb) = 3 := by rw [hstab_eq]; exact hb
+  -- `|orbit b| = 24 / 3 = 8`.
+  have horbit_card : Nat.card (↥(MulAction.orbit ↥G b)) = 8 := by
+    have hos : Nat.card (↥(MulAction.orbit ↥G b)) * Nat.card (↥(MulAction.stabilizer ↥G b))
+        = Nat.card (↥G) := by
+      rw [← Nat.card_prod]
+      exact Nat.card_congr (MulAction.orbitProdStabilizerEquivGroup ↥G b)
+    rw [hb, hcard] at hos
+    omega
+  -- `n₃ := |Sylow 3 ↥G|` satisfies `n₃ ∣ 8` and `n₃ ≡ 1 [MOD 3]`, so `n₃ ≤ 4`.
+  have hPcoe : (P : Subgroup ↥G) = MulAction.stabilizer ↥G b := Sylow.coe_ofCard _ _
+  have hPcard : Nat.card (P : Subgroup ↥G) = 3 := by rw [hPcoe]; exact hb
+  have hPindex : (P : Subgroup ↥G).index = 8 := by
+    have h := Subgroup.index_mul_card (P : Subgroup ↥G)
+    rw [hPcard, hcard] at h; omega
+  have hn3dvd : Nat.card (Sylow 3 ↥G) ∣ 8 := hPindex ▸ Sylow.card_dvd_index P
+  have hn3mod : Nat.card (Sylow 3 ↥G) % 3 = 1 % 3 := card_sylow_modEq_one (p := 3) (G := ↥G)
+  have hn3pos : 0 < Nat.card (Sylow 3 ↥G) := Nat.card_pos
+  have hn3le : Nat.card (Sylow 3 ↥G) ≤ 4 := by
+    have hle8 : Nat.card (Sylow 3 ↥G) ≤ 8 := Nat.le_of_dvd (by norm_num) hn3dvd
+    set n3 := Nat.card (Sylow 3 ↥G) with hn3def
+    interval_cases n3 <;> omega
+  -- The classifying map `φ : poleSet → Sylow 3 ↥G`, sending an order-`3` pole to its stabiliser.
+  set φ : ↥(poleSet G) → Sylow 3 ↥G := fun v =>
+    if h : Nat.card (MulAction.stabilizer ↥G v) = 3
+    then Sylow.ofCard (MulAction.stabilizer ↥G v) (by rw [h, hfact3, pow_one])
+    else P
+    with hφdef
+  have hφpos : ∀ (v : ↥(poleSet G)), Nat.card (MulAction.stabilizer ↥G v) = 3 →
+      ((φ v : Sylow 3 ↥G) : Subgroup ↥G) = MulAction.stabilizer ↥G v := by
+    intro v hv
+    rw [hφdef]; dsimp only; rw [dif_pos hv]; exact Sylow.coe_ofCard _ _
+  -- `P₃`, the order-`3` poles, as a finset.
+  set P₃F : Finset ↥(poleSet G) :=
+    Finset.univ.filter (fun v => Nat.card (MulAction.stabilizer ↥G v) = 3) with hP₃Fdef
+  have hmemP₃F : ∀ v, v ∈ P₃F ↔ Nat.card (MulAction.stabilizer ↥G v) = 3 := by
+    intro v; rw [hP₃Fdef, Finset.mem_filter]; simp
+  -- Fibre bound: each Sylow-`3` receives `≤ 2` order-`3` poles.
+  have hfiber : ∀ S : Sylow 3 ↥G, (P₃F.filter (fun v => φ v = S)).card ≤ 2 := by
+    intro S
+    rcases Finset.eq_empty_or_nonempty (P₃F.filter (fun v => φ v = S)) with hE | ⟨v₀, hv₀⟩
+    · simp [hE]
+    · rw [Finset.mem_filter] at hv₀
+      obtain ⟨hv₀P, hv₀S⟩ := hv₀
+      have hv₀3 := (hmemP₃F v₀).mp hv₀P
+      -- `↑S = stabilizer v₀`, of order `3`.
+      have hScoe : (S : Subgroup ↥G) = MulAction.stabilizer ↥G v₀ := by
+        rw [← hv₀S]; exact hφpos v₀ hv₀3
+      have hScard : Nat.card (S : Subgroup ↥G) = 3 := by rw [hScoe]; exact hv₀3
+      -- A nontrivial element `s₀ ∈ S`.
+      haveI hSnt : Nontrivial ↥(S : Subgroup ↥G) :=
+        Finite.one_lt_card_iff_nontrivial.mp (by rw [hScard]; norm_num)
+      obtain ⟨s0, hs0⟩ := exists_ne (1 : ↥(S : Subgroup ↥G))
+      have hs1 : (s0 : ↥G) ≠ 1 := fun h => hs0 (Subtype.ext h)
+      have hs1' : ((s0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) ≠ 1 := fun h =>
+        hs1 (Subtype.ext (h.trans (OneMemClass.coe_one G).symm))
+      obtain ⟨u, huunit, hset⟩ := nontrivial_fixed_unit_vectors _ hs1'
+      -- Every pole in the fibre has its unit vector in `{u, -u}`.
+      have hmaps : ∀ v ∈ P₃F.filter (fun v => φ v = S),
+          (v : ↥(poleSet G)).1 ∈ ({u, -u} : Finset (Fin 3 → ℝ)) := by
+        intro v hv
+        rw [Finset.mem_filter] at hv
+        obtain ⟨hvP, hvS⟩ := hv
+        have hv3 := (hmemP₃F v).mp hvP
+        have hScoe_v : (S : Subgroup ↥G) = MulAction.stabilizer ↥G v := by
+          rw [← hvS]; exact hφpos v hv3
+        have hsstab : (s0 : ↥G) ∈ MulAction.stabilizer ↥G v := hScoe_v ▸ s0.2
+        have hfixvec :
+            (((s0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v.1
+              = v.1 :=
+          (hsmul_iff (s0 : ↥G) v).mp (MulAction.mem_stabilizer_iff.mp hsstab)
+        have hmem : v.1 ∈ fixedUnitVectors ((s0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) :=
+          ⟨v.2.1, hfixvec⟩
+        rw [hset] at hmem
+        simpa using hmem
+      calc (P₃F.filter (fun v => φ v = S)).card
+          ≤ ({u, -u} : Finset (Fin 3 → ℝ)).card :=
+            Finset.card_le_card_of_injOn (f := fun v => (v : ↥(poleSet G)).1) hmaps
+              (fun a _ b _ hab => Subtype.ext hab)
+        _ ≤ 2 := (Finset.card_insert_le _ _).trans (by simp)
+  -- Assemble `|P₃| ≤ 8`.
+  have hP₃card : {v : ↥(poleSet G) | Nat.card (MulAction.stabilizer ↥G v) = 3}.ncard ≤ 8 := by
+    have hcoe : {v : ↥(poleSet G) | Nat.card (MulAction.stabilizer ↥G v) = 3} = ↑P₃F := by
+      ext v; simp only [Set.mem_setOf_eq, Finset.mem_coe, hmemP₃F]
+    rw [hcoe, Set.ncard_coe_finset]
+    calc P₃F.card
+        ≤ 2 * (P₃F.image φ).card := Finset.card_le_mul_card_image P₃F 2 (fun S _ => hfiber S)
+      _ ≤ 2 * Nat.card (Sylow 3 ↥G) := by
+          gcongr
+          rw [Nat.card_eq_fintype_card]
+          exact (Finset.card_le_card (Finset.subset_univ _)).trans_eq Finset.card_univ
+      _ ≤ 2 * 4 := by gcongr
+      _ = 8 := by norm_num
+  -- `orbit b ⊆ P₃`, and `|orbit b| = 8 = |P₃|`, so `orbit b = P₃`.
+  have hOsub : MulAction.orbit ↥G b ⊆
+      {v : ↥(poleSet G) | Nat.card (MulAction.stabilizer ↥G v) = 3} := by
+    intro w hw
+    have hforbit : MulAction.orbit ↥G w = MulAction.orbit ↥G b := MulAction.orbit_eq_iff.mpr hw
+    have horbw : Nat.card (↥(MulAction.orbit ↥G w)) = 8 := by rw [hforbit]; exact horbit_card
+    have hos : Nat.card (↥(MulAction.orbit ↥G w)) * Nat.card (↥(MulAction.stabilizer ↥G w))
+        = Nat.card (↥G) := by
+      rw [← Nat.card_prod]
+      exact Nat.card_congr (MulAction.orbitProdStabilizerEquivGroup ↥G w)
+    rw [horbw, hcard] at hos
+    show Nat.card (MulAction.stabilizer ↥G w) = 3
+    omega
+  have hOncard : (MulAction.orbit ↥G b).ncard = 8 := by
+    rw [← Nat.card_coe_set_eq]; exact horbit_card
+  have hOeq : MulAction.orbit ↥G b
+      = {v : ↥(poleSet G) | Nat.card (MulAction.stabilizer ↥G v) = 3} :=
+    Set.eq_of_subset_of_ncard_le hOsub (by rw [hOncard]; exact hP₃card) (Set.toFinite _)
+  have hnbO : nb ∈ MulAction.orbit ↥G b := by rw [hOeq]; exact hnb3
+  obtain ⟨g, hg⟩ := MulAction.mem_orbit_iff.mp hnbO
+  exact ⟨g, by rw [hg]⟩
+
 /-- **Faithful octahedral action on the four body diagonals (crux).** For the octahedral pole
 family `m = {2, 3, 4}` with `|G| = 24`, `G` acts faithfully on a four-element set, giving an
 injective `φ : G →* S₄`. Combined with `|G| = 24 = |S₄|` in `so3_octahedral_of_poleData`, this
