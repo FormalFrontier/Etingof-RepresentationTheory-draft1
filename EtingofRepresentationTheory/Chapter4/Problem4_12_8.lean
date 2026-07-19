@@ -2104,7 +2104,33 @@ private theorem not_normal_card_mem_two_three_four_six {G : Type*} [Group G] [Fi
     (hG : Nat.card G = 60) (hn5 : Nontrivial (Sylow 5 G))
     (N : Subgroup G) [N.Normal]
     (hcard : Nat.card N = 2 ∨ Nat.card N = 3 ∨ Nat.card N = 4 ∨ Nat.card N = 6) : False := by
-  sorry
+  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have hqc : Nat.card G = Nat.card (G ⧸ N) * Nat.card N :=
+    Subgroup.card_eq_card_quotient_mul_card_subgroup N
+  rw [hG] at hqc
+  -- The quotient (order `30, 20, 15` or `10`) has a unique Sylow `5`-subgroup.
+  obtain ⟨hq5, hq25, hSub⟩ : (5 : ℕ) ∣ Nat.card (G ⧸ N) ∧ ¬ (25 : ℕ) ∣ Nat.card (G ⧸ N) ∧
+      Subsingleton (Sylow 5 (G ⧸ N)) := by
+    rcases hcard with h | h | h | h <;> rw [h] at hqc
+    · have hq : Nat.card (G ⧸ N) = 30 := by omega
+      exact ⟨by rw [hq]; norm_num, by rw [hq]; norm_num, card_thirty_subsingleton_sylow5 hq⟩
+    · have hq : Nat.card (G ⧸ N) = 20 := by omega
+      exact ⟨by rw [hq]; norm_num, by rw [hq]; norm_num,
+        subsingleton_sylow5_of_card_le (k := 4) (hq.trans (by norm_num)) (by norm_num)⟩
+    · have hq : Nat.card (G ⧸ N) = 15 := by omega
+      exact ⟨by rw [hq]; norm_num, by rw [hq]; norm_num,
+        subsingleton_sylow5_of_card_le (k := 3) (hq.trans (by norm_num)) (by norm_num)⟩
+    · have hq : Nat.card (G ⧸ N) = 10 := by omega
+      exact ⟨by rw [hq]; norm_num, by rw [hq]; norm_num,
+        subsingleton_sylow5_of_card_le (k := 2) (hq.trans (by norm_num)) (by norm_num)⟩
+  haveI := hSub
+  -- Lift the quotient's Sylow `5` to a normal subgroup `M` of order `5·|N|`.
+  obtain ⟨M, hMnorm, hMcard⟩ := exists_normal_of_subsingleton_sylow5_quot N hq5 hq25
+  haveI : M.Normal := hMnorm
+  have h5M : (5 : ℕ) ∣ Nat.card M := ⟨Nat.card N, hMcard⟩
+  have hMtop : M = ⊤ := eq_top_of_five_dvd_card_normal hG hn5 M h5M
+  have hMcard60 : Nat.card M = 60 := by rw [hMtop, Subgroup.card_top, hG]
+  rcases hcard with h | h | h | h <;> rw [h] at hMcard <;> omega
 
 /-- **Order-`12` normal subgroups contain a smaller normal subgroup.** A group of order `12` has
 either a normal Sylow `3` (order `3`) or a normal Sylow `2` (order `4`); being characteristic, it
