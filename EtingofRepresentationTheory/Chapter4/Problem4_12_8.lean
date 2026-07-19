@@ -1783,6 +1783,76 @@ theorem octahedral_kernel_negates_or_fixes_trivial
   have hg0 : (g : specialOrthogonalGroup (Fin 3) ℝ) ≠ 1 := by
     intro h
     exact hgne (Subtype.ext (h.trans (OneMemClass.coe_one G).symm))
+  -- **Injection key.** No nontrivial `h ∈ SO(3)` can fix all `8` orbit vectors (it fixes only an
+  -- antipodal pair, of size `≤ 2`).
+  have key : ∀ h : specialOrthogonalGroup (Fin 3) ℝ, h ≠ 1 →
+      (∀ w : ↥(MulAction.orbit ↥G b),
+        (h : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ w.1.1 = w.1.1) → False := by
+    intro h hne hfix
+    obtain ⟨v₀, _hv₀, hset⟩ := nontrivial_fixed_unit_vectors h hne
+    have hmem : ∀ w : ↥(MulAction.orbit ↥G b), w.1.1 ∈ fixedUnitVectors h :=
+      fun w => ⟨hunit w, hfix w⟩
+    haveI : Finite ↥(fixedUnitVectors h) := (finite_fixedUnitVectors h hne).to_subtype
+    have hFinj : Function.Injective
+        (fun w : ↥(MulAction.orbit ↥G b) => (⟨w.1.1, hmem w⟩ : ↥(fixedUnitVectors h))) := by
+      intro x y hxy
+      apply Subtype.ext; apply Subtype.ext
+      simpa using hxy
+    have hle : Nat.card (↥(MulAction.orbit ↥G b)) ≤ Nat.card (↥(fixedUnitVectors h)) :=
+      Nat.card_le_card_of_injective _ hFinj
+    have hle2 : Nat.card (↥(fixedUnitVectors h)) ≤ 2 := by
+      rw [hset, Nat.card_coe_set_eq]
+      calc ({v₀, -v₀} : Set (Fin 3 → ℝ)).ncard
+            ≤ ({-v₀} : Set (Fin 3 → ℝ)).ncard + 1 := Set.ncard_insert_le _ _
+        _ = 2 := by rw [Set.ncard_singleton]
+    rw [horbit_card] at hle; omega
+  -- **Step 1.** `g² = 1`: applying `g` twice sends each orbit vector to itself (the `±` cancel).
+  have hsqfix : ∀ w : ↥(MulAction.orbit ↥G b),
+      ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ
+        (((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ w.1.1) = w.1.1 := by
+    intro w
+    rcases hpm w with h | h
+    · rw [h, h]
+    · rw [h, mulVec_neg, h, neg_neg]
+  have hg0sq : (g : specialOrthogonalGroup (Fin 3) ℝ) * (g : specialOrthogonalGroup (Fin 3) ℝ)
+      = 1 := by
+    by_contra hne
+    refine key _ hne (fun w => ?_)
+    rw [Submonoid.coe_mul, ← mulVec_mulVec]
+    exact hsqfix w
+  -- Transport to `↥G` and read off `orderOf g = 2`.
+  have hgg : g * g = 1 := by
+    apply Subtype.ext
+    rw [Subgroup.coe_mul, Subgroup.coe_one]
+    exact hg0sq
+  have hord : orderOf g = 2 := by
+    have hdvd : orderOf g ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact hgg)
+    rcases (Nat.dvd_prime Nat.prime_two).mp hdvd with h | h
+    · rw [orderOf_eq_one_iff] at h; exact absurd h hgne
+    · exact h
+  -- **Step 2-3.** `g` negates *every* orbit vector: it cannot fix one (its stabilizer is cyclic of
+  -- order `3`, with no order-`2` element).
+  have hneg : ∀ w : ↥(MulAction.orbit ↥G b),
+      ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ w.1.1 = -(w.1.1) := by
+    intro w
+    rcases hpm w with hfix | hneg
+    · exfalso
+      -- `g` fixes `w.1`, so `g ∈ stabilizer w.1`, whose card is `3` (conjugate to `stabilizer b`).
+      have hgstab : g ∈ MulAction.stabilizer ↥G w.1 := by
+        rw [MulAction.mem_stabilizer_iff]
+        apply Subtype.ext
+        rw [poleSet_coe_smul]; exact hfix
+      -- `stabilizer w.1` is conjugate to `stabilizer b`, hence has card `3`.
+      have hwmem : w.1 ∈ MulAction.orbit ↥G b := w.2
+      obtain ⟨c, hc⟩ := MulAction.mem_orbit_iff.mp hwmem
+      have hcard3 : Nat.card (MulAction.stabilizer ↥G w.1) = 3 := by
+        rw [← Nat.card_congr (MulAction.stabilizerEquivStabilizer (g := c) (a := b)
+          (b := w.1) hc.symm).toEquiv, hb]
+      -- `orderOf g = 2` divides `|stabilizer w.1| = 3`, impossible.
+      have hdvd : orderOf g ∣ Nat.card (MulAction.stabilizer ↥G w.1) :=
+        Subgroup.orderOf_dvd_natCard _ hgstab
+      rw [hord, hcard3] at hdvd; omega
+    · exact hneg
   sorry
 
 end OctahedralFaithful
