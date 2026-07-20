@@ -348,7 +348,8 @@ theorem simpleModule_iso_component_of_embeds
   obtain ⟨c, rfl⟩ := hm
   exact ⟨c, ⟨eTT'.trans (e'.trans (LinearEquiv.ofInjective _ (hlof_inj c)).symm)⟩⟩
 
-/-- **Isotypic matching half of the classification (general `k`, sorry-free modulo #4946).**
+/-- **Isotypic matching half of the classification (general `k`, sorry-free; builds on the
+#4946 simplicity result).**
 
 Given the equivariant decomposition data of `V^{⊗n}` (`V = Fin N → k`, `n ≤ N`),
 there is an *injective* assignment `φ : BoundedPartition N n → ι` such that
@@ -467,8 +468,8 @@ summand of the polynomial representation `V^{⊗n}`, hence both spanning
 **Important — not circular.** The *existing*
 `glTensorRep_schurWeyl_simples_formalCharacter_linearIndependent`
 (`SchurWeylSimplesClassification.lean`) derives the same conclusion, but *through*
-the still-sorried highest-weight classification core; using it here would make the
-classification depend on the very sorry it is meant to discharge. This lemma is
+the highest-weight classification core; using it here would make the classification
+depend circularly on the very result it is meant to establish. This lemma is
 instead proved **directly** from `hLtop`/`hLalg`/`hLsimp`/`hLdist` (character
 independence), independently of the classification.
 
@@ -539,7 +540,7 @@ private theorem glWeightSpace_map_le_of_equivariant
 Each simple summand `L i` of `V^{⊗n}` (`V = Fin N → k`) carrying a nonzero
 multiplicity space (`0 < dim(S i)`) is a *polynomial* representation: its weight
 spaces span. This supplies the `hLtop` hypothesis of
-`schurWeyl_simples_formalCharacter_linearIndependent_complex` at the call site from
+`schurWeyl_simples_formalCharacter_linearIndependent_general` at the call site from
 the equivariant decomposition data.
 
 Proof: pick a basis vector `s = b i0` of `S i` (exists since `dim(S i) > 0`) and the
@@ -679,7 +680,7 @@ algebraic, `glTensorRep_isAlgebraic`), via `x ↦ e⁻¹ (lof i (s ⊗ x))` for 
 `schurWeyl_simple_summand_glWeightSpace_top`. Restricting the algebraic structure to the
 (invariant) image and transporting it back through the embedding gives algebraicity of
 `(L i).ρ`. This supplies the `IsAlgebraicRepresentation` hypothesis of
-`schurWeyl_simples_formalCharacter_linearIndependent_complex`. -/
+`schurWeyl_simples_formalCharacter_linearIndependent_general`. -/
 theorem schurWeyl_simple_summand_isAlgebraic
     (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (N n : ℕ)
@@ -772,8 +773,8 @@ The proof routes through the numerical identity
 counting step `|ι| = |P|` (i.e. `φ` surjective, so `lam := φ⁻¹` is total) is
 obtained here sorry-free *as a reduction*: the numerical identity rewrites to a
 vanishing `ℚ`-combination of the characters `char(L i)`, whose linear independence
-(`schurWeyl_simples_formalCharacter_linearIndependent_complex`, the one remaining
-isolated `sorry`) forces every coefficient to vanish; the empty-fibre coefficients
+(`schurWeyl_simples_formalCharacter_linearIndependent_general`, proved sorry-free)
+forces every coefficient to vanish; the empty-fibre coefficients
 are `dim(Sᵢ)`, so the nonzero-multiplicity hypothesis `hSne` (each `S i ≠ 0`,
 supplied by simplicity at the call site) rules out indices outside `im φ`.
 
@@ -817,7 +818,7 @@ theorem schurWeyl_simples_formalCharacter_classification_core_general
   -- Surjectivity of `φ` (the counting equality `|ι| = |P|`) via the numerical
   -- identity and linear independence of the simple characters. With each `L i`
   -- pairwise non-isomorphic and simple, the characters `char(L i)` are
-  -- `ℚ`-independent (`schurWeyl_simples_formalCharacter_linearIndependent_complex`,
+  -- `ℚ`-independent (`schurWeyl_simples_formalCharacter_linearIndependent_general`,
   -- the isolated remaining content). The numerical identity
   -- `∑ᵢ dim(Sᵢ)·char(Lᵢ) = ∑_λ dim(Specht_λ)·schurPoly λ` rewrites, via
   -- `char(L (φ λ)) = schurPoly λ` and the injectivity of `φ`, to a single
@@ -904,8 +905,9 @@ threaded in as the hypothesis `hLtop`, not manufactured from the character: weig
 is *not* determined by `formalCharacter` for non-polynomial simples (e.g. `det⁻¹ ⊗ Sym³(std)`
 at `N = 2` has character `schurPoly 2 (1,0)` but does not saturate), so the would-be ingredient
 (c) `glWeightSpace_top_of_simple_formalCharacter_eq_schurPoly` was false and is retired (#4969).
-The `L_λ`-side saturation is the true `glWeightSpace_schurModule_iSup_eq_top`. The two remaining
-deep ingredients are isolated as the `sorry`s above (#4946 simplicity, #4947 independence).
+The `L_λ`-side saturation is the true `glWeightSpace_schurModule_iSup_eq_top`. The two deep
+ingredients (#4946 simplicity, #4947 independence) are isolated as the lemmas above and are
+now proved sorry-free.
 
 Algebraicity of `L` is likewise threaded in as the hypothesis `hLalg` (the genuine input to
 ingredient (b), which now takes algebraicity rather than the false `hLtop ⟹ regular` bridge;

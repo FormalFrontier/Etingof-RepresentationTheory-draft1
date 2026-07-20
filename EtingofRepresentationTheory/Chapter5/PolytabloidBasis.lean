@@ -21,12 +21,19 @@ of the Specht module V_λ = ℂ[S_n] · c_λ.
 ## Main results
 
 * `Etingof.polytabloid_mem_spechtModule` — polytabloids lie in the Specht module
-* `Etingof.polytabloid_linearIndependent` — polytabloids are linearly independent (sorry;
-  proved at tabloid level as `polytabloidTab_linearIndependent` in `TabloidModule.lean`)
-* `Etingof.perm_mul_youngSymmetrizer_mem_span_polytabloids` — straightening lemma (sorry;
-  requires tabloid-level straightening or dimension argument; see issue #2104)
-* `Etingof.polytabloid_span` — polytabloids span the Specht module (from straightening)
-* `Etingof.finrank_spechtModule_eq_card_syt` — dim V_λ = |SYT(λ)| (from independence + span)
+
+The Specht-basis results themselves are established **sorry-free** at the tabloid level
+rather than the group-algebra level; working at the tabloid module level avoids the Garnir
+tautology issue (cf. issue #2104):
+
+* `Etingof.polytabloidTab_linearIndependent` (`TabloidModule.lean`) — linear independence,
+  together with the tabloid-level straightening and spanning proved there;
+* `Etingof.finrank_spechtModule_eq_card_standardYoungTableau` (`Theorem5_17_1.lean`) —
+  the dimension formula `dim V_λ = |SYT(λ)|`.
+
+The earlier group-algebra-level statements (`polytabloid_linearIndependent`,
+`perm_mul_youngSymmetrizer_mem_span_polytabloids`, `polytabloid_span`) were retired in
+favor of that route and no longer appear in the project.
 
 ## References
 
@@ -433,7 +440,8 @@ theorem polytabloid_support (n : ℕ) (la : Nat.Partition n)
   have : σ = τ * (τ⁻¹ * σ) := by group
   rw [this, h_eq, mul_assoc]
 
--- polytabloid_linearIndependent moved to SpechtModuleBasis.lean (proved via dim V_λ = |SYT|)
+-- Linear independence is proved sorry-free at the tabloid level as
+-- `polytabloidTab_linearIndependent` in `TabloidModule.lean` (via dim V_λ = |SYT|).
 
 /-! ### Sorted comparison lemma -/
 
@@ -1233,11 +1241,12 @@ private theorem columnInvCount'_one (n : ℕ) (la : Nat.Partition n) :
   have hb : b.val < la.sortedParts.sum := by omega
   exact Nat.not_lt.mpr (Nat.le_of_lt (lt_of_lt_rowOfPos la.sortedParts a.val b.val hb hrow))
 
--- perm_mul_youngSymmetrizer_mem_span_polytabloids, polytabloid_span, and
--- finrank_spechtModule_eq_card_syt have been moved to SpechtModuleBasis.lean,
--- where they are proved via the tabloid-level straightening theorem.
--- The straightening works at the tabloid module level (not the group algebra level),
--- avoiding the Garnir tautology issue described in the comment above.
+-- The straightening/spanning and the dimension formula `dim V_λ = |SYT(λ)|` are proved
+-- sorry-free at the tabloid module level: `polytabloidTab_linearIndependent` and the
+-- straightening in `TabloidModule.lean`, and
+-- `finrank_spechtModule_eq_card_standardYoungTableau` in `Theorem5_17_1.lean`.
+-- Working at the tabloid module level (not the group algebra level) avoids the Garnir
+-- tautology issue described in the comment above.
 
 end
 
