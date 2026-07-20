@@ -47,10 +47,11 @@ theorem youngSymEndomorphism_ne_zero (N : ℕ) (lam : Fin N → ℕ) (hlam : Ant
   change LinearMap.range (youngSymEndomorphism ℂ N lam) = ⊥
   rw [h, LinearMap.range_zero]
 
-/-! ## The character-determines-module gap (cited dependency)
+/-! ## The character-determines-module ingredient (cited dependency)
 
-This is the only genuinely character-theoretic ingredient of the special-block
-lemma still open. Tracked as the dedicated follow-up issue #4679. -/
+This is the one genuinely character-theoretic ingredient of the special-block lemma.
+It is **proved**: the theorem below delegates to `simpleSubmodule_iso_of_spechtCharacter_eq`
+in `Theorem5_22_1.lean`, where the Specht-bridge infrastructure lives. -/
 
 set_option maxHeartbeats 800000 in
 set_option synthInstance.maxHeartbeats 400000 in
@@ -58,7 +59,8 @@ set_option synthInstance.maxHeartbeats 400000 in
 `S, S' ≤ V^⊗n` whose `σ`-trace functions both equal `spechtModuleCharacter n la`
 are isomorphic as `symGroupImage`-modules.
 
-Route (deferred): transport `S.restrictScalars ℂ`, `S'.restrictScalars ℂ` to simple
+Proof (via `simpleSubmodule_iso_of_spechtCharacter_eq` in `Theorem5_22_1.lean`):
+transport `S.restrictScalars ℂ`, `S'.restrictScalars ℂ` to simple
 `SymGroupAlgebra n`-modules (`submoduleAsSymGroupAlgebra_isSimpleModule`), classify
 each as `spechtModule` of its label (Theorem 5.12.2), use linear independence of
 irreducible characters to pin both labels to `la` (so the Specht modules coincide),
