@@ -2031,6 +2031,427 @@ theorem simpleGroup_card60_exists_index_five
     ∃ H : Subgroup Grp, H.index = 5 := by
   sorry
 
+/-- A Sylow `5`-subgroup has order exactly `5` when `5 ∣ |G|` but `25 ∤ |G|`. -/
+private theorem sylow5_card_eq_five {G : Type*} [Group G] [Finite G] (P : Sylow 5 G)
+    (h5 : (5 : ℕ) ∣ Nat.card G) (h25 : ¬ (25 : ℕ) ∣ Nat.card G) :
+    Nat.card (P : Subgroup G) = 5 := by
+  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have hne : Nat.card G ≠ 0 := Nat.card_pos.ne'
+  have hf : (Nat.card G).factorization 5 = 1 := by
+    have h1 : 1 ≤ (Nat.card G).factorization 5 := by
+      rw [← Nat.Prime.pow_dvd_iff_le_factorization (by norm_num) hne, pow_one]; exact h5
+    have h2 : (Nat.card G).factorization 5 ≤ 1 := by
+      by_contra hc
+      have hge : 2 ≤ (Nat.card G).factorization 5 := by omega
+      rw [← Nat.Prime.pow_dvd_iff_le_factorization (by norm_num) hne] at hge
+      exact h25 (by rw [show (25 : ℕ) = 5 ^ 2 from by norm_num]; exact hge)
+    omega
+  rw [P.card_eq_multiplicity, hf, pow_one]
+
+/-- Non-identity elements of a finite group number `|G| - 1`. -/
+private lemma count_aux_card_ne_one {G : Type*} [Group G] [Finite G] :
+    Nat.card {x : G // x ≠ 1} = Nat.card G - 1 := by
+  classical
+  haveI : Unique {x : G // x = 1} := ⟨⟨⟨1, rfl⟩⟩, fun a => Subtype.ext a.2⟩
+  have hsum : Nat.card G = Nat.card {x : G // x = 1} + Nat.card {x : G // x ≠ 1} := by
+    rw [← Nat.card_sum]
+    exact (Nat.card_congr (Equiv.sumCompl (fun x : G => x = 1))).symm
+  have h1 : Nat.card {x : G // x = 1} = 1 := Nat.card_unique
+  omega
+
+/-- A Sylow `p`-subgroup has order `p ^ e` when `p ^ e ∣ |G|` but `p ^ (e+1) ∤ |G|`. -/
+private theorem sylow_card_eq_pow {G : Type*} [Group G] [Finite G] {p e : ℕ} [Fact p.Prime]
+    (P : Sylow p G) (hpe : p ^ e ∣ Nat.card G) (hpe1 : ¬ p ^ (e + 1) ∣ Nat.card G) :
+    Nat.card (P : Subgroup G) = p ^ e := by
+  have hne : Nat.card G ≠ 0 := Nat.card_pos.ne'
+  have hp : p.Prime := Fact.out
+  have hf : (Nat.card G).factorization p = e := by
+    have h1 : e ≤ (Nat.card G).factorization p :=
+      (Nat.Prime.pow_dvd_iff_le_factorization hp hne).mp hpe
+    have h2 : ¬ (e + 1) ≤ (Nat.card G).factorization p :=
+      fun h => hpe1 ((Nat.Prime.pow_dvd_iff_le_factorization hp hne).mpr h)
+    omega
+  rw [P.card_eq_multiplicity, hf]
+
+/-- **Counting elements of order `p`.** In a finite group `H` with `p ∣ |H|` but `p² ∤ |H|`
+(so every Sylow `p`-subgroup has order exactly `p`), the number of elements of order `p` equals
+`(p - 1) · n_p`: each Sylow `p`-subgroup contributes its `p - 1` non-identity elements, distinct
+Sylow `p`-subgroups meet only in `1`, and every order-`p` element generates such a subgroup. -/
+private theorem card_orderOf_eq_prime_mul_card_sylow {H : Type*} [Group H] [Finite H]
+    (p : ℕ) [Fact p.Prime] (hp1 : p ∣ Nat.card H) (hp2 : ¬ (p : ℕ) ^ 2 ∣ Nat.card H) :
+    Nat.card {g : H // orderOf g = p} = (p - 1) * Nat.card (Sylow p H) := by
+  classical
+  have hp : p.Prime := Fact.out
+  have hcard : Nat.card H ≠ 0 := Nat.card_pos.ne'
+  have hn1 : (Nat.card H).factorization p = 1 := by
+    have h1 : 1 ≤ (Nat.card H).factorization p := by
+      rw [← Nat.Prime.pow_dvd_iff_le_factorization hp hcard]; simpa using hp1
+    have h2 : ¬ 2 ≤ (Nat.card H).factorization p := by
+      rw [← Nat.Prime.pow_dvd_iff_le_factorization hp hcard]; exact hp2
+    omega
+  have hcardP : ∀ P : Sylow p H, Nat.card (P : Subgroup H) = p := by
+    intro P
+    rw [P.card_eq_multiplicity, hn1, pow_one]
+  letI : Fintype (Sylow p H) := Fintype.ofFinite _
+  have hzp : ∀ g : {g : H // orderOf g = p},
+      Nat.card (Subgroup.zpowers g.val) = p ^ (Nat.card H).factorization p := by
+    intro g
+    rw [Nat.card_zpowers, g.2, hn1, pow_one]
+  set f : {g : H // orderOf g = p} → Sylow p H :=
+    fun g => Sylow.ofCard (Subgroup.zpowers g.val) (hzp g) with hf
+  have hmemf : ∀ g : {g : H // orderOf g = p}, g.val ∈ (f g : Subgroup H) := by
+    intro g
+    rw [hf]
+    simp only [Sylow.coe_ofCard]
+    exact Subgroup.mem_zpowers _
+  have hAcard : Nat.card {g : H // orderOf g = p}
+      = ∑ P : Sylow p H, Nat.card {g : {g : H // orderOf g = p} // f g = P} := by
+    rw [← Nat.card_sigma]
+    exact Nat.card_congr (Equiv.sigmaFiberEquiv f).symm
+  have hfiber : ∀ P : Sylow p H,
+      Nat.card {g : {g : H // orderOf g = p} // f g = P} = p - 1 := by
+    intro P
+    have hPcard : Nat.card (P : Subgroup H) = p := hcardP P
+    let e : {g : {g : H // orderOf g = p} // f g = P} ≃ {x : (P : Subgroup H) // x ≠ 1} :=
+    { toFun := fun g => ⟨⟨g.1.1, by have := hmemf g.1; rw [g.2] at this; exact this⟩, by
+        intro h
+        have hg1 : g.1.1 = 1 := by
+          have := congrArg (Subgroup.subtype (P : Subgroup H)) h
+          simpa using this
+        have hord : orderOf g.1.1 = p := g.1.2
+        rw [hg1, orderOf_one] at hord
+        exact hp.ne_one hord.symm⟩
+      invFun := fun x => ⟨⟨(x.1 : H), by
+          have hdvd : orderOf (x.1 : H) ∣ p := by
+            rw [Subgroup.orderOf_coe]
+            have h := orderOf_dvd_natCard x.1
+            rwa [hPcard] at h
+          have hne : orderOf (x.1 : H) ≠ 1 := by
+            rw [Subgroup.orderOf_coe]
+            intro hh
+            exact x.2 (orderOf_eq_one_iff.mp hh)
+          rcases (Nat.dvd_prime hp).mp hdvd with h | h
+          · exact absurd h hne
+          · exact h⟩, by
+        apply Sylow.ext
+        simp only [hf, Sylow.coe_ofCard]
+        apply Subgroup.eq_of_le_of_card_ge
+        · rw [Subgroup.zpowers_le]
+          exact x.1.2
+        · rw [hPcard, Nat.card_zpowers, Subgroup.orderOf_coe]
+          have hdvd : orderOf x.1 ∣ p := by
+            have h := orderOf_dvd_natCard x.1
+            rwa [hPcard] at h
+          rcases (Nat.dvd_prime hp).mp hdvd with h | h
+          · exact absurd (orderOf_eq_one_iff.mp h) x.2
+          · rw [h]⟩
+      left_inv := by
+        intro g
+        apply Subtype.ext
+        apply Subtype.ext
+        rfl
+      right_inv := by
+        intro x
+        apply Subtype.ext
+        apply Subtype.ext
+        rfl }
+    rw [Nat.card_congr e, count_aux_card_ne_one, hPcard]
+  rw [hAcard]
+  simp only [hfiber]
+  rw [Finset.sum_const, Finset.card_univ, smul_eq_mul, Nat.card_eq_fintype_card, Nat.mul_comm]
+
+/-- **Small groups have a unique Sylow `5`-subgroup.** If `|H| = 5 · k` with `k ≤ 4` then
+`n₅ ∣ k ≤ 4` and `n₅ ≡ 1 mod 5` force `n₅ = 1`. -/
+private theorem subsingleton_sylow5_of_card_le {H : Type*} [Group H] [Finite H]
+    {k : ℕ} (hk : Nat.card H = 5 * k) (hk4 : k ≤ 4) : Subsingleton (Sylow 5 H) := by
+  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have hk1 : 1 ≤ k := by
+    have : 0 < Nat.card H := Nat.card_pos
+    omega
+  obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 5 H))
+  have hPcard : Nat.card (P : Subgroup H) = 5 :=
+    sylow5_card_eq_five P ⟨k, hk⟩ (by rw [hk]; omega)
+  have hidx : (P : Subgroup H).index = k := by
+    have hmul := Subgroup.card_mul_index (P : Subgroup H)
+    rw [hPcard, hk] at hmul; omega
+  have hdvd5 : Nat.card (Sylow 5 H) ∣ k := hidx ▸ P.card_dvd_index
+  have hn5le : Nat.card (Sylow 5 H) ≤ 4 := le_trans (Nat.le_of_dvd (by omega) hdvd5) hk4
+  have hmod : Nat.card (Sylow 5 H) % 5 = 1 % 5 := card_sylow_modEq_one 5 H
+  have hn5pos : 0 < Nat.card (Sylow 5 H) := Nat.card_pos
+  have hn5eq : Nat.card (Sylow 5 H) = 1 := by omega
+  exact (Nat.card_eq_one_iff_unique.mp hn5eq).1
+
+/-- **Lift a normal Sylow `5`-subgroup of a quotient.** If `N ◁ H` (finite) and the quotient
+`H ⧸ N` has a unique Sylow `5`-subgroup whose order is `5` (`5 ∣ |H⧸N|`, `25 ∤ |H⧸N|`), its
+preimage is a normal subgroup `M` with `|M| = 5 · |N|`. -/
+private theorem exists_normal_of_subsingleton_sylow5_quot {H : Type*} [Group H] [Finite H]
+    (N : Subgroup H) [N.Normal] [Subsingleton (Sylow 5 (H ⧸ N))]
+    (hq5 : (5 : ℕ) ∣ Nat.card (H ⧸ N)) (hq25 : ¬ (25 : ℕ) ∣ Nat.card (H ⧸ N)) :
+    ∃ M : Subgroup H, M.Normal ∧ Nat.card M = 5 * Nat.card N := by
+  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 5 (H ⧸ N)))
+  have hScard : Nat.card (S : Subgroup (H ⧸ N)) = 5 := sylow5_card_eq_five S hq5 hq25
+  haveI hSnormal : (S : Subgroup (H ⧸ N)).Normal := S.normal_of_subsingleton
+  let f : H →* H ⧸ N := QuotientGroup.mk' N
+  have hfsurj : Function.Surjective f := QuotientGroup.mk'_surjective N
+  refine ⟨(S : Subgroup (H ⧸ N)).comap f, inferInstance, ?_⟩
+  have hidx : ((S : Subgroup (H ⧸ N)).comap f).index = (S : Subgroup (H ⧸ N)).index :=
+    (S : Subgroup (H ⧸ N)).index_comap_of_surjective hfsurj
+  have hmulM := Subgroup.card_mul_index ((S : Subgroup (H ⧸ N)).comap f)
+  rw [hidx] at hmulM
+  have hmulS := Subgroup.card_mul_index (S : Subgroup (H ⧸ N))
+  rw [hScard] at hmulS
+  have hquot : Nat.card H = Nat.card (H ⧸ N) * Nat.card N :=
+    Subgroup.card_eq_card_quotient_mul_card_subgroup N
+  have hqpos : 0 < Nat.card (H ⧸ N) := Nat.card_pos
+  have hSidxpos : 0 < (S : Subgroup (H ⧸ N)).index := by omega
+  have key : Nat.card ((S : Subgroup (H ⧸ N)).comap f) * (S : Subgroup (H ⧸ N)).index
+      = (5 * Nat.card N) * (S : Subgroup (H ⧸ N)).index := by
+    rw [hmulM, hquot, ← hmulS]; ring
+  exact Nat.eq_of_mul_eq_mul_right hSidxpos key
+
+/-- **Push a unique Sylow `5`-subgroup up from a normal subgroup.** If `M ◁ H` has a unique
+(hence characteristic) Sylow `5`-subgroup `P`, and `P` is a Sylow `5`-subgroup of `H` (which
+holds when `5 ∣ |M|` and `25 ∤ |H|`), then `H` itself has a unique Sylow `5`-subgroup. -/
+private theorem subsingleton_sylow5_of_normal_subgroup {H : Type*} [Group H] [Finite H]
+    (M : Subgroup H) [M.Normal] [Subsingleton (Sylow 5 M)]
+    (h5M : (5 : ℕ) ∣ Nat.card M) (h25H : ¬ (25 : ℕ) ∣ Nat.card H) :
+    Subsingleton (Sylow 5 H) := by
+  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 5 M))
+  have h25M : ¬ (25 : ℕ) ∣ Nat.card M :=
+    fun h => h25H (h.trans (Subgroup.card_subgroup_dvd_card M))
+  have hPcard : Nat.card (P : Subgroup M) = 5 := sylow5_card_eq_five P h5M h25M
+  haveI : (P : Subgroup M).Characteristic := Sylow.characteristic_of_subsingleton P
+  have hQnormal : ((P : Subgroup M).map M.subtype).Normal := inferInstance
+  have hcardQ : Nat.card ((P : Subgroup M).map M.subtype) = 5 := by
+    have e := Subgroup.equivMapOfInjective (P : Subgroup M) M.subtype M.subtype_injective
+    rw [← Nat.card_congr e.toEquiv, hPcard]
+  have hpg : IsPGroup 5 ((P : Subgroup M).map M.subtype) :=
+    IsPGroup.of_card (hcardQ.trans (show (5 : ℕ) = 5 ^ 1 by norm_num))
+  have hQidx : ¬ (5 : ℕ) ∣ ((P : Subgroup M).map M.subtype).index := by
+    intro hdvd
+    have hmul := Subgroup.card_mul_index ((P : Subgroup M).map M.subtype)
+    rw [hcardQ] at hmul
+    obtain ⟨j, hj⟩ := hdvd
+    exact h25H (by rw [← hmul, hj]; exact ⟨j, by ring⟩)
+  let QS : Sylow 5 H := hpg.toSylow hQidx
+  have hQScoe : (QS : Subgroup H) = (P : Subgroup M).map M.subtype := hpg.toSylow_coe hQidx
+  haveI : Unique (Sylow 5 H) :=
+    Sylow.unique_of_normal QS (by rw [hQScoe]; exact hQnormal)
+  infer_instance
+
+/-- **Groups of order `30` have a unique Sylow `5`-subgroup.** If `n₅ = 6` then there are `24`
+elements of order `5`, forcing `n₃ = 1`; the normal Sylow `3` lifts (via an order-`15` normal
+subgroup) to a normal Sylow `5`, contradicting `n₅ = 6`. -/
+private theorem card_thirty_subsingleton_sylow5 {H : Type*} [Group H] [Finite H]
+    (hH : Nat.card H = 30) : Subsingleton (Sylow 5 H) := by
+  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  by_contra hns
+  -- With `n₅ ≠ 1` and `n₅ ∣ 6`, `n₅ ≡ 1 mod 5`, we get `n₅ = 6`, so `24` elements of order `5`.
+  have hn5dvd : Nat.card (Sylow 5 H) ∣ 6 := by
+    obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 5 H))
+    have hPcard : Nat.card (P : Subgroup H) = 5 :=
+      sylow5_card_eq_five P (by rw [hH]; norm_num) (by rw [hH]; norm_num)
+    have hidx : (P : Subgroup H).index = 6 := by
+      have := Subgroup.card_mul_index (P : Subgroup H); rw [hPcard, hH] at this; omega
+    exact hidx ▸ P.card_dvd_index
+  have hn5mod : Nat.card (Sylow 5 H) % 5 = 1 % 5 := card_sylow_modEq_one 5 H
+  have hn5ne1 : Nat.card (Sylow 5 H) ≠ 1 := fun h => hns (Nat.card_eq_one_iff_unique.mp h).1
+  have hn5le : Nat.card (Sylow 5 H) ≤ 6 := Nat.le_of_dvd (by norm_num) hn5dvd
+  have hn5 : Nat.card (Sylow 5 H) = 6 := by interval_cases (Nat.card (Sylow 5 H)) <;> omega
+  have hc5 : Nat.card {g : H // orderOf g = 5} = 24 := by
+    have := card_orderOf_eq_prime_mul_card_sylow (H := H) 5 (by rw [hH]; norm_num)
+      (by rw [hH]; norm_num)
+    rw [hn5] at this; omega
+  have hc3 : Nat.card {g : H // orderOf g = 3} = 2 * Nat.card (Sylow 3 H) := by
+    have := card_orderOf_eq_prime_mul_card_sylow (H := H) 3 (by rw [hH]; norm_num)
+      (by rw [hH]; norm_num)
+    simpa using this
+  -- Order-`5` and order-`3` elements are disjoint, so `24 + 2·n₃ ≤ 30`, forcing `n₃ = 1`.
+  have hinj : Function.Injective
+      (Sum.elim (Subtype.val : {g : H // orderOf g = 5} → H)
+                (Subtype.val : {g : H // orderOf g = 3} → H)) := by
+    rintro (a | a) (b | b) hab <;> simp only [Sum.elim_inl, Sum.elim_inr] at hab
+    · exact congrArg Sum.inl (Subtype.ext hab)
+    · exact absurd (by rw [← a.2, hab, b.2] : (5 : ℕ) = 3) (by norm_num)
+    · exact absurd (by rw [← a.2, hab, b.2] : (3 : ℕ) = 5) (by norm_num)
+    · exact congrArg Sum.inr (Subtype.ext hab)
+  have hle := Nat.card_le_card_of_injective _ hinj
+  rw [Nat.card_sum, hc5, hc3, hH] at hle
+  have hn3mod : Nat.card (Sylow 3 H) % 3 = 1 % 3 := card_sylow_modEq_one 3 H
+  have hn3pos : 0 < Nat.card (Sylow 3 H) := Nat.card_pos
+  have hn3 : Nat.card (Sylow 3 H) = 1 := by omega
+  haveI : Subsingleton (Sylow 3 H) := (Nat.card_eq_one_iff_unique.mp hn3).1
+  -- The (unique, normal) Sylow `3` lifts to a normal Sylow `5`, contradicting `n₅ = 6`.
+  obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow 3 H))
+  haveI : (Q : Subgroup H).Normal := Q.normal_of_subsingleton
+  have hQcard : Nat.card (Q : Subgroup H) = 3 := by
+    have hne : Nat.card H ≠ 0 := Nat.card_pos.ne'
+    have hf : (Nat.card H).factorization 3 = 1 := by
+      have h1 : 1 ≤ (Nat.card H).factorization 3 := by
+        rw [← Nat.Prime.pow_dvd_iff_le_factorization (by norm_num) hne, pow_one, hH]; norm_num
+      have h2 : (Nat.card H).factorization 3 ≤ 1 := by
+        by_contra hc
+        have hge : 2 ≤ (Nat.card H).factorization 3 := by omega
+        rw [← Nat.Prime.pow_dvd_iff_le_factorization (by norm_num) hne, hH] at hge
+        exact absurd hge (by decide)
+      omega
+    rw [Q.card_eq_multiplicity, hf, pow_one]
+  have hquotcard : Nat.card (H ⧸ (Q : Subgroup H)) = 10 := by
+    have := Subgroup.card_eq_card_quotient_mul_card_subgroup (Q : Subgroup H)
+    rw [hH, hQcard] at this; omega
+  haveI : Subsingleton (Sylow 5 (H ⧸ (Q : Subgroup H))) :=
+    subsingleton_sylow5_of_card_le (k := 2) (hquotcard.trans (by norm_num)) (by norm_num)
+  obtain ⟨M, hMnorm, hMcard⟩ := exists_normal_of_subsingleton_sylow5_quot (Q : Subgroup H)
+    (by rw [hquotcard]; norm_num) (by rw [hquotcard]; norm_num)
+  haveI : M.Normal := hMnorm
+  have hMcard15 : Nat.card M = 15 := by rw [hMcard, hQcard]
+  haveI : Subsingleton (Sylow 5 M) :=
+    subsingleton_sylow5_of_card_le (k := 3) (hMcard15.trans (by norm_num)) (by norm_num)
+  exact hns (subsingleton_sylow5_of_normal_subgroup M (by rw [hMcard15]; norm_num)
+    (by rw [hH]; norm_num))
+
+/-- **Order-`60`, `n₅ = 6`: a normal subgroup with order divisible by `5` is everything.** Such
+an `N` contains a Sylow `5` of `G`, hence (by normality) at least two distinct Sylow `5`-subgroups
+of `G`; every proper divisor of `60` divisible by `5` (namely `5, 10, 15, 20, 30`) forces a
+*unique* Sylow `5`-subgroup, a contradiction, so `|N| = 60`. -/
+private theorem eq_top_of_five_dvd_card_normal {G : Type*} [Group G] [Finite G]
+    (hG : Nat.card G = 60) (hn5 : Nontrivial (Sylow 5 G))
+    (N : Subgroup G) [N.Normal] (h5 : (5 : ℕ) ∣ Nat.card N) : N = ⊤ := by
+  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have hdvd : Nat.card N ∣ 60 := by rw [← hG]; exact Subgroup.card_subgroup_dvd_card N
+  by_contra hne
+  have hNe60 : Nat.card N ≠ 60 := fun h => hne (Subgroup.eq_top_of_card_eq _ (by rw [h, hG]))
+  -- `|N|` is a proper divisor of `60` divisible by `5`: one of `5, 10, 15, 20, 30`.
+  have hmem : Nat.card N = 5 ∨ Nat.card N = 10 ∨ Nat.card N = 15 ∨ Nat.card N = 20 ∨
+      Nat.card N = 30 := by
+    have hle : Nat.card N ≤ 60 := Nat.le_of_dvd (by norm_num) hdvd
+    have hpos : 0 < Nat.card N := Nat.card_pos
+    interval_cases (Nat.card N) <;> omega
+  -- Each such `|N|` forces a unique Sylow `5` in `N`, which pushes up to a unique Sylow `5`
+  -- in `G` — contradicting `hn5`.
+  haveI hSubN : Subsingleton (Sylow 5 N) := by
+    rcases hmem with h | h | h | h | h
+    · exact subsingleton_sylow5_of_card_le (k := 1) (h.trans (by norm_num)) (by norm_num)
+    · exact subsingleton_sylow5_of_card_le (k := 2) (h.trans (by norm_num)) (by norm_num)
+    · exact subsingleton_sylow5_of_card_le (k := 3) (h.trans (by norm_num)) (by norm_num)
+    · exact subsingleton_sylow5_of_card_le (k := 4) (h.trans (by norm_num)) (by norm_num)
+    · exact card_thirty_subsingleton_sylow5 h
+  have hSubG : Subsingleton (Sylow 5 G) :=
+    subsingleton_sylow5_of_normal_subgroup N h5 (by rw [hG]; norm_num)
+  exact (not_nontrivial_iff_subsingleton.mpr hSubG) hn5
+
+/-- **Order-`60`, `n₅ = 6`: no normal subgroup of order `2, 3, 4` or `6`.** The quotient `G ⧸ N`
+(order `30, 20, 15, 10`) has a unique Sylow `5`; its preimage is a normal subgroup of order
+`5 · |N| ∈ {10, 15, 20, 30}` with order divisible by `5`, which by `eq_top_of_five_dvd_card_normal`
+would have to be all of `G` (order `60`) — impossible. -/
+private theorem not_normal_card_mem_two_three_four_six {G : Type*} [Group G] [Finite G]
+    (hG : Nat.card G = 60) (hn5 : Nontrivial (Sylow 5 G))
+    (N : Subgroup G) [N.Normal]
+    (hcard : Nat.card N = 2 ∨ Nat.card N = 3 ∨ Nat.card N = 4 ∨ Nat.card N = 6) : False := by
+  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have hqc : Nat.card G = Nat.card (G ⧸ N) * Nat.card N :=
+    Subgroup.card_eq_card_quotient_mul_card_subgroup N
+  rw [hG] at hqc
+  -- The quotient (order `30, 20, 15` or `10`) has a unique Sylow `5`-subgroup.
+  obtain ⟨hq5, hq25, hSub⟩ : (5 : ℕ) ∣ Nat.card (G ⧸ N) ∧ ¬ (25 : ℕ) ∣ Nat.card (G ⧸ N) ∧
+      Subsingleton (Sylow 5 (G ⧸ N)) := by
+    rcases hcard with h | h | h | h <;> rw [h] at hqc
+    · have hq : Nat.card (G ⧸ N) = 30 := by omega
+      exact ⟨by rw [hq]; norm_num, by rw [hq]; norm_num, card_thirty_subsingleton_sylow5 hq⟩
+    · have hq : Nat.card (G ⧸ N) = 20 := by omega
+      exact ⟨by rw [hq]; norm_num, by rw [hq]; norm_num,
+        subsingleton_sylow5_of_card_le (k := 4) (hq.trans (by norm_num)) (by norm_num)⟩
+    · have hq : Nat.card (G ⧸ N) = 15 := by omega
+      exact ⟨by rw [hq]; norm_num, by rw [hq]; norm_num,
+        subsingleton_sylow5_of_card_le (k := 3) (hq.trans (by norm_num)) (by norm_num)⟩
+    · have hq : Nat.card (G ⧸ N) = 10 := by omega
+      exact ⟨by rw [hq]; norm_num, by rw [hq]; norm_num,
+        subsingleton_sylow5_of_card_le (k := 2) (hq.trans (by norm_num)) (by norm_num)⟩
+  haveI := hSub
+  -- Lift the quotient's Sylow `5` to a normal subgroup `M` of order `5·|N|`.
+  obtain ⟨M, hMnorm, hMcard⟩ := exists_normal_of_subsingleton_sylow5_quot N hq5 hq25
+  haveI : M.Normal := hMnorm
+  have h5M : (5 : ℕ) ∣ Nat.card M := ⟨Nat.card N, hMcard⟩
+  have hMtop : M = ⊤ := eq_top_of_five_dvd_card_normal hG hn5 M h5M
+  have hMcard60 : Nat.card M = 60 := by rw [hMtop, Subgroup.card_top, hG]
+  rcases hcard with h | h | h | h <;> rw [h] at hMcard <;> omega
+
+/-- **Order-`12` normal subgroups contain a smaller normal subgroup.** A group of order `12` has
+either a normal Sylow `3` (order `3`) or a normal Sylow `2` (order `4`); being characteristic, it
+is normal in the ambient group. -/
+private theorem exists_normal_prime_of_card_twelve {G : Type*} [Group G] [Finite G]
+    (N : Subgroup G) [N.Normal] (hN : Nat.card N = 12) :
+    ∃ M : Subgroup G, M.Normal ∧ (Nat.card M = 3 ∨ Nat.card M = 4) := by
+  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  by_cases hS3 : Subsingleton (Sylow 3 ↥N)
+  · -- Unique Sylow `3` (order `3`): characteristic in `N`, hence normal in `G`.
+    haveI := hS3
+    obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 3 ↥N))
+    have hPcard : Nat.card (P : Subgroup ↥N) = 3 := by
+      have h := sylow_card_eq_pow (e := 1) P (by rw [hN]; norm_num) (by rw [hN]; decide)
+      norm_num at h; exact h
+    haveI : (P : Subgroup ↥N).Characteristic := Sylow.characteristic_of_subsingleton P
+    refine ⟨(P : Subgroup ↥N).map N.subtype, inferInstance, Or.inl ?_⟩
+    have e := Subgroup.equivMapOfInjective (P : Subgroup ↥N) N.subtype N.subtype_injective
+    rw [← Nat.card_congr e.toEquiv, hPcard]
+  · -- `n₃ = 4` gives `8` elements of order `3`; the `4` non-order-`3` elements are exactly a
+    -- single Sylow `2` (order `4`), so `n₂ = 1`.
+    have hn3 : Nat.card (Sylow 3 ↥N) = 4 := by
+      obtain ⟨P3⟩ := (inferInstance : Nonempty (Sylow 3 ↥N))
+      have hP3card : Nat.card (P3 : Subgroup ↥N) = 3 := by
+        have h := sylow_card_eq_pow (e := 1) P3 (by rw [hN]; norm_num) (by rw [hN]; decide)
+        norm_num at h; exact h
+      have hidx : (P3 : Subgroup ↥N).index = 4 := by
+        have := Subgroup.card_mul_index (P3 : Subgroup ↥N); rw [hP3card, hN] at this; omega
+      have hdvd : Nat.card (Sylow 3 ↥N) ∣ 4 := hidx ▸ P3.card_dvd_index
+      have hmod : Nat.card (Sylow 3 ↥N) % 3 = 1 % 3 := card_sylow_modEq_one 3 ↥N
+      have hne1 : Nat.card (Sylow 3 ↥N) ≠ 1 := fun h => hS3 (Nat.card_eq_one_iff_unique.mp h).1
+      have hle : Nat.card (Sylow 3 ↥N) ≤ 4 := Nat.le_of_dvd (by norm_num) hdvd
+      interval_cases (Nat.card (Sylow 3 ↥N)) <;> omega
+    have hc3 : Nat.card {g : ↥N // orderOf g = 3} = 8 := by
+      have := card_orderOf_eq_prime_mul_card_sylow (H := ↥N) 3 (by rw [hN]; norm_num)
+        (by rw [hN]; decide)
+      rw [hn3] at this; omega
+    have hcompl : Nat.card {g : ↥N // ¬ orderOf g = 3} = 4 := by
+      have h := Nat.card_congr (Equiv.sumCompl (fun g : ↥N => orderOf g = 3))
+      rw [Nat.card_sum, hc3, hN] at h; omega
+    haveI hSub2 : Subsingleton (Sylow 2 ↥N) := by
+      have key : ∀ T : Sylow 2 ↥N,
+          (↑(T : Subgroup ↥N) : Set ↥N) = {g : ↥N | ¬ orderOf g = 3} := by
+        intro T
+        have hTc : Nat.card (T : Subgroup ↥N) = 4 := by
+          have h := sylow_card_eq_pow (e := 2) T (by rw [hN]; norm_num) (by rw [hN]; decide)
+          norm_num at h; exact h
+        refine Set.eq_of_subset_of_ncard_le ?_ ?_ (Set.toFinite _)
+        · intro g hg
+          simp only [SetLike.mem_coe] at hg
+          simp only [Set.mem_setOf_eq]
+          intro h3
+          have hord : orderOf (⟨g, hg⟩ : (T : Subgroup ↥N)) = 3 := by
+            rw [Subgroup.orderOf_mk]; exact h3
+          have hdvd : orderOf (⟨g, hg⟩ : (T : Subgroup ↥N)) ∣ Nat.card (T : Subgroup ↥N) :=
+            orderOf_dvd_natCard _
+          rw [hTc, hord] at hdvd
+          exact absurd hdvd (by decide)
+        · have hTncard : (↑(T : Subgroup ↥N) : Set ↥N).ncard = 4 := by
+            rw [← Nat.card_coe_set_eq]; exact hTc
+          have hCncard : ({g : ↥N | ¬ orderOf g = 3}).ncard = 4 := by
+            rw [← Nat.card_coe_set_eq]; exact hcompl
+          exact le_of_eq (hCncard.trans hTncard.symm)
+      exact ⟨fun S S' => Sylow.ext (SetLike.coe_injective (by rw [key S, key S']))⟩
+    obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 ↥N))
+    have hPcard : Nat.card (P : Subgroup ↥N) = 4 := by
+      have h := sylow_card_eq_pow (e := 2) P (by rw [hN]; norm_num) (by rw [hN]; decide)
+      norm_num at h; exact h
+    haveI : (P : Subgroup ↥N).Characteristic := Sylow.characteristic_of_subsingleton P
+    refine ⟨(P : Subgroup ↥N).map N.subtype, inferInstance, Or.inr ?_⟩
+    have e := Subgroup.equivMapOfInjective (P : Subgroup ↥N) N.subtype N.subtype_injective
+    rw [← Nat.card_congr e.toEquiv, hPcard]
+
 /-- **Order-`60` groups with more than one Sylow `5`-subgroup are simple (pure group theory).**
 A finite group of order `60` with a nontrivial family of Sylow `5`-subgroups (equivalently
 `n₅ = 6`, since `n₅ ≡ 1 mod 5` and `n₅ ∣ 12` force `n₅ ∈ {1, 6}`) is simple.
@@ -2050,15 +2471,48 @@ subgroup, so `Nat.card N ∈ {2, 3, 4, 5, 6, 10, 12, 15, 20, 30}`.
   `{15, 20}` and reducing to the order-`30` case otherwise. The residual orders `2` and `12` are
   killed by the coset action `G → S_{[G:N]}` and a `2`-element / Sylow-`3` count.
 
-TODO (sub-issue of #6864): discharge this `sorry`. It is portable finite group theory with no
-`SO(3)` dependency; the required Mathlib primitives are `card_sylow_modEq_one`,
-`Sylow.card_dvd_index`, `IsPGroup.toSylow`, `Sylow.normal_of_subsingleton`,
-`Subgroup.normalCore_eq_ker`, and `isSimpleGroup_iff`. -/
+This is portable finite group theory with no `SO(3)` dependency, proved via the private helpers
+above: `card_orderOf_eq_prime_mul_card_sylow` (element-order counting), the Sylow `5`-uniqueness
+lemmas (`subsingleton_sylow5_of_card_le`, `card_thirty_subsingleton_sylow5`), the quotient
+lift/push-up lemmas, and the absorb / exclusion lemmas `eq_top_of_five_dvd_card_normal`,
+`not_normal_card_mem_two_three_four_six`, `exists_normal_prime_of_card_twelve`. -/
 theorem isSimpleGroup_of_card_sixty_of_nontrivial_sylow5
     {Grp : Type*} [Group Grp] [Finite Grp] (hcard : Nat.card Grp = 60)
     (hn5 : Nontrivial (Sylow 5 Grp)) :
     IsSimpleGroup Grp := by
-  sorry
+  haveI : Nontrivial Grp := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
+  refine { eq_bot_or_eq_top_of_normal := fun N hN => ?_ }
+  haveI : N.Normal := hN
+  by_contra hcon
+  push_neg at hcon
+  obtain ⟨hNbot, hNtop⟩ := hcon
+  -- `|N|` divides `60`, and is neither `1` (else `N = ⊥`) nor `60` (else `N = ⊤`).
+  have hdvd : Nat.card N ∣ 60 := by
+    rw [← hcard]; exact Subgroup.card_subgroup_dvd_card N
+  have hNe1 : Nat.card N ≠ 1 := fun h => hNbot (Subgroup.eq_bot_of_card_eq _ h)
+  have hNe60 : Nat.card N ≠ 60 := by
+    intro h
+    exact hNtop (Subgroup.eq_top_of_card_eq _ (by rw [h, hcard]))
+  -- Case split on whether `5 ∣ |N|`.
+  by_cases h5 : (5 : ℕ) ∣ Nat.card N
+  · exact hNtop (eq_top_of_five_dvd_card_normal hcard hn5 N h5)
+  · -- `5 ∤ |N|`, so `|N| ∈ {2, 3, 4, 6, 12}`.
+    have key : ∀ n : ℕ, n ∣ 60 → n ≠ 1 → n ≠ 60 → ¬ (5 ∣ n) →
+        n = 2 ∨ n = 3 ∨ n = 4 ∨ n = 6 ∨ n = 12 := by
+      intro n hn h1 h60 h5n
+      have hle : n ≤ 60 := Nat.le_of_dvd (by norm_num) hn
+      interval_cases n <;> omega
+    rcases key (Nat.card N) hdvd hNe1 hNe60 h5 with h | h | h | h | h
+    · exact not_normal_card_mem_two_three_four_six hcard hn5 N (Or.inl h)
+    · exact not_normal_card_mem_two_three_four_six hcard hn5 N (Or.inr (Or.inl h))
+    · exact not_normal_card_mem_two_three_four_six hcard hn5 N (Or.inr (Or.inr (Or.inl h)))
+    · exact not_normal_card_mem_two_three_four_six hcard hn5 N (Or.inr (Or.inr (Or.inr h)))
+    · -- `|N| = 12`: reduce to a normal subgroup of order `3` or `4`.
+      obtain ⟨M, hMnorm, hMcard⟩ := exists_normal_prime_of_card_twelve N h
+      haveI : M.Normal := hMnorm
+      rcases hMcard with h3 | h4
+      · exact not_normal_card_mem_two_three_four_six hcard hn5 M (Or.inr (Or.inl h3))
+      · exact not_normal_card_mem_two_three_four_six hcard hn5 M (Or.inr (Or.inr (Or.inl h4)))
 
 /-- **Simplicity of the icosahedral group (geometric input).** An order-`60` finite subgroup
 `G ≤ SO(3)` with the icosahedral pole data `{2, 3, 5}` is simple.
