@@ -19,7 +19,8 @@ The parenthetical "consisting of free modules" is the standard construction (rep
 module by a free module on its underlying set); Mathlib's `EnoughProjectives (ModuleCat A)`
 instance provides projective covers by free modules, from which the resolution is built.
 
-This is a statement-level formalization (spec-first): the proof is deferred (`sorry`).
+The theorem is proved (sorry-free) via `ProjectiveResolution.of`, which builds the resolution
+from Mathlib's `EnoughProjectives (ModuleCat A)` instance.
 -/
 
 namespace Etingof
