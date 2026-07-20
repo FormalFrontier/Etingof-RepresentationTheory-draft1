@@ -24,8 +24,8 @@ Etingof Problem 9.5.3 relates the block decomposition of a finite abelian catego
   `Hom(M, N) = 0` whenever `M ∈ 𝒞ₖ`, `N ∈ 𝒞ₗ` with `k ≠ l`. Thus `𝒞 = ⊕ₖ 𝒞ₖ`.
 
 * **(iii)** Determine the blocks of the category of left `A`-modules for `A = k[S₃]` with `k`
-  of characteristic `2`. *(Deferred: this concrete modular-representation computation is left
-  to a follow-up statement-pass item.)*
+  of characteristic `2`. *(This concrete modular-representation computation is discharged in
+  `Problem9_5_3_S3Char2.lean`: `k[S₃] ≅ M₂(k) × k[t]/(t²)`, giving exactly two blocks.)*
 
 ## Statement-pass note
 
@@ -36,7 +36,7 @@ Blocks are `Etingof.Block R` and block membership is `Etingof.InBlock R S M` (De
 of two nonzero orthogonal central idempotents).
 "`Hom(M, N) = 0`" is `Subsingleton (M ⟶ N)`, and "indecomposable object" is
 `CategoryTheory.Indecomposable`. Two blocks are distinct exactly when their representative
-simple modules are not `Etingof.AreLinked`. Proofs are deferred (`sorry`).
+simple modules are not `Etingof.AreLinked`. The proofs are complete (sorry-free).
 -/
 
 universe v u
@@ -619,7 +619,7 @@ The proof runs through `centralIdempotent_smul_simple`: each simple module has a
 (which central idempotents act as `1`), linked simples share it
 (`centralCharacter_eq_of_areLinked`), and the primitive central idempotents `eₖ` in the
 decomposition `1 = Σ eₖ` (`exists_completeOrthogonal_isIndecomposableCentral`) are exactly the
-indicators of the blocks. The remaining `sorry` is the *injectivity* direction
+indicators of the blocks. The *injectivity* direction is supplied by
 `areLinked_of_actsAsOne_common` (block connectivity from indecomposability). -/
 theorem blocks_equiv_indecomposableCentralIdempotents
     {k : Type*} [Field k] [Algebra k R] [FiniteDimensional k R] [Small.{v} R] :
