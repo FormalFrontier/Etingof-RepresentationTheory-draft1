@@ -31,7 +31,7 @@ matrix `[[1,a,c],[0,1,b],[0,0,1]]`; matrix multiplication is
 `⟨a,b,c⟩ * ⟨a',b',c'⟩ = ⟨a+a', b+b', c+c'+a·b'⟩`, giving a group of order `p³`. The two
 generators are `xGen = ⟨1,0,0⟩` and `yGen = ⟨0,1,0⟩`, and `V = ZMod p → ℂ`.
 
-Statements (faithful signatures, `sorry` proofs — a statement pass):
+The (a)–(d) theorems below are all proved (`sorry`-free):
 
 * **(a)** `exists_unique_rep`: for `z^p = 1` there is a *unique* representation `ρ` of `G` on
   `V` acting on the two generators by the shift and the multiplication operators. (Uniqueness
