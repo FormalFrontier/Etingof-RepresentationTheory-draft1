@@ -41,7 +41,8 @@ count, and the **algebra decomposition** `k[S₃] ≅ M₂(k) × k[t]/(t²)` are
 decomposition is realized as the algebra map `(rhoStd, psi) : k[S₃] → M₂(k) × k[t]/(t²)` — the
 standard representation in coordinates paired with the sign character — shown bijective by a
 `6 = 6` dimension count after surjectivity via the central idempotent `e = (123) + (132)`. The
-only remaining `sorry` is `simple_iff_triv_or_std` (there are exactly these two simples). See the
+classification `simple_iff_triv_or_std` (there are exactly these two simples) is also proved, so
+this file is fully sorry-free. See the
 block framework in `Definition9_5_1.lean` and `Problem9_5_3.lean` for the `Etingof.Block` /
 `Etingof.AreLinked` machinery reused here.
 -/
@@ -120,7 +121,7 @@ noncomputable def stdMod : ModuleCat (MonoidAlgebra k S3) :=
 /-- The local algebra `k[t]/(t²)`, the principal block of `k[S₃]` in characteristic `2`. -/
 abbrev kt2 : Type := Polynomial k ⧸ Ideal.span {(Polynomial.X : Polynomial k) ^ 2}
 
-/-! ## The classification (statement pass; proofs deferred) -/
+/-! ## The classification (proved) -/
 
 omit [CharP k 2] in
 /-- **The trivial module is simple.** In characteristic `2`, `triv = sign`, so the two char-`0`

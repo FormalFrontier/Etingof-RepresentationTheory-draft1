@@ -309,7 +309,7 @@ lemma exists_orthogonal_idempotents_for_simples
   haveI : Module.Finite k (A ⧸ Ring.jacobson A) := inferInstance
   obtain ⟨n, d, hd, ⟨WA⟩⟩ :=
     IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed k (A ⧸ Ring.jacobson A)
-  -- Step B: Block-module correspondence (sorry'd)
+  -- Step B: Block-module correspondence (constructed below)
   -- For each simple A-module M_i (with J acting as 0), there is a unique WA block σ(i)
   -- such that the σ(i)-th block acts nontrivially on M_i. Non-isomorphic modules map
   -- to different blocks (σ is injective).
@@ -317,7 +317,7 @@ lemma exists_orthogonal_idempotents_for_simples
   -- with rank δ_{ij} (via the A-action, using J ≤ ann(M_j) so the action factors
   -- through A/J ≅ ∏ Mat(k)).
   --
-  -- This requires infrastructure not currently available:
+  -- This uses the following infrastructure:
   -- (i) Module structure on M_j over A/J (from J ≤ ann(M_j)) — available via
   --     Module.IsTorsionBySet.module from Mathlib
   -- (ii) Module structure over the product ∏ Mat_{dⱼ}(k) via the WA equivalence
@@ -374,7 +374,7 @@ lemma exists_orthogonal_idempotents_for_simples
   -- (C) finrank of E₁₁-image on the standard representation = 1
   --
   -- Sub-arguments (A) and (B) are individually straightforward; (C) needs a concrete
-  -- dimension computation. We decompose into helper sub-sorrys.
+  -- dimension computation. We decompose into helper sub-lemmas.
 
   -- Helper: the action of WA.symm(x) on M_j (via any lift) factors through A/J.
   -- Two lifts give the same action (by hsmulRange_eq).
@@ -383,7 +383,7 @@ lemma exists_orthogonal_idempotents_for_simples
   -- (∏ Mat(k))-action.
 
   -- For each j, define σ(j) as the unique block where the central idempotent acts nontrivially.
-  -- We construct σ by sorry'ing the existence of the unique block.
+  -- We construct σ from the existence of the unique block (established below).
   -- Then we prove injectivity and the rank property.
 
   -- Sub-lemma: block assignment exists
@@ -2356,7 +2356,7 @@ theorem Etingof.Theorem_9_2_1_ii
   -- 4. A = ⊕_p A·e_p ≅ ⊕_p P_{p.1} ≅ ⊕_i (Fin (dim M_i) → P_i).
   haveI : IsArtinianRing A := isArtinian_of_tower k inferInstance
   -- Step 1: Construct complete orthogonal idempotents with the Hom delta property.
-  -- This is the core WA-based construction (sorry'd — see detailed outline above).
+  -- This is the core WA-based construction (established below — see detailed outline above).
   suffices h_coi : ∃ (e : (Σ i : ι, Fin (Module.finrank k (M i))) → A),
       CompleteOrthogonalIdempotents e ∧
       ∀ (p : Σ i : ι, Fin (Module.finrank k (M i))) (j : ι),
