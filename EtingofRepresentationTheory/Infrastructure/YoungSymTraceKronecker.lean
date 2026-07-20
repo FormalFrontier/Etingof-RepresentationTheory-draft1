@@ -32,7 +32,7 @@ Both are images of `YoungSymmetrizerZ` (over ℤ) via base change. -/
 private lemma youngSym_coeff_cast (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
     (YoungSymmetrizerK ℚ n la σ : ℂ) = YoungSymmetrizer n la σ := by
   rw [YoungSymmetrizerK_eq_mapRange ℚ n la, YoungSymmetrizer_eq_mapRange n la]
-  simp only [MonoidAlgebra.mapRangeRingHom_apply]
+  simp only [MonoidAlgebra.mapRingHom_apply]
   exact_mod_cast rfl
 
 /-- Transfer `c² = α·c` from ℚ to ℂ via the ℤ base change.
@@ -44,8 +44,8 @@ private lemma youngSym_sq_ℂ (n : ℕ) (la : Nat.Partition n)
   -- Key elements
   set cZ := YoungSymmetrizerZ n la
   set β : ℤ := (cZ * cZ) 1
-  set φ_ℚ := MonoidAlgebra.mapRangeRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℚ)
-  set φ_ℂ := MonoidAlgebra.mapRangeRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℂ)
+  set φ_ℚ := MonoidAlgebra.mapRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℚ)
+  set φ_ℂ := MonoidAlgebra.mapRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℂ)
   -- Relations to base change
   have h_ℚ : YoungSymmetrizerK ℚ n la = φ_ℚ cZ := YoungSymmetrizerK_eq_mapRange ℚ n la
   have h_ℂ : YoungSymmetrizer n la = φ_ℂ cZ := YoungSymmetrizer_eq_mapRange n la
@@ -57,14 +57,14 @@ private lemma youngSym_sq_ℂ (n : ℕ) (la : Nat.Partition n)
   -- Evaluating at 1: α = (β : ℚ)
   have hα_eq : α = (β : ℚ) := by
     have h1 := Finsupp.ext_iff.mp hmul_ℚ 1
-    simp only [MonoidAlgebra.mapRangeRingHom_apply, MonoidAlgebra.smul_apply,
+    simp only [MonoidAlgebra.mapRingHom_apply, MonoidAlgebra.smul_apply,
       smul_eq_mul, hcZ1, map_one, mul_one, φ_ℚ] at h1
     exact h1.symm
   -- Derive cZ * cZ = β • cZ over ℤ (by injectivity of ℤ → ℚ)
   have hZ : cZ * cZ = β • cZ := by
     ext σ
     have h1 := Finsupp.ext_iff.mp hmul_ℚ σ
-    simp only [MonoidAlgebra.mapRangeRingHom_apply, MonoidAlgebra.smul_apply,
+    simp only [MonoidAlgebra.mapRingHom_apply, MonoidAlgebra.smul_apply,
       smul_eq_mul, hα_eq, φ_ℚ] at h1
     have h2 : ((cZ * cZ) σ : ℚ) = ((β * cZ σ : ℤ) : ℚ) := by push_cast; exact h1
     have h3 : (cZ * cZ) σ = β * cZ σ := Int.cast_injective h2
@@ -170,7 +170,7 @@ private lemma mulLeft_youngSym_zero_of_ne (n : ℕ) (la la' : Nat.Partition n) (
 private lemma youngSym_coeff_one (n : ℕ) (la : Nat.Partition n) :
     (YoungSymmetrizer n la : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) 1 = 1 := by
   rw [YoungSymmetrizer_eq_mapRange]
-  simp [MonoidAlgebra.mapRangeRingHom_apply, YoungSymmetrizerZ_apply_one]
+  simp [MonoidAlgebra.mapRingHom_apply, YoungSymmetrizerZ_apply_one]
 
 /-- For any v ∈ V_λ, c * v is proportional to c: c * v = ((c * v)(1)) • c.
 Uses the sandwich property (Lemma5_13_1) and c(1) = 1. -/
