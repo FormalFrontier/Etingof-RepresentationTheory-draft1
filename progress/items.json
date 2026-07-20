@@ -593,8 +593,8 @@
     "end_page": "14",
     "start_line": 4,
     "end_line": 12,
-    "status": "formalized",
-    "coverage_note": "All three parts formalized in Chapter2/Problem2_3_16.lean, sorry-free. Part (a) (#5883): Etingof.centralAction, Etingof.centralCharacter : Subalgebra.center k A →ₐ[k] k (via Schur's Corollary 2.3.10 / IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed), Etingof.centralCharacter_smul, Etingof.exists_central_scalar. Part (b) (#5887): Etingof.IsIndecomposable predicate; Etingof.centralAction_sub_smul_isNilpotent (single generalized eigenvalue via the Fitting decomposition LinearMap.isCompl_iSup_ker_pow_iInf_range_pow + indecomposability); Etingof.indecEigenvalue_unique (uniqueness of the eigenvalue); Etingof.exists_centralCharacter_isNilpotent (the central character is the AlgHom χ_S of an irreducible subrep S from Problem 2.3.15, and z acts with single eigenvalue χ_S(z)). Part (c) (#5887): Etingof.eps_smul_not_scalar — on the regular representation of the dual numbers k[ε], the central element ε acts non-scalarly (Etingof.epsCenter records ε ∈ Z(k[ε]))."
+    "status": "sorry_free",
+    "coverage_note": "All three parts formalized in Chapter2/Problem2_3_16.lean, sorry-free (#print axioms on Etingof.exists_centralCharacter_isNilpotent and Etingof.centralCharacter: propext/Classical.choice/Quot.sound only, no sorryAx; audit #7001). Part (a) (#5883): Etingof.centralAction, Etingof.centralCharacter : Subalgebra.center k A →ₐ[k] k (via Schur's Corollary 2.3.10 / IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed), Etingof.centralCharacter_smul, Etingof.exists_central_scalar. Part (b) (#5887): Etingof.IsIndecomposable predicate; Etingof.centralAction_sub_smul_isNilpotent (single generalized eigenvalue via the Fitting decomposition LinearMap.isCompl_iSup_ker_pow_iInf_range_pow + indecomposability); Etingof.indecEigenvalue_unique (uniqueness of the eigenvalue); Etingof.exists_centralCharacter_isNilpotent (the central character is the AlgHom χ_S of an irreducible subrep S from Problem 2.3.15, and z acts with single eigenvalue χ_S(z)). Part (c) (#5887): Etingof.eps_smul_not_scalar — on the regular representation of the dual numbers k[ε], the central element ε acts non-scalarly (Etingof.epsCenter records ε ∈ Z(k[ε]))."
   },
   {
     "id": "Chapter2/Problem2.3.17",
@@ -1043,9 +1043,9 @@
     "end_page": "23",
     "start_line": 2,
     "end_line": 3,
-    "status": "sorry",
+    "status": "proof_wanted",
     "fidelity": "verified",
-    "fidelity_note": "Ado's theorem now asserted in Lean as Etingof.ado (Chapter2/Remark2_9_3.lean): for a finite-dimensional Lie algebra L over a characteristic-zero field, there exists a finite-dimensional V and an injective LieHom L →ₗ⁅k⁆ Module.End k V (a faithful finite-dimensional representation). Statement faithful to the book claim. Proof is sorry: the book states Ado's theorem without proof and it is not available in Mathlib.",
+    "fidelity_note": "Ado's theorem now asserted in Lean as Etingof.ado (Chapter2/Remark2_9_3.lean): for a finite-dimensional Lie algebra L over a characteristic-zero field, there exists a finite-dimensional V and an injective LieHom L →ₗ⁅k⁆ Module.End k V (a faithful finite-dimensional representation). Statement faithful to the book claim. Recorded via `proof_wanted` (no `sorry` term, no axiom): the book states Ado's theorem without proof and it is not available in Mathlib. This is NOT a codebase sorry — status corrected from the misleading `sorry` in audit #7001.",
     "fidelity_decl": "Etingof.ado",
     "fidelity_issue": 5367
   },
@@ -1570,7 +1570,8 @@
     "end_page": "40",
     "start_line": 7,
     "end_line": 12,
-    "status": "statement_formalized"
+    "status": "statement_formalized",
+    "coverage_note": "Sole remaining genuine `sorry` in the whole codebase: finrank_g_three in Chapter2/Problem2_16_3.lean. GENUINE OPEN GAP — left as-is per audit #7001; tracked by claimed issue #6340."
   },
   {
     "id": "Chapter2/Problem2.16.4",
@@ -1590,8 +1591,8 @@
     "end_page": "41",
     "start_line": 14,
     "end_line": 1,
-    "status": "statement_formalized",
-    "coverage_note": "Statement pass: EtingofRepresentationTheory/Chapter2/Problem2_16_5.lean (U_q(sl2) constructed via RingQuot with 5 defining relations proved; classification statements sorried: highest weight vector, non-root-of-unity eigenvalue, root-of-unity dimension bound)."
+    "status": "sorry_free",
+    "coverage_note": "EtingofRepresentationTheory/Chapter2/Problem2_16_5.lean, sorry-free (audit #7001). U_q(sl2) constructed via RingQuot with 5 defining relations proved. Both classification cases proved with real proofs (not sorried): non-root-of-unity case highest_weight_eigenvalue_of_not_isOfFinOrder (K acts by ε·qⁿ on the highest weight vector); root-of-unity case Kop_isSemisimple_and_eigenvalues (K diagonalizable, eigenvalues are orderOf-q-th roots) and the dimension bounds finrank_le_of_epow/fpow/cyclic culminating in finrank_irreducible_le_of_isOfFinOrder. #print axioms on highest_weight_eigenvalue_of_not_isOfFinOrder, finrank_irreducible_le_of_isOfFinOrder, Kop_isSemisimple_and_eigenvalues: propext/Classical.choice/Quot.sound only."
   },
   {
     "id": "Chapter3/Introduction",
@@ -3392,7 +3393,7 @@
     "start_line": 3,
     "end_line": 10,
     "status": "partially_formalized",
-    "coverage_note": "Part (b) β-integrality embedded in Chapter5/Remark5_2_8.lean; full remark open (#5654/#5772)"
+    "coverage_note": "PATH: no dedicated Problem5_2_7.lean; the item id is a book id, backed by embedded content in Chapter5/Remark5_2_8.lean (which is now sorry-free, and its covering issues #5654/#5772 are CLOSED). Part (b) (∃ g, χ_V(g)=0 for irreducible dim>1) β-integrality is embedded there. Part (a) (existence of a finite Galois extension K⊂ℂ carrying all matrix entries) is NOT formalized — genuinely partial. Path/status corrected in audit #7001."
   },
   {
     "id": "Chapter5/Remark5.2.8",
@@ -3926,7 +3927,7 @@
     "start_line": 35,
     "end_line": 35,
     "status": "formalized",
-    "coverage_note": "Proved (embedded) in Chapter5/Theorem5_10_1.lean"
+    "coverage_note": "PATH: no dedicated Problem5_10_2.lean; the item id is a book id, backed by embedded content in Chapter5/Theorem5_10_1.lean (Etingof.Theorem5_10_1, builds sorry-free; #print axioms: propext/Classical.choice/Quot.sound only). The tensor-products-over-k-algebras framework for Ind/Res is set up there. This multi-part problem's detailed parts (a)-(f) are tracked separately in Chapter5/Discussion_Problem5.10.2_parts (partially_formalized). Path confirmed in audit #7001."
   },
   {
     "id": "Chapter5/Discussion_Problem5.10.2_parts",
@@ -3937,7 +3938,7 @@
     "start_line": 1,
     "end_line": 1,
     "status": "partially_formalized",
-    "coverage_note": "Related content in Chapter5/Theorem5_27_1.lean / DetClearing.lean"
+    "coverage_note": "Related content in Chapter5/Theorem5_27_1.lean and Chapter5/DetClearing.lean (both exist and build sorry-free, verified audit #7001). Parts (a)-(f) of Problem 5.10.2 not individually formalized to completion — genuinely partial."
   },
   {
     "id": "Chapter5/Introduction_5.11",
@@ -5395,8 +5396,8 @@
     "end_page": "154",
     "start_line": 21,
     "end_line": 6,
-    "status": "statement_formalized",
-    "coverage_note": "Faithful statements in Chapter6/Problem6_1_6.lean: tautological 2-dim SU(2)-rep V (genuinely constructed), mult symmetry (a), McKay connectivity (b), affine-Dynkin/PSD-not-definite (c), dims=marks (e), McKay correspondence (d) as Prop-def; sorry proofs."
+    "status": "partially_proved",
+    "coverage_note": "Chapter6/Problem6_1_6.lean is sorry-free (audit #7001; formerly claimed 'sorry proofs' — corrected). Tautological 2-dim SU(2)-rep V genuinely constructed. Parts (a),(b),(c),(e) PROVED sorry-free: mult_symm (a), mckay_connected (b), mckayCartan_posSemidef + mckayCartan_not_posDef (c), mckay_marks_aux (e); #print axioms on mckay_connected, mckayCartan_posSemidef, mckayCartan_not_posDef: propext/Classical.choice/Quot.sound only. Part (d) (which groups from Problem 4.12.8 correspond to which diagrams) is an informal identification not formalized as a theorem — hence partially_proved, not sorry_free."
   },
   {
     "id": "Chapter6/Section6.2_heading",
@@ -6044,7 +6045,7 @@
     "start_line": 25,
     "end_line": 5,
     "status": "partially_proved",
-    "coverage_note": "Faithful statements in Chapter6/Problem6_9_3.lean: simpleRep S_i, source/sink, Ext^1 via two-term complex differential, Jordan-Holder data as Prop-def (b). Part (a) proved sorry-free: ext1_source and ext1_sink (Ext vanishing at source/sink via subsingleton target/source component). Part (b) IsJordanHolderData remains a Prop-def pending composition-series infrastructure."
+    "coverage_note": "Faithful statements in Chapter6/Problem6_9_3.lean: simpleRep S_i, source/sink, Ext^1 via two-term complex differential, Jordan-Holder data as Prop-def (b). Part (a) proved sorry-free: ext1_source and ext1_sink (Ext vanishing at source/sink via subsingleton target/source component). Part (b) IsJordanHolderData remains a Prop-def pending composition-series infrastructure. Audit #7001: 0-sorry confirmed; part (b) genuinely a Prop-def (not proven), so partially_proved is correct — retained."
   },
   {
     "id": "Chapter7/Introduction",
@@ -7593,9 +7594,10 @@
     "derived_from": "Chapter2/Discussion_2.1_irreducible_indecomposable",
     "source_span": "Obviously, irreducible implies indecomposable, but not vice versa.",
     "claim": "Every irreducible (simple) representation is indecomposable: IsSimpleModule A V → Etingof.IsIndecomposable A V.",
-    "status": "formalized",
+    "status": "sorry_free",
     "lean_ref": "Chapter2/Discussion_2_1_irreducible_indecomposable.lean (Etingof.IsIndecomposable.of_isSimpleModule)",
-    "coverage_issue": 5676
+    "coverage_issue": 5676,
+    "note": "Derived items are keyed by `derived_from`, not `id` (per PLAN Stage 1.6) — the empty-id flag in audit #7001 was a false positive. Etingof.IsIndecomposable.of_isSimpleModule proved sorry-free; #print axioms: propext/Classical.choice/Quot.sound only. Status bumped formalized→sorry_free in audit #7001."
   },
   {
     "type": "derived",
@@ -7655,9 +7657,10 @@
     "derived_from": "Chapter7/Discussion_after_Definition7.9.1",
     "source_span": "It is easy to show that if F is an additive functor, then F(X ⊕ Y) is canonically isomorphic to F(X) ⊕ F(Y).",
     "claim": "An additive functor F between preadditive categories with biproducts satisfies F(X ⊞ Y) ≅ F(X) ⊞ F(Y) canonically.",
-    "status": "formalized",
+    "status": "sorry_free",
     "lean_ref": "Chapter7/Definition7_9_1.lean (Etingof.AdditiveFunctor.mapBiprod)",
-    "coverage_issue": 5683
+    "coverage_issue": 5683,
+    "note": "Derived items are keyed by `derived_from`, not `id` (per PLAN Stage 1.6) — the empty-id flag in audit #7001 was a false positive. Etingof.AdditiveFunctor.mapBiprod_hom proved sorry-free; #print axioms: propext/Classical.choice/Quot.sound only. Status bumped formalized→sorry_free in audit #7001."
   },
   {
     "type": "derived",
