@@ -52,10 +52,11 @@ The mathematics of `kernelLemmaK'` is the `GL×GL`-equivariant **Cauchy
 decomposition** `k[Xᵢⱼ] = ⊕_{ν ∈ ℕ^N dom} V_ν^* ⊠ V_ν` together with the
 highest-weight shift `det · A ≅ A ⊗ χ`: `A/det` keeps exactly the constituents
 with last highest-weight coordinate `ν_N = 0`, so after the `χ⁻ʳ` twist every
-weight has last coordinate `ν_N − r = −r < 0`, i.e. no weight is `≥ 0`. This core
-is a research-level effort tracked as a residual `sorry` here and decomposed in a
-follow-up sub-issue; the present file fixes the precise statement and constructs
-every object it is phrased over.
+weight has last coordinate `ν_N − r = −r < 0`, i.e. no weight is `≥ 0`. This core is
+proved **sorry-free** in `KernelLemmaKPrimeAssembly.lean` (as
+`quotDetTwist_nonzero_subrep_has_neg_weight`, assembled into `kernelLemmaK'_submodule`);
+the present file fixes the precise statement and constructs every object it is phrased
+over.
 -/
 
 namespace Etingof.KernelLemmaKPrime
@@ -182,9 +183,8 @@ research-level core from elementary linear algebra:
   reducibility the subrep contains an irreducible `L` with highest weight `ν`,
   the Cauchy decomposition forces `ν_N = 0` (constituents of `A/det`), and the
   lowest weight of `L` (twisted) realizes the negative coordinate `−r` after the
-  `χ⁻ʳ` shift. It is tracked as a research-level residual `sorry` and decomposed
-  in a follow-up sub-issue; the `det · A ≅ A ⊗ χ` shift half is already
-  sorry-free in `DetShiftIso.lean`.
+  `χ⁻ʳ` shift. It is proved **sorry-free** in `KernelLemmaKPrimeAssembly.lean`; the
+  `det · A ≅ A ⊗ χ` shift half is likewise sorry-free in `DetShiftIso.lean`.
 
 Given both, (K′) is immediate: a nonzero subrep with all weights `≥ 0` would, by
 the core, contain a negative-weight vector, which the glue lemma forbids. -/
