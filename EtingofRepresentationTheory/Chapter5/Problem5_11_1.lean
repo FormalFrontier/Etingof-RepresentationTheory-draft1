@@ -70,9 +70,11 @@ The resulting decompositions (dimensions in parentheses; `[G:H]·dim ρ` on the 
   * `Ind 1 ≅ 1 ⊕ 4 ⊕ 5²` (`15`) — the coset permutation representation;
   * each nontrivial `Ind χᵢ ≅ 3 ⊕ 3' ⊕ 4 ⊕ 5` (`15`).
 
-Statement pass: every decomposition is stated as `Nonempty (Ind_H^G ρ ≅ ⊞ …)` in `FDRep ℂ A₅`,
-with `sorry` proofs. `Ind_H^G` is `Etingof.Definition5_8_1`; the target biproducts use the
-catalogue objects `repTriv, repC3plus, repC3minus, repC4, repC5`.
+Every decomposition is stated as `Nonempty (Ind_H^G ρ ≅ ⊞ …)` in `FDRep ℂ A₅` and proved
+sorry-free, via character additivity over binary biproducts (`character_biprod`) together with
+the per-case induced-character computations (`ind_character_eq`). `Ind_H^G` is
+`Etingof.Definition5_8_1`; the target biproducts use the catalogue objects
+`repTriv, repC3plus, repC3minus, repC4, repC5`.
 -/
 
 open CategoryTheory CategoryTheory.Limits Etingof.Example4_8_1 Etingof.Example4_8_1.A5 Module
