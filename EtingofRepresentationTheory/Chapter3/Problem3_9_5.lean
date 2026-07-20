@@ -53,8 +53,8 @@ A "matrix algebra" is phrased as `Module.End ℂ S` for a finite dimensional `S`
 endomorphism algebra of its `2ⁿ`-dimensional spinor representation, which is exactly the
 statement that `S` is the unique irreducible module.
 
-Statement pass: the quadratic form and Clifford algebra are genuinely constructed; the
-proofs are left as `sorry`.
+The quadratic form and Clifford algebra are genuinely constructed and both parts are proved
+(`sorry`-free).
 -/
 
 namespace Etingof.Problem3_9_5

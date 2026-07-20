@@ -25,8 +25,9 @@ representation is `ρ₀ = ρ`, the bundled action `A →ₗ[k] End_k V`.
 
 `Ext¹(V, V) = 0` reuses `Etingof.Problem3_9_1.Ext1`, phrased as `Subsingleton (Ext1 …)`.
 
-Statement pass: the deformation data (`FormalDeformation`, the constant deformation, the
-isomorphism relation) is genuinely constructed; proof obligations are `sorry`.
+The deformation data (`FormalDeformation`, the constant deformation, the
+isomorphism relation) is genuinely constructed and part (a) is proved (`sorry`-free); part (b)
+is recorded as an open proposition (`Problem3_9_4b`), matching the book's open-ended question.
 -/
 
 namespace Etingof.Problem3_9_4
@@ -56,8 +57,7 @@ structure FormalDeformation where
       = ∑ p ∈ Finset.antidiagonal n, (coeff p.1 a).comp (coeff p.2 b)
 
 /-- The **trivial (constant) deformation** `ρ̃ = ρ`: `ρ₀ = ρ` and `ρₙ = 0` for `n ≥ 1`. The
-coefficient data is genuinely constructed; the multiplicativity proof obligation is left as
-`sorry` (statement pass). -/
+coefficient data is genuinely constructed and the multiplicativity obligation is proved. -/
 noncomputable def constDeformation : FormalDeformation k A V where
   coeff n := if n = 0 then baseRho k A V else 0
   base_eq := by simp
