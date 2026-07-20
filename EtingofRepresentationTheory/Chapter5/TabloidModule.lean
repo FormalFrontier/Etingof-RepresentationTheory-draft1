@@ -1153,9 +1153,10 @@ theorem polytabloidTab_linearIndependent :
 
 -- Note: polytabloid_linearIndependent' (group algebra version) was removed because
 -- it depended on the false polytabloid_self_coeff. The correct proof is
--- polytabloidTab_linearIndependent above. The group algebra version
--- (polytabloid_linearIndependent in PolytabloidBasis.lean) remains sorry'd pending
--- a transfer argument from the tabloid module.
+-- polytabloidTab_linearIndependent above. The group-algebra version
+-- (polytabloid_linearIndependent) was likewise retired from the project in favor of
+-- this sorry-free tabloid-level route (see the module docstring of
+-- PolytabloidBasis.lean); no group-algebra transfer argument is needed.
 
 /-! ### Generalized polytabloidTabs
 
