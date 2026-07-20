@@ -915,6 +915,71 @@ theorem mem_skewSubc_iff {M : EndVc} : M ∈ skewSubc ↔ Mᵀ = -M := Iff.rfl
 theorem mem_tracelessSymSubc_iff {M : EndVc} :
     M ∈ tracelessSymSubc ↔ Mᵀ = M ∧ M.trace = 0 := Iff.rfl
 
+/-- `cx` sends a real scalar multiple to the corresponding complex scalar multiple. -/
+theorem cx_smul (r : ℝ) (N : EndV) : cx (r • N) = (r : ℂ) • cx N := by
+  ext i j; simp [Matrix.smul_apply, Complex.ofReal_mul]
+
+/-! #### Complex decomposition lemmas -/
+
+/-- Every complex skew-symmetric matrix is a combination of the (complexified) basis matrices. -/
+theorem skew_decompc (M : EndVc) (hM : Mᵀ = -M) :
+    M = M 0 1 • cx (sbasis 0) + M 0 2 • cx (sbasis 1) + M 1 2 • cx (sbasis 2) := by
+  have hd : ∀ i, M i i = 0 := fun i => by
+    have h := congr_fun (congr_fun hM i) i
+    simp only [Matrix.transpose_apply, Matrix.neg_apply] at h; linear_combination (2⁻¹ : ℂ) * h
+  have ho : ∀ i j, M j i = -M i j := fun i j => by
+    have h := congr_fun (congr_fun hM i) j
+    simpa only [Matrix.transpose_apply, Matrix.neg_apply] using h
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [sbasis, Matrix.add_apply] <;>
+    (first | rfl | exact hd 0 | exact hd 1 | exact hd 2 |
+      exact ho 0 1 | exact ho 0 2 | exact ho 1 2)
+
+/-- Every complex traceless symmetric matrix is the combination of the five basis matrices. -/
+theorem traceless_sym_decompc (M : EndVc) (hsym : Mᵀ = M) (htr : M.trace = 0) :
+    M = M 0 1 • cx (wbasis 0) + M 0 2 • cx (wbasis 1) + M 1 2 • cx (wbasis 2) + M 0 0 • cx (wbasis 3)
+      + (M 0 0 + M 1 1) • cx (wbasis 4) := by
+  have hs : ∀ i j, M j i = M i j := fun i j => by
+    have h := congr_fun (congr_fun hsym i) j
+    simpa only [Matrix.transpose_apply] using h
+  have htrace : M 2 2 = -M 1 1 - M 0 0 := by
+    rw [Matrix.trace_fin_three] at htr; linear_combination htr
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [wbasis, Matrix.add_apply] <;>
+    (first | rfl | exact hs 0 1 | exact hs 0 2 | exact hs 1 2 | exact htrace)
+
+/-! #### Transported pointwise action facts
+
+Each `conjRepc R (cx w) = ± cx w'` follows from its real counterpart `conjRep R w = ± w'` by
+applying the ring homomorphism `cx` and the transport identity `cx_conjRep`. -/
+
+private theorem conjRepc_Dz0 : conjRepc Dz (cx (sbasis 0)) = cx (sbasis 0) := by
+  rw [← cx_conjRep, conjRep_Dz0]
+private theorem conjRepc_Dz1 : conjRepc Dz (cx (sbasis 1)) = -cx (sbasis 1) := by
+  rw [← cx_conjRep, conjRep_Dz1, map_neg]
+private theorem conjRepc_Dz2 : conjRepc Dz (cx (sbasis 2)) = -cx (sbasis 2) := by
+  rw [← cx_conjRep, conjRep_Dz2, map_neg]
+private theorem conjRepc_Dy0 : conjRepc Dy (cx (sbasis 0)) = -cx (sbasis 0) := by
+  rw [← cx_conjRep, conjRep_Dy0, map_neg]
+private theorem conjRepc_Dy1 : conjRepc Dy (cx (sbasis 1)) = cx (sbasis 1) := by
+  rw [← cx_conjRep, conjRep_Dy1]
+private theorem conjRepc_Dy2 : conjRepc Dy (cx (sbasis 2)) = -cx (sbasis 2) := by
+  rw [← cx_conjRep, conjRep_Dy2, map_neg]
+private theorem conjRepc_Dx0 : conjRepc Dx (cx (sbasis 0)) = -cx (sbasis 0) := by
+  rw [← cx_conjRep, conjRep_Dx0, map_neg]
+private theorem conjRepc_Dx1 : conjRepc Dx (cx (sbasis 1)) = -cx (sbasis 1) := by
+  rw [← cx_conjRep, conjRep_Dx1, map_neg]
+private theorem conjRepc_Dx2 : conjRepc Dx (cx (sbasis 2)) = cx (sbasis 2) := by
+  rw [← cx_conjRep, conjRep_Dx2]
+private theorem conjRepc_Pc0 : conjRepc Pc (cx (sbasis 0)) = cx (sbasis 2) := by
+  rw [← cx_conjRep, conjRep_Pc0]
+private theorem conjRepc_Pc1 : conjRepc Pc (cx (sbasis 1)) = -cx (sbasis 0) := by
+  rw [← cx_conjRep, conjRep_Pc1, map_neg]
+private theorem conjRepc_Pc2 : conjRepc Pc (cx (sbasis 2)) = -cx (sbasis 1) := by
+  rw [← cx_conjRep, conjRep_Pc2, map_neg]
+
 /-- **(b), complexified.** The complexified standard representation `V ⊗ ℂ ≅ skewSubc` is
 irreducible: every `SO(3)`-invariant `ℂ`-subspace contained in `skewSubc` is `⊥` or all of
 `skewSubc`. -/
@@ -922,7 +987,67 @@ theorem skewSub_irreducible_complexified (U : Submodule ℂ EndVc) (hUle : U ≤
     (hUinv : ∀ (A : SO3), ∀ M ∈ U, conjRepc A M ∈ U) :
     U = ⊥ ∨ U = skewSubc := by
   -- The combinatorial argument of `skewSub_irreducible` transported to `ℂ`.
-  sorry
+  rcases eq_or_ne U ⊥ with h | h
+  · exact Or.inl h
+  refine Or.inr (le_antisymm hUle ?_)
+  obtain ⟨M, hMU, hMne⟩ := U.ne_bot_iff.mp h
+  have hMsk : Mᵀ = -M := mem_skewSubc_iff.mp (hUle hMU)
+  have hMdec : M = M 0 1 • cx (sbasis 0) + M 0 2 • cx (sbasis 1) + M 1 2 • cx (sbasis 2) :=
+    skew_decompc M hMsk
+  have hDzM : conjRepc Dz M ∈ U := hUinv Dz M hMU
+  have hDyM : conjRepc Dy M ∈ U := hUinv Dy M hMU
+  have hDxM : conjRepc Dx M ∈ U := hUinv Dx M hMU
+  have hav0 : M 0 1 • cx (sbasis 0) ∈ U := by
+    have key : M 0 1 • cx (sbasis 0) = (2⁻¹ : ℂ) • (M + conjRepc Dz M) := by
+      conv_rhs => rw [hMdec]
+      simp only [map_add, map_smul, conjRepc_Dz0, conjRepc_Dz1, conjRepc_Dz2]
+      module
+    rw [key]; exact U.smul_mem _ (U.add_mem hMU hDzM)
+  have hbv1 : M 0 2 • cx (sbasis 1) ∈ U := by
+    have key : M 0 2 • cx (sbasis 1) = (2⁻¹ : ℂ) • (M + conjRepc Dy M) := by
+      conv_rhs => rw [hMdec]
+      simp only [map_add, map_smul, conjRepc_Dy0, conjRepc_Dy1, conjRepc_Dy2]
+      module
+    rw [key]; exact U.smul_mem _ (U.add_mem hMU hDyM)
+  have hcv2 : M 1 2 • cx (sbasis 2) ∈ U := by
+    have key : M 1 2 • cx (sbasis 2) = (2⁻¹ : ℂ) • (M + conjRepc Dx M) := by
+      conv_rhs => rw [hMdec]
+      simp only [map_add, map_smul, conjRepc_Dx0, conjRepc_Dx1, conjRepc_Dx2]
+      module
+    rw [key]; exact U.smul_mem _ (U.add_mem hMU hDxM)
+  have hav2 : M 0 1 • cx (sbasis 2) ∈ U := by
+    have t := hUinv Pc _ hav0; rwa [map_smul, conjRepc_Pc0] at t
+  have hav1 : M 0 1 • cx (sbasis 1) ∈ U := by
+    have t := hUinv Pc _ hav2; rw [map_smul, conjRepc_Pc2, smul_neg] at t
+    exact neg_mem_iff.mp t
+  have hbv0 : M 0 2 • cx (sbasis 0) ∈ U := by
+    have t := hUinv Pc _ hbv1; rw [map_smul, conjRepc_Pc1, smul_neg] at t
+    exact neg_mem_iff.mp t
+  have hbv2 : M 0 2 • cx (sbasis 2) ∈ U := by
+    have t := hUinv Pc _ hbv0; rwa [map_smul, conjRepc_Pc0] at t
+  have hcv1 : M 1 2 • cx (sbasis 1) ∈ U := by
+    have t := hUinv Pc _ hcv2; rw [map_smul, conjRepc_Pc2, smul_neg] at t
+    exact neg_mem_iff.mp t
+  have hcv0 : M 1 2 • cx (sbasis 0) ∈ U := by
+    have t := hUinv Pc _ hcv1; rw [map_smul, conjRepc_Pc1, smul_neg] at t
+    exact neg_mem_iff.mp t
+  have hne3 : M 0 1 ≠ 0 ∨ M 0 2 ≠ 0 ∨ M 1 2 ≠ 0 := by
+    by_contra hcon
+    push_neg at hcon
+    exact hMne (by rw [hMdec, hcon.1, hcon.2.1, hcon.2.2]; simp)
+  have extract : ∀ w : EndVc,
+      M 0 1 • w ∈ U → M 0 2 • w ∈ U → M 1 2 • w ∈ U → w ∈ U := by
+    intro w h1 h2 h3
+    rcases hne3 with hh | hh | hh
+    · rw [← one_smul ℂ w, ← inv_mul_cancel₀ hh, mul_smul]; exact U.smul_mem _ h1
+    · rw [← one_smul ℂ w, ← inv_mul_cancel₀ hh, mul_smul]; exact U.smul_mem _ h2
+    · rw [← one_smul ℂ w, ← inv_mul_cancel₀ hh, mul_smul]; exact U.smul_mem _ h3
+  have hs0 : cx (sbasis 0) ∈ U := extract _ hav0 hbv0 hcv0
+  have hs1 : cx (sbasis 1) ∈ U := extract _ hav1 hbv1 hcv1
+  have hs2 : cx (sbasis 2) ∈ U := extract _ hav2 hbv2 hcv2
+  intro N hN
+  rw [skew_decompc N (mem_skewSubc_iff.mp hN)]
+  exact U.add_mem (U.add_mem (U.smul_mem _ hs0) (U.smul_mem _ hs1)) (U.smul_mem _ hs2)
 
 /-- **(b), complexified.** The complexified representation `W ⊗ ℂ = tracelessSymSubc` is
 irreducible: every `SO(3)`-invariant `ℂ`-subspace contained in `tracelessSymSubc` is `⊥` or all
