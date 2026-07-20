@@ -40,7 +40,8 @@ points of `act g`, the character inner products give the multiplicities:
 
 Each decomposition is stated as the existence of an internal direct sum of `G`-invariant
 irreducible subspaces of the listed dimensions, in which the two `3`-dimensional summands are
-non-isomorphic (their subrepresentation characters differ). Statement pass: `sorry` proofs.
+non-isomorphic (their subrepresentation characters differ). These decompositions are proved
+(`sorry`-free).
 -/
 
 noncomputable section
