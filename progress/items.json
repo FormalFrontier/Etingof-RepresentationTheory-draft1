@@ -3135,8 +3135,8 @@
     "end_page": "88",
     "start_line": 9,
     "end_line": 12,
-    "status": "statement_formalized",
-    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_11.lean (SO(3) conjugation on End(ℝ³): scalar/skew/traceless-symmetric decomposition, S²V=ℝ⊕W, irreducibility of V,W, Hooke's law f(x+y)=Kx+μy). Part (a) decomposition/finranks proved; skewSub_irreducible (#6539) and tracelessSymSub_irreducible (#6547, V4 sign-projections + Pc cyclic spread + 45° rotations Rz45/Ry45) both proved sorry-free. Only hooke_law (#6548, Schur) remains sorry."
+    "status": "sorry_free",
+    "coverage_note": "EtingofRepresentationTheory/Chapter4/Problem4_12_11.lean fully sorry-free (SO(3) conjugation on End(ℝ³): scalar/skew/traceless-symmetric decomposition, S²V=ℝ⊕W, irreducibility of V,W, Hooke's law f(x+y)=Kx+μy). Part (a) decomposition/finranks proved; skewSub_irreducible (#6539) and tracelessSymSub_irreducible (#6547, V4 sign-projections + Pc cyclic spread + 45° rotations Rz45/Ry45) both proved. Part (b) complexification (#6985): skewSub_irreducible_complexified and tracelessSymSub_irreducible_complexified prove V⊗ℂ (skewSubc) and W⊗ℂ (tracelessSymSubc) irreducible on EndVc=Matrix(Fin 3)(Fin 3)ℂ, by transporting the real combinatorial argument through the ring hom cx via cx_conjRep. hooke_law (#6548, Schur via odd-degree real eigenvalue) proved."
   },
   {
     "id": "Chapter4/Discussion_4.13",
