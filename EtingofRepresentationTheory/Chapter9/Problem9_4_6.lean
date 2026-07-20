@@ -1,6 +1,8 @@
 import Mathlib.Algebra.FreeAlgebra
 import Mathlib.Algebra.Module.Projective
 import Mathlib.Combinatorics.Quiver.Path
+import Mathlib.Data.Fintype.Card
+import Mathlib.Data.Finite.Sigma
 import Mathlib.LinearAlgebra.Dimension.Constructions
 import EtingofRepresentationTheory.Chapter2.Definition2_8_4
 import EtingofRepresentationTheory.Chapter2.Problem2_8_6
@@ -26,21 +28,32 @@ Etingof Problem 9.4.6 has two parts.
   path algebra `P_Q` is the *path-counting matrix*: its `(i, j)` entry is the number of
   oriented paths from vertex `i` to vertex `j`.
 
-## Statement-pass note
+## Formalization notes
 
 Part (i) is stated with `Etingof.homologicalDimension` (Definition 9.4.3) applied to
 `Etingof.PathAlgebra k Q` (Definition 2.8.4) and to `FreeAlgebra k (Fin n)`. "At least one
-edge" is `∃ a b, Nonempty (a ⟶ b)`.
+edge" is `∃ a b, Nonempty (a ⟶ b)`. It is proved via the standard length-1 projective
+resolution (`homologicalDimension_pathAlgebra_eq_one`,
+`homologicalDimension_freeAlgebra_eq_one`).
 
 Part (ii) is stated with `Etingof.algebraCartanMatrix` (Definition 9.3.1). The Cartan matrix
 is `cᵢⱼ = dim_k Hom_A(Pᵢ, Pⱼ)` for the projective covers `Pᵢ` of the simple modules. For the
 path algebra of a finite acyclic quiver the indecomposable projectives are `Pᵢ = A · eᵢ`
 (`eᵢ` the trivial-path idempotent), and `Hom_A(Pᵢ, Pⱼ) ≅ eᵢ A eⱼ` is the free `k`-space on
-the oriented paths from `i` to `j`. This Hom-space identification (the content that makes the
-Cartan matrix count paths) is carried as the hypothesis `hcover`; the conclusion is that the
-Cartan matrix equals the path-count matrix `(i, j) ↦ Nat.card (Quiver.Path i j)`. Acyclicity
-(`hacyclic`) is what makes each `Quiver.Path i j` finite, so `Nat.card` is the honest count.
-Proofs are deferred (`sorry`) per the statement-pass phase.
+the oriented paths from `i` to `j`. Part (ii) is available in two forms:
+
+* `cartanMatrix_pathAlgebra_eq_pathCount`, taking an abstract projective family `P` together
+  with the Hom-space identification `hcover : Hom_A(Pᵢ, Pⱼ) ≅ (paths i → j) →₀ k`; and
+* `cartanMatrix_pathAlgebra_eq_pathCount'`, unconditional for the natural projective family
+  `Pᵢ = A · eᵢ` (`Etingof.PathAlgebra.pathAlgebraProj`), discharging `hcover` via
+  `Etingof.PathAlgebra.pathAlgebraHomEquiv`.
+
+In both, the conclusion is that the Cartan matrix equals the path-count matrix
+`(i, j) ↦ Nat.card (Quiver.Path i j)`. Acyclicity (`hacyclic`) is load-bearing: together with
+finiteness of the vertex set and of each arrow set it is what makes every `Quiver.Path i j`
+finite (an acyclic finite quiver has no vertex-repeating path, so path length is bounded by
+`Fintype.card Q`), so `Nat.card` is the honest count. This path-finiteness is derived here
+from `hacyclic` (see `finite_path` below), not assumed.
 -/
 
 universe u
@@ -48,6 +61,133 @@ universe u
 open Etingof CategoryTheory Limits
 
 namespace Etingof.Problem946
+
+/-! ## Path-finiteness from acyclicity
+
+For a finite quiver with finitely many arrows, acyclicity (`hacyclic`: every closed path is
+trivial) forces every `Quiver.Path a b` to be finite: an acyclic path cannot revisit a vertex,
+so its length is bounded by `Fintype.card V`, and there are only finitely many paths of each
+bounded length. This is the operative content behind the Cartan-matrix path count of
+Problem 9.4.6 (ii): it is what makes `Nat.card (Quiver.Path i j)` the honest number of paths. -/
+
+section AcyclicFinite
+
+variable {V : Type*} [Quiver V]
+
+/-- The list of vertices visited by a path from `a` to `b`, inclusive of both endpoints. Its
+length is `p.length + 1`. -/
+def pathSupport {a : V} : ∀ {b : V}, Quiver.Path a b → List V
+  | _, .nil => [a]
+  | b, .cons p _ => pathSupport p ++ [b]
+
+@[simp] lemma pathSupport_length {a : V} :
+    ∀ {b : V} (p : Quiver.Path a b), (pathSupport p).length = p.length + 1
+  | _, .nil => rfl
+  | _, .cons p _ => by
+      simp [pathSupport, Quiver.Path.length_cons, pathSupport_length p]
+
+/-- A path visiting a vertex `c` splits at `c` as a path `a ⟶* c` followed by a path
+`c ⟶* b`. -/
+lemma exists_comp_of_mem_pathSupport {a : V} :
+    ∀ {b : V} (p : Quiver.Path a b) {c : V}, c ∈ pathSupport p →
+      ∃ (q : Quiver.Path a c) (r : Quiver.Path c b), p = q.comp r
+  | _, .nil, c, hc => by
+      rw [pathSupport, List.mem_singleton] at hc
+      subst hc
+      exact ⟨.nil, .nil, rfl⟩
+  | _, .cons p e, c, hc => by
+      rw [pathSupport, List.mem_append, List.mem_singleton] at hc
+      rcases hc with hc | rfl
+      · obtain ⟨q, r, rfl⟩ := exists_comp_of_mem_pathSupport p hc
+        exact ⟨q, r.cons e, by rw [Quiver.Path.comp_cons]⟩
+      · exact ⟨.cons p e, .nil, (Quiver.Path.comp_nil _).symm⟩
+
+/-- In an acyclic quiver, the vertices visited by a path are distinct: a repeated vertex would
+give a nontrivial closed subpath. -/
+lemma pathSupport_nodup {a : V}
+    (hacyclic : ∀ (v : V) (q : Quiver.Path v v), q = Quiver.Path.nil) :
+    ∀ {b : V} (p : Quiver.Path a b), (pathSupport p).Nodup
+  | _, .nil => List.nodup_singleton a
+  | b, .cons p e => by
+      have hbnotin : b ∉ pathSupport p := by
+        intro hx
+        obtain ⟨_, r, _⟩ := exists_comp_of_mem_pathSupport p hx
+        have hloop := hacyclic b (r.cons e)
+        have hlen : (r.cons e).length = 0 := by rw [hloop]; rfl
+        rw [Quiver.Path.length_cons] at hlen
+        exact absurd hlen (Nat.succ_ne_zero _)
+      rw [pathSupport]
+      refine (pathSupport_nodup hacyclic p).append (List.nodup_singleton b) ?_
+      rw [List.disjoint_iff_ne]
+      intro x hx c hc
+      rw [List.mem_singleton] at hc
+      subst hc
+      exact fun heq => hbnotin (heq ▸ hx)
+
+/-- In a finite acyclic quiver, every path has length below `Fintype.card V`. -/
+lemma path_length_lt_card [Fintype V]
+    (hacyclic : ∀ (v : V) (q : Quiver.Path v v), q = Quiver.Path.nil)
+    {a b : V} (p : Quiver.Path a b) : p.length < Fintype.card V := by
+  have hle := (pathSupport_nodup hacyclic p).length_le_card
+  rw [pathSupport_length] at hle
+  omega
+
+/-- A path of length `n + 1` from `a` to `b` decomposes uniquely as a length-`n` path
+`a ⟶* c` followed by a final arrow `c ⟶ b`. -/
+private def pathSuccEquiv (a b : V) (n : ℕ) :
+    {p : Quiver.Path a b // p.length = n + 1} ≃
+      Σ c : V, {p : Quiver.Path a c // p.length = n} × (c ⟶ b) where
+  toFun := fun ⟨p, h⟩ => by
+    cases p with
+    | nil => simp [Quiver.Path.length_nil] at h
+    | cons p' e => exact ⟨_, ⟨p', by rw [Quiver.Path.length_cons] at h; omega⟩, e⟩
+  invFun x := ⟨x.2.1.1.cons x.2.2, by rw [Quiver.Path.length_cons, x.2.1.2]⟩
+  left_inv := fun ⟨p, h⟩ => by
+    cases p with
+    | nil => simp [Quiver.Path.length_nil] at h
+    | cons p' e => rfl
+  right_inv := fun ⟨_, ⟨_, _⟩, _⟩ => rfl
+
+/-- Paths of a fixed length between two vertices of a finite quiver (finite arrows) form a
+finite type. -/
+lemma finite_pathLen [Finite V] [∀ i j : V, Finite (i ⟶ j)] (a : V) :
+    ∀ (n : ℕ) (b : V), Finite {p : Quiver.Path a b // p.length = n} := by
+  intro n
+  induction n with
+  | zero =>
+    intro b
+    haveI : Subsingleton {p : Quiver.Path a b // p.length = 0} := by
+      refine ⟨fun x y => ?_⟩
+      obtain ⟨p, hp⟩ := x
+      obtain ⟨q, hq⟩ := y
+      have hab : a = b := Quiver.Path.eq_of_length_zero p hp
+      subst hab
+      rw [Subtype.mk_eq_mk, Quiver.Path.eq_nil_of_length_zero p hp,
+        Quiver.Path.eq_nil_of_length_zero q hq]
+    exact Finite.of_injective (fun _ => (0 : Fin 1)) fun x y _ => Subsingleton.elim x y
+  | succ n ih =>
+    intro b
+    haveI : ∀ c : V, Finite {p : Quiver.Path a c // p.length = n} := ih
+    exact Finite.of_equiv _ (pathSuccEquiv a b n).symm
+
+/-- **Path-finiteness from acyclicity.** In a finite quiver with finitely many arrows, if every
+closed path is trivial then each `Quiver.Path a b` is finite. This makes `hacyclic` the honest
+source of finiteness of the path count, rather than assuming it. -/
+lemma finite_path [Finite V] [∀ i j : V, Finite (i ⟶ j)]
+    (hacyclic : ∀ (v : V) (q : Quiver.Path v v), q = Quiver.Path.nil)
+    (a b : V) : Finite (Quiver.Path a b) := by
+  haveI := Fintype.ofFinite V
+  haveI : ∀ (m : ℕ) (c : V), Finite {p : Quiver.Path a c // p.length = m} :=
+    fun m c => finite_pathLen a m c
+  refine Finite.of_injective
+    (fun p : Quiver.Path a b =>
+      (⟨⟨p.length, path_length_lt_card hacyclic p⟩, p, rfl⟩ :
+        Σ n : Fin (Fintype.card V), {p : Quiver.Path a b // p.length = (n : ℕ)})) ?_
+  intro p q h
+  exact congrArg
+    (fun x : Σ n : Fin (Fintype.card V), {p : Quiver.Path a b // p.length = (n : ℕ)} => x.2.1) h
+
+end AcyclicFinite
 
 /-- **Problem 9.4.6 (i), upper bound.** Every left `PathAlgebra k Q`-module has projective
 dimension `≤ 1`; equivalently, the path algebra has homological dimension `≤ 1`.
@@ -375,17 +515,20 @@ of oriented paths from `i` to `j`.
 The projective covers `P` of the simple modules are supplied together with the defining
 identification `hcover : Hom_A(Pᵢ, Pⱼ) ≅ (paths i → j) →₀ k` (for the path algebra these are
 `Pᵢ = A·eᵢ` with `Hom_A(Pᵢ, Pⱼ) ≅ eᵢ A eⱼ`, free on the paths from `i` to `j`). Acyclicity
-`hacyclic` makes each path type finite, so `Nat.card` is the genuine number of paths. -/
+`hacyclic`, together with finiteness of the vertex set (`Fintype Q`) and of each arrow set
+(`Finite (i ⟶ j)`), makes each path type finite (`finite_path`), so `Nat.card` is the genuine
+number of paths. -/
 theorem cartanMatrix_pathAlgebra_eq_pathCount
     {k : Type u} [Field k] {Q : Type u} [Quiver.{u + 1} Q] [Fintype Q] [DecidableEq Q]
     (hacyclic : ∀ (i : Q) (p : Quiver.Path i i), p = Quiver.Path.nil)
-    [∀ i j : Q, Finite (Quiver.Path i j)]
+    [∀ i j : Q, Finite (i ⟶ j)]
     (P : Q → Type*) [∀ i, AddCommGroup (P i)]
     [∀ i, Module (Etingof.PathAlgebra k Q) (P i)] [∀ i, Module k (P i)]
     [∀ i, SMulCommClass (Etingof.PathAlgebra k Q) k (P i)]
     (hcover : ∀ i j : Q,
       Nonempty ((P i →ₗ[Etingof.PathAlgebra k Q] P j) ≃ₗ[k] (Quiver.Path i j →₀ k))) :
     Etingof.algebraCartanMatrix (k := k) (A := Etingof.PathAlgebra k Q) P = pathCountMatrix Q := by
+  haveI : ∀ i j : Q, Finite (Quiver.Path i j) := fun i j => finite_path hacyclic i j
   ext i j
   obtain ⟨e⟩ := hcover i j
   have : Fintype (Quiver.Path i j) := Fintype.ofFinite _
@@ -399,12 +542,13 @@ the path algebra `P_Q`, computed with the concrete indecomposable projective cov
 This discharges the `hcover` hypothesis of `cartanMatrix_pathAlgebra_eq_pathCount` by supplying the
 Hom-space identification `Etingof.PathAlgebra.pathAlgebraHomEquiv`,
 `Hom_A(A·eᵢ, A·eⱼ) ≃ₗ[k] (paths i → j) →₀ k`, making the result unconditional for the natural
-projective family. Acyclicity plus finiteness of `Q` make each `Quiver.Path i j` finite (carried
-here as the `[∀ i j, Finite (Quiver.Path i j)]` instance), so `Nat.card` is the honest count. -/
+projective family. Acyclicity (`hacyclic`) together with finiteness of the vertex set (`Fintype Q`)
+and of each arrow set (`Finite (i ⟶ j)`) makes each `Quiver.Path i j` finite (`finite_path`), so
+`Nat.card` is the honest count. -/
 theorem cartanMatrix_pathAlgebra_eq_pathCount'
     {k : Type u} [Field k] {Q : Type u} [Quiver.{u + 1} Q] [Fintype Q] [DecidableEq Q]
     (hacyclic : ∀ (i : Q) (p : Quiver.Path i i), p = Quiver.Path.nil)
-    [∀ i j : Q, Finite (Quiver.Path i j)] :
+    [∀ i j : Q, Finite (i ⟶ j)] :
     Etingof.algebraCartanMatrix (k := k) (A := Etingof.PathAlgebra k Q)
         (Etingof.PathAlgebra.pathAlgebraProj k Q) = pathCountMatrix Q :=
   cartanMatrix_pathAlgebra_eq_pathCount hacyclic (Etingof.PathAlgebra.pathAlgebraProj k Q)
