@@ -40,16 +40,17 @@ zero this is an iso onto its image.
 ## Main results
 
 * `homogeneousPolyToTensor_injective` — the bridge is injective.
+* `polyToTensor_rightTransl_of_isHomogeneous` — on homogeneous degree-`n`
+  polynomials, the bridge intertwines the right-translation action
+  `g · P(X) = P(X·g)` with the `g^⊗n ⊗ id` action on the tensor target.
+* `homogeneousPolyToTensor_equivariant` — the packaged GL_N-equivariance
+  statement on `homogeneousSubmodule`, built on the previous result.
 
-## Status
-
-Equivariance of the bridge under the GL_N-right-translation action on
-polynomials vs. the `g ↦ g^⊗n ⊗ 1` action on the tensor target is the
-intended companion property. It is deferred to a sibling issue so that
-the construction and injectivity land first (injectivity is the key
-property that `#2478` consumes via the left-inverse — equivariance will
-be stated and proved alongside the final `polynomialRep_embeds_in_tensorPower`
-assembly).
+Both the injectivity and equivariance properties are proved here, sorry-free.
+Injectivity is the property that `#2478` consumes via the left-inverse;
+equivariance records that the two actions being intertwined
+(right-translation `g · P(X) = P(X·g)` on polynomials vs. `g ↦ g^⊗n ⊗ 1`
+on `V^⊗n ⊗ (V^*)^⊗n`) agree under the bridge.
 -/
 
 open scoped TensorProduct
