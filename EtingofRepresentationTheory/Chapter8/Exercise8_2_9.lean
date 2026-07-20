@@ -45,7 +45,7 @@ category abelian via the Hilbert basis theorem (`A` is Noetherian, so submodules
 generated modules are finitely generated); this is what is needed for the categorical notion of
 "enough projectives" to make sense.
 
-These are statement-level formalizations (spec-first): the proofs are deferred (`sorry`).
+All three theorems are proved (sorry-free).
 -/
 
 namespace Etingof

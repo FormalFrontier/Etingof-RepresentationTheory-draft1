@@ -21,7 +21,8 @@ The direct sum `P₁ ⊕ P₂` is the product module, with inclusions `LinearMap
 * `f ∘ inl = ι ∘ f₁` (the restriction of `f` to `P₁` is `f₁`, viewed inside `M`);
 * `π ∘ (f ∘ inr) = f₂` (the map `P₂ → M → M₂` induced by `f` is `f₂`).
 
-This is a statement-level formalization (spec-first): the proof is deferred (`sorry`).
+The theorem is proved (sorry-free): `P₂` projective lifts `f₂` through the surjection `π`,
+and `f (p₁, p₂) = ι (f₁ p₁) + g₂ p₂` satisfies both conditions.
 -/
 
 namespace Etingof
