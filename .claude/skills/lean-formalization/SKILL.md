@@ -66,6 +66,16 @@ instead of `rw`. For subalgebra/subtype coercions specifically, the `Subalgebra.
 /`coe_zero` lemmas are `rfl`, so `rw` on them is brittle — prefer `Subtype.ext (R-level eq)` to
 prove a `↥S`-level equation and `congrArg S.val (↥S-level eq)` to prove an `R`-level one.
 
+**`set`/`let`-abbreviating a *type* hides its instances from synthesis.** `set O :=
+MulAction.orbit ↥G b` then writing `↥O` makes `MulAction ↥G ↥O` (and `Finite`/`Fintype ↥O`)
+**unfindable** — typeclass search will not unfold a local `set`/`let` definition, so you get
+`failed to synthesize HSMul ↥G ↥O ?` or a `synthInstance` timeout. Write the type out
+(`↥(MulAction.orbit ↥G b)`) everywhere an instance must resolve; accept the verbosity (wrap long
+lines). Relatedly, a lambda whose **output** type is still a metavariable sends instance search
+into a loop — e.g. `Quotient.map' (fun w => g • w) h` before `Quotient.map'`'s codomain is pinned
+gives the same `HSMul … ?` timeout. Ascribe it: `fun w : T => (g • w : T)`. Both bit during the
+octahedral four-diagonal quotient action (#6972).
+
 **Same failure for `AddCommGrpCat`/`ModuleCat` homology goals in `ConcreteCategory.hom` form**
 (cost ~5 iterations in #6952, `Chapter8/HomComplexHomologyK.lean`). After
 `AddCommGrpCat.comp_apply`, terms read `ConcreteCategory.hom f (ConcreteCategory.hom g x)`; the
