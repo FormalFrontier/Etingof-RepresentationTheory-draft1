@@ -31,7 +31,7 @@ The count is assembled from four reusable building blocks:
 * `simpleModuleClassesCongr` — transport iso-classes of simple modules across an
   equivalence of module categories (proved here).
 * `simpleModuleClassesPiEquiv` — the simple modules of a finite product of rings are the
-  disjoint union of the simple modules of the factors (deferred; see the sub-issue).
+  disjoint union of the simple modules of the factors (proved here).
 * `simpleModuleClassesMatrixEquiv` — Morita: a matrix ring has the same simple count as
   its base ring (proved here from `ModuleCat.matrixEquivalence`).
 * `nonempty_simpleModuleClasses` / `subsingleton_simpleModuleClasses_divisionRing` —
