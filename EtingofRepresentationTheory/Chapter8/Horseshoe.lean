@@ -58,11 +58,12 @@ Write `S.f : X₁ ⟶ X₂`, `S.g : X₂ ⟶ X₃`, `ε₁ := P₁.π.f 0`, `ε�
 
 ## Status
 
-Spec-first: the statement is recorded and the construction/proof is deferred (`sorry`). The
-resolution *data* (the twisted differential threading the inductive lift, the augmentation, and
-the chain maps `α`, `β`) is the substantial remaining work; see the route above. Once built, only
-`Prop`-level obligations (`d ≫ d = 0`, chain-map laws, `QuasiIso`, `ShortExact`) remain, and the
-theorem should become sorry-free.
+Complete and `sorry`-free. The resolution *data* is built explicitly — the twisted differential
+`horseshoeD` threading the inductive off-diagonal lift `horseshoeTwist`, the augmentation
+`horseshoeπ`, and the chain maps `horseshoeα`, `horseshoeβ` (see the route above) — and every
+`Prop`-level obligation (`d ≫ d = 0` via `horseshoeD_comp_horseshoeD`, the chain-map laws, the
+`QuasiIso` of the augmentation via `horseshoeπ_quasiIso`, and the degreewise-split `ShortExact`
+via `horseshoeShortComplex_shortExact`) is discharged, so `horseshoe` is proved.
 -/
 
 universe v u
