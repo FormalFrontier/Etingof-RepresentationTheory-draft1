@@ -21,7 +21,8 @@ The relations below are stated in the source-to-target convention of this projec
 they are the correct relations for `Etingof.PathAlgebra k Q`.
 
 We render the generators, the generation property, the four relations, and the universal
-property ("these are *defining* relations") as the statements (spec); proofs are deferred.
+property ("these are *defining* relations") as the statements. The proofs are complete
+(sorry-free).
 -/
 
 namespace Etingof.Problem2_8_6
