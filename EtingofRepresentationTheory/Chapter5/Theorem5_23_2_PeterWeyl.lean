@@ -36,8 +36,9 @@ matrix-coefficient maps `peterWeylSummandMap` (`PeterWeylMatrixCoeff.lean`) via
 is assembled from the per-summand equivariance. This reduces the capstone
 `Theorem5_23_2_ii_equivariant` to a single bijectivity statement
 `peterWeylMap_bijective` (the Cauchy decomposition,
-`PolynomialGLDecomposition.lean` / `CauchyDetQuotient*`), which is the sole remaining
-`sorry` and is being assembled separately.
+`PolynomialGLDecomposition.lean` / `CauchyDetQuotient*`), which is now proved
+sorry-free (as the conjunction of `peterWeylMap_injective` and
+`peterWeylMap_surjective`).
 -/
 
 open scoped TensorProduct
@@ -579,7 +580,8 @@ private theorem aux_detShift_packaging
 Schur module `charTwistRep (det^{-r}) (schurModuleRep k n ν)` (antitone `ν`) is equivariantly
 isomorphic to the irreducible `algIrrepGLRepρ n lam k` for a concrete dominant weight `lam`.
 
-This is the subtle det-shift bookkeeping isolated as a sorry. **Caveat (issue #5602):**
+This is the subtle det-shift bookkeeping, now proved sorry-free below (`aux_detShift_packaging`).
+**Caveat (issue #5602, closed):**
 `DominantWeight.shift` is not free data — `algIrrepGLRepρ n lam k =
 charTwistRep (det^{-lam.shift}) (schurModuleRep k n lam.toNatWeight)` with `lam.toNatWeight =
 lam.val + lam.shift`, and setting `lam.val := ν − r` gives `lam.shift = (r − ν(last)).toNat`, so
@@ -795,9 +797,9 @@ theorem rightHull_le_iSup_range_peterWeylSummandMap
 coefficients of all the irreducibles `L_λ` together span the whole coordinate ring
 `R = k[gᵢⱼ][1/det]`: the ranges of the per-summand maps `peterWeylSummandMap n λ k` have
 supremum `⊤`. Equivalent to `peterWeylMap_surjective` (via `range_toModule_eq_iSup_range`), and
-the sole remaining representation-theoretic obligation of `peterWeylMap_bijective`.
+the key representation-theoretic input to `peterWeylMap_bijective`; now proved sorry-free (below).
 
-**Intended proof route (Etingof §5.23(ii), the Cauchy decomposition of `R`).** This is the
+**Proof route (Etingof §5.23(ii), the Cauchy decomposition of `R`).** This is the
 abstract Peter-Weyl "every regular function is a matrix coefficient" argument:
 
 1. *Finite-dimensional right-translation hull.* Every `φ ∈ R = Localization.Away (detPoly k n)`
@@ -822,13 +824,13 @@ abstract Peter-Weyl "every regular function is a matrix coefficient" argument:
    `peterWeylSummandMap n λ k`; hence the matrix coefficient of `W_φ`, decomposed across the
    `L_λ` summands, lies in `⨆_λ range (peterWeylSummandMap n λ k)`.
 
-The matrix-coefficient correspondence of step 4 is now available
+The matrix-coefficient correspondence of step 4 is available
 (`equivariant_range_le_peterWeylSummandMap`, #5578), and the hull machinery of steps 1–2 is in
 place (`RightTranslationHull.self_mem_rightHull`, `RightTranslationHull.rightHull_isSemisimple`,
-#5577). What remains is the *realization* half of steps 2–4: identifying each simple constituent
+#5577). The *realization* half of steps 2–4 — identifying each simple constituent
 of the semisimple hull with a concrete `L_λ = AlgIrrepGL n λ k` via a `GL_n`-equivariant
-inclusion into `R`. That is isolated as the bridge lemma
-`rightHull_le_iSup_range_peterWeylSummandMap` below. -/
+inclusion into `R` — is the lemma `rightHull_le_iSup_range_peterWeylSummandMap` below, which
+completes the proof. -/
 theorem peterWeylSummandMap_iSup_range_eq_top
     (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
     ⨆ lam, LinearMap.range (peterWeylSummandMap n lam k) = ⊤ := by
@@ -849,10 +851,10 @@ over all dominant weights `λ` of the `L*_λ ⊗ L_λ` isotypic block, i.e. `pet
 element of `R`.
 
 This is the second of the two genuine Cauchy/Peter-Weyl halves of `peterWeylMap_bijective`. The
-Cauchy machinery it consumes (`Cauchy*`, `PolynomialGL*`) is sorry-free; the present obligation is
-its assembly at the level of the localization `R`, i.e. transporting the per-degree polynomial
-decomposition across the determinant localization to the spanning statement for matrix
-coefficients. Tracked as issue #5550. -/
+Cauchy machinery it consumes (`Cauchy*`, `PolynomialGL*`) is sorry-free; this half — its assembly
+at the level of the localization `R`, i.e. transporting the per-degree polynomial decomposition
+across the determinant localization to the spanning statement for matrix coefficients — is now
+proved sorry-free below (issue #5550, closed). -/
 theorem peterWeylMap_surjective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
     Function.Surjective (peterWeylMap n k) := by
   rw [← LinearMap.range_eq_top]
@@ -895,7 +897,7 @@ theorem Theorem5_23_2_ii_equivariant
       IsEquivariantEquiv (localBiRep k n) (peterWeylRHS n k) e } :=
   -- The equivariant *structure* is assembled here: `peterWeylMap` together with
   -- `peterWeylMap_equivariant` reduce the capstone to `peterWeylMap_bijective`
-  -- (the Cauchy decomposition), the sole remaining sorry.
+  -- (the Cauchy decomposition), now proved sorry-free.
   nonempty_equivariantEquiv_of_bijective n k (peterWeylMap_bijective n k)
 
 end Etingof

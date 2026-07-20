@@ -52,9 +52,10 @@ right factor. (See #4944 for the history; this corrected a previously false
 The dominant weights `ν ∈ ℕ^N` with `|ν| = d` are exactly the `BoundedPartition N d`
 (`Proposition5_21_1.lean`: an antitone `ν : Fin N → ℕ` with `∑ i, ν i = d`), a
 finite indexing set. The identity is `polyRightDegreeFDRep_formalCharacter`,
-stated here with its proof deferred to the genuine Cauchy/Schur-Weyl core
-(the Cauchy identity + the highest-weight ⟺ `ν ∈ ℕ^N` theory; overlaps
-`iso_of_formalCharacter_eq_schurPoly`, #4699/#4882). An elementary intermediate
+stated and proved (sorry-free) in `CauchyCharacterRightAssembly.lean` via the
+genuine Cauchy/Schur-Weyl core (the Cauchy identity + the highest-weight ⟺
+`ν ∈ ℕ^N` theory; overlaps `iso_of_formalCharacter_eq_schurPoly`,
+#4699/#4882). An elementary intermediate
 form available without Schur-Weyl: the `μ`-weight space of `A_d` has dimension
 `∏_j C(μ_j + N - 1, N - 1)` (monomials with column-degree vector `μ`), so
 `formalCharacter k N (A_d) = ∑_{|μ| = d} (∏_j C(μ_j + N-1, N-1)) · x^μ`; the
