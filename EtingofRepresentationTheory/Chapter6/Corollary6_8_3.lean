@@ -24,12 +24,17 @@ Since both reps have the same dimension vector, they make the same choice. In th
 case, `simpleAt_iso` gives the isomorphism. In the surjective case, we apply F⁺ and
 recurse on the reversed quiver.
 
-## Remaining sorry
+## Recovery lemma
 
 The **recovery lemma** (F⁺(ρ₁) ≅ F⁺(ρ₂) → ρ₁ ≅ ρ₂ when both have surjective sink maps)
-requires:
-1. F⁻ functoriality: constructing F⁻(iso) from an iso between F⁺ outputs
-2. Composition with Proposition 6.6.6 round-trip: ρ ≅ F⁻(F⁺(ρ))
+is fully proved in `parallel_reduce_and_recover`. It combines:
+1. F⁻ functoriality (`reflectionFunctorMinus_map_iso`): building F⁻(iso) from an iso
+   between F⁺ outputs;
+2. the Proposition 6.6.6 round-trip `ρ ≅ F⁻(F⁺(ρ))` (`Proposition6_6_6_sink`),
+   transported across `reversedAtVertex_twice` and composed on both sides.
+
+This file is sorry-free (`#print axioms Etingof.Corollary6_8_3` reports only
+`[propext, Classical.choice, Quot.sound]`).
 -/
 
 open scoped Matrix
@@ -163,8 +168,8 @@ Since both representations have the same dimension vector, they make the same
 **Inductive step**: both are surjective at the sink → apply F⁺ → recurse on
 reversed quiver → recover isomorphism via Prop 6.6.6 (round-trip theorem).
 
-**Key sorry**: The recovery lemma (F⁺(ρ₁) ≅ F⁺(ρ₂) → ρ₁ ≅ ρ₂) requires
-F⁻ functoriality + composing with the round-trip theorem. -/
+**Recovery lemma**: The recovery step (F⁺(ρ₁) ≅ F⁺(ρ₂) → ρ₁ ≅ ρ₂) is proved in the
+inductive step below by F⁻ functoriality composed with the Prop 6.6.6 round-trip. -/
 private lemma Etingof.parallel_reduce_and_recover
     {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hDynkin : Etingof.IsDynkinDiagram n adj)
