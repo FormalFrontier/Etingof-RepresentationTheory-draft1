@@ -28,9 +28,9 @@ The categorical statement,
 
 needs the descending image chain `im (f^n)` and the ascending kernel chain `ker (f^n)` to
 *stabilise*. That stabilisation is exactly the finite-length input of `KrullSchmidt/Length.lean`:
-the chains are measured by `Etingof.clength`, whose finiteness/monotonicity is the (still `sorry`-d)
-categorical Jordan–Hölder content of link 1/5. The Fitting decomposition `fitting_decomposition`
-is stated here in the convenient block-conjugation form
+the chains are measured by `Etingof.clength`, whose finiteness/monotonicity is the (now proved,
+sorry-free) categorical Jordan–Hölder content of link 1/5. The Fitting decomposition
+`fitting_decomposition` is stated here in the convenient block-conjugation form
 
 ```
 f = e.hom ≫ biprod.map fK fI ≫ e.inv,   IsNilpotent fK,   IsIso fI,
@@ -42,8 +42,8 @@ isomorphism. Given that iso the whole construction is elementary abelian-categor
 `factorThruImage (fⁿ)` becomes a split epi (section `(g')⁻¹ ≫ image.ι (fⁿ)`), its kernel and image
 split `X` as a biproduct, `f` is block-diagonal because it preserves both summands (the kernel
 summand directly, the image summand because `f` maps `im (fⁿ)` into `im (fⁿ⁺¹) ⊆ im (fⁿ)`), and the
-two blocks are read off from `(fK)ⁿ = (fⁿ)|_K = 0` and `(fI)ⁿ = (fⁿ)|_I = g'`. The only `sorry`
-upstream is in the `clength_*` finiteness lemmas that `exists_pow_stabilizes` rests on.
+two blocks are read off from `(fK)ⁿ = (fⁿ)|_K = 0` and `(fI)ⁿ = (fⁿ)|_I = g'`. The upstream
+`clength_*` finiteness lemmas that `exists_pow_stabilizes` rests on are all proved, sorry-free.
 **Everything downstream of `fitting_decomposition` in this file — the nilpotent-or-iso dichotomy and
 the local-ring property — is proved unconditionally from its statement.**
 
@@ -126,8 +126,8 @@ nilpotent and `fI` an isomorphism.
 
 `K` is the kernel `ker (factorThruImage (fⁿ)) = ker (fⁿ)` and `I` the eventual image `im (fⁿ)` for
 the stabilising power `n` supplied by `Etingof.exists_pow_stabilizes` (the finite-length content of
-`KrullSchmidt/Length.lean`, which rests on the still-`sorry`-d `clength_*` lemmas); see the module
-doc for the proof outline. The downstream dichotomy and local-ring results below are proved
+`KrullSchmidt/Length.lean`, which rests on the proved, sorry-free `clength_*` lemmas); see the
+module doc for the proof outline. The downstream dichotomy and local-ring results below are proved
 unconditionally from this statement. -/
 theorem fitting_decomposition {X : C} (f : End X) :
     ∃ (K I : C) (e : X ≅ K ⊞ I) (fK : End K) (fI : End I),
