@@ -38,7 +38,7 @@ representation is an extension of two 1-dimensional ones, so is classified by th
 For (b) the algebra `B` is the free algebra `ℂ⟨x₁,…,xₙ⟩` modulo the two-sided relations
 `xᵢxⱼ = 0`, constructed as a `RingQuot`.
 
-Statement pass: the modules and algebras are genuinely constructed; proofs are `sorry`.
+The modules and algebras are genuinely constructed and all parts are proved (`sorry`-free).
 -/
 
 namespace Etingof.Problem3_9_2

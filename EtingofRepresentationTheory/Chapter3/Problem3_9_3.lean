@@ -24,8 +24,8 @@ simple representations from `Chapter6/Problem6_9_3` (which formalises the same
   decomposable (a sum `S_i ⊕ S_j` of two simples) or indecomposable, in which case it is the
   representation supported on a single arrow `a : i → j` with `a` acting as an isomorphism.
 
-Statement pass: all objects are genuinely constructed (reusing the quiver-representation
-infrastructure); the proofs are `sorry`.
+All objects are genuinely constructed (reusing the quiver-representation
+infrastructure) and all parts are proved (`sorry`-free).
 -/
 
 namespace Etingof.Problem3_9_3
