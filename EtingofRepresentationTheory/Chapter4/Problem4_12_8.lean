@@ -24,8 +24,8 @@ list above.)
 ## Formalization
 
 `SO(3)` is `Matrix.specialOrthogonalGroup (Fin 3) ℝ` and `SU(2)` is
-`Matrix.specialUnitaryGroup (Fin 2) ℂ`. Statements (faithful signatures, `sorry` proofs — a
-statement pass):
+`Matrix.specialUnitaryGroup (Fin 2) ℂ`. Both parts are formalized with faithful signatures and
+proved sorry-free:
 
 * **(a)** `so3_finite_subgroup_classification`: every finite subgroup `G ≤ SO(3)` is either
   cyclic, dihedral (`≃* DihedralGroup n`), or isomorphic to `A₄ = alternatingGroup (Fin 4)`,
@@ -3324,18 +3324,16 @@ theorem so3_icosahedral_G_simple
   exact isSimpleGroup_of_card_sixty_of_nontrivial_sylow5 hcard ⟨Sb, Sc, hSne⟩
 
 /-- **Realization crux of the icosahedral disjunct.** An order-`60` finite subgroup `G ≤ SO(3)`
-with the icosahedral pole data acts faithfully on a `5`-element set — geometrically, the five
-inscribed tetrahedra (equivalently the five "Kepler cubes") of the dodecahedron/icosahedron —
-yielding an injective `G →* Equiv.Perm (Fin 5)`.
-
-This is the genuine geometric content of the icosahedral case and is the ONLY remaining `sorry`:
-constructing the `5`-element `G`-set and its faithful action. Everything downstream
-(`|image| = 60 = |A₅|`, hence index `2` in `S₅`, hence `= A₅`) is discharged sorry-free by
-`so3_icosahedral_of_poleData`. Unlike the tetrahedral (`4` order-`3` poles) and octahedral
-(`4` cube diagonals = antipodal pairs of order-`3` poles) cases, the icosahedral `5`-element set
-is NOT a single pole orbit nor a set of antipodal pairs of one; it is the compound of `5`
-tetrahedra, a derived combinatorial structure on the poles. See the child sub-issue of #6864
-(icosahedral realization) for the construction. -/
+with the icosahedral pole data acts faithfully on a `5`-element set, yielding an injective
+`G →* Equiv.Perm (Fin 5)`. Geometrically that `5`-element set is the five inscribed tetrahedra
+(equivalently the five "Kepler cubes") of the dodecahedron/icosahedron; the formal proof takes
+the equivalent group-theoretic route rather than constructing the geometric compound directly.
+`G` is simple (`so3_icosahedral_G_simple`), a simple group of order `60` has an index-`5`
+subgroup (`simpleGroup_card60_exists_index_five`), and the action on that subgroup's `5` cosets
+is faithful because its kernel is a proper normal subgroup of a simple group
+(`faithful_perm5_of_simple_index_five`). Everything downstream (`|image| = 60 = |A₅|`, hence
+index `2` in `S₅`, hence `= A₅`) is discharged by `so3_icosahedral_of_poleData`. Proved
+sorry-free. -/
 theorem so3_icosahedral_exists_faithful_perm5
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
     (hclass : m = {2, 3, 5})
@@ -3356,9 +3354,9 @@ the resulting injective `G →* S₅` has image of order `60`, hence index `2` i
 (`|S₅| = 120`), hence equal to `A₅`. `m`, `heq`, and `hpole` are supplied verbatim by
 `pole_order_data`.
 
-The counting (`so3_icosahedral_card`) and the `A₅`-landing assembly here are sorry-free; the
-sole remaining `sorry` is the geometric `5`-point action `so3_icosahedral_exists_faithful_perm5`,
-tracked by the icosahedral child sub-issue of #6864. -/
+The counting (`so3_icosahedral_card`), the faithful `5`-point action
+(`so3_icosahedral_exists_faithful_perm5`), and the `A₅`-landing assembly here are all proved
+sorry-free. -/
 theorem so3_icosahedral_of_poleData
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
     (hclass : m = {2, 3, 5})
