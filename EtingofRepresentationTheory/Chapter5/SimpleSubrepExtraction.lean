@@ -16,12 +16,12 @@ part-(a) lemma `quotDetRep_irreducible_constituent_lastWeight_zero`
 
 ## Why a minimal invariant submodule, not complete reducibility
 
-`Theorem5_23_2_i` now states genuine complete reducibility
-(`IsSemisimpleModule k[GL_N] ρ.asModule`), but its proof is still open (the GL_N
-complete-reducibility infrastructure is a long-term blocker), so we cannot consume
-it here. Instead we take a *minimal nonzero invariant submodule* (an **atom** of
-the `k[GL_N]`-submodule lattice), which is simple as a representation without any
-complete-reducibility input.
+`Theorem5_23_2_i` now provides genuine complete reducibility
+(`IsSemisimpleModule k[GL_N] ρ.asModule`) and is proved sorry-free. We do not need
+to consume that theorem here, though: instead we take a *minimal nonzero invariant
+submodule* (an **atom** of the `k[GL_N]`-submodule lattice), which is simple as a
+representation without any complete-reducibility input. Retaining this route by
+design keeps the part-(a) construction elementary and self-contained.
 
 Two ingredients make this work:
 
