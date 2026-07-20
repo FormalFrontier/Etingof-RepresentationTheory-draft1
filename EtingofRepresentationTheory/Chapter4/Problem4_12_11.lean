@@ -840,6 +840,100 @@ theorem tracelessSymSub_irreducible (U : Submodule ℝ EndV) (hUle : U ≤ trace
   · -- `M 0 1 ≠ 0`: extract `w0` directly.
     exact hbootstrap (smul_extract h01 (projA M hMU))
 
+/-! ### Part (b), complexification: `V ⊗ ℂ` and `W ⊗ ℂ` remain irreducible
+
+The book asks for irreducibility of `V` and `W` **"even after complexification"**. We model the
+complexified representations concretely on `EndVc = Matrix (Fin 3) (Fin 3) ℂ`, with `SO(3)`
+(real matrices) acting by the same conjugation `M ↦ cx A · M · (cx A)ᵀ`, where `cx` is the
+entrywise inclusion `ℝ → ℂ`. The complexified standard representation `V ⊗ ℂ` is `skewSubc`
+(complex skew matrices) and the complexified `W ⊗ ℂ` is `tracelessSymSubc` (complex traceless
+symmetric matrices).
+
+Real irreducibility does **not** formally imply complex irreducibility in general (that upgrade
+is exactly the statement that `V`, `W` are of *real type*). But the combinatorial
+sign-averaging/rotation argument of `skewSub_irreducible` / `tracelessSymSub_irreducible` uses
+only group elements with real (in fact rational or `√2`-valued) entries together with linear
+combinations, so it runs verbatim over `ℂ`. The pointwise action facts are transported from
+their real counterparts through the ring homomorphism `cx`. -/
+
+/-- `End(V) ⊗ ℂ = Matrix (Fin 3) (Fin 3) ℂ`. -/
+abbrev EndVc : Type := Matrix (Fin 3) (Fin 3) ℂ
+
+/-- Entrywise inclusion `ℝ → ℂ` of `3 × 3` matrices, as a ring homomorphism. -/
+def cx : EndV →+* EndVc := (algebraMap ℝ ℂ).mapMatrix
+
+@[simp] theorem cx_apply (M : EndV) (i j : Fin 3) : cx M i j = ((M i j : ℝ) : ℂ) := rfl
+
+/-- `cx` commutes with transpose. -/
+theorem cx_transpose (M : EndV) : cx Mᵀ = (cx M)ᵀ := by
+  ext i j; simp [Matrix.transpose_apply]
+
+/-- `cx` intertwines the real and complex conjugation actions:
+`cx (conjRep A M) = conjRepc A (cx M)`. -/
+def conjRepc : Representation ℂ SO3 EndVc where
+  toFun A := (LinearMap.mulLeft ℂ (cx (A : EndV))).comp
+    (LinearMap.mulRight ℂ ((cx (A : EndV))ᵀ))
+  map_one' := by
+    ext M
+    simp
+  map_mul' A B := by
+    ext M
+    simp only [Submonoid.coe_mul, map_mul, Matrix.transpose_mul, LinearMap.comp_apply,
+      LinearMap.mulLeft_apply, LinearMap.mulRight_apply, Module.End.mul_apply]
+    simp [mul_assoc]
+
+@[simp]
+theorem conjRepc_apply (A : SO3) (M : EndVc) :
+    conjRepc A M = cx (A : EndV) * M * (cx (A : EndV))ᵀ := by
+  simp [conjRepc, mul_assoc]
+
+/-- The transport identity: `cx` intertwines the real and complexified actions. -/
+theorem cx_conjRep (A : SO3) (M : EndV) : cx (conjRep A M) = conjRepc A (cx M) := by
+  rw [conjRep_apply, conjRepc_apply, star_coe_eq_transpose, map_mul, map_mul, cx_transpose]
+
+/-- The complexified standard representation `V ⊗ ℂ`: complex skew-symmetric matrices. -/
+def skewSubc : Submodule ℂ EndVc where
+  carrier := {M | Mᵀ = -M}
+  add_mem' {a b} ha hb := by
+    simp only [Set.mem_setOf_eq] at ha hb ⊢; rw [transpose_add, ha, hb]; abel
+  zero_mem' := by simp
+  smul_mem' c a ha := by
+    simp only [Set.mem_setOf_eq] at ha ⊢; rw [transpose_smul, ha, smul_neg]
+
+/-- The complexified representation `W ⊗ ℂ`: complex traceless symmetric matrices. -/
+def tracelessSymSubc : Submodule ℂ EndVc where
+  carrier := {M | Mᵀ = M ∧ M.trace = 0}
+  add_mem' {a b} ha hb := by
+    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    exact ⟨by rw [transpose_add, ha.1, hb.1], by rw [trace_add, ha.2, hb.2, add_zero]⟩
+  zero_mem' := by simp only [Set.mem_setOf_eq]; exact ⟨by simp, by simp⟩
+  smul_mem' c a ha := by
+    simp only [Set.mem_setOf_eq] at ha ⊢
+    exact ⟨by rw [transpose_smul, ha.1], by rw [trace_smul, ha.2, smul_zero]⟩
+
+theorem mem_skewSubc_iff {M : EndVc} : M ∈ skewSubc ↔ Mᵀ = -M := Iff.rfl
+theorem mem_tracelessSymSubc_iff {M : EndVc} :
+    M ∈ tracelessSymSubc ↔ Mᵀ = M ∧ M.trace = 0 := Iff.rfl
+
+/-- **(b), complexified.** The complexified standard representation `V ⊗ ℂ ≅ skewSubc` is
+irreducible: every `SO(3)`-invariant `ℂ`-subspace contained in `skewSubc` is `⊥` or all of
+`skewSubc`. -/
+theorem skewSub_irreducible_complexified (U : Submodule ℂ EndVc) (hUle : U ≤ skewSubc)
+    (hUinv : ∀ (A : SO3), ∀ M ∈ U, conjRepc A M ∈ U) :
+    U = ⊥ ∨ U = skewSubc := by
+  -- The combinatorial argument of `skewSub_irreducible` transported to `ℂ`.
+  sorry
+
+/-- **(b), complexified.** The complexified representation `W ⊗ ℂ = tracelessSymSubc` is
+irreducible: every `SO(3)`-invariant `ℂ`-subspace contained in `tracelessSymSubc` is `⊥` or all
+of `tracelessSymSubc`. -/
+theorem tracelessSymSub_irreducible_complexified (U : Submodule ℂ EndVc)
+    (hUle : U ≤ tracelessSymSubc)
+    (hUinv : ∀ (A : SO3), ∀ M ∈ U, conjRepc A M ∈ U) :
+    U = ⊥ ∨ U = tracelessSymSubc := by
+  -- The combinatorial argument of `tracelessSymSub_irreducible` transported to `ℂ`.
+  sorry
+
 /-! ### Schur-lemma infrastructure for Hooke's law -/
 
 /-- The conjugation action fixes the identity matrix: `conjRep A 1 = 1`. -/
