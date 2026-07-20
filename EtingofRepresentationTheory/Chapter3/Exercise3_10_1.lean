@@ -14,8 +14,10 @@ claimed isomorphism is one of `k`-algebras. In Mathlib the relevant equivalence 
 `Mat_{m × n}(A ⊗ B)`; specialising `A = B = k` and re-indexing `Fin m × Fin n ≃ Fin (m*n)`
 (together with `k ⊗ k ≅ k`) gives the statement in the book's form `Mat_{mn}(k)`.
 
-Statement pass: the isomorphism is asserted as `Nonempty (_ ≃ₐ[k] _)`; the construction is
-left as `sorry`.
+The isomorphism is constructed and proved sorry-free by `matrix_tensorProduct_matrix`, which
+composes `Matrix.kroneckerTMulAlgEquiv` (giving `Mat_{m × n}(k ⊗ k)`), `Algebra.TensorProduct.rid`
+(collapsing `k ⊗ k ≅ k` via `AlgEquiv.mapMatrix`), and `Matrix.reindexAlgEquiv` along
+`finProdFinEquiv` (re-indexing `Fin m × Fin n ≃ Fin (m*n)`).
 -/
 
 /-- Exercise 3.10.1: the tensor product of matrix algebras `Mat_m(k) ⊗ Mat_n(k)` is
