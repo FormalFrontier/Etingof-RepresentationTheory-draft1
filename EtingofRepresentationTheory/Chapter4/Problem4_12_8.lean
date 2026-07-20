@@ -50,9 +50,9 @@ The classification of finite subgroups of `SO(3)` is a large formalization with 
 support in Mathlib (there is no eigenvalue-`1`/rotation-axis theorem for `SO(3)`, no
 `MulAction` of the special orthogonal group on vectors, and none of the five `MulEquiv`
 targets is produced by existing API). Following the book's hint, the argument splits into
-three reusable milestones plus a case analysis. Each milestone is stated here with a faithful,
-self-contained signature; the milestones are tracked by child issues and filled
-independently. The final assembly `so3_finite_subgroup_classification` combines them.
+three reusable milestones plus a case analysis. Each milestone has a faithful, self-contained
+signature and is proved sorry-free; the final assembly `so3_finite_subgroup_classification`
+combines them.
 
 Vectors are modelled as `Fin 3 → ℝ` with the matrix action `M *ᵥ v` (`Matrix.mulVec`); a
 group element `g` acts through its underlying matrix `(g : Matrix (Fin 3) (Fin 3) ℝ)`.
@@ -1455,9 +1455,9 @@ rotation `ρ` about the axis `ℝ·b`, `ρ • b = b`), and the principal poles 
 axis (`s` sends `ℝ·b` to `ℝ·(-b)`, negating the plane orientation), so `s * ρ * s⁻¹ = ρ⁻¹`.
 
 This is the hard geometric extraction (`s` existence + order `2` + the conjugation-inversion
-relation) feeding the algebraic core `mulEquiv_dihedralGroup_of_conj_inv`. It is stated here with
-a faithful signature and tracked by its own child issue; `so3_dihedral_of_poleData` consumes it and
-supplies the remaining (purely group-theoretic) `hsnotin` and assembly. -/
+relation) feeding the algebraic core `mulEquiv_dihedralGroup_of_conj_inv`. It is proved sorry-free
+with a faithful signature; `so3_dihedral_of_poleData` consumes it and supplies the remaining
+(purely group-theoretic) `hsnotin` and assembly. -/
 theorem exists_dihedral_swap
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (k : ℕ) (hk : 2 ≤ k)
     (hcard : Nat.card (↥G) = 2 * k)
@@ -1618,7 +1618,7 @@ poles (the vertices of the tetrahedron); the action lands in `A₄` and is an is
 cardinality argument (`|G| = 12 = |A₄|`). `m`, `heq`, and `hpole` are supplied verbatim by
 `pole_order_data`.
 
-The realization is deferred to its own child sub-issue (the tetrahedral case of #6864). -/
+The four-pole action and its faithfulness are proved sorry-free below. -/
 theorem so3_tetrahedral_of_poleData
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
     (hclass : m = {2, 3, 3})
