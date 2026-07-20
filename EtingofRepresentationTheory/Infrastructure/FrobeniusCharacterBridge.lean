@@ -16,9 +16,12 @@ with N variables) and `spechtModuleCharacter` (trace definition over ℂ with n 
 
 ## Note
 
-The main theorem `youngSym_charValue_orthogonality` is proved in
-`Theorem5_22_1.lean` using an inlined version of the trace Kronecker identity.
-Two sorry'd bridge lemmas remain:
+This file provides only the alternant-Vandermonde identity and the ℚ → ℂ
+base-change lemma above. The Frobenius character bridge itself is completed in
+`Theorem5_22_1.lean`, where the main theorem `youngSym_charValue_orthogonality`
+is proved using an inlined version of the trace Kronecker identity. The two bridge
+lemmas once slated for this file are now proved (not `sorry`) in
+`Theorem5_22_1.lean`, not declared here:
 - `charValue_eq_spechtModuleCharacter`: Frobenius character formula for N variables
 - `weightToPartition_eq_iff`: antitone partition injectivity
 -/

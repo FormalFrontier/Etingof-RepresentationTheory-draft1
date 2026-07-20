@@ -40,21 +40,26 @@ reconstruct the representation from the simple one.
 
 ## Current status
 
-### Infrastructure built
-- **Simple representation construction** (`simpleRepresentation`): Constructs the
+**Complete.** `Etingof.Corollary6_8_4` is proved sorry-free (`#print axioms`
+reports only `[propext, Classical.choice, Quot.sound]`), completing Gabriel's
+theorem for Dynkin quivers.
+
+### Proof structure
+- **Simple representation construction** (`simpleRepresentation`): the
   indecomposable representation k₍ₚ₎ at vertex p (1-dim at p, 0 elsewhere, all
   maps zero) for any quiver Q.
-- **Base case proved** (`Corollary6_8_4_simpleRoot`): When α = simpleRoot n p,
-  the simple representation realizes it.
-- **Induction structure**: The main proof reduces via Theorem 6.8.1 to the base
-  case plus a reflection functor chain step (sorry'd).
-
-### Remaining blocker
-- **Reflection functor chain** (`reflectionFunctorChainStep`): Applying F⁻ᵢ to
-  transform a realization on the reversed quiver back to Q. This requires:
-  - Iterated quiver reversal tracking
-  - Proposition 6.6.7 source case (currently sorry'd)
-  - Proposition 6.6.8 source case for dimension vector tracking
+- **Base case** (`Corollary6_8_4_simpleRoot`): when α = simpleRoot n p, the
+  simple representation realizes it.
+- **Induction**: strong recursion on the coordinate sum ∑α. For a positive root
+  with ∑α ≥ 2, a good vertex i with 0 < (Aα)ᵢ ≤ αᵢ is reflected to a positive
+  root α' = sᵢ(α) with strictly smaller sum, and the representation on the
+  reversed quiver Q' is transported back to Q by a reflection functor:
+  - i a source in Q (sink in Q'): apply F⁺ (`reflectionFunctorPlus`);
+  - i a sink in Q (source in Q'): apply F⁻ (`reflectionFunctorMinus`);
+  - i mixed: `exists_prefix_to_simpleRoot` + `backward_construct_rep` walk an
+    admissible ordering in reverse, applying F⁻ at each sink.
+  Indecomposability and the dimension-vector identity are supplied by
+  Propositions 6.6.5, 6.6.7 and 6.6.8 (source and sink cases).
 
 ### Fixed (issue #1094)
 - **Q-adj connection**: Added `IsOrientationOf Q adj` hypothesis linking the
@@ -831,7 +836,8 @@ theorem Etingof.Corollary6_8_4
       ∀ v, (α v : ℤ) = ↑(Module.finrank k (ρ.obj v)) := by
   -- Strong induction on coordinate sum, using exists_good_vertex directly.
   -- For the good vertex i: if i is a source or sink in Q, apply F⁺/F⁻ directly.
-  -- For mixed vertices: sorry (requires admissible ordering backward construction).
+  -- For mixed vertices: use the admissible-ordering backward construction
+  --   (exists_prefix_to_simpleRoot + backward_construct_rep).
   set A := Etingof.cartanMatrix n adj with hA_def
   have hAsymm : A.IsSymm := Etingof.cartanMatrix_isSymm hDynkin.1
   suffices h : ∀ (m : ℕ) (α : Fin n → ℤ) (Q : @Quiver.{0, 0} (Fin n)),
@@ -974,7 +980,7 @@ theorem Etingof.Corollary6_8_4
       -- The attribute [instance] on QuiverRepresentation.instModule makes both
       -- ρ'.instModule and fp.instModule discoverable for the same carrier type
       -- (since fp.obj v = ρ'.obj v for v ≠ i), causing synthesis conflicts.
-      -- Solution: transport fp to Q via hinvol ▸, then sorry sub-proofs.
+      -- Solution: transport fp to Q via hinvol ▸, discharging the sub-proofs below.
       classical
       -- Double reversal: reversedAtVertex(Q', i) = Q
       have hinvol : @Etingof.reversedAtVertex (Fin n) _
