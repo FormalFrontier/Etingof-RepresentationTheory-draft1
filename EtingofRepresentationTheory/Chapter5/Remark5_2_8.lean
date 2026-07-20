@@ -150,7 +150,8 @@ The final contradiction needs two facts about `β := ∏_{g ≠ 1} |χ_V(g)|²`:
   that character values are algebraic integers (`FDRep.character_isIntegral`).
 
 Given both, `not_isIntegral_rat_mem_Ioo` closes the argument once `0 < β < 1`.
-The integrality half below needs none of the blocked infrastructure.
+The integrality half below is independent of the cyclotomic Galois argument
+(Steps 3-4, `character_prod_rat`).
 -/
 
 open scoped ComplexConjugate
