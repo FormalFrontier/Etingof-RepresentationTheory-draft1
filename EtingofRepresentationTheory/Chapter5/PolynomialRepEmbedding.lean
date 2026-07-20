@@ -944,11 +944,14 @@ counterexample, with ℤ-weights `(1,-1),(0,0),(-1,1)`, fails `h_span` precisely
 because its negative-entry weights leave the `ℕ`-indexed weight spaces
 non-spanning). No homogeneity is asserted here; that is `matrixCoeff_isHomogeneous`.
 
-TODO (issue #4654 sub, det⁻¹ elimination): the genuine proof. Routes: (a) book's
-structural route — `R` (the matrix-coefficient ring) decomposes through
-`Sⁿ(V ⊗ V*) ⊗ (∧ᴺV*)^s` and `h_span` forces `s = 0`; (b) monoid-extension —
-`ρ : GLₙ → GL(M)` with all weights `≥ 0` extends to `Mₙ(k) → End(M)`, whose
-matrix coefficients are the bare polynomials. -/
+The det⁻¹ elimination is proved (issue #4695, completing the #4654 sub-task):
+the argument is packaged in `Etingof.DetInvElim.detInv_elim`, which realizes the
+monoid-extension route constructively. Starting from the kernel lemma
+(`Etingof.KernelLemmaK` / `KernelLemmaKPrime`, #4694) it builds a weight-eigenbasis
+of `M` and runs the right-translation argument: `h_span` (all weights `≥ 0`) forces
+the a-priori `det⁻¹` denominators to cancel, so `ρ : GLₙ → GL(M)` extends to
+`Mₙ(k) → End(M)` and the matrix coefficients are the bare polynomials `Q` produced
+here. This delegating theorem is the file's interface to that development. -/
 private theorem detInv_elim_of_polynomial (n : ℕ) [CharZero k] [IsAlgClosed k]
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
