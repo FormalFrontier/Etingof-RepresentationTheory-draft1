@@ -167,6 +167,15 @@ where the target was `σ.symm v' = ⟨1, _⟩` over a variable-rank `Dₖ`. Rela
 `h : n' = k` could eliminate either variable, name the one to drop (`subst n'`) so the kept variable
 (here `k`, used in the goal type) survives.
 
+**`omega` treats `Nat.card {x // p x}` and `Nat.card {x // q x}` as *distinct atoms* even when `p`
+and `q` are definitionally equal (classic case: a `≠` goal vs a `¬ =` hypothesis).** In a counting
+proof, `Equiv.sumCompl (fun g => orderOf g = 5)` gives a hypothesis mentioning
+`Nat.card {g // ¬ orderOf g = 5}`, but a goal stated with `{g // orderOf g ≠ 5}` will not close by
+`omega` — the counterexample lists the goal's card as an unconstrained variable. Fix: bridge with an
+`rfl` cast first, `have he : Nat.card {g // orderOf g ≠ 5} = Nat.card {g // ¬ orderOf g = 5} := rfl;
+rw [he]`, so both sides share one atom. Cost one build cycle in `simpleGroup_card60_exists_index_five`
+(#6982, `Chapter4/Problem4_12_8.lean`).
+
 **Heavy category-theory objects (total complexes / coproducts) make `isDefEq`, `whnf`, and
 typeclass search blow up — unfold *one step short* and finish by hand.** Cost real iterations in
 #6683 (`Chapter8/ExternalTensorResolution.lean`, `Projective ((mapBifunctor …).total.X n)`). Two

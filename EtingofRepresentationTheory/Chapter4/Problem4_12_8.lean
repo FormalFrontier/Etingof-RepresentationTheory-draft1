@@ -2490,22 +2490,6 @@ theorem faithful_perm5_of_simple_index_five
   refine ⟨e.permCongrHom.toMonoidHom.comp ψ, fun p q hpq => ?_⟩
   exact hψinj (e.permCongrHom.injective hpq)
 
-/-- **Index-`5` subgroup of a simple group of order `60`.** Every finite simple group of order
-`60` has a subgroup of index `5` — geometrically the point-stabilizer of the degree-`5` action,
-group-theoretically the normalizer of a Sylow `2`-subgroup (there are exactly `n₂ = 5` of them).
-
-This is pure finite group theory, independent of the `SO(3)` geometry, and is the standard first
-half of "a simple group of order `60` is `A₅`". Route (Sylow counting): `n₅ = 6` (`≡ 1 mod 5`,
-`∣ 12`, `≠ 1` by simplicity) gives `24` elements of order `5`; `n₃ = 10` (`≠ 4`, else a core-free
-action on `4` cosets embeds `G ↪ S₄`, impossible for `|G| = 60`) gives `20` elements of order
-`3`; the remaining `15` non-identity elements are `2`-elements, forcing `n₂ = 5` (`n₂ = 15` would
-need `45` distinct `2`-elements). Then `|normalizer (Sylow 2)| = 60 / 5 = 12`, index `5`. -/
-theorem simpleGroup_card60_exists_index_five
-    {Grp : Type*} [Group Grp] [Finite Grp] (hsimple : IsSimpleGroup Grp)
-    (hcard : Nat.card Grp = 60) :
-    ∃ H : Subgroup Grp, H.index = 5 := by
-  sorry
-
 /-- A Sylow `5`-subgroup has order exactly `5` when `5 ∣ |G|` but `25 ∤ |G|`. -/
 private theorem sylow5_card_eq_five {G : Type*} [Group G] [Finite G] (P : Sylow 5 G)
     (h5 : (5 : ℕ) ∣ Nat.card G) (h25 : ¬ (25 : ℕ) ∣ Nat.card G) :
@@ -2988,6 +2972,217 @@ theorem isSimpleGroup_of_card_sixty_of_nontrivial_sylow5
       rcases hMcard with h3 | h4
       · exact not_normal_card_mem_two_three_four_six hcard hn5 M (Or.inr (Or.inl h3))
       · exact not_normal_card_mem_two_three_four_six hcard hn5 M (Or.inr (Or.inr (Or.inl h4)))
+
+/-- **Core-free coset action bound.** A finite simple group with a subgroup `K` of index at least
+`2` embeds into `Equiv.Perm (Grp ⧸ K)` via the coset action (its kernel `K.normalCore` is normal,
+hence `⊥` by simplicity — it cannot be `⊤`, else `K = ⊤` has index `1`). Consequently `|Grp|`
+divides `(K.index)!`. This is the abstract form of the "`G ↪ S_{[G:K]}`" argument used to rule out
+small-index subgroups of a simple group. -/
+private theorem simpleGroup_card_dvd_index_factorial {Grp : Type*} [Group Grp] [Finite Grp]
+    (hsimple : IsSimpleGroup Grp) (K : Subgroup Grp) (hK : 2 ≤ K.index) :
+    Nat.card Grp ∣ (K.index).factorial := by
+  classical
+  haveI := hsimple
+  set ψ : Grp →* Equiv.Perm (Grp ⧸ K) := MulAction.toPermHom Grp (Grp ⧸ K) with hψ
+  have hker : ψ.ker = K.normalCore := (Subgroup.normalCore_eq_ker K).symm
+  have hnc : K.normalCore = ⊥ := by
+    rcases (Subgroup.normalCore_normal K).eq_bot_or_eq_top with h | h
+    · exact h
+    · exfalso
+      have hKtop : K = ⊤ := top_le_iff.mp (h ▸ K.normalCore_le)
+      rw [hKtop, Subgroup.index_top] at hK; omega
+  have hψinj : Function.Injective ψ := by
+    rw [← MonoidHom.ker_eq_bot_iff, hker, hnc]
+  have hdvd := Subgroup.card_dvd_of_injective ψ hψinj
+  rwa [Nat.card_perm, ← Subgroup.index_eq_card] at hdvd
+
+/-- **The `n₂ = 15` case.** A finite simple group of order `60` with `15` Sylow `2`-subgroups still
+has an index-`5` subgroup. Since `n₅ = 6` (`24` elements of order `5`), the `15 · 3 = 45`
+non-identity elements of the Sylow `2`-subgroups cannot all be distinct (only `60 - 24 = 36`
+elements have order `≠ 5`), so two distinct Sylow `2`-subgroups `P₁ ≠ P₂` share a non-identity
+element `t`. Sylow `2`-subgroups have order `4 = 2²`, hence are abelian, so both lie in the
+centralizer `C = C_G(t)`; thus `4 ∣ |C|` and `|C| > 4`, forcing `|C| ∈ {12, 20, 60}`. `|C| = 60`
+puts `t` in the center (trivial by simplicity, as `Grp` is not abelian of prime order); `|C| = 20`
+gives an index-`3` subgroup (impossible: `60 ∤ 3!`). So `|C| = 12`, of index `5`. -/
+private theorem exists_index_five_of_sylow2_card_fifteen {Grp : Type*} [Group Grp] [Finite Grp]
+    (hsimple : IsSimpleGroup Grp) (hcard : Nat.card Grp = 60)
+    (hn2 : Nat.card (Sylow 2 Grp) = 15) : ∃ H : Subgroup Grp, H.index = 5 := by
+  classical
+  haveI := hsimple
+  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  -- `n₅ = 6`, giving `24` elements of order `5` and `36` elements of order `≠ 5`.
+  have hn5 : Nat.card (Sylow 5 Grp) = 6 := by
+    obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 5 Grp))
+    have hPcard : Nat.card (P : Subgroup Grp) = 5 :=
+      sylow5_card_eq_five P (by rw [hcard]; norm_num) (by rw [hcard]; norm_num)
+    have hidx : (P : Subgroup Grp).index = 12 := by
+      have := Subgroup.card_mul_index (P : Subgroup Grp); rw [hPcard, hcard] at this; omega
+    have hdvd : Nat.card (Sylow 5 Grp) ∣ 12 := hidx ▸ P.card_dvd_index
+    have hmod : Nat.card (Sylow 5 Grp) % 5 = 1 % 5 := card_sylow_modEq_one 5 Grp
+    have hne1 : Nat.card (Sylow 5 Grp) ≠ 1 := by
+      intro h
+      haveI : Subsingleton (Sylow 5 Grp) := (Nat.card_eq_one_iff_unique.mp h).1
+      haveI : (P : Subgroup Grp).Normal := P.normal_of_subsingleton
+      rcases hsimple.eq_bot_or_eq_top_of_normal (P : Subgroup Grp) inferInstance with hb | ht
+      · rw [hb, Subgroup.card_bot] at hPcard; omega
+      · rw [ht, Subgroup.card_top, hcard] at hPcard; omega
+    have hle : Nat.card (Sylow 5 Grp) ≤ 12 := Nat.le_of_dvd (by norm_num) hdvd
+    interval_cases (Nat.card (Sylow 5 Grp)) <;> omega
+  have hc5 : Nat.card {g : Grp // orderOf g = 5} = 24 := by
+    have := card_orderOf_eq_prime_mul_card_sylow (H := Grp) 5 (by rw [hcard]; norm_num)
+      (by rw [hcard]; norm_num)
+    rw [hn5] at this; omega
+  have hc5c : Nat.card {g : Grp // orderOf g ≠ 5} = 36 := by
+    have h := Nat.card_congr (Equiv.sumCompl (fun g : Grp => orderOf g = 5))
+    rw [Nat.card_sum, hc5, hcard] at h
+    have he : Nat.card {g : Grp // orderOf g ≠ 5} = Nat.card {x : Grp // ¬ orderOf x = 5} := rfl
+    rw [he]; omega
+  -- Non-identity elements of a Sylow `2`-subgroup have `2`-power order, hence order `≠ 5`.
+  have hf5 : ∀ (P : Sylow 2 Grp) (x : (P : Subgroup Grp)), orderOf ((x : Grp)) ≠ 5 := by
+    intro P x
+    have hPcard : Nat.card (P : Subgroup Grp) = 4 := by
+      have h := sylow_card_eq_pow (e := 2) P (by rw [hcard]; norm_num) (by rw [hcard]; decide)
+      norm_num at h; exact h
+    have hdvd : orderOf ((x : Grp)) ∣ 4 := by
+      rw [Subgroup.orderOf_coe, ← hPcard]; exact orderOf_dvd_natCard x
+    intro h5; rw [h5] at hdvd; exact absurd hdvd (by decide)
+  by_cases hinter : ∃ P Q : Sylow 2 Grp, ∃ t : Grp,
+      t ∈ (P : Subgroup Grp) ∧ t ∈ (Q : Subgroup Grp) ∧ t ≠ 1 ∧ (P : Subgroup Grp) ≠ Q
+  · -- Two distinct Sylow `2`-subgroups meet in a non-identity element `t`.
+    obtain ⟨P₁, P₂, t, ht1, ht2, htne, hPsub⟩ := hinter
+    have hP1card : Nat.card (P₁ : Subgroup Grp) = 4 := by
+      have h := sylow_card_eq_pow (e := 2) P₁ (by rw [hcard]; norm_num) (by rw [hcard]; decide)
+      norm_num at h; exact h
+    have hP2card : Nat.card (P₂ : Subgroup Grp) = 4 := by
+      have h := sylow_card_eq_pow (e := 2) P₂ (by rw [hcard]; norm_num) (by rw [hcard]; decide)
+      norm_num at h; exact h
+    haveI hcomm1 : IsMulCommutative (P₁ : Subgroup Grp) :=
+      IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (hP1card.trans (by norm_num))
+    haveI hcomm2 : IsMulCommutative (P₂ : Subgroup Grp) :=
+      IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (hP2card.trans (by norm_num))
+    set C : Subgroup Grp := Subgroup.centralizer {t} with hC
+    -- An abelian Sylow `2` containing `t` lies in `C_G(t)`.
+    have hsub_le : ∀ (P : Sylow 2 Grp), t ∈ (P : Subgroup Grp) →
+        IsMulCommutative (P : Subgroup Grp) → (P : Subgroup Grp) ≤ C := by
+      intro P hmemt hcomm x hx
+      rw [hC, Subgroup.mem_centralizer_iff]
+      intro h hh
+      rw [Set.mem_singleton_iff] at hh; subst hh
+      have hxt := hcomm.is_comm.comm (⟨x, hx⟩ : (P : Subgroup Grp))
+        (⟨h, hmemt⟩ : (P : Subgroup Grp))
+      have := congrArg (fun z : (P : Subgroup Grp) => (z : Grp)) hxt
+      simpa using this.symm
+    have hP1le : (P₁ : Subgroup Grp) ≤ C := hsub_le P₁ ht1 hcomm1
+    have hP2le : (P₂ : Subgroup Grp) ≤ C := hsub_le P₂ ht2 hcomm2
+    have h4dvd : (4 : ℕ) ∣ Nat.card C := hP1card ▸ Subgroup.card_dvd_of_le hP1le
+    have hCdvd : Nat.card C ∣ 60 := by rw [← hcard]; exact Subgroup.card_subgroup_dvd_card C
+    have hne4 : Nat.card C ≠ 4 := by
+      intro h4
+      have e1 : (P₁ : Subgroup Grp) = C := Subgroup.eq_of_le_of_card_ge hP1le (by rw [h4, hP1card])
+      have e2 : (P₂ : Subgroup Grp) = C := Subgroup.eq_of_le_of_card_ge hP2le (by rw [h4, hP2card])
+      exact hPsub (e1.trans e2.symm)
+    have hCmem : Nat.card C = 12 ∨ Nat.card C = 20 ∨ Nat.card C = 60 := by
+      have hle : Nat.card C ≤ 60 := Nat.le_of_dvd (by norm_num) hCdvd
+      have hpos : 0 < Nat.card C := Nat.card_pos
+      interval_cases (Nat.card C) <;> omega
+    -- `t ∉ center Grp`, so `|C| ≠ 60`.
+    have htc : t ∉ Subgroup.center Grp := by
+      intro htmem
+      have hne : Subgroup.center Grp ≠ ⊥ := by
+        intro h; rw [h, Subgroup.mem_bot] at htmem; exact htne htmem
+      have htop : Subgroup.center Grp = ⊤ :=
+        (hsimple.eq_bot_or_eq_top_of_normal _ inferInstance).resolve_left hne
+      haveI : IsMulCommutative Grp := Subgroup.center_eq_top_iff.mp htop
+      exact absurd (Group.is_simple_iff_prime_card.mp hsimple) (by rw [hcard]; norm_num)
+    rcases hCmem with h12 | h20 | h60
+    · exact ⟨C, by have := Subgroup.card_mul_index C; rw [h12, hcard] at this; omega⟩
+    · exfalso
+      have hidx3 : C.index = 3 := by
+        have := Subgroup.card_mul_index C; rw [h20, hcard] at this; omega
+      have hdd := simpleGroup_card_dvd_index_factorial hsimple C (by rw [hidx3]; norm_num)
+      rw [hidx3, hcard] at hdd; exact absurd hdd (by decide)
+    · exfalso
+      have hCtop : C = ⊤ := Subgroup.eq_top_of_card_eq _ (by rw [h60, hcard])
+      have hsub : ({t} : Set Grp) ⊆ Subgroup.center Grp := by
+        rw [← Subgroup.centralizer_eq_top_iff_subset]; exact hCtop
+      exact htc (hsub (Set.mem_singleton t))
+  · -- No two distinct Sylow `2`-subgroups share a non-identity element: counting contradiction.
+    exfalso
+    push_neg at hinter
+    have hDcard : Nat.card (Σ P : Sylow 2 Grp, {x : (P : Subgroup Grp) // x ≠ 1}) = 45 := by
+      letI : Fintype (Sylow 2 Grp) := Fintype.ofFinite _
+      have hfib : ∀ P : Sylow 2 Grp, Nat.card {x : (P : Subgroup Grp) // x ≠ 1} = 3 := by
+        intro P
+        have hPcard : Nat.card (P : Subgroup Grp) = 4 := by
+          have h := sylow_card_eq_pow (e := 2) P (by rw [hcard]; norm_num) (by rw [hcard]; decide)
+          norm_num at h; exact h
+        rw [count_aux_card_ne_one, hPcard]
+      have hfc : Fintype.card (Sylow 2 Grp) = 15 := by rw [← Nat.card_eq_fintype_card, hn2]
+      rw [Nat.card_sigma]
+      simp only [hfib]
+      rw [Finset.sum_const, Finset.card_univ, smul_eq_mul, hfc]
+    have hinj : Function.Injective
+        (fun d : Σ P : Sylow 2 Grp, {x : (P : Subgroup Grp) // x ≠ 1} =>
+          (⟨((d.2.1 : (d.1 : Subgroup Grp)) : Grp), hf5 d.1 d.2.1⟩
+            : {g : Grp // orderOf g ≠ 5})) := by
+      rintro ⟨P, x, hx⟩ ⟨Q, y, hy⟩ hxy
+      simp only [Subtype.mk.injEq] at hxy
+      have hg1 : ((x : Grp)) ≠ 1 := fun h => hx (Subtype.ext h)
+      have hxQ : ((x : Grp)) ∈ (Q : Subgroup Grp) := by rw [hxy]; exact y.2
+      have hPQ : (P : Subgroup Grp) = (Q : Subgroup Grp) := hinter P Q (x : Grp) x.2 hxQ hg1
+      have hPQ' : P = Q := Sylow.ext hPQ
+      subst hPQ'
+      exact congrArg (Sigma.mk P) (Subtype.ext (Subtype.ext hxy))
+    have hle := Nat.card_le_card_of_injective _ hinj
+    rw [hDcard, hc5c] at hle
+    omega
+
+/-- **Index-`5` subgroup of a simple group of order `60`.** Every finite simple group of order
+`60` has a subgroup of index `5` — group-theoretically the normalizer of a Sylow `2`-subgroup
+when `n₂ = 5`, or the centralizer of a shared involution when `n₂ = 15`.
+
+This is pure finite group theory, independent of the `SO(3)` geometry, and is the standard first
+half of "a simple group of order `60` is `A₅`". The `15` Sylow `2`-subgroups give `n₂ ∣ 15` and
+`n₂ ≠ 1` (simplicity), so `n₂ ∈ {3, 5, 15}`. `n₂ = 3` embeds `Grp ↪ S₃` (core-free action on the
+`3` cosets of the Sylow `2` normalizer), impossible since `60 ∤ 3!`. `n₂ = 5` gives the normalizer,
+of index `5`. `n₂ = 15` is handled by `exists_index_five_of_sylow2_card_fifteen`. -/
+theorem simpleGroup_card60_exists_index_five
+    {Grp : Type*} [Group Grp] [Finite Grp] (hsimple : IsSimpleGroup Grp)
+    (hcard : Nat.card Grp = 60) :
+    ∃ H : Subgroup Grp, H.index = 5 := by
+  classical
+  haveI := hsimple
+  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 Grp))
+  have hPcard : Nat.card (P : Subgroup Grp) = 4 := by
+    have h := sylow_card_eq_pow (e := 2) P (by rw [hcard]; norm_num) (by rw [hcard]; decide)
+    norm_num at h; exact h
+  have hidx : (P : Subgroup Grp).index = 15 := by
+    have := Subgroup.card_mul_index (P : Subgroup Grp); rw [hPcard, hcard] at this; omega
+  have hdvd : Nat.card (Sylow 2 Grp) ∣ 15 := hidx ▸ P.card_dvd_index
+  have hne1 : Nat.card (Sylow 2 Grp) ≠ 1 := by
+    intro h
+    haveI : Subsingleton (Sylow 2 Grp) := (Nat.card_eq_one_iff_unique.mp h).1
+    haveI : (P : Subgroup Grp).Normal := P.normal_of_subsingleton
+    rcases hsimple.eq_bot_or_eq_top_of_normal (P : Subgroup Grp) inferInstance with hb | ht
+    · rw [hb, Subgroup.card_bot] at hPcard; omega
+    · rw [ht, Subgroup.card_top, hcard] at hPcard; omega
+  have hmem : Nat.card (Sylow 2 Grp) = 3 ∨ Nat.card (Sylow 2 Grp) = 5 ∨
+      Nat.card (Sylow 2 Grp) = 15 := by
+    have hle : Nat.card (Sylow 2 Grp) ≤ 15 := Nat.le_of_dvd (by norm_num) hdvd
+    have hpos : 0 < Nat.card (Sylow 2 Grp) := Nat.card_pos
+    interval_cases (Nat.card (Sylow 2 Grp)) <;> omega
+  rcases hmem with h3 | h5 | h15
+  · exfalso
+    have hidx3 : (Subgroup.normalizer (P : Set Grp)).index = 3 := by
+      rw [← P.card_eq_index_normalizer]; exact h3
+    have hdd := simpleGroup_card_dvd_index_factorial hsimple (Subgroup.normalizer (P : Set Grp))
+      (by rw [hidx3]; norm_num)
+    rw [hidx3, hcard] at hdd; exact absurd hdd (by decide)
+  · refine ⟨Subgroup.normalizer (P : Set Grp), ?_⟩
+    rw [← P.card_eq_index_normalizer]; exact h5
+  · exact exists_index_five_of_sylow2_card_fifteen hsimple hcard h15
 
 /-- **Simplicity of the icosahedral group (geometric input).** An order-`60` finite subgroup
 `G ≤ SO(3)` with the icosahedral pole data `{2, 3, 5}` is simple.
