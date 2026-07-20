@@ -10,7 +10,7 @@ realization `Etingof.qWeylAlgebra ℂ q` (a subalgebra of `End_ℂ M`, `M = (ℤ
 in Proposition 2.7.1(ii); its monomials are `xⁱyʲ = qMono (i, j)`, and `qMono_mem` shows each
 monomial lies in `A`.
 
-We render the book's *answers* as the statements (spec); proofs are deferred.
+We render the book's *answers* as the statements. The proofs are complete (sorry-free).
 
 * **(a)** If `q` is **not** a root of unity, the center of `A` is trivial (just the scalars `ℂ`)
   and `A` is a simple ring (its only two-sided ideals are `0` and `A`). If `q` **is** a root of
