@@ -33,7 +33,7 @@ The four answers (Etingof Problem 2.8.11):
   of length `n`, i.e. the `(i,j)`-entry of `M_Q^n` summed over `i, j`, where `M_Q` is the
   adjacency matrix. The generating function is `∑ₙ (𝟙ᵀ M_Q^n 𝟙) tⁿ = 𝟙ᵀ (I - t M_Q)⁻¹ 𝟙`.
 
-These are statement-only (proofs deferred to a later phase).
+The proofs are complete (sorry-free).
 -/
 
 namespace Etingof.Problem2_8_11
