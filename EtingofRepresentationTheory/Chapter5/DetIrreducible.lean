@@ -14,6 +14,16 @@ is the generic determinant polynomial in `A := MvPolynomial (Fin N × Fin N) k`
 Neither Mathlib nor this repository has irreducibility of a generic determinant,
 so we build it here.
 
+## Main results (proven in this file)
+
+* `detPoly_prime` — `Prime (detPoly k N)` for `N ≥ 1`, proved by induction on
+  `N`. The step cofactor-expands along column `0`, repackaging the generic
+  determinant as `detPoly = X(0,0)·M₀₀ + R`, identifies the `(0,0)`-minor `M₀₀`
+  as a `rename` of `detPoly k (N-1)` (prime by the induction hypothesis), and
+  discharges the coprimality `M₀₀ ∤ R`.
+* `detPoly_irreducible` — `Irreducible (detPoly k N)` for `N ≥ 1`, immediate
+  from `detPoly_prime`.
+
 ## Reusable foundations (proven in this file)
 
 * `irreducible_C_mul_X_add_C` — a linear polynomial `a·X + b` over an integral
@@ -26,15 +36,6 @@ so we build it here.
   each minor of the generic matrix is a `rename` of a smaller generic
   determinant, and `rename` along the (injective) index embedding carries
   primeness back and forth.
-
-## Remaining work (issue successor)
-
-The determinant-specific induction — cofactor repackaging
-`detPoly = X(0,0)·M₀₀ + R`, identifying the `(0,0)`-minor as a `rename` of
-`detPoly k (N-1)`, and the coprimality `M₀₀ ∤ R` — is split into a successor
-issue. `detPoly_irreducible` / `detPoly_prime` are stated here with their route
-documented and a single `sorry` each, so downstream code can already depend on
-the statements.
 -/
 
 open MvPolynomial Polynomial
