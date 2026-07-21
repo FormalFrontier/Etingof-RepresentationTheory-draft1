@@ -4449,7 +4449,9 @@
     "start_line": 21,
     "end_line": 25,
     "status": "sorry_free",
-    "coverage_note": "Statement pass: Chapter5/Problem5_16_1.lean states the branching rule for S_n in S_{n+1}. (a) restriction character of V_mu equals the sum of characters of V_lambda over R(mu) = {lambda subset mu}; (b) the Frobenius-reciprocity multiplicity of V_lambda in Ind V_mu is the indicator of A(mu) = {mu subset lambda}. R(mu)/A(mu) via YoungDiagram containment. Sorry proofs."
+    "coverage_note": "Statement pass: Chapter5/Problem5_16_1.lean states the branching rule for S_n in S_{n+1}. (a) restriction character of V_mu equals the sum of characters of V_lambda over R(mu) = {lambda subset mu}; (b) the Frobenius-reciprocity multiplicity of V_lambda in Ind V_mu is the indicator of A(mu) = {mu subset lambda}. R(mu)/A(mu) via YoungDiagram containment. Sorry proofs.",
+    "fidelity": "verified",
+    "fidelity_note": "Statement-fidelity & non-vacuity audit (#7203): FAITHFUL, axiom-clean. (a) restriction as full-character identity, (b) induction as Frobenius-reciprocity multiplicity over all lambda; equivalent to book module direct-sums in char 0 given V_lambda irreducible + pairwise distinct + complete. permEmb/removeSquare/addSquare/branchingPairing all genuine; if-guard discriminates. See progress/reviews/2026-07-21-ch5-problem5_16_1-branching-rule-fidelity.md"
   },
   {
     "id": "Chapter5/Problem5.16.2",
