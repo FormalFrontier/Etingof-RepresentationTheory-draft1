@@ -145,6 +145,13 @@ open PR on it first (`gh pr list --head agent/<id>`). If a PR exists, create
 a new branch with a suffix (`agent/<id>-v2`). If no PR exists, reset it to
 master: `git checkout agent/<id> && git reset --hard origin/master`.
 
+**Before that `git reset --hard`, run `git status --short` and inspect any
+uncommitted changes** (`git diff`). A reused worktree can carry in-progress
+edits from a crashed prior session; `reset --hard` discards them irrecoverably.
+If the changes look like real work (not stray build artifacts), stash them
+(`git stash`, never `git stash -u`) or commit them on a scratch branch before
+resetting.
+
 Record any project-specific quality metrics (e.g. sorry count, test coverage)
 as described in the project's CLAUDE.md.
 
