@@ -4,8 +4,8 @@ import EtingofRepresentationTheory.Chapter5.Example5_1_3
 /-!
 # Every irreducible representation of `Sₙ` is of real type
 
-This file records the `n`-generic statement behind Problem 5.12.5's reality crux: **every
-simple `ℂ[Sₙ]`-module is of real type**, and consequently has Frobenius-Schur indicator `1`.
+This file records the `n`-generic statement behind the reality argument of Problem 5.12.5:
+every simple `ℂ[Sₙ]`-module is of real type, and consequently has Frobenius-Schur indicator `1`.
 
 The real-type statement is the `n`-generic version of `Etingof.Example5_1_3_S4`
 (`Example5_1_3.lean`): every simple `ℂ[Sₙ]`-module is isomorphic to a Specht module
@@ -14,10 +14,10 @@ Young symmetrizer `c_λ`; transporting the coordinate dot-product form
 (`isRealType_of_coordForm_transport`) along this iso gives a nondegenerate invariant
 symmetric form.
 
-Feeding this into the reverse Frobenius-Schur bridge
-`Etingof.frobeniusSchurIndicator_eq_one_of_isRealType` (`FrobeniusSchurRealType.lean`) gives
-`FS(V) = 1` for every simple representation, which is the input Problem 5.12.5 needs to turn
-Theorem 5.1.5's `∑ dim Vᵢ · FS(Vᵢ)` into the bare `∑ dim Vᵢ = #{g : g² = 1}`.
+Combined with the reverse Frobenius-Schur implication
+`Etingof.frobeniusSchurIndicator_eq_one_of_isRealType` (`FrobeniusSchurRealType.lean`), this gives
+`FS(V) = 1` for every simple representation, which is the input Problem 5.12.5 needs to reduce
+Theorem 5.1.5's `∑ dim Vᵢ · FS(Vᵢ)` to the bare `∑ dim Vᵢ = #{g : g² = 1}`.
 -/
 
 open MonoidAlgebra
@@ -72,7 +72,7 @@ theorem isRealType_of_isSimpleModule_symmetricGroup (n : ℕ)
     (Etingof.youngSymmetrizer_im_eq_zero n la) v₀ hv₀ hcne
 
 /-- **Every simple `ℂ[Sₙ]`-module has Frobenius-Schur indicator `1`.** Immediate from real
-type (`isRealType_of_isSimpleModule_symmetricGroup`) and the reverse Frobenius-Schur bridge
+type (`isRealType_of_isSimpleModule_symmetricGroup`) and the reverse Frobenius-Schur implication
 `frobeniusSchurIndicator_eq_one_of_isRealType`. -/
 theorem frobeniusSchurIndicator_symmetricGroup_eq_one (n : ℕ)
     {V : Type*} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]

@@ -13,7 +13,7 @@ representation which is not defined over `ℝ` (i.e., not realizable by real mat
 
 A representation "defined over `ℝ`" (realizable by real matrices) admits a `G`-invariant
 positive-definite real inner product, hence a nondegenerate symmetric `G`-invariant bilinear
-form, so it is of **real type** (`Etingof.IsRealType`, Definition 5.1.1). Therefore "not
+form, so it is of real type (`Etingof.IsRealType`, Definition 5.1.1). Therefore "not
 defined over `ℝ`" is faithfully captured by `¬ Etingof.IsRealType ρ`.
 
 The statement below asserts the existence of a nontrivial irreducible complex representation
@@ -26,8 +26,8 @@ type.
 The odd-order hypothesis is used only by the reduction lemma
 `not_isRealType_of_odd_order_of_nontrivial_irreducible` (Exercise 5.3.3), which turns any
 nontrivial irreducible into one that is not of real type. So the entire content here is to
-**produce one nontrivial irreducible complex representation** of the nontrivial finite group
-`G`, then feed it to that lemma.
+produce one nontrivial irreducible complex representation of the nontrivial finite group
+`G`, then apply that lemma to it.
 
 We use the Wedderburn-Artin enumeration `IrrepDecomp.mk'` of the irreducibles of `ℂ[G]` as
 its column representations `D.columnRep i` (each simple by
@@ -45,7 +45,7 @@ section Exercise517
 variable (G : Type*) [Group G] [Fintype G] [Nontrivial G]
 
 /-- Exercise 5.1.7. A nontrivial finite group of odd order admits a nontrivial irreducible
-complex representation that is not of real type — i.e., not realizable by real matrices. -/
+complex representation that is not of real type, i.e., not realizable by real matrices. -/
 theorem exists_irreducible_not_realType_of_odd_order
     (hodd : Odd (Fintype.card G)) :
     ∃ (V : Type) (_ : AddCommGroup V) (_ : Module ℂ V) (_ : Module.Finite ℂ V)

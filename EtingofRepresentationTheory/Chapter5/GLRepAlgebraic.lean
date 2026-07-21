@@ -7,22 +7,19 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
 This file collects the reusable lemmas about `Etingof.IsAlgebraicRepresentation`
 (Definition 5.23.1) that are independent of any particular twisted Schur module:
 
-* `evalAtGL_mul` / `evalAtGL_sum` / `evalAtGL_prod` / `evalAtGL_C` / `evalAtGL_X_inl`
-  — ring-homomorphism behaviour of evaluation `evalAtGL g`.
-* `detPolyGL` and `evalAtGL_detPolyGL` — the determinant of the generic matrix as a
+* `evalAtGL_mul` / `evalAtGL_sum` / `evalAtGL_prod` / `evalAtGL_C` / `evalAtGL_X_inl`:
+  ring-homomorphism behaviour of evaluation `evalAtGL g`.
+* `detPolyGL` and `evalAtGL_detPolyGL`: the determinant of the generic matrix as a
   polynomial in the coordinate ring, and its evaluation.
-* `IsAlgebraicRepresentation.detTwist` — twisting an algebraic representation by the
+* `IsAlgebraicRepresentation.detTwist`: twisting an algebraic representation by the
   determinant character keeps it algebraic.
-* `IsAlgebraicRepresentation.restrict` — the restriction of an algebraic representation
+* `IsAlgebraicRepresentation.restrict`: the restriction of an algebraic representation
   to an invariant submodule is algebraic.
-* `glTensorRep_isAlgebraic` — the diagonal action `g ↦ g^{⊗n}` on `(k^N)^{⊗n}` is
+* `glTensorRep_isAlgebraic`: the diagonal action `g ↦ g^{⊗n}` on `(k^N)^{⊗n}` is
   algebraic.
 
-These are factored out of `DetTwistAlgebraic` so that they sit *upstream* of
-`Proposition5_22_2` (where the twisted Schur module `detTwistedSchurModuleRep` is
-defined). That lets `schurModule_shift_iso_detTwist` supply the algebraicity hypothesis
-required by `iso_of_formalCharacter_eq_schurPoly` (#4882) without an import cycle:
-`detTwistedSchurModuleRep_isAlgebraic` itself lives downstream, in `DetTwistAlgebraic`.
+These lemmas supply the algebraicity hypothesis required by
+`iso_of_formalCharacter_eq_schurPoly`.
 -/
 
 open scoped TensorProduct
@@ -68,7 +65,7 @@ theorem evalAtGL_X_inl {k : Type*} [Field k] {N : ℕ}
 
 /-- The determinant of the generic matrix `(Xᵢⱼ)`, as an element of the
 coordinate ring `k[Xᵢⱼ, det⁻¹]`. Only the matrix-entry variables (`Sum.inl`)
-appear; this is a genuine polynomial, no `det⁻¹` needed. -/
+appear; this is a polynomial, with no `det⁻¹` needed. -/
 def detPolyGL (k : Type*) [Field k] (N : ℕ) :
     MvPolynomial (Etingof.GLCoordVars N) k :=
   (Matrix.of fun i j : Fin N => MvPolynomial.X (R := k) (Sum.inl (i, j))).det
@@ -282,7 +279,7 @@ theorem evalAtGL_adjugate {k : Type*} [Field k] {N : ℕ}
     _ = (g : Matrix (Fin N) (Fin N) k).adjugate a b := by rw [hmap]
 
 /-- The substitution `σ` on the coordinate ring `k[Xᵢⱼ, D]` that realises evaluation at
-the *inverse* matrix: `Xᵢⱼ ↦ D · adjugate(X)ᵢⱼ` (the `(i,j)` entry of `X⁻¹ = det(X)⁻¹ · adj X`)
+the inverse matrix: `Xᵢⱼ ↦ D · adjugate(X)ᵢⱼ` (the `(i,j)` entry of `X⁻¹ = det(X)⁻¹ · adj X`)
 and `D ↦ det(X)` (so `det(g⁻¹)⁻¹ = det g`). -/
 noncomputable def invSubst (k : Type*) [Field k] (N : ℕ) :
     Etingof.GLCoordVars N → MvPolynomial (Etingof.GLCoordVars N) k :=

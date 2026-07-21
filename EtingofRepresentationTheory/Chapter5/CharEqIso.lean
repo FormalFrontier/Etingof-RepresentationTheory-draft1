@@ -4,9 +4,9 @@ import Mathlib
 # Equal characters imply isomorphism (`charEq_iso`)
 
 For finite-dimensional representations of a finite group over `ℂ`, equality of
-characters is not just a *consequence* of isomorphism (`FDRep.char_iso`) but is
-*equivalent* to it. This file proves the converse, the keystone lemma needed to
-turn character computations into genuine isomorphisms of representations:
+characters is not just a consequence of isomorphism (`FDRep.char_iso`) but is
+equivalent to it. This file proves the converse, the keystone lemma needed to
+turn character computations into isomorphisms of representations:
 
   `charEq_iso : V.character = W.character → Nonempty (V ≅ W)`.
 
@@ -14,10 +14,10 @@ turn character computations into genuine isomorphisms of representations:
 
 We argue entirely inside the semisimple `ℂ`-linear category `FDRep ℂ G`, reusing
 Mathlib's categorical Schur's lemma (`finrank_hom_simple_simple`) and the
-scalar-product/character bridge (`scalar_product_char_eq_finrank_equivariant`).
+scalar-product formula for characters (`scalar_product_char_eq_finrank_equivariant`).
 
 * `finrank_hom_eq_of_character_eq`: equal characters force
-  `finrank ℂ (S ⟶ V) = finrank ℂ (S ⟶ W)` for *every* test object `S`, directly
+  `finrank ℂ (S ⟶ V) = finrank ℂ (S ⟶ W)` for every test object `S`, directly
   from `scalar_product_char_eq_finrank_equivariant`.
 * The main work is purely categorical: in a semisimple, `ℂ`-linear, finite
   category with Schur's lemma, two objects with the same `finrank ℂ (S ⟶ -)` for
@@ -29,8 +29,8 @@ scalar-product/character bridge (`scalar_product_char_eq_finrank_equivariant`).
   `FDRep ℂ G` via the strictly-monotone length function `finrank ℂ` on the
   subobject lattice (`Etingof.instIsArtinianObjectFDRep`).
 
-This is reusable across the project: any character-based decomposition argument
-can now upgrade a character identity to an honest isomorphism.
+Any character-based decomposition argument can then upgrade a character identity
+to an isomorphism.
 -/
 
 open CategoryTheory CategoryTheory.Limits Module
@@ -259,7 +259,7 @@ theorem iso_of_forall_finrank_hom_eq :
 /-- **Equal characters imply isomorphism.** For finite-dimensional complex
 representations of a finite group, two representations with the same character are
 isomorphic. This is the converse of `FDRep.char_iso`, and the keystone lemma for
-turning character computations into genuine isomorphisms. -/
+turning character computations into isomorphisms. -/
 theorem charEq_iso {G : Type} [Group G] [Finite G] (V W : FDRep ℂ G)
     (h : V.character = W.character) : Nonempty (V ≅ W) := by
   haveI : Fintype G := Fintype.ofFinite G

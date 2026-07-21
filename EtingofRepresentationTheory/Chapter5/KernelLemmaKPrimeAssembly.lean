@@ -3,38 +3,32 @@ import EtingofRepresentationTheory.Chapter5.CauchyDetQuotient
 import EtingofRepresentationTheory.Chapter5.SimpleSubrepExtraction
 
 /-!
-# Assembly of the kernel lemma (K′)
+# The kernel lemma (K′)
 
-This file discharges the genuine research-level core of the det⁻¹-elimination
-kernel lemma (K′) by assembling the pieces built in sibling files:
+This file proves the core of the det⁻¹-elimination kernel lemma (K′) by combining
+three ingredients from sibling files:
 
-* the **simple-constituent extraction** keystone
-  `exists_simple_subrep_of_quotDetRep` (`SimpleSubrepExtraction.lean`, issue #4922):
+* the simple-constituent extraction
+  `exists_simple_subrep_of_quotDetRep` (`SimpleSubrepExtraction.lean`):
   every nonzero `GL_N`-invariant submodule of `A/det = k[Xᵢⱼ]/(det)` contains a
   simple finite-dimensional constituent `L` with an injective equivariant
   `φ : L →ₗ[k] A/det`;
-* the **`ν_N = 0` Cauchy content**
+* the `ν_N = 0` Cauchy content
   `quotDetRep_irreducible_constituent_lastWeight_zero` (`CauchyDetQuotient.lean`,
-  issue #4896 part (a)): such an `L` has `formalCharacter k N L = schurPoly N ν`
+  part (a)): such an `L` has `formalCharacter k N L = schurPoly N ν`
   for an antitone `ν` with `(0 : ℕ) ∈ Set.range ν`;
-* the **twist weight-shift** `glWeightSpaceℤ_quotDetTwist` and the elementary
-  glue `glWeightSpaceℤ_neg_not_mem_nonneg_span` (`KernelLemmaKPrime.lean`).
+* the twist weight-shift `glWeightSpaceℤ_quotDetTwist` and the elementary lemma
+  `glWeightSpaceℤ_neg_not_mem_nonneg_span` (`KernelLemmaKPrime.lean`).
 
-Because `CauchyDetQuotient` and `SimpleSubrepExtraction` both *import*
-`KernelLemmaKPrime`, the assembly cannot live in `KernelLemmaKPrime.lean` itself
-(it would create an import cycle). It is therefore collected here, together with
-the two downstream consumers `kernelLemmaK'` and `kernelLemmaK'_submodule` that
-depend on it.
+## The argument
 
-## The assembly (issue #4923)
-
-`quotDetTwist_nonzero_subrep_has_neg_weight`: for `r ≥ 1`, every *nonzero*
+`quotDetTwist_nonzero_subrep_has_neg_weight`: for `r ≥ 1`, every nonzero
 subrepresentation `W` of the twist `(A/det) ⊗ χ⁻ʳ` contains a nonzero torus-weight
 vector whose weight has a negative coordinate. The argument:
 
 1. **Untwist `W`.** The character twist `χ⁻ʳ` only rescales each `g`-action by the
    nonzero scalar `det(g)⁻ʳ`, so `W.toSubmodule` is `quotDetRep`-invariant.
-2. **Extract a simple constituent** `L`, `φ` from `W.toSubmodule` (#4922).
+2. **Extract a simple constituent** `L`, `φ` from `W.toSubmodule`.
 3. **`ν_N = 0`** from part (a): `formalCharacter k N L = schurPoly N ν` with
    `0 ∈ Set.range ν`.
 4. **Highest-weight vector.** `finrank (glWeightSpace k N L ν) =
@@ -55,18 +49,18 @@ namespace Etingof.KernelLemmaKPrime
 
 variable {k : Type} [Field k] {N : ℕ}
 
-/-! ### The genuine core of (K′)
+/-! ### The core of (K′)
 
 The highest-weight multiplicity-one coefficient `x^λ` of `schurPoly N λ` is
 nonzero (the Kostka number `K_{λλ} = 1`); this is `Etingof.schurPoly_coeff_self_ne_zero`
-(`Proposition5_21_1.lean`, issue #4949), used directly in step 4 below. -/
+(`Proposition5_21_1.lean`), used directly in step 4 below. -/
 
-/-- **The genuine core of (K′).** For `r ≥ 1`, every *nonzero* subrepresentation
+/-- **The core of (K′).** For `r ≥ 1`, every nonzero subrepresentation
 `W` of the twisted quotient `(A/det) ⊗ χ⁻ʳ` contains a nonzero torus-weight vector
 whose weight has a negative coordinate.
 
-Assembled from the simple-constituent extraction (#4922), the `ν_N = 0` Cauchy
-content (#4896 part (a)), and the twist weight-shift. -/
+Combines the simple-constituent extraction, the `ν_N = 0` Cauchy
+content (part (a)), and the twist weight-shift. -/
 theorem quotDetTwist_nonzero_subrep_has_neg_weight (k : Type) [Field k]
     [IsAlgClosed k] [CharZero k] (N : ℕ) (r : ℕ) (hr : 1 ≤ r)
     (W : Subrepresentation (quotDetTwistRep k N r)) (hW : W ≠ ⊥) :
@@ -77,8 +71,8 @@ theorem quotDetTwist_nonzero_subrep_has_neg_weight (k : Type) [Field k]
   -- `W.toSubmodule` is nonzero.
   have hW₀ne : W.toSubmodule ≠ ⊥ := by
     intro h
-    -- v4.31: `simpa` no longer normalizes `⊥.toSubmodule` to `⊥`, but they are defeq,
-    -- so `exact h` closes the `W.toSubmodule = ⊥.toSubmodule` goal directly.
+    -- `⊥.toSubmodule` is defeq `⊥`, so `exact h` closes the
+    -- `W.toSubmodule = ⊥.toSubmodule` goal directly.
     exact hW (Subrepresentation.toSubmodule_injective h)
   -- The scalar attached to the twist is nonzero.
   -- `W.toSubmodule` is `quotDetRep`-invariant: the twist only rescales by a unit.
@@ -158,12 +152,12 @@ theorem quotDetTwist_nonzero_subrep_has_neg_weight (k : Type) [Field k]
 
 /-! ### The kernel lemma (K′) -/
 
-/-- **Kernel lemma (K′).** For `r ≥ 1`, every right-`GL_N`-**subrepresentation**
+/-- **Kernel lemma (K′).** For `r ≥ 1`, every right-`GL_N`-subrepresentation
 `W` of the twisted quotient `(A/det) ⊗ χ⁻ʳ` all of whose right-torus weights are
 nonnegative is `⊥`.
 
 By the core `quotDetTwist_nonzero_subrep_has_neg_weight`, a nonzero such `W` would
-contain a negative-weight vector, contradicting the glue lemma
+contain a negative-weight vector, contradicting the lemma
 `glWeightSpaceℤ_neg_not_mem_nonneg_span`. -/
 theorem kernelLemmaK' (k : Type) [Field k] [IsAlgClosed k] [CharZero k] (N : ℕ)
     (r : ℕ) (hr : 1 ≤ r) (W : Subrepresentation (quotDetTwistRep k N r))
@@ -175,10 +169,10 @@ theorem kernelLemmaK' (k : Type) [Field k] [IsAlgClosed k] [CharZero k] (N : ℕ
     quotDetTwist_nonzero_subrep_has_neg_weight k N r hr W hne
   exact glWeightSpaceℤ_neg_not_mem_nonneg_span k N r μ hμneg hv0 hvμ (hW hvW)
 
-/-- Consumable form of (K′): every `GL_N`-**invariant** submodule of
+/-- Consumable form of (K′): every `GL_N`-invariant submodule of
 `(A/det) ⊗ χ⁻ʳ` all of whose torus weights lie in `ℕ^N` is `⊥`.
 
-The `GL_N`-invariance hypothesis `hW_inv` is essential — without it the statement
+The `GL_N`-invariance hypothesis `hW_inv` is essential: without it the statement
 is false (see the note on `kernelLemmaK'` in `KernelLemmaKPrime.lean`). -/
 theorem kernelLemmaK'_submodule (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (N : ℕ) (r : ℕ) (hr : 1 ≤ r)
@@ -193,8 +187,8 @@ theorem kernelLemmaK'_submodule (k : Type) [Field k] [IsAlgClosed k] [CharZero k
   have hW'bot : W' = ⊥ := kernelLemmaK' k N r hr W' hW
   have : W'.toSubmodule = (⊥ : Subrepresentation (quotDetTwistRep k N r)).toSubmodule :=
     congrArg Subrepresentation.toSubmodule hW'bot
-  -- v4.31: `simpa` leaves `⊥.toSubmodule` unreduced; `W'.toSubmodule` is defeq `W` and
-  -- `⊥.toSubmodule` is defeq `⊥`, so `exact this` closes the `W = ⊥` goal.
+  -- `W'.toSubmodule` is defeq `W` and `⊥.toSubmodule` is defeq `⊥`,
+  -- so `exact this` closes the `W = ⊥` goal.
   exact this
 
 end Etingof.KernelLemmaKPrime

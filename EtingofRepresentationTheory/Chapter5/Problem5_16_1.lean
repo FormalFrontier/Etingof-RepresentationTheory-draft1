@@ -31,7 +31,7 @@ embedded into `Sₙ₊₁ = Equiv.Perm (Fin (n+1))` as the pointwise stabilizer 
 * **(b) Induction.** By Frobenius reciprocity the multiplicity of `V_λ` (`λ ⊢ n+1`) in
   `Ind_{Sₙ}^{Sₙ₊₁} V_μ` equals the multiplicity of `V_μ` in `Res V_λ`, i.e. the reciprocity pairing
   `⟨χ_{V_μ}, Res χ_{V_λ}⟩_{Sₙ}`. We state that this pairing is `1` if `μ ⊆ λ` (`λ ∈ A(μ)`) and `0`
-  otherwise — precisely `Ind V_μ = ⨁_{λ ∈ A(μ)} V_λ`.
+  otherwise, precisely `Ind V_μ = ⨁_{λ ∈ A(μ)} V_λ`.
 
 Both parts are proved: (a) `res_spechtModule_character` via the Frobenius character formula and
 the Pieri rule for `p₁` (`res_charValue_sum`), and (b) `ind_spechtModule_multiplicity` via
@@ -94,7 +94,7 @@ lemma psumPart_permEmb (n : ℕ) (σ : Equiv.Perm (Fin n)) :
     show (1 ::ₘ fullCycleType n σ) = (1 : ℕ) ::ₘ (fullCycleTypePartition σ).parts from rfl,
     Multiset.map_cons, Multiset.prod_cons, MvPolynomial.psum_one]
 
-/-! ### Row-length bounded partition and the containment bridge -/
+/-! ### Row-length bounded partition and the containment correspondence -/
 
 /-- Containment of Young diagrams is equivalent to row-by-row containment of row lengths. -/
 lemma youngDiagram_le_iff_rowLen {μ ν : YoungDiagram} :
@@ -504,12 +504,12 @@ theorem res_spechtModule_character (n : ℕ) (μ : Nat.Partition (n + 1))
       ∑ la ∈ removeSquare μ, spechtModuleCharacter n la σ := by
   classical
   obtain ⟨bpμ, hbpμ⟩ := exists_boundedPartition_weightToPartition_eq (n + 1) μ
-  -- Bridge the left side to `charValue` over `n+1` variables.
+  -- Relate the left side to `charValue` over `n+1` variables.
   have hLHS : spechtModuleCharacter (n + 1) μ (permEmb n σ) =
       ((charValue (n + 1) bpμ (fullCycleTypePartition (permEmb n σ)) : ℚ) : ℂ) := by
     have key := charValue_eq_spechtModuleCharacter (n + 1) (n + 1) bpμ (permEmb n σ)
     rw [hbpμ] at key; exact key.symm
-  -- Bridge each right-side term to `charValue`.
+  -- Relate each right-side term to `charValue`.
   have hRHS : ∀ la ∈ removeSquare μ, spechtModuleCharacter n la σ =
       ((charValue (n + 1) (resBP la) (fullCycleTypePartition σ) : ℚ) : ℂ) := by
     intro la _

@@ -572,13 +572,13 @@ theorem exists_bp_of_strictAnti_sum {N n : ℕ}
     simp only [vandermondeExps] at hsum; omega
   · funext j; simp only [shiftedExps, parts]; exact Nat.sub_add_cancel (hge j)
 
-/-- **Proposition 5.21.1** (Etingof) — **Frobenius character formula.** Every
-power-sum partition expands as a sum over *all* bounded partitions of `n` with
+/-- **Proposition 5.21.1** (Etingof), **Frobenius character formula.** Every
+power-sum partition expands as a sum over all bounded partitions of `n` with
 at most `N` parts, with coefficients given by `charValue`:
 `p_μ(x) = ∑_{λ : ℓ(λ) ≤ N} χ_λ(C_μ) S_λ(x)`.
 
 The indexing finset is `Finset.univ`, so the book's claim that the expansion
-ranges over *all* partitions with `≤ N` parts is captured faithfully by the
+ranges over all partitions with `≤ N` parts is captured faithfully by the
 statement itself (not as an existential over some unspecified finset). -/
 theorem Proposition5_21_1
     {n : ℕ} (N : ℕ) (μ : n.Partition) :

@@ -4,32 +4,31 @@ import EtingofRepresentationTheory.Chapter5.DetLocalization
 /-!
 # The right-translation `GL_N`-action on the coordinate ring `k[Xᵢⱼ]`
 
-This file constructs the **right-translation representation** of `GL_N(k)` on the
+This file constructs the right-translation representation of `GL_N(k)` on the
 polynomial coordinate ring `A = k[Xᵢⱼ] = MvPolynomial (Fin N × Fin N) k`, the
-representation-theoretic object the det⁻¹-elimination kernel lemma (K′) (issue
-#4713, route doc `progress/kernel-lemma-K-route.md`) is stated over.
+representation-theoretic object over which the det⁻¹-elimination kernel lemma
+(K′) is stated.
 
 On the coordinate functions `X_{ij}(g) = g_{ij}` the right translation
 `(R_h f)(g) = f(g · h)` acts by
-`R_h X_{ij} = ∑_l h_{lj} X_{il}` — it mixes the **column** index `j` (right
-multiplication acts on columns) and fixes the **row** index `i`. We package this
+`R_h X_{ij} = ∑_l h_{lj} X_{il}`. It mixes the column index `j` (right
+multiplication acts on columns) and fixes the row index `i`. We package this
 as an algebra endomorphism `rTransAlgHom M` for an arbitrary matrix `M`, show it
 is multiplicative in `M` (`rTransAlgHom_one`, `rTransAlgHom_mul`), and restrict to
-`GL_N` to obtain a genuine `Representation k GL_N A` (`polyRightRep`).
+`GL_N` to obtain a `Representation k GL_N A` (`polyRightRep`).
 
 ## The determinant is a semi-invariant
 
 The generic determinant `det(Xᵢⱼ)` transforms by the determinant character:
 `R_h det(X) = det(h) · det(X)` (`rTransAlgHom_det`). Consequently the principal
 ideal `(det)` is `GL_N`-stable (`rTransAlgHom_mem_detIdeal`), so the quotient
-`A/det` inherits a right-`GL_N`-action — this is exactly the rep `A/det` that (K′)
-analyses (twisted by the determinant character `χ^{-r}`).
+`A/det` inherits a right-`GL_N`-action: this is exactly the representation `A/det`
+that (K′) analyses (twisted by the determinant character `χ^{-r}`).
 
-These are the structural prerequisites for the genuine representation-theoretic
+These are the structural prerequisites for the representation-theoretic
 core (K′): every irreducible constituent of `k[Xᵢⱼ]/(det)` has last
 highest-weight coordinate `ν_N = 0`, proved via the `GL×GL`-equivariant Cauchy
-decomposition. That core is tracked in the follow-up sub-issue; this file
-supplies the action it is phrased over.
+decomposition. This file supplies the action that statement is phrased over.
 -/
 
 namespace Etingof.PolynomialGLAction
@@ -73,7 +72,7 @@ theorem rTransAlgHom_mul (M₁ M₂ : Matrix (Fin N) (Fin N) k) :
   refine Finset.sum_congr rfl fun l _ => Finset.sum_congr rfl fun m _ => ?_
   rw [mul_comm]
 
-/-- The **right-translation representation** of `GL_N(k)` on `A = k[Xᵢⱼ]`:
+/-- The right-translation representation of `GL_N(k)` on `A = k[Xᵢⱼ]`:
 `g ↦ (R_g : f ↦ f(· g))`. The right translation `(R_h f)(g) = f(g h)` acts on
 generators by `R_h X_{ij} = ∑_l h_{lj} X_{il}`. -/
 noncomputable def polyRightRep (k : Type*) [CommRing k] (N : ℕ) :
@@ -144,14 +143,14 @@ theorem rTransAlgHom_mem_detIdeal (M : Matrix (Fin N) (Fin N) k)
 
 /-! ## The diagonal torus acts diagonally on monomials
 
-The right action mixes columns, so a **diagonal** matrix `diag(v)` scales each
+The right action mixes columns, so a diagonal matrix `diag(v)` scales each
 coordinate `X_{ij}` by the column entry `v_j`. Hence every monomial is a
 right-torus eigenvector: the monomial `X^s` is scaled by `∏_{(i,j)} v_j^{s(i,j)}`,
-whose torus weight is the vector of **column degrees** `μ_j = ∑_i s(i,j)`. This is
+whose torus weight is the vector of column degrees `μ_j = ∑_i s(i,j)`. This is
 the eigenbasis underlying the weight-space computation of the Cauchy character
 identity (`CauchyCharacterRight.lean`). -/
 
-/-- A **diagonal** matrix acts on a coordinate by scaling: `R_{diag v} X_{ij} = v_j • X_{ij}`.
+/-- A diagonal matrix acts on a coordinate by scaling: `R_{diag v} X_{ij} = v_j • X_{ij}`.
 The right action mixes columns, so the diagonal entry `v_j` of column `j` is the
 eigenvalue of `X_{ij}` for every row `i`. -/
 @[simp] theorem rTransAlgHom_diagonal_X (v : Fin N → k) (p : Fin N × Fin N) :
@@ -164,9 +163,9 @@ eigenvalue of `X_{ij}` for every row `i`. -/
     rw [Matrix.diagonal_apply_ne v hl, zero_smul]
   · intro h; exact absurd (Finset.mem_univ j) h
 
-/-- A **diagonal** matrix acts on a monomial by the scalar `∏_{(i,j)} v_j^{s(i,j)}`
+/-- A diagonal matrix acts on a monomial by the scalar `∏_{(i,j)} v_j^{s(i,j)}`
 (the product of the column-coordinate weights), so every monomial is a right-torus
-eigenvector. Its torus weight is the vector of **column degrees**
+eigenvector. Its torus weight is the vector of column degrees
 `μ_j = ∑_i s(i,j)`: collecting the product over rows, the eigenvalue is
 `∏_j v_j^{μ_j}`. -/
 theorem rTransAlgHom_diagonal_monomial (v : Fin N → k)

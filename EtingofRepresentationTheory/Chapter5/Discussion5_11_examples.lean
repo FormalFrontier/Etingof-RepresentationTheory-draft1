@@ -18,22 +18,22 @@ representations of the cyclic subgroups `Z₂` and `Z₃`:
 where `ℂ₊` is the trivial representation, `ℂ₋` the sign representation, and `ℂ²`
 the two-dimensional standard (irreducible) representation of `S₃`.
 
-This file builds the **S₃ irreducible-representation catalogue** used by those
-statements — the trivial, sign, and standard representations as objects of
-`FDRep ℂ S₃` — and states the four decompositions. The catalogue is the reusable
-piece the issue asks for; the decomposition proofs go through Frobenius-reciprocity
+This file builds the S₃ irreducible-representation catalogue used by those
+statements (the trivial, sign, and standard representations as objects of
+`FDRep ℂ S₃`) and states the four decompositions. The catalogue is a reusable
+piece; the decomposition proofs go through Frobenius-reciprocity
 multiplicities (`Etingof.Theorem5_10_1` / `Etingof.Theorem5_9_1`) together with the
 fact that over `ℂ` a finite group's representation is determined up to isomorphism by
 its character.
 
 ## Mathlib correspondence
 
-* `Equiv.Perm (Fin 3)` — the group `S₃`.
-* `Equiv.Perm.sign` — the sign homomorphism, used for `ℂ₋`.
-* `Representation.ofMulAction` / a hand-rolled permutation action — the natural
+* `Equiv.Perm (Fin 3)`: the group `S₃`.
+* `Equiv.Perm.sign`: the sign homomorphism, used for `ℂ₋`.
+* `Representation.ofMulAction` / a hand-rolled permutation action: the natural
   3-dimensional representation, whose sum-zero subspace is the standard
   representation `ℂ²`.
-* `Etingof.Definition5_8_1` — the induced representation `Ind_H^G`.
+* `Etingof.Definition5_8_1`: the induced representation `Ind_H^G`.
 -/
 
 open CategoryTheory
@@ -379,7 +379,7 @@ lemma epsRep_simple : Simple epsRep := charRep_simple _
 /-! ## Multiplicity machinery: characters, dimensions, completeness
 
 The four decompositions are proved via Frobenius reciprocity, which computes the
-multiplicity of each irreducible in the induced representation. This section assembles
+multiplicity of each irreducible in the induced representation. This section collects
 the reusable inputs: symmetry of hom-space dimensions, the dimensions and pairwise
 non-isomorphism of the three irreducibles, and completeness of the catalogue
 `{trivRep, signRep, stdRep}` (every simple `S₃`-representation is isomorphic to one of
@@ -599,7 +599,7 @@ theorem frobenius_finrank (H : Subgroup S3) {V : Type}
 
 /-- The multiplicity of a simple `S` in the induced representation, as a scalar product over
 `H` of the restricted character of `S` against the inducing character. Combines hom-symmetry,
-Frobenius reciprocity, and the character/scalar-product bridge. -/
+Frobenius reciprocity, and the character/scalar-product correspondence. -/
 lemma ind_finrank_eq_scalar (H : Subgroup S3) [Fintype ↥H] [Invertible (Fintype.card ↥H : ℂ)]
     {V : Type} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
     (ρ : Representation ℂ ↥H V) (S : FDRep ℂ S3) :
@@ -709,15 +709,13 @@ lemma zeta3_sum : (zeta3 : ℂ) ^ 2 + (zeta3 : ℂ) + 1 = 0 := by
 /-! ## The induced representations and their decompositions
 
 Each statement asserts an isomorphism of `S₃`-representations. The intended proof
-route (Etingof §5.11), which follows the book in bypassing the induced-character
+(Etingof §5.11), which follows the book in bypassing the induced-character
 formula `Etingof.Theorem5_9_1`, computes the multiplicity of each irreducible
 constituent by Frobenius reciprocity `Etingof.Theorem5_10_1`,
 `⟨Ind_H^G W, V_i⟩ = ⟨W, Res_H V_i⟩`, reducing each to a restriction over the 2- or
-3-element subgroup, then assembles the isomorphism via `Etingof.iso_of_forall_finrank_hom_eq`
+3-element subgroup, then builds the isomorphism via `Etingof.iso_of_forall_finrank_hom_eq`
 together with completeness of the `S₃` irreducible catalogue `{trivRep, signRep, stdRep}`
-(provable from `exists_simples_sum_finrank_sq_eq_card`, since `1² + 1² + 2² = 6 = |S₃|`).
-
-All four decompositions below are proved sorry-free along this route. -/
+(provable from `exists_simples_sum_finrank_sq_eq_card`, since `1² + 1² + 2² = 6 = |S₃|`). -/
 
 /-- `Ind_{Z₂}^{S₃} ℂ₊ ≅ ℂ² ⊕ ℂ₊`. (Etingof Discussion 5.11(1)) -/
 theorem indZ2_trivPlus_decomp :

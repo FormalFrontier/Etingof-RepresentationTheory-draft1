@@ -4,26 +4,26 @@ import EtingofRepresentationTheory.Chapter5.PolynomialGLRightAction
 /-!
 # The left-translation `GL_N`-action and the `GL_N × GL_N` bi-action on `k[Xᵢⱼ]`
 
-This file complements `PolynomialGLRightAction.lean`. There the **right
-translation** `(R_h f)(g) = f(g h)` was realised as the algebra endomorphism
-`rTransAlgHom M : X_{ij} ↦ ∑_l M_{lj} X_{il}` (mixing the **column** index `j`),
-packaged into `polyRightRep`. Here we add the commuting **left translation**
+This file complements `PolynomialGLRightAction.lean`. There the right
+translation `(R_h f)(g) = f(g h)` was realised as the algebra endomorphism
+`rTransAlgHom M : X_{ij} ↦ ∑_l M_{lj} X_{il}` (mixing the column index `j`),
+packaged into `polyRightRep`. Here we add the commuting left translation
 `(L_h f)(g) = f(hᵀ g)`, which on generators acts by
 
 `L_h X_{ij} = ∑_l h_{li} X_{lj}`
 
-— it mixes the **row** index `i` and fixes the column index `j`. We package it as
+It mixes the row index `i` and fixes the column index `j`. We package it as
 `lTransAlgHom M`, show it is multiplicative in `M` (`lTransAlgHom_one`,
-`lTransAlgHom_mul`), and restrict to `GL_N` to obtain a genuine
+`lTransAlgHom_mul`), and restrict to `GL_N` to obtain a
 `Representation k GL_N A` (`polyLeftRep`).
 
 ## The bi-action
 
-The central fact is that the two actions **commute**
+The central fact is that the two actions commute
 (`lTransAlgHom_comp_rTransAlgHom`, `polyLeftRep_commute_polyRightRep`): left
 multiplication mixes rows, right multiplication mixes columns, and the two
-operations are independent. This realises `A = k[Xᵢⱼ]` as a genuine
-`GL_N × GL_N`-representation — the structure underlying the Cauchy decomposition
+operations are independent. This realises `A = k[Xᵢⱼ]` as a
+`GL_N × GL_N`-representation, the structure underlying the Cauchy decomposition
 `k[Xᵢⱼ] = ⊕_{ν ∈ ℕ^N dom} V_ν^* ⊠ V_ν` (left factor `V_ν^*`, right factor `V_ν`).
 
 ## The determinant is a bi-semi-invariant
@@ -33,8 +33,8 @@ character on the left too: `L_M det(X) = det(M)·det(X)` (`lTransAlgHom_det`), s
 the principal ideal `(det)` is also left-`GL_N`-stable
 (`lTransAlgHom_mem_detIdeal`). Combined with the right-stability from
 `PolynomialGLRightAction.lean`, the quotient `A/det = k[Xᵢⱼ]/(det)` inherits the
-full `GL_N × GL_N` bi-action — the bi-representation whose constituents the kernel
-lemma (K′) and the Cauchy decomposition (#4904, #4896) analyse.
+full `GL_N × GL_N` bi-action, the bi-representation whose constituents the kernel
+lemma (K′) and the Cauchy decomposition analyse.
 -/
 
 namespace Etingof.PolynomialGLAction
@@ -78,7 +78,7 @@ theorem lTransAlgHom_mul (M₁ M₂ : Matrix (Fin N) (Fin N) k) :
   refine Finset.sum_congr rfl fun l _ => Finset.sum_congr rfl fun m _ => ?_
   rw [mul_comm]
 
-/-- The **left-translation representation** of `GL_N(k)` on `A = k[Xᵢⱼ]`:
+/-- The left-translation representation of `GL_N(k)` on `A = k[Xᵢⱼ]`:
 `g ↦ (L_g : f ↦ f(gᵀ ·))`. The left translation `(L_h f)(g) = f(hᵀ g)` acts on
 generators by `L_h X_{ij} = ∑_l h_{li} X_{lj}`. -/
 noncomputable def polyLeftRep (k : Type*) [CommRing k] (N : ℕ) :
@@ -112,7 +112,7 @@ theorem polyLeftRep_apply (g : Matrix.GeneralLinearGroup (Fin N) k)
 /-- **Left and right translations commute** as algebra endomorphisms of
 `A = k[Xᵢⱼ]`: the left action mixes the row index, the right action mixes the
 column index, and the two operations are independent. This is what makes
-`A = k[Xᵢⱼ]` a genuine `GL_N × GL_N`-representation. -/
+`A = k[Xᵢⱼ]` a `GL_N × GL_N`-representation. -/
 theorem lTransAlgHom_comp_rTransAlgHom (M₁ M₂ : Matrix (Fin N) (Fin N) k) :
     (lTransAlgHom M₁).comp (rTransAlgHom M₂)
       = (rTransAlgHom M₂).comp (lTransAlgHom M₁) := by
@@ -126,7 +126,7 @@ theorem lTransAlgHom_comp_rTransAlgHom (M₁ M₂ : Matrix (Fin N) (Fin N) k) :
   rw [mul_comm]
 
 /-- The left and right `GL_N`-actions on `A = k[Xᵢⱼ]` commute, exhibiting the
-genuine `GL_N × GL_N` bi-action: for `g, h ∈ GL_N`, `L_g` and `R_h` commute as
+`GL_N × GL_N` bi-action: for `g, h ∈ GL_N`, `L_g` and `R_h` commute as
 linear endomorphisms. -/
 theorem polyLeftRep_commute_polyRightRep (g h : Matrix.GeneralLinearGroup (Fin N) k) :
     Commute (polyLeftRep k N g) (polyRightRep k N h) := by

@@ -4,9 +4,9 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_18_4
 import EtingofRepresentationTheory.Chapter5.SchurWeylGLTransfer
 
 /-!
-# Problem 5.24.2, steps 1–2: the coordinate ↔ tensor bridge
+# Problem 5.24.2, steps 1–2: the coordinate ↔ tensor correspondence
 
-This file builds the linear bridge between the coordinate ring of matrix invariants
+This file builds the linear correspondence between the coordinate ring of matrix invariants
 (`Etingof.MatrixTupleRing`, developed in `Problem5_24_2.lean`) and the Schur–Weyl tensor framework
 (`Etingof.TensorPower`, `symGroupImage`, in `Theorem5_18_4.lean`), following steps 1–2 of the book's
 hint for Problem 5.24.2.
@@ -16,7 +16,7 @@ hint for Problem 5.24.2.
 Take `V = ℂ^N = Fin N → ℂ`, so `End V ≃ Matrix (Fin N) (Fin N) ℂ` and
 `End(V)^{⊗n} ≃ End(V^{⊗n}) = Module.End ℂ (TensorPower ℂ V n)`. The `GL(V)`-invariant part of
 `End(V)^{⊗n}` (endomorphisms of `V^{⊗n}` commuting with the diagonal `GL(V)`-action) is exactly
-`symGroupImage ℂ V n`, the `ℂ`-span of the permutation operators `symGroupAction σ` — this is the
+`symGroupImage ℂ V n`, the `ℂ`-span of the permutation operators `symGroupAction σ`; this is the
 content of Schur–Weyl duality (`Theorem5_18_4_centralizers`).
 
 ## The evaluation pairing
@@ -35,11 +35,10 @@ coerces the `ℂ`-entries of `toMatrix M` into the coordinate ring and `genericT
 the matrix (over the coordinate ring) of the operator `⨂ⱼ X_{slot j}` on `V^{⊗n}`.
 
 The value on a permutation operator `symGroupAction σ` is a product of trace-of-word functions
-`traceWord`, one per cycle of `σ`: this is the tensor-trace ↔ trace-word identity supplied by
-the sibling sub-issue. The assembly sub-issue combines that identity with Schur–Weyl
-permutation-spanning (`Theorem5_18_4_centralizers`) and the range identification stated here
-(`weightedHomogeneous_invariant_mem_range_endTensorEval`) to prove
-`weightedHomogeneous_invariant_mem_adjoin` in `Problem5_24_2.lean` (now complete, no `sorry`).
+`traceWord`, one per cycle of `σ`: this is the tensor-trace ↔ trace-word identity. Combining that
+identity with Schur–Weyl permutation-spanning (`Theorem5_18_4_centralizers`) and the range
+identification stated here (`weightedHomogeneous_invariant_mem_range_endTensorEval`) proves
+`weightedHomogeneous_invariant_mem_adjoin` in `Problem5_24_2.lean`.
 -/
 
 noncomputable section
@@ -96,7 +95,7 @@ each tensor slot the letter (generic matrix) placed there.
 
 It is `evalMatrix slot` precomposed with `LinearMap.toMatrix` in the standard tensor basis. On a
 permutation operator `symGroupAction σ` its value is a product of trace-of-word functions
-(one per cycle of `σ`), the tensor-trace ↔ trace-word identity of the sibling sub-issue. -/
+(one per cycle of `σ`), the tensor-trace ↔ trace-word identity. -/
 noncomputable def endTensorEval (slot : Fin n → Fin k) :
     Module.End ℂ (TensorPower ℂ (BridgeV N) n) →ₗ[ℂ] MatrixTupleRing k N :=
   evalMatrix k N n slot ∘ₗ
@@ -212,8 +211,8 @@ simultaneous-conjugation automorphism `conjAlgHom g` of the coordinate ring:
 `endTensorEval slot ((g^{⊗n})⁻¹ · M · g^{⊗n}) = conjAlgHom g (endTensorEval slot M)`.
 
 Here `g^{⊗n} = PiTensorProduct.map (fun _ => mulVecLin g)` is the diagonal `GL(V)`-action on
-`V^{⊗n}`, and `(g^{⊗n})⁻¹` is the corresponding operator for `g⁻¹`. This is the equivariance glue
-that lets the range identification transport `GL(V)`-invariance of tensors to conjugation-invariance
+`V^{⊗n}`, and `(g^{⊗n})⁻¹` is the corresponding operator for `g⁻¹`. This equivariance lets the
+range identification transport `GL(V)`-invariance of tensors to conjugation-invariance
 of polynomials. -/
 theorem endTensorEval_conj (slot : Fin n → Fin k) (g : (Matrix (Fin N) (Fin N) ℂ)ˣ)
     (M : Module.End ℂ (TensorPower ℂ (BridgeV N) n)) :
@@ -263,11 +262,11 @@ theorem endTensorEval_conj (slot : Fin n → Fin k) (g : (Matrix (Fin N) (Fin N)
 
 /-! ### Surjectivity onto degree-`d` polynomials (the combinatorial core)
 
-The remaining fact needed for the First Fundamental Theorem assembly (#6789) is that *every*
+The remaining fact needed for the First Fundamental Theorem is that every
 `matrixWeight`-homogeneous polynomial of multidegree `d` lies in the range of `endTensorEval slot`
 (before imposing `GL`-invariance): the generic-tensor monomials `∏ⱼ X_{slot j, gⱼ, fⱼ}` already
-exhaust the degree-`d` part of the coordinate ring. This is purely combinatorial — realizing each
-degree-`d` exponent vector `u` by a slot assignment `(f, g)` — and is proved here independently of
+exhaust the degree-`d` part of the coordinate ring. This is purely combinatorial (realizing each
+degree-`d` exponent vector `u` by a slot assignment `(f, g)`), and is proved here independently of
 Schur–Weyl. -/
 
 /-- **Per-fibre realizability.** Given a finite set `S` and a `ℕ`-valued `Finsupp` `m` whose total
@@ -419,15 +418,15 @@ private lemma prod_monomial_single {ι : Type*} (s : Finset ι)
   | insert a s' ha ih =>
     rw [Finset.prod_insert ha, ih, Finset.sum_insert ha, MvPolynomial.monomial_mul, one_mul]
 
-/-- **Surjectivity onto the degree-`d` part (FFT range identification, B1).** Every polynomial in
+/-- **Surjectivity onto the degree-`d` part (FFT range identification).** Every polynomial in
 the coordinate ring `MatrixTupleRing k N` that is `matrixWeight`-homogeneous of multidegree `d` lies
 in the range of the evaluation pairing `endTensorEval slot`, for any slot assignment `slot`
 compatible with `d` (slot `j` carries letter `i` for exactly `d i` slots).
 
 The range contains every generic-tensor monomial `∏ⱼ X_{slot j, gⱼ, fⱼ}` (it is the value of
 `endTensorEval slot` on the standard matrix unit, since only one term of the complete contraction
-survives). A degree-`d` polynomial is a `ℂ`-combination of such monomials — each exponent vector in
-its support is realizable by a slot assignment (`exists_fg_realizes`) — and the range is a
+survives). A degree-`d` polynomial is a `ℂ`-combination of such monomials (each exponent vector in
+its support is realizable by a slot assignment, `exists_fg_realizes`), and the range is a
 submodule. -/
 theorem weightedHomogeneous_mem_range_endTensorEval
     (d : Fin k →₀ ℕ) (slot : Fin n → Fin k)
@@ -485,13 +484,13 @@ carried by each slot (`slot ∘ τ = slot`). Averaging the conjugation `M ↦ P_
 permutation operators `P_τ = symGroupAction τ` over this finite group is a `ℂ`-linear projection
 `reynolds` onto the block-symmetric endomorphisms. It has three key properties:
 
-* `endTensorEval_reynolds` — `endTensorEval slot` is unchanged by `reynolds` (the generic tensor is
+* `endTensorEval_reynolds`: `endTensorEval slot` is unchanged by `reynolds` (the generic tensor is
   block-symmetric);
-* `reynolds_conj` — `reynolds` commutes with the diagonal `GL`-conjugation `M ↦ g^{⊗n}⁻¹ M g^{⊗n}`
+* `reynolds_conj`: `reynolds` commutes with the diagonal `GL`-conjugation `M ↦ g^{⊗n}⁻¹ M g^{⊗n}`
   (permutation operators commute with diagonal operators, Schur–Weyl);
-* `reynolds_injective` — `endTensorEval slot` is injective on the image of `reynolds`.
+* `reynolds_injective`: `endTensorEval slot` is injective on the image of `reynolds`.
 
-Together these let a *any* fibrewise section (chosen from the surjectivity B1
+Together these let any fibrewise section (chosen from the surjectivity
 `weightedHomogeneous_mem_range_endTensorEval`) be block-symmetrized into an equivariant one: the
 equivariance follows by injectivity from the trace identity `endTensorEval_conj`. -/
 
@@ -1031,15 +1030,15 @@ theorem reynolds_injective (slot : Fin n → Fin k)
     (h : endTensorEval k N n slot (reynolds k N n slot M)
           = endTensorEval k N n slot (reynolds k N n slot M')) :
     reynolds k N n slot M = reynolds k N n slot M' := by
-  -- Roadmap (see issue for full detail). By linearity of `reynolds` and `endTensorEval` it suffices
+  -- Outline. By linearity of `reynolds` and `endTensorEval` it suffices
   -- to show: if `W` is block-symmetric (`W = reynolds W₀` for some `W₀`) and `endTensorEval W = 0`
   -- then `W = 0`. Write `W_{a,b} := toMatrix W a b`. Two facts close this:
   --   (1) `toMatrix (reynolds W₀) a b = (card)⁻¹ • ∑_{σ ∈ blockPerms} W₀_{a∘σ, b∘σ}` (from
   --       `toMatrix_symGroupAction`, mirroring `genericTensorMatrix_symConj`), so `W_{a∘σ, b∘σ} =
-  --       W_{a,b}` for `σ ∈ blockPerms` — block-symmetry of `W`.
+  --       W_{a,b}` for `σ ∈ blockPerms`, i.e. block-symmetry of `W`.
   --   (2) The coefficient of `monomial u 1` in `endTensorEval W` is `∑_{(a,b) : u(b,a) = u} W_{a,b}`
   --       where `u(b,a) = ∑ⱼ single (slot j, b j, a j) 1`; and the index set `{(a,b) : u(b,a) = u}`
-  --       is a *single* `blockPerms`-orbit under `(a,b) ↦ (a∘σ, b∘σ)` (multiset-matching, mirroring
+  --       is a single `blockPerms`-orbit under `(a,b) ↦ (a∘σ, b∘σ)` (multiset-matching, mirroring
   --       `PolynomialTensorBridge.matchingPerm`). Block-symmetry makes `W` constant on that orbit,
   --       so the coefficient is `(orbit card) • W_{a,b}`; `endTensorEval W = 0` forces every
   --       coefficient to vanish (monomials are linearly independent), hence every `W_{a,b} = 0`.
@@ -1106,19 +1105,18 @@ theorem conjAlgHom_isWeightedHomogeneous (g : (Matrix (Fin N) (Fin N) ℂ)ˣ) (d
   exact IsWeightedHomogeneous.sum _ _ _ (fun u hu =>
     hmon u _ (hp (MvPolynomial.mem_support_iff.mp hu)))
 
-/-- **The GL-equivariant section (crux).** There is a section `σ` of the evaluation pairing
+/-- **The GL-equivariant section.** There is a section `σ` of the evaluation pairing
 `endTensorEval slot` on the multidegree-`d` part of the coordinate ring that is `GL(V)`-equivariant:
 it sends each `matrixWeight`-homogeneous polynomial `p` of multidegree `d` to an endomorphism `σ p`
 of `V^{⊗n}` with `endTensorEval slot (σ p) = p` (section property), and intertwines the
 simultaneous-conjugation automorphism `conjAlgHom g` on polynomials with conjugation by the diagonal
 operator `g^{⊗n}` on `End(V^{⊗n})` (equivariance).
 
-This is the reductivity heart of the First Fundamental Theorem (book step 2), obtained — following
-the single-matrix `PolynomialTensorBridge` — by an explicit block-symmetrization section rather than
-an abstract Reynolds operator. Its construction and the two properties are the deliverable of the
-section sub-issue; the assembly `weightedHomogeneous_invariant_mem_range_endTensorEval` below
-consumes it, turning `GL`-invariance of `p` into commutation of `σ p` with every diagonal operator
-and hence membership in `symGroupImage`. -/
+This is the reductivity heart of the First Fundamental Theorem (book step 2), obtained (following
+the single-matrix `PolynomialTensorBridge`) by an explicit block-symmetrization section rather than
+an abstract Reynolds operator. The theorem `weightedHomogeneous_invariant_mem_range_endTensorEval`
+below uses it: `GL`-invariance of `p` gives commutation of `σ p` with every diagonal operator, and
+hence membership in `symGroupImage`. -/
 theorem exists_endTensorEval_equivariant_section
     (d : Fin k →₀ ℕ) (slot : Fin n → Fin k)
     (hslot : ∀ i : Fin k, (Finset.univ.filter fun j => slot j = i).card = d i) :
@@ -1134,7 +1132,7 @@ theorem exists_endTensorEval_equivariant_section
               * PiTensorProduct.map
                   (fun _ : Fin n => Matrix.mulVecLin (↑g : Matrix (Fin N) (Fin N) ℂ))) := by
   classical
-  -- A fibrewise (not yet equivariant) section, chosen from the surjectivity B1.
+  -- A fibrewise (not yet equivariant) section, chosen from the surjectivity result.
   obtain ⟨σ₀, hσ₀⟩ : ∃ σ₀ : MatrixTupleRing k N → Module.End ℂ (TensorPower ℂ (BridgeV N) n),
       ∀ p : MatrixTupleRing k N, IsWeightedHomogeneous (matrixWeight k N) p d →
         endTensorEval k N n slot (σ₀ p) = p := by
@@ -1158,8 +1156,8 @@ theorem exists_endTensorEval_equivariant_section
     rw [endTensorEval_reynolds, endTensorEval_reynolds, endTensorEval_conj,
       hσ₀ p hp, hσ₀ (conjAlgHom k N g p) (conjAlgHom_isWeightedHomogeneous k N g d hp)]
 
-/-- **Range identification (assembly).** Every fixed-multidegree conjugation-invariant polynomial
-lies in the image, under `endTensorEval slot`, of `symGroupImage ℂ V n` — the `GL(V)`-invariant part
+/-- **Range identification.** Every fixed-multidegree conjugation-invariant polynomial
+lies in the image, under `endTensorEval slot`, of `symGroupImage ℂ V n`, the `GL(V)`-invariant part
 of `End(V)^{⊗n}`. This is book step 2 of the FFT.
 
 Given the `GL`-equivariant section `σ` (`exists_endTensorEval_equivariant_section`), the lift is

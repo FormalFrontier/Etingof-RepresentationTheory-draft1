@@ -3,9 +3,9 @@ import Mathlib
 /-!
 # Definition 5.23.1: Algebraic Representation of GL(V)
 
-A finite dimensional representation Y of GL(V) is **algebraic** (or rational,
+A finite dimensional representation Y of GL(V) is *algebraic* (or rational,
 or polynomial) if its matrix elements are polynomial functions of the entries
-of g, g⁻¹, for g ∈ GL(V) — i.e., belong to k[gᵢⱼ][1/det(g)].
+of g, g⁻¹, for g ∈ GL(V), i.e., belong to k[gᵢⱼ][1/det(g)].
 
 ## Mathlib correspondence
 
@@ -29,7 +29,7 @@ noncomputable def Etingof.evalAtGL {k : Type*} [Field k] {n : ℕ}
               (fun _ => ((g : Matrix (Fin n) (Fin n) k).det)⁻¹))
     p
 
-/-- A finite-dimensional representation ρ of GL_n(k) on Y is **algebraic**
+/-- A finite-dimensional representation ρ of GL_n(k) on Y is *algebraic*
 (also called rational or polynomial) if there exists a basis of Y such that
 all matrix coefficients of ρ(g) are polynomial functions of the matrix entries
 gᵢⱼ and det(g)⁻¹.

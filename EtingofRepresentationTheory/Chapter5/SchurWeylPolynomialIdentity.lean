@@ -11,15 +11,15 @@ to the trivial cycle type `(1, 1, …, 1)`.
 
 ## Main results
 
-* `trivialCycleType n` — the partition of `n` consisting of `n` parts of size `1`
+* `trivialCycleType n`: the partition of `n` consisting of `n` parts of size `1`
   (the cycle type of the identity permutation in `Sₙ`).
-* `psumPart_trivialCycleType` — `psumPart (Fin N) ℚ (trivialCycleType n) = (∑ Xᵢ)^n`.
-* `sum_X_pow_eq_sum_charValue_smul_schurPoly` — the Schur-Weyl polynomial identity:
+* `psumPart_trivialCycleType`: `psumPart (Fin N) ℚ (trivialCycleType n) = (∑ Xᵢ)^n`.
+* `sum_X_pow_eq_sum_charValue_smul_schurPoly`: the Schur-Weyl polynomial identity:
   `(∑ Xᵢ)^n = ∑_{λ} charValue N λ (trivialCycleType n) • schurPoly N λ.parts`,
   where the sum runs over `λ : BoundedPartition N n`.
 
 The coefficient `charValue N λ (trivialCycleType n)` equals the dimension of the
-Specht module `Sₙ`-irrep `Sλ` (Frobenius character at the identity), bridging the
+Specht module `Sₙ`-irrep `Sλ` (Frobenius character at the identity), relating the
 polynomial identity to a Specht-multiplicity statement.
 -/
 
@@ -67,12 +67,12 @@ theorem sum_X_pow_eq_sum_charValue_smul_schurPoly (N n : ℕ) :
   rw [← psumPart_trivialCycleType N n]
   exact Proposition5_21_1_univ N (trivialCycleType n)
 
-/-! ## Bridge to Specht module dimensions
+/-! ## Specht module dimensions
 
 The character value `charValue N λ (trivialCycleType n)` evaluates the Frobenius
 character at the identity, hence equals the dimension of the Specht module `Sλ`.
-This bridges the polynomial identity above to a multiplicity statement involving
-explicit Specht-module dimensions, as needed by the Schur-Weyl final assembly. -/
+This relates the polynomial identity above to a multiplicity statement involving
+explicit Specht-module dimensions, as needed for the Schur-Weyl decomposition. -/
 
 /-- The cycle type of the identity permutation in `Sₙ` is the trivial cycle type
 (`n` parts of size `1`). -/
@@ -92,7 +92,7 @@ theorem spechtModuleCharacter_one (n : ℕ) (la : Nat.Partition n) :
         map_one (spechtModuleRep n la),
       LinearMap.trace_one]
 
-/-- **Specht-dimension bridge.** The character value at the trivial cycle type
+/-- **Specht dimension.** The character value at the trivial cycle type
 equals the dimension of the corresponding Specht module (cast to `ℂ`):
 
 `(charValue N λ (trivialCycleType n) : ℂ) = dim_ℂ (Sλ)`.
@@ -107,7 +107,7 @@ theorem charValue_trivialCycleType_eq_spechtFinrank
       charValue_eq_spechtModuleCharacter N n lam 1,
       spechtModuleCharacter_one]
 
-/-- **Specht-dimension bridge over `ℚ`.** Stronger form of
+/-- **Specht dimension over `ℚ`.** Stronger form of
 `charValue_trivialCycleType_eq_spechtFinrank`: the rational character value at
 the trivial cycle type already equals the natural-number dimension of the
 Specht module (cast to `ℚ`). Obtained from the `ℂ`-form by injectivity of
@@ -129,8 +129,8 @@ Schur polynomials weighted by Specht-module dimensions:
 `(∑ᵢ Xᵢ)ⁿ = ∑_{λ ∈ BoundedPartition N n} dim_ℂ(Sλ) • s_λ(X)`.
 
 This is the dimension-form combination of `sum_X_pow_eq_sum_charValue_smul_schurPoly`
-and `charValue_trivialCycleType_eq_spechtFinrank_rat`, ready for direct use by
-the Schur-Weyl L_i final assembly. -/
+and `charValue_trivialCycleType_eq_spechtFinrank_rat`, ready for direct use in
+the Schur-Weyl L_i decomposition. -/
 theorem sum_X_pow_eq_sum_finrank_smul_schurPoly (N n : ℕ) :
     (∑ i : Fin N, (MvPolynomial.X i : MvPolynomial (Fin N) ℚ)) ^ n =
       ∑ lam : BoundedPartition N n,

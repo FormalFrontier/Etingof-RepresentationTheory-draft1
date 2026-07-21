@@ -5,23 +5,22 @@ import EtingofRepresentationTheory.Chapter5.PolyRightGrading
 /-!
 # Extracting a simple constituent from a nonzero subrepresentation of `A/det`
 
-This file builds the **extraction keystone** for the kernel-lemma-K′ assembly
-(issue #4922, parent #4897): from a *nonzero* `GL_N`-invariant submodule `W` of the
-determinant quotient `A/det = k[Xᵢⱼ]/(det)` (`quotDetRep`, `KernelLemmaKPrime.lean`)
-it produces a *simple* finite-dimensional `GL_N`-representation `L` (an `FDRep`)
-together with an injective `GL_N`-equivariant map `φ : L →ₗ[k] A/det` whose image
-lands inside `W`. This is exactly the `(L, hLsimp, φ, hφ_inj, hφ_equiv)` data the
-part-(a) lemma `quotDetRep_irreducible_constituent_lastWeight_zero`
-(`CauchyDetQuotient.lean`) consumes.
+From a nonzero `GL_N`-invariant submodule `W` of the determinant quotient
+`A/det = k[Xᵢⱼ]/(det)` (`quotDetRep`, `KernelLemmaKPrime.lean`) we produce a simple
+finite-dimensional `GL_N`-representation `L` (an `FDRep`) together with an injective
+`GL_N`-equivariant map `φ : L →ₗ[k] A/det` whose image lands inside `W`. This is
+exactly the `(L, hLsimp, φ, hφ_inj, hφ_equiv)` data the part-(a) lemma
+`quotDetRep_irreducible_constituent_lastWeight_zero` (`CauchyDetQuotient.lean`)
+consumes.
 
 ## Why a minimal invariant submodule, not complete reducibility
 
-`Theorem5_23_2_i` now provides genuine complete reducibility
-(`IsSemisimpleModule k[GL_N] ρ.asModule`) and is proved sorry-free. We do not need
-to consume that theorem here, though: instead we take a *minimal nonzero invariant
-submodule* (an **atom** of the `k[GL_N]`-submodule lattice), which is simple as a
-representation without any complete-reducibility input. Retaining this route by
-design keeps the part-(a) construction elementary and self-contained.
+`Theorem5_23_2_i` provides complete reducibility
+(`IsSemisimpleModule k[GL_N] ρ.asModule`). We do not need that theorem here, though:
+instead we take a minimal nonzero invariant submodule (an atom of the
+`k[GL_N]`-submodule lattice), which is simple as a representation without any
+complete-reducibility input. This keeps the part-(a) construction elementary and
+self-contained.
 
 Two ingredients make this work:
 
@@ -53,7 +52,7 @@ variable {k G V : Type*} [Field k] [Monoid G] [AddCommGroup V] [Module k V]
 
 /-- **A nonzero finite-dimensional invariant submodule contains a simple one.**
 For a representation `ρ`, any nonzero `k[G]`-submodule `W` of `ρ.asModule` that is
-finite-dimensional over `k` contains a *simple* `k[G]`-submodule `S ≤ W`.
+finite-dimensional over `k` contains a simple `k[G]`-submodule `S ≤ W`.
 
 `W` is finite over `k`, hence Artinian over the algebra `k[G]`
 (`isArtinian_of_tower`); its submodule lattice is therefore atomic, and an atom is
@@ -77,7 +76,7 @@ theorem exists_isSimpleModule_le (ρ : Representation k G V)
 
 end SimpleSubmodule
 
-/-! ## The simplicity bridge: subrepresentation `asModule` vs. `asSubmodule` -/
+/-! ## Comparing subrepresentation `asModule` and `asSubmodule` -/
 
 section Bridge
 
@@ -148,16 +147,16 @@ theorem polyRightRep_mem_restrictTotalDegree
   simp only [Finset.mem_range] at hd
   omega
 
-/-- **The extraction keystone (issue #4922).** From a *nonzero* `GL_N`-invariant
-submodule `W` of the determinant quotient `A/det = k[Xᵢⱼ]/(det)` (`quotDetRep`) we
-extract a *simple* finite-dimensional `GL_N`-representation `L` together with an
-injective `GL_N`-equivariant map `φ : L →ₗ[k] A/det` whose image lands inside `W`.
+/-- **The extraction keystone.** From a nonzero `GL_N`-invariant submodule `W` of
+the determinant quotient `A/det = k[Xᵢⱼ]/(det)` (`quotDetRep`) we extract a simple
+finite-dimensional `GL_N`-representation `L` together with an injective
+`GL_N`-equivariant map `φ : L →ₗ[k] A/det` whose image lands inside `W`.
 
 This is the data consumed by `quotDetRep_irreducible_constituent_lastWeight_zero`
 (`CauchyDetQuotient.lean`). The construction: pick `w ≠ 0` in `W`, lift it to a
 polynomial of total degree `≤ D`, push the finite-dimensional invariant submodule
-`restrictTotalDegree D` down to `A/det` and intersect with `W` to get a *nonzero,
-finite-dimensional, invariant* `M₀ ≤ W`; then take an atom of `M₀`'s
+`restrictTotalDegree D` down to `A/det` and intersect with `W` to get a nonzero,
+finite-dimensional, invariant `M₀ ≤ W`; then take an atom of `M₀`'s
 `k[GL_N]`-submodule lattice, which is a simple sub-representation. -/
 theorem exists_simple_subrep_of_quotDetRep
     (k : Type*) [Field k] [IsAlgClosed k] [CharZero k] (N : ℕ)

@@ -8,23 +8,22 @@ import EtingofRepresentationTheory.Chapter4.Corollary4_2_2
 # Theorem 5.12.2 (Part 3), general field: Wedderburn block machinery and classification
 
 Every simple `k[S_n]`-module is isomorphic to a Specht module `SpechtModuleK k n λ`, for any
-field `k` with `[IsAlgClosed k] [CharZero k]`. This is the general-field version of
-`Theorem5_12_2_classification` (which is hardcoded over ℂ).
+field `k` with `[IsAlgClosed k] [CharZero k]`. Over `ℂ` this is
+`Theorem5_12_2_classification`.
 
-The proof ports the Wedderburn-block machinery (`centralIdem'` … `same_block_iso`) verbatim
-from the ℂ file. That machinery is purely about `IrrepDecomp` blocks and abstract simple
-modules / left ideals — it never mentions Specht modules, so it ports mechanically by
-replacing `ℂ` with `k` and adding `[Field k] [IsAlgClosed k]`. The Specht-specific inputs are
-the general-field simplicity (`SpechtModuleK_isSimpleModule_general`), distinctness
+The Wedderburn-block machinery (`centralIdem'` … `same_block_iso`) is purely about
+`IrrepDecomp` blocks and abstract simple modules and left ideals: it never mentions Specht
+modules, and holds over any field `k` with `[Field k] [IsAlgClosed k]`. The Specht-specific
+inputs are the general-field simplicity (`SpechtModuleK_isSimpleModule_general`), distinctness
 (`Theorem5_12_2_distinct_general`), and the squared-symmetrizer nonvanishing
 (`youngSymmetrizerK_sq_ne_zero`).
 
 ## Main results
 
-* `irrepDecomp_n_le_card_partition_general` — `D.n ≤ |Nat.Partition n|` over `k`
-* `blockOf_specht_injective_general` — distinct partitions land in distinct blocks
-* `exists_young_symmetrizer_nontrivial_general` — some `c_λ` acts nontrivially on a simple `M`
-* `Theorem5_12_2_classification_general` — every simple `k[S_n]`-module is a Specht module
+* `irrepDecomp_n_le_card_partition_general`: `D.n ≤ |Nat.Partition n|` over `k`
+* `blockOf_specht_injective_general`: distinct partitions land in distinct blocks
+* `exists_young_symmetrizer_nontrivial_general`: some `c_λ` acts nontrivially on a simple `M`
+* `Theorem5_12_2_classification_general`: every simple `k[S_n]`-module is a Specht module
 -/
 
 namespace Etingof
@@ -42,7 +41,7 @@ private abbrev A' (n : ℕ) := MonoidAlgebra k (G' n)
 /-! ### Counting bound `D.n ≤ |Nat.Partition n|` over a general field -/
 
 /-- The injection from conjugacy classes of `S_n` to partitions of `n`, via cycle type.
-(Field-free; copied from the ℂ file where it is private.) -/
+This does not depend on the field. -/
 private def conjClassToPartition (n : ℕ) :
     ConjClasses (Equiv.Perm (Fin n)) → Nat.Partition n :=
   Quotient.lift
@@ -68,7 +67,7 @@ private lemma card_conjClasses_le_card_partition (n : ℕ) :
   Fintype.card_le_of_injective _ (conjClassToPartition_injective n)
 
 /-- For any Wedderburn decomposition of `k[S_n]`, the number of blocks is at most the number
-of partitions of `n`. (General-field version of `irrepDecomp_n_le_card_partition`.) -/
+of partitions of `n`. -/
 lemma irrepDecomp_n_le_card_partition_general (n : ℕ)
     (D : IrrepDecomp k (G' n)) :
     D.n ≤ Fintype.card (Nat.Partition n) := by
@@ -102,7 +101,7 @@ lemma irrepDecomp_n_le_card_partition_general (n : ℕ)
     simp only [Fintype.card_fin] at this; exact this
   omega
 
-/-! ### Wedderburn block machinery (ported from the ℂ file) -/
+/-! ### Wedderburn block machinery -/
 
 /-- Central idempotent for block `j` of the Wedderburn decomposition. -/
 private noncomputable def centralIdem' (n : ℕ) (D : IrrepDecomp k (G' n)) (j : Fin D.n) :
@@ -538,15 +537,13 @@ theorem Theorem5_12_2_classification_general
 
 /-- **Mixed-universe restatement** of `Theorem5_12_2_classification_general`, with the group
 algebra `k[Sₙ]` spelled out (rather than the private `A'` abbreviation) and the module universe
-`w` explicitly independent of the field universe `u`.
+`w` independent of the field universe `u`.
 
-This is the form consumed by `Theorem5_18_4_partition_decomposition` (#5493): the simple
-Schur-Weyl summands `Sᵢ : Type (max u v)` are, restricted along the surjection
-`k[Sₙ] ↠ symGroupImage k V n`, simple `k[Sₙ]`-modules, hence (over an algebraically closed
-field of characteristic `0`) isomorphic to Specht modules `SpechtModuleK k n λᵢ`; the resulting
-map `i ↦ λᵢ` is the injection `ι ↪ Nat.Partition n` needed to re-index the decomposition. The
-file is a leaf with respect to `Theorem5_18_4.lean`, so the discharge can import it without a
-cycle. -/
+This form is used by `Theorem5_18_4_partition_decomposition`: the simple
+Schur-Weyl summands `Sᵢ : Type (max u v)`, restricted along the surjection
+`k[Sₙ] ↠ symGroupImage k V n`, are simple `k[Sₙ]`-modules, hence over an algebraically closed
+field of characteristic `0` isomorphic to Specht modules `SpechtModuleK k n λᵢ`; the resulting
+map `i ↦ λᵢ` is the injection `ι ↪ Nat.Partition n` needed to re-index the decomposition. -/
 theorem classification_general_u
     (n : ℕ) (M : Type w) [AddCommGroup M]
     [Module (MonoidAlgebra k (Equiv.Perm (Fin n))) M]

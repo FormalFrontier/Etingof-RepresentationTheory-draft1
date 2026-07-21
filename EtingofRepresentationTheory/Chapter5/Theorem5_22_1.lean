@@ -834,7 +834,7 @@ theorem trace_youngSymEndomorphism_restrict_eq_sum
   intro σ _
   rw [LinearMap.map_smul, smul_eq_mul]
 
--- rc2: slower instance search; bump synthInstance budget for the `α • restrict` elaboration
+-- Raise the synthInstance budget for the `α • restrict` elaboration.
 set_option synthInstance.maxHeartbeats 80000 in
 /-- Companion: the squared Young symmetrizer endomorphism on `S` equals
 `α` times itself when `c_λ² = α · c_λ`. -/
@@ -869,14 +869,14 @@ theorem youngSymEndomorphism_restrict_sq_scalar
     LinearMap.restrict_apply, SetLike.val_smul_of_tower]
   exact h_pt
 
-/-! #### β.2 Specht bridge: simple `symGroupImage`-modules ↔ Specht modules
+/-! #### β.2 Specht correspondence: simple `symGroupImage`-modules ↔ Specht modules
 
 Every simple `symGroupImage`-submodule `S ≤ V^⊗n` is, as a ℂ-module, isomorphic
 to `SpechtModule n la'` for some partition `la'`, with the iso intertwining
 `symGroupAction σ` (restricted to `S`) and `spechtModuleAction n la' σ`. The
 trace identity `tr(σ on S) = spechtModuleCharacter n la' σ` follows.
 
-The bridge: `symGroupAlgHom : ℂ[S_n] →ₐ[ℂ] End_ℂ(V^⊗n)` has range
+The construction: `symGroupAlgHom : ℂ[S_n] →ₐ[ℂ] End_ℂ(V^⊗n)` has range
 `symGroupImage`. Pull back along this surjection to give `↥(S.restrictScalars ℂ)`
 a `SymGroupAlgebra n`-module structure (via `Module.compHom`), then apply the
 Specht classification (`Theorem5_12_2_classification`). -/
@@ -917,8 +917,8 @@ private theorem symGroupAlgHomToImage_of (σ : Equiv.Perm (Fin n)) :
   rfl
 
 set_option synthInstance.maxHeartbeats 200000 in
--- rc4: the `whnf`/`isDefEq` change makes synthesising `HSMul ↥(symGroupImage) ↥S`
--- (the submodule scalar action) exceed the default 200000 heartbeats; bump it.
+-- Synthesising `HSMul ↥(symGroupImage) ↥S` (the submodule scalar action) exceeds
+-- the default 200000 heartbeats.
 set_option maxHeartbeats 400000 in
 /-- Value-level description of the `↥(symGroupImage)`-action on a submodule
 `S ≤ V^⊗n` via `symGroupAlgHomToImage`: `(symGroupAlgHomToImage a • x).val`
@@ -1010,8 +1010,7 @@ set_option synthInstance.maxHeartbeats 200000 in
 -- the bijective-semilinear-map transfer both invoke `Module` instance
 -- synthesis on the `S.restrictScalars ℂ` carrier, traversing the deep
 -- `Subalgebra → Subsemiring → Module` chain.
--- rc4: the `whnf`/`isDefEq` change pushes the bijective-transfer `isDefEq`
--- past the default 200000 heartbeats; bump it.
+-- The bijective-transfer `isDefEq` runs past the default 200000 heartbeats.
 set_option maxHeartbeats 400000 in
 /-- Simplicity of `↥S` as a `↥(symGroupImage)`-module transfers to simplicity
 of `↥(S.restrictScalars ℂ)` as a `SymGroupAlgebra n`-module. -/
@@ -1040,9 +1039,7 @@ private theorem spechtModule_smul_of
 
 set_option maxHeartbeats 400000 in
 set_option synthInstance.maxHeartbeats 200000 in
-/-- The conjugation step of the Specht bridge, factored out so it can be reused
-when the classification iso `e` is obtained separately (when both the iso and
-the trace identity are needed downstream). Given a `SymGroupAlgebra n`-iso
+/-- The conjugation step of the Specht correspondence. Given a `SymGroupAlgebra n`-iso
 `e : ↥(S.restrictScalars ℂ) ≃ₗ SpechtModule n la'`, the trace of the restricted
 `σ`-action on `↥(S.restrictScalars ℂ)` equals `spechtModuleCharacter n la' σ`,
 by trace-conjugation through the ℂ-linear part of `e`. -/
@@ -1103,14 +1100,14 @@ private theorem trace_restrictedSymGroupAction_eq_of_spechtIso
   rfl
 
 set_option maxHeartbeats 400000 in
--- Bumped: the Specht-bridge construction unfolds Module.compHom, traverses a
--- `Subalgebra → Subsemiring → Module` chain, and applies trace conjugation.
+-- Heartbeats raised: the Specht-correspondence construction unfolds Module.compHom,
+-- traverses a `Subalgebra → Subsemiring → Module` chain, and applies trace conjugation.
 set_option synthInstance.maxHeartbeats 200000 in
-/-- **Specht bridge** (β.2). Every simple `symGroupImage`-submodule `S ≤ V^⊗n`
+/-- **Specht correspondence** (β.2). Every simple `symGroupImage`-submodule `S ≤ V^⊗n`
 admits a partition `la'` such that the trace of every `σ`-permutation operator
 restricted to `S` equals `spechtModuleCharacter n la' σ`.
 
-The bridge: identify `↥(S.restrictScalars ℂ)` (with the SymGroupAlgebra-action
+The construction: identify `↥(S.restrictScalars ℂ)` (with the SymGroupAlgebra-action
 via `symGroupAlgHomToImage`) as a simple `SymGroupAlgebra n`-module, apply the
 Specht classification (Theorem 5.12.2), then transport the trace through the
 ℂ-linear part of the resulting iso. -/
@@ -1553,7 +1550,7 @@ lemma repr_glTensorRep_diagUnit (N n : ℕ) (i : Fin N) (t : kˣ)
     LinearMap.smul_apply, smul_eq_mul]
   exact hbasis f
 
--- rc2: slower whnf/isDefEq; bump heartbeat budget for this lemma
+-- Raise the heartbeat budget for this lemma.
 set_option maxHeartbeats 400000 in
 /-- Off-diagonal entries of the Young symmetrizer vanish when weights differ. -/
 private lemma youngSym_repr_zero_of_ne_weight (k' : Type*) [Field k'] (N : ℕ) (lam : Fin N → ℕ)
@@ -1583,11 +1580,11 @@ private lemma youngSym_repr_zero_of_ne_weight (k' : Type*) [Field k'] (N : ℕ) 
   -- Now: c σ * B.repr(B f)(g∘σ) = 0
   rw [B.repr_self, Finsupp.single_apply]
   split_ifs with h
-  · -- f = g ∘ σ, so wt(f) = wt(g∘σ) = wt(g) — contradiction
+  · -- f = g ∘ σ, so wt(f) = wt(g∘σ) = wt(g), contradiction
     exact absurd (by rw [h, tensorWeight_comp_equiv] : tensorWeight N f = tensorWeight N g).symm hne
   · ring
 
--- rc2: slower whnf/isDefEq; bump heartbeat budget for this core structural lemma
+-- Raise the heartbeat budget for this core structural lemma.
 set_option maxHeartbeats 400000 in
 -- v4.30: synthesizing `Module.Free k (LinearMap.range Φ)` is slower; raise the limit.
 set_option synthInstance.maxHeartbeats 80000 in
@@ -1983,7 +1980,7 @@ theorem formalCharacter_schurModule_eq_sum_permTracePoly
   simp only [MvPolynomial.coeff_smul, smul_eq_mul, MvPolynomial.coeff_sum]
   exact weight_trace_coefficient_identity k N lam hlam α hα hα_sq μ
 
-/-! #### Bridge: cycle type partition and power sum connection -/
+/-! #### Cycle type partition and power sum connection -/
 
 /-- The full cycle type of σ forms a partition of n. -/
 noncomputable def fullCycleTypePartition {n : ℕ} (σ : Equiv.Perm (Fin n)) : Nat.Partition n where
@@ -2049,10 +2046,10 @@ theorem YoungSymmetrizerK_sq_scalar_ne_zero
   exact (Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n))
     (by rwa [Fintype.card_perm, Fintype.card_fin] at htr_nil)
 
-/-! #### Inlined trace-Kronecker identity for the bridge
+/-! #### Trace-Kronecker identity
 
-We inline the key parts of the `youngSym_trace_kronecker` proof here
-to avoid circular imports (YoungSymTraceKronecker.lean imports this file). -/
+The key parts of the `youngSym_trace_kronecker` proof are reproduced here because
+`YoungSymTraceKronecker.lean` imports this file. -/
 
 /-- Coefficient transfer: ℚ and ℂ Young symmetrizer coefficients agree under cast. -/
 private lemma youngSym_coeff_cast' (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
@@ -2253,12 +2250,7 @@ characteristic-zero field with vanishing trace is the zero map.
 The trace of an idempotent equals the cast of the rank of its range
 (`LinearMap.IsProj.trace`). Over a characteristic-zero field, vanishing trace
 forces the rank to be zero, hence the range is `⊥` and the endomorphism
-vanishes.
-
-Upstream Mathlib PR: https://github.com/leanprover-community/mathlib4/pull/39523
-(once it merges, replace this lemma with the upstream
-`LinearMap.IsIdempotentElem.eq_zero_of_trace_eq_zero` and remove this local
-copy — see issue #2841). -/
+vanishes. -/
 private theorem isIdempotentElem_eq_zero_of_trace_eq_zero
     {K : Type*} [Field K] [CharZero K]
     {V : Type*} [AddCommGroup V] [Module K V] [Module.Finite K V]
@@ -2420,8 +2412,8 @@ restricted endomorphism `f = c_λ|_S` factors as `α • π` for a nonzero scala
 * `Module.finrank ℂ (LinearMap.range π) = 1`,
 * `f = α • π`.
 
-The rank-1 fact is the genuine "primitivity" content: it does **not** follow from
-the whole-space trace (that route is circular, re-deriving the bimodule
+The rank-1 fact is the "primitivity" content: it does not follow from
+the whole-space trace (that approach is circular, re-deriving the bimodule
 dimension identity), but from the diagonal value `trace(c_λ|_S) = α` of the
 character-orthogonality identity, which is an independent `ℂ[S_n]` computation
 (`trace_mulLeft_youngSym_eq'`). Together with the bimodule decomposition
@@ -2514,7 +2506,7 @@ theorem youngSym_action_on_special_block_rank_one_scaled_proj
     rw [hπ_def, smul_smul, mul_inv_cancel₀ hα_ℂ_ne, one_smul]
   exact ⟨(α : ℂ), π, hα_ℂ_ne, hπ_idem, hπ_rank, hf_eq⟩
 
-/-! #### Bridge: charValue ↔ spechtModuleCharacter
+/-! #### charValue ↔ spechtModuleCharacter
 
 The Frobenius character formula (Theorem 5.15.1) connects the polynomial
 coefficient definition (`charValue` over ℚ with N variables) to the trace
@@ -2599,7 +2591,7 @@ private lemma sortedParts_getD_eq_of_antitone
       rw [h_empty]; simp [hall j]
 
 /-- The alternant determinant with Vandermonde exponents equals `sign(revPerm)` times the
-Vandermonde product. (Local copy; the canonical version is in FrobeniusCharacterBridge.) -/
+Vandermonde product. The canonical version is in `FrobeniusCharacterBridge`. -/
 private theorem alternantDet_eq_sign_mul_vandermondeProd' (N : ℕ) :
     (alternantMatrix N (vandermondeExps N)).det =
       ((Equiv.Perm.sign (@Fin.revPerm N) : ℤ) : MvPolynomial (Fin N) ℚ) *
@@ -2666,7 +2658,7 @@ private lemma map_vandermondeProd (n : ℕ) :
   simp only [vandermondePoly, map_prod, map_sub, MvPolynomial.map_X]
 
 set_option maxHeartbeats 800000 in
-/-- **Frobenius character formula bridge (N = n case)**: For `BoundedPartition n n`,
+/-- **Frobenius character formula (N = n case).** For `BoundedPartition n n`,
 `charValue` cast to ℂ equals `spechtModuleCharacter`.
 
 Proof: Using `alternantDet = sign(rev) · ∏(Xj-Xi)` and Theorem 5.15.1
@@ -3348,8 +3340,8 @@ private lemma charValue_stability
   congr 1
   exact canonicalBP_eq_of_weightToPartition_eq N₁ N₂ n bp₁ bp₂ h
 
-/-- The Frobenius character formula bridge: `charValue` equals `spechtModuleCharacter`
-(after casting ℚ → ℂ). This bridges the polynomial coefficient definition used in
+/-- The Frobenius character formula: `charValue` equals `spechtModuleCharacter`
+(after casting ℚ → ℂ). This connects the polynomial coefficient definition used in
 the Weyl character formula with the trace definition used in Specht module theory.
 
 For general N, this reduces to the N = n case via `charValue_stability`. -/
@@ -3362,7 +3354,7 @@ theorem charValue_eq_spechtModuleCharacter
   have hstab := charValue_stability N n n lam' bp_n
     (by rw [canonicalBP_weightToPartition]) (fullCycleTypePartition σ)
   rw [hstab]
-  -- Apply the N = n bridge
+  -- Apply the N = n case
   have hbridge := charValue_eq_spechtModuleCharacter_of_eq n bp_n σ
   rw [hbridge]
   -- Show the transported partitions match
@@ -3446,7 +3438,7 @@ theorem youngSym_charValue_orthogonality
   -- The trace Kronecker identity over ℂ
   have h_trace := youngSym_trace_kronecker' (∑ i, lam i) (weightToPartition N lam)
     la'_np α hα_sq
-  -- Bridge: charValue cast to ℂ equals spechtModuleCharacter
+  -- charValue cast to ℂ equals spechtModuleCharacter
   have h_bridge : ∀ σ : Equiv.Perm (Fin (∑ i, lam i)),
       (charValue N lam' (fullCycleTypePartition σ) : ℂ) =
         spechtModuleCharacter (∑ i, lam i) la'_np σ :=
@@ -3693,9 +3685,9 @@ formal character at the all-ones point `x_i = 1` recovers the total dimension
 `∏_{1 ≤ i < j ≤ N} (λ_i − λ_j + j − i)/(j − i)`.
 
 Under the `Fin N` (0-indexed) encoding, `i < j` ranges over `Finset.Ioi i` and
-the offset `j − i > 0` is unchanged by the index shift, so this is the book's
-product verbatim. For antitone `λ` every factor is a positive rational and the
-whole product is a positive integer (the honest dimension), with no nat-division
+the offset `j − i > 0` is unchanged by the index shift, so this matches the book's
+product exactly. For antitone `λ` every factor is a positive rational and the
+whole product is a positive integer (the dimension), with no nat-division
 truncation: the ratio is taken in `ℚ`. -/
 noncomputable def weylDimension (N : ℕ) (lam : Fin N → ℕ) : ℚ :=
   ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,

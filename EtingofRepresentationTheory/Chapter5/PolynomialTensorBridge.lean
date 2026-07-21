@@ -2,9 +2,9 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_18_4
 
 /-!
-# Polynomial / Tensor bridge (Schur-Weyl #2a)
+# Polynomial-to-tensor map
 
-This file provides the linear-algebra "bridge" from homogeneous degree-`n`
+This file provides the linear-algebra map from homogeneous degree-`n`
 polynomials in the matrix entries `X_{ij}` (`i, j : Fin N`) into
 `V^⊗n ⊗ (V^*)^⊗n` where `V := Fin N → k`.
 
@@ -16,7 +16,7 @@ sequence to
 
   `(⨂_k e_{f(k).2}) ⊗ (⨂_k e_{f(k).1}*)`.
 
-Equivalently, the image is obtained via the *symmetrizer*
+Equivalently, the image is obtained via the symmetrizer
 `(1/n!) · Σ_{σ : Perm (Fin n)} _` applied to any realization of the
 multiset.
 
@@ -28,29 +28,27 @@ zero this is an iso onto its image.
 
 ## Main definitions
 
-* `Etingof.PolynomialTensorBridge.seqTensor` — the elementary tensor
+* `Etingof.PolynomialTensorBridge.seqTensor`: the elementary tensor
   associated to a sequence of index-pairs.
-* `Etingof.PolynomialTensorBridge.symTensor` — the symmetric average
+* `Etingof.PolynomialTensorBridge.symTensor`: the symmetric average
   over permutations of the sequence.
-* `Etingof.PolynomialTensorBridge.polyToTensor` — the linear map from
+* `Etingof.PolynomialTensorBridge.polyToTensor`: the linear map from
   `MvPolynomial (Fin N × Fin N) k` (projecting onto the degree-`n` part).
-* `Etingof.PolynomialTensorBridge.homogeneousPolyToTensor` — the bridge
-  map restricted to `MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k n`.
+* `Etingof.PolynomialTensorBridge.homogeneousPolyToTensor`: the map
+  restricted to `MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k n`.
 
 ## Main results
 
-* `homogeneousPolyToTensor_injective` — the bridge is injective.
-* `polyToTensor_rightTransl_of_isHomogeneous` — on homogeneous degree-`n`
-  polynomials, the bridge intertwines the right-translation action
+* `homogeneousPolyToTensor_injective`: the map is injective.
+* `polyToTensor_rightTransl_of_isHomogeneous`: on homogeneous degree-`n`
+  polynomials, the map intertwines the right-translation action
   `g · P(X) = P(X·g)` with the `g^⊗n ⊗ id` action on the tensor target.
-* `homogeneousPolyToTensor_equivariant` — the packaged GL_N-equivariance
+* `homogeneousPolyToTensor_equivariant`: the packaged GL_N-equivariance
   statement on `homogeneousSubmodule`, built on the previous result.
 
-Both the injectivity and equivariance properties are proved here, sorry-free.
-Injectivity is the property that `#2478` consumes via the left-inverse;
-equivariance records that the two actions being intertwined
-(right-translation `g · P(X) = P(X·g)` on polynomials vs. `g ↦ g^⊗n ⊗ 1`
-on `V^⊗n ⊗ (V^*)^⊗n`) agree under the bridge.
+Injectivity holds via the left-inverse; equivariance records that the two
+actions being intertwined (right-translation `g · P(X) = P(X·g)` on polynomials
+vs. `g ↦ g^⊗n ⊗ 1` on `V^⊗n ⊗ (V^*)^⊗n`) agree under the map.
 -/
 
 open scoped TensorProduct
@@ -74,7 +72,7 @@ noncomputable abbrev stdBasis : Module.Basis (Fin N) k (StdV k N) := Pi.basisFun
 noncomputable def stdDualBasis : Module.Basis (Fin N) k (Module.Dual k (StdV k N)) :=
   (stdBasis k N).dualBasis
 
-/-- Target of the bridge: `V^⊗n ⊗ (V^*)^⊗n`. -/
+/-- Target of the map: `V^⊗n ⊗ (V^*)^⊗n`. -/
 abbrev PolyTensorTgt : Type u :=
   TensorPower k (StdV k N) n ⊗[k] TensorPower k (Module.Dual k (StdV k N)) n
 
@@ -121,7 +119,7 @@ noncomputable def polyToTensor :
     MvPolynomial (Fin N × Fin N) k →ₗ[k] PolyTensorTgt k N n :=
   (MvPolynomial.basisMonomials _ _).constr k (multisetToTensor k N n)
 
-/-- The bridge map: restriction of `polyToTensor` to the homogeneous submodule. -/
+/-- Restriction of `polyToTensor` to the homogeneous submodule. -/
 noncomputable def homogeneousPolyToTensor :
     MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k n →ₗ[k] PolyTensorTgt k N n :=
   (polyToTensor k N n).comp
@@ -188,7 +186,7 @@ lemma tensorToPoly_symTensor (f : Fin n → Fin N × Fin N) :
 omit [CharZero k] in
 /-- The product `∏_l X (canonicalSeq l)` equals the monomial `monomial s 1`.
 This uses that `canonicalSeq` traces through `(Finsupp.toMultiset s).toList`,
-whose image multiset equals `Finsupp.toMultiset s` — so the product is
+whose image multiset equals `Finsupp.toMultiset s`, so the product is
 `∏ p, X p ^ s p = monomial s 1` by `prod_X_pow_eq_monomial`. -/
 lemma prod_X_canonicalSeq (s : (Fin N × Fin N) →₀ ℕ) (hs : s.sum (fun _ => id) = n) :
     (∏ l : Fin n, MvPolynomial.X (R := k) (canonicalSeq N n s hs l)) =
@@ -257,8 +255,8 @@ lemma tensorToPoly_polyToTensor_eq_self (p : MvPolynomial (Fin N × Fin N) k)
     have hw := hp hcoeff_ne  -- weight 1 s = n
     -- weight 1 s = s.sum (fun _ => id) when s takes values in ℕ
     rw [Finsupp.weight_apply] at hw
-    -- v4.31: `simpa` left a non-matching normal form; reduce `c • (1 : _→ℕ) i`
-    -- to `c` explicitly so `hw` matches the `fun _ => id` goal.
+    -- Reduce `c • (1 : _→ℕ) i` to `c` explicitly so `hw` matches the
+    -- `fun _ => id` goal.
     simp only [Pi.one_apply, smul_eq_mul, mul_one] at hw
     exact hw
   -- Compute: monomial s c = c • monomial s 1
@@ -275,7 +273,7 @@ lemma tensorToPoly_polyToTensor_eq_self (p : MvPolynomial (Fin N × Fin N) k)
       Module.Basis.constr_basis]]
   rw [tensorToPoly_multisetToTensor, if_pos hsn]
 
-/-- The bridge `homogeneousPolyToTensor` is injective: distinct homogeneous
+/-- The map `homogeneousPolyToTensor` is injective: distinct homogeneous
 polynomials give distinct tensors. -/
 theorem homogeneousPolyToTensor_injective :
     Function.Injective (homogeneousPolyToTensor k N n) := by
@@ -293,7 +291,7 @@ theorem homogeneousPolyToTensor_injective :
 
 /-! ## GL_N-equivariance
 
-The bridge `polyToTensor` intertwines the right-translation action on
+The map `polyToTensor` intertwines the right-translation action on
 polynomials (sending `X_{ij}` to `Σ_l X_{il} · g_{l,j}`) with the
 `g ↦ g^⊗n ⊗ id` action on `V^⊗n ⊗ (V^*)^⊗n`. -/
 
@@ -443,7 +441,7 @@ lemma polyRightTransl_prod (g : Matrix (Fin N) (Fin N) k) (f : Fin n → Fin N �
   rw [Finset.prod_mul_distrib]
   rw [show (∏ l : Fin n, MvPolynomial.C (R := k) (g (c l) (f l).2)) =
       MvPolynomial.C (∏ l : Fin n, g (c l) (f l).2) from
-    -- v4.29.0: elaboration can no longer infer the index type for bare `C` in `map_prod`;
+    -- Elaboration cannot infer the index type for bare `C` in `map_prod`;
     -- pin it down with an explicit type ascription on the ring hom.
     (map_prod (M := k) (MvPolynomial.C (R := k) (σ := Fin N × Fin N)) _ _).symm]
   ring
@@ -560,7 +558,7 @@ private lemma toMultiset_sum_single_fn {α : Type*} [DecidableEq α] (g : Fin n 
     rw [Finset.sum_insert ha, ih, Finset.insert_val, Multiset.ndinsert_of_notMem ha,
       Multiset.map_cons, Multiset.singleton_add]
 
-/-- The bridge `polyToTensor` sends a product `∏_l X(f l)` of degree-1
+/-- The map `polyToTensor` sends a product `∏_l X(f l)` of degree-1
 generators to the symmetric tensor `symTensor f`. -/
 lemma polyToTensor_prod_X (f : Fin n → Fin N × Fin N) :
     polyToTensor k N n (∏ l : Fin n, MvPolynomial.X (R := k) (f l)) =
@@ -624,7 +622,7 @@ lemma polyRightTransl_isHomogeneous (g : Matrix (Fin N) (Fin N) k) {m : ℕ}
     MvPolynomial.C (g l ij.2)) hgens
   simpa [polyRightTransl, one_mul] using h
 
-/-- The bridge `polyToTensor` intertwines the right-translation action on
+/-- The map `polyToTensor` intertwines the right-translation action on
 polynomials with the `g^⊗n ⊗ id` action on `V^⊗n ⊗ (V^*)^⊗n`, on
 homogeneous degree-`n` polynomials. -/
 theorem polyToTensor_rightTransl_of_isHomogeneous (g : Matrix (Fin N) (Fin N) k)
@@ -642,8 +640,8 @@ theorem polyToTensor_rightTransl_of_isHomogeneous (g : Matrix (Fin N) (Fin N) k)
     have hcoeff : MvPolynomial.coeff s p ≠ 0 := MvPolynomial.mem_support_iff.mp hs
     have hw := hp hcoeff
     rw [Finsupp.weight_apply] at hw
-    -- v4.31: `simpa` left a non-matching normal form; reduce `c • (1 : _→ℕ) i`
-    -- to `c` explicitly so `hw` matches the `fun _ => id` goal.
+    -- Reduce `c • (1 : _→ℕ) i` to `c` explicitly so `hw` matches the
+    -- `fun _ => id` goal.
     simp only [Pi.one_apply, smul_eq_mul, mul_one] at hw
     exact hw
   -- Pull out the scalar c := coeff s p (monomial s c = c • monomial s 1).
@@ -676,7 +674,7 @@ theorem polyToTensor_rightTransl_of_isHomogeneous (g : Matrix (Fin N) (Fin N) k)
   -- RHS: tgtGLAction g (polyToTensor (∏ X(f l))) = tgtGLAction g (symTensor f).
   rw [polyToTensor_prod_X, tgtGLAction_symTensor]
 
-/-- The bridge `homogeneousPolyToTensor` is GL_N-equivariant: it intertwines the
+/-- The map `homogeneousPolyToTensor` is GL_N-equivariant: it intertwines the
 right-translation action on homogeneous polynomials with the `g^⊗n ⊗ id`
 action on `V^⊗n ⊗ (V^*)^⊗n`. -/
 theorem homogeneousPolyToTensor_equivariant (g : Matrix (Fin N) (Fin N) k)

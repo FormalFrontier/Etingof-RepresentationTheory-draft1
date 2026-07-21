@@ -43,7 +43,7 @@ irreducibles.
   (`∑ dim² = 4 + 4·(N-2)/2 = 2N`).
 
 Both `semidirect_classification` (the semidirect-product model) and `dihedral_classification`
-(Mathlib's `DihedralGroup N`) are fully proved via the orbit method of Theorem 5.27.1.
+(Mathlib's `DihedralGroup N`) follow from the orbit method of Theorem 5.27.1.
 -/
 
 noncomputable section
@@ -99,7 +99,7 @@ omit [NeZero N] in
 /-- The semidirect-product realization of the dihedral group `D_N`. -/
 abbrev DihedralSemidirect : Type := Multiplicative (ZMod N) ⋊[dihedralφ N] Multiplicative (ZMod 2)
 
-/-- **Deliverable 1.** The group isomorphism `D_N ≅ ⟨r⟩ ⋊ ⟨s⟩` realizing Mathlib's concrete
+/-- The group isomorphism `D_N ≅ ⟨r⟩ ⋊ ⟨s⟩` realizing Mathlib's concrete
 `DihedralGroup N` as the semidirect product of the rotation group `Multiplicative (ZMod N)` by
 the reflection group `Multiplicative (ZMod 2)` acting by inversion. On generators
 `r i ↦ ⟨ofAdd i, 1⟩` and `sr i ↦ ⟨ofAdd (-i), ofAdd 1⟩`. -/
@@ -185,9 +185,9 @@ lemma finrank_dihedralRepEquiv_functor (V : FDRep ℂ (DihedralSemidirect N)) :
     finrank ℂ ((dihedralRepEquiv N).functor.obj V : Type) = finrank ℂ (V : Type) := rfl
 
 open Classical in
-/-- **Deliverable 3 (the orbit assembly).** The classification stated on the semidirect-product
-model `⟨r⟩ ⋊ ⟨s⟩`, before transporting back to Mathlib's `DihedralGroup N`. This is the pure
-orbit-method content of Theorem 5.27.1 applied to the inversion action, together with the
+/-- **Classification on the semidirect-product model.** The classification stated on the
+semidirect-product model `⟨r⟩ ⋊ ⟨s⟩`, before transporting back to Mathlib's `DihedralGroup N`.
+This is the orbit-method content of Theorem 5.27.1 applied to the inversion action, together with the
 `gcd(2,N)` fixed-character / `(N-gcd(2,N))/2` free-orbit count. -/
 theorem semidirect_classification :
     ∃ (n : ℕ) (W : Fin n → FDRep ℂ (DihedralSemidirect N)),
@@ -293,7 +293,7 @@ theorem semidirect_classification :
     · refine ⟨Sum.inr ⟨χ⁻¹, ?_, ?_⟩, Subtype.ext (inv_inv χ)⟩
       · rw [inv_inv]; exact fun e => hχ e.symm
       · rw [inv_inv]; exact h
-  -- The transversal has `(N - gcd(2,N))/2` elements — one per free orbit pair.
+  -- The transversal has `(N - gcd(2,N))/2` elements, one per free orbit pair.
   have hTfree : Nat.card {χ : Multiplicative (ZMod N) →* ℂˣ // χ ≠ χ⁻¹} = 2 * Nat.card T := by
     rw [← Nat.card_congr (Equiv.ofBijective toFree ⟨htoFree_inj, htoFree_surj⟩),
       Nat.card_sum, two_mul]

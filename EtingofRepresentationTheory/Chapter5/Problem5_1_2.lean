@@ -12,21 +12,19 @@ of real type, and `ℍ` for `V` of quaternionic type, which motivates the names 
 
 ## Formalization
 
-Let `V` be an irreducible complex representation of a finite group `G`. Viewing `V` as a **real**
+Let `V` be an irreducible complex representation of a finite group `G`. Viewing `V` as a real
 representation (restriction of scalars `ℂ → ℝ`, carried by the `[Module ℝ V] [IsScalarTower ℝ ℂ V]`
 hypotheses), the algebra `End_{ℝ[G]} V` of `ℝ`-linear `G`-equivariant endomorphisms is the
-**centralizer** in `Module.End ℝ V` of the real operators `{(ρ g).restrictScalars ℝ}`. We call
+centralizer in `Module.End ℝ V` of the real operators `{(ρ g).restrictScalars ℝ}`. We call
 this `Etingof.realGEndAlgebra ρ`.
 
 * **(a)** For an irreducible `V`:
   - complex type ⟹ `End_{ℝ[G]} V ≃ₐ[ℝ] ℂ`;
   - real type ⟹ `End_{ℝ[G]} V ≃ₐ[ℝ] Mat₂(ℝ) = Matrix (Fin 2) (Fin 2) ℝ`;
   - quaternionic type ⟹ `End_{ℝ[G]} V ≃ₐ[ℝ] ℍ = Quaternion ℝ`.
-* **(b)** `V` is of real type iff it admits a **real form**: a `G`-stable `ℝ`-subspace `W ⊆ V`
+* **(b)** `V` is of real type iff it admits a real form: a `G`-stable `ℝ`-subspace `W ⊆ V`
   whose `ℂ`-span is all of `V` and with `dim_ℝ W = dim_ℂ V` (so the inclusion induces an
   equivariant isomorphism `ℂ ⊗_ℝ W ≅ V`; the `G`-action restricts to a real representation on `W`).
-
-Both parts are fully proved.
 -/
 
 namespace Etingof
@@ -47,7 +45,7 @@ noncomputable def realGEndAlgebra (ρ : Representation ℂ G V) :
 is an `ℝ`-linear endomorphism of `V` that commutes with every `(ρ g).restrictScalars ℝ`
 (because each `ρ g` is `ℂ`-linear), hence lies in the centralizer `realGEndAlgebra ρ`. This
 packages that as an `ℝ`-algebra hom `ℂ →ₐ[ℝ] realGEndAlgebra ρ`. Reusable toolkit shared by the
-real (#6327) and quaternionic (#6328) cases. -/
+real and quaternionic cases. -/
 noncomputable def complexToRealGEnd (ρ : Representation ℂ G V) :
     ℂ →ₐ[ℝ] realGEndAlgebra ρ :=
   (Algebra.lsmul ℝ ℝ V).codRestrict (realGEndAlgebra ρ) (by
@@ -143,7 +141,7 @@ complex representation `ρ` of a finite group carries a `G`-invariant, positive-
 (sesquilinear, linear in the first slot and conjugate-linear in the second) form: average the
 standard coordinate form `h₀(v, w) = ∑ᵢ (b.repr v)ᵢ · conj (b.repr w)ᵢ` over the group.
 
-Reused by the real (#6327) and quaternionic (#6328) cases to build the `j`-operator. -/
+Reused by the real and quaternionic cases to build the `j`-operator. -/
 theorem exists_invariant_posdef_hermitian (ρ : Representation ℂ G V) :
     ∃ H : V →ₗ[ℂ] V →ₗ⋆[ℂ] ℂ,
       (∀ g v w, H (ρ g v) (ρ g w) = H v w) ∧ (∀ v, v ≠ 0 → 0 < (H v v).re) ∧
@@ -307,13 +305,13 @@ private lemma schur_scalar
     have : v ∈ Module.End.eigenspace φ c := htop ▸ Submodule.mem_top
     rwa [Module.End.mem_eigenspace_iff] at this
 
-/-- **The `j`-operator** (shared toolkit for the real and quaternionic cases, #6327/#6328).
+/-- **The `j`-operator** (shared toolkit for the real and quaternionic cases).
 Given a `G`-invariant nondegenerate bilinear form `B` on a simple representation `V`, together
 with the invariant positive-definite Hermitian form `(·,·)` from `exists_invariant_posdef_hermitian`,
 there is a `ℂ`-antilinear `G`-equivariant operator `j : V → V` characterized by `(v, j w) = B v w`,
 satisfying `j² = λ • id` for a real scalar `λ`. The sign of `λ` matches the (skew)symmetry sign `s`
-of `B` (hypothesis `B w v = s • B v w`): `s · λ > 0`. So for a **symmetric** `B` (`s = 1`, real
-type) one gets `λ > 0`, and for a **skew** `B` (`s = -1`, quaternionic type) `λ < 0`. -/
+of `B` (hypothesis `B w v = s • B v w`): `s · λ > 0`. So for a symmetric `B` (`s = 1`, real
+type) one gets `λ > 0`, and for a skew `B` (`s = -1`, quaternionic type) `λ < 0`. -/
 theorem exists_antilinear_j_of_invariant_nondegenerate
     (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
     (B : V →ₗ[ℂ] V →ₗ[ℂ] ℂ)
@@ -437,9 +435,9 @@ theorem exists_antilinear_j_of_invariant_nondegenerate
     rw [hrw]
     exact mul_pos hs2 (div_pos hp2 hp1)
 
-/-- **Normalized `j'`-operator** for the real type (#6327). If the simple representation `V` is of
+/-- **Normalized `j'`-operator** for the real type. If the simple representation `V` is of
 real type, then `End_{ℝ[G]} V` contains an element `j'` (the antilinear operator `j` normalized so
-that `j'² = 1`) that **anticommutes** with `J = ·i`. Together with `J` (`J² = -1`) this exhibits the
+that `j'² = 1`) that anticommutes with `J = ·i`. Together with `J` (`J² = -1`) this exhibits the
 split-quaternion / `Mat₂(ℝ)` relations `J² = -1`, `j'² = 1`, `Jj' = -j'J`. -/
 theorem exists_normalized_antilinear_of_isRealType
     (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
@@ -493,9 +491,9 @@ theorem exists_normalized_antilinear_of_isRealType
     rw [hscal, one_smul]
   · rw [mul_smul_comm, smul_mul_assoc, ← smul_neg, hanti0]
 
-/-- **Normalized `j'`-operator** for the quaternionic type (#6328). If the simple representation
+/-- **Normalized `j'`-operator** for the quaternionic type. If the simple representation
 `V` is of quaternionic type, then `End_{ℝ[G]} V` contains an element `j'` (the antilinear operator
-`j` normalized so that `j'² = -1`) that **anticommutes** with `J = ·i`. Together with `J`
+`j` normalized so that `j'² = -1`) that anticommutes with `J = ·i`. Together with `J`
 (`J² = -1`) this exhibits the quaternion relations `J² = -1`, `j'² = -1`, `Jj' = -j'J`. -/
 theorem exists_normalized_antilinear_of_isQuaternionicType
     (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
@@ -620,7 +618,7 @@ private lemma splitQuat_mul_expand (J j' : A) (hJ : J * J = -1) (hj : j' * j' = 
 `[[1,0],[0,-1]] ↦ j'`, whenever `J, j'` satisfy the split-quaternion relations `J² = -1`,
 `j'² = 1`, `Jj' = -j'J`. Both generating matrices lie in the image, so this hom is surjective onto
 the `ℝ`-subalgebra generated by `J` and `j'`; on a 4-dimensional such subalgebra it is an
-isomorphism. Reusable toolkit for the real (#6327) and quaternionic (#6328) cases. -/
+isomorphism. Reusable toolkit for the real and quaternionic cases. -/
 noncomputable def matrixToSplitQuat (J j' : A) (hJ : J * J = -1) (hj : j' * j' = 1)
     (hanti : J * j' = -(j' * J)) :
     Matrix (Fin 2) (Fin 2) ℝ →ₐ[ℝ] A :=
@@ -918,7 +916,7 @@ theorem realGEndAlgebra_equiv_quaternion_of_isQuaternionicType
   exact ⟨(AlgEquiv.ofBijective Ψ ⟨hinj, hsurj⟩).symm⟩
 
 /-- **Forward direction of Problem 5.1.2(b).** A real-type irreducible complex representation admits
-a **real form**. From the normalized real structure `j'` (`j'² = 1`, `ℂ`-antilinear, `G`-equivariant)
+a real form. From the normalized real structure `j'` (`j'² = 1`, `ℂ`-antilinear, `G`-equivariant)
 take its `+1`-eigenspace `W` over `ℝ`. Antilinearity forces the eigenspace decomposition
 `V = W ⊕ i·W` over `ℝ`, so `span_ℂ W = ⊤` and (since `·i` swaps the `±1` eigenspaces)
 `dim_ℝ W = ½·dim_ℝ V = dim_ℂ V`. -/
@@ -1191,7 +1189,7 @@ theorem isRealType_of_exists_real_form
 
 /-- Problem 5.1.2(b). An irreducible complex representation `V` is of real type if and only if it
 is the complexification of a real representation: there is a `G`-stable `ℝ`-subspace `W ⊆ V` (a
-**real form**) whose `ℂ`-span is all of `V` and with `dim_ℝ W = dim_ℂ V`. -/
+real form) whose `ℂ`-span is all of `V` and with `dim_ℝ W = dim_ℂ V`. -/
 theorem isRealType_iff_exists_real_form
     (ρ : Representation ℂ G V)
     (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule) :

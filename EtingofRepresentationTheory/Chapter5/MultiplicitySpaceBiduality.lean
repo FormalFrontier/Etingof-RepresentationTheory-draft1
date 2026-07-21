@@ -7,33 +7,32 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_18_1
 For a semisimple subalgebra `A ⊆ End_k(E)` acting faithfully on a
 finite-dimensional `k`-vector space `E` (`k` algebraically closed), let
 `C = centralizer(A)` be the commutant. Each simple `A`-submodule `S ≤ E`
-has a **multiplicity space** `M_S := ↥S →ₗ[A] E`, which is a simple
+has a multiplicity space `M_S := ↥S →ₗ[A] E`, which is a simple
 `C`-module (post-composition action, `Theorem5_18_1.isSimpleModule_homA_centralizer`).
 
-This file proves **Part 2** of the Schur-Weyl GL-side distinctness output
-(parent #4849, reducing #4731's `glTensorRep_equivariant_schurWeyl_decomposition`):
-a `C`-linear iso of multiplicity spaces forces the underlying simple
-`A`-modules to coincide,
+This file proves Part 2 of the Schur-Weyl GL-side distinctness result (a step in
+`glTensorRep_equivariant_schurWeyl_decomposition`): a `C`-linear iso of
+multiplicity spaces forces the underlying simple `A`-modules to coincide,
 
   `M_{S_i} ≃ₗ[C] M_{S_j}  ⟹  i = j`,
 
 given the `A`-side distinctness `hS'_dist : S_i ≃ₗ[A] S_j → i = j` produced by
 `Theorem5_18_4_bimodule_decomposition_explicit`.
 
-## Strategy — biduality (double-centralizer reflexivity)
+## Strategy: biduality (double-centralizer reflexivity)
 
-The crux is the natural `A`-linear iso (symmetric double centralizer / biduality)
+The key is the natural `A`-linear iso (symmetric double centralizer / biduality)
 
   `bidualityMap_S : ↥S ≃ₗ[A] (M_S →ₗ[C] E)`,
 
 the curried evaluation `v ↦ (l ↦ l v)`. Given a `C`-iso `ψ : M_{S_i} ≃ₗ[C] M_{S_j}`,
 precomposition `(- ∘ ψ.symm)` is an `A`-linear iso
-`(M_{S_i} →ₗ[C] E) ≃ₗ[A] (M_{S_j} →ₗ[C] E)`; threading the two biduality maps
+`(M_{S_i} →ₗ[C] E) ≃ₗ[A] (M_{S_j} →ₗ[C] E)`; composing the two biduality maps
 gives `S_i ≃ₗ[A] S_j`, whence `i = j` by `hS'_dist`.
 
 The reusable `k`-linear precomposition congruence `homCongrLeftOverSubring`
 (mirror of `Theorem5_18_1.homCongrRightOverSubring`) is proved here. The
-biduality iso itself is the research core, isolated as
+biduality isomorphism itself is proved as
 `multiplicitySpace_biduality_Aiso`.
 -/
 
@@ -46,7 +45,7 @@ namespace Etingof
 variable (k : Type u) [Field k]
   (E : Type v) [AddCommGroup E] [Module k E] [Module.Finite k E]
 
-/-- Pre-composition equivalence: an `R`-linear equivalence of the **domain**
+/-- Pre-composition equivalence: an `R`-linear equivalence of the domain
 induces a `k`-linear equivalence of hom-spaces (contravariantly). This is the
 domain-side mirror of `homCongrRightOverSubring`, and like it works for
 non-commutative `R` (where `LinearEquiv.congrLeft` does not apply directly). -/
@@ -66,7 +65,7 @@ noncomputable def homCongrLeftOverSubring
   map_add' f g := by ext v; simp
   map_smul' c f := by ext v; simp [LinearMap.smul_apply, LinearMap.comp_apply]
 
-/-- Restricting a simple `S`-module along a **surjective** ring homomorphism
+/-- Restricting a simple `S`-module along a surjective ring homomorphism
 `σ : R →+* S` (with the `R`-action obtained by `σ`-restriction, `r • x = σ r • x`)
 keeps it simple: the `R`- and `S`-submodules coincide because every `S`-scalar is
 a `σ`-image. This is the transport tool for the double-centralizer identification
@@ -82,16 +81,12 @@ theorem isSimpleModule_of_surjective_ringHom
         map_smul' := fun r x => (hcompat r x) } : X →ₛₗ[σ] X)
     Function.bijective_id).mpr ‹_›
 
--- Heartbeats bumped: even synthesizing the `SMul (↥centralizer A) (V →ₗ[A] E)`
--- in this instance's statement runs the deep `centralizerModuleHom`
--- `Subalgebra → Module.End` chain, overrunning the default 20000 synth budget
--- (same root cause as `centralizerModuleHom` / `_smulCommClass`).
 set_option maxHeartbeats 800000 in
 set_option synthInstance.maxHeartbeats 800000 in
 /-- The centralizer post-composition action on `V →ₗ[A] E` forms a scalar tower
 with the pointwise `k`-action: `(r • b) • f = r • (b • f)`. This is the
 `IsScalarTower` companion of `centralizerModuleHom_smulCommClass`, needed so
-that `centralizerModuleHom` can fire a *second* time (with `C` in the `A`-slot)
+that `centralizerModuleHom` can apply a second time (with `C` in the `A`-slot)
 on the double hom-space `(↥S →ₗ[A] E) →ₗ[C] E`. -/
 instance centralizerModuleHom_isScalarTower
     {A : Subalgebra k (Module.End k E)}
@@ -104,18 +99,14 @@ instance centralizerModuleHom_isScalarTower
     change (r • b).val (f v) = r • (b.val (f v))
     rw [Subalgebra.coe_smul, LinearMap.smul_apply]
 
--- Heartbeats bumped: the `Module ↥(centralizer A) (↥S →ₗ[A] E)` instance
--- (`Theorem5_18_1.centralizerModuleHom`, a `Subalgebra → Module.End` chain)
--- needed to even state the `≃ₗ[C]` overruns the default 20000 synth /
--- 200000 elaboration budgets, exactly as in `SchurWeylLDistinct` / `Theorem5_18_1`.
 set_option maxHeartbeats 6400000 in
 set_option synthInstance.maxHeartbeats 3200000 in
-/-- **Multiplicity-matching dimension count (isolated research core).**
+/-- **Multiplicity-matching dimension count.**
 For a simple `A`-submodule `S ≤ E` of a faithful semisimple `A`-module over an
 algebraically closed field, the `k`-dimension of `S` equals that of the double
 hom-space `(M_S →ₗ[C] E)`, where `M_S := ↥S →ₗ[A] E` and `C = centralizer(A)`.
 
-This is the only genuinely-deep ingredient of biduality: matching the `A`-side
+This is the deepest ingredient of biduality: matching the `A`-side
 bimodule decomposition `E ≅ ⨁ V_i ⊗ (V_i →ₗ[A] E)` against the symmetric
 `C`-side decomposition (`Theorem5_18_1_bimodule_decomposition_explicit` with `C`
 in the `A`-slot). Concretely `dim_k M_S = mult_C(M_S in E)` (Schur over `C`,
@@ -124,7 +115,7 @@ alg-closed) and `mult_C(M_S in E) = dim_k S` (the `A`-side multiplicity equals
 
 Once this holds, the curried-evaluation biduality map `↥S → (M_S →ₗ[C] E)`
 (`v ↦ (l ↦ l v)`), which is injective by construction, becomes an isomorphism
-by equal finite dimension — see `multiplicitySpace_biduality_Aiso`. -/
+by equal finite dimension; see `multiplicitySpace_biduality_Aiso`. -/
 theorem multiplicitySpace_double_hom_finrank
     (A : Subalgebra k (Module.End k E))
     [IsSemisimpleRing A] [FaithfulSMul A E] [IsAlgClosed k]
@@ -248,13 +239,9 @@ theorem multiplicitySpace_double_hom_finrank
   -- Equal `k`-dimension via the resulting `k`-linear equivalence.
   exact LinearEquiv.finrank_eq (LinearEquiv.ofBijective biSk ⟨hinj, hsurj⟩)
 
--- Heartbeats bumped: stating and proving over the double hom-space
--- `(↥S →ₗ[A] E) →ₗ[C] E` runs the deep `centralizerModuleHom`
--- `Subalgebra → Module.End` instance chain (twice), overrunning the default
--- 20000 synth / 200000 elaboration budgets, as in `Theorem5_18_1`.
 set_option maxHeartbeats 6400000 in
 set_option synthInstance.maxHeartbeats 3200000 in
-/-- **Biduality (research core).** For a simple `A`-submodule `S ≤ E` of a
+/-- **Biduality.** For a simple `A`-submodule `S ≤ E` of a
 faithful semisimple `A`-module, the curried evaluation
 `↥S → (M_S →ₗ[C] E)`, `v ↦ (l ↦ l v)`, is an `A`-linear isomorphism, where
 `M_S := ↥S →ₗ[A] E` and `C = centralizer(A)`. Consequently a `C`-iso of
@@ -263,8 +250,8 @@ multiplicity spaces yields an `A`-iso of the underlying simple modules.
 This is the symmetric double-centralizer / biduality statement. The proof builds
 the `k`-linear curried-evaluation equivalences `↥S ≃ₗ[k] (M_S →ₗ[C] E)` and
 `↥T ≃ₗ[k] (M_T →ₗ[C] E)` (injective by construction, bijective by the
-dimension count `multiplicitySpace_double_hom_finrank`), threads the given
-`C`-iso `M_S ≃ₗ[C] M_T` through the precomposition congruence
+dimension count `multiplicitySpace_double_hom_finrank`), composes the given
+`C`-iso `M_S ≃ₗ[C] M_T` with the precomposition congruence
 `homCongrLeftOverSubring`, and verifies that the resulting `k`-linear bijection
 `↥S ≃ₗ[k] ↥T` is in fact `A`-linear (post-composition by `a ∈ A` commutes with
 both the evaluation and the `C`-linear precomposition). -/
@@ -339,7 +326,7 @@ theorem multiplicitySpace_biduality_Aiso
   -- direction is `D_S → D_T`).
   let pre_k := homCongrLeftOverSubring k
     (↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) E ψ.symm
-  -- The threaded `k`-linear bijection.
+  -- The resulting `k`-linear bijection.
   let Φ : ↥S ≃ₗ[k] ↥T := evS_k.trans (pre_k.trans evT_k.symm)
   -- Application formulas (all definitional).
   have eS : ∀ (w : ↥S) (l : ↥S →ₗ[A] E), evS_k w l = l w := fun _ _ => rfl
@@ -374,9 +361,9 @@ simple `A`-submodules of `E` that are pairwise `A`-distinct (`hS'_dist`), a
 `i = j`. Here `A` is a semisimple subalgebra of `End_k(E)` acting faithfully,
 `k` is algebraically closed, and `C = centralizer(A)`.
 
-This is the B-side distinctness consumed by parent #4849: it upgrades the
-multiplicity-space iso produced by Part 1 to the index identity needed to
-complete the GL-equivariant Schur-Weyl decomposition. -/
+This distinctness statement upgrades the multiplicity-space iso produced by
+Part 1 to the index identity needed to complete the GL-equivariant Schur-Weyl
+decomposition. -/
 theorem multiplicitySpace_Cdistinct
     (A : Subalgebra k (Module.End k E))
     [IsSemisimpleRing A] [FaithfulSMul A E] [IsAlgClosed k]

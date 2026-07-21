@@ -5,24 +5,23 @@ import EtingofRepresentationTheory.Chapter5.CauchyWeightSpaceDimension
 /-!
 # Algebraicity of the determinant-quotient degree component `quotDetDegreeFDRep`
 
-The final assembly of #4905
-(`quotDetRep_irreducible_constituent_lastWeight_zero`) feeds the degree-`d`
-component `(A/det)_d = quotDetDegreeFDRep k N d` into the part-C ingredient
+The theorem `quotDetRep_irreducible_constituent_lastWeight_zero` passes the degree-`d`
+component `(A/det)_d = quotDetDegreeFDRep k N d` to the part-C ingredient
 `Etingof.simple_constituent_formalCharacter_eq_schurPoly_mem`, which requires the
 hypothesis `Etingof.IsAlgebraicRepresentation N M.ρ`. This file supplies that
 hypothesis for `quotDetDegreeFDRep`.
 
-The route has three steps:
+The proof has three steps:
 
-* `IsAlgebraicRepresentation.of_surjective_equivariant` — a general transport
-  lemma: algebraicity passes along a **surjective** `GL_N`-equivariant `k`-linear
+* `IsAlgebraicRepresentation.of_surjective_equivariant`: a general transport
+  lemma: algebraicity passes along a surjective `GL_N`-equivariant `k`-linear
   map onto a finite-dimensional target. (The dual of
-  `IsAlgebraicRepresentation.restrict`, which handles invariant *sub*modules.)
-* `polyRightDegreeFDRep_isAlgebraic` — the degree-`d` component `A_d` of the
+  `IsAlgebraicRepresentation.restrict`, which handles invariant submodules.)
+* `polyRightDegreeFDRep_isAlgebraic`: the degree-`d` component `A_d` of the
   coordinate ring under right translation is algebraic. On the monomial basis the
   right translation `R_g X_{ij} = ∑_l g_{lj} X_{il}` has matrix coefficients that
   are polynomials in the entries of `g`.
-* `quotDetDegreeFDRep_isAlgebraic` — combine the two via the surjective
+* `quotDetDegreeFDRep_isAlgebraic`: combine the two via the surjective
   equivariant quotient map `A_d → (A/det)_d`.
 -/
 
@@ -119,7 +118,7 @@ noncomputable def rightTransPoly (k : Type*) [Field k] (N : ℕ)
 
 /-- **Evaluating `rightTransPoly` at `g` recovers the actual matrix coefficient.** The
 generic-matrix substitution is natural in the entries: mapping coefficients through
-`evalAtGL g` turns the generic right translation into the genuine one. -/
+`evalAtGL g` sends the generic right translation to the actual one. -/
 theorem evalAtGL_rightTransPoly {k : Type*} [Field k] {N : ℕ}
     (g : Matrix.GeneralLinearGroup (Fin N) k) (s t : (Fin N × Fin N) →₀ ℕ) :
     Etingof.evalAtGL g (rightTransPoly k N s t)
@@ -132,7 +131,7 @@ theorem evalAtGL_rightTransPoly {k : Type*} [Field k] {N : ℕ}
       (fun _ => ((g : Matrix (Fin N) (Fin N) k).det)⁻¹)) with heHom
   set Ggen : Matrix (Fin N) (Fin N) R :=
     Matrix.of fun l j => MvPolynomial.X (Sum.inl (l, j)) with hGgen
-  -- naturality: pushing `eHom` through the generic right translation gives the genuine one
+  -- naturality: pushing `eHom` through the generic right translation gives the actual one
   have hnat : ∀ p : MvPolynomial (Fin N × Fin N) R,
       MvPolynomial.map eHom (rTransAlgHom Ggen p)
         = rTransAlgHom (g : Matrix (Fin N) (Fin N) k) (MvPolynomial.map eHom p) := by
@@ -154,7 +153,7 @@ theorem evalAtGL_rightTransPoly {k : Type*} [Field k] {N : ℕ}
         rw [heHom, MvPolynomial.eval_X, Sum.elim_inl]
     have := RingHom.congr_fun hring
     simpa only [RingHom.comp_apply, AlgHom.toRingHom_eq_coe, AlgHom.coe_toRingHom] using this
-  -- rewrite the genuine action as a coefficient-map of the generic one
+  -- rewrite the actual action as a coefficient-map of the generic one
   rw [polyRightRep_apply]
   have hmon : (MvPolynomial.monomial s (1 : k))
       = MvPolynomial.map eHom (MvPolynomial.monomial s (1 : R)) := by
@@ -235,7 +234,7 @@ theorem polyRightDegreeFDRep_isAlgebraic (k : Type*) [Field k] (N d : ℕ) :
       (fun s _ hsa => by rw [if_neg (fun h => hsa (Subtype.ext h)), mul_zero])
       (fun ha => absurd (Finset.mem_univ a) ha)]
     rw [if_pos rfl, mul_one]
-  -- assemble: the matrix coefficients are `rightTransPoly`
+  -- conclude: the matrix coefficients are `rightTransPoly`
   refine ⟨Fintype.card {s // s ∈ S}, b.reindex (Fintype.equivFin {s // s ∈ S}),
     fun a c => rightTransPoly k N (↑((Fintype.equivFin {s // s ∈ S}).symm c))
       (↑((Fintype.equivFin {s // s ∈ S}).symm a)), fun g a c => ?_⟩
@@ -247,7 +246,7 @@ theorem polyRightDegreeFDRep_isAlgebraic (k : Type*) [Field k] (N d : ℕ) :
 /-- **`(A/det)_d` is algebraic.** It is the image of the algebraic `A_d` under the
 surjective `GL_N`-equivariant quotient map `A_d → (A/det)_d`, so algebraicity transfers
 by `IsAlgebraicRepresentation.of_surjective_equivariant`. This is the part-C hypothesis
-the #4905 assembly requires. -/
+required by `quotDetRep_irreducible_constituent_lastWeight_zero`. -/
 theorem quotDetDegreeFDRep_isAlgebraic (k : Type*) [Field k] (N d : ℕ) :
     Etingof.IsAlgebraicRepresentation N
       (Etingof.CauchyDetQuotient.quotDetDegreeFDRep k N d).ρ := by

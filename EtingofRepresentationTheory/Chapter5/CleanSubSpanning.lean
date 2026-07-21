@@ -2,30 +2,30 @@ import EtingofRepresentationTheory.Chapter5.CleanFormalCharacterAdditivity
 import EtingofRepresentationTheory.Chapter5.FormalCharacterTorusTrace
 
 /-!
-# DetInvElim-clean sub-of-spanning-is-spanning (issue #5086, parent #5081 / #5078)
+# Sub-of-spanning-is-spanning
 
 The constituent-character extractor peels a `GL_N`-invariant submodule `S ≤ M` off a
 weight-spanning algebraic `FDRep` `M` and applies the short-exact-sequence additivity
-`formalCharacter_add_of_shortExact`. That additivity needs **both** the total `M` and the
-sub `S` to be ℕ-weight-spanning. The total-spanning is threaded through the induction;
-the sub-spanning is the technical crux discharged here.
+`formalCharacter_add_of_shortExact`. That additivity needs both the total `M` and the
+sub `S` to be ℕ-weight-spanning. The total-spanning is carried through the induction;
+the sub-spanning is the technical fact established here.
 
-The genuine mathematical content (independent of the `subFDRep` packaging that lives in the
-sibling `CleanInductionHelpers.lean`, #5081) is:
+The mathematical content (independent of the `subFDRep` packaging in
+`CleanInductionHelpers.lean`) is:
 
 > For a torus-invariant submodule `R ≤ M` of a weight-spanning `FDRep` `M`, the weight
-> spaces of `M` *cut down to `R`* still span `R`:  `⨆_μ (M_μ ⊓ R) = R`.
+> spaces of `M` cut down to `R` still span `R`:  `⨆_μ (M_μ ⊓ R) = R`.
 
-Via the clean `glWeightSpace_inf_range` (in `CleanFormalCharacterAdditivity.lean`) this is
+Via `glWeightSpace_inf_range` (in `CleanFormalCharacterAdditivity.lean`) this is
 exactly equivalent to "the sub-representation on `R` is weight-spanning", which is the
 `hStop` consumed by `formalCharacter_add_of_invariant_submodule`. The `subFDRep`-level
-wrapper `subFDRep_weight_spanning` is the trivial `glWeightSpace_inf_range` glue and is
-added in `CleanInductionHelpers.lean` once `subFDRep` lands; it consumes the main theorem
+wrapper `subFDRep_weight_spanning` is the trivial `glWeightSpace_inf_range` consequence,
+provided in `CleanInductionHelpers.lean`; it consumes the main theorem
 `torusInvariant_iSup_inf_glWeightSpace_eq` below.
 
 ## Mechanism (single generic diagonal element)
 
-The submodule lattice is **not** distributive, so `inf_iSup_eq` does not apply — the
+The submodule lattice is not distributive, so `inf_iSup_eq` does not apply: the
 eigenspace/invariance structure is essential. We pick a single diagonal torus element
 `diag(t)` whose torus characters `χ_μ(t) = ∏_i (t i)^{μ i}` are pairwise distinct over the
 finite weight support (`exists_separating_torus`). Each weight space `M_μ` is then exactly
@@ -248,7 +248,7 @@ theorem genEigenspace_diagTorus_eq_bot (N : ℕ)
         inf_le_inf_left _ hle
     _ ≤ ⊥ := disjoint_iff_inf_le.mp hdisj
 
-/-- **Sub-of-spanning-is-spanning (the crux).** For a `GL_N`-invariant submodule `R` of a
+/-- **Sub-of-spanning-is-spanning.** For a `GL_N`-invariant submodule `R` of a
 weight-spanning `FDRep` `M`, the weight spaces cut down to `R` still span `R`. -/
 theorem torusInvariant_iSup_inf_glWeightSpace_eq (N : ℕ)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))

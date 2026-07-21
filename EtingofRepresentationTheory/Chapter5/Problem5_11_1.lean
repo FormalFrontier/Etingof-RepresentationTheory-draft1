@@ -36,13 +36,13 @@ representations, non-isomorphic). Its character table on the five classes
 
 with `φ = (1+√5)/2`, `φ' = (1-√5)/2`.
 
-Each induced representation is decomposed via **Frobenius reciprocity** (Theorem 5.9.1): the
+Each induced representation is decomposed via Frobenius reciprocity (Theorem 5.9.1): the
 multiplicity of an irreducible `W` of `A₅` in `Ind_H^G ρ` equals the inner product
 `⟨Res_H χ_W, χ_ρ⟩_H`. Because every subgroup of a given order in the list is unique up to
-conjugacy in `A₅` — all involutions are conjugate (one class `2a`), all Sylow-`3` and Sylow-`5`
-subgroups are conjugate, the order-`4` subgroups are the (conjugate) Klein four Sylow-`2`
-subgroups `ℤ₂ × ℤ₂` (`A₅` has no element of order `4`), and the order-`12` subgroups are the
-(conjugate) point stabilisers `A₄` — the decomposition depends only on the order of `H` and the
+conjugacy in `A₅` (all involutions are conjugate, one class `2a`; all Sylow-`3` and Sylow-`5`
+subgroups are conjugate; the order-`4` subgroups are the (conjugate) Klein four Sylow-`2`
+subgroups `ℤ₂ × ℤ₂`, as `A₅` has no element of order `4`; and the order-`12` subgroups are the
+(conjugate) point stabilisers `A₄`), the decomposition depends only on the order of `H` and the
 isomorphism class of the inducing character `ρ`, not on the particular subgroup chosen. We
 therefore phrase each statement for an arbitrary subgroup `H` of the relevant order, and an
 arbitrary irreducible `ρ` of `H` distinguished by dimension and (for one-dimensional `ρ`)
@@ -51,28 +51,28 @@ triviality of its character.
 The resulting decompositions (dimensions in parentheses; `[G:H]·dim ρ` on the right):
 
 * **(a) `H = ℤ₂`** (`|H| = 2`, index `30`), two irreducibles `1₊, 1₋`:
-  * `Ind 1₊ ≅ 1 ⊕ 3 ⊕ 3' ⊕ 4² ⊕ 5³` (`30`) — the coset/edge permutation representation;
+  * `Ind 1₊ ≅ 1 ⊕ 3 ⊕ 3' ⊕ 4² ⊕ 5³` (`30`): the coset/edge permutation representation;
   * `Ind 1₋ ≅ 3² ⊕ 3'² ⊕ 4² ⊕ 5²` (`30`).
 * **(b) `H = ℤ₃`** (`|H| = 3`, index `20`), irreducibles `1, ω, ω²`:
-  * `Ind 1 ≅ 1 ⊕ 3 ⊕ 3' ⊕ 4² ⊕ 5` (`20`) — the coset/face permutation representation;
+  * `Ind 1 ≅ 1 ⊕ 3 ⊕ 3' ⊕ 4² ⊕ 5` (`20`): the coset/face permutation representation;
   * `Ind ω ≅ Ind ω² ≅ 3 ⊕ 3' ⊕ 4 ⊕ 5²` (`20`).
 * **(c) `H = ℤ₅`** (`|H| = 5`, index `12`), irreducibles `1, ζ, ζ², ζ³, ζ⁴`:
-  * `Ind 1 ≅ 1 ⊕ 3 ⊕ 3' ⊕ 5` (`12`) — the coset/vertex permutation representation;
-  * each nontrivial `Ind ζ^k ≅ 3 ⊕ 4 ⊕ 5` or `≅ 3' ⊕ 4 ⊕ 5` (`12`) — the pair `{ζ, ζ⁴}`
+  * `Ind 1 ≅ 1 ⊕ 3 ⊕ 3' ⊕ 5` (`12`): the coset/vertex permutation representation;
+  * each nontrivial `Ind ζ^k ≅ 3 ⊕ 4 ⊕ 5` or `≅ 3' ⊕ 4 ⊕ 5` (`12`): the pair `{ζ, ζ⁴}`
     yields one of the two `3`-dimensionals and `{ζ², ζ³}` the other (the split matches the two
     classes `5a, 5b` of `5`-cycles inside `ℤ₅`), so we state the nontrivial case as a
     disjunction over the two `3`-dimensionals.
 * **(d) `H = A₄`** (`|H| = 12`, index `5`), irreducibles `1, ω, ω², 3_{A₄}`:
-  * `Ind 1 ≅ 1 ⊕ 4` (`5`) — the coset/`5`-point permutation representation;
+  * `Ind 1 ≅ 1 ⊕ 4` (`5`): the coset/`5`-point permutation representation;
   * `Ind ω ≅ Ind ω² ≅ 5` (`5`);
   * `Ind 3_{A₄} ≅ 3 ⊕ 3' ⊕ 4 ⊕ 5` (`15`).
 * **(e) `H = ℤ₂ × ℤ₂`** (`|H| = 4`, index `15`), four irreducibles `1, χ₁, χ₂, χ₃`:
-  * `Ind 1 ≅ 1 ⊕ 4 ⊕ 5²` (`15`) — the coset permutation representation;
+  * `Ind 1 ≅ 1 ⊕ 4 ⊕ 5²` (`15`): the coset permutation representation;
   * each nontrivial `Ind χᵢ ≅ 3 ⊕ 3' ⊕ 4 ⊕ 5` (`15`).
 
-Every decomposition is stated as `Nonempty (Ind_H^G ρ ≅ ⊞ …)` in `FDRep ℂ A₅` and proved
-sorry-free, via character additivity over binary biproducts (`character_biprod`) together with
-the per-case induced-character computations (`ind_character_eq`). `Ind_H^G` is
+Every decomposition is stated as `Nonempty (Ind_H^G ρ ≅ ⊞ …)` in `FDRep ℂ A₅`, via character
+additivity over binary biproducts (`character_biprod`) together with the per-case
+induced-character computations (`ind_character_eq`). `Ind_H^G` is
 `Etingof.Definition5_8_1`; the target biproducts use the catalogue objects
 `repTriv, repC3plus, repC3minus, repC4, repC5`.
 -/
@@ -95,10 +95,9 @@ abbrev ind {H : Subgroup A5} (σ : FDRep ℂ ↥H) : FDRep ℂ A5 :=
 
 /-! ## Character additivity over binary biproducts
 
-The `charEq_iso` route (`Chapter5/CharEqIso.lean`) reduces each `Ind σ ≅ ⊞ …` claim to a
-character identity. To compute the character of the target biproduct we need additivity of the
-character over `⊞`, which is not in Mathlib; we establish it here (reusable for all of parts
-(a)–(e)). -/
+The `charEq_iso` argument (`Chapter5/CharEqIso.lean`) reduces each `Ind σ ≅ ⊞ …` claim to a
+character identity. Computing the character of the target biproduct requires additivity of the
+character over `⊞`, established here (reusable for all of parts (a)–(e)). -/
 
 /-- Underlying-linear-map intertwining for a morphism of `FDRep`: the underlying `ℂ`-linear map
 of `f : A ⟶ B` commutes with the `G`-actions. -/
@@ -872,7 +871,7 @@ lemma twisted_p5' (j : Fin 5) :
   fin_cases j <;> decide
 
 /-- An order-`5` subgroup of `A₅` is conjugate to `⟨classRepA5 3⟩`: there is `d` with
-`y ∈ H ↔ d y d⁻¹ ∈ ⟨classRepA5 3⟩` (Sylow's second theorem — all Sylow `5`-subgroups are
+`y ∈ H ↔ d y d⁻¹ ∈ ⟨classRepA5 3⟩` (Sylow's second theorem: all Sylow `5`-subgroups are
 conjugate). -/
 lemma exists_conj_H5 (H : Subgroup A5) (hH : Nat.card H = 5) :
     ∃ d : A5, ∀ y : A5, y ∈ H ↔ d * y * d⁻¹ ∈ Subgroup.zpowers (classRepA5 3) := by
@@ -1320,8 +1319,8 @@ theorem indZ5_nontriv (H : Subgroup A5) (hH : Nat.card H = 5)
 
 /-! ## (d) Induction from `A₄`
 
-The order-`12` subgroups of `A₅` are the (conjugate) point stabilizers `A₄` — not Sylow
-subgroups — so the cyclic-case route (`exists_conj_H5` via Sylow's theorem) does not apply.
+The order-`12` subgroups of `A₅` are the (conjugate) point stabilizers `A₄` (not Sylow
+subgroups), so the cyclic-case argument (`exists_conj_H5` via Sylow's theorem) does not apply.
 We fix the concrete `A₄` as the stabilizer of `0` under the natural action `natHom` and reduce
 an arbitrary order-`12` subgroup to it. The induced-character counts then reduce, exactly as in
 the cyclic cases, to `decide`-evaluable computations over the `60` elements of `A₅`. -/
@@ -1371,7 +1370,7 @@ lemma card_stab_i (i : Fin 5) : Nat.card (Etingof.Problem4_12_5.stabSub natHom i
 set_option maxRecDepth 12000 in
 set_option maxHeartbeats 4000000 in
 /-- A subset of `2` or `3` points of `Fin 5` has at most `6` elements of `A₅` (even permutations)
-preserving it setwise — the parity constraint that rules out a `2 + 3` orbit split for an
+preserving it setwise: the parity constraint that rules out a `2 + 3` orbit split for an
 order-`12` subgroup. -/
 lemma setwise_le6 (O : Finset (Fin 5)) (h2 : 2 ≤ O.card) (h3 : O.card ≤ 3) :
     (univ.filter (fun g : A5 => ∀ i ∈ O, natHom g i ∈ O)).card ≤ 6 := by
@@ -1380,7 +1379,7 @@ lemma setwise_le6 (O : Finset (Fin 5)) (h2 : 2 ≤ O.card) (h3 : O.card ≤ 3) :
 /-- **Order-`12` fixed point.** Every order-`12` subgroup `H ≤ A₅` fixes a point of the natural
 `5`-point action. If it did not, the `H`-orbit of `0` would have size `2` or `3` (size `4` forces
 a fixed point in the complement; size `5` is impossible as it must divide `12`), placing all `12`
-elements of `H` inside the setwise stabilizer of that small set — but that stabilizer has only
+elements of `H` inside the setwise stabilizer of that small set, but that stabilizer has only
 `6` elements (`setwise_le6`). -/
 lemma H12_fixes_point (H : Subgroup A5) (hH : Nat.card H = 12) :
     ∃ i : Fin 5, ∀ h : A5, h ∈ H → natHom h i = i := by
@@ -1530,7 +1529,7 @@ set_option maxRecDepth 12000 in
 -- `decide` evaluates the twisted membership (fixing `0`) over all `60` elements of `A₅`.
 set_option maxHeartbeats 4000000 in
 /-- **Twisted counts in the concrete `A₄`.** `#{x : x·(classRepA5 j)·x⁻¹ ∈ A₄}` on the five
-class reps is `(60, 24, 12, 0, 0)` — that is `12 ·` the fixed-point count `(5,2,1,0,0)`. -/
+class reps is `(60, 24, 12, 0, 0)`, that is `12 ·` the fixed-point count `(5,2,1,0,0)`. -/
 lemma twisted_A4std (j : Fin 5) :
     (univ.filter (fun x : A5 => x * classRepA5 j * x⁻¹ ∈ A4std)).card
       = ![60, 24, 12, 0, 0] j := by
@@ -1895,7 +1894,7 @@ lemma indA4_nontriv_linear_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (h
           rw [conjCount_shift (classRepA5 1) (classRepA5 1) (z : A5) hconj]
           have h := twisted_eq_cr1 1; simpa using h
         rw [hcnt]; push_cast; ring
-    -- Assemble: twisted `3a` sum `= 3 · (∑ σ − ∑_{involutions} σ) = 3 · (0 − 4) = −12`.
+    -- Combine: twisted `3a` sum `= 3 · (∑ σ − ∑_{involutions} σ) = 3 · (0 − 4) = −12`.
     have htw1 : (∑ x : A5, if h : x * classRepA5 1 * x⁻¹ ∈ H then σ.character ⟨_, h⟩ else 0)
         = -12 := by
       rw [hkey, Finset.sum_congr rfl (fun z _ => hN z)]
@@ -2029,14 +2028,14 @@ lemma indA4_threeDim_char_all (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH :
   rw [FDRep.char_conj]
   exact indA4_threeDim_value H hH σ hcharval (classIdxA5 g)
 
-/-! ### Character `-1` on involutions (crux of part (d))
+/-! ### Character `-1` on involutions (key point of part (d))
 
 For the unique `3`-dimensional simple representation `σ` of an order-`12` subgroup `H ≅ A₄`, the
 value of `σ.character` on any involution is `-1`. Two projections onto invariant subspaces pin the
 value: the idempotent `(1 + ρ(h))/2` forces the character into `{-3,-1,1,3}` (integrality of a
 projection's trace), and averaging over the Klein four-group `V ⊴ H` forces it into `{-1,3}`.
 The value `3` is ruled out by Schur: it would put `V ⊆ ker σ`, making the image abelian, forcing
-every linear endomorphism to be scalar — impossible for `dim σ = 3`. -/
+every linear endomorphism to be scalar, impossible for `dim σ = 3`. -/
 
 section SchurScalar
 
@@ -2213,7 +2212,7 @@ lemma avg_char_subgroup {H : Subgroup A5} (σ : FDRep ℂ ↥H) (K : Subgroup �
     Finset.sum_congr rfl (fun g _ => rfl)]
   exact FDRep.average_char_eq_finrank_invariants _
 
-/-- **Character `-1` on involutions (crux of part (d)).** The unique `3`-dimensional simple
+/-- **Character `-1` on involutions (key point of part (d)).** The unique `3`-dimensional simple
 representation `σ` of an order-`12` subgroup `H ≅ A₄ ≤ A₅` takes the value `-1` on every
 involution. -/
 lemma charval_A4_involution (H : Subgroup A5) (hH : Nat.card H = 12)
@@ -2369,7 +2368,7 @@ lemma charval_A4_involution (H : Subgroup A5) (hH : Nat.card H = 12)
         rw [hx, hy]⟩
       have hf0 : Module.finrank ℂ σ = 0 := Module.finrank_zero_of_subsingleton
       rw [hdim] at hf0; norm_num at hf0
-    -- `End σ = span {id}` gives `finrank End = 1`, but `finrank End = 9` — contradiction
+    -- `End σ = span {id}` gives `finrank End = 1`, but `finrank End = 9`, a contradiction
     have hspan_top : (ℂ ∙ (LinearMap.id : σ →ₗ[ℂ] σ)) = ⊤ := by
       refine le_antisymm le_top (fun Tm _ => ?_)
       obtain ⟨c, hc⟩ := hall Tm
@@ -2383,11 +2382,11 @@ lemma charval_A4_involution (H : Subgroup A5) (hH : Nat.card H = 12)
 /-- **Character of the `3`-dimensional simple `A₄`-representation.** The unique `3`-dimensional
 irreducible representation of an order-`12` (hence `A₄`-conjugate) subgroup `H ≤ A₅` has character
 `3` at the identity, `-1` on the double transpositions (class `2a`, `classIdxA5 = 2`), and `0` on
-the `3`-cycles (class `3a`, `classIdxA5 = 1`) — that is `![3,0,-1,0,0] ∘ classIdxA5`.
+the `3`-cycles (class `3a`, `classIdxA5 = 1`): that is `![3,0,-1,0,0] ∘ classIdxA5`.
 
-This is the `A₄` character-table crux (uniqueness of the `3`-dimensional irrep): `σ|_V = 0` on the
-Klein four-group `V ⊴ A₄` forces `χ = -1` on each involution, and `⟨χ, χ⟩ = 1` then forces `χ = 0`
-on the `3`-cycles. Tracked as a dedicated sub-issue. -/
+This is the core of the `A₄` character table (uniqueness of the `3`-dimensional irrep): `σ|_V = 0`
+on the Klein four-group `V ⊴ A₄` forces `χ = -1` on each involution, and `⟨χ, χ⟩ = 1` then forces
+`χ = 0` on the `3`-cycles. -/
 lemma charval_A4_threeDim (H : Subgroup A5) (hH : Nat.card H = 12)
     (σ : FDRep ℂ ↥H) [Simple σ] (hdim : Module.finrank ℂ σ = 3) (h : ↥H) :
     σ.character h = (![3, 0, -1, 0, 0] : Fin 5 → ℂ) (classIdxA5 (h : A5)) := by
@@ -2504,7 +2503,7 @@ lemma charval_A4_threeDim (H : Subgroup A5) (hH : Nat.card H = 12)
       rw [Complex.normSq_eq_zero.mp hzero]
       norm_num
 
-/-- **Target character, class-rep values** for `3 ⊕ 3' ⊕ 4 ⊕ 5`: `(15, 0, -1, 0, 0)` — the same
+/-- **Target character, class-rep values** for `3 ⊕ 3' ⊕ 4 ⊕ 5`: `(15, 0, -1, 0, 0)`, the same
 target as the `ℤ₂ × ℤ₂` nontrivial case (`indV4_nontriv`). -/
 lemma indA4_threeDim_target_value (j : Fin 5) :
     (repC3plus ⊞ repC3minus ⊞ repC4 ⊞ repC5).character (classRepA5 j) = ![15, 0, -1, 0, 0] j := by
@@ -2542,7 +2541,7 @@ theorem indA4_threeDim (H : Subgroup A5) (hH : Nat.card H = 12)
 The order-`4` subgroups of `A₅` are its Sylow `2`-subgroups, the Klein four groups
 `ℤ₂ × ℤ₂` (`A₅` has no element of order `4`), so each non-identity element is an involution
 lying in the single `2a` class. Unlike the cyclic cases, `H` has three involutions carrying
-mixed character values, but the induced character only sees their *sum*: for the trivial
+mixed character values, but the induced character only sees their sum: for the trivial
 character the three contribute `3`, and for any nontrivial character they contribute
 `∑_{h∈H} χ(h) − χ(1) = −1` (the sum of a nontrivial character over the group vanishes). This
 collapses both computations to the single conjugator-count skeleton

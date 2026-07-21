@@ -16,7 +16,7 @@ Here `ρ = (N−1, N−2, …, 1, 0)` is the strictly decreasing staircase vecto
 reused in `Discussion_proof_of_Frobenius_character_formula`.
 
 The in-project `Etingof.rev_of_permExponent_eq_rhoShift` only handles the single case
-`σ = revPerm` (the reversal). This file proves the *general* lexicographic inequality
+`σ = revPerm` (the reversal). This file proves the general lexicographic inequality
 and its equality characterisation, and derives the "subtract from `λ + ρ`" corollary.
 
 We model "`σ` acting on `ρ`" by precomposition, `ρ ∘ σ` (coordinate `i` carries the
@@ -25,7 +25,7 @@ convention (`σ` versus `σ⁻¹`) is immaterial: `σ ∘ ·` and `σ⁻¹ ∘ �
 set of rearrangements, and `σ = 1 ↔ σ⁻¹ = 1`.
 
 The lexicographic order is Mathlib's `toLex` on `Fin N → ℤ`, whose strict part unfolds
-to `∃ i, (∀ j < i, x j = y j) ∧ x i < y i` — the "first nonvanishing coordinate"
+to `∃ i, (∀ j < i, x j = y j) ∧ x i < y i`, the "first nonvanishing coordinate"
 comparison of the book's Discussion on lexicographic ordering.
 -/
 

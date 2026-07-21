@@ -8,14 +8,14 @@ This file records the reusable representation-theoretic identity relating the li
 `Representation.dual` (Mathlib) to the character twist `charTwistRep`
 (`Chapter5/KernelLemmaKPrime.lean`):
 
-* `dual_charTwistRep` — for a character `c : G →* kˣ` and a representation `ρ`,
+* `dual_charTwistRep`: for a character `c : G →* kˣ` and a representation `ρ`,
   `Representation.dual (charTwistRep c ρ) = charTwistRep c⁻¹ (Representation.dual ρ)`.
 
 The dual negates the group element (`(dual σ) g = transpose (σ g⁻¹)`), so the twisting
 scalar `c g` of `charTwistRep c ρ` is read at `g⁻¹`, i.e. as `c(g⁻¹) = c⁻¹(g)`. Combined
 with `charTwistRep_charTwistRep` this collapses a stacked `det^s`-twist on a contragredient
-into a single twist by the inverse-power determinant character — the form consumed by the
-linear-dual half of the contragredient identity (#5544).
+into a single twist by the inverse-power determinant character, the form used by the
+linear-dual half of the contragredient identity.
 -/
 
 noncomputable section
