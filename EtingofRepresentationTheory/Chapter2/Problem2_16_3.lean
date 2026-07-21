@@ -1137,8 +1137,8 @@ theorem lie_wb_vb_three (k : Type*) [Field k] (hk : (2 : k) ≠ 0) : ⁅wb k 3, 
 
 /-- `[w̄, ū] = 0` in `𝔤₃` (Jacobi from `[x̄, w̄] = 0` and `[w̄, v̄] = 0`). -/
 theorem lie_wb_ub_three (k : Type*) [Field k] (hk : (2 : k) ≠ 0) : ⁅wb k 3, ub k 3⁆ = 0 := by
-  rw [show ub k 3 = ⁅xb k 3, vb k 3⁆ from rfl, leibniz_lie, lie_wb_vb_three k hk, lie_zero, add_zero,
-    ← lie_skew (x := wb k 3) (y := xb k 3), neg_lie, lie_xb_wb_three, zero_lie, neg_zero]
+  rw [show ub k 3 = ⁅xb k 3, vb k 3⁆ from rfl, leibniz_lie, lie_wb_vb_three k hk, lie_zero,
+    add_zero, ← lie_skew (x := wb k 3) (y := xb k 3), neg_lie, lie_xb_wb_three, zero_lie, neg_zero]
 
 /-- `[v̄, ū] = 0` in `𝔤₃` (Jacobi from the crux `[z̄, v̄] = 0` and `[w̄, v̄] = 0`, using
 `ū = [z̄, w̄]`). -/
@@ -1182,39 +1182,38 @@ noncomputable def matHom₃ : FreeLieAlgebra k (Fin 2) →ₗ⁅k⁆ Matrix (Fin
   simp only [matHom₃, y, FreeLieAlgebra.lift_of_apply]; rfl
 
 theorem bracket_GX_GY : ⁅GX k, GY k⁆ = GZ k := by
-  simp only [GX, GY, GZ, LieRing.of_associative_ring_bracket, add_mul, mul_add, sub_mul, mul_sub]
-  simp only [Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Matrix.mul_zero,
-    Matrix.zero_mul, ne_eq, Fin.reduceEq, not_false_eq_true, mul_one, zero_add, add_zero]
+  simp only [GX, GY, GZ, LieRing.of_associative_ring_bracket, add_mul, mul_add,
+    Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, ne_eq, Fin.reduceEq,
+    not_false_eq_true, mul_one]
   abel
 
 theorem bracket_GY_GZ : ⁅GY k, GZ k⁆ = GW k := by
-  simp only [GY, GZ, GW, LieRing.of_associative_ring_bracket, add_mul, mul_add, sub_mul, mul_sub]
-  simp only [Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Matrix.mul_zero,
-    Matrix.zero_mul, ne_eq, Fin.reduceEq, not_false_eq_true, mul_one, zero_add, add_zero, sub_zero]
+  simp only [GY, GZ, GW, LieRing.of_associative_ring_bracket, add_mul, mul_add, sub_mul, mul_sub,
+    Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, ne_eq, Fin.reduceEq,
+    not_false_eq_true, mul_one]
   abel
 
 theorem bracket_GY_GW : ⁅GY k, GW k⁆ = GV k := by
-  simp only [GY, GW, GV, LieRing.of_associative_ring_bracket, add_mul, mul_add, sub_mul, mul_sub]
-  simp only [Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Matrix.mul_zero,
-    Matrix.zero_mul, ne_eq, Fin.reduceEq, not_false_eq_true, mul_one, zero_add, add_zero, sub_zero]
+  simp only [GY, GW, GV, LieRing.of_associative_ring_bracket, add_mul, mul_add, sub_mul, mul_sub,
+    Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, ne_eq, Fin.reduceEq,
+    not_false_eq_true, mul_one]
   abel
 
 theorem bracket_GX_GV : ⁅GX k, GV k⁆ = GU k := by
-  simp only [GX, GV, GU, LieRing.of_associative_ring_bracket, add_mul, mul_add, sub_mul, mul_sub]
-  simp only [Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Matrix.mul_zero,
-    Matrix.zero_mul, ne_eq, Fin.reduceEq, not_false_eq_true, mul_one, zero_add, add_zero]
+  simp only [GX, GV, GU, LieRing.of_associative_ring_bracket, add_mul, mul_add,
+    Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, ne_eq, Fin.reduceEq,
+    not_false_eq_true, mul_one]
   abel
 
 theorem bracket_GX_GZ : ⁅GX k, GZ k⁆ = 0 := by
-  simp only [GX, GZ, LieRing.of_associative_ring_bracket, add_mul, mul_add, sub_mul, mul_sub]
-  simp only [Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Matrix.mul_zero,
-    Matrix.zero_mul, ne_eq, Fin.reduceEq, not_false_eq_true, mul_one, zero_add, add_zero, sub_zero,
-    sub_self]
+  simp only [GX, GZ, LieRing.of_associative_ring_bracket, add_mul, mul_add, sub_mul, mul_sub,
+    Matrix.single_mul_single_of_ne, ne_eq, Fin.reduceEq, not_false_eq_true]
+  abel
 
 theorem bracket_GY_GV : ⁅GY k, GV k⁆ = 0 := by
-  simp only [GY, GV, LieRing.of_associative_ring_bracket, add_mul, mul_add, sub_mul, mul_sub]
-  simp only [Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Matrix.mul_zero,
-    Matrix.zero_mul, ne_eq, Fin.reduceEq, not_false_eq_true, mul_one, zero_add, add_zero, sub_self]
+  simp only [GY, GV, LieRing.of_associative_ring_bracket, add_mul, mul_add,
+    Matrix.single_mul_single_of_ne, ne_eq, Fin.reduceEq, not_false_eq_true]
+  abel
 
 theorem matHom₃_relator1 : matHom₃ k ⁅x k, ⁅x k, y k⁆⁆ = 0 := by
   rw [LieHom.map_lie, LieHom.map_lie, matHom₃_x, matHom₃_y, bracket_GX_GY, bracket_GX_GZ]
@@ -1245,7 +1244,8 @@ theorem indep_three : LinearIndependent k ![xb k 3, yb k 3, zb k 3, wb k 3, vb k
       c 5 • ⁅x k, ⁅y k, ⁅y k, ⁅x k, y k⁆⁆⁆⁆) = 0 := by
     rw [map_add, map_add, map_add, map_add, map_add, map_smul, map_smul, map_smul, map_smul,
       map_smul, map_smul, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie,
-      LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie]
+      LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie,
+      LieHom.map_lie]
     exact hc
   have hmem := (proj_eq_zero_iff k 3 _).mp hpw
   have hker := relIdeal_le_ker_matHom₃ k hmem
@@ -1284,10 +1284,14 @@ theorem span_eq_top_three (k : Type*) [Field k] (hk : (2 : k) ≠ 0) :
     induction hu, hv using Submodule.span_induction₂ with
     | mem_mem a b ha hb =>
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb
-      have hzm : zb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by simp
-      have hwm : wb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by simp
-      have hvm : vb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by simp
-      have hum : ub k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by simp
+      have hzm : zb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by
+        simp
+      have hwm : wb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by
+        simp
+      have hvm : vb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by
+        simp
+      have hum : ub k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by
+        simp
       rcases ha with rfl | rfl | rfl | rfl | rfl | rfl <;>
         rcases hb with rfl | rfl | rfl | rfl | rfl | rfl
       -- a = x̄
