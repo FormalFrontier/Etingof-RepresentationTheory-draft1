@@ -20,10 +20,10 @@ in `Mathlib.RepresentationTheory.Maschke`.
 We provide three statements, in increasing fidelity to the book:
 
 * `Etingof.maschke_semisimple`: the group algebra `k[G]` is a semisimple ring;
-* `Etingof.isSemisimpleCategory_moduleCat`: the bridge from a semisimple ring `R`
-  to the categorical statement of Definition 7.9.4 — the module category `ModuleCat R`
+* `Etingof.isSemisimpleCategory_moduleCat`: the passage from a semisimple ring `R`
+  to the categorical statement of Definition 7.9.4: the module category `ModuleCat R`
   is a semisimple abelian category (every short exact sequence splits);
-* `Etingof.maschke_isSemisimpleCategory`: the book's statement — the category of
+* `Etingof.maschke_isSemisimpleCategory`: the book's statement, that the category of
   representations of `G`, i.e. the category of `k[G]`-modules, is semisimple in the
   sense of Definition 7.9.4.
 -/
@@ -46,7 +46,7 @@ theorem Etingof.maschke_semisimple
     exact h.ne_zero
   infer_instance
 
-/-- Bridge from a semisimple ring to the categorical notion of Definition 7.9.4:
+/-- From a semisimple ring to the categorical notion of Definition 7.9.4:
 the module category over a semisimple ring is a semisimple abelian category, i.e.
 every short exact sequence of modules splits.
 
@@ -74,7 +74,7 @@ theorem Etingof.isSemisimpleCategory_moduleCat
 
 /-- Example 7.9.5: the category of representations of a finite group `G` over a field
 `k` whose characteristic does not divide `|G|` is semisimple in the sense of
-Definition 7.9.4 — every short exact sequence splits.
+Definition 7.9.4: every short exact sequence splits.
 
 Representations of `G` over `k` are exactly `k[G]`-modules, so the representation
 category is `ModuleCat (MonoidAlgebra k G)`. By Maschke's theorem the group algebra

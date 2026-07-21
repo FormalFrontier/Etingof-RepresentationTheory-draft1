@@ -26,8 +26,8 @@ inclusion of group algebras `f : k[K] → k[G]`:
   `k[G] ⊗_{k[K]} -`).
 
 Restriction of scalars is always exact (parts (i) Res below). Extension of
-scalars is always right exact (it is a left adjoint), and it is left exact —
-hence exact — exactly when the ring map is flat. For the group-algebra
+scalars is always right exact (it is a left adjoint), and it is left exact,
+hence exact, exactly when the ring map is flat. For the group-algebra
 inclusion `k[K] → k[G]` of a subgroup, `k[G]` is free of rank `[G : K]` as a
 `k[K]`-module, hence flat, so `Ind_K^G` is exact. We record the flat hypothesis
 explicitly in `Etingof.extendScalars_exact_of_flat`.
@@ -136,7 +136,7 @@ theorem subsingleton_hom_zmod_int : Subsingleton (ZMod 2 →ₗ[ℤ] ℤ) := by
   rw [h2, map_zero, smul_eq_mul] at hmap
   omega
 
-/-- `Hom(ℤ/2ℤ, -)` is **not** right exact. Concretely, for any surjection
+/-- `Hom(ℤ/2ℤ, -)` is not right exact. Concretely, for any surjection
 `g : ℤ ↠ ℤ/2ℤ` (in particular the one from `0 → ℤ → ℤ → ℤ/2ℤ → 0`), the induced
 post-composition map `Hom(ℤ/2ℤ, ℤ) → Hom(ℤ/2ℤ, ℤ/2ℤ)` is not surjective: the
 identity of `ℤ/2ℤ` is not in its image, since the source `Hom(ℤ/2ℤ, ℤ)` is zero
@@ -184,7 +184,7 @@ theorem tmul_one_one_ne_zero : ((1 : ZMod 2) ⊗ₜ[ℤ] (1 : ℤ)) ≠ 0 := by
   simp only [TensorProduct.rid_tmul, one_smul] at himg
   exact one_ne_zero himg
 
-/-- `ℤ/2ℤ ⊗ -` is **not** left exact. Applying `lTensor (ℤ/2ℤ)` to the injection
+/-- `ℤ/2ℤ ⊗ -` is not left exact. Applying `lTensor (ℤ/2ℤ)` to the injection
 `(· * 2) : ℤ ↪ ℤ` (the map in `0 → ℤ → ℤ → ℤ/2ℤ → 0`) yields a non-injective map:
 it sends the nonzero element `1 ⊗ 1` to `1 ⊗ 2 = (2 • 1) ⊗ 1 = 0 ⊗ 1 = 0`.
 (Etingof Example 7.9.6(iii), negative direction) -/

@@ -149,7 +149,7 @@ lemma sMap_pMap : sMap C ≫ pMap C = 𝟙 (homologyZeroComplex C) := by
     rho_homologyπ]
 
 /-- `homologyMap (pMap ≫ sMap) = 𝟙`: the composite `pMap ≫ sMap` induces the identity on
-homology (the crux; `pMap ≫ sMap` is degreewise the projection onto a complement of the
+homology (here `pMap ≫ sMap` is degreewise the projection onto a complement of the
 boundaries, which is homologous to the identity). -/
 lemma homologyMap_pMap_sMap (i : ℤ) :
     HomologicalComplex.homologyMap (pMap C ≫ sMap C) i = 𝟙 (C.homology i) := by
@@ -301,7 +301,7 @@ theorem Problem7_8_7_iii (C : CochainComplex (ModuleCat.{u} k) ℤ) :
 ### Homology of a tensor of two zero-differential complexes
 
 The final step of the Künneth argument (part iv) identifies `Hⁱ(C ⊗ D)`, after the four-way
-split, with the homology of `tensorComplex (homologyZeroComplex C) (homologyZeroComplex D)` — a
+split, with the homology of `tensorComplex (homologyZeroComplex C) (homologyZeroComplex D)`, a
 tensor of two complexes whose differentials all vanish. Its differential vanishes in every
 degree, so its homology at `i` is its degree-`i` object, which is the internal coproduct of the
 `Cⱼ ⊗ Dₘ` over `j + m = i`. We package that identification as the reusable
