@@ -23,13 +23,13 @@ The representation action (on components) is:
 - (ρ(e) · v)_k = (k+1) · v_{k+1}         (e picks up v_{k+1})
 - (ρ(f) · v)_k = (d - k) · v_{k-1}       (f picks up v_{k-1})
 
-## Blocked
+## What is and isn't formalized
 
-The Leibniz identity proof (`rho_map_lie`) requires verifying that the representation
-map preserves Lie brackets. This reduces to 9 generator pairs but each involves
-intricate casework on boundary conditions (k=0, k+1=d, nested boundaries).
-Similarly, irreducibility requires showing that any nonzero invariant subspace is the
-whole space. Both require significant additional work.
+The Leibniz identity is proved sorry-free by the `map_lie'` field of `rhoLieHom`
+(`sl2 →ₗ⁅ℂ⁆ Module.End ℂ (Fin d → ℂ)`), which carries out the bracket-preservation
+casework over the sl(2) generators. Irreducibility is proved sorry-free by
+`irrep_isIrreducible` (`LieModule.IsIrreducible ℂ sl2 (Fin d → ℂ)` for `[NeZero d]`),
+which shows that any nonzero invariant subspace is the whole space.
 
 Complete reducibility (Theorem 2.1.1(ii)) requires Weyl's complete reducibility theorem
 for semisimple Lie algebras, which is not in Mathlib.
