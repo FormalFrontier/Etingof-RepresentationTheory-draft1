@@ -25,12 +25,19 @@ isomorphism, obtained via the isomorphism-class setoid on a category
 The hypothesis "`|G| = 0` in `k`" is `(Fintype.card G : k) = 0`, i.e. the characteristic
 of `k` divides `|G|`.
 
-This is a statement-pass formalization: the statement is fixed faithfully and the proof
-is deferred (`sorry`). The mathematical content is that in the modular case the element
-`P = ∑_g g` is nonzero, central, nilpotent (`P² = |G| · P = 0`), and hence lies in the
-Jacobson radical of `k[G]`; the group algebra is therefore not semisimple, so the number
-of simple modules is strictly smaller than the dimension of its centre, which equals the
-number of conjugacy classes.
+This file is the proved-sorry-free infrastructure layer for Exercise 4.2.3. The
+mathematical content is that in the modular case the element `P = ∑_g g` is nonzero,
+central, nilpotent (`P² = |G| · P = 0`), and hence lies in the Jacobson radical of `k[G]`;
+the group algebra is therefore not semisimple. This file proves that non-semisimplicity
+(`not_isSemisimpleRing_of_card_eq_zero`), the count identification
+`card_irrepClasses_eq_card_simpleModuleClasses` (`IrrepClasses k G ≃ SimpleModuleClasses (k[G])`),
+and finiteness of the irreducibles (`finite_simpleModuleClasses`, `IrrepClasses.instFinite`).
+
+This file does not state the main comparison itself: the strict counting drop
+`Nat.card (IrrepClasses k G) < Nat.card (ConjClasses G)` (`Etingof.Exercise4_2_3`) is
+assembled sorry-free downstream in `Exercise4_2_3_Assembly.lean`, because the
+split-field and strict-bound machinery it depends on import this file (see the tail comment
+below).
 -/
 
 open CategoryTheory
