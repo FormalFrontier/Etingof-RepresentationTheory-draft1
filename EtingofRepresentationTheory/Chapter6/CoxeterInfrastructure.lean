@@ -94,7 +94,7 @@ theorem exists_sink_of_dynkin_orientation
       have := congr_fun (congr_fun hsymm v) (next v)
       simp [Matrix.transpose_apply] at this; exact this
     rw [this]; exact h1
-  -- Step 3: No pair (v, next v) equals (next w, w) — would give both directions
+  -- Step 3: No pair (v, next v) equals (next w, w), which would give both directions
   have hno_overlap : ∀ v w : Fin n, (v, next v) ≠ (next w, w) := by
     intro v w heq
     have h1 : v = next w := congr_arg Prod.fst heq
@@ -565,7 +565,7 @@ private theorem exists_topoSort
       have hv_not_acc : v ∉ acc := by
         intro hv; rw [← List.mem_toFinset] at hv; rw [hacc_set] at hv
         simp at hv; exact hv hv_mem
-      -- Local helpers: bridge List.get ↔ getElem for append
+      -- Local helpers relating List.get and getElem for append
       have get_app_l {l₁ l₂ : List (Fin n)} {i : ℕ} (h₁ : i < l₁.length)
           {h₂ : i < (l₁ ++ l₂).length} :
           (l₁ ++ l₂).get ⟨i, h₂⟩ = l₁.get ⟨i, h₁⟩ := by
@@ -638,7 +638,7 @@ theorem admissibleOrdering_exists
     {Q : Quiver (Fin n)} (hOrient : IsOrientationOf Q adj) :
     ∃ ordering : List (Fin n), IsAdmissibleOrdering Q ordering := by
   obtain ⟨ordering, hperm, hnodup, htopo⟩ := exists_topoSort hDynkin hOrient
-  -- Bridge: List.get for take = List.get for original
+  -- Relating List.get for take to List.get for the original list
   have get_take_eq {j k : ℕ} (hj : j < (ordering.take k).length) :
       (ordering.take k).get ⟨j, hj⟩ = ordering.get ⟨j, by rw [List.length_take] at hj; omega⟩ := by
     simp only [List.get_eq_getElem]; exact List.getElem_take
@@ -1280,7 +1280,7 @@ lemma reflFunctorPlus_finite_eq
     addCommGroupOfRing (k := k₀)
   exact Module.Finite.equiv (reflFunctorPlus_equivAt_eq hi ρ).symm
 
-/-! ### Bridge: simpleReflectionDimVector ↔ simpleReflection
+/-! ### Relating simpleReflectionDimVector and simpleReflection
 
 For a sink p of an orientation of a Dynkin diagram with Subsingleton Hom types,
 the ArrowsInto-indexed sum `Σ_{a : ArrowsInto Q p} d(a.1)` equals the
@@ -1423,9 +1423,8 @@ private lemma walk_admissible_ordering
     -- i is a sink of Q_cur (from hSinks at position 0)
     have hi_sink : @IsSink (Fin n) Q_cur i := by
       have := hSinks 0 (by simp)
-      -- v4.31: `simp only [List.take_zero, iteratedReversedAtVertices] at this`
-      -- now makes no progress (the `take 0`/`[]`-case reductions are defeq and no
-      -- longer require simp); `this` is already defeq to the goal.
+      -- The `take 0` and `iteratedReversedAtVertices` reductions hold definitionally,
+      -- so `this` is already the goal.
       exact this
     -- Derive instances
     haveI : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_cur a b) := hSS_cur
@@ -1688,9 +1687,9 @@ representation. Then the dimension vector `d(V)` is a positive root.
 This is the faithful statement of the book's corollary: it quantifies over an arbitrary
 indecomposable representation `ρ` of an orientation `Q` of the Dynkin diagram `adj`, and
 concludes `IsPositiveRoot n adj d(V)`. The reflection sequence reducing `d(V)` to a simple
-root is *produced* from the representation by the representation-level Theorem 6.8.1
-(`indecomposable_reduces_to_simpleRoot`); it is not assumed. The purely combinatorial core
-— that any nonnegative nonzero vector reducible to a simple root is a positive root — is
+root is produced from the representation by the representation-level Theorem 6.8.1
+(`indecomposable_reduces_to_simpleRoot`); it is not assumed. The purely combinatorial core,
+that any nonnegative nonzero vector reducible to a simple root is a positive root, is
 `Etingof.isPositiveRoot_of_iteratedReflection_eq_simpleRoot`.
 (Etingof Corollary 6.8.2) -/
 theorem Corollary6_8_2

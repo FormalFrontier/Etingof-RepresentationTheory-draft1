@@ -19,7 +19,7 @@ graph (i.e., with directions of arrows forgotten) is a Dynkin diagram
 
 ## Mathlib correspondence
 
-Gabriel's theorem is NOT in Mathlib. Quiver representations have basic support
+Gabriel's theorem is not in Mathlib. Quiver representations have basic support
 (`Quiver`, `Representation`), but Gabriel's classification is absent.
 
 ## Formalization note
@@ -30,23 +30,22 @@ many isomorphism classes of finite-dimensional indecomposable representations"
 (the book's literal definition), quantified over all orientations and
 algebraically closed fields.
 
-## Status of the two directions
+## The two directions
 
-* **Backward** (Dynkin ⟹ finite type): proved here, sorry-free. Each
+* **Backward** (Dynkin ⟹ finite type). Each
   finite-dimensional indecomposable has a dimension vector that is a positive
   root (Theorem 6.5.2b), positive roots are finite (Theorem 6.5.2a), each
   positive root is realized by a unique indecomposable up to isomorphism
   (Theorem 6.5.2c). The finite set of those realizers covers every
   indecomposable up to `AreIsomorphic`.
-* **Forward** (finite type ⟹ Dynkin): proved here, sorry-free, via the
-  orbit-counting chain of directive #4777. Picking the standard orientation `Q` of
-  the graph and the algebraically closed field `ℂ`, finite type makes the group
-  `G(m)` act on the representation space `W(m)` with finitely many orbits
-  (`orbitRel_quotient_finite_of_isFiniteType`, #4780→#4798); a finite orbit set
-  forces a dense orbit, an injective comorphism, and the strict dimension bound
-  `dim W(m) < dim G(m)` (#4782→#4783→#4784, with the `−1` from the global scalars
-  #4824); and that strict bound is exactly positive-definiteness of the Tits form
-  (`isDynkinDiagram_of_strict_finrank`, #4785/#4816).
+* **Forward** (finite type ⟹ Dynkin), via the orbit-counting chain. Picking the
+  standard orientation `Q` of the graph and the algebraically closed field `ℂ`,
+  finite type makes the group `G(m)` act on the representation space `W(m)` with
+  finitely many orbits (`orbitRel_quotient_finite_of_isFiniteType`); a finite
+  orbit set forces a dense orbit, an injective comorphism, and the strict
+  dimension bound `dim W(m) < dim G(m)` (with the `−1` from the global scalars);
+  and that strict bound is exactly positive-definiteness of the Tits form
+  (`isDynkinDiagram_of_strict_finrank`).
 -/
 
 open Etingof in
@@ -64,7 +63,7 @@ theorem Etingof.Theorem_6_1_5 (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
         adj (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1) :
     Etingof.IsFiniteTypeQuiver n adj ↔ Etingof.IsDynkinDiagram n adj := by
   constructor
-  · -- Forward: finite type → Dynkin diagram, via the orbit-counting chain (#4777).
+  · -- Forward: finite type → Dynkin diagram, via the orbit-counting chain.
     intro hft
     -- Fix the standard orientation `Q` of the graph and the field `ℂ`.
     letI Q : Quiver.{0} (Fin n) := Etingof.standardOrientation adj

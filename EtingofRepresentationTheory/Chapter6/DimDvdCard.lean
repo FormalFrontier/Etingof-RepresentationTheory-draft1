@@ -3,15 +3,14 @@ import Mathlib
 /-!
 # The dimension of a complex irreducible representation divides `|G|`
 
-This file works toward the classical theorem of Frobenius: the dimension of a
+This file proves the classical theorem of Frobenius: the dimension of a
 complex irreducible representation of a finite group `G` divides the order of
-`G`. It is the general, reusable ingredient behind the odd-order crux of
+`G`. It is the general ingredient behind the odd-order case of
 Problem 6.1.6(c) (`isCyclic_of_odd_card`): a group of odd order has no
 `2`-dimensional irreducible representation, because `2 ∤ |G|`.
 
-The development is top-down (see the project's `CLAUDE.md`): the headline
-theorem `finrank_dvd_card_of_irreducible` is proved here in full, as are its two
-central-character ingredients (`FDRep.isIntegral_character` and
+The main theorem `finrank_dvd_card_of_irreducible` is proved here in full, together
+with its two central-character ingredients (`FDRep.isIntegral_character` and
 `FDRep.isIntegral_classSum_scalar`).
 
 ## Main results
@@ -24,7 +23,7 @@ central-character ingredients (`FDRep.isIntegral_character` and
 * `FDRep.isIntegral_classSum_scalar`: **the central-character value on a class
   sum is an algebraic integer.**
 * `finrank_dvd_card_of_irreducible`: the Frobenius divisibility theorem itself
-  (assembled from `isIntegral_classSum_scalar` and `isIntegral_character` via
+  (deduced from `isIntegral_classSum_scalar` and `isIntegral_character` via
   Schur orthogonality and integral closure of `ℤ` in `ℚ`).
 
 ## References
@@ -83,7 +82,7 @@ theorem isIntegral_character (V : FDRep ℂ G) (g : G) : IsIntegral ℤ (V.chara
   -- Each root of the charpoly is a root of unity, hence integral over `ℤ`.
   have hroot : ∀ r ∈ A.charpoly.roots, IsIntegral ℤ r := by
     intro r hr
-    -- `r` is a genuine root of the characteristic polynomial.
+    -- `r` is a root of the characteristic polynomial.
     have hIsRoot : A.charpoly.IsRoot r := (Polynomial.mem_roots'.mp hr).2
     -- so `det (scalar r - A) = 0`, giving an eigenvector `v ≠ 0` with `A *ᵥ v = r • v`.
     have hdet : (Matrix.scalar (Fin d) r - A).det = 0 := by
@@ -230,7 +229,7 @@ end FDRep
 /-- **Frobenius' theorem: the dimension of a complex irreducible representation of
 a finite group divides the group order.**
 
-Proof (top-down; see #6714): with `d = finrank ℂ V` and `χ = V.character`, Schur
+Proof: with `d = finrank ℂ V` and `χ = V.character`, Schur
 orthogonality `⟨χ, χ⟩ = 1` gives `|G| = ∑_C c · |χ(g_C)|²`, so
 `|G| / d = ∑_C ω_C · conj(χ(g_C))` with `ω_C = c · χ(g_C) / d`. Each `ω_C`
 (`FDRep.isIntegral_classSum_scalar`) and each `conj(χ(g_C))`

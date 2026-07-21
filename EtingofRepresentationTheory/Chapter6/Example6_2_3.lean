@@ -77,9 +77,9 @@ private lemma range_or_V₁_zero {k : Type*} [Field k] (ρ : A₂Rep k)
 
 /-- **Example 6.2.3 (Etingof)**: Every indecomposable representation of the A₂ quiver
 (• → •) satisfies one of:
-- (dim V₁, dim V₂) = (1, 0) — the kernel representation
-- (dim V₁, dim V₂) = (0, 1) — the cokernel representation
-- (dim V₁, dim V₂) = (1, 1) with f injective — the identity representation -/
+- (dim V₁, dim V₂) = (1, 0), the kernel representation
+- (dim V₁, dim V₂) = (0, 1), the cokernel representation
+- (dim V₁, dim V₂) = (1, 1) with f injective, the identity representation -/
 theorem Etingof.Example_6_2_3 (k : Type*) [Field k] (ρ : A₂Rep k)
     (hind : ρ.Indecomposable) :
     (Module.finrank k ρ.V₁ = 1 ∧ Module.finrank k ρ.V₂ = 0) ∨

@@ -13,11 +13,6 @@ The proof: if φ is not surjective, F⁺ᵢ(V) = 0. If φ is surjective and
 F⁺ᵢ(V) = X ⊕ Y is decomposable, then X and Y are injective at i (since
 F⁺ᵢ(V) is), so by Proposition 6.6.6, V = F⁻ᵢ(X) ⊕ F⁻ᵢ(Y), contradicting
 indecomposability of V.
-
-## Mathlib correspondence
-
-Requires reflection functor definitions and indecomposable representation API.
-Not in Mathlib.
 -/
 
 /-- A quiver representation is **zero** if all vertex spaces are trivial
@@ -168,7 +163,7 @@ theorem Etingof.Proposition6_6_7_sink
         subsingleton_of_forall_eq 0 fun x => by
           obtain ⟨y, hy⟩ := hsurj x
           rw [← hy, Subsingleton.eq_zero y, map_zero]
-      -- But IsSimpleAt says dim V_i = 1, so V_i is Nontrivial — contradiction
+      -- But IsSimpleAt says dim V_i = 1, so V_i is Nontrivial, a contradiction
       haveI := hVi
       have h1 := hs.1 -- finrank k (ρ.obj i) = 1
       have h2 := Module.finrank_zero_of_subsingleton (M := ρ.obj i) (R := k)
@@ -231,8 +226,8 @@ theorem Etingof.Proposition6_6_7_sink
       -- (since W_k(i) ⊆ ker(φ) ⊆ ⊕V_j, and if ⊕W_k(j) = 0 then W_k(i) = 0).
       --
       -- The `Decidable.rec` motive difficulty in reflectionFunctorPlus is handled
-      -- via `equivAt_ne` transport (as at lines 207-208), so the construction
-      -- sketched above is carried out in full, sorry-free, in the proof below.
+      -- via `equivAt_ne` transport, so the construction sketched above is carried
+      -- out below.
       intro W₁ W₂ hW₁ hW₂ hcompl
       -- Construct complementary subreps U₁, U₂ of V from W₁, W₂ of F⁺(V).
       classical

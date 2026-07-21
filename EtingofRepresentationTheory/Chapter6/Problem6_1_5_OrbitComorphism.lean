@@ -4,12 +4,10 @@ import Mathlib
 /-!
 # Problem 6.1.5, Step 2(b) (continued): the orbit-map comorphism
 
-This file is part of the orbit-counting redirect for the Chapter 6 infinite-type
-direction (directive #4777). It continues **step 2(b)** of Etingof Problem 6.1.2
-(#4783): the field-embedding bridge `Problem6_1_5_FieldEmbedding` reduces the
-dimension bound `N ≤ M` to *injectivity of the orbit-map comorphism*; this file
-**constructs that comorphism concretely** on `W(m)` / `G(m)` from S0
-(`Problem6_1_5_OrbitSpace`).
+This continues step 2(b) of Etingof Problem 6.1.2: the field-embedding lemma in
+`Problem6_1_5_FieldEmbedding` reduces the dimension bound `N ≤ M` to injectivity
+of the orbit-map comorphism; this file constructs that comorphism concretely on
+`W(m)` / `G(m)`, building on `Problem6_1_5_OrbitSpace`.
 
 ## What this file provides
 
@@ -17,35 +15,33 @@ dimension bound `N ≤ M` to *injectivity of the orbit-map comorphism*; this fil
   space `∏ᵢ Matrix (Fin mᵢ) (Fin mᵢ)` (so `k[G] = MvPolynomial (GIdx m) k`,
   `M = card = ∑ᵢ mᵢ²`, `gIdx_card`) and of the representation space `W(m)` (so
   `k[W] = MvPolynomial (WIdx m) k`, `N = card = ∑ᵢⱼ bᵢⱼ mᵢ mⱼ`, `wIdx_card`).
-* `genMat m i`: the **generic matrix** at vertex `i` over `k[gₚᵩ] = MvPolynomial
+* `genMat m i`: the generic matrix at vertex `i` over `k[gₚᵩ] = MvPolynomial
   (GIdx m) k`, whose `(a,b)` entry is the coordinate generator `X ⟨i,(a,b)⟩`.
 * `detProd m = ∏ᵢ det(genMat m i)`, with `detProd_ne_zero`: it is a nonzero
   polynomial (it evaluates to `det 1 = 1` at the identity point), so the localization
-  `k[gₚᵩ, detProd⁻¹]` — the coordinate ring of the principal open `G = {det ≠ 0}` —
+  `k[gₚᵩ, detProd⁻¹]`, the coordinate ring of the principal open `G = {det ≠ 0}`,
   is a domain and `detProd` is inverted there.
 * over an abstract localization `B` of `k[gₚᵩ]` at the powers of `detProd`
   (the principal-open coordinate ring): `genMatB m i` (the generic matrix over `B`),
   `isUnit_det_genMatB` (its determinant is a unit, because `det(genMat m i)`
   divides the inverted `detProd`), and its inverse `genMatBInv m i` with
   `genMatB_mul_inv`.
-* `orbitComorphism v₀ : MvPolynomial (WIdx m) k →ₐ[k] B`: the genuine `k`-algebra
-  **orbit-map comorphism** for the base point `v₀`, sending the coordinate
+* `orbitComorphism v₀ : MvPolynomial (WIdx m) k →ₐ[k] B`: the `k`-algebra
+  orbit-map comorphism for the base point `v₀`, sending the coordinate
   `X⟨i,j,e,(a,b)⟩` of `W(m)` to the `(a,b)` entry of the generic base-change
   `Gⱼ · (v₀)ᵢⱼₑ · Gᵢ⁻¹` (the `Gᵢ⁻¹` is exactly why the target is the `detProd⁻¹`
-  localization, matching the principal-open case of the field-embedding bridge,
+  localization, matching the principal-open case of the field-embedding lemma,
   `Etingof.Problem6_1_5.exists_field_embedding_of_injective_isLocalization`).
 
 ## Downstream
 
-Both consumers of this comorphism have since landed and are proved sorry-free:
-
-* **Injectivity of `orbitComorphism` from Zariski-density of the orbit** (the genuine
-  geometric input, Problem 6.1.2(a)): over an infinite field a polynomial vanishing
-  on a Zariski-dense set is zero. This is proved in
-  `Problem6_1_5_OrbitInjective` as `injective_orbitComorphism_of_isAlgDense`, packaged
-  with the density input as `exists_injective_orbitComorphism`.
-* **The dimension-bound assembly** `N ≤ M` (and its strict form `N < M`): the injective
-  `orbitComorphism` feeds
+* Injectivity of `orbitComorphism` from Zariski-density of the orbit (the
+  geometric input, Problem 6.1.2(a)): over an infinite field a polynomial
+  vanishing on a Zariski-dense set is zero. This is proved in
+  `Problem6_1_5_OrbitInjective` as `injective_orbitComorphism_of_isAlgDense`,
+  packaged with the density input as `exists_injective_orbitComorphism`.
+* The dimension bound `N ≤ M` (and its strict form `N < M`): the injective
+  `orbitComorphism` is passed to
   `Etingof.Problem6_1_5.dim_le_of_injective_comorphism_isLocalization_index` in
   `Problem6_1_5_DimBound`, yielding
   `repSpace_finrank_le_repGroup_ambient_finrank` and
@@ -92,7 +88,7 @@ theorem wIdx_card [Quiver.{0} (Fin n)] [∀ i j : Fin n, Fintype (i ⟶ j)] (m :
 
 /-! ## The generic matrices over `k[gₚᵩ]` -/
 
-/-- The **generic matrix** at vertex `i` over `k[gₚᵩ] = MvPolynomial (GIdx m) k`:
+/-- The generic matrix at vertex `i` over `k[gₚᵩ] = MvPolynomial (GIdx m) k`:
 its `(a,b)` entry is the coordinate generator `X ⟨i,(a,b)⟩`. -/
 noncomputable def genMat (m : Fin n → ℕ) (i : Fin n) :
     Matrix (Fin (m i)) (Fin (m i)) (MvPolynomial (GIdx m) k) :=
@@ -173,8 +169,8 @@ It is the comorphism of the orbit map `g ↦ g • v₀`, sending the coordinate
 `X⟨i,j,e,(a,b)⟩` of `W(m)` to the `(a,b)` entry of the generic base-change
 `Gⱼ · (v₀)ᵢⱼₑ · Gᵢ⁻¹` (cf. `repSpace_smul_apply`). The inverse `Gᵢ⁻¹` is why the
 target must be the `detProd⁻¹` localization `B`. Injectivity of this map is
-Zariski-density of the orbit (Problem 6.1.2(a)); feeding it to
-`exists_field_embedding_of_injective_isLocalization` yields `N ≤ M`. -/
+Zariski-density of the orbit (Problem 6.1.2(a)), and
+`exists_field_embedding_of_injective_isLocalization` then yields `N ≤ M`. -/
 noncomputable def orbitComorphism (v₀ : repSpace (k := k) m) :
     MvPolynomial (WIdx m) k →ₐ[k] B :=
   aeval (fun w : WIdx m =>
