@@ -3912,10 +3912,10 @@
     "start_line": 7,
     "end_line": 34,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "faithful",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[fidelity] Wrong adjunction direction. Book states Frobenius reciprocity as Hom_G(V, Ind_H^G W) ≅ Hom_H(Res V, W) (i.e., Res ⊣ CoInd direction, or equivalently: Ind is left adjoint gives Hom_G(Ind W, ",
+    "fidelity_note": "[fidelity RESOLVED #7187] Restated in the book's direction: Etingof.Theorem5_10_1 now asserts Hom_G(V, Ind_H^G W) ≃ₗ[k] Hom_H(Res_H^G V, W) via Mathlib's Rep.resCoindHomEquiv, with Ind_H^G W = Rep.coind H.subtype W the function-space (coinduced) representation and right adjoint of restriction (Res ⊣ Coind). Arrows now match the book: V ⟶ coind W of G-reps ↔ res V ⟶ W of H-reps. Builds sorry-free; #print axioms: propext/Classical.choice/Quot.sound only (no sorryAx). Previously stated the reversed left-adjoint tensor-induction form Hom_G(Ind W, V) ≅ Hom_H(W, Res V).",
     "fidelity_issue": 5621
   },
   {
