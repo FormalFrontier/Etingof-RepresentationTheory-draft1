@@ -1549,7 +1549,9 @@
     "start_line": 18,
     "end_line": 4,
     "status": "sorry_free",
-    "coverage_note": "Proved via Mathlib LieModule.exists_nontrivial_weightSpace_of_isSolvable (#6116, 2026-07-10). Axioms: propext, Classical.choice, Quot.sound."
+    "coverage_note": "Proved via Mathlib LieModule.exists_nontrivial_weightSpace_of_isSolvable (#6116, 2026-07-10). Axioms: propext, Classical.choice, Quot.sound.",
+    "fidelity": "verified",
+    "fidelity_note": "Reviewed #7198 (2026-07-21). FAITHFUL and non-vacuous. Ground field ℂ is fixed literally (no over-general [IsAlgClosed]/[CharZero]); CharZero and triangularizability are discharged as instances for ℂ, not statement hypotheses. IsSimpleOrder (LieSubmodule ℂ L V) is the genuine 'only subreps are 0 and V, V≠0' irreducibility; [Nontrivial V] is implied by IsSimpleOrder (redundant, not an added restriction). LieAlgebra.IsSolvable = derived-series definition = book's Kⁿ(𝔤)=0 commutant series; LieRingModule+LieModule is the genuine Lie action; finrank ℂ V = 1 renders '1-dimensional'. Non-vacuity witness: solvable L acting on V=ℂ. Axiom-clean (propext, Classical.choice, Quot.sound), no sorryAx. No follow-up filed. See progress/reviews/2026-07-21-ch2-problem2_16_1-lie-theorem-fidelity.md"
   },
   {
     "id": "Chapter2/Problem2.16.2",
