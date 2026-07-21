@@ -174,6 +174,18 @@ coordination skip <issue-number> "reason: <what changed>"
 ```
 Go back to Step 1 and try the next issue.
 
+**items.json status reconciliation — sorry-free ≠ item-complete.** For issues
+that ask you to flip a `partially_*`/`statement_formalized`/`formalized` entry
+to `sorry_free` because "the `.lean` file is sorry-free," read the entry's
+existing `coverage_note`/`fidelity_note` **before** changing anything. Those
+notes often record a deliberate "sorry-free file but kept `partially_*` because
+book part (X) is not formalized as a theorem / is only a `Prop`-def / is an
+informal identification" decision that a raw sorry-count sweep cannot see.
+Cross-check each part against the item's `blobs/…` file. A file with zero
+sorries can still leave a book part unformalized; flipping it to `sorry_free`
+hides genuine remaining exercise work. Only set `sorry_free` when a **complete**
+sorry-free file backs the item. (Recurred: #7001, #7092.)
+
 **PR fix plans**: If the plan asks you to fix a broken PR, use judgement. If the
 PR is low quality or not worth salvaging:
 ```
