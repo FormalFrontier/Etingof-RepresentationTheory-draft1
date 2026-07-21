@@ -1111,8 +1111,9 @@ constant. `h_span` (equivalently: `M` is a genuinely *polynomial* — not merely
 rational/algebraic — representation) rules such cases out; it holds for Schur
 modules by `SchurWeylFormalCharacterIso.glWeightSpace_schurModule_iSup_eq_top`.
 
-Proof strategy (the genuine mathematical content, deferred — see issue #4598
-decomposition): evaluate the matrix-coefficient identity at the scalar matrix
+Proof strategy (carried out below, assembled from `scalarGL_acts_as_pow` and
+`hpoly'_of_scalarGL_action`; issue #4598 decomposition): evaluate the
+matrix-coefficient identity at the scalar matrix
 `t • 1 = ∏ᵢ diagUnit i t`. By `h_span` the weight spaces span `M`, so
 `M.ρ (t • 1) = t^n • id` (each weight `μ` has `∑ μ = n` by `h_homog`). Hence
 every matrix coefficient `g ↦ b.repr (ρ g (b c)) a` is homogeneous of degree `n`
