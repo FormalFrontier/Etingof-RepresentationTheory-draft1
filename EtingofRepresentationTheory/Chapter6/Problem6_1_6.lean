@@ -916,7 +916,9 @@ theorem mckayAdj_no_selfLoop_cyclic
 The book's part-(c) argument uses the central element `-Id ∈ SU(2)`: it acts on the
 tautological representation `V` as the scalar `-1` (so `χ_V(-Id) = -2`). These are the
 concrete `SU(2)` facts; the Schur/character argument that turns them into
-`rᵢᵢ = 0` in the non-cyclic case, and the cyclic case, are separate sub-issues. -/
+`rᵢᵢ = 0` is proved sorry-free in this file, both in the non-cyclic case
+(`mckayAdj_no_selfLoop_of_central_neg`) and the cyclic case
+(`mckayAdj_no_selfLoop_cyclic`), assembled in `mckayAdj_no_selfLoop`. -/
 
 /-- The central element `-Id ∈ SU(2)`: the negation of the identity matrix. Its
 determinant is `(-1)² = 1` and it is unitary (`star (-1) * (-1) = 1`), so it lies in
@@ -1401,9 +1403,10 @@ contains `-Id`; when `G` is cyclic (so `G ⊂ U(1)`, type `Ãₙ` with `n ≥ 3`
 `3 ≤ m`), `V` splits as `χ ⊕ χ⁻¹` with `χ` a nontrivial character, and `V ⊗ Wᵢ`
 returns two characters distinct from `Wᵢ`.
 
-This needs the `SU(2)` subgroup infrastructure of Problem 4.12.8 (the central
-`-Id`, the cyclic-vs-noncyclic dichotomy, and the splitting of `V` in the cyclic
-case), which is a separate, not-yet-formalized item. Tracked as a sub-issue. -/
+This uses the `SU(2)` subgroup infrastructure of Problem 4.12.8, all proved
+sorry-free in this file: the central `-Id` (`negIdSU` / `negIdSU_central`), the
+cyclic-vs-`-Id` dichotomy (`su2_finite_cyclic_or_contains_negId`), and the
+cyclic case (`mckayAdj_no_selfLoop_cyclic`, where `V` splits as `χ ⊕ χ⁻¹`). -/
 lemma mckayAdj_no_selfLoop (hW : IsCompleteIrreps W) (hm : 3 ≤ m) (hne : Nontrivial G)
     (i : Fin m) : mckayAdj W i i = 0 := by
   -- Dichotomy (Problem 4.12.8): a finite `G ⊂ SU(2)` is cyclic or contains `-Id`.
