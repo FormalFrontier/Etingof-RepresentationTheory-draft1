@@ -29,7 +29,7 @@ open CategoryTheory
 /-- The connecting homomorphism `c_i : H^i(E) → H^{i+1}(C)` of Problem 7.8.5, for a
 short exact sequence `0 → C → D → E → 0` of complexes of abelian groups. This is the
 snake-lemma connecting map `S.ShortExact.δ`; part (i) (well-definedness) is the fact
-that it is a genuine morphism. -/
+that it is a morphism. -/
 noncomputable def Etingof.Problem7_8_5_connecting
     {S : ShortComplex (HomologicalComplex (ModuleCat.{0} ℤ) (ComplexShape.up ℤ))}
     (hS : S.ShortExact) (i j : ℤ) (hij : (ComplexShape.up ℤ).Rel i j) :

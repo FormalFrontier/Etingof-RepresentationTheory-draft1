@@ -19,13 +19,13 @@ cochain complex of `k`-vector spaces, the identity morphism is homotopic to `0`.
 
 We also record the "in particular" consequence `Exercise7_8_4_split` (short exact
 sequences of vector spaces split) and the answer to the final question,
-`Exercise7_8_4_not_abelianGroups`: over `ℤ` this fails — there is a short exact
+`Exercise7_8_4_not_abelianGroups`: over `ℤ` this fails, since there is a short exact
 sequence of abelian groups (e.g. `0 → ℤ →^{·2} ℤ → ℤ/2 → 0`) that does not split.
 
 ## The contracting homotopy
 
 The proof of the headline claim is the elementary degreewise-splitting construction,
-valid for *unbounded* complexes.  For each degree `n` write `Kⁿ = Zⁿ ⊕ Wⁿ` where
+valid for unbounded complexes.  For each degree `n` write `Kⁿ = Zⁿ ⊕ Wⁿ` where
 `Zⁿ = ker dⁿ` and `Wⁿ` is a chosen complement.  Acyclicity gives
 `range dⁿ = ker dⁿ⁺¹ = Zⁿ⁺¹`, so `dⁿ` restricts to an isomorphism `Wⁿ ≅ Zⁿ⁺¹`.  The
 contracting homotopy `sⁿ⁺¹ : Kⁿ⁺¹ → Kⁿ` is the inverse of that isomorphism on `Zⁿ⁺¹`
@@ -166,7 +166,7 @@ lemma htpy_eq_zero (hK : K.Acyclic) {i j : ℤ} (h : ¬ i = j + 1) :
 end Etingof.Exercise7_8_4Aux
 
 /-- Exercise 7.8.4 (main claim): every acyclic (exact) cochain complex of vector spaces
-over a field `k` is contractible — its identity morphism is null-homotopic — which is
+over a field `k` is contractible (its identity morphism is null-homotopic), which is
 equivalent to being isomorphic to a direct sum of contractible complexes
 `0 → V →^{id} V → 0`. -/
 theorem Etingof.Exercise7_8_4 {k : Type u} [Field k]
@@ -198,8 +198,8 @@ theorem Etingof.Exercise7_8_4_split {k : Type u} [Field k]
   -- has a section and the short exact sequence splits.
   ⟨hS.splittingOfProjective⟩
 
-/-- Exercise 7.8.4 (final question): the statement is **not** true in the category of
-abelian groups — there is a short exact sequence of abelian groups that does not split.
+/-- Exercise 7.8.4 (final question): the statement is not true in the category of
+abelian groups, since there is a short exact sequence of abelian groups that does not split.
 -/
 theorem Etingof.Exercise7_8_4_not_abelianGroups :
     ∃ S : ShortComplex (ModuleCat.{0} ℤ), S.ShortExact ∧ IsEmpty S.Splitting := by
@@ -243,7 +243,7 @@ theorem Etingof.Exercise7_8_4_not_abelianGroups :
       exact ⟨x, hx⟩
   · -- No splitting: a retraction `r` of `·2` would give `2 * r 1 = 1` in `ℤ`.
     refine ⟨fun sp => ?_⟩
-    -- View the retraction as a genuine linear map `ρ : ℤ →ₗ[ℤ] ℤ` (the carriers are `ℤ`).
+    -- View the retraction as a linear map `ρ : ℤ →ₗ[ℤ] ℤ` (the carriers are `ℤ`).
     let ρ : ℤ →ₗ[ℤ] ℤ := sp.r.hom
     have hr : ρ.comp f = LinearMap.id := by
       have h := ModuleCat.hom_ext_iff.mp sp.f_r
