@@ -2210,10 +2210,10 @@
     "start_line": 11,
     "end_line": 12,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "fidelity_note": "[coverage/needs_completion] wave-3; #5662: existence + Fitting's lemma (nilpotent-or-unit) + local endomorphism ring formalized in Chapter3/Remark3_8_6.lean over an arbitrary ring (no algebraically closed field); uniqueness (Krull-Schmidt-Azumaya exchange) remains as follow-up",
-    "fidelity_decl": "Etingof.isNilpotent_or_isUnit_of_finiteLength_indecomposable, Etingof.isLocalRing_end_of_finiteLength_indecomposable, Etingof.exists_indecomposable_decomposition",
-    "last_updated": "2026-07-02",
+    "fidelity": "verified",
+    "fidelity_note": "#7185: uniqueness half now proved. Existence + Fitting's lemma (nilpotent-or-unit) + local endomorphism ring (over an arbitrary ring, no algebraically closed field) plus the Krull-Schmidt-Azumaya exchange uniqueness (Etingof.krull_schmidt_uniqueness_finiteLength): any two indecomposable decompositions of a finite-length module agree up to a reindexing bijection and isomorphism of matched summands. Ported from the finite-dimensional Theorem 3.8.1 with Module.length as the induction measure. Axiom-clean (no sorryAx).",
+    "fidelity_decl": "Etingof.isNilpotent_or_isUnit_of_finiteLength_indecomposable, Etingof.isLocalRing_end_of_finiteLength_indecomposable, Etingof.exists_indecomposable_decomposition, Etingof.isNilpotent_sum_of_finiteLength_indecomposable, Etingof.krull_schmidt_uniqueness_finiteLength",
+    "last_updated": "2026-07-21",
     "fidelity_issue": 7185
   },
   {
@@ -4044,10 +4044,10 @@
     "start_line": 26,
     "end_line": 6,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[re-verified review #7183, 2026-07-21] PARTIAL GAP: trivial/sign cases now faithful at rep level (Example5_12_3_trivial_rep/_sign_rep). Residual: lambda=(3,1)->C^3_- and lambda=(2,1,1)->C^3_+ captured only by dim=3, which cannot distinguish the two non-isomorphic 3-dim S4 irreps. Repair issue #7188.",
-    "fidelity_issue": 7188
+    "fidelity_note": "Trivial/sign claims proved at the representation level (Example5_12_3_trivial_rep, Example5_12_3_sign_rep). The two 3-dim cases are now distinguished (#7188): Example5_12_3_sign_twist_31_211 witnesses ℂ³₊ = ℂ³₋ ⊗ sign (V_{(2,1,1)} ≅ V_{(3,1)} ⊗ sign, since (2,1,1) is the conjugate of (3,1), conjugatePartition_p_31), and Example5_12_3_specht_31_211_noniso witnesses ℂ³₋ ≠ ℂ³₊ (the two Specht modules are non-isomorphic ℂ[S₄]-modules). The (2,1)→ℂ² and (2,2)→ℂ² cases remain dimension-only, which is faithful since each of S₃/S₄ has a unique 2-dim irrep. All new decls axiom-clean (no sorryAx).",
+    "fidelity_issue": 5637
   },
   {
     "id": "Chapter5/Corollary5.12.4",
