@@ -590,8 +590,8 @@ This is the central content of the Weyl character formula:
 
 1. **Scalar idempotent**: The Young symmetrizer `c_λ ∈ ℚ[S_n]` satisfies `c_λ² = α · c_λ`
    for some nonzero `α : ℚ`. This follows from the sandwich property
-   `a_λ · x · b_λ = ℓ(x) · c_λ` (Lemma 5.13.1, currently proved over ℂ,
-   needs generalization to ℚ).
+   `a_λ · x · b_λ = ℓ(x) · c_λ` (Lemma 5.13.1, used over ℚ via
+   `Etingof.Lemma5_13_1` at the `Sandwich proportionality` step below).
 
 2. **Trace formula**: Since `(1/α) · c_λ` is an idempotent projector onto `Im(c_λ) = L_λ`,
    `ch(L_λ) = (1/α) · ∑_{π ∈ S_n} c_λ(π) · permTracePoly(N, π)`
@@ -608,8 +608,11 @@ This is the central content of the Weyl character formula:
 **Key dependencies**:
 - `permTracePoly_eq_powerSumCycleProduct` (proved)
 - `Proposition5_21_1` (Frobenius formula, proved)
-- Lemma 5.13.1 sandwich property over ℚ (not yet generalized from ℂ)
-- Character orthogonality for S_n (not yet formalized) -/
+- Lemma 5.13.1 sandwich property over ℚ (proved; used via `Etingof.Lemma5_13_1`
+  at the `Sandwich proportionality` step in this file)
+- Character orthogonality for S_n (proved; `youngSym_charValue_orthogonality`
+  in this file, and `charValue_row_orthogonality` in
+  `Chapter5/CharacterOrthogonality.lean`) -/
 
 /-! #### Young symmetrizer endomorphism: idempotent property -/
 
