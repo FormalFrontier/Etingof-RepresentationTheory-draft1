@@ -176,4 +176,113 @@ theorem tensor_square_character (N : ℕ) (g : DihedralGroup N) :
     simp only [chiStd, chiSign, chiRot2]
     ring
 
+/-!
+## Part (a): explicit construction and classification of all irreducibles
+
+We build, for each `j : ZMod N`, an explicit `2`-dimensional representation `Vrep N j` on
+`Fin 2 → ℂ` where the rotation `r 1` acts diagonally by `diag(ζ^j, ζ^{-j})` and the reflection
+`sr 0` swaps the two coordinates. These are irreducible exactly when `2·j ≠ 0` (equivalently
+`ζ^j ≠ ζ^{-j}`), and together with the one-dimensional characters they exhaust the irreducibles.
+-/
+
+/-- `ζ = zeta N` is a nonzero complex number. -/
+theorem zeta_ne_zero (N : ℕ) : zeta N ≠ 0 := by
+  unfold zeta; exact Complex.exp_ne_zero _
+
+/-- `ζ^N = 1`: `zeta N` is an `N`-th root of unity. -/
+theorem zeta_pow_card [NeZero N] : zeta N ^ N = 1 := by
+  unfold zeta
+  rw [← Complex.exp_nat_mul]
+  have hN : (N : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (NeZero.ne N)
+  rw [show (N : ℂ) * (2 * π * Complex.I / N) = 2 * π * Complex.I by field_simp]
+  exact Complex.exp_two_pi_mul_I
+
+/-- The exponent of `ζ` only matters modulo `N`. -/
+theorem zeta_pow_mod [NeZero N] (k : ℕ) : zeta N ^ (k % N) = zeta N ^ k := by
+  conv_rhs => rw [← Nat.mod_add_div k N, pow_add, pow_mul, zeta_pow_card, one_pow, mul_one]
+
+/-- `k ↦ ζ^{k.val}` turns addition in `ZMod N` into multiplication. -/
+theorem zeta_pow_val_add [NeZero N] (a b : ZMod N) :
+    zeta N ^ (a + b).val = zeta N ^ a.val * zeta N ^ b.val := by
+  rw [ZMod.val_add, zeta_pow_mod, pow_add]
+
+/-- The eigenvalue by which the rotation `r m` acts on the first basis vector of `Vrep N j`:
+`ζ^{(j·m)}`. -/
+noncomputable def eigen (N : ℕ) (j m : ZMod N) : ℂ := zeta N ^ (j * m).val
+
+@[simp] theorem eigen_zero (N : ℕ) (j : ZMod N) : eigen N j 0 = 1 := by
+  simp [eigen]
+
+theorem eigen_ne_zero (N : ℕ) (j m : ZMod N) : eigen N j m ≠ 0 :=
+  pow_ne_zero _ (zeta_ne_zero N)
+
+/-- `eigen` is multiplicative in its argument: `eigen j (m + m') = eigen j m · eigen j m'`. -/
+theorem eigen_add [NeZero N] (j m m' : ZMod N) :
+    eigen N j (m + m') = eigen N j m * eigen N j m' := by
+  unfold eigen
+  rw [mul_add, zeta_pow_val_add]
+
+theorem eigen_neg [NeZero N] (j m : ZMod N) : eigen N j (-m) = (eigen N j m)⁻¹ := by
+  rw [inv_eq_one_div, eq_div_iff (eigen_ne_zero N j m), ← eigen_add, neg_add_cancel, eigen_zero]
+
+theorem eigen_sub [NeZero N] (j m m' : ZMod N) :
+    eigen N j (m - m') = eigen N j m * (eigen N j m')⁻¹ := by
+  rw [sub_eq_add_neg, eigen_add, eigen_neg]
+
+/-- The matrix of `ρ_j(g)` in the standard basis of `ℂ²`: rotations act diagonally, reflections
+antidiagonally. -/
+noncomputable def repMat (N : ℕ) (j : ZMod N) : DihedralGroup N → Matrix (Fin 2) (Fin 2) ℂ
+  | .r k => !![eigen N j k, 0; 0, (eigen N j k)⁻¹]
+  | .sr k => !![0, (eigen N j k)⁻¹; eigen N j k, 0]
+
+theorem repMat_one [NeZero N] (j : ZMod N) : repMat N j 1 = 1 := by
+  rw [DihedralGroup.one_def]
+  change (!![eigen N j 0, 0; 0, (eigen N j 0)⁻¹] : Matrix (Fin 2) (Fin 2) ℂ) = 1
+  rw [eigen_zero, inv_one, Matrix.one_fin_two]
+
+theorem repMat_mul [NeZero N] (j : ZMod N) (g h : DihedralGroup N) :
+    repMat N j (g * h) = repMat N j g * repMat N j h := by
+  cases g with
+  | r a =>
+    cases h with
+    | r b =>
+      rw [DihedralGroup.r_mul_r]
+      change (!![eigen N j (a + b), 0; 0, (eigen N j (a + b))⁻¹] : Matrix (Fin 2) (Fin 2) ℂ)
+        = !![eigen N j a, 0; 0, (eigen N j a)⁻¹] * !![eigen N j b, 0; 0, (eigen N j b)⁻¹]
+      rw [Matrix.mul_fin_two, eigen_add, mul_inv]
+      ext i k; fin_cases i <;> fin_cases k <;> simp
+    | sr b =>
+      rw [DihedralGroup.r_mul_sr]
+      change (!![0, (eigen N j (b - a))⁻¹; eigen N j (b - a), 0] : Matrix (Fin 2) (Fin 2) ℂ)
+        = !![eigen N j a, 0; 0, (eigen N j a)⁻¹] * !![0, (eigen N j b)⁻¹; eigen N j b, 0]
+      rw [Matrix.mul_fin_two, eigen_sub]
+      ext i k; fin_cases i <;> fin_cases k <;> simp [mul_comm]
+  | sr a =>
+    cases h with
+    | r b =>
+      rw [DihedralGroup.sr_mul_r]
+      change (!![0, (eigen N j (a + b))⁻¹; eigen N j (a + b), 0] : Matrix (Fin 2) (Fin 2) ℂ)
+        = !![0, (eigen N j a)⁻¹; eigen N j a, 0] * !![eigen N j b, 0; 0, (eigen N j b)⁻¹]
+      rw [Matrix.mul_fin_two, eigen_add, mul_inv]
+      ext i k; fin_cases i <;> fin_cases k <;> simp
+    | sr b =>
+      rw [DihedralGroup.sr_mul_sr]
+      change (!![eigen N j (b - a), 0; 0, (eigen N j (b - a))⁻¹] : Matrix (Fin 2) (Fin 2) ℂ)
+        = !![0, (eigen N j a)⁻¹; eigen N j a, 0] * !![0, (eigen N j b)⁻¹; eigen N j b, 0]
+      rw [Matrix.mul_fin_two, eigen_sub]
+      ext i k; fin_cases i <;> fin_cases k <;> simp [mul_comm]
+
+/-- **Part (a), construction.** For each `j : ZMod N`, the explicit `2`-dimensional complex
+representation `V_j` of `DihedralGroup N`: the rotation `r 1` acts by `diag(ζ^j, ζ^{-j})` and
+the reflection `sr 0` swaps the two basis vectors. -/
+noncomputable def Vrep (N : ℕ) [NeZero N] (j : ZMod N) :
+    Representation ℂ (DihedralGroup N) (Fin 2 → ℂ) where
+  toFun g := Matrix.toLin' (repMat N j g)
+  map_one' := by rw [repMat_one]; exact Matrix.toLin'_one
+  map_mul' g h := by rw [repMat_mul, Matrix.toLin'_mul]; rfl
+
+@[simp] theorem Vrep_apply (N : ℕ) [NeZero N] (j : ZMod N) (g : DihedralGroup N)
+    (v : Fin 2 → ℂ) : Vrep N j g v = (repMat N j g).mulVec v :=
+  Matrix.toLin'_apply _ _
+
 end Etingof.Problem4_12_1
