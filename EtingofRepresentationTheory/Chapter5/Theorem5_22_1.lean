@@ -3719,6 +3719,52 @@ theorem eval_one_formalCharacter (N : ℕ)
   rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one, MvPolynomial.eval_monomial]
   simp
 
+/-! ### Semisimplicity of the diagonal torus action -/
+
+omit [CharZero k] in
+/-- The diagonal torus operator `diagUnit(i,u)` acts semisimply on the tensor power.
+It is diagonal in the standard tensor basis with eigenvalue `u ^ #{j : g j = i}` on
+`b_g`; since `#{j : g j = i} ≤ n`, the squarefree polynomial `∏_{s∈S} (X − s)`
+(over the finite set `S` of distinct powers `u^m`) annihilates it. -/
+theorem glTensorRep_diagUnit_isSemisimple (N n : ℕ) (i : Fin N) (u : kˣ) :
+    Module.End.IsSemisimple (glTensorRep k N n (diagUnit k N i u)) := by
+  classical
+  set D := glTensorRep k N n (diagUnit k N i u) with hD
+  set S : Finset k := (Finset.range (n + 1)).image (fun m => (u : k) ^ m) with hS
+  set p : Polynomial k := ∏ s ∈ S, (Polynomial.X - Polynomial.C s) with hp
+  have hsqfree : Squarefree p := by
+    apply Polynomial.Separable.squarefree
+    rw [hp]
+    exact Polynomial.separable_prod_X_sub_C_iff'.mpr (fun x _ y _ h => h)
+  have haeval : (Polynomial.aeval D) p = 0 := by
+    refine (tensorStdBasis k N n).ext (fun g => ?_)
+    set c : ℕ := (Finset.univ.filter (fun j => g j = i)).card with hc
+    have hev : D (tensorStdBasis k N n g) = ((u : k) ^ c) • tensorStdBasis k N n g := by
+      rw [hD]; exact glTensorRep_diagUnit_basis k N n i u g
+    rw [Module.End.aeval_apply_of_mem_apply_eq_smul hev]
+    have hcn : c ≤ n := by
+      rw [hc]
+      exact le_trans (Finset.card_filter_le _ _) (by simp [Finset.card_univ])
+    have hmem : (u : k) ^ c ∈ S := by
+      rw [hS]; exact Finset.mem_image.mpr ⟨c, Finset.mem_range.mpr (by omega), rfl⟩
+    have heval : p.eval ((u : k) ^ c) = 0 := by
+      rw [hp, Polynomial.eval_prod]
+      exact Finset.prod_eq_zero hmem (by simp)
+    rw [heval, zero_smul, LinearMap.zero_apply]
+  exact Module.End.isSemisimple_of_squarefree_aeval_eq_zero hsqfree haeval
+
+omit [CharZero k] in
+/-- The diagonal torus operator acts semisimply on the Schur module: it is the
+restriction of the (semisimple) diagonal operator on the tensor power to the
+`GL`-stable Schur submodule. -/
+theorem schurModule_rho_diagUnit_isSemisimple (N : ℕ) (lam : Fin N → ℕ) (i : Fin N) (t : kˣ) :
+    Module.End.IsSemisimple ((SchurModule k N lam).ρ (diagUnit k N i t)) := by
+  have hinvt : SchurModuleSubmodule k N lam ∈
+      Module.End.invtSubmodule (glTensorRep k N (∑ i, lam i) (diagUnit k N i t)) :=
+    fun v hv => glTensorRep_mem_range k N lam (diagUnit k N i t) v hv
+  have hss := (glTensorRep_diagUnit_isSemisimple k N (∑ i, lam i) i t).restrict hinvt
+  exact hss
+
 /-- The total dimension of the Schur module equals its formal character evaluated
 at the all-ones point: `dim L_λ = ch(L_λ)(1, …, 1)`.
 
