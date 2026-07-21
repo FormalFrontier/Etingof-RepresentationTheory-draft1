@@ -35,17 +35,21 @@ dimension bound `N ≤ M` to *injectivity of the orbit-map comorphism*; this fil
   localization, matching the principal-open case of the field-embedding bridge,
   `Etingof.Problem6_1_5.exists_field_embedding_of_injective_isLocalization`).
 
-## What remains (tracked as follow-ups to #4803)
+## Downstream
+
+Both consumers of this comorphism have since landed and are proved sorry-free:
 
 * **Injectivity of `orbitComorphism` from Zariski-density of the orbit** (the genuine
-  geometric input, Problem 6.1.2(a)). Over an infinite field a polynomial vanishing
-  on a Zariski-dense set is zero; converting S2a's topological density
-  (`Problem6_1_5_DenseOrbit.exists_dense_orbit_point`) to this algebraic statement
-  needs the Zariski topology on `𝔸ᴺ` pinned down and polynomial-evaluation
-  faithfulness. Filed separately.
-* **The dimension-bound assembly** `N ≤ M`: feed an injective `orbitComorphism` to
-  `Etingof.Problem6_1_5.dim_le_of_injective_comorphism_isLocalization`, transporting
-  the `GIdx m`-indexing to `Fin M` via `MvPolynomial.renameEquiv`. Filed separately.
+  geometric input, Problem 6.1.2(a)): over an infinite field a polynomial vanishing
+  on a Zariski-dense set is zero. This is proved in
+  `Problem6_1_5_OrbitInjective` as `injective_orbitComorphism_of_isAlgDense`, packaged
+  with the density input as `exists_injective_orbitComorphism`.
+* **The dimension-bound assembly** `N ≤ M` (and its strict form `N < M`): the injective
+  `orbitComorphism` feeds
+  `Etingof.Problem6_1_5.dim_le_of_injective_comorphism_isLocalization_index` in
+  `Problem6_1_5_DimBound`, yielding
+  `repSpace_finrank_le_repGroup_ambient_finrank` and
+  `repSpace_finrank_lt_repGroup_ambient_finrank`.
 -/
 
 open Matrix MvPolynomial
