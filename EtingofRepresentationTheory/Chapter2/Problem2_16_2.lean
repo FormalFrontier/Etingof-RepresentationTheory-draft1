@@ -203,6 +203,138 @@ theorem charZero_Y_acts_zero [IsAlgClosed k] [CharZero k]
     have := LinearMap.congr_fun hcY w; simpa [LieModule.toEnd_apply_apply] using this
   rw [← bracket_X_Y k, lie_lie, eY, eX, eX, eY, smul_smul, smul_smul, mul_comm cX cY, sub_self]
 
+/-! ## Characteristic 0: existence and classification
+
+The necessary direction above shows every f.d. irreducible is `1`-dimensional with `Y ↦ 0`. Here
+we supply the existence / realization half: for each scalar `μ ∈ k` we build the `1`-dimensional
+`𝔤`-module `X ↦ μ, Y ↦ 0` (`oneDimModule μ`), prove it is irreducible, and prove that distinct
+`μ` give non-isomorphic modules. Combined with `charZero_irreducible_finrank_one` /
+`charZero_Y_acts_zero` (and `charZero_X_scalar` below), over an algebraically closed field of
+characteristic `0` the f.d. irreducibles are classified exactly by the scalar `μ ∈ k`. -/
+
+/-- The `(0,0)` entry of any bracket `⁅A, B⁆` of elements of `g k` vanishes: the bracket is a
+scalar multiple of `e₁₂`, whose `(0,0)` entry is `0`. -/
+private theorem bracket_coe_00 (A B : g k) :
+    (↑⁅A, B⁆ : Matrix (Fin 2) (Fin 2) k) 0 0 = 0 := by
+  obtain ⟨a, b, hx⟩ := Submodule.mem_span_pair.mp (coe_mem_span k A)
+  obtain ⟨c, d, hy⟩ := Submodule.mem_span_pair.mp (coe_mem_span k B)
+  have hbr : (↑⁅A, B⁆ : Matrix (Fin 2) (Fin 2) k) = (a * d - b * c) • e12 k := by
+    rw [LieSubalgebra.coe_bracket, ← hx, ← hy, bracket_expand]
+  rw [hbr]
+  simp [e12, Matrix.smul_apply]
+
+/-- Underlying space of the `1`-dimensional representation `X ↦ μ, Y ↦ 0`: a copy of `k`. The
+scalar `μ` is carried as a type index so that different `μ` give distinct module structures
+(the `𝔤`-action below is opaque to typeclass resolution). -/
+def oneDimModule (μ : k) : Type _ := k
+
+instance (μ : k) : AddCommGroup (oneDimModule k μ) := inferInstanceAs (AddCommGroup k)
+instance (μ : k) : Module k (oneDimModule k μ) := inferInstanceAs (Module k k)
+instance (μ : k) : FiniteDimensional k (oneDimModule k μ) := inferInstanceAs (FiniteDimensional k k)
+instance (μ : k) : Nontrivial (oneDimModule k μ) := inferInstanceAs (Nontrivial k)
+
+/-- The `1`-dimensional representation `ρ_μ : 𝔤 → End k (oneDimModule μ)` with `X ↦ μ`, `Y ↦ 0`.
+On a matrix `A ∈ 𝔤` it acts as `(A₀₀ · μ) • id`. The bracket relation is respected because the
+`(0,0)` entry of every bracket in `𝔤` vanishes (`bracket_coe_00`) and `End k` of a
+`1`-dimensional space is commutative. -/
+noncomputable def oneDimRep (μ : k) : g k →ₗ⁅k⁆ Module.End k (oneDimModule k μ) where
+  toFun A := ((A : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id
+  map_add' A B := by
+    show (((A + B : g k) : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id
+        = ((A : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id
+          + ((B : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id
+    rw [AddMemClass.coe_add, Matrix.add_apply, add_mul, add_smul]
+  map_smul' c A := by
+    show (((c • A : g k) : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id
+        = (RingHom.id k) c • ((A : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id
+    rw [SetLike.val_smul, Matrix.smul_apply, smul_eq_mul, RingHom.id_apply, smul_smul, mul_assoc]
+  map_lie' := by
+    intro A B
+    have h00 : (↑⁅A, B⁆ : Matrix (Fin 2) (Fin 2) k) 0 0 = 0 := bracket_coe_00 k A B
+    show ((↑⁅A, B⁆ : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id
+        = ⁅((↑A : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id,
+            ((↑B : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id⁆
+    rw [h00, zero_mul, zero_smul]
+    simp only [smul_lie, lie_smul, lie_self, smul_zero]
+
+@[simp] theorem oneDimRep_apply (μ : k) (A : g k) :
+    oneDimRep k μ A = ((A : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id := rfl
+
+/-- The `𝔤`-module structure on `oneDimModule μ` induced by `oneDimRep μ`. -/
+noncomputable instance (μ : k) : LieRingModule (g k) (oneDimModule k μ) :=
+  LieRingModule.compLieHom (oneDimModule k μ) (oneDimRep k μ)
+
+/-- The induced structure is a genuine Lie module. -/
+noncomputable instance (μ : k) : LieModule k (g k) (oneDimModule k μ) :=
+  LieModule.compLieHom (oneDimModule k μ) (oneDimRep k μ)
+
+/-- In `oneDimModule μ`, the generator `X` acts by the scalar `μ`. -/
+theorem oneDim_lie_X (μ : k) (x : oneDimModule k μ) : (⁅X k, x⁆ : oneDimModule k μ) = μ • x := by
+  have h : (⁅X k, x⁆ : oneDimModule k μ) = oneDimRep k μ (X k) x := rfl
+  have hX : (↑(X k) : Matrix (Fin 2) (Fin 2) k) 0 0 = 1 := by simp [X]
+  rw [h, oneDimRep_apply, hX, one_mul, LinearMap.smul_apply, LinearMap.id_apply]
+
+/-- In `oneDimModule μ`, the generator `Y` acts by `0`. -/
+theorem oneDim_lie_Y (μ : k) (x : oneDimModule k μ) : (⁅Y k, x⁆ : oneDimModule k μ) = 0 := by
+  have h : (⁅Y k, x⁆ : oneDimModule k μ) = oneDimRep k μ (Y k) x := rfl
+  have hY : (↑(Y k) : Matrix (Fin 2) (Fin 2) k) 0 0 = 0 := by simp [Y]
+  rw [h, oneDimRep_apply, hY, zero_mul, zero_smul, LinearMap.zero_apply]
+
+/-- **Existence half of the char-`0` classification.** For each `μ ∈ k` the `1`-dimensional module
+`oneDimModule μ` is an irreducible `𝔤`-module (any `1`-dimensional module is irreducible: its only
+submodules are `⊥` and `⊤`). -/
+theorem oneDim_irreducible (μ : k) : LieModule.IsIrreducible k (g k) (oneDimModule k μ) := by
+  refine LieModule.IsIrreducible.mk fun N hN => ?_
+  rw [ne_eq, LieSubmodule.eq_bot_iff] at hN
+  push_neg at hN
+  obtain ⟨v, hvN, hv0⟩ := hN
+  rw [← LieSubmodule.toSubmodule_eq_top]
+  have hle : Submodule.span k {v} ≤ (N : Submodule k (oneDimModule k μ)) :=
+    (Submodule.span_singleton_le_iff_mem _ _).mpr hvN
+  have hspan : Submodule.span k {v} = ⊤ := by
+    apply Submodule.eq_top_of_finrank_eq
+    rw [finrank_span_singleton hv0]
+    exact (Module.finrank_self k).symm
+  exact top_unique (hspan ▸ hle)
+
+/-- **Distinctness.** Distinct scalars give non-isomorphic modules: an isomorphism of
+`𝔤`-modules intertwines the `X`-action, and `X` acts by the (distinct) scalars `μ₁`, `μ₂`, forcing
+`μ₁ = μ₂`. -/
+theorem oneDim_not_iso {μ₁ μ₂ : k} (h : μ₁ ≠ μ₂) :
+    ¬ Nonempty (oneDimModule k μ₁ ≃ₗ⁅k, g k⁆ oneDimModule k μ₂) := by
+  rintro ⟨φ⟩
+  apply h
+  obtain ⟨m, hm⟩ := exists_ne (0 : oneDimModule k μ₁)
+  have hφm : φ m ≠ 0 := fun hh => hm (φ.injective (by rw [hh, map_zero]))
+  have hint : φ ⁅X k, m⁆ = ⁅X k, φ m⁆ := LieModuleHom.map_lie φ.toLieModuleHom (X k) m
+  rw [oneDim_lie_X, oneDim_lie_X, map_smul] at hint
+  have hz : (μ₁ - μ₂) • φ m = 0 := by rw [sub_smul, hint, sub_self]
+  rcases smul_eq_zero.mp hz with h1 | h2
+  · exact sub_eq_zero.mp h1
+  · exact absurd h2 hφm
+
+/-- **Uniqueness of the classifying scalar.** Over an algebraically closed field of characteristic
+`0`, every f.d. irreducible `𝔤`-module has a unique scalar `μ` by which `X` acts (and `Y` acts by
+`0`, `charZero_Y_acts_zero`). Together with `oneDim_irreducible` (each `μ` is realized) and
+`oneDim_not_iso` (distinct `μ` are non-isomorphic), this classifies the char-`0` irreducibles by
+`μ ∈ k`. -/
+theorem charZero_X_scalar [IsAlgClosed k] [CharZero k]
+    (M : Type*) [AddCommGroup M] [Module k M] [LieRingModule (g k) M] [LieModule k (g k) M]
+    [FiniteDimensional k M] [LieModule.IsIrreducible k (g k) M] :
+    ∃! μ : k, ∀ m : M, ⁅X k, m⁆ = μ • m := by
+  haveI : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (g k) M
+  have d1 : Module.finrank k M = 1 := charZero_irreducible_finrank_one k M
+  obtain ⟨cX, hcX, -⟩ :=
+    LinearMap.existsUnique_eq_smul_id_of_finrank_eq_one d1 (LieModule.toEnd k (g k) M (X k))
+  have eX : ∀ w : M, ⁅X k, w⁆ = cX • w := fun w => by
+    have := LinearMap.congr_fun hcX w; simpa [LieModule.toEnd_apply_apply] using this
+  refine ⟨cX, eX, fun μ hμ => ?_⟩
+  obtain ⟨m, hm⟩ := exists_ne (0 : M)
+  have hz : (cX - μ) • m = 0 := by rw [sub_smul, ← eX, hμ, sub_self]
+  rcases smul_eq_zero.mp hz with h1 | h2
+  · exact (sub_eq_zero.mp h1).symm
+  · exact absurd h2 hm
+
 /-! ## Characteristic `p`: an irreducible representation of dimension `p`
 
 We realize the book's counterexample to Lie's theorem in characteristic `p`. Let `M = k^{ℤ/p}`
