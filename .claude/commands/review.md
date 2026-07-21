@@ -39,6 +39,16 @@ Rotate through these areas across sessions:
 **Security**:
 - Check for new issues in recent code, verify past fixes
 
+## Verifying sorry-freeness (fidelity audits)
+
+`grep -c sorry` is unreliable for "is this file sorry-free?": it counts the
+substring `sorry-free` inside comments, so a fully-complete file can report a
+large nonzero count (e.g. 10 comment mentions → looks like 10 sorries). Always
+confirm real sorries with `grep -n sorry <file> | grep -v sorry-free`, and treat
+`#print axioms <decl>` (no `sorryAx` in the list) as the ground truth for whether
+a declaration is genuinely sorry-free. Do not trust a stale sorry-count from the
+issue body — re-check it.
+
 ## Completing the Review
 
 Post your report as a comment on the review issue. Then close the issue yourself —
