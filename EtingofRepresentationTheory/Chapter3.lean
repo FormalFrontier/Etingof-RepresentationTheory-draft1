@@ -16,6 +16,7 @@ import EtingofRepresentationTheory.Chapter3.Definition3_5_1
 import EtingofRepresentationTheory.Chapter3.Proposition3_5_2
 import EtingofRepresentationTheory.Chapter3.Proposition3_5_3
 import EtingofRepresentationTheory.Chapter3.Theorem3_5_4
+import EtingofRepresentationTheory.Chapter3.Theorem3_5_4_Finiteness
 import EtingofRepresentationTheory.Chapter3.Corollary3_5_5
 import EtingofRepresentationTheory.Chapter3.Example3_5_6
 import EtingofRepresentationTheory.Chapter3.Definition3_5_7
