@@ -21,20 +21,38 @@ basis to land in `(V^⊗n)^m`.
 
 ## Status
 
-This file lands the **injection** part of the deliverable from issue #2478:
-`polynomialRep_embeds_in_tensorPower_inj` exhibits `m`, the linear map `φ`,
-and proves injectivity. **GL_N-equivariance** of `φ` is deferred to a sibling
-issue, since the equivariance proof requires equivariance of the underlying
-bridge `homogeneousPolyToTensor` for the right-translation action on
-polynomials versus `g ↦ g^⊗n ⊗ 1` on the tensor target — itself a substantial
-chunk that the bridge file (`Chapter5/PolynomialTensorBridge.lean`) explicitly
-defers.
+This file is complete and sorry-free. It proves both the **injection** and the
+**GL_N-equivariance** of the embedding from issue #2478:
 
-## Main result
+* `polynomialRep_embeds_in_tensorPower_inj` exhibits `m`, the linear map `φ`,
+  and proves injectivity (injection-only).
+* `polynomialRep_embeds_in_tensorPower` (and its primed form
+  `polynomialRep_embeds_in_tensorPower'`) exhibit the injective **and**
+  GL_N-equivariant embedding `φ`, intertwining `ρ` with the tensor-power action
+  `g ↦ PiTensorProduct.map (g^⊗n)` on each coordinate of the target. The primed
+  form supplies the polynomial matrix-coefficient multiplicativity witness
+  internally (via `hP_mul_of_hP`), so callers need only the homogeneity and
+  evaluation witnesses.
+* `polynomial_homog_rep_equivariant_embedding` is a fully general FDRep-facing
+  statement over `FDRep k (GL_N k)` with `[IsAlgClosed k]`, producing an
+  injective GL_N-equivariant `φ` from the weight-space hypotheses `h_span` and
+  `h_homog` alone (no leaked equivariance or multiplicativity hypothesis).
+
+Equivariance of the underlying bridge `homogeneousPolyToTensor` is now proved in
+`Chapter5/PolynomialTensorBridge.lean` (`homogeneousPolyToTensor_equivariant`,
+landed in #7050); the earlier note that the bridge "explicitly defers" this
+chunk is obsolete.
+
+## Main results
 
 * `Etingof.PolynomialRepEmbedding.polynomialRep_embeds_in_tensorPower_inj` —
   the linear injection of a hom-degree-`n` polynomial GL_N-rep into
   `(V^⊗n)^m`.
+* `Etingof.PolynomialRepEmbedding.polynomialRep_embeds_in_tensorPower` —
+  the same injection together with GL_N-equivariance of `φ`.
+* `Etingof.PolynomialRepEmbedding.polynomial_homog_rep_equivariant_embedding` —
+  the FDRep-facing injective GL_N-equivariant embedding from weight-space
+  hypotheses.
 -/
 
 open scoped TensorProduct
@@ -196,8 +214,10 @@ homogeneous degree-`n` polynomial; bridge it to `V^⊗n ⊗ (V^*)^⊗n`, then sp
 off the dual factor via the standard basis to land in
 `(Fin n → Fin N) → V^⊗n`. Bundle over the `Fin d`-many basis indices.
 
-GL_N-equivariance of the embedding is **not** stated here; it is deferred to a
-sibling issue together with equivariance of the underlying bridge.
+GL_N-equivariance of the embedding is not stated by *this* theorem, which is
+injection-only; it is proved separately in this file. See
+`polynomialRep_embeds_in_tensorPower` (with its primed and FDRep-facing forms)
+for the injective GL_N-equivariant embedding.
 
 (Etingof Definition 5.23.1 + Theorem 5.23.2 setup. Issue #2478.) -/
 theorem polynomialRep_embeds_in_tensorPower_inj
