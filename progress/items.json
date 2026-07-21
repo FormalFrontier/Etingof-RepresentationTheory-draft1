@@ -4042,9 +4042,9 @@
     "start_line": 26,
     "end_line": 6,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "Trivial/sign claims now proved at the representation level: Example5_12_3_trivial_rep (every σ acts as identity on V_{(n)}) and Example5_12_3_sign_rep (every σ acts as sign σ on V_{(1ⁿ)}). Residual: the n=3,4 cases (ℂ², ℂ³₋, ℂ³₊) are still identified only by dimension, not by an explicit equivariant isomorphism to the named irreps.",
+    "fidelity_note": "Trivial/sign claims proved at the representation level (Example5_12_3_trivial_rep, Example5_12_3_sign_rep). The two 3-dim cases are now distinguished (#7188): Example5_12_3_sign_twist_31_211 witnesses ℂ³₊ = ℂ³₋ ⊗ sign (V_{(2,1,1)} ≅ V_{(3,1)} ⊗ sign, since (2,1,1) is the conjugate of (3,1), conjugatePartition_p_31), and Example5_12_3_specht_31_211_noniso witnesses ℂ³₋ ≠ ℂ³₊ (the two Specht modules are non-isomorphic ℂ[S₄]-modules). The (2,1)→ℂ² and (2,2)→ℂ² cases remain dimension-only, which is faithful since each of S₃/S₄ has a unique 2-dim irrep. All new decls axiom-clean (no sorryAx).",
     "fidelity_issue": 5637
   },
   {
