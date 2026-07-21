@@ -238,8 +238,9 @@ The proof is the four-step book route dualised through `Hom`:
 
 The finite-generation of the `Pᵢ` (an `∀ j, Module.Finite Aᵢ (Pᵢ.complex.X j)` hypothesis) is what
 makes the degreewise Hom-tensor map an isomorphism; it holds for finite dimensional `Mᵢ` over the
-finite dimensional `Aᵢ`. Wiring this `Extₖ` iso into the derived-category `Etingof.Ext` statement
-`Problem_8_2_8_ext` is deferred to a comparison isomorphism `Etingof.Ext ≃ Extₖ`. -/
+finite dimensional `Aᵢ`. This `Extₖ` iso is wired into the derived-category `Etingof.Ext` statement
+`Problem_8_2_8_ext` (proved sorry-free below) through the module-structure reconciliation and the
+`Etingof.Ext ≃ Extₖ` comparison isomorphism. -/
 theorem Problem_8_2_8_extₖ (i : ℕ)
     (P₁ : ProjectiveResolution (ModuleCat.of A₁ M₁))
     (P₂ : ProjectiveResolution (ModuleCat.of A₂ M₂))
