@@ -393,4 +393,31 @@ theorem Vrep_irreducible [NeZero N] (j : ZMod N) (hj : (2 : ZMod N) * j ≠ 0) :
     exact Submodule.add_mem _ (Submodule.smul_mem _ _ hbasis.1)
       (Submodule.smul_mem _ _ hbasis.2)
 
+/-- The character (trace) of `V_j` on a rotation `r k` is `ζ^{jk} + ζ^{-jk}`. -/
+theorem Vrep_trace_r [NeZero N] (j k : ZMod N) :
+    LinearMap.trace ℂ (Fin 2 → ℂ) (Vrep N j (DihedralGroup.r k)) =
+      eigen N j k + (eigen N j k)⁻¹ := by
+  have hrfl : Vrep N j (DihedralGroup.r k) = Matrix.toLin' (repMat N j (DihedralGroup.r k)) := rfl
+  rw [hrfl, Matrix.trace_toLin'_eq]
+  simp [repMat, Matrix.trace, Matrix.diag, Fin.sum_univ_two]
+
+/-- **Part (a), pairwise non-isomorphism (character criterion).** If the rotation characters of
+`V_j` and `V_{j'}` differ at `r 1` (i.e. `ζ^j + ζ^{-j} ≠ ζ^{j'} + ζ^{-j'}`), then there is no
+representation isomorphism (intertwining linear equivalence) between them. In particular the
+`V_j` for distinct rotation-eigenvalue pairs are pairwise non-isomorphic. -/
+theorem Vrep_not_iso [NeZero N] {j j' : ZMod N}
+    (hne : eigen N j 1 + (eigen N j 1)⁻¹ ≠ eigen N j' 1 + (eigen N j' 1)⁻¹) :
+    ¬ ∃ T : (Fin 2 → ℂ) ≃ₗ[ℂ] (Fin 2 → ℂ),
+        ∀ g, T.toLinearMap.comp (Vrep N j g) = (Vrep N j' g).comp T.toLinearMap := by
+  rintro ⟨T, hT⟩
+  have hconj : T.conj (Vrep N j (DihedralGroup.r 1)) = Vrep N j' (DihedralGroup.r 1) := by
+    refine LinearMap.ext fun x => ?_
+    rw [LinearEquiv.conj_apply_apply]
+    have h := LinearMap.congr_fun (hT (DihedralGroup.r 1)) (T.symm x)
+    simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply] at h
+    exact h
+  have htr := LinearMap.trace_conj' (Vrep N j (DihedralGroup.r 1)) T
+  rw [hconj, Vrep_trace_r, Vrep_trace_r] at htr
+  exact hne htr.symm
+
 end Etingof.Problem4_12_1
