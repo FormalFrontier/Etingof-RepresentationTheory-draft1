@@ -8,6 +8,39 @@ allowed-tools: Read, Edit, Write, Bash, Glob, Grep
 
 Patterns for formalizing mathematics textbooks into Lean 4 with Mathlib. Derived from Phase 2 analysis of 583 items across 10 chapters of Etingof's Representation Theory.
 
+## Writing Style: reflect the mathematics, not the process
+
+Every comment and docstring you write into a `.lean` file must read as if it belonged to
+a mathematics research paper. The repository records the mathematics of the book, never
+the story of how the formalization was carried out.
+
+**No war stories.** Do not write PR, issue, or directive numbers (`#4947`, `issue #2483`,
+`directive #4777`), nor any narrative of the formalization process: no `redirect`,
+`relocated`, `is now in`, `hosts`, `This file is part of ...`, `Why this lives here`, no
+refactor codenames, and no progress or status narration (`sorry-free`, `route B`,
+`retired`, `Spec resolution`, `the one remaining sorry`, `## Status`). That history lives
+in git and GitHub, not in the source. If a sentence carried a real structural fact (an
+import ordering, a re-export), state it plainly without the process narrative. A
+re-export note reads `X is re-exported from Y via the import above.`, not `X is now in Y
+(#5075), re-exported ...`.
+
+**Speak like a mathematician.** Write plain, precise mathematical prose. Avoid the
+AI-slop register: `genuine`/`genuinely`, `crux`, `payoff`, `seam`, `glue`, `assembly`
+(as a noun for a proof or theorem — say "the proof"/"the theorem"/"the construction"),
+`notch stronger`, `iso-strength`, `ghost` (name the object, e.g. "a summand with zero
+multiplicity space"), `would-be`, `routes through`, `threaded in`, `manufactured from`,
+`feeding`, `driven by`. Do not force awkward verb-object pairs ("closes the input", "the
+field turns X into Y"); use plain mathematical verbs: proves, establishes, gives, yields,
+follows from, reduces to. Do not use bold or italics for mid-sentence emphasis (a bold
+run-in title at the start of a docstring is fine as structure).
+
+**Banned marks and words** (Kim's standing bans, in all technical writing): em-dashes
+`—` (use a comma, colon, semicolon, or parentheses), and the words `bridge`, `gate`,
+`smoke`.
+
+For calibration, `EtingofRepresentationTheory/Chapter6/Problem6_1_5_OrbitInjective.lean`
+is written to this standard.
+
 ## Session Setup
 
 Before the first `lake build` or `lake env lean` in any session:
