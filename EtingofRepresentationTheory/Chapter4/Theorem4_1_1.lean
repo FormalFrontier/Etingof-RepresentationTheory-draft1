@@ -31,7 +31,6 @@ universe u
 characteristic of k does not divide |G|. (Etingof Theorem 4.1.1) -/
 theorem Etingof.Theorem4_1_1_semisimple
     (k : Type*) (G : Type*) [Field k] [Group G] [Fintype G]
-    [DecidableEq G]
     (h : IsUnit (Fintype.card G : k)) :
     IsSemisimpleRing (MonoidAlgebra k G) := by
   haveI : NeZero (Nat.card G : k) := by
