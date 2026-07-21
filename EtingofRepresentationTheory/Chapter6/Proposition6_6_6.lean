@@ -7,11 +7,6 @@ If φ : ⊕_{j→i} V_j → V_i is surjective (i.e., i is a sink with surjective
 then applying the reflection functors F⁻ᵢ after F⁺ᵢ recovers V up to isomorphism.
 
 (Etingof Proposition 6.6.6, part 1)
-
-## Mathlib correspondence
-
-Requires reflection functor definitions (Definition 6.6.3 and 6.6.4) and
-quiver representation isomorphism. Not in Mathlib.
 -/
 
 section Helpers
@@ -340,7 +335,7 @@ private noncomputable def Etingof.equivAt_eq_sink
 /-- `equivAt_eq` cancels the `equivAt_eq.symm` in the definition of `mkQ`, leaving the
 plain cokernel quotient map. Non-private restatement of
 `Etingof.reflFunctorMinus_equivAt_eq_mkQ` (which is `private` and so not usable here);
-the bespoke `AddCommGroup` instances are threaded through the statement via `letI` so the
+the bespoke `AddCommGroup` instances are carried in the statement via `letI` so the
 produced `Submodule.mkQ` carries the matching instances. -/
 private theorem Etingof.reflFunctorMinus_equivAt_eq_mkQ'
     {k : Type*} [CommRing k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
@@ -367,7 +362,7 @@ private theorem Etingof.reflFunctorMinus_equivAt_eq_mkQ'
 chart cancels `mkQ`'s `equivAt_eq.symm` chart (by `reflFunctorMinus_equivAt_eq_mkQ'`),
 leaving `Submodule.mkQ d`; the two remaining charts are `rfl` on quotient classes, so the
 whole thing collapses to `Φ d`.  Stating this generically (over an abstract surjective `Φ`
-and equality `h`) with the bespoke `AddCommGroup` instances threaded through the statement
+and equality `h`) with the bespoke `AddCommGroup` instances carried in the statement
 sidesteps the `instR`/`instDR` instance-diamond at the consumer site. -/
 private theorem Etingof.equivAt_eq_sink_charts_mkQ
     {k : Type*} [Field k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
@@ -447,7 +442,7 @@ theorem Etingof.Proposition6_6_6_sink
     (fun {a b} e x => by
       -- Naturality: the isomorphism commutes with representation maps.
       by_cases ha : a = i
-      · -- a = i: vacuous — i is a sink, so there are no arrows out of i
+      · -- a = i: vacuous (i is a sink, so there are no arrows out of i)
         subst ha; exact ((hi b).false e).elim
       · by_cases hb : b = i
         · -- a ≠ i, b = i: arrow a → i, involves equivAt_eq_sink at target
@@ -462,11 +457,11 @@ theorem Etingof.Proposition6_6_6_sink
           --   ρ.mapLinear(e)(equivAt_ne_plus(equivAt_ne_minus x))
           -- Step 2: `equivAt_eq_sink = (equivAt_eq).trans (quotEquivOfEq.trans
           -- quotKerEquivOfSurjective)` and `reflFunctorMinus_mkQ = (equivAt_eq).symm ∘ mkQ`,
-          -- so the two `equivAt_eq` charts cancel (`apply_symm_apply`) — no discriminant
-          -- reduction needed.
+          -- so the two `equivAt_eq` charts cancel (`apply_symm_apply`), with no
+          -- discriminant reduction needed.
           -- Expand `equivAt_eq_sink` into its defining `trans` of three charts, then apply
           -- the generic `equivAt_eq_sink_charts_mkQ`, which (with the bespoke `AddCommGroup`
-          -- instances threaded through its statement) cancels the `equivAt_eq` charts and
+          -- instances carried in its statement) cancels the `equivAt_eq` charts and
           -- collapses the `quot*` charts on the quotient class, leaving `Φ (lof ⟨a,rev⟩ v)`.
           letI : AddCommGroup (@Etingof.QuiverRepresentation.obj k Q _ inst ρ i) :=
             @Etingof.addCommGroupOfRing k _ _

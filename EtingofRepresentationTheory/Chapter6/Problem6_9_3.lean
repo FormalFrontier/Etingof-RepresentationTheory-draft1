@@ -14,14 +14,14 @@ import EtingofRepresentationTheory.Chapter2.Definition2_8_3
 > **(b)** Given an orientation of the quiver, find a **Jordan–Hölder series** of
 > `V_α` for that orientation.
 
-## Formalization notes
+## Computing Ext¹
 
 For quiver representations, `Ext¹(V, W)` is computed by the standard two-term
 complex
 `⨁ᵢ Hom(Vᵢ, Wᵢ) → ⨁_{a : i→j} Hom(Vᵢ, Wⱼ)`,
 `d(f)_a = W_a ∘ f_i - f_j ∘ V_a`, as `Ext¹(V, W) = coker d`. Hence
-`Ext¹(V, W) = 0` iff `d` is **surjective**; this is what we take as the faithful
-statement of Ext-vanishing (`Ext1Vanishes`). The simple representation `S_i`
+`Ext¹(V, W) = 0` iff `d` is surjective, which we take as the definition of
+Ext-vanishing (`Ext1Vanishes`). The simple representation `S_i`
 (`= V_{αᵢ}`) is `k` at vertex `i`, `0` elsewhere, with all arrow maps zero.
 -/
 
@@ -56,7 +56,7 @@ noncomputable def acg {M : Type*} [inst : AddCommMonoid M] [Module k M] :
 `i`, `0` elsewhere, with all arrow maps zero. The vertex object is
 `Fin (if v = i then 1 else 0) → k` (dimension `1` at `i`, `0` otherwise), which
 avoids the type-level `if`/instance diamond by branching only on the
-*dimension*. -/
+dimension. -/
 def simpleRep [DecidableEq Q] (i : Q) : QuiverRepresentation k Q where
   obj v := Fin (if v = i then 1 else 0) → k
   mapLinear _ := 0
@@ -128,15 +128,14 @@ noncomputable def dimVec (V : QuiverRepresentation k Q) (i : Q) : ℕ :=
 a positive root) admits a Jordan–Hölder series whose factors are exactly the
 simples `S_i`, each occurring `α i` times.
 
-The multiset of Jordan–Hölder factors is orientation-independent — it is always
-`{ S_i^{α_i} }` — while the *order* of the factors depends on the orientation.
+The multiset of Jordan–Hölder factors is orientation-independent (it is always
+`{ S_i^{α_i} }`), while the order of the factors depends on the orientation.
 Since `S_i` is `1`-dimensional at vertex `i` and `0` elsewhere, the multiplicity
 `[V_α : S_i]` equals the dimension vector entry `dimVec V_α i = α i`.
 
-We record this as a `Prop` against the real objects: a genuine composition-series
-notion for `Etingof.QuiverRepresentation` is not yet in the project (it is part of
-the Gabriel-theorem infrastructure), so this pins the exact statement for a later
-proof pass rather than asserting a vacuous theorem. -/
+This is recorded as a `Prop` about the actual representation; a composition-series
+notion for `Etingof.QuiverRepresentation` belongs to the Gabriel-theorem
+infrastructure. -/
 def IsJordanHolderData [DecidableEq Q] (α : Q → ℕ) (Vα : QuiverRepresentation k Q) : Prop :=
   -- `V_α` has dimension vector `α`, i.e. `S_i` occurs with multiplicity `α i`.
   (∀ i, dimVec Vα i = α i) ∧

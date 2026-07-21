@@ -6,16 +6,12 @@ import EtingofRepresentationTheory.Chapter6.OrientationDefs
 # Finite Type Definitions for Quiver Representations
 
 This file defines `AreIsomorphic` (isomorphism of quiver representations) and
-`IsFiniteTypeQuiver` (finite representation type), extracted from
-`Problem6_1_5_theorem.lean` so that the orbit-counting files of directive #4777
-can consume them without an import cycle.
+`IsFiniteTypeQuiver` (finite representation type). These definitions live in their
+own file so that the orbit-counting files can use them without an import cycle.
 
 `IsFiniteTypeQuiver` is the book's literal definition (Etingof Problem 6.1.5):
-*finitely many isomorphism classes of (finite-dimensional) indecomposable
-representations.* This is the notion the orbit-counting argument consumes, and
-the only finite-type notion the project now uses: the old dimension-vector
-auxiliary notion `IsFiniteTypeQuiverDimVec` was retired together with the
-explicit-construction track (directive #4777).
+finitely many isomorphism classes of (finite-dimensional) indecomposable
+representations. This is the notion the orbit-counting argument consumes.
 -/
 
 section QuiverRepresentationIso

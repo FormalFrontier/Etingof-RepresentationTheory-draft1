@@ -103,7 +103,7 @@ The naive `decide` enumerating all `B^n` candidate vectors is infeasible for E�
 diagram splits it into independent path components; fixing the central
 coordinate `x₂ = c` makes the Tits form additive over the two component groups.
 The root count then convolves the two component value-distributions, computed
-once each via a histogram fold over the (small) component spaces — a kernel
+once each via a histogram fold over the (small) component spaces, a kernel
 `decide` no larger than `B^4`. The following is a small histogram/convolution
 toolkit used by both E₇ and E₈. -/
 
@@ -262,7 +262,7 @@ path components; fixing `x₂ = c` makes the Tits form additive over the groups
 `g₁ = (x₀,x₁,x₆)` and `g₂ = (x₃,x₄,x₅)`. A card-preserving reindexing turns the
 root count over `Fin 7 → Fin 5` (5⁷ vectors) into a sum, over the five values of
 `c`, of histogram convolutions of the two `Fin 5 × Fin 5 × Fin 5` component
-spaces (5³ each) — a kernel `decide` well within reach without native code. -/
+spaces (5³ each), a kernel `decide` well within reach without native code. -/
 
 /-- A component triple of coordinates. -/
 private abbrev E7.T3 := Fin 5 × Fin 5 × Fin 5
@@ -527,7 +527,7 @@ private lemma E8_bound (x : Fin 8 → ℤ)
 The same construction as E₇: deleting vertex 2 splits E₈ into the components
 `g₁ = (x₀,x₁,x₇)` and `g₂ = (x₃,x₄,x₅,x₆)`. The root count over `Fin 8 → Fin 7`
 (7⁸ ≈ 5.76M vectors) becomes a sum, over the seven values of `c`, of histogram
-convolutions of a `Fin 7 ³` space and a `Fin 7 ⁴` space — at most `7⁴ = 2401`
+convolutions of a `Fin 7 ³` space and a `Fin 7 ⁴` space, at most `7⁴ = 2401`
 points per fold, which kernel `decide` handles without native code. -/
 
 /-- The `{0,1,7}` component triple. -/

@@ -6,7 +6,7 @@ import EtingofRepresentationTheory.Chapter6.DynkinTypes
 
 The positive roots of D_n are parameterized by ordered pairs (i, j) with i < j
 in Fin n. There are two families:
-- **Type A**: interval vectors on the path 0—1—⋯—(n-2), with x_{n-1} = 0
+- **Type A**: interval vectors on the path 0-1-⋯-(n-2), with x_{n-1} = 0
   (corresponding to roots eᵢ - eⱼ)
 - **Type B**: vectors involving the branch vertex n-1
   (corresponding to roots eᵢ + eⱼ)

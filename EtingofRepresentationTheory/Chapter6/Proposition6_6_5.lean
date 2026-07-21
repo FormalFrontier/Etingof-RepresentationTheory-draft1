@@ -20,11 +20,6 @@ Let Q be a quiver and V an indecomposable representation.
 The proof uses decomposition: if φ is not surjective, complement of Im(φ) gives a
 direct sum decomposition, contradicting indecomposability unless V is the simple
 representation at i.
-
-## Mathlib correspondence
-
-Requires quiver representation infrastructure (indecomposable representations,
-dimension vectors). Not directly available in Mathlib.
 -/
 
 /-- A quiver representation is **indecomposable** if it is nonzero and cannot be
@@ -47,9 +42,8 @@ def Etingof.QuiverRepresentation.IsSimpleAt
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)] : Prop :=
   Module.finrank k (ρ.obj i) = 1 ∧ ∀ j, j ≠ i → Module.finrank k (ρ.obj j) = 0
 
--- `Etingof.QuiverRepresentation.sourceMap` is now provided by
--- `Chapter6.Definition6_6_4` (imported above); the previous local copy here was a
--- duplicate declaration and has been removed.
+-- `Etingof.QuiverRepresentation.sourceMap` is provided by
+-- `Chapter6.Definition6_6_4`, imported above.
 
 /-- For an indecomposable representation at a sink, either V is the simple
 representation at i, or the canonical map ⊕_{j→i} V_j → V_i is surjective.
@@ -96,7 +90,7 @@ theorem Etingof.Proposition6_6_5_sink
           (fun j => ρ.obj j.1) ⟨a, e⟩ x, ?_⟩
         simp [Etingof.QuiverRepresentation.sinkMap]
       · simp only [W₁, hb, dite_false]; exact Submodule.mem_top
-    -- W₂ is a subrepresentation (vacuously — source vertex a ≠ i has W₂ a = ⊥)
+    -- W₂ is a subrepresentation (vacuously: source vertex a ≠ i has W₂ a = ⊥)
     have hW₂_sub : ∀ {a b : Q} (e : a ⟶ b), ∀ x ∈ W₂ a, ρ.mapLinear e x ∈ W₂ b := by
       intro a b e x hx
       simp only [W₂, sink_no_out e, dite_false, Submodule.mem_bot] at hx
@@ -194,19 +188,13 @@ theorem Etingof.Proposition6_6_5_source
       if hv : v = i then hv ▸ LinearMap.ker (ρ.sourceMap i) else ⊥
     set W₂ : ∀ v, Submodule k (ρ.obj v) := fun v =>
       if hv : v = i then hv ▸ W else ⊤
-    -- W₁ is a subrepresentation: for any arrow e : a → b, b ≠ i, so W₁ b = ⊥.
-    -- Need ρ.mapLinear e x ∈ W₁ b = ⊥. Since a ≠ i too (source: no arrows in),
-    -- wait — no. At a source, no arrows come INTO i, meaning for any arrow e : a → b,
-    -- we need b ≠ i. Actually, IsSource says no arrows enter i, so b ≠ i for any arrow.
-    -- But a could equal i if there are arrows OUT of i... wait, at a source, arrows go OUT of i.
-    -- So there CAN be arrows a ⟶ b with a = i.
-    -- Correction: source_no_in says b ≠ i. And a = i is possible.
-    -- For W₁: if a = i, x ∈ W₁ i = ker(sourceMap), and b ≠ i, so W₁ b = ⊥.
-    -- Need ρ.mapLinear e x = 0 when x ∈ ker(sourceMap) and e : i → b.
-    -- x ∈ ker(sourceMap) means sourceMap x = 0.
-    -- sourceMap = ∑_a lof(a) ∘ mapLinear(a.2), so (sourceMap x)_⟨b,e⟩ = mapLinear(e)(x).
-    -- If sourceMap x = 0, then all components are 0, so mapLinear(e)(x) = 0 for each e. ✓
-    -- If a ≠ i, x ∈ W₁ a = ⊥, so x = 0 and mapLinear e 0 = 0 ∈ W₁ b. ✓
+    -- W₁ is a subrepresentation. At a source, no arrows enter i, so every arrow
+    -- e : a → b has b ≠ i, hence W₁ b = ⊥; the source vertex a may equal i.
+    -- If a = i, then x ∈ W₁ i = ker(sourceMap). Since
+    -- sourceMap = ∑_a lof(a) ∘ mapLinear(a.2), the component (sourceMap x)_⟨b,e⟩ =
+    -- mapLinear(e)(x), and sourceMap x = 0 forces every component to vanish, so
+    -- mapLinear(e)(x) = 0 ∈ W₁ b.
+    -- If a ≠ i, then x ∈ W₁ a = ⊥, so x = 0 and mapLinear e 0 = 0 ∈ W₁ b.
     have hW₁_sub : ∀ {a b : Q} (e : a ⟶ b), ∀ x ∈ W₁ a, ρ.mapLinear e x ∈ W₁ b := by
       intro a b e x hx
       have hb : b ≠ i := source_no_in e

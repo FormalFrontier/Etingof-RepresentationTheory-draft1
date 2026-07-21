@@ -15,11 +15,8 @@ All maps stay the same except those now pointing out of i; these are replaced by
 compositions of the inclusion of ker φ into ⊕_{j→i} V_j with the projections
 ⊕_{j→i} V_j → V_j.
 
-## Mathlib correspondence
-
-Bernstein-Gelfand-Ponomarev (BGP) reflection functors are not in Mathlib.
-Needs custom definition using `LinearMap.ker`, `DirectSum`, and composition of
-linear maps. The functor goes from representations of Q to representations of Q̄ᵢ.
+These are the Bernstein-Gelfand-Ponomarev (BGP) reflection functors, going from
+representations of Q to representations of Q̄ᵢ.
 -/
 
 /-- The type indexing the direct sum for F⁺ᵢ: pairs (j, h) where h : j ⟶ i is an arrow
@@ -50,7 +47,7 @@ theorem Etingof.heq_apply
 
 /-- Heterogeneous congruence between a `LinearMap` and its coercion to a bare function,
 given equalities of the domain/codomain types and heterogeneous equalities of their
-`AddCommMonoid`/`Module` instances. This bridges `HEq` of two `LinearMap` *objects*
+`AddCommMonoid`/`Module` instances. This relates `HEq` of two `LinearMap` objects
 (living in different module structures) to `HEq` of their `⇑`-coerced functions, which is
 what `heq_apply` consumes. -/
 theorem Etingof.heq_linearMap_coe
@@ -288,10 +285,8 @@ def Etingof.reversedArrow_ne_ne
     {Q : Type*} [inst : DecidableEq Q] [Quiver Q] {i a b : Q}
     (ha : a ≠ i) (hb : b ≠ i)
     (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a b) : a ⟶ b :=
-  -- Defined directly as the `cast` along the type-equality lemma. (Previously this matched on
-  -- `inst a i`/`inst b i` and returned `e`; under v4.30's stricter motive check the downstream
-  -- `… = cast …` lemmas could no longer reduce that match, so we make the cast definitional —
-  -- now every `reversedArrow_ne_ne_eq_cast`/`_is_cast` lemma holds by `rfl`.)
+  -- Defined directly as the `cast` along the type-equality lemma, so that every
+  -- `reversedArrow_ne_ne_eq_cast`/`_is_cast` lemma holds by `rfl`.
   cast (Etingof.ReversedAtVertexHom_ne_ne ha hb) e
 
 /-- `reversedArrow_ne_ne ha hb` is the `cast` along `ReversedAtVertexHom_ne_ne`. -/
@@ -301,7 +296,7 @@ theorem Etingof.reversedArrow_ne_ne_eq_cast
     (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a b) :
     Etingof.reversedArrow_ne_ne ha hb e =
       cast (Etingof.ReversedAtVertexHom_ne_ne ha hb) e :=
-  -- `reversedArrow_ne_ne` is now *defined* as this cast.
+  -- `reversedArrow_ne_ne` is defined as this cast.
   rfl
 
 set_option maxHeartbeats 1600000 in
@@ -331,7 +326,7 @@ theorem Etingof.reflFunctorPlus_mapLinear_ne_ne
   have h_db : inst b i = .isFalse hb := by
     cases inst b i with | isTrue h => exact absurd h hb | isFalse _ => rfl
   -- (1) Function-level HEq of `mapAt` at the live discriminants vs. at the literal `isFalse`
-  -- branch. No element is applied, so `rw` on the discriminants is type-correct on v4.29.
+  -- branch. No element is applied, so `rw` on the discriminants is type-correct.
   -- At `.isFalse, .isFalse` the map iota-reduces to `ρ.mapLinear`.
   have hmap : HEq
       (@Etingof.QuiverRepresentation.mapLinear k Q _ (Etingof.reversedAtVertex Q i)
@@ -346,7 +341,7 @@ theorem Etingof.reflFunctorPlus_mapLinear_ne_ne
     refine Etingof.heq_apply (Etingof.ReversedAtVertexHom_ne_ne ha hb) ?_ hf he
     rw [h_da, h_db]
   -- (2) `equivAt_ne` is heterogeneously the identity (function level, via the parametrized
-  -- `equivAtAt_ne` and `rw` on the discriminant — again no element applied).
+  -- `equivAtAt_ne` and `rw` on the discriminant, again no element applied).
   have heqv : ∀ (v : Q) (hv : v ≠ i),
       HEq (⇑(Etingof.reflFunctorPlus_equivAt_ne hi ρ v hv)) (id : ρ.obj v → ρ.obj v) := by
     intro v hv
@@ -360,7 +355,7 @@ theorem Etingof.reflFunctorPlus_mapLinear_ne_ne
     (Etingof.heq_apply (Etingof.reflFunctorPlus_obj_ne hi ρ a ha) rfl (heqv a ha)
       (cast_heq (Etingof.reflFunctorPlus_obj_ne hi ρ a ha) w).symm).trans
       (cast_heq (Etingof.reflFunctorPlus_obj_ne hi ρ a ha) w)
-  -- Instance HEqs needed to bridge `hmap` (HEq of LinearMap objects) to HEq of coercions.
+  -- Instance HEqs needed to relate `hmap` (HEq of LinearMap objects) to HEq of coercions.
   have hac_a : HEq
       (Etingof.reflFunctorPlus_acmAt ρ i a (inst a i)) (ρ.instAddCommMonoid a) := by
     rw [h_da]; rfl
@@ -413,7 +408,7 @@ theorem Etingof.reversedArrow_eq_ne_eq_cast
     (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) i b) :
     Etingof.reversedArrow_eq_ne hb e =
       cast (Etingof.ReversedAtVertexHom_eq_ne rfl hb) e :=
-  -- `reversedArrow_eq_ne` is now *defined* as this cast.
+  -- `reversedArrow_eq_ne` is defined as this cast.
   rfl
 
 set_option maxHeartbeats 1600000 in
@@ -481,7 +476,7 @@ theorem Etingof.reflFunctorPlus_mapLinear_eq_ne
     (Etingof.heq_apply (Etingof.reflFunctorPlus_obj_eq hi ρ) rfl (heqve)
       (cast_heq (Etingof.reflFunctorPlus_obj_eq hi ρ) w).symm).trans
       (cast_heq (Etingof.reflFunctorPlus_obj_eq hi ρ) w)
-  -- (3) Instance HEqs to bridge `hmap` to HEq of coercions.
+  -- (3) Instance HEqs relating `hmap` to HEq of coercions.
   have hac_i : HEq
       (Etingof.reflFunctorPlus_acmAt ρ i i (inst i i))
       (Submodule.addCommMonoid (ρ.sinkMap i).ker) := by

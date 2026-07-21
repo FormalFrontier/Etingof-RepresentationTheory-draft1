@@ -25,26 +25,13 @@ reoriented quiver.
 This completes Gabriel's theorem: indecomposable representations of Dynkin quivers
 are in bijection with positive roots.
 
-## Mathlib correspondence
-
-Requires full reflection functor machinery and the construction of simple
-representations. Not in Mathlib.
-
-## Formalization note
-
-The statement says: for any positive root α (w.r.t. the Cartan form of a Dynkin
-diagram), there is an indecomposable quiver representation whose dimension
+The statement says: for any positive root α (with respect to the Cartan form of a
+Dynkin diagram), there is an indecomposable quiver representation whose dimension
 vector equals α. The proof uses Theorem 6.8.1 (iterated reflections reach a
 simple root) and the reflection functors (Definitions 6.6.3-6.6.4) to
 reconstruct the representation from the simple one.
 
-## Current status
-
-**Complete.** `Etingof.Corollary6_8_4` is proved sorry-free (`#print axioms`
-reports only `[propext, Classical.choice, Quot.sound]`), completing Gabriel's
-theorem for Dynkin quivers.
-
-### Proof structure
+## Proof structure
 - **Simple representation construction** (`simpleRepresentation`): the
   indecomposable representation k₍ₚ₎ at vertex p (1-dim at p, 0 elsewhere, all
   maps zero) for any quiver Q.
@@ -61,11 +48,9 @@ theorem for Dynkin quivers.
   Indecomposability and the dimension-vector identity are supplied by
   Propositions 6.6.5, 6.6.7 and 6.6.8 (source and sink cases).
 
-### Fixed (issue #1094)
-- **Q-adj connection**: Added `IsOrientationOf Q adj` hypothesis linking the
-  quiver to the Dynkin diagram's adjacency matrix.
-- **Universe polymorphism**: Pinned `obj` universe to match `k` in the
-  conclusion's `QuiverRepresentation`.
+The `IsOrientationOf Q adj` hypothesis links the quiver to the Dynkin diagram's
+adjacency matrix, and the `obj` universe is pinned to match `k` in the conclusion's
+`QuiverRepresentation`.
 -/
 
 open scoped Matrix
@@ -626,7 +611,7 @@ private lemma backward_construct_rep
       -- v is a sink of Q
       have hv_sink : @Etingof.IsSink (Fin n) Q v := by
         have := hSinks 0 (by simp)
-        -- v4.31: the `take 0` / `iteratedReversedAtVertices` reduction is now defeq; simp is a no-op.
+        -- The `take 0` and `iteratedReversedAtVertices` reduction holds definitionally.
         exact this
       -- Q_rev = reversedAtVertex Q v; v is source in Q_rev
       let Q_rev := @Etingof.reversedAtVertex (Fin n) _ Q v
@@ -721,7 +706,7 @@ private lemma backward_construct_rep
       have hinvol : @Etingof.reversedAtVertex (Fin n) _
           (@Etingof.reversedAtVertex (Fin n) _ Q v) v = Q :=
         @Etingof.reversedAtVertex_twice (Fin n) _ Q v
-      -- Bridge dim vector
+      -- Dimension vector identity
       set d' := fun w => (@Module.finrank k (ρ₁.obj w)
           _ (ρ₁.instAddCommMonoid w) (ρ₁.instModule w) : ℤ)
       have hd_eq : d' = fun w => (d₁ w : ℤ) := by
@@ -899,7 +884,7 @@ theorem Etingof.Corollary6_8_4
         ih _ hα'_sum_lt α' Q' hSS' rfl hα'_positive hQ'_orient
       -- Step 5: Construct ρ on Q from ρ' on Q' via reflection functor at i.
       -- Split on whether i is a sink, source, or mixed vertex in Q.
-      -- NOTE: Do NOT use haveI for Free/Finite here — it creates instance
+      -- NOTE: Do NOT use haveI for Free/Finite here: it creates instance
       -- conflicts when reflection functor reps (on reversedAtVertex Q' i)
       -- coexist, since fp.obj v = ρ'.obj v for v ≠ i and both instModule
       -- become synthesizable.
@@ -1011,7 +996,7 @@ theorem Etingof.Corollary6_8_4
           · exact absurd hsimple hρ'_not_simple
           · exact hsurj
         -- Apply F⁺ at sink i on Q'
-        -- Precompute dim vector bridge before introducing fp (avoids quiver conflict)
+        -- Precompute the dimension vector identity before introducing fp (avoids quiver conflict)
         set d' := fun v => (@Module.finrank k (ρ'.obj v)
           _ (ρ'.instAddCommMonoid v) (ρ'.instModule v) : ℤ)
         have hd_eq : d' = fun v => (α' v : ℤ) := by
@@ -1090,13 +1075,13 @@ theorem Etingof.Corollary6_8_4
             · exact (Equiv.subsingleton_congr
                 (@Etingof.reflFunctorPlus_equivAt_ne k _ (Fin n) _ Q'
                   i hi_sink_Q' ρ' w hw).toEquiv).mp (h_zero w)
-        -- Dim vector: combine Prop 6.6.8 + bridge + involution
+        -- Dim vector: combine Prop 6.6.8, the dimension vector identity, and involution
         have hDim_fp : ∀ v, (α v : ℤ) =
             ↑((@Etingof.reflectionFunctorPlus k _ (Fin n) _ Q' i hi_sink_Q' ρ').finrankAt' k v) := by
           intro v; rw [h668 v]
           show (α v : ℤ) = Etingof.simpleReflectionDimVector
             (fun (a : @Etingof.ArrowsInto (Fin n) Q' i) => a.1) i d' v
-          -- hbridge uses a different Fintype instance, bridge via convert
+          -- hbridge uses a different Fintype instance; reconcile via convert
           have hgoal : (α v : ℤ) = Etingof.simpleReflection n (Etingof.cartanMatrix n adj) i d' v := by
             rw [← hA_def, hd_eq]; exact (congr_fun hinvol_α v).symm
           rw [hgoal]; convert (congr_fun hbridge v).symm using 2
@@ -1120,7 +1105,7 @@ theorem Etingof.Corollary6_8_4
               ρ' i _ _ _ hi_source_Q' hindec' with hsimple | hinj
             · exact absurd hsimple hρ'_not_simple
             · exact hinj
-          -- Precompute dim vector bridge
+          -- Precompute the dimension vector identity
           set d' := fun v => (@Module.finrank k (ρ'.obj v)
             _ (ρ'.instAddCommMonoid v) (ρ'.instModule v) : ℤ)
           have hd_eq : d' = fun v => (α' v : ℤ) := by

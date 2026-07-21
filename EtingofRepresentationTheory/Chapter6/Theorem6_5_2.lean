@@ -18,13 +18,7 @@ indecomposable representations. Namely, the dimension vector of any indecomposab
 representation is a positive root (with respect to B_Γ) and for any positive root α
 there is exactly one indecomposable representation with dimension vector α.
 
-## Mathlib correspondence
-
-Gabriel's theorem is NOT in Mathlib. This is a major result connecting quiver
-representation theory to root systems. Mathlib has basic quiver support and
-root system infrastructure, but the connection (Gabriel's theorem) is absent.
-
-## Formalization note
+## Structure
 
 This theorem has three parts:
 1. Finiteness of indecomposable representations for ADE quivers
@@ -34,8 +28,7 @@ This theorem has three parts:
 The statement requires substantial infrastructure: quiver representations,
 indecomposability, dimension vectors, and the root system of a Dynkin diagram.
 
-We state the three parts separately for clarity, then combine them into the
-full theorem.
+We state the three parts separately, then combine them into the full theorem.
 -/
 
 section Finiteness
@@ -243,16 +236,15 @@ field `k`, all three parts hold at once:
 
 * **(a)** the set of positive roots is finite;
 * **(b)** the dimension vector of every finite-dimensional indecomposable
-  representation is a positive root — as a genuine implication `indecomposable ⇒
+  representation is a positive root, as an implication `indecomposable ⇒
   positive root`, discharging the `B(d,d) = 2` hypothesis of the standalone part
   (b) via `indecomposable_bilinearForm_eq_two`;
 * **(c)** for each positive root `α` there is exactly one indecomposable
   representation (up to isomorphism) with dimension vector `α`.
 
-This is the faithful canonical statement: the three parts are the ones stated
-separately above (`Theorem_6_5_2a_finiteness`, `Theorem_6_5_2b_dimvec_is_positive_root`,
-`Theorem_6_5_2c_bijection`), assembled here so the canonical name asserts the
-whole theorem on its own.
+The three parts are those stated separately above (`Theorem_6_5_2a_finiteness`,
+`Theorem_6_5_2b_dimvec_is_positive_root`, `Theorem_6_5_2c_bijection`), combined
+here so that a single name asserts the whole theorem.
 (Etingof Theorem 6.5.2) -/
 theorem Etingof.Theorem_6_5_2_Gabriels_theorem
     {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}

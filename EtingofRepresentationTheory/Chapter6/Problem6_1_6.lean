@@ -614,11 +614,11 @@ theorem mckay_connected (hW : IsCompleteIrreps W) (i j : Fin m) :
 
 /-! ## Part (c): positive semidefinite but not definite (explicit form)
 
-The assembled statement `mckay_isAffineDynkin` (all six conjuncts of
-`IsAffineDynkinDiagram`) lives below, after the `mckayCartan_posSemidef` /
-`mckayCartan_not_posDef` lemmas it consumes. -/
+The full statement `mckay_isAffineDynkin` (all six conjuncts of
+`IsAffineDynkinDiagram`) appears below, after the `mckayCartan_posSemidef` /
+`mckayCartan_not_posDef` lemmas it uses. -/
 
-/-- **(c)** The McKay Cartan form is positive **semidefinite**. Following the book's hint, set
+/-- **(c)** The McKay Cartan form is positive semidefinite. Following the book's hint, set
 `f = ∑ᵢ xᵢ χ_{Wᵢ}` and compute `((2 - χ_V) f, f) = (1/|G|) ∑_g (2 - χ_V(g)) |f(g)|²`. Each factor
 `2 - χ_V(g) ≥ 0` (the `SU(2)` trace bound `charV_re_le_two`, with `χ_V` real by `charV_im_zero`)
 and `|f(g)|² ≥ 0`, so the sum is `≥ 0`. Orthonormality of the irreducible characters
@@ -736,7 +736,7 @@ theorem mckayCartan_posSemidef (hW : IsCompleteIrreps W) (hne : Nontrivial G)
   have hQnonneg : 0 ≤ (Q : ℝ) := by nlinarith [hreal, hS0_nonneg, hcard_pos]
   exact_mod_cast hQnonneg
 
-/-- **(c)** The McKay Cartan form is **not** positive definite: the vector of
+/-- **(c)** The McKay Cartan form is not positive definite: the vector of
 irreducible dimensions is a nonzero null vector. -/
 theorem mckayCartan_not_posDef (hW : IsCompleteIrreps W) (hne : Nontrivial G) :
     ∃ x : Fin m → ℤ, x ≠ 0 ∧
@@ -775,7 +775,7 @@ theorem mckayCartan_not_posDef (hW : IsCompleteIrreps W) (hne : Nontrivial G) :
       exact mckay_marks_aux W hW i
     rw [hinner, mul_zero]
 
-/-! ## Part (c): assembling `IsAffineDynkinDiagram` -/
+/-! ## Part (c): combining into `IsAffineDynkinDiagram` -/
 
 omit [Finite G] in
 /-- Each irreducible `W b` is a nonzero object, so its dimension is positive. -/
@@ -838,7 +838,7 @@ lemma nontrivial_of_cyclic (hW : IsCompleteIrreps W) (hcyc : IsCyclic G) (hm : 3
 nontrivial `G ⊂ SU(2)` has no nonzero invariant vector. A vector fixed by all of `G` is in
 particular fixed by some `g ≠ 1`; then `1` is an eigenvalue of the `SU(2)`-matrix `A` of `g`,
 so `det (A - 1) = 0`, and the `2×2` identity `det (A - 1) = 2 - tr A` gives `χ_V(g) = tr A = 2`,
-whence `g = 1` by `taut_char_eq_two_imp_one` — a contradiction. -/
+whence `g = 1` by `taut_char_eq_two_imp_one`, a contradiction. -/
 lemma finrank_invariants_V_eq_zero (hne : Nontrivial G) :
     Module.finrank ℂ (Representation.invariants (V G).ρ) = 0 := by
   classical
@@ -916,9 +916,9 @@ theorem mckayAdj_no_selfLoop_cyclic
 The book's part-(c) argument uses the central element `-Id ∈ SU(2)`: it acts on the
 tautological representation `V` as the scalar `-1` (so `χ_V(-Id) = -2`). These are the
 concrete `SU(2)` facts; the Schur/character argument that turns them into
-`rᵢᵢ = 0` is proved sorry-free in this file, both in the non-cyclic case
+`rᵢᵢ = 0` is carried out both in the non-cyclic case
 (`mckayAdj_no_selfLoop_of_central_neg`) and the cyclic case
-(`mckayAdj_no_selfLoop_cyclic`), assembled in `mckayAdj_no_selfLoop`. -/
+(`mckayAdj_no_selfLoop_cyclic`), combined in `mckayAdj_no_selfLoop`. -/
 
 /-- The central element `-Id ∈ SU(2)`: the negation of the identity matrix. Its
 determinant is `(-1)² = 1` and it is unitary (`star (-1) * (-1) = 1`), so it lies in
@@ -1166,11 +1166,11 @@ private lemma exists_eigen_character_of_not_simple
   field_simp
   linear_combination key
 
-/-- **Crux (odd-order case).** A finite subgroup of `SU(2)` of odd order is cyclic.
+/-- **Odd-order case.** A finite subgroup of `SU(2)` of odd order is cyclic.
 
-Route (self-contained, no `SO(3)` classification): `|G|` odd ⇒ the tautological
+Argument (self-contained, no `SO(3)` classification): `|G|` odd ⇒ the tautological
 `2`-dimensional representation `V` is reducible (an odd-order group has no even-dimensional
-irreducible, since `dim ∣ |G|` — `finrank_dvd_card_of_irreducible` — would force `2 ∣ |G|`),
+irreducible, since `dim ∣ |G|` (`finrank_dvd_card_of_irreducible`) would force `2 ∣ |G|`),
 so `V` splits off a `G`-invariant line. The eigenvalue character `χ : G → ℂˣ`
 (`exists_eigen_character_of_not_simple`) satisfies `χ_V(g) = χ(g) + χ(g)⁻¹`; when `χ(g) = 1`
 this gives `χ_V(g) = 2`, so `g = 1` by faithfulness (`taut_char_eq_two_imp_one`). Thus `χ`
@@ -1403,8 +1403,8 @@ contains `-Id`; when `G` is cyclic (so `G ⊂ U(1)`, type `Ãₙ` with `n ≥ 3`
 `3 ≤ m`), `V` splits as `χ ⊕ χ⁻¹` with `χ` a nontrivial character, and `V ⊗ Wᵢ`
 returns two characters distinct from `Wᵢ`.
 
-This uses the `SU(2)` subgroup infrastructure of Problem 4.12.8, all proved
-sorry-free in this file: the central `-Id` (`negIdSU` / `negIdSU_central`), the
+This uses the `SU(2)` subgroup infrastructure of Problem 4.12.8: the central
+`-Id` (`negIdSU` / `negIdSU_central`), the
 cyclic-vs-`-Id` dichotomy (`su2_finite_cyclic_or_contains_negId`), and the
 cyclic case (`mckayAdj_no_selfLoop_cyclic`, where `V` splits as `χ ⊕ χ⁻¹`). -/
 lemma mckayAdj_no_selfLoop (hW : IsCompleteIrreps W) (hm : 3 ≤ m) (hne : Nontrivial G)
@@ -1431,7 +1431,7 @@ and `3 ≤ m`, `rᵢⱼ ≤ 1`.
 Proof: the marks vector `d` (all positive) satisfies `∑ₖ rᵢₖ dₖ = 2 dᵢ`, so the
 single term `rᵢⱼ dⱼ ≤ 2 dᵢ` and symmetrically `rᵢⱼ dᵢ ≤ 2 dⱼ`; multiplying gives
 `rᵢⱼ² ≤ 4`. If `rᵢⱼ = 2` these force `dᵢ = dⱼ` and, via the marks sum, `rᵢₖ = 0`
-for all `k ≠ j` and `rⱼₖ = 0` for all `k ≠ i` — so `{i, j}` is an isolated pair,
+for all `k ≠ j` and `rⱼₖ = 0` for all `k ≠ i`, so `{i, j}` is an isolated pair,
 contradicting connectivity of the McKay graph once `m ≥ 3`. -/
 lemma mult_le_one_off (hW : IsCompleteIrreps W) (hm : 3 ≤ m) {i j : Fin m} (hij : i ≠ j) :
     mult W i j ≤ 1 := by
@@ -1550,8 +1550,8 @@ lemma mult_le_one (hW : IsCompleteIrreps W) (hm : 3 ≤ m) (hne : Nontrivial G) 
 
 /-- **(c)** The McKay adjacency matrix is symmetric with `0/1` entries and no
 self-loops, its graph is connected, and its Cartan matrix `2δ - r` is positive
-semidefinite but not definite — i.e. (for `3 ≤ m`) the McKay graph is an
-**affine Dynkin diagram**. The `3 ≤ m` hypothesis excludes the `m = 2` case
+semidefinite but not definite, that is (for `3 ≤ m`) the McKay graph is an
+affine Dynkin diagram. The `3 ≤ m` hypothesis excludes the `m = 2` case
 `G ≅ ℤ/2`, whose McKay graph is the double edge `Ã₁` (violating `0/1` adjacency). -/
 theorem mckay_isAffineDynkin (hW : IsCompleteIrreps W) (hm : 3 ≤ m)
     (hne : Nontrivial G) :
