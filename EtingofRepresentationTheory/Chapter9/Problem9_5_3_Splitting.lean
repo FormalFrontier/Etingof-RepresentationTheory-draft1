@@ -12,13 +12,13 @@ that group is trivial the only extension is the split one, so any short exact se
 
 ## Proof strategy
 
-Feed the short exact sequence into the **contravariant** `Ext` long exact sequence with target
+Apply the short exact sequence to the contravariant `Ext` long exact sequence with target
 `A`:
 `Ext C A 0 → Ext B A 0 → Ext A A 0 →[·∘extClass] Ext C A 1`.
 The connecting map `Ext A A 0 → Ext C A 1` sends the identity class `mk₀ (𝟙 A)` to
 `extClass ∘ (𝟙 A) = extClass`, which is `0` because `Ext¹(C, A)` is subsingleton. Exactness at
 `Ext A A 0` then produces a preimage `x₂ ∈ Ext B A 0` of `mk₀ (𝟙 A)` under precomposition with
-`f`. Realizing `x₂` as an honest morphism `r : B ⟶ A` via the degree-`0` bijection
+`f`. Realizing `x₂` as a morphism `r : B ⟶ A` via the degree-`0` bijection
 `Ext B A 0 ≃ (B ⟶ A)` gives `f ≫ r = 𝟙 A`, i.e. a retraction of `f`. A retraction of `f` in an
 abelian (hence balanced) category yields a splitting of the short complex
 (`ShortComplex.Splitting.ofExactOfRetraction`), whose induced isomorphism is `B ≅ A ⊞ C`.
@@ -51,7 +51,7 @@ theorem shortExact_splits_of_ext_subsingleton
   -- trivial group `Ext¹(C, A)`.
   obtain ⟨x₂, hx₂⟩ := Abelian.Ext.contravariant_sequence_exact₁ hSES A
     (Abelian.Ext.mk₀ (𝟙 A)) (show (1 : ℕ) + 0 = 1 from rfl) (Subsingleton.elim _ 0)
-  -- Realize `x₂ : Ext B A 0` as a genuine retraction `r : B ⟶ A` with `f ≫ r = 𝟙 A`.
+  -- Realize `x₂ : Ext B A 0` as a retraction `r : B ⟶ A` with `f ≫ r = 𝟙 A`.
   have hfr : f ≫ Abelian.Ext.homEquiv₀ x₂ = 𝟙 A := by
     apply (Abelian.Ext.mk₀_bijective A A).injective
     rw [← Abelian.Ext.mk₀_comp_mk₀, Abelian.Ext.mk₀_homEquiv₀_apply]

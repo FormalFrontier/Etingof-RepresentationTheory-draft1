@@ -3,12 +3,12 @@ import EtingofRepresentationTheory.Chapter9.PathAlgebraConsSplittingIso
 /-!
 # The retraction of `Φ` and injectivity of the cons-splitting
 
-Eighth layer of the standard length-`1` projective resolution of path-algebra modules
-(Problem 9.4.6 (i), parent #6420). Write `A := PathAlgebra k Q`, `S := Q → k` the vertex
+In the standard length-`1` projective resolution of path-algebra modules
+(Problem 9.4.6 (i)), write `A := PathAlgebra k Q`, `S := Q → k` the vertex
 subalgebra, `V` the arrow bimodule. The cons-splitting `A_n ⊗_S V ≅ A_{n+1}`
-(`Chapter9/PathAlgebraConsSplitting.lean`) has a **surjectivity** half already recorded
+(`Chapter9/PathAlgebraConsSplitting.lean`) has a surjectivity half already recorded
 (`exists_stdΦ_preimage_topDegree` in `Chapter9/PathAlgebraConsSplittingIso.lean`). This file
-supplies the **injectivity** half in the form actually consumed downstream: a genuine (non-`sorry`)
+supplies the injectivity half as a
 left inverse of the top-half boundary map
 
 ```
@@ -29,8 +29,8 @@ Only base-ring (`S = Q → k`) scalars move across the tensors (`TensorProduct.s
 `k` does not act on `A ⊗_S -`, so every coefficient is kept inside a `Finsupp` factor and shuttled
 between factors by the vertex `S`-actions.
 
-This is the injectivity content of the bundled `A_n ⊗_S V ≅ A_{n+1}` isomorphism (issue #6545) and
-the crux `Function.Injective (stdΦ M).hom` of `Mono (stdd M)` (issue #6561), which telescopes it up
+This is the injectivity content of the bundled `A_n ⊗_S V ≅ A_{n+1}` isomorphism, and
+the `Function.Injective (stdΦ M).hom` needed for `Mono (stdd M)`, which telescopes it up
 to the whole complex via the coordinate shift `inducedCoordMap_stdd_shift`.
 -/
 
@@ -289,10 +289,10 @@ theorem stdΦRet_leftInverse : Function.LeftInverse (stdΦRet M) (stdΦ M).hom :
       | add y z hy hz => rw [TensorProduct.tmul_add, map_add, map_add, hy, hz]
   | add η ζ hη hζ => rw [map_add, map_add, hη, hζ]
 
-/-- **Injectivity of the top-half boundary map `Φ = stdΦ M`.** The genuine (non-`sorry`) left
+/-- **Injectivity of the top-half boundary map `Φ = stdΦ M`.** The left
 inverse `stdΦRet M` witnesses that `Φ` is injective. This is the injectivity content of the
-cons-splitting `A_n ⊗_S V ≅ A_{n+1}` (tensored with `M`), the crux of `Mono (stdd M)` for the
-standard resolution (issue #6561). -/
+cons-splitting `A_n ⊗_S V ≅ A_{n+1}` (tensored with `M`), the core of `Mono (stdd M)` for the
+standard resolution. -/
 theorem stdΦ_injective : Function.Injective (stdΦ M).hom :=
   (stdΦRet_leftInverse M).injective
 

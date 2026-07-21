@@ -9,7 +9,7 @@ import Mathlib.LinearAlgebra.Span.Basic
 # Problem 9.4.6 (i), lower bound: the path algebra of a quiver with an edge is not semisimple
 
 The path algebra `A := PathAlgebra k Q` of a quiver with at least one edge has homological
-dimension *exactly* `1`. The upper bound `HasHomologicalDimensionLE A 1` is the standard
+dimension exactly `1`. The upper bound `HasHomologicalDimensionLE A 1` is the standard
 resolution (`Chapter9/Problem9_4_6.lean`). This file supplies the matching lower bound
 
 ```
@@ -21,12 +21,12 @@ i.e. `A` is not semisimple: it has a module of positive projective dimension.
 
 ## The augmentation module `S_b`
 
-Fix the target vertex `b` of an edge. The **augmentation at `b`** is the `k`-algebra
+Fix the target vertex `b` of an edge. The augmentation at `b` is the `k`-algebra
 homomorphism `ε_b : A → k`, `a ↦ a ⟨b, b, nil⟩` (the coefficient of the trivial path at `b`).
 Multiplicativity is the statement that a product of basis paths equals the trivial path `e_b`
-only when *both* factors are `e_b` (`comp_eq_some_nil_iff`). Pulling the regular `k`-module
-back along `ε_b` gives the one-dimensional **augmentation module** `S_b = k` on which every
-arrow acts as `0` and `e_b` acts as the identity — the simple module at vertex `b`.
+only when both factors are `e_b` (`comp_eq_some_nil_iff`). Pulling the regular `k`-module
+back along `ε_b` gives the one-dimensional augmentation module `S_b = k` on which every
+arrow acts as `0` and `e_b` acts as the identity, the simple module at vertex `b`.
 
 ## Why `S_b` is not projective (the template)
 
@@ -36,7 +36,7 @@ Mirror `not_hasHomologicalDimensionLE_zero_polynomial` (`Chapter9/Example9_4_4.l
 the chosen edge `a ⟶ b`, `x` acts as `0` on `S_b`, so `x · s(1) = s(x • 1) = 0` in `A`. But
 the coefficient of the basis path `x` in `x · s(1)` equals the coefficient of `e_b` in `s(1)`
 (`arrow_mul_apply_arrow`), which is `ε_b(s(1)) = 1` because `s` is a section. So
-`x · s(1) ≠ 0` — a contradiction.
+`x · s(1) ≠ 0`, a contradiction.
 -/
 
 universe u
@@ -200,7 +200,7 @@ theorem arrow_mul_apply_arrow {a b : Q} (e : a ⟶ b) (w : PathAlgebra k Q) :
 homological-dimension predicate quantifies over `Type (u+1)`-modules. We therefore realise the
 one-dimensional augmentation module on the `ULift`ed carrier `ULift.{u+1} k`. -/
 
-/-- The **augmentation module** `S_b` at a vertex `b`: the field `k` (universe-lifted to match
+/-- The augmentation module `S_b` at a vertex `b`: the field `k` (universe-lifted to match
 `PathAlgebra k Q`) regarded as a left `A = PathAlgebra k Q`-module through the augmentation
 `ε_b`, `a • v = ε_b(a) · v`. Only the trivial path at `b` acts as the identity; every arrow acts
 as `0`. It is the simple module at vertex `b`, and its positive projective dimension witnesses
@@ -252,7 +252,7 @@ not semisimple: it does not have homological dimension `0`.
 The augmentation module `S_b` at the target `b` of an edge `x : a ⟶ b` is not projective. If it
 were, the surjection `A ↠ S_b`, `p ↦ p • 1`, would split by a section `s`; then `x • 1 = 0`
 forces `x · s(1) = 0` in `A`, yet the `x`-coefficient of `x · s(1)` is the `e_b`-coefficient of
-`s(1)`, which is `1` because `s` is a section — a contradiction. -/
+`s(1)`, which is `1` because `s` is a section, a contradiction. -/
 theorem not_hasHomologicalDimensionLE_zero_pathAlgebra
     (hQ : ∃ a b : Q, Nonempty (a ⟶ b)) :
     ¬ Etingof.HasHomologicalDimensionLE (Etingof.PathAlgebra k Q) 0 := by

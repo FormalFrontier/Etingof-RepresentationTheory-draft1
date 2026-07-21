@@ -26,8 +26,8 @@ finite dimensional algebras.
 
 The entries `cᵢⱼ` are defined exactly as in the book: `dim_k Hom_A(Pᵢ, Pⱼ)`. This is the
 form of the definition stated at the start of §9.3 (`cᵢⱼ := dim Hom_A(Pᵢ, Pⱼ)`), and it is
-genuinely constructed from the input data — the algebra `A`, the ground field `k`, and the
-family `P` of projective covers — rather than from an externally supplied table of numbers.
+constructed from the input data (the algebra `A`, the ground field `k`, and the
+family `P` of projective covers) rather than from an externally supplied table of numbers.
 Concretely, the `(i, j)` entry is `Module.finrank k (P i →ₗ[A] P j)`, the `k`-dimension of
 the Hom space. By Proposition 9.2.3 (`Etingof.projective_cover_hom_multiplicity`) this
 equals the Jordan–Hölder multiplicity `[Pⱼ : Mᵢ]` whenever the `Pᵢ` are the projective

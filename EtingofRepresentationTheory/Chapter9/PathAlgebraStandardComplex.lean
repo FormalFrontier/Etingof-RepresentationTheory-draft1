@@ -4,8 +4,8 @@ import EtingofRepresentationTheory.Chapter9.PathAlgebraInduction
 /-!
 # The standard short complex of a path-algebra module
 
-Fourth layer of the standard length-`1` projective resolution of path-algebra modules
-(Problem 9.4.6 (i), parent #6420). Write `A := PathAlgebra k Q`, `S := Q → k` the vertex
+Part of the standard length-`1` projective resolution of path-algebra modules
+(Problem 9.4.6 (i)). Write `A := PathAlgebra k Q`, `S := Q → k` the vertex
 subalgebra (embedded by `f := vertexEmbedding : S →+* A`), `V` the arrow `S`-bimodule
 (`Chapter9/PathAlgebraArrowBimodule.lean`), and let `A ⊗_S -` be the induction functor
 (`Chapter9/PathAlgebraInduction.lean`). This file assembles, for a left `A`-module `M`, the
@@ -23,12 +23,12 @@ with `d (a ⊗ v ⊗ m) = a·v ⊗ m − a ⊗ (v·m)` and `ε (a ⊗ m) = a·m`
 `V = ArrowIndex Q →₀ k` carries two commuting `S`-actions (`arrowSourceModule` /
 `arrowTargetModule`), realized inside `A` as left / right multiplication by vertex idempotents
 (`vertexEmbedding_mul_arrowElt` / `arrowElt_mul_vertexEmbedding`). The inner tensor `V ⊗_S M`
-is formed over the **target** action (balanced against the restricted `S`-action on `M`), and
-the surviving left `S`-module structure is the **source** action.
+is formed over the target action (balanced against the restricted `S`-action on `M`), and
+the surviving left `S`-module structure is the source action.
 
 Both `S`-actions live on the single carrier `ArrowIndex Q →₀ k`, and the tensor product also has
 its own canonical `S`-action, so registering the surviving source action naively would create a
-diamond. We break it with type synonyms: `ArrowTgt` carries the target action (used to *form* the
+diamond. We break it with type synonyms: `ArrowTgt` carries the target action (used to form the
 tensor), and `VtensCarrier M` carries the source action (the surviving structure) as its `S`-module
 instance, defined by hand via `TensorProduct.map (srcHom s) id` rather than the canonical tensor
 action.
@@ -87,7 +87,7 @@ theorem wSMul_single (wt : ArrowIndex Q → Q) (s : Q → k) (x : ArrowIndex Q) 
 
 /-! ## Source / target scaling under `arrowInclusion` -/
 
-/-- Scaling by the **source** action corresponds to left multiplication by `f s` inside `A`. -/
+/-- Scaling by the source action corresponds to left multiplication by `f s` inside `A`. -/
 theorem arrowInclusion_wSMul_src (s : Q → k) (v : ArrowIndex Q →₀ k) :
     arrowInclusion (wSMul k Q ArrowIndex.src s v)
       = vertexEmbedding k Q s * arrowInclusion v := by
@@ -98,7 +98,7 @@ theorem arrowInclusion_wSMul_src (s : Q → k) (v : ArrowIndex Q →₀ k) :
       rw [wSMul_single, arrowInclusion_single, arrowInclusion_single, mul_smul_comm,
         vertexEmbedding_mul_arrowElt, smul_smul, mul_comm c]
 
-/-- Scaling by the **target** action corresponds to right multiplication by `f s` inside `A`. -/
+/-- Scaling by the target action corresponds to right multiplication by `f s` inside `A`. -/
 theorem arrowInclusion_wSMul_tgt (s : Q → k) (v : ArrowIndex Q →₀ k) :
     arrowInclusion (wSMul k Q ArrowIndex.tgt s v)
       = arrowInclusion v * vertexEmbedding k Q s := by
@@ -112,8 +112,8 @@ theorem arrowInclusion_wSMul_tgt (s : Q → k) (v : ArrowIndex Q →₀ k) :
 /-! ## The target-action type synonym `ArrowTgt` -/
 
 variable (k Q) in
-/-- The arrow bimodule carrier `V = ArrowIndex Q →₀ k`, with the **target** `S`-action registered
-as its canonical `Module (Q → k)` structure. Used to *form* the inner tensor `V ⊗_S M`. -/
+/-- The arrow bimodule carrier `V = ArrowIndex Q →₀ k`, with the target `S`-action registered
+as its canonical `Module (Q → k)` structure. Used to form the inner tensor `V ⊗_S M`. -/
 def ArrowTgt : Type (u + 1) := ArrowIndex Q →₀ k
 
 noncomputable instance instAddCommGroupArrowTgt : AddCommGroup (ArrowTgt k Q) :=
@@ -127,7 +127,7 @@ noncomputable instance instModuleArrowTgt : Module (Q → k) (ArrowTgt k Q) :=
   arrowTargetModule k Q
 
 /-- The source-scaling endomorphism `v ↦ s ·_src v` of `V`, as a `(Q → k)`-linear map with
-respect to the *target* action. `(Q → k)`-linearity is exactly the bimodule commutativity
+respect to the target action. `(Q → k)`-linearity is exactly the bimodule commutativity
 `wSMul_comm`. This is the building block of the surviving source `S`-action on `V ⊗_S M`. -/
 noncomputable def srcHom (s : Q → k) : ArrowTgt k Q →ₗ[Q → k] ArrowTgt k Q where
   toFun v := wSMul k Q ArrowIndex.src s v
@@ -167,14 +167,14 @@ noncomputable abbrev restrictObj : ModuleCat.{u + 1} (Q → k) :=
   (restrictScalars (vertexEmbedding k Q)).obj M
 
 /-- Underlying carrier of `V ⊗_S M`: the tensor `ArrowTgt ⊗_{Q→k} M` (target-balanced). Its
-`Module (Q → k)` instance is overridden to be the surviving **source** action. -/
+`Module (Q → k)` instance is overridden to be the surviving source action. -/
 def VtensCarrier : Type (u + 1) :=
   TensorProduct (Q → k) (ArrowTgt k Q) (restrictObj M)
 
 noncomputable instance : AddCommGroup (VtensCarrier M) :=
   inferInstanceAs (AddCommGroup (TensorProduct (Q → k) (ArrowTgt k Q) (restrictObj M)))
 
-/-- The surviving **source** `S`-action on `V ⊗_S M`: `s • (v ⊗ m) = (s ·_src v) ⊗ m`,
+/-- The surviving source `S`-action on `V ⊗_S M`: `s • (v ⊗ m) = (s ·_src v) ⊗ m`,
 implemented as `TensorProduct.map (srcHom s) id`. Registered by hand (not the canonical tensor
 action, which is the target action). -/
 noncomputable instance instSMulVtens : SMul (Q → k) (VtensCarrier M) where

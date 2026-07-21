@@ -4,18 +4,18 @@ import Mathlib.Algebra.Ring.Idempotent
 import Mathlib.CategoryTheory.Preadditive.Biproducts
 
 /-!
-# Exchange / uniqueness for indecomposable decompositions (Krull–Schmidt, link 4/5)
+# Exchange / uniqueness for indecomposable decompositions (Krull–Schmidt)
 
-This file is the **uniqueness** half of the Krull–Schmidt theorem for a finite abelian category
-`C`. Building on the local endomorphism rings of indecomposables (link 3/5,
-`KrullSchmidt/Fitting.lean`) it proves the Azumaya exchange property:
+This file is the uniqueness half of the Krull–Schmidt theorem for a finite abelian category
+`C`. Building on the local endomorphism rings of indecomposables
+(`KrullSchmidt/Fitting.lean`) it proves the Azumaya exchange property:
 
-* **`Etingof.indecomposable_summand_iso_factor`** — an indecomposable direct summand of a finite
+* **`Etingof.indecomposable_summand_iso_factor`**: an indecomposable direct summand of a finite
   biproduct of indecomposables is isomorphic to one of the factors.
 
 and bootstraps from it to full uniqueness of the multiset of factors:
 
-* **`Etingof.krullSchmidt_unique`** — two finite biproducts of indecomposables that are isomorphic
+* **`Etingof.krullSchmidt_unique`**: two finite biproducts of indecomposables that are isomorphic
   have the same factors up to a reindexing bijection.
 
 ## Proof of the exchange property
@@ -29,8 +29,8 @@ into a finite sum over the index set:
 ```
 
 Each summand `a k := (s ≫ π k) ≫ (ι k ≫ r)` is an endomorphism of `X`, and their sum is the unit
-`𝟙 X` of the ring `End X`. Because `End X` is **local** (`isLocalRing_End_of_indecomposable`, link
-3/5) and the nonunits of a local ring are closed under addition, a finite sum that is a unit must
+`𝟙 X` of the ring `End X`. Because `End X` is local (`isLocalRing_End_of_indecomposable`) and the
+nonunits of a local ring are closed under addition, a finite sum that is a unit must
 have a unit summand (`exists_isUnit_of_isUnit_sum`). So for some `k` the composite
 `a k = α ≫ β` is an isomorphism, where `α := s ≫ π k : X ⟶ Y k` and `β := ι k ≫ r : Y k ⟶ X`.
 
@@ -222,7 +222,7 @@ set_option linter.unusedFintypeInType false in
 /-- **Uniqueness of the indecomposable decomposition.** Two finite biproducts of indecomposables
 that are isomorphic have the same factors up to a reindexing bijection.
 
-This is the recommended companion result that pins the §9.7 multiplicities. It bootstraps from the
+This result pins the §9.7 multiplicities. It follows from the
 exchange property `indecomposable_summand_iso_factor` by induction on `Fintype.card κ`:
 
 * `κ` empty: `⨁ Y` is a zero object, so `⨁ Z` is zero, so `μ` is empty as well (any `Z m` would be

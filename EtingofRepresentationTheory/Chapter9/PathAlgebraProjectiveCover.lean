@@ -21,9 +21,9 @@ the observation that `eᵢ · A · eⱼ` is spanned by the basis paths from `i` 
 
 ## Main definitions and results
 
-* `Etingof.PathAlgebra.pathAlgebraProj k Q i` — the projective cover `A · eᵢ`, as the principal
+* `Etingof.PathAlgebra.pathAlgebraProj k Q i`: the projective cover `A · eᵢ`, as the principal
   left submodule `Submodule.span A {eᵢ}` with its inherited `A`- and `k`-module structures.
-* `Etingof.PathAlgebra.pathAlgebraHomEquiv` —
+* `Etingof.PathAlgebra.pathAlgebraHomEquiv`:
   `(A·eᵢ →ₗ[A] A·eⱼ) ≃ₗ[k] (Quiver.Path i j →₀ k)`, the Hom-space identification.
 -/
 
@@ -67,7 +67,7 @@ noncomputable def eIdem (i : Q) : PathAlgebra k Q := ofPath ⟨i, i, Quiver.Path
 theorem eIdem_mul_self (i : Q) : (eIdem i : PathAlgebra k Q) * eIdem i = eIdem i := by
   rw [eIdem, ofPath_nil_mul_ofPath_nil, if_pos rfl]
 
-/-- Coefficient of `eᵢ * a` at an index `x`: it keeps the paths whose *source* is `i` and kills
+/-- Coefficient of `eᵢ * a` at an index `x`: it keeps the paths whose source is `i` and kills
 the others. -/
 theorem coeff_eIdem_mul (i : Q) (a : PathAlgebra k Q) (x : QuiverPathIndex Q) :
     coeff (eIdem i * a) x = if x.1 = i then coeff a x else 0 := by
@@ -91,7 +91,7 @@ theorem coeff_eIdem_mul (i : Q) (a : PathAlgebra k Q) (x : QuiverPathIndex Q) :
       · subst hx; simp [coeff_single, Ne.symm his]
       · simp [coeff_single, Ne.symm hx]
 
-/-- Coefficient of `a * eⱼ` at an index `x`: it keeps the paths whose *target* is `j` and kills
+/-- Coefficient of `a * eⱼ` at an index `x`: it keeps the paths whose target is `j` and kills
 the others. -/
 theorem coeff_mul_eIdem (j : Q) (a : PathAlgebra k Q) (x : QuiverPathIndex Q) :
     coeff (a * eIdem j) x = if x.2.1 = j then coeff a x else 0 := by
@@ -317,10 +317,10 @@ noncomputable def cutPathEquiv (i j : Q) :
     rw [Finsupp.comapDomain_apply]
     exact Finsupp.embDomain_apply_self _ _ _
 
-/-! ## Assembly: `Hom_A(A·eᵢ, A·eⱼ) ≅ (paths i → j) →₀ k` -/
+/-! ## The Hom-space identification `Hom_A(A·eᵢ, A·eⱼ) ≅ (paths i → j) →₀ k` -/
 
 variable (k Q) in
-/-- **The Hom-space identification (Problem 9.4.6 (ii) crux).**
+/-- **The Hom-space identification (Problem 9.4.6 (ii)).**
 `Hom_A(A·eᵢ, A·eⱼ) ≃ₗ[k] (Quiver.Path i j →₀ k)`, composing the idempotent Hom identification
 `homCutEquiv` with the cut/paths identification `cutPathEquiv`. -/
 noncomputable def pathAlgebraHomEquiv (i j : Q) :

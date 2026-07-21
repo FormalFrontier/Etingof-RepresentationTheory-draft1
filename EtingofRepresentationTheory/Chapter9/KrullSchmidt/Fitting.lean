@@ -5,20 +5,20 @@ import Mathlib.RingTheory.Nilpotent.Basic
 import Mathlib.RingTheory.LocalRing.Basic
 
 /-!
-# Fitting's lemma and local endomorphism rings (Krull–Schmidt, link 3/5)
+# Fitting's lemma and local endomorphism rings (Krull–Schmidt)
 
-This file is the **hard core** of the Krull–Schmidt chain for a finite abelian category `C`. It
-records Fitting's lemma — the `ker`/`im` block decomposition of an endomorphism — and derives the
+This file is the hard core of the Krull–Schmidt chain for a finite abelian category `C`. It
+records Fitting's lemma (the `ker`/`im` block decomposition of an endomorphism) and derives the
 two facts the uniqueness half of Krull–Schmidt rests on:
 
-* **`Etingof.isNilpotent_or_isIso_of_indecomposable`** — every endomorphism of an indecomposable
+* **`Etingof.isNilpotent_or_isIso_of_indecomposable`**: every endomorphism of an indecomposable
   object is nilpotent or an isomorphism;
-* **`Etingof.isLocalRing_End_of_indecomposable`** — the endomorphism ring of an indecomposable
+* **`Etingof.isLocalRing_End_of_indecomposable`**: the endomorphism ring of an indecomposable
   object is local.
 
-## Design and the Fitting crux
+## Design and the Fitting decomposition
 
-Mathlib has the Fitting decomposition only for Artinian **modules**
+Mathlib has the Fitting decomposition only for Artinian modules
 (`Mathlib/RingTheory/Artinian/Module.lean`); there is nothing for an abstract abelian category.
 The categorical statement,
 
@@ -27,25 +27,24 @@ The categorical statement,
 ```
 
 needs the descending image chain `im (f^n)` and the ascending kernel chain `ker (f^n)` to
-*stabilise*. That stabilisation is exactly the finite-length input of `KrullSchmidt/Length.lean`:
-the chains are measured by `Etingof.clength`, whose finiteness/monotonicity is the (now proved,
-sorry-free) categorical Jordan–Hölder content of link 1/5. The Fitting decomposition
+stabilise. That stabilisation is exactly the finite-length input of `KrullSchmidt/Length.lean`:
+the chains are measured by `Etingof.clength`, whose finiteness and monotonicity is the
+categorical Jordan–Hölder content of that file. The Fitting decomposition
 `fitting_decomposition` is stated here in the convenient block-conjugation form
 
 ```
 f = e.hom ≫ biprod.map fK fI ≫ e.inv,   IsNilpotent fK,   IsIso fI,
 ```
 
-and is **proved** from the single finite-length input `Etingof.exists_pow_stabilizes`: at the
+and is proved from the single finite-length input `Etingof.exists_pow_stabilizes`: at the
 stabilising power `n` the image restriction `g' := image.ι (fⁿ) ≫ factorThruImage (fⁿ)` is an
 isomorphism. Given that iso the whole construction is elementary abelian-category algebra:
 `factorThruImage (fⁿ)` becomes a split epi (section `(g')⁻¹ ≫ image.ι (fⁿ)`), its kernel and image
 split `X` as a biproduct, `f` is block-diagonal because it preserves both summands (the kernel
 summand directly, the image summand because `f` maps `im (fⁿ)` into `im (fⁿ⁺¹) ⊆ im (fⁿ)`), and the
-two blocks are read off from `(fK)ⁿ = (fⁿ)|_K = 0` and `(fI)ⁿ = (fⁿ)|_I = g'`. The upstream
-`clength_*` finiteness lemmas that `exists_pow_stabilizes` rests on are all proved, sorry-free.
-**Everything downstream of `fitting_decomposition` in this file — the nilpotent-or-iso dichotomy and
-the local-ring property — is proved unconditionally from its statement.**
+two blocks are read off from `(fK)ⁿ = (fⁿ)|_K = 0` and `(fI)ⁿ = (fⁿ)|_I = g'`. The
+nilpotent-or-iso dichotomy and the local-ring property below follow from the statement of
+`fitting_decomposition` alone.
 
 The two reductions are elementary once the block form is in hand:
 
@@ -126,9 +125,9 @@ nilpotent and `fI` an isomorphism.
 
 `K` is the kernel `ker (factorThruImage (fⁿ)) = ker (fⁿ)` and `I` the eventual image `im (fⁿ)` for
 the stabilising power `n` supplied by `Etingof.exists_pow_stabilizes` (the finite-length content of
-`KrullSchmidt/Length.lean`, which rests on the proved, sorry-free `clength_*` lemmas); see the
-module doc for the proof outline. The downstream dichotomy and local-ring results below are proved
-unconditionally from this statement. -/
+`KrullSchmidt/Length.lean`, which rests on the `clength_*` lemmas); see the
+module doc for the proof outline. The downstream dichotomy and local-ring results below follow
+from this statement. -/
 theorem fitting_decomposition {X : C} (f : End X) :
     ∃ (K I : C) (e : X ≅ K ⊞ I) (fK : End K) (fI : End I),
       IsNilpotent fK ∧ IsIso (fI : I ⟶ I) ∧
@@ -219,7 +218,7 @@ theorem fitting_decomposition {X : C} (f : End X) :
         biprod.inl_fst, biprod.inl_snd, biprod.inr_fst, biprod.inr_snd, Category.comp_id,
         comp_zero, hfK, hfI, hA, hB]
   refine ⟨K, I, e, fK, fI, ?_, ?_, ?_⟩
-  · -- Step 5a: `fK` is nilpotent — `fK ^ n = 0`.
+  · -- Step 5a: `fK` is nilpotent: `fK ^ n = 0`.
     refine ⟨n, ?_⟩
     have hM : (e.conj f : K ⊞ I ⟶ K ⊞ I) = biprod.map (fK : K ⟶ K) (fI : I ⟶ I) := by
       rw [Iso.conj_apply]; exact hmap
@@ -231,7 +230,7 @@ theorem fitting_decomposition {X : C} (f : End X) :
       biprod.inl_desc_assoc, biprod.lift_fst, Category.comp_id] at h
     rw [← Category.assoc, hKg, zero_comp] at h
     exact h
-  · -- Step 5b: `fI` is an iso — `fI ^ n = i ≫ p` is an iso.
+  · -- Step 5b: `fI` is an iso: `fI ^ n = i ≫ p` is an iso.
     have hM : (e.conj f : K ⊞ I ⟶ K ⊞ I) = biprod.map (fK : K ⟶ K) (fI : I ⟶ I) := by
       rw [Iso.conj_apply]; exact hmap
     have hpow2 : biprod.map ((fK ^ n : End K) : K ⟶ K) ((fI ^ n : End I) : I ⟶ I)

@@ -27,7 +27,7 @@ Etingof Problem 9.5.3 relates the block decomposition of a finite abelian catego
   of characteristic `2`. *(This concrete modular-representation computation is discharged in
   `Problem9_5_3_S3Char2.lean`: `k[S₃] ≅ M₂(k) × k[t]/(t²)`, giving exactly two blocks.)*
 
-## Statement-pass note
+## Formalization notes
 
 Blocks are `Etingof.Block R` and block membership is `Etingof.InBlock R S M` (Definition
 9.5.1). "Indecomposable central idempotent" is the predicate
@@ -36,7 +36,7 @@ Blocks are `Etingof.Block R` and block membership is `Etingof.InBlock R S M` (De
 of two nonzero orthogonal central idempotents).
 "`Hom(M, N) = 0`" is `Subsingleton (M ⟶ N)`, and "indecomposable object" is
 `CategoryTheory.Indecomposable`. Two blocks are distinct exactly when their representative
-simple modules are not `Etingof.AreLinked`. The proofs are complete (sorry-free).
+simple modules are not `Etingof.AreLinked`.
 -/
 
 universe v u
@@ -123,7 +123,7 @@ theorem centralCharacter_eq_false_iff {S : ModuleCat.{v} R} (hS : IsSimpleModule
 open scoped ModuleCat.Algebra in
 /-- **Naturality of a central scalar on `Ext`.** For a central element `z` of `R`, viewed as an
 endomorphism `z • 𝟙` of every module, pre-composing an `Ext` class with `z • 𝟙 X` equals
-post-composing it with `z • 𝟙 Y` — both equal the `z`-scalar multiple `z • α`. This is the
+post-composing it with `z • 𝟙 Y`: both equal the `z`-scalar multiple `z • α`. This is the
 mechanism behind linkage invariance of the central character: `z • 𝟙` is a natural transformation
 of the identity functor (centrality), and the category of `R`-modules is linear over the
 (commutative) center of `R`, so scalar multiplication by `z` acts the same way through either
@@ -333,7 +333,7 @@ theorem exists_simple_actsAsOne [Small.{v} R] {f : R} (hf0 : f ≠ 0)
   intro m
   exact Subtype.ext (by rw [SetLike.val_smul]; exact hfP m.val m.property)
 
-/-- **Block connectivity from indecomposability (injectivity crux of Problem 9.5.3(i)).** If an
+/-- **Block connectivity from indecomposability (injectivity step of Problem 9.5.3(i)).** If an
 *indecomposable* central idempotent `f` acts as the identity on two simple modules `S` and `T` of
 a ring `R` of finite length (`IsFiniteLength R R`), then `S` and `T` are linked.
 
@@ -341,7 +341,7 @@ This is the direction of the block ↔ idempotent bijection that fails for a dec
 `f = 1` acts as the identity on every simple, but simples in different blocks are unlinked): it is
 precisely the indecomposability of `f` that forces the simples of `R` into a single linkage class.
 
-The finite-length hypothesis is genuinely required: over `R = ℤ` the unit `1` is an indecomposable
+The finite-length hypothesis is required: over `R = ℤ` the unit `1` is an indecomposable
 central idempotent acting as the identity on every simple `ℤ/p`, yet `ℤ/p` and `ℤ/q` are unlinked
 for `p ≠ q`. (This mirrors the finiteness needed for the full bijection below.)
 
@@ -352,7 +352,7 @@ linked/unlinked summands are stable under every `R`-linear endomorphism, hence a
 ideals. The projection onto the linked summand, being left-`R`-linear, is right multiplication by a
 central idempotent `c` (centrality comes from commuting with right multiplication); then
 `f = f·c + f·(1 - c)` splits `f` into two orthogonal central idempotents, both nonzero because
-`f·c` acts as the identity on `S` and `f·(1 - c)` on `T` — contradicting indecomposability unless
+`f·c` acts as the identity on `S` and `f·(1 - c)` on `T`, contradicting indecomposability unless
 `S` and `T` are linked. -/
 theorem areLinked_of_actsAsOne_common [Small.{v} R] {f : R}
     (hfl : IsFiniteLength R R)
@@ -606,14 +606,12 @@ theorem areLinked_of_actsAsOne_common [Small.{v} R] {f : R}
 bijection between the blocks of the category of finite dimensional `R`-modules (linkage classes
 of simple modules) and the indecomposable central idempotents of `R`.
 
-The finiteness hypothesis is essential and was missing from the original statement of this item.
+The finiteness hypothesis is essential.
 Over a general ring the two sides differ: for `R = ℤ` the simple modules `ℤ/p` are pairwise
-unlinked (`Ext¹_ℤ(ℤ/p, ℤ/q) = 0` for `p ≠ q`), so there is one block per prime — infinitely many
-— while the only indecomposable central idempotent of `ℤ` is `1`. A finiteness assumption forcing
+unlinked (`Ext¹_ℤ(ℤ/p, ℤ/q) = 0` for `p ≠ q`), so there is one block per prime, infinitely many,
+while the only indecomposable central idempotent of `ℤ` is `1`. A finiteness assumption forcing
 a `1 = Σ eₖ` decomposition into primitive central idempotents (here: `FiniteDimensional k R`) is
-what makes the two sides match. We keep the ambient ring `R` and simply add that it is a finite
-dimensional `k`-algebra, so the block API (`Etingof.Block R`, `IsIndecomposableCentralIdempotent
-R`) is unchanged.
+what makes the two sides match.
 
 The proof runs through `centralIdempotent_smul_simple`: each simple module has a central character
 (which central idempotents act as `1`), linked simples share it
@@ -674,7 +672,7 @@ theorem blocks_equiv_indecomposableCentralIdempotents
   let Sof : ι → ModuleCat.{v} R := fun i => (hexS i).choose
   have hSof : ∀ i, IsSimpleModule R (Sof i) := fun i => (hexS i).choose_spec.1
   have hactOf : ∀ i, ∀ m : (Sof i : Type v), e i • m = m := fun i => (hexS i).choose_spec.2
-  -- The block ≃ index bijection. The `left_inv` round-trip is the injectivity crux.
+  -- The block ≃ index bijection. The `left_inv` round-trip is the injectivity step.
   let eB : Etingof.Block.{v} R ≃ ι :=
     { toFun := Quotient.lift idxOf hwd
       invFun := fun i => Quotient.mk (Etingof.blockSetoid R) ⟨Sof i, hSof i⟩
@@ -749,9 +747,9 @@ theorem compositionFactors_areLinked [Small.{v} R]
 
 /-- **Problem 9.5.3 (ii), decomposition.** Every indecomposable finite-length object lies in
 some block: there is a simple module `S` such that all composition factors of `M` are linked to
-`S`. The finite-length assumption is the genuine `IsFiniteLength R M` (the earlier
-"`∃ composition factor`" form was too weak — it does not force finite length, and the block
-statement is false without it, e.g. `M = ℤ` over `R = ℤ`). -/
+`S`. The finite-length assumption is `IsFiniteLength R M`; the weaker
+"`∃ composition factor`" form does not force finite length, and the block
+statement is false without it, e.g. `M = ℤ` over `R = ℤ`. -/
 theorem exists_block_of_indecomposable [Small.{v} R]
     {M : ModuleCat.{v} R} (hM : Indecomposable M) (hfl : IsFiniteLength R M) :
     ∃ S : ModuleCat.{v} R, IsSimpleModule R S ∧ Etingof.InBlock R S M := by

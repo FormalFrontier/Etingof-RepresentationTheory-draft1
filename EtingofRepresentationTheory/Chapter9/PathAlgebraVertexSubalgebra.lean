@@ -11,19 +11,19 @@ subalgebra spanned by the trivial-path idempotents `eᵢ = ofPath ⟨i, i, nil�
 This file supplies the reusable vertex-subalgebra layer that the noncommutative induction
 functor `A ⊗_S -` is built on:
 
-* `Etingof.PathAlgebra.isSemisimpleRing_vertexAlgebra` — `S = Q → k` is a semisimple ring
+* `Etingof.PathAlgebra.isSemisimpleRing_vertexAlgebra`: `S = Q → k` is a semisimple ring
   (a finite product of fields), so every `S`-module is projective.
-* `Etingof.PathAlgebra.ofPath_nil_mul_ofPath_nil` — orthogonality of the vertex idempotents,
+* `Etingof.PathAlgebra.ofPath_nil_mul_ofPath_nil`: orthogonality of the vertex idempotents,
   `eᵢ eⱼ = δᵢⱼ eᵢ`.
-* `Etingof.PathAlgebra.vertexEmbedding` — the ring homomorphism `S →+* A`,
+* `Etingof.PathAlgebra.vertexEmbedding`: the ring homomorphism `S →+* A`,
   `a ↦ ∑ i, a i • eᵢ`, along which restriction/induction of scalars is taken.
 
 ## Obstruction note
 
-The image of `vertexEmbedding` is **not central** in `A` (the idempotents `eᵢ` do not commute
+The image of `vertexEmbedding` is not central in `A` (the idempotents `eᵢ` do not commute
 with the arrows), so `A` is not a commutative-base `S`-algebra and Mathlib's `extendScalars`
-(which needs `[CommRing R] [CommRing S]`) does not apply. This is exactly why the induction
-functor `A ⊗_S -` is genuine new infrastructure; see issue #6420.
+(which needs `[CommRing R] [CommRing S]`) does not apply. This is why the induction
+functor `A ⊗_S -` requires new infrastructure.
 -/
 
 universe u
@@ -34,7 +34,7 @@ namespace Etingof.PathAlgebra
 
 /-- **Semisimplicity of the vertex algebra.** The subalgebra `S = Q → k` spanned by the trivial
 paths is a finite product of copies of the field `k`, hence a semisimple ring. Consequently
-every `S`-module is projective — the fact that makes both nonzero terms of the standard
+every `S`-module is projective, the fact that makes both nonzero terms of the standard
 resolution projective `A`-modules. -/
 theorem isSemisimpleRing_vertexAlgebra (k Q : Type*) [Field k] [Finite Q] :
     IsSemisimpleRing (Q → k) :=

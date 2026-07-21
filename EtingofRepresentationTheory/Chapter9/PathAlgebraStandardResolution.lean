@@ -5,8 +5,8 @@ import Mathlib.Algebra.Homology.ShortComplex.ShortExact
 /-!
 # The standard resolution short exact sequence
 
-Eighth (assembly) layer of the standard length-`1` projective resolution of path-algebra modules
-(Problem 9.4.6 (i), parent #6420). Write `A := PathAlgebra k Q`, `S := Q → k` the vertex
+The standard length-`1` projective resolution of path-algebra modules is completed here
+(Problem 9.4.6 (i)). Write `A := PathAlgebra k Q`, `S := Q → k` the vertex
 subalgebra, `V` the arrow bimodule. The standard short complex
 
 ```
@@ -14,14 +14,14 @@ A ⊗_S (V ⊗_S M) →ᵈ A ⊗_S M →ᵉ M
 ```
 
 (`Chapter9/PathAlgebraStandardComplex.lean`, `standardComplex M`) is assembled here into a short
-**exact** sequence `(standardComplex M).ShortExact`. `Epi ε` is `epi_stdε`; `d ≫ ε = 0` is
+exact sequence `(standardComplex M).ShortExact`. `Epi ε` is `epi_stdε`; `d ≫ ε = 0` is
 `stdd_comp_stdε`. This file adds the two remaining halves and assembles them:
 
 ## Injectivity of the boundary `d` (`Mono d`)
 
-The crux is the **injectivity of the top half** `Φ = stdΦ` of `d`
+The main point is the injectivity of the top half `Φ = stdΦ` of `d`
 (`Chapter9/PathAlgebraConsSplittingIso.lean`), i.e. the injectivity content of the cons-splitting
-`A_n ⊗_S V ≅ A_{n+1}` tensored with `M`. We build a genuine additive **retraction** `stdΦRetr` of
+`A_n ⊗_S V ≅ A_{n+1}` tensored with `M`. We build an additive retraction `stdΦRetr` of
 `Φ` from the combinatorial cons-decomposition (`Chapter9/PathAlgebraConsSplitting.lean`): every
 length-`(n+1)` basis path `q = p·e` splits into its initial length-`n` path `p` and final arrow
 `e`, and the retraction sends `(x·arrow) ⊗ m ↦ x ⊗ (arrow ⊗ m)`. Injectivity of `Φ` then feeds the
@@ -31,7 +31,7 @@ vanish, hence `ξ = 0` (`inducedCoordMapGen_injective`). This is the noncommutat
 top-degree argument `pm_koszul_injective` / `finsupp_shift_eq_zero` (`Chapter9/KoszulHelpers.lean`).
 
 Because the tensors are formed over `S = Q → k` (not the base field `k`), a bare `k`-scalar does not
-act on them. We route every `k`-scalar `r` through the **constant function** `const r : Q → k`,
+act on them. We express every `k`-scalar `r` through the constant function `const r : Q → k`,
 using `r • a = (const r) • a` in the path algebra (`kSMul_eq_constSMul`) together with the
 `S`-balancing of the tensors.
 
@@ -47,8 +47,8 @@ component) and the coordinate shift relations `inducedCoordMap_stdd_shift`(`_zer
 `stdε_injective_of_higher_coord_zero`): the multiplication `ε` is injective on the length-`0`
 component, so `ξ ∈ ker ε` concentrated in degree `0` is `0`.
 
-Consumer: `hasHomologicalDimensionLE_pathAlgebra_one` in `Chapter9/Problem9_4_6.lean` (issue
-#6438), completing Problem 9.4.6 (i).
+This is used by `hasHomologicalDimensionLE_pathAlgebra_one` (`Chapter9/Problem9_4_6.lean`) to
+complete Problem 9.4.6 (i).
 -/
 
 universe u
@@ -256,7 +256,7 @@ theorem Rbilin_mul_arrowInclusion (a : PathAlgebra k Q) (v : ArrowTgt k Q) (m : 
             rw [TensorProduct.smul_tmul, vtens_smul_def, vtens_smul_tmul, srcHom_apply, hz,
               TensorProduct.zero_tmul, TensorProduct.tmul_zero]
 
-/-- **The additive retraction inverts `Φ`.** `stdΦRetr ∘ Φ = id`; the retraction genuinely splits
+/-- **The additive retraction inverts `Φ`.** `stdΦRetr ∘ Φ = id`; the retraction splits
 off the arrow that `Φ` multiplied in. -/
 theorem stdΦRetr_stdΦ (x : inducedVtensObj M) :
     stdΦRetr M ((stdΦ M).hom x) = x := by
@@ -455,13 +455,13 @@ theorem standardComplex_exact : (standardComplex M).Exact := by
       intro n _; rw [← hF, hF0, Finsupp.zero_apply]
     exact standardComplex_exact_aux M 0 ξ hhigh hξ
 
-/-! ## Assembly of the short exact sequence -/
+/-! ## The short exact sequence -/
 
 /-- **The standard resolution short exact sequence**: `(standardComplex M).ShortExact`. Assembled
 from `Mono (stdd M)` (injectivity of `d`, `stdd_mono`), middle exactness `standardComplex_exact`,
 and `Epi (stdε M)` (`epi_stdε`). This is the length-`1` projective resolution of `M` over the path
-algebra, completing #6512 and feeding `hasHomologicalDimensionLE_pathAlgebra_one`
-(`Chapter9/Problem9_4_6.lean`, issue #6438). -/
+algebra, used by `hasHomologicalDimensionLE_pathAlgebra_one`
+(`Chapter9/Problem9_4_6.lean`). -/
 theorem standardResolution_shortExact : (standardComplex M).ShortExact where
   exact := standardComplex_exact M
   mono_f := stdd_mono M

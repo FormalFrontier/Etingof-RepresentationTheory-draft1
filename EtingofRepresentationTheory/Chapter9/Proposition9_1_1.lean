@@ -40,7 +40,7 @@ theorem Etingof.idempotent_lifting_exists {A : Type*} [Ring A]
 /-- Idempotent lifting, Part (ii): any two liftings of an idempotent are conjugate
 by an element of 1 + I. (Etingof Proposition 9.1.1(ii))
 
-This is a stronger result than uniqueness — in the non-commutative case, two lifted
+This is a stronger result than uniqueness: in the non-commutative case, two lifted
 idempotents need not be equal but are always conjugate.
 
 The conjugating unit is `u = 1 + (2e₂ - 1)(e₁ - e₂)`, which lies in `1 + I` since

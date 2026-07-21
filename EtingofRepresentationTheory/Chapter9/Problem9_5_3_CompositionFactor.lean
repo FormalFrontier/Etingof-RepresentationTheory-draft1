@@ -8,10 +8,10 @@ Basic manipulation lemmas for `Etingof.IsCompositionFactor` (Definition 9.5.1), 
 `Problem9_5_3.lean` so that the dévissage (`Problem9_5_3_Devissage.lean`) and the main block
 statements (`Problem9_5_3.lean`) can both depend on them without an import cycle.
 
-* `isCompositionFactor_iff` — a composition factor is a simple quotient of a submodule.
-* `IsCompositionFactor.of_submodule` / `.of_surjective` — composition factors pull back along
+* `isCompositionFactor_iff`: a composition factor is a simple quotient of a submodule.
+* `IsCompositionFactor.of_submodule` / `.of_surjective`: composition factors pull back along
   submodule inclusions and push along surjections.
-* `exists_isCompositionFactor` — every nonzero module has a composition factor.
+* `exists_isCompositionFactor`: every nonzero module has a composition factor.
 -/
 
 universe v u
