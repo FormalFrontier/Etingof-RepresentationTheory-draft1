@@ -23,16 +23,15 @@ Etingof's Problem 9.3.2 asks to study the `ℂ`-algebra
 
 a four-dimensional algebra (basis `1, g, x, gx`). Its two simple modules are the two
 one-dimensional "sign" representations `S₊` (with `g = +1`, `x = 0`) and `S₋`
-(with `g = -1`, `x = 0`); they are non-isomorphic. The algebra is **not** semisimple:
-`x` is a nonzero nilpotent in the radical, and the two simples are linked by a genuine
+(with `g = -1`, `x = 0`); they are non-isomorphic. The algebra is not semisimple:
+`x` is a nonzero nilpotent in the radical, and the two simples are linked by a
 nonsplit extension
 
   `0 → S₋ → P₊ → S₊ → 0`,
 
 where `P₊ = ℂ²` carries `g = diag(1, -1)`, `x = [[0,0],[1,0]]`. This witnesses
 `Ext¹(S₊, S₋) ≠ 0`, so `S₊` and `S₋` are `Etingof.AreLinked`: the algebra has a single
-block. This is the content of Etingof Example 9.5.2 (iii), which until now was only a
-TODO comment in `Chapter9/Example9_5_2.lean`.
+block. This is the content of Etingof Example 9.5.2 (iii).
 
 The Ext nonvanishing is proved homologically rather than by hand: the covariant long
 exact sequence of `Ext(S₊, -)` applied to the displayed short exact sequence shows that

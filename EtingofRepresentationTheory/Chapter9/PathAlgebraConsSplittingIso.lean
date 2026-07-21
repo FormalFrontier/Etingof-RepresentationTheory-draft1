@@ -4,10 +4,10 @@ import EtingofRepresentationTheory.Chapter9.PathAlgebraInducedGrading
 /-!
 # The cons-splitting degree shift for `A = PathAlgebra k Q`
 
-Seventh layer of the standard length-`1` projective resolution of path-algebra modules
-(Problem 9.4.6 (i), parent #6420). Write `A := PathAlgebra k Q`, `S := Q → k` the vertex
+In the standard length-`1` projective resolution of path-algebra modules
+(Problem 9.4.6 (i)), write `A := PathAlgebra k Q`, `S := Q → k` the vertex
 subalgebra, `V` the arrow bimodule (`Chapter9/PathAlgebraArrowBimodule.lean`). This file records
-the length-grading behaviour of **right multiplication by an arrow** and packages the resulting
+the length-grading behaviour of right multiplication by an arrow and packages the resulting
 degree-`(+1)` shift of the boundary map `d` of the standard short complex
 (`Chapter9/PathAlgebraStandardComplex.lean`), the noncommutative analogue of the `coeff_X_mul`
 shift used by `koszulSES_shortExact` (`Chapter9/Example9_4_4.lean`).
@@ -18,11 +18,11 @@ Here we add the analytic companion: multiplying a homogeneous degree-`n` element
 arrow (`arrowInclusion v`, degree `1`) lands exactly in degree `n + 1`
 (`lengthProj_mul_arrowInclusion`). This is the seed of both
 
-* **`Mono (stdd M)`** — the degree-`(N+1)` component of `d(ξ)` is the cons-splitting applied to the
-  top component `ξ_N` (issue #6512 deliverable 1), and
-* the bundled `S`-bimodule isomorphism `A_n ⊗_S V ≅ A_{n+1}` (deliverable 2b),
+* `Mono (stdd M)`: the degree-`(N+1)` component of `d(ξ)` is the cons-splitting applied to the
+  top component `ξ_N`, and
+* the bundled `S`-bimodule isomorphism `A_n ⊗_S V ≅ A_{n+1}`,
 
-both consumed by `standardResolution_shortExact` (issue #6512).
+both consumed by `standardResolution_shortExact`.
 -/
 
 universe u
@@ -144,10 +144,10 @@ theorem inducedCoordMapGen_injective : Function.Injective (inducedCoordMapGen N)
 /-! ## The degree shift of the boundary map `d`
 
 For a pure generator `a ⊗ (v ⊗ m)` of the domain `A ⊗_S (V ⊗_S M)`, the degree-`(n+1)` component
-of `d(a ⊗ v ⊗ m) = a·v ⊗ m − a ⊗ v·m` splits into the **cons-splitting** term
-`(lengthProj n a · v) ⊗ m` (the top half, using `lengthProj_mul_arrowInclusion`) and the **lower**
+of `d(a ⊗ v ⊗ m) = a·v ⊗ m − a ⊗ v·m` splits into the cons-splitting term
+`(lengthProj n a · v) ⊗ m` (the top half, using `lengthProj_mul_arrowInclusion`) and the lower
 term `−(lengthProj (n+1) a) ⊗ v·m`. This is the noncommutative analogue of the `coeff_X_mul` shift
-in `koszulSES_shortExact`, and the seed of the top-degree `Mono (stdd M)` argument (issue #6512). -/
+in `koszulSES_shortExact`, and the seed of the top-degree `Mono (stdd M)` argument. -/
 
 variable (M : ModuleCat.{u + 1} (PathAlgebra k Q))
 
@@ -188,7 +188,7 @@ where `ξ_n := inducedCoordMapGen (V ⊗_S M) ξ n` is the degree-`n` graded com
 noncommutative analogue of the `hshift_gen` relation in `koszulSES_shortExact`
 (`Chapter9/Example9_4_4.lean`): the `Φ` term carries the length shift `n → n+1` (right
 multiplication by an arrow, via `lengthProj_mul_arrowInclusion`), the `Ψ` term stays in degree
-`n+1`. It is what `standardResolution_shortExact` (issue #6512) plugs into for both `Mono (stdd M)`
+`n+1`. It is what `standardResolution_shortExact` plugs into for both `Mono (stdd M)`
 (top-degree base case) and middle exactness (downward telescoping). -/
 
 /-- The `S`-balanced additive bilinear map underlying the **top half** `Φ` of `d`:
@@ -315,8 +315,7 @@ noncomputable def stdδΨ :
   rw [stdδΨAddHom_tmul]
 
 /-- **The top half of `d`** `Φ : A ⊗_S (V ⊗_S M) → A ⊗_S M`, `Φ (a ⊗ v ⊗ m) = (a·v) ⊗ m`, the
-`A`-linear extension of `δΦ`. The cons-splitting `A_n ⊗_S V ≅ A_{n+1}` tensored with `M` (its
-graded-piece injectivity is the bundled iso of deliverable 2b). -/
+`A`-linear extension of `δΦ`. The cons-splitting `A_n ⊗_S V ≅ A_{n+1}` tensored with `M`. -/
 noncomputable def stdΦ : inducedVtensObj M ⟶ inducedRestrictObj M :=
   homEquivSymm (stdδΦ M)
 
@@ -352,7 +351,7 @@ theorem stdd_hom_eq_sub (x : inducedVtensObj M) :
 splits as `Φ (ξ_n) − Ψ (ξ_{n+1})`, where `ξ_j = inducedCoordMapGen (V ⊗_S M) ξ j` is the degree-`j`
 graded component. The noncommutative `hshift_gen`: the `Φ` term carries the length shift `n → n+1`,
 the `Ψ` term stays in degree `n+1`. Reduces on pure generators to `inducedCoordMap_stdd_tmul_succ`.
-Consumed by `standardResolution_shortExact` (#6512) for `Mono (stdd M)` and middle exactness. -/
+Consumed by `standardResolution_shortExact` for `Mono (stdd M)` and middle exactness. -/
 theorem inducedCoordMap_stdd_shift (s : inducedVtensObj M) (n : ℕ) :
     inducedCoordMap M ((stdd M).hom s) (n + 1)
       = (stdΦ M).hom (inducedCoordMapGen (VtensObj M) s n)
@@ -392,8 +391,8 @@ theorem inducedCoordMap_stdd_shift_zero (s : inducedVtensObj M) :
 
 The cons-splitting `A_n ⊗_S V ≅ A_{n+1}`, tensored with `M`, says that `Φ` restricts to an
 isomorphism from the degree-`n` part of `A ⊗_S (V ⊗_S M)` onto the degree-`(n+1)` part of
-`A ⊗_S M`. The **surjectivity** half of that graded iso is the piece consumed by
-`standardResolution_shortExact` (#6512): the downward middle-exactness telescoping needs, for each
+`A ⊗_S M`. The surjectivity half of that graded iso is the piece consumed by
+`standardResolution_shortExact`: the downward middle-exactness telescoping needs, for each
 `y : A ⊗_S M` and each `n`, a degree-`n` preimage `η` of the degree-`(n+1)` component of `y` under
 `Φ`. This is the noncommutative analogue of the cons-preimage `coordMapCHInv` in
 `koszulSES_shortExact` (`Chapter9/Example9_4_4.lean`), built here directly from the combinatorial
@@ -401,7 +400,7 @@ core `exists_ofPath_mul_arrowElt` (`Chapter9/PathAlgebraConsSplitting.lean`) rat
 abstract graded-piece isomorphism.
 
 Because `Φ (a ⊗ v ⊗ m) = (a·v) ⊗ m` raises the length degree by one
-(`lengthProj_mul_arrowInclusion`), the produced `η` is genuinely homogeneous of degree `n`
+(`lengthProj_mul_arrowInclusion`), the produced `η` is homogeneous of degree `n`
 (`inducedCoordMapGen (VtensObj M) η n = η` and vanishes in every other degree), so its degree-shift
 coordinate `inducedCoordMap_stdd_shift` collapses to `Φ η` at degree `n+1` and to `0` above. -/
 
@@ -442,8 +441,8 @@ theorem exists_stdΦ_preimage_single_tmul (x : QuiverPathIndex Q) (c : k) {n : �
 /-- **Graded surjectivity of `Φ` onto the top component (cons-preimage).** For every `y : A ⊗_S M`
 and every `n`, the degree-`(n+1)` homogeneous component `inducedCoordMap M y (n+1)` is `Φ η` for a
 degree-`n`-homogeneous `η : A ⊗_S (V ⊗_S M)`. This is the surjectivity half of the cons-splitting
-`A_n ⊗_S V ≅ A_{n+1}` (tensored with `M`), the missing infra that
-`standardResolution_shortExact` (#6512) plugs into for the middle-exactness downward telescoping.
+`A_n ⊗_S V ≅ A_{n+1}` (tensored with `M`), used by
+`standardResolution_shortExact` for the middle-exactness downward telescoping.
 Reduces, via additivity, to the single-path case `exists_stdΦ_preimage_single_tmul`. -/
 theorem exists_stdΦ_preimage_topDegree (y : inducedRestrictObj M) (n : ℕ) :
     ∃ η : inducedVtensObj M,

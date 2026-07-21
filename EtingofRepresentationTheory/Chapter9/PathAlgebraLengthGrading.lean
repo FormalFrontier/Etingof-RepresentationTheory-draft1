@@ -4,8 +4,8 @@ import EtingofRepresentationTheory.Chapter9.KoszulHelpers
 /-!
 # Path-length grading of the path algebra `A = PathAlgebra k Q`
 
-Fifth layer of the standard length-`1` projective resolution of path-algebra modules
-(Problem 9.4.6 (i), parent #6420). This file provides the **length grading** infrastructure that
+The length grading of the path algebra, part of the standard length-`1` projective resolution
+of path-algebra modules (Problem 9.4.6 (i)). It provides the length-grading infrastructure that
 makes `Mono (stdd M)` and middle exactness of the standard short complex
 (`Chapter9/PathAlgebraStandardComplex.lean`) provable, the noncommutative analogue of the
 polynomial coordinate isomorphism `coordMapCH` in `Chapter9/KoszulHelpers.lean`.
@@ -17,22 +17,19 @@ polynomial coordinate isomorphism `coordMapCH` in `Chapter9/KoszulHelpers.lean`.
 lengthGrading : A →ₗ[k] (ℕ →₀ A)
 ```
 
-sending a basis path to its single homogeneous component. It is a section of the reassembly map
+sending a basis path to its single homogeneous component. It is a section of the summation map
 `lengthTotalize` (sum of components), hence injective. The homogeneous projections `lengthProj n`
 extract the degree-`n` part.
 
-Following the `PathAlgebra` def-leak convention (`Chapter2/Definition2_8_4.lean`), the coordinate
-map is typed with the underlying `QuiverPathIndex Q →₀ k` as its domain (so instance synthesis is
-unambiguous), while its graded components are genuine `PathAlgebra k Q` values (so their product is
-path concatenation).
+The coordinate map is typed with the underlying `QuiverPathIndex Q →₀ k` as its domain (so
+instance synthesis is unambiguous), while its graded components are `PathAlgebra k Q` values (so
+their product is path concatenation).
 
-The **cons-splitting** direction — every length-`(n+1)` path is uniquely a length-`n` path
-followed by one arrow — is recorded here at the path-index level (`pathLen_compSingle_arrow`,
-`lengthProj_ofPath_mul_arrowElt`), the seed of the `S`-bimodule isomorphism `A_n ⊗_S V ≅ A_{n+1}`
-used downstream.
-
-Template: `Chapter9/KoszulHelpers.lean` (`coordMapCH`, `finsupp_shift_eq_zero`) and its use in
-`Chapter9/Example9_4_4.lean` (`koszulSES_shortExact`).
+The cons-splitting direction, that every length-`(n+1)` path is uniquely a length-`n` path
+followed by one arrow, is recorded here at the path-index level (`pathLen_comp_arrow`,
+`lengthProj_ofPath_mul_arrowElt`), underlying the `S`-bimodule isomorphism `A_n ⊗_S V ≅ A_{n+1}`
+used downstream. It mirrors `coordMapCH` and `finsupp_shift_eq_zero` in
+`Chapter9/KoszulHelpers.lean`.
 -/
 
 universe u
@@ -79,7 +76,7 @@ noncomputable def lengthGrading :
     Finsupp.smul_single, ofPath, Finsupp.smul_single, smul_eq_mul, mul_one]
 
 variable (k Q) in
-/-- **Reassembly.** The `k`-linear map `(ℕ →₀ A) →ₗ[k] A` summing the graded components. It is a
+/-- **Totalization.** The `k`-linear map `(ℕ →₀ A) →ₗ[k] A` summing the graded components. It is a
 left inverse of `lengthGrading` (`lengthTotalize_lengthGrading`). -/
 noncomputable def lengthTotalize : (ℕ →₀ PathAlgebra k Q) →ₗ[k] PathAlgebra k Q :=
   Finsupp.lsum k fun _ => LinearMap.id
@@ -141,7 +138,7 @@ theorem lengthProj_lengthProj (m n : ℕ) (a : QuiverPathIndex Q →₀ k) :
         · rw [if_neg hmp, if_neg (fun h => hmp h.symm)]
       · rw [lengthProj_single, if_neg hpn, map_zero, ite_self]
 
-/-! ## The cons-splitting seed: concatenation shifts length -/
+/-! ## Cons-splitting: concatenation shifts length -/
 
 omit [DecidableEq Q] in
 /-- The length of a path followed by one arrow is one more. -/
@@ -150,7 +147,7 @@ theorem pathLen_comp_arrow {a b c : Q} (p : Quiver.Path a b) (e : b ⟶ c) :
   change (p.comp e.toPath).length = p.length + 1
   rw [Quiver.Path.length_comp, Quiver.Path.length_toPath]
 
-/-- **The cons-splitting seed.** The product of a basis path `⟨a, b, p⟩` and an arrow `e : b ⟶ c`
+/-- **Cons-splitting.** The product of a basis path `⟨a, b, p⟩` and an arrow `e : b ⟶ c`
 in `A` is the single basis path obtained by appending the arrow: `p · e = cons p e`. This is the
 `x ⊗ arrow ↦ x · arrow` map underlying the `S`-bimodule isomorphism `A_n ⊗_S V ≅ A_{n+1}`. -/
 theorem ofPath_mul_arrowElt {a b c : Q} (p : Quiver.Path a b) (e : b ⟶ c) :

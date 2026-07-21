@@ -21,14 +21,14 @@ this development and the block statements in `Problem9_5_3.lean`.
 
 ## Main results
 
-* `isIndecomposableCentralIdempotent_comm_iff` — in a commutative ring, indecomposability of an
+* `isIndecomposableCentralIdempotent_comm_iff`: in a commutative ring, indecomposability of an
   idempotent `e` says exactly that every idempotent below `e` is `0` or `e`.
-* `exists_completeOrthogonal_isIndecomposable_of_commArtinian` — a commutative Artinian ring has a
+* `exists_completeOrthogonal_isIndecomposable_of_commArtinian`: a commutative Artinian ring has a
   finite complete orthogonal family of indecomposable idempotents, unique up to reindexing.
-* `exists_completeOrthogonal_isIndecomposableCentral` — the corresponding decomposition for a
+* `exists_completeOrthogonal_isIndecomposableCentral`: the corresponding decomposition for a
   finite dimensional algebra `R`, obtained by transferring the decomposition of the (commutative
   Artinian) center `Z(R)` along the central inclusion `Z(R) ↪ R`.
-* `finite_isIndecomposableCentralIdempotent` — the indecomposable central idempotents form a
+* `finite_isIndecomposableCentralIdempotent`: the indecomposable central idempotents form a
   finite set.
 
 ## Proof strategy

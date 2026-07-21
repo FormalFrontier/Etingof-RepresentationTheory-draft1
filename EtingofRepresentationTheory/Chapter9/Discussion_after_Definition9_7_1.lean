@@ -52,12 +52,12 @@ This file also formalizes these two "minimal basic algebra" claims:
 * **Dimension is minimized at `𝐧 = (1,…,1)`.** With `c_{ij} ≥ 0` (a `finrank`, hence a `ℕ`),
   `c_{ii} ≥ 1` (the identity spans a line in `End(P_i)`), and every multiplicity `n_i ≥ 1`,
   the dimension `∑ c_{ij} n_i n_j` is at least `∑ c_{ij}`
-  (`Etingof.sum_cartan_le_finrank_cartanAlgebra`), with equality **iff** every `n_i = 1`
+  (`Etingof.sum_cartan_le_finrank_cartanAlgebra`), with equality iff every `n_i = 1`
   (`Etingof.finrank_cartanAlgebra_eq_sum_cartan_iff`). The diagonal term `c_{ii} n_i^2`
   strictly grows once any `n_i ≥ 2`.
 
 * **Commutativity of the semisimple quotient.** The Wedderburn quotient
-  `B_𝐧 / Rad(B_𝐧) ≅ ⊕_i Mat_{n_i}(k)` is commutative **iff** every `n_i = 1`, because a
+  `B_𝐧 / Rad(B_𝐧) ≅ ⊕_i Mat_{n_i}(k)` is commutative iff every `n_i = 1`, because a
   matrix algebra `Mat_{n_i}(k)` is commutative iff `n_i ≤ 1` (elementary matrices `E_{ab}`,
   `E_{ba}` fail to commute once there are two indices). We model the quotient by its
   Wedderburn form `∀ i, Matrix (Fin (n i)) (Fin (n i)) k` and prove the criterion directly
@@ -213,7 +213,7 @@ theorem finrank_cartanAlgebra_one (P : ι → C) :
 /-- **Minimal dimension iff `𝐧 = (1,…,1)` (Etingof, discussion after Definition 9.7.1).**
 Assuming each multiplicity `n_i ≥ 1` and each diagonal Cartan number `c_{ii} ≥ 1` (the identity
 spans a line in `End(P_i)`), the dimension `dim B_𝐧 = ∑ c_{ij} n_i n_j` attains its minimum value
-`∑ c_{ij}` **exactly** when every `n_i = 1`. Any `n_i ≥ 2` strictly enlarges the diagonal term
+`∑ c_{ij}` exactly when every `n_i = 1`. Any `n_i ≥ 2` strictly enlarges the diagonal term
 `c_{ii} n_i^2`. -/
 theorem finrank_cartanAlgebra_eq_sum_cartan_iff (P : ι → C) (n : ι → ℕ)
     (hn : ∀ i, 1 ≤ n i) (hdiag : ∀ i, 1 ≤ cartanEntry k P i i) :
@@ -239,8 +239,8 @@ theorem finrank_cartanAlgebra_eq_sum_cartan_iff (P : ι → C) (n : ι → ℕ)
     ring
 
 omit [HasFiniteBiproducts C] [Fintype ι] in
-/-- Convenience: if `End(P_i) = Hom(P_i, P_i)` is nontrivial (it always is — it contains the
-nonzero identity when `P_i ≠ 0`), then `c_{ii} ≥ 1`, supplying the diagonal hypothesis of
+/-- Convenience: if `End(P_i) = Hom(P_i, P_i)` is nontrivial (it always is, since it contains the
+nonzero identity when `P_i ≠ 0`), then `c_{ii} ≥ 1`, giving the diagonal hypothesis of
 `finrank_cartanAlgebra_eq_sum_cartan_iff`. -/
 theorem one_le_cartanEntry_self (P : ι → C) (i : ι) [Nontrivial (P i ⟶ P i)] :
     1 ≤ cartanEntry k P i i := by
@@ -261,7 +261,7 @@ the elementary fact that `Mat_m(k)` is commutative iff `m ≤ 1`. -/
 
 variable {k : Type w} [Field k]
 
-/-- Over a nontrivial ring, a matrix algebra with two distinct indices is **non**commutative:
+/-- Over a nontrivial ring, a matrix algebra with two distinct indices is noncommutative:
 the elementary matrices `E_{ab}` and `E_{ba}` fail to commute (`E_{ab} E_{ba} = E_{aa}` but
 `E_{ba} E_{ab} = E_{bb}`). -/
 theorem exists_matrix_not_comm_of_ne {m : Type*} [Fintype m] {a b : m}
@@ -289,8 +289,8 @@ theorem matrix_mul_comm_of_subsingleton {m : Type*} [Fintype m] [Subsingleton m]
 
 /-- **Etingof, discussion after Definition 9.7.1 (commutativity criterion).** The Wedderburn
 semisimple quotient `B_𝐧 / Rad(B_𝐧) ≅ ⊕_i Mat_{n_i}(k)`, modelled as the product of matrix
-algebras `∀ i, Matrix (Fin (n i)) (Fin (n i)) k`, is commutative **iff** every multiplicity
-`n_i = 1` — i.e. iff `𝐧 = (1,…,1)`, the unique minimal member `B = B_(1,…,1)`. Each factor
+algebras `∀ i, Matrix (Fin (n i)) (Fin (n i)) k`, is commutative iff every multiplicity
+`n_i = 1`, i.e. iff `𝐧 = (1,…,1)`, the unique minimal member `B = B_(1,…,1)`. Each factor
 `Mat_{n_i}(k)` is commutative iff `n_i ≤ 1`, and with `n_i ≥ 1` this is `n_i = 1`. -/
 theorem semisimpleQuotient_comm_iff {ι : Type*} (n : ι → ℕ) (hn : ∀ i, 1 ≤ n i) :
     (∀ x y : (∀ i, Matrix (Fin (n i)) (Fin (n i)) k), x * y = y * x) ↔ ∀ i, n i = 1 := by

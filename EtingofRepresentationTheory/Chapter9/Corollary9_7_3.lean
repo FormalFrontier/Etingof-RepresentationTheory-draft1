@@ -27,7 +27,7 @@ theory of basic algebras from §9.7.
 Part (ii) uses the `Etingof.MoritaEquivalent` and `Etingof.IsBasicAlgebraSplit`
 definitions from this project.
 
-## Proof status
+## Proof outline
 
 Part (ii) (dimension bound) is proved using the Morita structural theorem
 and corner ring theory.
@@ -38,7 +38,7 @@ as a corner ring of the other, forcing equal dimensions, hence the corner
 rings are the full algebras.
 
 Part (i) existence delegates to `exists_basic_morita_equivalent` from
-`Infrastructure.BasicAlgebraExistence`, which is fully proved (sorry-free):
+`Infrastructure.BasicAlgebraExistence`:
 the basic algebra is constructed as a corner ring `eAe` from the
 Wedderburn-Artin decomposition of `A / rad(A)` and idempotent lifting.
 The statement requires `IsAlgClosed k` since over non-algebraically-closed fields,
@@ -47,18 +47,18 @@ simple modules need not be 1-dimensional.
 ## Scope: algebra version vs. categorical form
 
 The book's part (i) is stated for an abstract `k`-linear finite abelian category
-`𝒞`: *any* such `𝒞` is equivalent to the finite-dimensional modules over a unique
-basic algebra `B(𝒞)`. What is formalized here is the **algebra version**: the input
+`𝒞`: any such `𝒞` is equivalent to the finite-dimensional modules over a unique
+basic algebra `B(𝒞)`. What is formalized here is the algebra version: the input
 is a finite-dimensional algebra `A` (Theorem `Etingof.Corollary_9_7_3_i`), not an
 abstract category. The categorical input form is formalized as
 `Etingof.Corollary_9_7_3_i_categorical_fgModule` in `Corollary9_7_3Categorical.lean`:
 for a `k`-linear finite abelian category `𝒞` over an algebraically closed field with a
 progenerator `P`, it produces a basic `k`-algebra `B` together with a single equivalence
-`𝒞 ≌ FGModuleCat B` — the book's part (i) exactly. It composes
+`𝒞 ≌ FGModuleCat B`, the book's part (i) exactly. It composes
 `Etingof.Theorem_9_6_4_corollary` (`𝒞 ≌ FGModuleCat (End P)ᵐᵒᵖ` for the progenerator `P`,
-carried as an explicit hypothesis since there is no theorem yet that an abstract finite
-abelian category *has* a progenerator) with the algebra version applied to
-`A = (End P)ᵐᵒᵖ`. The two conjuncts are stitched into `𝒞 ≌ FGModuleCat B` via
+carried as an explicit hypothesis since the project has no theorem that an abstract finite
+abelian category has a progenerator) with the algebra version applied to
+`A = (End P)ᵐᵒᵖ`. The two conjuncts are combined into `𝒞 ≌ FGModuleCat B` via
 `Etingof.MoritaEquivalent.fgModuleCatEquiv` (`Infrastructure/MoritaFGRestriction.lean`),
 which restricts a Morita equivalence `ModuleCat A ≌ ModuleCat B` to the finitely
 generated subcategories by proving it preserves finite generation (the image of the
@@ -157,7 +157,7 @@ private noncomputable def Etingof.cornerRingAlgEquivOfUnit
 closed field k is Morita equivalent to some basic algebra B. That is, there exists
 a basic k-algebra B such that the module categories of A and B are equivalent.
 
-Here *basic* is the book's Definition 9.7.2 (`B/Rad(B)` commutative). The algebraic
+Here basic is the book's Definition 9.7.2 (`B/Rad(B)` commutative). The algebraic
 closure hypothesis is used in the construction of `B` as a corner ring `eAe`.
 
 (Etingof Corollary 9.7.3(i), algebra version) -/

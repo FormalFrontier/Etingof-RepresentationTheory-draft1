@@ -6,18 +6,18 @@ import EtingofRepresentationTheory.Chapter9.HomologicalDimensionRingEquiv
 # Homological dimension is invariant under a universe lift
 
 `Etingof.homologicalDimension R` (Definition 9.4.3) quantifies over `ModuleCat.{u} R`, where `u`
-is the universe of `R`. This file proves that lifting `R` to a larger universe can only *increase*
+is the universe of `R`. This file proves that lifting `R` to a larger universe can only increase
 the collection of modules under consideration, so it cannot lower the homological dimension:
 
-* `Etingof.homologicalDimension_le_ulift` —
+* `Etingof.homologicalDimension_le_ulift`:
   `homologicalDimension R ≤ homologicalDimension (ULift R)`.
 
 ## Strategy
 
 The key categorical input is that the universe-lift functor
 `ModuleCat.uliftFunctor.{v, u} R : ModuleCat.{u} R ⥤ ModuleCat.{max u v} R` is additive, exact
-(preserves finite limits and colimits) and fully faithful, and — since `R : Type u` is `u`-small —
-preserves projective objects. A fully faithful exact functor preserving projectives *reflects*
+(preserves finite limits and colimits) and fully faithful, and, since `R : Type u` is `u`-small,
+preserves projective objects. A fully faithful exact functor preserving projectives reflects
 projective dimension: `HasProjectiveDimensionLT (F.obj X) n → HasProjectiveDimensionLT X n`
 (`Etingof.hasProjectiveDimensionLT_of_map`). This mirrors the preservation statement
 `hasProjectiveDimensionLT_map` from `HomologicalDimensionRingEquiv.lean`, but for a plain
@@ -29,9 +29,9 @@ Combined with the same-universe ring-equivalence transfer
 `ULift R`-module has projective dimension `≤ d`, then so does every small-universe `R`-module,
 which is exactly the inequality of homological dimensions.
 
-The reverse inequality (a universe lift cannot *raise* the homological dimension) is the harder
-direction — it requires reducing the projective dimension of arbitrary big modules to small ones
-(an Auslander-style argument) — and is not needed for the free-algebra corollary of Problem 9.4.6,
+The reverse inequality (a universe lift cannot raise the homological dimension) is harder: it
+requires reducing the projective dimension of arbitrary big modules to small ones (an
+Auslander-style argument), and is not needed for the free-algebra corollary of Problem 9.4.6,
 so it is not proved here.
 -/
 
@@ -46,12 +46,12 @@ section Reflect
 variable {C : Type*} {D : Type*} [Category C] [Category D] [Abelian C] [Abelian D]
 
 /-- A fully faithful additive exact functor `F : C ⥤ D` preserving projective objects (with `C`
-having enough projectives) *reflects* projective dimension: if `F.obj X` has projective dimension
+having enough projectives) reflects projective dimension: if `F.obj X` has projective dimension
 `< n`, then so does `X`.
 
 Strong induction on `n`, dual to `Etingof.hasProjectiveDimensionLT_map`. The base cases are
 `n = 0` (`F` is faithful, so it reflects zero objects) and `n = 1` (`F` reflects projectives,
-being full, faithful and epimorphism-preserving — `Functor.projective_of_map_projective`). For
+being full, faithful and epimorphism-preserving, by `Functor.projective_of_map_projective`). For
 `n + 2` one takes a projective presentation `0 → K → P → X → 0` in `C`, maps it to the short exact
 sequence `0 → F K → F P → F X → 0`, shifts `F X`'s dimension down to `F K`
 (`hasProjectiveDimensionLT_X₁`), applies the induction hypothesis to `K`, and shifts back up along

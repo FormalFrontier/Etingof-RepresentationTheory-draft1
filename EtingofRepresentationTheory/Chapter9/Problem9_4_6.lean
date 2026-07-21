@@ -192,7 +192,7 @@ end AcyclicFinite
 /-- **Problem 9.4.6 (i), upper bound.** Every left `PathAlgebra k Q`-module has projective
 dimension `≤ 1`; equivalently, the path algebra has homological dimension `≤ 1`.
 
-This is the reusable core of Problem 9.4.6 (i): it is the *upper* bound
+This is the reusable core of Problem 9.4.6 (i): it is the upper bound
 `homologicalDimension (PathAlgebra k Q) ≤ 1`. Combined with the lower bound
 `¬ HasHomologicalDimensionLE (PathAlgebra k Q) 0` (non-semisimplicity once `Q` has an edge),
 it yields `homologicalDimension_pathAlgebra_eq_one`.
@@ -208,23 +208,23 @@ left `A`-module `M` the *standard resolution* is the length-`1` projective resol
 where `ε(a ⊗ m) = a · m` is the multiplication map. Both nonzero terms are projective `A`-modules
 because they are *induced* from `S`-modules (`A ⊗_S -`), `S` is semisimple (a finite product of
 fields), so every `S`-module is projective, and induction along `S → A` preserves projectives
-(it is left adjoint to restriction of scalars). Exactness — that `ker ε ≅ A ⊗_S (V ⊗_S M)` via
-`a ⊗ v ⊗ m ↦ av ⊗ m - a ⊗ vm` — is the analogue of the Koszul short exact sequence used for the
+(it is left adjoint to restriction of scalars). Exactness, that `ker ε ≅ A ⊗_S (V ⊗_S M)` via
+`a ⊗ v ⊗ m ↦ av ⊗ m - a ⊗ vm`, is the analogue of the Koszul short exact sequence used for the
 polynomial case (`Example 9.4.4`).
 
-## Obstruction / why this is genuinely new infrastructure
+## The noncommutative base extension
 
-Unlike the polynomial case, the base extension here is **noncommutative-induced**: the vertex
-idempotents `eᵢ` are *not central* in `A`, so `A` is not an `S`-algebra in the commutative sense
-and Mathlib's `ModuleCat.extendScalars` (which requires `[CommRing R] [CommRing S]`) does **not**
-apply. Building `A ⊗_S -` as a left `A`-module functor left-adjoint to `restrictScalars` along the
-non-central inclusion `S → A`, and its projectivity-preservation, is genuine new infrastructure not
-in Mathlib. See issue #6420 for the decomposition.
+Unlike the polynomial case, the base extension here is noncommutative: the vertex
+idempotents `eᵢ` are not central in `A`, so `A` is not an `S`-algebra in the commutative sense
+and Mathlib's `ModuleCat.extendScalars` (which requires `[CommRing R] [CommRing S]`) does not
+apply. The functor `A ⊗_S -` is instead built as a left `A`-module functor left-adjoint to
+`restrictScalars` along the non-central inclusion `S → A`, together with its preservation of
+projectives.
 
-## Assembly
+## Universes
 
 Because `Quiver.{u + 1} Q`, the path algebra `A = PathAlgebra k Q` lives in `Type (u + 1)`, so
-`HasHomologicalDimensionLE A 1` (Definition 9.4.3) quantifies over `ModuleCat.{u + 1} A` — exactly
+`HasHomologicalDimensionLE A 1` (Definition 9.4.3) quantifies over `ModuleCat.{u + 1} A`, exactly
 the universe the standard resolution `standardResolution_shortExact` is built at, so no universe
 uplift is needed. For each `M` the proof reads off `(standardComplex M).ShortExact`, notes both
 nonzero terms are projective (`projective_inducedModule_obj`), and applies dimension shifting
@@ -259,12 +259,12 @@ theorem homologicalDimension_pathAlgebra_eq_one
 /-! ## The free algebra as a path algebra
 
 We realize `k⟨x₁, …, xₙ⟩` as the path algebra of the one-vertex quiver `Q₀` with `n` loops, giving
-a genuine algebra isomorphism `freePathEquiv : FreeAlgebra k (Fin n) ≃ₐ[k] PathAlgebra k Q₀`.
+an algebra isomorphism `freePathEquiv : FreeAlgebra k (Fin n) ≃ₐ[k] PathAlgebra k Q₀`.
 
-**Universe note.** The two algebras do *not* live in the same universe: `FreeAlgebra k (Fin n)`
+**Universe note.** The two algebras do not live in the same universe: `FreeAlgebra k (Fin n)`
 is `Type u`, but `PathAlgebra k Q₀` is `Type (u+1)` because `Quiver.Path` lands in `Type (max u v)`
 and the standard-resolution machinery of `homologicalDimension_pathAlgebra_eq_one` hard-requires
-`Quiver.{u+1} Q₀`. Consequently the same-universe `homologicalDimension_congr` (from #6635) is *not*
+`Quiver.{u+1} Q₀`. Consequently the same-universe `homologicalDimension_congr` is not
 enough to conclude `homologicalDimension (FreeAlgebra k (Fin n)) = 1` from the path-algebra result;
 that final step additionally uses universe-lift invariance of `homologicalDimension`
 (`homologicalDimension_le_ulift`, `Chapter9/HomologicalDimensionUlift.lean`) to lift the free
@@ -400,8 +400,8 @@ noncomputable def freePathEquiv (k : Type u) [Field k] (n : ℕ) :
 
 /-! ## The free algebra is not semisimple (lower bound)
 
-Mirroring the path-algebra lower bound (`Chapter9/PathAlgebraLowerBound.lean`), the **augmentation
-module** — the field `k` on which every generator `xᵢ` acts as `0` — is not projective. If it were,
+Mirroring the path-algebra lower bound (`Chapter9/PathAlgebraLowerBound.lean`), the augmentation
+module, the field `k` on which every generator `xᵢ` acts as `0`, is not projective. If it were,
 the surjection `A ↠ k`, `p ↦ p • 1`, would split by an `A`-linear section `s`; writing `w = s(1)`,
 the relation `xᵢ • 1 = 0` forces `xᵢ · w = 0` in `A`. Since `A = FreeAlgebra k (Fin n)` is a domain
 and `xᵢ ≠ 0`, this gives `w = 0`, contradicting `ε(w) = 1` (as `s` is a section). Here `k` already
@@ -461,7 +461,7 @@ theorem not_hasHomologicalDimensionLE_zero_freeAlgebra
     have h1 := s.map_smul (FreeAlgebra.ι k ⟨0, hn⟩) (1 : k)
     rw [hact, map_zero] at h1
     rw [← smul_eq_mul]; exact h1.symm
-  -- `A` is a domain and `x₀ ≠ 0`, so `w = 0` — contradicting `ε(w) = 1`.
+  -- `A` is a domain and `x₀ ≠ 0`, so `w = 0`, contradicting `ε(w) = 1`.
   have hw0 : w = 0 := by
     rcases mul_eq_zero.mp hzero with h | h
     · exact absurd h (FreeAlgebra.ι_ne_zero (⟨0, hn⟩ : Fin n))
@@ -516,7 +516,7 @@ The projective covers `P` of the simple modules are supplied together with the d
 identification `hcover : Hom_A(Pᵢ, Pⱼ) ≅ (paths i → j) →₀ k` (for the path algebra these are
 `Pᵢ = A·eᵢ` with `Hom_A(Pᵢ, Pⱼ) ≅ eᵢ A eⱼ`, free on the paths from `i` to `j`). Acyclicity
 `hacyclic`, together with finiteness of the vertex set (`Fintype Q`) and of each arrow set
-(`Finite (i ⟶ j)`), makes each path type finite (`finite_path`), so `Nat.card` is the genuine
+(`Finite (i ⟶ j)`), makes each path type finite (`finite_path`), so `Nat.card` is the actual
 number of paths. -/
 theorem cartanMatrix_pathAlgebra_eq_pathCount
     {k : Type u} [Field k] {Q : Type u} [Quiver.{u + 1} Q] [Fintype Q] [DecidableEq Q]

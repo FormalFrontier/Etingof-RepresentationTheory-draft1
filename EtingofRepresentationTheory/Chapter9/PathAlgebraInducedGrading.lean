@@ -5,11 +5,11 @@ import Mathlib.LinearAlgebra.DirectSum.Finsupp
 /-!
 # The length grading of the induced module `A ⊗_S M`
 
-Sixth layer of the standard length-`1` projective resolution of path-algebra modules
-(Problem 9.4.6 (i), parent #6420). Write `A := PathAlgebra k Q`, `S := Q → k` the vertex
+In the standard length-`1` projective resolution of path-algebra modules
+(Problem 9.4.6 (i)), write `A := PathAlgebra k Q`, `S := Q → k` the vertex
 subalgebra (`f := vertexEmbedding : S →+* A`). The length grading of `A`
 (`Chapter9/PathAlgebraLengthGrading.lean`) is transported to the induced module
-`A ⊗_S M` (`inducedRestrictObj M`), producing a **coordinate map**
+`A ⊗_S M` (`inducedRestrictObj M`), producing a coordinate map
 
 ```
 inducedCoordMap M : A ⊗_S M →ₗ[S] (ℕ →₀ A ⊗_S M)
@@ -17,7 +17,7 @@ inducedCoordMap M : A ⊗_S M →ₗ[S] (ℕ →₀ A ⊗_S M)
 
 injective with finite support, the noncommutative analogue of `coordMapCH`
 (`Chapter9/KoszulHelpers.lean`) used by `koszulSES_shortExact`. The key point is that the
-homogeneous decomposition `lengthGrading : A →ₗ (ℕ →₀ A)` is `S`-linear for the **right**
+homogeneous decomposition `lengthGrading : A →ₗ (ℕ →₀ A)` is `S`-linear for the right
 `S`-action `s • a = a * f s` that the tensor `A ⊗_S M` is formed over: right multiplication by
 `f s` preserves path length (`lengthGrading_mul_vertexEmbedding`). Injectivity is inherited from
 the left inverse `lengthTotalize` via `TensorProduct.map` and `TensorProduct.finsuppLeft`.

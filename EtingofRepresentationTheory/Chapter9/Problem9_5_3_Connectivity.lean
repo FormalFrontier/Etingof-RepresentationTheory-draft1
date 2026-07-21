@@ -217,7 +217,7 @@ theorem compositionFactors_areLinked_aux {M : ModuleCat.{v} R} (hM : Indecomposa
     (LinearEquiv.toModuleIso (Submodule.prodEquivOfIsCompl P Q hcompl)).symm ≪≫
       (ModuleCat.biprodIsoProd (ModuleCat.of R P) (ModuleCat.of R Q)).symm
   rcases hM.2 (ModuleCat.of R P) (ModuleCat.of R Q) iso with hZ | hZ
-  · -- `↥P = 0`: then `S`, a factor of `M ≅ ↥Q`, would be an unlinked factor — contradiction.
+  · -- `↥P = 0`: then `S`, a factor of `M ≅ ↥Q`, would be an unlinked factor, a contradiction.
     exfalso
     have hPbot : P = ⊥ := by
       have hsub : Subsingleton (P : Type v) := ModuleCat.isZero_iff_subsingleton.mp hZ

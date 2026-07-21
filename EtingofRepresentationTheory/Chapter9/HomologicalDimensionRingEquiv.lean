@@ -12,9 +12,9 @@ import EtingofRepresentationTheory.Chapter9.Definition9_4_3
 This file proves that `Etingof.homologicalDimension` (Definition 9.4.3) is invariant under a
 ring isomorphism `e : R ≃+* S`:
 
-* `Etingof.hasHomologicalDimensionLE_congr` — `HasHomologicalDimensionLE R d`
+* `Etingof.hasHomologicalDimensionLE_congr`: `HasHomologicalDimensionLE R d`
   iff `HasHomologicalDimensionLE S d`;
-* `Etingof.homologicalDimension_congr` — `homologicalDimension R = homologicalDimension S`.
+* `Etingof.homologicalDimension_congr`: `homologicalDimension R = homologicalDimension S`.
 
 ## Strategy
 
@@ -30,7 +30,7 @@ dimension-shifting short exact sequence coming from a projective presentation, m
 equivalence). The iff form (`hasProjectiveDimensionLT_map_iff`) follows by also applying the
 statement to `e.symm`.
 
-The lemmas are stated for two rings in the **same** universe, which is all the free-algebra
+The lemmas are stated for two rings in the same universe, which is all the free-algebra
 corollary of Problem 9.4.6 (i) (`homologicalDimension_freeAlgebra_eq_one`) needs, since
 `FreeAlgebra k (Fin n)` and the one-vertex path algebra are both `Type u`.
 -/
