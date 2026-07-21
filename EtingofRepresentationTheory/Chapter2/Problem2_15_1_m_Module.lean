@@ -12,9 +12,10 @@ import EtingofRepresentationTheory.Chapter2.Problem2_15_1_complete_reducibility
 
 The companion file `Problem2_15_1_m.lean` proves the **character identity** behind the
 Clebsch–Gordan decomposition `V_λ ⊗ V_μ ≅ ⨁_{k=0}^{min(λ,μ)} V_{λ+μ−2k}`. This file
-begins the promotion of that combinatorial statement to a genuine `sl(2)`-module
-isomorphism, following the book's route (highest-weight vectors + dimension count +
-distinct Casimir scalars, avoiding Weyl complete reducibility).
+promotes that combinatorial statement to a genuine `sl(2)`-module isomorphism,
+following the book's route (highest-weight vectors + dimension count + distinct Casimir
+scalars, avoiding Weyl complete reducibility). The full assembly is completed here,
+sorry-free, in the capstone `clebsch_gordan_module_iso`.
 
 ## What is here
 
@@ -25,18 +26,19 @@ distinct Casimir scalars, avoiding Weyl complete reducibility).
   `cgHW λ μ k = Σ_{i=0}^k (−1)^i C(k,i) · e_i ⊗ e_{k−i}` of weight `λ+μ−2k`
   (`cgHW`), and prove it is an `H`-eigenvector of that weight
   (`lie_sl2_h_cgHW`) annihilated by the raising operator `E` (`lie_sl2_e_cgHW`).
+* Each `cgHW λ μ k` generates an irreducible subrep `cgN λ μ k ≅ V_{λ+μ−2k}`
+  (`cgSubrep_iso`). The Casimir scalars of these summands are pairwise distinct
+  (`casimir_scalar_inj`), so the subreps are independent, and a dimension count shows
+  they exhaust the tensor product (`cgN_iSup_eq_top`), giving the internal direct-sum
+  decomposition `clebsch_gordan_isInternal`.
+* Bundling those pieces yields the `sl(2)`-linear equivalence `cgModuleEquiv` and the
+  capstone `clebsch_gordan_module_iso : V_λ ⊗ V_μ ≃ₗ⁅ℂ,sl2⁆ ⨁_k V_{λ+μ−2k}` — the
+  module-level upgrade of the character identity `clebsch_gordan_charPoly`.
 
 The coefficients `(−1)^i C(k,i)` are forced by the highest-weight condition `E·w = 0`,
 which after grouping by the basis tensor `e_a ⊗ e_b` (`a+b = k−1`) reads
 `(a+1)c_{a+1} + (k−a)c_a = 0`; this is Pascal's absorption identity
 `Nat.choose_succ_right_eq`.
-
-## Remaining work
-
-Assembling the full module isomorphism — showing each `cgHW λ μ k` generates an
-irreducible subrep `≅ V_{λ+μ−2k}` (via `irrep_isIrreducible` and the distinct Casimir
-scalars `casimir_eq_scalar_lambda`), and that these exhaust `V_λ ⊗ V_μ` by the
-dimension count `clebsch_gordan_dim` — is tracked as follow-up work.
 -/
 
 open scoped TensorProduct DirectSum
