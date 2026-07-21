@@ -13,8 +13,11 @@ scalar factor on the right), for which the structure map is `l ↦ 1 ⊗ₜ l`. 
 recorded as the existence of the natural `(A ⊗_K L)`-module structure on `V ⊗_K L` whose action on
 pure tensors is `(a ⊗ l) • (v ⊗ l') = (a • v) ⊗ (l · l')`.
 
-The `L`-algebra part is fully constructed and its structure map identified; the module part is a
-statement (existence) to be proved in a later phase.
+The `L`-algebra part is fully constructed and its structure map identified (`instRightAlgebra` /
+`algebraMap_right_apply`); the module part is proved in-file by `exists_module_baseChange`, which
+transports the base-change action across `TensorProduct.comm` and assembles the
+`Module (A ⊗_K L) (V ⊗_K L)` instance via `TensorProduct.Algebra.module`, verifying the pure-tensor
+action `(a ⊗ l) • (v ⊗ l') = (a • v) ⊗ (l · l')`.
 -/
 
 namespace Etingof.Exercise2_11_5
