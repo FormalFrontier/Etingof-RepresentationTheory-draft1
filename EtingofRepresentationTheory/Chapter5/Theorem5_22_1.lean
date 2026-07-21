@@ -3680,4 +3680,87 @@ theorem Theorem5_22_1
   ext μ
   rw [formalCharacter_coeff, schurModule_weight_eq_schurPoly_coeff k N lam hlam]
 
+/-! ### Part 3: the Weyl dimension formula
+
+Etingof's Theorem 5.22.1 concludes with the dimension formula
+`dim L_λ = ∏_{1 ≤ i < j ≤ N} (λ_i − λ_j + j − i)/(j − i)`. This is a downstream
+corollary of the character identity `Theorem5_22_1` (part 2): evaluating the
+formal character at the all-ones point `x_i = 1` recovers the total dimension
+`∑_μ dim (L_λ)_μ = dim L_λ`, and the Schur polynomial `S_λ` evaluated at
+`(1, …, 1)` is the Weyl dimension product. -/
+
+/-- The **Weyl dimension product** for `GL(N)`:
+`∏_{1 ≤ i < j ≤ N} (λ_i − λ_j + j − i)/(j − i)`.
+
+Under the `Fin N` (0-indexed) encoding, `i < j` ranges over `Finset.Ioi i` and
+the offset `j − i > 0` is unchanged by the index shift, so this is the book's
+product verbatim. For antitone `λ` every factor is a positive rational and the
+whole product is a positive integer (the honest dimension), with no nat-division
+truncation: the ratio is taken in `ℚ`. -/
+noncomputable def weylDimension (N : ℕ) (lam : Fin N → ℕ) : ℚ :=
+  ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
+    (((lam i : ℚ) - (lam j : ℚ)) + (((j : ℕ) : ℚ) - ((i : ℕ) : ℚ))) /
+      ((((j : ℕ) : ℚ) - ((i : ℕ) : ℚ)))
+
+/-- Evaluating the formal character at the all-ones point `x_i = 1` sums the
+weight-space multiplicities: `ch_M(1, …, 1) = ∑_μ dim M_μ`.
+
+Pure algebra: `formalCharacter` is a finite sum of monomials `dim(M_μ) · x^μ`,
+and each monomial evaluates to `dim(M_μ)` at `x = 1`. -/
+theorem eval_one_formalCharacter (N : ℕ)
+    (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k)) :
+    MvPolynomial.eval (fun _ => (1 : ℚ)) (formalCharacter k N M) =
+      (glWeightSpace_finite_support k N M).toFinset.sum
+        (fun μ => (Module.finrank k (glWeightSpace k N M (fun i => μ i)) : ℚ)) := by
+  unfold formalCharacter
+  rw [map_sum]
+  apply Finset.sum_congr rfl
+  intro μ _
+  rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one, MvPolynomial.eval_monomial]
+  simp
+
+/-- The total dimension of the Schur module equals its formal character evaluated
+at the all-ones point: `dim L_λ = ch(L_λ)(1, …, 1)`.
+
+This is the total-dimension specialization of the weight-space decomposition
+`L_λ = ⨁_μ (L_λ)_μ`: the module is the internal direct sum of its
+`GL`-weight spaces (simultaneous eigenspaces of the diagonal torus, which acts
+diagonalizably over the algebraically closed characteristic-zero field `k`), so
+its dimension is the sum of the weight multiplicities, which `eval_one_formalCharacter`
+identifies with the character at `x_i = 1`. -/
+theorem finrank_schurModule_eq_eval_one (N : ℕ) (lam : Fin N → ℕ)
+    (hlam : Antitone lam) :
+    (Module.finrank k (SchurModule k N lam) : ℚ) =
+      MvPolynomial.eval (fun _ => (1 : ℚ))
+        (formalCharacter k N (SchurModule k N lam)) := by
+  rw [eval_one_formalCharacter]
+  -- Remaining obligation: the weight-space decomposition
+  --   `dim L_λ = ∑_μ dim (L_λ)_μ`
+  -- (internal direct sum of the diagonal-torus eigenspaces). See issue tracker.
+  sorry
+
+/-- The Schur polynomial evaluated at the all-ones point is the Weyl dimension
+product: `S_λ(1, …, 1) = ∏_{i<j} (λ_i − λ_j + j − i)/(j − i)`.
+
+Both the numerator alternant `A_{λ+δ}` and the Vandermonde `Δ` vanish at
+`x = (1, …, 1)` (repeated rows), so the ratio is the indeterminate `0/0`; the
+value is recovered by the standard principal-specialization / L'Hôpital limit
+`x_i = q^{i}`, `q → 1`, giving the product over `i < j`. -/
+theorem schurPoly_eval_one_eq_weylDimension (N : ℕ) (lam : Fin N → ℕ)
+    (hlam : Antitone lam) :
+    MvPolynomial.eval (fun _ => (1 : ℚ)) (schurPoly N lam) = weylDimension N lam := by
+  sorry
+
+/-- **Weyl dimension formula for `GL(V)`** (Etingof Theorem 5.22.1, part 3):
+the dimension of the Schur module `L_λ` is the Weyl dimension product
+
+`dim L_λ = ∏_{1 ≤ i < j ≤ N} (λ_i − λ_j + j − i)/(j − i)`.
+
+Obtained from the character identity `Theorem5_22_1` (part 2) by evaluating at the
+all-ones point: `dim L_λ = ch(L_λ)(1, …, 1) = S_λ(1, …, 1) = weylDimension`. -/
+theorem Theorem5_22_1_dim (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
+    (Module.finrank k (SchurModule k N lam) : ℚ) = weylDimension N lam := by
+  rw [finrank_schurModule_eq_eval_one k N lam hlam, Theorem5_22_1 k N lam hlam,
+      schurPoly_eval_one_eq_weylDimension N lam hlam]
+
 end Etingof
