@@ -18,7 +18,7 @@ mapBifunctorPostcompIso :
     ≅ HomologicalComplex.mapBifunctor K₁ K₂ (F ⋙ (Functor.whiskeringRight _ _ _).obj G) c
 ```
 
-commuting with the differentials, so it is a genuine `HomologicalComplex.Hom` iso.
+commuting with the differentials, so it is an isomorphism of `HomologicalComplex.Hom`.
 
 The degree-`j` piece of each side is a finite coproduct `∐_{π (i₁, i₂) = j}` over the fiber. An
 additive functor preserves finite coproducts, so `G` commutes with the `GradedObject.mapObj`
@@ -28,8 +28,8 @@ compatibility `G.map (ιMapBifunctor F …) ≫ (postcompX …).hom = ιMapBifun
 fact that `G` is `ℤ`-linear on hom-groups (so it commutes with the Koszul sign) and preserves
 `d₁ = F.map d` and `d₂` definitionally.
 
-This feeds route step 3 of the four-fold rearrangement for Problem 8.2.8 (`Tor` over a tensor
-product of algebras): a smoke instantiation with `G = tensorRightFunctorₖ` and
+This is step 3 of the four-fold rearrangement for Problem 8.2.8 (`Tor` over a tensor
+product of algebras); an instantiation with `G = tensorRightFunctorₖ` and
 `F = extTensorFunctor` is provided at the end.
 -/
 
@@ -207,9 +207,9 @@ variable (N : Type u) [AddCommGroup N] [Module (A₁ ⊗[k] A₂) N]
 variable (K₁ : HomologicalComplex (ModuleCat.{u} A₁ᵐᵒᵖ) (down ℕ))
   (K₂ : HomologicalComplex (ModuleCat.{u} A₂ᵐᵒᵖ) (down ℕ))
 
-/-- Smoke instantiation for Problem 8.2.8 (`Tor`), route step 3: the `k`-linear tensor-right functor
+/-- Instantiation for Problem 8.2.8 (`Tor`), step 3: the `k`-linear tensor-right functor
 `G = tensorRightFunctorₖ` commutes with the external-tensor total complex
-`mapBifunctor … (extTensorFunctor …) (down ℕ)`. Consumed directly by the four-fold rearrangement. -/
+`mapBifunctor … (extTensorFunctor …) (down ℕ)`. Used directly by the four-fold rearrangement. -/
 noncomputable example :
     ((tensorRightFunctorₖ k (A₁ ⊗[k] A₂) N).mapHomologicalComplex (down ℕ)).obj
         (HomologicalComplex.mapBifunctor K₁ K₂ (extTensorFunctor k A₁ A₂) (down ℕ)) ≅

@@ -24,8 +24,8 @@ Parts (i) and (ii) are exactly the existence of a lift of the identity `𝟙 M` 
 between the two resolutions, compatible with the augmentations `π`. This is captured by the
 first statement: a morphism `f : P.complex ⟶ Q.complex` with `f ≫ Q.π = P.π`.
 
-Parts (iii)–(v) — independence of `f` up to the induced map on homology, and the isomorphism
-property — are exactly the statement that any two projective resolutions of `M` are homotopy
+Parts (iii)–(v), independence of `f` up to the induced map on homology and the isomorphism
+property, are exactly the statement that any two projective resolutions of `M` are homotopy
 equivalent (`ProjectiveResolution.homotopyEquiv`). A homotopy equivalence induces isomorphisms
 on the homology of any additive functor applied to the resolution, i.e. on `Tor_i` and `Ext^i`,
 and any two lifts are homotopic (so the induced maps agree). We record this as the existence of

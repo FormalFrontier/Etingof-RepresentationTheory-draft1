@@ -5,7 +5,7 @@ import Mathlib.Algebra.Homology.HomotopyCategory.HomComplexSingle
 import Mathlib.Algebra.Homology.HomotopyCategory.HomComplexCohomology
 
 /-!
-# Problem 8.2.6(ii), the crux: `CohomologyClass (barResolution) 1 ≃+ Problem3_9_1.Ext1`
+# Problem 8.2.6(ii): `CohomologyClass (barResolution) 1 ≃+ Problem3_9_1.Ext1`
 
 `Problem_8_2_6_ii` reduces (via `ProjectiveResolution.extAddEquivCohomologyClass` applied to the
 relative bar resolution `Etingof.barResolution k A W`) to a single additive isomorphism between the
@@ -311,9 +311,9 @@ lemma Ψ1_δ_zero_mem_coboundaries
   rw [Ψ1_δ_zero_eq]
   exact Submodule.subset_span (Set.mem_range_self _)
 
-/-! ### Assembly -/
+/-! ### The isomorphism -/
 
-/-- **Problem 8.2.6(ii), crux.** The degree-`1` cohomology of `Hom(barResolution, V)` is
+/-- **Problem 8.2.6(ii).** The degree-`1` cohomology of `Hom(barResolution, V)` is
 canonically isomorphic to `Ext¹` in the cocycle/coboundary presentation of Problem 3.9.1. -/
 noncomputable def cohomologyClassEquivExt1 :
     CohomologyClass (barCochainComplex k A W) (singleV A V) 1

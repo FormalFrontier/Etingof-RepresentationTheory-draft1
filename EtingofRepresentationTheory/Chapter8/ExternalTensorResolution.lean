@@ -7,7 +7,7 @@ import Mathlib.Algebra.Category.ModuleCat.ChangeOfRingsExact
 /-!
 # The external tensor product of two projective resolutions is a projective resolution
 
-Assembling the pieces built in `ExternalTensorComplex.lean` (the total complex
+Combining the pieces built in `ExternalTensorComplex.lean` (the total complex
 `Etingof.extTensorComplex P₁ P₂` and its augmentation `Etingof.extTensorπ P₁ P₂`) and
 `ExternalTensorProjective.lean` (degreewise projectivity `Etingof.extTensor_projective`), this
 file constructs the `ProjectiveResolution` of `M₁ ⊗[k] M₂` over `(A₁ ⊗[k] A₂)ᵐᵒᵖ`:
@@ -22,20 +22,19 @@ file constructs the `ProjectiveResolution` of `M₁ ⊗[k] M₂` over `(A₁ ⊗
 
 ## The base ring must be a field
 
-This file works over a **field** `k`, not a general `CommRing`. The `quasiIso` field of
-`extTensorProjectiveResolution` — exactness of `P•₁ ⊗_k P•₂` as a resolution of `M₁ ⊗_k M₂` — is
-*false* over a general commutative ring: it is the vanishing of the higher `Tor`
+This file works over a field `k`, not a general `CommRing`. The `quasiIso` field of
+`extTensorProjectiveResolution` (exactness of `P•₁ ⊗_k P•₂` as a resolution of `M₁ ⊗_k M₂`) is
+false over a general commutative ring: it is the vanishing of the higher `Tor`
 `Tor_{>0}^k(M₁, M₂)`, which is nonzero already for `k = ℤ`, `M₁ = M₂ = ℤ/2` (there
 `Tor_1^ℤ(ℤ/2, ℤ/2) = ℤ/2`, so `P•₁ ⊗_ℤ P•₂` has homology in degree 1 and is not a resolution).
 Over a field every module is flat, so the obstruction vanishes. Accordingly the section variable is
-`[Field k]`; nothing downstream consumes the (over-general, previously `[CommRing k]`) resolution
-yet, so tightening the hypothesis is safe.
+`[Field k]`.
 
 ## The `quasiIso` obligation
 
-Exactness of the resolution is proved in full (sorry-free). Restriction of scalars to `k` reflects
+Restriction of scalars to `k` reflects
 `QuasiIso` (it preserves homology, `restrictScalars_preservesHomology`, and reflects isomorphisms),
-so it suffices to check the restricted augmentation, which `extTensorComplex_restrictIso` (#6738)
+so it suffices to check the restricted augmentation, which `extTensorComplex_restrictIso`
 identifies with the augmentation `Φ` of the `k`-tensor total complex
 `res₁Complex P₁ ⊗ res₂Complex P₂ → res₁ M₁ ⊗ res₂ M₂`. That map is a quasi-isomorphism degreewise:
 
@@ -46,7 +45,7 @@ identifies with the augmentation `Φ` of the `k`-tensor total complex
 * **degree `0`** by `quasiIsoAt_zero_of_isColimitCokernelCofork` together with
   `isColimitCokernelCofork_tensorObj_augmentation`: `Φ.f 0` is a cokernel of the total-complex
   differential `d 1 0`. Its degree-`0` component is `res₁ (P₁.π)₀ ⊗ res₂ (P₂.π)₀` (the map-level
-  `i = 0` square `ι_extRestrictComplexXIso_aug₀`, #6738), and the tensor of two cokernels is a
+  `i = 0` square `ι_extRestrictComplexXIso_aug₀`), and the tensor of two cokernels is a
   cokernel (right-exactness of `⊗`, `CokernelCofork.isColimitTensor`), so it induces an isomorphism
   on `H_0`.
 -/
@@ -67,7 +66,7 @@ attribute [local instance] restrictModule₁ restrictModule₂ tower₁ tower₂
 
 /-- The degree `.X n` of the external tensor complex, unfolded to the coproduct `mapObj` of its
 bidegree summands. Stated as a `rfl` at the `mapObj` level (a single `total` projection), which is
-cheap — unfolding all the way to `∐` forces a costly normalization of the bifunctor terms. -/
+cheap; unfolding all the way to `∐` forces a costly normalization of the bifunctor terms. -/
 private theorem extTensorComplex_X_eq (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂)
     (n : ℕ) :
     (extTensorComplex (k := k) P₁ P₂).X n
@@ -80,7 +79,7 @@ private theorem extTensorComplex_X_eq (P₁ : ProjectiveResolution M₁) (P₂ :
 /-- Each degree of the external tensor complex is projective over `(A₁ ⊗[k] A₂)ᵐᵒᵖ`. Degree `n` is
 the coproduct of the bidegree pieces `(P₁)_{i₁} ⊗[k] (P₂)_{i₂}` over `i₁ + i₂ = n`; each is
 projective by `extTensor_projective` (the factors are projective, being terms of projective
-resolutions), and a coproduct of projectives is projective. The lifting property is assembled by
+resolutions), and a coproduct of projectives is projective. The lifting property is built by
 hand from `Sigma.desc`/`Sigma.ι` rather than via the coproduct-`Projective` instance, whose
 full-transparency defeq check does not terminate on the heavy bifunctor summands. -/
 theorem extTensorComplex_projective (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂)
@@ -279,7 +278,7 @@ complex `extTensorComplex P₁ P₂` and its augmentation `extTensorπ P₁ P₂
 
 Exactness of the resolution (`quasiIso`): restriction of scalars to `k` reflects `QuasiIso` (it
 preserves homology, `restrictScalars_preservesHomology`, and reflects isomorphisms), so it suffices
-to check the restricted map, which `extTensorComplex_restrictIso` (#6738) identifies with the
+to check the restricted map, which `extTensorComplex_restrictIso` identifies with the
 augmentation of the `k`-tensor total complex `res₁Complex P₁ ⊗ res₂Complex P₂ → res₁ M₁ ⊗ res₂ M₂`.
 That is a quasi-isomorphism degreewise: positive degrees by the acyclicity
 `homology_tensorObj_res_isZero_succ`, and degree `0` by the tensor-cokernel isomorphism. -/
@@ -332,7 +331,7 @@ noncomputable def extTensorProjectiveResolution
         P₁.cokernelCofork.mapIsColimit P₁.isColimitCokernelCofork (res₁ k A₁)
       have hc₂ : IsColimit (CokernelCofork.ofπ p₂ hp₂comm) :=
         P₂.cokernelCofork.mapIsColimit P₂.isColimitCokernelCofork (res₂ k A₂)
-      -- **Gap (A): identify `ι₀₀ ≫ Φ.f 0` with `p₁ ⊗ₘ p₂`.**
+      -- Identify `ι₀₀ ≫ Φ.f 0` with `p₁ ⊗ₘ p₂`.
       have h₀ : ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ)
           (ComplexShape.down ℕ) (0, 0) = 0 := rfl
       have hgapA : HomologicalComplex.ιTensorObj (res₁Complex P₁) (res₂Complex P₂) 0 0 0 rfl ≫
@@ -354,7 +353,7 @@ noncomputable def extTensorProjectiveResolution
         rw [hs0, hmid0, ht0, ← Category.assoc,
           ι_extRestrictComplexXIso_inv (k := k) P₁ P₂ 0 0 0 h₀, Category.assoc,
           ι_extRestrictComplexXIso_aug₀ (k := k) P₁ P₂ h₀, Iso.inv_hom_id_assoc]
-      -- **Assemble** the cokernel of `K.d 1 0` from the tensor cokernel (right-exactness of `⊗`).
+      -- Build the cokernel of `K.d 1 0` from the tensor cokernel (right-exactness of `⊗`).
       exact isColimitCokernelCofork_tensorObj_augmentation hp₁comm hp₂comm hc₁ hc₂
         (show (HomologicalComplex.tensorObj (res₁Complex P₁) (res₂Complex P₂)).d 1 0 ≫ Φ.f 0 = 0 by
           rw [← Φ.comm 1 0, HomologicalComplex.single_obj_d, comp_zero]) hgapA

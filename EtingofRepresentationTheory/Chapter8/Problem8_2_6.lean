@@ -45,13 +45,12 @@ All parts (i)–(v) are stated below, for both the `Ext` and `Tor` sides.
   derived of `- ⊗_A N` in `M`) and the left derived functor of `M ⊗_A -` in `N`
   (`tensorLeftFunctor A M`).
 
-To phrase (iii) and (iv) we build genuine second-argument infrastructure: `tensorSndMap`,
-`tensorRightNatTrans`, `torSndMap`, and `tensorLeftFunctor` (all real constructions, no sorried
-`def` bodies). Definition 8.2.3 originally left-derives `- ⊗_A N` only in its first argument
+To phrase (iii) and (iv) we build second-argument infrastructure: `tensorSndMap`,
+`tensorRightNatTrans`, `torSndMap`, and `tensorLeftFunctor`. Definition 8.2.3 originally left-derives `- ⊗_A N` only in its first argument
 `M`; a left `A`-module map `g : N → N'` induces a natural transformation of the tensor functors,
 and `NatTrans.leftDerived` supplies the missing second-argument functoriality of `Tor`.
 
-All parts are proved here. The balancing theorem (iv) is proved by an elementary dimension shift
+The balancing theorem (iv) is proved by an elementary dimension shift
 (strong induction on the homological degree via projective presentations of the right module),
 using the two six-term windows (`Problem_8_2_6_v_tor` / `torBalancing_sixTerm`), the vanishing of
 higher `Tor` on projectives, and the naturality of the degree-`0` balancing isomorphism
@@ -94,12 +93,10 @@ theorem Problem_8_2_6_ii
     [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W] :
     Nonempty (Etingof.Ext (ModuleCat.of A W) (ModuleCat.of A V) 1
       ≃+ Etingof.Problem3_9_1.Ext1 k A V W) :=
-  -- Step 1 (this reduction, sorry-free): the relative bar resolution `Etingof.barResolution`
-  -- computes `Ext¹` as the degree-1 cohomology of the Hom-into-`V` cochain complex, via
-  -- `ProjectiveResolution.extAddEquivCohomologyClass`.
   -- Step 1: the relative bar resolution `Etingof.barResolution` computes `Ext¹` as the degree-1
-  -- cohomology of the Hom-into-`V` cochain complex (`extAddEquivCohomologyClass`).
-  -- Step 2 (crux): identify that cohomology group with `Problem3_9_1.Ext1` via
+  -- cohomology of the Hom-into-`V` cochain complex, via
+  -- `ProjectiveResolution.extAddEquivCohomologyClass`.
+  -- Step 2: identify that cohomology group with `Problem3_9_1.Ext1` via
   -- `Etingof.cohomologyClassEquivExt1`.
   ⟨((Etingof.barResolution k A W).extAddEquivCohomologyClass
       (Y := ModuleCat.of A V) (n := 1)).trans
@@ -158,7 +155,7 @@ theorem Problem_8_2_6_iii_tor
           map_add (QuotientAddGroup.mk' (Etingof.balancedSubgroup A ↑S.X₁ Y)) a b,
         map_add, map_add, ha, hb]
   -- Apply the varying-functor six-term exact sequence; on projective `Y` the tensor sequence
-  -- `Y ⊗_A N₁ → Y ⊗_A N₂ → Y ⊗_A N₃` is short exact by flatness of projectives (#6587).
+  -- `Y ⊗_A N₁ → Y ⊗_A N₂ → Y ⊗_A N₃` is short exact by flatness of projectives.
   exact NatTrans.leftDerived_sixTerm_exact
     (tensorRightNatTrans A S.f.hom) (tensorRightNatTrans A S.g.hom) w
     (fun Y _ => tensorLeftFunctor_map_shortExact A Y hS) M n₀ n₁ h
@@ -223,7 +220,7 @@ theorem torBalancing_sixTerm
           map_add (QuotientAddGroup.mk' (Etingof.balancedSubgroup A N' S.X₁)) a b,
         map_add, map_add, ha, hb]
   -- Apply the varying-functor six-term exact sequence; on a projective left module `Y` the tensor
-  -- sequence `M₁ ⊗_A Y → M₂ ⊗_A Y → M₃ ⊗_A Y` is short exact by flatness of projectives (#6608).
+  -- sequence `M₁ ⊗_A Y → M₂ ⊗_A Y → M₃ ⊗_A Y` is short exact by flatness of projectives.
   exact NatTrans.leftDerived_sixTerm_exact
     (tensorLeftNatTrans A S.f) (tensorLeftNatTrans A S.g) w
     (fun Y _ => tensorRightFunctor_map_shortExact A Y hS) (ModuleCat.of A N) n₀ n₁ h
@@ -239,7 +236,7 @@ universe v₁ u₁
 /-- **Naturality of `fromLeftDerivedZero` in the functor variable.** For a natural transformation
 `α : F ⟶ G` of additive functors between abelian categories (`C` with enough projectives), the
 degree-`0` comparison maps `L₀F ⟶ F` and `L₀G ⟶ G` intertwine `NatTrans.leftDerived α 0` with `α`.
-This is the crux input to the naturality of the degree-`0` balancing isomorphism
+This is the key input to the naturality of the degree-`0` balancing isomorphism
 (`balancing_zero_naturality`), which the `n = 1` base of the dimension-shift proof needs. -/
 lemma fromLeftDerivedZero_natTrans_app
     {C : Type u₁} [Category.{v₁} C] [Abelian C] [EnoughProjectives C]

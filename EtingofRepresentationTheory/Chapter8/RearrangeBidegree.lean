@@ -26,7 +26,7 @@ Well-definedness of the map with respect to the *inner* `k`-balancing of `N₁ �
 identity `⟦p ⊗ (c • n)⟧ = c • ⟦p ⊗ n⟧` in `Pᵢ ⊗_{Aᵢ} Nᵢ`. Since the ambient `k`-action on
 `tensorOver` acts through the *left* factor, this identity holds exactly when `k` acts on `Pᵢ` and
 `Nᵢ` through `Aᵢ`, i.e. via the scalar towers `IsScalarTower k Aᵢᵐᵒᵖ Pᵢ` and
-`IsScalarTower k Aᵢ Nᵢ`. This is precisely the "`k → Z(Aᵢ)`" compatibility of the assembler: in the
+`IsScalarTower k Aᵢ Nᵢ`. This is precisely the "`k → Z(Aᵢ)`" compatibility required by the construction: in the
 application the `k`-structure on each module is the restriction of scalars of its `Aᵢ`-structure.
 -/
 
@@ -167,7 +167,7 @@ variable
 
 omit [SMulCommClass k (A₁ ⊗[k] A₂)ᵐᵒᵖ (P₁ ⊗[k] P₂)] in
 include hM hN in
-/-- The crux compatibility: `rearrangeAux` sends the external `A₁ ⊗ A₂`-balancing relation on the
+/-- The key compatibility: `rearrangeAux` sends the external `A₁ ⊗ A₂`-balancing relation on the
 left to `0`, i.e. `rearrangeAux ((op g • m) ⊗ n) = rearrangeAux (m ⊗ (g • n))`. Proved by
 reduction to simple tensors, where it is the two factorwise balancing relations. -/
 theorem rearrangeAux_balanced (g : A₁ ⊗[k] A₂) (m : P₁ ⊗[k] P₂) (n : N₁ ⊗[k] N₂) :

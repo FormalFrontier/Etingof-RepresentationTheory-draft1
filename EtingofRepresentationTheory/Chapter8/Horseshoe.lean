@@ -21,10 +21,9 @@ that is *degreewise split* (each degree is the split biproduct sequence
 two compatibility squares
 `α.f 0 ≫ P₂.π.f 0 = P₁.π.f 0 ≫ S.f` and `β.f 0 ≫ P₃.π.f 0 = P₂.π.f 0 ≫ S.g`.
 
-This is the book's construction `P²ᵢ := P¹ᵢ ⊕ P³ᵢ` (Problem 8.2.6(v),
-`blobs/Chapter8/Problem8.2.6.md`), whose degreewise lifting step is `Exercise_8_1_4`
-(`Chapter8/Exercise8_1_4.lean`). It is the crux the first-argument `Tor`/`Ext` long exact
-sequences of Problem 8.2.6 rely on: because the sequence of complexes is degreewise split, it is
+This is the book's construction `P²ᵢ := P¹ᵢ ⊕ P³ᵢ` (Problem 8.2.6(v)), whose degreewise lifting
+step is `Exercise_8_1_4`. It underlies the first-argument `Tor`/`Ext` long exact
+sequences of Problem 8.2.6: because the sequence of complexes is degreewise split, it is
 preserved by any additive functor (in particular `- ⊗_A N`), so applying such a functor and
 taking homology yields the six-term homology window via
 `CategoryTheory.ShortComplex.ShortExact.homology_exact₁/₂/₃`, with the objects identified with
@@ -56,14 +55,12 @@ Write `S.f : X₁ ⟶ X₂`, `S.g : X₂ ⟶ X₃`, `ε₁ := P₁.π.f 0`, `ε�
   in degree `0`) forces `P₂.complex` exact off degree `0` with `H₀ = X₂`; each `P₂.X n` is
   projective as a biproduct of projectives.
 
-## Status
-
-Complete and `sorry`-free. The resolution *data* is built explicitly — the twisted differential
-`horseshoeD` threading the inductive off-diagonal lift `horseshoeTwist`, the augmentation
-`horseshoeπ`, and the chain maps `horseshoeα`, `horseshoeβ` (see the route above) — and every
-`Prop`-level obligation (`d ≫ d = 0` via `horseshoeD_comp_horseshoeD`, the chain-map laws, the
-`QuasiIso` of the augmentation via `horseshoeπ_quasiIso`, and the degreewise-split `ShortExact`
-via `horseshoeShortComplex_shortExact`) is discharged, so `horseshoe` is proved.
+The resolution data is built explicitly: the twisted differential `horseshoeD` carrying the
+inductive off-diagonal lift `horseshoeTwist`, the augmentation `horseshoeπ`, and the chain maps
+`horseshoeα`, `horseshoeβ`. The associated obligations are `d ≫ d = 0`
+(`horseshoeD_comp_horseshoeD`), the chain-map laws, the `QuasiIso` of the augmentation
+(`horseshoeπ_quasiIso`), and the degreewise-split `ShortExact`
+(`horseshoeShortComplex_shortExact`).
 -/
 
 universe v u

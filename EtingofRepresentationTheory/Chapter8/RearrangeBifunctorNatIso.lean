@@ -23,22 +23,22 @@ of the external tensor bifunctor with `Etingof.tensorRightFunctorₖ k (A₁⊗A
 `(X, Y) ↦ (X ⊗_{A₁} N₁) ⊗ₖ (Y ⊗_{A₂} N₂)`, assembled from the two factor functors and the monoidal
 tensor on `ModuleCat k`.
 
-Downstream (route step 3, the final assembly of the `ChainComplex (ModuleCat k) ℕ` rearrangement
+Downstream (route step 3, the final construction of the `ChainComplex (ModuleCat k) ℕ` rearrangement
 iso) transports this natural iso through `HomologicalComplex.mapBifunctor`.
 
 ## Contents
 
-* `extTensorRightFunctor`, `factorTensorFunctor` — the two bifunctors (with the
+* `extTensorRightFunctor`, `factorTensorFunctor`: the two bifunctors (with the
   restriction-of-scalars `local instance`s on the `ModuleCat` carriers).
-* `extModuleK_algebraMap_smul`, `rearrangeSourceEquiv` — the source-diamond reconciliation. The two
+* `extModuleK_algebraMap_smul`, `rearrangeSourceEquiv`: the source-diamond reconciliation. The two
   bifunctor objects share the carrier `tensorOver (A₁⊗A₂) (N₁⊗ₖN₂) (X ⊗[k] Y)` but
   `tensorRightFunctorₖ` equips it with the `k`-action restricted through `(A₁⊗A₂)ᵐᵒᵖ`, whereas
   `rearrangeBidegree` uses the `TensorProduct`-diagonal `k`-action. These agree propositionally (the
-  external action of `algebraMap k (A₁⊗A₂)ᵐᵒᵖ c` is `c • ·`), and the identity carrier map bridges
+  external action of `algebraMap k (A₁⊗A₂)ᵐᵒᵖ c` is `c • ·`), and the identity carrier map reconciles
   the diamond; the target factor `k`-actions already match definitionally.
-* `rearrangeBifunctorComponentIso` — milestone (a) `rearrangeBidegree`, retyped to the functor
+* `rearrangeBifunctorComponentIso`: milestone (a) `rearrangeBidegree`, retyped to the functor
   objects.
-* `rearrangeBifunctorNatIso` — the full bifunctor natural isomorphism, assembled by two nested
+* `rearrangeBifunctorNatIso`: the full bifunctor natural isomorphism, assembled by two nested
   `NatIso.ofComponents`; both naturality squares are the generator computation underlying
   `rearrangeBidegree_naturality` (each factor map is `tensorRightMapₖ`, identified with the
   `tensorOver`-functoriality by `tensorRightMapₖ_eq_tensorOverMapₖ`).
@@ -289,7 +289,7 @@ include hN in
 /-- The natural isomorphism of functors
 `(extTensorRightFunctor).obj X ≅ (factorTensorFunctor).obj X` (naturality in the second variable
 `Y`), for a fixed first variable `X`. Kept as a named `def` so the large naturality proof stays
-opaque to the outer naturality assembly. -/
+opaque to the outer naturality proof. -/
 noncomputable def rearrangeBifunctorNatIsoApp (X : ModuleCat.{u} A₁ᵐᵒᵖ) :
     (extTensorRightFunctor k A₁ A₂ N₁ N₂).obj X ≅ (factorTensorFunctor k A₁ A₂ N₁ N₂).obj X :=
   NatIso.ofComponents
@@ -332,7 +332,7 @@ include hN in
   rfl
 
 include hN in
-/-- **Route step 2 (#6742).** The natural isomorphism of bifunctors
+/-- **The bifunctor natural isomorphism.** The natural isomorphism of bifunctors
 `extTensorRightFunctor ≅ factorTensorFunctor`, i.e.
 `(X, Y) ↦ (X ⊗ₖ Y) ⊗_{A₁⊗A₂} (N₁ ⊗ₖ N₂)` is naturally isomorphic to
 `(X, Y) ↦ (X ⊗_{A₁} N₁) ⊗ₖ (Y ⊗_{A₂} N₂)`. The components are `rearrangeBifunctorComponentIso`

@@ -13,7 +13,7 @@ homology (needed for the `quasiIso` obligation of `extTensorProjectiveResolution
 `(A₁ ⊗[k] A₂)ᵐᵒᵖ`-structure down to `ModuleCat k` along `algebraMap k (A₁ ⊗[k] A₂)ᵐᵒᵖ` and identify
 the result with the plain `k`-tensor total complex of the underlying `k`-complexes of `P•₁`, `P•₂`.
 
-The geometric heart is a pointwise natural isomorphism of bifunctors: restricting the external
+The key point is a pointwise natural isomorphism of bifunctors: restricting the external
 tensor `X ⊗[k] Y` (with its `(A₁ ⊗[k] A₂)ᵐᵒᵖ`-action) back to `k` recovers the plain `k`-tensor of
 the two restricted modules.
 
@@ -25,10 +25,10 @@ the two restricted modules.
   representation `extTensorRep` is a `k`-algebra map, so it sends `algebraMap` to `algebraMap`).
 * `Etingof.extRestrictObjIso_naturality`: the identification is natural in `(X, Y)`.
 
-## Status
+## Construction
 
-Building on the **pointwise** bifunctor isomorphism `extRestrictObjIso` and its naturality, this
-file assembles the **complex-level** commutation isomorphism
+Building on the pointwise bifunctor isomorphism `extRestrictObjIso` and its naturality, this
+file constructs the complex-level commutation isomorphism
 `Etingof.extTensorComplex_restrictIso`:
 `((restrictScalars (algebraMap k (A₁ ⊗[k] A₂)ᵐᵒᵖ)).mapHomologicalComplex (ComplexShape.down ℕ)).obj
 (extTensorComplex P₁ P₂) ≅ HomologicalComplex.tensorObj (res₁Complex P₁) (res₂Complex P₂)` where
@@ -38,7 +38,7 @@ preserves the degree-`n` coproduct, `preservesColimit_restrictScalars`) and `Sig
 Koszul-signed differential compatibility (`resExt_map_d₁_comp`, `resExt_map_d₂_comp`) reduces to
 `extRestrictObjIso_naturality`. The degree-0 `π`-compatibility `ι_extRestrictComplexXIso_aug₀`
 (the restricted augmentation corresponds to `res₁ (P₁.π)₀ ⊗ res₂ (P₂.π)₀`) is the map-level `i = 0`
-square consumed by the `quasiIso` assembly (#6735).
+square used by the `quasiIso` construction.
 -/
 
 open CategoryTheory Limits MonoidalCategory HomologicalComplex TensorProduct MulOpposite
@@ -256,8 +256,8 @@ theorem resExt_map_d₂_comp (P₁ : ProjectiveResolution M₁) (P₂ : Projecti
 
 /-- **The complex-level commutation isomorphism.** Restricting the external tensor complex of two
 projective resolutions to `k` recovers the `k`-tensor total complex of the restricted resolutions.
-This is the remaining half of Problem 8.2.8's restriction-of-scalars commutation (#6738), consumed
-by the `quasiIso` assembly #6735. -/
+This is the remaining half of Problem 8.2.8's restriction-of-scalars commutation, used
+by the `quasiIso` construction. -/
 noncomputable def extTensorComplex_restrictIso (P₁ : ProjectiveResolution M₁)
     (P₂ : ProjectiveResolution M₂) :
     ((resExt k A₁ A₂).mapHomologicalComplex (ComplexShape.down ℕ)).obj (extTensorComplex P₁ P₂) ≅
@@ -284,7 +284,7 @@ noncomputable def extTensorComplex_restrictIso (P₁ : ProjectiveResolution M₁
 /-- **π-compatibility, degree 0.** On the only summand `(0, 0)` of degree 0, the restricted
 augmentation `resExt (extTensorAug₀ P₁ P₂)`, transported along `extRestrictObjIso M₁ M₂`, is the
 `k`-tensor `res₁ (P₁.π)₀ ⊗ res₂ (P₂.π)₀` of the restricted degree-0 augmentations. This is the
-map-level `i = 0` square consumed by the quasiIso assembly (#6735). Reduces to
+map-level `i = 0` square used by the `quasiIso` construction. Reduces to
 `extRestrictObjIso_naturality` (and functoriality of `extTensorFunctorMap`). -/
 theorem ι_extRestrictComplexXIso_aug₀ (P₁ : ProjectiveResolution M₁)
     (P₂ : ProjectiveResolution M₂)

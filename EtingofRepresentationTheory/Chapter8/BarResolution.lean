@@ -13,32 +13,32 @@ augmentation `π : P₀ = A ⊗_k W → W`, `a ⊗ w ↦ a • w`, and the usual
 differential.  Because `k` is a field every `A^{⊗n} ⊗_k W` is a free `k`-module, so each `Pₙ` is a
 *free* `A`-module (`A ⊗_k (free k-module)`), hence projective.  This is what makes the relative
 bar resolution an honest projective resolution over a field, and it is the missing piece needed to
-compute `Ext_A` via `CategoryTheory.ProjectiveResolution.extAddEquivCohomologyClass` (see #6297,
-consumed by `Problem_8_2_6_ii`).
+compute `Ext_A` via `CategoryTheory.ProjectiveResolution.extAddEquivCohomologyClass`, as used in
+`Problem_8_2_6_ii`.
 
 ## What is formalized here
 
-This file provides the **terms** of the resolution as free/projective `A`-modules, together with
-the **augmentation**:
+This file provides the terms of the resolution as free/projective `A`-modules, together with
+the augmentation:
 
-* `Etingof.BarResolution.barCoeff k A W n` — the `k`-module `A^{⊗_k n} ⊗_k W` of bar coefficients.
-* `Etingof.BarResolution.barModule k A W n = A ⊗_k (A^{⊗n} ⊗_k W)` — the `n`-th term, an
-  `A`-module via left multiplication on the leading factor; a *free* `A`-module
+* `Etingof.BarResolution.barCoeff k A W n`: the `k`-module `A^{⊗_k n} ⊗_k W` of bar coefficients.
+* `Etingof.BarResolution.barModule k A W n = A ⊗_k (A^{⊗n} ⊗_k W)`: the `n`-th term, an
+  `A`-module via left multiplication on the leading factor; a free `A`-module
   (`instance : Module.Free A (barModule …)`).
-* `Etingof.BarResolution.barObj k A W n : ModuleCat A` — the term packaged as an object of
+* `Etingof.BarResolution.barObj k A W n : ModuleCat A`: the term packaged as an object of
   `ModuleCat A`, with a `Projective` instance.
-* `Etingof.BarResolution.ε k A W : barModule k A W 0 →ₗ[A] W` — the augmentation `a ⊗ w ↦ a • w`,
+* `Etingof.BarResolution.ε k A W : barModule k A W 0 →ₗ[A] W`: the augmentation `a ⊗ w ↦ a • w`,
   proved surjective (`ε_surjective`); `barπ` is its packaging as a `ModuleCat` morphism.
 
-It also provides the three reusable `k`-linear **face-map primitives** on the tensor powers
-`⨂[k]^(n+1) A` from which the bar differential's faces are assembled — `barConsSplit` (pull off the
+It also provides the three reusable `k`-linear face-map primitives on the tensor powers
+`⨂[k]^(n+1) A` from which the bar differential's faces are built: `barConsSplit` (pull off the
 first factor), `barSnocSplit` (pull off the last factor), and `barMerge i` (merge the adjacent
-factors `i`, `i+1` via the multiplication of `A`) — see the section below.
+factors `i`, `i+1` via the multiplication of `A`); see the section below.
 
-The bar **differential**, the identity `d ∘ d = 0`, exactness via the `k`-linear contracting
+The bar differential, the identity `d ∘ d = 0`, exactness via the `k`-linear contracting
 homotopy `s(x) = 1 ⊗ x`, and the packaging into
-`CategoryTheory.ProjectiveResolution (ModuleCat.of A W)` are follow-up work that builds on the
-terms and augmentation defined here.
+`CategoryTheory.ProjectiveResolution (ModuleCat.of A W)` are developed in the sections below,
+building on the terms and augmentation defined here.
 -/
 
 universe u
@@ -58,8 +58,8 @@ abbrev barCoeff (n : ℕ) : Type u := (⨂[k]^n A) ⊗[k] W
 /-- The `n`-th term of the relative bar resolution, `Pₙ = A ⊗_k (A^{⊗n} ⊗_k W)`.
 
 It is an `A`-module via left multiplication on the leading `A` factor (the
-`TensorProduct.leftModule` instance), and — because `k` is a field, so `barCoeff k A W n` is a free
-`k`-module — a *free* `A`-module. -/
+`TensorProduct.leftModule` instance), and, because `k` is a field, so `barCoeff k A W n` is a free
+`k`-module, a free `A`-module. -/
 abbrev barModule (n : ℕ) : Type u := A ⊗[k] barCoeff k A W n
 
 /-- Each bar term is a free `A`-module: it is `A ⊗_k X` with `X` a free `k`-module. -/
@@ -137,9 +137,9 @@ acts on the middle `A^{⊗(n+1)}` factor by either pulling off the leading/trail
 merging two adjacent factors via the multiplication of `A`.  We record here the three reusable
 `k`-linear primitives on `⨂[k]^(n+1) A` that these faces are built from:
 
-* `barConsSplit` — pull off the first factor, `tprod v ↦ v 0 ⊗ tprod (Fin.tail v)`;
-* `barSnocSplit` — pull off the last factor, `tprod v ↦ tprod (Fin.init v) ⊗ v (Fin.last n)`;
-* `barMerge i` — merge the adjacent factors `i` and `i+1` via the multiplication of `A`
+* `barConsSplit`: pull off the first factor, `tprod v ↦ v 0 ⊗ tprod (Fin.tail v)`;
+* `barSnocSplit`: pull off the last factor, `tprod v ↦ tprod (Fin.init v) ⊗ v (Fin.last n)`;
+* `barMerge i`: merge the adjacent factors `i` and `i+1` via the multiplication of `A`
   (`tprod v ↦ tprod (Fin.contractNth i.castSucc (·*·) v)`).
 
 `barMerge` is indexed by `i : Fin n` (the `n` mergeable adjacent pairs among the `n+1` factors);
@@ -939,8 +939,7 @@ private theorem sum_neg_one_pow_succ_smul {M : Type u} [AddCommGroup M] [Module 
 /-- **Homotopy identity (degree n+1), on a pure generator.** `d_{n+1} (s_{n+1} x) + s_n (d_n x) = x`
 for `x = a₀ ⊗ (tprod v ⊗ w)`.  The alternating faces telescope: face `0` of `d_{n+1} ∘ s_{n+1}`
 undoes the `s`-inserted leading `1`, and the remaining `n+1` faces cancel the `n+1` faces of
-`s_n ∘ d_n` with a sign shift.  (Stated pointwise rather than as a `restrictScalars` map equality
-because that instance search is prohibitively slow for symbolic `n`; the induction wrapper
+`s_n ∘ d_n` with a sign shift.  (Stated pointwise; the induction wrapper
 `barDiff_contraction_homotopy` extends it to all of `Pₙ₊₁`.) -/
 theorem barDiff_barContraction_gen (n : ℕ) (a₀ : A) (v : Fin (n + 1) → A) (w : W) :
     barDiff k A W (n + 1) (barContraction k A W (n + 1) (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w)))
@@ -989,7 +988,7 @@ end BarContraction
 /-! ### The bar resolution as a `ProjectiveResolution`
 
 The relative bar complex `barComplex`, its projective terms, and the augmentation `barπChainMap`
-now assemble into an honest `CategoryTheory.ProjectiveResolution (ModuleCat.of A W)`.  The
+assemble into an honest `CategoryTheory.ProjectiveResolution (ModuleCat.of A W)`.  The
 `k`-linear contracting homotopy `barContraction` / `barContractionBase` splits every bar
 differential, so at the level of underlying `k`-modules (which are the same sets as the underlying
 `A`-modules) every cycle is a boundary: this gives exactness in positive degrees and, together with
@@ -1080,10 +1079,10 @@ noncomputable def _root_.Etingof.barResolution :
 
 /-- When `A` and `W` are finite dimensional over `k`, every term of the bar resolution complex is a
 finitely generated `A`-module. Together with the `Projective` instances
-(`barResolution.projective`), this exhibits `Etingof.barResolution` as a *finitely generated
-projective* resolution of `ModuleCat.of A W` — exactly the input `Etingof.Problem_8_2_8_extₖ`
-consumes, the finite generation being what makes the degreewise `Hom`-tensor comparison an
-isomorphism. -/
+(`barResolution.projective`), this exhibits `Etingof.barResolution` as a finitely generated
+projective resolution of `ModuleCat.of A W`, exactly the input required by
+`Etingof.Problem_8_2_8_extₖ`, the finite generation being what makes the degreewise `Hom`-tensor
+comparison an isomorphism. -/
 instance instFiniteBarResolutionComplexX (n : ℕ)
     [FiniteDimensional k A] [FiniteDimensional k W] :
     Module.Finite A ((Etingof.barResolution k A W).complex.X n) :=
