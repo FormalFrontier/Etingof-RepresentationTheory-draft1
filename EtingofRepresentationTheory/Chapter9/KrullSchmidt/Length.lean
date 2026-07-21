@@ -537,9 +537,9 @@ For a short exact sequence `0 → X₁ → X₂ → X₃ → 0`, the composition
 * `clength_add_le` (`clength X₁ + clength X₃ ≤ clength X₂`) — **proved**, modularity-free, from the
   down-interval isomorphism `height_mk_eq_height_top`, the epi-side inequality
   `height_top_le_coheight_kernel`, and the order lemma `height_add_coheight_le_height_top`.
-* `clength_le_add` (`clength X₂ ≤ clength X₁ + clength X₃`) — the Schreier-refinement direction; see
-  its docstring for the order-reflecting embedding `Subobject X₂ ↪ Subobject X₁ × Subobject X₃` that
-  remains to be discharged.
+* `clength_le_add` (`clength X₂ ≤ clength X₁ + clength X₃`) — the Schreier-refinement direction,
+  **proved**; see its docstring for the order-reflecting embedding
+  `Subobject X₂ ↪ Subobject X₁ × Subobject X₃` that discharges it.
 
 Finiteness of all three lengths (needed both for the `le_antisymm` to make sense and for the
 `ENat.toNat` arithmetic) comes from `FiniteDimensionalOrder (Subobject X)`, the order-theoretic form
