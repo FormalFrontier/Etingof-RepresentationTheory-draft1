@@ -281,8 +281,116 @@ noncomputable def Vrep (N : ℕ) [NeZero N] (j : ZMod N) :
   map_one' := by rw [repMat_one]; exact Matrix.toLin'_one
   map_mul' g h := by rw [repMat_mul, Matrix.toLin'_mul]; rfl
 
-@[simp] theorem Vrep_apply (N : ℕ) [NeZero N] (j : ZMod N) (g : DihedralGroup N)
+theorem Vrep_apply (N : ℕ) [NeZero N] (j : ZMod N) (g : DihedralGroup N)
     (v : Fin 2 → ℂ) : Vrep N j g v = (repMat N j g).mulVec v :=
   Matrix.toLin'_apply _ _
+
+/-- First coordinate of `r k` acting on `v`. -/
+@[simp] theorem Vrep_r_apply_zero (N : ℕ) [NeZero N] (j k : ZMod N) (v : Fin 2 → ℂ) :
+    Vrep N j (DihedralGroup.r k) v 0 = eigen N j k * v 0 := by
+  rw [Vrep_apply]; simp [repMat, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+
+/-- Second coordinate of `r k` acting on `v`. -/
+@[simp] theorem Vrep_r_apply_one (N : ℕ) [NeZero N] (j k : ZMod N) (v : Fin 2 → ℂ) :
+    Vrep N j (DihedralGroup.r k) v 1 = (eigen N j k)⁻¹ * v 1 := by
+  rw [Vrep_apply]; simp [repMat, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+
+/-- First coordinate of `sr k` acting on `v` (reflection swaps the coordinates). -/
+@[simp] theorem Vrep_sr_apply_zero (N : ℕ) [NeZero N] (j k : ZMod N) (v : Fin 2 → ℂ) :
+    Vrep N j (DihedralGroup.sr k) v 0 = (eigen N j k)⁻¹ * v 1 := by
+  rw [Vrep_apply]; simp [repMat, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+
+/-- Second coordinate of `sr k` acting on `v` (reflection swaps the coordinates). -/
+@[simp] theorem Vrep_sr_apply_one (N : ℕ) [NeZero N] (j k : ZMod N) (v : Fin 2 → ℂ) :
+    Vrep N j (DihedralGroup.sr k) v 1 = eigen N j k * v 0 := by
+  rw [Vrep_apply]; simp [repMat, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+
+/-- `zeta N` is a primitive `N`-th root of unity. -/
+theorem isPrimitiveRoot_zeta [NeZero N] : IsPrimitiveRoot (zeta N) N := by
+  unfold zeta; exact Complex.isPrimitiveRoot_exp N (NeZero.ne N)
+
+/-- **Part (a), irreducibility.** For `j` with `2·j ≠ 0` (equivalently `ζ^j ≠ ζ^{-j}`), the
+representation `V_j` is irreducible: the rotation `r 1` has distinct eigenvalues `ζ^{±j}`, so its
+only eigenlines are the two coordinate axes, and the reflection `sr 0` swaps them — hence there
+is no proper nonzero subrepresentation. -/
+theorem Vrep_irreducible [NeZero N] (j : ZMod N) (hj : (2 : ZMod N) * j ≠ 0) :
+    IsSimpleModule (MonoidAlgebra ℂ (DihedralGroup N)) (Vrep N j).asModule := by
+  rw [← Representation.irreducible_iff_isSimpleModule_asModule]
+  have hα0 : eigen N j 1 ≠ 0 := eigen_ne_zero N j 1
+  -- `ζ^j ≠ ζ^{-j}` because `2·j ≠ 0`.
+  have hsq : (eigen N j 1) ^ 2 ≠ 1 := by
+    rw [sq, ← eigen_add]
+    intro h
+    apply hj
+    unfold eigen at h
+    have hdvd : N ∣ (j * (1 + 1)).val := (isPrimitiveRoot_zeta.pow_eq_one_iff_dvd _).mp h
+    have hz : (j * (1 + 1) : ZMod N) = 0 := by
+      have h2 := (ZMod.natCast_eq_zero_iff (j * (1 + 1)).val N).mpr hdvd
+      rwa [ZMod.natCast_zmod_val] at h2
+    rw [show (2 : ZMod N) * j = j * (1 + 1) by ring]
+    exact hz
+  have hαsub : eigen N j 1 - (eigen N j 1)⁻¹ ≠ 0 := by
+    rw [sub_ne_zero]; intro h; apply hsq
+    rw [sq]; nth_rewrite 2 [h]; exact mul_inv_cancel₀ hα0
+  -- The reflection `sr 0` swaps the two coordinate axes.
+  have hswap0 : Vrep N j (DihedralGroup.sr 0) ![1, 0] = ![0, 1] := by
+    funext i; fin_cases i <;> simp [eigen_zero]
+  have hswap1 : Vrep N j (DihedralGroup.sr 0) ![0, 1] = ![1, 0] := by
+    funext i; fin_cases i <;> simp [eigen_zero]
+  have hNT : Nontrivial (Subrepresentation (Vrep N j)) := by
+    refine ⟨⊥, ⊤, ?_⟩
+    intro h
+    exact absurd (congrArg Subrepresentation.toSubmodule h) bot_ne_top
+  refine { toNontrivial := hNT, eq_bot_or_eq_top := fun σ => ?_ }
+  rcases eq_or_ne σ.toSubmodule ⊥ with hbot | hne
+  · exact Or.inl (Subrepresentation.toSubmodule_injective hbot)
+  · refine Or.inr (Subrepresentation.toSubmodule_injective ?_)
+    obtain ⟨v, hv, hv0⟩ := (Submodule.ne_bot_iff _).mp hne
+    -- From a nonzero vector we extract a coordinate axis, then the swap gives the other.
+    have hget0 : v 0 ≠ 0 → ![(1 : ℂ), 0] ∈ σ.toSubmodule := by
+      intro hv0'
+      have hD : Vrep N j (DihedralGroup.r 1) v - (eigen N j 1)⁻¹ • v ∈ σ.toSubmodule :=
+        Submodule.sub_mem _ (σ.apply_mem_toSubmodule _ hv) (Submodule.smul_mem _ _ hv)
+      have heq : Vrep N j (DihedralGroup.r 1) v - (eigen N j 1)⁻¹ • v
+          = ((eigen N j 1 - (eigen N j 1)⁻¹) * v 0) • ![(1 : ℂ), 0] := by
+        funext i
+        fin_cases i <;> (simp [Pi.smul_apply, Pi.sub_apply]; try ring)
+      rw [heq] at hD
+      have hc : (eigen N j 1 - (eigen N j 1)⁻¹) * v 0 ≠ 0 := mul_ne_zero hαsub hv0'
+      have := Submodule.smul_mem σ.toSubmodule
+        (((eigen N j 1 - (eigen N j 1)⁻¹) * v 0)⁻¹) hD
+      rwa [smul_smul, inv_mul_cancel₀ hc, one_smul] at this
+    have hget1 : v 1 ≠ 0 → ![(0 : ℂ), 1] ∈ σ.toSubmodule := by
+      intro hv1'
+      have hD : Vrep N j (DihedralGroup.r 1) v - (eigen N j 1) • v ∈ σ.toSubmodule :=
+        Submodule.sub_mem _ (σ.apply_mem_toSubmodule _ hv) (Submodule.smul_mem _ _ hv)
+      have heq : Vrep N j (DihedralGroup.r 1) v - (eigen N j 1) • v
+          = (((eigen N j 1)⁻¹ - eigen N j 1) * v 1) • ![(0 : ℂ), 1] := by
+        funext i
+        fin_cases i <;> (simp [Pi.smul_apply, Pi.sub_apply]; try ring)
+      rw [heq] at hD
+      have hc : ((eigen N j 1)⁻¹ - eigen N j 1) * v 1 ≠ 0 :=
+        mul_ne_zero (sub_ne_zero.mpr (sub_ne_zero.mp hαsub).symm) hv1'
+      have := Submodule.smul_mem σ.toSubmodule
+        ((((eigen N j 1)⁻¹ - eigen N j 1) * v 1)⁻¹) hD
+      rwa [smul_smul, inv_mul_cancel₀ hc, one_smul] at this
+    -- Both coordinate axes lie in `σ`.
+    have hbasis : ![(1 : ℂ), 0] ∈ σ.toSubmodule ∧ ![(0 : ℂ), 1] ∈ σ.toSubmodule := by
+      by_cases h0 : v 0 = 0
+      · have hv1 : v 1 ≠ 0 := by
+          intro h1; apply hv0; funext i; fin_cases i <;> simp_all
+        have he1 := hget1 hv1
+        exact ⟨by rw [← hswap1]; exact σ.apply_mem_toSubmodule _ he1, he1⟩
+      · have he0 := hget0 h0
+        exact ⟨he0, by rw [← hswap0]; exact σ.apply_mem_toSubmodule _ he0⟩
+    -- Hence `σ` is everything.
+    change σ.toSubmodule = (⊤ : Submodule ℂ (Fin 2 → ℂ))
+    rw [eq_top_iff]
+    intro x _
+    have hx : x = x 0 • ![(1 : ℂ), 0] + x 1 • ![(0 : ℂ), 1] := by
+      funext i; fin_cases i <;> simp
+    rw [hx]
+    exact Submodule.add_mem _ (Submodule.smul_mem _ _ hbasis.1)
+      (Submodule.smul_mem _ _ hbasis.2)
 
 end Etingof.Problem4_12_1
