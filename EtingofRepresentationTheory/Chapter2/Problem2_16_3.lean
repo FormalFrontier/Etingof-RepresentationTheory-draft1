@@ -1046,8 +1046,339 @@ theorem not_finiteDimensional_g_four (k : Type*) [Field k] : ¬ Module.Finite k 
   · exact not_finite_g_four_of_three_eq_zero k h3
   · exact not_finite_g_four_of_not_finite_range k (range_matHom₄_not_finite_of_three_ne_zero k h3)
 
-/-- **(a)** `𝔤₃` is finite dimensional of dimension `6` (type `G₂` positive part). -/
-theorem finrank_g_three (k : Type*) [Field k] : Module.finrank k (g k 3) = 6 :=
-  sorry
+/-!
+## Dimension of `𝔤₃` (type `G₂` positive nilpotent, dimension `6`)
+
+`𝔤₃` has basis of bracket monomials
+`{x̄, ȳ, z̄ := [x̄, ȳ], w̄ := [ȳ, z̄], v̄ := [ȳ, w̄], ū := [x̄, v̄]}`, the six positive roots
+`α, β, α+β, α+2β, α+3β, 2α+3β` of `G₂`. We prove the bracket relations closing this set,
+then bound `finrank` below (an explicit `gl₇` model faithful in every characteristic) and above
+(the six elements span `𝔤₃`).
+
+The upper bound needs the hypothesis `(2 : k) ≠ 0`: the crux vanishing `[z̄, v̄] = 0` (weight
+`2α+4β`, not a root) is derived from `2 · [z̄, v̄] = 0` via the two Jacobi routes
+`[z̄, v̄] = [ȳ, ū] = -[z̄, v̄]`. Over characteristic `2` the element `[z̄, v̄]` is unconstrained
+and `𝔤₃` is genuinely `7`-dimensional, so the statement is sharp.
+-/
+
+/-- Image of `v̄ := [ȳ, w̄] = ad(ȳ)²([x̄, ȳ])` in `𝔤ₙ`. In `𝔤₃` this is the `α+3β` root vector. -/
+noncomputable def vb (n : ℕ) : g k n := ⁅yb k n, wb k n⁆
+
+/-- Image of `ū := [x̄, v̄]` in `𝔤ₙ`. In `𝔤₃` this is the top `2α+3β` root vector. -/
+noncomputable def ub (n : ℕ) : g k n := ⁅xb k n, vb k n⁆
+
+/-- The relation `[x̄, w̄] = 0` in `𝔤₃`, via Jacobi (as for `𝔤₂`):
+`[x̄, [ȳ, z̄]] = [z̄, z̄] + [ȳ, [x̄, z̄]] = 0`. -/
+theorem lie_xb_wb_three : ⁅xb k 3, wb k 3⁆ = 0 := by
+  have hz : ⁅xb k 3, yb k 3⁆ = zb k 3 := rfl
+  rw [wb, leibniz_lie, hz, lie_self, lie_xb_zb, lie_zero, add_zero]
+
+/-- The relation `ad(ȳ)⁴(x̄) = 0` specialised to `[ȳ, v̄] = 0` in `𝔤₃`. -/
+theorem lie_yb_vb_three : ⁅yb k 3, vb k 3⁆ = 0 := by
+  have h : ⁅yb k 3, vb k 3⁆ = proj k 3 ⁅y k, ⁅y k, ⁅y k, ⁅x k, y k⁆⁆⁆⁆ := by
+    simp only [vb, wb, xb, yb, zb, LieHom.map_lie]
+  rw [h, proj_eq_zero_iff]
+  have hmem : (fun z => ⁅y k, z⁆)^[3 + 1] (x k) ∈ relIdeal k 3 :=
+    LieSubmodule.subset_lieSpan (Set.mem_insert_of_mem _ rfl)
+  have heq : ⁅y k, ⁅y k, ⁅y k, ⁅x k, y k⁆⁆⁆⁆ = -(fun z => ⁅y k, z⁆)^[3 + 1] (x k) := by
+    change ⁅y k, ⁅y k, ⁅y k, ⁅x k, y k⁆⁆⁆⁆ = -⁅y k, ⁅y k, ⁅y k, ⁅y k, x k⁆⁆⁆⁆
+    rw [← lie_skew (x := x k) (y := y k), lie_neg, lie_neg, lie_neg]
+  rw [heq]; exact neg_mem hmem
+
+/-- The relation `[z̄, w̄] = ū` in `𝔤₃`, via Jacobi:
+`[[x̄, ȳ], w̄] = [x̄, [ȳ, w̄]] - [ȳ, [x̄, w̄]] = [x̄, v̄] - 0 = ū`. -/
+theorem lie_zb_wb_three : ⁅zb k 3, wb k 3⁆ = ub k 3 := by
+  have hz : zb k 3 = ⁅xb k 3, yb k 3⁆ := rfl
+  rw [ub, hz, lie_lie, show ⁅yb k 3, wb k 3⁆ = vb k 3 from rfl, lie_xb_wb_three, lie_zero, sub_zero]
+
+/-- Jacobi route (i): `[ȳ, ū] = -[z̄, v̄]` in `𝔤₃` (uses `[ȳ, v̄] = 0`). -/
+theorem lie_yb_ub_three : ⁅yb k 3, ub k 3⁆ = -⁅zb k 3, vb k 3⁆ := by
+  rw [show zb k 3 = ⁅xb k 3, yb k 3⁆ from rfl, show ub k 3 = ⁅xb k 3, vb k 3⁆ from rfl, leibniz_lie,
+    lie_yb_vb_three, lie_zero, add_zero, ← lie_skew (x := yb k 3) (y := xb k 3), neg_lie]
+
+/-- Jacobi route (ii): `[z̄, v̄] = [ȳ, ū]` in `𝔤₃` (uses `[z̄, w̄] = ū`). -/
+theorem lie_zb_vb_three : ⁅zb k 3, vb k 3⁆ = ⁅yb k 3, ub k 3⁆ := by
+  rw [show vb k 3 = ⁅yb k 3, wb k 3⁆ from rfl, leibniz_lie, lie_zb_wb_three,
+    ← lie_skew (x := zb k 3) (y := yb k 3), neg_lie,
+    show ⁅yb k 3, zb k 3⁆ = wb k 3 from rfl, lie_self, neg_zero, zero_add]
+
+/-- The crux vanishing `[z̄, v̄] = 0` in `𝔤₃` (weight `2α+4β`, not a root). Combining the two
+Jacobi routes gives `[z̄, v̄] = -[z̄, v̄]`, hence `2 · [z̄, v̄] = 0`; the hypothesis `(2 : k) ≠ 0`
+forces `[z̄, v̄] = 0`. Over characteristic `2` this element is unconstrained. -/
+theorem lie_zb_vb_three_zero (k : Type*) [Field k] (hk : (2 : k) ≠ 0) :
+    ⁅zb k 3, vb k 3⁆ = 0 := by
+  have h2 : ⁅zb k 3, vb k 3⁆ = -⁅zb k 3, vb k 3⁆ := by
+    conv_lhs => rw [lie_zb_vb_three]
+    rw [lie_yb_ub_three]
+  have h3 : ⁅zb k 3, vb k 3⁆ + ⁅zb k 3, vb k 3⁆ = 0 := by
+    nth_rewrite 2 [h2]; exact add_neg_cancel _
+  have h4 : (2 : k) • ⁅zb k 3, vb k 3⁆ = 0 := by rw [two_smul]; exact h3
+  have h5 := congrArg (fun t => (2 : k)⁻¹ • t) h4
+  simpa [smul_smul, inv_mul_cancel₀ hk] using h5
+
+/-- `[ȳ, ū] = 0` in `𝔤₃` (from the crux `[z̄, v̄] = 0`). -/
+theorem lie_yb_ub_three_zero (k : Type*) [Field k] (hk : (2 : k) ≠ 0) :
+    ⁅yb k 3, ub k 3⁆ = 0 := by
+  rw [lie_yb_ub_three, lie_zb_vb_three_zero k hk, neg_zero]
+
+/-- `[x̄, ū] = 0` in `𝔤₃` (Jacobi from `[x̄, z̄] = [x̄, w̄] = 0`, using `ū = [z̄, w̄]`). -/
+theorem lie_xb_ub_three : ⁅xb k 3, ub k 3⁆ = 0 := by
+  rw [← lie_zb_wb_three, leibniz_lie, lie_xb_zb, zero_lie, lie_xb_wb_three, lie_zero, add_zero]
+
+/-- `[z̄, ū] = 0` in `𝔤₃` (Jacobi from `[x̄, z̄] = 0` and the crux `[z̄, v̄] = 0`). -/
+theorem lie_zb_ub_three (k : Type*) [Field k] (hk : (2 : k) ≠ 0) : ⁅zb k 3, ub k 3⁆ = 0 := by
+  rw [show ub k 3 = ⁅xb k 3, vb k 3⁆ from rfl, leibniz_lie, lie_zb_vb_three_zero k hk, lie_zero,
+    add_zero, ← lie_skew (x := zb k 3) (y := xb k 3), neg_lie, lie_xb_zb, zero_lie, neg_zero]
+
+/-- `[w̄, v̄] = 0` in `𝔤₃` (Jacobi from the crux `[z̄, v̄] = 0` and `[ȳ, v̄] = 0`). -/
+theorem lie_wb_vb_three (k : Type*) [Field k] (hk : (2 : k) ≠ 0) : ⁅wb k 3, vb k 3⁆ = 0 := by
+  rw [show wb k 3 = ⁅yb k 3, zb k 3⁆ from rfl, lie_lie, lie_zb_vb_three_zero k hk, lie_yb_vb_three,
+    lie_zero, lie_zero, sub_zero]
+
+/-- `[w̄, ū] = 0` in `𝔤₃` (Jacobi from `[x̄, w̄] = 0` and `[w̄, v̄] = 0`). -/
+theorem lie_wb_ub_three (k : Type*) [Field k] (hk : (2 : k) ≠ 0) : ⁅wb k 3, ub k 3⁆ = 0 := by
+  rw [show ub k 3 = ⁅xb k 3, vb k 3⁆ from rfl, leibniz_lie, lie_wb_vb_three k hk, lie_zero,
+    add_zero, ← lie_skew (x := wb k 3) (y := xb k 3), neg_lie, lie_xb_wb_three, zero_lie, neg_zero]
+
+/-- `[v̄, ū] = 0` in `𝔤₃` (Jacobi from the crux `[z̄, v̄] = 0` and `[w̄, v̄] = 0`, using
+`ū = [z̄, w̄]`). -/
+theorem lie_vb_ub_three (k : Type*) [Field k] (hk : (2 : k) ≠ 0) : ⁅vb k 3, ub k 3⁆ = 0 := by
+  rw [← lie_zb_wb_three, leibniz_lie,
+    ← lie_skew (x := vb k 3) (y := zb k 3), neg_lie, lie_zb_vb_three_zero k hk, zero_lie, neg_zero,
+    zero_add, ← lie_skew (x := vb k 3) (y := wb k 3), lie_neg, lie_wb_vb_three k hk, lie_zero,
+    neg_zero]
+
+section Matrix3
+attribute [local instance] LieRing.ofAssociativeRing
+
+/-- `x̄`-image in `gl₇`: `E₁₀ + E₃₂ + E₆₅` (raising by the long root `α`). -/
+private noncomputable def GX : Matrix (Fin 7) (Fin 7) k :=
+  Matrix.single 1 0 1 + Matrix.single 3 2 1 + Matrix.single 6 5 1
+/-- `ȳ`-image in `gl₇`: `E₂₀ + E₃₁ + E₄₃ + E₅₄` (raising by the short root `β`). -/
+private noncomputable def GY : Matrix (Fin 7) (Fin 7) k :=
+  Matrix.single 2 0 1 + Matrix.single 3 1 1 + Matrix.single 4 3 1 + Matrix.single 5 4 1
+/-- `z̄ = [x̄, ȳ]`-image: `E₆₄ - E₄₂`. -/
+private noncomputable def GZ : Matrix (Fin 7) (Fin 7) k :=
+  Matrix.single 6 4 1 - Matrix.single 4 2 1
+/-- `w̄ = [ȳ, z̄]`-image: `E₄₀ - E₅₂ - E₆₃`. -/
+private noncomputable def GW : Matrix (Fin 7) (Fin 7) k :=
+  Matrix.single 4 0 1 - Matrix.single 5 2 1 - Matrix.single 6 3 1
+/-- `v̄ = [ȳ, w̄]`-image: `2·E₅₀ + E₆₁`. -/
+private noncomputable def GV : Matrix (Fin 7) (Fin 7) k :=
+  Matrix.single 5 0 1 + Matrix.single 5 0 1 + Matrix.single 6 1 1
+/-- `ū = [x̄, v̄]`-image: `E₆₀`. -/
+private noncomputable def GU : Matrix (Fin 7) (Fin 7) k :=
+  Matrix.single 6 0 1
+
+/-- The Lie algebra hom `FreeLieAlgebra k (Fin 2) → gl₇(k)` sending `x ↦ GX`, `y ↦ GY`. Its image
+realises the `6`-dimensional `G₂` positive nilpotent, faithfully in every characteristic. -/
+noncomputable def matHom₃ : FreeLieAlgebra k (Fin 2) →ₗ⁅k⁆ Matrix (Fin 7) (Fin 7) k :=
+  FreeLieAlgebra.lift k ![GX k, GY k]
+
+@[simp] theorem matHom₃_x : matHom₃ k (x k) = GX k := by
+  simp only [matHom₃, x, FreeLieAlgebra.lift_of_apply]; rfl
+
+@[simp] theorem matHom₃_y : matHom₃ k (y k) = GY k := by
+  simp only [matHom₃, y, FreeLieAlgebra.lift_of_apply]; rfl
+
+theorem bracket_GX_GY : ⁅GX k, GY k⁆ = GZ k := by
+  simp only [GX, GY, GZ, LieRing.of_associative_ring_bracket, add_mul, mul_add,
+    Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, ne_eq, Fin.reduceEq,
+    not_false_eq_true, mul_one]
+  abel
+
+theorem bracket_GY_GZ : ⁅GY k, GZ k⁆ = GW k := by
+  simp only [GY, GZ, GW, LieRing.of_associative_ring_bracket, add_mul, mul_add, sub_mul, mul_sub,
+    Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, ne_eq, Fin.reduceEq,
+    not_false_eq_true, mul_one]
+  abel
+
+theorem bracket_GY_GW : ⁅GY k, GW k⁆ = GV k := by
+  simp only [GY, GW, GV, LieRing.of_associative_ring_bracket, add_mul, mul_add, sub_mul, mul_sub,
+    Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, ne_eq, Fin.reduceEq,
+    not_false_eq_true, mul_one]
+  abel
+
+theorem bracket_GX_GV : ⁅GX k, GV k⁆ = GU k := by
+  simp only [GX, GV, GU, LieRing.of_associative_ring_bracket, add_mul, mul_add,
+    Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, ne_eq, Fin.reduceEq,
+    not_false_eq_true, mul_one]
+  abel
+
+theorem bracket_GX_GZ : ⁅GX k, GZ k⁆ = 0 := by
+  simp only [GX, GZ, LieRing.of_associative_ring_bracket, add_mul, mul_add, sub_mul, mul_sub,
+    Matrix.single_mul_single_of_ne, ne_eq, Fin.reduceEq, not_false_eq_true]
+  abel
+
+theorem bracket_GY_GV : ⁅GY k, GV k⁆ = 0 := by
+  simp only [GY, GV, LieRing.of_associative_ring_bracket, add_mul, mul_add,
+    Matrix.single_mul_single_of_ne, ne_eq, Fin.reduceEq, not_false_eq_true]
+  abel
+
+theorem matHom₃_relator1 : matHom₃ k ⁅x k, ⁅x k, y k⁆⁆ = 0 := by
+  rw [LieHom.map_lie, LieHom.map_lie, matHom₃_x, matHom₃_y, bracket_GX_GY, bracket_GX_GZ]
+
+theorem matHom₃_relator2 : matHom₃ k ((fun z => ⁅y k, z⁆)^[3 + 1] (x k)) = 0 := by
+  change matHom₃ k ⁅y k, ⁅y k, ⁅y k, ⁅y k, x k⁆⁆⁆⁆ = 0
+  rw [LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, matHom₃_x, matHom₃_y]
+  have h1 : ⁅GY k, GX k⁆ = -GZ k := by rw [← lie_skew, bracket_GX_GY]
+  rw [h1, lie_neg, bracket_GY_GZ, lie_neg, bracket_GY_GW, lie_neg, bracket_GY_GV, neg_zero]
+
+theorem relIdeal_le_ker_matHom₃ : relIdeal k 3 ≤ (matHom₃ k).ker := by
+  rw [relIdeal, LieSubmodule.lieSpan_le]
+  intro w hw
+  simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
+  rcases hw with rfl | rfl
+  · rw [SetLike.mem_coe, LieHom.mem_ker]; exact matHom₃_relator1 k
+  · rw [SetLike.mem_coe, LieHom.mem_ker]; exact matHom₃_relator2 k
+
+/-- The images `x̄, ȳ, z̄, w̄, v̄, ū` are linearly independent in `𝔤₃`. -/
+theorem indep_three : LinearIndependent k ![xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3] := by
+  rw [Fintype.linearIndependent_iff]
+  intro c hc
+  rw [Fin.sum_univ_six] at hc
+  -- `hc` is definitionally the explicit sum (`![…] i` unfolds to each basis element).
+  -- Push the vanishing combination into the free algebra, then into gl₇.
+  have hpw : proj k 3 (c 0 • x k + c 1 • y k + c 2 • ⁅x k, y k⁆ +
+      c 3 • ⁅y k, ⁅x k, y k⁆⁆ + c 4 • ⁅y k, ⁅y k, ⁅x k, y k⁆⁆⁆ +
+      c 5 • ⁅x k, ⁅y k, ⁅y k, ⁅x k, y k⁆⁆⁆⁆) = 0 := by
+    rw [map_add, map_add, map_add, map_add, map_add, map_smul, map_smul, map_smul, map_smul,
+      map_smul, map_smul, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie,
+      LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie,
+      LieHom.map_lie]
+    exact hc
+  have hmem := (proj_eq_zero_iff k 3 _).mp hpw
+  have hker := relIdeal_le_ker_matHom₃ k hmem
+  rw [LieHom.mem_ker, map_add, map_add, map_add, map_add, map_add, map_smul, map_smul, map_smul,
+    map_smul, map_smul, map_smul, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie,
+    LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie,
+    matHom₃_x, matHom₃_y, bracket_GX_GY, bracket_GY_GZ, bracket_GY_GW, bracket_GX_GV] at hker
+  -- hker : c 0 • GX + c 1 • GY + c 2 • GZ + c 3 • GW + c 4 • GV + c 5 • GU = 0.
+  simp only [GX, GY, GZ, GW, GV, GU] at hker
+  intro i
+  fin_cases i
+  · have := congrFun (congrFun hker 1) 0
+    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] using this
+  · have := congrFun (congrFun hker 2) 0
+    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] using this
+  · have := congrFun (congrFun hker 4) 2
+    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] using this
+  · have := congrFun (congrFun hker 4) 0
+    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] using this
+  · have := congrFun (congrFun hker 6) 1
+    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] using this
+  · have := congrFun (congrFun hker 6) 0
+    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] using this
+
+end Matrix3
+
+/-- The six elements `x̄, ȳ, z̄, w̄, v̄, ū` span `𝔤₃` as a module (needs `(2 : k) ≠ 0` for the crux
+relations `[z̄, v̄] = 0` etc.). -/
+theorem span_eq_top_three (k : Type*) [Field k] (hk : (2 : k) ≠ 0) :
+    Submodule.span k {xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} = ⊤ := by
+  have hclosed : ∀ {u v : g k 3},
+      u ∈ Submodule.span k {xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} →
+      v ∈ Submodule.span k {xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} →
+      ⁅u, v⁆ ∈ Submodule.span k {xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} := by
+    intro u v hu hv
+    induction hu, hv using Submodule.span_induction₂ with
+    | mem_mem a b ha hb =>
+      simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb
+      have hzm : zb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by
+        simp
+      have hwm : wb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by
+        simp
+      have hvm : vb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by
+        simp
+      have hum : ub k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by
+        simp
+      rcases ha with rfl | rfl | rfl | rfl | rfl | rfl <;>
+        rcases hb with rfl | rfl | rfl | rfl | rfl | rfl
+      -- a = x̄
+      · rw [lie_self]; exact Submodule.zero_mem _
+      · exact Submodule.subset_span hzm
+      · rw [lie_xb_zb]; exact Submodule.zero_mem _
+      · rw [lie_xb_wb_three]; exact Submodule.zero_mem _
+      · exact Submodule.subset_span hum
+      · rw [lie_xb_ub_three]; exact Submodule.zero_mem _
+      -- a = ȳ
+      · rw [← lie_skew (x := yb k 3) (y := xb k 3)]
+        exact neg_mem (Submodule.subset_span hzm)
+      · rw [lie_self]; exact Submodule.zero_mem _
+      · exact Submodule.subset_span hwm
+      · exact Submodule.subset_span hvm
+      · rw [lie_yb_vb_three]; exact Submodule.zero_mem _
+      · rw [lie_yb_ub_three_zero k hk]; exact Submodule.zero_mem _
+      -- a = z̄
+      · rw [← lie_skew (x := zb k 3) (y := xb k 3), lie_xb_zb, neg_zero]
+        exact Submodule.zero_mem _
+      · rw [← lie_skew (x := zb k 3) (y := yb k 3)]
+        exact neg_mem (Submodule.subset_span hwm)
+      · rw [lie_self]; exact Submodule.zero_mem _
+      · rw [lie_zb_wb_three]; exact Submodule.subset_span hum
+      · rw [lie_zb_vb_three_zero k hk]; exact Submodule.zero_mem _
+      · rw [lie_zb_ub_three k hk]; exact Submodule.zero_mem _
+      -- a = w̄
+      · rw [← lie_skew (x := wb k 3) (y := xb k 3), lie_xb_wb_three, neg_zero]
+        exact Submodule.zero_mem _
+      · rw [← lie_skew (x := wb k 3) (y := yb k 3)]
+        exact neg_mem (Submodule.subset_span hvm)
+      · rw [← lie_skew (x := wb k 3) (y := zb k 3), lie_zb_wb_three]
+        exact neg_mem (Submodule.subset_span hum)
+      · rw [lie_self]; exact Submodule.zero_mem _
+      · rw [lie_wb_vb_three k hk]; exact Submodule.zero_mem _
+      · rw [lie_wb_ub_three k hk]; exact Submodule.zero_mem _
+      -- a = v̄
+      · rw [← lie_skew (x := vb k 3) (y := xb k 3)]
+        exact neg_mem (Submodule.subset_span hum)
+      · rw [← lie_skew (x := vb k 3) (y := yb k 3), lie_yb_vb_three, neg_zero]
+        exact Submodule.zero_mem _
+      · rw [← lie_skew (x := vb k 3) (y := zb k 3), lie_zb_vb_three_zero k hk, neg_zero]
+        exact Submodule.zero_mem _
+      · rw [← lie_skew (x := vb k 3) (y := wb k 3), lie_wb_vb_three k hk, neg_zero]
+        exact Submodule.zero_mem _
+      · rw [lie_self]; exact Submodule.zero_mem _
+      · rw [lie_vb_ub_three k hk]; exact Submodule.zero_mem _
+      -- a = ū
+      · rw [← lie_skew (x := ub k 3) (y := xb k 3), lie_xb_ub_three, neg_zero]
+        exact Submodule.zero_mem _
+      · rw [← lie_skew (x := ub k 3) (y := yb k 3), lie_yb_ub_three_zero k hk, neg_zero]
+        exact Submodule.zero_mem _
+      · rw [← lie_skew (x := ub k 3) (y := zb k 3), lie_zb_ub_three k hk, neg_zero]
+        exact Submodule.zero_mem _
+      · rw [← lie_skew (x := ub k 3) (y := wb k 3), lie_wb_ub_three k hk, neg_zero]
+        exact Submodule.zero_mem _
+      · rw [← lie_skew (x := ub k 3) (y := vb k 3), lie_vb_ub_three k hk, neg_zero]
+        exact Submodule.zero_mem _
+      · rw [lie_self]; exact Submodule.zero_mem _
+    | zero_left b hb => rw [zero_lie]; exact Submodule.zero_mem _
+    | zero_right a ha => rw [lie_zero]; exact Submodule.zero_mem _
+    | add_left a b c _ _ _ ha hb => rw [add_lie]; exact Submodule.add_mem _ ha hb
+    | add_right a b c _ _ _ ha hb => rw [lie_add]; exact Submodule.add_mem _ ha hb
+    | smul_left r a b _ _ ha => rw [smul_lie]; exact Submodule.smul_mem _ r ha
+    | smul_right r a b _ _ ha => rw [lie_smul]; exact Submodule.smul_mem _ r ha
+  let W : LieSubalgebra k (g k 3) :=
+    { Submodule.span k {xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} with lie_mem' := @hclosed }
+  have hWtop : W = ⊤ := by
+    rw [← top_le_iff, ← lieSpan_gens_eq_top k 3, LieSubalgebra.lieSpan_le]
+    intro w hw
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
+    rcases hw with rfl | rfl
+    · exact Submodule.subset_span (by simp)
+    · exact Submodule.subset_span (by simp)
+  have := congrArg (LieSubalgebra.toSubmodule) hWtop
+  simpa [W] using this
+
+/-- **(a)** `𝔤₃` is finite dimensional of dimension `6` (type `G₂` positive part). The hypothesis
+`(2 : k) ≠ 0` is sharp: over characteristic `2` the algebra is `7`-dimensional. -/
+theorem finrank_g_three (k : Type*) [Field k] (hk : (2 : k) ≠ 0) :
+    Module.finrank k (g k 3) = 6 := by
+  have hspan : ⊤ ≤ Submodule.span k
+      (Set.range ![xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3]) := by
+    rw [Matrix.range_cons, Matrix.range_cons, Matrix.range_cons, Matrix.range_cons,
+      Matrix.range_cons, Matrix.range_cons_empty, Set.singleton_union, Set.singleton_union,
+      Set.singleton_union, Set.singleton_union, Set.singleton_union, span_eq_top_three k hk]
+  let b : Module.Basis (Fin 6) k (g k 3) := Module.Basis.mk (indep_three k) hspan
+  rw [Module.finrank_eq_card_basis b, Fintype.card_fin]
 
 end Etingof.Problem2_16_3
