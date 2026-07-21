@@ -31,7 +31,6 @@ universe u
 characteristic of k does not divide |G|. (Etingof Theorem 4.1.1) -/
 theorem Etingof.Theorem4_1_1_semisimple
     (k : Type*) (G : Type*) [Field k] [Group G] [Fintype G]
-    [DecidableEq G]
     (h : IsUnit (Fintype.card G : k)) :
     IsSemisimpleRing (MonoidAlgebra k G) := by
   haveI : NeZero (Nat.card G : k) := by
@@ -86,3 +85,21 @@ theorem Etingof.Theorem4_1_1_algebra_iso
   ⟨D.n, D.columnFDRep, D.columnFDRep_simple, D.columnFDRep_injective,
     D.columnFDRep_surjective, ⟨D.endIso⟩,
     D.sum_finrank_sq_eq_card D.columnFDRep D.columnFDRep_simple D.columnFDRep_injective⟩
+
+/-!
+## proof-wanted: the representation-level decomposition of part (ii)
+
+The book's part (ii) states that `ψ : k[G] → ⊕ᵢ End(Vᵢ)` is an isomorphism *of
+representations* (with `G` acting by left multiplication), which — reading the
+regular representation as a module over itself — is equivalent to the equivariant
+decomposition of the regular representation
+
+  `MonoidAlgebra.regularFDRep k G ≅ ⨁ i, (V i)^(finrank k (V i))`,
+
+i.e. `k[G] ≅ ⊕ᵢ dim(Vᵢ)·Vᵢ`. `Etingof.Theorem4_1_1_algebra_iso` above captures only
+the **algebra** isomorphism `D.endIso : k[G] ≃ₐ[k] Π i, End(Vᵢ)` and the resulting
+sum-of-squares identity; the equivariant `FDRep` refinement is not yet formalized.
+Constructing it needs the regular representation packaged as an `FDRep` together with
+an `FDRep`-level (not merely algebra-level) Wedderburn decomposition. This is tracked
+as a separate follow-up and is not required for the chapter's stated theorems to be
+faithful renderings of Maschke's theorem. -/
