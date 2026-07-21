@@ -5,11 +5,11 @@ import EtingofRepresentationTheory.Chapter3.Problem3_8_4_Functoriality
 # Problem 3.8.4: descent of a base-change isomorphism to a finitely generated subalgebra
 
 The general-`L` half of Problem 3.8.4(i) starts from an `L ⊗[K] A`-linear isomorphism
-`L ⊗[K] V ≃ L ⊗[K] W` over an **arbitrary** field extension `L / K` and must reduce it to a
-*finitely generated* subextension before Zariski's lemma and the finite-degree Krull–Schmidt
+`L ⊗[K] V ≃ L ⊗[K] W` over an arbitrary field extension `L / K` and must reduce it to a
+finitely generated subextension before Zariski's lemma and the finite-degree Krull–Schmidt
 argument (`Problem3_8_4_Finite.lean`) can be applied.
 
-This file supplies the **descent** step: such an isomorphism already lives over a finitely
+This file supplies the descent step: such an isomorphism already lives over a finitely
 generated `K`-subalgebra `R ⊆ L`.
 
 ## The argument
@@ -24,15 +24,15 @@ and its inverse `e.symm` are represented by finite matrices over `L`. Let `R ⊆
   identities in the entries, hence already hold inside `R`;
 
 so `e` descends to an `R ⊗[K] A`-linear isomorphism `R ⊗[K] V ≃ R ⊗[K] W`. Because both `e`
-and `e.symm` have their entries adjoined, no localization is needed — invertibility is built
+and `e.symm` have their entries adjoined, no localization is needed: invertibility is built
 into `R` directly.
 
 The `R ⊗[K] A`-module structure on `R ⊗[K] V` is the one built for an arbitrary commutative
 `K`-algebra in `Problem3_8_4_Functoriality.lean` (`Etingof.Problem3_8_4.Functoriality.bcMod`).
 
-## Proof route (as formalized below)
+## Proof outline
 
-The verified Mathlib API for each step:
+The steps, with the Mathlib API used at each:
 
 1. **Bases.** `bV := Module.finBasis K V`, `bW := Module.finBasis K W`. Base change with
    `Module.Basis.baseChange` (`bV.baseChange L : Basis (Fin _) L (L ⊗[K] V)`, and likewise over
@@ -50,7 +50,7 @@ The verified Mathlib API for each step:
    which descends because `algebraMap ↥R L` is injective (`Subtype.ext`).
 6. **`R ⊗[K] A`-linearity of `φ`** (upgrading it to `≃ₗ[↥R ⊗[K] A]`, as in `pushEquiv`'s
    `map_smul'`): the coefficient map `incl := LinearMap.rTensor V R.val.toLinearMap : ↥R ⊗[K] V →
-   L ⊗[K] V` is **injective** (`Module.Flat.rTensor_preserves_injective_linearMap`, `V` free over
+   L ⊗[K] V` is injective (`Module.Flat.rTensor_preserves_injective_linearMap`, `V` free over
    the field `K` so `Flat K V` by `Module.Flat.of_free`; `R.val` injective). It is `A`-equivariant
    (`incl ((1 ⊗ₜ a) • x) = (1 ⊗ₜ a) • incl x`, by `TensorProduct.induction_on` +
    `Functoriality.smul_one_tmul`, `LinearMap.rTensor_tmul`) and satisfies
@@ -63,7 +63,7 @@ The verified Mathlib API for each step:
 7. Package `φ` (bijective by step 5, `↥R ⊗[K] A`-linear by step 6) as the required equivalence
    (`LinearEquiv.ofBijective` or a hand-built `LinearEquiv`). The pushforward
    `Etingof.Problem3_8_4.Functoriality.pushEquiv` along `R.val : ↥R →ₐ[K] L` recovers `e`; the
-   assembly issue #6058 only consumes the *existence* recorded here.
+   downstream construction only needs the existence recorded here.
 -/
 
 open scoped TensorProduct
@@ -90,7 +90,7 @@ An `L ⊗[K] A`-linear isomorphism `L ⊗[K] V ≃ L ⊗[K] W` over a field exte
 `R ⊗[K] V ≃ R ⊗[K] W`.
 
 Pushing this forward along the inclusion `R →ₐ[K] L` (`pushEquiv`) returns to the isomorphism
-over `L`; the follow-up assembly (Zariski's lemma to a residue field and the finite-degree
+over `L`; the follow-up argument (Zariski's lemma to a residue field and the finite-degree
 case) only needs the existence stated here. -/
 theorem exists_fg_subalgebra_baseChange_iso
     [FiniteDimensional K V] [FiniteDimensional K W]
@@ -119,7 +119,7 @@ theorem exists_fg_subalgebra_baseChange_iso
     Finset.image (fun p : Fin (Module.finrank K W) × Fin (Module.finrank K V) => d p.1 p.2)
       Finset.univ
   let entries : Finset L := Sc ∪ Sd
-  -- Obtain `RA` as an *opaque* subalgebra (via an existential): keeping it as a transparent
+  -- Obtain `RA` as an opaque subalgebra (via an existential): keeping it as a transparent
   -- `let` for `Algebra.adjoin` makes every later `isDefEq`/`whnf` try to unfold the adjoin.
   obtain ⟨RA, hFG, hc, hd⟩ :
       ∃ R : Subalgebra K L, R.FG ∧ (∀ i j, c i j ∈ R) ∧ (∀ j i, d j i ∈ R) := by
@@ -279,15 +279,15 @@ set_option maxHeartbeats 1600000 in
 -- `p' ∘ i' = id` (descended from `p ∘ i = id`). The default 200000-heartbeat budget is not enough.
 /-- **Descent of a base-change split injection to a finitely generated subalgebra.**
 
-The split-injection (Noether-Deuring) twin of `exists_fg_subalgebra_baseChange_iso`. A split
+The split-injection (Noether-Deuring) analogue of `exists_fg_subalgebra_baseChange_iso`. A split
 injection `⟨i, p⟩` (with `p ∘ i = id`) of the base changes over `L ⊗[K] A`, for a field extension
 `L / K` and `V`, `W` finite dimensional over `K`, already exists over a finitely generated
 `K`-subalgebra `R ⊆ L`: the entries of `i`, `p` (in chosen `K`-bases) and the splitting relation
 `p ∘ i = id` involve finitely many elements of `L`, which generate `R`.
 
-Same matrix-entry / filtered-colimit descent as the iso case (proof route documented above); the
-splitting relation `p ∘ i = id` is a polynomial identity in the entries and descends the same way
-`e.symm ∘ e = id` does. Pushing forward along `R →ₐ[K] L` (`Functoriality.pushHom`) recovers the
+The same matrix-entry / filtered-colimit descent as the isomorphism case (proof outline above);
+the splitting relation `p ∘ i = id` is a polynomial identity in the entries and descends the same
+way `e.symm ∘ e = id` does. Pushing forward along `R →ₐ[K] L` (`Functoriality.pushHom`) recovers the
 split injection over `L`. -/
 theorem exists_fg_subalgebra_baseChange_directSummand
     [FiniteDimensional K V] [FiniteDimensional K W]

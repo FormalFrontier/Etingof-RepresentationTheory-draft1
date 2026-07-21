@@ -13,13 +13,13 @@ import EtingofRepresentationTheory.Chapter3.Problem3_8_3
 > direct summand in `W ⊗_K L`. Show that `V` is a direct summand in `W`.
 
 The book's hint reduces to a finite extension of degree `n`, identifies `V ⊗_K L` and
-`W ⊗_K L` with `Vⁿ` and `Wⁿ` as `A`-modules, and applies the Krull-Schmidt theorem — valid
+`W ⊗_K L` with `Vⁿ` and `Wⁿ` as `A`-modules, and applies the Krull-Schmidt theorem, valid
 over an arbitrary field by Problem 3.8.3, recorded here as
 `Etingof.Problem3_8_3.krull_schmidt_uniqueness`.
 
 ## Base change
 
-Mathlib registers the base-changed scalar `L ⊗[K] V` (scalar factor on the **left**) rather
+Mathlib registers the base-changed scalar `L ⊗[K] V` (scalar factor on the left) rather
 than `V ⊗_K L`; the two are canonically isomorphic and we use `L ⊗[K] V` throughout, so the
 book's `A ⊗_K L`-module `V ⊗_K L` is modelled by the `L ⊗[K] A`-module `L ⊗[K] V`.
 
@@ -64,10 +64,10 @@ DAG. They cannot live here: those two files import this base module, so proving 
 would create an import cycle.
 
 * Part (i), `iso_of_baseChange_iso`: if `L ⊗[K] V ≅ L ⊗[K] W` as `L ⊗[K] A`-modules then `V ≅ W`
-  as `A`-modules — proved in `Problem3_8_4_Main.lean`.
+  as `A`-modules; proved in `Problem3_8_4_Main.lean`.
 * Part (ii), the Noether-Deuring theorem `directSummand_of_baseChange_directSummand`: if `L ⊗[K] V`
   is a direct summand of `L ⊗[K] W` (a split injection `(i, p)` with `p ∘ i = id`) then `V` is a
-  direct summand of `W` — proved in `Problem3_8_4_General.lean`.
+  direct summand of `W`; proved in `Problem3_8_4_General.lean`.
 -/
 
 end Etingof.Problem3_8_4

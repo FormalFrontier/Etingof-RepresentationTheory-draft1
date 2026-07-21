@@ -9,7 +9,7 @@ import Mathlib.LinearAlgebra.Projection
 
 Let `A` be the algebra of real-valued continuous functions on `ℝ` that are periodic with
 period `1`, and let `M` be the `A`-module of continuous functions `f` that are
-**antiperiodic**: `f(x + 1) = −f(x)`.
+antiperiodic: `f(x + 1) = −f(x)`.
 
 * **(i)** `A` and `M` are indecomposable `A`-modules.
 * **(ii)** `A` is not isomorphic to `M`, but `A ⊕ A ≅ M ⊕ M`.
@@ -18,17 +18,16 @@ We model `A` as the subalgebra `periodicSubalg` of `C(ℝ, ℝ)` cut out by `f(x
 and `M` as the `A`-submodule `antiperiodicSubmod` of `C(ℝ, ℝ)` cut out by `f(x+1) = −f(x)`.
 (`M` is closed under multiplication by a periodic function: if `g(x+1) = g(x)` and
 `f(x+1) = −f(x)` then `(gf)(x+1) = −(gf)(x)`.) The regular module `A` and the module `M` are
-then genuine `↥periodicSubalg`-modules.
+then `↥periodicSubalg`-modules.
 
 `A ⊕ A ≅ M ⊕ M` reflects that `M ⊗_A M ≅ A` (antiperiodic × antiperiodic = periodic), so `M`
 is an invertible module of order `2` in the Picard group of `A`; it is a nontrivial line
 bundle on the circle (the Möbius bundle), whence `M ≇ A` yet `M ⊕ M ≅ A ⊕ A`.
 
-The subalgebra and submodule carriers are genuine and their closure proof obligations are
-discharged. Part (i) (`periodic_isIndecomposable`, `antiperiodic_isIndecomposable`) is proved
-via the fact that the algebra of period-1 functions has no nontrivial idempotents (an idempotent
+Part (i) (`periodic_isIndecomposable`, `antiperiodic_isIndecomposable`) follows from the fact
+that the algebra of period-1 functions has no nontrivial idempotents (an idempotent
 is pointwise `{0,1}`-valued, hence constant by connectedness of `ℝ`). Part (ii)
-(`periodic_not_linearEquiv_antiperiodic`, `periodic_sq_linearEquiv_antiperiodic_sq`) is proved:
+(`periodic_not_linearEquiv_antiperiodic`, `periodic_sq_linearEquiv_antiperiodic_sq`):
 `A ≇ M` because any generator of `M` is a continuous antiperiodic function, which must vanish
 somewhere by the intermediate value theorem; and `A ⊕ A ≅ M ⊕ M` via the rotation
 `(f, g) ↦ (cos·f − sin·g, sin·f + cos·g)`, whose inverse is the transpose rotation
@@ -40,7 +39,7 @@ namespace Etingof.Problem3_8_5
 open scoped ContinuousMap
 
 /-- The algebra `A` of continuous period-1 functions `ℝ → ℝ`, as a subalgebra of `C(ℝ, ℝ)`.
-The carrier is the genuine set of periodic functions; closure under multiplication, addition,
+The carrier is the set of periodic functions; closure under multiplication, addition,
 and the algebra map follows from the defining identity `f (x + 1) = f x`. -/
 noncomputable def periodicSubalg : Subalgebra ℝ C(ℝ, ℝ) where
   carrier := {f | ∀ x : ℝ, f (x + 1) = f x}
@@ -55,8 +54,8 @@ noncomputable def periodicSubalg : Subalgebra ℝ C(ℝ, ℝ) where
     simp
 
 /-- The `A`-module `M` of continuous antiperiodic functions `f(x+1) = −f(x)`, as a submodule
-of `C(ℝ, ℝ)` over the algebra `A = periodicSubalg`. The carrier is genuine; closure under
-addition and multiplication by a periodic scalar follows from `f (x + 1) = - f x`. -/
+of `C(ℝ, ℝ)` over the algebra `A = periodicSubalg`. Closure under addition and multiplication
+by a periodic scalar follows from `f (x + 1) = - f x`. -/
 noncomputable def antiperiodicSubmod : Submodule (periodicSubalg) C(ℝ, ℝ) where
   carrier := {f | ∀ x : ℝ, f (x + 1) = - f x}
   add_mem' := by

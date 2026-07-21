@@ -14,9 +14,9 @@ import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 /-!
 # Remark 3.8.6: Krull-Schmidt for modules of finite length
 
-Remark 3.8.6 of Etingof observes that, although the Krull-Schmidt theorem *fails* for
-infinite-dimensional modules (see Problem 3.8.5 for a counterexample), it still *holds* for
-modules of **finite length**, i.e. modules `M` such that every filtration of `M` has length
+Remark 3.8.6 of Etingof observes that, although the Krull-Schmidt theorem fails for
+infinite-dimensional modules (see Problem 3.8.5 for a counterexample), it still holds for
+modules of finite length, i.e. modules `M` such that every filtration of `M` has length
 bounded by a constant `l(M)`.
 
 This file formalizes the positive statement. Finite length is captured by
@@ -26,25 +26,25 @@ series have a common finite length.
 
 ## Main results
 
-* `Etingof.isNilpotent_or_isUnit_of_finiteLength_indecomposable` — **Fitting's lemma** for
-  finite-length modules: any endomorphism of a finite-length indecomposable module is either
-  nilpotent or an isomorphism. This is the finite-length analogue of Lemma 3.8.2, and, crucially,
-  it needs **no** algebraically-closed-field hypothesis: it is powered by Mathlib's Fitting
+* `Etingof.isNilpotent_or_isUnit_of_finiteLength_indecomposable`: **Fitting's lemma** for
+  finite-length modules. Any endomorphism of a finite-length indecomposable module is either
+  nilpotent or an isomorphism. This is the finite-length analogue of Lemma 3.8.2, and
+  it needs no algebraically-closed-field hypothesis: it uses Mathlib's Fitting
   decomposition `LinearMap.eventually_isCompl_ker_pow_range_pow` for Artinian + Noetherian modules.
-* `Etingof.isLocalRing_end_of_finiteLength_indecomposable` — the endomorphism ring of a
+* `Etingof.isLocalRing_end_of_finiteLength_indecomposable`: the endomorphism ring of a
   finite-length indecomposable module is local. This is the abstract input (Krull-Schmidt-Azumaya)
-  that drives the uniqueness half of Krull-Schmidt.
-* `Etingof.exists_indecomposable_decomposition` — the **existence** half: every finite-length
+  that underlies the uniqueness half of Krull-Schmidt.
+* `Etingof.exists_indecomposable_decomposition`: the existence half. Every finite-length
   module decomposes as an internal direct sum of indecomposable submodules, by induction on
   `Module.length`.
-* `Etingof.krull_schmidt_uniqueness_finiteLength` — the **uniqueness** half: any two decompositions
+* `Etingof.krull_schmidt_uniqueness_finiteLength`: the uniqueness half. Any two decompositions
   of a finite-length module into indecomposable summands have the same number of summands and agree
   up to a reindexing bijection and isomorphism of the matched summands.
 
-The finite-length hypothesis is genuinely more general than the finite-dimensional-over-a-field
+The finite-length hypothesis is strictly more general than the finite-dimensional-over-a-field
 setting of Theorem 3.8.1: there is no ground field here, only the ring `A`.
 
-The **uniqueness** half is the Krull-Schmidt-Azumaya exchange argument built on the local
+The uniqueness half is the Krull-Schmidt-Azumaya exchange argument built on the local
 endomorphism rings above. It is the analogue of `Etingof.krull_schmidt_uniqueness` (Theorem 3.8.1)
 with `Module.length` in place of the `k`-dimension as the strictly-decreasing induction measure.
 The two Fitting-lemma inputs of the finite-dimensional proof are replaced by
@@ -128,7 +128,7 @@ direct-sum decomposition into indecomposable submodules. Proved by induction on 
 
 This mirrors the finite-dimensional existence argument of Theorem 3.8.1, with the composition
 length `Module.length A ↥S` replacing the `k`-dimension as the strictly-decreasing induction
-measure — there is no ground field here. -/
+measure; there is no ground field here. -/
 private lemma exists_indecomposable_decomposition_aux
     [IsArtinian A V] [IsNoetherian A V] (d : ℕ) :
     ∀ S : Submodule A V, Module.length A (↥S) ≤ (d : ℕ∞) →
@@ -366,7 +366,7 @@ private lemma isCompl_equiv_of_isCompl {R : Type*} {V : Type*}
 
 /-- Exchange step of Krull-Schmidt for finite-length modules: given the first indecomposable
 summand `W 0` of one decomposition, find a summand `W' j₀` of the other decomposition that is
-isomorphic to `W 0` *and* is a complement, in `V`, of the remaining summands `⨆ i ≠ 0, W i`.
+isomorphic to `W 0` and is a complement, in `V`, of the remaining summands `⨆ i ≠ 0, W i`.
 
 This is the finite-length analogue of the finite-dimensional `krull_schmidt_find_iso_summand`
 (Theorem 3.8.1). The projection endomorphisms `f j : End (W 0)` sum to the identity; by

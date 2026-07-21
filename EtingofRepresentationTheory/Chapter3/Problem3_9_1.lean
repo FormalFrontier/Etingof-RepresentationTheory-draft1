@@ -19,10 +19,10 @@ We model a representation of `A` as an `A`-module that is also a `k`-module with
 `IsScalarTower k A V`; the action of `a` is `ρ_V(a) = Algebra.lsmul k k V a : V →ₗ[k] V`.
 The block operator `ρ_U(a)` is `blockOp f a : V × W →ₗ[k] V × W`.
 
-* **(a)** `ρ_U` is a representation (i.e. multiplicative in `a`) iff `f` is a **1-cocycle**:
+* **(a)** `ρ_U` is a representation (i.e. multiplicative in `a`) iff `f` is a 1-cocycle:
   `f(ab) = ρ_V(a) ∘ f(b) + f(a) ∘ ρ_W(b)`. Cocycles form the subspace
   `Z¹(W, V) = cocycles`.
-* **(b)** For `X : W →ₗ[k] V`, the **coboundary** `dX(a) = ρ_V(a) ∘ X − X ∘ ρ_W(a)`
+* **(b)** For `X : W →ₗ[k] V`, the coboundary `dX(a) = ρ_V(a) ∘ X − X ∘ ρ_W(a)`
   (`coboundaryOf X`) is a cocycle, and vanishes iff `X` is a homomorphism of
   representations (`A`-linear). Coboundaries form the subspace
   `B¹(W, V) = coboundaries ⊆ Z¹`, and `Ext¹(W, V) = Z¹ / B¹` is `Ext1`.
@@ -30,8 +30,6 @@ The block operator `ρ_U(a)` is `blockOp f a : V × W →ₗ[k] V × W`.
   end of the file. Part (d) requires `IsAlgClosed k` and is phrased as a nonzero-ratio
   proportionality (`∃ c ≠ 0, f − c • f' ∈ B¹`), the faithful form of the book's
   `ℙ Ext¹(W, V)` classification.
-
-All parts are proved (`sorry`-free).
 -/
 
 namespace Etingof.Problem3_9_1
@@ -245,7 +243,7 @@ theorem iso_of_sub_mem_coboundaries (f f' : A →ₗ[k] (W →ₗ[k] V))
 
 This holds over any field (no irreducibility or finite dimensionality needed) and is the
 reusable half of part (d). The degenerate case `c = 0` reduces to `f` being a coboundary,
-which makes `U_f` split but says nothing about `U_{f'}`; it does *not* give
+which makes `U_f` split but says nothing about `U_{f'}`; it does not give
 `U_f ≅ U_{f'}` in general. -/
 theorem ext_iso_of_sub_smul_mem_coboundaries (f f' : A →ₗ[k] (W →ₗ[k] V))
     (c : k) (hc : c ≠ 0) (hsub : f - c • f' ∈ coboundaries k A V W) :
@@ -288,12 +286,12 @@ theorem ext_iso_of_sub_smul_mem_coboundaries (f f' : A →ₗ[k] (W →ₗ[k] V)
 
 /-- **Problem 3.9.1(d).** Over an algebraically closed field, for finite dimensional irreducible
 `V` and `W`, the extensions `U_f` and `U_{f'}` are isomorphic representations if and only if the
-cocycle classes `[f]` and `[f']` are proportional with a **nonzero** ratio: there is `c ≠ 0` with
+cocycle classes `[f]` and `[f']` are proportional with a nonzero ratio: there is `c ≠ 0` with
 `f − c • f' ∈ B¹`.
 
 This is the faithful form of the book's part (d): the trivial class (`f ∈ B¹`, i.e. `U_f` splits)
 together with the projective space `ℙ Ext¹(W, V)` of lines of nonzero classes exhaust the
-isomorphism classes of extensions of `W` by `V`. The `c ≠ 0` constraint is essential — a spurious
+isomorphism classes of extensions of `W` by `V`. The `c ≠ 0` constraint is essential: a spurious
 `c = 0` would only assert `f ∈ B¹`, which says nothing about `f'` and would make the naive `iff`
 false. Algebraic closedness enters through Schur's lemma (`Etingof.Corollary_2_3_10`): over a
 non-closed field `End_A V` is a division ring strictly larger than `k`, and the iso classes are

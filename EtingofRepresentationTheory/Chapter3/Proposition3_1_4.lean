@@ -14,9 +14,9 @@ the `V i` are simple (irreducible), finite-dimensional, and pairwise nonisomorph
 ambient representation `V = ⊕ᵢ nᵢ Vᵢ` is modeled by `⨁ i, (Fin (n i) → V i)` (each
 `Fin (n i) → V i` is `nᵢ` copies of `Vᵢ`).
 
-The substantive content of the proposition — and the part missing from a bare
-"submodules of a semisimple module are semisimple" statement — is the *multiplicity
-bound* `r i ≤ n i` together with the explicit isomorphism type `W ≅ ⊕ᵢ rᵢ Vᵢ`. Both are
+The substantive content of the proposition, and the part missing from a bare
+"submodules of a semisimple module are semisimple" statement, is the multiplicity
+bound `r i ≤ n i` together with the explicit isomorphism type `W ≅ ⊕ᵢ rᵢ Vᵢ`. Both are
 asserted here. (The book additionally describes the inclusion `φ : W → V` by matrices
 `X_i` with linearly independent rows; that structural description of the embedding is not
 formalized.)
@@ -30,11 +30,11 @@ confines the `V i`-isotypic part of `V` to the `i`-th summand.
 ## Relation to Problem 2.3.15
 
 The book's proof extracts an irreducible subrepresentation `P ⊆ W` "by Problem 2.3.15".
-This formalization does **not** route through that problem: the ambient `⊕ᵢ nᵢ Vᵢ` is a
+This formalization does not use that problem: the ambient `⊕ᵢ nᵢ Vᵢ` is a
 finite direct sum of simples, hence semisimple, so existence of a simple submodule of any
 submodule comes directly from `IsSemisimpleModule.eq_bot_or_exists_simple_le` (used inside
-`iSupIndep` and `htop` below). That is a legitimate stronger route — it needs no
-finite-dimensionality — so Proposition 3.1.4 does not silently assume Problem 2.3.15. The
+`iSupIndep` and `htop` below). This is stronger, since it needs no
+finite-dimensionality, so Proposition 3.1.4 does not silently assume Problem 2.3.15. The
 book problem itself is formalized in `Chapter2/Problem2_3_15.lean`
 (`Etingof.exists_isSimpleModule_of_finite`).
 -/
