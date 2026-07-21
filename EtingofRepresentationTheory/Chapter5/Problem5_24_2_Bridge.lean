@@ -38,8 +38,8 @@ The value on a permutation operator `symGroupAction σ` is a product of trace-of
 `traceWord`, one per cycle of `σ`: this is the tensor-trace ↔ trace-word identity supplied by
 the sibling sub-issue. The assembly sub-issue combines that identity with Schur–Weyl
 permutation-spanning (`Theorem5_18_4_centralizers`) and the range identification stated here
-(`weightedHomogeneous_invariant_mem_range_endTensorEval`) to discharge the remaining `sorry` in
-`Problem5_24_2.lean` (`weightedHomogeneous_invariant_mem_adjoin`).
+(`weightedHomogeneous_invariant_mem_range_endTensorEval`) to prove
+`weightedHomogeneous_invariant_mem_adjoin` in `Problem5_24_2.lean` (now complete, no `sorry`).
 -/
 
 noncomputable section
