@@ -167,6 +167,15 @@ Check that the plan's assumptions still hold:
 - Quality metrics match what the issue says
 - Files mentioned in the issue still exist and haven't been restructured
 - No recently merged PR invalidates the plan
+- **A foundation the issue says "landed in #N" is actually in `main`.** Planners
+  often reference a sibling PR/commit by number as if merged. If the issue's
+  "Current state" describes machinery you'll build on (e.g. "added in #7222"),
+  confirm it: `grep` for the named decls in the target file, and if absent check
+  whether #N is still an *open* PR (`gh pr view <N>`, `git merge-base --is-ancestor
+  <sha> origin/main`). If the foundation is only in an unmerged branch, the issue
+  is blocked — `coordination skip` it with a "blocked on unmerged #N" reason
+  rather than stacking your work on that branch (a stacked PR against `main`
+  carries the other PR's commits and conflicts on merge).
 
 If stale:
 ```
