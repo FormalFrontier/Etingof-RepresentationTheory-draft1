@@ -22,9 +22,22 @@ denominators so they are well-typed for every `q` (the coefficient `q - q⁻¹` 
   `K L = 1`,  `L K = 1`,  `K e = q²·(e K)`,  `K f = q⁻²·(f K)`,
   `(q - q⁻¹)·(e f - f e) = K - L`.
 
-The algebra and its generators are genuine (not sorried). The classification of irreducibles
-is the deferred content; we record the core structural statement (existence of a highest
-weight vector on any finite dimensional representation) as the spec.
+The algebra and its generators are genuine (not sorried). Substantial classification content
+for both cases is proved sorry-free in-file:
+
+* **`q` not a root of unity**: every nontrivial finite dimensional representation has a highest
+  weight vector (`exists_highest_weight_vector`), and on a simple such module the highest weight
+  eigenvalue of `K` is pinned down as `ε · q^(dim V - 1)` with `ε² = 1`
+  (`highest_weight_eigenvalue_of_not_isOfFinOrder`).
+* **`q` a root of unity**: `K` acts semisimply with the expected eigenvalue structure
+  (`Kop_isSemisimple_and_eigenvalues`), `K^(orderOf q)` acts as a scalar
+  (`Kpow_orderOf_isScalar`), and every finite dimensional simple module has bounded dimension,
+  `finrank ℂ V ≤ orderOf q` (`finrank_irreducible_le_of_isOfFinOrder`, assembled from
+  `finrank_le_of_epow_orderOf_eq_zero`, `finrank_le_of_fpow_orderOf_eq_zero`, and
+  `finrank_le_of_cyclic`).
+
+These are the core structural results of the classification; a complete enumeration of the
+irreducibles up to isomorphism is not assembled here.
 -/
 
 namespace Etingof.Problem2_16_5
