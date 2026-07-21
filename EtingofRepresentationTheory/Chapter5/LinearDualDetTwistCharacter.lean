@@ -49,8 +49,9 @@ This reduces the deliverable to a **pure-polynomial** statement: that
 `finrank (glWeightSpaceℤ σ (m·1 - μ))` (which is `(schurPoly λ').coeff (m·1 - μ)`
 for `m·1 - μ ≥ 0`, else `0`) assembles to `schurPoly n (w0ShiftWeight n λ' m)` via
 the inverted-variable Schur identity fact (b) `schurPoly_inverseShift`
-(`SchurPolyInverseShift.lean`, #5534). That coeff↔alternant bridge is the residual
-work (tracked as a sub-issue).
+(`SchurPolyInverseShift.lean`, #5534). That coeff↔alternant bridge is proved
+in-file below as `schurPoly_w0Shift_coeff`, and the full deliverable is completed
+here as `formalCharacter_detTwist_linearDual_eq_schurPoly`.
 -/
 
 noncomputable section
