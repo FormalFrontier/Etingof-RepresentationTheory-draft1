@@ -186,6 +186,15 @@ sorries can still leave a book part unformalized; flipping it to `sorry_free`
 hides genuine remaining exercise work. Only set `sorry_free` when a **complete**
 sorry-free file backs the item. (Recurred: #7001, #7092.)
 
+**items.json is Unicode + 2-space-indented — preserve both when scripting an
+edit.** The file contains math glyphs (`ℂ`, `λ`, `≅`, em-dashes). A naive
+`json.dump(d, f, indent=2)` escapes every glyph to `\uXXXX` and reflows the whole
+file, turning a 3-line change into a multi-thousand-line diff. Always dump with
+`indent=2, ensure_ascii=False` and re-add the trailing newline
+(`f.write("\n")`), then confirm with `git diff --stat` that only your entry
+changed. For a single-field flip, a targeted `Edit` on the entry is simpler and
+safer than a full re-dump.
+
 **PR fix plans**: If the plan asks you to fix a broken PR, use judgement. If the
 PR is low quality or not worth salvaging:
 ```
