@@ -26,8 +26,9 @@ column-representation machinery, so the enumeration survives.
 * `SplitData.Std D i := Fin (D.d i) → K` — the `i`-th standard module, a simple, finite-dimensional
   `K[G]`-module with `IsScalarTower K (MonoidAlgebra K G) (D.Std i)`.
 
-The enumeration (`Std` pairwise non-isomorphic and exhaustive) and the resulting count
-`Nat.card (SimpleModuleClasses K[G]) = n` are stated here and proved in the follow-up.
+The enumeration (`Std` pairwise non-isomorphic via `Std_injective` and exhaustive via
+`exists_Std_linearEquiv`) and the resulting count `Nat.card (SimpleModuleClasses K[G]) = n`
+(`card_simpleModuleClasses` / `exists_splitSimples_count`) are proved sorry-free below.
 
 ## References
 
@@ -161,14 +162,15 @@ theorem isSimpleModule_Std (D : SplitData K G) (i : Fin D.n) :
     inferInstanceAs (IsSimpleModule (Matrix (Fin (D.d i)) (Fin (D.d i)) K) (Fin (D.d i) → K))
   exact IsSimpleModule.compHom (D.blockHom i).toRingHom (D.blockHom_surjective i)
 
-/-! ### Enumeration and count (deferred)
+/-! ### Enumeration and count
 
-The three remaining facts — the standard modules are pairwise non-isomorphic, they exhaust the
-simple `K[G]`-modules, and the resulting count `Nat.card (SimpleModuleClasses K[G]) = n` — mirror
-`IrrepDecomp.columnFDRep_injective` / `columnFDRep_surjective` / `n_eq_card_simples` from
-`Infrastructure/IrreducibleEnumeration.lean`, with the algebra isomorphism replaced by the
-surjection `π` (only surjectivity is used in that machinery). They are stated here and proved in
-the follow-up sub-issue. -/
+The three remaining facts — the standard modules are pairwise non-isomorphic (`Std_injective`),
+they exhaust the simple `K[G]`-modules (`exists_Std_linearEquiv`), and the resulting count
+`Nat.card (SimpleModuleClasses K[G]) = n` (`card_simpleModuleClasses` /
+`exists_splitSimples_count`) — mirror `IrrepDecomp.columnFDRep_injective` / `columnFDRep_surjective`
+/ `n_eq_card_simples` from `Infrastructure/IrreducibleEnumeration.lean`, with the algebra
+isomorphism replaced by the surjection `π` (only surjectivity is used in that machinery). All three
+are proved sorry-free below. -/
 
 /-- Over a simple artinian ring, any two simple modules are isomorphic: each is isomorphic to a
 minimal left ideal, and all minimal left ideals lie in the single isotypic component
