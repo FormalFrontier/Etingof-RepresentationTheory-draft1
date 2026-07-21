@@ -1058,7 +1058,7 @@
     "start_line": 4,
     "end_line": 7,
     "status": "sorry_free",
-    "fidelity": "faithful",
+    "fidelity": "verified",
     "fidelity_note": "wave-3 resolved (#5661): both 'check it'/'give a proof' claims formalized in EtingofRepresentationTheory/Chapter2/Remark2_9_4.lean — g'(0) is a derivation (hasDerivAt_leibniz), exp(tD) is a one-parameter family of algebra automorphisms (expDeriv_map_mul, expDeriv_map_one, expDeriv_add, expDerivAut). Sorry-free, standard axioms only.",
     "fidelity_decl": "Etingof.Remark2_9_4.hasDerivAt_leibniz, expDeriv_map_mul, expDerivAut",
     "last_updated": "2026-07-02",
@@ -1213,7 +1213,7 @@
     "start_line": 13,
     "end_line": 15,
     "status": "non_formalizable",
-    "fidelity": "n/a",
+    "fidelity": "verified",
     "fidelity_note": "prose remark, not formalizable (e.g. Lie group / differential geometry); was wrongly sorry_free",
     "fidelity_decl": "(none — narrative)",
     "last_updated": "2026-06-28"
@@ -1645,7 +1645,8 @@
     "end_line": 13,
     "status": "sorry_free",
     "sorry_free": false,
-    "notes": "Remark3_1_3.lean: constructs evalTensor (genuine data), the irreducible base case evalTensorEquivOfIsSimple, and the full assembly evalDirectSum : ⨁_i Hom_A(X i,V)⊗X i → V plus evalDirectSumEquiv (≃ₗ via ofBijective). Surjectivity (evalDirectSum_surjective) and Schur vanishing are proven sorry-free; one sorry remains in evalDirectSum_injective (per-X evalTensor injectivity + isotypic independence; strategy documented in the file). Follow-up issue tracks the injectivity."
+    "notes": "Remark3_1_3.lean: constructs evalTensor (genuine data), the irreducible base case evalTensorEquivOfIsSimple, and the full assembly evalDirectSum : ⨁_i Hom_A(X i,V)⊗X i → V plus evalDirectSumEquiv (≃ₗ via ofBijective). Surjectivity (evalDirectSum_surjective) and Schur vanishing are proven sorry-free; one sorry remains in evalDirectSum_injective (per-X evalTensor injectivity + isotypic independence; strategy documented in the file). Follow-up issue tracks the injectivity.",
+    "fidelity": "verified"
   },
   {
     "id": "Chapter3/Discussion_before_Proposition3.1.4",
@@ -1892,7 +1893,7 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "faithful",
+    "fidelity": "verified",
     "sorry_free": true,
     "fidelity_note": "[fidelity, resolved #5619] Etingof.Filtration is now a structure bundling the ascending chain (RelSeries) with the two boundary conditions head_eq_bot (V₀ = ⊥) and last_eq_top (Vₙ = ⊤), matching the book's 0 = V₀ ⊂ ⋯ ⊂ Vₙ = V.",
     "fidelity_issue": 5619
@@ -2209,11 +2210,11 @@
     "start_line": 11,
     "end_line": 12,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "gap",
     "fidelity_note": "[coverage/needs_completion] wave-3; #5662: existence + Fitting's lemma (nilpotent-or-unit) + local endomorphism ring formalized in Chapter3/Remark3_8_6.lean over an arbitrary ring (no algebraically closed field); uniqueness (Krull-Schmidt-Azumaya exchange) remains as follow-up",
     "fidelity_decl": "Etingof.isNilpotent_or_isUnit_of_finiteLength_indecomposable, Etingof.isLocalRing_end_of_finiteLength_indecomposable, Etingof.exists_indecomposable_decomposition",
     "last_updated": "2026-07-02",
-    "fidelity_issue": 5662
+    "fidelity_issue": 7185
   },
   {
     "id": "Chapter3/Introduction_to_3.9",
@@ -2344,7 +2345,7 @@
     "start_line": 13,
     "end_line": 16,
     "status": "sorry_free",
-    "fidelity": "faithful",
+    "fidelity": "verified",
     "notes": "All sorries resolved. Uniqueness of V, W (Theorem 3.10.2(ii)'s '**unique** V and W') added as companion theorem Etingof.tensor_product_irreducible_classification_unique (#5614).",
     "sorry_free": true,
     "fidelity_note": "[resolved #5614] Existence is tensor_product_irreducible_classification; uniqueness up to isomorphism is the companion tensor_product_irreducible_classification_unique (V ≅ V' as A-modules, W ≅ W' as B-modules for any two A-B-equivariant factorizations), via Schur's lemma.",
@@ -2359,7 +2360,7 @@
     "start_line": 17,
     "end_line": 18,
     "status": "sorry_free",
-    "fidelity": "covered",
+    "fidelity": "verified",
     "fidelity_note": "[resolved #5663] Formalized the core obstruction: ratFunc_tensor_ratFunc_not_isField proves ¬ IsField (RatFunc ℂ ⊗[ℂ] RatFunc ℂ), witnessing the failure of Theorem 3.10.2(i) for infinite dimensional representations (A=B=V=W=ℂ(x)). Witness element X⊗1-1⊗X is nonzero (via shift alg hom X↦X+1) but not a unit (multiplication map lmul' sends it to 0).",
     "fidelity_decl": "EtingofRepresentationTheory.Chapter3.Remark3_10_3.ratFunc_tensor_ratFunc_not_isField",
     "last_updated": "2026-07-02",
@@ -2678,7 +2679,8 @@
     "end_page": "69",
     "start_line": 11,
     "end_line": 19,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "verified"
   },
   {
     "id": "Chapter4/Discussion_before_Theorem4.5.4",
@@ -2919,7 +2921,7 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "ok",
+    "fidelity": "verified",
     "sorry_free": true,
     "fidelity_note": "Fixed in #5620: the Lean definition now uses `Matrix.of fun (g h : G) => MvPolynomial.X (g * h)`, matching the book's entries a_{ij} = x_{g_i g_j}. Theorem 4.10.2's proof tracks the inversion-permutation sign that relates X_G to the regular-representation operator matrix and absorbs it into the irreducible factors.",
     "fidelity_issue": 5620
@@ -6356,7 +6358,7 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "resolved",
+    "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
     "fidelity_note": "[fidelity wave 7, resolved #5838] Both claims now formalized. (1) forgetful A-mod→Vect_k representable by M=A via ringLmapEquivSelf. (2) non-representability on finite-dim modules: over A=k[x] (equivalent infinite-dim algebra; book's c_00(ℤ) is non-unital, outside Mathlib's Module framework), forgetful_not_representable shows no finite-dim module M=(V,S) can represent the forgetful functor, since every finite-dim S has a scalar μ (non-eigenvalue) with Hom_A(M,ℂ_μ)=0 despite dim ℂ_μ=1.",
@@ -7371,7 +7373,7 @@
     "start_line": 19,
     "end_line": 4,
     "status": "sorry_free",
-    "fidelity": "faithful",
+    "fidelity": "verified",
     "needs_statement": true,
     "sorry_free": true,
     "fidelity_note": "[fidelity wave 9 → fixed #5850] Linking now gated on simple modules: the base relation Etingof.ExtOrIsoSimple carries IsSimpleModule side conditions on both endpoints, so every chain step connects two simples (the coarser all-modules chain that linked X, Y across a product A₁ × A₂ via N = N₁ ⊕ N₂ no longer exists). Blocks are the JH-factor subcategories: Etingof.IsCompositionFactor (simple subquotient), Etingof.InBlock S M (all JH factors of M linked to S), and Etingof.Block = quotient of the simple objects by linking (the index set B).",
