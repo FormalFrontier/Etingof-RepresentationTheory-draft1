@@ -41,7 +41,8 @@ throughout Chapter 5. The induced representation is `Etingof.Definition5_8_1`,
 i.e. Mathlib's `Representation.ind H.subtype ρ` on `Representation.IndV`.
 Frobenius reciprocity (the induction/restriction adjunction) is not yet in
 Mathlib, so the block-trace computation underlying this formula is proved
-directly here (currently `sorry`).
+directly here (via the abstract trace-on-coinvariants identity
+`Etingof.trace_coinvariantsMap`; the proof is complete).
 -/
 
 open Representation

@@ -709,7 +709,7 @@ lemma zeta3_sum : (zeta3 : ℂ) ^ 2 + (zeta3 : ℂ) + 1 = 0 := by
 /-! ## The induced representations and their decompositions
 
 Each statement asserts an isomorphism of `S₃`-representations. The intended proof
-route (Etingof §5.11), which deliberately avoids the still-`sorry` induced-character
+route (Etingof §5.11), which follows the book in bypassing the induced-character
 formula `Etingof.Theorem5_9_1`, computes the multiplicity of each irreducible
 constituent by Frobenius reciprocity `Etingof.Theorem5_10_1`,
 `⟨Ind_H^G W, V_i⟩ = ⟨W, Res_H V_i⟩`, reducing each to a restriction over the 2- or
