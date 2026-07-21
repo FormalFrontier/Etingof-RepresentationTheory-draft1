@@ -38,7 +38,7 @@ open Module in
 /-- Characters of distinct irreducible representations are linearly independent.
 Etingof Theorem 3.6.2(i). -/
 theorem Etingof.characters_linearly_independent (k : Type*) (A : Type*)
-    [Field k] [IsAlgClosed k] [Ring A] [Algebra k A] [FiniteDimensional k A]
+    [Field k] [IsAlgClosed k] [Ring A] [Algebra k A]
     {ι : Type*} [Fintype ι]
     (V : ι → Type*) [∀ i, AddCommGroup (V i)] [∀ i, Module k (V i)]
     [∀ i, Module A (V i)] [∀ i, IsScalarTower k A (V i)]
