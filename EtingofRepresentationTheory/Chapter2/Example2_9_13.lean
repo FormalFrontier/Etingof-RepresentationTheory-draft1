@@ -21,23 +21,21 @@ nonzero bracket being `⁅y, x⁆ = c` (equivalently `⁅x, y⁆ = -c`), with `c
 concretely as `k × k × k` with the bracket landing in the central `c`-coordinate, and verify the
 defining bracket relations.
 
-The genuine, non-vacuous content (the previous statement was the same `inferInstance` example as
-2.9.12, provable for *any* Lie algebra and asserting nothing about the Heisenberg presentation) is:
+The content is:
 
-* `Heisenberg` is a genuine Lie algebra with the stated brackets (`bracket_y_x`, `bracket_x_c`,
+* `Heisenberg` is a Lie algebra with the stated brackets (`bracket_y_x`, `bracket_x_c`,
   `bracket_y_c`);
 * inside `U(ℋ)`, the images `X = ι x`, `Y = ι y`, `C = ι c` satisfy the book's relations
   `YX − XY = C`, `YC − CY = 0`, `XC − CX = 0` (`heisenberg_universal_relations`). These are
-  *specific* to the Heisenberg algebra — they are not provable for an arbitrary `L`;
+  specific to the Heisenberg algebra: they are not provable for an arbitrary `L`;
 * the Weyl algebra is `U(ℋ) ⧸ (C − 1)`, in which `C` becomes `1` (`weyl_c_eq_one`).
 
 ## Mathlib correspondence
 
 Mathlib has `UniversalEnvelopingAlgebra` but the Heisenberg Lie algebra is not defined, so we build
-it here. The full universal property (that `x, y, c` *generate* `U(ℋ)` and that these relations are
+it here. The full universal property (that `x, y, c` generate `U(ℋ)` and that these relations are
 a complete presentation) and the identification of `U(ℋ)/(c−1)` with an abstractly-defined Weyl
-algebra are beyond current Mathlib infrastructure; we assert and prove the defining relations, which
-is the content the previous statement was missing.
+algebra are beyond current Mathlib infrastructure; we assert and prove the defining relations.
 -/
 
 namespace Etingof.Example2_9_13

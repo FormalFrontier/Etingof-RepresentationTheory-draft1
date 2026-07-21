@@ -14,8 +14,8 @@ action provided by `Module.Dual.instLieRingModule` / `Module.Dual.instLieModule`
 (`Mathlib.Algebra.Lie.Basic`): for `x : L` and `f : V*`,
 `(x · f)(v) = -f(x · v)`, i.e. `ρ_{V*}(x) = -ρ_V(x)*`. Because
 `LieDualRepresentation` is an `abbrev` for `Module.Dual k V = V →ₗ[k] k`, those
-instances apply to it directly, so the alias genuinely carries the dual
-*representation* structure (not merely the dual vector space).
+instances apply to it directly, so the alias carries the dual
+representation structure (not merely the dual vector space).
 -/
 
 /-- The dual of a Lie algebra representation, in the sense of Etingof Definition 2.14.2.
@@ -34,7 +34,7 @@ variable (k : Type*) (L : Type*) (V : Type*)
     [AddCommGroup V] [Module k V] [LieRingModule L V] [LieModule k L V]
 
 /-- The dual representation is a Lie module over `L`: the contragredient action
-makes `Module.Dual k V` a genuine representation of `L`. -/
+makes `Module.Dual k V` a representation of `L`. -/
 example : LieRingModule L (LieDualRepresentation k L V) := inferInstance
 
 /-- The dual representation is a Lie module over the base ring `k` as well. -/

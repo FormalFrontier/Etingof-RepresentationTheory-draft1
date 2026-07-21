@@ -47,16 +47,16 @@ module (`casimirGenEigenspace_isInternal`). The book's **part (h)** then follows
 * `Indecomposable M`: `M` is nonzero and has no nontrivial direct-sum decomposition into
   subrepresentations.
 * `casimir_eq_single_genEigenspace`: on a finite-dimensional indecomposable module the Casimir
-  operator has a **single eigenvalue** — some `casimirGenEigenspace a` is the whole module —
+  operator has a single eigenvalue (some `casimirGenEigenspace a` is the whole module),
   with `casimirGenEigenspace_top_unique` giving uniqueness of that eigenvalue.
 
 Pinning the single eigenvalue to the book's `λ(λ+2)/2` with `λ ∈ ℕ`, and the (i)–(k)
 reduction (an indecomposable finite-dimensional module is `≅ V_λ`), remain follow-up work.
 
 The final complete-reducibility statement `complete_reducibility` is recorded here
-in its cleanest equivalent form — *every `sl(2)`-submodule of a finite-dimensional
-module has an `sl(2)`-complement* — and discharged from `Theorem_2_1_1_ii`
-(Etingof Theorem 2.1.1(ii)), the project's sorry-free Casimir-argument proof that the
+in its cleanest equivalent form, that every `sl(2)`-submodule of a finite-dimensional
+module has an `sl(2)`-complement, and discharged from `Theorem_2_1_1_ii`
+(Etingof Theorem 2.1.1(ii)), the project's Casimir-argument proof that the
 lattice of `sl(2)`-submodules of a finite-dimensional module is complemented.
 
 The Casimir computations rely only on the `sl(2)`-triple bracket relations
@@ -75,7 +75,7 @@ variable {M : Type*} [AddCommGroup M] [Module ℂ M]
 
 /-- **The Casimir operator `C = EF + FE + H²/2`** on an arbitrary `sl(2)`-module `M`,
 where `E = ⁅sl2_e, ·⁆`, `F = ⁅sl2_f, ·⁆`, `H = ⁅sl2_h, ·⁆` are the actions of the
-standard `sl(2)`-triple. It is a genuine element of `Module.End ℂ M`, built from the
+standard `sl(2)`-triple. It is an element of `Module.End ℂ M`, built from the
 Lie-module structure map `LieModule.toEnd`. -/
 noncomputable def casimir (M : Type*) [AddCommGroup M] [Module ℂ M]
     [LieRingModule sl2 M] [LieModule ℂ sl2 M] : Module.End ℂ M :=
@@ -111,7 +111,7 @@ theorem casimir_highest_weight (μ : ℂ) (x : M) (hE : ⁅sl2_e, x⁆ = 0)
   congr 1
   ring
 
-/-- **Casimir scalar on a lowest-weight vector — the key sub-lemma of Problem 2.15.1(j).**
+/-- **Casimir scalar on a lowest-weight vector, the key sub-lemma of Problem 2.15.1(j).**
 If `x` is killed by the lowering operator `F` and is an `H`-eigenvector of weight `μ`,
 then the Casimir operator acts on `x` by the scalar `μ(μ-2)/2`.
 
@@ -246,7 +246,7 @@ section GenEigenspaceDecomp
 variable {M : Type*} [AddCommGroup M] [Module ℂ M]
   [LieRingModule sl2 M] [LieModule ℂ sl2 M]
 
-/-- The Casimir operator commutes with the action of every `x ∈ sl(2)` — the
+/-- The Casimir operator commutes with the action of every `x ∈ sl(2)`, the
 operator-algebra (`Commute`) form of `casimir_central`. -/
 theorem commute_casimir_toEnd (x : sl2) :
     Commute (casimir M) (LieModule.toEnd ℂ sl2 M x) := by
@@ -259,7 +259,7 @@ theorem commute_casimir_toEnd (x : sl2) :
 /-- **The generalized eigenspace of the Casimir operator for eigenvalue `a`, as an
 `sl(2)`-submodule.** Because `casimir M` commutes with the `sl(2)`-action
 (`commute_casimir_toEnd`), each of its generalized eigenspaces is invariant under the
-action, so it is a genuine subrepresentation. This is the precise meaning of the book's
+action, so it is a subrepresentation. This is the precise meaning of the book's
 "the generalized eigenspace decomposition of `C` is a decomposition of representations"
 in part (h). -/
 noncomputable def casimirGenEigenspace (a : ℂ) : LieSubmodule ℂ sl2 M where
@@ -292,7 +292,7 @@ theorem casimirGenEigenspace_iSup_eq_top :
     Module.End.iSup_maxGenEigenspace_eq_top (casimir M)
 
 /-- **The generalized-eigenspace decomposition of the Casimir is an internal direct sum of
-subrepresentations — the structural heart of Problem 2.15.1(h).** A finite-dimensional
+subrepresentations, the structural heart of Problem 2.15.1(h).** A finite-dimensional
 `sl(2)`-module is the internal direct sum of the Casimir generalized eigenspaces
 `casimirGenEigenspace a`, each of which is an `sl(2)`-submodule. Consequently an
 *indecomposable* finite-dimensional `sl(2)`-module has a single Casimir eigenvalue: this is
@@ -332,7 +332,7 @@ theorem casimir_eq_single_genEigenspace (hM : Indecomposable M) :
     ∃ a : ℂ, casimirGenEigenspace (M := M) a = ⊤ := by
   obtain ⟨hnt, hindec⟩ := hM
   haveI : Nontrivial M := hnt
-  -- Some generalized eigenspace is nonzero — otherwise their supremum (`= ⊤`) would be `⊥`.
+  -- Some generalized eigenspace is nonzero, otherwise their supremum (`= ⊤`) would be `⊥`.
   have hexists : ∃ a, casimirGenEigenspace (M := M) a ≠ ⊥ := by
     by_contra h
     push_neg at h
@@ -387,7 +387,7 @@ The statement of complete reducibility, recorded in its cleanest equivalent form
 finite-dimensional module: every `sl(2)`-submodule has an `sl(2)`-complement (this is
 the meaning of "semisimple"; for finite-dimensional modules it is equivalent to being a
 direct sum of irreducibles, hence of `V_λ`'s by the classification (f)). The proof is
-read off from `Theorem_2_1_1_ii`, the project's sorry-free proof of the same fact via
+read off from `Theorem_2_1_1_ii`, the project's proof of the same fact via
 the book's Casimir argument (h)–(k). -/
 
 section CompleteReducibility
@@ -400,11 +400,11 @@ variable {M : Type*} [AddCommGroup M] [Module ℂ M] [FiniteDimensional ℂ M]
 `sl(2)`-module `M` has an `sl(2)`-complement `N'` (`IsCompl N N'`). Equivalently, `M`
 is a direct sum of irreducible subrepresentations, each isomorphic to some `V_λ`.
 
-The book's elementary Casimir argument — reduce to showing an indecomposable
+The book's elementary Casimir argument, reducing to showing an indecomposable
 finite-dimensional `sl(2)`-module is irreducible, using that the generalized
 eigenspaces of the central Casimir operator `casimir M` are subrepresentations
 (parts (h)–(k)), with `casimir_highest_weight` / `casimir_lowest_weight` as the
-eigenvalue inputs — is carried out in this project as `Theorem_2_1_1_ii`
+eigenvalue inputs, is carried out in this project as `Theorem_2_1_1_ii`
 (Etingof Theorem 2.1.1(ii), `Chapter2/Theorem2_1_1.lean`), which establishes that
 the lattice of `sl(2)`-submodules of a finite-dimensional module is complemented.
 We read off the complement of a single submodule from that. -/

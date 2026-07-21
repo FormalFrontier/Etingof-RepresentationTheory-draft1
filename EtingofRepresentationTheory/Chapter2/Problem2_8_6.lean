@@ -14,15 +14,14 @@ For a finite quiver `Q` with vertex set `I` and arrow set `E`, the path algebra 
 4. `p_{h''} aₕ = aₕ` and `pᵢ aₕ = 0` for `i ≠ h''` (where `h''` is the target of `h`).
 
 **Convention.** Etingof reads a product `ab` as "first `b`, then `a`" (target-to-source),
-so `p` on the source multiplies on the *right* of `aₕ`. This project's `PathAlgebra` uses the
+so `p` on the source multiplies on the right of `aₕ`. This project's `PathAlgebra` uses the
 opposite, source-to-target reading (aligned with `Quiver.Path.comp`; see Definition 2.8.4), so
-here the source idempotent multiplies on the *left* and the target idempotent on the *right*.
+here the source idempotent multiplies on the left and the target idempotent on the right.
 The relations below are stated in the source-to-target convention of this project's algebra;
 they are the correct relations for `Etingof.PathAlgebra k Q`.
 
 We render the generators, the generation property, the four relations, and the universal
-property ("these are *defining* relations") as the statements. The proofs are complete
-(sorry-free).
+property (that these are defining relations) as the statements.
 -/
 
 namespace Etingof.Problem2_8_6
@@ -159,10 +158,10 @@ theorem evalMap_single (x : QuiverPathIndex Q) (c : k) :
 
 end Universal
 
-/-! ## Universal property: relations (1)–(4) are *defining* -/
+/-! ## Universal property: relations (1)–(4) are defining -/
 
 /-- **Defining relations.** For any `k`-algebra `B` with elements `P i` (`i ∈ I`) and
-`A i j e` (arrows `e : i ⟶ j`) satisfying the relations (1)–(4), there is a *unique* `k`-algebra
+`A i j e` (arrows `e : i ⟶ j`) satisfying the relations (1)–(4), there is a unique `k`-algebra
 homomorphism `P_Q → B` sending each `pᵢ ↦ P i` and each `aₕ ↦ A i j e`. This expresses that
 (1)–(4) are a complete set of defining relations for the path algebra. -/
 theorem defining_relations_universal [Fintype Q]

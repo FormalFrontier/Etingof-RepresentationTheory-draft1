@@ -39,10 +39,9 @@ Evaluating at `X = 1` recovers the dimension count
 
 This file proves the character identity (the combinatorial heart of the
 decomposition, equivalent to the book's character computation) and the dimension
-count. Promoting this to a genuine `sl(2)`-module isomorphism — by exhibiting the
-explicit highest-weight vectors in `V_λ ⊗ V_μ` annihilated by `E` and matching
-dimensions — is tracked as follow-up work; see the module docstring of
-`Chapter2/Sl2Irrep.lean` and the Problem 2.15.1(m) issue.
+count. The promotion to an `sl(2)`-module isomorphism, by exhibiting the explicit
+highest-weight vectors in `V_λ ⊗ V_μ` annihilated by `E` and matching dimensions,
+is carried out in `Chapter2/Problem2_15_1_m_Module.lean`.
 
 The base ring is `ℤ` (the identity holds over any commutative ring; integer
 coefficients keep the dimension count over `ℤ`).

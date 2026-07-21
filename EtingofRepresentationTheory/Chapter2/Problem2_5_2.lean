@@ -17,10 +17,10 @@ A vector `v` is cyclic when `Submodule.span A {v} = ⊤` (the `A`-submodule it g
 `V`). Irreducibility is `IsSimpleModule A V`. Left ideals of `A` are `Submodule A A`, and `A/I` is
 the quotient module.
 
-Parts (a) and (b) are proved sorry-free below, as `irreducible_iff_forall_cyclic` and
-`cyclic_iff_isoQuotient` respectively. Part (c) — the explicit example
-`A = ℂ[x, y]/I₂` acting on `V = A^*` by `(ρ(a)f)(b) = f(ba)` — requires constructing the coregular
-module structure and is deferred to a dedicated follow-up item.
+Parts (a) and (b) are `irreducible_iff_forall_cyclic` and `cyclic_iff_isoQuotient`
+respectively. Part (c), the explicit example `A = ℂ[x, y]/I₂` acting on `V = A^*` by
+`(ρ(a)f)(b) = f(ba)`, requires constructing the coregular module structure and is not
+treated here.
 -/
 
 namespace Etingof.Problem2_5_2

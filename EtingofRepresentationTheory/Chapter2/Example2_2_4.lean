@@ -7,8 +7,8 @@ import Mathlib.Algebra.MonoidAlgebra.Basic
 
 Examples of algebras over k:
 1. A = k.
-2. A = k[x₁, …, xₙ] — the algebra of polynomials.
-3. A = End V — the algebra of endomorphisms of a vector space V.
+2. A = k[x₁, …, xₙ], the algebra of polynomials.
+3. A = End V, the algebra of endomorphisms of a vector space V.
 4. The free algebra A = k⟨x₁, …, xₙ⟩.
 5. The group algebra A = k[G] of a group G.
 

@@ -50,13 +50,13 @@ Reading the middle column on the basis: `ρ(e) e_k = k · e_{k-1}` and
 exactly the component form once one substitutes the shifted index. This makes the book's
 "realized by these formulas" clause of Theorem 2.1.1(i) explicit in the Lean model.
 
-## What is and isn't formalized
+## Structure of the representation
 
-The Leibniz identity is proved sorry-free by the `map_lie'` field of `rhoLieHom`
-(`sl2 →ₗ⁅ℂ⁆ Module.End ℂ (Fin d → ℂ)`), which carries out the bracket-preservation
-casework over the sl(2) generators. Irreducibility is proved sorry-free by
-`irrep_isIrreducible` (`LieModule.IsIrreducible ℂ sl2 (Fin d → ℂ)` for `[NeZero d]`),
-which shows that any nonzero invariant subspace is the whole space.
+The Leibniz identity is the `map_lie'` field of `rhoLieHom`
+(`sl2 →ₗ⁅ℂ⁆ Module.End ℂ (Fin d → ℂ)`), which handles the bracket-preservation
+casework over the sl(2) generators. Irreducibility is `irrep_isIrreducible`
+(`LieModule.IsIrreducible ℂ sl2 (Fin d → ℂ)` for `[NeZero d]`): any nonzero
+invariant subspace is the whole space.
 
 Complete reducibility (Theorem 2.1.1(ii)) requires Weyl's complete reducibility theorem
 for semisimple Lie algebras, which is not in Mathlib.

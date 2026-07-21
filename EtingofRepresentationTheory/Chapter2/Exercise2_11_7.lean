@@ -6,17 +6,6 @@ import Mathlib.LinearAlgebra.TensorProduct.Basic
 > **Exercise 2.11.7.** Show that if `M` and `N` are modules over a commutative ring
 > `A`, then `M ⊗_A N` has a natural structure of an `A`-module.
 
-## Note on the blob extraction
-
-The blob `blobs/Chapter2/Exercise2.11.7.md` was mis-extracted: it captured the
-trailing clause of **Problem 2.11.6(b)** ("for all `v ∈ V`, `w ∈ W` and
-`f ∈ Hom_B(V, Hom_C(W, X))`") rather than the actual Exercise 2.11.7. The real
-statement — confirmed against the book prose (`source/original.pdf`, p. 35) and
-already recorded correctly in `progress/items.json` as "Tensor product of modules
-over commutative ring" — is the elementary fact above. It is **not** the
-tensor-hom adjunction, so there is no dependence on the bimodule
-`TensorProductOverRing` API of Problem 2.11.6.
-
 ## Mathlib correspondence
 
 Exact match. For a commutative (semi)ring `A` and `A`-modules `M`, `N`, Mathlib's
