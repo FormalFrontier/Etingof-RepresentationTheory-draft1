@@ -3831,7 +3831,9 @@
     "start_line": 27,
     "end_line": 28,
     "status": "sorry_free",
-    "coverage_note": "Sorry-free: Chapter5/Problem5_8_4.lean proves the G-equivariant iso Ind_H^G(Ind_K^H V) ≅ Ind_K^G V for K ≤ H ≤ G via the abstract induction-in-stages lemma ind_stages_exists (tensor/coinvariants associativity)."
+    "coverage_note": "Sorry-free: Chapter5/Problem5_8_4.lean proves the G-equivariant iso Ind_H^G(Ind_K^H V) ≅ Ind_K^G V for K ≤ H ≤ G via the abstract induction-in-stages lemma ind_stages_exists (tensor/coinvariants associativity).",
+    "fidelity": "verified",
+    "fidelity_note": "FAITHFUL (review #7199, 2026-07-21): genuine G-equivariant iso via Definition5_8_1=Representation.ind, correct subgroup chain K.subgroupOf H with rfl relabelling, no finiteness/field weakening, axiom-clean, concrete S3 non-vacuity witness. Report: progress/reviews/2026-07-21-ch5-problem5_8_4-induction-in-stages-fidelity.md"
   },
   {
     "id": "Chapter5/Exercise5.8.5",
