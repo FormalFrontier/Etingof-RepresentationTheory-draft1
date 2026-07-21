@@ -3691,9 +3691,9 @@
     "start_line": 3,
     "end_line": 6,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] Two gaps: (1) The book states the result 'over a field k (of any characteristic),' but the Lean formalization requires [IsAlgClosed k] for both the irreducibility direction (extTprod_isIrre",
+    "fidelity_note": "[re-verified review #7183, 2026-07-21] Repair landed; statement faithful and non-vacuous, builds, axiom-clean (no sorryAx). [fidelity] Two gaps: (1) The book states the result 'over a field k (of any characteristic),' but the Lean formalization requires [IsAlgClosed k] for both the irreducibility direction (extTprod_isIrre",
     "fidelity_issue": 5622
   },
   {
@@ -3915,8 +3915,8 @@
     "fidelity": "gap",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[fidelity] Wrong adjunction direction. Book states Frobenius reciprocity as Hom_G(V, Ind_H^G W) ≅ Hom_H(Res V, W) (i.e., Res ⊣ CoInd direction, or equivalently: Ind is left adjoint gives Hom_G(Ind W, ",
-    "fidelity_issue": 5621
+    "fidelity_note": "[re-verified review #7183, 2026-07-21] STILL A GAP: headline Etingof.Theorem5_10_1 asserts Hom_G(Ind W, V) ≅ Hom_H(W, Res V) (left-adjoint Ind⊣Res, Mathlib tensor Rep.ind), the transpose of the book claim Hom_G(V, Ind W) ≅ Hom_H(Res V, W) (right-adjoint, function-space/coinduced Ind). Faithful proof of a different theorem. Repair issue #7187.",
+    "fidelity_issue": 7187
   },
   {
     "id": "Chapter5/Problem5.10.2",
@@ -4044,8 +4044,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "Trivial/sign claims now proved at the representation level: Example5_12_3_trivial_rep (every σ acts as identity on V_{(n)}) and Example5_12_3_sign_rep (every σ acts as sign σ on V_{(1ⁿ)}). Residual: the n=3,4 cases (ℂ², ℂ³₋, ℂ³₊) are still identified only by dimension, not by an explicit equivariant isomorphism to the named irreps.",
-    "fidelity_issue": 5637
+    "fidelity_note": "[re-verified review #7183, 2026-07-21] PARTIAL GAP: trivial/sign cases now faithful at rep level (Example5_12_3_trivial_rep/_sign_rep). Residual: lambda=(3,1)->C^3_- and lambda=(2,1,1)->C^3_+ captured only by dim=3, which cannot distinguish the two non-isomorphic 3-dim S4 irreps. Repair issue #7188.",
+    "fidelity_issue": 7188
   },
   {
     "id": "Chapter5/Corollary5.12.4",
@@ -4667,11 +4667,11 @@
     "start_line": 3,
     "end_line": 4,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "needs_statement": false,
     "notes": "Symmetric part (Example5_19_3_symmetric) is sorry_free. Exterior part (Example5_19_3_exterior) still has sorry due to coercion issues between ExteriorAlgebra and PiTensorProduct.",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book says L_{(n)} = SⁿV and L_{(1ⁿ)} = ∧ⁿV as GL(V)-representations, and that these are irreducible. The Lean statements prove only k-linear isomorphisms: 'Nonempty (symInvariant",
+    "fidelity_note": "[re-verified review #7183, 2026-07-21] Repair landed; statement faithful and non-vacuous, builds, axiom-clean (no sorryAx). [partial-example] The book says L_{(n)} = SⁿV and L_{(1ⁿ)} = ∧ⁿV as GL(V)-representations, and that these are irreducible. The Lean statements prove only k-linear isomorphisms: 'Nonempty (symInvariant",
     "fidelity_issue": 5638
   },
   {
@@ -5211,8 +5211,8 @@
     "start_line": 11,
     "end_line": 14,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "fidelity_note": "[partial-example] Part (ii) is strictly weaker than the book. The book states the representations V(O,U) are 'pairwise nonisomorphic,' meaning distinct (orbit, irrep) pairs yield non-isomorphic repres",
+    "fidelity": "verified",
+    "fidelity_note": "[re-verified review #7183, 2026-07-21] Repair landed; statement faithful and non-vacuous, builds, axiom-clean (no sorryAx). [partial-example] Part (ii) is strictly weaker than the book. The book states the representations V(O,U) are 'pairwise nonisomorphic,' meaning distinct (orbit, irrep) pairs yield non-isomorphic repres",
     "fidelity_issue": 5623
   },
   {
@@ -6264,10 +6264,10 @@
     "start_line": 9,
     "end_line": 15,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[near-complete] All four sub-items formalized. Sub-item (1): `double_dual_iso`/`double_dual_naturality` (finite-dim V ≃ₗ V** + naturality), plus `doubleDualFunctor`/`doubleDualNatIso` giving the actual CategoryTheory NatIso `𝟭 ≅ (·)**` on `FGModuleCat k` (Etingof's FVect_k), and `linearEquiv_dualDual_iff_finiteDimensional` (infinite-dim V not iso to V**, second half). Sub-item (2): `linearEquiv_dual_iff_finiteDimensional` (V ≅ V* iff finite-dim, the positive half of the FVect'_k functor F(V)=V*). Sub-item (3): `forgetful_natEnd_eq_smul`/`forgetful_smul_comp` (End(forgetful F)=A). Sub-item (4): `idFunctor_natEnd_eq_smul`/`idFunctor_natEnd_central` (End(Id_{A-mod})=Z(A)). Only remaining gap: sub-item (2)'s *non-naturality* claim (F not naturally iso to id via the GL(V)-representation obstruction), which needs the groupoid FVect'_k + functor F built as CategoryTheory objects; deferred to dedicated future work.",
+    "fidelity_note": "[re-verified review #7183, 2026-07-21] Repair landed; statement faithful and non-vacuous, builds, axiom-clean (no sorryAx). [near-complete] All four sub-items formalized. Sub-item (1): `double_dual_iso`/`double_dual_naturality` (finite-dim V ≃ₗ V** + naturality), plus `doubleDualFunctor`/`doubleDualNatIso` giving the actual CategoryTheory NatIso `𝟭 ≅ (·)**` on `FGModuleCat k` (Etingof's FVect_k), and `linearEquiv_dualDual_iff_finiteDimensional` (infinite-dim V not iso to V**, second half). Sub-item (2): `linearEquiv_dual_iff_finiteDimensional` (V ≅ V* iff finite-dim, the positive half of the FVect'_k functor F(V)=V*). Sub-item (3): `forgetful_natEnd_eq_smul`/`forgetful_smul_comp` (End(forgetful F)=A). Sub-item (4): `idFunctor_natEnd_eq_smul`/`idFunctor_natEnd_central` (End(Id_{A-mod})=Z(A)). Only remaining gap: sub-item (2)'s *non-naturality* claim (F not naturally iso to id via the GL(V)-representation obstruction), which needs the groupoid FVect'_k + functor F built as CategoryTheory objects; deferred to dedicated future work.",
     "fidelity_issue": 5643
   },
   {
@@ -6550,10 +6550,10 @@
     "start_line": 15,
     "end_line": 2,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "needs_statement": true,
     "sorry_free": true,
-    "fidelity_note": "[fidelity wave 7] Definition 7.8.1 names four notions: complex, differentials, cohomology H^i=Ker(d_i)/Im(d_{i-1}), exact-in-i-th-term, exact sequence. Lean declares only Etingof.CochainComplex' (the complex object); cohomology and exactness are named in the docstring's Mathlib-correspondence but have no Lean declaration (docstring/decl mismatch).",
+    "fidelity_note": "[re-verified review #7183, 2026-07-21] Repair landed; statement faithful and non-vacuous, builds, axiom-clean (no sorryAx). [fidelity wave 7] Definition 7.8.1 names four notions: complex, differentials, cohomology H^i=Ker(d_i)/Im(d_{i-1}), exact-in-i-th-term, exact sequence. Lean declares only Etingof.CochainComplex' (the complex object); cohomology and exactness are named in the docstring's Mathlib-correspondence but have no Lean declaration (docstring/decl mismatch).",
     "fidelity_issue": 5839
   },
   {
@@ -6579,10 +6579,10 @@
     "start_line": 13,
     "end_line": 20,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "needs_statement": true,
     "sorry_free": true,
-    "fidelity_note": "[fidelity wave 7] Definition 7.8.2 defines a short EXACT sequence (0→X→Y→Z→0 exact; X→Y mono, Y→Z epi, Y/X→Z iso). Lean declares Etingof.ShortComplex := CategoryTheory.ShortComplex (a short complex, satisfied by the zero complex); the defining ShortExact predicate is dropped.",
+    "fidelity_note": "[re-verified review #7183, 2026-07-21] Repair landed; statement faithful and non-vacuous, builds, axiom-clean (no sorryAx). [fidelity wave 7] Definition 7.8.2 defines a short EXACT sequence (0→X→Y→Z→0 exact; X→Y mono, Y→Z epi, Y/X→Z iso). Lean declares Etingof.ShortComplex := CategoryTheory.ShortComplex (a short complex, satisfied by the zero complex); the defining ShortExact predicate is dropped.",
     "fidelity_issue": 5840
   },
   {
@@ -6754,11 +6754,11 @@
     "start_line": 13,
     "end_line": 24,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "needs_statement": false,
     "notes": "hom_left_exact via inferInstance (coyoneda); tensor_right_exact via inferInstance (MonoidalClosed left adjoint)",
     "sorry_free": true,
-    "fidelity_note": "[coverage] Three distinct gaps: (1) Part (i) — Ind_K^G and Res_K^G exactness is ENTIRELY absent. No Lean declaration exists for either functor being exact (only additivity and linearity appear in Exam",
+    "fidelity_note": "[re-verified review #7183, 2026-07-21] Repair landed; statement faithful and non-vacuous, builds, axiom-clean (no sorryAx). [coverage] Three distinct gaps: (1) Part (i) — Ind_K^G and Res_K^G exactness is ENTIRELY absent. No Lean declaration exists for either functor being exact (only additivity and linearity appear in Exam",
     "fidelity_issue": 5647
   },
   {
