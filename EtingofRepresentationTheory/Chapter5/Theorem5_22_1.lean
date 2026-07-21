@@ -3739,6 +3739,106 @@ theorem finrank_schurModule_eq_eval_one (N : ℕ) (lam : Fin N → ℕ)
   -- (internal direct sum of the diagonal-torus eigenspaces). See issue tracker.
   sorry
 
+/-! ### Principal specialization `x_i ↦ q^i`
+
+The alternant determinants `A_{λ+δ}` and the Vandermonde `Δ` both vanish at the
+all-ones point, so `S_λ(1, …, 1)` cannot be read off directly. We instead
+substitute `x_i ↦ q^i` into the defining alternant identity, obtaining an
+identity in `ℚ[q]`; both sides carry the same power of `(q − 1)`, which we cancel
+before evaluating at `q = 1`. The `q → 1` limit becomes an honest evaluation. -/
+
+/-- The single-pair factor `q^b − q^a = (q − 1) · qFactor a b` (for `b ≤ a`),
+where `qFactor a b = -q^b · (1 + q + ⋯ + q^{a-b-1})` has value `-(a − b)` at
+`q = 1`. -/
+private noncomputable def qFactor (a b : ℕ) : Polynomial ℚ :=
+  (-(Polynomial.X : Polynomial ℚ) ^ b) *
+    ∑ t ∈ Finset.range (a - b), (Polynomial.X : Polynomial ℚ) ^ t
+
+private lemma qFactor_mul (a b : ℕ) (h : b ≤ a) :
+    (Polynomial.X : Polynomial ℚ) ^ b - (Polynomial.X : Polynomial ℚ) ^ a
+      = ((Polynomial.X : Polynomial ℚ) - 1) * qFactor a b := by
+  have h1 : (∑ t ∈ Finset.range (a - b), (Polynomial.X : Polynomial ℚ) ^ t) *
+      ((Polynomial.X : Polynomial ℚ) - 1) = (Polynomial.X : Polynomial ℚ) ^ (a - b) - 1 :=
+    geom_sum_mul _ _
+  have h2 : (Polynomial.X : Polynomial ℚ) ^ b * (Polynomial.X : Polynomial ℚ) ^ (a - b)
+      = (Polynomial.X : Polynomial ℚ) ^ a := by rw [← pow_add]; congr 1; omega
+  unfold qFactor
+  symm
+  calc ((Polynomial.X : Polynomial ℚ) - 1) *
+          ((-(Polynomial.X : Polynomial ℚ) ^ b) *
+            ∑ t ∈ Finset.range (a - b), (Polynomial.X : Polynomial ℚ) ^ t)
+      = (-(Polynomial.X : Polynomial ℚ) ^ b) *
+          ((∑ t ∈ Finset.range (a - b), (Polynomial.X : Polynomial ℚ) ^ t) *
+            ((Polynomial.X : Polynomial ℚ) - 1)) := by ring
+    _ = (-(Polynomial.X : Polynomial ℚ) ^ b) *
+          ((Polynomial.X : Polynomial ℚ) ^ (a - b) - 1) := by rw [h1]
+    _ = (Polynomial.X : Polynomial ℚ) ^ b -
+          (Polynomial.X : Polynomial ℚ) ^ b * (Polynomial.X : Polynomial ℚ) ^ (a - b) := by ring
+    _ = (Polynomial.X : Polynomial ℚ) ^ b - (Polynomial.X : Polynomial ℚ) ^ a := by rw [h2]
+
+private lemma eval_one_qFactor (a b : ℕ) :
+    Polynomial.eval 1 (qFactor a b) = -((a - b : ℕ) : ℚ) := by
+  unfold qFactor
+  rw [Polynomial.eval_mul, Polynomial.eval_neg, Polynomial.eval_pow, Polynomial.eval_X,
+      one_pow, Polynomial.eval_geom_sum]
+  simp
+
+/-- Principal specialization sends an alternant determinant to the Vandermonde
+product `∏_{i<j} (q^{e_j} − q^{e_i})`. -/
+private lemma aeval_pow_alternant_det (N : ℕ) (e : Fin N → ℕ) :
+    MvPolynomial.aeval (fun i : Fin N => (Polynomial.X : Polynomial ℚ) ^ (i : ℕ))
+        (alternantMatrix N e).det =
+      ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
+        ((Polynomial.X : Polynomial ℚ) ^ e j - (Polynomial.X : Polynomial ℚ) ^ e i) := by
+  rw [AlgHom.map_det]
+  rw [show (MvPolynomial.aeval
+        (fun i : Fin N => (Polynomial.X : Polynomial ℚ) ^ (i : ℕ))).mapMatrix (alternantMatrix N e)
+      = Matrix.transpose (Matrix.vandermonde (fun k : Fin N => (Polynomial.X : Polynomial ℚ) ^ e k))
+        from ?_]
+  · rw [Matrix.det_transpose, Matrix.det_vandermonde]
+  · ext i j
+    simp only [AlgHom.mapMatrix_apply, Matrix.map_apply, alternantMatrix, Matrix.of_apply,
+      map_pow, MvPolynomial.aeval_X, Matrix.transpose_apply, Matrix.vandermonde_apply]
+    rw [← pow_mul, ← pow_mul, Nat.mul_comm]
+
+/-- Factor `(q − 1)^P` out of the Vandermonde product, where `P = ∑_i |Ioi i|`. -/
+private lemma prod_factor_X_sub_one (N : ℕ) (e : Fin N → ℕ)
+    (hmono : ∀ i j : Fin N, i < j → e j ≤ e i) :
+    (∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
+        ((Polynomial.X : Polynomial ℚ) ^ e j - (Polynomial.X : Polynomial ℚ) ^ e i))
+      = ((Polynomial.X : Polynomial ℚ) - 1) ^ (∑ i : Fin N, (Finset.Ioi i).card) *
+          ∏ i : Fin N, ∏ j ∈ Finset.Ioi i, qFactor (e i) (e j) := by
+  have inner : ∀ i : Fin N,
+      (∏ j ∈ Finset.Ioi i, ((Polynomial.X : Polynomial ℚ) - 1) * qFactor (e i) (e j))
+        = ((Polynomial.X : Polynomial ℚ) - 1) ^ (Finset.Ioi i).card *
+            ∏ j ∈ Finset.Ioi i, qFactor (e i) (e j) := by
+    intro i
+    rw [Finset.prod_mul_distrib, Finset.prod_const]
+  rw [Finset.prod_congr rfl fun i _ => Finset.prod_congr rfl fun j hj =>
+      qFactor_mul (e i) (e j) (hmono i j (Finset.mem_Ioi.mp hj))]
+  rw [Finset.prod_congr rfl fun i _ => inner i]
+  rw [Finset.prod_mul_distrib, Finset.prod_pow_eq_pow_sum]
+
+private lemma eval_one_prod_qFactor (N : ℕ) (e : Fin N → ℕ) :
+    Polynomial.eval 1 (∏ i : Fin N, ∏ j ∈ Finset.Ioi i, qFactor (e i) (e j))
+      = ∏ i : Fin N, ∏ j ∈ Finset.Ioi i, (-((e i - e j : ℕ) : ℚ)) := by
+  rw [Polynomial.eval_prod]
+  refine Finset.prod_congr rfl fun i _ => ?_
+  rw [Polynomial.eval_prod]
+  refine Finset.prod_congr rfl fun j _ => ?_
+  exact eval_one_qFactor (e i) (e j)
+
+private lemma eval_one_aeval_pow (N : ℕ) (p : MvPolynomial (Fin N) ℚ) :
+    Polynomial.eval 1 (MvPolynomial.aeval
+        (fun i : Fin N => (Polynomial.X : Polynomial ℚ) ^ (i : ℕ)) p)
+      = MvPolynomial.eval (fun _ => (1 : ℚ)) p := by
+  induction p using MvPolynomial.induction_on with
+  | C a => simp
+  | add p q hp hq => simp [hp, hq]
+  | mul_X p i hp =>
+    simp only [map_mul, MvPolynomial.aeval_X, MvPolynomial.eval_X, Polynomial.eval_mul,
+      Polynomial.eval_pow, Polynomial.eval_X, one_pow, mul_one, hp]
+
 /-- The Schur polynomial evaluated at the all-ones point is the Weyl dimension
 product: `S_λ(1, …, 1) = ∏_{i<j} (λ_i − λ_j + j − i)/(j − i)`.
 
@@ -3749,7 +3849,94 @@ value is recovered by the standard principal-specialization / L'Hôpital limit
 theorem schurPoly_eval_one_eq_weylDimension (N : ℕ) (lam : Fin N → ℕ)
     (hlam : Antitone lam) :
     MvPolynomial.eval (fun _ => (1 : ℚ)) (schurPoly N lam) = weylDimension N lam := by
-  sorry
+  -- Monotonicity of the exponent sequences on pairs `i < j`.
+  have hmono_delta : ∀ i j : Fin N, i < j → vandermondeExps N j ≤ vandermondeExps N i := by
+    intro i j hij
+    have hij' : (i : ℕ) < (j : ℕ) := Fin.lt_def.mp hij
+    simp only [vandermondeExps]; omega
+  have hmono_eps : ∀ i j : Fin N, i < j → shiftedExps N lam j ≤ shiftedExps N lam i := by
+    intro i j hij
+    have hij' : (i : ℕ) < (j : ℕ) := Fin.lt_def.mp hij
+    have hlij : lam j ≤ lam i := hlam (le_of_lt hij)
+    simp only [shiftedExps]; omega
+  -- Cast identities for the exponent differences.
+  have hcast_delta : ∀ i j : Fin N, i < j →
+      ((vandermondeExps N i - vandermondeExps N j : ℕ) : ℚ) = ((j : ℕ) : ℚ) - ((i : ℕ) : ℚ) := by
+    intro i j hij
+    have hle := hmono_delta i j hij
+    have hi : (i : ℕ) ≤ N - 1 := Nat.le_sub_one_of_lt i.isLt
+    have hj : (j : ℕ) ≤ N - 1 := Nat.le_sub_one_of_lt j.isLt
+    simp only [vandermondeExps] at hle ⊢
+    rw [Nat.cast_sub hle, Nat.cast_sub hi, Nat.cast_sub hj]; ring
+  have hcast_eps : ∀ i j : Fin N, i < j →
+      ((shiftedExps N lam i - shiftedExps N lam j : ℕ) : ℚ)
+        = ((lam i : ℚ) - (lam j : ℚ)) + (((j : ℕ) : ℚ) - ((i : ℕ) : ℚ)) := by
+    intro i j hij
+    have hle := hmono_eps i j hij
+    have hi : (i : ℕ) ≤ N - 1 := Nat.le_sub_one_of_lt i.isLt
+    have hj : (j : ℕ) ≤ N - 1 := Nat.le_sub_one_of_lt j.isLt
+    simp only [shiftedExps] at hle ⊢
+    rw [Nat.cast_sub hle, Nat.cast_add, Nat.cast_add, Nat.cast_sub hi, Nat.cast_sub hj]; ring
+  -- Principal specialization `x_i ↦ q^i` applied to the defining alternant identity.
+  have hmaster := congrArg
+    (MvPolynomial.aeval (fun i : Fin N => (Polynomial.X : Polynomial ℚ) ^ (i : ℕ)))
+    (schurPoly_mul_vandermonde N lam)
+  rw [map_mul, aeval_pow_alternant_det, aeval_pow_alternant_det] at hmaster
+  rw [prod_factor_X_sub_one N (shiftedExps N lam) hmono_eps,
+      prod_factor_X_sub_one N (vandermondeExps N) hmono_delta] at hmaster
+  set P : ℕ := ∑ i : Fin N, (Finset.Ioi i).card with hP
+  set S := MvPolynomial.aeval (fun i : Fin N => (Polynomial.X : Polynomial ℚ) ^ (i : ℕ))
+      (schurPoly N lam) with hS
+  set Gδ := ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
+      qFactor (vandermondeExps N i) (vandermondeExps N j) with hGδ
+  set Gε := ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
+      qFactor (shiftedExps N lam i) (shiftedExps N lam j) with hGε
+  -- hmaster : S * ((X - 1) ^ P * Gδ) = (X - 1) ^ P * Gε
+  have hXne : ((Polynomial.X : Polynomial ℚ) - 1) ^ P ≠ 0 := by
+    apply pow_ne_zero
+    intro h
+    have := congrArg (Polynomial.eval (0 : ℚ)) h
+    simp at this
+  have hcancel : S * Gδ = Gε := by
+    apply mul_left_cancel₀ hXne
+    rw [← hmaster]; ring
+  -- Evaluate the polynomial identity at `q = 1`.
+  have hSval : Polynomial.eval 1 S = MvPolynomial.eval (fun _ => (1 : ℚ)) (schurPoly N lam) := by
+    rw [hS]; exact eval_one_aeval_pow N (schurPoly N lam)
+  have hGδval : Polynomial.eval 1 Gδ = ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
+      (-((vandermondeExps N i - vandermondeExps N j : ℕ) : ℚ)) := by
+    rw [hGδ]; exact eval_one_prod_qFactor N (vandermondeExps N)
+  have hGεval : Polynomial.eval 1 Gε = ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
+      (-((shiftedExps N lam i - shiftedExps N lam j : ℕ) : ℚ)) := by
+    rw [hGε]; exact eval_one_prod_qFactor N (shiftedExps N lam)
+  have heval := congrArg (Polynomial.eval 1) hcancel
+  rw [Polynomial.eval_mul, hSval, hGδval, hGεval] at heval
+  -- The denominator product is nonzero.
+  have hden_ne : (∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
+      (-((vandermondeExps N i - vandermondeExps N j : ℕ) : ℚ))) ≠ 0 := by
+    rw [Finset.prod_ne_zero_iff]; intro i _
+    rw [Finset.prod_ne_zero_iff]; intro j hj
+    simp only [Finset.mem_Ioi] at hj
+    rw [neg_ne_zero, Nat.cast_ne_zero]
+    have hij' : (i : ℕ) < (j : ℕ) := Fin.lt_def.mp hj
+    simp only [vandermondeExps]; omega
+  -- Identify the Weyl dimension product with the ratio of the two evaluated products.
+  have hweyl : weylDimension N lam
+      = (∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
+          (-((shiftedExps N lam i - shiftedExps N lam j : ℕ) : ℚ)))
+        / (∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
+          (-((vandermondeExps N i - vandermondeExps N j : ℕ) : ℚ))) := by
+    rw [show weylDimension N lam
+        = ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
+            ((-((shiftedExps N lam i - shiftedExps N lam j : ℕ) : ℚ))
+              / (-((vandermondeExps N i - vandermondeExps N j : ℕ) : ℚ))) from ?_]
+    · simp_rw [Finset.prod_div_distrib]
+    · rw [weylDimension]
+      refine Finset.prod_congr rfl fun i _ => Finset.prod_congr rfl fun j hj => ?_
+      have hij := Finset.mem_Ioi.mp hj
+      rw [neg_div_neg_eq, hcast_eps i j hij, hcast_delta i j hij]
+  rw [hweyl, eq_div_iff hden_ne]
+  exact heval
 
 /-- **Weyl dimension formula for `GL(V)`** (Etingof Theorem 5.22.1, part 3):
 the dimension of the Schur module `L_λ` is the Weyl dimension product
