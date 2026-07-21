@@ -8,21 +8,20 @@ import EtingofRepresentationTheory.Chapter3.Theorem3_2_2
 /-!
 # Theorem 3.5.4 (finiteness half): finitely many irreducibles, bounded by `dim A`
 
-Theorem 3.5.4 (`Etingof.structure_mod_radical`) formalizes the *isomorphism* clause of the
+Theorem 3.5.4 (`Etingof.structure_mod_radical`) formalizes the isomorphism clause of the
 book statement, but takes the finiteness of the family of irreducibles as a hypothesis
 (`[Fintype ι]` plus a completeness assumption). This file discharges the two ingredients the
-book uses to *prove* finiteness (Theorem 3.5.4, first two paragraphs):
+book uses to prove finiteness (Theorem 3.5.4, first two paragraphs):
 
-* `Etingof.simple_finiteDimensional` — every irreducible representation is finite dimensional.
+* `Etingof.simple_finiteDimensional`: every irreducible representation is finite dimensional.
   Book: for nonzero `v ∈ V`, `Av ⊆ V` is a finite dimensional subrepresentation, and as `V`
   is irreducible with `Av ≠ 0`, `V = Av` is finite dimensional.
 
-* `Etingof.card_irreducibles_le_finrank` — any finite family of pairwise nonisomorphic finite
+* `Etingof.card_irreducibles_le_finrank`: any finite family of pairwise nonisomorphic finite
   dimensional irreducibles has cardinality at most `dim A`. Book: by Theorem 3.2.2 the map
   `⊕ᵢ ρᵢ : A → ⊕ᵢ End Vᵢ` is surjective, so `r ≤ ∑ᵢ dim End Vᵢ ≤ dim A`.
 
 Together these say `A` has only finitely many (at most `dim A`) irreducibles up to isomorphism.
-This is additive: `structure_mod_radical` is unchanged.
 -/
 
 open Module

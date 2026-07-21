@@ -16,8 +16,8 @@ and Krull-Schmidt uniqueness identifies the multiset of indecomposable summands 
 that of `Wⁿ`. Since every multiplicity is scaled by the same `n`, the per-iso-class
 multiplicities of `V` and `W` agree, which forces `V ≅ W`.
 
-This file supplies the reusable helper `Etingof.IsIndecomposable.of_linearEquiv`
-(indecomposability is an isomorphism invariant) and the main theorem `iso_pow_cancel`.
+The reusable helper `Etingof.IsIndecomposable.of_linearEquiv` records that
+indecomposability is an isomorphism invariant, and the main theorem is `iso_pow_cancel`.
 -/
 
 open scoped DirectSum
@@ -261,8 +261,8 @@ private theorem powerDecomp {A M : Type*} [Ring A] [AddCommGroup M] [Module A M]
   exact ⟨hI, hN, hS, hInd⟩
 
 /-- **Fibre-counting cancellation.** If two families `f : Fin p → C`, `g : Fin q → C` become
-equinumerous after taking `n` disjoint copies of each fibre — witnessed by a bijection
-`σ : (Fin n × Fin p) ≃ (Fin n × Fin q)` that matches the `C`-labels of the second coordinates —
+equinumerous after taking `n` disjoint copies of each fibre, witnessed by a bijection
+`σ : (Fin n × Fin p) ≃ (Fin n × Fin q)` that matches the `C`-labels of the second coordinates,
 then already `f` and `g` have equinumerous fibres, so they are matched by a bijection
 `τ : Fin p ≃ Fin q` with `g (τ i) = f i`. This is the multiset cancellation `n • s = n • t ⟹ s = t`
 (for `n > 0`) specialised to the setting where `C` is the type of indecomposable iso-classes. -/
@@ -424,7 +424,7 @@ theorem iso_pow_cancel (k A V W : Type*) [Field k] [Ring A] [Algebra k A]
 
 /-- **Fibre-counting inequality.** Suppose that after taking `n` disjoint copies of each fibre of
 `f : Fin p → C` and adjoining an extra family `d : Fin r → C`, the result is equinumerous with the
-`n`-fold copies of the fibres of `g : Fin q → C` — witnessed by a bijection
+`n`-fold copies of the fibres of `g : Fin q → C`, witnessed by a bijection
 `σ : ((Fin n × Fin p) ⊕ Fin r) ≃ (Fin n × Fin q)` matching the `C`-labels. Then each `f`-fibre is
 no larger than the corresponding `g`-fibre, so there is an injection `φ : Fin p ↪ Fin q` with
 `g (φ i) = f i`. This is the multiplicity comparison `n • s ≤ n • t ⟹ s ≤ t` (for `n > 0`)
@@ -547,7 +547,7 @@ Krull-Schmidt (Problem 3.8.3) decomposes `V`, `W`, `Y` into indecomposables; ass
 `Vⁿ`-power decomposition of the summand `R ≅ Vⁿ` with a decomposition of `Y` gives one
 indecomposable decomposition of `Wⁿ`, which Krull-Schmidt uniqueness matches against the
 `Wⁿ`-power decomposition. Comparing fibres per indecomposable iso-class gives, after cancelling
-the common factor `n`, an injection `φ : Fin p ↪ Fin q` with `DV i ≅ DW (φ i)`; feeding it to
+the common factor `n`, an injection `φ : Fin p ↪ Fin q` with `DV i ≅ DW (φ i)`; passing it to
 `summand_of_index_embedding` exhibits `V` as a direct summand of `W`. -/
 theorem directSummand_pow_cancel (k A V W : Type*) [Field k] [Ring A] [Algebra k A]
     [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]

@@ -26,7 +26,7 @@ representation is `ρ₀ = ρ`, the bundled action `A →ₗ[k] End_k V`.
 `Ext¹(V, V) = 0` reuses `Etingof.Problem3_9_1.Ext1`, phrased as `Subsingleton (Ext1 …)`.
 
 The deformation data (`FormalDeformation`, the constant deformation, the
-isomorphism relation) is genuinely constructed and part (a) is proved (`sorry`-free); part (b)
+isomorphism relation) is constructed and part (a) is proved; part (b)
 is recorded as an open proposition (`Problem3_9_4b`), matching the book's open-ended question.
 -/
 
@@ -39,7 +39,7 @@ variable (k : Type*) (A : Type*) (V : Type*)
   [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
 
 /-- The base representation `ρ₀ = ρ`, the action of `A` on `V` bundled as a `k`-linear map
-`A →ₗ[k] End_k V`. Genuinely constructed via `Algebra.lsmul`. -/
+`A →ₗ[k] End_k V`, constructed via `Algebra.lsmul`. -/
 noncomputable def baseRho : A →ₗ[k] (V →ₗ[k] V) :=
   (Algebra.lsmul k k V).toLinearMap
 
@@ -57,7 +57,7 @@ structure FormalDeformation where
       = ∑ p ∈ Finset.antidiagonal n, (coeff p.1 a).comp (coeff p.2 b)
 
 /-- The **trivial (constant) deformation** `ρ̃ = ρ`: `ρ₀ = ρ` and `ρₙ = 0` for `n ≥ 1`. The
-coefficient data is genuinely constructed and the multiplicativity obligation is proved. -/
+coefficient data is constructed and the multiplicativity obligation is proved. -/
 noncomputable def constDeformation : FormalDeformation k A V where
   coeff n := if n = 0 then baseRho k A V else 0
   base_eq := by simp
@@ -143,7 +143,7 @@ lemma coboundaryOf_zero : coboundaryOf k A V V (0 : Module.End k V) = 0 := by
   refine LinearMap.ext fun a => ?_
   simp [coboundaryOf_apply]
 
-/-- Every element of the coboundary subspace is genuinely a coboundary `dX`
+/-- Every element of the coboundary subspace is a coboundary `dX`
 (the coboundary map is linear, so its range is already a submodule). -/
 lemma exists_of_mem_coboundaries {g : A →ₗ[k] Module.End k V}
     (hg : g ∈ coboundaries k A V V) : ∃ X, coboundaryOf k A V V X = g := by

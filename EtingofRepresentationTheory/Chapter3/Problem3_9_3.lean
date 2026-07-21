@@ -9,7 +9,7 @@ Let `Q` be a quiver without oriented cycles and `P_Q` its path algebra. This pro
 find the irreducible representations of `P_Q`, compute `Ext¹` between them, and classify the
 2-dimensional representations.
 
-Representations of the path algebra `P_Q` are the same as **quiver representations** of `Q`:
+Representations of the path algebra `P_Q` are the same as quiver representations of `Q`:
 a vector space at each vertex together with a linear map for each arrow. We use the project's
 `Etingof.QuiverRepresentation k Q` (Definition 2.8.3) and reuse the `Ext¹` differential and
 simple representations from `Chapter6/Problem6_9_3` (which formalises the same
@@ -23,9 +23,6 @@ simple representations from `Chapter6/Problem6_9_3` (which formalises the same
 * **2-dimensional representations.** A representation of total dimension `2` is either
   decomposable (a sum `S_i ⊕ S_j` of two simples) or indecomposable, in which case it is the
   representation supported on a single arrow `a : i → j` with `a` acting as an isomorphism.
-
-All objects are genuinely constructed (reusing the quiver-representation
-infrastructure) and all parts are proved (`sorry`-free).
 -/
 
 namespace Etingof.Problem3_9_3
@@ -35,12 +32,12 @@ open Etingof.Problem6_9_3 (simpleRep Ext1Vanishes dimVec)
 
 variable {k Q : Type*} [Field k] [Quiver Q]
 
-/-- A quiver has **no oriented cycles** if the only path from a vertex to itself is the
+/-- A quiver has no oriented cycles if the only path from a vertex to itself is the
 trivial (nil) path. -/
 def NoOrientedCycles (Q : Type*) [Quiver Q] : Prop :=
   ∀ (i : Q) (p : Quiver.Path i i), p = Quiver.Path.nil
 
-/-- A quiver representation is **irreducible** (simple) if it is nonzero and its only
+/-- A quiver representation is irreducible (simple) if it is nonzero and its only
 sub-representations are `0` and the whole representation. A sub-representation is a choice of
 subspace `W v ⊆ ρ.obj v` at each vertex, stable under all arrow maps. -/
 def IsIrreducible (ρ : QuiverRepresentation k Q) : Prop :=
@@ -120,7 +117,7 @@ cycles, every irreducible representation of `P_Q` is isomorphic to a simple repr
 
 The acyclicity and finiteness hypotheses are essential: over a quiver with an oriented cycle
 (e.g. a single loop `0 ⟶ 0` acting as the identity on `k`) there are irreducible
-representations that are *not* isomorphic to any vertex simple `S_i`. The proof shows that,
+representations that are not isomorphic to any vertex simple `S_i`. The proof shows that,
 for a finite acyclic quiver, all arrow maps of an irreducible representation must vanish (a
 well-founded induction along the arrow relation), so the representation is concentrated at a
 single vertex where it is a `1`-dimensional simple `k`-module. -/
@@ -176,7 +173,7 @@ theorem irreducible_isSimpleRep [DecidableEq Q] [Finite Q]
       rw [hbot b] at hle
       rw [← LinearMap.range_eq_bot]
       exact le_bot_iff.mp hle
-    · -- All `W b = ⊤`: a well-founded induction shows every carrier is trivial — impossible.
+    · -- All `W b = ⊤`: a well-founded induction shows every carrier is trivial, a contradiction.
       exfalso
       have hAllTrivial : ∀ v, (⊤ : Submodule k (ρ.obj v)) = ⊥ := by
         intro v
@@ -328,8 +325,8 @@ theorem ext1_simpleRep_vanishes_iff [DecidableEq Q] (i j : Q) :
       exact LinearMap.ext fun x => Subsingleton.elim _ _
 
 /-- **Classification of 2-dimensional representations.** For a quiver without oriented cycles,
-a representation `ρ` of total dimension `2` is either decomposable — necessarily a direct sum
-`S_i ⊕ S_j` of two simples — or indecomposable, in which case there is a single arrow
+a representation `ρ` of total dimension `2` is either decomposable, necessarily a direct sum
+`S_i ⊕ S_j` of two simples, or indecomposable, in which case there is a single arrow
 `a : i → j` (with `i ≠ j`, since `Q` is acyclic) acting as an isomorphism, and `ρ` is the
 representation supported on `a`. -/
 theorem two_dim_classification [DecidableEq Q] [Fintype Q]

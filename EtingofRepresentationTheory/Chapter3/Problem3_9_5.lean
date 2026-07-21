@@ -49,12 +49,11 @@ is symmetric, matching the book's relations with `aᵢⱼ = B(xᵢ, xⱼ)`.
   semisimple quotient `Cl(V) / Rad(Cl(V))` is the (nondegenerate) Clifford algebra of the
   induced form on `V` modulo the radical of `B`.
 
-A "matrix algebra" is phrased as `Module.End ℂ S` for a finite dimensional `S` — the
+A "matrix algebra" is phrased as `Module.End ℂ S` for a finite dimensional `S`: the
 endomorphism algebra of its `2ⁿ`-dimensional spinor representation, which is exactly the
 statement that `S` is the unique irreducible module.
 
-The quadratic form and Clifford algebra are genuinely constructed and both parts are proved
-(`sorry`-free).
+The quadratic form and Clifford algebra are constructed and both parts are proved.
 -/
 
 namespace Etingof.Problem3_9_5
@@ -63,7 +62,7 @@ variable {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
   (B : LinearMap.BilinForm ℂ V)
 
 /-- The quadratic form `Q(v) = (v, v) = B v v` attached to the symmetric bilinear form `B`.
-Genuinely constructed via `LinearMap.BilinMap.toQuadraticMap`. -/
+Constructed via `LinearMap.BilinMap.toQuadraticMap`. -/
 noncomputable abbrev quadForm : QuadraticForm ℂ V :=
   LinearMap.BilinMap.toQuadraticMap B
 
@@ -137,7 +136,7 @@ theorem isSemisimpleRing_of_traceForm_nondegenerate
 For an orthogonal basis `v` of `V` (with respect to `B`), the `2^N` ordered products
 `e S = ∏_{i ∈ S} ι(vᵢ)` (the product taken in increasing order of `i`) form a basis of `Cl(V)`.
 Because the basis is orthogonal, the generators satisfy the clean relations
-`ι(vᵢ) ι(vⱼ) = - ι(vⱼ) ι(vᵢ)` for `i ≠ j` and `ι(vᵢ)² = B(vᵢ,vᵢ)`, with **no** lower-order
+`ι(vᵢ) ι(vⱼ) = - ι(vⱼ) ι(vᵢ)` for `i ≠ j` and `ι(vᵢ)² = B(vᵢ,vᵢ)`, with no lower-order
 correction terms. This makes left multiplication by `e S` a signed permutation of the monomial
 basis, from which `tr(L_{e S})` and the nondegeneracy of the trace form drop out.
 -/
@@ -1376,7 +1375,7 @@ in the radical of `B` (`∀ w, B v w = 0`). Set `a := ι v ∈ Cl(V)`. Then:
 For every `y`, `(a*y)^2 = a*y*a*y = (a*y*a)*y = 0`, so `1 + a*y` is a unit with inverse `1 - a*y`.
 By `Ideal.mem_jacobson_bot` this puts `a` in the Jacobson radical. But `a = ι v ≠ 0` (the map `ι`
 is injective in characteristic `≠ 2`, via `CliffordAlgebra.equivExterior`), while a semisimple ring
-has trivial Jacobson radical (`IsSemisimpleRing.jacobson_eq_bot`) — contradiction. -/
+has trivial Jacobson radical (`IsSemisimpleRing.jacobson_eq_bot`), a contradiction. -/
 theorem not_isSemisimpleRing_of_degenerate
     (hsymm : ∀ x y, B x y = B y x) (hdeg : ¬ B.Nondegenerate) :
     ¬ IsSemisimpleRing (CliffAlg B) := by

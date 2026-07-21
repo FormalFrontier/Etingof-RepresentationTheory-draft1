@@ -452,9 +452,9 @@ end PartB
 
 /-! ## Part (c): deducing Theorem 3.3.1
 
-Part (c) asks to deduce Theorem 3.3.1 from (a) and (b). The full statement — for
+Part (c) asks to deduce Theorem 3.3.1 from (a) and (b). The full statement (for
 `A = ⊕ᵢ Mat_{dᵢ}(k)`, the irreducibles are the `k^{dᵢ}` and every finite dimensional
-representation is a direct sum of copies of them — is recorded (and proved) as
+representation is a direct sum of copies of them) is recorded and proved as
 `Etingof.irreducible_reps_of_matrix_algebra` in `Theorem3_3_1`. -/
 
 end Etingof.Problem3_3_3
