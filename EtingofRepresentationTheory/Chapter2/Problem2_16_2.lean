@@ -9,18 +9,18 @@ Let `𝔤` be the two-dimensional Lie algebra with basis `X, Y` and commutation 
 
 The problem asks to classify the irreducible finite-dimensional representations in characteristic
 `0` and characteristic `p`, and whether Lie's theorem holds in characteristic `p`. We render the
-book's *answers* as the statements:
+book's answers as the statements:
 
 * **Characteristic `0`** (algebraically closed, so Lie's theorem applies): every irreducible
   finite-dimensional representation is `1`-dimensional, and on such a representation `Y` acts as
   `0`. So the irreducibles are classified by the scalar `X ↦ λ ∈ k` (with `Y ↦ 0`).
-* **Characteristic `p`**: Lie's theorem is **false** — there exist irreducible finite-dimensional
+* **Characteristic `p`**: Lie's theorem is false: there exist irreducible finite-dimensional
   representations of dimension `> 1` (in fact of dimension `p`).
 
-The characteristic-`0` cluster (`bracket_X_Y`, `charZero_irreducible_finrank_one`,
-`charZero_Y_acts_zero`) is proved sorry-free below, along with the supporting fact that `𝔤` is
-solvable (`instIsSolvable`). The characteristic-`p` failure `lie_theorem_fails_charP` is also
-proved: `section CharP` constructs the `p`-dimensional irreducible `𝔤`-module (`X` diagonal with
+The characteristic-`0` results (`bracket_X_Y`, `charZero_irreducible_finrank_one`,
+`charZero_Y_acts_zero`) are established below, along with the supporting fact that `𝔤` is
+solvable (`instIsSolvable`). The characteristic-`p` failure `lie_theorem_fails_charP` follows from
+`section CharP`, which constructs the `p`-dimensional irreducible `𝔤`-module (`X` diagonal with
 distinct eigenvalues `0, …, p-1`, `Y` the cyclic shift) and instantiates the statement at it.
 -/
 
@@ -264,7 +264,7 @@ noncomputable def oneDimRep (μ : k) : g k →ₗ⁅k⁆ Module.End k (oneDimMod
 noncomputable instance (μ : k) : LieRingModule (g k) (oneDimModule k μ) :=
   LieRingModule.compLieHom (oneDimModule k μ) (oneDimRep k μ)
 
-/-- The induced structure is a genuine Lie module. -/
+/-- The induced structure is a Lie module. -/
 noncomputable instance (μ : k) : LieModule k (g k) (oneDimModule k μ) :=
   LieModule.compLieHom (oneDimModule k μ) (oneDimRep k μ)
 
@@ -341,7 +341,7 @@ We realize the book's counterexample to Lie's theorem in characteristic `p`. Let
 (functions on `ℤ/p`). We let `X` act by the diagonal operator `diagOp` with the `p` distinct
 eigenvalues `0, 1, …, p-1` (the image of `ℤ/p` in `k` under the prime-field embedding) and `Y`
 act by the cyclic shift `shiftOp`. These satisfy `[diagOp, shiftOp] = shiftOp`, matching
-`[X, Y] = Y`, so they assemble into a representation `ρ : 𝔤 → End k M`. The resulting module is
+`[X, Y] = Y`, so they define a representation `ρ : 𝔤 → End k M`. The resulting module is
 irreducible of dimension `p > 1`, so Lie's theorem fails.
 
 Because the counterexample module `k^{ℤ/p}` lives in the same universe as `k`, and the theorem
@@ -489,7 +489,7 @@ theorem coe_Y : (↑(Y k) : Matrix (Fin 2) (Fin 2) k) = Matrix.single 0 1 1 := r
 noncomputable instance repModule : LieRingModule (g k) (ZMod p → k) :=
   LieRingModule.compLieHom _ (ρ k p)
 
-/-- The induced module is a genuine Lie module. -/
+/-- The induced module is a Lie module. -/
 noncomputable instance repLieModule : LieModule k (g k) (ZMod p → k) :=
   LieModule.compLieHom _ (ρ k p)
 
@@ -618,7 +618,7 @@ theorem repModule_irreducible : LieModule.IsIrreducible k (g k) (ZMod p → k) :
       have hlt : (vsupp w').card < n := hcard ▸ Finset.card_lt_card hss
       exact IH _ hlt w' hw'N hw'0 rfl
 
-/-- **Characteristic `p`.** Lie's theorem fails: it is **not** the case that every irreducible
+/-- **Characteristic `p`.** Lie's theorem fails: it is not the case that every irreducible
 finite-dimensional representation of `𝔤` is `1`-dimensional. The `p`-dimensional module `k^{ℤ/p}`
 built above is an explicit irreducible counterexample.
 

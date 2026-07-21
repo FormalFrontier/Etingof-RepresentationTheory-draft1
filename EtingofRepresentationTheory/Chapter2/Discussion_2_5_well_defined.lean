@@ -30,8 +30,8 @@ variable (k A : Type*) [CommRing k] [Ring A] [Algebra k A]
 
 /-- **`A/I` is an algebra.** For a two-sided ideal `I` of an algebra `A`, the quotient `A/I`
 (modelled as `I.ringCon.Quotient`) is again a `k`-algebra. The well-definedness of the
-multiplication `(a + I)(b + I) := ab + I` — checked by hand in the book using that `I` is both a
-left and a right ideal — is precisely the fact that `I.ringCon` is a ring congruence, after which
+multiplication `(a + I)(b + I) := ab + I`, checked by hand in the book using that `I` is both a
+left and a right ideal, is precisely the fact that `I.ringCon` is a ring congruence, after which
 the algebra structure is automatic. -/
 example (I : TwoSidedIdeal A) : Algebra k I.ringCon.Quotient := inferInstance
 

@@ -2,18 +2,18 @@ import EtingofRepresentationTheory.Chapter2.Sl2SemisimpleDecomposition
 import EtingofRepresentationTheory.Chapter2.Sl2NullitySequence
 
 /-!
-# Uniqueness of the `sl(2)`-structure from the raising operator (Problem 2.15.1(l), piece 4)
+# Uniqueness of the `sl(2)`-structure from the raising operator (Problem 2.15.1(l))
 
-This file assembles the *uniqueness* half of Etingof Problem 2.15.1(l): a finite-dimensional
+The uniqueness half of Etingof Problem 2.15.1(l): a finite-dimensional
 complex `sl(2)`-module is determined up to isomorphism by the nullity sequence
-`k ↦ dim ker (E^k)` of its raising operator `E = ρ(e)`. The deliverable is
+`k ↦ dim ker (E^k)` of its raising operator `E = ρ(e)`, stated as
 
 ```
 sl2Rep_iso_of_e_jordanType_eq :
   (∀ k, dim ker ((toEnd ℂ sl2 V e)^k) = dim ker ((toEnd ℂ sl2 W e)^k)) → Nonempty (V ≃ₗ⁅ℂ,sl2⁆ W).
 ```
 
-The proof composes three previously landed structural pieces:
+The proof combines three structural results:
 
 * **Semisimple decomposition** (`sl2Module_decomposition`, `Sl2SemisimpleDecomposition.lean`):
   `V ≃ₗ⁅ℂ,sl2⁆ ∀ i, V_{n i}` onto a block-diagonal sum of standard irreducibles.
@@ -22,7 +22,7 @@ The proof composes three previously landed structural pieces:
 * **Multiset inversion** (`nullitySeq_injective`, `Sl2NullitySequence.lean`): the nullity
   sequence is a complete invariant of the multiset of block sizes.
 
-The glue supplied here:
+The remaining results:
 
 * `intertwine_ker_finrank`: a linear equivalence intertwining two operators identifies their
   kernels, so kernel dimension is an intertwining invariant. Applied to the raising operator,
@@ -181,8 +181,8 @@ noncomputable def blockCastLie {a b : ℕ} (h : a = b) :
     (Fin (a + 1) → ℂ) ≃ₗ⁅ℂ,sl2⁆ (Fin (b + 1) → ℂ) := by
   subst h; exact LieModuleEquiv.refl
 
-/-- Componentwise assembly: a family of `sl(2)`-module isomorphisms `e i : M i ≃ N i` assembles
-into an isomorphism of products. -/
+/-- Componentwise: a family of `sl(2)`-module isomorphisms `e i : M i ≃ N i` gives
+an isomorphism of products. -/
 noncomputable def piCongrRightLie {M N : ι → Type*}
     [∀ i, AddCommGroup (M i)] [∀ i, Module ℂ (M i)]
     [∀ i, LieRingModule sl2 (M i)] [∀ i, LieModule ℂ sl2 (M i)]

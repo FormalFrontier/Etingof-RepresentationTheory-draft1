@@ -37,7 +37,7 @@ def relSet : Set (FreeAbelianGroup (V × W)) :=
 def relSubgroup : AddSubgroup (FreeAbelianGroup (V × W)) :=
   AddSubgroup.closure (relSet k V W)
 
-/-- The quotient of the free abelian group `V • W` by the tensor-product relations — the
+/-- The quotient of the free abelian group `V • W` by the tensor-product relations: the
 "generators and relations" construction of `V ⊗ W`. -/
 abbrev tensorQuot := FreeAbelianGroup (V × W) ⧸ relSubgroup k V W
 
