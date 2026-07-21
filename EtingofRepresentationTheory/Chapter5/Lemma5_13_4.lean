@@ -14,8 +14,9 @@ The forward map sends φ to φ(e), and the inverse sends m to the map x ↦ x �
 
 ## Mathlib correspondence
 
-This is a standard result in module theory. Mathlib has idempotents and
-module homomorphisms, but this specific statement may need to be proved.
+This is a standard result in module theory. Mathlib supplies the idempotents
+and module homomorphisms; the equivalence itself is constructed sorry-free in
+this file as `Etingof.Lemma5_13_4`.
 -/
 
 /-- For an idempotent e in ring A and left A-module M, the evaluation map φ ↦ φ(e)
