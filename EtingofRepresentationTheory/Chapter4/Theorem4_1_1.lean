@@ -16,11 +16,14 @@ k[G] ≅ ⊕ᵢ Vᵢ^(dim Vᵢ), giving the dimension formula |G| = Σᵢ (dim V
 ## Mathlib correspondence
 
 Mathlib has `IsSemisimpleRing` and `MonoidAlgebra.instIsSemisimpleRing` for part (i).
-Part (i) is `Etingof.Theorem4_1_1_semisimple`. Part (ii) is formalized in two forms:
+Part (i) is `Etingof.Theorem4_1_1_semisimple`. Part (ii) is formalized in several forms:
 `Etingof.Theorem4_1_1_algebra_iso` gives the full content — the family of irreducible
 representations together with the algebra isomorphism `k[G] ≃ₐ[k] ⊕ᵢ End(Vᵢ)` and the
 sum-of-squares formula — while `Etingof.Theorem4_1_1_sum_of_squares` records only the
-dimension identity `Σᵢ (dim Vᵢ)² = |G|`.
+dimension identity `Σᵢ (dim Vᵢ)² = |G|`. `Etingof.Theorem4_1_1_regularRep_iso` upgrades the
+algebra isomorphism to an isomorphism of representations `k[G] ≅ ∏ᵢ End(Vᵢ)`, and
+`Etingof.Theorem4_1_1_regularRep_isotypic` records the book's final display — the explicit
+isotypic decomposition `k[G] ≅ ⊕ᵢ (dim Vᵢ) · Vᵢ`.
 -/
 
 open CategoryTheory
@@ -174,6 +177,80 @@ noncomputable def regularIso (D : IrrepDecomp k G) :
     ext : 1
     exact D.endIso_regularRep_comm g)
 
+/-! ### Isotypic decomposition `k[G] ≅ ⨁ᵢ Vᵢ^(dim Vᵢ)`
+
+The book's final display for part (ii) reads the equivariant Wedderburn isomorphism as an explicit
+decomposition of the regular representation into irreducibles with multiplicities:
+`k[G] ≅ ⊕ᵢ (dim Vᵢ) · Vᵢ`. This is obtained from `regularIso` by decomposing each summand
+`End(Vᵢ)`, carrying the left-multiplication action `f ↦ ρᵢ(g) ∘ f`, into `dim Vᵢ` copies of `Vᵢ`:
+post-composition acts within each "column" `f ↦ f(eⱼ)`, so `End(Vᵢ) ≅ ⊕_{Fin (dᵢ)} Vᵢ` as
+representations. Assembling over `i` gives `∏ᵢ End(Vᵢ) ≅ ∏ᵢ Vᵢ^(dᵢ)`. -/
+
+/-- The **isotypic multiplicity representation** `∏ᵢ Vᵢ^(dᵢ)`: for each irreducible
+`Vᵢ = columnFDRep i` of dimension `dᵢ`, take `dᵢ` copies indexed by `Fin (D.d i)`, with `G` acting
+diagonally `(g · w) i j = ρᵢ(g) (w i j)`. This is the right-hand side of the book's decomposition
+`k[G] ≅ ⊕ᵢ (dim Vᵢ) · Vᵢ`, with the action certified by `columnMultRep_apply`. -/
+noncomputable def columnMultRep (D : IrrepDecomp k G) :
+    Representation k G (Π i, Fin (D.d i) → (D.columnFDRep i)) where
+  toFun g := LinearMap.pi fun i =>
+    (((D.columnFDRep i).ρ g).compLeft (Fin (D.d i))).comp (LinearMap.proj i)
+  map_one' := by
+    ext w i j
+    simp [map_one]
+  map_mul' g h := by
+    ext w i j
+    simp [map_mul]
+
+/-- The diagonal action of `columnMultRep`: on `w = (wᵢⱼ)`, `(g · w) i j = ρᵢ(g) (w i j)`. Each
+index `(i, j)` (with `j : Fin (D.d i)`) is a copy of the irreducible `Vᵢ = columnFDRep i`. -/
+theorem columnMultRep_apply (D : IrrepDecomp k G) (g : G)
+    (w : Π i, Fin (D.d i) → (D.columnFDRep i)) (i : Fin D.n) (j : Fin (D.d i)) :
+    D.columnMultRep g w i j = (D.columnFDRep i).ρ g (w i j) := rfl
+
+/-- `∏ᵢ Vᵢ^(dᵢ)` with the diagonal `G`-action, packaged as an `FDRep k G`. -/
+noncomputable def columnMultFDRep (D : IrrepDecomp k G) : FDRep k G :=
+  FDRep.of D.columnMultRep
+
+/-- The `k`-linear equivalence `∏ᵢ End(Vᵢ) ≃ ∏ᵢ Vᵢ^(dᵢ)` sending `f : End(Vᵢ)` to its columns
+`j ↦ f(eⱼ)` in the standard basis `eⱼ` of `Vᵢ = Fin (D.d i) → k`. This is the underlying linear
+equivalence of the isotypic decomposition; it intertwines the two `G`-actions
+(`endColumnEquiv_comm`). -/
+noncomputable def endColumnEquiv (D : IrrepDecomp k G) :
+    (Π i, Module.End k (D.columnFDRep i)) ≃ₗ[k] (Π i, Fin (D.d i) → (D.columnFDRep i)) :=
+  LinearEquiv.piCongrRight fun i =>
+    ((Pi.basisFun k (Fin (D.d i))).constr (M' := (D.columnFDRep i)) k).symm
+
+/-- `endColumnEquiv` sends `f = (fᵢ)` to the family of columns `i j ↦ fᵢ(eⱼ)`. -/
+theorem endColumnEquiv_apply (D : IrrepDecomp k G)
+    (F : Π i, Module.End k (D.columnFDRep i)) (i : Fin D.n) (j : Fin (D.d i)) :
+    D.endColumnEquiv F i j = F i (Pi.basisFun k (Fin (D.d i)) j) := rfl
+
+/-- The column equivalence intertwines the left-multiplication action on `∏ᵢ End(Vᵢ)`
+(`endRegRep`) with the diagonal action on `∏ᵢ Vᵢ^(dᵢ)` (`columnMultRep`): the `(i,j)` column of
+`ρᵢ(g) ∘ Fᵢ` is `ρᵢ(g)` applied to the `(i,j)` column of `Fᵢ`. -/
+theorem endColumnEquiv_comm (D : IrrepDecomp k G) (g : G)
+    (F : Π i, Module.End k (D.columnFDRep i)) :
+    D.endColumnEquiv (D.endRegRep g F) = D.columnMultRep g (D.endColumnEquiv F) := by
+  ext i j
+  rw [columnMultRep_apply, endColumnEquiv_apply, endColumnEquiv_apply, D.endRegRep_apply]
+  rfl
+
+/-- **Isotypic decomposition of `∏ᵢ End(Vᵢ)`.** As representations of `G`, `∏ᵢ End(Vᵢ)` with the
+left-multiplication action is isomorphic to `∏ᵢ Vᵢ^(dᵢ)` with the diagonal action, via the column
+equivalence `endColumnEquiv`. -/
+noncomputable def columnMultIso (D : IrrepDecomp k G) :
+    D.endRegFDRep ≅ D.columnMultFDRep :=
+  Action.mkIso D.endColumnEquiv.toFGModuleCatIso (fun g => by
+    ext F
+    exact D.endColumnEquiv_comm g F)
+
+/-- **Isotypic decomposition of the regular representation.** Composing the equivariant Wedderburn
+isomorphism `regularIso` with the column decomposition `columnMultIso` exhibits the book's final
+form of Maschke 4.1.1(ii): `k[G] ≅ ⊕ᵢ (dim Vᵢ) · Vᵢ`. -/
+noncomputable def regularColumnMultIso (D : IrrepDecomp k G) :
+    MonoidAlgebra.regularFDRep k G ≅ D.columnMultFDRep :=
+  D.regularIso ≪≫ D.columnMultIso
+
 end IrrepDecomp
 
 /-- Maschke's theorem, part (ii), **representation-isomorphism form**.
@@ -198,3 +275,36 @@ theorem Etingof.Theorem4_1_1_regularRep_iso (k G : Type u)
   let D : IrrepDecomp k G := IrrepDecomp.mk'
   ⟨D.n, D.columnFDRep, D.endRegRep, D.columnFDRep_simple, D.columnFDRep_injective,
     D.columnFDRep_surjective, D.endRegRep_apply, ⟨D.regularIso⟩⟩
+
+/-- Maschke's theorem, part (ii), **isotypic-decomposition form** — the book's final display.
+
+Beyond the algebra isomorphism `k[G] ≃ₐ[k] ⊕ᵢ End(Vᵢ)` (`Theorem4_1_1_algebra_iso`) and its
+equivariant upgrade `k[G] ≅ ∏ᵢ End(Vᵢ)` (`Theorem4_1_1_regularRep_iso`), the book records the
+explicit decomposition of the regular representation into irreducibles with multiplicities:
+
+  `k[G] ≅ ⊕ᵢ (dim Vᵢ) · Vᵢ`,
+
+each irreducible `Vᵢ` occurring with multiplicity `dim Vᵢ`. This theorem records that content:
+there is a complete family `V : Fin n → FDRep k G` of the irreducible representations of `G` —
+each `Simple`, pairwise non-isomorphic, exhausting the simples — together with a representation
+`ρ_dec` on `∏ᵢ Vᵢ^(dᵢ)` whose multiplicities are `d i = dim (V i)` and whose action is diagonal
+`(g · w) i j = ρᵢ(g) (w i j)` (so each of the `d i` copies at `(i, j)` is genuinely `Vᵢ`), such
+that the regular representation `MonoidAlgebra.regularFDRep k G` is isomorphic in `FDRep k G` to
+`FDRep.of ρ_dec`. The witnesses are the column-vector representations `columnFDRep`, the diagonal
+multiplicity representation `IrrepDecomp.columnMultRep`, and the isomorphism
+`IrrepDecomp.regularColumnMultIso`. -/
+theorem Etingof.Theorem4_1_1_regularRep_isotypic (k G : Type u)
+    [Field k] [IsAlgClosed k] [Group G] [Fintype G] [NeZero (Nat.card G : k)] :
+    ∃ (n : ℕ) (V : Fin n → FDRep k G) (d : Fin n → ℕ)
+      (ρ_dec : Representation k G (Π i, Fin (d i) → (V i))),
+      (∀ i, Simple (V i)) ∧
+      (∀ i j, Nonempty (V i ≅ V j) → i = j) ∧
+      (∀ W : FDRep k G, Simple W → ∃ i, Nonempty (W ≅ V i)) ∧
+      (∀ i, d i = Module.finrank k (V i)) ∧
+      (∀ (g : G) (w : Π i, Fin (d i) → (V i)) (i : Fin n) (j : Fin (d i)),
+        ρ_dec g w i j = (V i).ρ g (w i j)) ∧
+      Nonempty (MonoidAlgebra.regularFDRep k G ≅ FDRep.of ρ_dec) :=
+  let D : IrrepDecomp k G := IrrepDecomp.mk'
+  ⟨D.n, D.columnFDRep, D.d, D.columnMultRep, D.columnFDRep_simple, D.columnFDRep_injective,
+    D.columnFDRep_surjective, fun i => (D.finrank_columnFDRep i).symm,
+    D.columnMultRep_apply, ⟨D.regularColumnMultIso⟩⟩
