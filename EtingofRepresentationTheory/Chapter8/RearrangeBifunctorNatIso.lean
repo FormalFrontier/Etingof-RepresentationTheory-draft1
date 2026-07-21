@@ -147,9 +147,10 @@ The two bifunctor objects `((extTensorRightFunctor …).obj X).obj Y` and
 `((factorTensorFunctor …).obj X).obj Y` reduce (by `rfl` at the `Functor.obj` level) to these two
 `ModuleCat.of k (tensorOver …)`, **except** that `tensorRightFunctorₖ` equips its `tensorOver` with
 the `k`-action restricted through `(A₁⊗A₂)ᵐᵒᵖ` (resp. `Aᵢᵐᵒᵖ`), whereas `rearrangeBidegree` uses the
-`TensorProduct`-diagonal `k`-action. These agree propositionally but not definitionally; reconciling
-them (an `IsScalarTower` uniqueness / `eqToIso` argument) and then assembling the full bifunctor
-`NatIso` with naturality from `rearrangeBidegree_naturality` is the remaining work of #6742. -/
+`TensorProduct`-diagonal `k`-action. These agree propositionally but not definitionally, reconciled
+here (an `IsScalarTower` uniqueness / `eqToIso` argument), so this is the retyped milestone-(a)
+component. The full bifunctor `NatIso`, assembling these components with naturality from
+`rearrangeBidegree_naturality`, is `rearrangeBifunctorNatIso` (defined later in this file). -/
 noncomputable def rearrangeComponentIso (X : ModuleCat.{u} A₁ᵐᵒᵖ) (Y : ModuleCat.{u} A₂ᵐᵒᵖ) :
     ModuleCat.of k (tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (X ⊗[k] Y))
       ≅ ModuleCat.of k (tensorOver A₁ N₁ X ⊗[k] tensorOver A₂ N₂ Y) :=
