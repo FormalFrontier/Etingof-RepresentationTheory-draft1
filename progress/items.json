@@ -1560,7 +1560,9 @@
     "start_line": 5,
     "end_line": 6,
     "status": "sorry_free",
-    "coverage_note": "Fully sorry-free. Characteristic-0 cluster (#6122, 2026-07-10): bracket_X_Y, charZero_irreducible_finrank_one (reusing Problem 2.16.1 via a general-field solvable-Lie-theorem argument), charZero_Y_acts_zero, instIsSolvable. Characteristic-p failure lie_theorem_fails_charP (#6132, 2026-07-10): section CharP constructs the p-dim irreducible module (X diagonal with distinct eigenvalues, Y cyclic shift) via a Lie-hom representation and proves irreducibility by a minimal-support argument. All axiom-clean: propext, Classical.choice, Quot.sound."
+    "coverage_note": "Fully sorry-free. Characteristic-0 cluster (#6122, 2026-07-10): bracket_X_Y, charZero_irreducible_finrank_one (reusing Problem 2.16.1 via a general-field solvable-Lie-theorem argument), charZero_Y_acts_zero, instIsSolvable. Characteristic-p failure lie_theorem_fails_charP (#6132, 2026-07-10): section CharP constructs the p-dim irreducible module (X diagonal with distinct eigenvalues, Y cyclic shift) via a Lie-hom representation and proves irreducibility by a minimal-support argument. All axiom-clean: propext, Classical.choice, Quot.sound.",
+    "fidelity": "gap",
+    "fidelity_note": "Reviewed #7200 (2026-07-21). Char-p counterexample (repModule_irreducible, lie_theorem_fails_charP) and Lie-algebra correctness (bracket_X_Y, instIsSolvable) are FAITHFUL, non-vacuous, axiom-clean. Char-0 renders only the necessary direction (charZero_irreducible_finrank_one, charZero_Y_acts_zero: irreducible => 1-dim, Y acts 0); the existence/realization half of 'classify' — each lambda in k realized by a genuine irreducible rep X|->lambda, Y|->0, and distinctness — is absent (no char-0 g-module constructed anywhere). Follow-up feature #7206 filed. See progress/reviews/2026-07-21-ch2-problem2_16_2-2d-lie-algebra-fidelity.md"
   },
   {
     "id": "Chapter2/Problem2.16.3",
