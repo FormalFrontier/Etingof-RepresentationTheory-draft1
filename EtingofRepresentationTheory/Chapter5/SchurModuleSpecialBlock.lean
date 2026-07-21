@@ -25,8 +25,9 @@ The two halves of the statement reduce to:
 * **Uniqueness** (at most one `weightToPartition`-labelled block). Two simple
   `symGroupImage`-submodules with the same Specht character are isomorphic as
   `symGroupImage`-modules, hence equal by the decomposition's distinctness clause.
-  This "character determines the module over ℂ" step is the single remaining gap,
-  isolated as `simpleSymGroupImageSubmodule_iso_of_spechtCharacter_eq` below.
+  This "character determines the module over ℂ" step is the one genuinely
+  character-theoretic ingredient, proved below via
+  `simpleSymGroupImageSubmodule_iso_of_spechtCharacter_eq`.
 -/
 
 noncomputable section

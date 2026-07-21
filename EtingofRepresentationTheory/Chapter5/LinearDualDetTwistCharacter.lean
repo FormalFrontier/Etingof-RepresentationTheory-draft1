@@ -35,8 +35,9 @@ Writing `m := s + lam.shift`, `λ' := lam.toNatWeight`, `σ := schurModuleRep k 
 * `detChar_zpow_diagUnit` — the determinant character power reads `t ^ z` on the
   torus: `(detChar ^ z) (diagUnit i t) = t ^ z`.
 
-* `detTwist_dual_algIrrepρ_eq` — collapsing the stacked twists on the
-  contragredient: `charTwistRep (det^s) ((algIrrepGLRepρ).dual)
+* Collapsing the stacked twists on the contragredient (inlined inside
+  `coeff_formalCharacter_detTwist_dual`, not a standalone lemma):
+  `charTwistRep (det^s) ((algIrrepGLRepρ).dual)
   = charTwistRep (det^{(m:ℤ)}) (Representation.dual σ)`, via `dual_charTwistRep`
   (#5552) + `charTwistRep_charTwistRep`.
 
@@ -141,7 +142,8 @@ theorem detChar_pow_mul_inv_neg_zpow (n : ℕ) (lam : DominantWeight n) (k : Typ
 ```
 
 Proof chain: `formalCharacter_coeff` →
-`glWeightSpace_eq_glWeightSpaceℤ` → `detTwist_dual_algIrrepρ_eq` (collapse) →
+`glWeightSpace_eq_glWeightSpaceℤ` → the inlined twist-collapse step
+(`dual_charTwistRep` + `charTwistRep_charTwistRep`) →
 `glWeightSpaceℤ_charTwist_shift` (the `det^m` twist shifts the weight by `m`) →
 `finrank_glWeightSpaceℤ_dual_eq` (the dual negates weights, #5533), using the weight
 eigenbasis of the Schur module (`exists_weight_eigenbasis` +
