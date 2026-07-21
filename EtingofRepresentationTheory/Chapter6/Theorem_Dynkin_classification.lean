@@ -1186,7 +1186,9 @@ lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
       -- Since B > 0 and f(b) > 0, the bracket > 0. QED.
       --
       -- We formalize this by computing B directly.
-      -- For now, sorry the computation and derive the result.
+      -- The computation is carried out in full below (no placeholder): we first
+      -- record f(b) > 0, then reduce (via `suffices hB_eq`) to the explicit closed
+      -- form for B and read off positivity of the bracket.
       have hfb_pos : (0 : ℤ) < f b := by
         rw [hfb]
         have : (0 : ℤ) < ↑(k - b) := by omega

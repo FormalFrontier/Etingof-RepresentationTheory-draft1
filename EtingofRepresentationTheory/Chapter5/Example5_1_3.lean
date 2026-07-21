@@ -731,9 +731,11 @@ every `FS(Wᵢ) = 1`; the abstract `ρ` is isomorphic to some `Wᵢ` (Schur), so
 The per-irreducible step `FS(Wᵢ) ∈ {±1}` is `frobeniusSchurIndicator_pm_one_of_simple_selfDual`,
 now proved via the Frobenius-Schur trace identity
 `Etingof.frobeniusSchurIndicator_eq_pm_one_of_self_dual_simple`
-(`FrobeniusSchurTraceIdentity.lean`). The remaining `sorry` in the axiom trace of this
-theorem comes only from `isRealType_of_frobeniusSchurIndicator_eq_one`'s dependency on
-`exists_nonzero_invariant_symmetric_of_FS_eq_one` (tracked as #5214). -/
+(`FrobeniusSchurTraceIdentity.lean`). The axiom trace of this theorem is now clean
+(`propext`, `Classical.choice`, `Quot.sound` only): the former gap in
+`isRealType_of_frobeniusSchurIndicator_eq_one` — its dependency on
+`exists_nonzero_invariant_symmetric_of_FS_eq_one`, formerly tracked as #5214 — has since
+been proved. -/
 theorem Etingof.isRealType_of_A5_even_standard
     {V : Type} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
     (ρ : Representation ℂ (alternatingGroup (Fin 5)) V)
