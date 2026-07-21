@@ -210,7 +210,7 @@ theorem Etingof.Proposition6_6_7_sink
     · -- F⁺(V) is indecomposable: given complementary subreps W₁, W₂ of F⁺(V),
       -- construct complementary subreps of V, use V's indecomposability.
       --
-      -- MATHEMATICAL ARGUMENT (not yet formalized):
+      -- MATHEMATICAL ARGUMENT (formalized below):
       -- Given complementary subreps W₁, W₂ of F⁺(V) on Q̄ᵢ, define subreps of V on Q:
       --   U_k(v) = W_k(v) for v ≠ i  (since F⁺(V)_v = V_v)
       --   U_k(i) = φ(⊕ W_k(j))      (image of "W_k-part" of direct sum under sinkMap φ)
@@ -230,8 +230,9 @@ theorem Etingof.Proposition6_6_7_sink
       -- By V's indecomposability, W₁ or W₂ is ⊥ at all v ≠ i, and then also at i
       -- (since W_k(i) ⊆ ker(φ) ⊆ ⊕V_j, and if ⊕W_k(j) = 0 then W_k(i) = 0).
       --
-      -- BLOCKED: The dependent type issues with Decidable.rec in reflectionFunctorPlus
-      -- make the construction extremely painful to formalize.
+      -- The `Decidable.rec` motive difficulty in reflectionFunctorPlus is handled
+      -- via `equivAt_ne` transport (as at lines 207-208), so the construction
+      -- sketched above is carried out in full, sorry-free, in the proof below.
       intro W₁ W₂ hW₁ hW₂ hcompl
       -- Construct complementary subreps U₁, U₂ of V from W₁, W₂ of F⁺(V).
       classical
