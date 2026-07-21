@@ -306,20 +306,20 @@ theorem Theorem5_18_4_semisimple
 
 `V^⊗n` decomposes as a direct sum
   `V^⊗n ≅ ⊕_i S_i ⊗ L_i`
-where each `S_i` is a **simple module over `A = symGroupImage k V n`** (the image
+where each `S_i` is a simple module over `A = symGroupImage k V n` (the image
 of `k[Sₙ]`), i.e. a Specht-type module, and each `L_i` is a multiplicity space.
 Equivalently: `V^⊗n` is a semisimple `A`-module, exhibited together with an
 explicit decomposition into simple `A`-summands.
 
-The genuine content is the `Module A`-structure together with `IsSimpleModule A`
+The essential content is the `Module A`-structure together with `IsSimpleModule A`
 on every `S_i`: this is what makes the decomposition a statement about `k[Sₙ]`
 acting on `V^⊗n`, not a content-free factorisation of a vector space.
 
 This version assumes only `CharZero k` (Maschke), so it holds over fields that
 are not algebraically closed; correspondingly it does not assert distinctness of
 the `S_i` or any structure on the `L_i` beyond `Module k`. The algebraically
-closed refinement — pairwise non-isomorphic `S_i`, `L_i` an irreducible
-polynomial `GL(V)`-representation, both sides simple — is
+closed refinement (pairwise non-isomorphic `S_i`, `L_i` an irreducible
+polynomial `GL(V)`-representation, both sides simple) is
 `Theorem5_18_4_bimodule_decomposition_full` (in `SchurWeylBimoduleFull.lean`).
 
 This holds for every `n`; no `n ≤ Module.finrank k V` hypothesis is needed (the
@@ -348,12 +348,11 @@ theorem Theorem5_18_4_decomposition
     hV'_acg, hV'_mod, hV'_Amod, hV'_simp, hW'_acg, hW'_mod, ⟨e⟩⟩
 
 -- The partition-indexed form of Schur-Weyl duality,
--- `Theorem5_18_4_partition_decomposition`, is proved sorry-free in
--- `EtingofRepresentationTheory.Chapter5.SchurWeylPartition`. It cannot live here:
--- its proof re-indexes `Theorem5_18_4_bimodule_decomposition_full`
--- (in `SchurWeylBimoduleFull.lean`, which imports this file) along an injection
--- `ι ↪ Nat.Partition n` obtained from the cardinality bound
--- `Fintype.card ι ≤ Fintype.card (Nat.Partition n)`. See issue #5405.
+-- `Theorem5_18_4_partition_decomposition`, is in
+-- `EtingofRepresentationTheory.Chapter5.SchurWeylPartition`. Its proof re-indexes
+-- `Theorem5_18_4_bimodule_decomposition_full` (in `SchurWeylBimoduleFull.lean`) along an
+-- injection `ι ↪ Nat.Partition n` obtained from the cardinality bound
+-- `Fintype.card ι ≤ Fintype.card (Nat.Partition n)`.
 
 -- Heartbeat bumps match `Theorem5_18_1_bimodule_decomposition`: the deep
 -- `Subalgebra → Ring → Module.End` instance chain plus the `h_eq ▸` transport
@@ -424,8 +423,8 @@ summand types as `Sᵢ : Submodule (symGroupImage k V n) (V^⊗n)` and
 iso whose inverse on pure-tensor basis elements is the evaluation map:
   `e.symm (of i (v ⊗ₜ l)) = l v`.
 
-This is the form required by character-additivity arguments (Schur-Weyl
-#3 in #2458): together with the tensor-factorization of traces it yields
+This is the form required by character-additivity arguments: together with
+the tensor-factorization of traces it yields
 `tr(b on V^⊗n) = Σᵢ dim(Sᵢ) · tr(b on Lᵢ)` for every `b` in the
 `diagonalActionImage` (since the evaluation formula implies `B`-equivariance
 of the iso with respect to the centralizer-post-composition action).
@@ -543,9 +542,9 @@ concretised, so an `l : (L i : Type u)` cannot be applied to `v` as a
 linear map without the explicit identification with `↥(S i) →ₗ[A] E`.
 
 This is the form required by the `GL_N`-equivariance argument
-(`glTensorRep_equivariant_schurWeyl_decomposition`,
-issue #2540): the evaluation formula together with the post-composition
-`GL_N`-action formula make equivariance computable on pure tensors. -/
+(`glTensorRep_equivariant_schurWeyl_decomposition`): the evaluation formula
+together with the post-composition `GL_N`-action formula make equivariance
+computable on pure tensors. -/
 theorem Theorem5_18_4_GL_rep_decomposition_explicit
     (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
     (N n : ℕ) (_hN : n ≤ N) :
@@ -591,8 +590,8 @@ theorem Theorem5_18_4_GL_rep_decomposition_explicit
     glHom_to_centralizer_symGroupImage k N n
   -- The `A`-linear hom space `↥(S' i) →ₗ[A] E` is finite-dimensional over `k`
   -- because it injects (`k`-linearly) into the `k`-linear hom space, which has
-  -- dimension `dim(↥(S' i)) · dim(E)`. (`Module.Finite k ↥(S' i)` is now
-  -- propagated from `Theorem5_18_4_bimodule_decomposition_explicit` as
+  -- dimension `dim(↥(S' i)) · dim(E)`. (`Module.Finite k ↥(S' i)` is
+  -- carried from `Theorem5_18_4_bimodule_decomposition_explicit` as
   -- `hS'_fin`.)
   haveI hLi_fin : ∀ i, Module.Finite k
       ((↥(S' i) : Type u) →ₗ[symGroupImage k V n] TensorPower k V n) :=
@@ -646,8 +645,7 @@ module over `(symGroupImage k V n) ⊗[k] (GL_N k)`, `V^⊗n` decomposes as
 where the `Sᵢ` are pairwise non-isomorphic simple `symGroupImage`-modules
 (Specht modules) and each `Lᵢ` is a full finite-dimensional
 `GL_N(k)`-representation, expected to be an irreducible polynomial
-representation downstream (see #2483); irreducibility is not part of
-this statement.
+representation, though irreducibility is not part of this statement.
 
 This is a thin wrapper over `Theorem5_18_4_GL_rep_decomposition_explicit`
 that forgets the explicit `Submodule` realisation of each `Sᵢ`, the

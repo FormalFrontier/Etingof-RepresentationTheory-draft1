@@ -8,7 +8,7 @@ Etingof's discussion following Proposition 5.25.1 observes that, since
 `[G, G] = SL₂(𝔽_q)` (Proposition 5.25.1) and `det : G → 𝔽_q^×` is surjective with
 kernel `SL₂`, one has
 `G / [G, G] ≅ 𝔽_q^×  via  g ↦ det(g)`.
-Consequently every **1-dimensional** representation of `G = GL₂(𝔽_q)` has the form
+Consequently every 1-dimensional representation of `G = GL₂(𝔽_q)` has the form
 `ρ(g) = ξ(det g)` for a unique character `ξ : 𝔽_q^× → ℂ^×`, and there are exactly
 `q - 1` of them (denoted `ℂ_ξ`).
 
@@ -19,11 +19,11 @@ A 1-dimensional complex representation of `G` is precisely a group homomorphism
 by, and equivalent to, a homomorphism into the units `ℂˣ = GL₁(ℂ)`). The character
 `ξ` of `𝔽_q^×` is a homomorphism `(GaloisField p n)ˣ →* ℂˣ`.
 
-* `characterCompDetEquiv` — the bijection `ξ ↦ ξ ∘ det` from characters of `𝔽_q^×`
+* `characterCompDetEquiv`: the bijection `ξ ↦ ξ ∘ det` from characters of `𝔽_q^×`
   to 1-dimensional representations of `G`. This is the classification statement:
-  every 1-dim rep is `ξ ∘ det` for a **unique** `ξ`.
-* `characterCompDetEquiv_apply` — records the explicit form `ρ(g) = ξ(det g)`.
-* `card_oneDimRep` — there are exactly `q - 1` one-dimensional representations.
+  every 1-dim rep is `ξ ∘ det` for a unique `ξ`.
+* `characterCompDetEquiv_apply`: records the explicit form `ρ(g) = ξ(det g)`.
+* `card_oneDimRep`: there are exactly `q - 1` one-dimensional representations.
 
 The key inputs are `Etingof.Proposition5_25_1` (`[G,G] = SL₂`, hence
 `ker det = [G,G]`), surjectivity of `det`, and, for the count, Mathlib's duality
@@ -81,7 +81,7 @@ theorem det_ker_le_ker (hn : 0 < n) (hq : 2 < Nat.card (GaloisField p n))
 /-- **Classification of 1-dimensional representations of `GL₂(𝔽_q)`** (Etingof,
 Discussion 5.25). The map `ξ ↦ ξ ∘ det` is a bijection from characters of `𝔽_q^×`
 to 1-dimensional representations of `G`. Equivalently: every 1-dimensional
-representation of `G` has the form `g ↦ ξ(det g)` for a **unique** character `ξ`. -/
+representation of `G` has the form `g ↦ ξ(det g)` for a unique character `ξ`. -/
 noncomputable def characterCompDetEquiv (hn : 0 < n)
     (hq : 2 < Nat.card (GaloisField p n)) :
     ((GaloisField p n)ˣ →* ℂˣ) ≃ (G p n →* ℂˣ) :=

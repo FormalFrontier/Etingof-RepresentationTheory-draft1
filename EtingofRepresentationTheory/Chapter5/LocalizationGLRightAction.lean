@@ -7,9 +7,8 @@ import EtingofRepresentationTheory.Chapter5.DetLocalization
 
 This file extends the right-translation representation `polyRightRep` on
 `A = k[Xᵢⱼ]` (`PolynomialGLRightAction.lean`) to the determinant localization
-`O = A[det⁻¹] = Localization.Away (detPoly k N)`. It is the representation the
-det⁻¹-elimination kernel lemma (K) (issue #4694, route doc
-`progress/kernel-lemma-K-route.md`) is phrased over: (K) is a statement about a
+`O = A[det⁻¹] = Localization.Away (detPoly k N)`. It is the representation over
+which the det⁻¹-elimination kernel lemma (K) is phrased: (K) is a statement about a
 finite-dimensional right-`GL_N`-stable subspace `W ⊆ O`, so the `GL_N`-action on
 `O` is the object the abstract statement quantifies over.
 
@@ -21,18 +20,18 @@ Because `det g` is a unit, this sends the powers of `detPoly` to units of `O`, s
 the localization universal property (`IsLocalization.lift`) extends it to a
 `k`-algebra endomorphism `localRightAlgHom g : O →ₐ[k] O`. Multiplicativity in
 `g` is inherited from `rTransAlgHom_mul` by the uniqueness of lifts
-(`IsLocalization.ringHom_ext`), giving a genuine `Representation k GL_N O`
+(`IsLocalization.ringHom_ext`), giving a `Representation k GL_N O`
 (`localRightRep`).
 
 ## Key facts
 
-* `localRightRep_algebraMap` — the structure map `A → O` is `GL_N`-equivariant:
+* `localRightRep_algebraMap`: the structure map `A → O` is `GL_N`-equivariant:
   `localRightRep g (algebraMap A O a) = algebraMap A O (polyRightRep g a)`. So
   the filtration submodule `A_0 = A ↪ O` is a subrepresentation, and `O` is an
-  honest extension of the polynomial right-translation representation.
-* `localRightRep_invSelf` — the formal inverse `det⁻¹ = invSelf detPoly`
+  extension of the polynomial right-translation representation.
+* `localRightRep_invSelf`: the formal inverse `det⁻¹ = invSelf detPoly`
   transforms by the inverse determinant character: `R_g det⁻¹ = (det g)⁻¹ · det⁻¹`.
-  This is the `χ⁻¹` semi-invariance that drives the det-power filtration twist.
+  This is the `χ⁻¹` semi-invariance underlying the det-power filtration twist.
 -/
 
 namespace Etingof.LocalizationGLAction
@@ -140,7 +139,7 @@ theorem localRightAlgHom_mul (g₁ g₂ : Matrix.GeneralLinearGroup (Fin N) k) :
 
 /-- The **right-translation representation of `GL_N` on the localization
 `O = A[det⁻¹]`**: `g ↦ localRightAlgHom g`. This is the representation the
-det⁻¹-elimination kernel lemma (K) is phrased over — (K) constrains
+det⁻¹-elimination kernel lemma (K) is phrased over: (K) constrains
 finite-dimensional right-`GL_N`-stable subspaces of `O`. -/
 noncomputable def localRightRep (k : Type*) [Field k] (N : ℕ) :
     Representation k (Matrix.GeneralLinearGroup (Fin N) k)
@@ -171,7 +170,7 @@ theorem localRightRep_algebraMap (g : Matrix.GeneralLinearGroup (Fin N) k)
 /-- **Determinant semi-invariance on `O`.** The formal inverse `det⁻¹ =
 invSelf detPoly` transforms by the **inverse** determinant character:
 `R_g det⁻¹ = (det g)⁻¹ · det⁻¹`. Together with `R_g det = det g · det`
-(`rTransAlgHom_det`) this is the `χ⁻¹` semi-invariance driving the det-power
+(`rTransAlgHom_det`) this is the `χ⁻¹` semi-invariance underlying the det-power
 filtration twist `A_r/A_{r-1} ≅ (A/det) ⊗ χ⁻ʳ`. -/
 theorem localRightRep_invSelf (g : Matrix.GeneralLinearGroup (Fin N) k) :
     localRightRep k N g (IsLocalization.Away.invSelf (detPoly k N))

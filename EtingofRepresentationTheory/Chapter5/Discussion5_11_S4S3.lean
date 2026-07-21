@@ -22,8 +22,8 @@ where `{ℂ₊, ℂ₋, ℂ², ℂ³₋, ℂ³₊}` are the five irreducibles of
 
 Just as the `S₃` decompositions in `Discussion5_11_examples.lean` rest on the
 completeness of the `S₃` catalogue (`S3_simple_iso`), the `S₄` decompositions rest on
-the completeness of the `S₄` catalogue: **every simple `FDRep ℂ S₄` is isomorphic to one
-of the five listed irreducibles**. This file establishes that catalogue-completeness
+the completeness of the `S₄` catalogue: every simple `FDRep ℂ S₄` is isomorphic to one
+of the five listed irreducibles. This file establishes that catalogue-completeness
 theorem `S4_simple_iso`, the reusable prerequisite for the induction computations. It
 follows from the Artin–Wedderburn squared-dimension count `1² + 1² + 2² + 3² + 3² = 24 =
 |S₄|` (`Etingof.Example4_3_S4.irreps_dim_sum_of_squares`): the five listed irreducibles
@@ -42,9 +42,9 @@ Schur's lemma.
 
 ## Mathlib correspondence
 
-* `Equiv.Perm (Fin 4)` — the group `S₄`.
-* `Etingof.Example4_3_S4` — the five irreducible representations and their characters.
-* `Etingof.exists_simples_sum_finrank_sq_eq_card` — the Artin–Wedderburn family used to
+* `Equiv.Perm (Fin 4)`: the group `S₄`.
+* `Etingof.Example4_3_S4`: the five irreducible representations and their characters.
+* `Etingof.exists_simples_sum_finrank_sq_eq_card`: the Artin–Wedderburn family used to
   pin down the catalogue.
 -/
 
@@ -360,7 +360,7 @@ lemma ind_mult_std (S : FDRep ℂ S4) :
   rw [coe_φ, indStd_character, map_inv, φ.symm_apply_apply,
     Etingof.Discussion5_11.stdRep_character, Etingof.Discussion5_11.fixCard_inv]
 
-/-! ### Character closed forms along the embedding, and the sum bridge -/
+/-! ### Character closed forms along the embedding, and the sum transport -/
 
 lemma trivChar_ιHom (σ : Equiv.Perm (Fin 3)) : trivRep.character (ιHom σ) = 1 := by
   rw [trivRep, charRep_character]; simp
@@ -381,7 +381,7 @@ lemma twoDimChar_ιHom (σ : Equiv.Perm (Fin 3)) :
     twoDimRep.character (ιHom σ) = (fix3Card (ιHom σ) : ℂ) - 1 :=
   twoDimRep_character (ιHom σ)
 
-/-- Bridge from a complex sum over `S₃` to an integer sum evaluable by `decide`. -/
+/-- Convert a complex sum over `S₃` to an integer sum evaluable by `decide`. -/
 lemma csum (F : Equiv.Perm (Fin 3) → ℂ) (g : Equiv.Perm (Fin 3) → ℤ) (N : ℤ)
     (hF : ∀ σ, F σ = (g σ : ℂ)) (hN : (∑ σ, g σ) = N) :
     (∑ σ : Equiv.Perm (Fin 3), F σ) = (N : ℂ) := by

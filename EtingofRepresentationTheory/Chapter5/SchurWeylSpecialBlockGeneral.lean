@@ -2,18 +2,18 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
 import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_ClassificationGeneral
 
 /-!
-# Schur-Weyl special-block analysis over a general field (Ch5 #4946 sub-C1)
+# Schur-Weyl special-block analysis over a general field
 
 This file lifts the two Young-symmetrizer endomorphism lemmas from
 `Theorem5_22_1.lean` from `ℂ` to a general field `k` of characteristic zero:
 
-* `youngSym_action_vanishes_off_block_general` — the Young-symmetrizer
+* `youngSym_action_vanishes_off_block_general`: the Young-symmetrizer
   endomorphism `c_λ` vanishes on any simple `symGroupImage`-stable submodule
   whose Specht label `≠ weightToPartition N lam`;
-* `youngSym_action_on_special_block_rank_one_scaled_proj_general` — on the
+* `youngSym_action_on_special_block_rank_one_scaled_proj_general`: on the
   special block it is a nonzero scalar times a rank-one idempotent projection.
 
-The general-`k` versions live **downstream** of `Theorem5_22_1.lean`: their
+The general-`k` versions live downstream of `Theorem5_22_1.lean`: their
 off-block-vanishing input is the character-orthogonality identity
 `youngSym_trace_kronecker_K`, whose proof rests on general-`k` Specht-module
 simplicity (`SpechtModuleK_isSimpleModule_general`) and distinctness
@@ -28,9 +28,8 @@ with `c_λ² = α · c_λ` comes directly from `YoungSymmetrizerK_sq_scalar k` w
 
 The character target `spechtBlockCharacterK k n la σ` is the trace of left
 multiplication by `of σ` on the Specht block `SpechtModuleK k n la`; it is
-definitionally the general-`k` Specht character produced by the bridge (#4991),
-so the off-block hypothesis `h_label` is the per-`σ` form of the (general-`k`)
-Specht-character bridge.
+definitionally the general-`k` Specht character, so the off-block hypothesis
+`h_label` is the per-`σ` form of the general-`k` Specht-character identity.
 -/
 
 open MvPolynomial Finset
@@ -56,8 +55,7 @@ def spechtBlockActionK (k : Type*) [Field k] (n : ℕ) (la : Nat.Partition n)
   map_smul' := fun _ ⟨m, _⟩ => Subtype.ext (Algebra.mul_smul_comm _ _ m)
 
 /-- The general-`k` Specht character: trace of left multiplication by `of σ` on
-`SpechtModuleK k n la`. Definitionally equal to the bridge's
-`spechtModuleCharacterK`. -/
+`SpechtModuleK k n la`. Definitionally equal to `spechtModuleCharacterK`. -/
 def spechtBlockCharacterK (k : Type*) [Field k] (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) : k :=
   LinearMap.trace k _ (spechtBlockActionK k n la σ)

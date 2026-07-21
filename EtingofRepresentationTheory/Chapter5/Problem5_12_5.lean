@@ -16,22 +16,22 @@ nondegenerate invariant symmetric form. Then use the Frobenius-Schur theorem.
 The Frobenius-Schur theorem gives, for any finite group `G` all of whose irreducibles are of
 real type, the identity
 `∑_{V irreducible} dim V = #{g ∈ G : g² = 1}`
-(the number of elements whose square is the identity — the "square roots of `1`"). For the
+(the number of elements whose square is the identity, the "square roots of `1`"). For the
 symmetric group every irreducible is real
 (`Etingof.isRealType_of_isSimpleModule_symmetricGroup`), so the sought sum of dimensions is
 the number of involutions-or-identity of `S_n`.
 
-We phrase the answer against an arbitrary **complete, irredundant** list of irreducible complex
+We phrase the answer against an arbitrary complete, irredundant list of irreducible complex
 representations `V : ι → FDRep ℂ (Equiv.Perm (Fin n))`:
 
-* `hsimple` — each `V i` is irreducible (`CategoryTheory.Simple`);
-* `hpairwise` — the `V i` are pairwise non-isomorphic;
-* `hcomplete` — every irreducible is isomorphic to some `V i`.
+* `hsimple`: each `V i` is irreducible (`CategoryTheory.Simple`);
+* `hpairwise`: the `V i` are pairwise non-isomorphic;
+* `hcomplete`: every irreducible is isomorphic to some `V i`.
 
 Under these hypotheses the sum of dimensions equals `#{g : g * g = 1}`.
 
 The proof: reality (`isRealType_of_isSimpleModule_symmetricGroup`) plus the reverse
-Frobenius-Schur bridge (`frobeniusSchurIndicator_eq_one_of_isRealType`) give `FS = 1` for every
+Frobenius-Schur result (`frobeniusSchurIndicator_eq_one_of_isRealType`) give `FS = 1` for every
 irreducible; `Etingof.Corollary5_1_6` then collapses Theorem 5.1.5's
 `∑ dim Vᵢ · FS(Vᵢ)` to `∑ dim Vᵢ = #{g : g² = 1}` for the Wedderburn family `columnFDRep`; a
 dimension-preserving bijection aligns the given complete family `V` with that family.
@@ -72,7 +72,7 @@ theorem sum_finrank_irreducible_eq_card_sq_eq_one
     invertibleOfNonzero (by exact_mod_cast Fintype.card_ne_zero)
   -- The Wedderburn-Artin family of irreducibles of `ℂ[Sₙ]`.
   let D : IrrepDecomp ℂ G := IrrepDecomp.mk'
-  -- Every irreducible has Frobenius-Schur indicator `1` (reality crux).
+  -- Every irreducible has Frobenius-Schur indicator `1` (key reality input).
   have h_all_real : ∀ i, (D.columnFDRep i).frobeniusSchurIndicator = 1 := by
     intro i
     rw [fdRep_frobeniusSchurIndicator_eq]

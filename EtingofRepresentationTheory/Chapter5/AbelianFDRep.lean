@@ -9,25 +9,25 @@ import EtingofRepresentationTheory.Chapter5.CharEqIso
 For a finite abelian group `G`, the irreducible complex representations are exactly the
 one-dimensional characters `ξ : G →* ℂˣ` (Example 4.3: over an algebraically closed field, every
 irreducible representation of a commutative group is one-dimensional). This file packages that
-classification at the `FDRep ℂ G` level, in a form directly consumable by the orbit-method
+classification at the `FDRep ℂ G` level, in the form used by the orbit-method
 classification exercises (Exercise 5.27.2 for the affine, Heisenberg, and dihedral groups), whose
 stabilizers `G_χ` are abelian.
 
 ## Main definitions and results
 
-* `charFDRep ξ` — the one-dimensional `FDRep ℂ G` on which `g` acts by multiplication by `ξ g`.
+* `charFDRep ξ`: the one-dimensional `FDRep ℂ G` on which `g` acts by multiplication by `ξ g`.
   Its `ℂ`-dimension is `1` (`charFDRep_finrank`) and its character is `g ↦ ξ g`
   (`charFDRep_character`).
-* `charFDRep_simple` — every `charFDRep ξ` is a simple object of `FDRep ℂ G`.
-* `charFDRep_iso_iff` — `charFDRep ξ ≅ charFDRep ξ'` iff `ξ = ξ'` (the characters are pairwise
+* `charFDRep_simple`: every `charFDRep ξ` is a simple object of `FDRep ℂ G`.
+* `charFDRep_iso_iff`: `charFDRep ξ ≅ charFDRep ξ'` iff `ξ = ξ'` (the characters are pairwise
   non-isomorphic).
-* `exists_charFDRep_iso` — **completeness**: every simple `FDRep ℂ G` is isomorphic to some
+* `exists_charFDRep_iso` (completeness): every simple `FDRep ℂ G` is isomorphic to some
   `charFDRep ξ`.
-* `card_charFDRep_dual` — there are exactly `|G|` characters, `Nat.card (G →* ℂˣ) = Nat.card G`.
+* `card_charFDRep_dual`: there are exactly `|G|` characters, `Nat.card (G →* ℂˣ) = Nat.card G`.
 
-The simplicity and module-bridge lemmas reuse `Etingof.simple_fdRepOf_of_isSimpleModule` and
+The simplicity and module-transfer lemmas reuse `Etingof.simple_fdRepOf_of_isSimpleModule` and
 `Etingof.isSimpleModule_asModule_of_simple` (Exercise 4.2.3), the one-dimensionality of abelian
-irreducibles `Etingof.Example4_3_FiniteAbelianGroups`, and the character-to-isomorphism keystone
+irreducibles `Etingof.Example4_3_FiniteAbelianGroups`, and the character-to-isomorphism result
 `Etingof.charEq_iso` (`CharEqIso`).
 -/
 

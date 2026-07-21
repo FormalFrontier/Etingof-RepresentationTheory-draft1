@@ -29,10 +29,9 @@ noncomputable section
 /-- The dimension of V_λ equals the number of standard Young tableaux of shape λ.
 This is the core representation-theoretic content.
 
-Proved via the **Frobenius character formula** (`finrank_spechtModule_eq_card_syt_general`,
-`CharValueHookFormula.lean`), NOT via the polytabloid/Garnir-straightening basis —
-that route (`finrank_spechtModule_eq_card_syt'`, `SpechtModuleBasis.lean`) is no
-longer on the critical path for the hook length formula. -/
+Proved via the Frobenius character formula (`finrank_spechtModule_eq_card_syt_general`,
+`CharValueHookFormula.lean`). An alternative proof via the polytabloid/Garnir-straightening
+basis is `finrank_spechtModule_eq_card_syt'` (`SpechtModuleBasis.lean`). -/
 theorem finrank_spechtModule_eq_card_standardYoungTableau (n : ℕ) (la : Nat.Partition n) :
     Module.finrank ℂ (SpechtModule n la) =
       Nat.card (StandardYoungTableau n la) :=

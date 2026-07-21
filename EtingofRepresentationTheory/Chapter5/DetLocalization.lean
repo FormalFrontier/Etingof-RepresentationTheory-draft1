@@ -5,9 +5,8 @@ import EtingofRepresentationTheory.Chapter5.EvalEqOnGL
 /-!
 # The determinant localization `A[det⁻¹]` and its faithful functions-on-GL model
 
-This file builds the **faithful functions-on-`GL`** model of the localization
-`A[det⁻¹]` used by the det⁻¹-elimination kernel lemma (issue #4694, route doc
-`progress/kernel-lemma-K-route.md`).
+This file builds the faithful functions-on-`GL` model of the localization
+`A[det⁻¹]` used in the det⁻¹-elimination kernel lemma.
 
 Let `A := MvPolynomial (Fin N × Fin N) k` (the coordinate ring `k[Xᵢⱼ]`) and
 `detPoly := Matrix.det (Matrix.mvPolynomialX (Fin N) (Fin N) k)` the generic
@@ -19,22 +18,22 @@ the function ring `GL_N → k`, induced from the evaluation hom
 `evalGLHom : A →+* (GL_N → k)`, `a ↦ (g ↦ eval g a)`. Because `detPoly`
 evaluates to `det g ≠ 0` at every `g ∈ GL_N`, its image is a unit, so the
 localization universal property (`IsLocalization.Away.lift`) produces
-`evalGLAway : A[det⁻¹] →+* (GL_N → k)`. This map is **injective**: a localization
+`evalGLAway : A[det⁻¹] →+* (GL_N → k)`. This map is injective: a localization
 element `Q / detⁿ` vanishes as a function on `GL_N` iff `Q` vanishes on `GL_N`
 iff `Q = 0` (by `MvPolynomial.eq_of_eval_eq_on_gl`, the Zariski-density of
 `GL_N`).
 
 Finally `evalAtGL` (Definition 5.23.1, the evaluation of `k[Xᵢⱼ, D]` at a matrix
-with `D ↦ det⁻¹`) **factors through** `A[det⁻¹]` via the coordinate hom sending
+with `D ↦ det⁻¹`) factors through `A[det⁻¹]` via the coordinate hom sending
 `Xᵢⱼ ↦ Xᵢⱼ` and `D ↦ detPoly⁻¹`.
 
-These are exactly the moves the kernel-lemma assembly needs to pass between
+These are exactly the moves the kernel lemma needs to pass between
 honest localization elements and functions on `GL`.
 
 ## The det-power normal form
 
 Every element of `A[det⁻¹]` is `Q · det⁻ʳ` for a polynomial `Q` and an exponent
-`r` (`exists_invSelf_normalForm`). Defining `detExp f` as the **least** such `r`
+`r` (`exists_invSelf_normalForm`). Defining `detExp f` as the least such `r`
 (`Nat.find`) gives the reduced normal form: at the minimal exponent the numerator
 `Q` is coprime to `det` (`not_dvd_num_of_detExp_pos`), the pair `(detExp f, Q)`
 is unique (`reduced_normalForm_unique`), and `detExp f = 0 ↔ f` is an honest
@@ -349,7 +348,7 @@ theorem dvd_num_of_detExp_lt {f : Localization.Away (detPoly k N)} {r : ℕ}
   exact (dvd_pow_self (detPoly k N) (by omega : r - s ≠ 0)).mul_left Qs
 
 /-- **Reduced numerator is coprime to `det`.** At the minimal exponent (when it
-is positive) the numerator is not divisible by `detPoly` — otherwise the factor
+is positive) the numerator is not divisible by `detPoly`; otherwise the factor
 would cancel and lower the exponent. -/
 theorem not_dvd_num_of_detExp_pos {f : Localization.Away (detPoly k N)}
     {Q : MvPolynomial (Fin N × Fin N) k}
@@ -436,7 +435,7 @@ theorem reduced_normalForm_unique {f : Localization.Away (detPoly k N)} {r₁ r�
   exact normalForm_num_unique h₁ h₂
 
 /-- **`r = 0 ↔ f` is an honest polynomial.** The reduced exponent vanishes
-exactly when `f` lies in the image of the polynomial subring `A` — the predicate
+exactly when `f` lies in the image of the polynomial subring `A`, the predicate
 the det-power filtration `A_r := det⁻ʳ · A` (with `A = A_0`) keys on. -/
 theorem detExp_eq_zero_iff (f : Localization.Away (detPoly k N)) :
     detExp f = 0 ↔ f ∈ Set.range

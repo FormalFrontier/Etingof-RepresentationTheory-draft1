@@ -3,23 +3,23 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_15_1
 import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Classification
 
 /-!
-# General character ⇒ multiplicity bridge for `Sₙ`-representations
+# From character to multiplicity for `Sₙ`-representations
 
-The concrete Young-module world of `Theorem5_15_1.lean` establishes the isotypic
-decomposition and the character identity (Young's rule) for the *permutation modules*
-`PermutationModule n μ`.  This file lifts that machinery to an **arbitrary** finite
+The concrete Young-module setting of `Theorem5_15_1.lean` establishes the isotypic
+decomposition and the character identity (Young's rule) for the permutation modules
+`PermutationModule n μ`.  This file lifts that machinery to an arbitrary finite
 dimensional `SymGroupAlgebra n`-module `M` (equivalently, a finite dimensional
 `Sₙ`-representation).
 
-The deliverables:
+The main results:
 
-* `Etingof.isotypicMult n M ν` — the multiplicity of the Specht module `V_ν` in `M`,
+* `Etingof.isotypicMult n M ν`: the multiplicity of the Specht module `V_ν` in `M`,
   read off from the isotypic component.
-* `Etingof.character_eq_sum_mult_spechtCharacter` — the character of `M` decomposes as
+* `Etingof.character_eq_sum_mult_spechtCharacter`: the character of `M` decomposes as
   `χ_M(σ) = Σ_ν (isotypicMult n M ν) · χ_{V_ν}(σ)`.
-* `Etingof.specht_embeds_of_mult_pos` — a positive multiplicity produces an injective
+* `Etingof.specht_embeds_of_mult_pos`: a positive multiplicity produces an injective
   `Sₙ`-embedding `V_ν ↪ M`.
-* `Etingof.factorial_mul_isotypicMult` / `Etingof.isotypicMult_eq_of_character_eq` — the
+* `Etingof.factorial_mul_isotypicMult` / `Etingof.isotypicMult_eq_of_character_eq`: the
   multiplicity is recovered from the character by orthonormality of Specht characters, so
   two modules with equal character have the same multiplicities.
 
@@ -281,7 +281,7 @@ theorem trace_isotypicComp_eq [Module.Finite ℂ M]
 
 /-! ### Character decomposition -/
 
-/-- **Character ⇒ multiplicity bridge.**  The character of a finite dimensional
+/-- **Character-to-multiplicity decomposition.**  The character of a finite dimensional
 `Sₙ`-module `M` decomposes over the Specht characters with the isotypic multiplicities:
 `χ_M(σ) = Σ_ν (isotypicMult n M ν) · χ_{V_ν}(σ)`. -/
 theorem character_eq_sum_mult_spechtCharacter [Module.Finite ℂ M]
@@ -383,7 +383,7 @@ theorem repCharacter_eq_moduleCharacter [Module.Finite ℂ V] (σ : Equiv.Perm (
     LinearMap.trace ℂ V (ρ σ) = moduleCharacter n ρ.asModule σ := by
   rw [moduleCharacter, moduleEnd_asModule_eq n ρ]; rfl
 
-/-- **Character ⇒ multiplicity bridge for representations.** The character of `ρ`
+/-- **Character-to-multiplicity decomposition for representations.** The character of `ρ`
 decomposes over the Specht characters with the isotypic multiplicities. -/
 theorem repCharacter_eq_sum_mult_spechtCharacter [Module.Finite ℂ V]
     (σ : Equiv.Perm (Fin n)) :

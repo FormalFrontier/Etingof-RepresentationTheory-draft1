@@ -13,11 +13,11 @@ carries a `B = diagonalActionImage k V n`-module structure. It stops short of tw
 facts the book asserts about the `B`-side (Etingof Theorem 5.18.4(iii) /
 Corollary 5.19.2):
 
-* each `Lᵢ` is itself a **simple** `B`-module (an irreducible polynomial
+* each `Lᵢ` is itself a simple `B`-module (an irreducible polynomial
   `GL(V)`-representation), and
-* the `Lᵢ` are **pairwise non-isomorphic** as `B`-modules.
+* the `Lᵢ` are pairwise non-isomorphic as `B`-modules.
 
-This file supplies both, sorry-free, for a general finite-dimensional `V`. The
+Both hold for a general finite-dimensional `V`. The
 `L`-simplicity comes from `Theorem5_18_1_bimodule_decomposition_explicit`
 (`hL_simp`: each `↥(Sᵢ) →ₗ[A] V^⊗n` is simple over `centralizer A`), and the
 `L`-distinctness from `multiplicitySpace_Cdistinct` (distinct simple `A`-summands
@@ -25,15 +25,14 @@ give non-isomorphic multiplicity spaces over `centralizer A`). Both are transpor
 across the Schur-Weyl centralizer identity
 `centralizer(symGroupImage) = diagonalActionImage` (`Theorem5_18_4_centralizers`).
 
-The one remaining gap to the book's *partition-indexed* statement
-(`Theorem5_18_4_partition_decomposition`) is purely the **Specht labelling**: an
-injection `ι ↪ Nat.Partition n` re-indexing this abstract decomposition by
-partitions of `n`. That labelling reduces to the cardinality bound
-`Fintype.card ι ≤ Fintype.card (Nat.Partition n)` (each `Sᵢ`, restricted along the
-surjection `k[Sₙ] ↠ symGroupImage`, is a simple `k[Sₙ]`-module, and over an
-algebraically closed field of characteristic `0` there are at most
-`|ConjClasses (Perm (Fin n))| ≤ p(n)` of those, via `Etingof.Corollary4_2_2`). See
-the tracking issue for that step.
+The book's partition-indexed statement
+(`Theorem5_18_4_partition_decomposition`) additionally requires the Specht
+labelling: an injection `ι ↪ Nat.Partition n` re-indexing this abstract
+decomposition by partitions of `n`. That labelling reduces to the cardinality
+bound `Fintype.card ι ≤ Fintype.card (Nat.Partition n)` (each `Sᵢ`, restricted
+along the surjection `k[Sₙ] ↠ symGroupImage`, is a simple `k[Sₙ]`-module, and over
+an algebraically closed field of characteristic `0` there are at most
+`|ConjClasses (Perm (Fin n))| ≤ p(n)` of those, via `Etingof.Corollary4_2_2`).
 -/
 
 open scoped TensorProduct
@@ -60,10 +59,11 @@ where, in addition to everything `Theorem5_18_4_bimodule_decomposition` provides
 (the `Sᵢ` are pairwise non-isomorphic simple `A`-modules with `Module B`-structures
 on the `Lᵢ`), this strengthening asserts:
 
-* each `Lᵢ` is a **simple** `B`-module (irreducible polynomial `GL(V)`-rep), and
-* the `Lᵢ` are **pairwise non-isomorphic** as `B`-modules.
+* each `Lᵢ` is a simple `B`-module (irreducible polynomial `GL(V)`-rep), and
+* the `Lᵢ` are pairwise non-isomorphic as `B`-modules.
 
-These are exactly the `B`-side facts dropped from the earlier sorry-free statements.
+These are exactly the `B`-side facts not included in
+`Theorem5_18_4_bimodule_decomposition`.
 This holds for every `n`; no `n ≤ Module.finrank k V` hypothesis is needed (the
 index set enumerates only the simple `A`-modules that actually appear in `V^⊗n`).
 (Etingof Theorem 5.18.4, part iii, bimodule form, full multiplicity content.) -/

@@ -5,14 +5,13 @@ import EtingofRepresentationTheory.Chapter5.SchurWeylGLTransfer
 # Problem 5.24.2: supporting lemmas for the FFT range identification
 
 Two self-contained supporting lemmas for the deep step of Problem 5.24.2
-(`weightedHomogeneous_invariant_mem_range_endTensorEval`, in `Problem5_24_2_Bridge.lean`), split off
-so the reductivity core can consume them:
+(`weightedHomogeneous_invariant_mem_range_endTensorEval`, in `Problem5_24_2_Bridge.lean`):
 
-* `mem_symGroupImage_iff_commute_diag` — the identification of `symGroupImage` (the `ℂ`-span of the
+* `mem_symGroupImage_iff_commute_diag`: the identification of `symGroupImage` (the `ℂ`-span of the
   permutation operators) with the `GL(V)`-invariant tensors: an endomorphism `M` of `V^{⊗n}` lies in
   `symGroupImage` iff it commutes with every diagonal operator `g^{⊗n}` for `g` a unit of `End V`.
-  This turns the *centralizer* form of Schur–Weyl (`Theorem5_18_4_centralizers`) into an
-  *invariants* statement, using the Zariski-density fact
+  This converts the centralizer form of Schur–Weyl (`Theorem5_18_4_centralizers`) to an
+  invariants statement, using the Zariski-density fact
   `adjoin_unitsTensorPow_eq_diagonalActionImage` (units `g^{⊗n}` already generate the
   diagonal-action subalgebra).
 -/

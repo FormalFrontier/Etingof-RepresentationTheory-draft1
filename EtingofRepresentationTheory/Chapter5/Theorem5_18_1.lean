@@ -59,8 +59,8 @@ isotypic-of-type-`V` finite-dimensional `A`-module `M` is isomorphic to
 -/
 
 /-- Over an algebraically closed field, the algebra map `k → End_A V` is a
-`k`-linear equivalence when `V` is simple and finite-dimensional — Schur's
-lemma combined with alg-closedness. -/
+`k`-linear equivalence when `V` is simple and finite-dimensional, by Schur's
+lemma combined with algebraic closedness. -/
 noncomputable def endOfSimpleEquivAlgClosed
     (k : Type*) [Field k] [IsAlgClosed k]
     (A : Type*) [Ring A] [Algebra k A]
@@ -174,8 +174,8 @@ noncomputable def schurEvaluationEquiv
 Despite being constructed via an arbitrary choice of decomposition
 `M ≃[A] Fin n → V`, the resulting map is canonical: on pure tensors it is
 the evaluation `v ⊗ f ↦ f v`. This is the identity that makes the
-decomposition `B`-equivariant — the hom-space `V →ₗ[A] M` carries a
-natural right action by `End_A M ⊇ B`, and evaluation transports it. -/
+decomposition `B`-equivariant: the hom-space `V →ₗ[A] M` carries a
+right action by `End_A M ⊇ B`, and evaluation transports it. -/
 lemma schurEvaluationEquiv_apply_tmul
     (k : Type*) [Field k] [IsAlgClosed k]
     (A : Type*) [Ring A] [Algebra k A]
@@ -460,14 +460,12 @@ noncomputable instance centralizerModuleHom
     change (centralizerToEndA k E A 0) (f v) = 0
     rw [map_zero]; rfl
 
--- Both `maxHeartbeats` and `synthInstance.maxHeartbeats` need to be bumped
+-- Both `maxHeartbeats` and `synthInstance.maxHeartbeats` need to be raised
 -- above 300000: `LinearMap.ext`'s `isDefEq` on the centralizer-wrapped
--- subtype overruns 200000 (timeout at the `refine` line below), and
--- downstream re-derivation of the `SMulCommClass` instance in
--- `Theorem5_18_1_bimodule_decomposition` needs more than 200000 synth
--- heartbeats. Empirical minimum is ~310000 for both; 320000 is the value
--- chosen with a small safety buffer (was 400000 / 400000 in #2504).
-set_option maxHeartbeats 800000 in -- rc2: isDefEq on the centralizer-wrapped subtype in `LinearMap.ext` overran 320000
+-- subtype overruns 200000, and the downstream re-derivation of the
+-- `SMulCommClass` instance in `Theorem5_18_1_bimodule_decomposition` needs
+-- more than 200000 synthesis heartbeats.
+set_option maxHeartbeats 800000 in
 set_option synthInstance.maxHeartbeats 320000 in
 /-- The centralizer action on `V →ₗ[A] E` (post-composition) commutes with
 the standard `k`-action on `V →ₗ[A] E` (pointwise scaling). This follows
@@ -541,10 +539,10 @@ theorem postCompCentralizerMonoidHom_apply_apply
     (l : V →ₗ[A] E) (v : V) :
     postCompCentralizerMonoidHom k E A V b l v = b.val (l v) := rfl
 
-set_option maxHeartbeats 400000 in -- rc2: whnf in the isotypic-component calc overran default 200000
+set_option maxHeartbeats 400000 in -- whnf in the isotypic-component calc overruns the default 200000
 set_option synthInstance.maxHeartbeats 400000 in
-/-- The natural bridge: every `A`-linear map from a simple submodule `V ≤ E`
-into `E` lands in the isotypic component `isotypicComponent A E V`. -/
+/-- Every `A`-linear map from a simple submodule `V ≤ E` into `E` lands in the
+isotypic component `isotypicComponent A E V`. -/
 theorem range_le_isotypicComponent_of_simple
     {A : Subalgebra k (Module.End k E)}
     (V : Submodule A E) [IsSimpleModule A V]
@@ -573,11 +571,11 @@ theorem range_le_isotypicComponent_of_simple
 
 set_option maxHeartbeats 1600000 in
 set_option synthInstance.maxHeartbeats 800000 in
-/-- Bridge equivalence: for a simple submodule `V ≤ E` and any submodule
-`c` equal to `isotypicComponent A E V`, the hom-space `V →ₗ[A] c` is
-`k`-linearly isomorphic to `V →ₗ[A] E`. The forward map post-composes
-with the inclusion `c → E`; the inverse co-restricts every `V →ₗ[A] E`
-to `c` using `range_le_isotypicComponent_of_simple`. -/
+/-- For a simple submodule `V ≤ E` and any submodule `c` equal to
+`isotypicComponent A E V`, the hom-space `V →ₗ[A] c` is `k`-linearly isomorphic
+to `V →ₗ[A] E`. The forward map post-composes with the inclusion `c → E`; the
+inverse co-restricts every `V →ₗ[A] E` to `c` using
+`range_le_isotypicComponent_of_simple`. -/
 noncomputable def homIsotypicBridge
     (A : Subalgebra k (Module.End k E))
     (V : Submodule A E) [IsSimpleModule A V]
@@ -673,13 +671,11 @@ theorem isSimpleModule_homA_centralizer
     change h (f v) = g v
     exact LinearMap.congr_fun hh v
 
-set_option maxHeartbeats 3200000 in -- rc2: isDefEq in the per-component iso chain overran 2000000
--- Heartbeats are bumped because the existential output has several universe-polymorphic
+set_option maxHeartbeats 3200000 in
+-- Heartbeats are raised because the existential output has several universe-polymorphic
 -- ∀-binders whose instance synthesis (AddCommGroup / Module / SMulCommClass / Module.Finite
 -- over a subalgebra-wrapped ring) each triggers a deep `Subalgebra → Ring → Module.End`
--- instance chain. Empirical minimum is between 1600000 / 800000 (fails) and 1800000 /
--- 900000 (passes); 2000000 / 1000000 used here for a small safety buffer (was
--- 3200000 / 1600000 in #2504).
+-- instance chain.
 set_option synthInstance.maxHeartbeats 1000000 in
 /-- Double centralizer theorem, part (iii), bimodule form.
 
@@ -689,15 +685,15 @@ If `A` is a semisimple subalgebra of `End_k(E)` with `E` faithful and
   `E ≅ ⨁ᵢ Vᵢ ⊗[k] Lᵢ`
 where `Vᵢ` are pairwise non-isomorphic simple `A`-modules, and
 `Lᵢ = Vᵢ →ₗ[A] E` carries a natural `B`-module structure via
-post-composition. This is the bimodule-enhanced version of
-`Theorem5_18_1_decomposition`: the `Lᵢ` are genuine `B`-modules (not
-just `k`-vector spaces) and the `Vᵢ` are pairwise non-isomorphic.
+post-composition. This is the bimodule form of
+`Theorem5_18_1_decomposition`: the `Lᵢ` are `B`-modules, not
+just `k`-vector spaces, and the `Vᵢ` are pairwise non-isomorphic.
 
 The theorem additionally provides, for each `i`:
-* `SMulCommClass B k (Lᵢ)` — the `B`- and `k`-actions on `Lᵢ` commute,
+* `SMulCommClass B k (Lᵢ)`: the `B`- and `k`-actions on `Lᵢ` commute,
   so `Lᵢ` is a representation of `B` over `k` (i.e. an `A ⊗[k] B`-module
   factor in the standard sense), and
-* `Module.Finite k (Lᵢ)` — each multiplicity space is a
+* `Module.Finite k (Lᵢ)`: each multiplicity space is a
   finite-dimensional `k`-vector space.
 
 (Etingof Theorem 5.18.1, part iii, bimodule form.) -/
@@ -782,7 +778,7 @@ theorem Theorem5_18_1_bimodule_decomposition
     -- Step 2: restrict scalars to k
     let e2 : E ≃ₗ[k] (Π₀ c : isotypicComponents A E, (c.1 : Submodule A E)) :=
       e1.restrictScalars k
-    -- Step 3: per-component Schur evaluation + bridge
+    -- Step 3: per-component Schur evaluation and isotypic hom-space equivalence
     -- For each c: ↥c.1 ≃[k] V' c ⊗[k] (V' c →ₗ[A] E)
     haveI : IsNoetherian k E := inferInstance
     let perComp : ∀ c : isotypicComponents A E,
@@ -805,7 +801,7 @@ theorem Theorem5_18_1_bimodule_decomposition
         e_submod.isIsotypicOfType_iff.mpr h_iso'
       -- Schur eval: V' c ⊗[k] (V' c →ₗ[A] ↥c.1) ≃[k] ↥c.1
       let sE := schurEvaluationEquiv k A (↥(V' c)) (↥c.1) h_iso
-      -- Bridge: (V' c →ₗ[A] ↥c.1) ≃[k] (V' c →ₗ[A] E)
+      -- homIsotypicBridge: (V' c →ₗ[A] ↥c.1) ≃[k] (V' c →ₗ[A] E)
       let br := homIsotypicBridge k E A (V' c) c.1 (V'_spec c)
       -- Chain
       exact sE.symm.trans (TensorProduct.congr (LinearEquiv.refl k _) br)
@@ -823,13 +819,10 @@ theorem Theorem5_18_1_bimodule_decomposition
     exact ⟨e2.trans (e3.trans e4)⟩
 
 set_option maxHeartbeats 4000000 in
--- Heartbeats bumped because the existential signature advertises the `B`-side
+-- Heartbeats are raised because the existential signature advertises the `B`-side
 -- simplicity clause (`isSimpleModule_homA_centralizer`) on each multiplicity
 -- space in addition to the prior `A`-side clauses, adding another non-trivial
--- typeclass-search chain through the centralizer-module instance. Empirical
--- minimum is between 3200000 / 1200000 (fails @ line 986 isDefEq + line 920
--- tactic) and 3400000 / 1300000 (passes); 4000000 / 1500000 used here for an
--- ~18% safety buffer (was 6400000 / 2400000 in #2634).
+-- typeclass-search chain through the centralizer-module instance.
 set_option synthInstance.maxHeartbeats 1500000 in
 /-- Double centralizer theorem, part (iii), bimodule form with explicit
 evaluation.

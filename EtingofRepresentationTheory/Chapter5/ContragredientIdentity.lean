@@ -7,24 +7,24 @@ import EtingofRepresentationTheory.Chapter5.LinearDualContragredientHalf
 # The contragredient identity `L*_λ ≅ L_λ^∨` for `GL_n`
 
 Etingof §5.23 identifies, for `GL_n`, the contragredient `L*_λ` with `L_{-w₀λ}`.
-The repo carries **two** concrete models of this contragredient:
+The repo carries two concrete models of this contragredient:
 
-* the **Schur-module realization** `AlgIrrepGLDual n lam k`
+* the Schur-module realization `AlgIrrepGLDual n lam k`
   (`= AlgIrrepGL n lam.w0Twist k`, `Theorem5_23_2Core.lean`) carrying
   `algIrrepGLRepDualρ n lam k` (`AlgIrrepGLRep.lean`);
-* the **linear dual** `Module.Dual k (AlgIrrepGL n lam k)` carrying the
+* the linear dual `Module.Dual k (AlgIrrepGL n lam k)` carrying the
   contragredient representation `(algIrrepGLRepρ n lam k).dual`
   (`Representation.dual`, Mathlib).
 
 These are two realizations of the same abstract simple, so they are isomorphic as
-`GL_n`-representations. This file lands that isomorphism as
+`GL_n`-representations. This file establishes that isomorphism as
 `algIrrepGLDual_iso_linearDual`, the input needed to retype the canonical
-evaluation pairing `contractLeft` (`Chapter5/ContragredientPairing.lean`, #5515)
+evaluation pairing `contractLeft` (`Chapter5/ContragredientPairing.lean`)
 onto `AlgIrrepGLDual ⊗ AlgIrrepGL`.
 
-## Proof architecture
+## Proof
 
-The genuine obstruction is that the linear dual `L_λ^∨` has *negative* weights (its
+The obstruction is that the linear dual `L_λ^∨` has negative weights (its
 character is `s_λ(x⁻¹)`), so it falls outside the polynomial `formalCharacter`
 framework and the GL char→iso keystone `iso_of_formalCharacter_eq_schurPoly`
 (`SchurWeylFormalCharacterIso.lean`) does not apply directly. The standard fix is a
@@ -32,18 +32,16 @@ framework and the GL char→iso keystone `iso_of_formalCharacter_eq_schurPoly`
 polynomial with Schur-polynomial character, so the keystone applies to each and
 their isomorphism transfers.
 
-The two pieces are factored cleanly:
+The two pieces are:
 
-* `isEquivariant_of_charTwist` (**proven here, no sorry**) — the *untwist* step.
-  An equivariant linear equivalence between `charTwistRep c ρ₁` and
-  `charTwistRep c ρ₂` is, after cancelling the invertible scalar `c g`, an
-  equivariant equivalence between `ρ₁` and `ρ₂`. This is the reusable glue that
-  removes the `det^s` twist once the twisted models are matched.
-* `exists_detTwist_equivariantEquiv_dual` (**now sorry-free**, assembled from the two
-  halves #5543/#5544) — for a large enough `det^s`-twist, the Schur-module
-  contragredient and the linear dual are equivariantly isomorphic, via
-  `iso_of_formalCharacter_eq_schurPoly` applied to both polynomial models. This is
-  where the two analytic facts live: (a) `formalCharacter (ρ.dual)` evaluates `ρ`'s
+* `isEquivariant_of_charTwist`, the untwist step. An equivariant linear
+  equivalence between `charTwistRep c ρ₁` and `charTwistRep c ρ₂` is, after
+  cancelling the invertible scalar `c g`, an equivariant equivalence between `ρ₁`
+  and `ρ₂`. This removes the `det^s` twist once the twisted models are matched.
+* `exists_detTwist_equivariantEquiv_dual`: for a large enough `det^s`-twist, the
+  Schur-module contragredient and the linear dual are equivariantly isomorphic, via
+  `iso_of_formalCharacter_eq_schurPoly` applied to both polynomial models. Two
+  analytic facts enter: (a) `formalCharacter (ρ.dual)` evaluates `ρ`'s
   character at inverse weights; (b) the inverted-variable Schur identity
   `s_λ(x⁻¹)·(x₁⋯x_n)^s = s_{w₀λ+s}(x)`.
 -/
@@ -55,7 +53,7 @@ namespace Etingof
 open Etingof.KernelLemmaKPrime
 open scoped TensorProduct
 
-/-! ## The untwist step (the reusable glue, sorry-free) -/
+/-! ## The untwist step -/
 
 section Untwist
 
@@ -65,7 +63,7 @@ variable {k G W₁ W₂ : Type*} [Field k] [Monoid G]
 /-- **Cancelling a common character twist preserves equivariance.** A `k`-linear
 equivalence `e : W₁ ≃ₗ[k] W₂` intertwining the `det`-style twists
 `charTwistRep c ρ₁` and `charTwistRep c ρ₂` already intertwines the untwisted
-representations `ρ₁` and `ρ₂`: each twist multiplies the action by the *same*
+representations `ρ₁` and `ρ₂`: each twist multiplies the action by the same
 invertible scalar `c g`, and `e` is `k`-linear, so the scalar cancels.
 
 This is the elementary "untwist" used to strip the `det^s`-twist after the two
@@ -89,7 +87,7 @@ variable {k : Type*} [Field k] [IsAlgClosed k] [CharZero k]
 
 /-- **Both `det^s`-twisted contragredient models land on a common Schur module
 (analytic core).** For a large enough determinant twist `det^s`, there is a single
-non-negative weight `ν` such that *both* twisted models are `GL_n`-equivariantly
+non-negative weight `ν` such that both twisted models are `GL_n`-equivariantly
 isomorphic to the bare Schur module `SchurModuleSubmodule k n ν` (action
 `schurModuleRep k n ν`):
 
@@ -99,17 +97,17 @@ isomorphic to the bare Schur module `SchurModuleSubmodule k n ν` (action
   `Module.Dual k (AlgIrrepGL n lam k)`, action `charTwistRep (det^s) (ρ.dual)`).
 
 This bundles the entire analytic content of the contragredient identity. The
-intended route applies the GL char→iso keystone `iso_of_formalCharacter_eq_schurPoly`
+proof applies the GL char→iso keystone `iso_of_formalCharacter_eq_schurPoly`
 (`SchurWeylFormalCharacterIso.lean`) to each twisted model: both are polynomial
 (algebraic, with spanning `ℕ`-weight spaces) with formal character `schurPoly N ν`,
-so each is identified with the *same* Schur module `SchurModuleSubmodule k n ν`.
+so each is identified with the same Schur module `SchurModuleSubmodule k n ν`.
 
-Two facts feed the character computation (each warrants its own sub-issue):
+Two facts enter the character computation:
 
 * (a) `formalCharacter (ρ.dual)` is `formalCharacter ρ` read at inverse torus weights
   (the dual rep negates weights);
 * (b) the inverted-variable Schur identity `s_λ(x⁻¹)·(x₁⋯x_n)^s = s_{w₀λ+s}(x)`, which
-  makes the `det^s`-twisted dual character a genuine Schur polynomial.
+  makes the `det^s`-twisted dual character a Schur polynomial.
 
 The `det^s`-twisted Schur-module side is the easier half: for `s ≥ (lam.w0Twist).shift`
 it is the determinant-shift of a Schur module, identified with a Schur module by
@@ -118,21 +116,21 @@ linear-dual side, which needs (a) and (b).
 
 Once this common model is available, the equivariant equivalence
 `AlgIrrepGLDual ≃ₗ Module.Dual` is obtained by composing the two identifications
-(`exists_detTwist_equivariantEquiv_dual`, sorry-free below).
+(`exists_detTwist_equivariantEquiv_dual` below).
 
-**Status / decomposition (now sorry-free).** Facts (a) and (b) are closed:
-(a) `formalCharacter_dual_coeff_eq` (`FormalCharacterDual.lean`, #5533) and
-(b) `schurPoly_inverseShift` (`SchurPolyInverseShift.lean`, #5534). The reusable glue
-`charTwistRep_charTwistRep` (`KernelLemmaKPrime.lean`, sorry-free) collapses the stacked
+**Decomposition.** Facts (a) and (b) are provided by
+(a) `formalCharacter_dual_coeff_eq` (`FormalCharacterDual.lean`) and
+(b) `schurPoly_inverseShift` (`SchurPolyInverseShift.lean`). The lemma
+`charTwistRep_charTwistRep` (`KernelLemmaKPrime.lean`) collapses the stacked
 `det^s ∘ det^{-(shift:ℤ)}` twists into a single `det`-power twist. The two halves are:
 
 * the Schur-module half `schurModule_half_detTwist_contragredient`
-  (`SchurModuleContragredientHalf.lean`, keystone-free; iterate Prop 5.22.2) — issue #5543;
+  (`SchurModuleContragredientHalf.lean`; iterate Prop 5.22.2);
 * the linear-dual half `linearDual_half_detTwist_contragredient`
-  (`LinearDualContragredientHalf.lean`, keystone `iso_of_formalCharacter_eq_schurPoly`
-  consuming (a)+(b)) — issue #5544.
+  (`LinearDualContragredientHalf.lean`, via the keystone
+  `iso_of_formalCharacter_eq_schurPoly` consuming (a) and (b)).
 
-**The shared-`ν` crux (resolved below).** The two halves must land on the *same* `ν`.
+**The shared weight `ν`.** The two halves must land on the same `ν`.
 The Schur half (parameter `t`) yields `ν_Schur = (lam.w0Twist).toNatWeight + t`
 (with `s = t + (lam.w0Twist).shift`), while the dual half (parameter `s`) yields
 `ν_dual = w0ShiftWeight n lam.toNatWeight (s + lam.shift)`. Taking `t = 0` fixes
@@ -141,8 +139,7 @@ The Schur half (parameter `t`) yields `ν_Schur = (lam.w0Twist).toNatWeight + t`
 = (lam.w0Twist).toNatWeight` (each side `(lam.w0Twist).shift - lam_{rev j}` over `ℤ`,
 the `lam.shift` columns cancelling) reconciles the dual half onto the shared `ν`.
 
-Assembled from the two halves (#5543, #5544); the keystone forces `k : Type`. Tracked in
-https://github.com/FormalFrontier/Etingof-RepresentationTheory-draft1/issues/5526. -/
+The keystone forces `k : Type`. -/
 theorem exists_common_schurModule_model_detTwist_dual (n : ℕ) (lam : DominantWeight n)
     (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
     ∃ (s : ℕ) (ν : Fin n → ℕ),
@@ -214,15 +211,14 @@ This is the analytic heart of the contragredient identity. Both twisted models a
 polynomial with Schur-polynomial formal character, so each is identified with the
 same Schur module by `iso_of_formalCharacter_eq_schurPoly`
 (`SchurWeylFormalCharacterIso.lean`); composing the two identifications gives the
-equivariant equivalence. Two facts feed the character computation:
+equivariant equivalence. Two facts enter the character computation:
 
 * `formalCharacter (ρ.dual)` is `formalCharacter ρ` read at inverse torus weights
   (the dual rep negates weights);
 * the inverted-variable Schur identity `s_λ(x⁻¹)·(x₁⋯x_n)^s = s_{w₀λ+s}(x)`, which
-  makes the `det^s`-twisted dual character a genuine Schur polynomial.
+  makes the `det^s`-twisted dual character a Schur polynomial.
 
-Now sorry-free via `exists_common_schurModule_model_detTwist_dual`; tracked in
-https://github.com/FormalFrontier/Etingof-RepresentationTheory-draft1/issues/5526. -/
+This follows from `exists_common_schurModule_model_detTwist_dual`. -/
 theorem exists_detTwist_equivariantEquiv_dual (n : ℕ) (lam : DominantWeight n)
     (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
     ∃ s : ℕ, Nonempty
@@ -245,7 +241,7 @@ theorem exists_detTwist_equivariantEquiv_dual (n : ℕ) (lam : DominantWeight n)
 /-- **The contragredient identity `L*_λ ≅ L_λ^∨` for `GL_n`.** A `GL_n`-equivariant
 `k`-linear isomorphism identifying the Schur-module realization of the
 contragredient `AlgIrrepGLDual n lam k` (`= L_{w₀λ}`, action
-`algIrrepGLRepDualρ`) with the genuine linear dual `Module.Dual k (AlgIrrepGL n lam k)`
+`algIrrepGLRepDualρ`) with the linear dual `Module.Dual k (AlgIrrepGL n lam k)`
 (action `(algIrrepGLRepρ n lam k).dual`).
 
 The proof matches the two models after a common `det^s`-twist

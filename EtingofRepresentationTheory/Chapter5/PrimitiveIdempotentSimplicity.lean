@@ -14,11 +14,11 @@ and `f iLam = α • π` for a rank-1 projection `π`.
 Then the image `LinearMap.range c.val` is a simple `B`-module, isomorphic
 to `L iLam`.
 
-This is the abstract algebraic step (C-4a-ii) of the Schur-Weyl `L_i`
+This is the abstract algebraic step of the Schur-Weyl `L_i`
 simplicity proof. The hypothesis package matches the conclusions of:
-* sub-α (`youngSym_block_factorization`, #2655) — block factorization,
-* sub-β (off-block vanishing, #2656),
-* sub-γ (rank-1 scaled projection on the special block, #2657).
+* sub-α (`youngSym_block_factorization`): block factorization,
+* sub-β: off-block vanishing,
+* sub-γ: rank-1 scaled projection on the special block.
 
 When all three are composed with this theorem, one obtains
 `IsSimpleModule B (range c.val)` purely from semisimple bimodule
@@ -214,7 +214,7 @@ as `(f i) ⊗ id_{L i}`, with `f i = 0` for `i ≠ iLam` and
 
 Then the image `LinearMap.range c.val` is simple as a `B`-module.
 
-The conclusion is packaged as `IsSimpleModule ↥B ↥(imageSubmoduleB c)` —
+The conclusion is packaged as `IsSimpleModule ↥B ↥(imageSubmoduleB c)`;
 the underlying carrier of `imageSubmoduleB c` equals `range c.val`
 (`mem_imageSubmoduleB`). -/
 theorem image_of_primitive_idempotent_isSimple_centralizer

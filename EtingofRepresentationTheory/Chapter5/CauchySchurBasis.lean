@@ -6,7 +6,7 @@ import EtingofRepresentationTheory.Chapter5.SchurWeylPolynomialIdentity
 # The Cauchy identity in the Schur basis at `y = 1ᴺ`
 
 This file proves the symmetric-function core of the right-`GL_N` Cauchy character
-identity (#4944, sub-issue B / #4958): for every weight `μ : Fin N →₀ ℕ` of size `d`,
+identity: for every weight `μ : Fin N →₀ ℕ` of size `d`,
 
   `∑_{ν : BoundedPartition N d} s_ν(1ᴺ) · [x^μ] s_ν = ∏_j C(μ_j + N − 1, N − 1)`,
 
@@ -223,9 +223,9 @@ theorem sum_card_NNMatrixGen_eq_prod_choose (μ : Fin N →₀ ℕ) (hμ : ∑ i
     rw [← hμ]; exact Finset.single_le_sum (fun _ _ => Nat.zero_le _) (Finset.mem_univ j)
   rw [← hfib, hfactor]
 
-/-! ### Assembly -/
+/-! ### The identity -/
 
-/-- **Cauchy identity in the Schur basis at `y = 1ᴺ`** (#4958). For every weight
+/-- **Cauchy identity in the Schur basis at `y = 1ᴺ`.** For every weight
 `μ : Fin N →₀ ℕ` of size `d`,
 
   `∑_{ν : BoundedPartition N d} s_ν(1ᴺ) · [x^μ] s_ν = ∏_j C(μ_j + N − 1, N − 1)`. -/

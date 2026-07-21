@@ -12,17 +12,17 @@ so the distinct complementary-series representations are indexed by the orbits o
 map `ν ↦ ν^q` on the character group `K^∨` of the cyclic group `K` (`|K| = q² − 1`),
 restricted to those `ν` with `ν^q ≠ ν`.
 
-The mathematical content is a **pure character-group orbit count**, entirely independent
+The mathematical content is a pure character-group orbit count, entirely independent
 of the GL₂ representation machinery. Modelling `K^∨ ≅ ZMod (q² − 1)` additively (with
 `ν ↦ ν^q` corresponding to multiplication by `q`), we prove:
 
-* `cs_f_involutive` — the map `f : x ↦ q · x` is an involution on `ZMod (q² − 1)`
+* `cs_f_involutive`: the map `f : x ↦ q · x` is an involution on `ZMod (q² − 1)`
   (since `q² ≡ 1 mod (q² − 1)` for `q ≥ 2`);
-* `cs_moved_card` — exactly `q (q − 1)` characters satisfy `q · ν ≠ ν` (the remaining
+* `cs_moved_card`: exactly `q (q − 1)` characters satisfy `q · ν ≠ ν` (the remaining
   `q − 1` are fixed, because `ν^q = ν ⟺ (q + 1) ∣ ν` in the additive model);
-* `cs_reps_transversal` — the involution `f` pairs the moved set into two-element orbits,
+* `cs_reps_transversal`: the involution `f` pairs the moved set into two-element orbits,
   with `cs_reps q` a transversal (one representative per orbit);
-* `cs_reps_card` — hence the number of orbits, i.e. the number of complementary-series
+* `cs_reps_card`: hence the number of orbits, i.e. the number of complementary-series
   representations, is `q (q − 1) / 2`.
 -/
 
@@ -163,7 +163,7 @@ lemma cs_f_involutive (hq : 2 ≤ q) (x : ZMod (q ^ 2 - 1)) : cs_f q (cs_f q x) 
   simp only [cs_f]
   rw [← mul_assoc, ← pow_two, hsq, one_mul]
 
-/-- The transversal `cs_reps` genuinely picks one representative from each two-element
+/-- The transversal `cs_reps` picks one representative from each two-element
 orbit: the moved set is the disjoint union of `cs_reps` and its image under `cs_f`, and
 the image has the same cardinality. This exhibits `cs_reps` as a set of orbit
 representatives. -/

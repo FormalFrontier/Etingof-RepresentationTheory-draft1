@@ -6,9 +6,9 @@ import EtingofRepresentationTheory.Chapter5.CauchyCharacterRight
 
 This file computes the dimension of every torus weight space of the degree-`d`
 homogeneous component `A_d = k[Xᵢⱼ]_d` under the right-`GL_N` action
-(`polyRightDegreeFDRep`, `CauchyCharacterRight.lean`). This is sub-issue A of the
-right-`GL_N` Cauchy character identity (#4944): the elementary, **weight-space
-side**, requiring no Schur-Weyl theory.
+(`polyRightDegreeFDRep`, `CauchyCharacterRight.lean`). This is the elementary,
+weight-space side of the right-`GL_N` Cauchy character identity, requiring no
+Schur-Weyl theory.
 
 The main result is
 
@@ -288,7 +288,7 @@ theorem card_Dset (d : ℕ) (μ : Fin N → ℕ) :
 
 /-! ### The weight-space dimension formula -/
 
-/-- **Weight-space dimension of `A_d` (sub-issue A of #4944).** The `μ`-weight space
+/-- **Weight-space dimension of `A_d`.** The `μ`-weight space
 of the right-`GL_N` representation `A_d = k[Xᵢⱼ]_d` has dimension
 `∏_j C(μ_j + N − 1, N − 1)` when `∑_j μ_j = d` (the number of degree-`d` monomials
 with column-degree vector `μ`), and is zero otherwise. -/

@@ -8,30 +8,29 @@ This file works towards `Irreducible (detPoly k N)` and `Prime (detPoly k N)`
 for `N ≥ 1`, where
 `detPoly k N = Matrix.det (Matrix.mvPolynomialX (Fin N) (Fin N) k)`
 is the generic determinant polynomial in `A := MvPolynomial (Fin N × Fin N) k`
-(issue #4736, the algebraic prerequisite of the det⁻¹-elimination kernel lemma
-#4712 / #4694; route doc `progress/kernel-lemma-K-route.md`).
+(the algebraic prerequisite of the det⁻¹-elimination kernel lemma).
 
 Neither Mathlib nor this repository has irreducibility of a generic determinant,
 so we build it here.
 
 ## Main results (proven in this file)
 
-* `detPoly_prime` — `Prime (detPoly k N)` for `N ≥ 1`, proved by induction on
+* `detPoly_prime`: `Prime (detPoly k N)` for `N ≥ 1`, proved by induction on
   `N`. The step cofactor-expands along column `0`, repackaging the generic
   determinant as `detPoly = X(0,0)·M₀₀ + R`, identifies the `(0,0)`-minor `M₀₀`
   as a `rename` of `detPoly k (N-1)` (prime by the induction hypothesis), and
   discharges the coprimality `M₀₀ ∤ R`.
-* `detPoly_irreducible` — `Irreducible (detPoly k N)` for `N ≥ 1`, immediate
+* `detPoly_irreducible`: `Irreducible (detPoly k N)` for `N ≥ 1`, immediate
   from `detPoly_prime`.
 
 ## Reusable foundations (proven in this file)
 
-* `irreducible_C_mul_X_add_C` — a linear polynomial `a·X + b` over an integral
+* `irreducible_C_mul_X_add_C`: a linear polynomial `a·X + b` over an integral
   domain with `a` prime and `a ∤ b` is irreducible. This is the engine of the
   inductive determinant proof: after cofactor-expanding along column `0`, the
   generic determinant is `X(0,0)·M₀₀ + R` with `M₀₀` prime (induction
   hypothesis) and `M₀₀ ∤ R`.
-* `prime_rename_of_injective` — primeness in `MvPolynomial` transfers across a
+* `prime_rename_of_injective`: primeness in `MvPolynomial` transfers across a
   `rename` along an injective map. This is the induction-hypothesis plumbing:
   each minor of the generic matrix is a `rename` of a smaller generic
   determinant, and `rename` along the (injective) index embedding carries
@@ -144,7 +143,7 @@ private lemma minor_det_eq_rename {n : ℕ} (i : Fin (n + 1)) :
   simp [Matrix.submatrix_apply, Matrix.map_apply, Matrix.mvPolynomialX_apply]
 
 /-- The variable `X(0,0)` occurs in the generic determinant polynomial (for
-`m ≥ 1`): the determinant genuinely depends on the top-left entry, witnessed by
+`m ≥ 1`): the determinant depends on the top-left entry, witnessed by
 evaluating at the identity matrix versus the identity with the `(0,0)` entry
 zeroed (det `1` versus `0`). -/
 private lemma mem_vars_detPoly {m : ℕ} :

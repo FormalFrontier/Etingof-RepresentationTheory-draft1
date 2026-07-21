@@ -19,8 +19,8 @@ post-composition by every `g^{⊗n}` is automatically `C`-linear: the predicate
 "intertwines `c • -`" is closed under the algebra operations and holds on the
 generators, so an `Algebra.adjoin_induction` propagates it to all of `C`.
 
-This is **Part 1** of the GL-side distinctness output for
-`glTensorRep_equivariant_schurWeyl_decomposition` (parent issue #4731). Part 2
+This is Part 1 of the GL-side distinctness for
+`glTensorRep_equivariant_schurWeyl_decomposition`. Part 2
 (the B-side distinctness `M_i ≅_C M_j ⟹ i = j`, via the symmetric double
 centralizer) consumes the `≃ₗ[C]` upgrade produced here.
 -/
@@ -65,7 +65,7 @@ linear over the centralizer `C = centralizer(A)`.
 
 The generating set `{g^{⊗n} : g ∈ (End k V)ˣ}` of `C` (via
 `adjoin_unitsTensorPow_eq_diagonalActionImage` and the centralizer equality)
-drives an `Algebra.adjoin_induction`: the intertwining property is closed under
+supports an `Algebra.adjoin_induction`: the intertwining property is closed under
 `+`, `*` (`mul_smul`), `algebraMap` (`ψ` is `k`-linear), and holds on the
 generators by hypothesis. -/
 theorem homA_centralizer_smul_comm_of_unitTensorPow_intertwine
@@ -82,7 +82,7 @@ theorem homA_centralizer_smul_comm_of_unitTensorPow_intertwine
     ψ (c • l) = c • ψ l := by
   classical
   -- Destructure `c` up front so the goal is literally in `⟨cval, hcmem⟩` form
-  -- (the form the `adjoin_induction` predicate produces — avoids a `Subtype`
+  -- (the form the `adjoin_induction` predicate produces, avoiding a `Subtype`
   -- eta mismatch at the end).
   obtain ⟨cval, hcmem⟩ := c
   -- Keep `C` abstract for brevity; do NOT `set` `symGroupImage`/`TensorPower`,
@@ -196,13 +196,13 @@ theorem unitTensorPowCentralizer_smul_eq [Module.Finite k V] {n : ℕ}
 
 end
 
-/-! ### Part 2 wiring: GL-side pairwise distinctness of the Schur-Weyl simples
+/-! ### Part 2: GL-side pairwise distinctness of the Schur-Weyl simples
 
-Assembling Part 1 (the GL-equivariant ⟹ centralizer-linear upgrade above) with
+Combining Part 1 (the GL-equivariant ⟹ centralizer-linear upgrade above) with
 the B-side distinctness `multiplicitySpace_Cdistinct`
-(`MultiplicitySpaceBiduality.lean`) yields the GL-side output targeted by issue
-#4849/#4860: the abstract simple summands `L i` of `V^{⊗n}` produced by the
-explicit Schur-Weyl decomposition are pairwise non-isomorphic. -/
+(`MultiplicitySpaceBiduality.lean`): the abstract simple summands `L i` of
+`V^{⊗n}` produced by the explicit Schur-Weyl decomposition are pairwise
+non-isomorphic. -/
 
 section GLDistinct
 
@@ -223,13 +223,13 @@ theorem exists_gl_mulVecLin_eq {N : ℕ} (g : (Module.End k (Fin N → k))ˣ) :
 
 set_option maxHeartbeats 6400000 in
 set_option synthInstance.maxHeartbeats 3200000 in
-/-- **GL-side distinctness (Part 2 wiring).** Given the explicit Schur-Weyl
+/-- **GL-side distinctness (Part 2).** Given the explicit Schur-Weyl
 decomposition data of `V^{⊗n}` (`V = Fin N → k`) from
-`Theorem5_18_4_GL_rep_decomposition_explicit_simple` — the Specht submodules
+`Theorem5_18_4_GL_rep_decomposition_explicit_simple`, namely the Specht submodules
 `S' i` (simple and pairwise non-isomorphic over `A = symGroupImage k V n`), the
 abstract simple polynomial `GL_N`-reps `L i`, the carrier identifications
 `L_carrier i : L i ≃ₗ[k] (↥(S' i) →ₗ[A] V^{⊗n})`, and the action formula
-`h_act` — the `L i` are pairwise non-isomorphic as `GL_N`-representations.
+`h_act`: the `L i` are pairwise non-isomorphic as `GL_N`-representations.
 
 The proof transports an FDRep iso `L i ≅ L j` through `L_carrier i`, `L_carrier
 j` to a `k`-linear equiv `ψ` of multiplicity spaces, shows `ψ` intertwines
@@ -277,7 +277,7 @@ theorem schurWeyl_L_pairwise_distinct_of_explicit
       ≃ₗ[k] (↥(S' j) →ₗ[symGroupImage k (Fin N → k) n] TensorPower k (Fin N → k) n) :=
     (L_carrier i).symm.trans (φ.trans (L_carrier j)) with hψdef
   -- Upgrade `ψ` to a `C`-linear equiv (Part 1) and conclude `i = j` (Part 2). The
-  -- intertwining goal is produced by *specializing* Part 1's `•` signature
+  -- intertwining goal is produced by specializing Part 1's `•` signature
   -- (`refine … ?_`), so the centralizer `•` is never synthesized freshly here;
   -- the proof of that goal stays entirely `•`-free via `unitTensorPowCentralizer_smul_eq`.
   refine multiplicitySpace_Cdistinct k (TensorPower k (Fin N → k) n)

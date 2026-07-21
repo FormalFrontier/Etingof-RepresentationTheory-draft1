@@ -10,21 +10,21 @@ inversion action of `G` on `A`. The dual `G`-action on the character group
 of `1`- and `2`-dimensional irreducibles, split by the parity of `N`) come entirely from the
 orbit combinatorics of this inversion involution on `Â`.
 
-This file collects those reusable combinatorial/character-group facts. They do **not** depend
+This file collects those reusable combinatorial/character-group facts. They do not depend
 on the representation-theory engine `Theorem5_27_1.lean` and are proved standalone.
 
 ## Main results
 
-* `card_charGroup` — the character group has `N` elements:
+* `card_charGroup`: the character group has `N` elements:
   `Nat.card (Multiplicative (ZMod N) →* ℂˣ) = N`.
-* `card_selfInverse` — the number of self-inverse characters (`χ = χ⁻¹`, equivalently
+* `card_selfInverse`: the number of self-inverse characters (`χ = χ⁻¹`, equivalently
   `χ ^ 2 = 1`) equals `Nat.gcd 2 N` (so `1` for odd `N`, `2` for even `N`).
-* `card_notSelfInverse` — the number of non-self-inverse characters is `N - Nat.gcd 2 N`.
-* `two_dvd_card_ne_of_involutive` — reusable: the points moved by any involution on a finite
+* `card_notSelfInverse`: the number of non-self-inverse characters is `N - Nat.gcd 2 N`.
+* `two_dvd_card_ne_of_involutive`: reusable, the points moved by any involution on a finite
   type split into `2`-element orbits, so their number is even.
-* `two_dvd_card_notSelfInverse` — that number is even, so the non-fixed characters really do
+* `two_dvd_card_notSelfInverse`: that number is even, so the non-fixed characters really do
   split into `2`-element orbits `{χ, χ⁻¹}`.
-* `card_freeOrbitPairs` — the number of those `2`-element orbits is `(N - Nat.gcd 2 N) / 2`
+* `card_freeOrbitPairs`: the number of those `2`-element orbits is `(N - Nat.gcd 2 N) / 2`
   (i.e. `(N-1)/2` for odd `N` and `(N-2)/2` for even `N`).
 
 The character group is (non-canonically) isomorphic to the finite cyclic group
@@ -119,7 +119,7 @@ theorem two_dvd_card_notSelfInverse :
 
 /-- **Free-orbit count.** Under the involution `χ ↦ χ⁻¹`, the number of `2`-element orbits
 (`χ ≠ χ⁻¹`) equals `(N - Nat.gcd 2 N) / 2`: `(N-1)/2` for odd `N` and `(N-2)/2` for even `N`.
-The halving is a genuine orbit count by `two_dvd_card_notSelfInverse`. -/
+The halving is exact by `two_dvd_card_notSelfInverse`. -/
 theorem card_freeOrbitPairs :
     Nat.card {χ : Multiplicative (ZMod N) →* ℂˣ // χ ≠ χ⁻¹} / 2 = (N - Nat.gcd 2 N) / 2 := by
   rw [card_notSelfInverse]

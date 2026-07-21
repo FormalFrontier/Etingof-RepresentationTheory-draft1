@@ -6,8 +6,8 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Irreducible
 /-!
 # Tabloid Module Infrastructure
 
-This file defines the **tabloid type**, **T-relative column subgroup**, and
-**dominance order** needed for the polytabloid linear independence proof.
+This file defines the tabloid type, T-relative column subgroup, and
+dominance order needed for the polytabloid linear independence proof.
 
 A tabloid is a left P_λ-coset of S_n: two permutations give the same tabloid iff their
 "row assignments" agree (same entries in each row). The row assignment of a permutation
@@ -15,17 +15,17 @@ A tabloid is a left P_λ-coset of S_n: two permutations give the same tabloid if
 
 ## Main definitions
 
-* `Etingof.TabloidSetoid` — the equivalence relation σ₁ ~ σ₂ iff σ₁ σ₂⁻¹ ∈ P_λ
-* `Etingof.Tabloid` — the quotient type (left P_λ cosets)
-* `Etingof.sytToTabloid` — maps an SYT to its tabloid
-* `Etingof.RelColumnSubgroup` — C_T = σ_T⁻¹ Q_λ σ_T (entry-level column stabilizer of T)
-* `Etingof.tabloidDominance` — dominance partial order on tabloids
+* `Etingof.TabloidSetoid`: the equivalence relation σ₁ ~ σ₂ iff σ₁ σ₂⁻¹ ∈ P_λ
+* `Etingof.Tabloid`: the quotient type (left P_λ cosets)
+* `Etingof.sytToTabloid`: maps an SYT to its tabloid
+* `Etingof.RelColumnSubgroup`: C_T = σ_T⁻¹ Q_λ σ_T (entry-level column stabilizer of T)
+* `Etingof.tabloidDominance`: dominance partial order on tabloids
 
 ## Main results
 
-* `Etingof.sytToTabloid_injective` — different SYTs give different tabloids
-* `Etingof.RowSubgroup_inter_ColumnSubgroup` — P_λ ∩ Q_λ = {1}
-* `Etingof.ColumnSubgroup_ne_tabloid` — non-identity column perms change tabloid
+* `Etingof.sytToTabloid_injective`: different SYTs give different tabloids
+* `Etingof.RowSubgroup_inter_ColumnSubgroup`: P_λ ∩ Q_λ = {1}
+* `Etingof.ColumnSubgroup_ne_tabloid`: non-identity column perms change tabloid
 
 ## Convention note
 
@@ -107,7 +107,7 @@ theorem toTabloid_eq_iff_rowAssign (σ₁ σ₂ : Equiv.Perm (Fin n)) :
   · intro h k
     have hmem := h (σ₂ k)
     simp only [Equiv.Perm.coe_mul, Function.comp_apply,
-               Equiv.Perm.coe_inv, Equiv.symm_apply_apply] at hmem -- v4.29.0: Equiv.Perm.inv_apply_self renamed/removed
+               Equiv.Perm.coe_inv, Equiv.symm_apply_apply] at hmem
     exact hmem
   · intro h k
     show rowOfPos la.sortedParts ((σ₁ * σ₂⁻¹) k).val = rowOfPos la.sortedParts k.val
@@ -198,7 +198,7 @@ theorem sytToTabloid_injective (n : ℕ) (la : Nat.Partition n) :
       have hih := ih k'.val (by omega) k' rfl
       -- So sytPerm T₁ k' = sytPerm T₂ k' = sytPerm T₁ k, contradicting injectivity
       exact absurd ((sytPerm n la T₁).injective (by rw [hih, hk'_eq])) (ne_of_lt hk'_lt)
-    · -- Case: col(sytPerm T₁ k) > col(sytPerm T₂ k) — symmetric with T₁
+    · -- Case: col(sytPerm T₁ k) > col(sytPerm T₂ k), symmetric with T₁
       set k' := (sytPerm n la T₁).symm (sytPerm n la T₂ k)
       have hk'_eq : sytPerm n la T₁ k' = sytPerm n la T₂ k :=
         (sytPerm n la T₁).apply_symm_apply (sytPerm n la T₂ k)
@@ -838,17 +838,16 @@ theorem column_perm_strict_dominance (T : StandardYoungTableau n la)
   ⟨column_perm_dominance T q hq,
    (ColumnSubgroup_ne_tabloid T q hq hne).symm⟩
 
-/-! ### Note on the group algebra linear independence proof
+/-! ### The tabloid-level linear independence proof
 
-The group algebra version of the linear independence proof (evaluating
-polytabloids at permutations) was previously here but depended on
-`polytabloid_self_coeff`, which is **false** for the T-dependent polytabloid
-definition (see PolytabloidBasis.lean and GitHub issue #2161).
+A group-algebra version of the linear independence proof (evaluating polytabloids
+at permutations) would need `polytabloid_self_coeff`, which is false for the
+T-dependent polytabloid definition (see `PolytabloidBasis.lean`).
 
-The correct proof is via the tabloid module: `polytabloidTab_linearIndependent`
-below proves linear independence using `polytabloidTab_coeff_self` (which IS
-true at the tabloid level). See `polytabloidTab_coeff_zero_of_maximal` for
-the correct coefficient extraction argument.
+Linear independence is instead proved at the tabloid level:
+`polytabloidTab_linearIndependent` below uses `polytabloidTab_coeff_self`, which
+holds at the tabloid level. See `polytabloidTab_coeff_zero_of_maximal` for the
+coefficient extraction argument.
 -/
 
 /-- In any finset with a dominance-like relation, a nonempty subset has a maximal
@@ -942,7 +941,7 @@ support tabloid `t'` that dominates `t₁` (comparing chosen representatives
 
 This is the general-`Finsupp`-support analogue of `exists_dominance_maximal`
 (which is stated for finsets of standard Young tableaux). It is the entry point
-for the leading-term elimination in the Garnir column-straightening crux: pick a
+for the leading-term elimination in the Garnir column-straightening step: pick a
 dominance-maximal tabloid of the residual support, subtract the matching standard
 polytabloid, and recurse. Dominance is compared on the canonical representatives
 `Quotient.out t`; since dominance is well-defined on tabloids
@@ -1150,13 +1149,6 @@ theorem polytabloidTab_linearIndependent :
   by_contra hfT
   obtain ⟨T₀, hT₀, hfT₀, hmax⟩ := exists_dominance_maximal S f T hT hfT
   exact hfT₀ (polytabloidTab_coeff_zero_of_maximal S f hf T₀ hT₀ hmax)
-
--- Note: polytabloid_linearIndependent' (group algebra version) was removed because
--- it depended on the false polytabloid_self_coeff. The correct proof is
--- polytabloidTab_linearIndependent above. The group-algebra version
--- (polytabloid_linearIndependent) was likewise retired from the project in favor of
--- this sorry-free tabloid-level route (see the module docstring of
--- PolytabloidBasis.lean); no group-algebra transfer argument is needed.
 
 /-! ### Generalized polytabloidTabs
 

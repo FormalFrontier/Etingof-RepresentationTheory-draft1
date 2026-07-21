@@ -38,16 +38,16 @@ variable {k : Type*} [Field k] [IsAlgClosed k] [CharZero k]
 of `GL_n(k)` on a finite-dimensional `k`-vector space `Y`, then `Y` decomposes as
 a direct sum of irreducible subrepresentations.
 
-This is stated faithfully as semisimplicity of `Y` **as a module over the group
-algebra `k[GL_n(k)]`** — i.e. semisimplicity of the representation `ρ`, which is
-the precise meaning of "completely reducible". This is genuine `GL_n`-equivariant
-content: the group algebra `k[GL_n(k)]` is *not* a semisimple ring (`GL_n(k)` is
-infinite), so this is NOT automatic for an arbitrary module; it holds precisely
-because the representation is *algebraic*.
+This is stated faithfully as semisimplicity of `Y` as a module over the group
+algebra `k[GL_n(k)]`, i.e. semisimplicity of the representation `ρ`, which is
+the precise meaning of "completely reducible". This is `GL_n`-equivariant
+content: the group algebra `k[GL_n(k)]` is not a semisimple ring (`GL_n(k)` is
+infinite), so this is not automatic for an arbitrary module; it holds precisely
+because the representation is algebraic.
 
-(Contrast the previous formalization, which asserted only `IsSemisimpleModule k Y`
-— semisimplicity of `Y` as a plain `k`-vector space — which is trivially true for
-*any* vector space over a field and carries no representation-theoretic content.)
+(By contrast, `IsSemisimpleModule k Y`, semisimplicity of `Y` as a plain
+`k`-vector space, is trivially true for any vector space over a field and carries
+no representation-theoretic content.)
 
 **Proof (Etingof, §5.23).** There is an equivariant embedding `ξ : Y → Y ⊗ R`,
 `⟨u, ξ(v)⟩(g) = u(g v)` for `u ∈ Y*` (with trivial `GL`-action on the first
@@ -59,19 +59,18 @@ embeds into a direct sum of representations `V^{⊗n} ⊗ (∧ᴺ V*)^{⊗s}`, e
 is completely reducible by Schur-Weyl duality (Theorem 5.18.4 / 5.22.1); a
 subrepresentation of a semisimple module is semisimple, so `Y` is semisimple.
 
-The finer statement of the book — that the irreducible summands are the `Lλ` and
-are pairwise nonisomorphic — is the highest-weight classification, which requires
-the GL-rep classification infrastructure (cf. `iso_of_formalCharacter_eq_schurPoly`)
-and is tracked separately.
+The finer statement of the book, that the irreducible summands are the `Lλ` and
+are pairwise nonisomorphic, is the highest-weight classification, which requires
+the GL-rep classification infrastructure (cf. `iso_of_formalCharacter_eq_schurPoly`).
 
-**Formalized proof.** Rather than the embedding-into-`Sʳ(V ⊗ V*)` argument above
-(which is one valid route), this discharges complete reducibility through the
+**Proof used here.** Rather than the embedding-into-`Sʳ(V ⊗ V*)` argument above
+(one valid approach), this proves complete reducibility via the
 `det`-twist reduction to the polynomial case:
 
 1. *det-clearing* (`IsAlgebraicRepresentation.exists_detPow_twist_isPolynomial`):
    some power `s` makes the twist `g ↦ det(g)^s • ρ(g)` a *polynomial*
    (`det⁻¹`-free) representation.
-2. The twist is the genuine representation `charTwistRep (det^s) ρ`.
+2. The twist is the representation `charTwistRep (det^s) ρ`.
 3. *homogeneous splitting + decompose* (`polynomialRep_isSemisimple`): a
    polynomial `GL_N`-representation is semisimple as a `k[GL_N]`-module (split into
    total-degree components, each handled by `decompose_polynomial_gl_rep`).
@@ -93,7 +92,7 @@ theorem Theorem5_23_2_i
   classical
   -- Step 1 (det-clearing): some `det^s`-twist of `ρ` is a polynomial representation.
   obtain ⟨s, hpoly⟩ := halg.exists_detPow_twist_isPolynomial
-  -- Step 2: realize the twist as the genuine representation `charTwistRep (det^s) ρ`.
+  -- Step 2: realize the twist as the representation `charTwistRep (det^s) ρ`.
   have hcoe : ⇑(charTwistRep (detChar k n ^ s) ρ)
       = fun g => ((Matrix.GeneralLinearGroup.det g : k) ^ s) • ρ g := by
     funext g
@@ -132,25 +131,20 @@ noncomputable abbrev GLCoordinateRing (n : ℕ) (k : Type*) [Field k] :=
 decomposes as `R ≅ ⊕_λ L*_λ ⊗ L_λ`, where the sum ranges over all dominant weights
 `λ = (λ₁ ≥ ⋯ ≥ λ_n)` with `λᵢ ∈ ℤ`, and `L*_λ` is the contragredient of `L_λ`.
 
-**Superseded by the genuine equivariant statement.** The genuine
-`GL_n × GL_n`-equivariant Peter-Weyl isomorphism is now
-`Theorem5_23_2_ii_equivariant` in `Chapter5.Theorem5_23_2_PeterWeyl` (#5396): it
+The full `GL_n × GL_n`-equivariant Peter-Weyl isomorphism is
+`Theorem5_23_2_ii_equivariant` in `Chapter5.Theorem5_23_2_PeterWeyl`: it
 intertwines the left/right translation bi-action on `R = k[gᵢⱼ][1/det]`
-(`localBiRep`) with the action on `⊕_λ L*_λ ⊗ L_λ` (`peterWeylRHS`). The bare
-rank iso below is retained only as scaffolding.
+(`localBiRep`) with the action on `⊕_λ L*_λ ⊗ L_λ` (`peterWeylRHS`).
 
-**⚠ Partial formalization.** The statement below asserts only a *bare `k`-linear*
+The statement below establishes only the underlying `k`-linear
 isomorphism `R ≃ₗ[k] ⊕_λ L*_λ ⊗ L_λ`, proved by matching ranks
 (`nonempty_linearEquiv_of_rank_eq`): both sides are countably-infinite-dimensional
-free `k`-modules for `n ≥ 1`, so this iso holds for *any* two such modules and
-carries **no** `GL_n × GL_n`-equivariant content — the actual mathematical theorem.
-Capturing the full Peter-Weyl decomposition (a `GL_n × GL_n`-equivariant iso)
-requires representation structures that do not yet exist in the project: a
-`GL_n × GL_n`-action on the *localized* coordinate ring `k[gᵢⱼ][1/det]` (including
-the `1/det` variable, on which `(g,h)` acts by `det(g)/det(h)`), the GL-action on
-each `Lλ` / `L*_λ` (the det-twisted `schurModuleRep`), and the matching
-`GL_n × GL_n`-action on the direct sum. This equivariant strengthening is tracked
-as a follow-up issue (the rank iso below is retained only as scaffolding for it).
+free `k`-modules for `n ≥ 1`, so this isomorphism holds for any two such modules and
+carries no `GL_n × GL_n`-equivariant content. The full Peter-Weyl decomposition
+(a `GL_n × GL_n`-equivariant iso) additionally requires a `GL_n × GL_n`-action on the
+localized coordinate ring `k[gᵢⱼ][1/det]` (including the `1/det` variable, on which
+`(g,h)` acts by `det(g)/det(h)`), the GL-action on each `Lλ` / `L*_λ` (the det-twisted
+`schurModuleRep`), and the matching `GL_n × GL_n`-action on the direct sum.
 (Etingof Theorem 5.23.2, part ii) -/
 -- The rank of the coordinate ring `k[GL_n]` equals the rank of the direct sum
 -- `⊕_λ L*_λ ⊗ L_λ` over all dominant weights. Both sides are free `k`-modules;

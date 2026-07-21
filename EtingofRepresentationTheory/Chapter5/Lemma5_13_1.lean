@@ -6,10 +6,6 @@ import EtingofRepresentationTheory.Chapter5.Definition5_12_1
 For x ∈ ℂ[S_n], we have b_λ · x · a_λ = ℓ_λ(x) · c_λ, where ℓ_λ is a linear
 functional on ℂ[S_n]. Here a_λ = Σ_{g ∈ P_λ} g and b_λ = Σ_{g ∈ Q_λ} sign(g) · g,
 and c_λ = b_λ · a_λ is the Young symmetrizer.
-
-## Mathlib correspondence
-
-Requires Young symmetrizer infrastructure (Definition 5.12.1).
 -/
 
 namespace Etingof
@@ -146,11 +142,11 @@ theorem pigeonhole_rowCol_dichotomy {n : ℕ} {la : Nat.Partition n}
   let col := fun k : Fin n => colOfPos parts k.val
   -- Either ∃ distinct i, j in same row with σ⁻¹ images in same column, or not
   by_cases h_exists : ∃ i j : Fin n, i ≠ j ∧ row i = row j ∧ col (σ⁻¹ i) = col (σ⁻¹ j)
-  · -- Case 1: We found the pair — construct the transposition
+  · -- Case 1: We found the pair, so construct the transposition
     obtain ⟨i, j, hij, hrow, hcol⟩ := h_exists
     exact ⟨Equiv.swap i j, ⟨i, j, hij, rfl⟩, swap_mem_rowSubgroup hrow,
       by rw [conj_swap_eq]; exact swap_mem_colSubgroup hcol⟩
-  · -- Case 2: No such pair exists — derive σ ∈ P_λ · Q_λ, contradicting hσ
+  · -- Case 2: No such pair exists, so derive σ ∈ P_λ · Q_λ, contradicting hσ
     push_neg at h_exists
     -- h_exists : ∀ i j, i ≠ j → row i = row j → col (σ⁻¹ i) ≠ col (σ⁻¹ j)
     -- Rephrase: same column → different rows under σ

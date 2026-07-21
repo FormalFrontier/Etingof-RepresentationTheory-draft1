@@ -8,7 +8,7 @@ import EtingofRepresentationTheory.Chapter5.AbelianFDRep
 **Exercise 5.27.2.** Redo Problems 4.12.1(a), 4.12.2, and 4.12.6 using Theorem 5.27.1.
 
 This file handles the **Problem 4.12.2** part: classify all irreducible complex
-representations of the Heisenberg group `H_p` — the group of `3 × 3` upper unitriangular
+representations of the Heisenberg group `H_p`, the group of `3 × 3` upper unitriangular
 matrices over `𝔽_p` (order `p³`).
 
 ## The Heisenberg group as a semidirect product
@@ -32,7 +32,7 @@ the one indexed by `(β - a·γ, γ)`. Hence:
 * **Fixed characters** are those with `γ = 0` (there are `p` of them), each with stabilizer
   all of `G`; over each, Theorem 5.27.1 gives one irreducible `V(χ, U)` per irreducible `U`
   of `G ≅ ℤ/p`, i.e. `p` one-dimensional characters. This yields `p · p = p²`
-  one-dimensional irreducibles — exactly the characters of `H_p`, which factor through the
+  one-dimensional irreducibles, exactly the characters of `H_p`, which factor through the
   abelianization `H_p / Z(H_p) ≅ (ℤ/p)²`.
 * **Free orbits** are indexed by `γ ≠ 0` (there are `p - 1`), each of size `p` with trivial
   stabilizer; over each, Theorem 5.27.1 gives a single irreducible `V(χ, U)` of dimension
@@ -41,9 +41,10 @@ the one indexed by `(β - a·γ, γ)`. Hence:
 So there are exactly `p² + (p - 1)` irreducibles: `p²` of dimension `1` and `p - 1` of
 dimension `p`, consistent with `∑ dim² = p²·1 + (p-1)·p² = p³ = |H_p|`.
 
-The classification `heisenberg_classification` is fully proved: the induced representations
-`V(χ, U)` of Theorem 5.27.1 are computed via the explicit character formula (iv), whose closed
-forms (`fixed_charρ`, `free_char`) drive both the pairwise non-isomorphism and the completeness.
+The classification `heisenberg_classification` follows from the orbit method: the induced
+representations `V(χ, U)` of Theorem 5.27.1 are computed via the explicit character formula (iv),
+whose closed forms (`fixed_charρ`, `free_char`) give both the pairwise non-isomorphism and the
+completeness.
 -/
 
 noncomputable section
@@ -172,8 +173,8 @@ lemma heisenbergφ_apply_ofAdd (a : Multiplicative (ZMod p)) (b c : ZMod p) :
     (heisenbergφ p a : MulAut _) (Multiplicative.ofAdd (b, c))
       = Multiplicative.ofAdd (b, c + Multiplicative.toAdd a * b) := rfl
 
-/-- **Dual-action formula.** Precomposing `χ_{β,γ}` with the shear `φ(g⁻¹)` — i.e. applying the
-dual `G`-action of `g` — yields `χ_{β − a·γ, γ}` where `a = Multiplicative.toAdd g`. This is
+/-- **Dual-action formula.** Precomposing `χ_{β,γ}` with the shear `φ(g⁻¹)`, i.e. applying the
+dual `G`-action of `g`, yields `χ_{β − a·γ, γ}` where `a = Multiplicative.toAdd g`. This is
 exactly what `Etingof.Theorem5_27_1`'s `dualSmul` unfolds to. -/
 lemma heisenbergChar_comp_heisenbergφ_inv (g : Multiplicative (ZMod p)) (β γ : ZMod p) :
     (heisenbergChar p β γ).comp (heisenbergφ p g⁻¹ : MulAut _).toMonoidHom
@@ -261,7 +262,7 @@ lemma heisenbergChar_surjective (χ : Multiplicative (ZMod p × ZMod p) →* ℂ
 ## The complex-valued additive character and the orthogonality sum
 
 To compute the character of the induced representations `V(χ, U)` via Theorem 5.27.1's character
-formula (iv), we package `ζ^(·)` as a genuine complex-valued additive character `heisenbergPsi`
+formula (iv), we package `ζ^(·)` as a complex-valued additive character `heisenbergPsi`
 of `ZMod p`, whose primitivity yields the geometric-sum (orthogonality) identity
 `∑_t ψ(t·m) = if m = 0 then p else 0`. This collapses the inner sum in the character formula.
 -/

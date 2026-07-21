@@ -4,10 +4,10 @@ import EtingofRepresentationTheory.Chapter5.Proposition5_22_2
 /-!
 # The Schur-module half of the `det^s`-twisted contragredient identity
 
-This file lands the **Schur-module half** of the analytic core
+This file establishes the Schur-module half of the core result
 `exists_common_schurModule_model_detTwist_dual`
-(`Chapter5/ContragredientIdentity.lean`, issue #5535): the easier, keystone-free
-side identifying the `det^s`-twisted Schur-module contragredient with a bare Schur
+(`Chapter5/ContragredientIdentity.lean`): the easier
+side, identifying the `det^s`-twisted Schur-module contragredient with a bare Schur
 module.
 
 For `GL_n` with dominant weight `λ`, write `w₀ := λ.w0Twist`, `μ := w₀.toNatWeight`,
@@ -19,12 +19,12 @@ to a single `det^t`-twist of `L_μ`. Iterating Proposition 5.22.2
 (`schurModule_shift_iso_detTwist`) `t` times then identifies `det^t ⊗ L_μ` with the
 bare Schur module `L_ν`, `ν = μ + t·1`.
 
-The keystone `iso_of_formalCharacter_eq_schurPoly` (and hence
+The result `iso_of_formalCharacter_eq_schurPoly` (and hence
 `schurModule_shift_iso_detTwist`) is fixed at universe `Type` (= `Type 0`), so this
 file is stated at `Type 0` as well.
 
-The main result is `schurModule_half_detTwist_contragredient`. The hard half (the
-linear dual, consuming the GL char→iso keystone) is issue #5544.
+The main result is `schurModule_half_detTwist_contragredient`. The other half, the
+linear dual (which uses the GL character-to-isomorphism result), is developed separately.
 -/
 
 noncomputable section
@@ -36,7 +36,7 @@ open Etingof.KernelLemmaKPrime
 /-! ## Equivariant linear equivalences and their elementary combinators
 
 A small bundle of operations on `k`-linear equivalences that intertwine two
-representations. These are pure linear-algebra glue, used to chain the per-step
+representations. These are pure linear-algebra utilities, used to chain the per-step
 identifications produced by `schurModule_shift_iso_detTwist`. -/
 
 section Helpers
@@ -48,7 +48,7 @@ variable {k : Type u} [Field k] {G : Type u} [Monoid G]
   [AddCommGroup V₁] [Module k V₁] [AddCommGroup V₂] [Module k V₂]
   [AddCommGroup V₃] [Module k V₃]
 
-/-- `e : V₁ ≃ₗ[k] V₂` **intertwines** the representations `ρ₁` and `ρ₂`. -/
+/-- `e : V₁ ≃ₗ[k] V₂` intertwines the representations `ρ₁` and `ρ₂`. -/
 @[reducible] def Intertwines (ρ₁ : Representation k G V₁) (ρ₂ : Representation k G V₂)
     (e : V₁ ≃ₗ[k] V₂) : Prop :=
   ∀ (g : G) (v : V₁), e (ρ₁ g v) = ρ₂ g (e v)
@@ -155,9 +155,9 @@ isomorphic to the bare Schur module `L_ν` with `ν = μ + t·1` (action
 The contragredient is `algIrrepGLRepDualρ = det^{-(sh:ℤ)} ⊗ L_μ`; twisting by
 `det^{t+sh}` collapses (via `charTwistRep_charTwistRep` and
 `det^{t+sh} · det^{-(sh:ℤ)} = det^t`) to the `det^t`-twist of `L_μ`, which
-`charTwist_detPow_iso_schurShift` identifies with `L_ν`. This is the keystone-free
-half feeding `exists_common_schurModule_model_detTwist_dual` (issue #5535); the
-linear-dual half is issue #5544. -/
+`charTwist_detPow_iso_schurShift` identifies with `L_ν`. This is the half
+that contributes to `exists_common_schurModule_model_detTwist_dual`; the
+linear-dual half is developed separately. -/
 theorem schurModule_half_detTwist_contragredient (n : ℕ) (lam : DominantWeight n)
     (k : Type) [Field k] [IsAlgClosed k] [CharZero k] (t : ℕ) :
     Nonempty

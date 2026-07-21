@@ -20,31 +20,30 @@ The element counts are `GL2.card_isScalar`, `GL2.card_isParabolic`,
 each counts how many *matrices* of the given type there are. Here we instead
 count the *conjugacy classes* themselves, by pushing each type's element set
 through the quotient map `ConjClasses.mk` and taking the cardinality of the
-image. This is the first instantiation of `ConjClasses` for GL₂ in the project.
+image.
 
 ## What is proved here
 
 * The four type predicates (`GL2.IsScalar`, `GL2.IsParabolic`,
-  `GL2.IsSplitSemisimple`, `GL2.IsElliptic`) are **conjugation-invariant**
+  `GL2.IsSplitSemisimple`, `GL2.IsElliptic`) are conjugation-invariant
   (`GL2.isScalar_conj_iff`, `GL2.isParabolic_conj_iff`, etc.). This is what
-  makes "the type of a conjugacy class" well defined, and is proved fully from
+  makes "the type of a conjugacy class" well defined, and follows from
   `Etingof.disc_conj_eq` (discriminant is a class function) together with the
   centrality of scalar matrices.
-* The **scalar count** `GL2.numScalarClasses = q − 1` is proved fully: each
+* The **scalar count** `GL2.numScalarClasses = q − 1`: each
   scalar matrix is central, so its conjugacy class is a singleton and
   `ConjClasses.mk` is injective on the scalar set; the count therefore equals
-  the number of scalar *elements*, which is `q − 1` by `GL2.card_isScalar`.
-* The **partition** `GL2.card_conjClasses_eq_sum` is proved fully: the total
+  the number of scalar elements, which is `q − 1` by `GL2.card_isScalar`.
+* The **partition** `GL2.card_conjClasses_eq_sum`: the total
   `Nat.card (ConjClasses (GL₂))` equals the sum of the four type counts, because
   the type predicates transfer across conjugacy (`GL2.isScalar_of_isConj` etc.)
   and are exhaustive, so their `ConjClasses.mk`-images partition the class set.
-* The **grand total** `GL2.card_conjClasses_eq = q² − 1` is then *derived* from
+* The **grand total** `GL2.card_conjClasses_eq = q² − 1` follows from
   the partition plus the four per-type counts and the arithmetic identity
   `(q−1) + (q−1) + (q−1)(q−2)/2 + q(q−1)/2 = q² − 1` (valid since `q = pⁿ` is
-  odd, so both divisions are exact). It carries no `sorry` of its own; it only
-  inherits the per-type counts below.
+  odd, so both divisions are exact).
 
-## The three per-type counts (proved)
+## The three per-type counts
 
 The parabolic / split-semisimple / elliptic per-type counts are proved by the
 book's recipe: divide the element count of a type by the (constant) size of a
@@ -60,14 +59,14 @@ The constant class-size lemmas come from the centralizer orders `q(q−1)`,
 uniformly in `centralizerCard_parabolic`, `centralizerCard_splitSemisimple`,
 `centralizerCard_elliptic`: for a non-scalar `g`, the centralizer in the matrix
 ring is the 2-dimensional commutant algebra `{α • 1 + β • g}`
-(`exists_smul_add_smul_of_commute`), and its units — the group centralizer — are
+(`exists_smul_add_smul_of_commute`), and its units, the group centralizer, are
 counted by the number of `(α, β)` with `det (α • 1 + β • g) ≠ 0`, which the
 determinant quadratic `α² + tr·αβ + det·β²` (discriminant `disc g`) resolves into
 the three type-dependent values via the quadratic root counts. The per-type
-counts then feed the class-count bridge `count_from_bridge`.
+counts are then combined by `count_from_bridge`.
 -/
 
-/-! ## A class-count bridge
+/-! ## A class-count identity
 
 The three per-type counts all follow the same recipe: divide the number
 of *elements* of a type by the (constant) *size* of a conjugacy class of that
@@ -109,7 +108,7 @@ private lemma fiber_card_mul_centralizerCard (c : ConjClasses G) :
     MulAction.card_orbit_mul_card_stabilizer_eq_card_group (ConjAct G) (Quotient.out c),
     ConjAct.card]
 
-/-- **Class-count bridge.** Let `S` be a conjugation-closed subset of a finite group
+/-- **Class-count identity.** Let `S` be a conjugation-closed subset of a finite group
 `G` on which the centralizer order is constant equal to `d`. Then the number of
 conjugacy classes meeting `S`, namely `(ConjClasses.mk '' S).ncard`, times the
 common class size `|G| / d`, equals `|S|`.
@@ -175,8 +174,8 @@ end ConjClassCount
 For a non-scalar `A : Matrix (Fin 2) (Fin 2) F`, the commutant
 `{M : M * A = A * M}` is exactly `{α • 1 + β • A}`, a 2-dimensional space (`A` and `1`
 are linearly independent, and any commuting matrix is a combination of them). Over a
-finite field of `q` elements this space has `q²` elements, and the invertible ones — the
-centralizer of `A` in `GLₙ` — are exactly the `(α, β)` with `det (α • 1 + β • A) ≠ 0`.
+finite field of `q` elements this space has `q²` elements, and the invertible ones (the
+centralizer of `A` in `GLₙ`) are exactly the `(α, β)` with `det (α • 1 + β • A) ≠ 0`.
 The determinant is the quadratic form `α² + tr(A)·αβ + det(A)·β²`, whose number of zeros
 is governed by the discriminant `tr² − 4·det = disc(A)`, giving the three per-type
 centralizer orders. -/
@@ -688,7 +687,7 @@ private lemma card_ge_three (hp2 : p ≠ 2) (hn : n ≠ 0) :
     _ = p ^ 1 := (pow_one p).symm
     _ ≤ p ^ n := Nat.pow_le_pow_right (by omega) (Nat.one_le_iff_ne_zero.mpr hn)
 
-/-- **Bridge to a per-type count.** Given a conjugation-closed type `P` with constant
+/-- **Per-type count.** Given a conjugation-closed type `P` with constant
 centralizer order `d`, if the type has `cardS` elements, each class has `classSize`
 elements (`= |G|/d > 0`), and `target · classSize = cardS`, then there are exactly
 `target` classes of type `P`. -/
@@ -933,10 +932,10 @@ theorem card_conjClasses_eq_sum :
   rw [← Set.ncard_univ, hcover, Set.ncard_union_eq hSPSSuE, Set.ncard_union_eq hSPuSS,
     Set.ncard_union_eq dSP]
 
-/-- **Total count.** `GL₂(𝔽_q)` has `q² − 1` conjugacy classes altogether — the
+/-- **Total count.** `GL₂(𝔽_q)` has `q² − 1` conjugacy classes altogether: the
 sum of the four type counts `(q−1) + (q−1) + (q−1)(q−2)/2 + q(q−1)/2 = q²−1`.
-This is the number of irreducible representations of `GL₂(𝔽_q)`. Derived from the
-fully-proved partition `card_conjClasses_eq_sum` and the four per-type counts. -/
+This is the number of irreducible representations of `GL₂(𝔽_q)`. It follows from the
+partition `card_conjClasses_eq_sum` and the four per-type counts. -/
 theorem card_conjClasses_eq (hp2 : p ≠ 2) (hn : n ≠ 0) :
     Nat.card (ConjClasses (GL2' p n)) =
       Fintype.card (GaloisField p n) ^ 2 - 1 := by

@@ -15,7 +15,7 @@ reflecting the Young diagram of `λ`.
 
 ## Formalization
 
-Here `ℂ_-` is the one-dimensional **sign representation**: `g` acts by the scalar
+Here `ℂ_-` is the one-dimensional sign representation: `g` acts by the scalar
 `(-1)^g = sign(g)`. The automorphism `φ` twists the group-algebra basis element `g` by this
 scalar, `φ(g) = sign(g) · g`; because `sign` is a group homomorphism this is an algebra
 automorphism (`signTwist`).
@@ -146,7 +146,7 @@ theorem signTwist_bijective (n : ℕ) : Function.Bijective (signTwist n) := by
   exact hinv.bijective
 
 /-- **`φ` maps `V` to `V ⊗ ℂ_-`.** For any `ℂ[S_n]`-module `V`, restricting the module
-structure along `φ` turns the `g`-action `v ↦ g • v` into `v ↦ sign(g) • (g • v)` — the
+structure along `φ` sends the `g`-action `v ↦ g • v` to `v ↦ sign(g) • (g • v)`, the
 action on the twist `V ⊗ ℂ_-` by the one-dimensional sign representation. -/
 theorem signTwist_smul_of (n : ℕ) {V : Type*} [AddCommGroup V]
     [Module ℂ V] [Module (SymGroupAlgebra n) V] [IsScalarTower ℂ (SymGroupAlgebra n) V]
@@ -165,14 +165,14 @@ theorem signTwist_map_leftIdeal (n : ℕ) (a : SymGroupAlgebra n) :
 /-! ### The sign twist on the row/column symmetrizers
 
 These record how `φ` transforms the two symmetrizers, and are the reusable algebraic core of
-the conjugate-partition isomorphism: `φ` turns the (unsigned) row symmetrizer `a_λ` into the
-*signed* sum over the row subgroup, and the (signed) column antisymmetrizer `b_λ` into the
-*unsigned* sum over the column subgroup. Under conjugation of the partition the row subgroup of
+the conjugate-partition isomorphism: `φ` sends the (unsigned) row symmetrizer `a_λ` to the
+signed sum over the row subgroup, and the (signed) column antisymmetrizer `b_λ` to the
+unsigned sum over the column subgroup. Under conjugation of the partition the row subgroup of
 `λ` plays the role of the column subgroup of `λ*` (and vice versa), so these are exactly the
 building blocks of `a_{λ*} b_{λ*}`. -/
 
-/-- `φ(a_λ) = ∑_{g ∈ P_λ} sign(g) • g`: the sign twist turns the row symmetrizer into the
-*signed* sum over the row subgroup (a "row antisymmetrizer"). -/
+/-- `φ(a_λ) = ∑_{g ∈ P_λ} sign(g) • g`: the sign twist sends the row symmetrizer to the
+signed sum over the row subgroup (a "row antisymmetrizer"). -/
 theorem signTwist_rowSymmetrizer (n : ℕ) (la : Nat.Partition n) :
     haveI : DecidablePred (· ∈ RowSubgroup n la) := Classical.decPred _
     signTwist n (RowSymmetrizer n la)
@@ -182,8 +182,8 @@ theorem signTwist_rowSymmetrizer (n : ℕ) (la : Nat.Partition n) :
   rw [RowSymmetrizer, map_sum]
   exact Finset.sum_congr rfl (fun g _ => signTwist_of n g.val)
 
-/-- `φ(b_λ) = ∑_{g ∈ Q_λ} g`: the sign twist turns the column antisymmetrizer into the
-*unsigned* sum over the column subgroup (a "column symmetrizer"), because `sign(g)² = 1`. -/
+/-- `φ(b_λ) = ∑_{g ∈ Q_λ} g`: the sign twist sends the column antisymmetrizer to the
+unsigned sum over the column subgroup (a "column symmetrizer"), because `sign(g)² = 1`. -/
 theorem signTwist_columnAntisymmetrizer (n : ℕ) (la : Nat.Partition n) :
     haveI : DecidablePred (· ∈ ColumnSubgroup n la) := Classical.decPred _
     signTwist n (ColumnAntisymmetrizer n la)
@@ -196,7 +196,7 @@ theorem signTwist_columnAntisymmetrizer (n : ℕ) (la : Nat.Partition n) :
     rw [← Int.cast_mul, ← Units.val_mul, Int.units_mul_self, Units.val_one, Int.cast_one]
   rw [hsq, one_smul]
 
-/-! ### Combinatorial bridge: the conjugate partition transposes cells
+/-! ### The conjugate partition transposes cells
 
 To identify `φ(V_λ)` with `V_{λ*}` we need the geometric fact that the canonical filling of
 `λ*` is the transpose of the canonical filling of `λ`. We work through Mathlib's `YoungDiagram`

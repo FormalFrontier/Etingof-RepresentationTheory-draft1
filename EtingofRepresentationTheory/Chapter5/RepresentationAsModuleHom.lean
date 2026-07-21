@@ -3,22 +3,16 @@ import Mathlib
 /-!
 # `asModule` transfer utilities for `Representation`
 
-General-purpose `MonoidAlgebra k G`-module lemmas for `Representation.asModule`,
-extracted from `PolynomialGLDecomposition.lean` so that consumers needing only
-these utilities (e.g. `CauchyDetQuotientGrading.asModuleHomOfIntertwiner`) do not
-inherit the Schur-Weyl import closure of the decomposition file — which
-transitively reaches `DetInvElim` and would otherwise create an import cycle with
-the determinant-quotient assembly (issue #5108, parent #5076).
+General-purpose `MonoidAlgebra k G`-module lemmas for `Representation.asModule`.
+These are pure representation-theory facts:
 
-These are pure representation-theory facts (no Schur-Weyl, no `DetInvElim`):
-
-* `single_smul_directSum`, `asModule_directSum_equiv` — glue-A (#4714): the
+* `single_smul_directSum`, `asModule_directSum_equiv`: the
   `asModule` of a `Representation.directSum` splits as a `DirectSum` of the
   component `asModule`s.
-* `tprodSplitEquiv`, `asModule_trivial_tprod_equiv` — glue-B (#4715): a
+* `tprodSplitEquiv`, `asModule_trivial_tprod_equiv`: a
   trivial-tensor representation `(trivial S).tprod σ` splits into `dim S` copies
   of `asModule σ`.
-* `asModuleHomOfIntertwiner`, `asModuleEquivOfIntertwiner` — lift a `k`-linear
+* `asModuleHomOfIntertwiner`, `asModuleEquivOfIntertwiner`: lift a `k`-linear
   intertwiner / equivalence to a `MonoidAlgebra k G`-linear map / equivalence of
   `asModule`s.
 -/
@@ -35,9 +29,9 @@ variable [(i : ι) → AddCommMonoid (V i)] [(i : ι) → Module k (V i)]
 
 /-- The componentwise `MonoidAlgebra k G`-action of `single g t` on a direct sum
 of `asModule`s collapses to the scalar `t` times the `DirectSum.lmap` of the
-per-component `ρs i g`. Stated with a genuinely target-typed argument `y` so the
-`single g t • y` resolves to the `DirectSum` action (not a poisoned `asModule`
-action), which is what makes the componentwise `single_smul` rewrite apply. -/
+per-component `ρs i g`. Stated with a target-typed argument `y` so that
+`single g t • y` resolves to the `DirectSum` action rather than the `asModule`
+action, which is what makes the componentwise `single_smul` rewrite apply. -/
 theorem single_smul_directSum (ρs : (i : ι) → Representation k G (V i))
     (g : G) (t : k) (y : DirectSum ι (fun i => Representation.asModule (ρs i))) :
     MonoidAlgebra.single g t • y = t • DirectSum.lmap (fun i => ρs i g) y := by
@@ -48,11 +42,11 @@ theorem single_smul_directSum (ρs : (i : ι) → Representation k G (V i))
 /-- The `MonoidAlgebra k G`-linear equivalence identifying the `asModule` of a
 direct sum of representations with the direct sum of their `asModule`s.
 
-This is the keystone conversion for the Schur-Weyl Step E assembly (#4667): the
-decomposition target is a `DirectSum` of `asModule`s, which is *not* itself the
+This is the conversion used in the Schur-Weyl decomposition: the
+decomposition target is a `DirectSum` of `asModule`s, which is not itself the
 `asModule` of a single representation, so the equivariant embedding (a
 `MonoidAlgebra k G`-linear map into `asModule (directSum ρs)`) must be retargeted
-through this equiv.
+through this equivalence.
 
 Both carriers are defeq to `⨁ i, V i`, so the underlying map is the identity;
 only compatibility of the two `MonoidAlgebra k G`-actions needs proof, which
@@ -133,7 +127,7 @@ theorem tprodSplitEquiv_intertwines (b : Module.Basis β k S) (σ : Representati
       tprodSplitEquiv_tmul_apply, map_smul]
   | add x y hx hy => simp only [map_add, hx, hy]
 
-/-- The `MonoidAlgebra k G`-linear carrier identification underlying glue-B, before
+/-- The `MonoidAlgebra k G`-linear carrier identification before
 the final `asModule`-splitting: `asModule ((trivial S).tprod σ) ≃ asModule` of the
 direct-sum representation `directSum (fun _ : β => σ)`. The carrier map is
 `tprodSplitEquiv`; equivariance reduces to `tprodSplitEquiv_intertwines` via
@@ -158,14 +152,14 @@ noncomputable def asModule_trivial_tprod_equiv_aux (b : Module.Basis β k S)
       congr 1
       exact tprodSplitEquiv_intertwines b σ g _
 
-/-- **glue-B (#4715).** Splitting a trivial-tensor representation into copies: as a
+/-- **Splitting a trivial-tensor representation into copies.** As a
 `MonoidAlgebra k G`-module, `asModule ((trivial k G S).tprod σ)` is the direct sum,
 indexed by a basis `b` of `S`, of `dim S` copies of `asModule σ`.
 
 The `GL_N`-action is trivial on the `S`-factor (`trivial S`), so under the basis
 splitting `S ⊗ W ≃ ⨁_β W` (`tprodSplitEquiv`) the action becomes the componentwise
-copy of `σ` (`asModule_trivial_tprod_equiv_aux`); glue-A
-(`asModule_directSum_equiv`, #4714) then splits that `asModule` of a
+copy of `σ` (`asModule_trivial_tprod_equiv_aux`); `asModule_directSum_equiv`
+then splits that `asModule` of a
 `Representation.directSum` into the `DirectSum` of the component `asModule`s. -/
 noncomputable def asModule_trivial_tprod_equiv (b : Module.Basis β k S)
     (σ : Representation k G W) :

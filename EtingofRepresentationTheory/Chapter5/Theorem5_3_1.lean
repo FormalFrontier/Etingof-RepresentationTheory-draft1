@@ -57,7 +57,7 @@ theorem FDRep.character_isIntegral
   -- Each root of the charpoly is an eigenvalue of `f`, hence (as `f ^ N = 1`) a root of unity.
   have hroot : ∀ r ∈ f.charpoly.roots, IsIntegral ℤ r := by
     intro r hr
-    -- `r` is a genuine root, hence an eigenvalue of `f`.
+    -- `r` is a root of the charpoly, hence an eigenvalue of `f`.
     have hr0 : f.charpoly.IsRoot r :=
       (Polynomial.mem_roots (f.charpoly_monic.ne_zero)).mp hr
     have heig : f.HasEigenvalue r :=

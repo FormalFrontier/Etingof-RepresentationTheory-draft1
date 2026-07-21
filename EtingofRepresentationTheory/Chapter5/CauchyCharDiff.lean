@@ -4,8 +4,8 @@ import EtingofRepresentationTheory.Chapter5.SchurPolyShift
 /-!
 # The Cauchy character difference: the determinant shift removes the `ν_N ≥ 1` part
 
-This file isolates the **combinatorial crux** of the Cauchy determinant-quotient
-computation (issue #4905, part (a) of #4896). It is the identity, at the level of
+This file isolates the combinatorial core of the Cauchy determinant-quotient
+computation. It is the identity, at the level of
 formal characters in `MvPolynomial (Fin N) ℚ`, that underlies
 
   `formalCharacter (A/det)_d = formalCharacter A_d − formalCharacter (A_{d-N} ⊗ χ)`.
@@ -20,10 +20,9 @@ Multiplication by `det` shifts every constituent's highest weight by `(1,…,1)`
 det-ideal slice `det · A_{d-N}` (`= A_{d-N} ⊗ χ`) is the original degree-`(d-N)`
 character multiplied by `∏ᵢ Xᵢ`. The theorem `cauchyMult_mul_prodX_eq_lastPart_pos`
 identifies that product with the part of the degree-`d` character supported on the
-bounded partitions whose parts are **all `≥ 1`** (equivalently, those `ν` with
+bounded partitions whose parts are all `≥ 1` (equivalently, those `ν` with
 `0 ∉ Set.range ν.parts`). Subtracting it from the full degree-`d` character leaves
-exactly the constituents with `ν_N = 0` (`0 ∈ Set.range ν.parts`) — the part-(a)
-deliverable.
+exactly the constituents with `ν_N = 0` (`0 ∈ Set.range ν.parts`).
 
 The bijection realizing the shift, `bddPartShift : BoundedPartition N (d-N) ≃
 {ν : BoundedPartition N d // 0 ∉ Set.range ν.parts}`, is recorded explicitly
@@ -91,7 +90,7 @@ theorem eval_one_schurPoly_bddPartShift {N d : ℕ} (hd : N ≤ d)
     rw [schurPoly_shift]
   rw [hs, map_mul, eval_one_prod_X, one_mul]
 
-/-- **Cauchy character difference (combinatorial crux).** Multiplying the
+/-- **Cauchy character difference (combinatorial core).** Multiplying the
 degree-`(d - N)` Cauchy character `∑_μ mult_μ • S_μ` by `∏ᵢ Xᵢ` (the formal
 character of the `det`-shift) yields exactly the part of the degree-`d` Cauchy
 character supported on the bounded partitions all of whose parts are `≥ 1`, i.e.

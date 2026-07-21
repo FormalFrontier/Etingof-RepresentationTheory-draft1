@@ -4,12 +4,7 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
 /-!
 # The Schur polynomial shift identity `S_{λ+(1,…,1)} = (∏ Xᵢ) · S_λ`
 
-The pure Schur-polynomial (alternant) identity underlying the determinant shift,
-extracted from `Proposition5_22_2.lean` so that the combinatorial Cauchy
-character-difference file `CauchyCharDiff.lean` can use it without inheriting
-`Proposition5_22_2`'s Schur-Weyl import closure (which transitively reaches
-`DetInvElim` via `SchurWeylFormalCharacterIso`, creating an import cycle with the
-determinant-quotient assembly — issue #5108, parent #5076).
+The Schur-polynomial (alternant) identity underlying the determinant shift.
 
 Adding `1` to every part of a partition multiplies the Schur polynomial by the
 monomial `x₁ ⋯ x_N`. This is the alternant row-scaling identity: incrementing all

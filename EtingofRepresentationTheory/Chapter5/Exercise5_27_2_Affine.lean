@@ -7,7 +7,7 @@ import EtingofRepresentationTheory.Chapter5.AbelianFDRep
 
 **Exercise 5.27.2.** Redo Problems 4.12.1(a), 4.12.2, and 4.12.6 using Theorem 5.27.1.
 
-This file handles the **Problem 4.12.6** part: the group `G` of nonconstant inhomogeneous linear
+This file handles the Problem 4.12.6 part: the group `G` of nonconstant inhomogeneous linear
 transformations `x ↦ a x + b` over a finite field `K` (with `a ∈ Kˣ`, `b ∈ K`). Problem 4.12.6 asks
 for all irreducible complex representations of `G` and their characters. Theorem 5.27.1 (the orbit
 method for semidirect products `A ⋊ G` with `A` abelian) supplies them directly, because the affine
@@ -71,12 +71,12 @@ abbrev AffineGroup : Type := Multiplicative K ⋊[affineφ K] Kˣ
 The orbit-method engine (Theorem 5.27.1) equips the character group `Â = Multiplicative K →* ℂˣ`
 with the dual action `(g · χ)(a) = χ(φ(g⁻¹)(a))`. For the affine action `φ(g)(a) = g · a`, this is
 `(g · χ)(a) = χ(g⁻¹ a)`, i.e. multiplicative shift of the underlying additive character. We record
-the two orbit facts the classification needs, both consequences of the fact that over a **field**
-every nontrivial additive character is *primitive* (`AddChar.IsPrimitive.of_ne_one`):
+the two orbit facts the classification needs, both consequences of the fact that over a field
+every nontrivial additive character is primitive (`AddChar.IsPrimitive.of_ne_one`):
 
-* `affineDualSmul_eq_self_iff` — a nontrivial character has **trivial** stabilizer (only `g = 1`
+* `affineDualSmul_eq_self_iff`: a nontrivial character has trivial stabilizer (only `g = 1`
   fixes it), while the trivial character is fixed by all of `Kˣ` (`affineDualSmul_trivial`);
-* `affineDualSmul_transitive` — `Kˣ` acts **transitively** on the `q - 1` nontrivial characters
+* `affineDualSmul_transitive`: `Kˣ` acts transitively on the `q - 1` nontrivial characters
   (a single free orbit), because `r ↦ mulShift ψ r` is an injection `K ↪ Â` between sets of equal
   size `q`, hence a bijection.
 -/

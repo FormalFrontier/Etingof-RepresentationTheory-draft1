@@ -139,7 +139,6 @@ private lemma ker_mk_le_ker_symSum :
   -- Build an AddCon from symSum's kernel
   let c : AddCon (⨂[k] (_ : Fin n), V) := AddCon.ker symSum.toAddMonoidHom
   have hle : addConGen (SymmetricPower.Rel k (Fin n) V) ≤ c :=
-    -- v4.31: `AddCon.addConGen_le` is now an `Iff`.
     AddCon.addConGen_le.mpr (fun a b h => symSum_rel a b h)
   -- mk x = 0 means x ≡ 0 mod addConGen(Rel)
   have hrel : (addConGen (SymmetricPower.Rel k (Fin n) V)) x 0 := by
@@ -217,7 +216,6 @@ private lemma altSum_mem_symAntisymmetric (x : TensorPower k V n) :
     (fun ρ => (((Equiv.Perm.sign τ : ℤ) : k) * ((Equiv.Perm.sign ρ : ℤ) : k)) •
       symGroupAction k V n ρ x)
     (fun ρ => ?_)
-  -- v4.31: `dsimp only` here now makes no progress; the goal is already reduced.
   -- ρ.trans τ = τ * ρ (in Perm, a.trans b = b * a)
   rw [show ρ.trans τ = τ * ρ from (Equiv.Perm.mul_def τ ρ).symm]
   -- sign(ρ) = sign(τ) * sign(τ * ρ): since sign(τ * ρ) = sign(τ) * sign(ρ)
@@ -234,8 +232,6 @@ private lemma π_tprod (v : Fin n → V) :
     π (PiTensorProduct.tprod k v) = exteriorPower.ιMulti k n v := by
   simp [π, PiTensorProduct.lift.tprod]
 
--- rc4: instance search for `AddZeroClass ↥(⋀[k]^n V)` in the `add` case now exceeds
--- the default 20000; bump the synthesis budget.
 set_option synthInstance.maxHeartbeats 40000 in
 private lemma π_symGroupAction (σ : Equiv.Perm (Fin n)) (x : TensorPower k V n) :
     π (symGroupAction k V n σ x) = ((Equiv.Perm.sign σ : ℤ) : k) • π x := by
@@ -270,8 +266,8 @@ private lemma altSum_eq_toTensorPower_comp_π :
     (fun σ => ((Equiv.Perm.sign σ : ℤ) : k) • (PiTensorProduct.tprod k) (fun i => v (σ.symm i)))
     (fun σ => ((Equiv.Perm.sign σ : ℤ) : k) • (PiTensorProduct.tprod k) (fun i => v (σ i)))
     (fun σ => ?_)
-  -- v4.31: `Equiv.inv_apply` no longer fires; rewrite `(Equiv.inv _) σ` to `σ.symm`
-  -- via `Equiv.Perm.inv_def`, then use `sign σ⁻¹ = sign σ`.
+  -- Rewrite `(Equiv.inv _) σ` to `σ.symm` via `Equiv.Perm.inv_def`, then use
+  -- `sign σ⁻¹ = sign σ`.
   show ((Equiv.Perm.sign σ : ℤ) : k) • (PiTensorProduct.tprod k) (fun i => v (σ.symm i)) =
       ((Equiv.Perm.sign σ⁻¹ : ℤ) : k) • (PiTensorProduct.tprod k) (fun i => v (σ⁻¹ i))
   rw [Equiv.Perm.inv_def, sign_symm_eq_sign]
@@ -307,7 +303,7 @@ end AltHelpers
 
 The book asserts that `L_{(n)} = SⁿV` and `L_{(1ⁿ)} = ∧ⁿV` as `GL(V)`-representations,
 not merely as `k`-vector spaces. We capture the equivariance by exhibiting, for every
-linear endomorphism `g : V →ₗ V` (in particular every `g ∈ GL(V)`), the *natural*
+linear endomorphism `g : V →ₗ V` (in particular every `g ∈ GL(V)`), the natural
 diagonal action `g ⊗ ⋯ ⊗ g` on `V⊗ⁿ`, showing it preserves the symmetric and
 antisymmetric subspaces, and showing the isomorphisms intertwine it with the functorial
 actions `symmetricPowerMap g` on `SⁿV` and `exteriorPower.map n g` on `∧ⁿV`. -/
@@ -543,32 +539,32 @@ theorem Example5_19_3_exterior_equivariant
 /-! ### Irreducibility (Problem 4.12.3)
 
 The book closes Example 5.19.3 by asserting that `L_{(n)} = SⁿV` and `L_{(1ⁿ)} = ∧ⁿV` are
-*irreducible* `GL(V)`-representations, "except that `∧ⁿV` is zero if `n > dim V`", citing
+irreducible `GL(V)`-representations, "except that `∧ⁿV` is zero if `n > dim V`", citing
 Problem 4.12.3 for the irreducibility.
 
 Three pieces of that final sentence:
 
 * The parenthetical vanishing `∧ⁿV = 0` for `n > dim V` is proved below
-  (`Example5_19_3_exterior_subsingleton_of_dim_lt`): a genuine, complete result.
+  (`Example5_19_3_exterior_subsingleton_of_dim_lt`).
 
-* **The exterior half is now fully proved** (`Example5_19_3_exterior_irreducible`, via
-  `Etingof.exteriorPower_eq_bot_or_top` in `Chapter5.ExteriorIrreducible`). The reusable heart of
-  Problem 4.12.3 — "an invariant subspace of a diagonal operator with pairwise distinct eigenvalues
-  is spanned by a subset of the eigenbasis", and "connectivity of the eigenbasis under the group
-  forces irreducibility" — is packaged abstractly in `Chapter5.DiagonalCoordinate`. For `∧ⁿV` the
+* The exterior half (`Example5_19_3_exterior_irreducible`, via
+  `Etingof.exteriorPower_eq_bot_or_top` in `Chapter5.ExteriorIrreducible`). The reusable core of
+  Problem 4.12.3, "an invariant subspace of a diagonal operator with pairwise distinct eigenvalues
+  is spanned by a subset of the eigenbasis" and "connectivity of the eigenbasis under the group
+  forces irreducibility", is packaged abstractly in `Chapter5.DiagonalCoordinate`. For `∧ⁿV` the
   diagonal element `diag(2^(2⁰), …, 2^(2^{d-1}))` has distinct eigenvalues on `Module.Basis.exteriorPower`,
   and the permutation matrices (transitive on `n`-subsets) supply the connectivity.
 
-* **The symmetric half is now fully proved** (`Etingof.Example5_19_3_symmetric_irreducible`, in
+* The symmetric half (`Etingof.Example5_19_3_symmetric_irreducible`, in
   `Chapter5.SymmetricIrreducible`). The same `DiagonalCoordinate` criterion applies, but it requires
-  a *monomial basis of `SⁿV`* indexed by degree-`n` monomials — absent from Mathlib — built as the
+  a monomial basis of `SⁿV` indexed by degree-`n` monomials, absent from Mathlib, built as the
   symmetrized-orbit sums of the tensor basis (`Chapter5.SymmetricPowerBasis`). Because permutations
-  act trivially on monomials, the connectivity genuinely needs the transvections `ρ(1 + E_{ij})` of
+  act trivially on monomials, the connectivity needs the transvections `ρ(1 + E_{ij})` of
   the book's Hint (`Chapter5.SymmetricTransvection`), and the distinct eigenvalues come from the
   diagonal element `diag(p₀, …, p_{d-1})` of the first `d` primes (unique factorisation). That
-  theorem lives downstream because it consumes the `symmetricPowerMap` action defined here. -/
+  theorem lives downstream because it uses the `symmetricPowerMap` action defined here. -/
 
-/-- Book fidelity (Example 5.19.3, parenthetical): `∧ⁿV` is the zero representation when
+/-- Example 5.19.3 (parenthetical): `∧ⁿV` is the zero representation when
 `n > dim V`. Over a field, `finrank (⋀ⁿV) = C(dim V, n) = 0` for `n > dim V`, so `∧ⁿV` is a
 subsingleton. -/
 theorem Example5_19_3_exterior_subsingleton_of_dim_lt
@@ -583,11 +579,11 @@ theorem Example5_19_3_exterior_subsingleton_of_dim_lt
 /-- **Irreducibility of `L_{(1ⁿ)} = ∧ⁿV`** (Problem 4.12.3, the second half of the irreducibility
 assertion in Example 5.19.3; for `n > dim V` the space is zero, see
 `Example5_19_3_exterior_subsingleton_of_dim_lt`): every `GL(V)`-subrepresentation of the exterior
-power — i.e. every submodule stable under `exteriorPower.map n g` for all `g ∈ GL(V)` — is either
+power, i.e. every submodule stable under `exteriorPower.map n g` for all `g ∈ GL(V)`, is either
 `⊥` or `⊤`.
 
-This is a genuine, complete proof of Problem 4.12.3 for the exterior power, following the book's
-Hint: the diagonal element `diag(2^(2⁰), …, 2^(2^{d-1}))` has pairwise distinct eigenvalues on the
+The proof follows the book's Hint: the diagonal element `diag(2^(2⁰), …, 2^(2^{d-1}))` has pairwise
+distinct eigenvalues on the
 monomial basis `e_{i₁} ∧ ⋯ ∧ e_{iₙ}` of `∧ⁿV` (the eigenvalues are `2^(∑ 2^{iⱼ})`, distinct by
 binary uniqueness), so any subrepresentation is spanned by a subset of that basis; and the
 permutation matrices, acting transitively on the `n`-subsets, then force a nonzero subrepresentation

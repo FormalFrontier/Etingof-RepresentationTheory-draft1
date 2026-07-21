@@ -13,11 +13,11 @@ The character of the Specht module V_λ evaluated at conjugacy class C_i is:
 where ρ = (n-1, n-2, ..., 1, 0), Δ(x) = ∏_{i<j} (xⱼ - xᵢ) is the
 Vandermonde determinant, and p_m are power sum symmetric polynomials.
 
-The book (Etingof, Theorem 5.15.1) writes this with `H_m(x)`, but `H_m` is *defined*
-on p. 116 as `Σⱼ xⱼᵐ` — the power sum (a non-standard use of `H`, which usually means
-the complete homogeneous symmetric polynomial). So the book's `H_m` is our `p_m`; the
-formalization is faithful to the book. (Reading `H_m` as complete-homogeneous would give
-the wrong characters — e.g. the sign character of S₂ on a transposition.)
+The book (Etingof, Theorem 5.15.1) writes this with `H_m(x)`, but `H_m` is defined
+on p. 116 as `Σⱼ xⱼᵐ`, the power sum (a non-standard use of `H`, which usually means
+the complete homogeneous symmetric polynomial). So the book's `H_m` is our `p_m`.
+Reading `H_m` as complete-homogeneous would give the wrong characters, e.g. the sign
+character of S₂ on a transposition.
 
 ## Formalization approach
 
@@ -86,7 +86,7 @@ noncomputable def spechtModuleCharacter (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) : ℂ :=
   LinearMap.trace ℂ _ (spechtModuleAction n la σ)
 
-/-! ## FDRep bridge: wrapping Specht modules as finite-dimensional representations
+/-! ## Specht modules as finite-dimensional representations
 
 This section constructs an `FDRep ℂ (Equiv.Perm (Fin n))` from the Specht module,
 enabling use of Mathlib's character orthonormality (`FDRep.char_orthonormal`). -/
@@ -578,9 +578,8 @@ private theorem iSup_isotypicComponent_eq_top (n : ℕ) (mu : Nat.Partition n) :
     (SpechtModule n nu)) nu
 
 /-- The indexed family of isotypic components is iSup-independent
-in the SymGroupAlgebra-submodule lattice. This bridges from
-`sSupIndep_isotypicComponents` (Mathlib) to the indexed version
-via the classification of simple modules. -/
+in the SymGroupAlgebra-submodule lattice. This deduces the indexed version from
+`sSupIndep_isotypicComponents` (Mathlib) via the classification of simple modules. -/
 private theorem iSupIndep_isotypicComponent (n : ℕ)
     (mu : Nat.Partition n) :
     iSupIndep (fun nu : Nat.Partition n =>
@@ -824,7 +823,7 @@ private lemma hom_from_wrong_isotypic_eq_zero (n : ℕ) (mu : Nat.Partition n)
     exact h
 
 set_option maxHeartbeats 800000 in
-set_option synthInstance.maxHeartbeats 40000 in -- rc2: slower instance search
+set_option synthInstance.maxHeartbeats 40000 in
 -- Schur's lemma + dimension counting requires more heartbeats
 /-- The number of copies in the R-linear decomposition `C_ν ≃ₗ[R] Fin k → V_ν`
 equals `spechtMultiplicity n mu nu = finrank Hom_R(U_μ, V_ν)`.
@@ -844,7 +843,7 @@ private lemma multiplicity_eq_spechtMultiplicity (n : ℕ) (mu nu : Nat.Partitio
   haveI : IsSimpleModule R V := Theorem5_12_2_irreducible n nu
   haveI : Module.Finite ℂ V := inferInstance
   haveI : FiniteDimensional ℂ V := inferInstance
-  -- Step 1: Schur's lemma — finrank ℂ (End_R V) = 1
+  -- Step 1: Schur's lemma, finrank ℂ (End_R V) = 1
   have h_schur : Module.finrank ℂ (V →ₗ[R] V) = 1 := by
     have h_bij := IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed ℂ (A := R) (V := V)
     rw [LinearEquiv.finrank_eq
@@ -855,7 +854,7 @@ private lemma multiplicity_eq_spechtMultiplicity (n : ℕ) (mu nu : Nat.Partitio
     rw [LinearEquiv.finrank_eq (LinearMap.lsum (R := R) ℂ (φ := fun _ : Fin k => V) (M := V)).symm,
         Module.finrank_pi_fintype, h_schur, Finset.sum_const, Finset.card_fin, smul_eq_mul,
         mul_one]
-  -- Step 3: Transport by e_R — finrank ℂ (C →ₗ[R] V) = k
+  -- Step 3: Transport by e_R, finrank ℂ (C →ₗ[R] V) = k
   have h_transport : Module.finrank ℂ (↥C →ₗ[R] V) = k := by
     have e_hom : (↥C →ₗ[R] V) ≃ₗ[ℂ] ((Fin k → V) →ₗ[R] V) :=
       { toFun := fun f => f.comp e_R.symm.toLinearMap
@@ -2522,7 +2521,7 @@ private theorem alternatingKostka_norm_sq_eq_one {n : ℕ} (la : Nat.Partition n
     -- Goal: n! * ∑ L² = ∑ x, L x * L x * n!
     simp_rw [← sq, ← Finset.sum_mul]
     ring
-  -- Assembly: n! · ∑L² = ∑ θ·θ⁻¹ = ∑ θ² = n!, so ∑L² = 1
+  -- Combining: n! · ∑L² = ∑ θ·θ⁻¹ = ∑ θ² = n!, so ∑L² = 1
   have hEq : ∑ σ : Equiv.Perm (Fin n), θ σ * θ σ⁻¹ =
       ∑ σ : Equiv.Perm (Fin n), θ σ ^ 2 := by
     congr 1; ext σ; rw [hI σ, sq]
@@ -2535,7 +2534,7 @@ private theorem alternatingKostka_norm_sq_eq_one {n : ℕ} (la : Nat.Partition n
 
 /-- The hard case of the alternating Kostka identity: when ν strictly dominates λ
 (i.e., ν > λ in the dominance order), the alternating sum ∑_π sign(π) · K(sort(λ+ρ-e_π), ν)
-vanishes by genuine cancellation (not term-by-term vanishing).
+vanishes by cancellation, not term-by-term vanishing.
 
 **Proof**: By the norm-squared identity `∑_ν L²_{νλ} = 1` and the diagonal identity
 `L_{λλ} = sign(rev)` (so L²_{λλ} = 1), each L² ≥ 0 forces L_{νλ} = 0 for ν ≠ λ. -/
@@ -2657,7 +2656,7 @@ theorem alternating_kostka_eq_delta {n : ℕ} (la nu : Nat.Partition n) :
   · -- Case la ≠ nu
     simp only [if_neg hla_nu, smul_zero]
     by_cases hdom : Nat.Partition.Dominates nu la
-    · -- Hard sub-case: nu strictly dominates la (genuine cancellation needed).
+    · -- Hard sub-case: nu strictly dominates la (cancellation needed).
       -- Book proof: θ_λ = ∑_{μ≥λ} L_{μλ} χ_μ with L_{λλ}=1.
       -- Then ||θ_λ||² = ∑_μ L²_{μλ} ≥ 1, but ||θ_λ||² ≤ 1 by Vandermonde orthogonality.
       -- So L_{μλ} = 0 for μ ≠ λ. Requires character inner product infrastructure.
