@@ -43,14 +43,8 @@ The proof is decomposed into two helper lemmas:
 
 * `morita_equiv_of_full_idempotent`: The Morita equivalence between `A` and
   the corner ring `eAe` for a full idempotent `e` (one with `AeA = A`). This
-  uses faithfulness (proven), fullness and essential surjectivity (both via the
+  uses faithfulness, fullness, and essential surjectivity (the latter two via the
   evaluation isomorphism `Ae ⊗_{eAe} eM ≅ M`) of the corner functor `M ↦ eM`.
-
-## Proof status
-
-All proofs are sorry-free. `cornerFunctor_essSurj`, `cornerFunctor_full`,
-and `cornerFunctor_faithful` are fully proved, giving the Morita equivalence
-`exists_basic_morita_equivalent`.
 -/
 
 universe u
@@ -81,16 +75,16 @@ theorem mem_jacobson_of_forall_isNilpotent_left_mul {R : Type*} [Ring R] {c : R}
 For a finite-dimensional algebra `A` over an algebraically closed field `k`,
 there exists a full idempotent `e ∈ A` such that the corner ring `eAe` is basic.
 
-### Proof strategy (uses available Mathlib infrastructure)
+### Proof strategy
 
-1. `IsArtinianRing.of_finite k A` — A is Artinian
-2. `IsSemiprimaryRing` instance (automatic from Artinian) — rad(A) nilpotent,
+1. `IsArtinianRing.of_finite k A`: A is Artinian
+2. `IsSemiprimaryRing` instance (automatic from Artinian): rad(A) nilpotent,
    A/rad(A) semisimple
-3. `IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed` — Wedderburn–Artin
+3. `IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed`: Wedderburn–Artin
    decomposition of A/rad(A) ≅ ∏ Mₙᵢ(k)
 4. Extract one diagonal idempotent E₁₁ per matrix block → complete orthogonal
    idempotents in A/rad(A)
-5. `CompleteOrthogonalIdempotents.lift_of_isNilpotent_ker` — lift to A
+5. `CompleteOrthogonalIdempotents.lift_of_isNilpotent_ker`: lift to A
 6. Sum of lifted idempotents is full (AeA = A) and eAe is basic -/
 /-! ### Helper lemmas for the main proof -/
 
@@ -242,10 +236,8 @@ private lemma isIdempotentElem_sum_orthogonal {R : Type*} [Ring R] {n : ℕ}
 by the Jacobson radical is a semisimple finite-dimensional algebra, and by Wedderburn-Artin
 it decomposes as a product of matrix algebras. This gives us orthogonal idempotents
 (one primitive per block) which can be lifted to A. The sum is a full idempotent with
-basic corner ring.
-
-This is the key construction: the existence statement is fully proved, with the
-proof obligations decomposed clearly below. -/
+basic corner ring. This construction produces the full idempotent underlying the
+basic algebra. -/
 lemma exists_full_idempotent_basic_corner
     (k : Type u) [Field k] [IsAlgClosed k]
     (A : Type u) [Ring A] [Algebra k A] [Module.Finite k A] :

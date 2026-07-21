@@ -11,9 +11,9 @@ We prove that the Specht module V_λ = ℚ[S_n]·c_λ is a simple (irreducible) 
 
 ## Main results
 
-* `SpechtModuleK` — the left ideal k[S_n]·c_λ over a general commutative ring k
-* `YoungSymmetrizerZ_sandwich_basis` — c_ℤ * of(σ) * c_ℤ is proportional to c_ℤ
-* `SpechtModuleK_isSimpleModule` — ℚ[S_n]·c_λ is simple
+* `SpechtModuleK`: the left ideal k[S_n]·c_λ over a general commutative ring k
+* `YoungSymmetrizerZ_sandwich_basis`: c_ℤ * of(σ) * c_ℤ is proportional to c_ℤ
+* `SpechtModuleK_isSimpleModule`: ℚ[S_n]·c_λ is simple
 -/
 
 noncomputable section
@@ -232,7 +232,7 @@ semisimplicity of `k[S_n]` (Maschke, valid in characteristic zero). -/
 
 /-- General-`k` sandwich property: `c * x * c = f x • c` for a `k`-linear functional `f`.
 
-This works over **any** commutative ring `k`, because the proportionality constants
+This works over any commutative ring `k`, because the proportionality constants
 `β σ ∈ ℤ` are produced by `YoungSymmetrizerZ_sandwich_basis` over ℤ and merely cast
 into `k`; no injectivity of `ℤ → k` (hence no characteristic assumption) is needed. -/
 theorem YoungSymmetrizerK_sandwich_general (k : Type*) [CommRing k]
