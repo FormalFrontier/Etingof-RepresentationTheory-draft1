@@ -49,6 +49,16 @@ confirm real sorries with `grep -n sorry <file> | grep -v sorry-free`, and treat
 a declaration is genuinely sorry-free. Do not trust a stale sorry-count from the
 issue body — re-check it.
 
+To run `#print axioms`, **append the `#print axioms <decl>` lines to the end of
+the target source file** and run `lake env lean <that-file>` (restore the file
+after). Do NOT create a separate scratch file that `import`s the target module and
+run `lake env lean` on it — loading a project olean that way can demand a transitive
+olean the local build never produced and fail with a spurious
+`object file '…/SomeOtherModule.olean' … does not exist`, even for a module the
+target does not import. Running against the actual source file only needs the
+target's own already-built dependency oleans, so it works after a successful
+`lake build EtingofRepresentationTheory.<Module>`.
+
 ## Completing the Review
 
 Post your report as a comment on the review issue. Then close the issue yourself —
