@@ -18,14 +18,14 @@ The number of conjugacy classes of `G` is `Nat.card (ConjClasses G)`.
 The "number of isomorphism classes of irreducible representations of `G` over `k`" is
 `Nat.card (IrrepClasses k G)`, where `IrrepClasses k G` is the type of isomorphism
 classes of objects of the full subcategory of `FDRep k G` spanned by the simple
-(irreducible) representations. This is the genuine set of irreducibles up to
+(irreducible) representations. This is the set of irreducibles up to
 isomorphism, obtained via the isomorphism-class setoid on a category
 (`CategoryTheory.isIsomorphicSetoid`).
 
 The hypothesis "`|G| = 0` in `k`" is `(Fintype.card G : k) = 0`, i.e. the characteristic
 of `k` divides `|G|`.
 
-This file is the proved-sorry-free infrastructure layer for Exercise 4.2.3. The
+This file is the infrastructure layer for Exercise 4.2.3. The
 mathematical content is that in the modular case the element `P = ∑_g g` is nonzero,
 central, nilpotent (`P² = |G| · P = 0`), and hence lies in the Jacobson radical of `k[G]`;
 the group algebra is therefore not semisimple. This file proves that non-semisimplicity
@@ -35,7 +35,7 @@ and finiteness of the irreducibles (`finite_simpleModuleClasses`, `IrrepClasses.
 
 This file does not state the main comparison itself: the strict counting drop
 `Nat.card (IrrepClasses k G) < Nat.card (ConjClasses G)` (`Etingof.Exercise4_2_3`) is
-assembled sorry-free downstream in `Exercise4_2_3_Assembly.lean`, because the
+proved downstream in `Exercise4_2_3_Assembly.lean`, because the
 split-field and strict-bound machinery it depends on import this file (see the tail comment
 below).
 -/
@@ -55,7 +55,7 @@ def IrrepClasses (k G : Type*) [Field k] [Monoid G] : Type _ :=
 
 In the modular case (`|G| = 0` in `k`) the element `P = ∑_{g ∈ G} g` of the group
 algebra `k[G]` is a nonzero, central, nilpotent element: `P² = |G| · P = 0`. Its
-existence shows that `k[G]` is **not** semisimple — a nonzero central nilpotent lies in
+existence shows that `k[G]` is not semisimple: a nonzero central nilpotent lies in
 the Jacobson radical, which vanishes for a semisimple ring. This is the algebraic core of
 Exercise 4.2.3; the counting comparison
 `Nat.card (IrrepClasses k G) < Nat.card (ConjClasses G)` builds on top of it. -/
@@ -154,11 +154,11 @@ theorem not_isSemisimpleRing_of_card_eq_zero (hcard : (Fintype.card G : k) = 0) 
 
 end GroupSum
 
-/-! ### Field-general bridge between simple `FDRep`s and simple `k[G]`-modules
+/-! ### Relating simple `FDRep`s and simple `k[G]`-modules
 
 The counting half of Exercise 4.2.3 requires relating the categorical count
-`Nat.card (IrrepClasses k G)` to an algebraic count of simple `k[G]`-modules. The bridge must
-be **field-general** — no `IsAlgClosed`, no `NeZero (|G| : k)` — because the exercise lives in
+`Nat.card (IrrepClasses k G)` to an algebraic count of simple `k[G]`-modules. This must hold
+over an arbitrary field (no `IsAlgClosed`, no `NeZero (|G| : k)`), because the exercise lives in
 the modular (non-semisimple) case. This section develops:
 
 * `simple_fdRepOf_of_isSimpleModule`: a simple `k[G]`-module gives a simple `FDRep k G` object
@@ -170,7 +170,7 @@ the modular (non-semisimple) case. This section develops:
   `Rep.equivalenceModuleMonoidAlgebra` via `Etingof.isoClassesEquivOfEquivalence`.
 
 The remaining links (`IrrepClasses k G ≃` simple-object classes of `Rep k G`, the
-`Finite` instance, and the final count) are tracked in the sibling issues. -/
+`Finite` instance, and the final count) are developed below. -/
 
 section Bridge
 
@@ -200,7 +200,7 @@ private lemma simple_of_fullyFaithful_preservesMono {C D : Type*} [Category C] [
 
 variable {k : Type u} {G : Type v} [Field k] [Group G]
 
-/-- **Field-general bridge (module ⟹ representation).** If `ρ.asModule` is a simple
+/-- **Module ⟹ representation.** If `ρ.asModule` is a simple
 `k[G]`-module, then `FDRep.of ρ` is a simple object of `FDRep k G`. No `NeZero (Nat.card G : k)`
 or `IsAlgClosed k` hypothesis is required: the proof only uses the equivalence
 `Rep k G ≌ ModuleCat k[G]` and the fully faithful forgetful functor `FDRep k G ⥤ Rep k G`. -/
@@ -261,7 +261,7 @@ lemma simpleProp_iff_of_equivalence {A B : Type*} [Category A] [Category B]
     exact simple_of_fullyFaithful_preservesMono E.inverse (E.functor.obj X)
 
 variable (k G) in
-/-- **Counting bridge (representation side).** The isomorphism classes of simple objects of
+/-- **Counting step (representation side).** The isomorphism classes of simple objects of
 `Rep k G` are in bijection with those of `ModuleCat k[G]`, induced by the equivalence
 `Rep.equivalenceModuleMonoidAlgebra` through `Etingof.isoClassesEquivOfEquivalence`. -/
 noncomputable def repSimpleClassesEquivModuleSimpleClasses :
@@ -278,9 +278,9 @@ noncomputable def repSimpleClassesEquivModuleSimpleClasses :
 
 The final ingredient for the counting comparison is that the forgetful functor
 `FDRep k G ⥤ Rep k G` restricts to an *equivalence* on the full subcategories of simple
-objects. Preservation of simplicity is the honest mathematical content: a simple
+objects. Preservation of simplicity is the mathematical content: a simple
 finite-dimensional representation, viewed as a `k[G]`-module, is a simple module. We prove
-this by hand — every `k[G]`-submodule of `V.ρ.asModule` is a subrepresentation, hence
+this directly: every `k[G]`-submodule of `V.ρ.asModule` is a subrepresentation, hence
 (being finite-dimensional) yields a monomorphism into `V` in `FDRep k G`, which `Simple V`
 forces to be `0` (submodule `⊥`) or an isomorphism (submodule `⊤`). Essential surjectivity
 uses that a simple `k[G]`-module is finite-dimensional (`finite_k_of_isSimpleModule`), so a
@@ -384,9 +384,9 @@ noncomputable instance [Finite G] :
     (fdRepSimpleToRepSimple (k := k) (G := G)).IsEquivalence where
 
 variable (k G) in
-/-- **Deliverable 1.** `IrrepClasses k G` — isomorphism classes of simple objects of
-`FDRep k G` — is in bijection with the isomorphism classes of simple objects of `Rep k G`,
-via the forgetful functor `FDRep k G ⥤ Rep k G`. -/
+/-- `IrrepClasses k G`, the isomorphism classes of simple objects of `FDRep k G`, is in
+bijection with the isomorphism classes of simple objects of `Rep k G`, via the forgetful
+functor `FDRep k G ⥤ Rep k G`. -/
 noncomputable def irrepClassesEquivRepSimpleClasses [Finite G] :
     IrrepClasses k G ≃
       Quotient (isIsomorphicSetoid (simpleProp (Rep k G)).FullSubcategory) :=
@@ -398,11 +398,10 @@ abbrev SimpleModuleClasses.{w, r} (R : Type r) [Ring R] :=
   Quotient (isIsomorphicSetoid (simpleProp (ModuleCat.{w} R)).FullSubcategory)
 
 variable (k G) in
-/-- **Deliverable 2 (bijection).** Isomorphism classes of irreducible representations of `G`
-over `k` correspond to isomorphism classes of simple `k[G]`-modules. The intermediate `Rep k G`
-classes are here reconstructed inline (rather than reusing
-`repSimpleClassesEquivModuleSimpleClasses`) so their carrier universe unifies with the one coming
-from `FDRep k G`. -/
+/-- Isomorphism classes of irreducible representations of `G` over `k` correspond to
+isomorphism classes of simple `k[G]`-modules. The intermediate `Rep k G` classes are
+reconstructed inline (rather than reusing `repSimpleClassesEquivModuleSimpleClasses`) so their
+carrier universe unifies with the one coming from `FDRep k G`. -/
 noncomputable def irrepClassesEquivSimpleModuleClasses [Finite G] :
     IrrepClasses k G ≃ SimpleModuleClasses.{u} (MonoidAlgebra k G) :=
   (irrepClassesEquivRepSimpleClasses k G).trans
@@ -413,9 +412,8 @@ noncomputable def irrepClassesEquivSimpleModuleClasses [Finite G] :
           (Rep.equivalenceModuleMonoidAlgebra.{u} (k := k) (G := G)) X))))
 
 variable (k G) in
-/-- **Deliverable 2 (count lemma).** The number of isomorphism classes of irreducible
-representations of `G` over `k` equals the number of isomorphism classes of simple
-`k[G]`-modules. -/
+/-- The number of isomorphism classes of irreducible representations of `G` over `k` equals
+the number of isomorphism classes of simple `k[G]`-modules. -/
 theorem card_irrepClasses_eq_card_simpleModuleClasses [Finite G] :
     Nat.card (IrrepClasses k G) = Nat.card (SimpleModuleClasses.{u} (MonoidAlgebra k G)) :=
   Nat.card_congr (irrepClassesEquivSimpleModuleClasses k G)
@@ -425,7 +423,7 @@ end Bridge
 /-! ### Finiteness of the set of irreducibles
 
 A finite group `G` has only finitely many irreducible representations over any field `k`.
-Via the counting bridge above this reduces to: a finite-dimensional algebra `R` over a field
+Via the counting correspondence above this reduces to: a finite-dimensional algebra `R` over a field
 `k` has only finitely many isomorphism classes of simple modules. The mathematical content is
 that every simple `R`-module is annihilated by the Jacobson radical, hence a module over the
 semisimple quotient `A = R ⧸ rad`, and over a semisimple ring every simple module embeds into
@@ -688,7 +686,7 @@ instance IrrepClasses.instFinite {k G : Type*} [Field k] [Group G] [Finite G] :
 end Finiteness
 
 -- **Exercise 4.2.3** (`Etingof.Exercise4_2_3`, the strict modular counting drop
--- `Nat.card (IrrepClasses k G) < Nat.card (ConjClasses G)`) is assembled downstream in
+-- `Nat.card (IrrepClasses k G) < Nat.card (ConjClasses G)`) is proved downstream in
 -- `Exercise4_2_3_Assembly.lean`: this file cannot state it here because the split-field and
 -- strict-bound machinery it depends on (`Exercise4_2_3_FieldGeneral.lean`,
 -- `Exercise4_2_3_StrictBound.lean`) both import this file.

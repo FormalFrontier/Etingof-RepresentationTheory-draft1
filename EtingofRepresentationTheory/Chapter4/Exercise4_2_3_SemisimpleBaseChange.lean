@@ -5,20 +5,19 @@ import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_BaseChangePiMatrix
 /-!
 # Base change of a semisimple algebra can only increase the number of simple modules
 
-This file supplies the **mathematical crux** of the separability-free base-change
-monotonicity `#(simple k[G]) ≤ #(simple K[G])` (parent #6127 / #6098). Because we reduce
-to the semisimple quotient `k[G]/rad` first, we never need semisimplicity of `K ⊗_k M`
-for a general module `M` (which fails for an inseparable `K/k`). Only base change of the
-already-semisimple algebra is needed, and *that* count inequality holds with **no
-separability hypothesis**:
+The separability-free base-change monotonicity `#(simple k[G]) ≤ #(simple K[G])` reduces to
+the semisimple quotient `k[G]/rad`, so we never need semisimplicity of `K ⊗_k M` for a
+general module `M` (which fails for an inseparable `K/k`). Only base change of the
+already-semisimple algebra is needed, and that count inequality holds with no separability
+hypothesis:
 
 ```
 Nat.card (SimpleModuleClasses A) ≤ Nat.card (SimpleModuleClasses (K ⊗[k] A))
 ```
 
-for a finite-dimensional **semisimple** `k`-algebra `A` and any field extension `K ⊇ k`.
+for a finite-dimensional semisimple `k`-algebra `A` and any field extension `K ⊇ k`.
 
-## Route (no separability required)
+## The argument (no separability required)
 
 By Artin–Wedderburn, `A ≅ ∏ i, Matrix (Fin (d i)) (Fin (d i)) (D i)` for division rings
 `D i`, so `#(simple A) = |ι|` (one simple per matrix factor). Base change distributes:
@@ -26,17 +25,17 @@ By Artin–Wedderburn, `A ≅ ∏ i, Matrix (Fin (d i)) (Fin (d i)) (D i)` for d
 finite-dimensional `K`-algebra, hence has at least one simple module. So
 `#(simple (K ⊗ A)) = Σ i, #(simple (K ⊗ D i)) ≥ |ι| = #(simple A)`.
 
-The count is assembled from four reusable building blocks:
+The count rests on four lemmas:
 
-* `simpleModuleClassesCongr` — transport iso-classes of simple modules across an
-  equivalence of module categories (proved here).
-* `simpleModuleClassesPiEquiv` — the simple modules of a finite product of rings are the
-  disjoint union of the simple modules of the factors (proved here).
-* `simpleModuleClassesMatrixEquiv` — Morita: a matrix ring has the same simple count as
-  its base ring (proved here from `ModuleCat.matrixEquivalence`).
-* `nonempty_simpleModuleClasses` / `subsingleton_simpleModuleClasses_divisionRing` —
+* `simpleModuleClassesCongr`: transports iso-classes of simple modules across an
+  equivalence of module categories.
+* `simpleModuleClassesPiEquiv`: the simple modules of a finite product of rings are the
+  disjoint union of the simple modules of the factors.
+* `simpleModuleClassesMatrixEquiv`: Morita invariance, a matrix ring has the same simple
+  count as its base ring (from `ModuleCat.matrixEquivalence`).
+* `nonempty_simpleModuleClasses` / `subsingleton_simpleModuleClasses_divisionRing`:
   existence and uniqueness of simple modules over nonzero finite-dimensional algebras and
-  over division rings (proved here).
+  over division rings.
 -/
 
 open CategoryTheory
@@ -374,7 +373,7 @@ theorem natCard_simpleModuleClasses_pi {n : ℕ} (R : Fin n → Type u) [∀ i, 
   exact (Nat.card_congr (simpleModuleClassesPiEquiv R)).symm
 
 /-- **Base change of a semisimple algebra can only increase the number of simple modules.**
-For a finite-dimensional **semisimple** `k`-algebra `A` and any field extension `K ⊇ k`,
+For a finite-dimensional semisimple `k`-algebra `A` and any field extension `K ⊇ k`,
 `#(simple A) ≤ #(simple (K ⊗[k] A))`. Separability-free: no hypothesis on `K/k`.
 
 Proof: by Artin–Wedderburn `A ≃ₐ[k] ∏ i, Matrix (Fin (d i)) (Fin (d i)) (D i)`, so

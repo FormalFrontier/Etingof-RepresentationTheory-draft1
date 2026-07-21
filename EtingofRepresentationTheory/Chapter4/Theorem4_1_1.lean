@@ -17,12 +17,12 @@ k[G] ≅ ⊕ᵢ Vᵢ^(dim Vᵢ), giving the dimension formula |G| = Σᵢ (dim V
 
 Mathlib has `IsSemisimpleRing` and `MonoidAlgebra.instIsSemisimpleRing` for part (i).
 Part (i) is `Etingof.Theorem4_1_1_semisimple`. Part (ii) is formalized in several forms:
-`Etingof.Theorem4_1_1_algebra_iso` gives the full content — the family of irreducible
+`Etingof.Theorem4_1_1_algebra_iso` gives the full content: the family of irreducible
 representations together with the algebra isomorphism `k[G] ≃ₐ[k] ⊕ᵢ End(Vᵢ)` and the
-sum-of-squares formula — while `Etingof.Theorem4_1_1_sum_of_squares` records only the
+sum-of-squares formula, while `Etingof.Theorem4_1_1_sum_of_squares` records only the
 dimension identity `Σᵢ (dim Vᵢ)² = |G|`. `Etingof.Theorem4_1_1_regularRep_iso` upgrades the
 algebra isomorphism to an isomorphism of representations `k[G] ≅ ∏ᵢ End(Vᵢ)`, and
-`Etingof.Theorem4_1_1_regularRep_isotypic` records the book's final display — the explicit
+`Etingof.Theorem4_1_1_regularRep_isotypic` records the book's final display, the explicit
 isotypic decomposition `k[G] ≅ ⊕ᵢ (dim Vᵢ) · Vᵢ`.
 -/
 
@@ -61,8 +61,8 @@ theorem Etingof.Theorem4_1_1_sum_of_squares
 /-- Maschke's theorem, part (ii), **algebra-isomorphism form**.
 
 The full content of part (ii): there is a finite family `V : Fin n → FDRep k G` of the
-irreducible representations of `G` — each `Simple`, pairwise non-isomorphic, and complete
-(every simple `FDRep` is isomorphic to one of them) — together with an isomorphism of
+irreducible representations of `G`, each `Simple`, pairwise non-isomorphic, and complete
+(every simple `FDRep` is isomorphic to one of them), together with an isomorphism of
 `k`-algebras
 
   `ψ : k[G] ≃ₐ[k] ⊕ᵢ End(Vᵢ)`,
@@ -92,8 +92,8 @@ theorem Etingof.Theorem4_1_1_algebra_iso
 /-! ### Representation-level form of part (ii)
 
 The book's part (ii) states that `ψ : k[G] → ⊕ᵢ End(Vᵢ)` is not merely an isomorphism of
-`k`-algebras but an **isomorphism of representations** of `G`, where `G` acts on both sides by
-left multiplication. On `k[G]` this is the *regular representation* `g · x = (of g) * x`; on
+`k`-algebras but an isomorphism of representations of `G`, where `G` acts on both sides by
+left multiplication. On `k[G]` this is the regular representation `g · x = (of g) * x`; on
 `⊕ᵢ End(Vᵢ)` it is `g · (fᵢ) = (ρᵢ(g) ∘ fᵢ)`, i.e. left multiplication by `ψ(g) = ⊕ᵢ ρᵢ(g)`.
 The results below package the regular representation as an `FDRep`, equip `∏ᵢ End(Vᵢ)` with this
 left-multiplication `G`-action, and upgrade the Wedderburn algebra isomorphism `IrrepDecomp.endIso`
@@ -256,10 +256,10 @@ end IrrepDecomp
 /-- Maschke's theorem, part (ii), **representation-isomorphism form**.
 
 The book's part (ii) asserts that `ψ : k[G] → ⊕ᵢ End(Vᵢ)`, `g ↦ ⊕ᵢ g|_{Vᵢ}`, is an isomorphism
-*of representations* of `G` (both sides carrying the left-multiplication action), not only of
+of representations of `G` (both sides carrying the left-multiplication action), not only of
 `k`-algebras. This theorem records that content: there is a complete family `V : Fin n → FDRep k G`
-of the irreducible representations of `G` — each `Simple`, pairwise non-isomorphic, exhausting the
-simples — together with a representation `ρ_end` on `∏ᵢ End(Vᵢ)` whose action is
+of the irreducible representations of `G`, each `Simple`, pairwise non-isomorphic, exhausting the
+simples, together with a representation `ρ_end` on `∏ᵢ End(Vᵢ)` whose action is
 `(g · F)ᵢ = ρᵢ(g) ∘ Fᵢ`, such that the regular representation `MonoidAlgebra.regularFDRep k G` is
 isomorphic in `FDRep k G` to `FDRep.of ρ_end`. The witnesses are the column-vector
 representations `columnFDRep` and the
@@ -276,7 +276,7 @@ theorem Etingof.Theorem4_1_1_regularRep_iso (k G : Type u)
   ⟨D.n, D.columnFDRep, D.endRegRep, D.columnFDRep_simple, D.columnFDRep_injective,
     D.columnFDRep_surjective, D.endRegRep_apply, ⟨D.regularIso⟩⟩
 
-/-- Maschke's theorem, part (ii), **isotypic-decomposition form** — the book's final display.
+/-- Maschke's theorem, part (ii), **isotypic-decomposition form**, the book's final display.
 
 Beyond the algebra isomorphism `k[G] ≃ₐ[k] ⊕ᵢ End(Vᵢ)` (`Theorem4_1_1_algebra_iso`) and its
 equivariant upgrade `k[G] ≅ ∏ᵢ End(Vᵢ)` (`Theorem4_1_1_regularRep_iso`), the book records the
@@ -285,10 +285,10 @@ explicit decomposition of the regular representation into irreducibles with mult
   `k[G] ≅ ⊕ᵢ (dim Vᵢ) · Vᵢ`,
 
 each irreducible `Vᵢ` occurring with multiplicity `dim Vᵢ`. This theorem records that content:
-there is a complete family `V : Fin n → FDRep k G` of the irreducible representations of `G` —
-each `Simple`, pairwise non-isomorphic, exhausting the simples — together with a representation
+there is a complete family `V : Fin n → FDRep k G` of the irreducible representations of `G`,
+each `Simple`, pairwise non-isomorphic, exhausting the simples, together with a representation
 `ρ_dec` on `∏ᵢ Vᵢ^(dᵢ)` whose multiplicities are `d i = dim (V i)` and whose action is diagonal
-`(g · w) i j = ρᵢ(g) (w i j)` (so each of the `d i` copies at `(i, j)` is genuinely `Vᵢ`), such
+`(g · w) i j = ρᵢ(g) (w i j)` (so each of the `d i` copies at `(i, j)` is `Vᵢ`), such
 that the regular representation `MonoidAlgebra.regularFDRep k G` is isomorphic in `FDRep k G` to
 `FDRep.of ρ_dec`. The witnesses are the column-vector representations `columnFDRep`, the diagonal
 multiplicity representation `IrrepDecomp.columnMultRep`, and the isomorphism

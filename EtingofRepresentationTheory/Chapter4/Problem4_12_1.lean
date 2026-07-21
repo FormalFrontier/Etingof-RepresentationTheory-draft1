@@ -18,11 +18,10 @@ decomposition of `V ⊗ V` in a direct sum of irreducible representations.
 We model the symmetry group of the regular `N`-gon by Mathlib's `DihedralGroup N` (order `2N`;
 generators `r k` = rotations, `sr k` = reflections).
 
-* **(a)** The faithful content of "describe all irreducibles" is the dimension dichotomy:
-  *every* irreducible complex representation of `DihedralGroup N` is `1`- or `2`-dimensional.
-  (The precise counts — `2` one-dimensional and `(N-1)/2` two-dimensional for odd `N`; `4`
-  one-dimensional and `(N-2)/2` two-dimensional for even `N` — are recorded here in the
-  docstring.)
+* **(a)** The essential content of "describe all irreducibles" is the dimension dichotomy:
+  every irreducible complex representation of `DihedralGroup N` is `1`- or `2`-dimensional.
+  (The precise counts are: `2` one-dimensional and `(N-1)/2` two-dimensional for odd `N`; `4`
+  one-dimensional and `(N-2)/2` two-dimensional for even `N`.)
 
   The proof follows the book: pick an eigenvector `v` of the rotation `ρ (r 1)` (a nonzero
   endomorphism of a nonzero finite-dimensional space over `ℂ` always has one). Then the span of

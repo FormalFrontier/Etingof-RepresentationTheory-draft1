@@ -33,8 +33,8 @@ matrices of determinant `1`, a `Group`), `SO(3)` by `Matrix.specialOrthogonalGro
 and the quaternions by `ℍ[ℝ] = Quaternion ℝ`. The group of unit quaternions is
 `unitary ℍ[ℝ]` (`{q : star q * q = 1 = q * star q}`, i.e. `normSq q = 1`).
 
-All of parts **(a)**–**(f)** are proved sorry-free.  Part **(f)** builds the
-conjugation homomorphism `h : SU(2) → SO(3)` genuinely, proves its kernel is exactly `{1, -1}`, and
+Part **(f)** constructs the
+conjugation homomorphism `h : SU(2) → SO(3)`, proves its kernel is exactly `{1, -1}`, and
 proves its surjectivity (`rotHom_surjective`) via the Euler `Z-Y-Z` decomposition of `SO(3)`
 (`so3_euler_zyz`: every `R ∈ SO(3)` is `Rz α · Ry β · Rz γ`), the classical existence of Euler
 angles, established here from the orthonormality and cofactor (`adjugate R = Rᵀ`) relations of `R`.
@@ -403,7 +403,7 @@ noncomputable def qK : ℍ[ℝ] := ⟨0, 0, 0, 1⟩
 
 We record the standard quaternion multiplication table on `qI, qJ, qK`, exhibit `1, i, j, k`
 as an `ℝ`-basis of `ℍ[ℝ]` (so `finrank ℝ ℍ[ℝ] = 4`), and record that the eight elements
-`±1, ±i, ±j, ±k` are units closed under multiplication — the quaternion group `Q₈` sitting
+`±1, ±i, ±j, ±k` are units closed under multiplication, the quaternion group `Q₈` sitting
 inside `ℍ[ℝ]ˣ`. -/
 
 -- The Hamilton relations `i² = j² = k² = -1`, `ij = k`, etc.
@@ -486,7 +486,7 @@ lemma Q8_mul_mem : ∀ x ∈ Q8, ∀ y ∈ Q8, x * y ∈ Q8 := by
     simp [Q8]
 
 /-- **Part (c), inverses.** `Q₈` is closed under taking (star = ) inverses: for each unit
-quaternion in `Q₈`, its conjugate — which is its inverse — is again in `Q₈`. -/
+quaternion in `Q₈`, its conjugate (which is its inverse) is again in `Q₈`. -/
 lemma Q8_star_mem : ∀ x ∈ Q8, star x ∈ Q8 := by
   intro x hx
   simp only [Q8, Set.mem_insert_iff, Set.mem_singleton_iff] at hx
@@ -619,7 +619,7 @@ rotation of `ℝ³` about the `i`-axis whose block on the `j,k`-plane is
 `!![c²-s², -2cs; 2cs, c²-s²]`.  With `c = cos (θ/2)`, `s = sin (θ/2)` the double-angle identities
 `c²-s² = cos θ`, `2cs = sin θ` turn this into the standard rotation `Rx θ`.  The `j`- and `k`-axis
 analogues are `rotMat_yAxis`/`rotMat_zAxis`.  These are the one-parameter subgroups that generate
-`SO(3)` (Euler decomposition), the route to `rotHom_surjective`.  Stated as exact polynomial
+`SO(3)` (Euler decomposition), used in the proof of `rotHom_surjective`.  Stated as exact polynomial
 identities in `c, s` (no `c²+s²=1` needed), so they compose cleanly under `rotMat_mul`. -/
 lemma rotMat_xAxis (c s : ℝ) :
     rotMat (⟨c, s, 0, 0⟩ : ℍ[ℝ]) =
@@ -659,7 +659,7 @@ the middle coordinate). -/
 noncomputable def Ry (θ : ℝ) : Matrix (Fin 3) (Fin 3) ℝ :=
   !![Real.cos θ, 0, Real.sin θ; 0, 1, 0; -Real.sin θ, 0, Real.cos θ]
 
-/-- **Half-angle bridge, `z`-axis.** The half-angle quaternion `⟨cos (θ/2), 0, 0, sin (θ/2)⟩`
+/-- **Half-angle rotation, `z`-axis.** The half-angle quaternion `⟨cos (θ/2), 0, 0, sin (θ/2)⟩`
 conjugates to the full-angle `z`-rotation `Rz θ`, via the double-angle identities
 `cos²(θ/2) - sin²(θ/2) = cos θ` and `2 cos(θ/2) sin(θ/2) = sin θ`. -/
 lemma rotMat_zAxis_half (θ : ℝ) :
@@ -672,7 +672,7 @@ lemma rotMat_zAxis_half (θ : ℝ) :
   have hone : Real.cos (θ / 2) ^ 2 + Real.sin (θ / 2) ^ 2 = 1 := Real.cos_sq_add_sin_sq _
   rw [rotMat_zAxis, Rz, hcos, hsin, hone]
 
-/-- **Half-angle bridge, `y`-axis.** The half-angle quaternion `⟨cos (θ/2), 0, sin (θ/2), 0⟩`
+/-- **Half-angle rotation, `y`-axis.** The half-angle quaternion `⟨cos (θ/2), 0, sin (θ/2), 0⟩`
 conjugates to the full-angle `y`-rotation `Ry θ`. -/
 lemma rotMat_yAxis_half (θ : ℝ) :
     rotMat (⟨Real.cos (θ / 2), 0, Real.sin (θ / 2), 0⟩ : ℍ[ℝ]) = Ry θ := by
@@ -709,7 +709,7 @@ product of a rotation about the `z`-axis, one about the `y`-axis, and one about 
 is the classical existence of Euler angles; it is the remaining analytic input to
 `rotHom_surjective`.
 
-Route: the third column `(R 0 2, R 1 2, R 2 2)` is a unit vector (columns of an orthogonal matrix
+Proof: the third column `(R 0 2, R 1 2, R 2 2)` is a unit vector (columns of an orthogonal matrix
 are orthonormal), so `|R 2 2| ≤ 1`; set `β := arccos (R 2 2)` so `cos β = R 2 2` and `sin β ≥ 0`.
 When `sin β ≠ 0`, take `cos α = R 0 2 / sin β`, `sin α = R 1 2 / sin β`, `cos γ = -(R 2 0) / sin β`,
 `sin γ = R 2 1 / sin β`; the orthonormality relations plus the cofactor identities (`adjugate R = Rᵀ`
@@ -863,10 +863,10 @@ theorem so3_euler_zyz (R : Matrix (Fin 3) (Fin 3) ℝ)
         | linear_combination (0 : ℝ)
 
 /-- **Surjectivity of the quaternion cover.** Every rotation of Euclidean `ℝ³` is conjugation by a
-unit quaternion — the classical statement that `SU(2) → SO(3)` is the (`2:1`) universal cover.
+unit quaternion: the classical statement that `SU(2) → SO(3)` is the (`2:1`) universal cover.
 
 Given `R ∈ SO(3)`, the Euler decomposition `R = Rz α · Ry β · Rz γ` (`so3_euler_zyz`) lifts, via the
-half-angle bridges and multiplicativity of `rotMat`, to the unit quaternion
+half-angle rotations and multiplicativity of `rotMat`, to the unit quaternion
 `q = ⟨cos(α/2),0,0,sin(α/2)⟩ · ⟨cos(β/2),0,sin(β/2),0⟩ · ⟨cos(γ/2),0,0,sin(γ/2)⟩` with
 `rotMat q = R`. -/
 theorem rotHom_surjective : Function.Surjective rotHom := by
@@ -944,7 +944,7 @@ theorem exists_surjective_hom_to_SO3 :
 We model `End_ℝ(V)` as `Module.End ℝ (Fin 2 → ℂ)` and let `SU(2)` act by
 `A ↦ (v ↦ A.mulVec v)` (`su2Act`, an `ℝ`-linear endomorphism, matrix-vector multiplication
 being `ℂ`-linear).  The *commutant* `commutant` is the `ℝ`-subalgebra of endomorphisms
-commuting with every `su2Act A` — the endomorphisms of `V = ℂ²` as a real `SU(2)`-representation.
+commuting with every `su2Act A`, the endomorphisms of `V = ℂ²` as a real `SU(2)`-representation.
 Being a centralizer, it is automatically closed under composition and contains the real scalars.
 
 * **Division algebra** (`commutant_isUnit_of_ne_zero`): every nonzero `f ∈ commutant` is
@@ -978,7 +978,7 @@ noncomputable def su2Act (A : Matrix.specialUnitaryGroup (Fin 2) ℂ) :
   simp [su2Act, Matrix.mulVecLin_apply]
 
 /-- **Part (b), the commutant.** The `ℝ`-subalgebra of `End_ℝ(ℂ²)` of endomorphisms commuting
-with the `SU(2)` action — the endomorphisms of `V = ℂ²` as a real representation.  As a
+with the `SU(2)` action, the endomorphisms of `V = ℂ²` as a real representation.  As a
 centralizer it is automatically closed under composition (multiplication) and contains the real
 scalars. -/
 noncomputable def commutant : Subalgebra ℝ (Module.End ℝ (Fin 2 → ℂ)) :=
@@ -1012,7 +1012,7 @@ lemma eq_zero_of_apply_e0 {f : Module.End ℝ (Fin 2 → ℂ)} (hf : f ∈ commu
   · exact LinearMap.ker_eq_top.mp h
 
 /-- **Part (b), division algebra.** Every nonzero element of the commutant is invertible: `ℍ` is a
-division algebra.  Route via Schur: a nonzero commuting `f` has `SU(2)`-invariant `ker f` and
+division algebra.  By Schur: a nonzero commuting `f` has `SU(2)`-invariant `ker f` and
 `range f`, which by real irreducibility (part (a)) are `⊥` and `⊤` respectively, so `f` is
 bijective and its inverse is again in the commutant. -/
 theorem commutant_isUnit_of_ne_zero (x : commutant) (hx : x ≠ 0) : IsUnit x := by

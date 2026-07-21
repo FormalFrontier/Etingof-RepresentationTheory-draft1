@@ -4,36 +4,36 @@ import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_CountingBound
 /-!
 # The strict counting drop in the modular case (Exercise 4.2.3)
 
-In the **modular** case (`|G| = 0` in `k`) the counting bound
-`#(simple k[G]-modules) ≤ #ConjClasses` sharpens to a **strict** inequality
-`#(simple k[G]-modules) < #ConjClasses`. This file supplies the reusable machinery for that
-strict drop, mirroring the non-strict packaging in `Exercise4_2_3_CountingBound.lean`.
+In the modular case (`|G| = 0` in `k`) the counting bound
+`#(simple k[G]-modules) ≤ #ConjClasses` sharpens to a strict inequality
+`#(simple k[G]-modules) < #ConjClasses`. This file establishes that strict drop, in parallel
+with the non-strict bound in `Exercise4_2_3_CountingBound.lean`.
 
 The mechanism is the nonzero central nilpotent `P = ∑_{g} g` (`Etingof.groupSum`, from
 `Exercise4_2_3.lean`). Write `P̄` for its image in the cocenter `C = k[G] / [k[G], k[G]]`.
 
-* **`groupSum_mkQ_ne_zero` (deliverable 2).** `P̄ ≠ 0` in `C`: the class-coefficient functional
+* **`groupSum_mkQ_ne_zero`.** `P̄ ≠ 0` in `C`: the class-coefficient functional
   `classCoeffQ` sends `P̄` to the indicator of the identity conjugacy class, whose value at
   `{1}` is `1 ≠ 0`.
-* **`traceForm_groupSum_eq_zero` (deliverable 1).** For a **simple** finite-dimensional
-  `k[G]`-module `M`, the trace form kills `P`: `τ_M(P̄) = trace(P acting on M) = 0`. Indeed the
+* **`traceForm_groupSum_eq_zero`.** For a simple finite-dimensional
+  `k[G]`-module `M`, the trace form annihilates `P`: `τ_M(P̄) = trace(P acting on M) = 0`. The
   action of the central element `P` is a `k[G]`-linear endomorphism `e` of `M` with `e² = 0`
   (as `P² = 0`), so by simplicity (its kernel is `⊥` or `⊤`) `e = 0`, hence its trace vanishes.
-* **`card_lt_finrank_of_linearIndependent_of_apply_eq_zero` (deliverable 3, linear-algebra
-  core).** A `LinearIndependent` family of functionals on a finite-dimensional space that all
-  vanish at a common **nonzero** vector `v` has strictly fewer members than `finrank`: adjoining
-  a functional `g` with `g v ≠ 0` keeps the family independent, so its size `+1 ≤ finrank`.
-* **`card_lt_conjClasses_of_traceForm_linearIndependent` (deliverable 3, packaged).** Combining
-  the three facts above: if the cocenter trace forms of a finite family of **simple**
-  finite-dimensional `k[G]`-modules are linearly independent and `|G| = 0` in `k`, then the
-  family has strictly fewer than `Nat.card (ConjClasses G)` members. All of them annihilate the
-  nonzero vector `P̄`, so they lie in a hyperplane of `C`.
+* **`card_lt_finrank_of_linearIndependent_of_apply_eq_zero`.** A `LinearIndependent` family of
+  functionals on a finite-dimensional space that all vanish at a common nonzero vector `v` has
+  strictly fewer members than `finrank`: adjoining a functional `g` with `g v ≠ 0` keeps the
+  family independent, so its size `+1 ≤ finrank`.
+* **`card_lt_conjClasses_of_traceForm_linearIndependent`.** Combining the three facts above: if
+  the cocenter trace forms of a finite family of simple finite-dimensional `k[G]`-modules are
+  linearly independent and `|G| = 0` in `k`, then the family has strictly fewer than
+  `Nat.card (ConjClasses G)` members. All of them annihilate the nonzero vector `P̄`, so they
+  lie in a hyperplane of `C`.
 
-These are all **field-general** (only `[Field k]`). The remaining, genuinely field-sensitive
-content — producing a linearly independent family of trace forms of size
-`Nat.card (IrrepClasses k G)` — holds after base change to a splitting field and is handled in
+These are all field-general (only `[Field k]`). The remaining, field-sensitive content,
+producing a linearly independent family of trace forms of size `Nat.card (IrrepClasses k G)`,
+holds after base change to a splitting field and is handled in
 `Exercise4_2_3_FieldGeneral.lean` (via the split-field bound and base-change monotonicity). Once
-that family is available over a splitting field, feeding it into
+that family is available over a splitting field, applying
 `card_lt_conjClasses_of_traceForm_linearIndependent` yields the strict bound there, and base
 change transports it back to `k` to close `Etingof.Exercise4_2_3`.
 -/
@@ -51,9 +51,9 @@ namespace CocenterMonoidAlgebra
 
 variable {k G : Type*} [Field k] [Group G] [Fintype G]
 
-/-! ### Deliverable 2: `P̄ ≠ 0` in the cocenter -/
+/-! ### `P̄ ≠ 0` in the cocenter -/
 
-/-- **Deliverable 2.** The image `P̄` of the group sum `P = ∑_g g` in the cocenter
+/-- The image `P̄` of the group sum `P = ∑_g g` in the cocenter
 `C = k[G] / [k[G], k[G]]` is nonzero. The class-coefficient functional `classCoeffQ` sends `P̄`
 to the coordinate function of conjugacy classes; its value at the identity class `{1}` is `1`
 (only `g = 1` is conjugate to `1`), so `P̄` cannot be zero. Field-general. -/
@@ -76,7 +76,7 @@ theorem groupSum_mkQ_ne_zero [DecidableEq G] :
   rw [hcc, Pi.zero_apply] at hval
   exact zero_ne_one hval
 
-/-! ### Deliverable 1: the trace form kills `P` on every simple module -/
+/-! ### The trace form annihilates `P` on every simple module -/
 
 section SimpleModule
 
@@ -84,7 +84,7 @@ variable (M : Type*) [AddCommGroup M] [Module k M] [Module (MonoidAlgebra k G) M
   [IsScalarTower k (MonoidAlgebra k G) M] [Module.Finite k M]
   [IsSimpleModule (MonoidAlgebra k G) M]
 
-/-- The action of the central element `P = ∑_g g` on a `k[G]`-module `M`, packaged as a
+/-- The action of the central element `P = ∑_g g` on a `k[G]`-module `M`, as a
 `k[G]`-linear endomorphism `e : M →ₗ[k[G]] M`, `m ↦ P • m`. It is `k[G]`-linear precisely
 because `P` is central (`groupSum_mem_center`). -/
 private noncomputable def groupSumEnd : M →ₗ[MonoidAlgebra k G] M where
@@ -95,7 +95,7 @@ private noncomputable def groupSumEnd : M →ₗ[MonoidAlgebra k G] M where
     rw [smul_smul, smul_smul, Subalgebra.mem_center_iff.mp groupSum_mem_center y]
 
 omit [Module.Finite k M] in
-/-- **Deliverable 1.** For a simple finite-dimensional `k[G]`-module `M` in the modular case
+/-- For a simple finite-dimensional `k[G]`-module `M` in the modular case
 (`|G| = 0` in `k`), the trace form of `M` vanishes on `P = ∑_g g`, i.e. the character value of
 `P` on `M` is `0`. The central nilpotent `P` acts by a `k[G]`-endomorphism `e` with `e² = 0`;
 by simplicity `e = 0`, so its trace is `0`. Field-general. -/
@@ -124,9 +124,9 @@ theorem traceForm_groupSum_eq_zero (hcard : (Fintype.card G : k) = 0) :
 
 end SimpleModule
 
-/-! ### Deliverable 3: the strict counting bound -/
+/-! ### The strict counting bound -/
 
-/-- **Deliverable 3 (linear-algebra core).** A `LinearIndependent` family `f` of linear
+/-- **Linear-algebra core.** A `LinearIndependent` family `f` of linear
 functionals on a finite-dimensional vector space `V`, all of which vanish at a common **nonzero**
 vector `v`, has strictly fewer members than `finrank k V`. Adjoining a functional `g` with
 `g v ≠ 0` (which exists since `v ≠ 0`) keeps the family linearly independent, so its cardinality
@@ -170,8 +170,8 @@ theorem card_lt_finrank_of_linearIndependent_of_apply_eq_zero
   rw [Module.finrank_linearMap_self, Fintype.card_option] at hcard
   omega
 
-/-- **Deliverable 3 (packaged, strict counting bound).** In the modular case (`|G| = 0` in `k`),
-if the cocenter trace forms `τ_{S i}` of a finite family of **simple** finite-dimensional
+/-- **Strict counting bound.** In the modular case (`|G| = 0` in `k`),
+if the cocenter trace forms `τ_{S i}` of a finite family of simple finite-dimensional
 `k[G]`-modules `S i` are linearly independent over `k`, then the family has **strictly** fewer
 than `Nat.card (ConjClasses G)` members. All the trace forms annihilate the nonzero cocenter
 vector `P̄` (`traceForm_groupSum_eq_zero`, `groupSum_mkQ_ne_zero`), so they span a subspace of the

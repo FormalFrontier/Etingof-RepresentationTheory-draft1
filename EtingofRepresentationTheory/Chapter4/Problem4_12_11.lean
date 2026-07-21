@@ -32,7 +32,7 @@ Results:
 * **(a)** each subspace is `SO(3)`-invariant; `End(V) = scalarSub ⊕ skewSub ⊕ tracelessSymSub`
   and `symSub = scalarSub ⊕ tracelessSymSub`; the dimensions are `1, 3, 5`.
 * **(b)** `skewSub` (`≅ V`) and `tracelessSymSub` (`= W`) are irreducible over `ℝ`
-  (`skewSub_irreducible`, `tracelessSymSub_irreducible`), and *"even after complexification"*:
+  (`skewSub_irreducible`, `tracelessSymSub_irreducible`), and "even after complexification":
   the complexified representations `skewSubc` (`= V ⊗ ℂ`) and `tracelessSymSubc` (`= W ⊗ ℂ`) on
   `EndVc = Matrix (Fin 3) (Fin 3) ℂ` are irreducible as well
   (`skewSub_irreducible_complexified`, `tracelessSymSub_irreducible_complexified`). Hooke's law:
@@ -54,7 +54,7 @@ abbrev SO3 : Submonoid (Matrix (Fin 3) (Fin 3) ℝ) := specialOrthogonalGroup (F
 abbrev EndV : Type := Matrix (Fin 3) (Fin 3) ℝ
 
 /-- The conjugation action of `SO(3)` on `End(V)`: `conjRep A M = A · M · Aᵀ`. Since `A` is
-orthogonal, `Aᵀ = A⁻¹`, so this is genuine conjugation. -/
+orthogonal, `Aᵀ = A⁻¹`, so this is conjugation. -/
 def conjRep : Representation ℝ SO3 EndV where
   toFun A := (LinearMap.mulLeft ℝ (A : EndV)).comp
     (LinearMap.mulRight ℝ (star (A : EndV)))
@@ -75,7 +75,7 @@ theorem conjRep_apply (A : SO3) (M : EndV) :
 /-- The trivial summand `ℝ ⊆ End(V)`: the scalar matrices `ℝ·1`. -/
 def scalarSub : Submodule ℝ EndV := Submodule.span ℝ {(1 : EndV)}
 
-/-- The skew-symmetric matrices `{M | Mᵀ = -M}` — a `3`-dimensional subrepresentation
+/-- The skew-symmetric matrices `{M | Mᵀ = -M}`, a `3`-dimensional subrepresentation
 isomorphic to the standard representation `V`. -/
 def skewSub : Submodule ℝ EndV where
   carrier := {M | Mᵀ = -M}
@@ -85,7 +85,7 @@ def skewSub : Submodule ℝ EndV where
   smul_mem' c a ha := by
     simp only [Set.mem_setOf_eq] at ha ⊢; rw [transpose_smul, ha, smul_neg]
 
-/-- The symmetric matrices `{M | Mᵀ = M}` — this is `S²V ⊆ End(V)`. -/
+/-- The symmetric matrices `{M | Mᵀ = M}`: this is `S²V ⊆ End(V)`. -/
 def symSub : Submodule ℝ EndV where
   carrier := {M | Mᵀ = M}
   add_mem' {a b} ha hb := by
@@ -94,7 +94,7 @@ def symSub : Submodule ℝ EndV where
   smul_mem' c a ha := by
     simp only [Set.mem_setOf_eq] at ha ⊢; rw [transpose_smul, ha]
 
-/-- The traceless symmetric matrices `{M | Mᵀ = M ∧ trace M = 0}` — the `5`-dimensional
+/-- The traceless symmetric matrices `{M | Mᵀ = M ∧ trace M = 0}`, the `5`-dimensional
 representation `W`. -/
 def tracelessSymSub : Submodule ℝ EndV where
   carrier := {M | Mᵀ = M ∧ M.trace = 0}
@@ -1412,7 +1412,7 @@ theorem hooke_law (f : EndV →ₗ[ℝ] EndV)
       (∀ x ∈ symSub, f x ∈ symSub) := by
   have hf_pt : ∀ (A : SO3) (M : EndV), f (conjRep A M) = conjRep A (f M) :=
     fun A M => LinearMap.congr_fun (hf A) M
-  -- **Deliverable 1: `K` on `scalarSub`.** `f 1` is `conjRep`-invariant, hence scalar.
+  -- Scalar `K` on `scalarSub`: `f 1` is `conjRep`-invariant, hence scalar.
   have hinv1 : ∀ A : SO3, conjRep A (f 1) = f 1 := fun A => by rw [← hf_pt A 1, conjRep_one]
   set K := (f 1) 0 0 with hKdef
   have hf1 : f 1 = K • (1 : EndV) :=
@@ -1422,7 +1422,7 @@ theorem hooke_law (f : EndV →ₗ[ℝ] EndV)
     rw [scalarSub, Submodule.mem_span_singleton] at hx
     obtain ⟨c, rfl⟩ := hx
     rw [map_smul, hf1, smul_comm]
-  -- **Deliverable 2: `f` preserves `tracelessSymSub`.** Its scalar/skew components vanish by Schur.
+  -- `f` preserves `tracelessSymSub`: its scalar/skew components vanish by Schur.
   have hWinv : ∀ (A : SO3), ∀ M ∈ tracelessSymSub, conjRep A M ∈ tracelessSymSub :=
     fun A M hM => conjRep_invariant tracelessSymSub (Or.inr (Or.inr rfl)) A M hM
   have hsc0 : ∀ w ∈ tracelessSymSub, scalarProj (f w) = 0 := by
@@ -1451,7 +1451,7 @@ theorem hooke_law (f : EndV →ₗ[ℝ] EndV)
     · rcases hs with h | h
       · exact (div_eq_zero_iff.mp h).resolve_right (by norm_num)
       · exact absurd h one_ne_zero
-  -- **Deliverable 3: `μ` on `tracelessSymSub`.** `f|_W` on odd-dim `W` has a real eigenvalue `μ`;
+  -- Scalar `μ` on `tracelessSymSub`: `f|_W` on odd-dim `W` has a real eigenvalue `μ`;
   -- its `μ`-eigenspace is a nonzero invariant subspace, hence all of `W` by irreducibility.
   set g : Module.End ℝ tracelessSymSub := f.restrict hmapsW with hg
   have hgnd : g.charpoly.natDegree = 5 := by
@@ -1491,7 +1491,7 @@ theorem hooke_law (f : EndV →ₗ[ℝ] EndV)
     rw [hE, Submodule.mem_inf, LinearMap.mem_ker, LinearMap.sub_apply, LinearMap.smul_apply,
       LinearMap.id_apply, sub_eq_zero] at hyE
     exact hyE.2
-  -- **Deliverable 4: `f` preserves `symSub`.** Split `x = s + w` and reuse the two scalars.
+  -- `f` preserves `symSub`: split `x = s + w` and reuse the two scalars.
   refine ⟨K, μ, hscalar, hmu, ?_⟩
   intro x hx
   rw [← symSub_eq_scalar_sup_tracelessSym.1] at hx

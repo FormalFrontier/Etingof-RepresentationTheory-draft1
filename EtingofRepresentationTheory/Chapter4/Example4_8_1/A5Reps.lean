@@ -1,13 +1,12 @@
 import EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Classes
 
 /-!
-# Example 4.8.1 — `A₅`: the representations `ℂ`, `ℂ⁴`, `ℂ⁵` and their simplicity
+# Example 4.8.1, `A₅`: the representations `ℂ`, `ℂ⁴`, `ℂ⁵` and their simplicity
 
-Split out of `Example4_8_1.lean` for CI memory (issue #5852); see there for the umbrella.
 The norm-one character sums proving simplicity are evaluated by class decomposition
 (`sum_fixCard_classfn`): the 60-term group sums collapse to the five class representatives
-weighted by the class sizes `(1, 20, 15, 12, 12)`, so the kernel only ever evaluates the
-fixed-point counts at five elements.
+weighted by the class sizes `(1, 20, 15, 12, 12)`, so only the fixed-point counts at the
+five class representatives are needed.
 -/
 
 namespace Etingof.Example4_8_1
@@ -91,7 +90,7 @@ lemma repC4_simple : Simple repC4 := by
 conjugation, a 2-transitive action on a 6-element set; the deleted permutation representation
 of this action is `ℂ⁵`.  We model the six subgroups by the `Finset`s of their four non-identity
 elements; conjugation maps such a `Finset` to another of the six exactly, so the conjugation
-permutation index `conjIdx5` defines a genuine `MulAction G (Fin 6)`. -/
+permutation index `conjIdx5` defines a `MulAction G (Fin 6)`. -/
 
 /-- The 5-cycle `(0 1 a b c)` of `Fin 5`. -/
 def cyc (a b c : Fin 5) : Equiv.Perm (Fin 5) :=

@@ -17,7 +17,7 @@ We model an irreducible representation as a `Representation k G V` whose associa
 `MonoidAlgebra k G`-module `ρ.asModule` is simple. The faithful statement of "trivial"
 is that `ρ g` is the identity linear map for every `g : G`.
 
-The mathematical crux is the char-`p` fixed-vector theorem: a finite `p`-group acting
+The key ingredient is the char-`p` fixed-vector theorem: a finite `p`-group acting
 `k`-linearly on a nonzero vector space over a field of characteristic `p` has a nonzero
 fixed vector. This is proved here (`Etingof.Problem4_1_4.exists_fixed_vector`) by strong
 induction on `Nat.card G` using the nontrivial center of a `p`-group: a nontrivial

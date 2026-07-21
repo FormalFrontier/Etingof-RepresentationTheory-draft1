@@ -78,7 +78,7 @@ def IsIrredSub {G : Type*} [Group G] {n : ℕ} (ρ : Representation ℂ G (Fin n
   S ≠ ⊥ ∧ ∀ T : Submodule ℂ (Fin n → ℂ),
     T ≤ S → (∀ g, ∀ v ∈ T, ρ g v ∈ T) → T = ⊥ ∨ T = S
 
-/-! ## Reusable decomposition engine
+/-! ## Reusable decomposition lemmas
 
 The lemmas below are generic in the dimension `n` and the representation `ρ`; none of them
 mentions the numbers `12/20/30`. They provide the structural facts shared by the three
@@ -157,7 +157,7 @@ lemma isIrredSub_iff_isAtom {n : ℕ} {ρ : Representation ℂ A5 (Fin n → ℂ
       have := hmax _ hτlt
       exact congrArg Subrepresentation.toSubmodule this |>.trans (by rfl)
 
-/-- **`IsIrredSub` ↔ simple subrepresentation bridge.** `IsIrredSub ρ σ.toSubmodule` holds iff
+/-- **`IsIrredSub` as a simple submodule.** `IsIrredSub ρ σ.toSubmodule` holds iff
 the corresponding `ℂ[A₅]`-submodule `σ.asSubmodule` of `ρ.asModule` is a simple module. -/
 lemma isIrredSub_iff_isSimpleModule {n : ℕ} {ρ : Representation ℂ A5 (Fin n → ℂ)}
     (σ : Subrepresentation ρ) :
@@ -167,9 +167,9 @@ lemma isIrredSub_iff_isSimpleModule {n : ℕ} {ρ : Representation ℂ A5 (Fin n
     ← Subrepresentation.subrepresentationSubmoduleOrderIso.isAtom_iff σ]
   rfl
 
-/-- **`subChar` ↔ `FDRep` character bridge.** The ad-hoc restricted-trace `subChar ρ S hS`
-agrees with the genuine character of the subrepresentation carried by `S`, packaged as an
-`FDRep`. Per-part issues can therefore identify a summand's isomorphism type from its `subChar`
+/-- **`subChar` as an `FDRep` character.** The restricted-trace `subChar ρ S hS`
+agrees with the character of the subrepresentation carried by `S`, packaged as an
+`FDRep`. One can therefore identify a summand's isomorphism type from its `subChar`
 and apply `FDRep.char_iso`. -/
 lemma subChar_eq_character {n : ℕ} (ρ : Representation ℂ A5 (Fin n → ℂ))
     (S : Submodule ℂ (Fin n → ℂ)) (hS : ∀ g, ∀ v ∈ S, ρ g v ∈ S) (g : A5) :
@@ -179,7 +179,7 @@ lemma subChar_eq_character {n : ℕ} (ρ : Representation ℂ A5 (Fin n → ℂ)
 
 /-- **Generic internal decomposition.** Any `ℂ`-representation `ρ` of `A₅` on `Fin n → ℂ`
 decomposes as an internal direct sum of finitely many `G`-invariant irreducible subspaces.
-This is the structural engine consumed by the three per-part decomposition theorems. -/
+This is the structural result used by the three per-part decomposition theorems. -/
 theorem exists_isInternal_isIrredSub {n : ℕ} (ρ : Representation ℂ A5 (Fin n → ℂ)) :
     ∃ (m : ℕ) (S : Fin m → Submodule ℂ (Fin n → ℂ)),
       (∀ k, ∀ g : A5, ∀ v ∈ S k, ρ g v ∈ S k) ∧
@@ -214,13 +214,13 @@ theorem exists_isInternal_isIrredSub {n : ℕ} (ρ : Representation ℂ A5 (Fin 
 
 /-! ### Isotypic / multiplicity layer
 
-The generic engine `exists_isInternal_isIrredSub` produces an internal direct sum of
+The generic decomposition `exists_isInternal_isIrredSub` produces an internal direct sum of
 `IsIrredSub` summands but records no dimension or isomorphism-type information. This layer
-identifies the isomorphism type of each summand against the completeness list `irrepA5`
-(#6244), turns the fixed-point character into a sum over summand characters (trace additivity,
-#6246 dimensions), and — via character orthonormality (`FDRep.char_orthonormal`) — computes the
-multiplicity of each irreducible as a character inner product. These are the shared facts
-consumed by the three per-part decomposition theorems. -/
+identifies the isomorphism type of each summand against the completeness list `irrepA5`,
+turns the fixed-point character into a sum over summand characters (trace additivity, together
+with the summand dimensions), and, via character orthonormality (`FDRep.char_orthonormal`),
+computes the multiplicity of each irreducible as a character inner product. These are the shared
+facts used by the three per-part decomposition theorems. -/
 
 open CategoryTheory
 
@@ -291,7 +291,7 @@ private def toRepAsModuleEquiv {n : ℕ} {ρ : Representation ℂ A5 (Fin n → 
 
 /-- **`IsIrredSub` summands are simple.** An `IsIrredSub` invariant submodule carries a simple
 object of `FDRep ℂ A₅` (via `isIrredSub_iff_isSimpleModule`, the `asSubmodule ≃ asModule` transport,
-and the module-to-representation simplicity bridge `simple_fdRepOf_of_isSimpleModule`). -/
+and the module-to-representation simplicity result `simple_fdRepOf_of_isSimpleModule`). -/
 lemma subFDRep_simple {n : ℕ} {ρ : Representation ℂ A5 (Fin n → ℂ)}
     (S : Submodule ℂ (Fin n → ℂ)) (hS : ∀ g, ∀ v ∈ S, ρ g v ∈ S)
     (h : IsIrredSub ρ S) : Simple (subFDRep ρ S hS) := by
@@ -304,7 +304,7 @@ lemma subFDRep_simple {n : ℕ} {ρ : Representation ℂ A5 (Fin n → ℂ)}
   exact Etingof.simple_fdRepOf_of_isSimpleModule _
 
 /-- **Type classification of a summand.** An `IsIrredSub` summand is isomorphic to some
-`irrepA5 t` (completeness, #6244). -/
+`irrepA5 t` (completeness). -/
 lemma exists_subFDRep_iso_irrepA5 {n : ℕ} {ρ : Representation ℂ A5 (Fin n → ℂ)}
     (S : Submodule ℂ (Fin n → ℂ)) (hS : ∀ g, ∀ v ∈ S, ρ g v ∈ S)
     (h : IsIrredSub ρ S) :
@@ -312,17 +312,17 @@ lemma exists_subFDRep_iso_irrepA5 {n : ℕ} {ρ : Representation ℂ A5 (Fin n �
   haveI := subFDRep_simple S hS h
   exact simple_iso_irrepA5 (subFDRep ρ S hS)
 
-/-- **Typed isotypic decomposition (master engine).** Any permutation representation `permRep act`
+/-- **Typed isotypic decomposition.** Any permutation representation `permRep act`
 of `A₅` decomposes as an internal direct sum of `IsIrredSub` summands `S k`, each carrying a
 well-defined isomorphism type `type k : Fin 5` such that:
 
 * `subChar (S k) = (irrepA5 (type k)).character` (each summand's character is a table row);
-* `finrank ℂ (S k) = ![1,3,3,4,5] (type k)` (its dimension, #6246);
+* `finrank ℂ (S k) = ![1,3,3,4,5] (type k)` (its dimension);
 * the number of summands of type `i` equals the character inner product
   `⟨χ_perm, χ_{irrepA5 i}⟩` (multiplicity, via `FDRep.char_orthonormal` and trace additivity).
 
-This is the shared engine the three per-part decomposition theorems consume: they compute the
-fixed-point character `χ_perm` explicitly and read off the multiplicities from the last clause. -/
+The three per-part decomposition theorems use this: they compute the fixed-point character
+`χ_perm` explicitly and read off the multiplicities from the last clause. -/
 theorem exists_typed_isotypic_decomposition {n : ℕ} (act : A5 →* Equiv.Perm (Fin n)) :
     ∃ (m : ℕ) (S : Fin m → Submodule ℂ (Fin n → ℂ))
       (hS : ∀ k, ∀ g : A5, ∀ v ∈ S k, permRep act g v ∈ S k)
@@ -380,12 +380,12 @@ theorem exists_typed_isotypic_decomposition {n : ℕ} (act : A5 →* Equiv.Perm 
   refine Finset.sum_congr rfl fun g _ => ?_
   rw [hperm g, Finset.sum_mul]
 
-/-- **Sorted isotypic decomposition (packaging consumer).** The typed decomposition of
-`exists_typed_isotypic_decomposition`, reindexed by `Tuple.sort` so that `type` is *monotone*. A
-consumer computes the multiplicity vector `mult i = ⟨χ_perm, χ_{irrepA5 i}⟩` from the last clause;
+/-- **Sorted isotypic decomposition.** The typed decomposition of
+`exists_typed_isotypic_decomposition`, reindexed by `Tuple.sort` so that `type` is monotone. One
+computes the multiplicity vector `mult i = ⟨χ_perm, χ_{irrepA5 i}⟩` from the last clause;
 monotonicity then pins down the whole summand list in nondecreasing type order, realising each type
 `i` exactly `mult i` times (with dimensions `![1,3,3,4,5]`). This is the shape the three per-part
-decomposition theorems reindex to. The `3 ≇ 3'` distinguishing hook is available through
+decomposition theorems reindex to. The `3 ≇ 3'` distinction is available through
 `hchar`: two summands of types `1` and `2` have `subChar` differing at `classRepA5 3`, since
 `(irrepA5 1).character` and `(irrepA5 2).character` differ there (`irrepA5_pairwise`). -/
 theorem exists_sorted_isotypic_decomposition {n : ℕ} (act : A5 →* Equiv.Perm (Fin n)) :
@@ -541,7 +541,7 @@ end FixCount
 We now specialise the orbit-stabilizer core to `A₅` and compute the fixed-point character
 `χ_perm(g) = #{ i | act g i = i }` on the five class representatives `classRepA5 j`
 (ordered as `1a, 3a, 2a, 5a, 5b`, matching `classRepA5`/`chiA5`). The point stabilizer, of prime
-order `p`, is conjugate to the concrete cyclic subgroup `⟨classRepA5 k⟩` — by Sylow's theorem for
+order `p`, is conjugate to the concrete cyclic subgroup `⟨classRepA5 k⟩`, by Sylow's theorem for
 `p = 5, 3` (where the stabilizer is a full Sylow subgroup), and by the conjugacy of involutions
 for `p = 2`. The twisted counts `#{ x | x⁻¹ g x ∈ ⟨classRepA5 k⟩ }` are then finite `decide`
 computations over `A₅`. -/
@@ -771,9 +771,9 @@ theorem fixCount_edges (act : A5 →* Equiv.Perm (Fin 30))
 
 end A5FixCounts
 
-/-! ## From the sorted engine to the explicit per-part decompositions
+/-! ## From the sorted decomposition to the explicit per-part decompositions
 
-The engine `exists_sorted_isotypic_decomposition` produces a monotone-by-type internal direct
+The result `exists_sorted_isotypic_decomposition` produces a monotone-by-type internal direct
 sum whose type-multiplicities are the character inner products `⟨χ_perm, χ_i⟩`, written as a raw
 sum over `A₅`. The two lemmas below reduce that group sum to the five-term conjugacy-class sum
 (so the multiplicities become a concrete `norm_num` computation from the fixed-point counts) and
@@ -805,8 +805,8 @@ lemma fixCard_eq_classRep {n : ℕ} (act : A5 →* Equiv.Perm (Fin n)) (g : A5) 
     LinearMap.trace_mul_comm, ← mul_assoc, ← map_mul, inv_mul_cancel, map_one, one_mul]
 
 /-- **Multiplicity as a conjugacy-class sum.** The character inner product `⟨χ_perm, χ_i⟩`
-appearing in `exists_sorted_isotypic_decomposition` — a raw sum over `A₅` of the fixed-point
-count times `χ_i(g⁻¹)` — collapses to a five-term sum over the conjugacy classes, weighted by the
+appearing in `exists_sorted_isotypic_decomposition`, a raw sum over `A₅` of the fixed-point
+count times `χ_i(g⁻¹)`, collapses to a five-term sum over the conjugacy classes, weighted by the
 class sizes `(1, 20, 15, 12, 12)`, with each factor evaluated at the class representative. Both
 the fixed-point count (`fixCard_eq_classRep`) and the character (`FDRep.char_conj` plus
 `classRepA5_inv_conj`) are class functions of `g`; `Finset.sum_fiberwise'` collects the fibers
@@ -853,8 +853,8 @@ lemma perm_mult_classSum {n : ℕ} (act : A5 →* Equiv.Perm (Fin n)) (i : Fin 5
 
 /-! ## Multiplicity computation and reindexing to sorted dimension order
 
-The generic pieces below feed the three per-part decomposition theorems. They turn the engine's
-multiplicity clause — an inner product `⟨χ_perm, χ_i⟩` written as a `60`-term group sum — into a
+The generic pieces below are used by the three per-part decomposition theorems. They turn the
+multiplicity clause (an inner product `⟨χ_perm, χ_i⟩` written as a `60`-term group sum) into a
 class-size-weighted sum over the five class representatives, and pin down the monotone type vector
 `type : Fin m → Fin 5` of the sorted decomposition from its fibre cardinalities. -/
 
@@ -932,8 +932,8 @@ lemma monotone_initial {m : ℕ} {P : Fin 5 → Prop} [DecidablePred P]
 
 end Multiplicity
 
-/-- **Part (a): vertices.** For the icosahedral vertex action of `A₅` — any transitive action
-on `12` points with point stabilizers of order `5` — the representation on `F(I) = Fin 12 → ℂ`
+/-- **Part (a): vertices.** For the icosahedral vertex action of `A₅` (any transitive action
+on `12` points with point stabilizers of order `5`), the representation on `F(I) = Fin 12 → ℂ`
 decomposes as `1 ⊕ 3 ⊕ 3' ⊕ 5`: an internal direct sum of four `G`-invariant irreducible
 subspaces of dimensions `1, 3, 3, 5`, with the two `3`-dimensional summands non-isomorphic. -/
 theorem vertices_decomposition
@@ -1035,8 +1035,8 @@ theorem vertices_decomposition
     norm_num at hsq
 
 open Finset Etingof.Example4_8_1 Etingof.Example4_8_1.A5 CategoryTheory in
-/-- **Part (b): faces.** For the icosahedral face action of `A₅` — any transitive action on
-`20` points with point stabilizers of order `3` — the representation on `Fin 20 → ℂ`
+/-- **Part (b): faces.** For the icosahedral face action of `A₅` (any transitive action on
+`20` points with point stabilizers of order `3`), the representation on `Fin 20 → ℂ`
 decomposes as `1 ⊕ 3 ⊕ 3' ⊕ 4² ⊕ 5`: an internal direct sum of six `G`-invariant irreducible
 subspaces of dimensions `1, 3, 3, 4, 4, 5`, with the two `3`-dimensional summands
 non-isomorphic. -/
@@ -1181,8 +1181,8 @@ theorem faces_decomposition
     rw [hz] at hsq; norm_num at hsq
 
 open Finset Etingof.Example4_8_1 Etingof.Example4_8_1.A5 CategoryTheory in
-/-- **Part (b): edges.** For the icosahedral edge action of `A₅` — any transitive action on
-`30` points with point stabilizers of order `2` — the representation on `Fin 30 → ℂ`
+/-- **Part (b): edges.** For the icosahedral edge action of `A₅` (any transitive action on
+`30` points with point stabilizers of order `2`), the representation on `Fin 30 → ℂ`
 decomposes as `1 ⊕ 3 ⊕ 3' ⊕ 4² ⊕ 5³`: an internal direct sum of eight `G`-invariant
 irreducible subspaces of dimensions `1, 3, 3, 4, 4, 5, 5, 5`, with the two `3`-dimensional
 summands non-isomorphic. -/
