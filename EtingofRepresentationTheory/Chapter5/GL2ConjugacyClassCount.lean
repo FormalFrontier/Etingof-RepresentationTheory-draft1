@@ -69,7 +69,7 @@ counts then feed the class-count bridge `count_from_bridge`.
 
 /-! ## A class-count bridge
 
-The three deferred per-type counts all follow the same recipe: divide the number
+The three per-type counts all follow the same recipe: divide the number
 of *elements* of a type by the (constant) *size* of a conjugacy class of that
 type. The size of the class of `g` is `|G| / |C_G(g)|` by orbit–stabilizer, so if
 the centralizer order is constant equal to `d` across a conjugation-closed set

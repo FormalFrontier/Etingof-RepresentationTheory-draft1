@@ -56,7 +56,7 @@ open CategoryTheory
 open scoped TensorProduct
 
 -- `[Fintype G]` is used at proof time (cocenter dimension, finiteness of the class count) but
--- not in the statement types until the deferred proofs are filled in.
+-- not in the statement types.
 set_option linter.unusedFintypeInType false
 
 namespace Etingof
