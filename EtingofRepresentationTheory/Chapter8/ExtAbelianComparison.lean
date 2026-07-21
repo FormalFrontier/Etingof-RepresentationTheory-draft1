@@ -12,7 +12,7 @@ import Mathlib.Algebra.Homology.ShortComplex.Linear
 Problem 8.2.8 (`Ext` half) proves a Künneth formula for the `ModuleCat k`-valued
 left-derived-functor `Etingof.Extₖ`, but its top-level statement `Problem_8_2_8_ext` is phrased
 with the `AddCommGroup`-
-valued derived-category `Etingof.Ext = CategoryTheory.Abelian.Ext`. This file bridges the two with a
+valued derived-category `Etingof.Ext = CategoryTheory.Abelian.Ext`. This file relates the two by a
 `k`-linear isomorphism
 
 ```
@@ -24,16 +24,16 @@ for a `k`-algebra `A` over a field `k` and left `A`-modules `M`, `N`.
 
 ## Construction
 
-Both sides compute `Extⁿ_A(M, N)` as the cohomology of `Hom_A(P•, N)`; the bridge chains four
+Both sides compute `Extⁿ_A(M, N)` as the cohomology of `Hom_A(P•, N)`; the comparison composes four
 additive isomorphisms, then upgrades the composite to `k`-linear.
 
-1. `P.extAddEquivCohomologyClass` — `Abelian.Ext M N n ≃+ CohomologyClass P.cochainComplex N[0] n`
+1. `P.extAddEquivCohomologyClass`: `Abelian.Ext M N n ≃+ CohomologyClass P.cochainComplex N[0] n`
    (Mathlib).
-2. `(CochainComplex.HomComplex.homologyAddEquiv _ _ _).symm` — the cohomology classes are the
+2. `(CochainComplex.HomComplex.homologyAddEquiv _ _ _).symm`: the cohomology classes are the
    degree-`n` homology of the `AddCommGrp`-valued `HomComplex` (Mathlib).
-3. `Etingof.homComplexHomologyAddEquivₖ` — that homology identifies additively with the degree-`n`
-   homology of the `ModuleCat k`-valued `linearYonedaObj` (the crux of #6897).
-4. `(Etingof.extIsoCohomologyHomₖ …).symm` — which is `Etingof.Extₖ`
+3. `Etingof.homComplexHomologyAddEquivₖ`: that homology identifies additively with the degree-`n`
+   homology of the `ModuleCat k`-valued `linearYonedaObj`.
+4. `(Etingof.extIsoCohomologyHomₖ …).symm`: which is `Etingof.Extₖ`
    (`ProjectiveResolution.isoExt`).
 
 Step 4 is a `ModuleCat k` iso, hence `k`-linear; the composite's `k`-linearity is proved on
@@ -81,7 +81,7 @@ noncomputable def extAbelianAddEquivExtₖ (n : ℕ) :
     ((homComplexHomologyAddEquivₖ k N P n).trans
       (extIsoCohomologyHomₖ k A M N P n).symm.toLinearEquiv.toAddEquiv)
 
-/-- **Fact 1 (the "clean half").** On the `ModuleCat k`-valued homology
+/-- **Fact 1.** On the `ModuleCat k`-valued homology
 `(P.complex.linearYonedaObj k N).homology n`, the module scalar `r • v` coincides with applying
 `homologyMap` of the degreewise scalar endomorphism `r • 𝟙` of the complex. This packages the
 `k`-linearity of the `linearYonedaObj` homology for the `map_smul'` proof of `extAbelianIsoExtₖ`. -/
@@ -95,26 +95,26 @@ lemma smul_homology_eq (r : k) (n : ℕ)
 /-- **The comparison isomorphism `Ext ≃ₗ[k] Extₖ`.** The `k`-linear upgrade of
 `extAbelianAddEquivExtₖ`: for a projective resolution `P` of `M`, the derived-category `Ext` group
 `Abelian.Ext M N n` is `k`-linearly isomorphic to the left-derived-functor `Extₖ k A M N n`. The
-underlying additive equivalence is the sorry-free four-step chain `extAbelianAddEquivExtₖ`; this is
-the version consumed by `Problem_8_2_8_ext` (#6898) to transport the `Extₖ` Künneth isomorphism to
+underlying additive equivalence is the four-step chain `extAbelianAddEquivExtₖ`; this is
+the version used by `Problem_8_2_8_ext` to transport the `Extₖ` Künneth isomorphism to
 the `Etingof.Ext` statement.
 
 The scalar action on `Abelian.Ext M N n` is postcomposition with `r • 𝟙 N`
 (`CategoryTheory.Abelian.Ext.smul_eq_comp_mk₀`); on `Extₖ k A M N n : ModuleCat k` it is the module
 scalar. Step 4 is a `ModuleCat k` iso, hence `k`-linear, and is factored out; via `smul_homology_eq`
 (fact 1) the residual `map_smul'` becomes the single purely categorical naturality statement `hnat`:
-that the steps-1–3 composite `e123` intertwines the source scalar (postcomposition with
-`mk₀ (r • 𝟙 N)`) with `homologyMap (r • 𝟙)` on the `linearYonedaObj` homology. This is discharged
-on generators (`crux`) by naturality-in-`N` of `extAddEquivCohomologyClass`
+that the steps 1 to 3 composite `e123` intertwines the source scalar (postcomposition with
+`mk₀ (r • 𝟙 N)`) with `homologyMap (r • 𝟙)` on the `linearYonedaObj` homology. This is proved
+on generators by naturality-in-`N` of `extAddEquivCohomologyClass`
 (`extEquivCohomologyClass_extMk` + `Cocycle.toSingleMk_postcomp`), of `homologyAddEquiv`
 (`homologyAddEquiv_homologyMap`), and the tower naturality of `homComplexHomologyAddEquivₖ`
-(`homComplexHomologyAddEquivₖ_homologyMap_postcomp`) under `r • 𝟙 N`. Now sorry-free. -/
+(`homComplexHomologyAddEquivₖ_homologyMap_postcomp`) under `r • 𝟙 N`. -/
 noncomputable def extAbelianIsoExtₖ (n : ℕ) :
     Etingof.Ext M N n ≃ₗ[k] Etingof.Extₖ k A M N n where
   __ := extAbelianAddEquivExtₖ k N P n
   map_smul' := by
     intro r x
-    -- Steps 1–3 of the chain, landing in the `ModuleCat k` homology of `linearYonedaObj`.
+    -- Steps 1 to 3 of the chain, landing in the `ModuleCat k` homology of `linearYonedaObj`.
     set e123 : Etingof.Ext M N n ≃+ (P.complex.linearYonedaObj k N).homology n :=
       (P.extAddEquivCohomologyClass.trans
         (CochainComplex.HomComplex.homologyAddEquiv P.cochainComplex
@@ -129,14 +129,13 @@ noncomputable def extAbelianIsoExtₖ (n : ℕ) :
     -- `homologyMap (r • 𝟙) n` applied to `e123 y`, so what remains is the purely categorical
     -- naturality of `e123` in `N` under the endomorphism `r • 𝟙 N`: it must intertwine the source
     -- scalar (postcomposition with `mk₀ (r • 𝟙 N)`, `Ext.smul_eq_comp_mk₀`) with `homologyMap` of
-    -- the degreewise scalar `r • 𝟙` on `linearYonedaObj`. Residual tracing through the three chain
-    -- steps (`extAddEquivCohomologyClass`, `homologyAddEquiv`, `homComplexHomologyAddEquivₖ`);
-    -- follow-up to #6935.
-    -- **Crux (naturality on generators).** By `extMk_surjective` every element of `Ext M N n`
+    -- the degreewise scalar `r • 𝟙` on `linearYonedaObj`. Traced through the three chain
+    -- steps (`extAddEquivCohomologyClass`, `homologyAddEquiv`, `homComplexHomologyAddEquivₖ`).
+    -- **Naturality on generators.** By `extMk_surjective` every element of `Ext M N n`
     -- is `P.extMk f (n+1) rfl hf` for a cocycle `f : P.complex.X n ⟶ N`. The scalar action on such
     -- a generator is `r • extMk f = extMk (r • f)` (`smul_eq_comp_mk₀` + `extMk_comp_mk₀` +
     -- `Linear.comp_smul`). The remaining content is that `e123 ∘ extMk` is `k`-homogeneous: the
-    -- steps-1–3 composite sends the cocycle `r • f` to `r •` the class of `f`. This is the purely
+    -- steps 1 to 3 composite sends the cocycle `r • f` to `r •` the class of `f`. This is the purely
     -- categorical residual traced through `extAddEquivCohomologyClass`, `homologyAddEquiv`, and the
     -- `homComplexHomologyAddEquivₖ` tower.
     have crux : ∀ (f : P.complex.X n ⟶ N) (hf : P.complex.d (n + 1) n ≫ f = 0),
@@ -163,7 +162,7 @@ noncomputable def extAbelianIsoExtₖ (n : ℕ) :
         congr 1
         rw [← Cocycle.toSingleMk_postcomp]
         congr 1
-      -- Unfold `e123` into the three-step composite and rewrite through steps 1–3.
+      -- Unfold `e123` into the three-step composite and rewrite through steps 1 to 3.
       simp only [he123, AddEquiv.trans_apply]
       rw [hExtRw, step,
         show (CochainComplex.HomComplex.homologyAddEquiv P.cochainComplex

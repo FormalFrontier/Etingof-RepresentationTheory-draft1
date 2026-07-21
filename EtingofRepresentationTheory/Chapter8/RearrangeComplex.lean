@@ -5,13 +5,13 @@ import Mathlib.Algebra.Homology.Monoidal
 /-!
 # The complex-level rearrangement isomorphism for the `Tor` Künneth formula
 
-Route **step 3** (final assembly) of milestone (c) of the four-fold rearrangement of Problem 8.2.8
-(`Tor`, parent #6727). Combining the two prior milestones,
+Route **step 3** (final construction) of milestone (c) of the four-fold rearrangement of Problem 8.2.8
+(`Tor`). Combining the two prior milestones,
 
-* `Etingof.mapBifunctorPostcompIso` (#6743, `MapBifunctorPostcomp.lean`): an additive functor `G`
+* `Etingof.mapBifunctorPostcompIso` (`MapBifunctorPostcomp.lean`): an additive functor `G`
   commutes with the total complex `mapBifunctor`, so
   `(G.mapHomologicalComplex).obj (mapBifunctor K₁ K₂ F) ≅ mapBifunctor K₁ K₂ (F ⋙ G)`;
-* `Etingof.rearrangeBifunctorNatIso` (#6742, `RearrangeBifunctorNatIso.lean`): the natural iso of
+* `Etingof.rearrangeBifunctorNatIso` (`RearrangeBifunctorNatIso.lean`): the natural iso of
   bifunctors `extTensorRightFunctor ≅ factorTensorFunctor`, i.e.
   `(X, Y) ↦ (X ⊗ₖ Y) ⊗_{A₁⊗A₂} (N₁⊗ₖN₂)  ≅  (X ⊗_{A₁} N₁) ⊗ₖ (Y ⊗_{A₂} N₂)`,
 
@@ -25,7 +25,7 @@ rearrangeComplex :
         ((tensorRightFunctorₖ N₂).mapHC.obj P₂.complex)
 ```
 
-feeding the Künneth `Tor` result #6657.
+used by the Künneth `Tor` result.
 
 ## Route
 
@@ -101,7 +101,7 @@ noncomputable def rearrangeComplexBicomplexIso :
         ((rearrangeBifunctorNatIso k A₁ A₂ N₁ N₂ hN).hom.naturality (P₁.complex.d i₁ i₁')).symm
         (P₂.complex.X i₂))
 
-/-- **Route step 3 (#6744).** The complex-level rearrangement isomorphism of
+/-- **Route step 3.** The complex-level rearrangement isomorphism of
 `ChainComplex (ModuleCat k) ℕ`:
 
 ```
@@ -128,7 +128,7 @@ noncomputable def rearrangeComplex :
 /-- The rearrangement iso pinned on a summand: postcomposing the `G`-image of the `(i₁, i₂)` summand
 inclusion of the external tensor complex with `rearrangeComplex` lands, via milestone (a)
 `rearrangeBifunctorComponentIso`, on the corresponding `(i₁, i₂)` summand of the target tensor
-complex `tensorObj C₁ C₂`. This is the rewrite the Künneth `Tor` assembler (#6657) uses. -/
+complex `tensorObj C₁ C₂`. This is the rewrite used by the Künneth `Tor` construction. -/
 @[reassoc]
 theorem rearrangeComplex_hom_f_ιMapBifunctor (i₁ i₂ j : ℕ)
     (h : ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)

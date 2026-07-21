@@ -12,7 +12,7 @@ This is exactly `Module.Projective R M` in Mathlib, which asserts that M is a pr
 R-module via the lifting property.
 
 The book works over a general (possibly non-commutative) ring/algebra, so we require only
-`[Ring R]` — matching Theorem 8.1.1's `[Ring R]` setting and the book's module theory over an
+`[Ring R]`, matching Theorem 8.1.1's `[Ring R]` setting and the book's module theory over an
 arbitrary algebra `A`. (Narrowing to `CommRing` would silently exclude the non-commutative rings
 that are central to the chapter; `Module.Projective` itself needs only a semiring.)
 -/

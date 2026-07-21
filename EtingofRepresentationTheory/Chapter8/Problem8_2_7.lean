@@ -30,7 +30,7 @@ import EtingofRepresentationTheory.Chapter8.Problem8_2_6
 A finitely generated module over the PID `ℤ` (resp. `k[x]`) is a direct sum of a free module
 and cyclic torsion modules, and `Tor`/`Ext` are additive in each argument, so the whole
 computation reduces to two cases: a **free** generator and a pair of **cyclic** modules. We
-formalize exactly these building blocks — the content the book's "reduce to cyclic groups" hint
+formalize exactly these building blocks, the content the book's "reduce to cyclic groups" hint
 points at:
 
 * **Cyclic pair.** For `a, b ≠ 0` (finite cyclic groups `ℤ/a`, `ℤ/b`):
@@ -46,22 +46,22 @@ ring hom (`local instance`s below).
 
 The reusable number theory is packaged in the `ZModGcd` namespace below: the kernel and
 cokernel of multiplication by `a` on `ZMod b` are both `ZMod (gcd a b)`, giving the tensor and
-Hom bridges `ZMod a ⊗_ℤ ZMod b ≅ ZMod (gcd a b)` and `Hom_ℤ(ZMod a, ZMod b) ≅ ZMod (gcd a b)`.
+Hom isomorphisms `ZMod a ⊗_ℤ ZMod b ≅ ZMod (gcd a b)` and `Hom_ℤ(ZMod a, ZMod b) ≅ ZMod (gcd a b)`.
 
-Status: part (i) is complete — the degree-`0` identifications (`Tor₀`, `Ext⁰`), the degree-`1`
-identifications (`Tor₁`, `Ext¹`), and all higher-degree vanishing are proved. The degree-`1`
+For part (i), the degree-`0` identifications (`Tor₀`, `Ext⁰`), the degree-`1`
+identifications (`Tor₁`, `Ext¹`), and all higher-degree vanishing are established. The degree-`1`
 groups are read off the length-`1` free resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0` via the derived
 six-term sequence: `Tor₁` is the kernel and `Ext¹` the cokernel of multiplication by `a` on
 `ℤ/b`. For part (ii) (`k[x]`) the `PolyGcd` namespace supplies the same kernel/cokernel/tensor/Hom
-bridges over `k[x]` (targeting the sum ideal `(f,g) = (f) ⊔ (g)`, so no explicit gcd is needed),
-and the two `Ext` identifications (`Ext⁰`, `Ext¹`) are proved from them exactly as in part (i).
-The `Tor` identifications are also proved: over the commutative base `k[x]` the ring tensor
+isomorphisms over `k[x]` (targeting the sum ideal `(f,g) = (f) ⊔ (g)`, so no explicit gcd is needed),
+and the two `Ext` identifications (`Ext⁰`, `Ext¹`) follow from them exactly as in part (i).
+The `Tor` identifications follow too: over the commutative base `k[x]` the ring tensor
 product `tensorOver k[x] N M` agrees with Mathlib's `TensorProduct k[x]` via the general
-`Etingof.tensorOverEquivTensor` glue (Definition 8.2.3, right-exact file). For `Tor₀`,
+`Etingof.tensorOverEquivTensor` (Definition 8.2.3, right-exact file). For `Tor₀`,
 `PolyGcd.tensorEquiv` then identifies `(k[x]/f) ⊗_{k[x]} (k[x]/g)` with `k[x]/(f,g)`; for `Tor₁`,
 the length-`1` resolution `0 → k[x] →(·f) k[x] → k[x]/f → 0` reads `Tor₁` off the derived six-term
 sequence as the kernel of multiplication by `f` on `Tor₀(k[x], k[x]/g) ≅ k[x]/g`, identified with
-`k[x]/(f,g)` by `PolyGcd.kerEquiv` — exactly as in part (i).
+`k[x]/(f,g)` by `PolyGcd.kerEquiv`, exactly as in part (i).
 -/
 
 namespace Etingof
@@ -131,7 +131,7 @@ private lemma isZero_obj_two_of_sixTerm_exact
 The four degree-0 / degree-1 identifications all reduce to two group isomorphisms about
 `ZMod`: the kernel and cokernel of multiplication by `a` on `ZMod b` are both
 `ZMod (gcd a b)`. These are not in Mathlib, so we prove them here (over the PID `ℤ`),
-together with the tensor and Hom bridges `ZMod a ⊗_ℤ ZMod b ≅ ZMod (gcd a b)` and
+together with the tensor and Hom isomorphisms `ZMod a ⊗_ℤ ZMod b ≅ ZMod (gcd a b)` and
 `Hom_ℤ(ZMod a, ZMod b) ≅ ZMod (gcd a b)`. -/
 
 namespace ZModGcd
@@ -269,7 +269,7 @@ def zmodKerEquiv (a b : ℕ) [NeZero b] :
   exact ((LinearEquiv.ofInjective (kerGen a b) hinj).trans
     (LinearEquiv.ofEq _ _ hrange)).symm
 
-/-! ### Tensor and Hom bridges -/
+/-! ### Tensor and Hom isomorphisms -/
 
 /-- **`ZMod a ⊗_ℤ ZMod b ≃ ZMod (gcd a b)`.** -/
 def tensorEquiv (a b : ℕ) [NeZero b] :
@@ -321,7 +321,7 @@ end ZModGcd
 /-! ### Part (i): `A = ℤ` -/
 
 /-- Right `ℤ`-action on `ZMod a` (pulled back from the left action along `ℤᵐᵒᵖ ≃+* ℤ`; the two
-coincide because `ℤ` is commutative). Needed to feed `ZMod a` as a right module to
+coincide because `ℤ` is commutative). Needed to supply `ZMod a` as a right module to
 `Etingof.Tor`. -/
 noncomputable local instance mopZMod (a : ℕ) : Module ℤᵐᵒᵖ (ZMod a) :=
   Module.compHom (ZMod a) ((RingHom.id ℤ).fromOpposite fun x y => mul_comm x y)
@@ -762,7 +762,7 @@ theorem Problem_8_2_7_i_ext_free_vanish (N : ModuleCat.{0} ℤ) (n : ℕ) :
 
 open Polynomial
 
-/-! ### Reusable `k[x]`-gcd isomorphisms (kernel/cokernel of `·f`, tensor and Hom bridges) -/
+/-! ### Reusable `k[x]`-gcd isomorphisms (kernel/cokernel of `·f`, tensor and Hom isomorphisms) -/
 
 open scoped TensorProduct
 
@@ -931,7 +931,7 @@ def kerEquiv (f g : k[X]) (hg : g ≠ 0) :
       exact ⟨Submodule.Quotient.mk s, by rw [hkerGen, ← hs]⟩
   exact ((LinearEquiv.ofInjective kerGen hinj).trans (LinearEquiv.ofEq _ _ hrange)).symm
 
-/-! ### Hom bridge -/
+/-! ### Hom isomorphism -/
 
 /-- Evaluation at `[1]` gives `Hom(k[X]/(f), N) ≃ f`-torsion of `N`.  For `N = k[X]/(g)`,
 `Hom(k[X]/(f), k[X]/(g)) ≃+ ker(·f)`. -/

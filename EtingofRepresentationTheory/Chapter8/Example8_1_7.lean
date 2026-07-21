@@ -24,33 +24,29 @@ We model a right `A`-module as a left `Aᵐᵒᵖ`-module, so this is the
 `Module Aᵐᵒᵖ (Module.Dual k P)` instance `Etingof.Example817.contragredient` below, with
 defining equation `Etingof.Example817.contragredient_smul_apply`.
 
-The book's standing convention throughout Chapter 8 is that algebras and modules are **finite
-dimensional**. The final theorem `Etingof.Example_8_1_7` records the biconditional in exactly
+The book's standing convention throughout Chapter 8 is that algebras and modules are finite
+dimensional. The final theorem `Etingof.Example_8_1_7` records the biconditional in exactly
 that setting (`[FiniteDimensional k A]` and `[FiniteDimensional k P]`), which is what makes the
-contragredient `Hom_k(-, k)` a genuine duality `P ≃ P**` under which projectives and injectives
+contragredient `Hom_k(-, k)` a duality `P ≃ P**` under which projectives and injectives
 correspond. Finite dimensionality of `P` is not decorative for the converse:
 
 * The contragredient duality `Hom_k(-, k)` is an exact contravariant functor (as `k` is a
-  field), so by Lambek's theorem `P*` is injective as a right `A`-module **iff `P` is flat**
-  as a left `A`-module — for an arbitrary algebra `A` and arbitrary `P`.
+  field), so by Lambek's theorem `P*` is injective as a right `A`-module iff `P` is flat
+  as a left `A`-module, for an arbitrary algebra `A` and arbitrary `P`.
 * A finite dimensional algebra is left (and right) perfect, and over a left perfect ring
-  *every* flat left module is projective (Bass). For **finite dimensional** `P` this collapses:
+  every flat left module is projective (Bass). For finite dimensional `P` this collapses:
   `P` is automatically finitely presented, the evaluation map `P → P**` is an isomorphism, and
   no flatness/Bass detour is needed.
-* For an **infinite dimensional** `P` over a finite dimensional `A` the equivalence still holds
-  (`P` projective ⟺ `P` flat ⟺ `P*` injective), but the `⟸` direction genuinely needs Bass's
-  theorem (flat ⟹ projective over a perfect ring), which is **absent from Mathlib** (there is
+* For an infinite dimensional `P` over a finite dimensional `A` the equivalence still holds
+  (`P` projective ⟺ `P` flat ⟺ `P*` injective), but the `⟸` direction needs Bass's
+  theorem (flat ⟹ projective over a perfect ring), which is absent from Mathlib (there is
   no left-perfect-ring class and no Bass theorem; `Module.Flat.projective_of_finitePresentation`
   covers only finitely presented modules). That is why the theorem here is stated for finite
   dimensional `P`.
 
-## Proof status
-
-The file is sorry-free. Both directions are proved.
-
-The **forward direction** `P` projective ⟹ `P*` injective is
-`Etingof.Example817.projective_dual_injective`, for *any* `k`-algebra `A` (no finite
-dimensionality needed). Its crux is the **injective cogenerator**
+The forward direction `P` projective ⟹ `P*` injective is
+`Etingof.Example817.projective_dual_injective`, for any `k`-algebra `A` (no finite
+dimensionality needed). Its core is the injective cogenerator
 `Etingof.Example817.dual_regular_injective`: for any `k`-algebra `A`, the contragredient right
 module `A* = Module.Dual k A` is injective (the `P = A` case), proved directly via Baer's
 criterion plus extension of `k`-functionals, with no tensor product. The general case passes
@@ -60,7 +56,7 @@ combining "a product of injectives is injective" (`Module.Injective.pi`) with a 
 carried out at the level of Baer's criterion (so it survives the universe gap between `P*` and
 `(P →₀ A)*`).
 
-The **converse** `P*` injective ⟹ `P` projective (for finite dimensional `P`) is
+The converse `P*` injective ⟹ `P` projective (for finite dimensional `P`) is
 `Etingof.Example817.dual_injective_projective`. It is elementary and needs neither flatness nor
 Bass: pick a finite free cover `π : Aⁿ ↠ P` (`P` is finite dimensional, hence finitely generated
 over `A`), dualise to the injection `Dπ : P* ↪ (Aⁿ)*`, split it using injectivity of `P*`, and
@@ -68,7 +64,7 @@ transport the splitting back through the finite dimensional evaluation isomorphi
 `Aⁿ ≃ (Aⁿ)**` (`Module.evalEquiv`) to obtain a section of `π`, exhibiting `P` as a retract of the
 free module `Aⁿ`. All the homological content is the single splitting from injectivity of `P*`.
 
-Note that the originally planned route through "`P` flat ⟺ `P*` injective" (Lambek for the
+Note that a route through "`P` flat ⟺ `P*` injective" (Lambek for the
 `k`-linear dual) cannot be stated as written: `Module.Flat A P` requires `A` commutative
 (`Module.Flat` is declared over a `CommSemiring`), whereas here `A` is an arbitrary algebra,
 and the balanced tensor product `X ⊗_A P` over a noncommutative `A` is absent from Mathlib.
@@ -88,7 +84,7 @@ variable (P : Type*) [AddCommGroup P] [Module k P] [Module A P] [IsScalarTower k
 /-- The **contragredient** right `A`-action on the dual space `P* = Module.Dual k P`,
 modelled as a left `Aᵐᵒᵖ`-module: `(a • φ)(p) = φ(unop a • p)`.
 
-This is the genuine right `A`-module structure of Example 8.1.7, not merely the underlying
+This is the right `A`-module structure of Example 8.1.7, not merely the underlying
 `k`-vector space: see `contragredient_smul_apply` for the defining equation. -/
 noncomputable instance contragredient : Module Aᵐᵒᵖ (Module.Dual k P) where
   smul a φ := φ ∘ₗ Algebra.lsmul k k P a.unop
@@ -293,12 +289,12 @@ algebra `A`, if the contragredient dual `P* = Module.Dual k P` of a *finite dime
 `A`-module `P` is injective as a right `A`-module, then `P` is projective.
 
 Proof. Pick a finite free cover `π : Aⁿ ↠ P` (it exists because `P` is finite dimensional, hence
-finitely generated over `A`). Dualising contravariantly turns `π` into the injection
+finitely generated over `A`). Dualising contravariantly sends `π` to the injection
 `Dπ = Pᵒ ↪ (Aⁿ)ᵒ` (injective because `π` is surjective). Since `P*` is injective this injection
-splits: there is `ρ : (Aⁿ)ᵒ →ₗ[Aᵒᵖ] Pᵒ` with `ρ ∘ Dπ = id`. Dualising once more and threading the
+splits: there is `ρ : (Aⁿ)ᵒ →ₗ[Aᵒᵖ] Pᵒ` with `ρ ∘ Dπ = id`. Dualising once more and passing the
 result through the finite dimensional evaluation isomorphisms `P ≃ P**` and `Aⁿ ≃ (Aⁿ)**`
-produces a section `σ : P → Aⁿ` with `π ∘ σ = id`, exhibiting `P` as a retract of the free —
-hence projective — module `Aⁿ`. All the homological content is the single splitting coming from
+produces a section `σ : P → Aⁿ` with `π ∘ σ = id`, exhibiting `P` as a retract of the free
+(hence projective) module `Aⁿ`. All the homological content is the single splitting coming from
 injectivity of `P*`; everything else is finite dimensional linear duality. -/
 theorem dual_injective_projective {k : Type u} [Field k] {A : Type u} [Ring A] [Algebra k A]
     [FiniteDimensional k A] {P : Type u} [AddCommGroup P] [Module k P] [Module A P]

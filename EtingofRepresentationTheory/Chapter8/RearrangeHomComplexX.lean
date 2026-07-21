@@ -4,9 +4,9 @@ import EtingofRepresentationTheory.Chapter8.ExtCohomologyHomK
 import EtingofRepresentationTheory.Chapter7.KunnethCochainComplexNat
 
 /-!
-# The degreewise object iso for the `Ext` Künneth cochain assembly
+# The degreewise object iso for the `Ext` Künneth cochain construction
 
-Substep of #6844 (the `Ext` half of Problem 8.2.8). This file constructs, for each degree `i`, the
+Part of the `Ext` half of Problem 8.2.8. This file constructs, for each degree `i`, the
 `ModuleCat k` isomorphism
 
     Hom_{A₁⊗A₂}(⊕_{j+m=i} extTensorFunctorLeftObj (P₁ⱼ) (P₂ₘ), N₁⊗N₂)
@@ -16,16 +16,16 @@ identifying the degree-`i` object of the source cochain complex
 `(extTensorComplexLeft P₁ P₂).linearYonedaObj k (N₁⊗N₂)` with that of the target
 `HomologicalComplex.tensorObj (P₁.complex.linearYonedaObj k N₁) (P₂.complex.linearYonedaObj k N₂)`.
 
-Because the source is `Hom(mapBifunctor …, N)` — a **product** over the finite fiber via the op/unop
-`linearYonedaObj`, not a `mapBifunctor` bicomplex — the `Tor`-side `total.mapIso` shortcut is
-unavailable, and the complex iso (#6868) has to be assembled degreewise from this object iso.
+Because the source is `Hom(mapBifunctor …, N)`, a product over the finite fiber via the op/unop
+`linearYonedaObj` rather than a `mapBifunctor` bicomplex, the `Tor`-side `total.mapIso` shortcut is
+unavailable, and the complex iso has to be assembled degreewise from this object iso.
 
-## The per-summand bridge
+## The per-summand isomorphism
 
 The essential ingredient is `summandIso`: on a single summand `(j, m)`,
 `Hom(extTensorFunctorLeftObj (P₁ⱼ)(P₂ₘ), N₁⊗N₂) ≅ Hom(P₁ⱼ,N₁) ⊗ₖ Hom(P₂ₘ,N₂)`, obtained by
-bridging the categorical `Hom`s (`ModuleCat.homLinearEquiv`) to `→ₗ`-maps and applying the
-component iso `Etingof.rearrangeHomComponentIso` (#6843).
+converting the categorical `Hom`s (`ModuleCat.homLinearEquiv`) to `→ₗ`-maps and applying the
+component iso `Etingof.rearrangeHomComponentIso`.
 -/
 
 open CategoryTheory Limits MonoidalCategory TensorProduct HomologicalComplex
@@ -56,11 +56,11 @@ section Summand
 variable {A₁ A₂}
 
 include hN in
-/-- The per-summand bridge iso: on the `(X₁, X₂)` summand,
+/-- The per-summand isomorphism: on the `(X₁, X₂)` summand,
 `Hom_{A₁⊗A₂}(extTensorFunctorLeftObj X₁ X₂, N₁⊗N₂) ≅ Hom_{A₁}(X₁, N₁) ⊗ₖ Hom_{A₂}(X₂, N₂)`, phrased
-between the categorical `Hom` objects (as they appear in `linearYonedaObj`/`tensorObj`). Bridges the
+between the categorical `Hom` objects (as they appear in `linearYonedaObj`/`tensorObj`). Converts the
 categorical `Hom`s to `→ₗ`-maps via `ModuleCat.homLinearEquiv` and applies the component iso
-`rearrangeHomComponentIso` (#6843). -/
+`rearrangeHomComponentIso`. -/
 noncomputable def summandIso (X₁ : ModuleCat.{u} A₁) (X₂ : ModuleCat.{u} A₂)
     [Module.Finite A₁ X₁] [Module.Projective A₁ X₁]
     [Module.Finite A₂ X₂] [Module.Projective A₂ X₂] :
@@ -74,18 +74,18 @@ noncomputable def summandIso (X₁ : ModuleCat.{u} A₁) (X₂ : ModuleCat.{u} A
 
 end Summand
 
-/-! ## The reconciliation bridges
+/-! ## Reconciling the two `k`-module structures
 
 The degreewise objects of the source/target cochain complexes appear in `linearYoneda` form
 (`((linearYoneda k _).obj Y).obj (op Z)`), whose `k`-module structure comes through the categorical
 `Linear.homModule`. The per-summand `summandIso` and the target tensor factors, by contrast, are
 spelled `ModuleCat.of k (Z ⟶ Y)`, whose `k`-module structure is `ModuleCat.Hom.instModule`, picking
-the *external* `Module k` on the codomain `N` (`TensorProduct` on `N₁ ⊗ N₂`, and the ambient one on
-each `Nᵢ`). These two `k`-module structures are **not** definitionally equal; they agree only
+the external `Module k` on the codomain `N` (`TensorProduct` on `N₁ ⊗ N₂`, and the ambient one on
+each `Nᵢ`). These two `k`-module structures are not definitionally equal; they agree only
 through the scalar tower (`algebraMap_smul`). The two lemmas below record the resulting object
-equalities so that `eqToIso` can bridge the two spellings. -/
+equalities so that `eqToIso` can relate the two spellings. -/
 
-/-- Reconciliation bridge for a single Hom factor: the degree-`j` object of `Hom_A(C, of A N)` (as
+/-- Reconciliation lemma for a single Hom factor: the degree-`j` object of `Hom_A(C, of A N)` (as
 it appears in `linearYonedaObj`) equals `ModuleCat.of k (C.X j ⟶ of A N)`. The two `k`-module
 structures on the hom (categorical `Linear.homModule` vs `ModuleCat.Hom.instModule` picking the
 external `Module k N`) agree by the scalar tower `IsScalarTower k A N`. -/
@@ -111,7 +111,7 @@ variable [∀ j, Module.Finite A₁ (P₁.complex.X j)] [∀ j, Module.Projectiv
 variable [∀ m, Module.Finite A₂ (P₂.complex.X m)] [∀ m, Module.Projective A₂ (P₂.complex.X m)]
 
 include hN in
-/-- Reconciliation bridge for an external-tensor summand: `Hom_{A₁⊗A₂}((P₁ⱼ) ⊗ₖ (P₂ₘ), N₁⊗N₂)` in
+/-- Reconciliation lemma for an external-tensor summand: `Hom_{A₁⊗A₂}((P₁ⱼ) ⊗ₖ (P₂ₘ), N₁⊗N₂)` in
 `linearYoneda` form equals `ModuleCat.of k (extTensorFunctorLeftObj … ⟶ NN)`, the domain of
 `summandIso`. -/
 theorem srcSummandEq (j m : ℕ) :
@@ -128,10 +128,10 @@ theorem srcSummandEq (j m : ℕ) :
   exact algebraMap_smul (A₁ ⊗[k] A₂) r ((ModuleCat.Hom.hom f) z)
 
 include hN in
-/-- The full per-summand iso between the *actual* degreewise summands: on the fiber element
+/-- The full per-summand iso between the actual degreewise summands: on the fiber element
 `(j, m)`, `Hom_{A₁⊗A₂}((P₁ⱼ) ⊗ₖ (P₂ₘ), N₁⊗N₂)` (as it appears in the source `linearYonedaObj`) is
 isomorphic to `Hom_{A₁}(P₁ⱼ, N₁) ⊗ₖ Hom_{A₂}(P₂ₘ, N₂)` (the target `mapBifunctor` summand). Obtained
-from `summandIso` (#6869) by bridging the two `k`-module spellings via `srcSummandEq` and
+from `summandIso` by reconciling the two `k`-module spellings via `srcSummandEq` and
 `linYonedaXEq`. -/
 noncomputable def fullSummandIso (j m : ℕ) :
     ((linearYoneda k (ModuleCat.{u} (A₁ ⊗[k] A₂))).obj (NNobj k A₁ A₂ N₁ N₂)).obj (Opposite.op
@@ -167,7 +167,7 @@ noncomputable def srcProj (i j m : ℕ) (_h : j + m = i) :
 
 /-- **Source `ι`/`π` reduction** (`srcInc ≫ srcProj = δ`). Composing the `(j, m)` inclusion with the
 `(j', m')` projection of the external tensor complex is the Kronecker delta. This is the source-side
-biproduct relation the assembler (#6868) reads off; the mirror of `ιN_invNat`/`ιZ_fwdNat`. -/
+biproduct relation the assembler reads off; the mirror of `ιN_invNat`/`ιZ_fwdNat`. -/
 @[reassoc]
 theorem srcInc_srcProj (i j m j' m' : ℕ) (h : j + m = i) (h' : j' + m' = i) :
     srcInc k P₁ P₂ i j m h ≫ srcProj k P₁ P₂ i j' m' h' =
@@ -285,7 +285,7 @@ noncomputable def coreIso (i : ℕ) :
       ← CategoryTheory.op_sum, sum_srcProj_srcInc, op_id, CategoryTheory.Functor.map_id]
 
 include hN in
-/-- **The degreewise object iso for the `Ext` Künneth cochain assembly.** For each degree `i`,
+/-- **The degreewise object iso for the `Ext` Künneth cochain construction.** For each degree `i`,
 `Hom_{A₁⊗A₂}(⊕_{j+m=i} (P₁ⱼ) ⊗ₖ (P₂ₘ), N₁⊗N₂) ≅ ⊕_{j+m=i} Hom_{A₁}(P₁ⱼ, N₁) ⊗ₖ Hom_{A₂}(P₂ₘ, N₂)`,
 i.e. the degree-`i` object of the source cochain complex
 `(extTensorComplexLeft P₁ P₂).linearYonedaObj k (N₁⊗N₂)` is identified with that of the target
@@ -303,7 +303,7 @@ include hN in
 /-- **Target `ι`/inv reduction.** Composing the `(j, m)` target-summand inclusion with the inverse
 of the degreewise iso is the per-summand inverse `fullSummandIso⁻¹` followed by the source
 projection (transported to the `linearYoneda` degree object). The mirror of `ιN_invNat`; consumed
-by the assembler (#6868). -/
+by the assembler. -/
 @[reassoc]
 theorem ιMapBifunctor_rearrangeHomComplexXIso_inv (i j m : ℕ) (h : j + m = i) :
     ιMapBifunctor (P₁.complex.linearYonedaObj k (ModuleCat.of A₁ N₁))

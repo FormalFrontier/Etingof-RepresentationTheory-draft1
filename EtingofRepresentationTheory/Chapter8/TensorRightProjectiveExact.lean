@@ -5,17 +5,17 @@ import EtingofRepresentationTheory.Chapter8.TensorProjectiveExact
 
 The functor `Etingof.tensorRightFunctor A Y : ModuleCat Aᵐᵒᵖ ⥤ AddCommGrpCat`, `M ↦ M ⊗_A Y`
 (Definition 8.2.3), sends short exact sequences of right `A`-modules to short exact sequences of
-abelian groups whenever the *left* `A`-module `Y` is **projective**. This is the mirror image of
+abelian groups whenever the left `A`-module `Y` is projective. This is the mirror image of
 `Etingof.tensorLeftFunctor_map_shortExact` (`TensorProjectiveExact.lean`), which fixes a projective
-*right* module and varies the left module; here we fix a projective *left* module `Y` and vary the
+right module and varies the left module; here we fix a projective left module `Y` and vary the
 right module `M`. It is the first-argument flatness input the balancing theorem
-(Problem 8.2.6(iv), #6589) needs.
+(Problem 8.2.6(iv)) needs.
 
-## Proof route
+## Proof
 
-This mirrors `TensorProjectiveExact.lean`. The varying factor is now the *first* tensor factor
+This mirrors `TensorProjectiveExact.lean`. The varying factor is now the first tensor factor
 `M` (the short exact sequence of right modules), so the natural isomorphisms are built with the
-first-factor tensor–hom uncurry `homEquivInvFun` (already on `main`), and functoriality in the
+first-factor tensor-hom uncurry `homEquivInvFun`, and functoriality in the
 fixed projective second factor `Y` is `tensorRightNatTrans`. `Y` projective in `ModuleCat A` is a
 retract of a free module `X →₀ A`.
 
@@ -237,7 +237,7 @@ noncomputable def freeEquivR (X M : Type u) [AddCommGroup M] [Module Aᵐᵒᵖ 
       = freeΦR A X M m p :=
   rfl
 
-/-- Naturality crux for `freeNatIsoR`: an `Aᵐᵒᵖ`-linear `f : M →ₗ M'` commutes with `freeΦR`. -/
+/-- Naturality lemma for `freeNatIsoR`: an `Aᵐᵒᵖ`-linear `f : M →ₗ M'` commutes with `freeΦR`. -/
 lemma mapRange_freeΦR (X : Type u) {M M' : Type u} [AddCommGroup M] [Module Aᵐᵒᵖ M]
     [AddCommGroup M'] [Module Aᵐᵒᵖ M'] (f : M →ₗ[Aᵐᵒᵖ] M') (m : M) (p : X →₀ A) :
     Finsupp.mapRange.addMonoidHom f.toAddMonoidHom (freeΦR A X M m p) = freeΦR A X M' (f m) p := by
@@ -285,9 +285,9 @@ lemma free_map_shortExactR (X : Type u)
   exact ShortComplex.shortExact_of_iso (S.mapNatIso (freeNatIsoR A X)).symm hfs
 
 /-- **First-argument flatness of a projective left module.** Tensoring a short exact sequence of
-right `A`-modules with a *projective* left `A`-module `Y` is short exact: `- ⊗_A Y` preserves short
+right `A`-modules with a projective left `A`-module `Y` is short exact: `- ⊗_A Y` preserves short
 exactness. This is the first-argument flatness input the balancing theorem
-(Problem 8.2.6(iv), #6589) depends on.
+(Problem 8.2.6(iv)) depends on.
 
 `Y` projective is a retract of the free module `↑Y →₀ A` (the counit epimorphism of the
 free/forget adjunction, split by projectivity); short exactness transfers from the free case along

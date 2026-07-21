@@ -8,14 +8,14 @@ import Mathlib.Algebra.Category.ModuleCat.Abelian
 `Etingof.tensorRightFunctor A N : ModuleCat Aᵐᵒᵖ ⥤ AddCommGrpCat` (`Definition8_2_3.lean`) sends a
 right `A`-module `M` to the ring-tensor `M ⊗_A N`, as an abelian group. For the Künneth / four-fold
 rearrangement work on `Tor` over a tensor product of algebras (Problem 8.2.8, milestone (c)) we need
-the *same* construction landing in `ModuleCat k`: the milestone-(c) rearrangement iso is stated
+the same construction landing in `ModuleCat k`: the milestone-(c) rearrangement iso is stated
 against `HomologicalComplex.tensorObj` over `ModuleCat.{u} k` (the shape consumed by the Künneth
 machinery `Chapter7/KunnethChainComplexNat.lean`), so the two factors `P•ᵢ ⊗_{Aᵢ} Nᵢ` and the total
 complex `(P•₁ ⊗_k P•₂) ⊗_{A₁⊗A₂} (N₁ ⊗_k N₂)` must all be `ChainComplex (ModuleCat.{u} k) ℕ`.
 
 This file provides that `k`-linear upgrade:
 
-* `Etingof.tensorRightMapₖ A N f : tensorOver A N M →ₗ[k] tensorOver A N M'` — the `k`-linear
+* `Etingof.tensorRightMapₖ A N f : tensorOver A N M →ₗ[k] tensorOver A N M'`: the `k`-linear
   form of `tensorRightMap A N f`, for an `Aᵐᵒᵖ`-linear `f`; its underlying additive map is
   `tensorRightMap A N f`.
 * `Etingof.tensorRightFunctorₖ k A N : ModuleCat.{u} Aᵐᵒᵖ ⥤ ModuleCat.{u} k`, `M ↦ M ⊗_A N`.

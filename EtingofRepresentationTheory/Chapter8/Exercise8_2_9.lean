@@ -23,10 +23,10 @@ import Mathlib.Algebra.Module.Submodule.Pointwise
 # Exercise 8.2.9: (non)existence of enough projectives
 
 * (i) The category of finite abelian groups, and the category of finite dimensional
-  `k[x]`-modules, do **not** contain nonzero projective objects (so they do not have
+  `k[x]`-modules, do not contain nonzero projective objects (so they do not have
   enough projectives).
 * (ii) If `A` is a finitely generated commutative ring, then the category of finitely
-  generated `A`-modules **has** enough projectives.
+  generated `A`-modules has enough projectives.
 
 ## Formalization notes
 
@@ -44,8 +44,6 @@ generation hypothesis on the commutative ring `A` (a finitely generated `ℤ`-al
 category abelian via the Hilbert basis theorem (`A` is Noetherian, so submodules of finitely
 generated modules are finitely generated); this is what is needed for the categorical notion of
 "enough projectives" to make sense.
-
-All three theorems are proved (sorry-free).
 -/
 
 namespace Etingof
@@ -53,8 +51,8 @@ namespace Etingof
 universe u
 
 /-- **Exercise 8.2.9(i), finite abelian groups.** A finite abelian group that is a projective
-object of the category of finite abelian groups — i.e. has the lifting property against
-surjections of finite abelian groups — is zero. Hence that category has no nonzero projective
+object of the category of finite abelian groups (i.e. has the lifting property against
+surjections of finite abelian groups) is zero. Hence that category has no nonzero projective
 objects. -/
 theorem Exercise_8_2_9_i_finAb
     (P : Type u) [AddCommGroup P] [Finite P]
@@ -216,7 +214,7 @@ private theorem exists_monic_irreducible_smul_ne_top
     have hmem : g' ∈ I := LinearMap.mem_ker.mpr hLg'
     rw [hg] at hmem
     obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp hmem
-    -- `c • g = g'` and `g = p * g'` give `p * g' ∣ g'`, so `p` is a unit — contradiction.
+    -- `c • g = g'` and `g = p * g'` give `p * g' ∣ g'`, so `p` is a unit, a contradiction.
     have hdvd : g ∣ g' := ⟨c, by rw [← hc, smul_eq_mul, mul_comm]⟩
     rw [hg'] at hdvd
     have hp1 : p ∣ 1 := by
@@ -244,8 +242,8 @@ private theorem exists_monic_irreducible_smul_ne_top
 open scoped Pointwise in
 open Polynomial in
 /-- **Exercise 8.2.9(i), finite dimensional `k[x]`-modules.** A finite dimensional `k[x]`-module
-that is a projective object of the category of finite dimensional `k[x]`-modules — i.e. has the
-lifting property against surjections of finite dimensional `k[x]`-modules — is zero. Hence that
+that is a projective object of the category of finite dimensional `k[x]`-modules (i.e. has the
+lifting property against surjections of finite dimensional `k[x]`-modules) is zero. Hence that
 category has no nonzero projective objects. -/
 theorem Exercise_8_2_9_i_polynomial
     (k : Type u) [Field k]
@@ -265,8 +263,8 @@ theorem Exercise_8_2_9_i_polynomial
   obtain ⟨p, hpmonic, hpirr, hptop⟩ := exists_monic_irreducible_smul_ne_top k P
   -- The quotient `P / (p • P)` is a nonzero vector space over the field `K = k[x]/(p)`.
   -- `Ideal.Quotient.field` (a `fast_instance%`) and the `IsTorsionBy…module` structure carry
-  -- syntactically different but defeq semirings on `K`, so we feed both explicitly to
-  -- `ofVectorSpace` (instance *search* would fail; explicit passing succeeds up to defeq).
+  -- syntactically different but defeq semirings on `K`, so we pass both explicitly to
+  -- `ofVectorSpace` (instance search would fail; explicit passing succeeds up to defeq).
   haveI : (Ideal.span {p}).IsMaximal := PrincipalIdealRing.isMaximal_of_irreducible hpirr
   haveI : Module.Finite k (Polynomial k ⧸ Ideal.span {p}) := hpmonic.finite_quotient
   haveI : Nontrivial (P ⧸ (p • (⊤ : Submodule (Polynomial k) P))) :=

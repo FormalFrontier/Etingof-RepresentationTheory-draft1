@@ -4,16 +4,16 @@ import EtingofRepresentationTheory.Chapter8.HomTensorFGProjective
 /-!
 # The bidegree component iso and naturality for the `Ext` Künneth rearrangement
 
-Cohomological, **contravariant** twin of `Etingof.rearrangeBifunctorNatIso`
+Cohomological, contravariant twin of `Etingof.rearrangeBifunctorNatIso`
 (`Chapter8/RearrangeBifunctorNatIso.lean`, the `Tor` template). On the `Tor` side the complex-level
 `Etingof.rearrangeComplex` is assembled from a bifunctor natural iso whose two naturality squares
 discharge the two differential-commutation squares of the complex iso. This file provides the
-`Hom`-cochain analogue as the lighter package the issue permits — a **component isomorphism** plus
-the **two naturality lemmas** (contravariant in each argument) — packaging
-`Etingof.HomTensorFGProj.homTensorHomEquiv` (`Chapter8/HomTensorFGProjective.lean`, #6816).
+`Hom`-cochain analogue: a component isomorphism together with the two naturality lemmas
+(contravariant in each argument), packaging
+`Etingof.HomTensorFGProj.homTensorHomEquiv` (`Chapter8/HomTensorFGProjective.lean`).
 
 For `k`-algebras `A₁, A₂`, left modules `N₁` (over `A₁`), `N₂` (over `A₂`) with an external
-`A₁ ⊗[k] A₂`-action on `N₁ ⊗[k] N₂` pinned by `hN`, and **finitely generated projective** left
+`A₁ ⊗[k] A₂`-action on `N₁ ⊗[k] N₂` pinned by `hN`, and finitely generated projective left
 modules `X₁ : ModuleCat A₁`, `X₂ : ModuleCat A₂`, the `k`-linear isomorphism
 
     Hom_{A₁⊗A₂}(extTensorFunctorLeftObj X₁ X₂, N₁ ⊗ₖ N₂) ≅ Hom_{A₁}(X₁, N₁) ⊗ₖ Hom_{A₂}(X₂, N₂)
@@ -23,15 +23,15 @@ defeq to `X₁ ⊗[k] X₂` with its external `A₁ ⊗[k] A₂`-action). Its in
 
 ## Contents
 
-* `towerExtL` — the `IsScalarTower k (A₁⊗A₂) (X ⊗[k] Y)` needed by `homTensorHomEquiv`, from the
+* `towerExtL`: the `IsScalarTower k (A₁⊗A₂) (X ⊗[k] Y)` needed by `homTensorHomEquiv`, from the
   external representation being a `k`-algebra map (mirrors `extModule_isScalarTower`).
-* `rearrangeHomComponentEquiv` / `rearrangeHomComponentIso` — the component `k`-linear equiv and its
+* `rearrangeHomComponentEquiv` / `rearrangeHomComponentIso`: the component `k`-linear equiv and its
   packaging as a `ModuleCat k` iso.
-* `homTensorHom_comp_lcompₖ_left` / `homTensorHom_comp_lcompₖ_right` — the two naturality squares
-  for the **uncurried** comparison map `homTensorHom` (which underlies the equiv): precomposition by
+* `homTensorHom_comp_lcompₖ_left` / `homTensorHom_comp_lcompₖ_right`: the two naturality squares
+  for the uncurried comparison map `homTensorHom` (which underlies the equiv): precomposition by
   `f : X₁' ⟶ X₁` (resp. `g : X₂' ⟶ X₂`) on the big `Hom` corresponds to precomposition on the first
   (resp. second) `Hom` factor of the target tensor. Stated as equalities of `k`-linear maps out of
-  `Hom(X₁,N₁) ⊗ₖ Hom(X₂,N₂)`, so the cochain-complex assembler (#6844) can read off the two
+  `Hom(X₁,N₁) ⊗ₖ Hom(X₂,N₂)`, so the cochain-complex assembler can read off the two
   differential-commutation squares directly. No finiteness is needed for these (they are properties
   of `homTensorHom`); the equiv is used only for the component data.
 
@@ -114,7 +114,7 @@ Precomposition by a factor morphism on the big `Hom` corresponds, under `homTens
 precomposition on the matching `Hom` factor of the target tensor. Stated for the uncurried
 comparison `homTensorHom` (no finiteness needed), as equalities of `k`-linear maps out of
 `Hom(X₁,N₁) ⊗ₖ Hom(X₂,N₂)`. The precomposition on the big `Hom` is by
-`extTensorFunctorLeftMapHom` — the degreewise map of the source cochain complex. -/
+`extTensorFunctorLeftMapHom`, the degreewise map of the source cochain complex. -/
 
 /-- **Naturality in the first variable.** For `f : X₁' ⟶ X₁` (`A₁`-linear), precomposition by
 `f ⊗ 𝟙` on `Hom_{A₁⊗A₂}(X₁ ⊗ X₂, N₁⊗N₂)` equals, through `homTensorHom`, precomposition by `f` on
