@@ -7,23 +7,23 @@ import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_SemisimpleBaseChange
 /-!
 # Field-general counting bound `#(simple k[G]-modules) ≤ #ConjClasses` (Exercise 4.2.3)
 
-This file assembles the **field-general** upper bound
+This file proves the upper bound
 
   `Nat.card (IrrepClasses k G) ≤ Nat.card (ConjClasses G)`
 
 for the number of isomorphism classes of irreducible representations of a finite group `G`
-over an **arbitrary** field `k` (only `[Field k]`; no `IsAlgClosed`, no invertibility of
-`|G|`). It is the counting half of Exercise 4.2.3, in the indexing the assembly needs
-(`IrrepClasses k G`, from `Exercise4_2_3.lean`; the `≤` here upgrades to the strict `<` of
-`Exercise4_2_3` in the modular case, where a nonzero central nilpotent forces the drop).
+over an arbitrary field `k` (only `[Field k]`; no `IsAlgClosed`, no invertibility of
+`|G|`). It is the counting half of Exercise 4.2.3, in the indexing used downstream
+(`IrrepClasses k G`, from `Exercise4_2_3.lean`); the `≤` here upgrades to the strict `<` of
+`Exercise4_2_3` in the modular case, where a nonzero central nilpotent forces the drop.
 
 ## Why a base change is needed
 
-Over a **non-splitting** field an individual cocenter trace form `τ_{S_i}` of a simple module
-can be **identically zero** (`char k` dividing a Schur index, or an inseparable centre), so the
-naive "the trace forms `τ_{S_i}` are `LinearIndependent`" hypothesis of
+Over a non-splitting field an individual cocenter trace form `τ_{S_i}` of a simple module
+can be identically zero (`char k` dividing a Schur index, or an inseparable centre), so the
+naive hypothesis that the trace forms `τ_{S_i}` are `LinearIndependent`, required by
 `CocenterMonoidAlgebra.card_le_conjClasses_of_traceForm_linearIndependent`
-(`Exercise4_2_3_CountingBound.lean`) is **false** in general. The standard fix is to pass to a
+(`Exercise4_2_3_CountingBound.lean`), is false in general. The standard fix is to pass to a
 splitting field `K ⊇ k` (here the algebraic closure), where every Wedderburn block of
 `K[G]/rad` is a full matrix algebra `Matrix d_i(K)` with the ordinary trace, and to combine two
 facts:
@@ -39,17 +39,12 @@ facts:
    and non-isomorphic simples land in modules with disjoint simple constituents, so the induced
    map on iso-classes is injective.)
 
-`Nat.card (ConjClasses G)` is **field-independent** — it never mentions the field — so no
-transfer is needed on the right-hand side, and the two bounds compose by transitivity through
-`K = AlgebraicClosure k`.
+`Nat.card (ConjClasses G)` is field-independent (it never mentions the field), so no transfer
+is needed on the right-hand side, and the two bounds compose by transitivity through
+`K = AlgebraicClosure k`. The two lemmas are:
 
-## Status
-
-Complete. The assembly (`natCard_irrepClasses_le_conjClasses`) is proved outright from the two
-lemmas below, both now sorry-free:
-
-* `natCard_irrepClasses_le_conjClasses_of_isAlgClosed` — the split-field bound (step 1); #6126.
-* `natCard_irrepClasses_le_of_ringHom_field` — base-change monotonicity (step 2); #6127.
+* `natCard_irrepClasses_le_conjClasses_of_isAlgClosed`: the split-field bound (step 1);
+* `natCard_irrepClasses_le_of_ringHom_field`: base-change monotonicity (step 2).
 -/
 
 open CategoryTheory
@@ -88,13 +83,14 @@ private lemma traceForm_Std_eq_trace {K : Type u} {G : Type v}
   rw [traceForm_apply, ← LinearMap.trace_conj' (moduleEnd K (D.Std i) x) e, hconj]
   exact Matrix.trace_toLin'_eq (D.blockHom i x)
 
-/-- The `n` block cocenter trace forms `τ_{Std i}` of a `SplitData` are **linearly independent**
+/-- The `n` block cocenter trace forms `τ_{Std i}` of a `SplitData` are linearly independent
 functionals on the cocenter `C = K[G]/[K[G],K[G]]`. For block `j`, a `π`-preimage `xⱼ` of the
 matrix unit `E₁₁` in block `j` is a dual vector reading off the Kronecker delta:
 `τ_{Std i}(x̄ⱼ) = δ_{ij}` (`traceForm_Std_eq_trace` plus `Matrix.trace_single_eq_same`). This is
 the independence input shared by both the split-field `≤` bound
 (`natCard_irrepClasses_le_conjClasses_of_isAlgClosed`) and its strict `<` counterpart in the
-modular case (`natCard_irrepClasses_lt_conjClasses_of_isAlgClosed`, in the assembly file). -/
+modular case (`natCard_irrepClasses_lt_conjClasses_of_isAlgClosed`, in
+`Exercise4_2_3_Assembly.lean`). -/
 theorem traceFormQ_Std_linearIndependent {K : Type u} {G : Type v}
     [Field K] [IsAlgClosed K] [Group G] [Fintype G] (D : SplitData K G) :
     LinearIndependent K (fun i => (traceFormQ K (D.Std i) : Cocenter K G →ₗ[K] K)) := by
@@ -120,7 +116,7 @@ theorem traceFormQ_Std_linearIndependent {K : Type u} {G : Type v}
   simpa only [LinearMap.sum_apply, LinearMap.smul_apply, hval, smul_eq_mul, mul_ite, mul_one,
     mul_zero, LinearMap.zero_apply, Finset.sum_ite_eq', Finset.mem_univ, if_true] using happ
 
-/-- **Split-field bound (step 1 of the base-change route).** Over an algebraically closed field
+/-- **Split-field bound (step 1 of the base-change argument).** Over an algebraically closed field
 `K`, the number of isomorphism classes of irreducible representations of a finite group `G` is at
 most the number of conjugacy classes of `G`.
 
@@ -130,7 +126,7 @@ a product `∏ Matrix d_i(K)` of full matrix algebras (bundled as `SplitData` in
 number `n` of blocks (`exists_splitSimples_count`). Each block's standard module `Std i` has cocenter
 trace form sending a lift of its block matrix unit `E₁₁` to `1` and the other blocks' units to `0`
 (`traceForm_Std_eq_trace`), so the `n` trace forms are linearly independent functionals on the
-cocenter `C = K[G]/[K[G],K[G]]`. Feeding this into
+cocenter `C = K[G]/[K[G],K[G]]`. Applying
 `CocenterMonoidAlgebra.card_le_conjClasses_of_traceForm_linearIndependent` gives
 `n ≤ Nat.card (ConjClasses G)`. -/
 theorem natCard_irrepClasses_le_conjClasses_of_isAlgClosed
@@ -140,14 +136,14 @@ theorem natCard_irrepClasses_le_conjClasses_of_isAlgClosed
   -- The standard-module enumeration: a `SplitData` and the count `#simples = n`.
   obtain ⟨D, hD⟩ := exists_splitSimples_count K G
   rw [card_irrepClasses_eq_card_simpleModuleClasses K G, hD]
-  -- Feed the independence of the `n` block trace forms into the cocenter counting bound.
+  -- Apply the cocenter counting bound to the independence of the `n` block trace forms.
   have hcard := card_le_conjClasses_of_traceForm_linearIndependent (S := fun i => D.Std i)
     (traceFormQ_Std_linearIndependent D)
   simpa using hcard
 
 end IsAlgClosedBound
 
-/-- **Base-change monotonicity (step 2 of the base-change route).** For a field extension
+/-- **Base-change monotonicity (step 2 of the base-change argument).** For a field extension
 `K ⊇ k` (any `k`-algebra structure making `K` a field), scalar extension only increases the
 number of isomorphism classes of irreducible representations:
 `Nat.card (IrrepClasses k G) ≤ Nat.card (IrrepClasses K G)`.
@@ -157,10 +153,10 @@ Separability-free proof, via the radical-quotient chain on the simple-module cou
 `card_irrepClasses_eq_card_simpleModuleClasses`):
 ```
 #simple(k[G]) = #simple(k[G]/rad)          -- radical-quotient invariance
-             ≤ #simple(K ⊗_k (k[G]/rad))   -- semisimple base-change count (the math crux)
+             ≤ #simple(K ⊗_k (k[G]/rad))   -- semisimple base-change count (the main step)
              ≤ #simple(K[G]).              -- surjection K[G] ↠ K ⊗_k (k[G]/rad)
 ```
-The first step is `natCard_simpleModuleClasses_quotient_jacobson`; the middle is the crux
+The first step is `natCard_simpleModuleClasses_quotient_jacobson`; the middle is the main step
 `natCard_simpleModuleClasses_le_baseChange_of_isSemisimpleRing` (`k[G]/rad` is semisimple); the
 last is `natCard_simpleModuleClasses_le_of_surjective` applied to the surjective `K`-algebra map
 `K[G] ↠ K ⊗_k (k[G]/rad)` built here by lifting `g ↦ 1 ⊗ mk (single g 1)`. The group `G` shares
@@ -244,7 +240,7 @@ over `k` is at most the number of conjugacy classes of `G`:
 
   `Nat.card (IrrepClasses k G) ≤ Nat.card (ConjClasses G)`.
 
-Field-general: only `[Field k]`, no `IsAlgClosed`, no invertibility of `|G|`. Assembled by base
+Field-general: only `[Field k]`, no `IsAlgClosed`, no invertibility of `|G|`. Proved by base
 change to the algebraic closure `K = AlgebraicClosure k`: monotonicity of the simple count under
 `k → K` (`natCard_irrepClasses_le_of_ringHom_field`) followed by the split-field bound over the
 algebraically closed `K` (`natCard_irrepClasses_le_conjClasses_of_isAlgClosed`). The right-hand

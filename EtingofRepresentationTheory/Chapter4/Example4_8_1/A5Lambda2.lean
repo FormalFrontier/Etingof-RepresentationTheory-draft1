@@ -1,11 +1,10 @@
 import EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Reps
 
 /-!
-# Example 4.8.1 — `A₅`: the exterior square `Λ²(ℂ⁴)` and the integer character rows
+# Example 4.8.1, `A₅`: the exterior square `Λ²(ℂ⁴)` and the integer character rows
 
-Split out of `Example4_8_1.lean` for CI memory (issue #5852); see there for the umbrella.
-Contains the antisymmetric subrepresentation `Λ²(ℂ⁴)` of `repC4 ⊗ repC4` with its character
-formula, and the bridge from the integer rows of `tblA5` to the tabulated `Q5` values.
+This file constructs the antisymmetric subrepresentation `Λ²(ℂ⁴)` of `repC4 ⊗ repC4` with its
+character formula, and identifies the integer rows of `tblA5` with the tabulated `Q5` values.
 -/
 
 namespace Etingof.Example4_8_1
@@ -21,12 +20,12 @@ noncomputable section
 set_option linter.unusedSectionVars false
 set_option linter.unusedFintypeInType false
 set_option linter.unusedDecidableInType false
-/-! #### The exterior square `Λ²(ℂ⁴)` (genuine 6-dimensional representation)
+/-! #### The exterior square `Λ²(ℂ⁴)` (6-dimensional representation)
 
 `Λ²(ℂ⁴)` is realised as the antisymmetric subrepresentation of `repC4 ⊗ repC4`: the range of
 the antisymmetriser `a = ½·(1 − β)`, where `β` is the swap of the two tensor factors.  `a` is a
 projection that commutes with the diagonal `A₅`-action, so `range a` is `A₅`-invariant.  Its
-character is `χ_{Λ²}(g) = ½·(χ_V(g)² − χ_V(g²))`, computed from the **swap-trace identity**
+character is `χ_{Λ²}(g) = ½·(χ_V(g)² − χ_V(g²))`, computed from the swap-trace identity
 `trace(β ∘ (ρg ⊗ ρg)) = trace(ρg ∘ ρg) = χ_V(g²)`.  This 6-dimensional representation is the
 carrier on which the central element `Σ_{c} ρ(c)` (a 5-cycle class sum) splits into the two
 3-dimensional icosahedral representations `ℂ³₊`, `ℂ³₋`.  Character at the five class reps:
@@ -128,7 +127,7 @@ def lam2Sub : Subrepresentation (rhoV.tprod rhoV) where
       _ = (rhoV.tprod rhoV) g (asym v) := rfl
       _ = (rhoV.tprod rhoV) g v := by rw [hv]
 
-/-- `Λ²(ℂ⁴)`, the genuine 6-dimensional exterior-square representation of `A₅`. -/
+/-- `Λ²(ℂ⁴)`, the 6-dimensional exterior-square representation of `A₅`. -/
 def lam2 : FDRep ℂ G := FDRep.of lam2Sub.toRepresentation
 
 /-- **Character of `Λ²(ℂ⁴)`**: `χ_{Λ²}(g) = ½·(χ_V(g)² − χ_V(g²))`. -/
@@ -247,11 +246,11 @@ set_option maxHeartbeats 4000000 in
 By `FDRep.scalar_product_char_eq_finrank_equivariant`, the dimension of the space of
 `A₅`-equivariant endomorphisms of `Λ²(ℂ⁴)` equals the character scalar product
 `⟨χ_{Λ²}, χ_{Λ²}⟩ = ⅟60 · ∑_{g} χ_{Λ²}(g)·χ_{Λ²}(g⁻¹)`.  Writing `χ_{Λ²}(g) = ½·P(g)` with the
-**integer** `P(g) = (fix₅(g) − 1)² − (fix₅(g²) − 1)` (from `lam2_char_formula` and `repC4_char`;
+integer `P(g) = (fix₅(g) − 1)² − (fix₅(g²) − 1)` (from `lam2_char_formula` and `repC4_char`;
 the character is real, `χ(g⁻¹) = χ(g)`), the sum is `¼·∑_g P(g)² = ¼·480 = 120`, evaluated by an
 honest `decide` over the 60 elements of `A₅` (no `native_decide`).  Hence `120/60 = 2`.
 
-Consequently `Λ²(ℂ⁴)` decomposes as a direct sum of **two distinct** irreducible constituents —
+Consequently `Λ²(ℂ⁴)` decomposes as a direct sum of two distinct irreducible constituents:
 these are precisely the two 3-dimensional icosahedral representations `ℂ³₊`, `ℂ³₋`.  Because the
 endomorphism algebra is only 2-dimensional, the three endomorphisms `1, Z, Z²` (for the central
 `Z = Zamb` of Phase B) are linearly dependent, which is the linchpin for the minimal polynomial
@@ -285,7 +284,7 @@ lemma lam2_hom_finrank : Module.finrank ℂ (lam2 ⟶ lam2) = 2 := by
 /-! #### Integer-character helper rows: `ℂ` (row 0), `ℂ⁴` (row 3), `ℂ⁵` (row 5)
 
 These three representations have rational (indeed integer) characters, so their character rows
-are packaged in the integer helper table `tblA5` and bridged to `chiA5` via `chiA5_eq_tblA5`.
+are packaged in the integer helper table `tblA5` and identified with `chiA5` via `chiA5_eq_tblA5`.
 The full five-representation API (including the golden-ratio rows `ℂ³₊`, `ℂ³₋`) is assembled
 below, after the golden-ratio characters are available. -/
 

@@ -13,7 +13,7 @@ group is nonabelian. Show that the adjacency matrix of `Γ` must have repeated e
 We work with a finite `SimpleGraph Γ` on a vertex type `W`. Its adjacency matrix
 `Γ.adjMatrix ℝ` is a real symmetric matrix, so it is diagonalizable and its eigenvalues
 are exactly the roots of its characteristic polynomial. "Has a repeated eigenvalue" is
-formalized as: the characteristic polynomial is **not squarefree** — equivalently (for a
+formalized as: the characteristic polynomial is not squarefree; equivalently (for a
 symmetric matrix) some eigenvalue occurs with multiplicity `≥ 2`.
 
 The hypothesis that the automorphism group is nonabelian is expressed as the existence
@@ -35,7 +35,7 @@ theorem Etingof.Problem4_12_4.injective_of_squarefree_prod {W : Type*} [Fintype 
   intro i j hdij
   by_contra hne
   have hji : j ≠ i := fun h => hne h.symm
-  -- `(X - C (d i))²` divides the product, hence it is a unit — impossible.
+  -- `(X - C (d i))²` divides the product, hence it is a unit, which is impossible.
   have hdvd : (X - C (d i)) * (X - C (d i)) ∣ ∏ k, (X - C (d k)) := by
     refine ⟨∏ k ∈ (univ.erase i).erase j, (X - C (d k)), ?_⟩
     have h1 : (∏ k, (X - C (d k)))
@@ -66,7 +66,7 @@ theorem Etingof.Problem4_12_4.eq_diagonal_of_commute {W : Type*} [Fintype W] [De
     exact (mul_eq_zero.mp hkey).resolve_right hdne
 
 open Matrix Polynomial in
-/-- The crux commutant lemma: if a Hermitian real matrix `A` has squarefree characteristic
+/-- The commutant lemma: if a Hermitian real matrix `A` has squarefree characteristic
 polynomial (all eigenvalues simple), then any two matrices commuting with `A` commute with
 each other. Diagonalize `A` by a unitary `U`; conjugating by `U` sends everything commuting
 with `A` into the (commutative) algebra of diagonal matrices. -/

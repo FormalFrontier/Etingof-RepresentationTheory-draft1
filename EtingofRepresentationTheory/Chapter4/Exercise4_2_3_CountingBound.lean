@@ -4,10 +4,10 @@ import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_Cocenter
 # The counting bound from linear independence of cocenter trace forms (Exercise 4.2.3)
 
 `Exercise4_2_3_Cocenter.lean` builds the cocenter `C = k[G] / [k[G], k[G]]`, proves
-`finrank k C = Nat.card (ConjClasses G)` (deliverable 1), and constructs the cocenter trace
-functionals `traceFormQ k M : C →ₗ[k] k` of finite-dimensional `k[G]`-modules (deliverable 2).
+`finrank k C = Nat.card (ConjClasses G)`, and constructs the cocenter trace functionals
+`traceFormQ k M : C →ₗ[k] k` of finite-dimensional `k[G]`-modules.
 
-This file supplies the **packaging step** that turns linear independence of a family of such
+This file supplies the packaging step that turns linear independence of a family of such
 functionals into the cardinality bound: a linearly independent family of `n` functionals on
 `C` forces
 ```
@@ -17,11 +17,11 @@ The dual `C →ₗ[k] k` (`Module.Dual k C`) has the same finite dimension as `C
 (`Subspace.dual_finrank_eq`), and a linearly independent family in a finite-dimensional space
 is bounded by that dimension (`LinearIndependent.fintype_card_le_finrank`).
 
-The result is purely linear-algebraic and completely field-general (only `[Field k]`); it does
-**not** itself prove that the trace forms of distinct simple modules are independent — that is
-the remaining, genuinely field-sensitive content of Exercise 4.2.3's counting half (it can
-fail over a non-splitting field and is handled via base change to a splitting field). Once such
-a linear independence result is available, it plugs directly into
+The result is purely linear-algebraic and holds over an arbitrary field (only `[Field k]`); it
+does not itself prove that the trace forms of distinct simple modules are independent. That is
+the remaining, field-sensitive content of Exercise 4.2.3's counting half: it can fail over a
+non-splitting field and is handled via base change to a splitting field. Once such a linear
+independence result is available, it plugs directly into
 `card_le_conjClasses_of_traceForm_linearIndependent` to yield
 `#(simple k[G]-modules) ≤ Nat.card (ConjClasses G)`.
 -/
@@ -70,7 +70,7 @@ are linearly independent over `k`, then the family has at most `Nat.card (ConjCl
 members. Specialising to a family of pairwise non-isomorphic simple modules (once their trace
 forms are shown independent) yields `#(simple k[G]-modules) ≤ Nat.card (ConjClasses G)`.
 
-This is the named packaging theorem the counting assembly consumes. -/
+This is the packaging theorem used to derive the counting bound. -/
 theorem card_le_conjClasses_of_traceForm_linearIndependent
     {ι : Type*} [Fintype ι]
     {S : ι → Type*} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]

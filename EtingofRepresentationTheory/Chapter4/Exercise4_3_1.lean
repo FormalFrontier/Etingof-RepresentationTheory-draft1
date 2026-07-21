@@ -15,21 +15,21 @@ We model `Q₈` by Mathlib's `QuaternionGroup 2` (order `8`), with the element `
 `Example4_3_Q8`), and `√(-1)` by `Complex.I`.
 
 The action of `Q₈` on functions `Q₈ → ℂ` by right translation, `(g ∘ f)(x) = f(x·g)`, is the
-**right regular representation** `rightRegular`. The book writes the covariance condition as
-`f(g·i) = √(-1)·f(g)`; the subspace invariant under the *right*-translation action is the one
-cut out by the *left* covariance `f(i·g) = √(-1)·f(g)` (the two are the standard equivalent
+right regular representation `rightRegular`. The book writes the covariance condition as
+`f(g·i) = √(-1)·f(g)`; the subspace invariant under the right-translation action is the one
+cut out by the left covariance `f(i·g) = √(-1)·f(g)` (the two are the standard equivalent
 conventions for the induced representation `Ind_{⟨i⟩}^{Q₈} χ`, where `χ(i) = √(-1)`). We call
 this invariant subspace `covariantSubspace`.
 
-This is a statement pass. We give faithful signatures with `sorry` proofs for:
-* `covariantSubspace_invariant` — the subspace is a subrepresentation of the right regular
+The main results are:
+* `covariantSubspace_invariant`: the subspace is a subrepresentation of the right regular
   representation;
-* `covariantSubspace_finrank` — it is `2`-dimensional;
-* `covariantSubspace_irreducible` — it is irreducible (every invariant subspace of it is `⊥`
+* `covariantSubspace_finrank`: it is `2`-dimensional;
+* `covariantSubspace_irreducible`: it is irreducible (every invariant subspace of it is `⊥`
   or the whole space).
 
-The identification with the concrete 2-dimensional irreducible `Example4_3_Q8.repLin` is
-recorded in the docstring and left for a later pass.
+This representation is isomorphic to the concrete 2-dimensional irreducible
+`Example4_3_Q8.repLin`.
 -/
 
 open QuaternionGroup Complex
