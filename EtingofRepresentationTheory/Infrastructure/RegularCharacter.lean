@@ -48,8 +48,6 @@ theorem regularCharacter_ne_one [Finite G] (g : G) (hg : g ≠ 1) :
   simp only [Matrix.trace, Matrix.diag_apply, LinearMap.toMatrix_apply]
   apply Finset.sum_eq_zero
   intro h _
-  -- v4.31: `convert ... using 1` leaves a `basisSingleOne.repr` residual; rewrite it
-  -- to the plain coefficient application first.
   rw [Finsupp.basisSingleOne_repr, LinearEquiv.refl_apply, Finsupp.coe_basisSingleOne]
   exact key h
 
@@ -198,7 +196,7 @@ is nonzero when cast to `k` (assuming `char(k) ∤ |G|`). This follows from the
 nondegeneracy of the identity-coefficient functional on `k[G]`.
 -/
 
-/-- The "regular trace" of `γ ∈ k[G]` — the trace of left multiplication by `γ` —
+/-- The "regular trace" of `γ ∈ k[G]` (the trace of left multiplication by `γ`)
 equals `|G| * γ(1)`, where `γ(1)` is the coefficient of the identity element. -/
 private theorem regTrace_eq_card_mul [Fintype G]
     (γ : MonoidAlgebra k G) :
@@ -224,8 +222,6 @@ private theorem regTrace_eq_card_mul [Fintype G]
   have := regularCharacter_eq (k := k) g
   rw [ofMulAction_eq_mulLeft] at this
   simp only [Finsupp.coe_basisSingleOne, Finsupp.single_apply]
-  -- v4.31: `convert this using 1` no longer reduces the ite; it splits into the
-  -- `mulLeft (single g 1) = mulLeft (of g)` defeq goal and the ite-arithmetic goal.
   convert this using 1
   · rfl
   · split_ifs <;> ring
