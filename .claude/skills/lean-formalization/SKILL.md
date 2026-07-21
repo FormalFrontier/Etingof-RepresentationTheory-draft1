@@ -141,6 +141,14 @@ cycle in #6859. Relatedly, a whole-group case split like `∀ g : Perm (Fin 3), 
 decide; … rcases this g` — `decide` on a hypothesis mentioning a *free* `g` errors with "expected
 type must not contain free variables".
 
+**`ext x` over-recurses on a `LinearMap`/`Representation` equation whose domain is
+`MonoidAlgebra k G`** — because `MonoidAlgebra k G` reduces to `G →₀ k`, `ext` peels past the
+LinearMap into the `Finsupp` and hands you `x : G` (or a `Finsupp` index), not `x : MonoidAlgebra k G`,
+so a follow-up `exact map_mul f (of g) x` fails with "argument x has type G". Fix: force one level
+with `refine LinearMap.ext fun x => ?_` (x is then the algebra element). Same idiom for the `comm`
+obligation of `Action.mkIso`: use `ext : 1` (not bare `ext`) to stop at the linear-map equation
+`f.hom ∘ₗ M.ρ g = N.ρ g ∘ₗ f.hom`.
+
 **To get `Module k ↥S` on an abstract `S : ModuleCat (k[G])` object** (needed for `k`-linear maps,
 `Basis`, `LinearMap.toSpanSingleton`, char-2 `x+x=0` via `two_smul`), install it locally:
 `letI : Module k ↥S := Module.compHom ↥S (algebraMap k (k[G]))`, then hand-prove
