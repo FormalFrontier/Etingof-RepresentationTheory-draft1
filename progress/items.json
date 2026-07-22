@@ -5501,7 +5501,45 @@
     "start_line": 17,
     "end_line": 17,
     "status": "proved",
-    "coverage_note": "Proved sorry-free (#print axioms: only propext/Classical.choice/Quot.sound). Over the semidirect-product setup of Theorem 5.27.1 (dual action, stabilizers, V(chi,U), transport), the character formula (iv) implies (i) irreducibility, (ii) pairwise non-isomorphism, (iii) completeness. Statement defect from #6375/#6383 fixed by the _htransport characterizing hypothesis. Parts (i)+(ii) via character orthogonality/Mackey. Part (iii) via the sum-of-squares dimension count: the orbit-method family {V(chi,U)} is pairwise non-isomorphic (parts i,ii), dim(V chi U) = [G:stab chi]*dim U (character formula at identity), Sum_U dim(U)^2 = |stab chi| (IrrepDecomp.sum_finrank_sq_eq_card), and the class formula for the dual G-action plus |dual A|=|A| collapses the total to |G|*|A| = |A rtimes G|; the new reusable Infrastructure/CompletenessCriterion.lean (FDRep.complete_of_sum_finrank_sq_eq_card) then forces exhaustiveness. Part (ii) was hoisted into a shared `hclassify`."
+    "coverage_note": "Proved sorry-free (#print axioms: only propext/Classical.choice/Quot.sound). Over the semidirect-product setup of Theorem 5.27.1 (dual action, stabilizers, V(chi,U), transport), the character formula (iv) implies (i) irreducibility, (ii) pairwise non-isomorphism, (iii) completeness. Statement defect from #6375/#6383 fixed by the _htransport characterizing hypothesis. Parts (i)+(ii) via character orthogonality/Mackey. Part (iii) via the sum-of-squares dimension count: the orbit-method family {V(chi,U)} is pairwise non-isomorphic (parts i,ii), dim(V chi U) = [G:stab chi]*dim U (character formula at identity), Sum_U dim(U)^2 = |stab chi| (IrrepDecomp.sum_finrank_sq_eq_card), and the class formula for the dual G-action plus |dual A|=|A| collapses the total to |G|*|A| = |A rtimes G|; the new reusable Infrastructure/CompletenessCriterion.lean (FDRep.complete_of_sum_finrank_sq_eq_card) then forces exhaustiveness. Part (ii) was hoisted into a shared `hclassify`. [Stage 3.7 coverage-arm audit #7333: (i)/(ii)/(iii) all covered_full — statement fidelity verified against book (iv); headline builds sorry-free, #print axioms = {propext, Classical.choice, Quot.sound}. Roll-up coverage = covered_full.]",
+    "coverage": "covered_full",
+    "coverage_arm": "audited",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter5/Exercise5_27_3.lean"
+    ],
+    "fidelity_decl": [
+      "Etingof.Exercise5_27_3"
+    ],
+    "derived": [
+      {
+        "part": "(i)",
+        "description": "Each induced representation V(χ, U) is irreducible when U is irreducible.",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Exercise5_27_3 (conjunct 1: ∀ χ U, Simple U → Simple (V χ U))"
+        ],
+        "reason": "FULL and faithful. Conjunct 1 of the headline states exactly '∀ χ (U : FDRep ℂ ↥(stab χ)), Simple U → Simple (V χ U)' — genuine irreducibility over the Theorem 5.27.1 setup. Non-vacuous: V is pinned up to isomorphism by the character_formula hypothesis (part (iv), lines 111–119, the genuine explicit |G_χ|⁻¹ Σ_h [hgh⁻¹∈G_χ] χ(φ(h)a)·χ_U(hgh⁻¹) formula, not a weaker stand-in), and over FDRep ℂ the character determines simplicity (norm-one criterion). Derived from (iv) via character orthogonality. Axiom-clean {propext, Classical.choice, Quot.sound}."
+      },
+      {
+        "part": "(ii)",
+        "description": "The V(χ, U) are pairwise non-isomorphic: an isomorphism V(χ₁,U₁) ≅ V(χ₂,U₂) forces χ₂ = g·χ₁ for some g and U₂ ≅ g(U₁).",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Exercise5_27_3 (conjunct 2: Nonempty (V χ₁ U₁ ≅ V χ₂ U₂) → ∃ g (hg : dualSmul g χ₁ = χ₂), Nonempty (U₂ ≅ transport g χ₁ χ₂ hg U₁))"
+        ],
+        "reason": "FULL and faithful. Conjunct 2 gives the book's transport-up-to-dualSmul criterion: any iso produces g with dualSmul g χ₁ = χ₂ (i.e. χ₂ = g·χ₁) and U₂ ≅ transport g χ₁ χ₂ hg U₁ (i.e. U₂ ≅ g(U₁)). Non-vacuous: transport is pinned up to iso by the _htransport guarding hypothesis (lines 107–109), which characterizes its character at every s ∈ stab χ₂ (g⁻¹sg ∈ stab χ₁ always holds since g·χ₁=χ₂ ⇒ stab χ₂ = g(stab χ₁)g⁻¹), and character determines the FDRep ℂ up to iso — exactly the statement-defect fix #6375/#6383. Derived from (iv) via a mixed off-diagonal Mackey computation + FDRep.char_orthonormal. Axiom-clean."
+      },
+      {
+        "part": "(iii)",
+        "description": "Every irreducible representation of A ⋊[φ] G arises as some V(χ, U) (completeness).",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Exercise5_27_3 (conjunct 3: ∀ W, Simple W → ∃ χ U, Simple U ∧ Nonempty (W ≅ V χ U))"
+        ],
+        "reason": "FULL and faithful. Conjunct 3 states genuine exhaustiveness over ALL simple W : FDRep ℂ (A ⋊[φ] G): every such W is isomorphic to some V(χ,U) with U simple. Derived from (iv) via the sum-of-squares dimension count: the orbit family {V(χ,U)} is pairwise non-isomorphic (parts i,ii), dim(V χ U)=[G:stab χ]·dim U (character formula at the identity), Σ_U (dim U)²=|stab χ|, and the class formula for the dual action with |Â|=|A| collapses the total to |G|·|A|=|A ⋊ G|, feeding the reusable Infrastructure/CompletenessCriterion.lean FDRep.complete_of_sum_finrank_sq_eq_card. Axiom-clean."
+      }
+    ],
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Introduction",
