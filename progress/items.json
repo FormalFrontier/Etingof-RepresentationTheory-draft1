@@ -5872,9 +5872,14 @@
     "start_line": 15,
     "end_line": 35,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "needs_statement": false,
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "Part (i) is proved in full. Part (ii) is only proved after specializing the arbitrary source algebra A to End_k(V), as an equality of concrete operator subalgebras; the generic S^n A generation theorem remains #7444.",
+    "fidelity_issue": 7444,
+    "followup_issue": 7444,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_Theorem5.18.2_proof_end",
@@ -5943,9 +5948,14 @@
     "start_line": 21,
     "end_line": 27,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "needs_statement": false,
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "The polynomial-density argument is proved, but the public theorem assumes IsAlgClosed k rather than the source characteristic-zero scope (the proof only needs infinitude), excluding ℚ and ℝ while admitting positive characteristic. Its target is diagonalActionImage; the centralizer-B wording also needs the separate characteristic-zero identification. Follow-up #7445.",
+    "fidelity_issue": 7445,
+    "followup_issue": 7445,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Corollary5.19.2",
@@ -7893,11 +7903,12 @@
     "end_line": 8,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "The objectwise evaluation equivalence and finite-dimensional non-representability example are proved. The positive representability claim is not packaged as an isomorphism of functors: naturality and a NatIso/CorepresentableBy witness remain #7403.",
+    "fidelity_note": "Both source endpoints still lack their categorical statements. The positive all-modules claim is only an objectwise evaluation equivalence, without the natural isomorphism/CorepresentableBy witness (#7403). The negative finite-dimensional theorem proves only failure of a necessary Hom-dimension condition, not nonrepresentability of a defined forgetful functor; #5838 reopened.",
     "fidelity_issue": 7403,
+    "followup_issue": 5838,
     "last_updated": "2026-07-22"
   },
   {
@@ -8668,9 +8679,11 @@
     "start_line": 27,
     "end_line": 40,
     "status": "sorry_free",
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
     "last_updated": "2026-07-22",
-    "coverage_note": "Both halves proved sorry-free and axiom-clean over ⊗_k ([propext, Classical.choice, Quot.sound]). Tor half (`Problem_8_2_8_tor`, #6796, 2026-07-16): tensor-of-resolutions + rearrangeComplex + kunnethChainComplexNat; RHS corrected from the false ⊗_ℤ to the k-linear ⊗_k. Ext half (`Problem_8_2_8_ext`) spec corrected (#6814, 2026-07-16): added `[FiniteDimensional k Aᵢ]`/`[FiniteDimensional k Mᵢ]` (needed so the `Pᵢ` are f.g. projective) and strengthened the conclusion to k-linear `≃ₗ[k]`. Ext proof completed (#6980, 2026-07-19): the final `hXM` object identification — the factor `k`-module diamond between the statement's ambient `Module k Mᵢ` and `extTensorFunctorLeftObj`'s restricted `Module.compHom Mᵢ (algebraMap k Aᵢ)` — is discharged by `subst`ing the ambient factor `k`-structures (equal via `IsScalarTower.algebraMap_smul` + `Module.ext'`), then `instModule_eq_extTensorModuleLeft` for the `A₁⊗A₂`-action and `rfl`."
+    "coverage_note": "The Tor half is proved in the source scope. The Ext half is proved in a corrected sound scope (#6814/#6980), adding finite-dimensional Aᵢ and Mᵢ because the literal book statement with only finite-dimensional Nᵢ is false (already in degree zero for infinite-dimensional Mᵢ). The repository must document this as a public source erratum/correction rather than covered_full; follow-up #7446. Naturality of the corrected theorem is separately #7397.",
+    "fidelity_issue": 7446,
+    "followup_issue": 7446
   },
   {
     "id": "Chapter8/Discussion_after_Problem8.2.8",
