@@ -1204,4 +1204,148 @@ theorem charRep_tprod_Vrep_equiv_Vrep [Fintype K] [DecidableEq K]
     IsIrreducible.of_equiv (tprodCharRepEquivSmulChar χ _).symm
   exact equiv_of_character_eq _ _ (funext fun g => charRep_tprod_Vrep_character_eq_Vrep hK χ g)
 
+/-! ### Uniqueness of the `(q-1)`-dimensional irreducible
+
+The classification (`irreducible_dim`) shows every irreducible has dimension `1` or `q-1`. We now
+show the `(q-1)`-dimensional irreducible is *unique up to isomorphism*: the complete family of
+simples is the `q-1` one-dimensional characters (dimension `1`) together with a single
+`(q-1)`-dimensional irreducible, so there is no room for a second one. -/
+
+/-- **Uniqueness of the `(q-1)`-dimensional simple, `FDRep` level.** For `q ≥ 3`, any two simple
+objects of `FDRep ℂ (Affine K)` of dimension `q - 1` are isomorphic. -/
+theorem simple_FDRep_finrank_eq_unique [Fintype K] [DecidableEq K] (hK : 3 ≤ Fintype.card K)
+    {U U' : FDRep ℂ (Affine K)} (hU : Simple U) (hU' : Simple U')
+    (hUdim : Module.finrank ℂ U = Fintype.card K - 1)
+    (hU'dim : Module.finrank ℂ U' = Fintype.card K - 1) :
+    Nonempty (U ≅ U') := by
+  classical
+  haveI hNe : NeZero (Nat.card (Affine K) : ℂ) := by
+    refine ⟨?_⟩
+    rw [Nat.card_eq_fintype_card, card_eq]
+    exact_mod_cast Nat.mul_ne_zero (by omega) (by omega)
+  -- A complete family of pairwise non-isomorphic simples with `∑ dim² = |G|`.
+  obtain ⟨n, V, hVsimple, _hVinj, hVsurj, hVsum⟩ :=
+    exists_simples_sum_finrank_sq_eq_card ℂ (Affine K)
+  haveI : Finite (Affine K →* ℂˣ) :=
+    Nat.finite_of_card_ne_zero (by rw [one_dim_reps_card hK]; omega)
+  haveI : Fintype (Affine K →* ℂˣ) := Fintype.ofFinite _
+  have hcardChar : Fintype.card (Affine K →* ℂˣ) = Fintype.card K - 1 := by
+    rw [← Nat.card_eq_fintype_card]; exact one_dim_reps_card hK
+  -- The explicit family: the `q - 1` characters (dim `1`) and `U` itself (dim `q - 1`).
+  let E : (Affine K →* ℂˣ) ⊕ Unit → FDRep ℂ (Affine K) :=
+    Sum.elim (fun χ => FDRep.of (charRep χ)) (fun _ => U)
+  have hEfinL : ∀ χ : Affine K →* ℂˣ, Module.finrank ℂ (E (Sum.inl χ)) = 1 := fun χ => by
+    show Module.finrank ℂ ℂ = 1; exact Module.finrank_self ℂ
+  have hEfinR : ∀ u : Unit, Module.finrank ℂ (E (Sum.inr u)) = Fintype.card K - 1 :=
+    fun _ => hUdim
+  have hEsimple : ∀ i, Simple (E i) := by
+    rintro (χ | u)
+    · exact charRep_simple χ
+    · exact hU
+  have hEinj : ∀ i j, Nonempty (E i ≅ E j) → i = j := by
+    rintro (χ | u) (χ' | u') ⟨α⟩
+    · have hχ : χ = χ' := by
+        ext g
+        have hg := congrFun (FDRep.char_iso α) g
+        rw [show E (Sum.inl χ) = FDRep.of (charRep χ) from rfl,
+            show E (Sum.inl χ') = FDRep.of (charRep χ') from rfl,
+            charRep_character, charRep_character] at hg
+        exact hg
+      rw [hχ]
+    · exfalso
+      have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv α)
+      rw [hEfinL χ, hEfinR u'] at hfr; omega
+    · exfalso
+      have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv α)
+      rw [hEfinR u, hEfinL χ'] at hfr; omega
+    · rw [Subsingleton.elim u u']
+  -- Inject the family into the enumeration and show `c` is a bijection (sum-of-squares match).
+  choose c hc using fun i => hVsurj (E i) (hEsimple i)
+  have hc_inj : Function.Injective c := by
+    intro i j hij
+    obtain ⟨αi⟩ := hc i; obtain ⟨αj⟩ := hc j
+    exact hEinj i j ⟨αi ≪≫ eqToIso (congrArg V hij) ≪≫ αj.symm⟩
+  have hfinrankc : ∀ i, Module.finrank ℂ (E i) = Module.finrank ℂ (V (c i)) := fun i =>
+    LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv (hc i).some)
+  have harith : ∀ r : ℕ, 1 ≤ r → r - 1 + (r - 1) ^ 2 = r * (r - 1) := by
+    intro r hr; obtain ⟨m, rfl⟩ : ∃ m, r = m + 1 := ⟨r - 1, by omega⟩
+    simp only [Nat.add_sub_cancel]; ring
+  have hEsum : ∑ i, (Module.finrank ℂ (E i)) ^ 2 = Fintype.card (Affine K) := by
+    rw [Fintype.sum_sum_type, card_eq]
+    have hL : ∑ χ : Affine K →* ℂˣ, (Module.finrank ℂ (E (Sum.inl χ))) ^ 2
+        = Fintype.card K - 1 := by
+      have hone : ∀ χ, (Module.finrank ℂ (E (Sum.inl χ))) ^ 2 = 1 :=
+        fun χ => by rw [hEfinL, one_pow]
+      rw [Finset.sum_congr rfl (fun χ _ => hone χ), Finset.sum_const, Finset.card_univ,
+        hcardChar, smul_eq_mul, mul_one]
+    have hR : ∑ _u : Unit, (Module.finrank ℂ (E (Sum.inr _u))) ^ 2
+        = (Fintype.card K - 1) ^ 2 := by simp [hEfinR]
+    rw [hL, hR]; exact harith _ (by omega)
+  have hVsum' : ∑ j, (Module.finrank ℂ (V j)) ^ 2 = Fintype.card (Affine K) := hVsum
+  have hmatch : ∑ i, (Module.finrank ℂ (V (c i))) ^ 2
+      = ∑ j, (Module.finrank ℂ (V j)) ^ 2 := by
+    rw [hVsum', ← hEsum]
+    exact Finset.sum_congr rfl (fun i _ => by rw [hfinrankc i])
+  have hVpos : ∀ j, 0 < (Module.finrank ℂ (V j)) ^ 2 := by
+    intro j
+    haveI : Simple (V j) := hVsimple j
+    haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (Representation.asModule (V j).ρ) :=
+      Etingof.isSimpleModule_asModule_of_simple (V j)
+    haveI : Nontrivial (Representation.asModule (V j).ρ) :=
+      IsSimpleModule.nontrivial (MonoidAlgebra ℂ (Affine K)) (Representation.asModule (V j).ρ)
+    haveI : Nontrivial ↥(V j) := (Representation.asModuleEquiv (V j).ρ).symm.toEquiv.nontrivial
+    exact pow_pos Module.finrank_pos 2
+  have hcsurj : Function.Surjective c :=
+    surj_of_injective_of_sum_eq _ hVpos c hc_inj hmatch
+  -- `U'` is simple, so `U' ≅ V j ≅ E i`; its dimension `q-1 ≥ 2` rules out the characters,
+  -- so `i = Sum.inr ()`, whose slot is `U`. Hence `U' ≅ U`.
+  obtain ⟨j, hjU'⟩ := hVsurj U' hU'
+  obtain ⟨i, hci⟩ := hcsurj j
+  have hU'Ei : Nonempty (U' ≅ E i) :=
+    ⟨hjU'.some ≪≫ eqToIso (congrArg V hci.symm) ≪≫ (hc i).some.symm⟩
+  rcases i with χ | u
+  · exfalso
+    have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hU'Ei.some)
+    rw [hU'dim, hEfinL χ] at hfr; omega
+  · exact ⟨hU'Ei.some.symm⟩
+
+/-- **Uniqueness of the `(q-1)`-dimensional irreducible.** For `q ≥ 3`, every irreducible complex
+representation of the affine group of dimension `q - 1` is isomorphic to the zero-sum
+representation `V`. Combined with `irreducible_dim` and the one-dimensional characters, this
+completes the classification: `V` is the unique `(q-1)`-dimensional irreducible.
+
+The proof transports both `σ` and `V` to concrete `FDRep`s (`exists_simpleFDRep'`, which also
+records the isomorphism to `σ`), applies `simple_FDRep_finrank_eq_unique` to identify those
+`FDRep`s, and reads off equal characters, closing with `equiv_of_character_eq`. -/
+theorem Vrep_unique [Fintype K] [DecidableEq K] (hK : 3 ≤ Fintype.card K)
+    {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+    (σ : Representation ℂ (Affine K) W)
+    (hσ : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) σ.asModule)
+    (hdim : Module.finrank ℂ W = Fintype.card K - 1) :
+    Nonempty (σ.Equiv (Vsub (K := K)).toRepresentation) := by
+  classical
+  -- Transport `σ` and `V` to `FDRep`s of dimension `q-1`, keeping the isomorphisms.
+  obtain ⟨U, hUsimple, hUfr, ⟨eσ⟩⟩ := exists_simpleFDRep' σ hσ
+  obtain ⟨U', hU'simple, hU'fr, ⟨eV⟩⟩ :=
+    exists_simpleFDRep' (Vsub (K := K)).toRepresentation (Vrep_isSimpleModule (by omega))
+  have hUdim : Module.finrank ℂ U = Fintype.card K - 1 := by rw [hUfr, hdim]
+  have hU'dim : Module.finrank ℂ U' = Fintype.card K - 1 := by rw [hU'fr]; exact zeroSum_finrank
+  -- The two `FDRep`s are isomorphic (`V` is the unique `(q-1)`-dimensional simple).
+  obtain ⟨α⟩ := simple_FDRep_finrank_eq_unique hK hUsimple hU'simple hUdim hU'dim
+  -- Equal characters: `σ = U.ρ = U'.ρ = V` at the level of characters. (`FDRep.character U`
+  -- and `Representation.character U.ρ` are definitionally the same trace.)
+  have hcharσ : σ.character = Representation.character U.ρ := Representation.char_iso eσ
+  have hcharV : (Vsub (K := K)).toRepresentation.character = Representation.character U'.ρ :=
+    Representation.char_iso eV
+  have hcharUU' : Representation.character U.ρ = Representation.character U'.ρ :=
+    FDRep.char_iso α
+  have hchar : σ.character = (Vsub (K := K)).toRepresentation.character := by
+    rw [hcharσ, hcharUU', ← hcharV]
+  -- Both are irreducible, so equal characters give an isomorphism.
+  haveI hσirr : σ.IsIrreducible :=
+    (Representation.irreducible_iff_isSimpleModule_asModule _).mpr hσ
+  haveI hVirr : (Vsub (K := K)).toRepresentation.IsIrreducible :=
+    (Representation.irreducible_iff_isSimpleModule_asModule _).mpr (Vrep_isSimpleModule (by omega))
+  exact equiv_of_character_eq σ (Vsub (K := K)).toRepresentation hchar
+
 end Etingof.Problem4_12_6
