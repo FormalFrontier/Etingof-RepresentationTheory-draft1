@@ -3086,7 +3086,13 @@
     "start_line": 17,
     "end_line": 18,
     "status": "sorry_free",
-    "coverage_note": "Proved in EtingofRepresentationTheory/Chapter4/Problem4_12_4.lean via the spectral theorem: squarefree charpoly ⟹ distinct eigenvalues ⟹ commutant of the adjacency matrix is commutative, so the permutation matrices of two graph automorphisms commute, contradicting nonabelianness."
+    "coverage_note": "Proved in EtingofRepresentationTheory/Chapter4/Problem4_12_4.lean via the spectral theorem: squarefree charpoly ⟹ distinct eigenvalues ⟹ commutant of the adjacency matrix is commutative, so the permutation matrices of two graph automorphisms commute, contradicting nonabelianness.",
+    "fidelity": "verified",
+    "fidelity_decl": "Etingof.Problem4_12_4",
+    "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_12_4.lean",
+    "coverage": "covered_full",
+    "fidelity_note": "[fidelity] VERIFIED (#7265). Hypothesis '∃ σ τ : Γ ≃g Γ, σ * τ ≠ τ * σ' is exactly 'automorphism group nonabelian': Γ ≃g Γ (= RelIso Γ.Adj Γ.Adj) is the graph automorphism group with a Group instance, mul is composition ((σ*τ) x = σ (τ x)), and ∃ non-commuting pair = negation of commutativity. Conclusion '¬ Squarefree (Γ.adjMatrix ℝ).charpoly' faithfully encodes 'repeated eigenvalue': adjMatrix is real symmetric (IsHermitian), so charpoly_eq splits it as ∏(X - C λ_i) with λ_i real, whence ¬Squarefree ⟺ eigenvalues not distinct ⟺ repeated real eigenvalue (neither over- nor under-stated). Non-vacuous: hypothesis satisfiable (K₃ has Aut = S₃, nonabelian); empty/singleton W forces trivial Aut so W is genuinely populated wherever hAut holds. sorry-free, axiom-clean [propext, Classical.choice, Quot.sound].",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Problem4.12.5",
