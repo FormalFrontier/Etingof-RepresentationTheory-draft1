@@ -795,8 +795,8 @@
     "start_line": 25,
     "end_line": 8,
     "status": "sorry_free",
-    "coverage_note": "Complete and sorry-free in EtingofRepresentationTheory/Chapter2/Problem2_7_4.lean. Part (a) proves both finrank_eq_zero_of_charZero and isSimpleRing_charZero; part (b) proves centrality of x^p and y^p and identifies the full center in center_charP; part (c) proves finrank_irreducible_charP over an algebraically closed field of characteristic p.",
-    "coverage": "covered_full",
+    "coverage_note": "Parts (a) and (b) are proved sorry-free. For part (c), finrank_irreducible_charP proves that every finite-dimensional irreducible over an algebraically closed field of characteristic p has dimension p, but the requested classification is absent: there is no parameterized family, isomorphism criterion, or exhaustiveness theorem. Follow-up: #7387.",
+    "coverage": "covered_partial",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_7_4.lean"
     ],
@@ -6901,7 +6901,7 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "Sink case (part 1) fully proved via rank-nullity. Source case (part 2) blocked by Definition 6.6.4 sorry (cokernel type needs AddCommGroup).",
+    "notes": "Both cases are proved sorry-free in Chapter6/Proposition6_6_8.lean: Proposition6_6_8_sink handles a sink via rank-nullity, and Proposition6_6_8_source handles a source using the completed reflectionFunctorMinus construction.",
     "sorry_free": true
   },
   {
@@ -7075,7 +7075,10 @@
     "start_line": 31,
     "end_line": 14,
     "status": "sorry_free",
-    "sorry_count": 0
+    "sorry_count": 0,
+    "coverage": "covered_partial",
+    "coverage_note": "The file proves substantial dimension and decomposition infrastructure, including indecomposability for part of the E-family, but the public Problem6_9_1 theorem concludes only that the two vertex dimensions differ by at most one. It does not state that every indecomposable is isomorphic to one of E_{n,lambda}, E_{n,infinity}, H_n, or K_n, nor the required pairwise-nonisomorphism classification. Reopened follow-up: #1066.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Problem6.9.2",
@@ -8090,7 +8093,9 @@
     "start_line": 23,
     "end_line": 8,
     "status": "sorry_free",
-    "coverage_note": "Both theorems proved sorry-free (#6045): morphism-of-resolutions via ProjectiveResolution.lift/lift_commutes, independence via ProjectiveResolution.homotopyEquiv. #print axioms: propext, Classical.choice, Quot.sound."
+    "coverage_note": "The file proves existence of a morphism of resolutions and Nonempty (HomotopyEquiv P.complex Q.complex). It does not state the source's parts (iii)-(v): independence of the induced maps from an arbitrary compatible lift, or the resulting Tor/Ext comparison isomorphisms. Reopened follow-up: #6045.",
+    "coverage": "covered_partial",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter8/Problem8.2.6",
@@ -8325,7 +8330,10 @@
     "end_page": "216",
     "start_line": 9,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage": "covered_partial",
+    "coverage_note": "Splus and Sminus are constructed, proved simple and nonisomorphic, and Pplus/Pminus are proved projective. The source's exhaustiveness of the simple classification, indecomposability and exhaustiveness of the projectives, and Cartan-matrix computation are absent. Follow-up: #7388.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter9/Introduction_9.4",
@@ -8559,7 +8567,9 @@
     "start_line": 11,
     "end_line": 29,
     "status": "proved",
-    "coverage_note": "Proved (#6567): EtingofRepresentationTheory/Chapter9/Problem9_6_5.lean discharges exists_quasiInverse_tensor_functor sorry-free. Since Theorem 9.6.4 already proves F = preadditiveCoyonedaObjFG is an equivalence (via essential surjectivity + fully faithful, no circularity), the existential quasi-inverse follows from the abstract inverse: G = F.asEquivalence.inverse, ξ = unitIso.inv, with (i) counit iso, (ii) ξ componentwise epi, (iii) ξ iso. #print axioms shows only propext/Classical.choice/Quot.sound."
+    "coverage_note": "The current theorem is sorry-free but proves only that an abstract quasi-inverse exists, by choosing F.asEquivalence.inverse from the already-proved Theorem 9.6.4. It does not construct the textbook's named balanced tensor/cokernel functor P tensor_B -, its evaluation natural transformation, or the source's surjectivity and kernel argument. Reopened follow-up: #6567.",
+    "coverage": "covered_partial",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter9/Introduction_9.7",

@@ -72,7 +72,15 @@ subsequently formalized. The former scope decision is therefore superseded:
 - Problem 5.24.2 — invariants of matrix tuples;
 - Problem 6.1.3 — finite and affine Dynkin diagrams;
 - Problem 8.2.8 — Künneth formulas for Tor and Ext;
-- Problem 9.6.5 — the Morita-type equivalence.
 
 Their Lean files and `progress/items.json` are authoritative for the precise
 coverage and hypotheses of the completed results.
+
+## Reopened former exclusions
+
+These exercises were removed from the original skip list after substantial
+formalization, but a later fidelity audit found a remaining source-level endpoint.
+They are active work, not intentional omissions:
+
+- Problem 9.6.5 — an abstract quasi-inverse is proved, but the book's named balanced
+  tensor/cokernel functor and its comparison maps remain to be constructed; see #6567.
