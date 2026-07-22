@@ -4568,9 +4568,14 @@
     "start_line": 27,
     "end_line": 28,
     "status": "sorry_free",
-    "coverage_note": "Sorry-free: Chapter5/Problem5_8_4.lean proves the G-equivariant iso Ind_H^G(Ind_K^H V) ≅ Ind_K^G V for K ≤ H ≤ G via the abstract induction-in-stages lemma ind_stages_exists (tensor/coinvariants associativity).",
+    "coverage": "covered_full",
+    "coverage_arm": "audited",
+    "lean_file": "EtingofRepresentationTheory/Chapter5/Problem5_8_4.lean",
+    "lean_decl": "Etingof.ind_ind_iso_ind",
+    "last_updated": "2026-07-22",
+    "coverage_note": "Coverage-arm audit (Stage 3.7, #7342): covered_full. Headline Etingof.ind_ind_iso_ind (Chapter5/Problem5_8_4.lean:381) is a genuine G-equivariant iso Ind_H^G(Ind_K^H V) ≅ Ind_K^G V for K ≤ H ≤ G — a ℂ-linear ≃ₗ[ℂ] plus the intertwining ∀ g x, e (Definition5_8_1 g x) = Definition5_8_1 g (e x), with Etingof.Definition5_8_1 = Representation.ind. Single book claim, no sub-parts. Recorded lean_decl resolves at line 381; rebuilt sorry-free; #print axioms = [propext, Classical.choice, Quot.sound] (no sorryAx). fidelity_decl confirmed against the abstract induction-in-stages lemma ind_stages_exists (tensor/coinvariants associativity).",
     "fidelity": "verified",
-    "fidelity_note": "FAITHFUL (review #7199, 2026-07-21): genuine G-equivariant iso via Definition5_8_1=Representation.ind, correct subgroup chain K.subgroupOf H with rfl relabelling, no finiteness/field weakening, axiom-clean, concrete S3 non-vacuity witness. Report: progress/reviews/2026-07-21-ch5-problem5_8_4-induction-in-stages-fidelity.md"
+    "fidelity_note": "FAITHFUL (review #7199, 2026-07-21; lean_decl reconfirmed #7342, 2026-07-22): genuine G-equivariant iso via Definition5_8_1=Representation.ind, correct subgroup chain K.subgroupOf H with rfl relabelling, no finiteness/field weakening, axiom-clean, concrete S3 non-vacuity witness. Report: progress/reviews/2026-07-21-ch5-problem5_8_4-induction-in-stages-fidelity.md"
   },
   {
     "id": "Chapter5/Exercise5.8.5",
@@ -4581,7 +4586,20 @@
     "start_line": 29,
     "end_line": 33,
     "status": "sorry_free",
-    "coverage_note": "Chapter5/Exercise5_8_5.lean proves Ind_K^G C_chi is G-equivariantly isomorphic to the left ideal C[G]·e_chi via the map [single h 1 ⊗ z] ↦ z·(of h⁻¹ · e_chi); sorry-free."
+    "coverage": "covered_full",
+    "coverage_arm": "audited",
+    "lean_file": "EtingofRepresentationTheory/Chapter5/Exercise5_8_5.lean",
+    "lean_decl": "Etingof.ind_chiRep_iso_charLeftIdeal",
+    "fidelity_decl": [
+      "Etingof.chiRep",
+      "Etingof.idempotentOfChar",
+      "Etingof.charLeftIdeal",
+      "Etingof.ind_chiRep_iso_charLeftIdeal"
+    ],
+    "last_updated": "2026-07-22",
+    "coverage_note": "Coverage-arm audit (Stage 3.7, #7342): covered_full. Headline Etingof.ind_chiRep_iso_charLeftIdeal (Chapter5/Exercise5_8_5.lean:239) proves Ind_K^G C_chi is G-equivariantly isomorphic to the left ideal C[G]·e_chi via [single h 1 ⊗ z] ↦ z·(of h⁻¹ · e_chi). Single book claim, no sub-parts. Rebuilt sorry-free; #print axioms = [propext, Classical.choice, Quot.sound] (no sorryAx).",
+    "fidelity": "verified",
+    "fidelity_note": "FAITHFUL (review #7342, 2026-07-22, judged by a different model than formalized it). Genuine G-equivariant iso of representations: an honest ℂ-linear ≃ₗ[ℂ] e between IndV and ↥(charLeftIdeal) PLUS the intertwining ∀ (g:G) x, ↑(e (Definition5_8_1 K (chiRep χ) g x)) = of(g) * ↑(e x) — equivariance stated on all group elements, which with ℂ-linearity gives the full C[G]-module iso (not merely a ℂ-linear or additive bijection). Induction uses the project's Etingof.Definition5_8_1 = Representation.ind (Definition 5.8.1). idempotentOfChar = (Nat.card K)⁻¹ • ∑ g:K, ((χ g)⁻¹ : ℂ) • of(g:G): the χ(g)⁻¹ inverse and |K|⁻¹ normalization are both literally present, and idempotence e_χ*e_χ=e_χ is proved (idempotentOfChar_mul_self); charLeftIdeal = span_{C[G]}{e_χ} is the honest left ideal C[G]·e_χ under left multiplication (charLeftIdeal action g·x = of(g)*x). Non-degenerate: for χ trivial e_χ = |K|⁻¹ ∑_{g∈K} g is the standard nonzero averaging idempotent, so neither the ideal nor the iso collapses. Axiom-clean: [propext, Classical.choice, Quot.sound], no sorryAx. No gap found — statement is not weaker than the book's claim; passed through as covered_full."
   },
   {
     "id": "Chapter5/Introduction_5.9",
