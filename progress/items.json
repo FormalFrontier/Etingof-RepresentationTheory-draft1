@@ -5139,15 +5139,14 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "covered_partial",
-      "note": "Counting gap closed; ℂ-irreps bridge residual tracked in #7254."
+      "result": "covered_full",
+      "note": "Counting gap closed and ℂ-irreps bridge discharged (#7259 via #7258)."
     },
-    "lean_ref": "EtingofRepresentationTheory/Chapter5/Discussion_complementary_series_summary.lean :: Etingof.GL2.constructedCount_eq_card_conjClasses, foundAllIrreducibles_galoisField, constructed_irreps_complete",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Discussion_complementary_series_summary.lean :: Etingof.GL2.constructedCount_eq_card_conjClasses, foundAllIrreducibles_galoisField, constructed_irreps_complete, constructed_irreps_complete_unconditional, card_irreps_eq_q_sq_sub_one",
     "coverage": {
-      "result": "covered_partial",
-      "lean_decl": "Etingof.GL2.constructedCount_eq_card_conjClasses",
-      "note": "Class-count claim discharged (foundAllIrreducibles_galoisField); constructed total = #ConjClasses proved (constructedCount_eq_card_conjClasses); completeness conclusion (constructed_irreps_complete) proved modulo the standard #irreps=#ConjClasses bridge over ℂ, which Mathlib lacks — tracked in #7254.",
-      "fidelity_issue": 7254
+      "result": "covered_full",
+      "lean_decl": "Etingof.GL2.constructed_irreps_complete_unconditional",
+      "note": "Class-count claim discharged (foundAllIrreducibles_galoisField); constructed total = #ConjClasses proved (constructedCount_eq_card_conjClasses); completeness conclusion now UNCONDITIONAL (constructed_irreps_complete_unconditional, card_irreps_eq_q_sq_sub_one) — the #irreps=#ConjClasses bridge is discharged by Etingof.card_irrep_eq_card_conjClasses (#7258, #7259). #irreps of GL₂(𝔽_q) = q²−1, axiom-clean."
     }
   },
   {
