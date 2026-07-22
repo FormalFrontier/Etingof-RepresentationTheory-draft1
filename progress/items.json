@@ -1335,7 +1335,11 @@
     "end_page": "31",
     "start_line": 23,
     "end_line": 37,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage": "covered_partial",
+    "coverage_note": "The generators-and-relations quotient and an additive equivalence with Mathlib's tensor product are proved. The quotient has no k-module structure, named linear equivalence, or packaged bilinear universal property, so it does not yet serve as the source's equivalent vector-space definition. Follow-up #5972.",
+    "followup_issue": 5972,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Discussion_pure_tensors",
@@ -1551,7 +1555,10 @@
     "start_line": 18,
     "end_line": 20,
     "status": "sorry_free",
-    "coverage_note": "Proved sorry-free 2026-07-10 (#6217): liftLie + dualTensorHomEquiv-based Lie-module iso + postcomposition; Chapter2/Problem2_14_3.lean."
+    "coverage": "covered_partial",
+    "coverage_note": "The exact Lie-module tensor-Hom linear equivalence is constructed sorry-free, but the public theorem immediately hides it inside Nonempty. A named usable adjunction and application API remain #6217.",
+    "followup_issue": 6217,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Discussion_2.15_heading",
@@ -2664,7 +2671,8 @@
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_9_5.lean"
     ],
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "followup_issue": 6607,
     "coverage_arm": "audited",
     "lean_decl": [
       "Etingof.Problem3_9_5.isSemisimpleRing_of_nondegenerate",
@@ -2674,21 +2682,22 @@
       "Etingof.Problem3_9_5.radicalQuotient_isClifford_of_degenerate"
     ],
     "last_updated": "2026-07-22",
-    "coverage_note": "Coverage-arm audit (Stage 3.7, #7375): covered_full. Problem3_9_5.lean (1799 lines, sorry-free, headline decls axiom-clean [propext, Classical.choice, Quot.sound] verified via olean import). Both labelled parts fully covered; the matrix-algebra structure theorems are in fact STRONGER than the book's irreducible enumeration. (i) nondegenerate ⇒ semisimple with the stated even/odd classification: even_isMatrixAlgebra (899) Cl(V)≃ₐEnd(S) with dim S=2ⁿ when dim V=2n (one 2ⁿ-dim spinor irreducible, a matrix algebra); odd_isSumMatrixAlgebra (1126) Cl(V)≃ₐEnd(S)×End(S) with dim S=2ⁿ when dim V=2n+1 (two 2ⁿ-dim irreducibles, a sum of two matrix algebras). 'No other irreducibles' is subsumed: a (product of) matrix algebra(s) has exactly its (two) standard simple module(s); finrank_cliffAlg (374) = 2^N supplies the 2^{dim V} dimension bound. (ii) isSemisimpleRing_iff_nondegenerate (1476): Cl(V) semisimple ⟺ (·,·) nondegenerate; radicalQuotient_isClifford_of_degenerate (1742): when degenerate, Cl(V)/Rad ≅ Cl(W,B') for the induced nondegenerate symmetric form B' on W≅V/rad(B) (surjective algebra map with kernel = Jacobson radical). Cl(V)=Mathlib CliffordAlgebra of Q(v)=B(v,v). Prior fidelity: verified.",
+    "coverage_note": "The abstract semisimplicity, even/odd matrix-algebra classification, dimension, and radical-quotient results are proved sorry-free. Part (i) remains partial as a formalization of the exercise's requested construction: there is no exterior-algebra spinor module, wedge/contraction Clifford action, irreducibility proof for that concrete action, or odd S+/S- construction. Follow-up #6607.",
     "derived": [
       {
         "part": "(i) nondegenerate case: semisimple, even/odd irreducible classification",
         "claim": "If (·,·) is nondegenerate then Cl(V) is semisimple: one irreducible of dim 2ⁿ (a matrix algebra) if dim V=2n, two of dim 2ⁿ (a sum of two matrix algebras) if dim V=2n+1, and no others.",
         "description": "Semisimplicity and the even/odd irreducible-count-and-dimension classification, phrased via matrix-algebra isomorphisms.",
         "source_span": "blobs/Chapter3/Problem3.9.5.md (i)",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem3_9_5.isSemisimpleRing_of_nondegenerate",
           "Etingof.Problem3_9_5.even_isMatrixAlgebra",
           "Etingof.Problem3_9_5.odd_isSumMatrixAlgebra",
           "Etingof.Problem3_9_5.finrank_cliffAlg"
         ],
-        "reason": "isSemisimpleRing_of_nondegenerate (475): nondegenerate ⇒ Cl(V) semisimple. even_isMatrixAlgebra (899): dim V=2n ⇒ ∃ S, dim S=2ⁿ ∧ Cl(V)≃ₐEnd(S) (unique spinor irreducible). odd_isSumMatrixAlgebra (1126): dim V=2n+1 ⇒ ∃ S, dim S=2ⁿ ∧ Cl(V)≃ₐEnd(S)×End(S) (two non-isomorphic irreducibles S₊,S₋). The algebra-isomorphism form is stronger than counting irreducibles: End(S) (resp. End(S)×End(S)) has exactly one (resp. two) simple module(s), so 'no other irreducibles' is automatic; finrank_cliffAlg (374)=2^N gives the 2^{dim V} spanning-set bound. Axiom-clean."
+        "reason": "The abstract structure and enumeration conclusions are proved, but the source's explicit spinor construction is absent: S is only existential, not Λ(a_i), and no wedge/contraction action or odd parity actions S+/S- are defined.",
+        "followup_issue": 6607
       },
       {
         "part": "(ii) semisimple ⟺ nondegenerate; the degenerate quotient",
@@ -3912,8 +3921,10 @@
     "fidelity": "verified",
     "fidelity_decl": "Etingof.Problem4_12_11.endV_isInternal, Etingof.Problem4_12_11.symSub_eq_scalar_sup_tracelessSym, Etingof.Problem4_12_11.scalarSub_finrank, Etingof.Problem4_12_11.skewSub_finrank, Etingof.Problem4_12_11.tracelessSymSub_finrank, Etingof.Problem4_12_11.skewSub_irreducible, Etingof.Problem4_12_11.tracelessSymSub_irreducible, Etingof.Problem4_12_11.skewSub_irreducible_complexified, Etingof.Problem4_12_11.tracelessSymSub_irreducible_complexified, Etingof.Problem4_12_11.hooke_law",
     "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_12_11.lean",
-    "coverage": "covered_full",
-    "fidelity_note": "[fidelity] VERIFIED (#7302), report-only Stage 3.7. Build clean, all ten headline theorems axiom-clean [propext, Classical.choice, Quot.sound] (no sorryAx). SO3 = specialOrthogonalGroup (Fin 3) ℝ (nontrivial); conjRep A M = A·M·star A is the genuine real conjugation Representation on EndV=Matrix(Fin 3)(Fin 3)ℝ (star A = Aᵀ = A⁻¹). PART (a): endV_isInternal gives End(V)=ℝ⊕V⊕W as DirectSum.IsInternal ![scalarSub,skewSub,tracelessSymSub] with finranks 1/3/5 (scalar/skew/traceless-symmetric), and symSub_eq_scalar_sup_tracelessSym gives S²V=ℝ⊕W (⊔=symSub, ⊓=⊥). V identified with the skew matrices skewSub (standard rep ≅ adjoint so(3) via hat map — faithful), W with the 5-dim tracelessSymSub. PART (b) irreducibility: skewSub_irreducible, tracelessSymSub_irreducible over ℝ and skewSub_irreducible_complexified, tracelessSymSub_irreducible_complexified over ℂ, all with the genuine 'invariant U ≤ ambient ⇒ U=⊥ ∨ U=ambient' conclusion; complex versions phrased over the correct object EndVc via cx=(algebraMap ℝ ℂ).mapMatrix and cx_conjRep. PART (b) Hooke: hooke_law — for equivariant f (hf: f∘conjRep A = conjRep A∘f, i.e. Galileo-invariant hom of SO(3)-reps), ∃ K μ with f=K on scalarSub, f=μ on tracelessSymSub (⇒ f(x+y)=Kx+μy on S²V) and f maps symSub→symSub (S_P symmetric); proved by Schur (invariant f1 scalar; scalarProj∘f, skewProj∘f vanish by finrank-drop; odd-dim eigenvalue μ via IVT + irreducibility). Non-vacuous: hf satisfiable by id/scalars/projections; all submodules nonzero; no True-typed hypotheses. MODELING NOTE: book's f:S²V→End(V) is modeled as equivariant self-map End(V)→End(V) — faithful/equivalent since S²V=symSub is an invariant summand (extend by the equivariant projection End(V)↠S²V), so the theorem implies the book claim; not a gap, no repair issue."
+    "coverage": "covered_partial",
+    "followup_issue": 7302,
+    "fidelity_note": "The SO(3) decomposition, dimensions, and real/complex irreducibility results are genuine and sorry-free. The Hooke endpoint is narrower than the source: it assumes an equivariant self-map End(V)→End(V), while the book supplies only f:S²V→End(V). The previously asserted extension through an equivariant projection is not formalized, so an exact-domain theorem remains #7302.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Discussion_4.13",
