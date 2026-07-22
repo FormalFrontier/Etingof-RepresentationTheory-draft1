@@ -59,6 +59,26 @@ target does not import. Running against the actual source file only needs the
 target's own already-built dependency oleans, so it works after a successful
 `lake build EtingofRepresentationTheory.<Module>`.
 
+## Editing `progress/items.json` (coverage-arm audits)
+
+Coverage-arm audits record verdicts by editing one entry in
+`progress/items.json` — a single ~8000-line JSON array shared by every session.
+When you rewrite it programmatically (e.g. Python `json.dump`), **match the
+existing serialization exactly or you will reformat the whole file** into a
+spurious multi-thousand-line diff that is merge-conflict bait and hides your real
+change. The file uses `indent=2`, `ensure_ascii=False` (unicode kept literal, not
+`\uXXXX`), and a trailing newline. Concretely:
+
+```python
+json.dump(items, open(p, "w"), indent=2, ensure_ascii=False)
+open(p, "a").write("\n")   # restore trailing newline json.dump omits
+```
+
+Then **verify the diff is localized** before committing:
+`git diff --stat progress/items.json` should report a handful of changed lines,
+not thousands. If it is large, `git checkout progress/items.json` and redo with
+the right format. Prefer editing the single target entry over touching others.
+
 ## Completing the Review
 
 Post your report as a comment on the review issue. Then close the issue yourself —
