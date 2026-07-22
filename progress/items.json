@@ -4212,8 +4212,17 @@
     "end_page": "100",
     "start_line": 3,
     "end_line": 4,
-    "status": "proved",
-    "coverage_note": "Complete: Chapter5/Exercise5_3_3.lean proves the main theorem isComplexType_of_odd_order_of_nontrivial_irreducible sorry-free (axioms: propext, Classical.choice, Quot.sound only). All three sub-lemmas are proved (Schur dichotomy self-dual=>real or quaternionic; odd order=>not real for nontrivial irreducible; odd order=>not quaternionic). The Frobenius-Schur crux sum_char_sq_eq_card_of_isRealType (#6242) is discharged by clearing the |G|^-1 factor in the reverse indicator bridge frobeniusSchurIndicator_eq_one_of_isRealType."
+    "status": "sorry_free",
+    "coverage_note": "Coverage-arm audit (Stage 3.7, #7346): covered_full. Chapter5/Exercise5_3_3.lean (sorry-free on origin/main) proves isComplexType_of_odd_order_of_nontrivial_irreducible: for Odd (Fintype.card G), an irreducible (IsSimpleModule) rho with nontrivial action (exists g, rho g != 1) is of complex type (genuine IsComplexType, i.e. V not-iso V*). Strengthens Exercise 5.1.7 from 'exists a non-real irrep' to 'every nontrivial irreducible is fully complex type'. Real-type exclusion via the odd-order Frobenius-Schur sum; quaternionic exclusion via even-dimension of quaternionic type + dim | |G| (book hint).",
+    "fidelity": "verified",
+    "fidelity_note": "[coverage-arm fidelity, Stage3.7 #7346] Judge Opus 4.8. isComplexType_of_odd_order_of_nontrivial_irreducible (Exercise5_3_3.lean:276) under [Group G][Fintype G], (hodd : Odd (Fintype.card G)), (rho : Representation C G V), (hirr : IsSimpleModule (MonoidAlgebra C G) rho.asModule), (hnontriv : exists g, rho g != 1) concludes Etingof.IsComplexType rho. IsComplexType is the genuine Def 5.1.1 notion (not equivariantly self-dual, V not-iso V*), strictly stronger than Exercise 5.1.7's 'has a non-real irrep'. Both hyps USED and non-vacuous: hodd feeds both arms (sqEquivOfOdd bijection in the real arm, finrank | odd |G| parity in the quaternionic arm; Z/2 sign rep is a real-type counterexample if dropped); hnontriv drives invariants_eq_bot (vanishing sum char(g^2)=0) and is NOT over-constraining (the trivial rep is real type, so the theorem is false without it). Quaternionic arm rests on the book hint even_finrank_of_isQuaternionicType + Theorem5_3_1 (dim | |G|); real arm on the FS sum sum_char_sq_eq_card_of_isRealType (=|G|) vs sum_char_sq_eq_zero (=0), non-tautological. Axiom-clean [propext, Classical.choice, Quot.sound], no sorryAx (olean-import method). See progress/reviews/2026-07-22T20-30-00Z-ch5-exercise5_3_3-odd-order-complex-type-coverage-fidelity.md",
+    "coverage": "covered_full",
+    "coverage_arm": "audited",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter5/Exercise5_3_3.lean"
+    ],
+    "lean_decl": "Etingof.isComplexType_of_odd_order_of_nontrivial_irreducible",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Introduction_5.4",
