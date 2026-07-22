@@ -800,6 +800,7 @@
     "end_line": 8,
     "status": "sorry_free",
     "coverage_note": "Parts (a) and (b) are proved sorry-free. For part (c), finrank_irreducible_charP proves that every finite-dimensional irreducible over an algebraically closed field of characteristic p has dimension p, but the requested classification is absent: there is no parameterized family, isomorphism criterion, or exhaustiveness theorem. Follow-up: #7387.",
+    "followup_issue": 7387,
     "coverage": "covered_partial",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_7_4.lean"
@@ -1388,6 +1389,7 @@
     "end_line": 15,
     "status": "sorry_free",
     "coverage_note": "Partially formalized in EtingofRepresentationTheory/Chapter2/Problem2_11_3.lean. Parts (a)-(c) and determinant multiplicativity from part (g) are proved; the symmetric/exterior-power quotient models, characteristic-zero tensor identifications, induced maps and trace formulas in parts (d)-(f), and the top-exterior-power proof of (g) remain. Follow-up: #7365.",
+    "followup_issue": 7365,
     "coverage": "covered_partial",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_11_3.lean"
@@ -3558,7 +3560,7 @@
     "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_2.lean: Heisenberg group over 𝔽_p (order p³). COMPLETE and sorry-free (#print axioms irreducible_dim = {propext, Classical.choice, Quot.sound}). Part (a) (#6017): card_eq (|G|=p³) and exists_unique_rep — R_z built explicitly as ρ⟨a,b,c⟩f(t)=z^(b·t-c)·f(t-a), uniqueness via generator word decomposition (xGen,yGen generate G). Part (b) (#6037): irreducible_iff — R_z simple ↔ z≠1. Part (c) (#6070): one_dim_reps_card (Nat.card (Heisenberg p →* ℂˣ) = p²) via abHom + CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity; R1_decomposes (R₁ = internal direct sum of p one-dim lines) via DFT characters as shift-eigenvectors. Part (d) (#6094, #7211): full classification simple_iso_charRep_or_rhoHom (every finite-dim simple G-rep ≅ either FDRep.of (charRep χ), dim 1, or FDRep.of (rhoHom z), z≠1, dim p) — exhibit the p² characters and the p-1 reps R_z (z≠1 a p-th root) as pairwise non-isomorphic simples (separated by dimension and by the central character z^{(-1).val}·p on ⟨0,0,1⟩ via FDRep.char_iso), squared dims summing to p²·1+(p-1)·p²=p³=|G|; inject the family into the complete enumeration exists_simples_sum_finrank_sq_eq_card, use positivity of every dim² to force surjectivity (pigeonhole), hence every simple ≅ one of the family. Uniqueness within branches: charRep_iso_iff (characters iso ↔ equal), rhoHom_iso_iff (R_z iso ↔ roots agree); branches disjoint by charRep_not_iso_rhoHom (dim 1≠p). irreducible_dim (every irreducible has dim 1 or p) now derived from the classification: σ transported to ℂ's universe via transportModule/repOfModule to U:FDRep, then read off dim of the matching family member. All five headlines axiom-clean {propext, Classical.choice, Quot.sound}.",
     "fidelity": "faithful",
     "fidelity_note": "[fidelity gap #7204 → RESOLVED by #7211/#7218] Parts (a)-(c) FAITHFUL & non-vacuous as headlines: group model is genuine order-p^3 Heisenberg group with correct generator matrices; exists_unique_rep is a real ∃! with the book's two generator actions; irreducible_iff is genuine IsSimpleModule over ℂ[G] with two-directional ↔ z≠1; one_dim_reps_card (p^2 chars) + R1_decomposes (internal direct sum of p distinct 1-dim isotypic lines, Injective χ = 'each once'). Part (d) gap CLOSED: the full part-(d) classification (exactly p^2 irreps of dim 1 and p-1 of dim p, p^2·1+(p-1)·p^2=p^3=|G| via sum-of-squares), previously proved only inside irreducible_dim, is now exposed as the named headline simple_iso_charRep_or_rhoHom (#7211). Original report: progress/reviews/2026-07-21-ch4-problem4_12_2-heisenberg-fidelity.md. All headlines axiom-clean (propext/Classical.choice/Quot.sound, no sorryAx).",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter4/Problem4_12_2.lean"
@@ -4228,6 +4230,7 @@
     "end_line": 10,
     "status": "partially_formalized",
     "coverage_note": "PATH: part (b) now has a dedicated Chapter5/Problem5_2_7.lean with the honest top-level theorem Etingof.Problem5_2_7.exists_character_eq_zero: for an irreducible complex V of a finite group G with dim V > 1, ∃ g, χ_V(g) = 0 (axiom-clean [propext, Classical.choice, Quot.sound]). Its 0<β<1 bound is beta_lt_one (orthonormality FDRep.char_orthonormal gives ∑_g|χ_V(g)|²=|G|, so ∑_{g≠1}|χ_V(g)|²=|G|-(dim V)²<|G|-1; AM-GM Real.geom_mean_le_arith_mean forces β<1); the Galois-conjugate rationality/integrality core it discharges (character_prod_rat + beta_rat_not_mem_Ioo) lives in Chapter5/Remark5_2_8.lean (sorry-free). Part (b) is covered_full (see the part-(b) derived entry, #7353). Part (a) (existence of a finite Galois extension K⊂ℂ carrying all matrix entries) is still NOT formalized — the item stays covered_partial for that reason. Path/status corrected in audit #7001.",
+    "followup_issue": 7355,
     "coverage": "covered_partial",
     "last_updated": "2026-07-22"
   },
@@ -4791,6 +4794,7 @@
     "end_line": 35,
     "status": "partially_formalized",
     "coverage_note": "There is no dedicated Problem5_10_2.lean and none of parts (a)-(f) is stated as a Lean endpoint. Theorem5_10_1 proves one downstream Frobenius-reciprocity conclusion directly through Mathlib, without the requested relative-tensor and bimodule constructions. Follow-up: #7356.",
+    "followup_issue": 7356,
     "coverage": "covered_partial",
     "last_updated": "2026-07-22"
   },
@@ -4804,6 +4808,7 @@
     "end_line": 1,
     "status": "partially_formalized",
     "coverage_note": "Parts (a)-(f) are not stated as Lean endpoints. Related induction/restriction results do not construct the requested bimodules, relative tensor products, representative-independent isomorphisms, both adjunction directions, or induction-duality isomorphism. Follow-up: #7356.",
+    "followup_issue": 7356,
     "coverage": "covered_partial",
     "last_updated": "2026-07-22"
   },
@@ -6036,6 +6041,7 @@
     "sorry_free": true,
     "fidelity_note": "Added in #5729: the file defines the constant-shift relation and SLWeightParam and proves specialLinear_det_eq_one plus the dimension shadow algIrrepGL_finrank_constShift. It does not yet construct the claimed SL_N-equivariant shift isomorphism or prove the parametrization theorem. The general sl_N assertions are explicitly disavowed by the book and should be documented as intentional omissions rather than represented by proof_wanted; follow-up #7357.",
     "coverage": "covered_partial",
+    "followup_issue": 7357,
     "last_updated": "2026-07-22"
   },
   {
@@ -7314,6 +7320,7 @@
     "sorry_count": 0,
     "coverage": "covered_partial",
     "coverage_note": "The file proves substantial dimension and decomposition infrastructure, including indecomposability for part of the E-family, but the public Problem6_9_1 theorem concludes only that the two vertex dimensions differ by at most one. It does not state that every indecomposable is isomorphic to one of E_{n,lambda}, E_{n,infinity}, H_n, or K_n, nor the required pairwise-nonisomorphism classification. Reopened follow-up: #1066.",
+    "followup_issue": 1066,
     "last_updated": "2026-07-22"
   },
   {
@@ -7522,7 +7529,8 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_partial",
-    "coverage_note": "Items (1)-(7) and the tensor/exterior-power portions of (8) are formalized. Symmetric/Schur functors in item (8) and BGP reflection functors in item (9) remain scope notes rather than CategoryTheory functors; follow-up for item (9): #7383.",
+    "coverage_note": "Items (1)-(7) and the tensor/exterior-power portions of (8) are formalized. Symmetric/Schur functors in item (8) remain #5642; BGP reflection functors in item (9) remain #7383.",
+    "followup_issue": 5642,
     "last_updated": "2026-07-22"
   },
   {
@@ -8188,7 +8196,10 @@
     "start_line": 9,
     "end_line": 16,
     "status": "sorry_free",
-    "coverage_note": "All three parts proved sorry-free (#6053): (i) Module.Flat.of_projective, (ii) IsLocalization.flat, (iii) flat via (ii) + not-projective via dual-basis/trivial-dual argument (Hom_{ℂ[x]}(ℂ[x,x⁻¹],ℂ[x])=0). #print axioms clean."
+    "coverage_note": "All commutative-ring statements are proved sorry-free. Part (i) remains narrower than the source: the book treats projective right modules over arbitrary rings, while the current Module.Flat theorem requires CommRing A. The source-faithful noncommutative tensor-exactness theorem is tracked by #6053.",
+    "coverage": "covered_partial",
+    "followup_issue": 6053,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter8/Exercise8.1.4",
@@ -8348,6 +8359,7 @@
     "end_line": 8,
     "status": "sorry_free",
     "coverage_note": "The file proves existence of a morphism of resolutions and Nonempty (HomotopyEquiv P.complex Q.complex). It does not state the source's parts (iii)-(v): independence of the induced maps from an arbitrary compatible lift, or the resulting Tor/Ext comparison isomorphisms. Reopened follow-up: #6045.",
+    "followup_issue": 6045,
     "coverage": "covered_partial",
     "last_updated": "2026-07-22"
   },
@@ -8360,7 +8372,11 @@
     "start_line": 9,
     "end_line": 22,
     "status": "sorry_free",
-    "coverage_note": "Part (i) fully proved sorry-free: Ext⁰ ≅ Hom (#6103) and Tor₀ ≅ M⊗_A N (#6109). The Tor₀ half uses the tensor-hom adjunction (- ⊗_A N) ⊣ (N →+ -) built in Definition8_2_3_RightExact.lean, giving PreservesFiniteColimits (tensorRightFunctor A N) and hence Functor.leftDerivedZeroIsoSelf. Parts (ii), (iii) (both Ext and Tor halves), and (v) are now proved sorry-free; only (iv), the balancing theorem, remains sorried. The (iii)-Tor long exact sequence (#6588) is proved via the reusable Etingof.NatTrans.leftDerived_sixTerm_exact (LeftDerivedSequence.lean) — the varying-functor dual of Functor.leftDerived_sixTerm_exact — fed by the flatness lemma tensorLeftFunctor_map_shortExact (#6587, TensorProjectiveExact.lean); to break the import cycle (TensorProjectiveExact imports Problem8_2_6), the second-argument tensor functoriality was extracted into Problem8_2_6_Core.lean. Part (ii)'s route used the relative bar resolution Etingof.barResolution."
+    "coverage_note": "All five mathematical parts are proved without placeholders. Two API/fidelity gaps remain: part (ii) hides its canonical Ext¹ comparison inside Nonempty (#6298), and the six-term long-exact windows do not expose the initial/terminal zero-ended exactness assertions in the displayed source sequences (#7421).",
+    "coverage": "covered_partial",
+    "fidelity_issue": 6298,
+    "followup_issue": 7421,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter8/Problem8.2.7",
@@ -8372,6 +8388,7 @@
     "end_line": 26,
     "status": "sorry_free",
     "coverage_note": "Partially formalized in EtingofRepresentationTheory/Chapter8/Problem8_2_7.lean. The file proves the cyclic-pair Tor/Ext computations and higher vanishing over Z and k[X], plus the free-generator vanishing results. It does not yet assemble those building blocks, via the structure theorem and additivity, into formulas for arbitrary finitely generated modules M and N as the exercise asks.",
+    "followup_issue": 7381,
     "coverage": "covered_partial",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter8/Problem8_2_7.lean"
@@ -8589,6 +8606,7 @@
     "status": "sorry_free",
     "coverage": "covered_partial",
     "coverage_note": "Splus and Sminus are constructed, proved simple and nonisomorphic, and Pplus/Pminus are proved projective. The source's exhaustiveness of the simple classification, indecomposability and exhaustiveness of the projectives, and Cartan-matrix computation are absent. Follow-up: #7388.",
+    "followup_issue": 7388,
     "last_updated": "2026-07-22"
   },
   {
@@ -8641,7 +8659,11 @@
     "end_line": 4,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "The left homological-dimension predicate and invariant are defined. The source also defines right homological dimension; that opposite-ring counterpart and its bridge to the left invariant are absent and tracked by #7422.",
+    "followup_issue": 7422,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter9/Example9.4.4",
@@ -8720,7 +8742,10 @@
     "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "wave-2 gap #5648 (three findings) repaired via PRs #5730/#5734 and re-confirmed in #5648: (i) semisimple_areLinked_iff_iso + semisimple_blocks_singleton, (ii) local_artinian_single_block, (iii) problem_9_3_2_single_block via genuine nonsplit extension; wave-9 re-verified. Residuals noted in wave-9: (i)'s '≃ Vec' captured at the one-simple-object level per adjudicated scope note; (iii) does not prove S₊/S₋ exhaust the simples"
+    "fidelity_note": "Parts (ii) and (iii), and the singleton-simple consequence of part (i), are proved. The source's stronger part-(i) claim that each entire semisimple block category is equivalent to vector spaces remains unformalized; follow-up #5648.",
+    "coverage": "covered_partial",
+    "followup_issue": 5648,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter9/Problem9.5.3",
@@ -8832,6 +8857,7 @@
     "end_line": 29,
     "status": "proved",
     "coverage_note": "The current theorem is sorry-free but proves only that an abstract quasi-inverse exists, by choosing F.asEquivalence.inverse from the already-proved Theorem 9.6.4. It does not construct the textbook's named balanced tensor/cokernel functor P tensor_B -, its evaluation natural transformation, or the source's surjectivity and kernel argument. Reopened follow-up: #6567.",
+    "followup_issue": 6567,
     "coverage": "covered_partial",
     "last_updated": "2026-07-22"
   },
@@ -8844,8 +8870,11 @@
     "start_line": 1,
     "end_line": 6,
     "status": "sorry_free",
-    "sorry_free": false,
-    "note": "Projective-generator classification (P_n = ⊕ n_i P_i, n_i ≥ 1) formalized in Introduction_9_7.lean. Backward direction (such a biproduct is a progenerator) proved sorry-free; forward direction (progenerator_decomposition) is the Krull-Schmidt content, isolated as a single documented sorry (not in Mathlib).",
+    "sorry_free": true,
+    "note": "The projective-generator classification and the B_n family are proved without placeholders. The residual capstone assumes an algebra is already presented as (End Q)ᵐᵒᵖ; it does not derive that presentation from an arbitrary FGModuleCat equivalence, so the claimed exhaustion of the Morita class remains #5147.",
+    "coverage": "covered_partial",
+    "followup_issue": 5147,
+    "last_updated": "2026-07-22",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -8874,6 +8903,10 @@
     "start_line": 9,
     "end_line": 12,
     "status": "sorry_free",
+    "coverage": "covered_partial",
+    "coverage_note": "The dimension-minimization and bare matrix-product commutativity lemmas are present. The actual quotient isomorphism B_n/Rad(B_n) ≃ ∏ Mat_{n_i}(k) is missing (#5145), and the global assertion that these are exactly the Morita class depends on #5147.",
+    "followup_issue": 5145,
+    "last_updated": "2026-07-22",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -8906,8 +8939,10 @@
     "needs_statement": false,
     "notes": "The chosen-progenerator categorical form is sorry-free. Exercise963.exists_progenerator now proves that every finite abelian category has a progenerator, but Corollary_9_7_3_i_categorical and its FGModuleCat endpoint still require P from the caller instead of choosing it internally. Follow-up: #7367.",
     "attention_needed": false,
-    "fidelity_note": "The FGModuleCat equivalence, uniqueness, and dimension-bound conclusions are proved. The remaining quantifier mismatch is now a wiring gap, not missing existence infrastructure: Exercise963.exists_progenerator supplies P, but the public corollary still asks the caller for it.",
+    "fidelity_note": "The FGModuleCat equivalence, uniqueness, and dimension-bound conclusions are proved. Two wiring/API gaps remain: the categorical corollary still asks the caller for a progenerator (#7367), and the public algebraic existence result returns weaker basicness/Morita notions than the uniqueness and dimension theorems accept (#7423).",
     "coverage": "covered_partial",
+    "fidelity_issue": 7423,
+    "followup_issue": 7367,
     "last_updated": "2026-07-22"
   },
   {
