@@ -37,10 +37,11 @@ The (a)–(d) theorems below are all proved (`sorry`-free):
   `V` acting on the two generators by the shift and the multiplication operators. (Uniqueness
   holds because `xGen, yGen` generate `G`; this also determines `ρ(g)` for every `g`.)
 * **(b)** `irreducible_iff`: any such `R_z` is irreducible iff `z ≠ 1`.
-* **(c)** `one_dim_reps_card`: there are exactly `p²` one-dimensional representations (group
-  homomorphisms `G → ℂˣ`, since `G^{ab} ≅ (ZMod p)²`); `R1_decomposes`: `R_1` is an internal
-  direct sum of `p` one-dimensional `G`-invariant subspaces (each of the `p` distinct
-  characters of the cyclic quotient occurs exactly once).
+* **(c)** `oneDimRepEquiv`: the explicit bijection `χ ↦ χ ∘ abHom` parametrizing the
+  one-dimensional representations (characters `G → ℂˣ`) by characters of the abelianization
+  `G^{ab} ≅ (ZMod p)²`; `one_dim_reps_card`: hence there are exactly `p²` of them;
+  `R1_decomposes`: `R_1` is an internal direct sum of `p` one-dimensional `G`-invariant
+  subspaces (each of the `p` distinct characters of the cyclic quotient occurs exactly once).
 * **(d)** `simple_iso_charRep_or_rhoHom`: the full classification — every finite-dimensional
   simple `G`-representation is isomorphic either to a `1`-dimensional character `charRep χ`
   (`χ : G → ℂˣ`) or to a `p`-dimensional `R_z = rhoHom z` (`z ≠ 1` a `p`-th root of unity).
@@ -511,19 +512,38 @@ theorem abHom_ker_le_ker [Fact p.Prime] (ρ : Heisenberg p →* ℂˣ) :
   rw [hg_eq]
   exact pow_mem central_mem_commutator _
 
-/-- **Part (c), classification of `1`-dimensional representations.** The one-dimensional
+/-- **Part (c), explicit classification of `1`-dimensional representations.** The one-dimensional
+complex representations of the Heisenberg group `G` are its group homomorphisms `G →* ℂˣ`, and
+since every such character kills the commutator subgroup they are exactly the pullbacks along the
+abelianization map `abHom : G →* (ZMod p)²` of characters of `(ZMod p)²`. This records that
+explicit parametrization as a bijection
+
+`(Multiplicative (ZMod p × ZMod p) →* ℂˣ) ≃ (Heisenberg p →* ℂˣ)`, `χ ↦ χ ∘ abHom`,
+
+mirroring the `GL₂` precedent `Etingof.Discussion_1dim_reps.characterCompDetEquiv`. The count
+`p²` (`one_dim_reps_card`) is the cardinality of the domain. -/
+noncomputable def oneDimRepEquiv (p : ℕ) [Fact p.Prime] :
+    (Multiplicative (ZMod p × ZMod p) →* ℂˣ) ≃ (Heisenberg p →* ℂˣ) :=
+  (MonoidHom.liftOfSurjective (abHom p) (abHom_surjective p)).symm.trans
+    (Equiv.subtypeUnivEquiv (fun ρ => abHom_ker_le_ker ρ))
+
+/-- The classification bijection sends a character `χ` of the abelianization `(ZMod p)²` to the
+one-dimensional representation `g ↦ χ (abHom g)` of `G`. -/
+@[simp]
+theorem oneDimRepEquiv_apply [Fact p.Prime]
+    (χ : Multiplicative (ZMod p × ZMod p) →* ℂˣ) :
+    oneDimRepEquiv p χ = χ.comp (abHom p) := rfl
+
+/-- **Part (c), count of `1`-dimensional representations.** The one-dimensional
 complex representations of the Heisenberg group are its group homomorphisms to `ℂˣ`, and there
-are exactly `p²` of them (the abelianization is `(ZMod p)²`). -/
+are exactly `p²` of them: `oneDimRepEquiv` bijects them with the characters of the abelianization
+`(ZMod p)²`. -/
 theorem one_dim_reps_card [Fact p.Prime] :
     Nat.card (Heisenberg p →* ℂˣ) = p ^ 2 := by
   haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  -- Characters of `G` correspond bijectively to characters of the abelianization `(ZMod p)²`.
-  let e : (Multiplicative (ZMod p × ZMod p) →* ℂˣ) ≃ (Heisenberg p →* ℂˣ) :=
-    (MonoidHom.liftOfSurjective (abHom p) (abHom_surjective p)).symm.trans
-      (Equiv.subtypeUnivEquiv (fun ρ => abHom_ker_le_ker ρ))
   haveI : NeZero ((Monoid.exponent (Multiplicative (ZMod p × ZMod p)) : ℕ) : ℂ) :=
     ⟨Nat.cast_ne_zero.mpr Monoid.exponent_ne_zero_of_finite⟩
-  rw [← Nat.card_congr e,
+  rw [← Nat.card_congr (oneDimRepEquiv p),
     CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity (Multiplicative (ZMod p × ZMod p)) ℂ,
     Nat.card_eq_fintype_card, Fintype.card_multiplicative, Fintype.card_prod, ZMod.card]
   ring
