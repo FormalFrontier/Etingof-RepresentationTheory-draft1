@@ -324,6 +324,103 @@ theorem ext1_simpleRep_vanishes_iff [DecidableEq Q] (i j : Q) :
         rw [if_neg hb]; infer_instance
       exact LinearMap.ext fun x => Subsingleton.elim _ _
 
+/-! ### `Ext¹` between vertex simples: the exact dimension
+
+The criterion `ext1_simpleRep_vanishes_iff` only records *when* `Ext¹` vanishes. Here we
+compute its dimension exactly, formalizing the book's answer
+
+> `dim Ext¹(S_i, S_j)` = number of arrows `i → j`.
+
+We first upgrade the Ext differential `extDiff` (a bare function) to a genuine `k`-linear map
+`extDiffₗ`, form `Ext¹(V, W)` as its cokernel, and observe that between two vertex simples the
+differential is the zero map. Hence `Ext¹(S_i, S_j)` is isomorphic to its whole codomain
+`⨁_{a : i→j} Hom((S_i)_a, (S_j)_b)`, whose only nonzero components are the `Hom(k, k) ≅ k` at
+arrows `i → j`, giving `dim Ext¹(S_i, S_j) = #(i ⟶ j)`. -/
+
+/-- The `Fin _ → k` carriers of the vertex simples carry an `AddCommGroup` (compatibly with the
+bundled `AddCommMonoid`, since both are the `Pi` instances). Registering this — at low priority,
+so the bundled `AddCommMonoid` stays preferred elsewhere — lets us form the cokernel
+`Ext¹(S_i, S_j)` as a genuine `k`-module and take its `finrank`. -/
+instance (priority := 100) simpleRep_obj_addCommGroup [DecidableEq Q] (j v : Q) :
+    AddCommGroup ((simpleRep (k := k) j).obj v) := by
+  change AddCommGroup (Fin (if v = j then 1 else 0) → k); infer_instance
+
+/-- The Ext differential `d(f)_a = W_a ∘ f_i - f_j ∘ V_a` as a genuine `k`-linear map. This is
+the linear upgrade of the bare function `Etingof.Problem6_9_3.extDiff`; the subtraction uses the
+`AddCommGroup` structure `Etingof.Problem6_9_3.acg` (which extends the bundled `AddCommMonoid` on
+each `W.obj v`). Its cokernel is `Ext¹(V, W)`. -/
+noncomputable def extDiffₗ (V W : QuiverRepresentation k Q) :
+    (∀ i, V.obj i →ₗ[k] W.obj i) →ₗ[k]
+      (∀ p : (Σ i j, (i ⟶ j)), V.obj p.1 →ₗ[k] W.obj p.2.1) :=
+  letI : ∀ v, AddCommGroup (W.obj v) := fun _ => Etingof.Problem6_9_3.acg (k := k)
+  { toFun := fun f p => W.mapLinear p.2.2 ∘ₗ f p.1 - f p.2.1 ∘ₗ V.mapLinear p.2.2
+    map_add' := fun f g => by
+      funext p
+      simp only [Pi.add_apply, LinearMap.comp_add, LinearMap.add_comp]
+      abel
+    map_smul' := fun c f => by
+      funext p
+      simp only [Pi.smul_apply, RingHom.id_apply, LinearMap.comp_smul, LinearMap.smul_comp,
+        smul_sub] }
+
+/-- `Ext¹(S_i, S_j)` for two vertex simples, as the cokernel of the Ext differential. Since both
+simples have all arrow maps zero, this differential is the zero map (`extDiffₗ_simpleRep_eq_zero`)
+and `Ext¹(S_i, S_j)` is its whole codomain `⨁_{a : i→j} Hom((S_i)_a, (S_j)_b)`. -/
+abbrev Ext1Simple [DecidableEq Q] (i j : Q) : Type _ :=
+  (∀ p : (Σ a b : Q, (a ⟶ b)),
+      (simpleRep (k := k) i).obj p.1 →ₗ[k] (simpleRep (k := k) j).obj p.2.1) ⧸
+    LinearMap.range (extDiffₗ (simpleRep (k := k) i) (simpleRep (k := k) j))
+
+/-- Between two vertex simples every arrow map is zero, so the Ext differential is the zero
+linear map. -/
+theorem extDiffₗ_simpleRep_eq_zero [DecidableEq Q] (i j : Q) :
+    extDiffₗ (simpleRep (k := k) i) (simpleRep j) = 0 := by
+  letI : ∀ v, AddCommGroup ((simpleRep (k := k) j).obj v) :=
+    fun _ => Etingof.Problem6_9_3.acg (k := k)
+  refine LinearMap.ext fun f => funext fun p => ?_
+  show (simpleRep (k := k) j).mapLinear p.2.2 ∘ₗ f p.1
+      - f p.2.1 ∘ₗ (simpleRep (k := k) i).mapLinear p.2.2 = 0
+  simp only [simpleRep, LinearMap.zero_comp, LinearMap.comp_zero]
+  exact sub_self (0 : (simpleRep (k := k) i).obj p.1 →ₗ[k] (simpleRep (k := k) j).obj p.2.1)
+
+/-- **`Ext¹` between irreducibles, dimension.** For a finite quiver `Q`, the Ext group between
+the vertex simples `S_i` and `S_j` has dimension equal to the number of arrows `i → j`:
+`dim Ext¹(S_i, S_j) = #(i ⟶ j)`. This is the exact computation strengthening the vanishing
+criterion `ext1_simpleRep_vanishes_iff` (`Ext¹(S_i, S_j) = 0 ↔ #(i ⟶ j) = 0`). -/
+theorem finrank_ext1_simpleRep [DecidableEq Q] [Fintype Q] [∀ a b : Q, Fintype (a ⟶ b)]
+    (i j : Q) :
+    Module.finrank k (Ext1Simple (k := k) i j) = Fintype.card (i ⟶ j) := by
+  -- The differential vanishes, so `Ext¹ = coker 0` is isomorphic to its whole codomain.
+  have hbot : LinearMap.range (extDiffₗ (simpleRep (k := k) i) (simpleRep j)) = ⊥ := by
+    rw [extDiffₗ_simpleRep_eq_zero, LinearMap.range_zero]
+  refine (Submodule.quotEquivOfEqBot _ hbot).finrank_eq.trans ?_
+  -- The `Fin _ → k` carriers are finite and free; this propagates to the Hom components, so both
+  -- `finrank_pi_fintype` and `finrank_linearMap` below have the instances they need.
+  haveI hobjFin : ∀ r a : Q, Module.Finite k ((simpleRep (k := k) r).obj a) := fun r a => by
+    change Module.Finite k (Fin (if a = r then 1 else 0) → k); infer_instance
+  haveI hobjFree : ∀ r a : Q, Module.Free k ((simpleRep (k := k) r).obj a) := fun r a => by
+    change Module.Free k (Fin (if a = r then 1 else 0) → k); infer_instance
+  -- `finrank` of the product is the sum over arrows of the finrank of each Hom component.
+  rw [Module.finrank_pi_fintype k]
+  -- Each Hom component has finrank `(if p.1 = i then 1 else 0) * (if p.2.1 = j then 1 else 0)`.
+  have hcomp : ∀ p : (Σ a b : Q, (a ⟶ b)),
+      Module.finrank k ((simpleRep (k := k) i).obj p.1 →ₗ[k] (simpleRep (k := k) j).obj p.2.1)
+        = (if p.1 = i then 1 else 0) * (if p.2.1 = j then 1 else 0) := by
+    intro p
+    rw [Module.finrank_linearMap]
+    congr 1
+    · show Module.finrank k (Fin (if p.1 = i then 1 else 0) → k) = _
+      rw [Module.finrank_pi k, Fintype.card_fin]
+    · show Module.finrank k (Fin (if p.2.1 = j then 1 else 0) → k) = _
+      rw [Module.finrank_pi k, Fintype.card_fin]
+  simp only [hcomp]
+  -- Expand the sum over `Σ a b, (a ⟶ b)` into iterated sums, then collapse: the innermost
+  -- arrow-sum contributes `#(a ⟶ b)`, and the two `if`s select `a = i` and `b = j`.
+  rw [Fintype.sum_sigma]
+  simp only [Fintype.sum_sigma]
+  simp [Finset.sum_const, Finset.card_univ, Finset.card_empty, mul_ite, ite_mul,
+    apply_ite Finset.card, Fintype.sum_ite_eq', Finset.sum_ite_irrel, Finset.sum_const_zero]
+
 /-- **Classification of 2-dimensional representations.** For a quiver without oriented cycles,
 a representation `ρ` of total dimension `2` is either decomposable, necessarily a direct sum
 `S_i ⊕ S_j` of two simples, or indecomposable, in which case there is a single arrow
