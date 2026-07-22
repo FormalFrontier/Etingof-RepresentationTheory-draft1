@@ -26,9 +26,14 @@ locate `W` in the symmetric summand.
   book's "and hence inside `V^{⊗n}`": composing a nonzero intertwiner `W → SⁿV` with it yields
   a nonzero intertwiner `W → V^{⊗n}`.
 
-The headline symmetric-power occurrence theorem `Etingof.Problem4_12_10_symmetric` is stated
-here; its proof (following the book's stabilizer-`1` covector / orbit-interpolation hint) is
-left as `sorry` and tracked as follow-up work.
+The headline symmetric-power occurrence theorem `Etingof.Problem4_12_10_symmetric` is assembled
+downstream in `Problem4_12_10_OrbitEval.lean`, once the orbit-evaluation surjection
+`⨁ₙ SⁿV ↠ ℂ[G]` (this file's `symPowRep` fed into the book's stabilizer-`1` covector / orbit
+interpolation) is available; the Maschke splitting of that surjection places any irreducible `W`
+inside some `SⁿV`. The supporting infrastructure — `symPowRep`, `symPowEmbedding`, the covector
+lemma `exists_trivialStabilizer_covector`, the regular-embedding pillar
+`exists_injective_intertwiner_ofMulAction`, and the summand-extraction pillar
+`exists_component_intertwiner_of_ne_zero` — all live here.
 -/
 
 open scoped TensorProduct
@@ -319,34 +324,10 @@ theorem exists_injective_intertwiner_ofMulAction
 
 end SimpleEmbedsRegular
 
-section MainTheorem
-
-open scoped TensorProduct
-open Etingof
-
-/-- **Problem 4.12.10 (symmetric-power form).** Let `G` be a finite group with a faithful
-complex representation `ρ` on `V`, and let `σ` be an irreducible complex representation on `W`.
-Then `W` occurs inside the symmetric power `SⁿV` for some `n`: there is a nonzero
-`G`-equivariant linear map `W → Sym[ℂ]^n V` intertwining `σ` with `symPowRep ρ n`.
-
-Together with `Etingof.symPowEmbedding_equivariant`, this gives the book's full statement
-"occurs inside `SⁿV` (and hence inside `V^{⊗n}`)".
-
-TODO (follow-up issue): prove this following the book's hint. The first step, existence of a
-covector `u ∈ V*` with trivial `G`-stabilizer, is proven above as
-`Etingof.exists_trivialStabilizer_covector`. The orbit `{g · u}` is then `|G|` distinct points,
-so the evaluation `SV → F(G, ℂ)`, `f ↦ (g ↦ f(g·u))`, is a surjective `G`-map (polynomial
-interpolation on the finite orbit). By Maschke the surjection splits, so the regular
-representation `F(G, ℂ)` — which contains every irreducible — is a `G`-summand of `⊕ₙ SⁿV`;
-hence `W ↪ SⁿV` for some `n`. -/
-theorem Etingof.Problem4_12_10_symmetric {G : Type*} [Group G] [Fintype G]
-    {V : Type} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
-    (ρ : Representation ℂ G V) (hρ : Function.Injective ρ)
-    {W : Type} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
-    (σ : Representation ℂ G W)
-    (hσ : IsSimpleModule (MonoidAlgebra ℂ G) σ.asModule) :
-    ∃ (n : ℕ) (φ : W →ₗ[ℂ] (Sym[ℂ]^n V)),
-      φ ≠ 0 ∧ ∀ g : G, φ ∘ₗ σ g = (symPowRep ρ n g) ∘ₗ φ := by
-  sorry
-
-end MainTheorem
+/-
+The headline occurrence theorem `Etingof.Problem4_12_10_symmetric` is assembled in
+`Problem4_12_10_OrbitEval.lean`, which imports this file for `symPowRep` and the two Maschke
+pillars (`exists_injective_intertwiner_ofMulAction`, `exists_component_intertwiner_of_ne_zero`)
+and additionally supplies the orbit-evaluation surjection `⨁ₙ SⁿV ↠ ℂ[G]` that the assembly
+splits. The theorem cannot live here because that surjection depends on this file.
+-/

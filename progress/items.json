@@ -3205,13 +3205,16 @@
     "coverage_note": "EtingofRepresentationTheory/Chapter4/Problem4_12_10.lean: fully sorry-free. trace_piTensorProduct_map_const and character_diagTensorPow (χ_{V^⊗n}=χ_V^n), the multiplicity formula, and the polynomial isolation of g=1 all proved; the final analytic lemma ρ_eq_one_of_character_eq_finrank (trace(ρg)=dim⟹ρg=1) is proved via matrix unitarization (averaged Hermitian form H, CFC square root L, U=L(ρg)L⁻¹ standard-unitary with trace=dim, elementary Cauchy-Schwarz-style argument). #print axioms Etingof.Problem4_12_10 = [propext, Classical.choice, Quot.sound] (#6096).",
     "fidelity": "verified",
     "fidelity_decl": [
-      "Etingof.Problem4_12_10"
+      "Etingof.Problem4_12_10",
+      "Etingof.Problem4_12_10_symmetric"
     ],
     "lean_file": [
-      "EtingofRepresentationTheory/Chapter4/Problem4_12_10.lean"
+      "EtingofRepresentationTheory/Chapter4/Problem4_12_10.lean",
+      "EtingofRepresentationTheory/Chapter4/Problem4_12_10_Symmetric.lean",
+      "EtingofRepresentationTheory/Chapter4/Problem4_12_10_OrbitEval.lean"
     ],
-    "coverage": "covered_partial",
-    "fidelity_note": "Book asks: any irreducible occurs inside SⁿV (and hence V^⊗n) for some n. The Lean theorem Etingof.Problem4_12_10 proves ONLY the weaker V^⊗n half: for a faithful ρ (Function.Injective ρ) and simple σ (IsSimpleModule (MonoidAlgebra ℂ G) σ.asModule), ∃ n and a nonzero G-equivariant φ : W → ⨂ⁿV intertwining σ with diagTensorPow ρ n (the diagonal action on the FULL tensor power ⨂ⁿV, not the symmetric power SⁿV). The V^⊗n form is faithful and non-vacuous: φ≠0 is a real constraint (zero map trivially intertwines), diagTensorPow is a genuine construction, and faithfulness is genuinely consumed via ρ_eq_one_of_character_eq_finrank (matrix-unitarization: only g=1 has χ(g)=dim V). Coverage is PARTIAL: the book's primary SⁿV result is strictly stronger (SⁿV is a G-summand of V^⊗n in char 0, so W↪SⁿV ⟹ W↪V^⊗n but not conversely) and is NOT formalized; the hint's SV→F(G,ℂ) surjectivity targets SⁿV directly. Docstring (## Formalization, lines 11-18) discloses the scope reduction rather than over-claiming. #print axioms clean [propext, Classical.choice, Quot.sound], no sorryAx. Follow-up feature issue #7285 filed for the SⁿV half. Audited against origin/main 3b166a4d (issue #7284).",
+    "coverage": "covered_full",
+    "fidelity_note": "Book asks: any irreducible occurs inside SⁿV (and hence V^⊗n) for some n. BOTH halves are now formalized. (1) V^⊗n half: Etingof.Problem4_12_10 — for faithful ρ and simple σ, ∃ n and a nonzero G-equivariant φ : W → ⨂ⁿV intertwining σ with diagTensorPow ρ n. (2) SⁿV half (the book's primary, strictly stronger statement): Etingof.Problem4_12_10_symmetric (Problem4_12_10_OrbitEval.lean) — for faithful ρ and simple σ, ∃ n and a nonzero G-equivariant φ : W → Sym[ℂ]^n V intertwining σ with symPowRep ρ n. Assembled following the book's hint: the trivial-stabilizer covector (exists_trivialStabilizer_covector) gives an orbit of |G| distinct points, so orbit-evaluation is a G-equivariant surjection ⨁ₙ SⁿV ↠ ℂ[G] (exists_orbitEval_surjection, #7289); by Maschke (char 0) this splits, and composing the section with the regular embedding of the simple W (exists_injective_intertwiner_ofMulAction) then extracting a nonzero summand (exists_component_intertwiner_of_ne_zero) places W inside some SⁿV. symPowEmbedding_equivariant gives the 'and hence inside V^⊗n' clause. Both statements faithful and non-vacuous: φ≠0 is a real constraint, symPowRep/diagTensorPow are genuine constructions, Nontrivial W forced by IsSimpleModule, faithfulness genuinely consumed. #print axioms Etingof.Problem4_12_10_symmetric = [propext, Classical.choice, Quot.sound], no sorryAx. Coverage now FULL (was covered_partial before #7290 assembled the SⁿV half).",
     "last_updated": "2026-07-22"
   },
   {
