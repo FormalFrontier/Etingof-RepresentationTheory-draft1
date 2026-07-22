@@ -4983,8 +4983,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "youngSymmetrizer_identity_coeff proved, cascading to young_symmetrizer_sq_ne_zero and Theorem5_12_2_irreducible. Only Theorem5_12_2_classification (every simple is some V_λ) has sorry.",
-    "sorry_free": true
+    "notes": "Theorem 5.12.2 is fully formalized without placeholders: Theorem5_12_2_irreducible proves every Specht module V_λ is simple, Theorem5_12_2_distinct proves distinct partitions give nonisomorphic modules, and Theorem5_12_2_classification proves every simple ℂ[S_n]-module is isomorphic to some V_λ.",
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Example5.12.3",
