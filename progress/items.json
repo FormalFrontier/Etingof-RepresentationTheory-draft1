@@ -792,7 +792,12 @@
     "start_line": 25,
     "end_line": 8,
     "status": "sorry_free",
-    "coverage_note": "EtingofRepresentationTheory/Chapter2/Problem2_7_4.lean. Part (c) finrank_irreducible_charP now sorry-free (statement corrected to add [IsAlgClosed k], faithful to the book's eigenvector-of-y hint): eigenvalue existence + Schur-via-eigenvalue gives x^p acts as scalar, the lowering operator N = y - lam gives linear independence of {v, xv, ..., x^{p-1}v}, and the span is a nonzero invariant submodule = V. Part (b) x_pow/y_pow_char_mem_center sorry-free; center_charP still sorried. Part (a) finrank_eq_zero_of_charZero and isSimpleRing_charZero still sorried."
+    "coverage_note": "Complete and sorry-free in EtingofRepresentationTheory/Chapter2/Problem2_7_4.lean. Part (a) proves both finrank_eq_zero_of_charZero and isSimpleRing_charZero; part (b) proves centrality of x^p and y^p and identifies the full center in center_charP; part (c) proves finrank_irreducible_charP over an algebraically closed field of characteristic p.",
+    "coverage": "covered_full",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter2/Problem2_7_4.lean"
+    ],
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Problem2.7.5",
@@ -1180,7 +1185,15 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "coverage_note": "Complete and sorry-free in EtingofRepresentationTheory/Chapter2/Exercise2_9_11.lean: repEquiv is the universal-enveloping-algebra equivalence between Lie representations L -> End(V) and algebra representations U(L) -> End(V).",
+    "coverage": "covered_full",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter2/Exercise2_9_11.lean"
+    ],
+    "fidelity_decl": [
+      "Etingof.Exercise2_9_11.repEquiv"
+    ],
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Example2.9.12",
@@ -1670,9 +1683,11 @@
     "start_line": 13,
     "end_line": 13,
     "status": "sorry_free",
-    "sorry_free": false,
-    "notes": "Remark3_1_3.lean: constructs evalTensor (genuine data), the irreducible base case evalTensorEquivOfIsSimple, and the full assembly evalDirectSum : ⨁_i Hom_A(X i,V)⊗X i → V plus evalDirectSumEquiv (≃ₗ via ofBijective). Surjectivity (evalDirectSum_surjective) and Schur vanishing are proven sorry-free; one sorry remains in evalDirectSum_injective (per-X evalTensor injectivity + isotypic independence; strategy documented in the file). Follow-up issue tracks the injectivity.",
-    "fidelity": "verified"
+    "sorry_free": true,
+    "notes": "Complete and sorry-free in Remark3_1_3.lean. The file constructs evalTensor and the full direct-sum evaluation map, proves evalDirectSum_surjective and evalDirectSum_injective using isotypic components, and packages the canonical decomposition as evalDirectSumEquiv.",
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Discussion_before_Proposition3.1.4",
@@ -3525,18 +3540,21 @@
     "start_line": 5,
     "end_line": 8,
     "status": "proved",
-    "coverage_note": "COMPLETE and sorry-free in EtingofRepresentationTheory/Chapter4/Problem4_12_6.lean (#print axioms irreducible_dim = {propext, Classical.choice, Quot.sound}). Affine ax+b group over a finite field K (order q(q-1)). The book's hint (#6219): card_eq, zeroSum_invariant, zeroSum_finrank (dim q-1), zeroSum_irreducible (V irreducible via averaging over Kˣ and spike spanning). one_dim_reps_card (#6303): q-1 characters (needs 3≤q; pull back from G^ab≅Kˣ). irreducible_dim (#6306): every irreducible has dim 1 or q-1. Proof mirrors Problem4_12_2 (Heisenberg): exhibit the q explicit simples — the q-1 characters (charRep, dim 1, simple via the ℂ[G]-module bridge simple_fdRepOf_of_isSimpleModule) and V (the zero-sum subrep of the permutation rep, dim q-1, simple via zeroSum_irreducible repackaged as IsSimpleModule through the Subrepresentation↔Submodule order iso) — pairwise non-isomorphic (characters by FDRep.char_iso, V by dimension since q-1>1), squared dims summing to (q-1)+(q-1)²=q(q-1)=|G|; inject into the complete enumeration exists_simples_sum_finrank_sq_eq_card and force surjectivity by pigeonhole (every dim²>0), so every simple ≅ one of them. σ transported to ℂ's universe via exists_simpleFDRep (transportModule/repOfModule). The q=2 edge (G abelian) handled directly via Example4_3_FiniteAbelianGroups. CHARACTERS & TENSOR PRODUCTS (#7294): Vrep_character computes the character of the (q-1)-dim irreducible V as the permutation character minus one, chi_V(g) = affineFixCard g - 1 (fixed points of the affine map x->ax+b minus 1), via the internal direct sum K->C = zeroSum K (+) constants and LinearMap.trace_eq_sum_trace_restrict; trace_permRep = affineFixCard via Equiv.Perm.permMatrix/Matrix.trace_permutation. Explicit values affineFixCard_one=q, affineFixCard_translation=0 (<1,b>, b!=0), affineFixCard_of_ne_one=1 (a!=1) give Vrep_character_one=q-1, _translation=-1, _of_ne_one=0. Tensor products at character level via Representation.char_tensor: charRep_tprod_charRep_character (chi (x) chi' = charRep(chi.chi')), charRep_tprod_Vrep_character (chi (x) V has character chi.chi_V), Vrep_tprod_Vrep_character (V (x) V has character chi_V^2). NOTE (follow-up): the explicit-constituent decompositions as iso (chi (x) V = V; V (x) V = (+)(all q-1 chars) (+) (q-2).V) are NOT yet formalized -- they need column orthogonality sum_{chi:Kx->*Cx} chi(a) = (if a=1 then q-1 else 0), which is missing Mathlib infra.",
+    "coverage_note": "Complete and sorry-free in EtingofRepresentationTheory/Chapter4/Problem4_12_6.lean. The file classifies the irreducibles of the affine group, computes the characters of the one-dimensional representations and V, and gives the explicit tensor-product representation isomorphisms charRep_tprod_Vrep_equiv_Vrep and Vrep_tprod_Vrep_equiv_rhsRep in addition to the character identities.",
     "fidelity": "verified",
     "fidelity_decl": [
       "Etingof.Problem4_12_6.one_dim_reps_card",
       "Etingof.Problem4_12_6.zeroSum_irreducible",
-      "Etingof.Problem4_12_6.irreducible_dim"
+      "Etingof.Problem4_12_6.irreducible_dim",
+      "Etingof.Problem4_12_6.Vrep_character",
+      "Etingof.Problem4_12_6.charRep_tprod_Vrep_equiv_Vrep",
+      "Etingof.Problem4_12_6.Vrep_tprod_Vrep_equiv_rhsRep"
     ],
     "lean_file": [
       "EtingofRepresentationTheory/Chapter4/Problem4_12_6.lean"
     ],
-    "coverage": "covered_partial",
-    "fidelity_note": "Book asks THREE things: (1) find all irreducible complex reps of the affine group G={x↦ax+b} over 𝔽_q, (2) compute their characters, (3) compute tensor products of irreducibles. CLASSIFICATION (1) is fully faithful and non-vacuous: Affine K =⟨a:Kˣ,b:K⟩ with mul ⟨a,b⟩*⟨a',b'⟩=⟨a·a',a·b'+b⟩ is exactly the composition of x↦ax+b (act_mul), |G|=q(q-1) (card_eq). one_dim_reps_card: Nat.card(G→*ℂˣ)=q-1 for 3≤q (chars factor through G^ab≅Kˣ, Pontryagin duality). zeroSum={f:K→ℂ|∑f=0} is the book's V, dim q-1 (zeroSum_finrank), G-invariant (zeroSum_invariant), irreducible (zeroSum_irreducible / Vrep_isSimpleModule as IsSimpleModule over MonoidAlgebra ℂ G). irreducible_dim: every irreducible has dim∈{1,q-1}; the PROOF is a complete classification — exhibits the q explicit simples (q-1 chars charRep dim1 + V dim q-1), pairwise non-iso, ∑dim²=(q-1)+(q-1)²=q(q-1)=|G|, injected into exists_simples_sum_finrank_sq_eq_card and forced surjective by pigeonhole (surj_of_injective_of_sum_eq), q=2 edge via Example4_3_FiniteAbelianGroups. Non-vacuous: permRep/permRep_apply(rfl), Vsub, charRep, exists_simpleFDRep construct real objects; 3≤q is a real constraint (q=2 gives G≅ℤ/2, 2≠q-1 chars). PARTIAL because at audit time (against origin/main c8e8520a, issue #7293) (2) CHARACTERS was only done for the 1-dim reps (charRep_character) and (3) TENSOR PRODUCTS were absent; follow-up feature issue #7294 has since added the V-character (Vrep_character) and character-level tensor products, leaving only the explicit-constituent tensor decompositions as iso outstanding (see coverage_note). #print axioms on one_dim_reps_card, zeroSum_irreducible, irreducible_dim (and supporting zeroSum_finrank, Vrep_isSimpleModule, exists_simpleFDRep, charRep_simple, card_eq) all clean [propext, Classical.choice, Quot.sound], no sorryAx.",
+    "coverage": "covered_full",
+    "fidelity_note": "All three requests in the book are now represented by proved declarations: the irreducible classification, character formulas, and explicit tensor-product decompositions. The formerly outstanding representation-level isomorphisms landed after the earlier partial-coverage audit.",
     "last_updated": "2026-07-22"
   },
   {
@@ -5033,9 +5051,9 @@
     "end_line": 9,
     "status": "sorry_free",
     "fidelity": "verified",
-    "needs_statement": true,
+    "needs_statement": false,
     "aristotle_project_id": "d6d0df76-8214-4097-ac8f-c191f819a556",
-    "notes": "fixedCosets_eq_card_colorings sorry remaining. Submitted to Aristotle. Main theorem proved modulo this helper.",
+    "notes": "Complete and sorry-free: fixedCosets_eq_card_colorings and the headline Theorem5_14_3 are both proved in EtingofRepresentationTheory/Chapter5/Theorem5_14_3.lean.",
     "sorry_free": true,
     "fidelity_note": "Codex cross-vendor tiebreak: faithful"
   },
@@ -5279,7 +5297,7 @@
     "start_line": 3,
     "end_line": 8,
     "status": "sorry_free",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous).",
+    "coverage_note": "Complete and sorry-free in EtingofRepresentationTheory/Chapter5/Problem5_16_3.lean. Part (a) proves diagonalizability with integral eigenvalues in the stated range; part (b) proves the scalar-action iff rectangular criterion and computes the scalar c-r.",
     "fidelity": "verified",
     "fidelity_note": "[fidelity gap #7228→#7231 RESOLVED] Checks 1,2,4 FAITHFUL & non-vacuous: (1) sumTranspositionsWith1 = ∑_{0<j}(0 j) is genuinely E=(12)+...+(1n) (n-1 transpositions through the fixed point), confirmed by sumTranspositionsWith1_eq_sub (=C_n-C_{n-1}); (2) part (a) headline is a genuine eigenbasis + integer eigenvalues with inclusive bounds 1-n<=m<=n-1 over arbitrary fin-dim rho; (4) IsRectangular (parts=replicate r c) faithfully captures 'all rows equal' with edge cases fine, SpechtModule is the genuine V_lambda. Check 3 (part (b) 'compute this scalar') NOW EXPOSED: sumTranspositionsWith1_scalar_on_rectangular states E acts on V_λ by the scalar (c-r) for rectangular λ=replicate r c, matching the book's 'compute this scalar' (= content of the corner (r-1,c-1)). Endpoints: trivial (n) → n-1, sign (1ⁿ) → 1-n. Axiom-clean [propext, Classical.choice, Quot.sound]. #7231. Report: progress/reviews/2026-07-21-ch5-problem5_16_3-fidelity.md.",
     "coverage": "covered_full",
@@ -6510,7 +6528,7 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "Triage 2026-03-18: 959-line file with only 1 sorry remaining (decomp_dim_ge_three, line 559). Active claimed issue #981. Very close to completion.",
+    "notes": "Complete and sorry-free in EtingofRepresentationTheory/Chapter6/Example6_3_1.lean: decomp_dim_ge_three is proved, Example_6_3_1 classifies the dimension vector of every indecomposable D4 representation, and D₄_indecomposable_dimVectors_card proves that the list has 12 elements.",
     "sorries": 0,
     "sorry_free": true
   },
@@ -7056,7 +7074,9 @@
     "start_line": 15,
     "end_line": 24,
     "status": "sorry_free",
-    "coverage_note": "Chapter6/Problem6_9_2.lean: parts (a),(b) proved sorry-free (alpha_norm_two, alpha_inner_offdiag, alpha_gram_is_E8 via graph-iso to standard E8 Dynkin diagram, alpha_linearIndependent, alpha_isBasis: both spanning and closure over the E8 lattice). Remaining sorries: root counts 240/126/72 (part d) — separate finite-enumeration follow-up."
+    "coverage_note": "Complete and sorry-free in EtingofRepresentationTheory/Chapter6/Problem6_9_2.lean: parts (a)-(c) construct and identify the E8, E7, and E6 lattices/root systems, and part (d) proves E8_root_count = 240, E7_root_count = 126, and E6_root_count = 72.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Problem6.9.3",
@@ -8077,7 +8097,12 @@
     "start_line": 23,
     "end_line": 26,
     "status": "sorry_free",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "coverage_note": "Partially formalized in EtingofRepresentationTheory/Chapter8/Problem8_2_7.lean. The file proves the cyclic-pair Tor/Ext computations and higher vanishing over Z and k[X], plus the free-generator vanishing results. It does not yet assemble those building blocks, via the structure theorem and additivity, into formulas for arbitrary finitely generated modules M and N as the exercise asks.",
+    "coverage": "covered_partial",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter8/Problem8_2_7.lean"
+    ],
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter8/Problem8.2.8",
