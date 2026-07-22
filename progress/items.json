@@ -2610,7 +2610,17 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
-    "coverage_note": "Proved in EtingofRepresentationTheory/Chapter4/Exercise4_3_1.lean (right-regular rep of QuaternionGroup 2; covariant subspace invariant + finrank 2 + irreducible). All three theorems axiom-clean (propext, Classical.choice, Quot.sound)."
+    "coverage_note": "Proved in EtingofRepresentationTheory/Chapter4/Exercise4_3_1.lean (right-regular rep of QuaternionGroup 2; covariant subspace invariant + finrank 2 + irreducible). All three theorems axiom-clean (propext, Classical.choice, Quot.sound).",
+    "fidelity": "verified",
+    "fidelity_decl": [
+      "theorem Etingof.Exercise4_3_1.covariantSubspace_invariant (g : QuaternionGroup 2) (f : QuaternionGroup 2 → ℂ) (hf : f ∈ covariantSubspace) : rightRegular g f ∈ covariantSubspace",
+      "theorem Etingof.Exercise4_3_1.covariantSubspace_finrank : Module.finrank ℂ covariantSubspace = 2",
+      "theorem Etingof.Exercise4_3_1.covariantSubspace_irreducible (U : Submodule ℂ (QuaternionGroup 2 → ℂ)) (hUle : U ≤ covariantSubspace) (hUinv : ∀ g, ∀ f ∈ U, rightRegular g f ∈ U) : U = ⊥ ∨ U = covariantSubspace"
+    ],
+    "lean_file": "EtingofRepresentationTheory/Chapter4/Exercise4_3_1.lean",
+    "coverage": "covered_full",
+    "fidelity_note": "[fidelity #7274] VERIFIED. rightRegular is the genuine right-translation action (g∘f)(x)=f(x·g). Key check (left/right convention): the file's covariantSubspace uses LEFT covariance f(a1·g)=I·f(g), NOT the book's literal right covariance f(g·i)=√-1·f(g). This is a mathematically forced correction, not a gap: the book's literal right-covariance/right-action pairing is not even invariant (machine-verified sign flip j⁻¹·i·j = -i in QuaternionGroup 2, so f(g·i·h) picks up (√-1)³=-√-1 for h=j). The left-covariant space is the correct realization of Ind_{⟨i⟩}^{Q₈}χ (χ(i)=i); since ⟨i⟩⊴Q₈ index 2 and χ^j(i)=χ(i³)=-i≠χ(i), it is irreducible, hence THE unique 2-dim irrep. Three theorems establish: subrep (covariantSubspace_invariant), finrank=2 (covEquiv to Fin2→ℂ, inverse from constructed liftFun, no def-sorry), irreducible (covariantSubspace_irreducible, genuine — nonzero member forces a 2nd independent member in U). Non-vacuous (space genuinely ≅ ℂ², e.g. liftFun 1 0; U=covariantSubspace disjunct reachable). Axiom-clean [propext, Classical.choice, Quot.sound] on all three, builds 8581/8581. covered_full.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Example4.3_S4",
