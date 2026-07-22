@@ -1,4 +1,7 @@
 import Mathlib
+import EtingofRepresentationTheory.Chapter4.Example4_3_S3
+import EtingofRepresentationTheory.Chapter4.Exercise4_2_3
+import EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration
 
 /-!
 # Problem 4.12.1: representations of the dihedral group (symmetries of a regular `N`-gon)
@@ -582,5 +585,303 @@ theorem one_dim_reps_card_even (heven : Even N) : Nat.card (DihedralGroup N →*
     Nat.card_prod, card_u_even heven, card_sqrtOne]
 
 end OneDim
+
+/-!
+## Part (a): exhaustiveness and the odd/even irreducible counts
+
+We now assemble the full classification. The one-dimensional characters
+`χ : DihedralGroup N →* ℂˣ` (counted by `one_dim_reps_card_odd`/`_even`) together with the
+two-dimensional `Vrep N j` (`2·j ≠ 0`, indexed up to `j ~ -j`) form a complete family of
+pairwise non-isomorphic irreducibles whose squared dimensions sum to `|G| = 2N`. By the
+Artin-Wedderburn count (`exists_simples_sum_finrank_sq_eq_card`) and a pigeonhole argument,
+this family is exactly the set of simples up to isomorphism.
+-/
+
+section Classification
+
+open CategoryTheory
+
+variable [NeZero N]
+
+omit [NeZero N] in
+/-- `eigen N j 1 = ζ^{j.val}`: the rotation eigenvalue of `V_j` on the first basis vector. -/
+theorem eigen_one (j : ZMod N) : eigen N j 1 = zeta N ^ j.val := by
+  rw [eigen, mul_one]
+
+/-- Canonical index for the pairwise-non-isomorphic `2`-dimensional irreducibles: the
+representative `j` of each pair `{j, -j}` with `2·j ≠ 0`, normalized by `0 < j.val` and
+`2·j.val < N`. -/
+abbrev TwoDimIdx (N : ℕ) [NeZero N] : Type := {j : ZMod N // 0 < j.val ∧ 2 * j.val < N}
+
+/-- A canonical index really has `2·j ≠ 0`, so `Vrep N j` is irreducible. -/
+theorem TwoDimIdx.two_mul_ne (j : TwoDimIdx N) : (2 : ZMod N) * j.1 ≠ 0 := by
+  obtain ⟨hpos, hlt⟩ := j.2
+  intro hz
+  rw [two_mul] at hz
+  have hval := congrArg ZMod.val hz
+  rw [ZMod.val_add, ZMod.val_zero, Nat.mod_eq_of_lt (by omega)] at hval
+  omega
+
+/-- The `2`-dim index type has exactly `(N-1)/2` elements. For even `N` this equals
+`(N-2)/2`; for odd `N` it is `(N-1)/2`. -/
+theorem card_TwoDimIdx : Fintype.card (TwoDimIdx N) = (N - 1) / 2 := by
+  have hN : 0 < N := Nat.pos_of_ne_zero (NeZero.ne N)
+  let e : TwoDimIdx N ≃ Fin ((N - 1) / 2) :=
+    { toFun := fun j => ⟨j.1.val - 1, by
+        obtain ⟨hpos, hlt⟩ := j.2
+        have : j.1.val ≤ (N - 1) / 2 := by omega
+        omega⟩
+      invFun := fun i => ⟨((i.1 + 1 : ℕ) : ZMod N), by
+        have hi : i.1 + 1 < N := by have := i.2; omega
+        rw [ZMod.val_natCast, Nat.mod_eq_of_lt hi]
+        have := i.2; omega⟩
+      left_inv := fun j => by
+        obtain ⟨hpos, hlt⟩ := j.2
+        apply Subtype.ext
+        change ((j.1.val - 1 + 1 : ℕ) : ZMod N) = j.1
+        rw [Nat.sub_add_cancel (by omega), ZMod.natCast_zmod_val]
+      right_inv := fun i => by
+        apply Fin.ext
+        change ((i.1 + 1 : ℕ) : ZMod N).val - 1 = i.1
+        have hi : i.1 + 1 < N := by have := i.2; omega
+        rw [ZMod.val_natCast, Nat.mod_eq_of_lt hi]
+        omega }
+  rw [Fintype.card_congr e, Fintype.card_fin]
+
+/-- Pigeonhole: an injection `c : ι → Fin n` whose image carries the full positive-weight sum
+`∑ f j` is surjective. -/
+theorem surj_of_injective_of_sum_eq {n : ℕ} {ι : Type*} [Fintype ι]
+    (f : Fin n → ℕ) (hf : ∀ j, 0 < f j) (c : ι → Fin n) (hcinj : Function.Injective c)
+    (hsum : ∑ i, f (c i) = ∑ j, f j) : Function.Surjective c := by
+  classical
+  have himg : ∑ j ∈ Finset.image c Finset.univ, f j = ∑ i, f (c i) :=
+    Finset.sum_image (fun a _ b _ hab => hcinj hab)
+  have hsplit := Finset.sum_sdiff (f := f) (Finset.subset_univ (Finset.image c Finset.univ))
+  rw [himg, hsum] at hsplit
+  have hzero : ∑ j ∈ Finset.univ \ Finset.image c Finset.univ, f j = 0 := by omega
+  intro j
+  have hjmem : j ∈ Finset.image c Finset.univ := by
+    by_contra hj
+    exact absurd ((Finset.sum_eq_zero_iff.mp hzero) j
+      (Finset.mem_sdiff.mpr ⟨Finset.mem_univ j, hj⟩)) (hf j).ne'
+  obtain ⟨i, _, hi⟩ := Finset.mem_image.mp hjmem
+  exact ⟨i, hi⟩
+
+/-- `V_j` viewed as an `FDRep`, restricted to a canonical index, is simple. -/
+theorem Vrep_fdRep_simple (j : ZMod N) (hj : (2 : ZMod N) * j ≠ 0) :
+    Simple (FDRep.of (Vrep N j)) := by
+  haveI : IsSimpleModule (MonoidAlgebra ℂ (DihedralGroup N)) (Vrep N j).asModule :=
+    Vrep_irreducible j hj
+  exact Etingof.simple_fdRepOf_of_isSimpleModule (Vrep N j)
+
+/-- `FDRep.of (Vrep N j)` is `2`-dimensional. -/
+theorem Vrep_finrank (j : ZMod N) : Module.finrank ℂ (FDRep.of (Vrep N j)) = 2 := by
+  change Module.finrank ℂ (Fin 2 → ℂ) = 2
+  rw [Module.finrank_fintype_fun_eq_card, Fintype.card_fin]
+
+/-- The character of `FDRep.of (Vrep N j)` on the rotation `r k` is `ζ^{jk} + ζ^{-jk}`. -/
+theorem Vrep_fdRep_character_r (j k : ZMod N) :
+    (FDRep.of (Vrep N j)).character (DihedralGroup.r k) = eigen N j k + (eigen N j k)⁻¹ := by
+  have hc : (FDRep.of (Vrep N j)).character (DihedralGroup.r k)
+      = LinearMap.trace ℂ _ (Vrep N j (DihedralGroup.r k)) := rfl
+  rw [hc, Vrep_trace_r]
+
+/-- Two canonical `2`-dim indices whose rotation characters agree at `r 1` are equal: the value
+`ζ^j + ζ^{-j}` determines `{j, -j}`, and the normalization `2·j.val < N` picks out `j`. -/
+theorem TwoDimIdx.eq_of_char_eq (j j' : TwoDimIdx N)
+    (h : eigen N j.1 1 + (eigen N j.1 1)⁻¹ = eigen N j'.1 1 + (eigen N j'.1 1)⁻¹) :
+    j = j' := by
+  set a := eigen N j.1 1 with ha_def
+  set b := eigen N j'.1 1 with hb_def
+  have ha : a ≠ 0 := eigen_ne_zero N j.1 1
+  have hb : b ≠ 0 := eigen_ne_zero N j'.1 1
+  have hkey : (a - b) * (a * b - 1) = 0 := by
+    field_simp at h
+    linear_combination h
+  rcases mul_eq_zero.mp hkey with hab0 | hab1
+  · -- a = b : same eigenvalue, so equal `val`
+    have hEq : a = b := sub_eq_zero.mp hab0
+    rw [ha_def, hb_def, eigen_one, eigen_one] at hEq
+    have hval : (j.1).val = (j'.1).val :=
+      isPrimitiveRoot_zeta.pow_inj (ZMod.val_lt j.1) (ZMod.val_lt j'.1) hEq
+    exact Subtype.ext (ZMod.val_injective N hval)
+  · -- a·b = 1 : forces `j' = -j`, impossible under the normalization
+    exfalso
+    have hab1' : a * b = 1 := by linear_combination hab1
+    rw [ha_def, hb_def, eigen_one, eigen_one, ← pow_add] at hab1'
+    have hdvd : N ∣ (j.1).val + (j'.1).val :=
+      (isPrimitiveRoot_zeta.pow_eq_one_iff_dvd _).mp hab1'
+    obtain ⟨hpos, hlt⟩ := j.2
+    obtain ⟨hpos', hlt'⟩ := j'.2
+    have hsum_pos : 0 < (j.1).val + (j'.1).val := by omega
+    have hsum_lt : (j.1).val + (j'.1).val < N := by omega
+    exact absurd (Nat.le_of_dvd hsum_pos hdvd) (by omega)
+
+/-- **Part (a), full classification / exhaustiveness.** Every finite-dimensional simple complex
+representation `U` of the dihedral group `DihedralGroup N` is isomorphic either to a
+one-dimensional character `charRep χ` (`χ : DihedralGroup N →* ℂˣ`) or to one of the
+two-dimensional `Vrep N j` with `2·j ≠ 0`.
+
+The proof exhibits the `Nat.card (DihedralGroup N →* ℂˣ)` characters (`2` for odd `N`, `4` for
+even `N`) and the `(N-1)/2` representatives `Vrep N j` as a pairwise non-isomorphic family of
+simples whose squared dimensions sum to `|G| = 2N`. Since the Artin-Wedderburn family of all
+simples also has squared dimensions summing to `2N` and every term is positive, a pigeonhole
+argument shows the exhibited family is complete. -/
+theorem simple_iso_char_or_Vrep
+    (U : FDRep ℂ (DihedralGroup N)) [hUsimple : Simple U] :
+    (∃ χ : DihedralGroup N →* ℂˣ,
+        Nonempty (U ≅ FDRep.of (Etingof.Example4_3_S3.charRep χ))) ∨
+    (∃ j : ZMod N, (2 : ZMod N) * j ≠ 0 ∧
+        Nonempty (U ≅ FDRep.of (Vrep N j))) := by
+  classical
+  -- `|G| = 2N` is invertible in `ℂ`, so the Wedderburn enumeration applies.
+  haveI hNe : NeZero (Nat.card (DihedralGroup N) : ℂ) := by
+    refine ⟨?_⟩
+    rw [Nat.card_eq_fintype_card, DihedralGroup.card]
+    have hN : (N : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (NeZero.ne N)
+    push_cast
+    simpa using mul_ne_zero two_ne_zero hN
+  -- The complete family of simples with `∑ dim² = |G| = 2N`.
+  obtain ⟨n, V, hVsimple, _hVinj, hVsurj, hVsum⟩ :=
+    exists_simples_sum_finrank_sq_eq_card ℂ (DihedralGroup N)
+  -- Finiteness (and a `Fintype`) of the character group.
+  haveI : Finite (DihedralGroup N →* ℂˣ) := by
+    rcases Nat.even_or_odd N with h | h
+    · exact Nat.finite_of_card_ne_zero (by rw [one_dim_reps_card_even h]; norm_num)
+    · exact Nat.finite_of_card_ne_zero (by rw [one_dim_reps_card_odd h]; norm_num)
+  haveI : Fintype (DihedralGroup N →* ℂˣ) := Fintype.ofFinite _
+  -- The exhibited family: the characters, and the `2`-dim reps at canonical indices.
+  let E : (DihedralGroup N →* ℂˣ) ⊕ TwoDimIdx N → FDRep ℂ (DihedralGroup N) :=
+    Sum.elim (fun χ => FDRep.of (Etingof.Example4_3_S3.charRep χ))
+      (fun j => FDRep.of (Vrep N j.1))
+  have hEfinL : ∀ χ : DihedralGroup N →* ℂˣ, Module.finrank ℂ (E (Sum.inl χ)) = 1 :=
+    fun _ => Module.finrank_self ℂ
+  have hEfinR : ∀ j : TwoDimIdx N, Module.finrank ℂ (E (Sum.inr j)) = 2 :=
+    fun j => Vrep_finrank j.1
+  have hEsimple : ∀ i, Simple (E i) := by
+    rintro (χ | j)
+    · exact Etingof.Example4_3_S3.charRep_simple χ
+    · exact Vrep_fdRep_simple j.1 (TwoDimIdx.two_mul_ne j)
+  -- The members are pairwise non-isomorphic.
+  have hEinj : ∀ i j, Nonempty (E i ≅ E j) → i = j := by
+    rintro (χ | j) (χ' | j') ⟨α⟩
+    · -- two characters: equal character forces `χ = χ'`
+      have hχ : χ = χ' := by
+        ext g
+        have hg := congrFun (FDRep.char_iso α) g
+        rw [show E (Sum.inl χ) = FDRep.of (Etingof.Example4_3_S3.charRep χ) from rfl,
+            show E (Sum.inl χ') = FDRep.of (Etingof.Example4_3_S3.charRep χ') from rfl,
+            Etingof.Example4_3_S3.charRep_character,
+            Etingof.Example4_3_S3.charRep_character] at hg
+        exact_mod_cast hg
+      rw [hχ]
+    · exfalso
+      have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv α)
+      rw [hEfinL χ, hEfinR j'] at hfr; omega
+    · exfalso
+      have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv α)
+      rw [hEfinR j, hEfinL χ'] at hfr; omega
+    · -- two `2`-dim reps: character at `r 1` separates them
+      have hg := congrFun (FDRep.char_iso α) (DihedralGroup.r 1)
+      rw [show E (Sum.inr j) = FDRep.of (Vrep N j.1) from rfl,
+          show E (Sum.inr j') = FDRep.of (Vrep N j'.1) from rfl,
+          Vrep_fdRep_character_r, Vrep_fdRep_character_r] at hg
+      exact congrArg Sum.inr (TwoDimIdx.eq_of_char_eq j j' hg)
+  -- Inject the family into the enumeration.
+  choose c hc using fun i => hVsurj (E i) (hEsimple i)
+  have hc_inj : Function.Injective c := by
+    intro i j hij
+    obtain ⟨αi⟩ := hc i; obtain ⟨αj⟩ := hc j
+    exact hEinj i j ⟨αi ≪≫ eqToIso (congrArg V hij) ≪≫ αj.symm⟩
+  have hfinrankc : ∀ i, Module.finrank ℂ (E i) = Module.finrank ℂ (V (c i)) := fun i =>
+    LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv (hc i).some)
+  -- Squared dimensions of the family sum to `2N`.
+  have hEsum : ∑ i, (Module.finrank ℂ (E i)) ^ 2 = 2 * N := by
+    rw [Fintype.sum_sum_type]
+    have hL : ∑ χ : DihedralGroup N →* ℂˣ, (Module.finrank ℂ (E (Sum.inl χ))) ^ 2
+        = Fintype.card (DihedralGroup N →* ℂˣ) := by
+      have hone : ∀ χ : DihedralGroup N →* ℂˣ, (Module.finrank ℂ (E (Sum.inl χ))) ^ 2 = 1 := by
+        intro χ; rw [hEfinL χ, one_pow]
+      rw [Finset.sum_congr rfl (fun χ _ => hone χ), Finset.sum_const, Finset.card_univ,
+        smul_eq_mul, mul_one]
+    have hR : ∑ j : TwoDimIdx N, (Module.finrank ℂ (E (Sum.inr j))) ^ 2
+        = 4 * Fintype.card (TwoDimIdx N) := by
+      have hfour : ∀ j : TwoDimIdx N, (Module.finrank ℂ (E (Sum.inr j))) ^ 2 = 4 := by
+        intro j; rw [hEfinR j]; norm_num
+      rw [Finset.sum_congr rfl (fun j _ => hfour j), Finset.sum_const, Finset.card_univ,
+        smul_eq_mul, mul_comm]
+    rw [hL, hR]
+    -- `#chars + 4·#idx = 2N`, by parity.
+    rcases Nat.even_or_odd N with h | h
+    · rw [← Nat.card_eq_fintype_card, one_dim_reps_card_even h, card_TwoDimIdx]
+      obtain ⟨m, rfl⟩ := h
+      have hm : m ≠ 0 := by have := (NeZero.ne (m + m)); omega
+      omega
+    · rw [← Nat.card_eq_fintype_card, one_dim_reps_card_odd h, card_TwoDimIdx]
+      obtain ⟨m, rfl⟩ := h
+      omega
+  -- The full sum of squared dimensions is also `2N`.
+  have hVsum2 : ∑ j, (Module.finrank ℂ (V j)) ^ 2 = 2 * N := by
+    rw [hVsum, DihedralGroup.card]
+  have hmatch : ∑ i, (Module.finrank ℂ (V (c i))) ^ 2 = ∑ j, (Module.finrank ℂ (V j)) ^ 2 := by
+    rw [hVsum2, ← hEsum]
+    exact Finset.sum_congr rfl (fun i _ => by rw [hfinrankc i])
+  -- Every simple has positive dimension, so the injection `c` is surjective.
+  have hVpos : ∀ j, 0 < (Module.finrank ℂ (V j)) ^ 2 := by
+    intro j
+    haveI : Simple (V j) := hVsimple j
+    haveI : IsSimpleModule (MonoidAlgebra ℂ (DihedralGroup N)) (Representation.asModule (V j).ρ) :=
+      Etingof.isSimpleModule_asModule_of_simple (V j)
+    haveI : Nontrivial (Representation.asModule (V j).ρ) :=
+      IsSimpleModule.nontrivial (MonoidAlgebra ℂ (DihedralGroup N)) _
+    haveI : Nontrivial ↥(V j) := (Representation.asModuleEquiv (V j).ρ).symm.toEquiv.nontrivial
+    exact pow_pos Module.finrank_pos 2
+  have hcsurj : Function.Surjective c :=
+    surj_of_injective_of_sum_eq _ hVpos c hc_inj hmatch
+  -- Read off the branch of the index matching `U`.
+  obtain ⟨j0, hj0U⟩ := hVsurj U hUsimple
+  obtain ⟨i, hci⟩ := hcsurj j0
+  have hUEi : Nonempty (U ≅ E i) :=
+    ⟨hj0U.some ≪≫ eqToIso (congrArg V hci).symm ≪≫ (hc i).some.symm⟩
+  rcases i with χ | j
+  · exact Or.inl ⟨χ, hUEi⟩
+  · exact Or.inr ⟨j.1, TwoDimIdx.two_mul_ne j, hUEi⟩
+
+/-- **Part (a), number of `2`-dimensional irreducibles (odd `N`).** There are exactly `(N-1)/2`
+isomorphism classes of `2`-dimensional simple complex representations of `DihedralGroup N`,
+indexed by `TwoDimIdx N`. -/
+theorem two_dim_simples_card_odd (_hodd : Odd N) :
+    Fintype.card (TwoDimIdx N) = (N - 1) / 2 := card_TwoDimIdx
+
+/-- **Part (a), number of `2`-dimensional irreducibles (even `N`).** There are exactly `(N-2)/2`
+isomorphism classes of `2`-dimensional simple complex representations of `DihedralGroup N`. -/
+theorem two_dim_simples_card_even (heven : Even N) :
+    Fintype.card (TwoDimIdx N) = (N - 2) / 2 := by
+  rw [card_TwoDimIdx]; obtain ⟨m, rfl⟩ := heven; omega
+
+/-- **Part (a), sum-of-squares identity.** The one-dimensional and two-dimensional irreducibles
+account for the full regular representation: `#{1-dim}·1² + #{2-dim}·2² = 2N = |G|`. -/
+theorem irreps_sum_sq :
+    Nat.card (DihedralGroup N →* ℂˣ) * 1 + Fintype.card (TwoDimIdx N) * 4 = 2 * N := by
+  rw [card_TwoDimIdx]
+  rcases Nat.even_or_odd N with h | h
+  · rw [one_dim_reps_card_even h]; obtain ⟨m, rfl⟩ := h
+    have hm : m ≠ 0 := by have := (NeZero.ne (m + m)); omega
+    omega
+  · rw [one_dim_reps_card_odd h]; obtain ⟨m, rfl⟩ := h; omega
+
+/-- **Part (a), total number of irreducibles (odd `N`).** For odd `N` there are `2 + (N-1)/2`
+isomorphism classes of irreducible complex representations of `DihedralGroup N`. -/
+theorem total_irreps_card_odd (hodd : Odd N) :
+    Nat.card (DihedralGroup N →* ℂˣ) + Fintype.card (TwoDimIdx N) = 2 + (N - 1) / 2 := by
+  rw [one_dim_reps_card_odd hodd, card_TwoDimIdx]
+
+/-- **Part (a), total number of irreducibles (even `N`).** For even `N` there are `4 + (N-2)/2`
+isomorphism classes of irreducible complex representations of `DihedralGroup N`. -/
+theorem total_irreps_card_even (heven : Even N) :
+    Nat.card (DihedralGroup N →* ℂˣ) + Fintype.card (TwoDimIdx N) = 4 + (N - 2) / 2 := by
+  rw [one_dim_reps_card_even heven, two_dim_simples_card_even heven]
+
+end Classification
 
 end Etingof.Problem4_12_1
