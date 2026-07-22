@@ -3169,7 +3169,9 @@
     "end_line": 30,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Discussion_after_Theorem4.5.1",
@@ -3240,7 +3242,9 @@
     "end_line": 14,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Remark4.5.5",
@@ -3280,7 +3284,9 @@
     "end_line": 4,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Theorem4.6.2",
@@ -3292,7 +3298,9 @@
     "end_line": 14,
     "status": "proof_complete",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Discussion_after_Theorem4.6.2",
@@ -3496,7 +3504,9 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "notes": "All sorries resolved: blockPoly_irreducible proved via retraction argument",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Discussion_before_Lemma4.10.3",
@@ -3522,7 +3532,9 @@
     "end_line": 22,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Discussion_proof_Theorem4.10.2",
@@ -8373,7 +8385,9 @@
     "end_line": 6,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter8/Definition8.1.2",
@@ -8385,7 +8399,9 @@
     "end_line": 8,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter8/Problem8.1.3",
@@ -8438,7 +8454,9 @@
     "end_line": 16,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter8/Definition8.1.6",
@@ -8450,7 +8468,9 @@
     "end_line": 18,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter8/Example8.1.7",
@@ -8488,7 +8508,9 @@
     "end_line": 26,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter8/Introduction_8.2",
@@ -8514,7 +8536,9 @@
     "end_line": 8,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter8/Exercise8.2.2",
@@ -8539,7 +8563,9 @@
     "end_line": 16,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter8/Definition8.2.4",
@@ -8551,7 +8577,10 @@
     "end_line": 22,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Ext is exposed as Abelian.Ext, and ExtAbelianComparison.lean identifies it with cohomology of Hom_A(P•,N) from a chosen projective resolution, matching the source definition.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter8/Problem8.2.5",
@@ -8798,10 +8827,14 @@
     "start_line": 5,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "wave-2 gap #5631 (degenerate wrapper of arbitrary function) repaired: algebraCartanMatrix is now genuinely constructed as c_ij = finrank k (P i →ₗ[A] P j), the book's dim Hom_A(P_i, P_j); wave-9 re-verified. Residual noted in wave-9: the prose observation 'positive diagonal entries' has no Lean lemma"
+    "coverage": "covered_partial",
+    "fidelity_note": "The earlier degenerate wrapper was repaired in #5631: algebraCartanMatrix is genuinely c_ij = finrank k (P i →ₗ[A] P j). The source also explicitly asserts positive diagonal entries, but no public Lean lemma proves this for the projective-cover family; follow-up #7440.",
+    "fidelity_issue": 7440,
+    "followup_issue": 7440,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter9/Problem9.3.2",
