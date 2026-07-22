@@ -238,5 +238,6 @@ import EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Dihedral
 import EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Heisenberg
 import EtingofRepresentationTheory.Chapter5.Exercise5_27_3
 import EtingofRepresentationTheory.Chapter5.WedderburnCenterFinrank
+import EtingofRepresentationTheory.Chapter5.IrrepCountConjClasses
 
 /-! # Chapter 5: Representations of the Symmetric Group -/
