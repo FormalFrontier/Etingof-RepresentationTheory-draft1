@@ -756,6 +756,12 @@
     "start_line": 1,
     "end_line": 4,
     "status": "sorry_free",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "Mathlib supplies free algebras and two-sided-ideal quotients, but the project has no generic presented-algebra construction, relator theorem, or universal property for this source discussion; follow-up #7475.",
+    "fidelity_issue": 7475,
+    "last_updated": "2026-07-22",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
