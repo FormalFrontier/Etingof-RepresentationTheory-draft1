@@ -2660,21 +2660,20 @@
     "status": "sorry_free",
     "sorry_free": true,
     "fidelity": "verified",
-    "lean_file": [
-      "EtingofRepresentationTheory/Chapter3/Problem3_9_3.lean"
-    ],
     "coverage": "covered_partial",
     "coverage_arm": "audited",
     "lean_decl": [
       "Etingof.Problem3_9_3.simpleRep_isIrreducible",
       "Etingof.Problem3_9_3.irreducible_isSimpleRep",
       "Etingof.Problem3_9_3.ext1_simpleRep_vanishes_iff",
+      "Etingof.Problem3_9_3.finrank_ext1_simpleRep",
       "Etingof.Problem3_9_3.two_dim_classification"
     ],
     "last_updated": "2026-07-22",
-    "coverage_note": "The simple modules and Ext-vanishing criterion are proved. The exact Ext^1 dimension formula remains #7376, and the two-dimensional theorem gives only necessary conditions rather than isomorphisms to classified normal forms; follow-up #7420.",
+    "coverage_note": "The irreducible classification and exact Ext^1 dimension formula are now proved (#7376). The two-dimensional theorem still gives only necessary conditions rather than isomorphisms to the classified normal forms required by the problem; follow-up #7420.",
     "fidelity_issue": 7420,
-    "followup_issue": 7376
+    "followup_issue": 7420,
+    "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_3.lean"
   },
   {
     "id": "Chapter3/Problem3.9.4",
@@ -2837,10 +2836,11 @@
     "end_line": 16,
     "status": "sorry_free",
     "fidelity": "verified",
-    "notes": "All sorries resolved. Uniqueness of V, W (Theorem 3.10.2(ii)'s '**unique** V and W') added as companion theorem Etingof.tensor_product_irreducible_classification_unique (#5614).",
+    "notes": "All sorries resolved. Uniqueness of V, W (Theorem 3.10.2(ii)'s '**unique** V and W') added as companion theorem Etingof.tensor_product_irreducible_classification_unique (#5614). Algebra-finiteness assumptions [FiniteDimensional k A]/[FiniteDimensional k B] removed as unfaithful (#7391): the book assumes only the representations V/W/M are finite-dimensional.",
     "sorry_free": true,
-    "fidelity_note": "The irreducibility, existence, and uniqueness conclusions are genuine, but the public part-(i)/(ii) declarations add finite-dimensionality assumptions on the algebras A and B that the source does not impose. Removing those restrictions is tracked by #7391; #5614 resolved the separate uniqueness gap.",
+    "fidelity_note": "[resolved #7391] The public parts (i) tensor_product_irreducible and (ii) tensor_product_irreducible_classification no longer assume [FiniteDimensional k A]/[FiniteDimensional k B]; the density theorem (Etingof.density_theorem_part1) and isArtinian_of_tower need only FiniteDimensional k V/W/M, matching the book. A regression test instantiates both with the infinite-dimensional A=B=k[X] acting on the finite-dimensional simple module k (X↦0). [resolved #5614] Existence is tensor_product_irreducible_classification; uniqueness up to isomorphism is the companion tensor_product_irreducible_classification_unique (V ≅ V' as A-modules, W ≅ W' as B-modules for any two A-B-equivariant factorizations), via Schur's lemma.",
     "fidelity_issue": 7391,
+    "coverage": "covered_full",
     "last_updated": "2026-07-22"
   },
   {
@@ -4405,10 +4405,17 @@
     "end_page": "100",
     "start_line": 3,
     "end_line": 4,
-    "status": "proved",
+    "status": "sorry_free",
+    "coverage_note": "Coverage-arm audit (Stage 3.7, #7346): covered_full. Chapter5/Exercise5_3_3.lean (sorry-free on origin/main) proves isComplexType_of_odd_order_of_nontrivial_irreducible: for Odd (Fintype.card G), an irreducible (IsSimpleModule) rho with nontrivial action (exists g, rho g != 1) is of complex type (genuine IsComplexType, i.e. V not-iso V*). Strengthens Exercise 5.1.7 from 'exists a non-real irrep' to 'every nontrivial irreducible is fully complex type'. Real-type exclusion via the odd-order Frobenius-Schur sum; quaternionic exclusion via even-dimension of quaternionic type + dim | |G| (book hint).",
+    "fidelity": "verified",
+    "fidelity_note": "[coverage-arm fidelity, Stage3.7 #7346] Judge Opus 4.8. isComplexType_of_odd_order_of_nontrivial_irreducible (Exercise5_3_3.lean:276) under [Group G][Fintype G], (hodd : Odd (Fintype.card G)), (rho : Representation C G V), (hirr : IsSimpleModule (MonoidAlgebra C G) rho.asModule), (hnontriv : exists g, rho g != 1) concludes Etingof.IsComplexType rho. IsComplexType is the genuine Def 5.1.1 notion (not equivariantly self-dual, V not-iso V*), strictly stronger than Exercise 5.1.7's 'has a non-real irrep'. Both hyps USED and non-vacuous: hodd feeds both arms (sqEquivOfOdd bijection in the real arm, finrank | odd |G| parity in the quaternionic arm; Z/2 sign rep is a real-type counterexample if dropped); hnontriv drives invariants_eq_bot (vanishing sum char(g^2)=0) and is NOT over-constraining (the trivial rep is real type, so the theorem is false without it). Quaternionic arm rests on the book hint even_finrank_of_isQuaternionicType + Theorem5_3_1 (dim | |G|); real arm on the FS sum sum_char_sq_eq_card_of_isRealType (=|G|) vs sum_char_sq_eq_zero (=0), non-tautological. Axiom-clean [propext, Classical.choice, Quot.sound], no sorryAx (olean-import method). See progress/reviews/2026-07-22T20-30-00Z-ch5-exercise5_3_3-odd-order-complex-type-coverage-fidelity.md",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22",
-    "coverage_note": "Complete: Chapter5/Exercise5_3_3.lean proves the main theorem isComplexType_of_odd_order_of_nontrivial_irreducible sorry-free (axioms: propext, Classical.choice, Quot.sound only). All three sub-lemmas are proved (Schur dichotomy self-dual=>real or quaternionic; odd order=>not real for nontrivial irreducible; odd order=>not quaternionic). The Frobenius-Schur crux sum_char_sq_eq_card_of_isRealType (#6242) is discharged by clearing the |G|^-1 factor in the reverse indicator bridge frobeniusSchurIndicator_eq_one_of_isRealType."
+    "coverage_arm": "audited",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter5/Exercise5_3_3.lean"
+    ],
+    "lean_decl": "Etingof.isComplexType_of_odd_order_of_nontrivial_irreducible",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Introduction_5.4",
@@ -6062,6 +6069,7 @@
     "status": "sorry_free",
     "attention_note": "Statement and proof structure complete, but the proof delegates to the Schur-Weyl character-classification chain, which still has sorries.",
     "notes": "Triage 2026-06-22: Theorem5_22_1 (SchurModule) is now sorry_free, so the 2026-03-18 blocker is resolved. Proposition5_22_2 itself compiles, but its proof routes through iso_of_formalCharacter_eq_schurPoly (SchurWeylFormalCharacterIso.lean), whose cone carries the Cluster A sorries: schurWeyl_simples_formalCharacter_classification_core and glTensorRep_schurWeyl_simples_pairwise_distinct (SchurWeylSimplesClassification.lean), detInv_elim_of_polynomial (PolynomialRepEmbedding.lean), and kernelLemmaK' (KernelLemmaKPrime.lean). Tracked transitively-honest as statement_formalized until those land.",
+    "fidelity_note": "Completeness fix #7380 (2026-07-22): the public Proposition5_22_2 now concludes with the honest top exterior power `SchurModule k N lam ⊗ topExteriorPowerRep k N`, where topExteriorPowerRep = FDRep.of topExtPowerRep is the standard GL_N action on ⋀[k]^N (Fin N → k). Previously the theorem substituted the one-dimensional determinant-character model detRep for the ∧^N V of the text and merely asserted (in a docstring, with no declaration) that the two agree. That identification is now proved: topExtPowerRep_eq_det_smul (∧^N g = det g • id) and the equivariant iso topExteriorPowerRep_iso_detRep (∧^N V ≅ detRep), via the determinant top form topFormEquiv. The determinant-character version is retained as the implementation lemma Proposition5_22_2_detRep.",
     "fidelity": "verified"
   },
   {

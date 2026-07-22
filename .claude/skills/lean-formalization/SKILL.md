@@ -5804,3 +5804,52 @@ matrices `2 • 1 - adj`) hits two recurring `omega` limitations that surface as
    equation compiler accepts the two-step recursion). Keep the smaller-index submatrix identities
    (`(C (m+1)).submatrix Fin.succ Fin.succ = C m`) as separate `ext … <;> split_ifs <;> omega`
    lemmas.
+
+## Taking `Ext¹`/cokernel of a `QuiverRepresentation` differential and computing `finrank` (#7376)
+
+`Etingof.QuiverRepresentation` bundles only `AddCommMonoid`/`Module` on each `obj v`
+(both `[instance]`). Forming a cokernel `codomain ⧸ LinearMap.range d` or an Ext module
+needs `AddCommGroup` on the carriers, and this is where the diamonds bite. Pattern that
+works (Problem 3.9.3, `dim Ext¹(S_i,S_j) = #(i ⟶ j)`):
+
+1. **Subtraction in the differential:** define the differential `d(f)_a = W_a ∘ f_i - f_j ∘ V_a`
+   with `letI : ∀ v, AddCommGroup (W.obj v) := fun _ => Etingof.Problem6_9_3.acg` *inside* the
+   def body (as the bare-function `extDiff` already does). `acg = { bundledInst with neg := (-1)•· }`
+   **extends** the bundled `AddCommMonoid`, so `acg.toAddCommMonoid` is defeq to it and the
+   subtraction lands in the bundled-monoid `LinearMap` space. Do **not** take
+   `[∀ v, AddCommGroup (W.obj v)]` as an instance argument on a *general* `V W` def — an abstract
+   group's monoid ≠ the bundled monoid, and `HSub` fails to synthesize (`?m` stuck).
+
+2. **Quotient/`finrank` at the use site:** instance search will **not** unfold `(simpleRep j).obj v`
+   to `Fin _ → k` to find `Pi.addCommGroup` (it stops at the bundled monoid). So the *statement*
+   `finrank k (Ext1Simple i j)` won't elaborate. Register a **low-priority** compatible instance
+   `instance (priority := 100) : AddCommGroup ((simpleRep j).obj v) := by change AddCommGroup (Fin _ → k); infer_instance`.
+   Low priority keeps the bundled `AddCommMonoid` preferred everywhere else; its `toAddCommMonoid`
+   is the same `Pi` monoid, so no downstream proof breaks (verify by building the chapter aggregate).
+   Specialize the Ext object to the concrete reps (`Ext1Simple i j`, an `abbrev` so `finrank` sees
+   the quotient's `Module`), not a general `Ext1 V W` (whose quotient-group ≠ range-submodule-monoid
+   for abstract `W`).
+
+3. **Zero differential between simples:** prove `d = 0` at `LinearMap` level, not element level.
+   `refine LinearMap.ext fun f => funext fun p => ?_` (a plain `ext f p x` drills to `x✝` and
+   leaves an unclosable `(0 - 0) x✝ = (0 f p) x✝`), then a `letI acg` to align the ambient group
+   with the one baked into the differential, `show <the toFun expr> = 0`,
+   `simp only [simpleRep, LinearMap.zero_comp, LinearMap.comp_zero]`, `exact sub_self 0`.
+   `sub_self`/`sub_zero` silently *fail to fire in `simp`* when the ambient `AddCommGroup` differs
+   from the term's — this is why the `letI acg` matters.
+
+4. **`finrank` of the codomain product:** `coker 0 ≅ codomain` via `Submodule.quotEquivOfEqBot _ hbot`
+   (first arg is the submodule, explicit) then `.finrank_eq`. `Module.finrank_pi_fintype k` needs
+   `Free`+`Finite` on each Hom component — supply `∀ r a, Module.Finite/Free k ((simpleRep r).obj a)`
+   as `∀`-quantified `haveI`s (via `change … (Fin _ → k); infer_instance`); `Module.Finite.linearMap`
+   / `Module.Free.linearMap` then derive the Hom instances. `Module.finrank_linearMap` gives
+   `finrank Hom = finrank dom * finrank cod`.
+
+5. **Collapsing the sigma-count `∑ p : (Σ a b, (a⟶b)), [a=i][b=j]`:** `rw [Fintype.sum_sigma]`
+   (outer) works, but the *inner* sigma sum lives under the `∑ a` binder — `rw` can't reach it and
+   `conv … ext a` fails (`ext` does not enter `Finset.sum`). Use `simp only [Fintype.sum_sigma]` for
+   the inner expansion. **`Finset.sum_const` does not fire in `simp only` on `∑ (e : a ⟶ b), C`** — a
+   full `simp [Finset.sum_const, Finset.card_univ, Finset.card_empty, mul_ite, ite_mul, apply_ite Finset.card, Fintype.sum_ite_eq', Finset.sum_ite_irrel, Finset.sum_const_zero]`
+   collapses the whole thing (it routes the constant arrow-sum through
+   `(if … then Finset.univ else ∅).card`, which `apply_ite Finset.card` + `Finset.card_univ`/`card_empty`
+   finish). Trace the intermediate goal with `trace_state` when a staged `simp only` stalls.
