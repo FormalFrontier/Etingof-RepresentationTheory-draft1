@@ -5215,7 +5215,16 @@
     "start_line": 15,
     "end_line": 18,
     "status": "sorry_free",
-    "coverage_note": "Statement pass: Chapter5/Problem5_24_2.lean states R_{k,N} (invariant subalgebra of MvPolynomial on k-tuples of N x N matrices under simultaneous conjugation, via infimum of AlgHom equalizers) equals Algebra.adjoin of the trace-of-word functions T_w = Tr(w(X_1..X_k)). Sorry proof."
+    "coverage_note": "Coverage-arm audit (Stage 3.7, #7334): covered_full. Headline invariantSubalgebra_eq_adjoin_traceWord (Chapter5/Problem5_24_2.lean:216) is a genuine Subalgebra equality Algebra.adjoin C {T_w} = R_{k,N}, proved by le_antisymm (both inclusions), for all k N : Nat (unconstrained). invariantSubalgebra (Core.lean:66) = infimum over ALL g in GL_N(C) (matrix units) of equalizer(conjAlgHom g, id), i.e. genuine simultaneous-conjugation invariance; conjAlgHom g substitutes X_i -> g X_i g^{-1}; traceWord w (Core.lean:72) = Tr(prod of generic matrices over letters of w) = Tr(w(X_1..X_k)). Deep inclusion is the FFT via the book Schur-Weyl route (Theorem5_18_4_centralizers double centralizer + permutation spanning + tensor-trace<->trace-word cycle identity). Sorry-free across Core/assembly/Bridge/Supporting/PermutationTraceWord. #print axioms = [propext, Classical.choice, Quot.sound], no sorryAx.",
+    "coverage": "covered_full",
+    "coverage_arm": "audited",
+    "lean_file": "EtingofRepresentationTheory/Chapter5/Problem5_24_2.lean",
+    "lean_decl": "invariantSubalgebra_eq_adjoin_traceWord",
+    "fidelity_decl": [
+      "invariantSubalgebra",
+      "traceWord",
+      "invariantSubalgebra_eq_adjoin_traceWord"
+    ]
   },
   {
     "id": "Chapter5/Introduction_5.25",
