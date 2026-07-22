@@ -682,4 +682,219 @@ theorem irreducible_dim [Fintype K]
     rw [← hUfr, hUEi]
     exact hEdisj i
 
+/-! ## The character of `V` and tensor products of the irreducibles
+
+The book asks to compute the characters of the irreducibles and the tensor products of
+irreducible representations. The one-dimensional characters are already `charRep_character`
+(`χ_{charRep χ} = χ`). Here we compute the character of the `(q-1)`-dimensional irreducible `V`:
+it is the *permutation character minus one*, i.e. `χ_V(g) = #{x : g·x = x} − 1`. This is the
+standard fact that the permutation representation on functions `K → ℂ` splits as the trivial
+representation (the constants) plus `V` (the zero-sum functions), so its character (the number
+of fixed points of `g`) is `χ_triv + χ_V = 1 + χ_V`. -/
+
+/-- The number of points of `K` fixed by the affine transformation `g`, as a `Finset`
+cardinality. Solving `a·x + b = x`: it is `q` for the identity, `0` for a nontrivial
+translation `⟨1, b⟩` (`b ≠ 0`), and `1` whenever `a ≠ 1`. -/
+def affineFixCard [Fintype K] [DecidableEq K] (g : Affine K) : ℕ :=
+  (Finset.univ.filter (fun x : K => act g x = x)).card
+
+/-- The fixed-point set of `actEquiv g⁻¹` has cardinality `affineFixCard g` (the fixed points of
+`g⁻¹` are exactly the fixed points of `g`). -/
+lemma affineFixCard_eq_ncard [Fintype K] [DecidableEq K] (g : Affine K) :
+    (Function.fixedPoints (actEquiv g⁻¹)).ncard = affineFixCard g := by
+  rw [affineFixCard, ← Set.ncard_coe_finset]
+  congr 1
+  ext x
+  simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_setOf_eq, Finset.coe_filter,
+    Finset.mem_univ, true_and]
+  change act g⁻¹ x = x ↔ act g x = x
+  rw [act_inv_eq_iff]
+  exact eq_comm
+
+/-- The identity fixes every point: `affineFixCard 1 = q`. -/
+@[simp] lemma affineFixCard_one [Fintype K] [DecidableEq K] :
+    affineFixCard (1 : Affine K) = Fintype.card K := by
+  rw [affineFixCard, Finset.filter_true_of_mem (fun x _ => act_one x)]
+  simp
+
+/-- A nontrivial translation `⟨1, b⟩` (`b ≠ 0`) has no fixed point: `affineFixCard ⟨1,b⟩ = 0`. -/
+lemma affineFixCard_translation [Fintype K] [DecidableEq K] {b : K} (hb : b ≠ 0) :
+    affineFixCard (⟨1, b⟩ : Affine K) = 0 := by
+  rw [affineFixCard, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+  intro x _
+  simp only [act, Units.val_one, one_mul]
+  intro h
+  exact hb (add_left_cancel (show x + b = x + 0 by rw [add_zero]; exact h))
+
+/-- When `a ≠ 1`, the transformation `⟨a, b⟩` has a unique fixed point `x₀ = (a−1)⁻¹·(−b)`:
+`affineFixCard g = 1`. -/
+lemma affineFixCard_of_ne_one [Fintype K] [DecidableEq K] {g : Affine K} (hg : g.a ≠ 1) :
+    affineFixCard g = 1 := by
+  have hu : (g.a : K) - 1 ≠ 0 := sub_ne_zero.mpr (fun h => hg (Units.ext h))
+  rw [affineFixCard, Finset.card_eq_one]
+  refine ⟨((g.a : K) - 1)⁻¹ * (-g.b), ?_⟩
+  ext x
+  simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_singleton]
+  constructor
+  · intro h
+    simp only [act] at h
+    have h2 : ((g.a : K) - 1) * x = -g.b := by linear_combination h
+    rw [← h2, ← mul_assoc, inv_mul_cancel₀ hu, one_mul]
+  · rintro rfl
+    simp only [act]
+    field_simp
+    ring
+
+/-- The summation functional `f ↦ ∑ x, f x` on `K → ℂ`; `zeroSum K` is its kernel. -/
+def sumLM (K : Type*) [Fintype K] : (K → ℂ) →ₗ[ℂ] ℂ where
+  toFun f := ∑ x, f x
+  map_add' f g := by simp [Finset.sum_add_distrib]
+  map_smul' c f := by simp [Finset.mul_sum]
+
+omit [Field K] in
+@[simp] lemma sumLM_apply [Fintype K] (f : K → ℂ) : sumLM K f = ∑ x, f x := rfl
+
+omit [Field K] in
+lemma mem_zeroSum_iff [Fintype K] (f : K → ℂ) : f ∈ zeroSum K ↔ sumLM K f = 0 := Iff.rfl
+
+/-- `permRep g` is the linear map of the permutation matrix of `actEquiv g⁻¹`. -/
+lemma permRep_eq_toLin' [Fintype K] [DecidableEq K] (g : Affine K) :
+    (permRep g) = (Equiv.Perm.permMatrix ℂ (actEquiv g⁻¹)).toLin' := by
+  apply LinearMap.ext; intro f; funext x
+  rw [Matrix.toLin'_apply, Matrix.permMatrix_mulVec, permRep_apply]
+  rfl
+
+/-- **Permutation character.** The trace of `permRep g` is the number of fixed points of `g`. -/
+lemma trace_permRep [Fintype K] [DecidableEq K] (g : Affine K) :
+    LinearMap.trace ℂ (K → ℂ) (permRep g) = (affineFixCard g : ℂ) := by
+  rw [permRep_eq_toLin', Matrix.trace_toLin'_eq, Matrix.trace_permutation, affineFixCard_eq_ncard]
+
+/-- **Character of `V`.** The character of the `(q-1)`-dimensional irreducible `V` at `g` is the
+number of fixed points of `g` on `K`, minus one:
+`χ_V(g) = #{x : g·x = x} − 1`. In particular `χ_V(1) = q − 1`, `χ_V(⟨1,b⟩) = −1` for a nontrivial
+translation, and `χ_V(⟨a,b⟩) = 0` when `a ≠ 1`. -/
+theorem Vrep_character [Fintype K] [DecidableEq K] (g : Affine K) :
+    (Vsub (K := K)).toRepresentation.character g = (affineFixCard g : ℂ) - 1 := by
+  classical
+  have hone_ne : (1 : K → ℂ) ≠ 0 := by
+    intro h; have h0 := congrFun h (0 : K); simp at h0
+  have hsum1 : sumLM K (1 : K → ℂ) = (Fintype.card K : ℂ) := by
+    simp [Finset.card_univ]
+  -- The line of constant functions, the trivial subrepresentation of `permRep`.
+  set L : Submodule ℂ (K → ℂ) := Submodule.span ℂ {(1 : K → ℂ)} with hLdef
+  set N : Fin 2 → Submodule ℂ (K → ℂ) := ![(Vsub (K := K)).toSubmodule, L] with hN
+  -- `zeroSum K` and `L` are complementary.
+  have hcompl : IsCompl (zeroSum K) L := by
+    have hone : Module.finrank ℂ L = 1 := finrank_span_singleton hone_ne
+    have hVdim : Module.finrank ℂ (zeroSum K) = Fintype.card K - 1 := zeroSum_finrank
+    have hdim : Module.finrank ℂ (K → ℂ) ≤
+        Module.finrank ℂ (zeroSum K) + Module.finrank ℂ L := by
+      rw [hVdim, hone, Module.finrank_pi ℂ]; omega
+    refine (Submodule.isCompl_iff_disjoint _ _ hdim).mpr ?_
+    rw [Submodule.disjoint_def]
+    rintro x hxV hxL
+    obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hxL
+    have h0 : sumLM K (c • (1 : K → ℂ)) = 0 := (mem_zeroSum_iff _).mp hxV
+    rw [map_smul, hsum1, smul_eq_mul] at h0
+    have hqne : (Fintype.card K : ℂ) ≠ 0 := by exact_mod_cast Fintype.card_pos.ne'
+    rcases mul_eq_zero.mp h0 with h | h
+    · simp [h]
+    · exact absurd h hqne
+  -- The internal direct sum `K → ℂ = zeroSum K ⊕ L`.
+  have huniv : (Set.univ : Set (Fin 2)) = {0, 1} := by
+    ext i; simp only [Set.mem_univ, Set.mem_insert_iff, Set.mem_singleton_iff, true_iff]; omega
+  have hInternal : DirectSum.IsInternal N :=
+    (DirectSum.isInternal_submodule_iff_isCompl N (by decide : (0 : Fin 2) ≠ 1) huniv).mpr hcompl
+  -- `permRep g` preserves each summand.
+  have hf0 : Set.MapsTo (permRep g) (N 0) (N 0) := (Vsub (K := K)).apply_mem_toSubmodule g
+  have hf1 : Set.MapsTo (permRep g) (N 1) (N 1) := by
+    intro x hx
+    change x ∈ L at hx
+    change permRep g x ∈ L
+    obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hx
+    rw [map_smul, rho_const permRep permRep_apply g]
+    exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _)
+  have hf : ∀ i, Set.MapsTo (permRep g) (N i) (N i) := Fin.forall_fin_two.mpr ⟨hf0, hf1⟩
+  have htr := LinearMap.trace_eq_sum_trace_restrict hInternal hf
+  rw [trace_permRep, Fin.sum_univ_two] at htr
+  -- Trace on the zero-sum summand is `χ_V`.
+  have hN0 : LinearMap.trace ℂ ↥(N 0) ((permRep g).restrict (hf 0))
+      = (Vsub (K := K)).toRepresentation.character g := rfl
+  -- Trace on the line of constants is `1` (the trivial character).
+  have hN1 : LinearMap.trace ℂ ↥(N 1) ((permRep g).restrict (hf 1)) = 1 := by
+    have hid : (permRep g).restrict (hf 1) = LinearMap.id := by
+      apply LinearMap.ext
+      intro x
+      apply Subtype.ext
+      have hx : (x : K → ℂ) ∈ L := x.2
+      obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp hx
+      change permRep g (x : K → ℂ) = (x : K → ℂ)
+      rw [← hc, map_smul, rho_const permRep permRep_apply g]
+    have hfin : Module.finrank ℂ ↥(N 1) = 1 := finrank_span_singleton hone_ne
+    rw [hid, LinearMap.trace_id, hfin]
+    norm_num
+  rw [hN0, hN1] at htr
+  rw [eq_sub_iff_add_eq]
+  exact htr.symm
+
+/-- The character of `V` at the identity is `q - 1` (its dimension). -/
+lemma Vrep_character_one [Fintype K] :
+    (Vsub (K := K)).toRepresentation.character (1 : Affine K) = (Fintype.card K : ℂ) - 1 := by
+  classical rw [Vrep_character, affineFixCard_one]
+
+/-- The character of `V` at a nontrivial translation `⟨1, b⟩` (`b ≠ 0`) is `-1`. -/
+lemma Vrep_character_translation [Fintype K] {b : K} (hb : b ≠ 0) :
+    (Vsub (K := K)).toRepresentation.character (⟨1, b⟩ : Affine K) = -1 := by
+  classical rw [Vrep_character, affineFixCard_translation hb]; simp
+
+/-- The character of `V` at `⟨a, b⟩` with `a ≠ 1` is `0`. -/
+lemma Vrep_character_of_ne_one [Fintype K] {g : Affine K} (hg : g.a ≠ 1) :
+    (Vsub (K := K)).toRepresentation.character g = 0 := by
+  classical rw [Vrep_character, affineFixCard_of_ne_one hg]; simp
+
+/-! ### Tensor products of the irreducibles
+
+The character is multiplicative under tensor product (`Representation.char_tensor`), so the
+tensor products of the irreducibles are computed at the level of characters. Writing `χ, χ'` for
+one-dimensional characters and `V` for the `(q-1)`-dimensional irreducible:
+
+* `χ ⊗ χ'` has character `χ·χ'`, i.e. it is the character `charRep (χ * χ')`
+  (`charRep_tprod_charRep_character`);
+* `χ ⊗ V` has character `g ↦ χ(g)·χ_V(g)` (`charRep_tprod_Vrep_character`); being irreducible
+  of dimension `q-1`, it is isomorphic to `V`;
+* `V ⊗ V` has character `χ_V²` (`Vrep_tprod_Vrep_character`); by dimension `(q-1)²` it
+  decomposes as the sum of all `q-1` characters and `q-2` copies of `V`. -/
+
+/-- The character of the one-dimensional representation `charRep χ` is `χ`. -/
+@[simp] lemma charRep_repCharacter (χ : Affine K →* ℂˣ) (g : Affine K) :
+    (charRep χ).character g = (χ g : ℂ) := by
+  have hg : charRep χ g = (χ g : ℂ) • LinearMap.id := rfl
+  change LinearMap.trace ℂ ℂ (charRep χ g) = (χ g : ℂ)
+  rw [hg, map_smul, LinearMap.trace_id]
+  simp
+
+/-- **`χ ⊗ χ' = χ·χ'`.** The tensor product of the two one-dimensional characters `χ` and `χ'`
+has character `g ↦ χ(g)·χ'(g)`, the character of `charRep (χ * χ')`. -/
+theorem charRep_tprod_charRep_character (χ χ' : Affine K →* ℂˣ) (g : Affine K) :
+    (Representation.tprod (charRep χ) (charRep χ')).character g
+      = (charRep (χ * χ')).character g := by
+  rw [Representation.char_tensor, Pi.mul_apply, charRep_repCharacter, charRep_repCharacter,
+    charRep_repCharacter, MonoidHom.mul_apply, Units.val_mul]
+
+/-- **`χ ⊗ V`.** The tensor product of a one-dimensional character `χ` with `V` has character
+`g ↦ χ(g)·χ_V(g)`. Since it is irreducible of dimension `q-1`, it is isomorphic to `V`. -/
+theorem charRep_tprod_Vrep_character [Fintype K] (χ : Affine K →* ℂˣ) (g : Affine K) :
+    (Representation.tprod (charRep χ) (Vsub (K := K)).toRepresentation).character g
+      = (χ g : ℂ) * (Vsub (K := K)).toRepresentation.character g := by
+  rw [Representation.char_tensor, Pi.mul_apply, charRep_repCharacter]
+
+/-- **`V ⊗ V`.** The tensor product `V ⊗ V` has character `χ_V²`. By the dimension count
+`(q-1)² = (q-1)·1 + (q-2)·(q-1)` it decomposes as the direct sum of all `q-1` one-dimensional
+characters together with `q-2` copies of `V`. -/
+theorem Vrep_tprod_Vrep_character [Fintype K] (g : Affine K) :
+    (Representation.tprod (Vsub (K := K)).toRepresentation
+        (Vsub (K := K)).toRepresentation).character g
+      = ((Vsub (K := K)).toRepresentation.character g) ^ 2 := by
+  rw [Representation.char_tensor, Pi.mul_apply, sq]
+
 end Etingof.Problem4_12_6
