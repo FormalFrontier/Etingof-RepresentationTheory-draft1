@@ -704,10 +704,9 @@
     "start_line": 1,
     "end_line": 18,
     "status": "sorry_free",
-    "coverage_swept": {
-      "wave": 1,
-      "result": "covered"
-    }
+    "coverage": "covered_full",
+    "coverage_note": "Public quotient infrastructure supplies the quotient algebra and canonical algebra map, the quotient representation V/W, and the regular quotient A/I exactly as stated.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Problem2.5.1",
@@ -4544,7 +4543,9 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "content exists under a different name; structural, not a fidelity gap"
+    "fidelity_note": "The standard public Mathlib predicate IsSolvable is exactly the source derived-series definition.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Remark5.4.2",
