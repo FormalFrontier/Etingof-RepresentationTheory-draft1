@@ -3197,16 +3197,21 @@
       {
         "part": "(d)",
         "description": "Use (a)–(c) and the sum-of-squares formula to classify all irreducible representations of G (answer: p² one-dimensional plus p−1 of dimension p).",
-        "coverage": "covered_partial",
+        "coverage": "covered_full",
         "lean_decl": [
+          "Etingof.Problem4_12_2.card_irreducibles",
+          "Etingof.Problem4_12_2.nonempty_irrepClasses_equiv",
+          "Etingof.Problem4_12_2.card_nontrivial_pthRoots",
+          "Etingof.Problem4_12_2.sum_sq_dim_eq_card",
           "Etingof.Problem4_12_2.simple_iso_charRep_or_rhoHom",
           "Etingof.Problem4_12_2.irreducible_dim",
           "Etingof.Problem4_12_2.charRep_iso_iff",
           "Etingof.Problem4_12_2.rhoHom_iso_iff",
           "Etingof.Problem4_12_2.charRep_not_iso_rhoHom"
         ],
-        "reason": "PARTIAL. The exhaustion trichotomy IS exposed: simple_iso_charRep_or_rhoHom proves every simple FDRep is iso to a 1-dim charRep χ or a p-dim rhoHom z (z≠1) — genuine 'these are all the irreducibles' via Artin–Wedderburn exists_simples_sum_finrank_sq_eq_card + pigeonhole surjectivity. irreducible_dim gives the dim-1-or-p dichotomy; charRep_iso_iff / rhoHom_iso_iff / charRep_not_iso_rhoHom give pairwise inequivalence. What is missing at headline level is the assembled GRAND TOTAL: the counts p² (characters) and p−1 (the R_z), and the sum-of-squares identity p²·1²+(p−1)·p²=p³=|G|, appear only as internal `have`s (hcardChar, hcardJ, hEsum) inside simple_iso_charRep_or_rhoHom's proof — there is no exposed 'number of irreducibles = p² + (p−1)' count theorem nor a bundled enumeration bijection (iso-classes ≃ (Heisenberg p →* ℂˣ) ⊕ {z≠1}). Mirrors the iso-vs-character-level partials recorded for 4.12.6/4.12.9. Follow-up feature issue #7322 to expose the total-count/exhaustion headline.",
-        "followup_issue": 7322
+        "reason": "FULL and faithful (upgraded by #7322). The grand-total count headline is now exposed: card_irreducibles proves Nat.card (Etingof.IrrepClasses ℂ (Heisenberg p)) = p^2 + (p-1) — the number of isomorphism classes of irreducible complex representations is exactly p² (one-dimensional characters) plus p−1 (the R_z, z≠1). Structurally, nonempty_irrepClasses_equiv gives the enumeration bijection IrrepClasses ℂ (Heisenberg p) ≃ (Heisenberg p →* ℂˣ) ⊕ {z : ℂ // z^p = 1 ∧ z ≠ 1}, assembled from simple_iso_charRep_or_rhoHom (completeness) and charRep_iso_iff / rhoHom_iso_iff / charRep_not_iso_rhoHom (irredundancy). card_nontrivial_pthRoots (= p−1 nontrivial p-th roots of unity, via IsPrimitiveRoot.card_nthRootsFinset) counts the p-dimensional block, and sum_sq_dim_eq_card exposes the sum-of-squares identity p²·1²+(p−1)·p² = p³ = |Heisenberg p|. Exhaustion trichotomy (simple_iso_charRep_or_rhoHom) and the dim-1-or-p dichotomy (irreducible_dim) remain. All new theorems axiom-clean (#print axioms = {propext, Classical.choice, Quot.sound}).",
+        "followup_issue": 7322,
+        "followup_issue_resolved": 7322
       }
     ],
     "last_updated": "2026-07-22"
