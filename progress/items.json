@@ -1582,7 +1582,11 @@
     "end_page": "39",
     "start_line": 25,
     "end_line": 16,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage": "covered_partial",
+    "coverage_note": "Parts (f)-(n)—irreducible classification, Casimir, complete reducibility, Jacobson-Morozov, Clebsch-Gordan, and the tensor-Jordan form—are substantively proved. Parts (a)-(e) are not: the current proof selects one terminal ordinary H-eigenvector rather than proving the source's conclusions on the entire maximal generalized eigenspace, including diagonalizability and the least F-nilpotence exponent. Follow-up #7427.",
+    "followup_issue": 7427,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Discussion_2.16_heading",
@@ -6576,7 +6580,11 @@
     "end_page": "149",
     "start_line": 7,
     "end_line": 13,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage": "covered_partial",
+    "coverage_note": "The density/comorphism/dimension argument is proved for quiver representation spaces under their base-change groups, with reusable conditional field-embedding lemmas. The source theorem for an arbitrary algebraic GL_m-representation with finitely many orbits, and its product-GL generalization, are absent. Follow-up #7428.",
+    "followup_issue": 7428,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Problem6.1.3",
@@ -8425,6 +8433,8 @@
     "start_line": 27,
     "end_line": 40,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22",
     "coverage_note": "Both halves proved sorry-free and axiom-clean over ⊗_k ([propext, Classical.choice, Quot.sound]). Tor half (`Problem_8_2_8_tor`, #6796, 2026-07-16): tensor-of-resolutions + rearrangeComplex + kunnethChainComplexNat; RHS corrected from the false ⊗_ℤ to the k-linear ⊗_k. Ext half (`Problem_8_2_8_ext`) spec corrected (#6814, 2026-07-16): added `[FiniteDimensional k Aᵢ]`/`[FiniteDimensional k Mᵢ]` (needed so the `Pᵢ` are f.g. projective) and strengthened the conclusion to k-linear `≃ₗ[k]`. Ext proof completed (#6980, 2026-07-19): the final `hXM` object identification — the factor `k`-module diamond between the statement's ambient `Module k Mᵢ` and `extTensorFunctorLeftObj`'s restricted `Module.compHom Mᵢ (algebraMap k Aᵢ)` — is discharged by `subst`ing the ambient factor `k`-structures (equal via `IsScalarTower.algebraMap_smul` + `Module.ext'`), then `instModule_eq_extTensorModuleLeft` for the `A₁⊗A₂`-action and `rfl`."
   },
   {
@@ -8450,6 +8460,8 @@
     "start_line": 1,
     "end_line": 4,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22",
     "coverage_note": "All three theorems sorry-free: (ii) [Exercise_8_2_9_ii], (i) finite-abelian [Exercise_8_2_9_i_finAb] (#6110/#6114), and (i) fin-dim k[x]-module [Exercise_8_2_9_i_polynomial] (#6113) via monic irreducible factor + k[x]/(p)-coordinate functional + lift through k[x]/(p^N) ↠ k[x]/(p) + unit/dimension contradiction."
   },
   {
@@ -8713,6 +8725,8 @@
     "start_line": 7,
     "end_line": 10,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22",
     "coverage_note": "Statement pass (#5906): EtingofRepresentationTheory/Chapter9/Problem9_4_5.lean. Part (i) det(Cartan) = ±1 for finite homological dimension; part (ii) homologicalDimension of k[t]/tⁿ (n>1) and of the Problem 9.3.2 algebra are both ⊤. Decomposed (#6374) into three per-part sub-issues #6381 (ii-a: k[t]/tⁿ=⊤), #6382 (ii-b: Problem932.A=⊤), #6384 (i: Cartan det=±1). #6381 DONE: homologicalDimension_polynomial_quotient_eq_top is sorry-free (Chapter9/TruncatedPolynomial.lean), plus reusable Etingof.homologicalDimension_eq_top reduction lemma (Chapter9/HomologicalDimensionReduction.lean). Proof avoids explicit Ext periodicity: uses the two multiplication SESs (t) ↔ (tⁿ⁻¹) with R free, dimension shifting (Problem942.hasProjectiveDimensionLE_syzygy), and a symmetric induction from non-projectivity of the two cyclic modules. #6382 DONE: homologicalDimension_problem932_eq_top PROVED sorry-free: added P₊/P₋ projective + mirror SES 0→S₊→P₋→S₋→0 to Problem9_3_2, the reusable Etingof.homologicalDimension_eq_top_of_forall reduction, and the 2-periodic Ext-nonvanishing Ext^{2j+1}(S₊,S₋)≠0. #6384/#6463 DONE: cartan_det_eq_pm_one PROVED sorry-free via the Euler-characteristic induction homClassVector_eq_mulVec_of_projectiveDimensionLE — induction on projective dimension using finite free syzygy covers (Module.Finite.exists_fin' + LinearMap.shortExact_shortComplexKer + ShortComplex.ShortExact.hasProjectiveDimensionLT_X₃_iff) and the Krull–Schmidt class-vector lemma homClassVector_projective_eq_mulVec (#6462). File Problem9_4_5.lean now sorry-free; all three sub-parts of Problem 9.4.5 complete."
   },
   {
@@ -8724,6 +8738,8 @@
     "start_line": 11,
     "end_line": 14,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22",
     "coverage_note": "Both parts proved sorry-free in Chapter9/Problem9_4_6.lean (verified via #print axioms in the #6986 review: only [propext, Classical.choice, Quot.sound]). (i) homologicalDimension_pathAlgebra_eq_one and homologicalDimension_freeAlgebra_eq_one via the standard length-1 projective resolution (PathAlgebraStandardResolution) plus dimension-shift; (ii) cartanMatrix_pathAlgebra_eq_pathCount (abstract projective family + hcover Hom-space identification) and cartanMatrix_pathAlgebra_eq_pathCount' (unconditional for Pᵢ = A·eᵢ via pathAlgebraProj/pathAlgebraHomEquiv). Acyclicity is load-bearing: finite_path derives finiteness of each Quiver.Path i j from hacyclic + Fintype Q + Finite (i ⟶ j) (acyclic finite quiver has no vertex-repeating path, so length < Fintype.card Q), so Nat.card is the honest path count."
   },
   {
@@ -8841,7 +8857,9 @@
     "start_line": 3,
     "end_line": 4,
     "status": "sorry_free",
-    "coverage_note": "Statement pass (#5906): EtingofRepresentationTheory/Chapter9/Exercise9_6_3.lean. P is a projective generator iff Hom(P,L)≠0 for every simple L, plus the deduction that every finite abelian category has a projective generator. Faithful statements, sorry proofs."
+    "coverage": "covered_full",
+    "coverage_note": "Both source conclusions are proved sorry-free in Chapter9/Exercise9_6_3.lean: isProgenerator_iff_hom_simple_ne_zero gives the characterization by nonzero maps to every simple, and exists_progenerator constructs the finite biproduct of projective covers of the representative simples.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter9/Discussion_before_Theorem9.6.4",
