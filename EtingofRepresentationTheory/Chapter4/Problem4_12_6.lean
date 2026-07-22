@@ -554,6 +554,54 @@ theorem exists_simpleFDRep [Fintype K] [DecidableEq K]
   rw [h1, hdM]
   exact (Representation.asModuleEquiv ρ).finrank_eq
 
+/-- **Universe transport, with the isomorphism.** Strengthens `exists_simpleFDRep` to also
+return a `Representation.Equiv` from `ρ` to the transported `FDRep`'s representation `U.ρ`.
+This lets downstream results transfer both the character (via `Representation.char_iso`) and the
+isomorphism class of `ρ` to a concrete `Type 0` model that the Wedderburn enumeration applies to. -/
+theorem exists_simpleFDRep' [Fintype K] [DecidableEq K]
+    {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
+    (ρ : Representation ℂ (Affine K) V)
+    (hρ : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) ρ.asModule) :
+    ∃ (U : FDRep ℂ (Affine K)), Simple U ∧ Module.finrank ℂ U = Module.finrank ℂ V ∧
+      Nonempty (ρ.Equiv U.ρ) := by
+  classical
+  haveI : NeZero (Nat.card (Affine K) : ℂ) := by
+    refine ⟨?_⟩
+    rw [Nat.card_eq_fintype_card, card_eq]
+    have h2 : 1 < Fintype.card K := Fintype.one_lt_card
+    have hne : Fintype.card K * (Fintype.card K - 1) ≠ 0 :=
+      Nat.mul_ne_zero (by omega) (by omega)
+    exact_mod_cast hne
+  letI M := Representation.asModule ρ
+  haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) M := hρ
+  haveI : Module.Finite ℂ M := Module.Finite.equiv (Representation.asModuleEquiv ρ).symm
+  haveI : Module.Free ℂ M := Module.Free.of_divisionRing ℂ M
+  set dM := Module.finrank ℂ M with hdM
+  let eM : M ≃ₗ[ℂ] (Fin dM → ℂ) := (Module.finBasis ℂ M).equivFun
+  letI modN : Module (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
+    Etingof.transportModule (R := MonoidAlgebra ℂ (Affine K)) eM
+  haveI towN : IsScalarTower ℂ (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
+    Etingof.transportModule_isScalarTower eM
+  let eR : M ≃ₗ[MonoidAlgebra ℂ (Affine K)] (Fin dM → ℂ) := Etingof.transportLinearEquiv eM
+  haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
+    IsSimpleModule.congr eR.symm
+  haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K))
+      (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ)).asModule :=
+    IsSimpleModule.congr (Etingof.repOfModuleAsModuleEquiv (k := ℂ) (G := Affine K) (Fin dM → ℂ))
+  refine ⟨FDRep.of (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ)),
+    Etingof.simple_fdRepOf_of_isSimpleModule
+      (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ)), ?_, ?_⟩
+  · have h1 : Module.finrank ℂ
+        (FDRep.of (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ))) = dM := by
+      show Module.finrank ℂ (Fin dM → ℂ) = dM
+      rw [Module.finrank_fintype_fun_eq_card, Fintype.card_fin]
+    rw [h1, hdM]
+    exact (Representation.asModuleEquiv ρ).finrank_eq
+  · -- The `k[G]`-module equivalence `ρ.asModule ≃ (repOfModule …).asModule` gives the `Equiv`.
+    refine ⟨Etingof.equivOfAsModuleLinearEquiv ρ
+      (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ))
+      (eR ≪≫ₗ (Etingof.repOfModuleAsModuleEquiv (k := ℂ) (G := Affine K) (Fin dM → ℂ)).symm)⟩
+
 /-- **Classification.** Every irreducible complex representation of the affine group `G` has
 dimension `1` or `q - 1`. (With the sum-of-squares formula `(q-1)·1² + (q-1)² = q(q-1) = |G|`,
 the irreducibles are exactly the `q-1` characters and the single `(q-1)`-dimensional `V`.) -/
