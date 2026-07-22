@@ -297,10 +297,11 @@
     "start_line": 24,
     "end_line": 26,
     "status": "sorry_free",
-    "coverage_swept": {
-      "wave": 1,
-      "result": "covered"
-    }
+    "coverage": "covered_partial",
+    "fidelity": "partial",
+    "coverage_note": "The group-algebra iff is public, but the two noncommutativity endpoints are anonymous examples only for V = k² and FreeAlgebra k (Fin 2). The source quantifies arbitrary dim V > 1 and arbitrary n > 1; follow-up #7455.",
+    "fidelity_issue": 7455,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Definition2.2.6",
@@ -5495,12 +5496,15 @@
     "start_line": 1,
     "end_line": 9,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "needs_statement": false,
     "aristotle_project_id": "d6d0df76-8214-4097-ac8f-c191f819a556",
     "notes": "Complete and sorry-free: fixedCosets_eq_card_colorings and the headline Theorem5_14_3 are both proved in EtingofRepresentationTheory/Chapter5/Theorem5_14_3.lean.",
     "sorry_free": true,
-    "fidelity_note": "Codex cross-vendor tiebreak: faithful"
+    "coverage": "covered_partial",
+    "fidelity_note": "The public theorem proves only the specialization with n polynomial variables, where n is the partition size. The source quantifies an independent N at least the number of parts; follow-up #7456.",
+    "fidelity_issue": 7456,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Introduction_5.15",
@@ -5525,9 +5529,12 @@
     "start_line": 15,
     "end_line": 18,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "needs_statement": true,
-    "fidelity_note": "Codex cross-vendor tiebreak: faithful"
+    "coverage": "covered_partial",
+    "fidelity_note": "The public theorem proves only the specialization with n polynomial variables and rhoShift n. The source quantifies an independent N at least the number of parts, with rho depending on N; follow-up #7456.",
+    "fidelity_issue": 7456,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Remark5.15.2",
@@ -7948,9 +7955,8 @@
     "fidelity": "partial",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "Both source endpoints still lack their categorical statements. The positive all-modules claim is only an objectwise evaluation equivalence, without the natural isomorphism/CorepresentableBy witness (#7403). The negative finite-dimensional theorem proves only failure of a necessary Hom-dimension condition, not nonrepresentability of a defined forgetful functor; #5838 reopened.",
+    "fidelity_note": "The negative finite-dimensional claim is substantively covered by the public theorem forgetful_not_representable and its Hom-dimension obstruction. The positive all-modules claim remains only an objectwise evaluation equivalence, without the natural isomorphism/CorepresentableBy witness (#7403). Independent Opus review rejected reopening #5838 as categorical repackaging rather than missing mathematical content.",
     "fidelity_issue": 7403,
-    "followup_issue": 5838,
     "last_updated": "2026-07-22"
   },
   {
