@@ -4608,8 +4608,10 @@
     "end_page": "110",
     "start_line": 35,
     "end_line": 35,
-    "status": "formalized",
-    "coverage_note": "PATH: no dedicated Problem5_10_2.lean; the item id is a book id, backed by embedded content in Chapter5/Theorem5_10_1.lean (Etingof.Theorem5_10_1, builds sorry-free; #print axioms: propext/Classical.choice/Quot.sound only). The tensor-products-over-k-algebras framework for Ind/Res is set up there. This multi-part problem's detailed parts (a)-(f) are tracked separately in Chapter5/Discussion_Problem5.10.2_parts (partially_formalized). Path confirmed in audit #7001."
+    "status": "partially_formalized",
+    "coverage_note": "There is no dedicated Problem5_10_2.lean and none of parts (a)-(f) is stated as a Lean endpoint. Theorem5_10_1 proves one downstream Frobenius-reciprocity conclusion directly through Mathlib, without the requested relative-tensor and bimodule constructions. Follow-up: #7356.",
+    "coverage": "covered_partial",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_Problem5.10.2_parts",
@@ -4620,7 +4622,9 @@
     "start_line": 1,
     "end_line": 1,
     "status": "partially_formalized",
-    "coverage_note": "Related content in Chapter5/Theorem5_27_1.lean and Chapter5/DetClearing.lean (both exist and build sorry-free, verified audit #7001). Parts (a)-(f) of Problem 5.10.2 not individually formalized to completion — genuinely partial."
+    "coverage_note": "Parts (a)-(f) are not stated as Lean endpoints. Related induction/restriction results do not construct the requested bimodules, relative tensor products, representative-independent isomorphisms, both adjunction directions, or induction-duality isomorphism. Follow-up: #7356.",
+    "coverage": "covered_partial",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Introduction_5.11",
@@ -4938,9 +4942,11 @@
     "start_line": 9,
     "end_line": 12,
     "status": "sorry_free",
-    "fidelity": "verified",
     "needs_statement": false,
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "Lemma5_13_3 proves only existence of a scalar alpha with c_lambda squared = alpha times c_lambda. The source gives the exact scalar n!/(|P_lambda||Q_lambda| dim V_lambda); that formula, and hence its nonzeroness at this endpoint, is absent.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Lemma5.13.4",
@@ -5103,7 +5109,9 @@
     "start_line": 19,
     "end_line": 22,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "coverage": "covered_partial",
+    "coverage_note": "No Lean declaration states the Laurent-polynomial coefficient formula in this remark. Nearby Frobenius-character results do not expose this equivalent formulation.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.15.1",
@@ -5197,7 +5205,9 @@
     "start_line": 11,
     "end_line": 16,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "coverage": "covered_partial",
+    "coverage_note": "No Lean declaration states the positive-root order, the inverse-Kostka character expansion, or the resulting root-order vanishing of Kostka numbers. Existing dominance-order results are weaker.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Introduction_5.16",
@@ -6056,14 +6066,14 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "covered_full",
-      "note": "Counting gap closed and ℂ-irreps bridge discharged (#7259 via #7258)."
+      "result": "covered_partial",
+      "note": "The abstract number of irreducible isomorphism classes is proved to be q^2-1, but the constructed determinant, principal-series, and complementary-series families are not connected to that index type by an exhaustiveness theorem."
     },
     "lean_ref": "EtingofRepresentationTheory/Chapter5/Discussion_complementary_series_summary.lean :: Etingof.GL2.constructedCount_eq_card_conjClasses, foundAllIrreducibles_galoisField, constructed_irreps_complete, constructed_irreps_complete_unconditional, card_irreps_eq_q_sq_sub_one",
     "coverage": {
-      "result": "covered_full",
+      "result": "covered_partial",
       "lean_decl": "Etingof.GL2.constructed_irreps_complete_unconditional",
-      "note": "Class-count claim discharged (foundAllIrreducibles_galoisField); constructed total = #ConjClasses proved (constructedCount_eq_card_conjClasses); completeness conclusion now UNCONDITIONAL (constructed_irreps_complete_unconditional, card_irreps_eq_q_sq_sub_one) — the #irreps=#ConjClasses bridge is discharged by Etingof.card_irrep_eq_card_conjClasses (#7258, #7259). #irreps of GL₂(𝔽_q) = q²−1, axiom-clean."
+      "note": "constructed_irreps_complete_unconditional proves only a cardinality statement for an abstract Wedderburn index type. It does not construct the complementary-series representations, prove cross-family nonisomorphism, or show every simple FDRep is isomorphic to one of the named families."
     }
   },
   {
