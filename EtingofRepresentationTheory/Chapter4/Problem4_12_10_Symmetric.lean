@@ -199,6 +199,47 @@ theorem Etingof.exists_trivialStabilizer_covector [Finite G]
 
 end Covector
 
+section DirectSumExtract
+
+open scoped DirectSum
+
+variable {k G : Type*} [CommSemiring k] [Monoid G]
+  {ι : Type*} {V : ι → Type*}
+  [(i : ι) → AddCommMonoid (V i)] [(i : ι) → Module k (V i)]
+  {W : Type*} [AddCommMonoid W] [Module k W]
+
+/-- The projection `DirectSum.component` onto the `i`-th summand intertwines the direct-sum
+representation `Representation.directSum ρs` with the component representation `ρs i`. -/
+theorem Representation.directSum_component_equivariant
+    (ρs : (i : ι) → Representation k G (V i)) (i : ι) (g : G) :
+    DirectSum.component k ι V i ∘ₗ (Representation.directSum ρs) g =
+      ρs i g ∘ₗ DirectSum.component k ι V i := by
+  ext y
+  simp only [LinearMap.comp_apply, Representation.directSum_apply,
+    ← DirectSum.apply_eq_component, DirectSum.lmap_apply]
+
+/-- **Single-summand extraction.** A nonzero `G`-equivariant map `φ : W → ⨁ i, V i` into a
+direct sum of representations yields, for some index `i`, a nonzero `G`-equivariant map
+`W → V i`: postcompose `φ` with the (equivariant) projection onto a summand on which `φ` does
+not vanish. This turns `Hom_G(W, ⊕ᵢ Vᵢ) ≠ 0` into `Hom_G(W, Vᵢ) ≠ 0` for a single `i`. -/
+theorem exists_component_intertwiner_of_ne_zero
+    (ρs : (i : ι) → Representation k G (V i)) (σ : Representation k G W)
+    (φ : W →ₗ[k] (⨁ i, V i)) (hφ : φ ≠ 0)
+    (hφ_int : ∀ g, φ ∘ₗ σ g = (Representation.directSum ρs) g ∘ₗ φ) :
+    ∃ (i : ι) (ψ : W →ₗ[k] V i), ψ ≠ 0 ∧ ∀ g, ψ ∘ₗ σ g = ρs i g ∘ₗ ψ := by
+  obtain ⟨w, hw⟩ := DFunLike.ne_iff.mp hφ
+  have hcomp : ∃ i, DirectSum.component k ι V i (φ w) ≠ 0 := by
+    by_contra h
+    simp only [not_exists, ne_eq, not_not] at h
+    exact hw (DirectSum.ext_component k fun i => by simp [h i])
+  obtain ⟨i, hi⟩ := hcomp
+  refine ⟨i, DirectSum.component k ι V i ∘ₗ φ, ?_, fun g => ?_⟩
+  · exact fun hzero => hi (by simpa using LinearMap.congr_fun hzero w)
+  · rw [LinearMap.comp_assoc, hφ_int g, ← LinearMap.comp_assoc,
+      Representation.directSum_component_equivariant, LinearMap.comp_assoc]
+
+end DirectSumExtract
+
 section MainTheorem
 
 open scoped TensorProduct
