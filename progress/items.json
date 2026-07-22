@@ -555,8 +555,11 @@
     "needs_statement": false,
     "sorry_free": true,
     "fidelity_note": "Part (1): k is the only simple/indecomposable k-module (IsSimpleModule k k). Part (2): the 1-dim irreducibles are classified (Example_2_3_14_polynomial_reps: simple k[x]-modules are 1-dimensional). The Jordan-block reps V_{λ,n} are now built as genuine k[X]-modules (jordanRep = Module.AEval' of jordanBlock), proved indecomposable (jordanRep_indecomposable, via: every nonzero J-invariant subspace contains the eigenvector e₀) and proved not simple for n≥2 (jordanRep_not_isSimpleModule), giving the book's conclusion 'indecomposable need not be irreducible' (exists_indecomposable_not_simple, witness V_{0,2}). Remaining (noted in file): the completeness half — that every f.d. indecomposable k[x]-rep is some V_{λ,n} — is Jordan normal form existence/uniqueness, which the book cites rather than proves and which is not formalized here.",
-    "fidelity_decl": "Etingof.Example_2_3_14.jordanRep_indecomposable; Etingof.Example_2_3_14.jordanRep_not_isSimpleModule; Etingof.Example_2_3_14.exists_indecomposable_not_simple",
-    "fidelity_issue": 5358
+  "fidelity_decl": "Etingof.Example_2_3_14.jordanRep_indecomposable; Etingof.Example_2_3_14.jordanRep_not_isSimpleModule; Etingof.Example_2_3_14.exists_indecomposable_not_simple",
+  "fidelity_issue": 5358,
+  "coverage": "covered_partial",
+  "coverage_note": "The Jordan-block modules are constructed and proved indecomposable, but the exhaustive and unique classification of every finite-dimensional indecomposable k[X]-module is not yet formalized. Follow-up: #7364.",
+  "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Example2.3.14_continued",
@@ -1366,7 +1369,12 @@
     "start_line": 2,
     "end_line": 15,
     "status": "sorry_free",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "coverage_note": "Partially formalized in EtingofRepresentationTheory/Chapter2/Problem2_11_3.lean. Parts (a)-(c) and determinant multiplicativity from part (g) are proved; the symmetric/exterior-power quotient models, characteristic-zero tensor identifications, induced maps and trace formulas in parts (d)-(f), and the top-exterior-power proof of (g) remain. Follow-up: #7365.",
+    "coverage": "covered_partial",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter2/Problem2_11_3.lean"
+    ],
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Remark2.11.4",
@@ -1402,7 +1410,9 @@
     "end_line": 24,
     "status": "sorry_free",
     "fidelity": "verified",
-    "note": "Covered-inline audit conclusion (completeness audit #5726, epic #5338): this problem is NOT separately formalized. Its only narrative citation is the Discussion in the proof of Problem 5.10.2, which uses part (b) — the k[G]-bimodule tensor-hom adjunction — to conclude Theorem 5.10.1. That load-bearing conclusion is formalized directly and completely in Chapter5/Theorem5_10_1.lean as Etingof.Theorem5_10_1, obtained from Mathlib's Rep.indResHomEquiv (the native Ind ⊣ Res adjunction) rather than through the bimodule route, so Theorem 5.10.1 does not silently assume this problem. The Discussion of Problem 5.10.2 carrying the citation has no Lean file, and Remark 2.11.4's TensorProductOverRing (the V ⊗_B W of this problem) is imported by no downstream file. The bimodule associativity (a) and tensor-hom adjunction (b) are self-contained exercises with no formalized consumer; a faithful formalization would require building a full bimodule/universal-property API on the bare-quotient TensorProductOverRing. See Chapter2/Problem2_11_6.lean for the coverage record."
+    "note": "Covered-inline audit conclusion (completeness audit #5726, epic #5338): this problem is not separately formalized. Its narrative citation in the proof of Problem 5.10.2 uses the bimodule tensor-Hom adjunction to conclude Theorem 5.10.1. That downstream conclusion is proved directly in Chapter5/Theorem5_10_1.lean using Mathlib's Rep.resCoindHomEquiv (the Res ⊣ Coind adjunction), rather than the book's bimodule route. The bimodule associativity and tensor-Hom adjunction requested here remain absent as standalone results; see Chapter2/Problem2_11_6.lean for the coverage record.",
+    "coverage": "covered_partial",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Exercise2.11.7",
@@ -5806,7 +5816,9 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "Added in #5729: EtingofRepresentationTheory/Chapter5/Remark5_23_3.lean. Genuinely proves the load-bearing content: the simultaneous constant shift Etingof.DominantWeight.constShift (lam -> lam + c*1^N), the shift-equivalence setoid shiftSetoid, and the parameter type Etingof.SLWeightParam n := Quotient (shiftSetoid n) -- Etingof's parametrization of SL(V)-irreducibles by dominant weights up to a simultaneous constant shift -- plus Etingof.specialLinear_det_eq_one (det = 1 on SL_N, the source of the identification). Etingof.algIrrepGL_finrank_constShift (dim L_lam = dim L_{lam+c*1^N}, the statable dimension-level shadow of the SL(V) isomorphism) is now a proved theorem (#6855), over an algebraically closed field of characteristic zero (universe 0): it iterates the +1 det-twist dimension identity of Proposition 5.22.2 (schurModule_shift_iso_detTwist), since the two nat-weights differ by a single constant. The one remaining book-disavowed assertion is recorded via proof_wanted (no sorry, no axiom): Etingof.sl_finiteDimensional_completely_reducible (complete reducibility of finite-dimensional sl_N-modules, stated as every LieSubmodule having a complement, mirroring the sl(2) case Etingof.Sl2Irrep.complete_reducibility of Problem 2.15.1, which the book omits: 'we will not do this here')."
+    "fidelity_note": "Added in #5729: the file defines the constant-shift relation and SLWeightParam and proves specialLinear_det_eq_one plus the dimension shadow algIrrepGL_finrank_constShift. It does not yet construct the claimed SL_N-equivariant shift isomorphism or prove the parametrization theorem. The general sl_N assertions are explicitly disavowed by the book and should be documented as intentional omissions rather than represented by proof_wanted; follow-up #7357.",
+    "coverage": "covered_partial",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Introduction_5.24",
@@ -6114,7 +6126,10 @@
     "end_line": 8,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "Items (1)-(7) and the tensor/exterior-power portions of (8) are formalized. Symmetric/Schur functors in item (8) and BGP reflection functors in item (9) remain scope notes rather than CategoryTheory functors; follow-up for item (9): #7383.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Introduction_5.27",
@@ -6339,7 +6354,10 @@
     "end_line": 4,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "The current MoritaEquivalent is an equivalence of full ModuleCat categories, while the book defines equivalence of finite-dimensional module categories. Infrastructure/MoritaFGRestriction.lean already proves the forward restriction fgModuleCatEquiv, but the public definition and its stale docstring have not been reconciled with that FGModuleCat API. Follow-up: #7382.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Discussion_after_Definition6.1.4",
@@ -8613,10 +8631,12 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "Sorry-free since wave 28 (algebra version). Categorical input form landed as Corollary_9_7_3_i_categorical_fgModule (#5738): for a k-linear finite abelian category over an alg-closed field with progenerator P, produces basic B with the single equivalence C ≌ FGModuleCat B. FG-restriction of Morita equivalence in Infrastructure/MoritaFGRestriction.",
+    "notes": "The chosen-progenerator categorical form is sorry-free. Exercise963.exists_progenerator now proves that every finite abelian category has a progenerator, but Corollary_9_7_3_i_categorical and its FGModuleCat endpoint still require P from the caller instead of choosing it internally. Follow-up: #7367.",
     "attention_needed": false,
     "last_updated": "2026-07-04",
-    "fidelity_note": "wave-9: normalized nonstandard 'faithful' value; #5738 gap 2 closed by Corollary_9_7_3_i_categorical_fgModule (single equivalence C ≌ FGModuleCat B with B basic), uniqueness by Corollary_9_7_3_i_unique, dim bound by Corollary_9_7_3_ii. Residual noted in wave-9: progenerator P carried as hypothesis (gap 1 of #5738), consistent with the audited Theorem 9.6.4 formalization"
+    "fidelity_note": "The FGModuleCat equivalence, uniqueness, and dimension-bound conclusions are proved. The remaining quantifier mismatch is now a wiring gap, not missing existence infrastructure: Exercise963.exists_progenerator supplies P, but the public corollary still asks the caller for it.",
+    "coverage": "covered_partial",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Backmatter/ReferencesHistorical",
