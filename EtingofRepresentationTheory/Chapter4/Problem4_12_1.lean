@@ -1,6 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter4.Example4_3_S3
 import EtingofRepresentationTheory.Chapter4.Exercise4_2_3
+import EtingofRepresentationTheory.Chapter4.Corollary4_2_4
 import EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration
 
 /-!
@@ -883,5 +884,137 @@ theorem total_irreps_card_even (heven : Even N) :
   rw [one_dim_reps_card_even heven, two_dim_simples_card_even heven]
 
 end Classification
+
+/-! ## Part (b): the isomorphism-level decomposition `V ⊗ V ≅ 𝟙 ⊕ ε ⊕ V₂`
+
+The character identity `tensor_square_character` becomes an actual isomorphism of representations
+by the fact that over `ℂ` a finite-dimensional representation of a finite group is determined by
+its character (`Etingof.Corollary4_2_4`). We identify the complexified standard representation `V`
+with `Vrep N 1` (rotation character `ζ^k + ζ^{-k} = χ_V`, by `Vrep_trace_r` at `j = 1`), the
+`2`-dimensional rotation-by-`4π/N` representation `V₂` with `Vrep N 2` (character
+`ζ^{2k} + ζ^{-2k} = χ_{V₂}`, by `Vrep_trace_r` at `j = 2`), the sign representation `ε` with the
+character `signHom`, and `𝟙` with the trivial character. The decomposition holds for every
+`N ≥ 1`; for `N ≥ 3` the three summands are the irreducible constituents. -/
+
+section Decomposition
+
+open CategoryTheory MonoidalCategory
+
+variable {N : ℕ}
+
+/-- The trace of `V_j` on a reflection `sr k` is `0` (the matrix is anti-diagonal). -/
+theorem Vrep_trace_sr [NeZero N] (j k : ZMod N) :
+    LinearMap.trace ℂ (Fin 2 → ℂ) (Vrep N j (DihedralGroup.sr k)) = 0 := by
+  have hrfl : Vrep N j (DihedralGroup.sr k)
+      = Matrix.toLin' (repMat N j (DihedralGroup.sr k)) := rfl
+  rw [hrfl, Matrix.trace_toLin'_eq]
+  simp [repMat, Matrix.trace, Matrix.diag, Fin.sum_univ_two]
+
+/-- The character of `FDRep.of (Vrep N j)` on a reflection `sr k` is `0`. -/
+theorem Vrep_fdRep_character_sr [NeZero N] (j k : ZMod N) :
+    (FDRep.of (Vrep N j)).character (DihedralGroup.sr k) = 0 := by
+  have hc : (FDRep.of (Vrep N j)).character (DihedralGroup.sr k)
+      = LinearMap.trace ℂ _ (Vrep N j (DihedralGroup.sr k)) := rfl
+  rw [hc, Vrep_trace_sr]
+
+/-- **`V = V₁`.** The character of `Vrep N 1` is `chiStd N`, the character of the complexified
+standard representation. -/
+theorem chiStd_eq_Vrep1_character [NeZero N] (g : DihedralGroup N) :
+    (FDRep.of (Vrep N 1)).character g = chiStd N g := by
+  cases g with
+  | r k => rw [Vrep_fdRep_character_r]; simp only [chiStd, eigen, one_mul, inv_pow]
+  | sr k => rw [Vrep_fdRep_character_sr]; rfl
+
+/-- **`V₂ = V₂'`.** The character of `Vrep N 2` is `chiRot2 N`, the character of the
+rotation-by-`4π/N` representation. -/
+theorem chiRot2_eq_Vrep2_character [NeZero N] (g : DihedralGroup N) :
+    (FDRep.of (Vrep N 2)).character g = chiRot2 N g := by
+  cases g with
+  | r k =>
+    have hval : ((2 : ZMod N) * k).val = (2 * k.val) % N := by
+      have h : (2 : ZMod N) * k = ((2 * k.val : ℕ) : ZMod N) := by
+        push_cast; rw [ZMod.natCast_zmod_val]
+      rw [h, ZMod.val_natCast]
+    have h2 : eigen N 2 k = zeta N ^ (2 * k.val) := by
+      unfold eigen; rw [hval, zeta_pow_mod]
+    rw [Vrep_fdRep_character_r, h2]; simp only [chiRot2, inv_pow]
+  | sr k => rw [Vrep_fdRep_character_sr]; rfl
+
+/-- The one-dimensional representation on `ℂ` attached to a character `χ : DihedralGroup N →* ℂˣ`:
+`g` acts by multiplication by `χ g`. -/
+def charRep (χ : DihedralGroup N →* ℂˣ) : Representation ℂ (DihedralGroup N) ℂ where
+  toFun g := ((χ g : ℂˣ) : ℂ) • LinearMap.id
+  map_one' := by ext; simp
+  map_mul' a b := by
+    apply LinearMap.ext; intro x
+    change ((χ (a * b) : ℂˣ) : ℂ) * x = ((χ a : ℂˣ) : ℂ) * (((χ b : ℂˣ) : ℂ) * x)
+    rw [map_mul, Units.val_mul, mul_assoc]
+
+/-- The character of `charRep χ` is `g ↦ χ g`. -/
+theorem charRep_character (χ : DihedralGroup N →* ℂˣ) (g : DihedralGroup N) :
+    (FDRep.of (charRep χ)).character g = (χ g : ℂ) := by
+  have hg : charRep χ g = (χ g : ℂ) • LinearMap.id := rfl
+  change LinearMap.trace ℂ ℂ ((FDRep.of (charRep χ)).ρ g) = (χ g : ℂ)
+  rw [FDRep.of_ρ', hg, map_smul, LinearMap.trace_id]
+  simp
+
+/-- The sign character `ε` of the dihedral group: rotations act by `1`, reflections by `-1`. -/
+def signHom (N : ℕ) : DihedralGroup N →* ℂˣ where
+  toFun g := match g with
+    | .r _ => 1
+    | .sr _ => -1
+  map_one' := by rw [DihedralGroup.one_def]
+  map_mul' a b := by
+    cases a <;> cases b <;>
+      simp [DihedralGroup.r_mul_r, DihedralGroup.r_mul_sr, DihedralGroup.sr_mul_r,
+        DihedralGroup.sr_mul_sr]
+
+/-- The values of `signHom` recover the character `chiSign` of the sign representation. -/
+theorem signHom_val_eq_chiSign (g : DihedralGroup N) :
+    ((signHom N g : ℂˣ) : ℂ) = chiSign N g := by
+  cases g with
+  | r k => rfl
+  | sr k => rfl
+
+/-- Character additivity for the product of two representations. -/
+theorem char_prod {V W : Type} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
+    [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+    (ρ : Representation ℂ (DihedralGroup N) V) (σ : Representation ℂ (DihedralGroup N) W)
+    (g : DihedralGroup N) :
+    (FDRep.of (ρ.prod σ)).character g
+      = (FDRep.of ρ).character g + (FDRep.of σ).character g := by
+  change LinearMap.trace ℂ (V × W) ((ρ.prod σ) g)
+    = LinearMap.trace ℂ V (ρ g) + LinearMap.trace ℂ W (σ g)
+  have h : (ρ.prod σ) g = (ρ g).prodMap (σ g) := rfl
+  rw [h]; exact LinearMap.trace_prodMap' (ρ g) (σ g)
+
+/-- The right-hand side `𝟙 ⊕ ε ⊕ V₂` as a representation of the dihedral group: the trivial
+character, the sign character `signHom`, and the `2`-dimensional `Vrep N 2`. -/
+noncomputable def rhsRep (N : ℕ) [NeZero N] :
+    Representation ℂ (DihedralGroup N) (ℂ × ℂ × (Fin 2 → ℂ)) :=
+  (charRep (1 : DihedralGroup N →* ℂˣ)).prod ((charRep (signHom N)).prod (Vrep N 2))
+
+/-- The character of `𝟙 ⊕ ε ⊕ V₂` is `1 + χ_ε + χ_{V₂}`. -/
+theorem rhsRep_character [NeZero N] (g : DihedralGroup N) :
+    (FDRep.of (rhsRep N)).character g = 1 + chiSign N g + chiRot2 N g := by
+  rw [rhsRep, char_prod, char_prod, charRep_character, charRep_character,
+    chiRot2_eq_Vrep2_character, signHom_val_eq_chiSign]
+  simp only [MonoidHom.one_apply, Units.val_one]
+  ring
+
+/-- **Part (b), isomorphism-level decomposition.** As representations of `DihedralGroup N`,
+`V ⊗ V ≅ 𝟙 ⊕ ε ⊕ V₂`, where `V = Vrep N 1` is the complexified standard representation, `𝟙` is
+trivial, `ε` is the sign representation, and `V₂ = Vrep N 2`. This upgrades the character identity
+`tensor_square_character` to a genuine isomorphism of `FDRep ℂ (DihedralGroup N)`, using that over
+`ℂ` a finite-dimensional representation of a finite group is determined by its character
+(`Etingof.Corollary4_2_4`). -/
+theorem tensor_square_decomposition [NeZero N] :
+    Nonempty ((FDRep.of (Vrep N 1) ⊗ FDRep.of (Vrep N 1)) ≅ FDRep.of (rhsRep N)) := by
+  apply Etingof.Corollary4_2_4 (DihedralGroup N)
+  funext g
+  rw [FDRep.char_tensor, Pi.mul_apply, chiStd_eq_Vrep1_character, rhsRep_character,
+    ← sq, tensor_square_character]
+
+end Decomposition
 
 end Etingof.Problem4_12_1
