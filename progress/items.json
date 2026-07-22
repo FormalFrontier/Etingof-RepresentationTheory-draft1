@@ -7865,12 +7865,14 @@
     "start_line": 13,
     "end_line": 24,
     "status": "sorry_free",
+    "coverage": "covered_partial",
     "fidelity": "verified",
     "needs_statement": false,
     "notes": "hom_left_exact via inferInstance (coyoneda); tensor_right_exact via inferInstance (MonoidalClosed left adjoint)",
     "sorry_free": true,
-    "fidelity_note": "[re-verified review #7183, 2026-07-21] Repair landed; statement faithful and non-vacuous, builds, axiom-clean (no sorryAx). [coverage] Three distinct gaps: (1) Part (i) — Ind_K^G and Res_K^G exactness is ENTIRELY absent. No Lean declaration exists for either functor being exact (only additivity and linearity appear in Exam",
-    "fidelity_issue": 5647
+    "fidelity_note": "The Hom left-exactness and commutative-module tensor right-exactness claims are represented. Actual exactness declarations for the representation induction/restriction functors and the source's arbitrary-ring tensor statement remain open under #7368.",
+    "fidelity_issue": 7368,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Exercise7.9.7",
