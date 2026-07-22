@@ -134,6 +134,71 @@ end
 
 end Embedding
 
+section Covector
+
+open scoped TensorProduct
+
+variable {G : Type*} [Group G]
+  {V : Type} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
+
+/-- Dual faithfulness: if the dual representation `dual ρ` acts as the identity for `g`, then
+`g = 1`. Applying `(dual ρ) g u = u` to functionals shows `ρ g⁻¹` fixes every vector (the dual
+separates points over `ℂ`), so `ρ g⁻¹ = ρ 1` and `g = 1` by faithfulness of `ρ`. -/
+theorem Etingof.dual_eq_one_imp_eq_one {ρ : Representation ℂ G V} (hρ : Function.Injective ρ)
+    {g : G} (hg : (Representation.dual ρ) g = 1) : g = 1 := by
+  have hfix : ρ g⁻¹ = ρ (1 : G) := by
+    apply LinearMap.ext
+    intro v
+    rw [map_one, Module.End.one_apply]
+    -- `f (ρ g⁻¹ v) = f v` for all functionals `f`, hence `ρ g⁻¹ v = v`.
+    have hsub : ∀ f : Module.Dual ℂ V, f (ρ g⁻¹ v - v) = 0 := by
+      intro f
+      have hf : (Representation.dual ρ) g f = f := by rw [hg]; rfl
+      have : f ∘ₗ ρ g⁻¹ = f := hf
+      have := LinearMap.congr_fun this v
+      simp only [LinearMap.comp_apply, map_sub] at this ⊢
+      rw [this, sub_self]
+    exact sub_eq_zero.mp ((Module.forall_dual_apply_eq_zero_iff ℂ (ρ g⁻¹ v - v)).mp hsub)
+  have : g⁻¹ = 1 := hρ hfix
+  rwa [inv_eq_one] at this
+
+/-- **Existence of a trivial-stabilizer covector** (the book's hint for Problem 4.12.10).
+For a faithful complex representation `ρ` on a finite-dimensional `V`, there is a covector
+`u ∈ V*` whose stabilizer in `G` under the dual representation is trivial: `(dual ρ) g u = u`
+forces `g = 1`.
+
+The covectors fixed by some `g ≠ 1` form a finite union of *proper* subspaces of `V*`
+(proper because `(dual ρ) g ≠ 1`, by `Etingof.dual_eq_one_imp_eq_one`). A vector space over the
+infinite field `ℂ` is not a finite union of proper subspaces
+(`Subspace.exists_eq_top_of_iUnion_eq_univ`), so some `u` avoids them all. -/
+theorem Etingof.exists_trivialStabilizer_covector [Finite G]
+    (ρ : Representation ℂ G V) (hρ : Function.Injective ρ) :
+    ∃ u : Module.Dual ℂ V, ∀ g : G, (Representation.dual ρ) g u = u → g = 1 := by
+  classical
+  -- The fixed subspace of a nonidentity `g`.
+  set Fix : {g : G // g ≠ 1} → Submodule ℂ (Module.Dual ℂ V) :=
+    fun g => LinearMap.ker ((Representation.dual ρ) g.1 - 1) with hFix
+  -- Each `Fix g` is proper: `Fix g = ⊤` would make `(dual ρ) g = 1`, contradicting `g ≠ 1`.
+  have hproper : ∀ g, Fix g ≠ ⊤ := by
+    intro g hg
+    rw [hFix, LinearMap.ker_eq_top, sub_eq_zero] at hg
+    exact g.2 (Etingof.dual_eq_one_imp_eq_one hρ hg)
+  -- Hence the union of the `Fix g` does not cover `V*`.
+  have hcover : ⋃ g, (Fix g : Set (Module.Dual ℂ V)) ≠ Set.univ := by
+    intro huniv
+    obtain ⟨g, hg⟩ := Subspace.exists_eq_top_of_iUnion_eq_univ huniv
+    exact hproper g hg
+  -- Pick `u` outside every `Fix g`.
+  obtain ⟨u, hu⟩ := Set.ne_univ_iff_exists_notMem _ |>.mp hcover
+  refine ⟨u, fun g hgu => ?_⟩
+  by_contra hg1
+  refine hu (Set.mem_iUnion.mpr ⟨⟨g, hg1⟩, ?_⟩)
+  simp only [hFix, SetLike.mem_coe, LinearMap.mem_ker, LinearMap.sub_apply,
+    Module.End.one_apply, sub_eq_zero]
+  exact hgu
+
+end Covector
+
 section MainTheorem
 
 open scoped TensorProduct
@@ -147,13 +212,13 @@ Then `W` occurs inside the symmetric power `SⁿV` for some `n`: there is a nonz
 Together with `Etingof.symPowEmbedding_equivariant`, this gives the book's full statement
 "occurs inside `SⁿV` (and hence inside `V^{⊗n}`)".
 
-TODO (follow-up issue): prove this following the book's hint. Choose `u ∈ V*` whose stabilizer
-in `G` is trivial (exists because `V*` over the infinite field `ℂ` is not a finite union of the
-proper fixed subspaces of the `g ≠ 1`; see `Subspace.exists_eq_top_of_iUnion_eq_univ`). The
-orbit `{g · u}` is then `|G|` distinct points, so the evaluation `SV → F(G, ℂ)`,
-`f ↦ (g ↦ f(g·u))`, is a surjective `G`-map (polynomial interpolation on the finite orbit).
-By Maschke the surjection splits, so the regular representation `F(G, ℂ)` — which contains
-every irreducible — is a `G`-summand of `⊕ₙ SⁿV`; hence `W ↪ SⁿV` for some `n`. -/
+TODO (follow-up issue): prove this following the book's hint. The first step, existence of a
+covector `u ∈ V*` with trivial `G`-stabilizer, is proven above as
+`Etingof.exists_trivialStabilizer_covector`. The orbit `{g · u}` is then `|G|` distinct points,
+so the evaluation `SV → F(G, ℂ)`, `f ↦ (g ↦ f(g·u))`, is a surjective `G`-map (polynomial
+interpolation on the finite orbit). By Maschke the surjection splits, so the regular
+representation `F(G, ℂ)` — which contains every irreducible — is a `G`-summand of `⊕ₙ SⁿV`;
+hence `W ↪ SⁿV` for some `n`. -/
 theorem Etingof.Problem4_12_10_symmetric {G : Type*} [Group G] [Fintype G]
     {V : Type} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     (ρ : Representation ℂ G V) (hρ : Function.Injective ρ)
