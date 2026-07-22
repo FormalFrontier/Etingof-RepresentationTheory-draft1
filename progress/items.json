@@ -8801,7 +8801,7 @@
     "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "wave-2 gap #5631 (degenerate wrapper of arbitrary function) repaired: algebraCartanMatrix is now genuinely constructed as c_ij = finrank k (P i →ₗ[A] P j), the book's dim Hom_A(P_i, P_j); wave-9 re-verified. Residual noted in wave-9: the prose observation 'positive diagonal entries' has no Lean lemma"
+    "fidelity_note": "wave-2 gap #5631 (degenerate wrapper of arbitrary function) repaired: algebraCartanMatrix is now genuinely constructed as c_ij = finrank k (P i →ₗ[A] P j), the book's dim Hom_A(P_i, P_j); wave-9 re-verified. #7440 closes the wave-9 residual: the prose 'nonnegative entries, positive diagonal entries' observation is now exposed as lemmas (algebraCartanMatrix_entry_nonneg, algebraCartanMatrix_diag_pos via the nonzero identity endomorphism, algebraCartanMatrix_diag_pos_of_indecomposable, plus ℤ-cast forms for downstream matrix use)"
   },
   {
     "id": "Chapter9/Problem9.3.2",
