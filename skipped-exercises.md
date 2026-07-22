@@ -66,8 +66,6 @@ declaration stands in for them.
 The following exercises appeared in the original hard-problem/skip list but were
 subsequently formalized. The former scope decision is therefore superseded:
 
-- Problem 2.7.5 — q-Weyl algebra;
-- Problem 2.16.3 — the Lie algebras `g_n`;
 - Problem 4.12.8 — finite subgroups of `SO(3)` and `SU(2)`;
 - Problem 5.24.2 — invariants of matrix tuples;
 - Problem 6.1.3 — finite and affine Dynkin diagrams;
@@ -82,5 +80,10 @@ These exercises were removed from the original skip list after substantial
 formalization, but a later fidelity audit found a remaining source-level endpoint.
 They are active work, not intentional omissions:
 
+- Problem 2.7.5 — the center, ideal, determinant, and irreducible-dimension results
+  are proved, but the requested classification of all finite-dimensional q-Weyl
+  irreducibles remains #7392;
+- Problem 2.16.3 — the dimension and non-finiteness results are proved, but the
+  requested explicit basis of `g_4` remains #7394;
 - Problem 9.6.5 — an abstract quasi-inverse is proved, but the book's named balanced
   tensor/cokernel functor and its comparison maps remain to be constructed; see #6567.
