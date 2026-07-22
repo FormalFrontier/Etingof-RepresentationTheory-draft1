@@ -1790,11 +1790,9 @@
     "status": "sorry_free",
     "coverage": "covered_partial",
     "last_updated": "2026-07-22",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage_note": "The public theorem proves semisimplicity, but the source's explicit A-linear isomorphism End_k(V) ≃ (dim V)·V is available only through private helper declarations and is not exposed; follow-up #7441.",
-    "fidelity_issue": 7441,
-    "followup_issue": 7441
+    "notes": "Both conclusions of the example are now public. Etingof.endEquivPiOfBasis (and its finite-basis form Etingof.endEquivPi) is the explicit A-linear equivalence End_k(V) ≃ₗ[A] (ι → V), f ↦ (f(b i))ᵢ, with evaluation simp lemmas endEquivPiOfBasis_apply / endEquivPi_apply. Etingof.endomorphism_semisimple is now derived from endEquivPi rather than an inline bijection."
   },
   {
     "id": "Chapter3/Remark3.1.3",
@@ -9032,9 +9030,7 @@
     "needs_statement": false,
     "sorry_free": true,
     "coverage": "covered_partial",
-    "fidelity_note": "The earlier degenerate wrapper was repaired in #5631: algebraCartanMatrix is genuinely c_ij = finrank k (P i →ₗ[A] P j). The source also explicitly asserts positive diagonal entries, but no public Lean lemma proves this for the projective-cover family; follow-up #7440.",
-    "fidelity_issue": 7440,
-    "followup_issue": 7440,
+    "fidelity_note": "wave-2 gap #5631 (degenerate wrapper of arbitrary function) repaired: algebraCartanMatrix is now genuinely constructed as c_ij = finrank k (P i →ₗ[A] P j), the book's dim Hom_A(P_i, P_j); wave-9 re-verified. #7440 closes the wave-9 residual: the prose 'nonnegative entries, positive diagonal entries' observation is now exposed as lemmas (algebraCartanMatrix_entry_nonneg, algebraCartanMatrix_diag_pos via the nonzero identity endomorphism, algebraCartanMatrix_diag_pos_of_indecomposable, plus ℤ-cast forms for downstream matrix use)",
     "last_updated": "2026-07-22"
   },
   {
