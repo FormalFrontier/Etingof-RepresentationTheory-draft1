@@ -84,7 +84,12 @@ subsequently formalized. The former scope decision is therefore superseded:
 - Problem 4.12.8 — finite subgroups of `SO(3)` and `SU(2)`;
 - Problem 5.24.2 — invariants of matrix tuples;
 - Problem 6.1.3 — finite and affine Dynkin diagrams;
-- Problem 8.2.8 — Künneth formulas for Tor and Ext;
+- Problem 8.2.8 — a corrected finite-dimensional Künneth theorem for Tor and Ext is
+  formalized. The literal source statement for Ext omits necessary finiteness
+  hypotheses and is false already in degree zero; the formalization deliberately
+  uses the sound strengthened scope. The public erratum and precise corrected-scope
+  documentation remain tracked by #7446, so this item is not recorded as literal
+  `covered_full` in `progress/items.json`;
 
 Their Lean files and `progress/items.json` are authoritative for the precise
 coverage and hypotheses of the completed results.
