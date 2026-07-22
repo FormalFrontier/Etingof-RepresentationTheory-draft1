@@ -5134,7 +5134,15 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "gap"
+      "result": "covered_partial",
+      "note": "Counting gap closed; ℂ-irreps bridge residual tracked in #7254."
+    },
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Discussion_complementary_series_summary.lean :: Etingof.GL2.constructedCount_eq_card_conjClasses, foundAllIrreducibles_galoisField, constructed_irreps_complete",
+    "coverage": {
+      "result": "covered_partial",
+      "lean_decl": "Etingof.GL2.constructedCount_eq_card_conjClasses",
+      "note": "Class-count claim discharged (foundAllIrreducibles_galoisField); constructed total = #ConjClasses proved (constructedCount_eq_card_conjClasses); completeness conclusion (constructed_irreps_complete) proved modulo the standard #irreps=#ConjClasses bridge over ℂ, which Mathlib lacks — tracked in #7254.",
+      "fidelity_issue": 7254
     }
   },
   {
