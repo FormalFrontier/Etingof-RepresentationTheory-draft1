@@ -3209,10 +3209,13 @@
     "start_line": 9,
     "end_line": 31,
     "status": "sorry_free",
+    "coverage": "covered_partial",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_decl": "Etingof.Example4_9_1.S3_tensor_character, Etingof.Example4_9_1.S3_tensor_product_character, Etingof.Example4_9_1.A5_tensor_character, Etingof.Example4_9_1.A5_tensor_product_character, Etingof.Example4_9_1.S4_tensor_character, Etingof.Example4_9_1.S4_tensor_product_character",
-    "fidelity_note": "All three book tables (S3, S4, A5) are formalized from genuine trace-based characters of the actual irreducible representations, with the multiplicity identity proved for every group element and phrased both as a character identity and on genuine FDRep tensor products. No native_decide."
+    "fidelity_note": "All three book tables (S3, S4, A5) are proved as genuine character identities for FDRep tensor products. The source states direct-sum decompositions of representations, but the corresponding RHS FDRep objects and equivariant isomorphisms are not exposed; reopened #5377 tracks that residual endpoint.",
+    "fidelity_issue": 5377,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Introduction_4.10",
@@ -4965,6 +4968,7 @@
     "sorry_free": true,
     "coverage": "covered_partial",
     "coverage_note": "Lemma5_13_3 proves only existence of a scalar alpha with c_lambda squared = alpha times c_lambda. The source gives the exact scalar n!/(|P_lambda||Q_lambda| dim V_lambda); that formula, and hence its nonzeroness at this endpoint, is absent.",
+    "fidelity_issue": 770,
     "last_updated": "2026-07-22"
   },
   {
@@ -6546,9 +6550,13 @@
     "start_line": 21,
     "end_line": 10,
     "status": "sorry_free",
+    "coverage": "covered_partial",
     "fidelity": "verified",
     "needs_statement": true,
-    "sorry_free": true
+    "sorry_free": true,
+    "fidelity_note": "The orientation V1 → V2 → V3 is formalized. The source also treats V1 → V2 ← V3 (the pair-of-subspaces problem) and classifies its six indecomposables; that second half is absent and tracked by #7402.",
+    "fidelity_issue": 7402,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Section6.3_heading",
@@ -7452,11 +7460,13 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
+    "coverage": "covered_partial",
     "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[fidelity wave 7, resolved #5838] Both claims now formalized. (1) forgetful A-mod→Vect_k representable by M=A via ringLmapEquivSelf. (2) non-representability on finite-dim modules: over A=k[x] (equivalent infinite-dim algebra; book's c_00(ℤ) is non-unital, outside Mathlib's Module framework), forgetful_not_representable shows no finite-dim module M=(V,S) can represent the forgetful functor, since every finite-dim S has a scalar μ (non-eigenvalue) with Hom_A(M,ℂ_μ)=0 despite dim ℂ_μ=1.",
-    "fidelity_issue": 5838
+    "fidelity_note": "The objectwise evaluation equivalence and finite-dimensional non-representability example are proved. The positive representability claim is not packaged as an isomorphism of functors: naturality and a NatIso/CorepresentableBy witness remain #7403.",
+    "fidelity_issue": 7403,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Introduction_7.6",
@@ -8411,7 +8421,10 @@
     "start_line": 19,
     "end_line": 2,
     "status": "sorry_free",
-    "coverage_note": "Proved (#6100): EtingofRepresentationTheory/Chapter9/Problem9_4_2.lean. Parts (i) Ext-vanishing characterization of pd (via HasProjectiveDimensionLT.subsingleton/.mk), (ii) pd(N)=pd(M)+1 for a nonsplit SES with P projective (via ShortExact.hasProjectiveDimensionLT_X₃_iff + splittingOfProjective/Injective to rule out degenerate cases), (iii) dimension-shifting for the syzygy (via ShortExact.hasProjectiveDimensionLT_X₁). All three sorry-free; axioms only propext/Classical.choice/Quot.sound."
+    "coverage": "covered_partial",
+    "coverage_note": "The Ext-vanishing characterization, nonsplit-SES formula, and one-step syzygy dimension shift are proved. Part (iii)'s arbitrary-resolution statement—projectivity of the dth kernel, construction of a length-d truncation, and finite-dimensional terms—is absent and tracked by #7401.",
+    "fidelity_issue": 7401,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter9/Definition9.4.3",
