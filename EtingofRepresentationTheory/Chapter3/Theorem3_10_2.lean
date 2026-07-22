@@ -126,8 +126,8 @@ Pick nonzero u ∈ U, decompose using a basis of V, and use a rank-1 projection
 to extract a nonzero pure tensor. Then the A- and B-actions generate all of V ⊗ W. -/
 theorem Etingof.tensor_product_irreducible (k : Type*) (A B V W : Type*)
     [Field k] [IsAlgClosed k]
-    [Ring A] [Algebra k A] [FiniteDimensional k A]
-    [Ring B] [Algebra k B] [FiniteDimensional k B]
+    [Ring A] [Algebra k A]
+    [Ring B] [Algebra k B]
     [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
     [AddCommGroup W] [Module k W] [Module B W] [IsScalarTower k B W]
     [FiniteDimensional k V] [FiniteDimensional k W]
@@ -182,8 +182,8 @@ section Part2Helpers
 open scoped TensorProduct
 
 variable {k : Type*} {A B : Type*} [Field k] [IsAlgClosed k]
-  [Ring A] [Algebra k A] [FiniteDimensional k A]
-  [Ring B] [Algebra k B] [FiniteDimensional k B]
+  [Ring A] [Algebra k A]
+  [Ring B] [Algebra k B]
 
 variable {M : Type*} [AddCommGroup M] [Module k M] [FiniteDimensional k M]
   [Module A M] [IsScalarTower k A M]
@@ -233,7 +233,7 @@ noncomputable def evalMap : V₀ ⊗[k] (V₀ →ₗ[A] M) →ₗ[k] M :=
         have h1 : f ((algebraMap k A c) • v) = (algebraMap k A c) • f v := f.map_smul _ _
         rwa [algebraMap_smul, algebraMap_smul] at h1 }
 
-omit [IsAlgClosed k] [FiniteDimensional k A] [FiniteDimensional k M] in
+omit [IsAlgClosed k] [FiniteDimensional k M] in
 @[simp]
 theorem evalMap_tmul (v : V₀) (f : V₀ →ₗ[A] M) :
     evalMap V₀ (v ⊗ₜ[k] f) = f v := by
@@ -251,8 +251,8 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
     (k : Type*) (A B : Type*)
     (M : Type u)
     [Field k] [IsAlgClosed k]
-    [Ring A] [Algebra k A] [FiniteDimensional k A]
-    [Ring B] [Algebra k B] [FiniteDimensional k B]
+    [Ring A] [Algebra k A]
+    [Ring B] [Algebra k B]
     [AddCommGroup M] [Module k M] [FiniteDimensional k M]
     [Module A M] [IsScalarTower k A M]
     [Module B M] [IsScalarTower k B M]
