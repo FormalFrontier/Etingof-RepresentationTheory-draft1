@@ -615,6 +615,12 @@
     "start_line": 14,
     "end_line": 1,
     "status": "sorry_free",
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "lean_decl": "Etingof.Problem_2_3_18",
+    "lean_file": "EtingofRepresentationTheory/Chapter2/Problem2_3_18.lean",
+    "fidelity_note": "[fidelity] Verified faithful (#7243). Countability hypothesis is genuine (hcard : Module.rank ℂ V ≤ Cardinal.aleph0), NOT FiniteDimensional — the statement is strictly more general than finite Schur and non-vacuous. Irreducibility is [IsSimpleModule A V]. Conclusion asserts a genuine scalar operator (∃ c : ℂ, ∀ v, φ v = c • v) for φ : V →ₗ[A] V (A-linear homomorphism of representations), not merely commutation nor a weak existential. Ground field is ℂ literally: the transcendence/uncountability argument (Cardinal.mk_complex, aleph0_lt_continuum) is load-bearing. Axiom-clean: [propext, Classical.choice, Quot.sound], no sorryAx.",
+    "last_updated": "2026-07-22",
     "coverage_note": "Formalized (#5884) in Chapter2/Problem2_3_18.lean as Etingof.Problem_2_3_18: for a ℂ-algebra A and an irreducible A-module V with Module.rank ℂ V ≤ ℵ₀, every φ : V →ₗ[A] V is scalar (∃ c, ∀ v, φ v = c • v). Proof follows Etingof's hint: D = Module.End A V is a division ring (Module.End.instDivisionRing / Schur); D is countably dimensional via injective ℂ-linear evaluation D → V at a nonzero vector; a non-scalar φ is transcendental over ℂ (else minpoly has degree 1 since ℂ is algebraically closed and D is a domain); the field ℂ(φ) is realized as the double centralizer Subalgebra.centralizer ℂ (Set.centralizer {φ}) (a commutative division subring, hence IsField.toField), inside which Transcendental.linearIndependent_sub_inv gives the uncountable ℂ-linearly independent family {(φ-a)⁻¹}, transported to D along the injective inclusion; then 𝔠 = #ℂ ≤ rank ℂ D ≤ ℵ₀ contradicts ℵ₀ < 𝔠. #print axioms: propext, Classical.choice, Quot.sound only."
   },
   {
