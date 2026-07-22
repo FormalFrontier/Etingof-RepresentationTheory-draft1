@@ -2254,7 +2254,70 @@
     "status": "sorry_free",
     "sorry_free": true,
     "fidelity": "verified",
-    "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_1.lean"
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter3/Problem3_9_1.lean"
+    ],
+    "coverage": "covered_partial",
+    "coverage_arm": "audited",
+    "coverage_note": "Coverage-arm audit (Stage 3.7, #7361): covered_partial. Problem3_9_1.lean (458 lines, sorry-free, axiom-clean [propext, Classical.choice, Quot.sound]) covers parts (a),(b),(d) in full and part (c) forward-only. (a) blockOp_mul_iff_isCocycle: genuine iff (a-block-triangular assignment is a representation) iff (f is a 1-cocycle). (b) coboundaryOf_isCocycle + coboundaryOf_eq_zero_iff + coboundaries_le_cocycles + Ext1: dX is a cocycle, dX=0 iff X is A-linear, B1 subset Z1, Ext1 = Z1/B1. (c) iso_of_sub_mem_coboundaries: only the FORWARD direction (f-f' in B1 => iso); the book's converse (unitriangular iso => f-f' in B1) is unformalized => covered_partial, gap tracked in #7362. (d) irreducible_ext_iso_iff_proportional: genuine iff over [IsAlgClosed k] for f.d. irreducible V,W, the faithful projective-space (P Ext1) classification. Ext1 is the in-book Z1/B1, not Mathlib's derived-functor Ext. Prior fidelity: verified.",
+    "last_updated": "2026-07-22",
+    "derived": [
+      {
+        "part": "(a) 1-cocycle condition",
+        "claim": "rho_U(a)=[[rho_V(a),f(a)],[0,rho_W(a)]] is a representation (multiplicative in a) iff f is a 1-cocycle f(ab)=rho_V(a).f(b)+f(a).rho_W(b); cocycles form Z1(W,V).",
+        "description": "Necessary-and-sufficient cocycle condition making the block-triangular assignment a representation; defines Z1.",
+        "source_span": "blobs/Chapter3/Problem3.9.1.md (a)",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Problem3_9_1.IsCocycle",
+          "Etingof.Problem3_9_1.blockOp",
+          "Etingof.Problem3_9_1.blockOp_mul_iff_isCocycle",
+          "Etingof.Problem3_9_1.cocycles"
+        ],
+        "reason": "blockOp_mul_iff_isCocycle (line 67) is a genuine iff between multiplicativity of a |-> blockOp f a and IsCocycle f. blockOp (line 55) is the honest block-triangular operator (blockOp_apply: (v,w) |-> (a.v + f a w, a.w)); cocycles (line 90) is the Z1 subspace. Clean axioms."
+      },
+      {
+        "part": "(b) coboundaries, B1 subset Z1, Ext1",
+        "claim": "dX(a)=rho_V(a)X - X rho_W(a) is a cocycle vanishing iff X is A-linear; coboundaries B1 (isomorphic to Hom_k(W,V)/Hom_A(W,V)) form a subspace of Z1; Ext1(W,V)=Z1/B1.",
+        "description": "Coboundary map, its cocycle/kernel properties, and the definition of Ext1 as the quotient.",
+        "source_span": "blobs/Chapter3/Problem3.9.1.md (b)",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Problem3_9_1.coboundaryOf",
+          "Etingof.Problem3_9_1.coboundaryOf_isCocycle",
+          "Etingof.Problem3_9_1.coboundaryOf_eq_zero_iff",
+          "Etingof.Problem3_9_1.coboundaries",
+          "Etingof.Problem3_9_1.coboundaries_le_cocycles",
+          "Etingof.Problem3_9_1.Ext1"
+        ],
+        "reason": "coboundaryOf_isCocycle (115) gives dX in Z1; coboundaryOf_eq_zero_iff (125) proves dX=0 iff X is A-linear (the kernel characterization behind B1 iso Hom_k/Hom_A); coboundaries_le_cocycles (178) gives B1 subset Z1; Ext1 (185) = Z1/B1. The named iso B1 iso Hom_k(W,V)/Hom_A(W,V) is not separately bundled but is immediate: coboundaryLinear has range = coboundaries (coboundaries_eq_range) and kernel = Hom_A (coboundaryOf_eq_zero_iff), so it is a first-isomorphism-theorem corollary of decls already present. Clean axioms."
+      },
+      {
+        "part": "(c) B1-equivalence classifies extensions",
+        "claim": "Forward: if f-f' in B1 then U_f iso U_{f'} as representations. Converse: if phi:U_f->U_{f'} is an isomorphism of unitriangular form [[1_V,*],[0,1_W]] then f-f' in B1. Thus Ext1 classifies extensions.",
+        "description": "Both directions relating B1-equivalence of cocycles to isomorphism of the corresponding extensions.",
+        "source_span": "blobs/Chapter3/Problem3.9.1.md (c)",
+        "coverage": "covered_partial",
+        "followup_issue": "#7362",
+        "lean_decl": [
+          "Etingof.Problem3_9_1.IntertwinesExt",
+          "Etingof.Problem3_9_1.iso_of_sub_mem_coboundaries"
+        ],
+        "reason": "FORWARD direction covered_full: iso_of_sub_mem_coboundaries (203) builds the genuine unitriangular intertwiner phi=[[1,X],[0,1]] from f-f'=dX and proves IntertwinesExt (a real k-linear equiv intertwining the block operators for every a), over any algebra A. CONVERSE (unitriangular iso => f-f' in B1) is NOT formalized: no standalone theorem reads off f-f' in B1 from an intertwiner of the special form [[1,*],[0,1]]. The part-(d) theorem irreducible_ext_iso_iff_proportional handles an arbitrary phi but only under [IsAlgClosed k] + finite-dimensional + irreducible and concludes a possibly-nonunit ratio, so it does not subsume the elementary general-A unitriangular converse. Strictly weaker than the book's (c) => covered_partial; gap tracked in follow-up #7362."
+      },
+      {
+        "part": "(d) iso classes <-> P Ext1",
+        "claim": "For finite-dimensional irreducible V,W, U_f iso U_{f'} iff f,f' proportional; nontrivial extensions are parametrized by P Ext1(W,V); every extension is trivial iff Ext1=0.",
+        "description": "Projective-space classification of isomorphism classes of extensions in the irreducible finite-dimensional case.",
+        "source_span": "blobs/Chapter3/Problem3.9.1.md (d)",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Problem3_9_1.ext_iso_of_sub_smul_mem_coboundaries",
+          "Etingof.Problem3_9_1.irreducible_ext_iso_iff_proportional"
+        ],
+        "reason": "irreducible_ext_iso_iff_proportional (307) is a genuine iff: (exists phi, IntertwinesExt f f' phi) iff (exists c != 0, f - c.f' in B1) - the faithful P-form of the book's projective-space classification (a nonzero ratio = a line in P Ext1; f in B1 = the split/trivial class). [IsAlgClosed k] is the mathematically correct hypothesis, not an artificial narrowing: the P_k Ext1 parametrization needs End_A(V)=End_A(W)=k, which Schur (Corollary_2_3_10, used in the forward proof) supplies only over an algebraically closed field; the docstring records that over a non-closed field the classes are Ext1 mod D_V^x x D_W^x. Forward => block-decomposes an arbitrary phi; <= reuses ext_iso_of_sub_smul_mem_coboundaries. Clean axioms."
+      }
+    ]
   },
   {
     "id": "Chapter3/Problem3.9.2",
@@ -2293,7 +2356,42 @@
     "status": "sorry_free",
     "sorry_free": true,
     "fidelity": "verified",
-    "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_4.lean"
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter3/Problem3_9_4.lean"
+    ],
+    "coverage": "covered_partial",
+    "coverage_arm": "audited",
+    "coverage_note": "Coverage-arm audit (Stage 3.7, #7361): covered_partial. Problem3_9_4.lean (347 lines, sorry-free, axiom-clean [propext, Classical.choice, Quot.sound]). (a) isTrivial_of_ext1_subsingleton: genuine Ext1(V,V)=0 => every formal deformation is trivial (isomorphic to rho), with FormalDeformation / constDeformation / IsIsomorphic / IsTrivial all honestly constructed and Ext1 = the in-book Z1/B1. (b) is an open-ended book QUESTION (is the converse true? consider dual numbers k[x]/x^2), faithfully recorded as the proposition ConverseHolds / Problem3_9_4b but left unresolved, matching the book => covered_partial; no follow-up issue (the book asserts nothing to formalize as a theorem). Prior fidelity: verified.",
+    "last_updated": "2026-07-22",
+    "derived": [
+      {
+        "part": "(a) Ext1(V,V)=0 => deformations trivial",
+        "claim": "If Ext1(V,V)=0 then any formal deformation of rho is trivial, i.e. isomorphic to rho.",
+        "description": "Rigidity: vanishing of self-extensions forces every formal deformation to be trivial.",
+        "source_span": "blobs/Chapter3/Problem3.9.4.md (a)",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Problem3_9_4.FormalDeformation",
+          "Etingof.Problem3_9_4.constDeformation",
+          "Etingof.Problem3_9_4.IsIsomorphic",
+          "Etingof.Problem3_9_4.IsTrivial",
+          "Etingof.Problem3_9_4.isTrivial_of_ext1_subsingleton"
+        ],
+        "reason": "isTrivial_of_ext1_subsingleton (309): Subsingleton (Ext1 k A V V) -> for all D, IsTrivial D, i.e. Ext1(V,V)=0 => every formal deformation is isomorphic to the constant deformation. All data genuinely constructed: FormalDeformation (Cauchy-product multiplicativity rho_n(ab)=sum_{i+j=n} rho_i(a).rho_j(b)), constDeformation (real body: rho_0=rho, rho_n=0 for n>=1, obligation proved), IsIsomorphic (power series b(t)=1+b_1 t+... with b_0=id intertwining), IsTrivial. Ext1 reuses the in-book Problem3_9_1.Ext1 (Z1/B1), not Mathlib Ext. Trivialiser built order by order; the order-n obstruction is shown to be a 1-cocycle and killed by Ext1=0. Clean axioms."
+      },
+      {
+        "part": "(b) converse (open question)",
+        "claim": "Is the converse to (a) true (all deformations trivial => Ext1(V,V)=0)? Suggested test case: the dual numbers A=k[x]/x^2.",
+        "description": "Open-ended question in the book asking whether rigidity characterizes vanishing self-extensions.",
+        "source_span": "blobs/Chapter3/Problem3.9.4.md (b)",
+        "coverage": "covered_partial",
+        "lean_decl": [
+          "Etingof.Problem3_9_4.ConverseHolds",
+          "Etingof.Problem3_9_4.Problem3_9_4b"
+        ],
+        "reason": "The book poses (b) as an OPEN-ENDED QUESTION, not a claim to prove. The converse is faithfully STATED as the proposition ConverseHolds (335) = (for all D, IsTrivial D) -> Subsingleton (Ext1 ...), specialized to the dual numbers in Problem3_9_4b (342) per the book's hint. It is neither proved nor refuted (matching the book leaving it open), so the truth-value is not established => covered_partial, not covered_full. No follow-up issue: the book makes no assertion here, so the Lean statement is not weaker than a book claim; resolving the question would be new mathematics beyond formalization scope."
+      }
+    ]
   },
   {
     "id": "Chapter3/Problem3.9.5",
