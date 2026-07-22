@@ -1239,8 +1239,12 @@
     "start_line": 21,
     "end_line": 23,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "fidelity_note": "Lean aliases Mathlib's coordinate-free universal enveloping algebra and omits the source's chosen-basis, structure-constant presentation; combined bridge follow-up #7474.",
+    "fidelity_issue": 7474,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Remark2.9.10",
@@ -1251,7 +1255,12 @@
     "start_line": 24,
     "end_line": 24,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "The promised equivalence between the earlier basis presentation and later coordinate-free construction is absent because both Lean names alias the same type; combined follow-up #7474.",
+    "fidelity_issue": 7474,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Exercise2.9.11",
@@ -1543,9 +1552,11 @@
     "start_line": 1,
     "end_line": 16,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "sorry_free": true,
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "fidelity_note": "The coordinate-free symmetric, exterior, and enveloping algebras are present. The final identification of the coordinate-free enveloping algebra with Definition 2.9.9's basis presentation is not formalized; combined follow-up #7474.",
+    "fidelity_issue": 7474,
     "last_updated": "2026-07-22"
   },
   {
