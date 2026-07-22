@@ -7840,10 +7840,11 @@
     "end_line": 2,
     "status": "sorry_free",
     "fidelity": "verified",
-    "needs_statement": true,
+    "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[re-verified review #7183, 2026-07-21] Repair landed; statement faithful and non-vacuous, builds, axiom-clean (no sorryAx). [fidelity wave 7] Definition 7.8.1 names four notions: complex, differentials, cohomology H^i=Ker(d_i)/Im(d_{i-1}), exact-in-i-th-term, exact sequence. Lean declares only Etingof.CochainComplex' (the complex object); cohomology and exactness are named in the docstring's Mathlib-correspondence but have no Lean declaration (docstring/decl mismatch).",
-    "fidelity_issue": 5839
+    "fidelity_note": "Definition 7.8.1 is covered by explicit public aliases for cochain complexes, differentials, cohomology, exactness at a degree, and acyclicity, all using Mathlib's homological-complex API.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Discussion_after_Definition7.8.1",
@@ -7869,10 +7870,11 @@
     "end_line": 20,
     "status": "sorry_free",
     "fidelity": "verified",
-    "needs_statement": true,
+    "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[re-verified review #7183, 2026-07-21] Repair landed; statement faithful and non-vacuous, builds, axiom-clean (no sorryAx). [fidelity wave 7] Definition 7.8.2 defines a short EXACT sequence (0→X→Y→Z→0 exact; X→Y mono, Y→Z epi, Y/X→Z iso). Lean declares Etingof.ShortComplex := CategoryTheory.ShortComplex (a short complex, satisfied by the zero complex); the defining ShortExact predicate is dropped.",
-    "fidelity_issue": 5840
+    "fidelity_note": "Definition 7.8.2 is represented by Etingof.ShortExactSequence, the subtype of short complexes carrying a ShortComplex.ShortExact proof, so exactness is part of the bundled object.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Example7.8.3",
