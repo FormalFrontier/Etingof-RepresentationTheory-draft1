@@ -50,6 +50,11 @@ The (a)–(d) theorems below are all proved (`sorry`-free):
   read off the classification — every irreducible has dimension `1` or `p`. Together with (c)
   and the sum-of-squares formula `p²·1² + (p-1)·p² = p³ = |G|`, the irreducibles are exactly
   the `p²` characters and the `p-1` representations `R_z` (`z ≠ 1`) of dimension `p`.
+  The grand-total headline is `card_irreducibles`: the number of isomorphism classes of
+  irreducibles, `Nat.card (Etingof.IrrepClasses ℂ (Heisenberg p))`, equals `p² + (p-1)`; the
+  structural enumeration bijection is `nonempty_irrepClasses_equiv`
+  (`IrrepClasses ℂ (Heisenberg p) ≃ (Heisenberg p →* ℂˣ) ⊕ {z // zᵖ = 1 ∧ z ≠ 1}`), with the
+  supporting counts `card_nontrivial_pthRoots` (`= p-1`) and `sum_sq_dim_eq_card`.
 -/
 
 noncomputable section
@@ -1026,5 +1031,125 @@ theorem irreducible_dim [Fact p.Prime]
   · right
     rw [LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hziso.some)]
     exact finrank_rhoHom z hz
+
+/-! ### Part (d) grand-total count headline
+
+The exhaustion trichotomy (`simple_iso_charRep_or_rhoHom`) and the pairwise-non-isomorphism
+lemmas (`charRep_iso_iff`, `rhoHom_iso_iff`, `charRep_not_iso_rhoHom`) assemble into an explicit
+enumeration of the irreducibles: the isomorphism classes of simple `FDRep ℂ (Heisenberg p)` are
+in bijection with `(Heisenberg p →* ℂˣ) ⊕ {z : ℂ // zᵖ = 1 ∧ z ≠ 1}`, i.e. the `p²`
+one-dimensional characters together with the `p - 1` `p`-dimensional representations `R_z`
+(`z ≠ 1`). Hence the total number of irreducibles is `p² + (p - 1)` — the "sum of squares"
+classification of part (d), now exposed as a headline count rather than only as internal
+`have`s inside `simple_iso_charRep_or_rhoHom`. -/
+
+/-- The complete index set of irreducibles of the Heisenberg group: the one-dimensional
+characters `χ : Heisenberg p →* ℂˣ` (part (c)) together with the `p`-dimensional representations
+`R_z` for a `p`-th root of unity `z ≠ 1` (part (b)). -/
+abbrev IrrepIndex (p : ℕ) : Type :=
+  (Heisenberg p →* ℂˣ) ⊕ {z : ℂ // z ^ p = 1 ∧ z ≠ 1}
+
+/-- There are exactly `p - 1` nontrivial complex `p`-th roots of unity: over `ℂ` the equation
+`zᵖ = 1` has exactly `p` solutions (`IsPrimitiveRoot.card_nthRootsFinset`), one of which is `1`.
+This counts the `p`-dimensional irreducibles `R_z` (`z ≠ 1`). -/
+theorem card_nontrivial_pthRoots [Fact p.Prime] :
+    Nat.card {z : ℂ // z ^ p = 1 ∧ z ≠ 1} = p - 1 := by
+  classical
+  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have hp0 : 0 < p := (Fact.out : p.Prime).pos
+  obtain ⟨ζ, hζ⟩ : ∃ ζ : ℂ, IsPrimitiveRoot ζ p :=
+    ⟨_, Complex.isPrimitiveRoot_exp p (NeZero.ne p)⟩
+  -- The finset of `p`-th roots of unity with `1` removed.
+  set S : Finset ℂ := (Polynomial.nthRootsFinset p (1 : ℂ)).erase 1 with hS
+  have hmem : ∀ z : ℂ, (z ^ p = 1 ∧ z ≠ 1) ↔ z ∈ S := by
+    intro z
+    rw [hS, Finset.mem_erase, Polynomial.mem_nthRootsFinset hp0]
+    tauto
+  have hcard : S.card = p - 1 := by
+    rw [hS, Finset.card_erase_of_mem (Polynomial.one_mem_nthRootsFinset hp0),
+      hζ.card_nthRootsFinset]
+  rw [Nat.card_congr (Equiv.subtypeEquivRight hmem), Nat.card_eq_finsetCard, hcard]
+
+/-- Finiteness of the nontrivial `p`-th roots of unity (a subtype of a finite root set). -/
+instance [Fact p.Prime] : Finite {z : ℂ // z ^ p = 1 ∧ z ≠ 1} := by
+  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have hp0 : 0 < p := (Fact.out : p.Prime).pos
+  refine Finite.of_injective (β := (Polynomial.nthRootsFinset p (1 : ℂ)))
+    (fun z => ⟨z.1, (Polynomial.mem_nthRootsFinset hp0 1).mpr z.2.1⟩) ?_
+  intro a b h
+  exact Subtype.ext (congrArg (fun s : (Polynomial.nthRootsFinset p (1 : ℂ)) => (s : ℂ)) h)
+
+/-- **Part (d), structural classification.** The isomorphism classes of irreducible complex
+representations of the Heisenberg group are in bijection with `IrrepIndex p`: every simple is
+isomorphic to exactly one of the `p²` characters `charRep χ` or one of the `p - 1`
+representations `R_z` (`z ≠ 1`). Completeness is `simple_iso_charRep_or_rhoHom`; irredundancy is
+`charRep_iso_iff` / `rhoHom_iso_iff` / `charRep_not_iso_rhoHom`. -/
+theorem nonempty_irrepClasses_equiv [Fact p.Prime] :
+    Nonempty (Etingof.IrrepClasses ℂ (Heisenberg p) ≃ IrrepIndex p) := by
+  classical
+  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  -- The full subcategory of simple objects, and the family realizing each index.
+  let 𝒮 : ObjectProperty (FDRep ℂ (Heisenberg p)) := fun V => Simple V
+  let E : IrrepIndex p → FDRep ℂ (Heisenberg p) :=
+    Sum.elim (fun χ => FDRep.of (Etingof.Example4_3_S3.charRep χ))
+      (fun z => FDRep.of (rhoHom z.1 z.2.1))
+  have hEsimple : ∀ i, Simple (E i) := by
+    rintro (χ | ⟨z, hz, hz1⟩)
+    · exact Etingof.Example4_3_S3.charRep_simple χ
+    · haveI : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) (rhoHom z hz).asModule :=
+        (irreducible_iff z hz (rhoHom z hz) (rhoHom_xGen z hz) (rhoHom_yGen z hz)).mpr hz1
+      exact Etingof.simple_fdRepOf_of_isSimpleModule (rhoHom z hz)
+  -- Irredundancy: the family is injective up to isomorphism.
+  have hEinj : ∀ i j, Nonempty (E i ≅ E j) → i = j := by
+    rintro (χ | ⟨z, hz, hz1⟩) (χ' | ⟨z', hz', hz1'⟩) hiso
+    · exact congrArg Sum.inl ((charRep_iso_iff χ χ').mp hiso)
+    · exact absurd hiso (charRep_not_iso_rhoHom χ hz')
+    · exact absurd (hiso.map Iso.symm) (charRep_not_iso_rhoHom χ' hz)
+    · exact congrArg Sum.inr (Subtype.ext ((rhoHom_iso_iff hz hz').mp hiso))
+  -- Package each index as a simple object of the subcategory, then pass to iso classes.
+  let P : IrrepIndex p → 𝒮.FullSubcategory := fun i => ⟨E i, hEsimple i⟩
+  let f : IrrepIndex p → Etingof.IrrepClasses ℂ (Heisenberg p) :=
+    fun i => Quotient.mk (isIsomorphicSetoid _) (P i)
+  have hf : Function.Bijective f := by
+    constructor
+    · -- Injective: equal classes give an iso `E i ≅ E j`, hence `i = j`.
+      intro i j hij
+      obtain ⟨iso⟩ := Quotient.exact hij
+      exact hEinj i j ⟨𝒮.ι.mapIso iso⟩
+    · -- Surjective: every simple is iso to some `E i` (`simple_iso_charRep_or_rhoHom`).
+      intro c
+      induction c using Quotient.inductionOn with
+      | h Q =>
+        haveI : Simple Q.obj := Q.property
+        rcases simple_iso_charRep_or_rhoHom Q.obj with ⟨χ, ⟨α⟩⟩ | ⟨z, hz, hz1, ⟨α⟩⟩
+        · exact ⟨Sum.inl χ, Quotient.sound ⟨𝒮.fullyFaithfulι.preimageIso α.symm⟩⟩
+        · exact ⟨Sum.inr ⟨z, hz, hz1⟩, Quotient.sound ⟨𝒮.fullyFaithfulι.preimageIso α.symm⟩⟩
+  exact ⟨(Equiv.ofBijective f hf).symm⟩
+
+/-- **Part (d), grand-total count headline.** The number of isomorphism classes of irreducible
+complex representations of the Heisenberg group is `p² + (p - 1)`: the `p²` one-dimensional
+characters of part (c) together with the `p - 1` representations `R_z` of dimension `p` from
+part (b). This is the assembled "sum of squares" classification of part (d). -/
+theorem card_irreducibles [Fact p.Prime] :
+    Nat.card (Etingof.IrrepClasses ℂ (Heisenberg p)) = p ^ 2 + (p - 1) := by
+  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  haveI : Finite (Heisenberg p →* ℂˣ) :=
+    Nat.finite_of_card_ne_zero (by
+      rw [one_dim_reps_card]; exact pow_ne_zero 2 (Fact.out : p.Prime).ne_zero)
+  obtain ⟨e⟩ := nonempty_irrepClasses_equiv (p := p)
+  rw [Nat.card_congr e]
+  change Nat.card ((Heisenberg p →* ℂˣ) ⊕ {z : ℂ // z ^ p = 1 ∧ z ≠ 1}) = p ^ 2 + (p - 1)
+  rw [Nat.card_sum, one_dim_reps_card, card_nontrivial_pthRoots]
+
+/-- The "sum of squares" identity underlying the classification: the squared dimensions of the
+`p²` one-dimensional irreducibles and the `p - 1` irreducibles of dimension `p` sum to
+`p³ = |Heisenberg p|`. -/
+theorem sum_sq_dim_eq_card [Fact p.Prime] :
+    p ^ 2 * 1 ^ 2 + (p - 1) * p ^ 2 = Fintype.card (Heisenberg p) := by
+  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have hp1 : 1 ≤ p := (Fact.out : p.Prime).one_lt.le
+  rw [Heisenberg.card_eq, one_pow, mul_one, add_comm]
+  -- `(p-1)·p² + p² = ((p-1)+1)·p² = p·p² = p³`
+  rw [← Nat.succ_mul, Nat.succ_eq_add_one, Nat.sub_add_cancel hp1]; ring
 
 end Etingof.Problem4_12_2
