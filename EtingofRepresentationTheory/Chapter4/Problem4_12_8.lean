@@ -1,4 +1,5 @@
 import Mathlib
+import EtingofRepresentationTheory.Chapter4.Problem4_12_7
 
 /-!
 # Problem 4.12.8: classification of finite subgroups of `SO(3)` and `SU(2)`
@@ -34,8 +35,15 @@ list above.)
 * **(b)** `su2_finite_subgroup_double_cover`: via a `2`-to-`1` homomorphism `h : SU(2) → SO(3)`
   with kernel `{±1}`, any finite subgroup `H ≤ SU(2)` has image `h(H)` a finite subgroup of
   `SO(3)` (classified by (a)), and `|H| = |h(H)|` or `|H| = 2·|h(H)|` according to whether `H`
-  contains `-1`. The corresponding subgroups of `SU(2)` are the cyclic, binary dihedral, and
-  binary tetrahedral/octahedral/icosahedral groups (recorded here in the docstring).
+  contains `-1`.
+* **(b), enumerated** `su2_finite_subgroup_classification`: the full binary-polyhedral list,
+  pinned to the concrete double cover `Problem4_12_7.exists_surjective_hom_to_SO3`. For every
+  finite `H ≤ SU(2)`, the image `h(H)` is one of the five `SO(3)` families of (a); if `-1 ∈ H`
+  then `H` is the full preimage `h⁻¹(h(H))` (the binary group `2·h(H)` — binary cyclic, binary
+  dihedral/dicyclic, binary tetrahedral `2·A₄`, binary octahedral `2·S₄`, binary icosahedral
+  `2·A₅`), and if `-1 ∉ H` then `h` restricts to an isomorphism `H ≃* h(H)`. Supporting
+  pieces: `su2_image_classification`, `su2_full_preimage_of_neg_one_mem`,
+  `su2_iso_image_of_neg_one_not_mem`.
 -/
 
 open Matrix
@@ -3526,5 +3534,137 @@ theorem su2_finite_subgroup_double_cover
       · exact key1 x h1
       · exact absurd h1 (hno (x : specialUnitaryGroup (Fin 2) ℂ) x.2)
     rw [hcount, hbot, Subgroup.card_bot, mul_one]
+
+/-!
+## Part (b), continued: the enumerated `SU(2)` classification
+
+`su2_finite_subgroup_double_cover` records only the double-cover *order* relation. Here we
+upgrade it to the *enumerated* classification of finite subgroups of `SU(2)` promised by the
+book, and pin it to the concrete double cover `Problem4_12_7.exists_surjective_hom_to_SO3` so
+the final statement is unconditional (no re-hypothesized `h`).
+
+The picture: for `h : SU(2) → SO(3)` with kernel `{±1}` and finite `H ≤ SU(2)`, the image
+`h(H)` is a finite subgroup of `SO(3)`, hence one of the five families of part (a). If `-1 ∈ H`
+then `ker h ⊆ H`, so `H` is the *full preimage* `h⁻¹(h(H))` — the binary group `2·h(H)` of
+order `2|h(H)|`. If `-1 ∉ H` then `h` restricts to an isomorphism `H ≃* h(H)`. Threading the
+five families through this dichotomy gives exactly the book's list:
+
+* cyclic `h(H)` → cyclic (`-1 ∉ H`) or binary cyclic (`-1 ∈ H`);
+* dihedral `Dₙ` → binary dihedral / dicyclic `2·Dₙ`;
+* `A₄` → binary tetrahedral `2·A₄` (order 24);
+* `S₄` → binary octahedral `2·S₄` (order 48);
+* `A₅` → binary icosahedral `2·A₅` (order 120).
+-/
+
+/-- The image `h(H)` of a finite subgroup `H ≤ SU(2)` under a homomorphism to `SO(3)` is a
+finite subgroup of `SO(3)`, hence — by part (a) — cyclic, dihedral, or isomorphic to `A₄`,
+`S₄`, or `A₅`. This is the first half of the `SU(2)` classification: every finite subgroup of
+`SU(2)` sits over one of the five `SO(3)` families. -/
+theorem su2_image_classification
+    (h : specialUnitaryGroup (Fin 2) ℂ →* specialOrthogonalGroup (Fin 3) ℝ)
+    (H : Subgroup (specialUnitaryGroup (Fin 2) ℂ)) [Finite H] :
+    IsCyclic (H.map h) ∨
+    (∃ n : ℕ, Nonempty ((H.map h) ≃* DihedralGroup n)) ∨
+    Nonempty ((H.map h) ≃* alternatingGroup (Fin 4)) ∨
+    Nonempty ((H.map h) ≃* Equiv.Perm (Fin 4)) ∨
+    Nonempty ((H.map h) ≃* alternatingGroup (Fin 5)) := by
+  haveI : Finite (H.map h) :=
+    Finite.of_surjective (fun x : H => (⟨h x, Subgroup.mem_map.mpr ⟨x, x.2, rfl⟩⟩ : H.map h))
+      (by rintro ⟨y, hy⟩; obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hy; exact ⟨⟨x, hx⟩, rfl⟩)
+  exact so3_finite_subgroup_classification (H.map h)
+
+/-- **Binary preimage.** If `-1 ∈ H` then `ker h = {±1} ⊆ H`, so `H` equals the full preimage
+`h⁻¹(h(H))` of its image. Combined with `su2_image_classification`, this exhibits `H` as the
+binary group `2·h(H)` over one of the five `SO(3)` families (order `2|h(H)|` by
+`su2_finite_subgroup_double_cover`). -/
+theorem su2_full_preimage_of_neg_one_mem
+    (h : specialUnitaryGroup (Fin 2) ℂ →* specialOrthogonalGroup (Fin 3) ℝ)
+    (hker : ∀ A : specialUnitaryGroup (Fin 2) ℂ,
+      A ∈ h.ker ↔ ((A : Matrix (Fin 2) (Fin 2) ℂ) = 1 ∨
+        (A : Matrix (Fin 2) (Fin 2) ℂ) = -1))
+    (H : Subgroup (specialUnitaryGroup (Fin 2) ℂ))
+    (hneg : ∃ A ∈ H, (A : Matrix (Fin 2) (Fin 2) ℂ) = -1) :
+    H = Subgroup.comap h (H.map h) := by
+  obtain ⟨A₀, hA₀H, hA₀⟩ := hneg
+  -- `ker h ≤ H`: kernel elements have matrix `±1`, and both `1` and the given `A₀` lie in `H`.
+  have hkerle : h.ker ≤ H := by
+    intro x hx
+    rcases (hker x).mp hx with h1 | h1
+    · -- matrix `1` forces `x = 1 ∈ H`
+      have hx1 : x = 1 :=
+        Subtype.ext (h1.trans (by simp : (1 : Matrix (Fin 2) (Fin 2) ℂ) =
+          ((1 : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ)))
+      rw [hx1]; exact H.one_mem
+    · -- matrix `-1` forces `x = A₀ ∈ H`
+      have hxA₀ : x = A₀ := Subtype.ext (h1.trans hA₀.symm)
+      rw [hxA₀]; exact hA₀H
+  exact (Subgroup.comap_map_eq_self hkerle).symm
+
+/-- **Faithful "half" copy.** If `-1 ∉ H` then `h` restricts to an injective homomorphism on
+`H` (its kernel is `⊥`), so `H` is isomorphic to its image `h(H)`. Combined with
+`su2_image_classification`, this exhibits `H` itself as one of the five `SO(3)` families
+(a cyclic group, or an isomorphic copy of a dihedral/`A₄`/`S₄`/`A₅` group). -/
+theorem su2_iso_image_of_neg_one_not_mem
+    (h : specialUnitaryGroup (Fin 2) ℂ →* specialOrthogonalGroup (Fin 3) ℝ)
+    (hker : ∀ A : specialUnitaryGroup (Fin 2) ℂ,
+      A ∈ h.ker ↔ ((A : Matrix (Fin 2) (Fin 2) ℂ) = 1 ∨
+        (A : Matrix (Fin 2) (Fin 2) ℂ) = -1))
+    (H : Subgroup (specialUnitaryGroup (Fin 2) ℂ))
+    (hno : ∀ A ∈ H, (A : Matrix (Fin 2) (Fin 2) ℂ) ≠ -1) :
+    Nonempty ((H : Type _) ≃* H.map h) := by
+  set h' : H →* specialOrthogonalGroup (Fin 3) ℝ := h.comp H.subtype with hh'
+  -- range of the restriction is exactly the image subgroup
+  have hrange : h'.range = H.map h := by
+    rw [hh', MonoidHom.range_eq_map, ← Subgroup.map_map, ← MonoidHom.range_eq_map,
+      Subgroup.range_subtype]
+  -- `h'` is injective: its kernel is trivial, since no element of `H` has matrix `-1`.
+  have hinj : Function.Injective h' := by
+    rw [← MonoidHom.ker_eq_bot_iff, Subgroup.eq_bot_iff_forall]
+    intro x hx
+    have hxmem : (x : specialUnitaryGroup (Fin 2) ℂ) ∈ h.ker := by
+      rw [MonoidHom.mem_ker]
+      have := MonoidHom.mem_ker.mp hx
+      rwa [hh', MonoidHom.comp_apply, Subgroup.coe_subtype] at this
+    rcases (hker _).mp hxmem with h1 | h1
+    · exact Subtype.ext (Subtype.ext (h1.trans (by simp)))
+    · exact absurd h1 (hno (x : specialUnitaryGroup (Fin 2) ℂ) x.2)
+  exact ⟨(MonoidHom.ofInjective hinj).trans (MulEquiv.subgroupCongr hrange)⟩
+
+/-- **Part (b), the enumerated `SU(2)` classification (unconditional).** Using the concrete
+double cover `Problem4_12_7.exists_surjective_hom_to_SO3`, every finite subgroup `H ≤ SU(2)` is
+classified as follows. There is a surjective `h : SU(2) → SO(3)` with kernel `{±1}` such that:
+
+* the image `h(H)` is one of the five `SO(3)` families of part (a) (cyclic, dihedral, `A₄`,
+  `S₄`, `A₅`);
+* if `-1 ∈ H`, then `H` is the *full binary preimage* `h⁻¹(h(H))` and `|H| = 2·|h(H)|` — i.e.
+  `H` is the binary group `2·h(H)` (binary cyclic, binary dihedral/dicyclic, binary
+  tetrahedral `2·A₄`, binary octahedral `2·S₄`, or binary icosahedral `2·A₅`);
+* if `-1 ∉ H`, then `h` restricts to an isomorphism `H ≃* h(H)` and `|H| = |h(H)|` — `H` is a
+  faithful copy of one of the five `SO(3)` families.
+
+This is the full binary-polyhedral classification the book asks for in part (b). -/
+theorem su2_finite_subgroup_classification
+    (H : Subgroup (specialUnitaryGroup (Fin 2) ℂ)) [Finite H] :
+    ∃ h : specialUnitaryGroup (Fin 2) ℂ →* specialOrthogonalGroup (Fin 3) ℝ,
+      Function.Surjective h ∧
+      (∀ A : specialUnitaryGroup (Fin 2) ℂ, A ∈ h.ker ↔
+        ((A : Matrix (Fin 2) (Fin 2) ℂ) = 1 ∨ (A : Matrix (Fin 2) (Fin 2) ℂ) = -1)) ∧
+      (IsCyclic (H.map h) ∨
+        (∃ n : ℕ, Nonempty ((H.map h) ≃* DihedralGroup n)) ∨
+        Nonempty ((H.map h) ≃* alternatingGroup (Fin 4)) ∨
+        Nonempty ((H.map h) ≃* Equiv.Perm (Fin 4)) ∨
+        Nonempty ((H.map h) ≃* alternatingGroup (Fin 5))) ∧
+      ((∃ A ∈ H, (A : Matrix (Fin 2) (Fin 2) ℂ) = -1) →
+        H = Subgroup.comap h (H.map h) ∧ Nat.card H = 2 * Nat.card (H.map h)) ∧
+      ((∀ A ∈ H, (A : Matrix (Fin 2) (Fin 2) ℂ) ≠ -1) →
+        Nonempty ((H : Type _) ≃* H.map h) ∧ Nat.card H = Nat.card (H.map h)) := by
+  obtain ⟨h, hsurj, hker⟩ := Problem4_12_7.exists_surjective_hom_to_SO3
+  refine ⟨h, hsurj, hker, su2_image_classification h H, ?_, ?_⟩
+  · intro hneg
+    exact ⟨su2_full_preimage_of_neg_one_mem h hker H hneg,
+      (su2_finite_subgroup_double_cover h hker H).1 hneg⟩
+  · intro hno
+    exact ⟨su2_iso_image_of_neg_one_not_mem h hker H hno,
+      (su2_finite_subgroup_double_cover h hker H).2 hno⟩
 
 end Etingof.Problem4_12_8

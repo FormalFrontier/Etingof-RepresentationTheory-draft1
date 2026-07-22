@@ -66,6 +66,7 @@ import EtingofRepresentationTheory.Chapter4.Problem4_12_7
 import EtingofRepresentationTheory.Chapter4.Problem4_12_8
 import EtingofRepresentationTheory.Chapter4.Problem4_12_9
 import EtingofRepresentationTheory.Chapter4.Problem4_12_10
+import EtingofRepresentationTheory.Chapter4.Problem4_12_10_Symmetric
 import EtingofRepresentationTheory.Chapter4.Problem4_12_11
 
 /-! # Chapter 4: Representations of Finite Groups: Further Results -/
