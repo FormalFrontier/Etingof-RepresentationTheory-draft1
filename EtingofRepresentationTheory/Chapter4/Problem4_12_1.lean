@@ -419,4 +419,168 @@ theorem Vrep_not_iso [NeZero N] {j j' : ZMod N}
   rw [hconj, Vrep_trace_r, Vrep_trace_r] at htr
   exact hne htr.symm
 
+/-!
+## Part (a): the one-dimensional characters and their count
+
+A one-dimensional complex representation of `DihedralGroup N` is a group homomorphism
+`χ : DihedralGroup N →* ℂˣ`.  Such a `χ` is determined by the two values `u = χ (r 1)` and
+`w = χ (sr 0)` on the generators, subject to `u ^ N = 1` (the order of `r`), `w ^ 2 = 1` (the
+order of `sr`), and `u ^ 2 = 1` (the dihedral relation `sr · r · sr = r⁻¹` forces
+`χ (r 1) = χ (r 1)⁻¹`).  Conversely every such pair `(u, w)` extends to a character.  Counting
+the pairs gives `2` characters for odd `N` and `4` for even `N`.
+-/
+
+section OneDim
+
+variable [NeZero N]
+
+omit [NeZero N] in
+/-- For a unit `u` with `u ^ N = 1`, the exponent only matters modulo `N`. -/
+theorem upow_val_mod (u : ℂˣ) (hu : u ^ N = 1) (k : ℕ) : u ^ (k % N) = u ^ k := by
+  conv_rhs => rw [← Nat.mod_add_div k N, pow_add, pow_mul, hu, one_pow, mul_one]
+
+/-- The map `a ↦ u ^ a.val` turns addition in `ZMod N` into multiplication, when `u ^ N = 1`. -/
+theorem upow_val_add (u : ℂˣ) (hu : u ^ N = 1) (a b : ZMod N) :
+    u ^ (a + b).val = u ^ a.val * u ^ b.val := by
+  rw [ZMod.val_add, upow_val_mod u hu, pow_add]
+
+/-- The one-dimensional character of `DihedralGroup N` built from valid generator data
+`u = χ (r 1)`, `w = χ (sr 0)`: it sends `r k ↦ u ^ k.val` and `sr k ↦ w · u ^ k.val`.  The three
+hypotheses `u ^ N = 1`, `u ^ 2 = 1`, `w ^ 2 = 1` are exactly what makes this multiplicative. -/
+def charOfData (u w : ℂˣ) (huN : u ^ N = 1) (hu2 : u ^ 2 = 1) (hw2 : w ^ 2 = 1) :
+    DihedralGroup N →* ℂˣ where
+  toFun g := match g with
+    | .r k => u ^ k.val
+    | .sr k => w * u ^ k.val
+  map_one' := by change u ^ (0 : ZMod N).val = 1; rw [ZMod.val_zero, pow_zero]
+  map_mul' g h := by
+    have hadd : ∀ a b : ZMod N, u ^ (a + b).val = u ^ a.val * u ^ b.val := upow_val_add u huN
+    have hself : ∀ a : ZMod N, u ^ a.val * u ^ a.val = 1 := fun a => by
+      rw [← pow_add, ← two_mul, pow_mul, hu2, one_pow]
+    have hsub : ∀ a b : ZMod N, u ^ (a - b).val = u ^ a.val * u ^ b.val := by
+      intro a b
+      have h1 : u ^ ((-b).val) * u ^ b.val = 1 := by
+        rw [← hadd, neg_add_cancel, ZMod.val_zero, pow_zero]
+      have hnb : u ^ ((-b).val) = u ^ b.val :=
+        mul_right_cancel (h1.trans (hself b).symm)
+      rw [sub_eq_add_neg, hadd, hnb]
+    have hww : w * w = 1 := by rw [← pow_two, hw2]
+    cases g with
+    | r a => cases h with
+      | r b =>
+        rw [DihedralGroup.r_mul_r]
+        change u ^ (a + b).val = u ^ a.val * u ^ b.val
+        exact hadd a b
+      | sr b =>
+        rw [DihedralGroup.r_mul_sr]
+        change w * u ^ (b - a).val = u ^ a.val * (w * u ^ b.val)
+        rw [hsub]; ac_rfl
+    | sr a => cases h with
+      | r b =>
+        rw [DihedralGroup.sr_mul_r]
+        change w * u ^ (a + b).val = (w * u ^ a.val) * u ^ b.val
+        rw [hadd]; ac_rfl
+      | sr b =>
+        rw [DihedralGroup.sr_mul_sr]
+        change u ^ (b - a).val = (w * u ^ a.val) * (w * u ^ b.val)
+        rw [hsub, show (w * u ^ a.val) * (w * u ^ b.val)
+              = (w * w) * (u ^ a.val * u ^ b.val) from by ac_rfl, hww, one_mul]
+        ac_rfl
+
+@[simp] theorem charOfData_r (u w : ℂˣ) (huN : u ^ N = 1) (hu2 : u ^ 2 = 1) (hw2 : w ^ 2 = 1)
+    (k : ZMod N) : charOfData u w huN hu2 hw2 (DihedralGroup.r k) = u ^ k.val := rfl
+
+@[simp] theorem charOfData_sr (u w : ℂˣ) (huN : u ^ N = 1) (hu2 : u ^ 2 = 1) (hw2 : w ^ 2 = 1)
+    (k : ZMod N) : charOfData u w huN hu2 hw2 (DihedralGroup.sr k) = w * u ^ k.val := rfl
+
+/-- **Part (a), classification of one-dimensional representations.** A character of
+`DihedralGroup N` is the same data as a pair `(u, w) ∈ ℂˣ × ℂˣ` with `u ^ N = 1`, `u ^ 2 = 1`
+and `w ^ 2 = 1`, via `χ ↦ (χ (r 1), χ (sr 0))`. -/
+def charEquiv (N : ℕ) [NeZero N] :
+    (DihedralGroup N →* ℂˣ) ≃
+      {p : ℂˣ × ℂˣ // (p.1 ^ N = 1 ∧ p.1 ^ 2 = 1) ∧ p.2 ^ 2 = 1} where
+  toFun χ := by
+    refine ⟨(χ (DihedralGroup.r 1), χ (DihedralGroup.sr 0)), ⟨⟨?_, ?_⟩, ?_⟩⟩
+    · rw [← map_pow, DihedralGroup.r_one_pow_n, map_one]
+    · -- the dihedral relation forces `χ (r 1) ^ 2 = 1`
+      have hs2 : χ (DihedralGroup.sr 0) * χ (DihedralGroup.sr 0) = 1 := by
+        rw [← map_mul, DihedralGroup.sr_mul_self, map_one]
+      have hrel : (DihedralGroup.r 1 : DihedralGroup N)⁻¹
+          = DihedralGroup.sr 0 * DihedralGroup.r 1 * DihedralGroup.sr 0 := by
+        rw [DihedralGroup.inv_r, DihedralGroup.sr_mul_r, zero_add, DihedralGroup.sr_mul_sr]
+        congr 1; ring
+      have key : χ (DihedralGroup.sr 0) * χ (DihedralGroup.r 1) * χ (DihedralGroup.sr 0)
+          = χ (DihedralGroup.r 1) := by rw [mul_right_comm, hs2, one_mul]
+      have hinv : (χ (DihedralGroup.r 1))⁻¹ = χ (DihedralGroup.r 1) := by
+        rw [← map_inv, hrel, map_mul, map_mul, key]
+      rw [pow_two]; nth_rewrite 2 [← hinv]; exact mul_inv_cancel _
+    · rw [← map_pow, pow_two, DihedralGroup.sr_mul_self, map_one]
+  invFun p := charOfData p.1.1 p.1.2 p.2.1.1 p.2.1.2 p.2.2
+  left_inv χ := by
+    ext g
+    cases g with
+    | r k =>
+      simp only [charOfData_r]
+      rw [← map_pow, DihedralGroup.r_one_pow, ZMod.natCast_zmod_val]
+    | sr k =>
+      simp only [charOfData_sr]
+      rw [← map_pow, DihedralGroup.r_one_pow, ZMod.natCast_zmod_val, ← map_mul,
+        DihedralGroup.sr_mul_r, zero_add]
+  right_inv p := by
+    obtain ⟨⟨u, w⟩, ⟨⟨huN, hu2⟩, hw2⟩⟩ := p
+    apply Subtype.ext
+    have hval1 : (1 : ZMod N).val = 1 % N := by
+      rw [← Nat.cast_one (R := ZMod N), ZMod.val_natCast]
+    refine Prod.ext ?_ ?_
+    · change charOfData u w huN hu2 hw2 (DihedralGroup.r 1) = u
+      rw [charOfData_r, hval1, upow_val_mod u huN, pow_one]
+    · change charOfData u w huN hu2 hw2 (DihedralGroup.sr 0) = w
+      rw [charOfData_sr, ZMod.val_zero, pow_zero, mul_one]
+
+/-- There are exactly two square roots of unity in `ℂˣ` (namely `±1`). -/
+theorem card_sqrtOne : Nat.card {w : ℂˣ // w ^ 2 = 1} = 2 := by
+  have e : {w : ℂˣ // w ^ 2 = 1} ≃ (rootsOfUnity 2 ℂ) :=
+    Equiv.subtypeEquivRight (fun w => (mem_rootsOfUnity 2 w).symm)
+  rw [Nat.card_congr e, Nat.card_eq_fintype_card, Complex.card_rootsOfUnity]
+
+omit [NeZero N] in
+/-- For odd `N`, the only unit with `u ^ N = 1` and `u ^ 2 = 1` is `1`. -/
+theorem card_u_odd (hodd : Odd N) : Nat.card {u : ℂˣ // u ^ N = 1 ∧ u ^ 2 = 1} = 1 := by
+  have hforce : ∀ u : ℂˣ, u ^ N = 1 → u ^ 2 = 1 → u = 1 := by
+    intro u huN hu2
+    have hg : Nat.gcd N 2 = 1 := Nat.coprime_two_right.mpr hodd
+    have hd : orderOf u ∣ 1 :=
+      hg ▸ Nat.dvd_gcd (orderOf_dvd_of_pow_eq_one huN) (orderOf_dvd_of_pow_eq_one hu2)
+    exact orderOf_eq_one_iff.mp (Nat.dvd_one.mp hd)
+  rw [Nat.card_eq_one_iff_unique]
+  refine ⟨⟨fun x y => ?_⟩, ⟨⟨1, one_pow N, one_pow 2⟩⟩⟩
+  exact Subtype.ext ((hforce x.1 x.2.1 x.2.2).trans (hforce y.1 y.2.1 y.2.2).symm)
+
+/-- For even `N`, `u ^ 2 = 1` already implies `u ^ N = 1`, so there are two such units. -/
+theorem card_u_even (heven : Even N) : Nat.card {u : ℂˣ // u ^ N = 1 ∧ u ^ 2 = 1} = 2 := by
+  have hiff : ∀ u : ℂˣ, (u ^ N = 1 ∧ u ^ 2 = 1) ↔ u ^ 2 = 1 := by
+    intro u
+    refine ⟨fun h => h.2, fun h2 => ⟨?_, h2⟩⟩
+    obtain ⟨m, rfl⟩ := heven
+    rw [show m + m = 2 * m from by ring, pow_mul, h2, one_pow]
+  rw [Nat.card_congr (Equiv.subtypeEquivRight hiff), card_sqrtOne]
+
+/-- **Part (a), count for odd `N`.** The dihedral group `DihedralGroup N` with `N` odd has
+exactly `2` one-dimensional complex representations. -/
+theorem one_dim_reps_card_odd (hodd : Odd N) : Nat.card (DihedralGroup N →* ℂˣ) = 2 := by
+  rw [Nat.card_congr (charEquiv N),
+    Nat.card_congr (Equiv.subtypeProdEquivProd (p := fun u : ℂˣ => u ^ N = 1 ∧ u ^ 2 = 1)
+      (q := fun w : ℂˣ => w ^ 2 = 1)),
+    Nat.card_prod, card_u_odd hodd, card_sqrtOne]
+
+/-- **Part (a), count for even `N`.** The dihedral group `DihedralGroup N` with `N` even has
+exactly `4` one-dimensional complex representations. -/
+theorem one_dim_reps_card_even (heven : Even N) : Nat.card (DihedralGroup N →* ℂˣ) = 4 := by
+  rw [Nat.card_congr (charEquiv N),
+    Nat.card_congr (Equiv.subtypeProdEquivProd (p := fun u : ℂˣ => u ^ N = 1 ∧ u ^ 2 = 1)
+      (q := fun w : ℂˣ => w ^ 2 = 1)),
+    Nat.card_prod, card_u_even heven, card_sqrtOne]
+
+end OneDim
+
 end Etingof.Problem4_12_1
