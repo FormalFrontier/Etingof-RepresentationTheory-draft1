@@ -122,3 +122,20 @@ theorem Etingof.Corollary_9_7_3_i_categorical_fgModule
   obtain ⟨eFG⟩ := Etingof.MoritaEquivalent.fgModuleCatEquiv hmor
   obtain ⟨eC⟩ := hcat
   exact ⟨B, instR, instA, instF, hbasic, ⟨eC.trans eFG⟩⟩
+
+/-- **Corollary 9.7.3(i), algebra version, book-faithful `fmod` form.** Any
+finite-dimensional algebra `A` over an algebraically closed field `k` is Morita equivalent
+(in the book's sense, on finite-dimensional/finitely generated modules) to some basic
+algebra `B`.
+
+This is `Etingof.Corollary_9_7_3_i` with its conclusion transported along the forward
+reconciliation `Etingof.MoritaEquivalent.toFmod` to the literal book notion
+`Etingof.MoritaEquivalentFmod`.
+(Etingof Corollary 9.7.3(i), algebra version) -/
+theorem Etingof.Corollary_9_7_3_i_fmod
+    {k : Type v} [Field k] [IsAlgClosed k]
+    (A : Type v) [Ring A] [Algebra k A] [Module.Finite k A] :
+    ∃ (B : Type v) (_ : Ring B) (_ : Algebra k B) (_ : Module.Finite k B),
+      Etingof.IsBasicAlgebra k B ∧ Etingof.MoritaEquivalentFmod A B := by
+  obtain ⟨B, instR, instA, instF, hbasic, hmor⟩ := Etingof.Corollary_9_7_3_i k A
+  exact ⟨B, instR, instA, instF, hbasic, hmor.toFmod⟩

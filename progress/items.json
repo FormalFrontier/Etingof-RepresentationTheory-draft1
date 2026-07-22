@@ -8657,7 +8657,8 @@
     "end_line": 8,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "notes": "Book-faithful notion Etingof.MoritaEquivalentFmod := Nonempty (FGModuleCat A ≌ FGModuleCat B) is the literal A-fmod definition (finitely generated = finite-dimensional over a finite-dimensional algebra), with k-linear refinement KLinearMoritaEquivalentFmod and refl/symm/trans API. Reconciled with the auxiliary full-module Etingof.MoritaEquivalent via forward bridges MoritaEquivalent.toFmod and KLinearMoritaEquivalent.toFmod (Infrastructure/MoritaFGRestriction). Corollary 9.7.3(i) exposed on the faithful notion as Corollary_9_7_3_i_fmod. Converse (fmod-equivalence ⇒ full-module equivalence, the Morita reconstruction theorem) not yet formalized. Stale 'no finite-dimensional module category in Mathlib' docstring removed."
   },
   {
     "id": "Chapter9/Discussion_after_Definition9.7.1",
