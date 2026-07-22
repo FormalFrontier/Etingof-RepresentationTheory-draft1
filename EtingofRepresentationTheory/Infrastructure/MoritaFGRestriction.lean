@@ -236,4 +236,38 @@ theorem MoritaEquivalent.fgModuleCatEquiv {A B : Type u} [Ring A] [Ring B]
     exact finite_functor_iff E M
   exact ⟨E.congrFullSubcategory hobj⟩
 
+/-- **Reconciliation, forward direction.** A full-module Morita equivalence implies the
+book-faithful Morita equivalence on finitely generated modules (Etingof Definition 9.7.1).
+
+For finite-dimensional algebras `FGModuleCat` is the book's category `A`-fmod, so this says
+the full-module notion `Etingof.MoritaEquivalent` refines to the literal book definition
+`Etingof.MoritaEquivalentFmod`. The converse (reconstructing a full-module equivalence from
+an equivalence of finite-dimensional modules) is the Morita reconstruction theorem and is
+not yet formalized. -/
+theorem MoritaEquivalent.toFmod {A B : Type u} [Ring A] [Ring B]
+    (h : Etingof.MoritaEquivalent A B) : Etingof.MoritaEquivalentFmod A B :=
+  MoritaEquivalent.fgModuleCatEquiv h
+
+/-- **Reconciliation, forward direction, k-linear.** A k-linear full-module Morita
+equivalence restricts to a k-linear Morita equivalence on finitely generated modules.
+
+The restricted functor is `(ModuleCat.isFG B).lift ((ModuleCat.isFG A).ι ⋙ E.functor)`;
+since the full-subcategory inclusions are k-linear and `E.functor` is k-linear by
+hypothesis, its restriction is k-linear, checked through the faithful inclusion
+`(ModuleCat.isFG B).ι`. -/
+theorem KLinearMoritaEquivalent.toFmod {k : Type u} [Field k]
+    {A B : Type u} [Ring A] [Algebra k A] [Ring B] [Algebra k B]
+    (h : Etingof.KLinearMoritaEquivalent k A B) :
+    Etingof.KLinearMoritaEquivalentFmod k A B := by
+  obtain ⟨E, hlin⟩ := h
+  haveI := hlin
+  have hobj : (ModuleCat.isFG.{u} B).inverseImage E.functor = ModuleCat.isFG.{u} A := by
+    funext M; exact propext (finite_functor_iff E M)
+  refine ⟨E.congrFullSubcategory hobj, ⟨fun {X Y} f r => ?_⟩⟩
+  apply (ModuleCat.isFG.{u} B).ι.map_injective
+  change E.functor.map ((ModuleCat.isFG.{u} A).ι.map (r • f))
+      = (ModuleCat.isFG.{u} B).ι.map (r • (E.congrFullSubcategory hobj).functor.map f)
+  simp only [Functor.Linear.map_smul]
+  rfl
+
 end Etingof
