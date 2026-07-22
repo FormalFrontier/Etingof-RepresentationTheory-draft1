@@ -3802,7 +3802,9 @@
     "start_line": 3,
     "end_line": 10,
     "status": "partially_formalized",
-    "coverage_note": "PATH: no dedicated Problem5_2_7.lean; the item id is a book id, backed by embedded content in Chapter5/Remark5_2_8.lean (which is now sorry-free, and its covering issues #5654/#5772 are CLOSED). Part (b) (∃ g, χ_V(g)=0 for irreducible dim>1) β-integrality is embedded there. Part (a) (existence of a finite Galois extension K⊂ℂ carrying all matrix entries) is NOT formalized — genuinely partial. Path/status corrected in audit #7001."
+    "coverage_note": "PATH: part (b) now has a dedicated Chapter5/Problem5_2_7.lean with the honest top-level theorem Etingof.Problem5_2_7.exists_character_eq_zero: for an irreducible complex V of a finite group G with dim V > 1, ∃ g, χ_V(g) = 0 (axiom-clean [propext, Classical.choice, Quot.sound]). Its 0<β<1 bound is beta_lt_one (orthonormality FDRep.char_orthonormal gives ∑_g|χ_V(g)|²=|G|, so ∑_{g≠1}|χ_V(g)|²=|G|-(dim V)²<|G|-1; AM-GM Real.geom_mean_le_arith_mean forces β<1); the Galois-conjugate rationality/integrality core it discharges (character_prod_rat + beta_rat_not_mem_Ioo) lives in Chapter5/Remark5_2_8.lean (sorry-free). Part (b) is covered_full (see the part-(b) derived entry, #7353). Part (a) (existence of a finite Galois extension K⊂ℂ carrying all matrix entries) is still NOT formalized — the item stays covered_partial for that reason. Path/status corrected in audit #7001.",
+    "coverage": "covered_partial",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Remark5.2.8",
@@ -8454,5 +8456,16 @@
     "coverage_issue": 5684,
     "lean_ref": "Chapter7/Discussion_after_Example7_9_5.lean (Etingof.additiveFunctor_shortExact_of_isSemisimpleCategory)",
     "note": "Stage 3.7 reconciliation (audit #7245): covered_full. IsSemisimpleCategory faithfully = \"every short exact sequence splits\"; conclusion (S.map F).ShortExact is genuine two-sided exactness (mono+epi+middle-exact). Proof genuinely consumes semisimplicity (extracts splitting, pushes through F via F.Additive) — quantified over all short exact S, not just split ones. Sorry-free. Status accepted→sorry_free. (Prior issue #5684.)"
+  },
+  {
+    "type": "derived",
+    "derived_from": "Chapter5/Problem5.2.7",
+    "source_span": "Show that if V is an irreducible complex representation of a finite group G of dimension > 1, then there exists g \\in G such that \\chi_V(g) = 0.",
+    "claim": "For an irreducible complex representation V of a finite group G with dim V > 1, there exists g with χ_V(g) = 0 (Problem 5.2.7 part (b)).",
+    "status": "sorry_free",
+    "coverage": "covered_full",
+    "coverage_issue": 7353,
+    "lean_ref": "Chapter5/Problem5_2_7.lean (Etingof.Problem5_2_7.exists_character_eq_zero; bound Etingof.Problem5_2_7.beta_lt_one). Axiom-clean [propext, Classical.choice, Quot.sound], no sorryAx.",
+    "last_updated": "2026-07-22"
   }
 ]
