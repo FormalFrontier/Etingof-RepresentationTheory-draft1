@@ -287,7 +287,10 @@
     "end_line": 23,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "CommRing together with Algebra records the source definition under the explicit preceding convention that all subsequent algebras are unital; this convention invalidates the withdrawn false positive #7464.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Discussion_commutativity_examples",
@@ -329,7 +332,10 @@
     "end_line": 8,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Module A V is the source's unital left representation under the active algebra convention; right modules are represented as Module Aᵐᵒᵖ V and exposed by the immediately following Remark2_3_2 API. This invalidates the withdrawn scope claim #7465.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Remark2.3.2",
@@ -434,7 +440,10 @@
     "end_line": 11,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The public rightModuleOfLeft and leftModuleOfRight constructions identify right modules (Module Aᵐᵒᵖ M) with left modules over a commutative ring and prove the stated action formulas.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Discussion_irreducible_vs_indecomposable",
