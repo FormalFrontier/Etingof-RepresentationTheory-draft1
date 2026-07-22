@@ -5059,8 +5059,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "Full proof complete modulo pigeonhole_transposition combinatorial lemma (1 sorry). Algebraic structure proven: absorption case, sign-reversing involution case, linear extension.",
-    "sorry_free": true
+    "notes": "Fully proved without placeholders, including the pigeonhole row/column dichotomy and both the stated Young-symmetrizer identity and its dual.",
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_end_of_Lemma5.13.1_proof",
@@ -5582,8 +5584,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "Triage 2026-03-18: 1 sorry (the main theorem). Active claimed issue #984. Import issues from earlier attempts are resolved. Leave for that agent.",
-    "sorry_free": true
+    "notes": "The hook-length formula is proved without placeholders by identifying the Specht-module dimension with the number of standard Young tableaux and applying the tableau hook-length formula.",
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Introduction_5.18",
@@ -5642,9 +5646,11 @@
     "end_line": 14,
     "status": "sorry_free",
     "fidelity": "verified",
-    "needs_statement": true,
-    "notes": "(⊇) direction fully proved. (⊆) direction needs Schur-Weyl duality / first fundamental theorem of invariant theory — prove it here. 1 sorry remains.",
-    "sorry_free": true
+    "needs_statement": false,
+    "notes": "The centralizer equality is stated and proved in both directions without placeholders: the centralizer of the symmetric-group image on V^⊗n equals the image of the universal enveloping algebra under the diagonal action.",
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Lemma5.18.3",
@@ -5756,10 +5762,11 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "Symmetric part (Example5_19_3_symmetric) is sorry_free. Exterior part (Example5_19_3_exterior) still has sorry due to coercion issues between ExteriorAlgebra and PiTensorProduct.",
+    "notes": "Both special Schur-functor cases are proved without placeholders. The symmetric and exterior identifications have explicit linear equivalences, all-vector equivariance theorems for the GL(V) action, irreducibility results, and the exterior-power vanishing statement when n exceeds dim V.",
     "sorry_free": true,
-    "fidelity_note": "[re-verified review #7183, 2026-07-21] Repair landed; statement faithful and non-vacuous, builds, axiom-clean (no sorryAx). [partial-example] The book says L_{(n)} = SⁿV and L_{(1ⁿ)} = ∧ⁿV as GL(V)-representations, and that these are irreducible. The Lean statements prove only k-linear isomorphisms: 'Nonempty (symInvariant",
-    "fidelity_issue": 5638
+    "fidelity_note": "The explicit symmetric and exterior equivalences are accompanied by equivariance theorems, so the identifications are at the representation level rather than merely vector-space isomorphisms; the irreducibility and exterior vanishing claims are also formalized.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Introduction_5.20",
@@ -8786,11 +8793,13 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "Triage (2026-03-18): 3/4 components proved (isSeparator, faithful, full). Only essSurj remains sorry. Design issue: functor targets ModuleCat (all modules) but Etingof theorem is about finite-dimensional modules. essSurj likely requires restricting target to finitely generated modules or a custom finite-dimensional module category. Needs formalization redesign before proof work.",
+    "notes": "Theorem_9_6_4 is fully proved without placeholders for the book-faithful finitely generated module category: the progenerator Hom functor is faithful, full, and essentially surjective. The required Noetherian property is derived from the finite-dimensional over-a-field hypotheses; a more general ring-level engine is also exposed.",
     "attention_needed": false,
     "sorries": 0,
     "sorry_free": true,
-    "fidelity_note": "wave-3 gap #5665 (extra [IsNoetherianRing (End P)ᵐᵒᵖ] hypothesis) repaired: Theorem_9_6_4 and Theorem_9_6_4_corollary now derive it via isNoetherianRing_endOp_of_overField from the book's over-a-field hypotheses; Noetherian-hypothesis variants retained as labeled ring-level engines; wave-9 re-verified"
+    "fidelity_note": "wave-3 gap #5665 (extra [IsNoetherianRing (End P)ᵐᵒᵖ] hypothesis) repaired: Theorem_9_6_4 and Theorem_9_6_4_corollary now derive it via isNoetherianRing_endOp_of_overField from the book's over-a-field hypotheses; Noetherian-hypothesis variants retained as labeled ring-level engines; wave-9 re-verified",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter9/Problem9.6.5",
