@@ -12,11 +12,13 @@ dihedral angle `β(a)`. The problem has three parts:
 * **(c)** the regular tetrahedron and cube of equal volume have different Dehn invariants, so they
   are not scissors-congruent (a negative answer to Hilbert's third problem).
 
-## Formalization
+## Intentional scope decision
 
-The cleanly-statable core is part **(b)**: the irrationality of `arccos(1/3)/π`. Parts (a) and (c)
-require the Dehn-invariant construction on polyhedra (the tensor product `ℝ ⊗_ℚ (ℝ/ℚ)` and a model
-of polyhedra with edges/dihedral angles) and are deferred to a dedicated follow-up item.
+Part **(b)**, the irrationality of `arccos(1/3)/π`, is formalized below. Parts (a) and (c) are
+intentionally omitted from this project: they require a theory of polyhedra, dissection and
+scissors congruence, dihedral angles, and the Dehn invariant valued in `ℝ ⊗_ℚ (ℝ/ℚ)`. This
+decision is recorded in the repository's public scope document, `skipped-exercises.md`. The
+omission is documentation-only; there is no placeholder declaration for parts (a) or (c).
 
 ## Proof of (b)
 

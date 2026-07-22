@@ -1450,8 +1450,10 @@
     "end_page": "37",
     "start_line": 18,
     "end_line": 8,
-    "status": "proof_complete",
-    "coverage_note": "Part (b) — irrationality of arccos(1/3)/π — proved sorry-free in EtingofRepresentationTheory/Chapter2/Problem2_13_1.lean (theorem irrational_arccos_third_div_pi; axioms propext/Classical.choice/Quot.sound only). Parts (a) and (c) (Dehn-invariant construction) remain deferred to a follow-up item."
+    "status": "partially_proved",
+    "coverage": "covered_partial",
+    "lean_decl": "Etingof.Problem2_13_1.irrational_arccos_third_div_pi",
+    "coverage_note": "Part (b) — irrationality of arccos(1/3)/π — is proved without placeholders in EtingofRepresentationTheory/Chapter2/Problem2_13_1.lean. Parts (a) and (c), requiring the geometric Dehn-invariant and scissors-congruence infrastructure, are intentionally omitted by the project-wide scope decision documented in skipped-exercises.md; they are not deferred proof obligations."
   },
   {
     "id": "Chapter2/Discussion_2.14_heading",
@@ -1591,10 +1593,15 @@
     "end_page": "40",
     "start_line": 13,
     "end_line": 13,
-    "status": "sorry_free",
+    "status": "partially_proved",
+    "coverage": "covered_partial",
     "fidelity": "verified",
-    "notes": "Fidelity audit #7196 (2026-07-21): FAITHFUL. Dimension bound rendered in both directions - upper (finrank_irreducible_le_char: every fin-dim irreducible sl(2,k)-module has finrank <= p, axiom-clean) and lower/sharpness (irrep_isIrreducible + irrep_finrank + exists_irreducible_dim_char, bound attained at d=p). Genuine sl(2)-action (rhoLieHom a real Lie hom), IsIrreducible = IsSimpleOrder (LieSubmodule), [IsAlgClosed k]/p>2 faithful, non-vacuous. Fine highest-weight classification is a documented deferral (docstring lines 19-24), pre-accepted by #7196.",
-    "last_updated": "2026-07-21"
+    "lean_decl": [
+      "Etingof.Problem2_16_4.finrank_irreducible_le_char",
+      "Etingof.Problem2_16_4.exists_irreducible_dim_char"
+    ],
+    "notes": "Partial coverage, corrected after fidelity audit #7196: finrank_irreducible_le_char proves every finite-dimensional irreducible sl(2,k)-module has finrank <= p, and irrep_isIrreducible + irrep_finrank + exists_irreducible_dim_char show the bound is attained. These are genuine, axiom-clean sl(2) results, but they do not classify irreducibles up to isomorphism as Problem 2.16.4 asks. The missing parameterization, isomorphism criterion, and exhaustiveness proof are assigned to the later reprise specified in deferred-reprises.md.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Problem2.16.5",
@@ -1604,8 +1611,14 @@
     "end_page": "41",
     "start_line": 14,
     "end_line": 1,
-    "status": "sorry_free",
-    "coverage_note": "EtingofRepresentationTheory/Chapter2/Problem2_16_5.lean, sorry-free (audit #7001). U_q(sl2) constructed via RingQuot with 5 defining relations proved. Both classification cases proved with real proofs (not sorried): non-root-of-unity case highest_weight_eigenvalue_of_not_isOfFinOrder (K acts by ε·qⁿ on the highest weight vector); root-of-unity case Kop_isSemisimple_and_eigenvalues (K diagonalizable, eigenvalues are orderOf-q-th roots) and the dimension bounds finrank_le_of_epow/fpow/cyclic culminating in finrank_irreducible_le_of_isOfFinOrder. #print axioms on highest_weight_eigenvalue_of_not_isOfFinOrder, finrank_irreducible_le_of_isOfFinOrder, Kop_isSemisimple_and_eigenvalues: propext/Classical.choice/Quot.sound only."
+    "status": "partially_proved",
+    "coverage": "covered_partial",
+    "lean_decl": [
+      "Etingof.Problem2_16_5.highest_weight_eigenvalue_of_not_isOfFinOrder",
+      "Etingof.Problem2_16_5.Kop_isSemisimple_and_eigenvalues",
+      "Etingof.Problem2_16_5.finrank_irreducible_le_of_isOfFinOrder"
+    ],
+    "coverage_note": "EtingofRepresentationTheory/Chapter2/Problem2_16_5.lean constructs U_q(sl2) and proves substantial structural results in both cases without placeholders: highest-weight/eigenvalue control when q is not a root of unity, and semisimplicity, central-scalar facts, and dimension bounds at roots of unity. The exhaustive classification up to isomorphism requested by the exercise is intentionally omitted by the project-wide decision in skipped-exercises.md; no sorry, axiom, proof_wanted, or unproved classification declaration represents it."
   },
   {
     "id": "Chapter3/Introduction",
@@ -6131,7 +6144,7 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
-    "coverage_note": "Faithful statements in Chapter6/Problem6_1_3.lean (Cartan matrix A = 2I-R, symmetry); sorry proofs (statement pass)."
+    "coverage_note": "Chapter6/Problem6_1_3.lean defines the Cartan matrix A = 2I-R and proves its entry formula, diagonal entries, and symmetry. The supporting finite and affine classification developments are imported by Chapter6 and are sorry-free; targeted build reconfirmed 2026-07-22."
   },
   {
     "id": "Chapter6/Definition6.1.4",
@@ -6180,7 +6193,7 @@
     "start_line": 1,
     "end_line": 43,
     "status": "sorry_free",
-    "coverage_note": "Faithful statements in Chapter6/Problem6_1_3_continued_E7_E8.lean, parts (a)-(d): det A for An/Dn/E6-8, Dynkin diagram claims, cycle det=0 (tree), degree bounds. Part (c) cycle lemmas cycle_cartan_mulVec_one_eq_zero and cycle_cartan_det_zero are proved (#6745); parts (a),(b),(d) and isDynkinDiagram_isTree remain sorry. Part (e) extended-diagram det=0 lives in the tildeE file."
+    "coverage_note": "Chapter6/Problem6_1_3_continued_E7_E8.lean is sorry-free. It proves the determinant formulas and Dynkin claims for A/D/E6/E7/E8, the cycle obstruction and tree theorem, and the required degree/branch bounds. The extended-diagram kernel and determinant-zero results continue in Problem6_1_3_continued_tildeE.lean. Targeted build reconfirmed 2026-07-22."
   },
   {
     "id": "Chapter6/Problem6.1.3_continued_tildeE",
@@ -6191,7 +6204,7 @@
     "start_line": 1,
     "end_line": 34,
     "status": "sorry_free",
-    "coverage_note": "Faithful statements in Chapter6/Problem6_1_3_continued_tildeE.lean: IsAffineDynkinDiagram, AffineType (A~,D~,E6~,E7~,E8~) with marks, marks-in-kernel & det=0 (e), Dynkin classification (f), affine classification (g); sorry proofs."
+    "coverage_note": "Chapter6/Problem6_1_3_continued_tildeE.lean is sorry-free. It defines IsAffineDynkinDiagram and the affine A/D/E types with marks; proves marks-in-kernel, determinant zero, and realization of every listed affine type; and proves the finite and affine classification headlines dynkin_classification and affine_dynkin_classification. Targeted build reconfirmed 2026-07-22."
   },
   {
     "id": "Chapter6/Problem6.1.5",
@@ -6234,7 +6247,14 @@
     "start_line": 21,
     "end_line": 6,
     "status": "partially_proved",
-    "coverage_note": "Chapter6/Problem6_1_6.lean is sorry-free (audit #7001; formerly claimed 'sorry proofs' — corrected). Tautological 2-dim SU(2)-rep V genuinely constructed. Parts (a),(b),(c),(e) PROVED sorry-free: mult_symm (a), mckay_connected (b), mckayCartan_posSemidef + mckayCartan_not_posDef (c), mckay_marks_aux (e); #print axioms on mckay_connected, mckayCartan_posSemidef, mckayCartan_not_posDef: propext/Classical.choice/Quot.sound only. Part (d) (which groups from Problem 4.12.8 correspond to which diagrams) is an informal identification not formalized as a theorem — hence partially_proved, not sorry_free."
+    "coverage": "covered_partial",
+    "lean_decl": [
+      "Etingof.Problem6_1_6.mult_symm",
+      "Etingof.Problem6_1_6.mckay_connected",
+      "Etingof.Problem6_1_6.mckay_isAffineDynkin",
+      "Etingof.Problem6_1_6.mckay_dims_are_marks"
+    ],
+    "coverage_note": "Chapter6/Problem6_1_6.lean proves the tautological SU(2) representation, parts (a) and (b), the affine-Cartan theorem in part (c) for 3 <= m, and the kernel equation underlying part (e), without placeholders. By the project-wide decision in skipped-exercises.md, the two-vertex double-edge A-tilde-1 case, the explicit group-family/diagram correspondence in part (d), and the remaining normalized-mark enumeration in part (e) are intentionally omitted. No sorry, axiom, proof_wanted, or proposition-valued placeholder represents those omissions."
   },
   {
     "id": "Chapter6/Section6.2_heading",

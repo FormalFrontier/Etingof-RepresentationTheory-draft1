@@ -16,12 +16,14 @@ Over an algebraically closed field `k` of characteristic `p > 2`, the irreducibl
 dimensional representations of `𝔰𝔩(2, k)` are constrained very differently from characteristic
 `0` (where they are the `(n+1)`-dimensional modules `L(n)`, `n ≥ 0`, of unbounded dimension).
 
-The central feature of the characteristic-`p` classification is the dimension bound: every
+This file proves a central constraint on the characteristic-`p` classification: every
 irreducible representation of `𝔰𝔩(2, k)` has dimension at most `p`, and this bound is
-achieved. (The fine classification parametrizes the irreducibles by a highest weight `λ ∈ k`
-together with, for the non-restricted ones, extra data; that full parametrization requires
-highest-weight-module infrastructure and is deferred. Here we record the sharp dimension bound,
-which is the universally true part of the answer.)
+achieved. It does **not** give the exhaustive classification requested by the problem.
+That classification requires highest-weight and characteristic-`p` central-character
+infrastructure and is assigned to the later reprise recorded in the repository's
+`deferred-reprises.md`. The reprise must construct the parameter family, determine its
+isomorphisms, and prove exhaustiveness; the results below should therefore be read as
+partial coverage of Problem 2.16.4.
 
 We realize `𝔰𝔩(2, k)` as Mathlib's `LieAlgebra.SpecialLinear.sl (Fin 2) k`.
 
