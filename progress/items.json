@@ -8873,9 +8873,8 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The left homological-dimension predicate and invariant are defined. The source also defines right homological dimension; that opposite-ring counterpart and its bridge to the left invariant are absent and tracked by #7422.",
-    "followup_issue": 7422,
+    "coverage": "covered_full",
+    "coverage_note": "Both the left and right homological-dimension predicates and invariants are defined. The left versions keep the historical names `HasHomologicalDimensionLE`/`homologicalDimension` (with explicit aliases `HasLeftHomologicalDimensionLE`/`leftHomologicalDimension`); the right versions `HasRightHomologicalDimensionLE`/`rightHomologicalDimension` are defined over `Rᵐᵒᵖ`. Transport lemmas (`hasRightHomologicalDimensionLE_iff_op`, `rightHomologicalDimension_eq_left_op`) bridge right to left over the opposite ring, and for commutative rings `hasRightHomologicalDimensionLE_iff_left`/`rightHomologicalDimension_eq_left` prove left and right coincide.",
     "last_updated": "2026-07-22"
   },
   {
