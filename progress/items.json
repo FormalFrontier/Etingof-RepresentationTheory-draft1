@@ -2447,9 +2447,10 @@
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_9_1.lean"
     ],
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
     "coverage_arm": "audited",
-    "coverage_note": "Coverage-arm audit (Stage 3.7, #7361) marked covered_partial (part (c) forward-only); follow-up #7362 formalized the (c) converse (converse_sub_mem_coboundaries_of_unitriangular_intertwines), lifting the item to covered_full. Problem3_9_1.lean (sorry-free, axiom-clean [propext, Classical.choice, Quot.sound]) now covers parts (a),(b),(c),(d) in full. (a) blockOp_mul_iff_isCocycle: genuine iff (block-triangular assignment is a representation) iff (f is a 1-cocycle). (b) coboundaryOf_isCocycle + coboundaryOf_eq_zero_iff + coboundaries_le_cocycles + Ext1: dX is a cocycle, dX=0 iff X is A-linear, B1 subset Z1, Ext1 = Z1/B1. (c) BOTH directions: forward iso_of_sub_mem_coboundaries (f-f' in B1 => unitriangular iso) and converse converse_sub_mem_coboundaries_of_unitriangular_intertwines (unitriangular iso [[1,*],[0,1]] => f-f' in B1), over any algebra A. (d) irreducible_ext_iso_iff_proportional: genuine iff over [IsAlgClosed k] for f.d. irreducible V,W, the faithful projective-space (P Ext1) classification. Ext1 is the in-book Z1/B1, not Mathlib's derived-functor Ext. Prior fidelity: verified.",
+    "coverage_note": "The cocycle/coboundary algebra and predicate-level intertwiner classification are proved. The source's actual A-modules U_f, their inclusion/quotient short exact sequences, and the bridge from module isomorphisms to IntertwinesExt are not constructed; follow-up #7418.",
+    "fidelity_issue": 7418,
     "last_updated": "2026-07-22",
     "derived": [
       {
@@ -3745,17 +3746,17 @@
     "start_line": 3,
     "end_line": 4,
     "status": "proved",
-    "coverage_note": "Proved in EtingofRepresentationTheory/Chapter4/Problem4_12_9.lean (imports 4.12.2): character_Rz (character of R_z is p·z^{-c} on center, 0 off-center), tensor_character_nonone (R_z⊗R_w ≅ p·R_{zw} for zw≠1), tensor_character_inv (p² central character for zw=1). All three sorry-free, axioms only propext/Classical.choice/Quot.sound. Trace computed via toMatrix diagonal + geometric-sum vanishing; ρ pinned to rhoHom via exists_unique_rep (#6226). Statement pass was #5944. [COVERAGE closed to covered_full by #7312, 2026-07-22] One-dimensional arm added: character_charRep (char of charRep chi is chi g), tensor_character_char_char (chi(x)chi'' character = pointwise product ((chi*chi'') g), i.e. chi(x)chi'' iso charRep(chi*chi''); the p^2 characters form a group under tensor product), tensor_character_char_Rz (chi(x)R_z has the same character as R_z, i.e. chi(x)R_z iso R_z: chi is trivial on the center via abHom_ker_le_ker and character_Rz is center-supported). All three #print axioms clean, no sorryAx.",
+    "coverage_note": "The character formulas for all four tensor products are proved and axiom-clean. The source states representation decompositions, but no RHS direct-sum FDRep objects or equivariant isomorphisms are exposed; follow-up #7416.",
     "fidelity": "verified",
-    "fidelity_issue": null,
+    "fidelity_issue": 7416,
     "fidelity_decl": [
       "Etingof.Problem4_12_9.character_Rz",
       "Etingof.Problem4_12_9.tensor_character_nonone",
       "Etingof.Problem4_12_9.tensor_character_inv"
     ],
     "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_12_9.lean",
-    "coverage": "covered_full",
-    "fidelity_note": "[VERIFIED by #7272 audit, 2026-07-22, vs origin/main 100240a8] All three headline theorems faithful & non-vacuous. R_z pinned to the genuine 4.12.2 irreducible via IsRz (the book's two generator actions f(t-1), z^t*f(t)) + isRz_eq_rhoHom (uniqueness half of exists_unique_rep #6226), so statements are about the intended object. character_Rz: trace of R_z is p*(z^-1)^c.val on center <0,0,c>, 0 off-center (monomial-operator trace; off-center killed by geometric-sum sum_zpow_val_eq_zero for z!=1; central scalar z^{(-c).val}=(z^-1)^c.val via zpow_neg_val) - correct character. tensor_character_nonone (z*w!=1): chi_Rz*chi_Rw = p*chi_{R_{zw}} = R_z(x)R_w = p*R_{zw}. tensor_character_inv (z*w=1, i.e. w=z^-1 the dual): p^2 on center / 0 off = character of the direct sum of all p^2 one-dim reps each once. Hypotheses non-vacuous (nontrivial p-th root exists for prime p; w!=1 in the inv case is a true consequence of z!=1 & zw=1, not vacuous; p, p^2 != 0 in C so targets nontrivial; no True stub). ENCODING NOTE (not a gap): tensor products stated as character (trace-product) identities rather than bundled Representation.Equiv - faithful over C since equal characters <=> isomorphic for f.d. reps of a finite group (same convention as #7268). COVERAGE covered_partial: the R_z family's characters and R_z(x)R_w tensor products are covered; the one-dim characters' own tensor products (chi(x)chi', chi(x)R_z twist) are not formalized (elementary; noted in module docstring). All three #print axioms clean [propext, Classical.choice, Quot.sound], no sorryAx. Report: progress/reviews/2026-07-22T11-40-10Z-ch4-problem4_12_9-heisenberg-characters-fidelity.md.",
+    "coverage": "covered_partial",
+    "fidelity_note": "The trace identities are genuine and determine isomorphism classes over C, but the requested representation-level decompositions themselves are not packaged. #7416 records the structural endpoint.",
     "last_updated": "2026-07-22"
   },
   {
@@ -4507,7 +4508,11 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "coverage": "covered_partial",
+    "fidelity": "verified",
+    "fidelity_note": "The objectwise induction/coinduction isomorphism is present, but the source's naturality is not packaged as a functor NatIso; follow-up #7417.",
+    "fidelity_issue": 7417,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_verification_of_Ind",
@@ -7127,10 +7132,13 @@
     "start_line": 15,
     "end_line": 28,
     "status": "sorry_free",
+    "coverage": "covered_partial",
     "fidelity": "verified",
     "needs_statement": true,
     "sorry_free": true,
-    "fidelity_note": "verified (wave-6, Opus): parts 1/2/3 use the genuine D₄ root-lattice simpleReflections (functor↔reflection bridge = Prop 6.6.8), (2,1,1,1)∈D₄ indecomposable dim-vectors; prior gap #5639 resolved (merged)"
+    "fidelity_note": "The root-lattice reflection arithmetic and target dimension vectors are proved. The source applies actual reflection functors to named D4 representations and identifies the explicit three-lines-in-a-plane endpoint; those representation isomorphisms remain reopened #5639.",
+    "fidelity_issue": 5639,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Section6.9_heading",
@@ -7932,7 +7940,10 @@
     "start_line": 27,
     "end_line": 29,
     "status": "sorry_free",
-    "coverage_note": "Full adjunction bijection proved sorry-free (#6085 finished homTransportPlusEquivReduced; homFMinusEquivReduced landed in #6087). Axioms: propext, Classical.choice, Quot.sound."
+    "coverage": "covered_partial",
+    "coverage_note": "A pointwise Hom-set equivalence is proved. The source requires an adjunction natural in both arguments and then left/right exactness; this is blocked on reflection-functor packaging #7383 and tracked by #7415.",
+    "fidelity_issue": 7415,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Introduction_7.10",
