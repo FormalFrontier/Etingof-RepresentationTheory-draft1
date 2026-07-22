@@ -3555,57 +3555,7 @@
     "start_line": 15,
     "end_line": 4,
     "status": "sorry_free",
-    "coverage_note": "Coverage-arm audit (Stage 3.7, #7344): covered_full. Chapter5/Problem5_1_2.lean (1205 lines, sorry-free on origin/main) proves (a) End_{R[G]}V is C/Mat2(R)/H via genuine R-algebra isos (Nonempty (realGEndAlgebra rho ~=a[R] C / Matrix (Fin 2)(Fin 2) R / Quaternion R)) under irreducibility + the corresponding type predicate, and (b) isRealType_iff_exists_real_form as a real biconditional whose real-form side is a G-stable real subspace W with span_C W = top and finrank_R W = finrank_C V (= complexification). realGEndAlgebra = Subalgebra.centralizer R {(rho g).restrictScalars R} = honest End_{R[G]}V. Supersedes the earlier stale note (which wrongly claimed no Lean formalization / vacuous sorry_free).",
-    "fidelity": "verified",
-    "fidelity_note": "[coverage-arm fidelity, Stage3.7 #7344] Judge Opus 4.8. (a) The three realGEndAlgebra_equiv_* theorems (lines 656/755/832) conclude Nonempty (realGEndAlgebra rho ~=a[R] C / Matrix (Fin 2)(Fin 2) R / Quaternion R) -- genuine R-AlgEquiv (~=a[R]), not linear/dimension; target algebras are exactly C, Mat2(R), H. Hyps: IsSimpleModule (MonoidAlgebra C G) rho.asModule + genuine Def-5.1.1 type predicate (IsComplexType = V not-iso V*; IsRealType = inv nondeg symmetric form; IsQuaternionicType = inv nondeg skew form). realGEndAlgebra = centralizer in End_R V = faithful End_{R[G]}V. (b) isRealType_iff_exists_real_form (line 1193) real two-way iff; real form = G-stable Submodule R V W with span_C W = top and finrank_R W = finrank_C V, which forces C tensor_R W ~= V (complexification), equivalent unbundled encoding of the book's 'V is complexification of a real rep'. Book (a) hint machinery (antilinear j, j^2=+-1, V_C ~= V (+) V*) present as proof (realJ, exists_antilinear_j_of_invariant_nondegenerate). Axiom-clean [propext, Classical.choice, Quot.sound], no sorryAx. See progress/reviews/2026-07-22T16-38-55Z-ch5-problem5_1_2-exercise5_1_7-realtype-coverage-fidelity.md",
-    "coverage": "covered_full",
-    "coverage_arm": "audited",
-    "lean_file": [
-      "EtingofRepresentationTheory/Chapter5/Problem5_1_2.lean"
-    ],
-    "derived": [
-      {
-        "part": "(a)-complex",
-        "description": "End_{R[G]} V is C for V of complex type.",
-        "coverage": "covered_full",
-        "lean_decl": [
-          "Etingof.realGEndAlgebra_equiv_complex_of_isComplexType",
-          "Etingof.realGEndAlgebra"
-        ],
-        "reason": "Coverage-arm audit (Stage 3.7, #7344): covered_full. realGEndAlgebra_equiv_complex_of_isComplexType (Problem5_1_2.lean:656) proves Nonempty (realGEndAlgebra rho ~=a[R] C) for irreducible rho (IsSimpleModule) of complex type (IsComplexType rho = V not G-equivariantly iso to Module.Dual C V). ~=a[R] is a genuine R-algebra isomorphism onto C; realGEndAlgebra = Subalgebra.centralizer R {(rho g).restrictScalars R} = honest End_{R[G]}V. Faithful to 'End_{R[G]}V is C'. Axiom-clean, no sorryAx."
-      },
-      {
-        "part": "(a)-real",
-        "description": "End_{R[G]} V is Mat_2(R) for V of real type.",
-        "coverage": "covered_full",
-        "lean_decl": [
-          "Etingof.realGEndAlgebra_equiv_matrix_of_isRealType",
-          "Etingof.realGEndAlgebra"
-        ],
-        "reason": "Coverage-arm audit (Stage 3.7, #7344): covered_full. realGEndAlgebra_equiv_matrix_of_isRealType (Problem5_1_2.lean:755) proves Nonempty (realGEndAlgebra rho ~=a[R] Matrix (Fin 2) (Fin 2) R) for irreducible rho of real type (IsRealType rho = exists G-invariant nondegenerate symmetric C-bilinear form). Genuine R-AlgEquiv onto Mat_2(R). Faithful to 'End_{R[G]}V is Mat_2(R)'. Axiom-clean, no sorryAx."
-      },
-      {
-        "part": "(a)-quaternionic",
-        "description": "End_{R[G]} V is H (quaternions) for V of quaternionic type.",
-        "coverage": "covered_full",
-        "lean_decl": [
-          "Etingof.realGEndAlgebra_equiv_quaternion_of_isQuaternionicType",
-          "Etingof.realGEndAlgebra"
-        ],
-        "reason": "Coverage-arm audit (Stage 3.7, #7344): covered_full. realGEndAlgebra_equiv_quaternion_of_isQuaternionicType (Problem5_1_2.lean:832) proves Nonempty (realGEndAlgebra rho ~=a[R] Quaternion R) for irreducible rho of quaternionic type (IsQuaternionicType rho = exists G-invariant nondegenerate skew-symmetric C-bilinear form). Genuine R-AlgEquiv onto H = Quaternion R. Faithful to 'End_{R[G]}V is H'. Axiom-clean, no sorryAx."
-      },
-      {
-        "part": "(b)",
-        "description": "V is of real type iff V is the complexification of a real representation V_R.",
-        "coverage": "covered_full",
-        "lean_decl": [
-          "Etingof.isRealType_iff_exists_real_form",
-          "Etingof.exists_real_form_of_isRealType",
-          "Etingof.isRealType_of_exists_real_form"
-        ],
-        "reason": "Coverage-arm audit (Stage 3.7, #7344): covered_full. isRealType_iff_exists_real_form (Problem5_1_2.lean:1193) is a real biconditional IsRealType rho <-> exists W : Submodule R V, (forall g v, v in W -> rho g v in W) and Submodule.span C W = top and finrank R W = finrank C V; both directions proved (exists_real_form_of_isRealType:923, isRealType_of_exists_real_form:1059). The real-form side is honest real data: G-stability makes W a real subrepresentation, and span_C W = top with finrank_R W = finrank_C V force the canonical C tensor_R W -> V to be an equivariant iso, i.e. V is the complexification of W. Equivalent unbundled encoding of 'V is the complexification of a real rep' (no standalone Representation R G W / literal C tensor W ~= V, but the conditions determine both) -- accepted faithful under the project convention used in Sec 5.16/5.24. Axiom-clean, no sorryAx."
-      }
-    ]
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter5/Example5.1.3",
@@ -3668,15 +3618,7 @@
     "start_line": 23,
     "end_line": 24,
     "status": "sorry_free",
-    "coverage_note": "Coverage-arm audit (Stage 3.7, #7344): covered_full. Chapter5/Exercise5_1_7.lean (sorry-free on origin/main) proves exists_irreducible_not_realType_of_odd_order: for [Nontrivial G] and Odd (Fintype.card G), there exists a complex representation rho that is IsSimpleModule (irreducible), has nontrivial action (exists g, rho g != 1), and satisfies not IsRealType rho. By Problem 5.1.2(b) not-IsRealType on an irrep = not realizable over R, so this is the book's 'irreducible representation not defined over R'. Supersedes the earlier stale 'sorry proof' note.",
-    "fidelity": "verified",
-    "fidelity_note": "[coverage-arm fidelity, Stage3.7 #7344] Judge Opus 4.8. exists_irreducible_not_realType_of_odd_order (Exercise5_1_7.lean:49) under [Nontrivial G][Fintype G] and (hodd : Odd (Fintype.card G)) concludes exists V (rho : Representation C G V), IsSimpleModule (MonoidAlgebra C G) rho.asModule and (exists g, rho g != 1) and not Etingof.IsRealType rho. Irreducibility is a genuine IsSimpleModule; not-IsRealType = not-defined-over-R for an irrep (via Problem 5.1.2(b), same project); the exists g, rho g != 1 conjunct only strengthens (excludes the trivial real-type rep). Both hyps USED: Nontrivial G drives exists_ne (1:G) (line 65) for the nontrivial witness, hodd feeds not_isRealType_of_odd_order_of_nontrivial_irreducible (Exercise 5.3.3, line 88). Axiom-clean [propext, Classical.choice, Quot.sound], no sorryAx. See progress/reviews/2026-07-22T16-38-55Z-ch5-problem5_1_2-exercise5_1_7-realtype-coverage-fidelity.md",
-    "coverage": "covered_full",
-    "coverage_arm": "audited",
-    "lean_file": [
-      "EtingofRepresentationTheory/Chapter5/Exercise5_1_7.lean"
-    ],
-    "lean_decl": "Etingof.exists_irreducible_not_realType_of_odd_order"
+    "coverage_note": "Statement pass: Chapter5/Exercise5_1_7.lean states existence of a nontrivial irreducible complex rep that is not of real type (¬ IsRealType), sorry proof."
   },
   {
     "id": "Chapter5/Introduction_5.2",
@@ -4388,105 +4330,7 @@
     "start_line": 13,
     "end_line": 24,
     "status": "sorry_free",
-    "coverage_note": "Sorry-free on origin/main (0 sorries, 2788 lines): Chapter5/Problem5_11_1.lean formalizes ALL FIVE parts (a)-(e) as genuine FDRep ℂ A₅ isomorphisms `Nonempty (ind σ ≅ …)`, where ind σ = FDRep.of (Etingof.Definition5_8_1 H σ.ρ) is the honest induced representation and the summands are the honest distinct A₅ irreducibles repTriv/repC3plus/repC3minus/repC4/repC5 (Simple + finrank 1,3,3,4,5 established in Chapter4/Example4_8_1). Each headline theorem quantifies over an ARBITRARY subgroup H of the relevant order (conjugacy supplied by exists_conj_H/H3/H5/H12) and an inducing simple distinguished by dimension/triviality, so no part is silently restricted to one hand-picked subgroup. 11 headline theorems: (a) indZ2_triv, indZ2_sign; (b) indZ3_triv, indZ3_nontriv; (c) indZ5_triv, indZ5_nontriv (honest ∨ over the two 5-cycle-class orderings); (d) indA4_triv, indA4_nontriv_linear, indA4_threeDim; (e) indV4_triv, indV4_nontriv. Isos are genuine (via sorry-free CharEqIso.charEq_iso: equal characters over ℂ for a finite group ⇒ isomorphic), not mere character/dimension equalities. Supersedes the earlier stale note that claimed only part (a) proved and (b)-(e) sorried.",
-    "coverage": "covered_full",
-    "coverage_arm": "audited",
-    "derived": [
-      {
-        "part": "(a) ℤ₂ — trivial",
-        "coverage": "covered_full",
-        "lean_decl": [
-          "Etingof.Problem5_11_1.indZ2_triv"
-        ],
-        "reason": "Nonempty (ind σ ≅ 1 ⊞ 3 ⊞ 3' ⊞ 4² ⊞ 5³) for an arbitrary order-2 subgroup (exists_conj_H) and its unique trivial simple; genuine FDRep iso via charEq_iso. Multiplicities (1,1,1,2,3) match ⟨χ|_{Z2},1⟩=(χ(1)+χ(2a))/2, dim 30=60/2."
-      },
-      {
-        "part": "(a) ℤ₂ — sign",
-        "coverage": "covered_full",
-        "lean_decl": [
-          "Etingof.Problem5_11_1.indZ2_sign"
-        ],
-        "reason": "Nonempty (ind σ ≅ 3² ⊞ 3'² ⊞ 4² ⊞ 5²) for the nontrivial (sign) simple, pinned from Simple σ alone. Multiplicities (0,2,2,2,2) match (χ(1)-χ(2a))/2, dim 30."
-      },
-      {
-        "part": "(b) ℤ₃ — trivial",
-        "coverage": "covered_full",
-        "lean_decl": [
-          "Etingof.Problem5_11_1.indZ3_triv"
-        ],
-        "reason": "Nonempty (ind σ ≅ 1 ⊞ 3 ⊞ 3' ⊞ 4² ⊞ 5), arbitrary order-3 subgroup (exists_conj_H3), trivial simple; dim 20=60/3."
-      },
-      {
-        "part": "(b) ℤ₃ — nontrivial",
-        "coverage": "covered_full",
-        "lean_decl": [
-          "Etingof.Problem5_11_1.indZ3_nontriv"
-        ],
-        "reason": "Nonempty (ind σ ≅ 3 ⊞ 3' ⊞ 4 ⊞ 5²) for either nontrivial character of ℤ₃ (both induce the same); dim 20."
-      },
-      {
-        "part": "(c) ℤ₅ — trivial",
-        "coverage": "covered_full",
-        "lean_decl": [
-          "Etingof.Problem5_11_1.indZ5_triv"
-        ],
-        "reason": "Nonempty (ind σ ≅ 1 ⊞ 3 ⊞ 3' ⊞ 5), arbitrary order-5 Sylow subgroup (exists_conj_H5); dim 12=60/5."
-      },
-      {
-        "part": "(c) ℤ₅ — nontrivial",
-        "coverage": "covered_full",
-        "lean_decl": [
-          "Etingof.Problem5_11_1.indZ5_nontriv"
-        ],
-        "reason": "Nonempty (ind σ ≅ 3 ⊞ 4 ⊞ 5) ∨ Nonempty (ind σ ≅ 3' ⊞ 4 ⊞ 5): the two nontrivial-character orbits land in one of the two 5-cycle-class orderings; honest disjunction of genuine isos, dim 12. Both 3-dim irreps covered across the disjuncts."
-      },
-      {
-        "part": "(d) A₄ — trivial",
-        "coverage": "covered_full",
-        "lean_decl": [
-          "Etingof.Problem5_11_1.indA4_triv"
-        ],
-        "reason": "Nonempty (ind σ ≅ 1 ⊞ 4), arbitrary order-12 subgroup (exists_conj_H12), 1-dim trivial simple; this is the coset permutation rep on A5/A4 = triv⊕std. Multiplicities (1,0,0,1,0) match ⟨χ|_{A4},1⟩, dim 5=60/12."
-      },
-      {
-        "part": "(d) A₄ — nontrivial linear",
-        "coverage": "covered_full",
-        "lean_decl": [
-          "Etingof.Problem5_11_1.indA4_nontriv_linear"
-        ],
-        "reason": "Nonempty (ind σ ≅ 5) for either nontrivial 1-dim (ω,ω²) of A₄; both induce repC5. Multiplicities (0,0,0,0,1) match ⟨χ|_{A4},ω⟩, dim 5."
-      },
-      {
-        "part": "(d) A₄ — 3-dimensional",
-        "coverage": "covered_full",
-        "lean_decl": [
-          "Etingof.Problem5_11_1.indA4_threeDim"
-        ],
-        "reason": "Nonempty (ind σ ≅ 3 ⊞ 3' ⊞ 4 ⊞ 5) for the 3-dim simple of A₄. Multiplicities (0,1,1,1,1) match ⟨χ|_{A4},χ_W⟩, dim 15=60·3/12."
-      },
-      {
-        "part": "(e) ℤ₂×ℤ₂ — trivial",
-        "coverage": "covered_full",
-        "lean_decl": [
-          "Etingof.Problem5_11_1.indV4_triv"
-        ],
-        "reason": "Nonempty (ind σ ≅ 1 ⊞ 4 ⊞ 5²), arbitrary order-4 subgroup (conjugate to V4 in A5), trivial simple; dim 15=60/4."
-      },
-      {
-        "part": "(e) ℤ₂×ℤ₂ — nontrivial",
-        "coverage": "covered_full",
-        "lean_decl": [
-          "Etingof.Problem5_11_1.indV4_nontriv"
-        ],
-        "reason": "Nonempty (ind σ ≅ 3 ⊞ 3' ⊞ 4 ⊞ 5) for any nontrivial character of V4 (the three are conjugate under N_{A5}(V4)); dim 15."
-      }
-    ],
-    "lean_file": [
-      "EtingofRepresentationTheory/Chapter5/Problem5_11_1.lean"
-    ],
-    "last_updated": "2026-07-22",
-    "fidelity": "verified",
-    "fidelity_note": "[fidelity #7350] VERIFIED covered_full for all 11 headline theorems (judged by a different model than formalized it; no prior fidelity review existed). (1) Each conclusion is a genuine FDRep A₅-isomorphism (Nonempty (ind σ ≅ biproduct of named irreducibles)) via charEq_iso, NOT a bare character/dimension identity. (2) Inducing side is the honest Ind of the stated simple of the stated subgroup (Etingof.Definition5_8_1); each subgroup is pinned by order with the 'all such subgroups conjugate in A₅' quantification genuinely present (exists_conj_H/H3/H5/H12). (3) Multiplicities spot-checked by hand against the standard A₅ character table for the richest parts (a) and (d): indZ2_triv=(1,1,1,2,3), indZ2_sign=(0,2,2,2,2), indA4_triv=(1,0,0,1,0), indA4_nontriv_linear=(0,0,0,0,1), indA4_threeDim=(0,1,1,1,1) — all match Frobenius reciprocity ⟨χ|_H, σ⟩; dimensions match 60/|H|·dim σ. (4) Non-vacuity: A₅ has exactly five irreducibles (dims 1,3,3,4,5); the five targets are the honest distinct irreducibles (Simple lemmas repTriv/C3plus/C3minus/C4/C5_simple), biproducts are explicit nonempty ⊞-chains (not empty-index). #print axioms clean on all 11 (propext, Classical.choice, Quot.sound only; no sorryAx). No gap found → no follow-up feature issue. Report: progress/reviews/2026-07-22-ch5-problem5_11_1-fidelity.md."
+    "coverage_note": "Statement pass: Chapter5/Problem5_11_1.lean states the decomposition into A5 irreducibles (repTriv/repC3plus/repC3minus/repC4/repC5) of representations induced from irreducibles of the subgroups Z2, Z3, Z5, A4, Z2xZ2. Phrased for an arbitrary subgroup of the relevant order (all such are conjugate in A5) and an arbitrary irreducible inducing character distinguished by dimension and triviality, via Etingof.Definition5_8_1 and FDRep biproducts. 11 theorems. Part (a) fully proved: indZ2_triv (Ind_Z2 1+ = 1+3+3'+4^2+5^3) and indZ2_sign (Ind_Z2 1- = 3^2+3'^2+4^2+5^2), both via the charEq_iso + Frobenius-character route; indZ2_sign pins the sign character from Simple sigma alone (finrank=1 via IsProj.trace on the involution + simple_iff_char_is_norm_one). Parts (b)-(e) (indZ3/indZ5/indA4/indV4) still sorry."
   },
   {
     "id": "Chapter5/Introduction_5.12",
@@ -4580,13 +4424,7 @@
     "start_line": 9,
     "end_line": 12,
     "status": "sorry_free",
-    "coverage": "covered_full",
-    "lean_decl": "Etingof.sum_finrank_irreducible_eq_card_sq_eq_one",
-    "lean_file": "EtingofRepresentationTheory/Chapter5/Problem5_12_5.lean",
-    "last_updated": "2026-07-22",
-    "coverage_note": "Sorry-free on main (feat #6253): Chapter5/Problem5_12_5.lean proves sum_finrank_irreducible_eq_card_sq_eq_one — for any complete irredundant family V : ι → FDRep ℂ (Equiv.Perm (Fin n)) of irreducibles (hsimple/hpairwise/hcomplete), ∑ i, finrank ℂ (V i) = Fintype.card {g // g * g = 1}. The answer to 'find the sum' is the Frobenius-Schur involution-or-identity count. Reality of every Sₙ irreducible (frobeniusSchurIndicator_symmetricGroup_eq_one, via the Specht/Young-symmetrizer real form) gives FS-indicator 1, and Corollary5_1_6 collapses Theorem 5.1.5's ∑ dim Vᵢ·FS(Vᵢ) to ∑ dim Vᵢ = #{g : g²=1}; a dimension-preserving bijection aligns V with the Wedderburn family. #print axioms: propext, Classical.choice, Quot.sound only.",
-    "fidelity": "verified",
-    "fidelity_note": "[fidelity #7348] VERIFIED covered_full. Genuine closed-form answer: RHS Fintype.card {g : Equiv.Perm (Fin n) // g * g = 1} is the honest square-roots-of-1 (involution-or-identity) count, LHS ∑ finrank ℂ (V i) — a real identity, not a restatement/tautology. Completeness hypotheses genuinely used and non-vacuous: hpairwise ⇒ injectivity and hcomplete ⇒ surjectivity of the alignment τ (Problem5_12_5.lean:87-92); the Wedderburn family D.columnFDRep (IrrepDecomp.mk') witnesses a valid ι, so the theorem is not vacuously quantified. Reality rests on frobeniusSchurIndicator_symmetricGroup_eq_one (Specht ℚ-form / real type, the book hint) feeding Corollary5_1_6 (a genuine specialization of Theorem 5.1.5), not an unrelated shortcut. The statement quantifies over ALL complete irredundant families, matching 'all irreducible representations', not a single fixed family — not weaker than the book. Axiom-clean [propext, Classical.choice, Quot.sound], no sorryAx; builds 8614/8614."
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter5/Introduction_5.13",
@@ -4997,35 +4835,7 @@
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_note": "[fidelity, Stage3.7 #7220] Statement-fidelity & non-vacuity audit of sumTranspositions_mul_eq_content_smul against blob. VERIFIED. Sign convention: Mathlib YoungDiagram.cells are (row,col) with .1=row, .2=col (confirmed via mem_ofRowLens: .1<length, .2<getElem .1). Lean content = sum over cells (c.2 - c.1) = col - row. Book c(la) = sum_j sum_{i=1}^{la_j} (i - j) has j=row (part index), i=column (runs 1..la_j), so (i-j) = col - row; 1-based equals 0-based as a difference. EXACT match, no sign flip. Cross-checked numerically on S_3: content((3))=3, ((2,1))=0, ((1,1,1))=-3, matching independent character eigenvalues |class|*chi(transp)/dim = 3,0,-3. Non-vacuity: SpechtModule = Submodule.span A {YoungSymmetrizer} = genuine left ideal C[S_n]*c_la (contains c_la != 0, not top/bot), proved simple by Theorem5_12_2_irreducible; sumTranspositions is genuinely sum_{i<j}(ij); theorem quantifies over all x in V_la asserting C*x = c(la) smul x, faithfully rendering 'C acts on V_la by c(la)'.",
-    "coverage_note": "Chapter5/Problem5_16_2.lean proves sumTranspositions_mul_eq_content_smul sorry-free: the sum of transpositions C acts on the Specht module V_lambda by the content c(lambda). Depends only on propext, Classical.choice, Quot.sound.",
-    "coverage": "covered_full",
-    "coverage_arm": "audited",
-    "lean_file": [
-      "EtingofRepresentationTheory/Chapter5/Problem5_16_2.lean"
-    ],
-    "fidelity_decl": [
-      "Etingof.sumTranspositions",
-      "Etingof.content",
-      "Etingof.sumTranspositions_mul_eq_content_smul"
-    ],
-    "derived": [
-      {
-        "part": "—",
-        "claim": "C = ∑_{i<j}(ij) ∈ ℂ[Sₙ] acts on the Specht module V_λ by multiplication by the content c(λ).",
-        "description": "Single claim: the sum of all transpositions acts on V_λ by the scalar c(λ) = ∑_{cells}(col − row).",
-        "source_span": "blobs/Chapter5/Problem5.16.2.md L1",
-        "coverage": "covered_full",
-        "lean_decl": [
-          "Etingof.sumTranspositions_mul_eq_content_smul",
-          "Etingof.sumTranspositions",
-          "Etingof.content",
-          "Etingof.sumTranspositions_mul_youngSymmetrizer",
-          "Etingof.sumTranspositions_central"
-        ],
-        "reason": "Coverage-arm audit (Stage 3.7, #7339): covered_full. sumTranspositions_mul_eq_content_smul (Problem5_16_2.lean:472) proves, for every x ∈ SpechtModule n la, sumTranspositions n * x = (content la : ℂ) • x — the book's 'C acts on V_λ by c(λ)' quantified over all vectors of V_λ (not just the generator c_λ). Non-vacuous: sumTranspositions (line 40) is genuinely ∑_{i<j} of(swap i j); content (line 46) is the honest ∑_{cells (r,c)} (c − r) over la.toYoungDiagram.cells (= ∑_j∑_{i=1}^{λ_j}(i−j) with j=row, i=col), and SpechtModule = ℂ[Sₙ]·c_λ is the real simple left ideal. Proof route: centrality of C (sumTranspositions_central) + Schur on the simple V_λ pins the scalar, whose value is read off the identity coefficient of C·c_λ (sumTranspositions_mul_youngSymmetrizer). Fidelity verified #7220 (axiom-clean [propext, Classical.choice, Quot.sound], no sorryAx); numerically cross-checked on S₃."
-      }
-    ],
-    "last_updated": "2026-07-22"
+    "coverage_note": "Chapter5/Problem5_16_2.lean proves sumTranspositions_mul_eq_content_smul sorry-free: the sum of transpositions C acts on the Specht module V_lambda by the content c(lambda). Depends only on propext, Classical.choice, Quot.sound."
   },
   {
     "id": "Chapter5/Problem5.16.3",
@@ -5038,52 +4848,7 @@
     "status": "sorry_free",
     "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous).",
     "fidelity": "verified",
-    "fidelity_note": "[fidelity gap #7228→#7231 RESOLVED] Checks 1,2,4 FAITHFUL & non-vacuous: (1) sumTranspositionsWith1 = ∑_{0<j}(0 j) is genuinely E=(12)+...+(1n) (n-1 transpositions through the fixed point), confirmed by sumTranspositionsWith1_eq_sub (=C_n-C_{n-1}); (2) part (a) headline is a genuine eigenbasis + integer eigenvalues with inclusive bounds 1-n<=m<=n-1 over arbitrary fin-dim rho; (4) IsRectangular (parts=replicate r c) faithfully captures 'all rows equal' with edge cases fine, SpechtModule is the genuine V_lambda. Check 3 (part (b) 'compute this scalar') NOW EXPOSED: sumTranspositionsWith1_scalar_on_rectangular states E acts on V_λ by the scalar (c-r) for rectangular λ=replicate r c, matching the book's 'compute this scalar' (= content of the corner (r-1,c-1)). Endpoints: trivial (n) → n-1, sign (1ⁿ) → 1-n. Axiom-clean [propext, Classical.choice, Quot.sound]. #7231. Report: progress/reviews/2026-07-21-ch5-problem5_16_3-fidelity.md.",
-    "coverage": "covered_full",
-    "coverage_arm": "audited",
-    "lean_file": [
-      "EtingofRepresentationTheory/Chapter5/Problem5_16_3.lean"
-    ],
-    "fidelity_decl": [
-      "Etingof.sumTranspositionsWith1",
-      "Etingof.IsRectangular",
-      "Etingof.sumTranspositionsWith1_eq_sub",
-      "Etingof.sumTranspositionsWith1_diagonalizable_integer_eigenvalues",
-      "Etingof.sumTranspositionsWith1_acts_scalar_iff_rectangular",
-      "Etingof.sumTranspositionsWith1_scalar_on_rectangular"
-    ],
-    "derived": [
-      {
-        "part": "(a)",
-        "claim": "E := (12)+…+(1n) is diagonalizable on any f.d. rep of Sₙ, with integer eigenvalues in [1−n, n−1].",
-        "description": "Diagonalizability (eigenbasis) plus integer eigenvalues with the inclusive bound 1−n ≤ m ≤ n−1, for an arbitrary finite-dimensional representation ρ.",
-        "source_span": "blobs/Chapter5/Problem5.16.3.md L1-3",
-        "coverage": "covered_full",
-        "lean_decl": [
-          "Etingof.sumTranspositionsWith1_diagonalizable_integer_eigenvalues",
-          "Etingof.sumTranspositionsWith1_hasEigenvalue_integer",
-          "Etingof.sumTranspositionsWith1_eq_sub",
-          "Etingof.sumTranspositionsWith1"
-        ],
-        "reason": "Coverage-arm audit (Stage 3.7, #7339): covered_full. sumTranspositionsWith1_diagonalizable_integer_eigenvalues (Problem5_16_3.lean:257) is a conjunction: (i) ∃ a basis b of V with each b i an eigenvector of ρ.asAlgebraHom E (genuine diagonalizability), AND (ii) every eigenvalue μ equals some m : ℤ with (1 − n) ≤ m ∧ m ≤ (n − 1) — the [1−n, n−1] bound is actually asserted, not merely 'integer'. Holds for an arbitrary finite-dimensional ρ (unitarizability via Theorem4_6_2 makes E self-adjoint hence diagonalizable). Non-vacuous: sumTranspositionsWith1 (line 62) = ∑_{0<j} of(swap 0 j) is genuinely E = (12)+…+(1n) (the n−1 transpositions through the fixed point 0). The book's hint E = C_n − C_{n−1} is the exposed bridge sumTranspositionsWith1_eq_sub (line 109), and the integer eigenvalues come from the contents of partitions of n and n−1 (via sumTranspositions_isSemisimple_and_integer_eigenvalues on ρ and its restriction). Fidelity verified #7228→#7231 (axiom-clean [propext, Classical.choice, Quot.sound], no sorryAx)."
-      },
-      {
-        "part": "(b)",
-        "claim": "E acts on V_λ by a scalar iff λ is rectangular; for rectangular λ = (cʳ) the scalar is c − r.",
-        "description": "Rectangular-iff-scalar biconditional together with the computed scalar value c − r (columns minus rows) on a rectangular diagram.",
-        "source_span": "blobs/Chapter5/Problem5.16.3.md L5",
-        "coverage": "covered_full",
-        "lean_decl": [
-          "Etingof.sumTranspositionsWith1_acts_scalar_iff_rectangular",
-          "Etingof.sumTranspositionsWith1_scalar_on_rectangular",
-          "Etingof.IsRectangular",
-          "Etingof.sumTranspositionsStab_acts_scalar_iff_content_const",
-          "Etingof.content_const_removeSquare_iff_rectangular"
-        ],
-        "reason": "Coverage-arm audit (Stage 3.7, #7339): covered_full — both clauses exposed. (1) Biconditional: sumTranspositionsWith1_acts_scalar_iff_rectangular (Problem5_16_3.lean:868) is a genuine iff, (∃ c : ℂ, ∀ x ∈ V_λ, E * x = c • x) ↔ IsRectangular la, where IsRectangular (line 87) = (∃ r c, la.parts = Multiset.replicate r c) faithfully encodes 'rectangular Young diagram'. Not one-directional: proved by rewriting through the content-constant criterion on removed corners (content_const_removeSquare_iff_rectangular) and the C_{n−1}-scalar criterion (sumTranspositionsStab_acts_scalar_iff_content_const). (2) Computed scalar: sumTranspositionsWith1_scalar_on_rectangular (line 905) states that for la.parts = replicate r c the scalar is ((c : ℤ) − r : ℂ) = content of the unique removable corner (r−1, c−1) — the value is pinned down, not left abstract. Endpoint sanity checks match part (a)'s [1−n, n−1] bound: trivial rep (n) (r=1,c=n) → n−1; sign rep (1ⁿ) (r=n,c=1) → 1−n. Fidelity verified #7228→#7231 (check-3 'compute this scalar' explicitly confirmed; axiom-clean [propext, Classical.choice, Quot.sound], no sorryAx)."
-      }
-    ],
-    "last_updated": "2026-07-22"
+    "fidelity_note": "[fidelity gap #7228→#7231 RESOLVED] Checks 1,2,4 FAITHFUL & non-vacuous: (1) sumTranspositionsWith1 = ∑_{0<j}(0 j) is genuinely E=(12)+...+(1n) (n-1 transpositions through the fixed point), confirmed by sumTranspositionsWith1_eq_sub (=C_n-C_{n-1}); (2) part (a) headline is a genuine eigenbasis + integer eigenvalues with inclusive bounds 1-n<=m<=n-1 over arbitrary fin-dim rho; (4) IsRectangular (parts=replicate r c) faithfully captures 'all rows equal' with edge cases fine, SpechtModule is the genuine V_lambda. Check 3 (part (b) 'compute this scalar') NOW EXPOSED: sumTranspositionsWith1_scalar_on_rectangular states E acts on V_λ by the scalar (c-r) for rectangular λ=replicate r c, matching the book's 'compute this scalar' (= content of the corner (r-1,c-1)). Endpoints: trivial (n) → n-1, sign (1ⁿ) → 1-n. Axiom-clean [propext, Classical.choice, Quot.sound]. #7231. Report: progress/reviews/2026-07-21-ch5-problem5_16_3-fidelity.md."
   },
   {
     "id": "Chapter5/Introduction_5.17",
