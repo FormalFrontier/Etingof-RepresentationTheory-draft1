@@ -5,8 +5,8 @@ import Mathlib
 /-!
 # Problem 6.1.5 S0: the representation space `W(m)`, the group `G(m)`, and orbits
 
-This file sets up the geometric side of the orbit-counting approach to Gabriel's
-theorem. Fix a quiver `Q` on `Fin n` and a dimension vector `m : Fin n → ℕ`
+This file sets up the geometric side of the orbit-counting route to Gabriel's theorem
+(directive #4777). Fix a quiver `Q` on `Fin n` and a dimension vector `m : Fin n → ℕ`
 over a field `k`.
 
 * `Etingof.repSpace Q m` is the affine space of representations of dimension vector `m`:
@@ -16,13 +16,16 @@ over a field `k`.
 * `Etingof.repGroup m = ∏ᵢ GLₘᵢ(k)` acts on `repSpace Q m` by base change at each
   vertex: `g` sends the `i → j` block `M` to `g j · M · (g i)⁻¹` (`repSpace_smul_apply`).
   The ambient matrix space of the group has dimension `∑ᵢ mᵢ²`
-  (`repGroup_ambient_finrank`), the variable count `M = dim G` consumed by the
+  (`repGroup_ambient_finrank`) — this is the variable count `M = dim G` consumed by the
   transcendence-degree step (Problem 6.1.1).
-* `Etingof.repOfPoint` turns a point of `repSpace Q m` into a
+* `Etingof.repOfPoint` turns a point of `repSpace Q m` into a genuine
   `QuiverRepresentation`, and `Etingof.orbit_iff_isomorphic` is the linchpin:
-  two points lie in the same `G(m)`-orbit iff the represented representations are
-  isomorphic. This is what translates "finitely many orbits" into "finitely many
-  isomorphism classes".
+  two points lie in the same `G(m)`-orbit **iff** the represented representations are
+  isomorphic. This is what S1/S2 consume to translate "finitely many orbits" into
+  "finitely many isomorphism classes".
+
+The dimension formulas are `sorry`-free; `orbit_iff_isomorphic` is the data linchpin
+described in #4780.
 -/
 
 namespace Etingof
@@ -33,13 +36,13 @@ universe u
 
 variable {k : Type u} [Field k] {n : ℕ} [Quiver.{0} (Fin n)]
 
-/-- The representation space at dimension vector `m`: a point assigns to each arrow
+/-- The **representation space** at dimension vector `m`: a point assigns to each arrow
 `e : i ⟶ j` a matrix `Matrix (Fin (m j)) (Fin (m i)) k`, viewed as a linear map
 `kᵐⁱ → kᵐʲ`. As a `k`-vector space its dimension is `∑ᵢⱼ bᵢⱼ mᵢ mⱼ`. -/
 abbrev repSpace (m : Fin n → ℕ) : Type u :=
   ∀ i j : Fin n, (i ⟶ j) → Matrix (Fin (m j)) (Fin (m i)) k
 
-/-- The base-change group `G(m) = ∏ᵢ GLₘᵢ(k)`. -/
+/-- The **base-change group** `G(m) = ∏ᵢ GLₘᵢ(k)`. -/
 abbrev repGroup (k : Type u) [Field k] {n : ℕ} (m : Fin n → ℕ) : Type u :=
   ∀ i : Fin n, GL (Fin (m i)) k
 

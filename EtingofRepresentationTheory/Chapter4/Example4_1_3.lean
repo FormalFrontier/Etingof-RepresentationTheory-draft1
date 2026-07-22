@@ -8,8 +8,8 @@ over k is trivial (the generator acts as the identity).
 
 The book's argument runs through the generator acting by a p-th root of unity, and over a
 field of characteristic p one has `xᵖ - 1 = (x - 1)ᵖ`, so the only p-th root of unity is 1.
-We give an equivalent argument that uses representation-irreducibility directly:
-writing `g` for the generator, `ρ g - 1` is nilpotent (since `(ρ g - 1)ᵖ = 0` by
+We formalize an equivalent route that takes representation-irreducibility as the genuine
+hypothesis: writing `g` for the generator, `ρ g - 1` is nilpotent (since `(ρ g - 1)ᵖ = 0` by
 the same freshman's-dream identity) and, because `ℤ/pℤ` is abelian, it is a self-intertwiner
 of `ρ`. Schur's lemma then forces `ρ g - 1` to be injective or zero; nilpotency on a nonzero
 space rules out injectivity, so `ρ g = id`.
@@ -27,7 +27,7 @@ Uses `ZMod p` for the cyclic group and `CharP k p` for characteristic p. Irreduc
 open scoped MonoidAlgebra in
 /-- In characteristic p, every irreducible representation of ℤ/pℤ is trivial.
 
-The hypothesis `hirr` is representation-irreducibility: `ρ.asModule` is simple as a
+The hypothesis `hirr` is genuine representation-irreducibility: `ρ.asModule` is simple as a
 module over the group algebra `k[ℤ/pℤ]`, i.e. the representation has no proper nonzero
 `ρ`-invariant subspace (Mathlib's `Representation.IsIrreducible`). This is the book's notion,
 *not* `IsSimpleModule k V` (which would force `V` to be one-dimensional and assume away the

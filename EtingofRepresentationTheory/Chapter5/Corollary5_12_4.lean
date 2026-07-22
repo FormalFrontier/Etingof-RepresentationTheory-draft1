@@ -8,14 +8,14 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Classification
 
 All irreducible representations of `S_n` over `ℂ` can be given by matrices with rational
 entries. Following Etingof, the proof rests on the integrality of the Young symmetrizer
-`c_λ ∈ ℤ[S_n]`: the rational Specht module `V_λ^ℚ = ℚ[S_n]·c_λ` is a `ℚ`-form of
+`c_λ ∈ ℤ[S_n]`: the rational Specht module `V_λ^ℚ = ℚ[S_n]·c_λ` is a genuine `ℚ`-form of
 the complex Specht module `V_λ = ℂ[S_n]·c_λ`.
 
 ## Main results
 
-* `Etingof.SpechtModule_complexification`: for each partition `λ`, the complexification
+* `Etingof.SpechtModule_complexification` — for each partition `λ`, the complexification
   `ℂ ⊗_ℚ V_λ^ℚ` is isomorphic to `V_λ` via a `ℂ`-linear `S_n`-equivariant isomorphism.
-* `Etingof.Corollary5_12_4`: every simple `ℂ[S_n]`-module `M` is the Specht module `V_λ`
+* `Etingof.Corollary5_12_4` — every simple `ℂ[S_n]`-module `M` is the Specht module `V_λ`
   for some `λ` (classification), `V_λ^ℚ` is a simple `ℚ[S_n]`-module (an irreducible
   representation defined over `ℚ`), and `V_λ` is the complexification of `V_λ^ℚ`.
 
@@ -199,13 +199,13 @@ matrices with rational entries.
 
 Concretely, for every simple `ℂ[Sₙ]`-module `M` there is a partition `λ` such that:
 * `M ≅ V_λ`, the Specht module (classification, Theorem 5.12.2);
-* the rational Specht module `V_λ^ℚ = ℚ[Sₙ]·c_λ` is a simple `ℚ[Sₙ]`-module, an
+* the rational Specht module `V_λ^ℚ = ℚ[Sₙ]·c_λ` is a simple `ℚ[Sₙ]`-module — an
   irreducible representation defined over `ℚ`; and
 * `V_λ` is the complexification of `V_λ^ℚ`, via a `ℂ`-linear `Sₙ`-equivariant isomorphism.
 
 Thus `M` is realized over `ℚ`: in a `ℚ`-basis of `V_λ^ℚ` every `g ∈ Sₙ` acts by a matrix
 with rational entries. The integrality of the Young symmetrizer `c_λ ∈ ℤ[Sₙ]` is what makes
-`V_λ^ℚ` a `ℚ`-form. -/
+`V_λ^ℚ` a genuine `ℚ`-form. -/
 theorem Corollary5_12_4 (n : ℕ) (M : Type)
     [AddCommGroup M] [Module (SymGroupAlgebra n) M] [IsSimpleModule (SymGroupAlgebra n) M] :
     ∃ la : Nat.Partition n,

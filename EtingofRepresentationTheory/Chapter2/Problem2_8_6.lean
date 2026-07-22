@@ -14,14 +14,14 @@ For a finite quiver `Q` with vertex set `I` and arrow set `E`, the path algebra 
 4. `p_{h''} aₕ = aₕ` and `pᵢ aₕ = 0` for `i ≠ h''` (where `h''` is the target of `h`).
 
 **Convention.** Etingof reads a product `ab` as "first `b`, then `a`" (target-to-source),
-so `p` on the source multiplies on the right of `aₕ`. This project's `PathAlgebra` uses the
+so `p` on the source multiplies on the *right* of `aₕ`. This project's `PathAlgebra` uses the
 opposite, source-to-target reading (aligned with `Quiver.Path.comp`; see Definition 2.8.4), so
-here the source idempotent multiplies on the left and the target idempotent on the right.
+here the source idempotent multiplies on the *left* and the target idempotent on the *right*.
 The relations below are stated in the source-to-target convention of this project's algebra;
 they are the correct relations for `Etingof.PathAlgebra k Q`.
 
 We render the generators, the generation property, the four relations, and the universal
-property (that these are defining relations) as the statements.
+property ("these are *defining* relations") as the statements (spec); proofs are deferred.
 -/
 
 namespace Etingof.Problem2_8_6
@@ -38,15 +38,6 @@ noncomputable def vertexIdem (i : Q) : PathAlgebra k Q :=
 noncomputable def arrowGen {i j : Q} (e : i ⟶ j) : PathAlgebra k Q :=
   PathAlgebra.ofPath (k := k) ⟨i, j, e.toPath⟩
 
-/-- A path obtained by appending an arrow `e` to the end of a path `q` factors, in the path
-algebra, as the product of the basis path `q` with the arrow generator `aₑ`. -/
-theorem ofPath_cons {a b c : Q} (q : Quiver.Path a b) (e : b ⟶ c) :
-    PathAlgebra.ofPath (k := k) (⟨a, c, q.cons e⟩ : QuiverPathIndex Q)
-      = PathAlgebra.ofPath (k := k) (⟨a, b, q⟩ : QuiverPathIndex Q) * arrowGen k Q e := by
-  unfold arrowGen PathAlgebra.ofPath
-  rw [PathAlgebra.single_mul_single, one_mul, one_smul, PathAlgebra.compSingle_eq,
-    Quiver.Path.comp_toPath_eq_cons]
-
 /-! ## Generation -/
 
 /-- The path algebra is generated as a `k`-algebra by the vertex idempotents `pᵢ` and the
@@ -54,114 +45,52 @@ arrow generators `aₕ`. -/
 theorem adjoin_generators_eq_top [Fintype Q] :
     Algebra.adjoin k
       ({ x : PathAlgebra k Q | ∃ i, x = vertexIdem k Q i } ∪
-        { x : PathAlgebra k Q | ∃ (i j : Q) (e : i ⟶ j), x = arrowGen k Q e }) = ⊤ := by
-  have hgen : ∀ (a b : Q) (p : Quiver.Path a b),
-      PathAlgebra.ofPath (k := k) (⟨a, b, p⟩ : QuiverPathIndex Q) ∈
-        Algebra.adjoin k
-          ({ x : PathAlgebra k Q | ∃ i, x = vertexIdem k Q i } ∪
-            { x : PathAlgebra k Q | ∃ (i j : Q) (e : i ⟶ j), x = arrowGen k Q e }) := by
-    intro a b p
-    induction p with
-    | nil => exact Algebra.subset_adjoin (Or.inl ⟨a, rfl⟩)
-    | cons q e ih =>
-      rw [ofPath_cons]
-      exact mul_mem ih (Algebra.subset_adjoin (Or.inr ⟨_, _, e, rfl⟩))
-  rw [Algebra.eq_top_iff]
-  intro f
-  induction f using Finsupp.induction_linear with
-  | zero => exact zero_mem _
-  | add f g hf hg => exact add_mem hf hg
-  | single x c =>
-    obtain ⟨a, b, p⟩ := x
-    have hsc : (Finsupp.single (⟨a, b, p⟩ : QuiverPathIndex Q) c : PathAlgebra k Q)
-        = c • PathAlgebra.ofPath (k := k) (⟨a, b, p⟩ : QuiverPathIndex Q) := by
-      rw [PathAlgebra.ofPath, Finsupp.smul_single, smul_eq_mul, mul_one]
-    rw [hsc]
-    exact Subalgebra.smul_mem _ (hgen a b p) c
+        { x : PathAlgebra k Q | ∃ (i j : Q) (e : i ⟶ j), x = arrowGen k Q e }) = ⊤ :=
+  sorry
 
 /-! ## The defining relations -/
 
 /-- Relation (1): the vertex idempotents sum to `1`. -/
 theorem sum_vertexIdem [Fintype Q] :
-    ∑ i, vertexIdem k Q i = 1 := by
-  simp only [vertexIdem]
-  exact PathAlgebra.sum_trivialPaths_eq_one k Q
+    ∑ i, vertexIdem k Q i = 1 :=
+  sorry
 
 /-- Relation (2): each `pᵢ` is idempotent. -/
 theorem vertexIdem_sq [Fintype Q] (i : Q) :
-    vertexIdem k Q i * vertexIdem k Q i = vertexIdem k Q i := by
-  unfold vertexIdem PathAlgebra.ofPath
-  rw [PathAlgebra.single_mul_single, PathAlgebra.compSingle_nil_left, if_pos rfl, mul_one,
-    one_smul]
+    vertexIdem k Q i * vertexIdem k Q i = vertexIdem k Q i :=
+  sorry
 
 /-- Relation (2): distinct vertex idempotents are orthogonal. -/
 theorem vertexIdem_mul_of_ne [Fintype Q] (i j : Q) (h : i ≠ j) :
-    vertexIdem k Q i * vertexIdem k Q j = 0 := by
-  unfold vertexIdem PathAlgebra.ofPath
-  rw [PathAlgebra.single_mul_single, PathAlgebra.compSingle_nil_left, if_neg h, smul_zero]
+    vertexIdem k Q i * vertexIdem k Q j = 0 :=
+  sorry
 
 /-- Relation (3): the source idempotent absorbs an arrow (on the left, in the
 source-to-target convention): `p_{source} · aₕ = aₕ`. -/
 theorem source_mul_arrowGen [Fintype Q] {i j : Q} (e : i ⟶ j) :
-    vertexIdem k Q i * arrowGen k Q e = arrowGen k Q e := by
-  unfold vertexIdem arrowGen PathAlgebra.ofPath
-  rw [PathAlgebra.single_mul_single, PathAlgebra.compSingle_nil_left, if_pos rfl, mul_one,
-    one_smul]
+    vertexIdem k Q i * arrowGen k Q e = arrowGen k Q e :=
+  sorry
 
 /-- Relation (3): a non-source idempotent annihilates an arrow on the left. -/
 theorem vertexIdem_mul_arrowGen_of_ne [Fintype Q] {i j : Q} (l : Q) (e : i ⟶ j) (h : l ≠ i) :
-    vertexIdem k Q l * arrowGen k Q e = 0 := by
-  unfold vertexIdem arrowGen PathAlgebra.ofPath
-  rw [PathAlgebra.single_mul_single, PathAlgebra.compSingle_nil_left, if_neg h, smul_zero]
+    vertexIdem k Q l * arrowGen k Q e = 0 :=
+  sorry
 
 /-- Relation (4): the target idempotent absorbs an arrow (on the right, in the
 source-to-target convention): `aₕ · p_{target} = aₕ`. -/
 theorem arrowGen_mul_target [Fintype Q] {i j : Q} (e : i ⟶ j) :
-    arrowGen k Q e * vertexIdem k Q j = arrowGen k Q e := by
-  unfold arrowGen vertexIdem PathAlgebra.ofPath
-  rw [PathAlgebra.single_mul_single, PathAlgebra.compSingle_nil_right, if_pos rfl, mul_one,
-    one_smul]
+    arrowGen k Q e * vertexIdem k Q j = arrowGen k Q e :=
+  sorry
 
 /-- Relation (4): a non-target idempotent annihilates an arrow on the right. -/
 theorem arrowGen_mul_vertexIdem_of_ne [Fintype Q] {i j : Q} (l : Q) (e : i ⟶ j) (h : l ≠ j) :
-    arrowGen k Q e * vertexIdem k Q l = 0 := by
-  unfold arrowGen vertexIdem PathAlgebra.ofPath
-  rw [PathAlgebra.single_mul_single, PathAlgebra.compSingle_nil_right, if_neg h.symm, smul_zero]
+    arrowGen k Q e * vertexIdem k Q l = 0 :=
+  sorry
 
-/-! ## Evaluation of paths into a target algebra -/
-
-section Universal
-
-variable {k Q}
-variable {B : Type*} [Ring B] [Algebra k B] (P : Q → B) (A : ∀ i j : Q, (i ⟶ j) → B)
-
-/-- Evaluate an oriented path `p : a ⟶* b` into `B` using vertex data `P` and arrow data `A`:
-the trivial path at `a` maps to `P a`, and appending an arrow `e` multiplies on the right by the
-corresponding `A`. This is the value the universal algebra map assigns to a basis path. -/
-def evalPath {a : Q} : {b : Q} → Quiver.Path a b → B
-  | _, Quiver.Path.nil => P a
-  | _, Quiver.Path.cons q e => evalPath q * A _ _ e
-
-@[simp] theorem evalPath_nil (a : Q) :
-    evalPath P A (Quiver.Path.nil : Quiver.Path a a) = P a := rfl
-
-@[simp] theorem evalPath_cons {a b c : Q} (q : Quiver.Path a b) (e : b ⟶ c) :
-    evalPath P A (q.cons e) = evalPath P A q * A b c e := rfl
-
-/-- The `k`-linear map `P_Q → B` sending each basis path to its `evalPath` value. -/
-noncomputable def evalMap : PathAlgebra k Q →ₗ[k] B :=
-  Finsupp.linearCombination k (fun x : QuiverPathIndex Q => evalPath P A x.2.2)
-
-theorem evalMap_single (x : QuiverPathIndex Q) (c : k) :
-    evalMap P A (Finsupp.single x c) = c • evalPath P A x.2.2 :=
-  Finsupp.linearCombination_single (R := k) c x
-
-end Universal
-
-/-! ## Universal property: relations (1)–(4) are defining -/
+/-! ## Universal property: relations (1)–(4) are *defining* -/
 
 /-- **Defining relations.** For any `k`-algebra `B` with elements `P i` (`i ∈ I`) and
-`A i j e` (arrows `e : i ⟶ j`) satisfying the relations (1)–(4), there is a unique `k`-algebra
+`A i j e` (arrows `e : i ⟶ j`) satisfying the relations (1)–(4), there is a *unique* `k`-algebra
 homomorphism `P_Q → B` sending each `pᵢ ↦ P i` and each `aₕ ↦ A i j e`. This expresses that
 (1)–(4) are a complete set of defining relations for the path algebra. -/
 theorem defining_relations_universal [Fintype Q]
@@ -176,88 +105,7 @@ theorem defining_relations_universal [Fintype Q]
     (hat0 : ∀ (l : Q) i j (e : i ⟶ j), l ≠ j → A i j e * P l = 0) :
     ∃! φ : PathAlgebra k Q →ₐ[k] B,
       (∀ i, φ (vertexIdem k Q i) = P i) ∧
-        (∀ i j (e : i ⟶ j), φ (arrowGen k Q e) = A i j e) := by
-  -- The source vertex idempotent absorbs an evaluated path on the left.
-  have hsrc : ∀ {a b : Q} (p : Quiver.Path a b), P a * evalPath P A p = evalPath P A p := by
-    intro a b p
-    induction p with
-    | nil => rw [evalPath_nil]; exact hidem a
-    | cons q e ih => rw [evalPath_cons, ← mul_assoc, ih]
-  -- The target vertex idempotent absorbs an evaluated path on the right.
-  have htgt : ∀ {a b : Q} (p : Quiver.Path a b), evalPath P A p * P b = evalPath P A p := by
-    intro a b p
-    induction p with
-    | nil => rw [evalPath_nil]; exact hidem a
-    | cons q e ih => rw [evalPath_cons, mul_assoc, hat]
-  -- Evaluation turns path concatenation into multiplication.
-  have hcomp : ∀ {a b c : Q} (p : Quiver.Path a b) (q : Quiver.Path b c),
-      evalPath P A (p.comp q) = evalPath P A p * evalPath P A q := by
-    intro a b c p q
-    induction q with
-    | nil => rw [Quiver.Path.comp_nil, evalPath_nil, htgt]
-    | cons r e ih => rw [Quiver.Path.comp_cons, evalPath_cons, evalPath_cons, ih, mul_assoc]
-  -- `evalMap` sends the unit to the unit.
-  have h1 : evalMap P A (1 : PathAlgebra k Q) = 1 := by
-    rw [PathAlgebra.one_def, map_sum]
-    refine Eq.trans (Finset.sum_congr rfl fun i _ => ?_) hsum
-    simp [evalMap_single]
-  -- `evalMap` is multiplicative.
-  have hmul : ∀ x y : PathAlgebra k Q,
-      evalMap P A (x * y) = evalMap P A x * evalMap P A y := by
-    intro x y
-    induction x using Finsupp.induction_linear with
-    | zero => rw [zero_mul, map_zero, zero_mul]
-    | add x1 x2 hx1 hx2 => rw [add_mul, map_add, map_add, add_mul, hx1, hx2]
-    | single sx a =>
-      induction y using Finsupp.induction_linear with
-      | zero => rw [mul_zero, map_zero, mul_zero]
-      | add y1 y2 hy1 hy2 => rw [mul_add, map_add, map_add, mul_add, hy1, hy2]
-      | single sy b =>
-        obtain ⟨xa, xb, xp⟩ := sx
-        obtain ⟨ya, yb, yq⟩ := sy
-        rw [PathAlgebra.single_mul_single]
-        by_cases hxy : xb = ya
-        · subst hxy
-          rw [PathAlgebra.compSingle_eq]
-          simp only [map_smul, evalMap_single, one_smul]
-          rw [hcomp, smul_mul_assoc, mul_smul_comm, smul_smul]
-        · rw [PathAlgebra.compSingle_eq_zero _ _ hxy, smul_zero, map_zero]
-          simp only [evalMap_single]
-          rw [smul_mul_assoc, mul_smul_comm]
-          have horthxy : evalPath P A xp * evalPath P A yq = 0 := by
-            conv_lhs => rw [← htgt xp, ← hsrc yq]
-            rw [mul_assoc, ← mul_assoc (P xb), horth xb ya hxy, zero_mul, mul_zero]
-          rw [horthxy, smul_zero, smul_zero]
-  -- Package the linear map as an algebra homomorphism.
-  let φ : PathAlgebra k Q →ₐ[k] B := AlgHom.ofLinearMap (evalMap P A) h1 hmul
-  have hφapp : ∀ z, φ z = evalMap P A z := fun _ => rfl
-  have hφvertex : ∀ i, φ (vertexIdem k Q i) = P i := by
-    intro i
-    rw [hφapp, vertexIdem, PathAlgebra.ofPath, evalMap_single]
-    simp
-  have hφarrow : ∀ i j (e : i ⟶ j), φ (arrowGen k Q e) = A i j e := by
-    intro i j e
-    rw [hφapp, arrowGen, PathAlgebra.ofPath, evalMap_single, one_smul]
-    exact hsa i j e
-  refine ⟨φ, ⟨hφvertex, hφarrow⟩, ?_⟩
-  -- Uniqueness: any `ψ` agreeing on the generators agrees on every basis path, hence everywhere.
-  intro ψ hψ
-  apply AlgHom.ext
-  intro z
-  induction z using Finsupp.induction_linear with
-  | zero => rw [map_zero, map_zero]
-  | add u v hu hv => rw [map_add, map_add, hu, hv]
-  | single x c =>
-    obtain ⟨a, b, p⟩ := x
-    have hsc : (Finsupp.single (⟨a, b, p⟩ : QuiverPathIndex Q) c : PathAlgebra k Q)
-        = c • PathAlgebra.ofPath (k := k) (⟨a, b, p⟩ : QuiverPathIndex Q) := by
-      rw [PathAlgebra.ofPath, Finsupp.smul_single, smul_eq_mul, mul_one]
-    rw [hsc, map_smul, map_smul]
-    congr 1
-    clear hsc
-    induction p with
-    | nil => exact (hψ.1 a).trans (hφvertex a).symm
-    | cons q e ih =>
-      rw [ofPath_cons, map_mul, map_mul, ih, hψ.2 _ _ e, hφarrow _ _ e]
+        (∀ i j (e : i ⟶ j), φ (arrowGen k Q e) = A i j e) :=
+  sorry
 
 end Etingof.Problem2_8_6

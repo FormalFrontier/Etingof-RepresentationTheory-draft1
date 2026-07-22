@@ -3,8 +3,8 @@ import EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Golden
 /-!
 # Example 4.8.1: Character Tables of `Q₈`, `S₄`, and `A₅`
 
-The example states three full character tables.  The content is the table of
-character values together with the assertion that these rows are the irreducible
+The example states three full character tables.  The genuine content is the table of
+character values together with the assertion that these rows really are *the* irreducible
 characters of each group.
 
 | `Q₈` | `1` | `-1` | `i` | `j` | `k` |
@@ -37,11 +37,11 @@ characters of each group.
 ## Formalization strategy
 
 We encode each table verbatim as an explicit class function and prove the rows are
-orthonormal with respect to the class-size-weighted inner product
+**orthonormal** with respect to the class-size-weighted inner product
 `⟪f, g⟫ = (1/|G|) Σ_c |class c| · f(c) · g(c)`.  Orthonormality of `r` class functions,
 combined with the fact that the group has exactly `r` conjugacy classes (proved below for
 `Q₈`, `S₄`, `A₅`), certifies that the tabulated functions are precisely the complete set of
-distinct irreducible characters, i.e. that the table is correct and complete.  This is the
+distinct irreducible characters — i.e. that the table is correct and complete.  This is the
 same certificate used for the character tables in Example 4.9.1.
 
 The `A₅` values involve the golden ratio `(1 ± √5)/2`, so all character values are carried
@@ -56,7 +56,7 @@ formula `∑ dᵢ² = |G|`.
 
 /-! ## Underlying combinatorial data
 
-The conjugacy-class counts pin down the number of irreducibles (= number of rows above),
+The conjugacy-class counts pin down the *number* of irreducibles (= number of rows above),
 and the orders pin down their dimensions via `∑ dᵢ² = |G|`. -/
 
 /-- `Q₈` has exactly 5 conjugacy classes, hence 5 irreducible representations
@@ -71,7 +71,7 @@ theorem Etingof.Example4_8_1_Q8_card :
     Fintype.card (QuaternionGroup 2) = 8 := by
   rw [QuaternionGroup.card]
 
-/-- The five irreducible representations of `Q₈`, indexed `0..4` as
+/-- The five genuine irreducible representations of `Q₈`, indexed `0..4` as
 `ℂ₊₊, ℂ₊₋, ℂ₋₊, ℂ₋₋, ℂ²`. -/
 noncomputable def Etingof.Example4_8_1_Q8_irrep :
     Fin 5 → FDRep ℂ (QuaternionGroup 2) := Etingof.Example4_8_1.Q8.irrep
@@ -84,7 +84,7 @@ theorem Etingof.Example4_8_1_Q8_simple (i : Fin 5) :
   Etingof.Example4_8_1.Q8.irrep_simple i
 
 /-- The character (trace) of the `i`-th `Q₈` representation at the `j`-th class
-representative `(1, -1, i, j, k)` equals the tabulated value `chiQ8 i j`, including
+representative `(1, -1, i, j, k)` equals the tabulated value `chiQ8 i j` — including
 `χ_{ℂ²}(-1) = -2`.  This connects every row of the table to an actual representation.
 (Etingof Example 4.8.1) -/
 theorem Etingof.Example4_8_1_Q8_character (i j : Fin 5) :
@@ -114,7 +114,7 @@ theorem Etingof.Example4_8_1_S4_card :
     Fintype.card (Equiv.Perm (Fin 4)) = 24 := by
   rw [Fintype.card_perm, Fintype.card_fin]; decide
 
-/-- The five irreducible representations of `S₄`, indexed `0..4` as
+/-- The five genuine irreducible representations of `S₄`, indexed `0..4` as
 `ℂ₊, ℂ₋, ℂ², ℂ³₊, ℂ³₋`. -/
 noncomputable def Etingof.Example4_8_1_S4_irrep :
     Fin 5 → FDRep ℂ (Equiv.Perm (Fin 4)) := Etingof.Example4_8_1.S4.irrepS4
@@ -159,7 +159,7 @@ theorem Etingof.Example4_8_1_A5_card :
     Fintype.card (alternatingGroup (Fin 5)) = 60 := by
   rw [card_alternatingGroup, Fintype.card_fin]; decide
 
-/-- The five irreducible `A₅` representations, indexed `0..4` as `ℂ, ℂ³₊, ℂ³₋, ℂ⁴, ℂ⁵`
+/-- The five genuine irreducible `A₅` representations, indexed `0..4` as `ℂ, ℂ³₊, ℂ³₋, ℂ⁴, ℂ⁵`
 (the five rows of `chiA5`, in order). -/
 noncomputable def Etingof.Example4_8_1_A5_irrep :
     Fin 5 → FDRep ℂ (alternatingGroup (Fin 5)) := Etingof.Example4_8_1.A5.irrepA5

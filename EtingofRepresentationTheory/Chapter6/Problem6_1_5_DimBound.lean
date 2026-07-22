@@ -6,40 +6,42 @@ import Mathlib
 /-!
 # Problem 6.1.5, Step 2(b)/(c): the dimension bound `N ≤ M`
 
-This establishes the dimension bound `dim W(m) ≤ dim G(m)` for the dense-orbit
-base point, closing step 2(b)/(c) of Etingof Problem 6.1.2 by combining the
-injective orbit-map comorphism (`injective_orbitComorphism_of_isAlgDense` /
-`exists_injective_orbitComorphism`, constructed in `Problem6_1_5_OrbitInjective`)
-with the field-embedding lemma (`dim_le_of_injective_comorphism_isLocalization`
-in `Problem6_1_5_FieldEmbedding`).
+This file is part of the orbit-counting redirect for the Chapter 6 infinite-type
+direction (directive #4777). It assembles the **dimension bound**
+`dim W(m) ≤ dim G(m)` for the dense-orbit base point, closing step 2(b)/(c) of
+Etingof Problem 6.1.2 by feeding the injective orbit-map comorphism (#4807,
+`injective_orbitComorphism_of_isAlgDense` / `exists_injective_orbitComorphism`,
+constructed in `Problem6_1_5_OrbitInjective`) to the field-embedding bridge
+(#4783, `dim_le_of_injective_comorphism_isLocalization` in
+`Problem6_1_5_FieldEmbedding`).
 
 ## The two indexing conventions
 
 The orbit-map comorphism `orbitComorphism m v₀ : k[W(m)] → B` is phrased over the
-coordinate index types `WIdx m` (source) and `GIdx m` (the base ring
+*structured* coordinate index types `WIdx m` (source) and `GIdx m` (the base ring
 `k[gₚᵩ] = MvPolynomial (GIdx m) k`, of which `B` is the principal-open
-localization at `detProd m`). The field-embedding lemma, resting on Problem 6.1.1,
+localization at `detProd m`). The field-embedding bridge, resting on Problem 6.1.1,
 is phrased over `Fin N` / `Fin M`. The cardinalities match the two dimensions:
 `card (WIdx m) = N = dim W(m)` (`wIdx_card`) and `card (GIdx m) = M = dim G(m)`
 (`gIdx_card`).
 
-`dim_le_of_injective_comorphism_isLocalization_index` reconciles the two
-conventions: it generalises the field-embedding bound to arbitrary finite index
-types `σ`, `τ` and concludes `card σ ≤ card τ`. The source index is transported to
-`Fin (card σ)` by `MvPolynomial.renameEquiv` (precomposition); the base index is
-transported to `Fin (card τ)` by carrying the `IsLocalization` structure across the
-rename ring equiv via `IsLocalization.isLocalization_of_base_ringEquiv`.
+`dim_le_of_injective_comorphism_isLocalization_index` bridges the two conventions:
+it generalises the field-embedding payoff to arbitrary finite index types `σ`, `τ`
+and concludes `card σ ≤ card τ`. The source index is transported to `Fin (card σ)`
+by `MvPolynomial.renameEquiv` (precomposition); the base index is transported to
+`Fin (card τ)` by carrying the `IsLocalization` structure across the rename ring
+equiv via `IsLocalization.isLocalization_of_base_ringEquiv`.
 
 ## What this file provides
 
 * `dim_le_of_injective_comorphism_isLocalization_index`: the index-agnostic
-  field-embedding bound. An injective comorphism `k[xσ] → B` into a domain
+  field-embedding payoff. An injective comorphism `k[xσ] → B` into a domain
   localization `B` of `k[xτ]` forces `card σ ≤ card τ`.
 * `card_wIdx_le_card_gIdx`: over an infinite field with finitely many `G(m)`-orbits
-  on `W(m)`, `card (WIdx m) ≤ card (GIdx m)`. Instantiates the index-agnostic bound
-  at the concrete principal-open localization `B = k[gₚᵩ, detProd⁻¹]` with the
-  injective comorphism of the dense-orbit base point.
-* `repSpace_finrank_le_repGroup_ambient_finrank`: the dimension inequality
+  on `W(m)`, `card (WIdx m) ≤ card (GIdx m)`. Instantiates the index bridge at the
+  concrete principal-open localization `B = k[gₚᵩ, detProd⁻¹]` with the injective
+  comorphism of the dense-orbit base point.
+* `repSpace_finrank_le_repGroup_ambient_finrank`: the S2/S3 interface
   `dim W(m) ≤ dim G(m)`, i.e. `∑ᵢⱼ bᵢⱼ mᵢ mⱼ ≤ ∑ᵢ mᵢ²`, ready for the `−1` strict
   refinement and `titsForm_posDef_of_cone` (`Problem6_1_5_PosDef`).
 -/
@@ -50,13 +52,13 @@ namespace Etingof.Problem6_1_5
 
 /-! ## The index-agnostic dimension bound -/
 
-/-- **Index-agnostic field-embedding bound.** An injective `k`-algebra comorphism
+/-- **Index-agnostic field-embedding payoff.** An injective `k`-algebra comorphism
 `φ : k[xσ] → B` into a domain `B` that is a localization of `k[xτ]` at a submonoid
 `S` forces `card σ ≤ card τ`.
 
 This generalises `dim_le_of_injective_comorphism_isLocalization` (phrased over
 `Fin N` / `Fin M`) to arbitrary finite index types, which is what the orbit-map
-comorphism, naturally indexed by the types `WIdx m` / `GIdx m`,
+comorphism — naturally indexed by the structured types `WIdx m` / `GIdx m` —
 requires. Both sides are transported to `Fin`-indexed polynomial rings by
 `MvPolynomial.renameEquiv`: the source by precomposition, the base by carrying the
 `IsLocalization` structure across the rename ring equiv
@@ -91,7 +93,7 @@ theorem dim_le_of_injective_comorphism_isLocalization_index
         = algebraMap k (MvPolynomial τ k) x :=
       (renameEquiv k eτ).symm.commutes x
     rw [e1, RingHom.comp_apply, e2, ← IsScalarTower.algebraMap_apply k (MvPolynomial τ k) B]
-  -- Reindex the source by precomposition and apply the `Fin`-indexed result.
+  -- Reindex the source by precomposition and apply the `Fin`-indexed bridge.
   let φ' : MvPolynomial (Fin (Fintype.card σ)) k →ₐ[k] B :=
     φ.comp (renameEquiv k eσ.symm).toAlgHom
   have hφ' : Function.Injective φ' := by
@@ -111,11 +113,11 @@ variable {k : Type} [Field k] [Infinite k] {n : ℕ}
 `G(m)`-orbits on `W(m)`, the coordinate dimension of the representation space is at
 most that of the group ambient space: `card (WIdx m) ≤ card (GIdx m)`.
 
-This instantiates the index-agnostic bound at the concrete principal-open
+This instantiates the index-agnostic bridge at the concrete principal-open
 coordinate ring `B = k[gₚᵩ, detProd⁻¹] = Localization (powers (detProd m))`
-(a domain, since `detProd m ≠ 0` over the domain `k[gₚᵩ]`), applied to the
-injective orbit-map comorphism of the dense-orbit base point
-(`exists_injective_orbitComorphism`). -/
+(a domain, since `detProd m ≠ 0` over the domain `k[gₚᵩ]`), fed the injective
+orbit-map comorphism of the dense-orbit base point
+(`exists_injective_orbitComorphism`, #4807). -/
 theorem card_wIdx_le_card_gIdx (m : Fin n → ℕ)
     [Finite (orbitRel.Quotient (repGroup k m) (repSpace (k := k) m))] :
     Fintype.card (WIdx m) ≤ Fintype.card (GIdx m) := by
@@ -132,7 +134,7 @@ theorem card_wIdx_le_card_gIdx (m : Fin n → ℕ)
     (orbitComorphism (B := Localization (Submonoid.powers (detProd (k := k) m))) m v₀) hv₀
 
 set_option linter.unusedFintypeInType false in
-/-- **The dimension inequality `dim W(m) ≤ dim G(m)`.** Over an infinite field with
+/-- **The S2/S3 interface: `dim W(m) ≤ dim G(m)`.** Over an infinite field with
 finitely many `G(m)`-orbits on `W(m)`,
 `Module.finrank k (W(m)) ≤ Module.finrank k (∏ᵢ Matrix (Fin mᵢ) (Fin mᵢ) k)`, i.e.
 `∑ᵢⱼ bᵢⱼ mᵢ mⱼ ≤ ∑ᵢ mᵢ²`. This is the dimension inequality the orbit-counting
@@ -178,7 +180,7 @@ theorem gidxScaleAut_X (m : Fin n → ℕ) (c : kˣ) (t : GIdx m) :
 /-- The scaling automorphism `gidxScaleAut` extended to the fraction field
 `k(gₚᵩ) = FractionRing (MvPolynomial (GIdx m) k)`, by functoriality of the fraction
 field (`IsFractionRing.algEquivOfAlgEquiv`). This is the scaling automorphism family
-`scale` passed to the abstract `−1` core `card_lt_of_scaleInvariant_image_fractionRing`. -/
+`scale` fed to the abstract `−1` core `card_lt_of_scaleInvariant_image_fractionRing`. -/
 noncomputable def gidxScaleK (m : Fin n → ℕ) (c : kˣ) :
     FractionRing (MvPolynomial (GIdx m) k) ≃ₐ[k] FractionRing (MvPolynomial (GIdx m) k) :=
   IsFractionRing.algEquivOfAlgEquiv (gidxScaleAut m c)
@@ -221,25 +223,25 @@ theorem map_smul_conj_eq {K : Type*} [Field K] {p q : ℕ}
 
 /-- **Step 2(c), strict refinement: `dim W(m) < dim G(m)` for nonzero `m`.** The
 non-strict `card_wIdx_le_card_gIdx` only yields `q(m) ≥ 0` (positive
-semidefinite), satisfied by the affine/extended Dynkin diagrams, exactly the
+*semi*definite), satisfied by the affine/extended Dynkin diagrams — exactly the
 borderline infinite-type quivers. The strict `<` is what distinguishes finite
 type, and it comes from the single copy of global scalars `k*` that embeds
 diagonally into `repGroup k m = ∏ᵢ GL(Fin (m i))` as `λ ↦ (fun i => λ • 1)` and
-acts trivially on `repSpace m`: on the `i⟶j` block the action is
+acts **trivially** on `repSpace m`: on the `i⟶j` block the action is
 `(λ·1)·x·(λ·1)⁻¹ = x`. So the orbit map is constant on `k*`-cosets and the generic
 orbit has dimension `≤ dim G(m) − 1`.
 
-In comorphism terms (the approach here): under the global-scalar scaling of the
-`GIdx m` generators, the image of `orbitComorphism m v₀` is invariant: each
-generator maps to an entry of `G_j · v₀ · G_i⁻¹`, where the `λ` and `λ⁻¹` cancel,
-so it lands in the degree-0 part of `B`. The distinguished generator `g*`
+In comorphism terms (this proof's route): under the global-scalar scaling of the
+`GIdx m` generators, the image of `orbitComorphism m v₀` is invariant — each
+generator maps to an entry of `G_j · v₀ · G_i⁻¹`, where the `λ` and `λ⁻¹` cancel
+— so it lands in the **degree-0 part** of `B`. The distinguished generator `g*`
 is then transcendental over the image subfield (Vandermonde over the infinite
 field `k`), so the `card (WIdx m)` algebraically independent images together with
 `g*` give `card (WIdx m) + 1 ≤ trdeg = card (GIdx m)`.
 
-The proof combines the abstract core
-`card_lt_of_scaleInvariant_image_fractionRing` with the degree-0 invariance of the
-comorphism image. -/
+The proof is split across two sub-issues of #4824: the reusable abstract core
+`card_lt_of_scaleInvariant_image_fractionRing` (#4828) and the comorphism degree-0
+invariance + this assembly (#4830). -/
 theorem card_wIdx_lt_card_gIdx (m : Fin n → ℕ) (hm : m ≠ 0)
     [Finite (orbitRel.Quotient (repGroup k m) (repSpace (k := k) m))] :
     Fintype.card (WIdx m) < Fintype.card (GIdx m) := by
@@ -316,7 +318,7 @@ theorem card_wIdx_lt_card_gIdx (m : Fin n → ℕ) (hm : m ≠ 0)
   have hscale_g : ∀ μ : kˣ, gidxScaleK m μ g = (μ : k) • g := by
     intro μ
     rw [hg_def, gidxScaleK_algebraMap, gidxScaleAut_X, hsmul]
-  -- the degree-0 invariance: `scale μ` fixes every image coordinate `φ (X w)`
+  -- **the degree-0 invariance**: `scale μ` fixes every image coordinate `φ (X w)`
   have hscale_f : ∀ (μ : kˣ) (w : WIdx m), gidxScaleK m μ (φ (X w)) = φ (X w) := by
     intro μ w
     -- `μ` as a unit of `K`, with `↑μ' = algebraMap k K μ`
@@ -398,18 +400,18 @@ theorem card_wIdx_lt_card_gIdx (m : Fin n → ℕ) (hm : m ≠ 0)
     exact (Matrix.map_apply).symm.trans
       (congrFun (congrFun (map_smul_conj_eq (gidxScaleK m μ) μ'
         (hAscale w.2.1) hVfix (hAscale w.1) hCdet) _) _)
-  -- apply the abstract `−1` core
+  -- feed the abstract `−1` core
   exact card_lt_of_scaleInvariant_image_fractionRing φ hφ_inj g hg
     (fun μ => gidxScaleK m μ) hscale_g hscale_f
 
 set_option linter.unusedFintypeInType false in
-/-- **The strict dimension inequality `dim W(m) < dim G(m)` for nonzero `m`.** The
+/-- **The S2/S3 strict interface: `dim W(m) < dim G(m)` for nonzero `m`.** The
 `−1` strict refinement of `repSpace_finrank_le_repGroup_ambient_finrank`,
 phrased with the `Module.finrank` quantities of `Problem6_1_5_OrbitSpace`. This is
 exactly the `hstrict` hypothesis consumed by
 `Etingof.isDynkinDiagram_of_strict_finrank` (`Problem6_1_5_TitsBridge`), so it is
-consumed directly by the final classification. It is derived from
-`card_wIdx_lt_card_gIdx`. -/
+the directly-consumable hook for the final S4 assembly (#4786). It is derived
+here sorry-free from `card_wIdx_lt_card_gIdx` (whose proof is #4830). -/
 theorem repSpace_finrank_lt_repGroup_ambient_finrank (m : Fin n → ℕ) (hm : m ≠ 0)
     [Finite (orbitRel.Quotient (repGroup k m) (repSpace (k := k) m))] :
     Module.finrank k (repSpace (k := k) m)

@@ -14,7 +14,7 @@ of `A`. The identification is the natural map
 `f : ⨁_X Hom_A(X, V) ⊗ X → V`, `g ⊗ x ↦ g(x)`.
 
 This file constructs the canonical evaluation map `g ⊗ x ↦ g(x)` (the building block of
-`f`, for each individual irreducible `X`) as data, namely `Etingof.evalTensor`, and
+`f`, for each individual irreducible `X`) as genuine data — `Etingof.evalTensor` — and
 proves the heart of the remark: when `V` is irreducible (the case the book reduces to via
 "one may assume that `V` is irreducible"), the evaluation map
 
@@ -24,8 +24,8 @@ is a `k`-linear isomorphism. Indeed `Hom_A(V, V) = k · id` by Schur over the al
 closed field `k` (Corollary 2.3.10), so the map has the explicit two-sided inverse
 `v ↦ id ⊗ v`.
 
-The per-`X` maps combine into the full direct-sum isomorphism over all irreducibles
-(`Etingof.evalDirectSumEquiv`), using the isotypic decomposition of `V`.
+The assembly of the per-`X` maps into the full direct-sum isomorphism over all irreducibles
+remains; see the surrounding development of the isotypic decomposition.
 -/
 
 open scoped TensorProduct

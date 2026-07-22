@@ -4,11 +4,12 @@ import EtingofRepresentationTheory.Chapter5.DetShiftIso
 /-!
 # The right-`GL_N` homogeneous grading of `k[Xᵢⱼ]` and the per-degree det sequence
 
-This file records the graded structure of the right-translation representation
+This file records the **graded backbone** of the right-translation representation
 `polyRightRep` on `A = k[Xᵢⱼ] = MvPolynomial (Fin N × Fin N) k`
-(`PolynomialGLRightAction.lean`): the graded data that turns the
-`GL × GL`-equivariant Cauchy multiplicity decomposition into the `ν_N = 0`
-conclusion for the determinant quotient `A/det`.
+(`PolynomialGLRightAction.lean`). It is missing-infrastructure **piece (2)** of the
+kernel-lemma-K′ core (issue #4896, route doc `progress/kernel-lemma-K-route.md`):
+the graded data that turns the `GL × GL`-equivariant Cauchy multiplicity decomposition
+into the `ν_N = 0` conclusion for the determinant quotient `A/det`.
 
 ## The grading is `GL_N`-invariant
 
@@ -16,9 +17,9 @@ Right translation `R_g` sends each variable `X_{ij}` to a homogeneous degree-`1`
 element `∑_l g_{lj} X_{il}` (`polyRightRep_apply_X`), so as an algebra hom it
 preserves the total-degree grading:
 
-* `rTransAlgHom_isHomogeneous` / `polyRightRep_isHomogeneous`: `R_g` preserves
+* `rTransAlgHom_isHomogeneous` / `polyRightRep_isHomogeneous` — `R_g` preserves
   `IsHomogeneous d`;
-* `polyRightHomogeneousSubrep k N d`: the total-degree-`d` homogeneous component
+* `polyRightHomogeneousSubrep k N d` — the total-degree-`d` homogeneous component
   `homogeneousSubmodule (Fin N × Fin N) k d` packaged as a `Subrepresentation` of
   `polyRightRep`. The same component is also a subrepresentation of the
   determinant-character twist `A ⊗ χ` (`polyRightTwistHomogeneousSubrep`), since the
@@ -26,10 +27,10 @@ preserves the total-degree grading:
 
 ## `det` is homogeneous of degree `N`
 
-* `detPoly_isHomogeneous`: the generic determinant `detPoly = det(Xᵢⱼ)` is
+* `detPoly_isHomogeneous` — the generic determinant `detPoly = det(Xᵢⱼ)` is
   homogeneous of degree `N` (it is a signed sum of products of `N` distinct
   variables).
-* `mulDet_isHomogeneous` / `mulDet_homogeneousSubmodule_le`: consequently
+* `mulDet_isHomogeneous` / `mulDet_homogeneousSubmodule_le` — consequently
   `mulDet = (detPoly · ·)` raises total degree by `N`, sending the degree-`d`
   component into the degree-`(N + d)` component.
 
@@ -38,7 +39,7 @@ preserves the total-degree grading:
 In each degree `d ≥ N`, multiplication by `det` realizes the determinant ideal's
 degree-`d` slice as the image of the degree-`(d - N)` slice:
 
-* `detSubmodule_inf_homogeneous`: `(det) ∩ A_d = mulDet '' A_{d-N}` (the principal
+* `detSubmodule_inf_homogeneous` — `(det) ∩ A_d = mulDet '' A_{d-N}` (the principal
   ideal `(det)` is a graded submodule, with degree-`d` part `det · A_{d-N}`). This
   is the exactness in the middle of the right-`GL_N`-equivariant sequence
 
@@ -46,14 +47,14 @@ degree-`d` slice as the image of the degree-`(d - N)` slice:
 
   The left map `mulDet` is injective (`mulDet_injective`, `DetShiftIso.lean`) and
   `GL_N`-equivariant up to the determinant-character twist `χ`
-  (`mulDet_intertwine`, `detShiftLinearEquiv_intertwine`, `DetShiftIso.lean`);
-  the right map is the quotient projection
+  (`mulDet_intertwine`, `detShiftLinearEquiv_intertwine`, `DetShiftIso.lean`,
+  already sorry-free); the right map is the quotient projection
   (`quotDetRep`). The degree-`d` part of `A/det` is therefore
   `A_d / (det · A_{d-N})`.
 
 ## Consumer
 
-The consumer (`CauchyDetQuotient.lean`,
+The #4896 part-(a) assembly (`CauchyDetQuotient.lean`,
 `quotDetRep_irreducible_constituent_lastWeight_zero`) reads the `ν_N = 0`
 constituent condition off this graded sequence together with the Cauchy
 multiplicity decomposition: `det` shifts every constituent's highest weight by
@@ -176,7 +177,7 @@ theorem mulDet_homogeneousSubmodule_le (d : ℕ) :
 /-- **Multiplying by `det` commutes with extracting the degree-shifted homogeneous
 component.** Since `detPoly` is homogeneous of degree `N`, the degree-`(N + e)`
 component of `detPoly · Q` is `detPoly` times the degree-`e` component of `Q`. This
-is the computation that makes the determinant ideal a graded submodule. -/
+is the computation that makes the determinant ideal a *graded* submodule. -/
 theorem homogeneousComponent_detPoly_mul (Q : MvPolynomial (Fin N × Fin N) k) (e : ℕ) :
     MvPolynomial.homogeneousComponent (N + e) (detPoly k N * Q)
       = detPoly k N * MvPolynomial.homogeneousComponent e Q := by

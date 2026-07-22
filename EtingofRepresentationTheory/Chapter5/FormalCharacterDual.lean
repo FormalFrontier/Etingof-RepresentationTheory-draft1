@@ -6,34 +6,35 @@ import EtingofRepresentationTheory.Chapter5.DetInvElim
 
 Etingof §5.23. For a finite-dimensional `GL_N(k)`-representation `ρ`, the dual
 representation `Representation.dual ρ` (Mathlib: `(dual ρ) g = f ∘ ρ g⁻¹`) records
-`ρ`'s torus character read at inverse weights: the dual rep negates weights. This
-is the building block (a) behind the contragredient identity `L*_λ ≅ L_λ^∨`.
+`ρ`'s torus character read at *inverse* weights: the dual rep negates weights. This
+is the building block (a) behind the contragredient identity `L*_λ ≅ L_λ^∨`
+(#5526 / #5529).
 
 ## Main results
 
-* `dual_diagUnit_dualBasis`: given a torus weight eigenbasis `b` of
-  `ρ` with weights `wt`, the dual basis `b.dualBasis` is again a torus weight
+* `dual_diagUnit_dualBasis` (always true) — given a torus weight eigenbasis `b` of
+  `ρ` with weights `wt`, the **dual basis** `b.dualBasis` is again a torus weight
   eigenbasis of `Representation.dual ρ`, with weights `-wt`. This is the precise
   sense in which the diagonal torus acts on the dual by inverse weights.
 
-* `finrank_glWeightSpaceℤ_of_eigenbasis`: from a weight eigenbasis,
+* `finrank_glWeightSpaceℤ_of_eigenbasis` (always true) — from a weight eigenbasis,
   the dimension of the integer weight space `glWeightSpaceℤ ρ ν` equals the number
   of basis vectors of weight `ν`.
 
-* `finrank_glWeightSpaceℤ_dual_eq`: combining the two, for a
+* `finrank_glWeightSpaceℤ_dual_eq` (the reusable core) — combining the two, for a
   representation with a weight eigenbasis,
   `dim (glWeightSpaceℤ (dual ρ) μ) = dim (glWeightSpaceℤ ρ (-μ))`: the weight-`μ`
   space of the dual is dual to `ρ`'s weight-`(-μ)` space.
 
-* `formalCharacter_dual_coeff_eq`: for a polynomial
+* `formalCharacter_dual_coeff_eq` (the consumer-facing form) — for a polynomial
   `GL_N`-rep `M` (spanning `ℕ`-weight spaces, `h_span`), the coefficient of `x^μ`
   in `formalCharacter (FDRep.of (dual M.ρ))` is `dim (glWeightSpaceℤ M.ρ (-μ))`:
   the `ℕ`-weight `formalCharacter (dual M.ρ)` collects exactly `M.ρ`'s non-positive
   weights, read with the sign flipped. Since `M.ρ`'s weights are `≥ 0`, the only
   weight surviving the `ℕ`-truncation is `μ = 0`.
 
-The eigenbasis hypothesis carries polynomiality: `formalCharacter`
-is a truncated invariant (it sees only `ℕ`-weights), so the statement lives at the
+The eigenbasis hypothesis is the honest carrier of polynomiality: `formalCharacter`
+is a *truncated* invariant (it sees only `ℕ`-weights), so the statement lives at the
 weight-space level, where a `det^s`-twist later brings the negative dual weights back
 into range.
 -/
@@ -191,7 +192,7 @@ theorem finrank_glWeightSpaceℤ_dual_eq (k : Type*) [Field k] [CharZero k]
   · intro h; funext i; have := congrFun h i; omega
   · intro h; funext i; have := congrFun h i; omega
 
-/-! ### Passage to the `ℕ`-weight `formalCharacter` -/
+/-! ### Bridge to the `ℕ`-weight `formalCharacter` -/
 
 /-- The `ℕ`-weight space of an `FDRep` is the corresponding integer weight space of
 its underlying representation. -/

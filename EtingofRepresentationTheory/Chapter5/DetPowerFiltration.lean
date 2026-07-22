@@ -5,40 +5,40 @@ import EtingofRepresentationTheory.Chapter5.KernelLemmaKPrime
 /-!
 # The det-power filtration of `O = A[det⁻¹]` and its `GL_N`-equivariant subquotients
 
-This file builds the det-power filtration of the localization
+This file builds the **det-power filtration** of the localization
 `O = A[det⁻¹] = Localization.Away (detPoly k N)` carrying the right-translation
 `GL_N`-representation `localRightRep` (`LocalizationGLRightAction.lean`), and
 identifies its successive subquotients with the twisted quotient
 `(A/det) ⊗ χ⁻ʳ = quotDetTwistRep` of `KernelLemmaKPrime.lean`. This is the
 geometric heart of the (K) ⟸ (K′) reduction in the det⁻¹-elimination kernel
-lemma.
+lemma (issue #4694, route doc `progress/kernel-lemma-K-route.md`).
 
 ## The filtration
 
-For `r : ℕ` the filtration submodule is
+For `r : ℕ` the **filtration submodule** is
 `A_r := det⁻ʳ · A = { f : O | detExp f ≤ r }` (`filtrA`), the image of the
 `k`-linear map `numToFiltr r : A → O`, `Q ↦ algebraMap Q · det⁻ʳ`. We show:
 
-* `mem_filtrA_iff_detExp`: `f ∈ A_r ↔ detExp f ≤ r`, so `A_r` is exactly the
+* `mem_filtrA_iff_detExp` — `f ∈ A_r ↔ detExp f ≤ r`, so `A_r` is exactly the
   set of localization elements whose reduced det-power exponent is at most `r`.
-* `filtrA_zero`: `A_0 = range (algebraMap A O)`, the bottom of the filtration is
+* `filtrA_zero` — `A_0 = range (algebraMap A O)`: the bottom of the filtration is
   the polynomial subring.
-* `filtrA_mono`: `A_{r-1} ≤ A_r`, an increasing filtration.
-* `iSup_filtrA`: `⨆ r, A_r = ⊤`, every localization element has finite
+* `filtrA_mono` — `A_{r-1} ≤ A_r`, an increasing filtration.
+* `iSup_filtrA` — `⨆ r, A_r = ⊤`: every localization element has finite
   det-power, so the filtration exhausts `O`.
 
 ## `GL_N`-stability
 
-* `localRightRep_numToFiltr`: the exact transformation law
+* `localRightRep_numToFiltr` — the exact transformation law:
   `R_g (Q · det⁻ʳ) = (det g)⁻ʳ · (R_g Q · det⁻ʳ)`, the `det⁻ʳ` factor scaling by
   the inverse determinant character `χ⁻ʳ` (`localRightRep_invSelf`) while the
   numerator transforms by `polyRightRep`.
-* `localRightRep_mem_filtrA`: consequently each `A_r` is a right-`GL_N`-stable
-  subspace of `O`, and `localRightRep g` maps `A_r` into `A_r`.
+* `localRightRep_mem_filtrA` — consequently each `A_r` is a right-`GL_N`-stable
+  subspace of `O`: `localRightRep g` maps `A_r` into `A_r`.
 
 ## The equivariant subquotient `A_r / A_{r-1} ≅ (A/det) ⊗ χ⁻ʳ`
 
-The numerator `Q` in `f = Q · det⁻ʳ` is uniquely determined by `f` and `r`
+The numerator `Q` in `f = Q · det⁻ʳ` is *uniquely* determined by `f` and `r`
 (`det⁻ʳ` is a unit, so `numToFiltr r` is injective). Reducing `Q` modulo `det`
 gives a `k`-linear surjection `A_r ↠ A/det` whose kernel is exactly `A_{r-1}`
 (`numToFiltr` carries the ideal `(det)` onto `A_{r-1}`), and the transformation

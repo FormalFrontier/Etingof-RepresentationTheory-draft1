@@ -7,12 +7,15 @@ import Mathlib
 /-!
 # Problem 6.1.5, Step 1(b): finite type ⟹ finitely many orbits on `W(m)`
 
-The main result is the implication
+This file is part of the orbit-counting redirect for the Chapter 6 finite-type
+classification (directive #4777, step 1).
 
-> if the quiver has finite representation type (finitely many isomorphism
+The deliverable is the implication
+
+> if the quiver has **finite representation type** (finitely many isomorphism
 > classes of indecomposable representations), then for each dimension vector `m`
 > the group `G(m) = ∏ᵢ GLₘᵢ(k)` acts on the representation space `W(m)` with only
-> finitely many orbits.
+> **finitely many orbits**.
 
 The conclusion is phrased exactly as the downstream consumer
 (`Problem6_1_5_DenseOrbit.lean`) needs it: `Finite (orbitRel.Quotient (repGroup k m)
@@ -20,9 +23,9 @@ The conclusion is phrased exactly as the downstream consumer
 
 ## Strategy
 
-By `orbit_iff_isomorphic`, orbits on `W(m)` correspond to isomorphism classes
+By `orbit_iff_isomorphic` (S0), orbits on `W(m)` correspond to isomorphism classes
 of representations of dimension vector `m`. By `exists_decomposition`
-(`DecompositionExistence.lean`) every such representation is a finite direct
+(`DecompositionExistence.lean`, #4794) every such representation is a finite direct
 sum of indecomposables. Finite type provides a finite set `reps` of indecomposable
 representatives, and every indecomposable summand is isomorphic to one of them. The
 total dimension is `∑ᵢ mᵢ`, and each indecomposable summand contributes at least `1`
@@ -30,7 +33,7 @@ to it, so the number of summands is bounded by `∑ᵢ mᵢ`. Hence each orbit i
 a bounded-length list of representatives drawn from the finite set `reps`, a finite
 amount of data. Surjecting this finite index onto the orbit quotient gives finiteness.
 
-Krull–Schmidt / uniqueness of the decomposition is deliberately not used: we only
+Krull–Schmidt / uniqueness of the decomposition is deliberately **not** used: we only
 need a surjection from a finite index, not a well-defined invariant.
 -/
 
@@ -288,7 +291,7 @@ theorem orbitRel_quotient_finite_of_finite_reps (m : Fin n → ℕ)
       rw [hlen', hMtot]
       exact length_le_of_areIsomorphic_repOfPoint m x hLiso.symm hLind
     refine ⟨⟨L', hlen⟩, ?_⟩
-    -- The realisation hypothesis holds, so `realizePoint` produces an actual point.
+    -- The realisation hypothesis holds, so `realizePoint` produces a genuine point.
     have hH : ∀ i, Nonempty ((directSumList (L'.map Subtype.val)).obj i ≃ₗ[k] (Fin (m i) → k)) := by
       obtain ⟨e', -⟩ := id hbig
       exact fun i => ⟨e' i⟩
@@ -307,9 +310,9 @@ theorem orbitRel_quotient_finite_of_finite_reps (m : Fin n → ℕ)
 `adj`, oriented as the ambient quiver, has finite representation type, then for each
 dimension vector `m` the group `G(m)` acts on `W(m)` with finitely many orbits.
 
-This is the `IsFiniteTypeQuiver`-level statement consumed downstream: combined with
-`Problem6_1_5_DenseOrbit.exists_dense_orbit_point` it produces the dense orbit for
-the dimension count. -/
+This is the `IsFiniteTypeQuiver`-level statement consumed downstream (directive #4777,
+S4): combined with `Problem6_1_5_DenseOrbit.exists_dense_orbit_point` it produces the
+dense orbit feeding the dimension count. -/
 theorem orbitRel_quotient_finite_of_isFiniteType [IsAlgClosed k]
     (adj : Matrix (Fin n) (Fin n) ℤ) [∀ a b : Fin n, Subsingleton (a ⟶ b)]
     (hQ : Etingof.IsOrientationOf ‹Quiver.{0} (Fin n)› adj)

@@ -28,7 +28,7 @@ across Mathlib's module theory.
 - `LinearMap.exists_rightInverse_of_surjective` : (ii) follows from `Module.Projective`
 - `Module.Projective.iff_split` : equivalence with (iii)
 
-Condition (iv), exactness of the functor `Hom_A(P, ?)`, is formalized as preservation of
+Condition (iv) — exactness of the functor `Hom_A(P, ?)` — is formalized as preservation of
 short exact sequences: for every short exact sequence `0 → K → M → N → 0`, applying
 `Hom_A(P, ?)` yields a short exact sequence `0 → Hom(P,K) → Hom(P,M) → Hom(P,N) → 0`. The
 left-exact part (injectivity at `Hom(P,K)` and exactness at `Hom(P,M)`) holds for every `P`;

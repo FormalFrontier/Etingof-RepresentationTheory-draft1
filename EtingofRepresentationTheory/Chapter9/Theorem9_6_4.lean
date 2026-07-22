@@ -330,7 +330,7 @@ instance Etingof.IsProgenerator.essSurj_preadditiveCoyonedaObjFG
         intro k
         change α' k = ((preadditiveCoyonedaObj P).map f).hom k
         conv_rhs => rw [hf]; simp [ModuleCat.hom_ofHom]
-        -- The conv leaves the residual reflexivity goal `α' k = α' k`; close it.
+        -- v4.31: the conv leaves the residual reflexivity goal `α' k = α' k`; close it.
         rfl
       have hg_eq : g = α' (βm w) := by
         change g = βn (α (βm.symm (βm w)))
@@ -417,7 +417,7 @@ instance Etingof.IsProgenerator.essSurj_preadditiveCoyonedaObjFG
         intro k
         change α' k = ((preadditiveCoyonedaObj P).map f).hom k
         conv_rhs => rw [hf]; simp [ModuleCat.hom_ofHom]
-        -- The conv leaves the residual reflexivity goal `α' k = α' k`; close it.
+        -- v4.31: the conv leaves the residual reflexivity goal `α' k = α' k`; close it.
         rfl
       rw [← hα'_eq]
       change φ (βn.symm (βn (α (βm.symm h)))) = 0
@@ -445,7 +445,7 @@ instance Etingof.IsProgenerator.essSurj_preadditiveCoyonedaObjFG
 /-- In a `k`-linear finite abelian category over a field, the opposite endomorphism ring
 `(End P)ᵐᵒᵖ` of any object `P` is a Noetherian ring.
 
-Every `Hom`-space, in particular `End P`, is finite dimensional over `k`
+Every `Hom`-space — in particular `End P` — is finite dimensional over `k`
 (`Etingof.IsFiniteAbelianCategoryOverField.finiteDimensional_hom`, the §9.6 "check it!"),
 hence so is `(End P)ᵐᵒᵖ`, and a finite dimensional algebra over a field is Noetherian.
 

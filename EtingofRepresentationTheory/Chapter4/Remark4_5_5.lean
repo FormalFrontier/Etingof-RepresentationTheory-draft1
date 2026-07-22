@@ -5,14 +5,14 @@ import EtingofRepresentationTheory.Chapter5.FrobeniusSchurRealType
 # Remark 4.5.5: The unitary character matrix and column orthogonality
 
 This file formalizes Etingof's Remark 4.5.5, which gives an alternate proof of the
-second orthogonality relation (Theorem 4.5.4) via a unitary matrix argument.
+second orthogonality relation (Theorem 4.5.4) via a *unitary matrix* argument.
 
 Consider the square matrix `U` whose rows are labeled by the irreducible
 representations of `G` and whose columns are labeled by the conjugacy classes,
 with entries
 `U_{V, c} = χ_V(g_c) / √|Z_{g_c}|`,
 where `g_c` is a representative of the class `c` and `Z_g` is the centralizer of
-`g`. The matrix is square because the number of irreducible representations
+`g`. The matrix is *square* because the number of irreducible representations
 equals the number of conjugacy classes (Theorem 4.5.2); we encode this squareness
 by indexing the irreducible family `V` by `ConjClasses G` itself.
 
@@ -29,14 +29,14 @@ The argument is:
    `∑_V χ_V(g⁻¹) χ_V(h) = |Z_g|` if `g ~ h`, else `0`.
 
 The conjugate enters through `χ_V(g⁻¹) = conj(χ_V(g))`
-(`Etingof.character_inv_eq_conj`), which makes `Uᴴ` the conjugate
+(`Etingof.character_inv_eq_conj`), which makes `Uᴴ` the genuine conjugate
 transpose.
 
 ## Mathlib correspondence
 
 The conclusion is the column (second) orthogonality relation, the same statement as
 `Etingof.Theorem4_5_4`, but obtained here by the independent unitary-matrix route of
-Remark 4.5.5 (resting on the first orthogonality relation rather than the
+Remark 4.5.5 (resting on the *first* orthogonality relation rather than the
 Wedderburn trace computation).
 -/
 

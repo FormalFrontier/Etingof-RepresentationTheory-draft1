@@ -3,30 +3,35 @@ import EtingofRepresentationTheory.Chapter5.SchurWeylPolynomialIdentity
 import EtingofRepresentationTheory.Chapter5.FRTHelpers
 
 /-!
-# Frobenius character formula for `dim V_λ = #SYT` (Etingof Theorem 5.17.1)
+# Frobenius route to `dim V_λ = #SYT` (Etingof Theorem 5.17.1) — bypasses Wall 3
 
-Etingof's book proves the Specht dimension via the Frobenius character formula
-(Theorem 5.15.1). The single hard step is the Vandermonde/determinant computation
-of `Discussion_hook_length_derivation`, captured as
-`charValue_trivialCycleType_eq_hookFormula`. Everything else chains lemmas that
-are already proved:
+PROTOTYPE / SKELETON for issue #4595. Etingof's book proves the Specht dimension
+via the **Frobenius character formula** (Theorem 5.15.1), NOT via the Garnir
+straightening (`SpechtModuleBasis.lean`, the open Wall 3 sorries). This file
+scaffolds the book-faithful route, isolating the single genuinely-hard step
+(the Vandermonde/determinant computation of `Discussion_hook_length_derivation`)
+as `charValue_trivialCycleType_eq_hookFormula`. Everything else chains lemmas
+that are already proven and sorry-free:
 
-* `charValue_trivialCycleType_eq_spechtFinrank_rat`: `dim V_λ = charValue(λ, 1)`.
-* `card_standardYoungTableau_eq`: `#SYT = n!/∏hooks` (Frame–Robinson–Thrall).
+* `charValue_trivialCycleType_eq_spechtFinrank_rat` : `dim V_λ = charValue(λ, 1)`  (DONE)
+* `card_standardYoungTableau_eq` : `#SYT = n!/∏hooks`  (FRT, DONE)
 
-With the one hard lemma, `dim V_λ = charValue(λ,1) = n!/∏hooks = #SYT`.
+With the one hard lemma, `dim V_λ = charValue(λ,1) = n!/∏hooks = #SYT`, and the
+entire Garnir straightening (`garnir_twisted_in_lower_span` #2703,
+`twistedPolytabloid_pigeonhole_pair` #2543, the per-q / involution apparatus)
+drops off the critical path.
 -/
 
 namespace Etingof
 noncomputable section
 open scoped BigOperators
 
-/-! ## Young-diagram bookkeeping for the hook-length cancellation
+/-! ## Young-diagram bookkeeping for the hook-length cancellation (#4616)
 
 Pure combinatorics relating the hook lengths of
 `(weightToPartition N lam.parts).toYoungDiagram` directly to `lam.parts : Fin N → ℕ`.
 No representation theory. These feed the Frame–Robinson–Thrall cancellation
-`hookLengthProduct_mul_vandermonde_eq_prod_factorial` (Part B). -/
+`hookLengthProduct_mul_vandermonde_eq_prod_factorial` (Part B, #4617). -/
 
 /-- The `i`-th row length of a partition's Young diagram equals the `i`-th
 sorted part (with `0` past the end). General, reusable. -/
@@ -120,13 +125,13 @@ private theorem weightToPartition_sortedParts_getD (N : ℕ) (f : Fin N → ℕ)
         simp [hall k.succ]
       rw [h_empty]; simp [hall j]
 
-/-- **Row length.** The `i`-th row length of the weight's Young diagram is `lam.parts i`. -/
+/-- **Deliverable (2):** the `i`-th row length of the weight's Young diagram is `lam.parts i`. -/
 theorem weightToPartition_rowLen (N : ℕ) {n : ℕ} (lam : BoundedPartition N n) (i : Fin N) :
     (weightToPartition N lam.parts).toYoungDiagram.rowLen i = lam.parts i := by
   rw [Nat.Partition.toYoungDiagram_rowLen_eq_getD]
   exact weightToPartition_sortedParts_getD N lam.parts lam.decreasing i
 
-/-- **Column length.** The `c`-th column length is the number of rows whose
+/-- **Deliverable (3):** the `c`-th column length is the number of rows whose
 part exceeds `c`. -/
 theorem weightToPartition_colLen (N : ℕ) {n : ℕ} (lam : BoundedPartition N n) (c : ℕ) :
     (weightToPartition N lam.parts).toYoungDiagram.colLen c =
@@ -154,7 +159,7 @@ theorem weightToPartition_colLen (N : ℕ) {n : ℕ} (lam : BoundedPartition N n
         weightToPartition_rowLen N lam i]
     exact hi
 
-/-- **Hook length as arm plus leg.** The hook length at `(i, c)` splits into the arm
+/-- **Deliverable (4):** the hook length at `(i, c)` splits into the arm
 (`lam.parts i - c`) plus the leg (rows below `i` whose part exceeds `c`). -/
 theorem hookLength_eq_arm_add_leg (N : ℕ) {n : ℕ} (lam : BoundedPartition N n)
     (i : Fin N) {c : ℕ} (hc : c < lam.parts i) :
@@ -200,7 +205,7 @@ theorem hookLength_eq_arm_add_leg (N : ℕ) {n : ℕ} (lam : BoundedPartition N 
   rw [YoungDiagram.hookLength, weightToPartition_rowLen N lam i, hcol]
   omega
 
-/-- **Hook-length product over rows.** The hook-length product reorganized as a product over rows. -/
+/-- **Deliverable (5):** the hook-length product reorganized as a product over rows. -/
 theorem hookLengthProduct_eq_prod_rows (N : ℕ) {n : ℕ} (lam : BoundedPartition N n) :
     (weightToPartition N lam.parts).toYoungDiagram.hookLengthProduct =
       ∏ i : Fin N, ∏ c ∈ Finset.range (lam.parts i),
@@ -235,21 +240,21 @@ theorem hookLengthProduct_eq_prod_rows (N : ℕ) {n : ℕ} (lam : BoundedPartiti
   · intro p hp; rfl
   · intro c hc; rfl
 
-/-- **Part A, step 7 (algebraic / Vandermonde half).**
+/-- **Part A, step 7 (algebraic / Vandermonde half, #4670).**
 
-The falling-factorial alternant determinant with the reflected column exponents
-`vandermondeExps N j = N-1-j` equals the descending product
+The falling-factorial alternant determinant with the *reflected* column exponents
+`vandermondeExps N j = N-1-j` equals the genuine descending product
 `∏_{i<j}(βᵢ − βⱼ)` of a strictly antitone node sequence `β`.
 
 Proof: `descPochhammer ℤ k` is monic of degree `k`, so
-`Matrix.det_eval_matrixOfPolynomials_eq_det_vandermonde` identifies the ascending
+`Matrix.det_eval_matrixOfPolynomials_eq_det_vandermonde` identifies the *ascending*
 falling-factorial matrix (columns `j ↦ (descPochhammer ℤ j).eval ·`) with a true
 Vandermonde determinant. The reflected matrix is obtained from the ascending one of
-the reversed node sequence `γ := β ∘ Fin.rev` by the `rev`-on-both-indices
-submatrix, whose determinant is unchanged (`det_submatrix_equiv_self`), so no
+the *reversed* node sequence `γ := β ∘ Fin.rev` by the `rev`-on-both-indices
+submatrix, whose determinant is unchanged (`det_submatrix_equiv_self`) — so no
 column-reflection sign survives. `Matrix.det_vandermonde` then gives
 `∏_{i<j}(γⱼ − γᵢ)`, and the pair-involution `(i,j) ↦ (rev j, rev i)` rewrites this
-as `∏_{i<j}(βᵢ − βⱼ)` (each difference a positive `ℕ` subtraction since
+as `∏_{i<j}(βᵢ − βⱼ)` (each difference a genuine positive `ℕ` subtraction since
 `β` is strictly decreasing). -/
 private theorem descPochhammer_alternant_det_eq_prod_sub
     (N : ℕ) (β : Fin N → ℕ) (hβ : StrictAnti β) :
@@ -259,7 +264,7 @@ private theorem descPochhammer_alternant_det_eq_prod_sub
   classical
   set γ : Fin N → ℤ := fun i => (β (Fin.rev i) : ℤ) with hγ
   -- The Vandermonde determinant of the reversed nodes `γ` equals the determinant of
-  -- the ascending falling-factorial matrix of `γ` (monic degree-`k` polynomials).
+  -- the *ascending* falling-factorial matrix of `γ` (monic degree-`k` polynomials).
   have hBγ : (Matrix.vandermonde γ).det
       = (Matrix.of fun i j : Fin N => (descPochhammer ℤ (j : ℕ)).eval (γ i)).det :=
     Matrix.det_eval_matrixOfPolynomials_eq_det_vandermonde γ
@@ -287,7 +292,7 @@ private theorem descPochhammer_alternant_det_eq_prod_sub
             (descPochhammer ℤ (vandermondeExps N j)).eval (β i : ℤ)),
         hsub, ← hBγ, Matrix.det_vandermonde]
   rw [hdet]
-  -- Cast the `ℕ` target into a product of `ℤ` differences.
+  -- Cast the `ℕ` target into a product of genuine `ℤ` differences.
   have hcast : ((∏ i, ∏ j ∈ Finset.Ioi i, (β i - β j) : ℕ) : ℤ)
       = ∏ i : Fin N, ∏ j ∈ Finset.Ioi i, ((β i : ℤ) - (β j : ℤ)) := by
     rw [Nat.cast_prod]
@@ -310,12 +315,12 @@ private theorem descPochhammer_alternant_det_eq_prod_sub
   · intro x _; simp only [Fin.rev_rev]
   · intro x _; simp only [hγ]
 
-/-! ### Part A, steps 1–6 (analytic / coefficient extraction half)
+/-! ### Part A, steps 1–6 (analytic / coefficient extraction half, #4669)
 
 Reduce `charValue N λ 1` to a falling-factorial (`descPochhammer`) determinant,
 over ℚ. The three lemmas below are the multinomial-coefficient extraction
 (`coeff_sum_X_pow_eq_multinomial`), the per-permutation falling-factorial
-bookkeeping (`multinomial_mul_prod_factorial_eq`), and their combination
+bookkeeping (`multinomial_mul_prod_factorial_eq`), and their assembly
 (`charValue_trivialCycleType_eq_descPochhammer_det`). The Vandermonde column
 reduction (step 7) is `descPochhammer_alternant_det_eq_prod_sub` above; the
 capstone combining the two is `charValue_trivialCycleType_eq_frobeniusDetForm`. -/
@@ -370,7 +375,7 @@ private lemma multinomial_mul_prod_factorial_eq
     rw [Finset.prod_eq_zero (Finset.mem_univ i)
       (Nat.descFactorial_eq_zero_iff_lt.mpr (not_le.mp hi)), mul_zero]
 
-/-- **Part A, steps 1–6: `charValue → descPochhammer determinant`.**
+/-- **Part A, steps 1–6 (#4669): `charValue → descPochhammer determinant`.**
 
 `charValue N λ 1` is the coefficient of `x^{λ+ρ}` in `Δ(x)·(∑ᵢ Xᵢ)ⁿ`
 (`psumPart_trivialCycleType`). Expanding `Δ = det(alternantMatrix)` as a signed
@@ -463,7 +468,7 @@ private theorem charValue_trivialCycleType_eq_descPochhammer_det
         (by rw [Nat.descFactorial_eq_zero_iff_lt.mpr (not_le.mp hi)]; exact Nat.cast_zero)
     rw [if_neg hnle, hHσ, mul_zero]
 
-/-- **Part A: Frobenius → Vandermonde determinant**
+/-- **Part A — Frobenius → Vandermonde determinant**
 (book `Discussion_hook_length_derivation`, lines 1–18).
 
 The Frobenius character value at the identity equals `n!` times the Vandermonde
@@ -476,11 +481,11 @@ divided by `∏_j l_j!`.
 (`coeff_vandermonde_mul`, multinomial coefficients of `(∑X)^n`) yields the
 determinant `det(l_j^{N-i})`, which by `Matrix.det_vandermonde` equals
 `∏_{i<j}(l_i − l_j)`. This is self-contained `MvPolynomial`/`Matrix.det`
-algebra: no representation theory, no straightening.
+algebra — no representation theory, no straightening.
 
 For `i < j` the beta-numbers are strictly decreasing (`shiftedExps` is strictly
 antitone, see `charValue_trivialCycleType_eq_hookFormula` below), so the ℕ
-subtraction `l_i − l_j` is the positive difference. -/
+subtraction `l_i − l_j` is the genuine positive difference. -/
 theorem charValue_trivialCycleType_eq_frobeniusDetForm
     (N : ℕ) {n : ℕ} (lam : BoundedPartition N n) :
     charValue N lam (trivialCycleType n) =
@@ -647,13 +652,13 @@ private theorem row_hook_gap_prod_eq_factorial (N : ℕ) {n : ℕ} (lam : Bounde
       Finset.prod_image (fun x _ y _ h => hg_inj h)]
   exact mul_comm _ _
 
-/-- **Part B: the hook-length identity**
+/-- **Part B — the hook-length identity**
 (book `Discussion_hook_length_derivation`, lines 18–end).
 
 The Vandermonde product of the beta-numbers `l_j = λ_j + (N-1-j)` times the
 hook-length product of `λ` equals `∏_j l_j!`. This is the cancellation that turns
 the determinant formula `n!·∏(l_i−l_j)/∏l_j!` into the hook-length formula
-`n!/∏h(i,j)`. Pure combinatorics, independent of all representation theory and of
+`n!/∏h(i,j)`. Pure combinatorics — independent of all representation theory and of
 Part A. -/
 theorem hookLengthProduct_mul_vandermonde_eq_prod_factorial
     (N : ℕ) {n : ℕ} (lam : BoundedPartition N n) :
@@ -680,8 +685,7 @@ private lemma frobeniusDetForm_eq_hookFormula_aux {nf V H L : ℕ}
   push_cast
   field_simp
 
-/-- **Frobenius character value equals the hook-length quotient**
-(book's `Discussion_hook_length_derivation`).
+/-- **(THE ONE HARD STEP — book's `Discussion_hook_length_derivation`.)**
 The Frobenius character value at the identity equals the hook-length quotient.
 
 Combines the two book steps: Part A
@@ -722,10 +726,10 @@ theorem charValue_trivialCycleType_eq_hookFormula
   exact frobeniusDetForm_eq_hookFormula_aux
     (hookLengthProduct_mul_vandermonde_eq_prod_factorial N lam) hVpos hHpos hdvd
 
-/-- **Frobenius character value equals the SYT count.** The Frobenius character
-value at the identity equals the number of standard Young tableaux, via the
-hook-length quotient on both sides (`charValue_trivialCycleType_eq_hookFormula`
-and the Frame–Robinson–Thrall identity `card_standardYoungTableau_eq`). -/
+/-- **Book route, payoff 1:** the Frobenius character value at the identity
+equals the number of standard Young tableaux — via the hook-length quotient on
+both sides (`charValue_trivialCycleType_eq_hookFormula` + the proven FRT
+`card_standardYoungTableau_eq`). No Garnir straightening. -/
 theorem charValue_trivialCycleType_eq_card_syt
     (N : ℕ) {n : ℕ} (lam : BoundedPartition N n) :
     charValue N lam (trivialCycleType n) =
@@ -734,9 +738,11 @@ theorem charValue_trivialCycleType_eq_card_syt
   rw [charValue_trivialCycleType_eq_hookFormula,
       card_standardYoungTableau_eq]
 
-/-- **`dim_ℂ V_λ = #SYT` via the Frobenius character formula.** Obtained from
-the Frobenius character formula by chaining
-`charValue_trivialCycleType_eq_spechtFinrank_rat` with the identity above. -/
+/-- **Book route, payoff 2 (retires Wall 3):** `dim_ℂ V_λ = #SYT`, obtained from
+the Frobenius character formula alone — chaining the proven
+`charValue_trivialCycleType_eq_spechtFinrank_rat` with the route above. This
+re-proves the content of `finrank_spechtModule_eq_card_syt'` WITHOUT
+`generalizedPolytabloidTab_mem_span_polytabloidTab` (the Garnir straightening). -/
 theorem finrank_spechtModule_eq_card_syt_via_frobenius
     (N : ℕ) {n : ℕ} (lam : BoundedPartition N n) :
     (Module.finrank ℂ
@@ -746,10 +752,10 @@ theorem finrank_spechtModule_eq_card_syt_via_frobenius
   rw [← charValue_trivialCycleType_eq_spechtFinrank_rat]
   exact charValue_trivialCycleType_eq_card_syt N lam
 
-/-! ## Surjectivity: every partition is a `BoundedPartition n n` weight
+/-! ## Surjectivity: every partition is a `BoundedPartition n n` weight (issue #4595)
 
 `finrank_spechtModule_eq_card_syt_via_frobenius` is stated for partitions of the
-shape `weightToPartition n bp.parts`. To reach an arbitrary `Nat.Partition n`
+shape `weightToPartition n bp.parts`. To reach an *arbitrary* `Nat.Partition n`
 we show every partition of `n` arises this way: pad its sorted parts with zeros
 to length `n`. The helper lemmas reproduce the `private` `canonicalBP` machinery
 of `Theorem5_22_1.lean`, specialised so the construction starts from the
@@ -857,9 +863,10 @@ theorem exists_boundedPartition_weightToPartition_eq (n : ℕ) (la : Nat.Partiti
   rw [Fin.univ_val_map, Multiset.filter_coe, ofFn_getD_filter_pos n la.sortedParts hpos hlen]
   exact Multiset.sort_eq _ _
 
-/-- **`dim_ℂ V_λ = #SYT` for an arbitrary partition.** From
-`finrank_spechtModule_eq_card_syt_via_frobenius` plus surjectivity of
-`weightToPartition`. -/
+/-- **Book route, payoff 2 (general `λ`):** `dim_ℂ V_λ = #SYT` for an *arbitrary*
+partition `λ`, from `finrank_spechtModule_eq_card_syt_via_frobenius` plus
+surjectivity of `weightToPartition`. This is the Wall-3-free (no Garnir
+straightening) replacement for the polytabloid-basis route. -/
 theorem finrank_spechtModule_eq_card_syt_general (n : ℕ) (la : Nat.Partition n) :
     Module.finrank ℂ (SpechtModule n la) = Nat.card (StandardYoungTableau n la) := by
   obtain ⟨bp, hbp⟩ := exists_boundedPartition_weightToPartition_eq n la

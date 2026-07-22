@@ -1915,7 +1915,7 @@ private lemma exists_invariant_product_complement
         exact hc.symm
       rw [hv_eq]; exact Submodule.smul_mem _ _ (Submodule.subset_span rfl)
     exact ⟨V'₀, W'₀, C, hcompl, hVW_inv, hC_inv, hVW_ne, hC_ne⟩
-  · -- Case: (0, w₁) has X-order k_max, symmetric (swap A↔B, V↔W roles)
+  · -- Case: (0, w₁) has X-order k_max — symmetric (swap A↔B, V↔W roles)
     open Polynomial in
     set p_aeval := (Module.AEval'.of (R := ℂ) X) ((0 : V), w₁)
     have hp_ne : (Polynomial.X : ℂ[X]) ^ (k j_max - 1) • e p_aeval ≠ 0 := by

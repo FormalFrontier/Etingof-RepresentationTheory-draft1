@@ -1,20 +1,36 @@
 import EtingofRepresentationTheory.Chapter5.FormalCharacterIso
 
 /-!
-# Formal-character additivity over short exact sequences
+# DetInvElim-clean formal-character additivity (issue #5078, parent #5075)
 
-This file provides the formal-character additivity results underlying the
-constituent-character extraction step, together with the weight-space helpers they
-need. The main results (in namespace `Etingof.CleanCharExtraction`):
+This file is the **DetInvElim-clean** home of the formal-character additivity engine
+underlying the constituent-character extraction step of the `#4905`/`#4896` part-(a)
+assembly (`clean_simple_constituent_formalCharacter_eq_schurPoly_mem`, #5078).
 
-* `mem_glWeightSpace_iff`: membership in the `μ`-weight space, unfolded.
-* `glWeightSpace_map_le`: an equivariant map sends the `μ`-weight space into the
+The additivity lemma `formalCharacter_add_of_shortExact` and its weight-space helpers
+already exist (sorry-free) in `CauchyDetQuotientDegree.lean`, and the weight-saturation
+transfer lemma `glWeightSpace_iSup_eq_top_of_equivariant_surjective` exists in
+`SchurWeylFormalCharacterIso.lean` — but **both host files are polluted**: they
+transitively import `DetInvElim` (via `PolyRightGrading` / `FormalCharacterTorusTrace`).
+Because the `#4896` assembly feeds back into `DetInvElim`, using the polluted versions to
+prove part-(a) is a genuine build cycle (#5072).
+
+The statements and proofs here are clean relocations: they depend **only** on
+`FormalCharacterIso` (and its clean ancestors), so the clean extractor built on top avoids
+the cycle. The originals in the polluted files are left in place (their downstream
+consumers there are unchanged); a successor may delete them in favour of these once the
+clean extractor lands.
+
+Relocated items (in namespace `Etingof.CleanCharExtraction`):
+
+* `mem_glWeightSpace_iff` — membership in the `μ`-weight space, unfolded.
+* `glWeightSpace_map_le` — an equivariant map sends the `μ`-weight space into the
   `μ`-weight space.
-* `glWeightSpace_inf_range`: the `μ`-weight space meets the range of an injective
+* `glWeightSpace_inf_range` — the `μ`-weight space meets the range of an injective
   equivariant map exactly in the image of the source `μ`-weight space.
-* `formalCharacter_add_of_shortExact`: additivity of the formal character over an
+* `formalCharacter_add_of_shortExact` — additivity of the formal character over an
   equivariant short exact sequence (needs weight-space spanning for the sub and total).
-* `glWeightSpace_iSup_eq_top_of_equivariant_surjective`: weight saturation transfers
+* `glWeightSpace_iSup_eq_top_of_equivariant_surjective` — weight saturation transfers
   along equivariant surjections.
 -/
 

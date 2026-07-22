@@ -5,16 +5,17 @@ import EtingofRepresentationTheory.Chapter5.SpechtCharacterGeneral
 # Scalar extension of Specht modules: `ℂ ⊗_ℚ V_λ(ℚ) ≅ V_λ(ℂ)`
 
 The Specht module `SpechtModuleK k n la = k[S_n]·c_λ` is defined uniformly over any
-commutative ring `k` from the integer Young symmetrizer `c_ℤ` (`YoungSymmetrizerZ`).
-This file proves base-change compatibility: the complex Specht module has a rational
-form, namely there is a `ℂ`-linear `S_n`-equivariant isomorphism
+commutative ring `k` from the **integer** Young symmetrizer `c_ℤ` (`YoungSymmetrizerZ`).
+This file proves the **base-change compatibility** asked for by the "uniform real type"
+route: the complex Specht module has a *rational form*, namely there is a
+`ℂ`-linear `S_n`-equivariant isomorphism
 
 ```
 ℂ ⊗_ℚ SpechtModuleK ℚ n la  ≃  SpechtModuleK ℂ n la.
 ```
 
 Combined with the classification "every `ℂ`-irrep of `S_n` is a Specht module"
-(Theorem 5.12.2 area) and the rational-form result
+(Theorem 5.12.2 area) and the L1 rational-form linchpin
 (`Etingof.isRealType_of_rational_form`, from the Frobenius-Schur package), this gives
 "every irreducible representation of `S_n` is of real type" for all `n` at once,
 without analysing each partition separately.
@@ -34,7 +35,7 @@ is `LinearMap.liftBaseChange ℂ` of the `ℚ`-linear `g : ↥V_λ(ℚ) →ₗ[�
   `j '' V_λ(ℚ)`; the span argument (`j (c_ℚ) = c_ℂ`, `j` multiplicative) identifies it with
   the left ideal `Aℂ·c_ℂ = SpechtModuleK ℂ n la`.
 * **Injective**: `Ψ` factors as `finsuppScalarRight ∘ lTensor ℂ (incl)`, and `lTensor ℂ` of
-  the injective inclusion `V_λ(ℚ) ↪ Aℚ` is injective because `ℂ` is flat (free) over `ℚ`
+  the injective inclusion `V_λ(ℚ) ↪ Aℚ` is injective because `ℂ` is **flat** (free) over `ℚ`
   (`Module.Flat.lTensor_preserves_injective_linearMap`); `finsuppScalarRight` is an equiv.
 * **Equivariance**: `j (of σ * x) = of σ * j x` makes `Ψ` intertwine the base-changed
   `ℚ`-action `1 ⊗ ρ_ℚ(σ)` with the `ℂ`-action `ρ_ℂ(σ)` (both the `spechtModuleActionK`
@@ -133,7 +134,7 @@ private lemma psiMap_range :
     LinearMap.range (psiMap n la) = (SpechtModuleK ℂ n la).restrictScalars ℂ := by
   classical
   rw [psiMap, LinearMap.range_liftBaseChange]
-  -- `T := span ℂ (range g)`: show `T = V_λ(ℂ)` as `ℂ`-submodules of `ℂ[S_n]`.
+  -- `T := span ℂ (range g)` — show `T = V_λ(ℂ)` as `ℂ`-submodules of `ℂ[S_n]`.
   apply le_antisymm
   · -- `span ℂ (range g) ≤ V_λ(ℂ)`
     rw [Submodule.span_le]

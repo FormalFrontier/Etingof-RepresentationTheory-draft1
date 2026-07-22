@@ -4,17 +4,17 @@ import EtingofRepresentationTheory.Chapter5.DetLocalization
 import EtingofRepresentationTheory.Chapter5.PolyRightGrading
 
 /-!
-# The finite-dimensional right-translation hull (Peter-Weyl)
+# The finite-dimensional right-translation hull (Peter-Weyl, steps 1 & 3)
 
-This file builds the finite-dimensional right-translation hull of an element of the
+This file builds the **finite-dimensional right-translation hull** of an element of the
 coordinate ring `R = k[gᵢⱼ][1/det] = Localization.Away (detPoly k N)`, the first piece of the
 Cauchy / abstract Peter-Weyl argument that "every regular function is a matrix coefficient"
-(Etingof §5.23(ii), toward
-`Theorem5_23_2_PeterWeyl.peterWeylSummandMap_iSup_range_eq_top`).
+(Etingof §5.23(ii), the intended route for
+`Theorem5_23_2_PeterWeyl.peterWeylSummandMap_iSup_range_eq_top`, issue #5572).
 
-Given `φ ∈ R`, its right-translation hull `rightHull φ` is the `k`-span of the orbit
+Given `φ ∈ R`, its **right-translation hull** `rightHull φ` is the `k`-span of the orbit
 `{R_g φ : g ∈ GL_N}` under the right-translation representation `localRightRep`. The two
-useful facts about it, proved here:
+genuinely useful facts about it, proved here sorry-free:
 
 * **Invariance + self-membership.** `rightHull φ` is `localRightRep`-stable
   (`localRightRep_mem_rightHull`, packaged as `rightHullSubrep`) and contains `φ`
@@ -27,17 +27,17 @@ useful facts about it, proved here:
   image under `numEmbed r : p ↦ algebraMap p · det⁻ʳ` of the finite-dimensional space of
   polynomials of total degree `≤ Q.totalDegree`. Hence the span is finite-dimensional.
 
-* **Matrix-coefficient realization.** `evalGLAway (R_g φ) 1 = φ(g)`: through the
+* **Matrix-coefficient realization (step 3).** `evalGLAway (R_g φ) 1 = φ(g)`: through the
   faithful functions-on-`GL` model `evalGLAway`, `φ` is the matrix coefficient of its hull
   `(rightHull φ, localRightRep, ε)` with `ε` the "evaluation at the identity" functional. This is
   `Etingof.DetInvElim.evalGLAway_localRightRep` at evaluation point `1` plus `one_mul`; it is not
   repackaged here because `evalGLAway` is an `IsLocalization.Away.lift` and re-deriving the
   identity outside `DetInvElim`'s rewrite context triggers an `IsLocalization` `isDefEq` blow-up.
 
-The remaining steps, det-twisting the hull to a polynomial representation
+The remaining steps of the Cauchy route — det-twisting the hull to a polynomial representation
 and applying complete reducibility (`decompose_polynomial_gl_rep`), and the
 matrix-coefficient correspondence relating arbitrary `GL`-maps `L_λ → R` to
-`peterWeylSummandMap`, are carried out separately.
+`peterWeylSummandMap` — are tracked as separate sub-issues of #5572.
 -/
 
 open scoped TensorProduct

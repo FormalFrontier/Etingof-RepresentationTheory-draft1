@@ -2,7 +2,7 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter5.Definition5_1_4
 
 /-!
-# The Frobenius-Schur trace identity (`FS ∈ {±1}`)
+# The Frobenius-Schur trace identity (the `FS ∈ {±1}` crux)
 
 This file proves the central Frobenius-Schur dichotomy in numerical form: for a
 *simple* complex representation `ρ` with a *self-dual* character (`χ(g⁻¹) = χ(g)`),
@@ -25,8 +25,9 @@ involution `τ = TensorProduct.comm`. Then:
   `dim I = |G|⁻¹ ∑_g χ(g)² = |G|⁻¹ ∑_g χ(g)χ(g⁻¹) = 1`. A linear involution on a
   one-dimensional space has trace `±1`.
 
-The same content proves the trace identity in `FrobeniusSchurRealType.lean`
-(`exists_nonzero_invariant_symmetric_of_FS_eq_one`).
+The same content discharges the still-isolated trace identity in
+`FrobeniusSchurRealType.lean` (`exists_nonzero_invariant_symmetric_of_FS_eq_one`,
+tracked separately).
 -/
 
 open scoped MonoidAlgebra Matrix Kronecker TensorProduct

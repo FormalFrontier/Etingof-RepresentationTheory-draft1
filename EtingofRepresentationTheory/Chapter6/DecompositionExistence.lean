@@ -9,9 +9,9 @@ import Mathlib
 # Existence of a decomposition into indecomposables
 
 Every finite-dimensional quiver representation over a field is isomorphic to a finite
-(iterated) direct sum of indecomposable representations. This is the existence
-half of Krull–Schmidt; uniqueness is not proved here, as it is not needed
-for the orbit-counting approach to Gabriel's theorem.
+(iterated) direct sum of **indecomposable** representations. This is the *existence*
+half of Krull–Schmidt; uniqueness is deliberately **not** proved here (it is not needed
+for the orbit-counting route to Gabriel's theorem, directive #4777 step 1).
 
 The proof is strong induction on the total dimension `∑ v, finrank (V.obj v)`: if `V`
 is indecomposable we are done, otherwise the failure of indecomposability hands us a
@@ -20,10 +20,10 @@ dimension, and we recurse.
 
 ## Main results
 
-* `Etingof.QuiverRepresentation.directSumList`: iterated direct sum of a list.
-* `Etingof.QuiverRepresentation.AreIsomorphic.refl/.trans` and friends: the iso relation
+* `Etingof.QuiverRepresentation.directSumList` — iterated direct sum of a list.
+* `Etingof.QuiverRepresentation.AreIsomorphic.refl/.trans` and friends — the iso relation
   is a (partial) equivalence with the expected congruences.
-* `Etingof.QuiverRepresentation.exists_decomposition`: the existence theorem.
+* `Etingof.QuiverRepresentation.exists_decomposition` — the existence theorem.
 -/
 
 namespace Etingof.QuiverRepresentation
@@ -246,7 +246,7 @@ theorem exists_decomposition {k : Type uk} [Field k] {n : ℕ} [Quiver.{uh} (Fin
       · -- Zero representation: empty list.
         push_neg at hzero
         exact ⟨[], by simp, areIsomorphic_zeroRep V hzero⟩
-      · -- Proper splitting.
+      · -- Genuine splitting.
         letI : ∀ v, AddCommGroup (V.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
         push_neg at hsplit
         obtain ⟨W₁, W₂, hW₁, hW₂, hc, hne₁, hne₂⟩ := hsplit

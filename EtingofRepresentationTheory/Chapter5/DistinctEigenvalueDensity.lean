@@ -3,27 +3,27 @@ import Mathlib
 /-!
 # The distinct-eigenvalue locus is Zariski-dense in `GL_N(ℂ)`
 
-This file provides the witness polynomial for the Zariski-density engine
+This file provides the *witness polynomial* for the Zariski-density engine
 `MvPolynomial.eq_zero_of_eval_eq_zero_off_zeroLocus`
 (`EtingofRepresentationTheory.Chapter5.EvalEqOnGL`): the discriminant of the
 characteristic polynomial, viewed as a polynomial `discrPoly N` in the matrix
-entries `Xᵢⱼ`. The two pieces required by
-`trace_combination_vanishes_of_torus_vanishes` are:
+entries `Xᵢⱼ`. The two pieces required by the assembly of
+`trace_combination_vanishes_of_torus_vanishes` (#4925, sub-B #4931) are:
 
-* `Matrix.discrPoly_ne_zero`: `discrPoly N` is a nonzero polynomial. The
+* `Matrix.discrPoly_ne_zero` — `discrPoly N` is a *nonzero* polynomial. The
   witness is a diagonal matrix `diag(0, 1, …, N-1)`, whose characteristic
   polynomial `∏ᵢ (X - i)` is separable, hence has nonzero discriminant.
 * `Matrix.charpoly_separable_of_discr_ne_zero` /
-  `Matrix.card_roots_charpoly_of_discr_ne_zero`: a matrix with nonzero
+  `Matrix.card_roots_charpoly_of_discr_ne_zero` — a matrix with nonzero
   discriminant has separable characteristic polynomial, hence (over `ℂ`)
   exactly `N` distinct eigenvalues.
 
-Applying the density engine to `Q = discrPoly N` (after clearing the `det⁻¹`
-denominator, i.e. `Q = detPoly · discrPoly`) gives "a regular function on
+Feeding `Q = discrPoly N` (after clearing the `det⁻¹` denominator, i.e.
+`Q = detPoly · discrPoly`) to the density engine gives "a regular function on
 `GL_N(ℂ)` vanishing on every matrix with `N` distinct eigenvalues vanishes on
 all of `GL_N`".
 
-The Mathlib gap closed here is `Polynomial.discr_ne_zero_iff_separable`:
+The genuine Mathlib gap closed here is `Polynomial.discr_ne_zero_iff_separable`:
 Mathlib has the discriminant API (`Polynomial.discr`, `Polynomial.resultant`)
 and `Polynomial.Separable` separately, but no link between them. We supply it
 through `Polynomial.resultant_deriv` (`discr = ± leadingCoeff⁻¹ · res(f, f')`)
@@ -37,7 +37,7 @@ namespace Polynomial
 
 variable {R S : Type*} [CommRing R] [CommRing S]
 
-/-- The discriminant commutes with a ring homomorphism on monic polynomials.
+/-- The discriminant commutes with a ring homomorphism on **monic** polynomials.
 
 For monic `f`, `discr f = (-1)^k · resultant f f'`, and both the resultant
 (`resultant_map_map`) and the leading coefficient (monic ↦ monic) are preserved
@@ -69,9 +69,9 @@ polynomial of positive degree whose derivative has the expected degree
 `natDegree f - 1` (automatic in characteristic zero), the discriminant is
 nonzero iff the polynomial is separable.
 
-The forward direction (`discr ≠ 0 → Separable`) is the Mathlib gap used by the
-distinct-eigenvalue argument; the reverse is used to exhibit the nonvanishing
-witness. -/
+The forward direction (`discr ≠ 0 → Separable`) is the genuine Mathlib gap
+consumed by the distinct-eigenvalue assembly; the reverse is used to exhibit
+the nonvanishing witness. -/
 theorem discr_ne_zero_iff_separable {K : Type*} [Field K] {f : K[X]}
     (hpos : 0 < f.natDegree) (hd : f.derivative.natDegree = f.natDegree - 1) :
     f.discr ≠ 0 ↔ f.Separable := by

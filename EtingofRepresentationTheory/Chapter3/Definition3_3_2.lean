@@ -19,12 +19,12 @@ algebra `A` is modeled as an `A`-module `V` (over a base ring `k`, with the `A`-
 `k`-actions commuting, i.e. `SMulCommClass A k V`). The carrier of the dual representation
 is the `k`-linear dual `Module.Dual k V = V →ₗ[k] k`.
 
-The defining data of Definition 3.3.2 is the contragredient action, which makes
-`Module.Dual k V` an `Aᵐᵒᵖ`-module: an element `MulOpposite.op a` of `Aᵐᵒᵖ` acts on a
+The *defining data* of Definition 3.3.2 is the contragredient action, which makes
+`Module.Dual k V` a genuine `Aᵐᵒᵖ`-module: an element `MulOpposite.op a` of `Aᵐᵒᵖ` acts on a
 functional `f` by precomposition with `v ↦ a • v`, i.e. `(op a • f)(v) = f(a • v)`. This is
 exactly the action `(f · a)(v) = f(a v)` of Etingof Definition 3.3.2, read as a left module
-over `Aᵐᵒᵖ`. We construct this `Module Aᵐᵒᵖ` structure explicitly below; the bare
-`Module.Dual k V` alone (the dual vector space) does not carry it.
+over `Aᵐᵒᵖ`. We construct this `Module Aᵐᵒᵖ` structure explicitly below — the bare
+`Module.Dual k V` alone (the dual *vector space*) does not carry it.
 -/
 
 namespace Etingof
@@ -64,7 +64,7 @@ theorem dualRepresentation_smul_apply (a : Aᵐᵒᵖ) (f : Module.Dual k V) (v 
 
 variable (k A V)
 
-/-- The dual representation is a left module over the opposite algebra `Aᵐᵒᵖ`,
+/-- The dual representation is a genuine left module over the opposite algebra `Aᵐᵒᵖ`,
 carrying the contragredient action of Definition 3.3.2. -/
 instance instModuleMulOppositeDual : Module Aᵐᵒᵖ (Module.Dual k V) where
   one_smul f := by ext v; simp
@@ -75,7 +75,7 @@ instance instModuleMulOppositeDual : Module Aᵐᵒᵖ (Module.Dual k V) where
   zero_smul f := by ext v; simp
 
 /-- The dual representation `V*` is a representation of `Aᵐᵒᵖ`: the contragredient action
-equips `Module.Dual k V` with an `Aᵐᵒᵖ`-module structure (not merely the dual vector
+equips `Module.Dual k V` with a genuine `Aᵐᵒᵖ`-module structure (not merely the dual vector
 space). -/
 example : Module Aᵐᵒᵖ (DualRepresentation k A V) := inferInstance
 

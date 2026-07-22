@@ -2,23 +2,27 @@ import EtingofRepresentationTheory.Chapter5.CleanFormalCharacterAdditivity
 import EtingofRepresentationTheory.Chapter5.GLRepAlgebraic
 
 /-!
-# Induction helpers for the constituent-character extractor
+# Induction helpers for the DetInvElim-clean constituent-character extractor
 
-This file provides two of the three induction helpers needed by the
-constituent-character extractor (`clean_simple_constituent_formalCharacter_eq_schurPoly_mem`).
-The third, sub-of-spanning-is-spanning, is developed separately.
+This file provides two of the three induction helpers needed by the clean
+constituent-character extractor (`clean_simple_constituent_formalCharacter_eq_schurPoly_mem`,
+issue #5082, parent #5081). The third — *sub-of-spanning-is-spanning* — is the technical
+crux and is developed separately (#5086).
 
 The extractor proves `char M = ∑ (composition-factor characters)` by a `finrank` induction
 that peels a simple `GL_N`-submodule `S ≤ M` off at each step and uses the short-exact-sequence
 additivity `Etingof.CleanCharExtraction.formalCharacter_add_of_shortExact`. To run that
 induction it needs, for an invariant submodule `S = σ.toSubmodule ≤ M`:
 
-* the quotient `M ⧸ S` carried as a `GL_N`-representation that is still algebraic (so the
-  induction hypothesis applies to it): `IsAlgebraicRepresentation.quotient`;
+* the quotient `M ⧸ S` carried as a `GL_N`-representation that is **still algebraic** (so the
+  induction hypothesis applies to it) — `IsAlgebraicRepresentation.quotient`;
 * the packaging of `S ↪ M ↠ M ⧸ S` as an equivariant short exact sequence of `FDRep`s, so that
-  `formalCharacter_add_of_shortExact` applies directly: `subFDRep`, `quotientFDRep`, the
-  equivariant inclusion/projection, exactness, and
+  `formalCharacter_add_of_shortExact` applies directly — `subFDRep`, `quotientFDRep`, the
+  equivariant inclusion/projection, exactness, and the capstone
   `formalCharacter_eq_sub_add_quotient`.
+
+Everything here imports only DetInvElim-clean files, so it introduces no build cycle with
+`CauchyDetQuotient`.
 -/
 
 noncomputable section
@@ -28,14 +32,14 @@ open scoped MonoidAlgebra
 
 namespace Etingof
 
-/-! ## The quotient of an algebraic representation is algebraic -/
+/-! ## Deliverable 2: the quotient of an algebraic representation is algebraic -/
 
 /-- **The quotient of an algebraic representation is algebraic.** Given an algebraic
 representation `ρ` on `Y` and an invariant submodule `K` (`K ≤ K.comap (ρ g)` for every `g`),
 the induced action `g ↦ Submodule.mapQ K K (ρ g)` on `Y ⧸ K` is algebraic.
 
 The proof mirrors `Etingof.IsAlgebraicRepresentation.restrict`: choose a complement `K'` of `K`,
-which provides a linear section `s : Y ⧸ K → Y` of the quotient map `q = K.mkQ`
+which provides a linear *section* `s : Y ⧸ K → Y` of the quotient map `q = K.mkQ`
 (`q ∘ s = id`); the quotient matrix coefficients are then the sub-block
 `∑_{d,e} (B.repr (s (b' c)) d) · P e d · (b'.repr (q (B e)) a)` of the ambient polynomial
 coefficients `P`, hence polynomial. -/
@@ -57,7 +61,7 @@ theorem IsAlgebraicRepresentation.quotient {k : Type*} [Field k] {N : ℕ}
   have hsec : ∀ x : Y ⧸ K, K.mkQ (s x) = x := by
     intro x
     rw [Submodule.mkQ_apply]
-    -- The submodules are implicit (inferred from the `IsCompl` proof).
+    -- v4.30: the submodules are now implicit (inferred from the `IsCompl` proof).
     exact Submodule.mk_quotientEquivOfIsCompl_apply hK' x
   refine ⟨Module.finrank k (Y ⧸ K), b',
     fun a c => ∑ d, ∑ e,
@@ -102,7 +106,7 @@ theorem IsAlgebraicRepresentation.quotient {k : Type*} [Field k] {N : ℕ}
   rw [evalAtGL_mul, evalAtGL_mul, evalAtGL_C, evalAtGL_C]
   ring
 
-/-! ## Sub/quotient FDReps and the short exact sequence -/
+/-! ## Deliverable 3: sub/quotient FDReps and the short-exact-sequence glue -/
 
 namespace CleanCharExtraction
 
@@ -177,7 +181,7 @@ decompositions for the sub-`FDRep` and for `M`,
 
 This is the direct application of `formalCharacter_add_of_shortExact` to the equivariant short
 exact sequence `subFDRep M σ ↪ M ↠ quotientFDRep M σ` packaged above. The spanning hypothesis on
-the sub-`FDRep` is supplied by the sub-of-spanning-is-spanning helper. -/
+the sub-`FDRep` is supplied by the *sub-of-spanning-is-spanning* helper (#5086). -/
 theorem formalCharacter_eq_sub_add_quotient [IsAlgClosed k] [CharZero k]
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k)) (σ : Subrepresentation M.ρ)
     (hsub : ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (subFDRep M σ) (fun i => μ i) = ⊤)

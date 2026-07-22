@@ -23,7 +23,7 @@ a complex algebra being in particular a real one.
 ## Main statements
 
 * `Etingof.Remark2_9_4.hasDerivAt_leibniz`: the derivative at `0` of a differentiable family of
-  algebra homomorphisms with `g 0 = 1` satisfies the Leibniz rule, so `g'(0)` is a derivation.
+  algebra homomorphisms with `g 0 = 1` satisfies the Leibniz rule — so `g'(0)` is a derivation.
 * `Etingof.Remark2_9_4.expDeriv_apply_apply`: the pointwise one-parameter group law
   `exp (s • D) (exp (t • D) a) = exp ((s + t) • D) a`, with corollary `expDeriv_add` at the operator
   level and `expDeriv_zero` for the identity at `t = 0`.

@@ -5,22 +5,23 @@ import EtingofRepresentationTheory.Chapter5.RepresentationAsModuleHom
 /-!
 # The right-`GL_N` grading of `A/det` and single-degree reduction
 
-This file builds the right-`GL_N`-equivariant grading of
+This file builds the **part-A** deliverable of issue #4905 (parent #4896, route
+doc `progress/kernel-lemma-K-route.md`): the right-`GL_N`-equivariant grading of
 the determinant quotient
 
   `A/det = k[Xᵢⱼ]/(det)`     (`quotDetRep`, `KernelLemmaKPrime.lean`)
 
 into its homogeneous degree components `(A/det)_d` (`quotDetDegreeSubrep`,
-`CauchyDetQuotientDegree.lean`), and the single-degree reduction: a
-finite-dimensional simple `GL_N`-subrep of `A/det` lives in a single degree.
+`CauchyDetQuotientDegree.lean`), and the **single-degree reduction**: a
+finite-dimensional *simple* `GL_N`-subrep of `A/det` lives in a single degree.
 
 ## The homogeneous projection on `A/det`
 
 Right translation `polyRightRep` is degree preserving
 (`polyRightRep_isHomogeneous`), so it commutes with the homogeneous-component
 projection `MvPolynomial.homogeneousComponent d`
-(`homogeneousComponent_polyRightRep`). The determinant ideal `(det)` is a graded
-ideal: `homogeneousComponent d` maps it into itself
+(`homogeneousComponent_polyRightRep`). The determinant ideal `(det)` is a *graded*
+ideal — `homogeneousComponent d` maps it into itself
 (`homogeneousComponent_mem_detSubmodule`), because `det` is homogeneous of degree
 `N` and `(det)` is principal. Hence `homogeneousComponent d` descends through the
 quotient to a `GL_N`-equivariant projection `quotDetProj d : A/det → A/det` whose
@@ -28,13 +29,13 @@ image is the degree-`d` component `(A/det)_d`.
 
 ## The grading and the single-degree reduction
 
-* `quotDetDegreeSubrep_iSup_eq_top` / `quotDetDegreeSubrep_iSupIndep`: the
+* `quotDetDegreeSubrep_iSup_eq_top` / `quotDetDegreeSubrep_iSupIndep` — the
   components `(A/det)_d` span and are independent: `A/det = ⊕_d (A/det)_d` as a
   `GL_N`-representation. Independence is the graded-ideal property read through
   the projections `quotDetProj d` (which act as the identity on `(A/det)_d` and
   vanish on `(A/det)_e` for `e ≠ d`).
 
-* `exists_degree_embedding_of_simple`: the single-degree reduction.
+* `exists_degree_embedding_of_simple` — the reduction the #4905 assembly consumes.
   Given a finite-dimensional simple `GL_N`-rep `L` with a `GL_N`-equivariant
   injection `φ : L → A/det`, there is a degree `d` and a `GL_N`-equivariant
   injection `L → quotDetDegreeFDRep k N d`. Proof: each `quotDetProj d ∘ φ` is an
@@ -192,7 +193,7 @@ theorem quotDetDegreeSubrep_iSupIndep :
 
 /-! ### Single-degree reduction for a simple finite-dimensional subrep -/
 
-/-- **Single-degree reduction.** A finite-dimensional simple
+/-- **Single-degree reduction (issue #4905 part-A).** A finite-dimensional *simple*
 `GL_N`-representation `L` with a `GL_N`-equivariant injection `φ : L → A/det` admits,
 for some degree `d`, a `GL_N`-equivariant injection into the degree-`d` component
 `quotDetDegreeFDRep k N d`.

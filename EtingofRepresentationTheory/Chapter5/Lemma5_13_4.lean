@@ -12,7 +12,10 @@ where eM = {m ∈ M | e • m = m} is the fixed-point set of e acting on M.
 
 The forward map sends φ to φ(e), and the inverse sends m to the map x ↦ x • m.
 
-This is a standard result in module theory; the equivalence is `Etingof.Lemma5_13_4`.
+## Mathlib correspondence
+
+This is a standard result in module theory. Mathlib has idempotents and
+module homomorphisms, but this specific statement may need to be proved.
 -/
 
 /-- For an idempotent e in ring A and left A-module M, the evaluation map φ ↦ φ(e)

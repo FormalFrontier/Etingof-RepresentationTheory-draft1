@@ -37,7 +37,7 @@ Jordan-basis decomposition of a nilpotent endomorphism, we build one from the PI
 structure theorem: viewing `V` as a torsion `ℂ[X]`-module with `X` acting as `A`
 (`Module.AEval' A`), `Module.torsion_by_prime_power_decomposition` for the prime `X`
 splits it into cyclic blocks `ℂ[X] ⧸ (Xᵉⁱ)`, each of which is `Fin eᵢ → ℂ` with `X`
-acting as `jordanShift eᵢ` (`blockQuotEquiv`). The block-diagonal sum and
+acting as `jordanShift eᵢ` (`blockQuotEquiv`). The block-diagonal assembly and
 transport (`sl2Pi`, `sl2Transport`, `exists_sl2Rep_of_conj_piShift`) then finish.
 
 ## Scope
@@ -125,7 +125,7 @@ The Jordan type of a nilpotent operator is recorded by its **nullity sequence**
 `k ↦ dim ker (Eᵏ)`. For a single standard block `J_{0,n}` this sequence is
 `k ↦ min k n`: `Jᵏ` annihilates exactly the coordinates from index `k` upward, so its
 kernel is spanned by the first `min k n` basis vectors. This is the elementary
-linear-algebra invariant underlying the uniqueness half of Problem 2.15.1(l), the
+linear-algebra invariant underlying the *uniqueness* half of Problem 2.15.1(l) — the
 multiset of Jordan block sizes of a nilpotent operator is recoverable from this sequence,
 and hence so is the `sl(2)`-isomorphism type of a module by its raising operator. -/
 
@@ -293,16 +293,16 @@ Two operations turn the single-block structure into the general case. First,
 into a single representation on the product `Π i, W i`, acting block-diagonally.
 Second, `sl2Transport` moves a representation across a linear isomorphism.
 
-Together they reduce general existence (Problem 2.15.1(l) for an arbitrary
+Together they reduce **general existence** (Problem 2.15.1(l) for an arbitrary
 nilpotent `A`) to the Jordan normal form theorem: once a nilpotent `A` is conjugate
-to a block-diagonal sum of standard shifts `⨁ᵢ J_{0,nᵢ}`, which is exactly the
-statement that `A` has a Jordan basis, it carries an `sl(2)`-structure with `E = A`.
-This is `exists_sl2Rep_of_conj_piShift`. The remaining ingredient, an explicit
-Jordan-basis decomposition of a nilpotent endomorphism, absent from Mathlib, is
+to a block-diagonal sum of standard shifts `⨁ᵢ J_{0,nᵢ}` — which is exactly the
+statement that `A` has a Jordan basis — it carries an `sl(2)`-structure with `E = A`.
+This is `exists_sl2Rep_of_conj_piShift`. The remaining ingredient — an explicit
+Jordan-basis decomposition of a nilpotent endomorphism, absent from Mathlib — is
 built below from the PID structure theorem via the `ℂ[X]`-module `Module.AEval`,
 completing general existence in `exists_sl2Rep_of_nilpotent`. -/
 
-/-- **Block-diagonal sum.** A finite (indeed arbitrary) family of
+/-- **Block-diagonal assembly.** A finite (indeed arbitrary) family of
 `sl(2)`-representations `ρ i` on spaces `W i` assembles into an
 `sl(2)`-representation on the product `Π i, W i`, acting on each factor
 independently: `(sl2Pi ρ x v) i = ρ i x (v i)`. -/
@@ -351,8 +351,8 @@ theorem sl2Transport_apply {V W : Type*} [AddCommGroup V] [Module ℂ V]
 
 /-- **General existence, reduced to Jordan normal form.** If a nilpotent operator
 `A` on `V` is conjugate (via a linear iso `e`) to the block-diagonal sum of standard
-shifts `⨁ᵢ J_{0,nᵢ}`, i.e. `A` has a Jordan basis, then `V` carries an
-`sl(2)`-representation with `E = A`. This assembles the representation for Problem 2.15.1(l);
+shifts `⨁ᵢ J_{0,nᵢ}` — i.e. `A` has a Jordan basis — then `V` carries an
+`sl(2)`-representation with `E = A`. This is the assembly step of Problem 2.15.1(l);
 the outstanding input is the existence of such a Jordan basis for every nilpotent
 `A`, which is the Jordan normal form theorem. -/
 theorem exists_sl2Rep_of_conj_piShift {V : Type*} [AddCommGroup V] [Module ℂ V]
@@ -374,7 +374,7 @@ theorem exists_sl2Rep_of_conj_piShift {V : Type*} [AddCommGroup V] [Module ℂ V
 To turn an *arbitrary* nilpotent `A : Module.End ℂ V` into a block-diagonal sum of
 standard shifts, we build a Jordan basis. Mathlib has no explicit Jordan-basis
 decomposition of a nilpotent endomorphism, so we construct it here from the PID
-structure theorem.
+structure theorem, following the route flagged in the item.
 
 Give `V` the `ℂ[X]`-module structure in which `X` acts as `A` (`Module.AEval' A`).
 Nilpotency of `A` makes this module torsion (annihilated by `Xⁿ`), so

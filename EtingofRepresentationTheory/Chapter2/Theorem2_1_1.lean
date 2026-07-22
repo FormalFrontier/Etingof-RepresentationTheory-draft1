@@ -393,13 +393,7 @@ end PrimitiveVectorTheory
 
 /-- Part (i): For each positive integer d, there is exactly one irreducible representation
 of sl(2, ℂ) of dimension d, up to isomorphism.
-(Etingof Theorem 2.1.1(i))
-
-The existence witness is `Sl2Irrep.irrep{LieRingModule,LieModule,_finrank,_isIrreducible}` on
-`V_d = Fin d → ℂ`, which is exactly the book's realization in the space of homogeneous
-degree-`(d-1)` polynomials in `x, y`: the basis identification `e_k ↔ x^{d-1-k} y^k` turns the
-book's operators `ρ(h) = x∂ₓ − y∂_y`, `ρ(e) = x∂_y`, `ρ(f) = y∂ₓ` into the component operators
-`rhoH/rhoE/rhoF`. See the `Sl2Irrep` module header for the full correspondence table. -/
+(Etingof Theorem 2.1.1(i)) -/
 theorem Theorem_2_1_1_i (d : ℕ+) :
     -- Existence: there is an irreducible representation of dimension d
     (∃ (V : Type) (_ : AddCommGroup V) (_ : Module ℂ V)

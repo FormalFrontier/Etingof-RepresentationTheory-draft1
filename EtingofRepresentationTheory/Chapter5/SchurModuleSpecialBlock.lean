@@ -5,17 +5,17 @@ import EtingofRepresentationTheory.Chapter5.SpechtBridgeGeneral
 import EtingofRepresentationTheory.Chapter5.SchurWeylSpecialBlockGeneral
 
 /-!
-# Theorem 5.22.1: the special Schur-Weyl block
+# Theorem 5.22.1 (Schur-Weyl L_i, part C-4a sub-A): the special Schur-Weyl block
 
-This file isolates the one character-theoretic fact required to assemble
-`schurModuleSubmodule_isSimple_centralizer` from
+This file isolates the one genuinely character-theoretic fact required to assemble
+`schurModuleSubmodule_isSimple_centralizer` (the C-4a aggregation) from
 `image_of_primitive_idempotent_isSimple_centralizer`: among the simple blocks of
-the Schur-Weyl bimodule decomposition of `V^⊗n`, there is a unique block whose
+the Schur-Weyl bimodule decomposition of `V^⊗n`, there is a **unique** block whose
 Specht-module label is `weightToPartition N lam`.
 
 The two halves of the statement reduce to:
 
-* **Existence** of a `weightToPartition`-labelled block. By contraposition: if every
+* **Existence** of a `weightToPartition`-labelled block. By contraposition: if *every*
   block carried a label `≠ weightToPartition`, off-block vanishing
   (`youngSym_action_vanishes_off_block`) plus block factorization
   (`youngSym_block_factorization`) would force `youngSymEndomorphism ℂ N lam = 0`,
@@ -25,9 +25,8 @@ The two halves of the statement reduce to:
 * **Uniqueness** (at most one `weightToPartition`-labelled block). Two simple
   `symGroupImage`-submodules with the same Specht character are isomorphic as
   `symGroupImage`-modules, hence equal by the decomposition's distinctness clause.
-  This "character determines the module over ℂ" step is the one
-  character-theoretic ingredient, proved below via
-  `simpleSymGroupImageSubmodule_iso_of_spechtCharacter_eq`.
+  This "character determines the module over ℂ" step is the single remaining gap,
+  isolated as `simpleSymGroupImageSubmodule_iso_of_spechtCharacter_eq` below.
 -/
 
 noncomputable section
@@ -48,11 +47,10 @@ theorem youngSymEndomorphism_ne_zero (N : ℕ) (lam : Fin N → ℕ) (hlam : Ant
   change LinearMap.range (youngSymEndomorphism ℂ N lam) = ⊥
   rw [h, LinearMap.range_zero]
 
-/-! ## The character-determines-module ingredient
+/-! ## The character-determines-module gap (cited dependency)
 
-This is the one character-theoretic ingredient of the special-block lemma.
-The theorem below delegates to `simpleSubmodule_iso_of_spechtCharacter_eq`
-in `Theorem5_22_1.lean`, where the Specht-module infrastructure lives. -/
+This is the only genuinely character-theoretic ingredient of the special-block
+lemma still open. Tracked as the dedicated follow-up issue #4679. -/
 
 set_option maxHeartbeats 800000 in
 set_option synthInstance.maxHeartbeats 400000 in
@@ -60,8 +58,7 @@ set_option synthInstance.maxHeartbeats 400000 in
 `S, S' ≤ V^⊗n` whose `σ`-trace functions both equal `spechtModuleCharacter n la`
 are isomorphic as `symGroupImage`-modules.
 
-Proof (via `simpleSubmodule_iso_of_spechtCharacter_eq` in `Theorem5_22_1.lean`):
-transport `S.restrictScalars ℂ`, `S'.restrictScalars ℂ` to simple
+Route (deferred): transport `S.restrictScalars ℂ`, `S'.restrictScalars ℂ` to simple
 `SymGroupAlgebra n`-modules (`submoduleAsSymGroupAlgebra_isSimpleModule`), classify
 each as `spechtModule` of its label (Theorem 5.12.2), use linear independence of
 irreducible characters to pin both labels to `la` (so the Specht modules coincide),
@@ -86,7 +83,7 @@ theorem simpleSymGroupImageSubmodule_iso_of_spechtCharacter_eq
             (fun _ hv => symGroupAction_mem_of_symGroupImage_submodule S' σ hv)) =
           spechtModuleCharacter n la σ) :
     Nonempty (↥S ≃ₗ[↥(symGroupImage ℂ (Fin N → ℂ) n)] ↥S') :=
-  -- Proved in `Theorem5_22_1.lean` where the Specht-module infrastructure lives:
+  -- Proved in `Theorem5_22_1.lean` where the Specht-bridge infrastructure lives:
   -- classify each `restrictScalars` module as a Specht module, pin both labels
   -- to `la` by Specht character injectivity, then transfer the resulting
   -- `SymGroupAlgebra`-iso to a `symGroupImage`-iso through `symGroupAlgHomToImage`.
@@ -148,8 +145,8 @@ Given the explicit bimodule decomposition `(S, hSimp, hDist, hSfin, e, he)` of
 `spechtModuleCharacter (∑ i, lam i) (weightToPartition N lam)`, while every other
 block carries a label `≠ weightToPartition N lam`.
 
-This provides the unique-block input to `schurModuleSubmodule_isSimple_centralizer`;
-its two conjuncts are used in the off-block and rank-1 analyses. -/
+This is sub-A of the C-4a aggregation `schurModuleSubmodule_isSimple_centralizer`;
+sub-B feeds the two conjuncts to the off-block (β.3) and rank-1 (γ) analyses. -/
 theorem exists_unique_special_block
     (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam)
     {ι : Type} [Fintype ι] [DecidableEq ι]
@@ -182,7 +179,7 @@ theorem exists_unique_special_block
               (p := (S i).restrictScalars ℂ) (q := (S i).restrictScalars ℂ)
               (fun _ hv => symGroupAction_mem_of_symGroupImage_submodule (S i) σ hv)) =
             spechtModuleCharacter (∑ i, lam i) la' σ) := by
-  -- Per-block Specht labels with the trace property.
+  -- Per-block Specht labels with the trace property (β.2).
   have hlabexists : ∀ i, ∃ la' : Nat.Partition (∑ i, lam i),
       ∀ σ : Equiv.Perm (Fin (∑ i, lam i)),
         LinearMap.trace ℂ ↥((S i).restrictScalars ℂ)
@@ -209,7 +206,7 @@ theorem exists_unique_special_block
   have hExists : ∃ iLam, lab iLam = weightToPartition N lam := by
     by_contra hcon
     push_neg at hcon
-    -- Every block: `youngSymEndomorphism` vanishes on `S i`.
+    -- Every block: `youngSymEndomorphism` vanishes on `S i` (β.3).
     have hvanish : ∀ (i : ι) (v : ↥(S i)),
         youngSymEndomorphism ℂ N lam v.val = 0 := by
       intro i v
@@ -235,19 +232,19 @@ theorem exists_unique_special_block
 
 /-! ## General-`k` analogues
 
-The three results above are stated over ℂ. Below are their analogues over a general
+The three results above are hardcoded over ℂ. Below are their analogues over a general
 characteristic-zero algebraically closed field `k`, built on:
 
-* the general-`k` Specht classification `trace_symGroupAction_eq_spechtModuleCharacterK` and the
+* the general-`k` Specht bridge `trace_symGroupAction_eq_spechtModuleCharacterK` and the
   iso wrapper `simpleSymGroupImageSubmodule_iso_of_spechtCharacterK_eq`
-  (`SpechtBridgeGeneral.lean`);
+  (`SpechtBridgeGeneral.lean`, #4992);
 * the general-`k` off-block vanishing `youngSym_action_vanishes_off_block_general`
-  (`SchurWeylSpecialBlockGeneral.lean`);
+  (`SchurWeylSpecialBlockGeneral.lean`, #5004);
 * the already-generic `youngSym_block_factorization` and `schurModuleSubmodule_ne_bot`.
 
-The general-`k` Specht character `spechtModuleCharacterK` and `spechtBlockCharacterK`
-(off-block lemma) are definitionally equal, so the per-block label hypotheses apply to the
-off-block lemma directly. -/
+The general-`k` Specht character `spechtModuleCharacterK` (bridge) and `spechtBlockCharacterK`
+(off-block lemma) are definitionally equal, so the bridge's per-block label hypotheses feed the
+off-block lemma directly. The ℂ results above are left untouched for their existing call-sites. -/
 
 section General
 
@@ -345,7 +342,7 @@ theorem exists_unique_special_block_general
               (p := (S i).restrictScalars k) (q := (S i).restrictScalars k)
               (fun _ hv => symGroupAction_mem_of_symGroupImage_submodule (S i) σ hv)) =
             spechtModuleCharacterK k (∑ i, lam i) la' σ) := by
-  -- Per-block Specht labels with the trace property.
+  -- Per-block Specht labels with the trace property (β.2).
   have hlabexists : ∀ i, ∃ la' : Nat.Partition (∑ i, lam i),
       ∀ σ : Equiv.Perm (Fin (∑ i, lam i)),
         LinearMap.trace k ↥((S i).restrictScalars k)
@@ -372,7 +369,7 @@ theorem exists_unique_special_block_general
   have hExists : ∃ iLam, lab iLam = weightToPartition N lam := by
     by_contra hcon
     push_neg at hcon
-    -- Every block: `youngSymEndomorphism` vanishes on `S i`.
+    -- Every block: `youngSymEndomorphism` vanishes on `S i` (β.3).
     have hvanish : ∀ (i : ι) (v : ↥(S i)),
         youngSymEndomorphism k N lam v.val = 0 := by
       intro i v

@@ -1,11 +1,12 @@
 import EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Lambda2
 
 /-!
-# Example 4.8.1, `A₅`: the golden-ratio `ℂ³₊`, `ℂ³₋` and the five irreducibles
+# Example 4.8.1 — `A₅`: the golden-ratio `ℂ³₊`, `ℂ³₋` and the five irreducibles
 
-This file constructs the central class-sum `z` on `Λ²(ℂ⁴)`, its minimal polynomial
-`z² = 20z + 400`, the two golden-ratio eigenspace subrepresentations, their characters and
-simplicity, and the five pairwise non-isomorphic irreducibles `irrepA5`.
+Split out of `Example4_8_1.lean` for CI memory (issue #5852); see there for the umbrella.
+Contains the central class-sum `z` on `Λ²(ℂ⁴)`, its minimal polynomial `z² = 20z + 400`,
+the two golden-ratio eigenspace subrepresentations, their characters and simplicity, and
+the assembly of the five pairwise non-isomorphic irreducibles `irrepA5`.
 -/
 
 namespace Etingof.Example4_8_1
@@ -27,7 +28,7 @@ set_option linter.unusedDecidableInType false
 The 5-cycle class-sum acts on `Λ²(ℂ⁴)` as a central element `z = Σ_{g∈A₅} ρ(g·r·g⁻¹)`
 (`r` a 5-cycle, the sum running over all of `A₅`, which makes centrality immediate).  Its
 minimal polynomial is `z² − 20·z − 400 = 0`, with the two roots `μ⁺ = 10 + 10√5 = 20φ` and
-`μ⁻ = 10 − 10√5 = 20φ'` (`φ = (1+√5)/2`).  The two eigenspaces are the two
+`μ⁻ = 10 − 10√5 = 20φ'` (`φ = (1+√5)/2`).  The two eigenspaces are the two genuine
 3-dimensional icosahedral subrepresentations `ℂ³₊`, `ℂ³₋`. -/
 
 /-- The 5-cycle class representative whose `A₅`-class-sum is the central element splitting
@@ -35,7 +36,7 @@ minimal polynomial is `z² − 20·z − 400 = 0`, with the two roots `μ⁺ = 1
 def r5 : G := classRepA5 3
 
 /-- The central element `z = Σ_{g∈A₅} ρ(g·r·g⁻¹)` on `Λ²(ℂ⁴)`, where `r` is a 5-cycle.
-Summing over all of `A₅` (rather than over the conjugacy class) makes the centrality
+Summing over **all** of `A₅` (rather than over the conjugacy class) makes the centrality
 proof a one-line reindexing.  Equal to `5·(class-sum)` since the centralizer of a 5-cycle
 has order 5. -/
 def zEnd : Module.End ℂ ↥lam2Sub.toSubmodule :=
@@ -74,7 +75,7 @@ lemma zEnd_trace : LinearMap.trace ℂ (↥lam2Sub.toSubmodule) zEnd = 60 := by
     rw [← Nat.card_eq_fintype_card, card_G]; norm_num
   rw [hcard]
 
-/-- The same central element realised as an ambient operator on `W4 ⊗ W4` (the sum of
+/-- The same central element realised as an **ambient** operator on `W4 ⊗ W4` (the sum of
 `(ρ_V ⊗ ρ_V)(g·r·g⁻¹)` over all `g`).  It restricts to `zEnd` on `range asym`, commutes both
 with the diagonal action and with the antisymmetriser `asym`, and preserves `range asym`.
 Working ambiently keeps the carrier one nesting level deep (a submodule of `W4 ⊗ W4`, like
@@ -111,8 +112,8 @@ lemma Zamb_mapsTo : ∀ v ∈ lam2Sub.toSubmodule, Zamb v ∈ lam2Sub.toSubmodul
 /-- **`z` is the restriction of the ambient `Z` to `Λ²(ℂ⁴)`.**  Both are the same 60-term group
 sum `Σ_g ρ(g·r·g⁻¹)`: `zEnd` restricts each summand to `lam2Sub` (Phase B, where the traces are
 computed), while `Zamb` keeps it ambient on `W4 ⊗ W4` (Phase C, where the eigenspaces defining
-`ℂ³₊`, `ℂ³₋` live).  Coercing `zEnd v` back to `W4 ⊗ W4` recovers `Z` applied to the coercion,
-the identity transporting the trace and minimal-polynomial data of `z` onto the `Z`-eigenspaces. -/
+`ℂ³₊`, `ℂ³₋` live).  Coercing `zEnd v` back to `W4 ⊗ W4` recovers `Z` applied to the coercion —
+the identity transporting the trace / minimal-polynomial data of `z` onto the `Z`-eigenspaces. -/
 lemma zEnd_coe (v : ↥lam2Sub.toSubmodule) :
     ((zEnd v : ↥lam2Sub.toSubmodule) : W4 ⊗[ℂ] W4) = Zamb (v : W4 ⊗[ℂ] W4) := by
   simp only [zEnd, Zamb, LinearMap.sum_apply, Submodule.coe_sum]
@@ -127,7 +128,7 @@ lemma zEnd_eigenspace_iff (μ : ℂ) (v : ↥lam2Sub.toSubmodule) :
   rw [Module.End.mem_eigenspace_iff, Module.End.mem_eigenspace_iff, Subtype.ext_iff, zEnd_coe,
     Submodule.coe_smul]
 
-/-! #### The two eigenvalues and the eigenspace subrepresentations -/
+/-! #### The two eigenvalues and the genuine eigenspace subrepresentations -/
 
 /-- The eigenvalue `μ⁺ = 10 + 10√5 = 20·φ` of `z` on `ℂ³₊`. -/
 noncomputable def muPlus : ℂ := 10 + 10 * (Real.sqrt 5 : ℂ)
@@ -155,10 +156,10 @@ def repC3minusSub : Subrepresentation (rhoV.tprod rhoV) where
     exact ⟨lam2Sub.apply_mem_toSubmodule h hv.1,
       Module.End.mapsTo_genEigenspace_of_comm (Zamb_comm h).symm muMinus 1 hv.2⟩
 
-/-- `ℂ³₊`, the first 3-dimensional icosahedral representation of `A₅`. -/
+/-- `ℂ³₊`, the first genuine 3-dimensional icosahedral representation of `A₅`. -/
 def repC3plus : FDRep ℂ G := FDRep.of repC3plusSub.toRepresentation
 
-/-- `ℂ³₋`, the second 3-dimensional icosahedral representation of `A₅`. -/
+/-- `ℂ³₋`, the second genuine 3-dimensional icosahedral representation of `A₅`. -/
 def repC3minus : FDRep ℂ G := FDRep.of repC3minusSub.toRepresentation
 
 /-- **The carrier of `ℂ³₊` is the image of the `μ⁺`-eigenspace of the intrinsic `z`.**  The
@@ -193,8 +194,8 @@ lemma repC3minusSub_toSubmodule_eq :
 
 /-- **`dim ℂ³₊ = dim(μ⁺-eigenspace of `z`)`.**  Reduces the dimension of the icosahedral
 representation `ℂ³₊` to the eigenspace dimension of the single 6-dimensional operator `z` on
-`Λ²(ℂ⁴)`, the last combinatorial input still needed (`= 3`, via the minimal polynomial
-`z² = 20z + 400` and `tr z = 60`) to prove `ℂ³₊` is 3-dimensional. -/
+`Λ²(ℂ⁴)` — the last combinatorial input still needed (`= 3`, via the minimal polynomial
+`z² = 20z + 400` and `tr z = 60`) to prove `ℂ³₊` genuinely 3-dimensional. -/
 lemma repC3plusSub_finrank_eq :
     Module.finrank ℂ repC3plusSub.toSubmodule
       = Module.finrank ℂ (Module.End.eigenspace zEnd muPlus) := by
@@ -291,9 +292,11 @@ lemma zEnd_sq_trace : LinearMap.trace ℂ (↥lam2Sub.toSubmodule) (zEnd * zEnd)
 
 set_option maxRecDepth 8000 in
 set_option maxHeartbeats 4000000 in
--- honest `decide` of a single 60-term `classIdxA5`-indexed sum (no `native_decide`); the
--- class-index reduction via `classIdxA5` keeps this within the same heartbeat budget as the
--- other class-indexed `decide`s in this file.
+-- honest `decide` of a single 60-term `classIdxA5`-indexed sum (no `native_decide`).  The
+-- previous version decided the raw 60×60 = 3600-term character double sum under a 2·10⁹
+-- heartbeat budget, which cost ~12 GB of kernel memory and OOM-killed the CI runner; the
+-- class-index reduction (via `classIdxA5`, which has since landed) brings it back to the
+-- same 4·10⁶ budget as the other class-indexed `decide`s in this file.
 /-- **`tr(z³) = 96000` on `Λ²(ℂ⁴)`.**  Mirrors `zEnd_sq_trace` one level up: since `z²` is
 central (`zEnd_central` twice), each summand of `z³ = ∑_g z²·ρ(g·r·g⁻¹)` has the same trace as
 `z²·ρ(r)` (conjugation invariance of the trace), giving `tr(z³) = 60·tr(z²·ρ(r))`.  Then
@@ -415,10 +418,10 @@ set_option maxHeartbeats 1600000 in
 -- The `Action.Hom` / `FGModuleCat` composition unfolds through several category layers, so the
 -- definitional-equality checks (`comm`, and the `rfl` transport lemmas) exceed the default
 -- recursion depth and heartbeat budget.
-/-- **The degree-2 relation `z² = a·z + b·1` in `End_{A₅}(Λ²(ℂ⁴))`.**
+/-- **THE degree-2 relation `z² = a·z + b·1` in `End_{A₅}(Λ²(ℂ⁴))`.**
 
-Because `z = zEnd` is `A₅`-equivariant (`zEnd_central`), so is its square, so both (together with
-the identity) package as morphisms in the categorical Hom-space `lam2 ⟶ lam2`, which is
+Because `z = zEnd` is `A₅`-equivariant (`zEnd_central`), so is its square, so both — together with
+the identity — package as morphisms in the categorical Hom-space `lam2 ⟶ lam2`, which is
 `2`-dimensional (`lam2_hom_finrank`).  Three vectors `{1, z, z²}` in a `2`-dimensional space are
 linearly dependent.  Pushing that dependency through the (ℂ-linear) forgetful map to
 `End ℂ ↥lam2Sub.toSubmodule` gives `c₀·1 + c₁·z + c₂·z² = 0` with the `cᵢ` not all zero.  The
@@ -490,7 +493,7 @@ These are exactly the two roots of `X² − 20X − 400`: their sum is `20` and 
 `−400`, and their difference is `20√5` (the `√5` that produces the golden-ratio characters).
 These identities are the algebraic content of the minimal polynomial `z² − 20z − 400 = 0`. -/
 
-/-- `μ⁺ + μ⁻ = 20`, the trace of the companion `X² − 20X − 400`, i.e. `z² = 20z + 400·1`. -/
+/-- `μ⁺ + μ⁻ = 20` — the trace of the companion `X² − 20X − 400`, i.e. `z² = 20z + 400·1`. -/
 lemma muPlus_add_muMinus : muPlus + muMinus = 20 := by
   simp only [muPlus, muMinus]; ring
 
@@ -498,16 +501,16 @@ lemma muPlus_add_muMinus : muPlus + muMinus = 20 := by
 lemma sqrt5_sq : (Real.sqrt 5 : ℂ) ^ 2 = 5 := by
   rw [← Complex.ofReal_pow, Real.sq_sqrt (by norm_num : (0 : ℝ) ≤ 5)]; norm_num
 
-/-- `μ⁺ · μ⁻ = −400`, the constant term of the companion `X² − 20X − 400`. -/
+/-- `μ⁺ · μ⁻ = −400` — the constant term of the companion `X² − 20X − 400`. -/
 lemma muPlus_mul_muMinus : muPlus * muMinus = -400 := by
   simp only [muPlus, muMinus]; ring_nf; rw [sqrt5_sq]; norm_num
 
-/-- `μ⁺ − μ⁻ = 20√5`, the gap between the two eigenvalues that produces the golden ratio, the
+/-- `μ⁺ − μ⁻ = 20√5` — the golden-ratio-producing gap between the two eigenvalues, the
 denominator in `χ₊(g) = (S(g) − μ⁻·χ_{Λ²}(g))/(μ⁺ − μ⁻)`. -/
 lemma muPlus_sub_muMinus : muPlus - muMinus = 20 * (Real.sqrt 5 : ℂ) := by
   simp only [muPlus, muMinus]; ring
 
-/-- `20√5 ≠ 0`: the denominator `μ⁺ − μ⁻` of the spectral projection is invertible. -/
+/-- `20√5 ≠ 0` — the denominator `μ⁺ − μ⁻` of the spectral projection is invertible. -/
 lemma twentyRootFive_ne_zero : (20 * (Real.sqrt 5 : ℂ)) ≠ 0 :=
   mul_ne_zero (by norm_num) (by
     rw [Ne, Complex.ofReal_eq_zero]
@@ -515,14 +518,14 @@ lemma twentyRootFive_ne_zero : (20 * (Real.sqrt 5 : ℂ)) ≠ 0 :=
 
 /-! #### The pinned minimal polynomial `z² = 20·z + 400·1` and the 3+3 eigenspace split
 
-The linear-dependence lemma `zEnd_sq_eq_aux` only says `z² = a·z + b·1` for some `(a, b)`.
+The linear-dependence lemma `zEnd_sq_eq_aux` only says `z² = a·z + b·1` for *some* `(a, b)`.
 Taking traces of that relation and of `z·(z² = a·z + b·1)` against the three computed values
 `tr z = 60`, `tr z² = 3600`, `tr z³ = 96000` gives the linear system `60a + 6b = 3600`,
 `3600a + 60b = 96000`, whose unique solution is `(a, b) = (20, 400)`.  This pins the minimal
 polynomial `z² − 20z − 400 = (z − μ⁺)(z − μ⁻)`, from which the two eigenspaces are the range and
 kernel of the spectral projection `P⁺ = (μ⁺ − μ⁻)⁻¹(z − μ⁻)`. -/
 
-/-- **The pinned degree-2 relation `z² = 20·z + 400·1`.**  Solving the `2×2` trace system
+/-- **THE pinned degree-2 relation `z² = 20·z + 400·1`.**  Solving the `2×2` trace system
 `60a + 6b = tr z² = 3600`, `3600a + 60b = tr z³ = 96000` fixes the coefficients `(a, b) = (20, 400)`
 in `zEnd_sq_eq_aux`.  Equivalently `z² − 20z − 400 = (z − μ⁺)(z − μ⁻) = 0`, the minimal polynomial
 whose roots are the golden-ratio eigenvalues `μ± = 10 ± 10√5`. -/
@@ -668,7 +671,7 @@ trace `χ_{Λ²} = (6, 0, −2, 1, 1)` (`lam2_character`) equals `chiA5 1 + chiA
 row 1 is `(3, 0, −1, φ, φ')`, row 2 is `(3, 0, −1, φ', φ)`, and `φ + φ' = 1` makes the two
 `√5` contributions cancel on the 5-cycle classes.  Combined with `A5_orthonormal` (rows 1 and 2
 are orthonormal, and orthogonal to rows 0/3/4), this exhibits `Λ²(ℂ⁴)` as the multiplicity-free
-sum of the two 3-dimensional icosahedral constituents `ℂ³₊ ⊕ ℂ³₋`, the character-level
+sum of the two 3-dimensional icosahedral constituents `ℂ³₊ ⊕ ℂ³₋` — the character-level
 statement underlying the eigenspace split of the central `z`. -/
 lemma lam2_character_eq_sum (j : Fin 5) :
     lam2.character (classRepA5 j) = Q5toC (chiA5 1 j) + Q5toC (chiA5 2 j) := by
@@ -1005,8 +1008,8 @@ Assembling the trivial `ℂ`, the two golden-ratio rotation reps `ℂ³₊`, `�
 permutation reps `ℂ⁴`, `ℂ⁵` as the five rows of `chiA5`, in order.  These are the five distinct
 irreducible characters of `A₅`. -/
 
-/-- The five irreducible representations of `A₅`, indexed `0..4` as
-`ℂ, ℂ³₊, ℂ³₋, ℂ⁴, ℂ⁵`, matching the five rows of `chiA5`. -/
+/-- The five genuine irreducible representations of `A₅`, indexed `0..4` as
+`ℂ, ℂ³₊, ℂ³₋, ℂ⁴, ℂ⁵` — matching the five rows of `chiA5`. -/
 def irrepA5 : Fin 5 → FDRep ℂ G := ![repTriv, repC3plus, repC3minus, repC4, repC5]
 
 /-- The rows of `chiA5` realised here are in order: `irrepA5 i` is row `i`. -/
@@ -1022,8 +1025,8 @@ lemma irrepA5_simple (i : Fin 5) : Simple (irrepA5 i) := by
   · exact repC5_simple
 
 /-- The character of `irrepA5 i` at `classRepA5 j` equals the tabulated `Q5` value
-`chiA5 (rowA5 i) j = chiA5 i j`.  Rows `0, 3, 4` are obtained from the integer table `tblA5`;
-rows `1, 2` are the golden-ratio characters `repC3plus_character`, `repC3minus_character`. -/
+`chiA5 (rowA5 i) j = chiA5 i j`.  Rows `0, 3, 4` bridge through the integer table `tblA5`; rows
+`1, 2` are the golden-ratio characters `repC3plus_character`, `repC3minus_character`. -/
 lemma irrepA5_character_book (i j : Fin 5) :
     (irrepA5 i).character (classRepA5 j) = Q5toC (chiA5 (rowA5 i) j) := by
   simp only [rowA5, id_eq]
@@ -1033,25 +1036,6 @@ lemma irrepA5_character_book (i j : Fin 5) :
   · exact repC3minus_character j
   · exact (repC4_character j).trans (chiA5_eq_tblA5 1 j).symm
   · exact (repC5_character j).trans (chiA5_eq_tblA5 2 j).symm
-
-/-- The five irreducible representations of `A₅` have dimensions `1, 3, 3, 4, 5`.  Each dimension
-is read off the identity column of the character table: `finrank = χ(1) = χ(classRepA5 0) =
-Q5toC (chiA5 i 0)`, and the entries of that column are the rational dimensions (imaginary
-`√5`-parts vanish). -/
-lemma irrepA5_finrank (i : Fin 5) :
-    Module.finrank ℂ (irrepA5 i) = ![1, 3, 3, 4, 5] i := by
-  have him : ∀ j : Fin 5, (chiA5 j 0).im = 0 := by decide
-  have hre : ∀ j : Fin 5, (chiA5 j 0).re = ((![1, 3, 3, 4, 5] j : ℕ) : ℚ) := by decide
-  have key : (Module.finrank ℂ (irrepA5 i) : ℂ) = Q5toC (chiA5 i 0) := by
-    rw [← FDRep.char_one]
-    have h1 : (irrepA5 i).character (1 : G) = (irrepA5 i).character (classRepA5 0) := rfl
-    rw [h1, irrepA5_character_book]
-    simp only [rowA5, id_eq]
-  have goalC : (Module.finrank ℂ (irrepA5 i) : ℂ) = ((![1, 3, 3, 4, 5] i : ℕ) : ℂ) := by
-    rw [key, Q5toC, him i, hre i]
-    push_cast
-    ring
-  exact_mod_cast goalC
 
 /-- The five representations are pairwise non-isomorphic (their characters differ).  Distinct
 dimensions separate every pair except `ℂ³₊, ℂ³₋`, which are told apart on the 5-cycle class

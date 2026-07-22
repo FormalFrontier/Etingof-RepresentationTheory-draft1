@@ -23,11 +23,16 @@ The five irreducible representations (Etingof Example 4.3):
   `det g|_{ℂ³₊} = 1` while `det g|_{ℂ³₋} = (−1)³ = −1`, which here shows up as differing
   character values.
 
-## Main definitions and results
+## Genuine formalization
 
-The five irreducible representations of `S₄` are constructed as objects of `FDRep ℂ S₄`,
-and each is shown to be simple via the character norm-one criterion
+The numerical facts (5 conjugacy classes, `1² + 1² + 2² + 3² + 3² = 24`) are recorded as the
+two `decide` theorems below.  Those checks alone are vacuous as a formalization of the
+example: they construct no representations and prove nothing irreducible.  This file
+therefore builds the **five genuine irreducible representations of `S₄`** as objects of
+`FDRep ℂ S₄` and proves each is simple (irreducible) via the character norm-one criterion
 `FDRep.simple_iff_char_is_norm_one`, `∑_g χ(g)·χ(g⁻¹) = |S₄| = 24`.
+
+The construction mirrors `Example4_3_S3` (this chapter).
 
 ## Mathlib correspondence
 
@@ -364,7 +369,7 @@ lemma rotRep_simple : Simple rotRep := by
 `S₄` acts on the three partitions of `{0,1,2,3}` into two pairs; the kernel of this action
 is the Klein four group `V₄ = {e, (01)(23), (02)(13), (03)(12)}`, so the action factors
 through `S₄/V₄ ≅ S₃`.  The 2-dimensional representation `ℂ²` is the sum-zero subrepresentation
-of the associated 3-dimensional permutation representation, exactly the pullback of the
+of the associated 3-dimensional permutation representation — exactly the pullback of the
 standard representation of `S₃`.
 
 The three partitions are indexed by `Fin 3`: `0 = {01|23}`, `1 = {02|13}`, `2 = {03|12}`.

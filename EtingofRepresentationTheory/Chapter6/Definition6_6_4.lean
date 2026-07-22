@@ -35,7 +35,7 @@ def Etingof.ArrowsOutOf (V : Type*) [Quiver V] (i : V) :=
 
 /-- Over a commutative ring, any `AddCommMonoid` module is actually an `AddCommGroup`,
 with negation given by scalar multiplication by `-1`. The resulting `AddCommGroup`
-extends the existing `AddCommMonoid`, so no diamond arises.
+extends the existing `AddCommMonoid` — no diamond.
 
 This is useful since `QuiverRepresentation` uses `AddCommMonoid` but many APIs
 (e.g. `Submodule.exists_isCompl`) require `AddCommGroup`. -/
@@ -390,7 +390,7 @@ theorem Etingof.reflFunctorMinus_mapLinear_ne_ne
     show HEq (⇑(Etingof.reflFunctorMinus_equivAtAt_ne ρ v hv (inst v i))) _
     rw [hdv]
     rfl
-  -- (3) Instance HEqs relating `hmap` to the HEq of coercions.
+  -- (3) Instance HEqs to bridge `hmap` to HEq of coercions.
   have hac_a : HEq
       (Etingof.reflFunctorMinus_acmAt ρ i a (inst a i)) (ρ.instAddCommMonoid a) := by
     rw [h_da]; rfl
@@ -467,7 +467,7 @@ noncomputable def Etingof.reflFunctorMinus_mkQ
     Etingof.addCommGroupOfRing (k := k)
   -- Build the quotient map via the `equivAt_eq` equivalence (which reduces the
   -- discriminant cleanly), avoiding a discriminant `match` that desyncs the carrier
-  -- from its module instances.
+  -- from its module instances on v4.29.
   exact (Etingof.reflFunctorMinus_equivAt_eq hi ρ).symm.toLinearMap ∘ₗ
     Submodule.mkQ (LinearMap.range (ρ.sourceMap i))
 
@@ -478,7 +478,7 @@ The mathematical content is: ψ(v) ∈ range(ψ) = ker(mkQ), so mkQ(ψ(v)) = 0.
 
 Key technique: avoid `= 0` (where `0 : F⁻(ρ).obj i` has Decidable.rec in its type) by
 first proving `= mkQ(0)` (where `0 : DirectSum` has no Decidable dependency), then
-using `map_zero` to conclude. The `revert; unfold; rw [h_di]` pattern works because
+using `map_zero` to bridge. The `revert; unfold; rw [h_di]` pattern works because
 both sides share the same `Decidable.casesOn` structure. -/
 theorem Etingof.reflFunctorMinus_mkQ_kills_sourceMap
     {k : Type*} [CommRing k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
@@ -569,7 +569,7 @@ theorem Etingof.reflFunctorMinus_mapLinear_ne_eq
     (Etingof.heq_apply (Etingof.reflFunctorMinus_obj_ne hi ρ a ha) rfl (heqv a ha)
       (cast_heq (Etingof.reflFunctorMinus_obj_ne hi ρ a ha) w).symm).trans
       (cast_heq (Etingof.reflFunctorMinus_obj_ne hi ρ a ha) w)
-  -- (3) Instance HEqs relating `hmap` to the HEq of coercions.
+  -- (3) Instance HEqs to bridge `hmap` to HEq of coercions.
   have hac_a : HEq
       (Etingof.reflFunctorMinus_acmAt ρ i a (inst a i)) (ρ.instAddCommMonoid a) := by
     rw [h_da]; rfl

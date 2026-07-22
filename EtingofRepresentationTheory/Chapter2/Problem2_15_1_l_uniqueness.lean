@@ -12,14 +12,14 @@ Existence (`exists_sl2Rep_of_nilpotent`) is established in `Problem2_15_1_l.lean
 supplies the *uniqueness* half and bundles the two into the full statement, closing the
 problem:
 
-* `sl2Rep_unique_of_e_eq`: any two `sl(2)`-representations `ρ, ρ'` on `V` with the same
+* `sl2Rep_unique_of_e_eq` — any two `sl(2)`-representations `ρ, ρ'` on `V` with the same
   raising operator `ρ e = ρ' e` are isomorphic as `sl(2)`-modules.
-* `jacobsonMorozov_sl2`: existence and uniqueness for a nilpotent `A`.
+* `jacobsonMorozov_sl2` — existence *and* uniqueness for a nilpotent `A`.
 
 An `sl(2)`-representation is a bundled Lie hom `ρ : sl2 →ₗ⁅ℂ⁆ Module.End ℂ V`, whereas the
 key input `sl2Rep_iso_of_e_jordanType_eq` (from `Sl2JordanTypeIso.lean`, itself resting on
 the classification of representations and the `sl₂` complete-reducibility results) is phrased
-for the `LieRingModule`/`LieModule` typeclass structure. `RepOf ρ` relates the two: it is
+for the `LieRingModule`/`LieModule` typeclass structure. `RepOf ρ` bridges the two: it is
 the space `V` carrying the `sl(2)`-module structure pulled back along `ρ`
 (`LieRingModule.compLieHom`, `⁅x, m⁆ = ρ x m`), so its raising operator is exactly `ρ e`
 (`raising_repOf`). Two representations with the same `ρ e` then have literally equal raising

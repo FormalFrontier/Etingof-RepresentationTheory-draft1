@@ -10,7 +10,7 @@ For instance, 0 and V are always subrepresentations.
 
 ## Mathlib correspondence
 
-This is `Submodule A V`, the type of A-submodules of V.
+This is `Submodule A V` — the type of A-submodules of V.
 -/
 
 /-- A subrepresentation of a representation V, in the sense of Etingof Definition 2.3.4.

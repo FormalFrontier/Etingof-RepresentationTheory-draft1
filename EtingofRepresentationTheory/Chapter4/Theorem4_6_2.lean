@@ -140,7 +140,7 @@ theorem Theorem4_6_2_existence
 
 A positive definite Hermitian form `c` is *nondegenerate*: the conjugate-linear map
 `v ↦ c(v, ·)` into the dual `V →ₗ[ℂ] ℂ` is injective, and (in finite dimensions) bijective.
-Composing the inverse of this map for `c₁` with the map for `c₂` yields a
+Composing the inverse of this map for `c₁` with the map for `c₂` yields a genuine
 `ℂ`-linear endomorphism `A` of `V` with `c₁(A v, w) = c₂(v, w)`; this is the intertwiner
 of the book proof.
 -/

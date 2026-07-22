@@ -3,10 +3,10 @@ import EtingofRepresentationTheory.Chapter5.PolynomialWeightSaturation
 /-!
 # Det-clearing: a `det`-power twist of an algebraic `GL_N`-representation is polynomial
 
-This file proves Step 1 of the proof of `Theorem5_23_2_i`: from an algebraic
-representation `ρ` (matrix coefficients in
+This file proves Step 1 of the assembly of `Theorem5_23_2_i` (issue #5486, sub-task of
+#5478): from an algebraic representation `ρ` (matrix coefficients in
 `k[Xᵢⱼ, det⁻¹]`, i.e. `Etingof.IsAlgebraicRepresentation`) we produce an exponent `s`
-such that the `det^s`-twist `g ↦ (det g)^s • ρ g` is polynomial (det⁻¹-free, i.e.
+such that the `det^s`-twist `g ↦ (det g)^s • ρ g` is **polynomial** (det⁻¹-free, i.e.
 `Etingof.IsPolynomialRepresentation`).
 
 This formalizes the book's "every element of `R` is a polynomial of `gᵢⱼ` times a
@@ -21,7 +21,7 @@ variable `D` with coefficients in `B := k[Xᵢⱼ]` (the algebra equivalence
 
     clear s q := ∑_{j ≤ s} q_j · detPolyB^{s-j} ∈ B,
 
-a `det⁻¹`-free polynomial. The defining identity is
+a genuine `det⁻¹`-free polynomial. The defining identity is
 
     eval g (clear s q) = (det g)^s · evalAtGL g (P a c),
 
@@ -38,7 +38,7 @@ namespace Etingof
 
 /-! ### The determinant polynomial in the `det⁻¹`-free coordinate ring -/
 
-/-- The determinant of the generic matrix `(Xᵢⱼ)`, as an element of the det⁻¹-free
+/-- The determinant of the generic matrix `(Xᵢⱼ)`, as an element of the **det⁻¹-free**
 coordinate ring `B = k[Xᵢⱼ]` (variables indexed by `Fin N × Fin N`). -/
 def detPolyB (k : Type*) [Field k] (N : ℕ) : MvPolynomial (Fin N × Fin N) k :=
   (Matrix.of fun i j : Fin N => MvPolynomial.X (i, j)).det
@@ -108,7 +108,7 @@ theorem evalAtGL_eq_eval₂_glCoordToPoly {k : Type*} [Field k] {N : ℕ}
 /-! ### The clearing operation -/
 
 /-- The cleared polynomial: from a one-variable polynomial `q = ∑_j q_j · D^j` over
-`B = k[Xᵢⱼ]` and a degree bound `s`, the det⁻¹-free polynomial
+`B = k[Xᵢⱼ]` and a degree bound `s`, the **det⁻¹-free** polynomial
 `∑_{j ≤ s} q_j · detPolyB^{s-j}`. -/
 def clearPoly (k : Type*) [Field k] (N : ℕ)
     (q : Polynomial (MvPolynomial (Fin N × Fin N) k)) (s : ℕ) :
@@ -158,7 +158,7 @@ theorem IsAlgebraicRepresentation.exists_detPow_twist_isPolynomial
   classical
   obtain ⟨m, b, P, hP⟩ := h
   -- A uniform degree bound over the finitely many coefficients (nested `sup`, so each
-  -- `P a c` appears literally, with no `Prod.fst`/`Prod.snd` projection that would force
+  -- `P a c` appears literally — no `Prod.fst`/`Prod.snd` projection that would force
   -- `isDefEq` to whnf the heavy `glCoordToPoly`).
   set s := Finset.univ.sup
     (fun a : Fin m => Finset.univ.sup
@@ -179,7 +179,7 @@ theorem IsAlgebraicRepresentation.exists_detPow_twist_isPolynomial
     rw [LinearMap.smul_apply, map_smul, Finsupp.smul_apply, smul_eq_mul, hP g a c]
   -- The cleared RHS, as a direct term application (no `rw` over the heavy `glCoordToPoly`).
   have e3 := eval_clearPoly g (glCoordToPoly k N (P a c)) s hdeg
-  -- Combine via `congrArg` with explicit motives, so no `rw`/kabstract whnf-reduces the
+  -- Bridge via `congrArg` with explicit motives, so no `rw`/kabstract whnf-reduces the
   -- heavy `glCoordToPoly` term while searching the goal.
   have hAB : (Matrix.GeneralLinearGroup.det g : k) ^ s * Etingof.evalAtGL g (P a c)
       = (g : Matrix (Fin N) (Fin N) k).det ^ s

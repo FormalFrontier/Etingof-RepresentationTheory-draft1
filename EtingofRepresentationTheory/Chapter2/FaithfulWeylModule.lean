@@ -8,7 +8,7 @@ import Mathlib.Data.Finsupp.Basic
 # Faithful Weyl-algebra module `E = tᵃ k[a][t, t⁻¹]` in arbitrary characteristic
 
 This file constructs the representation `E = tᵃ k[a][t, t⁻¹]` of the Weyl algebra used in the
-proof of Proposition 2.7.1, and proves that it is faithful in any characteristic.
+proof of Proposition 2.7.1, and proves that it is **faithful in any characteristic**.
 
 The polynomial representation on `k[t]` (`x ↦ t·`, `y ↦ d/dt`) used in `Proposition2_7_1.lean`
 is faithful only when `k` has characteristic zero: in characteristic `p`, `(d/dt)^p Q = 0` for
@@ -17,8 +17,8 @@ invertible, and the formal symbol `tᵃ` lets the derivative act by
 
   `d(t^{a+n})/dt = (a + n) · t^{a+n-1}`,
 
-so the coefficient `(a)(a-1)⋯(a-j+1)` produced by `(d/dt)^j` on `tᵃ` is a nonzero polynomial in
-`a` of degree `j` (monic) regardless of the characteristic of `k`. This is the content of
+so the coefficient `(a)(a-1)⋯(a-j+1)` produced by `(d/dt)^j` on `tᵃ` is a *nonzero polynomial in
+`a`* of degree `j` (monic) regardless of the characteristic of `k`. This is the genuine content:
 char-free faithfulness.
 
 ## Model
@@ -112,7 +112,7 @@ noncomputable def repE :
 
 /-- The falling-factorial polynomial `descPoly k j = a(a-1)⋯(a-j+1) = ∏_{l<j} (X - l)`.
 This is the coefficient produced by `(d/dt)^j` acting on `tᵃ`. It is monic of degree `j`,
-hence nonzero in any characteristic, the key to char-free faithfulness. -/
+hence nonzero in *any* characteristic — the key to char-free faithfulness. -/
 noncomputable def descPoly (j : ℕ) : Polynomial k :=
   ∏ l ∈ Finset.range j, (Polynomial.X - Polynomial.C (l : k))
 
@@ -184,10 +184,9 @@ theorem repE_monomial_apply_t0 (i j : ℕ) :
 /-- The images of the basis monomials, evaluated at `tᵃ`, namely
 `xⁱyʲ ↦ t^{a+i-j} · descPoly j`, are linearly independent over `k`.
 
-This is what makes the argument char-free: the elements `t^{a+i-j} · descPoly j` are separated
-first by the power `i - j` of `t` (the `Finsupp` coordinate), and within a fixed power by the
-degree `j` of the monic polynomial `descPoly j` in `a`, a separation that survives in any
-characteristic. -/
+This is the char-free crux: the elements `t^{a+i-j} · descPoly j` are separated first by the
+power `i - j` of `t` (the `Finsupp` coordinate), and within a fixed power by the *degree `j`* of
+the monic polynomial `descPoly j` in `a` — a separation that survives in any characteristic. -/
 theorem evalImage_linearIndependent :
     LinearIndependent k
       (fun p : ℕ × ℕ => Finsupp.single ((p.1 : ℤ) - p.2) (descPoly k p.2)) := by
@@ -242,24 +241,6 @@ theorem evalImage_linearIndependent :
     · intro hpmaxnotin; exact absurd hpmaxt hpmaxnotin
   exact hall p₀ hp₀t
 
-/-- The images of the basis monomials `xⁱyʲ` under the faithful representation `repE`
-(`x ↦ t·`, `y ↦ d/dt` on `E = tᵃ k[a][t, t⁻¹]`) are linearly independent over `k`, in any
-characteristic.
-
-This is the char-free step, obtained by pulling back `evalImage_linearIndependent` along the
-evaluation-at-`tᵃ` map: `repE k (xⁱyʲ) ↦ t^{a+i-j} · descPoly j` is injective enough to separate
-distinct monomials. It powers both char-free faithfulness (`repE_injective`) and char-free
-linear independence of the monomials themselves (`WeylAlgebra.monomialsLinearIndependent`). -/
-theorem repImage_linearIndependent :
-    LinearIndependent k (fun p : ℕ × ℕ => repE k (WeylAlgebra.monomial k p.1 p.2)) := by
-  have hΦ := evalImage_linearIndependent k
-  refine LinearIndependent.of_comp
-    (LinearMap.applyₗ (Finsupp.single (0 : ℤ) (1 : Polynomial k))) ?_
-  convert hΦ using 1
-  funext p
-  simp only [Function.comp_apply, LinearMap.applyₗ_apply_apply]
-  exact repE_monomial_apply_t0 k p.1 p.2
-
 /-- **Char-free faithfulness (Discussion after Proposition 2.7.1).** The representation
 `E = tᵃ k[a][t, t⁻¹]` of the Weyl algebra is *faithful in any characteristic*: the algebra
 homomorphism `repE : WeylAlgebra k →ₐ[k] Module.End k E` is injective, over any nontrivial
@@ -276,9 +257,15 @@ theorem repE_injective : Function.Injective (repE k) := by
   have hsurj : Function.Surjective (Finsupp.linearCombination k mono) := by
     rw [← LinearMap.range_eq_top, Finsupp.range_linearCombination]
     exact top_le_iff.mp (WeylAlgebra.monomials_span k)
-  -- Their images under `repE` are linearly independent (the char-free step).
+  -- Their images under `repE` are linearly independent (the char-free crux).
   have hli : LinearIndependent k (fun p : ℕ × ℕ => repE k (mono p)) := by
-    simpa only [hmono] using repImage_linearIndependent k
+    have hΦ := evalImage_linearIndependent k
+    refine LinearIndependent.of_comp
+      (LinearMap.applyₗ (Finsupp.single (0 : ℤ) (1 : Polynomial k))) ?_
+    convert hΦ using 1
+    funext p
+    simp only [Function.comp_apply, LinearMap.applyₗ_apply_apply, hmono]
+    exact repE_monomial_apply_t0 k p.1 p.2
   rw [injective_iff_map_eq_zero (repE k)]
   intro w hw
   obtain ⟨f, rfl⟩ := hsurj w
@@ -291,33 +278,5 @@ theorem repE_injective : Function.Injective (repE k) := by
   have hf : f = 0 :=
     hli.finsuppLinearCombination_injective (h0.trans (map_zero _).symm)
   rw [hf, map_zero]
-
-/-- **Char-free linear independence of the Weyl monomials (Proposition 2.7.1 (i)).**
-The standard monomials `{xⁱyʲ : i, j ≥ 0}` of the Weyl algebra are linearly independent over any
-nontrivial commutative ring `k`, in particular over any field, with no characteristic
-hypothesis.
-
-This is the char-`p` strengthening of `Etingof.linearIndep` (which needs `[CharZero k]`
-`[NoZeroDivisors k]` because it uses the polynomial representation on `k[t]`, faithful
-only in characteristic zero). Here linear independence is pulled back along the linear map
-`repE`, using that the images `repE k (xⁱyʲ)` are linearly independent in any characteristic
-(`repImage_linearIndependent`): the falling-factorial coefficient `descPoly j` is a nonzero monic
-polynomial in the formal parameter `a` regardless of `char k`, so no faithful `k[t]`-sized
-representation is needed. -/
-theorem WeylAlgebra.monomialsLinearIndependent :
-    LinearIndependent k (fun p : ℕ × ℕ => WeylAlgebra.monomial k p.1 p.2) :=
-  (repImage_linearIndependent k).of_comp (repE k).toLinearMap
-
-/-- **Proposition 2.7.1 (i), char-free.** Over any nontrivial commutative ring `k` (in particular
-any field, in any characteristic) the standard monomials `{xⁱyʲ : i, j ≥ 0}` form a basis of the
-Weyl algebra: they are linearly independent (`WeylAlgebra.monomialsLinearIndependent`, char-free
-via the faithful module `E`) and they span (`WeylAlgebra.monomials_span`, char-free).
-
-This upgrades `Etingof.Proposition_2_7_1`, whose linear-independence half assumed
-`[CharZero k] [NoZeroDivisors k]`. -/
-theorem Proposition_2_7_1_charFree :
-    LinearIndependent k (fun p : ℕ × ℕ => WeylAlgebra.monomial k p.1 p.2) ∧
-    ⊤ ≤ Submodule.span k (Set.range (fun p : ℕ × ℕ => WeylAlgebra.monomial k p.1 p.2)) :=
-  ⟨WeylAlgebra.monomialsLinearIndependent k, WeylAlgebra.monomials_span k⟩
 
 end Etingof

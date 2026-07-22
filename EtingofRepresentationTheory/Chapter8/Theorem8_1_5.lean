@@ -23,7 +23,7 @@ a morphism μ : M → I such that μ ∘ α = ν.
 - `Etingof.Theorem_8_1_5_i_iff_ii` : equivalence of (i) and (ii)
 - `Etingof.Theorem_8_1_5_i_iff_iii` : equivalence of (i) and (iii)
 
-Condition (iii), exactness of the contravariant functor `Hom_A(?, I)`, is formalized as
+Condition (iii) — exactness of the contravariant functor `Hom_A(?, I)` — is formalized as
 preservation of short exact sequences: for every short exact sequence `0 → K → M → N → 0`,
 applying `Hom_A(?, I)` yields the short exact sequence
 `0 → Hom(N,I) → Hom(M,I) → Hom(K,I) → 0`. Because `Hom_A(?, I)` is contravariant and always

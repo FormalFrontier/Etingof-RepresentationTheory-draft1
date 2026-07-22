@@ -18,7 +18,8 @@ The problem collects several standard facts about tensor products of vector spac
 This file records the cleanly-statable parts (a), (b), (c) and (g). Parts (d)–(f) concern
 symmetric/exterior powers and traces and are deferred to a dedicated follow-up item.
 
-Bilinear maps `V × W → U` are modelled by `V →ₗ[k] W →ₗ[k] U`. All statements are fully proved.
+Bilinear maps `V × W → U` are modelled by `V →ₗ[k] W →ₗ[k] U`. All statements are recorded with
+`sorry` proofs (**statement pass**).
 -/
 
 namespace Etingof.Problem2_11_3
@@ -34,36 +35,25 @@ theorem exists_bilinear_equiv_linear :
     ∃ e : (V →ₗ[k] W →ₗ[k] U) ≃ (TensorProduct k V W →ₗ[k] U),
       ∀ (f : V →ₗ[k] W →ₗ[k] U) (v : V) (w : W),
         e f (TensorProduct.tmul k v w) = f v w := by
-  refine ⟨(TensorProduct.lift.equiv (RingHom.id k) V W U).toEquiv, ?_⟩
-  intro f v w
-  simp only [LinearEquiv.coe_toEquiv, TensorProduct.lift.equiv_apply]
+  sorry
 
 /-- **Problem 2.11.3(b).** If `{vᵢ}` is a basis of `V` and `{wⱼ}` a basis of `W`, then
-`{vᵢ ⊗ wⱼ}` is a basis of `V ⊗ W`. The basis is `b.tensorProduct c`, and its `(i, j)` vector is
-exactly `vᵢ ⊗ wⱼ`. -/
+`{vᵢ ⊗ wⱼ}` is a basis of `V ⊗ W`. -/
 theorem exists_basis_tensorProduct {ι κ : Type*} (b : Module.Basis ι k V)
     (c : Module.Basis κ k W) :
-    ∃ B : Module.Basis (ι × κ) k (TensorProduct k V W),
-      ∀ (i : ι) (j : κ), B (i, j) = TensorProduct.tmul k (b i) (c j) := by
-  refine ⟨b.tensorProduct c, ?_⟩
-  intro i j
-  simp [Module.Basis.tensorProduct_apply]
+    Nonempty (Module.Basis (ι × κ) k (TensorProduct k V W)) := by
+  sorry
 
 /-- **Problem 2.11.3(c).** When `V` is finite dimensional there is a natural isomorphism
-`V* ⊗ W ≃ Hom(V, W)`. The witnessing equivalence is the natural map `dualTensorHom`, sending a
-pure tensor `f ⊗ w` to the linear map `v ↦ f v • w`. -/
+`V* ⊗ W ≃ Hom(V, W)`. -/
 theorem exists_dualTensor_equiv_hom [FiniteDimensional k V] :
-    ∃ e : TensorProduct k (Module.Dual k V) W ≃ₗ[k] (V →ₗ[k] W),
-      ∀ (f : Module.Dual k V) (w : W) (v : V),
-        e (TensorProduct.tmul k f w) v = f v • w := by
-  refine ⟨dualTensorHomEquiv k V W, ?_⟩
-  intro f w v
-  simp [dualTensorHomEquiv, dualTensorHom_apply]
+    Nonempty (TensorProduct k (Module.Dual k V) W ≃ₗ[k] (V →ₗ[k] W)) := by
+  sorry
 
 /-- **Problem 2.11.3(g).** `∧ᴺ A = det(A)·Id` yields multiplicativity of the determinant:
 `det(A ∘ B) = det(A) · det(B)` for operators on a vector space. -/
 theorem det_comp (A B : V →ₗ[k] V) :
-    LinearMap.det (A ∘ₗ B) = LinearMap.det A * LinearMap.det B :=
-  LinearMap.det_comp A B
+    LinearMap.det (A ∘ₗ B) = LinearMap.det A * LinearMap.det B := by
+  sorry
 
 end Etingof.Problem2_11_3

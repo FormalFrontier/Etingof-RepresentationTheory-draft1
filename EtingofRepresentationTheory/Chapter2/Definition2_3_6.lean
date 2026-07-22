@@ -11,7 +11,7 @@ The set of all homomorphisms of representations V₁ → V₂ is denoted Hom_A(V
 
 ## Mathlib correspondence
 
-This is `LinearMap` (notation `V₁ →ₗ[A] V₂`), an A-module homomorphism.
+This is `LinearMap` (notation `V₁ →ₗ[A] V₂`) — an A-module homomorphism.
 -/
 
 /-- A homomorphism of representations (intertwining operator),

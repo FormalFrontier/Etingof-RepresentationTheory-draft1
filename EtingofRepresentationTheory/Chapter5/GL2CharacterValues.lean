@@ -16,6 +16,10 @@ The virtual character is defined as:
   χ = char(W₁ ⊗ V_{α,1}) - char(V_{α,1}) - char(Ind_K^G ℂ_ν)
 where K ⊂ GL₂(𝔽_q) is the cyclic subgroup of multiplications by
 elements of 𝔽_{q²}×, ν : K → ℂ× satisfies ν^q ≠ ν, and α = ν|_{𝔽_q×}.
+
+## Mathlib correspondence
+
+Uses `GaloisField` and character inner product theory.
 -/
 
 variable (p : ℕ) [hp : Fact (Nat.Prime p)] (n : ℕ)
@@ -628,7 +632,7 @@ lemma Etingof.normSq_monoidHom_val_eq_one
     _ = (1 : ℝ) ^ 2 := by rw [hnorm]
     _ = 1 := one_pow 2
 
-/-! ### Discriminant infrastructure -/
+/-! ### Discriminant infrastructure (moved here for dependency ordering) -/
 
 /-- disc = tr² - 4·det for 2×2 matrices. -/
 lemma Etingof.disc_eq_tr_det (M : Matrix (Fin 2) (Fin 2) (GaloisField p n)) :
@@ -1542,7 +1546,7 @@ lemma Etingof.charW₁_splitSemisimple
 
 /-- A quadratic polynomial a*x² + b*x + c with a ≠ 0 and non-square discriminant
 has no roots. If it had a root r, then a*x² + b*x + c = a*(x-r)*(x-s) for some s,
-so disc = a²*(r-s)², which is a square, a contradiction. -/
+so disc = a²*(r-s)², which is a square — contradiction. -/
 lemma Etingof.quadratic_no_roots
     {F : Type*} [Field F] [Fintype F] [DecidableEq F]
     (a b c : F) (_ha : a ≠ 0) (hdisc : ¬IsSquare (b ^ 2 - 4 * a * c)) :

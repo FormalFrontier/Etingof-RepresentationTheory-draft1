@@ -18,11 +18,11 @@ A Morita equivalence `E : ModuleCat A ≌ ModuleCat B` (the definition underlyin
 `Etingof.MoritaEquivalent`) restricts to an equivalence of the finitely generated
 module categories `FGModuleCat A ≌ FGModuleCat B`.
 
-The main point is that an equivalence of module categories preserves finite
-generation: `E.functor.obj M` is finitely generated over `B` iff `M` is finitely
-generated over `A`. This is not a formal consequence of being an additive equivalence
-for a fixed module; it rests on the fact that the regular module is a compact
-projective generator, whose image under the equivalence is again finitely generated.
+The crux is that an equivalence of module categories **preserves finite generation**:
+`E.functor.obj M` is finitely generated over `B` iff `M` is finitely generated over `A`.
+This is *not* a formal consequence of being an additive equivalence for a fixed module;
+it rests on the fact that the regular module is a compact projective generator, whose
+image under the equivalence is therefore again finitely generated.
 
 ## Main results
 

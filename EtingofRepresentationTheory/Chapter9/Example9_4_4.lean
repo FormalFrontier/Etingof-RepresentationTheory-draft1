@@ -30,12 +30,13 @@ The Hilbert syzygy theorem is not yet in Mathlib.
 ## Relation to Problem 8.2.10
 
 The book obtains this example from Problem 8.2.10(iv) (the Hilbert syzygies
-theorem). This formalization does not use the explicit Koszul resolution of
-Problem 8.2.10; it proves the conclusion that the homological dimension of
-`k[x₁, …, xₙ]` is `n` directly, via the degree-one Koszul short exact sequence
-`koszulSES_shortExact`, induction on the number of variables, and
-`hasHomologicalDimensionLE_polynomial`. See `Chapter8/Problem8_2_10.lean` for the
-corresponding development of Problem 8.2.10.
+theorem). This formalization does not route through the explicit Koszul
+resolution of Problem 8.2.10; it proves the needed conclusion — the homological
+dimension of `k[x₁, …, xₙ]` is `n` — directly, via the degree-one Koszul short
+exact sequence `koszulSES_shortExact`, induction on the number of variables, and
+`hasHomologicalDimensionLE_polynomial`. `Etingof.Example_9_4_4` is therefore the
+machine-checked citation target for the load-bearing use of Problem 8.2.10; see
+`Chapter8/Problem8_2_10.lean` for the coverage record.
 -/
 
 universe u

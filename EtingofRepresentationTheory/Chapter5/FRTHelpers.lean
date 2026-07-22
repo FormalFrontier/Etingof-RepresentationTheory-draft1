@@ -465,6 +465,8 @@ private noncomputable def sytBranchingInvFun (n : ℕ) (la : Nat.Partition (n + 
     split_ifs with h₁ h₂ h₂
     · exfalso; rw [h₁] at hc; rw [h₂] at hc; exact Nat.lt_irrefl _ hc
     · exfalso; exact corner_no_right c₂
+        -- v4.31: `simp at this` is now a no-op (Prod.fst/snd of a non-literal pair
+        -- no longer reduces); feed `this` straight to omega.
         (by have := congr_arg Prod.fst h₁; omega)
         (by have := congr_arg Prod.snd h₁; omega)
     · rw [h₂] at hr hc
@@ -480,6 +482,7 @@ private noncomputable def sytBranchingInvFun (n : ℕ) (la : Nat.Partition (n + 
     split_ifs with h₁ h₂ h₂
     · exfalso; rw [h₁] at hr; rw [h₂] at hr; exact Nat.lt_irrefl _ hr
     · exfalso; exact corner_no_below c₂
+        -- v4.31: `simp at this` is now a no-op; feed `this` straight to omega.
         (by have := congr_arg Prod.snd h₁; omega)
         (by have := congr_arg Prod.fst h₁; omega)
     · exact Fin.castSucc_lt_last _
@@ -1807,7 +1810,7 @@ theorem YoungDiagram.hookWalkWeight_col_sum
           have hb' : b ≤ j := Nat.lt_succ_iff.mp hb
           exact ⟨μ.up_left_mem ha' hb' hc.1, ha', hb'⟩
       rw [hfilter_eq]
-      -- Step 4: Fubini: ∑_{(a,b) ∈ rows × cols} f(a) * g(b) = (∑_a f(a)) * (∑_b g(b))
+      -- Step 4: Fubini — ∑_{(a,b) ∈ rows × cols} f(a) * g(b) = (∑_a f(a)) * (∑_b g(b))
       rw [Finset.sum_product]
       -- Now: ∑_{a ∈ Ico 0 (i+1)} ∑_{b ∈ Ico 0 (j+1)} w(a,j,c) * w(i,b,c)
       -- Factor out w(a,j,c) from inner sum

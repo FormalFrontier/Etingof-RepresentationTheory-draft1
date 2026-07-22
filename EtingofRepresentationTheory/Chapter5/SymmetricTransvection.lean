@@ -5,11 +5,11 @@ import EtingofRepresentationTheory.Chapter5.Example5_19_3
 /-!
 # Transvection connectivity on the monomial basis of `SⁿV`
 
-This file supplies the transvection-connectivity ingredient for the symmetric half of
+This file supplies the *transvection-connectivity* ingredient for the symmetric half of
 Problem 4.12.3 (irreducibility of `SⁿV` as a `GL(V)`-representation, cited in Example 5.19.3).
 
 The exterior half (`Etingof.exteriorPower_eq_bot_or_top`) used permutation matrices, which act
-transitively on `n`-subsets. For the symmetric power the permutation matrices act trivially on
+transitively on `n`-subsets. For the symmetric power the permutation matrices act *trivially* on
 the monomial basis (permuting the index tuple leaves its monomial class unchanged), so one must use
 the transvections `1 + Eᵢⱼ` (`i ≠ j`) to move between distinct monomials. This file:
 
@@ -20,10 +20,10 @@ the transvections `1 + Eᵢⱼ` (`i ≠ j`) to move between distinct monomials. 
   (`symmetricPowerMap_transvection_eq_sum`): expanding `⨂ (eⱼ + eᵢ)` over the `j`-positions gives a
   sum, indexed by subsets `s` of the `j`-positions, of the monomials obtained by re-labelling the
   positions in `s` to `i`;
-* extracts the coordinate at the single-unit move `e^α ↦ e^{α - eⱼ + eᵢ}`
+* extracts the coordinate at the *single-unit move* `e^α ↦ e^{α - eⱼ + eᵢ}`
   (`transvection_repr_ne_zero`): it is a nonzero natural number in characteristic zero (the number
   of `j`-positions that get moved), so a single move survives;
-* packages the combinatorial connectivity of degree-`n` monomials under single-unit moves
+* packages the *combinatorial connectivity* of degree-`n` monomials under single-unit moves
   (`MonomialAdj`, `monomialAdj_connected`);
 * combines these into `monomialAdj_step_mem`, the `hstep` hypothesis of
   `Etingof.DiagonalCoordinate.eq_bot_or_eq_top_of_connected`: given the diagonal element supplying
@@ -141,7 +141,7 @@ theorem symmetricPowerMap_transvection_eq_sum
 omit [Module.Finite k V] in
 /-- **Single move survives.** The coordinate of `(1 + Eᵢⱼ) · e^α` at the monomial `e^β` obtained by
 moving one unit from `j` to `i` (at a position `m₀` with `p m₀ = j`) is the number of `j`-positions
-that could be moved, a positive natural number, hence nonzero in characteristic zero. -/
+that could be moved — a positive natural number, hence nonzero in characteristic zero. -/
 theorem transvection_repr_ne_zero [CharZero k]
     (bV : Basis (Fin d) k V) (i j : Fin d) (p : Fin n → Fin d) (m₀ : Fin n) (hm₀ : p m₀ = j) :
     (symmetricPowerMonomialBasis bV).repr

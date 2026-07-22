@@ -14,9 +14,9 @@ For distinct dominant weights `λ ≠ μ`, the irreducible algebraic representat
 `L_λ = algIrrepGLRepρ n λ k` and `L_μ` are non-isomorphic as `k[GL_n]`-modules. This
 is the distinguishing-invariant input (the highest-weight / formal-character
 classification) to the cross-summand orthogonality
-`peterWeylSummandMap_range_iSupIndep`.
+`peterWeylSummandMap_range_iSupIndep` (issue #5556).
 
-## The proof (`algIrrepGLRepρ_noniso`)
+## Proof route (`algIrrepGLRepρ_noniso`)
 
 A `k[GL_n]`-module isomorphism `e : L_λ.asModule ≃ₗ L_μ.asModule` restricts to a
 `GL_n`-equivariant `k`-linear equivalence `f : AlgIrrepGL n λ k ≃ₗ[k] AlgIrrepGL n μ k`
@@ -30,7 +30,7 @@ Using `charTwistRep_charTwistRep` (`ContragredientIdentity.lean`) and
 
   `charTwistRep (detChar^M) L_λ = charTwistRep (detChar^{M-λ.shift}) (schurModuleRep a)`
 
-(where `a = λ.toNatWeight`), an honest polynomial Schur-module twist, whose formal
+(where `a = λ.toNatWeight`), an honest *polynomial* Schur-module twist, whose formal
 character is `schurPoly (a + (M - λ.shift)·1) = schurPoly (fun i => a i + μ.shift)`
 (`M - λ.shift = μ.shift`), computed by `formalCharacter_charTwist_detChar_pow` below.
 
@@ -39,7 +39,7 @@ character is `schurPoly (a + (M - λ.shift)·1) = schurPoly (fun i => a i + μ.s
 (both antitone, non-negative). `schurPoly_injective` and the recovery
 `(λ.toNatWeight i : ℤ) = λ.val i + λ.shift` then force `λ.val = μ.val`, i.e. `λ = μ`.
 
-The new ingredient is the `p`-fold determinant-twist character formula
+The genuine new ingredient is the `p`-fold determinant-twist character formula
 `formalCharacter_charTwist_detChar_pow` below
 (`formalCharacter (charTwistRep (detChar^p) (schurModuleRep w)) = schurPoly (w + p·1)`,
 `p : ℕ`), proved by induction on `p` from `formalCharacter_shift_of_weightSpace_finrank`
@@ -206,9 +206,9 @@ theorem algIrrepGLRepρ_noniso (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [C
 /-- **Uniqueness of the highest weight (the complete-invariant classification).**
 The dominant integer weight `λ` is a complete invariant of the irreducible algebraic
 representation `L_λ = algIrrepGLRepρ n λ k`: two of these irreducibles are isomorphic
-as `k[GL_n]`-modules iff their highest weights coincide. This is the faithful
+as `k[GL_n]`-modules **iff** their highest weights coincide. This is the faithful
 Lean rendering of the book's assertion (Discussion after Definition 5.23.1) that to
-every weakly-decreasing integer sequence `λ₁ ≥ ⋯ ≥ λ_N` there is attached a unique
+every weakly-decreasing integer sequence `λ₁ ≥ ⋯ ≥ λ_N` there is attached a *unique*
 irreducible algebraic representation `L_λ`, whose highest weight is `λ`. The forward
 direction is `algIrrepGLRepρ_noniso`; the reverse is the identity isomorphism. -/
 theorem algIrrepGLRepρ_iso_iff_eq (n : ℕ) (k : Type) [Field k] [IsAlgClosed k]

@@ -16,11 +16,12 @@ import Mathlib.LinearAlgebra.Finsupp.LinearCombination
 
 No direct match. The Weyl algebra is not formalized in Mathlib.
 
-## Formalization
+## Formalization note
 
 We define the Weyl algebra as a quotient of the free algebra on two generators by the
-relation `yx - xy = 1` (i.e., `yx = xy + 1`). Part (ii), the `q`-Weyl algebra, uses
-invertible generators and is treated in `Proposition2_7_1_ii.lean`.
+relation yx - xy = 1 (i.e., yx = xy + 1). The q-Weyl algebra statement is omitted as it
+requires invertible generators (a group algebra construction) which is a separate formalization
+challenge.
 -/
 
 namespace Etingof
@@ -253,7 +254,7 @@ private lemma polyRep_rel :
     polyRepGen, Matrix.cons_val_zero, Matrix.cons_val_one]
   exact deriv_mul_polyMulX k
 
-/-- The polynomial representation of the Weyl algebra on `k[X]`, sending the generator
+/-- The **polynomial representation** of the Weyl algebra on `k[X]`, sending the generator
 `x` to multiplication by `X` and the generator `y` to the derivative `d/dX`. This is the
 representation `k[t]` of the Weyl algebra discussed in Section 2.7; it is faithful in
 characteristic zero (`WeylAlgebra.polyRep_injective`) but not in characteristic `p`. -/
@@ -304,7 +305,7 @@ private lemma polyRep_monomial_diag (i j : ℕ) :
 
 /-- The images of the basis monomials `xⁱyʲ` under the polynomial representation `polyRep`
 (`x ↦ X·`, `y ↦ d/dX` on `k[X]`) are linearly independent over any characteristic-zero
-integral domain. This is what makes `k[X]` faithful in characteristic zero: an element
+integral domain. This is the crux of faithfulness of `k[X]` in characteristic zero: an element
 in the kernel of `polyRep`, expanded in the (spanning) monomial basis, gives a linear relation
 among these images, forcing all coefficients to vanish. -/
 private lemma polyImage_linearIndep [CharZero k] [NoZeroDivisors k] :
@@ -381,12 +382,12 @@ private lemma linearIndep [CharZero k] [NoZeroDivisors k] :
 
 /-- **Faithfulness of `k[X]` in characteristic zero (Discussion after Proposition 2.7.1).**
 The polynomial representation `polyRep` of the Weyl algebra on `k[X]` (`x ↦ X·`, `y ↦ d/dX`)
-is faithful, i.e. the algebra homomorphism `polyRep : WeylAlgebra k →ₐ[k] End k k[X]` is
-injective, whenever `k` is a characteristic-zero integral domain.
+is *faithful* — i.e. the algebra homomorphism `polyRep : WeylAlgebra k →ₐ[k] End k k[X]` is
+injective — whenever `k` is a characteristic-zero integral domain.
 
 This is the "check it!" claim of the book: `k[t]` is a faithful representation of the Weyl
-algebra in characteristic zero. It fails in characteristic `p`, where `(d/dt)^p Q = 0` for
-every polynomial `Q`; the characteristic-free replacement is the module `E = tᵃ k[a][t, t⁻¹]` of
+algebra in characteristic zero. It *fails* in characteristic `p`, where `(d/dt)^p Q = 0` for
+every polynomial `Q`; the char-free repair is the module `E = tᵃ k[a][t, t⁻¹]` of
 `FaithfulWeylModule.lean` (`WeylAlgebra.repE_injective`).
 
 The proof mirrors the linear-independence argument: the monomials `xⁱyʲ` span the Weyl algebra

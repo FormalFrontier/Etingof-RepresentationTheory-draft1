@@ -8,7 +8,7 @@ to the category of vector spaces is representable, and the representing object i
 the free rank 1 module (= the regular representation) `M = A`.
 
 But if `A` is infinite dimensional and we restrict attention to the category of
-finite dimensional modules, then the forgetful functor is, in general, not
+**finite dimensional** modules, then the forgetful functor is, in general, **not**
 representable. Etingof's witness is `A = c₀₀(ℤ)`, the algebra of complex functions on
 `ℤ` that vanish at all but finitely many points.
 
@@ -21,13 +21,13 @@ which says the forgetful functor from `R`-modules to types is representable by `
 
 ### Claim (2): non-representability on finite dimensional modules
 
-Etingof's algebra `A = c₀₀(ℤ)` is non-unital (there is no finitely supported
+Etingof's algebra `A = c₀₀(ℤ)` is **non-unital** (there is no finitely supported
 function equal to `1` everywhere), so its modules fall outside Mathlib's unital `Module`
 framework. We formalize the same obstruction over the polynomial algebra `A = k[x]`, an
 *equivalent* infinite dimensional algebra: it has infinitely many one dimensional simple
 modules (one `ℂ_μ` for each scalar `μ`, where `x` acts as `μ`), yet any finite dimensional
 module only "sees" finitely many of them through `Hom`. This is the identical phenomenon
-that makes `c₀₀(ℤ)` fail: infinitely many one dimensional simples, each finite dimensional
+that makes `c₀₀(ℤ)` fail — infinitely many one dimensional simples, each finite dimensional
 module reaching only finitely many.
 
 Concretely, a finite dimensional `k[x]`-module is a finite dimensional vector space `V`
@@ -110,7 +110,7 @@ theorem forgetfulHom_eq_bot_of_not_hasEigenvalue [FiniteDimensional k V]
 scalar `μ` for which the Hom space `Hom_A(M, ℂ_μ)` is zero, even though the target module
 `ℂ_μ` is one dimensional.
 
-This is the reason for the non-representability: an endomorphism of a finite dimensional
+This is the crux of the non-representability: an endomorphism of a finite dimensional
 space has finitely many eigenvalues, so over an infinite field some `μ` is not an
 eigenvalue, and then `forgetfulHom S μ = ⊥`. -/
 theorem exists_forgetfulHom_eq_bot [Infinite k] [FiniteDimensional k V]

@@ -34,13 +34,13 @@ dim Hom_A(Pᵢ, Mⱼ) = δᵢⱼ.
 Uses Krull–Schmidt theorem (partially in Mathlib), Nakayama's lemma
 (`Ideal.eq_top_of_isUnit_of_forall_mem`), and lifting of idempotents.
 
-## Hypotheses
+## Formalization approach
 
-The three parts share common hypotheses:
+The three parts are stated as separate theorems sharing common hypotheses:
 a finite-dimensional algebra A over a field k, with a finite indexing type ι for the
 isomorphism classes of simple modules, and a family of simple modules indexed by ι.
 
-Part (i) is an existence statement producing the projective covers: it only requires
+Part (i) is an existence statement producing the projective covers — it only requires
 that the Mᵢ are pairwise non-isomorphic.
 Parts (ii) and (iii) additionally require that the Mᵢ exhaust all simple A-modules
 (up to isomorphism), since the decomposition of A and the completeness of the
@@ -88,7 +88,7 @@ theorem exists_isCoatom_submodule
 /-- Any nontrivial f.g. module Q over an artinian ring with an exhaustive family of simples M_i
 has a nonzero A-linear map to some M_{j₀}. The quotient Q/N by a coatom N is simple,
 hence isomorphic to some M_{j₀}, and the composition Q → Q/N ≅ M_{j₀} is nonzero.
-This is the key step in Theorem 9.2.1(iii). -/
+This is the key step in Theorem 9.2.1(iii) that does NOT need #1487. -/
 theorem exists_nonzero_hom_to_simple
     {R : Type u} [Ring R] [IsArtinianRing R]
     {ι : Type*} [Fintype ι] [DecidableEq ι]
@@ -205,6 +205,8 @@ lemma pi_single_one_comm {n : ℕ} {S : Fin n → Type*}
 
 end CentralAction
 
+-- No separate section needed; infrastructure is inlined in the main proof below.
+
 /-- For a finite-dimensional algebra A over k with pairwise non-isomorphic simple modules
 M₁, ..., Mₘ, there exist orthogonal idempotents e₁, ..., eₘ in A (one per iso class of
 simple modules) such that eᵢ acts as a rank-1 projection on Mᵢ and as zero on Mⱼ for
@@ -274,7 +276,7 @@ lemma exists_orthogonal_idempotents_for_simples
   -- then lift to A. The rank property is stated in terms of the A-action,
   -- but depends only on the A/J-image (by hsmulRange_eq).
   --
-  -- Separate the Wedderburn-Artin construction from the lifting step.
+  -- We use `suffices` to separate the WA-based construction from the lifting.
   let π := Ideal.Quotient.mk (Ring.jacobson A)
   suffices ∃ (ebar : ι → A ⧸ Ring.jacobson A),
       OrthogonalIdempotents ebar ∧
@@ -307,7 +309,7 @@ lemma exists_orthogonal_idempotents_for_simples
   haveI : Module.Finite k (A ⧸ Ring.jacobson A) := inferInstance
   obtain ⟨n, d, hd, ⟨WA⟩⟩ :=
     IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed k (A ⧸ Ring.jacobson A)
-  -- Step B: Block-module correspondence (constructed below)
+  -- Step B: Block-module correspondence (sorry'd)
   -- For each simple A-module M_i (with J acting as 0), there is a unique WA block σ(i)
   -- such that the σ(i)-th block acts nontrivially on M_i. Non-isomorphic modules map
   -- to different blocks (σ is injective).
@@ -315,8 +317,8 @@ lemma exists_orthogonal_idempotents_for_simples
   -- with rank δ_{ij} (via the A-action, using J ≤ ann(M_j) so the action factors
   -- through A/J ≅ ∏ Mat(k)).
   --
-  -- This uses the following infrastructure:
-  -- (i) Module structure on M_j over A/J (from J ≤ ann(M_j)), available via
+  -- This requires infrastructure not currently available:
+  -- (i) Module structure on M_j over A/J (from J ≤ ann(M_j)) — available via
   --     Module.IsTorsionBySet.module from Mathlib
   -- (ii) Module structure over the product ∏ Mat_{dⱼ}(k) via the WA equivalence
   -- (iii) Classification of simple modules over ∏ Mat_{dⱼ}(k): each simple module
@@ -348,7 +350,7 @@ lemma exists_orthogonal_idempotents_for_simples
       exact h_base.embedding ⟨σ, hσ_inj⟩
     -- Map through WA⁻¹ (ring homomorphism)
     have := horth_prod.map WA.symm.toRingEquiv.toRingHom
-    -- `convert` leaves `Function.comp` folded here; close the residual pointwise.
+    -- v4.31: `convert` no longer unfolds `Function.comp`; close the residual pointwise.
     convert this using 1
     funext i
     rfl
@@ -372,7 +374,7 @@ lemma exists_orthogonal_idempotents_for_simples
   -- (C) finrank of E₁₁-image on the standard representation = 1
   --
   -- Sub-arguments (A) and (B) are individually straightforward; (C) needs a concrete
-  -- dimension computation. We decompose into helper sub-lemmas.
+  -- dimension computation. We decompose into helper sub-sorrys.
 
   -- Helper: the action of WA.symm(x) on M_j (via any lift) factors through A/J.
   -- Two lifts give the same action (by hsmulRange_eq).
@@ -381,7 +383,7 @@ lemma exists_orthogonal_idempotents_for_simples
   -- (∏ Mat(k))-action.
 
   -- For each j, define σ(j) as the unique block where the central idempotent acts nontrivially.
-  -- We construct σ from the existence of the unique block (established below).
+  -- We construct σ by sorry'ing the existence of the unique block.
   -- Then we prove injectivity and the rank property.
 
   -- Sub-lemma: block assignment exists
@@ -1096,7 +1098,7 @@ lemma leftIdeal_indecomposable_of_hom_delta
     haveI : IsNoetherian A ↥W₂ := isNoetherian_submodule' W₂
     haveI hW₁_nt : Nontrivial ↥W₁ := W₁.nontrivial_iff_ne_bot.mpr hW₁
     haveI hW₂_nt : Nontrivial ↥W₂ := W₂.nontrivial_iff_ne_bot.mpr hW₂
-    -- Get coatoms (maximal proper submodules), which exist since modules are finite/noetherian
+    -- Get coatoms (maximal proper submodules) — exist since modules are finite/noetherian
     obtain ⟨N₁, hN₁⟩ := IsCoatomic.exists_coatom (α := Submodule A ↥W₁)
     obtain ⟨N₂, hN₂⟩ := IsCoatomic.exists_coatom (α := Submodule A ↥W₂)
     -- The quotients W₁/N₁ and W₂/N₂ are simple modules
@@ -1460,8 +1462,8 @@ More precisely: given a finite family of pairwise non-isomorphic simple A-module
 for each index `i` there exists a type `P i` carrying the structure of an indecomposable
 projective A-module, together with a proof that dim_k Hom_A(P i, M j) = if i = j then 1 else 0.
 The uniqueness clause records that any indecomposable finitely generated projective module `Q`
-with the same Kronecker delta Hom property at index `i` is isomorphic to `P i`, matching the
-book's statement that `P_i` is the unique such module.
+with the same Kronecker delta Hom property at index `i` is isomorphic to `P i` — matching the
+book's statement that `P_i` is the *unique* such module.
 (Etingof Theorem 9.2.1(i)) -/
 theorem Etingof.Theorem_9_2_1_i
     [IsAlgClosed k]
@@ -2354,13 +2356,13 @@ theorem Etingof.Theorem_9_2_1_ii
   -- 4. A = ⊕_p A·e_p ≅ ⊕_p P_{p.1} ≅ ⊕_i (Fin (dim M_i) → P_i).
   haveI : IsArtinianRing A := isArtinian_of_tower k inferInstance
   -- Step 1: Construct complete orthogonal idempotents with the Hom delta property.
-  -- This is the core Wedderburn-Artin construction of the complete orthogonal idempotents.
+  -- This is the core WA-based construction (sorry'd — see detailed outline above).
   suffices h_coi : ∃ (e : (Σ i : ι, Fin (Module.finrank k (M i))) → A),
       CompleteOrthogonalIdempotents e ∧
       ∀ (p : Σ i : ι, Fin (Module.finrank k (M i))) (j : ι),
         Module.finrank k (Etingof.Theorem921.smulRange (k := k) (A := A) (M j) (e p)) =
           if p.fst = j then 1 else 0 by
-    -- Given the complete system, build the decomposition A ≅ ⊕_i (dim M_i) · P_i.
+    -- Assembly: Given the complete system, build the decomposition A ≅ ⊕_i (dim M_i) · P_i.
     obtain ⟨e, he_coi, he_rank⟩ := h_coi
     -- Each left ideal A·e_p has the Hom delta property via finrank_hom_leftIdeal_eq
     set N : (Σ i : ι, Fin (Module.finrank k (M i))) → Submodule A A :=

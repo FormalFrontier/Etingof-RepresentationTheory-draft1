@@ -8,7 +8,7 @@ subrepresentations of V are 0 and V.
 
 ## Mathlib correspondence
 
-This is `IsSimpleModule R M`, which asserts that the module M has exactly two submodules
+This is `IsSimpleModule R M` — asserts that the module M has exactly two submodules
 (⊥ and ⊤).
 -/
 

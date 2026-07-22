@@ -7,6 +7,11 @@ If ψ : V_i → ⊕_{i→j} V_j is injective (i.e., i is a source with injective
 then applying the reflection functors F⁺ᵢ after F⁻ᵢ recovers V up to isomorphism.
 
 (Etingof Proposition 6.6.6, part 2)
+
+## Mathlib correspondence
+
+Requires reflection functor definitions (Definition 6.6.3 and 6.6.4) and
+quiver representation isomorphism. Not in Mathlib.
 -/
 
 section Helpers
@@ -120,7 +125,8 @@ private theorem Etingof.sourceMap_sum_reindex
   -- a : ArrowsInto Q̄ᵢ i; show summands agree
   -- Both sides apply lof and mapLinear through the same sigma pair, just constructed differently
   obtain ⟨j, e⟩ := a
-  -- `reversedArrow_ne_eq` is definitionally a `cast`, so `simp` closes the goal directly.
+  -- v4.30: `reversedArrow_ne_eq` is now definitionally a `cast`, so `simp` closes the goal
+  -- directly (the previous `congr`/`rw` cleanup steps are now redundant).
   simp only [arrowReindexEquivSource, Equiv.coe_fn_symm_mk,
     reversedArrow_ne_eq_is_cast, cast_cast]
 
@@ -576,8 +582,8 @@ private theorem Etingof.equivAt_eq_source_naturality
   intro instR ρ_minus hi' arrow_R b_idx
   -- Rewrite `x` as `E.symm (E x)` inside the inner `reflFunctorPlus_equivAt_eq` so the value of
   -- the kernel inclusion is given by `equivAt_eq_source_symm_component` (which reads off the
-  -- inverse-equiv's underlying sum without any `Decidable.casesOn` reduction on the live
-  -- discriminant, avoiding an `unfold`/`match`/`dsimp` reduction that fails the motive check.
+  -- inverse-equiv's underlying sum WITHOUT any `Decidable.casesOn` reduction on the live
+  -- discriminant — the v4.29-safe replacement for the old `unfold; match; dsimp [id]`).
   have hx : x = (@Etingof.equivAt_eq_source k _ Q inst_dec inst i hi ρ _ _ _ hinj).symm
       ((@Etingof.equivAt_eq_source k _ Q inst_dec inst i hi ρ _ _ _ hinj) x) :=
     ((@Etingof.equivAt_eq_source k _ Q inst_dec inst i hi ρ _ _ _ hinj).symm_apply_apply x).symm
@@ -637,7 +643,7 @@ theorem Etingof.Proposition6_6_6_source
           (@Etingof.reflFunctorMinus_equivAt_ne k _ Q _ inst i hi ρ _ v hv))
     (fun {a b} e x => by
       by_cases hb : b = i
-      · -- b = i: vacuous (i is a source, no arrows into i)
+      · -- b = i: vacuous — i is a source, no arrows into i
         subst hb; exact ((hi a).false e).elim
       · by_cases ha : a = i
         · -- a = i, b ≠ i: arrow from source, involves equivAt_eq_source

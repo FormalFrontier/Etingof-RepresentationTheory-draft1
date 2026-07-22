@@ -30,7 +30,7 @@ For the polynomial ring map `Polynomial.C : R →+* R[X]`:
 - The evaluation-at-0 map provides a retraction of the unit `M → G(F(M))`
 - This gives: `HasProjectiveDimensionLT ((extendScalars C).obj M) n → HasProjectiveDimensionLT M n`
 
-Combined with the Ext long exact sequence and X-action vanishing,
+Combined with the Ext long exact sequence and X-action vanishing (issue #1868),
 this proves the lower bound in the Hilbert syzygy theorem.
 -/
 

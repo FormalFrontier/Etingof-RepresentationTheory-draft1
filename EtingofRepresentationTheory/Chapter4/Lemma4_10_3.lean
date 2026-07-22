@@ -90,7 +90,7 @@ private lemma rest_vars (n : ℕ) :
     have hj'' := vars_mul _ _ hj'
     simp only [Finset.mem_union] at hj''
     rcases hj'' with hj'' | hj''
-    · -- (0,0) in vars of (-1)^(j+1): impossible, it's a constant
+    · -- (0,0) in vars of (-1)^(j+1) — impossible, it's a constant
       exact absurd (vars_pow _ _ hj'') (by simp)
     · -- (0,0) in vars(X(0, j.succ)) = {(0, j.succ)}
       rw [vars_X] at hj''
@@ -99,10 +99,13 @@ private lemma rest_vars (n : ℕ) :
   · -- (0,0) in vars of det(submatrix ... j.succ)
     exact absurd rfl (submatrix_vars_fst_ne_zero n j.succ hj')
 
-/-- Over a domain, the variables of a nonzero factor are contained in the variables of the
-product: if `a, b ≠ 0` then `a.vars ⊆ (a * b).vars`. The degree in each variable is additive
-across the product (`degreeOf_mul_eq`), so a variable occurring in `a` also occurs in `a * b`.
-Missing from Mathlib. -/
+/-- Irreducibility is preserved by `MvPolynomial.rename` with an injective function.
+This is a general fact: in MvPolynomial over a domain, if `f` is injective then
+`rename f` preserves irreducibility. The proof uses: (1) pick left inverse `g` of `f`,
+(2) if `rename f p = a * b`, apply `rename g` to get `p = (rename g a) * (rename g b)`,
+(3) WLOG `rename g a` is a unit, (4) show `a` is a unit using `degreeOf_mul_eq` to
+establish `vars(a) ⊆ range f`, then `rename (f ∘ g) a = a`, hence `a = rename f (C c)`.
+Missing from Mathlib; see https://github.com/leanprover-community/mathlib4/issues/XXXXX -/
 private lemma vars_subset_vars_mul_left {σ : Type*} {R : Type*} [CommSemiring R]
     [NoZeroDivisors R] {a b : MvPolynomial σ R} (ha : a ≠ 0) (hb : b ≠ 0) :
     a.vars ⊆ (a * b).vars := by

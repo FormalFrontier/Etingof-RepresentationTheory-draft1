@@ -21,8 +21,7 @@ The direct sum `P₁ ⊕ P₂` is the product module, with inclusions `LinearMap
 * `f ∘ inl = ι ∘ f₁` (the restriction of `f` to `P₁` is `f₁`, viewed inside `M`);
 * `π ∘ (f ∘ inr) = f₂` (the map `P₂ → M → M₂` induced by `f` is `f₂`).
 
-Proof: `P₂` projective lifts `f₂` through the surjection `π`,
-and `f (p₁, p₂) = ι (f₁ p₁) + g₂ p₂` satisfies both conditions.
+This is a statement-level formalization (spec-first): the proof is deferred (`sorry`).
 -/
 
 namespace Etingof
@@ -43,15 +42,6 @@ theorem Exercise_8_1_4 (A : Type*) [Ring A]
     ∃ f : (P₁ × P₂) →ₗ[A] M,
       f.comp (LinearMap.inl A P₁ P₂) = ι.comp f₁ ∧
       π.comp (f.comp (LinearMap.inr A P₁ P₂)) = f₂ := by
-  -- `P₂` is projective and `π` is surjective, so lift `f₂ : P₂ → M₂` to `g₂ : P₂ → M`.
-  obtain ⟨g₂, hg₂⟩ := Module.projective_lifting_property π f₂ hπ
-  -- Assemble `f (p₁, p₂) = ι (f₁ p₁) + g₂ p₂`.
-  refine ⟨(ι.comp f₁).comp (LinearMap.fst A P₁ P₂) + g₂.comp (LinearMap.snd A P₁ P₂), ?_, ?_⟩
-  · -- On `(p₁, 0)` the `g₂ ∘ snd` term vanishes, leaving `ι (f₁ p₁)`.
-    ext p₁
-    simp
-  · -- On `(0, p₂)` the `ι ∘ f₁ ∘ fst` term vanishes, leaving `π (g₂ p₂) = f₂ p₂`.
-    ext p₂
-    simpa using congrArg (fun h => h p₂) hg₂
+  sorry
 
 end Etingof

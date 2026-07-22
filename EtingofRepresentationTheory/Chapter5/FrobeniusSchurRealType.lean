@@ -3,20 +3,20 @@ import EtingofRepresentationTheory.Chapter5.Definition5_1_1
 import EtingofRepresentationTheory.Chapter5.Definition5_1_4
 
 /-!
-# Frobenius-Schur indicator and real type: `FS(ρ) = 1 ⟹ IsRealType ρ`
+# Frobenius-Schur indicator bridge: `FS(ρ) = 1 ⟹ IsRealType ρ`
 
-This file connects the numerical Frobenius-Schur indicator
-(`Etingof.frobeniusSchurIndicator`, Definition 5.1.4) to the structural type
+This file connects the *numerical* Frobenius-Schur indicator
+(`Etingof.frobeniusSchurIndicator`, Definition 5.1.4) to the *structural* type
 predicate `Etingof.IsRealType` (Definition 5.1.1): a simple complex
 representation `ρ` with `frobeniusSchurIndicator ρ = 1` admits a nondegenerate
 symmetric `G`-invariant bilinear form, so it is of real type.
 
-This result is the shared dependency of the S₃, S₄ and A₅ cases of Example 5.1.3.
+This bridge is the shared dependency of the S₃, S₄ and A₅ cases of Example 5.1.3.
 
 ## Proof strategy (Etingof, around Theorem 5.1.5)
 
 Work in `Bil := V →ₗ[ℂ] V →ₗ[ℂ] ℂ`, the space of bilinear forms, which carries
-the `G`-action `(g · B)(v, w) = B (ρ g⁻¹ v) (ρ g⁻¹ w)`, namely
+the `G`-action `(g · B)(v, w) = B (ρ g⁻¹ v) (ρ g⁻¹ w)` — this is
 `Representation.linHom ρ ρ.dual`. The swap `τ B := fun v w => B w v` is
 `G`-equivariant with `τ² = 1`; its `+1`/`-1` eigenspaces are the symmetric /
 skew-symmetric forms.
@@ -24,7 +24,7 @@ skew-symmetric forms.
 1. The invariant forms `Bil^G ≅ Hom_G(V, V*) = IntertwiningMap ρ ρ.dual`; for
    simple `V` this is `0`- or `1`-dimensional (Schur, via
    `Representation.card_inv_mul_sum_char_mul_char_eq_finrank`).
-2. The trace identity:
+2. The crux trace identity:
    `dim (sym ∩ Bil^G) − dim (skew ∩ Bil^G) = trace(τ ∘ P)
    = (|G|)⁻¹ ∑_g trace(τ ∘ (g·)) = (|G|)⁻¹ ∑_g χ_V(g²) = FS(ρ)`,
    where `P` is the averaging projector onto `Bil^G`. The middle trace
@@ -36,15 +36,15 @@ skew-symmetric forms.
    submodule, proper (since `B ≠ 0`), hence `⊥` by simplicity. So `B` is
    nondegenerate.
 
-Step 4 (nondegeneracy) is proved below as
-`Etingof.nondegenerate_of_invariant_of_simple`. Steps 1–3, the existence of a
+Step 4 (the nondegeneracy bridge) is proved below as
+`Etingof.nondegenerate_of_invariant_of_simple`. Steps 1–3 — the existence of a
 nonzero invariant symmetric form, packaged as
-`Etingof.exists_nonzero_invariant_symmetric_of_FS_eq_one`, are proved via the swap
-operator on `Dual V ⊗ Dual V`: the averaging projector
+`Etingof.exists_nonzero_invariant_symmetric_of_FS_eq_one` — are the trace-identity
+heart, proved via the swap operator on `Dual V ⊗ Dual V`: the averaging projector
 `P` onto the invariants and the symmetric-part projector `Pₛ = ½(1 + τ)P` satisfy
 `2 · trace Pₛ = trace P + trace(τ ∘ P) = dim Bil^G + FS(ρ)`, and
 `trace(τ ∘ P) = FS(ρ)` comes from `trace(swap ∘ (A ⊗ A)) = trace(A²)`. With
-`FS = 1` this forces `dim(sym ∩ Bil^G) ≥ 1`.
+`FS = 1` this forces `dim(sym ∩ Bil^G) ≥ 1`. The whole bridge is now sorry-free.
 -/
 
 open scoped MonoidAlgebra
@@ -155,7 +155,7 @@ bilinear form on `V`.
 
 The proof uses the averaging projector `P` onto `Bil^G` and the symmetric-part
 projector `Pₛ = ½(1 + τ)P` (with `τ` the swap). Their traces give
-`2 · finrank(sym ∩ Bil^G) = finrank Bil^G + trace(τ ∘ P)` and the trace
+`2 · finrank(sym ∩ Bil^G) = finrank Bil^G + trace(τ ∘ P)` and the crux trace
 identity `trace(τ ∘ P) = FS(ρ)` (via `trace(swap ∘ (A ⊗ A)) = trace(A²)` on
 `Dual V ⊗ Dual V`). With `FS = 1` this forces `finrank(sym ∩ Bil^G) ≥ 1`. -/
 theorem exists_nonzero_invariant_symmetric_of_FS_eq_one
@@ -309,7 +309,7 @@ theorem exists_nonzero_invariant_symmetric_of_FS_eq_one
     rw [hinv, inv_inv] at h
     exact h.symm
 
-/-- **From indicator to real type.** A simple complex representation whose
+/-- **The FS-indicator bridge.** A simple complex representation whose
 Frobenius-Schur indicator equals `1` is of real type (Etingof, around
 Theorem 5.1.5; the per-representation companion of Definition 5.1.4). -/
 theorem isRealType_of_frobeniusSchurIndicator_eq_one
@@ -321,213 +321,15 @@ theorem isRealType_of_frobeniusSchurIndicator_eq_one
     exists_nonzero_invariant_symmetric_of_FS_eq_one ρ hρ hFS
   exact ⟨B, hsym, nondegenerate_of_invariant_of_simple ρ hρ B hBne hinv, hinv⟩
 
-/-- **From real type to indicator.** A simple complex representation of real
-type has Frobenius-Schur indicator `1` (Etingof, around Theorem 5.1.5; the reverse
-of `isRealType_of_frobeniusSchurIndicator_eq_one`).
-
-The proof reuses the projector machinery of
-`exists_nonzero_invariant_symmetric_of_FS_eq_one`, but keeps the trace identity in
-its general form `2·dim(sym ∩ Bil^G) = dim(Bil^G) + FS(ρ)` rather than substituting
-`FS = 1`. A real-type structure supplies a nonzero symmetric invariant form, hence
-`s := dim(sym ∩ Bil^G) ≥ 1`; its nondegeneracy makes `ρ` self-dual, so Schur forces
-`d := dim(Bil^G) = 1`. Since the symmetric invariants sit inside `Bil^G` we have
-`s ≤ d = 1`, so `s = 1` and `FS(ρ) = 2s − d = 1`. -/
-theorem frobeniusSchurIndicator_eq_one_of_isRealType
-    (ρ : Representation ℂ G V)
-    (hρ : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
-    (hreal : Etingof.IsRealType ρ) :
-    Etingof.frobeniusSchurIndicator ρ = 1 := by
-  classical
-  haveI : Nonempty G := ⟨1⟩
-  haveI hcard : Invertible (Fintype.card G : ℂ) :=
-    invertibleOfNonzero (by exact_mod_cast (Fintype.card_pos).ne')
-  haveI : Invertible (Nat.card G : ℂ) := by rw [Nat.card_eq_fintype_card]; infer_instance
-  haveI : Representation.IsIrreducible ρ :=
-    (Representation.irreducible_iff_isSimpleModule_asModule ρ).mpr hρ
-  haveI hNT : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
-  -- the space of bilinear forms is the representation space of `linHom ρ ρ.dual`
-  set Bil := V →ₗ[ℂ] Module.Dual ℂ V with hBildef
-  set Λ := Representation.linHom ρ ρ.dual with hΛdef
-  haveI : Module.Finite ℂ Bil :=
-    inferInstanceAs (Module.Finite ℂ (V →ₗ[ℂ] Module.Dual ℂ V))
-  have hΛapp : ∀ (g : G) (C : Bil) (v w : V), (Λ g C) v w = C (ρ g⁻¹ v) (ρ g⁻¹ w) := by
-    intro g C v w
-    rw [hΛdef, Representation.linHom_apply]
-    simp only [LinearMap.comp_apply, Representation.dual_apply, Module.Dual.transpose_apply]
-  -- the swap (flip) operator, a `ℂ`-linear involution on `Bil`
-  set τ : Bil →ₗ[ℂ] Bil := (LinearMap.lflip : Bil ≃ₗ[ℂ] Bil).toLinearMap with hτdef
-  have hτ_apply : ∀ (C : Bil) (v w : V), τ C v w = C w v := fun C v w => rfl
-  have hτinvol : ∀ C : Bil, τ (τ C) = C := by
-    intro C; ext v w; rw [hτ_apply, hτ_apply]
-  have hτΛ : ∀ (g : G) (C : Bil), τ (Λ g C) = Λ g (τ C) := by
-    intro g C; ext v w
-    simp only [hτ_apply, hΛapp]
-  have hτinv : ∀ C ∈ Λ.invariants, τ C ∈ Λ.invariants := by
-    intro C hC
-    rw [Representation.mem_invariants] at hC ⊢
-    intro g; rw [← hτΛ g C, hC g]
-  -- the iso `Dual V ⊗ Dual V ≃ Bil`
-  set T := Module.Dual ℂ V ⊗[ℂ] Module.Dual ℂ V with hTdef
-  set E : T ≃ₗ[ℂ] Bil := dualTensorHomEquiv ℂ V (Module.Dual ℂ V) with hEdef
-  have hEapp : ∀ (φ ψ : Module.Dual ℂ V) (v : V), (E (φ ⊗ₜ[ℂ] ψ)) v = φ v • ψ := by
-    intro φ ψ v
-    have hE : E (φ ⊗ₜ[ℂ] ψ) = dualTensorHom ℂ V (Module.Dual ℂ V) (φ ⊗ₜ[ℂ] ψ) := by
-      rw [hEdef]; exact dualTensorHomEquivOfBasis_apply (Module.Free.chooseBasis ℂ V) _
-    rw [hE, dualTensorHom_apply]
-  have hEsymm : (E : T →ₗ[ℂ] Bil) ∘ₗ (E.symm : Bil →ₗ[ℂ] T) = LinearMap.id := by
-    ext x; simp
-  have hEsymm' : (E.symm : Bil →ₗ[ℂ] T) ∘ₗ (E : T →ₗ[ℂ] Bil) = LinearMap.id := by
-    ext x; simp
-  -- the per-`g` trace identity `trace (τ ∘ Λ g) = χ(g⁻¹ g⁻¹)`
-  have hg : ∀ g : G, LinearMap.trace ℂ Bil (τ ∘ₗ Λ g) = ρ.character (g⁻¹ * g⁻¹) := by
-    intro g
-    set Fg := (TensorProduct.comm ℂ (Module.Dual ℂ V) (Module.Dual ℂ V)).toLinearMap
-        ∘ₗ TensorProduct.map (ρ.dual g) (ρ.dual g) with hFg
-    have hINT : (τ ∘ₗ Λ g) ∘ₗ (E : T →ₗ[ℂ] Bil) = (E : T →ₗ[ℂ] Bil) ∘ₗ Fg := by
-      apply TensorProduct.ext'
-      intro φ ψ
-      refine LinearMap.ext fun v => LinearMap.ext fun w => ?_
-      have hL : ((τ ∘ₗ Λ g) ∘ₗ (E : T →ₗ[ℂ] Bil)) (φ ⊗ₜ[ℂ] ψ) v w
-          = φ (ρ g⁻¹ w) * ψ (ρ g⁻¹ v) := by
-        rw [LinearMap.comp_apply, LinearMap.comp_apply, hτ_apply, hΛapp,
-          LinearEquiv.coe_coe, hEapp, LinearMap.smul_apply, smul_eq_mul]
-      have hR : ((E : T →ₗ[ℂ] Bil) ∘ₗ Fg) (φ ⊗ₜ[ℂ] ψ) v w
-          = ψ (ρ g⁻¹ v) * φ (ρ g⁻¹ w) := by
-        rw [LinearMap.comp_apply, hFg, LinearMap.comp_apply, LinearEquiv.coe_coe,
-          LinearEquiv.coe_coe, TensorProduct.map_tmul, TensorProduct.comm_tmul, hEapp,
-          LinearMap.smul_apply]
-        simp only [Representation.dual_apply, Module.Dual.transpose_apply,
-          LinearMap.comp_apply, smul_eq_mul]
-      rw [hL, hR, mul_comm]
-    have e1 : (E : T →ₗ[ℂ] Bil) ∘ₗ (Fg ∘ₗ (E.symm : Bil →ₗ[ℂ] T)) = τ ∘ₗ Λ g := by
-      rw [← LinearMap.comp_assoc, ← hINT, LinearMap.comp_assoc, hEsymm, LinearMap.comp_id]
-    rw [← e1, LinearMap.trace_comp_comm', LinearMap.comp_assoc, hEsymm',
-      LinearMap.comp_id, hFg, trace_comm_comp_map]
-    rw [show ρ.dual g ∘ₗ ρ.dual g = ρ.dual (g * g) from by rw [map_mul]; rfl]
-    show ρ.dual.character (g * g) = ρ.character (g⁻¹ * g⁻¹)
-    rw [Representation.char_dual, mul_inv_rev]
-  -- the averaging projector onto invariants
-  set P := Representation.averageMap Λ with hPdef
-  have hPsum : P = (⅟(Fintype.card G : ℂ)) • ∑ g : G, Λ g := by
-    rw [hPdef]
-    simp only [Representation.averageMap, GroupAlgebra.average, map_smul, map_sum,
-      Representation.asAlgebraHom_of]
-  have hPmem : ∀ C, P C ∈ Λ.invariants := fun C => Λ.averageMap_invariant C
-  have hPfix : ∀ C ∈ Λ.invariants, P C = C := fun C hC => Λ.averageMap_id C hC
-  have hPidem : ∀ C, P (P C) = P C := fun C => Λ.averageMap_id (P C) (Λ.averageMap_invariant C)
-  -- **the trace identity** in general form: `trace (τ ∘ P) = FS(ρ)`
-  have htrace : LinearMap.trace ℂ Bil (τ ∘ₗ P) = Etingof.frobeniusSchurIndicator ρ := by
-    have hcomp : τ ∘ₗ P = (⅟(Fintype.card G : ℂ)) • ∑ g : G, (τ ∘ₗ Λ g) := by
-      rw [hPsum, ← Module.End.mul_eq_comp, mul_smul_comm, Finset.mul_sum]
-      rfl
-    rw [hcomp, map_smul, map_sum]
-    simp_rw [hg]
-    rw [show (∑ g : G, ρ.character (g⁻¹ * g⁻¹)) = ∑ g : G, ρ.character (g * g) from
-          Equiv.sum_comp (Equiv.inv G) (fun g => ρ.character (g * g))]
-    rw [invOf_eq_inv, smul_eq_mul, Etingof.frobeniusSchurIndicator]
-    simp only [Representation.character]
-  have hP_trace : LinearMap.trace ℂ Bil P = (Module.finrank ℂ Λ.invariants : ℂ) := by
-    rw [hPdef]; exact (Λ.isProj_averageMap).trace
-  -- the symmetric-part projector `Psym = ½(P + τ P)`
-  set Psym : Bil →ₗ[ℂ] Bil := (2⁻¹ : ℂ) • (P + τ ∘ₗ P) with hPsymdef
-  have hPsymapp : ∀ C, Psym C = (2⁻¹ : ℂ) • (P C + τ (P C)) := by
-    intro C
-    show ((2⁻¹ : ℂ) • (P + τ ∘ₗ P)) C = _
-    rw [LinearMap.smul_apply, LinearMap.add_apply, LinearMap.comp_apply]
-  have hτfixPsym : ∀ C, τ (Psym C) = Psym C := by
-    intro C
-    conv_rhs => rw [hPsymapp C]
-    rw [hPsymapp C, map_smul, map_add, hτinvol, add_comm]
-  have hPfixPsym : ∀ C, P (Psym C) = Psym C := by
-    intro C
-    conv_rhs => rw [hPsymapp C]
-    rw [hPsymapp C, map_smul, map_add, hPidem,
-      hPfix (τ (P C)) (hτinv (P C) (hPmem C))]
-  have hPsymInv : ∀ C, Psym C ∈ Λ.invariants := by
-    intro C; rw [hPsymapp]
-    exact Submodule.smul_mem _ _ (Submodule.add_mem _ (hPmem C) (hτinv (P C) (hPmem C)))
-  have hPsymidem : IsIdempotentElem Psym := by
-    apply LinearMap.ext; intro C
-    rw [Module.End.mul_apply, hPsymapp (Psym C), hPfixPsym C, hτfixPsym C,
-      ← two_smul ℂ (Psym C), smul_smul, show (2⁻¹ * 2 : ℂ) = 1 by norm_num, one_smul]
-  have hisproj := (LinearMap.isProj_range_iff_isIdempotentElem Psym).mpr hPsymidem
-  have hPsym_trace_eq : LinearMap.trace ℂ Bil Psym
-      = (Module.finrank ℂ (LinearMap.range Psym) : ℂ) := hisproj.trace
-  have hPsym_trace2 : LinearMap.trace ℂ Bil Psym
-      = (2⁻¹ : ℂ) * (LinearMap.trace ℂ Bil P + LinearMap.trace ℂ Bil (τ ∘ₗ P)) := by
-    rw [hPsymdef, map_smul, map_add, smul_eq_mul]
-  set d := Module.finrank ℂ Λ.invariants with hd
-  set s := Module.finrank ℂ (LinearMap.range Psym) with hs
-  -- **the general trace identity**: `2·s = d + FS(ρ)`
-  have h2s : (2 : ℂ) * (s : ℂ) = (d : ℂ) + Etingof.frobeniusSchurIndicator ρ := by
-    have : (s : ℂ) = (2⁻¹ : ℂ) * ((d : ℂ) + Etingof.frobeniusSchurIndicator ρ) := by
-      rw [← hPsym_trace_eq, hPsym_trace2, hP_trace, htrace]
-    rw [this]; ring
-  -- unpack the real-type structure
-  obtain ⟨Bs, hBs_sym, hBs_nd, hBs_inv⟩ := hreal
-  -- `Bs`, seen as an element of `Bil`, is a `Λ`-invariant, symmetric, nonzero form
-  have hBsInvMem : (Bs : Bil) ∈ Λ.invariants := by
-    rw [Representation.mem_invariants]
-    intro g; ext v w
-    rw [hΛapp g Bs v w]; exact hBs_inv g⁻¹ v w
-  have hτBs : τ (Bs : Bil) = Bs := by
-    ext v w; rw [hτ_apply]; exact hBs_sym w v
-  have hBsne : (Bs : Bil) ≠ 0 := by
-    obtain ⟨v, hv⟩ := exists_ne (0 : V)
-    intro h0; exact hv (hBs_nd v fun w => by rw [h0]; rfl)
-  -- `Bs` is fixed by `Psym`, so it lies in `range Psym`; hence `s ≥ 1`
-  have hPsymBs : Psym (Bs : Bil) = Bs := by
-    rw [hPsymapp Bs, hPfix Bs hBsInvMem, hτBs, ← two_smul ℂ (Bs : Bil), smul_smul,
-      show (2⁻¹ * 2 : ℂ) = 1 by norm_num, one_smul]
-  have hBsmem : (Bs : Bil) ∈ LinearMap.range Psym := ⟨Bs, hPsymBs⟩
-  haveI : Nontrivial (LinearMap.range Psym) := by
-    rw [Submodule.nontrivial_iff_ne_bot]
-    intro hbot
-    exact hBsne (by simpa using (hbot ▸ hBsmem : (Bs : Bil) ∈ (⊥ : Submodule ℂ Bil)))
-  have hspos : 0 < s := by rw [hs]; exact Module.finrank_pos
-  -- symmetric invariants sit inside all invariants, so `s ≤ d`
-  have hsd_le : s ≤ d := by
-    rw [hs, hd]
-    exact Submodule.finrank_mono (fun x ⟨C, hC⟩ => hC ▸ hPsymInv C)
-  -- self-duality of the character (from the nondegenerate invariant form) forces `d = 1`
-  have hchar_sd : ∀ g, ρ.character g⁻¹ = ρ.character g := by
-    obtain ⟨e, he⟩ :=
-      Etingof.exists_equivariant_dual_equiv_of_invariant_nondegenerate ρ Bs hBs_nd hBs_inv
-    intro g
-    have hconj : ρ.dual g = e.conj (ρ g) := by
-      ext w
-      rw [LinearEquiv.conj_apply_apply, he g (e.symm w), LinearEquiv.apply_symm_apply]
-    calc ρ.character g⁻¹
-        = ρ.dual.character g := (ρ.char_dual g).symm
-      _ = LinearMap.trace ℂ (Module.Dual ℂ V) (e.conj (ρ g)) := by
-            rw [Representation.character, hconj]
-      _ = LinearMap.trace ℂ V (ρ g) := LinearMap.trace_conj' (ρ g) e
-      _ = ρ.character g := rfl
-  have hd1 : d = 1 := by
-    have hkey := Representation.card_inv_mul_sum_char_eq_finrank (Representation.linHom ρ ρ.dual)
-    have hortho := Representation.char_orthonormal ρ ρ
-    rw [if_pos ⟨Representation.Equiv.refl ρ⟩] at hortho
-    have hchar : ∀ g, (Representation.linHom ρ ρ.dual).character g
-        = ρ.character g * ρ.character g⁻¹ := fun g => by
-      rw [Representation.char_linHom, Representation.char_dual, hchar_sd g]
-    rw [Finset.sum_congr rfl (fun g _ => hchar g), hortho] at hkey
-    rw [hd, hΛdef]
-    exact_mod_cast hkey.symm
-  -- conclude: `s = 1`, hence `FS(ρ) = 2·1 − 1 = 1`
-  have hsval : s = 1 := by omega
-  rw [hsval, hd1] at h2s
-  push_cast at h2s
-  linear_combination -h2s
-
 /-!
-## L1: real / rational form ⟹ real type (the linchpin)
+## L1 — real / rational form ⟹ real type (the linchpin)
 
-The companion construction that does not use the
+The companion construction that does *not* route through the (still isolated)
 Frobenius-Schur trace identity: if a simple complex representation is realised by
-real matrices in some basis (every matrix entry of every `ρ g` is real, an
-ℝ-scalar-extension structure, the "real form"), then averaging the
+**real matrices** in some basis (every matrix entry of every `ρ g` is real — a
+genuine ℝ-scalar-extension structure, the "real form"), then averaging the
 standard coordinate symmetric form over `G` produces a nonzero `G`-invariant
-symmetric `ℂ`-bilinear form, which is nondegenerate by simplicity. So `ρ` is of
+*symmetric* `ℂ`-bilinear form, which is nondegenerate by simplicity. So `ρ` is of
 real type. This is the workhorse for the rational matrix reps of `S₃`, `S₄`,
 `A₅`: realisation by rational matrices is a special case of a real form.
 
@@ -555,8 +357,8 @@ private theorem avgCoordForm_apply
   simp only [avgCoordForm, LinearMap.sum_apply, LinearMap.compl₁₂_apply,
     LinearMap.mul_apply']
 
-/-- **L1 (the linchpin).** A simple complex representation realised by real
-matrices in a basis `b` (a real form) is of real type. (Etingof, around
+/-- **L1 (the linchpin).** A simple complex representation realised by **real
+matrices** in a basis `b` (a real form) is of real type. (Etingof, around
 Theorem 5.1.5.) -/
 theorem isRealType_of_real_form
     (ρ : Representation ℂ G V)
@@ -583,7 +385,7 @@ theorem isRealType_of_real_form
     refine Finset.sum_congr rfl fun h _ => Finset.sum_congr rfl fun i _ => ?_
     simp only [Equiv.coe_mulRight]
     rw [hmul g h v, hmul g h w]
-  -- Reading a coordinate of `ρ g` as a matrix entry, hence real.
+  -- Reading a coordinate of `ρ g` as a matrix entry — hence real.
   have hcoord : ∀ (g : G) (i : ι),
       b.coord i (ρ g (b i₀)) = LinearMap.toMatrix b b (ρ g) i i₀ := by
     intro g i; rw [LinearMap.toMatrix_apply, Module.Basis.coord_apply]
@@ -621,8 +423,8 @@ theorem isRealType_of_real_form
   exact ⟨avgCoordForm ρ b, hsym,
     nondegenerate_of_invariant_of_simple ρ hρ _ hBne hinv, hinv⟩
 
-/-- **L1 corollary, rational form ⟹ real type.** A simple complex representation
-realised by rational matrices in a basis is of real type (`ℚ ⊂ ℝ`): this is
+/-- **L1 corollary — rational form ⟹ real type.** A simple complex representation
+realised by **rational matrices** in a basis is of real type (`ℚ ⊂ ℝ`): this is
 the direct workhorse for the rational reps of `S₃`, `S₄`, `A₅`. -/
 theorem isRealType_of_rational_form
     (ρ : Representation ℂ G V)
@@ -636,7 +438,7 @@ theorem isRealType_of_rational_form
 end RealForm
 
 /-!
-## L2: ambivalent ⟹ real character
+## L2 — ambivalent ⟹ real character
 
 If every `g ∈ G` is conjugate to its inverse (`G` is *ambivalent*), then every
 character value `χ(g) = tr(ρ g)` is real: `χ(g) = χ(g⁻¹)` by conjugacy-invariance
@@ -771,7 +573,7 @@ theorem character_inv_eq_conj (ρ : Representation ℂ G V) (g : G) :
   rw [hcg, hcgi, ← hinv]
   exact matrix_trace_inv_eq_conj (E (ρ g)) (orderOf_pos g) hpow
 
-/-- **L2, ambivalent ⟹ real character.** If every element of `G` is conjugate to
+/-- **L2 — ambivalent ⟹ real character.** If every element of `G` is conjugate to
 its own inverse, then every character value of every complex representation is
 real (its imaginary part vanishes). Consequently `frobeniusSchurIndicator ρ` is
 real, hence `∈ {-1, 0, 1}` for simple `ρ`. (Etingof, around Theorem 5.1.5.) -/
@@ -787,7 +589,7 @@ theorem character_im_eq_zero_of_ambivalent
   exact Complex.conj_eq_iff_im.mp hconj
 
 /-!
-## L3: quaternionic ⟹ even-dimensional
+## L3 — quaternionic ⟹ even-dimensional
 
 A representation of quaternionic type carries a nondegenerate invariant
 *alternating* form, and a nondegenerate alternating form on a finite-dimensional
@@ -837,8 +639,8 @@ private theorem even_finrank_of_nondegenerate_alternating
   rw [hne.neg_one_pow] at h1
   exact hdet_ne (by linear_combination (1 / 2 : ℂ) * h1)
 
-/-- **L3, quaternionic ⟹ even-dimensional.** A representation of quaternionic
-type is even-dimensional. So an odd-dimensional representation cannot be of
+/-- **L3 — quaternionic ⟹ even-dimensional.** A representation of quaternionic
+type is even-dimensional. So an **odd-dimensional** representation cannot be of
 quaternionic type: together with L2 (`odd dim + real character ⇒ FS ≠ 0`) this is
 the "odd dim + real character ⇒ real type" half of the classification. -/
 theorem even_finrank_of_isQuaternionicType
@@ -852,14 +654,14 @@ theorem even_finrank_of_isQuaternionicType
   exact (mul_eq_zero.mp h2).resolve_left (by norm_num)
 
 /-!
-## Self-dual dichotomy: real or quaternionic (no trace identity needed)
+## Self-dual dichotomy — real *or* quaternionic (no trace identity needed)
 
-If a simple representation has a self-dual character (`χ(g⁻¹) = χ(g)`, the
+If a simple representation has a **self-dual** character (`χ(g⁻¹) = χ(g)`, the
 hypothesis supplied by an *ambivalent* group via L2) then it is of real type or
-quaternionic type. The argument avoids the Frobenius-Schur trace
+quaternionic type. The argument bypasses the still-isolated Frobenius-Schur trace
 identity: self-duality gives `⟨χ, χ⟩`-style positivity, so the space of invariant
 bilinear forms is nonzero; symmetrising / antisymmetrising any nonzero invariant
-form yields a nonzero invariant symmetric or skew-symmetric form, which is
+form yields a nonzero invariant **symmetric** or **skew-symmetric** form, which is
 nondegenerate by simplicity. Combined with L3 this gives the workhorse corollary
 `isRealType_of_self_dual_of_odd_finrank`.
 -/

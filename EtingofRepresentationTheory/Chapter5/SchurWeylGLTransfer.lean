@@ -2,7 +2,7 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_18_4
 
 /-!
-# Schur-Weyl L_i: simplicity transfer from `diagonalActionImage` to GL_N
+# Schur-Weyl L_i (part C-4b): Simplicity transfer from `diagonalActionImage` to GL_N
 
 For an algebraically closed (hence infinite) field `k` and `V = Fin N → k`,
 GL_N(k) spans `End_k V` as a `k`-vector space. Combined with multilinearity
@@ -14,9 +14,10 @@ Hence every `diagonalActionImage`-stable submodule of a module is GL_N-stable
 (via the natural action `g ↦ g^⊗n`), and conversely. Simplicity transfers
 along this equivalence: a B-simple module is simple as a GL_N-rep.
 
-This GL_N-transfer step combines with the algebraic core (the image of the
-primitive idempotent `c_λ` is a simple B-module) to yield simplicity of
-`SchurModule k N λ` as a GL_N-representation.
+This is part C-4b of the Schur-Weyl L_i programme (issue #2611). It is the
+GL_N-transfer step that combines with #2610 (algebraic core: image of the
+primitive idempotent c_λ is a simple B-module) to yield #2583 (simplicity
+of `SchurModule k N λ` as a GL_N-rep).
 -/
 
 namespace Etingof
@@ -490,7 +491,7 @@ theorem submodule_smul_mem_diagonalActionImage_of_unit_smul_mem
         (⟨b₂, h₂_mem⟩ : diagonalActionImage k V n) from rfl, mul_smul]
     exact hy₁
 
-set_option synthInstance.maxHeartbeats 40000 in -- slower instance search
+set_option synthInstance.maxHeartbeats 40000 in -- rc2: slower instance search
 /-- Simplicity transfer: if `M` is a `diagonalActionImage`-simple module, then
 every k-subspace of `M` closed under the action of `g^⊗n` (for every unit `g`)
 is either `⊥` or `⊤`. -/
@@ -583,7 +584,7 @@ theorem isSimpleModule_monoidAlgebra_GL_of_centralizer_simple
   -- Reinterpret W as a k-submodule of M (via restrictScalars k).
   set W_k : Submodule k M := W.restrictScalars k with hW_k_def
   -- W_k is closed under `⟨f^⊗n, _⟩` for every `f : (End k V)ˣ`,
-  -- via `Matrix.GeneralLinearGroup.toLin.symm`.
+  -- via the bridge `Matrix.GeneralLinearGroup.toLin.symm`.
   have hW_k_closed : ∀ (f : (Module.End k (Fin N → k))ˣ),
       ∀ x ∈ W_k,
       (⟨PiTensorProduct.map (R := k)
@@ -591,7 +592,7 @@ theorem isSimpleModule_monoidAlgebra_GL_of_centralizer_simple
         Algebra.subset_adjoin ⟨(f : Module.End k (Fin N → k)), rfl⟩⟩ :
           diagonalActionImage k (Fin N → k) n) • x ∈ W_k := by
     intro f x hx
-    -- Pick `g : GL_N` with `mulVecLin g.val = f.val`.
+    -- Bridge: pick `g : GL_N` with `mulVecLin g.val = f.val`.
     set g : Matrix.GeneralLinearGroup (Fin N) k :=
       (Matrix.GeneralLinearGroup.toLin (n := Fin N) (R := k)).symm f with hg_def
     have hg_eq : Matrix.mulVecLin (R := k) g.val =
@@ -632,14 +633,23 @@ theorem isSimpleModule_monoidAlgebra_GL_of_centralizer_simple
 
 -- Heartbeats and synth-heartbeats bumped: the existential output has 11+ ∀-binders
 -- with `Subalgebra → Ring → Module.End` instance chains, and the per-i transport
--- through `Subalgebra.equivOfEq` adds further `Module.compHom` synthesis cost.
+-- through `Subalgebra.equivOfEq` adds further `Module.compHom` synthesis cost
+-- (matching the budgets used by `_GL_rep_decomposition_explicit`).
+-- rc4: the `whnf`/`isDefEq` change made the final anonymous-constructor elaboration
+-- (checking each component against the 11-binder dependent existential type) more
+-- expensive; raised from 3200000 to 4800000.
 set_option maxHeartbeats 4800000 in
 set_option synthInstance.maxHeartbeats 1600000 in
 /-- Schur-Weyl duality, part (iii), GL_N-representation form, with the
-simplicity clause for each `L i` summand.
+**simplicity** clause for each `L i` summand.
 
 Refines `Theorem5_18_4_GL_rep_decomposition` by adding
 `∀ i, IsSimpleModule (MonoidAlgebra k GL_N) (Representation.asModule (L i).ρ)`.
+
+This wrapper sits in `SchurWeylGLTransfer.lean` (and not next to its
+companions in `Theorem5_18_4.lean`) because the simplicity transfer
+helper `isSimpleModule_monoidAlgebra_GL_of_centralizer_simple` is
+defined here, after `Theorem5_18_4.lean` in the import order.
 
 Combines:
 
@@ -799,8 +809,8 @@ theorem Theorem5_18_4_GL_rep_decomposition_simple
 -- declaration.
 set_option maxHeartbeats 6400000 in
 set_option synthInstance.maxHeartbeats 3200000 in
-/-- Schur-Weyl duality, part (iii), GL_N-representation form, explicit and
-simple.
+/-- Schur-Weyl duality, part (iii), GL_N-representation form, **explicit +
+simple**.
 
 Combines `Theorem5_18_4_GL_rep_decomposition_explicit` (the explicit
 `Submodule` realisations, the `L_carrier` identification, the explicit iso `e`,
@@ -810,7 +820,7 @@ and the evaluation / action formulas) with the per-`L i` simplicity clause of
 shared `ρ i = (postCompCentralizerMonoidHom …).comp glHom`.
 
 This is the form consumed by
-`glTensorRep_schurWeyl_decomposition_equivariant_simple`: the explicit
+`glTensorRep_schurWeyl_decomposition_equivariant_simple` (#4666): the explicit
 `e` is already typed in the `(L i : Type u)` family (the `FGModuleCat.of_carrier`
 coercion is paid here, once, at the `refine`), so the downstream equivariance
 computation can use it opaquely without re-triggering that coercion. -/

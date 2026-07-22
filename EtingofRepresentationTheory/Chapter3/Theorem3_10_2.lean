@@ -514,7 +514,7 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
 /-! ## Part 3: Uniqueness of the factors
 
 Theorem 3.10.2(ii) of Etingof asserts not merely that an irreducible representation `M`
-of `A ⊗ B` has the form `V ⊗ W`, but that `V` and `W` are unique (up to isomorphism).
+of `A ⊗ B` has the form `V ⊗ W`, but that `V` and `W` are **unique** (up to isomorphism).
 We record this as a companion theorem: any two `A`-`B`-equivariant factorizations of the
 same module agree up to isomorphism of the factors.
 
@@ -644,7 +644,7 @@ theorem Etingof.tensor_left_factor_unique
   classical
   haveI := IsSimpleModule.nontrivial A V
   obtain ⟨w₀, hw₀⟩ := exists_ne (0 : W)
-  -- For each `ψ : W' → k`, the contraction is an `A`-linear map `V → V'`.
+  -- For each `ψ : W' → k`, the contraction is a genuine `A`-linear map `V → V'`.
   let T : (W' →ₗ[k] k) → (V →ₗ[A] V') := fun ψ =>
     { toFun := fun v =>
         (TensorProduct.rid k V') (TensorProduct.map LinearMap.id ψ (e (v ⊗ₜ[k] w₀)))
@@ -700,7 +700,7 @@ representation `M ≅ V ⊗ W` of `A ⊗ B` are unique up to isomorphism. Concre
 simple modules forces `V ≅ V'` as `A`-modules and `W ≅ W'` as `B`-modules.
 
 Together with `Etingof.tensor_product_irreducible_classification` (existence), this is the
-full content of the book's "for unique `V` and `W`": two factorizations of the same `M`
+full content of the book's "for **unique** `V` and `W`": two factorizations of the same `M`
 yield such an `e` by composing the two equivalences. -/
 theorem Etingof.tensor_product_irreducible_classification_unique
     {k A B V W V' W' : Type*} [Field k]

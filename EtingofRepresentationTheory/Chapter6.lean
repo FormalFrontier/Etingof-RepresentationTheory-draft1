@@ -1,5 +1,4 @@
 import EtingofRepresentationTheory.Chapter6.Definition6_1_4
-import EtingofRepresentationTheory.Chapter6.DimDvdCard
 import EtingofRepresentationTheory.Chapter6.Problem6_1_1
 import EtingofRepresentationTheory.Chapter6.Problem6_1_3
 import EtingofRepresentationTheory.Chapter6.DynkinTypes

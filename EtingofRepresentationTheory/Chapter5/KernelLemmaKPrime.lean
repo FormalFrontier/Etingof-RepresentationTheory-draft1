@@ -5,55 +5,57 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
 /-!
 # The kernel lemma (K′): no nonneg-weight submodule of `(A/det) ⊗ χ⁻ʳ`
 
-This file states the representation-theoretic core (K′) of the
-det⁻¹-elimination kernel lemma (K), phrased over the right-translation
+This file states the genuine representation-theoretic core (K′) of the
+det⁻¹-elimination kernel lemma (K) (issue #4694, route doc
+`progress/kernel-lemma-K-route.md`), phrased over the right-translation
 `GL_N`-action `polyRightRep` on `A = k[Xᵢⱼ]` constructed in
 `PolynomialGLRightAction.lean`.
 
 ## The objects
 
-* `quotDetRep`: the induced right-`GL_N`-representation on the quotient
+* `quotDetRep` — the induced right-`GL_N`-representation on the quotient
   `A/det = k[Xᵢⱼ]/(det)`. The principal ideal `(det)` is right-`GL_N`-stable
   (`Etingof.PolynomialGLAction.rTransAlgHom_mem_detIdeal`), so the right
-  translation descends to the quotient. This is the object that (K′) analyses.
-* `charTwistRep c ρ`: the twist of a representation `ρ` by a character
+  translation descends to the quotient. **This is the genuine object** (a real
+  `Representation`, not a `sorry`'d placeholder) that (K′) analyses.
+* `charTwistRep c ρ` — the twist of a representation `ρ` by a character
   `c : G →* kˣ`: `g ↦ c(g) • ρ(g)`.
-* `detChar`: the determinant character `g ↦ det g : GL_N(k) →* kˣ`. Its
+* `detChar` — the determinant character `g ↦ det g : GL_N(k) →* kˣ`. Its
   right-torus weight is `(1,…,1)` (`det (diagUnit i t) = t`), so `χ⁻ʳ = detChar⁻ʳ`
   shifts every weight by `(−r,…,−r)`.
-* `quotDetTwistRep r := charTwistRep (detChar⁻ʳ) quotDetRep`: the representation
-  `(A/det) ⊗ χ⁻ʳ`.
-* `glWeightSpaceℤ ρ μ`: the (integer) weight space for `μ : Fin N → ℤ`, the
+* `quotDetTwistRep r := charTwistRep (detChar⁻ʳ) quotDetRep` — the rep
+  `(A/det) ⊗ χ⁻ʳ` of the route doc.
+* `glWeightSpaceℤ ρ μ` — the (integer) weight space for `μ : Fin N → ℤ`, the
   ℤ-graded analogue of `Etingof.glWeightSpace` (which is indexed by `ℕ`-weights).
 
 ## The statement
 
-`kernelLemmaK'` : for `r ≥ 1`, every right-`GL_N`-subrepresentation `W` of
+`kernelLemmaK'` : for `r ≥ 1`, every right-`GL_N`-**subrepresentation** `W` of
 `(A/det) ⊗ χ⁻ʳ` all of whose torus weights lie in `ℕ^N` is `⊥`. The consumable
 corollary `kernelLemmaK'_submodule` rephrases this for an explicitly
 `GL_N`-invariant submodule.
 
-This is the form the det-power-filtration argument consumes: that argument
-produces a nonzero nonneg-weight invariant submodule `W̄ ⊆ (A/det) ⊗ χ⁻ʳ`, and
+This is the form the #4694 det-power-filtration assembly consumes: the assembly
+produces a *nonzero* nonneg-weight invariant submodule `W̄ ⊆ (A/det) ⊗ χ⁻ʳ`, and
 (K′) contradicts it.
 
-**Statement correction.** An earlier phrasing, "the supremum of
-all nonneg-weight spaces of `(A/det) ⊗ χ⁻ʳ` is `⊥`", is false: a single
+**Statement correction (issue #4847).** An earlier phrasing — "the supremum of
+all nonneg-weight *spaces* of `(A/det) ⊗ χ⁻ʳ` is `⊥`" — is **false**: a single
 nonneg-weight vector (e.g. the class of `X₁₁X₂₂`, weight `(0,0)` after the `χ⁻¹`
 twist) exists inside an irreducible whose `GL_N`-orbit also realizes negative
 weights. `GL_N`-invariance of `W` is essential and cannot be dropped; see the
 `kernelLemmaK'` docstring.
 
-## The mathematics
+## Status
 
-The mathematics of `kernelLemmaK'` is the `GL×GL`-equivariant Cauchy
-decomposition `k[Xᵢⱼ] = ⊕_{ν ∈ ℕ^N dom} V_ν^* ⊠ V_ν` together with the
+The mathematics of `kernelLemmaK'` is the `GL×GL`-equivariant **Cauchy
+decomposition** `k[Xᵢⱼ] = ⊕_{ν ∈ ℕ^N dom} V_ν^* ⊠ V_ν` together with the
 highest-weight shift `det · A ≅ A ⊗ χ`: `A/det` keeps exactly the constituents
 with last highest-weight coordinate `ν_N = 0`, so after the `χ⁻ʳ` twist every
-weight has last coordinate `ν_N − r = −r < 0`, i.e. no weight is `≥ 0`. This core is
-proved in `KernelLemmaKPrimeAssembly.lean` (as
-`quotDetTwist_nonzero_subrep_has_neg_weight`); the present file fixes the precise
-statement and constructs every object it is phrased over.
+weight has last coordinate `ν_N − r = −r < 0`, i.e. no weight is `≥ 0`. This core
+is a research-level effort tracked as a residual `sorry` here and decomposed in a
+follow-up sub-issue; the present file fixes the precise statement and constructs
+every object it is phrased over.
 -/
 
 namespace Etingof.KernelLemmaKPrime
@@ -80,7 +82,7 @@ theorem polyRightRep_mem_detSubmodule (g : Matrix.GeneralLinearGroup (Fin N) k)
 
 /-- The **right-translation representation on the quotient `A/det = k[Xᵢⱼ]/(det)`**.
 Since the ideal `(det)` is right-`GL_N`-stable, the right translation
-`polyRightRep` descends through `Submodule.mapQ` to a representation on
+`polyRightRep` descends through `Submodule.mapQ` to a genuine representation on
 the quotient. This is the object the kernel lemma (K′) analyses (after twisting
 by `χ⁻ʳ`). -/
 noncomputable def quotDetRep (k : Type*) [CommRing k] (N : ℕ) :
@@ -165,28 +167,29 @@ noncomputable def glWeightSpaceℤ (k : Type*) [Field k] (N : ℕ) {V : Type*}
 
 /-! ### Reduction of (K′) to a lowest-weight existence core
 
-`kernelLemmaK'` combines two independent facts, isolating the
-core from elementary linear algebra:
+`kernelLemmaK'` is assembled from two genuinely independent facts, isolating the
+research-level core from elementary linear algebra:
 
-* `glWeightSpaceℤ_neg_not_mem_nonneg_span` (elementary): a nonzero
+* `glWeightSpaceℤ_neg_not_mem_nonneg_span` (**elementary, glue**) — a nonzero
   vector whose torus weight `μ` has a negative coordinate cannot lie in the span
   of the nonnegative-weight spaces. This is the linear independence of distinct
   torus weight spaces: the `ℕ^N`-weight span never reaches a strictly-negative
   weight vector.
-* `quotDetTwist_nonzero_subrep_has_neg_weight` (the core): every
-  nonzero subrepresentation of `(A/det) ⊗ χ⁻ʳ` (`r ≥ 1`) contains a nonzero
+* `quotDetTwist_nonzero_subrep_has_neg_weight` (**the genuine core**) — every
+  *nonzero* subrepresentation of `(A/det) ⊗ χ⁻ʳ` (`r ≥ 1`) contains a nonzero
   torus-weight vector whose weight has a negative coordinate. This is the
   highest/lowest-weight + `GL×GL`-equivariant Cauchy content: by complete
   reducibility the subrep contains an irreducible `L` with highest weight `ν`,
   the Cauchy decomposition forces `ν_N = 0` (constituents of `A/det`), and the
   lowest weight of `L` (twisted) realizes the negative coordinate `−r` after the
-  `χ⁻ʳ` shift. It is proved in `KernelLemmaKPrimeAssembly.lean`; the
-  `det · A ≅ A ⊗ χ` shift half is likewise proved in `DetShiftIso.lean`.
+  `χ⁻ʳ` shift. It is tracked as a research-level residual `sorry` and decomposed
+  in a follow-up sub-issue; the `det · A ≅ A ⊗ χ` shift half is already
+  sorry-free in `DetShiftIso.lean`.
 
 Given both, (K′) is immediate: a nonzero subrep with all weights `≥ 0` would, by
-the core, contain a negative-weight vector, which the elementary lemma forbids. -/
+the core, contain a negative-weight vector, which the glue lemma forbids. -/
 
-/-- **Elementary independence.** A nonzero vector `v` lying in the integer weight space
+/-- **Glue (elementary).** A nonzero vector `v` lying in the integer weight space
 `glWeightSpaceℤ … μ` for a weight `μ` with some negative coordinate cannot lie in
 the supremum of the nonnegative-weight spaces `⨆_{ν ∈ ℕ^N} glWeightSpaceℤ … ν`.
 
@@ -292,11 +295,14 @@ theorem glWeightSpaceℤ_quotDetTwist (k : Type*) [Field k] (N : ℕ) (r : ℕ)
     rw [htwist, smul_sub, smul_smul, hscal]
   rw [factored, LinearMap.ker_smul _ _ hcne]
 
-/-! ### The kernel lemma (K′)
+/-! ### The kernel lemma (K′) — assembled in `KernelLemmaKPrimeAssembly.lean`
 
-The core `quotDetTwist_nonzero_subrep_has_neg_weight`, together with the
-consumers `kernelLemmaK'` and `kernelLemmaK'_submodule`, is proved in
-`KernelLemmaKPrimeAssembly.lean`. The elementary lemma
-`glWeightSpaceℤ_neg_not_mem_nonneg_span` above is reused there. -/
+The genuine core `quotDetTwist_nonzero_subrep_has_neg_weight`, together with the
+consumers `kernelLemmaK'` and `kernelLemmaK'_submodule`, is assembled in
+`KernelLemmaKPrimeAssembly.lean`. That file imports `CauchyDetQuotient` (the
+`ν_N = 0` part (a)) and `SimpleSubrepExtraction` (the simple-constituent
+extraction), both of which import *this* file, so the assembly cannot live here
+without an import cycle. The elementary glue `glWeightSpaceℤ_neg_not_mem_nonneg_span`
+above stays here, where the assembly reuses it. -/
 
 end Etingof.KernelLemmaKPrime

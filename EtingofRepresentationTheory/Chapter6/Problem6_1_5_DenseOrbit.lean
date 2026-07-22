@@ -1,9 +1,10 @@
 import Mathlib
 
 /-!
-# Problem 6.1.5, Step 2(a): finitely many orbits give a Zariski-dense orbit
+# Problem 6.1.5, Step 2(a): finitely many orbits ⟹ a Zariski-dense orbit
 
-This is step 2(a) of Etingof Problem 6.1.2:
+This file is part of the orbit-counting redirect for the Chapter 6 infinite-type
+direction (directive #4777). It closes **step 2(a)** of Etingof Problem 6.1.2:
 
 > If an algebraic group `G` acts on an irreducible space `V` with only finitely
 > many orbits, then `G` has a Zariski-dense orbit on `V`.
@@ -13,11 +14,11 @@ This is step 2(a) of Etingof Problem 6.1.2:
 The book's argument is purely topological once "Zariski-dense" is read as
 "dense in the Zariski topology" (closure is everything):
 
-* `V` is irreducible (for `W(m)` this is affine-space irreducibility: the
+* `V` is irreducible (for `W(m)` this is affine-space irreducibility — the
   polynomial ring is a domain; supplied to these lemmas as the hypothesis
   `IsIrreducible (Set.univ : Set V)`).
 * The orbits cover `V`, hence so do their closures: `V = ⋃ closure(orbit)`.
-  Finitely many orbits makes this a finite union of closed sets.
+  Finitely many orbits makes this a **finite** union of **closed** sets.
 * An irreducible space that is a finite union of closed sets equals one of them
   (`isIrreducible_iff_sUnion_isClosed`). So some orbit closure is all of `V`,
   i.e. that orbit is dense.
@@ -28,13 +29,13 @@ finitely many and that `V` is irreducible.
 
 ## What this file provides
 
-* `exists_dense_of_iUnion_closure`: the pure-topology core, an irreducible space
+* `exists_dense_of_iUnion_closure`: the pure-topology core — an irreducible space
   covered by finitely many closures has a dense member.
 * `exists_dense_orbit` / `exists_dense_orbit_point`: the specialisation to a
   `MulAction G V` with finitely many orbits, phrased on the orbit quotient and on
   a point respectively. These are stated abstractly (any `TopologicalSpace`,
-  `MulAction`) so they apply to `W(m)` with the `G(m)`-action once that is in
-  place.
+  `MulAction`) so they apply to `W(m)` with the `G(m)`-action of S0 once that is
+  in place, but prove without S0.
 -/
 
 namespace Etingof.Problem6_1_5
@@ -87,8 +88,8 @@ theorem exists_dense_orbit (hV : IsIrreducible (Set.univ : Set V))
 
 /-- **Step 2(a), point form.** A group acting on an irreducible space with finitely
 many orbits has a point whose orbit is dense. This is the form consumed by step
-2(b): the dense orbit of a point `x` gives the dominant orbit map `G → W`,
-`g ↦ g • x`. -/
+2(b) (#4783): the dense orbit of a point `x` gives the dominant orbit map
+`G → W`, `g ↦ g • x`. -/
 theorem exists_dense_orbit_point (hV : IsIrreducible (Set.univ : Set V))
     [Finite (orbitRel.Quotient G V)] :
     ∃ x : V, Dense (MulAction.orbit G x) := by

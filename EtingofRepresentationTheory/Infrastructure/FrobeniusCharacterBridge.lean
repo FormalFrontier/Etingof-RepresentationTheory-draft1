@@ -4,25 +4,23 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_15_1
 import EtingofRepresentationTheory.Infrastructure.YoungSymTraceKronecker
 
 /-!
-# Frobenius character formula: relating `charValue` and `spechtModuleCharacter`
+# Frobenius Character Bridge
 
-Infrastructure relating `charValue` (polynomial coefficient definition over ℚ
+Bridge infrastructure between `charValue` (polynomial coefficient definition over ℚ
 with N variables) and `spechtModuleCharacter` (trace definition over ℂ with n variables).
 
 ## Key results
 
-* `alternantDet_eq_sign_mul_vandermondeProd`: exact alternant-Vandermonde identity
-* `charValue_cast_complex`: cast `charValue` from ℚ to ℂ
+* `alternantDet_eq_sign_mul_vandermondeProd` — exact alternant-Vandermonde identity
+* `charValue_cast_complex` — cast `charValue` from ℚ to ℂ
 
 ## Note
 
-This file provides the alternant-Vandermonde identity and the ℚ → ℂ base-change
-lemma. The Frobenius character formula itself is proved in `Theorem5_22_1.lean`, as
-the theorem `youngSym_charValue_orthogonality`, using the trace Kronecker identity.
-The lemmas
+The main theorem `youngSym_charValue_orthogonality` is proved in
+`Theorem5_22_1.lean` using an inlined version of the trace Kronecker identity.
+Two sorry'd bridge lemmas remain:
 - `charValue_eq_spechtModuleCharacter`: Frobenius character formula for N variables
 - `weightToPartition_eq_iff`: antitone partition injectivity
-are proved in `Theorem5_22_1.lean`.
 -/
 
 noncomputable section

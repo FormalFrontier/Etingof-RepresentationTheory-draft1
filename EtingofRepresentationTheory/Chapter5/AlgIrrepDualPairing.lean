@@ -6,29 +6,29 @@ import EtingofRepresentationTheory.Chapter5.ContragredientIdentity
 # The typed contragredient pairing `L*_λ ⊗ L_λ → k` and its perfectness
 
 Theorem 5.23.2(ii) (`Theorem5_23_2_PeterWeyl.lean`) needs the canonical evaluation
-pairing in its typed form, between the two concrete `GL_n`-models
+pairing in its *typed* form, between the two concrete `GL_n`-models
 
   `L*_λ = AlgIrrepGLDual n lam k`   (action `algIrrepGLRepDualρ`)
   `L_λ  = AlgIrrepGL n lam k`        (action `algIrrepGLRepρ`).
 
 The elementary GL-agnostic evaluation `contractLeft k V : Module.Dual k V ⊗ V → k`
-already carries the two structural facts (`ContragredientPairing.lean`):
+already carries the two structural facts (`ContragredientPairing.lean`, #5515):
 it is invariant under the diagonal `(ρ.dual, ρ)`-action
 (`contractLeft_dual_invariant`) and nonzero for nonzero finite-dimensional `V`
 (`contractLeft_ne_zero`). The contragredient identity
 `AlgIrrepGLDual n lam k ≃ₗ[k] Module.Dual k (AlgIrrepGL n lam k)` intertwining
-`algIrrepGLRepDualρ` and `(algIrrepGLRepρ).dual` is provided by
-`algIrrepGLDual_iso_linearDual`.
+`algIrrepGLRepDualρ` and `(algIrrepGLRepρ).dual` is real data (#5522,
+`algIrrepGLDual_iso_linearDual`).
 
 This file transports `contractLeft` across that isomorphism:
 
-* `algIrrepDualPairing`: the typed pairing
+* `algIrrepDualPairing` — the typed pairing
   `AlgIrrepGLDual n lam k ⊗[k] AlgIrrepGL n lam k →ₗ[k] k`, defined as
-  `contractLeft ∘ₗ TensorProduct.map e id` with `e` the contragredient-identity iso.
-* `algIrrepDualPairing_invariant`: `GL_n`-invariance for the diagonal action.
-* `algIrrepDualPairing_ne_zero`: nonvanishing.
-* `algIrrepDualPairing_nondegenerate` (perfectness): a nonzero `GL_n`-invariant
-  pairing between two simple `k[GL_n]`-modules is nondegenerate on both sides; each
+  `contractLeft ∘ₗ TensorProduct.map e id` with `e` the #5522 iso.
+* `algIrrepDualPairing_invariant` — `GL_n`-invariance for the diagonal action.
+* `algIrrepDualPairing_ne_zero` — nonvanishing.
+* `algIrrepDualPairing_nondegenerate` — **perfectness**. A nonzero `GL_n`-invariant
+  pairing between two simple `k[GL_n]`-modules is nondegenerate on both sides: each
   radical is an invariant submodule, hence `⊥` by simplicity
   (`algIrrepGLRep_isSimple`). Scoped to `ℂ` and the Schur-Weyl range, where
   simplicity is available.
@@ -114,7 +114,8 @@ variable (n : ℕ) (lam : DominantWeight n) (k : Type)
   [Field k] [IsAlgClosed k] [CharZero k]
 
 /-- A choice of the contragredient-identity isomorphism
-`L*_λ ≃ₗ Module.Dual k L_λ` from `algIrrepGLDual_iso_linearDual`. -/
+`L*_λ ≃ₗ Module.Dual k L_λ` from #5522 (`algIrrepGLDual_iso_linearDual`). Real data:
+the `Nonempty` is discharged, not sorried. -/
 noncomputable def algIrrepGLDualIso :
     AlgIrrepGLDual n lam k ≃ₗ[k] Module.Dual k (AlgIrrepGL n lam k) :=
   (Classical.choice (algIrrepGLDual_iso_linearDual n lam k)).1
@@ -132,7 +133,7 @@ theorem algIrrepGLDualIso_intertwines (g : Matrix.GeneralLinearGroup (Fin n) k)
 /-- **The typed contragredient pairing.** `L*_λ ⊗ L_λ → k`, obtained from the
 canonical evaluation `contractLeft k L_λ : Module.Dual k L_λ ⊗ L_λ → k` by
 transporting the left factor along the contragredient identity
-`e : L*_λ ≃ₗ Module.Dual k L_λ`. The book's pairing of Theorem 5.23.2(ii). -/
+`e : L*_λ ≃ₗ Module.Dual k L_λ` (#5522). The book's pairing of Theorem 5.23.2(ii). -/
 noncomputable def algIrrepDualPairing :
     AlgIrrepGLDual n lam k ⊗[k] AlgIrrepGL n lam k →ₗ[k] k :=
   contractLeft k (AlgIrrepGL n lam k) ∘ₗ

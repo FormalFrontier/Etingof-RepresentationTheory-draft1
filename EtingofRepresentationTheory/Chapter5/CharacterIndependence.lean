@@ -3,12 +3,12 @@ import Mathlib
 /-!
 # Linear independence of trace-character functionals (Dedekind/Artin)
 
-This file proves the classical fact that the trace-character functionals of a finite
-family of pairwise non-isomorphic, finite-dimensional, simple modules over an algebra `A`
+This file proves the classical fact that the **trace-character functionals** of a finite
+family of pairwise non-isomorphic, finite-dimensional, *simple* modules over an algebra `A`
 are linearly independent over the base field.
 
 For an `A`-module `M` that is finite-dimensional over the field `𝕜` (with `𝕜` central in `A`),
-the trace character is the `𝕜`-linear functional
+the *trace character* is the `𝕜`-linear functional
 `traceChar i : A →ₗ[𝕜] 𝕜`, `a ↦ trace_𝕜 (v ↦ a • v : M i → M i)`.
 
 ## Main result
@@ -20,10 +20,10 @@ the trace character is the `𝕜`-linear functional
 ## Proof strategy
 
 This is the algebra-side Dedekind/Artin input to the `|ι| = |P|` counting step for the
-Schur-Weyl decomposition.
+Schur-Weyl decomposition (sub-issue of #4875 / #4870).
 
 The heart is `Etingof.CharacterIndependence.exists_separating`: for each index `j` there is an
-element `a ∈ A` acting as the identity on `M j` and as zero on every other `M i`.
+element `a ∈ A` acting as the **identity** on `M j` and as **zero** on every other `M i`.
 Such separating elements come from the Jacobson density theorem: `A` surjects onto the
 bicommutant `End_{End_A 𝕄}(𝕄)` of the semisimple module `𝕄 = ∀ i, M i`
 (`Module.Finite.toModuleEnd_moduleEnd_surjective`), and the projection onto the `j`-th factor

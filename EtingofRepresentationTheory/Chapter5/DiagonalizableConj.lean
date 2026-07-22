@@ -5,14 +5,14 @@ import EtingofRepresentationTheory.Chapter5.FormalCharacterTorusTrace
 # A matrix with `N` distinct eigenvalues is conjugate to a diagonal torus element
 
 This file proves the pure-linear-algebra conjugacy fact needed by the geometric
-density core of the character-independence argument:
+density core of the character-independence seam (issue #4925, sub-piece (ii)):
 
 > An `N × N` invertible matrix over a field `k` whose characteristic polynomial has
 > `N` distinct roots is conjugate (in `GL_N(k)`) to a `diagTorus` element.
 
 The statement and proof are field-agnostic (the distinct-roots hypothesis is taken
-as given), so they apply over any field `k`; the `ℂ` consumers and the
-general algebraically-closed `k` consumers both specialise this lemma.
+as given), so they apply over any field `k`; the `ℂ` consumers (issue #4925) and the
+general algebraically-closed `k` consumers (issue #4947) both specialise this lemma.
 
 The strategy is the classical eigenbasis construction:
 

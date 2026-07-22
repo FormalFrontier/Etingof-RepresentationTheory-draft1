@@ -4,21 +4,21 @@ import EtingofRepresentationTheory.Chapter5.KernelLemmaKPrime
 import EtingofRepresentationTheory.Chapter5.SchurModuleSimple
 
 /-!
-# `AlgIrrepGLRep`: the `GL_N(k)`-representation structure on `AlgIrrepGL`
+# `AlgIrrepGLRep`: the genuine `GL_N(k)`-representation structure on `AlgIrrepGL`
 
 `AlgIrrepGL n lam k` (`Theorem5_23_2.lean`) is, by design, only the underlying
-`k`-module of the irreducible algebraic representation `L_λ`, with its GL-action
-discarded. This file equips that module with a representation
+`k`-module of the irreducible algebraic representation `L_λ` — its GL-action is
+discarded. This file equips that module with a genuine representation
 `AlgIrrepGLRep n lam k : FDRep k (GL_n(k))`, defined as the Schur module
 `SchurModule k n λ.toNatWeight` twisted by `det^{-λ.shift}` via `charTwistRep`,
 so that the carrier of `AlgIrrepGLRep n lam k` is definitionally `AlgIrrepGL n lam k`.
 
 Two facts are recorded:
 
-* `formalCharacter_algIrrepGLRep_of_shift_zero`: for an already-non-negative
+* `formalCharacter_algIrrepGLRep_of_shift_zero` — for an already-non-negative
   weight (`λ.shift = 0`) the formal character is the Schur polynomial
   `schurPoly n λ.toNatWeight` (Weyl character formula, `Theorem5_22_1`).
-* `algIrrepGLRep_isSimple`: `AlgIrrepGLRep` is irreducible as a
+* `algIrrepGLRep_isSimple` — `AlgIrrepGLRep` is irreducible as a
   `GL_n(k)`-representation (over `ℂ`, with `∑ λ.toNatWeight ≤ n`), via the
   character-twist invariance of simplicity and `schurModule_isSimple`.
 
@@ -82,7 +82,7 @@ variable {k G V : Type*} [Field k] [Monoid G] [AddCommGroup V] [Module k V]
 `k[G]`-module, then so is `(charTwistRep c ρ).asModule`: twisting `ρ` by a
 one-dimensional character `c : G →* kˣ` rescales each `ρ g` by the unit `c g`, so a
 `k`-subspace is `ρ`-stable iff it is `charTwistRep c ρ`-stable. The lattice of
-subrepresentations, hence simplicity, is unchanged. -/
+subrepresentations — hence simplicity — is unchanged. -/
 theorem isSimpleModule_charTwistRep (c : G →* kˣ) (ρ : Representation k G V)
     [hsimp : IsSimpleModule (MonoidAlgebra k G) ρ.asModule] :
     IsSimpleModule (MonoidAlgebra k G) (charTwistRep c ρ).asModule := by
@@ -188,7 +188,7 @@ theorem isSemisimpleModule_charTwistRep (c : G →* kˣ) (ρ : Representation k 
 
 end CharTwistSimple
 
-/-! ## The representation `AlgIrrepGLRep` -/
+/-! ## The genuine representation `AlgIrrepGLRep` -/
 
 variable {k : Type*} [Field k] [IsAlgClosed k]
 
@@ -199,7 +199,7 @@ theorem DominantWeight.toNatWeight_antitone {n : ℕ} (lam : DominantWeight n) :
   intro i j hij
   exact Int.toNat_le_toNat (by simpa [DominantWeight.toNatWeight] using lam.property hij)
 
-/-- The irreducible algebraic representation `L_λ` of `GL_n(k)`:
+/-- The genuine irreducible algebraic representation `L_λ` of `GL_n(k)`:
 the Schur module `SchurModule k n λ.toNatWeight` twisted by the character
 `det^{-λ.shift}`. Its underlying `k`-module is definitionally `AlgIrrepGL n lam k`. -/
 noncomputable def AlgIrrepGLRep (n : ℕ) (lam : DominantWeight n)
@@ -236,15 +236,7 @@ theorem formalCharacter_algIrrepGLRep_of_shift_zero
 /-- **Irreducibility of `AlgIrrepGLRep`.** Over `ℂ`, with the weight fitting in the
 Schur-Weyl range (`∑ λ.toNatWeight ≤ n`), `AlgIrrepGLRep` is a simple
 `GL_n(ℂ)`-representation. Combines `schurModule_isSimple` with the character-twist
-invariance of simplicity.
-
-This ℂ-only, degree-constrained form is retained for its existing call sites (see
-`AlgIrrepDualPairing.lean`). The fully general statement — simplicity of
-`algIrrepGLRepρ` for *every* dominant integer weight over *any* characteristic-zero
-algebraically closed field, with no `∑ λ.toNatWeight ≤ n` restriction — is
-`algIrrepGLRepρ_isSimpleModule` (`Theorem5_23_2_PeterWeyl.lean`), built from the
-degree-guard-free `schurModule_isSimple_general` via the same character-twist
-reduction. -/
+invariance of simplicity. -/
 theorem algIrrepGLRep_isSimple (n : ℕ) (lam : DominantWeight n)
     (hN : (∑ i, lam.toNatWeight i) ≤ n) :
     IsSimpleModule (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin n) ℂ))
@@ -259,12 +251,12 @@ theorem algIrrepGLRep_isSimple (n : ℕ) (lam : DominantWeight n)
 /-! ## The dual representation and bare-`Representation` forms
 
 For the Peter-Weyl decomposition we need the underlying `Representation`s with
-carriers literally `AlgIrrepGL`/`AlgIrrepGLDual` (so they tensor and sum to the
+carriers *literally* `AlgIrrepGL`/`AlgIrrepGLDual` (so they tensor and sum to the
 right-hand side of Theorem 5.23.2(ii)). `algIrrepGLRepρ` is the det-twisted
 Schur-module representation as a bare `Representation` (its carrier is
 definitionally `AlgIrrepGL n lam k`, matching `(AlgIrrepGLRep n lam k).ρ`). -/
 
-/-- The irreducible algebraic representation `L_λ` as a bare
+/-- The genuine irreducible algebraic representation `L_λ` as a bare
 `Representation` on the carrier `AlgIrrepGL n lam k`: the Schur module twisted by
 `det^{-λ.shift}`. Equals `(AlgIrrepGLRep n lam k).ρ` up to the carrier coercion. -/
 noncomputable def algIrrepGLRepρ (n : ℕ) (lam : DominantWeight n)

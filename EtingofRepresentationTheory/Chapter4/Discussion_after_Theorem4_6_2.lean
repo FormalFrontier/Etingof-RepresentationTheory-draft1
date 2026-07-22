@@ -18,14 +18,14 @@ A unitary structure on `V` supplies such a nondegenerate invariant form, namely
 
 ## Main definitions and results
 
-* `Etingof.Conjugate V`: the conjugate `ℂ`-vector space (a type synonym of `V`
+* `Etingof.Conjugate V` — the conjugate `ℂ`-vector space (a type synonym of `V`
   carrying the conjugate scalar action via `Module.compHom`).
-* `Etingof.conjugateRep ρ`: the conjugate representation `V̄`, a
+* `Etingof.conjugateRep ρ` — the conjugate representation `V̄`, a genuine
   `Representation ℂ G (Conjugate V)` with the same underlying `G`-action as `ρ`.
-* `Etingof.conjEquivDual c`: the `ℂ`-linear equivalence `V̄ ≃ₗ[ℂ] V*` attached
+* `Etingof.conjEquivDual c` — the `ℂ`-linear equivalence `V̄ ≃ₗ[ℂ] V*` attached
   to a positive definite Hermitian form `c`, built from the conjugate-linear
   `V ≃ₛₗ V*` of Theorem 4.6.2.
-* `Etingof.conjugate_iso_dual`: for a finite-dimensional complex representation of
+* `Etingof.conjugate_iso_dual` — for a finite-dimensional complex representation of
   a finite group, there is a `G`-equivariant `ℂ`-linear isomorphism `V̄ ≅ V*`.
 
 ## Mathlib correspondence
@@ -91,7 +91,7 @@ variable [FiniteDimensional ℂ V]
 
 /-- The `ℂ`-linear equivalence `V̄ ≃ₗ[ℂ] V*` attached to a positive definite Hermitian
 form `c` on `V`. As a map it sends `v` to the functional `w ↦ c(v, w)`; this is
-conjugate-linear in `v` as a map out of `V`, hence `ℂ`-linear out of the
+conjugate-linear in `v` as a map out of `V`, hence genuinely `ℂ`-linear out of the
 conjugate space `V̄`. It is bijective because `c` is nondegenerate (Theorem 4.6.2). -/
 noncomputable def conjEquivDual (c : InnerProductSpace.Core ℂ V) :
     Conjugate V ≃ₗ[ℂ] Module.Dual ℂ V :=

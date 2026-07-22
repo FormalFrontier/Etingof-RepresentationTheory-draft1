@@ -19,16 +19,16 @@ A_n, D_n, E_6, E_7, E_8.
 
 ## Mathlib correspondence
 
-Gabriel's theorem is not in Mathlib; only basic quiver infrastructure exists.
+Gap — Gabriel's theorem is not in Mathlib. Only basic quiver infrastructure exists.
 
-## Overview
+## Formalization note
 
 Gabriel's theorem is a deep classification result connecting quiver representations to
 Dynkin diagrams. It requires significant infrastructure (root systems, reflection functors,
-positive definite quadratic forms on graphs). The proof decomposes into focused steps that
-relate the Chapter 2 and Chapter 6 developments.
+positive definite quadratic forms on graphs). The statement is formalized; the proof
+decomposes into focused sub-sorries bridging the Chapter 2 and Chapter 6 formalizations.
 
-The supporting concepts are:
+We formalize the key supporting concepts:
 - `QuiverRepresentationEquiv`: isomorphism of quiver representations
 - `HasFiniteRepresentationType`: finitely many iso classes of f.d. indecomposable reps
 - `quiverUndirectedAdj`: the underlying undirected adjacency matrix of a quiver
@@ -132,7 +132,7 @@ lemma HasFiniteRepresentationType.finite_dimVectors (k : Type) [Field k]
     (e.equivAt v).finrank_eq
   linarith
 
-/-! ## Lemmas relating Chapter 2 and Chapter 6 definitions -/
+/-! ## Bridge lemmas between Chapter 2 and Chapter 6 definitions -/
 
 /-- Convert a `QuiverRepresentation.Iso` (Chapter 6) to a `QuiverRepresentationEquiv`
 (Chapter 2). These are the same concept with different packaging. -/
@@ -148,13 +148,13 @@ noncomputable def QuiverRepresentation.Iso.toEquiv
 algebraically closed field k and the given quiver Q, `HasFiniteRepresentationType`
 fails.
 
-The argument counts orbits: finite representation type gives a finite
-`AreIsomorphic`-covering set of indecomposables, hence finitely many
+Proved via the orbit-counting route of directive #4777: finite representation type
+gives a finite `AreIsomorphic`-covering set of indecomposables, hence finitely many
 `G(m)`-orbits on every representation space `W(m)`
 (`orbitRel_quotient_finite_of_finite_reps`), hence the strict dimension bound
 `dim W(m) < dim G(m)` (`repSpace_finrank_lt_repGroup_ambient_finrank`), which is
 exactly positive-definiteness of the Tits form
-(`isDynkinDiagram_of_strict_finrank`), contradicting `h_not_posdef`. -/
+(`isDynkinDiagram_of_strict_finrank`) — contradicting `h_not_posdef`. -/
 private lemma not_posdef_not_HasFiniteRepresentationType
     (k : Type) [Field k] [IsAlgClosed k]
     (n : ℕ) [Quiver.{0} (Fin n)] [∀ a b : Fin n, Decidable (Nonempty (a ⟶ b))]
@@ -192,12 +192,12 @@ private lemma not_posdef_not_HasFiniteRepresentationType
       (fun m' hm' => Problem6_1_5.repSpace_finrank_lt_repGroup_ambient_finrank (k := k) m' hm')
   exact hx_not_pd (hDynkin.2.2.2.2 x hx_ne)
 
-/-- Backward direction: `IsDynkinDiagram` implies `HasFiniteRepresentationType`
+/-- Backward direction bridge: `IsDynkinDiagram` implies `HasFiniteRepresentationType`
 for any algebraically closed field and the given quiver.
 
 This requires:
 1. Showing the quiver is an orientation of its undirected adjacency (needs Subsingleton
-   homs and no bidirectional arrows; these follow from HasFiniteRepType in the iff,
+   homs and no bidirectional arrows — these follow from HasFiniteRepType in the iff,
    but are needed independently for the backward direction)
 2. Positive roots are finite (Theorem 6.5.2a)
 3. Each positive root gives exactly one indecomposable (Theorem 6.5.2c)

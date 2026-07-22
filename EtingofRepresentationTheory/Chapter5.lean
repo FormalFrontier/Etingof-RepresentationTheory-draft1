@@ -79,7 +79,6 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_14_3
 
 -- Section 5.15: Frobenius Character Formula
 import EtingofRepresentationTheory.Chapter5.Theorem5_15_1
-import EtingofRepresentationTheory.Chapter5.CharacterMultiplicityBridge
 import EtingofRepresentationTheory.Chapter5.Discussion_footnote_5_15
 import EtingofRepresentationTheory.Chapter5.Lemma5_15_3
 import EtingofRepresentationTheory.Chapter5.Corollary5_15_4
@@ -113,7 +112,6 @@ import EtingofRepresentationTheory.Chapter5.PolynomialGLBiAction
 import EtingofRepresentationTheory.Chapter5.LocalizationGLRightAction
 import EtingofRepresentationTheory.Chapter5.KernelLemmaKPrime
 import EtingofRepresentationTheory.Chapter5.ConstituentCharacterExtraction
-import EtingofRepresentationTheory.Chapter5.AbelianFDRep
 import EtingofRepresentationTheory.Chapter5.CharEqIso
 import EtingofRepresentationTheory.Chapter5.CauchyDetQuotient
 import EtingofRepresentationTheory.Chapter5.CauchyCharacterRight
@@ -204,7 +202,6 @@ import EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount
 import EtingofRepresentationTheory.Chapter5.Lemma5_25_3
 import EtingofRepresentationTheory.Chapter5.Discussion5_25_4
 import EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary
-import EtingofRepresentationTheory.Chapter5.GroupAlgebraCenter
 
 -- Section 5.26: Artin's Theorem
 import EtingofRepresentationTheory.Chapter5.Theorem5_26_1
@@ -226,18 +223,10 @@ import EtingofRepresentationTheory.Chapter5.Problem5_16_1
 import EtingofRepresentationTheory.Chapter5.Problem5_16_2
 import EtingofRepresentationTheory.Chapter5.Problem5_16_3
 import EtingofRepresentationTheory.Chapter5.Problem5_24_1
-import EtingofRepresentationTheory.Chapter5.Problem5_24_1_b
-import EtingofRepresentationTheory.Chapter5.Problem5_24_2_Core
-import EtingofRepresentationTheory.Chapter5.PermutationTraceWord
 import EtingofRepresentationTheory.Chapter5.Problem5_24_2
-import EtingofRepresentationTheory.Chapter5.Problem5_24_2_Bridge
-import EtingofRepresentationTheory.Chapter5.Problem5_24_2_Supporting
-import EtingofRepresentationTheory.Chapter5.DihedralCharacterCombinatorics
 import EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Affine
 import EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Dihedral
 import EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Heisenberg
 import EtingofRepresentationTheory.Chapter5.Exercise5_27_3
-import EtingofRepresentationTheory.Chapter5.WedderburnCenterFinrank
-import EtingofRepresentationTheory.Chapter5.IrrepCountConjClasses
 
 /-! # Chapter 5: Representations of the Symmetric Group -/

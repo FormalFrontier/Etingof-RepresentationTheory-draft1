@@ -39,44 +39,31 @@ Rotate through these areas across sessions:
 **Security**:
 - Check for new issues in recent code, verify past fixes
 
-## Verifying sorry-freeness (fidelity audits)
+## Fidelity-audit reconciliation (Stage 3.7 sweep issues)
 
-`grep -c sorry` is unreliable for "is this file sorry-free?": it counts the
-substring `sorry-free` inside comments, so a fully-complete file can report a
-large nonzero count (e.g. 10 comment mentions → looks like 10 sorries). Always
-confirm real sorries with `grep -n sorry <file> | grep -v sorry-free`, and treat
-`#print axioms <decl>` (no `sorryAx` in the list) as the ground truth for whether
-a declaration is genuinely sorry-free. Do not trust a stale sorry-count from the
-issue body — re-check it.
+When a fidelity-audit issue's items already carry verdicts from a prior
+partial pass (common: an earlier wave set `verified`/`gap`/`faithful` and
+opened repair issues but never wrote a wave certificate), do **not** trust
+the existing verdicts:
 
-To run `#print axioms`, **append the `#print axioms <decl>` lines to the end of
-the target source file** and run `lake env lean <that-file>` (restore the file
-after). Do NOT create a separate scratch file that `import`s the target module and
-run `lake env lean` on it — loading a project olean that way can demand a transitive
-olean the local build never produced and fail with a spurious
-`object file '…/SomeOtherModule.olean' … does not exist`, even for a module the
-target does not import. Running against the actual source file only needs the
-target's own already-built dependency oleans, so it works after a successful
-`lake build EtingofRepresentationTheory.<Module>`.
-
-## Completing the Review
-
-Post your report as a comment on the review issue. Then close the issue yourself —
-a review's deliverable is the report, not a code change, so there is usually **no PR**
-to swap `claimed` → `has-pr`, and an unclosed issue would stay stuck in `claimed`:
-
-- **No defect found:** `gh issue close <N> --comment "Review complete — PASS. See report above."`
-- **Defect found:** open a fix PR (`coordination create-pr <N>` — this closes the issue on
-  merge) **or** a follow-up `feature` issue for the fix, then close the review issue with a
-  link to it. Do not leave the review issue open waiting on a human.
-
-`coordination create-pr` builds the PR body itself from the commit (`Closes #N` +
-session + commit subjects); it does **not** read a piped/`--body` body. When the issue
-requires the per-check verdict *in the PR body*, either put that reasoning in the commit
-message or add it afterward with `gh pr edit <N> --body-file <file>`.
-
-Any progress-file commit lives on your branch; there is no need to push or PR it for a
-report-only review.
+- **Re-audit the previously-`verified` items too**, not just `gap`/`unchecked`
+  ones. Prior passes miss real gaps — re-auditing routinely refutes some
+  `verified` items (e.g. a multi-part example/definition whose second clause or
+  a named sub-notion is absent, or a docstring that promises more than the decl
+  asserts).
+- **Reconcile merged repairs against the *current* Lean.** For each `gap` whose
+  repair issue has closed/merged, read the post-repair file: flip to `verified`
+  only if the fix is genuinely faithful and non-vacuous, and drop the stale
+  `fidelity_issue`/`fidelity_note`.
+- **Reopen (or open) a repair issue for every residual gap.** A partial repair
+  that merged and closed its issue still leaves an open gap — reopen it with a
+  residual-scope comment, or open a fresh `bug`+`review` issue linked to the
+  audit issue.
+- **Normalize non-standard labels** (`faithful` → `verified`) so the final
+  state is only `verified` or `gap`.
+- Judge with a **different model** than the author, and use parallel
+  sub-auditors + adjudication for scale. Write the wave certificate to
+  `progress/coverage-audit/fidelity-wave-N.md`.
 
 ## Updating Skills
 

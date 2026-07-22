@@ -3,9 +3,9 @@ import Mathlib.RingTheory.Jacobson.Ideal
 /-!
 # Proposition 3.5.2: Rad(A) is a Two-Sided Ideal
 
-Rad(A), the radical of a finite dimensional algebra `A` (the set of elements acting by
+Rad(A), the radical of a finite dimensional algebra `A` — the set of elements acting by
 zero in every irreducible representation, equivalently the intersection of the
-annihilators of all simple modules), is a two-sided ideal of `A`.
+annihilators of all simple modules — is a *two-sided* ideal of `A`.
 
 In Mathlib the radical is `Ideal.jacobson (⊥ : Ideal A)`. For a general (possibly
 noncommutative) ring, `Ideal A` is a *left* ideal (`Submodule A A`), so the left-ideal
@@ -18,7 +18,7 @@ multiplication on the right. Mathlib supplies this as the instance
 /-- The radical `Rad(A) = Ideal.jacobson ⊥` is a two-sided ideal: it is closed under
 multiplication on both the left and the right. The left-multiplication closure
 (`r * a ∈ Rad(A)`) is the left-ideal structure of `Ideal A`; the right-multiplication
-closure (`a * r ∈ Rad(A)`) is the content of Etingof Proposition 3.5.2.
+closure (`a * r ∈ Rad(A)`) is the genuine content of Etingof Proposition 3.5.2.
 
 Equivalently, `Ideal.jacobson (⊥ : Ideal A)` carries the `Ideal.IsTwoSided` instance,
 see `Etingof.radical_isTwoSided` below. -/

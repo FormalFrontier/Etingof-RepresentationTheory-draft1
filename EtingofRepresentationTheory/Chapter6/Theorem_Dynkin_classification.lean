@@ -10,7 +10,7 @@ open Matrix Finset
     Proof: if v ≠ w both have degree 3, define x on Fin n by putting 2 on all vertices
     of the unique v-to-w path and 1 on the extra neighbors of v and w (not on the path).
     Then B(x,x) = 0, contradicting positive definiteness. -/
-lemma dynkin_unique_degree_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+private lemma dynkin_unique_degree_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hD : IsDynkinDiagram n adj) (v w : Fin n)
     (hv : vertexDegree adj v = 3) (hw : vertexDegree adj w = 3) : v = w := by
   obtain ⟨hsymm, hdiag, h01, hconn, hpos⟩ := hD
@@ -232,7 +232,7 @@ lemma dynkin_unique_degree_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     neighbors is a leaf (degree 1). Proof: if all 3 neighbors had degree ≥ 2,
     the graph would contain T_{2,2,2} as a subgraph, whose Cartan form has
     the null vector (3,2,2,2,1,1,1), contradicting positive definiteness. -/
-lemma branch_has_leaf_neighbor {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+private lemma branch_has_leaf_neighbor {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hD : IsDynkinDiagram n adj) (v : Fin n) (hv : vertexDegree adj v = 3) :
     ∃ u, adj v u = 1 ∧ vertexDegree adj u = 1 := by
   obtain ⟨hsymm, hdiag, h01, _, hpos⟩ := hD
@@ -611,7 +611,7 @@ private lemma branch_classification_n4 {adj : Matrix (Fin 4) (Fin 4) ℤ}
     - path edges: consecutive indices i, i+1 for i < k-1 among the first k vertices
     - branch edge: vertex b_std connected to vertex k
     The isomorphism handles both direct (b = b_std) and reversed (b = k-1-b_std) cases. -/
-lemma tree_branch_iso {k : ℕ} {adj : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ}
+private lemma tree_branch_iso {k : ℕ} {adj : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ}
     (hsymm : adj.IsSymm) (hdiag : ∀ i, adj i i = 0)
     (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
     (u : Fin (k + 1)) (v' : Fin k)
@@ -779,7 +779,7 @@ set_option maxHeartbeats 400000 in
     three arms of lengths p ≤ q ≤ r with n = p + q + r + 1, and is uniquely determined
     (up to graph isomorphism) by its arm lengths. Given the arm-length constraint from
     positive definiteness, the graph must be isomorphic to D_n, E₆, E₇, or E₈. -/
-lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+private lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hD : IsDynkinDiagram n adj) (hn : 1 ≤ n)
     (hbranch : ∃ i, vertexDegree adj i = 3) :
     ∃ t : DynkinType, ∃ σ : Fin t.rank ≃ Fin n,
@@ -1186,9 +1186,7 @@ lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
       -- Since B > 0 and f(b) > 0, the bracket > 0. QED.
       --
       -- We formalize this by computing B directly.
-      -- The computation is carried out in full below (no placeholder): we first
-      -- record f(b) > 0, then reduce (via `suffices hB_eq`) to the explicit closed
-      -- form for B and read off positivity of the bracket.
+      -- For now, sorry the computation and derive the result.
       have hfb_pos : (0 : ℤ) < f b := by
         rw [hfb]
         have : (0 : ℤ) < ↑(k - b) := by omega

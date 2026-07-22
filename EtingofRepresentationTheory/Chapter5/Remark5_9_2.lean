@@ -14,14 +14,14 @@ relatively prime to `|H|`, the Frobenius formula for the character of an induced
 ## Relation to Theorem 5.9.1
 
 The book's Theorem 5.9.1 is stated as a sum over coset representatives `σ ∈ H \ G`, and this
-remark converts it to the averaged form. In this formalization the averaged form is the primary
-statement: choosing a transversal of `H \ G` is awkward to formalize, so `Etingof.Theorem5_9_1`
+remark converts it to the averaged form. In this formalization the *averaged form is the primary
+statement*: choosing a transversal of `H \ G` is awkward to formalize, so `Etingof.Theorem5_9_1`
 was proved directly in the averaged phrasing (see the module docstring of `Theorem5_9_1.lean`).
 
-Consequently the content of this remark, the averaged Frobenius character formula, is exactly
+Consequently the content of this remark — the averaged Frobenius character formula — is exactly
 the statement of `Etingof.Theorem5_9_1`, and `Etingof.Remark_5_9_2` below records it under the
 name of the book item. We work over `k = ℂ` (characteristic `0`), so the hypothesis "`char k`
-coprime to `|H|`" holds automatically and `(|H| : ℂ)⁻¹` is an actual inverse.
+coprime to `|H|`" holds automatically and `(|H| : ℂ)⁻¹` is a genuine inverse.
 
 (Etingof Remark 5.9.2)
 -/

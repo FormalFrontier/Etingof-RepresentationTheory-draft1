@@ -6,7 +6,7 @@ import Mathlib
 For a finite abelian group `G = ℤ/n₁ℤ × ⋯ × ℤ/nₖℤ`, all irreducible representations
 over an algebraically closed field are 1-dimensional. This is the fact the book recalls
 ("all irreducible representations over `ℂ` (and algebraically closed fields in general) of
-commutative algebras and groups are 1-dimensional"), and it uses both the
+commutative algebras and groups are 1-dimensional"), and it genuinely uses both the
 commutativity of `G` and the algebraic closedness of `k`.
 
 The dual group (Pontryagin dual) `G^∨` consists of all irreducible characters.

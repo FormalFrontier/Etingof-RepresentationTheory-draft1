@@ -1,13 +1,12 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_27_1
-import EtingofRepresentationTheory.Chapter5.AbelianFDRep
 
 /-!
 # Exercise 5.27.2 (affine group): redo Problem 4.12.6 using Theorem 5.27.1
 
 **Exercise 5.27.2.** Redo Problems 4.12.1(a), 4.12.2, and 4.12.6 using Theorem 5.27.1.
 
-This file handles the Problem 4.12.6 part: the group `G` of nonconstant inhomogeneous linear
+This file handles the **Problem 4.12.6** part: the group `G` of nonconstant inhomogeneous linear
 transformations `x ↦ a x + b` over a finite field `K` (with `a ∈ Kˣ`, `b ∈ K`). Problem 4.12.6 asks
 for all irreducible complex representations of `G` and their characters. Theorem 5.27.1 (the orbit
 method for semidirect products `A ⋊ G` with `A` abelian) supplies them directly, because the affine
@@ -41,8 +40,7 @@ trivial). Theorem 5.27.1 then yields:
 Thus there are exactly `q` irreducibles: `q - 1` of dimension `1` and one of dimension `q - 1`
 (consistent with `∑ dim² = (q - 1)·1 + (q - 1)² = q(q - 1) = |AffineGroup K|`).
 
-The classification `affine_classification` is proved below by feeding the two orbit facts above
-into Theorem 5.27.1 (for fields with `q > 2`; see the theorem docstring for the `q = 2` caveat).
+Statement pass: the classification is stated; the proof is left as `sorry`.
 -/
 
 noncomputable section
@@ -66,135 +64,13 @@ omit [Fintype K] in
 translation group `Multiplicative K` by the multiplicative group `Kˣ` acting by multiplication. -/
 abbrev AffineGroup : Type := Multiplicative K ⋊[affineφ K] Kˣ
 
-/-! ## The dual `Kˣ`-action on characters of `(K, +)`
-
-The orbit-method engine (Theorem 5.27.1) equips the character group `Â = Multiplicative K →* ℂˣ`
-with the dual action `(g · χ)(a) = χ(φ(g⁻¹)(a))`. For the affine action `φ(g)(a) = g · a`, this is
-`(g · χ)(a) = χ(g⁻¹ a)`, i.e. multiplicative shift of the underlying additive character. We record
-the two orbit facts the classification needs, both consequences of the fact that over a field
-every nontrivial additive character is primitive (`AddChar.IsPrimitive.of_ne_one`):
-
-* `affineDualSmul_eq_self_iff`: a nontrivial character has trivial stabilizer (only `g = 1`
-  fixes it), while the trivial character is fixed by all of `Kˣ` (`affineDualSmul_trivial`);
-* `affineDualSmul_transitive`: `Kˣ` acts transitively on the `q - 1` nontrivial characters
-  (a single free orbit), because `r ↦ mulShift ψ r` is an injection `K ↪ Â` between sets of equal
-  size `q`, hence a bijection.
--/
-
-/-- The concrete dual `Kˣ`-action on characters: `affineDualSmul g χ = a ↦ χ(g⁻¹ · a)`. This is the
-witness `dualSmul` of Theorem 5.27.1 specialized to `affineφ K` (matched via its `hdual` clause). -/
-def affineDualSmul (g : Kˣ) (χ : Multiplicative K →* ℂˣ) : Multiplicative K →* ℂˣ :=
-  χ.comp (affineφ K g⁻¹).toMonoidHom
-
-omit [Fintype K] in
-@[simp] lemma affineDualSmul_apply (g : Kˣ) (χ : Multiplicative K →* ℂˣ) (x : Multiplicative K) :
-    affineDualSmul K g χ x = χ ((affineφ K g⁻¹) x) := rfl
-
-omit [Fintype K] in
-/-- The affine action on a general element of `Multiplicative K`. -/
-@[simp] lemma affineφ_apply' (a : Kˣ) (x : Multiplicative K) :
-    (affineφ K a) x = Multiplicative.ofAdd ((a : K) * Multiplicative.toAdd x) := by
-  apply Multiplicative.toAdd.injective
-  rw [toAdd_ofAdd]
-  conv_lhs => rw [← ofAdd_toAdd x]
-  rw [affineφ_apply]
-
-omit [Fintype K] in
-/-- The trivial character is fixed by every `g` (its stabilizer is all of `Kˣ`). -/
-@[simp] lemma affineDualSmul_trivial (g : Kˣ) :
-    affineDualSmul K g (1 : Multiplicative K →* ℂˣ) = 1 := by
-  ext x; simp [affineDualSmul]
-
-omit [Fintype K] in
-/-- `AddChar.toMonoidHomEquiv` carries the trivial additive character to the trivial monoid hom. -/
-private lemma toMonoidHomEquiv_one :
-    AddChar.toMonoidHomEquiv (1 : AddChar K ℂˣ) = (1 : Multiplicative K →* ℂˣ) := by
-  ext x; simp
-
-omit [Fintype K] in
-/-- A nontrivial multiplicative character corresponds to a nontrivial additive character. -/
-private lemma toAddChar_ne_one {χ : Multiplicative K →* ℂˣ} (hχ : χ ≠ 1) :
-    AddChar.toMonoidHomEquiv.symm χ ≠ (1 : AddChar K ℂˣ) := by
-  intro h
-  apply hχ
-  have := congrArg AddChar.toMonoidHomEquiv h
-  rw [Equiv.apply_symm_apply, toMonoidHomEquiv_one] at this
-  exact this
-
-omit [Fintype K] in
-/-- The dual action is the multiplicative shift of the associated additive character by `g⁻¹`. -/
-lemma affineDualSmul_eq_mulShift (g : Kˣ) (χ : Multiplicative K →* ℂˣ) :
-    affineDualSmul K g χ =
-      AddChar.toMonoidHomEquiv
-        (AddChar.mulShift (AddChar.toMonoidHomEquiv.symm χ) ((g⁻¹ : Kˣ) : K)) := by
-  refine MonoidHom.ext (fun x => ?_)
-  rw [affineDualSmul_apply, affineφ_apply', AddChar.toMonoidHomEquiv_apply,
-    AddChar.mulShift_apply, AddChar.toMonoidHomEquiv_symm_apply]
-
-omit [Fintype K] in
-/-- **Stabilizer dichotomy.** A nontrivial character is fixed by `g` only when `g = 1`, so its
-stabilizer under the dual action is trivial. -/
-lemma affineDualSmul_eq_self_iff (g : Kˣ) {χ : Multiplicative K →* ℂˣ} (hχ : χ ≠ 1) :
-    affineDualSmul K g χ = χ ↔ g = 1 := by
-  have hprim : (AddChar.toMonoidHomEquiv.symm χ).IsPrimitive :=
-    AddChar.IsPrimitive.of_ne_one (toAddChar_ne_one K hχ)
-  rw [affineDualSmul_eq_mulShift]
-  constructor
-  · intro h
-    have h2 : AddChar.mulShift (AddChar.toMonoidHomEquiv.symm χ) ((g⁻¹ : Kˣ) : K)
-        = AddChar.toMonoidHomEquiv.symm χ := by
-      apply AddChar.toMonoidHomEquiv.injective
-      rw [h, Equiv.apply_symm_apply]
-    have h3 : ((g⁻¹ : Kˣ) : K) = 1 :=
-      AddChar.to_mulShift_inj_of_isPrimitive hprim
-        (by rw [AddChar.mulShift_one]; exact h2)
-    rw [Units.val_eq_one] at h3
-    exact inv_eq_one.mp h3
-  · rintro rfl
-    simp only [inv_one, Units.val_one, AddChar.mulShift_one, Equiv.apply_symm_apply]
-
-/-- **Transitivity.** `Kˣ` acts transitively on the nontrivial characters: for any two nontrivial
-`χ₁, χ₂` there is `g` with `g · χ₁ = χ₂`. Hence the nontrivial characters form a single orbit. -/
-lemma affineDualSmul_transitive {χ₁ χ₂ : Multiplicative K →* ℂˣ}
-    (h1 : χ₁ ≠ 1) (h2 : χ₂ ≠ 1) : ∃ g : Kˣ, affineDualSmul K g χ₁ = χ₂ := by
-  classical
-  set ψ₁ := AddChar.toMonoidHomEquiv.symm χ₁ with hψ₁
-  have hprim : ψ₁.IsPrimitive := AddChar.IsPrimitive.of_ne_one (toAddChar_ne_one K h1)
-  -- The injection `r ↦ E (mulShift ψ₁ r)` from `K` to characters.
-  let F : K → (Multiplicative K →* ℂˣ) := fun r => AddChar.toMonoidHomEquiv (AddChar.mulShift ψ₁ r)
-  have hFinj : Function.Injective F := fun a b hab =>
-    AddChar.to_mulShift_inj_of_isPrimitive hprim (AddChar.toMonoidHomEquiv.injective hab)
-  -- `K` and the character group have equal (finite) cardinality, so `F` is a bijection.
-  haveI : Fintype (Multiplicative K →* ℂˣ) := Fintype.ofFinite _
-  have hcard : Fintype.card K = Fintype.card (Multiplicative K →* ℂˣ) := by
-    have := Etingof.AbelianFDRep.card_charFDRep_dual (G := Multiplicative K)
-    rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card] at this
-    simpa [Fintype.card_congr (Multiplicative.toAdd : Multiplicative K ≃ K)] using this.symm
-  have hFsurj : Function.Surjective F :=
-    ((Fintype.bijective_iff_injective_and_card F).mpr ⟨hFinj, hcard⟩).surjective
-  obtain ⟨c, hc⟩ := hFsurj χ₂
-  have hc0 : c ≠ 0 := by
-    rintro rfl
-    apply h2
-    rw [← hc]
-    simp [F, AddChar.mulShift_zero, toMonoidHomEquiv_one]
-  refine ⟨(Ne.isUnit hc0).unit⁻¹, ?_⟩
-  rw [affineDualSmul_eq_mulShift, ← hψ₁]
-  simp only [inv_inv, IsUnit.unit_spec]
-  exact hc
-
 open Classical in
 /-- **Exercise 5.27.2 for Problem 4.12.6.** The complete classification of the irreducible complex
 representations of the affine group `x ↦ a x + b` over a finite field `K` (`q = |K|` elements),
 obtained from Theorem 5.27.1: there are exactly `q` pairwise non-isomorphic irreducibles forming a
 complete set, of which `q - 1` have dimension `1` (the characters factoring through `Kˣ`) and one
-has dimension `q - 1` (over the free orbit of nontrivial characters).
-
-The hypothesis `2 < q` excludes the degenerate field `K = 𝔽₂`, where `AffineGroup K ≅ ℤ/2` has two
-one-dimensional irreducibles: there the free-orbit rep also has dimension `q - 1 = 1`, so the two
-dimension filters would overlap and the counts `q - 1` and `1` could not both hold. For `q ≥ 3` the
-dimensions `1` and `q - 1 ≥ 2` are distinct, so the split is clean. -/
-theorem affine_classification (hq : 2 < Fintype.card K) :
+has dimension `q - 1` (over the free orbit of nontrivial characters). -/
+theorem affine_classification :
     ∃ (n : ℕ) (W : Fin n → FDRep ℂ (AffineGroup K)),
       (∀ i, Simple (W i)) ∧
       (∀ i j, Nonempty (W i ≅ W j) → i = j) ∧
@@ -202,228 +78,6 @@ theorem affine_classification (hq : 2 < Fintype.card K) :
       n = Fintype.card K ∧
       (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 1)).card = Fintype.card K - 1 ∧
       (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = Fintype.card K - 1)).card = 1 := by
-  classical
-  haveI : Nonempty Kˣ := ⟨1⟩
-  obtain ⟨dualSmul, hdual, stab, hstab, V, transport,
-    hi, hii, hiii, hiv, hv, hvi, hvii, hviii, hix⟩ :=
-    Etingof.Theorem5_27_1 Kˣ (Multiplicative K) (affineφ K)
-  -- Match the abstract dual action supplied by Theorem 5.27.1 to the concrete `affineDualSmul`.
-  have hds : ∀ (g : Kˣ) (χ : Multiplicative K →* ℂˣ), dualSmul g χ = affineDualSmul K g χ := by
-    intro g χ
-    refine MonoidHom.ext fun a => ?_
-    rw [hdual g χ a, affineDualSmul_apply]
-  -- The trivial character is fixed by all of `Kˣ`: its stabilizer is `⊤`.
-  have hstab_triv : stab (1 : Multiplicative K →* ℂˣ) = ⊤ := by
-    rw [eq_top_iff]
-    intro g _
-    exact (hstab 1 g).mpr (by rw [hds]; exact affineDualSmul_trivial K g)
-  -- A nontrivial character has trivial stabilizer `⊥`.
-  have hstab_ntriv : ∀ {χ : Multiplicative K →* ℂˣ}, χ ≠ 1 → stab χ = ⊥ := by
-    intro χ hχ
-    rw [eq_bot_iff]
-    intro g hg
-    rw [Subgroup.mem_bot]
-    have hgχ : affineDualSmul K g χ = χ := by rw [← hds]; exact (hstab χ g).mp hg
-    exact (affineDualSmul_eq_self_iff K g hχ).mp hgχ
-  -- `Kˣ` is abelian, so conjugation is trivial.
-  have hconj : ∀ h g : Kˣ, h * g * h⁻¹ = g := fun h g => by
-    rw [mul_right_comm, mul_inv_cancel, one_mul]
-  haveI : Fintype (Multiplicative K →* ℂˣ) := Fintype.ofFinite _
-  haveI : Fintype (Kˣ →* ℂˣ) := Fintype.ofFinite _
-  -- Cardinality of the character group of `(K, +)` equals `q`.
-  have hcardHom : Fintype.card (Multiplicative K →* ℂˣ) = Fintype.card K := by
-    have h := Etingof.AbelianFDRep.card_charFDRep_dual (G := Multiplicative K)
-    rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card] at h
-    rwa [Fintype.card_congr (Multiplicative.toAdd : Multiplicative K ≃ K)] at h
-  -- Cardinality of the character group of `Kˣ` equals `q - 1`.
-  have hcardDual : Fintype.card (Kˣ →* ℂˣ) = Fintype.card K - 1 := by
-    rw [← Nat.card_eq_fintype_card, Etingof.AbelianFDRep.card_charFDRep_dual,
-      Nat.card_eq_fintype_card, Fintype.card_units]
-  -- Choose a nontrivial character to represent the single free orbit.
-  haveI : Nontrivial (Multiplicative K →* ℂˣ) := by
-    rw [← Fintype.one_lt_card_iff_nontrivial, hcardHom]; omega
-  obtain ⟨χ₀, hχ₀⟩ := exists_ne (1 : Multiplicative K →* ℂˣ)
-  -- The classifying family: `Sum.inl ρ` gives the 1-dim rep over the fixed character (indexed by a
-  -- character `ρ` of `Kˣ`); `Sum.inr ()` gives the single `(q-1)`-dim rep over the free orbit.
-  set F : (Kˣ →* ℂˣ) ⊕ Unit → FDRep ℂ (AffineGroup K) := fun a =>
-    a.elim
-      (fun ρ => V (1 : Multiplicative K →* ℂˣ)
-        (Etingof.AbelianFDRep.charFDRep (ρ.comp (stab (1 : Multiplicative K →* ℂˣ)).subtype)))
-      (fun _ => V χ₀ (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ₀) →* ℂˣ))) with hF
-  -- **Closed-form character of the fixed-orbit (1-dim) reps:** at `⟨a, g⟩` it is `ρ g`.
-  have fixed_char : ∀ (ρ : Kˣ →* ℂˣ) (a : Multiplicative K) (g : Kˣ),
-      (V (1 : Multiplicative K →* ℂˣ)
-        (Etingof.AbelianFDRep.charFDRep
-          (ρ.comp (stab (1 : Multiplicative K →* ℂˣ)).subtype))).character ⟨a, g⟩
-      = (ρ g : ℂ) := by
-    intro ρ a g
-    have hSimpleU := Etingof.AbelianFDRep.charFDRep_simple
-      (ρ.comp (stab (1 : Multiplicative K →* ℂˣ)).subtype)
-    have hmemg : g ∈ stab (1 : Multiplicative K →* ℂˣ) := by
-      rw [hstab_triv]; exact Subgroup.mem_top g
-    have hmemall : ∀ h : Kˣ, h * g * h⁻¹ ∈ stab (1 : Multiplicative K →* ℂˣ) := by
-      intro h; rw [hstab_triv]; exact Subgroup.mem_top _
-    have hcard : Fintype.card ↥(stab (1 : Multiplicative K →* ℂˣ)) = Fintype.card Kˣ := by
-      rw [hstab_triv]; exact Fintype.card_congr Subgroup.topEquiv.toEquiv
-    have hterm : ∀ h : Kˣ,
-        (if hh : h * g * h⁻¹ ∈ stab (1 : Multiplicative K →* ℂˣ)
-          then ((1 : Multiplicative K →* ℂˣ)
-                ((affineφ K h : MulAut (Multiplicative K)) a) : ℂ)
-              * (Etingof.AbelianFDRep.charFDRep
-                  (ρ.comp (stab (1 : Multiplicative K →* ℂˣ)).subtype)).character
-                  ⟨h * g * h⁻¹, hh⟩
-          else 0)
-        = (ρ g : ℂ) := by
-      intro h
-      rw [dif_pos (hmemall h),
-        show (⟨h * g * h⁻¹, hmemall h⟩ : ↥(stab (1 : Multiplicative K →* ℂˣ))) = ⟨g, hmemg⟩ from
-          Subtype.ext (hconj h g),
-        Etingof.AbelianFDRep.charFDRep_character, MonoidHom.one_apply, Units.val_one, one_mul]
-      rfl
-    rw [hiv 1 _ hSimpleU a g, Finset.sum_congr rfl (fun h _ => hterm h),
-      Finset.sum_const, Finset.card_univ, nsmul_eq_mul, hcard,
-      inv_mul_cancel_left₀ (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)]
-  -- Dimensions of the two kinds of family members.
-  have hdim_inl : ∀ ρ : Kˣ →* ℂˣ, finrank ℂ (F (Sum.inl ρ) : Type) = 1 := by
-    intro ρ
-    show finrank ℂ (V (1 : Multiplicative K →* ℂˣ)
-      (Etingof.AbelianFDRep.charFDRep
-        (ρ.comp (stab (1 : Multiplicative K →* ℂˣ)).subtype)) : Type) = 1
-    rw [hv, Etingof.AbelianFDRep.charFDRep_finrank, mul_one, hstab_triv, Subgroup.index_top]
-  have hdim_inr : finrank ℂ (F (Sum.inr () : (Kˣ →* ℂˣ) ⊕ Unit) : Type) = Fintype.card K - 1 := by
-    show finrank ℂ (V χ₀ (Etingof.AbelianFDRep.charFDRep
-      (1 : ↥(stab χ₀) →* ℂˣ)) : Type) = Fintype.card K - 1
-    rw [hv, Etingof.AbelianFDRep.charFDRep_finrank, mul_one, hstab_ntriv hχ₀,
-      Subgroup.index_bot, Nat.card_eq_fintype_card, Fintype.card_units]
-  -- Simplicity of every family member.
-  have hFsimple : ∀ a, Simple (F a) := by
-    rintro (ρ | _)
-    · exact hi 1 _ (Etingof.AbelianFDRep.charFDRep_simple _)
-    · exact hi χ₀ _ (Etingof.AbelianFDRep.charFDRep_simple _)
-  -- Pairwise non-isomorphism: an isomorphism forces equal index.
-  have hFinj : ∀ a b, Nonempty (F a ≅ F b) → a = b := by
-    rintro (ρ₁ | _) (ρ₂ | _) ⟨α⟩
-    · -- fixed vs fixed: characters recover `ρ`
-      have hchar := FDRep.char_iso α
-      have hρ : ρ₁ = ρ₂ := by
-        refine MonoidHom.ext fun g => ?_
-        have h := congrFun hchar ⟨(1 : Multiplicative K), g⟩
-        rw [show F (Sum.inl ρ₁) = V (1 : Multiplicative K →* ℂˣ)
-            (Etingof.AbelianFDRep.charFDRep
-              (ρ₁.comp (stab (1 : Multiplicative K →* ℂˣ)).subtype)) from rfl,
-          show F (Sum.inl ρ₂) = V (1 : Multiplicative K →* ℂˣ)
-            (Etingof.AbelianFDRep.charFDRep
-              (ρ₂.comp (stab (1 : Multiplicative K →* ℂˣ)).subtype)) from rfl,
-          fixed_char ρ₁ 1 g, fixed_char ρ₂ 1 g] at h
-        exact Units.ext h
-      rw [hρ]
-    · -- fixed vs free: dimensions `1` and `q - 1 ≥ 2` differ
-      exfalso
-      have h := congrFun (FDRep.char_iso α) 1
-      rw [FDRep.char_one, FDRep.char_one, hdim_inl ρ₁, hdim_inr, Nat.cast_inj] at h
-      omega
-    · -- free vs fixed: symmetric
-      exfalso
-      have h := congrFun (FDRep.char_iso α) 1
-      rw [FDRep.char_one, FDRep.char_one, hdim_inl ρ₂, hdim_inr, Nat.cast_inj] at h
-      omega
-    · -- free vs free: the free orbit is a single point
-      exact congrArg Sum.inr (Subsingleton.elim _ _)
-  -- Completeness: every simple rep is isomorphic to a family member.
-  have hFcomplete : ∀ S : FDRep ℂ (AffineGroup K), Simple S → ∃ a, Nonempty (S ≅ F a) := by
-    intro S hS
-    obtain ⟨χ, U, hU, hSU⟩ := hiii S hS
-    haveI : Simple U := hU
-    by_cases hχ : χ = 1
-    · -- fixed orbit: recover a character `ρ` of `Kˣ` from `U ≅ charFDRep ξ`
-      subst hχ
-      obtain ⟨ξ, hξ⟩ := Etingof.AbelianFDRep.exists_charFDRep_iso U
-      let eStab : ↥(stab (1 : Multiplicative K →* ℂˣ)) ≃* Kˣ :=
-        (MulEquiv.subgroupCongr hstab_triv).trans Subgroup.topEquiv
-      have heStab : ∀ s, eStab s = ((stab (1 : Multiplicative K →* ℂˣ)).subtype s) := fun _ => rfl
-      refine ⟨Sum.inl (ξ.comp eStab.symm.toMonoidHom), ?_⟩
-      have hρξ : (ξ.comp eStab.symm.toMonoidHom).comp
-          (stab (1 : Multiplicative K →* ℂˣ)).subtype = ξ := by
-        refine MonoidHom.ext fun s => ?_
-        show ξ (eStab.symm ((stab (1 : Multiplicative K →* ℂˣ)).subtype s)) = ξ s
-        rw [← heStab s, MulEquiv.symm_apply_apply]
-      have hFeq : F (Sum.inl (ξ.comp eStab.symm.toMonoidHom))
-          = V (1 : Multiplicative K →* ℂˣ) (Etingof.AbelianFDRep.charFDRep ξ) := by
-        show V (1 : Multiplicative K →* ℂˣ) (Etingof.AbelianFDRep.charFDRep
-            ((ξ.comp eStab.symm.toMonoidHom).comp (stab (1 : Multiplicative K →* ℂˣ)).subtype))
-          = V (1 : Multiplicative K →* ℂˣ) (Etingof.AbelianFDRep.charFDRep ξ)
-        rw [hρξ]
-      rw [hFeq]
-      exact ⟨hSU.some ≪≫ (hvi 1 U (Etingof.AbelianFDRep.charFDRep ξ) hξ).some⟩
-    · -- free orbit: move the base point to `χ₀` along the orbit
-      refine ⟨Sum.inr (), ?_⟩
-      obtain ⟨g, hg⟩ := affineDualSmul_transitive K hχ₀ hχ
-      have hg' : dualSmul g χ₀ = χ := by rw [hds]; exact hg
-      haveI : Subsingleton ↥(stab χ) := by
-        rw [hstab_ntriv hχ]
-        exact ⟨fun a b => Subtype.ext
-          (by rw [Subgroup.mem_bot.mp a.2, Subgroup.mem_bot.mp b.2])⟩
-      -- `U ≅ charFDRep 1`
-      obtain ⟨ξ, hξ⟩ := Etingof.AbelianFDRep.exists_charFDRep_iso U
-      have hξ1 : ξ = 1 := by
-        refine MonoidHom.ext fun x => ?_; rw [Subsingleton.elim x 1]; simp
-      rw [hξ1] at hξ
-      -- transport of `charFDRep 1` is again `≅ charFDRep 1`
-      haveI : Simple (transport g χ₀ χ hg' (Etingof.AbelianFDRep.charFDRep
-          (1 : ↥(stab χ₀) →* ℂˣ))) :=
-        hix χ₀ χ _ g hg' (Etingof.AbelianFDRep.charFDRep_simple _)
-      obtain ⟨ζ, hζ⟩ := Etingof.AbelianFDRep.exists_charFDRep_iso
-        (transport g χ₀ χ hg' (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ₀) →* ℂˣ)))
-      have hζ1 : ζ = 1 := by
-        refine MonoidHom.ext fun x => ?_; rw [Subsingleton.elim x 1]; simp
-      rw [hζ1] at hζ
-      -- assemble: `V χ₀ (charFDRep 1) ≅ V χ (transport …) ≅ V χ (charFDRep 1) ≅ V χ U ≅ S`
-      have step1 : Nonempty (V χ₀ (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ₀) →* ℂˣ))
-          ≅ V χ (transport g χ₀ χ hg'
-              (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ₀) →* ℂˣ)))) :=
-        hvii χ₀ χ (Etingof.AbelianFDRep.charFDRep 1) g hg'
-      have step2 : Nonempty (V χ (transport g χ₀ χ hg'
-            (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ₀) →* ℂˣ)))
-          ≅ V χ (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ) →* ℂˣ))) :=
-        hvi χ _ _ hζ
-      have step3 : Nonempty (V χ (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ) →* ℂˣ))
-          ≅ V χ U) :=
-        hvi χ _ _ ⟨hξ.some.symm⟩
-      show Nonempty (S ≅ V χ₀ (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ₀) →* ℂˣ)))
-      exact ⟨hSU.some ≪≫ step3.some.symm ≪≫ step2.some.symm ≪≫ step1.some.symm⟩
-  -- Assemble into a `Fin n`-indexed family.
-  set e := Fintype.equivFin ((Kˣ →* ℂˣ) ⊕ Unit) with he
-  refine ⟨Fintype.card ((Kˣ →* ℂˣ) ⊕ Unit), fun i => F (e.symm i), ?_, ?_, ?_, ?_, ?_, ?_⟩
-  · exact fun i => hFsimple _
-  · intro i j hij; exact e.symm.injective (hFinj _ _ hij)
-  · intro S hS
-    obtain ⟨a, ha⟩ := hFcomplete S hS
-    exact ⟨e a, by simpa only [Equiv.symm_apply_apply] using ha⟩
-  · rw [Fintype.card_sum, Fintype.card_unit, hcardDual]; omega
-  · -- count of dimension-1 reps
-    have hL1 : ∀ ρ : Kˣ →* ℂˣ,
-        (if finrank ℂ (F (Sum.inl ρ) : Type) = 1 then (1 : ℕ) else 0) = 1 :=
-      fun ρ => if_pos (hdim_inl ρ)
-    have hR1 : ∀ u : Unit,
-        (if finrank ℂ (F (Sum.inr u) : Type) = 1 then (1 : ℕ) else 0) = 0 := by
-      rintro ⟨⟩; exact if_neg (by rw [hdim_inr]; omega)
-    rw [Finset.card_filter,
-      Equiv.sum_comp e.symm (fun a => if finrank ℂ (F a : Type) = 1 then (1 : ℕ) else 0),
-      Fintype.sum_sum_type]
-    simp only [hL1, hR1, Finset.sum_const, Finset.card_univ, smul_eq_mul, mul_one,
-      mul_zero, add_zero, hcardDual]
-  · -- count of dimension-`(q-1)` reps
-    have hLp : ∀ ρ : Kˣ →* ℂˣ,
-        (if finrank ℂ (F (Sum.inl ρ) : Type) = Fintype.card K - 1 then (1 : ℕ) else 0) = 0 :=
-      fun ρ => if_neg (by rw [hdim_inl ρ]; omega)
-    have hRp : ∀ u : Unit,
-        (if finrank ℂ (F (Sum.inr u) : Type) = Fintype.card K - 1 then (1 : ℕ) else 0) = 1 := by
-      rintro ⟨⟩; exact if_pos hdim_inr
-    rw [Finset.card_filter,
-      Equiv.sum_comp e.symm
-        (fun a => if finrank ℂ (F a : Type) = Fintype.card K - 1 then (1 : ℕ) else 0),
-      Fintype.sum_sum_type]
-    simp only [hLp, hRp, Finset.sum_const, Finset.card_univ, Fintype.card_unit, smul_eq_mul,
-      mul_one, mul_zero, zero_add]
+  sorry
 
 end Etingof.Exercise5_27_2

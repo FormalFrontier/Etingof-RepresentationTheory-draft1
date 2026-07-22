@@ -4,11 +4,11 @@ import Mathlib
 /-!
 # Problem 6.1.5, Step 2(a): the orbit-map comorphism is injective
 
-Problem 6.1.2(a) of Etingof provides the geometric ingredient of Problem 6.1.5, in
-two steps. First, if `G(m)` acts on the representation space `W(m)` with finitely
-many orbits, then some orbit is algebraically dense. Second, if an orbit is
-algebraically dense, then the associated orbit-map comorphism
-`Etingof.Problem6_1_5.orbitComorphism` is injective.
+This file is part of the orbit-counting redirect for the Chapter 6 infinite-type
+direction (directive #4777). It closes the genuinely geometric input of Etingof
+Problem 6.1.2(a): from *finitely many orbits* it extracts an **algebraically dense
+orbit**, and from algebraic density it proves the orbit-map comorphism
+`Etingof.Problem6_1_5.orbitComorphism` (constructed in #4803) **injective**.
 
 ## The argument (Problem 6.1.2(a), algebraic form)
 
@@ -22,7 +22,7 @@ Zariski topology entirely:
   polynomial `f_O` vanishing on it; the product `F = ∏_O f_O` over the (finitely
   many) orbits is nonzero (the polynomial ring is a domain) yet vanishes at every
   point of `W` (each point lies in some orbit). Over an infinite field a polynomial
-  vanishing on all of `𝔸ᴺ` is zero (`MvPolynomial.funext`), a contradiction.
+  vanishing on all of `𝔸ᴺ` is zero (`MvPolynomial.funext`) — contradiction.
 
 * **Density ⟹ comorphism injective** (`injective_orbitComorphism_of_isAlgDense`).
   For each group element `g`, evaluating the generic coordinates `g_{pq}` at the
@@ -33,12 +33,11 @@ Zariski topology entirely:
   at `g`). Hence if `orbitComorphism v₀ f = 0` then `f` vanishes on the whole orbit
   of `v₀`; algebraic density of that orbit forces `f = 0`.
 
-Combining the two steps, `exists_injective_orbitComorphism` produces, for finitely
-many orbits over an infinite field, a base point whose orbit-map comorphism is
-injective. This is the hypothesis of
-`Etingof.Problem6_1_5.dim_le_of_injective_comorphism_isLocalization`, from which the
-dimension bound `N ≤ M` follows in steps 2(b) and 2(c) by embedding the coordinate
-field.
+Combining the two (`exists_injective_orbitComorphism`) supplies, for finitely many
+orbits over an infinite field, a base point whose orbit-map comorphism is injective —
+exactly the hypothesis consumed by
+`Etingof.Problem6_1_5.dim_le_of_injective_comorphism_isLocalization` to deduce
+`N ≤ M` (step 2(b)/(c), the field-embedding bridge of #4783/#4804).
 -/
 
 open Matrix MvPolynomial MulAction
@@ -232,9 +231,9 @@ theorem injective_orbitComorphism_of_isAlgDense (v₀ : repSpace (k := k) m)
   rw [map_zero, ← AlgHom.comp_apply, evalAt_comp_orbitComorphism] at this
   exact this
 
-/-- Over an infinite field, if `G(m)` has finitely many orbits on `W(m)`, then some
-base point has injective orbit-map comorphism. This is the geometric input to the
-dimension bound `N ≤ M` established in steps 2(b) and 2(c). -/
+/-- **Step 2(a) payoff.** Over an infinite field, finitely many `G(m)`-orbits on `W(m)`
+yield a base point whose orbit-map comorphism is injective — the geometric input the
+field-embedding bridge of #4783 turns into the dimension bound `N ≤ M`. -/
 theorem exists_injective_orbitComorphism [Infinite k]
     [Finite (orbitRel.Quotient (repGroup k m) (repSpace (k := k) m))] :
     ∃ v₀ : repSpace (k := k) m, Function.Injective (orbitComorphism (B := B) m v₀) := by

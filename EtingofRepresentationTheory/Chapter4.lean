@@ -37,7 +37,6 @@ import EtingofRepresentationTheory.Chapter4.Proposition4_7_1
 -- Section 4.8-4.9: Character Tables and Tensor Products
 import EtingofRepresentationTheory.Chapter4.Example4_8_1
 import EtingofRepresentationTheory.Chapter4.Example4_9_1
-import EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Complete
 
 -- Section 4.10: Frobenius Determinant
 import EtingofRepresentationTheory.Chapter4.Definition4_10_1
@@ -46,14 +45,6 @@ import EtingofRepresentationTheory.Chapter4.Lemma4_10_3
 
 -- Section 4.1, 4.12: Exercises (statement pass)
 import EtingofRepresentationTheory.Chapter4.Exercise4_2_3
-import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_Assembly
-import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_BaseChangePiMatrix
-import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_Cocenter
-import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_CountingBound
-import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_FieldGeneral
-import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_SemisimpleBaseChange
-import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_StrictBound
-import EtingofRepresentationTheory.Chapter4.SimpleModuleClassesBaseChange
 import EtingofRepresentationTheory.Chapter4.Problem4_5_2
 import EtingofRepresentationTheory.Chapter4.Problem4_1_4
 import EtingofRepresentationTheory.Chapter4.Exercise4_3_1
@@ -66,8 +57,6 @@ import EtingofRepresentationTheory.Chapter4.Problem4_12_7
 import EtingofRepresentationTheory.Chapter4.Problem4_12_8
 import EtingofRepresentationTheory.Chapter4.Problem4_12_9
 import EtingofRepresentationTheory.Chapter4.Problem4_12_10
-import EtingofRepresentationTheory.Chapter4.Problem4_12_10_Symmetric
-import EtingofRepresentationTheory.Chapter4.Problem4_12_10_OrbitEval
 import EtingofRepresentationTheory.Chapter4.Problem4_12_11
 
 /-! # Chapter 4: Representations of Finite Groups: Further Results -/

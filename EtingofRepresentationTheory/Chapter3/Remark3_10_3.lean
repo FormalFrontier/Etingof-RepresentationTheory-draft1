@@ -14,7 +14,7 @@ irreducible representation of `A ⊗ B`. The finite dimensionality hypothesis is
 Etingof's Remark 3.10.3 gives an explicit counterexample: take
 `A = B = V = W = ℂ(x)`, the field of rational functions. Each is irreducible as a module
 over itself (a field has no nontrivial submodules), but part (i) fails because
-`ℂ(x) ⊗_ℂ ℂ(x)` is not a field, so `V ⊗ W = ℂ(x) ⊗ ℂ(x)`, viewed as a module over
+`ℂ(x) ⊗_ℂ ℂ(x)` is **not** a field — so `V ⊗ W = ℂ(x) ⊗ ℂ(x)`, viewed as a module over
 `A ⊗ B = ℂ(x) ⊗ ℂ(x)` itself, is not simple.
 
 This file formalizes the core obstruction: `RatFunc ℂ ⊗[ℂ] RatFunc ℂ` is not a field.
@@ -26,7 +26,7 @@ The element `t := X ⊗ 1 - 1 ⊗ X` is nonzero but not a unit:
 * **Not a unit.** The multiplication map `μ : ℂ(x) ⊗ ℂ(x) → ℂ(x)`, `a ⊗ b ↦ a * b`
   (`Algebra.TensorProduct.lmul'`), is a ring homomorphism sending `t` to `X - X = 0`.
   In a field every nonzero element is a unit, so if `t` were a unit `μ t = 0` would be a
-  unit of `ℂ(x)`, which is impossible.
+  unit of `ℂ(x)` — impossible.
 
 * **Nonzero.** The `ℂ`-algebra hom `Φ : ℂ(x) ⊗ ℂ(x) → ℂ(x)` built from the shift
   `f : X ↦ X + 1` on the left factor and the identity on the right sends `t` to

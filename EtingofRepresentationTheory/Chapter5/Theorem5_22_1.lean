@@ -590,8 +590,8 @@ This is the central content of the Weyl character formula:
 
 1. **Scalar idempotent**: The Young symmetrizer `c_λ ∈ ℚ[S_n]` satisfies `c_λ² = α · c_λ`
    for some nonzero `α : ℚ`. This follows from the sandwich property
-   `a_λ · x · b_λ = ℓ(x) · c_λ` (Lemma 5.13.1, used over ℚ via
-   `Etingof.Lemma5_13_1` at the `Sandwich proportionality` step below).
+   `a_λ · x · b_λ = ℓ(x) · c_λ` (Lemma 5.13.1, currently proved over ℂ,
+   needs generalization to ℚ).
 
 2. **Trace formula**: Since `(1/α) · c_λ` is an idempotent projector onto `Im(c_λ) = L_λ`,
    `ch(L_λ) = (1/α) · ∑_{π ∈ S_n} c_λ(π) · permTracePoly(N, π)`
@@ -608,11 +608,8 @@ This is the central content of the Weyl character formula:
 **Key dependencies**:
 - `permTracePoly_eq_powerSumCycleProduct` (proved)
 - `Proposition5_21_1` (Frobenius formula, proved)
-- Lemma 5.13.1 sandwich property over ℚ (proved; used via `Etingof.Lemma5_13_1`
-  at the `Sandwich proportionality` step in this file)
-- Character orthogonality for S_n (proved; `youngSym_charValue_orthogonality`
-  in this file, and `charValue_row_orthogonality` in
-  `Chapter5/CharacterOrthogonality.lean`) -/
+- Lemma 5.13.1 sandwich property over ℚ (not yet generalized from ℂ)
+- Character orthogonality for S_n (not yet formalized) -/
 
 /-! #### Young symmetrizer endomorphism: idempotent property -/
 
@@ -834,7 +831,7 @@ theorem trace_youngSymEndomorphism_restrict_eq_sum
   intro σ _
   rw [LinearMap.map_smul, smul_eq_mul]
 
--- Raise the synthInstance budget for the `α • restrict` elaboration.
+-- rc2: slower instance search; bump synthInstance budget for the `α • restrict` elaboration
 set_option synthInstance.maxHeartbeats 80000 in
 /-- Companion: the squared Young symmetrizer endomorphism on `S` equals
 `α` times itself when `c_λ² = α · c_λ`. -/
@@ -869,14 +866,14 @@ theorem youngSymEndomorphism_restrict_sq_scalar
     LinearMap.restrict_apply, SetLike.val_smul_of_tower]
   exact h_pt
 
-/-! #### β.2 Specht correspondence: simple `symGroupImage`-modules ↔ Specht modules
+/-! #### β.2 Specht bridge: simple `symGroupImage`-modules ↔ Specht modules
 
 Every simple `symGroupImage`-submodule `S ≤ V^⊗n` is, as a ℂ-module, isomorphic
 to `SpechtModule n la'` for some partition `la'`, with the iso intertwining
 `symGroupAction σ` (restricted to `S`) and `spechtModuleAction n la' σ`. The
 trace identity `tr(σ on S) = spechtModuleCharacter n la' σ` follows.
 
-The construction: `symGroupAlgHom : ℂ[S_n] →ₐ[ℂ] End_ℂ(V^⊗n)` has range
+The bridge: `symGroupAlgHom : ℂ[S_n] →ₐ[ℂ] End_ℂ(V^⊗n)` has range
 `symGroupImage`. Pull back along this surjection to give `↥(S.restrictScalars ℂ)`
 a `SymGroupAlgebra n`-module structure (via `Module.compHom`), then apply the
 Specht classification (`Theorem5_12_2_classification`). -/
@@ -917,8 +914,8 @@ private theorem symGroupAlgHomToImage_of (σ : Equiv.Perm (Fin n)) :
   rfl
 
 set_option synthInstance.maxHeartbeats 200000 in
--- Synthesising `HSMul ↥(symGroupImage) ↥S` (the submodule scalar action) exceeds
--- the default 200000 heartbeats.
+-- rc4: the `whnf`/`isDefEq` change makes synthesising `HSMul ↥(symGroupImage) ↥S`
+-- (the submodule scalar action) exceed the default 200000 heartbeats; bump it.
 set_option maxHeartbeats 400000 in
 /-- Value-level description of the `↥(symGroupImage)`-action on a submodule
 `S ≤ V^⊗n` via `symGroupAlgHomToImage`: `(symGroupAlgHomToImage a • x).val`
@@ -1010,7 +1007,8 @@ set_option synthInstance.maxHeartbeats 200000 in
 -- the bijective-semilinear-map transfer both invoke `Module` instance
 -- synthesis on the `S.restrictScalars ℂ` carrier, traversing the deep
 -- `Subalgebra → Subsemiring → Module` chain.
--- The bijective-transfer `isDefEq` runs past the default 200000 heartbeats.
+-- rc4: the `whnf`/`isDefEq` change pushes the bijective-transfer `isDefEq`
+-- past the default 200000 heartbeats; bump it.
 set_option maxHeartbeats 400000 in
 /-- Simplicity of `↥S` as a `↥(symGroupImage)`-module transfers to simplicity
 of `↥(S.restrictScalars ℂ)` as a `SymGroupAlgebra n`-module. -/
@@ -1039,7 +1037,9 @@ private theorem spechtModule_smul_of
 
 set_option maxHeartbeats 400000 in
 set_option synthInstance.maxHeartbeats 200000 in
-/-- The conjugation step of the Specht correspondence. Given a `SymGroupAlgebra n`-iso
+/-- The conjugation step of the Specht bridge, factored out so it can be reused
+when the classification iso `e` is obtained separately (when both the iso and
+the trace identity are needed downstream). Given a `SymGroupAlgebra n`-iso
 `e : ↥(S.restrictScalars ℂ) ≃ₗ SpechtModule n la'`, the trace of the restricted
 `σ`-action on `↥(S.restrictScalars ℂ)` equals `spechtModuleCharacter n la' σ`,
 by trace-conjugation through the ℂ-linear part of `e`. -/
@@ -1100,14 +1100,14 @@ private theorem trace_restrictedSymGroupAction_eq_of_spechtIso
   rfl
 
 set_option maxHeartbeats 400000 in
--- Heartbeats raised: the Specht-correspondence construction unfolds Module.compHom,
--- traverses a `Subalgebra → Subsemiring → Module` chain, and applies trace conjugation.
+-- Bumped: the Specht-bridge construction unfolds Module.compHom, traverses a
+-- `Subalgebra → Subsemiring → Module` chain, and applies trace conjugation.
 set_option synthInstance.maxHeartbeats 200000 in
-/-- **Specht correspondence** (β.2). Every simple `symGroupImage`-submodule `S ≤ V^⊗n`
+/-- **Specht bridge** (β.2). Every simple `symGroupImage`-submodule `S ≤ V^⊗n`
 admits a partition `la'` such that the trace of every `σ`-permutation operator
 restricted to `S` equals `spechtModuleCharacter n la' σ`.
 
-The construction: identify `↥(S.restrictScalars ℂ)` (with the SymGroupAlgebra-action
+The bridge: identify `↥(S.restrictScalars ℂ)` (with the SymGroupAlgebra-action
 via `symGroupAlgHomToImage`) as a simple `SymGroupAlgebra n`-module, apply the
 Specht classification (Theorem 5.12.2), then transport the trace through the
 ℂ-linear part of the resulting iso. -/
@@ -1550,7 +1550,7 @@ lemma repr_glTensorRep_diagUnit (N n : ℕ) (i : Fin N) (t : kˣ)
     LinearMap.smul_apply, smul_eq_mul]
   exact hbasis f
 
--- Raise the heartbeat budget for this lemma.
+-- rc2: slower whnf/isDefEq; bump heartbeat budget for this lemma
 set_option maxHeartbeats 400000 in
 /-- Off-diagonal entries of the Young symmetrizer vanish when weights differ. -/
 private lemma youngSym_repr_zero_of_ne_weight (k' : Type*) [Field k'] (N : ℕ) (lam : Fin N → ℕ)
@@ -1580,11 +1580,11 @@ private lemma youngSym_repr_zero_of_ne_weight (k' : Type*) [Field k'] (N : ℕ) 
   -- Now: c σ * B.repr(B f)(g∘σ) = 0
   rw [B.repr_self, Finsupp.single_apply]
   split_ifs with h
-  · -- f = g ∘ σ, so wt(f) = wt(g∘σ) = wt(g), contradiction
+  · -- f = g ∘ σ, so wt(f) = wt(g∘σ) = wt(g) — contradiction
     exact absurd (by rw [h, tensorWeight_comp_equiv] : tensorWeight N f = tensorWeight N g).symm hne
   · ring
 
--- Raise the heartbeat budget for this core structural lemma.
+-- rc2: slower whnf/isDefEq; bump heartbeat budget for this core structural lemma
 set_option maxHeartbeats 400000 in
 -- v4.30: synthesizing `Module.Free k (LinearMap.range Φ)` is slower; raise the limit.
 set_option synthInstance.maxHeartbeats 80000 in
@@ -1980,7 +1980,7 @@ theorem formalCharacter_schurModule_eq_sum_permTracePoly
   simp only [MvPolynomial.coeff_smul, smul_eq_mul, MvPolynomial.coeff_sum]
   exact weight_trace_coefficient_identity k N lam hlam α hα hα_sq μ
 
-/-! #### Cycle type partition and power sum connection -/
+/-! #### Bridge: cycle type partition and power sum connection -/
 
 /-- The full cycle type of σ forms a partition of n. -/
 noncomputable def fullCycleTypePartition {n : ℕ} (σ : Equiv.Perm (Fin n)) : Nat.Partition n where
@@ -2046,10 +2046,10 @@ theorem YoungSymmetrizerK_sq_scalar_ne_zero
   exact (Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n))
     (by rwa [Fintype.card_perm, Fintype.card_fin] at htr_nil)
 
-/-! #### Trace-Kronecker identity
+/-! #### Inlined trace-Kronecker identity for the bridge
 
-The key parts of the `youngSym_trace_kronecker` proof are reproduced here because
-`YoungSymTraceKronecker.lean` imports this file. -/
+We inline the key parts of the `youngSym_trace_kronecker` proof here
+to avoid circular imports (YoungSymTraceKronecker.lean imports this file). -/
 
 /-- Coefficient transfer: ℚ and ℂ Young symmetrizer coefficients agree under cast. -/
 private lemma youngSym_coeff_cast' (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
@@ -2250,7 +2250,12 @@ characteristic-zero field with vanishing trace is the zero map.
 The trace of an idempotent equals the cast of the rank of its range
 (`LinearMap.IsProj.trace`). Over a characteristic-zero field, vanishing trace
 forces the rank to be zero, hence the range is `⊥` and the endomorphism
-vanishes. -/
+vanishes.
+
+Upstream Mathlib PR: https://github.com/leanprover-community/mathlib4/pull/39523
+(once it merges, replace this lemma with the upstream
+`LinearMap.IsIdempotentElem.eq_zero_of_trace_eq_zero` and remove this local
+copy — see issue #2841). -/
 private theorem isIdempotentElem_eq_zero_of_trace_eq_zero
     {K : Type*} [Field K] [CharZero K]
     {V : Type*} [AddCommGroup V] [Module K V] [Module.Finite K V]
@@ -2412,8 +2417,8 @@ restricted endomorphism `f = c_λ|_S` factors as `α • π` for a nonzero scala
 * `Module.finrank ℂ (LinearMap.range π) = 1`,
 * `f = α • π`.
 
-The rank-1 fact is the "primitivity" content: it does not follow from
-the whole-space trace (that approach is circular, re-deriving the bimodule
+The rank-1 fact is the genuine "primitivity" content: it does **not** follow from
+the whole-space trace (that route is circular, re-deriving the bimodule
 dimension identity), but from the diagonal value `trace(c_λ|_S) = α` of the
 character-orthogonality identity, which is an independent `ℂ[S_n]` computation
 (`trace_mulLeft_youngSym_eq'`). Together with the bimodule decomposition
@@ -2506,7 +2511,7 @@ theorem youngSym_action_on_special_block_rank_one_scaled_proj
     rw [hπ_def, smul_smul, mul_inv_cancel₀ hα_ℂ_ne, one_smul]
   exact ⟨(α : ℂ), π, hα_ℂ_ne, hπ_idem, hπ_rank, hf_eq⟩
 
-/-! #### charValue ↔ spechtModuleCharacter
+/-! #### Bridge: charValue ↔ spechtModuleCharacter
 
 The Frobenius character formula (Theorem 5.15.1) connects the polynomial
 coefficient definition (`charValue` over ℚ with N variables) to the trace
@@ -2591,7 +2596,7 @@ private lemma sortedParts_getD_eq_of_antitone
       rw [h_empty]; simp [hall j]
 
 /-- The alternant determinant with Vandermonde exponents equals `sign(revPerm)` times the
-Vandermonde product. The canonical version is in `FrobeniusCharacterBridge`. -/
+Vandermonde product. (Local copy; the canonical version is in FrobeniusCharacterBridge.) -/
 private theorem alternantDet_eq_sign_mul_vandermondeProd' (N : ℕ) :
     (alternantMatrix N (vandermondeExps N)).det =
       ((Equiv.Perm.sign (@Fin.revPerm N) : ℤ) : MvPolynomial (Fin N) ℚ) *
@@ -2658,7 +2663,7 @@ private lemma map_vandermondeProd (n : ℕ) :
   simp only [vandermondePoly, map_prod, map_sub, MvPolynomial.map_X]
 
 set_option maxHeartbeats 800000 in
-/-- **Frobenius character formula (N = n case).** For `BoundedPartition n n`,
+/-- **Frobenius character formula bridge (N = n case)**: For `BoundedPartition n n`,
 `charValue` cast to ℂ equals `spechtModuleCharacter`.
 
 Proof: Using `alternantDet = sign(rev) · ∏(Xj-Xi)` and Theorem 5.15.1
@@ -3340,8 +3345,8 @@ private lemma charValue_stability
   congr 1
   exact canonicalBP_eq_of_weightToPartition_eq N₁ N₂ n bp₁ bp₂ h
 
-/-- The Frobenius character formula: `charValue` equals `spechtModuleCharacter`
-(after casting ℚ → ℂ). This connects the polynomial coefficient definition used in
+/-- The Frobenius character formula bridge: `charValue` equals `spechtModuleCharacter`
+(after casting ℚ → ℂ). This bridges the polynomial coefficient definition used in
 the Weyl character formula with the trace definition used in Specht module theory.
 
 For general N, this reduces to the N = n case via `charValue_stability`. -/
@@ -3354,7 +3359,7 @@ theorem charValue_eq_spechtModuleCharacter
   have hstab := charValue_stability N n n lam' bp_n
     (by rw [canonicalBP_weightToPartition]) (fullCycleTypePartition σ)
   rw [hstab]
-  -- Apply the N = n case
+  -- Apply the N = n bridge
   have hbridge := charValue_eq_spechtModuleCharacter_of_eq n bp_n σ
   rw [hbridge]
   -- Show the transported partitions match
@@ -3438,7 +3443,7 @@ theorem youngSym_charValue_orthogonality
   -- The trace Kronecker identity over ℂ
   have h_trace := youngSym_trace_kronecker' (∑ i, lam i) (weightToPartition N lam)
     la'_np α hα_sq
-  -- charValue cast to ℂ equals spechtModuleCharacter
+  -- Bridge: charValue cast to ℂ equals spechtModuleCharacter
   have h_bridge : ∀ σ : Equiv.Perm (Fin (∑ i, lam i)),
       (charValue N lam' (fullCycleTypePartition σ) : ℂ) =
         spechtModuleCharacter (∑ i, lam i) la'_np σ :=
@@ -3671,436 +3676,5 @@ theorem Theorem5_22_1
     formalCharacter k N (SchurModule k N lam) = schurPoly N lam := by
   ext μ
   rw [formalCharacter_coeff, schurModule_weight_eq_schurPoly_coeff k N lam hlam]
-
-/-! ### Part 3: the Weyl dimension formula
-
-Etingof's Theorem 5.22.1 concludes with the dimension formula
-`dim L_λ = ∏_{1 ≤ i < j ≤ N} (λ_i − λ_j + j − i)/(j − i)`. This is a downstream
-corollary of the character identity `Theorem5_22_1` (part 2): evaluating the
-formal character at the all-ones point `x_i = 1` recovers the total dimension
-`∑_μ dim (L_λ)_μ = dim L_λ`, and the Schur polynomial `S_λ` evaluated at
-`(1, …, 1)` is the Weyl dimension product. -/
-
-/-- The **Weyl dimension product** for `GL(N)`:
-`∏_{1 ≤ i < j ≤ N} (λ_i − λ_j + j − i)/(j − i)`.
-
-Under the `Fin N` (0-indexed) encoding, `i < j` ranges over `Finset.Ioi i` and
-the offset `j − i > 0` is unchanged by the index shift, so this matches the book's
-product exactly. For antitone `λ` every factor is a positive rational and the
-whole product is a positive integer (the dimension), with no nat-division
-truncation: the ratio is taken in `ℚ`. -/
-noncomputable def weylDimension (N : ℕ) (lam : Fin N → ℕ) : ℚ :=
-  ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
-    (((lam i : ℚ) - (lam j : ℚ)) + (((j : ℕ) : ℚ) - ((i : ℕ) : ℚ))) /
-      ((((j : ℕ) : ℚ) - ((i : ℕ) : ℚ)))
-
-/-- Evaluating the formal character at the all-ones point `x_i = 1` sums the
-weight-space multiplicities: `ch_M(1, …, 1) = ∑_μ dim M_μ`.
-
-Pure algebra: `formalCharacter` is a finite sum of monomials `dim(M_μ) · x^μ`,
-and each monomial evaluates to `dim(M_μ)` at `x = 1`. -/
-theorem eval_one_formalCharacter (N : ℕ)
-    (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k)) :
-    MvPolynomial.eval (fun _ => (1 : ℚ)) (formalCharacter k N M) =
-      (glWeightSpace_finite_support k N M).toFinset.sum
-        (fun μ => (Module.finrank k (glWeightSpace k N M (fun i => μ i)) : ℚ)) := by
-  unfold formalCharacter
-  rw [map_sum]
-  apply Finset.sum_congr rfl
-  intro μ _
-  rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one, MvPolynomial.eval_monomial]
-  simp
-
-/-! ### Semisimplicity of the diagonal torus action -/
-
-omit [CharZero k] in
-/-- The diagonal torus operator `diagUnit(i,u)` acts semisimply on the tensor power.
-It is diagonal in the standard tensor basis with eigenvalue `u ^ #{j : g j = i}` on
-`b_g`; since `#{j : g j = i} ≤ n`, the squarefree polynomial `∏_{s∈S} (X − s)`
-(over the finite set `S` of distinct powers `u^m`) annihilates it. -/
-theorem glTensorRep_diagUnit_isSemisimple (N n : ℕ) (i : Fin N) (u : kˣ) :
-    Module.End.IsSemisimple (glTensorRep k N n (diagUnit k N i u)) := by
-  classical
-  set D := glTensorRep k N n (diagUnit k N i u) with hD
-  set S : Finset k := (Finset.range (n + 1)).image (fun m => (u : k) ^ m) with hS
-  set p : Polynomial k := ∏ s ∈ S, (Polynomial.X - Polynomial.C s) with hp
-  have hsqfree : Squarefree p := by
-    apply Polynomial.Separable.squarefree
-    rw [hp]
-    exact Polynomial.separable_prod_X_sub_C_iff'.mpr (fun x _ y _ h => h)
-  have haeval : (Polynomial.aeval D) p = 0 := by
-    refine (tensorStdBasis k N n).ext (fun g => ?_)
-    set c : ℕ := (Finset.univ.filter (fun j => g j = i)).card with hc
-    have hev : D (tensorStdBasis k N n g) = ((u : k) ^ c) • tensorStdBasis k N n g := by
-      rw [hD]; exact glTensorRep_diagUnit_basis k N n i u g
-    rw [Module.End.aeval_apply_of_mem_apply_eq_smul hev]
-    have hcn : c ≤ n := by
-      rw [hc]
-      exact le_trans (Finset.card_filter_le _ _) (by simp [Finset.card_univ])
-    have hmem : (u : k) ^ c ∈ S := by
-      rw [hS]; exact Finset.mem_image.mpr ⟨c, Finset.mem_range.mpr (by omega), rfl⟩
-    have heval : p.eval ((u : k) ^ c) = 0 := by
-      rw [hp, Polynomial.eval_prod]
-      exact Finset.prod_eq_zero hmem (by simp)
-    rw [heval, zero_smul, LinearMap.zero_apply]
-  exact Module.End.isSemisimple_of_squarefree_aeval_eq_zero hsqfree haeval
-
-omit [CharZero k] in
-/-- The diagonal torus operator acts semisimply on the Schur module: it is the
-restriction of the (semisimple) diagonal operator on the tensor power to the
-`GL`-stable Schur submodule. -/
-theorem schurModule_rho_diagUnit_isSemisimple (N : ℕ) (lam : Fin N → ℕ) (i : Fin N) (t : kˣ) :
-    Module.End.IsSemisimple ((SchurModule k N lam).ρ (diagUnit k N i t)) := by
-  have hinvt : SchurModuleSubmodule k N lam ∈
-      Module.End.invtSubmodule (glTensorRep k N (∑ i, lam i) (diagUnit k N i t)) :=
-    fun v hv => glTensorRep_mem_range k N lam (diagUnit k N i t) v hv
-  have hss := (glTensorRep_diagUnit_isSemisimple k N (∑ i, lam i) i t).restrict hinvt
-  exact hss
-
-/-- The total dimension of the Schur module equals its formal character evaluated
-at the all-ones point: `dim L_λ = ch(L_λ)(1, …, 1)`.
-
-This is the total-dimension specialization of the weight-space decomposition
-`L_λ = ⨁_μ (L_λ)_μ`: the module is the internal direct sum of its
-`GL`-weight spaces (simultaneous eigenspaces of the diagonal torus, which acts
-diagonalizably over the algebraically closed characteristic-zero field `k`), so
-its dimension is the sum of the weight multiplicities, which `eval_one_formalCharacter`
-identifies with the character at `x_i = 1`. -/
-theorem finrank_schurModule_eq_eval_one (N : ℕ) (lam : Fin N → ℕ)
-    (hlam : Antitone lam) :
-    (Module.finrank k (SchurModule k N lam) : ℚ) =
-      MvPolynomial.eval (fun _ => (1 : ℚ))
-        (formalCharacter k N (SchurModule k N lam)) := by
-  classical
-  rw [eval_one_formalCharacter]
-  set n := ∑ i, lam i with hn
-  set s := (glWeightSpace_finite_support k N (SchurModule k N lam)).toFinset with hs
-  -- The commuting family of diagonal-torus operators on the Schur module.
-  set f : Fin N × kˣ → Module.End k (SchurModule k N lam) :=
-    fun q => (SchurModule k N lam).ρ (diagUnit k N q.1 q.2) with hf
-  have hcomm : ∀ q₁ q₂ : Fin N × kˣ, Commute (f q₁) (f q₂) :=
-    fun q₁ q₂ => rep_diagUnit_commute k N (SchurModule k N lam) q₁.1 q₁.2 q₂.1 q₂.2
-  have hfss : ∀ q : Fin N × kˣ, Module.End.IsFinitelySemisimple (f q) :=
-    fun q => (schurModule_rho_diagUnit_isSemisimple k N lam q.1 q.2).isFinitelySemisimple
-  -- The eigenvalue character `χ_μ (i,t) = t^{μ i}`.
-  set χ : (Fin N →₀ ℕ) → (Fin N × kˣ → k) := fun μ q => (q.2 : k) ^ (μ q.1) with hχ
-  -- Key identity: each glWeightSpace is the simultaneous maximal generalized eigenspace.
-  have hkey : ∀ μ : Fin N →₀ ℕ, glWeightSpace k N (SchurModule k N lam) (fun i => μ i) =
-      ⨅ q : Fin N × kˣ, (f q).maxGenEigenspace (χ μ q) := by
-    intro μ
-    rw [iInf_prod, glWeightSpace]
-    refine iInf_congr (fun i => iInf_congr (fun t => ?_))
-    rw [(hfss (i, t)).maxGenEigenspace_eq_eigenspace (χ μ (i, t)), Module.End.eigenspace_def]
-    rfl
-  -- Independence of the weight spaces (from independence of joint gen. eigenspaces).
-  have h_mapsTo : ∀ (q₁ q₂ : Fin N × kˣ) (φ : k),
-      Set.MapsTo (f q₁) ((f q₂).maxGenEigenspace φ) ((f q₂).maxGenEigenspace φ) :=
-    fun q₁ q₂ φ => Module.End.mapsTo_maxGenEigenspace_of_comm (hcomm q₂ q₁) φ
-  have h_indep0 := Module.End.independent_iInf_maxGenEigenspace_of_forall_mapsTo f h_mapsTo
-  have h_inj : Function.Injective χ := by
-    intro μ₁ μ₂ heq
-    ext i
-    by_contra hi
-    obtain ⟨t, ht⟩ := exists_unit_pow_ne k hi
-    exact ht (congr_fun heq (i, t))
-  have h_indep_all :
-      iSupIndep (fun μ : Fin N →₀ ℕ => glWeightSpace k N (SchurModule k N lam) (fun i => μ i)) := by
-    have hrw : (fun μ : Fin N →₀ ℕ => glWeightSpace k N (SchurModule k N lam) (fun i => μ i)) =
-        (fun c : (Fin N × kˣ → k) => ⨅ q, (f q).maxGenEigenspace (c q)) ∘ χ :=
-      funext hkey
-    rw [hrw]
-    exact h_indep0.comp h_inj
-  -- Spanning: the joint eigenspaces of the (semisimple) torus fill the module.
-  have h_span_all :
-      ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (SchurModule k N lam) (fun i => μ i) = ⊤ := by
-    refine top_unique ?_
-    have htop :=
-      Module.End.iSup_iInf_maxGenEigenspace_eq_top_of_iSup_maxGenEigenspace_eq_top_of_commute
-        f (fun q₁ q₂ _ => hcomm q₁ q₂) (fun q => Module.End.iSup_maxGenEigenspace_eq_top (f q))
-    rw [← htop]
-    refine iSup_le (fun c => ?_)
-    by_cases hEc : (⨅ q, (f q).maxGenEigenspace (c q)) = ⊥
-    · rw [hEc]; exact bot_le
-    · obtain ⟨v, hv_mem, hv_ne⟩ := (Submodule.ne_bot_iff _).mp hEc
-      -- v is a simultaneous eigenvector.
-      have hev : ∀ q, f q v = c q • v := by
-        intro q
-        have hmem : v ∈ (f q).maxGenEigenspace (c q) := (Submodule.mem_iInf _).mp hv_mem q
-        rw [(hfss q).maxGenEigenspace_eq_eigenspace (c q)] at hmem
-        exact Module.End.mem_eigenspace_iff.mp hmem
-      -- Transport to the tensor power via the subtype inclusion.
-      set ι : (SchurModule k N lam) →ₗ[k] TensorPower k (Fin N → k) n :=
-        Submodule.subtype (SchurModuleSubmodule k N lam) with hι
-      have hint : ∀ (i : Fin N) (t : kˣ) (w : SchurModule k N lam),
-          ι (f (i, t) w) = glTensorRep k N n (diagUnit k N i t) (ι w) := by
-        intro i t w
-        simp only [hι, hf, SchurModule, FDRep.of_ρ']
-        rfl
-      have hι_inj : Function.Injective ι := Subtype.coe_injective
-      have hcoe_ne : ι v ≠ 0 := fun h => hv_ne (hι_inj (by rw [h, map_zero]))
-      obtain ⟨g₀, hg₀⟩ : ∃ g₀, (tensorStdBasis k N n).repr (ι v) g₀ ≠ 0 := by
-        by_contra h
-        push_neg at h
-        exact hcoe_ne ((tensorStdBasis k N n).repr.map_eq_zero_iff.mp (Finsupp.ext h))
-      -- Determine the character `c` from the weight of `g₀`.
-      have hc_eq : c = χ (tensorWeight N g₀) := by
-        funext q
-        obtain ⟨i, t⟩ := q
-        have hcoeq : glTensorRep k N n (diagUnit k N i t) (ι v) = c (i, t) • ι v := by
-          have h1 := congrArg ι (hev (i, t))
-          rw [map_smul, hint] at h1
-          exact h1
-        have hrepr := congrArg (fun w => (tensorStdBasis k N n).repr w g₀) hcoeq
-        simp only [repr_glTensorRep_diagUnit, map_smul, Finsupp.coe_smul, Pi.smul_apply,
-          smul_eq_mul] at hrepr
-        -- hrepr : t^{#i in g₀} * repr v g₀ = c (i,t) * repr v g₀
-        have hcancel := mul_right_cancel₀ hg₀ hrepr
-        show c (i, t) = (t : k) ^ ((tensorWeight N g₀) i)
-        rw [← hcancel]
-        rfl
-      rw [hc_eq, ← hkey (tensorWeight N g₀)]
-      exact le_iSup (fun μ : Fin N →₀ ℕ =>
-        glWeightSpace k N (SchurModule k N lam) (fun i => μ i)) (tensorWeight N g₀)
-  -- Restrict independence and spanning to the finite support `s`.
-  have h_indep : iSupIndep
-      (fun ν : ↥s => glWeightSpace k N (SchurModule k N lam) (fun i => (ν : Fin N →₀ ℕ) i)) :=
-    h_indep_all.comp Subtype.coe_injective
-  have h_span : ⨆ ν : ↥s,
-      glWeightSpace k N (SchurModule k N lam) (fun i => (ν : Fin N →₀ ℕ) i) = ⊤ := by
-    refine top_unique ?_
-    rw [← h_span_all]
-    refine iSup_le (fun μ => ?_)
-    by_cases hμ : μ ∈ s
-    · exact le_iSup (fun ν : ↥s =>
-        glWeightSpace k N (SchurModule k N lam) (fun i => (ν : Fin N →₀ ℕ) i)) ⟨μ, hμ⟩
-    · have hbot : glWeightSpace k N (SchurModule k N lam) (fun i => μ i) = ⊥ := by
-        by_contra h
-        exact hμ ((glWeightSpace_finite_support k N (SchurModule k N lam)).mem_toFinset.mpr h)
-      rw [hbot]; exact bot_le
-  -- The module is the internal direct sum of its weight spaces; add dimensions.
-  have hInt : DirectSum.IsInternal
-      (fun ν : ↥s => glWeightSpace k N (SchurModule k N lam) (fun i => (ν : Fin N →₀ ℕ) i)) :=
-    DirectSum.isInternal_submodule_of_iSupIndep_of_iSup_eq_top h_indep h_span
-  have hfr : Module.finrank k (SchurModule k N lam) =
-      ∑ ν : ↥s, Module.finrank k
-        (glWeightSpace k N (SchurModule k N lam) (fun i => (ν : Fin N →₀ ℕ) i)) := by
-    have e := LinearEquiv.ofBijective (DirectSum.coeLinearMap
-      (fun ν : ↥s =>
-        glWeightSpace k N (SchurModule k N lam) (fun i => (ν : Fin N →₀ ℕ) i))) hInt
-    rw [← LinearEquiv.finrank_eq e, Module.finrank_directSum]
-  rw [hfr, Nat.cast_sum]
-  exact (Finset.sum_coe_sort s (fun μ =>
-    (Module.finrank k (glWeightSpace k N (SchurModule k N lam) (fun i => μ i)) : ℚ))).symm ▸ rfl
-
-/-! ### Principal specialization `x_i ↦ q^i`
-
-The alternant determinants `A_{λ+δ}` and the Vandermonde `Δ` both vanish at the
-all-ones point, so `S_λ(1, …, 1)` cannot be read off directly. We instead
-substitute `x_i ↦ q^i` into the defining alternant identity, obtaining an
-identity in `ℚ[q]`; both sides carry the same power of `(q − 1)`, which we cancel
-before evaluating at `q = 1`. The `q → 1` limit becomes an honest evaluation. -/
-
-/-- The single-pair factor `q^b − q^a = (q − 1) · qFactor a b` (for `b ≤ a`),
-where `qFactor a b = -q^b · (1 + q + ⋯ + q^{a-b-1})` has value `-(a − b)` at
-`q = 1`. -/
-private noncomputable def qFactor (a b : ℕ) : Polynomial ℚ :=
-  (-(Polynomial.X : Polynomial ℚ) ^ b) *
-    ∑ t ∈ Finset.range (a - b), (Polynomial.X : Polynomial ℚ) ^ t
-
-private lemma qFactor_mul (a b : ℕ) (h : b ≤ a) :
-    (Polynomial.X : Polynomial ℚ) ^ b - (Polynomial.X : Polynomial ℚ) ^ a
-      = ((Polynomial.X : Polynomial ℚ) - 1) * qFactor a b := by
-  have h1 : (∑ t ∈ Finset.range (a - b), (Polynomial.X : Polynomial ℚ) ^ t) *
-      ((Polynomial.X : Polynomial ℚ) - 1) = (Polynomial.X : Polynomial ℚ) ^ (a - b) - 1 :=
-    geom_sum_mul _ _
-  have h2 : (Polynomial.X : Polynomial ℚ) ^ b * (Polynomial.X : Polynomial ℚ) ^ (a - b)
-      = (Polynomial.X : Polynomial ℚ) ^ a := by rw [← pow_add]; congr 1; omega
-  unfold qFactor
-  symm
-  calc ((Polynomial.X : Polynomial ℚ) - 1) *
-          ((-(Polynomial.X : Polynomial ℚ) ^ b) *
-            ∑ t ∈ Finset.range (a - b), (Polynomial.X : Polynomial ℚ) ^ t)
-      = (-(Polynomial.X : Polynomial ℚ) ^ b) *
-          ((∑ t ∈ Finset.range (a - b), (Polynomial.X : Polynomial ℚ) ^ t) *
-            ((Polynomial.X : Polynomial ℚ) - 1)) := by ring
-    _ = (-(Polynomial.X : Polynomial ℚ) ^ b) *
-          ((Polynomial.X : Polynomial ℚ) ^ (a - b) - 1) := by rw [h1]
-    _ = (Polynomial.X : Polynomial ℚ) ^ b -
-          (Polynomial.X : Polynomial ℚ) ^ b * (Polynomial.X : Polynomial ℚ) ^ (a - b) := by ring
-    _ = (Polynomial.X : Polynomial ℚ) ^ b - (Polynomial.X : Polynomial ℚ) ^ a := by rw [h2]
-
-private lemma eval_one_qFactor (a b : ℕ) :
-    Polynomial.eval 1 (qFactor a b) = -((a - b : ℕ) : ℚ) := by
-  unfold qFactor
-  rw [Polynomial.eval_mul, Polynomial.eval_neg, Polynomial.eval_pow, Polynomial.eval_X,
-      one_pow, Polynomial.eval_geom_sum]
-  simp
-
-/-- Principal specialization sends an alternant determinant to the Vandermonde
-product `∏_{i<j} (q^{e_j} − q^{e_i})`. -/
-private lemma aeval_pow_alternant_det (N : ℕ) (e : Fin N → ℕ) :
-    MvPolynomial.aeval (fun i : Fin N => (Polynomial.X : Polynomial ℚ) ^ (i : ℕ))
-        (alternantMatrix N e).det =
-      ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
-        ((Polynomial.X : Polynomial ℚ) ^ e j - (Polynomial.X : Polynomial ℚ) ^ e i) := by
-  rw [AlgHom.map_det]
-  rw [show (MvPolynomial.aeval
-        (fun i : Fin N => (Polynomial.X : Polynomial ℚ) ^ (i : ℕ))).mapMatrix (alternantMatrix N e)
-      = Matrix.transpose (Matrix.vandermonde (fun k : Fin N => (Polynomial.X : Polynomial ℚ) ^ e k))
-        from ?_]
-  · rw [Matrix.det_transpose, Matrix.det_vandermonde]
-  · ext i j
-    simp only [AlgHom.mapMatrix_apply, Matrix.map_apply, alternantMatrix, Matrix.of_apply,
-      map_pow, MvPolynomial.aeval_X, Matrix.transpose_apply, Matrix.vandermonde_apply]
-    rw [← pow_mul, ← pow_mul, Nat.mul_comm]
-
-/-- Factor `(q − 1)^P` out of the Vandermonde product, where `P = ∑_i |Ioi i|`. -/
-private lemma prod_factor_X_sub_one (N : ℕ) (e : Fin N → ℕ)
-    (hmono : ∀ i j : Fin N, i < j → e j ≤ e i) :
-    (∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
-        ((Polynomial.X : Polynomial ℚ) ^ e j - (Polynomial.X : Polynomial ℚ) ^ e i))
-      = ((Polynomial.X : Polynomial ℚ) - 1) ^ (∑ i : Fin N, (Finset.Ioi i).card) *
-          ∏ i : Fin N, ∏ j ∈ Finset.Ioi i, qFactor (e i) (e j) := by
-  have inner : ∀ i : Fin N,
-      (∏ j ∈ Finset.Ioi i, ((Polynomial.X : Polynomial ℚ) - 1) * qFactor (e i) (e j))
-        = ((Polynomial.X : Polynomial ℚ) - 1) ^ (Finset.Ioi i).card *
-            ∏ j ∈ Finset.Ioi i, qFactor (e i) (e j) := by
-    intro i
-    rw [Finset.prod_mul_distrib, Finset.prod_const]
-  rw [Finset.prod_congr rfl fun i _ => Finset.prod_congr rfl fun j hj =>
-      qFactor_mul (e i) (e j) (hmono i j (Finset.mem_Ioi.mp hj))]
-  rw [Finset.prod_congr rfl fun i _ => inner i]
-  rw [Finset.prod_mul_distrib, Finset.prod_pow_eq_pow_sum]
-
-private lemma eval_one_prod_qFactor (N : ℕ) (e : Fin N → ℕ) :
-    Polynomial.eval 1 (∏ i : Fin N, ∏ j ∈ Finset.Ioi i, qFactor (e i) (e j))
-      = ∏ i : Fin N, ∏ j ∈ Finset.Ioi i, (-((e i - e j : ℕ) : ℚ)) := by
-  rw [Polynomial.eval_prod]
-  refine Finset.prod_congr rfl fun i _ => ?_
-  rw [Polynomial.eval_prod]
-  refine Finset.prod_congr rfl fun j _ => ?_
-  exact eval_one_qFactor (e i) (e j)
-
-private lemma eval_one_aeval_pow (N : ℕ) (p : MvPolynomial (Fin N) ℚ) :
-    Polynomial.eval 1 (MvPolynomial.aeval
-        (fun i : Fin N => (Polynomial.X : Polynomial ℚ) ^ (i : ℕ)) p)
-      = MvPolynomial.eval (fun _ => (1 : ℚ)) p := by
-  induction p using MvPolynomial.induction_on with
-  | C a => simp
-  | add p q hp hq => simp [hp, hq]
-  | mul_X p i hp =>
-    simp only [map_mul, MvPolynomial.aeval_X, MvPolynomial.eval_X, Polynomial.eval_mul,
-      Polynomial.eval_pow, Polynomial.eval_X, one_pow, mul_one, hp]
-
-/-- The Schur polynomial evaluated at the all-ones point is the Weyl dimension
-product: `S_λ(1, …, 1) = ∏_{i<j} (λ_i − λ_j + j − i)/(j − i)`.
-
-Both the numerator alternant `A_{λ+δ}` and the Vandermonde `Δ` vanish at
-`x = (1, …, 1)` (repeated rows), so the ratio is the indeterminate `0/0`; the
-value is recovered by the standard principal-specialization / L'Hôpital limit
-`x_i = q^{i}`, `q → 1`, giving the product over `i < j`. -/
-theorem schurPoly_eval_one_eq_weylDimension (N : ℕ) (lam : Fin N → ℕ)
-    (hlam : Antitone lam) :
-    MvPolynomial.eval (fun _ => (1 : ℚ)) (schurPoly N lam) = weylDimension N lam := by
-  -- Monotonicity of the exponent sequences on pairs `i < j`.
-  have hmono_delta : ∀ i j : Fin N, i < j → vandermondeExps N j ≤ vandermondeExps N i := by
-    intro i j hij
-    have hij' : (i : ℕ) < (j : ℕ) := Fin.lt_def.mp hij
-    simp only [vandermondeExps]; omega
-  have hmono_eps : ∀ i j : Fin N, i < j → shiftedExps N lam j ≤ shiftedExps N lam i := by
-    intro i j hij
-    have hij' : (i : ℕ) < (j : ℕ) := Fin.lt_def.mp hij
-    have hlij : lam j ≤ lam i := hlam (le_of_lt hij)
-    simp only [shiftedExps]; omega
-  -- Cast identities for the exponent differences.
-  have hcast_delta : ∀ i j : Fin N, i < j →
-      ((vandermondeExps N i - vandermondeExps N j : ℕ) : ℚ) = ((j : ℕ) : ℚ) - ((i : ℕ) : ℚ) := by
-    intro i j hij
-    have hle := hmono_delta i j hij
-    have hi : (i : ℕ) ≤ N - 1 := Nat.le_sub_one_of_lt i.isLt
-    have hj : (j : ℕ) ≤ N - 1 := Nat.le_sub_one_of_lt j.isLt
-    simp only [vandermondeExps] at hle ⊢
-    rw [Nat.cast_sub hle, Nat.cast_sub hi, Nat.cast_sub hj]; ring
-  have hcast_eps : ∀ i j : Fin N, i < j →
-      ((shiftedExps N lam i - shiftedExps N lam j : ℕ) : ℚ)
-        = ((lam i : ℚ) - (lam j : ℚ)) + (((j : ℕ) : ℚ) - ((i : ℕ) : ℚ)) := by
-    intro i j hij
-    have hle := hmono_eps i j hij
-    have hi : (i : ℕ) ≤ N - 1 := Nat.le_sub_one_of_lt i.isLt
-    have hj : (j : ℕ) ≤ N - 1 := Nat.le_sub_one_of_lt j.isLt
-    simp only [shiftedExps] at hle ⊢
-    rw [Nat.cast_sub hle, Nat.cast_add, Nat.cast_add, Nat.cast_sub hi, Nat.cast_sub hj]; ring
-  -- Principal specialization `x_i ↦ q^i` applied to the defining alternant identity.
-  have hmaster := congrArg
-    (MvPolynomial.aeval (fun i : Fin N => (Polynomial.X : Polynomial ℚ) ^ (i : ℕ)))
-    (schurPoly_mul_vandermonde N lam)
-  rw [map_mul, aeval_pow_alternant_det, aeval_pow_alternant_det] at hmaster
-  rw [prod_factor_X_sub_one N (shiftedExps N lam) hmono_eps,
-      prod_factor_X_sub_one N (vandermondeExps N) hmono_delta] at hmaster
-  set P : ℕ := ∑ i : Fin N, (Finset.Ioi i).card with hP
-  set S := MvPolynomial.aeval (fun i : Fin N => (Polynomial.X : Polynomial ℚ) ^ (i : ℕ))
-      (schurPoly N lam) with hS
-  set Gδ := ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
-      qFactor (vandermondeExps N i) (vandermondeExps N j) with hGδ
-  set Gε := ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
-      qFactor (shiftedExps N lam i) (shiftedExps N lam j) with hGε
-  -- hmaster : S * ((X - 1) ^ P * Gδ) = (X - 1) ^ P * Gε
-  have hXne : ((Polynomial.X : Polynomial ℚ) - 1) ^ P ≠ 0 := by
-    apply pow_ne_zero
-    intro h
-    have := congrArg (Polynomial.eval (0 : ℚ)) h
-    simp at this
-  have hcancel : S * Gδ = Gε := by
-    apply mul_left_cancel₀ hXne
-    rw [← hmaster]; ring
-  -- Evaluate the polynomial identity at `q = 1`.
-  have hSval : Polynomial.eval 1 S = MvPolynomial.eval (fun _ => (1 : ℚ)) (schurPoly N lam) := by
-    rw [hS]; exact eval_one_aeval_pow N (schurPoly N lam)
-  have hGδval : Polynomial.eval 1 Gδ = ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
-      (-((vandermondeExps N i - vandermondeExps N j : ℕ) : ℚ)) := by
-    rw [hGδ]; exact eval_one_prod_qFactor N (vandermondeExps N)
-  have hGεval : Polynomial.eval 1 Gε = ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
-      (-((shiftedExps N lam i - shiftedExps N lam j : ℕ) : ℚ)) := by
-    rw [hGε]; exact eval_one_prod_qFactor N (shiftedExps N lam)
-  have heval := congrArg (Polynomial.eval 1) hcancel
-  rw [Polynomial.eval_mul, hSval, hGδval, hGεval] at heval
-  -- The denominator product is nonzero.
-  have hden_ne : (∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
-      (-((vandermondeExps N i - vandermondeExps N j : ℕ) : ℚ))) ≠ 0 := by
-    rw [Finset.prod_ne_zero_iff]; intro i _
-    rw [Finset.prod_ne_zero_iff]; intro j hj
-    simp only [Finset.mem_Ioi] at hj
-    rw [neg_ne_zero, Nat.cast_ne_zero]
-    have hij' : (i : ℕ) < (j : ℕ) := Fin.lt_def.mp hj
-    simp only [vandermondeExps]; omega
-  -- Identify the Weyl dimension product with the ratio of the two evaluated products.
-  have hweyl : weylDimension N lam
-      = (∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
-          (-((shiftedExps N lam i - shiftedExps N lam j : ℕ) : ℚ)))
-        / (∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
-          (-((vandermondeExps N i - vandermondeExps N j : ℕ) : ℚ))) := by
-    rw [show weylDimension N lam
-        = ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
-            ((-((shiftedExps N lam i - shiftedExps N lam j : ℕ) : ℚ))
-              / (-((vandermondeExps N i - vandermondeExps N j : ℕ) : ℚ))) from ?_]
-    · simp_rw [Finset.prod_div_distrib]
-    · rw [weylDimension]
-      refine Finset.prod_congr rfl fun i _ => Finset.prod_congr rfl fun j hj => ?_
-      have hij := Finset.mem_Ioi.mp hj
-      rw [neg_div_neg_eq, hcast_eps i j hij, hcast_delta i j hij]
-  rw [hweyl, eq_div_iff hden_ne]
-  exact heval
-
-/-- **Weyl dimension formula for `GL(V)`** (Etingof Theorem 5.22.1, part 3):
-the dimension of the Schur module `L_λ` is the Weyl dimension product
-
-`dim L_λ = ∏_{1 ≤ i < j ≤ N} (λ_i − λ_j + j − i)/(j − i)`.
-
-Obtained from the character identity `Theorem5_22_1` (part 2) by evaluating at the
-all-ones point: `dim L_λ = ch(L_λ)(1, …, 1) = S_λ(1, …, 1) = weylDimension`. -/
-theorem Theorem5_22_1_dim (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
-    (Module.finrank k (SchurModule k N lam) : ℚ) = weylDimension N lam := by
-  rw [finrank_schurModule_eq_eval_one k N lam hlam, Theorem5_22_1 k N lam hlam,
-      schurPoly_eval_one_eq_weylDimension N lam hlam]
 
 end Etingof

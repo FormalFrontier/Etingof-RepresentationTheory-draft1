@@ -9,13 +9,24 @@ import EtingofRepresentationTheory.Chapter5.TraceVanishingDensity
 import EtingofRepresentationTheory.Chapter5.GLRepAlgebraic
 
 /-!
-# The formal character determines the isomorphism class
+# Schur-Weyl #6: the formal character determines the isomorphism class
 
-A finite-dimensional polynomial `GL_N(k)`-representation whose formal character
-equals a Schur polynomial `S_λ` is isomorphic to the Schur module `L_λ`
-(`iso_of_formalCharacter_eq_schurPoly`, Etingof §5.22).
+This file hosts `iso_of_formalCharacter_eq_schurPoly` (Etingof §5.22, issue
+#2483): a finite-dimensional polynomial `GL_N(k)`-representation whose formal
+character equals a Schur polynomial `S_λ` is isomorphic to the Schur module
+`L_λ`.
 
-## Proof outline (abstract-simple form)
+## Why this lives here (not in `FormalCharacterIso`)
+
+The theorem's essential dependency `decompose_polynomial_gl_rep`
+(`PolynomialGLDecomposition`) sits **downstream** of `FormalCharacterIso`:
+`PolynomialGLDecomposition` imports `FormalCharacterIso`. Proving the theorem in
+`FormalCharacterIso` would therefore create an import cycle. It is relocated here,
+downstream of both `PolynomialGLDecomposition` (the equivariant decomposition)
+and `SchurWeylSimplesClassification` (#4698, linear independence of the abstract
+simple characters). See issue #4699.
+
+## Proof route (abstract-simple form)
 
 Let `n := ∑ i, lam i`.
 
@@ -27,11 +38,57 @@ Let `n := ∑ i, lam i`.
 3. **Character match.** Push `formalCharacter` through the decomposition
    (`formalCharacter_directSum` + `formalCharacter_eq_of_rep_iso`):
    `schurPoly N lam = formalCharacter M = ∑_j formalCharacter (L (f j))`.
-4. **Conclude.** The abstract simples each have `formalCharacter` a
+4. **Conclude via #4698.** The abstract simples each have `formalCharacter` a
    distinct Schur polynomial, so their characters are linearly independent
    (`SchurWeylSimplesClassification`). The single-`schurPoly` left side then
    forces `p = 1` with `f 0` the class of `L_λ`, hence
    `M ≃ L_λ` at the `asModule` level; rebuild the categorical `≅`.
+
+## Status
+
+The assembly `iso_of_formalCharacter_eq_schurPoly` is **sorry-free in its own proof**.
+It takes the algebraicity (`halg`) and spanning (`h_span`) hypotheses explicitly — both
+are what make `M` genuinely polynomial — and routes the decomposition through
+`decompose_polynomial_gl_rep`, whose schurPoly-classification of the abstract simples it
+matches against `S_λ` via `schurPoly_linearIndependent` to force a single summand.
+
+The iso-strength highest-weight uniqueness `simpleRep_iso_schurModule_of_formalCharacter_eq`
+(this file) — "a simple polynomial `GL_N`-rep with character `S_λ` is `L_λ`", the natural
+strengthening of `schurWeyl_simples_formalCharacter_classification_core` (#4721, which only
+classifies characters) — is itself now **sorry-free in its own proof** (route B, #4901). It
+takes the polynomiality (weight saturation) of `L` as a hypothesis `hLtop` and its algebraicity
+as `hLalg`, and runs the two-element-family `{L, L_λ}` character-independence argument, reducing
+to two isolated, genuinely-deep ingredients:
+
+* (a) `schurModule_isSimple_general` — general-`k` Schur-module simplicity (#4946, #5054);
+* (b) `formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general` — the general-`k`
+  torus→full-group Zariski-density character-independence seam (#4947, shares the density core
+  with the ℂ seam #4908). **Now sorry-free** (algebraicity bridge #4983): it takes algebraicity
+  of each `L i` as a hypothesis (matching the ℂ seam), supplied at the call sites from the
+  polynomial source via `schurModule_isAlgebraic` and `IsAlgebraicRepresentation.of_linearEquiv`.
+
+There is no third "weight saturation from character" ingredient: the original (c)
+`glWeightSpace_top_of_simple_formalCharacter_eq_schurPoly` was **false** (`formalCharacter`
+does not see non-`ℕ` weights, so it cannot certify polynomiality of a simple — counterexample
+`det⁻¹ ⊗ Sym³(std)` at `N = 2`) and is retired (#4969). Both polynomiality (`hLtop`) and
+algebraicity (`hLalg`) are instead threaded as hypotheses and discharged at the real caller
+`iso_of_formalCharacter_eq_schurPoly`, where the simple summand `L (f 0)` is the equivariant
+image of the polynomial, algebraic `M`; the `L_λ`-side uses the true
+`glWeightSpace_schurModule_iSup_eq_top` and `schurModule_isAlgebraic`. Weight saturation rests
+on the elementary `glWeightSpace_iSup_eq_top_of_equivariant_surjective`, algebraicity on the
+analogous `IsAlgebraicRepresentation.of_linearEquiv`.
+
+The classification crux (#4721) and pairwise distinctness (#4731), reached through
+`decompose_polynomial_gl_rep`, are consumed transitively by the assembly below.
+
+The reusable glue `Representation.kEquivOfAsModuleEquiv` (the reverse of
+`asModuleEquivOfIntertwiner`) bridges the module-level `≃ₗ[MonoidAlgebra]` output of the
+decomposition to a `k`-linear GL-equivariant equivalence, feeding both the character
+computation (via `formalCharacter_eq_of_rep_iso`) and the categorical iso (via
+`Action.mkIso`). The character half is packaged below as
+`formalCharacter_eq_of_asModule_linearEquiv` (relocated from the former leaf file
+`SchurWeylSimplesClassificationComplex` in #5023, alongside the general-`k`
+highest-weight classification core).
 -/
 
 open CategoryTheory MvPolynomial
@@ -42,14 +99,15 @@ noncomputable section
 
 
 -- `Representation.kEquivOfAsModuleEquiv` and `Representation.kEquivOfAsModuleEquiv_intertwines`
--- are re-exported from `CleanCharacterExtractionBase` via the import above.
+-- are now in the DetInvElim-clean base `CleanCharacterExtractionBase` (#5075) and re-exported
+-- via the import above.
 
 namespace Etingof
 
 variable (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
 
--- `Etingof.formalCharacter_FDRep_of_ρ` is re-exported from `CleanCharacterExtractionBase`
--- via the import above.
+-- `Etingof.formalCharacter_FDRep_of_ρ` is now in `CleanCharacterExtractionBase` (#5075),
+-- re-exported via the import above.
 
 omit [CharZero k] in
 /-- **Weight saturation transfers along equivariant surjections.** A `GL_N`-equivariant
@@ -61,7 +119,7 @@ span all of `M`, those of `P` span all of `P`.
 (`omit [CharZero k]`: the statement and proof never use it.)
 
 This is the single elementary fact behind both polynomiality facts the highest-weight
-uniqueness argument needs: the Schur module is the equivariant image of the tensor power
+uniqueness assembly needs: the Schur module is the equivariant image of the tensor power
 (below), and a direct summand of a polynomial representation is its equivariant image. -/
 theorem glWeightSpace_iSup_eq_top_of_equivariant_surjective (N : ℕ)
     (M P : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
@@ -103,18 +161,18 @@ theorem glWeightSpace_schurModule_iSup_eq_top (N : ℕ) (lam : Fin N → ℕ) :
   rw [FDRep.of_ρ']
   exact (LinearMap.ext_iff.mp (glTensor_comm_youngSym k N lam g) v).symm
 
-/- **Ingredient (a): general-`k` Schur-module simplicity.**
-(The theorem `schurModule_isSimple_general` is re-exported from
-`CleanCharacterExtractionBase` via the import above; this note records the universe
-context.)
+/- **Ingredient (a): general-`k` Schur-module simplicity (issue #4946, #5054).**
+(The theorem `schurModule_isSimple_general` itself now lives in the DetInvElim-clean
+`CleanCharacterExtractionBase` (#5075); this note is retained for the universe context.)
 The Schur module `L_λ = SchurModule k N lam` is a simple
 `MonoidAlgebra k (GL_N(k))`-module for any antitone `lam`.
 
 The centralizer-level core is proved over a general algebraically-closed
 characteristic-zero field as `schurModuleSubmodule_isSimple_centralizer_general`
-(`SchurModuleSimple.lean`), and the `hN : (∑ i, lam i) ≤ N` guard is not needed.
-It combines `schurModuleSubmodule_isSimple_centralizer_general` with the generic GL
-transfer `isSimpleModule_monoidAlgebra_GL_of_centralizer_simple`.
+(`SchurModuleSimple.lean`), and the `hN : (∑ i, lam i) ≤ N` guard is **not** needed.
+This assembly is a one-line mirror of the ℂ `schurModule_isSimple` final
+assembly: `schurModuleSubmodule_isSimple_centralizer_general` + the generic GL transfer
+`isSimpleModule_monoidAlgebra_GL_of_centralizer_simple`.
 
 **Universe note:** that general-`k` core lives in `Type` (universe `0`). It factors
 through the general-`k` Specht classification
@@ -126,14 +184,15 @@ this file (this theorem, `schurWeyl_simples_isotypic_matching_general`,
 `schurWeyl_simples_formalCharacter_classification_core_general`,
 `simpleRep_iso_schurModule_of_formalCharacter_eq`, `iso_of_formalCharacter_eq_schurPoly`)
 and its external consumers across Ch 5/6/9 down to `Type 0`; the section variable here is
-accordingly `k : Type`. -/
--- (`schurModule_isSimple_general` is re-exported from `CleanCharacterExtractionBase`.)
+accordingly `k : Type` (#5054). -/
+-- (`schurModule_isSimple_general` is now in `CleanCharacterExtractionBase` (#5075),
+-- re-exported via the import above.)
 
--- (`formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general` is
--- re-exported from `CleanCharacterExtractionBase`.)
+-- (`formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general` is now in
+-- `CleanCharacterExtractionBase` (#5075), re-exported via the import above.)
 
 
-/-- **Numerical identity for the Schur-Weyl decomposition.**
+/-- **Numerical identity for the Schur-Weyl decomposition (sorry-free).**
 
 For any equivariant decomposition `e : V^{⊗n} ≃ ⨁ᵢ Sᵢ ⊗ Lᵢ` of `V = Fin N → k`
 (`n ≤ N`), the multiplicity-weighted sum of the abstract characters equals the
@@ -144,8 +203,8 @@ length `≤ N`).
 
 This is the field-independent numerical input to the highest-weight classification:
 the left side comes from the abstract decomposition, the right side from
-`(∑ Xᵢ)^n = ∑_λ dim(Specht_λ)·schurPoly λ`. It does not by itself pin each
-`char(Lᵢ)` to a single Schur polynomial; that requires the isotypic geometry. -/
+`(∑ Xᵢ)^n = ∑_λ dim(Specht_λ)·schurPoly λ`. It does **not** by itself pin each
+`char(Lᵢ)` to a single Schur polynomial — that requires the isotypic geometry. -/
 theorem schurWeyl_decomposition_numerical_identity
     (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (N n : ℕ)
@@ -176,7 +235,7 @@ theorem schurWeyl_decomposition_numerical_identity
     exact Finset.sum_congr rfl (fun i _ => formalCharacter_trivialTensor k N (S i) (L i))
   rw [← h1, formalCharacter_glTensorRep_eq_pow, sum_X_pow_eq_sum_finrank_smul_schurPoly]
 
-/-- **`R`-linear flattening of the Schur-Weyl decomposition.**
+/-- **`R`-linear flattening of the Schur-Weyl decomposition (sorry-free `def`).**
 
 For any equivariant decomposition `e : V^{⊗n} ≃ ⨁ᵢ Sᵢ ⊗ Lᵢ`, the `asModule` of
 `glTensorRep` is `MonoidAlgebra k GL_N`-linearly the direct sum, over
@@ -184,10 +243,10 @@ For any equivariant decomposition `e : V^{⊗n} ≃ ⨁ᵢ Sᵢ ⊗ Lᵢ`, the `
 
 Each `Sᵢ ⊗ Lᵢ` (with `Sᵢ` carrying the trivial action) splits, via a basis of
 `Sᵢ`, into `dim Sᵢ` copies of `Lᵢ`; assembling these over `i` and flattening the
-`Σ` gives the stated isotypic form. It reuses the `Einner`
+`Σ` gives the stated isotypic form. This is the extraction of the `Einner`
 construction of `polynomial_homog_rep_asModule_embeds_directSum_simple`
 (`PolynomialGLDecomposition.lean`) for arbitrary decomposition data, packaging the
-ambient `V^{⊗n}` as a finite direct sum of simple `R`-modules, the input shape
+ambient `V^{⊗n}` as a finite direct sum of simple `R`-modules — the input shape
 required by `SemisimpleIsotypic.submodule_of_directSum_simple_iso_directSum`. -/
 noncomputable def schurWeyl_decomposition_asModule_flatten
     (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
@@ -219,8 +278,8 @@ noncomputable def schurWeyl_decomposition_asModule_flatten
       (δ := fun (i : ι) (_ : Fin (Module.finrank k (S i))) =>
         Representation.asModule (L i).ρ)).symm
 
-/-- **Equal formal characters from a `MonoidAlgebra`-linear `asModule` equivalence.**
-A `MonoidAlgebra k GL_N`-linear equivalence between the `asModule`s
+/-- **Equal formal characters from a `MonoidAlgebra`-linear `asModule` equivalence
+(sorry-free).** A `MonoidAlgebra k GL_N`-linear equivalence between the `asModule`s
 of two representations `ρ`, `σ` produces equal formal characters.
 
 The `R`-linear `Φ` is upgraded to a `GL_N`-equivariant `k`-linear equivalence
@@ -247,7 +306,7 @@ theorem formalCharacter_eq_of_asModule_linearEquiv
 
 open DirectSum in
 /-- **A simple module embedding into a finite direct sum of simple modules is
-isomorphic to one of the summands.**
+isomorphic to one of the summands (sorry-free).**
 
 If `W ≃ₗ[R] ⨁_κ Lsum` with each `Lsum c` simple and `T` is a simple `R`-module
 with an injective `R`-linear map into `W`, then `T ≃ₗ[R] Lsum c` for some `c`.
@@ -289,10 +348,10 @@ theorem simpleModule_iso_component_of_embeds
   obtain ⟨c, rfl⟩ := hm
   exact ⟨c, ⟨eTT'.trans (e'.trans (LinearEquiv.ofInjective _ (hlof_inj c)).symm)⟩⟩
 
-/-- **Isotypic matching half of the classification (general `k`).**
+/-- **Isotypic matching half of the classification (general `k`, sorry-free modulo #4946).**
 
 Given the equivariant decomposition data of `V^{⊗n}` (`V = Fin N → k`, `n ≤ N`),
-there is an injective assignment `φ : BoundedPartition N n → ι` such that
+there is an *injective* assignment `φ : BoundedPartition N n → ι` such that
 `char(L (φ λ)) = schurPoly N λ.parts` for every antitone partition `λ` of `n`
 (length `≤ N`).
 
@@ -306,9 +365,8 @@ component (`simpleModule_iso_component_of_embeds`) yields `SchurModule k N λ.pa
 `formalCharacter_schurModule_eq_schurPoly`). Injectivity of `φ` follows from
 `schurPoly_injective`.
 
-This gives steps 1-2, 4 of the argument; the surjectivity `|ι| = |P|` (the counting
-step) is the remaining content of
-`schurWeyl_simples_formalCharacter_classification_core_complex`. -/
+This is steps 1–2,4 of route 1; the surjectivity `|ι| = |P|` (the counting step)
+is the remaining content of `schurWeyl_simples_formalCharacter_classification_core_complex`. -/
 theorem schurWeyl_simples_isotypic_matching_general
     (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (N n : ℕ)
@@ -380,42 +438,43 @@ theorem schurWeyl_simples_isotypic_matching_general
   obtain rfl : p = p' := h2
   rfl
 
-/-- **Linear independence of the Schur-Weyl simple characters.**
+/-- **Linear independence of the Schur-Weyl simple characters (sub-issue of #4870 /
+#4887).**
 
-The formal characters of the pairwise non-isomorphic simple polynomial summands
+The formal characters of the pairwise non-isomorphic simple *polynomial* summands
 `L i` of `V^{⊗n}` (`V = Fin N → k`, `n ≤ N`) produced by the equivariant
 decomposition are `ℚ`-linearly independent.
 
 This is the classical fact "characters of pairwise non-isomorphic irreducible
 representations are linearly independent" (Dedekind/Artin independence of
-characters, specialised to the formal `GL_N` character). It is the
+characters, specialised to the formal `GL_N` character). It is the genuine
 remaining content of the counting step `|ι| = |P|`: combined with the numerical
 identity `schurWeyl_decomposition_numerical_identity` and the injective isotypic
 matching `φ`, it forces every abstract simple `L i` to be a Schur module, i.e.
 `φ` surjective (see `schurWeyl_simples_formalCharacter_classification_core_general`).
 
-As stated with only `hLsimp` and `hLdist`, the statement is false: a spurious index
-whose abstract simple `L i` is not algebraic can have
-`formalCharacter k N (L i) = 0` (empty weight-space decomposition), and two such
-indices make the family linearly dependent. The fix carries both the
-weight-space-spanning hypothesis `hLtop` (used by the torus-trace connection
-`Etingof.trace_combination_eq_zero_of_formalCharacter_combination_eq_zero`) and the
-algebraicity hypothesis `hLalg`. At the call site each `L i` is a summand of the
-polynomial representation `V^{⊗n}`, hence both spanning
+**Spec resolution (#4887, option C-a).** As stated originally (only `hLsimp`,
+`hLdist`) the statement is **false**: a "ghost" index whose abstract simple `L i` is
+not algebraic can have `formalCharacter k N (L i) = 0` (empty weight-space
+decomposition), and two such ghosts make the family linearly dependent. The fix is
+to thread both the weight-space-spanning hypothesis `hLtop` (feeding the torus-trace
+connection `Etingof.trace_combination_eq_zero_of_formalCharacter_combination_eq_zero`)
+and the algebraicity hypothesis `hLalg`. At the genuine call site each `L i` is a
+summand of the polynomial representation `V^{⊗n}`, hence both spanning
 (`schurWeyl_simple_summand_glWeightSpace_top`) and algebraic
 (`schurWeyl_simple_summand_isAlgebraic`).
 
-**Not circular.** The existing
+**Important — not circular.** The *existing*
 `glTensorRep_schurWeyl_simples_formalCharacter_linearIndependent`
-(`SchurWeylSimplesClassification.lean`) derives the same conclusion, but through
-the highest-weight classification core; using it here would make the classification
-depend circularly on the very result it is meant to establish. This lemma is
-instead proved directly from `hLtop`/`hLalg`/`hLsimp`/`hLdist` (character
+(`SchurWeylSimplesClassification.lean`) derives the same conclusion, but *through*
+the still-sorried highest-weight classification core; using it here would make the
+classification depend on the very sorry it is meant to discharge. This lemma is
+instead proved **directly** from `hLtop`/`hLalg`/`hLsimp`/`hLdist` (character
 independence), independently of the classification.
 
-The proof reduces to the general-`k` lemma
-`formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general` via the
-torus-trace connection. -/
+The assembly here is `sorry`-free; it reduces to the isolated general-`k` seam lemma
+`formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general`
+(#4947) via the torus-trace connection (B). -/
 theorem schurWeyl_simples_formalCharacter_linearIndependent_general
     (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (N n : ℕ)
@@ -441,7 +500,7 @@ theorem schurWeyl_simples_formalCharacter_linearIndependent_general
   -- Reduce to coefficient-vanishing for an arbitrary vanishing ℚ-combination.
   rw [Fintype.linearIndependent_iff]
   intro c hc
-  -- The relation `∑ cᵢ • char(Lᵢ) = 0` forces the corresponding
+  -- Sub-issue (B): the relation `∑ cᵢ • char(Lᵢ) = 0` forces the corresponding
   -- combination of torus traces to vanish at every diagonal torus element.
   have htorus : ∀ t : Fin N → kˣ,
       ∑ i, (c i : k) • LinearMap.trace k (L i) ((L i).ρ (diagTorus k N t)) = 0 := by
@@ -449,8 +508,8 @@ theorem schurWeyl_simples_formalCharacter_linearIndependent_general
     have h := trace_combination_eq_zero_of_formalCharacter_combination_eq_zero
       k N Finset.univ c L (fun i _ => hLtop i) (by simpa using hc) t
     simpa using h
-  -- Torus-trace vanishing ⟹ every coefficient vanishes (general `k`), using the
-  -- algebraicity of each summand `hLalg`.
+  -- The seam (#4947): torus-trace vanishing ⟹ every coefficient vanishes (general `k`,
+  -- driven by the algebraicity of each summand `hLalg`).
   exact formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general
     k N L hLalg hLsimp hLdist c htorus
 
@@ -475,17 +534,17 @@ private theorem glWeightSpace_map_le_of_equivariant
     rw [← hf, hvit, map_smul]
   rw [sub_eq_zero]; exact hwit
 
-/-- **Spanning weight spaces of the simple summands.**
+/-- **Spanning weight spaces of the simple summands (sub-issue #4909 of #4887).**
 
 Each simple summand `L i` of `V^{⊗n}` (`V = Fin N → k`) carrying a nonzero
-multiplicity space (`0 < dim(S i)`) is a polynomial representation: its weight
+multiplicity space (`0 < dim(S i)`) is a *polynomial* representation: its weight
 spaces span. This supplies the `hLtop` hypothesis of
-`schurWeyl_simples_formalCharacter_linearIndependent_general` at the call site from
+`schurWeyl_simples_formalCharacter_linearIndependent_complex` at the call site from
 the equivariant decomposition data.
 
 Proof: pick a basis vector `s = b i0` of `S i` (exists since `dim(S i) > 0`) and the
 dual coordinate `φ = b.coord i0`, so `φ s = 1`. These build a `GL_N(k)`-equivariant
-surjection `q : V^{⊗n} → L i`, namely `v ↦ φ ((e v)ᵢ.1) • (e v)ᵢ.2`: project `e v`
+*surjection* `q : V^{⊗n} → L i`, namely `v ↦ φ ((e v)ᵢ.1) • (e v)ᵢ.2` — project `e v`
 to the `i`-th summand `S i ⊗ L i` and evaluate the `S i`-factor against `φ`
 (equivariance from `he` and the trivial `S i`-action; surjectivity since
 `q (e⁻¹ (of i (s ⊗ x))) = x`). The full tensor power has spanning weight spaces
@@ -493,8 +552,8 @@ to the `i`-th summand `S i ⊗ L i` and evaluate the `S i`-factor against `φ`
 to weight vectors (`glWeightSpace_map_le_of_equivariant`), so
 `⊤ = q ⊤ = q (⨆_μ wtₘ V^{⊗n}) = ⨆_μ q (wtₘ V^{⊗n}) ≤ ⨆_μ wtₘ (L i)`.
 
-Note: this uses the polynomial embedding into `glTensorRep`, not a general
-"algebraic ⟹ spanning ℕ-weight spaces" lemma, which is false (det⁻¹ twists are
+Note: this routes through the *polynomial* embedding into `glTensorRep`, not through a
+general "algebraic ⟹ spanning ℕ-weight spaces" lemma, which is false (det⁻¹ twists are
 algebraic but carry negative weights). -/
 theorem schurWeyl_simple_summand_glWeightSpace_top
     (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
@@ -611,7 +670,7 @@ private theorem isAlgebraic_of_equivariant_linearEquiv
   show (b.map φ).repr (ρ' g ((b.map φ) c)) a = evalAtGL g (P a c)
   rw [show ((b.map φ) c) = φ (b c) from rfl, ← hφ, h2, hP g a c]
 
-/-- **The simple summands `L i` of `V^{⊗n}` are algebraic representations.**
+/-- **The simple summands `L i` of `V^{⊗n}` are algebraic representations (#4932).**
 
 Each summand `L i` with nonzero multiplicity space (`0 < dim (S i)`) embeds
 `GL_N`-equivariantly into the polynomial representation `glTensorRep k N n` (which is
@@ -620,7 +679,7 @@ algebraic, `glTensorRep_isAlgebraic`), via `x ↦ e⁻¹ (lof i (s ⊗ x))` for 
 `schurWeyl_simple_summand_glWeightSpace_top`. Restricting the algebraic structure to the
 (invariant) image and transporting it back through the embedding gives algebraicity of
 `(L i).ρ`. This supplies the `IsAlgebraicRepresentation` hypothesis of
-`schurWeyl_simples_formalCharacter_linearIndependent_general`. -/
+`schurWeyl_simples_formalCharacter_linearIndependent_complex`. -/
 theorem schurWeyl_simple_summand_isAlgebraic
     (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (N n : ℕ)
@@ -698,7 +757,7 @@ theorem schurWeyl_simple_summand_isAlgebraic
   apply Subtype.ext
   rw [LinearMap.restrict_coe_apply, hφWval, ← hs_equiv, ← hφWval, LinearEquiv.apply_symm_apply]
 
-/-- **Highest-weight classification of the Schur-Weyl simples (general `k`).**
+/-- **Highest-weight classification of the Schur-Weyl simples (general `k`, issue #4993).**
 
 The general algebraically-closed characteristic-zero `k` form of
 `schurWeyl_simples_formalCharacter_classification_core`:
@@ -706,21 +765,21 @@ given the equivariant decomposition data of `V^{⊗n}` (`V = Fin N → k`, `n �
 there is an injective antitone-partition assignment `lam` with
 `char(Lᵢ) = schurPoly N (lam i)`.
 
-The proof combines the numerical identity
+The proof routes through the numerical identity
 (`schurWeyl_decomposition_numerical_identity`) and the isotypic matching
 (`schurWeyl_simples_isotypic_matching_complex`, an injective
 `φ : BoundedPartition N n ↪ ι` with `char(L (φ λ)) = schurPoly N λ.parts`). The
 counting step `|ι| = |P|` (i.e. `φ` surjective, so `lam := φ⁻¹` is total) is
-obtained here as a reduction: the numerical identity rewrites to a
+obtained here sorry-free *as a reduction*: the numerical identity rewrites to a
 vanishing `ℚ`-combination of the characters `char(L i)`, whose linear independence
-(`schurWeyl_simples_formalCharacter_linearIndependent_general`)
-forces every coefficient to vanish; the empty-fibre coefficients
+(`schurWeyl_simples_formalCharacter_linearIndependent_complex`, the one remaining
+isolated `sorry`) forces every coefficient to vanish; the empty-fibre coefficients
 are `dim(Sᵢ)`, so the nonzero-multiplicity hypothesis `hSne` (each `S i ≠ 0`,
 supplied by simplicity at the call site) rules out indices outside `im φ`.
 
 `hSne` is necessary, not cosmetic: without it a degenerate decomposition with
-`S i₀ = 0` carries an unconstrained spurious simple `L i₀`, for which
-`char(L i₀) = schurPoly N λ` fails, so the classification is false for
+`S i₀ = 0` carries an unconstrained "ghost" simple `L i₀`, for which
+`char(L i₀) = schurPoly N λ` fails — so the classification is genuinely false for
 such data. The source decomposition
 `glTensorRep_equivariant_schurWeyl_decomposition` has each `S i` a *simple*
 `Sₙ`-module, hence `0 < dim(S i)`. -/
@@ -752,13 +811,13 @@ theorem schurWeyl_simples_formalCharacter_classification_core_general
     rintro ⟨p, d, s⟩ ⟨p', d', s'⟩ h
     obtain rfl : p = p' := h
     rfl
-  -- Isotypic matching: injective `φ : P ↪ ι`, `char(L (φ λ)) = schurPoly λ`.
+  -- Isotypic matching (sorry-free): injective `φ : P ↪ ι`, `char(L (φ λ)) = schurPoly λ`.
   obtain ⟨φ, hφinj, hφchar⟩ :=
     schurWeyl_simples_isotypic_matching_general k N n L e he hLsimp
   -- Surjectivity of `φ` (the counting equality `|ι| = |P|`) via the numerical
   -- identity and linear independence of the simple characters. With each `L i`
   -- pairwise non-isomorphic and simple, the characters `char(L i)` are
-  -- `ℚ`-independent (`schurWeyl_simples_formalCharacter_linearIndependent_general`,
+  -- `ℚ`-independent (`schurWeyl_simples_formalCharacter_linearIndependent_complex`,
   -- the isolated remaining content). The numerical identity
   -- `∑ᵢ dim(Sᵢ)·char(Lᵢ) = ∑_λ dim(Specht_λ)·schurPoly λ` rewrites, via
   -- `char(L (φ λ)) = schurPoly λ` and the injectivity of `φ`, to a single
@@ -827,35 +886,33 @@ theorem schurWeyl_simples_formalCharacter_classification_core_general
     rw [← hi]
     exact hφchar (φequiv.symm i)
 
-/-- **Highest-weight uniqueness.** A simple polynomial
+/-- **Highest-weight uniqueness (issue #4901/#4721, route B).** A *simple* polynomial
 `GL_N(k)`-representation whose formal character is the Schur polynomial `S_λ` (for an
 antitone `λ`) is isomorphic to the Schur module `L_λ`.
 
-This is the isomorphism form of the highest-weight classification, stronger than
-`schurWeyl_simples_formalCharacter_classification_core` (which only pins the
-character of an abstract simple). The proof is the two-element-family character
-independence argument: were `L` and `L_λ` non-isomorphic, the pair `{L, L_λ}` would be two
+This is the iso-strength form of the highest-weight classification, one notch stronger than
+`schurWeyl_simples_formalCharacter_classification_core` (#4721, which only pins the
+*character* of an abstract simple). The proof is the **two-element-family character
+independence** argument: were `L` and `L_λ` non-isomorphic, the pair `{L, L_λ}` would be two
 pairwise non-isomorphic simple polynomial representations (simplicity of `L_λ` is ingredient
 (a)) whose equal formal characters force the torus-trace combination `trace(L) − trace(L_λ)`
 to vanish, contradicting character independence (ingredient (b)) with the nonzero coefficient
 vector `(1, -1)`. Hence `L ≅ L_λ`.
 
-Polynomiality (weight saturation) of `L` is available at the call site and is
-carried as the hypothesis `hLtop`, not derived from the character: weight saturation
-is not determined by `formalCharacter` for non-polynomial simples (e.g.
-`det⁻¹ ⊗ Sym³(std)` at `N = 2` has character `schurPoly 2 (1,0)` but does not
-saturate), so the putative ingredient (c)
-`glWeightSpace_top_of_simple_formalCharacter_eq_schurPoly` is false and has been
-removed. The `L_λ`-side saturation is `glWeightSpace_schurModule_iSup_eq_top`. The
-two deep ingredients (simplicity, independence) are isolated as the lemmas above.
+Polynomiality (weight saturation) of `L` is genuinely available at the real call site and is
+threaded in as the hypothesis `hLtop`, not manufactured from the character: weight saturation
+is *not* determined by `formalCharacter` for non-polynomial simples (e.g. `det⁻¹ ⊗ Sym³(std)`
+at `N = 2` has character `schurPoly 2 (1,0)` but does not saturate), so the would-be ingredient
+(c) `glWeightSpace_top_of_simple_formalCharacter_eq_schurPoly` was false and is retired (#4969).
+The `L_λ`-side saturation is the true `glWeightSpace_schurModule_iSup_eq_top`. The two remaining
+deep ingredients are isolated as the `sorry`s above (#4946 simplicity, #4947 independence).
 
-Algebraicity of `L` is likewise carried as the hypothesis `hLalg` (the input to
-ingredient (b), which takes algebraicity rather than the false `hLtop ⟹ regular`
-implication): the `L_λ`-side is supplied internally by `schurModule_isAlgebraic`.
-Like weight saturation, algebraicity is not determined by `formalCharacter`, so it
-must come from `L`'s polynomial source; at the call site
-(`iso_of_formalCharacter_eq_schurPoly`) it transports from the algebraic ambient
-representation via `IsAlgebraicRepresentation.of_linearEquiv`. -/
+Algebraicity of `L` is likewise threaded in as the hypothesis `hLalg` (the genuine input to
+ingredient (b), which now takes algebraicity rather than the false `hLtop ⟹ regular` bridge;
+see #4983): the `L_λ`-side is supplied internally by `schurModule_isAlgebraic`. Like weight
+saturation, algebraicity is not determined by `formalCharacter`, so it must come from `L`'s
+polynomial source; at the genuine call site (`iso_of_formalCharacter_eq_schurPoly`) it
+transports from the algebraic ambient rep via `IsAlgebraicRepresentation.of_linearEquiv`. -/
 theorem simpleRep_iso_schurModule_of_formalCharacter_eq (N : ℕ)
     (lam : Fin N → ℕ) (hlam : Antitone lam)
     (L : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
@@ -883,7 +940,7 @@ theorem simpleRep_iso_schurModule_of_formalCharacter_eq (N : ℕ)
       (Representation.asModule (![L, S] i).ρ) := by
     rw [Fin.forall_fin_two]; exact ⟨hLsimp, hSsimp⟩
   -- Both members of the family are algebraic: `L` by hypothesis, `S = L_λ` by
-  -- `schurModule_isAlgebraic`. This is the input to character independence.
+  -- `schurModule_isAlgebraic`. This is the genuine #4983 input to character independence.
   have hSalg : Etingof.IsAlgebraicRepresentation N S.ρ := by
     rw [hSdef]; exact schurModule_isAlgebraic N lam
   have halg : ∀ i, Etingof.IsAlgebraicRepresentation N (![L, S] i).ρ := by
@@ -917,11 +974,11 @@ theorem simpleRep_iso_schurModule_of_formalCharacter_eq (N : ℕ)
 polynomial `S_λ` is isomorphic to the Schur module `L_λ`.
 
 The hypotheses `halg` (algebraicity) and `h_span` (the `ℕ`-valued weight spaces span all
-of `M`) are what make `M` polynomial: together they exclude the potential
+of `M`) are what make `M` genuinely *polynomial*: together they exclude the would-be
 counterexample `M = L_λ ⊕ det⁻¹` (whose `det⁻¹`-summand contributes no `ℕ`-valued weight
 space, so it is invisible to `formalCharacter` and violates `h_span`). The dimension
-hypothesis (`_h_dim`) is retained for the consumer's interface, but is not needed for the
-proof: `h_span` already pins `M` down.
+hypothesis (`_h_dim`) is retained for the consumer's interface and the historical
+statement, but is not needed for the proof: `h_span` already pins `M` down.
 
 Proof: `decompose_polynomial_gl_rep` (GL_N-equivariant complete reducibility) writes
 `M.asModule` as a direct sum of abstract simples `L (f j)`, each with character a Schur
@@ -949,7 +1006,7 @@ theorem iso_of_formalCharacter_eq_schurPoly (N : ℕ)
       Module.finrank_pos_iff.mpr (Submodule.nontrivial_iff_ne_bot.mpr hμ)
     exact weight_magnitude_of_formalCharacter_eq_schurPoly k N lam M h μ hpos
   -- (2) Decompose `M.asModule` into abstract simples and the Schur-Weyl witnesses,
-  -- then read the schurPoly-classification off the classification core.
+  -- then read the schurPoly-classification off the (relocated) classification core.
   obtain ⟨ι, hιFin, hιDec, S, hSacg, hSmod, hSfin, L, hLsimp, hLdist, hSne, e, he,
       p, f, ⟨eM⟩⟩ :=
     Etingof.PolynomialGLDecomposition.decompose_polynomial_gl_rep k N n M halg h_span h_homog
@@ -964,7 +1021,7 @@ theorem iso_of_formalCharacter_eq_schurPoly (N : ℕ)
       Representation.asModule (Representation.directSum (fun j : Fin p => (L (f j)).ρ)) :=
     eM ≪≫ₗ (Representation.asModule_directSum_equiv (fun j : Fin p => (L (f j)).ρ)).symm
   have hM_sum : formalCharacter k N M = ∑ j : Fin p, schurPoly N (lam_cl (f j)).val := by
-    -- Push `formalCharacter` through the decomposition: convert the `MonoidAlgebra`-linear
+    -- Push `formalCharacter` through the decomposition: bridge the `MonoidAlgebra`-linear
     -- `asModule` equivalence `hφ` to a `k`-linear GL-equivariant equivalence, then split
     -- the resulting direct sum and read off each Schur-polynomial character via `hchar`.
     have hchar_eq : formalCharacter k N M
@@ -1040,7 +1097,7 @@ theorem iso_of_formalCharacter_eq_schurPoly (N : ℕ)
       (fun g v => Representation.kEquivOfAsModuleEquiv_intertwines hφ' g v)
       (Representation.kEquivOfAsModuleEquiv hφ').surjective h_span
   -- Algebraicity of `L (f 0)` transports from the algebraic ambient rep `M` along the
-  -- `k`-linear GL-equivariant equivalence `hφ'` (`IsAlgebraicRepresentation.of_linearEquiv`).
+  -- `k`-linear GL-equivariant equivalence `hφ'` (`IsAlgebraicRepresentation.of_linearEquiv`, #4983).
   have hLf0alg : Etingof.IsAlgebraicRepresentation N (L (f 0)).ρ :=
     Etingof.IsAlgebraicRepresentation.of_linearEquiv
       (Representation.kEquivOfAsModuleEquiv hφ')

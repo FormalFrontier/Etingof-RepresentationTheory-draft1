@@ -11,12 +11,12 @@ induced representation `Ind_H^G V` is
   `χ_{Ind_H^G V}(g) = Σ_{σ ∈ H\G : x_σ g x_σ⁻¹ ∈ H} χ_V(x_σ g x_σ⁻¹)`,
 
 where `{x_σ}` is a set of right-coset representatives for `H \ G`. This is the
-Frobenius formula (Etingof Theorem 5.9.1).
+**Frobenius formula** (Etingof Theorem 5.9.1).
 
 ## Statement used here: the averaged form
 
 Picking a transversal of `H \ G` is awkward to formalize and the choice is
-immaterial. We use the equivalent averaged form, which sums over all of
+immaterial. We use the equivalent *averaged* form, which sums over **all** of
 `G` and divides by `|H|`:
 
   `χ_{Ind_H^G V}(g) = (1/|H|) · Σ_{x ∈ G : x g x⁻¹ ∈ H} χ_V(x g x⁻¹)`.
@@ -31,7 +31,8 @@ such element
 
 So the sum over `G` counts each coset's contribution `|H|` times; dividing by
 `|H|` recovers the sum over cosets. The averaged form needs no choice of
-representatives and is the standard phrasing of the Frobenius formula.
+representatives and is the standard Lean-friendly phrasing of the Frobenius
+formula.
 
 ## Mathlib correspondence
 
@@ -40,8 +41,7 @@ throughout Chapter 5. The induced representation is `Etingof.Definition5_8_1`,
 i.e. Mathlib's `Representation.ind H.subtype ρ` on `Representation.IndV`.
 Frobenius reciprocity (the induction/restriction adjunction) is not yet in
 Mathlib, so the block-trace computation underlying this formula is proved
-directly here (via the abstract trace-on-coinvariants identity
-`Etingof.trace_coinvariantsMap`).
+directly here (currently `sorry`).
 -/
 
 open Representation
@@ -75,7 +75,7 @@ theorem Etingof.Theorem5_9_1
   -- We use the averaged form directly, via the abstract trace-on-coinvariants identity
   -- `Etingof.trace_coinvariantsMap`. The induced representation is `Coinvariants τ` for
   -- `τ = (left regular on ℂ[G]) ⊗ ρ` restricted to `H`, and `Ind_H^G ρ g` is the descent of
-  -- the right-shift `Ψ : single x ⊗ v ↦ single (x g⁻¹) ⊗ v` on `ℂ[G] ⊗ V`. The identity gives
+  -- the right-shift `Ψ : single x ⊗ v ↦ single (x g⁻¹) ⊗ v` on `ℂ[G] ⊗ V`. The crux lemma gives
   --   `χ(g) = (1/|H|) Σ_{h∈H} tr_{ℂ[G]⊗V}(τ(h) ∘ Ψ)`.
   -- Each summand factors as a tensor trace: `τ(h) ∘ Ψ = (single x ↦ single (h x g⁻¹)) ⊗ ρ(h)`,
   -- whose ℂ[G]-trace counts `{x : h x g⁻¹ = x} = {x : x g x⁻¹ = h}`. Summing over `h ∈ H` and
@@ -85,7 +85,7 @@ theorem Etingof.Theorem5_9_1
   haveI : Invertible (Fintype.card H : ℂ) :=
     invertibleOfNonzero (by exact_mod_cast (Fintype.card_pos (α := H)).ne')
   -- `Ind_H^G ρ g` is the descent of the right-shift `Ψ` to the coinvariants `Coinvariants τ`,
-  -- so the trace-on-coinvariants identity applies.
+  -- so the crux lemma applies.
   rw [show Etingof.Definition5_8_1 H ρ g = Representation.ind H.subtype ρ g from rfl,
     Representation.ind_apply, Etingof.trace_coinvariantsMap]
   congr 1

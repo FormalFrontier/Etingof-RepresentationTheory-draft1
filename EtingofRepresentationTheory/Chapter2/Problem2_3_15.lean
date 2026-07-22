@@ -26,7 +26,7 @@ minimal nonzero dimension" made precise: an atom of the submodule lattice.
 ## Part (b): failure in infinite dimension
 
 `not_exists_isSimpleModule_polynomial`. The regular representation of `A = k[x]` on
-itself has no irreducible subrepresentation. A simple submodule would be a minimal
+itself has no irreducible subrepresentation. A simple submodule would be a *minimal*
 nonzero ideal, but for any nonzero `s ∈ k[x]` the ideal `(x·s)` is a strictly smaller
 nonzero submodule (`x` is not a unit), so no nonzero submodule is minimal.
 
@@ -35,11 +35,11 @@ nonzero submodule (`x` is not a unit), so no nonzero submodule is minimal.
 The book's proof of Proposition 3.1.4 invokes this problem to extract an irreducible
 `P ⊆ W`. The Lean proof of Proposition 3.1.4
 (`Chapter3/Proposition3_1_4.lean`, `Etingof.subrepresentation_of_semisimple`) does
-not use Problem 2.3.15: the ambient module `⊕ᵢ nᵢ Vᵢ` is a finite direct
+**not** route through Problem 2.3.15: the ambient module `⊕ᵢ nᵢ Vᵢ` is a finite direct
 sum of simples, hence semisimple, so existence of a simple submodule of any submodule
-`W` comes directly from `IsSemisimpleModule.eq_bot_or_exists_simple_le`. This is a
-stronger argument (it needs no finite-dimensionality), so Proposition 3.1.4 does
-not depend on this problem: it reproves the existence fact it needs. Problem
+`W` comes directly from `IsSemisimpleModule.eq_bot_or_exists_simple_le`. That is a
+legitimate stronger route (it needs no finite-dimensionality), so Proposition 3.1.4 does
+not silently assume this problem — it reproves the existence fact it needs. Problem
 2.3.15 is formalized here in its own right.
 
 The group-representation form of part (a) already appears as
@@ -97,7 +97,7 @@ theorem not_exists_isSimpleModule_polynomial (k : Type*) [Field k] :
     rcases eq_or_lt_of_le hTle with hTeq | hTlt
     · rw [hTeq]; exact hsS
     · exact absurd (hS.2 T hTlt) hTne
-  -- `s ∈ (x · s)` means `s = a · x · s`, forcing `x` to be a unit, which is impossible.
+  -- `s ∈ (x · s)` means `s = a · x · s`, forcing `x` to be a unit — impossible.
   obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.mp hsT
   rw [smul_eq_mul, ← mul_assoc] at ha
   have hax : a * X = 1 := by

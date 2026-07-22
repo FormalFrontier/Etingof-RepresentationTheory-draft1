@@ -17,18 +17,18 @@ induced by the resolution `P•`.
 
 ## Faithfulness note
 
-This definition is asymmetric: `M` is a right `A`-module and `N` is a left
+This definition is genuinely asymmetric: `M` is a **right** `A`-module and `N` is a **left**
 `A`-module, and `⊗_A` is the tensor product over the (possibly non-commutative) ring `A`.
-Mathlib's `CategoryTheory.Tor C n : C ⥤ C ⥤ C` left-derives the tensor product of a single
+Mathlib's `CategoryTheory.Tor C n : C ⥤ C ⥤ C` left-derives the tensor product of a *single*
 monoidal abelian category, where both factors live in the same category `C`; it can model the
 book's `Tor` only in the commutative/bimodule case. It cannot express the general-ring setting
-of the book, where the two arguments live in different module categories.
+of the book, where the two arguments live in different module categories. See issue #5628.
 
 We therefore build the construction directly:
 
 * Right `A`-modules are `ModuleCat Aᵐᵒᵖ` (a right `A`-action on `M` is a left `Aᵐᵒᵖ`-action,
   with `m * a = MulOpposite.op a • m`).
-* The tensor product `M ⊗_A N` over the non-commutative ring `A` is not available in
+* The tensor product `M ⊗_A N` over the non-commutative ring `A` is **not** available in
   Mathlib (its `TensorProduct R` requires `R` commutative). We construct it here as the
   quotient of the underlying additive tensor product `M ⊗_ℤ N` by the balancing relation
   `(m * a) ⊗ n = m ⊗ (a • n)`.
@@ -136,18 +136,5 @@ projective resolution `P•` of `M`; we define it as the `n`-th left derived fun
 evaluated at `M`, which is canonically independent of the resolution (Problem 8.2.5). -/
 noncomputable def Tor (M : ModuleCat.{u} Aᵐᵒᵖ) (n : ℕ) : AddCommGrpCat.{u} :=
   (TorFunctor A N n).obj M
-
-/-- **`Tor` from a chosen projective resolution.** For any projective resolution `P•` of the right
-`A`-module `M`, `Torₙᴬ(M, N)` is (canonically isomorphic to) the `n`-th homology of the complex
-`P• ⊗_A N`. This is the resolution-computed description of `Tor` in Etingof Definition 8.2.3,
-obtained from the derived-functor definition via Mathlib's
-`ProjectiveResolution.isoLeftDerivedObj`. The independence of the chosen resolution is Problem
-8.2.5. -/
-noncomputable def torIsoHomologyTensorRight (M : ModuleCat.{u} Aᵐᵒᵖ)
-    (P : ProjectiveResolution M) (n : ℕ) :
-    Tor A N M n ≅
-      (HomologicalComplex.homologyFunctor AddCommGrpCat.{u} (ComplexShape.down ℕ) n).obj
-        (((tensorRightFunctor A N).mapHomologicalComplex _).obj P.complex) :=
-  P.isoLeftDerivedObj (tensorRightFunctor A N) n
 
 end Etingof

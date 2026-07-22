@@ -5,26 +5,26 @@ import EtingofRepresentationTheory.Chapter5.FormalCharacterIso
 import EtingofRepresentationTheory.Chapter5.Definition5_23_1
 
 /-!
-# det⁻¹ elimination proper
+# det⁻¹ elimination proper (assembly of the kernel lemma) — issue #4695
 
-This file discharges the remaining step of `detInv_elim_of_polynomial`
-(`PolynomialRepEmbedding.lean`) by applying the kernel lemma (K)
-(`Etingof.KernelLemmaK.kernelLemmaK_evalAtGL`).
+This file closes the lone `sorry` of `detInv_elim_of_polynomial`
+(`PolynomialRepEmbedding.lean`) by assembling the **kernel lemma (K)**
+(`Etingof.KernelLemmaK.kernelLemmaK_evalAtGL`, issue #4694).
 
-## The argument
+## The assembly
 
 For an algebraic `GL_N`-representation `M` whose `ℕ`-indexed weight spaces span
-(`h_span`, i.e. `M` is polynomial) we:
+(`h_span`, i.e. `M` is genuinely *polynomial*) we:
 
-1. build a weight eigenbasis `v` of `M` from `h_span` via the internal
+1. build a **weight eigenbasis** `v` of `M` from `h_span` via the internal
    direct-sum decomposition into weight spaces (`exists_weight_eigenbasis`);
 2. express the matrix coefficients `v.repr (M.ρ g (v c)) a` in that basis as
    `evalAtGL`-values of polynomials `R a c ∈ k[Xᵢⱼ, D]` (change of basis from the
    algebraic data `halg`);
-3. observe that `coordToAway (R a c) ∈ O = A[det⁻¹]` is a right-torus weight
-   vector of weight `wt c ∈ ℕ^N` (`hRweight`), using the right-translation
+3. observe that `coordToAway (R a c) ∈ O = A[det⁻¹]` is a **right-torus weight
+   vector** of weight `wt c ∈ ℕ^N` (`hRweight`) — using the right-translation
    intertwining `evalGLAway (localRightRep h x) g = evalGLAway x (g·h)`
-   (`evalGLAway_localRightRep`) and that `v` is a weight basis, and that their
+   (`evalGLAway_localRightRep`) and that `v` is a weight basis — and that their
    span is right-`GL_N`-stable (`hstable`);
 4. feed `(R, wt)` to `kernelLemmaK_evalAtGL`, which eliminates the `D = det⁻¹`
    variable: each `evalAtGL g (R a c)` equals `eval g (Q a c)` for a bare-entry
@@ -151,14 +151,14 @@ theorem exists_weight_eigenbasis [IsAlgClosed k] [CharZero k]
     LinearMap.smul_apply, LinearMap.id_coe, id_eq, sub_eq_zero] at hmem
   exact hmem i t
 
-/-! ### The argument -/
+/-! ### The assembly -/
 
-/-- **det⁻¹ elimination proper.** An algebraic `GL_N`-representation
-`M` whose `ℕ`-indexed weight spaces span (`h_span`, i.e. `M` is
-polynomial) has its matrix coefficients given, in a weight eigenbasis, by
-bare-entry polynomials `Q ∈ k[Xᵢⱼ]`: the `det⁻¹` variable is eliminated.
+/-- **det⁻¹ elimination proper (issue #4695).** An algebraic `GL_N`-representation
+`M` whose `ℕ`-indexed weight spaces span (`h_span`, i.e. `M` is genuinely
+*polynomial*) has its matrix coefficients given, in a weight eigenbasis, by
+**bare-entry** polynomials `Q ∈ k[Xᵢⱼ]`: the `det⁻¹` variable is eliminated.
 
-Via the kernel lemma `kernelLemmaK_evalAtGL`: the
+Assembled from the kernel lemma `kernelLemmaK_evalAtGL` (#4694): the
 matrix-coefficient polynomials `R a c`, regarded in the localization `A[det⁻¹]`,
 are right-torus weight vectors (weight `wt c ∈ ℕ^N`) spanning a right-`GL_N`-stable
 subspace, so the kernel lemma lands each `evalAtGL g (R a c)` in `k[Xᵢⱼ]`. -/

@@ -8,13 +8,13 @@ to a general characteristic-zero field `k`.
 
 The ℂ character `spechtModuleCharacter n la σ` is the trace of left multiplication by `of σ`
 on the left ideal `SpechtModule n la = ℂ[S_n]·c_λ`. The Schur-Weyl special-block analysis over
-a general field needs a `k`-valued analogue, since the relevant traces over `k` land in `k`.
+a general field needs a **`k`-valued** analogue, since the relevant traces over `k` land in `k`.
 
 We define:
-* `spechtModuleActionK k n la σ`: left multiplication by `of σ` on `SpechtModuleK k n la`;
-* `spechtModuleCharacterK k n la σ : k`: its trace.
+* `spechtModuleActionK k n la σ` — left multiplication by `of σ` on `SpechtModuleK k n la`;
+* `spechtModuleCharacterK k n la σ : k` — its trace.
 
-The key result is field-independence: writing `c_λ` over ℤ (`YoungSymmetrizerZ`), the
+The key result is **field-independence**: writing `c_λ` over ℤ (`YoungSymmetrizerZ`), the
 character equals `(N₀ : k)⁻¹ * (M₀ : k)` for two field-independent integers `N₀, M₀` coming from
 the ℤ-coefficients of `c_λ` (`spechtModuleCharacterK_eq_intCast`). Hence
 `spechtModuleCharacterK k n la σ = algebraMap ℚ k (spechtModuleCharacterK ℚ n la σ)`

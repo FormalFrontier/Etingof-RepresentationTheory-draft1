@@ -4,12 +4,12 @@ import EtingofRepresentationTheory.Infrastructure.SimpleModuleCount
 /-!
 # Schur-Weyl duality, part (iii): partition-indexed decomposition
 
-Schur-Weyl duality re-indexed: the abstract bimodule decomposition
-`Theorem5_18_4_bimodule_decomposition_full` is re-indexed by partitions of `n`,
+This file finishes Schur-Weyl duality by re-indexing the abstract bimodule
+decomposition `Theorem5_18_4_bimodule_decomposition_full` by partitions of `n`,
 giving the book's statement `Theorem5_18_4_partition_decomposition` (Etingof
-Theorem 5.18.4(iii) / Corollary 5.19.2).
+Theorem 5.18.4(iii) / Corollary 5.19.2), sorry-free.
 
-The remaining piece is the Specht labelling: an injection
+The one genuinely missing piece is the **Specht labelling**: an injection
 `ι ↪ Nat.Partition n` of the abstract index set into partitions of `n`. It exists
 as soon as `Fintype.card ι ≤ Fintype.card (Nat.Partition n)`. Each simple summand
 `Sᵢ`, restricted along the surjection `k[Sₙ] ↠ symGroupImage`, is a simple
@@ -93,7 +93,8 @@ variable (k : Type u) [Field k]
   (V : Type v) [AddCommGroup V] [Module k V] [Module.Finite k V]
   (n : ℕ)
 
-/-! ### `|ConjClasses(Sₙ)| ≤ p(n)` -/
+/-! ### `|ConjClasses(Sₙ)| ≤ p(n)` (reconstructed from the private proof in
+`Theorem5_12_2_Distinct`). -/
 
 /-- The cycle-type map `ConjClasses(Sₙ) → Nat.Partition n`. -/
 private def conjClassToPartition :
@@ -150,7 +151,7 @@ noncomputable instance invertible_card_perm [CharZero k] :
   rw [Fintype.card_perm, Fintype.card_fin]
   exact Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n)
 
-/-- For any family of pairwise non-isomorphic simple
+/-- **The crux.** For any family of pairwise non-isomorphic simple
 `symGroupImage k V n`-modules (finite over `k`) indexed by a `Fintype` `ι`, we have
 `card ι ≤ p(n)`. Restricting along the surjection `k[Sₙ] ↠ symGroupImage` turns each
 into a simple `k[Sₙ]`-module, and there are at most `|ConjClasses(Sₙ)| ≤ p(n)` of

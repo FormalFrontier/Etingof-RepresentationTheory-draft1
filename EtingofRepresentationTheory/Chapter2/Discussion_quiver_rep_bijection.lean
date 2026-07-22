@@ -15,8 +15,8 @@ mutually inverse assignments `V ↦ (pᵢ V)` and `(Vᵢ) ↦ ⊕ᵢ Vᵢ`, givi
 isomorphism classes.
 
 This file develops the algebraic foundation that both directions of that bijection rest on:
-the trivial paths `pᵢ = ofPath ⟨i, i, nil⟩` form a family of orthogonal idempotents
-summing (for a finite vertex set) to `1`, and they absorb an oriented path on the
+the trivial paths `pᵢ = ofPath ⟨i, i, nil⟩` form a family of **orthogonal idempotents**
+summing (for a finite vertex set) to `1`, and they **absorb** an oriented path on the
 correct side. Concretely, for an oriented path `a : x ⟶* y`,
 
 * `pₓ · a = a` and `pₖ · a = 0` for `k ≠ x` (the source idempotent acts on the left), and
@@ -27,15 +27,16 @@ which vertex space a single-arrow path maps out of and into.
 
 ## Convention / direction note
 
-`Definition2_8_4` builds `P_Q` with Mathlib's source-to-target concatenation
+`Definition2_8_4` builds `P_Q` with Mathlib's **source-to-target** concatenation
 (`comp x y` is defined when `target x = source y`, giving a path `source x ⟶* target y`).
-This is the opposite of Etingof's body-text reading `ab = "first b then a"`; the two
+This is the *opposite* of Etingof's body-text reading `ab = "first b then a"`; the two
 conventions produce mutually opposite algebras. The absorption laws below are stated for the
 source-to-target algebra actually constructed.
 
-A consequence worth flagging for the full bijection: under this convention, for an arrow
+A consequence worth flagging for the full bijection (tracked in the
+`Discussion_quiver_rep_bijection` work item): under this convention, for an arrow
 `e : i ⟶ j` the basis element `aₑ = ofPath ⟨i, j, e.toPath⟩` satisfies `pᵢ · aₑ = aₑ` and
-`aₑ · p_j = aₑ`, so in a left `P_Q`-module the operator `v ↦ aₑ • v` carries `p_j V` into
+`aₑ · p_j = aₑ`, so in a *left* `P_Q`-module the operator `v ↦ aₑ • v` carries `p_j V` into
 `pᵢ V`, i.e. it points `Vⱼ → Vᵢ`. Matching this against `Etingof.QuiverRepresentation` (where
 an arrow `i ⟶ j` carries `Vᵢ → Vⱼ`) therefore requires either the opposite algebra, right
 modules, or `Qᵒᵖ`; that modelling choice is left to the bijection construction itself.
@@ -113,7 +114,7 @@ theorem sum_trivialPath [Fintype Q] : (∑ i, trivialPath i : PathAlgebra k Q) =
   simp only [trivialPath]
   exact sum_trivialPaths_eq_one k Q
 
-/-- The trivial-path idempotents `pᵢ` form a complete family of orthogonal idempotents in the
+/-- The trivial-path idempotents `pᵢ` form a **complete family of orthogonal idempotents** in the
 path algebra of a finite quiver: `pᵢ² = pᵢ`, `pᵢ pⱼ = 0` for `i ≠ j`, and `∑ᵢ pᵢ = 1`. This is the
 algebraic input to the module-side decomposition `V = ⊕ᵢ pᵢ V` below. -/
 theorem completeOrthogonalIdempotents_trivialPath [Fintype Q] :
@@ -131,9 +132,8 @@ internal direct-sum decomposition `V = ⊕ᵢ Vᵢ` (`isInternal_vertexSpace`).
 
 This is exactly the underlying-module content of the assignment `V ↦ (pᵢ V)` of the discussion:
 the decomposition `V ≅ ⊕ᵢ Vᵢ` is what makes `V ↦ (pᵢ V)` and `(Vᵢ) ↦ ⊕ᵢ Vᵢ` mutually inverse on
-underlying modules. The vertex spaces inherit the arrow maps, and the full functor and
-isomorphism-class bijection sit on top of this decomposition (see the convention note above for
-the modelling
+underlying modules. The vertex spaces inherit the arrow maps, and the full functor / iso-class
+bijection, sit on top of this decomposition (see the convention note above for the modelling
 choice the arrow maps force).
 -/
 
@@ -186,11 +186,11 @@ theorem vertexProj_eq_self_of_mem {i : Q} {x : V} (hx : x ∈ (vertexSpace i : S
 /-! ## Arrow maps and the forward functor `V ↦ (pᵢ V, aₑ ↾)`
 
 For an arrow `e : i ⟶ j`, left multiplication by `aₑ = ofArrow e` carries `Vⱼ = pⱼ V` into
-`Vᵢ = pᵢ V` (because `pᵢ · aₑ = aₑ`): it points `Vⱼ → Vᵢ`, the opposite direction to an arrow
+`Vᵢ = pᵢ V` (because `pᵢ · aₑ = aₑ`): it points `Vⱼ → Vᵢ`, the *opposite* direction to an arrow
 `i ⟶ j` of `Etingof.QuiverRepresentation k Q` (which carries `Vᵢ → Vⱼ`).
 
-This is the modelling decision flagged in the module docstring. We resolve it by collecting the
-data into a representation of the opposite quiver `Qᵒᵖ`: an arrow `op j ⟶ op i` of `Qᵒᵖ`
+This is the modelling decision flagged in the module docstring. We resolve it by assembling the
+data into a representation of the **opposite quiver** `Qᵒᵖ`: an arrow `op j ⟶ op i` of `Qᵒᵖ`
 (i.e. the opposite of `e : i ⟶ j`) carries `Vⱼ → Vᵢ`, exactly matching `arrowMap e`. So a left
 `P_Q`-module `V` yields the quiver representation `forwardRep : QuiverRepresentation k Qᵒᵖ` with
 vertex spaces `(Vᵢ)` and arrow maps the restricted left-multiplications. (Equivalently one could
@@ -234,13 +234,13 @@ end ModuleDecomposition
 
 /-! ## Reverse direction: `R ↦ ⊕ᵢ R.obj (op i)` as a left `P_Q`-module
 
-From a representation `R` of the opposite quiver `Qᵒᵖ` we
+**Deliverable 3 of the bijection.** From a representation `R` of the opposite quiver `Qᵒᵖ` we
 build a left `P_Q`-module on `M = ⊕ᵢ R.obj (op i)`. A path `p : a ⟶* b` of `Q` acts by the
-composite of the arrow maps `R.mapLinear`, read contravariantly
+composite of the arrow maps `R.mapLinear`, read **contravariantly**
 (`pathMap (cons p e) = pathMap p ∘ R.mapLinear eᵒᵖ`), sending the `b`-summand to the `a`-summand
 and zero on the other summands. The contravariant reading is exactly what turns the
 source-to-target product `single⟨a,b,p⟩·single⟨b,d,q⟩ = single⟨a,d,p.comp q⟩` into composition
-(`pathMap (p.comp q) = pathMap p ∘ pathMap q`), so the assignment is a left action,
+(`pathMap (p.comp q) = pathMap p ∘ pathMap q`), so the assignment is a genuine **left** action,
 packaged as an algebra hom `toEnd : P_Q →ₐ[k] End k M`. This resolves the anti-homomorphism
 subtlety flagged in the convention note: the opposite is absorbed into the contravariant
 `pathMap`, not into the algebra or the side of the module.
@@ -319,12 +319,7 @@ noncomputable def toEndₗ (R : Etingof.QuiverRepresentation k Qᵒᵖ) :
 
 theorem toEndₗ_single (R : Etingof.QuiverRepresentation k Qᵒᵖ) (x : Etingof.QuiverPathIndex Q)
     (c : k) : toEndₗ R (Finsupp.single x c) = c • pathEnd R x := by
-  -- `PathAlgebra k Q` is a `def` (not a reducible `abbrev`), so unfolding `toEndₗ` leaves the
-  -- `Finsupp.lsum` applied at the `PathAlgebra` coercion, where `Finsupp.lsum_single` does not
-  -- fire. Restate the goal (defeq) with the underlying `QuiverPathIndex Q →₀ k` coercion.
-  change (Finsupp.lsum k fun x => (LinearMap.id : k →ₗ[k] k).smulRight (pathEnd R x))
-      (Finsupp.single x c) = c • pathEnd R x
-  simp only [Finsupp.lsum_single, LinearMap.smulRight_apply, LinearMap.id_coe, id_eq]
+  simp only [toEndₗ, Finsupp.lsum_single, LinearMap.smulRight_apply, LinearMap.id_coe, id_eq]
 
 theorem toEndₗ_ofPath (R : Etingof.QuiverRepresentation k Qᵒᵖ) (x : Etingof.QuiverPathIndex Q) :
     toEndₗ R (ofPath x) = pathEnd R x := by
@@ -374,11 +369,12 @@ theorem toEndₗ_one [Fintype Q] (R : Etingof.QuiverRepresentation k Qᵒᵖ) :
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [toEndₗ_single, one_smul, pathEnd_mk, pathMap_nil, LinearMap.id_comp]
 
-/-- **Reverse direction of the bijection.** The left `P_Q`-module structure on
+/-- **Reverse direction of the bijection (deliverable 3).** The left `P_Q`-module structure on
 `M = ⊕ᵢ R.obj (op i)` induced by a representation `R` of the opposite quiver `Qᵒᵖ`, packaged as a
 `k`-algebra homomorphism `P_Q →ₐ[k] End k M`. On a basis path `⟨a,b,p⟩` it acts by `pathEnd`.
 Multiplicativity is `pathMap (p.comp q) = pathMap p ∘ pathMap q` (`toEndₗ_mul`); the unit law is
-`∑ᵢ pᵢ = 1 ↦ id` (`toEndₗ_one`). -/
+`∑ᵢ pᵢ = 1 ↦ id` (`toEndₗ_one`). This is the genuine left-module action whose existence the issue
+requires (a real `def`, not a `sorry`). -/
 noncomputable def toEnd [Fintype Q] (R : Etingof.QuiverRepresentation k Qᵒᵖ) :
     PathAlgebra k Q →ₐ[k] Module.End k (DirectSum Q (reverseFam R)) :=
   AlgHom.ofLinearMap (toEndₗ R) (toEndₗ_one R) (toEndₗ_mul R)
@@ -503,7 +499,7 @@ variable {V : Type*} [AddCommGroup V] [Module k V]
 /-- **Naturality of the forward arrow maps on basis paths.** For a basis path `p : a ⟶* b`, left
 multiplication by `ofPath ⟨a,b,p⟩` on a vertex-space element `y ∈ Vᵦ` agrees with the composite of
 the forward arrow maps `pathMap (forwardRep V) p : Vᵦ → Vₐ`. This is the identity that pins the
-forward functor's arrow data to the `P_Q`-action, proved by induction on `p`. -/
+forward functor's arrow data to the genuine `P_Q`-action, proved by induction on `p`. -/
 theorem ofPath_smul_eq_pathMap {a b : Q} (p : Quiver.Path a b) :
     ∀ (y : (vertexSpace b : Submodule k V)),
       (ofPath ⟨a, b, p⟩ : PathAlgebra k Q) • (y : V)
@@ -571,7 +567,7 @@ theorem coeLinearMap_pathEnd (x : Etingof.QuiverPathIndex Q)
   simpa only [LinearMap.comp_apply, moduleEnd_apply] using this
 
 /-- The reverse-direction action `toEnd (forwardRep V)` corresponds, under the summing map, to the
-`P_Q`-action on `V`. Reduces to `coeLinearMap_pathEnd` on basis paths by `k`-linearity. -/
+genuine `P_Q`-action on `V`. Reduces to `coeLinearMap_pathEnd` on basis paths by `k`-linearity. -/
 theorem coeLinearMap_toEnd (a : PathAlgebra k Q)
     (m : DirectSum Q (reverseFam (forwardRep (k := k) (V := V)))) :
     coeV (k := k) (V := V) (toEnd (forwardRep (k := k) (V := V)) a m)
@@ -586,7 +582,7 @@ theorem coeLinearMap_toEnd (a : PathAlgebra k Q)
       smul_assoc]
 
 /-- **Module round-trip.** A left `P_Q`-module `V` over the path algebra of a finite quiver is
-isomorphic, as a `P_Q`-module, to `reverseModule (forwardRep V)`, the module obtained by extracting
+isomorphic, as a `P_Q`-module, to `reverseModule (forwardRep V)` — the module obtained by extracting
 the vertex spaces `Vᵢ = pᵢ V` and reassembling them. The underlying `k`-linear isomorphism is the
 internal direct-sum decomposition `V ≅ ⊕ᵢ Vᵢ` (`isInternal_vertexSpace`); `P_Q`-linearity is
 `coeLinearMap_toEnd`. Together with `repRoundTrip` this realizes the discussion's claim that
@@ -688,8 +684,8 @@ theorem repEquivAt_naturality {X Y : Qᵒᵖ} (e : X ⟶ Y) (x : R.obj X) :
 
 /-- **Representation round-trip.** A representation `R` of `Qᵒᵖ` maps to the representation
 `forwardRep (reverseModule R)` (turn `R` into a `P_Q`-module, then extract its vertex spaces) by a
-homomorphism of quiver representations whose component at each vertex is the linear equivalence
-`repEquivAt`, hence an isomorphism `R ≅ forwardRep (reverseModule R)`. Naturality is the identity
+homomorphism of quiver representations whose component at each vertex is the linear *equivalence*
+`repEquivAt` — hence an isomorphism `R ≅ forwardRep (reverseModule R)`. Naturality is the identity
 `pathMap R e.toPath = R.mapLinear eᵒᵖ` packaged through the reverse-module action. -/
 noncomputable def repRoundTrip :
     Etingof.QuiverRepresentationHom k Qᵒᵖ R

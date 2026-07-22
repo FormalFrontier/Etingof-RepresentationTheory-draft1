@@ -10,26 +10,23 @@ of the Specht module V_λ = ℂ[S_n] · c_λ.
 
 ## Main definitions
 
-* `Etingof.Cell`: the cell type of a Young diagram (pairs (i,j) in the diagram)
-* `Etingof.canonicalFilling`: the bijection `Fin n ≃ Cell n la` filling left-to-right,
+* `Etingof.Cell` — the cell type of a Young diagram (pairs (i,j) in the diagram)
+* `Etingof.canonicalFilling` — the bijection `Fin n ≃ Cell n la` filling left-to-right,
   top-to-bottom
-* `Etingof.sytPerm`: the permutation σ_T ∈ S_n associated to a standard Young tableau T
-* `Etingof.RelColumnAntisymmetrizer`: κ_T = Σ_{π ∈ C_T} sign(π) · of(π), the T-relative
-  column antisymmetrizer (not used in the polytabloid definition below)
-* `Etingof.polytabloid`: the polytabloid e_T = of(σ_T) · c_λ (standard definition)
+* `Etingof.sytPerm` — the permutation σ_T ∈ S_n associated to a standard Young tableau T
+* `Etingof.RelColumnAntisymmetrizer` — κ_T = Σ_{π ∈ C_T} sign(π) · of(π), the T-relative
+  column antisymmetrizer (retained for reference; not used in the polytabloid definition)
+* `Etingof.polytabloid` — the polytabloid e_T = of(σ_T) · c_λ (standard definition)
 
 ## Main results
 
-* `Etingof.polytabloid_mem_spechtModule`: polytabloids lie in the Specht module
-
-The Specht-basis results are established at the tabloid level rather than the
-group-algebra level; working at the tabloid module level avoids the Garnir tautology
-issue:
-
-* `Etingof.polytabloidTab_linearIndependent` (`TabloidModule.lean`): linear independence,
-  together with the tabloid-level straightening and spanning proved there;
-* `Etingof.finrank_spechtModule_eq_card_standardYoungTableau` (`Theorem5_17_1.lean`):
-  the dimension formula `dim V_λ = |SYT(λ)|`.
+* `Etingof.polytabloid_mem_spechtModule` — polytabloids lie in the Specht module
+* `Etingof.polytabloid_linearIndependent` — polytabloids are linearly independent (sorry;
+  proved at tabloid level as `polytabloidTab_linearIndependent` in `TabloidModule.lean`)
+* `Etingof.perm_mul_youngSymmetrizer_mem_span_polytabloids` — straightening lemma (sorry;
+  requires tabloid-level straightening or dimension argument; see issue #2104)
+* `Etingof.polytabloid_span` — polytabloids span the Specht module (from straightening)
+* `Etingof.finrank_spechtModule_eq_card_syt` — dim V_λ = |SYT(λ)| (from independence + span)
 
 ## References
 
@@ -280,7 +277,7 @@ This is the "support characterization" used in the dominance triangularity analy
 
 /-- The Young symmetrizer c_λ = b·a is supported on Q_λ · P_λ: if c_λ(g) ≠ 0 then g = q · p
 for some q ∈ Q_λ and p ∈ P_λ, with c_λ(g) = sign(q). -/
-theorem youngSymmetrizer_support (n : ℕ) (la : Nat.Partition n)
+private theorem youngSymmetrizer_support (n : ℕ) (la : Nat.Partition n)
     (g : Equiv.Perm (Fin n))
     (hg : (YoungSymmetrizer n la : SymGroupAlgebra n) g ≠ 0) :
     ∃ q ∈ ColumnSubgroup n la, ∃ p ∈ RowSubgroup n la,
@@ -302,7 +299,7 @@ theorem youngSymmetrizer_support (n : ℕ) (la : Nat.Partition n)
   exact ⟨q', hq'_col, p', hp'_row, hg_eq.symm⟩
 
 /-- The coefficient of g in c_λ = b·a when g = q · p (q ∈ Q_λ, p ∈ P_λ) is sign(q). -/
-theorem youngSymmetrizer_pq_coeff (n : ℕ) (la : Nat.Partition n)
+private theorem youngSymmetrizer_pq_coeff (n : ℕ) (la : Nat.Partition n)
     (q : Equiv.Perm (Fin n)) (hq : q ∈ ColumnSubgroup n la)
     (p : Equiv.Perm (Fin n)) (hp : p ∈ RowSubgroup n la) :
     (YoungSymmetrizer n la : SymGroupAlgebra n) (q * p) =
@@ -382,10 +379,14 @@ private lemma youngSymmetrizer_one_coeff (n : ℕ) (la : Nat.Partition n) :
     1 (RowSubgroup n la).one_mem
   simpa [Equiv.Perm.sign_one] using h
 
-/-! ### The polytabloid and its support
+/-! ### Note on polytabloid definition history
 
-The definition `e_T = of(σ_T) · c_λ` is the standard textbook form.
-With it, `e_T(σ) = c_λ(σ_T⁻¹ · σ)` (left translation of c_λ),
+The polytabloid was previously defined as `κ_T · of(σ_T) · a_λ` using a T-dependent
+column antisymmetrizer `κ_T = of(τ⁻¹) · b_λ · of(τ)`. This introduced a `τ²` factor
+that obstructed the transfer map to the tabloid module (see issue #2228).
+
+The current definition `e_T = of(σ_T) · c_λ` is the standard textbook form.
+With this definition, `e_T(σ) = c_λ(σ_T⁻¹ · σ)` (left translation of c_λ),
 and the support is `σ_T · Q_λ · P_λ` by `polytabloid_support`.
 -/
 
@@ -398,7 +399,7 @@ private lemma youngSymmetrizer_rowPerm_coeff (n : ℕ) (la : Nat.Partition n)
 
 /-! ### Transfer to PermutationModule for linear independence
 
-The proof strategy for linear independence of polytabloids uses the action of
+The proof strategy for `polytabloid_linearIndependent` uses the action of
 ℂ[S_n] on the permutation module M^λ = ℂ[S_n/P_λ].
 
 The action map φ : V_λ → M^λ given by φ(a) = a • [e] is ℂ-linear.
@@ -432,8 +433,7 @@ theorem polytabloid_support (n : ℕ) (la : Nat.Partition n)
   have : σ = τ * (τ⁻¹ * σ) := by group
   rw [this, h_eq, mul_assoc]
 
--- Linear independence is proved at the tabloid level as
--- `polytabloidTab_linearIndependent` in `TabloidModule.lean` (via dim V_λ = |SYT|).
+-- polytabloid_linearIndependent moved to SpechtModuleBasis.lean (proved via dim V_λ = |SYT|)
 
 /-! ### Sorted comparison lemma -/
 
@@ -538,7 +538,7 @@ def isColumnStandard' (n : ℕ) (la : Nat.Partition n)
 Given a column-standard σ, there exists p ∈ P_λ such that σ = p * sytPerm T
 for some SYT T (LEFT coset).
 
-Note: The RIGHT coset form `sytPerm T = σ * p` is FALSE in general.
+**Note**: The RIGHT coset form `sytPerm T = σ * p` is FALSE in general.
 Counterexample: partition (3,1) of n=4, σ = (13). Row-sorting gives SYT
 T = [0,2,3/1] with sytPerm T = [0,3,1,2]. Then σ⁻¹ * sytPerm T = (23),
 which is NOT in RowSubgroup (it maps position 2 in row 0 to position 3 in
@@ -818,8 +818,8 @@ theorem column_standard_coset_has_syt' (n : ℕ) (la : Nat.Partition n)
     exact (Finset.mem_filter.mp hpos).2
   exact ⟨T, p, hp_row, by simp only [p]; group⟩
 
--- The straightening is proved at the tabloid level in `SpechtModuleBasis.lean`
--- (via `generalizedPolytabloidTab_mem_span_polytabloidTab`).
+-- column_standard_in_span' removed: the straightening is now proved at the tabloid level
+-- in SpechtModuleBasis.lean (via generalizedPolytabloidTab_mem_span_polytabloidTab)
 
 /-- Non-column-standard implies existence of a column inversion. -/
 theorem exists_column_inversion (n : ℕ) (la : Nat.Partition n)
@@ -837,13 +837,14 @@ theorem exists_column_inversion (n : ℕ) (la : Nat.Partition n)
 
 /-! ### Garnir element infrastructure
 
-This section proves `a_λ · G = 0` (the Garnir annihilation identity).
-This result is useful for tabloid-level straightening. It does not give
-group-algebra-level straightening (steps 4-5 below): by Lemma 5.13.1,
+**Status**: This section proves `a_λ · G = 0` (the Garnir annihilation identity).
+This result is mathematically correct and potentially useful for tabloid-level
+straightening. However, the original plan to use it for group-algebra-level
+straightening (steps 4-5 below) is **flawed**: by Lemma 5.13.1,
 `a_λ · of(w) · b_λ = ℓ(of(w)) · c_λ`, so the Garnir expansion at the group
-algebra level collapses to a scalar multiple of `of(σ) · c_λ`, a tautology.
-The Garnir expansion produces nontrivial reductions only at the tabloid
-module level, where the sandwich property does not apply.
+algebra level collapses to a scalar multiple of `of(σ) · c_λ` — a tautology.
+The Garnir expansion only produces non-trivial reductions at the **tabloid
+module** level, where the sandwich property does not apply. See issue #2104.
 
 The Garnir reduction uses the following strategy:
 1. Find a column inversion: positions p₁ (row r₁) and p₂ (row r₂) in column j
@@ -1232,12 +1233,11 @@ private theorem columnInvCount'_one (n : ℕ) (la : Nat.Partition n) :
   have hb : b.val < la.sortedParts.sum := by omega
   exact Nat.not_lt.mpr (Nat.le_of_lt (lt_of_lt_rowOfPos la.sortedParts a.val b.val hb hrow))
 
--- The straightening/spanning and the dimension formula `dim V_λ = |SYT(λ)|` are proved
--- at the tabloid module level: `polytabloidTab_linearIndependent` and the
--- straightening in `TabloidModule.lean`, and
--- `finrank_spechtModule_eq_card_standardYoungTableau` in `Theorem5_17_1.lean`.
--- Working at the tabloid module level (not the group algebra level) avoids the Garnir
--- tautology issue described in the comment above.
+-- perm_mul_youngSymmetrizer_mem_span_polytabloids, polytabloid_span, and
+-- finrank_spechtModule_eq_card_syt have been moved to SpechtModuleBasis.lean,
+-- where they are proved via the tabloid-level straightening theorem.
+-- The straightening works at the tabloid module level (not the group algebra level),
+-- avoiding the Garnir tautology issue described in the comment above.
 
 end
 

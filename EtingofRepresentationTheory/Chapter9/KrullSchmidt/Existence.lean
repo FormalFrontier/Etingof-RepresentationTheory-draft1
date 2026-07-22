@@ -3,9 +3,9 @@ import Mathlib.CategoryTheory.Limits.Shapes.BinaryBiproducts
 import Mathlib.CategoryTheory.Preadditive.Projective.Basic
 
 /-!
-# Existence of the indecomposable decomposition (Krull–Schmidt)
+# Existence of the indecomposable decomposition (Krull–Schmidt, link 2/5)
 
-This file proves the existence half of the Krull–Schmidt theorem for a finite abelian
+This file proves the **existence** half of the Krull–Schmidt theorem for a finite abelian
 category `C`: every object `X` is a finite biproduct of indecomposable objects
 (`Etingof.exists_indecomposable_biproduct`), together with a projective-preserving variant
 (`Etingof.exists_indecomposable_projective_biproduct`) consumed by the §9.7 projective-generator
@@ -16,7 +16,7 @@ classification.
 The argument is a strong induction on the composition length `Etingof.clength X` from
 `KrullSchmidt/Length.lean`:
 
-* `clength X = 0` (equivalently `IsZero X`): take the empty family; `⨁` over `Empty` is a zero
+* `clength X = 0` (equivalently `IsZero X`): take the empty family — `⨁` over `Empty` is a zero
   object, isomorphic to `X`.
 * `Indecomposable X`: take the one-element family `fun _ : PUnit => X`.
 * otherwise `X ≅ Y ⊞ Z` with both `Y`, `Z` nonzero; `clength_biprod` and
@@ -120,7 +120,7 @@ theorem exists_indecomposable_biproduct (X : C) :
   exact key (clength X) X rfl
 
 /-- **Projective-preserving existence.** A projective object of a finite abelian category is a
-finite biproduct of projective indecomposable objects. Used by the §9.7 classification. -/
+finite biproduct of projective indecomposable objects. Used by the §9.7 assembly. -/
 theorem exists_indecomposable_projective_biproduct {X : C} (hX : Projective X) :
     ∃ (κ : Type) (_ : Fintype κ) (f : κ → C),
       (∀ k, Projective (f k) ∧ CategoryTheory.Indecomposable (f k)) ∧ Nonempty (X ≅ ⨁ f) := by

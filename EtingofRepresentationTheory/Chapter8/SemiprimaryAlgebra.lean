@@ -7,13 +7,13 @@ import Mathlib.Algebra.Algebra.Tower
 # Finite-dimensional algebras are semiprimary
 
 A finite-dimensional algebra `A` over a field `k` is a left Artinian ring, hence
-semiprimary: its Jacobson radical `Ring.jacobson A` is nilpotent and the quotient
+**semiprimary**: its Jacobson radical `Ring.jacobson A` is nilpotent and the quotient
 `A ⧸ Ring.jacobson A` is semisimple (`Mathlib.RingTheory.Jacobson.Semiprimary`).
 
-This is the foundational ring-theoretic layer for the Bass approach to Example 8.1.7
-(`projective ⟺ injective dual`): over a left perfect (a fortiori semiprimary) ring,
+This is the foundational ring-theoretic layer for the Bass route to Example 8.1.7
+(`projective ⟺ injective dual`): over a left perfect — a fortiori semiprimary — ring,
 every flat left module is projective. The flat-⟹-projective theorem itself is the
-substantial remaining piece (Bass's characterization of perfect rings).
+substantial remaining piece (Bass's characterization of perfect rings); see issue #5476.
 
 ## Main results
 

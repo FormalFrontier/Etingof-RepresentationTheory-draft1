@@ -16,15 +16,16 @@ shift computation for the determinant twist.
 ## Mathematical content
 
 This file develops the weight-space machinery (formal characters, weight-space
-finrank sums, the determinant-twist shift) underlying the Schur-Weyl isomorphism
-theorem. The capstone theorem itself, `iso_of_formalCharacter_eq_schurPoly`, that a
-`GL_N(k)`-representation whose formal character equals a Schur polynomial `S_λ` is
-isomorphic to the Schur module `L_λ`, lives in
+finrank sums, the determinant-twist shift) underlying the Schur-Weyl #6 theorem.
+The capstone theorem itself, `iso_of_formalCharacter_eq_schurPoly` — a `GL_N(k)`-
+representation whose formal character equals a Schur polynomial `S_λ` is
+isomorphic to the Schur module `L_λ` — lives downstream in
 `SchurWeylFormalCharacterIso` (it depends on `decompose_polynomial_gl_rep`, which
-imports this file, so it cannot be stated here without an import cycle).
+imports this file, so it cannot be stated here without an import cycle; see
+issue #4699).
 
-The isomorphism requires the polynomial hypothesis: for
-arbitrary `FDRep k (GL_N k)` it is false, since non-polynomial representations
+The earlier formulation (`iso_of_glWeightSpace_finrank_eq`) was stated for
+arbitrary `FDRep k (GL_N k)`, which is false: non-polynomial representations
 like `det⁻¹` and `det⁻²` have all `ℕ`-valued weight spaces trivial (so the
 equal-dimensions hypothesis holds vacuously) yet are non-isomorphic.
 -/
@@ -179,7 +180,7 @@ private lemma homogeneousComponent_mul_of_isHomogeneous_right
       rw [hψ.coeff_eq_zero h2, mul_zero]
     · exact zero_mul _
 
-/-- `d.degree = Finsupp.weight 1 d` as natural numbers, extracted from the
+/-- `d.degree = Finsupp.weight 1 d` as natural numbers — extracted from the
 AddMonoidHom equality `Finsupp.degree_eq_weight_one`. -/
 private lemma degree_eq_weight_one_apply {σ : Type*} (d : σ →₀ ℕ) :
     Finsupp.degree d = Finsupp.weight 1 d := by
@@ -371,9 +372,10 @@ theorem weight_magnitude_of_formalCharacter_eq_schurPoly (N : ℕ)
     exact Finset.sum_congr rfl (fun i _ => congrFun hd_fun i)
   omega
 
--- `iso_of_formalCharacter_eq_schurPoly` lives in
--- `SchurWeylFormalCharacterIso`: it depends on `decompose_polynomial_gl_rep`,
+-- `iso_of_formalCharacter_eq_schurPoly` (Schur-Weyl #6) has been relocated to
+-- `SchurWeylFormalCharacterIso` — it depends on `decompose_polynomial_gl_rep`,
 -- which imports this file, so stating it here would create an import cycle.
+-- See issue #4699.
 
 /-- The finsupp with all values equal to 1 on `Fin N`. -/
 private def onesFinsupp (N : ℕ) : Fin N →₀ ℕ :=
@@ -725,13 +727,14 @@ bimodule decomposition to a `GL_N(k)`-equivariant form: the iso
 LHS with the natural action on the RHS (trivial on each `Sᵢ`, the
 post-composition `GL_N`-action on each `Lᵢ`).
 
-This is the form required by the Schur-Weyl character argument
+This is the form required by the Schur-Weyl #3 character argument
 (`formalCharacter_tensorPower_eq_sum_character_L`).
 -/
 
 set_option maxHeartbeats 1200000 in
 -- existential output: 7 ∀-binders + deep `Subalgebra → Ring → Module.End` instance chains
 set_option synthInstance.maxHeartbeats 60000 in
+-- bisected #2601: min 800000 / 40000, chose 1.5× safety margin
 /-- **Equivariant Schur-Weyl decomposition for `V^{⊗n}`.**
 Specializing to `V = Fin N → k`, there is a finite family of Specht modules
 `S i` and polynomial `GL_N(k)`-representations `L i`, together with a
@@ -767,8 +770,8 @@ theorem glTensorRep_equivariant_schurWeyl_decomposition
               (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
                 (S i)).tprod (L i).ρ) g (e v) := by
   classical
-  -- Get the explicit GL_N decomposition with per-`L i` simplicity:
-  -- `_explicit_simple` carries the same explicit `(L, e, he,
+  -- Get the explicit GL_N decomposition **with per-`L i` simplicity** (issue
+  -- #2572 / #4721): `_explicit_simple` carries the same explicit `(L, e, he,
   -- h_act)` data as `_explicit`, plus `hL_simp : ∀ i, IsSimpleModule … (L i)`.
   obtain ⟨ι, hιFin, hιDec, S', hS'_simp, hS'_dist, hSi_fin, L, hL_simp, L_carrier,
       e, he, h_act⟩ :=
@@ -824,7 +827,7 @@ theorem glTensorRep_equivariant_schurWeyl_decomposition
 
 Combining the Schur-Weyl bimodule decomposition (Theorem 5.18.4 part iii)
 with the direct-sum additivity and trivial-tensor multiplicativity lemmas
-above yields the main character identity used in the Schur-Weyl
+above yields the main character identity used in the Schur-Weyl #3
 character argument:
 
   `char(V^{⊗n}) = ∑ᵢ dim(Sᵢ) · char(Lᵢ)`
@@ -874,7 +877,7 @@ The standard tensor basis `tensorStdBasis k N n`, indexed by colorings
 action: `(diagUnit i t)^{⊗n}` scales `B f` by `t^{tensorWeight f i}`.
 Hence the weight space at `μ : Fin N → ℕ` is exactly the span of the
 basis vectors with `tensorWeight f = μ`, and its dimension is the count
-of such colorings, which matches the multinomial coefficient extraction
+of such colorings — which matches the multinomial coefficient extraction
 of `(X₁ + ⋯ + X_N)^n`.
 -/
 
@@ -1043,25 +1046,26 @@ theorem formalCharacter_glTensorRep_eq_pow (N n : ℕ) :
   rw [formalCharacter_coeff, sum_X_pow_coeff, finrank_glWeightSpace_glTensorRep,
     Fintype.card_subtype]
 
-/-! ### Schur-Weyl character decomposition: combining parts C-1 and C-2
+/-! ### Schur-Weyl character decomposition: assembly of parts C-1 and C-2
 
-Combining the two halves of the Schur-Weyl `L_i` computation:
+Combining the two halves of the Schur-Weyl L_i computation:
 
 * **C-1** (`formalCharacter_glTensorRep_eq_pow`): the GL_N side,
   `char(V^{⊗n}) = (∑ᵢ Xᵢ)^n`;
 * **C-2** (`sum_X_pow_eq_sum_finrank_smul_schurPoly`): the polynomial side,
   `(∑ᵢ Xᵢ)^n = ∑_λ dim(Sλ) · sλ(X)` over bounded partitions `λ` of `n`,
 
-yields the Schur-Weyl character identity for `V^{⊗n}`: its formal
+yields the **Schur-Weyl character identity** for `V^{⊗n}`: its formal
 character is the Specht-dimension-weighted sum of Schur polynomials, the
 expansion that drives the multiplicity computation of Etingof Theorem 5.18.4.
 
-This is the character-level identity. Upgrading it to a concrete
+Note this is the *character-level* assembly. Upgrading it to a concrete
 `GL_N`-equivariant decomposition with each abstract summand `Lᵢ` of
-`glTensorRep_equivariant_schurWeyl_decomposition` named as a Schur module
-`SchurModule k N λ` additionally requires `char(Lᵢ) = schurPoly N λ`, the
+`glTensorRep_equivariant_schurWeyl_decomposition` *named* as a Schur module
+`SchurModule k N λ` additionally requires `char(Lᵢ) = schurPoly N λ` — the
 highest-weight classification "every simple polynomial `GL_N`-rep has a Schur
-polynomial as its character." That classification is not implied by
+polynomial as its character." That classification is the content of the
+downstream identification chain (issues #2482 / #2483); it is not implied by
 the simplicity of `Lᵢ` (`Theorem5_18_4_GL_rep_decomposition_simple`) together
 with Schur's lemma alone, because Schur's lemma needs a nonzero equivariant
 map between `Lᵢ` and `SchurModule k N λ`, which in turn presupposes the very
@@ -1076,9 +1080,9 @@ indexed by bounded partitions of `n`:
 
 `char(V^{⊗n}) = ∑_{λ ∈ BoundedPartition N n} dim_ℂ(Sλ) · sλ(X)`.
 
-This combines part C-1 (the GL_N-side power identity)
-and part C-2 (the polynomial-side Schur expansion) of the
-Schur-Weyl `L_i` computation. -/
+This is the assembly of part C-1 (the GL_N-side power identity, issue #2580)
+and part C-2 (the polynomial-side Schur expansion, issue #2581) of the
+Schur-Weyl L_i computation (issue #2493). -/
 theorem formalCharacter_glTensorRep_eq_sum_specht_smul_schurPoly (N n : ℕ) :
     formalCharacter k N (FDRep.of (glTensorRep k N n)) =
       ∑ lam : BoundedPartition N n,

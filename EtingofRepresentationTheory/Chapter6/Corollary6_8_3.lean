@@ -24,14 +24,12 @@ Since both reps have the same dimension vector, they make the same choice. In th
 case, `simpleAt_iso` gives the isomorphism. In the surjective case, we apply F⁺ and
 recurse on the reversed quiver.
 
-## Recovery lemma
+## Remaining sorry
 
-The recovery lemma (F⁺(ρ₁) ≅ F⁺(ρ₂) → ρ₁ ≅ ρ₂ when both have surjective sink maps)
-is proved in `parallel_reduce_and_recover`. It combines:
-1. F⁻ functoriality (`reflectionFunctorMinus_map_iso`): building F⁻(iso) from an iso
-   between F⁺ outputs;
-2. the Proposition 6.6.6 round-trip `ρ ≅ F⁻(F⁺(ρ))` (`Proposition6_6_6_sink`),
-   transported across `reversedAtVertex_twice` and composed on both sides.
+The **recovery lemma** (F⁺(ρ₁) ≅ F⁺(ρ₂) → ρ₁ ≅ ρ₂ when both have surjective sink maps)
+requires:
+1. F⁻ functoriality: constructing F⁻(iso) from an iso between F⁺ outputs
+2. Composition with Proposition 6.6.6 round-trip: ρ ≅ F⁻(F⁺(ρ))
 -/
 
 open scoped Matrix
@@ -165,8 +163,8 @@ Since both representations have the same dimension vector, they make the same
 **Inductive step**: both are surjective at the sink → apply F⁺ → recurse on
 reversed quiver → recover isomorphism via Prop 6.6.6 (round-trip theorem).
 
-**Recovery lemma**: The recovery step (F⁺(ρ₁) ≅ F⁺(ρ₂) → ρ₁ ≅ ρ₂) is proved in the
-inductive step below by F⁻ functoriality composed with the Prop 6.6.6 round-trip. -/
+**Key sorry**: The recovery lemma (F⁺(ρ₁) ≅ F⁺(ρ₂) → ρ₁ ≅ ρ₂) requires
+F⁻ functoriality + composing with the round-trip theorem. -/
 private lemma Etingof.parallel_reduce_and_recover
     {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hDynkin : Etingof.IsDynkinDiagram n adj)
@@ -201,8 +199,8 @@ private lemma Etingof.parallel_reduce_and_recover
     -- i is a sink of Q_cur (from sinks condition at position 0)
     have hi_sink : @Etingof.IsSink (Fin n) Q_cur i := by
       have := hSinks 0 (by simp)
-      -- The `take 0` and `iteratedReversedAtVertices` reductions hold definitionally,
-      -- so `this` already closes the goal.
+      -- v4.31: `simp only [List.take_zero, Etingof.iteratedReversedAtVertices]` is now a
+      -- defeq no-op (`simp made no progress`); `this` already closes the goal by defeq.
       exact this
     -- Derive Fintype for ArrowsInto
     haveI : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_cur a b) := hSS_cur
@@ -278,7 +276,7 @@ private lemma Etingof.parallel_reduce_and_recover
         haveI : ∀ (j : Fin n), Fintype (@Quiver.Hom (Fin n) Q_rev i j) :=
           fun j => @Etingof.fintypeHomOfSubsingleton _ Q_rev hSS_rev i j
         haveI : Fintype (@Etingof.ArrowsOutOf (Fin n) Q_rev i) := Sigma.instFintype
-        -- Free/Finite for F⁺ outputs: use rw [hv] to avoid subst eliminating i
+        -- Free/Finite for F⁺ outputs — use rw [hv] to avoid subst eliminating i
         haveI : ∀ v, Module.Free k (ρ₁_plus.obj v) := fun v => by
           by_cases hv : v = i
           · rw [hv]; exact @Etingof.reflFunctorPlus_free_eq k _ (Fin n) _ Q_cur i hi_sink ρ₁ _ _ _

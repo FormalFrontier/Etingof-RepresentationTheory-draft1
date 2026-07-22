@@ -80,7 +80,7 @@ example (k : Type*) [CommRing k] (V : Type*) [AddCommGroup V] [Module k V] :
 /-! ## (3) Any subspace of an associative algebra closed under the bracket -/
 
 /-- Any `k`-subspace `U` of an associative algebra `A` that is closed under the commutator bracket
-`[a, b] = ab - ba` is itself a Lie algebra: a Lie subalgebra of `A` regarded as a Lie algebra.
+`[a, b] = ab - ba` is itself a Lie algebra — a *Lie subalgebra* of `A` regarded as a Lie algebra.
 (Etingof Example 2.9.2(3)) -/
 example (k A : Type*) [CommRing k] [Ring A] [Algebra k A] (U : LieSubalgebra k A) :
     LieAlgebra k U := inferInstance

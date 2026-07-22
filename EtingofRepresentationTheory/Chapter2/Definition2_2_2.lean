@@ -7,9 +7,9 @@ A **unit** in an associative algebra `A` is an element `e ∈ A` such that `ea =
 
 ## Faithfulness note
 
-Definition 2.2.1 is non-unital (see `Definition2_2_1.lean`), so a unit is extra
+Definition 2.2.1 is non-unital (see `Definition2_2_1.lean`), so a unit is genuinely *extra*
 structure introduced here. We define it as the predicate "`e` is a two-sided identity for the
-multiplication of `A`", and record that such a unit is unique when it exists, so this is a real
+multiplication of `A`", and record that such a unit is unique when it exists — so this is a real
 defining property, not a fact that holds automatically for any ring.
 
 (The base field `k` is an explicit argument because, for a non-unital algebra mixin, the carrier
@@ -29,7 +29,7 @@ def IsUnit (e : A) : Prop :=
   ∀ a : A, inst.mul e a = a ∧ inst.mul a e = a
 
 /-- A unit, if it exists, is unique: if `e` and `e'` are both two-sided identities then
-`e = e * e' = e'`. This is what makes "unit" a defining property. -/
+`e = e * e' = e'`. This is the content that makes "unit" a genuine defining property. -/
 theorem isUnit_unique {e e' : A} (he : IsUnit k e) (he' : IsUnit k e') : e = e' := by
   have h1 := (he' e).2   -- `e * e' = e`
   have h2 := (he e').1   -- `e * e' = e'`

@@ -40,11 +40,10 @@ def Etingof.IsOrientationOf {n : ℕ} (Q : Quiver (Fin n))
   (∀ i j : Fin n, adj i j = 1 → Nonempty (Q.Hom i j) ∨ Nonempty (Q.Hom j i)) ∧
   (∀ i j : Fin n, Nonempty (Q.Hom i j) → Nonempty (Q.Hom j i) → False)
 
-/-- The **standard orientation** of a simple graph `adj`: orient each edge between
-`i` and `j` as the arrow `i ⟶ j` whenever `i < j`. Every simple graph admits an
-orientation, so this gives a canonical witness for the forward direction of Gabriel's
-theorem, where only the existence of some orientation of the abstract adjacency
-matrix is needed. -/
+/-- The **standard orientation** of a simple graph `adj`: orient each edge `i — j`
+as the arrow `i ⟶ j` whenever `i < j`. Every simple graph admits an orientation, so
+this gives a canonical witness for the forward direction of Gabriel's theorem, where
+only the existence of *some* orientation of the abstract adjacency matrix is needed. -/
 def Etingof.standardOrientation {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) :
     Quiver (Fin n) where
   Hom i j := PLift (adj i j = 1 ∧ i < j)

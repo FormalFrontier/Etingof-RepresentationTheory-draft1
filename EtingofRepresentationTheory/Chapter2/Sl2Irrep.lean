@@ -23,40 +23,13 @@ The representation action (on components) is:
 - (ρ(e) · v)_k = (k+1) · v_{k+1}         (e picks up v_{k+1})
 - (ρ(f) · v)_k = (d - k) · v_{k-1}       (f picks up v_{k-1})
 
-## The book's polynomial realization (Etingof Theorem 2.1.1(i))
+## Blocked
 
-Etingof realizes the unique irreducible of dimension `d` in the space of homogeneous
-degree-`(d-1)` polynomials in `x, y`, with `sl(2)` acting by the differential operators
-
-- `ρ(h) = x∂ₓ − y∂_y`,
-- `ρ(e) = x∂_y`,
-- `ρ(f) = y∂ₓ`.
-
-Our model `V_d = Fin d → ℂ` *is* this space under the monomial-basis identification
-
-  `e_k  ↔  x^{d-1-k} y^k`   (k = 0, …, d-1),
-
-where `e_k = e_basis d k = Pi.single k 1`. The component operators `rhoH/rhoE/rhoF`
-reproduce the differential operators exactly in this basis:
-
-| Book operator          | Action on `x^{d-1-k} y^k`                       | Lean operator (components)          |
-| ---------------------- | ----------------------------------------------- | ----------------------------------- |
-| `ρ(h) = x∂ₓ − y∂_y`    | eigenvalue `d-1-2k`                             | `rhoH`: `(ρ(h)v)_k = (d-1-2k)·v_k`  |
-| `ρ(e) = x∂_y`          | `x^{d-1-k} y^k ↦ k · x^{d-k} y^{k-1}` (index `k-1`) | `rhoE`: `(ρ(e)v)_k = (k+1)·v_{k+1}` |
-| `ρ(f) = y∂ₓ`           | `x^{d-1-k} y^k ↦ (d-1-k) · x^{d-2-k} y^{k+1}` (index `k+1`) | `rhoF`: `(ρ(f)v)_k = (d-k)·v_{k-1}` |
-
-Reading the middle column on the basis: `ρ(e) e_k = k · e_{k-1}` and
-`ρ(f) e_k = (d-1-k) · e_{k+1}` (see `lie_sl2_e_e_basis`, `lie_sl2_f_e_basis`), which is
-exactly the component form once one substitutes the shifted index. This makes the book's
-"realized by these formulas" clause of Theorem 2.1.1(i) explicit in the Lean model.
-
-## Structure of the representation
-
-The Leibniz identity is the `map_lie'` field of `rhoLieHom`
-(`sl2 →ₗ⁅ℂ⁆ Module.End ℂ (Fin d → ℂ)`), which handles the bracket-preservation
-casework over the sl(2) generators. Irreducibility is `irrep_isIrreducible`
-(`LieModule.IsIrreducible ℂ sl2 (Fin d → ℂ)` for `[NeZero d]`): any nonzero
-invariant subspace is the whole space.
+The Leibniz identity proof (`rho_map_lie`) requires verifying that the representation
+map preserves Lie brackets. This reduces to 9 generator pairs but each involves
+intricate casework on boundary conditions (k=0, k+1=d, nested boundaries).
+Similarly, irreducibility requires showing that any nonzero invariant subspace is the
+whole space. Both require significant additional work.
 
 Complete reducibility (Theorem 2.1.1(ii)) requires Weyl's complete reducibility theorem
 for semisimple Lie algebras, which is not in Mathlib.

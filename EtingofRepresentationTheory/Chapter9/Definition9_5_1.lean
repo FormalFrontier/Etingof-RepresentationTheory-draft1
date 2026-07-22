@@ -4,7 +4,7 @@ import Mathlib.RingTheory.SimpleModule.Basic
 /-!
 # Definition 9.5.1: Linked simple modules and blocks
 
-Two simple finite dimensional modules `X, Y` are **linked** if there is a chain of
+Two **simple** finite dimensional modules `X, Y` are **linked** if there is a chain of
 *simple* modules `X = M₀, M₁, …, Mₙ = Y` such that for each consecutive pair `(Mᵢ, Mᵢ₊₁)`,
 either `Ext¹(Mᵢ, Mᵢ₊₁) ≠ 0` or `Ext¹(Mᵢ₊₁, Mᵢ) ≠ 0`. This is an equivalence relation on
 simple modules; its equivalence classes `S₁, …, Sₗ` partition the isomorphism classes of
@@ -15,7 +15,7 @@ objects `M` all of whose Jordan–Hölder composition factors lie in `Sₖ`.
 
 ## Fidelity note
 
-The chain in the book runs through simple modules only. This is essential: over a product
+The chain in the book runs through **simple** modules only. This is essential: over a product
 `A = A₁ × A₂`, taking simples `X` (block 1), `Y` (block 2) and a non-simple `N = N₁ ⊕ N₂` with
 `Ext¹(X, N) ≠ 0` and `Ext¹(N, Y) ≠ 0` would link `X` and `Y` if the chain were allowed to pass
 through `N`, even though `X` and `Y` lie in different blocks. The base relation
@@ -49,9 +49,9 @@ def Etingof.ExtAdjacent (X Y : ModuleCat.{v} R) : Prop :=
   Etingof.DirectlyExtLinked R X Y ∨ Etingof.DirectlyExtLinked R Y X
 
 /-- The base relation for the **linking of simple modules** (Etingof Definition 9.5.1): two
-modules are related if they are both simple and either Ext¹-adjacent or categorically
-isomorphic. The `IsSimpleModule` side conditions are essential (the book's chain runs through
-simple modules only), and the isomorphism clause supplies reflexivity up to isomorphism (the
+modules are related if they are **both simple** and either Ext¹-adjacent or categorically
+isomorphic. The `IsSimpleModule` side conditions are essential — the book's chain runs through
+simple modules only — and the isomorphism clause supplies reflexivity up to isomorphism (the
 linking relation is defined on isomorphism classes of simple modules). -/
 def Etingof.ExtOrIsoSimple (X Y : ModuleCat.{v} R) : Prop :=
   IsSimpleModule R X ∧ IsSimpleModule R Y ∧
@@ -59,7 +59,7 @@ def Etingof.ExtOrIsoSimple (X Y : ModuleCat.{v} R) : Prop :=
 
 /-- Two simple modules are **linked** (in the sense of Etingof Definition 9.5.1) if they are
 related by the equivalence closure of the simplicity-gated Ext¹-adjacency relation: there
-exists a chain `X = X₀, X₁, …, Xₙ = Y` of simple modules such that each consecutive pair
+exists a chain `X = X₀, X₁, …, Xₙ = Y` of **simple** modules such that each consecutive pair
 `(Xᵢ, Xᵢ₊₁)` satisfies `Ext¹(Xᵢ, Xᵢ₊₁) ≠ 0`, `Ext¹(Xᵢ₊₁, Xᵢ) ≠ 0`, or `Xᵢ ≅ Xᵢ₊₁`. -/
 def Etingof.AreLinked (X Y : ModuleCat.{v} R) : Prop :=
   Relation.EqvGen (Etingof.ExtOrIsoSimple R) X Y
@@ -80,19 +80,6 @@ theorem Etingof.areLinked_of_extAdjacent {X Y : ModuleCat.{v} R}
 theorem Etingof.areLinked_equivalence :
     @Equivalence (ModuleCat.{v} R) (Etingof.AreLinked R) :=
   Relation.EqvGen.is_equivalence _
-
-/-- **Base case of the block dévissage (Etingof 9.5.3(ii), step 1).** Two simple modules that
-are not linked have vanishing `Ext¹`: `Ext¹(S, T)` is subsingleton. A nonzero element of
-`Ext¹(S, T)` would make `S` and `T` directly `Ext`-linked, hence `Ext`-adjacent, hence linked
-(a length-one chain), contradicting `¬ AreLinked`. This is the seed for the finite-length
-dévissage that establishes `Hom(M, N) = 0` across distinct blocks. -/
-theorem Etingof.ext_subsingleton_of_not_areLinked {S T : ModuleCat.{v} R}
-    (hS : IsSimpleModule R S) (hT : IsSimpleModule R T) (hST : ¬ Etingof.AreLinked R S T) :
-    Subsingleton (Abelian.Ext S T 1) := by
-  rw [← not_nontrivial_iff_subsingleton]
-  intro hnt
-  exact hST (Etingof.areLinked_of_extAdjacent (R := R) hS hT
-    (Or.inl (show Etingof.DirectlyExtLinked R S T from hnt)))
 
 end
 

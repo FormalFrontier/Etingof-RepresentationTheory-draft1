@@ -73,7 +73,7 @@ Progress is recorded here as stages from PLAN.md are completed.
 - **Notes:** All 8 chapters (2–9) scaffolded: 231 Lean files, ~249 sorry placeholders. Module structure established (#535). Chapter 2 reviewed (#539). Remaining chapter reviews pending (#531, #541, #542, #543). Three scaffolding patterns: Mathlib alias, custom definition, sorry'd statement.
 
 ## Stage 3.2: Proof Filling
-- **Status:** In progress (project tail)
+- **Status:** In progress
 - **Date started:** 2026-03-16
-- **Latest update:** 2026-07-18 (sorry-landscape refresh #6976, HEAD `7337d8e3`)
-- **Notes:** 559/592 items `sorry_free` in `progress/items.json`. Comment-stripped scan of `EtingofRepresentationTheory/**/*.lean` finds only **4 genuine `sorry` proof terms across 3 files**, all covered by claimed or in-flight work: `Chapter2/Problem2_16_3.lean` `finrank_g_three` (G₂ positive part, #6340, claimed); `Chapter4/Problem4_12_8.lean` `so3_octahedral_of_poleData` and `so3_icosahedral_of_poleData` (the two hardest SO(3) polyhedral cruxes, #6972/#6971 with reduction PRs #6973/#6974/#6977); `Chapter8/Problem8_2_8.lean` `Problem_8_2_8_ext` (Ext Künneth final assembly, #6898, claimed). No `axiom`/`admit`; 2 book-disavowed `proof_wanted` (`Remark2_9_3` `ado`, `Remark5_23_3` `sl_finiteDimensional_completely_reducible`). Chapters 1,3,5,6,7,9 are source-sorry-free. See `progress/2026-07-18T16-29-26Z-sorry-landscape.md` for the full per-file/per-chapter analysis and the status-reconciliation audit (5 items reclassified to `sorry_free`; 5 sorry-free-source items confirmed as genuine deliberate holds).
+- **Latest update:** 2026-04-17 (wave 53 summary #2393)
+- **Notes:** 582/583 items sorry-free (99.8%). 13 sorry occurrences across 4 files. Six chapters at 100% formal completion: Ch3, Ch4, Ch7, Ch8, Ch9, and all of Ch5/Ch6 except 4 files. All posdef and leaf-case sorries eliminated in wave 53 (9 closures). Remaining sorries: 7 indecomposability (Ch6), 2 path infrastructure (Ch6), 2 Ch5 combinatorics, 2 Ch2 bridges. All remaining sorries are difficulty 8+.

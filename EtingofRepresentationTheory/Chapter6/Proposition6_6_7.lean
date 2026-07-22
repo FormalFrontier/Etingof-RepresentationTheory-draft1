@@ -13,6 +13,11 @@ The proof: if φ is not surjective, F⁺ᵢ(V) = 0. If φ is surjective and
 F⁺ᵢ(V) = X ⊕ Y is decomposable, then X and Y are injective at i (since
 F⁺ᵢ(V) is), so by Proposition 6.6.6, V = F⁻ᵢ(X) ⊕ F⁻ᵢ(Y), contradicting
 indecomposability of V.
+
+## Mathlib correspondence
+
+Requires reflection functor definitions and indecomposable representation API.
+Not in Mathlib.
 -/
 
 /-- A quiver representation is **zero** if all vertex spaces are trivial
@@ -163,7 +168,7 @@ theorem Etingof.Proposition6_6_7_sink
         subsingleton_of_forall_eq 0 fun x => by
           obtain ⟨y, hy⟩ := hsurj x
           rw [← hy, Subsingleton.eq_zero y, map_zero]
-      -- But IsSimpleAt says dim V_i = 1, so V_i is Nontrivial, a contradiction
+      -- But IsSimpleAt says dim V_i = 1, so V_i is Nontrivial — contradiction
       haveI := hVi
       have h1 := hs.1 -- finrank k (ρ.obj i) = 1
       have h2 := Module.finrank_zero_of_subsingleton (M := ρ.obj i) (R := k)
@@ -205,7 +210,7 @@ theorem Etingof.Proposition6_6_7_sink
     · -- F⁺(V) is indecomposable: given complementary subreps W₁, W₂ of F⁺(V),
       -- construct complementary subreps of V, use V's indecomposability.
       --
-      -- MATHEMATICAL ARGUMENT (formalized below):
+      -- MATHEMATICAL ARGUMENT (not yet formalized):
       -- Given complementary subreps W₁, W₂ of F⁺(V) on Q̄ᵢ, define subreps of V on Q:
       --   U_k(v) = W_k(v) for v ≠ i  (since F⁺(V)_v = V_v)
       --   U_k(i) = φ(⊕ W_k(j))      (image of "W_k-part" of direct sum under sinkMap φ)
@@ -225,9 +230,8 @@ theorem Etingof.Proposition6_6_7_sink
       -- By V's indecomposability, W₁ or W₂ is ⊥ at all v ≠ i, and then also at i
       -- (since W_k(i) ⊆ ker(φ) ⊆ ⊕V_j, and if ⊕W_k(j) = 0 then W_k(i) = 0).
       --
-      -- The `Decidable.rec` motive difficulty in reflectionFunctorPlus is handled
-      -- via `equivAt_ne` transport, so the construction sketched above is carried
-      -- out below.
+      -- BLOCKED: The dependent type issues with Decidable.rec in reflectionFunctorPlus
+      -- make the construction extremely painful to formalize.
       intro W₁ W₂ hW₁ hW₂ hcompl
       -- Construct complementary subreps U₁, U₂ of V from W₁, W₂ of F⁺(V).
       classical

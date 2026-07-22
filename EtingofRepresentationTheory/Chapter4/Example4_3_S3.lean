@@ -17,20 +17,27 @@ be spanned by a subset of the eigenvectors of `ρ((12))` and simultaneously by a
 the eigenvectors of `ρ((123))`, and since these eigenvectors differ, the only invariant
 subspaces are `0` and `ℂ²`.
 
-## Main definitions and results
+## Genuine formalization
 
-The three irreducible representations of `S₃` are constructed as objects of `FDRep ℂ S₃`,
-and each is shown to be simple:
+The numerical facts (3 conjugacy classes, `1² + 1² + 2² = 6`) are recorded as the two
+`decide` theorems below.  But those checks alone are vacuous as a formalization of the
+example: they construct no representations and prove nothing irreducible.  This file
+therefore builds the **three genuine irreducible representations of `S₃`** as objects of
+`FDRep ℂ S₃` and proves each is simple (irreducible):
 
-* `trivRep`, `signRep`, `stdRep`: the trivial, sign, and standard (2-dimensional)
+* `trivRep`, `signRep`, `stdRep` — the trivial, sign, and standard (2-dimensional)
   representations, the last realised as the sum-zero subrepresentation of the permutation
   representation on `Fin 3 → ℂ`.
-* `trivRep_simple`, `signRep_simple`: the one-dimensional representations are simple.
-* `stdRep_simple`: the standard representation is irreducible, the book's main claim for
-  this example. It follows from the character of `stdRep` via the norm-one criterion
+* `trivRep_simple`, `signRep_simple` — the one-dimensional representations are simple.
+* `stdRep_simple` — **the standard representation is irreducible**, the book's main claim
+  for this example.  It is proved from the actual character of `stdRep` (a trace of a real
+  representation) via the norm-one criterion
   `∑_g χ(g)·χ(g⁻¹) = 1·2² + 3·0² + 2·(−1)² = 6 = |S₃|`.
-* `trivRep_finrank`, `signRep_finrank`, `stdRep_finrank`: the dimensions `1, 1, 2`
+* `trivRep_finrank`, `signRep_finrank`, `stdRep_finrank` — the dimensions `1, 1, 2`
   realising the sum-of-squares decomposition `1² + 1² + 2² = 6`.
+
+The construction mirrors the sorry-free `S₃` catalogue rebuilt in `Example4_9_1` (this
+chapter) and `Discussion5_11_examples` (Chapter 5).
 
 ## Mathlib correspondence
 

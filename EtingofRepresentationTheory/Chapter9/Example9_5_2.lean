@@ -14,14 +14,14 @@ Each block is equivalent to the category of vector spaces (since every module is
 sum of copies of one simple).
 
 (ii) If A is a commutative local artinian algebra, then A has only one block (since there
-is only one simple module, the residue field).
+is only one simple module — the residue field).
 
 (iii) The algebra from Problem 9.3.2 has one block.
 
 ## Scope of this file
 
-Part (i) is captured through the project's `Etingof.AreLinked` relation, which, faithful to
-Definition 9.5.1, links simple modules via chains of simple modules connected by
+Part (i) is captured through the project's `Etingof.AreLinked` relation, which — faithful to
+Definition 9.5.1 — links **simple** modules via chains of *simple* modules connected by
 `Ext¹`-adjacency. Over a semisimple ring `Ext¹` vanishes identically, so the linking relation
 on simples collapses to isomorphism. We prove `Etingof.semisimple_areLinked_iff_iso`: for
 simple `X, Y`, `AreLinked X Y ↔ X ≅ Y`, i.e. each block contains a single isomorphism class of
@@ -31,14 +31,14 @@ Note the relationship to the book's phrasing "each block is equivalent to the ca
 vector spaces". Etingof's block attached to a simple `S` is the full subcategory of modules
 whose Jordan–Hölder factors are all in `S`'s linking class (the predicate `Etingof.InBlock`);
 over a semisimple ring that subcategory is the isotypic component `{S^{⊕n}}`, equivalent to
-vector spaces. The statement formalized here is the consequence "one simple object
+vector spaces. The statement formalized here is the load-bearing consequence "one simple object
 per block". Promoting the Etingof "≃ Vec" subcategory equivalence would require an
 isotypic-subcategory equivalence beyond the scope of Definition 9.5.1.
 
-Part (iii), "the algebra of Problem 9.3.2 has one block": the
+Part (iii) — "the algebra of Problem 9.3.2 has one block" — is now formalized. The
 generators-and-relations algebra `A = ℂ⟨g, x⟩ / (gx + xg, x², g² - 1)` is constructed in
 `Chapter9/Problem9_3_2.lean`, together with its two non-isomorphic one-dimensional simple
-modules `S₊` and `S₋`. The two simples are linked by a nonsplit extension
+modules `S₊` and `S₋`. The two simples are linked by a genuine nonsplit extension
 `0 → S₋ → P₊ → S₊ → 0`, so `Ext¹(S₊, S₋) ≠ 0`; this is exactly the regime that part (i)
 (semisimple) excludes. We re-export the resulting `Etingof.AreLinked` statement as
 `Etingof.problem_9_3_2_single_block` below.
@@ -63,7 +63,7 @@ theorem Etingof.semisimple_not_extAdjacent
     haveI := Abelian.Ext.subsingleton_of_projective B A 0
     exact not_nontrivial _ h
 
-/-- For a semisimple ring, the linking relation on simple modules collapses to isomorphism:
+/-- For a semisimple ring, the linking relation on **simple** modules collapses to isomorphism:
 two simple modules are linked iff they are isomorphic. Equivalently, each block contains a
 single isomorphism class of simples. This is Etingof Example 9.5.2 (i) ("each block is
 equivalent to the category of vector spaces, and thus has only one simple object"): since
@@ -127,7 +127,7 @@ theorem Etingof.local_artinian_single_block
 /-- The algebra `A = ℂ⟨g, x⟩ / (gx + xg, x², g² - 1)` of Problem 9.3.2 has a single block:
 its two non-isomorphic simple modules `S₊` and `S₋` are `Etingof.AreLinked`, via the nonsplit
 extension `0 → S₋ → P₊ → S₊ → 0` (so `Ext¹(S₊, S₋) ≠ 0`). Unlike parts (i) and (ii), the
-linking here is a nonsplit extension rather than an isomorphism.
+linking here is a genuine nonsplit extension rather than an isomorphism.
 (Etingof Example 9.5.2 (iii); see `Chapter9/Problem9_3_2.lean` for the construction.) -/
 theorem Etingof.problem_9_3_2_single_block :
     Etingof.AreLinked Etingof.Problem932.A

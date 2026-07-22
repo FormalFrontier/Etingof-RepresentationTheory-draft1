@@ -39,7 +39,7 @@ open CategoryTheory Polynomial Matrix in
 element is an algebraic integer: it is the sum of the eigenvalues of `V.ρ g`, each of which is
 a root of unity (since `g` has finite order). -/
 theorem FDRep.character_isIntegral
-    {G : Type*} [Group G] [Fintype G]
+    {G : Type} [Group G] [Fintype G]
     (V : FDRep ℂ G) (g : G) :
     IsIntegral ℤ (V.character g) := by
   classical
@@ -57,7 +57,7 @@ theorem FDRep.character_isIntegral
   -- Each root of the charpoly is an eigenvalue of `f`, hence (as `f ^ N = 1`) a root of unity.
   have hroot : ∀ r ∈ f.charpoly.roots, IsIntegral ℤ r := by
     intro r hr
-    -- `r` is a root of the charpoly, hence an eigenvalue of `f`.
+    -- `r` is a genuine root, hence an eigenvalue of `f`.
     have hr0 : f.charpoly.IsRoot r :=
       (Polynomial.mem_roots (f.charpoly_monic.ne_zero)).mp hr
     have heig : f.HasEigenvalue r :=
@@ -89,7 +89,7 @@ open CategoryTheory in
 /-- **Theorem 5.3.1.** The dimension of an irreducible complex representation `V` of a finite
 group `G` divides the order of `G`. (Etingof Theorem 5.3.1) -/
 theorem Etingof.Theorem5_3_1
-    (G : Type*) [Group G] [Fintype G]
+    (G : Type) [Group G] [Fintype G]
     (V : FDRep ℂ G) [Simple V] :
     Module.finrank ℂ V ∣ Fintype.card G := by
   classical

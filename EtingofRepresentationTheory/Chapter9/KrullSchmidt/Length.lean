@@ -10,7 +10,7 @@ import Mathlib.Algebra.Homology.ShortComplex.Exact
 import Mathlib.Algebra.Homology.ShortComplex.ShortExact
 
 /-!
-# Composition length for finite abelian categories (Krull–Schmidt)
+# Composition length for finite abelian categories (Krull–Schmidt, link 1/5)
 
 This file introduces a `ℕ`-valued **composition length** `Etingof.clength X` for objects of a
 finite abelian category, together with the additivity property that every later Krull–Schmidt
@@ -28,35 +28,39 @@ clength X = (Order.height (⊤ : Subobject X)).toNat.
 
 For a finite-length object this height is finite and equals the length of any composition
 series, by the Jordan–Hölder theorem applied to the (modular) subobject lattice. The definition
-above is total: it returns a value in `ℕ` for every object, so it can carry the API even before
-the finiteness and additivity content is in place. `Order.height` lives in `ℕ∞`, and
+above is *total* — it returns a real `ℕ` for every object — so it can serve as the carrier of the
+API even before the finiteness/additivity content is in place. `Order.height` lives in `ℕ∞`, and
 `.toNat` sends `⊤` (the not-finite-length case, which does not occur in a finite abelian category)
 to `0`.
 
-## Mathlib correspondence and additivity
+## Mathlib correspondence and the additivity crux
 
 Mathlib develops Jordan–Hölder only abstractly (`Mathlib/Order/JordanHolder.lean`,
 `CompositionSeries`, `CompositionSeries.jordan_holder`) and concretely for `Submodule R M`
 (`JordanHolderModule.instJordanHolderLattice`). For the subobject lattice of an abelian category
-it has neither a `JordanHolderLattice` instance, nor the `IsModularLattice (Subobject X)`
-instance, nor the categorical second isomorphism theorem `(A ⊔ B)/A ≅ B/(A ⊓ B)` that such an
-instance needs. The Stacks-project approach (tag `0FCK`) for categorical Jordan–Hölder is noted as
+it has **neither** a `JordanHolderLattice` instance, **nor** the `IsModularLattice (Subobject X)`
+instance, **nor** the categorical second isomorphism theorem `(A ⊔ B)/A ≅ B/(A ⊓ B)` that such an
+instance needs. The Stacks-project route (tag `0FCK`) for categorical Jordan–Hölder is flagged as
 future work in `Mathlib/CategoryTheory/Noetherian.lean`.
 
-Consequently the additivity of `clength` over short exact sequences,
+Consequently the **additivity** of `clength` over short exact sequences,
 
 ```
 clength S.X₂ = clength S.X₁ + clength S.X₃,
 ```
 
-is the categorical Jordan–Hölder content and the hard part of the development. It is `le_antisymm`
-of the two one-sided bounds: `clength_add_le` (the modularity-free lower bound, via the
-down-interval isomorphism `height_mk_eq_height_top` and the epi-side inequality
-`height_top_le_coheight_kernel`) and `clength_le_add` (the Schreier-refinement upper bound, via the
-order-reflecting embedding `Subobject X₂ ↪ Subobject X₁ × Subobject X₃` of `Φ_reflecting` and the
-product-order height bound `height_prod_le`). Finiteness of the height in a finite abelian category
-comes from the §9.6 standing assumption recorded as `FiniteDimensionalOrder (Subobject X)`. The
-`clength_eq_zero` characterisation holds in both directions.
+is the genuine categorical Jordan–Hölder content and is the hard part of this link. It is now
+**proved** (`clength_additive`), sorry-free, as `le_antisymm` of the two one-sided bounds:
+`clength_add_le` (the modularity-free lower bound, via the down-interval isomorphism
+`height_mk_eq_height_top` and the epi-side inequality `height_top_le_coheight_kernel`) and
+`clength_le_add` (the Schreier-refinement upper bound, via the order-reflecting embedding
+`Subobject X₂ ↪ Subobject X₁ × Subobject X₃` of `Φ_reflecting` and the product-order height bound
+`height_prod_le`). Finiteness of the height in a finite abelian category comes from the §9.6
+standing assumption recorded as `FiniteDimensionalOrder (Subobject X)`. The
+`clength_eq_zero` characterisation is likewise proved in both directions.
+
+This top-down split lets the downstream consumers (existence-of-decomposition and Fitting's-lemma
+sub-issues of #5153) build against the final `clength` API immediately.
 -/
 
 universe w v u
@@ -85,7 +89,7 @@ theorem clength_eq_zero_of_isZero {X : C} (h : IsZero X) : clength X = 0 := by
   have hmin : IsMin (⊤ : Subobject X) := fun b _ => le_of_eq (Subsingleton.elim _ _)
   simp only [clength, Order.height_eq_zero.2 hmin, ENat.toNat_zero]
 
-/-- A simple object has composition length `1`: its subobject lattice is a two-element chain
+/-- A **simple** object has composition length `1`: its subobject lattice is a two-element chain
 `⊥ < ⊤` (`IsSimpleOrder (Subobject X)`), so the top element covers the bottom and its height is `1`.
 This is the length-`1` base case of the Jordan–Hölder count: the value `clength_additive` returns
 on the simple quotients of a composition series. -/
@@ -101,8 +105,8 @@ theorem clength_simple {X : C} (h : Simple X) : clength X = 1 := by
       simpa [Order.height_eq_zero.mpr isMin_bot] using this
   simp [clength, hheight]
 
-/-- The subobject lattice of a zero object is finite-dimensional as an order: it is a
-singleton, hence `Unique`. This is the base case of the finite-length induction carrying the
+/-- The subobject lattice of a **zero object** is finite-dimensional as an order: it is a
+singleton, hence `Unique`. This is the base case of the finite-length induction that routes the
 §9.6 standing assumption ("every object has finite length") into the `clength` API. -/
 theorem finiteDimensionalOrder_subobject_of_isZero {X : C} (h : IsZero X) :
     FiniteDimensionalOrder (Subobject X) := by
@@ -121,14 +125,14 @@ theorem height_top_lt_top {X : C} [FiniteDimensionalOrder (Subobject X)] :
   simpa using (Order.krullDim_ne_top_of_finiteDimensionalOrder
     (α := Subobject X)).lt_top
 
-/-- **`clength_eq_zero_iff` under the finite-length hypothesis.** When the subobject
-lattice of `X` is finite-dimensional as an order (the order-theoretic form of the §9.6 standing
-assumption that every object has finite length), composition length `0` characterises the zero
-object in both directions. This is the content of the `→` direction of
+/-- **`clength_eq_zero_iff`, discharged under the finite-length hypothesis.** When the subobject
+lattice of `X` is finite-dimensional as an order — the order-theoretic form of the §9.6 standing
+assumption that every object has finite length — composition length `0` characterises the zero
+object in *both* directions. This is the honest content of the `→` direction of
 `clength_eq_zero_iff`: it needs exactly that `Order.height (⊤ : Subobject X)` is finite (here
 `height_top_lt_top`), so that `clength X = 0` forces `Order.height ⊤ = 0`, i.e. `⊤` is minimal and
-`Subobject X` is a singleton. The unconditional `clength_eq_zero_iff` below then follows once
-that finiteness is available from the ambient category. -/
+`Subobject X` is a singleton. The unconditional `clength_eq_zero_iff` below then follows the moment
+that finiteness is available from the ambient category; see #5324 for the wiring. -/
 theorem clength_eq_zero_iff_of_finiteDimensionalOrder {X : C}
     [FiniteDimensionalOrder (Subobject X)] : clength X = 0 ↔ IsZero X := by
   refine ⟨fun h => ?_, clength_eq_zero_of_isZero⟩
@@ -144,20 +148,21 @@ theorem clength_eq_zero_iff_of_finiteDimensionalOrder {X : C}
 /-- An object has composition length `0` iff it is a zero object.
 
 The `←` direction is `clength_eq_zero_of_isZero`. The `→` direction needs that the height of
-`⊤ : Subobject X` is finite in a finite abelian category (`Order.height ... ≠ ⊤`); only then does
+`⊤ : Subobject X` is *finite* in a finite abelian category (`Order.height ... ≠ ⊤`); only then does
 `(Order.height ⊤).toNat = 0` force `Order.height ⊤ = 0`, i.e. `X` zero (via
 `Subobject.nontrivial_of_not_isZero`). That finiteness is the same categorical Jordan–Hölder input
 as `clength_additive`; see the module doc.
 
-**Finiteness.** This finiteness is not derivable from the bare data of an abelian
-category with enough projectives and finitely many simples: that data does not force every
+**Finiteness routing (#5324).** This finiteness is *not* derivable from the bare data of an abelian
+category with enough projectives and finitely many simples: that data does **not** force every
 object to have finite length. (Concretely, the category of all modules over `k[x]/(x²)` has one
 simple `k` and enough projectives yet has infinite-length objects, for which `clength = 0` while the
 object is nonzero, falsifying the `→` direction.) The missing ingredient is the §9.6
-finite-length standing assumption, which `Etingof.IsFiniteAbelianCategory` records
+finite-length standing assumption, which `Etingof.IsFiniteAbelianCategory` now records
 order-theoretically as `FiniteDimensionalOrder (Subobject X)` for every object `X` (see
 `Definition9_6_1.lean`). That instance is in scope here, so the unconditional statement follows
-from `clength_eq_zero_iff_of_finiteDimensionalOrder`. -/
+immediately from `clength_eq_zero_iff_of_finiteDimensionalOrder`, whose proof is the honest `→`
+math. -/
 theorem clength_eq_zero_iff {X : C} : clength X = 0 ↔ IsZero X :=
   clength_eq_zero_iff_of_finiteDimensionalOrder
 
@@ -222,7 +227,7 @@ private theorem height_mk_eq_height_top {X Y : C} (f : X ⟶ Y) [Mono f] :
 /-- In a finite-dimensional order with a top element, the height of any element plus its coheight is
 bounded by the height of the top: concatenate (`RelSeries.smash`) a maximal strictly increasing
 chain ending at `a` with one starting at `a`; the result is a chain ending below `⊤`. This needs
-no modularity and is the order-theoretic input to the lower bound
+**no modularity** and is the order-theoretic input to the lower bound
 `clength X₁ + clength X₃ ≤ clength X₂` for a short exact sequence (with `a` the image of `X₁`
 inside `X₂`). -/
 private theorem height_add_coheight_le_height_top {α : Type*} [Preorder α] [OrderTop α]
@@ -403,7 +408,7 @@ private theorem mem_pullback_obj {X Y : C} (f : X ⟶ Y) (y : Subobject Y) {x : 
 `f` (`(pullback f).obj A = (pullback f).obj B`) and the same image along `g`
 (`imageSubobject (A.arrow ≫ g) = imageSubobject (B.arrow ≫ g)`), then `B ≤ A`, hence `A = B`.
 
-This is the categorical (second-isomorphism-theorem) content. We show the inclusion
+This is the genuine categorical (second-isomorphism-theorem) content. We show the inclusion
 `ι := ofLE A B` is epi by a pseudoelement chase: a pseudoelement `b` of `B` has `g (B.arrow b)` in
 the common image, so `g (A.arrow a₀) = g (B.arrow b)` for some `a₀` of `A`; the "difference"
 `z` (`Abelian.Pseudoelement.sub_of_eq_image`) satisfies `g z = 0`, so `z ∈ im f = ker g`, and lies
@@ -485,7 +490,7 @@ private theorem Φ_reflecting {S : ShortComplex C} (hS : S.ShortExact) {A B : Su
   exact Abelian.Pseudoelement.pseudo_exact_of_exact
     (ShortComplex.cokernelSequence_exact A.arrow) (B.arrow b) hfin
 
-/-- **Upper bound (lengths).** The Schreier half of categorical Jordan–Hölder.
+/-- **Upper bound (lengths)** — the genuine Schreier half of categorical Jordan–Hölder.
 `clength X₂ ≤ clength X₁ + clength X₃` for a short exact sequence `0 → X₁ →ᶠ X₂ →ᵍ X₃ → 0`.
 
 The map `Φ B = ((pullback f).obj B, imageSubobject (B.arrow ≫ g)) : Subobject X₂ → Subobject X₁ ×
@@ -524,17 +529,17 @@ private theorem clength_le_add {S : ShortComplex C} (hS : S.ShortExact) :
   rw [← ENat.toNat_add h1 h3]
   exact ENat.toNat_le_toNat hheight (WithTop.add_ne_top.mpr ⟨h1, h3⟩)
 
-/-- **Additivity of composition length over short exact sequences.**
+/-- **Additivity of composition length over short exact sequences** — the Krull–Schmidt crux.
 
 For a short exact sequence `0 → X₁ → X₂ → X₃ → 0`, the composition length is additive,
 `clength X₂ = clength X₁ + clength X₃`. This is `le_antisymm` of the two one-sided bounds:
 
-* `clength_add_le` (`clength X₁ + clength X₃ ≤ clength X₂`): modularity-free, from the
+* `clength_add_le` (`clength X₁ + clength X₃ ≤ clength X₂`) — **proved**, modularity-free, from the
   down-interval isomorphism `height_mk_eq_height_top`, the epi-side inequality
   `height_top_le_coheight_kernel`, and the order lemma `height_add_coheight_le_height_top`.
-* `clength_le_add` (`clength X₂ ≤ clength X₁ + clength X₃`): the Schreier-refinement direction;
-  see its docstring for the order-reflecting embedding
-  `Subobject X₂ ↪ Subobject X₁ × Subobject X₃` that discharges it.
+* `clength_le_add` (`clength X₂ ≤ clength X₁ + clength X₃`) — the Schreier-refinement direction; see
+  its docstring for the order-reflecting embedding `Subobject X₂ ↪ Subobject X₁ × Subobject X₃` that
+  remains to be discharged.
 
 Finiteness of all three lengths (needed both for the `le_antisymm` to make sense and for the
 `ENat.toNat` arithmetic) comes from `FiniteDimensionalOrder (Subobject X)`, the order-theoretic form
@@ -560,7 +565,7 @@ For an inclusion of subobjects `A ≤ B` of a fixed `X`, the canonical short exa
 `0 → (A : C) → (B : C) → (B/A) → 0` (with `(A : C) → (B : C)` the inclusion `Subobject.ofLE`
 and `B/A` its cokernel) together with `clength_additive` gives `clength (A : C) ≤ clength (B : C)`,
 strictly so when `A < B` (then `B/A` is nonzero, so has positive length). This is the order-theoretic
-input that makes `clength` a well-founded induction measure on `Subobject X`. -/
+input that turns `clength` into a well-founded induction measure on `Subobject X`. -/
 
 /-- The composition-length identity attached to an inclusion `A ≤ B` of subobjects: the canonical
 short exact sequence `0 → (A : C) → (B : C) → cokernel (ofLE A B h) → 0` is exact, so
@@ -645,7 +650,7 @@ theorem exists_eventually_constant_of_monotone {X : C} {a : ℕ → Subobject X}
 
 The descending image chain `im (f^n)` and ascending kernel chain `ker (f^n)` of an endomorphism
 `f : End X` both stabilise, directly from the chain conditions above. These are the finite-length
-inputs that Fitting's lemma (`fitting_decomposition`) consumes. -/
+inputs that Fitting's lemma (`fitting_decomposition`, link 3/5) consumes. -/
 
 /-- The image chain `n ↦ im (f^n)` of an endomorphism is descending: `im (f^{n+1}) ≤ im (f^n)`,
 because `f^{n+1} = f ≫ f^n` factors through `f^n`. -/
@@ -708,8 +713,8 @@ private theorem exact_kernelSubobject_arrow {Y Z : C} (g : Y ⟶ Z) :
   change imageSubobject (kernelSubobject g).arrow = kernelSubobject g
   rw [imageSubobject_mono, Subobject.mk_arrow]
 
-/-- **Image restriction is an isomorphism at the stabilising power.** The precise finite-length
-input Fitting's lemma (`fitting_decomposition`) consumes. For an endomorphism `f` there is
+/-- **Image restriction is an isomorphism at the stabilising power** — the precise finite-length
+input Fitting's lemma (`fitting_decomposition`, link 3/5) consumes. For an endomorphism `f` there is
 a positive `n` at which `image.ι (fⁿ) ≫ factorThruImage (fⁿ)` is an isomorphism. -/
 theorem exists_pow_stabilizes {X : C} (f : End X) :
     ∃ n, 0 < n ∧ IsIso (Abelian.image.ι ((f : X ⟶ X) ^ n) ≫

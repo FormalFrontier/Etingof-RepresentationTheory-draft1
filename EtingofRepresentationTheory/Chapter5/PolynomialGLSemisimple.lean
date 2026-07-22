@@ -5,14 +5,14 @@ import EtingofRepresentationTheory.Chapter5.GLRepAlgebraic
 import EtingofRepresentationTheory.Chapter5.FormalCharacterIso
 
 /-!
-# A general polynomial `GL_N`-representation is semisimple
+# A general polynomial `GL_N`-representation is semisimple (Schur-Weyl #5, steps 2-4)
 
 `decompose_polynomial_gl_rep` (`PolynomialGLDecomposition.lean`) proves
-`GL_N`-equivariant complete reducibility (hence
-`IsSemisimpleModule (GLAlg k N) M.asModule`) for a weight-homogeneous polynomial
-algebraic representation (hypotheses `h_span` + `h_homog`).
+`GL_N`-equivariant complete reducibility — hence
+`IsSemisimpleModule (GLAlg k N) M.asModule` — for a *weight-homogeneous* polynomial
+algebraic rep (hypotheses `h_span` + `h_homog`).
 
-This file removes the homogeneity hypothesis: a general polynomial representation
+This file removes the homogeneity hypothesis: a *general* polynomial representation
 `M` (with `IsPolynomialRepresentation N M.ρ`) is semisimple. The reduction groups
 `M`'s weight spaces by total degree `d = ∑ᵢ μ i`. Each total-degree component `M_d`
 is the `t₀^d`-eigenspace of the central scalar operator `M.ρ (scalarGL t₀)` (for a
@@ -62,7 +62,7 @@ variable (k : Type) [Field k] [IsAlgClosed k] [CharZero k] (N : ℕ)
 
 /-- A weight-homogeneous polynomial algebraic `GL_N`-representation is semisimple.
 This packages `decompose_polynomial_gl_rep` (which decomposes such an `M` as a finite
-direct sum of simple `GLAlg`-modules) with the fact that a direct sum of simple
+direct sum of *simple* `GLAlg`-modules) with the fact that a direct sum of simple
 modules is semisimple. -/
 theorem polynomialHomogRep_isSemisimple (n : ℕ)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))

@@ -17,19 +17,21 @@ aeval (fun i => (t i : k)) (formalCharacter k N M) = trace (M.ρ (diag(t)))
 Both sides equal `∑_μ dim(M_μ) · ∏_i (t i)^(μ i)`, the sum over weights `μ` of the
 weight-space dimension times the torus character `∏ t_i^{μ_i}`.
 
-This is the `formalCharacter ↔ torus-trace` connection. The hypothesis is the span
-condition `⨆_μ glWeightSpace = ⊤` rather than `IsAlgebraicRepresentation` directly,
+This is the `(B)` `formalCharacter ↔ torus-trace` connection requested in issue
+#4886 (sub-issue of #4875). The hypothesis is the span condition
+`⨆_μ glWeightSpace = ⊤` rather than `IsAlgebraicRepresentation` directly — this is
 the form every downstream weight-space theorem in the project takes (cf.
 `FormalCharacterIso.finrank_eq_sum_glWeightSpace`, `DetInvElim`,
-`PolynomialRepEmbedding`). For algebraic representations the span condition holds.
+`PolynomialRepEmbedding`), and is exactly what the assembly sub-issue consumes.
+For algebraic representations the span condition holds.
 
 ## Main results
 
-* `diagTorus`: the diagonal torus element `diag(t) ∈ GL_N(k)` for `t : Fin N → kˣ`.
-* `glWeightSpace_diagTorus_apply`: on the weight space `M_μ`, `diag(t)` acts by the
+* `diagTorus` — the diagonal torus element `diag(t) ∈ GL_N(k)` for `t : Fin N → kˣ`.
+* `glWeightSpace_diagTorus_apply` — on the weight space `M_μ`, `diag(t)` acts by the
   scalar `∏_i (t i)^(μ i)`.
-* `aeval_formalCharacter_eq_trace`: the trace identity.
-* `trace_combination_eq_zero_of_formalCharacter_combination_eq_zero`:
+* `aeval_formalCharacter_eq_trace` — the headline trace identity.
+* `trace_combination_eq_zero_of_formalCharacter_combination_eq_zero` — payload `(B2)`:
   a vanishing ℚ-combination of formal characters forces the corresponding
   combination of torus traces to vanish.
 -/
@@ -200,12 +202,12 @@ theorem aeval_formalCharacter_eq_trace
   rw [map_smul, MvPolynomial.aeval_monomial, map_one, one_mul,
     Finsupp.prod_fintype _ _ (fun i => pow_zero _), Algebra.smul_def, map_natCast]
 
-/-! ### Vanishing character combination ⟹ vanishing trace combination -/
+/-! ### Payload (B2): vanishing character combination ⟹ vanishing trace combination -/
 
-/-- A vanishing ℚ-linear combination of formal characters of
+/-- **Payload `(B2)`.** A vanishing ℚ-linear combination of formal characters of
 polynomial representations forces the corresponding combination of torus traces to
 vanish at every diagonal torus element. This is the form the Dedekind/Artin
-argument consumes. -/
+assembly for #4875 consumes. -/
 theorem trace_combination_eq_zero_of_formalCharacter_combination_eq_zero
     {ι : Type*} (s : Finset ι) (c : ι → ℚ)
     (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))

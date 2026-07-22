@@ -8,18 +8,18 @@ For a finite group `G` and an algebraically closed field `k` in which `|G|` is
 invertible, the number of isomorphism classes of simple `k[G]`-modules is
 `|ConjClasses G|` (Etingof Corollary 4.2.2, stated for `FDRep k G`).
 
-This file repackages that count as a cardinality bound on abstract module
-families: any `Fintype`-indexed family of pairwise non-isomorphic simple
+This file repackages that count as a **cardinality bound on abstract module
+families**: any `Fintype`-indexed family of pairwise non-isomorphic simple
 `k[G]`-modules, each finite-dimensional over `k`, has cardinality at most
 `|ConjClasses G|`. Two forms are provided:
 
-* `Etingof.card_le_card_conjClasses`, for modules living in `k`'s own universe
+* `Etingof.card_le_card_conjClasses` — for modules living in `k`'s own universe
   (`Type u`), which is the universe `FDRep k G` lives in;
-* `Etingof.card_le_card_conjClasses'`, for modules in an arbitrary universe,
+* `Etingof.card_le_card_conjClasses'` — for modules in an arbitrary universe,
   obtained by transporting each module to its `k`-linear small model
   `Fin (finrank k (M i)) → k : Type u`.
 
-The passage from a `k[G]`-module to `FDRep k G` is `repOfModule`, the
+The bridge from a `k[G]`-module to `FDRep k G` is `repOfModule`, the
 representation `g ↦ (x ↦ single g 1 • x)`, whose `asModule` recovers the
 original `k[G]`-action (`repOfModule_asAlgebraHom`).
 -/

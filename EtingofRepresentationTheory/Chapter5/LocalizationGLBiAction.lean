@@ -8,9 +8,9 @@ import EtingofRepresentationTheory.Chapter5.LocalizationGLRightAction
 `LocalizationGLRightAction.lean` extended the right-translation representation
 `polyRightRep` from `A = k[Xᵢⱼ]` to the determinant localization
 `O = A[det⁻¹] = Localization.Away (detPoly k N)`, giving `localRightRep`. This
-file does the same for the left translation `polyLeftRep`
+file does the same for the **left** translation `polyLeftRep`
 (`PolynomialGLBiAction.lean`), producing `localLeftRep`, and then combines the two
-commuting one-sided actions into a single `GL_N × GL_N`-representation
+commuting one-sided actions into a single genuine **`GL_N × GL_N`-representation**
 `localBiRep` on `O`.
 
 `O` is Etingof's coordinate ring `R` of regular functions on `GL_N(k)`: every
@@ -39,8 +39,8 @@ variable {k : Type*} [Field k] {N : ℕ}
 
 /-! ## A representation of a product group from two commuting actions -/
 
-/-- Two commuting representations of `G` and `H` on the same module `V`
-combine into a representation of `G × H`: `(g, h) ↦ ρ g ∘ σ h`. The commutation
+/-- Two commuting representations of `G` and `H` on the **same** module `V`
+assemble into a representation of `G × H`: `(g, h) ↦ ρ g ∘ σ h`. The commutation
 hypothesis is exactly what makes this a monoid homomorphism. -/
 noncomputable def _root_.Representation.ofCommutingPair
     {k G H V : Type*} [CommSemiring k] [Monoid G] [Monoid H]
@@ -269,7 +269,7 @@ theorem localLeftRep_commute_localRightRep
 
 /-- **The `GL_N × GL_N` bi-action on the coordinate ring `O = A[det⁻¹]`.** For
 `(g, h) ∈ GL_N × GL_N`, `(g, h)` acts by `L_g R_h` (left translation by `g`
-composed with right translation by `h`). This is the
+composed with right translation by `h`). This is the genuine
 `GL_N × GL_N`-representation on Etingof's coordinate ring `R` whose Peter-Weyl
 decomposition is Theorem 5.23.2(ii). -/
 noncomputable def localBiRep (k : Type*) [Field k] (N : ℕ) :

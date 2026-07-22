@@ -4,14 +4,15 @@ import Mathlib
 # Remark 4.5.3: Frobenius's definition of characters via the convolution algebra
 
 Characters of irreducible complex representations of a finite group `G` can be defined
-without mentioning representations, following Frobenius. The construction:
+*without* mentioning representations, following Frobenius. The construction:
 
 * Equip the space `F(G, ℂ) = (G → ℂ)` of complex-valued functions on `G` with the
   **convolution product**
   `(f * g)(z) = Σ_{x y = z} f(x) g(y) = Σ_x f(x) g(x⁻¹ z)`.
   This makes `F(G, ℂ)` into an associative `ℂ`-algebra with unit `δ_e` (the indicator of
-  the identity). This algebra is the group algebra `ℂ[G] = MonoidAlgebra ℂ G`
-  under the identification `f ↦ Σ_g f(g) · g`.
+  the identity). Concretely, this algebra *is* the group algebra `ℂ[G] = MonoidAlgebra ℂ G`
+  under the identification `f ↦ Σ_g f(g) · g`, so we reuse `MonoidAlgebra` rather than
+  rebuilding convolution from scratch.
 
 * The space `F_c(G, ℂ)` of **class functions** is a commutative subalgebra: it is exactly
   the centre of the group algebra.
@@ -25,9 +26,13 @@ without mentioning representations, following Frobenius. The construction:
 
 This is essentially how Frobenius defined characters (see [Cu], equation (7)).
 
+The objects (convolution algebra, class-function subalgebra, renormalized character
+idempotent) are genuinely constructed here. The structural theorems (centre ↔ class
+functions, primitivity, recovery formula) are stated and proved top-down.
+
 ## Sign convention
 
-We take `χ̃_V` to be the primitive central idempotent whose coefficient function is
+We take `χ̃_V` to be the primitive central idempotent whose *coefficient function* is
 `g ↦ (χ_V(1)/|G|) · χ_V(g)` (this is the central idempotent attached to the dual
 representation `V*`). With this normalization the book's recovery formula
 `χ_V(g) = √(|G|/χ̃_V(1)) · χ̃_V(g)` holds on the nose, since
@@ -43,8 +48,8 @@ universe u
 
 /-- The **convolution algebra** `F(G, ℂ)`: complex-valued functions on `G` with the
 convolution product `(f * g)(z) = Σ_{xy=z} f(x) g(y)`. Under `f ↦ Σ_g f(g) · g` this is the
-group algebra `ℂ[G]`, realised as `MonoidAlgebra ℂ G`, with its group-algebra structure
-(associativity, unit `δ_e`). -/
+group algebra `ℂ[G]`, so we define it as `MonoidAlgebra ℂ G`; the algebra structure
+(associativity, unit `δ_e`) is then provided by Mathlib. -/
 abbrev ConvolutionAlgebra (G : Type u) [Group G] : Type u := MonoidAlgebra ℂ G
 
 variable {G : Type u} [Group G]
@@ -212,9 +217,9 @@ theorem character_recovery (V : FDRep ℂ G) [Simple V] :
 /-! ## Primitive idempotency of the renormalized character
 
 The renormalized character `χ̃_V` is a primitive idempotent of the class-function algebra.
-It rests on a single absorption lemma: for any class function `z`, the convolution
+The engine is a single **absorption lemma**: for any class function `z`, the convolution
 `χ̃_V ⋆ z` is a scalar multiple of `χ̃_V`. This is proved by the standard "central element
-acts as a scalar" Schur argument: the equivariant endomorphism `S_z = Σ_y z(y)·ρ(y⁻¹)` of a
+acts as a scalar" Schur argument — the equivariant endomorphism `S_z = Σ_y z(y)·ρ(y⁻¹)` of a
 simple `V` is a scalar by Schur's lemma. Idempotency is the case `z = χ̃_V` (the scalar is `1`,
 by character orthonormality), and primitivity is the standard minimal-idempotent argument. -/
 

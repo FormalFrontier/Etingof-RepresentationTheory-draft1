@@ -15,7 +15,7 @@ a `k`-linear endomorphism `f` of `V` with `f vᵢ = wᵢ`, and by the density th
 representation map `A → End_k V` is surjective, so `f` is realized by some `a ∈ A`.
 
 The hypothesis is `k`-linear independence of the `vᵢ` (independence over the base field), as
-in the book, not independence over the algebra `A`. The latter would be far stronger: in
+in the book — *not* independence over the algebra `A`. The latter would be far stronger: in
 a simple `A`-module any two distinct nonzero vectors are `A`-dependent, so `A`-independence
 forces `n ≤ 1` and collapses the statement.
 -/

@@ -37,7 +37,7 @@ noncomputable abbrev Etingof.compositionFactor {A V : Type*}
   s i.succ ⧸ (s i.castSucc).comap (s i.succ).subtype
 
 /-- The **Jordan-Hölder theorem** for modules, full statement (Etingof Theorem 3.7.1):
-any two composition series of the same module (from ⊥ to ⊤) are *equivalent*: there is a
+any two composition series of the same module (from ⊥ to ⊤) are *equivalent* — there is a
 bijection `σ` between their index sets such that the `i`-th composition factor of the
 first is linearly isomorphic to the `σ i`-th composition factor of the second.
 
@@ -56,7 +56,7 @@ theorem Etingof.jordan_holder_equivalent (A : Type*) (V : Type*)
 /-- The factor-isomorphism half of Jordan-Hölder (Etingof Theorem 3.7.1): there exists a
 permutation `σ` of the index set such that the `i`-th composition factor `Wᵢ` of `s₁` is
 isomorphic to the `σ i`-th composition factor `W'_{σ i}` of `s₂`. This is the substance of
-the theorem: "there exists a permutation σ such that `W_{σ(i)}` is isomorphic to `W'ᵢ`". -/
+the theorem — "there exists a permutation σ such that `W_{σ(i)}` is isomorphic to `W'ᵢ`". -/
 theorem Etingof.jordan_holder_factors (A : Type*) (V : Type*)
     [Ring A] [AddCommGroup V] [Module A V]
     (s₁ s₂ : CompositionSeries (Submodule A V))

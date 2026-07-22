@@ -8,7 +8,7 @@ import EtingofRepresentationTheory.Chapter5.GLRepAlgebraic
 /-!
 # The per-weight equivariant matrix-coefficient map `L*_λ ⊗ L_λ → R`
 
-This file constructs pieces (2) and (3) of the Peter-Weyl decomposition
+This file assembles bricks (2)+(3) of the Peter-Weyl decomposition
 (Theorem 5.23.2(ii), `Theorem5_23_2_PeterWeyl.lean`): the per-summand
 matrix-coefficient map
 
@@ -20,19 +20,19 @@ and its `GL_n × GL_n`-equivariance.
 `L_λ = AlgIrrepGL n lam k` carries the det-twisted Schur-module action
 `algIrrepGLRepρ`, `L*_λ = AlgIrrepGLDual n lam k` its contragredient
 `algIrrepGLRepDualρ`, and `⟨·,·⟩ = algIrrepDualPairing` is the typed
-contragredient pairing, which is `GL_n`-invariant
+contragredient pairing (#5523), which is `GL_n`-invariant
 (`algIrrepDualPairing_invariant`).
 
 ## Construction
 
-`L_λ` is an algebraic representation (`algIrrepGLRepρ_isAlgebraic`, assembled from
-`schurModule_isAlgebraic` plus `IsAlgebraicRepresentation.detInvTwist` for the
+`L_λ` is an *algebraic* representation (`algIrrepGLRepρ_isAlgebraic`, assembled from
+`schurModule_isAlgebraic` plus the new `IsAlgebraicRepresentation.detInvTwist` for the
 `det^{-shift}` twist): there is a basis `b` and matrix-coefficient polynomials `P` with
 `b.repr (ρ(g) (b c)) a = evalAtGL g (P a c)`. The map is
 
   `u ⊗ v ↦ ∑_{a,c} (⟨u, b a⟩ · b.repr v c) • coordToAway (P a c)`,
 
-built via `TensorProduct.lift`. Its defining property is the
+genuine data built via `TensorProduct.lift`. Its defining property is the
 matrix-coefficient identity (`evalGLAway_peterWeylSummandMap`)
 
   `evalGLAway (peterWeylSummandMap (u ⊗ v)) g = ⟨u, ρ(g) v⟩`,
@@ -42,7 +42,7 @@ read off through the faithful functions-on-`GL` model `evalGLAway`
 reduces, by injectivity of `evalGLAway` (`evalGLAway_injective`, needs `k`
 infinite), to agreement on `GL`: the right factor uses
 `evalGLAway_localRightRep` and `ρ(g)ρ(h) = ρ(gh)`; the left factor uses
-`evalGLAway_localLeftRep` (left translation by `g⁻¹`) and the pairing
+`evalGLAway_localLeftRep` (post-#5536, left translation by `g⁻¹`) and the pairing
 invariance `⟨ρ*(g₀)u, w⟩ = ⟨u, ρ(g₀⁻¹)w⟩`. Combining gives intertwining with
 `localBiRep` exactly as in the `peterWeylRHS` summand action.
 -/
@@ -58,7 +58,7 @@ open Etingof.DetLocalization Etingof.LocalizationGLAction Etingof.DetInvElim
 
 /-! ## Two small `evalAtGL` helpers and the `det⁻¹`-twist of an algebraic rep -/
 
--- `evalAtGL_X_inr` (evaluation of the formal inverse variable `D` at `g`) is defined
+-- `evalAtGL_X_inr` (evaluation of the formal inverse variable `D` at `g`) lives upstream
 -- in `GLRepAlgebraic.lean`.
 
 /-- `evalAtGL g` is a ring hom, so it commutes with powers. -/
@@ -84,9 +84,9 @@ theorem IsAlgebraicRepresentation.detInvTwist {k : Type*} [Field k] {N : ℕ}
   rw [LinearMap.smul_apply, map_smul, Finsupp.smul_apply, smul_eq_mul, hP g a c,
     evalAtGL_mul, evalAtGL_pow, evalAtGL_X_inr]
 
-/-! ## The twisting scalar `(detChar^{-r}) g = (det g)⁻ʳ` -/
+/-! ## The twisting scalar `(detChar^{-r}) g = (det g)⁻ʳ` (local copy) -/
 
-/-- A restatement of `detChar_zpow_neg_apply` (kept here to avoid importing
+/-- A local copy of `detChar_zpow_neg_apply` (to avoid importing
 `DetPowerFiltration`): the inverse determinant character `χ⁻ʳ` evaluates to
 `(det g)⁻ʳ`. -/
 theorem detChar_zpow_neg_apply' {k : Type*} [Field k] {N : ℕ}
@@ -307,7 +307,7 @@ theorem equivariant_eq_peterWeylSummandMap
 `equivariant_eq_peterWeylSummandMap`: for any `GL_n`-equivariant `ι : L_λ → R`
 intertwining `algIrrepGLRepρ` with right translation `localRightRep`, the image of `ι`
 is contained in `LinearMap.range (peterWeylSummandMap n lam k)`. This is the inclusion
-that, summed over all equivariant copies of `L_λ` inside `R`, yields surjectivity of the
+that, summed over all equivariant copies of `L_λ` inside `R`, drives surjectivity of the
 Peter-Weyl summand map onto the `L_λ`-isotypic part of `R`. -/
 theorem equivariant_range_le_peterWeylSummandMap
     (ι : AlgIrrepGL n lam k →ₗ[k] Localization.Away (detPoly k n))

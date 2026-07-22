@@ -61,12 +61,12 @@ theorem Etingof.Example_2_3_14_polynomial_reps (k : Type*) [Field k] [IsAlgClose
 
 The substantive content of Etingof Example 2.3.14(2): the finite-dimensional indecomposable
 representations of `k[x]` are the Jordan blocks `V_{λ,n} = (kⁿ, ρ(x) = J_{λ,n})`. We build
-these as `k[X]`-modules (`Module.AEval'` of the Jordan-block operator), prove they are
-indecomposable, and prove that for `n ≥ 2` they are not simple, giving the book's
+these as genuine `k[X]`-modules (`Module.AEval'` of the Jordan-block operator), prove they are
+indecomposable, and prove that for `n ≥ 2` they are *not* simple — giving the book's
 conclusion that an indecomposable representation need not be irreducible.
 
-The remaining half of the book's claim, that every finite-dimensional indecomposable
-`k[x]`-representation is isomorphic to some `V_{λ,n}`, is the existence-and-uniqueness of
+The remaining half of the book's claim — that *every* finite-dimensional indecomposable
+`k[x]`-representation is isomorphic to some `V_{λ,n}` — is the existence-and-uniqueness of
 Jordan normal form, and is not formalized here.
 -/
 
@@ -236,7 +236,7 @@ proper submodules: any pair of complementary submodules has one of them trivial.
 def IsIndecomposable (R M : Type*) [Semiring R] [AddCommMonoid M] [Module R M] : Prop :=
   Nontrivial M ∧ ∀ N P : Submodule R M, IsCompl N P → N = ⊥ ∨ P = ⊥
 
-/-- The Jordan-block representation `V_{λ,n} = (kⁿ, ρ(x) = J_{λ,n})`, realized as a
+/-- The Jordan-block representation `V_{λ,n} = (kⁿ, ρ(x) = J_{λ,n})`, realized as a genuine
 `k[X]`-module via `Module.AEval'`: the action of `X` is the Jordan block `J_{λ,n}`.
 (Etingof Example 2.3.14(2)) -/
 abbrev jordanRep (lam : k) (n : ℕ) := Module.AEval' (jordanBlock lam n)

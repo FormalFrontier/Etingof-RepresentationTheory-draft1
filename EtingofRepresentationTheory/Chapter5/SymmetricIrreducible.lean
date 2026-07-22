@@ -7,13 +7,13 @@ import EtingofRepresentationTheory.Chapter5.SymmetricTransvection
 # Irreducibility of `SⁿV` as a `GL(V)`-representation (Problem 4.12.3, symmetric half)
 
 This file proves that the symmetric power `SⁿV` of a finite-dimensional vector space over a
-characteristic-zero field is an irreducible `GL(V)`-representation: the only subspaces stable
+characteristic-zero field is an *irreducible* `GL(V)`-representation: the only subspaces stable
 under every `symmetricPowerMap g` (`g : V ≃ₗ[k] V`) are `⊥` and `⊤`.
 
 This is the symmetric half of Problem 4.12.3 from Etingof's book, cited in Example 5.19.3, and the
-companion of `Etingof.exteriorPower_eq_bot_or_top`. It combines the two foundational pieces built
-earlier, the monomial basis of `SⁿV` (`Etingof.SymmetricPowerBasis`) and the transvection
-connectivity (`Etingof.SymmetricTransvection`), with a diagonal element of distinct eigenvalues,
+companion of `Etingof.exteriorPower_eq_bot_or_top`. It assembles the two foundational pieces built
+earlier — the monomial basis of `SⁿV` (`Etingof.SymmetricPowerBasis`) and the transvection
+connectivity (`Etingof.SymmetricTransvection`) — with a diagonal element of distinct eigenvalues,
 through the abstract criterion `Etingof.DiagonalCoordinate.eq_bot_or_eq_top_of_connected`:
 
 * **Distinct eigenvalues.** Pick a basis `bV` of `V` and the diagonal element
@@ -23,7 +23,7 @@ through the abstract criterion `Etingof.DiagonalCoordinate.eq_bot_or_eq_top_of_c
   by `DiagonalCoordinate.mem_of_repr_ne_zero` any subrepresentation `W` is spanned by a subset of
   the monomial basis.
 
-* **Connectivity by transvections.** Unlike the exterior case, permutation matrices act trivially
+* **Connectivity by transvections.** Unlike the exterior case, permutation matrices act *trivially*
   on the monomial basis, so the connectivity is supplied by the transvections `1 + Eᵢⱼ`
   (`Etingof.monomialAdj_connected` and `Etingof.monomialAdj_step_mem`): any two monomials are joined
   by single-unit moves, each realised inside `W` by a transvection. Hence a nonzero
@@ -177,10 +177,10 @@ theorem symmetricPower_eq_bot_or_top [CharZero k] [Module.Finite k V] {n : ℕ}
   exact monomialAdj_step_mem bV hTdiag hinj hWT hW M N hMW hMN
 
 /-- **Irreducibility of `L_{(n)} = SⁿV`** (Problem 4.12.3, the first half of the irreducibility
-assertion in Example 5.19.3): every `GL(V)`-subrepresentation of the symmetric power (every
-submodule stable under `symmetricPowerMap g` for all `g ∈ GL(V)`) is either `⊥` or `⊤`.
+assertion in Example 5.19.3): every `GL(V)`-subrepresentation of the symmetric power — i.e. every
+submodule stable under `symmetricPowerMap g` for all `g ∈ GL(V)` — is either `⊥` or `⊤`.
 
-This is a complete proof of Problem 4.12.3 for the symmetric power, following the book's
+This is a genuine, complete proof of Problem 4.12.3 for the symmetric power, following the book's
 Hint: the diagonal element `diag(p₀, …, p_{d-1})` of the first `d` primes has pairwise distinct
 eigenvalues on the monomial basis `e_{i₁} ⊙ ⋯ ⊙ e_{iₙ}` of `SⁿV` (the eigenvalue of a monomial is
 the product of the primes at its factors, distinct by unique factorisation), so any

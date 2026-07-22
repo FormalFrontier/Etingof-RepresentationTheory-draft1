@@ -14,7 +14,8 @@ representation of `U(ğ”¤)` on `V` is an associative algebra homomorphism `U(ğ”
 
 The universal property of the universal enveloping algebra (Mathlib's
 `UniversalEnvelopingAlgebra.lift`) gives a natural bijection between these two sets, which is
-exactly the content of the exercise.
+exactly the content of the exercise. Being an equivalence backed by Mathlib, this is recorded as a
+genuine definition rather than a `sorry`.
 -/
 
 namespace Etingof.Exercise2_9_11

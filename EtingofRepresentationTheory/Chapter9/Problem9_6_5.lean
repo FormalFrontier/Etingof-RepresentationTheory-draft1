@@ -19,33 +19,23 @@ where `P ⊗_B X` is the cokernel of `ψ = a_P ⊗ Id - Id ⊗ a_X : P ⊗ B ⊗
   `0 → K → P ⊗_B Hom(P, X) → X → 0` (third map `ξ`) and using (i) forces `K = 0`, so `ξ`
   is an isomorphism. Hence `F` and `G` are quasi-inverse and are equivalences of categories.
 
-## The three parts
+## Statement-pass note
 
-Here `F` is `hp.preadditiveCoyonedaObjFG : 𝒞 ⥤ FGModuleCat (End P)ᵐᵒᵖ` (Theorem 9.6.4) and
-`B\text{-fmod}` is `FGModuleCat (End P)ᵐᵒᵖ`. The problem is the existence of the quasi-inverse
-functor `G` together with the natural transformation `ξ`, whose three parts are:
+`F` is `hp.preadditiveCoyonedaObjFG : 𝒞 ⥤ FGModuleCat (End P)ᵐᵒᵖ` (Theorem 9.6.4) and
+`B\text{-fmod}` is `FGModuleCat (End P)ᵐᵒᵖ`. We render the whole problem as the existence of
+the quasi-inverse functor `G` together with the natural transformation `ξ`, bundling its three
+parts:
 
 * the natural isomorphism `G ⋙ F ≅ 𝟭` is part **(i)** (`F ∘ G ≅ Id`);
 * `ξ : F ⋙ G ⟶ 𝟭 𝒞` is the natural morphism of part **(ii)**, whose components
-  `ξ.app X : (P ⊗_B Hom(P, X)) → X` are epimorphisms (`Epi`, the categorical form of
+  `ξ.app X : (P ⊗_B Hom(P, X)) → X` are epimorphisms (`Epi`, the categorical rendering of
   "surjective");
 * `IsIso ξ` is the conclusion of part **(iii)** (`ξ` an isomorphism, i.e. `G ∘ F ≅ Id`).
 
-Together these say exactly that `G` is quasi-inverse to `F`. The hypotheses match the
+Together these say exactly that `G` is quasi-inverse to `F`. The construction of `G` as the
+tensor functor `P ⊗_B -` and all proofs are deferred (`sorry`). The hypotheses match the
 book's "finite abelian category over a field `k` with a projective generator `P`", as in
 `Etingof.Theorem_9_6_4`.
-
-## Proof note
-
-The existence follows directly from Theorem 9.6.4: `F = hp.preadditiveCoyonedaObjFG`
-is an equivalence (`IsEquivalence`, via essential surjectivity and full
-faithfulness, independently of any tensor construction, so there is no circularity). An
-equivalence carries a quasi-inverse functor
-`G := F.asEquivalence.inverse`; taking `ξ := (unit iso)⁻¹ : F ⋙ G ⟶ 𝟭 𝒞` gives a natural
-isomorphism, hence componentwise `Epi` (ii) and globally `IsIso` (iii), while the counit
-isomorphism supplies (i). The book's explicit `P ⊗_B -` functor is one construction of such
-a quasi-inverse; since `F` is already known to be an equivalence, its abstract inverse serves
-as the required `G`, which is exactly the existence claim.
 -/
 
 universe u v w
@@ -78,17 +68,6 @@ theorem exists_quasiInverse_tensor_functor
       (∀ X : C, Epi (ξ.app X)) ∧
       -- (iii) ξ is an isomorphism, so G ∘ F ≅ Id on 𝒞
       IsIso ξ := by
-  -- `F = Hom(P, -) = hp.preadditiveCoyonedaObjFG` is an equivalence of categories by
-  -- Theorem 9.6.4 (via essential surjectivity + fully faithful, independently
-  -- of the tensor construction, so there is no circularity).
-  -- An equivalence has a quasi-inverse functor `G := F⁻¹`, and the inverse of its
-  -- unit isomorphism `ξ := (unit)⁻¹ : F ⋙ G ⟶ 𝟭 𝒞` is a natural isomorphism, so it is
-  -- componentwise epi and is itself an isomorphism. This discharges the existential exactly
-  -- as the book's `P ⊗_B -` construction does: it exhibits a quasi-inverse to `F`.
-  haveI : hp.preadditiveCoyonedaObjFG.IsEquivalence := Etingof.Theorem_9_6_4 (k := k)
-  refine ⟨hp.preadditiveCoyonedaObjFG.asEquivalence.inverse,
-      hp.preadditiveCoyonedaObjFG.asEquivalence.unitIso.inv,
-      ⟨hp.preadditiveCoyonedaObjFG.asEquivalence.counitIso⟩,
-      fun X => inferInstance, inferInstance⟩
+  sorry
 
 end Etingof.Problem965

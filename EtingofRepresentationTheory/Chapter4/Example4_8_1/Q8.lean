@@ -3,8 +3,8 @@ import Mathlib
 /-!
 # Example 4.8.1: Character Tables of `Q₈`, `S₄`, and `A₅`
 
-The example states three full character tables.  The content is the table of
-character values together with the assertion that these rows are the irreducible
+The example states three full character tables.  The genuine content is the table of
+character values together with the assertion that these rows really are *the* irreducible
 characters of each group.
 
 | `Q₈` | `1` | `-1` | `i` | `j` | `k` |
@@ -37,11 +37,11 @@ characters of each group.
 ## Formalization strategy
 
 We encode each table verbatim as an explicit class function and prove the rows are
-orthonormal with respect to the class-size-weighted inner product
+**orthonormal** with respect to the class-size-weighted inner product
 `⟪f, g⟫ = (1/|G|) Σ_c |class c| · f(c) · g(c)`.  Orthonormality of `r` class functions,
 combined with the fact that the group has exactly `r` conjugacy classes (proved below for
 `Q₈`, `S₄`, `A₅`), certifies that the tabulated functions are precisely the complete set of
-distinct irreducible characters, i.e. that the table is correct and complete.  This is the
+distinct irreducible characters — i.e. that the table is correct and complete.  This is the
 same certificate used for the character tables in Example 4.9.1.
 
 The `A₅` values involve the golden ratio `(1 ± √5)/2`, so all character values are carried
@@ -151,7 +151,7 @@ lemma Q5toC_neg_two : Q5toC (-2) = -2 := by
   rw [Q5toC, show ((-2 : Q5)).im = 0 from neg_zero, show ((-2 : Q5)).re = (-2 : ℚ) from rfl]
   push_cast; ring
 
-/-! ### The five irreducible representations of `Q₈` (trace-based)
+/-! ### The five irreducible representations of `Q₈` (genuine, trace-based)
 
 Each row of `chiQ8` is realised as the character (trace) of an actual representation:
 four 1-dimensional characters `χ_{αβ} : Q₈ → ℂ` (factoring through the abelianization

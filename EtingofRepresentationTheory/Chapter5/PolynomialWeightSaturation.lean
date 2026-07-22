@@ -5,13 +5,13 @@ import EtingofRepresentationTheory.Chapter5.Definition5_23_1
 import EtingofRepresentationTheory.Chapter5.FormalCharacterTorusTrace
 
 /-!
-# Weight-space saturation for polynomial `GL_N`-representations
+# Weight-space saturation for polynomial `GL_N`-representations (issue #5477)
 
-The core of Etingof §5.23(i): a polynomial (det⁻¹-free) algebraic
+The conceptual crux of Etingof §5.23(i): a *polynomial* (det⁻¹-free) algebraic
 `GL_N(k)`-representation `M` has saturating weight spaces,
 `⨆ μ, glWeightSpace k N M μ = ⊤`.
 
-Mathematically this is the linear reductivity of the diagonal torus `(Gₘ)^N`:
+Mathematically this is the **linear reductivity of the diagonal torus `(Gₘ)^N`**:
 a polynomial torus representation is a direct sum of characters `t ↦ tᵘ` with
 non-negative exponents `u ∈ ℕ^N`, so the simultaneous eigenspaces of the
 commuting diagonal generators (= the `glWeightSpace`s) span.
@@ -22,14 +22,14 @@ Pick a basis `b` realizing the polynomiality: the matrix coefficients
 `b.repr (M.ρ g (b c)) a = eval (gᵢⱼ) (P a c)` with `P a c ∈ k[Xᵢⱼ]` (no `D`).
 
 Restricting `g` to the diagonal torus `diagTorus k N t = diag(t₁,…,t_N)` turns each
-coefficient into a polynomial `Q a c ∈ k[t₁,…,t_N]` (substitute
+coefficient into a genuine polynomial `Q a c ∈ k[t₁,…,t_N]` (substitute
 `Xᵢⱼ ↦ if i = j then tᵢ else 0`). Writing `Cmat μ` for the matrix of `μ`-th
 coefficients, the torus operator is `T(t) = ∑_μ tᵘ • Cmat μ` (`hTmat`).
 
 The homomorphism property `T(t·s) = T(t)·T(s)` and `T(1) = 1`, combined with the
 fact that monomials `tᵘ` are linearly independent as functions on the torus
 `(kˣ)^N` (Zariski density over the infinite field `k`, `matrix_torus_density`),
-force `{Cmat μ}` to be a complete system of orthogonal idempotents:
+force `{Cmat μ}` to be a **complete system of orthogonal idempotents**:
 `Cmat μ * Cmat ν = δ_{μν} Cmat μ` and `∑_μ Cmat μ = 1`. The corresponding
 operators `Cop μ` are then weight projectors with `range (Cop μ) ≤ glWeightSpace μ`
 and `∑_μ Cop μ = id`, giving the saturation.
@@ -44,9 +44,9 @@ namespace Etingof
 
 /-! ## A polynomial (det⁻¹-free) representation -/
 
-/-- A finite-dimensional representation `ρ` of `GL_n(k)` is polynomial (`D`-free
+/-- A finite-dimensional representation `ρ` of `GL_n(k)` is **polynomial** (`D`-free
 algebraic, in the sense of Etingof §5.23) if there is a basis in which all matrix
-coefficients of `ρ(g)` are polynomials in the entries `gᵢⱼ` alone, with no `det(g)⁻¹`.
+coefficients of `ρ(g)` are polynomials in the entries `gᵢⱼ` alone — no `det(g)⁻¹`.
 
 This is the strengthening of `Etingof.IsAlgebraicRepresentation` where the
 coefficient polynomials lie in the subring `k[Xᵢⱼ]` (equivalently, the range of
@@ -208,15 +208,15 @@ variable {k : Type*} [Field k] [IsAlgClosed k]
 set_option maxHeartbeats 1600000 in
 -- Heavy: the orthogonal-idempotent extraction runs two matrix-density passes and
 -- transports between `toMatrix`/`toLin` over the FDRep carrier; raise the heartbeat budget.
-/-- **Weight-space saturation for polynomial `GL_N`-representations**, the heart of
-Etingof §5.23(i).
+/-- **Weight-space saturation for polynomial `GL_N`-representations** (issue #5477,
+the crux of Etingof §5.23(i)).
 
 For a polynomial (det⁻¹-free) `GL_N(k)`-representation `M`, the `ℕ`-indexed weight
 spaces of the diagonal torus span `M`:
 `⨆ μ, glWeightSpace k N M μ = ⊤`.
 
 This is the simultaneous diagonalizability of the commuting diagonal-torus
-generators, the linear reductivity of the torus `(Gₘ)^N`. -/
+generators — linear reductivity of the torus `(Gₘ)^N`. -/
 theorem polynomial_rep_iSup_glWeightSpace_eq_top {N : ℕ}
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (hpoly : IsPolynomialRepresentation N M.ρ) :

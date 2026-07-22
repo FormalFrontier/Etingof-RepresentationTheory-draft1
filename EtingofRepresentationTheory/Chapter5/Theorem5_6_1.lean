@@ -19,12 +19,12 @@ a module over `k[G] ⊗ k[H]`.
 ## A note on the field
 
 Etingof states Theorem 5.6.1 "over a field `k` (of any characteristic)". The phrase "of any
-characteristic" loosens only the characteristic; it does not drop the algebraic-closedness
-that is the standing assumption of the underlying machinery. The book's proof is one line,
-"This follows from Theorem 3.10.2", and Theorem 3.10.2 lives in Chapter 3, whose opening
+characteristic" loosens only the characteristic; it does **not** drop the algebraic-closedness
+that is the standing assumption of the underlying machinery. The book's proof is one line —
+"This follows from Theorem 3.10.2" — and Theorem 3.10.2 lives in Chapter 3, whose opening
 sentence fixes `k` to be an algebraically closed field; its proof uses the density theorem and
 the Wedderburn structure of `A/Rad(A)` as a direct sum of matrix algebras, both of which need
-algebraic closure. The result is false over a general field: e.g. over `ℝ`, the
+algebraic closure. The result is genuinely false over a general field: e.g. over `ℝ`, the
 external tensor product of two copies of a two-dimensional irreducible `ℝ`-representation can
 split, and irreducibles of `G × H` need not be external tensor products of irreducibles. We
 therefore carry `[IsAlgClosed k]` throughout; this matches the mathematics, with "any
@@ -32,16 +32,16 @@ characteristic" reflected by placing no `CharZero`/coprimality hypothesis on `k`
 
 ## Main results
 
-* `Etingof.IsIrreducibleRep`: irreducibility of a representation (nonzero, with no proper
+* `Etingof.IsIrreducibleRep` — irreducibility of a representation (nonzero, with no proper
   nonzero subrepresentations).
-* `Etingof.extTprod`: the external tensor product `V ⊗ W` of a representation of `G` and a
+* `Etingof.extTprod` — the external tensor product `V ⊗ W` of a representation of `G` and a
   representation of `H`, as a representation of `G × H`.
-* `Etingof.extTprod_isIrreducibleRep`: Theorem 5.6.1(i), the external tensor product of two
+* `Etingof.extTprod_isIrreducibleRep` — Theorem 5.6.1(i): the external tensor product of two
   irreducible representations is irreducible.
-* `Etingof.exists_extTprod_of_isIrreducibleRep`: Theorem 5.6.1(ii), every irreducible
+* `Etingof.exists_extTprod_of_isIrreducibleRep` — Theorem 5.6.1(ii): every irreducible
   representation of `G × H` is isomorphic to an external tensor product of an irreducible
   representation of `G` and one of `H`.
-* `Etingof.Theorem5_6_1`, the book's single statement: the conjunction of (i) and (ii),
+* `Etingof.Theorem5_6_1` — the book's single statement: the conjunction of (i) and (ii),
   i.e. the irreducible representations of `G × H` are exactly the external tensor products
   `Vᵢ ⊗ Wⱼ`.
 -/
@@ -84,7 +84,7 @@ theorem extTprod_apply (ρ : Representation k G V) (σ : Representation k H W) (
 
 end ExtTprod
 
-/-! ### Simple modules over the group algebra -/
+/-! ### Bridge to simple modules over the group algebra -/
 
 /-- An irreducible representation of `G` is a simple module over the group algebra `k[G]`. -/
 theorem isSimpleModule_asModule_of_isIrreducibleRep

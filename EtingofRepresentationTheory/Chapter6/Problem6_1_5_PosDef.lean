@@ -4,10 +4,11 @@ import EtingofRepresentationTheory.Chapter6.Definition6_1_4
 /-!
 # Problem 6.1.5, Step 3: orbit-dimension bound ⟹ Tits form positive definite
 
-This step of Etingof Problem 6.1.5 shows:
+This file is part of the orbit-counting redirect for the Chapter 6 infinite-type
+direction (directive #4777). It closes **step 3** of Etingof Problem 6.1.5:
 
 > From `dim W(m) ≤ dim G(m)` for every dimension vector `m`, conclude that the
-> Tits form `q(m) = Σ mᵢ² − Σ bᵢⱼ mᵢ mⱼ` is positive definite, that is, the
+> Tits form `q(m) = Σ mᵢ² − Σ bᵢⱼ mᵢ mⱼ` is positive definite — i.e. the
 > graph is a Dynkin diagram (Definition 6.1.4).
 
 ## The matrix quadratic form is `2·q`
@@ -16,26 +17,28 @@ This step of Etingof Problem 6.1.5 shows:
 
 `∀ x : Fin n → ℤ, x ≠ 0 → 0 < xᵀ (2·I − adj) x`,
 
-a quadratic form over `ℤ`. A direct expansion (`titsBilinear_eq` below) gives
+a quadratic form over **ℤ**. A direct expansion (`titsBilinear_eq` below) gives
 
 `xᵀ (2·I − adj) x = 2 · (Σ xᵢ²) − Σᵢ Σⱼ adjᵢⱼ xᵢ xⱼ`,
 
 which is exactly `2 · q(x)` for the undirected adjacency `adj` (recall
 `Σᵢⱼ adjᵢⱼ xᵢxⱼ = 2 Σ_{i<j} adjᵢⱼ xᵢxⱼ` since `adj` is symmetric with no loops).
-So positive-definiteness of this matrix form is exactly positivity of the Tits
-form, and because the definition only quantifies over integer vectors, no
-real-density argument is needed.
+So positive-definiteness of this matrix form is literally positivity of the Tits
+form, and because the definition only quantifies over **integer** vectors, no
+real-density argument is needed: steps 1–3 of the book argument suffice.
 
-## What the orbit-dimension bound supplies
+## What the orbit chain supplies
 
-The strict bound `dim W(m) ≤ dim G(m) − 1` for nonzero `m`, coming from the
-trivial action of the global scalars `k*`, is, in matrix terms, positivity of
-`xᵀ (2·I − adj) x` on every nonzero vector with nonnegative entries. The work
-here extends that positivity from the nonnegative cone to all nonzero integer
-vectors via the `|·|` trick, using only `adjᵢⱼ ≥ 0`.
+The output of S1+S2 (`dim W(m) ≤ dim G(m) − 1` for nonzero `m`, the strict bound
+coming from the trivial action of the global scalars `k*`) is, in matrix terms,
+positivity of `xᵀ (2·I − adj) x` on every nonzero vector with **nonnegative**
+entries. The work here is the elementary step 3: extend that positivity from the
+nonnegative cone to all nonzero integer vectors via the `|·|` trick, using only
+`adjᵢⱼ ≥ 0`.
 
-`titsForm_posDef_of_cone` is the main lemma; `isDynkinDiagram_of_cone`
-combines it with the graph-shape clauses to give `IsDynkinDiagram`.
+`titsForm_posDef_of_cone` is the load-bearing lemma; `isDynkinDiagram_of_cone`
+packages it together with the graph-shape clauses into `IsDynkinDiagram`, ready
+for the final wiring in S4.
 -/
 
 namespace Etingof
@@ -79,8 +82,8 @@ theorem titsBilinear_eq (adj : Matrix (Fin n) (Fin n) ℤ) (x : Fin n → ℤ) :
   simp
 
 /-- **Step 3 of Problem 6.1.5 (core).** From positivity of the Tits matrix form
-`xᵀ (2·I − adj) x` on every nonzero nonnegative integer vector (the
-orbit-dimension bound `dim W ≤ dim G − 1`), the form is positive on every nonzero
+`xᵀ (2·I − adj) x` on every nonzero *nonnegative* integer vector (the output of the
+orbit-dimension bound `dim W ≤ dim G − 1`), the form is positive on *every* nonzero
 integer vector. Only `adjᵢⱼ ≥ 0` is used: the `|·|`-trick replaces each `x` by
 `|x|`, which can only decrease the form (`adjᵢⱼ (|xᵢ||xⱼ| − xᵢxⱼ) ≥ 0`). -/
 theorem titsForm_posDef_of_cone (adj : Matrix (Fin n) (Fin n) ℤ)
@@ -131,7 +134,8 @@ theorem titsForm_posDef_of_cone (adj : Matrix (Fin n) (Fin n) ℤ)
 
 /-- **Step 3 of Problem 6.1.5 (packaged).** Given the graph-shape clauses and the
 orbit-dimension bound (positivity of the Tits matrix form on the nonzero
-nonnegative cone), the graph is a Dynkin diagram. -/
+nonnegative cone), the graph is a Dynkin diagram. This is the hook consumed by the
+final assembly in S4. -/
 theorem isDynkinDiagram_of_cone (adj : Matrix (Fin n) (Fin n) ℤ)
     (hsymm : adj.IsSymm)
     (hloop : ∀ i, adj i i = 0)

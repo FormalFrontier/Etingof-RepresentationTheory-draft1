@@ -13,7 +13,7 @@ splits, i.e. is isomorphic to `0 → X → X ⊕ Y → Y → 0`. An additive fun
 (Definition 7.9.1) preserves finite biproducts, hence sends a splitting to a
 splitting; and a split short complex is short exact. So an additive functor out
 of a semisimple category carries every short exact sequence to a short exact
-sequence, so it is exact on both sides.
+sequence — it is exact on both sides.
 
 ## Mathlib correspondence
 
@@ -27,7 +27,7 @@ exact). "Exact on both sides" is `ShortComplex.ShortExact`, which packages
 open CategoryTheory
 
 /-- Discussion after Example 7.9.5: an additive functor `F : C ⥤ D` between abelian
-categories, defined on a semisimple category `C`, is exact on both sides: it
+categories, defined on a semisimple category `C`, is exact on both sides — it
 carries every short exact sequence to a short exact sequence.
 
 In a semisimple category every short exact sequence `S` splits (Definition 7.9.4);

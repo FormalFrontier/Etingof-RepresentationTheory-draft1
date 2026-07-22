@@ -5,23 +5,24 @@ import EtingofRepresentationTheory.Chapter5.KernelLemmaKPrimeAssembly
 /-!
 # The det⁻¹-elimination kernel lemma (K) and its functions-on-`GL` interface
 
-This file proves the kernel lemma (K) of the det⁻¹-elimination program
-from two prerequisites:
+This file assembles the **kernel lemma (K)** of the det⁻¹-elimination program
+(issue #4694, route doc `progress/kernel-lemma-K-route.md`) from the two
+prerequisites now in place:
 
 * the det-power filtration `A_r = det⁻ʳ·A` of `O = A[det⁻¹]`, its `GL_N`-stability,
   and the equivariant subquotient iso `A_r/A_{r-1} ≅ (A/det) ⊗ χ⁻ʳ`
   (`DetPowerFiltration.lean`);
 * the representation-theoretic core (K′): for `r ≥ 1` the twisted quotient
   `(A/det) ⊗ χ⁻ʳ` has no nonzero nonneg-weight submodule
-  (`kernelLemmaK'_submodule`).
+  (`kernelLemmaK'_submodule`, sorry-free as of #5113).
 
 ## (K), det-power-descent form
 
-`kernelLemmaK`: a finite family `w : ι → O` of right-torus weight vectors with
+`kernelLemmaK`: a finite family `w : ι → O` of right-torus **weight vectors** with
 weights in `ℕ^N`, spanning a right-`GL_N`-stable subspace, lands in the polynomial
 subring `A` (each `w i ∈ range (algebraMap A O)`).
 
-The proof is the det-power descent. The family spans a subspace `W ⊆ A_R` for
+The proof is the **det-power descent**. The family spans a subspace `W ⊆ A_R` for
 `R = ⨆ⱼ detExp (w j)` (finite). For `r ≥ 1` with `W ⊆ A_r`, the subquotient image
 `W̄ ⊆ A_r/A_{r-1} ≅ (A/det)⊗χ⁻ʳ` is a nonneg-weight submodule (the generators are
 weight vectors with weights in `ℕ^N`, and `filtrToQuot` preserves weights since it
@@ -32,13 +33,14 @@ intertwines the actions), so `W̄ = ⊥` by (K′); hence every generator lies i
 The right-`GL_N`-stability hypothesis `hstable` is the mathematically load-bearing
 input to (K) (it excludes e.g. `span{X₁₁X₂₂·det⁻¹}`, a single nonneg-weight vector
 outside `A`); it becomes essential in the descent once (K′) is given its corrected
-GL-submodule form. It is carried here so the statement matches the book lemma.
+GL-submodule form (see #4832). It is carried here so the statement is the genuine
+book lemma.
 
-## Functions-on-`GL` interface
+## Functions-on-`GL` interface (consumed by #4695)
 
 `kernelLemmaK_evalGL` / `kernelLemmaK_evalAtGL`: under the same hypotheses, each
-`w i` (resp. each `evalAtGL`-coefficient) is `eval`-equal on all of `GL_N` to a
-bare-entry polynomial `Q ∈ A`. This is the form `detInv_elim_of_polynomial`
+`w i` (resp. each `evalAtGL`-coefficient) is `eval`-equal on **all** of `GL_N` to a
+bare-entry polynomial `Q ∈ A`. This is the form `detInv_elim_of_polynomial` (#4695)
 consumes.
 -/
 
@@ -87,7 +89,7 @@ weight vectors with weights in `ℕ^N` (`hw`), spanning a right-`GL_N`-stable su
 (`hstable`), consists of honest polynomials: each `w i ∈ range (algebraMap A O)`.
 
 Proved by det-power descent against (K′) (`kernelLemmaK'`); see the module
-docstring. -/
+docstring. (K′) is sorry-free as of #5113. -/
 theorem kernelLemmaK [IsAlgClosed k] [CharZero k] {ι : Type*} [Finite ι]
     (w : ι → Localization.Away (detPoly k N)) (μ : ι → (Fin N → ℕ))
     (hw : ∀ i, w i ∈ glWeightSpaceℤ k N (localRightRep k N) (fun j => (μ i j : ℤ)))
@@ -101,8 +103,8 @@ theorem kernelLemmaK [IsAlgClosed k] [CharZero k] {ι : Type*} [Finite ι]
   have : Fintype ι := Fintype.ofFinite ι
   set W := Submodule.span k (Set.range w) with hW
   -- Descent step: `W ⊆ A_{r+1} ⟹ W ⊆ A_r`.
-  -- The corrected (K′) (`kernelLemmaK'_submodule`) applies only to
-  -- `GL_N`-invariant nonneg-weight submodules; a single nonneg-weight vector
+  -- The corrected (K′) (`kernelLemmaK'_submodule`, issue #4847) applies only to
+  -- `GL_N`-**invariant** nonneg-weight submodules — a single nonneg-weight vector
   -- need not vanish. So we apply it to the image `W̄` of the whole `GL_N`-stable
   -- span `W` in the subquotient, then read off that each generator maps to `0`.
   have step : ∀ r : ℕ, W ≤ filtrA k N (r + 1) → W ≤ filtrA k N r := by
@@ -195,8 +197,8 @@ theorem kernelLemmaK [IsAlgClosed k] [CharZero k] {ι : Type*} [Finite ι]
 
 /-! ### Functions-on-`GL` interface -/
 
-/-- **Functions-on-`GL` form of (K).** Under the kernel-lemma
-hypotheses, each localization element `w i` is `eval`-equal on all of `GL_N` to
+/-- **Functions-on-`GL` form of (K)** (consumed by #4695). Under the kernel-lemma
+hypotheses, each localization element `w i` is `eval`-equal on **all** of `GL_N` to
 a bare-entry polynomial `Q ∈ A = k[Xᵢⱼ]`: `evalGLAway (w i) g = eval g Q`. -/
 theorem kernelLemmaK_evalGL [IsAlgClosed k] [CharZero k] {ι : Type*} [Finite ι]
     (w : ι → Localization.Away (detPoly k N)) (μ : ι → (Fin N → ℕ))
@@ -213,7 +215,7 @@ theorem kernelLemmaK_evalGL [IsAlgClosed k] [CharZero k] {ι : Type*} [Finite ι
   refine ⟨Q, fun g => ?_⟩
   rw [← hQ, evalGLAway_algebraMap, evalGLHom_apply]
 
-/-- **`evalAtGL` form of (K).** If the `evalAtGL`-coefficients
+/-- **`evalAtGL` form of (K)** (consumed by #4695). If the `evalAtGL`-coefficients
 `evalAtGL g (P i)` arise from `P i ∈ k[Xᵢⱼ, D]` whose localization images
 `coordToAway (P i)` are nonneg-weight vectors spanning a `GL_N`-stable subspace,
 then each is `eval`-equal on all of `GL_N` to a bare-entry polynomial `Q ∈ k[Xᵢⱼ]`

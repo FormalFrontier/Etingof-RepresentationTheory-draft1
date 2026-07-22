@@ -1,8 +1,6 @@
 import EtingofRepresentationTheory.Chapter5.CharValueHookFormula
 import EtingofRepresentationTheory.Chapter5.FRTHelpers
 import EtingofRepresentationTheory.Chapter5.Lemma5_13_1
-import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Distinct
-import EtingofRepresentationTheory.Chapter5.Problem5_24_1_b
 
 /-!
 # Example 5.12.3: Concrete Examples of Specht Modules
@@ -32,13 +30,6 @@ group element `σ` acts as `sign σ` on `V_{(1ⁿ)}` (sign representation). Thes
 distinguish the two one-dimensional representations, which a dimension count
 alone cannot.
 
-Likewise the book names the two `n = 4` three-dimensional cases as distinct
-irreducibles: `V_{(3,1)} = ℂ³₋` (standard) and `V_{(2,1,1)} = ℂ³₊ = ℂ³₋ ⊗ ℂ₋`.
-`Example5_12_3_sign_twist_31_211` witnesses the sign-twist relation `ℂ³₊ = ℂ³₋ ⊗ ℂ₋`
-(since `(2,1,1)` is the conjugate partition of `(3,1)`, `conjugatePartition_p_31`), and
-`Example5_12_3_specht_31_211_noniso` witnesses that the two are non-isomorphic, neither of
-which a dimension count (both `= 3`) can capture.
-
 ## Mathlib correspondence
 
 These are concrete instances of the general §5.12 / §5.17 hook-length theory
@@ -53,7 +44,7 @@ namespace Example5_12_3
 
 `YoungDiagram.rowLen`/`colLen` are defined via `Nat.find`, which does not reduce
 in the kernel, so `decide` cannot evaluate `hookLengthProduct` directly. We first
-rewrite everything into a `Nat.find`-free form that does reduce. -/
+rewrite everything into a `Nat.find`-free form that *does* reduce. -/
 
 /-- General column-length formula for a partition's Young diagram, with no
 `Nat.find`: `colLen c` counts the rows whose length exceeds `c`. -/
@@ -97,7 +88,7 @@ theorem sortedParts_eq_of {m : ℕ} (μ : Nat.Partition m) (L : List ℕ)
   rw [hμ, Multiset.coe_sort]
   exact List.mergeSort_eq_self (r := (· ≥ ·)) hL
 
-/-- Compute `hookLengthProduct` from an explicit sorted parts list `L`;
+/-- Bridge to compute `hookLengthProduct` from an explicit sorted parts list `L`;
 once `L` is a literal the residual product over `cellsOfRowLens L` is `Nat.find`-free
 and closes by `decide`. -/
 theorem hookLengthProduct_eq_of {m : ℕ} (μ : Nat.Partition m) (L : List ℕ) (v : ℕ)
@@ -267,79 +258,13 @@ theorem Example5_12_3_dim_211 :
         (by decide)]
   rfl
 
-/-! ### The two 3-dimensional irreducibles `ℂ³₋` and `ℂ³₊`
-
-The book's Example 5.12.3 asserts more than `dim = 3` for the partitions `(3,1)` and
-`(2,1,1)`: it names them as the two distinct 3-dimensional irreducibles `ℂ³₋` (the
-standard representation) and `ℂ³₊ = ℂ³₋ ⊗ ℂ₋` (standard, twisted by sign). A dimension
-count alone (`Example5_12_3_dim_31`/`Example5_12_3_dim_211`, both `= 3`) cannot separate
-them. We pin the distinction down with two Lean witnesses.
-
-First, `(2,1,1)` is the conjugate (transpose) partition of `(3,1)`, so the
-conjugate-partition sign twist `spechtModule_signTwist_iso_conjugate` (Problem 5.24.1(b))
-specialises to a `ℂ`-linear equivalence `V_{(3,1)} ≃ V_{(2,1,1)}` intertwining the two
-`S₄`-actions by the sign character: `e(g • x) = sign(g) • (g • e x)`. This is exactly
-`V_{(2,1,1)} ≅ V_{(3,1)} ⊗ ℂ₋`, the book's `ℂ³₊ = ℂ³₋ ⊗ ℂ₋`.
-
-Second, the two modules are not isomorphic as `ℂ[S₄]`-modules
-(`Theorem5_12_2_distinct`): they are the two different 3-dimensional
-irreducibles, not two copies of one. -/
-
-/-- `(2,1,1)` is the conjugate (transpose) partition of `(3,1)`: reflecting the Young
-diagram of `(3,1)` (rows `3, 1`) across its main diagonal gives the column lengths
-`2, 1, 1`. -/
-theorem conjugatePartition_p_31 : conjugatePartition p_31 = p_211 := by
-  apply Nat.Partition.ext
-  show (↑(p_31.toYoungDiagram.transpose.rowLens) : Multiset ℕ) = ({2, 1, 1} : Multiset ℕ)
-  have hsp : p_31.sortedParts = [3, 1] := sortedParts_eq_of _ [3, 1] rfl (by decide)
-  have hc0 : p_31.toYoungDiagram.colLen 0 = 2 := by
-    rw [toYoungDiagram_colLen_eq, hsp]; decide
-  have hc1 : p_31.toYoungDiagram.colLen 1 = 1 := by
-    rw [toYoungDiagram_colLen_eq, hsp]; decide
-  have hc2 : p_31.toYoungDiagram.colLen 2 = 1 := by
-    rw [toYoungDiagram_colLen_eq, hsp]; decide
-  have hlen : p_31.toYoungDiagram.transpose.colLen 0 = 3 := by
-    rw [YoungDiagram.colLen_transpose, Nat.Partition.toYoungDiagram_rowLen_eq_getD, hsp]; rfl
-  have hrl : p_31.toYoungDiagram.transpose.rowLens = [2, 1, 1] := by
-    simp only [YoungDiagram.rowLens, hlen]
-    rw [show List.range 3 = [0, 1, 2] by decide]
-    simp only [List.map_cons, List.map_nil, YoungDiagram.rowLen_transpose, hc0, hc1, hc2]
-  rw [hrl]; rfl
-
-/-- **Etingof Example 5.12.3 (`ℂ³₊ = ℂ³₋ ⊗ ℂ₋`).** The Specht module `V_{(2,1,1)}` is the
-sign twist of `V_{(3,1)}`: there is a `ℂ`-linear equivalence `V_{(3,1)} ≃ V_{(2,1,1)}`
-intertwining the `S₄`-actions by the sign character, `e(g • x) = sign(g) • (g • e x)`.
-Equivalently `V_{(2,1,1)} ≅ V_{(3,1)} ⊗ ℂ₋`, so if `V_{(3,1)} = ℂ³₋` then `V_{(2,1,1)} =
-ℂ³₊`. Obtained from the conjugate-partition sign twist
-(`spechtModule_signTwist_iso_conjugate`, Problem 5.24.1(b)) via
-`conjugatePartition (3,1) = (2,1,1)`. -/
-theorem Example5_12_3_sign_twist_31_211 :
-    ∃ e : ↥(SpechtModule 4 p_31) ≃ₗ[ℂ] ↥(SpechtModule 4 p_211),
-      ∀ (g : Equiv.Perm (Fin 4)) (x : ↥(SpechtModule 4 p_31)),
-        e ((MonoidAlgebra.of ℂ (Equiv.Perm (Fin 4)) g) • x)
-          = ((Equiv.Perm.sign g : ℤ) : ℂ)
-              • ((MonoidAlgebra.of ℂ (Equiv.Perm (Fin 4)) g) • e x) := by
-  have h := spechtModule_signTwist_iso_conjugate 4 p_31
-  rw [conjugatePartition_p_31] at h
-  exact h
-
-/-- **Etingof Example 5.12.3 (`ℂ³₋ ≠ ℂ³₊`).** The two 3-dimensional Specht modules
-`V_{(3,1)}` and `V_{(2,1,1)}` are not isomorphic as `ℂ[S₄]`-modules: they are the two
-distinct 3-dimensional irreducibles `ℂ³₋` and `ℂ³₊`. Combined with the sign-twist
-equivalence `Example5_12_3_sign_twist_31_211`, this is the full book claim: `V_{(2,1,1)}`
-is `V_{(3,1)}` tensored with the sign character, and the result is a different
-representation. -/
-theorem Example5_12_3_specht_31_211_noniso :
-    IsEmpty (↥(SpechtModule 4 p_31) ≃ₗ[SymGroupAlgebra 4] ↥(SpechtModule 4 p_211)) :=
-  Theorem5_12_2_distinct 4 p_31 p_211 (by decide)
-
 /-! ## Representation-level structure: the trivial and sign characters
 
-The book's claim is stronger than a dimension count: `V_{(n)}` is the trivial
-representation and `V_{(1ⁿ)}` is the sign representation. A dimension of `1`
-is necessary but not sufficient: `Sₙ` has exactly two one-dimensional
+The book's claim is stronger than a dimension count: `V_{(n)}` is the *trivial*
+representation and `V_{(1ⁿ)}` is the *sign* representation. A dimension of `1`
+is necessary but not sufficient — `Sₙ` has exactly two one-dimensional
 representations, and the book asserts a specific one in each case. We pin this
-down as `ℂ[Sₙ]`-module statements: every group element `σ` acts on
+down as genuine `ℂ[Sₙ]`-module statements: every group element `σ` acts on
 `V_{(n)}` as the identity (`Example5_12_3_trivial_rep`), and on `V_{(1ⁿ)}` as
 multiplication by `sign σ` (`Example5_12_3_sign_rep`).
 

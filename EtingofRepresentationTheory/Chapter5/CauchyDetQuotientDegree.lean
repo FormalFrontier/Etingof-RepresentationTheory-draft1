@@ -6,7 +6,8 @@ import EtingofRepresentationTheory.Chapter5.PolyRightGrading
 /-!
 # The determinant-quotient degree component `(A/det)_d` and its formal character
 
-This file builds the degree-`d` component of the
+This file builds the **part-B** deliverable of issue #4905 (parent #4896, route
+doc `progress/kernel-lemma-K-route.md`): the degree-`d` component of the
 determinant quotient `A/det = k[Xᵢⱼ]/(det)`, packaged as a finite-dimensional
 right-`GL_N`-representation `quotDetDegreeFDRep k N d`, together with the formula
 for its formal character (the `0 ∈ range ν.parts`, i.e. `ν_N = 0`, constituents).
@@ -17,7 +18,7 @@ The right-`GL_N`-equivariant per-degree short exact sequence
 
   `0 → A_{d-N} ⊗ χ  --mulDet-->  A_d  --mk-->  (A/det)_d → 0`
 
-(`detSubmodule_inf_homogeneous`, `PolyRightGrading.lean`) gives, by
+(`detSubmodule_inf_homogeneous`, `PolyRightGrading.lean`, sorry-free) gives, by
 additivity of the formal character over short exact sequences
 (`formalCharacter_add_of_shortExact`),
 
@@ -27,7 +28,7 @@ The twist character of `A_{d-N} ⊗ χ` is `(char A_{d-N}) · ∏ᵢ Xᵢ`
 (`formalCharacter_twistFDRep`, the determinant character shifts every weight by
 `(1,…,1)`). Substituting `polyRightDegreeFDRep_formalCharacter`
 (`CauchyCharacterRightAssembly.lean`) for both degrees and applying the
-combinatorial core `cauchyMult_mul_prodX_eq_lastPart_pos` (`CauchyCharDiff.lean`)
+combinatorial crux `cauchyMult_mul_prodX_eq_lastPart_pos` (`CauchyCharDiff.lean`)
 leaves exactly the `0 ∈ range ν.parts` part.
 -/
 
@@ -307,10 +308,10 @@ noncomputable def quotDetDegreeFDRep (k : Type*) [Field k] (N d : ℕ) :
       ((MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d).map (Submodule.mkQ (detSubmodule k N))))
   FDRep.of (quotDetDegreeSubrep k N d).toRepresentation
 
-/-! ### Spanning and homogeneity of the weight spaces of `(A/det)_d`
+/-! ### Spanning and homogeneity of the weight spaces of `(A/det)_d` (issue #5063)
 
-The two structural facts about `M = quotDetDegreeFDRep k N d` used by
-`Etingof.simple_constituent_formalCharacter_eq_schurPoly_mem`:
+The two structural facts about `M = quotDetDegreeFDRep k N d` consumed by the
+#4905 final assembly (`Etingof.simple_constituent_formalCharacter_eq_schurPoly_mem`):
 its weight spaces span (`quotDetDegree_iSup_glWeightSpace_eq_top`) and every nonzero
 weight space sits in degree `d` (`quotDetDegree_homog`). Both descend from the
 surjective `GL_N`-equivariant quotient projection `π : A_d → (A/det)_d` together
@@ -531,7 +532,7 @@ theorem formalCharacter_twistFDRep (e : ℕ) :
 /-! ### The formal character of the degree-`d` determinant quotient -/
 
 set_option maxHeartbeats 3200000 in
--- The SES argument chains many `FDRep`-carrier defeq unfoldings (`restrict`,
+-- The SES assembly chains many `FDRep`-carrier defeq unfoldings (`restrict`,
 -- `toRepresentation`, `FDRep.of_ρ'`) through the rank-nullity character argument,
 -- so the default heartbeat budget is raised.
 /-- **The formal character of the degree-`d` determinant quotient** `(A/det)_d`.
@@ -539,7 +540,7 @@ For `d ≥ N`, the per-degree short exact sequence
 `0 → A_{d-N} ⊗ χ --mulDet--> A_d --mk--> (A/det)_d → 0` gives, by additivity of the
 formal character (`formalCharacter_add_of_shortExact`) and the det-twist character
 (`formalCharacter_twistFDRep`), `char (A/det)_d = char A_d − ∏ᵢ Xᵢ · char A_{d-N}`.
-The combinatorial core `cauchyMult_mul_prodX_eq_lastPart_pos` identifies the
+The combinatorial crux `cauchyMult_mul_prodX_eq_lastPart_pos` identifies the
 subtracted term with the `0 ∉ range ν.parts` part of the degree-`d` Cauchy
 character, so the difference is exactly the `0 ∈ range ν.parts` (i.e. `ν_N = 0`)
 part. -/
@@ -670,15 +671,15 @@ theorem quotDetDegreeFDRep_formalCharacter (d : ℕ) (hd : N ≤ d) :
   rw [hW, sub_eq_iff_eq_add]
   exact (Finset.sum_filter_add_sum_filter_not Finset.univ _ _).symm
 
-/-! ### `(A/det)_d` character as an antitone-indexed Schur sum
+/-! ### `(A/det)_d` character as an antitone-indexed Schur sum (issue #5064)
 
-`Etingof.simple_constituent_formalCharacter_eq_schurPoly_mem`
+The #4905 final assembly `Etingof.simple_constituent_formalCharacter_eq_schurPoly_mem`
 consumes the character of `M = quotDetDegreeFDRep k N d` in the exact shape
 `∑ ν ∈ S, (c ν : ℚ) • schurPoly N ν.val` with `S : Finset {l : Fin N → ℕ // Antitone l}`,
 `c : {l // Antitone l} → ℕ`, and every `ν ∈ S` carrying a zero coordinate. The two
-steps from the formula `quotDetDegreeFDRep_formalCharacter` are: translating the
+gaps from the part-B formula `quotDetDegreeFDRep_formalCharacter` are: translating the
 `BoundedPartition`-index / `ℚ`-coefficient into the antitone subtype with `ℕ`
-coefficients, and supplying the `d < N` case (where `det` has degree `N > d`,
+coefficients, and supplying the missing `d < N` case (where `det` has degree `N > d`,
 so `(A/det)_d ≅ A_d`). -/
 
 /-- **Schur dimensions are natural numbers.** For an antitone weight `l`, the value
@@ -745,7 +746,7 @@ theorem quotDetDegree_formalCharacter_eq_polyRight_of_lt {N : ℕ} (d : ℕ) (hd
     intro v hv
     have hco : Submodule.mkQ (detSubmodule k N) (polyOf d v) = 0 := by
       have h := Subtype.ext_iff.mp hv
-      -- the restrict/coe reductions are defeq, so `h` already has the goal's type.
+      -- v4.31: the restrict/coe reductions are now defeq; `h` already has the goal's type.
       exact h
     rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero] at hco
     have hv0 : polyOf d v = 0 := by
@@ -766,8 +767,8 @@ theorem quotDetDegree_formalCharacter_eq_polyRight_of_lt {N : ℕ} (d : ℕ) (hd
     (fun g v => quotDetDegreeProj_equivariant d g v)).symm
 
 /-- **Character of `(A/det)_d` as a nonnegative `ℕ`-combination of distinct Schur
-polynomials indexed by antitone weights with a zero coordinate.** For every `d`, the
-formal character of the determinant-quotient degree
+polynomials indexed by antitone weights with a zero coordinate** (issue #5064, the
+#4905 glue). For every `d`, the formal character of the determinant-quotient degree
 component is `∑_{ν ∈ S} c_ν · S_ν` with `S` a finite set of antitone weights, each
 having `0` among its coordinates, and `c_ν ∈ ℕ`. This is the exact input shape
 consumed by `simple_constituent_formalCharacter_eq_schurPoly_mem`. -/
@@ -805,7 +806,7 @@ theorem quotDetDegree_char_as_antitone_sum (N d : ℕ) :
       refine Finset.sum_congr rfl (fun ν _ => ?_)
       have hval : (boundedToAntitone ν).val = ν.parts := rfl
       rw [hc (boundedToAntitone ν), hval]
-  · -- `d ≥ N`: translate the formula along `boundedToAntitone`.
+  · -- `d ≥ N`: translate the part-B formula along `boundedToAntitone`.
     refine ⟨(Finset.univ.filter
         (fun ν : BoundedPartition N d => (0 : ℕ) ∈ Set.range ν.parts)).image boundedToAntitone,
       fun ν => (schurPoly_eval_one_isNat k ν.val ν.property).choose, ?_, ?_⟩

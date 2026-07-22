@@ -28,7 +28,7 @@ universe u v
 /-- The canonical evaluation map gives a linear equivalence `V ≃ₗ[k] V**` for any
 finite-dimensional vector space V over a field k. (Etingof Example 7.3.2(1))
 
-The key point is that this isomorphism is natural: for any linear map `f : V →ₗ[k] W`,
+The key point is that this isomorphism is *natural*: for any linear map `f : V →ₗ[k] W`,
 the diagram `V → V** → W**` commutes with `V → W → W**`, which is captured by
 `Module.Dual.eval_naturality`. -/
 noncomputable def Etingof.double_dual_iso
@@ -47,12 +47,12 @@ theorem Etingof.double_dual_naturality
     f.dualMap.dualMap ∘ₗ Module.Dual.eval k V = Module.Dual.eval k W ∘ₗ f :=
   Module.Dual.eval_naturality f
 
-/-- **Example 7.3.2(1), second half.** On the category `Vect_k` of all vector
-spaces the identity and double-dual functors are not isomorphic. Concretely, `V` is
+/-- **Example 7.3.2(1), second half.** On the category `Vect_k` of *all* vector
+spaces the identity and double-dual functors are *not* isomorphic. Concretely, `V` is
 linearly isomorphic to its double dual `V**` if and only if `V` is finite-dimensional:
 in infinite dimension the double dual is strictly larger
 (`Module.rank k V < Module.rank k V** `, an Erdős–Kaplansky consequence), so no
-isomorphism, let alone a natural one, can exist. Contrast with `double_dual_iso`,
+isomorphism — let alone a natural one — can exist. Contrast with `double_dual_iso`,
 which supplies the isomorphism in the finite-dimensional case. -/
 theorem Etingof.linearEquiv_dualDual_iff_finiteDimensional (k V : Type u)
     [Field k] [AddCommGroup V] [Module k V] :
@@ -117,21 +117,21 @@ noncomputable def Etingof.doubleDualNatIso (k : Type u) [Field k] :
 
 Let `FVect'_k` be the groupoid of finite-dimensional `k`-vector spaces with *isomorphisms*
 as morphisms, and `F : FVect'_k → FVect'_k` the functor `V ↦ V*`, `a ↦ (a*)⁻¹`. Etingof's
-point is that `F` is pointwise isomorphic to the identity (`V ≅ V*` for every `V`) yet is
-not naturally isomorphic to it: a natural iso would give, for every `V`, an isomorphism
+point is that `F` is *pointwise* isomorphic to the identity (`V ≅ V*` for every `V`) yet is
+*not naturally isomorphic* to it: a natural iso would give, for every `V`, an isomorphism
 `V ≅ V*` compatible with the `GL(V)`-action, which is impossible because `V` and `V*` are
 inequivalent as `GL(V)`-representations.
 
-The positive half, `V ≅ V*` exactly when `V` is finite-dimensional, is
+The positive half — `V ≅ V*` exactly when `V` is finite-dimensional — is
 `linearEquiv_dual_iff_finiteDimensional` (Mathlib's
 `Basis.linearEquiv_dual_iff_finiteDimensional`, an Erdős–Kaplansky consequence, the same
 dichotomy `linearEquiv_dualDual_iff_finiteDimensional` gives for the double dual).
 
-The deeper content, non-naturality, is `dual_gl_natural_eq_zero` and its corollary
-`not_bijective_of_gl_natural_dual` below. The naturality of a putative isomorphism `η : Id ≅ F`
+The deeper content — *non-naturality* — is `dual_gl_natural_eq_zero` and its corollary
+`not_bijective_of_gl_natural_dual` below. The naturality of a would-be isomorphism `η : Id ≅ F`
 at the object `V`, tested against the automorphisms `a ∈ GL(V) = V ≃ₗ[k] V`, is exactly the
 `GL(V)`-equivariance square `a* ∘ η_V ∘ a = η_V`; a `k`-bilinear reading of this square,
-`B(a u, a w) = B(u, w)` for `B(u, w) := η_V u w`, says `B` is a `GL(V)`-invariant bilinear
+`B(a u, a w) = B(u, w)` for `B(u, w) := η_V u w`, says `B` is a `GL(V)`-*invariant* bilinear
 form. Over any field with a scalar `l ≠ 0`, `l² ≠ 1` (e.g. any field with more than three
 elements) the scalar automorphisms `a = l • 𝟙` already force `l² · B = B`, hence `B = 0` and
 `η_V = 0`. So no natural family can consist of isomorphisms once `V ≠ 0`: `F` is not naturally
@@ -154,9 +154,9 @@ theorem Etingof.linearEquiv_dual_iff_finiteDimensional (k V : Type u)
 
 /-- **Example 7.3.2(2), non-naturality obstruction.** Let `k` be a field containing a scalar
 `l ≠ 0` with `l² ≠ 1` (any field with more than three elements). If `η : V →ₗ[k] V*` is
-natural with respect to `GL(V)`, meaning for every linear automorphism `a : V ≃ₗ[k] V` the
+*natural with respect to `GL(V)`* — meaning for every linear automorphism `a : V ≃ₗ[k] V` the
 square `a* ∘ η ∘ a = η` commutes (equivalently, the bilinear form `B(u, w) = η u w` is
-`GL(V)`-invariant: `B(a u, a w) = B(u, w)`), then `η = 0`.
+`GL(V)`-invariant: `B(a u, a w) = B(u, w)`) — then `η = 0`.
 
 This is the `GL(V)`-representation obstruction behind Etingof's remark that the functor
 `F : V ↦ V*` on `FVect'_k` is not naturally isomorphic to the identity: only the scalar
@@ -187,8 +187,8 @@ theorem Etingof.dual_gl_natural_eq_zero
 `l² ≠ 1` (any field with more than three elements), no `GL(V)`-natural family can consist of
 isomorphisms when `V ≠ 0`. Concretely, a `GL(V)`-natural `η : V →ₗ[k] V*` is forced to be `0`
 (`dual_gl_natural_eq_zero`), hence not bijective. This is why the functor `F : V ↦ V*` on
-`FVect'_k` (pointwise isomorphic to the identity by `linearEquiv_dual_iff_finiteDimensional`)
-is nonetheless not naturally isomorphic to the identity functor. -/
+`FVect'_k` — pointwise isomorphic to the identity by `linearEquiv_dual_iff_finiteDimensional` —
+is nonetheless *not naturally isomorphic* to the identity functor. -/
 theorem Etingof.not_bijective_of_gl_natural_dual
     {k V : Type u} [Field k] [AddCommGroup V] [Module k V] [Nontrivial V]
     (η : V →ₗ[k] Module.Dual k V)
@@ -203,9 +203,9 @@ theorem Etingof.not_bijective_of_gl_natural_dual
 open CategoryTheory in
 /-- **Example 7.3.2(2), categorical form: the contragredient functor `F` on `FVect'_k`.**
 Etingof's `FVect'_k` is the groupoid of finite-dimensional `k`-vector spaces with
-isomorphisms as morphisms; we model it as `Core (FGModuleCat k)`. The contragredient
+*isomorphisms* as morphisms; we model it as `Core (FGModuleCat k)`. The contragredient
 functor `F` sends `V ↦ V*` and an isomorphism `a : V ≅ W` to `(a*)⁻¹ = (a⁻¹)* : V* ≅ W*`
-(the inverse of the transpose; this is why `F` is only functorial on the groupoid, not on
+(the inverse of the transpose — this is why `F` is only functorial on the groupoid, not on
 the whole category, where dualization is contravariant). -/
 noncomputable def Etingof.contragredientFunctor (k : Type u) [Field k] :
     Core (FGModuleCat.{u} k) ⥤ Core (FGModuleCat.{u} k) where
@@ -214,11 +214,11 @@ noncomputable def Etingof.contragredientFunctor (k : Type u) [Field k] :
 
 open CategoryTheory in
 /-- **Example 7.3.2(2), categorical form: `𝟭 ≇ F`.** On the groupoid `FVect'_k`
-(`Core (FGModuleCat k)`) the identity functor is not naturally isomorphic to the
+(`Core (FGModuleCat k)`) the identity functor is *not* naturally isomorphic to the
 contragredient functor `F : V ↦ V*`, over any field `k` with a scalar `l ≠ 0`, `l² ≠ 1`
 (any field with more than three elements). This is Etingof's statement that `F`, though
 pointwise isomorphic to the identity (`linearEquiv_dual_iff_finiteDimensional`), is not
-naturally isomorphic to it. The proof extracts, from a putative natural isomorphism, its
+naturally isomorphic to it. The proof extracts, from a would-be natural isomorphism, its
 component `η : k → k*` at the line `k` and the `GL(k)`-naturality square for scalar
 automorphisms, then invokes the obstruction `not_bijective_of_gl_natural_dual`: naturality
 forces `η = 0`, contradicting that a component of a natural isomorphism is an isomorphism. -/
@@ -261,23 +261,23 @@ endomorphism of `F` is a family of `k`-linear maps `η_M : M → M`, one for eve
 map) we have `η_N ∘ f = f ∘ η_M`. The book states, quoting Problem 2.3.17, that the
 ring of such natural endomorphisms is `A` itself.
 
-The heart of the statement is that any such family is determined by a single
+The heart of the statement is that any such family is *determined* by a single
 element `a := η_A 1 ∈ A`, and equals scalar multiplication by that element on every
 module. The proof is exactly the Problem 2.3.17 idea specialised across all modules:
 for `m ∈ M`, right multiplication `r_m : A → M`, `x ↦ x • m`, is `A`-linear
 (`LinearMap.toSpanSingleton`), so naturality applied to `r_m` and evaluated at
 `1 ∈ A` gives `η_M m = η_M (r_m 1) = r_m (η_A 1) = (η_A 1) • m`.
 
-The correspondence `a ↦ (m ↦ a • m)` is a ring isomorphism (composition of the
+The correspondence `a ↦ (m ↦ a • m)` is a *ring* isomorphism (composition of the
 families multiplies the elements in the same order: `a • (b • m) = (a*b) • m`), so
-`End(F) ≅ A`, not `Aᵒᵖ`. The opposite appears in Problem 2.3.17 only because there
-one composes `A`-linear self-maps of the single module `A`; here the elements act
+`End(F) ≅ A` — not `Aᵒᵖ`. The opposite appears in Problem 2.3.17 only because there
+one composes `A`-linear self-maps of the *single* module `A`; here the elements act
 uniformly on all modules by left multiplication.
 -/
 
 /-- **Example 7.3.2(3).** A natural endomorphism `η` of the forgetful functor
-`F : A-mod → Vect_k`, a `k`-linear map `η M : M →ₗ[k] M` for every `A`-module `M`,
-natural in `M`, acts on every module as scalar multiplication by the single element
+`F : A-mod → Vect_k` — a `k`-linear map `η M : M →ₗ[k] M` for every `A`-module `M`,
+natural in `M` — acts on every module as scalar multiplication by the single element
 `η A 1 ∈ A`. Consequently the natural endomorphisms of `F` are in bijection with `A`
 (each is determined by its value `η A 1`), which is the content of `End(F) = A`. The
 argument specialises Problem 2.3.17: naturality against right multiplication
@@ -312,19 +312,19 @@ theorem Etingof.forgetful_smul_comp
 /-!
 ## Example 7.3.2(4): `End(Id_{A-mod}) = Z(A)`
 
-A natural endomorphism of the identity functor on `A-mod` is a family of `A`-linear
+A natural endomorphism of the *identity* functor on `A-mod` is a family of *`A`-linear*
 maps `η_M : M → M`, one per `A`-module `M`, natural in `M`. As in sub-item (3) the
 family is determined by `c := η_A 1`: naturality against right multiplication
 `r_m : A → M`, `x ↦ x • m`, forces `η_M m = c • m`. But now the maps are `A`-linear,
-and `A`-linearity of `η_A` itself pins `c` down further: it must be central. Indeed
+and `A`-linearity of `η_A` itself pins `c` down further — it must be *central*. Indeed
 `η_A a = c • a` (determination) while `η_A a = η_A (a • 1) = a • c` (`A`-linearity), so
 `c * a = a * c` for every `a ∈ A`. Thus the natural endomorphisms of the identity
 functor are exactly the central elements: `End(Id_{A-mod}) = Z(A)`.
 -/
 
 /-- **Example 7.3.2(4).** A natural endomorphism `η` of the identity functor on
-`A-mod`, an `A`-linear map `η M : M →ₗ[A] M` for every `A`-module `M`, natural in
-`M`, acts on every module as scalar multiplication by the single element
+`A-mod` — an `A`-linear map `η M : M →ₗ[A] M` for every `A`-module `M`, natural in
+`M` — acts on every module as scalar multiplication by the single element
 `η A 1 ∈ A`. This is the exact analogue of `forgetful_natEnd_eq_smul`, now with
 `A`-linear (rather than merely `k`-linear) components. -/
 theorem Etingof.idFunctor_natEnd_eq_smul

@@ -19,7 +19,7 @@ import Mathlib.RepresentationTheory.Induced
 
 Etingof's Example 7.2.2 collects nine illustrations of functors. We formalize
 each item against Mathlib where the construction is available, and note the
-advanced ones (Schur and reflection functors) that are out of scope.
+genuinely advanced ones (Schur and reflection functors) that are out of scope.
 
 1. A category with one object is a monoid; a functor between such categories is
    a monoid homomorphism.
@@ -213,18 +213,18 @@ noncomputable example (k : Type*) [CommRing k] (n : ℕ) : ModuleCat k ⥤ Modul
 
 **Symmetric power `V ↦ Sⁿ V`.** Mathlib has the symmetric power `Sym[k]^n V`
 (`Mathlib.LinearAlgebra.TensorPower.Symmetric`, the quotient of `V^{⊗n}` by the
-symmetric-group action), but its functoriality (a `map` on linear maps together
-with the universal property) is not yet available (it is listed as future work
+symmetric-group action), but its functoriality — a `map` on linear maps together
+with the universal property — is not yet available (it is listed as future work
 in that file). Once `SymmetricPower.map` (or the symmetric universal property)
-lands upstream, `V ↦ Sⁿ V` forms an endofunctor of `ModuleCat k` exactly
+lands upstream, `V ↦ Sⁿ V` assembles into an endofunctor of `ModuleCat k` exactly
 as the exterior power does above. This is a missing-API gap, not a mathematical
 obstruction.
 
 **Schur functors `V ↦ Hom_{S_n}(π, V^{⊗n})`.** For a representation `π` of `Sₙ`,
 the Schur functor sends `V` to `Hom_{S_n}(π, V^{⊗n})`; the irreducible ones are
 labeled by Young diagrams. This requires the `Sₙ`-action on `V^{⊗n}` and the
-`Sₙ`-equivariant Hom, neither packaged as a functor in Mathlib. It is advanced
-and is deferred; the tensor-power functor above is the first ingredient. -/
+`Sₙ`-equivariant Hom, neither packaged as a functor in Mathlib. It is genuinely
+advanced and is deferred; the tensor-power functor above is the first ingredient. -/
 
 /-! ### (9) Reflection functors (scope note)
 
@@ -237,7 +237,7 @@ of `Q̄_i` at a source, with the companion `reflectionFunctorPlus` at a sink.
 
 Packaging these as `CategoryTheory.Functor`s between the representation categories
 `Rep(Q) ⥤ Rep(Q̄_i)` additionally requires the action on morphisms of representations
-plus the functor laws, which are not carried out here (BGP reflection functors are not
+plus the functor laws, which are not assembled here (BGP reflection functors are not
 in Mathlib). This is deferred pending a `CategoryTheory`-level quiver-representation
 category compatible with the object-level construction of Definition 6.6.4. -/
 
