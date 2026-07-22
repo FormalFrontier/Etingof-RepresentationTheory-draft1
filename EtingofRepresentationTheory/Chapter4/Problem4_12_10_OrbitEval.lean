@@ -1,4 +1,5 @@
 import EtingofRepresentationTheory.Chapter4.Problem4_12_10_Symmetric
+import EtingofRepresentationTheory.Chapter5.RepresentationAsModuleHom
 import Mathlib.LinearAlgebra.PiTensorProduct.Dual
 
 /-!
@@ -305,3 +306,80 @@ theorem exists_orbitEval_surjection (hρ : Function.Injective ρ) :
 end Etingof
 
 end
+
+section MainTheorem
+
+open scoped TensorProduct
+open Etingof
+
+/-- **Problem 4.12.10 (symmetric-power form).** Let `G` be a finite group with a faithful
+complex representation `ρ` on `V`, and let `σ` be an irreducible complex representation on `W`.
+Then `W` occurs inside the symmetric power `SⁿV` for some `n`: there is a nonzero
+`G`-equivariant linear map `W → Sym[ℂ]^n V` intertwining `σ` with `symPowRep ρ n`.
+
+Together with `Etingof.symPowEmbedding_equivariant`, this gives the book's full statement
+"occurs inside `SⁿV` (and hence inside `V^{⊗n}`)".
+
+Proof (the book's hint, assembled by Maschke splitting): the simple `W` embeds `G`-equivariantly
+in the regular representation `ℂ[G]` (`exists_injective_intertwiner_ofMulAction`). The
+orbit-evaluation map `E : ⨁ₙ SⁿV ↠ ℂ[G]` (`exists_orbitEval_surjection`, built from a
+trivial-stabilizer covector) is a `G`-equivariant surjection; packaged as a `ℂ[G]`-module hom of
+`asModule`s it splits, because the regular module is semisimple (Maschke, characteristic `0`), so
+it has a `ℂ[G]`-linear section `s`. Repackaging `s` as a `ℂ`-linear `G`-equivariant map and
+composing with the embedding places `W` inside `⨁ₙ SⁿV` by an injective, hence nonzero,
+intertwiner; extracting the summand on which it does not vanish
+(`exists_component_intertwiner_of_ne_zero`) yields the index `n`. -/
+theorem Etingof.Problem4_12_10_symmetric {G : Type*} [Group G] [Fintype G]
+    {V : Type} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
+    (ρ : Representation ℂ G V) (hρ : Function.Injective ρ)
+    {W : Type} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+    (σ : Representation ℂ G W)
+    (hσ : IsSimpleModule (MonoidAlgebra ℂ G) σ.asModule) :
+    ∃ (n : ℕ) (φ : W →ₗ[ℂ] (Sym[ℂ]^n V)),
+      φ ≠ 0 ∧ ∀ g : G, φ ∘ₗ σ g = (symPowRep ρ n g) ∘ₗ φ := by
+  classical
+  haveI : NeZero (Nat.card G : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
+  -- (1) The simple `W` embeds `G`-equivariantly in the regular representation `ℂ[G]`.
+  obtain ⟨ι, hι_inj, hι_equiv⟩ := exists_injective_intertwiner_ofMulAction σ hσ
+  -- (2) The orbit-evaluation surjection `E : ⨁ₙ SⁿV ↠ ℂ[G]`.
+  obtain ⟨E, hE_surj, hE_equiv⟩ := Etingof.exists_orbitEval_surjection ρ hρ
+  -- Package `E` as a `ℂ[G]`-module hom of `asModule`s and split it: the regular module is
+  -- semisimple (Maschke, char 0), so the surjection has a `ℂ[G]`-linear section `s`.
+  set F : (Representation.directSum (fun n => symPowRep ρ n)).asModule
+      →ₗ[MonoidAlgebra ℂ G] (Representation.ofMulAction ℂ G G).asModule :=
+    Representation.asModuleHomOfIntertwiner E
+      (fun g x => LinearMap.congr_fun (hE_equiv g) x) with hF
+  have hF_surj : Function.Surjective F := hE_surj
+  obtain ⟨s, hs⟩ := IsSemisimpleModule.lifting_property F hF_surj (LinearMap.id)
+  have hs_linv : Function.LeftInverse F s := fun x => by
+    simpa using LinearMap.congr_fun hs x
+  -- Repackage the section as a `ℂ`-linear `G`-equivariant map `ℂ[G] → ⨁ₙ SⁿV`.
+  set sLin := Representation.intertwinerOfAsModuleHom s with hsLin
+  have hsLin_inj : Function.Injective sLin :=
+    Representation.intertwinerOfAsModuleHom_injective hs_linv.injective
+  -- (3) `Φ = sLin ∘ ι : W ↪ ⨁ₙ SⁿV` is injective, hence nonzero, and `G`-equivariant.
+  set Φ := sLin ∘ₗ ι with hΦ
+  have hΦ_inj : Function.Injective Φ := hsLin_inj.comp hι_inj
+  haveI : Nontrivial W := hσ.nontrivial
+  have hΦ_ne : Φ ≠ 0 := by
+    obtain ⟨w, hw⟩ := exists_ne (0 : W)
+    intro h0
+    apply hw
+    apply hΦ_inj
+    rw [h0]; simp
+  have hΦ_equiv : ∀ g : G, Φ ∘ₗ σ g
+      = (Representation.directSum (fun n => symPowRep ρ n)) g ∘ₗ Φ := by
+    intro g
+    apply LinearMap.ext
+    intro w
+    have h1 : ι (σ g w) = (Representation.ofMulAction ℂ G G) g (ι w) :=
+      LinearMap.congr_fun (hι_equiv g) w
+    have h2 := Representation.intertwinerOfAsModuleHom_equivariant s g (ι w)
+    simp only [hΦ, LinearMap.comp_apply]
+    exact (congrArg (⇑sLin) h1).trans h2
+  -- (4) Extract a single symmetric-power summand `SⁿV` on which the composite is nonzero.
+  obtain ⟨n, ψ, hψ_ne, hψ_equiv⟩ :=
+    exists_component_intertwiner_of_ne_zero (fun n => symPowRep ρ n) σ Φ hΦ_ne hΦ_equiv
+  exact ⟨n, ψ, hψ_ne, hψ_equiv⟩
+
+end MainTheorem
