@@ -3711,6 +3711,52 @@ theorem eval_one_formalCharacter (N : ℕ)
   rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one, MvPolynomial.eval_monomial]
   simp
 
+/-! ### Semisimplicity of the diagonal torus action -/
+
+omit [CharZero k] in
+/-- The diagonal torus operator `diagUnit(i,u)` acts semisimply on the tensor power.
+It is diagonal in the standard tensor basis with eigenvalue `u ^ #{j : g j = i}` on
+`b_g`; since `#{j : g j = i} ≤ n`, the squarefree polynomial `∏_{s∈S} (X − s)`
+(over the finite set `S` of distinct powers `u^m`) annihilates it. -/
+theorem glTensorRep_diagUnit_isSemisimple (N n : ℕ) (i : Fin N) (u : kˣ) :
+    Module.End.IsSemisimple (glTensorRep k N n (diagUnit k N i u)) := by
+  classical
+  set D := glTensorRep k N n (diagUnit k N i u) with hD
+  set S : Finset k := (Finset.range (n + 1)).image (fun m => (u : k) ^ m) with hS
+  set p : Polynomial k := ∏ s ∈ S, (Polynomial.X - Polynomial.C s) with hp
+  have hsqfree : Squarefree p := by
+    apply Polynomial.Separable.squarefree
+    rw [hp]
+    exact Polynomial.separable_prod_X_sub_C_iff'.mpr (fun x _ y _ h => h)
+  have haeval : (Polynomial.aeval D) p = 0 := by
+    refine (tensorStdBasis k N n).ext (fun g => ?_)
+    set c : ℕ := (Finset.univ.filter (fun j => g j = i)).card with hc
+    have hev : D (tensorStdBasis k N n g) = ((u : k) ^ c) • tensorStdBasis k N n g := by
+      rw [hD]; exact glTensorRep_diagUnit_basis k N n i u g
+    rw [Module.End.aeval_apply_of_mem_apply_eq_smul hev]
+    have hcn : c ≤ n := by
+      rw [hc]
+      exact le_trans (Finset.card_filter_le _ _) (by simp [Finset.card_univ])
+    have hmem : (u : k) ^ c ∈ S := by
+      rw [hS]; exact Finset.mem_image.mpr ⟨c, Finset.mem_range.mpr (by omega), rfl⟩
+    have heval : p.eval ((u : k) ^ c) = 0 := by
+      rw [hp, Polynomial.eval_prod]
+      exact Finset.prod_eq_zero hmem (by simp)
+    rw [heval, zero_smul, LinearMap.zero_apply]
+  exact Module.End.isSemisimple_of_squarefree_aeval_eq_zero hsqfree haeval
+
+omit [CharZero k] in
+/-- The diagonal torus operator acts semisimply on the Schur module: it is the
+restriction of the (semisimple) diagonal operator on the tensor power to the
+`GL`-stable Schur submodule. -/
+theorem schurModule_rho_diagUnit_isSemisimple (N : ℕ) (lam : Fin N → ℕ) (i : Fin N) (t : kˣ) :
+    Module.End.IsSemisimple ((SchurModule k N lam).ρ (diagUnit k N i t)) := by
+  have hinvt : SchurModuleSubmodule k N lam ∈
+      Module.End.invtSubmodule (glTensorRep k N (∑ i, lam i) (diagUnit k N i t)) :=
+    fun v hv => glTensorRep_mem_range k N lam (diagUnit k N i t) v hv
+  have hss := (glTensorRep_diagUnit_isSemisimple k N (∑ i, lam i) i t).restrict hinvt
+  exact hss
+
 /-- The total dimension of the Schur module equals its formal character evaluated
 at the all-ones point: `dim L_λ = ch(L_λ)(1, …, 1)`.
 
@@ -3725,11 +3771,126 @@ theorem finrank_schurModule_eq_eval_one (N : ℕ) (lam : Fin N → ℕ)
     (Module.finrank k (SchurModule k N lam) : ℚ) =
       MvPolynomial.eval (fun _ => (1 : ℚ))
         (formalCharacter k N (SchurModule k N lam)) := by
+  classical
   rw [eval_one_formalCharacter]
-  -- Remaining obligation: the weight-space decomposition
-  --   `dim L_λ = ∑_μ dim (L_λ)_μ`
-  -- (internal direct sum of the diagonal-torus eigenspaces). See issue tracker.
-  sorry
+  set n := ∑ i, lam i with hn
+  set s := (glWeightSpace_finite_support k N (SchurModule k N lam)).toFinset with hs
+  -- The commuting family of diagonal-torus operators on the Schur module.
+  set f : Fin N × kˣ → Module.End k (SchurModule k N lam) :=
+    fun q => (SchurModule k N lam).ρ (diagUnit k N q.1 q.2) with hf
+  have hcomm : ∀ q₁ q₂ : Fin N × kˣ, Commute (f q₁) (f q₂) :=
+    fun q₁ q₂ => rep_diagUnit_commute k N (SchurModule k N lam) q₁.1 q₁.2 q₂.1 q₂.2
+  have hfss : ∀ q : Fin N × kˣ, Module.End.IsFinitelySemisimple (f q) :=
+    fun q => (schurModule_rho_diagUnit_isSemisimple k N lam q.1 q.2).isFinitelySemisimple
+  -- The eigenvalue character `χ_μ (i,t) = t^{μ i}`.
+  set χ : (Fin N →₀ ℕ) → (Fin N × kˣ → k) := fun μ q => (q.2 : k) ^ (μ q.1) with hχ
+  -- Key identity: each glWeightSpace is the simultaneous maximal generalized eigenspace.
+  have hkey : ∀ μ : Fin N →₀ ℕ, glWeightSpace k N (SchurModule k N lam) (fun i => μ i) =
+      ⨅ q : Fin N × kˣ, (f q).maxGenEigenspace (χ μ q) := by
+    intro μ
+    rw [iInf_prod, glWeightSpace]
+    refine iInf_congr (fun i => iInf_congr (fun t => ?_))
+    rw [(hfss (i, t)).maxGenEigenspace_eq_eigenspace (χ μ (i, t)), Module.End.eigenspace_def]
+    rfl
+  -- Independence of the weight spaces (from independence of joint gen. eigenspaces).
+  have h_mapsTo : ∀ (q₁ q₂ : Fin N × kˣ) (φ : k),
+      Set.MapsTo (f q₁) ((f q₂).maxGenEigenspace φ) ((f q₂).maxGenEigenspace φ) :=
+    fun q₁ q₂ φ => Module.End.mapsTo_maxGenEigenspace_of_comm (hcomm q₂ q₁) φ
+  have h_indep0 := Module.End.independent_iInf_maxGenEigenspace_of_forall_mapsTo f h_mapsTo
+  have h_inj : Function.Injective χ := by
+    intro μ₁ μ₂ heq
+    ext i
+    by_contra hi
+    obtain ⟨t, ht⟩ := exists_unit_pow_ne k hi
+    exact ht (congr_fun heq (i, t))
+  have h_indep_all :
+      iSupIndep (fun μ : Fin N →₀ ℕ => glWeightSpace k N (SchurModule k N lam) (fun i => μ i)) := by
+    have hrw : (fun μ : Fin N →₀ ℕ => glWeightSpace k N (SchurModule k N lam) (fun i => μ i)) =
+        (fun c : (Fin N × kˣ → k) => ⨅ q, (f q).maxGenEigenspace (c q)) ∘ χ :=
+      funext hkey
+    rw [hrw]
+    exact h_indep0.comp h_inj
+  -- Spanning: the joint eigenspaces of the (semisimple) torus fill the module.
+  have h_span_all :
+      ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (SchurModule k N lam) (fun i => μ i) = ⊤ := by
+    refine top_unique ?_
+    have htop :=
+      Module.End.iSup_iInf_maxGenEigenspace_eq_top_of_iSup_maxGenEigenspace_eq_top_of_commute
+        f (fun q₁ q₂ _ => hcomm q₁ q₂) (fun q => Module.End.iSup_maxGenEigenspace_eq_top (f q))
+    rw [← htop]
+    refine iSup_le (fun c => ?_)
+    by_cases hEc : (⨅ q, (f q).maxGenEigenspace (c q)) = ⊥
+    · rw [hEc]; exact bot_le
+    · obtain ⟨v, hv_mem, hv_ne⟩ := (Submodule.ne_bot_iff _).mp hEc
+      -- v is a simultaneous eigenvector.
+      have hev : ∀ q, f q v = c q • v := by
+        intro q
+        have hmem : v ∈ (f q).maxGenEigenspace (c q) := (Submodule.mem_iInf _).mp hv_mem q
+        rw [(hfss q).maxGenEigenspace_eq_eigenspace (c q)] at hmem
+        exact Module.End.mem_eigenspace_iff.mp hmem
+      -- Transport to the tensor power via the subtype inclusion.
+      set ι : (SchurModule k N lam) →ₗ[k] TensorPower k (Fin N → k) n :=
+        Submodule.subtype (SchurModuleSubmodule k N lam) with hι
+      have hint : ∀ (i : Fin N) (t : kˣ) (w : SchurModule k N lam),
+          ι (f (i, t) w) = glTensorRep k N n (diagUnit k N i t) (ι w) := by
+        intro i t w
+        simp only [hι, hf, SchurModule, FDRep.of_ρ']
+        rfl
+      have hι_inj : Function.Injective ι := Subtype.coe_injective
+      have hcoe_ne : ι v ≠ 0 := fun h => hv_ne (hι_inj (by rw [h, map_zero]))
+      obtain ⟨g₀, hg₀⟩ : ∃ g₀, (tensorStdBasis k N n).repr (ι v) g₀ ≠ 0 := by
+        by_contra h
+        push_neg at h
+        exact hcoe_ne ((tensorStdBasis k N n).repr.map_eq_zero_iff.mp (Finsupp.ext h))
+      -- Determine the character `c` from the weight of `g₀`.
+      have hc_eq : c = χ (tensorWeight N g₀) := by
+        funext q
+        obtain ⟨i, t⟩ := q
+        have hcoeq : glTensorRep k N n (diagUnit k N i t) (ι v) = c (i, t) • ι v := by
+          have h1 := congrArg ι (hev (i, t))
+          rw [map_smul, hint] at h1
+          exact h1
+        have hrepr := congrArg (fun w => (tensorStdBasis k N n).repr w g₀) hcoeq
+        simp only [repr_glTensorRep_diagUnit, map_smul, Finsupp.coe_smul, Pi.smul_apply,
+          smul_eq_mul] at hrepr
+        -- hrepr : t^{#i in g₀} * repr v g₀ = c (i,t) * repr v g₀
+        have hcancel := mul_right_cancel₀ hg₀ hrepr
+        show c (i, t) = (t : k) ^ ((tensorWeight N g₀) i)
+        rw [← hcancel]
+        rfl
+      rw [hc_eq, ← hkey (tensorWeight N g₀)]
+      exact le_iSup (fun μ : Fin N →₀ ℕ =>
+        glWeightSpace k N (SchurModule k N lam) (fun i => μ i)) (tensorWeight N g₀)
+  -- Restrict independence and spanning to the finite support `s`.
+  have h_indep : iSupIndep
+      (fun ν : ↥s => glWeightSpace k N (SchurModule k N lam) (fun i => (ν : Fin N →₀ ℕ) i)) :=
+    h_indep_all.comp Subtype.coe_injective
+  have h_span : ⨆ ν : ↥s,
+      glWeightSpace k N (SchurModule k N lam) (fun i => (ν : Fin N →₀ ℕ) i) = ⊤ := by
+    refine top_unique ?_
+    rw [← h_span_all]
+    refine iSup_le (fun μ => ?_)
+    by_cases hμ : μ ∈ s
+    · exact le_iSup (fun ν : ↥s =>
+        glWeightSpace k N (SchurModule k N lam) (fun i => (ν : Fin N →₀ ℕ) i)) ⟨μ, hμ⟩
+    · have hbot : glWeightSpace k N (SchurModule k N lam) (fun i => μ i) = ⊥ := by
+        by_contra h
+        exact hμ ((glWeightSpace_finite_support k N (SchurModule k N lam)).mem_toFinset.mpr h)
+      rw [hbot]; exact bot_le
+  -- The module is the internal direct sum of its weight spaces; add dimensions.
+  have hInt : DirectSum.IsInternal
+      (fun ν : ↥s => glWeightSpace k N (SchurModule k N lam) (fun i => (ν : Fin N →₀ ℕ) i)) :=
+    DirectSum.isInternal_submodule_of_iSupIndep_of_iSup_eq_top h_indep h_span
+  have hfr : Module.finrank k (SchurModule k N lam) =
+      ∑ ν : ↥s, Module.finrank k
+        (glWeightSpace k N (SchurModule k N lam) (fun i => (ν : Fin N →₀ ℕ) i)) := by
+    have e := LinearEquiv.ofBijective (DirectSum.coeLinearMap
+      (fun ν : ↥s =>
+        glWeightSpace k N (SchurModule k N lam) (fun i => (ν : Fin N →₀ ℕ) i))) hInt
+    rw [← LinearEquiv.finrank_eq e, Module.finrank_directSum]
+  rw [hfr, Nat.cast_sum]
+  exact (Finset.sum_coe_sort s (fun μ =>
+    (Module.finrank k (glWeightSpace k N (SchurModule k N lam) (fun i => μ i)) : ℚ))).symm ▸ rfl
 
 /-- The Schur polynomial evaluated at the all-ones point is the Weyl dimension
 product: `S_λ(1, …, 1) = ∏_{i<j} (λ_i − λ_j + j − i)/(j − i)`.
