@@ -30,12 +30,131 @@ namespace Etingof
 variable (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
 
 /-- The determinant representation of `GL_N(k)`: the one-dimensional representation
-given by `g ↦ det(g)`. This is isomorphic to the top exterior power `∧^N(k^N)` as
-a `GL_N`-representation. Not yet in Mathlib. -/
+given by `g ↦ det(g)`. It is equivariantly isomorphic to the top exterior power
+`∧^N(k^N)` (see `topExteriorPowerRep_iso_detRep`). -/
 noncomputable def detRep (N : ℕ) :
     FDRep k (Matrix.GeneralLinearGroup (Fin N) k) :=
   FDRep.of (((Algebra.lsmul k k k).toMonoidHom.comp (Units.coeHom k)).comp
     Matrix.GeneralLinearGroup.det)
+
+/-! ### The top exterior power representation `∧^N (kᴺ)`
+
+Etingof's Proposition 5.22.2 features the honest top exterior power `∧^N V`.
+Here we construct the standard `GL_N(k)`-action on `⋀^N (kᴺ)`, prove it is
+equivariantly isomorphic to the one-dimensional determinant character `detRep`,
+and use it to state Proposition 5.22.2 with the actual exterior-power object.
+The key classical fact is that the functorial action of a matrix `A` on the
+top exterior power scales the canonical top form by `det A`. -/
+
+/-- The standard `GL_N(k)`-action on the top exterior power `⋀^N (kᴺ)`: a group
+element `g` acts by the functorially induced map `exteriorPower.map` of `g`
+regarded as a linear endomorphism of `kᴺ` (via `Matrix.mulVecLin`). This is the
+honest `∧^N V` appearing in Etingof's Proposition 5.22.2. -/
+def topExtPowerRep (N : ℕ) :
+    Representation k (Matrix.GeneralLinearGroup (Fin N) k) (⋀[k]^N (Fin N → k)) where
+  toFun g := exteriorPower.map N (Matrix.mulVecLin (g : Matrix (Fin N) (Fin N) k))
+  map_one' := by
+    simp only [Units.val_one, Matrix.mulVecLin_one, exteriorPower.map_id]
+    rfl
+  map_mul' g h := by
+    simp only [Units.val_mul, Matrix.mulVecLin_mul, exteriorPower.map_comp]
+    rfl
+
+/-- The top exterior power representation `∧^N (kᴺ)` as an object of `FDRep k GL_N(k)`. -/
+noncomputable def topExteriorPowerRep (N : ℕ) :
+    FDRep k (Matrix.GeneralLinearGroup (Fin N) k) :=
+  FDRep.of (topExtPowerRep k N)
+
+omit [IsAlgClosed k] [CharZero k] in
+/-- **Determinant scaling of the top form.** The functorial action `exteriorPower.map`
+of a matrix `A` on `⋀^N (kᴺ)` scales the canonical determinant form
+`φ := alternatingMapLinearEquiv (Pi.basisFun k (Fin N)).det` by `det A`:
+`φ (map N (mulVecLin A) x) = det A • φ x`. -/
+private lemma topForm_map_mulVecLin (N : ℕ) (A : Matrix (Fin N) (Fin N) k)
+    (x : ⋀[k]^N (Fin N → k)) :
+    exteriorPower.alternatingMapLinearEquiv (n := N) (Pi.basisFun k (Fin N)).det
+        (exteriorPower.map N (Matrix.mulVecLin A) x) =
+      A.det • exteriorPower.alternatingMapLinearEquiv (n := N) (Pi.basisFun k (Fin N)).det x := by
+  set b := Pi.basisFun k (Fin N) with hb
+  have hdetlin : LinearMap.det (Matrix.mulVecLin A) = A.det := by
+    rw [show Matrix.mulVecLin A = Matrix.toLin' A from (Matrix.toLin'_apply' A).symm,
+      LinearMap.det_toLin']
+  have key : (exteriorPower.alternatingMapLinearEquiv (n := N) b.det) ∘ₗ
+      exteriorPower.map N (Matrix.mulVecLin A) =
+      A.det • (exteriorPower.alternatingMapLinearEquiv (n := N) b.det) := by
+    apply exteriorPower.linearMap_ext
+    apply AlternatingMap.ext
+    intro v
+    simp only [LinearMap.compAlternatingMap_apply, LinearMap.comp_apply,
+      exteriorPower.map_apply_ιMulti, LinearMap.smul_apply,
+      exteriorPower.alternatingMapLinearEquiv_apply_ιMulti]
+    rw [b.det_comp, hdetlin, smul_eq_mul]
+  exact LinearMap.congr_fun key x
+
+/-- The canonical linear isomorphism `⋀^N (kᴺ) ≅ k` given by the determinant top
+form `(Pi.basisFun k (Fin N)).det`. It sends the wedge `e₁ ∧ … ∧ e_N` of the
+standard basis to `1`. -/
+noncomputable def topFormEquiv (N : ℕ) : (⋀[k]^N (Fin N → k)) ≃ₗ[k] k := by
+  have hω : exteriorPower.alternatingMapLinearEquiv (n := N) (Pi.basisFun k (Fin N)).det
+      (exteriorPower.ιMulti k N (⇑(Pi.basisFun k (Fin N)))) = 1 := by
+    rw [exteriorPower.alternatingMapLinearEquiv_apply_ιMulti]
+    exact (Pi.basisFun k (Fin N)).det_self
+  have hsurj : Function.Surjective
+      (exteriorPower.alternatingMapLinearEquiv (n := N) (Pi.basisFun k (Fin N)).det) := by
+    intro c
+    refine ⟨c • exteriorPower.ιMulti k N (⇑(Pi.basisFun k (Fin N))), ?_⟩
+    rw [map_smul, hω, smul_eq_mul, mul_one]
+  have hdim : Module.finrank k (⋀[k]^N (Fin N → k)) = Module.finrank k k := by
+    rw [exteriorPower.finrank_eq, Module.finrank_fin_fun, Module.finrank_self, Nat.choose_self]
+  exact LinearEquiv.ofBijective _
+    ⟨(LinearMap.injective_iff_surjective_of_finrank_eq_finrank hdim).2 hsurj, hsurj⟩
+
+omit [CharZero k] in
+@[simp]
+lemma topFormEquiv_apply (N : ℕ) (x : ⋀[k]^N (Fin N → k)) :
+    topFormEquiv k N x =
+      exteriorPower.alternatingMapLinearEquiv (n := N) (Pi.basisFun k (Fin N)).det x := rfl
+
+omit [CharZero k] in
+/-- **The top exterior power action is multiplication by the determinant.**
+On the one-dimensional space `⋀^N (kᴺ)`, a group element `g ∈ GL_N(k)` acts by the
+scalar `det g`: `∧^N g = det(g) • id`. -/
+lemma topExtPowerRep_eq_det_smul (N : ℕ) (g : Matrix.GeneralLinearGroup (Fin N) k) :
+    topExtPowerRep k N g = (↑(Matrix.GeneralLinearGroup.det g) : k) • LinearMap.id := by
+  refine LinearMap.ext fun x => (topFormEquiv k N).injective ?_
+  simp only [topFormEquiv_apply, LinearMap.smul_apply, LinearMap.id_coe, id_eq, map_smul]
+  rw [Matrix.GeneralLinearGroup.val_det_apply]
+  exact topForm_map_mulVecLin k N _ x
+
+omit [CharZero k] in
+/-- The determinant top form `topFormEquiv` intertwines the top exterior power action
+`g ↦ ∧^N g` with the determinant character `g ↦ det(g) • ·`. -/
+theorem topFormEquiv_comm_detRep (N : ℕ) (g : Matrix.GeneralLinearGroup (Fin N) k) :
+    (topFormEquiv k N).toLinearMap ∘ₗ (topExtPowerRep k N g) =
+      ((((Algebra.lsmul k k k).toMonoidHom.comp (Units.coeHom k)).comp
+        Matrix.GeneralLinearGroup.det) g) ∘ₗ (topFormEquiv k N).toLinearMap := by
+  refine LinearMap.ext fun x => ?_
+  have hL : topFormEquiv k N (topExtPowerRep k N g x) =
+      (g : Matrix (Fin N) (Fin N) k).det • topFormEquiv k N x := by
+    rw [topFormEquiv_apply, topFormEquiv_apply]
+    exact topForm_map_mulVecLin k N _ x
+  rw [LinearMap.comp_apply, LinearMap.comp_apply, LinearEquiv.coe_coe, hL]
+  -- RHS is `Algebra.lsmul k k k ↑(det g) (topFormEquiv x) = ↑(det g) • topFormEquiv x`
+  -- definitionally; convert and match scalars via `val_det_apply`.
+  change (g : Matrix (Fin N) (Fin N) k).det • topFormEquiv k N x
+    = (↑(Matrix.GeneralLinearGroup.det g) : k) • topFormEquiv k N x
+  rw [Matrix.GeneralLinearGroup.val_det_apply]
+
+/-- **The top exterior power representation is the determinant character.**
+`∧^N (kᴺ) ≅ detRep k N` as `GL_N(k)`-representations. Both are one-dimensional and
+`g` acts by the scalar `det g`; the intertwiner is the determinant top form
+`topFormEquiv`. This is the identification asserted (previously unproved) in the
+documentation of `detRep`. -/
+noncomputable def topExteriorPowerRep_iso_detRep (N : ℕ) :
+    topExteriorPowerRep k N ≅ detRep k N :=
+  Action.mkIso (topFormEquiv k N).toFGModuleCatIso (fun g => by
+    ext : 1
+    exact topFormEquiv_comm_detRep k N g)
 
 -- rc2: slower instance search; bump synthInstance budget for the `det • End` smul synthesis
 set_option synthInstance.maxHeartbeats 80000 in
@@ -371,12 +490,13 @@ theorem schurModule_tensor_det_iso_detTwist (N : ℕ) (lam : Fin N → ℕ) :
   ext : 1
   exact tensorRid_comm_detTwist k N lam g
 
-/-- **Determinant twist**: `L_{λ+(1,…,1)} ≅ L_λ ⊗ ∧^N V` as `GL_N(k)`-representations.
-
-Tensoring with the one-dimensional determinant representation shifts every part
-of the highest weight by 1.
+/-- **Determinant twist** (determinant-character model): `L_{λ+(1,…,1)} ≅ L_λ ⊗ detRep`
+as `GL_N(k)`-representations, where `detRep` is the one-dimensional determinant character.
+This is the implementation core of Proposition 5.22.2; the public statement
+`Proposition5_22_2` below replaces `detRep` with the honest top exterior power `∧^N V`
+via `topExteriorPowerRep_iso_detRep`.
 (Etingof Proposition 5.22.2) -/
-theorem Proposition5_22_2
+theorem Proposition5_22_2_detRep
     (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
     Nonempty (SchurModule k N (fun i => lam i + 1) ≅
       SchurModule k N lam ⊗ detRep k N) := by
@@ -386,5 +506,22 @@ theorem Proposition5_22_2
   obtain ⟨iso₁⟩ := schurModule_shift_iso_detTwist k N lam hlam
   obtain ⟨iso₂⟩ := schurModule_tensor_det_iso_detTwist k N lam
   exact ⟨iso₁ ≪≫ iso₂.symm⟩
+
+/-- **Determinant twist**: `L_{λ+(1,…,1)} ≅ L_λ ⊗ ∧^N V` as `GL_N(k)`-representations,
+where `∧^N V = topExteriorPowerRep k N` is the honest top exterior power of `V = kᴺ`.
+
+Tensoring with the top exterior power shifts every part of the highest weight by 1.
+This is Etingof's Proposition 5.22.2 with the actual `∧^N V` object (rather than the
+determinant-character model `detRep`): the two are equivariantly identified in
+`topExteriorPowerRep_iso_detRep`.
+(Etingof Proposition 5.22.2) -/
+theorem Proposition5_22_2
+    (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
+    Nonempty (SchurModule k N (fun i => lam i + 1) ≅
+      SchurModule k N lam ⊗ topExteriorPowerRep k N) := by
+  obtain ⟨iso⟩ := Proposition5_22_2_detRep k N lam hlam
+  -- Replace `detRep` by the top exterior power in the tensor factor.
+  exact ⟨iso ≪≫ (whiskerLeftIso (SchurModule k N lam)
+    (topExteriorPowerRep_iso_detRep k N)).symm⟩
 
 end Etingof
