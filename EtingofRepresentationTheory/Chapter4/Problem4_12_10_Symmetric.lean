@@ -199,6 +199,126 @@ theorem Etingof.exists_trivialStabilizer_covector [Finite G]
 
 end Covector
 
+section DirectSumExtract
+
+open scoped DirectSum
+
+variable {k G : Type*} [CommSemiring k] [Monoid G]
+  {ι : Type*} {V : ι → Type*}
+  [(i : ι) → AddCommMonoid (V i)] [(i : ι) → Module k (V i)]
+  {W : Type*} [AddCommMonoid W] [Module k W]
+
+/-- The projection `DirectSum.component` onto the `i`-th summand intertwines the direct-sum
+representation `Representation.directSum ρs` with the component representation `ρs i`. -/
+theorem Representation.directSum_component_equivariant
+    (ρs : (i : ι) → Representation k G (V i)) (i : ι) (g : G) :
+    DirectSum.component k ι V i ∘ₗ (Representation.directSum ρs) g =
+      ρs i g ∘ₗ DirectSum.component k ι V i := by
+  ext y
+  simp only [LinearMap.comp_apply, Representation.directSum_apply,
+    ← DirectSum.apply_eq_component, DirectSum.lmap_apply]
+
+/-- **Single-summand extraction.** A nonzero `G`-equivariant map `φ : W → ⨁ i, V i` into a
+direct sum of representations yields, for some index `i`, a nonzero `G`-equivariant map
+`W → V i`: postcompose `φ` with the (equivariant) projection onto a summand on which `φ` does
+not vanish. This turns `Hom_G(W, ⊕ᵢ Vᵢ) ≠ 0` into `Hom_G(W, Vᵢ) ≠ 0` for a single `i`. -/
+theorem exists_component_intertwiner_of_ne_zero
+    (ρs : (i : ι) → Representation k G (V i)) (σ : Representation k G W)
+    (φ : W →ₗ[k] (⨁ i, V i)) (hφ : φ ≠ 0)
+    (hφ_int : ∀ g, φ ∘ₗ σ g = (Representation.directSum ρs) g ∘ₗ φ) :
+    ∃ (i : ι) (ψ : W →ₗ[k] V i), ψ ≠ 0 ∧ ∀ g, ψ ∘ₗ σ g = ρs i g ∘ₗ ψ := by
+  obtain ⟨w, hw⟩ := DFunLike.ne_iff.mp hφ
+  have hcomp : ∃ i, DirectSum.component k ι V i (φ w) ≠ 0 := by
+    by_contra h
+    simp only [not_exists, ne_eq, not_not] at h
+    exact hw (DirectSum.ext_component k fun i => by simp [h i])
+  obtain ⟨i, hi⟩ := hcomp
+  refine ⟨i, DirectSum.component k ι V i ∘ₗ φ, ?_, fun g => ?_⟩
+  · exact fun hzero => hi (by simpa using LinearMap.congr_fun hzero w)
+  · rw [LinearMap.comp_assoc, hφ_int g, ← LinearMap.comp_assoc,
+      Representation.directSum_component_equivariant, LinearMap.comp_assoc]
+
+end DirectSumExtract
+
+section AsModuleHom
+
+open scoped MonoidAlgebra
+
+namespace Representation
+
+variable {k G V W : Type*} [CommSemiring k] [Monoid G]
+  [AddCommMonoid V] [Module k V] [AddCommMonoid W] [Module k W]
+  {ρ : Representation k G V} {σ : Representation k G W}
+
+/-- The `k`-linear intertwiner underlying a `MonoidAlgebra k G`-linear map of `asModule`s: the
+reverse of `asModuleHomOfIntertwiner`. Its `G`-equivariance is
+`intertwinerOfAsModuleHom_equivariant`. -/
+noncomputable def intertwinerOfAsModuleHom
+    (h : ρ.asModule →ₗ[MonoidAlgebra k G] σ.asModule) : V →ₗ[k] W :=
+  σ.asModuleEquiv.toLinearMap ∘ₗ h.restrictScalars k ∘ₗ ρ.asModuleEquiv.symm.toLinearMap
+
+@[simp] theorem intertwinerOfAsModuleHom_apply
+    (h : ρ.asModule →ₗ[MonoidAlgebra k G] σ.asModule) (x : V) :
+    intertwinerOfAsModuleHom h x = σ.asModuleEquiv (h (ρ.asModuleEquiv.symm x)) := rfl
+
+theorem intertwinerOfAsModuleHom_equivariant
+    (h : ρ.asModule →ₗ[MonoidAlgebra k G] σ.asModule) (g : G) (x : V) :
+    intertwinerOfAsModuleHom h (ρ g x) = σ g (intertwinerOfAsModuleHom h x) := by
+  have key : h (MonoidAlgebra.single g (1 : k) • ρ.asModuleEquiv.symm x)
+      = MonoidAlgebra.single g (1 : k) • h (ρ.asModuleEquiv.symm x) := map_smul h _ _
+  rw [Representation.single_smul, Representation.single_smul, one_smul, one_smul] at key
+  exact key
+
+theorem intertwinerOfAsModuleHom_injective
+    {h : ρ.asModule →ₗ[MonoidAlgebra k G] σ.asModule} (hh : Function.Injective h) :
+    Function.Injective (intertwinerOfAsModuleHom h) := by
+  intro a b hab
+  simp only [intertwinerOfAsModuleHom_apply] at hab
+  exact ρ.asModuleEquiv.symm.injective (hh (σ.asModuleEquiv.injective hab))
+
+end Representation
+
+end AsModuleHom
+
+section SimpleEmbedsRegular
+
+open scoped MonoidAlgebra
+open Representation
+
+/-- **A simple representation embeds in the regular representation.** For a finite group `G` over
+a field `k` with `Nat.card G ≠ 0` in `k` (e.g. characteristic `0`), any representation `σ` whose
+`asModule` is a simple `k[G]`-module admits an injective `G`-equivariant linear map into the
+regular representation `Representation.ofMulAction k G G` on `k[G]`.
+
+The simple module `σ.asModule` is a quotient `k[G] ⧸ I` (`isSimpleModule_iff_quot_maximal`), giving
+a `k[G]`-linear surjection from the (semisimple, by Maschke) regular module onto it; the surjection
+splits (`IsSemisimpleModule.lifting_property`), and the section — an injective `k[G]`-module hom —
+is repackaged as an intertwiner by `Representation.intertwinerOfAsModuleHom`. -/
+theorem exists_injective_intertwiner_ofMulAction
+    {k G : Type*} [Field k] [Group G] [Fintype G] [NeZero (Nat.card G : k)]
+    {W : Type*} [AddCommGroup W] [Module k W]
+    (σ : Representation k G W)
+    (hσ : IsSimpleModule (MonoidAlgebra k G) σ.asModule) :
+    ∃ φ : W →ₗ[k] MonoidAlgebra k G, Function.Injective φ ∧
+      ∀ g : G, φ ∘ₗ σ g = (Representation.ofMulAction k G G) g ∘ₗ φ := by
+  classical
+  obtain ⟨I, _hI, ⟨e⟩⟩ := isSimpleModule_iff_quot_maximal.mp hσ
+  set reg := Representation.ofMulActionSelfAsModuleEquiv (k := k) (G := G) with hreg
+  -- The regular module surjects onto the simple `σ.asModule` via `k[G] ↠ k[G]⧸I ≃ σ.asModule`.
+  let f : (Representation.ofMulAction k G G).asModule →ₗ[MonoidAlgebra k G] σ.asModule :=
+    e.symm.toLinearMap ∘ₗ I.mkQ ∘ₗ reg.toLinearMap
+  have hf : Function.Surjective f :=
+    e.symm.surjective.comp ((Submodule.mkQ_surjective I).comp reg.surjective)
+  -- Maschke: the regular module is semisimple, so the surjection splits.
+  obtain ⟨h, hfh⟩ := IsSemisimpleModule.lifting_property f hf (LinearMap.id)
+  have hlinv : Function.LeftInverse f h := fun x => by
+    simpa using LinearMap.congr_fun hfh x
+  refine ⟨Representation.intertwinerOfAsModuleHom h,
+    Representation.intertwinerOfAsModuleHom_injective hlinv.injective, fun g => ?_⟩
+  exact LinearMap.ext fun x => Representation.intertwinerOfAsModuleHom_equivariant h g x
+
+end SimpleEmbedsRegular
+
 section MainTheorem
 
 open scoped TensorProduct
