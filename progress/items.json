@@ -560,9 +560,9 @@
     "sorry_free": true,
     "fidelity_note": "Part (1): k is the only simple/indecomposable k-module (IsSimpleModule k k). Part (2): the 1-dim irreducibles are classified (Example_2_3_14_polynomial_reps: simple k[x]-modules are 1-dimensional). The Jordan-block reps V_{λ,n} are now built as genuine k[X]-modules (jordanRep = Module.AEval' of jordanBlock), proved indecomposable (jordanRep_indecomposable, via: every nonzero J-invariant subspace contains the eigenvector e₀) and proved not simple for n≥2 (jordanRep_not_isSimpleModule), giving the book's conclusion 'indecomposable need not be irreducible' (exists_indecomposable_not_simple, witness V_{0,2}). Remaining (noted in file): the completeness half — that every f.d. indecomposable k[x]-rep is some V_{λ,n} — is Jordan normal form existence/uniqueness, which the book cites rather than proves and which is not formalized here.",
     "fidelity_decl": "Etingof.Example_2_3_14.jordanRep_indecomposable; Etingof.Example_2_3_14.jordanRep_not_isSimpleModule; Etingof.Example_2_3_14.exists_indecomposable_not_simple",
-    "fidelity_issue": 5358,
     "coverage": "covered_partial",
     "coverage_note": "The Jordan-block modules are constructed and proved indecomposable, but the exhaustive and unique classification of every finite-dimensional indecomposable k[X]-module is not yet formalized. Follow-up: #7364.",
+    "followup_issue": 7364,
     "last_updated": "2026-07-22"
   },
   {
