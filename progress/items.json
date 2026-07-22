@@ -2952,8 +2952,10 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
-    }
+      "result": "covered"
+    },
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Proposition4.1.2",
@@ -2982,7 +2984,9 @@
     "sorry_free": true,
     "fidelity_decl": "Etingof.Example4_1_3",
     "fidelity_issue": 5374,
-    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified"
+    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Problem4.1.4",
@@ -3132,7 +3136,9 @@
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_note": "[coverage] The book's Example 4.3 for Q8 explicitly describes the 2-dimensional representation via Pauli matrices (4.3.1) and states the five representations include a genuine 2-dimensional one. The L",
-    "fidelity_issue": 5632
+    "fidelity_issue": 5632,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Exercise4.3.1",
@@ -3183,7 +3189,9 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Introduction_4.5",
@@ -3225,7 +3233,9 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Problem4.5.2",
@@ -3298,7 +3308,9 @@
     "fidelity": "verified",
     "fidelity_note": "Formalized in Chapter4/Remark4_5_5.lean. The character matrix U (rows = irreducibles indexed by ConjClasses G to encode squareness from Thm 4.5.2, columns = conjugacy classes, entries chi_V(g_c)/sqrt|Z_{g_c}|) is built explicitly. character_matrix_mul_conjTranspose proves rows orthonormal (U Uᴴ = 1) by reindexing the first orthogonality relation (FDRep.char_orthonormal, Thm 4.5.1) over conjugacy classes via |c.carrier|*|Z|=|G|; character_matrix_conjTranspose_mul derives unitarity (Uᴴ U = 1) from squareness; column_orthogonality reads off the second orthogonality relation. Sorry-free.",
     "fidelity_decl": "Etingof.Remark4_5_5.column_orthogonality",
-    "fidelity_issue": 5378
+    "fidelity_issue": 5378,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Introduction_4.6",
@@ -3355,7 +3367,9 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Theorem4.6.3",
@@ -3383,7 +3397,9 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Remark4.6.4",
@@ -3397,7 +3413,9 @@
     "fidelity": "verified",
     "fidelity_note": "Formalized in EtingofRepresentationTheory/Chapter4/Remark4_6_4.lean. The representation of the infinite group ℤ (Multiplicative ℤ) on ℂ² by powers of the unipotent Jordan block J_{1,2} is built as repZ; repZ_indecomposable and repZ_not_irreducible establish it is indecomposable but not irreducible, and Etingof.Remark4_6_4 packages the existence statement (with Infinite (Multiplicative ℤ)).",
     "fidelity_decl": "Etingof.Remark4_6_4",
-    "fidelity_issue": 5379
+    "fidelity_issue": 5379,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Introduction_4.7",
