@@ -7631,18 +7631,21 @@
     "derived_from": "Chapter5/Discussion_1dim_reps",
     "source_span": "G/[G, G] \\cong \\mathbb{F}_q^\\times via g \\mapsto \\det(g). The 1-dimensional representations of G thus have the form \\rho(g) = \\xi(\\det(g)), where \\xi is a homomorphism \\xi : \\mathbb{F}_q^\\times \\to \\mathbb{C}^\\times; so there are q - 1 such representations, denoted \\mathbb{C}_\\xi.",
     "claim": "Every 1-dimensional representation of GL₂(𝔽_q) is of the form g ↦ ξ(det g) for a unique character ξ : 𝔽_q× → ℂ×; there are exactly q−1 such representations.",
-    "status": "accepted",
-    "coverage_issue": 5677
+    "status": "sorry_free",
+    "coverage_issue": 5677,
+    "lean_ref": "Chapter5/Discussion_1dim_reps.lean (Etingof.Discussion_1dim_reps.characterCompDetEquiv / characterCompDetEquiv_apply / card_oneDimRep)",
+    "note": "Stage 3.7 reconciliation (audit #7245): covered_full. characterCompDetEquiv is a genuine bijection (characters ξ:𝔽_q×→ℂˣ) ≃ (1-dim reps G→ℂˣ) — surjectivity = every 1-dim rep has form ξ∘det, injectivity = uniqueness of ξ; characterCompDetEquiv_apply pins the map to ξ(det g); card_oneDimRep gives the count q−1. Sorry-free, axiom-clean. Formalized for q>2 (needs [G,G]=SL₂), matching the source. Status accepted→sorry_free."
   },
   {
     "type": "derived",
     "derived_from": "Chapter5/Discussion_5.11_examples",
     "source_span": "Let G = S_4, H = S_3. Then \\operatorname{Ind}_H^G \\mathbb{C}_+ = \\mathbb{C}_+ \\oplus \\mathbb{C}^3_-, \\operatorname{Ind}_H^G \\mathbb{C}_- = \\mathbb{C}_- \\oplus \\mathbb{C}^3_+, \\operatorname{Ind}_H^G \\mathbb{C}^2 = \\mathbb{C}^2 \\oplus \\mathbb{C}^3_- \\oplus \\mathbb{C}^3_+.",
     "claim": "The three induced representations of S₄ from S₃: Ind_{S₃}^{S₄} ℂ₊ ≅ ℂ₊ ⊕ ℂ³₋, Ind_{S₃}^{S₄} ℂ₋ ≅ ℂ₋ ⊕ ℂ³₊, Ind_{S₃}^{S₄} ℂ² ≅ ℂ² ⊕ ℂ³₋ ⊕ ℂ³₊",
-    "status": "accepted",
+    "status": "sorry_free",
     "coverage_issue": 5678,
     "lean_file": "EtingofRepresentationTheory/Chapter5/Discussion5_11_S4S3.lean",
-    "note": "All three isomorphisms proved sorry-free (issue #5797): indH_triv_decomp, indH_sign_decomp, indH_twoDim_decomp. S₃ realised as the point-stabiliser H ≤ S₄ via Equiv.Perm.extendDomainHom; group-generic Frobenius reciprocity (frobenius_finrank_gen / ind_finrank_eq_scalar_gen) reduces each multiplicity to a character scalar product over H, evaluated by decide after transporting the sum to S₃, then matched against Schur biproduct multiplicities on each of the five S₄-irreducibles."
+    "note": "Stage 3.7 reconciliation (audit #7245): covered_full. All three Ind_{S₃}^{S₄} decompositions proved as genuine FDRep ℂ S₄ isomorphisms (Nonempty (… ≅ …)) with correct summands/multiplicities via the semisimple Hom-multiplicity classifier iso_of_forall_finrank_hom_eq — not mere character-scalar equalities. Sorry-free. Status accepted→sorry_free. (Prior issues #5678/#5797.)",
+    "lean_ref": "Chapter5/Discussion5_11_S4S3.lean (Etingof.Example4_3_S4.indH_triv_decomp / indH_sign_decomp / indH_twoDim_decomp)"
   },
   {
     "type": "derived",
@@ -7660,7 +7663,10 @@
     "source_span": "Also define L_{\\lambda - r \\cdot 1^N} := L_\\lambda \\otimes (\\wedge^N V^*)^{\\otimes r} (this definition makes sense by Proposition 5.22.2). Thus we have attached a unique irreducible algebraic representation L_\\lambda of GL(V) = GL_N to any sequence (\\lambda_1, \\ldots, \\lambda_N) of integers (not nec",
     "claim": "For any weakly decreasing integer sequence λ₁ ≥ … ≥ λ_N, there is a unique irreducible algebraic representation L_λ of GL_N with highest weight λ; it is constructed as (Schur module L_{λ+r·1^N}) ⊗ (det^*)^r for r ≫ 0",
     "status": "accepted",
-    "coverage_issue": 5680
+    "coverage_issue": 5680,
+    "issue": 7251,
+    "lean_ref": "Chapter5/AlgIrrepGLRep.lean (Etingof.algIrrepGLRepρ — construction, all dominant integer weights); Chapter5/AlgIrrepGLNonIso.lean (Etingof.algIrrepGLRepρ_iso_iff_eq — uniqueness)",
+    "note": "Stage 3.7 reconciliation (audit #7245): covered_partial. Construction of L_λ (honest det^{-shift} twist of the Schur module, defined for every weakly-decreasing integer weight incl. negatives) and uniqueness (highest weight a complete iso-invariant, L_λ≅L_μ↔λ=μ) are fully formalized and sorry-free. RESIDUAL: irreducibility (algIrrepGLRep_isSimple) is only proved over ℂ within the Schur–Weyl range ∑λ.toNatWeight≤N, not for arbitrary dominant weights → tracked by #7251. Kept status accepted with issue #7251 until the general irreducibility lands."
   },
   {
     "type": "derived",
@@ -7668,16 +7674,20 @@
     "source_span": "We have thus found q - 1 1-dimensional representations of G, \\frac{q(q-1)}{2} principal series representations, and \\frac{q(q-1)}{2} complementary series representations, for a total of q^2 - 1 representations, i.e., the number of conjugacy classes in G. This implies that we have in fact found all i",
     "claim": "The total count (q-1) + q(q-1)/2 + q(q-1)/2 = q²-1 equals the number of conjugacy classes, so the listed representations are all irreducible representations of GL₂(𝔽_q)",
     "status": "accepted",
-    "coverage_issue": 5681
+    "coverage_issue": 5681,
+    "issue": 7252,
+    "lean_ref": "Chapter5/Discussion_complementary_series_summary.lean (Etingof.GL2.constructed_irrep_count — arithmetic total); Chapter5/GL2ConjugacyClassCount.lean (GL2.card_conjClasses_eq — #classes = q²−1, odd char)",
+    "note": "Stage 3.7 reconciliation (audit #7245): covered_partial. Sub-claim (a) arithmetic (q−1)+q(q−1)/2+q(q−1)/2=q²−1: proved (constructed_irrep_count). Sub-claim (b) q²−1=#conjugacy classes: proved separately (card_conjClasses_eq, odd char) but not yet linked into the summary file, where it is only the unproved Prop foundAllIrreducibles. RESIDUAL: sub-claim (c) — \"these are ALL the irreducibles\" (completeness) — is not stated as a formal proposition → tracked by #7252. Kept status accepted with issue #7252."
   },
   {
     "type": "derived",
     "derived_from": "Chapter5/Discussion_footnote_5.15",
     "source_span": "$\\sigma(\\rho) \\leq \\rho$ lexicographically with equality if and only if $\\sigma = 1$, and subtracting both sides from the constant vector $\\lambda + \\rho$ shows that $\\lambda + \\rho - \\sigma(\\rho) \\geq \\lambda$ with equality if and only if $\\sigma = 1$.",
     "claim": "For sigma in S_N acting on rho = (N-1, N-2, ..., 0): sigma(rho) <=_lex rho with equality iff sigma = 1; equivalently lambda + rho - sigma(rho) >=_lex lambda with equality iff sigma = 1.",
-    "status": "accepted",
+    "status": "sorry_free",
     "coverage_issue": 5682,
-    "note": "same claim also appears in Chapter5/Discussion_proof_of_Frobenius_character_formula"
+    "note": "Stage 3.7 reconciliation (audit #7245): covered_full. Both directions formalized: the lex inequality σ(ρ)≤ρ on the staircase ρ=(N−1,…,0) (rhoVec_comp_perm_le) AND the load-bearing equality-iff-identity (rhoVec_comp_perm_eq_iff, an actual ↔ σ=1), plus the equivalent λ+ρ−σ(ρ)≥λ form with its own equality-iff-identity (laVec_eq_shifted_sub_perm_iff). Proved via the least-non-fixed-point argument, not assumed. Sorry-free. Status accepted→sorry_free. Same claim reused by Chapter5/Discussion_proof_of_Frobenius_character_formula; formalization lives in this footnote file. (Prior issue #5682.)",
+    "lean_ref": "Chapter5/Discussion_footnote_5_15.lean (Chapter5.Footnote_5_15.rhoVec_comp_perm_le / rhoVec_comp_perm_eq_iff / laVec_eq_shifted_sub_perm_iff)"
   },
   {
     "type": "derived",
@@ -7694,7 +7704,9 @@
     "derived_from": "Chapter7/Discussion_after_Example7.9.5",
     "source_span": "Note that in a semisimple category, any additive functor is automatically exact on both sides.",
     "claim": "For a semisimple abelian category C (every short exact sequence splits), any additive functor F : C → D is both left and right exact.",
-    "status": "accepted",
-    "coverage_issue": 5684
+    "status": "sorry_free",
+    "coverage_issue": 5684,
+    "lean_ref": "Chapter7/Discussion_after_Example7_9_5.lean (Etingof.additiveFunctor_shortExact_of_isSemisimpleCategory)",
+    "note": "Stage 3.7 reconciliation (audit #7245): covered_full. IsSemisimpleCategory faithfully = \"every short exact sequence splits\"; conclusion (S.map F).ShortExact is genuine two-sided exactness (mono+epi+middle-exact). Proof genuinely consumes semisimplicity (extracts splitting, pushes through F via F.Additive) — quantified over all short exact S, not just split ones. Sorry-free. Status accepted→sorry_free. (Prior issue #5684.)"
   }
 ]
