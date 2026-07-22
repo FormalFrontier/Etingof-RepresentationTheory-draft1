@@ -268,8 +268,13 @@
     "start_line": 11,
     "end_line": 22,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "The file checks only that standard Mathlib types carry algebra instances. It does not expose the source's multivariable polynomial model, free-word basis/concatenation, or group-algebra delta basis/product as project-facing statements; follow-up #7450.",
+    "fidelity_issue": 7450,
+    "followup_issue": 7450,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Definition2.2.5",
@@ -359,10 +364,14 @@
     "start_line": 12,
     "end_line": 20,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "sorry_free": true,
     "fidelity_decl": "four anonymous examples (PUnit, Module A A, Module k V, free-algebra rep bijection)",
-    "fidelity_issue": 5360
+    "coverage": "covered_partial",
+    "coverage_note": "The left regular module and free-algebra operator-tuple equivalence occur only as anonymous examples; the source's right regular model is absent. Public concrete endpoints are tracked by #7450.",
+    "fidelity_issue": 7450,
+    "followup_issue": 7450,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Definition2.3.4",
