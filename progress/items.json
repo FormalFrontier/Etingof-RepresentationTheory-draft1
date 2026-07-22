@@ -4525,8 +4525,9 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[re-verified review #7183, 2026-07-21] Repair landed; statement faithful and non-vacuous, builds, axiom-clean (no sorryAx). [fidelity] Two gaps: (1) The book states the result 'over a field k (of any characteristic),' but the Lean formalization requires [IsAlgClosed k] for both the irreducibility direction (extTprod_isIrre",
-    "fidelity_issue": 5622
+    "fidelity_note": "Both directions and the combined Theorem5_6_1 wrapper are proved. The IsAlgClosed k hypothesis follows the standing Chapter 3 assumption used by the cited Theorem 3.10.2; 'any characteristic' is respected by imposing no characteristic-zero or coprimality hypothesis. The unrestricted arbitrary-field reading is false.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Introduction_5.7",
