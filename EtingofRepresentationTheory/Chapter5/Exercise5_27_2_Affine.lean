@@ -426,4 +426,277 @@ theorem affine_classification (hq : 2 < Fintype.card K) :
     simp only [hLp, hRp, Finset.sum_const, Finset.card_univ, Fintype.card_unit, smul_eq_mul,
       mul_one, mul_zero, zero_add]
 
+open Classical in
+/-- **Exercise 5.27.2 for Problem 4.12.6, degenerate field `K = 𝔽₂`.** When `q = |K| = 2` the
+affine group `x ↦ a x + b` collapses to `Multiplicative K ≅ ℤ/2` (the multiplicative group `Kˣ` is
+trivial), so all of its irreducibles are one-dimensional. This is the `q = 2` companion to
+`affine_classification`, whose `{1, q-1}` dimension partition degenerates here (`q - 1 = 1`): the
+free-orbit rep has the same dimension `1` as the fixed-orbit reps, so the two dimension-count
+clauses of `affine_classification` cannot both hold and the theorem is restated with the uniform
+"every irreducible is one-dimensional" conclusion instead.
+
+Like `affine_classification`, the family is produced by the orbit method (Theorem 5.27.1): the
+`q - 1 = 1` fixed-orbit rep(s) over the trivial character and the single free-orbit rep over the
+nontrivial characters, for a total of `q = 2` pairwise non-isomorphic irreducibles. The fixed and
+free reps are told apart by their character at a nontrivial translation `⟨a, 1⟩`: the fixed rep is
+constant (`= 1`) there while the free rep takes the value `χ₀ a ≠ 1`. -/
+theorem affine_classification_two (hq : Fintype.card K = 2) :
+    ∃ (n : ℕ) (W : Fin n → FDRep ℂ (AffineGroup K)),
+      (∀ i, Simple (W i)) ∧
+      (∀ i j, Nonempty (W i ≅ W j) → i = j) ∧
+      (∀ S : FDRep ℂ (AffineGroup K), Simple S → ∃ i, Nonempty (S ≅ W i)) ∧
+      n = 2 ∧
+      (∀ i, finrank ℂ (W i : Type) = 1) := by
+  classical
+  haveI : Nonempty Kˣ := ⟨1⟩
+  obtain ⟨dualSmul, hdual, stab, hstab, V, transport,
+    hi, hii, hiii, hiv, hv, hvi, hvii, hviii, hix⟩ :=
+    Etingof.Theorem5_27_1 Kˣ (Multiplicative K) (affineφ K)
+  -- Match the abstract dual action supplied by Theorem 5.27.1 to the concrete `affineDualSmul`.
+  have hds : ∀ (g : Kˣ) (χ : Multiplicative K →* ℂˣ), dualSmul g χ = affineDualSmul K g χ := by
+    intro g χ
+    refine MonoidHom.ext fun a => ?_
+    rw [hdual g χ a, affineDualSmul_apply]
+  -- The trivial character is fixed by all of `Kˣ`: its stabilizer is `⊤`.
+  have hstab_triv : stab (1 : Multiplicative K →* ℂˣ) = ⊤ := by
+    rw [eq_top_iff]
+    intro g _
+    exact (hstab 1 g).mpr (by rw [hds]; exact affineDualSmul_trivial K g)
+  -- A nontrivial character has trivial stabilizer `⊥`.
+  have hstab_ntriv : ∀ {χ : Multiplicative K →* ℂˣ}, χ ≠ 1 → stab χ = ⊥ := by
+    intro χ hχ
+    rw [eq_bot_iff]
+    intro g hg
+    rw [Subgroup.mem_bot]
+    have hgχ : affineDualSmul K g χ = χ := by rw [← hds]; exact (hstab χ g).mp hg
+    exact (affineDualSmul_eq_self_iff K g hχ).mp hgχ
+  -- `Kˣ` is abelian, so conjugation is trivial.
+  have hconj : ∀ h g : Kˣ, h * g * h⁻¹ = g := fun h g => by
+    rw [mul_right_comm, mul_inv_cancel, one_mul]
+  -- At `q = 2` the multiplicative group is trivial: `|Kˣ| = q - 1 = 1`.
+  have hcardUnits : Fintype.card Kˣ = 1 := by rw [Fintype.card_units, hq]
+  haveI : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.mp (by omega)
+  haveI : Unique Kˣ := ⟨⟨1⟩, fun a => Subsingleton.elim a 1⟩
+  haveI : Fintype (Multiplicative K →* ℂˣ) := Fintype.ofFinite _
+  haveI : Fintype (Kˣ →* ℂˣ) := Fintype.ofFinite _
+  -- Cardinality of the character group of `(K, +)` equals `q = 2`.
+  have hcardHom : Fintype.card (Multiplicative K →* ℂˣ) = Fintype.card K := by
+    have h := Etingof.AbelianFDRep.card_charFDRep_dual (G := Multiplicative K)
+    rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card] at h
+    rwa [Fintype.card_congr (Multiplicative.toAdd : Multiplicative K ≃ K)] at h
+  -- Cardinality of the character group of `Kˣ` equals `q - 1 = 1`.
+  have hcardDual : Fintype.card (Kˣ →* ℂˣ) = Fintype.card K - 1 := by
+    rw [← Nat.card_eq_fintype_card, Etingof.AbelianFDRep.card_charFDRep_dual,
+      Nat.card_eq_fintype_card, Fintype.card_units]
+  -- Choose a nontrivial character to represent the single free orbit.
+  haveI : Nontrivial (Multiplicative K →* ℂˣ) := by
+    rw [← Fintype.one_lt_card_iff_nontrivial, hcardHom]; omega
+  obtain ⟨χ₀, hχ₀⟩ := exists_ne (1 : Multiplicative K →* ℂˣ)
+  -- The classifying family: `Sum.inl ρ` gives the 1-dim rep over the fixed character; `Sum.inr ()`
+  -- gives the free-orbit rep (also 1-dimensional here, since `q - 1 = 1`).
+  set F : (Kˣ →* ℂˣ) ⊕ Unit → FDRep ℂ (AffineGroup K) := fun a =>
+    a.elim
+      (fun ρ => V (1 : Multiplicative K →* ℂˣ)
+        (Etingof.AbelianFDRep.charFDRep (ρ.comp (stab (1 : Multiplicative K →* ℂˣ)).subtype)))
+      (fun _ => V χ₀ (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ₀) →* ℂˣ))) with hF
+  -- **Closed-form character of the fixed-orbit reps:** at `⟨a, g⟩` it is `ρ g` (independent of `a`).
+  have fixed_char : ∀ (ρ : Kˣ →* ℂˣ) (a : Multiplicative K) (g : Kˣ),
+      (V (1 : Multiplicative K →* ℂˣ)
+        (Etingof.AbelianFDRep.charFDRep
+          (ρ.comp (stab (1 : Multiplicative K →* ℂˣ)).subtype))).character ⟨a, g⟩
+      = (ρ g : ℂ) := by
+    intro ρ a g
+    have hSimpleU := Etingof.AbelianFDRep.charFDRep_simple
+      (ρ.comp (stab (1 : Multiplicative K →* ℂˣ)).subtype)
+    have hmemg : g ∈ stab (1 : Multiplicative K →* ℂˣ) := by
+      rw [hstab_triv]; exact Subgroup.mem_top g
+    have hmemall : ∀ h : Kˣ, h * g * h⁻¹ ∈ stab (1 : Multiplicative K →* ℂˣ) := by
+      intro h; rw [hstab_triv]; exact Subgroup.mem_top _
+    have hcard : Fintype.card ↥(stab (1 : Multiplicative K →* ℂˣ)) = Fintype.card Kˣ := by
+      rw [hstab_triv]; exact Fintype.card_congr Subgroup.topEquiv.toEquiv
+    have hterm : ∀ h : Kˣ,
+        (if hh : h * g * h⁻¹ ∈ stab (1 : Multiplicative K →* ℂˣ)
+          then ((1 : Multiplicative K →* ℂˣ)
+                ((affineφ K h : MulAut (Multiplicative K)) a) : ℂ)
+              * (Etingof.AbelianFDRep.charFDRep
+                  (ρ.comp (stab (1 : Multiplicative K →* ℂˣ)).subtype)).character
+                  ⟨h * g * h⁻¹, hh⟩
+          else 0)
+        = (ρ g : ℂ) := by
+      intro h
+      rw [dif_pos (hmemall h),
+        show (⟨h * g * h⁻¹, hmemall h⟩ : ↥(stab (1 : Multiplicative K →* ℂˣ))) = ⟨g, hmemg⟩ from
+          Subtype.ext (hconj h g),
+        Etingof.AbelianFDRep.charFDRep_character, MonoidHom.one_apply, Units.val_one, one_mul]
+      rfl
+    rw [hiv 1 _ hSimpleU a g, Finset.sum_congr rfl (fun h _ => hterm h),
+      Finset.sum_const, Finset.card_univ, nsmul_eq_mul, hcard,
+      inv_mul_cancel_left₀ (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)]
+  -- **Closed-form character of the free-orbit rep at a translation `⟨a, 1⟩`:** it is `χ₀ a`. (`Kˣ`
+  -- is trivial, so the orbit sum collapses to its single term.)
+  have free_char : ∀ a : Multiplicative K,
+      (V χ₀ (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ₀) →* ℂˣ))).character ⟨a, 1⟩
+      = (χ₀ a : ℂ) := by
+    intro a
+    have hSimpleU := Etingof.AbelianFDRep.charFDRep_simple (1 : ↥(stab χ₀) →* ℂˣ)
+    have hcardstab : Fintype.card ↥(stab χ₀) = 1 := by
+      have hle : Fintype.card ↥(stab χ₀) ≤ Fintype.card Kˣ :=
+        Fintype.card_le_of_injective _ Subtype.val_injective
+      have hpos : 0 < Fintype.card ↥(stab χ₀) := Fintype.card_pos
+      omega
+    have hh1 : ∀ h : Kˣ, h * 1 * h⁻¹ = 1 := fun h => by rw [mul_one, mul_inv_cancel]
+    -- Each summand collapses to `χ₀ a`: the character factor is `1`, and `h = 1` in the trivial
+    -- `Kˣ` makes the twist `φ h` the identity.
+    have hterm : ∀ h : Kˣ,
+        (if hh : h * 1 * h⁻¹ ∈ stab χ₀
+          then (χ₀ ((affineφ K h : MulAut (Multiplicative K)) a) : ℂ)
+            * (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ₀) →* ℂˣ)).character ⟨h * 1 * h⁻¹, hh⟩
+          else 0)
+        = (χ₀ a : ℂ) := by
+      intro h
+      rw [dif_pos (by rw [hh1 h]; exact one_mem _),
+        show (⟨h * 1 * h⁻¹, by rw [hh1 h]; exact one_mem _⟩ : ↥(stab χ₀)) = 1 from
+          Subtype.ext (by simp [hh1 h]),
+        Etingof.AbelianFDRep.charFDRep_character, MonoidHom.one_apply, Units.val_one, mul_one,
+        Subsingleton.elim h 1, map_one]
+      rfl
+    rw [hiv χ₀ _ hSimpleU a 1, Finset.sum_congr rfl (fun h _ => hterm h),
+      Finset.sum_const, Finset.card_univ, hcardUnits, one_smul,
+      hcardstab, Nat.cast_one, inv_one, one_mul]
+  -- Both kinds of family member are one-dimensional (`q - 1 = 1` for the free orbit).
+  have hdim_inl : ∀ ρ : Kˣ →* ℂˣ, finrank ℂ (F (Sum.inl ρ) : Type) = 1 := by
+    intro ρ
+    show finrank ℂ (V (1 : Multiplicative K →* ℂˣ)
+      (Etingof.AbelianFDRep.charFDRep
+        (ρ.comp (stab (1 : Multiplicative K →* ℂˣ)).subtype)) : Type) = 1
+    rw [hv, Etingof.AbelianFDRep.charFDRep_finrank, mul_one, hstab_triv, Subgroup.index_top]
+  have hdim_inr : finrank ℂ (F (Sum.inr () : (Kˣ →* ℂˣ) ⊕ Unit) : Type) = 1 := by
+    show finrank ℂ (V χ₀ (Etingof.AbelianFDRep.charFDRep
+      (1 : ↥(stab χ₀) →* ℂˣ)) : Type) = 1
+    rw [hv, Etingof.AbelianFDRep.charFDRep_finrank, mul_one, hstab_ntriv hχ₀,
+      Subgroup.index_bot, Nat.card_eq_fintype_card, hcardUnits]
+  -- Simplicity of every family member.
+  have hFsimple : ∀ a, Simple (F a) := by
+    rintro (ρ | _)
+    · exact hi 1 _ (Etingof.AbelianFDRep.charFDRep_simple _)
+    · exact hi χ₀ _ (Etingof.AbelianFDRep.charFDRep_simple _)
+  -- Pairwise non-isomorphism. The fixed reps are distinguished from each other by their character;
+  -- the fixed and free reps by their character at a nontrivial translation (`1` vs `χ₀ a ≠ 1`).
+  have hFinj : ∀ a b, Nonempty (F a ≅ F b) → a = b := by
+    -- A nontrivial translation `a₀` on which `χ₀` is nontrivial: the fixed/free separator.
+    obtain ⟨a₀, ha₀⟩ := DFunLike.ne_iff.mp hχ₀
+    rw [MonoidHom.one_apply] at ha₀
+    have ha₀' : (χ₀ a₀ : ℂ) ≠ 1 := fun h => ha₀ (Units.ext h)
+    rintro (ρ₁ | _) (ρ₂ | _) ⟨α⟩
+    · -- fixed vs fixed: characters recover `ρ`
+      have hchar := FDRep.char_iso α
+      have hρ : ρ₁ = ρ₂ := by
+        refine MonoidHom.ext fun g => ?_
+        have h := congrFun hchar ⟨(1 : Multiplicative K), g⟩
+        rw [show F (Sum.inl ρ₁) = V (1 : Multiplicative K →* ℂˣ)
+            (Etingof.AbelianFDRep.charFDRep
+              (ρ₁.comp (stab (1 : Multiplicative K →* ℂˣ)).subtype)) from rfl,
+          show F (Sum.inl ρ₂) = V (1 : Multiplicative K →* ℂˣ)
+            (Etingof.AbelianFDRep.charFDRep
+              (ρ₂.comp (stab (1 : Multiplicative K →* ℂˣ)).subtype)) from rfl,
+          fixed_char ρ₁ 1 g, fixed_char ρ₂ 1 g] at h
+        exact Units.ext h
+      rw [hρ]
+    · -- fixed vs free: character at `⟨a₀, 1⟩` is `ρ₁ 1 = 1` (fixed) vs `χ₀ a₀ ≠ 1` (free)
+      exfalso
+      have h := congrFun (FDRep.char_iso α) ⟨a₀, 1⟩
+      rw [show F (Sum.inl ρ₁) = V (1 : Multiplicative K →* ℂˣ)
+          (Etingof.AbelianFDRep.charFDRep
+            (ρ₁.comp (stab (1 : Multiplicative K →* ℂˣ)).subtype)) from rfl,
+        show F (Sum.inr ()) = V χ₀ (Etingof.AbelianFDRep.charFDRep
+            (1 : ↥(stab χ₀) →* ℂˣ)) from rfl,
+        fixed_char ρ₁ a₀ 1, free_char a₀, map_one, Units.val_one] at h
+      exact ha₀' h.symm
+    · -- free vs fixed: symmetric
+      exfalso
+      have h := congrFun (FDRep.char_iso α) ⟨a₀, 1⟩
+      rw [show F (Sum.inl ρ₂) = V (1 : Multiplicative K →* ℂˣ)
+          (Etingof.AbelianFDRep.charFDRep
+            (ρ₂.comp (stab (1 : Multiplicative K →* ℂˣ)).subtype)) from rfl,
+        show F (Sum.inr ()) = V χ₀ (Etingof.AbelianFDRep.charFDRep
+            (1 : ↥(stab χ₀) →* ℂˣ)) from rfl,
+        fixed_char ρ₂ a₀ 1, free_char a₀, map_one, Units.val_one] at h
+      exact ha₀' h
+    · -- free vs free: the free orbit is a single point
+      exact congrArg Sum.inr (Subsingleton.elim _ _)
+  -- Completeness: every simple rep is isomorphic to a family member.
+  have hFcomplete : ∀ S : FDRep ℂ (AffineGroup K), Simple S → ∃ a, Nonempty (S ≅ F a) := by
+    intro S hS
+    obtain ⟨χ, U, hU, hSU⟩ := hiii S hS
+    haveI : Simple U := hU
+    by_cases hχ : χ = 1
+    · -- fixed orbit: recover a character `ρ` of `Kˣ` from `U ≅ charFDRep ξ`
+      subst hχ
+      obtain ⟨ξ, hξ⟩ := Etingof.AbelianFDRep.exists_charFDRep_iso U
+      let eStab : ↥(stab (1 : Multiplicative K →* ℂˣ)) ≃* Kˣ :=
+        (MulEquiv.subgroupCongr hstab_triv).trans Subgroup.topEquiv
+      have heStab : ∀ s, eStab s = ((stab (1 : Multiplicative K →* ℂˣ)).subtype s) := fun _ => rfl
+      refine ⟨Sum.inl (ξ.comp eStab.symm.toMonoidHom), ?_⟩
+      have hρξ : (ξ.comp eStab.symm.toMonoidHom).comp
+          (stab (1 : Multiplicative K →* ℂˣ)).subtype = ξ := by
+        refine MonoidHom.ext fun s => ?_
+        show ξ (eStab.symm ((stab (1 : Multiplicative K →* ℂˣ)).subtype s)) = ξ s
+        rw [← heStab s, MulEquiv.symm_apply_apply]
+      have hFeq : F (Sum.inl (ξ.comp eStab.symm.toMonoidHom))
+          = V (1 : Multiplicative K →* ℂˣ) (Etingof.AbelianFDRep.charFDRep ξ) := by
+        show V (1 : Multiplicative K →* ℂˣ) (Etingof.AbelianFDRep.charFDRep
+            ((ξ.comp eStab.symm.toMonoidHom).comp (stab (1 : Multiplicative K →* ℂˣ)).subtype))
+          = V (1 : Multiplicative K →* ℂˣ) (Etingof.AbelianFDRep.charFDRep ξ)
+        rw [hρξ]
+      rw [hFeq]
+      exact ⟨hSU.some ≪≫ (hvi 1 U (Etingof.AbelianFDRep.charFDRep ξ) hξ).some⟩
+    · -- free orbit: move the base point to `χ₀` along the orbit
+      refine ⟨Sum.inr (), ?_⟩
+      obtain ⟨g, hg⟩ := affineDualSmul_transitive K hχ₀ hχ
+      have hg' : dualSmul g χ₀ = χ := by rw [hds]; exact hg
+      haveI : Subsingleton ↥(stab χ) := by
+        rw [hstab_ntriv hχ]
+        exact ⟨fun a b => Subtype.ext
+          (by rw [Subgroup.mem_bot.mp a.2, Subgroup.mem_bot.mp b.2])⟩
+      obtain ⟨ξ, hξ⟩ := Etingof.AbelianFDRep.exists_charFDRep_iso U
+      have hξ1 : ξ = 1 := by
+        refine MonoidHom.ext fun x => ?_; rw [Subsingleton.elim x 1]; simp
+      rw [hξ1] at hξ
+      haveI : Simple (transport g χ₀ χ hg' (Etingof.AbelianFDRep.charFDRep
+          (1 : ↥(stab χ₀) →* ℂˣ))) :=
+        hix χ₀ χ _ g hg' (Etingof.AbelianFDRep.charFDRep_simple _)
+      obtain ⟨ζ, hζ⟩ := Etingof.AbelianFDRep.exists_charFDRep_iso
+        (transport g χ₀ χ hg' (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ₀) →* ℂˣ)))
+      have hζ1 : ζ = 1 := by
+        refine MonoidHom.ext fun x => ?_; rw [Subsingleton.elim x 1]; simp
+      rw [hζ1] at hζ
+      have step1 : Nonempty (V χ₀ (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ₀) →* ℂˣ))
+          ≅ V χ (transport g χ₀ χ hg'
+              (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ₀) →* ℂˣ)))) :=
+        hvii χ₀ χ (Etingof.AbelianFDRep.charFDRep 1) g hg'
+      have step2 : Nonempty (V χ (transport g χ₀ χ hg'
+            (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ₀) →* ℂˣ)))
+          ≅ V χ (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ) →* ℂˣ))) :=
+        hvi χ _ _ hζ
+      have step3 : Nonempty (V χ (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ) →* ℂˣ))
+          ≅ V χ U) :=
+        hvi χ _ _ ⟨hξ.some.symm⟩
+      show Nonempty (S ≅ V χ₀ (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ₀) →* ℂˣ)))
+      exact ⟨hSU.some ≪≫ step3.some.symm ≪≫ step2.some.symm ≪≫ step1.some.symm⟩
+  -- Assemble into a `Fin n`-indexed family.
+  set e := Fintype.equivFin ((Kˣ →* ℂˣ) ⊕ Unit) with he
+  refine ⟨Fintype.card ((Kˣ →* ℂˣ) ⊕ Unit), fun i => F (e.symm i), ?_, ?_, ?_, ?_, ?_⟩
+  · exact fun i => hFsimple _
+  · intro i j hij; exact e.symm.injective (hFinj _ _ hij)
+  · intro S hS
+    obtain ⟨a, ha⟩ := hFcomplete S hS
+    exact ⟨e a, by simpa only [Equiv.symm_apply_apply] using ha⟩
+  · rw [Fintype.card_sum, Fintype.card_unit, hcardDual, hq]
+  · -- every irreducible is one-dimensional
+    have hall : ∀ a, finrank ℂ (F a : Type) = 1 := by
+      rintro (ρ | ⟨⟩)
+      · exact hdim_inl ρ
+      · exact hdim_inr
+    exact fun i => hall (e.symm i)
+
 end Etingof.Exercise5_27_2
