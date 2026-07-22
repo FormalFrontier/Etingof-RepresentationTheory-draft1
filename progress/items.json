@@ -1489,6 +1489,7 @@
     "fidelity": "verified",
     "note": "Intentional omission recorded in skipped-exercises.md. The standalone bimodule associativity and tensor-Hom adjunction are not formalized; the book's only downstream use, Frobenius reciprocity (Theorem 5.10.1), is proved directly with Mathlib's representation induction/restriction adjunction. Chapter2/Problem2_11_6.lean documents the source statements and replacement route without placeholder declarations.",
     "coverage": "covered_partial",
+    "coverage_note": "Intentional omission per skipped-exercises.md: the standalone bimodule associativity and tensor-Hom adjunction are not rebuilt. Their only downstream use is replaced by the direct Mathlib induction/restriction adjunction proof of Theorem 5.10.1; no placeholder represents the omitted material.",
     "last_updated": "2026-07-22"
   },
   {
@@ -1724,6 +1725,7 @@
       "Etingof.Problem2_16_4.exists_irreducible_dim_char"
     ],
     "notes": "Partial coverage, corrected after fidelity audit #7196: finrank_irreducible_le_char proves every finite-dimensional irreducible sl(2,k)-module has finrank <= p, and irrep_isIrreducible + irrep_finrank + exists_irreducible_dim_char show the bound is attained. These are genuine, axiom-clean sl(2) results, but they do not classify irreducibles up to isomorphism as Problem 2.16.4 asks. The missing parameterization, isomorphism criterion, and exhaustiveness proof are assigned to the later reprise specified in deferred-reprises.md.",
+    "coverage_note": "The dimension bound dim V ≤ p and standard irreducible modules of dimensions 1 through p are proved. The parameter family, isomorphism criterion, and exhaustive classification are unfinished work assigned to the later Reprises/Problem2_16_4.lean by deferred-reprises.md; no placeholder reprise exists yet.",
     "last_updated": "2026-07-22"
   },
   {
