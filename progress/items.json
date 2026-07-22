@@ -4167,7 +4167,9 @@
     "end_line": 20,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Corollary5.1.6",
@@ -4180,7 +4182,9 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "has_true_hypothesis": true,
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Exercise5.1.7",
@@ -4249,7 +4253,9 @@
     "end_line": 14,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_after_Proposition5.2.3",
@@ -4274,9 +4280,13 @@
     "start_line": 17,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "sorry_free": true,
-    "fidelity_note": "Wave-2 gap fixed (#5390): Proposition5_2_4_field now asserts and proves inverse-closure (x≠0 → IsAlgebraic ℚ x⁻¹) via IsAlgebraic.inv, in addition to + and × closure. Full field claim of book Prop 5.2.4(ii)."
+    "coverage": "covered_partial",
+    "fidelity_note": "The operation lemmas prove closure of algebraic integers under + and × and of algebraic numbers under +, ×, and nonzero inversion (#5390). They do not bundle the algebraic-number subfield or prove the proposition's final claim that it is an algebraic closure of ℚ; follow-up #7439.",
+    "fidelity_issue": 7439,
+    "followup_issue": 7439,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Proposition5.2.5",
@@ -4288,7 +4298,9 @@
     "end_line": 22,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_after_Proposition5.2.5",
@@ -4314,7 +4326,9 @@
     "end_line": 2,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Problem5.2.7",
@@ -4369,7 +4383,9 @@
     "end_line": 4,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Proposition5.3.2",
@@ -4381,7 +4397,9 @@
     "end_line": 8,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.3.1",
@@ -4465,7 +4483,9 @@
     "end_line": 16,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_after_Theorem5.4.3",
@@ -4491,7 +4511,9 @@
     "end_line": 22,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_before_Lemma5.4.5",
@@ -4517,7 +4539,9 @@
     "end_line": 2,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.4.4",
@@ -4544,7 +4568,9 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "notes": "All helper lemmas proved (character_isIntegral, scalar_contradicts_simplicity, nontrivial_irrep_dim_ge_two). Sorry-free since PRs #793, #801.",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Lemma5.4.7",
@@ -4556,7 +4582,9 @@
     "end_line": 14,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.4.6",
@@ -4696,7 +4724,9 @@
     "end_line": 16,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Introduction_5.8",
@@ -4722,7 +4752,9 @@
     "end_line": 6,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Remark5.8.2",
@@ -4835,6 +4867,7 @@
     "status": "sorry_free",
     "sorry_free": true,
     "fidelity": "verified",
+    "coverage": "covered_full",
     "last_updated": "2026-07-22"
   },
   {
@@ -6271,8 +6304,11 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "gap"
-    }
+      "result": "covered"
+    },
+    "coverage": "covered_full",
+    "coverage_note": "The four conjugacy-class types, their individual class counts, and the total q²−1 count are proved under the source's odd-characteristic hypothesis in GL2ConjugacyClassCount.lean (#5679).",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_5.25.2",
@@ -6299,7 +6335,9 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_1dim_reps",
@@ -6340,7 +6378,9 @@
     "end_line": 34,
     "status": "sorry_free",
     "fidelity": "verified",
-    "needs_statement": false
+    "needs_statement": false,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_principal_series_name",
@@ -6384,7 +6424,9 @@
     "aristotle_projects": {
       "innerProduct": "962da88d-5e9e-4e8a-a792-1550f1974c1c",
       "dimension": "bac04687-4c34-403d-a286-e4ff06f529e3"
-    }
+    },
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_complementary_series_summary",
@@ -6432,7 +6474,9 @@
     "start_line": 25,
     "end_line": 29,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Remark5.26.2",
@@ -6443,7 +6487,9 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.26.1",
@@ -6469,7 +6515,9 @@
     "end_line": 8,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Introduction_5.27",
