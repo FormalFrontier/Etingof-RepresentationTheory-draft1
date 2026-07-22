@@ -287,7 +287,10 @@
     "end_line": 23,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The public AlgHom abbreviation exactly records the source's linearity, multiplicativity, and unit-preservation conditions under the active unital-algebra convention.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Discussion_commutativity_examples",
@@ -314,7 +317,10 @@
     "end_line": 27,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The public LieRing and LieAlgebra structures record the skew-symmetric bilinear bracket and Jacobi identity in the definition.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Definition2.3.1",
@@ -1404,6 +1410,12 @@
     "start_line": 38,
     "end_line": 3,
     "status": "sorry_free",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "The routine tensor-product constructions are available, but the source's explicit claim that non-pure tensors exist has no public witness; follow-up #7467.",
+    "fidelity_issue": 7467,
+    "last_updated": "2026-07-22",
     "coverage_swept": {
       "wave": 1,
       "result": "trivial"
@@ -2250,12 +2262,12 @@
     "start_line": 11,
     "end_line": 2,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "sorry_free": true,
     "fidelity_decl": "Etingof.semisimple_algebra_equiv",
-    "fidelity_issue": 5371,
-    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified",
-    "coverage": "covered_full",
+    "fidelity_issue": 7468,
+    "fidelity_note": "The five main equivalent conditions were repaired in closed #5371. The source's zero-algebra footnote—semisimple but not simple, with only zero representations and an empty matrix-algebra sum—has no public endpoint; follow-up #7468.",
+    "coverage": "covered_partial",
     "last_updated": "2026-07-22"
   },
   {
@@ -2333,10 +2345,12 @@
     "start_line": 7,
     "end_line": 4,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "sorry_free": true,
     "notes": "Full theorem now exposed (#5328): jordan_holder_equivalent gives s₁.Equivalent s₂; jordan_holder_factors gives the permutation σ with Wᵢ ≅ W'_{σ i} via Etingof.compositionFactor; jordan_holder retains the n = m length half.",
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "fidelity_note": "The Jordan–Hölder theorem itself is complete. The characteristic-p footnote's concrete explanation—that the character of the p-fold sum pV vanishes for every V—has no public theorem; follow-up #7469.",
+    "fidelity_issue": 7469,
     "last_updated": "2026-07-22"
   },
   {
@@ -6174,7 +6188,7 @@
     "notes": "Both Proposition5_21_2_geometric and Proposition5_21_2_dimension proved (PR #1161).",
     "sorry_free": true,
     "coverage": "covered_partial",
-    "fidelity_note": "The dimension formula is exact. The geometric formula is exposed only for rational z with nonzero denominator factors, not as the source-level polynomial/rational-function identity or a complex/general-field specialization; follow-up #7458.",
+    "fidelity_note": "The dimension formula is exact. The geometric formula is exposed only for rational z with nonzero denominator factors, not for the source's complex-variable specialization; follow-up #7458. A rational-function or general-field formulation would be optional generalization.",
     "fidelity_issue": 7458,
     "last_updated": "2026-07-22"
   },
@@ -8213,7 +8227,12 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "Mathlib supplies the matrix-ring module-category equivalence, but the project exposes no combined witness that the equivalent module categories come from nonisomorphic rings; follow-up #7470.",
+    "fidelity_issue": 7470,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Discussion_after_Remark7.7.4",
