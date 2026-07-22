@@ -177,14 +177,19 @@ Check that the plan's assumptions still hold:
   rather than stacking your work on that branch (a stacked PR against `main`
   carries the other PR's commits and conflicts on merge).
 - **The "missing"/"partial" result may already exist — grep before implementing.**
-  Audit-derived feature issues (e.g. a Stage 3.7 reconciliation flagging a
-  `covered_partial` residual) describe the gap as of the audit, which can be
-  stale: the result may already be proved, often in a *more general* form and in
-  a *different, downstream* file than the issue names. Before writing any new
-  lemma, `grep -rn "<decl_name>\|<key phrase>"` across `EtingofRepresentationTheory/`
-  for an existing version — a name collision at build time is the expensive way to
-  discover this. If it already exists, the task is a tracking reconciliation
-  (flip `items.json`, repoint `lean_ref`, drop the residual issue), not new code.
+  Any issue that describes a gap — an audit reconciliation flagging a
+  `covered_partial` residual, *or* a feature issue asserting a result is "not in
+  Mathlib and not yet in this repo" — describes it as of when the issue was
+  written, which can be stale: a parallel agent may since have proved it, often in
+  a *more general* form and in a *different, downstream* file than the issue names
+  (e.g. #7315 asked to build reducible "characters determine the representation"
+  from scratch; `Etingof.charEq_iso` in `Chapter5/CharEqIso.lean` already had it).
+  Before writing any new lemma — *especially* general infrastructure an issue calls
+  missing — `grep -rn "<decl_name>\|<key phrase>"` across `EtingofRepresentationTheory/`
+  for an existing version; a name collision at build time is the expensive way to
+  discover this. If it already exists, reuse it: the task shrinks to a thin
+  bridge/assembly (or, for audits, a tracking reconciliation — flip `items.json`,
+  repoint `lean_ref`, drop the residual issue), not new infrastructure.
 
 If stale:
 ```
