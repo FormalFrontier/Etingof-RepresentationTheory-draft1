@@ -2369,7 +2369,42 @@
     "status": "sorry_free",
     "sorry_free": true,
     "fidelity": "verified",
-    "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_4.lean"
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter3/Problem3_9_4.lean"
+    ],
+    "coverage": "covered_partial",
+    "coverage_arm": "audited",
+    "coverage_note": "Coverage-arm audit (Stage 3.7, #7361): covered_partial. Problem3_9_4.lean (347 lines, sorry-free, axiom-clean [propext, Classical.choice, Quot.sound]). (a) isTrivial_of_ext1_subsingleton: genuine Ext1(V,V)=0 => every formal deformation is trivial (isomorphic to rho), with FormalDeformation / constDeformation / IsIsomorphic / IsTrivial all honestly constructed and Ext1 = the in-book Z1/B1. (b) is an open-ended book QUESTION (is the converse true? consider dual numbers k[x]/x^2), faithfully recorded as the proposition ConverseHolds / Problem3_9_4b but left unresolved, matching the book => covered_partial; no follow-up issue (the book asserts nothing to formalize as a theorem). Prior fidelity: verified.",
+    "last_updated": "2026-07-22",
+    "derived": [
+      {
+        "part": "(a) Ext1(V,V)=0 => deformations trivial",
+        "claim": "If Ext1(V,V)=0 then any formal deformation of rho is trivial, i.e. isomorphic to rho.",
+        "description": "Rigidity: vanishing of self-extensions forces every formal deformation to be trivial.",
+        "source_span": "blobs/Chapter3/Problem3.9.4.md (a)",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Problem3_9_4.FormalDeformation",
+          "Etingof.Problem3_9_4.constDeformation",
+          "Etingof.Problem3_9_4.IsIsomorphic",
+          "Etingof.Problem3_9_4.IsTrivial",
+          "Etingof.Problem3_9_4.isTrivial_of_ext1_subsingleton"
+        ],
+        "reason": "isTrivial_of_ext1_subsingleton (309): Subsingleton (Ext1 k A V V) -> for all D, IsTrivial D, i.e. Ext1(V,V)=0 => every formal deformation is isomorphic to the constant deformation. All data genuinely constructed: FormalDeformation (Cauchy-product multiplicativity rho_n(ab)=sum_{i+j=n} rho_i(a).rho_j(b)), constDeformation (real body: rho_0=rho, rho_n=0 for n>=1, obligation proved), IsIsomorphic (power series b(t)=1+b_1 t+... with b_0=id intertwining), IsTrivial. Ext1 reuses the in-book Problem3_9_1.Ext1 (Z1/B1), not Mathlib Ext. Trivialiser built order by order; the order-n obstruction is shown to be a 1-cocycle and killed by Ext1=0. Clean axioms."
+      },
+      {
+        "part": "(b) converse (open question)",
+        "claim": "Is the converse to (a) true (all deformations trivial => Ext1(V,V)=0)? Suggested test case: the dual numbers A=k[x]/x^2.",
+        "description": "Open-ended question in the book asking whether rigidity characterizes vanishing self-extensions.",
+        "source_span": "blobs/Chapter3/Problem3.9.4.md (b)",
+        "coverage": "covered_partial",
+        "lean_decl": [
+          "Etingof.Problem3_9_4.ConverseHolds",
+          "Etingof.Problem3_9_4.Problem3_9_4b"
+        ],
+        "reason": "The book poses (b) as an OPEN-ENDED QUESTION, not a claim to prove. The converse is faithfully STATED as the proposition ConverseHolds (335) = (for all D, IsTrivial D) -> Subsingleton (Ext1 ...), specialized to the dual numbers in Problem3_9_4b (342) per the book's hint. It is neither proved nor refuted (matching the book leaving it open), so the truth-value is not established => covered_partial, not covered_full. No follow-up issue: the book makes no assertion here, so the Lean statement is not weaker than a book claim; resolving the question would be new mathematics beyond formalization scope."
+      }
+    ]
   },
   {
     "id": "Chapter3/Problem3.9.5",
