@@ -3,6 +3,7 @@ import EtingofRepresentationTheory.Chapter4.Exercise4_2_3
 import EtingofRepresentationTheory.Chapter4.Example4_3_FiniteAbelianGroups
 import EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration
 import EtingofRepresentationTheory.Infrastructure.SimpleModuleCount
+import EtingofRepresentationTheory.Chapter5.CharEqIso
 
 /-!
 # Problem 4.12.6: representations of the affine group `x ↦ ax + b` over `𝔽_q`
@@ -1506,5 +1507,58 @@ theorem irreducible_classification [Fintype K] [DecidableEq K] (hK : 3 ≤ Finty
   rcases irreducible_dim σ hσ with hdim1 | hdimq
   · exact Or.inl (charRep_exists hK σ hσ hdim1)
   · exact Or.inr (Vrep_unique hK σ hσ hdimq)
+
+
+/-! ### The `V ⊗ V` decomposition as a genuine isomorphism
+
+We now upgrade `Vrep_tprod_Vrep_decomp_character` (a character identity) to an actual isomorphism
+of representations `V ⊗ V ≅ (⊕_χ charRep χ) ⊕ (q−2)·V`. Both sides are *reducible*, so the
+irreducible-only `equiv_of_character_eq` does not apply. The missing tool is the reducible form of
+"characters determine the representation over `ℂ`", which is exactly `Etingof.charEq_iso`
+(`Chapter5/CharEqIso.lean`): two finite-dimensional complex representations of a finite group with
+equal characters are isomorphic. We transport that `FDRep`-level statement to the
+`Representation.Equiv` level and feed it the character identity. -/
+
+/-- Transport a categorical isomorphism `FDRep.of ρ ≅ FDRep.of σ` to an isomorphism of the
+underlying representations. This is the reverse of `FDRep.of`: an iso in `FDRep ℂ G` forgets to an
+iso in `Rep ℂ G`, which under `Rep.toModuleMonoidAlgebra` is a `ℂ[G]`-linear equivalence of the
+`asModule`s, i.e. a `Representation.Equiv` (`equivOfAsModuleLinearEquiv`). -/
+noncomputable def repEquivOfFDRepIso {K : Type} [Field K]
+    {V W : Type} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
+    [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+    (ρ : Representation ℂ (Affine K) V) (σ : Representation ℂ (Affine K) W)
+    (α : FDRep.of ρ ≅ FDRep.of σ) : ρ.Equiv σ :=
+  equivOfAsModuleLinearEquiv ρ σ
+    (Rep.toModuleMonoidAlgebra.mapIso
+      ((forget₂ (FDRep ℂ (Affine K)) (Rep ℂ (Affine K))).mapIso α)).toLinearEquiv
+
+/-- **Characters determine the representation up to isomorphism (reducible case).**
+Over `ℂ`, two finite-dimensional (not necessarily irreducible) representations of the affine group
+with equal characters are isomorphic. This is the reducible upgrade of `equiv_of_character_eq`; it
+is a direct application of `Etingof.charEq_iso`, the general "equal characters imply isomorphism"
+keystone for finite groups over `ℂ`. -/
+theorem equiv_of_character_eq_reducible {K : Type} [Field K] [Finite (Affine K)]
+    {V W : Type} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
+    [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+    (ρ : Representation ℂ (Affine K) V) (σ : Representation ℂ (Affine K) W)
+    (h : ρ.character = σ.character) : Nonempty (ρ.Equiv σ) := by
+  have hchar : (FDRep.of ρ).character = (FDRep.of σ).character := h
+  obtain ⟨α⟩ := Etingof.charEq_iso (FDRep.of ρ) (FDRep.of σ) hchar
+  exact ⟨repEquivOfFDRepIso ρ σ α⟩
+
+/-- **`V ⊗ V ≅ (⊕_χ charRep χ) ⊕ (q−2)·V` as representations.** The isomorphism-level form of the
+`V ⊗ V` decomposition (`Vrep_tprod_Vrep_decomp_character` gave only the character identity). Both
+sides are reducible, so we assemble the character equality — `χ_{V⊗V} = χ_V² = (∑_χ χ) + (q−2)·χ_V
+= χ_{rhsRep}` (combining `Representation.char_tensor`, `Vrep_tprod_Vrep_decomp_character` and
+`rhsRep_character`) — with the reducible characters-determine-the-representation theorem
+`equiv_of_character_eq_reducible`. -/
+theorem Vrep_tprod_Vrep_equiv_rhsRep {K : Type} [Field K] [Fintype K] [DecidableEq K]
+    [Fintype (Affine K →* ℂˣ)] (hK : 3 ≤ Fintype.card K) :
+    Nonempty (((Vsub (K := K)).toRepresentation.tprod (Vsub (K := K)).toRepresentation).Equiv
+      (rhsRep (K := K))) := by
+  refine equiv_of_character_eq_reducible _ _ ?_
+  funext g
+  rw [Representation.char_tensor, Pi.mul_apply, rhsRep_character hK g,
+    ← Vrep_tprod_Vrep_decomp_character hK g, sq]
 
 end Etingof.Problem4_12_6
