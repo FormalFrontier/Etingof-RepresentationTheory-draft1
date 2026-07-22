@@ -5026,7 +5026,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "gap"
-    }
+    },
+    "coverage": "covered_partial",
+    "coverage_note": "The Z₂→S₃, trivial-Z₃→S₃, ε→S₃, and all three S₃→S₄ decompositions are public FDRep isomorphisms. The source also explicitly states Ind_{Z₃}^{S₃} ℂ_{ε²} ≅ ℂ², but no ε² representation or generic nontrivial-character induction theorem is exposed; follow-up #7449.",
+    "fidelity_issue": 7449,
+    "followup_issue": 7449,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Problem5.11.1",
@@ -8837,11 +8842,13 @@
     "start_line": 11,
     "end_line": 12,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "wave-3 gap #5664 (missing essential-epi condition) repaired via PR #5702: ProjectiveCover now bundles surjection_essential; wave-9 re-verified",
-    "coverage": "covered_full",
+    "fidelity_note": "PR #5702 repaired the ProjectiveCover structure by bundling an essential surjection. But Theorem_9_2_1_i never constructs that structure or even a public map Pᵢ → Mᵢ, so the definition's assertion that the classified Pᵢ are projective covers remains disconnected; follow-up #7447.",
+    "coverage": "covered_partial",
+    "fidelity_issue": 7447,
+    "followup_issue": 7447,
     "last_updated": "2026-07-22"
   },
   {
