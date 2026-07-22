@@ -1,5 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount
+import EtingofRepresentationTheory.Chapter5.IrrepCountConjClasses
 
 /-!
 # Discussion: all `q² − 1` irreducible representations of `GL₂(𝔽_q)` found
@@ -31,14 +32,11 @@ The argument counts completeness with three ingredients:
 
 3. **The irreducibles and classes agree.** Over an algebraically closed field of
    characteristic `0` (here `ℂ`), the number of isomorphism classes of irreducible
-   representations of a finite group equals the number of its conjugacy classes.
-   This is standard but is not packaged in Mathlib (there is
-   `FDRep.simple_iff_char_is_norm_one` and `FDRep.char_orthonormal`, but no
-   `#(irreducible FDRep ℂ G) = #(ConjClasses G)` theorem). We state the completeness
-   conclusion `constructed_irreps_complete` taking this single standard bridge as an
-   explicit hypothesis; proving the bridge unconditionally (dimension of the center of
-   `ℂ[G]` equals `#ConjClasses G` via the class-sum basis, together with
-   Wedderburn–Artin over `ℂ`) is tracked as follow-up work.
+   representations of a finite group equals the number of its conjugacy classes. This
+   `#irreps = #ConjClasses` identity is now **proved** in
+   `Etingof.card_irrep_eq_card_conjClasses` (dimension of the center of `ℂ[G]` equals
+   `#ConjClasses G` via the class-sum basis, together with Wedderburn–Artin over `ℂ`), so
+   the completeness conclusion no longer needs it as a hypothesis.
 
 Combining (1)–(3): the `q² − 1` constructed irreducibles are pairwise non-isomorphic
 and number exactly the conjugacy classes, hence exhaust the irreducibles.
@@ -50,9 +48,16 @@ and number exactly the conjugacy classes, hence exhaust the irreducibles.
   conjugacy classes of `GL₂(GaloisField p n)` is `q² − 1`, for odd `p` and `n ≠ 0`.
 * `constructedCount_eq_card_conjClasses` — the load-bearing **completeness-by-counting**
   core: the constructed total equals the number of conjugacy classes of `GL₂(𝔽_q)`.
-* `constructed_irreps_complete` — the completeness conclusion: modulo the standard
-  `#irreps = #ConjClasses` bridge (input as a hypothesis, since Mathlib lacks it), the
-  number of irreducible representations of `GL₂(𝔽_q)` is exactly the constructed total.
+* `constructed_irreps_complete` — the completeness conclusion, phrased with the
+  `#irreps = #ConjClasses` bridge as an explicit hypothesis (kept for the abstract
+  `numIrreps` interface).
+* `constructed_irreps_complete_unconditional` — the same conclusion **unconditionally**:
+  the bridge is discharged by `Etingof.card_irrep_eq_card_conjClasses`, giving a faithful
+  index type `Irrep` for the irreducible `ℂ`-representations of `GL₂(𝔽_q)` (carrying the
+  Wedderburn block decomposition of `ℂ[GL₂(𝔽_q)]`) whose cardinality is the constructed
+  total.
+* `card_irreps_eq_q_sq_sub_one` — the `q² − 1` closed form: the number of irreducible
+  `ℂ`-representations of `GL₂(𝔽_q)` is exactly `q² − 1`, unconditionally.
 -/
 
 namespace Etingof.GL2
@@ -147,6 +152,50 @@ theorem constructed_irreps_complete (numIrreps : ℕ)
       + Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) / 2
       + Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) / 2 :=
   bridge.trans (constructedCount_eq_card_conjClasses p n hp2 hn).symm
+
+/-- **Completeness of the constructed families (unconditional).** Etingof's payoff
+sentence "we have in fact found all irreducible representations of `GL₂(𝔽_q)`", now with
+no standing hypotheses.
+
+The `bridge` hypothesis of `constructed_irreps_complete` — that over `ℂ` the number of
+irreducible representations of `GL₂(𝔽_q)` equals its number of conjugacy classes — is
+discharged by the general character-theoretic counting identity
+`Etingof.card_irrep_eq_card_conjClasses`. That theorem supplies a faithful index type
+`Irrep` for the isomorphism classes of irreducible `ℂ`-representations of
+`GL₂(𝔽_q)`: `Irrep` carries a nonzero block-size family `d` and an algebra isomorphism
+`ℂ[GL₂(𝔽_q)] ≃ₐ[ℂ] Π j, Matrix (Fin (d j)) (Fin (d j)) ℂ`, so each `j : Irrep` names one
+Wedderburn matrix factor, i.e. one isomorphism class of irreducible representation.
+
+The conclusion is unconditional: for `q = pⁿ` with `p` odd and `n ≠ 0`, the number of
+isomorphism classes of irreducible `ℂ`-representations of `GL₂(𝔽_q)` is exactly the
+constructed total `(q − 1) + q(q−1)/2 + q(q−1)/2 = q² − 1`. Since the three constructed
+families are pairwise non-isomorphic and number exactly this total, they exhaust the
+irreducibles. -/
+theorem constructed_irreps_complete_unconditional (hp2 : p ≠ 2) (hn : n ≠ 0) :
+    ∃ (Irrep : Type) (_ : Fintype Irrep),
+      (∃ d : Irrep → ℕ, (∀ j, d j ≠ 0) ∧
+        Nonempty (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n))
+          ≃ₐ[ℂ] Π j, Matrix (Fin (d j)) (Fin (d j)) ℂ)) ∧
+      Nat.card Irrep = (Fintype.card (GaloisField p n) - 1)
+        + Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) / 2
+        + Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) / 2 := by
+  obtain ⟨Irrep, hFin, hcard, hdata⟩ :=
+    Etingof.card_irrep_eq_card_conjClasses
+      (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n))
+  exact ⟨Irrep, hFin, hdata,
+    constructed_irreps_complete p n (Nat.card Irrep) hcard hp2 hn⟩
+
+/-- **The number of irreducible `ℂ`-representations of `GL₂(𝔽_q)` is `q² − 1`
+(unconditional closed form).** For `q = pⁿ` with `p` odd and `n ≠ 0`, there is a faithful
+index type `Irrep` for the isomorphism classes of irreducible `ℂ`-representations of
+`GL₂(𝔽_q)` with `Nat.card Irrep = q² − 1`. This is the `q² − 1` restatement of
+`constructed_irreps_complete_unconditional`, folding the constructed total through
+`constructed_irrep_count`. -/
+theorem card_irreps_eq_q_sq_sub_one (hp2 : p ≠ 2) (hn : n ≠ 0) :
+    ∃ (Irrep : Type) (_ : Fintype Irrep),
+      Nat.card Irrep = Fintype.card (GaloisField p n) ^ 2 - 1 := by
+  obtain ⟨Irrep, hFin, _, hcard⟩ := constructed_irreps_complete_unconditional p n hp2 hn
+  exact ⟨Irrep, hFin, hcard.trans (constructed_irrep_count _ Fintype.card_pos)⟩
 
 end GaloisField
 
