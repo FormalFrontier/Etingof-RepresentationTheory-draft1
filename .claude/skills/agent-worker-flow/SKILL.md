@@ -176,6 +176,15 @@ Check that the plan's assumptions still hold:
   is blocked — `coordination skip` it with a "blocked on unmerged #N" reason
   rather than stacking your work on that branch (a stacked PR against `main`
   carries the other PR's commits and conflicts on merge).
+- **The "missing"/"partial" result may already exist — grep before implementing.**
+  Audit-derived feature issues (e.g. a Stage 3.7 reconciliation flagging a
+  `covered_partial` residual) describe the gap as of the audit, which can be
+  stale: the result may already be proved, often in a *more general* form and in
+  a *different, downstream* file than the issue names. Before writing any new
+  lemma, `grep -rn "<decl_name>\|<key phrase>"` across `EtingofRepresentationTheory/`
+  for an existing version — a name collision at build time is the expensive way to
+  discover this. If it already exists, the task is a tracking reconciliation
+  (flip `items.json`, repoint `lean_ref`, drop the residual issue), not new code.
 
 If stale:
 ```

@@ -236,7 +236,15 @@ theorem formalCharacter_algIrrepGLRep_of_shift_zero
 /-- **Irreducibility of `AlgIrrepGLRep`.** Over `ℂ`, with the weight fitting in the
 Schur-Weyl range (`∑ λ.toNatWeight ≤ n`), `AlgIrrepGLRep` is a simple
 `GL_n(ℂ)`-representation. Combines `schurModule_isSimple` with the character-twist
-invariance of simplicity. -/
+invariance of simplicity.
+
+This ℂ-only, degree-constrained form is retained for its existing call sites (see
+`AlgIrrepDualPairing.lean`). The fully general statement — simplicity of
+`algIrrepGLRepρ` for *every* dominant integer weight over *any* characteristic-zero
+algebraically closed field, with no `∑ λ.toNatWeight ≤ n` restriction — is
+`algIrrepGLRepρ_isSimpleModule` (`Theorem5_23_2_PeterWeyl.lean`), built from the
+degree-guard-free `schurModule_isSimple_general` via the same character-twist
+reduction. -/
 theorem algIrrepGLRep_isSimple (n : ℕ) (lam : DominantWeight n)
     (hN : (∑ i, lam.toNatWeight i) ≤ n) :
     IsSimpleModule (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin n) ℂ))
