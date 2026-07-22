@@ -16,26 +16,42 @@ isomorphism of representations End(V) → nV, given by x ↦ (xv₁, …, xvₙ)
 Given a k-basis b of V, the evaluation map f ↦ (f(b₀), …, f(bₙ₋₁)) is an A-linear
 bijection from End_k(V) to V^n. Since V is simple (hence semisimple), V^n is semisimple,
 and semisimplicity transfers along the equivalence.
+
+## Main statements
+
+* `Etingof.endEquivPiOfBasis` — the concrete `A`-linear equivalence
+  `Module.End k V ≃ₗ[A] (ι → V)` attached to a chosen basis `b`, evaluating an
+  endomorphism on the basis vectors. This is the explicit isomorphism `End(V) ≅ nV`
+  of the example (`f ↦ (f(b i))ᵢ`).
+* `Etingof.endEquivPi` — the same equivalence for the canonical finite basis,
+  `Module.End k V ≃ₗ[A] (Fin (finrank k V) → V)`.
+* `Etingof.endomorphism_semisimple` — `End_k(V)` is a semisimple `A`-module, obtained
+  by transporting semisimplicity of `nV` along `endEquivPi`.
 -/
 
 set_option autoImplicit false
 
+namespace Etingof
+
 section
 
-variable {k : Type*} {A : Type*} {V : Type*}
+variable {k : Type*} {A : Type*} {V : Type*} {ι : Type*}
     [Field k] [Ring A] [Algebra k A]
     [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
-    [FiniteDimensional k V] [IsSimpleModule A V]
 
-/-- The evaluation map sending f ∈ End_k(V) to (f(b₀), …, f(bₙ₋₁)) is A-linear. -/
-private noncomputable def evalMap (b : Module.Basis (Fin (Module.finrank k V)) k V) :
-    Module.End k V →ₗ[A] (Fin (Module.finrank k V) → V) where
+/-- The evaluation map sending `f ∈ End_k(V)` to `(f(b i))ᵢ` is `A`-linear.
+This is the map `x ↦ (xv₁, …, xvₙ)` of Etingof Example 3.1.2. -/
+noncomputable def evalMap (b : Module.Basis ι k V) :
+    Module.End k V →ₗ[A] (ι → V) where
   toFun f i := f (b i)
   map_add' f g := by ext i; simp
   map_smul' (a : A) f := by ext i; simp [LinearMap.smul_apply]
 
-omit [FiniteDimensional k V] [IsSimpleModule A V] in
-private theorem evalMap_bijective (b : Module.Basis (Fin (Module.finrank k V)) k V) :
+@[simp] theorem evalMap_apply (b : Module.Basis ι k V) (f : Module.End k V) (i : ι) :
+    evalMap (A := A) b f i = f (b i) := rfl
+
+set_option linter.unusedFintypeInType false in
+theorem evalMap_bijective [Fintype ι] (b : Module.Basis ι k V) :
     Function.Bijective (evalMap (A := A) b) := by
   constructor
   · intro f g h
@@ -44,16 +60,41 @@ private theorem evalMap_bijective (b : Module.Basis (Fin (Module.finrank k V)) k
     rw [← b.sum_repr v, map_sum, map_sum]
     exact Finset.sum_congr rfl fun i _ => by rw [map_smul, map_smul, hfg i]
   · intro g
-    exact ⟨b.constr k (fun i => g i), by ext i; simp [evalMap]⟩
+    refine ⟨b.constr k g, ?_⟩
+    ext i
+    rw [evalMap_apply]
+    exact b.constr_basis k g i
+
+/-- The `A`-linear isomorphism `End_k(V) ≃ (ι → V)` attached to a basis `b` indexed by a
+finite type `ι`, sending `f` to `(f(b i))ᵢ`. This is the explicit representation
+isomorphism `End(V) ≅ nV` of Etingof Example 3.1.2. -/
+noncomputable def endEquivPiOfBasis [Fintype ι] (b : Module.Basis ι k V) :
+    Module.End k V ≃ₗ[A] (ι → V) :=
+  LinearEquiv.ofBijective (evalMap b) (evalMap_bijective b)
+
+@[simp] theorem endEquivPiOfBasis_apply [Fintype ι] (b : Module.Basis ι k V)
+    (f : Module.End k V) (i : ι) : endEquivPiOfBasis (A := A) b f i = f (b i) := rfl
+
+/-- The `A`-linear isomorphism `End_k(V) ≃ (Fin (dim V) → V)` for the canonical finite
+basis of a finite-dimensional `V`: `End(V) ≅ nV` with `n = dim V`. -/
+noncomputable def endEquivPi [FiniteDimensional k V] :
+    Module.End k V ≃ₗ[A] (Fin (Module.finrank k V) → V) :=
+  endEquivPiOfBasis (Module.finBasis k V)
+
+@[simp] theorem endEquivPi_apply [FiniteDimensional k V] (f : Module.End k V)
+    (i : Fin (Module.finrank k V)) :
+    endEquivPi (A := A) f i = f (Module.finBasis k V i) := rfl
 
 end
 
 /-- End(V) with left multiplication by A is isomorphic to n copies of V as a representation,
-where n = dim V. Etingof Example 3.1.2. -/
-theorem Etingof.endomorphism_semisimple (k : Type*) (A : Type*) (V : Type*)
+where n = dim V; in particular it is semisimple. This is derived by transporting
+semisimplicity of `nV` along `endEquivPi`. Etingof Example 3.1.2. -/
+theorem endomorphism_semisimple (k : Type*) (A : Type*) (V : Type*)
     [Field k] [Ring A] [Algebra k A]
     [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
     [FiniteDimensional k V] [IsSimpleModule A V] :
     IsSemisimpleModule A (Module.End k V) :=
-  IsSemisimpleModule.congr
-    (LinearEquiv.ofBijective (evalMap (Module.finBasis k V)) (evalMap_bijective _))
+  IsSemisimpleModule.congr (endEquivPi (k := k) (A := A) (V := V))
+
+end Etingof

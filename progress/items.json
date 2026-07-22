@@ -1760,7 +1760,8 @@
     "coverage": "covered_full",
     "last_updated": "2026-07-22",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "notes": "Both conclusions of the example are now public. Etingof.endEquivPiOfBasis (and its finite-basis form Etingof.endEquivPi) is the explicit A-linear equivalence End_k(V) ≃ₗ[A] (ι → V), f ↦ (f(b i))ᵢ, with evaluation simp lemmas endEquivPiOfBasis_apply / endEquivPi_apply. Etingof.endomorphism_semisimple is now derived from endEquivPi rather than an inline bijection."
   },
   {
     "id": "Chapter3/Remark3.1.3",
