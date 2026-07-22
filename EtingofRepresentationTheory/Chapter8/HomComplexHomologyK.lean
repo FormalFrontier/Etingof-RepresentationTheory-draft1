@@ -1,4 +1,5 @@
 import EtingofRepresentationTheory.Chapter8.ExtCohomologyHomK
+import EtingofRepresentationTheory.Chapter8.IsoPrecompHomEquiv
 import Mathlib.CategoryTheory.Abelian.Projective.Extend
 import Mathlib.Algebra.Homology.HomotopyCategory.HomComplexSingle
 import Mathlib.Algebra.Homology.HomotopyCategory.HomComplexCohomology
@@ -48,23 +49,6 @@ namespace Etingof
 variable (k : Type u) [Field k]
 variable {A : Type u} [Ring A] [Algebra k A]
 variable {M : ModuleCat.{u} A} (N : ModuleCat.{u} A) (P : ProjectiveResolution M)
-
-/-- Precomposition with an isomorphism, as an additive equivalence of hom-groups. -/
-def isoPrecompHomEquiv {C : Type*} [Category C] [Preadditive C] {X X' Y : C} (α : X ≅ X') :
-    (X ⟶ Y) ≃+ (X' ⟶ Y) where
-  toFun f := α.inv ≫ f
-  invFun g := α.hom ≫ g
-  left_inv f := by simp
-  right_inv g := by simp
-  map_add' f g := by simp only [Preadditive.comp_add]
-
-@[simp] lemma isoPrecompHomEquiv_apply {C : Type*} [Category C] [Preadditive C]
-    {X X' Y : C} (α : X ≅ X') (f : X ⟶ Y) :
-    isoPrecompHomEquiv α f = α.inv ≫ f := rfl
-
-@[simp] lemma isoPrecompHomEquiv_symm_apply {C : Type*} [Category C] [Preadditive C]
-    {X X' Y : C} (α : X ≅ X') (g : X' ⟶ Y) :
-    (isoPrecompHomEquiv α).symm g = α.hom ≫ g := rfl
 
 /-- The `AddCommGrp`-valued `HomComplex` of the projective resolution into `N[0]`, whose degree-`n`
 homology underlies the derived-category `Ext`. -/
