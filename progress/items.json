@@ -7852,6 +7852,12 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "Mathlib has the enriched-category and enriched-composition infrastructure, but Chapter 7 exposes no source-shaped public endpoint; combined follow-up #7473.",
+    "fidelity_issue": 7473,
+    "last_updated": "2026-07-22",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -8049,7 +8055,12 @@
     "start_line": 5,
     "end_line": 6,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "The project exposes no definition of representability for a functor from an enriched category into its enriching category, despite Mathlib's eCoyoneda infrastructure; combined follow-up #7473.",
+    "fidelity_issue": 7473,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Example7.5.3",
