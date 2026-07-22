@@ -1205,6 +1205,98 @@ theorem charRep_tprod_Vrep_equiv_Vrep [Fintype K] [DecidableEq K]
   exact equiv_of_character_eq _ _ (funext fun g => charRep_tprod_Vrep_character_eq_Vrep hK χ g)
 
 
+/-! ### The explicit right-hand side model `(⊕_χ charRep χ) ⊕ (q−2)·V`
+
+We assemble a concrete representation isomorphic to the right-hand side of the `V ⊗ V`
+decomposition and compute its character. Combined with `Vrep_tprod_Vrep_decomp_character`, this
+reduces the isomorphism `V ⊗ V ≅ (⊕ all q−1 characters) ⊕ (q−2)·V` to the *reducible* form of
+"characters determine the representation" (the multiplicities agree, so the two sides are
+isomorphic). The two additivity lemmas `char_prod`/`char_directSum` are general facts about
+characters (the character of a product resp. finite direct sum of representations is the sum of
+the characters) that are missing from Mathlib. -/
+
+/-- **Character additivity for products.** The character of a product representation is the sum
+of the characters of the two factors. -/
+theorem char_prod {V W : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
+    [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+    (ρ : Representation ℂ (Affine K) V) (σ : Representation ℂ (Affine K) W) (g : Affine K) :
+    (ρ.prod σ).character g = ρ.character g + σ.character g := by
+  change LinearMap.trace ℂ (V × W) ((ρ.prod σ) g) = _
+  exact LinearMap.trace_prodMap' (ρ g) (σ g)
+
+/-- **Character additivity for finite direct sums.** The character of a finite direct sum of
+representations is the sum of the characters of the summands. -/
+theorem char_directSum {ι : Type*} [Fintype ι]
+    {V : ι → Type*} [∀ i, AddCommGroup (V i)] [∀ i, Module ℂ (V i)]
+    [∀ i, FiniteDimensional ℂ (V i)]
+    (ρ : ∀ i, Representation ℂ (Affine K) (V i)) (g : Affine K) :
+    (Representation.directSum ρ).character g = ∑ i, (ρ i).character g := by
+  classical
+  simp only [Representation.character]
+  have hg : (Representation.directSum ρ) g = DirectSum.lmap (fun i => ρ i g) := rfl
+  rw [hg]
+  have hf : DirectSum.lmap (fun i => ρ i g)
+      = ∑ i, (DirectSum.lof ℂ ι V i) ∘ₗ (ρ i g) ∘ₗ (DirectSum.component ℂ ι V i) := by
+    ext i x
+    simp only [DirectSum.lmap_lof, LinearMap.sum_apply, LinearMap.comp_apply]
+    rw [Finset.sum_eq_single i]
+    · simp [DirectSum.component.lof_self]
+    · intro j _ hji
+      simp [DirectSum.component.of, Ne.symm hji]
+    · simp
+  rw [hf, map_sum]
+  refine Finset.sum_congr rfl (fun i _ => ?_)
+  rw [LinearMap.trace_comp_comm', LinearMap.comp_assoc,
+    DirectSum.component_comp_lof_same, LinearMap.comp_id]
+
+/-- The `Representation`-level character of the one-dimensional `charRep χ` is `g ↦ χ g`
+(compare `charRep_character`, which is stated for `FDRep.of (charRep χ)`). -/
+lemma charRep_character' (χ : Affine K →* ℂˣ) (g : Affine K) :
+    (charRep χ).character g = (χ g : ℂ) := by
+  have hg : charRep χ g = (χ g : ℂ) • LinearMap.id := rfl
+  change LinearMap.trace ℂ ℂ (charRep χ g) = _
+  rw [hg, map_smul, LinearMap.trace_id]
+  simp
+
+/-- The direct sum `⊕_χ charRep χ` of all `q−1` one-dimensional characters. -/
+noncomputable def charSumRep [Fintype (Affine K →* ℂˣ)] :
+    Representation ℂ (Affine K) (DirectSum (Affine K →* ℂˣ) (fun _ => ℂ)) :=
+  Representation.directSum (fun χ => charRep χ)
+
+/-- The direct sum of `q−2` copies of the `(q−1)`-dimensional irreducible `V`. -/
+noncomputable def VcopiesRep [Fintype K] :
+    Representation ℂ (Affine K) (DirectSum (Fin (Fintype.card K - 2)) (fun _ => (zeroSum K))) :=
+  Representation.directSum (fun _ => (Vsub (K := K)).toRepresentation)
+
+/-- **The explicit right-hand side model** `(⊕_χ charRep χ) ⊕ (q−2)·V`: the direct sum of the
+`q−1` one-dimensional characters together with `q−2` copies of the `(q−1)`-dimensional
+irreducible `V`. This is the concrete representation appearing on the right of the `V ⊗ V`
+decomposition. -/
+noncomputable def rhsRep [Fintype K] [Fintype (Affine K →* ℂˣ)] :
+    Representation ℂ (Affine K)
+      ((DirectSum (Affine K →* ℂˣ) (fun _ => ℂ)) ×
+        (DirectSum (Fin (Fintype.card K - 2)) (fun _ => (zeroSum K)))) :=
+  (charSumRep (K := K)).prod (VcopiesRep (K := K))
+
+/-- **Character of the right-hand side model.** The character of `(⊕_χ charRep χ) ⊕ (q−2)·V`
+is `(∑_χ χ(g)) + (q−2)·χ_V(g)`, matching exactly the right-hand side of
+`Vrep_tprod_Vrep_decomp_character`. -/
+theorem rhsRep_character [Fintype K] [Fintype (Affine K →* ℂˣ)]
+    (hK : 3 ≤ Fintype.card K) (g : Affine K) :
+    (rhsRep (K := K)).character g
+      = (∑ χ : Affine K →* ℂˣ, (χ g : ℂ))
+        + ((Fintype.card K : ℂ) - 2) * (Vsub (K := K)).toRepresentation.character g := by
+  rw [rhsRep, char_prod]
+  simp only [charSumRep, VcopiesRep]
+  rw [char_directSum, char_directSum]
+  congr 1
+  · exact Finset.sum_congr rfl (fun χ _ => charRep_character' χ g)
+  · rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul,
+      Nat.cast_sub (by omega)]
+    push_cast
+    ring
+
+
 /-! ### Classification up to isomorphism: uniqueness of the irreducibles
 
 The classification (`irreducible_dim`) shows every irreducible has dimension `1` or `q-1`. We now

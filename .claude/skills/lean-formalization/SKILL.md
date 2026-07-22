@@ -299,6 +299,13 @@ finite `∑` over `Finset.univ`/`Fintype` of the fiber with per-summand `ι`/`π
 `CategoryTheory.op_sum`. Beware `Functor.map_id`/`map_sum` name-clash with Lean's monad `Functor`: use
 `CategoryTheory.Functor.map_id`.
 
+**`⨁` notation clash under `open CategoryTheory`.** In a file with `open CategoryTheory` (common in
+Chapter 4 files using `FDRep`/`Simple`), the `⨁` big-operator resolves to the *categorical biproduct*,
+not `DirectSum` — writing `⨁ (_ : ι), M` for a `DirectSum` then fails with a baffling
+`failed to synthesize Category ι`. Fix: write the type explicitly as `DirectSum ι (fun _ => M)`
+(or `open DirectSum` after the section). `Representation.directSum`/`.prod` and the
+character-additivity lemmas `char_prod`/`char_directSum` (Problem 4.12.6) are the usual companions.
+
 **Distinct-but-defeq local `Module k` instances break `rw`/`simp` on imported lemmas — use `erw`
 or a `rfl`-restatement.** This file's own `instModuleK`/`instModuleKObj` and `ExternalTensorFunctor`'s
 *private* `restrictModule₁` are all `Module.compHom X (algebraMap k Bᵐᵒᵖ)` — defeq but **syntactically
