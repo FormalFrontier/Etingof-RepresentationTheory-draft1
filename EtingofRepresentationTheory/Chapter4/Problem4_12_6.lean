@@ -897,4 +897,126 @@ theorem Vrep_tprod_Vrep_character [Fintype K] (g : Affine K) :
       = ((Vsub (K := K)).toRepresentation.character g) ^ 2 := by
   rw [Representation.char_tensor, Pi.mul_apply, sq]
 
+/-! ### Column orthogonality and the explicit `V ⊗ V` decomposition
+
+The finer, isomorphism-level tensor decompositions
+(`χ ⊗ V ≅ V` and `V ⊗ V ≅ (⊕ all q−1 characters) ⊕ (q−2)·V`) reduce, via character
+orthogonality, to the **column orthogonality** of the character group of `G`:
+
+`∑_{χ : G →* ℂˣ} χ(g) = if g.a = 1 then q−1 else 0`.
+
+Every character factors through the abelianization `G^{ab} ≅ Kˣ` (each translation `⟨1,c⟩` is
+a commutator, so it is killed), so the sum is `q−1` when `g` is a translation (`g.a = 1`,
+all `q−1` characters send `g` to `1`) and `0` otherwise (a character separating `g.a ≠ 1`
+exists because `ℂ` has enough roots of unity, and left-translation of the dual group forces
+the sum to vanish). From this we obtain the character identity behind
+`V ⊗ V ≅ (⊕ characters) ⊕ (q−2)·V`. -/
+
+/-- Every one-dimensional character `φ : G →* ℂˣ` kills the translations `⟨1, c⟩`: each is a
+commutator `⟨1, (a−1)c'⟩ = [⟨a,0⟩, ⟨1,c'⟩]`, and `ℂˣ` is abelian. The hypothesis `3 ≤ q`
+provides a unit `a ≠ 1`. (This is the `htrans` step of `one_dim_reps_card`, extracted for reuse.) -/
+theorem char_translation_eq_one [Fintype K] (hK : 3 ≤ Fintype.card K)
+    (φ : Affine K →* ℂˣ) (c : K) : φ (⟨1, c⟩ : Affine K) = 1 := by
+  classical
+  have key : ∀ u v : ℂˣ, u * v * u⁻¹ * v⁻¹ = 1 := fun u v => by
+    rw [mul_comm u v]; group
+  have hcard : 2 ≤ Fintype.card Kˣ := by rw [Fintype.card_units]; omega
+  have : Nontrivial Kˣ := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
+  obtain ⟨a₀, ha₀⟩ := exists_ne (1 : Kˣ)
+  have hu : ((a₀ : K) - 1) ≠ 0 := sub_ne_zero.mpr fun h => ha₀ (Units.ext h)
+  have hkey : ∀ (a : Kˣ) (c' : K), φ (⟨1, (a : K) * c' - c'⟩ : Affine K) = 1 := by
+    intro a c'
+    have ha : (a : K) ≠ 0 := Units.ne_zero a
+    have hcomm : (⟨1, (a : K) * c' - c'⟩ : Affine K) =
+        ⟨a, 0⟩ * ⟨1, c'⟩ * ⟨a, 0⟩⁻¹ * ⟨1, c'⟩⁻¹ := by
+      ext
+      · simp
+      · simp only [mul_b, mul_a, inv_a, inv_b, Units.val_mul,
+          Units.val_inv_eq_inv_val, Units.val_one, inv_one, mul_zero, add_zero, mul_one,
+          mul_neg, one_mul]
+        field_simp
+        ring
+    rw [hcomm]
+    simp only [map_mul, map_inv]
+    exact key _ _
+  have h := hkey a₀ (((a₀ : K) - 1)⁻¹ * c)
+  have hval : (a₀ : K) * (((a₀ : K) - 1)⁻¹ * c) - ((a₀ : K) - 1)⁻¹ * c = c := by
+    field_simp
+  rwa [hval] at h
+
+/-- The projection `G → Kˣ`, `⟨a, b⟩ ↦ a`, onto the abelianization `G^{ab} ≅ Kˣ`. -/
+def projUnits : Affine K →* Kˣ where
+  toFun g := g.a
+  map_one' := rfl
+  map_mul' _ _ := rfl
+
+@[simp] lemma projUnits_apply (g : Affine K) : projUnits g = g.a := rfl
+
+/-- **Column orthogonality for the character group of `G`.** The sum over all `q − 1`
+one-dimensional characters `χ : G →* ℂˣ` of `χ(g)` is `q − 1` when `g` is a translation
+(`g.a = 1`) and `0` otherwise. -/
+theorem sum_char_affine [Fintype K] [DecidableEq K] [Fintype (Affine K →* ℂˣ)]
+    (hK : 3 ≤ Fintype.card K) (g : Affine K) :
+    ∑ χ : Affine K →* ℂˣ, (χ g : ℂ)
+      = if g.a = 1 then ((Fintype.card K : ℂ) - 1) else 0 := by
+  classical
+  by_cases hga : g.a = 1
+  · -- `g = ⟨1, g.b⟩` is a translation, killed by every character.
+    rw [if_pos hga]
+    have hval : ∀ χ : Affine K →* ℂˣ, (χ g : ℂ) = 1 := by
+      intro χ
+      have hg : g = (⟨1, g.b⟩ : Affine K) := by ext <;> simp [hga]
+      rw [hg, char_translation_eq_one hK χ g.b, Units.val_one]
+    rw [Finset.sum_congr rfl (fun χ _ => hval χ), Finset.sum_const, Finset.card_univ,
+      nsmul_eq_mul, mul_one]
+    have hcnt : Fintype.card (Affine K →* ℂˣ) = Fintype.card K - 1 := by
+      rw [← Nat.card_eq_fintype_card]; exact one_dim_reps_card hK
+    rw [hcnt, Nat.cast_sub (by omega), Nat.cast_one]
+  · -- `g.a ≠ 1`: a separating character forces the sum to vanish.
+    rw [if_neg hga]
+    haveI : NeZero ((Monoid.exponent Kˣ : ℕ) : ℂ) :=
+      ⟨by exact_mod_cast Monoid.exponent_ne_zero_of_finite⟩
+    obtain ⟨ψ₀, hψ₀⟩ :=
+      CommGroup.exists_apply_ne_one_of_hasEnoughRootsOfUnity Kˣ ℂ (show g.a ≠ 1 from hga)
+    set χ₀ : Affine K →* ℂˣ := ψ₀.comp projUnits with hχ₀
+    have hχ₀g : χ₀ g = ψ₀ g.a := rfl
+    have hne1 : (χ₀ g : ℂ) ≠ 1 := by
+      intro h
+      exact hψ₀ (Units.ext (by rw [Units.val_one, ← hχ₀g]; exact h))
+    -- `χ₀(g) · S = ∑_χ (χ₀·χ)(g) = S` by reindexing the dual group, and `χ₀(g) ≠ 1`.
+    refine eq_zero_of_mul_eq_self_left hne1 ?_
+    rw [Finset.mul_sum]
+    have hstep : ∀ χ : Affine K →* ℂˣ, (χ₀ g : ℂ) * (χ g : ℂ) = ((χ₀ * χ) g : ℂ) := by
+      intro χ; rw [MonoidHom.mul_apply, Units.val_mul]
+    simp_rw [hstep]
+    exact Fintype.sum_bijective (fun χ => χ₀ * χ) (Group.mulLeft_bijective χ₀) _ _ (fun χ => rfl)
+
+/-- **The `V ⊗ V` decomposition, at the level of characters.** The character identity
+`χ_V(g)² = (∑_χ χ(g)) + (q−2)·χ_V(g)` holds, where the sum runs over all `q−1` one-dimensional
+characters. This is the character-level content of the decomposition
+`V ⊗ V ≅ (⊕ all q−1 one-dimensional characters) ⊕ (q−2)·V`: the multiplicity of each character
+`χ` in `V ⊗ V` is `1` and the multiplicity of `V` is `q−2`. -/
+theorem Vrep_tprod_Vrep_decomp_character [Fintype K]
+    [Fintype (Affine K →* ℂˣ)] (hK : 3 ≤ Fintype.card K) (g : Affine K) :
+    ((Vsub (K := K)).toRepresentation.character g) ^ 2
+      = (∑ χ : Affine K →* ℂˣ, (χ g : ℂ))
+        + ((Fintype.card K : ℂ) - 2) * (Vsub (K := K)).toRepresentation.character g := by
+  classical
+  rw [Vrep_character g, sum_char_affine hK]
+  by_cases hga : g.a = 1
+  · rw [if_pos hga]
+    by_cases hgb : g.b = 0
+    · -- `g = 1`: `(q−1)² = (q−1) + (q−2)(q−1)`.
+      have hg1 : g = 1 := by ext <;> simp [hga, hgb]
+      rw [hg1, affineFixCard_one]
+      ring
+    · -- nontrivial translation: `(−1)² = (q−1) + (q−2)(−1)`.
+      have hfix : affineFixCard g = 0 := by
+        have hg : g = (⟨1, g.b⟩ : Affine K) := by ext <;> simp [hga]
+        rw [hg]; exact affineFixCard_translation hgb
+      rw [hfix]; push_cast; ring
+  · -- `g.a ≠ 1`: `0² = 0 + (q−2)·0`.
+    rw [if_neg hga, affineFixCard_of_ne_one hga]
+    push_cast; ring
+
 end Etingof.Problem4_12_6
