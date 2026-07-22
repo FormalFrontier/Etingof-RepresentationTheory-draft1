@@ -386,6 +386,14 @@ passed" from a poller returning exit 0.
   the shared dep oleans back to the old version, re-corrupting your build in a loop.
   Check `pgrep -fl 'v4.28'` (the old version); if a `lake`/`lean` from an obsolete
   worktree is running, terminate that specific PID (targeted, not `pkill`).
+- **Never run two `lake build` invocations against the same worktree at once.** The
+  harness auto-backgrounds slow builds, so re-issuing `lake build` (or launching an
+  aggregate build while a single-file one is in flight) stacks concurrent lake
+  instances that race on the shared build dir and lock, yielding **spurious `build
+  failed` / `✖` for modules you never touched**. Symptom: a sibling file "fails" in
+  the aggregate build but compiles fine standalone. Fix: wait for the running build
+  (`while pgrep -x lake >/dev/null; do sleep 5; done`) before starting another, and
+  trust the single-file result — a module that builds in isolation is not broken.
 
 **A prerequisite the issue says "landed" may still be in an unmerged PR, not `main`.** In parallel
 formalization, issues are often written against a dependency that is only *open as a PR* (its file
