@@ -462,7 +462,9 @@
     "end_line": 13,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Corollary2.3.10",
@@ -474,7 +476,9 @@
     "end_line": 16,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Remark2.3.11",
@@ -516,7 +520,9 @@
     "end_line": 21,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Remark2.3.13",
@@ -780,7 +786,8 @@
     "fidelity": "verified",
     "fidelity_note": "verified (wave-3); was stale unsure, fixed by PR #5607",
     "fidelity_issue": 5592,
-    "last_updated": "2026-06-29"
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Definition2.7.3",
@@ -805,8 +812,13 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "covered"
-    }
+      "result": "gap"
+    },
+    "coverage": "covered_partial",
+    "coverage_note": "The characteristic-zero faithfulness of polyRep and characteristic-free faithfulness of repE are proved. The source's characteristic-p contrast—(d/dt)^p=0 on k[t], hence polyRep is not faithful—is present only in documentation; follow-up #7442.",
+    "fidelity_issue": 7442,
+    "followup_issue": 7442,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Problem2.7.4",
@@ -1508,7 +1520,9 @@
     "end_line": 16,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Discussion_2.13_heading",
@@ -1564,7 +1578,9 @@
     "sorry_free": true,
     "fidelity_decl": "Etingof.LieTensorProduct (abbrev) := TensorProduct k V W; Etingof.LieTensorProduct.lie_tmul",
     "fidelity_issue": 5355,
-    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified"
+    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Definition2.14.2",
@@ -1579,7 +1595,9 @@
     "sorry_free": true,
     "fidelity_decl": "Etingof.LieDualRepresentation (abbrev) := Module.Dual k V, with contragredient LieRingModule/LieModule structure (Mathlib.Algebra.Lie.Basic) and characterizing lemma lieDualRepresentation_lie_apply : ⁅x,f⁆ v = -f ⁅x,v⁆",
     "fidelity_issue": 5356,
-    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified"
+    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Problem2.14.3",
@@ -1757,10 +1775,13 @@
     "start_line": 11,
     "end_line": 12,
     "status": "sorry_free",
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
     "last_updated": "2026-07-22",
-    "fidelity": "verified",
-    "sorry_free": true
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage_note": "The public theorem proves semisimplicity, but the source's explicit A-linear isomorphism End_k(V) ≃ (dim V)·V is available only through private helper declarations and is not exposed; follow-up #7441.",
+    "fidelity_issue": 7441,
+    "followup_issue": 7441
   },
   {
     "id": "Chapter3/Remark3.1.3",
@@ -1908,7 +1929,9 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "notes": "Both parts proved. Part (i) uses Jacobson density theorem for simple modules. Part (ii) applies density theorem to the product module via Schur's lemma decomposition.",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Introduction_to_3.3",
@@ -2166,7 +2189,9 @@
     "end_line": 4,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Example3.5.6",
@@ -2259,7 +2284,9 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "notes": "All parts proved sorry-free: (i) linear independence of characters, (ii) characters span tracial functionals for semisimple algebras. Helper lemmas tracial_of_end_eq_scalar_trace and rep_map_injective_of_semisimple also proved.",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Introduction_to_3.7",
@@ -2286,7 +2313,9 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "notes": "Full theorem now exposed (#5328): jordan_holder_equivalent gives s₁.Equivalent s₂; jordan_holder_factors gives the permutation σ with Wᵢ ≅ W'_{σ i} via Etingof.compositionFactor; jordan_holder retains the n = m length half."
+    "notes": "Full theorem now exposed (#5328): jordan_holder_equivalent gives s₁.Equivalent s₂; jordan_holder_factors gives the permutation σ with Wᵢ ≅ W'_{σ i} via Etingof.compositionFactor; jordan_holder retains the n = m length half.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Discussion_after_Theorem3.7.1",
@@ -2302,7 +2331,9 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Introduction_to_3.8",
