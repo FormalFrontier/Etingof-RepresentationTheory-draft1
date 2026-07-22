@@ -927,6 +927,10 @@
     "start_line": 17,
     "end_line": 4,
     "status": "sorry_free",
+    "coverage": "covered_partial",
+    "coverage_note": "The two constructions and the module-side equivalence are present. The representation-side round trip is only a QuiverRepresentationHom, not an isomorphism, and no bijection on isomorphism classes is exposed; reopened #5224.",
+    "fidelity_issue": 5224,
+    "last_updated": "2026-07-22",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -4631,11 +4635,13 @@
     "start_line": 7,
     "end_line": 34,
     "status": "sorry_free",
+    "coverage": "covered_partial",
     "fidelity": "faithful",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[fidelity RESOLVED #7187] Restated in the book's direction: Etingof.Theorem5_10_1 now asserts Hom_G(V, Ind_H^G W) ≃ₗ[k] Hom_H(Res_H^G V, W) via Mathlib's Rep.resCoindHomEquiv, with Ind_H^G W = Rep.coind H.subtype W the function-space (coinduced) representation and right adjoint of restriction (Res ⊣ Coind). Arrows now match the book: V ⟶ coind W of G-reps ↔ res V ⟶ W of H-reps. Builds sorry-free; #print axioms: propext/Classical.choice/Quot.sound only (no sorryAx). Previously stated the reversed left-adjoint tensor-induction form Hom_G(Ind W, V) ≅ Hom_H(W, Res V).",
-    "fidelity_issue": 5621
+    "fidelity_note": "The Hom-space equivalence is in the book's orientation and axiom-clean, resolving #7187. The source calls it natural, but the public result remains Nonempty of a pointwise linear equivalence rather than an Adjunction or natural Hom-bifunctor isomorphism; reopened #647.",
+    "fidelity_issue": 647,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Problem5.10.2",
@@ -5473,11 +5479,15 @@
     "start_line": 21,
     "end_line": 2,
     "status": "sorry_free",
+    "coverage": "covered_partial",
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "Part (i) proved via Jacobson density theorem. Parts (ii) and (iii) still sorry.",
+    "notes": "All current declarations are sorry-free. Part (iii)'s decomposition is only k-linear, not A⊗B-equivariant (#2489), and the advertised exhaustive bijection between simple A- and B-module classes is absent (#7413).",
     "sorry_free": true,
-    "fidelity_note": "verified; wave-4 Codex false-alarm was a narrow-pointer artifact (double-centralizer/semisimplicity are sibling decls)"
+    "fidelity_note": "The double-centralizer/semisimplicity core is genuine, but the source's structured decomposition and exhaustive simple-module correspondence remain partial.",
+    "fidelity_issue": 2489,
+    "followup_issue": 7413,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_before_Theorem5.18.2",
@@ -8556,7 +8566,10 @@
     "start_line": 7,
     "end_line": 12,
     "status": "sorry_free",
-    "coverage_note": "Statement pass (#5906): EtingofRepresentationTheory/Chapter9/Problem9_5_3.lean. Part (i) bijection blocks ↔ indecomposable central idempotents; part (ii) Hom-orthogonality across blocks and every indecomposable lies in a block. Part (iii) (k[S₃], char 2) now present as a statement pass (#6811): EtingofRepresentationTheory/Chapter9/Problem9_5_3_S3Char2.lean builds the trivial and standard simple k[S₃]-modules genuinely (no sorry in any def) over an arbitrary field of char 2 — trivRepr, permRepr, stdSubr (sum-zero subrep), stdRepr, and their ModuleCat (k[S₃]) incarnations trivMod/stdMod — and states the five classification results. Four are now proved sorry-free: trivMod/stdMod simple (#6858), trivMod and stdMod not AreLinked + block_card_eq_two (#6874), and exactly-two-simples simple_iff_triv_or_std (#6859) — every simple k[S₃]-module (char 2, any field) is ≅ trivMod or stdMod, via the central idempotent e=(123)+(132) acting as 0 or id (Schur), then building a nonzero S₃-intertwiner from a tsw-fixed vector and invoking Schur again. Only algebra_decomposition (k[S₃] ≅ M₂(k) × k[t]/(t²)) remains sorry. Follow-up: discharge the algebra iso via the two central idempotents. Faithful statements, sorry proofs. Central-character engine for part (i) proved sorry-free (#6596): centralCharacter (Bool indicator of whether a central idempotent acts as identity on a simple module) with centralCharacter_eq_true_iff/_eq_false_iff, and centralCharacter_eq_of_areLinked (linkage invariance) via mk₀_smul_id_comp — ModuleCat R is linear over the commutative center of R, so a central scalar acts identically through either Ext variable, forcing agreement of characters across an Ext-adjacency. The blocks_equiv_indecomposableCentralIdempotents bijection itself remains sorry."
+    "coverage": "covered_partial",
+    "coverage_note": "The block/idempotent indexing equivalence and cross-block orthogonality are proved. Part (i) still erases which idempotent belongs to a block and does not characterize the block's modules by idempotent support or package the supported module category; follow-up #7414. Part (iii)'s separate S3 characteristic-2 development has its own coverage record.",
+    "fidelity_issue": 7414,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter9/Introduction_9.6",
