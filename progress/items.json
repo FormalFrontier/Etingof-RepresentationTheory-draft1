@@ -3137,7 +3137,77 @@
     "status": "sorry_free",
     "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_2.lean: Heisenberg group over 𝔽_p (order p³). COMPLETE and sorry-free (#print axioms irreducible_dim = {propext, Classical.choice, Quot.sound}). Part (a) (#6017): card_eq (|G|=p³) and exists_unique_rep — R_z built explicitly as ρ⟨a,b,c⟩f(t)=z^(b·t-c)·f(t-a), uniqueness via generator word decomposition (xGen,yGen generate G). Part (b) (#6037): irreducible_iff — R_z simple ↔ z≠1. Part (c) (#6070): one_dim_reps_card (Nat.card (Heisenberg p →* ℂˣ) = p²) via abHom + CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity; R1_decomposes (R₁ = internal direct sum of p one-dim lines) via DFT characters as shift-eigenvectors. Part (d) (#6094, #7211): full classification simple_iso_charRep_or_rhoHom (every finite-dim simple G-rep ≅ either FDRep.of (charRep χ), dim 1, or FDRep.of (rhoHom z), z≠1, dim p) — exhibit the p² characters and the p-1 reps R_z (z≠1 a p-th root) as pairwise non-isomorphic simples (separated by dimension and by the central character z^{(-1).val}·p on ⟨0,0,1⟩ via FDRep.char_iso), squared dims summing to p²·1+(p-1)·p²=p³=|G|; inject the family into the complete enumeration exists_simples_sum_finrank_sq_eq_card, use positivity of every dim² to force surjectivity (pigeonhole), hence every simple ≅ one of the family. Uniqueness within branches: charRep_iso_iff (characters iso ↔ equal), rhoHom_iso_iff (R_z iso ↔ roots agree); branches disjoint by charRep_not_iso_rhoHom (dim 1≠p). irreducible_dim (every irreducible has dim 1 or p) now derived from the classification: σ transported to ℂ's universe via transportModule/repOfModule to U:FDRep, then read off dim of the matching family member. All five headlines axiom-clean {propext, Classical.choice, Quot.sound}.",
     "fidelity": "faithful",
-    "fidelity_note": "[fidelity gap #7204 → RESOLVED by #7211/#7218] Parts (a)-(c) FAITHFUL & non-vacuous as headlines: group model is genuine order-p^3 Heisenberg group with correct generator matrices; exists_unique_rep is a real ∃! with the book's two generator actions; irreducible_iff is genuine IsSimpleModule over ℂ[G] with two-directional ↔ z≠1; one_dim_reps_card (p^2 chars) + R1_decomposes (internal direct sum of p distinct 1-dim isotypic lines, Injective χ = 'each once'). Part (d) gap CLOSED: the full part-(d) classification (exactly p^2 irreps of dim 1 and p-1 of dim p, p^2·1+(p-1)·p^2=p^3=|G| via sum-of-squares), previously proved only inside irreducible_dim, is now exposed as the named headline simple_iso_charRep_or_rhoHom (#7211). Original report: progress/reviews/2026-07-21-ch4-problem4_12_2-heisenberg-fidelity.md. All headlines axiom-clean (propext/Classical.choice/Quot.sound, no sorryAx)."
+    "fidelity_note": "[fidelity gap #7204 → RESOLVED by #7211/#7218] Parts (a)-(c) FAITHFUL & non-vacuous as headlines: group model is genuine order-p^3 Heisenberg group with correct generator matrices; exists_unique_rep is a real ∃! with the book's two generator actions; irreducible_iff is genuine IsSimpleModule over ℂ[G] with two-directional ↔ z≠1; one_dim_reps_card (p^2 chars) + R1_decomposes (internal direct sum of p distinct 1-dim isotypic lines, Injective χ = 'each once'). Part (d) gap CLOSED: the full part-(d) classification (exactly p^2 irreps of dim 1 and p-1 of dim p, p^2·1+(p-1)·p^2=p^3=|G| via sum-of-squares), previously proved only inside irreducible_dim, is now exposed as the named headline simple_iso_charRep_or_rhoHom (#7211). Original report: progress/reviews/2026-07-21-ch4-problem4_12_2-heisenberg-fidelity.md. All headlines axiom-clean (propext/Classical.choice/Quot.sound, no sorryAx).",
+    "coverage": "covered_partial",
+    "coverage_arm": "audited",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter4/Problem4_12_2.lean"
+    ],
+    "fidelity_decl": [
+      "Etingof.Problem4_12_2.exists_unique_rep",
+      "Etingof.Problem4_12_2.irreducible_iff",
+      "Etingof.Problem4_12_2.one_dim_reps_card",
+      "Etingof.Problem4_12_2.R1_decomposes",
+      "Etingof.Problem4_12_2.simple_iso_charRep_or_rhoHom",
+      "Etingof.Problem4_12_2.irreducible_dim"
+    ],
+    "derived": [
+      {
+        "part": "(a)",
+        "description": "Show R_z exists and is unique, and compute ρ(g) for all g ∈ G (including |G| = p³).",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Problem4_12_2.exists_unique_rep",
+          "Etingof.Problem4_12_2.rhoHom",
+          "Etingof.Problem4_12_2.rhoLin",
+          "Etingof.Problem4_12_2.rhoLin_apply",
+          "Etingof.Problem4_12_2.rhoHom_xGen",
+          "Etingof.Problem4_12_2.rhoHom_yGen",
+          "Etingof.Problem4_12_2.card_eq",
+          "Etingof.Problem4_12_2.eq_gen_prod",
+          "Etingof.Problem4_12_2.closure_gens_eq_top"
+        ],
+        "reason": "FULL and faithful. exists_unique_rep is a genuine ∃! Representation ℂ (Heisenberg p) (ZMod p → ℂ) whose defining conditions are exactly the book's two generator actions ((ρ xGen f) t = f(t-1) and (ρ yGen f) t = z^t.val·f t), so both existence AND uniqueness are stated (uniqueness proved via xGen,yGen generating G: closure_gens_eq_top + eq_gen_prod). 'Compute ρ(g) for all g' is covered explicitly by rhoLin/rhoLin_apply: ρ⟨a,b,c⟩ f t = z^(b·t-c).val · f(t-a) for every g. |G| = p³ is card_eq (Fintype.card (Heisenberg p) = p^3). All axiom-clean."
+      },
+      {
+        "part": "(b)",
+        "description": "R_z is irreducible if and only if z ≠ 1.",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Problem4_12_2.irreducible_iff"
+        ],
+        "reason": "FULL and faithful. irreducible_iff states IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) ρ.asModule ↔ z ≠ 1 for any ρ satisfying the two generator conditions — a genuine two-directional iff over the group algebra, non-vacuous (the reverse direction constructs the invariant constant line when z = 1, the forward builds simplicity from the shift/scaling action). Matches the book's 'R_z irreducible ⟺ z ≠ 1' exactly. Axiom-clean."
+      },
+      {
+        "part": "(c)",
+        "description": "Classify all 1-dimensional representations of G; show R_1 decomposes into a direct sum of 1-dim reps, each occurring exactly once.",
+        "coverage": "covered_partial",
+        "lean_decl": [
+          "Etingof.Problem4_12_2.R1_decomposes",
+          "Etingof.Problem4_12_2.one_dim_reps_card",
+          "Etingof.Problem4_12_2.abHom",
+          "Etingof.Problem4_12_2.abHom_surjective",
+          "Etingof.Problem4_12_2.abHom_ker_le_ker"
+        ],
+        "reason": "PARTIAL (near-full). The multiplicity-free-decomposition clause is covered_full: R1_decomposes exhibits R₁ as a genuine DirectSum.IsInternal of p one-dimensional G-invariant lines (each finrank = 1), each the isotypic line of a character χ i (ρ g acts by scalar χ i g), with the p characters pairwise distinct (Function.Injective χ) — a faithful encoding of 'each 1-dim rep occurs exactly once'. The classification clause is only partially exposed: one_dim_reps_card gives the count Nat.card (Heisenberg p →* ℂˣ) = p², and abHom + abHom_surjective + abHom_ker_le_ker establish that every character factors through the abelianization (ZMod p)²; but the explicit parametrizing bijection (Heisenberg p →* ℂˣ) ≃ characters of (ZMod p)² lives only as a proof-local `let e` inside one_dim_reps_card, not as an exposed headline — unlike the GL₂ sibling Chapter5/Discussion_1dim_reps, which is covered_full via the exposed bijection characterCompDetEquiv. Follow-up feature issue #7321 to expose the parametrization headline.",
+        "followup_issue": 7321
+      },
+      {
+        "part": "(d)",
+        "description": "Use (a)–(c) and the sum-of-squares formula to classify all irreducible representations of G (answer: p² one-dimensional plus p−1 of dimension p).",
+        "coverage": "covered_partial",
+        "lean_decl": [
+          "Etingof.Problem4_12_2.simple_iso_charRep_or_rhoHom",
+          "Etingof.Problem4_12_2.irreducible_dim",
+          "Etingof.Problem4_12_2.charRep_iso_iff",
+          "Etingof.Problem4_12_2.rhoHom_iso_iff",
+          "Etingof.Problem4_12_2.charRep_not_iso_rhoHom"
+        ],
+        "reason": "PARTIAL. The exhaustion trichotomy IS exposed: simple_iso_charRep_or_rhoHom proves every simple FDRep is iso to a 1-dim charRep χ or a p-dim rhoHom z (z≠1) — genuine 'these are all the irreducibles' via Artin–Wedderburn exists_simples_sum_finrank_sq_eq_card + pigeonhole surjectivity. irreducible_dim gives the dim-1-or-p dichotomy; charRep_iso_iff / rhoHom_iso_iff / charRep_not_iso_rhoHom give pairwise inequivalence. What is missing at headline level is the assembled GRAND TOTAL: the counts p² (characters) and p−1 (the R_z), and the sum-of-squares identity p²·1²+(p−1)·p²=p³=|G|, appear only as internal `have`s (hcardChar, hcardJ, hEsum) inside simple_iso_charRep_or_rhoHom's proof — there is no exposed 'number of irreducibles = p² + (p−1)' count theorem nor a bundled enumeration bijection (iso-classes ≃ (Heisenberg p →* ℂˣ) ⊕ {z≠1}). Mirrors the iso-vs-character-level partials recorded for 4.12.6/4.12.9. Follow-up feature issue #7322 to expose the total-count/exhaustion headline.",
+        "followup_issue": 7322
+      }
+    ],
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Problem4.12.3",
