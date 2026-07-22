@@ -816,7 +816,7 @@
     "end_line": 20,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "coverage_note": "Parts (a) and (b) are formalized, and part (c) has the necessary dimension theorem finrank_irreducible_eq_orderOf. The source asks to classify all finite-dimensional irreducibles; the parameter family, isomorphism criterion, and exhaustiveness theorem are still absent (follow-up #7392).",
+    "coverage_note": "Part (a) is formalized. Part (b) has only the necessary direction (a nontrivial finite-dimensional representation forces q to be a root of unity), with no converse existence theorem. Part (c) has the necessary dimension theorem but no parameter family, isomorphism criterion, or exhaustiveness. Follow-up #7392 covers both residual endpoints.",
     "fidelity_issue": 7392,
     "last_updated": "2026-07-22"
   },
@@ -2252,8 +2252,9 @@
     "end_line": 14,
     "status": "sorry_free",
     "fidelity": "verified",
-    "note": "Existence sorry-free. Uniqueness: find_iso_summand + complement IsCompl proved. 1 sorry remains in inductive step (IH application plumbing).",
-    "sorry_free": true
+    "note": "Existence and uniqueness are proved sorry-free, including the inductive uniqueness step.",
+    "sorry_free": true,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Lemma3.8.2",
@@ -2523,9 +2524,10 @@
     "start_line": 13,
     "end_line": 16,
     "status": "sorry_free",
-    "sorry_free": false,
+    "sorry_free": true,
     "fidelity": "verified",
-    "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_2.lean"
+    "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_2.lean",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Problem3.9.3",
@@ -2602,9 +2604,10 @@
     "start_line": 13,
     "end_line": 4,
     "status": "sorry_free",
-    "sorry_free": false,
+    "sorry_free": true,
     "fidelity": "verified",
-    "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_5.lean"
+    "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_5.lean",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Introduction_to_3.10",
