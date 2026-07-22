@@ -70,17 +70,22 @@ theorem projectiveDimension_succ_of_nonsplit
   have hX3ne : ¬ Limits.IsZero S.X₃ := fun h => hX3proj h.projective
   have hX1ne : ¬ Limits.IsZero S.X₁ := fun h => by
     haveI := h.injective; exact hns.false hS.splittingOfInjective
+  -- On the nonzero modules `S.X₁`, `S.X₃` the book projective dimension agrees with the raw
+  -- Mathlib value, so the book statement reduces to the raw dimension-shifting identity.
+  rw [Etingof.projectiveDimension_eq_raw_of_not_isZero S.X₃ hX3ne,
+    Etingof.projectiveDimension_eq_raw_of_not_isZero S.X₁ hX1ne]
   change CategoryTheory.projectiveDimension S.X₃ = CategoryTheory.projectiveDimension S.X₁ + 1
   have aux (n : ℕ) : CategoryTheory.projectiveDimension S.X₃ ≤ (n : WithBot ℕ∞) ↔
       CategoryTheory.projectiveDimension S.X₁ + 1 ≤ (n : WithBot ℕ∞) := by
     match n with
     | 0 =>
-      rw [projectiveDimension_le_iff, ← projective_iff_hasProjectiveDimensionLE_zero,
+      rw [CategoryTheory.projectiveDimension_le_iff, ← projective_iff_hasProjectiveDimensionLE_zero,
         Nat.cast_zero, ENat.WithBot.add_one_le_zero_iff, projectiveDimension_eq_bot_iff]
       exact iff_of_false hX3proj hX1ne
     | n + 1 =>
       nth_rw 2 [← Nat.cast_one, Nat.cast_add]
-      simp only [ENat.WithBot.add_le_add_natCast_right_iff, projectiveDimension_le_iff]
+      simp only [ENat.WithBot.add_le_add_natCast_right_iff,
+        CategoryTheory.projectiveDimension_le_iff]
       exact hS.hasProjectiveDimensionLT_X₃_iff n hP
   refine eq_of_forall_ge_iff (fun N ↦ ?_)
   induction N with
