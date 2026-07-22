@@ -3091,7 +3091,22 @@
     "end_page": "84",
     "start_line": 13,
     "end_line": 16,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "fidelity_decl": [
+      "Etingof.symmetricPower_eq_bot_or_top",
+      "Etingof.Example5_19_3_symmetric_irreducible",
+      "Etingof.exteriorPower_eq_bot_or_top",
+      "Etingof.Example5_19_3_exterior_irreducible"
+    ],
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter5/SymmetricIrreducible.lean",
+      "EtingofRepresentationTheory/Chapter5/ExteriorIrreducible.lean",
+      "EtingofRepresentationTheory/Chapter5/Example5_19_3.lean"
+    ],
+    "coverage": "covered_full",
+    "fidelity_note": "Irreducibility of SⁿV and ∧ᵐV as GL(V)-reps, encoded as \"every submodule stable under symmetricPowerMap g / exteriorPower.map n g for all g : V ≃ₗ[k] V is ⊥ or ⊤\"; both halves covered. Non-vacuous in the book range: for n ≤ dim V the space is nonzero so it is genuine irreducibility; the exterior theorem carries no n ≤ dim V hypothesis but the ⊥∨⊤ conclusion is true for all n (trivially so for n > dim V, where ∧ⁿV = 0 is separately proved by Example5_19_3_exterior_subsingleton_of_dim_lt and cross-referenced). [CharZero k] is a sound, essential generalization of ℂ (distinct-eigenvalue diagonal element), documented on the symmetric theorem and both wrappers; only the low-level exteriorPower_eq_bot_or_top docstring omits the char-0-essential note (doc nit, not a statement gap). All four #print axioms clean [propext, Classical.choice, Quot.sound], no sorryAx. Audited against origin/main 77de7a8e (issue #7278).",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Problem4.12.4",
