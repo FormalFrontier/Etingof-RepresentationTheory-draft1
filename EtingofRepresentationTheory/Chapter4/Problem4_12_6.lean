@@ -1019,4 +1019,141 @@ theorem Vrep_tprod_Vrep_decomp_character [Fintype K]
     rw [if_neg hga, affineFixCard_of_ne_one hga]
     push_cast; ring
 
+/-! ### Isomorphism-level tensor decompositions
+
+We now upgrade the character identities above to genuine isomorphisms of representations,
+using the fact that over `ℂ` a representation of a finite group is determined up to isomorphism
+by its character. The key tool is orthogonality of characters (`Representation.char_orthonormal`):
+two irreducible representations with equal characters have character inner product `1`, hence are
+isomorphic. -/
+
+/-- The order `|G| = q(q-1)` of the affine group is nonzero in `ℂ`. -/
+private theorem natCard_affine_ne_zero [Finite (Affine K)] :
+    (Nat.card (Affine K) : ℂ) ≠ 0 := by
+  have : Nat.card (Affine K) ≠ 0 := Nat.card_ne_zero.mpr ⟨⟨1⟩, inferInstance⟩
+  exact_mod_cast this
+
+/-- **Characters determine the representation up to isomorphism (irreducible case).**
+Over `ℂ`, two irreducible complex representations of the affine group with equal characters are
+isomorphic. This is the orthogonality-of-characters argument: if `χ_ρ = χ_σ` then the character
+inner product `⟨χ_ρ, χ_σ⟩` equals `⟨χ_ρ, χ_ρ⟩ = 1`, which forces `ρ ≅ σ` (the inner product of
+two non-isomorphic irreducibles is `0`). -/
+theorem equiv_of_character_eq [Fintype (Affine K)]
+    {Vρ Wσ : Type*} [AddCommGroup Vρ] [Module ℂ Vρ] [FiniteDimensional ℂ Vρ]
+    [AddCommGroup Wσ] [Module ℂ Wσ] [FiniteDimensional ℂ Wσ]
+    (ρ : Representation ℂ (Affine K) Vρ) (σ : Representation ℂ (Affine K) Wσ)
+    [ρ.IsIrreducible] [σ.IsIrreducible]
+    (h : ρ.character = σ.character) : Nonempty (ρ.Equiv σ) := by
+  haveI : Invertible (Nat.card (Affine K) : ℂ) := invertibleOfNonzero natCard_affine_ne_zero
+  by_contra hcon
+  have hemp : ¬ Nonempty (σ.Equiv ρ) := fun ⟨e⟩ => hcon ⟨e.symm⟩
+  have h1 := Representation.char_orthonormal (ρ := ρ) (σ := σ)
+  have h2 := Representation.char_orthonormal (ρ := ρ) (σ := ρ)
+  rw [if_neg hemp] at h1
+  rw [if_pos ⟨Representation.Equiv.refl ρ⟩] at h2
+  rw [← h] at h1
+  rw [h1] at h2
+  norm_num at h2
+
+/-- Applying the one-dimensional representation `charRep χ` (which acts by the scalar `χ g`). -/
+@[simp] lemma charRep_apply (χ : Affine K →* ℂˣ) (g : Affine K) (c : ℂ) :
+    charRep χ g c = (χ g : ℂ) • c := rfl
+
+/-- **Character twist.** Twisting a representation `ρ` by a one-dimensional character `χ`:
+`g` acts by `(χ g) • ρ g`. This is again a representation, and (transported across `ℂ ⊗ W ≅ W`)
+it is the underlying representation of `charRep χ ⊗ ρ`. -/
+def smulChar (χ : Affine K →* ℂˣ) {W : Type*} [AddCommGroup W] [Module ℂ W]
+    (ρ : Representation ℂ (Affine K) W) : Representation ℂ (Affine K) W where
+  toFun g := (χ g : ℂ) • ρ g
+  map_one' := by simp
+  map_mul' g h := by
+    ext x
+    simp only [map_mul, Module.End.mul_apply, LinearMap.smul_apply, MonoidHom.map_mul,
+      Units.val_mul, map_smul, smul_smul, mul_comm]
+
+@[simp] lemma smulChar_apply (χ : Affine K →* ℂˣ) {W : Type*} [AddCommGroup W] [Module ℂ W]
+    (ρ : Representation ℂ (Affine K) W) (g : Affine K) (x : W) :
+    smulChar χ ρ g x = (χ g : ℂ) • ρ g x := rfl
+
+/-- The subrepresentation lattices of `ρ` and its character-twist `smulChar χ ρ` coincide:
+a submodule is `ρ`-invariant iff it is `smulChar χ ρ`-invariant (the twist multiplies the action
+by the nonzero scalar `χ g`, which does not change which submodules are invariant). -/
+def subrepEquivSmulChar (χ : Affine K →* ℂˣ) {W : Type*} [AddCommGroup W] [Module ℂ W]
+    (ρ : Representation ℂ (Affine K) W) :
+    Subrepresentation (smulChar χ ρ) ≃o Subrepresentation ρ where
+  toFun U := ⟨U.toSubmodule, fun g v hv => by
+    have h := U.apply_mem_toSubmodule g hv
+    rw [smulChar_apply] at h
+    have h2 := U.toSubmodule.smul_mem ((χ g : ℂ)⁻¹) h
+    rwa [smul_smul, inv_mul_cancel₀ (Units.ne_zero _), one_smul] at h2⟩
+  invFun U := ⟨U.toSubmodule, fun g v hv => by
+    have h := U.apply_mem_toSubmodule g hv
+    rw [smulChar_apply]
+    exact U.toSubmodule.smul_mem _ h⟩
+  left_inv U := rfl
+  right_inv U := rfl
+  map_rel_iff' := Iff.rfl
+
+/-- Twisting an irreducible representation by a one-dimensional character keeps it irreducible. -/
+theorem smulChar_isIrreducible (χ : Affine K →* ℂˣ) {W : Type*} [AddCommGroup W] [Module ℂ W]
+    (ρ : Representation ℂ (Affine K) W) [ρ.IsIrreducible] :
+    (smulChar χ ρ).IsIrreducible :=
+  (subrepEquivSmulChar χ ρ).isSimpleOrder_iff.mpr inferInstance
+
+/-- `charRep χ ⊗ ρ` is isomorphic to the character-twist `smulChar χ ρ`, via `ℂ ⊗ W ≅ W`. -/
+def tprodCharRepEquivSmulChar (χ : Affine K →* ℂˣ) {W : Type*} [AddCommGroup W] [Module ℂ W]
+    (ρ : Representation ℂ (Affine K) W) :
+    (Representation.tprod (charRep χ) ρ).Equiv (smulChar χ ρ) :=
+  Representation.Equiv.mk (TensorProduct.lid ℂ W) fun g => by
+    refine TensorProduct.ext' fun c w => ?_
+    simp only [LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_coe,
+      Representation.tprod_apply, TensorProduct.map_tmul, TensorProduct.lid_tmul,
+      charRep_apply, smulChar_apply, map_smul, smul_smul, smul_eq_mul]
+    rw [mul_comm]
+
+/-- Irreducibility transfers across an isomorphism of representations. -/
+theorem IsIrreducible.of_equiv {V W : Type*} [AddCommGroup V] [Module ℂ V]
+    [AddCommGroup W] [Module ℂ W] {ρ : Representation ℂ (Affine K) V}
+    {σ : Representation ℂ (Affine K) W} (e : ρ.Equiv σ) [ρ.IsIrreducible] :
+    σ.IsIrreducible := by
+  haveI hρ : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) ρ.asModule :=
+    (Representation.irreducible_iff_isSimpleModule_asModule ρ).mp inferInstance
+  rw [Representation.irreducible_iff_isSimpleModule_asModule]
+  refine IsSimpleModule.congr
+    (LinearEquiv.ofBijective
+      (Representation.IntertwiningMap.equivLinearMapAsModule σ ρ e.symm.toIntertwiningMap) ?_)
+  exact e.symm.toLinearEquiv.bijective
+
+/-- **`χ ⊗ V ≅ V`.** The tensor product of a one-dimensional character `χ` with the
+`(q-1)`-dimensional irreducible `V` is isomorphic to `V`. Both are irreducible of dimension `q-1`,
+and they have equal characters: `χ_{χ⊗V}(g) = χ(g)·χ_V(g) = χ_V(g)` for every `g` (either
+`χ_V(g) = 0` when `g.a ≠ 1`, or `χ(g) = 1` when `g` is a translation). -/
+theorem charRep_tprod_Vrep_character_eq_Vrep [Fintype K]
+    (hK : 3 ≤ Fintype.card K) (χ : Affine K →* ℂˣ) (g : Affine K) :
+    (Representation.tprod (charRep χ) (Vsub (K := K)).toRepresentation).character g
+      = (Vsub (K := K)).toRepresentation.character g := by
+  classical
+  rw [charRep_tprod_Vrep_character]
+  by_cases hga : g.a = 1
+  · have hg : g = (⟨1, g.b⟩ : Affine K) := by ext <;> simp [hga]
+    rw [hg, char_translation_eq_one hK χ g.b, Units.val_one, one_mul]
+  · rw [Vrep_character_of_ne_one hga, mul_zero]
+
+/-- **`χ ⊗ V ≅ V` as representations.** Assembles the character equality
+`charRep_tprod_Vrep_character_eq_Vrep` with the fact that characters determine irreducible
+representations up to isomorphism (`equiv_of_character_eq`). -/
+theorem charRep_tprod_Vrep_equiv_Vrep [Fintype K] [DecidableEq K]
+    (hK : 3 ≤ Fintype.card K) (χ : Affine K →* ℂˣ) :
+    Nonempty ((Representation.tprod (charRep χ) (Vsub (K := K)).toRepresentation).Equiv
+      (Vsub (K := K)).toRepresentation) := by
+  haveI hV : (Vsub (K := K)).toRepresentation.IsIrreducible :=
+    (Representation.irreducible_iff_isSimpleModule_asModule _).mpr (Vrep_isSimpleModule (by omega))
+  haveI hχ : (charRep χ).IsIrreducible :=
+    (Representation.irreducible_iff_isSimpleModule_asModule _).mpr (charRep_asModule_simple χ)
+  haveI hsmul : (smulChar χ (Vsub (K := K)).toRepresentation).IsIrreducible :=
+    smulChar_isIrreducible χ _
+  haveI htp : (Representation.tprod (charRep χ) (Vsub (K := K)).toRepresentation).IsIrreducible :=
+    IsIrreducible.of_equiv (tprodCharRepEquivSmulChar χ _).symm
+  exact equiv_of_character_eq _ _ (funext fun g => charRep_tprod_Vrep_character_eq_Vrep hK χ g)
+
 end Etingof.Problem4_12_6
