@@ -4041,8 +4041,12 @@
     "start_line": 5,
     "end_line": 6,
     "status": "sorry_free",
-    "sorry_free": false,
-    "fidelity": "verified"
+    "sorry_free": true,
+    "fidelity": "verified",
+    "coverage": "covered_partial",
+    "coverage_note": "The S3, S4, and A5 real-type assertions and a quaternionic two-dimensional Q8 representation are proved. The cyclic-group declaration is only a one-way non-realness test and does not classify all irreducibles or establish the trivial/sign cases; the Q8 one-dimensional real-type and uniqueness claims are also absent. Residual work is tracked by #5124.",
+    "followup_issue": 5124,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Definition5.1.4",
@@ -4724,8 +4728,9 @@
     "start_line": 5,
     "end_line": 10,
     "status": "sorry_free",
-    "sorry_free": false,
-    "fidelity": "verified"
+    "sorry_free": true,
+    "fidelity": "verified",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Remark5.9.2",
@@ -6405,8 +6410,9 @@
     "start_line": 15,
     "end_line": 16,
     "status": "proved",
-    "coverage_note": "[coverage-arm audited #7320, 2026-07-22; affine q=2 gap closed #7331, 2026-07-22] Roll-up = min across three sub-parts = covered_full (dihedral covered_full, Heisenberg covered_full, affine covered_full). Each *_classification theorem genuinely DISCHARGES its result by `obtain ... := Etingof.Theorem5_27_1 A G φ` applied to a semidirect-product model (not an independent re-proof that merely imports the file), and each conclusion is an EXHAUSTIVE up-to-iso classification: an explicit family W : Fin n → FDRep ℂ G with (i) ∀ i, Simple (W i), (ii) pairwise non-iso (Nonempty (W i ≅ W j) → i = j), (iii) completeness (∀ S simple, ∃ i, S ≅ W i), and (iv) counts/dimensions. Dihedral routes through a genuine MulEquiv dihedralEquiv : DihedralGroup N ≃* (Multiplicative (ZMod N) ⋊[dihedralφ] Multiplicative (ZMod 2)); Heisenberg and affine DEFINE the group directly as the semidirect product (faithful standard presentations; identification with the 3×3-unitriangular / x↦ax+b pictures argued in prose docstrings, no formal MulEquiv). Affine now covers all q: affine_classification (2 < q) plus companion affine_classification_two (q=2, added #7331, also routed through Theorem 5.27.1, uniform `n=2 ∧ ∀ i, finrank=1` conclusion since the {1,q−1} dimension partition degenerates at q−1=1). All three files sorry-free (grep: no sorry/admit/True). #print axioms affine_classification_two clean [propext, Classical.choice, Quot.sound]; others not re-run (report-only, no fidelity re-audit).",
-    "coverage": "covered_full",
+    "coverage_note": "The three classifications genuinely use Theorem 5.27.1 and are exhaustive on their semidirect-product models; the q=2 affine companion is included. The dihedral result is transported to the textbook group through a genuine MulEquiv. The Heisenberg and affine files instead define new group types and identify them with the Chapter 4 textbook groups only in prose, so those re-derivations are not exposed over the actual Problem 4.12.2/4.12.6 objects or their named representations. Follow-up #7320.",
+    "coverage": "covered_partial",
+    "followup_issue": 7320,
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Exercise5_27_2_Dihedral.lean",
@@ -6436,26 +6442,26 @@
       {
         "part": "(ii) Heisenberg (4.12.2)",
         "claim": "Redo the Heisenberg-group (over 𝔽_p) irreducible classification via Theorem 5.27.1 ((ZMod p)² ⋊ ZMod p by shear): p² dim-1 and p−1 dim-p.",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Exercise5_27_2.heisenberg_classification",
           "Etingof.Exercise5_27_2.HeisenbergGroup"
         ],
-        "reason": "FULL. heisenberg_classification obtains its result via Etingof.Theorem5_27_1 (Multiplicative (ZMod p)) (Multiplicative (ZMod p × ZMod p)) (heisenbergφ p). Conclusion exhaustive: ∃ n W, (∀ i, Simple (W i)) ∧ pairwise-non-iso ∧ completeness ∧ (dim 1 or p) ∧ n = p²+(p-1) ∧ #{dim 1} = p² ∧ #{dim p} = p−1 — the counts are HEADLINE conjuncts, matching the book answer. Hypothesis only [Fact p.Prime]. Caveat (not a gap): HeisenbergGroup is DEFINED directly as Multiplicative (ZMod p × ZMod p) ⋊[heisenbergφ] Multiplicative (ZMod p) — a faithful standard presentation of the Heisenberg group; there is no formal MulEquiv to a 3×3-unitriangular matrix model nor to Chapter4/Problem4.12.2's `Heisenberg p` object, that identification is argued only in the module docstring. Sorry-free.",
-        "followup_issue": null
+        "reason": "PARTIAL. The orbit-method classification is exhaustive and sorry-free on Exercise5_27_2.HeisenbergGroup, but no MulEquiv transports it to Problem4_12_2.Heisenberg or identifies its p-dimensional branch with the named Chapter 4 models.",
+        "followup_issue": 7320
       },
       {
         "part": "(iii) affine (4.12.6)",
         "claim": "Redo the affine x↦ax+b group (over 𝔽_q) irreducible classification via Theorem 5.27.1 (Multiplicative K ⋊ Kˣ): q−1 dim-1 characters and one dim-(q−1) rep.",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Exercise5_27_2.affine_classification",
           "Etingof.Exercise5_27_2.affine_classification_two",
           "Etingof.Exercise5_27_2.AffineGroup",
           "Etingof.Exercise5_27_2.affineφ"
         ],
-        "reason": "FULL. affine_classification (hyp `2 < Fintype.card K`) obtains its result via Etingof.Theorem5_27_1 Kˣ (Multiplicative K) (affineφ K); conclusion is exhaustive for q>2: ∃ n W, (∀ i, Simple (W i)) ∧ pairwise-non-iso ∧ completeness ∧ n = q ∧ #{dim 1} = q−1 ∧ #{dim q−1} = 1, matching the book. The degenerate field q=2 (𝔽₂) is now closed by the companion affine_classification_two (hyp `Fintype.card K = 2`, added #7331), also routed through Etingof.Theorem5_27_1: same orbit-method family (q−1=1 fixed-orbit rep + 1 free-orbit rep = 2 irreducibles), pairwise non-iso and complete, with the uniform conclusion `n = 2 ∧ ∀ i, finrank = 1` replacing the {1, q−1} dimension partition that degenerates at q=2 (q−1=1). The fixed and free reps (both 1-dim here) are told apart by their character at a nontrivial translation ⟨a,1⟩: `1` (fixed, constant) vs `χ₀ a ≠ 1` (free). AffineGroup is defined directly as Multiplicative K ⋊[affineφ] Kˣ (affineφ = left-mult action; faithful x↦ax+b model, correspondence in docstring, no formal MulEquiv). Both theorems sorry-free; #print axioms affine_classification_two = [propext, Classical.choice, Quot.sound], no sorryAx.",
-        "followup_issue": null
+        "reason": "PARTIAL. The q>2 and q=2 classifications are exhaustive and sorry-free on Exercise5_27_2.AffineGroup, but no MulEquiv transports them to Problem4_12_6.Affine or identifies the nonlinear branch with the named Chapter 4 deleted-permutation model.",
+        "followup_issue": 7320
       }
     ],
     "last_updated": "2026-07-22"
