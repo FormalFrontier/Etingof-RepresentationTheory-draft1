@@ -3181,16 +3181,18 @@
       {
         "part": "(c)",
         "description": "Classify all 1-dimensional representations of G; show R_1 decomposes into a direct sum of 1-dim reps, each occurring exactly once.",
-        "coverage": "covered_partial",
+        "coverage": "covered_full",
         "lean_decl": [
-          "Etingof.Problem4_12_2.R1_decomposes",
+          "Etingof.Problem4_12_2.oneDimRepEquiv",
+          "Etingof.Problem4_12_2.oneDimRepEquiv_apply",
           "Etingof.Problem4_12_2.one_dim_reps_card",
+          "Etingof.Problem4_12_2.R1_decomposes",
           "Etingof.Problem4_12_2.abHom",
           "Etingof.Problem4_12_2.abHom_surjective",
           "Etingof.Problem4_12_2.abHom_ker_le_ker"
         ],
-        "reason": "PARTIAL (near-full). The multiplicity-free-decomposition clause is covered_full: R1_decomposes exhibits R₁ as a genuine DirectSum.IsInternal of p one-dimensional G-invariant lines (each finrank = 1), each the isotypic line of a character χ i (ρ g acts by scalar χ i g), with the p characters pairwise distinct (Function.Injective χ) — a faithful encoding of 'each 1-dim rep occurs exactly once'. The classification clause is only partially exposed: one_dim_reps_card gives the count Nat.card (Heisenberg p →* ℂˣ) = p², and abHom + abHom_surjective + abHom_ker_le_ker establish that every character factors through the abelianization (ZMod p)²; but the explicit parametrizing bijection (Heisenberg p →* ℂˣ) ≃ characters of (ZMod p)² lives only as a proof-local `let e` inside one_dim_reps_card, not as an exposed headline — unlike the GL₂ sibling Chapter5/Discussion_1dim_reps, which is covered_full via the exposed bijection characterCompDetEquiv. Follow-up feature issue #7321 to expose the parametrization headline.",
-        "followup_issue": 7321
+        "reason": "FULL (upgraded from covered_partial by #7321). Both clauses are now exposed headlines. Classification clause: oneDimRepEquiv is the explicit bijection (Multiplicative (ZMod p × ZMod p) →* ℂˣ) ≃ (Heisenberg p →* ℂˣ), χ ↦ χ ∘ abHom (pinned by the simp lemma oneDimRepEquiv_apply), parametrizing every 1-dim representation of G by a character of the abelianization (ZMod p)² — the exact analogue of the GL₂ sibling Chapter5/Discussion_1dim_reps.characterCompDetEquiv that made that item covered_full. one_dim_reps_card (Nat.card (Heisenberg p →* ℂˣ) = p²) now derives from oneDimRepEquiv as the domain cardinality; abHom_surjective / abHom_ker_le_ker supply surjectivity and injectivity of the parametrization. Decomposition clause (already full): R1_decomposes exhibits R₁ as a genuine DirectSum.IsInternal of p one-dimensional G-invariant lines (each finrank = 1), each the isotypic line of a character χ i, with the p characters pairwise distinct (Function.Injective χ) — a faithful encoding of 'each 1-dim rep occurs exactly once'.",
+        "resolved_by_issue": 7321
       },
       {
         "part": "(d)",
