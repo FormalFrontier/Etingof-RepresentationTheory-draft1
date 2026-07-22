@@ -3190,7 +3190,17 @@
     "start_line": 5,
     "end_line": 8,
     "status": "sorry_free",
-    "coverage_note": "EtingofRepresentationTheory/Chapter4/Problem4_12_10.lean: fully sorry-free. trace_piTensorProduct_map_const and character_diagTensorPow (χ_{V^⊗n}=χ_V^n), the multiplicity formula, and the polynomial isolation of g=1 all proved; the final analytic lemma ρ_eq_one_of_character_eq_finrank (trace(ρg)=dim⟹ρg=1) is proved via matrix unitarization (averaged Hermitian form H, CFC square root L, U=L(ρg)L⁻¹ standard-unitary with trace=dim, elementary Cauchy-Schwarz-style argument). #print axioms Etingof.Problem4_12_10 = [propext, Classical.choice, Quot.sound] (#6096)."
+    "coverage_note": "EtingofRepresentationTheory/Chapter4/Problem4_12_10.lean: fully sorry-free. trace_piTensorProduct_map_const and character_diagTensorPow (χ_{V^⊗n}=χ_V^n), the multiplicity formula, and the polynomial isolation of g=1 all proved; the final analytic lemma ρ_eq_one_of_character_eq_finrank (trace(ρg)=dim⟹ρg=1) is proved via matrix unitarization (averaged Hermitian form H, CFC square root L, U=L(ρg)L⁻¹ standard-unitary with trace=dim, elementary Cauchy-Schwarz-style argument). #print axioms Etingof.Problem4_12_10 = [propext, Classical.choice, Quot.sound] (#6096).",
+    "fidelity": "verified",
+    "fidelity_decl": [
+      "Etingof.Problem4_12_10"
+    ],
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter4/Problem4_12_10.lean"
+    ],
+    "coverage": "covered_partial",
+    "fidelity_note": "Book asks: any irreducible occurs inside SⁿV (and hence V^⊗n) for some n. The Lean theorem Etingof.Problem4_12_10 proves ONLY the weaker V^⊗n half: for a faithful ρ (Function.Injective ρ) and simple σ (IsSimpleModule (MonoidAlgebra ℂ G) σ.asModule), ∃ n and a nonzero G-equivariant φ : W → ⨂ⁿV intertwining σ with diagTensorPow ρ n (the diagonal action on the FULL tensor power ⨂ⁿV, not the symmetric power SⁿV). The V^⊗n form is faithful and non-vacuous: φ≠0 is a real constraint (zero map trivially intertwines), diagTensorPow is a genuine construction, and faithfulness is genuinely consumed via ρ_eq_one_of_character_eq_finrank (matrix-unitarization: only g=1 has χ(g)=dim V). Coverage is PARTIAL: the book's primary SⁿV result is strictly stronger (SⁿV is a G-summand of V^⊗n in char 0, so W↪SⁿV ⟹ W↪V^⊗n but not conversely) and is NOT formalized; the hint's SV→F(G,ℂ) surjectivity targets SⁿV directly. Docstring (## Formalization, lines 11-18) discloses the scope reduction rather than over-claiming. #print axioms clean [propext, Classical.choice, Quot.sound], no sorryAx. Follow-up feature issue #7285 filed for the SⁿV half. Audited against origin/main 3b166a4d (issue #7284).",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Problem4.12.11",
