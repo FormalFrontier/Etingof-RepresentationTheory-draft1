@@ -1,4 +1,5 @@
 import EtingofRepresentationTheory.Chapter8.BarResolution
+import EtingofRepresentationTheory.Chapter8.IsoPrecompHomEquiv
 import EtingofRepresentationTheory.Chapter3.Problem3_9_1
 import Mathlib.CategoryTheory.Abelian.Projective.Ext
 import Mathlib.Algebra.Homology.HomotopyCategory.HomComplexSingle
@@ -31,23 +32,6 @@ open Etingof.BarResolution
 variable (k A W V : Type u) [Field k] [Ring A] [Algebra k A]
   [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
   [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W]
-
-/-- Precomposition with an isomorphism, as an additive equivalence of hom-groups. -/
-def isoPrecompHomEquiv {C : Type*} [Category C] [Preadditive C] {X X' Y : C} (α : X ≅ X') :
-    (X ⟶ Y) ≃+ (X' ⟶ Y) where
-  toFun f := α.inv ≫ f
-  invFun g := α.hom ≫ g
-  left_inv f := by simp
-  right_inv g := by simp
-  map_add' f g := by simp only [Preadditive.comp_add]
-
-@[simp] lemma isoPrecompHomEquiv_apply {C : Type*} [Category C] [Preadditive C]
-    {X X' Y : C} (α : X ≅ X') (f : X ⟶ Y) :
-    isoPrecompHomEquiv α f = α.inv ≫ f := rfl
-
-@[simp] lemma isoPrecompHomEquiv_symm_apply {C : Type*} [Category C] [Preadditive C]
-    {X X' Y : C} (α : X ≅ X') (g : X' ⟶ Y) :
-    (isoPrecompHomEquiv α).symm g = α.hom ≫ g := rfl
 
 /-- The bar cochain complex `Hom(barResolution, −)` lives here: it is the integer-graded
 extension of the bar chain complex. -/

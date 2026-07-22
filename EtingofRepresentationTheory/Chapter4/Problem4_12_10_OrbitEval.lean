@@ -87,47 +87,47 @@ variable {V : Type} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
 
 /-- The evaluation of a degree-`n` **tensor** at a covector `p`, `⨂ᵢ vᵢ ↦ ∏ᵢ p vᵢ`, realised as
 the image of the constant `n`-fold tensor `⨂ₜ p` under `PiTensorProduct.dualDistrib`. -/
-def evalTensor (p : Module.Dual ℂ V) (n : ℕ) : (⨂[ℂ]^n V) →ₗ[ℂ] ℂ :=
+def evalTensorPow (p : Module.Dual ℂ V) (n : ℕ) : (⨂[ℂ]^n V) →ₗ[ℂ] ℂ :=
   PiTensorProduct.dualDistrib (⨂ₜ[ℂ] (_ : Fin n), p)
 
-@[simp] lemma evalTensor_tprod (p : Module.Dual ℂ V) (n : ℕ) (v : Fin n → V) :
-    evalTensor p n (PiTensorProduct.tprod ℂ v) = ∏ i, p (v i) := by
-  simp only [evalTensor, PiTensorProduct.dualDistrib_apply]
+@[simp] lemma evalTensorPow_tprod (p : Module.Dual ℂ V) (n : ℕ) (v : Fin n → V) :
+    evalTensorPow p n (PiTensorProduct.tprod ℂ v) = ∏ i, p (v i) := by
+  simp only [evalTensorPow, PiTensorProduct.dualDistrib_apply]
 
 /-- The evaluation of a degree-`n` **symmetric tensor** at a covector `p`, `⨂ₛᵢ vᵢ ↦ ∏ᵢ p vᵢ`.
-Since `∏ᵢ p vᵢ` is symmetric in the `vᵢ`, `evalTensor` descends through the symmetrization
+Since `∏ᵢ p vᵢ` is symmetric in the `vᵢ`, `evalTensorPow` descends through the symmetrization
 quotient `SymmetricPower.mk`. -/
 def evalAt (p : Module.Dual ℂ V) (n : ℕ) : Sym[ℂ]^n V →ₗ[ℂ] ℂ where
-  toFun := AddCon.lift _ (evalTensor p n).toAddMonoidHom (fun x y h => by
+  toFun := AddCon.lift _ (evalTensorPow p n).toAddMonoidHom (fun x y h => by
     induction h with
     | of x y h => cases h with
       | perm e f =>
-        show evalTensor p n (PiTensorProduct.tprod ℂ f)
-          = evalTensor p n (PiTensorProduct.tprod ℂ fun i => f (e i))
-        rw [evalTensor_tprod, evalTensor_tprod]
+        show evalTensorPow p n (PiTensorProduct.tprod ℂ f)
+          = evalTensorPow p n (PiTensorProduct.tprod ℂ fun i => f (e i))
+        rw [evalTensorPow_tprod, evalTensorPow_tprod]
         exact (Equiv.prod_comp e (fun i => p (f i))).symm
     | refl => rfl
     | symm _ ih => exact ih.symm
     | trans _ _ ih₁ ih₂ => exact ih₁.trans ih₂
     | add _ _ ih₁ ih₂ =>
-        show evalTensor p n (_ + _) = evalTensor p n (_ + _)
+        show evalTensorPow p n (_ + _) = evalTensorPow p n (_ + _)
         rw [map_add, map_add]
         exact congr_arg₂ (· + ·) ih₁ ih₂)
   map_add' x y := by
     refine AddCon.induction_on₂ x y (fun a b => ?_)
-    change evalTensor p n (a + b) = evalTensor p n a + evalTensor p n b
+    change evalTensorPow p n (a + b) = evalTensorPow p n a + evalTensorPow p n b
     rw [map_add]
   map_smul' r x := by
     refine AddCon.induction_on x (fun a => ?_)
-    change evalTensor p n (r • a) = r • evalTensor p n a
+    change evalTensorPow p n (r • a) = r • evalTensorPow p n a
     rw [map_smul]
 
 @[simp] lemma evalAt_mk (p : Module.Dual ℂ V) (n : ℕ) (x : ⨂[ℂ]^n V) :
-    evalAt p n (SymmetricPower.mk ℂ (Fin n) V x) = evalTensor p n x := rfl
+    evalAt p n (SymmetricPower.mk ℂ (Fin n) V x) = evalTensorPow p n x := rfl
 
 @[simp] lemma evalAt_mk_tprod (p : Module.Dual ℂ V) (n : ℕ) (v : Fin n → V) :
     evalAt p n (SymmetricPower.mk ℂ (Fin n) V (PiTensorProduct.tprod ℂ v)) = ∏ i, p (v i) := by
-  rw [evalAt_mk, evalTensor_tprod]
+  rw [evalAt_mk, evalTensorPow_tprod]
 
 /-- Naturality of `evalAt` in the covector: evaluating `symmetricPowerMap f x` at `p` is the same
 as evaluating `x` at the pulled-back covector `p ∘ₗ f`. -/
@@ -135,12 +135,12 @@ lemma evalAt_symmetricPowerMap (p : Module.Dual ℂ V) (n : ℕ) (f : V →ₗ[�
     evalAt p n (symmetricPowerMap f x) = evalAt (p ∘ₗ f) n x := by
   obtain ⟨y, rfl⟩ := LinearMap.range_eq_top.mp (SymmetricPower.range_mk ℂ (Fin n) V) x
   rw [symmetricPowerMap_mk, evalAt_mk, evalAt_mk]
-  have key : evalTensor p n ∘ₗ PiTensorProduct.map (fun _ : Fin n => f) = evalTensor (p ∘ₗ f) n := by
+  have key : evalTensorPow p n ∘ₗ PiTensorProduct.map (fun _ : Fin n => f) = evalTensorPow (p ∘ₗ f) n := by
     apply PiTensorProduct.ext
     apply MultilinearMap.ext
     intro v
     simp only [LinearMap.compMultilinearMap_apply, LinearMap.comp_apply,
-      PiTensorProduct.map_tprod, evalTensor_tprod]
+      PiTensorProduct.map_tprod, evalTensorPow_tprod]
   exact LinearMap.congr_fun key y
 
 /-! ## The orbit-evaluation map -/
