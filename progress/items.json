@@ -3555,7 +3555,57 @@
     "start_line": 15,
     "end_line": 4,
     "status": "sorry_free",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "coverage_note": "Coverage-arm audit (Stage 3.7, #7344): covered_full. Chapter5/Problem5_1_2.lean (1205 lines, sorry-free on origin/main) proves (a) End_{R[G]}V is C/Mat2(R)/H via genuine R-algebra isos (Nonempty (realGEndAlgebra rho ~=a[R] C / Matrix (Fin 2)(Fin 2) R / Quaternion R)) under irreducibility + the corresponding type predicate, and (b) isRealType_iff_exists_real_form as a real biconditional whose real-form side is a G-stable real subspace W with span_C W = top and finrank_R W = finrank_C V (= complexification). realGEndAlgebra = Subalgebra.centralizer R {(rho g).restrictScalars R} = honest End_{R[G]}V. Supersedes the earlier stale note (which wrongly claimed no Lean formalization / vacuous sorry_free).",
+    "fidelity": "verified",
+    "fidelity_note": "[coverage-arm fidelity, Stage3.7 #7344] Judge Opus 4.8. (a) The three realGEndAlgebra_equiv_* theorems (lines 656/755/832) conclude Nonempty (realGEndAlgebra rho ~=a[R] C / Matrix (Fin 2)(Fin 2) R / Quaternion R) -- genuine R-AlgEquiv (~=a[R]), not linear/dimension; target algebras are exactly C, Mat2(R), H. Hyps: IsSimpleModule (MonoidAlgebra C G) rho.asModule + genuine Def-5.1.1 type predicate (IsComplexType = V not-iso V*; IsRealType = inv nondeg symmetric form; IsQuaternionicType = inv nondeg skew form). realGEndAlgebra = centralizer in End_R V = faithful End_{R[G]}V. (b) isRealType_iff_exists_real_form (line 1193) real two-way iff; real form = G-stable Submodule R V W with span_C W = top and finrank_R W = finrank_C V, which forces C tensor_R W ~= V (complexification), equivalent unbundled encoding of the book's 'V is complexification of a real rep'. Book (a) hint machinery (antilinear j, j^2=+-1, V_C ~= V (+) V*) present as proof (realJ, exists_antilinear_j_of_invariant_nondegenerate). Axiom-clean [propext, Classical.choice, Quot.sound], no sorryAx. See progress/reviews/2026-07-22T16-38-55Z-ch5-problem5_1_2-exercise5_1_7-realtype-coverage-fidelity.md",
+    "coverage": "covered_full",
+    "coverage_arm": "audited",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter5/Problem5_1_2.lean"
+    ],
+    "derived": [
+      {
+        "part": "(a)-complex",
+        "description": "End_{R[G]} V is C for V of complex type.",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.realGEndAlgebra_equiv_complex_of_isComplexType",
+          "Etingof.realGEndAlgebra"
+        ],
+        "reason": "Coverage-arm audit (Stage 3.7, #7344): covered_full. realGEndAlgebra_equiv_complex_of_isComplexType (Problem5_1_2.lean:656) proves Nonempty (realGEndAlgebra rho ~=a[R] C) for irreducible rho (IsSimpleModule) of complex type (IsComplexType rho = V not G-equivariantly iso to Module.Dual C V). ~=a[R] is a genuine R-algebra isomorphism onto C; realGEndAlgebra = Subalgebra.centralizer R {(rho g).restrictScalars R} = honest End_{R[G]}V. Faithful to 'End_{R[G]}V is C'. Axiom-clean, no sorryAx."
+      },
+      {
+        "part": "(a)-real",
+        "description": "End_{R[G]} V is Mat_2(R) for V of real type.",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.realGEndAlgebra_equiv_matrix_of_isRealType",
+          "Etingof.realGEndAlgebra"
+        ],
+        "reason": "Coverage-arm audit (Stage 3.7, #7344): covered_full. realGEndAlgebra_equiv_matrix_of_isRealType (Problem5_1_2.lean:755) proves Nonempty (realGEndAlgebra rho ~=a[R] Matrix (Fin 2) (Fin 2) R) for irreducible rho of real type (IsRealType rho = exists G-invariant nondegenerate symmetric C-bilinear form). Genuine R-AlgEquiv onto Mat_2(R). Faithful to 'End_{R[G]}V is Mat_2(R)'. Axiom-clean, no sorryAx."
+      },
+      {
+        "part": "(a)-quaternionic",
+        "description": "End_{R[G]} V is H (quaternions) for V of quaternionic type.",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.realGEndAlgebra_equiv_quaternion_of_isQuaternionicType",
+          "Etingof.realGEndAlgebra"
+        ],
+        "reason": "Coverage-arm audit (Stage 3.7, #7344): covered_full. realGEndAlgebra_equiv_quaternion_of_isQuaternionicType (Problem5_1_2.lean:832) proves Nonempty (realGEndAlgebra rho ~=a[R] Quaternion R) for irreducible rho of quaternionic type (IsQuaternionicType rho = exists G-invariant nondegenerate skew-symmetric C-bilinear form). Genuine R-AlgEquiv onto H = Quaternion R. Faithful to 'End_{R[G]}V is H'. Axiom-clean, no sorryAx."
+      },
+      {
+        "part": "(b)",
+        "description": "V is of real type iff V is the complexification of a real representation V_R.",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.isRealType_iff_exists_real_form",
+          "Etingof.exists_real_form_of_isRealType",
+          "Etingof.isRealType_of_exists_real_form"
+        ],
+        "reason": "Coverage-arm audit (Stage 3.7, #7344): covered_full. isRealType_iff_exists_real_form (Problem5_1_2.lean:1193) is a real biconditional IsRealType rho <-> exists W : Submodule R V, (forall g v, v in W -> rho g v in W) and Submodule.span C W = top and finrank R W = finrank C V; both directions proved (exists_real_form_of_isRealType:923, isRealType_of_exists_real_form:1059). The real-form side is honest real data: G-stability makes W a real subrepresentation, and span_C W = top with finrank_R W = finrank_C V force the canonical C tensor_R W -> V to be an equivariant iso, i.e. V is the complexification of W. Equivalent unbundled encoding of 'V is the complexification of a real rep' (no standalone Representation R G W / literal C tensor W ~= V, but the conditions determine both) -- accepted faithful under the project convention used in Sec 5.16/5.24. Axiom-clean, no sorryAx."
+      }
+    ]
   },
   {
     "id": "Chapter5/Example5.1.3",
@@ -3618,7 +3668,15 @@
     "start_line": 23,
     "end_line": 24,
     "status": "sorry_free",
-    "coverage_note": "Statement pass: Chapter5/Exercise5_1_7.lean states existence of a nontrivial irreducible complex rep that is not of real type (¬ IsRealType), sorry proof."
+    "coverage_note": "Coverage-arm audit (Stage 3.7, #7344): covered_full. Chapter5/Exercise5_1_7.lean (sorry-free on origin/main) proves exists_irreducible_not_realType_of_odd_order: for [Nontrivial G] and Odd (Fintype.card G), there exists a complex representation rho that is IsSimpleModule (irreducible), has nontrivial action (exists g, rho g != 1), and satisfies not IsRealType rho. By Problem 5.1.2(b) not-IsRealType on an irrep = not realizable over R, so this is the book's 'irreducible representation not defined over R'. Supersedes the earlier stale 'sorry proof' note.",
+    "fidelity": "verified",
+    "fidelity_note": "[coverage-arm fidelity, Stage3.7 #7344] Judge Opus 4.8. exists_irreducible_not_realType_of_odd_order (Exercise5_1_7.lean:49) under [Nontrivial G][Fintype G] and (hodd : Odd (Fintype.card G)) concludes exists V (rho : Representation C G V), IsSimpleModule (MonoidAlgebra C G) rho.asModule and (exists g, rho g != 1) and not Etingof.IsRealType rho. Irreducibility is a genuine IsSimpleModule; not-IsRealType = not-defined-over-R for an irrep (via Problem 5.1.2(b), same project); the exists g, rho g != 1 conjunct only strengthens (excludes the trivial real-type rep). Both hyps USED: Nontrivial G drives exists_ne (1:G) (line 65) for the nontrivial witness, hodd feeds not_isRealType_of_odd_order_of_nontrivial_irreducible (Exercise 5.3.3, line 88). Axiom-clean [propext, Classical.choice, Quot.sound], no sorryAx. See progress/reviews/2026-07-22T16-38-55Z-ch5-problem5_1_2-exercise5_1_7-realtype-coverage-fidelity.md",
+    "coverage": "covered_full",
+    "coverage_arm": "audited",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter5/Exercise5_1_7.lean"
+    ],
+    "lean_decl": "Etingof.exists_irreducible_not_realType_of_odd_order"
   },
   {
     "id": "Chapter5/Introduction_5.2",
