@@ -1,5 +1,15 @@
 # EtingofRepresentationTheory
 
+## Project scope
+
+The project aims to formalize the mathematical content of Etingof's representation
+theory text. Deliberate exceptions are recorded in
+[Intentional omissions and exercise scope](skipped-exercises.md). That document
+distinguishes project-wide omissions from work that is merely incomplete or outside
+the scope of a particular issue. Exercises deferred to a later import point, with
+partial results recorded now, are tracked separately in
+[Deferred reprises](deferred-reprises.md).
+
 ## GitHub configuration
 
 To set up your new GitHub repository, follow these steps:

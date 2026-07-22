@@ -35,8 +35,10 @@ The main classification results for both cases are established below:
   `finrank_le_of_epow_orderOf_eq_zero`, `finrank_le_of_fpow_orderOf_eq_zero`, and
   `finrank_le_of_cyclic`).
 
-These are the core structural results of the classification; a complete enumeration of the
-irreducibles up to isomorphism is not carried out here.
+These are the core structural results of the classification. The exhaustive enumeration of
+irreducibles up to isomorphism is intentionally omitted by the project-wide scope decision in
+`skipped-exercises.md`. The omission is documentation-only: this file does not introduce an
+unproved classification declaration.
 -/
 
 namespace Etingof.Problem2_16_5

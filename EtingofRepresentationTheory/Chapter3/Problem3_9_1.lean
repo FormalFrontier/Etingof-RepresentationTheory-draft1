@@ -237,6 +237,38 @@ theorem iso_of_sub_mem_coboundaries (f f' : A →ₗ[k] (W →ₗ[k] V))
   refine ⟨?_, rfl⟩
   simp only [add_assoc, ← key]
 
+/-- **Problem 3.9.1(c), converse.** If `φ : U_f → U_{f'}` is an isomorphism of extensions of
+the special unitriangular form `φ = [[1_V, X], [0, 1_W]]`, i.e. `φ (v, w) = (v + X w, w)` for
+some `X : W →ₗ[k] V`, then `f − f'` is a coboundary (`f − f' = dX ∈ B¹`).
+
+This is the exact mirror of `iso_of_sub_mem_coboundaries`: reading off the `(1,2)`-block of
+the intertwining identity `φ ∘ ρ_{U_f}(a) = ρ_{U_{f'}}(a) ∘ φ` at `(0, w)` gives
+`f a w + X (a • w) = a • X w + f' a w`, i.e. `(f − f') a w = a • X w − X (a • w) = dX(a)(w)`.
+It holds over **any** algebra `A`, with no irreducibility or finite-dimensionality
+hypotheses; the cocycle assumptions on `f, f'` are not needed for this direction (they are
+kept to match the book's `f, f' ∈ Z¹` framing). Together with
+`iso_of_sub_mem_coboundaries` this is the full biconditional of part (c). -/
+theorem converse_sub_mem_coboundaries_of_unitriangular_intertwines
+    (f f' : A →ₗ[k] (W →ₗ[k] V)) (_hf : IsCocycle k A V W f) (_hf' : IsCocycle k A V W f')
+    (φ : (V × W) ≃ₗ[k] (V × W)) (X : W →ₗ[k] V)
+    (hφX : ∀ p : V × W, (φ p : V × W) = (p.1 + X p.2, p.2))
+    (hφ : IntertwinesExt k A V W f f' φ) :
+    f - f' ∈ coboundaries k A V W := by
+  rw [mem_coboundaries_iff]
+  refine ⟨X, ?_⟩
+  ext a w
+  -- Off-diagonal `(1,2)`-block of `φ ∘ ρ_{U_f}(a) = ρ_{U_{f'}}(a) ∘ φ`, evaluated at `(0, w)`.
+  have h := LinearMap.congr_fun (hφ a) (0, w)
+  simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, blockOp_apply, hφX, smul_zero,
+    zero_add] at h
+  -- `h : (f a w + X (a • w), a • w) = (a • X w + f' a w, a • w)`.
+  rw [Prod.ext_iff] at h
+  obtain ⟨h1, -⟩ := h
+  rw [coboundaryOf_apply]
+  simp only [LinearMap.sub_apply]
+  -- goal: `a • X w - X (a • w) = f a w - f' a w`
+  exact sub_eq_sub_iff_add_eq_add.mpr h1.symm
+
 /-- The "proportional ⇒ isomorphic" direction of Problem 3.9.1(d), in the nondegenerate case
 `c ≠ 0`. If `f − c • f'` is a coboundary for some nonzero scalar `c`, then the extensions
 `U_f` and `U_{f'}` are isomorphic representations, via the block map `φ = [[1, X], [0, c]]`.

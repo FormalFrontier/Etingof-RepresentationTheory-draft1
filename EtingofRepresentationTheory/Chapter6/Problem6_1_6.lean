@@ -35,6 +35,13 @@ by matrix multiplication. The irreducibles are given as a finite family
 `W : Fin m → FDRep ℂ G` (all simple, pairwise non-isomorphic, exhaustive). The
 multiplicity `rᵢⱼ = dim Hom(Wᵢ, V ⊗ Wⱼ)` (Schur's lemma), and the affine Cartan
 matrix reuses `Etingof.Problem6_1_3_tildeE.IsAffineDynkinDiagram`.
+
+Parts (a), (b), and the affine-Cartan argument in (c) for graphs with at least
+three vertices are proved below, as is the kernel equation underlying (e). The
+two-vertex double-edge `Ã₁` case, the family-by-family correspondence in (d),
+and the explicit normalized marks remaining in (e) are intentionally omitted by
+the project-wide scope decision in `skipped-exercises.md`. They are documented
+omissions, not placeholder declarations.
 -/
 
 namespace Etingof.Problem6_1_6
@@ -1603,16 +1610,13 @@ theorem mckay_dims_are_marks (hW : IsCompleteIrreps W) (i : Fin m) :
     (∑ j, mckayCartan W i j * (finrank ℂ (W j) : ℤ)) = 0 :=
   mckay_marks_aux W hW i
 
-/-- **(d)** The finite subgroups of `SU(2)` (equivalently, of `SO(3)` up to the
-central `±Id`, from Problem 4.12.8) correspond bijectively to the affine ADE
-diagrams under the McKay correspondence: cyclic ↔ `Ãₙ`, binary dihedral ↔ `D̃ₙ`,
-binary tetrahedral/octahedral/icosahedral ↔ `Ẽ₆ / Ẽ₇ / Ẽ₈`.
+/-! ## Intentional omissions in parts (c)–(e)
 
-Recorded as a `Prop` against the real affine-type enumeration; the group
-classification of Problem 4.12.8 is a separate item, so this pins the
-correspondence for a later proof pass rather than asserting a vacuous theorem. -/
-def McKayCorrespondence (_hW : IsCompleteIrreps W) : Prop :=
-  ∃ t : Problem6_1_3_tildeE.AffineType, ∃ σ : Fin t.rank ≃ Fin m,
-    ∀ i j, mckayAdj W (σ i) (σ j) = t.adj i j
+The two-vertex double-edge `Ã₁` case, the explicit identification of the finite
+subgroup families with affine ADE types in part (d), and the normalized mark
+tables beyond `mckay_dims_are_marks` are intentionally outside the project scope.
+See `skipped-exercises.md`. In particular, there is no proposition-valued
+placeholder standing in for the omitted correspondence theorem.
+-/
 
 end Etingof.Problem6_1_6
