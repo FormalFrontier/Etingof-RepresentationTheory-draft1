@@ -2465,9 +2465,48 @@
     "start_line": 13,
     "end_line": 16,
     "status": "sorry_free",
-    "sorry_free": false,
+    "sorry_free": true,
     "fidelity": "verified",
-    "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_2.lean"
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter3/Problem3_9_2.lean"
+    ],
+    "coverage": "covered_full",
+    "coverage_arm": "audited",
+    "lean_decl": [
+      "Etingof.Problem3_9_2.ext1_self",
+      "Etingof.Problem3_9_2.ext1_subsingleton_of_ne",
+      "Etingof.Problem3_9_2.two_dim_is_extension",
+      "Etingof.Problem3_9_2.infinitely_many_indecomposables"
+    ],
+    "last_updated": "2026-07-22",
+    "coverage_note": "Coverage-arm audit (Stage 3.7, #7375): covered_full. Problem3_9_2.lean (761 lines, sorry-free, headline decls axiom-clean [propext, Classical.choice, Quot.sound] verified via olean import). Both parts fully covered. (a) polynomial algebra A=ℂ[x₁..xₙ]: Ext¹ is FULLY computed both ways — ext1_self (277): Ext¹(Vₐ,Vₐ)≅ℂⁿ (equal weights); ext1_subsingleton_of_ne (309): Ext¹(V_b,Vₐ)=0 for a≠b (distinct weights). two_dim_is_extension (511): every 2-dim rep of A is an extension of two 1-dim reps V_b ⊆ U with U⧸V_b≅Vₐ, which with the Ext¹ computation classifies 2-dim reps. (b) zero-mult algebra B=ℂ⟨x₁..xₙ⟩/(xᵢxⱼ): infinitely_many_indecomposables (677): for n>1 a family Cyc n k (k:ℕ) of pairwise non-isomorphic indecomposable B-modules. Vrep/zeroMulAlg/rep genuinely constructed; Ext1 = in-book Problem3_9_1 Z1/B1, not Mathlib derived Ext. Prior fidelity: verified.",
+    "derived": [
+      {
+        "part": "(a) Ext¹(Vₐ,V_b) and 2-dim reps of ℂ[x₁..xₙ]",
+        "claim": "For A=ℂ[x₁..xₙ] with 1-dim reps Vₐ,V_b (xᵢ acts by aᵢ,bᵢ): Ext¹(Vₐ,Vₐ)≅ℂⁿ and Ext¹(Vₐ,V_b)=0 for a≠b; every 2-dim rep is an extension of two 1-dim reps.",
+        "description": "Full Ext¹ computation (ℂⁿ for equal weights, 0 for distinct) plus classification of 2-dim representations as extensions of 1-dim ones.",
+        "source_span": "blobs/Chapter3/Problem3.9.2.md (a)",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Problem3_9_2.ext1_self",
+          "Etingof.Problem3_9_2.ext1_subsingleton_of_ne",
+          "Etingof.Problem3_9_2.two_dim_is_extension"
+        ],
+        "reason": "ext1_self (277): Ext¹(Vₐ,Vₐ)≅ℂⁿ via cocycles≃derivations≃ℂⁿ (n nilpotent directions). ext1_subsingleton_of_ne (309): Subsingleton(Ext¹(V_b,Vₐ)) for a≠b (every cocycle is a coboundary — a twisted-derivation rigidity argument once some weight differs). two_dim_is_extension (511): any 2-dim A-module U has a 1-dim sub S≅V_b with U⧸S≅Vₐ (common eigenvector over ℂ). Together these compute Ext¹ in both cases and classify 2-dim reps. Axiom-clean."
+      },
+      {
+        "part": "(b) infinitely many indecomposables of the zero-mult algebra",
+        "claim": "For B=ℂ⟨x₁..xₙ⟩ with xᵢxⱼ=0 and n>1, B has infinitely many non-isomorphic indecomposable representations.",
+        "description": "Existence of an infinite family of pairwise non-isomorphic indecomposable B-modules when n>1.",
+        "source_span": "blobs/Chapter3/Problem3.9.2.md (b)",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Problem3_9_2.zeroMulAlg",
+          "Etingof.Problem3_9_2.infinitely_many_indecomposables"
+        ],
+        "reason": "infinitely_many_indecomposables (677): for 1<n there is a family M:ℕ→Type of B=zeroMulAlg n modules, each Etingof.IsIndecomposable, pairwise non-isomorphic (Nonempty(Mₖ≃ₗMₗ)→k=l). Built on the 2-dim modules Cyc n k where two generators act as N and k·N. zeroMulAlg (563)=RingQuot(BRel n) genuinely constructed. Axiom-clean."
+      }
+    ]
   },
   {
     "id": "Chapter3/Problem3.9.3",
@@ -2481,6 +2520,7 @@
     "sorry_free": true,
     "fidelity": "verified",
     "coverage": "covered_full",
+    "coverage_arm": "audited",
     "lean_decl": [
       "Etingof.Problem3_9_3.simpleRep_isIrreducible",
       "Etingof.Problem3_9_3.irreducible_isSimpleRep",
@@ -2488,7 +2528,8 @@
       "Etingof.Problem3_9_3.finrank_ext1_simpleRep",
       "Etingof.Problem3_9_3.two_dim_classification"
     ],
-    "coverage_note": "All three sub-questions are covered_full. Irreducibles: simpleRep_isIrreducible (each vertex simple S_i is irreducible) and irreducible_isSimpleRep (over a finite acyclic quiver every irreducible is isomorphic to some S_i). Ext^1 between simples: ext1_simpleRep_vanishes_iff gives the vanishing criterion and, completing the previously covered_partial dimension count (#7376), finrank_ext1_simpleRep proves the book’s exact formula dim Ext^1(S_i, S_j) = #(i ⟶ j): Ext^1 is defined as the cokernel of the linear Ext differential extDiffₗ, which vanishes between two simples, so Ext^1(S_i,S_j) is its whole codomain and finrank counts the arrows i→j. 2-dimensional representations: two_dim_classification. Sorry-free, #print axioms shows no sorryAx.",
+    "last_updated": "2026-07-22",
+    "coverage_note": "All three sub-questions are covered_full (lifts the Stage 3.7 coverage-arm audit #7375 covered_partial to covered_full via feature #7376). Irreducibles: simpleRep_isIrreducible (each vertex simple S_i is irreducible) and irreducible_isSimpleRep (over a finite acyclic quiver every irreducible is isomorphic to some S_i). Ext^1 between simples: ext1_simpleRep_vanishes_iff gives the vanishing criterion and, completing the previously covered_partial dimension count (#7376), finrank_ext1_simpleRep proves the book’s exact formula dim Ext^1(S_i, S_j) = #(i ⟶ j): Ext^1 is defined as the cokernel of the linear Ext differential extDiffₗ, which vanishes between two simples, so Ext^1(S_i,S_j) is its whole codomain and finrank counts the arrows i→j. 2-dimensional representations: two_dim_classification. Sorry-free, #print axioms shows no sorryAx.",
     "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_3.lean"
   },
   {
@@ -2548,9 +2589,50 @@
     "start_line": 13,
     "end_line": 4,
     "status": "sorry_free",
-    "sorry_free": false,
+    "sorry_free": true,
     "fidelity": "verified",
-    "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_5.lean"
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter3/Problem3_9_5.lean"
+    ],
+    "coverage": "covered_full",
+    "coverage_arm": "audited",
+    "lean_decl": [
+      "Etingof.Problem3_9_5.isSemisimpleRing_of_nondegenerate",
+      "Etingof.Problem3_9_5.even_isMatrixAlgebra",
+      "Etingof.Problem3_9_5.odd_isSumMatrixAlgebra",
+      "Etingof.Problem3_9_5.isSemisimpleRing_iff_nondegenerate",
+      "Etingof.Problem3_9_5.radicalQuotient_isClifford_of_degenerate"
+    ],
+    "last_updated": "2026-07-22",
+    "coverage_note": "Coverage-arm audit (Stage 3.7, #7375): covered_full. Problem3_9_5.lean (1799 lines, sorry-free, headline decls axiom-clean [propext, Classical.choice, Quot.sound] verified via olean import). Both labelled parts fully covered; the matrix-algebra structure theorems are in fact STRONGER than the book's irreducible enumeration. (i) nondegenerate ⇒ semisimple with the stated even/odd classification: even_isMatrixAlgebra (899) Cl(V)≃ₐEnd(S) with dim S=2ⁿ when dim V=2n (one 2ⁿ-dim spinor irreducible, a matrix algebra); odd_isSumMatrixAlgebra (1126) Cl(V)≃ₐEnd(S)×End(S) with dim S=2ⁿ when dim V=2n+1 (two 2ⁿ-dim irreducibles, a sum of two matrix algebras). 'No other irreducibles' is subsumed: a (product of) matrix algebra(s) has exactly its (two) standard simple module(s); finrank_cliffAlg (374) = 2^N supplies the 2^{dim V} dimension bound. (ii) isSemisimpleRing_iff_nondegenerate (1476): Cl(V) semisimple ⟺ (·,·) nondegenerate; radicalQuotient_isClifford_of_degenerate (1742): when degenerate, Cl(V)/Rad ≅ Cl(W,B') for the induced nondegenerate symmetric form B' on W≅V/rad(B) (surjective algebra map with kernel = Jacobson radical). Cl(V)=Mathlib CliffordAlgebra of Q(v)=B(v,v). Prior fidelity: verified.",
+    "derived": [
+      {
+        "part": "(i) nondegenerate case: semisimple, even/odd irreducible classification",
+        "claim": "If (·,·) is nondegenerate then Cl(V) is semisimple: one irreducible of dim 2ⁿ (a matrix algebra) if dim V=2n, two of dim 2ⁿ (a sum of two matrix algebras) if dim V=2n+1, and no others.",
+        "description": "Semisimplicity and the even/odd irreducible-count-and-dimension classification, phrased via matrix-algebra isomorphisms.",
+        "source_span": "blobs/Chapter3/Problem3.9.5.md (i)",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Problem3_9_5.isSemisimpleRing_of_nondegenerate",
+          "Etingof.Problem3_9_5.even_isMatrixAlgebra",
+          "Etingof.Problem3_9_5.odd_isSumMatrixAlgebra",
+          "Etingof.Problem3_9_5.finrank_cliffAlg"
+        ],
+        "reason": "isSemisimpleRing_of_nondegenerate (475): nondegenerate ⇒ Cl(V) semisimple. even_isMatrixAlgebra (899): dim V=2n ⇒ ∃ S, dim S=2ⁿ ∧ Cl(V)≃ₐEnd(S) (unique spinor irreducible). odd_isSumMatrixAlgebra (1126): dim V=2n+1 ⇒ ∃ S, dim S=2ⁿ ∧ Cl(V)≃ₐEnd(S)×End(S) (two non-isomorphic irreducibles S₊,S₋). The algebra-isomorphism form is stronger than counting irreducibles: End(S) (resp. End(S)×End(S)) has exactly one (resp. two) simple module(s), so 'no other irreducibles' is automatic; finrank_cliffAlg (374)=2^N gives the 2^{dim V} spanning-set bound. Axiom-clean."
+      },
+      {
+        "part": "(ii) semisimple ⟺ nondegenerate; the degenerate quotient",
+        "claim": "Cl(V) is semisimple iff (·,·) is nondegenerate; if degenerate, Cl(V)/Rad(Cl(V)) is the Clifford algebra of the induced nondegenerate form on V/rad(·,·).",
+        "description": "The semisimplicity criterion and the identification of the radical quotient in the degenerate case.",
+        "source_span": "blobs/Chapter3/Problem3.9.5.md (ii)",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Problem3_9_5.isSemisimpleRing_iff_nondegenerate",
+          "Etingof.Problem3_9_5.radicalQuotient_isClifford_of_degenerate"
+        ],
+        "reason": "isSemisimpleRing_iff_nondegenerate (1476): IsSemisimpleRing (Cl(V)) ↔ B.Nondegenerate (forward = not_isSemisimpleRing_of_degenerate contrapositive; reverse = part (i)). radicalQuotient_isClifford_of_degenerate (1742): B degenerate ⇒ ∃ nondegenerate symmetric B' on W with a surjective algebra map Cl(V)→Cl(W,B') whose kernel is Ring.jacobson (Cl(V)), i.e. Cl(V)/Rad ≅ Cl(V/rad B, induced form). Axiom-clean."
+      }
+    ]
   },
   {
     "id": "Chapter3/Introduction_to_3.10",
