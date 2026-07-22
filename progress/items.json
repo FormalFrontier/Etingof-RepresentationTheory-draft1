@@ -2471,7 +2471,13 @@
     "start_line": 15,
     "end_line": 16,
     "status": "sorry_free",
-    "coverage_note": "Proved in EtingofRepresentationTheory/Chapter4/Problem4_1_4.lean. Char-p fixed-vector theorem for p-groups (nontrivial-center strong induction) plus simplicity forces trivial action; #print axioms shows no sorryAx."
+    "coverage_note": "Proved in EtingofRepresentationTheory/Chapter4/Problem4_1_4.lean. Char-p fixed-vector theorem for p-groups (nontrivial-center strong induction) plus simplicity forces trivial action; #print axioms shows no sorryAx.",
+    "fidelity": "verified",
+    "fidelity_decl": "theorem Etingof.Problem4_1_4 {p n : ℕ} [Fact p.Prime] {k} [Field k] [CharP k p] {G} [Group G] [Fintype G] (hG : Fintype.card G = p^n) {V} [AddCommGroup V] [Module k V] (ρ : Representation k G V) (hV : IsSimpleModule (MonoidAlgebra k G) ρ.asModule) : ∀ g, ρ g = LinearMap.id",
+    "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_1_4.lean",
+    "coverage": "covered_full",
+    "fidelity_note": "[fidelity #7270] VERIFIED. Hypotheses [Fact p.Prime], [CharP k p], Fintype.card G = p^n (n universally quantified, n=0 boundary admitted+harmless) faithfully encode 'G of order p^n over a field of characteristic p'; IsSimpleModule (MonoidAlgebra k G) ρ.asModule is the genuine irreducibility hypothesis (submodules = subrepresentations). Key check: conclusion ∀ g, ρ g = LinearMap.id is exactly 'the rep is trivial' (every element acts as identity) — the strongest faithful reading, NOT merely a fixed vector (that is the aux exists_fixed_vector) nor a scalar action; with hV it is equivalent to '1-dim trivial irrep'. Non-vacuous (C₂ over 𝔽₂ trivial rep satisfies all hyps; V forced Nontrivial by IsSimpleModule). Axiom-clean [propext, Classical.choice, Quot.sound], builds 8580/8580. covered_full.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Introduction_4.2",
