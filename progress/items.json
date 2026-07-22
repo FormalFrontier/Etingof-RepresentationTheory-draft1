@@ -3065,10 +3065,61 @@
     "start_line": 9,
     "end_line": 14,
     "status": "sorry_free",
-    "coverage_note": "Proved in EtingofRepresentationTheory/Chapter4/Problem4_12_1.lean, sorry-free (#print axioms = [propext, Classical.choice, Quot.sound]). (a) FULL classification of the complex irreps of DihedralGroup N. Dimension dichotomy irreducible_dim (every irreducible is 1- or 2-dim). Explicit 2-dim family Vrep N j (r 1 = diag(zeta^j, zeta^{-j}), sr 0 swaps coords), Vrep_irreducible (V_j irreducible iff 2j!=0), Vrep_trace_r (character zeta^{jk}+zeta^{-jk}), Vrep_not_iso (trace-based pairwise non-isomorphism). 1-dim characters DihedralGroup N ->* C^x with counts one_dim_reps_card_odd (=2) / one_dim_reps_card_even (=4) [#7249]. EXHAUSTIVENESS simple_iso_char_or_Vrep: every simple FDRep C (DihedralGroup N) is iso to a one-dimensional charRep chi or to a two-dimensional Vrep N j (2j!=0), via exists_simples_sum_finrank_sq_eq_card + surj_of_injective_of_sum_eq pigeonhole (sum of dim^2 = 2N). Count headlines: two_dim_simples_card_odd (=(N-1)/2), two_dim_simples_card_even (=(N-2)/2), irreps_sum_sq (#1dim*1 + #2dim*4 = 2N), total_irreps_card_odd (=2+(N-1)/2), total_irreps_card_even (=4+(N-2)/2). (b) tensor_square_character: V(x)V decomposition as the character identity chi_V^2 = 1 + chi_sign + chi_V2. Classification/counts completed in #7248 (built on 1-dim character counts #7249).",
+    "coverage_note": "Proved in EtingofRepresentationTheory/Chapter4/Problem4_12_1.lean, sorry-free (#print axioms = [propext, Classical.choice, Quot.sound]). (a) FULL classification of the complex irreps of DihedralGroup N. Dimension dichotomy irreducible_dim (every irreducible is 1- or 2-dim). Explicit 2-dim family Vrep N j (r 1 = diag(zeta^j, zeta^{-j}), sr 0 swaps coords), Vrep_irreducible (V_j irreducible iff 2j!=0), Vrep_trace_r (character zeta^{jk}+zeta^{-jk}), Vrep_not_iso (trace-based pairwise non-isomorphism). 1-dim characters DihedralGroup N ->* C^x with counts one_dim_reps_card_odd (=2) / one_dim_reps_card_even (=4) [#7249]. EXHAUSTIVENESS simple_iso_char_or_Vrep: every simple FDRep C (DihedralGroup N) is iso to a one-dimensional charRep chi or to a two-dimensional Vrep N j (2j!=0), via exists_simples_sum_finrank_sq_eq_card + surj_of_injective_of_sum_eq pigeonhole (sum of dim^2 = 2N). Count headlines: two_dim_simples_card_odd (=(N-1)/2), two_dim_simples_card_even (=(N-2)/2), irreps_sum_sq (#1dim*1 + #2dim*4 = 2N), total_irreps_card_odd (=2+(N-1)/2), total_irreps_card_even (=4+(N-2)/2). (b) tensor_square_character: V(x)V decomposition as the character identity chi_V^2 = 1 + chi_sign + chi_V2. Classification/counts completed in #7248 (built on 1-dim character counts #7249). [COVERAGE AUDIT #7314, 2026-07-22]: coverage=covered_partial (roll-up). (a) covered_full (simple_iso_char_or_Vrep exhaustiveness + odd/even totals total_irreps_card_odd/even, even-case 4 vs odd 2 characters). (b) covered_partial: only the character identity tensor_square_character (χ_V² = 1 + χ_ε + χ_{V₂}) is formalized, not an FDRep isomorphism V⊗V ≅ 𝟙⊕ε⊕V₂; follow-up #7318 for the isomorphism-level upgrade.",
     "fidelity": "verified",
     "fidelity_issue": null,
-    "fidelity_note": "[VERIFIED by #7268 re-audit, 2026-07-22] Full re-audit of the now-complete classification against blobs/Chapter4/Problem4.12.1.md. All 13 headline declarations axiom-clean ([propext, Classical.choice, Quot.sound], no sorryAx). Part (a): DihedralGroup N (order 2N, DihedralGroup.card) faithfully models the N-gon symmetry group; irreducible_dim (dimension dichotomy, genuine IsSimpleModule hyp, non-vacuous); explicit 2-dim family Vrep N j (real def: r 1 = diag(ζ^j,ζ^{-j}), sr 0 swaps) with Vrep_irreducible (simple iff 2j≠0), Vrep_trace_r (χ = ζ^{jk}+ζ^{-jk}), Vrep_not_iso (character-separated); 1-dim characters via charEquiv (u^N=u^2=1, w^2=1; u^2=1 from the dihedral relation) with counts 2 (odd)/4 (even); EXHAUSTIVENESS simple_iso_char_or_Vrep proves every simple is iso to a 1-dim charRep χ or 2-dim Vrep N j (Artin-Wedderburn ∑dim²=2N + pigeonhole); counts two_dim_simples_card_odd/_even, total_irreps_card_odd/_even, irreps_sum_sq all match the book. Part (b): tensor_square_character χ_V²=1+χ_ε+χ_{V₂} (chiStd/chiSign/chiRot2 real defs, correct D_N characters) faithfully encodes V⊗V≅𝟙⊕ε⊕V₂. Encoding note (NOT a gap): part (b) is a character identity among hand-defined class functions rather than a bundled FDRep isomorphism — legitimate since character equality ⟺ isomorphism over ℂ for finite groups; possible future strengthening. Non-vacuous: all defs constructed (no sorry'd data, no True stubs), NeZero N the natural non-degeneracy hyp. Supersedes the #7219 GAP (part (a) classification was absent at that time; completed by #7222→#7225→#7248, 1-dim counts #7249). Report: progress/reviews/2026-07-22-ch4-problem4_12_1-dihedral-reaudit-fidelity.md."
+    "fidelity_note": "[VERIFIED by #7268 re-audit, 2026-07-22] Full re-audit of the now-complete classification against blobs/Chapter4/Problem4.12.1.md. All 13 headline declarations axiom-clean ([propext, Classical.choice, Quot.sound], no sorryAx). Part (a): DihedralGroup N (order 2N, DihedralGroup.card) faithfully models the N-gon symmetry group; irreducible_dim (dimension dichotomy, genuine IsSimpleModule hyp, non-vacuous); explicit 2-dim family Vrep N j (real def: r 1 = diag(ζ^j,ζ^{-j}), sr 0 swaps) with Vrep_irreducible (simple iff 2j≠0), Vrep_trace_r (χ = ζ^{jk}+ζ^{-jk}), Vrep_not_iso (character-separated); 1-dim characters via charEquiv (u^N=u^2=1, w^2=1; u^2=1 from the dihedral relation) with counts 2 (odd)/4 (even); EXHAUSTIVENESS simple_iso_char_or_Vrep proves every simple is iso to a 1-dim charRep χ or 2-dim Vrep N j (Artin-Wedderburn ∑dim²=2N + pigeonhole); counts two_dim_simples_card_odd/_even, total_irreps_card_odd/_even, irreps_sum_sq all match the book. Part (b): tensor_square_character χ_V²=1+χ_ε+χ_{V₂} (chiStd/chiSign/chiRot2 real defs, correct D_N characters) faithfully encodes V⊗V≅𝟙⊕ε⊕V₂. Encoding note (NOT a gap): part (b) is a character identity among hand-defined class functions rather than a bundled FDRep isomorphism — legitimate since character equality ⟺ isomorphism over ℂ for finite groups; possible future strengthening. Non-vacuous: all defs constructed (no sorry'd data, no True stubs), NeZero N the natural non-degeneracy hyp. Supersedes the #7219 GAP (part (a) classification was absent at that time; completed by #7222→#7225→#7248, 1-dim counts #7249). Report: progress/reviews/2026-07-22-ch4-problem4_12_1-dihedral-reaudit-fidelity.md.",
+    "coverage": "covered_partial",
+    "coverage_arm": "audited",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter4/Problem4_12_1.lean"
+    ],
+    "fidelity_decl": [
+      "Etingof.Problem4_12_1.simple_iso_char_or_Vrep",
+      "Etingof.Problem4_12_1.irreducible_dim",
+      "Etingof.Problem4_12_1.one_dim_reps_card_odd",
+      "Etingof.Problem4_12_1.one_dim_reps_card_even",
+      "Etingof.Problem4_12_1.total_irreps_card_odd",
+      "Etingof.Problem4_12_1.total_irreps_card_even",
+      "Etingof.Problem4_12_1.tensor_square_character"
+    ],
+    "derived": [
+      {
+        "part": "(a)",
+        "description": "Describe all irreducible complex representations of D_N (odd and even N).",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Problem4_12_1.irreducible_dim",
+          "Etingof.Problem4_12_1.Vrep",
+          "Etingof.Problem4_12_1.Vrep_irreducible",
+          "Etingof.Problem4_12_1.Vrep_not_iso",
+          "Etingof.Problem4_12_1.charEquiv",
+          "Etingof.Problem4_12_1.one_dim_reps_card_odd",
+          "Etingof.Problem4_12_1.one_dim_reps_card_even",
+          "Etingof.Problem4_12_1.simple_iso_char_or_Vrep",
+          "Etingof.Problem4_12_1.two_dim_simples_card_odd",
+          "Etingof.Problem4_12_1.two_dim_simples_card_even",
+          "Etingof.Problem4_12_1.total_irreps_card_odd",
+          "Etingof.Problem4_12_1.total_irreps_card_even",
+          "Etingof.Problem4_12_1.irreps_sum_sq"
+        ],
+        "reason": "FULL and faithful classification. Exhaustiveness theorem simple_iso_char_or_Vrep proves every finite-dim simple FDRep over ℂ is iso to a 1-dim charRep χ or a 2-dim Vrep N j (2·j≠0), via Artin-Wedderburn exists_simples_sum_finrank_sq_eq_card + surj_of_injective_of_sum_eq pigeonhole (Σ dim² = 2N) — not merely a dimension count. Odd/even totals stated explicitly: total_irreps_card_odd = 2 + (N-1)/2, total_irreps_card_even = 4 + (N-2)/2. Even case genuinely yields the extra 1-dim characters: one_dim_reps_card_even = 4 vs one_dim_reps_card_odd = 2 (card_u_even = 2 units u with u²=1 forcing u^N=1 for even N, vs card_u_odd = 1), times card_sqrtOne = 2 for w. 2-dim counts two_dim_simples_card_odd = (N-1)/2, _even = (N-2)/2. All axiom-clean."
+      },
+      {
+        "part": "(b)",
+        "description": "Decompose V⊗V into a direct sum of irreducibles, where V is the complexified standard 2-dim representation.",
+        "coverage": "covered_partial",
+        "lean_decl": [
+          "Etingof.Problem4_12_1.tensor_square_character",
+          "Etingof.Problem4_12_1.chiStd",
+          "Etingof.Problem4_12_1.chiSign",
+          "Etingof.Problem4_12_1.chiRot2"
+        ],
+        "reason": "PARTIAL. The book asks for the direct-sum decomposition V⊗V ≅ 𝟙⊕ε⊕V₂ into irreducible REPRESENTATIONS, but only the CHARACTER identity is formalized: tensor_square_character proves chiStd² = 1 + chiSign + chiRot2 (i.e. χ_V² = 1 + χ_ε + χ_{V₂}). Correct and faithful evidence (over ℂ characters determine the rep for a finite group), but (i) no Representation.Equiv / FDRep isomorphism V⊗V ≅ 𝟙⊕ε⊕V₂ is stated, and (ii) chiStd/chiSign/chiRot2 are hand-defined class functions posited as the characters rather than traces of the file’s constructed Vrep N 1 / Vrep N 2 / charRep. Same character-level-only situation as 4.12.6/4.12.9. Follow-up feature issue #7318 opened for the isomorphism-level upgrade (mirrors #7308 for 4.12.6).",
+        "followup_issue": 7318
+      }
+    ],
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Problem4.12.2",
