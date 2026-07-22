@@ -1156,4 +1156,21 @@ theorem charRep_tprod_Vrep_equiv_Vrep [Fintype K] [DecidableEq K]
     IsIrreducible.of_equiv (tprodCharRepEquivSmulChar χ _).symm
   exact equiv_of_character_eq _ _ (funext fun g => charRep_tprod_Vrep_character_eq_Vrep hK χ g)
 
+/-- The character-twist of the one-dimensional `charRep χ'` by `χ` is again a one-dimensional
+character representation: `smulChar χ (charRep χ') = charRep (χ * χ')`, since
+`(χ g)·((χ' g)·x) = (χ g · χ' g)·x`. -/
+lemma smulChar_charRep (χ χ' : Affine K →* ℂˣ) :
+    smulChar χ (charRep χ') = charRep (χ * χ') := by
+  ext g
+  simp only [smulChar_apply, charRep_apply, MonoidHom.mul_apply, Units.val_mul, smul_smul]
+
+/-- **`χ ⊗ χ' ≅ χ·χ'` as representations.** The tensor product of the two one-dimensional
+characters `charRep χ` and `charRep χ'` is isomorphic to the one-dimensional character
+`charRep (χ · χ')`, via `ℂ ⊗ ℂ ≅ ℂ` (`tprodCharRepEquivSmulChar`) together with the identification
+`smulChar χ (charRep χ') = charRep (χ · χ')`. This is the isomorphism-level upgrade of the
+character identity `charRep_tprod_charRep_character`. -/
+def tprodCharRepEquivCharRepMul (χ χ' : Affine K →* ℂˣ) :
+    (Representation.tprod (charRep χ) (charRep χ')).Equiv (charRep (χ * χ')) :=
+  smulChar_charRep χ χ' ▸ tprodCharRepEquivSmulChar χ (charRep χ')
+
 end Etingof.Problem4_12_6
