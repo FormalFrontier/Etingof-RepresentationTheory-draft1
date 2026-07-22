@@ -204,6 +204,7 @@ import EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount
 import EtingofRepresentationTheory.Chapter5.Lemma5_25_3
 import EtingofRepresentationTheory.Chapter5.Discussion5_25_4
 import EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary
+import EtingofRepresentationTheory.Chapter5.GroupAlgebraCenter
 
 -- Section 5.26: Artin's Theorem
 import EtingofRepresentationTheory.Chapter5.Theorem5_26_1
