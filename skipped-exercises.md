@@ -12,6 +12,21 @@ Progress metadata should record partial coverage and the scope decision explicit
 
 ## Current intentional omissions
 
+### Problem 2.11.6 — standalone bimodule tensor calculus
+
+The associativity isomorphism for relative tensor products and the bimodule
+tensor–Hom adjunction are intentionally not rebuilt as a standalone API. The
+book's only later use is to derive Frobenius reciprocity in Theorem 5.10.1, and
+the formalization proves that theorem directly through Mathlib's representation
+induction/restriction adjunction. Formalizing Problem 2.11.6 literally would
+require a separate bimodule/universal-property layer over the project's custom
+relative tensor product without adding a new downstream result.
+
+The exact source statements, the downstream citation, and the replacement route
+are documented in
+`EtingofRepresentationTheory/Chapter2/Problem2_11_6.lean`. The file contains no
+placeholder declaration for the omitted exercise.
+
 ### Problem 2.13.1 — the Dehn invariant and Hilbert's third problem
 
 Part (b), the irrationality of `arccos(1/3) / π`, is formalized. Parts (a) and
@@ -66,13 +81,24 @@ declaration stands in for them.
 The following exercises appeared in the original hard-problem/skip list but were
 subsequently formalized. The former scope decision is therefore superseded:
 
-- Problem 2.7.5 — q-Weyl algebra;
-- Problem 2.16.3 — the Lie algebras `g_n`;
 - Problem 4.12.8 — finite subgroups of `SO(3)` and `SU(2)`;
 - Problem 5.24.2 — invariants of matrix tuples;
 - Problem 6.1.3 — finite and affine Dynkin diagrams;
 - Problem 8.2.8 — Künneth formulas for Tor and Ext;
-- Problem 9.6.5 — the Morita-type equivalence.
 
 Their Lean files and `progress/items.json` are authoritative for the precise
 coverage and hypotheses of the completed results.
+
+## Reopened former exclusions
+
+These exercises were removed from the original skip list after substantial
+formalization, but a later fidelity audit found a remaining source-level endpoint.
+They are active work, not intentional omissions:
+
+- Problem 2.7.5 — the center, ideal, determinant, and irreducible-dimension results
+  are proved, but the requested classification of all finite-dimensional q-Weyl
+  irreducibles remains #7392;
+- Problem 2.16.3 — the dimension and non-finiteness results are proved, but the
+  requested explicit basis of `g_4` remains #7394;
+- Problem 9.6.5 — an abstract quasi-inverse is proved, but the book's named balanced
+  tensor/cokernel functor and its comparison maps remain to be constructed; see #6567.
