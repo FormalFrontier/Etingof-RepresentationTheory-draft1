@@ -2103,8 +2103,12 @@
     "start_line": 5,
     "end_line": 8,
     "status": "sorry_free",
+    "coverage": "covered_partial",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "fidelity_note": "The two Jacobson-radical equalities are proved. The source first classifies the unique simple k[x]/(x^n)-module and the n diagonal simple modules of the upper-triangular algebra; both representation classifications are absent and tracked by #7419.",
+    "fidelity_issue": 7419,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Definition3.5.7",
@@ -2532,9 +2536,14 @@
     "start_line": 17,
     "end_line": 17,
     "status": "sorry_free",
-    "sorry_free": false,
+    "coverage": "covered_partial",
+    "coverage_note": "The simple modules and Ext-vanishing criterion are proved. The exact Ext^1 dimension formula remains #7376, and the two-dimensional theorem gives only necessary conditions rather than isomorphisms to classified normal forms; follow-up #7420.",
+    "sorry_free": true,
     "fidelity": "verified",
-    "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_3.lean"
+    "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_3.lean",
+    "fidelity_issue": 7420,
+    "followup_issue": 7376,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Problem3.9.4",
@@ -3014,7 +3023,11 @@
     "start_line": 11,
     "end_line": 19,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "coverage": "covered_partial",
+    "fidelity": "verified",
+    "fidelity_note": "Renormalized irreducible characters are proved primitive idempotents, but the converse classification of all primitive idempotents is absent. Character recovery is weakened to existence of a square-root scalar instead of the source's definite normalization; reopened #5183.",
+    "fidelity_issue": 5183,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Discussion_before_Theorem4.5.4",
@@ -5285,10 +5298,11 @@
     "start_line": 21,
     "end_line": 25,
     "status": "sorry_free",
-    "coverage_note": "Statement pass: Chapter5/Problem5_16_1.lean states the branching rule for S_n in S_{n+1}. (a) restriction character of V_mu equals the sum of characters of V_lambda over R(mu) = {lambda subset mu}; (b) the Frobenius-reciprocity multiplicity of V_lambda in Ind V_mu is the indicator of A(mu) = {mu subset lambda}. R(mu)/A(mu) via YoungDiagram containment. Sorry proofs.",
+    "coverage_note": "The restriction character identity and induction multiplicity formula are proved. The source states actual module decompositions, but no restricted/induced representation objects, direct-sum RHS objects, or equivariant isomorphisms are exposed; reopened #6282.",
     "fidelity": "verified",
-    "fidelity_note": "Statement-fidelity & non-vacuity audit (#7203): FAITHFUL, axiom-clean. (a) restriction as full-character identity, (b) induction as Frobenius-reciprocity multiplicity over all lambda; equivalent to book module direct-sums in char 0 given V_lambda irreducible + pairwise distinct + complete. permEmb/removeSquare/addSquare/branchingPairing all genuine; if-guard discriminates. See progress/reviews/2026-07-21-ch5-problem5_16_1-branching-rule-fidelity.md",
-    "coverage": "covered_full",
+    "fidelity_note": "The character/multiplicity formulations are genuine and determine the isomorphism class over C, but the book's representation-level direct-sum statements are not themselves packaged; reopened #6282.",
+    "fidelity_issue": 6282,
+    "coverage": "covered_partial",
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Problem5_16_1.lean"
@@ -6137,7 +6151,9 @@
       "result": "covered_partial",
       "lean_decl": "Etingof.GL2.constructed_irreps_complete_unconditional",
       "note": "constructed_irreps_complete_unconditional proves only a cardinality statement for an abstract Wedderburn index type. It does not construct the complementary-series representations, prove cross-family nonisomorphism, or show every simple FDRep is isomorphic to one of the named families."
-    }
+    },
+    "fidelity_issue": 7252,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Introduction_5.26",
