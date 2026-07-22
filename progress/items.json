@@ -6635,7 +6635,9 @@
     "start_line": 9,
     "end_line": 20,
     "status": "sorry_free",
-    "coverage_note": "Sorry-free: EtingofRepresentationTheory/Chapter7/Problem7_8_5.lean (Etingof.Problem7_8_5 + connecting hom). LES exactness from hS.homology_exact₁/₂/₃; axioms propext, Classical.choice, Quot.sound."
+    "coverage_note": "Sorry-free: EtingofRepresentationTheory/Chapter7/Problem7_8_5.lean (Etingof.Problem7_8_5 + connecting hom). LES exactness from hS.homology_exact₁/₂/₃; axioms propext, Classical.choice, Quot.sound.",
+    "fidelity": "verified",
+    "fidelity_note": "[fidelity] VERIFIED. (ii) The three .Exact conjuncts are Mathlib's genuine homology_exact₁/₂/₃ for a ShortExact ShortComplex of HomologicalComplex (ModuleCat.{0} ℤ) (up ℤ) = cochain complexes of abelian groups: exact at H^{i+1}(C)=X₁.homology j, H^i(D)=X₂.homology i, H^i(E)=X₃.homology i, with middle maps homologyMap S.f/S.g (induced by C→D→E) and connecting map hS.δ — exactly (7.8.1); quantified over all i∈ℤ this covers every C/D/E node. (i) The connecting map c_i:H^i(E)→H^{i+1}(C) is Problem7_8_5_connecting = hS.δ, a genuine snake-lemma morphism; well-definedness/independence-of-choices is discharged by construction (the abstract δ has no representative choices). Non-vacuous: axioms {propext,Classical.choice,Quot.sound}, ShortExact real (mono f, epi g, exact middle). Minor caveat: agreement of hS.δ with the book's explicit dx'' chase is not separately proven, but δ is the standard categorical connecting map — accepted rendering."
   },
   {
     "id": "Chapter7/Definition7.8.6",
