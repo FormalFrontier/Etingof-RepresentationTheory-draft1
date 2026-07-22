@@ -2544,7 +2544,8 @@
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_9_2.lean"
     ],
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "followup_issue": 6276,
     "coverage_arm": "audited",
     "lean_decl": [
       "Etingof.Problem3_9_2.ext1_self",
@@ -2553,20 +2554,21 @@
       "Etingof.Problem3_9_2.infinitely_many_indecomposables"
     ],
     "last_updated": "2026-07-22",
-    "coverage_note": "Coverage-arm audit (Stage 3.7, #7375): covered_full. Problem3_9_2.lean (761 lines, sorry-free, headline decls axiom-clean [propext, Classical.choice, Quot.sound] verified via olean import). Both parts fully covered. (a) polynomial algebra A=ℂ[x₁..xₙ]: Ext¹ is FULLY computed both ways — ext1_self (277): Ext¹(Vₐ,Vₐ)≅ℂⁿ (equal weights); ext1_subsingleton_of_ne (309): Ext¹(V_b,Vₐ)=0 for a≠b (distinct weights). two_dim_is_extension (511): every 2-dim rep of A is an extension of two 1-dim reps V_b ⊆ U with U⧸V_b≅Vₐ, which with the Ext¹ computation classifies 2-dim reps. (b) zero-mult algebra B=ℂ⟨x₁..xₙ⟩/(xᵢxⱼ): infinitely_many_indecomposables (677): for n>1 a family Cyc n k (k:ℕ) of pairwise non-isomorphic indecomposable B-modules. Vrep/zeroMulAlg/rep genuinely constructed; Ext1 = in-book Problem3_9_1 Z1/B1, not Mathlib derived Ext. Prior fidelity: verified.",
+    "coverage_note": "The Ext¹ computation and the infinite indecomposable family in part (b) are proved. For part (a), two_dim_is_extension only reduces an arbitrary two-dimensional module to an extension of one-dimensional modules; it does not provide normal forms or the isomorphism criterion obtained by splitting distinct weights and quotienting self-extension classes by automorphisms. The requested classification remains #6276.",
     "derived": [
       {
-        "part": "(a) Ext¹(Vₐ,V_b) and 2-dim reps of ℂ[x₁..xₙ]",
+      "part": "(a) Ext¹(Vₐ,V_b) and 2-dim reps of ℂ[x₁..xₙ]",
         "claim": "For A=ℂ[x₁..xₙ] with 1-dim reps Vₐ,V_b (xᵢ acts by aᵢ,bᵢ): Ext¹(Vₐ,Vₐ)≅ℂⁿ and Ext¹(Vₐ,V_b)=0 for a≠b; every 2-dim rep is an extension of two 1-dim reps.",
         "description": "Full Ext¹ computation (ℂⁿ for equal weights, 0 for distinct) plus classification of 2-dim representations as extensions of 1-dim ones.",
         "source_span": "blobs/Chapter3/Problem3.9.2.md (a)",
-        "coverage": "covered_full",
+      "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem3_9_2.ext1_self",
           "Etingof.Problem3_9_2.ext1_subsingleton_of_ne",
           "Etingof.Problem3_9_2.two_dim_is_extension"
         ],
-        "reason": "ext1_self (277): Ext¹(Vₐ,Vₐ)≅ℂⁿ via cocycles≃derivations≃ℂⁿ (n nilpotent directions). ext1_subsingleton_of_ne (309): Subsingleton(Ext¹(V_b,Vₐ)) for a≠b (every cocycle is a coboundary — a twisted-derivation rigidity argument once some weight differs). two_dim_is_extension (511): any 2-dim A-module U has a 1-dim sub S≅V_b with U⧸S≅Vₐ (common eigenvector over ℂ). Together these compute Ext¹ in both cases and classify 2-dim reps. Axiom-clean."
+      "reason": "The Ext¹ spaces are computed and every 2D module is shown to be an extension. The file does not turn this into an up-to-isomorphism classification: no explicit normal forms, split/distinct-weight theorem, projective parameter for nonzero self-extensions, or iff isomorphism criterion is exposed.",
+      "followup_issue": 6276
       },
       {
         "part": "(b) infinitely many indecomposables of the zero-mult algebra",
