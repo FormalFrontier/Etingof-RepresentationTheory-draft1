@@ -4482,7 +4482,13 @@
     "start_line": 9,
     "end_line": 12,
     "status": "sorry_free",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "coverage": "covered_full",
+    "lean_decl": "Etingof.sum_finrank_irreducible_eq_card_sq_eq_one",
+    "lean_file": "EtingofRepresentationTheory/Chapter5/Problem5_12_5.lean",
+    "last_updated": "2026-07-22",
+    "coverage_note": "Sorry-free on main (feat #6253): Chapter5/Problem5_12_5.lean proves sum_finrank_irreducible_eq_card_sq_eq_one — for any complete irredundant family V : ι → FDRep ℂ (Equiv.Perm (Fin n)) of irreducibles (hsimple/hpairwise/hcomplete), ∑ i, finrank ℂ (V i) = Fintype.card {g // g * g = 1}. The answer to 'find the sum' is the Frobenius-Schur involution-or-identity count. Reality of every Sₙ irreducible (frobeniusSchurIndicator_symmetricGroup_eq_one, via the Specht/Young-symmetrizer real form) gives FS-indicator 1, and Corollary5_1_6 collapses Theorem 5.1.5's ∑ dim Vᵢ·FS(Vᵢ) to ∑ dim Vᵢ = #{g : g²=1}; a dimension-preserving bijection aligns V with the Wedderburn family. #print axioms: propext, Classical.choice, Quot.sound only.",
+    "fidelity": "verified",
+    "fidelity_note": "[fidelity #7348] VERIFIED covered_full. Genuine closed-form answer: RHS Fintype.card {g : Equiv.Perm (Fin n) // g * g = 1} is the honest square-roots-of-1 (involution-or-identity) count, LHS ∑ finrank ℂ (V i) — a real identity, not a restatement/tautology. Completeness hypotheses genuinely used and non-vacuous: hpairwise ⇒ injectivity and hcomplete ⇒ surjectivity of the alignment τ (Problem5_12_5.lean:87-92); the Wedderburn family D.columnFDRep (IrrepDecomp.mk') witnesses a valid ι, so the theorem is not vacuously quantified. Reality rests on frobeniusSchurIndicator_symmetricGroup_eq_one (Specht ℚ-form / real type, the book hint) feeding Corollary5_1_6 (a genuine specialization of Theorem 5.1.5), not an unrelated shortcut. The statement quantifies over ALL complete irredundant families, matching 'all irreducible representations', not a single fixed family — not weaker than the book. Axiom-clean [propext, Classical.choice, Quot.sound], no sorryAx; builds 8614/8614."
   },
   {
     "id": "Chapter5/Introduction_5.13",
