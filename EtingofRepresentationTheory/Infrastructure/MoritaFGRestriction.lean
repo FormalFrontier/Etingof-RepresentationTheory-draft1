@@ -236,4 +236,16 @@ theorem MoritaEquivalent.fgModuleCatEquiv {A B : Type u} [Ring A] [Ring B]
     exact finite_functor_iff E M
   exact ⟨E.congrFullSubcategory hobj⟩
 
+/-- **Reconciliation, forward direction.** A full-module Morita equivalence implies the
+book-faithful Morita equivalence on finitely generated modules (Etingof Definition 9.7.1).
+
+For finite-dimensional algebras `FGModuleCat` is the book's category `A`-fmod, so this says
+the full-module notion `Etingof.MoritaEquivalent` refines to the literal book definition
+`Etingof.MoritaEquivalentFmod`. The converse (reconstructing a full-module equivalence from
+an equivalence of finite-dimensional modules) is the Morita reconstruction theorem and is
+not yet formalized. -/
+theorem MoritaEquivalent.toFmod {A B : Type u} [Ring A] [Ring B]
+    (h : Etingof.MoritaEquivalent A B) : Etingof.MoritaEquivalentFmod A B :=
+  MoritaEquivalent.fgModuleCatEquiv h
+
 end Etingof
