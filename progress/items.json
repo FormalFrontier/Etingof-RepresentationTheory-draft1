@@ -4791,7 +4791,37 @@
     "status": "sorry_free",
     "coverage_note": "Statement pass: Chapter5/Problem5_16_1.lean states the branching rule for S_n in S_{n+1}. (a) restriction character of V_mu equals the sum of characters of V_lambda over R(mu) = {lambda subset mu}; (b) the Frobenius-reciprocity multiplicity of V_lambda in Ind V_mu is the indicator of A(mu) = {mu subset lambda}. R(mu)/A(mu) via YoungDiagram containment. Sorry proofs.",
     "fidelity": "verified",
-    "fidelity_note": "Statement-fidelity & non-vacuity audit (#7203): FAITHFUL, axiom-clean. (a) restriction as full-character identity, (b) induction as Frobenius-reciprocity multiplicity over all lambda; equivalent to book module direct-sums in char 0 given V_lambda irreducible + pairwise distinct + complete. permEmb/removeSquare/addSquare/branchingPairing all genuine; if-guard discriminates. See progress/reviews/2026-07-21-ch5-problem5_16_1-branching-rule-fidelity.md"
+    "fidelity_note": "Statement-fidelity & non-vacuity audit (#7203): FAITHFUL, axiom-clean. (a) restriction as full-character identity, (b) induction as Frobenius-reciprocity multiplicity over all lambda; equivalent to book module direct-sums in char 0 given V_lambda irreducible + pairwise distinct + complete. permEmb/removeSquare/addSquare/branchingPairing all genuine; if-guard discriminates. See progress/reviews/2026-07-21-ch5-problem5_16_1-branching-rule-fidelity.md",
+    "coverage": "covered_full",
+    "coverage_arm": "audited",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter5/Problem5_16_1.lean"
+    ],
+    "derived": [
+      {
+        "part": "(a)",
+        "description": "Res_{S_{n-1}}^{S_n} V_mu = direct-sum over lambda in R(mu) of V_lambda (remove one square), for mu partition of n+1.",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.res_spechtModule_character",
+          "Etingof.removeSquare",
+          "Etingof.permEmb",
+          "Etingof.res_charValue_sum"
+        ],
+        "reason": "Coverage-arm audit (Stage 3.7, #7338): covered_full. res_spechtModule_character (Problem5_16_1.lean:501) proves the full character identity spechtModuleCharacter (n+1) mu (permEmb n sigma) = sum over la in removeSquare mu of spechtModuleCharacter n la sigma, for ALL sigma in S_n and every mu partition of n+1 (no vacuity constraint). Non-vacuous: spechtModuleCharacter (Theorem5_15_1.lean:85) is the genuine trace LinearMap.trace of the real Specht-module action on V_la subset C[S_n]; permEmb (line 49) = Equiv.Perm.viaEmbeddingHom Fin.castSuccEmb is the honest S_n hookrightarrow S_{n+1} pointwise-stabilizer embedding (fullCycleType_permEmb confirms it adds exactly one fixed point, so the LHS is precisely the restricted character (Res chi_{V_mu})(sigma)); removeSquare mu (line 55) = {la partition of n : la.toYoungDiagram <= mu.toYoungDiagram}, and containment with the forced size gap |mu|=|la|+1 means exactly one removable-corner square is removed, so removeSquare mu = R(mu) faithfully. Proof route is the Frobenius character formula + the Pieri rule for p_1 (res_charValue_sum). Over C a full-character identity between the semisimple modules Res V_mu and the direct sum pins the module down up to isomorphism, so the book's '=' (module iso) is captured; the iso is asserted at character level (accepted project convention, same as Sec 5.24), not a literal DirectSum reconstruction. Fidelity verified #7203 (axiom-clean [propext, Classical.choice, Quot.sound], no sorryAx)."
+      },
+      {
+        "part": "(b)",
+        "description": "Ind_{S_{n-1}}^{S_n} V_mu = direct-sum over lambda in A(mu) of V_lambda (add one square), for mu partition of n.",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.ind_spechtModule_multiplicity",
+          "Etingof.branchingPairing",
+          "Etingof.addSquare"
+        ],
+        "reason": "Coverage-arm audit (Stage 3.7, #7338): covered_full. ind_spechtModule_multiplicity (Problem5_16_1.lean:535) proves branchingPairing n chi_{V_mu} (fun sigma => chi_{V_la}(permEmb sigma)) = (if mu.toYoungDiagram <= la.toYoungDiagram then 1 else 0), for every mu partition of n and la partition of n+1. Non-vacuous: branchingPairing (line 67) = |S_n|^{-1} sum_sigma chi(sigma) psi(sigma^{-1}) is the genuine Frobenius-reciprocity inner product on class functions (not a tautology), here pairing chi_{V_mu} against the restricted character of V_la; the proof (via part (a) restriction branching + Specht-character orthonormality specht_char_inner, itself FDRep.char_orthonormal) makes it real reciprocity. The if-guard mu.toYoungDiagram <= la.toYoungDiagram is exactly membership of la in addSquare mu (line 61), i.e. one square added / la in A(mu), so the multiplicity is 1 iff la in A(mu) and 0 otherwise. Since {V_la : la partition of n+1} is a complete set of pairwise-distinct irreducibles of S_{n+1}, the full multiplicity function determines Ind V_mu up to isomorphism, capturing the book's '=' (module iso) at multiplicity level (accepted project convention). Fidelity verified #7203 (axiom-clean, no sorryAx)."
+      }
+    ]
   },
   {
     "id": "Chapter5/Problem5.16.2",
