@@ -2986,8 +2986,9 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] Same structural issue as Example4.3_Q8. The book describes the three irreducible representations of S3 (trivial, sign, and 2-dimensional standard rep via symmetries of equilateral tr",
-    "fidelity_issue": 5633
+    "fidelity_note": "The trivial, sign, and two-dimensional standard representations are constructed and proved simple with the stated dimensions and characters. Discussion5_11_examples.lean proves pairwise non-isomorphism and the exhaustive classification S3_simple_iso.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Example4.3_Q8",
@@ -3035,8 +3036,9 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] Same structural issue as Q8 and S3. Book describes 5 irreps of S4 (trivial, sign, 2-dim pullback from S3, 3-dim rotation rep C3+, 3-dim C3-). Lean only proves: 5 conjugacy classes (b",
-    "fidelity_issue": 5634
+    "fidelity_note": "All five named S₄ representations are constructed and proved simple with their dimensions and distinguishing characters. Discussion5_11_S4S3.lean supplies all pairwise non-isomorphism results and the exhaustive classification S4_simple_iso.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Discussion_4.4",
@@ -3311,9 +3313,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] For Q8 and S4: complete. All 5 representations are constructed as genuine FDRep objects, simplicity proved via norm-one criterion (no native_decide), characters computed and matched ",
+    "fidelity_note": "The Q₈ and S₄ tables are realized by genuine simple, pairwise nonisomorphic representations with the tabulated characters. The A₅ development now likewise exposes a Fin 5 family including both icosahedral three-dimensional representations, proves simplicity and pairwise non-isomorphism, and matches all five golden-ratio character rows.",
     "fidelity_decl": "Etingof.Example4_8_1_Q8_simple, Etingof.Example4_8_1_Q8_character, Etingof.Example4_8_1_S4_simple, Etingof.Example4_8_1_S4_character, Etingof.Example4_8_1_S4_pairwise, Etingof.Example4_8_1_S4_conj_classes, Etingof.Example4_8_1_S4_card, Etingof.Example4_8_1.A5_orthonormal, Etingof.Example4_8_1_A5_conj_classes",
-    "fidelity_issue": 5635
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Introduction_4.9",
@@ -5003,8 +5006,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "Trivial/sign claims proved at the representation level (Example5_12_3_trivial_rep, Example5_12_3_sign_rep). The two 3-dim cases are now distinguished (#7188): Example5_12_3_sign_twist_31_211 witnesses ℂ³₊ = ℂ³₋ ⊗ sign (V_{(2,1,1)} ≅ V_{(3,1)} ⊗ sign, since (2,1,1) is the conjugate of (3,1), conjugatePartition_p_31), and Example5_12_3_specht_31_211_noniso witnesses ℂ³₋ ≠ ℂ³₊ (the two Specht modules are non-isomorphic ℂ[S₄]-modules). The (2,1)→ℂ² and (2,2)→ℂ² cases remain dimension-only, which is faithful since each of S₃/S₄ has a unique 2-dim irrep. All new decls axiom-clean (no sorryAx).",
-    "fidelity_issue": 5637
+    "fidelity_note": "The trivial/sign cases are proved at representation level, and the two three-dimensional Specht modules are proved nonisomorphic and related by sign twist. The missing endpoint is their oriented identification with the separately constructed named S₄ models: V_(3,1) ≅ stdRep = ℂ³₋ and V_(2,1,1) ≅ rotRep = ℂ³₊.",
+    "coverage": "covered_partial",
+    "followup_issue": 7188,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Corollary5.12.4",
@@ -6376,8 +6381,9 @@
     "end_line": 14,
     "status": "sorry_free",
     "fidelity": "verified",
-    "fidelity_note": "[re-verified review #7183, 2026-07-21] Repair landed; statement faithful and non-vacuous, builds, axiom-clean (no sorryAx). [partial-example] Part (ii) is strictly weaker than the book. The book states the representations V(O,U) are 'pairwise nonisomorphic,' meaning distinct (orbit, irrep) pairs yield non-isomorphic repres",
-    "fidelity_issue": 5623
+    "fidelity_note": "The orbit-method classification is complete: irreducibility, exhaustiveness, character and dimension formulas, base-point independence, and pairwise non-isomorphism are proved. In particular an isomorphism V(χ₁,U₁) ≅ V(χ₂,U₂) yields both an orbit element g with χ₂=g·χ₁ and an isomorphism U₂ ≅ transport(g,U₁).",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Exercise5.27.2",
