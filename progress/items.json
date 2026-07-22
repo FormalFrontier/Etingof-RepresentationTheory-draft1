@@ -1904,10 +1904,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The definition is 'abbrev Etingof.DualRepresentation (k : Type*) (V : Type*) [CommSemiring k] [AddCommMonoid V] [Module k V] := Module.Dual k V'. The parameter A is absent — there is",
+    "fidelity_note": "DualRepresentation takes the algebra A and its action on V as parameters and carries the explicit contragredient Aᵐᵒᵖ-module structure, with dualRepresentation_smul_apply proving (op a • f)(v) = f(a • v).",
     "fidelity_decl": "Etingof.DualRepresentation (k A V) := Module.Dual k V, with Module A^mop instance (op a . f)(v) = f(a.v)",
-    "fidelity_issue": 5618,
-    "last_updated": "2026-06-29"
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Discussion_proof_of_Theorem3.3.1",
@@ -2080,7 +2080,11 @@
     "end_line": 22,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "The radical-quotient isomorphism is proved conditional on a finite exhaustive family of simples. The supplemental finiteness file proves that each simple is finite-dimensional and bounds any already finite pairwise-nonisomorphic family, but it does not construct the finite exhaustive family whose existence the source proves; follow-up #7127.",
+    "followup_issue": 7127,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Corollary3.5.5",
