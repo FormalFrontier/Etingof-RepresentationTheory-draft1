@@ -248,4 +248,26 @@ theorem MoritaEquivalent.toFmod {A B : Type u} [Ring A] [Ring B]
     (h : Etingof.MoritaEquivalent A B) : Etingof.MoritaEquivalentFmod A B :=
   MoritaEquivalent.fgModuleCatEquiv h
 
+/-- **Reconciliation, forward direction, k-linear.** A k-linear full-module Morita
+equivalence restricts to a k-linear Morita equivalence on finitely generated modules.
+
+The restricted functor is `(ModuleCat.isFG B).lift ((ModuleCat.isFG A).ι ⋙ E.functor)`;
+since the full-subcategory inclusions are k-linear and `E.functor` is k-linear by
+hypothesis, its restriction is k-linear, checked through the faithful inclusion
+`(ModuleCat.isFG B).ι`. -/
+theorem KLinearMoritaEquivalent.toFmod {k : Type u} [Field k]
+    {A B : Type u} [Ring A] [Algebra k A] [Ring B] [Algebra k B]
+    (h : Etingof.KLinearMoritaEquivalent k A B) :
+    Etingof.KLinearMoritaEquivalentFmod k A B := by
+  obtain ⟨E, hlin⟩ := h
+  haveI := hlin
+  have hobj : (ModuleCat.isFG.{u} B).inverseImage E.functor = ModuleCat.isFG.{u} A := by
+    funext M; exact propext (finite_functor_iff E M)
+  refine ⟨E.congrFullSubcategory hobj, ⟨fun {X Y} f r => ?_⟩⟩
+  apply (ModuleCat.isFG.{u} B).ι.map_injective
+  change E.functor.map ((ModuleCat.isFG.{u} A).ι.map (r • f))
+      = (ModuleCat.isFG.{u} B).ι.map (r • (E.congrFullSubcategory hobj).functor.map f)
+  simp only [Functor.Linear.map_smul]
+  rfl
+
 end Etingof
