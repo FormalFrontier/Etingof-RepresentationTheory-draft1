@@ -5305,7 +5305,47 @@
     "start_line": 3,
     "end_line": 14,
     "status": "proved",
-    "coverage_note": "BOTH PARTS PROVED sorry-free (axiom-clean: propext/Classical.choice/Quot.sound). Part (a) rowColIdeal_iso_spechtModule (Chapter5/Problem5_24_1.lean): S_n-equivariant iso C[S_n]·(a_lambda b_lambda) = V_lambda ≅ C[S_n]·(b_lambda a_lambda) = V'_lambda via mutually-inverse right-multiplication maps, using c_lambda²=α·c_lambda (Lemma5_13_3) + mirror (Lemma5_13_1_dual). Part (b) Chapter5/Problem5_24_1_b.lean: signTwist_smul_of (phi maps V to V⊗C_-), signTwist_map_leftIdeal (phi(C[S_n]·a)=C[S_n]·phi(a)), and spechtModule_signTwist_iso_conjugate (V_lambda⊗C_- ≅ V_{lambda*}). The last is the composite SpechtModule λ --phi--> C[S_n]·phi(c_λ) --·of τ⁻¹--> rowColIdeal λ* --part(a)--> SpechtModule λ*, where τ (transposePerm) is the tableau-transposition permutation conjugating the row/column subgroups of λ to the column/row subgroups of λ* (mem_rowSubgroup_conj/mem_columnSubgroup_conj); key algebraic identity of τ · phi(c_λ) · of τ⁻¹ = a_{λ*} b_{λ*} (key_identity). conjugatePartition parts_sum discharged (card_transpose)."
+    "coverage_note": "BOTH PARTS PROVED sorry-free (axiom-clean: propext/Classical.choice/Quot.sound). Part (a) rowColIdeal_iso_spechtModule (Chapter5/Problem5_24_1.lean): S_n-equivariant iso C[S_n]·(a_lambda b_lambda) = V_lambda ≅ C[S_n]·(b_lambda a_lambda) = V'_lambda via mutually-inverse right-multiplication maps, using c_lambda²=α·c_lambda (Lemma5_13_3) + mirror (Lemma5_13_1_dual). Part (b) Chapter5/Problem5_24_1_b.lean: signTwist_smul_of (phi maps V to V⊗C_-), signTwist_map_leftIdeal (phi(C[S_n]·a)=C[S_n]·phi(a)), and spechtModule_signTwist_iso_conjugate (V_lambda⊗C_- ≅ V_{lambda*}). The last is the composite SpechtModule λ --phi--> C[S_n]·phi(c_λ) --·of τ⁻¹--> rowColIdeal λ* --part(a)--> SpechtModule λ*, where τ (transposePerm) is the tableau-transposition permutation conjugating the row/column subgroups of λ to the column/row subgroups of λ* (mem_rowSubgroup_conj/mem_columnSubgroup_conj); key algebraic identity of τ · phi(c_λ) · of τ⁻¹ = a_{λ*} b_{λ*} (key_identity). conjugatePartition parts_sum discharged (card_transpose).",
+    "coverage": "covered_full",
+    "coverage_arm": "audited",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter5/Problem5_24_1.lean",
+      "EtingofRepresentationTheory/Chapter5/Problem5_24_1_b.lean"
+    ],
+    "fidelity_decl": [
+      "Etingof.rowColIdeal_iso_spechtModule",
+      "Etingof.signTwist_smul_of",
+      "Etingof.signTwist_map_leftIdeal",
+      "Etingof.spechtModule_signTwist_iso_conjugate"
+    ],
+    "derived": [
+      {
+        "part": "(a)",
+        "description": "Show V'_λ := ℂ[Sₙ] bₗ aₗ is isomorphic to V_λ (the two orderings of the Young symmetrizer give isomorphic Sₙ-modules).",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.rowColIdeal",
+          "Etingof.rowColIdeal_iso_spechtModule"
+        ],
+        "reason": "FULL and faithful. rowColIdeal_iso_spechtModule is an exposed headline giving an existential ℂ-linear equivalence e : rowColIdeal n la (the book's V_λ = ℂ[Sₙ]·(aₗ bₗ)) ≃ SpechtModule n la (the project's V'_λ = ℂ[Sₙ]·(bₗ aₗ)) together with the intertwining condition e ((of g) • x) = (of g) • e x for EVERY group element g : Equiv.Perm (Fin n) — so e is a genuine Sₙ-linear iso, not merely ℂ-linear. The iso is built exactly per the book's hint (right-multiplication maps Fa: x ↦ x·a and Gb: y ↦ y·b, composites α·id via c_λ² = α·c_λ from Lemma5_13_3 and the mirror Lemma5_13_1_dual, α ≠ 0). Non-vacuous: both ideals are the actual principal left ideals and the equivalence is proved bijective. Axiom-clean."
+      },
+      {
+        "part": "(b)",
+        "description": "φ(s)=(-1)^s s maps any rep V to V⊗ℂ₋; φ(ℂ[Sₙ]a) = ℂ[Sₙ]φ(a); deduce V_λ⊗ℂ₋ = V_{λ*}, λ* the conjugate partition.",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.signTwist",
+          "Etingof.signTwist_of",
+          "Etingof.signTwist_bijective",
+          "Etingof.signTwist_smul_of",
+          "Etingof.signTwist_map_leftIdeal",
+          "Etingof.conjugatePartition",
+          "Etingof.spechtModule_signTwist_iso_conjugate"
+        ],
+        "reason": "FULL and faithful. All three book clauses are exposed headlines. (i) signTwist is the genuine sign-twist algebra automorphism φ(g)=sign(g)·g (signTwist_of), an involution hence bijective (signTwist_bijective). (ii) 'φ maps V to V⊗ℂ₋': signTwist_smul_of states, for ANY ℂ[Sₙ]-module V, (φ(of g)) • v = sign(g) • ((of g) • v) — exactly the defining action of the sign-character twist V⊗ℂ₋ on every group generator (action-identity form, stated for arbitrary V). (iii) 'φ(ℂ[Sₙ]a) = ℂ[Sₙ]φ(a)': signTwist_map_leftIdeal states Ideal.map (signTwist n) (Ideal.span {a}) = Ideal.span {signTwist n a} — the exact left-ideal identity. (iv) deduction V_λ⊗ℂ₋ = V_{λ*}: spechtModule_signTwist_iso_conjugate gives an existential ℂ-linear equivalence SpechtModule n la ≃ SpechtModule n (conjugatePartition la) with the twisted-intertwining e ((of g)•x) = sign(g) • ((of g) • e x) for every g — i.e. V_λ with sign-twisted action (= V_λ⊗ℂ₋) is iso to V_{λ*}. conjugatePartition is the genuine transpose partition (rowLens of toYoungDiagram.transpose, parts_sum via card_transpose), and the iso is the honest composite φ → right-mult by of τ⁻¹ (τ = transposePerm conjugating row/column subgroups) → part-(a) iso, anchored by key_identity τ·φ(c_λ)·of τ⁻¹ = a_{λ*} b_{λ*}. Non-vacuous throughout. Axiom-clean."
+      }
+    ],
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Problem5.24.2",
