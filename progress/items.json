@@ -2519,19 +2519,18 @@
     "status": "sorry_free",
     "sorry_free": true,
     "fidelity": "verified",
-    "lean_file": [
-      "EtingofRepresentationTheory/Chapter3/Problem3_9_3.lean"
-    ],
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "coverage_arm": "audited",
     "lean_decl": [
       "Etingof.Problem3_9_3.simpleRep_isIrreducible",
       "Etingof.Problem3_9_3.irreducible_isSimpleRep",
       "Etingof.Problem3_9_3.ext1_simpleRep_vanishes_iff",
+      "Etingof.Problem3_9_3.finrank_ext1_simpleRep",
       "Etingof.Problem3_9_3.two_dim_classification"
     ],
     "last_updated": "2026-07-22",
-    "coverage_note": "Coverage-arm audit (Stage 3.7, #7375): covered_partial. Problem3_9_3.lean (436 lines, sorry-free, headline decls axiom-clean [propext, Classical.choice, Quot.sound] verified via olean import). Single item, three book sub-questions. IRREDUCIBLES (full): simpleRep_isIrreducible (50) each vertex simple S_i is irreducible, and irreducible_isSimpleRep (124) every irreducible of a FINITE ACYCLIC quiver is ≅ some S_i. 2-DIM CLASSIFICATION (full): two_dim_classification (332) a total-dim-2 rep is decomposable (S_i⊕S_j) or indecomposable supported on a single arrow i→j (i≠j) acting as an isomorphism. Ext¹ (PARTIAL — the reason for covered_partial): ext1_simpleRep_vanishes_iff (265) proves only the VANISHING characterization Ext1Vanishes(S_i,S_j) ↔ IsEmpty(i⟶j), i.e. Ext¹(S_i,S_j)=0 iff no arrows i→j. The book asks to COMPUTE Ext¹, whose full answer dim Ext¹(S_i,S_j)=(number of arrows i→j) is only stated parenthetically in the docstring, not proved — strictly weaker than the book claim. Follow-up feature issue #7376 tracks the missing dimension formula; landing it lifts this item to covered_full. Ext1Vanishes/extDiff = in-book Problem6_9_3 cokernel-of-Ext-differential, not Mathlib derived Ext. Prior fidelity: verified."
+    "coverage_note": "All three sub-questions are covered_full (lifts the Stage 3.7 coverage-arm audit #7375 covered_partial to covered_full via feature #7376). Irreducibles: simpleRep_isIrreducible (each vertex simple S_i is irreducible) and irreducible_isSimpleRep (over a finite acyclic quiver every irreducible is isomorphic to some S_i). Ext^1 between simples: ext1_simpleRep_vanishes_iff gives the vanishing criterion and, completing the previously covered_partial dimension count (#7376), finrank_ext1_simpleRep proves the book’s exact formula dim Ext^1(S_i, S_j) = #(i ⟶ j): Ext^1 is defined as the cokernel of the linear Ext differential extDiffₗ, which vanishes between two simples, so Ext^1(S_i,S_j) is its whole codomain and finrank counts the arrows i→j. 2-dimensional representations: two_dim_classification. Sorry-free, #print axioms shows no sorryAx.",
+    "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_3.lean"
   },
   {
     "id": "Chapter3/Problem3.9.4",
