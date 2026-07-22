@@ -308,6 +308,40 @@ theorem WeylAlgebra.monomialsLinearIndependent :
     LinearIndependent k (fun p : ℕ × ℕ => WeylAlgebra.monomial k p.1 p.2) :=
   (repImage_linearIndependent k).of_comp (repE k).toLinearMap
 
+-- === Characteristic `p`: `k[t]` is not faithful ===
+
+/-- A standard monomial `xⁱyʲ` of the Weyl algebra is nonzero over any nontrivial commutative
+ring `k`, since the monomials form a basis (`WeylAlgebra.monomialsLinearIndependent`). -/
+theorem WeylAlgebra.monomial_ne_zero (i j : ℕ) : WeylAlgebra.monomial k i j ≠ 0 :=
+  (WeylAlgebra.monomialsLinearIndependent k).ne_zero (i, j)
+
+/-- **Non-faithfulness of `k[t]` in characteristic `p` (Discussion after Proposition 2.7.1).**
+Over a nontrivial commutative ring `k` of prime characteristic `p`, the polynomial representation
+`polyRep : WeylAlgebra k →ₐ[k] Module.End k k[t]` (`x ↦ t·`, `y ↦ d/dt`) is *not* injective.
+
+The witness is `yᵖ`: it is nonzero because the Weyl monomials form a basis
+(`WeylAlgebra.monomial_ne_zero`), yet it acts as zero because `polyRep k (yᵖ) = (d/dt)^p = 0`
+in characteristic `p` (`WeylAlgebra.polyRep_y_pow_eq_zero`). This is the char-`p` failure the book
+contrasts with the char-free faithfulness of `E = tᵃ k[a][t, t⁻¹]` (`repE_injective`). -/
+theorem WeylAlgebra.polyRep_not_injective (p : ℕ) [Fact p.Prime] [CharP k p] :
+    ¬ Function.Injective (polyRep k) := by
+  intro hinj
+  have hy : WeylAlgebra.y k ^ p ≠ 0 := by
+    rw [show WeylAlgebra.y k ^ p = WeylAlgebra.monomial k 0 p by
+      rw [WeylAlgebra.monomial, pow_zero, one_mul]]
+    exact WeylAlgebra.monomial_ne_zero k 0 p
+  exact hy (hinj ((WeylAlgebra.polyRep_y_pow_eq_zero k p).trans (map_zero (polyRep k)).symm))
+
+/-- **Faithful versus non-faithful in characteristic `p` (Discussion after Proposition 2.7.1).**
+Over a nontrivial commutative ring `k` of prime characteristic `p`, the module
+`E = tᵃ k[a][t, t⁻¹]` is faithful (`repE` injective) while the naive polynomial module `k[t]` is
+not (`polyRep` not injective). This is exactly the contrast the book draws: `k[t]` is faithful
+only in characteristic zero (`WeylAlgebra.polyRep_injective`), whereas `E` is faithful in every
+characteristic (`repE_injective`). -/
+theorem repE_injective_and_polyRep_not_injective (p : ℕ) [Fact p.Prime] [CharP k p] :
+    Function.Injective (repE k) ∧ ¬ Function.Injective (polyRep k) :=
+  ⟨repE_injective k, WeylAlgebra.polyRep_not_injective k p⟩
+
 /-- **Proposition 2.7.1 (i), char-free.** Over any nontrivial commutative ring `k` (in particular
 any field, in any characteristic) the standard monomials `{xⁱyʲ : i, j ≥ 0}` form a basis of the
 Weyl algebra: they are linearly independent (`WeylAlgebra.monomialsLinearIndependent`, char-free
