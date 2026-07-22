@@ -145,4 +145,19 @@ theorem homologicalDimension_congr {R S : Type u} [Ring R] [Ring S] (e : R ≃+*
   · rw [iInf_pos h, iInf_pos ((hasHomologicalDimensionLE_congr e d).mp h)]
   · rw [iInf_neg h, iInf_neg (fun hs => h ((hasHomologicalDimensionLE_congr e d).mpr hs))]
 
+/-- **Left/right agreement for commutative rings (predicate form).** A commutative ring is
+isomorphic to its opposite (`RingEquiv.toOpposite`), so its right homological-dimension bound
+coincides with its left one. -/
+theorem hasRightHomologicalDimensionLE_iff_left {R : Type u} [CommRing R] (d : ℕ) :
+    HasRightHomologicalDimensionLE R d ↔ HasLeftHomologicalDimensionLE R d := by
+  rw [hasRightHomologicalDimensionLE_iff_op]
+  exact (hasHomologicalDimensionLE_congr (RingEquiv.toOpposite R) d).symm
+
+/-- **Left/right agreement for commutative rings.** A commutative ring is isomorphic to its
+opposite (`RingEquiv.toOpposite`), so its right and left homological dimensions coincide. -/
+theorem rightHomologicalDimension_eq_left {R : Type u} [CommRing R] :
+    rightHomologicalDimension R = leftHomologicalDimension R := by
+  rw [rightHomologicalDimension_eq_left_op]
+  exact (homologicalDimension_congr (RingEquiv.toOpposite R)).symm
+
 end Etingof
