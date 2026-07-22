@@ -2254,7 +2254,70 @@
     "status": "sorry_free",
     "sorry_free": true,
     "fidelity": "verified",
-    "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_1.lean"
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter3/Problem3_9_1.lean"
+    ],
+    "coverage": "covered_full",
+    "coverage_arm": "audited",
+    "coverage_note": "Coverage-arm audit (Stage 3.7, #7361) marked covered_partial (part (c) forward-only); follow-up #7362 formalized the (c) converse (converse_sub_mem_coboundaries_of_unitriangular_intertwines), lifting the item to covered_full. Problem3_9_1.lean (sorry-free, axiom-clean [propext, Classical.choice, Quot.sound]) now covers parts (a),(b),(c),(d) in full. (a) blockOp_mul_iff_isCocycle: genuine iff (block-triangular assignment is a representation) iff (f is a 1-cocycle). (b) coboundaryOf_isCocycle + coboundaryOf_eq_zero_iff + coboundaries_le_cocycles + Ext1: dX is a cocycle, dX=0 iff X is A-linear, B1 subset Z1, Ext1 = Z1/B1. (c) BOTH directions: forward iso_of_sub_mem_coboundaries (f-f' in B1 => unitriangular iso) and converse converse_sub_mem_coboundaries_of_unitriangular_intertwines (unitriangular iso [[1,*],[0,1]] => f-f' in B1), over any algebra A. (d) irreducible_ext_iso_iff_proportional: genuine iff over [IsAlgClosed k] for f.d. irreducible V,W, the faithful projective-space (P Ext1) classification. Ext1 is the in-book Z1/B1, not Mathlib's derived-functor Ext. Prior fidelity: verified.",
+    "last_updated": "2026-07-22",
+    "derived": [
+      {
+        "part": "(a) 1-cocycle condition",
+        "claim": "rho_U(a)=[[rho_V(a),f(a)],[0,rho_W(a)]] is a representation (multiplicative in a) iff f is a 1-cocycle f(ab)=rho_V(a).f(b)+f(a).rho_W(b); cocycles form Z1(W,V).",
+        "description": "Necessary-and-sufficient cocycle condition making the block-triangular assignment a representation; defines Z1.",
+        "source_span": "blobs/Chapter3/Problem3.9.1.md (a)",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Problem3_9_1.IsCocycle",
+          "Etingof.Problem3_9_1.blockOp",
+          "Etingof.Problem3_9_1.blockOp_mul_iff_isCocycle",
+          "Etingof.Problem3_9_1.cocycles"
+        ],
+        "reason": "blockOp_mul_iff_isCocycle (line 67) is a genuine iff between multiplicativity of a |-> blockOp f a and IsCocycle f. blockOp (line 55) is the honest block-triangular operator (blockOp_apply: (v,w) |-> (a.v + f a w, a.w)); cocycles (line 90) is the Z1 subspace. Clean axioms."
+      },
+      {
+        "part": "(b) coboundaries, B1 subset Z1, Ext1",
+        "claim": "dX(a)=rho_V(a)X - X rho_W(a) is a cocycle vanishing iff X is A-linear; coboundaries B1 (isomorphic to Hom_k(W,V)/Hom_A(W,V)) form a subspace of Z1; Ext1(W,V)=Z1/B1.",
+        "description": "Coboundary map, its cocycle/kernel properties, and the definition of Ext1 as the quotient.",
+        "source_span": "blobs/Chapter3/Problem3.9.1.md (b)",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Problem3_9_1.coboundaryOf",
+          "Etingof.Problem3_9_1.coboundaryOf_isCocycle",
+          "Etingof.Problem3_9_1.coboundaryOf_eq_zero_iff",
+          "Etingof.Problem3_9_1.coboundaries",
+          "Etingof.Problem3_9_1.coboundaries_le_cocycles",
+          "Etingof.Problem3_9_1.Ext1"
+        ],
+        "reason": "coboundaryOf_isCocycle (115) gives dX in Z1; coboundaryOf_eq_zero_iff (125) proves dX=0 iff X is A-linear (the kernel characterization behind B1 iso Hom_k/Hom_A); coboundaries_le_cocycles (178) gives B1 subset Z1; Ext1 (185) = Z1/B1. The named iso B1 iso Hom_k(W,V)/Hom_A(W,V) is not separately bundled but is immediate: coboundaryLinear has range = coboundaries (coboundaries_eq_range) and kernel = Hom_A (coboundaryOf_eq_zero_iff), so it is a first-isomorphism-theorem corollary of decls already present. Clean axioms."
+      },
+      {
+        "part": "(c) B1-equivalence classifies extensions",
+        "claim": "Forward: if f-f' in B1 then U_f iso U_{f'} as representations. Converse: if phi:U_f->U_{f'} is an isomorphism of unitriangular form [[1_V,*],[0,1_W]] then f-f' in B1. Thus Ext1 classifies extensions.",
+        "description": "Both directions relating B1-equivalence of cocycles to isomorphism of the corresponding extensions.",
+        "source_span": "blobs/Chapter3/Problem3.9.1.md (c)",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Problem3_9_1.IntertwinesExt",
+          "Etingof.Problem3_9_1.iso_of_sub_mem_coboundaries",
+          "Etingof.Problem3_9_1.converse_sub_mem_coboundaries_of_unitriangular_intertwines"
+        ],
+        "reason": "BOTH directions now covered_full. FORWARD: iso_of_sub_mem_coboundaries (203) builds the genuine unitriangular intertwiner phi=[[1,X],[0,1]] from f-f'=dX and proves IntertwinesExt (a real k-linear equiv intertwining the block operators for every a), over any algebra A. CONVERSE: converse_sub_mem_coboundaries_of_unitriangular_intertwines (#7362) takes an intertwiner phi of the special unitriangular form (phi (v,w)=(v+X w,w) for some X) and reads off the (1,2)-block of the intertwining identity to conclude f-f' = dX in B1, over any algebra A with no irreducibility/finite-dimensionality hypotheses. It is the exact mirror of the forward proof and is distinct from the part-(d) theorem (which needs [IsAlgClosed k] + f.d. + irreducible and yields a possibly-nonunit ratio). Clean axioms [propext, Classical.choice, Quot.sound]. Gap from #7361 audit closed."
+      },
+      {
+        "part": "(d) iso classes <-> P Ext1",
+        "claim": "For finite-dimensional irreducible V,W, U_f iso U_{f'} iff f,f' proportional; nontrivial extensions are parametrized by P Ext1(W,V); every extension is trivial iff Ext1=0.",
+        "description": "Projective-space classification of isomorphism classes of extensions in the irreducible finite-dimensional case.",
+        "source_span": "blobs/Chapter3/Problem3.9.1.md (d)",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Problem3_9_1.ext_iso_of_sub_smul_mem_coboundaries",
+          "Etingof.Problem3_9_1.irreducible_ext_iso_iff_proportional"
+        ],
+        "reason": "irreducible_ext_iso_iff_proportional (307) is a genuine iff: (exists phi, IntertwinesExt f f' phi) iff (exists c != 0, f - c.f' in B1) - the faithful P-form of the book's projective-space classification (a nonzero ratio = a line in P Ext1; f in B1 = the split/trivial class). [IsAlgClosed k] is the mathematically correct hypothesis, not an artificial narrowing: the P_k Ext1 parametrization needs End_A(V)=End_A(W)=k, which Schur (Corollary_2_3_10, used in the forward proof) supplies only over an algebraically closed field; the docstring records that over a non-closed field the classes are Ext1 mod D_V^x x D_W^x. Forward => block-decomposes an arbitrary phi; <= reuses ext_iso_of_sub_smul_mem_coboundaries. Clean axioms."
+      }
+    ]
   },
   {
     "id": "Chapter3/Problem3.9.2",
