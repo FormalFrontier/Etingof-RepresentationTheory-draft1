@@ -168,8 +168,12 @@
     "start_line": 5,
     "end_line": 7,
     "status": "sorry_free",
+    "coverage": "covered_partial",
     "fidelity": "verified",
-    "needs_statement": false
+    "needs_statement": false,
+    "fidelity_note": "The existing ADE iff is proved only for orientations of loopless 0/1 simple graphs. The source quiver notion permits loops and multiple arrows; proving those cases are infinite type and removing the restrictive typeclasses remains #7408.",
+    "fidelity_issue": 7408,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Discussion_after_Theorem2.1.2",
@@ -1228,10 +1232,13 @@
     "start_line": 7,
     "end_line": 12,
     "status": "sorry_free",
+    "coverage": "covered_partial",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "Heisenberg Lie algebra ℋ constructed concretely (k×k×k with central bracket ⁅y,x⁆=c). heisenberg_universal_relations proves the book's defining relations YX-XY=C, YC-CY=0, XC-CX=0 in U(ℋ) via ι's map_lie -- specific to the Heisenberg presentation, not provable for arbitrary L. weyl_c_eq_one proves c=1 in the RingCon quotient U(ℋ)/(c-1). Axiom-clean.",
-    "fidelity_decl": "theorem heisenberg_universal_relations : YX-XY=C ∧ YC-CY=0 ∧ XC-CX=0 (in U(ℋ))"
+    "fidelity_note": "The Heisenberg algebra, enveloping relations, and c=1 quotient are genuine. The quotient is only locally renamed WeylAlgebra; no algebra equivalence identifies it with the Weyl algebra independently defined in Proposition 2.7.1. That source identification remains #7411.",
+    "fidelity_decl": "theorem heisenberg_universal_relations : YX-XY=C ∧ YC-CY=0 ∧ XC-CX=0 (in U(ℋ))",
+    "fidelity_issue": 7411,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Remark2.9.14",
@@ -1600,9 +1607,12 @@
     "start_line": 5,
     "end_line": 6,
     "status": "sorry_free",
-    "coverage_note": "Fully sorry-free. Characteristic-0 cluster (#6122, 2026-07-10): bracket_X_Y, charZero_irreducible_finrank_one (reusing Problem 2.16.1 via a general-field solvable-Lie-theorem argument), charZero_Y_acts_zero, instIsSolvable. Characteristic-p failure lie_theorem_fails_charP (#6132, 2026-07-10): section CharP constructs the p-dim irreducible module (X diagonal with distinct eigenvalues, Y cyclic shift) via a Lie-hom representation and proves irreducibility by a minimal-support argument. All axiom-clean: propext, Classical.choice, Quot.sound.",
+    "coverage": "covered_partial",
+    "coverage_note": "The characteristic-zero one-dimensional family and a characteristic-p p-dimensional counterexample are formalized. The source asks for a classification in positive characteristic, but no parameter family, isomorphism criterion, or exhaustiveness theorem exists there; follow-up #7410.",
     "fidelity": "faithful",
-    "fidelity_note": "Existence/realization half of the char-0 classification landed (#7206, 2026-07-21), closing the gap from review #7200: oneDimModule mu (1-dim g-module X|->mu, Y|->0) constructed via Lie-hom oneDimRep, proved irreducible (oneDim_irreducible) with action lemmas oneDim_lie_X/oneDim_lie_Y, distinctness (oneDim_not_iso: distinct mu are non-isomorphic), and uniqueness of the classifying scalar (charZero_X_scalar: each f.d. irreducible has a unique X-scalar mu). Together with the pre-existing necessary direction (charZero_irreducible_finrank_one, charZero_Y_acts_zero) and the char-p counterexample, the char-0 irreducibles are now classified exactly by mu in k. All new decls axiom-clean (propext, Classical.choice, Quot.sound); file sorry-free. Awaiting a confirming review to bump fidelity to verified. See progress/reviews/2026-07-21-ch2-problem2_16_2-2d-lie-algebra-fidelity.md"
+    "fidelity_note": "The characteristic-zero scalar/family results are faithful, though a closing family-isomorphism theorem would improve the API. The positive-characteristic portion currently supplies only one irreducible witness, not the requested classification; #7410.",
+    "fidelity_issue": 7410,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Problem2.16.3",
@@ -1774,8 +1784,12 @@
     "start_line": 13,
     "end_line": 16,
     "status": "sorry_free",
+    "coverage": "covered_partial",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "fidelity_note": "The current theorem only chooses an arbitrary complement to ker f. The source requires a subset of the given irreducible direct-sum family whose sub-sum maps isomorphically onto the target; that structured conclusion remains #7409.",
+    "fidelity_issue": 7409,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Discussion_after_Lemma3.1.6",
@@ -2845,10 +2859,13 @@
     "start_line": 21,
     "end_line": 2,
     "status": "sorry_free",
+    "coverage": "covered_partial",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_decl": "Etingof.Example4_3_FiniteAbelianGroups",
-    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified"
+    "fidelity_note": "The one-dimensionality of irreducible representations is proved. The source's character-group product duality, noncanonical G ≅ G∨, and canonical evaluation isomorphism G ≅ (G∨)∨ are absent; follow-up #7412.",
+    "fidelity_issue": 7412,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Example4.3_S3",
