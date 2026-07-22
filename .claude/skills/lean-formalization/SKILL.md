@@ -335,6 +335,18 @@ goal). The `eqToHom`-on-elements bridge between same-carrier `ModuleCat` objects
 `Module k` instance) is `HEq (ModuleCat.Hom.hom (eqToHom h) w) w := by subst h; rfl`, upgraded per
 site with `eq_of_heq`.
 
+**Exposing a value proved-inside an iff-of-existentials (`exists_congr`): extract the pointwise
+iff first.** The recurring "compute this scalar / classify these reps" fidelity task (#7204,
+#7211, #7231) needs the concrete witness, but a lemma stated as `(∃ c, P c) ↔ (∃ c, Q c)` and
+proved by `apply exists_congr; intro c; …` severs the witness under `obtain` — both `.mp` and
+`.mpr` hand back a *fresh* existential whose value you cannot recover, so you can never pin `c` to
+your target. **Fix:** split the lemma — pull the per-`c` body out as `…_of (c) : P c ↔ Q c`, then
+define the original existential lemma as `exists_congr (…_of …)` (one line, same signature, no
+call-site churn). Now `(…_of _ target).mpr hproof` gives the pointwise action *at your concrete
+scalar* directly. Worked example: `sumTranspositionsStab_acts_scalar_iff_content_const_of` in
+`Chapter5/Problem5_16_3.lean` (#7231, exposing that `E=(12)+⋯+(1n)` acts on a rectangular `V_λ` by
+`c − r`).
+
 **Reading background-build results: grep the teed log for `error:`, do not trust a
 wrapper's exit code or `tail`.** `lake build` prints Lean errors *before* the final
 `Build completed` / `✖` summary, so `... | tee log | tail -40` can hide them, and a

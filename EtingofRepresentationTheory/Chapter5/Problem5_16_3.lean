@@ -496,13 +496,12 @@ lemma spechtModuleRep_asAlgebraHom_coe (n : ℕ) (la : Nat.Partition n) (a : Sym
 restriction are exactly the `V_ν`, `ν ∈ removeSquare la`, on each of which `C_{n-1}` acts by the
 common scalar. -/
 
-/-- **Scalar criterion.** `C_{n-1} = sumTranspositionsStab (m+1)` acts on `V_la` by a scalar `c`
-if and only if every `ν ∈ removeSquare la` has content `c`. -/
-lemma sumTranspositionsStab_acts_scalar_iff_content_const (m : ℕ) (la : Nat.Partition (m + 1)) :
-    (∃ c : ℂ, ∀ x ∈ SpechtModule (m + 1) la, sumTranspositionsStab (m + 1) * x = c • x)
-      ↔ ∃ c : ℂ, ∀ ν ∈ removeSquare la, (content ν : ℂ) = c := by
-  apply exists_congr
-  intro c
+/-- **Scalar criterion (pointwise).** For a fixed scalar `c`, `C_{n-1} = sumTranspositionsStab
+(m+1)` acts on `V_la` by `c` if and only if every `ν ∈ removeSquare la` has content `c`. -/
+lemma sumTranspositionsStab_acts_scalar_iff_content_const_of (m : ℕ)
+    (la : Nat.Partition (m + 1)) (c : ℂ) :
+    (∀ x ∈ SpechtModule (m + 1) la, sumTranspositionsStab (m + 1) * x = c • x)
+      ↔ ∀ ν ∈ removeSquare la, (content ν : ℂ) = c := by
   set ρW := restrictRep m (spechtModuleRep (m + 1) la) with hρW
   set B : Module.End ℂ ↥(SpechtModule (m + 1) la) :=
     Representation.asAlgebraHom ρW (sumTranspositions m) with hB
@@ -636,6 +635,13 @@ lemma sumTranspositionsStab_acts_scalar_iff_content_const (m : ℕ) (la : Nat.Pa
       _ = ρW.asModuleEquiv (c • ρW.asModuleEquiv.symm y) := by rw [hgy]
       _ = c • ρW.asModuleEquiv (ρW.asModuleEquiv.symm y) := by rw [map_smul]
       _ = c • y := by rw [LinearEquiv.apply_symm_apply]
+
+/-- **Scalar criterion.** `C_{n-1} = sumTranspositionsStab (m+1)` acts on `V_la` by a scalar `c`
+if and only if every `ν ∈ removeSquare la` has content `c`. -/
+lemma sumTranspositionsStab_acts_scalar_iff_content_const (m : ℕ) (la : Nat.Partition (m + 1)) :
+    (∃ c : ℂ, ∀ x ∈ SpechtModule (m + 1) la, sumTranspositionsStab (m + 1) * x = c • x)
+      ↔ ∃ c : ℂ, ∀ ν ∈ removeSquare la, (content ν : ℂ) = c :=
+  exists_congr (sumTranspositionsStab_acts_scalar_iff_content_const_of m la)
 
 /-! ### Corner/content combinatorics
 
@@ -887,5 +893,76 @@ theorem sumTranspositionsWith1_acts_scalar_iff_rectangular
         = sumTranspositions (m + 1) * x - sumTranspositionsStab (m + 1) * x := by
       rw [sumTranspositionsWith1_eq_sub, sub_mul]
     rw [hEx, hCn, hstab, ← sub_smul]
+
+/-- **Problem 5.16.3(b), the scalar.** For a *rectangular* `λ` with `r` rows each of length `c`
+(`la.parts = Multiset.replicate r c`, so `r · c = n`), the element `E = (12) + ⋯ + (1n)` acts on
+the Specht module `V_λ = ℂ[S_n]·c_λ` (by left multiplication) by the scalar `c − r`.
+
+This is the content `(c − 1) − (r − 1)` of the unique removable corner `(r − 1, c − 1)`. Endpoint
+sanity checks against the part-(a) bound `[1 − n, n − 1]`: the trivial representation
+`λ = (n)` (`r = 1`, `c = n`) gives `n − 1`, and the sign representation `λ = (1ⁿ)`
+(`r = n`, `c = 1`) gives `1 − n`. -/
+theorem sumTranspositionsWith1_scalar_on_rectangular
+    (n : ℕ) [NeZero n] (la : Nat.Partition n) (r c : ℕ)
+    (hrc : la.parts = Multiset.replicate r c) :
+    ∀ x ∈ SpechtModule n la, sumTranspositionsWith1 n * x = ((c : ℤ) - r : ℂ) • x := by
+  obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 :=
+    ⟨n - 1, (Nat.succ_pred_eq_of_pos (Nat.pos_of_ne_zero (NeZero.ne n))).symm⟩
+  -- Read off the sorted-row data from the rectangle: `r` rows, each of length `c`.
+  have hcoe : (↑la.sortedParts : Multiset ℕ) = la.parts := Multiset.sort_eq la.parts (· ≥ ·)
+  have hlen : la.sortedParts.length = r := by
+    rw [← Multiset.coe_card, hcoe, hrc, Multiset.card_replicate]
+  have hval : ∀ i, i < r → la.sortedParts.getD i 0 = c := by
+    intro i hi
+    have hib : i < la.sortedParts.length := by omega
+    rw [List.getD_eq_getElem la.sortedParts 0 hib]
+    have hmem : la.sortedParts[i] ∈ la.parts := by
+      rw [← hcoe]; exact Multiset.mem_coe.mpr (List.getElem_mem hib)
+    rw [hrc] at hmem
+    exact Multiset.eq_of_mem_replicate hmem
+  have hz : ∀ i, r ≤ i → la.sortedParts.getD i 0 = 0 := fun i hi =>
+    List.getD_eq_default la.sortedParts 0 (by omega)
+  -- `r · c = n = m + 1`, so both dimensions are positive.
+  have hmul : r * c = m + 1 := by
+    have h := la.parts_sum
+    rwa [hrc, Multiset.sum_replicate, smul_eq_mul] at h
+  have hrpos : 0 < r := Nat.pos_of_ne_zero (by rintro rfl; simp at hmul)
+  have hcpos : 0 < c := Nat.pos_of_ne_zero (by rintro rfl; simp at hmul)
+  -- Every `ν ∈ removeSquare la` has content `content λ − (c − r)`: the unique removable corner of
+  -- a rectangle is `(r − 1, c − 1)`, with content `(c − 1) − (r − 1) = c − r`.
+  have hcontent_const : ∀ ν ∈ removeSquare la,
+      (content ν : ℂ) = (content la : ℂ) - ((c : ℂ) - r) := by
+    intro ν hν
+    obtain ⟨d, hd_corner, hd_content⟩ := removeSquare_content la ν hν
+    rw [isOuterCorner_iff] at hd_corner
+    obtain ⟨hd1, hd2⟩ := hd_corner
+    -- Row `d.1` is nonempty, so `d.1 < r` and its length is `c`.
+    have hpos1 : 0 < la.sortedParts.getD d.1 0 := lt_of_le_of_lt (Nat.zero_le _) hd2
+    have hd1r : d.1 < r := by
+      by_contra h; push_neg at h; rw [hz d.1 h] at hpos1; omega
+    have hvald1 : la.sortedParts.getD d.1 0 = c := hval d.1 hd1r
+    -- Row `d.1 + 1` is strictly shorter, forcing `d.1 + 1 ≥ r`, hence `d.1 = r − 1`.
+    have hd1eq : d.1 = r - 1 := by
+      by_contra h
+      have hlt : d.1 + 1 < r := by omega
+      rw [hval (d.1 + 1) hlt, hvald1] at hd2; omega
+    have hd2eq : d.2 = c - 1 := by rw [hvald1] at hd1; omega
+    have hZ : content ν = content la - ((c : ℤ) - r) := by
+      rw [hd_content, hd1eq, hd2eq]; omega
+    rw [hZ]; push_cast; ring
+  -- On `V_λ`, `C_{n-1} = sumTranspositionsStab` acts by that same scalar `content λ − (c − r)`.
+  have hstab : ∀ x ∈ SpechtModule (m + 1) la,
+      sumTranspositionsStab (m + 1) * x = ((content la : ℂ) - ((c : ℂ) - r)) • x :=
+    (sumTranspositionsStab_acts_scalar_iff_content_const_of m la _).mpr hcontent_const
+  -- `E = C_n − C_{n-1}`; subtract the two scalars: `content λ − (content λ − (c − r)) = c − r`.
+  intro x hx
+  have hCn := sumTranspositions_mul_eq_content_smul (m + 1) la x hx
+  have hEx : sumTranspositionsWith1 (m + 1) * x
+      = sumTranspositions (m + 1) * x - sumTranspositionsStab (m + 1) * x := by
+    rw [sumTranspositionsWith1_eq_sub, sub_mul]
+  rw [hEx, hCn, hstab x hx, ← sub_smul]
+  congr 1
+  push_cast
+  ring
 
 end Etingof
