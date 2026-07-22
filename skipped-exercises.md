@@ -59,10 +59,12 @@ classification declaration is introduced.
 The project has formalized the tautological representation, symmetry and
 connectivity of the McKay graph, the affine-Cartan positivity argument for graphs
 with at least three vertices, and the kernel equation for the dimension vector.
-Problem 4.12.8's finite-subgroup classification is now available; nevertheless,
-the project retains its original decision not to build the additional concrete
-group-family-to-diagram identifications. Thus the residual part (d) decision below
-is a deliberate scope boundary, not a claim that the prerequisite is still missing.
+Problem 4.12.8 supplies the `SO(3)` classification and substantial double-cover
+infrastructure, while its exact `SU(2)` list still has the active residual #7281.
+Independently of that residual, the project retains its original decision not to
+build the additional concrete group-family-to-diagram identifications. Thus the
+part (d) decision below is a deliberate scope boundary, not a temporary dependency
+on completion of Problem 4.12.8.
 The following residual parts are intentionally omitted:
 
 - the two-vertex double-edge `Ã₁` case, which is outside the simple-edge affine
@@ -81,10 +83,14 @@ declaration stands in for them.
 The following exercises appeared in the original hard-problem/skip list but were
 subsequently formalized. The former scope decision is therefore superseded:
 
-- Problem 4.12.8 — finite subgroups of `SO(3)` and `SU(2)`;
 - Problem 5.24.2 — invariants of matrix tuples;
 - Problem 6.1.3 — finite and affine Dynkin diagrams;
-- Problem 8.2.8 — Künneth formulas for Tor and Ext;
+- Problem 8.2.8 — a corrected finite-dimensional Künneth theorem for Tor and Ext is
+  formalized. The literal source statement for Ext omits necessary finiteness
+  hypotheses and is false already in degree zero; the formalization deliberately
+  uses the sound strengthened scope. The public erratum and precise corrected-scope
+  documentation remain tracked by #7446, so this item is not recorded as literal
+  `covered_full` in `progress/items.json`;
 
 Their Lean files and `progress/items.json` are authoritative for the precise
 coverage and hypotheses of the completed results.
@@ -100,5 +106,9 @@ They are active work, not intentional omissions:
   irreducibles remains #7392;
 - Problem 2.16.3 — the dimension and non-finiteness results are proved, but the
   requested explicit basis of `g_4` remains #7394;
+- Problem 4.12.8 — the finite-subgroup classification of `SO(3)` and much of the
+  `SU(2)` double-cover analysis are proved, but the `-1 ∉ H` branch currently gives
+  only `H ≃ h(H)` rather than the required cyclic conclusion. The exact `SU(2)`
+  list therefore remains #7281;
 - Problem 9.6.5 — an abstract quasi-inverse is proved, but the book's named balanced
   tensor/cokernel functor and its comparison maps remain to be constructed; see #6567.
