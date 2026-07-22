@@ -4481,9 +4481,8 @@
     "end_line": 8,
     "status": "sorry_free",
     "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous).",
-    "fidelity": "gap",
-    "fidelity_note": "[fidelity gap #7228→#7231] Checks 1,2,4 FAITHFUL & non-vacuous: (1) sumTranspositionsWith1 = ∑_{0<j}(0 j) is genuinely E=(12)+...+(1n) (n-1 transpositions through the fixed point), confirmed by sumTranspositionsWith1_eq_sub (=C_n-C_{n-1}); (2) part (a) headline is a genuine eigenbasis + integer eigenvalues with inclusive bounds 1-n<=m<=n-1 over arbitrary fin-dim rho; (4) IsRectangular (parts=replicate r c) faithfully captures 'all rows equal' with edge cases fine, SpechtModule is the genuine V_lambda. Check 3 (part (b) 'compute this scalar') GAP: headline sumTranspositionsWith1_acts_scalar_iff_rectangular states only the iff; the scalar value (c-r = content of the corner) appears only as an existential witness inside proofs, never as an exposed statement. Directly analogous to #7204/#7211. status kept sorry_free (stated theorems faithful & non-vacuous; file genuinely sorry-free; gap is a missing exposed result). Report: progress/reviews/2026-07-21-ch5-problem5_16_3-fidelity.md.",
-    "fidelity_issue": 7231
+    "fidelity": "verified",
+    "fidelity_note": "[fidelity gap #7228→#7231 RESOLVED] Checks 1,2,4 FAITHFUL & non-vacuous: (1) sumTranspositionsWith1 = ∑_{0<j}(0 j) is genuinely E=(12)+...+(1n) (n-1 transpositions through the fixed point), confirmed by sumTranspositionsWith1_eq_sub (=C_n-C_{n-1}); (2) part (a) headline is a genuine eigenbasis + integer eigenvalues with inclusive bounds 1-n<=m<=n-1 over arbitrary fin-dim rho; (4) IsRectangular (parts=replicate r c) faithfully captures 'all rows equal' with edge cases fine, SpechtModule is the genuine V_lambda. Check 3 (part (b) 'compute this scalar') NOW EXPOSED: sumTranspositionsWith1_scalar_on_rectangular states E acts on V_λ by the scalar (c-r) for rectangular λ=replicate r c, matching the book's 'compute this scalar' (= content of the corner (r-1,c-1)). Endpoints: trivial (n) → n-1, sign (1ⁿ) → 1-n. Axiom-clean [propext, Classical.choice, Quot.sound]. #7231. Report: progress/reviews/2026-07-21-ch5-problem5_16_3-fidelity.md."
   },
   {
     "id": "Chapter5/Introduction_5.17",
