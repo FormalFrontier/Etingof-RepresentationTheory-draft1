@@ -1788,7 +1788,7 @@
     "start_line": 11,
     "end_line": 12,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "last_updated": "2026-07-22",
     "fidelity": "verified",
     "sorry_free": true,
@@ -9026,10 +9026,10 @@
     "start_line": 5,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "fidelity_note": "wave-2 gap #5631 (degenerate wrapper of arbitrary function) repaired: algebraCartanMatrix is now genuinely constructed as c_ij = finrank k (P i →ₗ[A] P j), the book's dim Hom_A(P_i, P_j); wave-9 re-verified. #7440 closes the wave-9 residual: the prose 'nonnegative entries, positive diagonal entries' observation is now exposed as lemmas (algebraCartanMatrix_entry_nonneg, algebraCartanMatrix_diag_pos via the nonzero identity endomorphism, algebraCartanMatrix_diag_pos_of_indecomposable, plus ℤ-cast forms for downstream matrix use)",
     "last_updated": "2026-07-22"
   },
@@ -9072,9 +9072,8 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "fidelity_note": "The exported definition directly uses Mathlib's WithBot convention, where the zero module has projective dimension bottom rather than 0. This disagrees with the source statement that all projective modules have dimension 0. Follow-up #7426.",
-    "followup_issue": 7426,
+    "coverage": "covered_full",
+    "fidelity_note": "Resolved by #7426/#7438: Etingof.projectiveDimension is the book-normalized value, giving every projective module—including the zero module—dimension 0. projectiveDimensionRaw retains Mathlib's bottom convention as a separately named implementation value.",
     "last_updated": "2026-07-22"
   },
   {
