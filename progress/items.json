@@ -1864,8 +1864,13 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "covered"
-    }
+      "result": "gap"
+    },
+    "coverage": "covered_partial",
+    "coverage_note": "The final subrepresentation proposition and the separate isotypic decomposition are proved, but the displayed natural Hom-space decomposition and its componentwise injective/surjective/isomorphism criterion are absent; follow-up #7452.",
+    "fidelity_issue": 7452,
+    "followup_issue": 7452,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Lemma3.1.6",
@@ -2910,8 +2915,13 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "covered"
-    }
+      "result": "gap"
+    },
+    "coverage": "covered_partial",
+    "coverage_note": "Theorem 3.10.2 is proved by another route, but the source proof's structural claims Rad(A⊗B)=Rad(A)⊗B+A⊗Rad(B) and the corresponding quotient equivalence for finite-dimensional image algebras are not formalized; follow-up #7453.",
+    "fidelity_issue": 7453,
+    "followup_issue": 7453,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Introduction",
