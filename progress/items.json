@@ -946,7 +946,10 @@
     "start_line": 5,
     "end_line": 5,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "PathAlgebra.sum_trivialPaths_eq_one and the finite-quiver algebra instance expose the source identity Σ_i p_i = 1 and unitality.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Problem2.8.6",
@@ -4315,7 +4318,10 @@
     "end_line": 29,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Public predicates characterize algebraic numbers and algebraic integers as IsAlgebraic ℚ and IsIntegral ℤ; over ℚ the nonzero-polynomial and monic presentations are equivalent by rescaling.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Definition5.2.2",
@@ -4327,7 +4333,10 @@
     "end_line": 2,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The public iff theorems give the exact rational/integer matrix-eigenvalue characterizations in the source.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Proposition5.2.3",
