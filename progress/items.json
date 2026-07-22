@@ -1580,8 +1580,8 @@
     "end_page": "40",
     "start_line": 7,
     "end_line": 12,
-    "status": "statement_formalized",
-    "coverage_note": "Sole remaining genuine `sorry` in the whole codebase: finrank_g_three in Chapter2/Problem2_16_3.lean. GENUINE OPEN GAP — left as-is per audit #7001; tracked by claimed issue #6340."
+    "status": "sorry_free",
+    "coverage_note": "Fully proved in Chapter2/Problem2_16_3.lean, sorry-free. (a) finrank_g_one=3, finrank_g_two=4, finrank_g_three=6 (the last discharged over char != 2 via added hypothesis (2:k)!=0, landed #7084/PR #7102; false in char 2). (b) not_finiteDimensional_g_four (g_4 is infinite-dimensional). Was the sole remaining genuine `sorry` in the codebase (finrank_g_three); that gap is now closed and the whole tree is sorry-free (summarize #7262)."
   },
   {
     "id": "Chapter2/Problem2.16.4",
