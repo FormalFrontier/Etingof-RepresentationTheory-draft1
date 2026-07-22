@@ -3802,7 +3802,44 @@
     "start_line": 3,
     "end_line": 10,
     "status": "partially_formalized",
-    "coverage_note": "PATH: no dedicated Problem5_2_7.lean; the item id is a book id, backed by embedded content in Chapter5/Remark5_2_8.lean (which is now sorry-free, and its covering issues #5654/#5772 are CLOSED). Part (b) (∃ g, χ_V(g)=0 for irreducible dim>1) β-integrality is embedded there. Part (a) (existence of a finite Galois extension K⊂ℂ carrying all matrix entries) is NOT formalized — genuinely partial. Path/status corrected in audit #7001."
+    "coverage": "covered_partial",
+    "coverage_arm": "audited",
+    "coverage_note": "COVERAGE-ARM AUDIT (Stage 3.7, #7352): covered_partial. No dedicated Problem5_2_7.lean; the item id is a book id backed by Chapter5/Remark5_2_8.lean (sorry-free; #print axioms clean [propext, Classical.choice, Quot.sound]). PART (b) — covered_partial: the Galois-conjugate rationality machinery is honestly formalized — character_prod_rat proves β := ∏_{g≠1} χ_V(g)·χ_V(g⁻¹) ∈ image(algebraMap ℚ ℂ) via the cyclotomic fixed field ℚ(ζ_N), character_eq_sum_rootsOfUnity / trace_pow_eq_sum_eigenvalues / character_ringHom_pow supply Steps 3-4, and isIntegral_prod_normSq_character gives β an algebraic integer. beta_rat_not_mem_Ioo composes these into the final contradiction. BUT beta_rat_not_mem_Ioo is HYPOTHESIS-GATED on 0 < q < 1: the 0 < β < 1 orthonormality bound (where irreducibility and dim>1 actually enter — character_prod_rat itself holds for ANY V, using neither hypothesis) is NOT formalized, and the honest top-level conclusion ∃ g, χ_V(g)=0 for irreducible dim>1 is NOT asserted anywhere in the repo (Theorem5_4_4:405 is an unrelated per-element coprimality dichotomy, not this global existence). PART (a) — not_started: existence of a finite Galois extension K⊂ℂ of ℚ carrying all matrix entries is not formalized at all. Gaps tracked in derived[]; follow-up feature issue #7353 opened for the part-(b) completion (0<β<1 bound + ∃g conclusion). Supersedes stale note from audit #7001.",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter5/Remark5_2_8.lean"
+    ],
+    "lean_decl": [
+      "Etingof.Remark5_2_8.character_prod_rat",
+      "Etingof.Remark5_2_8.beta_rat_not_mem_Ioo",
+      "Etingof.Remark5_2_8.isIntegral_prod_normSq_character",
+      "Etingof.Remark5_2_8.character_eq_sum_rootsOfUnity",
+      "Etingof.Remark5_2_8.character_ringHom_pow"
+    ],
+    "last_updated": "2026-07-22",
+    "derived": [
+      {
+        "part": "(a) Galois extension",
+        "claim": "For any finite group G there is a finite Galois extension K⊂ℂ of ℚ such that every finite-dimensional complex representation of G has a basis in which all group elements act by matrices with entries in K.",
+        "coverage": "not_started",
+        "status": "accepted",
+        "reason": "Coverage-arm audit (Stage 3.7, #7352): not_started. No declaration in the repo asserts the existence of the finite Galois extension K or the K-entry basis. Genuine unformalized gap (a Galois-descent-from ℚ̄ argument, the book hint). Tracked here; not scheduled as a feature issue this cycle (substantially larger and independent of the part-(b) machinery).",
+        "lean_decl": [],
+        "source_span": "blobs/Chapter5/Problem5.2.7.md L1"
+      },
+      {
+        "part": "(b) vanishing character",
+        "claim": "If V is an irreducible complex representation of a finite group G with dim V > 1, then there exists g ∈ G with χ_V(g) = 0.",
+        "coverage": "covered_partial",
+        "status": "accepted",
+        "reason": "Coverage-arm audit (Stage 3.7, #7352): covered_partial. Remark5_2_8.lean formalizes the Galois-conjugate rationality core sorry-free: character_prod_rat (β = ∏_{g≠1} χ_V(g)·χ_V(g⁻¹) is rational via the ℚ(ζ_N) fixed field), character_eq_sum_rootsOfUnity + trace_pow_eq_sum_eigenvalues + character_ringHom_pow (Steps 3-4), isIntegral_prod_normSq_character (β an algebraic integer), and beta_rat_not_mem_Ioo composing them to the contradiction. NOT covered: the 0<β<1 orthonormality bound (character_prod_rat uses neither irreducibility nor dim>1 — these hypotheses only enter the missing bound) and the honest top-level ∃ g, χ_V(g)=0 conclusion; beta_rat_not_mem_Ioo remains hypothesis-gated on 0<q<1. Follow-up feature issue #7353 opened for this residual.",
+        "lean_decl": [
+          "Etingof.Remark5_2_8.character_prod_rat",
+          "Etingof.Remark5_2_8.beta_rat_not_mem_Ioo",
+          "Etingof.Remark5_2_8.isIntegral_prod_normSq_character"
+        ],
+        "source_span": "blobs/Chapter5/Problem5.2.7.md L5"
+      }
+    ]
   },
   {
     "id": "Chapter5/Remark5.2.8",
