@@ -59,6 +59,21 @@ target does not import. Running against the actual source file only needs the
 target's own already-built dependency oleans, so it works after a successful
 `lake build EtingofRepresentationTheory.<Module>`.
 
+**Beware a false `sorryAx` from the append-to-source method.** `lake env lean`
+re-elaborates the whole source from scratch, and for some files that re-elaboration
+is nondeterministically flaky (e.g. `synthInstanceFailed` or `rewrite failed` on a
+line that compiles fine under `lake build`). Lean fills a failed elaboration with
+`sorryAx`, so a genuinely sorry-free decl can be reported as depending on `sorryAx`
+— a false positive. Tell it apart from a real sorry: if the same `lake env lean`
+run prints **any `error:`** on lines of the target decl (or its helpers), the
+`sorryAx` is an elaboration artifact, not a real sorry. To confirm, cross-check
+against the built oleans: after `lake build EtingofRepresentationTheory.<Module>`
+succeeds, create a scratch file that only `import`s the module and runs
+`#print axioms` there, then `lake env lean` it. Because every olean already exists,
+the "object file does not exist" hazard above does not fire, and the axiom list is
+computed from the compiled olean rather than a fresh re-elaboration — this is the
+authoritative result. (Observed on `Chapter3/Problem3_9_2.lean`, audit #7375.)
+
 ## Editing `progress/items.json` (coverage-arm audits)
 
 Coverage-arm audits record verdicts by editing one entry in
