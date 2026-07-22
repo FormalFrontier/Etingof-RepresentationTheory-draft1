@@ -5442,10 +5442,14 @@
     "start_line": 13,
     "end_line": 14,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "needs_statement": false,
-    "notes": "Both vanishing and diagonal parts fully proved (0 sorries in file).",
-    "sorry_free": true
+    "notes": "The vanishing and diagonal Hom-space claims are proved, but the stated global module decomposition is not exposed.",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "fidelity_note": "No public SymGroupAlgebra-linear Youngs-rule direct-sum isomorphism is stated, and no theorem identifies the Hom-space multiplicity with the combinatorial KostkaNumber; follow-up #7457.",
+    "fidelity_issue": 7457,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Definition5.14.2",
@@ -5456,8 +5460,12 @@
     "start_line": 15,
     "end_line": 16,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "fidelity_note": "The source names the multiplicities from Proposition 5.14.1 as Kostka numbers. Lean defines KostkaNumber by semistandard-tableau cardinality but does not identify it with the representation-theoretic multiplicity; follow-up #7457.",
+    "fidelity_issue": 7457,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Proposition5.14.1",
@@ -6130,11 +6138,14 @@
     "start_line": 1,
     "end_line": 14,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "needs_statement": false,
     "notes": "Both Proposition5_21_2_geometric and Proposition5_21_2_dimension proved (PR #1161).",
     "sorry_free": true,
-    "fidelity_note": "content exists under a different name; structural, not a fidelity gap"
+    "coverage": "covered_partial",
+    "fidelity_note": "The dimension formula is exact. The geometric formula is exposed only for rational z with nonzero denominator factors, not as the source-level polynomial/rational-function identity or a complex/general-field specialization; follow-up #7458.",
+    "fidelity_issue": 7458,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Introduction_5.22",
@@ -6865,10 +6876,9 @@
     "start_line": 5,
     "end_line": 6,
     "status": "sorry_free",
-    "coverage_swept": {
-      "wave": 1,
-      "result": "none"
-    }
+    "coverage": "covered_full",
+    "coverage_note": "Section-transition prose introducing the Dynkin classification; the substantive classification theorem and its finite/affine cases are publicly formalized in the immediately following Chapter 6 files.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Theorem_Dynkin_classification",
@@ -6967,10 +6977,9 @@
     "start_line": 7,
     "end_line": 10,
     "status": "sorry_free",
-    "coverage_swept": {
-      "wave": 1,
-      "result": "none"
-    }
+    "coverage": "covered_full",
+    "coverage_note": "Heading and introductory roadmap only; the ensuing dimension-diagram notation and finite-type examples have public endpoints in the corresponding section files.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Remark6.2.1",
@@ -6981,7 +6990,9 @@
     "start_line": 11,
     "end_line": 12,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Example6.2.2",
@@ -6994,7 +7005,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Public theorem Etingof.Example_6_2_2 exactly characterizes finite-dimensional A1 representations as indecomposable iff their finrank is one.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Example6.2.3",
@@ -7071,10 +7085,9 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
-    "coverage_swept": {
-      "wave": 1,
-      "result": "covered"
-    }
+    "coverage": "covered_full",
+    "coverage_note": "The orientation-independence observation follows publicly from the orientation-independent root classification endpoints established around Example 6.3.1 and Gabriel's theorem.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Section6.4_heading",
@@ -7136,7 +7149,9 @@
     "start_line": 47,
     "end_line": 47,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Definition6.4.5",
@@ -7183,7 +7198,9 @@
     "start_line": 17,
     "end_line": 18,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Example6.4.9",
@@ -7359,10 +7376,9 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
-    "coverage_swept": {
-      "wave": 1,
-      "result": "covered"
-    }
+    "coverage": "covered_full",
+    "coverage_note": "The component maps of the positive reflection functor are part of the public F_i^+ construction and its componentwise definitions in Definition6_6_3.lean.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Definition6.6.4",
@@ -7548,10 +7564,9 @@
     "start_line": 31,
     "end_line": 32,
     "status": "sorry_free",
-    "coverage_swept": {
-      "wave": 1,
-      "result": "covered"
-    }
+    "coverage": "covered_full",
+    "coverage_note": "The summary claim is exactly the finite-indecomposable half of the public Gabriel classification established by the preceding theorem and corollaries.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Corollary6.8.4",
