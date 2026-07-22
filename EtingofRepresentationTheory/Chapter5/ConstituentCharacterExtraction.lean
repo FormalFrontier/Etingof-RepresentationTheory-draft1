@@ -1,22 +1,21 @@
 import EtingofRepresentationTheory.Chapter5.SchurWeylFormalCharacterIso
 
 /-!
-# Constituent-character extraction (Schur-Weyl character bookkeeping, issue #4962)
+# Constituent-character extraction (Schur-Weyl character bookkeeping)
 
-This file isolates the generic **constituent-character extraction** step used by the
-`#4905` assembly of `quotDetRep_irreducible_constituent_lastWeight_zero`
-(`CauchyDetQuotient.lean`).
+This file isolates the generic constituent-character extraction step used in the proof
+of `quotDetRep_irreducible_constituent_lastWeight_zero` (`CauchyDetQuotient.lean`).
 
 The main result, `simple_constituent_formalCharacter_eq_schurPoly_mem`, says: if a finite
 direct sum of simple summands (the abstract Schur-Weyl simples produced by
 `decompose_polynomial_gl_rep`) carries a polynomial `GL_N(k)`-representation `M` whose formal
-character is a nonnegative `ℕ`-combination of *distinct* Schur polynomials
-`∑_{ν ∈ S} c_ν · S_ν`, then any **simple** `GL_N`-rep `L` admitting a `GL_N`-equivariant
+character is a nonnegative `ℕ`-combination of distinct Schur polynomials
+`∑_{ν ∈ S} c_ν · S_ν`, then any simple `GL_N`-rep `L` admitting a `GL_N`-equivariant
 injection into `M` has `formalCharacter L = S_ν` for some `ν ∈ S` with `c_ν > 0`.
 
-## Proof route
+## Proof
 
-1. **Decompose `M`.** `decompose_polynomial_gl_rep` (#2482) writes `M.asModule` as a finite
+1. **Decompose `M`.** `decompose_polynomial_gl_rep` writes `M.asModule` as a finite
    `GL_N`-equivariant direct sum `⨁_{j : Fin p} (L_f j).asModule` of abstract simples, each
    schurPoly-classified: `formalCharacter (L_f j) = S_{lam_cl (f j)}` along an injective
    class assignment.
@@ -33,7 +32,7 @@ injection into `M` has `formalCharacter L = S_ν` for some `ν ∈ S` with `c_ν
    `if lam_cl (f j₀) ∈ S then c_… else 0` is positive, forcing `lam_cl (f j₀) ∈ S` and
    `c_… > 0`.
 
-The downstream consumer (`#4905`) applies this to `M = quotDetDegreeFDRep k N d`, whose
+The downstream consumer applies this to `M = quotDetDegreeFDRep k N d`, whose
 character is supported on partitions `ν` with `ν_N = 0`, to conclude the extracted `ν` has
 `0 ∈ Set.range ν`.
 -/
@@ -92,10 +91,10 @@ namespace Etingof
 
 variable (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
 
-/-- **Constituent-character extraction (issue #4962).** Let `M` be a polynomial
+/-- **Constituent-character extraction.** Let `M` be a polynomial
 `GL_N(k)`-representation (algebraic, weight-space-spanning, homogeneous of degree `n`) whose
-formal character is a nonnegative `ℕ`-combination of *distinct* Schur polynomials
-`∑_{ν ∈ S} c_ν · S_ν`. Then any **simple** `GL_N(k)`-representation `L` that admits a
+formal character is a nonnegative `ℕ`-combination of distinct Schur polynomials
+`∑_{ν ∈ S} c_ν · S_ν`. Then any simple `GL_N(k)`-representation `L` that admits a
 `GL_N`-equivariant injection into `M` has `formalCharacter L = S_ν` for some `ν ∈ S` with
 `c_ν > 0`.
 
@@ -120,7 +119,7 @@ theorem simple_constituent_formalCharacter_eq_schurPoly_mem (N n : ℕ)
     ∃ ν ∈ S, 0 < c ν ∧ formalCharacter k N L = schurPoly N ν.val := by
   classical
   -- (1) Decompose `M.asModule` into abstract simples and the Schur-Weyl witnesses,
-  -- then read the schurPoly-classification off the (relocated) classification core.
+  -- then read the schurPoly-classification off the classification core.
   obtain ⟨ι, hιFin, hιDec, Sm, hSacg, hSmod, hSfin, Lf, hLfsimp, hLfdist, hSne, e, he,
       p, f, ⟨eM⟩⟩ :=
     Etingof.PolynomialGLDecomposition.decompose_polynomial_gl_rep k N n M halg h_span h_homog

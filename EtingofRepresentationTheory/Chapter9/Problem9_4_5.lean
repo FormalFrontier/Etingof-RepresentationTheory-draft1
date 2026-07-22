@@ -24,26 +24,26 @@ Etingof Problem 9.4.5 has two parts.
   the Cartan matrix of `A`, then `det(C) = ±1`.
 
 * **(ii)** Compute the homological dimension of `k[t]/tⁿ` (`n > 1`) and of the algebra of
-  Problem 9.3.2. Both are **infinite**: `k[t]/tⁿ` with `n > 1` is a self-injective but
+  Problem 9.3.2. Both are infinite: `k[t]/tⁿ` with `n > 1` is a self-injective but
   non-semisimple algebra, so it has infinite global dimension; the four dimensional algebra
   `A = ℂ⟨g, x⟩/(gx+xg, x², g²-1)` of Problem 9.3.2 (which contains `k[x]/x²` and is likewise
   non-semisimple with a nonsplit self-extension) also has infinite homological dimension.
 
-## Statement-pass note
+## Formalization notes
 
 Part (i) uses `Etingof.algebraCartanMatrix` (Definition 9.3.1) for the Cartan matrix and
 `Etingof.homologicalDimension` (Definition 9.4.3) for the homological dimension; the entries
 of the Cartan matrix are natural numbers, so `det(C) = ±1` is stated after casting the matrix
-into `ℤ`. Part (ii) records the two concrete values as `homologicalDimension = ⊤`.
+into `ℤ`. Part (ii) gives both homological dimensions as `homologicalDimension = ⊤`.
 
 ## Correct hypotheses for part (i)
 
-The Cartan determinant is `±1` **only** when `C` is the genuine Cartan matrix of `A`, i.e.
+The Cartan determinant is `±1` only when `C` is the Cartan matrix of `A`, i.e.
 `P` really is the family of projective covers of a complete, irredundant set of
-representatives `M` of the simple `A`-modules. An earlier statement quantified over an
-arbitrary family `P : ι → Type*` with only `homologicalDimension A ≠ ⊤`; that statement is
-false (take `A = k`, `ι = Unit`, `P 0 = k²`: then `C = (4)` and `det = 4`). The restated
-theorem below carries the full §9.3/§9.4.5 setup, mirroring the hypotheses of Proposition
+representatives `M` of the simple `A`-modules. Quantifying over an arbitrary family
+`P : ι → Type*` with only `homologicalDimension A ≠ ⊤` gives a false statement (take
+`A = k`, `ι = Unit`, `P 0 = k²`: then `C = (4)` and `det = 4`). The theorem below therefore
+carries the full §9.3/§9.4.5 setup, mirroring the hypotheses of Proposition
 9.2.3 (`Etingof.projective_cover_hom_multiplicity`):
 
 * `A` is finite dimensional over `k`;
@@ -83,12 +83,12 @@ theorem det_eq_pm_one_of_mul_eq_one
     C.det = 1 ∨ C.det = -1 :=
   Int.eq_one_or_neg_one_of_mul_eq_one (by rw [← Matrix.det_mul, h, Matrix.det_one])
 
-/-- **Matrix assembly.** If every standard basis vector `eⱼ = Pi.single j 1` lies in the
-`ℤ`-column span of `C` (i.e. `C.mulVec d = eⱼ` for some integer vector `d`), then `C` has an
-integer right inverse `D`. Assemble `D` column by column from the witnessing vectors: column
+/-- **Building the right inverse.** If every standard basis vector `eⱼ = Pi.single j 1` lies in
+the `ℤ`-column span of `C` (i.e. `C.mulVec d = eⱼ` for some integer vector `d`), then `C` has an
+integer right inverse `D`. Build `D` column by column from the witnessing vectors: column
 `j` of `D` is the vector `d` with `C.mulVec d = eⱼ`, so column `j` of `C * D` is `eⱼ`, giving
 `C * D = 1`. This packages the `K₀` change-of-basis identity `C · D = 1` into the elementary
-`∃ D, C * D = 1` consumed by `det_eq_pm_one_of_mul_eq_one`. -/
+`∃ D, C * D = 1` used by `det_eq_pm_one_of_mul_eq_one`. -/
 theorem exists_right_inverse_of_forall_mulVec
     {ι : Type*} [Fintype ι] [DecidableEq ι] (C : Matrix ι ι ℤ)
     (h : ∀ j, ∃ d : ι → ℤ, C.mulVec d = Pi.single j 1) :
@@ -106,8 +106,8 @@ whose `i`-th entry is `dim_k Hom_A(Pᵢ, N)`. By Proposition 9.2.3
 (`Etingof.projective_cover_hom_multiplicity`) this equals the Jordan–Hölder multiplicity
 vector `([N : Mᵢ])ᵢ`, but the `Hom`-dimension form is manifestly independent of any choice
 of composition series and is additive on short exact sequences by
-`finrank_hom_additive_of_projective`. This is the concrete `K₀`-class function the Cartan
-determinant argument runs on. -/
+`finrank_hom_additive_of_projective`. This is the concrete `K₀`-class function underlying the
+Cartan determinant argument. -/
 noncomputable def homClassVector
     {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
     {ι : Type*} (P : ι → Type*)
@@ -278,14 +278,14 @@ theorem homClassVector_eq_mulVec_of_equiv
   rw [homClassVector_congr P e, homClassVector_isotypic]
 
 /-- **Every indecomposable f.g. projective `A`-module is one of the `Pᵢ`.** Given the §9.3/§9.4.5
-setup — a complete family `M` of simple modules (`hM_complete`) and their indecomposable projective
-covers `P` (`hP_indec`, `hP_cover`) — any indecomposable finitely generated projective `A`-module
+setup (a complete family `M` of simple modules (`hM_complete`) and their indecomposable projective
+covers `P` (`hP_indec`, `hP_cover`)), any indecomposable finitely generated projective `A`-module
 `Q` is `A`-linearly isomorphic to some `P i`. This is the module-level PIM classification: `Q` has a
 simple quotient `Q ↠ M j₀` (`Q` nonzero and f.g. over the artinian `A`, so it has a maximal
 submodule), and `P j₀` also maps onto `M j₀` (`hP_cover` gives `dim_k Hom_A(P j₀, M j₀) = 1`), so
 by `Etingof.indecomposable_projective_iso_of_hom` (two indecomposable projectives with nonzero
 `Hom` to the same simple are isomorphic) `Q ≃ₗ[A] P j₀`. This mirrors `Etingof.Theorem_9_2_1_iii`
-but drops the `IsAlgClosed k` hypothesis, which that route does not use. -/
+but drops the `IsAlgClosed k` hypothesis, which that argument does not use. -/
 theorem indecProjective_iso_some_P
     {k : Type*} [Field k] {A : Type u} [Ring A] [Algebra k A] [FiniteDimensional k A]
     {ι : Type*} [Fintype ι] [DecidableEq ι]
@@ -502,7 +502,7 @@ The Cartan matrix `Etingof.algebraCartanMatrix P` (Definition 9.3.1) is built fr
 `P` of projective covers of the simple modules; its `ℕ`-entries are cast to `ℤ` to take the
 determinant. The hypotheses fix `M` as a complete, irredundant family of simple `A`-modules
 and `P i` as the indecomposable projective cover of `M i` (encoded by the essential-cover
-identity `dim_k Hom_A(Pᵢ, Mⱼ) = δᵢⱼ`), so that `C` is genuinely the change-of-basis matrix in
+identity `dim_k Hom_A(Pᵢ, Mⱼ) = δᵢⱼ`), so that `C` is the change-of-basis matrix in
 `K₀` between the simples `[Mᵢ]` and the projective indecomposables `[Pᵢ]`. -/
 theorem cartan_det_eq_pm_one
     {k : Type*} [Field k] {A : Type u} [Ring A] [Algebra k A] [FiniteDimensional k A]
@@ -526,7 +526,7 @@ theorem cartan_det_eq_pm_one
   suffices h : ∃ D : Matrix ι ι ℤ, C * D = 1 by
     obtain ⟨D, hD⟩ := h
     exact det_eq_pm_one_of_mul_eq_one C D hD
-  -- By the matrix assembly lemma, it suffices to express each standard basis vector `eⱼ` in
+  -- By the right-inverse lemma above, it suffices to express each standard basis vector `eⱼ` in
   -- the `ℤ`-column span of `C`. Since `homClassVector P (M j) = eⱼ` (essential cover, `hP_cover`)
   -- and the columns of `C` are the class vectors `homClassVector P (P i)`
   -- (`homClassVector_proj_eq_cartan_col`), this is exactly the statement that the class of the

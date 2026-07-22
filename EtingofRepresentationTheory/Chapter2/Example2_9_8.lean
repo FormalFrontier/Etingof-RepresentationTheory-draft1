@@ -35,12 +35,12 @@ variable (k : Type*) [CommRing k] (L : Type*) [LieRing L] [LieAlgebra k L]
 /-! ## (1) The zero representation `V = 0`
 
 The zero vector space, realised as `PUnit`, carries a representation. Its underlying space is
-genuinely zero (`Subsingleton`), and the action is necessarily zero. -/
+zero (`Subsingleton`), and the action is necessarily zero. -/
 
 /-- (1) The zero representation: `V = 0` is a representation of `𝔤`. (Etingof 2.9.8(1)) -/
 example : LieAlgebraRepresentation k L (TrivialLieModule k L PUnit) := inferInstance
 
-/-- The underlying space of the zero representation is genuinely zero. -/
+/-- The underlying space of the zero representation is zero. -/
 example : Subsingleton (TrivialLieModule k L PUnit) := inferInstanceAs (Subsingleton PUnit)
 
 /-! ## (2) The trivial representation `ρ = 0`
@@ -54,14 +54,14 @@ variable (V : Type*) [AddCommGroup V] [Module k V]
 (Etingof 2.9.8(2)) -/
 example : LieAlgebraRepresentation k L (TrivialLieModule k L V) := inferInstance
 
-/-- The trivial representation genuinely has `ρ = 0`: every element of `𝔤` acts as `0`. -/
+/-- The trivial representation has `ρ = 0`: every element of `𝔤` acts as `0`. -/
 example (a : L) (v : TrivialLieModule k L V) : ⁅a, v⁆ = 0 := rfl
 
 /-! ## (3) The adjoint representation `V = 𝔤`, `ρ(a)(b) := [a, b]`
 
 The adjoint representation is `LieAlgebra.ad`, the Lie algebra homomorphism
-`ρ : 𝔤 → End(𝔤)` sending `a` to `[a, -]`. The fact that `ad` preserves the Lie bracket —
-`ad ⁅a, b⁆ = ⁅ad a, ad b⁆` in `End(𝔤)` — is exactly the content of the Jacobi identity, so
+`ρ : 𝔤 → End(𝔤)` sending `a` to `[a, -]`. The fact that `ad` preserves the Lie bracket,
+`ad ⁅a, b⁆ = ⁅ad a, ad b⁆` in `End(𝔤)`, is exactly the content of the Jacobi identity, so
 the existence of the adjoint representation is equivalent to the Jacobi identity. -/
 
 /-- (3) The adjoint representation: `V = 𝔤` is a representation of `𝔤`. (Etingof 2.9.8(3)) -/

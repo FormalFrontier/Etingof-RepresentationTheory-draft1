@@ -5,35 +5,35 @@ import EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration
 /-!
 # Exercise 4.2.3: enumeration of simple `K[G]`-modules in the modular case
 
-Over an algebraically closed field `K` (with **no** `NeZero (Nat.card G : K)` hypothesis, so the
+Over an algebraically closed field `K` (with no `NeZero (Nat.card G : K)` hypothesis, so the
 modular case is allowed) this file builds the standard family of simple `K[G]`-modules coming from
-the Wedderburn decomposition of the *semisimple quotient* `A = K[G] ⧸ rad(K[G])`.
+the Wedderburn decomposition of the semisimple quotient `A = K[G] ⧸ rad(K[G])`.
 
 The semisimple, non-modular enumeration lives in
 `Infrastructure/IrreducibleEnumeration.lean` (`IrrepDecomp`), but that development bundles an
-algebra **isomorphism** `k[G] ≃ₐ[k] Π i, Matrix (Fin (d i)) (Fin (d i)) k`, which does not exist
-modularly (the radical is nonzero). Here we replace the isomorphism by a **surjective** algebra
-hom `π : K[G] →ₐ[K] Π i, Matrix (Fin (d i)) (Fin (d i)) K` — the composite of the quotient map
-`K[G] ↠ A` with the Wedderburn isomorphism of `A`. Only surjectivity of `π` is used by the
-column-representation machinery, so the enumeration survives.
+algebra isomorphism `k[G] ≃ₐ[k] Π i, Matrix (Fin (d i)) (Fin (d i)) k`, which does not exist
+modularly (the radical is nonzero). Here we replace the isomorphism by a surjective algebra
+hom `π : K[G] →ₐ[K] Π i, Matrix (Fin (d i)) (Fin (d i)) K`, the composite of the quotient map
+`K[G] ↠ A` with the Wedderburn isomorphism of `A`. Only surjectivity of `π` is used in the
+column-representation argument, so the enumeration survives.
 
 ## Main constructions
 
-* `SplitData K G` — bundles `n`, the block sizes `d`, and the surjective `π`.
-* `SplitData.of` — constructs the data from `A = K[G] ⧸ rad` semisimple + Wedderburn.
-* `SplitData.blockHom` — projection `K[G] →ₐ[K] Matrix (Fin (D.d i)) (Fin (D.d i)) K` to block `i`
+* `SplitData K G`: bundles `n`, the block sizes `d`, and the surjective `π`.
+* `SplitData.of`: constructs the data from `A = K[G] ⧸ rad` semisimple and Wedderburn.
+* `SplitData.blockHom`: projection `K[G] →ₐ[K] Matrix (Fin (D.d i)) (Fin (D.d i)) K` to block `i`
   (surjective).
-* `SplitData.Std D i := Fin (D.d i) → K` — the `i`-th standard module, a simple, finite-dimensional
+* `SplitData.Std D i := Fin (D.d i) → K`: the `i`-th standard module, a simple, finite-dimensional
   `K[G]`-module with `IsScalarTower K (MonoidAlgebra K G) (D.Std i)`.
 
 The enumeration (`Std` pairwise non-isomorphic via `Std_injective` and exhaustive via
 `exists_Std_linearEquiv`) and the resulting count `Nat.card (SimpleModuleClasses K[G]) = n`
-(`card_simpleModuleClasses` / `exists_splitSimples_count`) are proved sorry-free below.
+(`card_simpleModuleClasses` / `exists_splitSimples_count`) are proved below.
 
 ## References
 
 - Etingof, *Introduction to Representation Theory*, §4.
-- `Infrastructure/IrreducibleEnumeration.lean` (`IrrepDecomp`, the `NeZero`-gated analog).
+- `Infrastructure/IrreducibleEnumeration.lean` (`IrrepDecomp`, the analog requiring `NeZero`).
 - Mathlib: `IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed`.
 -/
 
@@ -62,7 +62,7 @@ structure SplitData where
   π_surj : Function.Surjective π
   /-- The kernel of `π` is exactly the Jacobson radical: `π` is the composite of the quotient
   `K[G] ↠ K[G]/rad` with the (injective) Wedderburn isomorphism, so `ker π = rad`. This pins down
-  the structure — without it `π` could be, e.g., a projection onto a single Wedderburn factor,
+  the structure: without it `π` could be, e.g., a projection onto a single Wedderburn factor,
   whose kernel is strictly larger than `rad`, and the enumeration below would be false. -/
   π_ker : RingHom.ker π.toRingHom = Ring.jacobson (MonoidAlgebra K G)
 
@@ -164,13 +164,12 @@ theorem isSimpleModule_Std (D : SplitData K G) (i : Fin D.n) :
 
 /-! ### Enumeration and count
 
-The three remaining facts — the standard modules are pairwise non-isomorphic (`Std_injective`),
-they exhaust the simple `K[G]`-modules (`exists_Std_linearEquiv`), and the resulting count
-`Nat.card (SimpleModuleClasses K[G]) = n` (`card_simpleModuleClasses` /
-`exists_splitSimples_count`) — mirror `IrrepDecomp.columnFDRep_injective` / `columnFDRep_surjective`
-/ `n_eq_card_simples` from `Infrastructure/IrreducibleEnumeration.lean`, with the algebra
-isomorphism replaced by the surjection `π` (only surjectivity is used in that machinery). All three
-are proved sorry-free below. -/
+The three remaining facts are: the standard modules are pairwise non-isomorphic
+(`Std_injective`), they exhaust the simple `K[G]`-modules (`exists_Std_linearEquiv`), and the
+resulting count `Nat.card (SimpleModuleClasses K[G]) = n` (`card_simpleModuleClasses` /
+`exists_splitSimples_count`). The arguments follow those for `IrrepDecomp` in
+`Infrastructure/IrreducibleEnumeration.lean`, with the algebra isomorphism replaced by the
+surjection `π` (only surjectivity is used). -/
 
 /-- Over a simple artinian ring, any two simple modules are isomorphic: each is isomorphic to a
 minimal left ideal, and all minimal left ideals lie in the single isotypic component
@@ -193,7 +192,7 @@ here as a rewrite lemma. -/
 lemma smul_Std_eq (D : SplitData K G) (i : Fin D.n) (x : MonoidAlgebra K G) (v : D.Std i) :
     x • v = D.blockHom i x • v := rfl
 
-/-- **Deliverable 3 (pairwise non-isomorphic).** Distinct standard modules are not isomorphic.
+/-- **Pairwise non-isomorphic.** Distinct standard modules are not isomorphic.
 If `i ≠ j`, pick a preimage `e ∈ K[G]` of the block idempotent `Pi.single i 1`; then `e` acts as
 the identity on `Std i` (its `i`-block is the identity matrix) and as `0` on `Std j` (its `j`-block
 is the zero matrix). Any `K[G]`-linear map `Std i → Std j` therefore vanishes, so no isomorphism
@@ -228,7 +227,7 @@ theorem Std_injective (D : SplitData K G) (i j : Fin D.n)
     one_ne_zero (congr_fun hcontra ⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩)
   exact hv (φ.injective ((hzero _).trans (map_zero φ).symm))
 
-/-- **Deliverable 3 (exhaustive).** Every simple `K[G]`-module is isomorphic to some standard
+/-- **Exhaustiveness.** Every simple `K[G]`-module is isomorphic to some standard
 module `Std i`. -/
 theorem exists_Std_linearEquiv (D : SplitData K G)
     (M : Type u) [AddCommGroup M] [Module (MonoidAlgebra K G) M]
@@ -368,7 +367,7 @@ theorem exists_Std_linearEquiv (D : SplitData K G)
         _ = (Ideal.Quotient.mk _ a) • eQ m := eQ.map_smul _ _
         _ = a • eQ m := h2 }⟩
 
-/-- **Deliverable 4 (count).** The number of isomorphism classes of simple `K[G]`-modules equals
+/-- **The count.** The number of isomorphism classes of simple `K[G]`-modules equals
 the number of Wedderburn blocks `n`. -/
 theorem card_simpleModuleClasses (D : SplitData K G) :
     Nat.card (SimpleModuleClasses.{u} (MonoidAlgebra K G)) = D.n := by
@@ -398,7 +397,7 @@ theorem card_simpleModuleClasses (D : SplitData K G) :
 
 end SplitData
 
-/-- **Bundled deliverable.** Over an algebraically closed field `K` (modular case allowed), the
+/-- Over an algebraically closed field `K` (modular case allowed), the
 simple `K[G]`-modules are enumerated by a finite family of standard modules whose count equals the
 number of Wedderburn blocks of `K[G] ⧸ rad`. -/
 theorem exists_splitSimples_count (K : Type u) (G : Type v)

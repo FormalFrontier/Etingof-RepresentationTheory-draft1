@@ -16,9 +16,9 @@ This file discharges part **(iii)** of Etingof Problem 9.5.3 (deferred by
 exactly two `2`-regular (odd-order) conjugacy classes of `S₃`, namely `{e}` and `{(123),(132)}`,
 so over a splitting field of characteristic `2` there are exactly **two** simple `k[S₃]`-modules:
 
-* the **trivial** simple, `1`-dimensional — in characteristic `2` the sign representation
+* the **trivial** simple, `1`-dimensional: in characteristic `2` the sign representation
   collapses onto the trivial one (`-1 = 1`), so the two char-`0` lines fuse into a single simple;
-* the **standard** simple, `2`-dimensional — it stays irreducible because `3` is invertible, and
+* the **standard** simple, `2`-dimensional: it stays irreducible because `3` is invertible, and
   it is the sum-zero subrepresentation of the permutation representation on `Fin 3 → k`.
 
 The standard simple has dimension `2 = |Syl₂(S₃)|`, hence is **projective**: it is a block of
@@ -31,18 +31,16 @@ unique simple is the trivial module. Altogether
 so `k[S₃]` has exactly two blocks, represented by the trivial and standard simples, and these two
 simples are **not** `Etingof.AreLinked`.
 
-## Status
+## Results
 
-All module and algebra *data* below are constructed genuinely (no `sorry` in any `def`): the
-trivial and standard representations are real objects, built over an arbitrary field of
-characteristic `2` by generalizing the char-`0` `S₃` catalogue in `Chapter4/Example4_3_S3.lean`
-off `ℂ`. Simplicity of the two modules, the non-linkage that separates the two blocks, the block
-count, and the **algebra decomposition** `k[S₃] ≅ M₂(k) × k[t]/(t²)` are all proven; the
-decomposition is realized as the algebra map `(rhoStd, psi) : k[S₃] → M₂(k) × k[t]/(t²)` — the
-standard representation in coordinates paired with the sign character — shown bijective by a
+The trivial and standard representations are built over an arbitrary field of
+characteristic `2`, generalizing the char-`0` `S₃` catalogue of `Chapter4/Example4_3_S3.lean`
+off `ℂ`. This file proves simplicity of the two modules, the non-linkage that separates the two
+blocks, the block count, and the algebra decomposition `k[S₃] ≅ M₂(k) × k[t]/(t²)`. The
+decomposition is realized as the algebra map `(rhoStd, psi) : k[S₃] → M₂(k) × k[t]/(t²)`, the
+standard representation in coordinates paired with the sign character, shown bijective by a
 `6 = 6` dimension count after surjectivity via the central idempotent `e = (123) + (132)`. The
-classification `simple_iff_triv_or_std` (there are exactly these two simples) is also proved, so
-this file is fully sorry-free. See the
+classification `simple_iff_triv_or_std` shows there are exactly these two simples. See the
 block framework in `Definition9_5_1.lean` and `Problem9_5_3.lean` for the `Etingof.Block` /
 `Etingof.AreLinked` machinery reused here.
 -/
@@ -57,7 +55,7 @@ abbrev S3 : Type := Equiv.Perm (Fin 3)
 
 variable (k : Type) [Field k] [CharP k 2]
 
-/-! ## Genuine module data
+/-! ## The two simple modules
 
 The two simple `k[S₃]`-modules, over an arbitrary field `k` of characteristic `2`. These are the
 char-`2` analogues of `trivRep` and `stdRep` from `Chapter4/Example4_3_S3.lean`, built here off a
@@ -88,8 +86,8 @@ omit [CharP k 2] in
   simp [sumLM, Finset.sum_apply]
 
 /-- The **standard** representation as the sum-zero subrepresentation of `permRepr`. In
-characteristic `2` the all-ones vector is *not* sum-zero (`1 + 1 + 1 = 3 = 1 ≠ 0`), so this is a
-genuine `2`-dimensional complement, and it is irreducible because `3` is invertible. -/
+characteristic `2` the all-ones vector is not sum-zero (`1 + 1 + 1 = 3 = 1 ≠ 0`), so this is a
+true `2`-dimensional complement, and it is irreducible because `3` is invertible. -/
 def stdSubr : Subrepresentation (permRepr k) where
   toSubmodule := LinearMap.ker (sumLM k)
   apply_mem_toSubmodule σ f hf := by
@@ -104,7 +102,7 @@ def stdRepr : Representation k S3 (stdSubr k).toSubmodule := (stdSubr k).toRepre
 
 /-! ### The two simples as `k[S₃]`-modules
 
-Via `Representation.asModule`, each representation becomes a genuine module over
+Via `Representation.asModule`, each representation becomes a module over
 `A = k[S₃] = MonoidAlgebra k S₃`, i.e. an object of `ModuleCat A`. These are the block
 representatives. -/
 
@@ -918,7 +916,7 @@ lemma rhoStd_swap02 : rhoStd k (MonoidAlgebra.single (Equiv.swap 0 2) 1) = !![0,
   fin_cases i <;> fin_cases j <;>
     simp [stdRepr_val, e0, e2]
 
-/-- The six group matrices span `M₂(k)`, so `rhoStd` is **surjective**. The four matrix units are
+/-- The six group matrices span `M₂(k)`, so `rhoStd` is surjective. The four matrix units are
 `k`-combinations of `ρ(1), ρ((123)), ρ((01)), ρ((02))` (in characteristic `2`, using `-1 = 1`). -/
 lemma rhoStd_surjective : Function.Surjective (rhoStd k) := by
   have m1 : (1 : Matrix (Fin 2) (Fin 2) k) ∈ (rhoStd k).range :=

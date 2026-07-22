@@ -23,7 +23,7 @@ functor `F` preserves its short exactness.  Applying the homology long exact seq
 `ProjectiveResolution.isoLeftDerivedObj` (whose naturality uses exactly the augmentation squares
 the horseshoe provides) yields the six-term exact window.
 
-This lemma is the reusable crux for the `Tor` long exact sequence in the first argument
+This lemma is the reusable key ingredient for the `Tor` long exact sequence in the first argument
 (`Problem_8_2_6_v_tor`) and the corresponding `Ext` half.
 -/
 
@@ -124,7 +124,7 @@ object `X` once by `P := projectiveResolution X`, applies `τ₁, τ₂` degreew
 projective and `τ₁/τ₂` are short exact on projectives), takes the homology long exact sequence,
 and transports it to the left derived functors via `ProjectiveResolution.leftDerived_app_eq`.
 
-It is the reusable crux for the `Tor` long exact sequence in the *second* argument
+It is the reusable key ingredient for the `Tor` long exact sequence in the *second* argument
 (`Etingof.Problem_8_2_6_iii_tor`). -/
 theorem NatTrans.leftDerived_sixTerm_exact
     {F₁ F₂ F₃ : C ⥤ D} [F₁.Additive] [F₂.Additive] [F₃.Additive]

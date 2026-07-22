@@ -4,9 +4,9 @@ import EtingofRepresentationTheory.Chapter3.Problem3_8_4
 /-!
 # Problem 3.8.4, base change as a power: `L ⊗_K V ≅ Vⁿ` as an `A`-module
 
-Prerequisite for Problem 3.8.4 (#6001). The base change `L ⊗[K] V` carries an
+Prerequisite for Problem 3.8.4. The base change `L ⊗[K] V` carries an
 `L ⊗[K] A`-module structure `Etingof.Problem3_8_4.bcMod`, under which `a : A` acts on
-`l ⊗ v` through `1 ⊗ a` as `l ⊗ (a • v)` — that is, `A` acts on the right (`V`) tensor
+`l ⊗ v` through `1 ⊗ a` as `l ⊗ (a • v)`; that is, `A` acts on the right (`V`) tensor
 factor only. Restricting scalars along the inclusion
 `Algebra.TensorProduct.includeRight : A →ₐ[K] L ⊗[K] A`, `a ↦ 1 ⊗ a`, therefore views
 `L ⊗[K] V` as an `A`-module (`bcModRestrict`).
@@ -18,9 +18,9 @@ identification the book uses to reduce Problem 3.8.4 to the Krull-Schmidt theore
 `Vⁿ ≅ Wⁿ`.
 
 The underlying `K`-linear equivalence and the reduction of `repTensor` on pure tensors are
-proved *before* the `bcModRestrict` instance is introduced: once that extra `Module A`
+proved before the `bcModRestrict` instance is introduced: once that extra `Module A`
 instance is in scope it perturbs the typeclass search that elaborates `rep`/`repTensor` and
-`TensorProduct.comm`, so the plumbing is done first.
+`TensorProduct.comm`, so those results are established first.
 -/
 
 open scoped TensorProduct

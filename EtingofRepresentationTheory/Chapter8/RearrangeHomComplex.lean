@@ -3,14 +3,14 @@ import EtingofRepresentationTheory.Chapter8.RearrangeHomComplexX
 /-!
 # The complex-level rearrangement isomorphism for the `Ext` Künneth formula
 
-Route **step 3** (final assembly, #6844/#6868) of the `Ext` half of Problem 8.2.8. This is the
-`Hom`-cochain twin of `Etingof.rearrangeComplex` (`Chapter8/RearrangeComplex.lean`, #6744), but
-built via `HomologicalComplex.Hom.isoOfComponents` (assembled degreewise from the object iso #6867)
-rather than `total.mapIso`, because the source `Hom(mapBifunctor …, N)` is a **product** over the
-finite fiber, not a `mapBifunctor` bicomplex.
+This file constructs the complex-level rearrangement isomorphism for the `Ext` half of
+Problem 8.2.8. This is the `Hom`-cochain twin of `Etingof.rearrangeComplex`
+(`Chapter8/RearrangeComplex.lean`), but built via `HomologicalComplex.Hom.isoOfComponents`
+(assembled degreewise from the object iso) rather than `total.mapIso`, because the source
+`Hom(mapBifunctor …, N)` is a product over the finite fiber, not a `mapBifunctor` bicomplex.
 
-Combining the degreewise object iso `Etingof.rearrangeHomComplexXIso` (#6867) with the two
-naturality lemmas of #6843 (`homTensorHom_comp_lcompₖ_left/right`, feeding the two
+Combining the degreewise object iso `Etingof.rearrangeHomComplexXIso` with the two
+naturality lemmas `homTensorHom_comp_lcompₖ_left/right` (discharging the two
 differential-commutation squares), this file assembles the isomorphism of
 `CochainComplex (ModuleCat k) ℕ`
 
@@ -22,15 +22,15 @@ rearrangeHomComplex :
         (P₂.complex.linearYonedaObj k N₂)
 ```
 
-feeding the Künneth `Ext` assembler (#6818).
+used by the Künneth `Ext` assembler.
 
-## Route
+## Construction
 
 The degreewise components are `rearrangeHomComplexXIso`. The differential-commutation obligation for
-`isoOfComponents` is discharged summand-by-summand on the *target* coproduct (via
-`mapBifunctor.hom_ext`), reducing — through the `ι`/inv reduction `rearrangeHomComplexXIso`'s
-`ιMapBifunctor_rearrangeHomComplexXIso_inv` and the source biproduct relations `srcInc_srcProj` — to
-the two naturality lemmas of #6843. The source differential
+`isoOfComponents` is discharged summand-by-summand on the target coproduct (via
+`mapBifunctor.hom_ext`), reducing, through the `ι`/inv reduction
+`ιMapBifunctor_rearrangeHomComplexXIso_inv` and the source biproduct relations `srcInc_srcProj`, to
+the two naturality lemmas. The source differential
 `(X.linearYonedaObj k Y).d i j = ofHom (Linear.leftComp k Y (X.d j i))` is precomposition by the
 source chain differential; contravariance flips the fiber index from degree `i+1` (source) to `i`
 (target).
@@ -66,20 +66,20 @@ variable [∀ m, Module.Finite A₂ (P₂.complex.X m)] [∀ m, Module.Projectiv
 
 /-- Applying a `ModuleCat k` `eqToHom` to an element is the `▸` transport of the element. Since the
 `eqToHom` object equalities appearing in `fullSummandIso` (`srcSummandEq`, `linYonedaXEq`) are
-between `ModuleCat.of k T` objects sharing the *same carrier* `T`, the resulting `h ▸ x` is defeq to
+between `ModuleCat.of k T` objects sharing the same carrier `T`, the resulting `h ▸ x` is defeq to
 `x`. -/
 private lemma eqToHom_moduleCat_apply {X Y : ModuleCat.{u} k} (h : X = Y) (x : X) :
     (eqToHom h) x = h ▸ x := by cases h; rfl
 
 /-- Applying a `ModuleCat k` `eqToHom` to an element yields a heterogeneously-equal element. When
-the two objects share a carrier (the `srcSummandEq`/`linYonedaXEq` bridges of `fullSummandIso`),
-this upgrades to an honest equation via `eq_of_heq`. -/
+the two objects share a carrier (the `srcSummandEq`/`linYonedaXEq` object equalities of
+`fullSummandIso`), this upgrades to an honest equation via `eq_of_heq`. -/
 private lemma eqToHom_hom_apply_heq {X Y : ModuleCat.{u} k} (h : X = Y) (w : X) :
     HEq (ModuleCat.Hom.hom (eqToHom h) w) w := by subst h; rfl
 
 include hN in
-/-- Closed form of `summandIso.inv` on a simple tensor `a₁ ⊗ₜ a₂` (genuine morphisms, no `eqToHom`
-bridging), evaluated at `y₁ ⊗ₜ y₂`: it is `a₁ y₁ ⊗ₜ a₂ y₂`. The `eqToHom`-free core of
+/-- Closed form of `summandIso.inv` on a simple tensor `a₁ ⊗ₜ a₂` (plain morphisms, no `eqToHom`
+transport), evaluated at `y₁ ⊗ₜ y₂`: it is `a₁ y₁ ⊗ₜ a₂ y₂`. The `eqToHom`-free core of
 `fullSummandIso_inv_tmul_apply`. -/
 private lemma summandIso_inv_tmul_apply (X₁ : ModuleCat.{u} A₁) (X₂ : ModuleCat.{u} A₂)
     [Module.Finite A₁ X₁] [Module.Projective A₁ X₁]
@@ -95,8 +95,8 @@ set_option maxHeartbeats 1000000 in
 include hN in
 /-- Closed form of `fullSummandIso.inv` on a simple tensor `ψ₁ ⊗ₜ ψ₂`, evaluated at a simple tensor
 `y₁ ⊗ₜ y₂`: it is `ψ₁ y₁ ⊗ₜ ψ₂ y₂` (`homTensorHom`). This is the pointwise reduction that both
-naturality lemmas share; the `eqToHom` bridges in `fullSummandIso` act as the identity on the shared
-underlying `↦` map, discharged by `eqToHom_moduleCat_apply`. -/
+naturality lemmas share; the `eqToHom` transports in `fullSummandIso` act as the identity on the
+shared underlying `↦` map, discharged by `eqToHom_moduleCat_apply`. -/
 private lemma fullSummandIso_inv_tmul_apply (j m : ℕ)
     (ψ₁ : ↥((P₁.complex.linearYonedaObj k (ModuleCat.of A₁ N₁)).X j))
     (ψ₂ : ↥((P₂.complex.linearYonedaObj k (ModuleCat.of A₂ N₂)).X m))
@@ -118,7 +118,7 @@ include hN in
 degree-`p → p+1` source differential of the first `Hom` cochain factor (via `curriedTensor`) with
 the per-summand inverse iso equals the per-summand inverse iso followed by precomposition by the
 external-tensor map of the chain differential `P₁.d (p+1) p`. Reduces pointwise through
-`fullSummandIso_inv_tmul_apply` to `homTensorHom_comp_lcompₖ_left` (#6843). -/
+`fullSummandIso_inv_tmul_apply` to `homTensorHom_comp_lcompₖ_left`. -/
 @[reassoc]
 theorem fullSummandIso_inv_natLeft (p q : ℕ) :
     ((curriedTensor (ModuleCat.{u} k)).map
@@ -144,7 +144,7 @@ theorem fullSummandIso_inv_natLeft (p q : ℕ) :
 
 include hN in
 /-- **Naturality of `fullSummandIso.inv` in the second (contravariant) variable.** The mirror of
-`fullSummandIso_inv_natLeft`, bridging to `homTensorHom_comp_lcompₖ_right`. -/
+`fullSummandIso_inv_natLeft`, reducing to `homTensorHom_comp_lcompₖ_right`. -/
 @[reassoc]
 theorem fullSummandIso_inv_natRight (p q : ℕ) :
     ((curriedTensor (ModuleCat.{u} k)).obj
@@ -170,7 +170,7 @@ theorem fullSummandIso_inv_natRight (p q : ℕ) :
 
 omit [∀ j, Module.Finite A₁ (P₁.complex.X j)] [∀ j, Module.Projective A₁ (P₁.complex.X j)]
   [∀ m, Module.Finite A₂ (P₂.complex.X m)] [∀ m, Module.Projective A₂ (P₂.complex.X m)] in
-/-- **Source `ι`/`π` reduction (bare `ιMapBifunctor` form).** Composing the `(x, y)` genuine summand
+/-- **Source `ι`/`π` reduction (bare `ιMapBifunctor` form).** Composing the `(x, y)` summand
 inclusion of the external tensor complex with the `(p, q)` projection is the Kronecker delta. This
 is `srcInc_srcProj` restated with `ιMapBifunctor` in place of the `srcInc` abbreviation, so it
 rewrites against the raw inclusions produced by `mapBifunctor.hom_ext` and `d₁_eq`/`d₂_eq`. -/
@@ -242,7 +242,7 @@ include hN in
 the inverse degreewise iso equals the inverse degreewise iso followed by the source differential.
 Proved summand-by-summand on the target coproduct (`mapBifunctor.hom_ext`): the `up ℕ` target
 differential expands via `mapBifunctor.d₁_eq`/`d₂_eq`, the target `ι`/inv reduction
-`ιMapBifunctor_rearrangeHomComplexXIso_inv` and the two #6888 naturality lemmas
+`ιMapBifunctor_rearrangeHomComplexXIso_inv` and the two naturality lemmas
 `fullSummandIso_inv_natLeft/natRight` factor out `fullSummandIso p q .inv`, `homYoneda`
 functoriality collapses the two `homYoneda.map`s per summand, and the residual source-complex
 identity `srcProj_comm` (the Koszul sign bookkeeping) closes the goal. -/
@@ -299,7 +299,7 @@ theorem rearrangeHomComplexXIso_inv_comm (i j : ℕ) (hij : (ComplexShape.up ℕ
   congr 1
 
 include hN in
-/-- **The differential-commutation square** for the `Ext` Künneth cochain assembly: the degreewise
+/-- **The differential-commutation square** for the `Ext` Künneth cochain construction: the degreewise
 object isos `rearrangeHomComplexXIso` commute with the source (`Hom(mapBifunctor …, N)`) and target
 (`tensorObj` of the two Hom cochain complexes) differentials. Derived from the inverse form
 `rearrangeHomComplexXIso_inv_comm`. -/
@@ -327,7 +327,7 @@ theorem rearrangeHomComplexXIso_comm (i j : ℕ) (hij : (ComplexShape.up ℕ).Re
           rw [Category.assoc, Iso.hom_inv_id_assoc]
 
 include hN in
-/-- **Route step 3 (#6868).** The complex-level rearrangement isomorphism of
+/-- **The complex-level rearrangement isomorphism** of
 `CochainComplex (ModuleCat k) ℕ`:
 
 ```
@@ -337,7 +337,7 @@ include hN in
       (P₂.complex.linearYonedaObj k N₂)
 ```
 
-Assembled from the degreewise object iso `rearrangeHomComplexXIso` (#6867) via `isoOfComponents`,
+Assembled from the degreewise object iso `rearrangeHomComplexXIso` via `isoOfComponents`,
 with the differential-commutation obligation `rearrangeHomComplexXIso_comm`. -/
 noncomputable def rearrangeHomComplex :
     (extTensorComplexLeft P₁ P₂).linearYonedaObj k
@@ -352,7 +352,7 @@ noncomputable def rearrangeHomComplex :
 include hN in
 /-- The degreewise action of `rearrangeHomComplex` on a summand: its `.hom.f i` is exactly the
 degreewise object iso `rearrangeHomComplexXIso`. This is the rewrite the Künneth `Ext` assembler
-(#6818) uses to identify the degree-`i` factor cohomologies. -/
+uses to identify the degree-`i` factor cohomologies. -/
 @[simp]
 theorem rearrangeHomComplex_hom_f (i : ℕ) :
     (rearrangeHomComplex k N₁ N₂ hN P₁ P₂).hom.f i =

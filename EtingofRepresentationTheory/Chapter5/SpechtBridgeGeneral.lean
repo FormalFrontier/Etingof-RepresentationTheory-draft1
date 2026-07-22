@@ -3,33 +3,30 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_ClassificationGeneral
 import EtingofRepresentationTheory.Chapter5.SpechtCharacterGeneral
 
 /-!
-# The Specht bridge over a general field `k`
+# The Specht identification over a general field `k`
 
-This file lifts the **Specht bridge** of `Theorem5_22_1.lean` (β.2) from ℂ to a general
-characteristic-zero algebraically closed field `k`. The bridge identifies a simple
+This file lifts the Specht identification of `Theorem5_22_1.lean` (β.2) from ℂ to a general
+characteristic-zero algebraically closed field `k`. It identifies a simple
 `symGroupImage`-submodule `S ≤ V^⊗n` (`V = Fin N → k`) with a Specht module and reads off its
 permutation-trace character as the general-`k` Specht character `spechtModuleCharacterK k n la`
-(from `SpechtCharacterGeneral.lean`, #4991).
+(from `SpechtCharacterGeneral.lean`).
 
-## Why a new file
+## Dependencies
 
-The ℂ bridge lives in `Theorem5_22_1.lean`, but its general-`k` analogue needs
-`Theorem5_12_2_classification_general` (the general-field Specht classification) and the
-general-`k` Specht character API — both in files that *import* `Theorem5_22_1.lean`
-(via `Infrastructure.SpechtModuleSimple`). Editing the bridge in place would create an
-import cycle, so the general-`k` bridge is placed here, strictly downstream of all three
-ingredients, leaving the ℂ original untouched. (This is the documented ℂ→general-`k`
-downstream-file pattern.) The private bridge infrastructure of `Theorem5_22_1.lean`
+The general-`k` analogue needs `Theorem5_12_2_classification_general` (the general-field Specht
+classification) and the general-`k` Specht character API, both of which import
+`Theorem5_22_1.lean` (via `Infrastructure.SpechtModuleSimple`). It therefore sits strictly
+downstream of all three ingredients. The private infrastructure of `Theorem5_22_1.lean`
 (`symGroupAlgHomToImage`, `submoduleAsSymGroupAlgebraModule`, …) is re-stated here over `k`,
-reusing only the public, already-generic pieces (`symGroupImage`, `symGroupAction`,
+reusing only the public, already-general pieces (`symGroupImage`, `symGroupAction`,
 `symGroupAlgHom`, `symGroupAlgHom_range`, `symGroupAction_mem_of_symGroupImage_submodule`).
 
 ## Main results
 
-* `trace_symGroupAction_eq_spechtModuleCharacterK` — every simple `symGroupImage`-submodule
+* `trace_symGroupAction_eq_spechtModuleCharacterK`: every simple `symGroupImage`-submodule
   `S` admits a label `la'` with `σ`-trace `= spechtModuleCharacterK k n la'`.
 * `simpleSubmodule_iso_of_spechtCharacterK_eq` and its wrapper
-  `simpleSymGroupImageSubmodule_iso_of_spechtCharacterK_eq` — two simple submodules with the
+  `simpleSymGroupImageSubmodule_iso_of_spechtCharacterK_eq`: two simple submodules with the
   same Specht character are `symGroupImage`-isomorphic.
 -/
 
@@ -37,7 +34,7 @@ noncomputable section
 
 namespace Etingof
 
-/-! ### The Specht bridge over `k` -/
+/-! ### The Specht identification over `k` -/
 
 -- The module-ferrying infrastructure in this section needs only `[Field k]`; the
 -- algebraic-closure and characteristic-zero hypotheses enter only at the classification /
@@ -77,11 +74,8 @@ private theorem symGroupAlgHomToImageK_of (σ : Equiv.Perm (Fin n)) :
   rw [MonoidAlgebra.lift_of]
   rfl
 
--- rc2: slower whnf/isDefEq; bump heartbeat budget for this statement's defeq elaboration
 set_option maxHeartbeats 400000 in
 set_option synthInstance.maxHeartbeats 200000 in
--- The `symGroupImage`-action synthesis traverses the deep `Subalgebra → Subsemiring → Module`
--- instance chain exceeding the default heartbeats.
 /-- Value-level description of the `↥(symGroupImage)`-action on a submodule
 `S ≤ V^⊗n` via `symGroupAlgHomToImageK`. -/
 private theorem symGroupAlgHomToImageK_smul_val
@@ -94,9 +88,6 @@ private theorem symGroupAlgHomToImageK_smul_val
       symGroupAlgHomToImageK_val]
 
 set_option synthInstance.maxHeartbeats 200000 in
--- `Module.compHom` synthesises a `Module (symGroupImage) ↥(S.restrictScalars k)`
--- instance, traversing a deep `Subalgebra → Subsemiring → Module` chain that
--- exceeds the default 20000 heartbeats.
 /-- The `k[S_n]`-module structure on `↥(S.restrictScalars k)` induced from the
 `symGroupImage`-module structure on `↥S` via `symGroupAlgHomToImageK`. -/
 private noncomputable def submoduleAsSymGroupAlgebraModuleK
@@ -106,8 +97,6 @@ private noncomputable def submoduleAsSymGroupAlgebraModuleK
   Module.compHom _ (symGroupAlgHomToImageK (k := k) (N := N) (n := n)).toRingHom
 
 set_option synthInstance.maxHeartbeats 200000 in
--- The `letI := submoduleAsSymGroupAlgebraModuleK S` forces synthesis of the deep
--- `Subalgebra → Subsemiring → Module` instance chain.
 /-- The smul of `submoduleAsSymGroupAlgebraModuleK` agrees with applying
 `symGroupAlgHomToImageK(a)` to the carrier. -/
 private theorem submoduleAsSymGroupAlgebraModuleK_smul_def
@@ -118,8 +107,6 @@ private theorem submoduleAsSymGroupAlgebraModuleK_smul_def
     (a • v).val = (symGroupAlgHom k (Fin N → k) n) a v.val := rfl
 
 set_option synthInstance.maxHeartbeats 200000 in
--- The `IsScalarTower` elaboration traverses the deep `Subalgebra → Subsemiring → Module`
--- instance chain.
 /-- Scalar tower: `(c • a) • v = c • (a • v)` for `c : k`,
 `a : k[S_n]`, `v : ↥(S.restrictScalars k)`. -/
 private theorem submoduleAsSymGroupAlgebra_isScalarTowerK
@@ -134,8 +121,6 @@ private theorem submoduleAsSymGroupAlgebra_isScalarTowerK
   rfl
 
 set_option synthInstance.maxHeartbeats 200000 in
--- Constructing the semilinear map elaborates both `Module` instances on the carrier, each via
--- the deep `Subalgebra → Subsemiring → Module` instance chain.
 /-- The identity-on-carrier `↥(S.restrictScalars k) → ↥S`, semilinear over the
 surjective ring hom `symGroupAlgHomToImageK`. -/
 private noncomputable def submoduleSemilinearIdK
@@ -149,7 +134,6 @@ private noncomputable def submoduleSemilinearIdK
     map_smul' := fun _ _ => rfl }
 
 set_option synthInstance.maxHeartbeats 200000 in
--- Same deep `Subalgebra → Subsemiring → Module` instance chain as `submoduleSemilinearIdK`.
 private theorem submoduleSemilinearIdK_bijective
     (S : Submodule (symGroupImage k (Fin N → k) n)
       (TensorPower k (Fin N → k) n)) :
@@ -162,11 +146,8 @@ private theorem submoduleSemilinearIdK_bijective
     exact Subtype.ext_iff.mp h
   · rintro ⟨w, hw⟩; exact ⟨⟨w, hw⟩, rfl⟩
 
--- rc2: slower whnf/isDefEq; bump heartbeat budget for the RingHomSurjective isDefEq
 set_option maxHeartbeats 400000 in
 set_option synthInstance.maxHeartbeats 200000 in
--- The `RingHomSurjective` instance and bijective-semilinear transfer both invoke `Module`
--- synthesis traversing the deep `Subalgebra → Subsemiring → Module` instance chain.
 /-- Simplicity of `↥S` as a `↥(symGroupImage)`-module transfers to simplicity
 of `↥(S.restrictScalars k)` as a `k[S_n]`-module. -/
 private theorem submoduleAsSymGroupAlgebra_isSimpleModuleK
@@ -194,10 +175,8 @@ private theorem spechtModuleK_smul_of
   rfl
 
 set_option maxHeartbeats 400000 in
--- The Specht-bridge conjugation unfolds `Module.compHom`, traverses a deep
--- `Subalgebra → Subsemiring → Module` chain, and applies trace conjugation.
 set_option synthInstance.maxHeartbeats 200000 in
-/-- The conjugation step of the Specht bridge over `k`. Given a `k[S_n]`-iso
+/-- The conjugation step of the Specht identification over `k`. Given a `k[S_n]`-iso
 `e : ↥(S.restrictScalars k) ≃ₗ SpechtModuleK k n la'`, the trace of the restricted
 `σ`-action on `↥(S.restrictScalars k)` equals `spechtModuleCharacterK k n la' σ`. -/
 private theorem trace_restrictedSymGroupAction_eq_of_spechtIsoK
@@ -262,10 +241,8 @@ end Infrastructure
 variable {k : Type} [Field k] [IsAlgClosed k] [CharZero k] {N n : ℕ}
 
 set_option maxHeartbeats 400000 in
--- The bridge construction unfolds `Module.compHom` and traverses the deep
--- `Subalgebra → Subsemiring → Module` instance chain.
 set_option synthInstance.maxHeartbeats 200000 in
-/-- **Specht bridge** (β.2) over `k`. Every simple `symGroupImage`-submodule `S ≤ V^⊗n`
+/-- **Specht identification** (β.2) over `k`. Every simple `symGroupImage`-submodule `S ≤ V^⊗n`
 admits a partition `la'` such that the trace of every `σ`-permutation operator restricted to
 `S` equals `spechtModuleCharacterK k n la'`. -/
 theorem trace_symGroupAction_eq_spechtModuleCharacterK
@@ -287,8 +264,6 @@ theorem trace_symGroupAction_eq_spechtModuleCharacterK
   exact ⟨la', fun σ => trace_restrictedSymGroupAction_eq_of_spechtIsoK S la' e σ⟩
 
 set_option maxHeartbeats 1600000 in
--- The transfer elaborates both `Module` instances on the shared carrier and the
--- surjective-ring-hom semilinearity, each via the deep instance chain.
 set_option synthInstance.maxHeartbeats 400000 in
 /-- Transfer a `k[S_n]`-linear equivalence between the restricted-scalar modules
 `↥(S.restrictScalars k)` and `↥(S'.restrictScalars k)` to a `symGroupImage`-linear
@@ -330,8 +305,6 @@ private noncomputable def transferToSymGroupImageEquivK
           RingHom.id_apply, symGroupAlgHomToImageK_smul_val] }
 
 set_option maxHeartbeats 800000 in
--- Classifying both restrictScalars modules and transferring the resulting iso traverses
--- the deep `Subalgebra → Subsemiring → Module` instance chain twice.
 set_option synthInstance.maxHeartbeats 400000 in
 /-- **Character determines the module over `k`.** Two simple `symGroupImage`-submodules
 `S, S' ≤ V^⊗n` whose `σ`-trace functions both equal `spechtModuleCharacterK k n la` are
@@ -373,15 +346,11 @@ theorem simpleSubmodule_iso_of_spechtCharacterK_eq
   subst hμμ'
   exact ⟨transferToSymGroupImageEquivK S S' (eS.trans eS'.symm)⟩
 
--- rc2: slower whnf/isDefEq; bump heartbeat budget for the restricted-trace hypotheses' defeq
 set_option maxHeartbeats 400000 in
 set_option synthInstance.maxHeartbeats 400000 in
--- Elaborating the `IsSimpleModule (↥(symGroupImage …)) ↥S` hypotheses forces synthesis of the
--- `Module ↥(symGroupImage …) ↥S` instance, traversing the deep `Subalgebra → Subsemiring →
--- Module` chain that exceeds the default heartbeats.
 /-- `symGroupImage`-wrapper of `simpleSubmodule_iso_of_spechtCharacterK_eq`, matching the
-shape of the ℂ wrapper `simpleSymGroupImageSubmodule_iso_of_spechtCharacter_eq` for use by
-the general-`k` special-block assembly. -/
+shape of the ℂ wrapper `simpleSymGroupImageSubmodule_iso_of_spechtCharacter_eq` for use in
+the general-`k` special-block construction. -/
 theorem simpleSymGroupImageSubmodule_iso_of_spechtCharacterK_eq
     (S S' : Submodule (symGroupImage k (Fin N → k) n)
       (TensorPower k (Fin N → k) n))

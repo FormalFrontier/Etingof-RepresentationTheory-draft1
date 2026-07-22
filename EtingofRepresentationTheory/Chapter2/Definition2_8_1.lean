@@ -8,7 +8,7 @@ between two vertices.
 
 ## Mathlib correspondence
 
-This is exactly `Quiver V` — a typeclass providing `Hom : V → V → Sort*`.
+This is exactly `Quiver V`, a typeclass providing `Hom : V → V → Sort*`.
 -/
 
 /-- A quiver, in the sense of Etingof Definition 2.8.1.

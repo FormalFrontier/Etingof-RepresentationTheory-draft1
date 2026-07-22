@@ -17,18 +17,18 @@ induced by the resolution `P•`.
 
 ## Faithfulness note
 
-This definition is genuinely asymmetric: `M` is a **right** `A`-module and `N` is a **left**
+This definition is asymmetric: `M` is a right `A`-module and `N` is a left
 `A`-module, and `⊗_A` is the tensor product over the (possibly non-commutative) ring `A`.
-Mathlib's `CategoryTheory.Tor C n : C ⥤ C ⥤ C` left-derives the tensor product of a *single*
+Mathlib's `CategoryTheory.Tor C n : C ⥤ C ⥤ C` left-derives the tensor product of a single
 monoidal abelian category, where both factors live in the same category `C`; it can model the
 book's `Tor` only in the commutative/bimodule case. It cannot express the general-ring setting
-of the book, where the two arguments live in different module categories. See issue #5628.
+of the book, where the two arguments live in different module categories.
 
 We therefore build the construction directly:
 
 * Right `A`-modules are `ModuleCat Aᵐᵒᵖ` (a right `A`-action on `M` is a left `Aᵐᵒᵖ`-action,
   with `m * a = MulOpposite.op a • m`).
-* The tensor product `M ⊗_A N` over the non-commutative ring `A` is **not** available in
+* The tensor product `M ⊗_A N` over the non-commutative ring `A` is not available in
   Mathlib (its `TensorProduct R` requires `R` commutative). We construct it here as the
   quotient of the underlying additive tensor product `M ⊗_ℤ N` by the balancing relation
   `(m * a) ⊗ n = m ⊗ (a • n)`.

@@ -70,6 +70,11 @@ to swap `claimed` → `has-pr`, and an unclosed issue would stay stuck in `claim
   merge) **or** a follow-up `feature` issue for the fix, then close the review issue with a
   link to it. Do not leave the review issue open waiting on a human.
 
+`coordination create-pr` builds the PR body itself from the commit (`Closes #N` +
+session + commit subjects); it does **not** read a piped/`--body` body. When the issue
+requires the per-check verdict *in the PR body*, either put that reasoning in the commit
+message or add it afterward with `gh pr edit <N> --body-file <file>`.
+
 Any progress-file commit lives on your branch; there is no need to push or PR it for a
 report-only review.
 

@@ -3,8 +3,8 @@ import Mathlib
 /-!
 # Submodules of finite direct sums of simple modules (generic isotypic extraction)
 
-This file isolates a piece of pure module theory needed by the Schur-Weyl
-decomposition of a polynomial `GL_N`-representation (Etingof §5.23, issue #2482).
+A piece of pure module theory needed by the Schur-Weyl decomposition of a
+polynomial `GL_N`-representation (Etingof §5.23).
 
 The main result, `submodule_of_directSum_simple_iso_directSum`, says that a
 submodule of a finite direct sum of simple `R`-modules `⨁ i, L i` is itself
@@ -12,9 +12,9 @@ isomorphic to a direct sum `⨁ j, L (f j)` of (copies of) those same simple
 summands, for some index function `f : Fin n → ι`. From `f` one reads off, for
 each `i`, the multiplicity `mult i = Nat.card {j // f j = i}` of `L i`.
 
-The statement is generic: it has no Schur-Weyl or `GL_N` specifics in its
-hypotheses, so it can be consumed by the #2482 assembly with
-`R := MonoidAlgebra k (GL (Fin N) k)`, `L i := Representation.asModule (Lᵢ).ρ`.
+The statement is general: it has no Schur-Weyl or `GL_N` specifics in its
+hypotheses, so it applies with `R := MonoidAlgebra k (GL (Fin N) k)`,
+`L i := Representation.asModule (Lᵢ).ρ`.
 
 ## Proof outline
 
@@ -56,8 +56,8 @@ theorem module_finite_of_isSimpleModule {M : Type*} [AddCommGroup M] [Module R M
 to a direct sum `⨁ j, L (f j)` of copies of those simple summands, for some
 `n : ℕ` and `f : Fin n → ι`. The multiplicity of `L i` is `Nat.card {j // f j = i}`.
 
-This is the generic, Schur-Weyl-agnostic isotypic-extraction lemma required by
-the §5.23 decomposition (#2482). -/
+This is the Schur-Weyl-agnostic isotypic-extraction lemma required by
+the §5.23 decomposition. -/
 theorem submodule_of_directSum_simple_iso_directSum
     {W : Type*} [AddCommGroup W] [Module R W]
     {ι : Type*} [Finite ι] (L : ι → Type*)

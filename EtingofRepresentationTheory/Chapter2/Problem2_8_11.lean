@@ -17,8 +17,8 @@ import Mathlib.Data.Finite.Prod
 
 For a `ℤ₊`-graded algebra `A = ⨁ₙ A[n]` with each `A[n]` finite dimensional, the **Hilbert
 series** is `h_A(t) = ∑ₙ (dim A[n]) tⁿ`. The problem asks for the Hilbert series of four
-graded algebras. We render the book's *answers* — the closed rational functions — as the
-statement (spec). Each is captured two ways: the closed formula for the graded dimension
+graded algebras. We render the book's answers, the closed rational functions, as the
+statement. Each is captured two ways: the closed formula for the graded dimension
 `dim A[n]` (the coefficient of `tⁿ`), and, where clean, the closed rational form of the
 generating function `h_A` as a formal power series identity.
 
@@ -32,8 +32,6 @@ The four answers (Etingof Problem 2.8.11):
 * (d) `A = P_Q` (path algebra), `deg pᵢ = 0`, `deg a_h = 1`: `dim A[n]` is the number of paths
   of length `n`, i.e. the `(i,j)`-entry of `M_Q^n` summed over `i, j`, where `M_Q` is the
   adjacency matrix. The generating function is `∑ₙ (𝟙ᵀ M_Q^n 𝟙) tⁿ = 𝟙ᵀ (I - t M_Q)⁻¹ 𝟙`.
-
-The proofs are complete (sorry-free).
 -/
 
 namespace Etingof.Problem2_8_11
@@ -48,7 +46,7 @@ of monomials of degree `n` in `m` variables (`stars and bars`). Equivalently the
 
 The book writes the binomial as `C(n+m-1, m-1)`; for `m ≥ 1` this is the same number
 (`C(n+m-1, n) = C(n+m-1, m-1)`), but we use the `C(n+m-1, n) = Nat.multichoose m n` form because
-it is *also* correct in the degenerate case `m = 0` (where `k[]` ≅ `k` is concentrated in degree
+it is also correct in the degenerate case `m = 0` (where `k[]` ≅ `k` is concentrated in degree
 `0`, so the dimension is `1` at `n = 0` and `0` otherwise). With natural-number subtraction the
 literal `C(n+m-1, m-1)` collapses to `C(n-1, 0) = 1` for every `n` at `m = 0`, which is wrong. -/
 theorem finrank_homogeneous_mvPolynomial (k : Type*) [Field k] (m n : ℕ) :

@@ -16,21 +16,21 @@ Over an algebraically closed field `k` of characteristic `p > 2`, the irreducibl
 dimensional representations of `𝔰𝔩(2, k)` are constrained very differently from characteristic
 `0` (where they are the `(n+1)`-dimensional modules `L(n)`, `n ≥ 0`, of unbounded dimension).
 
-The central feature of the characteristic-`p` classification is the **dimension bound**: every
-irreducible representation of `𝔰𝔩(2, k)` has dimension **at most `p`**, and this bound is
+The central feature of the characteristic-`p` classification is the dimension bound: every
+irreducible representation of `𝔰𝔩(2, k)` has dimension at most `p`, and this bound is
 achieved. (The fine classification parametrizes the irreducibles by a highest weight `λ ∈ k`
 together with, for the non-restricted ones, extra data; that full parametrization requires
 highest-weight-module infrastructure and is deferred. Here we record the sharp dimension bound,
-which is the crisp universally-true part of the answer.)
+which is the universally true part of the answer.)
 
 We realize `𝔰𝔩(2, k)` as Mathlib's `LieAlgebra.SpecialLinear.sl (Fin 2) k`.
 
-The **sharpness** half — the existence of a `p`-dimensional irreducible — is proved here by
-constructing the highest-weight module `L(p-1)`. The construction is a verbatim port of the
-sorry-free characteristic-`0` construction in `Chapter2/Sl2Irrep.lean` to an arbitrary field:
+The sharpness half, the existence of a `p`-dimensional irreducible, is proved here by
+constructing the highest-weight module `L(p-1)`. The construction copies the
+characteristic-`0` construction in `Chapter2/Sl2Irrep.lean` to an arbitrary field:
 carrier `Fin p → k`, with the same diagonal/raising/lowering formulas. The bracket relations
 are ring identities valid over any commutative ring; the only characteristic-`p`-specific work
-is the three nonzero-scalar facts (`natCast_inj_lt`, `natCast_ne_zero_of_lt`) that drive the
+is the three nonzero-scalar facts (`natCast_inj_lt`, `natCast_ne_zero_of_lt`) used in the
 irreducibility argument.
 -/
 
@@ -509,7 +509,7 @@ has dimension at most `p`.
 
 The argument works with the three operators `E, F, H : End(M)` obtained from the standard basis
 via `LieModule.toEnd`, satisfying `[H,E] = 2E`, `[H,F] = -2F`, `[E,F] = H`. In characteristic
-`p` the powers `E^p` and `F^p` are *central* (they commute with `E, F, H`), so by Schur's lemma
+`p` the powers `E^p` and `F^p` are central (they commute with `E, F, H`), so by Schur's lemma
 they act as scalars `α, β`. Then:
 
 * if `α = 0`, `E` is nilpotent, so there is a highest weight vector `v₀` with `E v₀ = 0`; the

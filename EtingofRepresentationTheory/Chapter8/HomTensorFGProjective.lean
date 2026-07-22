@@ -9,19 +9,19 @@ import Mathlib.Algebra.Algebra.Tower
 /-!
 # The finite-generation Hom–tensor comparison isomorphism
 
-For `k`-algebras `A₁, A₂`, a **finitely generated projective** left `A₁`-module `P₁` and left
+For `k`-algebras `A₁, A₂`, a finitely generated projective left `A₁`-module `P₁` and left
 `A₂`-module `P₂`, and left modules `N₁` (over `A₁`) and `N₂` (over `A₂`), the canonical `k`-linear
 map
 
 `Hom_{A₁}(P₁, N₁) ⊗ₖ Hom_{A₂}(P₂, N₂) → Hom_{A₁ ⊗ₖ A₂}(P₁ ⊗ₖ P₂, N₁ ⊗ₖ N₂)`,
 `f ⊗ g ↦ (p₁ ⊗ p₂ ↦ f p₁ ⊗ g p₂)`,
 
-is a `k`-linear **isomorphism**. Here `P₁ ⊗ₖ P₂` and `N₁ ⊗ₖ N₂` carry the external left
+is a `k`-linear isomorphism. Here `P₁ ⊗ₖ P₂` and `N₁ ⊗ₖ N₂` carry the external left
 `A₁ ⊗ₖ A₂`-module structure `(a₁ ⊗ a₂) • (x₁ ⊗ x₂) = (a₁ • x₁) ⊗ (a₂ • x₂)`.
 
 This is the cohomological analogue of the `Tor`-side degreewise tensor iso: `Tor` uses
 right-exactness of `⊗` (no finiteness needed) while `Ext` uses `Hom`, which only commutes with `⊗ₖ`
-on the **finitely generated projective** side — hence the hypothesis. It is the crux of the `Ext`
+on the finitely generated projective side, hence the hypothesis. It is the key step of the `Ext`
 half of Problem 8.2.8.
 
 ## Construction and proof strategy
@@ -426,7 +426,7 @@ theorem homTensorHom_bijective
     have e1 : r₁ (s₁ p₁) = p₁ := by rw [← LinearMap.comp_apply, hrs₁, LinearMap.id_apply]
     have e2 : r₂ (s₂ p₂) = p₂ := by rw [← LinearMap.comp_apply, hrs₂, LinearMap.id_apply]
     simp only [ht_r, ht_s, LinearMap.comp_apply, extMap_tmul, LinearMap.id_coe, id_eq, e1, e2]
-  -- Assemble the two-sided inverse.
+  -- Construct the two-sided inverse.
   rw [Function.bijective_iff_has_inverse]
   refine ⟨fun Φ => S (E.symm (lcompₖ k t_r Φ)), fun x => ?_, fun Φ => ?_⟩
   · -- left inverse

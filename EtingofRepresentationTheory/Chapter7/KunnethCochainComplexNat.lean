@@ -3,14 +3,14 @@ import EtingofRepresentationTheory.Chapter7.Problem7_8_7
 import EtingofRepresentationTheory.Chapter7.KunnethChainComplexNat
 
 /-!
-# Künneth for `ℕ`-indexed cochain complexes: the `ℕ`/`ℤ` reindex bridge (cochain case)
+# Künneth for `ℕ`-indexed cochain complexes via `ℕ`/`ℤ` reindexing (cochain case)
 
 Chapter 7's Künneth formula (`Etingof.Problem7_8_7_iv`) is stated for cohomologically indexed
-`CochainComplex (ModuleCat k) ℤ`. The `Ext` assembly of Problem 8.2.8, however, works with the Hom
-cochain complexes `Hom_A(P•, N)`, which are `ℕ`-indexed **cochain** complexes
+`CochainComplex (ModuleCat k) ℤ`. The `Ext` construction of Problem 8.2.8, however, works with the Hom
+cochain complexes `Hom_A(P•, N)`, which are `ℕ`-indexed cochain complexes
 `CochainComplex (ModuleCat.{u} k) ℕ` (`= HomologicalComplex _ (ComplexShape.up ℕ)`). This file
-provides the bridge: a Künneth isomorphism for `ℕ`-indexed cochain complexes, obtained by
-**reindexing** the `ℤ` result rather than reproving it.
+provides a Künneth isomorphism for `ℕ`-indexed cochain complexes, obtained by
+reindexing the `ℤ` result rather than reproving it.
 
 This is the exact mirror of `Etingof.kunnethChainComplexNat`
 (`EtingofRepresentationTheory/Chapter7/KunnethChainComplexNat.lean`, the `down ℕ` chain case) along
@@ -37,7 +37,7 @@ Mathlib ships `TensorSigns (ComplexShape.up ℤ)` and `TensorSigns (ComplexShape
 `up ℕ` complexes. We supply the missing instance here (`ε n = (-1)^n`, identical data to the
 `down ℕ` instance, only the `Rel` direction differs).
 
-## The crux: tensor ∘ extend compatibility
+## Tensor ∘ extend compatibility
 
 `extend e C ⊗ extend e D ≅ extend e (C ⊗ D)`  (in the `up ℤ` monoidal structure).
 
@@ -47,15 +47,15 @@ non-mechanical step is the sign match, here `negOnePow_natCast` (`Int.negOnePow 
 simpler than the chain case (no `negOnePow_neg`). This is `nonempty_tensorObj_extend_iso` below,
 constructed via `TensorExtend.tensorObjExtendIso`.
 
-## The payoff
+## The resulting isomorphism
 
-`Hᵢ(C ⊗ D)` (`ℕ`) `≅ Hᵢ(extend (C ⊗ D))` `≅ Hᵢ(extend C ⊗ extend D)` (crux)
+`Hᵢ(C ⊗ D)` (`ℕ`) `≅ Hᵢ(extend (C ⊗ D))` `≅ Hᵢ(extend C ⊗ extend D)` (compatibility)
 `≅ ⨁_{a+b=i} H_a(extend C) ⊗ H_b(extend D)` (Chapter 7 Künneth at universe `u`, degree `i`)
 `≅ ⨁_{p+q=i} H_p(C) ⊗ H_q(D)` (reindex `a = p`, `b = q`; the `a < 0` / `b < 0` summands are zero by
 `homology_extend_isZero_up`).
 
 The main deliverable `kunnethCochainComplexNat` is stated below (Prop-valued `Nonempty`), pinning
-the API that the Problem 8.2.8 `Ext` assembler consumes.
+the API that the Problem 8.2.8 `Ext` construction consumes.
 -/
 
 open CategoryTheory Limits MonoidalCategory HomologicalComplex
@@ -462,7 +462,7 @@ noncomputable def tensorObjExtendIso :
 
 end TensorExtendUp
 
-/-- **Crux (tensor ∘ extend compatibility, cochain case).** The `ℤ`-tensor of the extensions is the
+/-- **Tensor ∘ extend compatibility (cochain case).** The `ℤ`-tensor of the extensions is the
 extension of the `ℕ`-tensor:
 `extend e C ⊗ extend e D ≅ extend e (C ⊗ D)`, `e = embeddingUpNat`.
 
@@ -480,7 +480,7 @@ spaces indexed over `ℕ`, the homology of the tensor product decomposes as a di
 `Hⁱ(C ⊗ D) ≅ ⨁_{p+q=i} Hᵖ(C) ⊗ Hᵍ(D)`.
 
 Reindexes Chapter 7's `Problem7_8_7_iv` along `embeddingUpNat`; the exact mirror of
-`kunnethChainComplexNat`. Consumed by the Problem 8.2.8 `Ext` assembler on the Hom cochain
+`kunnethChainComplexNat`. Consumed by the Problem 8.2.8 `Ext` construction on the Hom cochain
 complexes `Hom_A(P•, N)`. -/
 theorem kunnethCochainComplexNat (C D : CochainComplex (ModuleCat.{u} k) ℕ) (i : ℕ) :
     Nonempty ((HomologicalComplex.tensorObj C D).homology i ≅
@@ -492,7 +492,7 @@ theorem kunnethCochainComplexNat (C D : CochainComplex (ModuleCat.{u} k) ℕ) (i
   let α₁ : (HomologicalComplex.tensorObj C D).homology i ≅
       ((HomologicalComplex.tensorObj C D).extend e).homology (i : ℤ) :=
     (homology_extend_iso_up (HomologicalComplex.tensorObj C D) i).symm
-  -- Step 2: apply `Hⁱ` to the crux iso `extend (C ⊗ D) ≅ extend C ⊗ extend D`.
+  -- Step 2: apply `Hⁱ` to the compatibility iso `extend (C ⊗ D) ≅ extend C ⊗ extend D`.
   let φ : (HomologicalComplex.tensorObj C D).extend e ≅
       HomologicalComplex.tensorObj (C.extend e) (D.extend e) :=
     (nonempty_tensorObj_extend_iso_up C D).some.symm

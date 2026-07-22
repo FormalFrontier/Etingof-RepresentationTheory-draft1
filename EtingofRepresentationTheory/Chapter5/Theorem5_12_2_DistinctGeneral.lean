@@ -6,20 +6,19 @@ import EtingofRepresentationTheory.Infrastructure.SpechtModuleSimple
 
 For distinct partitions `λ ≠ μ`, the Specht modules `SpechtModuleK k n λ` and
 `SpechtModuleK k n μ` are not isomorphic as `k[S_n]`-modules, for any field `k`
-of characteristic zero. This is the general-field version of
-`Theorem5_12_2_distinct` (which is hardcoded over ℂ).
+of characteristic zero. Over `ℂ` this is `Theorem5_12_2_distinct`.
 
-The proof ports the Young-projector vanishing chain (`RowSymmetrizer`,
-`ColumnAntisymmetrizer`, Lemma 5.13.1, Lemma 5.13.2) from ℂ to a general field,
-reusing the field-free combinatorial core `pigeonhole_transposition_general`.
-The only field-specific input is `(2 : k) ≠ 0`, supplied by `CharZero`.
+The Young-projector vanishing chain (`RowSymmetrizer`, `ColumnAntisymmetrizer`,
+Lemma 5.13.1, Lemma 5.13.2) holds over a general field, using the field-free
+combinatorial core `pigeonhole_transposition_general`. The only field-specific
+input is `(2 : k) ≠ 0`, supplied by `CharZero`.
 
 ## Main results
 
-* `RowSymmetrizerK`, `ColumnAntisymmetrizerK` — the symmetrizer factors over `k`
-* `Lemma5_13_2_K` — `a_λ · x · b_μ = 0` when `μ` does not dominate `λ`
-* `youngSymmetrizerK_sq_ne_zero` — `c_λ² ≠ 0`
-* `Theorem5_12_2_distinct_general` — distinctness of Specht modules over `k`
+* `RowSymmetrizerK`, `ColumnAntisymmetrizerK`: the symmetrizer factors over `k`
+* `Lemma5_13_2_K`: `a_λ · x · b_μ = 0` when `μ` does not dominate `λ`
+* `youngSymmetrizerK_sq_ne_zero`: `c_λ² ≠ 0`
+* `Theorem5_12_2_distinct_general`: distinctness of Specht modules over `k`
 -/
 
 namespace Etingof
@@ -171,8 +170,7 @@ theorem youngSymmetrizerK_annihilates_specht (k : Type*) [Field k] [CharZero k]
     Lemma5_13_2_K k n la mu h, mul_zero, zero_mul]
 
 /-- For distinct partitions `λ ≠ μ`, the Specht modules `V_λ` and `V_μ` are not
-isomorphic as `k[S_n]`-modules, for any field `k` of characteristic zero.
-(General-field version of `Theorem5_12_2_distinct`.) -/
+isomorphic as `k[S_n]`-modules, for any field `k` of characteristic zero. -/
 theorem Theorem5_12_2_distinct_general (k : Type*) [Field k] [CharZero k]
     (n : ℕ) (la mu : Nat.Partition n) (h : la ≠ mu) :
     IsEmpty ((SpechtModuleK k n la) ≃ₗ[MonoidAlgebra k (G' n)] (SpechtModuleK k n mu)) := by

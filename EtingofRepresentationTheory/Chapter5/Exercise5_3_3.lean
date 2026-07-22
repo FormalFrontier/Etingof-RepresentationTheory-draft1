@@ -22,34 +22,34 @@ isomorphic (equivariantly) to its dual `ρ.dual`. Irreducibility is
 ## Proof structure
 
 The main theorem `isComplexType_of_odd_order_of_nontrivial_irreducible` is assembled, in a
-top-down fashion, from three faithful sub-lemmas that isolate the genuine mathematical
-content. Being of complex type means *not* self-dual, so we assume a `G`-equivariant
+top-down fashion, from three faithful sub-lemmas that isolate the mathematical
+content. Being of complex type means not self-dual, so we assume a `G`-equivariant
 isomorphism `V ≃ V*` and derive a contradiction:
 
-1. `isRealType_or_isQuaternionicType_of_selfDual` — **Schur dichotomy.** A self-dual
-   *irreducible* representation carries a `G`-invariant nondegenerate bilinear form that is
+1. `isRealType_or_isQuaternionicType_of_selfDual`, **Schur dichotomy.** A self-dual
+   irreducible representation carries a `G`-invariant nondegenerate bilinear form that is
    unique up to scalar (Schur's lemma: `Hom_G(V, V*) ≅ Hom_G(V, V) ≅ ℂ`). Its symmetric and
    skew-symmetric parts are therefore proportional, forcing the form to be either symmetric
    (real type) or skew-symmetric (quaternionic type).
 
-2. `not_isRealType_of_odd_order_of_nontrivial_irreducible` — for `|G|` odd, the only real-type
+2. `not_isRealType_of_odd_order_of_nontrivial_irreducible`: for `|G|` odd, the only real-type
    irreducible is the trivial one. (Frobenius–Schur / Brauer permutation lemma: the number of
-   self-dual irreducibles equals the number of *real* conjugacy classes `C = C⁻¹`, and in an
-   odd-order group the only such class is `{1}` — a fixed-point-free involution `x ↦ x⁻¹` on a
+   self-dual irreducibles equals the number of real conjugacy classes `C = C⁻¹`, and in an
+   odd-order group the only such class is `{1}`, since a fixed-point-free involution `x ↦ x⁻¹` on a
    nontrivial real class would force it to have even, hence non-dividing, cardinality.)
 
-3. `not_isQuaternionicType_of_odd_order_of_irreducible` — for `|G|` odd there are no
-   quaternionic irreducibles. A quaternionic representation is **even**-dimensional (the book's
+3. `not_isQuaternionicType_of_odd_order_of_irreducible`: for `|G|` odd there are no
+   quaternionic irreducibles. A quaternionic representation is even-dimensional (the book's
    hint: a nondegenerate skew-symmetric form exists only on even-dimensional spaces), while the
    dimension of an irreducible divides `|G|`, which is odd.
 
-The whole development is now sorry-free. Sub-lemma 3
+Sub-lemma 3
 (`not_isQuaternionicType_of_odd_order_of_irreducible`) is proved by combining the even
 dimension of quaternionic type (`Etingof.even_finrank_of_isQuaternionicType`) with "the
-dimension of an irreducible divides `|G|`" (`Etingof.Theorem5_3_1`). The Frobenius–Schur crux
-`sum_char_sq_eq_card_of_isRealType` feeding sub-lemma 2 (issue #6242) is discharged by clearing
-the `|G|⁻¹` factor in the reverse indicator bridge
-`Etingof.frobeniusSchurIndicator_eq_one_of_isRealType`. See the tracking issues for #6215.
+dimension of an irreducible divides `|G|`" (`Etingof.Theorem5_3_1`). The Frobenius–Schur
+character-sum identity `sum_char_sq_eq_card_of_isRealType` for sub-lemma 2 is obtained by clearing
+the `|G|⁻¹` factor in the reverse indicator identity
+`Etingof.frobeniusSchurIndicator_eq_one_of_isRealType`.
 -/
 
 namespace Etingof
@@ -160,18 +160,18 @@ theorem sum_char_sq_eq_zero (hodd : Odd (Fintype.card G)) (ρ : Representation �
   · exact absurd (inv_eq_zero.mp h) hcard
   · exact h
 
-/-! ### Frobenius–Schur crux
+/-! ### Frobenius–Schur character-sum identity
 
 For a self-dual (in particular real-type) irreducible representation, the Frobenius–Schur
 indicator `(1/|G|)·∑ χ(g²)` equals `+1`, i.e. `∑ χ(g²) = |G|`. This is the substantive
-piece that is not in Mathlib; it is now supplied by the reverse indicator bridge
+piece that is not in Mathlib; it is supplied by the reverse indicator identity
 `Etingof.frobeniusSchurIndicator_eq_one_of_isRealType` (in `FrobeniusSchurRealType.lean`),
 whose proof carries out the symmetric/exterior square analysis (the swap operator on
 `(V ⊗ V)^G`, one-dimensional by Schur for a self-dual irreducible, acting by `+1` on the
 symmetric invariant tensor supplied by the real-type form). Here we only clear the `|G|⁻¹`
 factor to convert the indicator value `1` into the character-sum identity `∑ χ(g²) = |G|`. -/
 
-/-- **Frobenius–Schur crux.** For a real-type irreducible representation of a finite
+/-- **Frobenius–Schur character-sum identity.** For a real-type irreducible representation of a finite
 group, `∑ g, χ(g²) = |G|`. Unfolding `Etingof.frobeniusSchurIndicator ρ = |G|⁻¹·∑ χ(g²)`,
 the value `1` (from `frobeniusSchurIndicator_eq_one_of_isRealType`) clears to `∑ χ(g²) = |G|`. -/
 theorem sum_char_sq_eq_card_of_isRealType (ρ : Representation ℂ G V)

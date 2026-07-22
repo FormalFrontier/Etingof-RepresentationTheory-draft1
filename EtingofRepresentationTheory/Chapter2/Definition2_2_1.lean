@@ -8,8 +8,8 @@ An **associative algebra** over `k` is a vector space `A` over `k` together with
 
 ## Faithfulness note
 
-The book's Definition 2.2.1 is **non-unital**: it asks only for a `k`-vector space with an
-associative bilinear multiplication. The multiplicative unit is *not* part of this definition —
+The book's Definition 2.2.1 is non-unital: it asks only for a `k`-vector space with an
+associative bilinear multiplication. The multiplicative unit is not part of this definition;
 it is introduced separately in Definition 2.2.2. We therefore encode the definition directly as a
 mixin class carrying the bilinear associative multiplication on a `k`-vector space, rather than
 aliasing Mathlib's `Algebra k A` (which is unital, i.e. strictly stronger than the book asks).

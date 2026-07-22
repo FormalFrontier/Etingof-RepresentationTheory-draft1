@@ -6,7 +6,7 @@ import Mathlib.CategoryTheory.Adjunction.Limits
 # Right-exactness of `M ⊗_A -`
 
 The functor `Etingof.tensorLeftFunctor A M : ModuleCat A ⥤ AddCommGrpCat` (Problem 8.2.6 core),
-sending a left `A`-module `N` to `M ⊗_A N`, is a **left adjoint**: its right adjoint sends an
+sending a left `A`-module `N` to `M ⊗_A N`, is a left adjoint: its right adjoint sends an
 abelian group `B` to the left `A`-module `M →+ B`, with action `(a • f) m = f (aᵒᵖ • m)`. This is
 the tensor–hom adjunction
 
@@ -15,7 +15,7 @@ the tensor–hom adjunction
 on the *second* tensor factor (mirroring `Definition8_2_3_RightExact.lean`, which treats the first
 factor). Consequently `M ⊗_A -` preserves all colimits, in particular finite colimits. This is the
 `PreservesFiniteColimits` input that `Functor.leftDerivedZeroIsoSelf` needs to identify the zeroth
-left derived functor of `M ⊗_A -` with `M ⊗_A -` itself — the base case of the balancing theorem
+left derived functor of `M ⊗_A -` with `M ⊗_A -` itself: the base case of the balancing theorem
 Problem 8.2.6(iv).
 -/
 

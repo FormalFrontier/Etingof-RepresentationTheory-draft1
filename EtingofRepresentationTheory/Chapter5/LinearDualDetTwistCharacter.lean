@@ -7,12 +7,12 @@ import EtingofRepresentationTheory.Chapter5.SchurWeylFormalCharacterIso
 /-!
 # Formal character of the `det^s`-twisted linear dual `L_λ^∨`
 
-This file is the **analytic heart** of the linear-dual half of the contragredient
-identity for `GL_n` (Etingof §5.22-5.23, issue #5553, parent #5544 / #5535): the
-formal-character identity feeding the GL char→iso keystone
-`iso_of_formalCharacter_eq_schurPoly` on the `det^s`-twisted linear dual.
+This file establishes the linear-dual half of the contragredient identity for
+`GL_n` (Etingof §5.22-5.23): the formal-character identity underlying the character
+to isomorphism result `iso_of_formalCharacter_eq_schurPoly` on the `det^s`-twisted
+linear dual.
 
-The deliverable (issue #5553) is
+The main result is
 
 ```
 formalCharacter k n
@@ -22,36 +22,35 @@ formalCharacter k n
 
 for `s` large (`hs : ∀ i, lam.toNatWeight i ≤ s + lam.shift`).
 
-## What this file proves (the reusable representation-theoretic infrastructure)
+## What this file proves
 
 Writing `m := s + lam.shift`, `λ' := lam.toNatWeight`, `σ := schurModuleRep k n λ'`:
 
-* `glWeightSpaceℤ_charTwist_shift` — the integer weight space of a character twist
+* `glWeightSpaceℤ_charTwist_shift`: the integer weight space of a character twist
   whose character has torus weight `sh` shifts by `-sh`:
   `glWeightSpaceℤ (charTwistRep c ρ) w = glWeightSpaceℤ ρ (w - sh)` when
   `c (diagUnit i t) = t ^ sh i`. This is the `ℤ`-level analogue of
   `glWeightSpace_detTwist_shift` (`Proposition5_22_2.lean`).
 
-* `detChar_zpow_diagUnit` — the determinant character power reads `t ^ z` on the
+* `detChar_zpow_diagUnit`: the determinant character power reads `t ^ z` on the
   torus: `(detChar ^ z) (diagUnit i t) = t ^ z`.
 
-* Collapsing the stacked twists on the contragredient (inlined inside
-  `coeff_formalCharacter_detTwist_dual`, not a standalone lemma):
+* Collapsing the stacked twists on the contragredient:
   `charTwistRep (det^s) ((algIrrepGLRepρ).dual)
   = charTwistRep (det^{(m:ℤ)}) (Representation.dual σ)`, via `dual_charTwistRep`
-  (#5552) + `charTwistRep_charTwistRep`.
+  and `charTwistRep_charTwistRep`.
 
-* `coeff_formalCharacter_detTwist_dual` (**the coefficient formula**) — combining the
+* `coeff_formalCharacter_detTwist_dual`, the coefficient formula: combining the
   three above with fact (a) `finrank_glWeightSpaceℤ_dual_eq`
-  (`FormalCharacterDual.lean`, #5533):
+  (`FormalCharacterDual.lean`):
   `(formalCharacter k n M).coeff μ = finrank (glWeightSpaceℤ σ (m·1 - μ))`.
 
-This reduces the deliverable to a **pure-polynomial** statement: that
+This reduces the main result to a pure-polynomial statement: that
 `finrank (glWeightSpaceℤ σ (m·1 - μ))` (which is `(schurPoly λ').coeff (m·1 - μ)`
-for `m·1 - μ ≥ 0`, else `0`) assembles to `schurPoly n (w0ShiftWeight n λ' m)` via
+for `m·1 - μ ≥ 0`, else `0`) gives `schurPoly n (w0ShiftWeight n λ' m)` via
 the inverted-variable Schur identity fact (b) `schurPoly_inverseShift`
-(`SchurPolyInverseShift.lean`, #5534). That coeff↔alternant bridge is proved
-in-file below as `schurPoly_w0Shift_coeff`, and the full deliverable is completed
+(`SchurPolyInverseShift.lean`). That coefficient identity is proved
+in-file below as `schurPoly_w0Shift_coeff`, and the main result is completed
 here as `formalCharacter_detTwist_linearDual_eq_schurPoly`.
 -/
 
@@ -145,7 +144,7 @@ Proof chain: `formalCharacter_coeff` →
 `glWeightSpace_eq_glWeightSpaceℤ` → the inlined twist-collapse step
 (`dual_charTwistRep` + `charTwistRep_charTwistRep`) →
 `glWeightSpaceℤ_charTwist_shift` (the `det^m` twist shifts the weight by `m`) →
-`finrank_glWeightSpaceℤ_dual_eq` (the dual negates weights, #5533), using the weight
+`finrank_glWeightSpaceℤ_dual_eq` (the dual negates weights), using the weight
 eigenbasis of the Schur module (`exists_weight_eigenbasis` +
 `glWeightSpace_schurModule_iSup_eq_top`). -/
 theorem coeff_formalCharacter_detTwist_dual (n : ℕ) (lam : DominantWeight n)
@@ -187,9 +186,9 @@ theorem coeff_formalCharacter_detTwist_dual (n : ℕ) (lam : DominantWeight n)
 
 /-! ## Schur-module integer weight spaces as `schurPoly` coefficients
 
-Two helper lemmas (the issue's **(S1)** and **(S2)**) turn each integer weight-space
-dimension of a Schur module into a `schurPoly` coefficient. They feed the assembly
-of the deliverable below. -/
+Two helper lemmas, (S1) and (S2), turn each integer weight-space
+dimension of a Schur module into a `schurPoly` coefficient. They are used in the
+proof of the main result below. -/
 
 /-- **(S1)** For an antitone weight `lz` and a nonnegative target weight `w'`, the
 integer weight-space dimension of the Schur module `L_{lz}` at `w'` is the
@@ -234,9 +233,9 @@ theorem finrank_glWeightSpaceℤ_schurModule_neg (k : Type) [Field k] [IsAlgClos
   have h : ((wt c i₀ : ℤ)) = w i₀ := congrFun hc i₀
   omega
 
-/-! ## The Schur per-coordinate degree bound (crux for box reversal)
+/-! ## The Schur per-coordinate degree bound
 
-The genuine new content needed to run the box-reversal proof: every monomial of
+The content needed for the box-reversal proof: every monomial of
 `schurPoly N lz` has each variable-exponent `≤ lz`'s largest part. We prove the
 sharper statement `degreeOf t (schurPoly N lz) ≤ m` whenever `lz j ≤ m` for all
 `j`, by single-variable degree additivity over the integral domain
@@ -345,11 +344,11 @@ end DegreeBound
 /-! ## Per-variable box reversal `revBox`
 
 The linear map `revBox D : monomial c ↦ monomial (D·1 − c)` (truncated subtraction
-in each coordinate). It is **not** an algebra hom, but it is graded-multiplicative
+in each coordinate). It is not an algebra hom, but it is graded-multiplicative
 on exponent-bounded polynomials: `revBox (D+E) (P·Q) = revBox D P · revBox E Q`
 when `P`'s exponents are `≤ D` and `Q`'s are `≤ E`. On alternants it acts by
 complementing the exponent sequence, and on the Vandermonde it is the reversal
-permutation. These three facts assemble the inverted-Schur identity. -/
+permutation. These three facts combine to give the inverted-Schur identity. -/
 
 section BoxReversal
 
@@ -483,15 +482,15 @@ lemma revBox_coeff (N D : ℕ) (P : MvPolynomial (Fin N) ℚ)
 
 end BoxReversal
 
-/-! ## The inverted-Schur coefficient bridge (residual pure-polynomial content)
+/-! ## The inverted-Schur coefficient identity
 
-This is the genuine content remaining after the representation-theoretic reduction:
+This is the content remaining after the representation-theoretic reduction:
 the coefficientwise form of the inverted-variable Schur identity
 `s_ν(x) = (x₁⋯x_N)^m · s_{lz}(x⁻¹)`, where `ν = w0ShiftWeight n lz m`. It says the
 weight-`μ` coefficient of `s_ν` equals the weight-`(m·1 − μ)` coefficient of `s_{lz}`
 when `μ ≤ m·1` pointwise, and vanishes otherwise. -/
 
-/-- **The inverted-Schur coefficient bridge.** For antitone `lz : Fin n → ℕ` and a
+/-- **The inverted-Schur coefficient identity.** For antitone `lz : Fin n → ℕ` and a
 shift `m` with `lz j ≤ m` for all `j`, the coefficient of `x^μ` in the `w₀`-twisted,
 `m`-shifted Schur polynomial `s_ν` (`ν = w0ShiftWeight n lz m`) equals the
 complemented coefficient of `s_{lz}`:
@@ -500,7 +499,7 @@ complemented coefficient of `s_{lz}`:
 [x^μ] s_ν = if (∀ i, μ i ≤ m) then [x^{m·1 − μ}] s_{lz} else 0.
 ```
 
-This is the honest, coefficientwise avatar of `s_λ(x⁻¹)·(x₁⋯x_N)^m = s_ν(x)`. It is
+This is the coefficientwise form of `s_λ(x⁻¹)·(x₁⋯x_N)^m = s_ν(x)`. It is
 extracted from `schurPoly_inverseShift` (`SchurPolyInverseShift.lean`) by the
 box-reversal mechanism: we prove the polynomial identity
 `schurPoly n ν = revBox m (schurPoly n lz)` by cancelling the Vandermonde
@@ -563,20 +562,20 @@ theorem schurPoly_w0Shift_coeff (n : ℕ) (lz : Fin n → ℕ) (hlz : Antitone l
   · rw [dif_pos hμ, if_pos hμ]; rfl
   · rw [dif_neg hμ, if_neg hμ]
 
-/-! ## The deliverable: formal character of the `det^s`-twisted linear dual -/
+/-! ## Formal character of the `det^s`-twisted linear dual -/
 
-/-- **Formal character of the `det^s`-twisted linear dual `L_λ^∨`** (issue #5553,
-parent #5544 / #5535). For `s` large (`hs : ∀ i, lam.toNatWeight i ≤ s + lam.shift`),
+/-- **Formal character of the `det^s`-twisted linear dual `L_λ^∨`.** For `s` large
+(`hs : ∀ i, lam.toNatWeight i ≤ s + lam.shift`),
 
 ```
 formalCharacter k n (FDRep.of (charTwistRep (det^s) ((algIrrepGLRepρ).dual)))
   = schurPoly n (w0ShiftWeight n lam.toNatWeight (s + lam.shift)).
 ```
 
-Assembled coefficientwise: `coeff_formalCharacter_detTwist_dual` rewrites the left
-coefficient as a Schur-module integer weight-space dimension; **(S1)**/**(S2)**
+Proved coefficientwise: `coeff_formalCharacter_detTwist_dual` rewrites the left
+coefficient as a Schur-module integer weight-space dimension; (S1) and (S2)
 (`finrank_glWeightSpaceℤ_schurModule_natWeight`/`_neg`) turn that into a `schurPoly`
-coefficient (or `0`); and the inverted-Schur bridge `schurPoly_w0Shift_coeff`
+coefficient (or `0`); and the inverted-Schur identity `schurPoly_w0Shift_coeff`
 matches it against the right coefficient. -/
 theorem formalCharacter_detTwist_linearDual_eq_schurPoly (n : ℕ) (lam : DominantWeight n)
     (k : Type) [Field k] [IsAlgClosed k] [CharZero k] (s : ℕ)

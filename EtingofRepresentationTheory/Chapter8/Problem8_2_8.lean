@@ -35,12 +35,12 @@ products, not the (much larger) group-level `⊗_ℤ`.
 
 ## What is formalized here
 
-Both the `Tor` and `Ext` statements are proved sorry-free below. The `Ext` statement
+Both the `Tor` and `Ext` statements are proved below. The `Ext` statement
 (`Problem_8_2_8_ext`) is assembled from its `k`-linear core `Problem_8_2_8_extₖ`, the comparison
-bridge `extAbelianIsoExtₖ` (`Etingof.Ext ≃ₗ[k] Extₖ`), the finitely generated projective
+isomorphism `extAbelianIsoExtₖ` (`Etingof.Ext ≃ₗ[k] Extₖ`), the finitely generated projective
 `barResolution`, and the coproduct-to-direct-sum identification (`ModuleCat.coprodIsoDirectSum`).
-The `hXM` object identification — the factor `k`-module-diamond reconciliation that identifies the
-statement's `ModuleCat.of (A₁⊗A₂)(M₁⊗M₂)` with the canonical `extTensorFunctorLeftObj` — is
+The `hXM` object identification (the factor `k`-module-diamond reconciliation that identifies the
+statement's `ModuleCat.of (A₁⊗A₂)(M₁⊗M₂)` with the canonical `extTensorFunctorLeftObj`) is
 discharged inside the proof by `subst`ing the ambient `Module k Mᵢ` with its restricted form and
 then `instModule_eq_extTensorModuleLeft` (see the comment there).
 
@@ -146,8 +146,8 @@ variable (A₁ A₂ : Type u) [Ring A₁] [Ring A₂] [Algebra k A₁] [Algebra 
   [FiniteDimensional k A₁] [FiniteDimensional k A₂]
 -- left `Aᵢ`-modules `Mᵢ`, `Nᵢ`; the `Mᵢ` and `Nᵢ` are finite dimensional over `k`.
 -- Finite dimensionality of the `Mᵢ` is what lets their projective resolutions be chosen
--- finitely generated projective, which is exactly what makes the crux degreewise Hom-tensor
--- map an isomorphism (see #6814); the `Nᵢ` finiteness matches the book text.
+-- finitely generated projective, which is exactly what makes the degreewise Hom-tensor
+-- map an isomorphism; the `Nᵢ` finiteness matches the book text.
 variable (M₁ M₂ : Type u)
   [AddCommGroup M₁] [Module k M₁] [Module A₁ M₁] [FiniteDimensional k M₁]
   [AddCommGroup M₂] [Module k M₂] [Module A₂ M₂] [FiniteDimensional k M₂]
@@ -155,7 +155,7 @@ variable (N₁ N₂ : Type u)
   [AddCommGroup N₁] [Module k N₁] [Module A₁ N₁] [FiniteDimensional k N₁]
   [AddCommGroup N₂] [Module k N₂] [Module A₂ N₂] [FiniteDimensional k N₂]
 
-/-- **Module-structure reconciliation (deliverable 2 of `Problem_8_2_8_ext`).** An abstract left
+/-- **Module-structure reconciliation.** An abstract left
 `A₁ ⊗[k] A₂`-module structure `instM` on `M₁ ⊗[k] M₂` that acts componentwise on simple tensors
 (`hM`) *is* the canonical external structure `Etingof.extTensorModuleLeft`. Both actions are additive
 in each argument and simple tensors span `A₁ ⊗[k] A₂` and `M₁ ⊗[k] M₂`, so agreeing on
@@ -192,7 +192,7 @@ theorem instModule_eq_extTensorModuleLeft
     | add x y hx hy => rw [smul_add, map_add, hx, hy]
   | add r r' hr hr' => rw [add_smul, map_add, LinearMap.add_apply, hr, hr']
 
-/-- **`k`-`(A₁ ⊗ A₂)`-scalar tower for a componentwise external module (deliverable 1/2 helper).** An
+/-- **`k`-`(A₁ ⊗ A₂)`-scalar tower for a componentwise external module.** An
 abstract left `A₁ ⊗[k] A₂`-module structure `instM` on `M₁ ⊗[k] M₂` acting componentwise on simple
 tensors (`hM`) is automatically a `k`-scalar tower: `(c • r) • x = c • (r • x)`. Both sides are
 additive in `r` and `x`, so it reduces to simple tensors, where `c • (a₁ ⊗ a₂) = (c • a₁) ⊗ a₂`
@@ -224,7 +224,7 @@ theorem isScalarTower_extTensor
     | add x y hx hy => simp only [smul_add, hx, hy]
   | add r r' hr hr' => simp only [add_smul, smul_add, hr, hr']
 
-/-- **Problem 8.2.8, `Ext` — the `k`-linear (`Extₖ`) Künneth isomorphism.** The cohomological
+/-- **Problem 8.2.8, `Ext`: the `k`-linear (`Extₖ`) Künneth isomorphism.** The cohomological
 mirror of `Problem_8_2_8_tor`, phrased with the `ModuleCat k`-valued left-derived-functor `Extₖ`
 and consuming finitely generated projective resolutions `P₁, P₂` of the two left factor modules.
 
@@ -238,8 +238,8 @@ The proof is the four-step book route dualised through `Hom`:
 
 The finite-generation of the `Pᵢ` (an `∀ j, Module.Finite Aᵢ (Pᵢ.complex.X j)` hypothesis) is what
 makes the degreewise Hom-tensor map an isomorphism; it holds for finite dimensional `Mᵢ` over the
-finite dimensional `Aᵢ`. This `Extₖ` iso is wired into the derived-category `Etingof.Ext` statement
-`Problem_8_2_8_ext` (proved sorry-free below) through the module-structure reconciliation and the
+finite dimensional `Aᵢ`. This `Extₖ` isomorphism is used in the derived-category `Etingof.Ext`
+statement `Problem_8_2_8_ext` through the module-structure reconciliation and the
 `Etingof.Ext ≃ Extₖ` comparison isomorphism. -/
 theorem Problem_8_2_8_extₖ (i : ℕ)
     (P₁ : ProjectiveResolution (ModuleCat.of A₁ M₁))
@@ -276,7 +276,7 @@ theorem Problem_8_2_8_extₖ (i : ℕ)
       (extIsoCohomologyHomₖ k A₂ (ModuleCat.of A₂ M₂) (ModuleCat.of A₂ N₂) P₂ p.1.2).symm)⟩
 
 -- The factor `k`-scalar towers on `Mᵢ` / `Nᵢ`: needed to form the finitely generated projective
--- `Etingof.barResolution` (deliverable 1) and consumed by `Problem_8_2_8_extₖ`. They only attach to
+-- `Etingof.barResolution` and consumed by `Problem_8_2_8_extₖ`. They only attach to
 -- `Problem_8_2_8_ext` below (not to `Problem_8_2_8_extₖ`, which lists its `Nᵢ` towers explicitly).
 variable [IsScalarTower k A₁ M₁] [IsScalarTower k A₂ M₂]
   [IsScalarTower k A₁ N₁] [IsScalarTower k A₂ N₂]
@@ -295,7 +295,7 @@ The iso is stated as a `k`-linear equivalence `≃ₗ[k]` (both sides are `k`-mo
 the strength of the `Tor` half `Problem_8_2_8_tor` (a `ModuleCat k` iso), and is strictly stronger
 than a bare additive equivalence. The finite dimensionality of the `Mᵢ` is essential: it lets the
 projective resolutions `Pᵢ` be chosen finitely generated projective, which is exactly the condition
-under which the crux degreewise map
+under which the degreewise map
 `Hom_{A₁}(P₁, N₁) ⊗ₖ Hom_{A₂}(P₂, N₂) → Hom_{A₁ ⊗ A₂}(P₁ ⊗ P₂, N₁ ⊗ N₂)` is an isomorphism. Without
 it the natural Künneth map fails to be surjective (already at `i = 0`, `A₁ = A₂ = k`: the canonical
 `M₁* ⊗ₖ M₂* → (M₁ ⊗ M₂)*` is not surjective for infinite dimensional `Mᵢ`). -/
@@ -317,13 +317,13 @@ theorem Problem_8_2_8_ext (i : ℕ)
                 (Etingof.Ext (ModuleCat.of A₂ M₂) (ModuleCat.of A₂ N₂) p.1.2))) := by
   -- The `k`-linear Künneth isomorphism `Problem_8_2_8_extₖ` is the mathematical core: it decomposes
   -- `Extₖ k (A₁⊗A₂) (extTensorFunctorLeftObj…) (N₁⊗N₂) i` as the categorical coproduct
-  -- `∐_{j+m=i} Extₖ k A₁ M₁ N₁ j ⊗ Extₖ k A₂ M₂ N₂ m` in `ModuleCat k`. The assembly wires it in via:
+  -- `∐_{j+m=i} Extₖ k A₁ M₁ N₁ j ⊗ Extₖ k A₂ M₂ N₂ m` in `ModuleCat k`. The proof combines it via:
   --   1. `Etingof.barResolution` (finitely generated projective, `instFiniteBarResolutionComplexX`
   --      + `instProjectiveBarModule`) resolves each `Mᵢ` and the external `M₁⊗M₂`; the tensor scalar
   --      towers come from `isScalarTower_extTensor`.
   --   2. `instModule_eq_extTensorModuleLeft` identifies the statement's `ModuleCat.of (A₁⊗A₂)(M₁⊗M₂)`
-  --      (pinned by `hM`) with the canonical `extTensorFunctorLeftObj` (`hXM`); `instN`/`hN` feed
-  --      `Problem_8_2_8_extₖ` directly on the `N` side.
+  --      (pinned by `hM`) with the canonical `extTensorFunctorLeftObj` (`hXM`); `instN`/`hN` are
+  --      passed to `Problem_8_2_8_extₖ` directly on the `N` side.
   --   3. the comparison `extAbelianIsoExtₖ` (`Etingof.Ext ≃ₗ[k] Extₖ`) transports the big `Ext` and,
   --      backwards under `TensorProduct.congr`, each factor `Extₖ` summand.
   --   4. `ModuleCat.coprodIsoDirectSum` turns `∐` into `⨁`; the monoidal `⊗` in `ModuleCat k` is
@@ -332,13 +332,13 @@ theorem Problem_8_2_8_ext (i : ℕ)
   haveI : IsScalarTower k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) := isScalarTower_extTensor instN hN
   have hXM : (ModuleCat.of (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂) : ModuleCat.{u} (A₁ ⊗[k] A₂))
       = extTensorFunctorLeftObj k A₁ A₂ (ModuleCat.of A₁ M₁) (ModuleCat.of A₂ M₂) := by
-    -- **Deliverable 2 residual (object identification).** The two objects both have carrier
+    -- **Object identification.** The two objects both have carrier
     -- `M₁ ⊗[k] M₂` and act componentwise, but they are not *definitionally* equal:
     -- `extTensorFunctorLeftObj` bakes in `restrictModule₂L` (the `k`-structure on each factor
     -- obtained by restricting the `Aᵢ`-action along `k → Aᵢ`), whereas the statement's
     -- `ModuleCat.of (A₁⊗A₂)(M₁⊗M₂)` carries the ambient `Module k Mᵢ`. These agree by
-    -- `IsScalarTower k Aᵢ Mᵢ`, but reconciling the two `k`-structures — threaded through
-    -- `extTensorModuleLeft` / `extTensorRepLeft` — is a self-contained module reconciliation.
+    -- `IsScalarTower k Aᵢ Mᵢ`, but reconciling the two `k`-structures (carried through
+    -- `extTensorModuleLeft` / `extTensorRepLeft`) is a self-contained module reconciliation.
     -- The factor identification is `restrictModule₁L`/`restrictModule₂L`
     -- (`= Module.compHom _ (algebraMap k Aᵢ)`) vs the ambient `Module k Mᵢ`, equal by
     -- `IsScalarTower.algebraMap_smul`. We reconcile by `subst`ing the ambient `Module k Mᵢ` with
@@ -351,7 +351,7 @@ theorem Problem_8_2_8_ext (i : ℕ)
       Module.ext' _ _ fun c m => (IsScalarTower.algebraMap_smul (A := A₂) c m).symm
     subst e1 e2
     -- `subst` eliminated the ambient `Module k Mᵢ` instance binders; re-register the (now
-    -- identical) restricted forms so typeclass resolution can feed
+    -- identical) restricted forms so typeclass resolution can supply
     -- `instModule_eq_extTensorModuleLeft`. `letI` (not `haveI`) keeps the binding transparent, so
     -- the synthesized instance is *definitionally* the `Module.compHom Mᵢ (algebraMap k Aᵢ)` that
     -- `subst` baked into `instM`'s carrier type.

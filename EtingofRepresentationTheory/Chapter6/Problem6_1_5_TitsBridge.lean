@@ -4,17 +4,17 @@ import EtingofRepresentationTheory.Chapter6.Problem6_1_5_OrbitSpace
 import EtingofRepresentationTheory.Chapter6.OrientationDefs
 
 /-!
-# Problem 6.1.5, Step 3 wiring: the Tits matrix form is `2·(dim G − dim W)`
+# Problem 6.1.5, Step 3: the Tits matrix form is `2·(dim G − dim W)`
 
 This file connects the matrix Tits form of Definition 6.1.4 to the orbit-side
-dimension data of `Problem6_1_5_OrbitSpace.lean`, completing the arithmetic part of
-**step 3** of the orbit-counting route to Gabriel's theorem (directive #4777).
+dimension data of `Problem6_1_5_OrbitSpace.lean`, giving the arithmetic part of
+step 3 of the orbit-counting route to Gabriel's theorem.
 
-`Problem6_1_5_PosDef.lean` already proves `titsForm_posDef_of_cone`: positivity of
+`Problem6_1_5_PosDef.lean` proves `titsForm_posDef_of_cone`: positivity of
 the matrix form `xᵀ(2·I − adj)x` on the nonzero nonnegative integer cone (`hcone`)
-upgrades to positive-definiteness on all nonzero integer vectors. What remains to
-feed it is `hcone` itself, which this file produces from the *strict* dimension
-bound `dim W(m) < dim G(m)` for nonzero `m`.
+upgrades to positive-definiteness on all nonzero integer vectors. This file
+produces that hypothesis `hcone` from the strict dimension bound
+`dim W(m) < dim G(m)` for nonzero `m`.
 
 ## The arithmetic identity
 
@@ -29,14 +29,14 @@ undirected one, giving
 (`titsForm_eq_two_mul_dim_diff`). Strict positivity of the left side is therefore
 exactly `dim W(m) < dim G(m)`.
 
-## What is left for S4 (#4786)
+## Reduction to the strict dimension bound
 
 `hcone_of_strict_dim_bound` / `isDynkinDiagram_of_strict_dim_bound` reduce the
 forward direction of `Theorem_6_1_5` to the single hypothesis
-`dim W(m) < dim G(m)` for nonzero `m` — the `−1` strict refinement of the
+`dim W(m) < dim G(m)` for nonzero `m`, the `−1` strict refinement of the
 non-strict `repSpace_finrank_le_repGroup_ambient_finrank` (`Problem6_1_5_DimBound`),
 coming from the trivial action of the global scalars `k*`. That refinement is the
-remaining genuinely-geometric step; everything here is sorry-free arithmetic.
+remaining geometric step; everything here is arithmetic.
 -/
 
 namespace Etingof
@@ -84,7 +84,7 @@ theorem arrowCount_add_swap_eq_adj (adj : Matrix (Fin n) (Fin n) ℤ)
     · have hnot : ¬ Nonempty (i ⟶ j) := fun hm => hQ.2.2 j i hn hm
       rw [if_neg hnot, if_pos hn, h1]; norm_num
 
-/-- **The arithmetic bridge.** For any dimension vector `m`, the matrix Tits form of
+/-- **The arithmetic identity.** For any dimension vector `m`, the matrix Tits form of
 Definition 6.1.4 equals twice the orbit-side dimension difference:
 
 `xᵀ(2·I − adj)x = 2·((Σᵢ mᵢ²) − Σᵢⱼ bᵢⱼ mᵢ mⱼ) = 2·(dim G(m) − dim W(m))`,
@@ -123,7 +123,7 @@ theorem titsForm_eq_two_mul_dim_diff (adj : Matrix (Fin n) (Fin n) ℤ)
 /-- **Producing `hcone` from the strict dimension bound.** Given
 `dim W(m) < dim G(m)` for every nonzero dimension vector `m` (the `−1` strict
 refinement, in raw-sum form), the matrix Tits form is strictly positive on every
-nonzero nonnegative integer vector — exactly the `hcone` hypothesis consumed by
+nonzero nonnegative integer vector, exactly the `hcone` hypothesis used by
 `titsForm_posDef_of_cone`. -/
 theorem hcone_of_strict_dim_bound (adj : Matrix (Fin n) (Fin n) ℤ)
     (hsymm : adj.IsSymm) (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
@@ -158,8 +158,7 @@ theorem hcone_of_strict_dim_bound (adj : Matrix (Fin n) (Fin n) ℤ)
 
 /-- **Forward direction of Gabriel's theorem from the strict dimension bound
 (raw-sum form).** Given the graph-shape clauses and the strict orbit-dimension
-bound `dim W(m) < dim G(m)` for nonzero `m`, the graph is a Dynkin diagram. This is
-the interface consumed by the final wiring in S4 (#4786). -/
+bound `dim W(m) < dim G(m)` for nonzero `m`, the graph is a Dynkin diagram. -/
 theorem isDynkinDiagram_of_strict_dim_bound (adj : Matrix (Fin n) (Fin n) ℤ)
     (hsymm : adj.IsSymm) (hloop : ∀ i, adj i i = 0)
     (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
@@ -180,8 +179,7 @@ set_option linter.unusedFintypeInType false in
 `Module.finrank` quantities of `Problem6_1_5_OrbitSpace`/`Problem6_1_5_DimBound`:
 `dim W(m) = finrank k (repSpace m) < finrank k (∏ᵢ Matrix (Fin mᵢ) (Fin mᵢ) k) =
 dim G(m)`. This is the `−1` strict refinement of
-`repSpace_finrank_le_repGroup_ambient_finrank` and is the directly-consumable hook
-for S4 (#4786). -/
+`repSpace_finrank_le_repGroup_ambient_finrank`. -/
 theorem isDynkinDiagram_of_strict_finrank (k : Type) [Field k]
     (adj : Matrix (Fin n) (Fin n) ℤ)
     (hsymm : adj.IsSymm) (hloop : ∀ i, adj i i = 0)

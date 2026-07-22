@@ -2,13 +2,13 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter7.Problem7_8_7
 
 /-!
-# Künneth for `ℕ`-indexed chain complexes: the `ℕ`/`ℤ` reindex bridge
+# Künneth for `ℕ`-indexed chain complexes via `ℕ`/`ℤ` reindexing
 
 Chapter 7's Künneth formula (`Etingof.Problem7_8_7_iv`) is stated for cohomologically indexed
-`CochainComplex (ModuleCat k) ℤ`. The `Tor`/`Ext` assembly of Problem 8.2.8, however, works with
+`CochainComplex (ModuleCat k) ℤ`. The `Tor`/`Ext` construction of Problem 8.2.8, however, works with
 its own complexes `P• ⊗_A N`, which are homologically indexed `ChainComplex (ModuleCat.{u} k) ℕ`
-(`= HomologicalComplex _ (ComplexShape.down ℕ)`). This file provides the bridge: a Künneth
-isomorphism for `ℕ`-indexed chain complexes, obtained by **reindexing** the `ℤ` result rather than
+(`= HomologicalComplex _ (ComplexShape.down ℕ)`). This file provides a Künneth
+isomorphism for `ℕ`-indexed chain complexes, obtained by reindexing the `ℤ` result rather than
 reproving it.
 
 ## The reindexing embedding
@@ -23,9 +23,9 @@ Homology transport is Mathlib's `HomologicalComplex.extendHomologyIso`:
 outside the image. These two facts are proved here as `homology_extend_iso` and
 `homology_extend_isZero`.
 
-## The crux: tensor ∘ extend compatibility
+## Tensor ∘ extend compatibility
 
-The remaining gap — with no direct Mathlib support — is the compatibility of `extend` with the
+The remaining step, with no direct Mathlib support, is the compatibility of `extend` with the
 monoidal (tensor) structure:
 
 `extend e C ⊗ extend e D ≅ extend e (C ⊗ D)`  (in the `up ℤ` monoidal structure).
@@ -37,26 +37,25 @@ Since `extend C` is supported on `ℤ≤0`, the only nonzero summands have `a = 
 categorical work is to assemble this degreewise identification into an isomorphism of complexes,
 matching the `ιTensorObj` injections and the Koszul-signed total differential (`d₁` and `d₂`
 summands). This is `nonempty_tensorObj_extend_iso` below, constructed via
-`TensorExtend.tensorObjExtendIso` (milestones (a)–(c), issue #6694).
+`TensorExtend.tensorObjExtendIso` (milestones (a)–(c)).
 
 Note `extend C ⊗ extend D` is itself supported on `ℤ≤0`, i.e. on the image of the embedding, so
 this iso can equivalently be read as "the `ℤ`-tensor of the extends is the extension of the
 `ℕ`-tensor".
 
-## The payoff
+## The resulting isomorphism
 
-`Hᵢ(C ⊗ D)` (`ℕ`) `≅ H_{-i}(extend (C ⊗ D))` `≅ H_{-i}(extend C ⊗ extend D)` (crux)
+`Hᵢ(C ⊗ D)` (`ℕ`) `≅ H_{-i}(extend (C ⊗ D))` `≅ H_{-i}(extend C ⊗ extend D)` (compatibility)
 `≅ ⨁_{a+b=-i} H_a(extend C) ⊗ H_b(extend D)` (Chapter 7 Künneth at universe `u`, degree `-i`)
 `≅ ⨁_{p+q=i} H_p(C) ⊗ H_q(D)` (reindex `a = -p`, `b = -q`; the `a > 0` / `b > 0` summands are
 zero by `homology_extend_isZero`).
 
-The final identification uses the **universe-general** `Problem7_8_7_iv` (universe half of #6666,
-PR https://github.com/.../pull/6673). The reindex of the coproduct is not a bare index bijection:
-the `ℤ`-side sum `⨁_{a+b=-i}` ranges over all of `ℤ × ℤ`, and the extra summands vanish only via
-`homology_extend_isZero`.
+The final identification uses the universe-general `Problem7_8_7_iv`. The reindex of the
+coproduct is not a bare index bijection: the `ℤ`-side sum `⨁_{a+b=-i}` ranges over all of
+`ℤ × ℤ`, and the extra summands vanish only via `homology_extend_isZero`.
 
 The main deliverable `kunnethChainComplexNat` is stated below (Prop-valued `Nonempty`), pinning the
-API that the Problem 8.2.8 assembler (#6657) consumes.
+API that the Problem 8.2.8 construction consumes.
 -/
 
 open CategoryTheory Limits MonoidalCategory HomologicalComplex
@@ -89,7 +88,7 @@ namespace TensorExtend
 
 This section constructs, for every `j' : ℤ`, the degreewise isomorphism
 `(extend C ⊗ extend D).X j' ≅ (extend (C ⊗ D)).X j'` (`tensorExtendXIso`), the object-level half
-of the crux `nonempty_tensorObj_extend_iso`. The nonzero degrees are `j' = -n`, where both sides
+of `nonempty_tensorObj_extend_iso`. The nonzero degrees are `j' = -n`, where both sides
 identify with `⨁_{p+q=n} C_p ⊗ D_q`; positive degrees are zero on both sides.
 
 The forward/inverse maps are assembled out of `mapBifunctorDesc` over the summand maps `phiFwd`
@@ -344,7 +343,7 @@ lemma extendXIso_inv_tensorExtendXIso_inv (n : ℕ) :
 ## Milestone (b): differential compatibility
 
 The degreewise isos `tensorExtendXIso` (milestone (a)) are packaged, via `fwdNeg_comm`, into an
-honest isomorphism of chain complexes `tensorObjExtendIso`, discharging the crux
+honest isomorphism of chain complexes `tensorObjExtendIso`, discharging
 `nonempty_tensorObj_extend_iso`. The only non-mechanical step is the Koszul sign match
 `negOnePow_neg_natCast`.
 -/
@@ -538,14 +537,14 @@ noncomputable def sigmaIsoOfInjOfIsZeroCompl (ι : I → J) (hι : Function.Inje
 
 end CoproductSupport
 
-/-- **Crux (tensor ∘ extend compatibility).** The `ℤ`-tensor of the extensions is the extension
+/-- **Tensor ∘ extend compatibility.** The `ℤ`-tensor of the extensions is the extension
 of the `ℕ`-tensor:
 `extend e C ⊗ extend e D ≅ extend e (C ⊗ D)`, `e = embeddingDownNat`.
 
 Degreewise both sides are `⨁_{p+q=n} C_p ⊗ D_q` at `-n` and zero at positive degrees; the content
 is matching the `ιTensorObj` injections and the Koszul-signed total differential. Universe-general
-and independent of Chapter 7. Constructed via `TensorExtend.tensorObjExtendIso` (milestones (a)–(c),
-issue #6694). -/
+and independent of Chapter 7. Constructed via `TensorExtend.tensorObjExtendIso` (milestones
+(a)–(c)). -/
 theorem nonempty_tensorObj_extend_iso (C D : ChainComplex (ModuleCat.{u} k) ℕ) :
     Nonempty (HomologicalComplex.tensorObj (C.extend ComplexShape.embeddingDownNat)
         (D.extend ComplexShape.embeddingDownNat) ≅
@@ -557,7 +556,7 @@ indexed over `ℕ`, the homology of the tensor product decomposes as a direct su
 `Hᵢ(C ⊗ D) ≅ ⨁_{p+q=i} H_p(C) ⊗ H_q(D)`.
 
 Reindexes Chapter 7's `Problem7_8_7_iv` along `embeddingDownNat`; see the module docstring for the
-route. Consumed by the Problem 8.2.8 `Tor`/`Ext` assembler (#6657). -/
+derivation. Consumed by the Problem 8.2.8 `Tor`/`Ext` construction. -/
 theorem kunnethChainComplexNat (C D : ChainComplex (ModuleCat.{u} k) ℕ) (i : ℕ) :
     Nonempty ((HomologicalComplex.tensorObj C D).homology i ≅
       ∐ fun (p : {p : ℕ × ℕ // p.1 + p.2 = i}) =>
@@ -568,7 +567,7 @@ theorem kunnethChainComplexNat (C D : ChainComplex (ModuleCat.{u} k) ℕ) (i : �
   let α₁ : (HomologicalComplex.tensorObj C D).homology i ≅
       ((HomologicalComplex.tensorObj C D).extend e).homology (-(i : ℤ)) :=
     (homology_extend_iso (HomologicalComplex.tensorObj C D) i).symm
-  -- Step 2: apply `H_{-i}` to the crux iso `extend (C ⊗ D) ≅ extend C ⊗ extend D`.
+  -- Step 2: apply `H_{-i}` to the compatibility iso `extend (C ⊗ D) ≅ extend C ⊗ extend D`.
   let φ : (HomologicalComplex.tensorObj C D).extend e ≅
       HomologicalComplex.tensorObj (C.extend e) (D.extend e) :=
     (nonempty_tensorObj_extend_iso C D).some.symm

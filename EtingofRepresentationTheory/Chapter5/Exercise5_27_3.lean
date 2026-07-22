@@ -6,7 +6,7 @@ import EtingofRepresentationTheory.Infrastructure.CompletenessCriterion
 /-!
 # Exercise 5.27.3: deduce parts (i)–(iii) of Theorem 5.27.1 from part (iv)
 
-**Exercise 5.27.3.** Deduce parts (i)—(iii) of Theorem 5.27.1 from part (iv).
+**Exercise 5.27.3.** Deduce parts (i)–(iii) of Theorem 5.27.1 from part (iv).
 
 Theorem 5.27.1 classifies the irreducible representations of a semidirect product `A ⋊[φ] G`
 (with `A` abelian) by the orbit method. Writing `Â = (A →* ℂˣ)` for the character group with the
@@ -21,7 +21,7 @@ representative `χ` of a `G`-orbit and an irreducible `U` of `G_χ`, the four pa
 * **(iv)** the explicit character formula
   `χ_{V(χ,U)}(a, g) = |G_χ|⁻¹ Σ_{h : hgh⁻¹ ∈ G_χ} χ(φ(h)(a)) · χ_U(hgh⁻¹)`.
 
-The exercise asks to derive (i)–(iii) *from* the character formula (iv) using character theory:
+The exercise asks to derive (i)–(iii) from the character formula (iv) using character theory:
 (i) because `⟨χ_{V(χ,U)}, χ_{V(χ,U)}⟩ = 1`, (ii) because distinct orbit data give orthogonal
 characters, and (iii) by the sum-of-squares count `Σ dim V(χ, U)² = |A ⋊[φ] G|`.
 
@@ -31,7 +31,7 @@ Because the constructions in `Theorem5_27_1.lean` (`dualSmulAux`, `stabAux`, `in
 are `private`, we phrase the exercise abstractly over the same data that Theorem 5.27.1 exhibits:
 a dual action `dualSmul`, a stabilizer assignment `stab`, the construction `V`, and the transport
 map `transport`, characterised by the same defining identities. The hypothesis is exactly part
-**(iv)** — the character formula — and the conclusion is the conjunction of parts **(i)**, **(ii)**,
+**(iv)**, the character formula, and the conclusion is the conjunction of parts **(i)**, **(ii)**,
 and **(iii)**, stated with the identical expressions used in `Etingof.Theorem5_27_1`.
 
 The hypothesis `_htransport` characterizes the otherwise-free `transport` map by the character
@@ -39,7 +39,7 @@ identity `χ_{g(U)}(s) = χ_U(g⁻¹ s g)` (mirroring `transportRep_ρ_apply`/`c
 `Theorem5_27_1.lean`). Without it the theorem is refutable, since a universally quantified free
 `transport` admits the adversarial choice `transport _ _ _ _ U := U ⊞ U`.
 
-Proof pass: parts (i) and (ii) are proven via character orthogonality — (i) by the induced-character
+Proof. Parts (i) and (ii) are proven via character orthogonality: (i) by the induced-character
 norm being one, (ii) by a mixed off-diagonal Mackey computation (existence of the intertwining
 element `g` from a nonzero cross inner product) followed by a same-orbit Mackey reduction and
 `FDRep.char_orthonormal` for the `U₂ ≅ transport g χ₁ χ₂ hg U₁` conclusion. Part (iii)
@@ -84,9 +84,9 @@ private lemma sum_monoidHom_units_cast_eq {A : Type} [CommGroup A] [Fintype A]
     rfl
 
 open Classical in
-/-- Exercise 5.27.3. Given the semidirect-product setup of Theorem 5.27.1 — the dual `G`-action
+/-- Exercise 5.27.3. Given the semidirect-product setup of Theorem 5.27.1 (the dual `G`-action
 `dualSmul` on `Â`, the stabilizer subgroups `stab χ`, the construction `V χ U`, and the transport
-map `transport` — together with the character formula **(iv)**, the classification properties
+map `transport`) together with the character formula **(iv)**, the classification properties
 **(i)** (irreducibility), **(ii)** (pairwise non-isomorphism), and **(iii)** (completeness) all
 follow. -/
 theorem Exercise5_27_3
@@ -103,7 +103,7 @@ theorem Exercise5_27_3
     -- `Theorem5_27_1.lean` (`transportRep_ρ_apply` / `conjStabHom_coe`): the transported
     -- representation `g(U)` acts by `ρ_{g(U)}(s) = ρ_U(g⁻¹ s g)`, so its character at `s` is
     -- the character of `U` at the conjugate `g⁻¹ s g ∈ G_{χ₁}`. Without this the theorem is
-    -- refutable, since `transport` would otherwise be a free, unconstrained function (see #6383).
+    -- refutable, since `transport` would otherwise be a free, unconstrained function.
     (_htransport : ∀ (g : G) (χ₁ χ₂ : A →* ℂˣ) (hg : dualSmul g χ₁ = χ₂)
         (U : FDRep ℂ ↥(stab χ₁)) (s : ↥(stab χ₂)) (hs : g⁻¹ * (s : G) * g ∈ stab χ₁),
         (transport g χ₁ χ₂ hg U).character s = U.character ⟨g⁻¹ * (s : G) * g, hs⟩)
@@ -131,7 +131,7 @@ theorem Exercise5_27_3
     (∀ (W : FDRep ℂ (A ⋊[φ] G)), Simple W →
         ∃ (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stab χ)),
           Simple U ∧ Nonempty (W ≅ V χ U)) := by
-  -- Part (i): irreducibility of `V χ U` — hoisted as `hVsimple` so parts (i) and (ii) share it.
+  -- Part (i): irreducibility of `V χ U`, hoisted as `hVsimple` so parts (i) and (ii) share it.
   -- Strategy (character orthogonality): from the character formula (iv), compute the norm
   -- `∑_{x ∈ A ⋊ G} χ_{V χ U}(x) χ_{V χ U}(x⁻¹) = |A ⋊ G|`. Two conjugation reindexings of
   -- the internal `G`-sums collapse the induced-character norm to `|G|·|G_χ|·⟨χ_U, χ_U⟩`,
@@ -565,7 +565,7 @@ theorem Exercise5_27_3
       have hpos : 0 < Nat.card (A ⋊[φ] G) := Nat.card_pos
       exact_mod_cast hpos.ne'
     -- Existence of the intertwining element `g`: if no `g` had `dualSmul g χ₁ = χ₂`, then every
-    -- orbit condition would be false, forcing the cross inner product to vanish — contradiction.
+    -- orbit condition would be false, forcing the cross inner product to vanish, a contradiction.
     have hgexists : ∃ g : G, dualSmul g χ₁ = χ₂ := by
       by_contra hng
       apply hcross_ne
@@ -795,7 +795,7 @@ theorem Exercise5_27_3
       rw [hS0, mul_zero, mul_zero, mul_zero] at hcrossval
       exact (show (Nat.card (A ⋊[φ] G) : ℂ) ≠ 0 from by exact_mod_cast Nat.card_pos.ne')
         hcrossval
-    -- Rewrite the extended-support sum as a genuine sum over the stabilizer subgroup.
+    -- Rewrite the extended-support sum as a sum over the stabilizer subgroup.
     have hrestrict : (∑ u : G, Uc χ₂ U₂ u * Uc χ₂ W u⁻¹)
         = ∑ s : ↥(stab χ₂), U₂.character s * W.character s⁻¹ := by
       have hfilter : ∑ u : G, Uc χ₂ U₂ u * Uc χ₂ W u⁻¹
@@ -833,7 +833,7 @@ theorem Exercise5_27_3
     rw [hzero, horth, if_neg hcon]
     simp
   refine ⟨hVsimple, hclassify, ?_⟩
-  -- Part (iii): completeness — every simple `W` is some `V χ U`.
+  -- Part (iii): completeness, every simple `W` is some `V χ U`.
   -- Strategy: the sum-of-squares count `Σ_{χ,U} dim(V χ U)² = |A ⋊[φ] G|` (from (iv) and the
   -- orbit decomposition) exhausts the regular representation. The orbit-method family
   -- `{V(χ, U) : χ an orbit representative, U an irreducible of stab χ}` consists of pairwise

@@ -8,6 +8,39 @@ allowed-tools: Read, Edit, Write, Bash, Glob, Grep
 
 Patterns for formalizing mathematics textbooks into Lean 4 with Mathlib. Derived from Phase 2 analysis of 583 items across 10 chapters of Etingof's Representation Theory.
 
+## Writing Style: reflect the mathematics, not the process
+
+Every comment and docstring you write into a `.lean` file must read as if it belonged to
+a mathematics research paper. The repository records the mathematics of the book, never
+the story of how the formalization was carried out.
+
+**No war stories.** Do not write PR, issue, or directive numbers (`#4947`, `issue #2483`,
+`directive #4777`), nor any narrative of the formalization process: no `redirect`,
+`relocated`, `is now in`, `hosts`, `This file is part of ...`, `Why this lives here`, no
+refactor codenames, and no progress or status narration (`sorry-free`, `route B`,
+`retired`, `Spec resolution`, `the one remaining sorry`, `## Status`). That history lives
+in git and GitHub, not in the source. If a sentence carried a real structural fact (an
+import ordering, a re-export), state it plainly without the process narrative. A
+re-export note reads `X is re-exported from Y via the import above.`, not `X is now in Y
+(#5075), re-exported ...`.
+
+**Speak like a mathematician.** Write plain, precise mathematical prose. Avoid the
+AI-slop register: `genuine`/`genuinely`, `crux`, `payoff`, `seam`, `glue`, `assembly`
+(as a noun for a proof or theorem — say "the proof"/"the theorem"/"the construction"),
+`notch stronger`, `iso-strength`, `ghost` (name the object, e.g. "a summand with zero
+multiplicity space"), `would-be`, `routes through`, `threaded in`, `manufactured from`,
+`feeding`, `driven by`. Do not force awkward verb-object pairs ("closes the input", "the
+field turns X into Y"); use plain mathematical verbs: proves, establishes, gives, yields,
+follows from, reduces to. Do not use bold or italics for mid-sentence emphasis (a bold
+run-in title at the start of a docstring is fine as structure).
+
+**Banned marks and words** (Kim's standing bans, in all technical writing): em-dashes
+`—` (use a comma, colon, semicolon, or parentheses), and the words `bridge`, `gate`,
+`smoke`.
+
+For calibration, `EtingofRepresentationTheory/Chapter6/Problem6_1_5_OrbitInjective.lean`
+is written to this standard.
+
 ## Session Setup
 
 Before the first `lake build` or `lake env lean` in any session:
@@ -2334,6 +2367,10 @@ Two traps recur when using Mathlib's `IsSemisimpleModule` / `IsSimpleModule` API
   spurious "No goals"/type-mismatch errors downstream. Keep `⟨i, by omega⟩` Fin
   literals (not `(i : Fin 5)`) so the `mapLinear`/`starRepMap_kQ` match reduces
   definitionally for `change`/defeq steps.
+
+- **`Module.End` predicate dot-notation resolves to the nonexistent `LinearMap.*` (Ch5 §5.22 torus semisimplicity, #7210).** A value `glTensorRep … g` / `M.ρ g` has type `Module.End k V`, which elaborates as `LinearMap`, so `(M.ρ g).IsSemisimple` / `.invtSubmodule` / `.IsFinitelySemisimple` fail with "environment does not contain `LinearMap.IsSemisimple`". Write the predicate head explicitly: `Module.End.IsSemisimple (M.ρ g)`, `Module.End.invtSubmodule (…)`. (Dot-notation *does* work on `Module.End`-valued fields like `.maxGenEigenspace`, and on terms whose type head is already `Module.End.IsSemisimple`/`IsFinitelySemisimple` — e.g. `hss.restrict`, `hss.isFinitelySemisimple`, `hfss.maxGenEigenspace_eq_eigenspace`.) To prove a torus operator semisimple: it is diagonal in `tensorStdBasis`, so `Module.End.isSemisimple_of_squarefree_aeval_eq_zero` with `p = ∏ s ∈ S, (X − C s)` (`S = (range (n+1)).image (u^·)`; squarefree via `separable_prod_X_sub_C_iff'` + `Separable.squarefree`; `aeval p = 0` on the basis via `Module.End.aeval_apply_of_mem_apply_eq_smul`).
+
+- **Coercing an `FDRep` carrier element to the underlying module, and transferring `IsSemisimple.restrict` onto `(FDRep.of ρ).ρ` (Ch5 §5.22, #7210).** `(SchurModule k N lam).V` is `FGModuleCat.of k ↥(SchurModuleSubmodule …)`, so `(v : TensorPower …)` on a carrier element does **not** fire (type is `↑(…).V`, not `↥(submodule)`). Route through the subtype: `set ι := Submodule.subtype (SchurModuleSubmodule …)` — its domain is defeq to the FDRep carrier, so `ι v : TensorPower` type-checks. The intertwining `ι (M.ρ g w) = glTensorRep … g (ι w)` closes by `simp only [SchurModule, FDRep.of_ρ']; rfl` (the `restrict`-coe identity is definitional). To transfer semisimplicity of the tensor-power operator to the restriction on the FDRep, `exact ((glTensorRep_…_isSemisimple …).restrict hinvt)` works by defeq **through** `FDRep.of_ρ'`; `simpa only [SchurModule, FDRep.of_ρ'] using hss` does **not** — it rewrites `M.ρ`→`schurModuleRep` but then leaves an `FGModuleCat.of`-vs-native-submodule module-instance mismatch it cannot close.
 
 - **Upgrading a `k`-linear bijection to an `A`-linear equiv: prove `map_smul`
   on the composite, do NOT transport the `A`-module (Ch5, #4926 biduality).**

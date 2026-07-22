@@ -4,38 +4,38 @@ import EtingofRepresentationTheory.Chapter5.QuotDetDegreeAlgebraic
 import EtingofRepresentationTheory.Chapter5.Theorem5_23_2
 
 /-!
-# Complete reducibility of the right-translation hull (Peter-Weyl, step 2)
+# Complete reducibility of the right-translation hull (Peter-Weyl)
 
-This file carries out **step 2** of the Cauchy route for
-`Theorem5_23_2_PeterWeyl.peterWeylSummandMap_iSup_range_eq_top` (issue #5577, a sub-issue of
-#5572): the finite-dimensional right-translation hull `rightHull φ` of an element
+This file establishes, toward
+`Theorem5_23_2_PeterWeyl.peterWeylSummandMap_iSup_range_eq_top`, that the finite-dimensional
+right-translation hull `rightHull φ` of an element
 `φ ∈ R = Localization.Away (detPoly k N)`, after a `det^r`-twist, is a polynomial (in fact
-algebraic) representation, hence **completely reducible** as a `localRightRep`-representation.
+algebraic) representation, hence completely reducible as a `localRightRep`-representation.
 
-The genuinely new content is the bridge `numEmbed_intertwines`: the `k`-linear numerator
-embedding `numEmbed r : p ↦ algebraMap p · det⁻ʳ` intertwines the **polynomial-side** right
-translation `polyRightRep` with the `det^r`-**twisted** localization action
+The new content is `numEmbed_intertwines`: the `k`-linear numerator
+embedding `numEmbed r : p ↦ algebraMap p · det⁻ʳ` intertwines the polynomial-side right
+translation `polyRightRep` with the `det^r`-twisted localization action
 `charTwistRep (detChar^r) (localRightRep)`. Concretely, the twist by `det^r` is exactly what
 clears the denominator `det⁻ʳ`: right translation scales `det⁻ʳ` by `det(g)⁻ʳ`, and the twist
 multiplies back by `det(g)^r`.
 
-Through this bridge, all sorry-free:
+Using this intertwining:
 
-* `boundedRightRep_isAlgebraic` — right translation on the finite-dimensional space of
+* `boundedRightRep_isAlgebraic`: right translation on the finite-dimensional space of
   polynomials of bounded total degree is an algebraic representation (its matrix coefficients on
   the monomial basis are the polynomials `rightTransPoly`, exactly as for the homogeneous
   Cauchy component `polyRightDegreeFDRep_isAlgebraic`).
 
-* `rightHull_isSemisimple` — **complete reducibility of the right-translation hull**: the hull,
+* `rightHull_isSemisimple`, complete reducibility of the right-translation hull: the hull,
   as a `localRightRep`-representation, is a semisimple `k[GL_N]`-module. The `det^r`-twist of the
   hull is algebraic (transport `boundedRightRep_isAlgebraic` across `numEmbed` via
   `IsAlgebraicRepresentation.of_linearEquiv`, restricting to the hull via
   `IsAlgebraicRepresentation.restrict`), hence completely reducible (`Theorem5_23_2_i`);
   untwisting by `det⁻ʳ` (`isSemisimpleModule_charTwistRep`) recovers the hull.
 
-The finer statement — that the constituents are exactly the irreducibles `L_λ = algIrrepGLRepρ`,
-with weights shifted by `-r·(1,…,1)` — uses the constituent characterization
-`quotDetRep_irreducible_constituent_lastWeight_zero` and is tracked separately.
+The finer statement, that the constituents are exactly the irreducibles `L_λ = algIrrepGLRepρ`
+with weights shifted by `-r·(1,…,1)`, uses the constituent characterization
+`quotDetRep_irreducible_constituent_lastWeight_zero`.
 -/
 
 open scoped TensorProduct
@@ -58,7 +58,7 @@ with the `det^r`-twisted localization action `charTwistRep (detChar^r) (localRig
 `(det g)^r • localRightRep g (numEmbed r p) = numEmbed r (polyRightRep g p)`.
 
 Right translation scales `det⁻ʳ` by `det(g)⁻ʳ` (`localRightRep_normalForm`); twisting by `det^r`
-multiplies back by `det(g)^r`, exactly cancelling the denominator scaling and leaving the genuine
+multiplies back by `det(g)^r`, exactly cancelling the denominator scaling and leaving the
 polynomial right translation `polyRightRep g p` on the numerator. -/
 theorem numEmbed_intertwines (r : ℕ) (g : Matrix.GeneralLinearGroup (Fin N) k)
     (p : MvPolynomial (Fin N × Fin N) k) :
@@ -210,7 +210,7 @@ theorem numEmbed_injective (r : ℕ) :
       (by rw [mul_comm]; exact algebraMap_detPoly_pow_mul_invSelf_pow r)
   exact algebraMap_away_injective (hu.mul_right_cancel hpq)
 
-/-- **Complete reducibility of the right-translation hull (Cauchy step 2).** The hull
+/-- **Complete reducibility of the right-translation hull.** The hull
 `rightHull φ`, as a `localRightRep`-representation, is a semisimple `k[GL_N]`-module.
 
 The `det^r`-twist of the hull (`r` the normal-form exponent of `φ`) is, via `numEmbed`, equivalent

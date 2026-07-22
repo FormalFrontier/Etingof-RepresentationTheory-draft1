@@ -1,21 +1,19 @@
 import Mathlib
 
 /-!
-# Cocenter of a finite group algebra (Exercise 4.2.3, counting deliverable 1)
+# Cocenter of a finite group algebra (Exercise 4.2.3)
 
 This file computes the dimension of the **cocenter**
 `C = k[G] / [k[G], k[G]]` of a finite group algebra:
 
   `Module.finrank k C = Nat.card (ConjClasses G)`.
 
-The result is **field-general**: only `[Field k]` is assumed, with no `IsAlgClosed`
-and no invertibility of `|G|`. This is the dual of the center computation
+The result holds over an arbitrary field: only `[Field k]` is assumed, with no `IsAlgClosed`
+and no invertibility of `|G|`. This is dual to the center computation
 `finrank_center_monoidAlgebra` in `Chapter4/Corollary4_2_2.lean` (which shows
-`finrank_k Z(k[G]) = #ConjClasses` via class sums), and it supplies **deliverable 1**
-of the counting half of Exercise 4.2.3, namely the eventual bound
-`#(simple k[G]-modules) ≤ Nat.card (ConjClasses G)`. (Deliverables 2 and 3 — the
-trace form on the cocenter and the linear-independence argument giving the bound —
-are tracked in sibling issues.)
+`finrank_k Z(k[G]) = #ConjClasses` via class sums). It is one ingredient of the counting
+bound `#(simple k[G]-modules) ≤ Nat.card (ConjClasses G)`; the remaining ingredients are the
+trace form on the cocenter and the linear-independence argument giving the bound.
 
 ## Proof strategy
 
@@ -184,9 +182,10 @@ noncomputable instance : Module.Finite k (MonoidAlgebra k G) :=
 noncomputable instance : Module.Finite k (Cocenter k G) :=
   Module.Finite.of_surjective (Submodule.mkQ (commSubmodule k G)) (Submodule.mkQ_surjective _)
 
-/-- **Cocenter dimension (Exercise 4.2.3, deliverable 1).** The cocenter
+/-- **Cocenter dimension (Exercise 4.2.3).** The cocenter
 `C = k[G] / [k[G], k[G]]` of a finite group algebra has `finrank` equal to the number
-of conjugacy classes of `G`. Field-general: no `IsAlgClosed`, no invertibility of `|G|`. -/
+of conjugacy classes of `G`. Holds over an arbitrary field: no `IsAlgClosed`, no
+invertibility of `|G|`. -/
 theorem finrank_cocenter_eq_card_conjClasses :
     Module.finrank k (Cocenter k G) = Nat.card (ConjClasses G) := by
   have hle1 : Fintype.card (ConjClasses G) ≤ Module.finrank k (Cocenter k G) := by
@@ -202,14 +201,14 @@ theorem finrank_cocenter_eq_card_conjClasses :
 
 /-! ### The trace form of a finite-dimensional `k[G]`-module
 
-**Deliverable 2** of Exercise 4.2.3's counting half. A finite-dimensional `k[G]`-module
-`M` carries a **trace functional** `k[G] →ₗ[k] k`, `x ↦ trace(x acting on M)`. Because
-`trace(a*b) = trace(b*a)`, this functional kills the commutator submodule and hence
-descends to a linear functional `τ_M : C →ₗ[k] k` on the cocenter. Evaluated on a class
-representative `[single g 1]` it returns the character value `χ_M(g) = trace(g acting on M)`.
+A finite-dimensional `k[G]`-module `M` carries a **trace functional** `k[G] →ₗ[k] k`,
+`x ↦ trace(x acting on M)`. Because `trace(a*b) = trace(b*a)`, this functional kills the
+commutator submodule and hence descends to a linear functional `τ_M : C →ₗ[k] k` on the
+cocenter. Evaluated on a class representative `[single g 1]` it returns the character value
+`χ_M(g) = trace(g acting on M)`.
 
-Together with deliverable 1 (`finrank_cocenter_eq_card_conjClasses`) these trace forms are
-the tool for the counting bound: the trace forms of the distinct simple `k[G]`-modules are
+Together with the dimension formula (`finrank_cocenter_eq_card_conjClasses`) these trace forms
+are the tool for the counting bound: the trace forms of the distinct simple `k[G]`-modules are
 linearly independent functionals on `C`, so their number is at most `finrank C = #ConjClasses`.
 -/
 
@@ -234,7 +233,7 @@ omit [Module.Finite k M] in
 
 variable (k) in
 /-- The **trace functional** of a finite-dimensional `k[G]`-module `M`, sending an element
-`x ∈ k[G]` to the trace of its action on `M`. No `sorry`: the underlying object is real. -/
+`x ∈ k[G]` to the trace of its action on `M`. -/
 noncomputable def traceForm : MonoidAlgebra k G →ₗ[k] k :=
   (LinearMap.trace k M).comp (moduleEnd k M).toLinearMap
 
@@ -271,9 +270,8 @@ omit [Module.Finite k M] in
   Submodule.liftQ_apply _ _ _
 
 omit [Module.Finite k M] in
-/-- **Sanity/eval lemma (deliverable 3).** The cocenter trace functional `τ_M` evaluated on
-the class of `single g 1` is the trace of the action of `g` on `M`, i.e. the character value
-`χ_M(g)`. -/
+/-- The cocenter trace functional `τ_M` evaluated on the class of `single g 1` is the trace of
+the action of `g` on `M`, i.e. the character value `χ_M(g)`. -/
 lemma traceFormQ_mkQ_single (g : G) :
     traceFormQ k M (Submodule.mkQ (commSubmodule k G) (single g 1)) =
       LinearMap.trace k M (moduleEnd k M (single g (1 : k))) := by

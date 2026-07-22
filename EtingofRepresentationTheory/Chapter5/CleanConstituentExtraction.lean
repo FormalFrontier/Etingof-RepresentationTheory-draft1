@@ -5,33 +5,27 @@ import EtingofRepresentationTheory.Chapter5.SimpleSubrepExtraction
 import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
 
 /-!
-# DetInvElim-clean constituent-character extraction (issue #5082)
+# Constituent-character extraction via composition series
 
-This file provides the DetInvElim-clean replacement for the (circular, polluted)
-`Etingof.simple_constituent_formalCharacter_eq_schurPoly_mem`
-(`ConstituentCharacterExtraction.lean`).  The polluted route went through
-`decompose_polynomial_gl_rep`, which tensor-embeds via `detInv_elim` and therefore drags in
-the whole `DetInvElim` tower (a build cycle for the `CauchyDetQuotient` consumer).  Here we
-reprove the same statement via a **composition series + character additivity** route that
-imports only DetInvElim-clean files.
+This file proves `clean_simple_constituent_formalCharacter_eq_schurPoly_mem` via a
+composition series together with character additivity.
 
-## Route
+## Outline
 
-1. `subFDRep_iSup_glWeightSpace_eq_top` — the *sub-of-spanning-is-spanning* glue: a
-   torus-invariant sub-`FDRep` of a weight-spanning `FDRep` is weight-spanning.  This is the
-   trivial `subFDRep`-level wrapper around the genuine crux
-   `Etingof.CleanCharExtraction.torusInvariant_iSup_inf_glWeightSpace_eq` (#5086).
-2. `formalCharacter_eq_sum_simple_factors` — a `finrank` induction peeling a simple
+1. `subFDRep_iSup_glWeightSpace_eq_top`: a torus-invariant sub-`FDRep` of a
+   weight-spanning `FDRep` is weight-spanning. This is the `subFDRep`-level wrapper
+   around `Etingof.CleanCharExtraction.torusInvariant_iSup_inf_glWeightSpace_eq`.
+2. `formalCharacter_eq_sum_simple_factors`: a `finrank` induction peeling a simple
    `GL_N`-submodule off `M` at each step and applying the short-exact-sequence additivity
    `formalCharacter_eq_sub_add_quotient`: every algebraic, weight-spanning `M` has a finite
-   family of **simple algebraic weight-spanning** composition factors whose characters sum to
+   family of simple algebraic weight-spanning composition factors whose characters sum to
    `char M`.
-3. `clean_simple_constituent_formalCharacter_eq_schurPoly_mem` — the extractor: peel the
+3. `clean_simple_constituent_formalCharacter_eq_schurPoly_mem`, the extractor: peel the
    simple `L ↪ M` off first, so `char M = char L + char (M/L)`; expand `char (M/L)` by step 2;
-   equate with the Schur-polynomial hypothesis `char M = ∑_{ν∈S} c_ν S_ν`.  Each `S_ν` is the
+   equate with the Schur-polynomial hypothesis `char M = ∑_{ν∈S} c_ν S_ν`. Each `S_ν` is the
    character of the simple algebraic `SchurModule k N ν.val`, so the resulting vanishing
-   ℚ-relation among characters of simple algebraic reps is killed (coefficient by coefficient)
-   by the torus-trace character-independence engine
+   ℚ-relation among characters of simple algebraic representations is annihilated, coefficient
+   by coefficient, by the torus-trace character-independence result
    `Etingof.formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general`, pinning
    `char L = S_ν` for some `ν ∈ S` with `c_ν > 0`.
 -/
@@ -47,9 +41,8 @@ open CleanCharExtraction
 variable (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
 
 /-- **Sub-of-spanning-is-spanning (the `subFDRep` wrapper).** If the `ℕ`-weight spaces of `M`
-span `M`, then those of the sub-`FDRep` `subFDRep M σ` span it too. This is the trivial
-`glWeightSpace_inf_range` glue on top of the genuine crux
-`torusInvariant_iSup_inf_glWeightSpace_eq` (#5086). -/
+span `M`, then those of the sub-`FDRep` `subFDRep M σ` span it too. This wraps
+`glWeightSpace_inf_range` around `torusInvariant_iSup_inf_glWeightSpace_eq`. -/
 theorem subFDRep_iSup_glWeightSpace_eq_top (N : ℕ)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k)) (σ : Subrepresentation M.ρ)
     (hM : ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N M (fun i => μ i) = ⊤) :
@@ -82,9 +75,9 @@ theorem subFDRep_isAlgebraic (N : ℕ)
     (hM : Etingof.IsAlgebraicRepresentation N M.ρ) :
     Etingof.IsAlgebraicRepresentation N (subFDRep M σ).ρ := by
   have hrestrict := hM.restrict σ.toSubmodule (fun g v hv => σ.apply_mem_toSubmodule g hv)
-  -- v4.31: `simpa only [subFDRep, FDRep.of_ρ']` over-unfolds the carrier/action and leaves
-  -- a differently-presented (but defeq) term; `(subFDRep M σ).ρ` is defeq to the restricted
-  -- action `σ.toRepresentation`, so `exact hrestrict` closes the goal directly.
+  -- `simpa only [subFDRep, FDRep.of_ρ']` over-unfolds the carrier/action;
+  -- `(subFDRep M σ).ρ` is defeq to the restricted action `σ.toRepresentation`,
+  -- so `exact hrestrict` closes the goal directly.
   exact hrestrict
 
 /-- **Composition-series character additivity.** Every algebraic, weight-spanning `FDRep` `M`
@@ -200,13 +193,11 @@ theorem formalCharacter_eq_sum_simple_factors (N : ℕ)
         rw [← hWchar]
         exact formalCharacter_eq_sub_add_quotient M σ hsubspan hM
 
-/-- **Clean `SchurModule` weight-spanning.** The `ℕ`-weight spaces of `SchurModule k N lam`
-span it. This is the DetInvElim-clean replacement for the banned
-`glWeightSpace_schurModule_iSup_eq_top` (which lives in the polluted
-`SchurWeylFormalCharacterIso`): `SchurModule` is the image of the GL-equivariant
-`youngSymEndomorphism` applied to the weight-spanning `glTensorRep`, so spanning transfers
-through the equivariant surjection `LinearMap.rangeRestrict`. The proof body uses only clean
-infrastructure (`glTensorRep_iSup_glWeightSpace_eq_top`, `glTensor_comm_youngSym`). -/
+/-- **`SchurModule` weight-spanning.** The `ℕ`-weight spaces of `SchurModule k N lam`
+span it. `SchurModule` is the image of the GL-equivariant `youngSymEndomorphism` applied
+to the weight-spanning `glTensorRep`, so spanning transfers through the equivariant
+surjection `LinearMap.rangeRestrict` (`glTensorRep_iSup_glWeightSpace_eq_top`,
+`glTensor_comm_youngSym`). -/
 theorem schurModule_iSup_glWeightSpace_eq_top_clean (N : ℕ) (lam : Fin N → ℕ) :
     ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N (SchurModule k N lam) (fun i => μ i) = ⊤ := by
   refine glWeightSpace_iSup_eq_top_of_equivariant_surjective N
@@ -222,9 +213,9 @@ theorem schurModule_iSup_glWeightSpace_eq_top_clean (N : ℕ) (lam : Fin N → �
   exact (LinearMap.ext_iff.mp (glTensor_comm_youngSym k N lam g) v).symm
 
 /-- **Isomorphic `FDRep`s have equal formal characters.** Extracts the `k`-linear intertwiner of
-a categorical `FDRep` isomorphism and feeds it to `formalCharacter_eq_of_rep_iso`. The
-contrapositive (distinct characters ⟹ non-isomorphic) is what supplies the pairwise-distinctness
-hypothesis of the torus-trace engine after dedup-by-character. -/
+a categorical `FDRep` isomorphism and applies `formalCharacter_eq_of_rep_iso`. The
+contrapositive (distinct characters ⟹ non-isomorphic) supplies the pairwise-distinctness
+hypothesis of the torus-trace step after grouping by character. -/
 theorem formalCharacter_eq_of_FDRep_iso (N : ℕ)
     (X Y : FDRep k (Matrix.GeneralLinearGroup (Fin N) k)) (e : X ≅ Y) :
     formalCharacter k N X = formalCharacter k N Y := by
@@ -240,8 +231,8 @@ theorem formalCharacter_eq_of_FDRep_iso (N : ℕ)
   have h0 := formalCharacter_eq_of_rep_iso k N X.ρ Y.ρ (FDRep.isoToLinearEquiv e) hint
   rwa [formalCharacter_FDRep_of_ρ, formalCharacter_FDRep_of_ρ] at h0
 
-/-- **Torus-trace character-independence engine (combined wrapper).** A vanishing ℚ-linear
-combination of formal characters of a finite family of *pairwise non-isomorphic*, simple,
+/-- **Torus-trace character independence (combined wrapper).** A vanishing ℚ-linear
+combination of formal characters of a finite family of pairwise non-isomorphic, simple,
 algebraic, weight-spanning `GL_N(k)`-representations forces every coefficient to vanish. Chains
 `trace_combination_eq_zero_of_formalCharacter_combination_eq_zero` (character ⟹ torus-trace
 combination) into `formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general`
@@ -264,14 +255,14 @@ theorem coeff_zero_of_char_combination_zero (N : ℕ) {ι : Type} [Fintype ι]
     (k := k) (N := N) Finset.univ a R (fun i _ => hRspan i) hchar0 t
   simpa using h
 
-/-- **Net coefficient at each character value vanishes (dedup-by-character).** For a finite family
+/-- **Net coefficient at each character value vanishes.** For a finite family
 of simple, algebraic, weight-spanning `GL_N(k)`-representations with a vanishing ℚ-linear
-combination of formal characters, the *net* coefficient at every character value `w` — the sum of
-`a i` over all indices `i` whose representation has character `w` — is zero. Proved by deduplicating
+combination of formal characters, the net coefficient at every character value `w`, the sum of
+`a i` over all indices `i` whose representation has character `w`, is zero. Proved by grouping
 the family by character value into pairwise non-isomorphic representatives (distinct characters ⟹
-non-isomorphic, via `formalCharacter_eq_of_FDRep_iso`) and feeding the regrouped combination to
-`coeff_zero_of_char_combination_zero`. Kept generic in `R` so the dedup machinery never sees the
-caller's concrete `Sum.elim` family (which otherwise triggers a `whnf` defeq blowup). -/
+non-isomorphic, via `formalCharacter_eq_of_FDRep_iso`) and applying the regrouped combination to
+`coeff_zero_of_char_combination_zero`. Stated generically in `R` so the grouping never sees the
+caller's concrete `Sum.elim` family. -/
 theorem net_coeff_zero_of_char_combination_zero (N : ℕ) {ι : Type} [Fintype ι]
     (R : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (hRalg : ∀ i, Etingof.IsAlgebraicRepresentation N (R i).ρ)
@@ -339,9 +330,9 @@ theorem net_coeff_zero_of_char_combination_zero (N : ℕ) {ι : Type} [Fintype �
       exact hw hmem
     rw [hempty, Finset.sum_empty]
 
-/-- **DetInvElim-clean constituent-character extraction (#5082).** Same statement as the
-polluted `Etingof.simple_constituent_formalCharacter_eq_schurPoly_mem`, proved without
-`decompose_polynomial_gl_rep`. -/
+/-- **Constituent-character extraction.** If the formal character of `M` is a nonnegative
+combination `∑_{ν∈S} c_ν S_ν` of Schur polynomials and `L ↪ M` is a simple subrepresentation,
+then `char L = S_ν` for some `ν ∈ S` with `c_ν > 0`. -/
 theorem clean_simple_constituent_formalCharacter_eq_schurPoly_mem (N : ℕ)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
@@ -442,7 +433,7 @@ theorem clean_simple_constituent_formalCharacter_eq_schurPoly_mem (N : ℕ)
         rw [formalCharacter_schurModule_eq_schurPoly k N ν.1.val ν.1.property, neg_smul]
       rw [hUnit, hW, hV, ← add_assoc]
     rw [hsplit, ← hMdecomp, ← hchar, add_neg_cancel]
-  -- ### Step D: the net coefficient at every character value vanishes (dedup-by-character engine).
+  -- ### Step D: the net coefficient at every character value vanishes (grouping by character value).
   have hnet := net_coeff_zero_of_char_combination_zero k N R hRalg hRsimp hRspan a hcomb
   -- ### Step E: read off the conclusion from the net coefficient at `char L`.
   by_contra hcon
@@ -477,7 +468,7 @@ theorem clean_simple_constituent_formalCharacter_eq_schurPoly_mem (N : ℕ)
   have hone : (1 : ℚ)
       ≤ ∑ i ∈ Finset.univ.filter (fun i => formalCharacter k N (R i) = formalCharacter k N L), a i := by
     have hle := Finset.single_le_sum hnonneg hmem0
-    -- v4.31: `simpa` no longer reduces `a (Sum.inl ())` to `1`, but it is defeq
+    -- `a (Sum.inl ())` is defeq to `1`
     -- (`Sum.elim (fun _ => 1) _ (Sum.inl ()) = 1`), so `exact hle` closes the goal.
     exact hle
   rw [hbw0] at hone

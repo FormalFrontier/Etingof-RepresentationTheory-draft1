@@ -8,7 +8,7 @@ Lie algebras ρ : 𝔤 → End V.
 
 ## Mathlib correspondence
 
-This is `LieModule R L M` — a Lie module structure on M over the Lie algebra L.
+This is `LieModule R L M`, a Lie module structure on M over the Lie algebra L.
 -/
 
 /-- A representation of a Lie algebra, in the sense of Etingof Definition 2.9.7.

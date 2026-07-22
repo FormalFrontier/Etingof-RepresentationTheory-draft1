@@ -73,12 +73,12 @@ def AffineType.rank : AffineType → ℕ
 
 /-- Adjacency matrix of each affine Dynkin type.
 
-- `Ãₙ`: the `n`-cycle `i — (i±1 mod n)`.
+- `Ãₙ`: the `n`-cycle with `i` joined to `(i±1 mod n)`.
 - `D̃ₙ` (rank `n+1`, vertices `0..n`): leaves `0,1` on node `2`, chain
-  `2—3—⋯—(n-2)`, leaves `(n-1),n` on node `n-2`.
-- `Ẽ₆` (rank 7): central node `0` with three arms `0—1—2`, `0—3—4`, `0—5—6`.
-- `Ẽ₇` (rank 8): path `0—1—⋯—6` with a branch `3—7` at the center.
-- `Ẽ₈` (rank 9): path `0—1—⋯—7` with a branch `5—8`. -/
+  `2–3–⋯–(n-2)`, leaves `(n-1),n` on node `n-2`.
+- `Ẽ₆` (rank 7): central node `0` with three arms `0–1–2`, `0–3–4`, `0–5–6`.
+- `Ẽ₇` (rank 8): path `0–1–⋯–6` with a branch `3–7` at the center.
+- `Ẽ₈` (rank 9): path `0–1–⋯–7` with a branch `5–8`. -/
 def AffineType.adj : (t : AffineType) → Matrix (Fin t.rank) (Fin t.rank) ℤ
   | .Atilde n _ => fun i j =>
       if (i.val + 1) % n = j.val ∨ (j.val + 1) % n = i.val then 1 else 0
@@ -133,8 +133,8 @@ theorem marks_pos (t : AffineType) (i : Fin t.rank) : 0 < t.marks i := by
 
 /-- The neighbour-sum identity `∑ⱼ adj i j · marks j = 2 · marks i` for the affine
 `D̃ₙ` type at `n = m + 6` (rank `m + 7`), where the two forks are well separated
-(`n ≥ 6`), so the vertex classes — the four leaves, the two forks, and the interior
-chain — are handled uniformly. This is the crux of `cartan_mulVec_marks_eq_zero` for
+(`n ≥ 6`), so the vertex classes (the four leaves, the two forks, and the interior
+chain) are handled uniformly. This is the central step of `cartan_mulVec_marks_eq_zero` for
 `D̃ₙ`; the small cases `n = 4, 5` (where the forks coincide or are adjacent) are
 dispatched by `decide`. -/
 private theorem dtilde_key (m : ℕ) (hn : 4 ≤ m + 6) (i : Fin (AffineType.Dtilde (m+6) hn).rank) :
@@ -552,7 +552,7 @@ theorem AffineType.adj_connected (t : AffineType) (i j : Fin t.rank) :
         intro a b ha hb hcond
         simp only [AffineType.adj]
         rw [if_pos hcond]
-      -- Reach along the central chain `2 — 3 — ⋯ — (n-2)`.
+      -- Reach along the central chain `2 – 3 – ⋯ – (n-2)`.
       have chainReach : ∀ (m : ℕ) (_ : 2 ≤ m) (hmn : m ≤ n - 2),
           Relation.ReflTransGen (AdjEdge (AffineType.Dtilde n hn).adj)
             ⟨2, by omega⟩ ⟨m, by omega⟩ := by
@@ -763,8 +763,8 @@ lemma isAffineDynkinDiagram_of_graph_iso {n m : ℕ} {adj : Matrix (Fin n) (Fin 
 
 /-- **Discrete Perron–Frobenius for an affine Dynkin diagram.** The Cartan form
 `A = 2·Id − adj` of an affine Dynkin diagram is positive semidefinite but
-degenerate, and — because the graph is connected (irreducibility) — its kernel is
-spanned by a *strictly positive* integer vector `w` (the marks). Concretely there
+degenerate, and, because the graph is connected (irreducibility), its kernel is
+spanned by a strictly positive integer vector `w` (the marks). Concretely there
 is `w : Fin n → ℤ` with every `w i > 0` and `A ·ᵥ w = 0`.
 
 The proof is the standard sign-folding argument. From a degenerate null vector `x`
@@ -1224,7 +1224,7 @@ lemma affine_restrict_posDef {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 
 subgraph of an affine Dynkin diagram is a finite Dynkin diagram: along an
 injection `e` missing a vertex `v`, if the induced adjacency `adj∘(e,e)` is itself
 connected, then it satisfies `IsDynkinDiagram`. This is the key exported fact for
-the cyclic/tree case analyses (#6792, #6793). -/
+the cyclic/tree case analyses. -/
 lemma affine_properInduced_isDynkin {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj) {m : ℕ} (e : Fin m → Fin n)
     (he : Function.Injective e) {v : Fin n} (hv : ∀ i, e i ≠ v)
@@ -1264,8 +1264,8 @@ lemma affine_properInduced_finiteDynkin {n : ℕ} (adj : Matrix (Fin n) (Fin n) 
 
 /-! ### Cyclic case: a connected `2`-regular graph is the cycle `Ãₙ`
 
-The remaining combinatorial content behind the cyclic branch of the ⟹ direction
-(#6792, #6847). We walk around the cycle: at a vertex `b` reached from `a`, the
+The remaining combinatorial content behind the cyclic branch of the ⟹ direction.
+We walk around the cycle: at a vertex `b` reached from `a`, the
 "other neighbour" `otherNbr adj b a` is the unique neighbour of `b` distinct from
 `a`. Iterating the pair-map `(a, b) ↦ (b, otherNbr adj b a)` traces the cycle;
 `Function.minimalPeriod` supplies the wrap-around, connectivity the surjectivity,
@@ -1775,8 +1775,8 @@ The argument uses only the affine minimality lemma
 (`affine_properInduced_finiteDynkin`), so no separate acyclicity hypothesis is
 needed: if some vertex `v` has degree `4` (the maximum, by
 `affine_vertexDegree_le_four`), the star `{v} ∪ N(v)` on `5` vertices would be a
-*proper* connected induced subgraph whenever `n > 5`, hence a finite Dynkin
-diagram — impossible, since it has a degree-`4` vertex while every finite Dynkin
+proper connected induced subgraph whenever `n > 5`, hence a finite Dynkin
+diagram, which is impossible, since it has a degree-`4` vertex while every finite Dynkin
 diagram has all degrees `≤ 3` (`dynkin_degree_le_three`). So `n = 5`, and any
 edge between two neighbours of `v` would give a triangle (a proper connected
 induced subgraph that is not a tree, contradicting minimality via
@@ -1959,9 +1959,9 @@ lemma affine_degree_four_dichotomy {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     omega
 
 /-- **(g), cyclic case.** An affine Dynkin diagram whose associated graph contains
-a cycle — encoded as having at least `n` edges, `2·n ≤ ∑ᵢ∑ⱼ adjᵢⱼ` (a connected
+a cycle, encoded as having at least `n` edges, `2·n ≤ ∑ᵢ∑ⱼ adjᵢⱼ` (a connected
 graph is a tree, i.e. acyclic, exactly when it has `n − 1` edges; having `≥ n`
-edges is the complementary "contains a cycle" condition) — is `2`-regular with
+edges is the complementary "contains a cycle" condition), is `2`-regular with
 `n ≥ 3`, hence graph-isomorphic to the cycle `Ãₙ`.
 
 Testing positive semidefiniteness against the all-ones vector gives
@@ -1969,9 +1969,9 @@ Testing positive semidefiniteness against the all-ones vector gives
 affine form to vanish on `1`, so the radical-equals-kernel lemma
 `affine_cartan_mulVec_eq_zero_of_form_zero` gives `(2·Id − adj)·ᵥ1 = 0`. Reading
 off row `i`, `2 − ∑ⱼ adjᵢⱼ = 0`, i.e. every vertex has degree `2`. The
-combinatorial core `two_regular_connected_iso_Atilde` (#6847) then produces the
+combinatorial core `two_regular_connected_iso_Atilde` then produces the
 graph isomorphism onto `Ãₙ`. This is the cyclic branch of the ⟹ direction of
-`affine_dynkin_classification` (#6792); the tree case (#6793) handles the
+`affine_dynkin_classification`; the tree case handles the
 complementary `∑ᵢ∑ⱼ adjᵢⱼ = 2(n − 1)`. -/
 lemma affine_cyclic_case {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n)
     (hD : IsAffineDynkinDiagram n adj)
@@ -2051,7 +2051,7 @@ lemma affine_cyclic_case {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 �
 /-! ### Tree case: the degree-`≤ 3` core
 
 The remaining branch of the ⟹ direction, after the cyclic case (`affine_cyclic_case`,
-which covers `∑ᵢ∑ⱼ adjᵢⱼ ≥ 2n`, i.e. a graph with at least `n` edges — a cycle) and the
+which covers `∑ᵢ∑ⱼ adjᵢⱼ ≥ 2n`, i.e. a graph with at least `n` edges, a cycle) and the
 degree-`4` dichotomy (`affine_degree_four_dichotomy`, which peels off the degree-4 star `D̃₄`).
 
 What is left is an **acyclic** (tree: `∑ᵢ∑ⱼ adjᵢⱼ < 2n`, i.e. `n - 1` edges) connected
@@ -2454,7 +2454,7 @@ adjacent to `v` or to `w`.
 *Proof.* A leaf `u` exists because the graph is a tree (`hacyc`); deleting it yields a finite
 Dynkin diagram (`affine_delete_leaf_isDynkin`), which has at most one degree-3 vertex
 (`dynkin_unique_degree_three`). A branch vertex not adjacent to `u` keeps degree 3 in the deletion,
-so if `u` touched neither `v` nor `w`, both would remain degree 3 there — contradicting uniqueness.
+so if `u` touched neither `v` nor `w`, both would remain degree 3 there, contradicting uniqueness.
 Hence `u` is adjacent to `v` or `w`. -/
 lemma affine_two_branch_has_leaf {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
@@ -2755,7 +2755,7 @@ lemma dynkinType_eq_D_of_branch_two_leaves (t : DynkinType)
 
 /-- **Affine arm-length Diophantine.** The equality analogue of the finite
 `Etingof.Problem6_1_3_E7E8.arm_length_solutions` (`DynkinForward.lean`): the only solutions of
-`1/(p+1) + 1/(q+1) + 1/(r+1) = 1` with `1 ≤ p ≤ q ≤ r` are `(2,2,2)`, `(1,3,3)`, `(1,2,5)` —
+`1/(p+1) + 1/(q+1) + 1/(r+1) = 1` with `1 ≤ p ≤ q ≤ r` are `(2,2,2)`, `(1,3,3)`, `(1,2,5)`,
 the arm lengths of `Ẽ₆`, `Ẽ₇`, `Ẽ₈` respectively. The reciprocal identity is presented in the
 cleared-denominator form `(q+1)(r+1) + (p+1)(r+1) + (p+1)(q+1) = (p+1)(q+1)(r+1)`.
 
@@ -2866,7 +2866,7 @@ the `v–w` spine gives the identity `sw + sv = Ww + Wv` (the spine slope is con
 at each end agrees). Then all four outer arms have length `1`: `L = M = P = Q = 1`.
 
 This is exactly the affine degeneracy that forces the two-branch shape to be `D̃ₙ` (a two-leaf fork at
-each end), ruling out the E-types — whose unique branch vertex has arms `(1,2,·)` with only one
+each end), ruling out the E-types, whose unique branch vertex has arms `(1,2,·)` with only one
 leaf-neighbour. Consumed by `affine_two_branch_fork_leaves` once the structural spine/arm layout is
 supplied. -/
 private lemma affine_two_branch_pinch
@@ -2926,9 +2926,9 @@ than derived from a global uniqueness clause `∀ w, deg w = 3 → w = v`. This 
 vertex `v` (degree 3), so no global uniqueness holds, but each pendant component avoiding `v` still
 has all degrees `≤ 2` and linearises into a rooted arm.
 
-Given the vertex set `S` of one connected component of the graph with the hub `v` removed — supplied
+Given the vertex set `S` of one connected component of the graph with the hub `v` removed, supplied
 as a nonempty, `v`-avoiding, internally-connected finset whose unique vertex adjacent to `v` is the
-hub-neighbour `nb`, and with every vertex of `S` of degree `≤ 2` — this produces the arm as a linear
+hub-neighbour `nb`, and with every vertex of `S` of degree `≤ 2`, this produces the arm as a linear
 list `g 0, g 1, …, g (L-1)` of length `L = S.card`, rooted at `nb` (`g 0 = nb`) and running away from
 the hub. The output records that `g` bijects `range L` onto `S`, that the only arm vertex adjacent to
 `v` is the root `g 0`, and that the only edges inside the arm are between consecutive indices. Apply
@@ -3119,8 +3119,8 @@ lemma affine_arm_walk' {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
 `affine_arm_walk'`: when the hub `v` is the *unique* degree-3 vertex, every `v`-avoiding component
 has all degrees `≤ 2` automatically, so the local degree bound `hSdeg` is discharged from the global
 `hdeg3`/`huniq` pair. Given the vertex set `S` of one connected component of the graph with the hub
-`v` removed — supplied as a nonempty, `v`-avoiding, internally-connected finset whose unique vertex
-adjacent to `v` is the hub-neighbour `nb` — this produces the arm as a linear list `g 0, g 1, …,
+`v` removed, supplied as a nonempty, `v`-avoiding, internally-connected finset whose unique vertex
+adjacent to `v` is the hub-neighbour `nb`, this produces the arm as a linear list `g 0, g 1, …,
 g (L-1)` of length `L = S.card`, rooted at `nb` (`g 0 = nb`) and running away from the hub. -/
 lemma affine_arm_walk {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
@@ -3170,7 +3170,7 @@ private lemma linear_of_harmonic (g : ℕ → ℤ) (k : ℕ)
       rw [hval, e1, e0]; push_cast; ring
 
 /-- **Spine endpoint identity.** For a harmonic sequence `g 0 … g k` (`k ≥ 1`) the two inner
-endpoint values satisfy `g 1 + g (k-1) = g 0 + g k` — the affine slope is constant, so the
+endpoint values satisfy `g 1 + g (k-1) = g 0 + g k`: the affine slope is constant, so the
 increment at each end agrees. This is exactly the `hspine` hypothesis of `affine_two_branch_pinch`. -/
 private lemma spine_endpoint_sum (g : ℕ → ℤ) (k : ℕ) (hk : 1 ≤ k)
     (hint : ∀ i, 1 ≤ i → i + 1 ≤ k → 2 * g i = g (i - 1) + g (i + 1)) :
@@ -3405,7 +3405,7 @@ private lemma outer_arm_linear {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
 
 /-- **Two-branch fork ⟹ two leaves at each branch vertex.** A connected acyclic affine Dynkin
 diagram with all degrees `≤ 3` and exactly two branch (degree-3) vertices `v, w` has, at each branch
-vertex, two distinct leaf-neighbours. This is the `D̃ₙ` discriminator: the tree is an "H" — a spine
+vertex, two distinct leaf-neighbours. This is the `D̃ₙ` discriminator: the tree is an "H", a spine
 `v … w` with two length-1 outer arms at each end. The affine degeneracy (tested against the
 strictly-positive null vector, which is linear along each arm and along the spine) forces all four
 outer arms to length `1` (`affine_two_branch_pinch`), so each branch vertex has two leaf-neighbours.
@@ -3970,7 +3970,7 @@ private lemma Dk_deg_eq_filter_range {k : ℕ} (hk : 4 ≤ k) (i : Fin k) :
     rw [if_pos hQ]
 
 /-- **Closed-form degree of a `Dₖ` vertex.** In the standard finite `Dₖ` layout (path
-`0—1—…—(k-2)` with a fork `(k-3)—(k-1)`), the branch vertex `k-3` has degree `3`, the three leaves
+`0–1–…–(k-2)` with a fork `(k-3)–(k-1)`), the branch vertex `k-3` has degree `3`, the three leaves
 `0, k-2, k-1` have degree `1`, and every other vertex has degree `2`. -/
 private lemma Dk_vertexDegree {k : ℕ} (hk : 4 ≤ k) (i : Fin k) :
     Etingof.vertexDegree (DynkinType.D k hk).adj i =
@@ -4004,20 +4004,20 @@ private lemma Dk_vertexDegree {k : ℕ} (hk : 4 ≤ k) (i : Fin k) :
     omega
 
 /-- **Leaf-deleted two-branch affine diagram is a finite `Dₖ`, with the reattach point one step
-in from the far leaf.** This is the *classification crux* of `affine_tree_two_branch_iso`: given a
+in from the far leaf.** This is the classification core of `affine_tree_two_branch_iso`: given a
 connected acyclic affine Dynkin diagram on `Fin (k+1)` with all degrees `≤ 3` and exactly two branch
 (degree-3) vertices `v, w`, and a leaf `ℓ` attached to `v`, deleting `ℓ` yields a finite Dynkin
 diagram on `Fin k` (`affine_delete_leaf_isDynkin`) whose classification (`branch_classification`) is
-forced to be the **`Dₖ`** family — the E-types `E₆/E₇/E₈` are *ruled out* — and the reattach point
+forced to be the `Dₖ` family (the E-types `E₆/E₇/E₈` are ruled out), and the reattach point
 `v'` (the survivor index of `v`) sits at `Dₖ`-position `1`, one step in from the far single-leaf
 end (index `0`).
 
 Ruling out the E-types is the affine-degeneracy step: because `w` is untouched by the deletion it
 keeps degree 3, so the survivor has a unique branch vertex and is `Dₖ`, `E₆`, `E₇`, or `E₈`. The
-untouched branch vertex `w` carries *two* distinct leaf-neighbours (`affine_two_branch_fork_leaves`),
+untouched branch vertex `w` carries two distinct leaf-neighbours (`affine_two_branch_fork_leaves`),
 which survive the deletion; `dynkinType_eq_D_of_branch_two_leaves` then forces the `Dₖ` family, since
-no E branch vertex has two leaf-neighbours. Finally the reattach point `v'` — the survivor of `v`,
-adjacent to `v`'s *other* leaf and hence a degree-2 vertex adjacent to a `Dₖ` leaf — is pinned to
+no E branch vertex has two leaf-neighbours. Finally the reattach point `v'`, the survivor of `v`,
+adjacent to `v`'s other leaf and hence a degree-2 vertex adjacent to a `Dₖ` leaf, is pinned to
 `Dₖ`-position `1` (`Dk_vertexDegree`: the only such vertex is index `1`). -/
 lemma affine_two_branch_deleted_isD {k : ℕ} (adj : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ)
     (hD : IsAffineDynkinDiagram (k + 1) adj)
@@ -4595,8 +4595,8 @@ single path `0 … p+q`; the arm `r` hangs off the hub (index `p`) starting at i
 
 This is the pure graph-combinatorial core: walk each arm from the hub via the degree-`≤ 2`
 neighbour structure (cf. `path_walk_construction`, `two_regular_connected_iso_Atilde`, `otherNbr`),
-order the three arm lengths, and assemble the re-indexing. The reciprocal equality is *not* proved
-here — that is `affine_tree_one_arm_reciprocal`, which consumes this layout and the null vector. -/
+order the three arm lengths, and assemble the re-indexing. The reciprocal equality is not proved
+here; that is `affine_tree_one_arm_reciprocal`, which consumes this layout and the null vector. -/
 lemma affine_one_branch_arm_layout {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
@@ -4819,7 +4819,7 @@ From a connected acyclic affine Dynkin diagram with all degrees `≤ 3` and a *u
 (degree-3) vertex `v`, extract the three arms of lengths `1 ≤ p ≤ q ≤ r` emanating from `v`, laid
 out along a re-indexing `σ` in the `armAdjIdx` pattern (hub at index `p`), with `n = 1 + p + q + r`.
 Testing the (degenerate) Cartan form against its strictly-positive null vector
-(`affineNullVector_pos`) — which is linear along each arm — pins the reciprocal sum to `1` on the
+(`affineNullVector_pos`), which is linear along each arm, pins the reciprocal sum to `1` on the
 nose, giving the cleared-denominator equality
 `(q+1)(r+1) + (p+1)(r+1) + (p+1)(q+1) = (p+1)(q+1)(r+1)`.
 
@@ -5138,7 +5138,7 @@ The proof is a case split on the degree-4 dichotomy
 `affine_tree_degree_le_three_iso` classifies the diagram as `D̃ₙ/Ẽ₆/Ẽ₇/Ẽ₈`.
 
 This is the tree branch of the ⟹ direction of `affine_dynkin_classification`,
-consumed by the final assembly (#6785 step 5). -/
+consumed by the final classification theorem. -/
 lemma affine_tree_case {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ)) :
@@ -5152,7 +5152,7 @@ lemma affine_tree_case {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
 
 /-- **(g)** **Classification of affine Dynkin diagrams.** A connected simply-laced
 graph on `n ≥ 1` vertices is an affine Dynkin diagram iff it is
-(graph-isomorphic to) one of `Ãₙ, D̃ₙ, Ẽ₆, Ẽ₇, Ẽ₈` — exactly the "forbidden"
+(graph-isomorphic to) one of `Ãₙ, D̃ₙ, Ẽ₆, Ẽ₇, Ẽ₈`, exactly the "forbidden"
 extended diagrams of parts (c)–(e). -/
 theorem affine_dynkin_classification (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n) :
     IsAffineDynkinDiagram n adj ↔
@@ -5166,10 +5166,10 @@ theorem affine_dynkin_classification (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ
     -- so `2n ≤ ∑ᵢ∑ⱼ adjᵢⱼ` is the "contains a cycle" branch.
     intro hD
     rcases le_or_gt (2 * (n : ℤ)) (∑ i, ∑ j, adj i j) with hcyc | hacyc
-    · -- Cyclic branch: graph-iso to the cycle `Ãₙ` (#6792).
+    · -- Cyclic branch: graph-iso to the cycle `Ãₙ`.
       obtain ⟨h3, σ, hσ⟩ := affine_cyclic_case adj hn hD hcyc
       exact ⟨AffineType.Atilde n h3, σ, hσ⟩
-    · -- Tree branch: graph-iso to `D̃ₙ/Ẽ₆/Ẽ₇/Ẽ₈` (#6793).
+    · -- Tree branch: graph-iso to `D̃ₙ/Ẽ₆/Ẽ₇/Ẽ₈`.
       exact affine_tree_case adj hn hD hacyc
   · -- (⟸) Each extended type is an affine Dynkin diagram (`isAffineDynkinDiagram_of_type`),
     -- transported along the graph isomorphism `σ`.

@@ -3,20 +3,20 @@ import EtingofRepresentationTheory.Chapter5.Definition5_1_1
 import EtingofRepresentationTheory.Chapter5.Definition5_1_4
 
 /-!
-# Frobenius-Schur indicator bridge: `FS(ρ) = 1 ⟹ IsRealType ρ`
+# Frobenius-Schur indicator and real type: `FS(ρ) = 1 ⟹ IsRealType ρ`
 
-This file connects the *numerical* Frobenius-Schur indicator
-(`Etingof.frobeniusSchurIndicator`, Definition 5.1.4) to the *structural* type
+This file connects the numerical Frobenius-Schur indicator
+(`Etingof.frobeniusSchurIndicator`, Definition 5.1.4) to the structural type
 predicate `Etingof.IsRealType` (Definition 5.1.1): a simple complex
 representation `ρ` with `frobeniusSchurIndicator ρ = 1` admits a nondegenerate
 symmetric `G`-invariant bilinear form, so it is of real type.
 
-This bridge is the shared dependency of the S₃, S₄ and A₅ cases of Example 5.1.3.
+This result is the shared dependency of the S₃, S₄ and A₅ cases of Example 5.1.3.
 
 ## Proof strategy (Etingof, around Theorem 5.1.5)
 
 Work in `Bil := V →ₗ[ℂ] V →ₗ[ℂ] ℂ`, the space of bilinear forms, which carries
-the `G`-action `(g · B)(v, w) = B (ρ g⁻¹ v) (ρ g⁻¹ w)` — this is
+the `G`-action `(g · B)(v, w) = B (ρ g⁻¹ v) (ρ g⁻¹ w)`, namely
 `Representation.linHom ρ ρ.dual`. The swap `τ B := fun v w => B w v` is
 `G`-equivariant with `τ² = 1`; its `+1`/`-1` eigenspaces are the symmetric /
 skew-symmetric forms.
@@ -24,7 +24,7 @@ skew-symmetric forms.
 1. The invariant forms `Bil^G ≅ Hom_G(V, V*) = IntertwiningMap ρ ρ.dual`; for
    simple `V` this is `0`- or `1`-dimensional (Schur, via
    `Representation.card_inv_mul_sum_char_mul_char_eq_finrank`).
-2. The crux trace identity:
+2. The trace identity:
    `dim (sym ∩ Bil^G) − dim (skew ∩ Bil^G) = trace(τ ∘ P)
    = (|G|)⁻¹ ∑_g trace(τ ∘ (g·)) = (|G|)⁻¹ ∑_g χ_V(g²) = FS(ρ)`,
    where `P` is the averaging projector onto `Bil^G`. The middle trace
@@ -36,15 +36,15 @@ skew-symmetric forms.
    submodule, proper (since `B ≠ 0`), hence `⊥` by simplicity. So `B` is
    nondegenerate.
 
-Step 4 (the nondegeneracy bridge) is proved below as
-`Etingof.nondegenerate_of_invariant_of_simple`. Steps 1–3 — the existence of a
+Step 4 (nondegeneracy) is proved below as
+`Etingof.nondegenerate_of_invariant_of_simple`. Steps 1–3, the existence of a
 nonzero invariant symmetric form, packaged as
-`Etingof.exists_nonzero_invariant_symmetric_of_FS_eq_one` — are the trace-identity
-heart, proved via the swap operator on `Dual V ⊗ Dual V`: the averaging projector
+`Etingof.exists_nonzero_invariant_symmetric_of_FS_eq_one`, are proved via the swap
+operator on `Dual V ⊗ Dual V`: the averaging projector
 `P` onto the invariants and the symmetric-part projector `Pₛ = ½(1 + τ)P` satisfy
 `2 · trace Pₛ = trace P + trace(τ ∘ P) = dim Bil^G + FS(ρ)`, and
 `trace(τ ∘ P) = FS(ρ)` comes from `trace(swap ∘ (A ⊗ A)) = trace(A²)`. With
-`FS = 1` this forces `dim(sym ∩ Bil^G) ≥ 1`. The whole bridge is now sorry-free.
+`FS = 1` this forces `dim(sym ∩ Bil^G) ≥ 1`.
 -/
 
 open scoped MonoidAlgebra
@@ -155,7 +155,7 @@ bilinear form on `V`.
 
 The proof uses the averaging projector `P` onto `Bil^G` and the symmetric-part
 projector `Pₛ = ½(1 + τ)P` (with `τ` the swap). Their traces give
-`2 · finrank(sym ∩ Bil^G) = finrank Bil^G + trace(τ ∘ P)` and the crux trace
+`2 · finrank(sym ∩ Bil^G) = finrank Bil^G + trace(τ ∘ P)` and the trace
 identity `trace(τ ∘ P) = FS(ρ)` (via `trace(swap ∘ (A ⊗ A)) = trace(A²)` on
 `Dual V ⊗ Dual V`). With `FS = 1` this forces `finrank(sym ∩ Bil^G) ≥ 1`. -/
 theorem exists_nonzero_invariant_symmetric_of_FS_eq_one
@@ -309,7 +309,7 @@ theorem exists_nonzero_invariant_symmetric_of_FS_eq_one
     rw [hinv, inv_inv] at h
     exact h.symm
 
-/-- **The FS-indicator bridge.** A simple complex representation whose
+/-- **From indicator to real type.** A simple complex representation whose
 Frobenius-Schur indicator equals `1` is of real type (Etingof, around
 Theorem 5.1.5; the per-representation companion of Definition 5.1.4). -/
 theorem isRealType_of_frobeniusSchurIndicator_eq_one
@@ -321,8 +321,8 @@ theorem isRealType_of_frobeniusSchurIndicator_eq_one
     exists_nonzero_invariant_symmetric_of_FS_eq_one ρ hρ hFS
   exact ⟨B, hsym, nondegenerate_of_invariant_of_simple ρ hρ B hBne hinv, hinv⟩
 
-/-- **The reverse FS-indicator bridge.** A simple complex representation of *real
-type* has Frobenius-Schur indicator `1` (Etingof, around Theorem 5.1.5; the reverse
+/-- **From real type to indicator.** A simple complex representation of real
+type has Frobenius-Schur indicator `1` (Etingof, around Theorem 5.1.5; the reverse
 of `isRealType_of_frobeniusSchurIndicator_eq_one`).
 
 The proof reuses the projector machinery of
@@ -520,14 +520,14 @@ theorem frobeniusSchurIndicator_eq_one_of_isRealType
   linear_combination -h2s
 
 /-!
-## L1 — real / rational form ⟹ real type (the linchpin)
+## L1: real / rational form ⟹ real type (the linchpin)
 
-The companion construction that does *not* route through the (still isolated)
+The companion construction that does not use the
 Frobenius-Schur trace identity: if a simple complex representation is realised by
-**real matrices** in some basis (every matrix entry of every `ρ g` is real — a
-genuine ℝ-scalar-extension structure, the "real form"), then averaging the
+real matrices in some basis (every matrix entry of every `ρ g` is real, an
+ℝ-scalar-extension structure, the "real form"), then averaging the
 standard coordinate symmetric form over `G` produces a nonzero `G`-invariant
-*symmetric* `ℂ`-bilinear form, which is nondegenerate by simplicity. So `ρ` is of
+symmetric `ℂ`-bilinear form, which is nondegenerate by simplicity. So `ρ` is of
 real type. This is the workhorse for the rational matrix reps of `S₃`, `S₄`,
 `A₅`: realisation by rational matrices is a special case of a real form.
 
@@ -555,8 +555,8 @@ private theorem avgCoordForm_apply
   simp only [avgCoordForm, LinearMap.sum_apply, LinearMap.compl₁₂_apply,
     LinearMap.mul_apply']
 
-/-- **L1 (the linchpin).** A simple complex representation realised by **real
-matrices** in a basis `b` (a real form) is of real type. (Etingof, around
+/-- **L1 (the linchpin).** A simple complex representation realised by real
+matrices in a basis `b` (a real form) is of real type. (Etingof, around
 Theorem 5.1.5.) -/
 theorem isRealType_of_real_form
     (ρ : Representation ℂ G V)
@@ -583,7 +583,7 @@ theorem isRealType_of_real_form
     refine Finset.sum_congr rfl fun h _ => Finset.sum_congr rfl fun i _ => ?_
     simp only [Equiv.coe_mulRight]
     rw [hmul g h v, hmul g h w]
-  -- Reading a coordinate of `ρ g` as a matrix entry — hence real.
+  -- Reading a coordinate of `ρ g` as a matrix entry, hence real.
   have hcoord : ∀ (g : G) (i : ι),
       b.coord i (ρ g (b i₀)) = LinearMap.toMatrix b b (ρ g) i i₀ := by
     intro g i; rw [LinearMap.toMatrix_apply, Module.Basis.coord_apply]
@@ -621,8 +621,8 @@ theorem isRealType_of_real_form
   exact ⟨avgCoordForm ρ b, hsym,
     nondegenerate_of_invariant_of_simple ρ hρ _ hBne hinv, hinv⟩
 
-/-- **L1 corollary — rational form ⟹ real type.** A simple complex representation
-realised by **rational matrices** in a basis is of real type (`ℚ ⊂ ℝ`): this is
+/-- **L1 corollary, rational form ⟹ real type.** A simple complex representation
+realised by rational matrices in a basis is of real type (`ℚ ⊂ ℝ`): this is
 the direct workhorse for the rational reps of `S₃`, `S₄`, `A₅`. -/
 theorem isRealType_of_rational_form
     (ρ : Representation ℂ G V)
@@ -636,7 +636,7 @@ theorem isRealType_of_rational_form
 end RealForm
 
 /-!
-## L2 — ambivalent ⟹ real character
+## L2: ambivalent ⟹ real character
 
 If every `g ∈ G` is conjugate to its inverse (`G` is *ambivalent*), then every
 character value `χ(g) = tr(ρ g)` is real: `χ(g) = χ(g⁻¹)` by conjugacy-invariance
@@ -771,7 +771,7 @@ theorem character_inv_eq_conj (ρ : Representation ℂ G V) (g : G) :
   rw [hcg, hcgi, ← hinv]
   exact matrix_trace_inv_eq_conj (E (ρ g)) (orderOf_pos g) hpow
 
-/-- **L2 — ambivalent ⟹ real character.** If every element of `G` is conjugate to
+/-- **L2, ambivalent ⟹ real character.** If every element of `G` is conjugate to
 its own inverse, then every character value of every complex representation is
 real (its imaginary part vanishes). Consequently `frobeniusSchurIndicator ρ` is
 real, hence `∈ {-1, 0, 1}` for simple `ρ`. (Etingof, around Theorem 5.1.5.) -/
@@ -787,7 +787,7 @@ theorem character_im_eq_zero_of_ambivalent
   exact Complex.conj_eq_iff_im.mp hconj
 
 /-!
-## L3 — quaternionic ⟹ even-dimensional
+## L3: quaternionic ⟹ even-dimensional
 
 A representation of quaternionic type carries a nondegenerate invariant
 *alternating* form, and a nondegenerate alternating form on a finite-dimensional
@@ -837,8 +837,8 @@ private theorem even_finrank_of_nondegenerate_alternating
   rw [hne.neg_one_pow] at h1
   exact hdet_ne (by linear_combination (1 / 2 : ℂ) * h1)
 
-/-- **L3 — quaternionic ⟹ even-dimensional.** A representation of quaternionic
-type is even-dimensional. So an **odd-dimensional** representation cannot be of
+/-- **L3, quaternionic ⟹ even-dimensional.** A representation of quaternionic
+type is even-dimensional. So an odd-dimensional representation cannot be of
 quaternionic type: together with L2 (`odd dim + real character ⇒ FS ≠ 0`) this is
 the "odd dim + real character ⇒ real type" half of the classification. -/
 theorem even_finrank_of_isQuaternionicType
@@ -852,14 +852,14 @@ theorem even_finrank_of_isQuaternionicType
   exact (mul_eq_zero.mp h2).resolve_left (by norm_num)
 
 /-!
-## Self-dual dichotomy — real *or* quaternionic (no trace identity needed)
+## Self-dual dichotomy: real or quaternionic (no trace identity needed)
 
-If a simple representation has a **self-dual** character (`χ(g⁻¹) = χ(g)`, the
+If a simple representation has a self-dual character (`χ(g⁻¹) = χ(g)`, the
 hypothesis supplied by an *ambivalent* group via L2) then it is of real type or
-quaternionic type. The argument bypasses the still-isolated Frobenius-Schur trace
+quaternionic type. The argument avoids the Frobenius-Schur trace
 identity: self-duality gives `⟨χ, χ⟩`-style positivity, so the space of invariant
 bilinear forms is nonzero; symmetrising / antisymmetrising any nonzero invariant
-form yields a nonzero invariant **symmetric** or **skew-symmetric** form, which is
+form yields a nonzero invariant symmetric or skew-symmetric form, which is
 nondegenerate by simplicity. Combined with L3 this gives the workhorse corollary
 `isRealType_of_self_dual_of_odd_finrank`.
 -/

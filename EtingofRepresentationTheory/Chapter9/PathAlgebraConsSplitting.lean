@@ -3,9 +3,9 @@ import EtingofRepresentationTheory.Chapter9.PathAlgebraLengthGrading
 /-!
 # Cons-splitting of the path algebra `A = PathAlgebra k Q`
 
-Sixth layer of the standard length-`1` projective resolution of path-algebra modules
-(Problem 9.4.6 (i), parent #6420). Write `A := PathAlgebra k Q`. Its length-graded pieces `A_n`
-(spanned by the length-`n` basis paths) satisfy the **cons-splitting**
+In the standard length-`1` projective resolution of path-algebra modules
+(Problem 9.4.6 (i)), write `A := PathAlgebra k Q`. Its length-graded pieces `A_n`
+(spanned by the length-`n` basis paths) satisfy the cons-splitting
 
 ```
 A_n ⊗_S V ≅ A_{n+1},   x ⊗ e ↦ x · e   (concatenation),
@@ -16,10 +16,10 @@ the `S`-bimodule isomorphism underlying `Mono (stdd M)` for the standard short c
 (`ofPath_mul_arrowElt`, from `Chapter9/PathAlgebraLengthGrading.lean`); the inverse decomposes a
 length-`(n+1)` path into its initial length-`n` path and its final arrow.
 
-This file records the **combinatorial core** of that iso: every path index of positive length is
-*uniquely* a length-`n` path index followed by one arrow. Mathlib's
+This file records the combinatorial core of that iso: every path index of positive length is
+uniquely a length-`n` path index followed by one arrow. Mathlib's
 `Quiver.Path.length_ne_zero_iff_eq_cons` supplies existence; `Quiver.Path.comp_inj` /
-`Quiver.Path.cons.injEq` supply uniqueness. These feed the genuine (non-`sorry`) inverse of the
+`Quiver.Path.cons.injEq` supply uniqueness. These give the inverse of the
 bundled `A_n ⊗_S V ≅ A_{n+1}` isomorphism.
 
 Template: the polynomial coordinate iso `coordMapCH` in `Chapter9/KoszulHelpers.lean` and its use

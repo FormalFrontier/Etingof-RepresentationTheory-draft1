@@ -20,7 +20,7 @@ Pauli matrices:
 
 Mathlib has `QuaternionGroup`. We model Q₈ as `QuaternionGroup 2`, whose generators
 are `a 1` (an order-4 element, the quaternion `i`) and `xa 0` (the quaternion `j`),
-with `a 2` the central element `-1`. We build the genuine 2-dimensional representation
+with `a 2` the central element `-1`. We build the 2-dimensional representation
 of (4.3.1) as a monoid homomorphism into `Matrix (Fin 2) (Fin 2) ℂ` and verify that the
 generators map to the Pauli matrices.
 -/
@@ -193,7 +193,7 @@ The center of `Q₈` is `Z(Q₈) = {±1}` and the quotient `Q₈/Z(Q₈) ≅ ℤ
 with four 1-dimensional representations.  Pulled back along the quotient map
 `q : Q₈ → Q₈/Z(Q₈)` these give four 1-dimensional representations of `Q₈`.  Concretely a
 1-dimensional character `χ` of `Q₈` is determined by the two signs `α = χ(i)` and
-`β = χ(j)` with `α² = β² = 1` — it necessarily kills the commutators and the center, so it
+`β = χ(j)` with `α² = β² = 1`; it necessarily kills the commutators and the center, so it
 factors through `Q₈/Z(Q₈)`.  The four sign choices `(±1, ±1)` give the four characters. -/
 
 /-- If `α² = 1` then `α^m` depends only on the parity of `m`. -/

@@ -9,19 +9,18 @@ product of matrix algebras over division rings: if a `k`-algebra `A` is Wedderbu
 
   `K ⊗[k] A ≃ₐ[K] ∏ᵢ Matrix (Fin (d i)) (Fin (d i)) (K ⊗[k] D i)`.
 
-This is one of two reusable, fully self-contained lemmas consumed by the semisimple base-change
-crux `Etingof.natCard_simpleModuleClasses_le_baseChange_of_isSemisimpleRing`
-(`Exercise4_2_3_SemisimpleBaseChange.lean`, issue #6136), itself a separability-free ingredient of
-the field-general base-change monotonicity `#(simple k[G]) ≤ #(simple K[G])` (issue #6127, parent
-#6098).
+This is one of two reusable, self-contained lemmas used by the semisimple base-change result
+`Etingof.natCard_simpleModuleClasses_le_baseChange_of_isSemisimpleRing`
+(`Exercise4_2_3_SemisimpleBaseChange.lean`), itself a separability-free ingredient of the
+field-general base-change monotonicity `#(simple k[G]) ≤ #(simple K[G])`.
 
-The statement is phrased purely in terms of Mathlib types, so it stands on its own (issue #6147).
+The statement is phrased purely in terms of Mathlib types, so it stands on its own.
 
 ## Main result
 
-* `Etingof.nonempty_baseChange_pi_matrix_algEquiv` — base change distributes over `∏ Matrix (D i)`.
+* `Etingof.nonempty_baseChange_pi_matrix_algEquiv`: base change distributes over `∏ Matrix (D i)`.
 
-## Route
+## Construction
 
 The isomorphism composes three standard base-change equivalences:
 
@@ -42,7 +41,7 @@ noncomputable section
 
 variable (k K : Type u) [Field k] [Field K] [Algebra k K]
 
-/-- Upgrade a `k`-algebra equivalence that is *also* `K`-linear to a `K`-algebra equivalence.
+/-- Upgrade a `k`-algebra equivalence that is also `K`-linear to a `K`-algebra equivalence.
 The ring-equivalence data is scalar-independent; only the `K`-scalar compatibility `commutes'`
 requires the extra `K`-linearity hypothesis `h`. -/
 private def upgradeToK {X Y : Type u} [Semiring X] [Semiring Y]

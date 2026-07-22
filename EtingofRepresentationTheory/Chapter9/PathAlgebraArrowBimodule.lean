@@ -4,29 +4,29 @@ import Mathlib.LinearAlgebra.Finsupp.LinearCombination
 /-!
 # The arrow `S`-bimodule of a path algebra
 
-Third layer of the standard length-`1` projective resolution of path-algebra modules
-(Problem 9.4.6 (i), parent #6420). Write `A := PathAlgebra k Q`, `S := Q → k` the vertex
+In the standard length-`1` projective resolution of path-algebra modules
+(Problem 9.4.6 (i)), write `A := PathAlgebra k Q`, `S := Q → k` the vertex
 subalgebra (embedded by `f := vertexEmbedding : S →+* A`), and let `V` be the `S`-bimodule
-spanned by the **arrows** of `Q`. This file constructs `V` together with the two commuting
+spanned by the arrows of `Q`. This file constructs `V` together with the two commuting
 `S`-actions (by source and target vertex idempotents) and its inclusion into `A`.
 
 ## Contents
 
-* `Etingof.PathAlgebra.ArrowIndex Q` — the type of arrows `Σ a b, (a ⟶ b)`, with `src`/`tgt`.
-* `Etingof.PathAlgebra.arrowElt` / `arrowInclusion` — an arrow as the corresponding length-`1`
+* `Etingof.PathAlgebra.ArrowIndex Q`: the type of arrows `Σ a b, (a ⟶ b)`, with `src`/`tgt`.
+* `Etingof.PathAlgebra.arrowElt` / `arrowInclusion`: an arrow as the corresponding length-`1`
   path element of `A`, and its `k`-linear extension `V → A`.
 * `Etingof.PathAlgebra.vertexEmbedding_mul_arrowElt` /
-  `arrowElt_mul_vertexEmbedding` — left/right multiplication of an arrow by `f s` scales it by
+  `arrowElt_mul_vertexEmbedding`: left/right multiplication of an arrow by `f s` scales it by
   the source/target coordinate `s (src)` / `s (tgt)`. These realize the two `S`-actions inside
   `A` and are what make the resolution's boundary map `d` well-defined.
-* `Etingof.PathAlgebra.arrowSourceModule` / `arrowTargetModule` — the source and target
-  `S = (Q → k)`-module structures on `V` (as explicit `Module` *values*, to avoid a
+* `Etingof.PathAlgebra.arrowSourceModule` / `arrowTargetModule`: the source and target
+  `S = (Q → k)`-module structures on `V` (as explicit `Module` values, to avoid a
   typeclass diamond on the single carrier `ArrowIndex Q →₀ k`), the two commuting halves of the
   `S`-bimodule structure.
 
 The arrow bimodule `V`, together with the induction functor `A ⊗_S -` from
-`Chapter9/PathAlgebraInduction.lean`, assembles into the standard short complex
-`0 → A ⊗_S (V ⊗_S M) → A ⊗_S M → M → 0`; that assembly and its exactness are downstream work.
+`Chapter9/PathAlgebraInduction.lean`, forms the standard short complex
+`0 → A ⊗_S (V ⊗_S M) → A ⊗_S M → M → 0`.
 -/
 
 universe u
@@ -82,10 +82,10 @@ theorem ofPath_mul_ofPath (p q : QuiverPathIndex Q) :
 
 `V = ArrowIndex Q →₀ k` carries two commuting `S = (Q → k)`-module structures, scaling the
 arrow component `⟨a, b, e⟩` by the source coordinate `s a` (left action) and by the target
-coordinate `s b` (right action). We package these as explicit `Module` *values* rather than
+coordinate `s b` (right action). We package these as explicit `Module` values rather than
 instances: both act on the single carrier `ArrowIndex Q →₀ k`, so registering both as instances
-would create a diamond. The tensor-product assembly downstream selects the appropriate one via a
-type synonym. -/
+would create a diamond. The tensor-product construction that uses them selects the appropriate one
+via a type synonym. -/
 
 variable (k Q) in
 /-- The twisted scalar action `(s • v) i = s (wt i) * v i` on `ArrowIndex Q →₀ k`, where
@@ -143,7 +143,7 @@ This is the action over which the inner tensor `V ⊗_S M` is formed. -/
   wModule k Q ArrowIndex.tgt
 
 omit [DecidableEq Q] in
-/-- **The bimodule compatibility.** The source and target `S`-actions commute, so `V` is a genuine
+/-- **The bimodule compatibility.** The source and target `S`-actions commute, so `V` is an
 `(S, S)`-bimodule. -/
 theorem wSMul_comm (s t : Q → k) (v : ArrowIndex Q →₀ k) :
     wSMul k Q ArrowIndex.src s (wSMul k Q ArrowIndex.tgt t v)

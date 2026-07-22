@@ -15,8 +15,8 @@ and `g(y) = y b_λ`, and show that they are inverse to each other up to a nonzer
 
 The book's `V_λ = ℂ[S_n] a_λ b_λ` (Young symmetrizer `c_λ = a_λ b_λ`), while the project's
 `SpechtModule n la = ℂ[S_n] · (b_λ a_λ)` uses the opposite ordering `c_λ = b_λ a_λ` (see
-`Etingof.YoungSymmetrizer`). Part (a) is precisely the statement that these two left ideals —
-the two orderings of the row (`a_λ`) and column (`b_λ`) symmetrizers — are isomorphic as
+`Etingof.YoungSymmetrizer`). Part (a) is precisely the statement that these two left ideals,
+the two orderings of the row (`a_λ`) and column (`b_λ`) symmetrizers, are isomorphic as
 `S_n`-representations.
 
 We write `rowColIdeal la := ℂ[S_n] · (a_λ b_λ)` (the book's `V_λ`) and compare it with

@@ -8,27 +8,27 @@ import EtingofRepresentationTheory.Chapter3.Theorem3_8_1
 > closed field. Prove Lemma 3.8.2 (and hence the Krull-Schmidt theorem) without
 > this condition.
 
-The book proves Lemma 3.8.2(i) — every endomorphism of a finite dimensional
-indecomposable representation is an isomorphism or nilpotent — by decomposing `W`
+The book proves Lemma 3.8.2(i), that every endomorphism of a finite dimensional
+indecomposable representation is an isomorphism or nilpotent, by decomposing `W`
 into generalized eigenspaces of `θ`. That argument needs an eigenvalue to exist,
 i.e. it needs `k` algebraically closed.
 
 The formalization of Lemma 3.8.2 in `Chapter3/Lemma3_8_2.lean` never uses this
 hypothesis. `Etingof.endo_indecomposable_iso_or_nilpotent` replaces the
-generalized-eigenspace decomposition with the **Fitting decomposition**
+generalized-eigenspace decomposition with the Fitting decomposition
 `W = ⨆ₙ ker(θⁿ) ⊕ ⨅ₙ range(θⁿ)`
 (`LinearMap.isCompl_iSup_ker_pow_iInf_range_pow`), which holds for any endomorphism
 of a module that is both Noetherian and Artinian. A finite dimensional module over
 `k` is Noetherian and Artinian as an `A`-module regardless of whether `k` is
-algebraically closed, so both parts of Lemma 3.8.2 — and consequently the existence
-and uniqueness halves of Theorem 3.8.1 — are already established over an arbitrary
+algebraically closed, so both parts of Lemma 3.8.2 (and consequently the existence
+and uniqueness halves of Theorem 3.8.1) are already established over an arbitrary
 field.
 
-This file therefore contains no new proof: it records Problem 3.8.3 as the
-observation that the general-field statements are exactly the lemmas that were
-proved, and gives named citation targets. In particular Problem 3.8.4 cites "the
-Krull-Schmidt theorem, valid over any field by Problem 3.8.3"; the referent is
-`Etingof.Problem3_8_3.krull_schmidt_uniqueness` below.
+Problem 3.8.3 is thus the observation that the general-field statements are exactly
+the lemmas already proved. The named citation targets below record them. In
+particular Problem 3.8.4 cites "the Krull-Schmidt theorem, valid over any field by
+Problem 3.8.3"; the referent is `Etingof.Problem3_8_3.krull_schmidt_uniqueness`
+below.
 
 Every statement here assumes only `[Field k]`, with no `IsAlgClosed k`.
 -/

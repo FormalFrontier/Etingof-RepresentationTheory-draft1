@@ -4,15 +4,15 @@ import Mathlib
 # A monomial basis of the symmetric power `SⁿV`
 
 Mathlib defines the symmetric tensor power `Sym[k] (Fin n) V` as a quotient of the tensor power
-`⨂ⁿV` by the permutation relation, but provides **no basis** for it (the universal property and the
+`⨂ⁿV` by the permutation relation, but provides no basis for it (the universal property and the
 relation to homogeneous polynomials are listed as TODOs in
 `Mathlib.LinearAlgebra.TensorPower.Symmetric`). This file supplies that missing piece: given a basis
-`b : Basis κ k V` of `V`, it constructs a genuine `Module.Basis` of `SⁿV` indexed by **degree-`n`
-monomials** in `b` — that is, by `κ`-valued index tuples `Fin n → κ` taken up to permutation.
+`b : Basis κ k V` of `V`, it constructs a `Module.Basis` of `SⁿV` indexed by degree-`n`
+monomials in `b`, that is, by `κ`-valued index tuples `Fin n → κ` taken up to permutation.
 
 ## Construction
 
-The heart of the argument is the *symmetrized-orbit* picture of `SⁿV`:
+The argument rests on the symmetrized-orbit picture of `SⁿV`:
 
 * The tensor power `⨂ⁿV` has the basis `tensorBasis b` indexed by `p : Fin n → κ`, with
   `tensorBasis b p = ⨂ₜ i, b (p i)` (`Basis.piTensorProduct`).
@@ -42,7 +42,7 @@ namespace Etingof.SymmetricPowerBasis
 variable {k : Type} [Field k] {V : Type} [AddCommGroup V] [Module k V]
   {κ : Type*} {n : ℕ}
 
-/-- Two length-`n` index tuples describe the *same monomial* when one is a permutation of the other:
+/-- Two length-`n` index tuples describe the same monomial when one is a permutation of the other:
 `p ≈ q` iff `q = p ∘ σ` for some `σ ∈ Sₙ`. -/
 def monomialSetoid (n : ℕ) (κ : Type*) : Setoid (Fin n → κ) where
   r p q := ∃ σ : Equiv.Perm (Fin n), q = p ∘ σ

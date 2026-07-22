@@ -10,7 +10,7 @@ V ⊗ W with ρ_{V⊗W}(x) = ρ_V(x) ⊗ Id + Id ⊗ ρ_W(x).
 
 `Mathlib.Algebra.Lie.TensorProduct` equips `V ⊗ W` with the Leibniz Lie action via the
 instances `TensorProduct.LieModule.lieRingModule` and `TensorProduct.LieModule.lieModule`.
-Importing it brings those instances into scope, so `LieTensorProduct` below genuinely
+Importing it brings those instances into scope, so `LieTensorProduct` below
 carries the Lie module structure the book defines (not a plain `k`-module). The defining
 Leibniz identity is recorded as `Etingof.LieTensorProduct.lie_tmul`.
 -/

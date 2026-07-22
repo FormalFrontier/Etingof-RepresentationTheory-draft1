@@ -7,56 +7,54 @@ import EtingofRepresentationTheory.Chapter5.SchurWeylLDistinct
 import EtingofRepresentationTheory.Chapter5.RepresentationAsModuleHom
 
 /-!
-# Schur-Weyl #5, Step E: a polynomial `GL_N`-rep is a direct sum of abstract simples
+# A polynomial `GL_N`-representation is a direct sum of abstract simple summands
 
-This file assembles the *equivariant complete reducibility* of a polynomial
-`GL_N(k)`-representation (Etingof §5.23, issue #2482). The main result,
+This file establishes the equivariant complete reducibility of a polynomial
+`GL_N(k)`-representation (Etingof §5.23). The main result,
 `decompose_polynomial_gl_rep`, says that a finite-dimensional algebraic
 `GL_N(k)`-representation `M`, all of whose weights have degree `n`, decomposes
 `GL_N`-equivariantly (i.e. as a `MonoidAlgebra k GL_N`-module) as a finite
-direct sum of the **abstract simple summands `L i`** of `V^{⊗n}`
+direct sum of the abstract simple summands `L i` of `V^{⊗n}`
 (`V = Fin N → k`).
 
-## Abstract-summand form (resolves the circularity with #6)
+## Abstract-summand form
 
 The decomposition is stated in terms of the abstract `L i` of the Schur-Weyl
 decomposition of `V^{⊗n}` (`glTensorRep_equivariant_schurWeyl_decomposition`),
-*not* in terms of concrete `SchurModule k N λ`. The concrete identification
+not in terms of concrete `SchurModule k N λ`. The concrete identification
 `L i ≅ SchurModule k N λ` is the highest-weight classification that the
-consumer #6 (`iso_of_formalCharacter_eq_schurPoly`) needs; routing it there
-keeps the dependency graph acyclic (see the analysis recorded on issue #2482
-and in `FormalCharacterIso.lean:1053`).
+downstream result `iso_of_formalCharacter_eq_schurPoly` needs; deferring it
+there keeps the dependency graph acyclic.
 
 ## Proof structure
 
-The assembly composes three already-merged pieces with two bridge lemmas:
+The proof composes three earlier results with two auxiliary lemmas:
 
-* **#4598** `polynomial_homog_rep_equivariant_embedding` — the `GL_N`-equivariant
+* `polynomial_homog_rep_equivariant_embedding`: the `GL_N`-equivariant
   `k`-linear embedding `M ↪ (V^{⊗n})^m`.
-* **#4600** `submodule_of_directSum_simple_iso_directSum` — a submodule of a
+* `submodule_of_directSum_simple_iso_directSum`: a submodule of a
   finite direct sum of simple `R`-modules is itself a direct sum of those
   simples.
 * `glTensorRep_equivariant_schurWeyl_decomposition` (equivariance) and
   `Theorem5_18_4_GL_rep_decomposition_simple` (simplicity of each `L i`).
 
-The two named decomposition theorems build the **same** `L i = FDRep.of ρ_i`
+The two named decomposition theorems build the same `L i = FDRep.of ρ_i`
 but expose disjoint clauses (one the equivariance, the other the simplicity).
 Unifying them, and transferring the `k`-linear equivariant data to the
-`MonoidAlgebra k GL_N`-module level expected by the isotypic engine, are the
-two bridge lemmas proved here:
+`MonoidAlgebra k GL_N`-module level expected by the isotypic-extraction lemma, are the
+two auxiliary lemmas proved here:
 
-* `glTensorRep_schurWeyl_decomposition_equivariant_simple` — the unified
-  equivariant + simple decomposition (merges the two existing proofs, both over
-  `FDRep.of ρ_i`).
-* `polynomial_homog_rep_asModule_embeds_directSum_simple` (#4716) — packages
-  #4598 + the unified decomposition + the `asModule` transfer
-  (`asModuleHomOfIntertwiner` / `asModuleEquivOfIntertwiner`) + glue-A (#4714)
-  + glue-B (#4715) + the `Fin m`-fold product and sigma flattening into a
-  single injective `R`-linear embedding of `M.asModule` as a submodule of a
-  finite direct sum of the simple `L i`.
+* `glTensorRep_schurWeyl_decomposition_equivariant_simple`: the unified
+  equivariant and simple decomposition over `FDRep.of ρ_i`.
+* `polynomial_homog_rep_asModule_embeds_directSum_simple`: combines the
+  equivariant embedding, the unified decomposition, the `asModule` transfer
+  (`asModuleHomOfIntertwiner` / `asModuleEquivOfIntertwiner`), and the
+  `Fin m`-fold product and sigma flattening into a single injective `R`-linear
+  embedding of `M.asModule` as a submodule of a finite direct sum of the
+  simple `L i`.
 
-Given those two, `decompose_polynomial_gl_rep` is a clean application of the
-isotypic engine #4600.
+Given those two, `decompose_polynomial_gl_rep` follows by applying the
+isotypic-extraction lemma.
 -/
 
 open scoped TensorProduct DirectSum
@@ -76,12 +74,12 @@ set_option synthInstance.maxHeartbeats 1600000 in
 /-- **Unified equivariant + simple Schur-Weyl decomposition of `V^{⊗n}`.**
 
 This is `glTensorRep_equivariant_schurWeyl_decomposition`
-(`FormalCharacterIso.lean:775`) strengthened with the simplicity clause of
-`Theorem5_18_4_GL_rep_decomposition_simple` (`SchurWeylGLTransfer.lean:659`):
-each abstract summand `L i` is *simple* as a `MonoidAlgebra k GL_N`-module.
+(`FormalCharacterIso.lean`) strengthened with the simplicity clause of
+`Theorem5_18_4_GL_rep_decomposition_simple` (`SchurWeylGLTransfer.lean`):
+each abstract summand `L i` is simple as a `MonoidAlgebra k GL_N`-module.
 
 Both source theorems are built from the same explicit bimodule decomposition
-(`Theorem5_18_4_bimodule_decomposition_explicit`) and produce the *same*
+(`Theorem5_18_4_bimodule_decomposition_explicit`) and produce the same
 `L i = FDRep.of ρ_i` with `ρ_i = (postCompCentralizerMonoidHom …).comp glHom`.
 The proof therefore re-runs the equivariance computation of the former while
 keeping the centralizer-side simplicity clause that
@@ -172,9 +170,9 @@ theorem glTensorRep_schurWeyl_decomposition_equivariant_simple
 /-- **`M` embeds `R`-linearly as a submodule of a finite direct sum of the
 abstract simple summands `L i`.**
 
-Bundles three steps into the single form consumed by the isotypic engine:
+Bundles three steps into the single form consumed by the isotypic-extraction lemma:
 
-1. `polynomial_homog_rep_equivariant_embedding` (#4598): the `GL_N`-equivariant
+1. `polynomial_homog_rep_equivariant_embedding`: the `GL_N`-equivariant
    `k`-linear embedding `M ↪ (V^{⊗n})^m`.
 2. `glTensorRep_schurWeyl_decomposition_equivariant_simple`: the ambient
    `V^{⊗n}` (hence `(V^{⊗n})^m`) decomposes equivariantly into the simple
@@ -187,16 +185,16 @@ ambient summand is, an `R`-linear identification `e` of the ambient
 `(V^{⊗n})^m`-module with `⨁_{c : κ} asModule (L (g c))`, and a submodule `M'`
 of that ambient module together with an `R`-linear iso `asModule M.ρ ≃ M'`.
 
-It also forwards the underlying Schur-Weyl decomposition witnesses `(S, e, he, hLdist,
-hSne)` of `glTensorRep_schurWeyl_decomposition_equivariant_simple`, so that downstream
-consumers can invoke the relocated classification core
-`schurWeyl_simples_formalCharacter_classification_core_general` directly (this replaces
-the previously pre-baked, and false-without-`hSne`, schurPoly-classification field).
+It also forwards the underlying Schur-Weyl decomposition witnesses
+`(S, e, he, hLdist, hSne)` of
+`glTensorRep_schurWeyl_decomposition_equivariant_simple`, so that downstream
+consumers can invoke the classification core
+`schurWeyl_simples_formalCharacter_classification_core_general` directly.
 
-The hypothesis `h_span` — that the `ℕ`-indexed weight spaces span `M` — is
-**essential** (it says `M` is genuinely *polynomial*, not merely algebraic). It
-feeds `polynomial_homog_rep_equivariant_embedding` (#4598); without it the
-statement is false, since `IsAlgebraicRepresentation` + `h_homog` admits the
+The hypothesis `h_span`, that the `ℕ`-indexed weight spaces span `M`, is
+essential (it says `M` is polynomial, not merely algebraic). It is used by
+`polynomial_homog_rep_equivariant_embedding`; without it the statement is
+false, since `IsAlgebraicRepresentation` together with `h_homog` admits the
 counterexample `M = Sym²(V) ⊗ det⁻¹` (`N = 2`, `n = 0`), which has no embedding
 into `V^{⊗0}`. -/
 theorem polynomial_homog_rep_asModule_embeds_directSum_simple
@@ -227,7 +225,7 @@ theorem polynomial_homog_rep_asModule_embeds_directSum_simple
       (M' : Submodule (GLAlg k N) W),
       Nonempty (Representation.asModule M.ρ ≃ₗ[GLAlg k N] M') := by
   classical
-  -- (1) #4598: a `GL_N`-equivariant `k`-linear embedding `M ↪ (V^{⊗n})^m`.
+  -- (1) a `GL_N`-equivariant `k`-linear embedding `M ↪ (V^{⊗n})^m`.
   obtain ⟨m, φ, hφinj, hφeq⟩ :=
     Etingof.PolynomialRepEmbedding.polynomial_homog_rep_equivariant_embedding
       (M := M) (halg := halg) (h_span := h_span) (h_homog := h_homog)
@@ -235,8 +233,7 @@ theorem polynomial_homog_rep_asModule_embeds_directSum_simple
   obtain ⟨ι, hιFin, hιDec, S, hSacg, hSmod, hSfin, L, hLsimp, hLdist, hSne, e, he⟩ :=
     glTensorRep_schurWeyl_decomposition_equivariant_simple (k := k) (N := N) n
   -- The Schur-Weyl decomposition witnesses `(S, e, he, hLdist, hSne)` are exposed
-  -- in the output (instead of a pre-baked schurPoly-classification): the downstream
-  -- consumers invoke the relocated classification core
+  -- in the output so that downstream consumers can invoke the classification core
   -- `schurWeyl_simples_formalCharacter_classification_core_general` on them directly.
   haveI iSfree : ∀ i, Module.Free k (S i) := fun i => Module.Free.of_divisionRing k (S i)
   -- basis index of each multiplicity space, in `Type 0` so `κ` stays small.
@@ -292,7 +289,7 @@ theorem polynomial_homog_rep_asModule_embeds_directSum_simple
     LinearMap.range ψ, ⟨LinearEquiv.ofInjective ψ hψinj⟩⟩
 
 /-- **A polynomial `GL_N`-representation is a direct sum of abstract simple
-summands of `V^{⊗n}`** (Schur-Weyl #5, Step E, issue #2482).
+summands of `V^{⊗n}`.**
 
 Let `M` be a finite-dimensional algebraic `GL_N(k)`-representation all of whose
 weight spaces are concentrated in total degree `n`. Then `M` decomposes, as a
@@ -302,19 +299,17 @@ sum of the abstract simple summands `L i` of `V^{⊗n}`:
 
 Reading off `mult i := Nat.card {j // f j = i}` recovers the
 multiplicity-indexed form `M ≅ ⨁_i (Fin (mult i) → L i)`. The decomposition is
-stated for the *abstract* `L i` (not concrete Schur modules) to keep the
-dependency graph with the consumer #6 acyclic.
+stated for the abstract `L i` (not concrete Schur modules) to keep the
+dependency graph with the downstream classification acyclic.
 
-In addition (issues #4758 / #4994 / #5024) the output forwards the Schur-Weyl
-decomposition witnesses `(S, e, he, hLdist, hSne)` over the SAME `L`. The Schur-Weyl
-#6 assembly (`iso_of_formalCharacter_eq_schurPoly`, #4745) feeds these to the relocated
-classification core `schurWeyl_simples_formalCharacter_classification_core_general` to
-obtain the injective schurPoly assignment `lam : ι → {antitone partitions}` with
+In addition, the output forwards the Schur-Weyl decomposition witnesses
+`(S, e, he, hLdist, hSne)` over the same `L`. The downstream result
+`iso_of_formalCharacter_eq_schurPoly` supplies these to the classification core
+`schurWeyl_simples_formalCharacter_classification_core_general` to obtain the
+injective schurPoly assignment `lam : ι → {antitone partitions}` with
 `formalCharacter k N (L i) = schurPoly N (lam i)`, and thereby force `p = 1`: the
 characters `char (L i)` are distinct Schur polynomials, hence linearly independent, so a
-single-`schurPoly` left side has a single summand. The classification is no longer
-pre-baked into this output (the former field was false without `hSne`), but computed by
-the consumer from the witnesses. -/
+single-`schurPoly` left side has a single summand. -/
 theorem decompose_polynomial_gl_rep
     [IsAlgClosed k] [CharZero k] (n : ℕ)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
@@ -348,7 +343,7 @@ theorem decompose_polynomial_gl_rep
   -- The ambient summand family, indexed by `κ`.
   set Lsum : κ → Type := fun c => Representation.asModule (L (gκ c)).ρ with hLsum
   haveI : ∀ c, IsSimpleModule (GLAlg k N) (Lsum c) := fun c => hLsimp (gκ c)
-  -- Apply the generic isotypic-extraction engine (#4600) to the submodule `M'`.
+  -- Apply the generic isotypic-extraction lemma to the submodule `M'`.
   obtain ⟨p, h, ⟨eM'⟩⟩ :=
     SemisimpleIsotypic.submodule_of_directSum_simple_iso_directSum
       (R := GLAlg k N) Lsum (fun c => hLsimp (gκ c)) eW M'

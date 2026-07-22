@@ -50,7 +50,7 @@ theorem jordanTensorOp_tmul (lam mu : ℕ) (a : Fin (lam + 1) → ℂ) (b : Fin 
   simp only [jordanTensorOp, LinearMap.add_apply, TensorProduct.map_tmul, LinearMap.id_coe,
     id_eq]
 
-/-- The block-diagonal Jordan operator `⨁_k J_{0, M+N-1-2k}` on `⨁_k ℂ^{M+N-1-2k}` — the
+/-- The block-diagonal Jordan operator `⨁_k J_{0, M+N-1-2k}` on `⨁_k ℂ^{M+N-1-2k}`, the
 Jordan normal form of `A`. -/
 noncomputable def cgJordan (lam mu : ℕ) :
     Module.End ℂ (⨁ k : Fin (min lam mu + 1), (Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ)) :=
@@ -125,7 +125,7 @@ theorem cgScale_intertwines_e (lam mu : ℕ) :
   simp only [LinearMap.comp_apply, LieModule.toEnd_apply_apply, LinearEquiv.coe_coe]
   rw [lie_lof, cgScale_lof, cgScale_lof, cgJordan_lof, factScale_lie_e]
 
-/-! ## Assembling the Jordan normal form -/
+/-! ## The Jordan normal form -/
 
 /-- **Jordan normal form of `A` (Problem 2.15.1(n)).** For `V = ℂ^M ⊗ ℂ^N` (`M = λ+1`,
 `N = μ+1`) and `A = J_{0,M} ⊗ Id_N + Id_M ⊗ J_{0,N}`, there is a linear isomorphism
@@ -133,9 +133,8 @@ theorem cgScale_intertwines_e (lam mu : ℕ) :
 sum of standard nilpotent Jordan blocks `⨁_k J_{0, M+N-1-2k}`.
 
 Equivalently: the Jordan normal form of `A` consists of Jordan blocks of sizes
-`{M+N-1-2k : k = 0 … min(M,N)-1}`, each with eigenvalue `0`. The isomorphism is assembled
-from the factorial rescalings (part (l)) and the Clebsch–Gordan module isomorphism (part (m)).
-This completes the `sl(2)` exercise series 2.15.1(a)–(n). -/
+`{M+N-1-2k : k = 0 … min(M,N)-1}`, each with eigenvalue `0`. The isomorphism is constructed
+from the factorial rescalings (part (l)) and the Clebsch–Gordan module isomorphism (part (m)). -/
 theorem jordan_normal_form_tensor (lam mu : ℕ) :
     ∃ Θ : ((Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ)) ≃ₗ[ℂ]
         (⨁ k : Fin (min lam mu + 1), (Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ)),

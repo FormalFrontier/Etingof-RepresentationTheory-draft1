@@ -15,11 +15,11 @@ import Mathlib.Algebra.BigOperators.Finsupp.Basic
 
 The functor `Etingof.tensorLeftFunctor A P : ModuleCat A ⥤ AddCommGrpCat`, `N ↦ P ⊗_A N`
 (Problem 8.2.6, `Problem8_2_6.lean`), sends short exact sequences of left `A`-modules to short
-exact sequences of abelian groups whenever the right `A`-module `P` is **projective**. This is the
+exact sequences of abelian groups whenever the right `A`-module `P` is projective. This is the
 flatness input the `Tor` long exact sequence in the second argument (Problem 8.2.6(iii)) and the
-balancing theorem (Problem 8.2.6(iv), #6583) depend on.
+balancing theorem (Problem 8.2.6(iv)) depend on.
 
-## Proof route
+## Proof
 
 `P` projective in `ModuleCat Aᵐᵒᵖ` is a retract of a free module `⊕_ι Aᵐᵒᵖ`.
 
@@ -335,7 +335,7 @@ noncomputable def freeEquiv (X N : Type u) [AddCommGroup N] [Module A N] :
       tensorOver A N (ModuleCat.of Aᵐᵒᵖ (X →₀ Aᵐᵒᵖ))) = freeΦ A X N m n :=
   rfl
 
-/-- Naturality crux for `freeNatIso`: an `A`-linear `g : N →ₗ N'` commutes with `freeΦ`. -/
+/-- Naturality lemma for `freeNatIso`: an `A`-linear `g : N →ₗ N'` commutes with `freeΦ`. -/
 lemma mapRange_freeΦ (X : Type u) {N N' : Type u} [AddCommGroup N] [Module A N]
     [AddCommGroup N'] [Module A N'] (g : N →ₗ[A] N') (m : X →₀ Aᵐᵒᵖ) (n : N) :
     Finsupp.mapRange.addMonoidHom g.toAddMonoidHom (freeΦ A X N m n) = freeΦ A X N' m (g n) := by
@@ -382,10 +382,10 @@ lemma free_map_shortExact (X : Type u)
     finsupp_map_shortExact X hforget
   exact ShortComplex.shortExact_of_iso (S.mapNatIso (freeNatIso A X)).symm hfs
 
-/-- **Problem 8.2.6 flatness crux (#6587).** Tensoring a short exact sequence of left `A`-modules
-with a *projective* right `A`-module `P` is short exact: `P ⊗_A -` preserves short exactness. This
+/-- **Problem 8.2.6 flatness.** Tensoring a short exact sequence of left `A`-modules
+with a projective right `A`-module `P` is short exact: `P ⊗_A -` preserves short exactness. This
 is the flatness input the `Tor` long exact sequence in the second argument (Problem 8.2.6(iii)) and
-the balancing theorem (Problem 8.2.6(iv), #6583) depend on.
+the balancing theorem (Problem 8.2.6(iv)) depend on.
 
 `P` projective is a retract of the free module `↑P →₀ Aᵐᵒᵖ` (the counit epimorphism of the
 free/forget adjunction, split by projectivity); short exactness transfers from the free case along
@@ -405,7 +405,7 @@ theorem tensorLeftFunctor_map_shortExact (P : ModuleCat.{u} Aᵐᵒᵖ) [Project
 derived functor of `P ⊗_A -` (`tensorLeftFunctor A P`) vanishes at every left `A`-module `N` when
 the right module `P` is projective. Since `P ⊗_A -` is exact (`tensorLeftFunctor_map_shortExact`),
 applying it to a projective resolution of `N` keeps the resolution exact in positive degrees, so its
-homology — the derived functor — vanishes above degree `0`. This is the balancing-side vanishing
+homology (the derived functor) vanishes above degree `0`. This is the balancing-side vanishing
 input to the balancing theorem (Problem 8.2.6(iv)), matching the `Etingof.Tor`-side vanishing
 `Functor.isZero_leftDerived_obj_projective_succ`. -/
 lemma isZero_tensorLeftFunctor_leftDerived_succ

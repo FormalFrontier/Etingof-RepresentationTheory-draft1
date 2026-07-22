@@ -13,10 +13,10 @@ Both `Ext` notions used in Problem 8.2.8 (`Ext` half) compute `Extⁿ_A(M, N)` a
 `Hom_A(P•, N)` for a projective resolution `P` of `M`, but through two different Mathlib
 presentations of that cohomology that Mathlib does not identify:
 
-* **Derived-category side** (feeds `CategoryTheory.Abelian.Ext`): the `AddCommGrp`-valued cochain
+* **Derived-category side** (used by `CategoryTheory.Abelian.Ext`): the `AddCommGrp`-valued cochain
   complex `HomComplex P.cochainComplex ((singleFunctor (ModuleCat A) 0).obj N)`, an `ℤ`-indexed
   `CochainComplex AddCommGrp ℤ` whose degree-`i` term is `Cochain P.cochainComplex (single 0 N) i`.
-* **Left-derived-functor side** (feeds `Etingof.Extₖ`): the `ModuleCat k`-valued cochain complex
+* **Left-derived-functor side** (used by `Etingof.Extₖ`): the `ModuleCat k`-valued cochain complex
   `P.complex.linearYonedaObj k N` (`ChainComplex.linearYonedaObj`), an `ℕ`-indexed
   `CochainComplex (ModuleCat k) ℕ` whose degree-`i` term is `Hom_A(P.complex.X i, N)`.
 
@@ -67,7 +67,7 @@ def isoPrecompHomEquiv {C : Type*} [Category C] [Preadditive C] {X X' Y : C} (α
     (isoPrecompHomEquiv α).symm g = α.hom ≫ g := rfl
 
 /-- The `AddCommGrp`-valued `HomComplex` of the projective resolution into `N[0]`, whose degree-`n`
-homology feeds the derived-category `Ext`. -/
+homology underlies the derived-category `Ext`. -/
 noncomputable abbrev homCochainComplex : CochainComplex AddCommGrpCat.{u} ℤ :=
   CochainComplex.HomComplex P.cochainComplex
     ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N)
@@ -89,7 +89,7 @@ lemma homDegEquiv_apply (i : ℕ)
         Cochain.toSingleEquiv (K := P.cochainComplex) (X := N)
           (p := -(i : ℤ)) (q := 0) (n := (i : ℤ)) (by ring) z := rfl
 
-/-- The genuinely new content: under `homDegEquiv`, the `HomComplex` differential `δ i (i+1)`
+/-- The main content: under `homDegEquiv`, the `HomComplex` differential `δ i (i+1)`
 becomes `(i+1).negOnePow •` precomposition with the resolution differential `P.complex.d (i+1) i`.
 The `linearYonedaObj` differential is the same precomposition with no sign, so the two complexes
 differ by a degreewise sign twist. -/
@@ -109,16 +109,16 @@ lemma homDegEquiv_δ (i : ℕ)
   simp only [Units.smul_def, Preadditive.comp_zsmul, Category.assoc, Iso.inv_hom_id_assoc]
 
 /-!
-## Assembly of the homology comparison
+## The homology comparison
 
-We now assemble the additive isomorphism `homComplexHomologyAddEquivₖ`. Throughout, write
+We construct the additive isomorphism `homComplexHomologyAddEquivₖ`. Throughout, write
 `L := homCochainComplex N P` (an `AddCommGrpCat`-valued cochain complex over `ℤ`),
 `R := P.complex.linearYonedaObj k N` (a `ModuleCat k`-valued cochain complex over `ℕ`), and
 `Ff := forget₂ (ModuleCat k) AddCommGrpCat` (which has `PreservesHomology`).
 
 The degreewise `homDegEquiv` identifies `L.X ↑i` with `Ff.obj (R.X i)`, and `homDegEquiv_δ` records
 the degreewise sign twist. Folding a unit sign into each degreewise identification (`sIso`) turns
-the sign twist into a strictly commuting square (`sqGen`); assembling three of these into a
+the sign twist into a strictly commuting square (`sqGen`); combining three of these into a
 `ShortComplex.isoMk` and transporting through `ShortComplex.homologyMapIso`,
 `ShortComplex.mapHomologyIso`, and the reindexing `isoSc'` gives
 `L.homology ↑(m+1) ≅ Ff.obj (R.homology (m+1))` (`homologyIsoSucc`).
@@ -258,9 +258,9 @@ noncomputable def homIso (n : ℕ) :
   | succ m => exact homologyIsoSucc k N P m
 
 /-- The additive isomorphism of the degree-`n` homologies of the two `Hom(P•, N)` presentations:
-the `AddCommGrpCat`-valued `HomComplex` (feeding the derived-category `Ext`) and the `ModuleCat k`-
-valued `linearYonedaObj` (feeding `Etingof.Extₖ`). This is the crux of the `Ext ≃ₗ[k] Extₖ`
-comparison (#6897). -/
+the `AddCommGrpCat`-valued `HomComplex` (underlying the derived-category `Ext`) and the `ModuleCat k`-
+valued `linearYonedaObj` (underlying `Etingof.Extₖ`). This is the main step of the `Ext ≃ₗ[k] Extₖ`
+comparison. -/
 noncomputable def homComplexHomologyAddEquivₖ (n : ℕ) :
     (homCochainComplex N P).homology (↑n)
       ≃+ (P.complex.linearYonedaObj k N).homology n :=
@@ -273,8 +273,8 @@ Mathlib does not package the whole-complex map `HomComplex K L ⟶ HomComplex K 
 morphism `L ⟶ L'`. We build the special case we need: a morphism `g : N ⟶ N'` induces a chain map
 `homCochainComplex N P ⟶ homCochainComplex N' P` by degreewise postcomposition of cochains with
 `(singleFunctor _ 0).map g`. The chain-map condition is `δ_comp_ofHom` (postcomposition by an
-honest morphism commutes with the `HomComplex` differential `δ`). This feeds the scalar-endomorphism
-naturality that upgrades `homComplexHomologyAddEquivₖ` to `k`-linear (crux of #6951).
+honest morphism commutes with the `HomComplex` differential `δ`). This is used in the
+scalar-endomorphism naturality that upgrades `homComplexHomologyAddEquivₖ` to `k`-linear.
 -/
 
 variable {N' : ModuleCat.{u} A}
@@ -308,7 +308,7 @@ noncomputable def homCochainComplexPostcomp (g : N ⟶ N') :
 /-!
 ## `homologyAddEquiv` naturality under postcomposition
 
-The middle step of the additive tower `e123` (crux of #6951) is
+The middle step of the additive tower `e123` is
 `(homologyAddEquiv P.cochainComplex N[0] n).symm ∘ CohomologyClass.mk`. We record its naturality
 under the postcomposition chain map `homCochainComplexPostcomp N P g`: on a cocycle representative
 `c` it intertwines `Cocycle.postcomp` (on the class) with `HomologicalComplex.homologyMap` of the
@@ -446,7 +446,7 @@ lemma homologyAddEquiv_homologyMap (n : ℤ)
 /-- **Naturality of the middle step `homologyAddEquiv.symm ∘ mk` under postcomposition.** For a
 cocycle `c` and `g : N ⟶ N'`, applying `homCochainComplexPostcomp N P g` on homology after
 `homologyAddEquiv.symm (mk c)` equals `homologyAddEquiv.symm (mk (c.postcomp g))`. This is the
-`N`-side naturality feeding the `k`-homogeneity crux of #6951. -/
+`N`-side naturality used in the `k`-homogeneity step. -/
 lemma homologyAddEquiv_symm_mk_postcomp (n : ℤ)
     (c : Cocycle P.cochainComplex
       ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N) n) :
@@ -467,12 +467,12 @@ lemma homologyAddEquiv_symm_mk_postcomp (n : ℤ)
 For the scalar endomorphism `g = r • 𝟙 N`, the postcomposition chain map
 `homCochainComplexPostcomp N P g` corresponds, degreewise under `homDegEquiv` (hence `sIso`), to the
 `linearYonedaObj`-side scalar `r • 𝟙` (`homDegEquiv_homCochainComplexPostcomp`,
-`sIso_hom_homCochainComplexPostcomp_smul`). Assembling the degreewise squares into `ShortComplex`
+`sIso_hom_homCochainComplexPostcomp_smul`). Combining the degreewise squares into `ShortComplex`
 morphisms (`scIso`/`scHom0` naturality) and transporting through `homIso` upgrades
 `homComplexHomologyAddEquivₖ` to intertwine the `HomComplex`-side postcomposition `homologyMap` with
 the `linearYonedaObj`-side scalar `homologyMap (r • 𝟙)`. This tower naturality
 (`homComplexHomologyAddEquivₖ_homologyMap_postcomp`) is the last ingredient of the `k`-homogeneity
-crux of #6951.
+step.
 -/
 
 /-- **Degreewise postcomposition compatibility of `homDegEquiv`.** Under the degreewise
@@ -496,7 +496,7 @@ lemma Ff_map_smul_id (r : k) (X : ModuleCat.{u} k) (w : X) :
   simp only [ModuleCat.hom_smul, ModuleCat.hom_id]
   rfl
 
-/-- **Specialized degreewise square (deliverable of #6953).** For the scalar endomorphism
+/-- **Specialized degreewise square.** For the scalar endomorphism
 `g = r • 𝟙 N`, the sign-twisted degreewise iso `sIso` intertwines the postcomposition chain map
 `homCochainComplexPostcomp N P (r • 𝟙 N)` with the `linearYonedaObj`-side scalar `r • 𝟙`. -/
 lemma sIso_hom_homCochainComplexPostcomp_smul (r : k) (i : ℕ) (u : ℤˣ)
@@ -697,7 +697,7 @@ lemma homologyIsoZero_hom_naturality (r : k) :
   rw [reassoc_of% hA, reassoc_of% hB, reassoc_of% hC, hD]
   simp only [Category.assoc]
 
-/-- **Tower naturality of `homComplexHomologyAddEquivₖ` (crux ingredient of #6951).** For the scalar
+/-- **Tower naturality of `homComplexHomologyAddEquivₖ`.** For the scalar
 endomorphism `r • 𝟙 N`, the additive comparison `homComplexHomologyAddEquivₖ` intertwines the
 `HomComplex`-side postcomposition `homologyMap (homCochainComplexPostcomp N P (r • 𝟙 N))` with the
 `linearYonedaObj`-side scalar `homologyMap (r • 𝟙)`. Cased on `n` via `homologyIsoZero`/

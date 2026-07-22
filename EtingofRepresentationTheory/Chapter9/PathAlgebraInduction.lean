@@ -8,19 +8,19 @@ import Mathlib.RingTheory.SimpleModule.InjectiveProjective
 /-!
 # The noncommutative induction functor `A ⊗_S -` for a path algebra
 
-Second layer of the standard length-`1` projective resolution of path-algebra modules
-(Problem 9.4.6 (i)). Write `A := PathAlgebra k Q` and `S := Q → k`, the commutative subalgebra
+In the standard length-`1` projective resolution of path-algebra modules
+(Problem 9.4.6 (i)), write `A := PathAlgebra k Q` and `S := Q → k`, the commutative subalgebra
 spanned by the trivial-path idempotents, embedded by `f := vertexEmbedding : S →+* A`.
 
-Mathlib's `ModuleCat.extendScalars` requires **commutative** rings on both sides, so it does not
+Mathlib's `ModuleCat.extendScalars` requires commutative rings on both sides, so it does not
 apply here: `A` is noncommutative and the image of `f` is not central. This file builds the
-missing **left** adjoint of `restrictScalars f` by hand:
+missing left adjoint of `restrictScalars f` by hand:
 
-* `Etingof.PathAlgebra.inducedModule : ModuleCat S ⥤ ModuleCat A`, `M ↦ A ⊗_S M`, with a genuine
-  (non-`sorry`) body — object map, morphism map, `map_id`, `map_comp`.
+* `Etingof.PathAlgebra.inducedModule : ModuleCat S ⥤ ModuleCat A`, `M ↦ A ⊗_S M`, with object map,
+  morphism map, `map_id`, and `map_comp`.
 * `Etingof.PathAlgebra.inducedRestrictAdj : inducedModule ⊣ restrictScalars f`, the tensor–hom
   adjunction for the noncommutative ring hom `f`.
-* `Etingof.PathAlgebra.projective_inducedModule_obj` — every `inducedModule.obj M` is a projective
+* `Etingof.PathAlgebra.projective_inducedModule_obj`: every `inducedModule.obj M` is a projective
   `A`-module, because `restrictScalars f` is exact and `S` is semisimple.
 
 ## The `S`-module structure on `A`
@@ -29,7 +29,7 @@ The tensor product `A ⊗_S M` regards `A` as a **right** `S`-module, `s • a =
 (`Etingof.PathAlgebra.instModuleVertex`). This right action is what makes left multiplication by
 `A` well-defined on the tensor: `a' * (a * f s) = (a' * a) * f s`, so left multiplication commutes
 with the `S`-action (`SMulCommClass S A A`), and `TensorProduct.leftModule` upgrades `A ⊗_S M` to a
-left `A`-module. Note this is a *different* `S`-action from the one `restrictScalars f` puts on an
+left `A`-module. Note this is a different `S`-action from the one `restrictScalars f` puts on an
 `A`-module (which uses left multiplication `s • n = f s • n`); the two live on different objects.
 -/
 
@@ -98,8 +98,8 @@ noncomputable def inducedMap {M M' : ModuleCat.{u + 1} (Q → k)} (l : M ⟶ M')
 theorem inducedMap_tmul {M M' : ModuleCat.{u + 1} (Q → k)} (l : M ⟶ M') (a : PathAlgebra k Q)
     (m : M) : (inducedMap l).hom (a ⊗ₜ[Q → k] m) = a ⊗ₜ[Q → k] l.hom m := rfl
 
-/-- **The induction functor** `A ⊗_S - : ModuleCat S ⥤ ModuleCat A`. Real (non-`sorry`) body:
-object map `inducedObj`, morphism map `inducedMap`, and the functoriality laws. -/
+/-- **The induction functor** `A ⊗_S - : ModuleCat S ⥤ ModuleCat A`, with object map `inducedObj`,
+morphism map `inducedMap`, and the functoriality laws. -/
 noncomputable def inducedModule :
     ModuleCat.{u + 1} (Q → k) ⥤ ModuleCat.{u + 1} (PathAlgebra k Q) where
   obj := inducedObj k Q

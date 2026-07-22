@@ -182,8 +182,8 @@ gives `det(Dₙ) = 2·det(Dₙ₋₁) − det(Dₙ₋₂)`. With base cases `det
 the two-step induction yields the constant `4`. As with `Aₙ`, we use a bare matrix
 `dCartan n` to keep the `4 ≤ n` obligation out of the index arithmetic. -/
 
-/-- The bare `Dₙ` Cartan matrix: the path `0—1—⋯—(n-2)` with the fork edge
-`(n-3)—(n-1)`, `2` on the diagonal and `-1` on edges, defined for every `n`. -/
+/-- The bare `Dₙ` Cartan matrix: the path `0–1–⋯–(n-2)` with the fork edge
+`(n-3)–(n-1)`, `2` on the diagonal and `-1` on edges, defined for every `n`. -/
 private def dCartan (n : ℕ) : Matrix (Fin n) (Fin n) ℤ :=
   fun i j => if i.val = j.val then 2
     else if (i.val + 1 = j.val ∧ j.val ≤ n - 2) ∨ (j.val + 1 = i.val ∧ i.val ≤ n - 2) ∨
@@ -364,7 +364,7 @@ theorem cycle_cartan_mulVec_one_eq_zero (n : ℕ) (hn : 3 ≤ n) :
   have hn0 : 0 < n := by omega
   funext i
   -- Every vertex of the `n`-cycle has exactly two neighbours (`i+1` and `i-1`,
-  -- distinct for `n ≥ 3`), so its degree — the row sum of `R` — is `2`.
+  -- distinct for `n ≥ 3`), so its degree (the row sum of `R`) is `2`.
   have hdeg : ∑ j : Fin n, cycleAdj n i j = (2 : ℤ) := by
     -- `omega` cannot reason about `% n` for a variable modulus, so first rewrite
     -- each `(m+1) % n` (with `m < n`) into the elementary `if`-branch form.
@@ -441,7 +441,7 @@ theorem isDynkinDiagram_isTree {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
   have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
     have h := congrFun (congrFun hsymm b) a
     rw [Matrix.transpose_apply] at h; exact h
-  -- The simple graph of the diagram: `i — j` iff `adjᵢⱼ = 1`.
+  -- The simple graph of the diagram: `i – j` iff `adjᵢⱼ = 1`.
   let G : SimpleGraph (Fin n) :=
     { Adj := fun i j => adj i j = 1
       symm := ⟨fun i j h => by rw [hsymm' j i]; exact h⟩

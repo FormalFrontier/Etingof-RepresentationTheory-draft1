@@ -4,22 +4,22 @@ import EtingofRepresentationTheory.Chapter2.Example2_3_14
 /-!
 # Remark 4.6.4: Infinite groups may lack a unitary structure
 
-Theorem 4.6.3 shows that a finite dimensional *unitary* representation of any group is completely
+Theorem 4.6.3 shows that a finite dimensional unitary representation of any group is completely
 reducible. Remark 4.6.4 observes that, for an infinite group `G`, a finite dimensional
 representation may fail to admit a unitary structure: there exist finite dimensional
-representations (for example for `G = ℤ`) that are **indecomposable but not irreducible**, hence
+representations (for example for `G = ℤ`) that are indecomposable but not irreducible, hence
 not completely reducible, hence (by Theorem 4.6.3) not unitarizable.
 
 The witness is the classical one: the infinite group `G = ℤ` (written multiplicatively as
 `Multiplicative ℤ`) acting on `ℂ²` through powers of the unipotent Jordan block
 `J_{1,2} = [[1,1],[0,1]]`. Because `J_{1,2}` is unipotent it is invertible, so its powers form a
-genuine group representation of `ℤ`. The `ℤ`-invariant subspaces of `ℂ²` are exactly the
+group representation of `ℤ`. The `ℤ`-invariant subspaces of `ℂ²` are exactly the
 `J_{1,2}`-invariant subspaces, and the analysis of `Etingof.Example_2_3_14` applies verbatim:
 
 * every nonzero invariant subspace contains the eigenvector `e₀` (`e0_mem_of_invariant`), so two
-  nonzero invariant subspaces always meet — the representation is **indecomposable**;
-* the eigenline `ℂ·e₀` is a proper nonzero invariant subspace — the representation is **not
-  irreducible**.
+  nonzero invariant subspaces always meet, so the representation is indecomposable;
+* the eigenline `ℂ·e₀` is a proper nonzero invariant subspace, so the representation is not
+  irreducible.
 
 ## Mathlib correspondence
 

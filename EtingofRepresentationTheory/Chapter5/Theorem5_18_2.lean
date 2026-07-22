@@ -164,8 +164,8 @@ private lemma diagonalLieAction_commutes_reindex (b : Module.End k V)
 
 /-- The centralizer of ℂ[S_n] acting on V^⊗n is the image of U(gl(V)).
 
-The centralizer End_{ℂ[S_n]}(V^⊗n) — the subalgebra of End(V^⊗n) commuting
-with every permutation operator — equals the image of the natural algebra
+The centralizer End_{ℂ[S_n]}(V^⊗n), the subalgebra of End(V^⊗n) commuting
+with every permutation operator, equals the image of the natural algebra
 map U(gl(V)) → End(V^⊗n) induced by the diagonal Lie action
 b ↦ Δ_n(b) = Σᵢ (1 ⊗ ... ⊗ b ⊗ ... ⊗ 1).
 

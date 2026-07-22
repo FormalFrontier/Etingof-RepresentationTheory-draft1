@@ -27,23 +27,23 @@ The classification is the biconditional
 
 `IsProgenerator Q ↔ ∃ n : ι → ℕ, (∀ i, 1 ≤ n i) ∧ Nonempty (Q ≅ multBiproduct P n)`.
 
-* The **backward** direction (any such `multBiproduct` with all `n_i ≥ 1` is a
+* The backward direction (any such `multBiproduct` with all `n_i ≥ 1` is a
   progenerator) is the elementary "check it!" content and is proved here in full
   (`Etingof.isProgenerator_multBiproduct`). The argument: `multBiproduct P n` is a
   biproduct of projectives, hence projective; and the given progenerator `⨁ P` (one
-  copy of each `P_i`) is a *retract* of `multBiproduct P n` once every `n_i ≥ 1`, so
-  every object — already a quotient of a biproduct of copies of `⨁ P` — is a quotient
+  copy of each `P_i`) is a retract of `multBiproduct P n` once every `n_i ≥ 1`, so
+  every object, already a quotient of a biproduct of copies of `⨁ P`, is a quotient
   of a biproduct of copies of `multBiproduct P n`.
 
-* The **forward** direction (every progenerator is of this shape, with each `P_i`
-  occurring at least once) is the **Krull–Schmidt** content: a finitely generated
+* The forward direction (every progenerator is of this shape, with each `P_i`
+  occurring at least once) is the Krull–Schmidt content: a finitely generated
   projective object of a finite abelian category decomposes (essentially uniquely) into
   indecomposable projectives, each of which is one of the `P_i`, and generation forces
   every `P_i` to appear. Krull–Schmidt for finite abelian / finite-length additive
-  categories is **not in Mathlib**; it is built up in `Chapter9/KrullSchmidt/` and
+  categories is not in Mathlib; it is built up in `Chapter9/KrullSchmidt/` and
   consumed here. `Etingof.progenerator_decomposition` discharges this direction in full
   from the existence (`KrullSchmidt/Existence.lean`) and exchange
-  (`KrullSchmidt/Exchange.lean`) links.
+  (`KrullSchmidt/Exchange.lean`) results.
 -/
 
 open CategoryTheory CategoryTheory.Limits
@@ -149,7 +149,7 @@ and exhausting the indecomposable projectives up to isomorphism, with `⨁ P` a
 progenerator), then `Q ≅ ⊕_i n_i P_i` for a unique multiplicity vector `n` with every
 `n_i ≥ 1`.
 
-The proof assembles the **Krull–Schmidt** links built in `Chapter9/KrullSchmidt/`:
+The proof combines the Krull–Schmidt results built in `Chapter9/KrullSchmidt/`:
 1. `Q`, being projective in a finite (finite-length) abelian category, decomposes as a
    finite biproduct `Q ≅ ⨁ f` of indecomposable projective objects
    (`exists_indecomposable_projective_biproduct`).
@@ -221,7 +221,7 @@ theorem progenerator_decomposition {ι : Type v} [Fintype ι] (P : ι → C)
 Let `P : ι → 𝒞` be the indecomposable projective objects of a finite abelian category
 `𝒞` (each indecomposable, pairwise non-isomorphic, exhausting the indecomposable
 projectives, with `⨁ P` a progenerator). Then an object `Q` is a projective generator
-**iff** `Q ≅ ⊕_i n_i P_i` for some multiplicities `n_i ≥ 1`.
+iff `Q ≅ ⊕_i n_i P_i` for some multiplicities `n_i ≥ 1`.
 
 This is Etingof §9.7's `P_𝐧 = ⊕_{i=1}^m n_i P_i, n_i ≥ 1` classification ("check it!").
 The backward direction is proved in full; the forward direction is the Krull–Schmidt

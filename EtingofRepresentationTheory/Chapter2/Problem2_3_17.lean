@@ -11,9 +11,9 @@ import Mathlib.Algebra.Module.LinearMap.End
 Here `A` is viewed as the **regular representation**: a left module over itself.
 An endomorphism of representations `A → A` is a left `A`-linear map, i.e. an
 element of `Module.End A A = A →ₗ[A] A`. Such a map `f` is determined by
-`a := f 1`, because `f x = f (x • 1) = x • f 1 = x * a`; that is, `f` is *right*
+`a := f 1`, because `f x = f (x • 1) = x • f 1 = x * a`; that is, `f` is right
 multiplication by `a`. Composition of two such maps corresponds to multiplication
-of the elements in the **opposite** order:
+of the elements in the opposite order:
 `(f ∘ g) 1 = f (g 1) = f (1 * b) = b * a`, where `a = f 1`, `b = g 1`. Hence the
 endomorphism algebra is `A` with its multiplication reversed, `Aᵒᵖ`.
 
@@ -22,7 +22,7 @@ endomorphism algebra is `A` with its multiplication reversed, `Aᵒᵖ`.
 Mathlib packages exactly this fact as `RingEquiv.moduleEndSelf`, the ring
 isomorphism `Aᵐᵒᵖ ≃+* Module.End A A` given by sending `MulOpposite.op a` to
 right multiplication by `a`. Its inverse sends `f` to `MulOpposite.op (f 1)`.
-We record Problem 2.3.17 in the book's stated direction — `End_A(A) ≅ Aᵒᵖ` — by
+We record Problem 2.3.17 in the book's stated direction, `End_A(A) ≅ Aᵒᵖ`, by
 taking the symmetric equivalence.
 -/
 

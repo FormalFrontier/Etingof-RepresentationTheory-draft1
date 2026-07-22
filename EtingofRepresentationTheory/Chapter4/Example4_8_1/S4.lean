@@ -1,12 +1,9 @@
 import EtingofRepresentationTheory.Chapter4.Example4_8_1.Q8
 
 /-!
-# Example 4.8.1 — the `S₄` character table
+# Example 4.8.1: the `S₄` character table
 
-Split out of `Example4_8_1.lean` so each character-table section elaborates in its own
-process: the combined file accumulated ~13 GB of kernel-`decide` memory, OOM-killing the
-16 GB CI runner (issue #5852).  See `Example4_8_1.lean` for the umbrella and the
-public wrappers.
+See `Example4_8_1.lean` for the public wrappers.
 -/
 
 namespace Etingof.Example4_8_1
@@ -30,7 +27,7 @@ def chiS4 : Fin 5 → Fin 5 → Q5 :=
     ![3, -1, -1,  0,  1],
     ![3,  1, -1,  0, -1]]
 
-/-! ### Genuine `S₄` character table via real representations and traces
+/-! ### The `S₄` character table via representations and traces
 
 Each row of `chiS4` is realised as the character (trace) of an actual representation of
 `S₄ = Equiv.Perm (Fin 4)`: the trivial `ℂ₊`, the sign `ℂ₋`, the standard deleted permutation
@@ -38,7 +35,7 @@ representation `ℂ³₋`, its sign twist `ℂ³₊ = ℂ³₋ ⊗ sign`, and th
 from the conjugation action of `S₄` on the three pair-partitions of `Fin 4` (the surjection
 `S₄ → S₃` with kernel the Klein four-group).  Simplicity of each is proved via
 `FDRep.simple_iff_char_is_norm_one` (the norm-one character sum, evaluated by honest `decide`
-over the 24 group elements — no `native_decide`), the five rows are pairwise distinct
+over the 24 group elements, with no `native_decide`), the five rows are pairwise distinct
 characters, hence the representations are pairwise non-isomorphic, and together with the five
 conjugacy classes this exhibits the complete character table. -/
 

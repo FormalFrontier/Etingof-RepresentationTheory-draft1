@@ -7,7 +7,7 @@ A representation ρ : A → End V of an algebra A is **faithful** if ρ is injec
 
 ## Mathlib correspondence
 
-This is `FaithfulSMul A V` — asserts that the scalar action is faithful.
+This is `FaithfulSMul A V`, which asserts that the scalar action is faithful.
 -/
 
 /-- A faithful representation, in the sense of Etingof Definition 2.7.3.

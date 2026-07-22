@@ -25,7 +25,7 @@ character), so:
   product of characters, for `p`-th roots `z, w` with `z, w ≠ 1`:
   - if `z·w ≠ 1`, then `χ_{R_z}·χ_{R_w} = p · χ_{R_{zw}}`, i.e. `R_z ⊗ R_w ≅ p · R_{zw}`
     (`tensor_character_nonone`);
-  - if `z·w = 1`, then `χ_{R_z}·χ_{R_w}` equals `p²` on the center and `0` elsewhere — the
+  - if `z·w = 1`, then `χ_{R_z}·χ_{R_w}` equals `p²` on the center and `0` elsewhere: the
     character of `⨁` of all `p²` one-dimensional representations, each occurring once
     (`tensor_character_inv`).
 

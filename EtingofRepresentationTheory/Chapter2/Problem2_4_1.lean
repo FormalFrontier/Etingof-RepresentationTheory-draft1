@@ -14,7 +14,7 @@ lemma.
 exactly `IsCoatom` in the corresponding lattice of ideals:
 
 * **left ideals** of `A` are `Submodule A A` (the left `A`-module structure on `A`);
-* **right ideals** of `A` are `Submodule Aᵐᵒᵖ Aᵐᵒᵖ` — a submodule for the left action of the
+* **right ideals** of `A` are `Submodule Aᵐᵒᵖ Aᵐᵒᵖ`: a submodule for the left action of the
   opposite ring is precisely a subset closed under right multiplication by `A`;
 * **two-sided ideals** are `TwoSidedIdeal A`.
 
@@ -30,18 +30,18 @@ namespace Etingof.Problem2_4_1
 
 variable (A : Type*) [Ring A] [Nontrivial A]
 
-/-- Every nontrivial unital ring has a maximal **left** ideal. (Etingof Problem 2.4.1) -/
+/-- Every nontrivial unital ring has a maximal left ideal. (Etingof Problem 2.4.1) -/
 theorem exists_maximal_left_ideal : ∃ I : Submodule A A, IsCoatom I :=
   let ⟨I, hI⟩ := Ideal.exists_maximal A
   ⟨I, Ideal.isMaximal_def.mp hI⟩
 
-/-- Every nontrivial unital ring has a maximal **right** ideal, modelled as a maximal left ideal
+/-- Every nontrivial unital ring has a maximal right ideal, modelled as a maximal left ideal
 of the opposite ring `Aᵐᵒᵖ`. (Etingof Problem 2.4.1) -/
 theorem exists_maximal_right_ideal : ∃ I : Submodule Aᵐᵒᵖ Aᵐᵒᵖ, IsCoatom I :=
   let ⟨I, hI⟩ := Ideal.exists_maximal Aᵐᵒᵖ
   ⟨I, Ideal.isMaximal_def.mp hI⟩
 
-/-- Every nontrivial unital ring has a maximal **two-sided** ideal. (Etingof Problem 2.4.1) -/
+/-- Every nontrivial unital ring has a maximal two-sided ideal. (Etingof Problem 2.4.1) -/
 theorem exists_maximal_twoSided_ideal : ∃ I : TwoSidedIdeal A, IsCoatom I := by
   -- `⊥ ≠ ⊤` since `1 ≠ 0`.
   have hbot : (⊥ : TwoSidedIdeal A) ≠ ⊤ := by

@@ -6,7 +6,7 @@ import EtingofRepresentationTheory.Chapter5.EvalEqOnGL
 import EtingofRepresentationTheory.Chapter5.DetInvElim
 
 /-!
-# Polynomial GL_N-rep embedding into a tensor power (Schur-Weyl #2b)
+# Polynomial GL_N-rep embedding into a tensor power
 
 Etingof §5.23. A finite-dimensional polynomial GL_N-representation `M` whose
 matrix coefficients are homogeneous polynomials of degree `n` in the matrix
@@ -14,43 +14,19 @@ entries `g_ij` admits a `k`-linear injection into `(V^⊗n)^m` for some `m`,
 where `V := Fin N → k`.
 
 The construction uses
-`Etingof.PolynomialTensorBridge.homogeneousPolyToTensor` (Schur-Weyl #2a) to
+`Etingof.PolynomialTensorBridge.homogeneousPolyToTensor` to
 realize each matrix-coefficient polynomial as an element of
 `V^⊗n ⊗ (V^*)^⊗n`, then splits off the `(V^*)^⊗n` factor via the standard
 basis to land in `(V^⊗n)^m`.
 
-## Status
-
-This file is complete and sorry-free. It proves both the **injection** and the
-**GL_N-equivariance** of the embedding from issue #2478:
-
-* `polynomialRep_embeds_in_tensorPower_inj` exhibits `m`, the linear map `φ`,
-  and proves injectivity (injection-only).
-* `polynomialRep_embeds_in_tensorPower` (and its primed form
-  `polynomialRep_embeds_in_tensorPower'`) exhibit the injective **and**
-  GL_N-equivariant embedding `φ`, intertwining `ρ` with the tensor-power action
-  `g ↦ PiTensorProduct.map (g^⊗n)` on each coordinate of the target. The primed
-  form supplies the polynomial matrix-coefficient multiplicativity witness
-  internally (via `hP_mul_of_hP`), so callers need only the homogeneity and
-  evaluation witnesses.
-* `polynomial_homog_rep_equivariant_embedding` is a fully general FDRep-facing
-  statement over `FDRep k (GL_N k)` with `[IsAlgClosed k]`, producing an
-  injective GL_N-equivariant `φ` from the weight-space hypotheses `h_span` and
-  `h_homog` alone (no leaked equivariance or multiplicativity hypothesis).
-
-Equivariance of the underlying bridge `homogeneousPolyToTensor` is now proved in
-`Chapter5/PolynomialTensorBridge.lean` (`homogeneousPolyToTensor_equivariant`,
-landed in #7050); the earlier note that the bridge "explicitly defers" this
-chunk is obsolete.
-
 ## Main results
 
-* `Etingof.PolynomialRepEmbedding.polynomialRep_embeds_in_tensorPower_inj` —
+* `Etingof.PolynomialRepEmbedding.polynomialRep_embeds_in_tensorPower_inj`:
   the linear injection of a hom-degree-`n` polynomial GL_N-rep into
   `(V^⊗n)^m`.
-* `Etingof.PolynomialRepEmbedding.polynomialRep_embeds_in_tensorPower` —
+* `Etingof.PolynomialRepEmbedding.polynomialRep_embeds_in_tensorPower`:
   the same injection together with GL_N-equivariance of `φ`.
-* `Etingof.PolynomialRepEmbedding.polynomial_homog_rep_equivariant_embedding` —
+* `Etingof.PolynomialRepEmbedding.polynomial_homog_rep_equivariant_embedding`:
   the FDRep-facing injective GL_N-equivariant embedding from weight-space
   hypotheses.
 -/
@@ -69,8 +45,8 @@ variable (k : Type) [Field k] (N n : ℕ)
 
 /-- Splitting the right `(V^*)^⊗n` factor of `V^⊗n ⊗ (V^*)^⊗n` via the
 standard basis: `V^⊗n ⊗ (V^*)^⊗n ≃ₗ[k] (Fin n → Fin N) → V^⊗n`. The
-GL_N-action on `(V^*)^⊗n` is *not* used here; we are merely splitting the
-target of the bridge into a `Fin (N^n)`-indexed direct sum of `V^⊗n`-copies. -/
+GL_N-action on `(V^*)^⊗n` is not used here; we are merely splitting the
+target into a `Fin (N^n)`-indexed direct sum of `V^⊗n`-copies. -/
 noncomputable def splitDualBasis :
     PolyTensorTgt k N n ≃ₗ[k] ((Fin n → Fin N) → TensorPower k (StdV k N) n) :=
   let bDual : Module.Basis (Fin n → Fin N) k
@@ -140,8 +116,8 @@ lemma eval_matrixCoeffPoly {d : ℕ} (b : Module.Basis (Fin d) k M)
         (b.coord a).map_smul _ _,
       smul_eq_mul, hP]
 
-/-- Bridge each row `a` of the matrix-coefficient polynomial to
-`V^⊗n ⊗ (V^*)^⊗n` via `homogeneousPolyToTensor` (Schur-Weyl #2a). -/
+/-- Map each row `a` of the matrix-coefficient polynomial to
+`V^⊗n ⊗ (V^*)^⊗n` via `homogeneousPolyToTensor`. -/
 noncomputable def polyTensorRow {d : ℕ} [CharZero k]
     (b : Module.Basis (Fin d) k M)
     (P : Fin d → Fin d → MvPolynomial (Fin N × Fin N) k)
@@ -200,26 +176,26 @@ lemma polyTensorBundle_apply {d : ℕ} [CharZero k]
       (splitDualBasis k N n) (polyTensorRow k N n b P hhom p.1 x) p.2 := by
   rfl
 
-/-- **Polynomial GL_N-rep embeds in tensor power** (Etingof §5.23,
-Schur-Weyl #2b — injection part).
+/-- **Polynomial GL_N-rep embeds in tensor power** (Etingof §5.23, injection
+part).
 
 A finite-dimensional polynomial GL_N-representation `M`, presented by a basis
 and matrix-coefficient polynomial witnesses that are homogeneous of degree `n`
 in the matrix entries `g_ij` (with no `det⁻¹` factor), admits a `k`-linear
 injection into `(V^⊗n)^m` for some `m`, where `V := Fin N → k`.
 
-The construction is via the bridge `homogeneousPolyToTensor` from Schur-Weyl
-#2a: each row `a` of the matrix-coefficient polynomial of `x ∈ M` is a
-homogeneous degree-`n` polynomial; bridge it to `V^⊗n ⊗ (V^*)^⊗n`, then split
-off the dual factor via the standard basis to land in
-`(Fin n → Fin N) → V^⊗n`. Bundle over the `Fin d`-many basis indices.
+The construction is via `homogeneousPolyToTensor`: each row `a` of the
+matrix-coefficient polynomial of `x ∈ M` is a homogeneous degree-`n`
+polynomial; map it to `V^⊗n ⊗ (V^*)^⊗n`, then split off the dual factor via the
+standard basis to land in `(Fin n → Fin N) → V^⊗n`. Bundle over the
+`Fin d`-many basis indices.
 
-GL_N-equivariance of the embedding is not stated by *this* theorem, which is
+GL_N-equivariance of the embedding is not stated by this theorem, which is
 injection-only; it is proved separately in this file. See
 `polynomialRep_embeds_in_tensorPower` (with its primed and FDRep-facing forms)
 for the injective GL_N-equivariant embedding.
 
-(Etingof Definition 5.23.1 + Theorem 5.23.2 setup. Issue #2478.) -/
+(Etingof Definition 5.23.1 + Theorem 5.23.2 setup.) -/
 theorem polynomialRep_embeds_in_tensorPower_inj
     [CharZero k]
     [Module.Finite k M]
@@ -473,26 +449,25 @@ lemma polyTensorBundle_equivariant [CharZero k] {d : ℕ}
       (polyTensorRow k N n b P hhom p.1 x) p.2]
 
 /-- **Polynomial GL_N-rep embeds equivariantly into a tensor power**
-(Etingof §5.23, Schur-Weyl #2b — full version with equivariance).
+(Etingof §5.23, full version with equivariance).
 
 The upgraded form of `polynomialRep_embeds_in_tensorPower_inj`: in addition to
 exhibiting an injective `k`-linear embedding `φ : M → (V^⊗n)^m`, the embedding
-is `GL_N`-equivariant — it intertwines the representation `ρ` on `M` with the
+is `GL_N`-equivariant, intertwining the representation `ρ` on `M` with the
 tensor-power action `g ↦ PiTensorProduct.map (g^⊗n)` on each coordinate of the
 target.
 
 The equivariance requires, in addition to the matrix-coefficient evaluation
-hypothesis `hP`, the **polynomial matrix-coefficient multiplicativity**
-hypothesis `hP_mul` asserting the polynomial-level identity
+hypothesis `hP`, the polynomial matrix-coefficient multiplicativity hypothesis
+`hP_mul` asserting the polynomial-level identity
 `polyRightTransl g (P a c') = Σ_c eval g (P c c') • P a c`. This identity
 holds at the evaluation level for all `g ∈ GL_N` (by `ρ.map_mul` and the
 polynomial-matrix-coefficient setup), and from `[CharZero k]` (hence
 `Infinite k`) one can derive the polynomial-level statement via the
-determinant/funext trick. We take it as a hypothesis here to keep the bundle
-focused on the equivariance assembly; the derivation is deferred to a
-follow-up.
+determinant/funext argument. We take it as a hypothesis here; the derivation is
+given below in `hP_mul_of_hP`.
 
-(Etingof Definition 5.23.1 + Theorem 5.23.2 setup. Issue #2537 / #2527 Part B.) -/
+(Etingof Definition 5.23.1 + Theorem 5.23.2 setup.) -/
 theorem polynomialRep_embeds_in_tensorPower
     [CharZero k]
     [Module.Finite k M]
@@ -595,10 +570,10 @@ end Etingof
 /-! ## Polynomial-identity-from-GL-evaluation
 
 The hypothesis `hP_mul` of `polynomialRep_embeds_in_tensorPower` is a
-*polynomial-level* identity in `MvPolynomial (Fin N × Fin N) k`. It holds at
+polynomial-level identity in `MvPolynomial (Fin N × Fin N) k`. It holds at
 the evaluation level for every `g ∈ GL_N` (by `ρ.map_mul` and the
-matrix-coefficient setup). Over an infinite field — in particular when
-`[CharZero k]` — polynomial equality follows from equality on evaluations
+matrix-coefficient setup). Over an infinite field, in particular when
+`[CharZero k]`, polynomial equality follows from equality on evaluations
 at every invertible matrix: the set of invertible matrices is Zariski-dense
 in `Matrix (Fin N) (Fin N) k` since the generic determinant polynomial is
 nonzero. We record that density argument here and then derive `hP_mul` from
@@ -696,7 +671,7 @@ form).** The polynomial-level matrix-coefficient multiplicativity hypothesis
 evaluation lemma). Callers need only provide the homogeneity and
 matrix-coefficient evaluation witnesses `(hhom, hP)`.
 
-Downstream consumers (Schur-Weyl #5, issue #2482) should cite this form. -/
+Downstream consumers should cite this form. -/
 theorem polynomialRep_embeds_in_tensorPower' (n : ℕ)
     [CharZero k]
     [Module.Finite k M]
@@ -772,29 +747,28 @@ private lemma scalarGL_eq_noncommProd (t : kˣ) :
       = Matrix.diagonal (fun j => if j ∈ (Finset.univ : Finset (Fin N)) then (t : k) else 1)
   simp
 
-/-- **Piece 1 of `det⁻¹` elimination — the scalar matrix acts by `t^n`.**
-On a *polynomial* (all weights nonnegative) weight-homogeneous-of-degree-`n`
+/-- **The scalar matrix acts by `t^n`.**
+On a polynomial (all weights nonnegative) weight-homogeneous-of-degree-`n`
 `GL_N`-representation, the scalar matrix `scalarGL t = t • 1` acts as the scalar
 `t ^ n`.
 
-**Hypotheses (corrected, issue #4654).** `h_span` — that the `ℕ`-indexed weight
-spaces span `M` — is *essential* and was missing from the original
-decomposition. Without it the statement is **false**: the diagonal torus need
-not act diagonalisably with nonnegative weights. Concrete counterexample
-(`N = 2`, `n = 1`): `M = V ⊕ (det⁻¹)` where `V` is the standard rep. The center
+**Hypotheses.** `h_span`, that the `ℕ`-indexed weight spaces span `M`, is
+essential. Without it the statement is false: the diagonal torus need not act
+diagonalisably with nonnegative weights. Concrete counterexample (`N = 2`,
+`n = 1`): `M = V ⊕ (det⁻¹)` where `V` is the standard rep. The center
 `scalarGL t` acts by `t` on `V` but by `t⁻²` on the `det⁻¹` summand, so it is
-*not* the scalar `t¹ • id`; yet `halg` holds and `h_homog` holds for `n = 1`
+not the scalar `t¹ • id`; yet `halg` holds and `h_homog` holds for `n = 1`
 (the only `ℕ`-valued weights are `(1,0),(0,1)`, both summing to `1`; the weight
 `(-1,-1)` of `det⁻¹` is not expressible in the `ℕ`-indexed `glWeightSpace`, so
-it imposes no constraint). The weight spaces do *not* span (`V ≠ M`), so `h_span`
+it imposes no constraint). The weight spaces do not span (`V ≠ M`), so `h_span`
 correctly excludes it.
 
-Strategy (now that `h_span` is a hypothesis): on a weight space `M_μ` the
-generator `diagUnit i t` acts by *exactly* `t ^ (μ i)` (by definition of
-`glWeightSpace` as the relevant kernel), so `scalarGL t = ∏ᵢ diagUnit i t` acts
-by `t ^ (∑ᵢ μ i) = t ^ n` (`h_homog`). Since the weight spaces span (`h_span`),
-this extends to all of `M`: `M.ρ (scalarGL t) = t^n • id`. The general
-weight-span hypothesis is proven for Schur modules at
+Strategy: on a weight space `M_μ` the generator `diagUnit i t` acts by exactly
+`t ^ (μ i)` (by definition of `glWeightSpace` as the relevant kernel), so
+`scalarGL t = ∏ᵢ diagUnit i t` acts by `t ^ (∑ᵢ μ i) = t ^ n` (`h_homog`).
+Since the weight spaces span (`h_span`), this extends to all of `M`:
+`M.ρ (scalarGL t) = t^n • id`. The general weight-span hypothesis is proven for
+Schur modules at
 `SchurWeylFormalCharacterIso.glWeightSpace_schurModule_iSup_eq_top`. -/
 private theorem scalarGL_acts_as_pow (n : ℕ)
     [CharZero k] [IsAlgClosed k]
@@ -944,34 +918,33 @@ private lemma isHomogeneous_of_gl_scaling [Infinite k] {n : ℕ}
   rw [hQeq]
   exact MvPolynomial.homogeneousComponent_isHomogeneous n Q
 
-/-- **det⁻¹ elimination proper (the genuine `h_span` content of issue #4654).**
-On a *genuinely polynomial* algebraic representation — one whose `ℕ`-indexed
-weight spaces span `M` (`h_span`) — the algebraic-representation matrix
-coefficients, a priori living in `k[Xᵢⱼ, D]` with `D = det⁻¹`, are already
-*bare-entry* polynomials in `k[Xᵢⱼ]`: the `det⁻¹` variable can be eliminated.
+/-- **Elimination of the `det⁻¹` variable.**
+On a polynomial algebraic representation, one whose `ℕ`-indexed weight spaces
+span `M` (`h_span`), the algebraic-representation matrix coefficients, a priori
+living in `k[Xᵢⱼ, D]` with `D = det⁻¹`, are already bare-entry polynomials in
+`k[Xᵢⱼ]`: the `det⁻¹` variable can be eliminated.
 
 This is the hard mathematical core (Etingof Theorem 5.23.2(i), polynomial case):
-`h_span` is *essential* and `h_scalar` alone is **insufficient**. The naive
+`h_span` is essential and `h_scalar` alone is insufficient. The naive
 "clear the denominator `P = Q/det^r`, match the scaling degree, conclude `r = 0`"
-argument only shows each cleared numerator `Q` is *multi-homogeneous* (degree
-`s + μ(a)ᵢ` in row `i`, `s + μ(c)ⱼ` in column `j`); multi-homogeneity does **not**
+argument only shows each cleared numerator `Q` is multi-homogeneous (degree
+`s + μ(a)ᵢ` in row `i`, `s + μ(c)ⱼ` in column `j`); multi-homogeneity does not
 imply `det^s ∣ Q` (e.g. `N = 2, s = 1`: `α·g₁₁g₂₂ + β·g₁₂g₂₁` is row/column
 multi-homogeneous of degree `1` but `det = g₁₁g₂₂ - g₁₂g₂₁` divides it only when
-`α = -β`). Divisibility — equivalently, that the rep extends to the matrix monoid
-`Mₙ(k)`, equivalently nonnegativity of *all* weights — is exactly the global
+`α = -β`). Divisibility, equivalently that the rep extends to the matrix monoid
+`Mₙ(k)`, equivalently nonnegativity of all weights, is exactly the global
 representation structure supplied by `h_span` (the `Sym²(V) ⊗ det⁻¹`
 counterexample, with ℤ-weights `(1,-1),(0,0),(-1,1)`, fails `h_span` precisely
 because its negative-entry weights leave the `ℕ`-indexed weight spaces
 non-spanning). No homogeneity is asserted here; that is `matrixCoeff_isHomogeneous`.
 
-The det⁻¹ elimination is proved (issue #4695, completing the #4654 sub-task):
-the argument is packaged in `Etingof.DetInvElim.detInv_elim`, which realizes the
-monoid-extension route constructively. Starting from the kernel lemma
-(`Etingof.KernelLemmaK` / `KernelLemmaKPrime`, #4694) it builds a weight-eigenbasis
-of `M` and runs the right-translation argument: `h_span` (all weights `≥ 0`) forces
-the a-priori `det⁻¹` denominators to cancel, so `ρ : GLₙ → GL(M)` extends to
-`Mₙ(k) → End(M)` and the matrix coefficients are the bare polynomials `Q` produced
-here. This delegating theorem is the file's interface to that development. -/
+The argument is packaged in `Etingof.DetInvElim.detInv_elim`, which realizes the
+monoid-extension argument constructively. Starting from the kernel lemma
+(`Etingof.KernelLemmaK` / `KernelLemmaKPrime`) it builds a weight-eigenbasis
+of `M` and runs the right-translation argument: `h_span` (all weights `≥ 0`)
+forces the a-priori `det⁻¹` denominators to cancel, so `ρ : GLₙ → GL(M)` extends
+to `Mₙ(k) → End(M)` and the matrix coefficients are the bare polynomials `Q`
+produced here. -/
 private theorem detInv_elim_of_polynomial (n : ℕ) [CharZero k] [IsAlgClosed k]
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
@@ -984,14 +957,14 @@ private theorem detInv_elim_of_polynomial (n : ℕ) [CharZero k] [IsAlgClosed k]
                (fun ij : Fin N × Fin N =>
                  (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
                (Q a c) := by
-  -- The det⁻¹-elimination core (issue #4695): assembled from the kernel lemma
-  -- (#4694) via the weight-eigenbasis + right-translation argument in
-  -- `Etingof.DetInvElim.detInv_elim`. See the docstring for why `h_span` is needed.
+  -- The det⁻¹-elimination core: from the kernel lemma via the weight-eigenbasis
+  -- and right-translation argument in `Etingof.DetInvElim.detInv_elim`. See the
+  -- docstring for why `h_span` is needed.
   exact Etingof.DetInvElim.detInv_elim n M halg h_span
 
 /-- **Homogeneity extraction.** Once the `det⁻¹` variable has been eliminated
 (`detInv_elim_of_polynomial`), the bare-entry matrix-coefficient polynomials `Q`
-are automatically **homogeneous of degree `n`**, provided the scalar matrix acts
+are automatically homogeneous of degree `n`, provided the scalar matrix acts
 by `t ^ n` (`h_scalar`).
 
 Unlike the det⁻¹ elimination, this step is purely formal: each matrix coefficient
@@ -1039,36 +1012,36 @@ private theorem matrixCoeff_isHomogeneous (n : ℕ) [CharZero k] [IsAlgClosed k]
   rw [hL, map_mul, h_scalar t, Module.End.mul_apply, LinearMap.smul_apply,
     LinearMap.id_coe, id_eq, map_smul, Finsupp.smul_apply, smul_eq_mul, hQ g a c]
 
-/-- **Piece 2 of `det⁻¹` elimination — assembly given the scalar action.**
-On a *polynomial* (all weights nonnegative) representation whose scalar matrix
-acts by `t ^ n` (`h_scalar`, Piece 1 `scalarGL_acts_as_pow`), the
+/-- **Bare-entry polynomials given the scalar action.**
+On a polynomial (all weights nonnegative) representation whose scalar matrix
+acts by `t ^ n` (`h_scalar`, from `scalarGL_acts_as_pow`), the
 algebraic-representation matrix coefficients are bare-entry polynomials in
 `Fin N × Fin N`, homogeneous of degree `n`.
 
-**Hypotheses (corrected, issue #4654).** `h_span` — that the `ℕ`-indexed weight
-spaces span `M` — is *essential*. With only `h_scalar` the statement is
-**false**: `h_scalar` records the aggregate action of the center but not the
-nonnegativity of the individual weights that kills the `det⁻¹` denominator.
-Concrete counterexample (`N = 2`, `n = 0`): `M = Sym²(V) ⊗ det⁻¹`. The center
-`scalarGL t = t • 1` acts by `t² · t⁻² = t⁰ = 1`, so `h_scalar` holds with
-`n = 0`; `M` is algebraic; and the only `ℕ`-valued weight is `(0,0)` (weights
-`(1,-1),(-1,1)` are not expressible in the `ℕ`-indexed `glWeightSpace`), so
-`h_homog` holds vacuously. But the conclusion would force every matrix
-coefficient to be a homogeneous degree-`0` polynomial — a constant — i.e.
-`M.ρ g = M.ρ 1 = id` for all `g`, contradicting that `Sym²V ⊗ det⁻¹` is a
-nontrivial `3`-dimensional representation. The weight spaces do not span (only
-the `1`-dimensional `(0,0)`-space is `ℕ`-indexed), so `h_span` excludes it.
+**Hypotheses.** `h_span`, that the `ℕ`-indexed weight spaces span `M`, is
+essential. With only `h_scalar` the statement is false: `h_scalar` records the
+aggregate action of the center but not the nonnegativity of the individual
+weights that kills the `det⁻¹` denominator. Concrete counterexample (`N = 2`,
+`n = 0`): `M = Sym²(V) ⊗ det⁻¹`. The center `scalarGL t = t • 1` acts by
+`t² · t⁻² = t⁰ = 1`, so `h_scalar` holds with `n = 0`; `M` is algebraic; and
+the only `ℕ`-valued weight is `(0,0)` (weights `(1,-1),(-1,1)` are not
+expressible in the `ℕ`-indexed `glWeightSpace`), so `h_homog` holds vacuously.
+But the conclusion would force every matrix coefficient to be a homogeneous
+degree-`0` polynomial, a constant, i.e. `M.ρ g = M.ρ 1 = id` for all `g`,
+contradicting that `Sym²V ⊗ det⁻¹` is a nontrivial `3`-dimensional
+representation. The weight spaces do not span (only the `1`-dimensional
+`(0,0)`-space is `ℕ`-indexed), so `h_span` excludes it.
 
-Strategy (now that `h_span` is a hypothesis): each matrix coefficient
+Strategy: each matrix coefficient
 `f_{a,c}(g) = b.repr (M.ρ g (b c)) a` satisfies `f (t • g) = t^n f(g)` by
 `h_scalar` and `M.ρ.map_mul` (since `scalarGL t * g = t • g`). The algebraic-rep
 polynomial `P a c ∈ k[Xᵢⱼ, D]` (`evalAtGL` substitutes `D ↦ det⁻¹`, scaling by
 `t^{-N}` under `g ↦ t • g`). Writing `P a c = Q / det^r` and matching the
 `t`-degree forces `Q` homogeneous of degree `n + N r`; nonnegativity of the
-weights — guaranteed by `h_span`, which is what makes `M` genuinely polynomial —
-forces the minimal `r = 0`, so `f` is a genuine bare-entry polynomial
-homogeneous of degree `n`. Identity over all of `GL` upgrades to a polynomial
-identity by `MvPolynomial.eq_of_eval_eq_on_gl` (cf. `hP_mul_of_hP`). -/
+weights, guaranteed by `h_span`, which is what makes `M` polynomial, forces the
+minimal `r = 0`, so `f` is a bare-entry polynomial homogeneous of degree `n`.
+Identity over all of `GL` upgrades to a polynomial identity by
+`MvPolynomial.eq_of_eval_eq_on_gl` (cf. `hP_mul_of_hP`). -/
 private theorem hpoly'_of_scalarGL_action (n : ℕ)
     [CharZero k] [IsAlgClosed k]
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
@@ -1091,29 +1064,27 @@ private theorem hpoly'_of_scalarGL_action (n : ℕ)
   exact ⟨d, b, Q,
     fun a c => matrixCoeff_isHomogeneous k N n M h_scalar b Q hQ a c, hQ⟩
 
-/-- **Weight-homogeneity kills the `det⁻¹` variable (issue #4598 core).**
+/-- **Weight-homogeneity kills the `det⁻¹` variable.**
 A weight-homogeneous-of-degree-`n` algebraic `GL_N`-representation `M` has its
-matrix coefficients given, in a suitable basis, by **homogeneous degree-`n`
-polynomials in the bare matrix entries** `Fin N × Fin N` — i.e. the raw
+matrix coefficients given, in a suitable basis, by homogeneous degree-`n`
+polynomials in the bare matrix entries `Fin N × Fin N`, i.e. the raw
 `hpoly'` witness consumed by `polynomialRep_embeds_in_tensorPower'`.
 
-This bridges `Etingof.IsAlgebraicRepresentation` (matrix coefficients in
+This passes from `Etingof.IsAlgebraicRepresentation` (matrix coefficients in
 `k[Xᵢⱼ, D]`, `D = det⁻¹`, no homogeneity) to the bare-entry homogeneous data.
 
-**Hypotheses (corrected, issue #4654).** `h_span` — that the `ℕ`-indexed weight
-spaces span `M` — is *essential* and was missing from the original statement.
-Without it the theorem is **false**: `IsAlgebraicRepresentation` allows weights
-in `ℤ^N` (the `det⁻¹` variable), whereas the bare-entry-polynomial conclusion
-needs all weights in `ℕ^N`. Counterexample (`N = 2`, `n = 0`):
+**Hypotheses.** `h_span`, that the `ℕ`-indexed weight spaces span `M`, is
+essential. Without it the theorem is false: `IsAlgebraicRepresentation` allows
+weights in `ℤ^N` (the `det⁻¹` variable), whereas the bare-entry-polynomial
+conclusion needs all weights in `ℕ^N`. Counterexample (`N = 2`, `n = 0`):
 `M = Sym²(V) ⊗ det⁻¹` is algebraic and satisfies `h_homog` vacuously (its only
 `ℕ`-valued weight is `(0,0)`), but its degree-`0` matrix coefficients are not
-constant. `h_span` (equivalently: `M` is a genuinely *polynomial* — not merely
-rational/algebraic — representation) rules such cases out; it holds for Schur
+constant. `h_span` (equivalently: `M` is a polynomial, not merely
+rational/algebraic, representation) rules such cases out; it holds for Schur
 modules by `SchurWeylFormalCharacterIso.glWeightSpace_schurModule_iSup_eq_top`.
 
-Proof strategy (carried out below, assembled from `scalarGL_acts_as_pow` and
-`hpoly'_of_scalarGL_action`; issue #4598 decomposition): evaluate the
-matrix-coefficient identity at the scalar matrix
+Proof strategy (from `scalarGL_acts_as_pow` and `hpoly'_of_scalarGL_action`):
+evaluate the matrix-coefficient identity at the scalar matrix
 `t • 1 = ∏ᵢ diagUnit i t`. By `h_span` the weight spaces span `M`, so
 `M.ρ (t • 1) = t^n • id` (each weight `μ` has `∑ μ = n` by `h_homog`). Hence
 every matrix coefficient `g ↦ b.repr (ρ g (b c)) a` is homogeneous of degree `n`
@@ -1138,17 +1109,16 @@ theorem polynomialRep_homogeneous_hpoly'
                (fun ij : Fin N × Fin N =>
                  (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
                (P a c)) :=
-  -- Assemble Piece 2 (det⁻¹ elimination) over Piece 1 (scalar action).
+  -- Combine the det⁻¹ elimination with the scalar action.
   hpoly'_of_scalarGL_action k N n M halg h_span
     (fun t => scalarGL_acts_as_pow k N n M halg h_span h_homog t)
 
 /-- **A weight-homogeneous-of-degree-`n` algebraic `GL_N`-rep embeds
-`GL_N`-equivariantly into `(V^{⊗n})^m`** (issue #4598, FDRep-facing corollary
-of `polynomialRep_embeds_in_tensorPower'`). The det⁻¹ elimination is supplied
+`GL_N`-equivariantly into `(V^{⊗n})^m`** (FDRep-facing corollary of
+`polynomialRep_embeds_in_tensorPower'`). The det⁻¹ elimination is supplied
 by `polynomialRep_homogeneous_hpoly'`; the equivariant embedding then follows
-from the primed embedding lemma. Downstream: the Schur-Weyl #5 assembly
-(issue #2482) views `(Fin m → TensorPower …)` as the ambient semisimple
-`(V^{⊗n})^m`. -/
+from the primed embedding lemma. Downstream, the Schur-Weyl construction views
+`(Fin m → TensorPower …)` as the ambient semisimple `(V^{⊗n})^m`. -/
 theorem polynomial_homog_rep_equivariant_embedding
     [CharZero k] [IsAlgClosed k]
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))

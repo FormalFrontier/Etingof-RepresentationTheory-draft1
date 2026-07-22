@@ -6,11 +6,10 @@ import EtingofRepresentationTheory.Chapter5.DetInvElim
 /-!
 # The linear-dual half of the `det^s`-twisted contragredient identity
 
-This file lands the **linear-dual half** of the analytic core
+This file proves the linear-dual half of the analytic core
 `exists_common_schurModule_model_detTwist_dual`
-(`Chapter5/ContragredientIdentity.lean`, parent issue #5535): the hard, keystone-
-consuming side identifying the `det^s`-twisted linear dual `L_λ^∨` with a bare Schur
-module.
+(`Chapter5/ContragredientIdentity.lean`): the harder side identifying the
+`det^s`-twisted linear dual `L_λ^∨` with a bare Schur module.
 
 For `GL_n` with dominant weight `λ`, write `λ' := λ.toNatWeight`,
 `σ := schurModuleRep k n λ'`, `m := s + λ.shift`. The linear dual carries the
@@ -25,22 +24,22 @@ Under the largeness hypothesis `hs : ∀ i, λ' i ≤ m` every weight of `M` is 
 weight eigenbasis `v` of `σ`, carrying weight `m·1 - wt c` (the dual negates weights,
 the `det^m` twist shifts them up). The weight bound `wt c i ≤ m` comes from
 `schurPoly_coeff_le` applied to the Schur polynomial. The spanning `ℕ`-weight spaces
-let the GL char→iso keystone `iso_of_formalCharacter_eq_schurPoly`
+let `iso_of_formalCharacter_eq_schurPoly`
 (`SchurWeylFormalCharacterIso.lean`) apply: with formal character
-`schurPoly n (w0ShiftWeight n λ' m)` (`formalCharacter_detTwist_linearDual_eq_schurPoly`,
-issue #5553) and the matching `finrank`, `M` is identified with the bare Schur module
+`schurPoly n (w0ShiftWeight n λ' m)` (`formalCharacter_detTwist_linearDual_eq_schurPoly`)
+and the matching `finrank`, `M` is identified with the bare Schur module
 `L_ν`, `ν = w0ShiftWeight n λ' m`.
 
-The keystone `iso_of_formalCharacter_eq_schurPoly` is fixed at universe `Type`
-(= `Type 0`), so this file is stated at `Type 0` as well, mirroring
+The result `iso_of_formalCharacter_eq_schurPoly` is fixed at universe `Type`
+(= `Type 0`), so this file is stated at `Type 0` as well, matching
 `SchurModuleContragredientHalf.lean`.
 
-The main result is `linearDual_half_detTwist_contragredient`. It consumes the closed
-prerequisites #5552 (dual & det-twist algebraicity, `GLRepAlgebraic`/`DualCharTwist`)
-and #5553 (the det^s-twisted dual character, `LinearDualDetTwistCharacter`). The
-keystone-free Schur-module half is issue #5543
-(`schurModule_half_detTwist_contragredient`). The shared-`ν` reconciliation between
-the two halves belongs to the #5535 assembler.
+The main result is `linearDual_half_detTwist_contragredient`. It uses the
+prerequisites of dual and det-twist algebraicity
+(`GLRepAlgebraic`/`DualCharTwist`) and the `det^s`-twisted dual character
+(`LinearDualDetTwistCharacter`). The Schur-module half is
+`schurModule_half_detTwist_contragredient`. The shared-`ν` reconciliation between
+the two halves belongs to `ContragredientIdentity.lean`.
 -/
 
 noncomputable section
@@ -116,14 +115,14 @@ and `m := s + λ.shift`, under the largeness hypothesis `hs : ∀ i, λ' i ≤ m
 `GL_n`-equivariantly isomorphic to the bare Schur module `L_ν` with
 `ν = w0ShiftWeight n λ' m` (action `schurModuleRep k n ν`).
 
-This is the keystone-consuming half feeding
-`exists_common_schurModule_model_detTwist_dual` (parent issue #5535). The proof applies
-the GL char→iso keystone `iso_of_formalCharacter_eq_schurPoly` to
-`M := FDRep.of (charTwistRep (det^s) ((algIrrepGLRepρ n λ k).dual))`: it is algebraic
-(prereq #5552), its `ℕ`-weight spaces span (a `det^m`-shifted dual weight eigenbasis,
+This is the harder half of
+`exists_common_schurModule_model_detTwist_dual`. The proof applies
+`iso_of_formalCharacter_eq_schurPoly` to
+`M := FDRep.of (charTwistRep (det^s) ((algIrrepGLRepρ n λ k).dual))`: it is algebraic,
+its `ℕ`-weight spaces span (a `det^m`-shifted dual weight eigenbasis,
 nonnegative by `hs`), and its formal character is `schurPoly n ν`
-(`formalCharacter_detTwist_linearDual_eq_schurPoly`, prereq #5553). The keystone-free
-Schur-module half is `schurModule_half_detTwist_contragredient` (issue #5543). -/
+(`formalCharacter_detTwist_linearDual_eq_schurPoly`). The
+Schur-module half is `schurModule_half_detTwist_contragredient`. -/
 theorem linearDual_half_detTwist_contragredient (n : ℕ) (lam : DominantWeight n)
     (k : Type) [Field k] [IsAlgClosed k] [CharZero k] (s : ℕ)
     (hs : ∀ i, lam.toNatWeight i ≤ s + lam.shift) :
@@ -181,8 +180,8 @@ theorem linearDual_half_detTwist_contragredient (n : ℕ) (lam : DominantWeight 
         = ((t : k) ^ (m - wt c i)) • v.dualBasis c := by
     intro c i t
     -- Unfold `M.ρ` to the concrete nested twist phrased through `(SchurModule k n lz).ρ`
-    -- (defeq to `schurModuleRep`, but carrying the *same FDRep instances as `v`*), via
-    -- `show` not `rw`, reconciling the carrier-alias instance paths by defeq (skill #5553).
+    -- (defeq to `schurModuleRep`, but carrying the same FDRep instances as `v`), via
+    -- `show` not `rw`, reconciling the carrier-alias instance paths by defeq.
     -- Then ordinary same-carrier rewrites collapse the twists.
     change (charTwistRep (detChar k n ^ s)
         (Representation.dual (charTwistRep (detChar k n ^ (-(lam.shift : ℤ)))
@@ -213,7 +212,7 @@ theorem linearDual_half_detTwist_contragredient (n : ℕ) (lam : DominantWeight 
     rw [dual_charTwistRep, charTwistRep_charTwistRep, detChar_pow_mul_inv_neg_zpow]
     exact isAlgebraic_charTwist_detChar_natPow n m _
       (IsAlgebraicRepresentation.dual (schurModuleRep k n lz) hσalg)
-  -- Formal character of `M` is `schurPoly n ν` (prereq #5553).
+  -- Formal character of `M` is `schurPoly n ν`.
   have h_char : formalCharacter k n M = schurPoly n ν := by
     rw [hM_def]
     exact formalCharacter_detTwist_linearDual_eq_schurPoly n lam k s hs

@@ -6,14 +6,14 @@ import EtingofRepresentationTheory.Chapter5.SchurModuleSpecialBlock
 import EtingofRepresentationTheory.Chapter5.PrimitiveIdempotentSimplicity
 
 /-!
-# Theorem 5.22.1 (Schur-Weyl L_i, part C-4c): the Schur module is a simple GL_N-rep.
+# Theorem 5.22.1: the Schur module is a simple `GL_N`-representation
 
-Final assembly step combining the algebraic core
-`schurModuleSubmodule_isSimple_centralizer` (the C-4a aggregation, proved over `ℂ`)
-with the GL_N transfer `isSimpleModule_monoidAlgebra_GL_of_centralizer_simple`
-(C-4b, in `SchurWeylGLTransfer.lean`).
+Combines the algebraic core
+`schurModuleSubmodule_isSimple_centralizer` (proved over `ℂ`)
+with the `GL_N` transfer `isSimpleModule_monoidAlgebra_GL_of_centralizer_simple`
+(in `SchurWeylGLTransfer.lean`).
 
-The deliverable is `schurModule_isSimple`: simplicity of `SchurModule k N λ` as a
+The main result is `schurModule_isSimple`: simplicity of `SchurModule k N λ` as a
 `MonoidAlgebra k GL_N(k)`-module.
 -/
 
@@ -118,18 +118,18 @@ instance schurModuleSubmodule_diagonalActionImage_isScalarTower
     change (c • b.val) v.val = c • b.val v.val
     rfl
 
-/-! ## C-4a aggregation
+/-! ## The algebraic core
 
-`schurModuleSubmodule_isSimple_centralizer` aggregates the C-4a sub-pieces over `ℂ`:
-* sub-α: bimodule decomposition `Theorem5_18_4_bimodule_decomposition_explicit`;
-* sub-A (#4634): `exists_unique_special_block` — the unique block labelled
+`schurModuleSubmodule_isSimple_centralizer` aggregates the following pieces over `ℂ`:
+* the bimodule decomposition `Theorem5_18_4_bimodule_decomposition_explicit`;
+* the unique special block `exists_unique_special_block`, labelled
   `weightToPartition N lam`;
-* sub-β: off-block vanishing (`youngSym_action_vanishes_off_block`);
-* sub-γ: rank-1 scaled projection (`youngSym_action_on_special_block_rank_one_scaled_proj`);
-* C-4a-ii: `image_of_primitive_idempotent_isSimple_centralizer`.
+* off-block vanishing (`youngSym_action_vanishes_off_block`);
+* the rank-1 scaled projection (`youngSym_action_on_special_block_rank_one_scaled_proj`);
+* `image_of_primitive_idempotent_isSimple_centralizer`.
 
 The two substantial steps are factored as `schurBlock_imageSubmoduleB_isSimple`
-(the interface application, simplicity of `imageSubmoduleB c` over the centralizer)
+(simplicity of `imageSubmoduleB c` over the centralizer)
 and the transfer to `diagonalActionImage`/`SchurModuleSubmodule`. -/
 
 section CAggregation
@@ -158,12 +158,12 @@ private lemma youngSymEndo_mem_restrictScalars
 
 set_option maxHeartbeats 6400000 in
 set_option synthInstance.maxHeartbeats 3200000 in
-/-- **Schur-Weyl L_i, C-4a interface step.** The image of the Young symmetrizer
-`c = youngSymElement ℂ N lam`, packaged as `imageSubmoduleB c`, is simple as a
-module over `centralizer(symGroupImage)`. This is the application of
+/-- **Simplicity of the Young-symmetrizer image over the centralizer.** The image of
+the Young symmetrizer `c = youngSymElement ℂ N lam`, packaged as `imageSubmoduleB c`,
+is simple as a module over `centralizer(symGroupImage)`. This applies
 `image_of_primitive_idempotent_isSimple_centralizer` to the explicit Schur-Weyl
-bimodule decomposition, feeding it off-block vanishing (sub-β) and the rank-1
-scaled projection on the special block (sub-γ). -/
+bimodule decomposition, using off-block vanishing and the rank-1
+scaled projection on the special block. -/
 private theorem schurBlock_imageSubmoduleB_isSimple
     (hlam : Antitone lam) (_hN : (∑ i, lam i) ≤ N) :
     IsSimpleModule
@@ -172,13 +172,13 @@ private theorem schurBlock_imageSubmoduleB_isSimple
           Set (Module.End ℂ (TensorPower ℂ (Fin N → ℂ) (∑ i, lam i))))))
       ↥(imageSubmoduleB (youngSymElement ℂ N lam)) := by
   classical
-  -- sub-α: explicit bimodule decomposition.
+  -- Explicit bimodule decomposition.
   obtain ⟨ι, _, _, S, hSimp, hDist, hSfin, _hLsimp, e, he⟩ :=
     Theorem5_18_4_bimodule_decomposition_explicit
       (k := ℂ) (V := Fin N → ℂ) (n := ∑ i, lam i)
   haveI : IsSemisimpleModule (symGroupImage ℂ (Fin N → ℂ) (∑ i, lam i))
       (TensorPower ℂ (Fin N → ℂ) (∑ i, lam i)) := IsSemisimpleRing.isSemisimpleModule
-  -- sub-A (#4634): the unique special block.
+  -- The unique special block.
   obtain ⟨iLam, hLabel_iLam, hLabel_other⟩ :=
     exists_unique_special_block N lam hlam S hSimp hDist hSfin e he
   -- The scalar `α` with `c² = α • c` (directly over ℂ); nonvanishing is deferred
@@ -195,7 +195,7 @@ private theorem schurBlock_imageSubmoduleB_isSimple
     (youngSymEndomorphism ℂ N lam).restrict
       (p := (S i).restrictScalars ℂ) (q := (S i).restrictScalars ℂ)
       (youngSymEndo_mem_restrictScalars N lam (S i))
-  -- Block factorization (sub-(1)).
+  -- Block factorization.
   have hf_block : ∀ (i : ι) (v : ↥(S i))
       (l : ↥(S i) →ₗ[symGroupImage ℂ (Fin N → ℂ) (∑ i, lam i)]
         TensorPower ℂ (Fin N → ℂ) (∑ i, lam i)),
@@ -203,13 +203,13 @@ private theorem schurBlock_imageSubmoduleB_isSimple
         DirectSum.of _ i (f i v ⊗ₜ[ℂ] l) := by
     intro i v l
     exact youngSym_block_factorization ℂ N lam S e he i v l
-  -- sub-β: off blocks vanish.
+  -- Off blocks vanish.
   have hf_zero : ∀ i, i ≠ iLam → f i = 0 := by
     intro i hi
     obtain ⟨la', hla'_ne, hla'_trace⟩ := hLabel_other i hi
     haveI : Module.Finite ℂ ↥((S i).restrictScalars ℂ) := hSfin i
     exact youngSym_action_vanishes_off_block N lam (S i) la' hla'_trace hla'_ne
-  -- sub-γ: rank-1 scaled projection on the special block.
+  -- Rank-1 scaled projection on the special block.
   haveI : Module.Finite ℂ ↥((S iLam).restrictScalars ℂ) := hSfin iLam
   obtain ⟨α', π', hα'_ne, hπ'_idem, hπ'_rank, hf_eq_raw⟩ :=
     youngSym_action_on_special_block_rank_one_scaled_proj N lam (S iLam) hLabel_iLam
@@ -239,14 +239,14 @@ end CAggregation
 
 set_option maxHeartbeats 1600000 in
 set_option synthInstance.maxHeartbeats 800000 in
-/-- **Schur-Weyl L_i, part C-4a (aggregated, over ℂ).**
+/-- **Simplicity of the Schur module submodule over the centralizer (over `ℂ`).**
 
 The Schur module submodule `SchurModuleSubmodule ℂ N λ`, viewed as a
 `diagonalActionImage ℂ V n`-module via the canonical action above, is simple.
 
 Equivalently, by `Theorem5_18_4_centralizers` (which requires `n ≤ N`),
 it is simple as a `centralizer(symGroupImage)`-module. The proof aggregates
-the pieces `sub-α`, `sub-A`, `sub-β`, `sub-γ`, `C-4a-ii` of the C-4a programme via
+the pieces above via
 `image_of_primitive_idempotent_isSimple_centralizer`
 (`PrimitiveIdempotentSimplicity.lean`) in `schurBlock_imageSubmoduleB_isSimple`,
 then transfers along the centralizer equality `diagonalActionImage = centralizer`
@@ -300,14 +300,14 @@ theorem schurModuleSubmodule_isSimple_centralizer
   have hso2 := (Submodule.orderIsoMapComap e).isSimpleOrder_iff.mpr hso1
   exact { toIsSimpleOrder := hso2 }
 
-/-! ## Final assembly: `schurModule_isSimple` -/
+/-! ## The theorem `schurModule_isSimple` -/
 
-/-- **Theorem 5.22.1 (Schur-Weyl L_i, part C-4c):** The Schur module
+/-- **Theorem 5.22.1.** The Schur module
 `SchurModule k N λ` is simple as a `GL_N(k)`-representation.
 
-Combines the algebraic core `schurModuleSubmodule_isSimple_centralizer` (C-4a)
-with the GL_N transfer `isSimpleModule_monoidAlgebra_GL_of_centralizer_simple`
-(C-4b in `SchurWeylGLTransfer.lean`): the canonical
+Combines the algebraic core `schurModuleSubmodule_isSimple_centralizer`
+with the `GL_N` transfer `isSimpleModule_monoidAlgebra_GL_of_centralizer_simple`
+(in `SchurWeylGLTransfer.lean`): the canonical
 `diagonalActionImage`-module structure on `SchurModuleSubmodule` makes the
 GL-action factor as `g • v ↦ ⟨g^⊗n, _⟩ • v`, so `diagonalActionImage`-simplicity
 transfers to `MonoidAlgebra k GL_N`-simplicity. -/
@@ -328,14 +328,14 @@ theorem schurModule_isSimple
   apply Subtype.ext
   rfl
 
-/-! ## General-`k` track (issue #4946)
+/-! ## General-`k` version
 
-The ℂ assembly above is mirrored over a general algebraically-closed
+The ℂ argument above is mirrored over a general algebraically-closed
 characteristic-zero field `k`, using the general-`k` special-block inputs
 (`exists_unique_special_block_general`, `youngSym_action_vanishes_off_block_general`,
-`youngSym_action_on_special_block_rank_one_scaled_proj_general`) that have since
-landed. The `hN : (∑ i, lam i) ≤ N` hypothesis carried by the ℂ statements is
-**not** required here: `Theorem5_18_4_centralizers` needs only `[CharZero k]`, and
+`youngSym_action_on_special_block_rank_one_scaled_proj_general`). The
+`hN : (∑ i, lam i) ≤ N` hypothesis carried by the ℂ statements is
+not required here: `Theorem5_18_4_centralizers` needs only `[CharZero k]`, and
 `exists_unique_special_block_general` has no degree guard, so the simplicity
 argument goes through unconditionally.
 
@@ -351,7 +351,7 @@ set_option synthInstance.maxHeartbeats 3200000 in
 /-- **General-`k` analogue of `schurBlock_imageSubmoduleB_isSimple`.** The image of
 the Young symmetrizer `c = youngSymElement k N lam`, packaged as `imageSubmoduleB c`,
 is simple as a module over `centralizer(symGroupImage)`. Same proof as the ℂ version,
-driven by the general-`k` special-block lemmas; no `hN` degree guard is needed. -/
+using the general-`k` special-block lemmas; no `hN` degree guard is needed. -/
 theorem schurBlock_imageSubmoduleB_isSimple_general {k : Type} [Field k] [IsAlgClosed k]
     [CharZero k] (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
     IsSimpleModule
@@ -360,13 +360,13 @@ theorem schurBlock_imageSubmoduleB_isSimple_general {k : Type} [Field k] [IsAlgC
           Set (Module.End k (TensorPower k (Fin N → k) (∑ i, lam i))))))
       ↥(imageSubmoduleB (youngSymElement k N lam)) := by
   classical
-  -- sub-α: explicit bimodule decomposition.
+  -- Explicit bimodule decomposition.
   obtain ⟨ι, _, _, S, hSimp, hDist, hSfin, _hLsimp, e, he⟩ :=
     Theorem5_18_4_bimodule_decomposition_explicit
       (k := k) (V := Fin N → k) (n := ∑ i, lam i)
   haveI : IsSemisimpleModule (symGroupImage k (Fin N → k) (∑ i, lam i))
       (TensorPower k (Fin N → k) (∑ i, lam i)) := IsSemisimpleRing.isSemisimpleModule
-  -- sub-A: the unique special block (general `k`).
+  -- The unique special block (general `k`).
   obtain ⟨iLam, hLabel_iLam, hLabel_other⟩ :=
     exists_unique_special_block_general N lam hlam S hSimp hDist hSfin e he
   -- The scalar `α` with `c² = α • c`.
@@ -382,7 +382,7 @@ theorem schurBlock_imageSubmoduleB_isSimple_general {k : Type} [Field k] [IsAlgC
     (youngSymEndomorphism k N lam).restrict
       (p := (S i).restrictScalars k) (q := (S i).restrictScalars k)
       (fun _ hv => (S i).smul_mem (youngSymElement k N lam) hv)
-  -- Block factorization (sub-(1)).
+  -- Block factorization.
   have hf_block : ∀ (i : ι) (v : ↥(S i))
       (l : ↥(S i) →ₗ[symGroupImage k (Fin N → k) (∑ i, lam i)]
         TensorPower k (Fin N → k) (∑ i, lam i)),
@@ -390,13 +390,13 @@ theorem schurBlock_imageSubmoduleB_isSimple_general {k : Type} [Field k] [IsAlgC
         DirectSum.of _ i (f i v ⊗ₜ[k] l) := by
     intro i v l
     exact youngSym_block_factorization k N lam S e he i v l
-  -- sub-β: off blocks vanish.
+  -- Off blocks vanish.
   have hf_zero : ∀ i, i ≠ iLam → f i = 0 := by
     intro i hi
     obtain ⟨la', hla'_ne, hla'_trace⟩ := hLabel_other i hi
     haveI : Module.Finite k ↥((S i).restrictScalars k) := hSfin i
     exact youngSym_action_vanishes_off_block_general N lam (S i) la' hla'_trace hla'_ne
-  -- sub-γ: rank-1 scaled projection on the special block.
+  -- Rank-1 scaled projection on the special block.
   haveI : Module.Finite k ↥((S iLam).restrictScalars k) := hSfin iLam
   obtain ⟨α', π', hα'_ne, hπ'_idem, hπ'_rank, hf_eq_raw⟩ :=
     youngSym_action_on_special_block_rank_one_scaled_proj_general N lam (S iLam) hLabel_iLam

@@ -24,8 +24,7 @@ list above.)
 ## Formalization
 
 `SO(3)` is `Matrix.specialOrthogonalGroup (Fin 3) ℝ` and `SU(2)` is
-`Matrix.specialUnitaryGroup (Fin 2) ℂ`. Both parts are formalized with faithful signatures and
-proved sorry-free:
+`Matrix.specialUnitaryGroup (Fin 2) ℂ`. Both parts are formalized with faithful signatures:
 
 * **(a)** `so3_finite_subgroup_classification`: every finite subgroup `G ≤ SO(3)` is either
   cyclic, dihedral (`≃* DihedralGroup n`), or isomorphic to `A₄ = alternatingGroup (Fin 4)`,
@@ -44,22 +43,21 @@ open Matrix
 namespace Etingof.Problem4_12_8
 
 /-!
-## Part (a): the pole-counting route, decomposed
+## Part (a): the pole-counting argument, decomposed
 
 The classification of finite subgroups of `SO(3)` is a large formalization with no direct
 support in Mathlib (there is no eigenvalue-`1`/rotation-axis theorem for `SO(3)`, no
 `MulAction` of the special orthogonal group on vectors, and none of the five `MulEquiv`
 targets is produced by existing API). Following the book's hint, the argument splits into
 three reusable milestones plus a case analysis. Each milestone has a faithful, self-contained
-signature and is proved sorry-free; the final assembly `so3_finite_subgroup_classification`
-combines them.
+signature; the final theorem `so3_finite_subgroup_classification` combines them.
 
 Vectors are modelled as `Fin 3 → ℝ` with the matrix action `M *ᵥ v` (`Matrix.mulVec`); a
 group element `g` acts through its underlying matrix `(g : Matrix (Fin 3) (Fin 3) ℝ)`.
 -/
 
 /-- **Milestone (i): rotation axis / eigenvalue `1`.** Every element of `SO(3)` fixes a nonzero
-vector — its axis of rotation, i.e. `1` is an eigenvalue of `g`. This is the geometric input
+vector, its axis of rotation, i.e. `1` is an eigenvalue of `g`. This is the geometric input
 that produces the *poles*: the unit vectors fixed by some nontrivial element.
 
 The proof is the elementary `det(g - 1) = 0` computation, needing no eigenvalue theory: from
@@ -100,7 +98,7 @@ theorem exists_fixed_vector (g : specialOrthogonalGroup (Fin 3) ℝ) (_hg : g �
 
 We realise a finite subgroup `H ≤ SO(3)` fixing a common nonzero vector `v` as a finite
 subgroup of `Circle` (unit complex numbers), then conclude cyclicity from
-`isCyclic_of_injective_ringHom`. The bridge is geometric: every `g ∈ H` acts on
+`isCyclic_of_injective_ringHom`. The connection is geometric: every `g ∈ H` acts on
 `E = EuclideanSpace ℝ (Fin 3)` as an isometry fixing `v`, hence preserving the plane
 `W = (ℝ ∙ v)ᗮ`, on which it is a rotation. Sending `g` to the oriented rotation angle (as a
 point of `Circle`) is an injective group homomorphism.
@@ -368,8 +366,8 @@ end CommonAxis
 
 Following the book's hint we let `SO(3)` act on the unit sphere and record the *poles*: unit
 vectors fixed by a nontrivial group element. The action, the pole predicate and the pole set
-are genuine data; the geometric facts that a nontrivial element fixes exactly an antipodal
-pair (hence the pole set of a finite group is finite) are proved below.
+are defined below as data; the geometric facts that a nontrivial element fixes exactly an antipodal
+pair (hence the pole set of a finite group is finite) are then proved.
 -/
 
 /-- Orthogonal matrices of `SO(3)` preserve the dot product:
@@ -704,7 +702,7 @@ theorem pole_order_diophantine (n : ℕ) (hn : 2 ≤ n) (m : Multiset ℕ)
     rw [hN]
     have : (n : ℚ)⁻¹ ≤ (2 : ℚ)⁻¹ := inv_anti₀ (by norm_num) hnQ
     simpa using this
-  -- The summand elaborates over `m` coerced to `Multiset ℚ`; bridge it to `m.map f`.
+  -- The summand elaborates over `m` coerced to `Multiset ℚ`; rewrite it as `m.map f`.
   simp only [bind_pure_comp, Multiset.fmap_def, Multiset.map_map, Function.comp_def] at heq
   -- The sum equals `2 - 2N`, and lies in `[1, 2)`.
   have hS : (m.map f).sum = 2 - 2 * N := by rw [hf, ← heq]; ring
@@ -942,7 +940,7 @@ theorem pole_order_data (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Fin
     have h := Subgroup.card_subgroup_dvd_card (stabilizer ↥G ω.out)
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card] at h
     exact h
-  -- Each stabilizer order is at least `2`: the orbit representative is a genuine pole.
+  -- Each stabilizer order is at least `2`: the orbit representative is a pole.
   have hm2 : ∀ ω : Ω, 2 ≤ mω ω := by
     intro ω
     show 2 ≤ Fintype.card ↥(stabilizer ↥G ω.out)
@@ -1128,8 +1126,8 @@ principal axis (a generator of the order-`k` pole stabilizer), and an order-`2` 
 (a `π`-rotation swapping the two principal poles) that inverts `ρ`, with `s` not itself a
 rotation about the principal axis (`s ∉ ⟨ρ⟩`). These relations determine `G ≃* DihedralGroup k`.
 
-The lemma is pure group theory — it takes the generators and their relations as hypotheses,
-so the geometric extraction of `ρ` and `s` from the pole data can feed it separately. -/
+The lemma is pure group theory: it takes the generators and their relations as hypotheses,
+so the geometric extraction of `ρ` and `s` from the pole data can be supplied to it separately. -/
 theorem mulEquiv_dihedralGroup_of_conj_inv
     {G : Type*} [Group G] [Finite G] (k : ℕ) [NeZero k]
     (ρ s : G) (hρ : orderOf ρ = k) (hs : orderOf s = 2)
@@ -1218,7 +1216,7 @@ theorem mulEquiv_dihedralGroup_of_conj_inv
   exact ⟨(MulEquiv.ofBijective φ
     ((Fintype.bijective_iff_injective_and_card φ).mpr ⟨hinj, hcardeq⟩)).symm⟩
 
-/-- **Cyclic disjunct — geometric bridge.** A finite `G ≤ SO(3)` possessing a pole `b` fixed by
+/-- **Cyclic disjunct, globally fixed pole.** A finite `G ≤ SO(3)` possessing a pole `b` fixed by
 *every* element of `G` is cyclic: all of `G` then shares the common axis `ℝ·b.1`, so
 `isCyclic_of_common_fixed_vector` applies. This is the content of the `{n, n}` (cyclic) family of
 `so3_classification_aux`, once the family is shown to contain a `G`-fixed pole. -/
@@ -1233,7 +1231,7 @@ theorem so3_cyclic_of_globally_fixed_pole
   have hg := congrArg (fun P : ↥(poleSet G) => (P : Fin 3 → ℝ)) (hb g)
   rwa [poleSet_coe_smul] at hg
 
-/-- **Cyclic disjunct — full-stabilizer extraction.** If some pole `b` has stabilizer of order the
+/-- **Cyclic disjunct, full-stabilizer extraction.** If some pole `b` has stabilizer of order the
 full group order `Nat.card G`, then that stabilizer is all of `G`, so `b` is fixed by every element
 of `G` and `so3_cyclic_of_globally_fixed_pole` gives `IsCyclic G`. In the `{n, n}` pole family the
 two principal poles are exactly such fixed poles (orbit size `1`, stabilizer order `n`). -/
@@ -1446,18 +1444,18 @@ private lemma so3_conj_of_swap (g ρ : specialOrthogonalGroup (Fin 3) ℝ)
 
 end DihedralGeom
 
-/-- **Dihedral disjunct — geometric crux (the pole-swap involution).** In the `{2, 2, k}` family,
+/-- **Dihedral disjunct: the pole-swap involution.** In the `{2, 2, k}` family,
 `G` has order `2k`, a principal pole `b` whose stabilizer is cyclic of order `k` (generated by a
 rotation `ρ` about the axis `ℝ·b`, `ρ • b = b`), and the principal poles `±b` form a single
 `G`-orbit of size `oᵦ = n / k = 2`. Hence some element of `G` moves `b` to its antipode `-b`; a
-`π`-rotation about an equatorial axis realises this as an **order-`2`** element `s` with
+`π`-rotation about an equatorial axis realises this as an order-`2` element `s` with
 `s • b = -b`. Conjugating the principal-axis rotation `ρ` by `s` reverses the orientation of the
 axis (`s` sends `ℝ·b` to `ℝ·(-b)`, negating the plane orientation), so `s * ρ * s⁻¹ = ρ⁻¹`.
 
-This is the hard geometric extraction (`s` existence + order `2` + the conjugation-inversion
-relation) feeding the algebraic core `mulEquiv_dihedralGroup_of_conj_inv`. It is proved sorry-free
-with a faithful signature; `so3_dihedral_of_poleData` consumes it and supplies the remaining
-(purely group-theoretic) `hsnotin` and assembly. -/
+This is the geometric extraction (`s` existence, order `2`, and the conjugation-inversion
+relation) supplying the algebraic core `mulEquiv_dihedralGroup_of_conj_inv`. It has a faithful
+signature; `so3_dihedral_of_poleData` uses it and supplies the remaining
+(purely group-theoretic) `hsnotin` and the final construction. -/
 theorem exists_dihedral_swap
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (k : ℕ) (hk : 2 ≤ k)
     (hcard : Nat.card (↥G) = 2 * k)
@@ -1565,8 +1563,8 @@ theorem exists_dihedral_swap
 (`n = Nat.card G = 2k`, `k ≥ 2`) together with the pole-realization data of `pole_order_data`,
 produce `G ≃* DihedralGroup k`. The principal pole `b` (stabilizer order `k`) yields, via
 `isCyclic_stabilizer_pole`, a rotation `ρ` of order `k` generating the axis stabilizer; the
-geometric crux `exists_dihedral_swap` supplies the order-`2` pole-swap `s` inverting `ρ`; and
-`s ∉ ⟨ρ⟩` follows because every power of `ρ` fixes `b` while `s` sends `b` to `-b`. Feeding
+geometric input `exists_dihedral_swap` supplies the order-`2` pole-swap `s` inverting `ρ`; and
+`s ∉ ⟨ρ⟩` follows because every power of `ρ` fixes `b` while `s` sends `b` to `-b`. Passing
 `(ρ, s)` and their relations to `mulEquiv_dihedralGroup_of_conj_inv` closes the disjunct. -/
 theorem so3_dihedral_of_poleData
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (k : ℕ) (hk : 2 ≤ k)
@@ -1591,7 +1589,7 @@ theorem so3_dihedral_of_poleData
       (Subgroup.subtype_injective _) ρ', hρ'ord]
   have hρmem : ρ ∈ MulAction.stabilizer (↥G) b := ρ'.2
   have hρfix : ρ • b = b := MulAction.mem_stabilizer_iff.mp hρmem
-  -- Geometric crux: the order-`2` pole-swap `s` inverting `ρ`.
+  -- Geometric input: the order-`2` pole-swap `s` inverting `ρ`.
   obtain ⟨s, hsord, hsswap, hconj⟩ :=
     exists_dihedral_swap G k hk hcard b hbcard ρ hρord hρfix
   -- `s ∉ ⟨ρ⟩`: every element of `⟨ρ⟩` fixes `b`, but `s` sends `b` to `-b ≠ b`.
@@ -1608,7 +1606,7 @@ theorem so3_dihedral_of_poleData
         = -((b : ↥(poleSet G)).1 ⬝ᵥ (b : ↥(poleSet G)).1) := by
       nth_rewrite 1 [hbb]; rw [neg_dotProduct]
     rw [hb1] at hd; norm_num at hd
-  -- Feed the generators and relations to the algebraic core.
+  -- Pass the generators and relations to the algebraic core.
   exact mulEquiv_dihedralGroup_of_conj_inv k ρ s hρord hsord hconj hsnotin hcard
 
 /-- **Tetrahedral disjunct of `so3_classification_aux`.** From the tetrahedral pole family
@@ -1618,7 +1616,7 @@ poles (the vertices of the tetrahedron); the action lands in `A₄` and is an is
 cardinality argument (`|G| = 12 = |A₄|`). `m`, `heq`, and `hpole` are supplied verbatim by
 `pole_order_data`.
 
-The four-pole action and its faithfulness are proved sorry-free below. -/
+The four-pole action and its faithfulness are proved below. -/
 theorem so3_tetrahedral_of_poleData
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
     (hclass : m = {2, 3, 3})
@@ -1723,7 +1721,7 @@ theorem so3_tetrahedral_of_poleData
 `G ≤ SO(3)` of order `24` and an order-`3` pole `b` (`|stabilizer G b| = 3`), the antipode `-b`
 is again an order-`3` pole and belongs to the `G`-orbit of `b`.
 
-Route (Sylow `n₃ = 4`): `|G| = 24 = 2³·3`, so a Sylow-`3` subgroup has order `3`, index `8`, and
+Proof (Sylow `n₃ = 4`): `|G| = 24 = 2³·3`, so a Sylow-`3` subgroup has order `3`, index `8`, and
 `n₃ := |Sylow₃ G|` satisfies `n₃ ∣ 8` and `n₃ ≡ 1 [MOD 3]`, hence `n₃ ≤ 4`. Each order-`3` pole
 `v` has cyclic stabilizer of order `3`, a Sylow-`3`; the fibre of `v ↦ stabilizer v` over a fixed
 Sylow-`3` has `≤ 2` elements (a nontrivial rotation fixes only `{u, -u}`,
@@ -1731,8 +1729,8 @@ Sylow-`3` has `≤ 2` elements (a nontrivial rotation fixes only `{u, -u}`,
 orbit of `b` has `|orbit b| = 24 / 3 = 8` and is contained in `P₃`, forcing `orbit b = P₃`. Since
 `-b ∈ P₃`, we get `-b ∈ orbit b`.
 
-This is the antipode-closure helper feeding the faithful four-diagonal action of
-`exists_octahedral_faithful_hom` (parent #6972). -/
+This is the antipode-closure helper used by the faithful four-diagonal action of
+`exists_octahedral_faithful_hom`. -/
 theorem octahedral_order3_pole_neg_mem_orbit
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G]
     (hcard : Nat.card (↥G) = 24)
@@ -1892,14 +1890,14 @@ open scoped RealInnerProductSpace
 open Matrix EuclideanSpace Submodule WithLp Module MulAction
 
 set_option maxHeartbeats 400000 in
-/-- **Kernel triviality for the four-diagonal action (octahedral crux, geometric core).**
+/-- **Kernel triviality for the four-diagonal action (octahedral, geometric core).**
 Any `g ∈ G` (with `|G| = 24`, `b` an order-`3` pole) that sends every pole `w` in the orbit
-`O = orbit b` to `±w` — i.e. fixes every body diagonal setwise — is the identity. This is the
+`O = orbit b` to `±w` (i.e. fixes every body diagonal setwise) is the identity. This is the
 kernel-triviality that makes the action of `G` on the four body diagonals faithful.
 
-Route: `g` sends each `w ∈ O` to `±w`, so `g²` fixes all `8` unit vectors of `O`; since a
+Proof: `g` sends each `w ∈ O` to `±w`, so `g²` fixes all `8` unit vectors of `O`; since a
 nontrivial rotation fixes only an antipodal pair, `g² = 1`. If `g ≠ 1` it has order `2`; it
-cannot fix any `w ∈ O` (its stabilizer is cyclic of order `3`), so `g` negates *every* `w ∈ O`.
+cannot fix any `w ∈ O` (its stabilizer is cyclic of order `3`), so `g` negates every `w ∈ O`.
 Then the axis `n` of `g` is orthogonal to all of `O`; an order-`3` generator `r` of
 `stabilizer b` permutes `O`, so `r • n` is also orthogonal to all of `O`, and since `O` spans
 the plane `nᗮ` this forces `r • n = n`. But then `r` fixes the two orthogonal unit vectors `b.1`
@@ -1999,7 +1997,7 @@ theorem octahedral_kernel_negates_or_fixes_trivial
     rcases (Nat.dvd_prime Nat.prime_two).mp hdvd with h | h
     · rw [orderOf_eq_one_iff] at h; exact absurd h hgne
     · exact h
-  -- **Step 2-3.** `g` negates *every* orbit vector: it cannot fix one (its stabilizer is cyclic of
+  -- **Step 2-3.** `g` negates every orbit vector: it cannot fix one (its stabilizer is cyclic of
   -- order `3`, with no order-`2` element).
   have hneg : ∀ w : ↥(MulAction.orbit ↥G b),
       ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ w.1.1 = -(w.1.1) := by
@@ -2205,7 +2203,7 @@ theorem octahedral_kernel_negates_or_fixes_trivial
           _ = -(n ⬝ᵥ n) := neg_dotProduct _ _
           _ = -1 := by rw [hnunit]
       norm_num at hcontra
-  -- **Step 7.** `r` fixes the two orthogonal unit vectors `b.1` and `n` — impossible.
+  -- **Step 7.** `r` fixes the two orthogonal unit vectors `b.1` and `n`, which is impossible.
   have hrso : ((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) ≠ 1 := by
     intro h
     exact hrne (Subtype.ext (h.trans (OneMemClass.coe_one G).symm))
@@ -2225,16 +2223,16 @@ theorem octahedral_kernel_negates_or_fixes_trivial
 
 end OctahedralFaithful
 
--- The assembly builds a custom `MulAction` on the antipodal quotient and transports it to
+-- The construction builds a custom `MulAction` on the antipodal quotient and transports it to
 -- `Equiv.Perm (Fin 4)`; the quotient/fibre cardinality reasoning needs a raised heartbeat budget.
 set_option maxHeartbeats 800000 in
-/-- **Faithful octahedral action on the four body diagonals (crux).** For the octahedral pole
+/-- **Faithful octahedral action on the four body diagonals.** For the octahedral pole
 family `m = {2, 3, 4}` with `|G| = 24`, `G` acts faithfully on a four-element set, giving an
 injective `φ : G →* S₄`. Combined with `|G| = 24 = |S₄|` in `so3_octahedral_of_poleData`, this
 yields `G ≃* S₄`.
 
-The four-element set is the set of four *body diagonals* of the cube — equivalently, the four
-antipodal pairs of the eight order-`3` poles (the cube vertices). Route:
+The four-element set is the set of four *body diagonals* of the cube, equivalently, the four
+antipodal pairs of the eight order-`3` poles (the cube vertices). The argument:
 
 1. **Order-`3` orbit.** From `hpole 3` obtain an order-`3` pole `b` (`|stabilizer G b| = 3`), whose
    `G`-orbit `O` has `|O| = 24 / 3 = 8` by orbit-stabilizer.
@@ -2247,17 +2245,16 @@ antipodal pairs of the eight order-`3` poles (the cube vertices). Route:
    setwise, so `g • w = ±w` for every order-`3` pole `w`. Then `g²` fixes all `8` poles (`> 2` unit
    vectors), so `g² = 1` (`nontrivial_fixed_unit_vectors`); hence `ord g = 2`. If `g • w = w` then
    `g ∈ stabilizer G w` (cyclic of order `3` by `isCyclic_stabilizer_pole`), impossible for an
-   order-`2` element; so `g • w = -w` for *all* order-`3` poles. Hence all order-`3` poles lie in
+   order-`2` element; so `g • w = -w` for all order-`3` poles. Hence all order-`3` poles lie in
    the `(-1)`-eigenplane of `g` (they are coplanar). Their span is `G`-invariant (single orbit), so
    the normal line `n = P^⊥` is `G`-invariant; the index-`≤ 2` subgroup `G₀` fixing `n` is cyclic
    (`isCyclic_of_common_fixed_vector`) of order `≥ 12`, forcing a pole `n̂` of stabilizer order
-   `≥ 12` — contradicting the maximal pole order `4` in the family `{2, 3, 4}`.
+   `≥ 12`, contradicting the maximal pole order `4` in the family `{2, 3, 4}`.
 
 Faithfulness of the four-diagonal action is `octahedral_kernel_negates_or_fixes_trivial` (step 4);
-antipode-closure of the orbit is `octahedral_order3_pole_neg_mem_orbit` (step 2). This assembly
+antipode-closure of the orbit is `octahedral_order3_pole_neg_mem_orbit` (step 2). This construction
 builds the antipodal quotient `D`, its `MulAction ↥G D`, proves `|D| = 4` by fibre counting, and
-transports the faithful action to `Equiv.Perm (Fin 4)` — completing the octahedral disjunct
-sorry-free. -/
+transports the faithful action to `Equiv.Perm (Fin 4)`, completing the octahedral disjunct. -/
 theorem exists_octahedral_faithful_hom
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
     (hclass : m = {2, 3, 4})
@@ -2380,7 +2377,7 @@ theorem exists_octahedral_faithful_hom
     rw [Finset.sum_const, Finset.card_univ, smul_eq_mul]
   rw [horbit_card] at hkey
   have hfin4 : Fintype.card (Quotient S) = 4 := by omega
-  -- **Step 5.** The action on `D` is faithful (kernel triviality is the geometric crux helper).
+  -- **Step 5.** The action on `D` is faithful (kernel triviality is the geometric core helper).
   have hinj : Function.Injective (MulAction.toPermHom ↥G (Quotient S)) := by
     rw [injective_iff_map_eq_one]
     intro g hg
@@ -2424,7 +2421,7 @@ theorem so3_octahedral_of_poleData
       field_simp [hne] at heq
       linarith
     exact_mod_cast hq
-  -- **Step 2.** The faithful action on the four body diagonals (the crux; see the helper).
+  -- **Step 2.** The faithful action on the four body diagonals (the geometric core; see the helper).
   obtain ⟨φ, hφinj⟩ := exists_octahedral_faithful_hom G m hclass hcard hpole
   -- **Step 3.** An injective `G →* S₄` with `|G| = 24 = |S₄|` is bijective, hence an isomorphism.
   haveI : Fintype ↥G := Fintype.ofFinite _
@@ -2462,7 +2459,7 @@ homomorphism `ψ : Grp →* Equiv.Perm (Grp ⧸ H)` whose kernel is `H.normalCor
 (`Subgroup.normalCore_eq_ker`). Being normal, `H.normalCore` is `⊥` or `⊤` by simplicity; it is
 not `⊤` (else `H = ⊤`, of index `1 ≠ 5`), hence `⊥`, so `ψ` is injective. Transporting along an
 equivalence `Grp ⧸ H ≃ Fin 5` (the index is `5`) yields the desired `φ : Grp →* Equiv.Perm (Fin
-5)`. This is the group-theoretic assembly that turns "`G` simple with an index-`5` subgroup" into
+5)`. This is the group-theoretic construction that turns "`G` simple with an index-`5` subgroup" into
 the faithful degree-`5` permutation representation used by the icosahedral disjunct. -/
 theorem faithful_perm5_of_simple_index_five
     {Grp : Type*} [Group Grp] [Finite Grp] (hsimple : IsSimpleGroup Grp)
@@ -2790,7 +2787,7 @@ private theorem eq_top_of_five_dvd_card_normal {G : Type*} [Group G] [Finite G]
     have hpos : 0 < Nat.card N := Nat.card_pos
     interval_cases (Nat.card N) <;> omega
   -- Each such `|N|` forces a unique Sylow `5` in `N`, which pushes up to a unique Sylow `5`
-  -- in `G` — contradicting `hn5`.
+  -- in `G`, contradicting `hn5`.
   haveI hSubN : Subsingleton (Sylow 5 N) := by
     rcases hmem with h | h | h | h | h
     · exact subsingleton_sylow5_of_card_le (k := 1) (h.trans (by norm_num)) (by norm_num)
@@ -2805,7 +2802,7 @@ private theorem eq_top_of_five_dvd_card_normal {G : Type*} [Group G] [Finite G]
 /-- **Order-`60`, `n₅ = 6`: no normal subgroup of order `2, 3, 4` or `6`.** The quotient `G ⧸ N`
 (order `30, 20, 15, 10`) has a unique Sylow `5`; its preimage is a normal subgroup of order
 `5 · |N| ∈ {10, 15, 20, 30}` with order divisible by `5`, which by `eq_top_of_five_dvd_card_normal`
-would have to be all of `G` (order `60`) — impossible. -/
+would have to be all of `G` (order `60`), which is impossible. -/
 private theorem not_normal_card_mem_two_three_four_six {G : Type*} [Group G] [Finite G]
     (hG : Nat.card G = 60) (hn5 : Nontrivial (Sylow 5 G))
     (N : Subgroup G) [N.Normal]
@@ -2975,7 +2972,7 @@ theorem isSimpleGroup_of_card_sixty_of_nontrivial_sylow5
 
 /-- **Core-free coset action bound.** A finite simple group with a subgroup `K` of index at least
 `2` embeds into `Equiv.Perm (Grp ⧸ K)` via the coset action (its kernel `K.normalCore` is normal,
-hence `⊥` by simplicity — it cannot be `⊤`, else `K = ⊤` has index `1`). Consequently `|Grp|`
+hence `⊥` by simplicity, since it cannot be `⊤`, else `K = ⊤` has index `1`). Consequently `|Grp|`
 divides `(K.index)!`. This is the abstract form of the "`G ↪ S_{[G:K]}`" argument used to rule out
 small-index subgroups of a simple group. -/
 private theorem simpleGroup_card_dvd_index_factorial {Grp : Type*} [Group Grp] [Finite Grp]
@@ -3139,7 +3136,7 @@ private theorem exists_index_five_of_sylow2_card_fifteen {Grp : Type*} [Group Gr
     omega
 
 /-- **Index-`5` subgroup of a simple group of order `60`.** Every finite simple group of order
-`60` has a subgroup of index `5` — group-theoretically the normalizer of a Sylow `2`-subgroup
+`60` has a subgroup of index `5`, group-theoretically the normalizer of a Sylow `2`-subgroup
 when `n₂ = 5`, or the centralizer of a shared involution when `n₂ = 15`.
 
 This is pure finite group theory, independent of the `SO(3)` geometry, and is the standard first
@@ -3323,17 +3320,16 @@ theorem so3_icosahedral_G_simple
   -- `SO(3)`-free simplicity lemma.
   exact isSimpleGroup_of_card_sixty_of_nontrivial_sylow5 hcard ⟨Sb, Sc, hSne⟩
 
-/-- **Realization crux of the icosahedral disjunct.** An order-`60` finite subgroup `G ≤ SO(3)`
+/-- **Realization of the icosahedral disjunct.** An order-`60` finite subgroup `G ≤ SO(3)`
 with the icosahedral pole data acts faithfully on a `5`-element set, yielding an injective
 `G →* Equiv.Perm (Fin 5)`. Geometrically that `5`-element set is the five inscribed tetrahedra
-(equivalently the five "Kepler cubes") of the dodecahedron/icosahedron; the formal proof takes
-the equivalent group-theoretic route rather than constructing the geometric compound directly.
+(equivalently the five "Kepler cubes") of the dodecahedron/icosahedron; the formal proof follows
+the equivalent group-theoretic argument rather than constructing the geometric compound directly.
 `G` is simple (`so3_icosahedral_G_simple`), a simple group of order `60` has an index-`5`
 subgroup (`simpleGroup_card60_exists_index_five`), and the action on that subgroup's `5` cosets
 is faithful because its kernel is a proper normal subgroup of a simple group
 (`faithful_perm5_of_simple_index_five`). Everything downstream (`|image| = 60 = |A₅|`, hence
-index `2` in `S₅`, hence `= A₅`) is discharged by `so3_icosahedral_of_poleData`. Proved
-sorry-free. -/
+index `2` in `S₅`, hence `= A₅`) is discharged by `so3_icosahedral_of_poleData`. -/
 theorem so3_icosahedral_exists_faithful_perm5
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
     (hclass : m = {2, 3, 5})
@@ -3355,8 +3351,8 @@ the resulting injective `G →* S₅` has image of order `60`, hence index `2` i
 `pole_order_data`.
 
 The counting (`so3_icosahedral_card`), the faithful `5`-point action
-(`so3_icosahedral_exists_faithful_perm5`), and the `A₅`-landing assembly here are all proved
-sorry-free. -/
+(`so3_icosahedral_exists_faithful_perm5`), and the `A₅`-landing construction here are all
+proved. -/
 theorem so3_icosahedral_of_poleData
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
     (hclass : m = {2, 3, 5})
@@ -3366,7 +3362,7 @@ theorem so3_icosahedral_of_poleData
   classical
   -- **Step 1.** The counting identity on `{2, 3, 5}` forces `|G| = 60`.
   have hcard : Nat.card (↥G) = 60 := so3_icosahedral_card G m hclass heq
-  -- **Step 2.** `G` acts faithfully on the five inscribed tetrahedra (the geometric crux).
+  -- **Step 2.** `G` acts faithfully on the five inscribed tetrahedra (the geometric core).
   obtain ⟨φ, hφinj⟩ := so3_icosahedral_exists_faithful_perm5 G m hclass hcard hpole
   -- **Step 3.** The image `H ≤ S₅` has order `60`, so index `2`, hence `H = A₅`.
   let H := φ.range
@@ -3435,7 +3431,7 @@ theorem so3_finite_subgroup_classification
 
 /-- **Part (b).** Fix a surjective homomorphism `h : SU(2) → SO(3)` with kernel `{±1}` (the
 double cover). For any finite subgroup `H ≤ SU(2)`, its image `h(H)` is a finite subgroup of
-`SO(3)` — hence classified by part (a) — and `H` is a double cover of `h(H)` exactly when it
+`SO(3)` (hence classified by part (a)) and `H` is a double cover of `h(H)` exactly when it
 contains `-1`: `|H| = 2·|h(H)|` if `-1 ∈ H`, and `|H| = |h(H)|` otherwise. -/
 theorem su2_finite_subgroup_double_cover
     (h : specialUnitaryGroup (Fin 2) ℂ →* specialOrthogonalGroup (Fin 3) ℝ)

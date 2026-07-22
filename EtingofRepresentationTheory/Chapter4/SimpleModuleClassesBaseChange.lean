@@ -11,18 +11,18 @@ This file proves that a surjective ring homomorphism `f : R ↠ T` between finit
   `Nat.card (SimpleModuleClasses T) ≤ Nat.card (SimpleModuleClasses R)`.
 
 It is one of the three separability-free ingredients of the field-general base-change monotonicity
-`#(simple k[G]-modules) ≤ #(simple K[G]-modules)` (issue #6127, parent #6098): the counting chain
+`#(simple k[G]-modules) ≤ #(simple K[G]-modules)`: the counting chain
 factors through the semisimple quotient `k[G]/rad` and the surjection
-`K[G] ↠ K ⊗_k (k[G]/rad)`, and *this* is the surjection step.
+`K[G] ↠ K ⊗_k (k[G]/rad)`, and this is the surjection step.
 
 ## Main results
 
-* `Etingof.isoClassesMap` / `Etingof.isoClassesMap_injective` — a fully faithful functor induces an
+* `Etingof.isoClassesMap` / `Etingof.isoClassesMap_injective`: a fully faithful functor induces an
   injection on isomorphism classes of objects.
-* `ModuleCat.restrictScalars_full_of_surjective` — restriction of scalars along a **surjective**
+* `ModuleCat.restrictScalars_full_of_surjective`: restriction of scalars along a surjective
   ring hom is a full functor (every `R`-linear map between `T`-modules is `T`-linear, because every
   scalar of `T` is `f` of a scalar of `R`).
-* `Etingof.natCard_simpleModuleClasses_le_of_surjective` — the count inequality.
+* `Etingof.natCard_simpleModuleClasses_le_of_surjective`: the count inequality.
 -/
 
 open CategoryTheory
@@ -38,7 +38,7 @@ def isoClassesMap {A B : Type*} [Category A] [Category B] (F : A ⥤ B) :
     Quotient (isIsomorphicSetoid A) → Quotient (isIsomorphicSetoid B) :=
   Quotient.map F.obj (fun _ _ ⟨e⟩ => ⟨F.mapIso e⟩)
 
-/-- A fully faithful functor induces an **injection** on isomorphism classes of objects: if
+/-- A fully faithful functor induces an injection on isomorphism classes of objects: if
 `F X ≅ F Y` then `X ≅ Y` by `Functor.preimageIso`. -/
 theorem isoClassesMap_injective {A B : Type*} [Category A] [Category B] (F : A ⥤ B)
     [F.Full] [F.Faithful] : Function.Injective (isoClassesMap F) := by

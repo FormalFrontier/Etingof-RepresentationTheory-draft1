@@ -8,13 +8,13 @@ This file develops book step 4 of the Problem 5.24.2 hint, self-contained in the
 tensor framework of `Theorem5_18_4.lean`.
 
 For a permutation `σ : Equiv.Perm (Fin n)` and endomorphisms `A : Fin n → Module.End k V`, the
-**permuted tensor operator** is
+permuted tensor operator is
 `permTensorOp σ A := symGroupAction σ ∘ₗ PiTensorProduct.map A : End (V^⊗n)`,
 i.e. the operator that applies `A i` on tensor factor `i` and then permutes the factors by `σ`.
 
 The main result (`permTensorOp_trace_eq_prod_cycle`) is that its trace over the tensor factors
-factors as a product over the `σ`-orbits of `Fin n`, one *trace of the ordered operator product
-around the cycle* per orbit:
+factors as a product over the `σ`-orbits of `Fin n`, one trace of the ordered operator product
+around the cycle per orbit:
 
 ```
 trace (permTensorOp σ A) = ∏_{orbits O of σ} trace (∏_{j around O} A j).
@@ -22,7 +22,7 @@ trace (permTensorOp σ A) = ∏_{orbits O of σ} trace (∏_{j around O} A j).
 
 The proof has two independent parts:
 
-* `permTensorOp_trace_eq_matrixSum` (**fully proved**): reduce the tensor trace to a sum over
+* `permTensorOp_trace_eq_matrixSum`: reduce the tensor trace to a sum over
   basis multi-indices `p : Fin n → ι` of `∏ i, (A i)_{p (σ i), p i}`, the diagonal matrix entries
   of the permutation operator. This is pure trace/basis bookkeeping.
 
@@ -104,8 +104,8 @@ noncomputable def orbitReps {m : ℕ} (σ : Equiv.Perm (Fin m)) : Finset (Fin m)
 
 An ordered product of matrices, evaluated at an entry, expands as a sum over "walks": tuples of
 intermediate indices, weighted by the product of the traversed matrix entries. Setting the two
-endpoints equal and summing recovers the trace as a sum over *closed* walks. This is the analytic
-engine behind the single-orbit telescoping. -/
+endpoints equal and summing recovers the trace as a sum over closed walks. This underlies the
+single-orbit telescoping. -/
 
 section WalkSum
 
@@ -386,7 +386,7 @@ lemma matrixCycleProd_eq_bigProd (σ : Equiv.Perm (Fin m)) (M : Fin m → Matrix
   · intro i h1 h2
     simp [List.getElem_ofFn, List.getElem_map, List.getElem_range]
 
-/-- **Single-orbit telescoping.** On one `σ`-orbit — the fiber of a representative `r` — the local
+/-- **Single-orbit telescoping.** On one `σ`-orbit (the fiber of a representative `r`), the local
 multi-index sum resums to the trace of the ordered matrix product `matrixCycleProd σ M r`. The
 fiber is parametrized backward by `t ↦ σ⁻¹^t r` (`t : Fin ℓ`, `ℓ = cyclePeriod σ r`); reindexing the
 multi-index sum and product along this bijection, then shifting by one, turns the local sum into the
@@ -497,7 +497,7 @@ This is the heart of the tensor-trace ↔ trace-word identity. Proof roadmap (tw
   `∏_t M_{σ^t r} (a_{t+1 mod ℓ}, a_t)`, and summing over `a ∈ ι^ℓ` collapses the matrix chain to a
   trace (cyclic invariance fixes the representative).
 
-* **Orbit-partition assembly.** Reindex `p : Fin m → ι` along the `σ`-orbit partition as
+* **Orbit partition.** Reindex `p : Fin m → ι` along the `σ`-orbit partition as
   `∏ r ∈ orbitReps σ, (orbit r → ι)`, split `∏ i` as `∏ r, ∏_{i ∈ orbit r}`, and apply
   `Fintype.prod_sum` (a product of sums is a sum of products) to turn
   `∏_r (local sum)` into `∑_p ∏_i`. -/
@@ -565,8 +565,8 @@ theorem trace_cycleOperator (σ : Equiv.Perm (Fin n)) (A : Fin n → Module.End 
   rfl
 
 /-- **The tensor-trace ↔ trace-word (cycle-trace) identity.** The trace over the tensor factors of
-the permuted tensor operator factors as a product over the `σ`-orbits, one *trace of the ordered
-operator product around the cycle* per orbit:
+the permuted tensor operator factors as a product over the `σ`-orbits, one trace of the ordered
+operator product around the cycle per orbit:
 
 `trace (permTensorOp σ A) = ∏_{orbit reps i} trace (A i · A (σ⁻¹ i) · … · A (σ^{-(ℓ-1)} i))`.
 

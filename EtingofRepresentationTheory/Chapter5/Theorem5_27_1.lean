@@ -165,7 +165,7 @@ private noncomputable def inducedRepV {G A : Type} [Group G] [CommGroup A] [Fint
       have hrho_eq : ∀ (s₁ s₂ : ↥(stabAux φ χ)),
           (s₁ : G) = (s₂ : G) → ∀ v, (FDRep.ρ U s₁) v = (FDRep.ρ U s₂) v := by
         intro s₁ s₂ h v; rw [Subtype.ext h]
-      -- Assemble: rewrite character, then handle ρ and cosets
+      -- Combine: rewrite character, then handle ρ and cosets
       rw [hchar, mul_smul, ← map_smul]
       -- Both sides have the same outer scalar, strip it
       congr 1
@@ -458,7 +458,7 @@ private lemma simple_of_full_faithful_preservesMono''
           (fun h => hne (F.map_injective (by rwa [F.map_zero])))
       exact isIso_of_fully_faithful F f
 
--- Bridge: Simple in FDRep implies IsIrreducible of the underlying representation.
+-- Simple in FDRep implies IsIrreducible of the underlying representation.
 -- Proof: construct the inclusion morphism for each subrepresentation in FDRep, then
 -- apply the Simple condition to show it's trivial or everything.
 open CategoryTheory in
@@ -519,7 +519,7 @@ private lemma simple_fdRep_isIrreducible {k : Type} [Field k] {G : Type} [Group 
         have : (y : U) = x := hyx
         rw [← this]; exact hy
 
--- Bridge: IsSimpleModule over the monoid algebra implies Simple in FDRep.
+-- IsSimpleModule over the monoid algebra implies Simple in FDRep.
 open CategoryTheory in
 private noncomputable def simple_of_isSimpleModule_asModule'
     {k : Type} [Field k] {G : Type} [Group G]
@@ -575,7 +575,6 @@ private noncomputable def inducedRep_raw {G A : Type} [Group G] [CommGroup A] [F
       exact this _ (by simp [SemidirectProduct.one_right, inv_mul_cancel]) _
     map_mul' := fun ag₁ ag₂ => by
       apply LinearMap.ext; intro f; funext q
-      -- This is the same as the map_mul' proof in inducedRepV
       simp only [SemidirectProduct.mul_left, SemidirectProduct.mul_right,
         LinearMap.coe_mk, AddHom.coe_mk, Module.End.mul_apply]
       set q₁ := ag₁.right⁻¹ • q
@@ -743,7 +742,7 @@ private lemma sigma_contains_all_single {G A : Type} [Group G] [CommGroup A] [Fi
     (g₁ : (G ⧸ stabAux φ χ) → ↥U) (hg₁_mem : g₁ ∈ σ)
     (hg₁_nz : g₁ q₁ ≠ 0) (hg₁_supp : ∀ q, q ≠ q₁ → g₁ q = 0)
     (u : ↥U) : ∃ f ∈ σ, f q₁ = u ∧ ∀ q, q ≠ q₁ → f q = 0 := by
-  -- Bridge: Simple U → IsIrreducible (FDRep.ρ U)
+  -- Simple U → IsIrreducible (FDRep.ρ U)
   -- Proof sketch: construct FDRep.of S.toRepresentation with subtype inclusion as
   -- a mono in FDRep. By Simple, it's zero or iso, giving S = ⊥ or S = ⊤.
   have hU_irred : Representation.IsIrreducible (FDRep.ρ U) :=
@@ -837,12 +836,12 @@ private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G
     (U : FDRep ℂ ↥(stabAux φ χ))
     (hU : CategoryTheory.Simple U) :
     CategoryTheory.Simple (inducedRepV φ χ U) := by
-  -- Bridge: inducedRepV φ χ U = FDRep.of (inducedRep_raw φ χ U) (same action)
+  -- inducedRepV φ χ U = FDRep.of (inducedRep_raw φ χ U) (same action)
   suffices h : CategoryTheory.Simple (FDRep.of (inducedRep_raw φ χ U)) by
     have heq : inducedRepV φ χ U = FDRep.of (inducedRep_raw φ χ U) := by
       simp only [inducedRepV, inducedRep_raw]
     rw [heq]; exact h
-  -- Use the IsSimpleModule → Simple bridge
+  -- Use the IsSimpleModule → Simple implication
   set ρ := inducedRep_raw φ χ U
   haveI : IsSimpleModule (MonoidAlgebra ℂ (A ⋊[φ] G)) (Representation.asModule ρ) :=
     (Representation.irreducible_iff_isSimpleModule_asModule ρ).mp <| by
@@ -969,10 +968,6 @@ private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G
               σ.toSubmodule hσ_inv q₁ hq₁_out_mem g₁ hg₁_mem hg₁_nz hg₁_supp u
             -- f ∈ σ, f(q₁) = u, f(q) = 0 for q ≠ q₁
             -- f = Pi.single q₁ u by funext
-            -- v4.31: `convert … using 1` also spawns a (rfl) type-equality goal; the
-            -- function equality is the second goal, so prove it directly via funext.
-            -- v4.31: `convert … using 1` spawns a (rfl) type-equality goal alongside the
-            -- function-equality goal; `ext` can't see the latter, so use `funext` directly.
             convert hf_mem using 1
             · rfl
             funext q; by_cases hq : q = q₁
@@ -1342,7 +1337,7 @@ private lemma finrank_biprod' {H : Type} [Group H] [Fintype H]
       (0 : A ⟶ B).hom.hom.hom x = 0 := by
     intro A B x
     show (0 : A.V.obj ⟶ B.V.obj).hom x = 0
-    simp [ModuleCat.Hom.hom] -- v4.29.0: simp now closes goal
+    simp [ModuleCat.Hom.hom]
   have hid : ∀ (A : FDRep ℂ H) (x : A.V),
       (𝟙 A : A ⟶ A).hom.hom.hom x = x := fun _ _ => rfl
   refine {
@@ -1468,8 +1463,8 @@ private lemma exists_nonzero_map_from_induced {G A : Type} [Group G] [CommGroup 
     -- At element level: ι.hom(ρ_U(s)(u)) = ρ_Wχ(s)(ι.hom(u))
     have h := congr_arg (fun (φ : U.V ⟶ (weightSpaceRep _ W χ hχ).V) =>
       (φ u : ↥(weightSpace _ W χ)).val) hcomm
-    -- v4.31: apply the morphism via the ConcreteCategory function coercion so
-    -- `CategoryTheory.comp_apply` fires (the old `.hom.hom u` projection no longer simplifies).
+    -- Apply the morphism via the ConcreteCategory function coercion so
+    -- `CategoryTheory.comp_apply` fires.
     simp only [CategoryTheory.comp_apply] at h
     exact h
   -- Helper: weight space property for ι_W targets
@@ -1907,7 +1902,7 @@ theorem Etingof.inducedRepV_basepoint_independent {G A : Type} [Group G] [CommGr
     exact baseChange_comm φ hg U x v)⟩
 
 -- ===========================================================================
--- (ii)(b): at a *fixed* character χ, the induced representation V(χ, U) determines
+-- (ii)(b): at a fixed character χ, the induced representation V(χ, U) determines
 -- the inducing representation U up to isomorphism.  This is the "U is determined by
 -- V_x as a G_x-module" half of Etingof Theorem 5.27.1(ii): an isomorphism of the
 -- induced representations restricts to an isomorphism of their χ-weight spaces, each
@@ -2175,7 +2170,7 @@ private lemma inducedRepV_finrank {G A : Type} [Group G] [CommGroup A] [Fintype 
 -- Forward functoriality: an isomorphism `U ≅ U'` of stabilizer representations induces an
 -- isomorphism `V(χ, U) ≅ V(χ, U')` of induced representations, given by coset-wise
 -- post-composition with the underlying linear equivalence. Needed for completeness in the
--- orbit-method assemblies (replacing `U` by its `charFDRep` model inside `V`).
+-- orbit-method constructions (replacing `U` by its `charFDRep` model inside `V`).
 private noncomputable def inducedRepV_congr {G A : Type} [Group G] [CommGroup A] [Fintype G]
     (φ : G →* MulAut A) (χ : A →* ℂˣ) {U U' : FDRep ℂ ↥(stabAux φ χ)} (α : U ≅ U') :
     inducedRepV φ χ U ≅ inducedRepV φ χ U' := by
@@ -2203,8 +2198,8 @@ private noncomputable def inducedRepV_congr {G A : Type} [Group G] [CommGroup A]
   rw [hact U f, hact U' (fun q' => e (f q')), map_smul, hinter]
 
 -- An equivalence of categories preserves simple objects (transported through the
--- monomorphism-reflecting inverse functor). Used to see `transportRep` — which is the
--- restriction of scalars along the conjugation isomorphism of stabilizers — as simplicity
+-- monomorphism-reflecting inverse functor). Used to see `transportRep`, which is the
+-- restriction of scalars along the conjugation isomorphism of stabilizers, as simplicity
 -- preserving.
 open CategoryTheory in
 private lemma simple_equivalence_functor'

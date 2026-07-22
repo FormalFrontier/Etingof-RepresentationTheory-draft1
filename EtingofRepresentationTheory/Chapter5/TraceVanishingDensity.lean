@@ -8,29 +8,25 @@ import EtingofRepresentationTheory.Chapter5.FormalCharacterTorusTrace
 /-!
 # Torus-trace vanishing forces full-group trace vanishing (geometric density core)
 
-This file proves the genuinely geometric step of the character-independence seam
-(#4925, sub-issue #4932; generalised to arbitrary algebraically-closed
-characteristic-zero `k` for #4947): a `k`-combination of the characters of finitely
-many **algebraic** `GL_N(k)`-representations `L i` that vanishes at every diagonal
-torus element `diag(t)` vanishes at *every* group element `g`. The `ℂ` consumers of
-#4925 are recovered as the `k = ℂ` specialisation.
+A `k`-combination of the characters of finitely many algebraic `GL_N(k)`-representations
+`L i` that vanishes at every diagonal torus element `diag(t)` vanishes at every group
+element `g`. This is stated over an arbitrary algebraically closed characteristic-zero
+field `k`; the `ℂ` case is the `k = ℂ` specialisation.
 
-The character `g ↦ trace_ℂ ((L i).ρ g)` of an algebraic representation is a
-*regular* (polynomial-in-the-entries-with-`det⁻¹`) function of `g`
-(`trace_eq_evalAtGL_of_algebraic`), and it is conjugation-invariant (the trace
-is a class function). Every matrix with `N` distinct eigenvalues is conjugate to
-a diagonal torus element (`gl_conj_diagTorus_of_distinct_eigenvalues`, #4930), so
-the combination already vanishes on all distinct-eigenvalue matrices, and these
-are Zariski-dense — their complement is the zero locus of `det · discr`
-(`discrPoly`, #4931). Clearing the `det⁻¹` denominator yields a genuine
-polynomial vanishing off `{det · discr ≠ 0}`, which `MvPolynomial`'s density
-engine (`eq_zero_of_eval_eq_zero_off_zeroLocus`) forces to be identically zero.
+The character `g ↦ trace_ℂ ((L i).ρ g)` of an algebraic representation is a regular
+(polynomial-in-the-entries-with-`det⁻¹`) function of `g`
+(`trace_eq_evalAtGL_of_algebraic`), and it is conjugation-invariant (the trace is a
+class function). Every matrix with `N` distinct eigenvalues is conjugate to a diagonal
+torus element (`gl_conj_diagTorus_of_distinct_eigenvalues`), so the combination already
+vanishes on all distinct-eigenvalue matrices, and these are Zariski-dense: their
+complement is the zero locus of `det · discr` (`discrPoly`). Clearing the `det⁻¹`
+denominator yields a polynomial vanishing off `{det · discr ≠ 0}`, which
+`eq_zero_of_eval_eq_zero_off_zeroLocus` forces to be identically zero.
 
-The hypothesis is `IsAlgebraicRepresentation` (regularity of the character), not
-merely `hLtop` (spanning `ℕ`-weight spaces): the latter is strictly weaker for
-abstract-group representations and does not by itself make the character regular.
-At the genuine call site each `L i` is a summand of the polynomial representation
-`V^{⊗n}`, hence algebraic.
+The hypothesis is `IsAlgebraicRepresentation` (regularity of the character), not merely
+`hLtop` (spanning `ℕ`-weight spaces): the latter is strictly weaker for abstract-group
+representations and does not by itself make the character regular. At the call site each
+`L i` is a summand of the polynomial representation `V^{⊗n}`, hence algebraic.
 -/
 
 open Matrix MvPolynomial
@@ -43,7 +39,7 @@ variable {N : ℕ} {k : Type*} [Field k] [IsAlgClosed k] [CharZero k] [Decidable
 /-- **The character of an algebraic representation is a regular function.** For an
 algebraic `GL_N`-representation `M`, the character `g ↦ trace_k (M.ρ g)` equals
 `evalAtGL g T` for the polynomial `T = ∑ₐ P a a` (the trace of the
-matrix-coefficient polynomials in any algebraic-rep basis). Field-agnostic. -/
+matrix-coefficient polynomials in any algebraic-rep basis). Valid over any field. -/
 theorem trace_eq_evalAtGL_of_algebraic
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (hM : Etingof.IsAlgebraicRepresentation N M.ρ) :
@@ -60,14 +56,14 @@ theorem trace_eq_evalAtGL_of_algebraic
 
 /-- **Geometric density core (algebraic version, general algebraically-closed
 characteristic-zero field).** A `k`-combination of the characters of finitely many
-*algebraic* `GL_N(k)`-representations `L i` that vanishes at every diagonal torus
+algebraic `GL_N(k)`-representations `L i` that vanishes at every diagonal torus
 element vanishes at every group element.
 
 The diagonalizable matrices are Zariski-dense (their complement is the zero locus of
 `det · discr`, which needs `IsAlgClosed k` for splitting and `CharZero k` for the
 discriminant witness), and the character of an algebraic representation is a regular
-function, so vanishing on that dense set forces vanishing everywhere. The `ℂ` density
-core consumed by issue #4925 is the `k = ℂ` specialisation. -/
+function, so vanishing on that dense set forces vanishing everywhere. The `ℂ` case is
+the `k = ℂ` specialisation. -/
 theorem trace_combination_vanishes_of_torus_vanishes_of_algebraic
     (N : ℕ) {ι : Type} [Fintype ι]
     (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))

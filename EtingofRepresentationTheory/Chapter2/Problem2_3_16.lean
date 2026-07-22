@@ -14,7 +14,7 @@ with all of `A`.
 
 **(a)** If `V` is an irreducible finite dimensional representation of `A` (over an algebraically
 closed field), then any `z ∈ Z(A)` acts on `V` by multiplication by a scalar `χ_V(z)`, and
-`χ_V : Z(A) → k` is a homomorphism (the **central character** of `V`).
+`χ_V : Z(A) → k` is a homomorphism (the central character of `V`).
 
 The scalar action is a direct consequence of Schur's lemma for algebraically closed fields
 (Corollary 2.3.10 / `IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed`): a central element
@@ -22,7 +22,7 @@ The scalar action is a direct consequence of Schur's lemma for algebraically clo
 homomorphism property is captured by packaging the whole assignment `z ↦ χ_V(z)` as a `k`-algebra
 homomorphism `centralCharacter : Z(A) →ₐ[k] k`.
 
-**(b)** If `V` is an *indecomposable* finite dimensional representation of `A`, then for any
+**(b)** If `V` is an indecomposable finite dimensional representation of `A`, then for any
 `z ∈ Z(A)` the operator `ρ(z)` has a single eigenvalue `χ_V(z)`, equal to the scalar by which
 `z` acts on some irreducible subrepresentation of `V`; and `χ_V` is again a homomorphism.
 
@@ -36,7 +36,7 @@ gives `gᴺ = 0`: `ρ(z) - χ` is nilpotent, i.e. `χ` is the only eigenvalue. T
 (`Etingof.indecEigenvalue_unique`), so `χ_V := χ_S` is well defined independently of `S`, and it is
 a homomorphism because `χ_S` is (part (a)).
 
-**(c)** `ρ(z)` need *not* be a scalar operator: on the regular representation of the dual numbers
+**(c)** `ρ(z)` need not be a scalar operator: on the regular representation of the dual numbers
 `k[ε]` (an indecomposable finite dimensional representation, since `k[ε]` is local), the central
 element `ε` acts by a non-scalar nilpotent operator (`Etingof.eps_smul_not_scalar`).
 -/
@@ -132,7 +132,7 @@ variable [FiniteDimensional k V]
 
 /-- **Single generalized eigenvalue (core of Problem 2.3.16(b)).** If `V` is an indecomposable
 finite dimensional representation and `v₀ ≠ 0` is an eigenvector of `ρ(z)` with eigenvalue `χ`
-(`z • v₀ = χ • v₀`), then `ρ(z) - χ` is nilpotent: `χ` is the *only* eigenvalue of `ρ(z)`.
+(`z • v₀ = χ • v₀`), then `ρ(z) - χ` is nilpotent: `χ` is the only eigenvalue of `ρ(z)`.
 
 Proof: `g := ρ(z) - χ` is `A`-linear with `v₀ ∈ ker g`, so `⨆ₙ ker gⁿ ≠ 0`; its Fitting
 complement `⨅ₙ range gⁿ` is a subrepresentation, so by indecomposability it is `0`, forcing
@@ -214,8 +214,8 @@ theorem indecEigenvalue_unique (hV : IsIndecomposable A V) (z : Subalgebra.cente
 variable [IsAlgClosed k]
 
 /-- **Problem 2.3.16(b).** On an indecomposable finite dimensional representation `V` (over an
-algebraically closed field) there is a `k`-algebra homomorphism `χ_V : Z(A) → k` — the **central
-character** — such that for every `z ∈ Z(A)` the operator `ρ(z)` acts with the single eigenvalue
+algebraically closed field) there is a `k`-algebra homomorphism `χ_V : Z(A) → k`, the central
+character, such that for every `z ∈ Z(A)` the operator `ρ(z)` acts with the single eigenvalue
 `χ_V(z)`, i.e. `ρ(z) - χ_V(z)` is nilpotent. It is realised as the central character (part (a)) of
 any irreducible subrepresentation of `V`, so `χ_V(z)` is the scalar by which `z` acts there. -/
 theorem exists_centralCharacter_isNilpotent (hV : IsIndecomposable A V) :
@@ -247,7 +247,7 @@ end Indecomposable
 The regular representation of the dual numbers `k[ε] = k[x]/(x²)` on itself is a two dimensional
 indecomposable representation (`k[ε]` is a local ring). The element `ε` is central (the ring is
 commutative) and nilpotent, and it acts on the regular representation by the non-scalar operator
-`v ↦ ε · v`. So the single eigenvalue of part (b) — here `χ_V(ε) = 0` — does *not* imply that
+`v ↦ ε · v`. So the single eigenvalue of part (b), here `χ_V(ε) = 0`, does not imply that
 `ρ(z)` is a scalar operator.
 -/
 
@@ -265,7 +265,7 @@ def epsCenter : Subalgebra.center k (DualNumber k) :=
 @[simp] theorem epsCenter_coe : (epsCenter (k := k) : DualNumber k) = ε := rfl
 
 /-- **Problem 2.3.16(c).** On the regular representation of the dual numbers `k[ε]`, the central
-element `ε` does *not* act by a scalar operator: there is no `c : k` for which the operator
+element `ε` does not act by a scalar operator: there is no `c : k` for which the operator
 `ρ(ε) : v ↦ ε · v` equals the scalar operator `v ↦ c • v`. Together with part (b) (`ε` acts with
 the single eigenvalue `0`), this shows a central element can act with a single eigenvalue without
 acting by a scalar. -/

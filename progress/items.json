@@ -3037,10 +3037,10 @@
     "start_line": 9,
     "end_line": 14,
     "status": "partially_formalized",
-    "coverage_note": "Proved in EtingofRepresentationTheory/Chapter4/Problem4_12_1.lean (DihedralGroup N: (a) irreducible_dim — every irreducible is 1- or 2-dim, via eigenvector of ρ(r 1) and the span{v, ρ(sr 0) v} subrepresentation forced to be ⊤ by irreducibility; (b) tensor_square_character — V⊗V decomposition as character identity χ_V²=1+χ_sign+χ_V2). No sorries; #print axioms shows only propext/Classical.choice/Quot.sound.",
+    "coverage_note": "Proved in EtingofRepresentationTheory/Chapter4/Problem4_12_1.lean (DihedralGroup N: (a) irreducible_dim — every irreducible is 1- or 2-dim; plus explicit classification content added #7222: Vrep N j — explicit 2-dim rep (r 1 = diag(ζ^j,ζ^{-j}), sr 0 swaps coords), Vrep_irreducible — V_j irreducible when 2j≠0, Vrep_trace_r — character ζ^{jk}+ζ^{-jk}, Vrep_not_iso — trace-based pairwise non-isomorphism criterion; (b) tensor_square_character — V⊗V decomposition as character identity χ_V²=1+χ_sign+χ_V2). Sorry-free. REMAINING (see #7225): construct the 1-dim characters and prove their odd/even count, exhaustiveness (Σ dᵢ²=2N), and the odd/even total counts as headline theorems.",
     "fidelity": "gap",
-    "fidelity_issue": 7222,
-    "fidelity_note": "[fidelity gap #7219] Part (b) tensor_square_character is FAITHFUL & non-vacuous at the character level: chiStd/chiSign/chiRot2 are the correct D_N characters (ζ^k+ζ^{-k}, sign ±1, ζ^{2k}+ζ^{-2k}) and χ_V²=1+χ_ε+χ_{V₂} is exactly V⊗V≅𝟙⊕ε⊕V₂ (χ_{V⊗V}=χ_V²); a real identity of ℂ-valued functions, proven for all N. Part (a) GAP: headline irreducible_dim proves only the dimension dichotomy finrank∈{1,2} (a necessary condition, faithful & non-vacuous), but the book's (a) — 'describe ALL irreps, odd/even N' (odd: 2 dim-1 + (N-1)/2 dim-2; even: 4 dim-1 + (N-2)/2 dim-2) — is ENTIRELY ABSENT: no construction, exhaustiveness, non-isomorphism, or counts, and unlike 4.12.2(d) nothing is proved internally to expose. Counts live only in a docstring (not a checked assertion). Follow-up feature filed: #7222. Report: progress/reviews/2026-07-21-ch4-problem4_12_1-dihedral-fidelity.md."
+    "fidelity_issue": "#7225",
+    "fidelity_note": "[fidelity gap #7219] Part (b) tensor_square_character is FAITHFUL & non-vacuous at the character level: chiStd/chiSign/chiRot2 are the correct D_N characters (ζ^k+ζ^{-k}, sign ±1, ζ^{2k}+ζ^{-2k}) and χ_V²=1+χ_ε+χ_{V₂} is exactly V⊗V≅𝟙⊕ε⊕V₂ (χ_{V⊗V}=χ_V²); a real identity of ℂ-valued functions, proven for all N. Part (a) at audit time was a GAP: headline irreducible_dim proved only the dimension dichotomy finrank∈{1,2} (a necessary condition, faithful & non-vacuous), but the book's (a) — 'describe ALL irreps, odd/even N' (odd: 2 dim-1 + (N-1)/2 dim-2; even: 4 dim-1 + (N-2)/2 dim-2) — was ENTIRELY ABSENT: no construction, exhaustiveness, non-isomorphism, or counts. Follow-up feature #7222 has since added the explicit 2-dim family (Vrep N j, irreducibility, character, non-isomorphism); remaining exhaustiveness/1-dim-character/odd-even-count work is tracked in #7225. Report: progress/reviews/2026-07-21-ch4-problem4_12_1-dihedral-fidelity.md."
   },
   {
     "id": "Chapter4/Problem4.12.2",
@@ -3051,9 +3051,9 @@
     "start_line": 15,
     "end_line": 12,
     "status": "sorry_free",
-    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_2.lean: Heisenberg group over 𝔽_p (order p³). COMPLETE and sorry-free (#print axioms irreducible_dim = {propext, Classical.choice, Quot.sound}). Part (a) (#6017): card_eq (|G|=p³) and exists_unique_rep — R_z built explicitly as ρ⟨a,b,c⟩f(t)=z^(b·t-c)·f(t-a), uniqueness via generator word decomposition (xGen,yGen generate G). Part (b) (#6037): irreducible_iff — R_z simple ↔ z≠1. Part (c) (#6070): one_dim_reps_card (Nat.card (Heisenberg p →* ℂˣ) = p²) via abHom + CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity; R1_decomposes (R₁ = internal direct sum of p one-dim lines) via DFT characters as shift-eigenvectors. Part (d) (#6094): irreducible_dim (every irreducible has dim 1 or p) — exhibit the p² characters (FDRep.of charRep, simple, dim 1) and the p-1 reps R_z (z≠1 a p-th root, dim p) as pairwise non-isomorphic simples (separated by dimension and by the central character z^{(-1).val}·p on ⟨0,0,1⟩ via FDRep.char_iso), squared dims summing to p²·1+(p-1)·p²=p³=|G|; inject the family into the complete enumeration exists_simples_sum_finrank_sq_eq_card, use positivity of every dim² to force surjectivity (pigeonhole), hence every simple ≅ one of the family. σ transported to ℂ's universe via transportModule/repOfModule.",
-    "fidelity": "gap",
-    "fidelity_note": "[fidelity gap #7204] Parts (a)-(c) FAITHFUL & non-vacuous as headlines: group model is genuine order-p^3 Heisenberg group with correct generator matrices; exists_unique_rep is a real ∃! with the book's two generator actions; irreducible_iff is genuine IsSimpleModule over ℂ[G] with two-directional ↔ z≠1; one_dim_reps_card (p^2 chars) + R1_decomposes (internal direct sum of p distinct 1-dim isotypic lines, Injective χ = 'each once'). Part (d) GAP: headline irreducible_dim gives only the {1,p} dimension dichotomy (faithful, non-vacuous). The book's full part-(d) classification — exactly p^2 irreps of dim 1 and p-1 of dim p, p^2·1+(p-1)·p^2=p^3=|G| via sum-of-squares — is proved INSIDE irreducible_dim (family E, hEinj/hEsum/hcsurj) but NOT exposed as a named headline. Follow-up filed: #7211. Report: progress/reviews/2026-07-21-ch4-problem4_12_2-heisenberg-fidelity.md. All 5 headlines axiom-clean (propext/Classical.choice/Quot.sound, no sorryAx); build OK (8587 jobs)."
+    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_2.lean: Heisenberg group over 𝔽_p (order p³). COMPLETE and sorry-free (#print axioms irreducible_dim = {propext, Classical.choice, Quot.sound}). Part (a) (#6017): card_eq (|G|=p³) and exists_unique_rep — R_z built explicitly as ρ⟨a,b,c⟩f(t)=z^(b·t-c)·f(t-a), uniqueness via generator word decomposition (xGen,yGen generate G). Part (b) (#6037): irreducible_iff — R_z simple ↔ z≠1. Part (c) (#6070): one_dim_reps_card (Nat.card (Heisenberg p →* ℂˣ) = p²) via abHom + CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity; R1_decomposes (R₁ = internal direct sum of p one-dim lines) via DFT characters as shift-eigenvectors. Part (d) (#6094, #7211): full classification simple_iso_charRep_or_rhoHom (every finite-dim simple G-rep ≅ either FDRep.of (charRep χ), dim 1, or FDRep.of (rhoHom z), z≠1, dim p) — exhibit the p² characters and the p-1 reps R_z (z≠1 a p-th root) as pairwise non-isomorphic simples (separated by dimension and by the central character z^{(-1).val}·p on ⟨0,0,1⟩ via FDRep.char_iso), squared dims summing to p²·1+(p-1)·p²=p³=|G|; inject the family into the complete enumeration exists_simples_sum_finrank_sq_eq_card, use positivity of every dim² to force surjectivity (pigeonhole), hence every simple ≅ one of the family. Uniqueness within branches: charRep_iso_iff (characters iso ↔ equal), rhoHom_iso_iff (R_z iso ↔ roots agree); branches disjoint by charRep_not_iso_rhoHom (dim 1≠p). irreducible_dim (every irreducible has dim 1 or p) now derived from the classification: σ transported to ℂ's universe via transportModule/repOfModule to U:FDRep, then read off dim of the matching family member. All five headlines axiom-clean {propext, Classical.choice, Quot.sound}.",
+    "fidelity": "faithful",
+    "fidelity_note": "[fidelity gap #7204 → RESOLVED by #7211/#7218] Parts (a)-(c) FAITHFUL & non-vacuous as headlines: group model is genuine order-p^3 Heisenberg group with correct generator matrices; exists_unique_rep is a real ∃! with the book's two generator actions; irreducible_iff is genuine IsSimpleModule over ℂ[G] with two-directional ↔ z≠1; one_dim_reps_card (p^2 chars) + R1_decomposes (internal direct sum of p distinct 1-dim isotypic lines, Injective χ = 'each once'). Part (d) gap CLOSED: the full part-(d) classification (exactly p^2 irreps of dim 1 and p-1 of dim p, p^2·1+(p-1)·p^2=p^3=|G| via sum-of-squares), previously proved only inside irreducible_dim, is now exposed as the named headline simple_iso_charRep_or_rhoHom (#7211). Original report: progress/reviews/2026-07-21-ch4-problem4_12_2-heisenberg-fidelity.md. All headlines axiom-clean (propext/Classical.choice/Quot.sound, no sorryAx)."
   },
   {
     "id": "Chapter4/Problem4.12.3",
@@ -3107,7 +3107,8 @@
     "start_line": 9,
     "end_line": 4,
     "status": "sorry_free",
-    "coverage_note": "Parts (a) real-irreducibility, (c) Hamilton relations + 1,i,j,k basis (finrank ℝ ℍ=4) + Q₈⊆ℍˣ (units closed under ×, inverses; #6531), (d) conj/norm, (e) unit quaternions ≅ SU(2) (via ℍ↪M₂(ℂ), #6271), and (f) SU(2)→SO(3) surjective with kernel {±1} (via Euler Z-Y-Z) all proven sorry-free; part (b) commutant description of ℍ as End of real rep not yet formalized."
+    "coverage_note": "Parts (a) real-irreducibility, (b) commutant ℍ=End_{SU(2),ℝ}(ℂ²) as a 4-dim ℝ-division algebra (finrank_commutant=4, commutant_isUnit_of_ne_zero via Schur), (c) Hamilton relations + 1,i,j,k basis (finrank ℝ ℍ=4) + Q₈⊆ℍˣ (units closed under ×, inverses; #6531), (d) conj/norm, (e) unit quaternions ≅ SU(2) (via ℍ↪M₂(ℂ), #6271), and (f) SU(2)→SO(3) surjective with kernel {±1} (via Euler Z-Y-Z) all proven sorry-free. Fidelity verified 2026-07-21 (#7208).",
+    "fidelity": "verified"
   },
   {
     "id": "Chapter4/Problem4.12.8",
@@ -4465,6 +4466,9 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
+    "fidelity": "verified",
+    "sorry_free": true,
+    "fidelity_note": "[fidelity, Stage3.7 #7220] Statement-fidelity & non-vacuity audit of sumTranspositions_mul_eq_content_smul against blob. VERIFIED. Sign convention: Mathlib YoungDiagram.cells are (row,col) with .1=row, .2=col (confirmed via mem_ofRowLens: .1<length, .2<getElem .1). Lean content = sum over cells (c.2 - c.1) = col - row. Book c(la) = sum_j sum_{i=1}^{la_j} (i - j) has j=row (part index), i=column (runs 1..la_j), so (i-j) = col - row; 1-based equals 0-based as a difference. EXACT match, no sign flip. Cross-checked numerically on S_3: content((3))=3, ((2,1))=0, ((1,1,1))=-3, matching independent character eigenvalues |class|*chi(transp)/dim = 3,0,-3. Non-vacuity: SpechtModule = Submodule.span A {YoungSymmetrizer} = genuine left ideal C[S_n]*c_la (contains c_la != 0, not top/bot), proved simple by Theorem5_12_2_irreducible; sumTranspositions is genuinely sum_{i<j}(ij); theorem quantifies over all x in V_la asserting C*x = c(la) smul x, faithfully rendering 'C acts on V_la by c(la)'.",
     "coverage_note": "Chapter5/Problem5_16_2.lean proves sumTranspositions_mul_eq_content_smul sorry-free: the sum of transpositions C acts on the Specht module V_lambda by the content c(lambda). Depends only on propext, Classical.choice, Quot.sound."
   },
   {
@@ -4476,7 +4480,10 @@
     "start_line": 3,
     "end_line": 8,
     "status": "sorry_free",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous).",
+    "fidelity": "gap",
+    "fidelity_note": "[fidelity gap #7228→#7231] Checks 1,2,4 FAITHFUL & non-vacuous: (1) sumTranspositionsWith1 = ∑_{0<j}(0 j) is genuinely E=(12)+...+(1n) (n-1 transpositions through the fixed point), confirmed by sumTranspositionsWith1_eq_sub (=C_n-C_{n-1}); (2) part (a) headline is a genuine eigenbasis + integer eigenvalues with inclusive bounds 1-n<=m<=n-1 over arbitrary fin-dim rho; (4) IsRectangular (parts=replicate r c) faithfully captures 'all rows equal' with edge cases fine, SpechtModule is the genuine V_lambda. Check 3 (part (b) 'compute this scalar') GAP: headline sumTranspositionsWith1_acts_scalar_iff_rectangular states only the iff; the scalar value (c-r = content of the corner) appears only as an existential witness inside proofs, never as an exposed statement. Directly analogous to #7204/#7211. status kept sorry_free (stated theorems faithful & non-vacuous; file genuinely sorry-free; gap is a missing exposed result). Report: progress/reviews/2026-07-21-ch5-problem5_16_3-fidelity.md.",
+    "fidelity_issue": 7231
   },
   {
     "id": "Chapter5/Introduction_5.17",
@@ -6635,7 +6642,9 @@
     "start_line": 9,
     "end_line": 20,
     "status": "sorry_free",
-    "coverage_note": "Sorry-free: EtingofRepresentationTheory/Chapter7/Problem7_8_5.lean (Etingof.Problem7_8_5 + connecting hom). LES exactness from hS.homology_exact₁/₂/₃; axioms propext, Classical.choice, Quot.sound."
+    "coverage_note": "Sorry-free: EtingofRepresentationTheory/Chapter7/Problem7_8_5.lean (Etingof.Problem7_8_5 + connecting hom). LES exactness from hS.homology_exact₁/₂/₃; axioms propext, Classical.choice, Quot.sound.",
+    "fidelity": "verified",
+    "fidelity_note": "[fidelity] VERIFIED. (ii) The three .Exact conjuncts are Mathlib's genuine homology_exact₁/₂/₃ for a ShortExact ShortComplex of HomologicalComplex (ModuleCat.{0} ℤ) (up ℤ) = cochain complexes of abelian groups: exact at H^{i+1}(C)=X₁.homology j, H^i(D)=X₂.homology i, H^i(E)=X₃.homology i, with middle maps homologyMap S.f/S.g (induced by C→D→E) and connecting map hS.δ — exactly (7.8.1); quantified over all i∈ℤ this covers every C/D/E node. (i) The connecting map c_i:H^i(E)→H^{i+1}(C) is Problem7_8_5_connecting = hS.δ, a genuine snake-lemma morphism; well-definedness/independence-of-choices is discharged by construction (the abstract δ has no representative choices). Non-vacuous: axioms {propext,Classical.choice,Quot.sound}, ShortExact real (mono f, epi g, exact middle). Minor caveat: agreement of hS.δ with the book's explicit dx'' chase is not separately proven, but δ is the standard categorical connecting map — accepted rendering."
   },
   {
     "id": "Chapter7/Definition7.8.6",

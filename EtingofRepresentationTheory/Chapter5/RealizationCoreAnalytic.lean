@@ -11,26 +11,26 @@ import EtingofRepresentationTheory.Chapter5.PolynomialWeightSaturation
 import EtingofRepresentationTheory.Chapter5.PolynomialGLSemisimple
 
 /-!
-# Realization core, analytic half (issue #5606, steps 1–5 of #5602)
+# Realization core, analytic half
 
 `exists_detTwistNeg_schurModule_realization_of_simple`: a simple, finite-dimensional
 `localRightRep`-subrepresentation `S` of `R = Localization.Away (detPoly k n)` is, after a
 `det^{-r}`-twist, equivariantly isomorphic to a Schur module `SchurModuleSubmodule k n ν`.
 
-The proof follows the route laid out in the parent issue:
+The proof proceeds in five steps:
 
 1. **Det-clearing.** `S` is finite-dimensional; clearing a common denominator `det^r` embeds the
    `det^r`-twist `M := charTwistRep (det^r) S.toRepresentation` as a `polyRightRep`-invariant
    subspace of the polynomial ring `k[Xᵢⱼ]`, hence `M` is algebraic and its `ℕ`-weight spaces
    span (`exists_detTwist_polyEmbedding_of_simple_subrep`).
-2–3. **Single-degree reduction.** `M` is simple, so it embeds `GL_n`-equivariantly into a *single*
+2–3. **Single-degree reduction.** `M` is simple, so it embeds `GL_n`-equivariantly into a single
    homogeneous degree-`d` Cauchy component `polyRightDegreeFDRep k n d`
    (`exists_polyRightDegree_embedding_of_simple`), whose character is a known nonnegative
    `ℕ`-combination of distinct Schur polynomials (`polyRightDegree_char_as_antitone_sum`).
 4. **Character.** Constituent extraction (`simple_constituent_formalCharacter_eq_schurPoly_mem`)
    pins `formalCharacter M = schurPoly n ν` for an antitone `ν`.
 5. **Iso.** `simpleRep_iso_schurModule_of_formalCharacter_eq` gives `M ≅ SchurModule k n ν`; we
-   untwist by `det^{-r}` (`Intertwines.symm`/`.charTwist`) to deliver the equivariant equivalence.
+   untwist by `det^{-r}` (`Intertwines.symm`/`.charTwist`) to obtain the equivariant equivalence.
 -/
 
 open scoped TensorProduct
@@ -70,9 +70,9 @@ theorem polyRightDegree_char_as_antitone_sum
   have hval : (boundedToAntitone ν).val = ν.parts := rfl
   rw [hc (boundedToAntitone ν), hval]
 
-/-! ### Step 1 — det-clearing: the `det^r`-twist of `S` is a polynomial representation -/
+/-! ### Step 1 (det-clearing): the `det^r`-twist of `S` is a polynomial representation -/
 
-/-- **Parameterised det-clearing (issue #5606, step 1).** For any exponent `r` clearing every
+/-- **Parameterised det-clearing (step 1).** For any exponent `r` clearing every
 denominator of a basis `B` of the finite-dimensional carrier, the `det^r`-twist
 `M := charTwistRep (det^r) S.toRepresentation` is algebraic and embeds `GL_n`-equivariantly into the
 polynomial ring `k[Xᵢⱼ]` (with its right-translation action `polyRightRep`). Mirror of
@@ -207,9 +207,9 @@ theorem detTwist_clearing
         LinearMap.restrict_coe_apply _ (hU_inv g) (e.symm v)]
     exact boundedSubrep_toRepresentation_coe d g (U.subtype (e.symm v))
 
-/-- **Det-clearing into a polynomial representation (issue #5606, step 1).** A finite-dimensional
+/-- **Det-clearing into a polynomial representation (step 1).** A finite-dimensional
 `localRightRep`-subrepresentation `S` of `R = Localization.Away (detPoly k n)`, after a
-common-denominator `det^r`-twist with `r` chosen large enough, is a genuine **polynomial**
+common-denominator `det^r`-twist with `r` chosen large enough, is a polynomial
 representation: it is algebraic, its `ℕ`-weight spaces span, and it embeds `GL_n`-equivariantly into
 `k[Xᵢⱼ]`. The clearing exponent is taken `r = r₀ + s`, where `r₀` clears the basis denominators and
 `s` (from `IsAlgebraicRepresentation.exists_detPow_twist_isPolynomial`) makes the twist det⁻¹-free;
@@ -264,9 +264,9 @@ theorem exists_detTwist_polyEmbedding_of_simple_subrep
   exact polynomial_rep_iSup_glWeightSpace_eq_top
     (FDRep.of (charTwistRep (detChar k n ^ (r₀ + s)) S.toRepresentation)) hPoly
 
-/-! ### Steps 2–3 — single-degree reduction for a simple polynomial representation -/
+/-! ### Steps 2–3: single-degree reduction for a simple polynomial representation -/
 
-/-- **Single-degree reduction (issue #5606, steps 2–3).** A finite-dimensional *simple*
+/-- **Single-degree reduction (steps 2–3).** A finite-dimensional simple
 `GL_N`-representation `L` with a `GL_N`-equivariant injection into the polynomial ring `k[Xᵢⱼ]`
 (right-translation action `polyRightRep`) embeds, for some degree `d`, `GL_N`-equivariantly into
 the homogeneous degree-`d` Cauchy component `polyRightDegreeFDRep k N d`. The components
@@ -348,9 +348,9 @@ theorem exists_polyRightDegree_embedding_of_simple
   obtain ⟨d, hd⟩ := hexists
   exact ⟨d, ψ d, hd, hψ_equiv d⟩
 
-/-! ### Assembly -/
+/-! ### Main theorem -/
 
-/-- **Realization core, analytic half (issue #5606).** See the file docstring. -/
+/-- **Realization core, analytic half.** See the file docstring. -/
 theorem exists_detTwistNeg_schurModule_realization_of_simple
     (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (S : Subrepresentation (localRightRep k n))
@@ -395,7 +395,7 @@ theorem exists_detTwistNeg_schurModule_realization_of_simple
   -- Step 5: identify `L ≅ SchurModule k n ν`.
   obtain ⟨e⟩ := simpleRep_iso_schurModule_of_formalCharacter_eq k n ν.val ν.property
     L hLsimp hMtop hMalg hcharL
-  -- The native-carrier equiv (defeq to the FDRep one — `FDRep.of` carriers reduce) is `f`; split
+  -- The native-carrier equiv (defeq to the FDRep one, `FDRep.of` carriers reduce) is `f`; split
   -- the subtype's data and property so the equiv term stays syntactic for the intertwining proof.
   refine ⟨r, ν.val, ν.property, ⟨⟨(FDRep.isoToLinearEquiv e).symm, ?_⟩⟩⟩
   intro g v

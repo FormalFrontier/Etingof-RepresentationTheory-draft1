@@ -30,7 +30,7 @@ original quiver by `Etingof.reversedAtVertex_twice`. We transport it back to `Q`
 `Etingof.QuiverRepresentation.transportReversedTwice`, so that
 `Hom(V, F⁺ᵢ W)` is a hom-set of representations of `Q`.
 
-Part (a), `Exercise7_9_8`, is the resulting bijection of hom-sets — the hom-set half of
+Part (a), `Exercise7_9_8`, is the resulting bijection of hom-sets, the hom-set half of
 the adjunction `F⁻ᵢ ⊣ F⁺ᵢ`. (The full statement "`F⁺ᵢ` is right adjoint to `F⁻ᵢ`" would
 additionally package `F⁺ᵢ`/`F⁻ᵢ` as `CategoryTheory.Functor`s between the abelian
 categories `Rep(Q)` and `Rep(Q̄ᵢ)` and assert naturality of this bijection; the
@@ -110,7 +110,7 @@ theorem transportReversedTwice_mapLinear_heq
 
 /-! ### Transport packaged as `LinearEquiv`
 
-The two accessors above are stated with `HEq`. For the adjunction assembly it is far more
+The two accessors above are stated with `HEq`. For assembling the adjunction it is far more
 convenient to package the transport of the vertex space as an honest `LinearEquiv` (absorbing
 both the object-type transport and the transported `AddCommMonoid`/`Module` instances at once),
 so that transport-compatibility of `mapLinear` becomes a plain equation rather than an `HEq`.
@@ -169,9 +169,9 @@ end Etingof.QuiverRepresentation
 /-!
 ## Proof blueprint for `Exercise7_9_8` (the adjunction bijection)
 
-Status: the full adjunction bijection is now proved sorry-free (both `homFMinusEquivReduced`
-and `homTransportPlusEquivReduced`, hence `Exercise7_9_8`). This blueprint is retained as a
-guide to the assembly.
+The adjunction bijection is built from `homFMinusEquivReduced` and
+`homTransportPlusEquivReduced`, whose composite is `Exercise7_9_8`. This blueprint records
+the structure of the construction.
 
 **Key reduction.** Write `hi' := isSource_reversedAtVertex_isSink hi` (so `i` is a sink of
 `Q̄ᵢ`). Both hom-sets are equivalent to the *same* reduced data: a family
@@ -206,16 +206,16 @@ cokernel map out of `mkQ` / the kernel `subtype` being injective. Reusable ingre
 
 ## Decomposition (this file)
 
-The assembly is decomposed along the blueprint's two directions through a shared reduced-data
+The construction is decomposed along the blueprint's two directions through a shared reduced-data
 type `Etingof.AdjReducedData hi V W`: a family `h v : V v →ₗ W v` for `v ≠ i` subject to
 arrow-compatibility (A) away from `i` and the source constraint (C) at `i`. The main theorem
 `Exercise7_9_8` is assembled from two hom-set equivalences, each proved separately:
 
-* `homFMinusEquivReduced : Hom(F⁻ᵢV, W) ≃ AdjReducedData hi V W` — the cokernel side, using the
+* `homFMinusEquivReduced : Hom(F⁻ᵢV, W) ≃ AdjReducedData hi V W`, the cokernel side, using the
   `reflFunctorMinus_mapLinear_*` reductions and `Submodule.liftQ` (constraint (C) is exactly the
   well-definedness of the map out of the cokernel at `i`);
-* `homTransportPlusEquivReduced : Hom(V, transportReversedTwice (F⁺ᵢW)) ≃ AdjReducedData hi V W`
-  — the kernel side, using the `transportReversedTwice_*` accessors above together with the
+* `homTransportPlusEquivReduced : Hom(V, transportReversedTwice (F⁺ᵢW)) ≃ AdjReducedData hi V W`,
+  the kernel side, using the `transportReversedTwice_*` accessors above together with the
   `reflFunctorPlus_mapLinear_*` reductions and `LinearMap.codRestrict` (constraint (C) is exactly
   landing in the kernel, i.e. `Φ_comp_source_eq_zero`).
 -/

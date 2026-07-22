@@ -10,12 +10,12 @@ closed, nor that `V` is finite dimensional. When these assumptions are dropped, 
 change is that the entries of the matrix `Xᵢ` describing the inclusion are no longer scalars
 in `k` but live in the division algebra `Dᵢ = End_A(Vᵢ)`.
 
-Two facts make up the genuinely new content of this remark, beyond the classification of
+Two facts make up the new content of this remark, beyond the classification of
 subrepresentations itself:
 
 * **The classification already generalizes.** The Lean statement of Proposition 3.1.4,
   `Etingof.subrepresentation_of_semisimple`, is proved for an arbitrary ring `A` and
-  arbitrary simple modules `V i` — no algebraic closure, no finite dimensionality. We
+  arbitrary simple modules `V i`: no algebraic closure, no finite dimensionality. We
   re-export it here under `Etingof.Remark315.subrepresentation_general` to record that the
   generalization the remark asserts is exactly the theorem we already have.
 

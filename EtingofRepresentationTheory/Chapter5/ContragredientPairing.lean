@@ -9,20 +9,19 @@ representation `ρ.dual` acts on `Module.Dual k V` by `(ρ.dual g) f = f ∘ ρ 
 `f ⊗ v ↦ f v` (`contractLeft`), is the universal invariant pairing
 between a representation and its contragredient.
 
-This file records the two structural facts that make it a *pairing of
-representations*:
+This file records the two structural facts that make it a pairing of
+representations:
 
-* `contractLeft_dual_invariant` — the evaluation is `G`-invariant for the
-  *diagonal* action `(ρ.dual g, ρ g)`: `⟨ρ.dual g · f, ρ g · v⟩ = ⟨f, v⟩`.
-* `contractLeft_ne_zero` — for a nonzero finite-dimensional `V` the evaluation is
+* `contractLeft_dual_invariant`: the evaluation is `G`-invariant for the
+  diagonal action `(ρ.dual g, ρ g)`: `⟨ρ.dual g · f, ρ g · v⟩ = ⟨f, v⟩`.
+* `contractLeft_ne_zero`: for a nonzero finite-dimensional `V` the evaluation is
   a nonzero map.
 
-This is the elementary, GL-agnostic "the contragredient pairing is the canonical
-evaluation" brick of Etingof §5.23 (issue
-https://github.com/.../issues/5515). The genuine `GL_n` contragredient pairing
+This is the elementary, GL-agnostic form of "the contragredient pairing is the
+canonical evaluation" from Etingof §5.23. The `GL_n` contragredient pairing
 `AlgIrrepGLDual n lam k ⊗ AlgIrrepGL n lam k → k` is obtained by transporting this
-evaluation along the contragredient identity `L*_λ ≅ L_λ^∨` (tracked separately):
-`AlgIrrepGLDual = L_{w₀λ}` is the *Schur-module* realization of the contragredient,
+evaluation along the contragredient identity `L*_λ ≅ L_λ^∨`:
+`AlgIrrepGLDual = L_{w₀λ}` is the Schur-module realization of the contragredient,
 isomorphic to the linear dual `Module.Dual k (AlgIrrepGL n lam k)` carrying
 `(algIrrepGLRepρ n lam k).dual`, and the evaluation pulls back across that
 isomorphism.

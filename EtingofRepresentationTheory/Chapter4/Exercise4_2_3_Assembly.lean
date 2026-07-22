@@ -2,34 +2,35 @@ import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_FieldGeneral
 import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_StrictBound
 
 /-!
-# Assembly of Exercise 4.2.3: the strict modular counting drop
+# Exercise 4.2.3: the strict modular counting drop
 
-This file assembles the full statement of **Exercise 4.2.3**:
+This file proves the full statement of **Exercise 4.2.3**:
 
-  `Etingof.Exercise4_2_3` — if `|G| = 0` in `k` (the characteristic divides `|G|`), then
+  `Etingof.Exercise4_2_3`: if `|G| = 0` in `k` (the characteristic divides `|G|`), then
   `Nat.card (IrrepClasses k G) < Nat.card (ConjClasses G)`.
 
-It lives downstream of both `Exercise4_2_3_FieldGeneral.lean` (the split-field independence
-machinery and base-change monotonicity) and `Exercise4_2_3_StrictBound.lean` (the strict cocenter
-counting bound). The `Exercise4_2_3` statement itself cannot sit in `Exercise4_2_3.lean` because
-those two files import it — hence this dedicated assembly file.
+It depends on `Exercise4_2_3_FieldGeneral.lean` (the split-field independence machinery and
+base-change monotonicity) and `Exercise4_2_3_StrictBound.lean` (the strict cocenter counting
+bound). The `Exercise4_2_3` statement is placed here rather than in `Exercise4_2_3.lean` because
+both of those files import `Exercise4_2_3.lean`.
 
 ## The strict split-field lemma
 
-Over an **algebraically closed** field `K` with `|G| = 0` in `K`, the same linearly independent
+Over an algebraically closed field `K` with `|G| = 0` in `K`, the same linearly independent
 family of `n = #(simple K[G]-modules)` block trace forms that gives the split-field `≤` bound
-(`traceFormQ_Std_linearIndependent`) now feeds the **strict** cocenter bound
+(`traceFormQ_Std_linearIndependent`) also gives the strict cocenter bound
 `CocenterMonoidAlgebra.card_lt_conjClasses_of_traceForm_linearIndependent` (each trace form
 annihilates the nonzero central nilpotent `P̄ = ∑_g g` in the modular case), yielding the strict
 `n < Nat.card (ConjClasses G)`.
 
 ## Base change to the algebraic closure
 
-The field-general strict inequality then follows by `lt_of_le_of_lt`, with `K = AlgebraicClosure k`:
+The strict inequality over an arbitrary field then follows by `lt_of_le_of_lt`, with
+`K = AlgebraicClosure k`:
 ```
 Nat.card (IrrepClasses k G) ≤ Nat.card (IrrepClasses K G) < Nat.card (ConjClasses G).
 ```
-- the `≤` is `natCard_irrepClasses_le_of_ringHom_field` (base-change monotonicity, #6127);
+- the `≤` is `natCard_irrepClasses_le_of_ringHom_field` (base-change monotonicity);
 - the `<` is the strict split-field lemma over the algebraically closed `K` (with `|G| = 0` in `K`,
   transported from `|G| = 0` in `k` via `map_natCast (algebraMap k K)`).
 
@@ -44,7 +45,7 @@ universe u v
 
 /-- **Strict split-field bound (modular case).** Over an algebraically closed field `K` in which
 `|G| = 0`, the number of isomorphism classes of irreducible representations of a finite group `G`
-is **strictly** less than the number of conjugacy classes of `G`.
+is strictly less than the number of conjugacy classes of `G`.
 
 The proof reuses the split-field enumeration: `K[G]/rad ≅ ∏ Matrix d_i(K)` bundled as `SplitData`
 (`exists_splitSimples_count`), so `#(simple K[G]-modules) = n`, and the `n` block trace forms
@@ -65,9 +66,9 @@ theorem natCard_irrepClasses_lt_conjClasses_of_isAlgClosed
 
 /-- **Exercise 4.2.3.** If `|G| = 0` in `k` (the characteristic of `k` divides the order of the
 finite group `G`), then the number of isomorphism classes of irreducible representations of `G`
-over `k` is **strictly** less than the number of conjugacy classes of `G`.
+over `k` is strictly less than the number of conjugacy classes of `G`.
 
-Assembled by base change to the algebraic closure `K = AlgebraicClosure k`: base-change
+Proved by base change to the algebraic closure `K = AlgebraicClosure k`: base-change
 monotonicity of the simple count under `k → K` (`natCard_irrepClasses_le_of_ringHom_field`)
 followed by the strict split-field bound over the algebraically closed `K`
 (`natCard_irrepClasses_lt_conjClasses_of_isAlgClosed`, with `|G| = 0` in `K` transported from

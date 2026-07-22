@@ -14,11 +14,8 @@ i.e., B(d(V), d(V)) = 2.
 The proof: by Theorem 6.8.1, s_{i₁} ⋯ s_{iₘ}(d(V)) = αₚ. Since the sᵢ preserve B,
 B(d(V), d(V)) = B(αₚ, αₚ) = 2.
 
-## Mathlib correspondence
-
-Requires dimension vectors, simple reflections preserving the bilinear form,
-and Theorem 6.8.1. This is part of Gabriel's theorem (classification of
-quivers of finite representation type).
+This is part of Gabriel's theorem, the classification of quivers of finite
+representation type.
 -/
 
 section BilinearFormPreservation
@@ -92,9 +89,9 @@ we conclude `d` is a positive root: `d ≠ 0`, `B(d, d) = 2`, and all coordinate
 The proof reduces to: simple reflections preserve `B`, and `B(αₚ, αₚ) = 2` for any
 simple root `αₚ`.
 
-This is the purely combinatorial implication. The faithful statement of Corollary 6.8.2
-— that the dimension vector of *any* indecomposable representation of a Dynkin quiver is
-a positive root — is `Etingof.Corollary6_8_2`, which supplies the reflection sequence from
+This is the purely combinatorial implication. The full statement of Corollary 6.8.2,
+that the dimension vector of any indecomposable representation of a Dynkin quiver is
+a positive root, is `Etingof.Corollary6_8_2`, which supplies the reflection sequence from
 the representation-level Theorem 6.8.1 (`indecomposable_reduces_to_simpleRoot`) rather than
 taking it as a hypothesis. -/
 theorem Etingof.isPositiveRoot_of_iteratedReflection_eq_simpleRoot

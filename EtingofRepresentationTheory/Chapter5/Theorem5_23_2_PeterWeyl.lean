@@ -11,12 +11,12 @@ import EtingofRepresentationTheory.Chapter5.RealizationCoreAnalytic
 import EtingofRepresentationTheory.Chapter5.SchurModuleContragredientHalf
 
 /-!
-# Theorem 5.23.2(ii): the genuine `GL_n × GL_n`-equivariant Peter-Weyl decomposition
+# Theorem 5.23.2(ii): the `GL_n × GL_n`-equivariant Peter-Weyl decomposition
 
-`Theorem5_23_2.lean` states part (ii) only as a *bare `k`-linear* rank-matching
-isomorphism `R ≃ₗ[k] ⊕_λ L*_λ ⊗ L_λ` — true for any two countably-infinite-dim
-free modules, carrying no representation-theoretic content. This file states the
-genuine theorem: a **`GL_n × GL_n`-equivariant** isomorphism
+`Theorem5_23_2.lean` states part (ii) only as a bare `k`-linear rank-matching
+isomorphism `R ≃ₗ[k] ⊕_λ L*_λ ⊗ L_λ`, true for any two countably-infinite-dim
+free modules and carrying no representation-theoretic content. This file states the
+`GL_n × GL_n`-equivariant theorem: an isomorphism
 
   `R ≅ ⊕_λ L*_λ ⊗ L_λ`   as representations of `GL_n × GL_n`,
 
@@ -28,17 +28,16 @@ with its left/right translation bi-action (`localBiRep`, `LocalizationGLBiAction
 factor on `L*_λ` (via the first `GL_n`) and the right factor on `L_λ` (via the
 second `GL_n`).
 
-The right-hand-side representation `peterWeylRHS` is assembled with
+The right-hand-side representation `peterWeylRHS` is built with
 `Representation.tprod` and `Representation.directSum`. The candidate isomorphism
-`peterWeylMap : peterWeylRHS → R` is assembled here from the per-summand
+`peterWeylMap : peterWeylRHS → R` is built here from the per-summand
 matrix-coefficient maps `peterWeylSummandMap` (`PeterWeylMatrixCoeff.lean`) via
 `DirectSum.toModule`, and its `GL_n × GL_n`-equivariance (`peterWeylMap_equivariant`)
-is assembled from the per-summand equivariance. This reduces the capstone
+is built from the per-summand equivariance. This reduces the capstone
 `Theorem5_23_2_ii_equivariant` to a single bijectivity statement
 `peterWeylMap_bijective` (the Cauchy decomposition,
-`PolynomialGLDecomposition.lean` / `CauchyDetQuotient*`), which is now proved
-sorry-free (as the conjunction of `peterWeylMap_injective` and
-`peterWeylMap_surjective`).
+`PolynomialGLDecomposition.lean` / `CauchyDetQuotient*`), the conjunction of
+`peterWeylMap_injective` and `peterWeylMap_surjective`.
 -/
 
 open scoped TensorProduct
@@ -105,7 +104,7 @@ API on `⊕_λ`, which `Representation.directSum` (using only `DirectSum.lmap`) 
 instance instDecidableEqDominantWeight (n : ℕ) : DecidableEq (DominantWeight n) :=
   inferInstanceAs (DecidableEq {lam : Fin n → ℤ // Antitone lam})
 
-/-- **The assembled direct-sum matrix-coefficient map** `⊕_λ L*_λ ⊗ L_λ →ₗ[k] R`.
+/-- **The direct-sum matrix-coefficient map** `⊕_λ L*_λ ⊗ L_λ →ₗ[k] R`.
 Built from the per-summand maps `peterWeylSummandMap` (`PeterWeylMatrixCoeff.lean`)
 via `DirectSum.toModule`. This is the candidate Peter-Weyl isomorphism, in the
 `peterWeylRHS → R` direction (matrix coefficients `u ⊗ v ↦ (g ↦ ⟨u, ρ(g) v⟩)`). -/
@@ -138,9 +137,9 @@ theorem peterWeylSummandMap_map_equivariant (n : ℕ) (k : Type)
       exact peterWeylSummandMap_equivariant n lam k g h u v
   | add a b ha hb => simp only [map_add, ha, hb]
 
-/-- **`GL_n × GL_n`-equivariance of the assembled map.** `peterWeylMap` intertwines
+/-- **`GL_n × GL_n`-equivariance of the direct-sum map.** `peterWeylMap` intertwines
 the right-hand-side representation `peterWeylRHS` with the left/right-translation
-bi-action `localBiRep`. Assembled summand-by-summand from
+bi-action `localBiRep`. Built summand-by-summand from
 `peterWeylSummandMap_equivariant`, since `peterWeylRHS` acts as `DirectSum.lmap` of
 the per-summand `TensorProduct.map` actions. -/
 theorem peterWeylMap_equivariant (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
@@ -157,7 +156,7 @@ theorem peterWeylMap_equivariant (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] 
   | add x₁ x₂ ih₁ ih₂ => simp only [map_add, ih₁, ih₂]
 
 /-- **Reduction of the Peter-Weyl capstone to a single bijectivity statement.**
-Given that the assembled matrix-coefficient map `peterWeylMap` is bijective,
+Given that the matrix-coefficient map `peterWeylMap` is bijective,
 `LinearEquiv.ofBijective` upgrades it to a `k`-linear equivalence `peterWeylRHS ≃ R`;
 its inverse `R ≃ peterWeylRHS` is the equivalence demanded by
 `Theorem5_23_2_ii_equivariant`, and `peterWeylMap_equivariant` (transported across
@@ -179,7 +178,7 @@ theorem nonempty_equivariantEquiv_of_bijective
     exact peterWeylMap_equivariant n k g h x
   exact ⟨e.symm, he.symm⟩
 
-/-- **Assembly lemma (pure linear algebra): a direct-sum coproduct is injective when each
+/-- **Direct-sum coproduct injectivity (pure linear algebra): a coproduct is injective when each
 summand map is injective and their ranges are independent.** If `f i : N i →ₗ M` is injective
 for every `i` and the family of ranges `range (f i)` is `iSupIndep`, then the coproduct
 `DirectSum.toModule R ι M f : (⨁ i, N i) →ₗ M` is injective.
@@ -188,7 +187,7 @@ Proof: corestrict each `f i` to its range, `f i = (range (f i)).subtype ∘ rang
 Then `toModule R ι M f = (lsum (subtype)) ∘ (mapRange rangeRestrict)`. The right factor is
 injective because each `rangeRestrict (f i)` is (injectivity of `f i`); the left factor is
 injective by `iSupIndep.dfinsupp_lsum_injective`. This is the structural skeleton of
-Peter-Weyl injectivity: the two genuinely representation-theoretic facts it consumes are the
+Peter-Weyl injectivity: the two representation-theoretic facts it consumes are the
 per-summand injectivity and the independence of the ranges. -/
 theorem injective_toModule_of_iSupIndep_range
     {R : Type*} [Ring R] {ι : Type*} [DecidableEq ι]
@@ -259,15 +258,15 @@ theorem range_toModule_eq_iSup_range
     rw [hfi]
     exact LinearMap.range_comp_le_range _ _
 
-/-- **General-`k`, all-weights simplicity of `L_λ` as a `k[GL_n]`-module (issue #5559).**
+/-- **General-`k`, all-weights simplicity of `L_λ` as a `k[GL_n]`-module.**
 `algIrrepGLRepρ n lam k` is the `det^{-λ.shift}`-twist of the Schur module
 `schurModuleRep k n lam.toNatWeight`; det-twisting preserves simplicity
 (`isSimpleModule_charTwistRep`), so this reduces to general-`k`, all-weights Schur-module
 simplicity `schurModule_isSimple_general` (no `∑ λ ≤ n` degree guard needed). This lifts
 the `ℂ`-only, degree-constrained `algIrrepGLRep_isSimple` (`AlgIrrepGLRep.lean`) to a
 general algebraically-closed characteristic-zero field, and is the shared simplicity input
-for `peterWeylSummandMap_injective` (#5555), `peterWeylSummandMap_range_iSupIndep` (#5556),
-and `peterWeylMap_injective` (#5549). -/
+for `peterWeylSummandMap_injective`, `peterWeylSummandMap_range_iSupIndep`,
+and `peterWeylMap_injective`. -/
 theorem algIrrepGLRepρ_isSimpleModule (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (lam : DominantWeight n) :
     IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
@@ -286,13 +285,13 @@ linearly independent.
 Read through the faithful functions-on-`GL` model `evalGLAway_peterWeylSummandMap`, a nonzero
 `z = ∑ uᵢ ⊗ vᵢ` in the kernel gives a linear functional `T ↦ ∑ ⟨uᵢ, T vᵢ⟩` on `End_k(L_λ)`
 that vanishes on every `ρ_λ(g)`; by Burnside density (the image of the group algebra in
-`End_k(L_λ)` is everything, since `L_λ` is simple and `k` is algebraically closed —
+`End_k(L_λ)` is everything, since `L_λ` is simple and `k` is algebraically closed,
 `Module.Finite.toModuleEnd_moduleEnd_surjective`) the functional vanishes on all of
 `End_k(L_λ)`, and nondegeneracy of the contragredient pairing
 (`algIrrepDualPairing_nondegenerate`) forces `z = 0`.
 
-The representation-theoretic content (Burnside density + trace-form nondegeneracy) is
-discharged sorry-free by the abstract engine
+The representation-theoretic content (Burnside density and trace-form nondegeneracy) is
+discharged by the abstract lemma
 `matrixCoeff_injective_of_isSimpleModule` (`MatrixCoeffInjective.lean`): a kernel
 element `z`, read through the unconditional contragredient iso `algIrrepGLDualIso`
 into `Module.Dual k L_λ ⊗ L_λ`, satisfies `contractLeft (id ⊗ ρ g) z' = 0` for every
@@ -300,13 +299,13 @@ into `Module.Dual k L_λ ⊗ L_λ`, satisfies `contractLeft (id ⊗ ρ g) z' = 0
 density (`Representation.span_range_eq_top_of_isSimpleModule`, from Schur over
 `IsAlgClosed k` plus Jacobson density) and trace nondegeneracy then force `z' = 0`.
 
-The general-`k`, all-weights simplicity of `L_λ` as a `k[GL_n]`-module — the lift of the
-`ℂ`-only, degree-constrained `algIrrepGLRep_isSimple` — is supplied sorry-free by
-`algIrrepGLRepρ_isSimpleModule` (above, issue #5559), so this proof is now sorry-free. -/
+The general-`k`, all-weights simplicity of `L_λ` as a `k[GL_n]`-module, the lift of the
+`ℂ`-only, degree-constrained `algIrrepGLRep_isSimple`, is supplied by
+`algIrrepGLRepρ_isSimpleModule` (above). -/
 theorem peterWeylSummandMap_injective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (lam : DominantWeight n) :
     Function.Injective (peterWeylSummandMap n lam k) := by
-  -- General-`k`, all-weights simplicity of `L_λ` (issue #5559), factored above.
+  -- General-`k`, all-weights simplicity of `L_λ`, factored above.
   haveI hsimple : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       (algIrrepGLRepρ n lam k).asModule := algIrrepGLRepρ_isSimpleModule n k lam
   rw [injective_iff_map_eq_zero]
@@ -352,8 +351,8 @@ theorem peterWeylSummandMap_injective (n : ℕ) (k : Type) [Field k] [IsAlgClose
 
 /-- **Transported matrix-coefficient identity.** The contraction of `id ⊗ ρ_λ(g)` against the
 contragredient-transported tensor `(algIrrepGLDualIso ⊗ id) w` reads off the matrix coefficient
-of `w` through the faithful functions-on-`GL` model `evalGLAway`. This is the per-`g` bridge that
-feeds the abstract cross-summand engine `crossMatrixCoeff_indep_finset`; it is the
+of `w` through the faithful functions-on-`GL` model `evalGLAway`. This is the per-`g` identity
+used by the abstract cross-summand lemma `crossMatrixCoeff_indep_finset`; it is the
 single-summand `key` of `peterWeylSummandMap_injective`, factored for reuse across summands. -/
 theorem evalGLAway_peterWeylSummandMap_contractLeft
     (n : ℕ) (lam : DominantWeight n) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
@@ -374,8 +373,8 @@ theorem evalGLAway_peterWeylSummandMap_contractLeft
 /-- **Finite-family matrix-coefficient independence across summands.** If a finite sum of
 per-summand matrix coefficients vanishes in `R`, then each summand vanishes. This is the
 representation-theoretic core: through `evalGLAway` (faithful) and the transported identity
-above, the hypothesis becomes the abstract cross-summand hypothesis fed to
-`crossMatrixCoeff_indep_finset` (simplicity `algIrrepGLRepρ_isSimpleModule` + non-isomorphism
+above, the hypothesis becomes the abstract cross-summand hypothesis supplied to
+`crossMatrixCoeff_indep_finset` (simplicity `algIrrepGLRepρ_isSimpleModule` and non-isomorphism
 `algIrrepGLRepρ_noniso`), which forces the transported tensors to vanish; `evalGLAway`
 injectivity then forces each summand map value to vanish. -/
 theorem peterWeylSummandMap_finsetSum_eq_zero
@@ -420,7 +419,7 @@ model `evalGLAway`, a finite vanishing combination of matrix coefficients of the
 pairwise non-isomorphic `L_λ` is killed by the abstract Jacobson-density engine
 `crossMatrixCoeff_indep_finset` (no external-tensor `GL_n × GL_n` simplicity needed). The two
 representation-theoretic inputs are the general-`k` simplicity `algIrrepGLRepρ_isSimpleModule`
-(#5559) and the highest-weight non-isomorphism `algIrrepGLRepρ_noniso`. This is the
+and the highest-weight non-isomorphism `algIrrepGLRepρ_noniso`. This is the
 across-summand half of Peter-Weyl orthogonality. -/
 theorem peterWeylSummandMap_range_iSupIndep
     (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
@@ -441,17 +440,15 @@ theorem peterWeylSummandMap_range_iSupIndep
   rw [← hzv lam0 hlam0]
   exact peterWeylSummandMap_finsetSum_eq_zero n k s z hsum' lam0 hlam0
 
-/-- **Injectivity of the assembled matrix-coefficient map** — distinct-irreducible
+/-- **Injectivity of the direct-sum matrix-coefficient map:** distinct-irreducible
 orthogonality (Schur orthogonality across summands). `peterWeylMap` is the direct-sum coproduct
 `DirectSum.toModule` of the per-summand maps `peterWeylSummandMap`; by the pure-linear-algebra
-assembly `injective_toModule_of_iSupIndep_range` it is injective once each per-summand map is
+lemma `injective_toModule_of_iSupIndep_range` it is injective once each per-summand map is
 injective (`peterWeylSummandMap_injective`, within-summand Burnside density) and the ranges are
 independent (`peterWeylSummandMap_range_iSupIndep`, across-summand orthogonality).
 
-This is one of the two genuine Cauchy/Peter-Weyl halves of `peterWeylMap_bijective`. The two
-representation-theoretic inputs both currently rest on the simplicity infrastructure
-(`algIrrepGLRep_isSimple`, presently `ℂ`-only and degree-constrained, with the general route
-tracked in `progress/schurModule-isSimple-general-route.md`, issue #4946). Tracked as #5549. -/
+This is one of the two Cauchy/Peter-Weyl halves of `peterWeylMap_bijective`, resting on the
+simplicity of `L_λ` (`algIrrepGLRepρ_isSimpleModule`). -/
 theorem peterWeylMap_injective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
     Function.Injective (peterWeylMap n k) :=
   injective_toModule_of_iSupIndep_range _
@@ -508,9 +505,8 @@ theorem localRightRep_mem_iSup_range_peterWeylSummandMap
   · rw [map_zero]; exact Submodule.zero_mem _
   · intro a b ha hb; rw [map_add]; exact Submodule.add_mem _ ha hb
 
--- **Realization core, analytic half (steps 1–5 of issue #5602):**
--- `Etingof.exists_detTwistNeg_schurModule_realization_of_simple` is now proved sorry-free in
--- `Chapter5/RealizationCoreAnalytic.lean` (imported above) and is used directly below.
+-- The analytic realization core `Etingof.exists_detTwistNeg_schurModule_realization_of_simple`
+-- is proved in `Chapter5/RealizationCoreAnalytic.lean` and used below.
 
 /-- **Det-shift packaging, parameterized core.** Given a dominant weight `lam` whose integer
 entries are `lam.val i = ν i − r` (antitone `ν`), the irreducible `algIrrepGLRepρ n lam k` is
@@ -576,13 +572,13 @@ private theorem aux_detShift_packaging
   rw [charTwistRep_charTwistRep, hchar] at key
   exact key
 
-/-- **Realization core, det-shift packaging half (step 6 of issue #5602).** A `det^{-r}`-twisted
+/-- **Realization core, det-shift packaging half.** A `det^{-r}`-twisted
 Schur module `charTwistRep (det^{-r}) (schurModuleRep k n ν)` (antitone `ν`) is equivariantly
 isomorphic to the irreducible `algIrrepGLRepρ n lam k` for a concrete dominant weight `lam`.
 
-This is the subtle det-shift bookkeeping, now proved sorry-free below (`aux_detShift_packaging`).
-**Caveat (issue #5602, closed):**
-`DominantWeight.shift` is not free data — `algIrrepGLRepρ n lam k =
+This is the det-shift bookkeeping, established below (`aux_detShift_packaging`).
+**Caveat.**
+`DominantWeight.shift` is not free data: `algIrrepGLRepρ n lam k =
 charTwistRep (det^{-lam.shift}) (schurModuleRep k n lam.toNatWeight)` with `lam.toNatWeight =
 lam.val + lam.shift`, and setting `lam.val := ν − r` gives `lam.shift = (r − ν(last)).toNat`, so
 `lam.toNatWeight = ν − ν(last)·1`, equal to `ν` only when `ν(last) = 0`. Identifying
@@ -609,8 +605,8 @@ theorem exists_dominantWeight_algIrrepGL_iso_detTwistNeg_schurModule
 `ι : AlgIrrepGL n λ k →ₗ[k] R` intertwining `algIrrepGLRepρ n λ k` with the right-translation
 action `localRightRep`, whose range is exactly `S.toSubmodule`.
 
-This is the genuinely missing highest-weight-classification step of the Cauchy/Peter-Weyl
-spanning argument. The proof composes the two halves above (issue #5602): the analytic core
+This is the highest-weight-classification step of the Cauchy/Peter-Weyl
+spanning argument. The proof composes the two halves above: the analytic core
 `exists_detTwistNeg_schurModule_realization_of_simple` supplies `(r, ν, f)` with
 `f : charTwistRep (det^{-r}) (schurModuleRep k n ν) ≅ S.toRepresentation`, and the det-shift
 packaging `exists_dominantWeight_algIrrepGL_iso_detTwistNeg_schurModule` supplies `lam` and
@@ -658,8 +654,8 @@ Every simple, finite-dimensional `localRightRep`-subrepresentation `S` of
 `⨆_λ range (peterWeylSummandMap n λ k)` of the per-summand matrix-coefficient ranges.
 
 By the realization core `exists_dominantWeight_equivariant_realization`, `S.toSubmodule` is the range
-of a `GL_n`-equivariant `ι : AlgIrrepGL n λ k →ₗ[k] R`; the step-4 correspondence
-`equivariant_range_le_peterWeylSummandMap` (#5578) places that range inside
+of a `GL_n`-equivariant `ι : AlgIrrepGL n λ k →ₗ[k] R`; the correspondence
+`equivariant_range_le_peterWeylSummandMap` places that range inside
 `range (peterWeylSummandMap n λ k) ≤ ⨆_λ …`. -/
 theorem simpleSubrep_localRightRep_le_iSup_range
     (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
@@ -674,13 +670,13 @@ theorem simpleSubrep_localRightRep_le_iSup_range
   exact (equivariant_range_le_peterWeylSummandMap n lam k ι hι_equiv).trans
     (le_iSup (fun lam => LinearMap.range (peterWeylSummandMap n lam k)) lam)
 
-/-- **Hull-spanning bridge (the remaining Cauchy obligation, steps 2–4).** Every element of the
+/-- **Hull-spanning lemma.** Every element of the
 finite-dimensional right-translation hull `rightHull φ` of `φ ∈ R = Localization.Away (detPoly k n)`
 lies in the supremum `⨆_λ range (peterWeylSummandMap n λ k)` of the per-summand matrix-coefficient
 ranges.
 
-**Intended proof route.** The hull `rightHull φ`, with the right-translation action `localRightRep`,
-is a finite-dimensional semisimple `k[GL_n]`-module (`rightHull_isSemisimple`, #5577). Decompose it
+**Proof.** The hull `rightHull φ`, with the right-translation action `localRightRep`,
+is a finite-dimensional semisimple `k[GL_n]`-module (`rightHull_isSemisimple`). Decompose it
 into simple submodules (`IsSemisimpleModule.exists_linearEquiv_fin_dfinsupp` /
 `SimpleSubrepExtraction.exists_isSimpleModule_le`); it suffices to show each simple submodule
 `S ≤ rightHull φ` lies in `⨆_λ range (peterWeylSummandMap n λ k)`, since `rightHull φ` is their
@@ -693,15 +689,9 @@ through its formal character) there is a dominant weight `λ` and a `GL_n`-equiv
 isomorphism `e : AlgIrrepGL n λ k ≃ₗ[k] S` intertwining `algIrrepGLRepρ n λ k` with the
 `localRightRep`-action on `S`. Composing with the (equivariant) inclusion `S ↪ R` yields a
 `GL_n`-equivariant map `ι : AlgIrrepGL n λ k →ₗ[k] R` intertwining `algIrrepGLRepρ` with
-`localRightRep`, whence `S = range ι ≤ range (peterWeylSummandMap n λ k)` by the step-4
-correspondence `equivariant_range_le_peterWeylSummandMap` (#5578). Summing over the simple
-constituents gives `rightHull φ ≤ ⨆_λ range (peterWeylSummandMap n λ k)`.
-
-**Status.** The genuinely missing infrastructure is the *realization* step: turning a simple
-constituent `S ≤ R` of the hull into a concrete `λ` together with the equivariant isomorphism
-`AlgIrrepGL n λ k ≃ S` (the highest-weight classification wired to submodules of `R`). The
-semisimplicity (#5577) and the matrix-coefficient correspondence (#5578) are in place; this lemma
-records the remaining obligation as a single isolated statement. -/
+`localRightRep`, whence `S = range ι ≤ range (peterWeylSummandMap n λ k)` by the
+correspondence `equivariant_range_le_peterWeylSummandMap`. Summing over the simple
+constituents gives `rightHull φ ≤ ⨆_λ range (peterWeylSummandMap n λ k)`. -/
 theorem rightHull_le_iSup_range_peterWeylSummandMap
     (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (φ : Localization.Away (detPoly k n)) :
@@ -793,13 +783,13 @@ theorem rightHull_le_iSup_range_peterWeylSummandMap
     _ ≤ T_KG.restrictScalars k := Submodule.restrictScalars_mono (S := k) hrange_le
     _ = T := hTKG_restrict
 
-/-- **The Cauchy spanning statement — the crux of Peter-Weyl surjectivity.** The matrix
+/-- **The Cauchy spanning statement.** The matrix
 coefficients of all the irreducibles `L_λ` together span the whole coordinate ring
 `R = k[gᵢⱼ][1/det]`: the ranges of the per-summand maps `peterWeylSummandMap n λ k` have
 supremum `⊤`. Equivalent to `peterWeylMap_surjective` (via `range_toModule_eq_iSup_range`), and
-the key representation-theoretic input to `peterWeylMap_bijective`; now proved sorry-free (below).
+the key representation-theoretic input to `peterWeylMap_bijective`.
 
-**Proof route (Etingof §5.23(ii), the Cauchy decomposition of `R`).** This is the
+**Proof (Etingof §5.23(ii), the Cauchy decomposition of `R`).** This is the
 abstract Peter-Weyl "every regular function is a matrix coefficient" argument:
 
 1. *Finite-dimensional right-translation hull.* Every `φ ∈ R = Localization.Away (detPoly k n)`
@@ -819,18 +809,17 @@ abstract Peter-Weyl "every regular function is a matrix coefficient" argument:
    `evalGLAway`, `φ(g) = ε(localRightRep g φ)` where `ε` is "evaluation at the identity"; so `φ`
    is a matrix coefficient of `(W_φ, localRightRep, ε)`.
 
-4. *Matrix-coefficient correspondence (the genuine bridge).* A `GL`-equivariant inclusion
+4. *Matrix-coefficient correspondence.* A `GL`-equivariant inclusion
    `L_λ ↪ R` (a summand of `W_φ`) has its matrix coefficients realized exactly by
    `peterWeylSummandMap n λ k`; hence the matrix coefficient of `W_φ`, decomposed across the
    `L_λ` summands, lies in `⨆_λ range (peterWeylSummandMap n λ k)`.
 
-The matrix-coefficient correspondence of step 4 is available
-(`equivariant_range_le_peterWeylSummandMap`, #5578), and the hull machinery of steps 1–2 is in
-place (`RightTranslationHull.self_mem_rightHull`, `RightTranslationHull.rightHull_isSemisimple`,
-#5577). The *realization* half of steps 2–4 — identifying each simple constituent
+The matrix-coefficient correspondence of step 4 is
+`equivariant_range_le_peterWeylSummandMap`, and the hull machinery of steps 1–2 is
+`RightTranslationHull.self_mem_rightHull` and `RightTranslationHull.rightHull_isSemisimple`.
+The realization half of steps 2–4, identifying each simple constituent
 of the semisimple hull with a concrete `L_λ = AlgIrrepGL n λ k` via a `GL_n`-equivariant
-inclusion into `R` — is the lemma `rightHull_le_iSup_range_peterWeylSummandMap` below, which
-completes the proof. -/
+inclusion into `R`, is the lemma `rightHull_le_iSup_range_peterWeylSummandMap` below. -/
 theorem peterWeylSummandMap_iSup_range_eq_top
     (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
     ⨆ lam, LinearMap.range (peterWeylSummandMap n lam k) = ⊤ := by
@@ -839,8 +828,8 @@ theorem peterWeylSummandMap_iSup_range_eq_top
   exact rightHull_le_iSup_range_peterWeylSummandMap n k φ
     (RightTranslationHull.self_mem_rightHull φ)
 
-/-- **Surjectivity of the assembled matrix-coefficient map** — the Cauchy decomposition of
-`R = k[gᵢⱼ][1/det]`: every regular function on `GL_n` is a finite sum of matrix coefficients.
+/-- **Surjectivity of the direct-sum matrix-coefficient map:** the Cauchy decomposition of
+`R = k[gᵢⱼ][1/det]`, every regular function on `GL_n` is a finite sum of matrix coefficients.
 Each homogeneous degree-`d` piece of the polynomial ring `k[gᵢⱼ]` decomposes, as a right-`GL_n`
 representation, into irreducible Schur constituents
 (`CauchyCharacterRightAssembly.polyRightDegreeFDRep_formalCharacter`,
@@ -850,11 +839,9 @@ that the constituents of the determinant quotient are exactly the polynomial irr
 over all dominant weights `λ` of the `L*_λ ⊗ L_λ` isotypic block, i.e. `peterWeylMap` hits every
 element of `R`.
 
-This is the second of the two genuine Cauchy/Peter-Weyl halves of `peterWeylMap_bijective`. The
-Cauchy machinery it consumes (`Cauchy*`, `PolynomialGL*`) is sorry-free; this half — its assembly
-at the level of the localization `R`, i.e. transporting the per-degree polynomial decomposition
-across the determinant localization to the spanning statement for matrix coefficients — is now
-proved sorry-free below (issue #5550, closed). -/
+This is the second of the two Cauchy/Peter-Weyl halves of `peterWeylMap_bijective`. At the
+level of the localization `R`, it transports the per-degree polynomial decomposition
+across the determinant localization to the spanning statement for matrix coefficients. -/
 theorem peterWeylMap_surjective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
     Function.Surjective (peterWeylMap n k) := by
   rw [← LinearMap.range_eq_top]
@@ -862,23 +849,23 @@ theorem peterWeylMap_surjective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [
   rw [range_toModule_eq_iSup_range]
   exact peterWeylSummandMap_iSup_range_eq_top n k
 
-/-- **Bijectivity of the assembled matrix-coefficient map** (the Cauchy decomposition).
+/-- **Bijectivity of the direct-sum matrix-coefficient map** (the Cauchy decomposition).
 This is the remaining representation-theoretic input to the Peter-Weyl capstone: the matrix
 coefficients of the pairwise-distinct irreducibles `L_λ` are linearly independent
 (`peterWeylMap_injective`) and span `R = k[gᵢⱼ][1/det]` (`peterWeylMap_surjective`). Bijectivity
-is the conjunction of the two; each half is its own genuine Cauchy/orthogonality theorem. -/
+is the conjunction of the two; each half is its own Cauchy/orthogonality theorem. -/
 theorem peterWeylMap_bijective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
     Function.Bijective (peterWeylMap n k) :=
   ⟨peterWeylMap_injective n k, peterWeylMap_surjective n k⟩
 
-/-- **Theorem 5.23.2(ii) — Peter-Weyl for `GL_n(k)`.** The coordinate ring
+/-- **Theorem 5.23.2(ii): Peter-Weyl for `GL_n(k)`.** The coordinate ring
 `R = k[gᵢⱼ][1/det]`, as a representation of `GL_n × GL_n` under the left/right
 translation bi-action `(g, h) · φ = L_g R_h φ` (`localBiRep`), is
-**`GL_n × GL_n`-equivariantly isomorphic** to `⊕_λ L*_λ ⊗ L_λ` (`peterWeylRHS`),
+`GL_n × GL_n`-equivariantly isomorphic to `⊕_λ L*_λ ⊗ L_λ` (`peterWeylRHS`),
 the sum over all dominant integer weights `λ = (λ₁ ≥ ⋯ ≥ λ_n)`.
 
 Unlike the bare rank iso `Theorem5_23_2_ii` in `Theorem5_23_2.lean`, this carries
-genuine representation-theoretic content: the isomorphism intertwines the two
+representation-theoretic content: the isomorphism intertwines the two
 `GL_n × GL_n`-actions (`IsEquivariantEquiv`).
 
 **Proof (Etingof §5.23(ii)).** By part (i) every algebraic representation is
@@ -888,16 +875,15 @@ coefficient map `L*_λ ⊗ L_λ → R`, `u ⊗ v ↦ (g ↦ ⟨u, g⁻¹ v⟩)`,
 matrix coefficients of the pairwise-distinct irreducibles `L_λ` are linearly
 independent and span `R` (the Cauchy decomposition,
 `PolynomialGLDecomposition.lean` / `CauchyDetQuotient*`) gives the isomorphism.
-The detailed assembly is out of scope for this file. -/
+The detailed construction is out of scope for this file. -/
 theorem Theorem5_23_2_ii_equivariant
     (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
     Nonempty { e : Localization.Away (detPoly k n) ≃ₗ[k]
         (DirectSum (DominantWeight n) fun lam =>
           (AlgIrrepGLDual n lam k ⊗[k] AlgIrrepGL n lam k)) //
       IsEquivariantEquiv (localBiRep k n) (peterWeylRHS n k) e } :=
-  -- The equivariant *structure* is assembled here: `peterWeylMap` together with
-  -- `peterWeylMap_equivariant` reduce the capstone to `peterWeylMap_bijective`
-  -- (the Cauchy decomposition), now proved sorry-free.
+  -- `peterWeylMap` together with `peterWeylMap_equivariant` reduce the capstone to
+  -- `peterWeylMap_bijective` (the Cauchy decomposition).
   nonempty_equivariantEquiv_of_bijective n k (peterWeylMap_bijective n k)
 
 end Etingof

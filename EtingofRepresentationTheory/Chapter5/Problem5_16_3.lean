@@ -25,11 +25,11 @@ rectangular Young diagram, and compute this scalar.
 `Equiv.swap 0 j` for `j ≠ 0`; so `sumTranspositionsWith1 n = ∑_{0 < j} (0 j) ∈ ℂ[S_n]`.
 
 * **(a)** For a representation `ρ : Representation ℂ S_n V` on a finite-dimensional `V`, `E` acts
-  by the endomorphism `T = ρ.asAlgebraHom E`. The claim is that `T` is diagonalizable — there is a
-  basis of `V` consisting of eigenvectors — and every eigenvalue is an integer `m` with
+  by the endomorphism `T = ρ.asAlgebraHom E`. The claim is that `T` is diagonalizable (there is a
+  basis of `V` consisting of eigenvectors) and every eigenvalue is an integer `m` with
   `1 - n ≤ m ≤ n - 1`.
 * **(b)** `E` acts on the Specht module `V_λ = ℂ[S_n]·c_λ` (by left multiplication) by a scalar if
-  and only if `λ` is **rectangular** (`IsRectangular`: the parts multiset is `r` copies of a
+  and only if `λ` is rectangular (`IsRectangular`: the parts multiset is `r` copies of a
   single value `c`).
 
 ## Proof structure (part a)
@@ -41,7 +41,7 @@ Following the book hint `E = C_n − C_{n-1}`:
   of transpositions `(i j)` with `0 < i < j` (the transpositions fixing point `0`).
 * `sumTranspositionsStab` is `sumTranspositions (n-1)` transported along the embedding
   `S_{n-1} ↪ S_n` fixing point `0` (`permEmbZero`, via `Fin.succ`); this lets the reusable
-  eigenvalue lemma from `SumTranspositionsEigenvalues` (Problem 5.16.3(a)-core, #6284) apply.
+  eigenvalue lemma from `SumTranspositionsEigenvalues` apply.
 * `sumTranspositionsWith1_hasEigenvalue_integer`: every eigenvalue of `T = A − B` is an integer,
   where `A = ρ E` for `C_n` and `B = ρ E` for `C_{n-1}`. Because `A` commutes with `B` (`C_n` is
   central), `A` preserves each eigenspace of `T`; on that eigenspace `A` has an eigenvector `w`
@@ -354,11 +354,11 @@ theorem sumTranspositionsWith1_diagonalizable_integer_eigenvalues
     · push_cast; omega
     · push_cast; omega
 
-/-! ### Branching bridge for `permEmbZero`
+/-! ### Branching rule for `permEmbZero`
 
 `res_spechtModule_character` (Problem 5.16.1) states the branching rule for the restriction along
-`permEmb` (the stabiliser of the **last** point).  The central element `sumTranspositionsStab`
-lives inside the stabiliser of the **first** point, restriction along `permEmbZero`.  The two
+`permEmb` (the stabiliser of the last point).  The central element `sumTranspositionsStab`
+lives inside the stabiliser of the first point, restriction along `permEmbZero`.  The two
 subgroups are conjugate by the cyclic rotation `finRotate (m+1)`; since the Specht character is a
 class function, the branching rule transfers verbatim to `permEmbZero`. -/
 
@@ -462,7 +462,7 @@ lemma repIsotypicMult_restrictRep_spechtModule (m : ℕ) (la : Nat.Partition (m 
   · simp only [h, if_true] at hmul ⊢; exact_mod_cast hmul
   · simp only [h, if_false] at hmul ⊢; exact_mod_cast hmul
 
-/-! ### Deliverable 1: `asAlgebraHom` acts by left multiplication on `V_λ`
+/-! ### `asAlgebraHom` acts by left multiplication on `V_λ`
 
 The algebra homomorphism `asAlgebraHom (spechtModuleRep n la)` sends a group-algebra element `a`
 to the endomorphism "left multiply by `a`" on `V_λ ⊆ ℂ[S_n]`. This coe lemma lets us translate
@@ -487,7 +487,7 @@ lemma spechtModuleRep_asAlgebraHom_coe (n : ℕ) (la : Nat.Partition n) (a : Sym
       rw [Algebra.smul_def, map_mul, Algebra.smul_def, AlgHom.commutes]
     rw [hsm, LinearMap.smul_apply, Submodule.coe_smul_of_tower, hf, smul_mul_assoc]
 
-/-! ### Deliverable 2: scalar criterion via the branching spectrum
+/-! ### Scalar criterion via the branching spectrum
 
 `C_{n-1} = sumTranspositionsStab (m+1)` acts on `V_la` by the scalar `c` iff every
 `ν ∈ removeSquare la` has content `c`. The forward direction extracts, for each
@@ -637,7 +637,7 @@ lemma sumTranspositionsStab_acts_scalar_iff_content_const (m : ℕ) (la : Nat.Pa
       _ = c • ρW.asModuleEquiv (ρW.asModuleEquiv.symm y) := by rw [map_smul]
       _ = c • y := by rw [LinearEquiv.apply_symm_apply]
 
-/-! ### Deliverable 3: corner/content combinatorics
+/-! ### Corner/content combinatorics
 
 `content` is constant on `removeSquare la` if and only if `la` is rectangular. Removable corners
 of `la` occupy strictly decreasing rows with strictly decreasing columns, so their box contents

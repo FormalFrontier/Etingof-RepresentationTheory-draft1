@@ -41,11 +41,11 @@ def Etingof.DynkinType.rank : Etingof.DynkinType → ℕ
 
 /-- The adjacency matrix of a Dynkin diagram of the given type.
 
-- **A_n**: path graph 0—1—2—⋯—(n-1)
-- **D_n**: path 0—1—⋯—(n-2) with branch edge (n-3)—(n-1)
-- **E₆**: path 0—1—2—3—4 with branch edge 2—5
-- **E₇**: path 0—1—2—3—4—5 with branch edge 2—6
-- **E₈**: path 0—1—2—3—4—5—6 with branch edge 2—7 -/
+- **A_n**: path graph 0-1-2-⋯-(n-1)
+- **D_n**: path 0-1-⋯-(n-2) with branch edge (n-3)-(n-1)
+- **E₆**: path 0-1-2-3-4 with branch edge 2-5
+- **E₇**: path 0-1-2-3-4-5 with branch edge 2-6
+- **E₈**: path 0-1-2-3-4-5-6 with branch edge 2-7 -/
 def Etingof.DynkinType.adj : (t : Etingof.DynkinType) → Matrix (Fin t.rank) (Fin t.rank) ℤ
   | .A _n _ => fun i j =>
       if (i.val + 1 = j.val) ∨ (j.val + 1 = i.val) then 1 else 0
@@ -75,8 +75,7 @@ namespace Etingof
 
 open Matrix Finset
 
-/-- Local restatement of the general `pow_eq_zero` removed from Mathlib in v4.30
-(only a `Complex.UnitDisc`-specific one remains); recovers `a = 0` from `a ^ n = 0`. -/
+/-- Restatement of `pow_eq_zero`: recovers `a = 0` from `a ^ n = 0`. -/
 private theorem pow_eq_zero {M₀ : Type*} [MonoidWithZero M₀] [NoZeroDivisors M₀]
     {a : M₀} {n : ℕ} [NeZero n] (h : a ^ n = 0) : a = 0 :=
   (pow_eq_zero_iff (NeZero.ne n)).mp h
@@ -625,7 +624,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
   · -- 0-1 entries
     intro i j; simp only [DynkinType.adj]; split_ifs <;> simp
   · -- Connectivity: D_n is connected
-    -- D_n: path 0—1—...—(n-2) with branch edge (n-3)—(n-1)
+    -- D_n: path 0-1-...-(n-2) with branch edge (n-3)-(n-1)
     intro i j
     -- Helper for main path connectivity (both vertices < n-1, ascending)
     have main_asc : ∀ (a b : Fin n), a.val < n - 1 → b.val < n - 1 → a.val ≤ b.val →
@@ -716,7 +715,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
               rw [if_pos]; right; right; refine ⟨?_, ?_⟩ <;> dsimp <;> omega
             | 1 =>
               dsimp only [List.get]; simp only [DynkinType.adj]
-              -- v4.31: dsimp no longer reduces the Fin.val goals here; omega closes directly
+              -- `dsimp` does not reduce the `Fin.val` goals here; `omega` closes them directly
               rw [if_pos]; left; left; refine ⟨?_, ?_⟩ <;> omega
     · by_cases hj : j.val = n - 1
       · -- j = n-1, i on main path: route through n-3
@@ -789,7 +788,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
             match k with
             | 0 =>
               dsimp only [List.get]; simp only [DynkinType.adj]
-              -- v4.31: dsimp no longer reduces the Fin.val goals here; omega closes directly
+              -- `dsimp` does not reduce the `Fin.val` goals here; `omega` closes them directly
               rw [if_pos]; left; right; refine ⟨?_, ?_⟩ <;> omega
             | 1 =>
               dsimp only [List.get]; simp only [DynkinType.adj]
@@ -906,7 +905,7 @@ private lemma E6_isDynkin : IsDynkinDiagram 6 (DynkinType.adj .E6) := by
       omega
     exact hx (funext fun i => by fin_cases i <;> assumption)
 
-/-- Explicit tree-paths for E₇: path 0—1—2—3—4—5 with branch 2—6. -/
+/-- Explicit tree-paths for E₇: path 0-1-2-3-4-5 with branch 2-6. -/
 private def E7_treePath : Fin 7 → Fin 7 → List (Fin 7) := fun i j =>
   match i, j with
   | 0, 0 => [0] | 0, 1 => [0, 1] | 0, 2 => [0, 1, 2]
@@ -1013,7 +1012,7 @@ private lemma E7_isDynkin : IsDynkinDiagram 7 (DynkinType.adj .E7) := by
       omega
     exact hx (funext fun i => by fin_cases i <;> assumption)
 
-/-- Explicit tree-paths for E₈: path 0—1—2—3—4—5—6 with branch 2—7. -/
+/-- Explicit tree-paths for E₈: path 0-1-2-3-4-5-6 with branch 2-7. -/
 private def E8_treePath : Fin 8 → Fin 8 → List (Fin 8) := fun i j =>
   match i, j with
   | 0, 0 => [0] | 0, 1 => [0, 1] | 0, 2 => [0, 1, 2]

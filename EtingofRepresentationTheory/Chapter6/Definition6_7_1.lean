@@ -8,7 +8,7 @@ Let Q be a quiver with underlying graph Γ. Fix a labeling 1, …, n of the vert
 The **Coxeter element** c corresponding to this labeling is c = s₁ s₂ ⋯ sₙ,
 the product of all simple reflections.
 
-Here the simple reflections sᵢ are the genuine simple reflections of the quiver
+Here the simple reflections sᵢ are the simple reflections of the quiver
 (Definition 6.4.10) acting on the root lattice ℤⁿ, defined from the Cartan matrix
 A = 2·Id − adj (Definition 6.4.1). The Coxeter element is therefore the ordered
 composition of these reflections on ℤⁿ, not an abstract group product: it is tied to

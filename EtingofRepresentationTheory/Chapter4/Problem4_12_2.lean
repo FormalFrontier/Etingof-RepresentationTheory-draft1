@@ -41,10 +41,15 @@ The (a)–(d) theorems below are all proved (`sorry`-free):
   homomorphisms `G → ℂˣ`, since `G^{ab} ≅ (ZMod p)²`); `R1_decomposes`: `R_1` is an internal
   direct sum of `p` one-dimensional `G`-invariant subspaces (each of the `p` distinct
   characters of the cyclic quotient occurs exactly once).
-* **(d)** `irreducible_dim`: every irreducible complex representation of `G` has dimension `1`
-  or `p`. Together with (c) and the sum-of-squares formula
-  `p²·1² + (p-1)·p² = p³ = |G|`, the irreducibles are the `p²` characters and the `p-1`
-  representations `R_z` (`z ≠ 1`) of dimension `p`.
+* **(d)** `simple_iso_charRep_or_rhoHom`: the full classification — every finite-dimensional
+  simple `G`-representation is isomorphic either to a `1`-dimensional character `charRep χ`
+  (`χ : G → ℂˣ`) or to a `p`-dimensional `R_z = rhoHom z` (`z ≠ 1` a `p`-th root of unity).
+  Uniqueness within each branch is `charRep_iso_iff` (characters iso iff equal) and
+  `rhoHom_iso_iff` (`R_z` iso iff the roots agree); the two branches are disjoint by
+  `charRep_not_iso_rhoHom` (dimension `1 ≠ p`). `irreducible_dim`: the dimension dichotomy
+  read off the classification — every irreducible has dimension `1` or `p`. Together with (c)
+  and the sum-of-squares formula `p²·1² + (p-1)·p² = p³ = |G|`, the irreducibles are exactly
+  the `p²` characters and the `p-1` representations `R_z` (`z ≠ 1`) of dimension `p`.
 -/
 
 noncomputable section
@@ -760,21 +765,25 @@ theorem surj_of_injective_of_sum_eq {n : ℕ} {ι : Type*} [Fintype ι]
   obtain ⟨i, _, hi⟩ := Finset.mem_image.mp hjmem
   exact ⟨i, hi⟩
 
-/-- **Part (d).** Every irreducible complex representation of the Heisenberg group has
-dimension `1` or `p`. (Combined with (c) and the sum-of-squares formula
-`p²·1² + (p-1)·p² = p³`, the irreducibles are exactly the `p²` characters together with the
-`p-1` representations `R_z` for `z ≠ 1`, each of dimension `p`.)
+/-- **Part (d), full classification.** Every finite-dimensional simple complex representation
+`U` of the Heisenberg group is isomorphic to exactly one member of the complete family of
+irreducibles: either a one-dimensional character `χ : Heisenberg p →* ℂˣ` (via `charRep`, the
+`p²` one-dimensional reps of part (c)), or one of the `p`-dimensional representations `R_z`
+for a `p`-th root of unity `z ≠ 1` (via `rhoHom`, the `p-1` irreducibles of part (b)).
 
 The proof exhibits the `p²` one-dimensional characters and the `p-1` representations `R_z`
 (`z ≠ 1` a `p`-th root of unity) as a family of pairwise non-isomorphic simples whose squared
 dimensions sum to `p²·1 + (p-1)·p² = p³ = |G|`. Since the full sum of squared dimensions over
-*all* simples is also `p³` and every term is positive, this family is complete, so every simple
-is isomorphic to one of them and has dimension `1` or `p`. -/
-theorem irreducible_dim [Fact p.Prime]
-    {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
-    (σ : Representation ℂ (Heisenberg p) W)
-    (hσ : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) σ.asModule) :
-    Module.finrank ℂ W = 1 ∨ Module.finrank ℂ W = p := by
+*all* simples is also `p³` and every term is positive, this family is complete (pigeonhole),
+so every simple is isomorphic to one of them. Non-isomorphy of the two branches follows from
+their differing dimensions (`1 ≠ p`); within a branch, characters are separated by their value
+and the `R_z` by their central character `z^{(-1).val}·p`. -/
+theorem simple_iso_charRep_or_rhoHom [Fact p.Prime]
+    (U : FDRep ℂ (Heisenberg p)) [hUsimple : Simple U] :
+    (∃ χ : Heisenberg p →* ℂˣ,
+        Nonempty (U ≅ FDRep.of (Etingof.Example4_3_S3.charRep χ))) ∨
+    (∃ z : ℂ, ∃ (hz : z ^ p = 1), z ≠ 1 ∧
+        Nonempty (U ≅ FDRep.of (rhoHom z hz))) := by
   classical
   haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hp1 : 1 < p := (Fact.out : p.Prime).one_lt
@@ -912,12 +921,75 @@ theorem irreducible_dim [Fact p.Prime]
     exact pow_pos hpos 2
   have hcsurj : Function.Surjective c :=
     surj_of_injective_of_sum_eq _ hVpos c hc_inj hmatch
-  -- Dimension conclusion for the family.
-  have hEdisj : ∀ i, Module.finrank ℂ (E i) = 1 ∨ Module.finrank ℂ (E i) = p := by
-    rintro (χ | k)
-    · exact Or.inl (hEfinL χ)
-    · exact Or.inr (hEfinR k)
-  -- Transport `σ` to a representation in `ℂ`'s universe so the enumeration applies to it.
+  -- `U ≅ V j` for some `j`; surjectivity of `c` gives an `i` with `V (c i) = V j`, hence
+  -- `U ≅ E i`.  Reading off which branch `i` lies in gives the classification.
+  obtain ⟨j, hjU⟩ := hVsurj U hUsimple
+  obtain ⟨i, hci⟩ := hcsurj j
+  have hUEi : Nonempty (U ≅ E i) :=
+    ⟨hjU.some ≪≫ eqToIso (congrArg V hci).symm ≪≫ (hc i).some.symm⟩
+  rcases i with χ | k
+  · exact Or.inl ⟨χ, hUEi⟩
+  · exact Or.inr ⟨zof k, hzof_p k, hzof_ne1 k, hUEi⟩
+
+/-- The `p²` one-dimensional characters are pairwise non-isomorphic: `FDRep.of (charRep χ)` and
+`FDRep.of (charRep χ')` are isomorphic exactly when `χ = χ'`. Together with
+`simple_iso_charRep_or_rhoHom` this pins down the character `χ` uniquely. -/
+theorem charRep_iso_iff (χ χ' : Heisenberg p →* ℂˣ) :
+    Nonempty (FDRep.of (Etingof.Example4_3_S3.charRep χ) ≅
+        FDRep.of (Etingof.Example4_3_S3.charRep χ')) ↔ χ = χ' := by
+  constructor
+  · rintro ⟨α⟩
+    ext g
+    have hg := congrFun (FDRep.char_iso α) g
+    rw [Etingof.Example4_3_S3.charRep_character, Etingof.Example4_3_S3.charRep_character] at hg
+    exact hg
+  · rintro rfl; exact ⟨Iso.refl _⟩
+
+/-- The `p-1` representations `R_z` (`z ≠ 1`) are pairwise non-isomorphic: `FDRep.of (rhoHom z hz)`
+and `FDRep.of (rhoHom z' hz')` are isomorphic exactly when `z = z'`. Together with
+`simple_iso_charRep_or_rhoHom` this pins down the root of unity `z` uniquely.
+
+(Distinctness is read off the central character `z^{(-1).val}·p` of `R_z`; the value at the
+central generator `⟨0,0,1⟩` recovers `z`.) -/
+theorem rhoHom_iso_iff [Fact p.Prime] {z z' : ℂ} (hz : z ^ p = 1) (hz' : z' ^ p = 1) :
+    Nonempty (FDRep.of (rhoHom z hz) ≅ FDRep.of (rhoHom z' hz')) ↔ z = z' := by
+  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have hpℂ : (p : ℂ) ≠ 0 := by exact_mod_cast (Fact.out : p.Prime).pos.ne'
+  constructor
+  · rintro ⟨α⟩
+    have hg := congrFun (FDRep.char_iso α) (⟨0, 0, 1⟩ : Heisenberg p)
+    rw [character_rhoHom_central, character_rhoHom_central] at hg
+    exact powNegOneVal_inj hz hz' (mul_right_cancel₀ hpℂ hg)
+  · rintro rfl; exact ⟨Iso.refl _⟩
+
+/-- A character `R_χ` (dimension `1`) and a representation `R_z` (dimension `p`) are never
+isomorphic (`p > 1`), so the two branches of `simple_iso_charRep_or_rhoHom` are disjoint. -/
+theorem charRep_not_iso_rhoHom [Fact p.Prime] (χ : Heisenberg p →* ℂˣ) {z : ℂ} (hz : z ^ p = 1) :
+    ¬ Nonempty (FDRep.of (Etingof.Example4_3_S3.charRep χ) ≅ FDRep.of (rhoHom z hz)) := by
+  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have hp1 : 1 < p := (Fact.out : p.Prime).one_lt
+  rintro ⟨α⟩
+  have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv α)
+  rw [show Module.finrank ℂ (FDRep.of (Etingof.Example4_3_S3.charRep χ)) = 1 from
+      Module.finrank_self ℂ, finrank_rhoHom z hz] at hfr
+  omega
+
+/-- **Part (d).** Every irreducible complex representation of the Heisenberg group has
+dimension `1` or `p`. (Combined with (c) and the sum-of-squares formula
+`p²·1² + (p-1)·p² = p³`, the irreducibles are exactly the `p²` characters together with the
+`p-1` representations `R_z` for `z ≠ 1`, each of dimension `p`.)
+
+This is the dimension dichotomy read off the full classification
+`simple_iso_charRep_or_rhoHom`: a simple is either a `1`-dimensional character or a
+`p`-dimensional `R_z`. -/
+theorem irreducible_dim [Fact p.Prime]
+    {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+    (σ : Representation ℂ (Heisenberg p) W)
+    (hσ : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) σ.asModule) :
+    Module.finrank ℂ W = 1 ∨ Module.finrank ℂ W = p := by
+  classical
+  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  -- Transport `σ` to a representation `U` in `ℂ`'s universe so the classification applies.
   letI M := Representation.asModule σ
   haveI : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) M := hσ
   haveI : Module.Finite ℂ M := Module.Finite.equiv (Representation.asModuleEquiv σ).symm
@@ -945,14 +1017,14 @@ theorem irreducible_dim [Fact p.Prime]
     have h2 : dM = Module.finrank ℂ W := by
       rw [hdM]; exact (Representation.asModuleEquiv σ).finrank_eq
     rw [h1, h2]
-  -- `U ≅ V j` for some `j`; surjectivity of `c` gives `V j ≅ E i`, so `dim W = dim E i ∈ {1,p}`.
-  obtain ⟨j, hjU⟩ := hVsurj U hUsimple
-  obtain ⟨i, hci⟩ := hcsurj j
-  have hUfr : Module.finrank ℂ U = Module.finrank ℂ (E i) := by
-    have hUVj : Module.finrank ℂ U = Module.finrank ℂ (V j) :=
-      LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hjU.some)
-    rw [hUVj, ← hci, ← hfinrankc i]
-  rw [hWU, hUfr]
-  exact hEdisj i
+  rw [hWU]
+  rcases simple_iso_charRep_or_rhoHom U with ⟨χ, hχ⟩ | ⟨z, hz, _, hziso⟩
+  · left
+    rw [LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hχ.some)]
+    show Module.finrank ℂ ℂ = 1
+    exact Module.finrank_self ℂ
+  · right
+    rw [LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hziso.some)]
+    exact finrank_rhoHom z hz
 
 end Etingof.Problem4_12_2

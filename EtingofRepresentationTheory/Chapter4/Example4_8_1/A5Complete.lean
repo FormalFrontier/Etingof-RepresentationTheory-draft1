@@ -6,12 +6,12 @@ import EtingofRepresentationTheory.Chapter4.Corollary4_2_2
 
 The five representations `irrepA5 0..4 : Fin 5 → FDRep ℂ A₅` are simple
 (`irrepA5_simple`) and pairwise non-isomorphic (`irrepA5_pairwise`). Since `A₅` has exactly
-`5` conjugacy classes (`Etingof.Example4_8_1_A5_conj_classes`), Corollary 4.2.2 — which
-produces a complete list of `|ConjClasses G|` simple representations — forces `irrepA5` to be
-a *complete* list: every simple `FDRep ℂ A₅` is isomorphic to some `irrepA5 i`.
+`5` conjugacy classes (`Etingof.Example4_8_1_A5_conj_classes`), Corollary 4.2.2, which
+produces a complete list of `|ConjClasses G|` simple representations, forces `irrepA5` to be
+a complete list: every simple `FDRep ℂ A₅` is isomorphic to some `irrepA5 i`.
 
-* `simple_iso_irrepA5` — every simple `V : FDRep ℂ A₅` satisfies `V ≅ irrepA5 i` for some `i`.
-* `exists_char_eq_chiA5` — hence its character is the `i`-th row `chiA5 i` of the `A₅`
+* `simple_iso_irrepA5`: every simple `V : FDRep ℂ A₅` satisfies `V ≅ irrepA5 i` for some `i`.
+* `exists_char_eq_chiA5`: hence its character is the `i`-th row `chiA5 i` of the `A₅`
   character table (evaluated at the conjugacy class of `g`).
 
 This is the reusable completeness input for the icosahedral decomposition theorems of
@@ -28,8 +28,8 @@ private noncomputable instance : Invertible (Fintype.card (alternatingGroup (Fin
 
 /-- **Completeness of `irrepA5`.** Every simple complex representation of `A₅` is isomorphic
 to one of the five `irrepA5 i`. The five are pairwise non-isomorphic simples and there are
-exactly `5 = |ConjClasses A₅|` iso-classes of simples (Corollary 4.2.2), so they exhaust
-them. -/
+exactly `5 = |ConjClasses A₅|` isomorphism classes of simples (Corollary 4.2.2), so they
+exhaust them. -/
 theorem simple_iso_irrepA5 (V : FDRep ℂ (alternatingGroup (Fin 5))) [Simple V] :
     ∃ i : Fin 5, Nonempty (V ≅ irrepA5 i) := by
   obtain ⟨n, W, _hWsimp, _hWinj, hWsurj, hn⟩ :=

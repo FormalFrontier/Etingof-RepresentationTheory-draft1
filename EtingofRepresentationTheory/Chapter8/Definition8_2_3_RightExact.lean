@@ -5,7 +5,7 @@ import Mathlib.CategoryTheory.Adjunction.Limits
 # Right-exactness of `- ⊗_A N`
 
 The functor `tensorRightFunctor A N : ModuleCat Aᵐᵒᵖ ⥤ AddCommGrpCat` of Definition 8.2.3,
-sending a right `A`-module `M` to `M ⊗_A N`, is a **left adjoint**: its right adjoint sends an
+sending a right `A`-module `M` to `M ⊗_A N`, is a left adjoint: its right adjoint sends an
 abelian group `B` to the right `A`-module (= left `Aᵐᵒᵖ`-module) `N →+ B`, with action
 `(x • f) n = f (x.unop • n)`. This is the tensor–hom adjunction
 
@@ -189,11 +189,11 @@ section CommBase
 
 open scoped TensorProduct
 
-/-- For a **commutative** ring `A`, the ring tensor product `M ⊗_A N` of Definition 8.2.3 (a
+/-- For a commutative ring `A`, the ring tensor product `M ⊗_A N` of Definition 8.2.3 (a
 quotient of the ℤ-tensor by the balancing relation) is additively isomorphic to Mathlib's
 `TensorProduct A M N`, provided the right `A`-action on `M` (through `Aᵐᵒᵖ`) coincides with a
-left `A`-module structure on `M`. This is the glue that turns `Tor₀ᴬ(M, N) ≅ tensorOver A N M`
-into the honest tensor product `M ⊗[A] N` when `A` is commutative. -/
+left `A`-module structure on `M`. This identifies `Tor₀ᴬ(M, N) ≅ tensorOver A N M`
+with the honest tensor product `M ⊗[A] N` when `A` is commutative. -/
 noncomputable def tensorOverEquivTensor {A : Type u} [CommRing A] {N : Type u} [AddCommGroup N]
     [Module A N] {M : Type u} [AddCommGroup M] [Module Aᵐᵒᵖ M] [Module A M]
     (hcompat : ∀ (a : A) (m : M), (MulOpposite.op a • m : M) = a • m) :
