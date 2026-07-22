@@ -287,10 +287,7 @@
     "end_line": 23,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true,
-    "coverage": "covered_full",
-    "coverage_note": "The public AlgHom abbreviation exactly records the source's linearity, multiplicativity, and unit-preservation conditions under the active unital-algebra convention.",
-    "last_updated": "2026-07-22"
+    "sorry_free": true
   },
   {
     "id": "Chapter2/Discussion_commutativity_examples",
@@ -319,7 +316,7 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "coverage_note": "The public LieRing and LieAlgebra structures record the skew-symmetric bilinear bracket and Jacobi identity in the definition.",
+    "coverage_note": "The public AlgHom abbreviation exactly records the source's linearity, multiplicativity, and unit-preservation conditions under the active unital-algebra convention.",
     "last_updated": "2026-07-22"
   },
   {
@@ -1088,7 +1085,10 @@
     "end_line": 21,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The public LieRing and LieAlgebra structures record the skew-symmetric bilinear bracket and Jacobi identity in the definition.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Example2.9.2",
