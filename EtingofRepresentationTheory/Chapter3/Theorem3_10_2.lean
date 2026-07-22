@@ -4,6 +4,7 @@ import Mathlib.RingTheory.TensorProduct.Basic
 import Mathlib.Algebra.Algebra.Tower
 import Mathlib.LinearAlgebra.TensorProduct.Basis
 import Mathlib.RingTheory.Artinian.Module
+import Mathlib.Algebra.Polynomial.AlgebraMap
 import EtingofRepresentationTheory.Chapter3.Theorem3_2_2
 
 /-!
@@ -731,3 +732,60 @@ theorem Etingof.tensor_product_irreducible_classification_unique
       = TensorProduct.map ((Algebra.lsmul k k W' : B →ₐ[k] _) b) LinearMap.id
           ((TensorProduct.comm k V' W') (e ((TensorProduct.comm k W V) x)))
   rw [comm_map_apply, hB, comm_map_apply]
+
+/-! ## Regression: the theorem applies to an infinite-dimensional algebra
+
+Theorem 3.10.2 assumes finite-dimensionality of the *representations*, not of the
+algebras `A`, `B`. The polynomial algebra `k[X]` is infinite-dimensional over `k`, yet the
+base field `k` is a one-dimensional (hence finite-dimensional and simple) `k[X]`-module with
+`X` acting as `0` (restriction of scalars along the augmentation `k[X] → k`, `p ↦ p(0)`).
+
+The examples below confirm that `Etingof.tensor_product_irreducible` and
+`Etingof.tensor_product_irreducible_classification` apply with `A = B = k[X]`. This would be
+impossible if the removed `[FiniteDimensional k A]` / `[FiniteDimensional k B]` assumptions
+were still present: no `FiniteDimensional k k[X]` instance exists, so instance resolution
+would fail. -/
+section InfiniteDimensionalRegression
+
+open Polynomial
+
+variable (k : Type*) [Field k] [IsAlgClosed k]
+
+/-- `k` as a `k[X]`-module with `X` acting as `0`: restriction of scalars along the
+augmentation `k[X] → k`, `p ↦ p(0)`. -/
+noncomputable local instance polyEvalModule : Module k[X] k :=
+  Module.compHom k ((aeval (0 : k)).toRingHom)
+
+local instance : IsScalarTower k k[X] k where
+  smul_assoc c p x := by
+    change aeval (0 : k) (c • p) * x = c • (aeval (0 : k) p * x)
+    rw [map_smul]
+    exact smul_mul_assoc c (aeval (0 : k) p) x
+
+local instance : SMulCommClass k[X] k[X] k where
+  smul_comm p q x := by
+    change aeval (0 : k) p * (aeval (0 : k) q * x) = aeval (0 : k) q * (aeval (0 : k) p * x)
+    ring
+
+/-- `k` is simple as a `k[X]`-module: a `k[X]`-submodule restricts to a `k`-submodule of the
+field `k`, which is `⊥` or `⊤`. -/
+local instance : IsSimpleModule k[X] k :=
+  { toIsSimpleOrder :=
+    { eq_bot_or_eq_top := fun N => by
+        rcases eq_bot_or_eq_top (N.restrictScalars k) with h | h
+        · refine Or.inl (Submodule.restrictScalars_injective k k[X] k ?_)
+          rw [Submodule.restrictScalars_bot]; exact h
+        · refine Or.inr (Submodule.restrictScalars_injective k k[X] k ?_)
+          rw [Submodule.restrictScalars_top]; exact h } }
+
+/-- Part (i) applies with the infinite-dimensional algebra `A = B = k[X]`. -/
+example : True := by
+  have := Etingof.tensor_product_irreducible k k[X] k[X] k k
+  trivial
+
+/-- Part (ii) applies with the infinite-dimensional algebra `A = B = k[X]`. -/
+example : True := by
+  have := Etingof.tensor_product_irreducible_classification k k[X] k[X] k
+  trivial
+
+end InfiniteDimensionalRegression
