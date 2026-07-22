@@ -119,6 +119,29 @@ noncomputable def repOfModuleAsModuleEquiv :
 
 end RepOfModule
 
+/-! ### From a `k[G]`-linear equivalence of modules to an equivalence of representations -/
+
+section EquivOfModule
+
+variable {k : Type u} [Field k] {G : Type v} [Group G]
+  {V : Type w} [AddCommGroup V] [Module k V]
+  {W : Type w'} [AddCommGroup W] [Module k W]
+
+open Representation
+
+/-- A `k[G]`-linear equivalence between the underlying modules
+`ρ.asModule ≃ₗ[k[G]] σ.asModule` underlies an equivalence of representations `ρ.Equiv σ`.
+
+This is the forward companion to `Representation.IntertwiningMap.equivLinearMapAsModule`
+(which turns an intertwining map into a `k[G]`-linear map): a module isomorphism preserving
+the group-ring action is exactly a bijective intertwining map, i.e. a `Representation.Equiv`. -/
+noncomputable def equivOfAsModuleLinearEquiv
+    (ρ : Representation k G V) (σ : Representation k G W)
+    (f : ρ.asModule ≃ₗ[MonoidAlgebra k G] σ.asModule) : ρ.Equiv σ :=
+  ((IntertwiningMap.equivLinearMapAsModule ρ σ).symm f.toLinearMap).ofBijective f.bijective
+
+end EquivOfModule
+
 /-! ### The counting bound -/
 
 section Count

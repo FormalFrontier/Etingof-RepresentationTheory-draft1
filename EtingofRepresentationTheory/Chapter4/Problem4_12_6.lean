@@ -554,6 +554,54 @@ theorem exists_simpleFDRep [Fintype K] [DecidableEq K]
   rw [h1, hdM]
   exact (Representation.asModuleEquiv ρ).finrank_eq
 
+/-- **Universe transport, with the isomorphism.** Strengthens `exists_simpleFDRep` to also
+return a `Representation.Equiv` from `ρ` to the transported `FDRep`'s representation `U.ρ`.
+This lets downstream results transfer both the character (via `Representation.char_iso`) and the
+isomorphism class of `ρ` to a concrete `Type 0` model that the Wedderburn enumeration applies to. -/
+theorem exists_simpleFDRep' [Fintype K] [DecidableEq K]
+    {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
+    (ρ : Representation ℂ (Affine K) V)
+    (hρ : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) ρ.asModule) :
+    ∃ (U : FDRep ℂ (Affine K)), Simple U ∧ Module.finrank ℂ U = Module.finrank ℂ V ∧
+      Nonempty (ρ.Equiv U.ρ) := by
+  classical
+  haveI : NeZero (Nat.card (Affine K) : ℂ) := by
+    refine ⟨?_⟩
+    rw [Nat.card_eq_fintype_card, card_eq]
+    have h2 : 1 < Fintype.card K := Fintype.one_lt_card
+    have hne : Fintype.card K * (Fintype.card K - 1) ≠ 0 :=
+      Nat.mul_ne_zero (by omega) (by omega)
+    exact_mod_cast hne
+  letI M := Representation.asModule ρ
+  haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) M := hρ
+  haveI : Module.Finite ℂ M := Module.Finite.equiv (Representation.asModuleEquiv ρ).symm
+  haveI : Module.Free ℂ M := Module.Free.of_divisionRing ℂ M
+  set dM := Module.finrank ℂ M with hdM
+  let eM : M ≃ₗ[ℂ] (Fin dM → ℂ) := (Module.finBasis ℂ M).equivFun
+  letI modN : Module (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
+    Etingof.transportModule (R := MonoidAlgebra ℂ (Affine K)) eM
+  haveI towN : IsScalarTower ℂ (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
+    Etingof.transportModule_isScalarTower eM
+  let eR : M ≃ₗ[MonoidAlgebra ℂ (Affine K)] (Fin dM → ℂ) := Etingof.transportLinearEquiv eM
+  haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
+    IsSimpleModule.congr eR.symm
+  haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K))
+      (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ)).asModule :=
+    IsSimpleModule.congr (Etingof.repOfModuleAsModuleEquiv (k := ℂ) (G := Affine K) (Fin dM → ℂ))
+  refine ⟨FDRep.of (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ)),
+    Etingof.simple_fdRepOf_of_isSimpleModule
+      (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ)), ?_, ?_⟩
+  · have h1 : Module.finrank ℂ
+        (FDRep.of (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ))) = dM := by
+      show Module.finrank ℂ (Fin dM → ℂ) = dM
+      rw [Module.finrank_fintype_fun_eq_card, Fintype.card_fin]
+    rw [h1, hdM]
+    exact (Representation.asModuleEquiv ρ).finrank_eq
+  · -- The `k[G]`-module equivalence `ρ.asModule ≃ (repOfModule …).asModule` gives the `Equiv`.
+    refine ⟨Etingof.equivOfAsModuleLinearEquiv ρ
+      (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ))
+      (eR ≪≫ₗ (Etingof.repOfModuleAsModuleEquiv (k := ℂ) (G := Affine K) (Fin dM → ℂ)).symm)⟩
+
 /-- **Classification.** Every irreducible complex representation of the affine group `G` has
 dimension `1` or `q - 1`. (With the sum-of-squares formula `(q-1)·1² + (q-1)² = q(q-1) = |G|`,
 the irreducibles are exactly the `q-1` characters and the single `(q-1)`-dimensional `V`.) -/
@@ -1172,5 +1220,215 @@ character identity `charRep_tprod_charRep_character`. -/
 def tprodCharRepEquivCharRepMul (χ χ' : Affine K →* ℂˣ) :
     (Representation.tprod (charRep χ) (charRep χ')).Equiv (charRep (χ * χ')) :=
   smulChar_charRep χ χ' ▸ tprodCharRepEquivSmulChar χ (charRep χ')
+
+/-! ### Classification up to isomorphism: uniqueness of the irreducibles
+
+The classification (`irreducible_dim`) shows every irreducible has dimension `1` or `q-1`. We now
+upgrade this to isomorphism classes. The complete family of simples is the `q-1` one-dimensional
+characters `charRep χ` (dimension `1`) together with a *single* `(q-1)`-dimensional irreducible
+(the zero-sum representation `V`), matching the sum of squares `(q-1)·1² + (q-1)² = q(q-1) = |G|`.
+So a `(q-1)`-dimensional irreducible is unique up to isomorphism, a `1`-dimensional irreducible is
+one of the characters, and every irreducible is one of these. -/
+
+/-- **Enumeration of the simples, `FDRep` level.** Fix any simple `(q-1)`-dimensional
+`UV : FDRep ℂ (Affine K)` (`q ≥ 3`). Then the complete family of simples is the `q-1`
+one-dimensional characters `FDRep.of (charRep χ)` together with `UV`: every simple `U` is
+isomorphic either to some `FDRep.of (charRep χ)` or to `UV`. -/
+theorem simple_FDRep_iso_enum [Fintype K] [DecidableEq K] (hK : 3 ≤ Fintype.card K)
+    {UV : FDRep ℂ (Affine K)} (hUVsimple : Simple UV)
+    (hUVdim : Module.finrank ℂ UV = Fintype.card K - 1)
+    {U : FDRep ℂ (Affine K)} (hU : Simple U) :
+    (∃ χ : Affine K →* ℂˣ, Nonempty (U ≅ FDRep.of (charRep χ))) ∨ Nonempty (U ≅ UV) := by
+  classical
+  haveI hNe : NeZero (Nat.card (Affine K) : ℂ) := by
+    refine ⟨?_⟩
+    rw [Nat.card_eq_fintype_card, card_eq]
+    exact_mod_cast Nat.mul_ne_zero (by omega) (by omega)
+  -- A complete family of pairwise non-isomorphic simples with `∑ dim² = |G|`.
+  obtain ⟨n, V, hVsimple, _hVinj, hVsurj, hVsum⟩ :=
+    exists_simples_sum_finrank_sq_eq_card ℂ (Affine K)
+  haveI : Finite (Affine K →* ℂˣ) :=
+    Nat.finite_of_card_ne_zero (by rw [one_dim_reps_card hK]; omega)
+  haveI : Fintype (Affine K →* ℂˣ) := Fintype.ofFinite _
+  have hcardChar : Fintype.card (Affine K →* ℂˣ) = Fintype.card K - 1 := by
+    rw [← Nat.card_eq_fintype_card]; exact one_dim_reps_card hK
+  -- The explicit family: the `q - 1` characters (dim `1`) and `UV` (dim `q - 1`).
+  let E : (Affine K →* ℂˣ) ⊕ Unit → FDRep ℂ (Affine K) :=
+    Sum.elim (fun χ => FDRep.of (charRep χ)) (fun _ => UV)
+  have hEfinL : ∀ χ : Affine K →* ℂˣ, Module.finrank ℂ (E (Sum.inl χ)) = 1 := fun χ => by
+    show Module.finrank ℂ ℂ = 1; exact Module.finrank_self ℂ
+  have hEfinR : ∀ u : Unit, Module.finrank ℂ (E (Sum.inr u)) = Fintype.card K - 1 :=
+    fun _ => hUVdim
+  have hEsimple : ∀ i, Simple (E i) := by
+    rintro (χ | u)
+    · exact charRep_simple χ
+    · exact hUVsimple
+  have hEinj : ∀ i j, Nonempty (E i ≅ E j) → i = j := by
+    rintro (χ | u) (χ' | u') ⟨α⟩
+    · have hχ : χ = χ' := by
+        ext g
+        have hg := congrFun (FDRep.char_iso α) g
+        rw [show E (Sum.inl χ) = FDRep.of (charRep χ) from rfl,
+            show E (Sum.inl χ') = FDRep.of (charRep χ') from rfl,
+            charRep_character, charRep_character] at hg
+        exact hg
+      rw [hχ]
+    · exfalso
+      have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv α)
+      rw [hEfinL χ, hEfinR u'] at hfr; omega
+    · exfalso
+      have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv α)
+      rw [hEfinR u, hEfinL χ'] at hfr; omega
+    · rw [Subsingleton.elim u u']
+  -- Inject the family into the enumeration and show `c` is a bijection (sum-of-squares match).
+  choose c hc using fun i => hVsurj (E i) (hEsimple i)
+  have hc_inj : Function.Injective c := by
+    intro i j hij
+    obtain ⟨αi⟩ := hc i; obtain ⟨αj⟩ := hc j
+    exact hEinj i j ⟨αi ≪≫ eqToIso (congrArg V hij) ≪≫ αj.symm⟩
+  have hfinrankc : ∀ i, Module.finrank ℂ (E i) = Module.finrank ℂ (V (c i)) := fun i =>
+    LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv (hc i).some)
+  have harith : ∀ r : ℕ, 1 ≤ r → r - 1 + (r - 1) ^ 2 = r * (r - 1) := by
+    intro r hr; obtain ⟨m, rfl⟩ : ∃ m, r = m + 1 := ⟨r - 1, by omega⟩
+    simp only [Nat.add_sub_cancel]; ring
+  have hEsum : ∑ i, (Module.finrank ℂ (E i)) ^ 2 = Fintype.card (Affine K) := by
+    rw [Fintype.sum_sum_type, card_eq]
+    have hL : ∑ χ : Affine K →* ℂˣ, (Module.finrank ℂ (E (Sum.inl χ))) ^ 2
+        = Fintype.card K - 1 := by
+      have hone : ∀ χ, (Module.finrank ℂ (E (Sum.inl χ))) ^ 2 = 1 :=
+        fun χ => by rw [hEfinL, one_pow]
+      rw [Finset.sum_congr rfl (fun χ _ => hone χ), Finset.sum_const, Finset.card_univ,
+        hcardChar, smul_eq_mul, mul_one]
+    have hR : ∑ _u : Unit, (Module.finrank ℂ (E (Sum.inr _u))) ^ 2
+        = (Fintype.card K - 1) ^ 2 := by simp [hEfinR]
+    rw [hL, hR]; exact harith _ (by omega)
+  have hVsum' : ∑ j, (Module.finrank ℂ (V j)) ^ 2 = Fintype.card (Affine K) := hVsum
+  have hmatch : ∑ i, (Module.finrank ℂ (V (c i))) ^ 2
+      = ∑ j, (Module.finrank ℂ (V j)) ^ 2 := by
+    rw [hVsum', ← hEsum]
+    exact Finset.sum_congr rfl (fun i _ => by rw [hfinrankc i])
+  have hVpos : ∀ j, 0 < (Module.finrank ℂ (V j)) ^ 2 := by
+    intro j
+    haveI : Simple (V j) := hVsimple j
+    haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (Representation.asModule (V j).ρ) :=
+      Etingof.isSimpleModule_asModule_of_simple (V j)
+    haveI : Nontrivial (Representation.asModule (V j).ρ) :=
+      IsSimpleModule.nontrivial (MonoidAlgebra ℂ (Affine K)) (Representation.asModule (V j).ρ)
+    haveI : Nontrivial ↥(V j) := (Representation.asModuleEquiv (V j).ρ).symm.toEquiv.nontrivial
+    exact pow_pos Module.finrank_pos 2
+  have hcsurj : Function.Surjective c :=
+    surj_of_injective_of_sum_eq _ hVpos c hc_inj hmatch
+  -- `U` is simple, so `U ≅ V j ≅ E i`; read off which slot `i` lands in.
+  obtain ⟨j, hjU⟩ := hVsurj U hU
+  obtain ⟨i, hci⟩ := hcsurj j
+  have hUEi : Nonempty (U ≅ E i) :=
+    ⟨hjU.some ≪≫ eqToIso (congrArg V hci.symm) ≪≫ (hc i).some.symm⟩
+  rcases i with χ | u
+  · exact Or.inl ⟨χ, hUEi⟩
+  · exact Or.inr hUEi
+
+/-- **Uniqueness of the `(q-1)`-dimensional simple, `FDRep` level.** For `q ≥ 3`, any two simple
+objects of `FDRep ℂ (Affine K)` of dimension `q - 1` are isomorphic. -/
+theorem simple_FDRep_finrank_eq_unique [Fintype K] [DecidableEq K] (hK : 3 ≤ Fintype.card K)
+    {U U' : FDRep ℂ (Affine K)} (hU : Simple U) (hU' : Simple U')
+    (hUdim : Module.finrank ℂ U = Fintype.card K - 1)
+    (hU'dim : Module.finrank ℂ U' = Fintype.card K - 1) :
+    Nonempty (U ≅ U') := by
+  rcases simple_FDRep_iso_enum hK hU' hU'dim hU with ⟨χ, hχ⟩ | h
+  · exfalso
+    have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hχ.some)
+    rw [hUdim, show Module.finrank ℂ (FDRep.of (charRep χ)) = 1 from Module.finrank_self ℂ] at hfr
+    omega
+  · exact h
+
+/-- **Every `1`-dimensional simple `FDRep` is a character.** For `q ≥ 3`, any simple object of
+`FDRep ℂ (Affine K)` of dimension `1` is isomorphic to `FDRep.of (charRep χ)` for some `χ`. -/
+theorem simple_FDRep_finrank_one_iso_charRep [Fintype K] [DecidableEq K] (hK : 3 ≤ Fintype.card K)
+    {U : FDRep ℂ (Affine K)} (hU : Simple U) (hUdim : Module.finrank ℂ U = 1) :
+    ∃ χ : Affine K →* ℂˣ, Nonempty (U ≅ FDRep.of (charRep χ)) := by
+  -- Use the zero-sum representation `V` as the `(q-1)`-dimensional member of the enumeration.
+  obtain ⟨UV, hUVsimple, hUVfr⟩ :=
+    exists_simpleFDRep (Vsub (K := K)).toRepresentation (Vrep_isSimpleModule (by omega))
+  have hUVdim : Module.finrank ℂ UV = Fintype.card K - 1 := by rw [hUVfr]; exact zeroSum_finrank
+  rcases simple_FDRep_iso_enum hK hUVsimple hUVdim hU with h | hUV
+  · exact h
+  · exfalso
+    have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hUV.some)
+    rw [hUdim, hUVdim] at hfr; omega
+
+/-- **Uniqueness of the `(q-1)`-dimensional irreducible.** For `q ≥ 3`, every irreducible complex
+representation of the affine group of dimension `q - 1` is isomorphic to the zero-sum
+representation `V`.
+
+The proof transports both `σ` and `V` to concrete `FDRep`s (`exists_simpleFDRep'`, which also
+records the isomorphism to `σ`), applies `simple_FDRep_finrank_eq_unique` to identify those
+`FDRep`s, and reads off equal characters, closing with `equiv_of_character_eq`. -/
+theorem Vrep_unique [Fintype K] [DecidableEq K] (hK : 3 ≤ Fintype.card K)
+    {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+    (σ : Representation ℂ (Affine K) W)
+    (hσ : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) σ.asModule)
+    (hdim : Module.finrank ℂ W = Fintype.card K - 1) :
+    Nonempty (σ.Equiv (Vsub (K := K)).toRepresentation) := by
+  classical
+  -- Transport `σ` and `V` to `FDRep`s of dimension `q-1`, keeping the isomorphisms.
+  obtain ⟨U, hUsimple, hUfr, ⟨eσ⟩⟩ := exists_simpleFDRep' σ hσ
+  obtain ⟨U', hU'simple, hU'fr, ⟨eV⟩⟩ :=
+    exists_simpleFDRep' (Vsub (K := K)).toRepresentation (Vrep_isSimpleModule (by omega))
+  have hUdim : Module.finrank ℂ U = Fintype.card K - 1 := by rw [hUfr, hdim]
+  have hU'dim : Module.finrank ℂ U' = Fintype.card K - 1 := by rw [hU'fr]; exact zeroSum_finrank
+  -- The two `FDRep`s are isomorphic (`V` is the unique `(q-1)`-dimensional simple).
+  obtain ⟨α⟩ := simple_FDRep_finrank_eq_unique hK hUsimple hU'simple hUdim hU'dim
+  -- Equal characters: `σ = U.ρ = U'.ρ = V`. (`FDRep.character U` and `Representation.character U.ρ`
+  -- are definitionally the same trace.)
+  have hcharσ : σ.character = Representation.character U.ρ := Representation.char_iso eσ
+  have hcharV : (Vsub (K := K)).toRepresentation.character = Representation.character U'.ρ :=
+    Representation.char_iso eV
+  have hcharUU' : Representation.character U.ρ = Representation.character U'.ρ :=
+    FDRep.char_iso α
+  have hchar : σ.character = (Vsub (K := K)).toRepresentation.character := by
+    rw [hcharσ, hcharUU', ← hcharV]
+  haveI hσirr : σ.IsIrreducible :=
+    (Representation.irreducible_iff_isSimpleModule_asModule _).mpr hσ
+  haveI hVirr : (Vsub (K := K)).toRepresentation.IsIrreducible :=
+    (Representation.irreducible_iff_isSimpleModule_asModule _).mpr (Vrep_isSimpleModule (by omega))
+  exact equiv_of_character_eq σ (Vsub (K := K)).toRepresentation hchar
+
+/-- **Every `1`-dimensional irreducible is a character.** For `q ≥ 3`, every irreducible complex
+representation of the affine group of dimension `1` is isomorphic to `charRep χ` for some
+character `χ : G →* ℂˣ`. -/
+theorem charRep_exists [Fintype K] [DecidableEq K] (hK : 3 ≤ Fintype.card K)
+    {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+    (σ : Representation ℂ (Affine K) W)
+    (hσ : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) σ.asModule)
+    (hdim : Module.finrank ℂ W = 1) :
+    ∃ χ : Affine K →* ℂˣ, Nonempty (σ.Equiv (charRep χ)) := by
+  classical
+  obtain ⟨U, hUsimple, hUfr, ⟨eσ⟩⟩ := exists_simpleFDRep' σ hσ
+  have hUdim : Module.finrank ℂ U = 1 := by rw [hUfr, hdim]
+  obtain ⟨χ, ⟨α⟩⟩ := simple_FDRep_finrank_one_iso_charRep hK hUsimple hUdim
+  refine ⟨χ, ?_⟩
+  have hcharσ : σ.character = Representation.character U.ρ := Representation.char_iso eσ
+  have hcharUχ : Representation.character U.ρ = Representation.character (charRep χ) :=
+    FDRep.char_iso α
+  haveI hσirr : σ.IsIrreducible :=
+    (Representation.irreducible_iff_isSimpleModule_asModule _).mpr hσ
+  haveI hχirr : (charRep χ).IsIrreducible :=
+    (Representation.irreducible_iff_isSimpleModule_asModule _).mpr (charRep_asModule_simple χ)
+  exact equiv_of_character_eq σ (charRep χ) (by rw [hcharσ, hcharUχ])
+
+/-- **Full classification (Problem 4.12.6).** Every irreducible complex representation of the
+affine group `x ↦ ax + b` over `𝔽_q` (`q ≥ 3`) is isomorphic either to one of the `q - 1`
+one-dimensional characters `charRep χ`, or to the `(q-1)`-dimensional zero-sum representation `V`.
+Together with `irreducible_dim` (dimensions are `1` or `q-1`), `charRep_exists`, and `Vrep_unique`,
+this is the complete answer to "find all irreducible representations of `G`". -/
+theorem irreducible_classification [Fintype K] [DecidableEq K] (hK : 3 ≤ Fintype.card K)
+    {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+    (σ : Representation ℂ (Affine K) W)
+    (hσ : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) σ.asModule) :
+    (∃ χ : Affine K →* ℂˣ, Nonempty (σ.Equiv (charRep χ))) ∨
+      Nonempty (σ.Equiv (Vsub (K := K)).toRepresentation) := by
+  rcases irreducible_dim σ hσ with hdim1 | hdimq
+  · exact Or.inl (charRep_exists hK σ hσ hdim1)
+  · exact Or.inr (Vrep_unique hK σ hσ hdimq)
 
 end Etingof.Problem4_12_6
