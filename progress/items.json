@@ -5485,7 +5485,58 @@
     "start_line": 15,
     "end_line": 16,
     "status": "proved",
-    "coverage_note": "COMPLETE and sorry-free across three files, each redoing one Problem via Theorem 5.27.1. (4.12.6) Exercise5_27_2_Affine.lean: affine ax+b group over a finite field as Multiplicative K rtimes Kˣ; affine_classification (hyp 2<q, excluding the degenerate 𝔽₂ where the free rep also has dim q-1=1) gives q irreducibles (q-1 of dim 1 over the fixed trivial character indexed by ρ:Kˣ→*ℂˣ, one of dim q-1 over the single free orbit). Assembled from Theorem 5.27.1: stabilizer dichotomy (⊤ for trivial χ, ⊥ for nontrivial) + transitivity on nontrivial chars, closed-form fixed character ρ g, dims via index_top/index_bot+card_units, completeness via exists_charFDRep_iso and orbit base-point move (hvii/hix). (4.12.1(a)) Exercise5_27_2_Dihedral.lean: dihedral D_N as ZMod N rtimes ZMod 2 via inversion; parity classification. (4.12.2) Exercise5_27_2_Heisenberg.lean: Heisenberg over F_p as (ZMod p)² rtimes ZMod p via shear; p² dim-1 and p-1 dim-p. All three sorry-free."
+    "coverage_note": "[coverage-arm audited #7320, 2026-07-22] Roll-up = min across three sub-parts = covered_partial (dihedral covered_full, Heisenberg covered_full, affine covered_partial). Each *_classification theorem genuinely DISCHARGES its result by `obtain ... := Etingof.Theorem5_27_1 A G φ` applied to a semidirect-product model (not an independent re-proof that merely imports the file), and each conclusion is an EXHAUSTIVE up-to-iso classification: an explicit family W : Fin n → FDRep ℂ G with (i) ∀ i, Simple (W i), (ii) pairwise non-iso (Nonempty (W i ≅ W j) → i = j), (iii) completeness (∀ S simple, ∃ i, S ≅ W i), and (iv) counts/dimensions. Dihedral routes through a genuine MulEquiv dihedralEquiv : DihedralGroup N ≃* (Multiplicative (ZMod N) ⋊[dihedralφ] Multiplicative (ZMod 2)); Heisenberg and affine DEFINE the group directly as the semidirect product (faithful standard presentations; identification with the 3×3-unitriangular / x↦ax+b pictures argued in prose docstrings, no formal MulEquiv). Affine is covered_partial because affine_classification carries `hq : 2 < Fintype.card K`, dropping q=2 (𝔽₂) which the book — and the original Chapter4/Problem4.12.6 — cover; follow-up feature issue #7331. All three files sorry-free (grep: no sorry/admit/True). #print axioms not re-run (report-only, no fidelity re-audit).",
+    "coverage": "covered_partial",
+    "coverage_arm": "audited",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter5/Exercise5_27_2_Dihedral.lean",
+      "EtingofRepresentationTheory/Chapter5/Exercise5_27_2_Heisenberg.lean",
+      "EtingofRepresentationTheory/Chapter5/Exercise5_27_2_Affine.lean"
+    ],
+    "lean_decl": [
+      "Etingof.Exercise5_27_2.dihedral_classification",
+      "Etingof.Exercise5_27_2.heisenberg_classification",
+      "Etingof.Exercise5_27_2.affine_classification"
+    ],
+    "derived": [
+      {
+        "part": "(i) dihedral (4.12.1(a))",
+        "claim": "Redo the D_N irreducible classification via Theorem 5.27.1 (DihedralGroup N as ZMod N ⋊ ZMod 2 by inversion).",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Exercise5_27_2.dihedral_classification",
+          "Etingof.Exercise5_27_2.semidirect_classification",
+          "Etingof.Exercise5_27_2.dihedralEquiv",
+          "Etingof.Exercise5_27_2.DihedralSemidirect"
+        ],
+        "reason": "FULL. dihedralEquiv is a genuine ≃* (real toFun/invFun/left_inv/right_inv/map_mul', no stub) between Mathlib's DihedralGroup N and Multiplicative (ZMod N) ⋊[dihedralφ] Multiplicative (ZMod 2). semidirect_classification obtains its result via Etingof.Theorem5_27_1 (Multiplicative (ZMod 2)) (Multiplicative (ZMod N)) (dihedralφ N); dihedral_classification transports it across the resEquiv along dihedralEquiv. Conclusion is exhaustive: ∃ n W, (∀ i, Simple (W i)) ∧ pairwise-non-iso ∧ completeness ∧ (dim 1 or 2) ∧ parity-split counts — Odd N: 2 one-dim + (N-1)/2 two-dim; Even N: 4 one-dim + (N-2)/2 two-dim, matching Problem 4.12.1(a). Hypothesis only [NeZero N]; both parities handled. Sorry-free.",
+        "followup_issue": null
+      },
+      {
+        "part": "(ii) Heisenberg (4.12.2)",
+        "claim": "Redo the Heisenberg-group (over 𝔽_p) irreducible classification via Theorem 5.27.1 ((ZMod p)² ⋊ ZMod p by shear): p² dim-1 and p−1 dim-p.",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Exercise5_27_2.heisenberg_classification",
+          "Etingof.Exercise5_27_2.HeisenbergGroup"
+        ],
+        "reason": "FULL. heisenberg_classification obtains its result via Etingof.Theorem5_27_1 (Multiplicative (ZMod p)) (Multiplicative (ZMod p × ZMod p)) (heisenbergφ p). Conclusion exhaustive: ∃ n W, (∀ i, Simple (W i)) ∧ pairwise-non-iso ∧ completeness ∧ (dim 1 or p) ∧ n = p²+(p-1) ∧ #{dim 1} = p² ∧ #{dim p} = p−1 — the counts are HEADLINE conjuncts, matching the book answer. Hypothesis only [Fact p.Prime]. Caveat (not a gap): HeisenbergGroup is DEFINED directly as Multiplicative (ZMod p × ZMod p) ⋊[heisenbergφ] Multiplicative (ZMod p) — a faithful standard presentation of the Heisenberg group; there is no formal MulEquiv to a 3×3-unitriangular matrix model nor to Chapter4/Problem4.12.2's `Heisenberg p` object, that identification is argued only in the module docstring. Sorry-free.",
+        "followup_issue": null
+      },
+      {
+        "part": "(iii) affine (4.12.6)",
+        "claim": "Redo the affine x↦ax+b group (over 𝔽_q) irreducible classification via Theorem 5.27.1 (Multiplicative K ⋊ Kˣ): q−1 dim-1 characters and one dim-(q−1) rep.",
+        "coverage": "covered_partial",
+        "lean_decl": [
+          "Etingof.Exercise5_27_2.affine_classification",
+          "Etingof.Exercise5_27_2.AffineGroup",
+          "Etingof.Exercise5_27_2.affineφ"
+        ],
+        "reason": "PARTIAL. affine_classification (hyp `2 < Fintype.card K`) obtains its result via Etingof.Theorem5_27_1 Kˣ (Multiplicative K) (affineφ K); conclusion is exhaustive for q>2: ∃ n W, (∀ i, Simple (W i)) ∧ pairwise-non-iso ∧ completeness ∧ n = q ∧ #{dim 1} = q−1 ∧ #{dim q−1} = 1, matching the book. AffineGroup is defined directly as Multiplicative K ⋊[affineφ] Kˣ (affineφ = left-mult action; faithful x↦ax+b model, correspondence in docstring, no formal MulEquiv). PARTIAL because `2 < Fintype.card K` silently DROPS q=2 (𝔽₂): the {1, q−1} dimension partition degenerates there (q−1=1, the two dim filters collide), so the counts cannot both hold and the theorem-as-phrased excludes it. Book Problem 4.12.6 covers all q, and Chapter4/Problem4.12.6 handles q=2 directly (≅ ℤ/2 via Example4_3_FiniteAbelianGroups) — the 5.27.1 route narrows scope. Documented genuine degeneracy, not an unsound gap. Follow-up feature issue #7331. Sorry-free.",
+        "followup_issue": 7331
+      }
+    ],
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Exercise5.27.3",
