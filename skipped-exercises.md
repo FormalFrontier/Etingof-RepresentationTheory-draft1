@@ -12,6 +12,21 @@ Progress metadata should record partial coverage and the scope decision explicit
 
 ## Current intentional omissions
 
+### Problem 2.11.6 — standalone bimodule tensor calculus
+
+The associativity isomorphism for relative tensor products and the bimodule
+tensor–Hom adjunction are intentionally not rebuilt as a standalone API. The
+book's only later use is to derive Frobenius reciprocity in Theorem 5.10.1, and
+the formalization proves that theorem directly through Mathlib's representation
+induction/restriction adjunction. Formalizing Problem 2.11.6 literally would
+require a separate bimodule/universal-property layer over the project's custom
+relative tensor product without adding a new downstream result.
+
+The exact source statements, the downstream citation, and the replacement route
+are documented in
+`EtingofRepresentationTheory/Chapter2/Problem2_11_6.lean`. The file contains no
+placeholder declaration for the omitted exercise.
+
 ### Problem 2.13.1 — the Dehn invariant and Hilbert's third problem
 
 Part (b), the irrationality of `arccos(1/3) / π`, is formalized. Parts (a) and

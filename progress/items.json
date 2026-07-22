@@ -1417,7 +1417,7 @@
     "end_line": 24,
     "status": "sorry_free",
     "fidelity": "verified",
-    "note": "Covered-inline audit conclusion (completeness audit #5726, epic #5338): this problem is not separately formalized. Its narrative citation in the proof of Problem 5.10.2 uses the bimodule tensor-Hom adjunction to conclude Theorem 5.10.1. That downstream conclusion is proved directly in Chapter5/Theorem5_10_1.lean using Mathlib's Rep.resCoindHomEquiv (the Res ⊣ Coind adjunction), rather than the book's bimodule route. The bimodule associativity and tensor-Hom adjunction requested here remain absent as standalone results; see Chapter2/Problem2_11_6.lean for the coverage record.",
+    "note": "Intentional omission recorded in skipped-exercises.md. The standalone bimodule associativity and tensor-Hom adjunction are not formalized; the book's only downstream use, Frobenius reciprocity (Theorem 5.10.1), is proved directly with Mathlib's representation induction/restriction adjunction. Chapter2/Problem2_11_6.lean documents the source statements and replacement route without placeholder declarations.",
     "coverage": "covered_partial",
     "last_updated": "2026-07-22"
   },
@@ -5133,7 +5133,8 @@
     "end_line": 22,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "coverage_note": "No Lean declaration states the Laurent-polynomial coefficient formula in this remark. Nearby Frobenius-character results do not expose this equivalent formulation.",
+    "coverage_note": "No Lean declaration states the Laurent-polynomial coefficient formula in this remark. Nearby Frobenius-character results do not expose this equivalent formulation; follow-up #7405.",
+    "fidelity_issue": 7405,
     "last_updated": "2026-07-22"
   },
   {
@@ -5229,7 +5230,8 @@
     "end_line": 16,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "coverage_note": "No Lean declaration states the positive-root order, the inverse-Kostka character expansion, or the resulting root-order vanishing of Kostka numbers. Existing dominance-order results are weaker.",
+    "coverage_note": "No Lean declaration states the positive-root order, the inverse-Kostka character expansion, or the resulting root-order vanishing of Kostka numbers. Existing dominance-order results are weaker; follow-up #7406.",
+    "fidelity_issue": 7406,
     "last_updated": "2026-07-22"
   },
   {
@@ -6537,9 +6539,13 @@
     "start_line": 15,
     "end_line": 20,
     "status": "sorry_free",
+    "coverage": "covered_partial",
     "fidelity": "verified",
     "needs_statement": true,
-    "sorry_free": true
+    "sorry_free": true,
+    "fidelity_note": "The current theorem gives necessary dimension-vector conditions for an indecomposable A2Rep. It does not construct the three representatives or prove indecomposability, exhaustiveness, and uniqueness up to isomorphism; follow-up #7404.",
+    "fidelity_issue": 7404,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Example6.2.4",
@@ -6581,11 +6587,14 @@
     "start_line": 15,
     "end_line": 74,
     "status": "sorry_free",
+    "coverage": "covered_partial",
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "Complete and sorry-free in EtingofRepresentationTheory/Chapter6/Example6_3_1.lean: decomp_dim_ge_three is proved, Example_6_3_1 classifies the dimension vector of every indecomposable D4 representation, and D₄_indecomposable_dimVectors_card proves that the list has 12 elements.",
+    "notes": "The file proves that every indecomposable D4Rep has dimension vector in a 12-element candidate set. It does not construct twelve representatives or prove occurrence, indecomposability, pairwise nonisomorphism, and exhaustiveness at the representation level; reopened #765.",
     "sorries": 0,
-    "sorry_free": true
+    "sorry_free": true,
+    "fidelity_issue": 765,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Discussion_after_Example6.3.1",
@@ -7368,11 +7377,13 @@
     "start_line": 9,
     "end_line": 15,
     "status": "sorry_free",
+    "coverage": "covered_partial",
     "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[re-verified review #7183, 2026-07-21] Repair landed; statement faithful and non-vacuous, builds, axiom-clean (no sorryAx). [near-complete] All four sub-items formalized. Sub-item (1): `double_dual_iso`/`double_dual_naturality` (finite-dim V ≃ₗ V** + naturality), plus `doubleDualFunctor`/`doubleDualNatIso` giving the actual CategoryTheory NatIso `𝟭 ≅ (·)**` on `FGModuleCat k` (Etingof's FVect_k), and `linearEquiv_dualDual_iff_finiteDimensional` (infinite-dim V not iso to V**, second half). Sub-item (2): `linearEquiv_dual_iff_finiteDimensional` (V ≅ V* iff finite-dim, the positive half of the FVect'_k functor F(V)=V*). Sub-item (3): `forgetful_natEnd_eq_smul`/`forgetful_smul_comp` (End(forgetful F)=A). Sub-item (4): `idFunctor_natEnd_eq_smul`/`idFunctor_natEnd_central` (End(Id_{A-mod})=Z(A)). Only remaining gap: sub-item (2)'s *non-naturality* claim (F not naturally iso to id via the GL(V)-representation obstruction), which needs the groupoid FVect'_k + functor F built as CategoryTheory objects; deferred to dedicated future work.",
-    "fidelity_issue": 5643
+    "fidelity_note": "Sub-item (1)'s double-dual NatIso is complete. For sub-item (2), the non-naturality theorem adds an unsupported field-element hypothesis and excludes F2/F3. For sub-items (3)–(4), the code proves determination by a scalar/central element but does not construct the reverse maps or the claimed ring equivalences End(F) ≃ A and End(Id) ≃ Z(A). Reopened #7103.",
+    "fidelity_issue": 7103,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Introduction_7.4",

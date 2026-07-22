@@ -53,5 +53,7 @@ separately formalized here; the machine-checked citation target is
 bimodule and universal-property API on top of the tensor product
 `Etingof.TensorProductOverRing` of Remark 2.11.4 (the `V ⊗_B W` used throughout
 Problem 2.11.6), which currently exposes only `tmul`, `add_tmul`, `tmul_add`,
-`smul_tmul`.
+`smul_tmul`. This is an intentional project-scope decision recorded publicly in
+`skipped-exercises.md`, not an unfinished proof; accordingly this file introduces
+no placeholder declaration for either part.
 -/
