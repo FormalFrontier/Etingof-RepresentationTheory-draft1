@@ -1749,8 +1749,10 @@
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_decl": "Etingof.subrepresentation_of_semisimple",
-    "fidelity_issue": 5370,
-    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified"
+    "fidelity_note": "The multiplicity-bounded abstract decomposition of W is proved. The source's remaining structural conclusion—putting the actual inclusion into simultaneous block-matrix form with row-independent matrices X_i—is not assembled from the single-isotypic matrix lemmas in Remark3_1_5.lean.",
+    "coverage": "covered_partial",
+    "followup_issue": 5370,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Remark3.1.5",
@@ -3036,8 +3038,9 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "All five named S₄ representations are constructed and proved simple with their dimensions and distinguishing characters. Discussion5_11_S4S3.lean supplies all pairwise non-isomorphism results and the exhaustive classification S4_simple_iso.",
-    "coverage": "covered_full",
+    "fidelity_note": "All five named S₄ representations are constructed, proved simple and pairwise nonisomorphic, and shown exhaustive. The residual gap is the source's construction of the two-dimensional representation as the pullback along S₄/V₄ ≅ S₃: actHom is used internally, but its kernel, surjectivity, quotient isomorphism, and comparison with the named S₃ standard representation are not proved.",
+    "coverage": "covered_partial",
+    "followup_issue": 5429,
     "last_updated": "2026-07-22"
   },
   {
@@ -3313,9 +3316,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "The Q₈ and S₄ tables are realized by genuine simple, pairwise nonisomorphic representations with the tabulated characters. The A₅ development now likewise exposes a Fin 5 family including both icosahedral three-dimensional representations, proves simplicity and pairwise non-isomorphism, and matches all five golden-ratio character rows.",
+    "fidelity_note": "All three character tables are realized by genuine simple, pairwise nonisomorphic representations with the tabulated characters. For A₅, the remaining source-construction gap is the missing theorem that repC3minus is the twist of repC3plus by the outer automorphism induced by conjugation with (12), including the corresponding swap of five-cycle classes.",
     "fidelity_decl": "Etingof.Example4_8_1_Q8_simple, Etingof.Example4_8_1_Q8_character, Etingof.Example4_8_1_S4_simple, Etingof.Example4_8_1_S4_character, Etingof.Example4_8_1_S4_pairwise, Etingof.Example4_8_1_S4_conj_classes, Etingof.Example4_8_1_S4_card, Etingof.Example4_8_1.A5_orthonormal, Etingof.Example4_8_1_A5_conj_classes",
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "followup_issue": 5449,
     "last_updated": "2026-07-22"
   },
   {
