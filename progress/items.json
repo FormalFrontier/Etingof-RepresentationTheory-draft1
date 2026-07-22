@@ -5209,8 +5209,12 @@
     "start_line": 29,
     "end_line": 9,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "fidelity_note": "Lean exposes only StandardYoungTableau, imposing strict row and column increase. The source first defines an arbitrary bijective Young tableau and only then selects a canonical increasing tableau; the general object is missing. Follow-up #7460.",
+    "fidelity_issue": 7460,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_Young_projectors",
@@ -6261,9 +6265,13 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "needs_statement": false,
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "fidelity_note": "IsAlgebraicRepresentation checks regular matrix coefficients for an arbitrary GL-valued endomorphism family but does not require the identity or multiplication action laws, so it accepts families that are not representations. Follow-up #7461.",
+    "fidelity_issue": 7461,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_after_Definition5.23.1",
@@ -6910,7 +6918,10 @@
     "end_line": 27,
     "status": "sorry_free",
     "fidelity": "verified",
-    "needs_statement": false
+    "needs_statement": false,
+    "coverage": "covered_full",
+    "coverage_note": "The exact finite ADE Dynkin-diagram classification is public in Theorem_Dynkin_classification.lean.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Problem6.1.3_continued_E7_E8",
@@ -7146,7 +7157,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Both positive definiteness and even-valuedness of the form are public endpoints.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Definition6.4.3",
@@ -7195,7 +7209,10 @@
     "end_line": 14,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The public lemma proves the exact all-nonnegative or all-nonpositive coordinate dichotomy.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Definition6.4.7",
@@ -7320,8 +7337,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": true,
-    "notes": "Part (a) finiteness sorry-free. Part (b) sorry-free. Part (c) still sorry (needs reflection functors).",
-    "fidelity_note": "verified (parts a/b/c distributed); combined decl weak — tightening tracked in #5670"
+    "notes": "All three parts are now public and sorry-free, including existence and uniqueness for each positive root.",
+    "fidelity_note": "The combined public theorem states the finite-type, positive-root classification, and existence-uniqueness clauses; the former #5670 gap is resolved.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Section6.6_heading",
@@ -7423,7 +7442,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Public endpoints prove both the sink-surjectivity and source-injectivity clauses.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Proposition6.6.6",
@@ -7436,6 +7458,8 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_count": 0,
+    "coverage": "covered_full",
+    "coverage_note": "Public endpoints give both reflection-functor round-trip isomorphisms under the source hypotheses.",
     "last_updated": "2026-07-22"
   },
   {
@@ -7449,7 +7473,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "notes": "Proved in PR #1800 (Decidable.casesOn workarounds for source case).",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Both sink and source reflection clauses publicly conclude indecomposable or zero.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Proposition6.6.8",
@@ -7463,7 +7490,10 @@
     "fidelity": "verified",
     "needs_statement": false,
     "notes": "Both cases are proved sorry-free in Chapter6/Proposition6_6_8.lean: Proposition6_6_8_sink handles a sink via rank-nullity, and Proposition6_6_8_source handles a source using the completed reflectionFunctorMinus construction.",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The sink and source dimension-vector reflection formulas are both public and exact.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Section6.7_heading",
@@ -7503,7 +7533,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The public theorem gives the exact eventual negative-coordinate existential conclusion.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Section6.8_heading",
@@ -7561,7 +7594,9 @@
     "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "verified (wave-6, Opus): now quantifies over an arbitrary indecomposable rep and concludes IsPositiveRoot(d(V)), reflection chain produced via Thm 6.8.1 not assumed; prior gap #5624 resolved (merged)"
+    "fidelity_note": "verified (wave-6, Opus): now quantifies over an arbitrary indecomposable rep and concludes IsPositiveRoot(d(V)), reflection chain produced via Thm 6.8.1 not assumed; prior gap #5624 resolved (merged)",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Corollary6.8.3",
@@ -7573,7 +7608,10 @@
     "end_line": 30,
     "status": "sorry_free",
     "fidelity": "verified",
-    "needs_statement": true
+    "needs_statement": true,
+    "coverage": "covered_full",
+    "coverage_note": "The public theorem proves uniqueness up to representation isomorphism for indecomposables with the same dimension vector.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Discussion_after_Corollary6.8.3",
@@ -7599,7 +7637,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": true,
-    "attention_needed": "statement fixed: added IsOrientationOf hypothesis and pinned universe (#1094)"
+    "attention_needed": "statement fixed: added IsOrientationOf hypothesis and pinned universe (#1094)",
+    "coverage": "covered_full",
+    "coverage_note": "The public theorem realizes every positive root by an indecomposable representation for the chosen orientation.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Example6.8.5",
@@ -7971,7 +8012,10 @@
     "end_line": 4,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The public Yoneda endpoint gives the source uniqueness-up-to-unique-isomorphism conclusion for representing objects.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Remark7.5.2",
