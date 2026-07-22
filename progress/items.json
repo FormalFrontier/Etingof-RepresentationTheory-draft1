@@ -2682,7 +2682,13 @@
     "end_page": "69",
     "start_line": 33,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "fidelity_decl": "Etingof.psi (def), psi_acts_self, psi_acts_other, psi_idempotent, psi_orthogonal",
+    "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_5_2.lean",
+    "fidelity_note": "[fidelity] VERIFIED (#7244). psi = (dim V/|G|)*sum_g chi_V(g)*g^{-1} is a real def matching the book (correct scalar, g^{-1} present). Part (i): psi_acts_self proves action on V is LinearMap.id (scalar pinned to 1, not merely \"a scalar\"); psi_acts_other proves action on non-iso simple W is 0. Part (ii): psi_idempotent (psi V * psi V = psi V) and psi_orthogonal (psi W * psi V = 0) as group-algebra elements; iso symmetry gives both orderings. [Simple] = genuine irreducibility, IsEmpty (W iso V) = genuine non-isomorphism. Non-vacuous, axiom-clean.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Remark4.5.3",
