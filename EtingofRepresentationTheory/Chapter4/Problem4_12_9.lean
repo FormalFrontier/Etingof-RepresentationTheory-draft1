@@ -172,4 +172,51 @@ theorem tensor_character_inv [Fact p.Prime]
           = (p : ℂ) ^ 2 * ((z⁻¹) ^ c.val * (w⁻¹) ^ c.val) from by ring, hone, mul_one]
   · simp only [if_neg h, mul_zero]
 
+/-! ## One-dimensional characters and their tensor products
+
+The remaining irreducibles of the Heisenberg group are the `p²` one-dimensional characters
+`χ : Heisenberg p →* ℂˣ` (Problem 4.12.2, `one_dim_reps_card`), realized as `charRep χ` on `ℂ`.
+Their characters and tensor products complete the answer to Problem 4.12.9. -/
+
+/-- **Character of a one-dimensional character.** The character of `charRep χ` (the `1×1` block
+`g ↦ χ g`) is `g ↦ (χ g : ℂ)`. -/
+theorem character_charRep (χ : Heisenberg p →* ℂˣ) (g : Heisenberg p) :
+    LinearMap.trace ℂ ℂ (Etingof.Example4_3_S3.charRep χ g) = (χ g : ℂ) := by
+  have hg : Etingof.Example4_3_S3.charRep χ g = (χ g : ℂ) • LinearMap.id := rfl
+  rw [hg, map_smul, LinearMap.trace_id]
+  simp
+
+/-- **Tensor product of two one-dimensional characters.** The character of `χ ⊗ χ'` is the
+pointwise product of characters, `g ↦ (χ g)·(χ' g) = ((χ·χ') g)`, so `χ ⊗ χ' ≅ charRep (χ·χ')`.
+The `p²` characters thus form a group under tensor product. -/
+theorem tensor_character_char_char (χ χ' : Heisenberg p →* ℂˣ) (g : Heisenberg p) :
+    LinearMap.trace ℂ ℂ (Etingof.Example4_3_S3.charRep χ g) *
+        LinearMap.trace ℂ ℂ (Etingof.Example4_3_S3.charRep χ' g) =
+      LinearMap.trace ℂ ℂ (Etingof.Example4_3_S3.charRep (χ * χ') g) := by
+  rw [character_charRep, character_charRep, character_charRep, MonoidHom.mul_apply, Units.val_mul]
+
+/-- **Tensor product of a character with `R_z`.** For a one-dimensional character `χ` and a
+`p`-dimensional `R_z` (`z ≠ 1`), the character of `χ ⊗ R_z` equals that of `R_z`, i.e.
+`χ ⊗ R_z ≅ R_z`. The twist collapses: `character_Rz` is supported on the center, where every
+character `χ` is trivial (`χ ⟨0,0,c⟩ = 1`, as characters kill the abelianization kernel,
+`abHom_ker_le_ker`). -/
+theorem tensor_character_char_Rz [Fact p.Prime] (χ : Heisenberg p →* ℂˣ)
+    (z : ℂ) (hz : z ^ p = 1) (hz1 : z ≠ 1)
+    (ρ : Representation ℂ (Heisenberg p) (ZMod p → ℂ)) (hρ : IsRz z ρ)
+    (a b c : ZMod p) :
+    LinearMap.trace ℂ ℂ (Etingof.Example4_3_S3.charRep χ ⟨a, b, c⟩) *
+        LinearMap.trace ℂ (ZMod p → ℂ) (ρ ⟨a, b, c⟩) =
+      LinearMap.trace ℂ (ZMod p → ℂ) (ρ ⟨a, b, c⟩) := by
+  rw [character_charRep, character_Rz z hz hz1 ρ hρ a b c]
+  by_cases h : a = 0 ∧ b = 0
+  · simp only [if_pos h]
+    have hcentral : χ ⟨a, b, c⟩ = 1 := by
+      have hmem : (⟨a, b, c⟩ : Heisenberg p) ∈ (abHom p).ker := by
+        rw [MonoidHom.mem_ker]
+        change Multiplicative.ofAdd (a, b) = 1
+        rw [h.1, h.2]; rfl
+      exact MonoidHom.mem_ker.mp (abHom_ker_le_ker χ hmem)
+    rw [hcentral, Units.val_one, one_mul]
+  · simp only [if_neg h, mul_zero]
+
 end Etingof.Problem4_12_9
