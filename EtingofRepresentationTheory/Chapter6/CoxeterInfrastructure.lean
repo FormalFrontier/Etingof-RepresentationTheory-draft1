@@ -1249,10 +1249,16 @@ lemma reflFunctorPlus_free_eq
     [Fintype (@ArrowsInto Q _ i)] :
     Module.Free k₀ (@QuiverRepresentation.obj k₀ Q _ (reversedAtVertex Q i)
       (reflectionFunctorPlus Q i hi ρ) i) := by
-  -- Transport via the linear equivalence F⁺ᵢ(ρ).obj i ≃ₗ ker(sinkMap)
-  -- Need AddCommGroup for the direct sum to make Free work for submodules over PIDs
-  letI : AddCommGroup (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1)) :=
-    addCommGroupOfRing (k := k₀)
+  -- Transport via the linear equivalence F⁺ᵢ(ρ).obj i ≃ₗ ker(sinkMap).
+  -- `sinkMap i` maps the direct sum `⊕ⱼ Vⱼ` to `Vᵢ`, so its kernel is a submodule of it.
+  -- Every vector space is free, so equipping the kernel with its ring-induced AddCommGroup
+  -- makes it free; the freeness then transports back along the equivalence. The kernel's
+  -- own module structure is captured first so the added group structure does not shadow it.
+  letI modK : Module k₀ ↥(ρ.sinkMap i).ker := inferInstance
+  letI acgK : AddCommGroup ↥(ρ.sinkMap i).ker :=
+    @addCommGroupOfRing k₀ _ ↥(ρ.sinkMap i).ker inferInstance modK
+  haveI : Module.Free k₀ ↥(ρ.sinkMap i).ker :=
+    @Module.Free.of_divisionRing k₀ ↥(ρ.sinkMap i).ker _ acgK modK
   exact Module.Free.of_equiv (reflFunctorPlus_equivAt_eq hi ρ).symm
 
 /-- `Module.Finite` for the reflected representation at v ≠ i. -/
@@ -1276,8 +1282,20 @@ lemma reflFunctorPlus_finite_eq
     [Fintype (@ArrowsInto Q _ i)] :
     Module.Finite k₀ (@QuiverRepresentation.obj k₀ Q _ (reversedAtVertex Q i)
       (reflectionFunctorPlus Q i hi ρ) i) := by
-  letI : AddCommGroup (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1)) :=
-    addCommGroupOfRing (k := k₀)
+  -- `sinkMap i` maps the direct sum `⊕ⱼ Vⱼ` to `Vᵢ`, so its kernel is a submodule of that
+  -- direct sum. The direct sum is a finite module over the field (a finite sum of finite
+  -- modules), hence Noetherian, so every submodule -- in particular the kernel -- is finite,
+  -- and the finiteness transports back along the equivalence. The direct sum's module
+  -- structure is captured first so the added group structure does not shadow it.
+  letI modD : Module k₀ (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1)) := inferInstance
+  haveI finD : Module.Finite k₀ (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1)) :=
+    Module.Finite.equiv (DirectSum.linearEquivFunOnFintype k₀ (@ArrowsInto Q _ i)
+      (fun a => ρ.obj a.1)).symm
+  haveI : IsNoetherian k₀ (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1)) :=
+    @isNoetherian_of_isNoetherianRing_of_finite k₀
+      (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1)) _
+      (@addCommGroupOfRing k₀ _ (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1))
+        inferInstance modD) modD _ finD
   exact Module.Finite.equiv (reflFunctorPlus_equivAt_eq hi ρ).symm
 
 /-! ### Relating simpleReflectionDimVector and simpleReflection
@@ -1352,7 +1370,7 @@ lemma simpleReflectionDimVector_eq_simpleReflection
       have h_unfold : (∑ a : @ArrowsInto (Fin n) Q v, d a.fst) =
           @Finset.sum _ _ _ (@Finset.univ _ sigmaFT) (fun a => d a.fst) := by
         apply Finset.sum_congr
-        · ext x; simp [Finset.mem_univ]
+        · ext x; exact iff_of_true (Finset.mem_univ x) (@Finset.mem_univ _ sigmaFT x)
         · intros; rfl
       rw [h_unfold]
       -- Step 3: decompose Sigma sum
@@ -1627,10 +1645,10 @@ private lemma indecomposable_reduces_to_simpleRoot
     simp only [hd_def] at h0
     -- finrank = 0 contradicts Nontrivial (which gives finrank ≥ 1)
     have hfr : Module.finrank k (ρ.obj v) = 0 := by exact_mod_cast h0
-    -- Use the same pattern as Proposition6_6_7: upgrade AddCommMonoid to AddCommGroup
-    letI : ∀ w, AddCommGroup (ρ.obj w) := fun w => Etingof.addCommGroupOfRing (k := k)
-    have hpos := Module.finrank_pos (R := k) (M := ρ.obj v)
-    omega
+    -- finrank = 0 forces Subsingleton (module is free), contradicting Nontrivial.
+    -- Use the free-module version so no auxiliary AddCommGroup instance is needed.
+    rw [Module.finrank_eq_zero_iff_of_free (R := k)] at hfr
+    exact absurd hfr (not_subsingleton_iff_nontrivial.mpr hv)
   -- By generalized Lemma 6.7.2: ∃ N i, c^N(d)_i < 0
   have hσ_perm := hσ.perm
   obtain ⟨N, i, hNeg⟩ := generalized_Lemma6_7_2 hDynkin σ hσ_perm d hd_nonneg hd_nonzero
@@ -1710,10 +1728,9 @@ theorem Corollary6_8_2
     intro heq
     have hv_eq := congr_fun heq v
     simp only [hd_def, Pi.zero_apply, Int.natCast_eq_zero] at hv_eq
-    -- finrank = 0 → Subsingleton, contradicting Nontrivial
-    letI : AddCommGroup (ρ.obj v) := addCommGroupOfRing (k := k)
-    have hsub : Subsingleton (ρ.obj v) := Module.finrank_zero_iff.mp hv_eq
-    exact not_nontrivial (ρ.obj v) hv
+    -- finrank = 0 → Subsingleton (module is free), contradicting Nontrivial
+    rw [Module.finrank_eq_zero_iff_of_free (R := k)] at hv_eq
+    exact absurd hv_eq (not_subsingleton_iff_nontrivial.mpr hv)
   -- By rep-level Theorem 6.8.1: reflections reduce d to a simple root
   obtain ⟨vertices, p, hrefl⟩ := indecomposable_reduces_to_simpleRoot hDynkin hOrient ρ hρ
   -- Combinatorial core: a nonneg nonzero vector reducible to a simple root is a positive root

@@ -171,11 +171,11 @@ theorem Etingof.tensor_product_irreducible (k : Type*) (A B V W : Type*)
 
 The proof proceeds as follows:
 1. Find a simple A-submodule V₀ of M (using finite-dimensionality → Artinian → atomic)
-2. Define W₀ = Hom_A(V₀, M) with B-module structure via (b • f)(v) = b • f(v)
-3. Build the evaluation map ev: V₀ ⊗ W₀ → M, ev(v ⊗ f) = f(v)
+2. Define (V₀ →ₗ[A] M) = Hom_A(V₀, M) with B-module structure via (b • f)(v) = b • f(v)
+3. Build the evaluation map ev: V₀ ⊗ (V₀ →ₗ[A] M) → M, ev(v ⊗ f) = f(v)
 4. Show ev is surjective (image is A-B-invariant, nonzero, so = M)
 5. Show ev is injective (using density theorem: A → End_k(V₀) surjective)
-6. Show W₀ is simple as B-module (dimension argument from bijectivity of ev)
+6. Show (V₀ →ₗ[A] M) is simple as B-module (dimension argument from bijectivity of ev)
 -/
 
 section Part2Helpers
@@ -193,29 +193,11 @@ variable {M : Type*} [AddCommGroup M] [Module k M] [FiniteDimensional k M]
 
 variable (V₀ : Submodule A M)
 
-/-- B-scalar multiplication on Hom_A(V₀, M): (b • f)(v) = b • f(v).
-This is A-linear since A and B commute on M. -/
-noncomputable def homBSMul (b : B) (f : V₀ →ₗ[A] M) : V₀ →ₗ[A] M where
-  toFun v := b • f v
-  map_add' x y := by simp [smul_add]
-  map_smul' a v := by
-    simp only [RingHom.id_apply]
-    rw [f.map_smul, smul_comm a b]
-
-/-- The B-module instance on Hom_A(V₀, M). -/
-noncomputable instance homBModule : Module B (V₀ →ₗ[A] M) where
-  smul := homBSMul V₀
-  one_smul f := by ext v; exact one_smul B (f v)
-  mul_smul b₁ b₂ f := by ext v; exact mul_smul b₁ b₂ (f v)
-  smul_zero b := by ext v; exact smul_zero b
-  smul_add b f g := by ext v; exact smul_add b (f v) (g v)
-  add_smul b₁ b₂ f := by ext v; exact add_smul b₁ b₂ (f v)
-  zero_smul f := by ext v; exact zero_smul B (f v)
-
-instance homIsScalarTowerKB : IsScalarTower k B (V₀ →ₗ[A] M) where
-  smul_assoc c b f := by
-    ext v; show (c • b) • f v = c • (b • f v)
-    exact smul_assoc c b (f v)
+-- The `B`-module structure on `Hom_A(V₀, M)` is `(b • f) v = b • f v`, and the
+-- `k`-`B`-scalar tower `IsScalarTower k B (V₀ →ₗ[A] M)` both come for free from Mathlib's
+-- generic `LinearMap` instances (`LinearMap.module`, using `SMulCommClass A B M`, and the
+-- generic `IsScalarTower` on linear maps). Declaring bespoke instances here would collide
+-- with those generic ones, so we rely on the library instances directly.
 
 /-- The evaluation map V₀ ⊗_k Hom_A(V₀, M) →ₗ[k] M sending v ⊗ f to f(v). -/
 noncomputable def evalMap : V₀ ⊗[k] (V₀ →ₗ[A] M) →ₗ[k] M :=
@@ -287,16 +269,15 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
     have : Module.Finite k (V₀.restrictScalars k) := inferInstance
     exact this
   -- Step 2: W₀ = Hom_A(V₀, M) with B-module structure (from Part2Helpers)
-  set W₀ := V₀ →ₗ[A] M
   -- The inclusion V₀ ↪ M gives a nonzero element of W₀
-  have hι_ne : (V₀.subtype.restrictScalars A : W₀) ≠ 0 := by
+  have hι_ne : (V₀.subtype.restrictScalars A : (V₀ →ₗ[A] M)) ≠ 0 := by
     intro h
     have hzero : ∀ v : V₀, (v : M) = 0 := fun v => LinearMap.congr_fun h v
     exact hV₀_atom.1 (eq_bot_iff.mpr fun x hx => hzero ⟨x, hx⟩)
   -- Step 3: Surjectivity of evalMap
-  have hev_surj : Function.Surjective (evalMap V₀ : V₀ ⊗[k] W₀ →ₗ[k] M) := by
+  have hev_surj : Function.Surjective (evalMap V₀ : V₀ ⊗[k] (V₀ →ₗ[A] M) →ₗ[k] M) := by
     rw [← LinearMap.range_eq_top]
-    set evR := LinearMap.range (evalMap V₀ : V₀ ⊗[k] W₀ →ₗ[k] M)
+    set evR := LinearMap.range (evalMap V₀ : V₀ ⊗[k] (V₀ →ₗ[A] M) →ₗ[k] M)
     have hA_inv : ∀ (a : A) (x : M), x ∈ evR → a • x ∈ evR := by
       rintro a _ ⟨t, rfl⟩
       induction t using TensorProduct.induction_on with
@@ -309,7 +290,7 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
       rintro b _ ⟨t, rfl⟩
       induction t using TensorProduct.induction_on with
       | zero => simp
-      | tmul v f => exact ⟨v ⊗ₜ[k] homBSMul V₀ b f, by simp [evalMap_tmul, homBSMul]⟩
+      | tmul v f => exact ⟨v ⊗ₜ[k] (b • f), by simp [evalMap_tmul, LinearMap.smul_apply]⟩
       | add _ _ hx hy =>
         rw [map_add, smul_add]; exact Submodule.add_mem _ hx hy
     have hne : evR ≠ ⊥ := by
@@ -320,9 +301,9 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
       rw [h, Submodule.mem_bot] at this; exact hv_ne this
     exact (hM evR hA_inv hB_inv).resolve_left hne
   -- Step 4: Injectivity via density theorem
-  have hev_inj : Function.Injective (evalMap V₀ : V₀ ⊗[k] W₀ →ₗ[k] M) := by
+  have hev_inj : Function.Injective (evalMap V₀ : V₀ ⊗[k] (V₀ →ₗ[A] M) →ₗ[k] M) := by
     -- A-equivariance: ev ∘ (ρ(a) ⊗ id) = a • ev
-    have hequi : ∀ (a : A) (s : V₀ ⊗[k] W₀),
+    have hequi : ∀ (a : A) (s : V₀ ⊗[k] (V₀ →ₗ[A] M)),
         evalMap V₀ (TensorProduct.map ((Algebra.lsmul k k V₀ : A →ₐ[k] _) a)
           LinearMap.id s) = a • evalMap V₀ s := by
       intro a s
@@ -334,7 +315,7 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
         exact f.map_smul a v
       | add x y hx hy => simp only [map_add, smul_add, hx, hy]
     -- ker(ev) is stable under map(φ, id) for all φ ∈ End_k(V₀)
-    have hstable : ∀ (φ : Module.End k V₀) (s : V₀ ⊗[k] W₀),
+    have hstable : ∀ (φ : Module.End k V₀) (s : V₀ ⊗[k] (V₀ →ₗ[A] M)),
         evalMap V₀ s = 0 → evalMap V₀ (TensorProduct.map φ LinearMap.id s) = 0 := by
       intro φ s hs
       obtain ⟨a, ha⟩ := Etingof.density_theorem_part1 k A V₀ φ
@@ -377,12 +358,12 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
     · intro i _ hi; simp [hi]
     · intro hj_mem
       exfalso; exact hj_mem (Finsupp.mem_support_iff.mpr (by intro h; exact hj h))
-  set ev_equiv : V₀ ⊗[k] W₀ ≃ₗ[k] M :=
+  set ev_equiv : V₀ ⊗[k] (V₀ →ₗ[A] M) ≃ₗ[k] M :=
     LinearEquiv.ofBijective (evalMap V₀) ⟨hev_inj, hev_surj⟩ with hev_def
   have ev_apply : ∀ x, ev_equiv x = evalMap V₀ x := by
     intro x; rw [hev_def, LinearEquiv.ofBijective_apply]
   -- The evaluation map is equivariant for both the A- and B-actions.
-  have hAeq : ∀ (a : A) (s : V₀ ⊗[k] W₀),
+  have hAeq : ∀ (a : A) (s : V₀ ⊗[k] (V₀ →ₗ[A] M)),
       evalMap V₀ (TensorProduct.map ((Algebra.lsmul k k V₀ : A →ₐ[k] _) a) LinearMap.id s)
         = a • evalMap V₀ s := by
     intro a s
@@ -393,8 +374,8 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
       simp only [Algebra.lsmul_coe]
       exact f.map_smul a v
     | add x y hx hy => simp only [map_add, smul_add, hx, hy]
-  have hBeq : ∀ (b : B) (s : V₀ ⊗[k] W₀),
-      evalMap V₀ (TensorProduct.map LinearMap.id ((Algebra.lsmul k k W₀ : B →ₐ[k] _) b) s)
+  have hBeq : ∀ (b : B) (s : V₀ ⊗[k] (V₀ →ₗ[A] M)),
+      evalMap V₀ (TensorProduct.map LinearMap.id ((Algebra.lsmul k k (V₀ →ₗ[A] M) : B →ₐ[k] _) b) s)
         = b • evalMap V₀ s := by
     intro b s
     induction s using TensorProduct.induction_on with
@@ -405,9 +386,9 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
       rfl
     | add x y hx hy => simp only [map_add, smul_add, hx, hy]
   -- W₀ is finite-dimensional: V₀ ⊗ W₀ ≃ M is f.d., and V₀ is nonzero
-  haveI : FiniteDimensional k W₀ := by
+  haveI : FiniteDimensional k (V₀ →ₗ[A] M) := by
     -- Build injective k-linear map W₀ → (V₀ →ₗ[k] M)
-    let ι : W₀ →ₗ[k] (V₀ →ₗ[k] M) :=
+    let ι : (V₀ →ₗ[A] M) →ₗ[k] (V₀ →ₗ[k] M) :=
       { toFun := fun f => f.restrictScalars k
         map_add' := fun _ _ => rfl
         map_smul' := fun c f => by
@@ -415,10 +396,10 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
     exact Module.Finite.of_injective ι (fun f g h => by
       ext v; exact LinearMap.congr_fun h v)
   -- W₀ is simple as B-module
-  haveI : IsSimpleModule B W₀ := by
-    haveI : Nontrivial W₀ :=
+  haveI : IsSimpleModule B (V₀ →ₗ[A] M) := by
+    haveI : Nontrivial (V₀ →ₗ[A] M) :=
       ⟨⟨0, V₀.subtype.restrictScalars A, hι_ne.symm⟩⟩
-    have hsimple : ∀ S : Submodule B W₀, S = ⊥ ∨ S = ⊤ := by
+    have hsimple : ∀ S : Submodule B (V₀ →ₗ[A] M), S = ⊥ ∨ S = ⊤ := by
       intro S
       by_contra hS
       push_neg at hS
@@ -426,17 +407,17 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
       -- S ≠ ⊥: ∃ nonzero f ∈ S
       obtain ⟨f, hf_mem, hf_ne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hS_ne_bot
       -- f ≠ 0: ∃ v with f(v) ≠ 0
-      obtain ⟨v, hv⟩ : ∃ v, (f : W₀) v ≠ 0 := by
+      obtain ⟨v, hv⟩ : ∃ v, (f : (V₀ →ₗ[A] M)) v ≠ 0 := by
         by_contra h; push_neg at h
         exact hf_ne (LinearMap.ext fun v => by simpa using h v)
       -- Image of ev|_{V₀ ⊗ S} is A-B-invariant and nonzero → = M
       -- Build restricted eval: V₀ ⊗ S → M
       -- For s : S, the map (s : W₀) : V₀ →ₗ[A] M
       -- evS(v ⊗ s) = (s : W₀)(v)
-      let incl : S →ₗ[k] W₀ := S.subtype.restrictScalars k
+      let incl : S →ₗ[k] (V₀ →ₗ[A] M) := S.subtype.restrictScalars k
       set evS : V₀ ⊗[k] S →ₗ[k] M :=
         (evalMap V₀).comp (TensorProduct.map LinearMap.id incl) with hevS_def
-      have hevS_tmul : ∀ (v' : V₀) (g : S), evS (v' ⊗ₜ[k] g) = (g : W₀) v' := by
+      have hevS_tmul : ∀ (v' : V₀) (g : S), evS (v' ⊗ₜ[k] g) = (g : (V₀ →ₗ[A] M)) v' := by
         intro v' g; simp only [hevS_def, LinearMap.comp_apply, TensorProduct.map_tmul,
           LinearMap.id_apply, evalMap_tmul]; rfl
       have hevS_surj : Function.Surjective evS := by
@@ -447,7 +428,7 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
           induction t using TensorProduct.induction_on with
           | zero => simp
           | tmul v' g =>
-            rw [hevS_tmul]; exact ⟨(a • v') ⊗ₜ[k] g, by rw [hevS_tmul, (g : W₀).map_smul]⟩
+            rw [hevS_tmul]; exact ⟨(a • v') ⊗ₜ[k] g, by rw [hevS_tmul, (g : (V₀ →ₗ[A] M)).map_smul]⟩
           | add _ _ hx hy => rw [map_add, smul_add]; exact Submodule.add_mem _ hx hy
         have hR_B : ∀ (b : B) (x : M), x ∈ R → b • x ∈ R := by
           rintro b _ ⟨t, rfl⟩
@@ -455,7 +436,7 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
           | zero => simp
           | tmul v' g =>
             rw [hevS_tmul]
-            refine ⟨v' ⊗ₜ[k] ⟨b • (g : W₀), S.smul_mem b g.2⟩, ?_⟩
+            refine ⟨v' ⊗ₜ[k] ⟨b • (g : (V₀ →ₗ[A] M)), S.smul_mem b g.2⟩, ?_⟩
             rw [hevS_tmul]; rfl
           | add _ _ hx hy => rw [map_add, smul_add]; exact Submodule.add_mem _ hx hy
         have hR_ne : R ≠ ⊥ := by
@@ -477,24 +458,24 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
           _ ≤ Module.finrank k (LinearMap.range evS) +
               Module.finrank k (LinearMap.ker evS) := by omega
           _ = _ := evS.finrank_range_add_finrank_ker
-      have h2 : Module.finrank k M = Module.finrank k V₀ * Module.finrank k W₀ := by
+      have h2 : Module.finrank k M = Module.finrank k V₀ * Module.finrank k (V₀ →ₗ[A] M) := by
         rw [← Module.finrank_tensorProduct, ev_equiv.finrank_eq]
       haveI : Nontrivial V₀ := by
         obtain ⟨x, hx, hx_ne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hV₀_atom.1
         exact ⟨⟨⟨x, hx⟩, 0, fun h => hx_ne (congr_arg Subtype.val h)⟩⟩
       have hV₀_pos : 0 < Module.finrank k V₀ := Module.finrank_pos
-      have h3 : Module.finrank k W₀ ≤ Module.finrank k S := by
+      have h3 : Module.finrank k (V₀ →ₗ[A] M) ≤ Module.finrank k S := by
         exact Nat.le_of_mul_le_mul_left (h2 ▸ h1) hV₀_pos
-      have h4 : Module.finrank k S ≤ Module.finrank k W₀ :=
+      have h4 : Module.finrank k S ≤ Module.finrank k (V₀ →ₗ[A] M) :=
         Submodule.finrank_le (S.restrictScalars k)
       have hS_k_top : S.restrictScalars k = ⊤ :=
         Submodule.eq_top_of_finrank_eq
           (show Module.finrank k (S.restrictScalars k) = _ from le_antisymm h4 h3)
       exact hS_ne_top (eq_top_iff.mpr fun x _ => by
-        have : x ∈ (S.restrictScalars k : Set W₀) := by rw [hS_k_top]; trivial
+        have : x ∈ (S.restrictScalars k : Set (V₀ →ₗ[A] M)) := by rw [hS_k_top]; trivial
         exact this)
     exact { toIsSimpleOrder := { eq_bot_or_eq_top := hsimple } }
-  refine ⟨↥V₀, W₀, inferInstance, inferInstance, inferInstance, inferInstance, inferInstance,
+  refine ⟨↥V₀, (V₀ →ₗ[A] M), inferInstance, inferInstance, inferInstance, inferInstance, inferInstance,
     inferInstance, inferInstance, inferInstance, inferInstance, inferInstance, inferInstance,
     inferInstance, ev_equiv.symm, ?_, ?_⟩
   · -- A-equivariance of `ev_equiv.symm`.

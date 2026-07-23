@@ -358,7 +358,11 @@ of `V`. By pairwise non-isomorphism these components are independent (`iSupIndep
 theorem evalDirectSum_injective
     (hpair : ∀ i j, i ≠ j → IsEmpty (X i ≃ₗ[A] X j)) :
     Function.Injective (evalDirectSum k A X V) := by
-  refine (injective_iff_map_eq_zero (evalDirectSum k A X V)).mpr fun ξ hξ => ?_
+  suffices h : ∀ ξ, evalDirectSum k A X V ξ = 0 → ξ = 0 by
+    intro ξ₁ ξ₂ he
+    have hsub : evalDirectSum k A X V (ξ₁ - ξ₂) = 0 := by rw [map_sub, he, sub_self]
+    exact sub_eq_zero.mp (h _ hsub)
+  intro ξ hξ
   have hindep := iSupIndep_isotypicComponent k A X V hpair
   -- evalDirectSum ξ expands to the sum of the per-component evaluations
   have hexpand : evalDirectSum k A X V ξ = ∑ i, evalTensor k A (X i) V (ξ i) := by

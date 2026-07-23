@@ -77,7 +77,15 @@ private lemma trivialFDRep_simple :
   haveI : IsSimpleModule (MonoidAlgebra ℂ G)
       (Representation.trivial ℂ G ℂ).asModule := by
     rw [isSimpleModule_iff]
-    exact is_simple_module_of_finrank_eq_one (Module.finrank_self ℂ)
+    -- Fix `V := asModule` explicitly and prove `finrank ℂ = 1` through
+    -- `asModuleEquiv`, so the canonical (transferred) `Module ℂ asModule`
+    -- is used consistently with the `IsScalarTower ℂ ℂ[G] asModule` instance.
+    -- Passing `Module.finrank_self ℂ` directly instead pins `Module ℂ V` to
+    -- `Complex.instModule`, which no longer matches the scalar-tower instance
+    -- (defined with reduced transparency) and fails synthesis.
+    refine is_simple_module_of_finrank_eq_one (K := ℂ) (A := MonoidAlgebra ℂ G)
+      (V := (Representation.trivial ℂ G ℂ).asModule) ?_
+    rw [(Representation.trivial ℂ G ℂ).asModuleEquiv.finrank_eq, Module.finrank_self]
   infer_instance
 
 /-- If all elements of G act as scalars on an irreducible representation V, then finrank V = 1. -/
