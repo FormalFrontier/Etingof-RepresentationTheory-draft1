@@ -188,6 +188,20 @@ restoring `Definition2_8_4.lean` (#7499), cost ~15 iterations:**
   Small `Finsupp`-typed helpers (`c • single x 1 = single x c`, `c • 0 = 0`) proved by `rw` then
   applied to `Foo` goals by `exact` cover the `SMulZeroClass k Foo`-not-synthesizable gaps.
 
+**A `neg_smul`/cast rewrite tail that breaks under a Mathlib bump: close it with `push_cast;
+module` instead of chasing the rewrite (#7530, `Chapter2/Problem2_7_4.lean`).** A proof ending
+`rw […, ← Nat.cast_smul_eq_nsmul (R := k) (n + 1), neg_smul]; congr 1; push_cast; ring` regressed
+with `rw [neg_smul]` reporting `Did not find an occurrence of the pattern -?r • ?x` — even though
+the goal visibly had `(-(↑n + 1)) • m` on the RHS. The cause is a smul instance diamond: after the
+earlier `zero_sub` one side is `-((↑n + 1) • m)` (neg *outside* the smul) while the stated side is
+`(-(↑n + 1)) • m` (neg *inside*), and the two smul paths are defeq but not syntactically matchable,
+so `neg_smul` fires on neither. **Fix: drop the `neg_smul`/`congr`/`ring` tail and finish with
+`push_cast` (to fold `↑(n + 1)` to `↑n + 1`) then `module`.** The `module` tactic normalizes both
+`r • m` and `-` uniformly and ignores the neg-inside/neg-outside distinction, so it closes goals
+that a positional `rw [neg_smul]` can't. General rule for "restore fresh-buildable" work: when a
+`smul`/cast `rw` step fails with "did not find pattern" on a goal that looks right, reach for
+`module` (module-linear goals) before hand-massaging the negation.
+
 **Same failure for `AddCommGrpCat`/`ModuleCat` homology goals in `ConcreteCategory.hom` form**
 (cost ~5 iterations in #6952, `Chapter8/HomComplexHomologyK.lean`). After
 `AddCommGrpCat.comp_apply`, terms read `ConcreteCategory.hom f (ConcreteCategory.hom g x)`; the

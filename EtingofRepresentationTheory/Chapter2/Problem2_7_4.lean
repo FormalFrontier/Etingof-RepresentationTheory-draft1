@@ -182,9 +182,9 @@ private lemma adx_monomial_succ (i n : ℕ) :
   simp only [adx_apply, WeylAlgebra.monomial]
   rw [← mul_assoc, ← pow_succ', mul_assoc (WeylAlgebra.x k ^ i), hYX, mul_add,
     ← mul_assoc, ← pow_succ, mul_smul_comm, sub_add_eq_sub_sub, sub_self, zero_sub,
-    ← Nat.cast_smul_eq_nsmul (R := k) (n + 1), neg_smul]
-  congr 1
-  push_cast; ring
+    ← Nat.cast_smul_eq_nsmul (R := k) (n + 1)]
+  push_cast
+  module
 
 private lemma ady_monomial_zero (j : ℕ) : ady k (WeylAlgebra.monomial k 0 j) = 0 := by
   rw [ady_apply, WeylAlgebra.monomial, pow_zero, one_mul, ← pow_succ, ← pow_succ', sub_self]
