@@ -146,11 +146,11 @@ theorem subrepresentation_of_semisimple_pi (n : ι → ℕ)
   -- A simple submodule of `W` lies in some isotypic component `C i`.
   have iso_of_le : ∀ {k : ι} {t : Submodule A ↥W} (_ : IsSimpleModule A ↥t),
       t ≤ C k → Nonempty (↥t ≃ₗ[A] V k) := by
-    intro k t _ hle
+    intro k t hsimp hle
+    haveI := hsimp
     have hit : IsIsotypicOfType A ↥t (V k) := le_isotypicComponent_iff.mp hle
-    haveI : IsSimpleModule A ↥(⊤ : Submodule A ↥t) :=
-      (LinearEquiv.isSimpleModule_iff Submodule.topEquiv).mpr ‹_›
-    exact ⟨Submodule.topEquiv.symm.trans (hit ⊤).some⟩
+    -- `↥t` is a simple submodule of itself, hence isomorphic to `V k`.
+    exact isIsotypicOfType_submodule_iff.mp hit t le_rfl
   have simple_mem : ∀ {s : Submodule A ↥W}, IsSimpleModule A ↥s → ∃ i, s ≤ C i := by
     intro s hs
     haveI := hs

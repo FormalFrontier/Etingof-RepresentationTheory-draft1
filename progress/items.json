@@ -307,10 +307,9 @@
     "start_line": 24,
     "end_line": 26,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "fidelity": "partial",
-    "coverage_note": "The group-algebra iff and the free-algebra claim are covered by public infrastructure and the two-generator witness. The remaining substantive gap is the source's quantified End_k(V) noncommutativity theorem for every finite-dimensional V with dim V > 1; narrowed follow-up #7455.",
-    "fidelity_issue": 7455,
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "The group-algebra iff, the free-algebra claim, and the source's quantified End_k(V) noncommutativity theorem for every finite-dimensional V with 2 ≤ dim V (End_noncommutative_of_two_le_finrank) are all public. The concrete V = k² matrix-unit witness remains as the dim V = 2 special case.",
     "last_updated": "2026-07-22"
   },
   {
@@ -862,10 +861,9 @@
       "wave": 1,
       "result": "gap"
     },
-    "coverage": "covered_partial",
-    "coverage_note": "The characteristic-zero faithfulness of polyRep and characteristic-free faithfulness of repE are proved. The source's characteristic-p contrast—(d/dt)^p=0 on k[t], hence polyRep is not faithful—is present only in documentation; follow-up #7442.",
-    "fidelity_issue": 7442,
-    "followup_issue": 7442,
+    "coverage": "covered_full",
+    "coverage_note": "All three contrasts of the discussion are now public theorems (#7442). Char-zero faithfulness of polyRep (WeylAlgebra.polyRep_injective) and char-free faithfulness of repE (repE_injective) were already proved. The char-p contrast is now formalized: Etingof.iterate_derivative_eq_zero_of_charP proves (d/dt)^p Q = 0 for every polynomial over a ring of prime characteristic p; WeylAlgebra.polyRep_y_pow_eq_zero derives polyRep(y^p) = 0; and WeylAlgebra.polyRep_not_injective proves k[t] is not faithful in characteristic p (witness y^p, nonzero because the Weyl monomials are a basis). The comparison theorem repE_injective_and_polyRep_not_injective packages faithful-E vs nonfaithful-k[t] in one statement.",
+    "fidelity_decl": "Etingof.iterate_derivative_eq_zero_of_charP; Etingof.WeylAlgebra.polyRep_not_injective; Etingof.repE_injective_and_polyRep_not_injective",
     "last_updated": "2026-07-22"
   },
   {
@@ -2497,13 +2495,12 @@
     "end_page": "54",
     "start_line": 11,
     "end_line": 14,
-    "status": "partially_proved",
-    "coverage": "covered_partial",
-    "fidelity": "partial",
-    "note": "Public existence and uniqueness declarations are present, but the current file fails to elaborate in the existence proof's top-submodule finrank bound; regression #7495.",
-    "sorry_free": false,
-    "fidelity_issue": 7495,
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "note": "Existence and uniqueness are proved sorry-free, including the inductive uniqueness step. Importability regression (finrank ⊤ ≤ finrank V step) fixed 2026-07-23 via finrank_top.",
+    "sorry_free": true,
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter3/Lemma3.8.2",
@@ -3494,10 +3491,9 @@
     "status": "sorry_free",
     "fidelity": "partial",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The invariant Hermitian action is encoded, but the source-facing structure omits the definition's finite-dimensionality requirement on V and therefore admits a strictly broader class; follow-up #7488.",
-    "fidelity_issue": 7488,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "last_updated": "2026-07-23",
+    "notes": "UnitaryRepresentation now requires [FiniteDimensional ℂ V], matching the book's finite-dimensional definition; previously it admitted infinite-dimensional carriers. Regression example checks a finite-dimensional witness typechecks."
   },
   {
     "id": "Chapter4/Theorem4.6.2",
@@ -3730,13 +3726,12 @@
     "end_page": "78",
     "start_line": 11,
     "end_line": 16,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "notes": "The exact factorization declaration is present, but the current file fails to elaborate in its MonoidAlgebra coefficient evaluation; regression #7494.",
-    "sorry_free": false,
-    "coverage": "covered_partial",
-    "fidelity_issue": 7494,
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "notes": "All sorries resolved: blockPoly_irreducible proved via retraction argument. Repaired hLHS_eq (#7494): the group-algebra coefficient evaluation now pushes pointwise application through the finite sum via `map_sum (Finsupp.applyAddHom _)` instead of the deprecated `Finsupp.finset_sum_apply`, which no longer matched the `MonoidAlgebra`/`Finsupp` coercion.",
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter4/Discussion_before_Lemma4.10.3",
@@ -6263,14 +6258,12 @@
     "start_line": 21,
     "end_line": 27,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "full",
     "needs_statement": false,
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The polynomial-density argument is proved, but the public theorem assumes IsAlgClosed k rather than the source characteristic-zero scope (the proof only needs infinitude), excluding ℚ and ℝ while admitting positive characteristic. Its target is diagonalActionImage; the centralizer-B wording also needs the separate characteristic-zero identification. Follow-up #7445.",
-    "fidelity_issue": 7445,
-    "followup_issue": 7445,
-    "last_updated": "2026-07-22"
+    "coverage": "covered",
+    "coverage_note": "The polynomial-density theorem Etingof.Proposition5_19_1 is now stated over [Field k] [Infinite k] (the minimal faithful hypothesis: the proof needs only infinitude), covering every characteristic-zero field including ℚ and ℝ, with regression examples over both. It concludes equality with the diagonal-action image (the book's B). The separate characteristic-zero identification of that image with the actual Sₙ-centralizer End_{Sₙ}(V⊗ⁿ) is exposed as Etingof.Proposition5_19_1_centralizer and no longer conflated with the density statement. Resolved #7445.",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter5/Corollary5.19.2",
@@ -8962,13 +8955,11 @@
     "end_page": "206",
     "start_line": 11,
     "end_line": 6,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "sorry_free": false,
-    "coverage": "covered_partial",
-    "coverage_note": "The four source conditions are represented, but the current file fails to elaborate in the range-equals-kernel premise for condition (iv), so the four-way equivalence cannot be imported; regression #7504.",
-    "fidelity_issue": 7504,
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter8/Definition8.1.2",

@@ -2,11 +2,28 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_18_4
 import Mathlib.LinearAlgebra.Lagrange
 
 /-!
-# Proposition 5.19.1: Image of GL(V) spans the centralizer algebra
+# Proposition 5.19.1: Image of GL(V) spans the diagonal-action algebra
 
-The image of GL(V) in End(V⊗ⁿ) spans B (the centralizer algebra of the
-Sₙ-action). This follows from the fact that the span of g⊗ⁿ for g ∈ GL(V)
-equals the span of b⊗ⁿ for all b ∈ End(V), using a polynomial argument.
+The image of GL(V) in End(V⊗ⁿ) spans `B`, the algebra spanned by the diagonal
+tensor powers `b⊗ⁿ` for `b ∈ End(V)`. This follows from the fact that the span
+of `g⊗ⁿ` for `g ∈ GL(V)` equals the span of `b⊗ⁿ` for all `b ∈ End(V)`, using a
+polynomial density argument.
+
+## Density versus the centralizer identification
+
+The density argument uses only that `k` is **infinite**: for all but finitely
+many scalars `t` the shift `t·id + b` is invertible, so a polynomial vanishing
+on those shifts is identically zero. We therefore state the headline result
+`Etingof.Proposition5_19_1` over an arbitrary infinite field, which covers every
+characteristic-zero field (in particular `ℚ` and `ℝ`) as well as algebraically
+closed fields of any characteristic.
+
+The book's `B` is the diagonal-action image `diagonalActionImage`. Identifying it
+with the actual Sₙ-**centralizer** `End_{Sₙ}(V⊗ⁿ)` is the separate double
+centralizer content of Theorem 5.18.2 / Lemma 5.18.3, which requires
+characteristic zero. That identification is exposed here as the corollary
+`Etingof.Proposition5_19_1_centralizer`; it must not be conflated with the pure
+density statement, since it fails in positive characteristic.
 
 ## Mathlib correspondence
 
@@ -17,7 +34,7 @@ open Etingof
 
 namespace Etingof.Proposition5_19_1_aux
 
-variable {k : Type*} [Field k] [IsAlgClosed k]
+variable {k : Type*} [Field k] [Infinite k]
   {V : Type*} [AddCommGroup V] [Module k V] [Module.Finite k V]
   (n : ℕ)
 
@@ -31,7 +48,7 @@ private def endImage : Set (Module.End k (TensorPower k V n)) :=
   Set.range fun (f : Module.End k V) =>
     PiTensorProduct.map (fun (_ : Fin n) => f)
 
-omit [IsAlgClosed k] [Module.Finite k V] in
+omit [Infinite k] [Module.Finite k V] in
 /-- The End-image set is closed under multiplication, since
 (f⊗ⁿ)(g⊗ⁿ) = (f∘g)⊗ⁿ. -/
 private lemma endImage_mul_closed :
@@ -40,13 +57,13 @@ private lemma endImage_mul_closed :
   rintro _ ⟨f, rfl⟩ _ ⟨g, rfl⟩
   exact ⟨f ∘ₗ g, by ext; simp [PiTensorProduct.map_tprod]⟩
 
-omit [IsAlgClosed k] [Module.Finite k V] in
+omit [Infinite k] [Module.Finite k V] in
 /-- 1 ∈ End-image since id⊗ⁿ = id. -/
 private lemma one_mem_endImage :
     (1 : Module.End k (TensorPower k V n)) ∈ endImage (k := k) (V := V) n := by
   exact ⟨LinearMap.id, by ext; simp⟩
 
-omit [IsAlgClosed k] in
+omit [Infinite k] in
 /-- The set of scalars t where f + t • id is not invertible is finite,
 since it's contained in the roots of the characteristic polynomial of -f.
 
@@ -68,7 +85,7 @@ private lemma finite_nonUnit_shifts (f : Module.End k V) :
     (Polynomial.finite_setOf_isRoot (Polynomial.Monic.ne_zero (LinearMap.charpoly_monic (-f))))
     (fun t ht => key t ht)
 
-omit [IsAlgClosed k] [Module.Finite k V] in
+omit [Infinite k] [Module.Finite k V] in
 /-- Multilinear expansion of PiTensorProduct.map over sums:
 `map (fun i => f i + g i) = ∑_S map (S.piecewise f g)`. -/
 private lemma map_add_expansion
@@ -81,7 +98,7 @@ private lemma map_add_expansion
   simp only [PiTensorProduct.mapMultilinear_apply] at h
   exact h
 
-omit [IsAlgClosed k] [Module.Finite k V] in
+omit [Infinite k] [Module.Finite k V] in
 /-- Factoring scalars: piecewise with `t • id` on the complement of S
 gives `t ^ |Sᶜ|` times the piecewise with `id`. -/
 private lemma map_piecewise_smul_factor
@@ -112,7 +129,7 @@ private lemma map_piecewise_smul_factor
   simp [Finset.prod_const, Finset.inter_eq_right.mpr (Finset.subset_univ S),
     Finset.sdiff_eq_filter]
 
-omit [IsAlgClosed k] [Module.Finite k V] in
+omit [Infinite k] [Module.Finite k V] in
 /-- The full expansion: `(f + t • id)⊗ⁿ = ∑_S t^|Sᶜ| • map(piecewise f id)`. -/
 private lemma tensor_power_expansion
     (f : Module.End k V) (t : k) :
@@ -128,7 +145,7 @@ private lemma tensor_power_expansion
   ext1 S
   exact map_piecewise_smul_factor n f t S
 
-omit [IsAlgClosed k] [Module.Finite k V] in
+omit [Infinite k] [Module.Finite k V] in
 /-- The S = Finset.univ term gives f⊗ⁿ. -/
 private lemma piecewise_univ_eq (f : Module.End k V) :
     (fun i => ((Finset.univ : Finset (Fin n)).piecewise
@@ -136,7 +153,7 @@ private lemma piecewise_univ_eq (f : Module.End k V) :
   ext i
   simp [Finset.mem_univ]
 
-omit [IsAlgClosed k] in
+omit [Infinite k] in
 /-- Lagrange identity: ∑ᵢ Lᵢ(0) * tᵢ^m = 0^m for m ≤ n. -/
 private lemma lagrange_eval_zero_pow
     (v : Fin (n + 1) → k) (hv : Function.Injective v)
@@ -249,18 +266,25 @@ private lemma endomorphism_tensor_in_glSpan (f : Module.End k V) :
 
 end Etingof.Proposition5_19_1_aux
 
-/-- The image of GL(V) in End(V⊗ⁿ) spans the centralizer algebra B of the
-Sₙ-action on V⊗ⁿ. Specifically, the linear span of {g⊗ⁿ | g ∈ GL(V)}
+/-- The image of GL(V) in End(V⊗ⁿ) spans the diagonal-action algebra `B` of
+the Sₙ-action on V⊗ⁿ. Specifically, the linear span of {g⊗ⁿ | g ∈ GL(V)}
 (where g⊗ⁿ acts as g on each tensor factor) equals the full diagonal
 action subalgebra generated by all of End(V), as a submodule.
 
+The result holds over any **infinite** field `k`; the argument uses only that
+the invertible shifts `t·id + f` are cofinite in `t`, not algebraic closure or
+characteristic zero. It therefore covers `ℚ`, `ℝ`, and every algebraically
+closed field. The identification of this diagonal-action image with the actual
+Sₙ-centralizer `End_{Sₙ}(V⊗ⁿ)` is a separate characteristic-zero statement; see
+`Etingof.Proposition5_19_1_centralizer`.
+
 This is a consequence of the polynomial density argument: if a polynomial
 p(t) = det(f + t·id) vanishes for all t, then f is not invertible, but
-the set of invertible operators is Zariski-dense in End(V), so the span
-of {g⊗ⁿ | g ∈ GL(V)} equals the span of {f⊗ⁿ | f ∈ End(V)}.
+the set of invertible operators is cofinite in each affine line `f + k·id`, so
+the span of {g⊗ⁿ | g ∈ GL(V)} equals the span of {f⊗ⁿ | f ∈ End(V)}.
 (Etingof Proposition 5.19.1) -/
 theorem Etingof.Proposition5_19_1
-    {k : Type*} [Field k] [IsAlgClosed k]
+    {k : Type*} [Field k] [Infinite k]
     {V : Type*} [AddCommGroup V] [Module k V] [Module.Finite k V]
     (n : ℕ) :
     -- The linear span of {g⊗ⁿ | g ∈ GL(V)} equals the diagonal action image
@@ -292,3 +316,55 @@ theorem Etingof.Proposition5_19_1
     apply Submodule.span_le.mpr
     rintro _ ⟨f, rfl⟩
     exact endomorphism_tensor_in_glSpan n f
+
+/-- **Centralizer form of Proposition 5.19.1.** Over a characteristic-zero
+field, the span of {g⊗ⁿ | g ∈ GL(V)} equals the genuine Sₙ-centralizer
+`B = End_{Sₙ}(V⊗ⁿ)` of the symmetric group action on V⊗ⁿ.
+
+This composes the pure density result `Etingof.Proposition5_19_1` (valid over any
+infinite field, identifying the span with the diagonal-action image) with the
+double centralizer identification
+`centralizer_symGroupImage_eq_diagonalActionImage`, which is the
+characteristic-zero content of Theorem 5.18.2 / Lemma 5.18.3. The `[CharZero k]`
+hypothesis is genuinely needed here: unlike the density statement, the
+centralizer identification fails in positive characteristic. (`CharZero k`
+supplies the `Infinite k` instance required by the density half.) -/
+theorem Etingof.Proposition5_19_1_centralizer
+    {k : Type*} [Field k] [CharZero k]
+    {V : Type*} [AddCommGroup V] [Module k V] [Module.Finite k V]
+    (n : ℕ) :
+    Submodule.span k (Set.range fun (g : V ≃ₗ[k] V) =>
+      PiTensorProduct.map (fun (_ : Fin n) => g.toLinearMap)) =
+    (Subalgebra.centralizer k
+        (symGroupImage k V n :
+          Set (Module.End k (TensorPower k V n)))).toSubmodule := by
+  rw [Etingof.Proposition5_19_1 n, centralizer_symGroupImage_eq_diagonalActionImage]
+
+/-! ## Regression examples over non-algebraically-closed fields
+
+The previous `[IsAlgClosed k]` hypothesis excluded the source cases `k = ℚ` and
+`k = ℝ`. These examples witness that the generalized statement now applies over
+those fields (both infinite, both characteristic zero). -/
+
+/-- Density over `ℚ`: an infinite field that is not algebraically closed. -/
+example (n : ℕ) (V : Type) [AddCommGroup V] [Module ℚ V] [Module.Finite ℚ V] :
+    Submodule.span ℚ (Set.range fun (g : V ≃ₗ[ℚ] V) =>
+      PiTensorProduct.map (fun (_ : Fin n) => g.toLinearMap)) =
+    (diagonalActionImage ℚ V n).toSubmodule :=
+  Etingof.Proposition5_19_1 n
+
+/-- Density over `ℝ`: an infinite field that is not algebraically closed. -/
+example (n : ℕ) (V : Type) [AddCommGroup V] [Module ℝ V] [Module.Finite ℝ V] :
+    Submodule.span ℝ (Set.range fun (g : V ≃ₗ[ℝ] V) =>
+      PiTensorProduct.map (fun (_ : Fin n) => g.toLinearMap)) =
+    (diagonalActionImage ℝ V n).toSubmodule :=
+  Etingof.Proposition5_19_1 n
+
+/-- Centralizer form over `ℚ`: the GL-span equals the Sₙ-centralizer. -/
+example (n : ℕ) (V : Type) [AddCommGroup V] [Module ℚ V] [Module.Finite ℚ V] :
+    Submodule.span ℚ (Set.range fun (g : V ≃ₗ[ℚ] V) =>
+      PiTensorProduct.map (fun (_ : Fin n) => g.toLinearMap)) =
+    (Subalgebra.centralizer ℚ
+        (symGroupImage ℚ V n :
+          Set (Module.End ℚ (TensorPower ℚ V n)))).toSubmodule :=
+  Etingof.Proposition5_19_1_centralizer n
