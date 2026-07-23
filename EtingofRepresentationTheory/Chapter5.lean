@@ -67,6 +67,7 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_DistinctGeneral
 import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Classification
 import EtingofRepresentationTheory.Chapter5.Example5_12_3
 import EtingofRepresentationTheory.Chapter5.Corollary5_12_4
+import EtingofRepresentationTheory.Chapter5.Corollary5_12_4_Test
 
 -- Section 5.13: Young Projectors
 import EtingofRepresentationTheory.Chapter5.Lemma5_13_1

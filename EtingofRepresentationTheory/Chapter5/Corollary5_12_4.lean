@@ -68,8 +68,15 @@ private theorem Tmap_tmul (z : ℂ) (w : SpechtModuleK ℚ n la) :
   change (TensorProduct.finsuppScalarRight ℚ ℂ ℂ (Equiv.Perm (Fin n)))
       (LinearMap.baseChange ℂ (((SpechtModuleK ℚ n la).subtype).restrictScalars ℚ)
         (z ⊗ₜ[ℚ] w)) g = _
-  rw [LinearMap.baseChange_tmul, TensorProduct.finsuppScalarRight_apply_tmul_apply,
-    Finsupp.smul_apply, MonoidAlgebra.mapRingHom_apply, smul_eq_mul, Algebra.smul_def, mul_comm]
+  rw [LinearMap.baseChange_tmul]
+  -- `finsuppScalarRight` expects its `Finsupp`-typed factor, but the base-changed
+  -- element carries the `MonoidAlgebra` instances (defeq, but not syntactically equal:
+  -- `MonoidAlgebra.addCommMonoid` overrides the `nsmul` field). Build the coefficient
+  -- value with the `Finsupp` typing and transport across the defeq via `Eq.trans`.
+  have h := TensorProduct.finsuppScalarRight_apply_tmul_apply (R := ℚ) (S := ℂ) (M := ℂ)
+    (ι := Equiv.Perm (Fin n)) z ((SpechtModuleK ℚ n la).subtype w) g
+  refine h.trans ?_
+  rw [Algebra.smul_def, mul_comm]
   rfl
 
 private theorem Tmap_injective : Function.Injective (Tmap n la) := by
