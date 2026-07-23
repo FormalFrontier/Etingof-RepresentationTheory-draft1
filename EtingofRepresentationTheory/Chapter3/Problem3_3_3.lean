@@ -3,6 +3,8 @@ import Mathlib.LinearAlgebra.Matrix.Module
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.LinearAlgebra.Dimension.Free
 import Mathlib.LinearAlgebra.Basis.Basic
+import Mathlib.Algebra.Ring.Pi
+import Mathlib.Algebra.Module.RingHom
 import EtingofRepresentationTheory.Chapter3.Theorem3_3_1
 
 /-!
@@ -173,6 +175,251 @@ theorem simpleModule_prod_iff :
     exact (LinearEquiv.isSimpleModule_iff Submodule.topEquiv).1 hi_simple
 
 end PartA
+
+/-! ## Part (a), classification in terms of the factor algebras
+
+Part (a) of the problem asks to *classify* the irreducibles of `A = ⊕ᵢ Aᵢ` **in terms of the
+irreducibles of the factors `Aᵢ`**. `simpleModule_prod_iff` above pins down the summand
+`1ᵢ V` but keeps it a module over the full product `∀ j, 𝒜 j`. Here we supply the missing
+factor-algebra content: the *inflation* of a factor representation to the product, its
+simplicity/isomorphism correspondence, the genuine `𝒜 i`-module structure on the summand
+`1ᵢ V`, and the resulting classification of the product's irreducibles as inflations of the
+factors' irreducibles from a unique index. -/
+
+section Inflation
+
+variable {r : ℕ} (𝒜 : Fin r → Type*) [∀ i, Ring (𝒜 i)]
+
+set_option linter.unusedVariables false in
+/-- **Inflation.** The type `W`, to be regarded as a representation of the product algebra
+`∀ j, 𝒜 j` through its `i`-th coordinate: `c` acts as `c i`. Concretely this is restriction
+of scalars along the surjective coordinate evaluation `Pi.evalRingHom 𝒜 i`. -/
+@[nolint unusedArguments]
+def Inflate {r : ℕ} (𝒜 : Fin r → Type*) (i : Fin r) (W : Type*) : Type _ := W
+
+namespace Inflate
+
+variable {𝒜} {i : Fin r} {W W₁ W₂ : Type*}
+
+instance [AddCommGroup W] : AddCommGroup (Inflate 𝒜 i W) := inferInstanceAs (AddCommGroup W)
+
+instance [AddCommGroup W] [Nontrivial W] : Nontrivial (Inflate 𝒜 i W) :=
+  inferInstanceAs (Nontrivial W)
+
+instance [AddCommGroup W] [Module (𝒜 i) W] : Module (𝒜 i) (Inflate 𝒜 i W) :=
+  inferInstanceAs (Module (𝒜 i) W)
+
+/-- The product algebra `∀ j, 𝒜 j` acts on an inflation through its `i`-th coordinate. -/
+instance instProdModule [AddCommGroup W] [Module (𝒜 i) W] :
+    Module (∀ j, 𝒜 j) (Inflate 𝒜 i W) :=
+  Module.compHom (Inflate 𝒜 i W) (Pi.evalRingHom 𝒜 i)
+
+/-- On an inflation, the product algebra acts through the `i`-th coordinate. -/
+theorem prod_smul_def [AddCommGroup W] [Module (𝒜 i) W]
+    (c : ∀ j, 𝒜 j) (w : Inflate 𝒜 i W) : c • w = c i • w := by
+  change (Pi.evalRingHom 𝒜 i c) • w = c i • w
+  rw [Pi.evalRingHom_apply]
+
+/-- The coordinate idempotent `1ᵢ(a) = Pi.single i a` acts through the factor action. -/
+theorem single_smul [AddCommGroup W] [Module (𝒜 i) W] (a : 𝒜 i) (w : Inflate 𝒜 i W) :
+    (Pi.single i a : ∀ j, 𝒜 j) • w = a • w := by
+  rw [prod_smul_def, Pi.single_eq_same]
+
+/-- The identity map, as a bijection semilinear along the coordinate evaluation, from the
+inflation of `W` onto the factor module `W`. -/
+def toFactor [AddCommGroup W] [Module (𝒜 i) W] :
+    Inflate 𝒜 i W →ₛₗ[Pi.evalRingHom 𝒜 i] W where
+  toFun w := w
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+
+theorem toFactor_bijective [AddCommGroup W] [Module (𝒜 i) W] :
+    Function.Bijective (toFactor (𝒜 := 𝒜) (i := i) (W := W)) :=
+  ⟨fun _ _ h => h, fun w => ⟨w, rfl⟩⟩
+
+/-- **Simplicity correspondence.** A factor module `W` is simple over `𝒜 i` iff its inflation
+is simple over the product algebra. In particular the submodule lattices correspond. -/
+theorem isSimpleModule_iff [AddCommGroup W] [Module (𝒜 i) W] :
+    IsSimpleModule (∀ j, 𝒜 j) (Inflate 𝒜 i W) ↔ IsSimpleModule (𝒜 i) W :=
+  LinearMap.isSimpleModule_iff_of_bijective _ toFactor_bijective
+
+/-- **Functoriality of inflation.** An `𝒜 i`-linear equivalence of factor modules inflates to
+an equivalence of product-algebra representations. -/
+def congr [AddCommGroup W₁] [Module (𝒜 i) W₁] [AddCommGroup W₂] [Module (𝒜 i) W₂]
+    (e : W₁ ≃ₗ[𝒜 i] W₂) : Inflate 𝒜 i W₁ ≃ₗ[∀ j, 𝒜 j] Inflate 𝒜 i W₂ where
+  toFun w := e w
+  invFun w := e.symm w
+  left_inv := e.left_inv
+  right_inv := e.right_inv
+  map_add' _ _ := e.map_add _ _
+  map_smul' c w := by
+    simp only [prod_smul_def, RingHom.id_apply]
+    exact map_smul e (c i) (w : W₁)
+
+/-- Conversely, an equivalence of inflations restricts to an `𝒜 i`-linear equivalence of the
+factor modules. -/
+def ofCongr [AddCommGroup W₁] [Module (𝒜 i) W₁] [AddCommGroup W₂] [Module (𝒜 i) W₂]
+    (e : Inflate 𝒜 i W₁ ≃ₗ[∀ j, 𝒜 j] Inflate 𝒜 i W₂) : W₁ ≃ₗ[𝒜 i] W₂ where
+  toFun w := e w
+  invFun w := e.symm w
+  left_inv := e.left_inv
+  right_inv := e.right_inv
+  map_add' _ _ := e.map_add _ _
+  map_smul' a w := by
+    rw [RingHom.id_apply, ← single_smul, map_smul, single_smul]
+
+/-- **The factor index is an isomorphism invariant.** Inflations of nontrivial modules from
+different factors are never isomorphic as product-algebra representations. -/
+theorem index_eq_of_equiv {i₁ i₂ : Fin r} {W₁ W₂ : Type*}
+    [AddCommGroup W₁] [Module (𝒜 i₁) W₁] [Nontrivial W₁]
+    [AddCommGroup W₂] [Module (𝒜 i₂) W₂]
+    (e : Inflate 𝒜 i₁ W₁ ≃ₗ[∀ j, 𝒜 j] Inflate 𝒜 i₂ W₂) : i₁ = i₂ := by
+  by_contra h
+  obtain ⟨w, hw⟩ := exists_ne (0 : Inflate 𝒜 i₁ W₁)
+  apply hw
+  have key : e (Pi.single i₁ 1 • w) = Pi.single i₁ 1 • e w := map_smul e _ _
+  rw [prod_smul_def, prod_smul_def, Pi.single_eq_same, one_smul,
+      Pi.single_eq_of_ne (Ne.symm h), zero_smul] at key
+  exact e.map_eq_zero_iff.mp key
+
+end Inflate
+
+end Inflation
+
+section FactorClassification
+
+variable {r : ℕ} (𝒜 : Fin r → Type*) [∀ i, Ring (𝒜 i)]
+  (V : Type*) [AddCommGroup V] [Module (∀ i, 𝒜 i) V]
+
+/-- The unit idempotents multiply coordinatewise: `1ᵢ(a) · 1ᵢ(b) = 1ᵢ(a b)`. -/
+theorem single_mul_single (i : Fin r) (a b : 𝒜 i) :
+    (Pi.single i a : ∀ i, 𝒜 i) * Pi.single i b = Pi.single i (a * b) := by
+  ext k
+  by_cases hk : k = i
+  · subst hk; simp
+  · simp [hk]
+
+/-- **The summand `1ᵢ V` is a genuine representation of the factor algebra `𝒜 i`**, with `a`
+acting through `1ᵢ(a) = Pi.single i a`. This is well defined because `1ᵢ` acts as the
+identity on its own range. -/
+instance factorSummandModule (i : Fin r) :
+    Module (𝒜 i) (LinearMap.range (idemProj 𝒜 V i)) where
+  smul a x := ⟨(Pi.single i a : ∀ j, 𝒜 j) • (x : V), by
+    rw [mem_range_idemProj, ← mul_smul, single_mul_single, one_mul]⟩
+  one_smul x := Subtype.ext (by
+    change (Pi.single i (1 : 𝒜 i) : ∀ j, 𝒜 j) • (x : V) = (x : V)
+    exact (mem_range_idemProj 𝒜 V i _).1 x.2)
+  mul_smul a b x := Subtype.ext (by
+    change (Pi.single i (a * b) : ∀ j, 𝒜 j) • (x : V)
+      = (Pi.single i a : ∀ j, 𝒜 j) • ((Pi.single i b : ∀ j, 𝒜 j) • (x : V))
+    rw [← mul_smul, single_mul_single])
+  smul_zero a := Subtype.ext (by
+    change (Pi.single i a : ∀ j, 𝒜 j) • (0 : V) = 0
+    rw [smul_zero])
+  smul_add a x y := Subtype.ext (by
+    change (Pi.single i a : ∀ j, 𝒜 j) • ((x : V) + (y : V))
+      = (Pi.single i a : ∀ j, 𝒜 j) • (x : V) + (Pi.single i a : ∀ j, 𝒜 j) • (y : V)
+    rw [smul_add])
+  add_smul a b x := Subtype.ext (by
+    change (Pi.single i (a + b) : ∀ j, 𝒜 j) • (x : V)
+      = (Pi.single i a : ∀ j, 𝒜 j) • (x : V) + (Pi.single i b : ∀ j, 𝒜 j) • (x : V)
+    rw [Pi.single_add, add_smul])
+  zero_smul x := Subtype.ext (by
+    change (Pi.single i (0 : 𝒜 i) : ∀ j, 𝒜 j) • (x : V) = 0
+    rw [Pi.single_zero, zero_smul])
+
+@[simp] theorem factorSummandModule_smul_coe (i : Fin r) (a : 𝒜 i)
+    (x : LinearMap.range (idemProj 𝒜 V i)) :
+    ((a • x : LinearMap.range (idemProj 𝒜 V i)) : V) = (Pi.single i a : ∀ j, 𝒜 j) • (x : V) :=
+  rfl
+
+/-- On the summand `1ᵢ V` the product-algebra action agrees with the inflation of the factor
+`𝒜 i`-action: `c • x = 1ᵢ(c i) • x`, because every element of `1ᵢ V` is fixed by `1ᵢ`. -/
+theorem prod_smul_summand_eq (i : Fin r) (c : ∀ j, 𝒜 j)
+    (x : LinearMap.range (idemProj 𝒜 V i)) :
+    (c • x : LinearMap.range (idemProj 𝒜 V i))
+      = (c i • x : LinearMap.range (idemProj 𝒜 V i)) := by
+  apply Subtype.ext
+  rw [factorSummandModule_smul_coe]
+  have hx : (Pi.single i 1 : ∀ j, 𝒜 j) • (x : V) = (x : V) := (mem_range_idemProj 𝒜 V i _).1 x.2
+  change (c : ∀ j, 𝒜 j) • (x : V) = (Pi.single i (c i) : ∀ j, 𝒜 j) • (x : V)
+  conv_lhs => rw [← hx, ← mul_smul]
+  congr 1
+  ext k
+  by_cases hk : k = i
+  · subst hk; simp
+  · simp [hk]
+
+/-- The identity as a bijection semilinear along the coordinate evaluation, from `1ᵢ V` over
+the product algebra to `1ᵢ V` over the factor `𝒜 i`. -/
+def summandToFactor (i : Fin r) :
+    LinearMap.range (idemProj 𝒜 V i) →ₛₗ[Pi.evalRingHom 𝒜 i]
+      LinearMap.range (idemProj 𝒜 V i) where
+  toFun x := x
+  map_add' _ _ := rfl
+  map_smul' c x := by rw [Pi.evalRingHom_apply]; exact prod_smul_summand_eq 𝒜 V i c x
+
+/-- **Problem 3.3.3(a), simplicity in factor terms.** The summand `1ᵢ V` is simple over the
+product algebra iff it is simple over the factor algebra `𝒜 i`. -/
+theorem isSimpleModule_summand_iff (i : Fin r) :
+    IsSimpleModule (∀ j, 𝒜 j) (LinearMap.range (idemProj 𝒜 V i)) ↔
+      IsSimpleModule (𝒜 i) (LinearMap.range (idemProj 𝒜 V i)) :=
+  LinearMap.isSimpleModule_iff_of_bijective (summandToFactor 𝒜 V i)
+    ⟨fun _ _ h => h, fun x => ⟨x, rfl⟩⟩
+
+/-- **Problem 3.3.3(a), classification.** A representation `V` of `A = ⊕ᵢ Aᵢ` is irreducible
+if and only if, for exactly one `i`, the summand `1ᵢ V` is an irreducible representation of
+the factor algebra `𝒜 i` while `1ⱼ V = 0` for all other `j`. This is the book's
+classification of the irreducibles of `A` in terms of those of the factors. -/
+theorem simpleModule_prod_iff_factor :
+    IsSimpleModule (∀ i, 𝒜 i) V ↔
+      ∃ i, IsSimpleModule (𝒜 i) (LinearMap.range (idemProj 𝒜 V i)) ∧
+        ∀ j, j ≠ i → LinearMap.range (idemProj 𝒜 V j) = ⊥ := by
+  rw [simpleModule_prod_iff]
+  refine exists_congr fun i => ?_
+  rw [isSimpleModule_summand_iff]
+
+/-- The summand `1ᵢ V`, as a product-algebra representation, is the inflation of the factor
+`𝒜 i`-representation `1ᵢ V`. -/
+def summandEquivInflate (i : Fin r) :
+    LinearMap.range (idemProj 𝒜 V i) ≃ₗ[∀ j, 𝒜 j]
+      Inflate 𝒜 i (LinearMap.range (idemProj 𝒜 V i)) where
+  toFun x := x
+  invFun x := x
+  left_inv _ := rfl
+  right_inv _ := rfl
+  map_add' _ _ := rfl
+  map_smul' c x := by
+    rw [Inflate.prod_smul_def]
+    exact prod_smul_summand_eq 𝒜 V i c x
+
+/-- **Every irreducible representation of `A = ⊕ᵢ Aᵢ` is (isomorphic to) an irreducible
+representation of a factor `𝒜 i`, for a unique `i`**, exhibited by the summand `1ᵢ V ≅ V`. -/
+theorem exists_isSimpleFactor [IsSimpleModule (∀ i, 𝒜 i) V] :
+    ∃ i, IsSimpleModule (𝒜 i) (LinearMap.range (idemProj 𝒜 V i)) ∧
+      Nonempty (V ≃ₗ[∀ i, 𝒜 i] LinearMap.range (idemProj 𝒜 V i)) := by
+  obtain ⟨i, hi, hbot⟩ := (simpleModule_prod_iff_factor 𝒜 V).1 ‹_›
+  refine ⟨i, hi, ⟨(LinearEquiv.ofTop _ ?_).symm⟩⟩
+  rw [eq_top_iff]
+  intro v _
+  have hfix : (Pi.single i 1 : ∀ j, 𝒜 j) • v = v := by
+    have hsum : (∑ j, (Pi.single j 1 : ∀ j, 𝒜 j) • v) = v := sum_single_smul 𝒜 V v
+    rw [Finset.sum_eq_single i (fun j _ hj => (range_eq_bot_iff 𝒜 V j).1 (hbot j hj) v)
+        (fun h => absurd (Finset.mem_univ i) h)] at hsum
+    exact hsum
+  rw [mem_range_idemProj]; exact hfix
+
+/-- **Every irreducible representation of `A = ⊕ᵢ Aᵢ` is the inflation of an irreducible
+representation of a unique factor `𝒜 i`.** Combined with `Inflate.index_eq_of_equiv` and
+`Inflate.congr`/`Inflate.ofCongr`, this classifies the irreducibles of `A` up to isomorphism
+by pairs `(i, irreducible 𝒜 i-representation)`. -/
+theorem exists_inflate_of_isSimple [IsSimpleModule (∀ i, 𝒜 i) V] :
+    ∃ i, IsSimpleModule (𝒜 i) (LinearMap.range (idemProj 𝒜 V i)) ∧
+      Nonempty (V ≃ₗ[∀ j, 𝒜 j] Inflate 𝒜 i (LinearMap.range (idemProj 𝒜 V i))) := by
+  obtain ⟨i, hi, ⟨e⟩⟩ := exists_isSimpleFactor 𝒜 V
+  exact ⟨i, hi, ⟨e.trans (summandEquivInflate 𝒜 V i)⟩⟩
+
+end FactorClassification
 
 /-! ## Part (b): representations of a single matrix algebra `Mat_d(k)`
 
