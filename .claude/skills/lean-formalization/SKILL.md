@@ -105,6 +105,12 @@ instead of `rw`. For subalgebra/subtype coercions specifically, the `Subalgebra.
 /`coe_zero` lemmas are `rfl`, so `rw` on them is brittle — prefer `Subtype.ext (R-level eq)` to
 prove a `↥S`-level equation and `congrArg S.val (↥S-level eq)` to prove an `R`-level one.
 
+**`open Foo in variable (...)` silently discards the variables.** The `... in` modifier
+scopes the *whole* `variable` command, so the section variables never persist. Every later
+declaration then re-auto-binds `k`/`A`/`n` as fresh implicits with no instances, giving a burst
+of `failed to synthesize CommSemiring k` / `AddMonoidWithOne k` on lines that look correct. Put
+the `open` on its own line and let `variable` stand alone.
+
 **`set`/`let`-abbreviating a *type* hides its instances from synthesis.** `set O :=
 MulAction.orbit ↥G b` then writing `↥O` makes `MulAction ↥G ↥O` (and `Finite`/`Fintype ↥O`)
 **unfindable** — typeclass search will not unfold a local `set`/`let` definition, so you get
