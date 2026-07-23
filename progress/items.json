@@ -5424,9 +5424,9 @@
     "end_line": 18,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "coverage_note": "The repository defines unnormalized row/column sums and names b_λa_λ as YoungSymmetrizer, whereas the source defines normalized projectors and c_λ=a_λb_λ. No formal bridge to the opposite convention or source Specht module is exposed. Follow-up #7437.",
-    "followup_issue": 7437,
-    "last_updated": "2026-07-22",
+    "coverage_note": "The source-normalized projectors are now defined faithfully in Definition5_12_1.lean: youngProjectorRow (a_λ = |P_λ|⁻¹Σ_{P_λ}g), youngProjectorCol (b_λ = |Q_λ|⁻¹Σ_{Q_λ}sign(g)g), youngProjector (c_λ = a_λ·b_λ), with idempotence a_λ²=a_λ, b_λ²=b_λ (Lemma5_13_1.lean). The docstrings no longer misrepresent the unnormalized b_λa_λ YoungSymmetrizer as Etingof's convention, and the algebra bridge youngProjectorCol_mul_youngProjectorRow exposes b_λa_λ = (|P_λ||Q_λ|)⁻¹•YoungSymmetrizer. Residual: a module-level iso ℂ[Sₙ]·(b_λa_λ) ≅ ℂ[Sₙ]·c_λ (source order, non-commuting factors) is not yet exposed; follow-up #7612 (#7437).",
+    "followup_issue": 7612,
+    "last_updated": "2026-07-23",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -5523,11 +5523,11 @@
     "end_line": 23,
     "status": "sorry_free",
     "needs_statement": false,
-    "notes": "Both unnormalized sandwich identities are proved, including the source-order identity as Lemma5_13_1_dual. However, the source's normalized a_λ,b_λ and named c_λ=a_λb_λ are absent, while the primary theorem/name uses the opposite b_λa_λ convention; #7437.",
+    "notes": "The book's normalized sandwich a_λ·x·b_λ = ℓ(x)·c_λ (c_λ=a_λb_λ) is now exposed as Etingof.Lemma5_13_1_source, built by rescaling the unnormalized Lemma5_13_1_dual with the same functional ℓ. The two unnormalized sandwich identities remain: Lemma5_13_1 (opposite-order b_λ·x·a_λ, matching the downstream YoungSymmetrizer generator) and Lemma5_13_1_dual (source-order on unnormalized sums). Idempotence of a_λ,b_λ and the convention bridge youngProjectorCol_mul_youngProjectorRow are also proved. All axiom-clean. Residual module-level ideal iso tracked in #7612 (#7437).",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "followup_issue": 7437,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "followup_issue": 7612,
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter5/Discussion_end_of_Lemma5.13.1_proof",
