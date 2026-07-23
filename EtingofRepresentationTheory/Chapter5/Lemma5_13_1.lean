@@ -3,9 +3,16 @@ import EtingofRepresentationTheory.Chapter5.Definition5_12_1
 /-!
 # Lemma 5.13.1: Young Projector Linear Functional
 
-For x ∈ ℂ[S_n], we have b_λ · x · a_λ = ℓ_λ(x) · c_λ, where ℓ_λ is a linear
-functional on ℂ[S_n]. Here a_λ = Σ_{g ∈ P_λ} g and b_λ = Σ_{g ∈ Q_λ} sign(g) · g,
-and c_λ = b_λ · a_λ is the Young symmetrizer.
+For x ∈ ℂ[S_n], Etingof's Lemma 5.13.1 states `a_λ · x · b_λ = ℓ_λ(x) · c_λ` for the
+normalized projectors `a_λ, b_λ` and `c_λ = a_λ · b_λ`. See `Etingof.Lemma5_13_1_source`
+for exactly this statement.
+
+For historical reasons this file also proves two *unnormalized* sandwich identities:
+`Etingof.Lemma5_13_1` gives the opposite-order `b_λ · x · a_λ = ℓ(x) · (b_λ a_λ)` (matching
+the downstream `YoungSymmetrizer = b_λ a_λ` generator), and `Etingof.Lemma5_13_1_dual`
+gives the source-order `a_λ · x · b_λ = ℓ(x) · (a_λ b_λ)` on the unnormalized sums. The
+source-faithful `Etingof.Lemma5_13_1_source` is obtained from the dual by rescaling, since
+the normalized projectors differ from the unnormalized sums by nonzero scalars.
 -/
 
 namespace Etingof
@@ -536,6 +543,104 @@ private theorem dual_sandwich_not_mem {n : ℕ} {la : Nat.Partition n}
     rw [of_col_mul_ColumnAntisymmetrizer u hu_col, Algebra.mul_smul_comm, Algebra.mul_smul_comm]
   exact h1.trans (hσt ▸ h2)
 
+/-! ## Idempotence of the normalized Young projectors and the convention bridge -/
+
+private lemma sign_cast_sq {n : ℕ} (g : Equiv.Perm (Fin n)) :
+    ((↑(↑(Equiv.Perm.sign g) : ℤ) : ℂ)) * ((↑(↑(Equiv.Perm.sign g) : ℤ) : ℂ)) = 1 := by
+  have hmul : (Equiv.Perm.sign g : ℤˣ) * (Equiv.Perm.sign g : ℤˣ) = 1 := Int.units_mul_self _
+  have h : ((Equiv.Perm.sign g : ℤˣ) : ℤ) * ((Equiv.Perm.sign g : ℤˣ) : ℤ) = 1 := by
+    have := congrArg Units.val hmul
+    simpa using this
+  exact_mod_cast h
+
+/-- The unnormalized row sum is idempotent up to the scalar `|P_λ|`:
+`RowSymmetrizer² = |P_λ| • RowSymmetrizer`. -/
+theorem RowSymmetrizer_mul_self {n : ℕ} (la : Nat.Partition n) :
+    RowSymmetrizer n la * RowSymmetrizer n la =
+      (Nat.card (RowSubgroup n la) : ℂ) • RowSymmetrizer n la := by
+  classical
+  have hexp : RowSymmetrizer n la
+      = ∑ g : (RowSubgroup n la), MonoidAlgebra.of ℂ (G n) (g : Equiv.Perm (Fin n)) := rfl
+  calc RowSymmetrizer n la * RowSymmetrizer n la
+      = (∑ g : (RowSubgroup n la), MonoidAlgebra.of ℂ (G n) (g : Equiv.Perm (Fin n)))
+          * RowSymmetrizer n la := by rw [← hexp]
+    _ = ∑ g : (RowSubgroup n la),
+          MonoidAlgebra.of ℂ (G n) (g : Equiv.Perm (Fin n)) * RowSymmetrizer n la := by
+          rw [Finset.sum_mul]
+    _ = ∑ _g : (RowSubgroup n la), RowSymmetrizer n la := by
+          refine Finset.sum_congr rfl (fun g _ => ?_)
+          exact of_row_mul_RowSymmetrizer (g : Equiv.Perm (Fin n)) g.2
+    _ = (Nat.card (RowSubgroup n la) : ℂ) • RowSymmetrizer n la := by
+          rw [Finset.sum_const, Finset.card_univ, Nat.card_eq_fintype_card,
+            Nat.cast_smul_eq_nsmul]
+
+/-- The unnormalized column sum is idempotent up to the scalar `|Q_λ|`:
+`ColumnAntisymmetrizer² = |Q_λ| • ColumnAntisymmetrizer`. -/
+theorem ColumnAntisymmetrizer_mul_self {n : ℕ} (la : Nat.Partition n) :
+    ColumnAntisymmetrizer n la * ColumnAntisymmetrizer n la =
+      (Nat.card (ColumnSubgroup n la) : ℂ) • ColumnAntisymmetrizer n la := by
+  classical
+  have hexp : ColumnAntisymmetrizer n la
+      = ∑ g : (ColumnSubgroup n la),
+          ((↑(↑(Equiv.Perm.sign (g : Equiv.Perm (Fin n))) : ℤ) : ℂ)) •
+            MonoidAlgebra.of ℂ (G n) (g : Equiv.Perm (Fin n)) := rfl
+  calc ColumnAntisymmetrizer n la * ColumnAntisymmetrizer n la
+      = (∑ g : (ColumnSubgroup n la),
+          ((↑(↑(Equiv.Perm.sign (g : Equiv.Perm (Fin n))) : ℤ) : ℂ)) •
+            MonoidAlgebra.of ℂ (G n) (g : Equiv.Perm (Fin n)))
+          * ColumnAntisymmetrizer n la := by rw [← hexp]
+    _ = ∑ g : (ColumnSubgroup n la),
+          ((↑(↑(Equiv.Perm.sign (g : Equiv.Perm (Fin n))) : ℤ) : ℂ)) •
+            (MonoidAlgebra.of ℂ (G n) (g : Equiv.Perm (Fin n)) * ColumnAntisymmetrizer n la) := by
+          rw [Finset.sum_mul]; simp_rw [Algebra.smul_mul_assoc]
+    _ = ∑ _g : (ColumnSubgroup n la), ColumnAntisymmetrizer n la := by
+          refine Finset.sum_congr rfl (fun g _ => ?_)
+          rw [of_col_mul_ColumnAntisymmetrizer (g : Equiv.Perm (Fin n)) g.2, smul_smul,
+            sign_cast_sq, one_smul]
+    _ = (Nat.card (ColumnSubgroup n la) : ℂ) • ColumnAntisymmetrizer n la := by
+          rw [Finset.sum_const, Finset.card_univ, Nat.card_eq_fintype_card,
+            Nat.cast_smul_eq_nsmul]
+
+/-- Etingof's normalized row projector `a_λ` is idempotent: `a_λ² = a_λ`. -/
+theorem youngProjectorRow_mul_self {n : ℕ} (la : Nat.Partition n) :
+    youngProjectorRow n la * youngProjectorRow n la = youngProjectorRow n la := by
+  have hne : (Nat.card (RowSubgroup n la) : ℂ) ≠ 0 := by
+    have : 0 < Nat.card (RowSubgroup n la) := Nat.card_pos
+    exact_mod_cast this.ne'
+  have hs : ((Nat.card (RowSubgroup n la) : ℂ)⁻¹ * (Nat.card (RowSubgroup n la) : ℂ)⁻¹)
+      * (Nat.card (RowSubgroup n la) : ℂ) = (Nat.card (RowSubgroup n la) : ℂ)⁻¹ := by
+    rw [mul_assoc, inv_mul_cancel₀ hne, mul_one]
+  simp only [youngProjectorRow]
+  rw [Algebra.smul_mul_assoc, Algebra.mul_smul_comm, RowSymmetrizer_mul_self, smul_smul,
+    smul_smul, hs]
+
+/-- Etingof's normalized column projector `b_λ` is idempotent: `b_λ² = b_λ`. -/
+theorem youngProjectorCol_mul_self {n : ℕ} (la : Nat.Partition n) :
+    youngProjectorCol n la * youngProjectorCol n la = youngProjectorCol n la := by
+  have hne : (Nat.card (ColumnSubgroup n la) : ℂ) ≠ 0 := by
+    have : 0 < Nat.card (ColumnSubgroup n la) := Nat.card_pos
+    exact_mod_cast this.ne'
+  have hs : ((Nat.card (ColumnSubgroup n la) : ℂ)⁻¹ * (Nat.card (ColumnSubgroup n la) : ℂ)⁻¹)
+      * (Nat.card (ColumnSubgroup n la) : ℂ) = (Nat.card (ColumnSubgroup n la) : ℂ)⁻¹ := by
+    rw [mul_assoc, inv_mul_cancel₀ hne, mul_one]
+  simp only [youngProjectorCol]
+  rw [Algebra.smul_mul_assoc, Algebra.mul_smul_comm, ColumnAntisymmetrizer_mul_self, smul_smul,
+    smul_smul, hs]
+
+/-- **Convention bridge.** The normalized reversed product `b_λ · a_λ` is the downstream
+`YoungSymmetrizer = ColumnAntisymmetrizer · RowSymmetrizer` divided by the positive scalar
+`|P_λ| · |Q_λ|`. This makes the (previously undocumented) normalization-and-order swap
+between Etingof's projectors and the implementation generator explicit and honest. -/
+theorem youngProjectorCol_mul_youngProjectorRow {n : ℕ} (la : Nat.Partition n) :
+    youngProjectorCol n la * youngProjectorRow n la =
+      ((Nat.card (RowSubgroup n la) : ℂ) * (Nat.card (ColumnSubgroup n la) : ℂ))⁻¹
+        • YoungSymmetrizer n la := by
+  have hscalar : (Nat.card (ColumnSubgroup n la) : ℂ)⁻¹ * (Nat.card (RowSubgroup n la) : ℂ)⁻¹
+      = ((Nat.card (RowSubgroup n la) : ℂ) * (Nat.card (ColumnSubgroup n la) : ℂ))⁻¹ := by
+    rw [mul_inv]; ring
+  rw [youngProjectorCol, youngProjectorRow, YoungSymmetrizer, Algebra.smul_mul_assoc,
+    Algebra.mul_smul_comm, smul_smul, hscalar]
+
 end Etingof
 
 open Etingof Pointwise in
@@ -638,3 +743,25 @@ theorem Etingof.Lemma5_13_1_dual
       simp [MonoidAlgebra.of_apply, mul_one]
     conv_lhs => rw [hsingle]
     rw [Algebra.mul_smul_comm, Algebra.smul_mul_assoc, hf, smul_smul, hℓ, mul_comm]
+
+open Etingof Pointwise in
+/-- **Lemma 5.13.1 (source form).** For `x ∈ ℂ[S_n]`, `a_λ · x · b_λ = ℓ_λ(x) · c_λ`, where
+`a_λ = youngProjectorRow`, `b_λ = youngProjectorCol` and `c_λ = youngProjector = a_λ · b_λ`
+are Etingof's *normalized* projectors, and `ℓ_λ` is a linear functional on `ℂ[S_n]`. This is
+the identity exactly as stated in the book. It is obtained from the unnormalized
+`Etingof.Lemma5_13_1_dual` by rescaling, with the *same* functional `ℓ_λ` (both sides carry
+the identical `|P_λ|⁻¹|Q_λ|⁻¹` factor). -/
+theorem Etingof.Lemma5_13_1_source
+    (n : ℕ) (la : Nat.Partition n) :
+    ∃ ℓ : MonoidAlgebra ℂ (Equiv.Perm (Fin n)) →ₗ[ℂ] ℂ,
+      ∀ x, youngProjectorRow n la * x * youngProjectorCol n la =
+        ℓ x • youngProjector n la := by
+  obtain ⟨ℓ, hℓ⟩ := Etingof.Lemma5_13_1_dual n la
+  refine ⟨ℓ, fun x => ?_⟩
+  have key := hℓ x
+  simp only [youngProjectorRow, youngProjectorCol, youngProjector, Algebra.smul_mul_assoc,
+    Algebra.mul_smul_comm]
+  rw [key]
+  simp only [smul_smul]
+  congr 1
+  ring
