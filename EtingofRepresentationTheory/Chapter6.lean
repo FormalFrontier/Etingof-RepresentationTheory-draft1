@@ -59,6 +59,7 @@ import EtingofRepresentationTheory.Chapter6.Theorem6_8_1
 import EtingofRepresentationTheory.Chapter6.Corollary6_8_2
 import EtingofRepresentationTheory.Chapter6.Corollary6_8_3
 import EtingofRepresentationTheory.Chapter6.Corollary6_8_4
+import EtingofRepresentationTheory.Chapter6.CoxeterInfrastructure_Test
 import EtingofRepresentationTheory.Chapter6.Example6_8_5
 
 -- Section 6.9: Problems
