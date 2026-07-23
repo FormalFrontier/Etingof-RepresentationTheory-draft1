@@ -7869,10 +7869,9 @@
     "start_line": 1,
     "end_line": 28,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "The public theorem is a root-lattice statement producing simple reflections from an already-given nonnegative root. Private Coxeter infrastructure threads indecomposable representations internally, but no public theorem constructs the actual iterated reflection-functor sequence V^(m) and states its simple-root dimension vector as the source does. Follow-up #7436.",
-    "followup_issue": 7436,
-    "last_updated": "2026-07-22",
+    "coverage": "covered",
+    "coverage_note": "Two endpoints now exist. The numerical Etingof.Theorem6_8_1 (Theorem6_8_1.lean) reflects a nonnegative root to a simple root. The source-faithful categorical Etingof.Theorem6_8_1_representation (CoxeterInfrastructure.lean) quantifies over an arbitrary finite-dimensional indecomposable representation V of an orientation Q of the Dynkin diagram and produces the terminal representation V^(m): an orientation Q_end of the diagram together with an indecomposable finite-dimensional representation W on Q_end whose dimension vector equals a simple root, plus the numerical reflection sequence as its first conjunct. Built by threading the reflection functors (Prop 6.6.5/6.6.7/6.6.8, Lemma 6.7.2) through the admissible-ordering walk; the numerical endpoint is a consequence, not a replacement. Resolved #7436.",
+    "last_updated": "2026-07-23",
     "needs_statement": false,
     "sorry_free": true
   },
