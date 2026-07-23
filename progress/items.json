@@ -3583,10 +3583,10 @@
     "end_line": 16,
     "status": "sorry_free",
     "fidelity": "verified",
-    "notes": "All sorries resolved: blockPoly_irreducible proved via retraction argument",
+    "notes": "All sorries resolved: blockPoly_irreducible proved via retraction argument. Repaired hLHS_eq (#7494): the group-algebra coefficient evaluation now pushes pointwise application through the finite sum via `map_sum (Finsupp.applyAddHom _)` instead of the deprecated `Finsupp.finset_sum_apply`, which no longer matched the `MonoidAlgebra`/`Finsupp` coercion.",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter4/Discussion_before_Lemma4.10.3",
