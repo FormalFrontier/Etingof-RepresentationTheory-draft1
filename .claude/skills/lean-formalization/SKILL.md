@@ -247,6 +247,20 @@ apply Sigma.hom_ext; intro b; rw [Sigma.ι_desc_assoc]; exact Projective.factorT
 lesson: when a Mathlib instance/lemma quietly uses full transparency, bypass it with an explicit
 term rather than fighting heartbeats.
 
+**Applying a hypothesis/lemma whose implicit *type* arguments are still metavariables postpones
+its explicit args as synthetic-opaque metavariables — a later premise then either whnf-loops or
+fails with a spurious "Application type mismatch: … expected LinearMap.range ?m = …".** Hit in
+#7504 (`Chapter8/Theorem8_1_1.lean`, reverse direction of `Theorem_8_1_1_i_iff_iv`): applying
+`hex : ∀ {K M N : Type v} … (ι) (π), Injective ι → … → range ι = ker π → _` as
+`hex (ker f).subtype f _ hfsurj (Submodule.range_subtype _)` left `K`/`M`/`N` unsolved, so `ι`
+became a postponed `?m` and the exactness premise `range ?m = ker π` had to `whnf`-reduce the heavy
+`f := p ∘ₗ e.toLinearMap` term to unify — timing out at 200k heartbeats (making the file
+non-importable). Passing a concrete `ι` or ascribing its type does **not** help; the postponement is
+driven by the unsolved implicit *type* args. **Fix:** pin them by name at the call site —
+`hex (K := ↥(ker f)) (M := P →₀ Shrink.{v} R) (N := P) ι f hι hfsurj hexact` — so every explicit arg
+elaborates eagerly against a concrete expected type and the premises unify syntactically. Hoist
+`ι`/`hι`/`hexact` into `let`/`have` bindings first to keep the call readable.
+
 **When an inline proof over huge *concrete* terms times out heartbeats, lift the heavy structural
 argument into a standalone helper `def`/lemma whose hypotheses are the *abstract* objects.** Hit in
 #6767 (`Chapter8/ExternalTensorResolution.lean`): the degree-0 `quasiIso` goal assembled a cokernel
