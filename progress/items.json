@@ -6178,12 +6178,14 @@
     "end_page": "125",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "needs_statement": false,
-    "fidelity_note": "statement faithful; proof has a tracked sorry (not a fidelity gap)",
+    "fidelity_note": "The source now checks without sorry, but its public theorem still assumes n ≤ dim V, returns abstract factors, and gives only an underlying linear equivalence rather than the book's explicit S_n × GL(V)-equivariant decomposition with Specht/Hom factors; follow-up #7379.",
     "fidelity_decl": "Etingof.Corollary5_19_2",
-    "last_updated": "2026-06-28"
+    "coverage": "covered_partial",
+    "fidelity_issue": 7379,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Example5.19.3",
@@ -8898,7 +8900,10 @@
     "end_line": 20,
     "status": "proved",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Fresh-building public theorem Etingof.Example_8_1_7 gives the finite-dimensional projective iff contragredient-dual injective equivalence, with both directions and the right A-module action exposed.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter8/Discussion_after_Example8.1.7",
