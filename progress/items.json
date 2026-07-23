@@ -9664,11 +9664,10 @@
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The equivalence functor setup is source-present, but Theorem9_6_4.lean currently fails fresh elaboration, preventing the setup from rebuilding into the required equivalence; regression #7505.",
-    "coverage_issue": 7505,
-    "last_updated": "2026-07-22"
+    "fidelity": "full",
+    "coverage": "covered",
+    "coverage_note": "The equivalence functor setup is source-present and Theorem9_6_4.lean now elaborates cleanly under both fresh `lake env lean` and its `lake build` target, so the setup rebuilds into the required equivalence; regression #7505 resolved.",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter9/Theorem9.6.4",
@@ -9678,17 +9677,16 @@
     "end_page": "219",
     "start_line": 7,
     "end_line": 10,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "proved",
+    "fidelity": "full",
     "needs_statement": false,
-    "notes": "Theorem_9_6_4 has the book-faithful finitely generated-module target and an intended faithful/full/essentially-surjective proof. Its current implementation does not elaborate; see #7505.",
-    "attention_needed": true,
+    "notes": "Theorem_9_6_4 has the book-faithful finitely generated-module target and a faithful/full/essentially-surjective proof, all importable. The over-a-field corollaries derive the Noetherian hypothesis and the finite-dimensional module category.",
+    "attention_needed": false,
     "sorries": 0,
-    "sorry_free": false,
-    "fidelity_note": "The earlier extra-Noetherian-hypothesis gap was repaired, but the current file fails to elaborate in the coyoneda coercions and finite-biproduct additive proofs, so the source-facing equivalence cannot be imported; regression #7505.",
-    "coverage": "covered_partial",
-    "fidelity_issue": 7505,
-    "last_updated": "2026-07-22"
+    "sorry_free": true,
+    "fidelity_note": "The coyoneda coercion and finite-biproduct additive proofs were repaired for current Mathlib (ConcreteCategory.hom coercion and End/Hom transparency), so the source-facing equivalence imports cleanly; regression #7505 resolved.",
+    "coverage": "covered",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter9/Problem9.6.5",

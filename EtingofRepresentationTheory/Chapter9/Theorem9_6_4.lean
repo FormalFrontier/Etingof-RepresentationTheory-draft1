@@ -115,26 +115,23 @@ instance Etingof.IsProgenerator.full_preadditiveCoyonedaObj
       biproduct.desc (fun i => (f : (P ⟶ X) → (P ⟶ Y)) (biproduct.ι F i ≫ π)) = 0
     rw [biproduct.desc_eq, Preadditive.comp_sum]
     simp_rw [← Category.assoc _ (biproduct.π _ _), ← hlin]
-    -- Now goal is: ∑ j, f((φ ≫ kernel.ι π ≫ π_j) ≫ (ι_j ≫ π)) = 0
-    rw [← map_sum f.hom]
-    -- Goal: f(∑ j, (φ ≫ kernel.ι π ≫ π_j) ≫ (ι_j ≫ π)) = 0
-    -- Factor out common terms from the sum
-    simp_rw [Category.assoc]
-    -- f(φ ≫ ∑ j, (kernel.ι π ≫ π_j ≫ ι_j ≫ π)) = 0
-    -- Goal: f(∑ j, (φ ≫ kernel.ι π ≫ π_j) ≫ (ι_j ≫ π)) = 0
-    -- after simp_rw [Category.assoc]:
-    -- f(φ ≫ ∑ j, kernel.ι π ≫ π_j ≫ ι_j ≫ π) = 0
-    -- But ← Preadditive.comp_sum only pulled out φ.
-    -- The sum under f is ∑ x, φ ≫ kernel.ι π ≫ π_x ≫ ι_x ≫ π
-    -- Use a direct have for the whole argument
-    have key : (∑ x, φ ≫ kernel.ι π ≫ biproduct.π (fun _ : Fin n => P) x ≫
-        biproduct.ι F x ≫ π : P ⟶ X) = 0 := by
-      rw [← Preadditive.comp_sum, ← Preadditive.comp_sum]
+    -- Now goal is: ∑ j, f((φ ≫ kernel.ι π ≫ π_j) ≫ (ι_j ≫ π)) = 0.
+    -- Fold the finite sum into the additive map `f`. We use `map_sum` in term
+    -- mode (`refine … .symm.trans`) rather than `rw`, since the summand type
+    -- `P ⟶ X` and the module carrier `↑((preadditiveCoyonedaObj P).obj X)` are
+    -- only defeq at default transparency, and `rw`'s motive check runs at
+    -- `instances` transparency (which would reject the rewrite).
+    refine (map_sum (ConcreteCategory.hom f) _ Finset.univ).symm.trans ?_
+    -- Goal: f(∑ x, (φ ≫ kernel.ι π ≫ π_x) ≫ (ι_x ≫ π)) = 0
+    have key : (∑ x, ((φ ≫ kernel.ι π) ≫ biproduct.π (fun _ : Fin n => P) x) ≫
+        (biproduct.ι F x ≫ π) : P ⟶ X) = 0 := by
+      simp_rw [Category.assoc, ← Preadditive.comp_sum]
       have : ∑ j : Fin n, biproduct.π F j ≫ biproduct.ι F j ≫ π = π := by
         simp_rw [← Category.assoc]
         rw [← Preadditive.sum_comp, biproduct.total, Category.id_comp]
       rw [this, kernel.condition, comp_zero]
-    rw [key, map_zero]
+    -- `congrArg`/`map_zero` in term mode again avoids the transparency friction.
+    exact (congrArg (ConcreteCategory.hom f) key).trans (map_zero _)
   -- Factor h through π to get g : X → Y with π ≫ g = h
   refine ⟨Abelian.epiDesc π h h_kernel, ?_⟩
   -- Show (preadditiveCoyonedaObj P).map g = f, i.e., ∀ α : P → X, α ≫ g = f(α)
@@ -153,13 +150,18 @@ instance Etingof.IsProgenerator.full_preadditiveCoyonedaObj
     biproduct.desc (fun i => (f : (P ⟶ X) → (P ⟶ Y)) (biproduct.ι F i ≫ π)) = _
   rw [biproduct.desc_eq, Preadditive.comp_sum]
   simp_rw [← Category.assoc _ (biproduct.π _ _), ← hlin]
-  rw [← map_sum f.hom]
-  simp_rw [Category.assoc]
-  rw [← Preadditive.comp_sum]
-  have : ∑ j : Fin n, biproduct.π F j ≫ biproduct.ι F j ≫ π = π := by
-    simp_rw [← Category.assoc]
-    rw [← Preadditive.sum_comp, biproduct.total, Category.id_comp]
-  rw [this]
+  -- As in `h_kernel`, fold the sum into `f` in term mode to avoid the
+  -- `P ⟶ X` / module-carrier transparency mismatch under `rw`.
+  refine (map_sum (ConcreteCategory.hom f) _ Finset.univ).symm.trans ?_
+  -- Goal: f(∑ j, (β ≫ π_j) ≫ (ι_j ≫ π)) = f(β ≫ π) where β = factorThru α π.
+  have key : (∑ j, (Projective.factorThru α π ≫ biproduct.π (fun _ : Fin n => P) j) ≫
+      (biproduct.ι F j ≫ π) : P ⟶ X) = Projective.factorThru α π ≫ π := by
+    simp_rw [Category.assoc, ← Preadditive.comp_sum]
+    have : ∑ j : Fin n, biproduct.π F j ≫ biproduct.ι F j ≫ π = π := by
+      simp_rw [← Category.assoc]
+      rw [← Preadditive.sum_comp, biproduct.total, Category.id_comp]
+    rw [this]
+  exact congrArg (ConcreteCategory.hom f) key
 
 -- Hom(P, X) is finitely generated as an (End P)ᵒᵖ-module when P is a progenerator.
 -- Proof: P^n ↠ X gives Hom(P, P^n) ↠ Hom(P, X) (since P is projective), and
@@ -205,7 +207,12 @@ instance Etingof.IsProgenerator.finite_hom_module
       ({ toFun := fun f => biproduct.lift (fun i => f i)
          map_add' := fun f g => by
            apply biproduct.hom_ext; intro i
-           simp [Preadditive.add_comp, biproduct.lift_π]
+           -- The residual `f i + g i = f i + g i` differs only in the `End P`
+           -- ring-add vs Hom-add instance path (defeq via `End` unfolding). Match
+           -- the project-wide `backward.isDefEq.respectTransparency false` locally so
+           -- `simp` discharges it whether checked via `lake build` or `lake env lean`.
+           set_option backward.isDefEq.respectTransparency false in
+           simp only [Preadditive.add_comp, biproduct.lift_π, Pi.add_apply]
          map_smul' := fun s f => by
            apply biproduct.hom_ext; intro i
            simp only [RingHom.id_apply, biproduct.lift_π]
@@ -263,7 +270,10 @@ private noncomputable def Etingof.freeModuleIsoHom
   right_inv g := by apply biproduct.hom_ext; intro i; simp [biproduct.lift_π]
   map_add' a b := by
     apply biproduct.hom_ext; intro i
-    simp [biproduct.lift_π, MulOpposite.unop_add, Preadditive.add_comp]
+    -- See `map_add'` above: the residual `End P` ring-add vs Hom-add goal is defeq
+    -- via `End` unfolding, so match the project transparency setting locally.
+    set_option backward.isDefEq.respectTransparency false in
+    simp only [biproduct.lift_π, MulOpposite.unop_add, Preadditive.add_comp, Pi.add_apply]
   map_smul' s v := by
     apply biproduct.hom_ext; intro i
     simp only [biproduct.lift_π, RingHom.id_apply]
@@ -276,6 +286,9 @@ private noncomputable def Etingof.freeModuleIsoHom
 -- f.g. (End P is Noetherian), giving (End P)^m → (End P)^n → M → 0.
 -- By fullness, lift to P^m → P^n in C; let X = coker. Then Hom(P, X) ≅ M.
 set_option maxHeartbeats 400000 in
+-- The essential-surjectivity construction chains a free presentation, a fullness
+-- lift, and a cokernel identification; elaborating the whole pipeline exceeds the
+-- default heartbeat budget.
 instance Etingof.IsProgenerator.essSurj_preadditiveCoyonedaObjFG
     {C : Type u} [Category.{v} C]
     [Etingof.IsFiniteAbelianCategory C]
@@ -349,7 +362,7 @@ instance Etingof.IsProgenerator.essSurj_preadditiveCoyonedaObjFG
         change g = βn (α (βm.symm (βm w)))
         simp only [LinearEquiv.symm_apply_apply]
         change g = βn ((LinearMap.ker φ).subtype (ψ w))
-        rw [hw]; simp [Submodule.coe_subtype, LinearEquiv.apply_symm_apply]
+        rw [hw]; simp [LinearEquiv.apply_symm_apply]
       rw [hg_eq, hα'_eq]
       -- goal: π_star (βm w ≫ f) = 0, i.e., (βm w ≫ f) ≫ cokernel.π f = 0
       change (βm w ≫ f) ≫ cokernel.π f = 0
