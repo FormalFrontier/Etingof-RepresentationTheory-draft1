@@ -4511,12 +4511,11 @@
     "start_line": 3,
     "end_line": 14,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The final equivalence of the two definitions is proved via power-basis multiplication matrices. The source's displayed companion-matrix construction and theorem charpoly(companion(p)) = p are absent; follow-up #7463.",
-    "fidelity_issue": 7463,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "The final equivalence of the two definitions is proved via power-basis left-multiplication matrices (Etingof.Proposition5_2_3_algebraic / _integer). The source's displayed companion-matrix construction is now formalized separately: Etingof.Proposition5_2_3.companionMatrix with charpoly(companion p) = p (charpoly_companionMatrix), and the root-to-eigenvalue step (charpoly_map_companionMatrix_isRoot, plus the _companion_algebraic/_integer corollaries).",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter5/Discussion_after_Proposition5.2.3",
