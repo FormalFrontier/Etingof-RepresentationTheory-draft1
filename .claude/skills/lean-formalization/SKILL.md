@@ -202,6 +202,18 @@ type-variable level where `f x : W` matches `asModule σ` syntactically) instead
 re-deriving. Worked example: #7554 (`Chapter5/RepresentationAsModuleHom.lean`, all
 four `map_smul'` proofs).
 
+**`is_simple_module_of_finrank_eq_one` (proving `IsSimpleModule k[G] ρ.asModule` from
+`finrank k = 1`) fails to synthesize `IsScalarTower k k[G] ρ.asModule` when the
+representation's carrier `V` is the base field `k` itself (e.g. `Representation.trivial ℂ
+G ℂ`).** Passing `Module.finrank_self k` pins `Module k V` to the self-module
+`k.instModule`, but Mathlib's `IsScalarTower k k[G] ρ.asModule` instance (defined with
+`backward.isDefEq.respectTransparency false`) is built on the *transferred* `Module k
+asModule`; under reduced transparency the two `Module k k` copies no longer unify. Fix:
+pin `V := ρ.asModule` explicitly and prove the finrank through the equiv —
+`refine is_simple_module_of_finrank_eq_one (K := k) (A := k[G]) (V := ρ.asModule) ?_;
+rw [ρ.asModuleEquiv.finrank_eq, Module.finrank_self]`. Worked example: #7515
+(`Chapter5/Theorem5_4_6.lean`, `trivialFDRep_simple`).
+
 **`MonoidAlgebra.single g 1` elaborates the coefficient `1` as `ℕ` (giving `ℕ[G]`) unless
 pinned** — the module/action can't back-propagate the base ring during elaboration, so
 `single g 1 • m` fails with `HSMul ℕ[G] M M`. Always write `single g (1 : k)`. Cost a full build
