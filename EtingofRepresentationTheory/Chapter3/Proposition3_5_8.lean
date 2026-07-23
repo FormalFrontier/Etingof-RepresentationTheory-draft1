@@ -6,6 +6,7 @@ import Mathlib.LinearAlgebra.Quotient.Basic
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Data.List.TFAE
 import EtingofRepresentationTheory.Chapter3.Theorem3_5_4
+import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 
 /-!
 # Proposition 3.5.8: Equivalent Characterizations of Semisimple Algebras
@@ -103,3 +104,66 @@ theorem Etingof.semisimple_algebra_equiv (k : Type*) (A : Type u)
   tfae_have 4 → 5 := fun h4 => h4 A
   tfae_have 5 → 1 := id
   tfae_finish
+
+/-! ## The zero algebra (footnote to Proposition 3.5.8)
+
+The footnote records the degenerate case `A = 0`: the zero algebra is semisimple, although it
+is not simple; every representation of it is zero, so it has no irreducible or indecomposable
+representations; and it is, nevertheless, the (empty) direct sum of matrix algebras. We state
+these for an arbitrary subsingleton ring `A`, the zero ring being the canonical example.
+
+These are the `n = 0` boundary of the Wedderburn picture: condition (3) of
+`Etingof.semisimple_algebra_equiv` reads `A ≅ Π (j : Fin n), Matrix (Fin (d j)) (Fin (d j)) k`,
+whose `∃ n : ℕ` already permits `n = 0`, i.e. the empty product. -/
+
+/-- A zero/subsingleton ring is semisimple (Mathlib's low-priority instance, restated for
+reference). Footnote to Etingof Proposition 3.5.8. -/
+theorem Etingof.subsingleton_isSemisimpleRing (A : Type*) [Ring A] [Subsingleton A] :
+    IsSemisimpleRing A :=
+  inferInstance
+
+/-- A zero/subsingleton ring is **not** simple: simplicity forces nontriviality, contradicting
+`Subsingleton`. Footnote to Etingof Proposition 3.5.8. -/
+theorem Etingof.subsingleton_not_isSimpleRing (A : Type*) [Ring A] [Subsingleton A] :
+    ¬ IsSimpleRing A := by
+  intro h
+  haveI := h
+  exact false_of_nontrivial_of_subsingleton A
+
+/-- Every unital representation of a zero/subsingleton ring is zero (a subsingleton module).
+Footnote to Etingof Proposition 3.5.8. -/
+theorem Etingof.subsingleton_module_of_subsingleton (A : Type*) [Ring A] [Subsingleton A]
+    (M : Type*) [AddCommGroup M] [Module A M] : Subsingleton M :=
+  Module.subsingleton A M
+
+/-- A zero/subsingleton ring has no irreducible representations: an `IsSimpleModule` is
+nontrivial, but every module here is subsingleton. Footnote to Etingof Proposition 3.5.8. -/
+theorem Etingof.subsingleton_not_isSimpleModule (A : Type*) [Ring A] [Subsingleton A]
+    (M : Type*) [AddCommGroup M] [Module A M] : ¬ IsSimpleModule A M := by
+  intro h
+  haveI := Module.subsingleton A M
+  haveI := IsSimpleModule.nontrivial A M
+  exact false_of_nontrivial_of_subsingleton M
+
+/-- A zero/subsingleton ring has no indecomposable representations: an indecomposable module is
+nontrivial, but every module here is subsingleton. Footnote to Etingof Proposition 3.5.8. -/
+theorem Etingof.subsingleton_not_isIndecomposable (A : Type*) [Ring A] [Subsingleton A]
+    (M : Type*) [AddCommGroup M] [Module A M] : ¬ Etingof.IsIndecomposable A M := by
+  intro h
+  haveI := h.1
+  haveI := Module.subsingleton A M
+  exact false_of_nontrivial_of_subsingleton M
+
+/-- The zero/subsingleton algebra is the empty direct sum of matrix algebras: the concrete
+`n = 0` case of condition (3) of `Etingof.semisimple_algebra_equiv`. Footnote to Etingof
+Proposition 3.5.8. -/
+theorem Etingof.subsingleton_algEquiv_pi_matrix (k : Type*) (A : Type*)
+    [Field k] [Ring A] [Subsingleton A] [Algebra k A] :
+    Nonempty (A ≃ₐ[k] Π (_ : Fin 0), Matrix (Fin 0) (Fin 0) k) :=
+  ⟨{ toFun := fun _ => 0
+     invFun := fun _ => 0
+     left_inv := fun _ => Subsingleton.elim _ _
+     right_inv := fun _ => Subsingleton.elim _ _
+     map_mul' := fun _ _ => Subsingleton.elim _ _
+     map_add' := fun _ _ => Subsingleton.elim _ _
+     commutes' := fun _ => Subsingleton.elim _ _ }⟩
