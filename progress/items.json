@@ -2382,9 +2382,9 @@
     "status": "sorry_free",
     "coverage": "covered_full",
     "fidelity": "verified",
-    "note": "Existence and uniqueness are proved sorry-free, including the inductive uniqueness step.",
+    "note": "Existence and uniqueness are proved sorry-free, including the inductive uniqueness step. Importability regression (finrank ⊤ ≤ finrank V step) fixed 2026-07-23 via finrank_top.",
     "sorry_free": true,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter3/Lemma3.8.2",
