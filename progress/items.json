@@ -6885,9 +6885,8 @@
     "status": "partially_proved",
     "fidelity": "partial",
     "coverage": "covered_partial",
-    "coverage_note": "The Artin-theorem endpoint is source-present, but Theorem5_26_1.lean fails a fresh source check because its representation module lacks a required scalar-tower instance; regression #7513. (The previously recorded root-system note was stale metadata from another item.)",
-    "coverage_issue": 7513,
-    "last_updated": "2026-07-22"
+    "coverage_note": "The Artin-theorem endpoint is source-present and Theorem5_26_1.lean passes a fresh source check again (#7513 fixed: the trivial representation's `IsSimpleModule` proof now pins the ℂ-module structure via `asModuleEquiv.finrank_eq` so the required scalar tower resolves). A downstream import/`#check` test (Theorem5_26_1_Test.lean) pins the public equivalence. Remaining `covered_partial` scope is Remark 5.26.2's missing Q-span iff C-span endpoints, tracked separately in #7489.",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter5/Remark5.26.2",
@@ -6919,13 +6918,11 @@
     },
     "fidelity": "partial",
     "coverage": "covered_partial",
-    "coverage_note": "The two-direction Artin proof is source-present, but Theorem5_26_1.lean currently fails a fresh check at a scalar-tower instance; regression #7513.",
-    "coverage_issue": 7513,
-    "last_updated": "2026-07-22"
+    "coverage_note": "The two-direction Artin proof is source-present and Theorem5_26_1.lean passes a fresh check again (#7513 fixed).",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter5/Corollary5.26.3",
-    "source_regression_note": "Clean rebuild imports the broken Theorem5_26_1 Artin source (#7513).",
     "type": "corollary",
     "title": "Irreducible characters are rational combinations of induced characters from cyclic subgroups",
     "start_page": "145",
@@ -6936,8 +6933,7 @@
     "fidelity": "partial",
     "sorry_free": true,
     "coverage": "covered_partial",
-    "coverage_issue": 7513,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter5/Introduction_5.27",

@@ -213,6 +213,7 @@ import EtingofRepresentationTheory.Chapter5.GroupAlgebraCenter
 
 -- Section 5.26: Artin's Theorem
 import EtingofRepresentationTheory.Chapter5.Theorem5_26_1
+import EtingofRepresentationTheory.Chapter5.Theorem5_26_1_Test
 import EtingofRepresentationTheory.Chapter5.Corollary5_26_3
 
 import EtingofRepresentationTheory.Chapter5.QuotDetDegreeAlgebraic

@@ -641,7 +641,12 @@ private theorem trivialFDRep_simple (G : Type) [Group G] [Fintype G] :
   let ρ := trivialRep G
   haveI : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule := by
     rw [isSimpleModule_iff]
-    exact is_simple_module_of_finrank_eq_one (Module.finrank_self ℂ)
+    -- Pin the ℂ-module structure on `ρ.asModule` via `asModuleEquiv` so the
+    -- `IsScalarTower ℂ ℂ[G] ρ.asModule` instance resolves against the same
+    -- `Module ℂ ρ.asModule` diamond branch. Passing `Module.finrank_self ℂ`
+    -- directly leaves that scalar tower unsynthesizable.
+    exact is_simple_module_of_finrank_eq_one
+      (ρ.asModuleEquiv.finrank_eq.trans (Module.finrank_self ℂ))
   -- Step 2: Transfer to Simple in ModuleCat
   haveI : Simple (ModuleCat.of (MonoidAlgebra ℂ G) ρ.asModule) :=
     simple_of_isSimpleModule
