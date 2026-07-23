@@ -128,6 +128,18 @@ when `sinkMap : ⊕ⱼVⱼ →ₗ Vᵢ` makes it a submodule of the direct sum).
 contradictions on `Module.Free` carriers, `Module.finrank_eq_zero_iff_of_free` avoids needing any
 `AddCommGroup` upgrade at all.
 
+**`LinearMap.ofIsCompl hC W₁.subtype 0` (and sibling complement/projection constructors) can
+stop elaborating** when the ring/module are only inferrable from a coerced-subtype argument
+(regression seen fixing Ch3 `Problem3_8_5.lean`, #7533). The non-`@` application fails to infer
+`R`/`E` from `W₁`, so `hC : IsCompl W₁ W₂` reports `Application type mismatch … expected
+IsCompl ?m ?m` (the `p q` stay metavariables). **Fix:** switch to `Submodule.projection` (the
+along-a-complement self-map) and pin the types with the fully explicit form
+`@Submodule.projection R _ E _ _ W₁ W₂ hC`; its `_apply_of_mem_left/_right`/`_apply_mem` lemmas
+replace the `ofIsCompl_apply_left/right` route. Feed those lemmas (also `@`-explicit) through
+`simpa [hπ] using (@…)`, **not** `exact` — a bare `exact @Submodule.projection… ` forces whnf of
+the projection term plus instance synthesis and blows 200k heartbeats, whereas `simpa`'s
+simplified goal guides synthesis and closes cheaply.
+
 **A bespoke `Module`/`IsScalarTower` instance on a `LinearMap`/`Hom` space collides with
 Mathlib's generic ones and breaks synthesis.** Mathlib already gives `Module S (M →ₗ[R] N)`
 (`LinearMap.module`, needs `SMulCommClass R S N`) and `IsScalarTower S T (M →ₗ[R] N)` for free.
