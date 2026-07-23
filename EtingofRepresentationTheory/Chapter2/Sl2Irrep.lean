@@ -275,7 +275,14 @@ noncomputable def rhoLieHom (d : ℕ) :
         2 * X.val 1 0 * Y.val 0 0 - 2 * Y.val 1 0 * X.val 0 0 := by
       simp [show ⁅X, Y⁆.val = X.val * Y.val - Y.val * X.val from rfl,
         Matrix.sub_apply, Matrix.mul_apply, Fin.sum_univ_two, htX, htY]; ring
-    simp only [add_lie, lie_add, smul_lie, lie_smul, lie_self, smul_zero,
+    -- The library `smul_lie`/`lie_smul` do not fire under `simp only` here (their
+    -- discrimination-tree keys miss the `Module.End` Lie-algebra instance path), so
+    -- reintroduce them as local hypotheses stated in the goal's exact form.
+    have smul_lie' : ∀ (c : ℂ) (a b : Module.End ℂ (Fin d → ℂ)),
+        ⁅c • a, b⁆ = c • ⁅a, b⁆ := fun c a b => smul_lie c a b
+    have lie_smul' : ∀ (c : ℂ) (a b : Module.End ℂ (Fin d → ℂ)),
+        ⁅a, c • b⁆ = c • ⁅a, b⁆ := fun c a b => lie_smul c a b
+    simp only [add_lie, lie_add, smul_lie', lie_smul', lie_self, smul_zero,
       add_zero, zero_add, lie_rhoH_rhoE, lie_rhoH_rhoF, lie_rhoE_rhoF,
       hEH, hFH, hFE, smul_neg, smul_smul, hbr00, hbr01, hbr10]
     module
