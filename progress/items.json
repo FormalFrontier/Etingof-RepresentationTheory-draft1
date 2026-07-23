@@ -5405,13 +5405,14 @@
     "end_page": "114",
     "start_line": 7,
     "end_line": 8,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "needs_statement": false,
     "sorry_free": true,
     "fidelity_decl": "Etingof.Corollary5_12_4",
-    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified",
-    "coverage": "covered_full",
+    "fidelity_note": "The intended rational-form theorem is source-present, but Corollary5_12_4.lean fails a fresh check at a tensor/Finsupp carrier mismatch; regression #7522.",
+    "coverage": "covered_partial",
+    "coverage_issue": 7522,
     "last_updated": "2026-07-22"
   },
   {
@@ -9467,10 +9468,10 @@
     "status": "sorry_free",
     "fidelity": "faithful",
     "needs_statement": false,
-    "notes": "Two notions are now exposed. Etingof.IsProjectiveGenerator (= Projective and IsSeparator) is the faithful general Definition 9.6.2: IsProjectiveGenerator.epi_coproduct shows it means every object is a quotient of an arbitrary (possibly infinite) coproduct of copies of P. The regular-module example is formalized sorry-free in Definition9_6_2_Example.lean (moduleCat_regular_isProjectiveGenerator: ModuleCat.of R R is a general projective generator over an arbitrary ring). Etingof.IsProgenerator is retained as the documented finite/finitely-generated variant used downstream; IsProgenerator.isProjectiveGenerator (Theorem9_6_4.lean) proves finite => general, justifying the finite consumers. Residual (follow-up #7443): the reverse direction general => finite under finite-length hypotheses needs Noetherian-object machinery.",
+    "notes": "Two notions are now exposed. Etingof.IsProjectiveGenerator (= Projective and IsSeparator) is the faithful general Definition 9.6.2: IsProjectiveGenerator.epi_coproduct shows it means every object is a quotient of an arbitrary (possibly infinite) coproduct of copies of P. The regular-module example is formalized sorry-free in Definition9_6_2_Example.lean (moduleCat_regular_isProjectiveGenerator: ModuleCat.of R R is a general projective generator over an arbitrary ring). Etingof.IsProgenerator is retained as the documented finite/finitely-generated variant used downstream; IsProgenerator.isProjectiveGenerator (Theorem9_6_4.lean) proves finite => general, justifying the finite consumers. Residual (follow-up #7498): prove general => finite under finite-length hypotheses using Noetherian-object machinery.",
     "sorry_free": true,
     "coverage": "covered_full",
-    "followup_issue": 7443,
+    "followup_issue": 7498,
     "last_updated": "2026-07-23"
   },
   {
@@ -9564,10 +9565,9 @@
     "status": "sorry_free",
     "fidelity": "partial",
     "sorry_free": true,
-    "notes": "The book-faithful fmod notion and k-linear refinement are defined with refl/symm/trans, and full-module Morita equivalence restricts to fmod. The converse Morita reconstruction theorem is still absent (#7382). The docstring also incorrectly claims every bare equivalence of k-algebra module categories is automatically k-linear; central-action compatibility is required (#7425).",
+    "notes": "The book-faithful fmod notion and k-linear refinement are defined with refl/symm/trans, and full-module Morita equivalence restricts to fmod. The former false automatic-k-linearity claim was corrected by #7472; bare and k-linear equivalences are now explicitly distinguished. The converse Morita reconstruction theorem is still absent (#7382).",
     "coverage": "covered_partial",
     "followup_issue": 7382,
-    "fidelity_issue": 7425,
     "last_updated": "2026-07-22"
   },
   {
