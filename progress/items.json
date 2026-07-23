@@ -9660,10 +9660,9 @@
     "status": "sorry_free",
     "fidelity": "faithful",
     "needs_statement": false,
-    "notes": "Two notions are now exposed. Etingof.IsProjectiveGenerator (= Projective and IsSeparator) is the faithful general Definition 9.6.2: IsProjectiveGenerator.epi_coproduct shows it means every object is a quotient of an arbitrary (possibly infinite) coproduct of copies of P. The regular-module example is formalized sorry-free in Definition9_6_2_Example.lean (moduleCat_regular_isProjectiveGenerator: ModuleCat.of R R is a general projective generator over an arbitrary ring). Etingof.IsProgenerator is retained as the documented finite/finitely-generated variant used downstream; IsProgenerator.isProjectiveGenerator (Theorem9_6_4.lean) proves finite => general, justifying the finite consumers. Residual (follow-up #7498): prove general => finite under finite-length hypotheses using Noetherian-object machinery.",
+    "notes": "Two notions are now exposed. Etingof.IsProjectiveGenerator (= Projective and IsSeparator) is the faithful general Definition 9.6.2: IsProjectiveGenerator.epi_coproduct shows it means every object is a quotient of an arbitrary (possibly infinite) coproduct of copies of P. The regular-module example is formalized sorry-free in Definition9_6_2_Example.lean (moduleCat_regular_isProjectiveGenerator: ModuleCat.of R R is a general projective generator over an arbitrary ring). Etingof.IsProgenerator is retained as the documented finite/finitely-generated variant used downstream; IsProgenerator.isProjectiveGenerator (Theorem9_6_4.lean) proves finite => general, justifying the finite consumers. The reverse agreement (general => finite) is now proved sorry-free in Definition9_6_2_Agreement.lean (IsProjectiveGenerator.isProgenerator): in an IsFiniteAbelianCategory (finite-length objects), a projective separator is a finite progenerator, via a Noetherian maximal-image argument (isNoetherianObject_of_finiteDimensionalOrder_subobject). Both notions therefore agree in the Theorem 9.6.4 setting.",
     "sorry_free": true,
     "coverage": "covered_full",
-    "followup_issue": 7498,
     "last_updated": "2026-07-23"
   },
   {
