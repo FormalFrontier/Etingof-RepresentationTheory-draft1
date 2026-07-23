@@ -153,9 +153,9 @@ noncomputable instance spechtModuleFDRep_simple (n : ℕ) (la : Nat.Partition n)
       simp [spechtModuleRep, spechtModuleAction]
       rfl
     | hadd x y hx hy =>
-      simp only [add_smul]; rw [hx, hy]
+      rw [add_smul, hx, hy, add_smul]; exact rfl
     | hsmul r x hx =>
-      simp only [smul_assoc]; rw [hx]
+      rw [smul_assoc, hx, smul_assoc]; exact rfl
   -- Step 2: Transfer IsSimpleModule from SpechtModule to asModule
   haveI : IsSimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin n)))
       (spechtModuleRep n la).asModule := by
@@ -258,7 +258,10 @@ theorem coeff_vandermonde_mul (n : ℕ) (P : MvPolynomial (Fin n) ℂ)
   simp only [Finset.sum_mul, smul_mul_assoc, MvPolynomial.coeff_sum]
   congr 1; ext π
   -- Goal: coeff α (sign π • (monomial ... 1 * P)) = sign π • (if ... then ... else 0)
-  rw [MvPolynomial.coeff_smul, MvPolynomial.coeff_monomial_mul', one_mul]
+  -- The Vandermonde expansion carries a `ℤ`-smul (`zsmul`); convert it to the `ℂ`-smul so
+  -- `MvPolynomial.coeff_smul` matches, extract the monomial-shift coefficient, then convert back.
+  rw [← Int.cast_smul_eq_zsmul (R := ℂ) (Equiv.Perm.sign π : ℤ), MvPolynomial.coeff_smul,
+    MvPolynomial.coeff_monomial_mul', one_mul, Int.cast_smul_eq_zsmul (R := ℂ)]
   simp only [dite_eq_ite]
 
 /-- The permutation module character χ_{U_μ} at σ as a natural number cast to ℂ,
@@ -479,19 +482,17 @@ private theorem spechtModuleFDRep_iso_iff_eq (n : ℕ) (ν₁ ν₂ : Nat.Partit
     have hφ_smul : ∀ (a : SymGroupAlgebra n) (v : ↥(SpechtModule n ν₁)),
         φ (a • v) = a • (φ v) := by
       intro a
-      induction a using Finsupp.induction_linear with
-      | zero => intro v; simp [zero_smul, map_zero]
-      | add f g hf hg => intro v; rw [add_smul, map_add, hf, hg, add_smul]
-      | single σ c =>
+      induction a using MonoidAlgebra.induction_on with
+      | hM g =>
         intro v
-        -- single σ c = c • of σ, and (c • of σ) • v = c • (of σ • v)
-        show φ ((Finsupp.single σ c : SymGroupAlgebra n) • v) =
-          (Finsupp.single σ c : SymGroupAlgebra n) • (φ v)
-        have hsingle : (Finsupp.single σ c : SymGroupAlgebra n) =
-            c • MonoidAlgebra.of ℂ _ σ := by
-          simp [MonoidAlgebra.of, Finsupp.smul_single']
-        rw [hsingle, smul_assoc, map_smul, smul_assoc]
-        congr 1; exact hφ_group σ v
+        -- `of g • v` is definitionally the group action `spechtModuleAction g`
+        have e1 : (MonoidAlgebra.of ℂ _ g : SymGroupAlgebra n) • v =
+            spechtModuleAction n ν₁ g v := rfl
+        have e2 : (MonoidAlgebra.of ℂ _ g : SymGroupAlgebra n) • (φ v) =
+            spechtModuleAction n ν₂ g (φ v) := rfl
+        rw [e1, e2, hφ_group g v]
+      | hadd f g hf hg => intro v; rw [add_smul, map_add, hf, hg, add_smul]
+      | hsmul r f hf => intro v; rw [smul_assoc, map_smul, hf, smul_assoc]
     exact (spechtModule_noniso n ν₁ ν₂ hne).false
       { φ with map_smul' := hφ_smul }
   · rintro rfl; exact ⟨CategoryTheory.Iso.refl _⟩
@@ -527,10 +528,9 @@ private theorem isotypicComponent_disjoint_of_ne (n : ℕ) (mu : Nat.Partition n
     (PermutationModule n mu) (SpechtModule n nu₁) ⊓
     isotypicComponent (SymGroupAlgebra n)
     (PermutationModule n mu) (SpechtModule n nu₂)
-  -- I is a submodule of a semisimple module, hence semisimple
-  haveI : IsSemisimpleModule (SymGroupAlgebra n) I :=
-    IsSemisimpleModule.of_injective
-      (Submodule.inclusion inf_le_left) (Submodule.inclusion_injective _)
+  -- `I` is a submodule of `PermutationModule n mu`, which is semisimple as a module over the
+  -- semisimple ring `ℂ[Sₙ]`; hence `I` is semisimple (via `IsSemisimpleModule.submodule`).
+  haveI : IsSemisimpleModule (SymGroupAlgebra n) I := inferInstance
   -- Either I = ⊥ or I contains a simple submodule
   rcases IsSemisimpleModule.eq_bot_or_exists_simple_le I with h | ⟨S, hS_le, hS_simple⟩
   · exact h
@@ -704,7 +704,7 @@ instance permModuleIsotypicComponent_finite (n : ℕ) (mu nu : Nat.Partition n) 
 /-- Each isotypic component is a free ℂ-module (all ℂ-modules are free). -/
 instance permModuleIsotypicComponent_free (n : ℕ) (mu nu : Nat.Partition n) :
     Module.Free ℂ (permModuleIsotypicComponent n mu nu) :=
-  inferInstance
+  Module.Free.of_divisionRing ℂ (↥(permModuleIsotypicComponent n mu nu))
 /-- Trace of a componentwise endomorphism on `Fin k → V` equals `k * trace(f)`.
 This is the key lemma for computing traces on isotypic components. -/
 private lemma trace_pi_diag {k : ℕ} {V : Type*} [AddCommGroup V] [Module ℂ V]
@@ -810,16 +810,24 @@ private lemma hom_from_wrong_isotypic_eq_zero (n : ℕ) (mu : Nat.Partition n)
   -- By Schur, this is zero or bijective
   intro s hs
   rw [LinearMap.mem_ker]
-  rcases LinearMap.bijective_or_eq_zero (f.comp (Submodule.subtype S)) with h_bij | h_zero
+  -- `isotypicComponent` bakes `Ring.toSemiring` into `S`, whereas `f`'s domain uses the
+  -- plain `MonoidAlgebra.semiring`; composing via `S.subtype` trips that diamond.  Build the
+  -- restriction `f|S : ↥S →ₗ[R] V` directly by applying `f` to the coercion instead.
+  -- Leave the map unascribed so Schur's `[Ring R]`/`[AddCommGroup]` context drives its type;
+  -- an ascribed `↥S →ₗ[R] V` would pick `MonoidAlgebra.semiring`/`Submodule.addCommMonoid`,
+  -- which are defeq but not syntactically the instances `bijective_or_eq_zero` expects.
+  rcases LinearMap.bijective_or_eq_zero (R := R) (M := ↥S) (N := V)
+      { toFun := fun t => f t.val
+        map_add' := fun a b => by simp only [Submodule.coe_add, map_add]
+        map_smul' := fun r t => by simp only [Submodule.coe_smul, map_smul, RingHom.id_apply] }
+      with h_bij | h_zero
   · -- If bijective, S ≅ V contradicting S ≅ V_la ≇ V_nu
     exfalso
-    have e_SV := LinearEquiv.ofBijective (f.comp (Submodule.subtype S)) h_bij
+    have e_SV := LinearEquiv.ofBijective _ h_bij
     exact (spechtModule_noniso n la nu hla).false (e_S.symm.trans e_SV)
-  · -- f ∘ S.subtype = 0
+  · -- the map is zero, and it sends `⟨s, hs⟩` to `f s`, so `f s = 0`
     have h := congr_fun (congr_arg DFunLike.coe h_zero) ⟨s, hs⟩
-    -- v4.31: `simpa` no longer reduces `S.subtype ⟨s, hs⟩` to `s`; rewrite the
-    -- `LinearMap.comp`/`Submodule.subtype` applications explicitly, leaving `f s = 0`.
-    rw [LinearMap.comp_apply, Submodule.subtype_apply, LinearMap.zero_apply] at h
+    rw [LinearMap.zero_apply] at h
     exact h
 
 set_option maxHeartbeats 800000 in
@@ -850,6 +858,7 @@ private lemma multiplicity_eq_spechtMultiplicity (n : ℕ) (mu nu : Nat.Partitio
       (LinearEquiv.ofBijective (Algebra.linearMap ℂ (Module.End R V)) h_bij).symm]
     exact Module.finrank_self ℂ
   -- Step 2: finrank ℂ ((Fin k → V) →ₗ[R] V) = k (via lsum + Step 1)
+  haveI : Module.Free ℂ (V →ₗ[R] V) := Module.Free.of_divisionRing ℂ (V →ₗ[R] V)
   have h_lsum_finrank : Module.finrank ℂ ((Fin k → V) →ₗ[R] V) = k := by
     rw [LinearEquiv.finrank_eq (LinearMap.lsum (R := R) ℂ (φ := fun _ : Fin k => V) (M := V)).symm,
         Module.finrank_pi_fintype, h_schur, Finset.sum_const, Finset.card_fin, smul_eq_mul,
@@ -988,6 +997,11 @@ private theorem trace_pi_diagonal {m : ℕ} {V : Type*}
   simp_rw [hrepr]
   simp_rw [Fintype.sum_sigma, Finset.sum_const, Finset.card_fin, nsmul_eq_mul]
 
+set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 200000 in
+-- The `IsScalarTower ℂ A ↥C_R` / `CompatibleSMul` synthesis for the restricted-scalars
+-- isotypic component traverses a deep `Submodule → restrictScalars → Module` chain that
+-- exceeds the default `synthInstance` budget.
 /-- On the isotypic component `V_ν^{⊕m}`, any `SymGroupAlgebra n`-endomorphism acts
 diagonally: the same endomorphism on each copy. In particular, for the permutation
 action `σ`, the restricted endomorphism is conjugate (via the isotypic decomposition)
@@ -1009,7 +1023,7 @@ theorem trace_isotypic_eq_mult_trace (n : ℕ) (mu nu : Nat.Partition n)
   -- Provide ℂ-module structure on ↥C_R via restrictScalars
   letI : Module ℂ ↥C_R := (C_R.restrictScalars ℂ).module
   -- IsScalarTower for the submodule
-  haveI : IsScalarTower ℂ A ↥C_R :=
+  haveI iST : IsScalarTower ℂ A ↥C_R :=
     ⟨fun c a m => Subtype.ext (smul_assoc c a (m : PermutationModule n mu))⟩
   -- IsSimpleModule for Specht modules
   haveI : IsSimpleModule A ↥(SpechtModule n nu) := Theorem5_12_2_irreducible n nu
@@ -1020,13 +1034,21 @@ theorem trace_isotypic_eq_mult_trace (n : ℕ) (mu nu : Nat.Partition n)
   haveI : Module.Finite ℂ ↥C_R := by
     change Module.Finite ℂ ↥(C_R.restrictScalars ℂ)
     infer_instance
-  -- Module.Finite over A follows from Module.Finite over ℂ
+  -- Module.Finite over A follows from Module.Finite over ℂ.  `of_restrictScalars_finite`
+  -- re-synthesises `IsScalarTower ℂ A ↥C_R` with the restrict-scalars `Module ℂ` still a
+  -- metavariable and no longer finds the local instance, so pass `iST` explicitly.
   haveI : Module.Finite A ↥C_R :=
-    Module.Finite.of_restrictScalars_finite ℂ A ↥C_R
+    @Module.Finite.of_restrictScalars_finite ℂ A ↥C_R _ _ _ _ _ _ iST _
   -- Get R-linear equiv
   obtain ⟨m', ⟨e'⟩⟩ := hiso.linearEquiv_fun
-  -- Restrict to ℂ-linear equiv
-  let e'_ℂ : ↥C_R ≃ₗ[ℂ] (Fin m' → ↥(SpechtModule n nu)) := e'.restrictScalars ℂ
+  -- Restrict `e'` to a ℂ-linear equiv.  `LinearEquiv.restrictScalars ℂ` synthesises its
+  -- `CompatibleSMul` obligation with the codomain still a metavariable and fails, so build
+  -- the ℂ-linear equiv by hand: `e'` is `A`-linear, hence `ℂ`-linear via the scalar tower
+  -- (`map_smul_of_tower`), and the underlying maps are unchanged.
+  let e'_ℂ : ↥C_R ≃ₗ[ℂ] (Fin m' → ↥(SpechtModule n nu)) :=
+    { toFun := e', invFun := e'.symm, map_add' := e'.map_add,
+      left_inv := e'.left_inv, right_inv := e'.right_inv,
+      map_smul' := fun c x => e'.toLinearMap.map_smul_of_tower c x }
   -- Step 1: Show the conjugated endomorphism is componentwise.
   set f := (permModuleEndomorphism n mu σ).restrict
     (permModuleEndomorphism_mapsTo_isotypic n mu σ nu) with hf_def
@@ -1064,7 +1086,8 @@ theorem trace_isotypic_eq_mult_trace (n : ℕ) (mu nu : Nat.Partition n)
   have htrace : LinearMap.trace ℂ _ f =
       (m' : ℂ) * LinearMap.trace ℂ _ (spechtModuleAction n nu σ) := by
     calc LinearMap.trace ℂ _ f
-        = LinearMap.trace ℂ _ (e'_ℂ.conj f) := (LinearMap.trace_conj' f e'_ℂ).symm
+        = LinearMap.trace ℂ _ (e'_ℂ.conj f) :=
+          (LinearMap.trace_conj' (M := ↥C_R) (N := Fin m' → ↥(SpechtModule n nu)) f e'_ℂ).symm
       _ = LinearMap.trace ℂ _ (LinearMap.pi (fun (i : Fin m') =>
             spechtModuleAction n nu σ ∘ₗ LinearMap.proj i)) := by rw [hconj_pi]
       _ = (m' : ℂ) * LinearMap.trace ℂ _ (spechtModuleAction n nu σ) := trace_pi_diagonal _
