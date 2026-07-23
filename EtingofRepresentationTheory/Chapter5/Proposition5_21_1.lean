@@ -378,6 +378,37 @@ theorem rename_alternant_det {N : ℕ} (e : Fin N → ℕ) (σ : Equiv.Perm (Fin
 
 /-! ## Helper lemmas for the antisymmetric basis decomposition -/
 
+/-! The `ℤˣ`-scalar `Equiv.Perm.sign σ • …` produced by `Matrix.det_apply` is the
+`zsmul`/module action on `MvPolynomial`, not the coefficient-scalar action that
+`MvPolynomial.coeff_smul`, `smul_sub`, and `smul_monomial` are stated for.  The two
+instances are propositionally equal but not syntactically, so `rw`/`simp` with those
+lemmas fail to unify.  The following helpers bridge the gap once (each via a
+`defeq`-tolerant `exact` or a coefficient-wise argument) so the downstream proofs stay
+readable. -/
+
+/-- `coeff` commutes with the `ℤˣ` sign scalar action from `Matrix.det_apply`. -/
+private lemma coeff_sign_smul {N : ℕ} (σ : Equiv.Perm (Fin N)) (m : Fin N →₀ ℕ)
+    (p : MvPolynomial (Fin N) ℚ) :
+    MvPolynomial.coeff m (Equiv.Perm.sign σ • p)
+      = (Equiv.Perm.sign σ : ℤ) • MvPolynomial.coeff m p := by
+  rw [Units.smul_def]
+  exact map_zsmul (MvPolynomial.lcoeff ℚ m) _ p
+
+/-- Distribute the `ℤˣ` sign action over a subtraction. -/
+private lemma sign_smul_sub {N : ℕ} (σ : Equiv.Perm (Fin N)) (a b : MvPolynomial (Fin N) ℚ) :
+    Equiv.Perm.sign σ • (a - b)
+      = Equiv.Perm.sign σ • a - Equiv.Perm.sign σ • b := by
+  simp only [Units.smul_def]
+  exact smul_sub _ a b
+
+/-- The `ℤˣ` sign action on a monomial rescales its `±1` coefficient. -/
+private lemma sign_smul_monomial {N : ℕ} (σ : Equiv.Perm (Fin N)) (d : Fin N →₀ ℕ) :
+    Equiv.Perm.sign σ • MvPolynomial.monomial d (1 : ℚ)
+      = MvPolynomial.monomial d ((Equiv.Perm.sign σ : ℤ) : ℚ) := by
+  ext m'
+  rw [coeff_sign_smul, MvPolynomial.coeff_monomial, MvPolynomial.coeff_monomial]
+  split_ifs <;> simp [zsmul_eq_mul]
+
 /-- A strictly monotone permutation of `Fin N` must be the identity. -/
 lemma perm_eq_one_of_strictMono {N : ℕ} {σ : Equiv.Perm (Fin N)}
     (h : StrictMono (⇑σ : Fin N → Fin N)) : σ = 1 := by
@@ -449,7 +480,8 @@ theorem alternant_coeff_kronecker {N : ℕ}
     {e e' : Fin N → ℕ} (he : StrictAnti e) (he' : StrictAnti e') :
     MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e') (alternantMatrix N e).det =
     if e = e' then 1 else 0 := by
-  rw [Matrix.det_apply]; simp only [MvPolynomial.coeff_sum, MvPolynomial.coeff_smul]
+  rw [Matrix.det_apply]
+  simp only [MvPolynomial.coeff_sum, coeff_sign_smul]
   simp_rw [show ∀ σ : Equiv.Perm (Fin N), ∏ j, alternantMatrix N e (σ j) j =
       monomial (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm)) 1 from fun σ => by
     rw [show ∏ j, alternantMatrix N e (σ j) j = ∏ j, (X (σ j) : MvPolynomial (Fin N) ℚ) ^ e j
@@ -539,9 +571,13 @@ theorem alternant_isHomogeneous {N : ℕ} (e : Fin N → ℕ) :
     (alternantMatrix N e).det.IsHomogeneous (∑ j : Fin N, e j) := by
   rw [Matrix.det_apply, show ∑ j : Fin N, e j = ∑ j : Fin N, 1 * e j by simp]
   apply MvPolynomial.IsHomogeneous.sum; intro σ _ d hd
-  rw [MvPolynomial.coeff_smul] at hd
+  -- `hd` involves the `ℤˣ`-scalar `sign σ • …` from `det_apply`; peel it off the
+  -- coefficient via `coeff_sign_smul` to expose the underlying product.
+  rw [coeff_sign_smul] at hd
+  have hne : MvPolynomial.coeff d (∏ i, alternantMatrix N e (σ i) i) ≠ 0 :=
+    fun hc => hd (by rw [hc, smul_zero])
   exact (MvPolynomial.IsHomogeneous.prod _ _ _ (fun j _ =>
-    (MvPolynomial.isHomogeneous_X ℚ (σ j)).pow (e j))) (right_ne_zero_of_mul hd)
+    (MvPolynomial.isHomogeneous_X ℚ (σ j)).pow (e j))) hne
 
 /-- Power-sum symmetric polynomials are homogeneous of degree `n`. -/
 theorem psumPart_isHomogeneous {n : ℕ} (N : ℕ) (μ : n.Partition) :
@@ -607,7 +643,10 @@ theorem Proposition5_21_1
   rw [← sub_eq_zero]
   apply antisym_eq_zero
   · -- Antisymmetry of the difference
-    intro σ; rw [map_sub, smul_sub]; congr 1
+    -- The RHS `sign σ • (F - G)` uses the `ℤˣ`-smul; distribute it via `sign_smul_sub`.
+    intro σ
+    rw [map_sub, sign_smul_sub]
+    congr 1
     · rw [map_mul, rename_alternant_det, (psumPart_isSymmetric N μ) σ, smul_mul_assoc]
     · -- rename σ (∑ c • D) = sign σ • ∑ c • D
       trans ∑ lam : BoundedPartition N n, Equiv.Perm.sign σ •
@@ -758,10 +797,11 @@ theorem degLex_degree_alternantMatrix_det {N : ℕ} {e : Fin N → ℕ} (he : St
           monomial (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm)) (1 : ℚ))
         = Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm) := by
     intro σ
-    have hc : (Equiv.Perm.sign σ • (1 : ℚ)) ≠ 0 := by
-      rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with hs | hs <;> rw [hs] <;>
-        simp [Units.smul_def]
-    rw [smul_monomial, MonomialOrder.degree_monomial, if_neg hc]
+    -- Rewrite the `ℤˣ`-smul on the monomial via `sign_smul_monomial`, then read off
+    -- the degree; the `±1` coefficient is nonzero.
+    have hc : (((Equiv.Perm.sign σ : ℤ) : ℚ)) ≠ 0 := by
+      rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with hs | hs <;> rw [hs] <;> simp
+    rw [sign_smul_monomial, MonomialOrder.degree_monomial, if_neg hc]
   -- Lower bound: `x^e` lies in the support (its coefficient is `1`).
   have hlower : Finsupp.equivFunOnFinite.symm e ≼[m] m.degree (alternantMatrix N e).det := by
     apply m.le_degree
