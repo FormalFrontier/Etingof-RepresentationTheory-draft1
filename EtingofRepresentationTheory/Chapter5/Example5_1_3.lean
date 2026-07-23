@@ -605,9 +605,8 @@ lemma coordForm_self_ne_zero_of_real (c : MonoidAlgebra ℂ G)
       (Finset.mem_univ g)
     exact pow_eq_zero_iff (by norm_num : 2 ≠ 0) |>.mp h
   ext g
-  apply Complex.ext
-  · simpa using hzero g
-  · simpa using hreal g
+  show c g = 0
+  exact Complex.ext (by simpa using hzero g) (by simpa using hreal g)
 
 /-- **Group-algebra real-form criterion.** A simple representation `ρ` admitting a
 `ℂ`-linear map `ψ : V → ℂ[G]` that intertwines the `ρ`-action with left
@@ -1112,20 +1111,12 @@ lemma rho_apply (g : QuaternionGroup 2) (v : Fin 2 → ℂ) :
 
 end Etingof.Q8
 
-/-- The 2-dimensional irreducible representation of `Q₈ = QuaternionGroup 2` is of
-quaternionic type: there is a simple `ℂ[Q₈]`-module structure on `Fin 2 → ℂ`
-admitting a nondegenerate `Q₈`-invariant skew-symmetric bilinear form.
-(Etingof Example 5.1.3) -/
-theorem Etingof.Example5_1_3_Q8 :
-    ∃ ρ : Representation ℂ (QuaternionGroup 2) (Fin 2 → ℂ),
-      IsSimpleModule (MonoidAlgebra ℂ (QuaternionGroup 2)) ρ.asModule ∧
-      Etingof.IsQuaternionicType ρ := by
-  -- The 2-dimensional irrep uses the Pauli-type matrices `ρ(i) = [[0,1],[-1,0]]`,
-  -- `ρ(j) = [[√-1,0],[0,-√-1]]`, `ρ(k) = [[0,-√-1],[-√-1,0]]`. Its FS indicator is
-  -- `-1`, witnessed by the invariant skew form `[[0,1],[-1,0]]`.
-  refine ⟨Etingof.Q8.rho, ?_, ?_⟩
-  · -- Simplicity: the only `ρ`-invariant subspaces are `⊥` and `⊤`, since the diagonal
-    -- generator `A` and the swap `X` share no common eigenline.
+/-- **Simplicity of the constructed 2-dimensional `Q₈`-representation.** The representation
+`Etingof.Q8.rho` on `Fin 2 → ℂ` is a simple `ℂ[Q₈]`-module: its only invariant subspaces are
+`⊥` and `⊤`, because the diagonal generator `A` and the swap `X` share no common eigenline.
+(Etingof Example 5.1.3.) -/
+theorem Etingof.Q8.rho_isSimpleModule :
+    IsSimpleModule (MonoidAlgebra ℂ (QuaternionGroup 2)) Etingof.Q8.rho.asModule := by
     -- Evaluate the two generators on an arbitrary vector.
     have hAv : ∀ v : Fin 2 → ℂ, Etingof.Q8.rho (QuaternionGroup.a 1) v
         = ![Complex.I * v 0, -Complex.I * v 1] := by
@@ -1218,6 +1209,19 @@ theorem Etingof.Example5_1_3_Q8 :
       exact (a : Submodule ℂ (Fin 2 → ℂ)).add_mem
         ((a : Submodule ℂ (Fin 2 → ℂ)).smul_mem _ he0.1)
         ((a : Submodule ℂ (Fin 2 → ℂ)).smul_mem _ he0.2)
+
+/-- The 2-dimensional irreducible representation of `Q₈ = QuaternionGroup 2` is of
+quaternionic type: there is a simple `ℂ[Q₈]`-module structure on `Fin 2 → ℂ`
+admitting a nondegenerate `Q₈`-invariant skew-symmetric bilinear form.
+(Etingof Example 5.1.3) -/
+theorem Etingof.Example5_1_3_Q8 :
+    ∃ ρ : Representation ℂ (QuaternionGroup 2) (Fin 2 → ℂ),
+      IsSimpleModule (MonoidAlgebra ℂ (QuaternionGroup 2)) ρ.asModule ∧
+      Etingof.IsQuaternionicType ρ := by
+  -- The 2-dimensional irrep uses the Pauli-type matrices `ρ(i) = [[0,1],[-1,0]]`,
+  -- `ρ(j) = [[√-1,0],[0,-√-1]]`, `ρ(k) = [[0,-√-1],[-√-1,0]]`. Its FS indicator is
+  -- `-1`, witnessed by the invariant skew form `[[0,1],[-1,0]]`.
+  refine ⟨Etingof.Q8.rho, Etingof.Q8.rho_isSimpleModule, ?_⟩
   · -- Quaternionic type: the wedge form `B v w = v₀w₁ - v₁w₀` is skew, nondegenerate, and
     -- `Q₈`-invariant (every matrix lies in `SL₂`, so it preserves the determinant form).
     set B : (Fin 2 → ℂ) →ₗ[ℂ] (Fin 2 → ℂ) →ₗ[ℂ] ℂ :=
@@ -1291,3 +1295,76 @@ theorem Etingof.Example5_1_3_Q8_oneDim_isRealType
     rw [hmul, hconj] at h1
     exact h1
   exact mul_self_eq_one_iff.mp hsq
+
+/-- **Uniqueness of the 2-dimensional irreducible of `Q₈`.** Any 2-dimensional simple
+`ℂ[Q₈]`-module is isomorphic to the constructed quaternionic-type representation
+`Etingof.Q8.rho`. Hence "the 2-dimensional irreducible of `Q₈` is quaternionic" is a
+statement about a well-defined isomorphism class.
+
+The proof runs the Artin-Wedderburn enumeration
+(`exists_simples_sum_finrank_sq_eq_card`): the complete family `W` of pairwise
+non-isomorphic simples has `∑ (dim Wᵢ)² = |Q₈| = 8`. The given simple `σ`, the constructed
+`rho`, and the trivial character each match some `Wᵢ`, `Wⱼ`, `W_ℓ` with dimensions `2`, `2`,
+`1`. If `σ` and `rho` matched *different* members `i ≠ j`, then `i, j, ℓ` would be three
+distinct indices contributing `2² + 2² + 1² = 9 > 8` to the sum, a contradiction. So `i = j`
+and `FDRep.of σ ≅ Wᵢ = Wⱼ ≅ FDRep.of rho`. (Etingof Example 5.1.3.) -/
+theorem Etingof.Example5_1_3_Q8_twoDim_unique
+    {V : Type} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
+    (σ : Representation ℂ (QuaternionGroup 2) V)
+    (hσ : IsSimpleModule (MonoidAlgebra ℂ (QuaternionGroup 2)) σ.asModule)
+    (hdim : Module.finrank ℂ V = 2) :
+    Nonempty (FDRep.of σ ≅ FDRep.of Etingof.Q8.rho) := by
+  classical
+  -- `|Q₈| = 8` is nonzero in `ℂ`, so the Wedderburn enumeration applies.
+  haveI hNe : NeZero (Nat.card (QuaternionGroup 2) : ℂ) := by
+    rw [Nat.card_eq_fintype_card]
+    exact ⟨Nat.cast_ne_zero.mpr (Fintype.card_pos (α := QuaternionGroup 2)).ne'⟩
+  -- The three players are simple `FDRep` objects.
+  haveI := hσ
+  haveI hσsimple : CategoryTheory.Simple (FDRep.of σ) :=
+    Etingof.simple_fdRepOf_of_isSimpleModule σ
+  haveI hrhosimple : CategoryTheory.Simple (FDRep.of Etingof.Q8.rho) := by
+    haveI := Etingof.Q8.rho_isSimpleModule
+    exact Etingof.simple_fdRepOf_of_isSimpleModule Etingof.Q8.rho
+  haveI := Etingof.oneDim_isSimpleModule (Representation.trivial ℂ (QuaternionGroup 2) ℂ)
+  haveI htrivsimple :
+      CategoryTheory.Simple (FDRep.of (Representation.trivial ℂ (QuaternionGroup 2) ℂ)) :=
+    Etingof.simple_fdRepOf_of_isSimpleModule _
+  -- The complete family of simples with `∑ dim² = |Q₈| = 8`.
+  obtain ⟨n, W, _hWsimple, _hWinj, hWsurj, hWsum⟩ :=
+    exists_simples_sum_finrank_sq_eq_card ℂ (QuaternionGroup 2)
+  obtain ⟨i, ⟨eσ⟩⟩ := hWsurj (FDRep.of σ) hσsimple
+  obtain ⟨j, ⟨eρ⟩⟩ := hWsurj (FDRep.of Etingof.Q8.rho) hrhosimple
+  obtain ⟨l, ⟨etriv⟩⟩ :=
+    hWsurj (FDRep.of (Representation.trivial ℂ (QuaternionGroup 2) ℂ)) htrivsimple
+  -- Dimensions of the matched Wedderburn members: `2`, `2`, `1`.
+  have hfi : Module.finrank ℂ (W i) = 2 := by
+    rw [← (FDRep.isoToLinearEquiv eσ).finrank_eq]; exact hdim
+  have hfj : Module.finrank ℂ (W j) = 2 := by
+    rw [← (FDRep.isoToLinearEquiv eρ).finrank_eq]
+    show Module.finrank ℂ (Fin 2 → ℂ) = 2
+    rw [Module.finrank_fintype_fun_eq_card, Fintype.card_fin]
+  have hfl : Module.finrank ℂ (W l) = 1 := by
+    rw [← (FDRep.isoToLinearEquiv etriv).finrank_eq]; exact Module.finrank_self ℂ
+  -- `i = j`: otherwise `i, j, l` are three distinct indices summing to `4 + 4 + 1 = 9 > 8`.
+  have hij : i = j := by
+    by_contra hij
+    have hli : l ≠ i := fun h => by rw [h, hfi] at hfl; exact absurd hfl (by norm_num)
+    have hlj : l ≠ j := fun h => by rw [h, hfj] at hfl; exact absurd hfl (by norm_num)
+    have hmemj : i ∉ ({j, l} : Finset (Fin n)) := by
+      simp only [Finset.mem_insert, Finset.mem_singleton, not_or]
+      exact ⟨hij, fun h => hli h.symm⟩
+    have hmeml : j ∉ ({l} : Finset (Fin n)) := by
+      simp only [Finset.mem_singleton]; exact fun h => hlj h.symm
+    have hle : (9 : ℕ) ≤ Fintype.card (QuaternionGroup 2) :=
+      calc (9 : ℕ)
+          = ∑ k ∈ ({i, j, l} : Finset (Fin n)), Module.finrank ℂ (W k) ^ 2 := by
+            rw [Finset.sum_insert hmemj, Finset.sum_insert hmeml, Finset.sum_singleton,
+              hfi, hfj, hfl]; norm_num
+        _ ≤ ∑ k, Module.finrank ℂ (W k) ^ 2 :=
+            Finset.sum_le_sum_of_subset (Finset.subset_univ _)
+        _ = Fintype.card (QuaternionGroup 2) := hWsum
+    rw [QuaternionGroup.card] at hle
+    omega
+  -- Transport: `FDRep.of σ ≅ Wᵢ = Wⱼ ≅ FDRep.of rho`.
+  exact ⟨(hij ▸ eσ) ≪≫ eρ.symm⟩
