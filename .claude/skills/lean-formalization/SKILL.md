@@ -202,6 +202,18 @@ type-variable level where `f x : W` matches `asModule σ` syntactically) instead
 re-deriving. Worked example: #7554 (`Chapter5/RepresentationAsModuleHom.lean`, all
 four `map_smul'` proofs).
 
+**`is_simple_module_of_finrank_eq_one (Module.finrank_self k)` on a `Representation.asModule`
+no longer synthesizes `IsScalarTower k k[G] ρ.asModule`** — a current Mathlib regression.
+Passing `Module.finrank_self k` pins the lemma's `V := k`, selecting the ℂ[G]→ℂ restriction
+branch of the `Module k ρ.asModule` diamond, which `Representation.instIsScalarTowerMonoidAlgebraAsModule`
+(stated over `asModule`'s *derived* `Module k`) cannot unify against (even with the tower
+instance explicitly in local context). **Fix: route the finrank through the derived branch —
+`is_simple_module_of_finrank_eq_one (ρ.asModuleEquiv.finrank_eq.trans (Module.finrank_self k))`.**
+One-line change. Worked example: #7513 (`Chapter5/Theorem5_26_1.lean`, `trivialFDRep_simple`).
+The same idiom (`(Module.finrank_self ℂ)`) is still live in `Theorem5_4_6.lean:80` (#7515),
+`Theorem5_25_2.lean:1506` (#7516), `Lemma5_4_7.lean:95`, and `Problem6_1_6.lean:760` — apply
+the same fix there.
+
 **`MonoidAlgebra.single g 1` elaborates the coefficient `1` as `ℕ` (giving `ℕ[G]`) unless
 pinned** — the module/action can't back-propagate the base ring during elaboration, so
 `single g 1 • m` fails with `HSMul ℕ[G] M M`. Always write `single g (1 : k)`. Cost a full build
