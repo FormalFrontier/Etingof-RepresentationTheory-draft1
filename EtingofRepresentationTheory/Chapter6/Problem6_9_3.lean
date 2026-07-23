@@ -35,6 +35,7 @@ variable {k Q : Type*} [Field k] [Quiver Q]
 (negation is `(-1) • ·`). The `QuiverRepresentation.obj` carriers bundle only
 `AddCommMonoid`, so this supplies the group structure needed to subtract linear
 maps in the Ext differential. -/
+@[reducible]
 noncomputable def acg {M : Type*} [inst : AddCommMonoid M] [Module k M] :
     AddCommGroup M :=
   { inst with
@@ -71,8 +72,13 @@ def IsSink (i : Q) : Prop := ∀ j, IsEmpty (i ⟶ j)
 `d(f)_a = W_a ∘ f_i - f_j ∘ V_a`. Its cokernel is `Ext¹(V, W)`. -/
 noncomputable def extDiff (V W : QuiverRepresentation k Q) :
     (∀ i, V.obj i →ₗ[k] W.obj i) → (∀ p : (Σ i j, (i ⟶ j)), V.obj p.1 →ₗ[k] W.obj p.2.1) :=
-  letI : ∀ v, AddCommGroup (W.obj v) := fun v => acg (k := k)
-  fun f p => W.mapLinear p.2.2 ∘ₗ f p.1 - f p.2.1 ∘ₗ V.mapLinear p.2.2
+  fun f p =>
+    -- Subtracting the two linear maps needs `AddCommGroup (W.obj p.2.1)` on the
+    -- shared codomain. Supply it for this specific carrier: a `letI` of Pi type
+    -- `∀ v, AddCommGroup (W.obj v)` is not a class-headed instance and so is not
+    -- used by instance synthesis for the concrete `W.obj p.2.1`.
+    letI : AddCommGroup (W.obj p.2.1) := acg (k := k)
+    W.mapLinear p.2.2 ∘ₗ f p.1 - f p.2.1 ∘ₗ V.mapLinear p.2.2
 
 /-- `Ext¹(V, W) = 0`: the Ext differential is surjective (its cokernel vanishes). -/
 def Ext1Vanishes (V W : QuiverRepresentation k Q) : Prop :=
