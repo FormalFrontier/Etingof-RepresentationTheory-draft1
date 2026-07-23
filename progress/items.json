@@ -1188,6 +1188,12 @@
     "start_line": 1,
     "end_line": 5,
     "status": "sorry_free",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "The orthogonal Lie algebra so(n) is available through Mathlib and the neighboring so(3) development. The explicit two-dimensional aff(1) matrix algebra, basis X,Y, and bracket [X,Y]=Y are absent; follow-up #7485.",
+    "fidelity_issue": 7485,
+    "last_updated": "2026-07-22",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
