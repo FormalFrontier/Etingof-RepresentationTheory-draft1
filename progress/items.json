@@ -2446,11 +2446,10 @@
     "status": "sorry_free",
     "fidelity": "partial",
     "sorry_free": true,
-    "notes": "Full theorem now exposed (#5328): jordan_holder_equivalent gives s₁.Equivalent s₂; jordan_holder_factors gives the permutation σ with Wᵢ ≅ W'_{σ i} via Etingof.compositionFactor; jordan_holder retains the n = m length half.",
-    "coverage": "covered_partial",
-    "fidelity_note": "The Jordan–Hölder theorem itself is complete. The characteristic-p footnote's concrete explanation—that the character of the p-fold sum pV vanishes for every V—has no public theorem; follow-up #7469.",
-    "fidelity_issue": 7469,
-    "last_updated": "2026-07-22"
+    "notes": "Full theorem now exposed (#5328): jordan_holder_equivalent gives s₁.Equivalent s₂; jordan_holder_factors gives the permutation σ with Wᵢ ≅ W'_{σ i} via Etingof.compositionFactor; jordan_holder retains the n = m length half. Characteristic-p footnote formalized (#7469) in Discussion_footnote_3_7_1.lean: character_fin_pi gives χ_{nV} = n • χ_V for the diagonal representation on Fin n → V (via trace_diagPi_fin, direct-sum additivity of the trace), and character_pcopies_eq_zero gives χ_{pV} = 0 under [CharP k p].",
+    "coverage": "covered",
+    "fidelity_note": "The Jordan–Hölder theorem itself is complete. The characteristic-p footnote's concrete explanation—that the character of the p-fold sum pV vanishes for every V—is now formalized as Etingof.character_pcopies_eq_zero (with the general χ_{nV} = n • χ_V identity Etingof.character_fin_pi).",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter3/Discussion_after_Theorem3.7.1",
