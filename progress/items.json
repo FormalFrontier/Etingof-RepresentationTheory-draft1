@@ -4382,9 +4382,9 @@
     "fidelity": "partial",
     "coverage": "covered_partial",
     "coverage_issue": 7527,
-    "coverage_note": "The S3, S4, and A5 real-type assertions and a quaternionic two-dimensional Q8 representation are proved. The cyclic-group declaration is only a one-way non-realness test and does not classify all irreducibles or establish the trivial/sign cases; the Q8 one-dimensional real-type and uniqueness claims are also absent. Residual work is tracked by #5124.",
+    "coverage_note": "The S3, S4, and A5 real-type assertions and a quaternionic two-dimensional Q8 representation are proved. The Q8 one-dimensional real-type (Example5_1_3_Q8_oneDim_isRealType) and the uniqueness of the 2-dimensional irreducible (Example5_1_3_Q8_twoDim_unique: any 2-dim simple C[Q8]-module is isomorphic to the constructed Q8.rho, via the Artin-Wedderburn dimension count) are now proved. The cyclic-group declaration is still only a one-way non-realness test and does not classify all irreducibles or establish the trivial/sign cases. Residual work is tracked by #5124.",
     "followup_issue": 5124,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter5/Definition5.1.4",
