@@ -9258,14 +9258,13 @@
     "start_line": 21,
     "end_line": 2,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "faithful",
     "needs_statement": false,
-    "notes": "IsProgenerator is the finite/finitely-generated variant: it extends Projective and requires an epi from a finite biproduct of copies. The source's literal arbitrary-category definition and regular-module example need possibly infinite coproducts; follow-up #7443.",
+    "notes": "Two notions are now exposed. Etingof.IsProjectiveGenerator (= Projective and IsSeparator) is the faithful general Definition 9.6.2: IsProjectiveGenerator.epi_coproduct shows it means every object is a quotient of an arbitrary (possibly infinite) coproduct of copies of P. The regular-module example is formalized sorry-free in Definition9_6_2_Example.lean (moduleCat_regular_isProjectiveGenerator: ModuleCat.of R R is a general projective generator over an arbitrary ring). Etingof.IsProgenerator is retained as the documented finite/finitely-generated variant used downstream; IsProgenerator.isProjectiveGenerator (Theorem9_6_4.lean) proves finite => general, justifying the finite consumers. Residual (follow-up #7443): the reverse direction general => finite under finite-length hypotheses needs Noetherian-object machinery.",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "fidelity_issue": 7443,
+    "coverage": "covered_full",
     "followup_issue": 7443,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter9/Exercise9.6.3",
