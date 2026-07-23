@@ -6499,13 +6499,12 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "full",
     "needs_statement": false,
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "fidelity_note": "IsAlgebraicRepresentation checks regular matrix coefficients for an arbitrary GL-valued endomorphism family but does not require the identity or multiplication action laws, so it accepts families that are not representations. Follow-up #7461.",
-    "fidelity_issue": 7461,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "fidelity_note": "Etingof.IsAlgebraicRepresentation now takes a bundled Representation k (GL_N k) Y, so the identity/multiplicativity action laws are part of the data; it asserts algebraicity of the underlying coefficient family. The raw coefficient-regularity predicate is retained under the honest name IsAlgebraicCoefficientFamily for the reusable transport lemmas, with a definitional bridge (isAlgebraicRepresentation_iff), a compatibility wrapper (IsAlgebraicCoefficientFamily.toRepresentation), and a regression witness (exists_algebraicCoefficientFamily_not_representation) showing the constant-zero family is an algebraic coefficient family but not a representation. Genuine book representations glTensorRep and (SchurModule …).ρ are exposed as algebraic representations. Fixed #7461.",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter5/Discussion_after_Definition5.23.1",

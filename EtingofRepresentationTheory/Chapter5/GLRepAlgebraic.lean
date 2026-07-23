@@ -201,6 +201,12 @@ theorem glTensorRep_isAlgebraic (k : Type*) [Field k] (N n : ℕ) :
   refine Finset.prod_congr rfl fun m _ => ?_
   rw [evalAtGL_X_inl]
 
+/-- The diagonal action `g ↦ g^{⊗n}`, viewed as a genuine `Representation`, is an
+algebraic representation in the sense of Definition 5.23.1. -/
+theorem glTensorRep_isAlgebraicRepresentation (k : Type*) [Field k] (N n : ℕ) :
+    Etingof.IsAlgebraicRepresentation N (glTensorRep k N n) :=
+  (glTensorRep_isAlgebraic k N n).toRepresentation
+
 /-! ### Algebraicity transfers along an equivariant linear equivalence -/
 
 /-- **Algebraicity transfers along an intertwining `k`-linear equivalence.** If `ρ` is
@@ -350,5 +356,13 @@ theorem schurModule_isAlgebraic {k : Type*} [Field k] [IsAlgClosed k] (N : ℕ)
   exact (glTensorRep_isAlgebraic k N (∑ i, lam i)).restrict
     (SchurModuleSubmodule k N lam)
     (fun g v hv => glTensorRep_mem_range k N lam g v hv)
+
+/-- **The Schur module is an algebraic representation.** Packaged form of
+`schurModule_isAlgebraic` against the bundled representation `(SchurModule …).ρ`,
+matching Definition 5.23.1's textbook subject. -/
+theorem schurModule_isAlgebraicRepresentation {k : Type*} [Field k] [IsAlgClosed k]
+    (N : ℕ) (lam : Fin N → ℕ) :
+    Etingof.IsAlgebraicRepresentation N (SchurModule k N lam).ρ :=
+  (schurModule_isAlgebraic N lam).toRepresentation
 
 end Etingof
