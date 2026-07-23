@@ -63,8 +63,8 @@ noncomputable def asModule_directSum_equiv (ρs : (i : ι) → Representation k 
   map_smul' r x := by
     simp only [RingHom.id_apply]
     induction r using MonoidAlgebra.induction_linear with
-    | zero => simp only [zero_smul]; exact rfl
-    | add a b ha hb => simp only [add_smul, ha, hb]; exact rfl
+    | zero => simp only [zero_smul]
+    | add a b ha hb => simp only [add_smul, ha, hb]
     | single g t =>
       rw [single_smul_directSum, Representation.single_smul, Representation.directSum_apply]
       rfl
@@ -92,7 +92,6 @@ def asModuleHomOfIntertwiner {ρ : Representation k G V} {σ : Representation k 
     | add a b ha hb =>
       rw [add_smul, add_smul,
         show f (a • x + b • x) = f (a • x) + f (b • x) from map_add f _ _, ha, hb]
-      exact rfl
     | single g t =>
       rw [Representation.single_smul, Representation.single_smul, map_smul]
       simp only [Representation.asModuleEquiv]
@@ -121,7 +120,6 @@ def asModuleEquivOfIntertwiner {ρ : Representation k G V} {σ : Representation 
     | add a b ha hb =>
       rw [add_smul, add_smul,
         show f (a • x + b • x) = f (a • x) + f (b • x) from map_add f _ _, ha, hb]
-      exact rfl
     | single g t =>
       rw [Representation.single_smul, Representation.single_smul, map_smul]
       simp only [Representation.asModuleEquiv]
