@@ -976,6 +976,153 @@ theorem card_conjClasses_eq (hp2 : p ≠ 2) (hn : n ≠ 0) :
   rw [hdiv1, hdiv2, hq1]
   omega
 
+/-! ## Per-type centralizer orders and conjugacy-class sizes (Discussion 5.25.1)
+
+Etingof's table in §5.25 lists, for each of the four conjugacy types, both the
+order of the centralizer of a representative and the number of elements in an
+individual conjugacy class:
+
+| Type              | centralizer order   | class size (# elements) |
+|-------------------|---------------------|-------------------------|
+| scalar            | `(q²−1)(q²−q) = |G|`| `1`                     |
+| parabolic         | `q(q−1)`            | `q² − 1`                |
+| split semisimple  | `(q−1)²`            | `q² + q`                |
+| elliptic          | `q² − 1`            | `q² − q`                |
+
+The centralizer orders are the public forms of the proof-internal
+`centralizerCard_parabolic`, `centralizerCard_splitSemisimple`,
+`centralizerCard_elliptic` used above to count classes; here we expose them
+(`GL2.centralizerCard_isScalar`, `GL2.centralizerCard_isParabolic`,
+`GL2.centralizerCard_isSplitSemisimple`, `GL2.centralizerCard_isElliptic`) and read
+off the per-element class sizes by orbit–stabilizer.
+
+For `g : GL₂(𝔽_q)`, the conjugacy class of `g` is exactly the orbit of `g` under
+the conjugation action `ConjAct (GL₂(𝔽_q))`
+(`ConjAct.orbit_eq_carrier_conjClasses`), and orbit–stabilizer
+(`GL2.orbit_card_mul_centralizerCard`) gives `|class of g| · |C_G(g)| = |G|`. -/
+
+/-- **Orbit–stabilizer for conjugacy classes.** For any `g`, the size of the
+conjugacy class of `g` (the orbit of `g` under `ConjAct`) times the centralizer
+order equals `|G|`. -/
+theorem orbit_card_mul_centralizerCard (g : GL2' p n) :
+    Nat.card (MulAction.orbit (ConjAct (GL2' p n)) g)
+        * Nat.card (Subgroup.centralizer ({g} : Set (GL2' p n)))
+      = Fintype.card (GL2' p n) := by
+  rw [Subgroup.nat_card_centralizer_nat_card_stabilizer,
+    Nat.card_congr (MulAction.orbitEquivQuotientStabilizer (ConjAct (GL2' p n)) g),
+    ← Nat.card_eq_fintype_card,
+    Nat.card_congr (ConjAct.toConjAct (G := GL2' p n)).toEquiv]
+  exact (MulAction.stabilizer (ConjAct (GL2' p n)) g).index_mul_card
+
+/-- **Centralizer order of a scalar element** is `|G| = (q²−1)(q²−q)`: a scalar
+matrix is central, so its centralizer is the whole group. -/
+theorem centralizerCard_isScalar {g : GL2' p n} (hg : GL2.IsScalar g) :
+    Nat.card (Subgroup.centralizer ({g} : Set (GL2' p n)))
+      = (Fintype.card (GaloisField p n) ^ 2 - 1)
+        * (Fintype.card (GaloisField p n) ^ 2 - Fintype.card (GaloisField p n)) := by
+  have htop : Subgroup.centralizer ({g} : Set (GL2' p n)) = ⊤ := by
+    rw [eq_top_iff]
+    intro x _
+    rw [Subgroup.mem_centralizer_iff]
+    rintro y hy
+    rw [Set.mem_singleton_iff] at hy; subst hy
+    exact Units.ext (val_mul_comm_of_isScalar hg x).symm
+  rw [htop, Subgroup.card_top, Nat.card_eq_fintype_card, card_GL2_eq]
+
+/-- **Centralizer order of a parabolic element** is `q(q−1)` (public form of
+`centralizerCard_parabolic`). -/
+theorem centralizerCard_isParabolic {g : GL2' p n} (hg : GL2.IsParabolic g) :
+    Nat.card (Subgroup.centralizer ({g} : Set (GL2' p n)))
+      = Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) :=
+  centralizerCard_parabolic hg
+
+/-- **Centralizer order of a split-semisimple element** is `(q−1)²` (public form of
+`centralizerCard_splitSemisimple`); the centralizer is the diagonal torus. -/
+theorem centralizerCard_isSplitSemisimple (hp2 : p ≠ 2) {g : GL2' p n}
+    (hg : GL2.IsSplitSemisimple g) :
+    Nat.card (Subgroup.centralizer ({g} : Set (GL2' p n)))
+      = (Fintype.card (GaloisField p n) - 1) ^ 2 :=
+  centralizerCard_splitSemisimple hp2 hg
+
+/-- **Centralizer order of an elliptic element** is `q² − 1` (public form of
+`centralizerCard_elliptic`); the centralizer is the nonsplit torus `𝔽_{q²}^×`. -/
+theorem centralizerCard_isElliptic {g : GL2' p n} (hg : GL2.IsElliptic g) :
+    Nat.card (Subgroup.centralizer ({g} : Set (GL2' p n)))
+      = Fintype.card (GaloisField p n) ^ 2 - 1 :=
+  centralizerCard_elliptic hg
+
+/-- `q = pⁿ ≥ 2` when `n ≠ 0`. -/
+private lemma card_ge_two (hn : n ≠ 0) : 2 ≤ Fintype.card (GaloisField p n) := by
+  rw [Fintype.card_eq_nat_card, GaloisField.card p n hn]
+  calc 2 ≤ p := hp.out.two_le
+    _ = p ^ 1 := (pow_one p).symm
+    _ ≤ p ^ n := Nat.pow_le_pow_right (by have := hp.out.two_le; omega)
+      (Nat.one_le_iff_ne_zero.mpr hn)
+
+/-- `q ^ 2 − q = q (q − 1)`. -/
+private lemma sq_sub_self (q : ℕ) : q ^ 2 - q = q * (q - 1) := by
+  cases q with
+  | zero => rfl
+  | succ k =>
+    simp only [Nat.succ_sub_one]
+    have : (k + 1) ^ 2 = (k + 1) * k + (k + 1) := by ring
+    omega
+
+/-- **Class size of a scalar element** is `1`: a scalar matrix is central, so its
+conjugacy class is a singleton. -/
+theorem classCard_isScalar {g : GL2' p n} (hg : GL2.IsScalar g) :
+    Nat.card (MulAction.orbit (ConjAct (GL2' p n)) g) = 1 := by
+  have hmul := orbit_card_mul_centralizerCard g
+  rw [centralizerCard_isScalar hg, ← card_GL2_eq] at hmul
+  exact Nat.eq_of_mul_eq_mul_right Fintype.card_pos (by rw [one_mul]; exact hmul)
+
+/-- **Class size of a parabolic element** is `q² − 1`. -/
+theorem classCard_isParabolic (hn : n ≠ 0) {g : GL2' p n} (hg : GL2.IsParabolic g) :
+    Nat.card (MulAction.orbit (ConjAct (GL2' p n)) g)
+      = Fintype.card (GaloisField p n) ^ 2 - 1 := by
+  have hq2 := card_ge_two (p := p) (n := n) hn
+  have hmul := orbit_card_mul_centralizerCard g
+  rw [centralizerCard_isParabolic hg, card_GL2_eq,
+    sq_sub_self (Fintype.card (GaloisField p n))] at hmul
+  have hpos : 0 < Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) :=
+    Nat.mul_pos (by omega) (by omega)
+  exact Nat.eq_of_mul_eq_mul_right hpos hmul
+
+/-- **Class size of a split-semisimple element** is `q² + q = q(q+1)`. -/
+theorem classCard_isSplitSemisimple (hp2 : p ≠ 2) (hn : n ≠ 0) {g : GL2' p n}
+    (hg : GL2.IsSplitSemisimple g) :
+    Nat.card (MulAction.orbit (ConjAct (GL2' p n)) g)
+      = Fintype.card (GaloisField p n) ^ 2 + Fintype.card (GaloisField p n) := by
+  have hq2 := card_ge_two (p := p) (n := n) hn
+  have hmul := orbit_card_mul_centralizerCard g
+  rw [centralizerCard_isSplitSemisimple hp2 hg, card_GL2_eq] at hmul
+  have hpos : 0 < (Fintype.card (GaloisField p n) - 1) ^ 2 := pow_pos (by omega) 2
+  apply Nat.eq_of_mul_eq_mul_right hpos
+  rw [hmul]
+  -- `(q²−1)(q²−q) = (q²+q)(q−1)²`
+  obtain ⟨k, hk⟩ :=
+    Nat.exists_eq_succ_of_ne_zero (show Fintype.card (GaloisField p n) ≠ 0 by omega)
+  rw [hk]; simp only [Nat.succ_sub_one, Nat.add_sub_cancel, Nat.succ_eq_add_one]
+  have h1 : (k + 1) ^ 2 - 1 = k ^ 2 + 2 * k := by
+    have : (k + 1) ^ 2 = k ^ 2 + 2 * k + 1 := by ring
+    omega
+  have h2 : (k + 1) ^ 2 - (k + 1) = (k + 1) * k := by
+    have : (k + 1) ^ 2 = (k + 1) * k + (k + 1) := by ring
+    omega
+  rw [h1, h2]; ring
+
+/-- **Class size of an elliptic element** is `q² − q = q(q−1)`. -/
+theorem classCard_isElliptic (hn : n ≠ 0) {g : GL2' p n} (hg : GL2.IsElliptic g) :
+    Nat.card (MulAction.orbit (ConjAct (GL2' p n)) g)
+      = Fintype.card (GaloisField p n) ^ 2 - Fintype.card (GaloisField p n) := by
+  have hq2 := card_ge_two (p := p) (n := n) hn
+  have hmul := orbit_card_mul_centralizerCard g
+  rw [centralizerCard_isElliptic hg, card_GL2_eq] at hmul
+  have hq4 : 4 ≤ Fintype.card (GaloisField p n) ^ 2 := by nlinarith [hq2]
+  have hpos : 0 < Fintype.card (GaloisField p n) ^ 2 - 1 := by omega
+  apply Nat.eq_of_mul_eq_mul_right hpos
+  rw [hmul, mul_comm]
+
 end Counts
 
 end GL2
