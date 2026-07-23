@@ -1605,4 +1605,193 @@ theorem Vrep_tprod_Vrep_equiv_rhsRep {K : Type} [Field K] [Fintype K] [Decidable
   rw [Representation.char_tensor, Pi.mul_apply, rhsRep_character hK g,
     ← Vrep_tprod_Vrep_decomp_character hK g, sq]
 
+/-! ## The exceptional field `q = 2`
+
+For `q = 2` the group `Kˣ` is trivial, so `G = Affine K` is the abelian group `C₂` of order `2`
+(the unique nontrivial element is the translation `⟨1, 1⟩`). All the isomorphism-level classification
+and tensor endpoints above assume `3 ≤ q`, because for `q = 2` the count of one-dimensional
+characters is `2`, not `q - 1 = 1`, and the `(q-1)`-dimensional zero-sum representation `V` is
+itself one-dimensional (it coincides with the sign character). We record the complete answer in
+this exceptional case, then package a uniform "every finite field" classification.
+
+The cornerstone is a general fact with **no** field-size hypothesis: any one-dimensional
+representation of `G` is isomorphic to a character representation `charRep χ`. -/
+
+/-- **Any one-dimensional representation is a character representation.** For a one-dimensional
+complex representation `σ` of the affine group, there is a character `χ : G →* ℂˣ` with
+`σ ≅ charRep χ`: choosing a linear isomorphism `e : W ≃ₗ[ℂ] ℂ`, every `σ g` becomes multiplication
+by the scalar `c g = e (σ g (e.symm 1))`, and `g ↦ c g` is a homomorphism into `ℂˣ`.
+
+This carries no `3 ≤ q` hypothesis, so it applies uniformly to every finite field; it is the tool
+that classifies the `q = 2` irreducibles (all of which are one-dimensional). -/
+theorem exists_charRep_equiv_of_finrank_one
+    {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+    (σ : Representation ℂ (Affine K) W) (hdim : Module.finrank ℂ W = 1) :
+    ∃ χ : Affine K →* ℂˣ, Nonempty (σ.Equiv (charRep χ)) := by
+  classical
+  -- A linear isomorphism `e : W ≃ₗ[ℂ] ℂ` from the one-dimensional space `W`.
+  let e : W ≃ₗ[ℂ] ℂ := (Module.nonempty_linearEquiv_of_finrank_eq_one hdim).some.symm
+  -- The scalar by which `σ g` acts, read through `e`.
+  let c : Affine K → ℂ := fun g => e (σ g (e.symm 1))
+  have hcdef : ∀ g, c g = e (σ g (e.symm 1)) := fun _ => rfl
+  -- `e` conjugates `σ g` into multiplication by `c g`.
+  have hkey : ∀ (g : Affine K) (x : W), e (σ g x) = c g * e x := by
+    intro g x
+    have hx : (e x) • e.symm (1 : ℂ) = x := by
+      rw [← map_smul, smul_eq_mul, mul_one, e.symm_apply_apply]
+    rw [hcdef]
+    calc e (σ g x) = e (σ g ((e x) • e.symm 1)) := by rw [hx]
+      _ = (e x) • e (σ g (e.symm 1)) := by simp only [map_smul]
+      _ = e (σ g (e.symm 1)) * e x := by rw [smul_eq_mul, mul_comm]
+  -- `c` is a monoid homomorphism into `ℂ`, landing in the units.
+  have hc1 : c 1 = 1 := by
+    have hσ1 : σ (1 : Affine K) = 1 := map_one σ
+    rw [hcdef, hσ1]
+    simp only [Module.End.one_apply, LinearEquiv.apply_symm_apply]
+  have hcmul : ∀ g h : Affine K, c (g * h) = c g * c h := by
+    intro g h
+    have hmul : σ (g * h) = σ g * σ h := map_mul σ g h
+    rw [hcdef, hmul, Module.End.mul_apply, hkey g (σ h (e.symm 1)), ← hcdef h]
+  have hcne : ∀ g : Affine K, c g ≠ 0 := by
+    intro g hg0
+    have h1 : c g * c g⁻¹ = 1 := by rw [← hcmul, mul_inv_cancel, hc1]
+    rw [hg0, zero_mul] at h1
+    exact zero_ne_one h1
+  -- Package the scalars as a character `χ : G →* ℂˣ`.
+  let χ : Affine K →* ℂˣ :=
+    { toFun := fun g => Units.mk0 (c g) (hcne g)
+      map_one' := by ext; simpa only [Units.val_mk0, Units.val_one] using hc1
+      map_mul' := fun g h => by ext; simpa only [Units.val_mk0, Units.val_mul] using hcmul g h }
+  have hχval : ∀ g, ((χ g : ℂˣ) : ℂ) = c g := fun _ => rfl
+  refine ⟨χ, ⟨Representation.Equiv.mk e (fun g => ?_)⟩⟩
+  ext x
+  simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply]
+  rw [hkey g x]
+  show c g * e x = ((χ g : ℂˣ) : ℂ) • (e x)
+  rw [hχval, smul_eq_mul]
+
+/-- For `q = 2` every element of the affine group squares to the identity: `Kˣ` is trivial so
+`g = ⟨1, b⟩`, and `⟨1, b⟩² = ⟨1, 2b⟩ = ⟨1, 0⟩ = 1` because `char K = 2`. Hence `G ≅ C₂`. -/
+theorem Affine.sq_eq_one_of_card_two [Fintype K] [DecidableEq K]
+    (hq2 : Fintype.card K = 2) (g : Affine K) : g * g = 1 := by
+  classical
+  haveI : Subsingleton Kˣ :=
+    Fintype.card_le_one_iff_subsingleton.mp (by rw [Fintype.card_units, hq2])
+  have hga : g.a = 1 := Subsingleton.elim _ _
+  -- In a two-element field `1 + 1 = 0`: the only elements are `0` and the unique unit `1`.
+  have h11 : (1 : K) + 1 = 0 := by
+    rcases eq_or_ne ((1 : K) + 1) 0 with h | h
+    · exact h
+    · exfalso
+      have hunit : IsUnit ((1 : K) + 1) := isUnit_iff_ne_zero.mpr h
+      obtain ⟨u, hu⟩ := hunit
+      have hu1 : ((1 : K) + 1) = 1 := by
+        rw [← hu, Subsingleton.elim u 1, Units.val_one]
+      have : (1 : K) = 0 := by
+        have := add_left_cancel (a := (1 : K)) (show (1 : K) + 1 = 1 + 0 by rw [add_zero]; exact hu1)
+        exact this
+      exact one_ne_zero this
+  ext
+  · simp [mul_a, hga]
+  · have hbb : g.b + g.b = 0 := by
+      have : g.b + g.b = (1 + 1) * g.b := by ring
+      rw [this, h11, zero_mul]
+    simp only [mul_b, mul_a, hga, Units.val_one, one_mul, one_b]
+    exact hbb
+
+/-- **Number of irreducibles for `q = 2`.** The affine group over the two-element field is `C₂`,
+so it has exactly `2` one-dimensional characters (equivalently, `2` irreducible representations,
+all one-dimensional). -/
+theorem q2_card_characters [Fintype K] [DecidableEq K] (hq2 : Fintype.card K = 2) :
+    Nat.card (Affine K →* ℂˣ) = 2 := by
+  classical
+  haveI : Subsingleton Kˣ :=
+    Fintype.card_le_one_iff_subsingleton.mp (by rw [Fintype.card_units, hq2])
+  letI grp : Group (Affine K) := inferInstance
+  letI : CommGroup (Affine K) :=
+    { grp with
+      mul_comm := by
+        intro x y
+        have hxa : x.a = 1 := Subsingleton.elim _ _
+        have hya : y.a = 1 := Subsingleton.elim _ _
+        ext
+        · simp [hxa, hya]
+        · simp only [mul_b, hxa, hya, Units.val_one, one_mul]; ring }
+  haveI : NeZero ((Monoid.exponent (Affine K) : ℕ) : ℂ) :=
+    ⟨by exact_mod_cast Monoid.exponent_ne_zero_of_finite⟩
+  rw [CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity (Affine K) ℂ,
+    Nat.card_eq_fintype_card, card_eq, hq2]
+
+/-- **Classification for `q = 2`.** Every irreducible complex representation of the affine group
+over the two-element field is one-dimensional, hence isomorphic to a character `charRep χ`. -/
+theorem q2_irreducible_isCharRep [Fintype K] [DecidableEq K] (hq2 : Fintype.card K = 2)
+    {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+    (σ : Representation ℂ (Affine K) W)
+    (hσ : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) σ.asModule) :
+    ∃ χ : Affine K →* ℂˣ, Nonempty (σ.Equiv (charRep χ)) := by
+  have hdim : Module.finrank ℂ W = 1 := by
+    rcases irreducible_dim σ hσ with h | h
+    · exact h
+    · rw [h, hq2]
+  exact exists_charRep_equiv_of_finrank_one σ hdim
+
+/-- **The zero-sum representation `V` is a character for `q = 2`.** Over the two-element field
+`V` is one-dimensional (dimension `q - 1 = 1`), so it is isomorphic to a character `charRep χ`
+(the sign character). -/
+theorem q2_Vrep_isCharRep [Fintype K] [DecidableEq K] (hq2 : Fintype.card K = 2) :
+    ∃ χ : Affine K →* ℂˣ, Nonempty ((Vsub (K := K)).toRepresentation.Equiv (charRep χ)) :=
+  exists_charRep_equiv_of_finrank_one _
+    (by show Module.finrank ℂ ↥(zeroSum K) = 1; rw [zeroSum_finrank, hq2])
+
+/-- **Character values for `q = 2`.** Any character `χ : G →* ℂˣ` sends the identity to `1` and
+the unique nontrivial element `⟨1, 1⟩` to a square root of unity, so `χ ⟨1,1⟩ ∈ {1, -1}`. The
+value `1` gives the trivial representation, the value `-1` the sign representation `V`; these are
+the two irreducible characters. -/
+theorem q2_char_values [Fintype K] [DecidableEq K] (hq2 : Fintype.card K = 2)
+    (χ : Affine K →* ℂˣ) :
+    χ (1 : Affine K) = 1 ∧ (χ (⟨1, 1⟩ : Affine K) = 1 ∨ χ (⟨1, 1⟩ : Affine K) = -1) := by
+  refine ⟨map_one χ, ?_⟩
+  set x := χ (⟨1, 1⟩ : Affine K) with hxdef
+  have hsq : x * x = 1 := by
+    rw [hxdef, ← map_mul, Affine.sq_eq_one_of_card_two hq2, map_one]
+  -- `x² = 1` in `ℂˣ` forces `x = 1` or `x = -1` (work through the underlying field `ℂ`).
+  have hsqc : ((x : ℂˣ) : ℂ) * ((x : ℂˣ) : ℂ) = 1 := by
+    rw [← Units.val_mul, hsq, Units.val_one]
+  rcases mul_self_eq_one_iff.mp hsqc with h | h
+  · exact Or.inl (Units.ext (by rw [h, Units.val_one]))
+  · exact Or.inr (Units.ext (by rw [h, Units.val_neg, Units.val_one]))
+
+/-- **`V ⊗ V ≅ trivial` and the `C₂` tensor table for `q = 2`.** Over the two-element field every
+element squares to `1`, so every character satisfies `χ · χ = 1`; hence the tensor square of any
+one-dimensional irreducible is the trivial representation `charRep 1`. Combined with
+`tprodCharRepEquivCharRepMul`, this is the full `C₂` tensor table: `χ ⊗ χ' ≅ charRep (χ·χ')`, with
+`sign ⊗ sign ≅ trivial`. -/
+theorem q2_charRep_tprod_self_equiv_trivial [Fintype K] [DecidableEq K] (hq2 : Fintype.card K = 2)
+    (χ : Affine K →* ℂˣ) :
+    Nonempty ((Representation.tprod (charRep χ) (charRep χ)).Equiv (charRep 1)) := by
+  have hsq : χ * χ = 1 := by
+    ext g
+    have hgg : g * g = 1 := Affine.sq_eq_one_of_card_two hq2 g
+    have hval : (χ g) * (χ g) = 1 := by rw [← map_mul, hgg, map_one]
+    simpa only [MonoidHom.mul_apply, MonoidHom.one_apply, Units.val_mul, Units.val_one]
+      using congrArg Units.val hval
+  exact ⟨hsq ▸ tprodCharRepEquivCharRepMul χ χ⟩
+
+/-- **Full classification over every finite field (Problem 4.12.6).** Without any `3 ≤ q`
+restriction, every irreducible complex representation of the affine group `x ↦ ax + b` over `𝔽_q`
+is isomorphic either to one of the one-dimensional characters `charRep χ`, or to the zero-sum
+representation `V`. For `q ≥ 3` this is `irreducible_classification`; for `q = 2` the zero-sum `V`
+is itself a character, and every irreducible falls in the first case. -/
+theorem irreducible_classification_all [Fintype K] [DecidableEq K]
+    {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+    (σ : Representation ℂ (Affine K) W)
+    (hσ : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) σ.asModule) :
+    (∃ χ : Affine K →* ℂˣ, Nonempty (σ.Equiv (charRep χ))) ∨
+      Nonempty (σ.Equiv (Vsub (K := K)).toRepresentation) := by
+  by_cases hq2 : Fintype.card K = 2
+  · exact Or.inl (q2_irreducible_isCharRep hq2 σ hσ)
+  · have hK : 3 ≤ Fintype.card K := by
+      have := Fintype.one_lt_card (α := K); omega
+    exact irreducible_classification hK σ hσ
+
 end Etingof.Problem4_12_6
