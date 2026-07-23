@@ -10,6 +10,15 @@ import EtingofRepresentationTheory.Chapter5.RightTranslationHullDecomp
 import EtingofRepresentationTheory.Chapter5.RealizationCoreAnalytic
 import EtingofRepresentationTheory.Chapter5.SchurModuleContragredientHalf
 
+-- These mirror the lakefile's project-wide `[leanOptions]` so the module also
+-- type-checks under a bare `lake env lean` fresh check (which does not read
+-- lakefile options). `maxSynthPendingDepth 3` clears the deep Schur-module
+-- `asModule`/instance chains; `backward.isDefEq.respectTransparency false`
+-- restores the pre-v4.29 full-transparency `isDefEq` the `charTwistRep`/Schur
+-- carrier defeqs rely on.
+set_option maxSynthPendingDepth 3
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Theorem 5.23.2(ii): the `GL_n × GL_n`-equivariant Peter-Weyl decomposition
 

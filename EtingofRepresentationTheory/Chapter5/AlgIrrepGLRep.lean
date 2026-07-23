@@ -3,6 +3,15 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_23_2Core
 import EtingofRepresentationTheory.Chapter5.KernelLemmaKPrime
 import EtingofRepresentationTheory.Chapter5.SchurModuleSimple
 
+-- These mirror the lakefile's project-wide `[leanOptions]` so the module also
+-- type-checks under a bare `lake env lean` fresh check (which does not read
+-- lakefile options). `maxSynthPendingDepth 3` clears the deep Schur-module
+-- `asModule`/instance chains; `backward.isDefEq.respectTransparency false`
+-- restores the pre-v4.29 full-transparency `isDefEq` the `charTwistRep`/Schur
+-- carrier defeqs rely on.
+set_option maxSynthPendingDepth 3
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # `AlgIrrepGLRep`: the `GL_N(k)`-representation structure on `AlgIrrepGL`
 
