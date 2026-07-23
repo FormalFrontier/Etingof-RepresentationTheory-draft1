@@ -1307,6 +1307,16 @@ Euler characteristics) repeatedly needs `finrank k (M →ₗ[A] N)`. Useful fact
 | Linear algebra | `ext`, `simp [LinearMap...]` | `apply LinearMap.ext` |
 | Module homomorphisms | `ext`, `simp` | manual composition |
 
+### `rw [ZMod.natCast_self]` fails to match `↑n` in `ZMod n` — use `CharP.cast_eq_zero` (#7508)
+
+Proving `q² ≡ 1 (mod q²−1)` (Discussion 5.25.4), the step `rw […, ZMod.natCast_self, …]`
+regressed with `Tactic rewrite failed: Did not find an occurrence of the pattern ↑?n` on the
+goal `↑(q²−1) + 1 = 1` — even though `↑(q²−1) : ZMod (q²−1)` is visibly a nat-cast of the
+modulus. `ZMod.natCast_self`'s `↑?n` LHS no longer unifies against the `ZMod` `NatCast`
+instance during `rw`. **Fix: rewrite with `CharP.cast_eq_zero` instead** (`(↑p : R) = 0`
+given `[CharP R p]`), which matches through the `CharP (ZMod n) n` instance. One-token swap;
+watch for this across the ZMod/modular-arithmetic "restore fresh-buildable" issues.
+
 ### Enumerating a concrete finite group over `ZMod n` (`QuaternionGroup`, `DihedralGroup`, …) — #6068
 
 Case-splitting a `ZMod n` index (e.g. proving a per-element fact for all of `QuaternionGroup 2`)
