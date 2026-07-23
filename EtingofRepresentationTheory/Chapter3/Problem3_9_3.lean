@@ -126,7 +126,8 @@ theorem irreducible_isSimpleRep [DecidableEq Q] [Finite Q]
     (hρ : IsIrreducible ρ) :
     ∃ i : Q, Nonempty (QuiverRepresentationEquiv k Q ρ (simpleRep i)) := by
   -- Each carrier is an `AddCommGroup` (over a field), needed for `finrank`/simple-module API.
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun _ => Etingof.Problem6_9_3.acg (k := k)
+  -- The group structure is supplied per carrier as a class-headed local instance where needed
+  -- (a `∀ v`-typed `letI` is not class-headed and so is ignored by instance synthesis).
   obtain ⟨hne, hdich⟩ := hρ
   -- The arrow relation is well-founded: a cycle would give a nontrivial path `i ⟶ i`.
   have hwf : WellFounded (fun a b : Q => Nonempty (a ⟶ b)) := by
@@ -182,11 +183,9 @@ theorem irreducible_isSimpleRep [DecidableEq Q] [Finite Q]
           rw [hWval b, iSup_eq_bot]
           rintro ⟨a, e⟩
           have hsubA : Subsingleton (ρ.obj a) := subsingleton_of_bot_eq_top (IH a ⟨e⟩).symm
-          have hmap : ρ.mapLinear e = 0 := by
-            haveI := hsubA
-            exact LinearMap.ext fun x => by
-              have hx : x = 0 := Subsingleton.elim _ _
-              subst hx; simp
+          have hmap : ρ.mapLinear e = 0 :=
+            LinearMap.ext fun x => by
+              rw [Subsingleton.elim x 0, map_zero, LinearMap.zero_apply]
           rw [hmap, LinearMap.range_zero]
         exact (htop b).symm.trans hWb
       obtain ⟨v₀, hv₀⟩ := hne
@@ -197,6 +196,11 @@ theorem irreducible_isSimpleRep [DecidableEq Q] [Finite Q]
   -- Step B: `ρ` is concentrated at a single nontrivial vertex `v₀`.
   obtain ⟨v₀, hv₀⟩ := hne
   haveI : Nontrivial (ρ.obj v₀) := hv₀
+  -- Supply the `AddCommGroup` on this carrier (needed for the simple-module/`finrank` API) as a
+  -- class-headed local instance. Use Mathlib's `Module.addCommMonoidToAddCommGroup`, whose
+  -- `toAddCommMonoid` is defeq to the bundled `AddCommMonoid`, so the bundled `Module k` instance
+  -- is still found; use `letI` (not `haveI`) so that reduction stays visible to instance synthesis.
+  letI : AddCommGroup (ρ.obj v₀) := Module.addCommMonoidToAddCommGroup k
   -- Vertices `v ≠ v₀` carry the trivial space.
   have hconc : ∀ v, v ≠ v₀ → Subsingleton (ρ.obj v) := by
     intro v hv
@@ -238,6 +242,7 @@ theorem irreducible_isSimpleRep [DecidableEq Q] [Finite Q]
     intro v
     by_cases h : v = v₀
     · subst h
+      letI : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
       haveI : Module.Finite k (ρ.obj v) := by
         obtain ⟨x, hx⟩ := exists_ne (0 : ρ.obj v)
         exact Module.Finite.of_surjective (LinearMap.toSpanSingleton k (ρ.obj v) x)
@@ -269,11 +274,13 @@ theorem ext1_simpleRep_vanishes_iff [DecidableEq Q] (i j : Q) :
   -- and the codomain component at an arrow `a ⟶ b` is `Hom(S_i(a), S_j(b))`, which is nonzero
   -- exactly when `a = i` and `b = j`, i.e. when there is an arrow `i → j`.
   have hzero : Etingof.Problem6_9_3.extDiff (simpleRep (k := k) i) (simpleRep j) = fun _ => 0 := by
-    letI : ∀ v, AddCommGroup ((simpleRep (k := k) j).obj v) :=
-      fun _ => Etingof.Problem6_9_3.acg (k := k)
     funext f p
-    simp only [Etingof.Problem6_9_3.extDiff, simpleRep, LinearMap.zero_comp, LinearMap.comp_zero,
-      Pi.zero_apply]
+    -- The subtraction in `extDiff` uses the `acg` group on the shared codomain; supply it here as a
+    -- per-carrier (class-headed) local instance so `sub_self` sees the matching `AddGroup`.
+    letI : AddCommGroup ((simpleRep (k := k) j).obj p.2.1) := Etingof.Problem6_9_3.acg (k := k)
+    show (simpleRep (k := k) j).mapLinear p.2.2 ∘ₗ f p.1
+        - f p.2.1 ∘ₗ (simpleRep (k := k) i).mapLinear p.2.2 = 0
+    simp only [simpleRep, LinearMap.zero_comp, LinearMap.comp_zero]
     exact sub_self (0 : (simpleRep (k := k) i).obj p.1 →ₗ[k] (simpleRep (k := k) j).obj p.2.1)
   rw [Ext1Vanishes, hzero]
   constructor
@@ -337,31 +344,40 @@ differential is the zero map. Hence `Ext¹(S_i, S_j)` is isomorphic to its whole
 `⨁_{a : i→j} Hom((S_i)_a, (S_j)_b)`, whose only nonzero components are the `Hom(k, k) ≅ k` at
 arrows `i → j`, giving `dim Ext¹(S_i, S_j) = #(i ⟶ j)`. -/
 
-/-- The `Fin _ → k` carriers of the vertex simples carry an `AddCommGroup` (compatibly with the
-bundled `AddCommMonoid`, since both are the `Pi` instances). Registering this — at low priority,
-so the bundled `AddCommMonoid` stays preferred elsewhere — lets us form the cokernel
-`Ext¹(S_i, S_j)` as a genuine `k`-module and take its `finrank`. -/
-instance (priority := 100) simpleRep_obj_addCommGroup [DecidableEq Q] (j v : Q) :
-    AddCommGroup ((simpleRep (k := k) j).obj v) := by
-  change AddCommGroup (Fin (if v = j then 1 else 0) → k); infer_instance
-
 /-- The Ext differential `d(f)_a = W_a ∘ f_i - f_j ∘ V_a` as a genuine `k`-linear map. This is
 the linear upgrade of the bare function `Etingof.Problem6_9_3.extDiff`; the subtraction uses the
 `AddCommGroup` structure `Etingof.Problem6_9_3.acg` (which extends the bundled `AddCommMonoid` on
 each `W.obj v`). Its cokernel is `Ext¹(V, W)`. -/
 noncomputable def extDiffₗ (V W : QuiverRepresentation k Q) :
     (∀ i, V.obj i →ₗ[k] W.obj i) →ₗ[k]
-      (∀ p : (Σ i j, (i ⟶ j)), V.obj p.1 →ₗ[k] W.obj p.2.1) :=
-  letI : ∀ v, AddCommGroup (W.obj v) := fun _ => Etingof.Problem6_9_3.acg (k := k)
-  { toFun := fun f p => W.mapLinear p.2.2 ∘ₗ f p.1 - f p.2.1 ∘ₗ V.mapLinear p.2.2
-    map_add' := fun f g => by
-      funext p
-      simp only [Pi.add_apply, LinearMap.comp_add, LinearMap.add_comp]
-      abel
-    map_smul' := fun c f => by
-      funext p
-      simp only [Pi.smul_apply, RingHom.id_apply, LinearMap.comp_smul, LinearMap.smul_comp,
-        smul_sub] }
+      (∀ p : (Σ i j, (i ⟶ j)), V.obj p.1 →ₗ[k] W.obj p.2.1) where
+  -- The subtraction needs `AddCommGroup (W.obj p.2.1)` on the shared codomain. Supply it per `p`
+  -- as a class-headed local instance (a `∀ v`-typed `letI` is not class-headed, so it is ignored by
+  -- instance synthesis); `acg` is `@[reducible]`, so `Module k` over the bundled `AddCommMonoid`
+  -- is still found.
+  toFun f p :=
+    letI : AddCommGroup (W.obj p.2.1) := Etingof.Problem6_9_3.acg (k := k)
+    W.mapLinear p.2.2 ∘ₗ f p.1 - f p.2.1 ∘ₗ V.mapLinear p.2.2
+  map_add' f g := by
+    funext p
+    letI : AddCommGroup (W.obj p.2.1) := Etingof.Problem6_9_3.acg (k := k)
+    simp only [Pi.add_apply, LinearMap.comp_add, LinearMap.add_comp]
+    abel
+  map_smul' c f := by
+    funext p
+    letI : AddCommGroup (W.obj p.2.1) := Etingof.Problem6_9_3.acg (k := k)
+    simp only [Pi.smul_apply, RingHom.id_apply, LinearMap.comp_smul, LinearMap.smul_comp,
+      smul_sub]
+
+/-- The `Fin _ → k` carriers of the vertex simples carry an `AddCommGroup`, built from the bundled
+`AddCommMonoid` via `Module.addCommMonoidToAddCommGroup` so that its `toAddCommMonoid` is *defeq* to
+the bundled one (hence the bundled `Module k` is still found, and `LinearMap.addCommGroup` applies
+to the Hom carriers). Registered at low priority so the bundled `AddCommMonoid` stays preferred
+elsewhere. This supplies the group structure needed to form the cokernel `Ext¹(S_i, S_j)` as a
+genuine `k`-module and take its `finrank`. -/
+instance (priority := 100) simpleRep_obj_addCommGroup [DecidableEq Q] (j v : Q) :
+    AddCommGroup ((simpleRep (k := k) j).obj v) :=
+  Module.addCommMonoidToAddCommGroup k
 
 /-- `Ext¹(S_i, S_j)` for two vertex simples, as the cokernel of the Ext differential. Since both
 simples have all arrow maps zero, this differential is the zero map (`extDiffₗ_simpleRep_eq_zero`)
@@ -375,9 +391,9 @@ abbrev Ext1Simple [DecidableEq Q] (i j : Q) : Type _ :=
 linear map. -/
 theorem extDiffₗ_simpleRep_eq_zero [DecidableEq Q] (i j : Q) :
     extDiffₗ (simpleRep (k := k) i) (simpleRep j) = 0 := by
-  letI : ∀ v, AddCommGroup ((simpleRep (k := k) j).obj v) :=
-    fun _ => Etingof.Problem6_9_3.acg (k := k)
   refine LinearMap.ext fun f => funext fun p => ?_
+  -- Match the `acg` group baked into `extDiffₗ`'s subtraction with a per-carrier local instance.
+  letI : AddCommGroup ((simpleRep (k := k) j).obj p.2.1) := Etingof.Problem6_9_3.acg (k := k)
   show (simpleRep (k := k) j).mapLinear p.2.2 ∘ₗ f p.1
       - f p.2.1 ∘ₗ (simpleRep (k := k) i).mapLinear p.2.2 = 0
   simp only [simpleRep, LinearMap.zero_comp, LinearMap.comp_zero]
