@@ -3443,9 +3443,11 @@
     "start_line": 3,
     "end_line": 4,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "sorry_free": true,
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_note": "The invariant Hermitian action is encoded, but the source-facing structure omits the definition's finite-dimensionality requirement on V and therefore admits a strictly broader class; follow-up #7488.",
+    "fidelity_issue": 7488,
     "last_updated": "2026-07-22"
   },
   {
