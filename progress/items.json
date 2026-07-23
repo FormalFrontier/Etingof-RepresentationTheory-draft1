@@ -393,7 +393,10 @@
     "end_line": 23,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The public Submodule A V abbreviation exactly records an A-stable subspace/subrepresentation.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Definition2.3.5",
@@ -405,7 +408,10 @@
     "end_line": 1,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "IsSimpleModule A V records the source's nonzero representation with no proper nonzero subrepresentation.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Definition2.3.6",
@@ -417,7 +423,10 @@
     "end_line": 8,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "A-linear maps are exactly the intertwining operators in the source; the standard LinearEquiv API supplies inverses for isomorphisms.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Definition2.3.7",
@@ -429,7 +438,10 @@
     "end_line": 9,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The product module V₁ × V₂ gives the finite direct sum with the source's componentwise action.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Definition2.3.8",
@@ -826,7 +838,10 @@
     "end_line": 21,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "FaithfulSMul A V exactly says the action hom is injective, matching a faithful representation.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Discussion_faithful_example",
@@ -888,7 +903,10 @@
     "end_line": 24,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Mathlib's Quiver records vertices and a type of directed edges for every ordered pair, including loops and multiple arrows.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Example2.8.2",
@@ -928,7 +946,10 @@
     "end_line": 35,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Etingof.QuiverRepresentation records a vector space at every vertex and a linear map for every arrow.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Discussion_path_algebra_intro",
@@ -954,7 +975,10 @@
     "end_line": 4,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The public path algebra is the free module on paths with concatenation-or-zero multiplication; associativity and the finite-vertex unit are proved, with the source's opposite product convention documented.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Remark2.8.5",
@@ -1022,7 +1046,10 @@
     "end_line": 9,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "QuiverSubrepresentation records vertexwise submodules stable under every arrow; the restricted arrow maps are canonically determined.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Definition2.8.9",
@@ -1061,7 +1088,10 @@
     "end_line": 14,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "QuiverRepresentationHom records vertexwise linear maps satisfying the source's commutative-arrow squares.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Problem2.8.11",
@@ -1222,7 +1252,10 @@
     "end_line": 9,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "LieHom is the source's linear bracket-preserving homomorphism of Lie algebras.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Definition2.9.7",
@@ -1234,7 +1267,10 @@
     "end_line": 10,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "LieModule k L V is the standard action-map formulation of a representation of the Lie algebra L.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Example2.9.8",
@@ -1416,7 +1452,10 @@
     "end_line": 22,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "TensorProduct k V W supplies the source quotient construction through its universal property and canonical pure-tensor map.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Exercise2.11.2",
