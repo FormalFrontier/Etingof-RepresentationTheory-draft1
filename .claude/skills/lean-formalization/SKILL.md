@@ -217,6 +217,18 @@ proof, `Equiv.sumCompl (fun g => orderOf g = 5)` gives a hypothesis mentioning
 rw [he]`, so both sides share one atom. Cost one build cycle in `simpleGroup_card60_exists_index_five`
 (#6982, `Chapter4/Problem4_12_8.lean`).
 
+**Adding a heavy import to a foundational *definition* file can break a *downstream* file by
+slowing generic typeclass search past its heartbeat budget.** Hit in #7443: adding
+`import Mathlib.Algebra.Category.ModuleCat.Projective` to `Chapter9/Definition9_6_2.lean` (to state
+a `ModuleCat` example) pulled its `Projective` instances transitively into `Theorem9_6_4.lean`,
+where a pre-existing `inferInstance`-style `Projective P` search on a *generic* object then
+timed out at 20000 heartbeats — even though nothing in that file changed. Diagnose by rebuilding
+the failing file on a clean baseline (`git stash` your edits, `lake build <Module>`); if it passes,
+your import is the cause. **Fix:** keep foundational definition files' imports minimal and put the
+heavy-import example/instance in its own separate file that imports both the definition and the
+heavy module. Where a proof already holds the structure, grab the parent field directly
+(`hp.toProjective`) instead of `inferInstance` to sidestep the slow search entirely.
+
 **Heavy category-theory objects (total complexes / coproducts) make `isDefEq`, `whnf`, and
 typeclass search blow up — unfold *one step short* and finish by hand.** Cost real iterations in
 #6683 (`Chapter8/ExternalTensorResolution.lean`, `Projective ((mapBifunctor …).total.X n)`). Two
