@@ -1898,13 +1898,12 @@
     "end_page": "43",
     "start_line": 13,
     "end_line": 13,
-    "status": "partially_proved",
-    "sorry_free": false,
-    "notes": "The file constructs the correct evaluation map and canonical-equivalence API, but currently fails to elaborate in evalDirectSum_injective, so evalDirectSumEquiv cannot be imported; regression #7502.",
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "fidelity_issue": 7502,
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "sorry_free": true,
+    "notes": "The file constructs the correct evaluation map and canonical-equivalence API; evalDirectSum_injective, evalDirectSum_surjective, and the public evalDirectSumEquiv all elaborate and import cleanly (regression #7502 fixed).",
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter3/Discussion_before_Proposition3.1.4",
