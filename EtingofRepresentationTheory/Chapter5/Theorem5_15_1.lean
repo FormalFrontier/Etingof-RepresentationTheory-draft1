@@ -153,9 +153,9 @@ noncomputable instance spechtModuleFDRep_simple (n : ℕ) (la : Nat.Partition n)
       simp [spechtModuleRep, spechtModuleAction]
       rfl
     | hadd x y hx hy =>
-      rw [add_smul, hx, hy, add_smul]; exact rfl
+      rw [add_smul, hx, hy, add_smul]
     | hsmul r x hx =>
-      rw [smul_assoc, hx, smul_assoc]; exact rfl
+      rw [smul_assoc, hx, smul_assoc]
   -- Step 2: Transfer IsSimpleModule from SpechtModule to asModule
   haveI : IsSimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin n)))
       (spechtModuleRep n la).asModule := by
