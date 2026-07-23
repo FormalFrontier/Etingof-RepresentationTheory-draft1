@@ -182,6 +182,26 @@ action through first; (c) for char-2 `m + m = 0` on an `asModule`, do it on the 
 `m` — a `have key : single g 1 • m = ρ g m := by rw [Representation.single_smul, one_smul]; rfl`
 bridges `single_smul` to the plain action.
 
+**A `map_smul'`/`asModule` proof that used to close by `rw`/`simp` but now leaves a
+trivially-true goal (`0 = 0`, `X = X`, `f 0 = 0`) is the reducible-transparency
+regression, not a math error.** `rw`/`simp` run their terminal reflexivity at
+reducible transparency, which no longer unfolds `Representation.asModule` (a
+`def := V` whose `AddCommMonoid`/`Module`/`Zero` instances are defeq to, but
+syntactically distinct from, `V`'s). Fixes for the `MonoidAlgebra.induction_linear`
+`zero`/`add` cases: (a) after `simp only [zero_smul]` close with **`exact rfl`** (or
+`exact map_zero f`) at default transparency, not by relying on `simp`/`rw`'s own
+close; (b) a bare `rw [map_add]` / `rw [map_zero]` will *not* match `asModule`'s add
+instance — split the map with a **pinned** `show f (a•x + b•x) = f (a•x) + f (b•x)
+from map_add f _ _` (the `show` elaborates the add in the goal's `asModule` instance,
+`from` fills it by defeq), then `rw [ha, hb]; exact rfl`. (c) When an inline
+`≃ₗ[k[G]]` structure's `single_smul` rewrite fails because a helper equiv's *concrete*
+codomain (`DirectSum β W`) leaks past the `asModule` action, don't fight it — if the
+helper intertwines the two representations, **reuse the generic
+`asModuleEquivOfIntertwiner`/`asModuleHomOfIntertwiner` lift** (proved once at the
+type-variable level where `f x : W` matches `asModule σ` syntactically) instead of
+re-deriving. Worked example: #7554 (`Chapter5/RepresentationAsModuleHom.lean`, all
+four `map_smul'` proofs).
+
 **`MonoidAlgebra.single g 1` elaborates the coefficient `1` as `ℕ` (giving `ℕ[G]`) unless
 pinned** — the module/action can't back-propagate the base ring during elaboration, so
 `single g 1 • m` fails with `HSMul ℕ[G] M M`. Always write `single g (1 : k)`. Cost a full build
