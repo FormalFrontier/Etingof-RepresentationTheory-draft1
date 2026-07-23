@@ -2413,13 +2413,12 @@
     "start_line": 13,
     "end_line": 2,
     "status": "sorry_free",
-    "fidelity": "partial",
-    "notes": "All parts proved sorry-free: (i) linear independence of characters, (ii) characters span tracial functionals for semisimple algebras. Helper lemmas tracial_of_end_eq_scalar_trace and rep_map_injective_of_semisimple also proved.",
+    "fidelity": "verified",
+    "notes": "All parts proved sorry-free: (i) linear independence of characters, (ii) characters span tracial functionals for semisimple algebras. Helper lemmas tracial_of_end_eq_scalar_trace and rep_map_injective_of_semisimple also proved. The proof's standalone identity [Mat_d(k),Mat_d(k)] = sl_d(k) is now a public endpoint, commutatorSubmodule_matrix_eq_ker_trace (and its Fin d specialization commutatorSubmodule_matrix_fin_eq_ker_trace) in CommutatorMatrixTraceless.lean.",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The two headline character results are proved. The proof's explicit standalone identity [Mat_d(k),Mat_d(k)] = sl_d(k), including its matrix-unit commutator spanning formulas, has no public endpoint; follow-up #7462.",
-    "fidelity_issue": 7462,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "The two headline character results are proved, and the proof's explicit standalone identity [Mat_d(k),Mat_d(k)] = sl_d(k) is now exposed publicly as commutatorSubmodule_matrix_eq_ker_trace via the matrix-unit commutator spanning argument (off-diagonal units E_{ij}=[E_{ii},E_{ij}], diagonal differences E_{ii}-E_{jj}=[E_{ij},E_{ji}]), including the d=0 and d=1 edge cases.",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter3/Introduction_to_3.7",
