@@ -152,6 +152,18 @@ theorem lie_tmul (x : sl2) (v : Fin (lam + 1) → ℂ) (w : Fin (mu + 1) → ℂ
     ⁅x, v ⊗ₜ[ℂ] w⁆ = ⁅x, v⁆ ⊗ₜ[ℂ] w + v ⊗ₜ[ℂ] ⁅x, w⁆ :=
   TensorProduct.LieModule.lie_tmul_right x v w
 
+/-- `sl(2)` acts `ℂ`-linearly on `V_λ ⊗ V_μ`: `⁅x, c • m⁆ = c • ⁅x, m⁆`.
+
+Restated with the concrete tensor type so the scalar-multiplication instance in its
+statement is the `TensorProduct` one used by `cgHW` and the iterated-lowering vectors,
+rather than the abstract `Module`-derived instance that Mathlib's `lie_smul` matches on.
+The two instances are definitionally equal, so `lie_smul` still proves it, but stating it
+this way lets `rw` fire on the concrete goals. -/
+theorem lie_smul_cg (x : sl2) (c : ℂ)
+    (m : (Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ)) :
+    ⁅x, c • m⁆ = c • ⁅x, m⁆ :=
+  lie_smul c x m
+
 /-- The Clebsch–Gordan **highest-weight vector** of weight `λ+μ−2k` in `V_λ ⊗ V_μ`:
 `cgHW λ μ k = Σ_{i=0}^{k} (−1)^i C(k,i) · (e_i ⊗ e_{k−i})`.
 
@@ -172,7 +184,7 @@ theorem lie_sl2_h_cgHW (k : ℕ) (hk : k ≤ min lam mu) :
   apply Finset.sum_congr rfl
   intro i _
   have hik : (i : ℕ) ≤ k := by omega
-  rw [lie_smul, lie_tmul, lie_sl2_h_e_basis, lie_sl2_h_e_basis,
+  rw [lie_smul_cg, lie_tmul, lie_sl2_h_e_basis, lie_sl2_h_e_basis,
     ← TensorProduct.smul_tmul', TensorProduct.tmul_smul, ← add_smul, smul_smul, smul_smul]
   congr 1
   push_cast [Nat.cast_sub hik]
@@ -206,7 +218,7 @@ theorem lie_sl2_e_cgHW (k : ℕ) (hk : k ≤ min lam mu) :
           e_basis (mu + 1) ⟨k - (i : ℕ), by omega⟩)⁆
         = cgA lam mu k hk i + cgB lam mu k hk i := by
     intro i
-    rw [lie_smul, lie_tmul,
+    rw [lie_smul_cg, lie_tmul,
       lie_sl2_e_e_basis (lam + 1) (i : ℕ) (by omega),
       lie_sl2_e_e_basis (mu + 1) (k - (i : ℕ)) (by omega),
       ← TensorProduct.smul_tmul', TensorProduct.tmul_smul, smul_add, smul_smul, smul_smul]
@@ -320,7 +332,7 @@ theorem casimir_cgHW (k : ℕ) (hk : k ≤ min lam mu) :
   -- `H²·w = ν²·w`.
   have hHH : ⁅sl2_h, ⁅sl2_h, cgHW lam mu k hk⁆⁆
       = (((lam : ℂ) + mu - 2 * k) * ((lam : ℂ) + mu - 2 * k)) • cgHW lam mu k hk := by
-    rw [hH, lie_smul, hH, smul_smul]
+    rw [hH, lie_smul_cg, hH, smul_smul]
   rw [hEF, hFE, hHH, add_zero, smul_smul, ← add_smul]
   congr 1
   ring
@@ -435,7 +447,7 @@ theorem cgMap_lie_h (k : ℕ) (hk : k ≤ min lam mu) (v : Fin (lam + mu - 2 * k
            = (LieModule.toEnd ℂ sl2 _ sl2_h).comp (cgMap lam mu k hk) := by
     refine (Pi.basisFun ℂ (Fin (lam + mu - 2 * k + 1))).ext fun n => ?_
     simp only [LinearMap.comp_apply, LieModule.toEnd_apply_apply, basisFun_eq_e_basis]
-    rw [lie_sl2_h_e_basis, map_smul, cgMap_apply_e_basis, lie_smul, lie_sl2_h_fIter_cgHW,
+    rw [lie_sl2_h_e_basis, map_smul, cgMap_apply_e_basis, lie_smul_cg, lie_sl2_h_fIter_cgHW,
       smul_smul, smul_smul]
     congr 1
     rw [hcast]; push_cast; ring
@@ -458,7 +470,7 @@ theorem cgMap_lie_e (k : ℕ) (hk : k ≤ min lam mu) (v : Fin (lam + mu - 2 * k
         have h := lie_sl2_e_e_basis (lam + mu - 2 * k + 1) (n : ℕ) n.isLt
         rw [Fin.eta] at h
         rw [h, show ((n : ℕ) : ℂ) = 0 by rw [hn0]; simp, zero_smul]
-      rw [hL, map_zero, cgMap_apply_e_basis, lie_smul, hn0, fIter_zero, lie_sl2_e_cgHW,
+      rw [hL, map_zero, cgMap_apply_e_basis, lie_smul_cg, hn0, fIter_zero, lie_sl2_e_cgHW,
         smul_zero]
     · -- interior/top: the ladder coefficient plus the coefficient recursion.
       obtain ⟨m, hm⟩ : ∃ m, (n : ℕ) = m + 1 := ⟨(n : ℕ) - 1, by omega⟩
@@ -472,7 +484,7 @@ theorem cgMap_lie_e (k : ℕ) (hk : k ≤ min lam mu) (v : Fin (lam + mu - 2 * k
       have hR : ⁅sl2_e, cgMap lam mu k hk (e_basis (lam + mu - 2 * k + 1) n)⁆
           = (Nat.descFactorial (lam + mu - 2 * k) (n : ℕ) : ℂ)⁻¹
               • ⁅sl2_e, fIter (n : ℕ) (cgHW lam mu k hk)⁆ := by
-        rw [cgMap_apply_e_basis, lie_smul]
+        rw [cgMap_apply_e_basis, lie_smul_cg]
       rw [hL, hR, hm, Nat.add_sub_cancel, lie_sl2_e_fIter_cgHW, smul_smul, smul_smul, hcast]
       congr 1
       have hc := cgCoeff_rec (lam + mu - 2 * k) m hmnu
@@ -502,7 +514,7 @@ theorem cgMap_lie_f (k : ℕ) (hk : k ≤ min lam mu) (v : Fin (lam + mu - 2 * k
       have hR : ⁅sl2_f, cgMap lam mu k hk (e_basis (lam + mu - 2 * k + 1) n)⁆
           = (Nat.descFactorial (lam + mu - 2 * k) (n : ℕ) : ℂ)⁻¹
               • fIter ((n : ℕ) + 1) (cgHW lam mu k hk) := by
-        rw [cgMap_apply_e_basis, lie_smul, ← fIter_succ]
+        rw [cgMap_apply_e_basis, lie_smul_cg, ← fIter_succ]
       rw [hL, hR, smul_smul]
       congr 1
       have hc := cgCoeff_rec (lam + mu - 2 * k) (n : ℕ) hlt
@@ -512,7 +524,7 @@ theorem cgMap_lie_f (k : ℕ) (hk : k ≤ min lam mu) (v : Fin (lam + mu - 2 * k
         have h := lie_sl2_f_e_basis_top (lam + mu - 2 * k + 1) (n : ℕ) n.isLt (by omega)
         rw [Fin.eta] at h
         rw [h, map_zero]
-      rw [hL, cgMap_apply_e_basis, lie_smul, ← fIter_succ, htop, fIter_cgHW_top_eq_zero,
+      rw [hL, cgMap_apply_e_basis, lie_smul_cg, ← fIter_succ, htop, fIter_cgHW_top_eq_zero,
         smul_zero]
   have := LinearMap.congr_fun key v
   simpa only [LinearMap.comp_apply, LieModule.toEnd_apply_apply] using this
@@ -542,7 +554,7 @@ theorem cgLieHom_injective (k : ℕ) (hk : k ≤ min lam mu) :
     have hmem : e_basis (lam + mu - 2 * k + 1) ⟨0, Nat.succ_pos _⟩ ∈ (cgLieHom lam mu k hk).ker :=
       h ▸ trivial
     rw [LieModuleHom.mem_ker, cgLieHom_apply, cgMap_apply_e_basis] at hmem
-    simp only [Fin.val_mk, Nat.descFactorial_zero, Nat.cast_one, inv_one, one_smul,
+    simp only [Nat.descFactorial_zero, Nat.cast_one, inv_one, one_smul,
       fIter_zero] at hmem
     exact cgHW_ne_zero lam mu k hk hmem
 
