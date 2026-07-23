@@ -1488,15 +1488,14 @@
     "start_line": 38,
     "end_line": 3,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "full",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The routine tensor-product constructions are available, but the source's explicit claim that non-pure tensors exist has no public witness; follow-up #7467.",
-    "fidelity_issue": 7467,
-    "last_updated": "2026-07-22",
+    "coverage": "covered_full",
+    "coverage_note": "Non-pure tensors witnessed explicitly: `t = e 0 ⊗ e 0 + e 1 ⊗ e 1` over ℚ with V = W = Fin 2 → ℚ is proved not to be any pure tensor v ⊗ w (Discussion_pure_tensors.t_not_pure, axiom-clean).",
+    "last_updated": "2026-07-23",
     "coverage_swept": {
       "wave": 1,
-      "result": "trivial"
+      "result": "covered_full"
     }
   },
   {
