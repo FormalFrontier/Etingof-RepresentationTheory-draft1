@@ -109,6 +109,19 @@ into a loop — e.g. `Quotient.map' (fun w => g • w) h` before `Quotient.map'`
 gives the same `HSMul … ?` timeout. Ascribe it: `fun w : T => (g • w : T)`. Both bit during the
 octahedral four-diagonal quotient action (#6972).
 
+**A bespoke `Module`/`IsScalarTower` instance on a `LinearMap`/`Hom` space collides with
+Mathlib's generic ones and breaks synthesis.** Mathlib already gives `Module S (M →ₗ[R] N)`
+(`LinearMap.module`, needs `SMulCommClass R S N`) and `IsScalarTower S T (M →ₗ[R] N)` for free.
+A hand-written `instance homBModule : Module B (V₀ →ₗ[A] M)` then competes with the generic
+`Module B`; synthesis picks the generic one but a custom `IsScalarTower k B (V₀ →ₗ[A] M)` built
+on the bespoke `Module B` no longer matches, so `Algebra.lsmul`/`Module.End`/`Submodule.module'`
+goals fail with `failed to synthesize IsScalarTower …`/`Algebra k (Module.End k …)` (#7520,
+`Chapter3/Theorem3_10_2.lean`, originally sorry-free in #705). **Fix: delete the bespoke
+instances and rely on the library generics** (replace any explicit `homBSMul V₀ b f` with `b • f`,
+which is defeq). **Diagnostic:** if the *same* synthesis error survives changing `set`→`let`→a
+fully written-out concrete type, the type-abbreviation is NOT the cause — look for a duplicate/
+bespoke instance on that type shape instead.
+
 **A regressed file with a burst of `failed to synthesize Module k …` / `HasQuotient …`
 errors is usually a non-`@[reducible]` class-type helper `def`.** Under the v4.30 toolchain,
 a `def`/`noncomputable def` whose *return type is a class* (`AddCommGroup`, `AddCommMonoid`,
