@@ -127,9 +127,13 @@ theorem Etingof.Theorem_8_1_1_i_iff_iv
   · intro hex
     refine Module.Projective.of_lifting_property'' (fun p hp ↦ ?_)
     let e := Finsupp.mapRange.linearEquiv (α := P) (Shrink.linearEquiv R R)
-    have hfsurj : Function.Surjective (p ∘ₗ e.toLinearMap) := hp.comp e.surjective
-    obtain ⟨-, -, hsurj⟩ := hex (LinearMap.ker (p ∘ₗ e.toLinearMap)).subtype
-      (p ∘ₗ e.toLinearMap) Subtype.coe_injective hfsurj (Submodule.range_subtype _)
+    let f := p ∘ₗ e.toLinearMap
+    let ι : ↥(LinearMap.ker f) →ₗ[R] (P →₀ Shrink.{v} R) := (LinearMap.ker f).subtype
+    have hfsurj : Function.Surjective f := hp.comp e.surjective
+    have hι : Function.Injective ι := Subtype.coe_injective
+    have hexact : LinearMap.range ι = LinearMap.ker f := Submodule.range_subtype _
+    obtain ⟨-, -, hsurj⟩ :=
+      hex (K := ↥(LinearMap.ker f)) (M := P →₀ Shrink.{v} R) (N := P) ι f hι hfsurj hexact
     obtain ⟨h, hh⟩ := hsurj LinearMap.id
     refine ⟨e.toLinearMap ∘ₗ h, ?_⟩
     rw [← LinearMap.comp_assoc]
