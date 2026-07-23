@@ -5925,3 +5925,47 @@ works (Problem 3.9.3, `dim Ext¹(S_i,S_j) = #(i ⟶ j)`):
    collapses the whole thing (it routes the constant arrow-sum through
    `(if … then Finset.univ else ∅).card`, which `apply_ite Finset.card` + `Finset.card_univ`/`card_empty`
    finish). Trace the intermediate goal with `trace_state` when a staged `simp only` stalls.
+
+## `addCommGroupOfRing` AddCommMonoid→AddCommGroup diamond breaks fresh builds (#7525, the "restore fresh-buildable" wave)
+
+`Etingof.QuiverRepresentation` bundles only `AddCommMonoid`+`Module` on `obj v`. Many proofs
+upgrade to a group with `letI : ∀ v, AddCommGroup (V.obj v) := fun v => Etingof.addCommGroupOfRing`.
+`AddCommGroup` does **not** store `toAddCommMonoid` as a field (it derives it from `toAddGroup`+comm),
+so `(addCommGroupOfRing).toAddCommMonoid` is defeq to the ambient `AddCommMonoid` only at `default`
+transparency, **not** the `instances`/reducible transparency that instance search and `rw`/`simp`
+motive-checks use. A Mathlib bump made this fatal, and it is the root cause of a whole wave of
+"restore fresh-buildable" regressions (`DecompositionExistence`, `Proposition6_6_5`, `Theorem6_5_2`
+#7518, `Problem6_1_5_OrbitFiniteness`, …). Stale oleans hide it at import time; a *fresh*
+`lake env lean` on each file exposes it. Symptoms:
+
+- `rw`/`simp` reports **"target expression is not type-correct under the `instances` transparency
+  level"** and refuses to fire (even `LinearMap.comp_apply`), or leaves the goal untouched with all
+  simp args "unused".
+- With the `letI acg` in scope, `Module k (V.obj v)` / `Module.Finite k (V.obj v)` /
+  `Module.Finite k ↥(W v)` **fail to synthesize** — the upgraded monoid shadows the bundled one.
+
+**Do not** try to make the diamond reducible (impossible with `{ inst with … }`) and **do not** put
+the group in scope when you also need the bundled `Module`/`Module.Finite`. Instead:
+
+1. **Never unfold `directSum` under `simp`.** Add `rfl` `@[simp]` lemmas
+   `directSum_obj : (directSum k Q V₁ V₂).obj v = V₁.obj v × V₂.obj v` and
+   `directSum_mapLinear : (directSum …).mapLinear f = (V₁.mapLinear f).prodMap (V₂.mapLinear f)`.
+   These keep every goal type-correct. Note `LinearMap.prodMap_apply` will *not* fire when the arg
+   has type `(directSum …).obj a` (it doesn't whnf to `_ × _` at simp's transparency) — a `rfl`
+   pair-form lemma `((directSum …).mapLinear f y).1 = V₁.mapLinear f y.1` does.
+2. **Intertwining that is definitional** (unit/assoc/`prodUnique`/`uniqueProd`/`prodAssoc`): just
+   `intro a b f; ext x <;> rfl`. Don't fight it with `simp`.
+3. **Vertex isomorphism from `IsCompl`** (`areIsomorphic_subRep_directSum`): build it as
+   `LinearEquiv.ofBijective (sc v) (hbij v)` where `sc v := (W₁ v).subtype.coprod (W₂ v).subtype`
+   is **structure-typed** (needs no group), and the group only appears inside `hbij v` as
+   `(@Submodule.prodEquivOfIsCompl k _ (V.obj v) (addCommGroupOfRing) (V.instModule v) …).bijective`.
+   This keeps the group out of every term the arrow maps act on. Prove the intertwiner via a
+   naturality lemma for `sc` (`coprod_apply` + `restrict_coe_apply`).
+4. **finrank / complement facts** (`finrank_add_eq_of_isCompl`, `finiteDimensional_submodule`,
+   `finrank_pos`): keep the group **out of scope** and pass it explicitly, e.g.
+   `@Submodule.finrank_add_eq_of_isCompl k (V.obj v) _ (Etingof.addCommGroupOfRing (k := k))
+   (V.instModule v) (inferInstanceAs (Module.Finite k (V.obj v))) …`. `inferInstanceAs` resolves
+   the bundled `Module.Finite` *because no `acg` is in scope*; the `@`-application then accepts it
+   for the group-keyed argument by `default`-transparency defeq. For anything messier (positivity),
+   factor a standalone helper lemma with plain `[AddCommGroup M] [Module k M] [FiniteDimensional k M]`
+   hypotheses and apply it with `@` + explicit `addCommGroupOfRing`.
