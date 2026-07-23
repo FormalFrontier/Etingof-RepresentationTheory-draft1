@@ -19,6 +19,10 @@ The Chapter 2 file proves:
 - the bound is sharp, by constructing irreducible modules of dimension `p` (and,
   more generally, the standard modules of dimensions `1` through `p`).
 
+These results are source-present, but the current files do not pass a fresh source
+check; regression #7531 tracks restoring the existing partial endpoints. That
+compiler regression is separate from the missing classification below.
+
 It does not classify all irreducible modules up to isomorphism, as the exercise asks.
 The source is `blobs/Chapter2/Problem2.16.4.md`; no later source item in the current
 book transcription revisits this modular classification. Unlike the intentionally
@@ -31,5 +35,7 @@ The reprise is complete only when it gives an explicit parameter family, proves 
 member irreducible, identifies when two parameters give isomorphic modules, and
 proves that every finite-dimensional irreducible module occurs in the family. The
 intended eventual location is
-`EtingofRepresentationTheory/Reprises/Problem2_16_4.lean`; no placeholder Lean file
-is created in the meantime.
+`EtingofRepresentationTheory/Reprises/Problem2_16_4.lean`. The doc-only
+[`Reprises/README.md`](EtingofRepresentationTheory/Reprises/README.md) records the
+eventual import convention and acceptance scope; no placeholder Lean file is
+created in the meantime.

@@ -1,5 +1,10 @@
 # Fidelity audit: Chapter 2, Problem 2.16.4 — irreducible reps of `𝔰𝔩(2)` in characteristic `p > 2` (#7196)
 
+> Historical audit snapshot. The declarations assessed below remain source-present,
+> but the current `Sl2Irrep.lean` / `Problem2_16_4.lean` sources no longer pass a
+> fresh check. Regression #7531 tracks restoring those partial endpoints. The
+> separate full-classification reprise remains governed by `deferred-reprises.md`.
+
 **Date:** 2026-07-21 (UTC)
 **Reviewer:** review agent (session 0a63f2dd)
 **Scope:** `EtingofRepresentationTheory/Chapter2/Problem2_16_4.lean` (1098 lines).
