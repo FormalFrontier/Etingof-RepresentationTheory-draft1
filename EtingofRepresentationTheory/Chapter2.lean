@@ -109,6 +109,8 @@ import EtingofRepresentationTheory.Chapter2.Problem2_14_3
 -- Section 2.16: Lie's theorem and related classification problems
 import EtingofRepresentationTheory.Chapter2.Problem2_16_1
 import EtingofRepresentationTheory.Chapter2.Problem2_16_2
+-- Section 2.9 (continued): concrete Lie algebra examples aff(1), built on Problem2_16_2
+import EtingofRepresentationTheory.Chapter2.Discussion_concrete_Lie_examples_continued
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3
 import EtingofRepresentationTheory.Chapter2.Problem2_16_4
 import EtingofRepresentationTheory.Chapter2.Problem2_16_5

@@ -1227,12 +1227,11 @@
     "start_line": 1,
     "end_line": 5,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "full",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The orthogonal Lie algebra so(n) is available through Mathlib. Problem2_16_2 later defines the correct two-dimensional matrix Lie algebra and proves [X,Y]=Y, but the aff(1) source-facing identification and the claim that X,Y form a basis are absent; narrowed follow-up #7485.",
-    "fidelity_issue": 7485,
-    "last_updated": "2026-07-22",
+    "coverage": "covered_full",
+    "coverage_note": "The orthogonal Lie algebra so(n) is available through Mathlib. Chapter2/Discussion_concrete_Lie_examples_continued.lean identifies Problem2_16_2's two-dimensional matrix Lie algebra as the source-facing aff(1): the alias `aff k = g k`, the coordinate lemma `coe_eq_smul_add`, linear independence `linearIndependent_XY` and spanning `span_XY` of X=E₀₀, Y=E₀₁ assembled into the basis `basisXY : Basis (Fin 2) k (g k)` with `finrank_aff : finrank k (g k) = 2`, and `g_eq_rowZero : g k = rowZero k` identifying aff(1) with the Lie subalgebra of matrices whose bottom row vanishes. Reuses Problem2_16_2's g, X, Y, bracket_X_Y; #print axioms shows no sorryAx.",
+    "last_updated": "2026-07-23",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
