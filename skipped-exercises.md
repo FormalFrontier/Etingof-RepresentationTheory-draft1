@@ -130,6 +130,13 @@ resolving projectives be chosen finitely generated projective, which is exactly 
 condition making the degreewise Künneth map an isomorphism). The `Tor` half
 `Etingof.Problem_8_2_8_tor` holds in the book's stated scope.
 
+The strongest sound form is stated under minimal usable hypotheses by
+`Etingof.Problem_8_2_8_extₖ`: it does not ask for finite dimensionality at all, only
+for projective resolutions `Pᵢ` of the `Mᵢ` that are degreewise finitely generated
+projective over `Aᵢ` (`Module.Finite`), which is the actual condition the proof
+uses. The finite-dimensional `Problem_8_2_8_ext` is the convenient corollary,
+obtained by feeding in the (finitely generated projective) bar resolution.
+
 - Corrected theorem and its module machinery:
   `EtingofRepresentationTheory/Chapter8/Problem8_2_8.lean`.
 - Formalized degree-zero counterexample
