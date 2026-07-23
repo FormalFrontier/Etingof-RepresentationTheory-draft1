@@ -101,8 +101,13 @@ private theorem biprodMap_isNilpotent (a : End K) (b : End I) (M : End (K ⊞ I)
   obtain ⟨q, hq⟩ := hb
   refine ⟨p + q, ?_⟩
   have hpow := biprodMap_pow a b M hM (p + q)
-  rw [pow_eq_zero_of_le (Nat.le_add_right p q) hp,
-    pow_eq_zero_of_le (Nat.le_add_left q p) hq] at hpow
+  -- `pow_eq_zero_of_le` produces the *ring* zero `0 : End K`; convert it to the morphism zero
+  -- `0 : K ⟶ K` (defeq, but a distinct `Zero` instance) so `biprod`/`simp` lemmas fire.
+  have e1 : (a ^ (p + q) : K ⟶ K) = (0 : K ⟶ K) :=
+    pow_eq_zero_of_le (Nat.le_add_right p q) hp
+  have e2 : (b ^ (p + q) : I ⟶ I) = (0 : I ⟶ I) :=
+    pow_eq_zero_of_le (Nat.le_add_left q p) hq
+  rw [e1, e2] at hpow
   have hz : biprod.map (0 : K ⟶ K) (0 : I ⟶ I) = (0 : K ⊞ I ⟶ K ⊞ I) := by ext <;> simp
   rw [hz] at hpow
   exact hpow
@@ -117,6 +122,9 @@ private theorem isNilpotent_conj {X Y : C} (e : X ≅ Y) {g : End X} (h : IsNilp
   obtain ⟨n, hn⟩ := h
   refine ⟨n, ?_⟩
   rw [← map_pow, hn, Iso.conj_apply]
+  -- `hn` substitutes the *ring* zero `0 : End X`; `change` re-reads the composite with the morphism
+  -- zero `0 : X ⟶ X` (definitionally equal, distinct `Zero` instance) so `simp` can discharge it.
+  change e.inv ≫ (0 : X ⟶ X) ≫ e.hom = 0
   simp
 
 /-- **Fitting's lemma** for a finite abelian category. For an endomorphism `f` of `X` there is a
