@@ -288,7 +288,9 @@ theorem Exercise_8_2_9_i_polynomial
         simp only [RingHom.id_apply]
         rw [Submodule.Quotient.mk_smul,
           ← Module.IsTorsionBy.mk_smul (Module.isTorsionBy_quotient_element_smul P p) a
-            (Submodule.Quotient.mk x), map_smul, smul_eq_mul, Algebra.smul_def,
+            (Submodule.Quotient.mk x), map_smul,
+          ← IsScalarTower.algebraMap_smul (Polynomial k ⧸ Ideal.span {p}) a
+            (b.coord i (Submodule.Quotient.mk x)),
           Ideal.Quotient.algebraMap_eq] } with hφ
   have hφy₀ : φ y₀ ≠ 0 := by
     change b.coord i (Submodule.Quotient.mk y₀) ≠ 0
@@ -330,7 +332,8 @@ theorem Exercise_8_2_9_i_polynomial
     obtain ⟨v, hv⟩ := huy.exists_right_inv
     obtain ⟨c, hc⟩ := Ideal.Quotient.mk_surjective (w * v)
     refine ⟨c • y₀, ?_⟩
-    rw [map_smul, Algebra.smul_def, Ideal.Quotient.algebraMap_eq, hc, mul_assoc,
+    rw [map_smul, ← IsScalarTower.algebraMap_smul (Polynomial k ⧸ Ideal.span {p ^ N}) c (h y₀),
+      smul_eq_mul, Ideal.Quotient.algebraMap_eq, hc, mul_assoc,
       show v * h y₀ = 1 by rw [mul_comm]; exact hv, mul_one]
   -- dimension contradiction.
   have hfin : Module.finrank k (Polynomial k ⧸ Ideal.span {p ^ N}) ≤ Module.finrank k P := by
