@@ -5407,12 +5407,11 @@
     "start_line": 29,
     "end_line": 9,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "fidelity_note": "Lean exposes only StandardYoungTableau, imposing strict row and column increase. The source first defines an arbitrary bijective Young tableau and only then selects a canonical increasing tableau; the general object is missing. Follow-up #7460.",
-    "fidelity_issue": 7460,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "fidelity_note": "Lean now exposes both the ordinary bijective YoungTableau of the source and its refinement StandardYoungTableau, connected by the forgetful bridge StandardYoungTableau.toYoungTableau, and constructs the canonical increasing tableau T_lambda (canonicalYoungTableau / canonicalStandardYoungTableau) as both notions. Resolved by #7460.",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter5/Discussion_Young_projectors",
