@@ -1888,11 +1888,12 @@
     "end_page": "43",
     "start_line": 13,
     "end_line": 13,
-    "status": "sorry_free",
-    "sorry_free": true,
-    "notes": "Complete and sorry-free in Remark3_1_3.lean. The file constructs evalTensor and the full direct-sum evaluation map, proves evalDirectSum_surjective and evalDirectSum_injective using isotypic components, and packages the canonical decomposition as evalDirectSumEquiv.",
-    "fidelity": "verified",
-    "coverage": "covered_full",
+    "status": "partially_proved",
+    "sorry_free": false,
+    "notes": "The file constructs the correct evaluation map and canonical-equivalence API, but currently fails to elaborate in evalDirectSum_injective, so evalDirectSumEquiv cannot be imported; regression #7502.",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "fidelity_issue": 7502,
     "last_updated": "2026-07-22"
   },
   {
