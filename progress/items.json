@@ -1975,12 +1975,11 @@
     "start_line": 13,
     "end_line": 16,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "The current theorem only chooses an arbitrary complement to ker f. The source requires a subset of the given irreducible direct-sum family whose sub-sum maps isomorphically onto the target; that structured conclusion remains #7409.",
-    "fidelity_issue": 7409,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "Lemma3_1_6.lean now proves the source form: exists_subfamily_isCompl_ker selects a subset J of the given simple family whose sub-sum ⨆ i ∈ J, p i complements ker f, and exists_subfamily_bijective / exists_subfamily_linearEquiv (and its DirectSum.IsInternal form) package the restriction of f as an isomorphism onto U. The weaker surjective_map_splits is kept.",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter3/Discussion_after_Lemma3.1.6",
