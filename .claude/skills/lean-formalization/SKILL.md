@@ -122,6 +122,22 @@ which is defeq). **Diagnostic:** if the *same* synthesis error survives changing
 fully written-out concrete type, the type-abbreviation is NOT the cause — look for a duplicate/
 bespoke instance on that type shape instead.
 
+**A regressed file with a burst of `failed to synthesize Module k …` / `HasQuotient …`
+errors is usually a non-`@[reducible]` class-type helper `def`.** Under the v4.30 toolchain,
+a `def`/`noncomputable def` whose *return type is a class* (`AddCommGroup`, `AddCommMonoid`,
+`Module`, …) that is used as a local instance now emits `Definition … of class type must be
+marked @[reducible] or @[implicit_reducible]` — and, critically, instance search can no
+longer unfold it, so a `letI : AddCommGroup T := myHelper …` blocks synthesis of
+`Module k T` / `HasQuotient T (Submodule k T)` built on top of it (the natural instance is
+w.r.t. a *defeq-but-not-syntactic* `AddCommMonoid`). **Fix: mark the helper `@[reducible]`**
+(`@[reducible] noncomputable def` is fine), which lets `.toAddCommMonoid` reduce back to the
+ambient monoid. Diagnosed on `Etingof.addCommGroupOfRing` in `Chapter6/Definition6_6_4.lean`
+(#7524), which had cascaded into `Module`/`HasQuotient` failures across the whole cokernel
+construction of the reflection functor `F⁻`. Same knob as the `@[implicit_reducible]` note on
+`Module.IsTorsionBySet.module` at #6090. Whenever "restore fresh-buildable" work turns up
+mass `Module`/`HasQuotient` synthesis failures, grep the warnings for "class type must be
+marked" first — it points straight at the culprit.
+
 **Same failure for `AddCommGrpCat`/`ModuleCat` homology goals in `ConcreteCategory.hom` form**
 (cost ~5 iterations in #6952, `Chapter8/HomComplexHomologyK.lean`). After
 `AddCommGrpCat.comp_apply`, terms read `ConcreteCategory.hom f (ConcreteCategory.hom g x)`; the

@@ -38,7 +38,12 @@ with negation given by scalar multiplication by `-1`. The resulting `AddCommGrou
 extends the existing `AddCommMonoid`, so no diamond arises.
 
 This is useful since `QuiverRepresentation` uses `AddCommMonoid` but many APIs
-(e.g. `Submodule.exists_isCompl`) require `AddCommGroup`. -/
+(e.g. `Submodule.exists_isCompl`) require `AddCommGroup`.
+
+Marked `@[reducible]` so that instance synthesis can see through it: the derived
+`AddCommGroup` reuses the ambient `AddCommMonoid`, and downstream `Module k _`
+resolution needs to unfold `.toAddCommMonoid` back to that ambient monoid. -/
+@[reducible]
 noncomputable def Etingof.addCommGroupOfRing {k : Type*} [CommRing k] {M : Type*}
     [inst : AddCommMonoid M] [Module k M] : AddCommGroup M :=
   { inst with

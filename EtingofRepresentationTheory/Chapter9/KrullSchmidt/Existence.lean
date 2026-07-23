@@ -65,10 +65,13 @@ noncomputable def biproductSumIso (f₁ : κ₁ → C) (f₂ : κ₂ → C) :
     | Sum.inl a => biproduct.ι f₁ a ≫ biprod.inl
     | Sum.inr b => biproduct.ι f₂ b ≫ biprod.inr
   hom_inv_id := by
-    apply biprod.hom_ext' <;> apply biproduct.hom_ext' <;> rintro j <;> simp
+    apply biprod.hom_ext' <;> apply biproduct.hom_ext' <;> rintro j <;>
+      simp only [biprod.inl_desc_assoc, biprod.inr_desc_assoc, biproduct.ι_desc_assoc,
+        Category.comp_id] <;>
+      exact biproduct.ι_desc _ _
   inv_hom_id := by
     apply biproduct.hom_ext'
-    rintro (a | b) <;> simp
+    rintro (a | b) <;> rw [biproduct.ι_desc_assoc] <;> simp
 
 end BiproductSum
 
