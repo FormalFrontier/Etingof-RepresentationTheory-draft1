@@ -306,6 +306,17 @@ type-variable level where `f x : W` matches `asModule σ` syntactically) instead
 re-deriving. Worked example: #7554 (`Chapter5/RepresentationAsModuleHom.lean`, all
 four `map_smul'` proofs).
 
+**A `Module.compHom` scalar action defeats bare `zero_smul`/`simp` in the `| zero =>` case
+of a `TensorProduct.induction_on` on the scalar.** When the module is built with
+`Module.compHom` (e.g. `Problem3_8_4_Functoriality.bcMod`, the `↥R ⊗[K] A`-action on
+`↥R ⊗[K] V`), a `map_smul'` obligation reduced to `f (0 • x) = 0 • f x` fails with
+`` `simp` made no progress ``, and bare `rw [zero_smul]` reports "did not find pattern
+`0 • ?m`" — TC resolves a *different* `SMulWithZero (↥R ⊗[K] A) _` than the goal's compHom
+one. **Fix: pin the module structure by passing the element explicitly**:
+`rw [zero_smul (↥R ⊗[K] A) x, zero_smul (↥R ⊗[K] A) (f x), map_zero]`. Worked example:
+#7532 (`Chapter3/Problem3_8_4_Descent.lean`, three `map_smul'` proofs). This family of
+post-bump regressions recurs across the "restore fresh-buildable" backlog.
+
 **`is_simple_module_of_finrank_eq_one (Module.finrank_self k)` on a `Representation.asModule`
 no longer synthesizes `IsScalarTower k k[G] ρ.asModule`** — a current Mathlib regression that
 bites when the representation's carrier `V` is the base field `k` itself (e.g. `Representation.trivial
