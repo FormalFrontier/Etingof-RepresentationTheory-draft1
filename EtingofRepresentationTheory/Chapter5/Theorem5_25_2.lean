@@ -1503,7 +1503,15 @@ private lemma Etingof.GL2.detChar_simple
   let ρ := Etingof.GL2.detCharRep p n mu
   haveI : IsSimpleModule (MonoidAlgebra ℂ (GL2 p n)) ρ.asModule := by
     rw [isSimpleModule_iff]
-    exact is_simple_module_of_finrank_eq_one (Module.finrank_self ℂ)
+    -- Fix `V := ρ.asModule` explicitly and prove `finrank ℂ = 1` through
+    -- `asModuleEquiv`, so the canonical (transferred) `Module ℂ asModule`
+    -- is used consistently with the `IsScalarTower ℂ ℂ[G] asModule` instance.
+    -- Passing `Module.finrank_self ℂ` directly instead pins `Module ℂ V` to
+    -- `Complex.instModule`, which no longer matches the scalar-tower instance
+    -- (defined with reduced transparency) and fails synthesis.
+    refine is_simple_module_of_finrank_eq_one (K := ℂ) (A := MonoidAlgebra ℂ (GL2 p n))
+      (V := ρ.asModule) ?_
+    rw [ρ.asModuleEquiv.finrank_eq, Module.finrank_self]
   haveI : Simple (ModuleCat.of (MonoidAlgebra ℂ (GL2 p n)) ρ.asModule) :=
     simple_of_isSimpleModule
   let E := Rep.equivalenceModuleMonoidAlgebra (k := ℂ) (G := GL2 p n)
