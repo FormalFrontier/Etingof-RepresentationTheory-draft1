@@ -941,8 +941,10 @@ theorem charRep_tprod_Vrep_character [Fintype K] (χ : Affine K →* ℂˣ) (g :
 `(q-1)² = (q-1)·1 + (q-2)·(q-1)` it decomposes as the direct sum of all `q-1` one-dimensional
 characters together with `q-2` copies of `V`. -/
 theorem Vrep_tprod_Vrep_character [Fintype K] (g : Affine K) :
-    (Representation.tprod (Vsub (K := K)).toRepresentation
-        (Vsub (K := K)).toRepresentation).character g
+    Representation.character
+        (V := TensorProduct ℂ ↥(Vsub (K := K)).toSubmodule ↥(Vsub (K := K)).toSubmodule)
+        (Representation.tprod (Vsub (K := K)).toRepresentation
+          (Vsub (K := K)).toRepresentation) g
       = ((Vsub (K := K)).toRepresentation.character g) ^ 2 := by
   rw [Representation.char_tensor, Pi.mul_apply, sq]
 
@@ -1295,20 +1297,41 @@ noncomputable def rhsRep [Fintype K] [Fintype (Affine K →* ℂˣ)] :
         (DirectSum (Fin (Fintype.card K - 2)) (fun _ => (zeroSum K)))) :=
   (charSumRep (K := K)).prod (VcopiesRep (K := K))
 
+set_option maxHeartbeats 1000000 in
 /-- **Character of the right-hand side model.** The character of `(⊕_χ charRep χ) ⊕ (q−2)·V`
 is `(∑_χ χ(g)) + (q−2)·χ_V(g)`, matching exactly the right-hand side of
 `Vrep_tprod_Vrep_decomp_character`. -/
 theorem rhsRep_character [Fintype K] [Fintype (Affine K →* ℂˣ)]
     (hK : 3 ≤ Fintype.card K) (g : Affine K) :
-    (rhsRep (K := K)).character g
+    Representation.character
+        (V := (DirectSum (Affine K →* ℂˣ) (fun _ => ℂ)) ×
+          (DirectSum (Fin (Fintype.card K - 2)) (fun _ => (zeroSum K))))
+        (rhsRep (K := K)) g
       = (∑ χ : Affine K →* ℂˣ, (χ g : ℂ))
         + ((Fintype.card K : ℂ) - 2) * (Vsub (K := K)).toRepresentation.character g := by
-  rw [rhsRep, char_prod]
+  -- The carrier instances synthesized for `character` on the composite `rhsRep` are the
+  -- `AddCommGroup`-derived ones, which are only defeq (not syntactically equal) to the
+  -- `Prod`/`DirectSum` monoid instances carried by `Representation.prod`/`directSum`.  We
+  -- therefore bridge each step with an explicitly carrier-pinned `char_prod`/`char_directSum`
+  -- (built standalone so their carriers are fixed by the passed representations) and rewrite.
+  have key := char_prod (V := DirectSum (Affine K →* ℂˣ) (fun _ => ℂ))
+    (W := DirectSum (Fin (Fintype.card K - 2)) (fun _ => (zeroSum K)))
+    (charSumRep (K := K)) (VcopiesRep (K := K)) g
+  have kcs := char_directSum (V := fun _ : (Affine K →* ℂˣ) => ℂ) (fun χ => charRep χ) g
+  have kvc := char_directSum
+    (V := fun _ : Fin (Fintype.card K - 2) => ↥(zeroSum K))
+    (fun _ => (Vsub (K := K)).toRepresentation) g
+  rw [rhsRep, key]
   simp only [charSumRep, VcopiesRep]
-  rw [char_directSum, char_directSum]
+  rw [kcs, kvc]
   congr 1
   · exact Finset.sum_congr rfl (fun χ _ => charRep_character' χ g)
-  · rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul,
+  · -- `kvc`'s summand carries the `↥(zeroSum K)` carrier instance, defeq to the natural
+    -- `↥Vsub.toSubmodule` one on the right; `show` re-expresses the goal with the natural atom
+    -- so the arithmetic normalization sees a single atom.
+    show (∑ _i : Fin (Fintype.card K - 2), (Vsub (K := K)).toRepresentation.character g)
+        = ((Fintype.card K : ℂ) - 2) * (Vsub (K := K)).toRepresentation.character g
+    rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul,
       Nat.cast_sub (by omega)]
     push_cast
     ring
@@ -1572,7 +1595,12 @@ theorem Vrep_tprod_Vrep_equiv_rhsRep {K : Type} [Field K] [Fintype K] [Decidable
     [Fintype (Affine K →* ℂˣ)] (hK : 3 ≤ Fintype.card K) :
     Nonempty (((Vsub (K := K)).toRepresentation.tprod (Vsub (K := K)).toRepresentation).Equiv
       (rhsRep (K := K))) := by
-  refine equiv_of_character_eq_reducible _ _ ?_
+  refine equiv_of_character_eq_reducible
+    (V := TensorProduct ℂ ↥(Vsub (K := K)).toSubmodule ↥(Vsub (K := K)).toSubmodule)
+    (W := (DirectSum (Affine K →* ℂˣ) (fun _ => ℂ)) ×
+      (DirectSum (Fin (Fintype.card K - 2)) (fun _ => (zeroSum K))))
+    ((Vsub (K := K)).toRepresentation.tprod (Vsub (K := K)).toRepresentation)
+    (rhsRep (K := K)) ?_
   funext g
   rw [Representation.char_tensor, Pi.mul_apply, rhsRep_character hK g,
     ← Vrep_tprod_Vrep_decomp_character hK g, sq]
