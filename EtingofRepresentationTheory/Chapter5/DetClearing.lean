@@ -5,7 +5,7 @@ import EtingofRepresentationTheory.Chapter5.PolynomialWeightSaturation
 
 This file proves Step 1 of the proof of `Theorem5_23_2_i`: from an algebraic
 representation `ρ` (matrix coefficients in
-`k[Xᵢⱼ, det⁻¹]`, i.e. `Etingof.IsAlgebraicRepresentation`) we produce an exponent `s`
+`k[Xᵢⱼ, det⁻¹]`, i.e. `Etingof.IsAlgebraicCoefficientFamily`) we produce an exponent `s`
 such that the `det^s`-twist `g ↦ (det g)^s • ρ g` is polynomial (det⁻¹-free, i.e.
 `Etingof.IsPolynomialRepresentation`).
 
@@ -148,11 +148,11 @@ theorem eval_clearPoly {k : Type*} [Field k] {N : ℕ}
 
 /-- **Det-clearing (Step 1 of `Theorem5_23_2_i`).** An algebraic `GL_N(k)`-representation
 admits an exponent `s` such that its `det^s`-twist is polynomial (det⁻¹-free). -/
-theorem IsAlgebraicRepresentation.exists_detPow_twist_isPolynomial
+theorem IsAlgebraicCoefficientFamily.exists_detPow_twist_isPolynomial
     {k : Type*} [Field k] {N : ℕ}
     {Y : Type*} [AddCommGroup Y] [Module k Y] [Module.Finite k Y]
     {ρ : Matrix.GeneralLinearGroup (Fin N) k → Y →ₗ[k] Y}
-    (h : Etingof.IsAlgebraicRepresentation N ρ) :
+    (h : Etingof.IsAlgebraicCoefficientFamily N ρ) :
     ∃ s : ℕ, IsPolynomialRepresentation N
       (fun g => ((Matrix.GeneralLinearGroup.det g : k) ^ s) • ρ g) := by
   classical

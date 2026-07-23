@@ -18,7 +18,7 @@ Both sides equal `∑_μ dim(M_μ) · ∏_i (t i)^(μ i)`, the sum over weights 
 weight-space dimension times the torus character `∏ t_i^{μ_i}`.
 
 This is the `formalCharacter ↔ torus-trace` connection. The hypothesis is the span
-condition `⨆_μ glWeightSpace = ⊤` rather than `IsAlgebraicRepresentation` directly,
+condition `⨆_μ glWeightSpace = ⊤` rather than `IsAlgebraicCoefficientFamily` directly,
 the form every downstream weight-space theorem in the project takes (cf.
 `FormalCharacterIso.finrank_eq_sum_glWeightSpace`, `DetInvElim`,
 `PolynomialRepEmbedding`). For algebraic representations the span condition holds.

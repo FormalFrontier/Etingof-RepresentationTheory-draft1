@@ -67,7 +67,7 @@ the GL-rep classification infrastructure (cf. `iso_of_formalCharacter_eq_schurPo
 (one valid approach), this proves complete reducibility via the
 `det`-twist reduction to the polynomial case:
 
-1. *det-clearing* (`IsAlgebraicRepresentation.exists_detPow_twist_isPolynomial`):
+1. *det-clearing* (`IsAlgebraicCoefficientFamily.exists_detPow_twist_isPolynomial`):
    some power `s` makes the twist `g ↦ det(g)^s • ρ(g)` a *polynomial*
    (`det⁻¹`-free) representation.
 2. The twist is the representation `charTwistRep (det^s) ρ`.
@@ -86,7 +86,7 @@ theorem Theorem5_23_2_i
     (n : ℕ)
     {Y : Type} [AddCommGroup Y] [Module k Y] [Module.Finite k Y]
     (ρ : Representation k (Matrix.GeneralLinearGroup (Fin n) k) Y)
-    (halg : Etingof.IsAlgebraicRepresentation n ⇑ρ) :
+    (halg : Etingof.IsAlgebraicCoefficientFamily n ⇑ρ) :
     IsSemisimpleModule
       (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k)) ρ.asModule := by
   classical

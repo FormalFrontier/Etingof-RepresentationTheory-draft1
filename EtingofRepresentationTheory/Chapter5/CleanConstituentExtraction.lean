@@ -72,8 +72,8 @@ theorem subFDRep_iSup_glWeightSpace_eq_top (N : ℕ)
 to an invariant submodule is algebraic. -/
 theorem subFDRep_isAlgebraic (N : ℕ)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k)) (σ : Subrepresentation M.ρ)
-    (hM : Etingof.IsAlgebraicRepresentation N M.ρ) :
-    Etingof.IsAlgebraicRepresentation N (subFDRep M σ).ρ := by
+    (hM : Etingof.IsAlgebraicCoefficientFamily N M.ρ) :
+    Etingof.IsAlgebraicCoefficientFamily N (subFDRep M σ).ρ := by
   have hrestrict := hM.restrict σ.toSubmodule (fun g v hv => σ.apply_mem_toSubmodule g hv)
   -- `simpa only [subFDRep, FDRep.of_ρ']` over-unfolds the carrier/action;
   -- `(subFDRep M σ).ρ` is defeq to the restricted action `σ.toRepresentation`,
@@ -87,24 +87,24 @@ formal characters sum to `char M`. Proved by a `finrank` induction: peel a simpl
 the strictly-smaller quotient. -/
 theorem formalCharacter_eq_sum_simple_factors (N : ℕ)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (halg : Etingof.IsAlgebraicCoefficientFamily N M.ρ)
     (hM : ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N M (fun i => μ i) = ⊤) :
     ∃ (p : ℕ) (W : Fin p → FDRep k (Matrix.GeneralLinearGroup (Fin N) k)),
       (∀ j, IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
           (Representation.asModule (W j).ρ)) ∧
-      (∀ j, Etingof.IsAlgebraicRepresentation N (W j).ρ) ∧
+      (∀ j, Etingof.IsAlgebraicCoefficientFamily N (W j).ρ) ∧
       (∀ j, ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (W j) (fun i => μ i) = ⊤) ∧
       formalCharacter k N M = ∑ j, formalCharacter k N (W j) := by
   classical
   -- Strong induction on `finrank k M`.
   suffices H : ∀ n (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k)),
       Module.finrank k M = n →
-      Etingof.IsAlgebraicRepresentation N M.ρ →
+      Etingof.IsAlgebraicCoefficientFamily N M.ρ →
       (⨆ μ : Fin N →₀ ℕ, glWeightSpace k N M (fun i => μ i) = ⊤) →
       ∃ (p : ℕ) (W : Fin p → FDRep k (Matrix.GeneralLinearGroup (Fin N) k)),
         (∀ j, IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
             (Representation.asModule (W j).ρ)) ∧
-        (∀ j, Etingof.IsAlgebraicRepresentation N (W j).ρ) ∧
+        (∀ j, Etingof.IsAlgebraicCoefficientFamily N (W j).ρ) ∧
         (∀ j, ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (W j) (fun i => μ i) = ⊤) ∧
         formalCharacter k N M = ∑ j, formalCharacter k N (W j) by
     exact H _ M rfl halg hM
@@ -148,7 +148,7 @@ theorem formalCharacter_eq_sum_simple_factors (N : ℕ)
             σ.asSubmodule := hσasSub ▸ hSsimple
         have h2 := isSimpleModule_toRepresentation_asModule σ h1
         simpa only [subFDRep, FDRep.of_ρ'] using h2
-      have hsubalg : Etingof.IsAlgebraicRepresentation N (subFDRep M σ).ρ :=
+      have hsubalg : Etingof.IsAlgebraicCoefficientFamily N (subFDRep M σ).ρ :=
         subFDRep_isAlgebraic k N M σ halg
       have hsubspan : ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (subFDRep M σ) (fun i => μ i) = ⊤ :=
         subFDRep_iSup_glWeightSpace_eq_top k N M σ hM
@@ -163,7 +163,7 @@ theorem formalCharacter_eq_sum_simple_factors (N : ℕ)
         have hxσ : x ∈ σ.asSubmodule := hσasSub ▸ hxS
         rw [Subrepresentation.mem_asSubmodule_iff] at hxσ
         exact ⟨x, hxσ, hx0⟩
-      have hquot_alg : Etingof.IsAlgebraicRepresentation N (quotientFDRep M σ).ρ :=
+      have hquot_alg : Etingof.IsAlgebraicCoefficientFamily N (quotientFDRep M σ).ρ :=
         quotientFDRep_isAlgebraic M σ halg
       have hquot_span :
           ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (quotientFDRep M σ) (fun i => μ i) = ⊤ :=
@@ -239,7 +239,7 @@ combination) into `formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_
 (torus-trace ⟹ coefficients zero). -/
 theorem coeff_zero_of_char_combination_zero (N : ℕ) {ι : Type} [Fintype ι]
     (R : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (hRalg : ∀ i, Etingof.IsAlgebraicRepresentation N (R i).ρ)
+    (hRalg : ∀ i, Etingof.IsAlgebraicCoefficientFamily N (R i).ρ)
     (hRsimp : ∀ i, IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
         (Representation.asModule (R i).ρ))
     (hRspan : ∀ i, ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (R i) (fun j => μ j) = ⊤)
@@ -265,7 +265,7 @@ non-isomorphic, via `formalCharacter_eq_of_FDRep_iso`) and applying the regroupe
 caller's concrete `Sum.elim` family. -/
 theorem net_coeff_zero_of_char_combination_zero (N : ℕ) {ι : Type} [Fintype ι]
     (R : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (hRalg : ∀ i, Etingof.IsAlgebraicRepresentation N (R i).ρ)
+    (hRalg : ∀ i, Etingof.IsAlgebraicCoefficientFamily N (R i).ρ)
     (hRsimp : ∀ i, IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
         (Representation.asModule (R i).ρ))
     (hRspan : ∀ i, ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (R i) (fun j => μ j) = ⊤)
@@ -335,7 +335,7 @@ combination `∑_{ν∈S} c_ν S_ν` of Schur polynomials and `L ↪ M` is a sim
 then `char L = S_ν` for some `ν ∈ S` with `c_ν > 0`. -/
 theorem clean_simple_constituent_formalCharacter_eq_schurPoly_mem (N : ℕ)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (halg : Etingof.IsAlgebraicCoefficientFamily N M.ρ)
     (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (S : Finset {l : Fin N → ℕ // Antitone l})
     (c : {l : Fin N → ℕ // Antitone l} → ℕ)
@@ -366,7 +366,7 @@ theorem clean_simple_constituent_formalCharacter_eq_schurPoly_mem (N : ℕ)
     intro g v
     apply e'.injective
     rw [e'.apply_symm_apply, he', e'.apply_symm_apply]
-  have hsubalg : Etingof.IsAlgebraicRepresentation N (subFDRep M σL).ρ :=
+  have hsubalg : Etingof.IsAlgebraicCoefficientFamily N (subFDRep M σL).ρ :=
     subFDRep_isAlgebraic k N M σL halg
   have hsubspan : ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (subFDRep M σL) (fun i => μ i) = ⊤ :=
     subFDRep_iSup_glWeightSpace_eq_top k N M σL h_span
@@ -374,7 +374,7 @@ theorem clean_simple_constituent_formalCharacter_eq_schurPoly_mem (N : ℕ)
     have h0 := formalCharacter_eq_of_rep_iso k N L.ρ (subFDRep M σL).ρ e' he'
     rwa [formalCharacter_FDRep_of_ρ, formalCharacter_FDRep_of_ρ] at h0
   -- ### Step B: short-exact-sequence split `char M = char L + ∑_j char (W j)`.
-  have hquotalg : Etingof.IsAlgebraicRepresentation N (quotientFDRep M σL).ρ :=
+  have hquotalg : Etingof.IsAlgebraicCoefficientFamily N (quotientFDRep M σL).ρ :=
     quotientFDRep_isAlgebraic M σL halg
   have hquotspan :
       ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (quotientFDRep M σL) (fun i => μ i) = ⊤ :=
@@ -395,9 +395,9 @@ theorem clean_simple_constituent_formalCharacter_eq_schurPoly_mem (N : ℕ)
     · exact hLsimp
     · exact hWsimp j
     · exact schurModule_isSimple_general k N ν.1.val ν.1.property
-  have hRalg : ∀ i, Etingof.IsAlgebraicRepresentation N (R i).ρ := by
+  have hRalg : ∀ i, Etingof.IsAlgebraicCoefficientFamily N (R i).ρ := by
     rintro (_ | j | ν)
-    · exact IsAlgebraicRepresentation.of_linearEquiv e'.symm he'symm hsubalg
+    · exact IsAlgebraicCoefficientFamily.of_linearEquiv e'.symm he'symm hsubalg
     · exact hWalg j
     · exact schurModule_isAlgebraic (k := k) N ν.1.val
   have hRspan : ∀ i, ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (R i) (fun j => μ j) = ⊤ := by

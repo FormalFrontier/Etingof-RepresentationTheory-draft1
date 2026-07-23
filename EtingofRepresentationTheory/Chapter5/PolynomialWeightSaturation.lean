@@ -48,7 +48,7 @@ namespace Etingof
 algebraic, in the sense of Etingof §5.23) if there is a basis in which all matrix
 coefficients of `ρ(g)` are polynomials in the entries `gᵢⱼ` alone, with no `det(g)⁻¹`.
 
-This is the strengthening of `Etingof.IsAlgebraicRepresentation` where the
+This is the strengthening of `Etingof.IsAlgebraicCoefficientFamily` where the
 coefficient polynomials lie in the subring `k[Xᵢⱼ]` (equivalently, the range of
 `MvPolynomial.rename Sum.inl` inside `k[Xᵢⱼ, D]`). -/
 def IsPolynomialRepresentation
@@ -70,7 +70,7 @@ theorem IsPolynomialRepresentation.isAlgebraic
     {k : Type*} [Field k] {N : ℕ}
     {Y : Type*} [AddCommGroup Y] [Module k Y] [Module.Finite k Y]
     {ρ : Matrix.GeneralLinearGroup (Fin N) k → Y →ₗ[k] Y}
-    (h : IsPolynomialRepresentation N ρ) : Etingof.IsAlgebraicRepresentation N ρ := by
+    (h : IsPolynomialRepresentation N ρ) : Etingof.IsAlgebraicCoefficientFamily N ρ := by
   obtain ⟨m, b, P, hP⟩ := h
   refine ⟨m, b, fun a c => MvPolynomial.rename Sum.inl (P a c), fun g a c => ?_⟩
   rw [hP g a c, Etingof.evalAtGL, MvPolynomial.eval_rename]

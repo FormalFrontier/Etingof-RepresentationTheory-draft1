@@ -8,15 +8,15 @@ import EtingofRepresentationTheory.Chapter5.CauchyWeightSpaceDimension
 The theorem `quotDetRep_irreducible_constituent_lastWeight_zero` passes the degree-`d`
 component `(A/det)_d = quotDetDegreeFDRep k N d` to the part-C ingredient
 `Etingof.simple_constituent_formalCharacter_eq_schurPoly_mem`, which requires the
-hypothesis `Etingof.IsAlgebraicRepresentation N M.ρ`. This file supplies that
+hypothesis `Etingof.IsAlgebraicCoefficientFamily N M.ρ`. This file supplies that
 hypothesis for `quotDetDegreeFDRep`.
 
 The proof has three steps:
 
-* `IsAlgebraicRepresentation.of_surjective_equivariant`: a general transport
+* `IsAlgebraicCoefficientFamily.of_surjective_equivariant`: a general transport
   lemma: algebraicity passes along a surjective `GL_N`-equivariant `k`-linear
   map onto a finite-dimensional target. (The dual of
-  `IsAlgebraicRepresentation.restrict`, which handles invariant submodules.)
+  `IsAlgebraicCoefficientFamily.restrict`, which handles invariant submodules.)
 * `polyRightDegreeFDRep_isAlgebraic`: the degree-`d` component `A_d` of the
   coordinate ring under right translation is algebraic. On the monomial basis the
   right translation `R_g X_{ij} = ∑_l g_{lj} X_{il}` has matrix coefficients that
@@ -43,17 +43,17 @@ Choosing a `k`-linear section `s : Z → Y` of `π`, a basis `b'` of `Z`, and th
 algebraicity basis `B` of `Y`, the new matrix coefficient `b'.repr (σ g (b' c)) a`
 expands as a `k`-linear combination of `evalAtGL g (P e d)` with constant
 coefficients from `B.repr (s (b' c))` and `b'.repr (π (B e))`. This mirrors
-`IsAlgebraicRepresentation.restrict`, with the invariant-submodule inclusion
+`IsAlgebraicCoefficientFamily.restrict`, with the invariant-submodule inclusion
 replaced by the section `s` and the projection replaced by `π`. -/
-theorem IsAlgebraicRepresentation.of_surjective_equivariant {k : Type*} [Field k] {N : ℕ}
+theorem IsAlgebraicCoefficientFamily.of_surjective_equivariant {k : Type*} [Field k] {N : ℕ}
     {Y Z : Type*} [AddCommGroup Y] [Module k Y] [Module.Finite k Y]
     [AddCommGroup Z] [Module k Z] [Module.Finite k Z]
     {ρ : Matrix.GeneralLinearGroup (Fin N) k → Y →ₗ[k] Y}
     {σ : Matrix.GeneralLinearGroup (Fin N) k → Z →ₗ[k] Z}
     (π : Y →ₗ[k] Z) (hπ_surj : Function.Surjective π)
     (hcomm : ∀ g y, π (ρ g y) = σ g (π y))
-    (h : Etingof.IsAlgebraicRepresentation N ρ) :
-    Etingof.IsAlgebraicRepresentation N σ := by
+    (h : Etingof.IsAlgebraicCoefficientFamily N ρ) :
+    Etingof.IsAlgebraicCoefficientFamily N σ := by
   classical
   obtain ⟨M, B, P, hP⟩ := h
   -- Basis of the target, indexed by `Fin (finrank k Z)`.
@@ -167,7 +167,7 @@ theorem evalAtGL_rightTransPoly {k : Type*} [Field k] {N : ℕ}
 is the span of the degree-`d` monomials; right translation acts on this monomial basis
 with matrix coefficients `rightTransPoly`, polynomial in the entries of `g`. -/
 theorem polyRightDegreeFDRep_isAlgebraic (k : Type*) [Field k] (N d : ℕ) :
-    Etingof.IsAlgebraicRepresentation N (polyRightDegreeFDRep k N d).ρ := by
+    Etingof.IsAlgebraicCoefficientFamily N (polyRightDegreeFDRep k N d).ρ := by
   classical
   set S : Finset ((Fin N × Fin N) →₀ ℕ) := Finset.univ.finsuppAntidiag d with hS
   -- degree-`d` monomials, as elements of the carrier `A_d`
@@ -245,10 +245,10 @@ theorem polyRightDegreeFDRep_isAlgebraic (k : Type*) [Field k] (N d : ℕ) :
 
 /-- **`(A/det)_d` is algebraic.** It is the image of the algebraic `A_d` under the
 surjective `GL_N`-equivariant quotient map `A_d → (A/det)_d`, so algebraicity transfers
-by `IsAlgebraicRepresentation.of_surjective_equivariant`. This is the part-C hypothesis
+by `IsAlgebraicCoefficientFamily.of_surjective_equivariant`. This is the part-C hypothesis
 required by `quotDetRep_irreducible_constituent_lastWeight_zero`. -/
 theorem quotDetDegreeFDRep_isAlgebraic (k : Type*) [Field k] (N d : ℕ) :
-    Etingof.IsAlgebraicRepresentation N
+    Etingof.IsAlgebraicCoefficientFamily N
       (Etingof.CauchyDetQuotient.quotDetDegreeFDRep k N d).ρ := by
   have hmem_π : ∀ x ∈ MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d,
       Submodule.mkQ (Etingof.KernelLemmaKPrime.detSubmodule k N) x
@@ -258,7 +258,7 @@ theorem quotDetDegreeFDRep_isAlgebraic (k : Type*) [Field k] (N d : ℕ) :
   let πmap : polyRightDegreeFDRep k N d →ₗ[k]
       Etingof.CauchyDetQuotient.quotDetDegreeFDRep k N d :=
     (Submodule.mkQ (Etingof.KernelLemmaKPrime.detSubmodule k N)).restrict hmem_π
-  refine IsAlgebraicRepresentation.of_surjective_equivariant πmap ?_ ?_
+  refine IsAlgebraicCoefficientFamily.of_surjective_equivariant πmap ?_ ?_
     (polyRightDegreeFDRep_isAlgebraic k N d)
   · -- surjectivity: every element of `(A/det)_d` is `mk` of a degree-`d` polynomial
     rintro ⟨_, f, hf, rfl⟩

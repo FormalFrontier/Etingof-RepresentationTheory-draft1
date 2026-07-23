@@ -164,7 +164,7 @@ are right-torus weight vectors (weight `wt c ∈ ℕ^N`) spanning a right-`GL_N`
 subspace, so the kernel lemma lands each `evalAtGL g (R a c)` in `k[Xᵢⱼ]`. -/
 theorem detInv_elim [CharZero k] [IsAlgClosed k] (n : ℕ)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (halg : Etingof.IsAlgebraicCoefficientFamily N M.ρ)
     (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤) :
     ∃ (d : ℕ) (b : Module.Basis (Fin d) k M)
        (Q : Fin d → Fin d → MvPolynomial (Fin N × Fin N) k),

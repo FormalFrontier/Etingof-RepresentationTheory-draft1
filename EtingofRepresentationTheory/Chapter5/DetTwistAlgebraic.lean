@@ -6,12 +6,12 @@ import EtingofRepresentationTheory.Chapter5.Proposition5_22_2
 
 This file proves `detTwistedSchurModuleRep_isAlgebraic`: the determinant-twisted
 Schur module representation `g ↦ det(g) • L_λ(g)` is an algebraic representation
-of `GL_N(k)` in the sense of `Etingof.IsAlgebraicRepresentation`
+of `GL_N(k)` in the sense of `Etingof.IsAlgebraicCoefficientFamily`
 (Definition 5.23.1). This is the algebraicity hypothesis consumed by
 `decompose_polynomial_gl_rep` at the call site `schurModule_shift_iso_detTwist`.
 
 The general algebraicity infrastructure (`glTensorRep_isAlgebraic`,
-`IsAlgebraicRepresentation.restrict`, `IsAlgebraicRepresentation.detTwist`) lives
+`IsAlgebraicCoefficientFamily.restrict`, `IsAlgebraicCoefficientFamily.detTwist`) lives
 in `GLRepAlgebraic`, so that `schurModule_shift_iso_detTwist` can build its own
 algebraicity hypothesis inline without an import cycle. This file combines them at
 the concrete `detTwistedSchurModuleRep`:
@@ -31,16 +31,16 @@ namespace Etingof
 an algebraic representation of `GL_N(k)` (Etingof Definition 5.23.1).
 
 Built from `glTensorRep_isAlgebraic` (the diagonal action is algebraic),
-`IsAlgebraicRepresentation.restrict` (restrict to the Schur module submodule,
-giving `schurModuleRep`), and `IsAlgebraicRepresentation.detTwist` (twist by the
+`IsAlgebraicCoefficientFamily.restrict` (restrict to the Schur module submodule,
+giving `schurModuleRep`), and `IsAlgebraicCoefficientFamily.detTwist` (twist by the
 determinant character). -/
 theorem detTwistedSchurModuleRep_isAlgebraic (k : Type) [Field k] [IsAlgClosed k]
     [CharZero k] (N : ℕ) (lam : Fin N → ℕ) :
-    Etingof.IsAlgebraicRepresentation N
+    Etingof.IsAlgebraicCoefficientFamily N
       (FDRep.of (detTwistedSchurModuleRep k N lam)).ρ := by
   rw [FDRep.of_ρ']
   have hrestrict :
-      Etingof.IsAlgebraicRepresentation N (schurModuleRep k N lam) :=
+      Etingof.IsAlgebraicCoefficientFamily N (schurModuleRep k N lam) :=
     (glTensorRep_isAlgebraic k N (∑ i, lam i)).restrict
       (SchurModuleSubmodule k N lam)
       (fun g v hv => glTensorRep_mem_range k N lam g v hv)

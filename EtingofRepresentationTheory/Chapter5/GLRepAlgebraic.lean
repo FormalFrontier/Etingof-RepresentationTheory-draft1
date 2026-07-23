@@ -4,16 +4,16 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
 /-!
 # General algebraicity infrastructure for `GL_N(k)`-representations
 
-This file collects the reusable lemmas about `Etingof.IsAlgebraicRepresentation`
+This file collects the reusable lemmas about `Etingof.IsAlgebraicCoefficientFamily`
 (Definition 5.23.1) that are independent of any particular twisted Schur module:
 
 * `evalAtGL_mul` / `evalAtGL_sum` / `evalAtGL_prod` / `evalAtGL_C` / `evalAtGL_X_inl`:
   ring-homomorphism behaviour of evaluation `evalAtGL g`.
 * `detPolyGL` and `evalAtGL_detPolyGL`: the determinant of the generic matrix as a
   polynomial in the coordinate ring, and its evaluation.
-* `IsAlgebraicRepresentation.detTwist`: twisting an algebraic representation by the
+* `IsAlgebraicCoefficientFamily.detTwist`: twisting an algebraic representation by the
   determinant character keeps it algebraic.
-* `IsAlgebraicRepresentation.restrict`: the restriction of an algebraic representation
+* `IsAlgebraicCoefficientFamily.restrict`: the restriction of an algebraic representation
   to an invariant submodule is algebraic.
 * `glTensorRep_isAlgebraic`: the diagonal action `g ↦ g^{⊗n}` on `(k^N)^{⊗n}` is
   algebraic.
@@ -85,11 +85,11 @@ theorem evalAtGL_detPolyGL {k : Type*} [Field k] {N : ℕ}
 
 /-- Twisting an algebraic representation by the determinant character keeps it
 algebraic: each coefficient polynomial is multiplied by `detPolyGL`. -/
-theorem IsAlgebraicRepresentation.detTwist {k : Type*} [Field k] {N : ℕ}
+theorem IsAlgebraicCoefficientFamily.detTwist {k : Type*} [Field k] {N : ℕ}
     {Y : Type*} [AddCommGroup Y] [Module k Y] [Module.Finite k Y]
     {ρ : Matrix.GeneralLinearGroup (Fin N) k → Y →ₗ[k] Y}
-    (h : Etingof.IsAlgebraicRepresentation N ρ) :
-    Etingof.IsAlgebraicRepresentation N
+    (h : Etingof.IsAlgebraicCoefficientFamily N ρ) :
+    Etingof.IsAlgebraicCoefficientFamily N
       (fun g => (Matrix.GeneralLinearGroup.det g : k) • ρ g) := by
   obtain ⟨m, b, P, hP⟩ := h
   refine ⟨m, b, fun a c => detPolyGL k N * P a c, fun g a c => ?_⟩
@@ -103,13 +103,13 @@ submodule `W` is algebraic. Choosing a basis of `W`, a linear projection
 `π : Y → W`, and the ambient basis `B`, the new matrix coefficients expand as
 `k`-linear combinations of `evalAtGL g (P e d)` with constant coefficients
 coming from `B.repr (W.subtype (b' c))` and `b'.repr (π (B e))`. -/
-theorem IsAlgebraicRepresentation.restrict {k : Type*} [Field k] {N : ℕ}
+theorem IsAlgebraicCoefficientFamily.restrict {k : Type*} [Field k] {N : ℕ}
     {Y : Type*} [AddCommGroup Y] [Module k Y] [Module.Finite k Y]
     {ρ : Matrix.GeneralLinearGroup (Fin N) k → Y →ₗ[k] Y}
-    (h : Etingof.IsAlgebraicRepresentation N ρ)
+    (h : Etingof.IsAlgebraicCoefficientFamily N ρ)
     (W : Submodule k Y) [Module.Finite k W]
     (hW : ∀ g, ∀ v ∈ W, ρ g v ∈ W) :
-    Etingof.IsAlgebraicRepresentation N (fun g => (ρ g).restrict (hW g)) := by
+    Etingof.IsAlgebraicCoefficientFamily N (fun g => (ρ g).restrict (hW g)) := by
   classical
   obtain ⟨M, B, P, hP⟩ := h
   -- Basis of the submodule, indexed by `Fin (finrank k W)`.
@@ -188,7 +188,7 @@ theorem repr_glTensorRep_tBasisAlg {k : Type*} [Field k] {N n : ℕ}
 /-- The diagonal action `g ↦ g^{⊗n}` on `(k^N)^{⊗n}` is algebraic. The matrix
 coefficient in the standard tensor basis is the monomial `∏ₘ X_{(h m, f m)}`. -/
 theorem glTensorRep_isAlgebraic (k : Type*) [Field k] (N n : ℕ) :
-    Etingof.IsAlgebraicRepresentation N (glTensorRep k N n) := by
+    Etingof.IsAlgebraicCoefficientFamily N (glTensorRep k N n) := by
   classical
   set ι := Fin n → Fin N
   set eqv : Fin (Fintype.card ι) ≃ ι := (Fintype.equivFin ι).symm with heqv
@@ -201,6 +201,12 @@ theorem glTensorRep_isAlgebraic (k : Type*) [Field k] (N n : ℕ) :
   refine Finset.prod_congr rfl fun m _ => ?_
   rw [evalAtGL_X_inl]
 
+/-- The diagonal action `g ↦ g^{⊗n}`, viewed as a genuine `Representation`, is an
+algebraic representation in the sense of Definition 5.23.1. -/
+theorem glTensorRep_isAlgebraicRepresentation (k : Type*) [Field k] (N n : ℕ) :
+    Etingof.IsAlgebraicRepresentation N (glTensorRep k N n) :=
+  (glTensorRep_isAlgebraic k N n).toRepresentation
+
 /-! ### Algebraicity transfers along an equivariant linear equivalence -/
 
 /-- **Algebraicity transfers along an intertwining `k`-linear equivalence.** If `ρ` is
@@ -210,15 +216,15 @@ transported basis `b.map e` are the very same polynomials as those of `ρ` in `b
 
 This lets the abstract simple summands produced by the equivariant decomposition of an
 algebraic representation inherit algebraicity from the ambient rep. -/
-theorem IsAlgebraicRepresentation.of_linearEquiv {k : Type*} [Field k] {N : ℕ}
+theorem IsAlgebraicCoefficientFamily.of_linearEquiv {k : Type*} [Field k] {N : ℕ}
     {Y Z : Type*} [AddCommGroup Y] [Module k Y] [Module.Finite k Y]
     [AddCommGroup Z] [Module k Z] [Module.Finite k Z]
     {ρ : Matrix.GeneralLinearGroup (Fin N) k → Y →ₗ[k] Y}
     {σ : Matrix.GeneralLinearGroup (Fin N) k → Z →ₗ[k] Z}
     (e : Y ≃ₗ[k] Z)
     (hcomm : ∀ g y, e (ρ g y) = σ g (e y))
-    (h : Etingof.IsAlgebraicRepresentation N ρ) :
-    Etingof.IsAlgebraicRepresentation N σ := by
+    (h : Etingof.IsAlgebraicCoefficientFamily N ρ) :
+    Etingof.IsAlgebraicCoefficientFamily N σ := by
   obtain ⟨m, b, P, hP⟩ := h
   refine ⟨m, b.map e, P, fun g a c => ?_⟩
   -- The image basis `b.map e` reproduces `b`'s coordinates after pushing `e` through.
@@ -324,11 +330,11 @@ is again algebraic. In the dual basis `b.dualBasis`, the `(a,c)`-matrix coeffici
 `(dual ρ) g` is `b.repr (ρ g⁻¹ (b a)) c`, the `(c,a)`-coefficient of `ρ` read at `g⁻¹`; the
 inverse evaluation is absorbed into the polynomials by the substitution `invSubst`
 (`evalAtGL_bind₁_invSubst`). -/
-theorem IsAlgebraicRepresentation.dual {k : Type*} [Field k] {N : ℕ}
+theorem IsAlgebraicCoefficientFamily.dual {k : Type*} [Field k] {N : ℕ}
     {Y : Type*} [AddCommGroup Y] [Module k Y] [Module.Finite k Y]
     (ρ : Representation k (Matrix.GeneralLinearGroup (Fin N) k) Y)
-    (h : Etingof.IsAlgebraicRepresentation N ρ) :
-    Etingof.IsAlgebraicRepresentation N (Representation.dual ρ) := by
+    (h : Etingof.IsAlgebraicCoefficientFamily N ρ) :
+    Etingof.IsAlgebraicCoefficientFamily N (Representation.dual ρ) := by
   obtain ⟨m, b, P, hP⟩ := h
   refine ⟨m, b.dualBasis, fun a c => MvPolynomial.bind₁ (invSubst k N) (P c a), fun g a c => ?_⟩
   rw [evalAtGL_bind₁_invSubst, Representation.dual_apply, Module.Dual.transpose_apply,
@@ -340,15 +346,23 @@ theorem IsAlgebraicRepresentation.dual {k : Type*} [Field k] {N : ℕ}
 /-- **The Schur module `L_λ` is algebraic.** `SchurModule k N lam` is the restriction of
 the (algebraic) tensor power `V^{⊗n}` to the Young-symmetrizer image
 `SchurModuleSubmodule`, so algebraicity is inherited from `glTensorRep_isAlgebraic` via
-`IsAlgebraicRepresentation.restrict`. (The det-twisted analogue is
+`IsAlgebraicCoefficientFamily.restrict`. (The det-twisted analogue is
 `detTwistedSchurModuleRep_isAlgebraic`.) -/
 theorem schurModule_isAlgebraic {k : Type*} [Field k] [IsAlgClosed k] (N : ℕ)
     (lam : Fin N → ℕ) :
-    Etingof.IsAlgebraicRepresentation N (SchurModule k N lam).ρ := by
-  change Etingof.IsAlgebraicRepresentation N (FDRep.of (schurModuleRep k N lam)).ρ
+    Etingof.IsAlgebraicCoefficientFamily N (SchurModule k N lam).ρ := by
+  change Etingof.IsAlgebraicCoefficientFamily N (FDRep.of (schurModuleRep k N lam)).ρ
   rw [FDRep.of_ρ']
   exact (glTensorRep_isAlgebraic k N (∑ i, lam i)).restrict
     (SchurModuleSubmodule k N lam)
     (fun g v hv => glTensorRep_mem_range k N lam g v hv)
+
+/-- **The Schur module is an algebraic representation.** Packaged form of
+`schurModule_isAlgebraic` against the bundled representation `(SchurModule …).ρ`,
+matching Definition 5.23.1's textbook subject. -/
+theorem schurModule_isAlgebraicRepresentation {k : Type*} [Field k] [IsAlgClosed k]
+    (N : ℕ) (lam : Fin N → ℕ) :
+    Etingof.IsAlgebraicRepresentation N (SchurModule k N lam).ρ :=
+  (schurModule_isAlgebraic N lam).toRepresentation
 
 end Etingof

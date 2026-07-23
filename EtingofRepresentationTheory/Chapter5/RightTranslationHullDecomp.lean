@@ -29,8 +29,8 @@ Using this intertwining:
 * `rightHull_isSemisimple`, complete reducibility of the right-translation hull: the hull,
   as a `localRightRep`-representation, is a semisimple `k[GL_N]`-module. The `det^r`-twist of the
   hull is algebraic (transport `boundedRightRep_isAlgebraic` across `numEmbed` via
-  `IsAlgebraicRepresentation.of_linearEquiv`, restricting to the hull via
-  `IsAlgebraicRepresentation.restrict`), hence completely reducible (`Theorem5_23_2_i`);
+  `IsAlgebraicCoefficientFamily.of_linearEquiv`, restricting to the hull via
+  `IsAlgebraicCoefficientFamily.restrict`), hence completely reducible (`Theorem5_23_2_i`);
   untwisting by `det⁻ʳ` (`isSemisimpleModule_charTwistRep`) recovers the hull.
 
 The finer statement, that the constituents are exactly the irreducibles `L_λ = algIrrepGLRepρ`
@@ -103,7 +103,7 @@ theorem boundedSubrep_toRepresentation_coe (d : ℕ)
 polynomial in the entries of `g` (`evalAtGL_rightTransPoly`). Mirrors the homogeneous Cauchy
 component `polyRightDegreeFDRep_isAlgebraic`, over the full `≤ d` filtration. -/
 theorem boundedRightRep_isAlgebraic (k : Type*) [Field k] (N d : ℕ) :
-    Etingof.IsAlgebraicRepresentation N
+    Etingof.IsAlgebraicCoefficientFamily N
       ⇑(boundedSubrep k N d).toRepresentation := by
   classical
   set W := (boundedSubrep k N d).toSubmodule with hW
@@ -215,7 +215,7 @@ theorem numEmbed_injective (r : ℕ) :
 
 The `det^r`-twist of the hull (`r` the normal-form exponent of `φ`) is, via `numEmbed`, equivalent
 to a `polyRightRep`-invariant subspace of the bounded-degree polynomials, hence algebraic
-(`boundedRightRep_isAlgebraic` + `IsAlgebraicRepresentation.restrict` /
+(`boundedRightRep_isAlgebraic` + `IsAlgebraicCoefficientFamily.restrict` /
 `.of_linearEquiv`); an algebraic representation is completely reducible (`Theorem5_23_2_i`), and
 untwisting by `det⁻ʳ` (`isSemisimpleModule_charTwistRep`) recovers the hull. -/
 theorem rightHull_isSemisimple (k : Type) [Field k] [IsAlgClosed k] [CharZero k] {N : ℕ}
@@ -295,7 +295,7 @@ theorem rightHull_isSemisimple (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
       rw [charTwistRep_apply, Submodule.coe_smul, hrh_coe, he_coe, charTwistRep_apply]
     rw [hL, hR]
   -- the twisted hull is algebraic
-  have htwAlg : Etingof.IsAlgebraicRepresentation N
+  have htwAlg : Etingof.IsAlgebraicCoefficientFamily N
       ⇑(charTwistRep (detChar k N ^ r) (rightHullSubrep φ).toRepresentation) :=
     ((boundedRightRep_isAlgebraic k N d).restrict U hU_inv).of_linearEquiv e hcomm
   -- algebraic ⟹ semisimple; untwist by `det⁻ʳ` to recover the hull

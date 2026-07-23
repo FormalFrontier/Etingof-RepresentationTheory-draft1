@@ -66,7 +66,7 @@ direct sum of simple `GLAlg`-modules) with the fact that a direct sum of simple
 modules is semisimple. -/
 theorem polynomialHomogRep_isSemisimple (n : ℕ)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (halg : Etingof.IsAlgebraicCoefficientFamily N M.ρ)
     (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n) :
     IsSemisimpleModule (GLAlg k N) (Representation.asModule M.ρ) := by
@@ -254,7 +254,7 @@ theorem glWeightSpace_restrict (σ : Subrepresentation M.ρ) (μ : Fin N → ℕ
 theorem degSubrep_isAlgebraic
     (hpoly : IsPolynomialRepresentation N M.ρ)
     (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤) (d : ℕ) :
-    Etingof.IsAlgebraicRepresentation N (FDRep.of (degSubrep k N M h_span d).toRepresentation).ρ :=
+    Etingof.IsAlgebraicCoefficientFamily N (FDRep.of (degSubrep k N M h_span d).toRepresentation).ρ :=
   (hpoly.isAlgebraic).restrict (degSubrep k N M h_span d).toSubmodule
     (fun g v hv => (degSubrep k N M h_span d).apply_mem_toSubmodule g hv)
 
