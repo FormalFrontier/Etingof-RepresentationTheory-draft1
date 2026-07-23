@@ -6672,7 +6672,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The complementary-series construction and count are present, but Discussion5_25_4.lean fails a fresh source check in the ZMod cast arithmetic, so its public character/count/transversal endpoints cannot currently be rebuilt; regression #7508.",
+    "fidelity_issue": 7508,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Lemma5.25.3",
@@ -6813,7 +6818,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The semidirect-product construction is implemented, but its backing Theorem5_27_1 source fails a fresh check and the base-point-independence API needs stable public parameter types; regression #7507.",
+    "fidelity_issue": 7507,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Theorem5.27.1",
@@ -6823,10 +6833,11 @@
     "end_page": "147",
     "start_line": 11,
     "end_line": 14,
-    "status": "sorry_free",
-    "fidelity": "verified",
-    "fidelity_note": "The orbit-method classification is complete: irreducibility, exhaustiveness, character and dimension formulas, base-point independence, and pairwise non-isomorphism are proved. In particular an isomorphism V(χ₁,U₁) ≅ V(χ₂,U₂) yields both an orbit element g with χ₂=g·χ₁ and an isomorphism U₂ ≅ transport(g,U₁).",
-    "coverage": "covered_full",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "fidelity_note": "The source contains the full intended orbit-method classification, but Theorem5_27_1.lean currently fails a fresh check at multiple carrier, scalar-action, transport, and linearity proofs. Its public classification and base-point-independence endpoints are therefore not presently rebuildable; regression #7507.",
+    "coverage": "covered_partial",
+    "fidelity_issue": 7507,
     "last_updated": "2026-07-22"
   },
   {
@@ -7678,7 +7689,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The public admissible-ordering setup exists, but CoxeterInfrastructure.lean fails a fresh source check in reflection-kernel module instances, finite sums, and finrank arguments; source regression #7509. The separate missing representation-level reflection sequence remains tracked by #7436.",
+    "fidelity_issue": 7509,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Theorem6.8.1",
@@ -8869,7 +8885,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "Ext infrastructure is importable, but Definition8_2_3.lean fails a fresh source check in the Additive instance for tensorRightFunctor, so the general-ring Tor definition cannot currently be rebuilt; regression #7510.",
+    "fidelity_issue": 7510,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter8/Definition8.2.1",
@@ -9386,7 +9407,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The intended finite-dimensional-Hom theorem is present, but Introduction_9_6.lean fails a fresh source check in exact_leftComp, preventing IsFiniteAbelianCategoryOverField.finiteDimensional_hom from rebuilding; regression #7511.",
+    "fidelity_issue": 7511,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter9/Definition9.6.1",
