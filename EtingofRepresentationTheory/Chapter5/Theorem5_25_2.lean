@@ -1326,6 +1326,19 @@ private lemma Etingof.GL2.principalSeriesSubmodule_finrank [NeZero n]
   congr 1
   rw [← Nat.card_eq_fintype_card, GaloisField.card p n (NeZero.ne n)]
 
+/-- **Principal-series dimension** (Etingof §5.25, the principal-series discussion before
+Theorem 5.25.2): the principal series representation `V(χ₁, χ₂) = Ind_B^G ℂ_{χ₁,χ₂}` has
+dimension `q + 1`, where `q = |𝔽_q| = p ^ n` is the order of the coefficient field. This is
+the public, source-facing endpoint for the book's `dim V_{λ₁,λ₂} = q + 1`; it states the
+dimension directly for the public `principalSeries` carrier used by Theorem 5.25.2. -/
+theorem Etingof.GL2.principalSeries_finrank [NeZero n]
+    (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) :
+    Module.finrank ℂ (Etingof.GL2.principalSeries p n chi1 chi2).V = p ^ n + 1 := by
+  -- `principalSeries` is `FDRep.of (principalSeriesRep …)`, whose carrier `.V` is
+  -- definitionally the principal-series submodule; reuse the private finrank computation.
+  change Module.finrank ℂ ↥(Etingof.GL2.principalSeriesSubmodule p n chi1 chi2) = p ^ n + 1
+  exact Etingof.GL2.principalSeriesSubmodule_finrank p n chi1 chi2
+
 /-- The determinant character g ↦ μ(det g) is in the principal series submodule for (μ,μ). -/
 private lemma Etingof.GL2.detFun_mem_principalSeries
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
