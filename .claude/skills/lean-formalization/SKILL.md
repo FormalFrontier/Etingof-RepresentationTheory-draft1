@@ -914,6 +914,47 @@ cheaply: the idempotent `α⁻¹·c_λ` makes `χ(σ) = trace(L_σ ∘ R_{α⁻�
 transfers. Worked example: `Chapter5/SpechtCharacterGeneral.lean` (#4991). Also: `set G := Equiv.Perm (Fin n)` where
 `G` is *also* a binder's type duplicates the variable (`σ✝` vs `σ`) — write the type literally instead of `set`.
 
+### `restrictScalars`/`of_restrictScalars_finite` re-synthesise `IsScalarTower`/`CompatibleSMul` with a metavar codomain and don't find the local instance (#7512)
+
+Fresh-buildability regression pattern in the "isotypic component of a group-algebra module, take ℂ-trace" idiom
+(`letI : Module ℂ ↥C_R := (C_R.restrictScalars ℂ).module; haveI : IsScalarTower ℂ A ↥C_R := ⟨…⟩`). A direct
+`inferInstance : IsScalarTower ℂ A ↥C_R` (or `… : CompatibleSMul …`) **succeeds**, but the same obligation raised
+*inside* `Module.Finite.of_restrictScalars_finite ℂ A ↥C_R` or `e'.restrictScalars ℂ` **fails to synthesize** — the
+consumer resolves the obligation while the `Module ℂ`/codomain is still a metavariable, so it never matches the local
+`haveI`. **Fixes** (all keep the underlying maps unchanged): (a) pass the tower instance explicitly,
+`@Module.Finite.of_restrictScalars_finite ℂ A ↥C_R _ _ _ _ _ _ iST _`; (b) build the ℂ-linear equiv by hand instead of
+`e'.restrictScalars ℂ` — `{ toFun := e', invFun := e'.symm, map_add' := e'.map_add, left_inv := …, right_inv := …,
+map_smul' := fun c x => e'.toLinearMap.map_smul_of_tower c x }` (the structure type pins the codomain, so
+`map_smul_of_tower`'s `CompatibleSMul` resolves; `e'_ℂ x = e' x` and `e'_ℂ.symm = e'.symm` stay `rfl`); (c) pin
+`(M := …) (N := …)` on `LinearMap.trace_conj'` when the endomorphism is typed over a defeq-but-syntactically-different
+carrier. Worked example: `Chapter5/Theorem5_15_1.lean` `trace_isotypic_eq_mult_trace`. `CharacterMultiplicityBridge.lean`
+has the identical pattern and the same regression.
+
+### `bijective_or_eq_zero`/`of_injective` on a group-algebra submodule hit the `Ring.toSemiring` vs `MonoidAlgebra.semiring` diamond (#7512)
+
+`isotypicComponent`/Schur API carry `[Ring R]` and so bake `Ring.toSemiring` (and `AddCommGroup.toAddCommMonoid`) into
+their submodules, whereas a `→ₗ[SymGroupAlgebra n]` map from a theorem signature picks the *direct* `MonoidAlgebra.semiring`
+(and `Submodule.addCommMonoid`). These are **defeq but not syntactic** (`… .toSemiring = MonoidAlgebra.semiring` is `rfl`),
+so `f.comp S.subtype` / `IsSemisimpleModule.of_injective (Submodule.inclusion h)` fail to unify or leave the map a metavar.
+**Fixes:** (a) for Schur, drop `f.comp S.subtype` and hand the *unascribed* restriction literal
+`{ toFun := fun t => f t.val, map_add' := …, map_smul' := … }` straight to `LinearMap.bijective_or_eq_zero (R := R) (M := …) (N := …)`
+so its `[Ring]`/`[AddCommGroup]` context drives the instances (an ascribed `↥S →ₗ[R] V` re-picks the wrong ones); recover the
+map in the bijective branch via `LinearEquiv.ofBijective _ h_bij`; (b) for "submodule of a semisimple module is semisimple",
+skip `of_injective` entirely — if the ambient is semisimple (e.g. `PermutationModule` over `ℂ[Sₙ]`, which is
+`IsSemisimpleRing`), `haveI : IsSemisimpleModule R I := inferInstance` works via `IsSemisimpleModule.submodule`.
+
+### `Module.Free ℂ ↥(submodule)` no longer resolves by `inferInstance` — use `Module.Free.of_divisionRing ℂ <explicit type>` (#7512)
+
+The `Submodule.addCommMonoid` vs `AddCommGroup.toAddCommMonoid` diamond blocks `inferInstance` for `Module.Free ℂ ↥p`
+(and for `Module.finrank_pi_fintype`, which wants `Module.Free ℂ (V →ₗ[R] V)`). Supply it explicitly with the type argument:
+`Module.Free.of_divisionRing ℂ (↥(permModuleIsotypicComponent …))` / `Module.Free.of_divisionRing ℂ (V →ₗ[R] V)`.
+
+### `MvPolynomial.coeff_smul` won't match a `zsmul` — convert with `Int.cast_smul_eq_zsmul (R := ℂ)` (#7512)
+
+A `(sign π : ℤ) • p` from a determinant/Vandermonde expansion is the `AddCommGroup` `zsmul`, not the `SMulZeroClass ℤ`
+action `coeff_smul` expects, so `rw [MvPolynomial.coeff_smul]` reports "did not find pattern". Convert both directions:
+`rw [← Int.cast_smul_eq_zsmul (R := ℂ) z, MvPolynomial.coeff_smul, …, Int.cast_smul_eq_zsmul (R := ℂ)]`.
+
 ### `restrictScalars k` map equalities over `A ⊗[k] X` modules are prohibitively slow for symbolic degree — state the identity pointwise (Ch8 bar resolution, #6414)
 
 When a map is `A`-linear (e.g. the bar differential `barDiff n : (A ⊗[k] Xₙ₊₁) →ₗ[A] (A ⊗[k] Xₙ)`) and
