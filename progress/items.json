@@ -978,13 +978,12 @@
     "end_page": "20",
     "start_line": 2,
     "end_line": 4,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "sorry_free": false,
-    "coverage": "covered_partial",
-    "coverage_note": "The intended path-algebra declarations are present, but the current defining file fails to elaborate across the opaque PathAlgebra/Finsupp boundary in multiplication, associativity, and unit proofs; regression #7499.",
-    "fidelity_issue": 7499,
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The PathAlgebra structure, its NonUnitalNonAssocRing/NonUnitalRing/Ring/Algebra instances, and the path-concatenation multiplication all build fresh and sorry-free; the def-vs-Finsupp transparency boundary is bridged with term-mode ring-law proofs and a PathAlgebra-native linearity induction (#7499).",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter2/Remark2.8.5",
@@ -994,12 +993,12 @@
     "end_page": "20",
     "start_line": 5,
     "end_line": 5,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "PathAlgebra.sum_trivialPaths_eq_one and the finite-quiver algebra instance have the right signatures, but their defining file currently fails to elaborate and they cannot be imported; regression #7499.",
-    "fidelity_issue": 7499,
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "PathAlgebra.sum_trivialPaths_eq_one and the finite-quiver Ring/Algebra instances build fresh and sorry-free; the unit ∑ᵢ pᵢ is proved a two-sided identity via Finset.sum_eq_single_of_mem over the ofPath-form unit (#7499).",
+    "last_updated": "2026-07-23",
+    "sorry_free": true
   },
   {
     "id": "Chapter2/Problem2.8.6",
@@ -1898,13 +1897,12 @@
     "end_page": "43",
     "start_line": 13,
     "end_line": 13,
-    "status": "partially_proved",
-    "sorry_free": false,
-    "notes": "The file constructs the correct evaluation map and canonical-equivalence API, but currently fails to elaborate in evalDirectSum_injective, so evalDirectSumEquiv cannot be imported; regression #7502.",
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "fidelity_issue": 7502,
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "sorry_free": true,
+    "notes": "The file constructs the correct evaluation map and canonical-equivalence API; evalDirectSum_injective, evalDirectSum_surjective, and the public evalDirectSumEquiv all elaborate and import cleanly (regression #7502 fixed).",
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter3/Discussion_before_Proposition3.1.4",
@@ -2800,18 +2798,18 @@
     "coverage_note": "The Ext¹ computation and the infinite indecomposable family in part (b) are proved. For part (a), two_dim_is_extension only reduces an arbitrary two-dimensional module to an extension of one-dimensional modules; it does not provide normal forms or the isomorphism criterion obtained by splitting distinct weights and quotienting self-extension classes by automorphisms. The requested classification remains #6276.",
     "derived": [
       {
-      "part": "(a) Ext¹(Vₐ,V_b) and 2-dim reps of ℂ[x₁..xₙ]",
+        "part": "(a) Ext¹(Vₐ,V_b) and 2-dim reps of ℂ[x₁..xₙ]",
         "claim": "For A=ℂ[x₁..xₙ] with 1-dim reps Vₐ,V_b (xᵢ acts by aᵢ,bᵢ): Ext¹(Vₐ,Vₐ)≅ℂⁿ and Ext¹(Vₐ,V_b)=0 for a≠b; every 2-dim rep is an extension of two 1-dim reps.",
         "description": "Full Ext¹ computation (ℂⁿ for equal weights, 0 for distinct) plus classification of 2-dim representations as extensions of 1-dim ones.",
         "source_span": "blobs/Chapter3/Problem3.9.2.md (a)",
-      "coverage": "covered_partial",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem3_9_2.ext1_self",
           "Etingof.Problem3_9_2.ext1_subsingleton_of_ne",
           "Etingof.Problem3_9_2.two_dim_is_extension"
         ],
-      "reason": "The Ext¹ spaces are computed and every 2D module is shown to be an extension. The file does not turn this into an up-to-isomorphism classification: no explicit normal forms, split/distinct-weight theorem, projective parameter for nonzero self-extensions, or iff isomorphism criterion is exposed.",
-      "followup_issue": 6276
+        "reason": "The Ext¹ spaces are computed and every 2D module is shown to be an extension. The file does not turn this into an up-to-isomorphism classification: no explicit normal forms, split/distinct-weight theorem, projective parameter for nonzero self-extensions, or iff isomorphism criterion is exposed.",
+        "followup_issue": 6276
       },
       {
         "part": "(b) infinitely many indecomposables of the zero-mult algebra",
@@ -7483,12 +7481,12 @@
     "end_page": "164",
     "start_line": 47,
     "end_line": 47,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "fidelity_issue": 7501,
-    "coverage_note": "The public finiteness endpoint covers only positive roots. The remark's claim that the entire root set is finite, including negative roots and the bridge from all roots to signed positive roots, remains #7501.",
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The full root set is now proved finite by Etingof.Remark_6_4_4_roots_finite (Chapter6/Remark6_4_4.lean): the root set embeds in the union of the finite positive-root set (Theorem_6_5_2a_finiteness) with its image under negation, via Lemma_6_4_6 (positive-or-negative dichotomy) and IsRoot.neg (negation symmetry). Axiom-clean.",
+    "last_updated": "2026-07-23",
+    "fidelity_decl": "Etingof.Remark_6_4_4_roots_finite, Etingof.IsRoot.neg"
   },
   {
     "id": "Chapter6/Definition6.4.5",
@@ -9661,10 +9659,9 @@
     "status": "sorry_free",
     "fidelity": "faithful",
     "needs_statement": false,
-    "notes": "Two notions are now exposed. Etingof.IsProjectiveGenerator (= Projective and IsSeparator) is the faithful general Definition 9.6.2: IsProjectiveGenerator.epi_coproduct shows it means every object is a quotient of an arbitrary (possibly infinite) coproduct of copies of P. The regular-module example is formalized sorry-free in Definition9_6_2_Example.lean (moduleCat_regular_isProjectiveGenerator: ModuleCat.of R R is a general projective generator over an arbitrary ring). Etingof.IsProgenerator is retained as the documented finite/finitely-generated variant used downstream; IsProgenerator.isProjectiveGenerator (Theorem9_6_4.lean) proves finite => general, justifying the finite consumers. Residual (follow-up #7498): prove general => finite under finite-length hypotheses using Noetherian-object machinery.",
+    "notes": "Two notions are now exposed. Etingof.IsProjectiveGenerator (= Projective and IsSeparator) is the faithful general Definition 9.6.2: IsProjectiveGenerator.epi_coproduct shows it means every object is a quotient of an arbitrary (possibly infinite) coproduct of copies of P. The regular-module example is formalized sorry-free in Definition9_6_2_Example.lean (moduleCat_regular_isProjectiveGenerator: ModuleCat.of R R is a general projective generator over an arbitrary ring). Etingof.IsProgenerator is retained as the documented finite/finitely-generated variant used downstream; IsProgenerator.isProjectiveGenerator (Theorem9_6_4.lean) proves finite => general, justifying the finite consumers. The reverse agreement (general => finite) is now proved sorry-free in Definition9_6_2_Agreement.lean (IsProjectiveGenerator.isProgenerator): in an IsFiniteAbelianCategory (finite-length objects), a projective separator is a finite progenerator, via a Noetherian maximal-image argument (isNoetherianObject_of_finiteDimensionalOrder_subobject). Both notions therefore agree in the Theorem 9.6.4 setting.",
     "sorry_free": true,
     "coverage": "covered_full",
-    "followup_issue": 7498,
     "last_updated": "2026-07-23"
   },
   {

@@ -125,11 +125,10 @@ theorem coeffAt_single (x y : QuiverPathIndex Q) (c : k) :
 open Classical in
 theorem coeffAt_compSingle (x y z : QuiverPathIndex Q) :
     coeffAt z (compSingle x y : PathAlgebra k Q) = if x.comp y = some z then (1 : k) else 0 := by
-  change (compSingle x y : QuiverPathIndex Q →₀ k) z = _
   rw [compSingle]
   cases h : x.comp y with
   | none => simp
-  | some w => simp [Finsupp.single_apply]
+  | some w => rw [Option.elim_some, coeffAt_single]; simp
 
 /-! ## The augmentation ring homomorphism `ε_b : A → k` -/
 

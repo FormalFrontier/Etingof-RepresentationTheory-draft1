@@ -32,6 +32,7 @@ import EtingofRepresentationTheory.Chapter6.Definition6_4_3
 import EtingofRepresentationTheory.Chapter6.Definition6_4_5
 import EtingofRepresentationTheory.Chapter6.Lemma6_4_6
 import EtingofRepresentationTheory.Chapter6.Definition6_4_7
+import EtingofRepresentationTheory.Chapter6.Remark6_4_4
 import EtingofRepresentationTheory.Chapter6.Example6_4_9
 import EtingofRepresentationTheory.Chapter6.Definition6_4_10
 import EtingofRepresentationTheory.Chapter6.Definition6_5_1

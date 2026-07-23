@@ -301,18 +301,19 @@ private lemma class_sum_scalar_isIntegral
   set e : MonoidAlgebra ℤ G := ∑ h : { h : G // IsConj g h }, MonoidAlgebra.of ℤ G h
   -- e is integral over ℤ (MonoidAlgebra ℤ G is module-finite over ℤ)
   have he : IsIntegral ℤ e := IsIntegral.of_finite ℤ e
-  -- The representation ring hom: ℤ[G] → End(V)
-  let φ : MonoidAlgebra ℤ G →+* Module.End ℂ V.V.obj :=
-    ((Representation.asAlgebraHom V.ρ).toRingHom).comp
-      (MonoidAlgebra.mapRingHom G (Int.castRingHom ℂ))
+  -- The representation algebra hom ℤ[G] →ₐ[ℤ] End(V), lifting the ℂ-representation.
+  -- Using a genuine `ℤ`-algebra hom (via `MonoidAlgebra.lift`) keeps the base
+  -- rings of `IsIntegral.map` matched to the canonical `ℤ`-algebra structures.
+  let φ : MonoidAlgebra ℤ G →ₐ[ℤ] Module.End ℂ V.V.obj :=
+    MonoidAlgebra.lift ℤ (Module.End ℂ V.V.obj) G V.ρ
   -- φ(e) = σ = c • id
   have hφe : φ e = c • LinearMap.id := by
     have hφ_of : ∀ h : G, φ (MonoidAlgebra.of ℤ G h) = V.ρ h := by
       intro h; simp [φ]
     show φ (∑ h : { h : G // IsConj g h }, MonoidAlgebra.of ℤ G h) = c • LinearMap.id
     rw [map_sum]; simp_rw [hφ_of]; exact hc
-  -- φ(e) is integral over ℤ; transfer via ring hom
-  have hφe_int : IsIntegral ℤ (φ e) := he.map φ.toIntAlgHom
+  -- φ(e) is integral over ℤ (ℤ[G] is module-finite over ℤ), transferred along φ.
+  have hφe_int : IsIntegral ℤ (φ e) := IsIntegral.map φ he
   rw [hφe] at hφe_int
   -- Extract c from c • id using injectivity of algebraMap ℂ → End(V)
   haveI : Nontrivial V.V.obj := Module.nontrivial_of_finrank_pos hn

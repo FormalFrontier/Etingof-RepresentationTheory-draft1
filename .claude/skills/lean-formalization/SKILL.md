@@ -128,6 +128,19 @@ when `sinkMap : ⊕ⱼVⱼ →ₗ Vᵢ` makes it a submodule of the direct sum).
 contradictions on `Module.Free` carriers, `Module.finrank_eq_zero_iff_of_free` avoids needing any
 `AddCommGroup` upgrade at all.
 
+**A bespoke `Module`/`IsScalarTower` instance on a `LinearMap`/`Hom` space collides with
+Mathlib's generic ones and breaks synthesis.** Mathlib already gives `Module S (M →ₗ[R] N)`
+(`LinearMap.module`, needs `SMulCommClass R S N`) and `IsScalarTower S T (M →ₗ[R] N)` for free.
+A hand-written `instance homBModule : Module B (V₀ →ₗ[A] M)` then competes with the generic
+`Module B`; synthesis picks the generic one but a custom `IsScalarTower k B (V₀ →ₗ[A] M)` built
+on the bespoke `Module B` no longer matches, so `Algebra.lsmul`/`Module.End`/`Submodule.module'`
+goals fail with `failed to synthesize IsScalarTower …`/`Algebra k (Module.End k …)` (#7520,
+`Chapter3/Theorem3_10_2.lean`, originally sorry-free in #705). **Fix: delete the bespoke
+instances and rely on the library generics** (replace any explicit `homBSMul V₀ b f` with `b • f`,
+which is defeq). **Diagnostic:** if the *same* synthesis error survives changing `set`→`let`→a
+fully written-out concrete type, the type-abbreviation is NOT the cause — look for a duplicate/
+bespoke instance on that type shape instead.
+
 **A regressed file with a burst of `failed to synthesize Module k …` / `HasQuotient …`
 errors is usually a non-`@[reducible]` class-type helper `def`.** Under the v4.30 toolchain,
 a `def`/`noncomputable def` whose *return type is a class* (`AddCommGroup`, `AddCommMonoid`,
@@ -143,6 +156,31 @@ construction of the reflection functor `F⁻`. Same knob as the `@[implicit_redu
 `Module.IsTorsionBySet.module` at #6090. Whenever "restore fresh-buildable" work turns up
 mass `Module`/`HasQuotient` synthesis failures, grep the warnings for "class type must be
 marked" first — it points straight at the culprit.
+
+**For a `def Foo := Bar` wrapper (e.g. `def PathAlgebra := _ →₀ k`) with re-exposed
+`inferInstanceAs` instances, two more traps beyond the `rw`/`exact` split — both hit while
+restoring `Definition2_8_4.lean` (#7499), cost ~15 iterations:**
+- **A type ascription `(e : Foo)` is *erased* during elaboration**, so a `Finset.sum`/`∑`
+  over `(summand : Foo)` still takes the summand's *native* `Bar` `AddCommMonoid`, not `Foo`'s
+  (confirmed with `set_option pp.all`). `Finset.sum_mul`/`mul_sum` then "make no progress"
+  because they expect the ambient semiring's monoid. **Fix: build the summand from a function
+  whose *declared return type* is `Foo`** (here `ofPath x : PathAlgebra := single x 1`), so the
+  sum genuinely lives in `Foo`'s structure. Keep the public `Finsupp.single`-form lemma for
+  downstream clients and add a definitionally-equal `foo_eq_sum` (`:= rfl`) in the `Foo` form
+  for the internal proof.
+- **After `Finset.sum_mul` fires, the result sum is in the *semiring-derived* `AddCommMonoid`,
+  but `Finset.sum_ite_eq'`/`simp` re-synthesize the *group-derived* one** → the two are defeq
+  but `rw`/`simp` won't match ("did not find pattern" on syntactically-identical goals).
+  **Fix: evaluate the sum with `Finset.sum_eq_single_of_mem`**, which consumes the goal's sum
+  as-is (no instance re-synthesis); discharge its `∀ b ≠ a, f b = 0` side goal with a term-mode
+  `(hterm b).trans (if_neg …)` (a bare `rw` leaves an unclosed `0 = 0` across the same diamond).
+- **Ring-law instance fields (`left_distrib`, `zero_mul`, `smul_mul`, …) whose old `change …;
+  rw [map_add]` broke: rewrite them term-mode** as `map_add (mulLinear a) b c` /
+  `(LinearMap.congr_fun (map_add …) c).trans (LinearMap.add_apply …)`. And for
+  `Finsupp.induction_linear` leaking `Bar`-typed pieces into `Foo` multiplication, wrap a
+  `Foo`-native `induction_linear` (`:= Finsupp.induction_linear …`) whose step binders are `Foo`.
+  Small `Finsupp`-typed helpers (`c • single x 1 = single x c`, `c • 0 = 0`) proved by `rw` then
+  applied to `Foo` goals by `exact` cover the `SMulZeroClass k Foo`-not-synthesizable gaps.
 
 **Same failure for `AddCommGrpCat`/`ModuleCat` homology goals in `ConcreteCategory.hom` form**
 (cost ~5 iterations in #6952, `Chapter8/HomComplexHomologyK.lean`). After
@@ -200,6 +238,26 @@ action through first; (c) for char-2 `m + m = 0` on an `asModule`, do it on the 
 `asModule`); (d) `Representation.asModuleEquiv` is `LinearEquiv.refl`, so `asModuleEquiv m` is defeq
 `m` — a `have key : single g 1 • m = ρ g m := by rw [Representation.single_smul, one_smul]; rfl`
 bridges `single_smul` to the plain action.
+
+**A `map_smul'`/`asModule` proof that used to close by `rw`/`simp` but now leaves a
+trivially-true goal (`0 = 0`, `X = X`, `f 0 = 0`) is the reducible-transparency
+regression, not a math error.** `rw`/`simp` run their terminal reflexivity at
+reducible transparency, which no longer unfolds `Representation.asModule` (a
+`def := V` whose `AddCommMonoid`/`Module`/`Zero` instances are defeq to, but
+syntactically distinct from, `V`'s). Fixes for the `MonoidAlgebra.induction_linear`
+`zero`/`add` cases: (a) after `simp only [zero_smul]` close with **`exact rfl`** (or
+`exact map_zero f`) at default transparency, not by relying on `simp`/`rw`'s own
+close; (b) a bare `rw [map_add]` / `rw [map_zero]` will *not* match `asModule`'s add
+instance — split the map with a **pinned** `show f (a•x + b•x) = f (a•x) + f (b•x)
+from map_add f _ _` (the `show` elaborates the add in the goal's `asModule` instance,
+`from` fills it by defeq), then `rw [ha, hb]; exact rfl`. (c) When an inline
+`≃ₗ[k[G]]` structure's `single_smul` rewrite fails because a helper equiv's *concrete*
+codomain (`DirectSum β W`) leaks past the `asModule` action, don't fight it — if the
+helper intertwines the two representations, **reuse the generic
+`asModuleEquivOfIntertwiner`/`asModuleHomOfIntertwiner` lift** (proved once at the
+type-variable level where `f x : W` matches `asModule σ` syntactically) instead of
+re-deriving. Worked example: #7554 (`Chapter5/RepresentationAsModuleHom.lean`, all
+four `map_smul'` proofs).
 
 **`MonoidAlgebra.single g 1` elaborates the coefficient `1` as `ℕ` (giving `ℕ[G]`) unless
 pinned** — the module/action can't back-propagate the base ring during elaboration, so
@@ -678,6 +736,7 @@ Read the item's blob text and its `.refs.md` file (Mathlib coverage + external s
 **Common pitfalls:**
 - **No `-/` inside doc-comments.** A stray `-/` sequence in prose (e.g. writing `one-/two-sided`, or `f⁻¹/g`) closes the `/-! … -/` or `/-- … -/` block early, and the remaining text is parsed as commands — producing baffling "unexpected identifier; expected command" errors far from the real spot. Reword to `one- or two-sided`. Likewise avoid an accidental `/-` opening a nested comment.
 - **Never use `λ` as a bound-variable name.** In Lean 4 `λ` is the reserved lambda keyword, so `fun λ => …`, `∑ λ ∈ s, …`, or `(λ : Nat.Partition n)` all produce cryptic parse errors (`unexpected token '=>'`, `unexpected token 'λ'`). This bites constantly in the partition/Young-diagram chapters where `λ` is the natural mathematical name — use `la` (the codebase convention) or `lam`. The book's `λ` in prose inside doc-comments is fine.
+- **No combining-diacritic identifiers.** A name whose diacritic is a *combining* Unicode codepoint — e.g. `g̃` (`g` + U+0303 combining tilde), `x̄`, `f̂` — does not tokenize as an identifier: Lean reports `expected token` / `Missing cases` at the `let`/`have`, far from the real cause. Use a plain ASCII suffix (`glift`, `xbar`, `fhat`) for locally-introduced names.
 - Don't invent type classes. If Mathlib doesn't have a concept, use a `structure` or `def` with explicit fields.
 - Don't use `True` as a placeholder for propositions — it compiles but hides the real requirement.
 - Check that universe levels are consistent. Representation theory often needs `Type*` not `Type`.
@@ -1325,6 +1384,16 @@ Euler characteristics) repeatedly needs `finrank k (M →ₗ[A] N)`. Useful fact
 | Finite group theory | `decide` (small groups) | case analysis |
 | Linear algebra | `ext`, `simp [LinearMap...]` | `apply LinearMap.ext` |
 | Module homomorphisms | `ext`, `simp` | manual composition |
+
+### `rw [ZMod.natCast_self]` fails to match `↑n` in `ZMod n` — use `CharP.cast_eq_zero` (#7508)
+
+Proving `q² ≡ 1 (mod q²−1)` (Discussion 5.25.4), the step `rw […, ZMod.natCast_self, …]`
+regressed with `Tactic rewrite failed: Did not find an occurrence of the pattern ↑?n` on the
+goal `↑(q²−1) + 1 = 1` — even though `↑(q²−1) : ZMod (q²−1)` is visibly a nat-cast of the
+modulus. `ZMod.natCast_self`'s `↑?n` LHS no longer unifies against the `ZMod` `NatCast`
+instance during `rw`. **Fix: rewrite with `CharP.cast_eq_zero` instead** (`(↑p : R) = 0`
+given `[CharP R p]`), which matches through the `CharP (ZMod n) n` instance. One-token swap;
+watch for this across the ZMod/modular-arithmetic "restore fresh-buildable" issues.
 
 ### Enumerating a concrete finite group over `ZMod n` (`QuaternionGroup`, `DihedralGroup`, …) — #6068
 
@@ -5914,3 +5983,47 @@ works (Problem 3.9.3, `dim Ext¹(S_i,S_j) = #(i ⟶ j)`):
    collapses the whole thing (it routes the constant arrow-sum through
    `(if … then Finset.univ else ∅).card`, which `apply_ite Finset.card` + `Finset.card_univ`/`card_empty`
    finish). Trace the intermediate goal with `trace_state` when a staged `simp only` stalls.
+
+## `addCommGroupOfRing` AddCommMonoid→AddCommGroup diamond breaks fresh builds (#7525, the "restore fresh-buildable" wave)
+
+`Etingof.QuiverRepresentation` bundles only `AddCommMonoid`+`Module` on `obj v`. Many proofs
+upgrade to a group with `letI : ∀ v, AddCommGroup (V.obj v) := fun v => Etingof.addCommGroupOfRing`.
+`AddCommGroup` does **not** store `toAddCommMonoid` as a field (it derives it from `toAddGroup`+comm),
+so `(addCommGroupOfRing).toAddCommMonoid` is defeq to the ambient `AddCommMonoid` only at `default`
+transparency, **not** the `instances`/reducible transparency that instance search and `rw`/`simp`
+motive-checks use. A Mathlib bump made this fatal, and it is the root cause of a whole wave of
+"restore fresh-buildable" regressions (`DecompositionExistence`, `Proposition6_6_5`, `Theorem6_5_2`
+#7518, `Problem6_1_5_OrbitFiniteness`, …). Stale oleans hide it at import time; a *fresh*
+`lake env lean` on each file exposes it. Symptoms:
+
+- `rw`/`simp` reports **"target expression is not type-correct under the `instances` transparency
+  level"** and refuses to fire (even `LinearMap.comp_apply`), or leaves the goal untouched with all
+  simp args "unused".
+- With the `letI acg` in scope, `Module k (V.obj v)` / `Module.Finite k (V.obj v)` /
+  `Module.Finite k ↥(W v)` **fail to synthesize** — the upgraded monoid shadows the bundled one.
+
+**Do not** try to make the diamond reducible (impossible with `{ inst with … }`) and **do not** put
+the group in scope when you also need the bundled `Module`/`Module.Finite`. Instead:
+
+1. **Never unfold `directSum` under `simp`.** Add `rfl` `@[simp]` lemmas
+   `directSum_obj : (directSum k Q V₁ V₂).obj v = V₁.obj v × V₂.obj v` and
+   `directSum_mapLinear : (directSum …).mapLinear f = (V₁.mapLinear f).prodMap (V₂.mapLinear f)`.
+   These keep every goal type-correct. Note `LinearMap.prodMap_apply` will *not* fire when the arg
+   has type `(directSum …).obj a` (it doesn't whnf to `_ × _` at simp's transparency) — a `rfl`
+   pair-form lemma `((directSum …).mapLinear f y).1 = V₁.mapLinear f y.1` does.
+2. **Intertwining that is definitional** (unit/assoc/`prodUnique`/`uniqueProd`/`prodAssoc`): just
+   `intro a b f; ext x <;> rfl`. Don't fight it with `simp`.
+3. **Vertex isomorphism from `IsCompl`** (`areIsomorphic_subRep_directSum`): build it as
+   `LinearEquiv.ofBijective (sc v) (hbij v)` where `sc v := (W₁ v).subtype.coprod (W₂ v).subtype`
+   is **structure-typed** (needs no group), and the group only appears inside `hbij v` as
+   `(@Submodule.prodEquivOfIsCompl k _ (V.obj v) (addCommGroupOfRing) (V.instModule v) …).bijective`.
+   This keeps the group out of every term the arrow maps act on. Prove the intertwiner via a
+   naturality lemma for `sc` (`coprod_apply` + `restrict_coe_apply`).
+4. **finrank / complement facts** (`finrank_add_eq_of_isCompl`, `finiteDimensional_submodule`,
+   `finrank_pos`): keep the group **out of scope** and pass it explicitly, e.g.
+   `@Submodule.finrank_add_eq_of_isCompl k (V.obj v) _ (Etingof.addCommGroupOfRing (k := k))
+   (V.instModule v) (inferInstanceAs (Module.Finite k (V.obj v))) …`. `inferInstanceAs` resolves
+   the bundled `Module.Finite` *because no `acg` is in scope*; the `@`-application then accepts it
+   for the group-keyed argument by `default`-transparency defeq. For anything messier (positivity),
+   factor a standalone helper lemma with plain `[AddCommGroup M] [Module k M] [FiniteDimensional k M]`
+   hypotheses and apply it with `@` + explicit `addCommGroupOfRing`.
