@@ -25,6 +25,7 @@ import EtingofRepresentationTheory.Chapter5.Proposition5_3_2
 import EtingofRepresentationTheory.Chapter5.Definition5_4_1
 import EtingofRepresentationTheory.Chapter5.Theorem5_4_3
 import EtingofRepresentationTheory.Chapter5.Theorem5_4_4
+import EtingofRepresentationTheory.Chapter5.Theorem5_4_4_Test
 import EtingofRepresentationTheory.Chapter5.Lemma5_4_5
 import EtingofRepresentationTheory.Chapter5.Theorem5_4_6
 import EtingofRepresentationTheory.Chapter5.Lemma5_4_7
