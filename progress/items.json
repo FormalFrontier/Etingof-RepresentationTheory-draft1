@@ -6740,8 +6740,10 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "coverage": "covered_full",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "Theorem5_26_1 proves the rational-span conclusion, and a private proof discusses the integral-rank argument. The remark's public Q-span iff C-span theorem and its equivalent decomposition-matrix row-independence criterion are absent; follow-up #7489.",
+    "fidelity_issue": 7489,
     "last_updated": "2026-07-22"
   },
   {
@@ -7567,11 +7569,12 @@
     "end_page": "171",
     "start_line": 19,
     "end_line": 32,
-    "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_count": 0,
-    "coverage": "covered_full",
-    "coverage_note": "Public endpoints give both reflection-functor round-trip isomorphisms under the source hypotheses.",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "sorry_count": 4,
+    "coverage": "covered_partial",
+    "coverage_note": "Public theorem signatures exist for both reflection-functor round trips, but neither implementation file passes a fresh Lean check; the source-side file also reports four declarations using sorry. Regression follow-up #7490.",
+    "fidelity_issue": 7490,
     "last_updated": "2026-07-22"
   },
   {
