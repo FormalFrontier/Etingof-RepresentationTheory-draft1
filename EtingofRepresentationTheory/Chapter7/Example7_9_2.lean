@@ -38,16 +38,16 @@ namespace Etingof
 
 /-! ## A linear companion to `Adjunction.left_adjoint_additive` -/
 
+set_option backward.defeqAttrib.useBackward true in
 /-- If `adj : F ⊣ G` is an adjunction between `R`-linear categories and the right
 adjoint `G` is additive and `R`-linear, then the left adjoint `F` is `R`-linear.
 This is the `Functor.Linear` companion of
-`CategoryTheory.Adjunction.left_adjoint_additive`. -/
+`CategoryTheory.Adjunction.left_adjoint_additive`, and is proved in the same style. -/
 lemma left_adjoint_linear {C D : Type*} [Category C] [Category D] [Preadditive C]
     [Preadditive D] (R : Type*) [Semiring R] [Linear R C] [Linear R D]
     {F : C ⥤ D} {G : D ⥤ C} (adj : F ⊣ G) [G.Additive] [G.Linear R] : F.Linear R where
-  map_smul {X Y} f r := (adj.homEquiv X (F.obj Y)).injective <| by
-    simp only [Adjunction.homEquiv_unit, Functor.map_smul, Linear.comp_smul,
-      ← Functor.comp_map, ← adj.unit.naturality, Functor.id_map, Linear.smul_comp]
+  map_smul {X Y} f r :=
+    (adj.homEquiv X (F.obj Y)).injective (by simp [Adjunction.homEquiv_unit])
 
 /-! ## The three functors of Example 7.9.2 -/
 
