@@ -82,6 +82,7 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_14_3
 
 -- Section 5.15: Frobenius Character Formula
 import EtingofRepresentationTheory.Chapter5.Theorem5_15_1
+import EtingofRepresentationTheory.Chapter5.Theorem5_15_1_Test
 import EtingofRepresentationTheory.Chapter5.CharacterMultiplicityBridge
 import EtingofRepresentationTheory.Chapter5.Discussion_footnote_5_15
 import EtingofRepresentationTheory.Chapter5.Lemma5_15_3
