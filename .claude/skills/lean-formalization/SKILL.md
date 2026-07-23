@@ -138,6 +138,24 @@ inferInstanceAs _`) and **obtain elements at the synonym type** — `obtain ⟨w
 building submodule-lattice order-isos by hand. `change`, not `show`, when unfolding the synonym
 (the style linter rejects a goal-changing `show`).
 
+**Mathlib v4.32 module-system bump: two recurring `MonoidAlgebra`/`Representation.asModule`
+source-elaboration regressions** (Ch4 `Exercise4_2_3`/`_Cocenter`, #7535; the same shapes hit
+the `fix(...)` completeness-audit batch, e.g. Ch6 `Problem6_1_6` #7550, and any file using
+`Subrepresentation.mem_ofSubmodule'_iff`). (1) **`rw` no longer matches Finsupp coercion
+lemmas through the `MonoidAlgebra k G := G →₀ k` synonym** — `Finset.sum_apply'`,
+`Finsupp.finset_sum_apply` (now `Finsupp.finsetSum_apply`), `Finsupp.add_apply`,
+`Finsupp.smul_apply` all fail with "did not find pattern" on a target like `(∑ g, single g 1) x`
+or `(a + b) g`. Fix: extract coefficients via `exact Finsupp.finsetSum_apply _ _ _` (unification
+uses defeq, unlike `rw`'s syntactic match) or replace the rewrite with the defeq equality
+`rw [show (a + b) g = a g + b g from rfl]` / `(r • a) g = r • a g` / `single_apply`. (2)
+**`Subrepresentation.mem_ofSubmodule'_iff` (and kin) fail to synthesize `Module k
+(Representation.asModule ρ)`** — the derived `Module k (asModule ρ)` instance cannot be found
+while `ρ` is still a metavariable during application, and a local `haveI` does NOT help. Fix:
+pin the section variable, `(Subrepresentation.mem_ofSubmodule'_iff (ρ := V.ρ)).mpr h`. When
+closing a `⊥`-membership goal whose element is typed at the `asModule` synonym, prefer
+`rw [Submodule.mem_bot]; exact h` over `simpa using h` (`simpa`'s final `exact` runs at reducible
+transparency and will not unfold `asModule`, giving a `↑V.V` vs `asModule V.ρ` type mismatch).
+
 **`letI : AddCommGroup P := addCommGroupOfRing …` on a parent type `P` SHADOWS and breaks
 `Module R P` synthesis** (v4.31/v4.32 regression; cost ~10 iterations in #7509,
 `Chapter6/CoxeterInfrastructure.lean`). The old trick of adding a ring-induced `AddCommGroup`

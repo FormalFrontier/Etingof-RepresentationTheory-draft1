@@ -60,11 +60,13 @@ noncomputable def classCoeff : MonoidAlgebra k G →ₗ[k] (ConjClasses G → k)
     funext C'
     simp only [Pi.add_apply]
     rw [← Finset.sum_add_distrib]
-    exact Finset.sum_congr rfl fun g _ => by rw [Finsupp.add_apply]; split <;> simp
+    exact Finset.sum_congr rfl fun g _ => by
+      rw [show (a + b) g = a g + b g from rfl]; split <;> simp
   map_smul' r a := by
     funext C'
     simp only [RingHom.id_apply, Pi.smul_apply, smul_eq_mul, Finset.mul_sum]
-    exact Finset.sum_congr rfl fun g _ => by rw [Finsupp.smul_apply, smul_eq_mul]; split <;> simp
+    exact Finset.sum_congr rfl fun g _ => by
+      rw [show (r • a) g = r • a g from rfl, smul_eq_mul]; split <;> simp
 
 lemma classCoeff_single (g : G) (c : k) :
     classCoeff k G (single g c) = fun C' => if ConjClasses.mk g = C' then c else 0 := by
