@@ -73,10 +73,12 @@ omit [Group G] in
 /-- Every coefficient of `P = ∑_g g` equals `1`. -/
 @[simp] lemma groupSum_apply (x : G) : (groupSum k G) x = 1 := by
   classical
-  rw [groupSum, Finset.sum_apply',
-    Finset.sum_eq_single x (fun b _ hb => by simp [hb])
-      (fun hx => absurd (Finset.mem_univ x) hx)]
-  simp
+  have happly : (groupSum k G) x = ∑ g : G, (MonoidAlgebra.single g (1 : k)) x :=
+    Finsupp.finsetSum_apply Finset.univ (fun g => MonoidAlgebra.single g (1 : k)) x
+  rw [happly, Finset.sum_eq_single x
+    (fun b _ hb => by simp [MonoidAlgebra.single_apply, hb])
+    (fun hx => absurd (Finset.mem_univ x) hx)]
+  simp [MonoidAlgebra.single_apply]
 
 /-- Left-multiplying `P` by a group element fixes it: `g · P = P`. -/
 lemma single_mul_groupSum (g : G) :
@@ -121,8 +123,8 @@ lemma groupSum_isNilpotent (hcard : (Fintype.card G : k) = 0) :
 lemma groupSum_ne_zero : groupSum k G ≠ 0 := by
   intro h
   have h1 := groupSum_apply (k := k) (G := G) (1 : G)
-  rw [h] at h1
-  simp at h1
+  rw [h, show (0 : MonoidAlgebra k G) (1 : G) = 0 from rfl] at h1
+  exact zero_ne_one h1
 
 /-- **Non-semisimplicity in the modular case.** If `|G| = 0` in `k` then the group algebra
 `k[G]` is not semisimple: the nonzero central nilpotent `P = ∑_g g` lies in the Jacobson
@@ -330,10 +332,11 @@ theorem isSimpleModule_asModule_of_simple (V : FDRep k G) [Simple V] :
     have hzero : ⇑j.hom = 0 := by rw [hj0]; rfl
     rw [eq_bot_iff]
     intro x hx
-    have hxS : x ∈ S := (Subrepresentation.mem_ofSubmodule'_iff).mpr hx
+    have hxS : x ∈ S := (Subrepresentation.mem_ofSubmodule'_iff (ρ := V.ρ)).mpr hx
     have hval : (Subtype.val : S.toSubmodule → V.V) ⟨x, hxS⟩ = 0 := by
       rw [← hjhom]; exact congrFun hzero ⟨x, hxS⟩
-    simpa using hval
+    rw [Submodule.mem_bot]
+    exact hval
   · right
     haveI : IsIso j' := (Simple.mono_isIso_iff_nonzero j').mpr hz
     haveI hisoj : IsIso ((forget₂ (FDRep k G) (Rep k G)).map j') := inferInstance
@@ -344,7 +347,7 @@ theorem isSimpleModule_asModule_of_simple (V : FDRep k G) [Simple V] :
     intro x _
     obtain ⟨y, hy⟩ := hsurj x
     have hxS : x ∈ S := hy ▸ y.2
-    exact (Subrepresentation.mem_ofSubmodule'_iff).mp hxS
+    exact (Subrepresentation.mem_ofSubmodule'_iff (ρ := V.ρ)).mp hxS
 
 /-- **Simple objects of `Rep k G` are exactly the simple `k[G]`-modules.** -/
 theorem simple_rep_iff_isSimpleModule (W : Rep k G) :
