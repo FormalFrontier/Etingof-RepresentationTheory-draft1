@@ -978,13 +978,12 @@
     "end_page": "20",
     "start_line": 2,
     "end_line": 4,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "sorry_free": false,
-    "coverage": "covered_partial",
-    "coverage_note": "The intended path-algebra declarations are present, but the current defining file fails to elaborate across the opaque PathAlgebra/Finsupp boundary in multiplication, associativity, and unit proofs; regression #7499.",
-    "fidelity_issue": 7499,
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The PathAlgebra structure, its NonUnitalNonAssocRing/NonUnitalRing/Ring/Algebra instances, and the path-concatenation multiplication all build fresh and sorry-free; the def-vs-Finsupp transparency boundary is bridged with term-mode ring-law proofs and a PathAlgebra-native linearity induction (#7499).",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter2/Remark2.8.5",
@@ -994,12 +993,12 @@
     "end_page": "20",
     "start_line": 5,
     "end_line": 5,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "PathAlgebra.sum_trivialPaths_eq_one and the finite-quiver algebra instance have the right signatures, but their defining file currently fails to elaborate and they cannot be imported; regression #7499.",
-    "fidelity_issue": 7499,
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "PathAlgebra.sum_trivialPaths_eq_one and the finite-quiver Ring/Algebra instances build fresh and sorry-free; the unit ∑ᵢ pᵢ is proved a two-sided identity via Finset.sum_eq_single_of_mem over the ofPath-form unit (#7499).",
+    "last_updated": "2026-07-23",
+    "sorry_free": true
   },
   {
     "id": "Chapter2/Problem2.8.6",
@@ -2799,18 +2798,18 @@
     "coverage_note": "The Ext¹ computation and the infinite indecomposable family in part (b) are proved. For part (a), two_dim_is_extension only reduces an arbitrary two-dimensional module to an extension of one-dimensional modules; it does not provide normal forms or the isomorphism criterion obtained by splitting distinct weights and quotienting self-extension classes by automorphisms. The requested classification remains #6276.",
     "derived": [
       {
-      "part": "(a) Ext¹(Vₐ,V_b) and 2-dim reps of ℂ[x₁..xₙ]",
+        "part": "(a) Ext¹(Vₐ,V_b) and 2-dim reps of ℂ[x₁..xₙ]",
         "claim": "For A=ℂ[x₁..xₙ] with 1-dim reps Vₐ,V_b (xᵢ acts by aᵢ,bᵢ): Ext¹(Vₐ,Vₐ)≅ℂⁿ and Ext¹(Vₐ,V_b)=0 for a≠b; every 2-dim rep is an extension of two 1-dim reps.",
         "description": "Full Ext¹ computation (ℂⁿ for equal weights, 0 for distinct) plus classification of 2-dim representations as extensions of 1-dim ones.",
         "source_span": "blobs/Chapter3/Problem3.9.2.md (a)",
-      "coverage": "covered_partial",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem3_9_2.ext1_self",
           "Etingof.Problem3_9_2.ext1_subsingleton_of_ne",
           "Etingof.Problem3_9_2.two_dim_is_extension"
         ],
-      "reason": "The Ext¹ spaces are computed and every 2D module is shown to be an extension. The file does not turn this into an up-to-isomorphism classification: no explicit normal forms, split/distinct-weight theorem, projective parameter for nonzero self-extensions, or iff isomorphism criterion is exposed.",
-      "followup_issue": 6276
+        "reason": "The Ext¹ spaces are computed and every 2D module is shown to be an extension. The file does not turn this into an up-to-isomorphism classification: no explicit normal forms, split/distinct-weight theorem, projective parameter for nonzero self-extensions, or iff isomorphism criterion is exposed.",
+        "followup_issue": 6276
       },
       {
         "part": "(b) infinitely many indecomposables of the zero-mult algebra",
