@@ -128,20 +128,26 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "gap"
-    }
+      "result": "covered"
+    },
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The irreducible/indecomposable distinction and implication are public through Etingof.IsIndecomposable and Etingof.IsIndecomposable.of_isSimpleModule; concrete non-converse examples are also public.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Theorem2.1.1",
+    "source_regression_note": "Clean rebuild imports the broken Sl2Irrep source used for its irreducible witnesses (#7531).",
     "type": "theorem",
     "title": "Classification of irreducible representations of U(sl(2))",
     "start_page": "6",
     "end_page": "6",
     "start_line": 18,
     "end_line": 25,
-    "status": "sorry_free",
-    "coverage": "covered_full",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "coverage": "covered_partial",
+    "coverage_issue": 7531,
+    "fidelity": "partial",
     "needs_statement": false,
     "notes": "Complete: both parts (i) and (ii) proved. PR #1611 completed sl(2) complete reducibility.",
     "last_updated": "2026-07-22"
@@ -287,7 +293,10 @@
     "end_line": 23,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "CommRing together with Algebra records the source definition under the explicit preceding convention that all subsequent algebras are unital; this convention invalidates the withdrawn false positive #7464.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Discussion_commutativity_examples",
@@ -313,7 +322,10 @@
     "end_line": 27,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The public AlgHom abbreviation exactly records the source's linearity, multiplicativity, and unit-preservation conditions under the active unital-algebra convention.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Definition2.3.1",
@@ -324,8 +336,12 @@
     "start_line": 1,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "The generic unital Module A V convention is valid, and right modules are exposed via Module Aᵐᵒᵖ V in Remark2_3_2; the withdrawn non-unitality claim #7465 was false. However, the source's k-algebra hom A → End_k(V), its scalar compatibility, and the round-trip bridge with modules are not public; follow-up #7482.",
+    "fidelity_issue": 7482,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Remark2.3.2",
@@ -382,7 +398,10 @@
     "end_line": 23,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The public Submodule A V abbreviation exactly records an A-stable subspace/subrepresentation.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Definition2.3.5",
@@ -394,7 +413,10 @@
     "end_line": 1,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "IsSimpleModule A V records the source's nonzero representation with no proper nonzero subrepresentation.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Definition2.3.6",
@@ -406,7 +428,10 @@
     "end_line": 8,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "A-linear maps are exactly the intertwining operators in the source; the standard LinearEquiv API supplies inverses for isomorphisms.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Definition2.3.7",
@@ -418,7 +443,10 @@
     "end_line": 9,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The product module V₁ × V₂ gives the finite direct sum with the source's componentwise action.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Definition2.3.8",
@@ -430,7 +458,10 @@
     "end_line": 11,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The public rightModuleOfLeft and leftModuleOfRight constructions identify right modules (Module Aᵐᵒᵖ M) with left modules over a commutative ring and prove the stated action formulas.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Discussion_irreducible_vs_indecomposable",
@@ -743,6 +774,12 @@
     "start_line": 1,
     "end_line": 4,
     "status": "sorry_free",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "Mathlib supplies free algebras and two-sided-ideal quotients, but the project has no generic presented-algebra construction, relator theorem, or universal property for this source discussion; follow-up #7475.",
+    "fidelity_issue": 7475,
+    "last_updated": "2026-07-22",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -806,7 +843,10 @@
     "end_line": 21,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "FaithfulSMul A V exactly says the action hom is injective, matching a faithful representation.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Discussion_faithful_example",
@@ -835,8 +875,9 @@
     "start_line": 25,
     "end_line": 8,
     "status": "sorry_free",
-    "coverage_note": "Parts (a) and (b) are proved sorry-free. For part (c), finrank_irreducible_charP proves that every finite-dimensional irreducible over an algebraically closed field of characteristic p has dimension p, but the requested classification is absent: there is no parameterized family, isomorphism criterion, or exhaustiveness theorem. Follow-up: #7387.",
+    "coverage_note": "Parts (a), (b), and the characteristic-p dimension result are source-present, while the requested classification remains #7387. Independently, Problem2_7_4.lean now fails a fresh check at a scalar-cast/neg_smul rewrite; regression #7530.",
     "followup_issue": 7387,
+    "coverage_issue": 7530,
     "coverage": "covered_partial",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_7_4.lean"
@@ -867,7 +908,10 @@
     "end_line": 24,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Mathlib's Quiver records vertices and a type of directed edges for every ordered pair, including loops and multiple arrows.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Example2.8.2",
@@ -907,7 +951,10 @@
     "end_line": 35,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Etingof.QuiverRepresentation records a vector space at every vertex and a linear map for every arrow.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Discussion_path_algebra_intro",
@@ -931,9 +978,13 @@
     "end_page": "20",
     "start_line": 2,
     "end_line": 4,
-    "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "sorry_free": false,
+    "coverage": "covered_partial",
+    "coverage_note": "The intended path-algebra declarations are present, but the current defining file fails to elaborate across the opaque PathAlgebra/Finsupp boundary in multiplication, associativity, and unit proofs; regression #7499.",
+    "fidelity_issue": 7499,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Remark2.8.5",
@@ -943,22 +994,25 @@
     "end_page": "20",
     "start_line": 5,
     "end_line": 5,
-    "status": "sorry_free",
-    "fidelity": "verified",
-    "coverage": "covered_full",
-    "coverage_note": "PathAlgebra.sum_trivialPaths_eq_one and the finite-quiver algebra instance expose the source identity Σ_i p_i = 1 and unitality.",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "PathAlgebra.sum_trivialPaths_eq_one and the finite-quiver algebra instance have the right signatures, but their defining file currently fails to elaborate and they cannot be imported; regression #7499.",
+    "fidelity_issue": 7499,
     "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Problem2.8.6",
+    "source_regression_note": "Clean rebuild imports the broken Definition2_8_4 path-algebra source (#7499).",
     "type": "exercise",
     "title": "Generators and relations for the path algebra",
     "start_page": "20",
     "end_page": "20",
     "start_line": 6,
     "end_line": 16,
-    "status": "sorry_free",
-    "coverage": "covered_full",
+    "status": "partially_proved",
+    "coverage": "covered_partial",
+    "coverage_issue": 7499,
     "last_updated": "2026-07-22",
     "coverage_note": "EtingofRepresentationTheory/Chapter2/Problem2_8_6.lean (vertex idempotents + arrow generators; generation adjoin = top; four defining relations; universal property). All theorems proved sorry-free: relation (1) sum_vertexIdem, relations (2)-(4), generation adjoin_generators_eq_top (via path induction and ofPath_cons), and the universal property defining_relations_universal (constructed φ via evalPath/evalMap and AlgHom.ofLinearMap; uniqueness by path induction on generators)."
   },
@@ -972,8 +1026,9 @@
     "end_line": 4,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "coverage_note": "The two constructions and the module-side equivalence are present. The representation-side round trip is only a QuiverRepresentationHom, not an isomorphism, and no bijection on isomorphism classes is exposed; reopened #5224.",
+    "coverage_note": "The two constructions and module-side equivalence are source-present, but the representation-side round trip is only a QuiverRepresentationHom and no bijection on isomorphism classes is exposed. The backing file also currently fails a fresh source check at Finsupp/PathAlgebra carrier mismatches; reopened #5224 tracks both.",
     "fidelity_issue": 5224,
+    "coverage_issue": 5224,
     "last_updated": "2026-07-22",
     "coverage_swept": {
       "wave": 1,
@@ -1001,7 +1056,10 @@
     "end_line": 9,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "QuiverSubrepresentation records vertexwise submodules stable under every arrow; the restricted arrow maps are canonically determined.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Definition2.8.9",
@@ -1040,7 +1098,10 @@
     "end_line": 14,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "QuiverRepresentationHom records vertexwise linear maps satisfying the source's commutative-arrow squares.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Problem2.8.11",
@@ -1080,7 +1141,10 @@
     "end_line": 21,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The public LieRing and LieAlgebra structures record the skew-symmetric bilinear bracket and Jacobi identity in the definition.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Example2.9.2",
@@ -1164,6 +1228,12 @@
     "start_line": 1,
     "end_line": 5,
     "status": "sorry_free",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "The orthogonal Lie algebra so(n) is available through Mathlib. Problem2_16_2 later defines the correct two-dimensional matrix Lie algebra and proves [X,Y]=Y, but the aff(1) source-facing identification and the claim that X,Y form a basis are absent; narrowed follow-up #7485.",
+    "fidelity_issue": 7485,
+    "last_updated": "2026-07-22",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -1192,7 +1262,10 @@
     "end_line": 9,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "LieHom is the source's linear bracket-preserving homomorphism of Lie algebras.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Definition2.9.7",
@@ -1204,7 +1277,10 @@
     "end_line": 10,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "LieModule k L V is the standard action-map formulation of a representation of the Lie algebra L.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Example2.9.8",
@@ -1231,8 +1307,12 @@
     "start_line": 21,
     "end_line": 23,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "fidelity_note": "Lean aliases Mathlib's coordinate-free universal enveloping algebra and omits the source's chosen-basis, structure-constant presentation; combined bridge follow-up #7474.",
+    "fidelity_issue": 7474,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Remark2.9.10",
@@ -1243,7 +1323,12 @@
     "start_line": 24,
     "end_line": 24,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "The promised equivalence between the earlier basis presentation and later coordinate-free construction is absent because both Lean names alias the same type; combined follow-up #7474.",
+    "fidelity_issue": 7474,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Exercise2.9.11",
@@ -1377,7 +1462,10 @@
     "end_line": 22,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "TensorProduct k V W supplies the source quotient construction through its universal property and canonical pure-tensor map.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter2/Exercise2.11.2",
@@ -1402,6 +1490,12 @@
     "start_line": 38,
     "end_line": 3,
     "status": "sorry_free",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "The routine tensor-product constructions are available, but the source's explicit claim that non-pure tensors exist has no public witness; follow-up #7467.",
+    "fidelity_issue": 7467,
+    "last_updated": "2026-07-22",
     "coverage_swept": {
       "wave": 1,
       "result": "trivial"
@@ -1504,7 +1598,7 @@
     "status": "sorry_free",
     "coverage": "covered_full",
     "last_updated": "2026-07-22",
-    "coverage_note": "Chapter2/Exercise2_11_7.lean: M ⊗[A] N is an A-module for a commutative ring A (TensorProduct.instModule via inferInstance), with the action lemmas a•(m⊗ₜn) = (a•m)⊗ₜn = m⊗ₜ(a•n). Sorry-free. NOTE: blobs/Chapter2/Exercise2.11.7.md is mis-extracted (holds the trailing clause of Problem 2.11.6(b)); the real statement is confirmed against source/original.pdf p.35 and matches this title."
+    "coverage_note": "Chapter2/Exercise2_11_7.lean shows that M ⊗[A] N is an A-module for a commutative ring A (TensorProduct.instModule via inferInstance), with the action lemmas a•(m⊗ₜn) = (a•m)⊗ₜn = m⊗ₜ(a•n). The corrected blob now contains this source statement."
   },
   {
     "id": "Chapter2/Discussion_2.12_heading",
@@ -1529,9 +1623,11 @@
     "start_line": 1,
     "end_line": 16,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "sorry_free": true,
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "fidelity_note": "The coordinate-free symmetric, exterior, and enveloping algebras are present. The final identification of the coordinate-free enveloping algebra with Definition 2.9.9's basis presentation is not formalized; combined follow-up #7474.",
+    "fidelity_issue": 7474,
     "last_updated": "2026-07-22"
   },
   {
@@ -1647,8 +1743,9 @@
     "end_line": 16,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "coverage_note": "Parts (f)-(n)—irreducible classification, Casimir, complete reducibility, Jacobson-Morozov, Clebsch-Gordan, and the tensor-Jordan form—are substantively proved. Parts (a)-(e) are not: the current proof selects one terminal ordinary H-eigenvector rather than proving the source's conclusions on the entire maximal generalized eigenspace, including diagonalizability and the least F-nilpotence exponent. Follow-up #7427.",
+    "coverage_note": "Parts (f)-(n) are source-present, while the maximal-generalized-eigenspace conclusions in (a)-(e) remain #7427. The Clebsch–Gordan module source now also fails a fresh check at repeated Lie-action rewrites; regression #7529.",
     "followup_issue": 7427,
+    "coverage_issue": 7529,
     "last_updated": "2026-07-22"
   },
   {
@@ -1725,8 +1822,9 @@
       "Etingof.Problem2_16_4.finrank_irreducible_le_char",
       "Etingof.Problem2_16_4.exists_irreducible_dim_char"
     ],
-    "notes": "Partial coverage, corrected after fidelity audit #7196: finrank_irreducible_le_char proves every finite-dimensional irreducible sl(2,k)-module has finrank <= p, and irrep_isIrreducible + irrep_finrank + exists_irreducible_dim_char show the bound is attained. These are genuine, axiom-clean sl(2) results, but they do not classify irreducibles up to isomorphism as Problem 2.16.4 asks. The missing parameterization, isomorphism criterion, and exhaustiveness proof are assigned to the later reprise specified in deferred-reprises.md.",
-    "coverage_note": "The dimension bound dim V ≤ p and standard irreducible modules of dimensions 1 through p are proved. The parameter family, isomorphism criterion, and exhaustive classification are unfinished work assigned to the later Reprises/Problem2_16_4.lean by deferred-reprises.md; no placeholder reprise exists yet.",
+    "notes": "The dimension bound and standard examples are intentionally only the early partial treatment. Parameterization, isomorphism criteria, and exhaustiveness remain assigned to the later reprise in deferred-reprises.md. The existing partial source currently fails fresh elaboration; regression #7531 repairs that source without changing the deferral decision.",
+    "coverage_note": "The dimension bound dim V ≤ p and standard irreducible modules are source-present but Sl2Irrep.lean and Problem2_16_4.lean currently fail direct checks (#7531). Full classification remains intentionally deferred to the later Reprises/Problem2_16_4.lean; no placeholder reprise exists yet.",
+    "coverage_issue": 7531,
     "last_updated": "2026-07-22"
   },
   {
@@ -1800,11 +1898,12 @@
     "end_page": "43",
     "start_line": 13,
     "end_line": 13,
-    "status": "sorry_free",
-    "sorry_free": true,
-    "notes": "Complete and sorry-free in Remark3_1_3.lean. The file constructs evalTensor and the full direct-sum evaluation map, proves evalDirectSum_surjective and evalDirectSum_injective using isotypic components, and packages the canonical decomposition as evalDirectSumEquiv.",
-    "fidelity": "verified",
-    "coverage": "covered_full",
+    "status": "partially_proved",
+    "sorry_free": false,
+    "notes": "The file constructs the correct evaluation map and canonical-equivalence API, but currently fails to elaborate in evalDirectSum_injective, so evalDirectSumEquiv cannot be imported; regression #7502.",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "fidelity_issue": 7502,
     "last_updated": "2026-07-22"
   },
   {
@@ -1829,27 +1928,30 @@
     "end_page": "44",
     "start_line": 3,
     "end_line": 8,
-    "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true,
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "sorry_free": false,
     "fidelity_decl": "Etingof.subrepresentation_of_semisimple",
-    "fidelity_note": "The multiplicity-bounded abstract decomposition of W is proved. The source's remaining structural conclusion—putting the actual inclusion into simultaneous block-matrix form with row-independent matrices X_i—is not assembled from the single-isotypic matrix lemmas in Remark3_1_5.lean.",
+    "fidelity_note": "The multiplicity-bounded abstract decomposition of W has a public declaration, but its current file fails to elaborate because the top-submodule AddCommGroup and IsSimpleModule instances are not synthesized; regression #7496. Independently, the source's remaining structural conclusion—putting the actual inclusion into simultaneous block-matrix form with row-independent matrices X_i—is not assembled from the single-isotypic matrix lemmas in Remark3_1_5.lean.",
     "coverage": "covered_partial",
     "followup_issue": 5370,
+    "coverage_issue": 7496,
     "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Remark3.1.5",
+    "source_regression_note": "Clean rebuild imports the broken Proposition3_1_4 source (#7496).",
     "type": "remark",
     "title": "Generalization of Proposition 3.1.4 to non-algebraically-closed fields",
     "start_page": "44",
     "end_page": "45",
     "start_line": 9,
     "end_line": 2,
-    "status": "sorry_free",
-    "coverage": "covered_full",
+    "status": "partially_proved",
+    "coverage": "covered_partial",
+    "coverage_issue": 7496,
     "last_updated": "2026-07-22",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "fidelity_note": "Formalized in Chapter3/Remark3_1_5.lean. The classification (Prop 3.1.4) is already proved over an arbitrary ring with arbitrary simple modules (no algebraic closure, no finite-dimensionality): re-exported as subrepresentation_general. The new content - matrix entries in D_i = End_A(V_i) - is homMatrixEquiv: Hom_A(Fin r -> V, Fin n -> V) = Matrix over End_A(V). D_i is a division ring by Schur (end_divisionRing). \"Linearly independent rows\" = injectivity is captured by injective_iff_rows_linearIndependent.",
     "fidelity_decl": "Etingof.Remark315.subrepresentation_general, Etingof.Remark315.homMatrixEquiv, Etingof.Remark315.injective_iff_rows_linearIndependent"
   },
@@ -1900,7 +2002,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The alternative proof can use an arbitrary kernel complement, but the book's conclusion selects a sub-sum from the given irreducible family. That structured Lemma 3.1.6 endpoint remains #7409.",
+    "fidelity_issue": 7409,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Introduction_to_3.2",
@@ -2020,7 +2127,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The final classification theorem is public, but the book's advertised proof route through the transpose equivalence A^{n*} ≃ A^n and dualizing a surjection to an injection is not exposed; follow-up #7517.",
+    "fidelity_issue": 7517,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Problem3.3.3",
@@ -2030,20 +2142,21 @@
     "end_page": "48",
     "start_line": 1,
     "end_line": 14,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "sorry_free": true,
-    "coverage_note": "Coverage-arm audit (Stage 3.7, #7371): covered_full (roll-up over formalizable sub-parts (a),(b); (c) is non_formalizable expository). Chapter3/Problem3_3_3.lean (sorry-free on origin/main, 0 sorries) formalizes the two mathematical parts of the alternative proof of Theorem 3.3.1. Part (a): simpleModule_prod_iff — for the product ring A = ∀ i, 𝒜 i and any A-module V, IsSimpleModule A V iff ∃ i with IsSimpleModule A (1ᵢV) and 1ⱼV = ⊥ for all j ≠ i (the 'exactly one i' classification; 1ᵢV = LinearMap.range (idemProj i) the honest central-idempotent image). Part (b): std_isSimpleModule (k^d = Fin d → k is a simple Mat_d(k)-module), simpleModule_iso_std (any f.d. simple Mat_d(k)-module ≃ₗ k^d), finite_iso_std_pow (any f.d. Mat_d(k)-module ≃ₗ (k^d)^n) — together 'the only irreducible is k^d and every f.d. rep is a direct sum of copies of k^d', via the book's elementary matrix-unit argument (psi map), not Wedderburn–Artin. Part (c) 'deduce Theorem 3.3.1' has no distinct decl in this file: the target statement is the independently-proved Etingof.irreducible_reps_of_matrix_algebra (Theorem3_3_1.lean), so the deduction step itself is expository (non_formalizable).",
-    "fidelity": "verified",
-    "coverage": "covered_full",
+    "coverage_note": "Part (b)'s matrix-algebra classification is proved. Part (a) proves the idempotent-range criterion only as a statement about modules over the full product; it does not construct the actual factor-module restriction/inflation or the requested isomorphism-class classification in terms of simple A_i-modules (#7564).",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_issue": 7564,
     "coverage_arm": "audited",
     "derived": [
       {
         "part": "(a) irreducibles of a direct sum of algebras",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem3_3_3.simpleModule_prod_iff"
         ],
-        "reason": "IsSimpleModule (∀ i, 𝒜 i) V ↔ ∃ i, IsSimpleModule … (LinearMap.range (idemProj i)) ∧ ∀ j ≠ i, LinearMap.range (idemProj j) = ⊥, for an ARBITRARY finite product ring and arbitrary module V. Faithful rendering of 'V irreducible iff 1ᵢV irreducible over Aᵢ for exactly one i and 1ⱼV = 0 otherwise' (1ᵢV is the honest central-idempotent range; simple ⇒ nonzero pins the unique i). Axiom-clean."
+        "reason": "simpleModule_prod_iff proves the central-idempotent range criterion over the full product algebra. The range is never equipped with the actual A_i-module structure named by the source, and the converse inflation plus exhaustion/uniqueness classification by factor simples is absent (#7564)."
       },
       {
         "part": "(b) representations of Mat_d(k)",
@@ -2077,7 +2190,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "notes": "Remark3_3_4.lean: freeCover : (ι → A) →ₗ[A] X, (aᵢ) ↦ Σ aᵢ•bᵢ from a k-basis; freeCover_surjective; quotientEquivOfFreeCover ((ι → A)/ker ≃ₗ[A] X), i.e. X is a quotient of the free module Aⁿ."
+    "notes": "Remark3_3_4.lean publicly constructs the free cover Aⁿ → X, proves surjectivity, and identifies its quotient by the kernel with X. The source's final derivation of the irreducible decomposition uses the stronger given-subfamily form of Lemma 3.1.6, still tracked by #7409.",
+    "coverage": "covered_partial",
+    "fidelity_issue": 7409,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Introduction_to_3.4",
@@ -2248,12 +2364,12 @@
     "start_line": 11,
     "end_line": 2,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "sorry_free": true,
     "fidelity_decl": "Etingof.semisimple_algebra_equiv",
-    "fidelity_issue": 5371,
-    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified",
-    "coverage": "covered_full",
+    "fidelity_issue": 7468,
+    "fidelity_note": "The five main equivalent conditions were repaired in closed #5371. The source's zero-algebra footnote—semisimple but not simple, with only zero representations and an empty matrix-algebra sum—has no public endpoint; follow-up #7468.",
+    "coverage": "covered_partial",
     "last_updated": "2026-07-22"
   },
   {
@@ -2331,10 +2447,12 @@
     "start_line": 7,
     "end_line": 4,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "sorry_free": true,
     "notes": "Full theorem now exposed (#5328): jordan_holder_equivalent gives s₁.Equivalent s₂; jordan_holder_factors gives the permutation σ with Wᵢ ≅ W'_{σ i} via Etingof.compositionFactor; jordan_holder retains the n = m length half.",
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "fidelity_note": "The Jordan–Hölder theorem itself is complete. The characteristic-p footnote's concrete explanation—that the character of the p-fold sum pV vanishes for every V—has no public theorem; follow-up #7469.",
+    "fidelity_issue": 7469,
     "last_updated": "2026-07-22"
   },
   {
@@ -2410,21 +2528,28 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The intended Krull–Schmidt proof is source-present, but Theorem3_8_1.lean currently fails fresh elaboration, so this proof discussion cannot rebuild; regression #7495.",
+    "coverage_issue": 7495,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Problem3.8.3",
+    "source_regression_note": "Its named general-field Krull–Schmidt citations come from the broken Theorem3_8_1 source (#7495).",
     "type": "exercise",
     "title": "Krull-Schmidt theorem without algebraic closure",
     "start_page": "55",
     "end_page": "55",
     "start_line": 13,
     "end_line": 14,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "note": "Covered-inline: Lemma3_8_2 and Theorem3_8_1 are formalized over an arbitrary [Field k] (no IsAlgClosed), using the Fitting decomposition in place of the book's generalized-eigenspace argument. Chapter3/Problem3_8_3.lean names the general-field citation targets (endo_iso_or_nilpotent, sum_nilpotent_endo, krull_schmidt_existence/uniqueness).",
     "sorry_free": true,
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7495,
     "coverage_arm": "audited",
     "lean_decl": [
       "Etingof.Problem3_8_3.endo_iso_or_nilpotent",
@@ -2448,15 +2573,16 @@
     "end_page": "56",
     "start_line": 15,
     "end_line": 4,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "sorry_free": true,
-    "fidelity": "verified",
+    "fidelity": "partial",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_8_4_Main.lean",
       "EtingofRepresentationTheory/Chapter3/Problem3_8_4_General.lean"
     ],
-    "coverage_note": "Coverage-arm audit (Stage 3.7, #7373): covered_full (roll-up = min over sub-parts (i),(ii), both covered_full). The full Problem3_8_4_* chain is sorry-free and axiom-clean. Part (i) iso_of_baseChange_iso and part (ii) directSummand_of_baseChange_directSummand are BOTH stated over an arbitrary field extension L/K (only [Field L] [Algebra K L], no finiteness on L) — matching the book, not merely the finite-extension case the hint reduces to. See the prior long build note (retained below) for the descent/Zariski route. PRIOR NOTE: Statement pass (#5896/#5923). Base-change module infrastructure built directly (rep/repTensor/bcMod: L ⊗[K] V as an L ⊗[K] A-module, via Module.End.baseChangeHom + AlgHom.liftEquiv + Module.compHom, since TensorProduct.Algebra.module is not a global instance). Parts (i) iso_of_baseChange_iso and (ii) directSummand_of_baseChange_directSummand (Noether-Deuring) stated with sorry proofs; (ii) encodes direct summand as a split injection. Uses L ⊗[K] V for the book's V ⊗_K L (Mathlib scalar-on-left convention). Prerequisite (#6020) landed in Problem3_8_4_Power.lean: bcModRestrict views L ⊗[K] V as an A-module by restricting bcMod along includeRight (a acts as l ⊗ v ↦ l ⊗ (a • v)), and baseChange_alinEquiv_pow gives the A-linear iso L ⊗[K] V ≃ₗ[A] (Fin (finrank K L) → V) for finite L/K — sorry-free. Prerequisite (#6021) landed iso_pow_cancel (Vⁿ≅Wⁿ⟹V≅W) in Problem3_8_4_Cancellation.lean. Assembly (#6022) landed Problem3_8_4_Finite.lean: bcRestrictScalars restricts an L⊗A-linear iso to an A-linear iso, and iso_of_baseChange_iso_finite proves part (i) for FINITE L/K (compose power iso + iso_pow_cancel) — sorry-free. Remaining for the general-L main theorems: (a) finite-extension descent reducing general L to a finite subextension L₀ (the book's 'finitely generated, then finite' step); (b) a direct-summand power-cancellation lemma Vⁿ|Wⁿ⟹V|W for part (ii). Both tracked as sub-issues. Update (#6176): the split-injection descent lemma exists_fg_subalgebra_baseChange_directSummand (Problem3_8_4_Descent.lean) is now proved sorry-free and axiom-clean (propext/Classical.choice/Quot.sound) — the split injection ⟨i,p⟩ with p∘i=id over an arbitrary L descends to a finitely generated K-subalgebra R⊆L; mirrors the merged iso descent exists_fg_subalgebra_baseChange_iso (matrix entries of i,p generate R, R-linear maps built via Basis.constr, upgraded to R⊗A-linear, relation p'∘i'=id descended via injectivity of the flat coefficient inclusion R⊗V→L⊗V). Update (#6058): both general-L main theorems are now sorry-free. Part (i) iso_of_baseChange_iso is assembled in the new top-level file Problem3_8_4_Main.lean (above the Finite/Descent import DAG) via the book's Zariski-specialization route — descend the L⊗A-iso to a finitely generated K-subalgebra R⊆L (Descent.exists_fg_subalgebra_baseChange_iso), specialize at a maximal ideal to a residue field κ finite over K by Zariski's lemma (finite_of_finite_type_of_isJacobsonRing), push forward (Functoriality.nonempty_baseChange_iso), and apply the finite-extension case iso_of_baseChange_iso_finite. Part (ii) directSummand_of_baseChange_directSummand lives in Problem3_8_4_General.lean by the same route on split injections (Descent.exists_fg_subalgebra_baseChange_directSummand → Functoriality.nonempty_baseChange_directSummand → directSummand_of_baseChange_directSummand_finite). The whole Problem3_8_4_* chain is now sorry-free.",
-    "coverage": "covered_full",
+    "coverage_note": "Both general-L endpoints remain mathematically source-present with arbitrary field-extension hypotheses, but Problem3_8_4_Descent.lean currently fails a fresh check at three simplification steps, blocking a clean rebuild of the descent chain; regression #7532.",
+    "coverage": "covered_partial",
+    "coverage_issue": 7532,
     "coverage_arm": "audited",
     "lean_decl": [
       "Etingof.Problem3_8_4.iso_of_baseChange_iso",
@@ -2469,7 +2595,7 @@
         "claim": "If V ⊗_K L ≅ W ⊗_K L as A ⊗_K L-modules for a field extension L/K, then V ≅ W as A-modules.",
         "description": "Descent of a module isomorphism along an arbitrary base-field extension.",
         "source_span": "blobs/Chapter3/Problem3.8.3.md (blob-offset: holds the 3.8.4(i) statement); hint in blobs/Chapter3/Problem3.8.4.md",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem3_8_4.iso_of_baseChange_iso"
         ],
@@ -2480,7 +2606,7 @@
         "claim": "In the setting of (i), if V ⊗_K L is a direct summand of W ⊗_K L then V is a direct summand of W as A-modules.",
         "description": "Noether-Deuring: the direct-summand relation descends along a base-field extension.",
         "source_span": "blobs/Chapter3/Problem3.8.4.md (ii)",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem3_8_4.directSummand_of_baseChange_directSummand"
         ],
@@ -2496,13 +2622,14 @@
     "end_page": "56",
     "start_line": 5,
     "end_line": 10,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "sorry_free": true,
-    "fidelity": "verified",
+    "fidelity": "partial",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_8_5.lean"
     ],
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7533,
     "coverage_arm": "audited",
     "lean_decl": [
       "Etingof.Problem3_8_5.periodic_isIndecomposable",
@@ -2517,7 +2644,7 @@
         "claim": "A (continuous period-1 functions ℝ→ℝ) and M (continuous antiperiodic functions f(x+1)=-f(x)) are indecomposable A-modules.",
         "description": "Neither the regular module A nor M admits a nontrivial direct-sum decomposition.",
         "source_span": "blobs/Chapter3/Problem3.8.5.md (i)",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem3_8_5.periodic_isIndecomposable",
           "Etingof.Problem3_8_5.antiperiodic_isIndecomposable"
@@ -2529,7 +2656,7 @@
         "claim": "A is not isomorphic to M as A-modules, yet A ⊕ A ≅ M ⊕ M.",
         "description": "M is a nontrivial order-2 element of Pic(A) (the Möbius line bundle on the circle): not free of rank 1, but M ⊕ M ≅ A ⊕ A.",
         "source_span": "blobs/Chapter3/Problem3.8.5.md (ii)",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem3_8_5.periodic_not_linearEquiv_antiperiodic",
           "Etingof.Problem3_8_5.periodic_sq_linearEquiv_antiperiodic_sq"
@@ -2537,7 +2664,7 @@
         "reason": "periodic_not_linearEquiv_antiperiodic (line 331) is IsEmpty (periodicSubalg ≃ₗ[periodicSubalg] antiperiodicSubmod) — a GENUINE non-isomorphism of A-modules (any generator of M is a continuous antiperiodic function, so it vanishes somewhere by the IVT, whence every element of M vanishes there, contradicting a nonvanishing antiperiodic section). periodic_sq_linearEquiv_antiperiodic_sq (line 485) is Nonempty ((periodicSubalg × periodicSubalg) ≃ₗ[periodicSubalg] (antiperiodicSubmod × antiperiodicSubmod)) — a GENUINE A-linear iso via the rotation (f,g)↦(cos·f−sin·g, sin·f+cos·g) with transpose inverse (cos²+sin²=1). Axiom-clean."
       }
     ],
-    "coverage_note": "Coverage-arm audit (Stage 3.7, #7373): covered_full (roll-up = min over sub-parts (i),(ii), both covered_full). Reconciled the stale sorry_free:false flag → true: Problem3_8_5.lean has 0 sorries and all four headline decls are axiom-clean ([propext, Classical.choice, Quot.sound], no sorryAx). Part (ii)'s A≇M is a genuine IsEmpty of the A-linear equiv and A⊕A≅M⊕M is a genuine A-linear iso (not a mere additive or ℂ-linear bijection)."
+    "coverage_note": "All four headline constructions remain source-present, but Problem3_8_5.lean currently fails a fresh check at an application type mismatch, so the counterexample cannot be rebuilt; regression #7533."
   },
   {
     "id": "Chapter3/Remark3.8.6",
@@ -2885,13 +3012,14 @@
     "end_page": "59",
     "start_line": 13,
     "end_line": 16,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "notes": "All sorries resolved. Uniqueness of V, W (Theorem 3.10.2(ii)'s '**unique** V and W') added as companion theorem Etingof.tensor_product_irreducible_classification_unique (#5614). Algebra-finiteness assumptions [FiniteDimensional k A]/[FiniteDimensional k B] removed as unfaithful (#7391): the book assumes only the representations V/W/M are finite-dimensional.",
     "sorry_free": true,
-    "fidelity_note": "[resolved #7391] The public parts (i) tensor_product_irreducible and (ii) tensor_product_irreducible_classification no longer assume [FiniteDimensional k A]/[FiniteDimensional k B]; the density theorem (Etingof.density_theorem_part1) and isArtinian_of_tower need only FiniteDimensional k V/W/M, matching the book. A regression test instantiates both with the infinite-dimensional A=B=k[X] acting on the finite-dimensional simple module k (X↦0). [resolved #5614] Existence is tensor_product_irreducible_classification; uniqueness up to isomorphism is the companion tensor_product_irreducible_classification_unique (V ≅ V' as A-modules, W ≅ W' as B-modules for any two A-B-equivariant factorizations), via Schur's lemma.",
+    "fidelity_note": "The intended public parts no longer assume finite-dimensional A or B (#7391), and existence/uniqueness are source-present. However, Theorem3_10_2.lean now fails a fresh check in scalar-tower, endomorphism-algebra, and submodule module instances; regression #7520. The independent textbook proof-route gap remains #7453.",
     "fidelity_issue": 7391,
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7520,
     "last_updated": "2026-07-22"
   },
   {
@@ -3014,12 +3142,13 @@
     "end_page": "63",
     "start_line": 15,
     "end_line": 16,
-    "status": "sorry_free",
-    "coverage_note": "Proved in EtingofRepresentationTheory/Chapter4/Problem4_1_4.lean. Char-p fixed-vector theorem for p-groups (nontrivial-center strong induction) plus simplicity forces trivial action; #print axioms shows no sorryAx.",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "coverage_note": "The exact trivial-action endpoint is source-present, but Problem4_1_4.lean currently leaves unsolved goals in the characteristic-p fixed-vector proof; regression #7536.",
+    "fidelity": "partial",
     "fidelity_decl": "theorem Etingof.Problem4_1_4 {p n : ℕ} [Fact p.Prime] {k} [Field k] [CharP k p] {G} [Group G] [Fintype G] (hG : Fintype.card G = p^n) {V} [AddCommGroup V] [Module k V] (ρ : Representation k G V) (hV : IsSimpleModule (MonoidAlgebra k G) ρ.asModule) : ∀ g, ρ g = LinearMap.id",
     "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_1_4.lean",
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7536,
     "fidelity_note": "[fidelity #7270] VERIFIED. Hypotheses [Fact p.Prime], [CharP k p], Fintype.card G = p^n (n universally quantified, n=0 boundary admitted+harmless) faithfully encode 'G of order p^n over a field of characteristic p'; IsSimpleModule (MonoidAlgebra k G) ρ.asModule is the genuine irreducibility hypothesis (submodules = subrepresentations). Key check: conclusion ∀ g, ρ g = LinearMap.id is exactly 'the rep is trivial' (every element acts as identity) — the strongest faithful reading, NOT merely a fixed vector (that is the aux exists_fixed_vector) nor a scalar action; with hV it is equivalent to '1-dim trivial irrep'. Non-vacuous (C₂ over 𝔽₂ trivial rep satisfies all hyps; V forced Nontrivial by IsSimpleModule). Axiom-clean [propext, Classical.choice, Quot.sound], builds 8580/8580. covered_full.",
     "last_updated": "2026-07-22"
   },
@@ -3045,14 +3174,15 @@
     "end_page": "64",
     "start_line": 23,
     "end_line": 8,
-    "status": "sorry_free",
-    "fidelity": "verified",
-    "notes": "All sorries resolved. hd_ne proved via trace nondegeneracy (IrrepDecomp.d_cast_ne_zero). Basis claim now complete: spanning (Etingof.Theorem4_2_1) + linear independence (Etingof.Theorem4_2_1_linearIndependent, via FDRep.char_orthonormal) = irreducible characters form a basis of Fc(G,k).",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "notes": "The spanning and linear-independence endpoints are source-present, but Theorem4_2_1.lean currently fails a fresh check in trace_toGroupAlgebra_action; regression #7519.",
     "sorry_free": true,
     "fidelity_decl": "Etingof.Theorem4_2_1 + Etingof.Theorem4_2_1_linearIndependent",
     "fidelity_issue": 5380,
-    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified",
-    "coverage": "covered_full",
+    "fidelity_note": "The former semantic gap was repaired, but the current source cannot rebuild the public basis theorem because a zero-function evaluation goal is unsolved.",
+    "coverage": "covered_partial",
+    "coverage_issue": 7519,
     "last_updated": "2026-07-22"
   },
   {
@@ -3078,10 +3208,12 @@
     "end_page": "64",
     "start_line": 11,
     "end_line": 14,
-    "status": "sorry_free",
-    "coverage": "covered_full",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_issue": 7535,
     "last_updated": "2026-07-22",
-    "coverage_note": "COMPLETE (#6139). Etingof.Exercise4_2_3 in Chapter4/Exercise4_2_3_Assembly.lean: |G| = 0 in k ⟹ Nat.card (IrrepClasses k G) < Nat.card (ConjClasses G). #print axioms shows only [propext, Classical.choice, Quot.sound]. Assembled by base change to K = AlgebraicClosure k: lt_of_le_of_lt through (a) base-change monotonicity natCard_irrepClasses_le_of_ringHom_field (#6127) and (b) the new strict split-field lemma natCard_irrepClasses_lt_conjClasses_of_isAlgClosed. The strict lemma reuses the split-field enumeration (SplitData, exists_splitSimples_count) and the linear independence of the n standard-module cocenter trace forms — extracted from the #6126 ≤-proof into the reusable traceFormQ_Std_linearIndependent (Exercise4_2_3_FieldGeneral.lean) — feeding the strict cocenter bound CocenterMonoidAlgebra.card_lt_conjClasses_of_traceForm_linearIndependent (each trace form annihilates the nonzero central nilpotent P̄ = ∑_g g in the modular case). The Exercise4_2_3 statement moved to the downstream assembly file (import-cycle: FieldGeneral/StrictBound both import Exercise4_2_3.lean). k, G share a universe (as in the ≤ companion natCard_irrepClasses_le_conjClasses)."
+    "coverage_note": "The strict modular irreducible-count theorem is source-present, but Exercise4_2_3.lean and its Cocenter dependency currently fail fresh rewrite checks; regression #7535."
   },
   {
     "id": "Chapter4/Corollary4.2.4",
@@ -3318,18 +3450,20 @@
   },
   {
     "id": "Chapter4/Remark4.5.5",
+    "source_regression_note": "Clean rebuild imports the broken FrobeniusSchurRealType source (#7527).",
     "type": "remark",
     "title": "Unitary matrix proof of column orthogonality",
     "start_page": "70",
     "end_page": "70",
     "start_line": 15,
     "end_line": 17,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "fidelity_note": "Formalized in Chapter4/Remark4_5_5.lean. The character matrix U (rows = irreducibles indexed by ConjClasses G to encode squareness from Thm 4.5.2, columns = conjugacy classes, entries chi_V(g_c)/sqrt|Z_{g_c}|) is built explicitly. character_matrix_mul_conjTranspose proves rows orthonormal (U Uᴴ = 1) by reindexing the first orthogonality relation (FDRep.char_orthonormal, Thm 4.5.1) over conjugacy classes via |c.carrier|*|Z|=|G|; character_matrix_conjTranspose_mul derives unitarity (Uᴴ U = 1) from squareness; column_orthogonality reads off the second orthogonality relation. Sorry-free.",
     "fidelity_decl": "Etingof.Remark4_5_5.column_orthogonality",
     "fidelity_issue": 5378,
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7527,
     "last_updated": "2026-07-22"
   },
   {
@@ -3355,7 +3489,7 @@
     "start_line": 3,
     "end_line": 4,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "sorry_free": true,
     "coverage": "covered_full",
     "last_updated": "2026-07-23",
@@ -3477,6 +3611,12 @@
     "start_line": 25,
     "end_line": 27,
     "status": "sorry_free",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "General character-table infrastructure and the neighboring S3/Q8/S4/A5 examples exist, but the source's complete A4 class data, four irreducibles, and table are not exposed; follow-up #7478.",
+    "fidelity_issue": 7478,
+    "last_updated": "2026-07-22",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -3508,6 +3648,12 @@
     "start_line": 3,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "Specific tensor-product tables are formalized, and the character/Hom ingredients exist, but no generic theorem states the source's multiplicity inner-product formula and decomposition; follow-up #7479.",
+    "fidelity_issue": 7479,
+    "last_updated": "2026-07-22",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -3627,7 +3773,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The Frobenius-determinant proof chain is source-present, but Theorem4_10_2.lean currently fails fresh elaboration; regression #7494.",
+    "coverage_issue": 7494,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Discussion_4.11",
@@ -3659,18 +3810,20 @@
   },
   {
     "id": "Chapter4/Problem4.12.1",
+    "source_regression_note": "Clean rebuild imports the broken Exercise4_2_3 modular-count source (#7535).",
     "type": "exercise",
     "title": "Irreducible representations of dihedral groups",
     "start_page": "83",
     "end_page": "83",
     "start_line": 9,
     "end_line": 14,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "coverage_note": "Proved in EtingofRepresentationTheory/Chapter4/Problem4_12_1.lean, sorry-free (#print axioms = [propext, Classical.choice, Quot.sound]). (a) FULL classification of the complex irreps of DihedralGroup N. Dimension dichotomy irreducible_dim (every irreducible is 1- or 2-dim). Explicit 2-dim family Vrep N j (r 1 = diag(zeta^j, zeta^{-j}), sr 0 swaps coords), Vrep_irreducible (V_j irreducible iff 2j!=0), Vrep_trace_r (character zeta^{jk}+zeta^{-jk}), Vrep_not_iso (trace-based pairwise non-isomorphism). 1-dim characters DihedralGroup N ->* C^x with counts one_dim_reps_card_odd (=2) / one_dim_reps_card_even (=4) [#7249]. EXHAUSTIVENESS simple_iso_char_or_Vrep: every simple FDRep C (DihedralGroup N) is iso to a one-dimensional charRep chi or to a two-dimensional Vrep N j (2j!=0), via exists_simples_sum_finrank_sq_eq_card + surj_of_injective_of_sum_eq pigeonhole (sum of dim^2 = 2N). Count headlines: two_dim_simples_card_odd (=(N-1)/2), two_dim_simples_card_even (=(N-2)/2), irreps_sum_sq (#1dim*1 + #2dim*4 = 2N), total_irreps_card_odd (=2+(N-1)/2), total_irreps_card_even (=4+(N-2)/2). (b) ISOMORPHISM-LEVEL decomposition tensor_square_decomposition: V(x)V = 1 (+) eps (+) V2 as an actual FDRep C (DihedralGroup N) isomorphism (Nonempty ((FDRep.of (Vrep N 1) (x) FDRep.of (Vrep N 1)) iso FDRep.of (rhsRep N))), with V=Vrep N 1 the complexified standard rep, V2=Vrep N 2, eps the sign character signHom, 1 the trivial character; obtained from the character identity tensor_square_character (chi_V^2 = 1 + chi_sign + chi_V2, kept as supporting lemma) via Etingof.Corollary4_2_4 (over C a finite-dim rep of a finite group is determined by its character). Bridge lemmas chiStd_eq_Vrep1_character / chiRot2_eq_Vrep2_character tie chiStd/chiRot2 to Vrep_trace_r at j=1,2. Holds for all N>=1 (for N>=3 the summands are irreducible). Classification/counts completed in #7248 (built on 1-dim character counts #7249); iso-level upgrade #7318.",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "fidelity_issue": null,
     "fidelity_note": "[VERIFIED by #7268 re-audit, 2026-07-22] Full re-audit of the now-complete classification against blobs/Chapter4/Problem4.12.1.md. All 13 headline declarations axiom-clean ([propext, Classical.choice, Quot.sound], no sorryAx). Part (a): DihedralGroup N (order 2N, DihedralGroup.card) faithfully models the N-gon symmetry group; irreducible_dim (dimension dichotomy, genuine IsSimpleModule hyp, non-vacuous); explicit 2-dim family Vrep N j (real def: r 1 = diag(ζ^j,ζ^{-j}), sr 0 swaps) with Vrep_irreducible (simple iff 2j≠0), Vrep_trace_r (χ = ζ^{jk}+ζ^{-jk}), Vrep_not_iso (character-separated); 1-dim characters via charEquiv (u^N=u^2=1, w^2=1; u^2=1 from the dihedral relation) with counts 2 (odd)/4 (even); EXHAUSTIVENESS simple_iso_char_or_Vrep proves every simple is iso to a 1-dim charRep χ or 2-dim Vrep N j (Artin-Wedderburn ∑dim²=2N + pigeonhole); counts two_dim_simples_card_odd/_even, total_irreps_card_odd/_even, irreps_sum_sq all match the book. Part (b): tensor_square_character χ_V²=1+χ_ε+χ_{V₂} (chiStd/chiSign/chiRot2 real defs, correct D_N characters) faithfully encodes V⊗V≅𝟙⊕ε⊕V₂. Encoding note (NOT a gap): part (b) is a character identity among hand-defined class functions rather than a bundled FDRep isomorphism — legitimate since character equality ⟺ isomorphism over ℂ for finite groups; possible future strengthening. Non-vacuous: all defs constructed (no sorry'd data, no True stubs), NeZero N the natural non-degeneracy hyp. Supersedes the #7219 GAP (part (a) classification was absent at that time; completed by #7222→#7225→#7248, 1-dim counts #7249). Report: progress/reviews/2026-07-22-ch4-problem4_12_1-dihedral-reaudit-fidelity.md.",
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7535,
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter4/Problem4_12_1.lean"
@@ -3729,17 +3882,19 @@
   },
   {
     "id": "Chapter4/Problem4.12.2",
+    "source_regression_note": "Clean rebuild imports the broken Exercise4_2_3 modular-count source (#7535).",
     "type": "exercise",
     "title": "Representations of the Heisenberg group",
     "start_page": "83",
     "end_page": "84",
     "start_line": 15,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_2.lean: Heisenberg group over 𝔽_p (order p³). COMPLETE and sorry-free (#print axioms irreducible_dim = {propext, Classical.choice, Quot.sound}). Part (a) (#6017): card_eq (|G|=p³) and exists_unique_rep — R_z built explicitly as ρ⟨a,b,c⟩f(t)=z^(b·t-c)·f(t-a), uniqueness via generator word decomposition (xGen,yGen generate G). Part (b) (#6037): irreducible_iff — R_z simple ↔ z≠1. Part (c) (#6070): one_dim_reps_card (Nat.card (Heisenberg p →* ℂˣ) = p²) via abHom + CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity; R1_decomposes (R₁ = internal direct sum of p one-dim lines) via DFT characters as shift-eigenvectors. Part (d) (#6094, #7211): full classification simple_iso_charRep_or_rhoHom (every finite-dim simple G-rep ≅ either FDRep.of (charRep χ), dim 1, or FDRep.of (rhoHom z), z≠1, dim p) — exhibit the p² characters and the p-1 reps R_z (z≠1 a p-th root) as pairwise non-isomorphic simples (separated by dimension and by the central character z^{(-1).val}·p on ⟨0,0,1⟩ via FDRep.char_iso), squared dims summing to p²·1+(p-1)·p²=p³=|G|; inject the family into the complete enumeration exists_simples_sum_finrank_sq_eq_card, use positivity of every dim² to force surjectivity (pigeonhole), hence every simple ≅ one of the family. Uniqueness within branches: charRep_iso_iff (characters iso ↔ equal), rhoHom_iso_iff (R_z iso ↔ roots agree); branches disjoint by charRep_not_iso_rhoHom (dim 1≠p). irreducible_dim (every irreducible has dim 1 or p) now derived from the classification: σ transported to ℂ's universe via transportModule/repOfModule to U:FDRep, then read off dim of the matching family member. All five headlines axiom-clean {propext, Classical.choice, Quot.sound}.",
-    "fidelity": "faithful",
+    "fidelity": "partial",
     "fidelity_note": "[fidelity gap #7204 → RESOLVED by #7211/#7218] Parts (a)-(c) FAITHFUL & non-vacuous as headlines: group model is genuine order-p^3 Heisenberg group with correct generator matrices; exists_unique_rep is a real ∃! with the book's two generator actions; irreducible_iff is genuine IsSimpleModule over ℂ[G] with two-directional ↔ z≠1; one_dim_reps_card (p^2 chars) + R1_decomposes (internal direct sum of p distinct 1-dim isotypic lines, Injective χ = 'each once'). Part (d) gap CLOSED: the full part-(d) classification (exactly p^2 irreps of dim 1 and p-1 of dim p, p^2·1+(p-1)·p^2=p^3=|G| via sum-of-squares), previously proved only inside irreducible_dim, is now exposed as the named headline simple_iso_charRep_or_rhoHom (#7211). Original report: progress/reviews/2026-07-21-ch4-problem4_12_2-heisenberg-fidelity.md. All headlines axiom-clean (propext/Classical.choice/Quot.sound, no sorryAx).",
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7535,
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter4/Problem4_12_2.lean"
@@ -3867,13 +4022,14 @@
     "end_page": "85",
     "start_line": 19,
     "end_line": 4,
-    "status": "sorry_free",
-    "coverage_note": "EtingofRepresentationTheory/Chapter4/Problem4_12_5.lean. A₅ = alternatingGroup (Fin 5); the icosahedral vertex/face/edge actions are characterized as transitive actions on 12/20/30 points with point stabilizers of order 5/3/2 (unique up to iso in A₅). edges_decomposition (≅ 1⊕3⊕3'⊕4²⊕5³) is PROVEN sorry-free (#6231, axioms propext/Classical.choice/Quot.sound): via the decomposition engine (exists_sorted_isotypic_decomposition), the fixed-point character fixCount_edges = (30,0,2,0,0), a class-function-collapse multiplicity computation ⟨χ_perm,χ_i⟩=(1,1,1,2,3), and a monotone-type pinning from fibre cardinalities (monotone_initial). All three decompositions are now PROVEN sorry-free: vertices_decomposition (≅ 1⊕3⊕3'⊕5), faces_decomposition (≅ 1⊕3⊕3'⊕4²⊕5), and edges_decomposition, via the same shared decomposition engine and fixCount_vertices/faces/edges characters. Each stated as an internal direct sum of G-invariant irreducible subspaces of the given dimensions with the two 3-dimensional summands non-isomorphic.",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "coverage_note": "The conditional vertex/face/edge A₅ decompositions are source-present, but Problem4_12_5.lean currently leaves an unsolved goal (#7537). The separate missing geometric/coset action models remain #7276.",
+    "fidelity": "partial",
     "fidelity_decl": "Etingof.Problem4_12_5.vertices_decomposition, Etingof.Problem4_12_5.faces_decomposition, Etingof.Problem4_12_5.edges_decomposition",
     "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_12_5.lean",
     "coverage": "covered_partial",
     "followup_issue": 7276,
+    "coverage_issue": 7537,
     "fidelity_note": "The conditional decompositions and multiplicities for transitive A5-actions with stabilizer orders 5/3/2 are genuine and sorry-free. The regular icosahedron's vertex, face, and edge actions (or concrete coset models) are not constructed, and no equivariant equivalence connects the conditional Fin 12/20/30 representations to the source's geometric actions. Follow-up #7276.",
     "last_updated": "2026-07-22"
   },
@@ -3885,9 +4041,9 @@
     "end_page": "85",
     "start_line": 5,
     "end_line": 8,
-    "status": "proved",
-    "coverage_note": "Complete and sorry-free in EtingofRepresentationTheory/Chapter4/Problem4_12_6.lean. The file classifies the irreducibles of the affine group, computes the characters of the one-dimensional representations and V, and gives the explicit tensor-product representation isomorphisms charRep_tprod_Vrep_equiv_Vrep and Vrep_tprod_Vrep_equiv_rhsRep in addition to the character identities.",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "coverage_note": "The q >= 3 affine-group classification, character formulas, and tensor-product isomorphisms are source-present, but the file currently fails fresh elaboration (#7538). Independently, the source asks for every finite field and the q = 2 classification/character/tensor-table case is not publicly completed (#7560).",
+    "fidelity": "partial",
     "fidelity_decl": [
       "Etingof.Problem4_12_6.one_dim_reps_card",
       "Etingof.Problem4_12_6.zeroSum_irreducible",
@@ -3899,8 +4055,10 @@
     "lean_file": [
       "EtingofRepresentationTheory/Chapter4/Problem4_12_6.lean"
     ],
-    "coverage": "covered_full",
-    "fidelity_note": "All three requests in the book are now represented by proved declarations: the irreducible classification, character formulas, and explicit tensor-product decompositions. The formerly outstanding representation-level isomorphisms landed after the earlier partial-coverage audit.",
+    "coverage": "covered_partial",
+    "coverage_issue": 7538,
+    "fidelity_issue": 7560,
+    "fidelity_note": "For q >= 3, all three requests are represented by classification, character formulas, and explicit representation-level tensor-product isomorphisms. The exceptional q = 2 case is handled only by a dimension dichotomy, not by corresponding classification, character, and tensor-table endpoints (#7560).",
     "last_updated": "2026-07-22"
   },
   {
@@ -3911,10 +4069,11 @@
     "end_page": "86",
     "start_line": 9,
     "end_line": 4,
-    "status": "sorry_free",
-    "coverage_note": "Parts (a) real-irreducibility, (b) commutant ℍ=End_{SU(2),ℝ}(ℂ²) as a 4-dim ℝ-division algebra (finrank_commutant=4, commutant_isUnit_of_ne_zero via Schur), (c) Hamilton relations + 1,i,j,k basis (finrank ℝ ℍ=4) + Q₈⊆ℍˣ (units closed under ×, inverses; #6531), (d) conj/norm, (e) unit quaternions ≅ SU(2) (via ℍ↪M₂(ℂ), #6271), and (f) SU(2)→SO(3) surjective with kernel {±1} (via Euler Z-Y-Z) all proven sorry-free. Fidelity verified 2026-07-21 (#7208).",
-    "fidelity": "verified",
-    "coverage": "covered_full",
+    "status": "partially_proved",
+    "coverage_note": "All six SU(2)/quaternion/SO(3) subparts are source-present, but Problem4_12_7.lean currently leaves an unsolved goal and cannot rebuild; regression #7539.",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_issue": 7539,
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter4/Problem4_12_7.lean"
@@ -3938,7 +4097,7 @@
       {
         "part": "(a)",
         "description": "V = ℂ² viewed as a real 4-dimensional representation of SU(2) is irreducible.",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem4_12_7.real_irreducible"
         ],
@@ -3947,7 +4106,7 @@
       {
         "part": "(b)",
         "description": "ℍ = End_ℝ(V)^{SU(2)} is 4-dimensional, closed under multiplication, and every nonzero element is invertible (a real division algebra).",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem4_12_7.commutant",
           "Etingof.Problem4_12_7.mem_commutant_iff",
@@ -3959,7 +4118,7 @@
       {
         "part": "(c)",
         "description": "Find a basis 1, i, j, k of ℍ with the quaternion (Hamilton) relations i²=j²=k²=-1, ij=-ji=k, jk=-kj=i, ki=-ik=j; hence Q₈ ≤ ℍˣ.",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem4_12_7.qI_mul_qI",
           "Etingof.Problem4_12_7.qJ_mul_qJ",
@@ -3982,7 +4141,7 @@
       {
         "part": "(d)",
         "description": "For q = a+bi+cj+dk, with q̄ = a-bi-cj-dk and ‖q‖² = qq̄, show conj(q₁q₂) = q̄₂·q̄₁ and ‖q₁q₂‖ = ‖q₁‖·‖q₂‖.",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem4_12_7.star_mul_rev",
           "Etingof.Problem4_12_7.normSq_mul"
@@ -3992,7 +4151,7 @@
       {
         "part": "(e)",
         "description": "The group of unit quaternions (norm 1) is isomorphic to SU(2).",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem4_12_7.unit_quaternions_mulEquiv_SU2",
           "Etingof.Problem4_12_7.qmatHom",
@@ -4004,7 +4163,7 @@
       {
         "part": "(f)",
         "description": "The conjugation action q·x·q⁻¹ on span{i,j,k} gives h : SU(2) → SO(3) that is surjective with kernel {1, -1}.",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem4_12_7.rotHom",
           "Etingof.Problem4_12_7.rotHom_surjective",
@@ -4018,18 +4177,20 @@
   },
   {
     "id": "Chapter4/Problem4.12.8",
+    "source_regression_note": "Clean rebuild imports the broken Problem4_12_7 SU(2)/SO(3) source (#7539).",
     "type": "exercise",
     "title": "Classification of finite subgroups of SO(3) and SU(2)",
     "start_page": "86",
     "end_page": "87",
     "start_line": 5,
     "end_line": 2,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "coverage_note": "Problem4_12_8.lean is fully sorry-free: (a) so3_finite_subgroup_classification — every finite subgroup of SO(3) is cyclic/dihedral/A4/S4/A5; (b) su2_finite_subgroup_double_cover — SU(2) double-cover relation. Part (a) proved via the pole-counting route (#6802): the milestone lemmas (exists_fixed_vector, isCyclic_of_common_fixed_vector, pole_order_diophantine) and the tetrahedral/octahedral/icosahedral disjuncts (including the icosahedral crux so3_icosahedral_exists_faithful_perm5 via the simple-group / index-5 coset route) are all proved. No Mathlib support (no SO(3) eigenvalue-1, no MulAction on vectors, no MulEquiv targets). (b) upgraded (#7281) to the enumerated binary-polyhedral classification: su2_finite_subgroup_classification pins the concrete double cover (Problem4_12_7.exists_surjective_hom_to_SO3), classifies the image h(H) into the five SO(3) families, and shows H is the full binary preimage h^-1(h(H)) when -1 in H (order 2|h(H)|) or isomorphic to h(H) when -1 not in H; supporting su2_image_classification, su2_full_preimage_of_neg_one_mem, su2_iso_image_of_neg_one_not_mem. All axiom-clean (no sorryAx).",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "fidelity_decl": "Etingof.Problem4_12_8.so3_finite_subgroup_classification, Etingof.Problem4_12_8.su2_finite_subgroup_double_cover",
     "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_12_8.lean",
     "coverage": "covered_partial",
+    "coverage_issue": 7539,
     "followup_issue": 7281,
     "fidelity_note": "Part (a), the finite-subgroup classification of SO(3), is fully proved. The SU(2) theorem classifies the image in SO(3) and identifies H with its image when -1 is absent, but it does not prove that this branch must be cyclic; ordinary dihedral/A4/S4/A5 copies therefore remain formally allowed instead of the exact cyclic-or-binary-polyhedral list. Follow-up #7281.",
     "last_updated": "2026-07-22"
@@ -4064,9 +4225,9 @@
     "end_page": "87",
     "start_line": 5,
     "end_line": 8,
-    "status": "sorry_free",
-    "coverage_note": "EtingofRepresentationTheory/Chapter4/Problem4_12_10.lean: fully sorry-free. trace_piTensorProduct_map_const and character_diagTensorPow (χ_{V^⊗n}=χ_V^n), the multiplicity formula, and the polynomial isolation of g=1 all proved; the final analytic lemma ρ_eq_one_of_character_eq_finrank (trace(ρg)=dim⟹ρg=1) is proved via matrix unitarization (averaged Hermitian form H, CFC square root L, U=L(ρg)L⁻¹ standard-unitary with trace=dim, elementary Cauchy-Schwarz-style argument). #print axioms Etingof.Problem4_12_10 = [propext, Classical.choice, Quot.sound] (#6096).",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "coverage_note": "The tensor- and symmetric-power endpoints are source-present, but the OrbitEval and Symmetric source files currently fail fresh application/carrier checks; regression #7540.",
+    "fidelity": "partial",
     "fidelity_decl": [
       "Etingof.Problem4_12_10",
       "Etingof.Problem4_12_10_symmetric"
@@ -4076,7 +4237,8 @@
       "EtingofRepresentationTheory/Chapter4/Problem4_12_10_Symmetric.lean",
       "EtingofRepresentationTheory/Chapter4/Problem4_12_10_OrbitEval.lean"
     ],
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7540,
     "fidelity_note": "Book asks: any irreducible occurs inside SⁿV (and hence V^⊗n) for some n. BOTH halves are now formalized. (1) V^⊗n half: Etingof.Problem4_12_10 — for faithful ρ and simple σ, ∃ n and a nonzero G-equivariant φ : W → ⨂ⁿV intertwining σ with diagTensorPow ρ n. (2) SⁿV half (the book's primary, strictly stronger statement): Etingof.Problem4_12_10_symmetric (Problem4_12_10_OrbitEval.lean) — for faithful ρ and simple σ, ∃ n and a nonzero G-equivariant φ : W → Sym[ℂ]^n V intertwining σ with symPowRep ρ n. Assembled following the book's hint: the trivial-stabilizer covector (exists_trivialStabilizer_covector) gives an orbit of |G| distinct points, so orbit-evaluation is a G-equivariant surjection ⨁ₙ SⁿV ↠ ℂ[G] (exists_orbitEval_surjection, #7289); by Maschke (char 0) this splits, and composing the section with the regular embedding of the simple W (exists_injective_intertwiner_ofMulAction) then extracting a nonzero summand (exists_component_intertwiner_of_ne_zero) places W inside some SⁿV. symPowEmbedding_equivariant gives the 'and hence inside V^⊗n' clause. Both statements faithful and non-vacuous: φ≠0 is a real constraint, symPowRep/diagTensorPow are genuine constructions, Nontrivial W forced by IsSimpleModule, faithfulness genuinely consumed. #print axioms Etingof.Problem4_12_10_symmetric = [propext, Classical.choice, Quot.sound], no sorryAx. Coverage now FULL (was covered_partial before #7290 assembled the SⁿV half).",
     "last_updated": "2026-07-22"
   },
@@ -4149,8 +4311,10 @@
     "start_line": 12,
     "end_line": 14,
     "status": "sorry_free",
-    "coverage": "covered_full",
-    "coverage_note": "Public theorem Etingof.even_finrank_of_isQuaternionicType proves that every quaternionic-type representation has even dimension.",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "Public theorem Etingof.even_finrank_of_isQuaternionicType is source-present, but FrobeniusSchurRealType.lean fails a fresh check at missing freeness instances and a finrank proof; regression #7527.",
+    "coverage_issue": 7527,
     "last_updated": "2026-07-22"
   },
   {
@@ -4161,11 +4325,12 @@
     "end_page": "94",
     "start_line": 15,
     "end_line": 4,
-    "status": "sorry_free",
-    "coverage_note": "Coverage-arm audit (Stage 3.7, #7344): covered_full. Chapter5/Problem5_1_2.lean (1205 lines, sorry-free on origin/main) proves (a) End_{R[G]}V is C/Mat2(R)/H via genuine R-algebra isos (Nonempty (realGEndAlgebra rho ~=a[R] C / Matrix (Fin 2)(Fin 2) R / Quaternion R)) under irreducibility + the corresponding type predicate, and (b) isRealType_iff_exists_real_form as a real biconditional whose real-form side is a G-stable real subspace W with span_C W = top and finrank_R W = finrank_C V (= complexification). realGEndAlgebra = Subalgebra.centralizer R {(rho g).restrictScalars R} = honest End_{R[G]}V. Supersedes the earlier stale note (which wrongly claimed no Lean formalization / vacuous sorry_free).",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "coverage_note": "The Problem 5.1.2 declarations are source-present, but the file currently fails to elaborate at a multiplication-by--1 rewrite, blocking all three endomorphism-algebra equivalences and the real-form biconditional (#7542).",
+    "fidelity": "partial",
     "fidelity_note": "[coverage-arm fidelity, Stage3.7 #7344] Judge Opus 4.8. (a) The three realGEndAlgebra_equiv_* theorems (lines 656/755/832) conclude Nonempty (realGEndAlgebra rho ~=a[R] C / Matrix (Fin 2)(Fin 2) R / Quaternion R) -- genuine R-AlgEquiv (~=a[R]), not linear/dimension; target algebras are exactly C, Mat2(R), H. Hyps: IsSimpleModule (MonoidAlgebra C G) rho.asModule + genuine Def-5.1.1 type predicate (IsComplexType = V not-iso V*; IsRealType = inv nondeg symmetric form; IsQuaternionicType = inv nondeg skew form). realGEndAlgebra = centralizer in End_R V = faithful End_{R[G]}V. (b) isRealType_iff_exists_real_form (line 1193) real two-way iff; real form = G-stable Submodule R V W with span_C W = top and finrank_R W = finrank_C V, which forces C tensor_R W ~= V (complexification), equivalent unbundled encoding of the book's 'V is complexification of a real rep'. Book (a) hint machinery (antilinear j, j^2=+-1, V_C ~= V (+) V*) present as proof (realJ, exists_antilinear_j_of_invariant_nondegenerate). Axiom-clean [propext, Classical.choice, Quot.sound], no sorryAx. See progress/reviews/2026-07-22T16-38-55Z-ch5-problem5_1_2-exercise5_1_7-realtype-coverage-fidelity.md",
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7542,
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Problem5_1_2.lean"
@@ -4174,7 +4339,7 @@
       {
         "part": "(a)-complex",
         "description": "End_{R[G]} V is C for V of complex type.",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.realGEndAlgebra_equiv_complex_of_isComplexType",
           "Etingof.realGEndAlgebra"
@@ -4184,7 +4349,7 @@
       {
         "part": "(a)-real",
         "description": "End_{R[G]} V is Mat_2(R) for V of real type.",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.realGEndAlgebra_equiv_matrix_of_isRealType",
           "Etingof.realGEndAlgebra"
@@ -4194,7 +4359,7 @@
       {
         "part": "(a)-quaternionic",
         "description": "End_{R[G]} V is H (quaternions) for V of quaternionic type.",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.realGEndAlgebra_equiv_quaternion_of_isQuaternionicType",
           "Etingof.realGEndAlgebra"
@@ -4204,7 +4369,7 @@
       {
         "part": "(b)",
         "description": "V is of real type iff V is the complexification of a real representation V_R.",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.isRealType_iff_exists_real_form",
           "Etingof.exists_real_form_of_isRealType",
@@ -4216,16 +4381,18 @@
   },
   {
     "id": "Chapter5/Example5.1.3",
+    "source_regression_note": "Clean rebuild imports the broken FrobeniusSchurRealType source (#7527).",
     "type": "example",
     "title": "Types of irreducible representations of Z/nZ, S_3, S_4, A_5, Q_8",
     "start_page": "94",
     "end_page": "94",
     "start_line": 5,
     "end_line": 6,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "sorry_free": true,
-    "fidelity": "verified",
+    "fidelity": "partial",
     "coverage": "covered_partial",
+    "coverage_issue": 7527,
     "coverage_note": "The S3, S4, and A5 real-type assertions and a quaternionic two-dimensional Q8 representation are proved. The cyclic-group declaration is only a one-way non-realness test and does not classify all irreducibles or establish the trivial/sign cases; the Q8 one-dimensional real-type and uniqueness claims are also absent. Residual work is tracked by #5124.",
     "followup_issue": 5124,
     "last_updated": "2026-07-22"
@@ -4278,17 +4445,19 @@
   },
   {
     "id": "Chapter5/Exercise5.1.7",
+    "source_regression_note": "Clean rebuild imports the broken Exercise5_3_3/type-chain source (#7553).",
     "type": "exercise",
     "title": "Nontrivial finite groups of odd order have non-real irreducible representations",
     "start_page": "95",
     "end_page": "95",
     "start_line": 23,
     "end_line": 24,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "coverage_note": "Coverage-arm audit (Stage 3.7, #7344): covered_full. Chapter5/Exercise5_1_7.lean (sorry-free on origin/main) proves exists_irreducible_not_realType_of_odd_order: for [Nontrivial G] and Odd (Fintype.card G), there exists a complex representation rho that is IsSimpleModule (irreducible), has nontrivial action (exists g, rho g != 1), and satisfies not IsRealType rho. By Problem 5.1.2(b) not-IsRealType on an irrep = not realizable over R, so this is the book's 'irreducible representation not defined over R'. Supersedes the earlier stale 'sorry proof' note.",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "fidelity_note": "[coverage-arm fidelity, Stage3.7 #7344] Judge Opus 4.8. exists_irreducible_not_realType_of_odd_order (Exercise5_1_7.lean:49) under [Nontrivial G][Fintype G] and (hodd : Odd (Fintype.card G)) concludes exists V (rho : Representation C G V), IsSimpleModule (MonoidAlgebra C G) rho.asModule and (exists g, rho g != 1) and not Etingof.IsRealType rho. Irreducibility is a genuine IsSimpleModule; not-IsRealType = not-defined-over-R for an irrep (via Problem 5.1.2(b), same project); the exists g, rho g != 1 conjunct only strengthens (excludes the trivial real-type rep). Both hyps USED: Nontrivial G drives exists_ne (1:G) (line 65) for the nontrivial witness, hodd feeds not_isRealType_of_odd_order_of_nontrivial_irreducible (Exercise 5.3.3, line 88). Axiom-clean [propext, Classical.choice, Quot.sound], no sorryAx. See progress/reviews/2026-07-22T16-38-55Z-ch5-problem5_1_2-exercise5_1_7-realtype-coverage-fidelity.md",
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7553,
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Exercise5_1_7.lean"
@@ -4520,11 +4689,12 @@
     "end_page": "100",
     "start_line": 3,
     "end_line": 4,
-    "status": "sorry_free",
-    "coverage_note": "Coverage-arm audit (Stage 3.7, #7346): covered_full. Chapter5/Exercise5_3_3.lean (sorry-free on origin/main) proves isComplexType_of_odd_order_of_nontrivial_irreducible: for Odd (Fintype.card G), an irreducible (IsSimpleModule) rho with nontrivial action (exists g, rho g != 1) is of complex type (genuine IsComplexType, i.e. V not-iso V*). Strengthens Exercise 5.1.7 from 'exists a non-real irrep' to 'every nontrivial irreducible is fully complex type'. Real-type exclusion via the odd-order Frobenius-Schur sum; quaternionic exclusion via even-dimension of quaternionic type + dim | |G| (book hint).",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "coverage_note": "The odd-order complex-type theorem is source-present, but Exercise5_3_3.lean currently fails a fresh source check; it also depends on the quaternionic even-dimension repair #7527 (#7553).",
+    "fidelity": "partial",
     "fidelity_note": "[coverage-arm fidelity, Stage3.7 #7346] Judge Opus 4.8. isComplexType_of_odd_order_of_nontrivial_irreducible (Exercise5_3_3.lean:276) under [Group G][Fintype G], (hodd : Odd (Fintype.card G)), (rho : Representation C G V), (hirr : IsSimpleModule (MonoidAlgebra C G) rho.asModule), (hnontriv : exists g, rho g != 1) concludes Etingof.IsComplexType rho. IsComplexType is the genuine Def 5.1.1 notion (not equivariantly self-dual, V not-iso V*), strictly stronger than Exercise 5.1.7's 'has a non-real irrep'. Both hyps USED and non-vacuous: hodd feeds both arms (sqEquivOfOdd bijection in the real arm, finrank | odd |G| parity in the quaternionic arm; Z/2 sign rep is a real-type counterexample if dropped); hnontriv drives invariants_eq_bot (vanishing sum char(g^2)=0) and is NOT over-constraining (the trivial rep is real type, so the theorem is false without it). Quaternionic arm rests on the book hint even_finrank_of_isQuaternionicType + Theorem5_3_1 (dim | |G|); real arm on the FS sum sum_char_sq_eq_card_of_isRealType (=|G|) vs sum_char_sq_eq_zero (=0), non-tautological. Axiom-clean [propext, Classical.choice, Quot.sound], no sorryAx (olean-import method). See progress/reviews/2026-07-22T20-30-00Z-ch5-exercise5_3_3-odd-order-complex-type-coverage-fidelity.md",
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7553,
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Exercise5_3_3.lean"
@@ -4574,16 +4744,18 @@
   },
   {
     "id": "Chapter5/Theorem5.4.3",
+    "source_regression_note": "Clean rebuild imports the broken Theorem5_4_6 source (#7515).",
     "type": "theorem",
     "title": "Burnside's theorem: groups of order p^a q^b are solvable",
     "start_page": "100",
     "end_page": "100",
     "start_line": 15,
     "end_line": 16,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "sorry_free": true,
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7515,
     "last_updated": "2026-07-22"
   },
   {
@@ -4608,10 +4780,12 @@
     "end_page": "100",
     "start_line": 21,
     "end_line": 22,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "sorry_free": true,
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_note": "The intended theorem is present, but Theorem5_4_4.lean fails a fresh source check because a required scalar-tower instance cannot be synthesized; regression #7514.",
+    "coverage_issue": 7514,
     "last_updated": "2026-07-22"
   },
   {
@@ -4654,7 +4828,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The character-integrality proof is source-present, but Theorem5_4_4.lean currently fails a fresh check at a scalar-tower instance; regression #7514.",
+    "coverage_issue": 7514,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Theorem5.4.6",
@@ -4664,11 +4843,12 @@
     "end_page": "101",
     "start_line": 9,
     "end_line": 22,
-    "status": "sorry_free",
-    "fidelity": "verified",
-    "notes": "All helper lemmas proved (character_isIntegral, scalar_contradicts_simplicity, nontrivial_irrep_dim_ge_two). Sorry-free since PRs #793, #801.",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "notes": "The helper lemmas are source-present, but the current file does not elaborate because the trivial-representation module lacks a required scalar-tower instance; regression #7515.",
     "sorry_free": true,
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7515,
     "last_updated": "2026-07-22"
   },
   {
@@ -4697,7 +4877,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The nonsimplicity proof is source-present, but Theorem5_4_6.lean currently fails a fresh check at the trivial-representation scalar tower; regression #7515.",
+    "coverage_issue": 7515,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.4.3",
@@ -4756,17 +4941,19 @@
   },
   {
     "id": "Chapter5/Theorem5.6.1",
+    "source_regression_note": "Clean rebuild imports the broken Theorem3_10_2 tensor-product source (#7520).",
     "type": "theorem",
     "title": "Irreducible representations of G x H are tensor products V_i ⊗ W_j",
     "start_page": "107",
     "end_page": "107",
     "start_line": 3,
     "end_line": 6,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "sorry_free": true,
     "fidelity_note": "Both directions and the combined Theorem5_6_1 wrapper are proved. The IsAlgClosed k hypothesis follows the standing Chapter 3 assumption used by the cited Theorem 3.10.2; 'any characteristic' is respected by imposing no characteristic-zero or coprimality hypothesis. The unrestricted arbitrary-field reading is false.",
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7520,
     "last_updated": "2026-07-22"
   },
   {
@@ -4792,11 +4979,13 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] Resolved (#5382): added the 'support_simple' field requiring every representation with a nonzero coefficient to be a Simple (irreducible) object, so the structure now models an integer combination of irreducibles as the book demands. The virtual character is defined in 'character'.",
+    "coverage": "covered_partial",
+    "fidelity_note": "Closed #5382 added simple support and the virtual character. The remaining coefficient type is indexed by literal FDRep objects rather than irreducible isomorphism classes, so isomorphic copies are incorrectly distinguished; follow-up #7483.",
     "fidelity_decl": "Etingof.VirtualRepresentation",
-    "fidelity_issue": 5382
+    "fidelity_issue": 7483,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_before_Lemma5.7.2",
@@ -4905,14 +5094,15 @@
     "end_page": "108",
     "start_line": 27,
     "end_line": 28,
-    "status": "sorry_free",
-    "coverage": "covered_full",
+    "status": "partially_proved",
+    "coverage": "covered_partial",
+    "coverage_issue": 7543,
     "coverage_arm": "audited",
     "lean_file": "EtingofRepresentationTheory/Chapter5/Problem5_8_4.lean",
     "lean_decl": "Etingof.ind_ind_iso_ind",
     "last_updated": "2026-07-22",
-    "coverage_note": "Coverage-arm audit (Stage 3.7, #7342): covered_full. Headline Etingof.ind_ind_iso_ind (Chapter5/Problem5_8_4.lean:381) is a genuine G-equivariant iso Ind_H^G(Ind_K^H V) ≅ Ind_K^G V for K ≤ H ≤ G — a ℂ-linear ≃ₗ[ℂ] plus the intertwining ∀ g x, e (Definition5_8_1 g x) = Definition5_8_1 g (e x), with Etingof.Definition5_8_1 = Representation.ind. Single book claim, no sub-parts. Recorded lean_decl resolves at line 381; rebuilt sorry-free; #print axioms = [propext, Classical.choice, Quot.sound] (no sorryAx). fidelity_decl confirmed against the abstract induction-in-stages lemma ind_stages_exists (tensor/coinvariants associativity).",
-    "fidelity": "verified",
+    "coverage_note": "The genuine induction-in-stages isomorphism is source-present, but Problem5_8_4.lean currently fails a fresh source check (#7543).",
+    "fidelity": "partial",
     "fidelity_note": "FAITHFUL (review #7199, 2026-07-21; lean_decl reconfirmed #7342, 2026-07-22): genuine G-equivariant iso via Definition5_8_1=Representation.ind, correct subgroup chain K.subgroupOf H with rfl relabelling, no finiteness/field weakening, axiom-clean, concrete S3 non-vacuity witness. Report: progress/reviews/2026-07-21-ch5-problem5_8_4-induction-in-stages-fidelity.md"
   },
   {
@@ -4923,8 +5113,9 @@
     "end_page": "108",
     "start_line": 29,
     "end_line": 33,
-    "status": "sorry_free",
-    "coverage": "covered_full",
+    "status": "partially_proved",
+    "coverage": "covered_partial",
+    "coverage_issue": 7555,
     "coverage_arm": "audited",
     "lean_file": "EtingofRepresentationTheory/Chapter5/Exercise5_8_5.lean",
     "lean_decl": "Etingof.ind_chiRep_iso_charLeftIdeal",
@@ -4935,8 +5126,8 @@
       "Etingof.ind_chiRep_iso_charLeftIdeal"
     ],
     "last_updated": "2026-07-22",
-    "coverage_note": "Coverage-arm audit (Stage 3.7, #7342): covered_full. Headline Etingof.ind_chiRep_iso_charLeftIdeal (Chapter5/Exercise5_8_5.lean:239) proves Ind_K^G C_chi is G-equivariantly isomorphic to the left ideal C[G]·e_chi via [single h 1 ⊗ z] ↦ z·(of h⁻¹ · e_chi). Single book claim, no sub-parts. Rebuilt sorry-free; #print axioms = [propext, Classical.choice, Quot.sound] (no sorryAx).",
-    "fidelity": "verified",
+    "coverage_note": "The normalized idempotent, left ideal, and equivariant induced-representation isomorphism are source-present, but Exercise5_8_5.lean currently fails a fresh source check (#7555).",
+    "fidelity": "partial",
     "fidelity_note": "FAITHFUL (review #7342, 2026-07-22, judged by a different model than formalized it). Genuine G-equivariant iso of representations: an honest ℂ-linear ≃ₗ[ℂ] e between IndV and ↥(charLeftIdeal) PLUS the intertwining ∀ (g:G) x, ↑(e (Definition5_8_1 K (chiRep χ) g x)) = of(g) * ↑(e x) — equivariance stated on all group elements, which with ℂ-linearity gives the full C[G]-module iso (not merely a ℂ-linear or additive bijection). Induction uses the project's Etingof.Definition5_8_1 = Representation.ind (Definition 5.8.1). idempotentOfChar = (Nat.card K)⁻¹ • ∑ g:K, ((χ g)⁻¹ : ℂ) • of(g:G): the χ(g)⁻¹ inverse and |K|⁻¹ normalization are both literally present, and idempotence e_χ*e_χ=e_χ is proved (idempotentOfChar_mul_self); charLeftIdeal = span_{C[G]}{e_χ} is the honest left ideal C[G]·e_χ under left multiplication (charLeftIdeal action g·x = of(g)*x). Non-degenerate: for χ trivial e_χ = |K|⁻¹ ∑_{g∈K} g is the standard nonzero averaging idempotent, so neither the ideal nor the iso collapses. Axiom-clean: [propext, Classical.choice, Quot.sound], no sorryAx. No gap found — statement is not weaker than the book's claim; passed through as covered_full."
   },
   {
@@ -4961,10 +5152,12 @@
     "end_page": "109",
     "start_line": 5,
     "end_line": 10,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "sorry_free": true,
-    "fidelity": "verified",
-    "coverage": "covered_full",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_issue": 7559,
+    "coverage_note": "The averaged all-G Frobenius formula is proved, but the theorem in the source is the right-coset-representative formula; no public declaration states it or proves the docstring's claimed equivalence (#7559).",
     "last_updated": "2026-07-22"
   },
   {
@@ -4989,9 +5182,11 @@
     "end_page": "110",
     "start_line": 15,
     "end_line": 2,
-    "status": "sorry_free",
-    "coverage": "covered_full",
-    "coverage_note": "Public theorem Etingof.Theorem5_9_1 gives the source Frobenius character formula; its choice-free averaged expression is proved equivalent to the coset-representative form.",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_issue": 7559,
+    "coverage_note": "The averaged trace computation is proved, but the asserted coset-counting/conjugacy bridge to the source's representative formula exists only in prose (#7559).",
     "last_updated": "2026-07-22"
   },
   {
@@ -5094,14 +5289,15 @@
     "end_page": "112",
     "start_line": 13,
     "end_line": 24,
-    "status": "sorry_free",
-    "coverage_note": "Sorry-free on origin/main (0 sorries, 2788 lines): Chapter5/Problem5_11_1.lean formalizes ALL FIVE parts (a)-(e) as genuine FDRep ℂ A₅ isomorphisms `Nonempty (ind σ ≅ …)`, where ind σ = FDRep.of (Etingof.Definition5_8_1 H σ.ρ) is the honest induced representation and the summands are the honest distinct A₅ irreducibles repTriv/repC3plus/repC3minus/repC4/repC5 (Simple + finrank 1,3,3,4,5 established in Chapter4/Example4_8_1). Each headline theorem quantifies over an ARBITRARY subgroup H of the relevant order (conjugacy supplied by exists_conj_H/H3/H5/H12) and an inducing simple distinguished by dimension/triviality, so no part is silently restricted to one hand-picked subgroup. 11 headline theorems: (a) indZ2_triv, indZ2_sign; (b) indZ3_triv, indZ3_nontriv; (c) indZ5_triv, indZ5_nontriv (honest ∨ over the two 5-cycle-class orderings); (d) indA4_triv, indA4_nontriv_linear, indA4_threeDim; (e) indV4_triv, indV4_nontriv. Isos are genuine (via sorry-free CharEqIso.charEq_iso: equal characters over ℂ for a finite group ⇒ isomorphic), not mere character/dimension equalities. Supersedes the earlier stale note that claimed only part (a) proved and (b)-(e) sorried.",
-    "coverage": "covered_full",
+    "status": "partially_proved",
+    "coverage_note": "All eleven A5 induction-decomposition endpoints are source-present, but Problem5_11_1.lean currently fails a fresh source check (#7544).",
+    "coverage": "covered_partial",
+    "coverage_issue": 7544,
     "coverage_arm": "audited",
     "derived": [
       {
         "part": "(a) ℤ₂ — trivial",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem5_11_1.indZ2_triv"
         ],
@@ -5109,7 +5305,7 @@
       },
       {
         "part": "(a) ℤ₂ — sign",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem5_11_1.indZ2_sign"
         ],
@@ -5117,7 +5313,7 @@
       },
       {
         "part": "(b) ℤ₃ — trivial",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem5_11_1.indZ3_triv"
         ],
@@ -5125,7 +5321,7 @@
       },
       {
         "part": "(b) ℤ₃ — nontrivial",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem5_11_1.indZ3_nontriv"
         ],
@@ -5133,7 +5329,7 @@
       },
       {
         "part": "(c) ℤ₅ — trivial",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem5_11_1.indZ5_triv"
         ],
@@ -5141,7 +5337,7 @@
       },
       {
         "part": "(c) ℤ₅ — nontrivial",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem5_11_1.indZ5_nontriv"
         ],
@@ -5149,7 +5345,7 @@
       },
       {
         "part": "(d) A₄ — trivial",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem5_11_1.indA4_triv"
         ],
@@ -5157,7 +5353,7 @@
       },
       {
         "part": "(d) A₄ — nontrivial linear",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem5_11_1.indA4_nontriv_linear"
         ],
@@ -5165,7 +5361,7 @@
       },
       {
         "part": "(d) A₄ — 3-dimensional",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem5_11_1.indA4_threeDim"
         ],
@@ -5173,7 +5369,7 @@
       },
       {
         "part": "(e) ℤ₂×ℤ₂ — trivial",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem5_11_1.indV4_triv"
         ],
@@ -5181,7 +5377,7 @@
       },
       {
         "part": "(e) ℤ₂×ℤ₂ — nontrivial",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem5_11_1.indV4_nontriv"
         ],
@@ -5192,7 +5388,7 @@
       "EtingofRepresentationTheory/Chapter5/Problem5_11_1.lean"
     ],
     "last_updated": "2026-07-22",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "fidelity_note": "[fidelity #7350] VERIFIED covered_full for all 11 headline theorems (judged by a different model than formalized it; no prior fidelity review existed). (1) Each conclusion is a genuine FDRep A₅-isomorphism (Nonempty (ind σ ≅ biproduct of named irreducibles)) via charEq_iso, NOT a bare character/dimension identity. (2) Inducing side is the honest Ind of the stated simple of the stated subgroup (Etingof.Definition5_8_1); each subgroup is pinned by order with the 'all such subgroups conjugate in A₅' quantification genuinely present (exists_conj_H/H3/H5/H12). (3) Multiplicities spot-checked by hand against the standard A₅ character table for the richest parts (a) and (d): indZ2_triv=(1,1,1,2,3), indZ2_sign=(0,2,2,2,2), indA4_triv=(1,0,0,1,0), indA4_nontriv_linear=(0,0,0,0,1), indA4_threeDim=(0,1,1,1,1) — all match Frobenius reciprocity ⟨χ|_H, σ⟩; dimensions match 60/|H|·dim σ. (4) Non-vacuity: A₅ has exactly five irreducibles (dims 1,3,3,4,5); the five targets are the honest distinct irreducibles (Simple lemmas repTriv/C3plus/C3minus/C4/C5_simple), biproducts are explicit nonempty ⊞-chains (not empty-index). #print axioms clean on all 11 (propext, Classical.choice, Quot.sound only; no sorryAx). No gap found → no follow-up feature issue. Report: progress/reviews/2026-07-22-ch5-problem5_11_1-fidelity.md."
   },
   {
@@ -5283,13 +5479,14 @@
     "end_page": "114",
     "start_line": 7,
     "end_line": 8,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "needs_statement": false,
     "sorry_free": true,
     "fidelity_decl": "Etingof.Corollary5_12_4",
-    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified",
-    "coverage": "covered_full",
+    "fidelity_note": "The intended rational-form theorem is source-present, but Corollary5_12_4.lean fails a fresh check at a tensor/Finsupp carrier mismatch; regression #7522.",
+    "coverage": "covered_partial",
+    "coverage_issue": 7522,
     "last_updated": "2026-07-22"
   },
   {
@@ -5452,7 +5649,11 @@
     "end_page": "116",
     "start_line": 9,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_issue": 7548,
+    "coverage_note": "The intended induced Young-subgroup/left-ideal equivalence is source-present, but its file does not currently elaborate from source (#7548).",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -5529,13 +5730,14 @@
     "start_line": 1,
     "end_line": 9,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "needs_statement": false,
     "aristotle_project_id": "d6d0df76-8214-4097-ac8f-c191f819a556",
     "notes": "Complete and sorry-free: fixedCosets_eq_card_colorings and the headline Theorem5_14_3 are both proved in EtingofRepresentationTheory/Chapter5/Theorem5_14_3.lean.",
     "sorry_free": true,
-    "coverage": "covered_full",
-    "fidelity_note": "The public N=n formula captures the full character value, and stability under adding unused variables is immediate from the exposed monochromatic-coloring interpretation. Independent Opus review found no substantive residual beyond packaging that stability as a wrapper.",
+    "coverage": "covered_partial",
+    "fidelity_note": "The headline character formula and its N-variable stability are covered. The proof's structural identification of a permutation centralizer as a product of semidirect/wreath factors is not public; follow-up #7481.",
+    "fidelity_issue": 7481,
     "last_updated": "2026-07-22"
   },
   {
@@ -5560,12 +5762,13 @@
     "end_page": "118",
     "start_line": 15,
     "end_line": 18,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "fidelity": "partial",
     "needs_statement": true,
     "coverage": "covered_partial",
-    "fidelity_note": "The character-theoretic content is complete at the always-admissible specialization N=n. The remaining narrow symmetric-function gap is the source's independent N-family, where both the Vandermonde and rho shift vary with N; narrowed follow-up #7456.",
+    "fidelity_note": "The character-theoretic content is designed to be complete at the always-admissible specialization N=n. The remaining semantic gap is the independent N-family (#7456), while the current source additionally fails fresh elaboration in semisimplicity, freeness, and scalar-tower arguments (#7512).",
     "fidelity_issue": 7456,
+    "coverage_issue": 7512,
     "last_updated": "2026-07-22"
   },
   {
@@ -5594,7 +5797,13 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The intended proof is source-present but Theorem5_15_1.lean currently fails fresh elaboration (#7512); the independent-N semantic gap remains #7456.",
+    "fidelity_issue": 7456,
+    "coverage_issue": 7512,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Frobenius_character_formula",
@@ -5607,8 +5816,14 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "gap"
-    }
+      "result": "covered"
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The lexicographic step is public in Footnote_5_15 and the intended character/norm proof chain is source-present, but Theorem5_15_1.lean currently fails fresh elaboration (#7512); its independent-N semantic gap remains #7456.",
+    "fidelity_issue": 7456,
+    "coverage_issue": 7512,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Lemma5.15.3",
@@ -5628,17 +5843,23 @@
   },
   {
     "id": "Chapter5/Discussion_footnote_5.15",
+    "source_regression_note": "Clean rebuild imports the broken Theorem5_15_1 source (#7512).",
     "type": "discussion",
     "title": "Footnote on lexicographic ordering of sigma(rho)",
     "start_page": "119",
     "end_page": "119",
     "start_line": 27,
     "end_line": 29,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "coverage_swept": {
       "wave": 1,
-      "result": "gap"
-    }
+      "result": "covered"
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_issue": 7512,
+    "coverage_note": "Fresh-building public Footnote_5_15 theorems prove the lexicographic inequality and both equality cases for the permuted staircase and shifted partition.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Lemma5.15.3",
@@ -5699,18 +5920,20 @@
   },
   {
     "id": "Chapter5/Problem5.16.1",
+    "source_regression_note": "Clean rebuild imports the broken Theorem5_15_1 source (#7512).",
     "type": "exercise",
     "title": "Branching rules: restriction and induction for S_n representations",
     "start_page": "120",
     "end_page": "120",
     "start_line": 21,
     "end_line": 25,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "coverage_note": "The restriction character identity and induction multiplicity formula are proved. The source states actual module decompositions, but no restricted/induced representation objects, direct-sum RHS objects, or equivariant isomorphisms are exposed; reopened #6282.",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "fidelity_note": "The character/multiplicity formulations are genuine and determine the isomorphism class over C, but the book's representation-level direct-sum statements are not themselves packaged; reopened #6282.",
     "fidelity_issue": 6282,
     "coverage": "covered_partial",
+    "coverage_issue": 7512,
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Problem5_16_1.lean"
@@ -5749,12 +5972,13 @@
     "end_page": "121",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "sorry_free": true,
     "fidelity_note": "[fidelity, Stage3.7 #7220] Statement-fidelity & non-vacuity audit of sumTranspositions_mul_eq_content_smul against blob. VERIFIED. Sign convention: Mathlib YoungDiagram.cells are (row,col) with .1=row, .2=col (confirmed via mem_ofRowLens: .1<length, .2<getElem .1). Lean content = sum over cells (c.2 - c.1) = col - row. Book c(la) = sum_j sum_{i=1}^{la_j} (i - j) has j=row (part index), i=column (runs 1..la_j), so (i-j) = col - row; 1-based equals 0-based as a difference. EXACT match, no sign flip. Cross-checked numerically on S_3: content((3))=3, ((2,1))=0, ((1,1,1))=-3, matching independent character eigenvalues |class|*chi(transp)/dim = 3,0,-3. Non-vacuity: SpechtModule = Submodule.span A {YoungSymmetrizer} = genuine left ideal C[S_n]*c_la (contains c_la != 0, not top/bot), proved simple by Theorem5_12_2_irreducible; sumTranspositions is genuinely sum_{i<j}(ij); theorem quantifies over all x in V_la asserting C*x = c(la) smul x, faithfully rendering 'C acts on V_la by c(la)'.",
-    "coverage_note": "Chapter5/Problem5_16_2.lean proves sumTranspositions_mul_eq_content_smul sorry-free: the sum of transpositions C acts on the Specht module V_lambda by the content c(lambda). Depends only on propext, Classical.choice, Quot.sound.",
-    "coverage": "covered_full",
+    "coverage_note": "The content-action endpoint is source-present, but Problem5_16_2.lean currently fails a fresh source check in the Specht-module/content chain (#7545).",
+    "coverage": "covered_partial",
+    "coverage_issue": 7545,
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Problem5_16_2.lean"
@@ -5770,7 +5994,7 @@
         "claim": "C = ∑_{i<j}(ij) ∈ ℂ[Sₙ] acts on the Specht module V_λ by multiplication by the content c(λ).",
         "description": "Single claim: the sum of all transpositions acts on V_λ by the scalar c(λ) = ∑_{cells}(col − row).",
         "source_span": "blobs/Chapter5/Problem5.16.2.md L1",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.sumTranspositions_mul_eq_content_smul",
           "Etingof.sumTranspositions",
@@ -5791,11 +6015,12 @@
     "end_page": "121",
     "start_line": 3,
     "end_line": 8,
-    "status": "sorry_free",
-    "coverage_note": "Complete and sorry-free in EtingofRepresentationTheory/Chapter5/Problem5_16_3.lean. Part (a) proves diagonalizability with integral eigenvalues in the stated range; part (b) proves the scalar-action iff rectangular criterion and computes the scalar c-r.",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "coverage_note": "The integral-eigenvalue and rectangular-diagram endpoints are source-present, but Problem5_16_3.lean currently fails a fresh source check in the shared content/Specht chain (#7545).",
+    "fidelity": "partial",
     "fidelity_note": "[fidelity gap #7228→#7231 RESOLVED] Checks 1,2,4 FAITHFUL & non-vacuous: (1) sumTranspositionsWith1 = ∑_{0<j}(0 j) is genuinely E=(12)+...+(1n) (n-1 transpositions through the fixed point), confirmed by sumTranspositionsWith1_eq_sub (=C_n-C_{n-1}); (2) part (a) headline is a genuine eigenbasis + integer eigenvalues with inclusive bounds 1-n<=m<=n-1 over arbitrary fin-dim rho; (4) IsRectangular (parts=replicate r c) faithfully captures 'all rows equal' with edge cases fine, SpechtModule is the genuine V_lambda. Check 3 (part (b) 'compute this scalar') NOW EXPOSED: sumTranspositionsWith1_scalar_on_rectangular states E acts on V_λ by the scalar (c-r) for rectangular λ=replicate r c, matching the book's 'compute this scalar' (= content of the corner (r-1,c-1)). Endpoints: trivial (n) → n-1, sign (1ⁿ) → 1-n. Axiom-clean [propext, Classical.choice, Quot.sound]. #7231. Report: progress/reviews/2026-07-21-ch5-problem5_16_3-fidelity.md.",
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7545,
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Problem5_16_3.lean"
@@ -5814,7 +6039,7 @@
         "claim": "E := (12)+…+(1n) is diagonalizable on any f.d. rep of Sₙ, with integer eigenvalues in [1−n, n−1].",
         "description": "Diagonalizability (eigenbasis) plus integer eigenvalues with the inclusive bound 1−n ≤ m ≤ n−1, for an arbitrary finite-dimensional representation ρ.",
         "source_span": "blobs/Chapter5/Problem5.16.3.md L1-3",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.sumTranspositionsWith1_diagonalizable_integer_eigenvalues",
           "Etingof.sumTranspositionsWith1_hasEigenvalue_integer",
@@ -5828,7 +6053,7 @@
         "claim": "E acts on V_λ by a scalar iff λ is rectangular; for rectangular λ = (cʳ) the scalar is c − r.",
         "description": "Rectangular-iff-scalar biconditional together with the computed scalar value c − r (columns minus rows) on a rectangular diagram.",
         "source_span": "blobs/Chapter5/Problem5.16.3.md L5",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.sumTranspositionsWith1_acts_scalar_iff_rectangular",
           "Etingof.sumTranspositionsWith1_scalar_on_rectangular",
@@ -6048,12 +6273,14 @@
     "end_page": "125",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "needs_statement": false,
-    "fidelity_note": "statement faithful; proof has a tracked sorry (not a fidelity gap)",
+    "fidelity_note": "The source now checks without sorry, but its public theorem still assumes n ≤ dim V, returns abstract factors, and gives only an underlying linear equivalence rather than the book's explicit S_n × GL(V)-equivariant decomposition with Specht/Hom factors; follow-up #7379.",
     "fidelity_decl": "Etingof.Corollary5_19_2",
-    "last_updated": "2026-06-28"
+    "coverage": "covered_partial",
+    "fidelity_issue": 7379,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Example5.19.3",
@@ -6122,7 +6349,11 @@
     "end_page": "131",
     "start_line": 3,
     "end_line": 16,
-    "status": "sorry_free",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_issue": 7546,
+    "coverage_note": "The determinant-quotient definition and Schur-polynomial discussion depend on Proposition 5.21.1, whose source currently fails to elaborate (#7546).",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -6136,11 +6367,12 @@
     "end_page": "131",
     "start_line": 17,
     "end_line": 32,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "sorry_free": true,
-    "notes": "Proved in PR #1808 (antisymmetric basis decomposition). Fidelity gap (#5615) resolved: canonical `Proposition5_21_1` is now the faithful `Finset.univ` sum over ALL bounded partitions (was a weaker existential); `Proposition5_21_1_univ` retained as an alias.",
-    "coverage": "covered_full",
+    "notes": "The faithful all-bounded-partitions statement remains source-present, but Proposition5_21_1.lean currently fails a fresh source check (#7546).",
+    "coverage": "covered_partial",
+    "coverage_issue": 7546,
     "last_updated": "2026-07-22"
   },
   {
@@ -6171,7 +6403,7 @@
     "notes": "Both Proposition5_21_2_geometric and Proposition5_21_2_dimension proved (PR #1161).",
     "sorry_free": true,
     "coverage": "covered_partial",
-    "fidelity_note": "The dimension formula is exact. The geometric formula is exposed only for rational z with nonzero denominator factors, not as the source-level polynomial/rational-function identity or a complex/general-field specialization; follow-up #7458.",
+    "fidelity_note": "The dimension formula is exact. The geometric formula is exposed only for rational z with nonzero denominator factors, not for the source's complex-variable specialization; follow-up #7458. A rational-function or general-field formulation would be optional generalization.",
     "fidelity_issue": 7458,
     "last_updated": "2026-07-22"
   },
@@ -6205,15 +6437,17 @@
   },
   {
     "id": "Chapter5/Theorem5.22.1",
+    "source_regression_note": "Clean rebuild is blocked by the Theorem5_15_1 and Proposition5_21_1 chains (#7512, #7546).",
     "type": "theorem",
     "title": "Weyl character formula: character of L_lambda is the Schur polynomial",
     "start_page": "132",
     "end_page": "132",
     "start_line": 33,
     "end_line": 37,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "coverage": "covered_partial",
-    "fidelity": "verified",
+    "coverage_issue": 7546,
+    "fidelity": "partial",
     "fidelity_note": "The bounded-partition character and dimension formulas are proved. Because lam : Fin N → ℕ already has at most N entries, the source's first branch L_lambda = 0 iff lambda has more than N parts cannot be stated by the current API; follow-up #7399.",
     "fidelity_issue": 7399,
     "last_updated": "2026-07-22"
@@ -6240,12 +6474,13 @@
     "end_page": "133",
     "start_line": 3,
     "end_line": 6,
-    "status": "sorry_free",
-    "attention_note": "Statement and proof structure complete, but the proof delegates to the Schur-Weyl character-classification chain, which still has sorries.",
-    "notes": "Triage 2026-06-22: Theorem5_22_1 (SchurModule) is now sorry_free, so the 2026-03-18 blocker is resolved. Proposition5_22_2 itself compiles, but its proof routes through iso_of_formalCharacter_eq_schurPoly (SchurWeylFormalCharacterIso.lean), whose cone carries the Cluster A sorries: schurWeyl_simples_formalCharacter_classification_core and glTensorRep_schurWeyl_simples_pairwise_distinct (SchurWeylSimplesClassification.lean), detInv_elim_of_polynomial (PolynomialRepEmbedding.lean), and kernelLemmaK' (KernelLemmaKPrime.lean). Tracked transitively-honest as statement_formalized until those land.",
+    "status": "partially_proved",
+    "attention_note": "The determinant-shift statement and top-exterior-power bridge are source-present, but Proposition5_22_2.lean currently fails a fresh source check (#7547).",
+    "notes": "The earlier transitive-sorry blocker was resolved; the current problem is a direct source-elaboration regression tracked by #7547.",
     "fidelity_note": "Completeness fix #7380 (2026-07-22): the public Proposition5_22_2 now concludes with the honest top exterior power `SchurModule k N lam ⊗ topExteriorPowerRep k N`, where topExteriorPowerRep = FDRep.of topExtPowerRep is the standard GL_N action on ⋀[k]^N (Fin N → k). Previously the theorem substituted the one-dimensional determinant-character model detRep for the ∧^N V of the text and merely asserted (in a docstring, with no declaration) that the two agree. That identification is now proved: topExtPowerRep_eq_det_smul (∧^N g = det g • id) and the equivariant iso topExteriorPowerRep_iso_detRep (∧^N V ≅ detRep), via the determinant top form topFormEquiv. The determinant-character version is retained as the implementation lemma Proposition5_22_2_detRep.",
-    "fidelity": "verified",
-    "coverage": "covered_full",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_issue": 7547,
     "last_updated": "2026-07-22"
   },
   {
@@ -6287,28 +6522,36 @@
     "end_page": "133",
     "start_line": 11,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "coverage_swept": {
       "wave": 1,
-      "result": "gap"
-    }
+      "result": "covered"
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The dominant-weight/determinant-twist construction, simplicity, and nonisomorphism APIs are source-present, but AlgIrrepGLRep.lean, AlgIrrepGLNonIso.lean, and the Peter–Weyl source currently fail fresh checks (#7534). The full classification/decomposition completeness requirement remains #7400.",
+    "fidelity_issue": 7400,
+    "coverage_issue": 7534,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Theorem5.23.2",
+    "source_regression_note": "The highest-weight/Peter–Weyl source chain itself is broken (#7534).",
     "type": "theorem",
     "title": "Complete reducibility and Peter-Weyl theorem for GL(V) (continues to missing page)",
     "start_page": "133",
     "end_page": "133",
     "start_line": 13,
     "end_line": 21,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "coverage": "covered_partial",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "needs_statement": false,
-    "fidelity_note": "Part (i) proves genuine complete reducibility, but it does not classify the simple algebraic GL_N representations by the named L_lambda/determinant-twist family or prove uniqueness of parameters; that residual source endpoint is #7400. Part (ii)'s equivariant Peter-Weyl statement is separately represented by Theorem5_23_2_ii_equivariant.",
+    "fidelity_note": "Part (i)'s full named L_lambda/determinant-twist classification remains #7400. The equivariant Peter–Weyl and highest-weight endpoints are source-present, but their three-file dependency chain currently fails fresh elaboration; regression #7534.",
     "fidelity_decl": "Theorem5_23_2_i, Theorem5_23_2_ii_equivariant",
     "fidelity_issue": 5384,
     "followup_issue": 7400,
+    "coverage_issue": 7534,
     "last_updated": "2026-07-22"
   },
   {
@@ -6323,21 +6566,29 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The complete-reducibility/highest-weight proof chain is source-present, but its AlgIrrepGL/Peter–Weyl sources currently fail fresh checks (#7534); full classification remains #7400.",
+    "fidelity_issue": 7400,
+    "coverage_issue": 7534,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Remark5.23.3",
+    "source_regression_note": "Clean rebuild imports the broken Proposition5_22_2 determinant-shift source (#7547).",
     "type": "remark",
     "title": "Extension to sl(V) and SL(V); recovery of sl(2) representation theory",
     "start_page": "134",
     "end_page": "134",
     "start_line": 5,
     "end_line": 7,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "sorry_free": true,
     "fidelity_note": "Added in #5729: the file defines the constant-shift relation and SLWeightParam and proves specialLinear_det_eq_one plus the dimension shadow algIrrepGL_finrank_constShift. It does not yet construct the claimed SL_N-equivariant shift isomorphism or prove the parametrization theorem. The general sl_N assertions are explicitly disavowed by the book and should be documented as intentional omissions rather than represented by proof_wanted; follow-up #7357.",
     "coverage": "covered_partial",
+    "coverage_issue": 7547,
     "followup_issue": 7357,
     "last_updated": "2026-07-22"
   },
@@ -6453,8 +6704,10 @@
       "wave": 1,
       "result": "covered"
     },
-    "coverage": "covered_full",
-    "coverage_note": "The four conjugacy-class types, their individual class counts, and the total q²−1 count are proved under the source's odd-characteristic hypothesis in GL2ConjugacyClassCount.lean (#5679).",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The discriminant partition, per-type number of conjugacy classes, and total q²−1 count are public. The table's normal-form classification, type-specific centralizer descriptions/orders, and individual class sizes are private proof data or absent; follow-up #7500.",
+    "fidelity_issue": 7500,
     "last_updated": "2026-07-22"
   },
   {
@@ -6513,7 +6766,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The principal-series representation is public, but its q+1 dimension theorem is private (#7563). The independent Theorem5_25_2.lean source regression remains #7516.",
+    "fidelity_issue": 7563,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Theorem5.25.2",
@@ -6523,10 +6781,12 @@
     "end_page": "141",
     "start_line": 15,
     "end_line": 34,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "needs_statement": false,
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_note": "The intended principal-series classification is source-present, but Theorem5_25_2.lean fails a fresh source check at a missing scalar-tower instance (#7516). The preceding discussion's public dimension endpoint is separately #7563.",
+    "coverage_issue": 7516,
     "last_updated": "2026-07-22"
   },
   {
@@ -6555,7 +6815,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The complementary-series construction and count are present, but Discussion5_25_4.lean fails a fresh source check in the ZMod cast arithmetic, so its public character/count/transversal endpoints cannot currently be rebuilt; regression #7508.",
+    "fidelity_issue": 7508,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Lemma5.25.3",
@@ -6620,9 +6885,11 @@
     "end_page": "144",
     "start_line": 25,
     "end_line": 29,
-    "status": "sorry_free",
-    "fidelity": "verified",
-    "coverage": "covered_full",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The Artin-theorem endpoint is source-present, but Theorem5_26_1.lean fails a fresh source check because its representation module lacks a required scalar-tower instance; regression #7513. (The previously recorded root-system note was stale metadata from another item.)",
+    "coverage_issue": 7513,
     "last_updated": "2026-07-22"
   },
   {
@@ -6634,8 +6901,10 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "coverage": "covered_full",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "Theorem5_26_1 proves the rational-span conclusion, and a private proof discusses the integral-rank argument. The remark's public Q-span iff C-span theorem and its equivalent decomposition-matrix row-independence criterion are absent; follow-up #7489.",
+    "fidelity_issue": 7489,
     "last_updated": "2026-07-22"
   },
   {
@@ -6650,20 +6919,27 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The two-direction Artin proof is source-present, but Theorem5_26_1.lean currently fails a fresh check at a scalar-tower instance; regression #7513.",
+    "coverage_issue": 7513,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Corollary5.26.3",
+    "source_regression_note": "Clean rebuild imports the broken Theorem5_26_1 Artin source (#7513).",
     "type": "corollary",
     "title": "Irreducible characters are rational combinations of induced characters from cyclic subgroups",
     "start_page": "145",
     "end_page": "145",
     "start_line": 7,
     "end_line": 8,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "sorry_free": true,
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7513,
     "last_updated": "2026-07-22"
   },
   {
@@ -6692,7 +6968,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The semidirect-product construction is implemented, but its backing Theorem5_27_1 source fails a fresh check and the base-point-independence API needs stable public parameter types; regression #7507.",
+    "fidelity_issue": 7507,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Theorem5.27.1",
@@ -6702,10 +6983,11 @@
     "end_page": "147",
     "start_line": 11,
     "end_line": 14,
-    "status": "sorry_free",
-    "fidelity": "verified",
-    "fidelity_note": "The orbit-method classification is complete: irreducibility, exhaustiveness, character and dimension formulas, base-point independence, and pairwise non-isomorphism are proved. In particular an isomorphism V(χ₁,U₁) ≅ V(χ₂,U₂) yields both an orbit element g with χ₂=g·χ₁ and an isomorphism U₂ ≅ transport(g,U₁).",
-    "coverage": "covered_full",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "fidelity_note": "The source contains the full intended orbit-method classification, but Theorem5_27_1.lean currently fails a fresh check at multiple carrier, scalar-action, transport, and linearity proofs. Its public classification and base-point-independence endpoints are therefore not presently rebuildable; regression #7507.",
+    "coverage": "covered_partial",
+    "fidelity_issue": 7507,
     "last_updated": "2026-07-22"
   },
   {
@@ -6775,15 +7057,17 @@
   },
   {
     "id": "Chapter5/Exercise5.27.3",
+    "source_regression_note": "Clean rebuild imports the broken Theorem5_27_1 classification source (#7507).",
     "type": "exercise",
     "title": "Deduce parts (i)-(iii) of Theorem 5.27.1 from part (iv)",
     "start_page": "147",
     "end_page": "147",
     "start_line": 17,
     "end_line": 17,
-    "status": "proved",
+    "status": "partially_proved",
     "coverage_note": "Proved sorry-free (#print axioms: only propext/Classical.choice/Quot.sound). Over the semidirect-product setup of Theorem 5.27.1 (dual action, stabilizers, V(chi,U), transport), the character formula (iv) implies (i) irreducibility, (ii) pairwise non-isomorphism, (iii) completeness. Statement defect from #6375/#6383 fixed by the _htransport characterizing hypothesis. Parts (i)+(ii) via character orthogonality/Mackey. Part (iii) via the sum-of-squares dimension count: the orbit-method family {V(chi,U)} is pairwise non-isomorphic (parts i,ii), dim(V chi U) = [G:stab chi]*dim U (character formula at identity), Sum_U dim(U)^2 = |stab chi| (IrrepDecomp.sum_finrank_sq_eq_card), and the class formula for the dual G-action plus |dual A|=|A| collapses the total to |G|*|A| = |A rtimes G|; the new reusable Infrastructure/CompletenessCriterion.lean (FDRep.complete_of_sum_finrank_sq_eq_card) then forces exhaustiveness. Part (ii) was hoisted into a shared `hclassify`. [Stage 3.7 coverage-arm audit #7333: (i)/(ii)/(iii) all covered_full — statement fidelity verified against book (iv); headline builds sorry-free, #print axioms = {propext, Classical.choice, Quot.sound}. Roll-up coverage = covered_full.]",
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7507,
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Exercise5_27_3.lean"
@@ -6974,8 +7258,12 @@
     "start_line": 1,
     "end_line": 4,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "needs_statement": false
+    "fidelity": "partial",
+    "needs_statement": false,
+    "coverage": "covered_partial",
+    "coverage_note": "The intended finite-type iff Dynkin theorem is source-present, but a clean rebuild is blocked by the decomposition dependency (#7525) and the Gabriel-theorem source regression (#7518).",
+    "coverage_issue": 7525,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Problem6.1.5_parts",
@@ -6985,7 +7273,12 @@
     "end_page": "153",
     "start_line": 5,
     "end_line": 20,
-    "status": "sorry_free"
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The orbit-finiteness proof route depends on exists_decomposition, whose DecompositionExistence.lean source currently fails a fresh check; regression #7525.",
+    "coverage_issue": 7525,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Problem6.1.6",
@@ -6996,14 +7289,16 @@
     "start_line": 21,
     "end_line": 6,
     "status": "partially_proved",
+    "fidelity": "partial",
     "coverage": "covered_partial",
+    "coverage_issue": 7550,
     "lean_decl": [
       "Etingof.Problem6_1_6.mult_symm",
       "Etingof.Problem6_1_6.mckay_connected",
       "Etingof.Problem6_1_6.mckay_isAffineDynkin",
       "Etingof.Problem6_1_6.mckay_dims_are_marks"
     ],
-    "coverage_note": "Chapter6/Problem6_1_6.lean proves the tautological SU(2) representation, parts (a) and (b), the affine-Cartan theorem in part (c) for 3 <= m, and the kernel equation underlying part (e), without placeholders. By the project-wide decision in skipped-exercises.md, the two-vertex double-edge A-tilde-1 case, the explicit group-family/diagram correspondence in part (d), and the remaining normalized-mark enumeration in part (e) are intentionally omitted. No sorry, axiom, proof_wanted, or proposition-valued placeholder represents those omissions."
+    "coverage_note": "The in-scope Problem 6.1.6 endpoints are source-present, but Problem6_1_6.lean currently fails a fresh source check (#7550). The two-vertex A-tilde-1 case, explicit part (d) classification, and remaining normalized-mark enumeration stay intentionally omitted under skipped-exercises.md; #7550 does not expand that scope."
   },
   {
     "id": "Chapter6/Section6.2_heading",
@@ -7188,9 +7483,11 @@
     "end_page": "164",
     "start_line": 47,
     "end_line": 47,
-    "status": "sorry_free",
-    "fidelity": "verified",
-    "coverage": "covered_full",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "fidelity_issue": 7501,
+    "coverage_note": "The public finiteness endpoint covers only positive roots. The remark's claim that the entire root set is finite, including negative roots and the bridge from all roots to signed positive roots, remains #7501.",
     "last_updated": "2026-07-22"
   },
   {
@@ -7330,7 +7627,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The root-formulation is represented by the public Gabriel-theorem API, but Theorem6_5_2.lean fails a fresh source check in finite-module and zero-dimension arguments; regression #7518.",
+    "fidelity_issue": 7518,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Theorem6.5.2",
@@ -7340,12 +7642,13 @@
     "end_page": "168",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "needs_statement": true,
-    "notes": "All three parts are now public and sorry-free, including existence and uniqueness for each positive root.",
-    "fidelity_note": "The combined public theorem states the finite-type, positive-root classification, and existence-uniqueness clauses; the former #5670 gap is resolved.",
-    "coverage": "covered_full",
+    "notes": "All three intended clauses are source-present, but the current file fails direct elaboration; regression #7518.",
+    "fidelity_note": "The combined theorem is designed to state finite type, positive-root classification, and existence-uniqueness, resolving the former #5670 gap. It is not currently fresh-buildable because of module-instance regressions.",
+    "coverage": "covered_partial",
+    "coverage_issue": 7518,
     "last_updated": "2026-07-22"
   },
   {
@@ -7408,9 +7711,12 @@
     "end_page": "168",
     "start_line": 21,
     "end_line": 35,
-    "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "fidelity_issue": 7383,
+    "coverage_note": "The positive reflection object assignment is defined componentwise, but Definition 6.6.3 calls it a functor and no action on morphisms or functor laws are exposed (#7383)."
   },
   {
     "id": "Chapter6/Definition6.6.3_maps",
@@ -7420,9 +7726,11 @@
     "end_page": "169",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free",
-    "coverage": "covered_full",
-    "coverage_note": "The component maps of the positive reflection functor are part of the public F_i^+ construction and its componentwise definitions in Definition6_6_3.lean.",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "fidelity_issue": 7383,
+    "coverage_note": "The reflected representation's internal arrow maps are defined, but the source also requires F_i^+ to map representation morphisms; that categorical action and its functor laws are missing (#7383).",
     "last_updated": "2026-07-22"
   },
   {
@@ -7433,23 +7741,30 @@
     "end_page": "169",
     "start_line": 3,
     "end_line": 26,
-    "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "The F⁻ object construction and computation theorems are source-present, but Definition6_6_4.lean fails a fresh source check (#7524). Independently, the action on representation morphisms and functor laws required by the word 'functor' are missing (#7383).",
+    "coverage_issue": 7524,
+    "fidelity_issue": 7383,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Proposition6.6.5",
+    "source_regression_note": "Clean rebuild imports the broken Definition6_6_4 reflection source (#7524).",
     "type": "proposition",
     "title": "Proposition 6.6.5: Indecomposable reps are surjective at sinks / injective at sources",
     "start_page": "169",
     "end_page": "170",
     "start_line": 27,
     "end_line": 18,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "needs_statement": false,
     "sorry_free": true,
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7524,
     "coverage_note": "Public endpoints prove both the sink-surjectivity and source-injectivity clauses.",
     "last_updated": "2026-07-22"
   },
@@ -7461,43 +7776,48 @@
     "end_page": "171",
     "start_line": 19,
     "end_line": 32,
-    "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_count": 0,
-    "coverage": "covered_full",
-    "coverage_note": "Public endpoints give both reflection-functor round-trip isomorphisms under the source hypotheses.",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "Public theorem signatures exist for both reflection-functor round trips, but neither implementation file passes a fresh Lean check (#7490). The files contain no literal sorry/admit; Lean's error-recovery diagnostics must not be counted as source placeholders.",
+    "coverage_issue": 7490,
     "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Proposition6.6.7",
+    "source_regression_note": "Clean rebuild imports the broken Definition6_6_4 reflection source (#7524).",
     "type": "proposition",
     "title": "Proposition 6.6.7: Reflection of indecomposable is indecomposable or 0",
     "start_page": "171",
     "end_page": "172",
     "start_line": 33,
     "end_line": 26,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "notes": "Proved in PR #1800 (Decidable.casesOn workarounds for source case).",
     "sorry_free": true,
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7524,
     "coverage_note": "Both sink and source reflection clauses publicly conclude indecomposable or zero.",
     "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Proposition6.6.8",
+    "source_regression_note": "Clean rebuild imports the broken Definition6_6_4 reflection source (#7524).",
     "type": "proposition",
     "title": "Proposition 6.6.8: Dimension vector under reflection is s_i(d(V))",
     "start_page": "172",
     "end_page": "173",
     "start_line": 27,
     "end_line": 12,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "needs_statement": false,
     "notes": "Both cases are proved sorry-free in Chapter6/Proposition6_6_8.lean: Proposition6_6_8_sink handles a sink via rank-nullity, and Proposition6_6_8_source handles a source using the completed reflectionFunctorMinus construction.",
     "sorry_free": true,
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7524,
     "coverage_note": "The sink and source dimension-vector reflection formulas are both public and exact.",
     "last_updated": "2026-07-22"
   },
@@ -7556,7 +7876,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The public admissible-ordering setup exists, but CoxeterInfrastructure.lean fails a fresh source check in reflection-kernel module instances, finite sums, and finrank arguments; source regression #7509. The separate missing representation-level reflection sequence remains tracked by #7436.",
+    "fidelity_issue": 7509,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Theorem6.8.1",
@@ -7606,59 +7931,67 @@
   },
   {
     "id": "Chapter6/Corollary6.8.3",
+    "source_regression_note": "Clean rebuild is blocked by Proposition6.6.6 and Coxeter/Gabriel infrastructure (#7490, #7509).",
     "type": "corollary",
     "title": "Corollary 6.8.3: Uniqueness of indecomposable with given dimension vector",
     "start_page": "175",
     "end_page": "176",
     "start_line": 47,
     "end_line": 30,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "needs_statement": true,
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7509,
     "coverage_note": "The public theorem proves uniqueness up to representation isomorphism for indecomposables with the same dimension vector.",
     "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Discussion_after_Corollary6.8.3",
+    "source_regression_note": "The summary depends on preceding corollaries whose clean rebuild is blocked by #7490 and #7509.",
     "type": "discussion",
     "title": "Summary: finitely many indecomposables, last part of Gabriel's theorem",
     "start_page": "176",
     "end_page": "176",
     "start_line": 31,
     "end_line": 32,
-    "status": "sorry_free",
-    "coverage": "covered_full",
+    "status": "partially_proved",
+    "coverage": "covered_partial",
+    "coverage_issue": 7509,
     "coverage_note": "The summary claim is exactly the finite-indecomposable half of the public Gabriel classification established by the preceding theorem and corollaries.",
     "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Corollary6.8.4",
+    "source_regression_note": "Clean rebuild imports the broken Coxeter/Gabriel infrastructure (#7509).",
     "type": "corollary",
     "title": "Corollary 6.8.4: Existence of indecomposable for every positive root",
     "start_page": "176",
     "end_page": "177",
     "start_line": 33,
     "end_line": 14,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "needs_statement": true,
     "attention_needed": "statement fixed: added IsOrientationOf hypothesis and pinned universe (#1094)",
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7509,
     "coverage_note": "The public theorem realizes every positive root by an indecomposable representation for the chosen orientation.",
     "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Example6.8.5",
+    "source_regression_note": "Clean rebuild imports the broken Definition6_6_4 reflection source (#7524).",
     "type": "example",
     "title": "Example 6.8.5: Reflection functors on D4",
     "start_page": "177",
     "end_page": "177",
     "start_line": 15,
     "end_line": 28,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "coverage": "covered_partial",
-    "fidelity": "verified",
+    "coverage_issue": 7524,
+    "fidelity": "partial",
     "needs_statement": true,
     "sorry_free": true,
     "fidelity_note": "The root-lattice reflection arithmetic and target dimension vectors are proved. The source applies actual reflection functors to named D4 representations and identifies the explicit three-lines-in-a-plane endpoint; those representation isomorphisms remain reopened #5639.",
@@ -7702,9 +8035,11 @@
     "end_page": "178",
     "start_line": 15,
     "end_line": 24,
-    "status": "sorry_free",
-    "coverage_note": "Complete and sorry-free in EtingofRepresentationTheory/Chapter6/Problem6_9_2.lean: parts (a)-(c) construct and identify the E8, E7, and E6 lattices/root systems, and part (d) proves E8_root_count = 240, E7_root_count = 126, and E6_root_count = 72.",
-    "coverage": "covered_full",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "coverage_note": "The E8 lattice basis, chosen-vector Gram matrix, coordinate-equality sublattices, and E6/E7/E8 root counts are proved. The root-system axioms and the actual E8/E7/E6 type-identification theorems required by parts (b) and (c) are absent (#7557).",
+    "coverage": "covered_partial",
+    "coverage_issue": 7557,
     "last_updated": "2026-07-22"
   },
   {
@@ -7716,7 +8051,12 @@
     "start_line": 25,
     "end_line": 5,
     "status": "partially_proved",
-    "coverage_note": "Faithful statements in Chapter6/Problem6_9_3.lean: simpleRep S_i, source/sink, Ext^1 via two-term complex differential, Jordan-Holder data as Prop-def (b). Part (a) proved sorry-free: ext1_source and ext1_sink (Ext vanishing at source/sink via subsingleton target/source component). Part (b) IsJordanHolderData remains a Prop-def pending composition-series infrastructure. Audit #7001: 0-sorry confirmed; part (b) genuinely a Prop-def (not proven), so partially_proved is correct — retained."
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "Part (b)'s actual Jordan–Hölder construction remains #7359. Independently, Problem6_9_3.lean now fails a fresh check because extDiff lacks subtraction on its linear-map space, so the completed part (a) Ext¹ endpoints cannot rebuild; regression #7523.",
+    "fidelity_issue": 7359,
+    "coverage_issue": 7523,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Introduction",
@@ -7835,6 +8175,12 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "Mathlib has the enriched-category and enriched-composition infrastructure, but Chapter 7 exposes no source-shaped public endpoint; combined follow-up #7473.",
+    "fidelity_issue": 7473,
+    "last_updated": "2026-07-22",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -7963,6 +8309,12 @@
     "start_line": 1,
     "end_line": 13,
     "status": "sorry_free",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "The equivalence C₁ ≌ C₂ and induced bijection on functor isomorphism classes are public, but the source's contrasting claim that the categories are not strictly inverse-on-the-nose isomorphic is absent; follow-up #7480.",
+    "fidelity_issue": 7480,
+    "last_updated": "2026-07-22",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -8032,7 +8384,12 @@
     "start_line": 5,
     "end_line": 6,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "The project exposes no definition of representability for a functor from an enriched category into its enriching category, despite Mathlib's eCoyoneda infrastructure; combined follow-up #7473.",
+    "fidelity_issue": 7473,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Example7.5.3",
@@ -8155,8 +8512,12 @@
     "start_line": 17,
     "end_line": 17,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "Lean uses the correct intrinsic Abelian class, but the claimed Freyd–Mitchell equivalence with the source's closure-stable full module subcategory is only prose; follow-up #7476.",
+    "fidelity_issue": 7476,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Example7.7.2",
@@ -8210,7 +8571,12 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "Mathlib supplies the matrix-ring module-category equivalence, but the project exposes no combined witness that the equivalent module categories come from nonisomorphic rings; follow-up #7470.",
+    "fidelity_issue": 7470,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Discussion_after_Remark7.7.4",
@@ -8294,11 +8660,12 @@
     "end_page": "192",
     "start_line": 21,
     "end_line": 21,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "sorry_free": true,
-    "coverage": "covered_full",
-    "coverage_note": "Public theorem Etingof.split_exact_sequence constructs the canonical short exact and split sequence 0 → X → X ⊞ Z → Z → 0.",
+    "coverage": "covered_partial",
+    "coverage_issue": 7562,
+    "coverage_note": "The canonical sequence is proved short exact, but the public declaration projects away the canonical ShortComplex.Splitting witness, so the source's split/trivial-extension structure is not exposed (#7562).",
     "last_updated": "2026-07-22"
   },
   {
@@ -8323,12 +8690,13 @@
     "end_page": "193",
     "start_line": 9,
     "end_line": 20,
-    "status": "sorry_free",
-    "coverage": "covered_full",
+    "status": "partially_proved",
+    "coverage": "covered_partial",
+    "coverage_issue": 7556,
     "last_updated": "2026-07-22",
-    "coverage_note": "Sorry-free: EtingofRepresentationTheory/Chapter7/Problem7_8_5.lean (Etingof.Problem7_8_5 + connecting hom). LES exactness from hS.homology_exact₁/₂/₃; axioms propext, Classical.choice, Quot.sound.",
-    "fidelity": "verified",
-    "fidelity_note": "[fidelity] VERIFIED. (ii) The three .Exact conjuncts are Mathlib's genuine homology_exact₁/₂/₃ for a ShortExact ShortComplex of HomologicalComplex (ModuleCat.{0} ℤ) (up ℤ) = cochain complexes of abelian groups: exact at H^{i+1}(C)=X₁.homology j, H^i(D)=X₂.homology i, H^i(E)=X₃.homology i, with middle maps homologyMap S.f/S.g (induced by C→D→E) and connecting map hS.δ — exactly (7.8.1); quantified over all i∈ℤ this covers every C/D/E node. (i) The connecting map c_i:H^i(E)→H^{i+1}(C) is Problem7_8_5_connecting = hS.δ, a genuine snake-lemma morphism; well-definedness/independence-of-choices is discharged by construction (the abstract δ has no representative choices). Non-vacuous: axioms {propext,Classical.choice,Quot.sound}, ShortExact real (mono f, epi g, exact middle). Minor caveat: agreement of hS.δ with the book's explicit dx'' chase is not separately proven, but δ is the standard categorical connecting map — accepted rendering."
+    "coverage_note": "The abstract short-exact connecting morphism and its three exactness windows are proved. The source's quotient-subcomplex representative/lift construction, choice-independence proof, and comparison with the categorical connecting morphism are missing (#7556).",
+    "fidelity": "partial",
+    "fidelity_note": "The existing ShortExact.δ theorem faithfully supplies the abstract long-exact-sequence result, but it does not formalize part (i)'s prescribed concrete construction or prove that construction agrees with δ."
   },
   {
     "id": "Chapter7/Definition7.8.6",
@@ -8393,8 +8761,12 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "gap"
-    }
+      "result": "covered"
+    },
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "Public fresh-building theorem Etingof.AdditiveFunctor.mapBiprod gives the required isomorphism F(X ⊞ Y) ≅ F(X) ⊞ F(Y).",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Example7.9.2",
@@ -8404,11 +8776,12 @@
     "end_page": "194",
     "start_line": 25,
     "end_line": 26,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "sorry_free": true,
-    "coverage": "covered_full",
-    "coverage_note": "The induction, restriction, and Hom constructions have public additive and k-linear functor endpoints matching the example.",
+    "coverage": "covered_partial",
+    "coverage_note": "The intended Ind, Res, and Hom endpoints are source-present, but Example7_9_2.lean fails a fresh check in left_adjoint_linear, preventing indFunctor_linear from rebuilding; regression #7526.",
+    "coverage_issue": 7526,
     "last_updated": "2026-07-22"
   },
   {
@@ -8420,8 +8793,12 @@
     "start_line": 27,
     "end_line": 51,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "LeftExactFunctor and RightExactFunctor are public, but the source's third definition—ExactFunctor as their conjunction—is absent; follow-up #7484.",
+    "fidelity_issue": 7484,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Definition7.9.4",
@@ -8462,8 +8839,12 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "gap"
-    }
+      "result": "covered"
+    },
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "Public fresh-building theorem Etingof.additiveFunctor_shortExact_of_isSemisimpleCategory proves that additive functors from a semisimple category preserve short exact sequences.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Example7.9.6",
@@ -8673,7 +9054,10 @@
     "end_line": 20,
     "status": "proved",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Fresh-building public theorem Etingof.Example_8_1_7 gives the finite-dimensional projective iff contragredient-dual injective equivalence, with both directions and the right A-module action exposed.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter8/Discussion_after_Example8.1.7",
@@ -8715,7 +9099,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "Ext infrastructure is importable, but Definition8_2_3.lean fails a fresh source check in the Additive instance for tensorRightFunctor, so the general-ring Tor definition cannot currently be rebuilt; regression #7510.",
+    "fidelity_issue": 7510,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter8/Definition8.2.1",
@@ -8740,9 +9129,12 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
-    "coverage": "covered_full",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
     "last_updated": "2026-07-22",
-    "coverage_note": "Proved via CategoryTheory.ProjectiveResolution.of using the EnoughProjectives (ModuleCat A) instance (#6014)."
+    "coverage_note": "Closed #6014 proves existence of an arbitrary projective resolution via ProjectiveResolution.of. The source's explicit free-term construction is not certified by that generic API; follow-up #7487.",
+    "fidelity_issue": 7487
   },
   {
     "id": "Chapter8/Definition8.2.3",
@@ -8752,10 +9144,12 @@
     "end_page": "208",
     "start_line": 11,
     "end_line": 16,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "sorry_free": true,
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
+    "coverage_issue": 7510,
+    "coverage_note": "The additive tensor/Tor construction is source-present, but Definition8_2_3.lean fails a fresh source check in tensorRightFunctor.map_add and related tensor-map equalities (#7510).",
     "last_updated": "2026-07-22"
   },
   {
@@ -8796,7 +9190,7 @@
     "start_line": 9,
     "end_line": 22,
     "status": "sorry_free",
-    "coverage_note": "All five mathematical parts are proved without placeholders. Two API/fidelity gaps remain: part (ii) hides its canonical Ext¹ comparison inside Nonempty (#6298), and the six-term long-exact windows do not expose the initial/terminal zero-ended exactness assertions in the displayed source sequences (#7421).",
+    "coverage_note": "Substantial local Tor/Ext results are proved. Two API/fidelity gaps remain: part (ii) hides its canonical Ext¹ comparison inside Nonempty (#6298), while parts (iii) and (v) expose only independent six-term windows rather than coherent natural long exact sequences and omit their zero-ended degree-zero assertions (#7421).",
     "coverage": "covered_partial",
     "fidelity_issue": 6298,
     "followup_issue": 7421,
@@ -8856,10 +9250,12 @@
     "end_page": "211",
     "start_line": 1,
     "end_line": 4,
-    "status": "sorry_free",
-    "coverage": "covered_full",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
     "last_updated": "2026-07-22",
-    "coverage_note": "All three theorems sorry-free: (ii) [Exercise_8_2_9_ii], (i) finite-abelian [Exercise_8_2_9_i_finAb] (#6110/#6114), and (i) fin-dim k[x]-module [Exercise_8_2_9_i_polynomial] (#6113) via monic irreducible factor + k[x]/(p)-coordinate functional + lift through k[x]/(p^N) ↠ k[x]/(p) + unit/dimension contradiction."
+    "coverage_note": "All three theorem signatures exist, but the current file fails a fresh Lean check in the finite-dimensional k[x]-module proof before the later part-(ii) declaration can be imported. The broken quotient scalar-action and unit-lift rewrites are tracked by regression #7492.",
+    "fidelity_issue": 7492
   },
   {
     "id": "Chapter8/Problem8.2.10",
@@ -9119,24 +9515,27 @@
     "end_page": "217",
     "start_line": 5,
     "end_line": 6,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "needs_statement": false,
-    "attention_needed": false,
-    "notes": "The exact Hilbert-syzygy conclusion is proved directly: homologicalDimension (MvPolynomial (Fin n) k) = n, with both upper and lower bounds.",
-    "coverage": "covered_full",
+    "attention_needed": true,
+    "notes": "The file has the exact Hilbert-syzygy endpoint, but its current implementation fails a fresh Lean check and cannot be imported. The failures occur in the exact-sequence, change-of-rings, and Koszul support used by the upper and lower bounds; regression #7491.",
+    "coverage": "covered_partial",
+    "fidelity_issue": 7491,
     "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter9/Problem9.4.5",
+    "source_regression_note": "Clean rebuild imports the broken Theorem3_8_1 Krull–Schmidt source (#7495).",
     "type": "exercise",
     "title": "Cartan matrix determinant and homological dimension",
     "start_page": "217",
     "end_page": "217",
     "start_line": 7,
     "end_line": 10,
-    "status": "sorry_free",
-    "coverage": "covered_full",
+    "status": "partially_proved",
+    "coverage": "covered_partial",
+    "coverage_issue": 7495,
     "last_updated": "2026-07-22",
     "coverage_note": "Statement pass (#5906): EtingofRepresentationTheory/Chapter9/Problem9_4_5.lean. Part (i) det(Cartan) = ±1 for finite homological dimension; part (ii) homologicalDimension of k[t]/tⁿ (n>1) and of the Problem 9.3.2 algebra are both ⊤. Decomposed (#6374) into three per-part sub-issues #6381 (ii-a: k[t]/tⁿ=⊤), #6382 (ii-b: Problem932.A=⊤), #6384 (i: Cartan det=±1). #6381 DONE: homologicalDimension_polynomial_quotient_eq_top is sorry-free (Chapter9/TruncatedPolynomial.lean), plus reusable Etingof.homologicalDimension_eq_top reduction lemma (Chapter9/HomologicalDimensionReduction.lean). Proof avoids explicit Ext periodicity: uses the two multiplication SESs (t) ↔ (tⁿ⁻¹) with R free, dimension shifting (Problem942.hasProjectiveDimensionLE_syzygy), and a symmetric induction from non-projectivity of the two cyclic modules. #6382 DONE: homologicalDimension_problem932_eq_top PROVED sorry-free: added P₊/P₋ projective + mirror SES 0→S₊→P₋→S₋→0 to Problem9_3_2, the reusable Etingof.homologicalDimension_eq_top_of_forall reduction, and the 2-periodic Ext-nonvanishing Ext^{2j+1}(S₊,S₋)≠0. #6384/#6463 DONE: cartan_det_eq_pm_one PROVED sorry-free via the Euler-characteristic induction homClassVector_eq_mulVec_of_projectiveDimensionLE — induction on projective dimension using finite free syzygy covers (Module.Finite.exists_fin' + LinearMap.shortExact_shortComplexKer + ShortComplex.ShortExact.hasProjectiveDimensionLT_X₃_iff) and the Krull–Schmidt class-vector lemma homClassVector_projective_eq_mulVec (#6462). File Problem9_4_5.lean now sorry-free; all three sub-parts of Problem 9.4.5 complete."
   },
@@ -9226,7 +9625,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The intended finite-dimensional-Hom theorem is present, but Introduction_9_6.lean fails a fresh source check in exact_leftComp, preventing IsFiniteAbelianCategoryOverField.finiteDimensional_hom from rebuilding; regression #7511.",
+    "fidelity_issue": 7511,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter9/Definition9.6.1",
@@ -9257,10 +9661,10 @@
     "status": "sorry_free",
     "fidelity": "faithful",
     "needs_statement": false,
-    "notes": "Two notions are now exposed. Etingof.IsProjectiveGenerator (= Projective and IsSeparator) is the faithful general Definition 9.6.2: IsProjectiveGenerator.epi_coproduct shows it means every object is a quotient of an arbitrary (possibly infinite) coproduct of copies of P. The regular-module example is formalized sorry-free in Definition9_6_2_Example.lean (moduleCat_regular_isProjectiveGenerator: ModuleCat.of R R is a general projective generator over an arbitrary ring). Etingof.IsProgenerator is retained as the documented finite/finitely-generated variant used downstream; IsProgenerator.isProjectiveGenerator (Theorem9_6_4.lean) proves finite => general, justifying the finite consumers. Residual (follow-up #7443): the reverse direction general => finite under finite-length hypotheses needs Noetherian-object machinery.",
+    "notes": "Two notions are now exposed. Etingof.IsProjectiveGenerator (= Projective and IsSeparator) is the faithful general Definition 9.6.2: IsProjectiveGenerator.epi_coproduct shows it means every object is a quotient of an arbitrary (possibly infinite) coproduct of copies of P. The regular-module example is formalized sorry-free in Definition9_6_2_Example.lean (moduleCat_regular_isProjectiveGenerator: ModuleCat.of R R is a general projective generator over an arbitrary ring). Etingof.IsProgenerator is retained as the documented finite/finitely-generated variant used downstream; IsProgenerator.isProjectiveGenerator (Theorem9_6_4.lean) proves finite => general, justifying the finite consumers. Residual (follow-up #7498): prove general => finite under finite-length hypotheses using Noetherian-object machinery.",
     "sorry_free": true,
     "coverage": "covered_full",
-    "followup_issue": 7443,
+    "followup_issue": 7498,
     "last_updated": "2026-07-23"
   },
   {
@@ -9288,7 +9692,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The equivalence functor setup is source-present, but Theorem9_6_4.lean currently fails fresh elaboration, preventing the setup from rebuilding into the required equivalence; regression #7505.",
+    "coverage_issue": 7505,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter9/Theorem9.6.4",
@@ -9298,15 +9707,16 @@
     "end_page": "219",
     "start_line": 7,
     "end_line": 10,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "needs_statement": false,
-    "notes": "Theorem_9_6_4 is fully proved without placeholders for the book-faithful finitely generated module category: the progenerator Hom functor is faithful, full, and essentially surjective. The required Noetherian property is derived from the finite-dimensional over-a-field hypotheses; a more general ring-level engine is also exposed.",
-    "attention_needed": false,
+    "notes": "Theorem_9_6_4 has the book-faithful finitely generated-module target and an intended faithful/full/essentially-surjective proof. Its current implementation does not elaborate; see #7505.",
+    "attention_needed": true,
     "sorries": 0,
-    "sorry_free": true,
-    "fidelity_note": "wave-3 gap #5665 (extra [IsNoetherianRing (End P)ᵐᵒᵖ] hypothesis) repaired: Theorem_9_6_4 and Theorem_9_6_4_corollary now derive it via isNoetherianRing_endOp_of_overField from the book's over-a-field hypotheses; Noetherian-hypothesis variants retained as labeled ring-level engines; wave-9 re-verified",
-    "coverage": "covered_full",
+    "sorry_free": false,
+    "fidelity_note": "The earlier extra-Noetherian-hypothesis gap was repaired, but the current file fails to elaborate in the coyoneda coercions and finite-biproduct additive proofs, so the source-facing equivalence cannot be imported; regression #7505.",
+    "coverage": "covered_partial",
+    "fidelity_issue": 7505,
     "last_updated": "2026-07-22"
   },
   {
@@ -9331,10 +9741,12 @@
     "end_page": "220",
     "start_line": 1,
     "end_line": 6,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "sorry_free": true,
-    "note": "The projective-generator classification and the B_n family are proved without placeholders. The residual capstone assumes an algebra is already presented as (End Q)ᵐᵒᵖ; it does not derive that presentation from an arbitrary FGModuleCat equivalence, so the claimed exhaustion of the Morita class remains #5147.",
+    "note": "The projective-generator and B_n declarations are source-present, but the categorical Krull-Schmidt existence chain currently fails from source (#7549), and its separate Fitting/local-endomorphism dependency also fails (#7552). The residual Morita-class exhaustion gap remains #5147.",
     "coverage": "covered_partial",
+    "fidelity": "partial",
+    "coverage_issue": 7549,
     "followup_issue": 5147,
     "last_updated": "2026-07-22",
     "coverage_swept": {
@@ -9353,10 +9765,9 @@
     "status": "sorry_free",
     "fidelity": "partial",
     "sorry_free": true,
-    "notes": "The book-faithful fmod notion and k-linear refinement are defined with refl/symm/trans, and full-module Morita equivalence restricts to fmod. The converse Morita reconstruction theorem is still absent (#7382). The docstring also incorrectly claims every bare equivalence of k-algebra module categories is automatically k-linear; central-action compatibility is required (#7425).",
+    "notes": "The book-faithful fmod notion and k-linear refinement are defined with refl/symm/trans, and full-module Morita equivalence restricts to fmod. The former false automatic-k-linearity claim was corrected by #7472; bare and k-linear equivalences are now explicitly distinguished. The converse Morita reconstruction theorem is still absent (#7382).",
     "coverage": "covered_partial",
     "followup_issue": 7382,
-    "fidelity_issue": 7425,
     "last_updated": "2026-07-22"
   },
   {
@@ -9367,9 +9778,11 @@
     "end_page": "220",
     "start_line": 9,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "coverage": "covered_partial",
-    "coverage_note": "The dimension-minimization and bare matrix-product commutativity lemmas are present. The actual quotient isomorphism B_n/Rad(B_n) ≃ ∏ Mat_{n_i}(k) is missing (#5145), and the global assertion that these are exactly the Morita class depends on #5147.",
+    "fidelity": "partial",
+    "coverage_issue": 7549,
+    "coverage_note": "The dimension-minimization and matrix-product commutativity lemmas are source-present. Their Krull-Schmidt support currently has independent existence (#7549) and Fitting/local-endomorphism (#7552) source regressions. The quotient isomorphism remains #5145, and Morita-class exhaustion remains #5147.",
     "followup_issue": 5145,
     "last_updated": "2026-07-22",
     "coverage_swept": {

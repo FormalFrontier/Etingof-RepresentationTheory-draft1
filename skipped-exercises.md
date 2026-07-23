@@ -78,6 +78,11 @@ These omissions are documented in
 `EtingofRepresentationTheory/Chapter6/Problem6_1_6.lean`; no unproved headline
 declaration stands in for them.
 
+The endpoints that are in scope remain source-present, but the file currently
+fails a fresh source check. Regression #7550 tracks restoring those implemented
+symmetry, connectivity, affine-Cartan, and dimension-vector results without
+expanding the intentional-omission boundary above.
+
 ## Completed former exclusions
 
 The following exercises appeared in the original hard-problem/skip list but were
