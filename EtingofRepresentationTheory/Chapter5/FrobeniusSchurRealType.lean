@@ -250,6 +250,11 @@ theorem exists_nonzero_invariant_symmetric_of_FS_eq_one
           Equiv.sum_comp (Equiv.inv G) (fun g => ρ.character (g * g))]
     rw [invOf_eq_inv, smul_eq_mul]
     exact hFS
+  -- `IsProj.trace` needs freeness of the range/kernel; over the field `ℂ` these hold, but
+  -- type-class search does not fire `Module.Free.of_divisionRing` here, so supply it explicitly.
+  haveI : Module.Free ℂ ↥Λ.invariants := Module.Free.of_divisionRing ℂ ↥Λ.invariants
+  haveI : Module.Free ℂ ↥(LinearMap.ker (Representation.averageMap Λ)) :=
+    Module.Free.of_divisionRing ℂ ↥(LinearMap.ker (Representation.averageMap Λ))
   have hP_trace : LinearMap.trace ℂ Bil P = (Module.finrank ℂ Λ.invariants : ℂ) := by
     rw [hPdef]; exact (Λ.isProj_averageMap).trace
   -- the symmetric-part projector `Psym = ½(P + τ P)`, projecting onto symmetric invariants
@@ -276,6 +281,10 @@ theorem exists_nonzero_invariant_symmetric_of_FS_eq_one
       ← two_smul ℂ (Psym C), smul_smul, show (2⁻¹ * 2 : ℂ) = 1 by norm_num, one_smul]
   -- the rank counting: `2 · dim(symmetric invariants) = dim(invariants) + 1`
   have hisproj := (LinearMap.isProj_range_iff_isIdempotentElem Psym).mpr hPsymidem
+  haveI : Module.Free ℂ ↥(LinearMap.range Psym) :=
+    Module.Free.of_divisionRing ℂ ↥(LinearMap.range Psym)
+  haveI : Module.Free ℂ ↥(LinearMap.ker Psym) :=
+    Module.Free.of_divisionRing ℂ ↥(LinearMap.ker Psym)
   have hPsym_trace_eq : LinearMap.trace ℂ Bil Psym
       = (Module.finrank ℂ (LinearMap.range Psym) : ℂ) := hisproj.trace
   have hPsym_trace2 : LinearMap.trace ℂ Bil Psym
@@ -426,6 +435,11 @@ theorem frobeniusSchurIndicator_eq_one_of_isRealType
           Equiv.sum_comp (Equiv.inv G) (fun g => ρ.character (g * g))]
     rw [invOf_eq_inv, smul_eq_mul, Etingof.frobeniusSchurIndicator]
     simp only [Representation.character]
+  -- `IsProj.trace` needs freeness of the range/kernel; over the field `ℂ` these hold, but
+  -- type-class search does not fire `Module.Free.of_divisionRing` here, so supply it explicitly.
+  haveI : Module.Free ℂ ↥Λ.invariants := Module.Free.of_divisionRing ℂ ↥Λ.invariants
+  haveI : Module.Free ℂ ↥(LinearMap.ker (Representation.averageMap Λ)) :=
+    Module.Free.of_divisionRing ℂ ↥(LinearMap.ker (Representation.averageMap Λ))
   have hP_trace : LinearMap.trace ℂ Bil P = (Module.finrank ℂ Λ.invariants : ℂ) := by
     rw [hPdef]; exact (Λ.isProj_averageMap).trace
   -- the symmetric-part projector `Psym = ½(P + τ P)`
@@ -451,6 +465,10 @@ theorem frobeniusSchurIndicator_eq_one_of_isRealType
     rw [Module.End.mul_apply, hPsymapp (Psym C), hPfixPsym C, hτfixPsym C,
       ← two_smul ℂ (Psym C), smul_smul, show (2⁻¹ * 2 : ℂ) = 1 by norm_num, one_smul]
   have hisproj := (LinearMap.isProj_range_iff_isIdempotentElem Psym).mpr hPsymidem
+  haveI : Module.Free ℂ ↥(LinearMap.range Psym) :=
+    Module.Free.of_divisionRing ℂ ↥(LinearMap.range Psym)
+  haveI : Module.Free ℂ ↥(LinearMap.ker Psym) :=
+    Module.Free.of_divisionRing ℂ ↥(LinearMap.ker Psym)
   have hPsym_trace_eq : LinearMap.trace ℂ Bil Psym
       = (Module.finrank ℂ (LinearMap.range Psym) : ℂ) := hisproj.trace
   have hPsym_trace2 : LinearMap.trace ℂ Bil Psym
@@ -484,7 +502,8 @@ theorem frobeniusSchurIndicator_eq_one_of_isRealType
     rw [Submodule.nontrivial_iff_ne_bot]
     intro hbot
     exact hBsne (by simpa using (hbot ▸ hBsmem : (Bs : Bil) ∈ (⊥ : Submodule ℂ Bil)))
-  have hspos : 0 < s := by rw [hs]; exact Module.finrank_pos
+  have hspos : 0 < s := by
+    rw [hs]; exact Module.finrank_pos (R := ℂ) (M := ↥(LinearMap.range Psym))
   -- symmetric invariants sit inside all invariants, so `s ≤ d`
   have hsd_le : s ≤ d := by
     rw [hs, hd]
