@@ -432,7 +432,7 @@ theorem schurWeyl_simples_formalCharacter_linearIndependent_general
               (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
                 (S i)).tprod (L i).ρ) g (e v))
     (hLtop : ∀ i, ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N (L i) (fun j => μ j) = ⊤)
-    (hLalg : ∀ i, Etingof.IsAlgebraicRepresentation N (L i).ρ)
+    (hLalg : ∀ i, Etingof.IsAlgebraicCoefficientFamily N (L i).ρ)
     (hLsimp : ∀ i, IsSimpleModule
         (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
         (Representation.asModule (L i).ρ))
@@ -601,8 +601,8 @@ private theorem isAlgebraic_of_equivariant_linearEquiv
     {ρ' : Matrix.GeneralLinearGroup (Fin N) k → Y' →ₗ[k] Y'}
     (φ : Y ≃ₗ[k] Y')
     (hφ : ∀ g y, φ (ρ g y) = ρ' g (φ y))
-    (h : Etingof.IsAlgebraicRepresentation N ρ) :
-    Etingof.IsAlgebraicRepresentation N ρ' := by
+    (h : Etingof.IsAlgebraicCoefficientFamily N ρ) :
+    Etingof.IsAlgebraicCoefficientFamily N ρ' := by
   obtain ⟨m, b, P, hP⟩ := h
   refine ⟨m, b.map φ, P, fun g a c => ?_⟩
   have h2 : (b.map φ).repr (φ (ρ g (b c))) = b.repr (ρ g (b c)) := by
@@ -619,7 +619,7 @@ algebraic, `glTensorRep_isAlgebraic`), via `x ↦ e⁻¹ (lof i (s ⊗ x))` for 
 `s ∈ S i`; a left inverse is the equivariant projection used in
 `schurWeyl_simple_summand_glWeightSpace_top`. Restricting the algebraic structure to the
 (invariant) image and transporting it back through the embedding gives algebraicity of
-`(L i).ρ`. This supplies the `IsAlgebraicRepresentation` hypothesis of
+`(L i).ρ`. This supplies the `IsAlgebraicCoefficientFamily` hypothesis of
 `schurWeyl_simples_formalCharacter_linearIndependent_general`. -/
 theorem schurWeyl_simple_summand_isAlgebraic
     (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
@@ -637,7 +637,7 @@ theorem schurWeyl_simple_summand_isAlgebraic
               (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
                 (S i)).tprod (L i).ρ) g (e v))
     (hSne : ∀ i, 0 < Module.finrank k (S i)) :
-    ∀ i, Etingof.IsAlgebraicRepresentation N (L i).ρ := by
+    ∀ i, Etingof.IsAlgebraicCoefficientFamily N (L i).ρ := by
   classical
   intro i
   -- A basis vector `s₀ = bS i0 ∈ S i` and the dual coordinate `φ` with `φ s₀ = 1`.
@@ -684,7 +684,7 @@ theorem schurWeyl_simple_summand_isAlgebraic
     obtain ⟨x, rfl⟩ := hv
     exact ⟨(L i).ρ g x, (hs_equiv g x).symm⟩
   -- `glTensorRep` restricted to `W` is algebraic (`glTensorRep_isAlgebraic` + `restrict`).
-  have hWalg : Etingof.IsAlgebraicRepresentation N
+  have hWalg : Etingof.IsAlgebraicCoefficientFamily N
       (fun g => (glTensorRep k N n g).restrict (hWinv g)) :=
     (Etingof.glTensorRep_isAlgebraic k N n).restrict W hWinv
   -- Transport algebraicity back through `s : L i ≃ W`.
@@ -772,7 +772,7 @@ theorem schurWeyl_simples_formalCharacter_classification_core_general
     have hLtop : ∀ i, ⨆ (μ : Fin N →₀ ℕ),
         glWeightSpace k N (L i) (fun j => μ j) = ⊤ :=
       schurWeyl_simple_summand_glWeightSpace_top k N n L e he hSne
-    have hLalg : ∀ i, Etingof.IsAlgebraicRepresentation N (L i).ρ :=
+    have hLalg : ∀ i, Etingof.IsAlgebraicCoefficientFamily N (L i).ρ :=
       schurWeyl_simple_summand_isAlgebraic k N n L e he hSne
     have hLI := schurWeyl_simples_formalCharacter_linearIndependent_general
       k N n L e he hLtop hLalg hLsimp hLdist
@@ -855,14 +855,14 @@ implication): the `L_λ`-side is supplied internally by `schurModule_isAlgebraic
 Like weight saturation, algebraicity is not determined by `formalCharacter`, so it
 must come from `L`'s polynomial source; at the call site
 (`iso_of_formalCharacter_eq_schurPoly`) it transports from the algebraic ambient
-representation via `IsAlgebraicRepresentation.of_linearEquiv`. -/
+representation via `IsAlgebraicCoefficientFamily.of_linearEquiv`. -/
 theorem simpleRep_iso_schurModule_of_formalCharacter_eq (N : ℕ)
     (lam : Fin N → ℕ) (hlam : Antitone lam)
     (L : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (hLsimp : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
       (Representation.asModule L.ρ))
     (hLtop : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N L (fun i => μ i) = ⊤)
-    (hLalg : Etingof.IsAlgebraicRepresentation N L.ρ)
+    (hLalg : Etingof.IsAlgebraicCoefficientFamily N L.ρ)
     (h : formalCharacter k N L = schurPoly N lam) :
     Nonempty (L ≅ SchurModule k N lam) := by
   by_contra hno
@@ -884,9 +884,9 @@ theorem simpleRep_iso_schurModule_of_formalCharacter_eq (N : ℕ)
     rw [Fin.forall_fin_two]; exact ⟨hLsimp, hSsimp⟩
   -- Both members of the family are algebraic: `L` by hypothesis, `S = L_λ` by
   -- `schurModule_isAlgebraic`. This is the input to character independence.
-  have hSalg : Etingof.IsAlgebraicRepresentation N S.ρ := by
+  have hSalg : Etingof.IsAlgebraicCoefficientFamily N S.ρ := by
     rw [hSdef]; exact schurModule_isAlgebraic N lam
-  have halg : ∀ i, Etingof.IsAlgebraicRepresentation N (![L, S] i).ρ := by
+  have halg : ∀ i, Etingof.IsAlgebraicCoefficientFamily N (![L, S] i).ρ := by
     rw [Fin.forall_fin_two]; exact ⟨by simpa using hLalg, by simpa using hSalg⟩
   have hdist : Pairwise (fun i j => ¬ Nonempty ((![L, S] i) ≅ (![L, S] j))) := by
     have hsym : ¬ Nonempty (S ≅ L) := fun ⟨e⟩ => hno ⟨e.symm⟩
@@ -935,7 +935,7 @@ The downstream use is in `schurModule_shift_iso_detTwist` (Proposition 5.22.2). 
 theorem iso_of_formalCharacter_eq_schurPoly (N : ℕ)
     (lam : Fin N → ℕ) (hlam : Antitone lam)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (halg : Etingof.IsAlgebraicCoefficientFamily N M.ρ)
     (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (h : formalCharacter k N M = schurPoly N lam)
     (_h_dim : Module.finrank k M = Module.finrank k (SchurModule k N lam)) :
@@ -1040,9 +1040,9 @@ theorem iso_of_formalCharacter_eq_schurPoly (N : ℕ)
       (fun g v => Representation.kEquivOfAsModuleEquiv_intertwines hφ' g v)
       (Representation.kEquivOfAsModuleEquiv hφ').surjective h_span
   -- Algebraicity of `L (f 0)` transports from the algebraic ambient rep `M` along the
-  -- `k`-linear GL-equivariant equivalence `hφ'` (`IsAlgebraicRepresentation.of_linearEquiv`).
-  have hLf0alg : Etingof.IsAlgebraicRepresentation N (L (f 0)).ρ :=
-    Etingof.IsAlgebraicRepresentation.of_linearEquiv
+  -- `k`-linear GL-equivariant equivalence `hφ'` (`IsAlgebraicCoefficientFamily.of_linearEquiv`).
+  have hLf0alg : Etingof.IsAlgebraicCoefficientFamily N (L (f 0)).ρ :=
+    Etingof.IsAlgebraicCoefficientFamily.of_linearEquiv
       (Representation.kEquivOfAsModuleEquiv hφ')
       (fun g v => Representation.kEquivOfAsModuleEquiv_intertwines hφ' g v) halg
   have hLS : Nonempty (L (f 0) ≅ SchurModule k N lam) :=

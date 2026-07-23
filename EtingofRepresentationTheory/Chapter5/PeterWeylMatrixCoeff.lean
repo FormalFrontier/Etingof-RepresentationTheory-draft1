@@ -26,7 +26,7 @@ contragredient pairing, which is `GL_n`-invariant
 ## Construction
 
 `L_λ` is an algebraic representation (`algIrrepGLRepρ_isAlgebraic`, assembled from
-`schurModule_isAlgebraic` plus `IsAlgebraicRepresentation.detInvTwist` for the
+`schurModule_isAlgebraic` plus `IsAlgebraicCoefficientFamily.detInvTwist` for the
 `det^{-shift}` twist): there is a basis `b` and matrix-coefficient polynomials `P` with
 `b.repr (ρ(g) (b c)) a = evalAtGL g (P a c)`. The map is
 
@@ -72,11 +72,11 @@ theorem evalAtGL_pow {k : Type*} [Field k] {N : ℕ}
 algebraic representation `ρ` by `det^{-s}` (i.e. `g ↦ (det g)⁻ˢ • ρ g`) keeps it
 algebraic: each coefficient polynomial is multiplied by `Dˢ` (the `s`-th power of
 the formal `det⁻¹` variable), which evaluates to `(det g)⁻ˢ`. -/
-theorem IsAlgebraicRepresentation.detInvTwist {k : Type*} [Field k] {N : ℕ}
+theorem IsAlgebraicCoefficientFamily.detInvTwist {k : Type*} [Field k] {N : ℕ}
     {Y : Type*} [AddCommGroup Y] [Module k Y] [Module.Finite k Y]
     {ρ : Matrix.GeneralLinearGroup (Fin N) k → Y →ₗ[k] Y}
-    (h : Etingof.IsAlgebraicRepresentation N ρ) (s : ℕ) :
-    Etingof.IsAlgebraicRepresentation N
+    (h : Etingof.IsAlgebraicCoefficientFamily N ρ) (s : ℕ) :
+    Etingof.IsAlgebraicCoefficientFamily N
       (fun g : Matrix.GeneralLinearGroup (Fin N) k =>
         (((g : Matrix (Fin N) (Fin N) k).det)⁻¹) ^ s • ρ g) := by
   obtain ⟨m, b, P, hP⟩ := h
@@ -103,9 +103,9 @@ variable (n : ℕ) (lam : DominantWeight n) (k : Type) [Field k] [IsAlgClosed k]
 
 /-- **`L_λ = algIrrepGLRepρ` is an algebraic representation.** It is the Schur
 module (algebraic, `schurModule_isAlgebraic`) twisted by `det^{-λ.shift}`; the
-twist keeps it algebraic by `IsAlgebraicRepresentation.detInvTwist`. -/
+twist keeps it algebraic by `IsAlgebraicCoefficientFamily.detInvTwist`. -/
 theorem algIrrepGLRepρ_isAlgebraic :
-    Etingof.IsAlgebraicRepresentation n (fun g => algIrrepGLRepρ n lam k g) := by
+    Etingof.IsAlgebraicCoefficientFamily n (fun g => algIrrepGLRepρ n lam k g) := by
   have hfun : (fun g => algIrrepGLRepρ n lam k g)
       = (fun g : Matrix.GeneralLinearGroup (Fin n) k =>
           (((g : Matrix (Fin n) (Fin n) k).det)⁻¹) ^ lam.shift •

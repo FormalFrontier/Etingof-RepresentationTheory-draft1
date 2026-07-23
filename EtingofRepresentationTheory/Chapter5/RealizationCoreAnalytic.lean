@@ -84,7 +84,7 @@ theorem detTwist_clearing
     [FiniteDimensional k S.toSubmodule]
     {m : ℕ} (B : Module.Basis (Fin m) k S.toSubmodule) (r : ℕ)
     (hr_ge : ∀ i, detExp ((S.toSubmodule.subtype (B i)) : Localization.Away (detPoly k n)) ≤ r) :
-      Etingof.IsAlgebraicRepresentation n
+      Etingof.IsAlgebraicCoefficientFamily n
         ⇑(charTwistRep (detChar k n ^ r) S.toRepresentation) ∧
       ∃ φ : S.toSubmodule →ₗ[k] MvPolynomial (Fin n × Fin n) k,
         Function.Injective φ ∧
@@ -183,7 +183,7 @@ theorem detTwist_clearing
       rw [charTwistRep_apply, Submodule.coe_smul, hS_coe, he_coe, charTwistRep_apply]
     rw [hL, hR]
   -- The twisted `S`-action is algebraic.
-  have hMalg : Etingof.IsAlgebraicRepresentation n
+  have hMalg : Etingof.IsAlgebraicCoefficientFamily n
       ⇑(charTwistRep (detChar k n ^ r) S.toRepresentation) :=
     ((boundedRightRep_isAlgebraic k n d).restrict U hU_inv).of_linearEquiv e hcomm
   -- The polynomial embedding `φ = subtype ∘ U.subtype ∘ e.symm`.
@@ -212,14 +212,14 @@ theorem detTwist_clearing
 common-denominator `det^r`-twist with `r` chosen large enough, is a polynomial
 representation: it is algebraic, its `ℕ`-weight spaces span, and it embeds `GL_n`-equivariantly into
 `k[Xᵢⱼ]`. The clearing exponent is taken `r = r₀ + s`, where `r₀` clears the basis denominators and
-`s` (from `IsAlgebraicRepresentation.exists_detPow_twist_isPolynomial`) makes the twist det⁻¹-free;
+`s` (from `IsAlgebraicCoefficientFamily.exists_detPow_twist_isPolynomial`) makes the twist det⁻¹-free;
 weight-spanning then follows from `polynomial_rep_iSup_glWeightSpace_eq_top`. -/
 theorem exists_detTwist_polyEmbedding_of_simple_subrep
     (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (S : Subrepresentation (localRightRep k n))
     [FiniteDimensional k S.toSubmodule] :
     ∃ r : ℕ,
-      Etingof.IsAlgebraicRepresentation n
+      Etingof.IsAlgebraicCoefficientFamily n
         ⇑(charTwistRep (detChar k n ^ r) S.toRepresentation) ∧
       (⨆ μ : Fin n →₀ ℕ,
         glWeightSpace k n

@@ -194,13 +194,13 @@ consumers can invoke the classification core
 The hypothesis `h_span`, that the `ℕ`-indexed weight spaces span `M`, is
 essential (it says `M` is polynomial, not merely algebraic). It is used by
 `polynomial_homog_rep_equivariant_embedding`; without it the statement is
-false, since `IsAlgebraicRepresentation` together with `h_homog` admits the
+false, since `IsAlgebraicCoefficientFamily` together with `h_homog` admits the
 counterexample `M = Sym²(V) ⊗ det⁻¹` (`N = 2`, `n = 0`), which has no embedding
 into `V^{⊗0}`. -/
 theorem polynomial_homog_rep_asModule_embeds_directSum_simple
     [IsAlgClosed k] [CharZero k] (n : ℕ)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (halg : Etingof.IsAlgebraicCoefficientFamily N M.ρ)
     (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
@@ -313,7 +313,7 @@ single-`schurPoly` left side has a single summand. -/
 theorem decompose_polynomial_gl_rep
     [IsAlgClosed k] [CharZero k] (n : ℕ)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (halg : Etingof.IsAlgebraicCoefficientFamily N M.ρ)
     (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)

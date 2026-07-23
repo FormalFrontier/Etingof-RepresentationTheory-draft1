@@ -103,7 +103,7 @@ the classification API `schurPoly_linearIndependent` / `decompose_polynomial_gl_
 consumer indexing `S` by `BoundedPartition` reads off `ν.parts := ν.val`. -/
 theorem simple_constituent_formalCharacter_eq_schurPoly_mem (N n : ℕ)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (halg : Etingof.IsAlgebraicCoefficientFamily N M.ρ)
     (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n)
     (S : Finset {l : Fin N → ℕ // Antitone l})

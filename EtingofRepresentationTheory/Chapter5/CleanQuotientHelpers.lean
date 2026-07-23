@@ -14,7 +14,7 @@ additivity `Etingof.CleanCharExtraction.formalCharacter_add_of_shortExact`. To r
 induction it needs, for an invariant submodule `S = σ.toSubmodule ≤ M`:
 
 * the quotient `M ⧸ S` carried as a `GL_N`-representation that is still algebraic (so the
-  induction hypothesis applies to it): `IsAlgebraicRepresentation.quotient`;
+  induction hypothesis applies to it): `IsAlgebraicCoefficientFamily.quotient`;
 * the packaging of `S ↪ M ↠ M ⧸ S` as an equivariant short exact sequence of `FDRep`s, so that
   `formalCharacter_add_of_shortExact` applies directly: `subFDRep`, `quotientFDRep`, the
   equivariant inclusion/projection, exactness, and
@@ -34,17 +34,17 @@ namespace Etingof
 representation `ρ` on `Y` and an invariant submodule `K` (`K ≤ K.comap (ρ g)` for every `g`),
 the induced action `g ↦ Submodule.mapQ K K (ρ g)` on `Y ⧸ K` is algebraic.
 
-The proof mirrors `Etingof.IsAlgebraicRepresentation.restrict`: choose a complement `K'` of `K`,
+The proof mirrors `Etingof.IsAlgebraicCoefficientFamily.restrict`: choose a complement `K'` of `K`,
 which provides a linear section `s : Y ⧸ K → Y` of the quotient map `q = K.mkQ`
 (`q ∘ s = id`); the quotient matrix coefficients are then the sub-block
 `∑_{d,e} (B.repr (s (b' c)) d) · P e d · (b'.repr (q (B e)) a)` of the ambient polynomial
 coefficients `P`, hence polynomial. -/
-theorem IsAlgebraicRepresentation.quotient {k : Type*} [Field k] {N : ℕ}
+theorem IsAlgebraicCoefficientFamily.quotient {k : Type*} [Field k] {N : ℕ}
     {Y : Type*} [AddCommGroup Y] [Module k Y] [Module.Finite k Y]
     {ρ : Matrix.GeneralLinearGroup (Fin N) k → Y →ₗ[k] Y}
-    (h : Etingof.IsAlgebraicRepresentation N ρ)
+    (h : Etingof.IsAlgebraicCoefficientFamily N ρ)
     (K : Submodule k Y) (hK : ∀ g, K ≤ K.comap (ρ g)) :
-    Etingof.IsAlgebraicRepresentation N (fun g => Submodule.mapQ K K (ρ g) (hK g)) := by
+    Etingof.IsAlgebraicCoefficientFamily N (fun g => Submodule.mapQ K K (ρ g) (hK g)) := by
   classical
   haveI : Module.Finite k (Y ⧸ K) := Module.Finite.of_surjective K.mkQ K.mkQ_surjective
   obtain ⟨M, B, P, hP⟩ := h
@@ -154,10 +154,10 @@ theorem subFDRep_range_eq_quotientFDRep_ker
   rw [Submodule.range_subtype, Submodule.ker_mkQ]
 
 /-- **The quotient `FDRep` is algebraic when `M` is.** Specializes
-`IsAlgebraicRepresentation.quotient` to the quotient `FDRep`. -/
+`IsAlgebraicCoefficientFamily.quotient` to the quotient `FDRep`. -/
 theorem quotientFDRep_isAlgebraic (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (σ : Subrepresentation M.ρ) (hM : Etingof.IsAlgebraicRepresentation N M.ρ) :
-    Etingof.IsAlgebraicRepresentation N (quotientFDRep M σ).ρ :=
+    (σ : Subrepresentation M.ρ) (hM : Etingof.IsAlgebraicCoefficientFamily N M.ρ) :
+    Etingof.IsAlgebraicCoefficientFamily N (quotientFDRep M σ).ρ :=
   hM.quotient σ.toSubmodule (fun g => σ.apply_mem_toSubmodule g)
 
 /-- **Weight saturation passes to the quotient.** If the `ℕ`-weight spaces of `M` span `M`,

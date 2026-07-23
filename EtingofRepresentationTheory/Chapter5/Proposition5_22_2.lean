@@ -434,7 +434,7 @@ theorem schurModule_shift_iso_detTwist (N : ℕ) (lam : Fin N → ℕ) (hlam : A
   -- The det-twisted Schur module representation is algebraic (assembled from the general
   -- algebraicity infrastructure in `GLRepAlgebraic`; the concrete packaging is
   -- `detTwistedSchurModuleRep_isAlgebraic`, which lives downstream and so is inlined here).
-  have halg : Etingof.IsAlgebraicRepresentation N
+  have halg : Etingof.IsAlgebraicCoefficientFamily N
       (FDRep.of (detTwistedSchurModuleRep k N lam)).ρ := by
     rw [FDRep.of_ρ']
     exact ((Etingof.glTensorRep_isAlgebraic k N (∑ i, lam i)).restrict

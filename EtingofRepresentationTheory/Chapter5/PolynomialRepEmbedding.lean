@@ -200,7 +200,7 @@ theorem polynomialRep_embeds_in_tensorPower_inj
     [CharZero k]
     [Module.Finite k M]
     (ρ : Matrix.GeneralLinearGroup (Fin N) k →* (M →ₗ[k] M))
-    (_halg : IsAlgebraicRepresentation N (ρ : _ → _))
+    (_halg : IsAlgebraicCoefficientFamily N (ρ : _ → _))
     (hpoly : ∃ (d : ℕ) (b : Module.Basis (Fin d) k M)
        (P : Fin d → Fin d → MvPolynomial (Fin N × Fin N) k),
          (∀ a c, (P a c).IsHomogeneous n) ∧
@@ -472,7 +472,7 @@ theorem polynomialRep_embeds_in_tensorPower
     [CharZero k]
     [Module.Finite k M]
     (ρ : Matrix.GeneralLinearGroup (Fin N) k →* (M →ₗ[k] M))
-    (_halg : IsAlgebraicRepresentation N (ρ : _ → _))
+    (_halg : IsAlgebraicCoefficientFamily N (ρ : _ → _))
     (hpoly : ∃ (d : ℕ) (b : Module.Basis (Fin d) k M)
        (P : Fin d → Fin d → MvPolynomial (Fin N × Fin N) k),
          (∀ a c, (P a c).IsHomogeneous n) ∧
@@ -676,7 +676,7 @@ theorem polynomialRep_embeds_in_tensorPower' (n : ℕ)
     [CharZero k]
     [Module.Finite k M]
     (ρ : Matrix.GeneralLinearGroup (Fin N) k →* (M →ₗ[k] M))
-    (halg : IsAlgebraicRepresentation N (ρ : _ → _))
+    (halg : IsAlgebraicCoefficientFamily N (ρ : _ → _))
     (hpoly' : ∃ (d : ℕ) (b : Module.Basis (Fin d) k M)
        (P : Fin d → Fin d → MvPolynomial (Fin N × Fin N) k),
          (∀ a c, (P a c).IsHomogeneous n) ∧
@@ -773,7 +773,7 @@ Schur modules at
 private theorem scalarGL_acts_as_pow (n : ℕ)
     [CharZero k] [IsAlgClosed k]
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (halg : Etingof.IsAlgebraicCoefficientFamily N M.ρ)
     (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n)
     (t : kˣ) :
@@ -947,7 +947,7 @@ to `Mₙ(k) → End(M)` and the matrix coefficients are the bare polynomials `Q`
 produced here. -/
 private theorem detInv_elim_of_polynomial (n : ℕ) [CharZero k] [IsAlgClosed k]
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (halg : Etingof.IsAlgebraicCoefficientFamily N M.ρ)
     (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤) :
     ∃ (d : ℕ) (b : Module.Basis (Fin d) k M)
        (Q : Fin d → Fin d → MvPolynomial (Fin N × Fin N) k),
@@ -1045,7 +1045,7 @@ Identity over all of `GL` upgrades to a polynomial identity by
 private theorem hpoly'_of_scalarGL_action (n : ℕ)
     [CharZero k] [IsAlgClosed k]
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (halg : Etingof.IsAlgebraicCoefficientFamily N M.ρ)
     (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (h_scalar : ∀ t : kˣ, M.ρ (scalarGL k N t) = ((t : k) ^ n) • LinearMap.id) :
     ∃ (d : ℕ) (b : Module.Basis (Fin d) k M)
@@ -1070,11 +1070,11 @@ matrix coefficients given, in a suitable basis, by homogeneous degree-`n`
 polynomials in the bare matrix entries `Fin N × Fin N`, i.e. the raw
 `hpoly'` witness consumed by `polynomialRep_embeds_in_tensorPower'`.
 
-This passes from `Etingof.IsAlgebraicRepresentation` (matrix coefficients in
+This passes from `Etingof.IsAlgebraicCoefficientFamily` (matrix coefficients in
 `k[Xᵢⱼ, D]`, `D = det⁻¹`, no homogeneity) to the bare-entry homogeneous data.
 
 **Hypotheses.** `h_span`, that the `ℕ`-indexed weight spaces span `M`, is
-essential. Without it the theorem is false: `IsAlgebraicRepresentation` allows
+essential. Without it the theorem is false: `IsAlgebraicCoefficientFamily` allows
 weights in `ℤ^N` (the `det⁻¹` variable), whereas the bare-entry-polynomial
 conclusion needs all weights in `ℕ^N`. Counterexample (`N = 2`, `n = 0`):
 `M = Sym²(V) ⊗ det⁻¹` is algebraic and satisfies `h_homog` vacuously (its only
@@ -1097,7 +1097,7 @@ degree-`n` polynomial. -/
 theorem polynomialRep_homogeneous_hpoly'
     [CharZero k] [IsAlgClosed k]
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (halg : Etingof.IsAlgebraicCoefficientFamily N M.ρ)
     (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n) :
     ∃ (d : ℕ) (b : Module.Basis (Fin d) k M)
@@ -1122,7 +1122,7 @@ from the primed embedding lemma. Downstream, the Schur-Weyl construction views
 theorem polynomial_homog_rep_equivariant_embedding
     [CharZero k] [IsAlgClosed k]
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (halg : Etingof.IsAlgebraicCoefficientFamily N M.ρ)
     (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n) :
     ∃ (m : ℕ) (φ : M →ₗ[k] (Fin m → TensorPower k (StdV k N) n)),

@@ -23,7 +23,7 @@ complement is the zero locus of `det · discr` (`discrPoly`). Clearing the `det�
 denominator yields a polynomial vanishing off `{det · discr ≠ 0}`, which
 `eq_zero_of_eval_eq_zero_off_zeroLocus` forces to be identically zero.
 
-The hypothesis is `IsAlgebraicRepresentation` (regularity of the character), not merely
+The hypothesis is `IsAlgebraicCoefficientFamily` (regularity of the character), not merely
 `hLtop` (spanning `ℕ`-weight spaces): the latter is strictly weaker for abstract-group
 representations and does not by itself make the character regular. At the call site each
 `L i` is a summand of the polynomial representation `V^{⊗n}`, hence algebraic.
@@ -42,7 +42,7 @@ algebraic `GL_N`-representation `M`, the character `g ↦ trace_k (M.ρ g)` equa
 matrix-coefficient polynomials in any algebraic-rep basis). Valid over any field. -/
 theorem trace_eq_evalAtGL_of_algebraic
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (hM : Etingof.IsAlgebraicRepresentation N M.ρ) :
+    (hM : Etingof.IsAlgebraicCoefficientFamily N M.ρ) :
     ∃ T : MvPolynomial (Etingof.GLCoordVars N) k,
       ∀ g, LinearMap.trace k M (M.ρ g) = Etingof.evalAtGL g T := by
   obtain ⟨m, b, P, hP⟩ := hM
@@ -67,7 +67,7 @@ the `k = ℂ` specialisation. -/
 theorem trace_combination_vanishes_of_torus_vanishes_of_algebraic
     (N : ℕ) {ι : Type} [Fintype ι]
     (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (hLalg : ∀ i, Etingof.IsAlgebraicRepresentation N (L i).ρ)
+    (hLalg : ∀ i, Etingof.IsAlgebraicCoefficientFamily N (L i).ρ)
     (c : ι → k)
     (htorus : ∀ t : Fin N → kˣ,
         ∑ i, c i • LinearMap.trace k (L i) ((L i).ρ (diagTorus k N t)) = 0)

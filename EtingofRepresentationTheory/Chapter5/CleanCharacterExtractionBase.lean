@@ -109,7 +109,7 @@ now using the general-`k` density core
 theorem formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general
     (N : ℕ) {ι : Type} [Fintype ι] [DecidableEq ι]
     (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (hLalg : ∀ i, Etingof.IsAlgebraicRepresentation N (L i).ρ)
+    (hLalg : ∀ i, Etingof.IsAlgebraicCoefficientFamily N (L i).ρ)
     (hLsimp : ∀ i, IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
         (Representation.asModule (L i).ρ))
     (hLdist : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j))))

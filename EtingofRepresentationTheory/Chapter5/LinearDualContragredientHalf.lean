@@ -82,12 +82,12 @@ theorem iSup_glWeightSpace_eq_top_of_eigenbasis (n d : ℕ)
 omit [IsAlgClosed k] [CharZero k] in
 /-- **A `det^m`-power twist preserves algebraicity.** Twisting an algebraic
 `GL_n`-representation by the `m`-th power of the determinant character (for `m : ℕ`)
-keeps it algebraic, by iterating `IsAlgebraicRepresentation.detTwist`. -/
+keeps it algebraic, by iterating `IsAlgebraicCoefficientFamily.detTwist`. -/
 theorem isAlgebraic_charTwist_detChar_natPow {Y : Type} [AddCommGroup Y] [Module k Y]
     [Module.Finite k Y] (n m : ℕ)
     (ρ : Representation k (Matrix.GeneralLinearGroup (Fin n) k) Y)
-    (h : Etingof.IsAlgebraicRepresentation n ρ) :
-    Etingof.IsAlgebraicRepresentation n
+    (h : Etingof.IsAlgebraicCoefficientFamily n ρ) :
+    Etingof.IsAlgebraicCoefficientFamily n
       (charTwistRep (detChar k n ^ ((m : ℕ) : ℤ)) ρ) := by
   induction m with
   | zero =>
@@ -200,18 +200,18 @@ theorem linearDual_half_detTwist_contragredient (n : ℕ) (lam : DominantWeight 
     iSup_glWeightSpace_eq_top_of_eigenbasis n d M v.dualBasis
       (fun c i => m - wt c i) hMeigen
   -- Algebraicity of `M.ρ = charTwistRep (det^m) (dual σ)`.
-  have hσalg : Etingof.IsAlgebraicRepresentation n (schurModuleRep k n lz) :=
+  have hσalg : Etingof.IsAlgebraicCoefficientFamily n (schurModuleRep k n lz) :=
     schurModule_isAlgebraic (k := k) n lz
-  have halg : Etingof.IsAlgebraicRepresentation n M.ρ := by
+  have halg : Etingof.IsAlgebraicCoefficientFamily n M.ρ := by
     -- Unfold `M.ρ` to the native nested twist (`show`), collapse it, then iterate the
     -- determinant-power twist closure on the algebraic dual of the Schur module.
-    change Etingof.IsAlgebraicRepresentation n
+    change Etingof.IsAlgebraicCoefficientFamily n
       (charTwistRep (detChar k n ^ s)
         (Representation.dual (charTwistRep (detChar k n ^ (-(lam.shift : ℤ)))
           (schurModuleRep k n lz))))
     rw [dual_charTwistRep, charTwistRep_charTwistRep, detChar_pow_mul_inv_neg_zpow]
     exact isAlgebraic_charTwist_detChar_natPow n m _
-      (IsAlgebraicRepresentation.dual (schurModuleRep k n lz) hσalg)
+      (IsAlgebraicCoefficientFamily.dual (schurModuleRep k n lz) hσalg)
   -- Formal character of `M` is `schurPoly n ν`.
   have h_char : formalCharacter k n M = schurPoly n ν := by
     rw [hM_def]
