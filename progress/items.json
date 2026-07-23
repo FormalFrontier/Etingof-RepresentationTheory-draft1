@@ -7482,12 +7482,12 @@
     "end_page": "164",
     "start_line": 47,
     "end_line": 47,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "fidelity_issue": 7501,
-    "coverage_note": "The public finiteness endpoint covers only positive roots. The remark's claim that the entire root set is finite, including negative roots and the bridge from all roots to signed positive roots, remains #7501.",
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The full root set is now proved finite by Etingof.Remark_6_4_4_roots_finite (Chapter6/Remark6_4_4.lean): the root set embeds in the union of the finite positive-root set (Theorem_6_5_2a_finiteness) with its image under negation, via Lemma_6_4_6 (positive-or-negative dichotomy) and IsRoot.neg (negation symmetry). Axiom-clean.",
+    "last_updated": "2026-07-23",
+    "fidelity_decl": "Etingof.Remark_6_4_4_roots_finite, Etingof.IsRoot.neg"
   },
   {
     "id": "Chapter6/Definition6.4.5",
