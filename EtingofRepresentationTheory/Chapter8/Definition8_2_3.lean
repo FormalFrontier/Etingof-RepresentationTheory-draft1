@@ -115,15 +115,18 @@ instance : (tensorRightFunctor A N).Additive where
   map_add {M M' f g} := by
     ext x
     obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
+    show tensorRightMap A N (f + g) (y : tensorOver A N M)
+        = tensorRightMap A N f (y : tensorOver A N M)
+          + tensorRightMap A N g (y : tensorOver A N M)
     induction y with
     | zero => simp
     | tmul m n =>
-      simp only [tensorRightFunctor, AddCommGrpCat.hom_ofHom, AddCommGrpCat.hom_add,
-        AddMonoidHom.add_apply, tensorRightMap_mk, ModuleCat.hom_add, LinearMap.add_apply,
-        add_tmul]
+      rw [tensorRightMap_mk, tensorRightMap_mk, tensorRightMap_mk,
+        ModuleCat.hom_add, LinearMap.add_apply, add_tmul]
       exact tensorOver_mk_add A N _ _
-    | add a b ha hb =>
-      rw [tensorOver_mk_add, map_add, map_add, ha, hb]
+    | add p q hp hq =>
+      rw [tensorOver_mk_add, map_add, map_add, map_add, hp, hq]
+      abel
 
 /-- The `n`-th Tor functor `Torₙᴬ(-, N) : (right A-modules) ⥤ Ab`, defined as the `n`-th left
 derived functor of `- ⊗_A N`, in the sense of Etingof Definition 8.2.3. -/
