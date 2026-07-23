@@ -114,7 +114,7 @@ theorem exact_leftComp (Y : C) {S : ShortComplex C} (hS : S.ShortExact) :
     obtain ⟨a, ha⟩ := CokernelCofork.IsColimit.desc' hS.gIsCokernel b hb'
     refine ⟨a, ?_⟩
     change S.g ≫ a = b
-    simpa using ha
+    exact ha
   · rintro ⟨a, rfl⟩
     change S.f ≫ (S.g ≫ a) = 0
     rw [← Category.assoc, S.zero, zero_comp]
