@@ -4846,11 +4846,13 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] Resolved (#5382): added the 'support_simple' field requiring every representation with a nonzero coefficient to be a Simple (irreducible) object, so the structure now models an integer combination of irreducibles as the book demands. The virtual character is defined in 'character'.",
+    "coverage": "covered_partial",
+    "fidelity_note": "Closed #5382 added simple support and the virtual character. The remaining coefficient type is indexed by literal FDRep objects rather than irreducible isomorphism classes, so isomorphic copies are incorrectly distinguished; follow-up #7483.",
     "fidelity_decl": "Etingof.VirtualRepresentation",
-    "fidelity_issue": 5382
+    "fidelity_issue": 7483,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_before_Lemma5.7.2",
@@ -8503,8 +8505,12 @@
     "start_line": 27,
     "end_line": 51,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "LeftExactFunctor and RightExactFunctor are public, but the source's third definition—ExactFunctor as their conjunction—is absent; follow-up #7484.",
+    "fidelity_issue": 7484,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Definition7.9.4",
