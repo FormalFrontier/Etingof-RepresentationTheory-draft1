@@ -486,6 +486,20 @@ context (`theorem extMapHom_tmul … := rfl`) so its LHS matches syntactically. 
 `erw`s in one call — each does an expensive defeq search and the combined term blows up `whnf`; keep
 them on separate lines.
 
+**A stale `simp only [...]` in a helper that mirrors a Mathlib sibling lemma: re-copy the
+sibling's *current* proof instead of debugging the old argument list (#7526).** In
+`Chapter7/Example7_9_2.lean`, `left_adjoint_linear` (the `Functor.Linear` companion of
+`Adjunction.left_adjoint_additive`) had a hand-tuned `simp only [homEquiv_unit,
+Functor.map_smul, ← Functor.comp_map, ← adj.unit.naturality, …]` that left an unsolved goal
+against current Mathlib (the `←`-naturality/`comp_smul`/`id_map` args reported "unused" and
+never fired). The fix was not to repair the chain but to open Mathlib's present proof of the
+sibling (`left_adjoint_additive`: `set_option backward.defeqAttrib.useBackward true in … :=
+(adj.homEquiv _ _).injective (by simp [homEquiv_unit])`) and mirror it verbatim for `map_smul`.
+When a stale-proof regression is on a lemma that names a Mathlib analogue in its docstring,
+grep Mathlib for that analogue and copy its proof style first — it is usually a one-liner and
+tracks the API drift you are fighting. (Also: `set_option … in` must sit *before* the
+docstring, not between docstring and `lemma`.)
+
 **Discharging an `↔`/membership goal over a `Prop` def with `omega`: use `unfold theDef; omega`, not
 `simp only [theDef]; omega`.** For a decidable `Prop` def built from `∨`/`∧`/`=`/`≤` over `ℕ` (e.g. an
 explicit graph adjacency pattern like `armAdjIdx` in `Chapter6/Problem6_1_3_continued_tildeE.lean`),

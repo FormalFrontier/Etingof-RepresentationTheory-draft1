@@ -8768,13 +8768,12 @@
     "end_page": "194",
     "start_line": 25,
     "end_line": 26,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "proved",
+    "fidelity": "full",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The intended Ind, Res, and Hom endpoints are source-present, but Example7_9_2.lean fails a fresh check in left_adjoint_linear, preventing indFunctor_linear from rebuilding; regression #7526.",
-    "coverage_issue": 7526,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "Ind, Res, and Hom additive/k-linear endpoints all fresh-check; left_adjoint_linear reproved in the style of Adjunction.left_adjoint_additive, with a downstream import/#check regression test Example7_9_2_Test.lean (#7526).",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter7/Definition7.9.3",
