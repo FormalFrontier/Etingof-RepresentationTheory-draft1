@@ -8790,12 +8790,11 @@
     "start_line": 27,
     "end_line": 51,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "LeftExactFunctor and RightExactFunctor are public, but the source's third definition—ExactFunctor as their conjunction—is absent; follow-up #7484.",
-    "fidelity_issue": 7484,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "LeftExactFunctor, RightExactFunctor, and ExactFunctor (their conjunction, with exactFunctor_iff and projection/constructor lemmas) are all public.",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter7/Definition7.9.4",
