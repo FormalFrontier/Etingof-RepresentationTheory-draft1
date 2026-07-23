@@ -1113,7 +1113,12 @@ private lemma inducedRepV_orbit_injectivity {G A : Type} [Group G] [CommGroup A]
       by_cases hq : q = q₁
       · subst hq; rfl
       · rw [hf_supp q hq, smul_zero, smul_zero]
-    rw [haction_f, map_smul, Pi.smul_apply] at hcomm_q₂
+    -- LHS: pull the scalar out of `T` at the `.V` carrier to avoid the raw Pi-type
+    -- mismatch that blocks a direct `rw [map_smul]`.
+    have hpull : T ((inducedRepV φ χ₁ U₁).ρ ⟨a₀, 1⟩ f)
+        = ((χ₁ ((φ q₁.out⁻¹ : MulAut A) a₀) : ℂˣ) : ℂ) • T f := by
+      rw [haction_f]; exact T.map_smul _ _
+    rw [hpull] at hcomm_q₂
     -- RHS: V₂.ρ ⟨a₀,1⟩ (Tf) at q₂ = c₂ • (Tf)(q₂)
     rw [A_action_scalar φ χ₂ U₂ a₀ (T f) q₂] at hcomm_q₂
     -- hcomm_q₂: c₁ • (Tf)(q₂) = c₂ • (Tf)(q₂)
@@ -1191,7 +1196,7 @@ private lemma exists_character_in_rep {G A : Type} [Group G] [CommGroup A]
   -- Scalar uniqueness: c₁ • v = c₂ • v → c₁ = c₂
   have h_inj : ∀ c₁ c₂ : ℂ, c₁ • v = c₂ • v → c₁ = c₂ := by
     intro c₁ c₂ h
-    have hsub : (c₁ - c₂) • v = 0 := by rw [sub_smul, sub_eq_zero]; exact h
+    have hsub : (c₁ - c₂) • v = 0 := by rw [sub_smul c₁ c₂ v, h, sub_self]
     cases (smul_eq_zero.mp hsub) with
     | inl h => exact sub_eq_zero.mp h
     | inr h => exact absurd h hv_ne
@@ -1853,8 +1858,11 @@ private lemma baseChange_comm_A {G A : Type} [Group G] [CommGroup A] [Fintype G]
     baseChangeEquiv φ hg U ((inducedRepV φ χ₂ (transportRep φ hg U)).ρ ⟨a, 1⟩ f)
       = (inducedRepV φ χ₁ U).ρ ⟨a, 1⟩ (baseChangeEquiv φ hg U f) := by
   funext p
-  rw [baseChangeEquiv_apply, inducedRepV_A_apply, map_smul, inducedRepV_A_apply,
+  rw [baseChangeEquiv_apply, inducedRepV_A_apply, inducedRepV_A_apply,
     baseChangeEquiv_apply, coset_char_transfer]
+  -- Pull the (now-matched) scalar through the linear map `U.ρ (wElt p)` by defeq,
+  -- sidestepping the raw-carrier mismatch that blocks a direct `rw [map_smul]`.
+  exact (FDRep.ρ U (wElt φ hg p)).map_smul _ _
 
 -- The base-point change map intertwines the (induced) `G`-action.
 private lemma baseChange_comm_G {G A : Type} [Group G] [CommGroup A] [Fintype G]
@@ -2020,13 +2028,17 @@ private noncomputable def inducedRepV_U_iso {G A : Type} [Group G] [CommGroup A]
           (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u)) := by
       intro a
       have hcomm := hT_comm ⟨a, 1⟩ (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u)
-      rw [hEig U u a, map_smul] at hcomm
+      have hpull : T ((inducedRepV φ χ U).ρ ⟨a, 1⟩
+            (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u))
+          = ((χ a : ℂˣ) : ℂ) • T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u) := by
+        rw [hEig U u a]; exact T.map_smul _ _
+      rw [hpull] at hcomm
       exact hcomm.symm
     obtain ⟨a, ha⟩ := coset_char_witness φ χ
       (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) q (Ne.symm hq)
     rw [base_coset_char] at ha
     have hco := congr_fun (hEig' a) q
-    rw [A_action_scalar φ χ U' a _ q, Pi.smul_apply] at hco
+    rw [A_action_scalar φ χ U' a _ q] at hco
     have hsub : (((χ ((φ q.out⁻¹ : MulAut A) a) : ℂˣ) : ℂ) - ((χ a : ℂˣ) : ℂ)) •
         (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u)) q = 0 := by
       rw [sub_smul, sub_eq_zero]; exact hco
@@ -2048,12 +2060,12 @@ private noncomputable def inducedRepV_U_iso {G A : Type} [Group G] [CommGroup A]
         = ((χ a : ℂˣ) : ℂ) •
           (T.symm (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u)) := by
       intro a
-      rw [hT_comm_symm, hEig U' u a, map_smul]
+      rw [hT_comm_symm, hEig U' u a]; exact T.symm.map_smul _ _
     obtain ⟨a, ha⟩ := coset_char_witness φ χ
       (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) q (Ne.symm hq)
     rw [base_coset_char] at ha
     have hco := congr_fun (hEig' a) q
-    rw [A_action_scalar φ χ U a _ q, Pi.smul_apply] at hco
+    rw [A_action_scalar φ χ U a _ q] at hco
     have hsub : (((χ ((φ q.out⁻¹ : MulAut A) a) : ℂˣ) : ℂ) - ((χ a : ℂˣ) : ℂ)) •
         (T.symm (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u)) q = 0 := by
       rw [sub_smul, sub_eq_zero]; exact hco
@@ -2087,13 +2099,22 @@ private noncomputable def inducedRepV_U_iso {G A : Type} [Group G] [CommGroup A]
           (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
         + (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) y))
           (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) := by
-    intro x y; simp only [Pi.single_add, map_add]; rfl
+    intro x y
+    have h : T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) (x + y))
+        = T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) x)
+          + T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) y) := by
+      rw [Pi.single_add]; exact T.map_add _ _
+    rw [h]; rfl
   have hF_smul : ∀ (r : ℂ) (x : ↥U),
       (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) (r • x)))
           (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
       = r • (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) x))
           (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) := by
-    intro r x; simp only [Pi.single_smul, map_smul]; rfl
+    intro r x
+    have h : T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) (r • x))
+        = r • T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) x) := by
+      rw [Pi.single_smul]; exact T.map_smul _ _
+    rw [h]; rfl
   let eU : ↥U ≃ₗ[ℂ] ↥U' :=
     { toFun := fun u => (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u))
         (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
