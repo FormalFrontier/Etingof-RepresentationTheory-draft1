@@ -3518,6 +3518,12 @@
     "start_line": 25,
     "end_line": 27,
     "status": "sorry_free",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "General character-table infrastructure and the neighboring S3/Q8/S4/A5 examples exist, but the source's complete A4 class data, four irreducibles, and table are not exposed; follow-up #7478.",
+    "fidelity_issue": 7478,
+    "last_updated": "2026-07-22",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -3549,6 +3555,12 @@
     "start_line": 3,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "Specific tensor-product tables are formalized, and the character/Hom ingredients exist, but no generic theorem states the source's multiplicity inner-product formula and decomposition; follow-up #7479.",
+    "fidelity_issue": 7479,
+    "last_updated": "2026-07-22",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
