@@ -6034,14 +6034,12 @@
     "start_line": 21,
     "end_line": 27,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "full",
     "needs_statement": false,
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The polynomial-density argument is proved, but the public theorem assumes IsAlgClosed k rather than the source characteristic-zero scope (the proof only needs infinitude), excluding ℚ and ℝ while admitting positive characteristic. Its target is diagonalActionImage; the centralizer-B wording also needs the separate characteristic-zero identification. Follow-up #7445.",
-    "fidelity_issue": 7445,
-    "followup_issue": 7445,
-    "last_updated": "2026-07-22"
+    "coverage": "covered",
+    "coverage_note": "The polynomial-density theorem Etingof.Proposition5_19_1 is now stated over [Field k] [Infinite k] (the minimal faithful hypothesis: the proof needs only infinitude), covering every characteristic-zero field including ℚ and ℝ, with regression examples over both. It concludes equality with the diagonal-action image (the book's B). The separate characteristic-zero identification of that image with the actual Sₙ-centralizer End_{Sₙ}(V⊗ⁿ) is exposed as Etingof.Proposition5_19_1_centralizer and no longer conflated with the density statement. Resolved #7445.",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter5/Corollary5.19.2",
