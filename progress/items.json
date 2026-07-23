@@ -6759,11 +6759,10 @@
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The principal-series representation is public, but its q+1 dimension theorem is private (#7563). The independent Theorem5_25_2.lean source regression remains #7516.",
-    "fidelity_issue": 7563,
-    "last_updated": "2026-07-22"
+    "fidelity": "full",
+    "coverage": "covered_full",
+    "coverage_note": "The principal-series representation and its dimension are both public: Etingof.GL2.principalSeries_finrank states dim V(chi1,chi2) = q+1 = p^n+1, with a downstream #check in Theorem5_25_2_Test.lean confirming client access without private namespaces (#7563).",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter5/Theorem5.25.2",
