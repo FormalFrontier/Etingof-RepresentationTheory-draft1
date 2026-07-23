@@ -1191,7 +1191,7 @@
     "fidelity": "partial",
     "sorry_free": true,
     "coverage": "covered_partial",
-    "coverage_note": "The orthogonal Lie algebra so(n) is available through Mathlib and the neighboring so(3) development. The explicit two-dimensional aff(1) matrix algebra, basis X,Y, and bracket [X,Y]=Y are absent; follow-up #7485.",
+    "coverage_note": "The orthogonal Lie algebra so(n) is available through Mathlib. Problem2_16_2 later defines the correct two-dimensional matrix Lie algebra and proves [X,Y]=Y, but the aff(1) source-facing identification and the claim that X,Y form a basis are absent; narrowed follow-up #7485.",
     "fidelity_issue": 7485,
     "last_updated": "2026-07-22",
     "coverage_swept": {
