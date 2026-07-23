@@ -34,6 +34,19 @@ section Iso
 
 variable {k : Type*} [Field k] {n : ℕ} [Q : Quiver (Fin n)]
 
+/-- The vertex space of a direct sum is the product of the two vertex spaces.
+Stated as a `rfl` lemma so that rewriting never has to unfold `directSum`, which would
+otherwise expose a bundled `AddCommMonoid` that fails the `instances`-transparency
+type-correctness check `rw`/`simp` perform. -/
+@[simp] theorem directSum_obj (V₁ V₂ : QuiverRepresentation k (Fin n)) (v : Fin n) :
+    (directSum k (Fin n) V₁ V₂).obj v = (V₁.obj v × V₂.obj v) := rfl
+
+/-- The arrow map of a direct sum is the product of the two arrow maps. Stated as a `rfl`
+lemma for the same reason as `directSum_obj`. -/
+@[simp] theorem directSum_mapLinear (V₁ V₂ : QuiverRepresentation k (Fin n))
+    {a b : Fin n} (f : a ⟶ b) :
+    (directSum k (Fin n) V₁ V₂).mapLinear f = (V₁.mapLinear f).prodMap (V₂.mapLinear f) := rfl
+
 /-- Pointwise form of the intertwining condition of `AreIsomorphic`. -/
 theorem AreIsomorphic.intertwine {V W : QuiverRepresentation k (Fin n)}
     {e : ∀ v, V.obj v ≃ₗ[k] W.obj v}
@@ -80,9 +93,7 @@ theorem AreIsomorphic.directSum {V₁ V₂ W₁ W₂ : QuiverRepresentation k (F
   refine ⟨fun v => (e₁ v).prodCongr (e₂ v), ?_⟩
   intro a b f
   ext x
-  simp only [QuiverRepresentation.directSum, LinearMap.comp_apply, LinearEquiv.coe_coe,
-    LinearEquiv.prodCongr_apply, LinearMap.prodMap_apply]
-  rw [AreIsomorphic.intertwine he₁ f x.1, AreIsomorphic.intertwine he₂ f x.2]
+  exact Prod.ext (AreIsomorphic.intertwine he₁ f x.1) (AreIsomorphic.intertwine he₂ f x.2)
 
 end Iso
 
@@ -131,16 +142,14 @@ theorem areIsomorphic_directSum_zeroRep (V : QuiverRepresentation k (Fin n)) :
     V.AreIsomorphic (directSum k (Fin n) V zeroRep) := by
   refine ⟨fun v => (LinearEquiv.prodUnique (R := k) (M := V.obj v) (M₂ := PUnit)).symm, ?_⟩
   intro a b f
-  ext x
-  simp [QuiverRepresentation.directSum, zeroRep, LinearMap.prodMap_apply]
+  ext x <;> rfl
 
 /-- `0 ⊕ V ≅ V`: left unit for the direct sum. -/
 theorem areIsomorphic_zeroRep_directSum (V : QuiverRepresentation k (Fin n)) :
     (directSum k (Fin n) zeroRep V).AreIsomorphic V := by
   refine ⟨fun v => LinearEquiv.uniqueProd (R := k) (M := V.obj v) (M₂ := PUnit), ?_⟩
   intro a b f
-  ext x
-  simp [QuiverRepresentation.directSum, zeroRep, LinearMap.prodMap_apply]
+  ext x <;> rfl
 
 /-- Associativity of the direct sum, up to isomorphism. -/
 theorem areIsomorphic_directSum_assoc (A B C : QuiverRepresentation k (Fin n)) :
@@ -148,8 +157,7 @@ theorem areIsomorphic_directSum_assoc (A B C : QuiverRepresentation k (Fin n)) :
       (directSum k (Fin n) A (directSum k (Fin n) B C)) := by
   refine ⟨fun v => LinearEquiv.prodAssoc k (A.obj v) (B.obj v) (C.obj v), ?_⟩
   intro a b f
-  ext x
-  simp [QuiverRepresentation.directSum, LinearMap.prodMap_apply, LinearEquiv.prodAssoc_apply]
+  ext x <;> rfl
 
 /-- The direct sum of two list direct sums is the list direct sum of the concatenation. -/
 theorem areIsomorphic_directSumList_append
@@ -162,8 +170,7 @@ theorem areIsomorphic_directSumList_append
       refine ⟨fun v => ?_, ?_⟩
       · exact LinearEquiv.uniqueProd (R := k) (M := (directSumList LB).obj v) (M₂ := PUnit)
       · intro a b f
-        ext x
-        simp [QuiverRepresentation.directSum, zeroRep, LinearMap.prodMap_apply]
+        ext x <;> rfl
   | cons a L IH =>
       simp only [List.cons_append, directSumList_cons]
       refine (areIsomorphic_directSum_assoc a (directSumList L) (directSumList LB)).trans ?_
@@ -193,25 +200,53 @@ theorem areIsomorphic_subRep_directSum (V : QuiverRepresentation k (Fin n))
     (hW₂ : ∀ {a b : Fin n} (e : a ⟶ b), ∀ x ∈ W₂ a, V.mapLinear e x ∈ W₂ b)
     (hc : ∀ v, IsCompl (W₁ v) (W₂ v)) :
     V.AreIsomorphic (directSum k (Fin n) (subRep V W₁ hW₁) (subRep V W₂ hW₂)) := by
-  letI : ∀ v, AddCommGroup (V.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
-  refine ⟨fun v => (Submodule.prodEquivOfIsCompl (W₁ v) (W₂ v) (hc v)).symm, ?_⟩
+  letI acg : ∀ v, AddCommGroup (V.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+  -- `sc v : W₁ v × W₂ v → V.obj v` is the structure-typed sum of coercions. The additive
+  -- group structure `acg` only enters the *proof* that `sc` is bijective, so building the
+  -- vertex isomorphism as `LinearEquiv.ofBijective (sc v)` keeps every term the arrow maps
+  -- act on typed by the ambient `AddCommMonoid`, avoiding an instance diamond that would
+  -- otherwise make `rw`/`simp` reject the intertwining goal as not type-correct.
+  let sc : ∀ v, (↥(W₁ v) × ↥(W₂ v)) →ₗ[k] V.obj v :=
+    fun v => (W₁ v).subtype.coprod (W₂ v).subtype
+  have hbij : ∀ v, Function.Bijective (sc v) := fun v =>
+    (@Submodule.prodEquivOfIsCompl k _ (V.obj v) (acg v) (V.instModule v)
+      (W₁ v) (W₂ v) (hc v)).bijective
+  let pe : ∀ v, (↥(W₁ v) × ↥(W₂ v)) ≃ₗ[k] V.obj v :=
+    fun v => LinearEquiv.ofBijective (sc v) (hbij v)
+  have hpe_apply : ∀ v (y : ↥(W₁ v) × ↥(W₂ v)), pe v y = sc v y := fun v y => rfl
+  -- Naturality of `sc`: it intertwines the arrow map of the direct sum with `V.mapLinear`.
+  have hnat : ∀ {a b : Fin n} (f : a ⟶ b) (y : ↥(W₁ a) × ↥(W₂ a)),
+      sc b ((directSum k (Fin n) (subRep V W₁ hW₁) (subRep V W₂ hW₂)).mapLinear f y)
+        = V.mapLinear f (sc a y) := by
+    intro a b f y
+    simp only [sc]
+    rw [LinearMap.coprod_apply, LinearMap.coprod_apply, map_add,
+      Submodule.coe_subtype, Submodule.coe_subtype, Submodule.coe_subtype, Submodule.coe_subtype]
+    congr 1 <;> exact LinearMap.restrict_coe_apply _ _ _
+  refine ⟨fun v => (pe v).symm, ?_⟩
   intro a b f
   ext x
   simp only [LinearMap.comp_apply, LinearEquiv.coe_coe]
-  rw [LinearEquiv.symm_apply_eq]
-  simp only [QuiverRepresentation.directSum, LinearMap.prodMap_apply,
-    Submodule.coe_prodEquivOfIsCompl', subRep, LinearMap.restrict_coe_apply]
-  rw [← map_add]
+  refine (pe b).symm_apply_eq.mpr ?_
+  rw [hpe_apply, hnat]
   congr 1
-  change x = (Submodule.prodEquivOfIsCompl (W₁ a) (W₂ a) (hc a))
-      ((Submodule.prodEquivOfIsCompl (W₁ a) (W₂ a) (hc a)).symm x)
-  rw [LinearEquiv.apply_symm_apply]
+  exact ((pe a).apply_symm_apply x).symm
 
 end SubRep
 
 section Existence
 
 universe uk uh
+
+/-- A nonzero submodule of a finite-dimensional vector space has positive dimension.
+Kept as a standalone lemma with plain `AddCommGroup`/`Module` hypotheses so that the
+existence proof can apply it with the ambient group instance supplied explicitly, avoiding
+the instance diamond that `Etingof.addCommGroupOfRing` would otherwise create. -/
+theorem finrank_pos_of_ne_bot {k M : Type*} [Field k] [AddCommGroup M] [Module k M]
+    [FiniteDimensional k M] (p : Submodule k M) (hp : p ≠ ⊥) : 0 < Module.finrank k p := by
+  haveI : Module.Finite k p := FiniteDimensional.finiteDimensional_submodule p
+  haveI : Nontrivial p := Submodule.nontrivial_iff_ne_bot.mpr hp
+  exact Module.finrank_pos
 
 /-- **Existence of a decomposition into indecomposables.**
 Every finite-dimensional quiver representation over a field is isomorphic to an iterated
@@ -247,18 +282,26 @@ theorem exists_decomposition {k : Type uk} [Field k] {n : ℕ} [Quiver.{uh} (Fin
         push_neg at hzero
         exact ⟨[], by simp, areIsomorphic_zeroRep V hzero⟩
       · -- Proper splitting.
-        letI : ∀ v, AddCommGroup (V.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
         push_neg at hsplit
         obtain ⟨W₁, W₂, hW₁, hW₂, hc, hne₁, hne₂⟩ := hsplit
-        -- The two complementary subreps, both finite-dimensional.
-        haveI hfd₁ : ∀ v, Module.Finite k ((subRep V W₁ hW₁).obj v) :=
-          fun v => inferInstanceAs (Module.Finite k (W₁ v))
-        haveI hfd₂ : ∀ v, Module.Finite k ((subRep V W₂ hW₂).obj v) :=
-          fun v => inferInstanceAs (Module.Finite k (W₂ v))
+        -- The two complementary subreps, both finite-dimensional. The ambient additive-group
+        -- instance the submodule-finiteness lemma needs is supplied explicitly.
+        haveI hfd₁ : ∀ v, Module.Finite k ((subRep V W₁ hW₁).obj v) := fun v =>
+          @FiniteDimensional.finiteDimensional_submodule k (V.obj v) _
+            (Etingof.addCommGroupOfRing (k := k)) (V.instModule v)
+            (inferInstanceAs (Module.Finite k (V.obj v))) (W₁ v)
+        haveI hfd₂ : ∀ v, Module.Finite k ((subRep V W₂ hW₂).obj v) := fun v =>
+          @FiniteDimensional.finiteDimensional_submodule k (V.obj v) _
+            (Etingof.addCommGroupOfRing (k := k)) (V.instModule v)
+            (inferInstanceAs (Module.Finite k (V.obj v))) (W₂ v)
         -- Dimensions: finrank V_v = finrank W₁_v + finrank W₂_v at each vertex.
+        -- The additive-group instance the complement formula needs is supplied explicitly so
+        -- it never shadows the ambient `Module`/`Module.Finite` instances used elsewhere.
         have hdim : ∀ v, Module.finrank k (W₁ v) + Module.finrank k (W₂ v)
             = Module.finrank k (V.obj v) := fun v =>
-          Submodule.finrank_add_eq_of_isCompl (hc v)
+          @Submodule.finrank_add_eq_of_isCompl k (V.obj v) _
+            (Etingof.addCommGroupOfRing (k := k)) (V.instModule v)
+            (inferInstanceAs (Module.Finite k (V.obj v))) (W₁ v) (W₂ v) (hc v)
         have hsum : (∑ v, Module.finrank k ((subRep V W₁ hW₁).obj v))
             + (∑ v, Module.finrank k ((subRep V W₂ hW₂).obj v))
             = ∑ v, Module.finrank k (V.obj v) := by
@@ -271,11 +314,13 @@ theorem exists_decomposition {k : Type uk} [Field k] {n : ℕ} [Quiver.{uh} (Fin
         have hpos₂ : 0 < ∑ v, Module.finrank k ((subRep V W₂ hW₂).obj v) := by
           refine Finset.sum_pos' (fun v _ => Nat.zero_le _) ⟨v₂, Finset.mem_univ _, ?_⟩
           change 0 < Module.finrank k (W₂ v₂)
-          exact Nat.pos_of_ne_zero (fun h => hv₂ (Submodule.finrank_eq_zero.mp h))
+          exact @finrank_pos_of_ne_bot k (V.obj v₂) _ (Etingof.addCommGroupOfRing (k := k))
+            (V.instModule v₂) (inferInstanceAs (Module.Finite k (V.obj v₂))) (W₂ v₂) hv₂
         have hpos₁ : 0 < ∑ v, Module.finrank k ((subRep V W₁ hW₁).obj v) := by
           refine Finset.sum_pos' (fun v _ => Nat.zero_le _) ⟨v₁, Finset.mem_univ _, ?_⟩
           change 0 < Module.finrank k (W₁ v₁)
-          exact Nat.pos_of_ne_zero (fun h => hv₁ (Submodule.finrank_eq_zero.mp h))
+          exact @finrank_pos_of_ne_bot k (V.obj v₁) _ (Etingof.addCommGroupOfRing (k := k))
+            (V.instModule v₁) (inferInstanceAs (Module.Finite k (V.obj v₁))) (W₁ v₁) hv₁
         have hlt₁ : (∑ v, Module.finrank k ((subRep V W₁ hW₁).obj v)) < N := by
           rw [← hVN, ← hsum]; omega
         have hlt₂ : (∑ v, Module.finrank k ((subRep V W₂ hW₂).obj v)) < N := by
