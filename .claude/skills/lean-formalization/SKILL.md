@@ -446,6 +446,16 @@ rewrite it via your own `hππ : Cofork.π (tensor …) = p₁ ⊗ₘ p₂` *bef
 leaving a `0 ≫ π`), so use `CokernelCofork.condition s` (`f ≫ π = 0`) instead. For a functor-category
 iso `α : F ≅ G`, the simp lemma for `(α.app X).hom` is `Iso.app_hom` (not `NatIso.app_hom`).
 
+**Building `Type`-valued data (e.g. a `LinearEquiv`, `Iso`, or instance) from an `∃`-lemma:**
+do NOT `obtain ⟨α, hα⟩ := myExistsLemma` at the top of the `def`/`noncomputable def` — the goal
+is in `Type`, and `Exists.casesOn can only eliminate into Prop`, so the build fails. Instead
+supply the data first with the scalar/witness left abstract (it usually doesn't need the witness
+— e.g. `refine LinearEquiv.ofBijective F ⟨?_, ?_⟩` where `F` is scalar-free), then do the
+`obtain` *inside* each resulting `Prop` subgoal (`Function.Injective`/`Function.Surjective` are
+`Prop`). If the data genuinely needs the witness, use `myExistsLemma.choose` / `.choose_spec`.
+Worked example (Specht ideal iso from the two nonzero Lemma 5.13.1 scalars):
+`Chapter5/Theorem5_12_2_SourceIdeal.lean` (#7612).
+
 **The Chapter 8 `Tor` rearrangement stack carries a *second* `Module k` action on the same
 carrier — restriction-through-`Aᵐᵒᵖ` vs `TensorProduct`-diagonal — that is defeq-*false*.** Hit in
 #6742 (`Chapter8/RearrangeBifunctorNatIso.lean`). `tensorRightFunctorₖ.obj` equips `tensorOver A N M`
