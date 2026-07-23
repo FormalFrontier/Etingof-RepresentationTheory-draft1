@@ -1960,15 +1960,11 @@
     "start_line": 3,
     "end_line": 12,
     "status": "sorry_free",
-    "coverage_swept": {
-      "wave": 1,
-      "result": "gap"
-    },
-    "coverage": "covered_partial",
-    "coverage_note": "The final subrepresentation proposition and the separate isotypic decomposition are proved, but the displayed natural Hom-space decomposition and its componentwise injective/surjective/isomorphism criterion are absent; follow-up #7452.",
-    "fidelity_issue": 7452,
-    "followup_issue": 7452,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "Formalized (issue #7452) in Chapter3/Discussion_alternative_proof_of_Proposition3_1_4.lean. The displayed natural Hom-space decomposition Hom_A(V,U) ≅ ∏_X Hom_k(V_X,U_X) (with canonical multiplicity spaces V_X = Hom_A(X,V)) is Etingof.homPiHomEquiv, the post-composition equivalence f ↦ (i ↦ (g ↦ f∘g)); naturality/functoriality is postcompHom_id and postcompHom_comp. The componentwise injective/surjective/isomorphism criteria are injective_iff, surjective_iff, bijective_iff, proved via the block-diagonal factorization restrictScalars_eq through Remark 3.1.3's evalDirectSumEquiv and faithful flatness of each simple X i over k. No sorry/axioms.",
+    "last_updated": "2026-07-23",
+    "fidelity": "verified",
+    "fidelity_decl": "Etingof.homPiHomEquiv"
   },
   {
     "id": "Chapter3/Lemma3.1.6",
