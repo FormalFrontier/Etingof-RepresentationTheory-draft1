@@ -21,6 +21,22 @@ vector with B(v,v) = 0, violating positive definiteness.
 
 This is the key technical step toward Gabriel's theorem.
 
+## Categorical (source-faithful) endpoint
+
+The theorem below, `Etingof.Theorem6_8_1`, is the purely **numerical** endpoint: it
+quantifies over a nonnegative root vector `d` and produces a list of simple reflections
+carrying `d` to a simple root. The book's Theorem 6.8.1 is instead a statement about an
+actual indecomposable quiver representation `V`: applying the reflection functors along an
+admissible sink ordering, some iterate `V⁽ᵐ⁾` has dimension vector equal to a simple root.
+
+That source-faithful categorical statement is `Etingof.Theorem6_8_1_representation`
+(in `Chapter6/CoxeterInfrastructure.lean`, which imports this file for
+`iteratedSimpleReflection`). It quantifies over the oriented Dynkin quiver `Q` and an
+arbitrary finite-dimensional indecomposable representation `V`, and produces the terminal
+representation `V⁽ᵐ⁾` (an indecomposable representation on an orientation `Q_end` of the
+diagram) together with the numerical reflection sequence below — so the numerical endpoint
+is recovered as the first conjunct of the categorical one, not as a replacement for it.
+
 ## Mathlib correspondence
 
 Requires the full infrastructure of reflection functors (Def 6.6.3-4),

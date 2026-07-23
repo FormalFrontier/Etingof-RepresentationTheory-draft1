@@ -489,7 +489,7 @@ theorem Etingof.Corollary6_8_3
         ext v; exact (hDimVec_M v).symm
       rcases Etingof.one_round_or_simpleRoot hDynkin hOrient σ hσ ρ_M hIndecomp_M
         (c^[M] d) hd_M with
-        ⟨j, p₀, hj_le, hp₀⟩ | ⟨hnonneg, _, ρ', hFree', hFinite', hIndecomp', hDimVec'⟩
+        ⟨j, p₀, hj_le, hp₀, _⟩ | ⟨hnonneg, _, ρ', hFree', hFinite', hIndecomp', hDimVec'⟩
       · -- Simple root found at prefix j of round M
         left
         -- Build vertex list and call parallel_reduce_and_recover

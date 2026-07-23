@@ -1407,9 +1407,29 @@ private def SurvivingRepData
     ∀ v, (@Module.finrank k (ρ_end.obj v) _ (ρ_end.instAddCommMonoid v) (ρ_end.instModule v) : ℤ) =
       iteratedSimpleReflection n (cartanMatrix n adj) tail d_cur v
 
+/-- Predicate packaging the **terminal representation** `V⁽ᵐ⁾` reached when the
+walk along an admissible ordering hits a simple root. It bundles the oriented
+quiver `Q_end` on which `V⁽ᵐ⁾` lives (an orientation of `adj` obtained by the
+iterated reflection functors), together with the fact that `V⁽ᵐ⁾` is a
+finite-dimensional indecomposable representation whose dimension vector *equals*
+the simple root `αₚ`. This is the source-faithful categorical endpoint of
+Theorem 6.8.1: "some `V⁽ᵐ⁾` has dimension vector a simple root". -/
+private def TerminalRepData
+    (k : Type*) [Field k] (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
+    (Q_end : @Quiver.{0, 0} (Fin n)) (p : Fin n) : Prop :=
+  IsOrientationOf Q_end adj ∧
+  (∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_end a b)) ∧
+  ∃ (ρ_end : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q_end),
+    (∀ v, @Module.Free k (ρ_end.obj v) _ (ρ_end.instAddCommMonoid v) (ρ_end.instModule v)) ∧
+    (∀ v, @Module.Finite k (ρ_end.obj v) _ (ρ_end.instAddCommMonoid v) (ρ_end.instModule v)) ∧
+    @QuiverRepresentation.IsIndecomposable k _ _ Q_end ρ_end ∧
+    ∀ v, (@Module.finrank k (ρ_end.obj v) _ (ρ_end.instAddCommMonoid v) (ρ_end.instModule v) : ℤ) =
+      simpleRoot n p v
+
 /-- Helper: walk along a (partial) vertex list, threading an indecomposable
 representation through reflection functors. Returns either a simple root index
-or the surviving representation on the final reversed quiver. -/
+(together with the terminal representation `V⁽ᵐ⁾` witnessing it, packaged as
+`TerminalRepData`) or the surviving representation on the final reversed quiver. -/
 private lemma walk_admissible_ordering
     (hDynkin : IsDynkinDiagram n adj)
     {k : Type*} [Field k]
@@ -1428,7 +1448,8 @@ private lemma walk_admissible_ordering
     (d_cur : Fin n → ℤ)
     (hd_cur : d_cur = fun v => (Module.finrank k (ρ_cur.obj v) : ℤ)) :
     (∃ (i : ℕ) (p : Fin n), i ≤ tail.length ∧
-      iteratedSimpleReflection n (cartanMatrix n adj) (tail.take i) d_cur = simpleRoot n p)
+      iteratedSimpleReflection n (cartanMatrix n adj) (tail.take i) d_cur = simpleRoot n p ∧
+      TerminalRepData k n adj (@iteratedReversedAtVertices _ _ Q_cur (tail.take i)) p)
     ∨
     SurvivingRepData k n adj (@iteratedReversedAtVertices _ _ Q_cur tail) d_cur tail := by
   induction tail generalizing Q_cur d_cur with
@@ -1453,15 +1474,22 @@ private lemma walk_admissible_ordering
     -- Apply Prop 6.6.5: simple or surjective at sink
     rcases @Proposition6_6_5_sink k _ _ _ Q_cur ρ_cur i _ _ hi_sink hIndec_cur with
       h_simple | h_surj
-    · -- ρ_cur is simple at i: d_cur = simpleRoot n i
+    · -- ρ_cur is simple at i: d_cur = simpleRoot n i, and ρ_cur itself is the
+      -- terminal representation V⁽ᵐ⁾ realizing the simple root.
       left
-      refine ⟨0, i, Nat.zero_le _, ?_⟩
-      simp only [List.take_zero, iteratedSimpleReflection]
-      ext v
-      by_cases hv : v = i
-      · subst hv; simp [simpleRoot, hd_cur]; exact_mod_cast h_simple.1
-      · simp [simpleRoot, Ne.symm hv, hd_cur]
-        exact_mod_cast h_simple.2 v hv
+      refine ⟨0, i, Nat.zero_le _, ?_, ?_⟩
+      · simp only [List.take_zero, iteratedSimpleReflection]
+        ext v
+        by_cases hv : v = i
+        · subst hv; simp [simpleRoot, hd_cur]; exact_mod_cast h_simple.1
+        · simp [simpleRoot, Ne.symm hv, hd_cur]
+          exact_mod_cast h_simple.2 v hv
+      · -- `iteratedReversedAtVertices Q_cur (tail.take 0) = Q_cur` definitionally.
+        refine ⟨hOrient_cur, hSS_cur, ρ_cur, hFree_cur, hFinite_cur, hIndec_cur, ?_⟩
+        intro v
+        by_cases hv : v = i
+        · subst hv; simp only [simpleRoot, Pi.single_eq_same]; exact_mod_cast h_simple.1
+        · simp only [simpleRoot, Pi.single_eq_of_ne hv]; exact_mod_cast h_simple.2 v hv
     · -- ρ_cur has surjective sink map at i: apply F⁺
       -- Precompute equalities that need Q_cur instances BEFORE introducing Q_rev
       set d_new := simpleReflection n (cartanMatrix n adj) i d_cur with hd_new_def
@@ -1543,13 +1571,19 @@ private lemma walk_admissible_ordering
       -- Apply IH to F⁺ output on reversed quiver
       rcases @ih Q_rev hOrient_rev hSS_rev hSinks_rest ρ_plus hFree_plus hFinite_plus
         hIndec_plus d_new (funext fun v => (hDim_plus v).symm) with
-        ⟨j, p, hj, hp⟩ | ⟨ρ_end, hFree_end, hFinite_end, hIndec_end, hDim_end⟩
-      · -- Simple root found at prefix j of rest
+        ⟨j, p, hj, hp, hTerm⟩ | ⟨ρ_end, hFree_end, hFinite_end, hIndec_end, hDim_end⟩
+      · -- Simple root found at prefix j of rest; the terminal representation lives
+        -- on `iteratedReversedAtVertices Q_cur (i :: rest.take j)`, which is
+        -- `iteratedReversedAtVertices Q_rev (rest.take j)` definitionally.
         left
-        refine ⟨j + 1, p, by simp [List.length_cons]; omega, ?_⟩
-        simp only [List.take_succ_cons]
-        rw [iteratedSimpleReflection_cons]
-        exact hp
+        refine ⟨j + 1, p, by simp [List.length_cons]; omega, ?_, ?_⟩
+        · simp only [List.take_succ_cons]
+          rw [iteratedSimpleReflection_cons]
+          exact hp
+        · show TerminalRepData k n adj
+            (@iteratedReversedAtVertices _ _ Q_cur ((i :: rest).take (j + 1))) p
+          rw [List.take_succ_cons]
+          exact hTerm
       · -- Rep survives: pass through
         right
         show SurvivingRepData k n adj _ d_cur (i :: rest)
@@ -1581,7 +1615,8 @@ lemma one_round_or_simpleRoot
     (hρ : ρ.IsIndecomposable)
     (d : Fin n → ℤ) (hd : d = fun v => (Module.finrank k (ρ.obj v) : ℤ)) :
     (∃ (i : ℕ) (p : Fin n), i ≤ σ.length ∧
-      iteratedSimpleReflection n (cartanMatrix n adj) (σ.take i) d = simpleRoot n p)
+      iteratedSimpleReflection n (cartanMatrix n adj) (σ.take i) d = simpleRoot n p ∧
+      TerminalRepData k n adj (@iteratedReversedAtVertices _ _ Q (σ.take i)) p)
     ∨
     ((∀ i, 0 ≤ iteratedSimpleReflection n (cartanMatrix n adj) σ d i) ∧
      iteratedSimpleReflection n (cartanMatrix n adj) σ d ≠ 0 ∧
@@ -1590,8 +1625,8 @@ lemma one_round_or_simpleRoot
   rcases walk_admissible_ordering hDynkin σ hOrient
     (fun a b => inferInstance) hσ.isSink ρ
     (fun v => inferInstance) (fun v => inferInstance) hρ d hd with
-    ⟨i, p, hi, hp⟩ | hSurv
-  · left; exact ⟨i, p, hi, hp⟩
+    ⟨i, p, hi, hp, hTerm⟩ | hSurv
+  · left; exact ⟨i, p, hi, hp, hTerm⟩
   · -- Transport SurvivingRepData from iteratedReversedAtVertices Q σ to Q via perm_eq
     right
     have heq : @iteratedReversedAtVertices _ _ Q σ = Q :=
@@ -1613,13 +1648,17 @@ lemma one_round_or_simpleRoot
       exact absurd h0v (not_subsingleton_iff_nontrivial.mpr hv)
 
 /-- **Representation-level Theorem 6.8.1**: For an indecomposable representation V
-of a Dynkin quiver, there exist simple reflections reducing d(V) to a simple root.
+of a Dynkin quiver, there exist simple reflections reducing d(V) to a simple root,
+*and* a terminal representation `V⁽ᵐ⁾` (packaged as `TerminalRepData`) realizing
+that simple root as its dimension vector.
 
 The proof follows the book's argument:
 1. Choose an admissible ordering σ = (σ₁, ..., σₙ)
 2. Apply `one_round_or_simpleRoot` to get either a simple root or a new indecomp rep
 3. By the generalized Lemma 6.7.2, this iteration cannot continue indefinitely
-4. Conclusion: some prefix of the iterated ordering reduces d(V) to a simple root -/
+4. Conclusion: some prefix of the iterated ordering reduces d(V) to a simple root,
+   and the representation obtained at that prefix (via the reflection functors) is
+   the source-faithful `V⁽ᵐ⁾` whose dimension vector equals `αₚ`. -/
 private lemma indecomposable_reduces_to_simpleRoot
     (hDynkin : IsDynkinDiagram n adj)
     {k : Type*} [Field k]
@@ -1630,7 +1669,8 @@ private lemma indecomposable_reduces_to_simpleRoot
     (hρ : ρ.IsIndecomposable) :
     ∃ (vertices : List (Fin n)) (p : Fin n),
       iteratedSimpleReflection n (cartanMatrix n adj) vertices
-        (fun v => (Module.finrank k (ρ.obj v) : ℤ)) = simpleRoot n p := by
+        (fun v => (Module.finrank k (ρ.obj v) : ℤ)) = simpleRoot n p ∧
+      ∃ (Q_end : @Quiver.{0, 0} (Fin n)), TerminalRepData k n adj Q_end p := by
   obtain ⟨σ, hσ⟩ := admissibleOrdering_exists hDynkin hOrient
   set A := cartanMatrix n adj
   set d := fun v => (Module.finrank k (ρ.obj v) : ℤ) with hd_def
@@ -1657,15 +1697,16 @@ private lemma indecomposable_reduces_to_simpleRoot
   -- or have an indecomposable representation ρ_M on Q with dim vec = c^M(d).
   suffices ∀ (M : ℕ),
     (∃ (vertices : List (Fin n)) (p : Fin n),
-      iteratedSimpleReflection n A vertices d = simpleRoot n p) ∨
+      iteratedSimpleReflection n A vertices d = simpleRoot n p ∧
+      ∃ (Q_end : @Quiver.{0, 0} (Fin n)), TerminalRepData k n adj Q_end p) ∨
     ((∀ j, 0 ≤ c^[M] d j) ∧
      ∃ (ρ_M : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q),
        (∀ v, Module.Free k (ρ_M.obj v)) ∧
        (∀ v, Module.Finite k (ρ_M.obj v)) ∧
        ρ_M.IsIndecomposable ∧
        (∀ v, (Module.finrank k (ρ_M.obj v) : ℤ) = c^[M] d v)) by
-    rcases this N with ⟨vertices, p, hp⟩ | ⟨hNN, _⟩
-    · exact ⟨vertices, p, hp⟩
+    rcases this N with ⟨vertices, p, hp, hQend⟩ | ⟨hNN, _⟩
+    · exact ⟨vertices, p, hp, hQend⟩
     · exact absurd (hNN i) (not_le.mpr hNeg)
   intro M
   induction M with
@@ -1675,8 +1716,9 @@ private lemma indecomposable_reduces_to_simpleRoot
            ρ, ‹_›, ‹_›, hρ,
            fun v => by simp only [Function.iterate_zero, id_eq, hd_def]⟩
   | succ M ih =>
-    rcases ih with ⟨vertices, p, hp⟩ | ⟨hM_nonneg, ρ_M, hFree_M, hFinite_M, hIndecomp_M, hDimVec_M⟩
-    · left; exact ⟨vertices, p, hp⟩
+    rcases ih with ⟨vertices, p, hp, hQend⟩ |
+      ⟨hM_nonneg, ρ_M, hFree_M, hFinite_M, hIndecomp_M, hDimVec_M⟩
+    · left; exact ⟨vertices, p, hp, hQend⟩
     · -- c^M(d) is nonneg and is the dim vector of indecomp ρ_M on Q.
       -- Apply one_round_or_simpleRoot to ρ_M.
       haveI : ∀ v, Module.Free k (ρ_M.obj v) := hFree_M
@@ -1685,11 +1727,12 @@ private lemma indecomposable_reduces_to_simpleRoot
         ext v; exact (hDimVec_M v).symm
       rcases one_round_or_simpleRoot hDynkin hOrient σ hσ ρ_M hIndecomp_M
         (c^[M] d) hd_M with
-        ⟨j, p, hj, hp⟩ | ⟨hnonneg, hnonzero, ρ', hFree', hFinite', hIndecomp', hDimVec'⟩
-      · -- Found simple root at prefix j of round M
+        ⟨j, p, hj, hp, hTerm⟩ | ⟨hnonneg, hnonzero, ρ', hFree', hFinite', hIndecomp', hDimVec'⟩
+      · -- Found simple root at prefix j of round M; the terminal representation
+        -- V⁽ᵐ⁾ lives on `iteratedReversedAtVertices Q (σ.take j)`.
         left
         -- The full vertex sequence is σ^M ++ σ.take j
-        refine ⟨(List.replicate M σ).flatten ++ σ.take j, p, ?_⟩
+        refine ⟨(List.replicate M σ).flatten ++ σ.take j, p, ?_, _, hTerm⟩
         rw [iteratedSimpleReflection_append]
         rw [iteratedSimpleReflection_replicate_eq_iterate]
         exact hp
@@ -1698,6 +1741,54 @@ private lemma indecomposable_reduces_to_simpleRoot
         exact ⟨fun j => by rw [Function.iterate_succ', Function.comp_apply]; exact hnonneg j,
           ρ', hFree', hFinite', hIndecomp',
           fun v => by rw [Function.iterate_succ', Function.comp_apply]; exact hDimVec' v⟩
+
+/-- **Theorem 6.8.1 (source-faithful, categorical form).**
+
+Let `Q` be an orientation of a Dynkin diagram `adj` and let `V` be an arbitrary
+finite-dimensional indecomposable quiver representation of `Q`. Then, applying the
+reflection functors along an admissible sink ordering, some iterate `V⁽ᵐ⁾` has
+dimension vector equal to a simple root `αₚ`.
+
+Concretely the theorem produces:
+- the numerical reflection sequence `vertices` carrying `d(V)` to `αₚ`
+  (`iteratedSimpleReflection … vertices d(V) = αₚ`, the endpoint of the
+  purely combinatorial `Etingof.Theorem6_8_1`), together with
+- the actual terminal representation `V⁽ᵐ⁾`: an oriented quiver `Q_end`
+  (an orientation of `adj`), and a finite-dimensional indecomposable
+  representation `W` on `Q_end` whose dimension vector *equals* `αₚ` at every
+  vertex.
+
+This is the categorical endpoint of the book's Theorem 6.8.1 ("there exists `m`
+with `d(V⁽ᵐ⁾) = αₚ`"): `W` is `V⁽ᵐ⁾`, obtained from `V` by the successive
+reflection functors, and its indecomposability is carried through Propositions
+6.6.5 and 6.6.7 at each step, with the first-failure/surjectivity alternative
+supplied by `Proposition6_6_5_sink`.
+(Etingof Theorem 6.8.1) -/
+theorem Theorem6_8_1_representation
+    (hDynkin : IsDynkinDiagram n adj)
+    {k : Type*} [Field k]
+    {Q : @Quiver.{0, 0} (Fin n)} (hOrient : IsOrientationOf Q adj)
+    [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (ρ : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q)
+    [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
+    (hρ : ρ.IsIndecomposable) :
+    ∃ (vertices : List (Fin n)) (p : Fin n),
+      -- numerical endpoint: the reflection sequence carries d(V) to αₚ
+      iteratedSimpleReflection n (cartanMatrix n adj) vertices
+        (fun v => (Module.finrank k (ρ.obj v) : ℤ)) = simpleRoot n p ∧
+      -- categorical endpoint: the terminal representation V⁽ᵐ⁾ on Q_end
+      ∃ (Q_end : @Quiver.{0, 0} (Fin n)),
+        IsOrientationOf Q_end adj ∧
+        (∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_end a b)) ∧
+        ∃ (W : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q_end),
+          (∀ v, @Module.Free k (W.obj v) _ (W.instAddCommMonoid v) (W.instModule v)) ∧
+          (∀ v, @Module.Finite k (W.obj v) _ (W.instAddCommMonoid v) (W.instModule v)) ∧
+          @QuiverRepresentation.IsIndecomposable k _ _ Q_end W ∧
+          (∀ v, (@Module.finrank k (W.obj v) _ (W.instAddCommMonoid v) (W.instModule v) : ℤ) =
+            simpleRoot n p v) := by
+  obtain ⟨vertices, p, hrefl, Q_end, hTerm⟩ :=
+    indecomposable_reduces_to_simpleRoot hDynkin hOrient ρ hρ
+  exact ⟨vertices, p, hrefl, Q_end, hTerm⟩
 
 /-- **Corollary 6.8.2.** Let `Q` be a Dynkin quiver and let `V` be any indecomposable
 representation. Then the dimension vector `d(V)` is a positive root.
@@ -1732,7 +1823,7 @@ theorem Corollary6_8_2
     rw [Module.finrank_eq_zero_iff_of_free (R := k)] at hv_eq
     exact absurd hv_eq (not_subsingleton_iff_nontrivial.mpr hv)
   -- By rep-level Theorem 6.8.1: reflections reduce d to a simple root
-  obtain ⟨vertices, p, hrefl⟩ := indecomposable_reduces_to_simpleRoot hDynkin hOrient ρ hρ
+  obtain ⟨vertices, p, hrefl, _⟩ := indecomposable_reduces_to_simpleRoot hDynkin hOrient ρ hρ
   -- Combinatorial core: a nonneg nonzero vector reducible to a simple root is a positive root
   exact isPositiveRoot_of_iteratedReflection_eq_simpleRoot hDynkin d hd_pos hd_nonzero
     ⟨vertices, p, hrefl⟩
