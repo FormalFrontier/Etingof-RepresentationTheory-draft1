@@ -93,12 +93,51 @@ subsequently formalized. The former scope decision is therefore superseded:
 - Problem 8.2.8 — a corrected finite-dimensional Künneth theorem for Tor and Ext is
   formalized. The literal source statement for Ext omits necessary finiteness
   hypotheses and is false already in degree zero; the formalization deliberately
-  uses the sound strengthened scope. The public erratum and precise corrected-scope
-  documentation remain tracked by #7446, so this item is not recorded as literal
-  `covered_full` in `progress/items.json`;
+  uses the sound strengthened scope. See the erratum under "Documented source
+  corrections" below, so this item is not recorded as literal `covered_full` in
+  `progress/items.json`;
 
 Their Lean files and `progress/items.json` are authoritative for the precise
 coverage and hypotheses of the completed results.
+
+## Documented source corrections
+
+These items record places where the book's literal statement is mathematically
+false or omits a necessary hypothesis, and the project deliberately formalizes a
+corrected, sound version. Unlike an intentional omission, the corrected result is
+fully proved; what is "departed from" is the source's exact scope, and that
+departure is recorded here so coverage metadata stays honest.
+
+### Problem 8.2.8 — the Ext Künneth formula needs finite-dimensional source modules
+
+The book states the Ext Künneth formula
+
+`Extⁱ_{A₁ ⊗ A₂}(M₁ ⊗ M₂, N₁ ⊗ N₂) = ⨁_{j+m=i} Extʲ_{A₁}(M₁, N₁) ⊗ₖ Extᵐ_{A₂}(M₂, N₂)`
+
+assuming only that the target modules `Nᵢ` are finite dimensional. That literal
+statement is false. Already in degree zero, with `A₁ = A₂ = k` and `N₁ = N₂ = k`,
+it reduces to the claim that the canonical map
+
+`M₁* ⊗ₖ M₂* → (M₁ ⊗ₖ M₂)*`  (`TensorProduct.dualDistrib`)
+
+is an isomorphism. This map is always injective but is **not surjective** once the
+`Mᵢ` are infinite dimensional: the "diagonal" functional `eᵢ ⊗ eⱼ ↦ δᵢⱼ` on
+`(ℕ →₀ k) ⊗ₖ (ℕ →₀ k)` is not a finite sum of decomposable functionals.
+
+The corrected, sound theorem `Etingof.Problem_8_2_8_ext` therefore adds finite
+dimensionality of `A₁, A₂, M₁, M₂` (finiteness of the `Mᵢ` is what lets the
+resolving projectives be chosen finitely generated projective, which is exactly the
+condition making the degreewise Künneth map an isomorphism). The `Tor` half
+`Etingof.Problem_8_2_8_tor` holds in the book's stated scope.
+
+- Corrected theorem and its module machinery:
+  `EtingofRepresentationTheory/Chapter8/Problem8_2_8.lean`.
+- Formalized degree-zero counterexample
+  (`TensorProduct.dualDistrib_not_surjective`):
+  `EtingofRepresentationTheory/Chapter8/Problem8_2_8Counterexample.lean`.
+- Coverage is recorded as `covered_partial` (not `covered_full`) in
+  `progress/items.json`, with the scope correction noted there. Naturality/API
+  packaging of the corrected theorem is separately tracked by #7397.
 
 ## Reopened former exclusions
 

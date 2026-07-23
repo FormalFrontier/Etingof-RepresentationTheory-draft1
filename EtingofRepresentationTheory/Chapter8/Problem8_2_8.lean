@@ -298,7 +298,10 @@ projective resolutions `Pᵢ` be chosen finitely generated projective, which is 
 under which the degreewise map
 `Hom_{A₁}(P₁, N₁) ⊗ₖ Hom_{A₂}(P₂, N₂) → Hom_{A₁ ⊗ A₂}(P₁ ⊗ P₂, N₁ ⊗ N₂)` is an isomorphism. Without
 it the natural Künneth map fails to be surjective (already at `i = 0`, `A₁ = A₂ = k`: the canonical
-`M₁* ⊗ₖ M₂* → (M₁ ⊗ M₂)*` is not surjective for infinite dimensional `Mᵢ`). -/
+`M₁* ⊗ₖ M₂* → (M₁ ⊗ M₂)*` is not surjective for infinite dimensional `Mᵢ`). This degree-zero
+counterexample is formalized as `TensorProduct.dualDistrib_not_surjective` in
+`Problem8_2_8Counterexample.lean`; the departure from the book's stated scope (which asks only for
+finite dimensional `Nᵢ`) is documented in `skipped-exercises.md`. -/
 theorem Problem_8_2_8_ext (i : ℕ)
     [instM : Module (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂)]
     [instN : Module (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)]

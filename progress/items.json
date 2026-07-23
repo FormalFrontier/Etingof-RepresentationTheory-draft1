@@ -9207,7 +9207,7 @@
     "status": "sorry_free",
     "coverage": "covered_partial",
     "last_updated": "2026-07-22",
-    "coverage_note": "The Tor half is proved in the source scope. The Ext half is proved in a corrected sound scope (#6814/#6980), adding finite-dimensional Aᵢ and Mᵢ because the literal book statement with only finite-dimensional Nᵢ is false (already in degree zero for infinite-dimensional Mᵢ). The repository must document this as a public source erratum/correction rather than covered_full; follow-up #7446. Naturality of the corrected theorem is separately #7397.",
+    "coverage_note": "The Tor half is proved in the source scope. The Ext half is proved in a corrected sound scope (#6814/#6980), adding finite-dimensional Aᵢ and Mᵢ because the literal book statement with only finite-dimensional Nᵢ is false (already in degree zero for infinite-dimensional Mᵢ). The source correction is documented publicly: a formalized degree-zero counterexample TensorProduct.dualDistrib_not_surjective in Chapter8/Problem8_2_8Counterexample.lean, and an erratum under 'Documented source corrections' in skipped-exercises.md. Recorded as covered_partial, not covered_full. Naturality of the corrected theorem is separately #7397.",
     "fidelity_issue": 7446,
     "followup_issue": 7446
   },
