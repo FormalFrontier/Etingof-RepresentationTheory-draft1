@@ -5582,13 +5582,14 @@
     "start_line": 1,
     "end_line": 9,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "needs_statement": false,
     "aristotle_project_id": "d6d0df76-8214-4097-ac8f-c191f819a556",
     "notes": "Complete and sorry-free: fixedCosets_eq_card_colorings and the headline Theorem5_14_3 are both proved in EtingofRepresentationTheory/Chapter5/Theorem5_14_3.lean.",
     "sorry_free": true,
-    "coverage": "covered_full",
-    "fidelity_note": "The public N=n formula captures the full character value, and stability under adding unused variables is immediate from the exposed monochromatic-coloring interpretation. Independent Opus review found no substantive residual beyond packaging that stability as a wrapper.",
+    "coverage": "covered_partial",
+    "fidelity_note": "The headline character formula and its N-variable stability are covered. The proof's structural identification of a permutation centralizer as a product of semidirect/wreath factors is not public; follow-up #7481.",
+    "fidelity_issue": 7481,
     "last_updated": "2026-07-22"
   },
   {
@@ -8024,6 +8025,12 @@
     "start_line": 1,
     "end_line": 13,
     "status": "sorry_free",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "The equivalence C₁ ≌ C₂ and induced bijection on functor isomorphism classes are public, but the source's contrasting claim that the categories are not strictly inverse-on-the-nose isomorphic is absent; follow-up #7480.",
+    "fidelity_issue": 7480,
+    "last_updated": "2026-07-22",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
