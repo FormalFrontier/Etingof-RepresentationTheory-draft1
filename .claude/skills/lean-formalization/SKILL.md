@@ -109,6 +109,25 @@ into a loop — e.g. `Quotient.map' (fun w => g • w) h` before `Quotient.map'`
 gives the same `HSMul … ?` timeout. Ascribe it: `fun w : T => (g • w : T)`. Both bit during the
 octahedral four-diagonal quotient action (#6972).
 
+**`letI : AddCommGroup P := addCommGroupOfRing …` on a parent type `P` SHADOWS and breaks
+`Module R P` synthesis** (v4.31/v4.32 regression; cost ~10 iterations in #7509,
+`Chapter6/CoxeterInfrastructure.lean`). The old trick of adding a ring-induced `AddCommGroup`
+to a `DirectSum`/`QuiverRepresentation.obj` so submodule-of-`P` lemmas fire now makes
+`Module R P` (and thus `Module R ↥(submodule of P)`) **unfindable** — the local `AddCommGroup`
+shadows the canonical `AddCommMonoid` and the discrimination tree no longer matches
+`DirectSum.instModule`. **Fix:** capture the module instance *first*
+(`letI mP : Module R P := inferInstance`), build the group from it
+(`@Etingof.addCommGroupOfRing R _ P inferInstance mP`), and pass both explicitly to the
+consuming lemma (`@Module.Free.of_divisionRing R P _ acg mP`,
+`@isNoetherian_of_isNoetherianRing_of_finite R P _ acg mP …`) so nothing re-synthesizes under
+the shadow. Note `Module.Free.of_divisionRing` is a priority-100 *instance* (every vector space
+is free) — once a clean `AddCommGroup` is in scope it fires on its own. Relatedly: **`LinearMap.ker f`
+is a submodule of `f`'s DOMAIN, not its codomain** — check the map's direction before deciding
+which module the kernel lives in (I lost several iterations assuming `(ρ.sinkMap i).ker ⊆ ρ.obj i`
+when `sinkMap : ⊕ⱼVⱼ →ₗ Vᵢ` makes it a submodule of the direct sum). For finrank-zero
+contradictions on `Module.Free` carriers, `Module.finrank_eq_zero_iff_of_free` avoids needing any
+`AddCommGroup` upgrade at all.
+
 **A bespoke `Module`/`IsScalarTower` instance on a `LinearMap`/`Hom` space collides with
 Mathlib's generic ones and breaks synthesis.** Mathlib already gives `Module S (M →ₗ[R] N)`
 (`LinearMap.module`, needs `SMulCommClass R S N`) and `IsScalarTower S T (M →ₗ[R] N)` for free.
