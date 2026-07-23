@@ -1120,6 +1120,29 @@ A `(sign π : ℤ) • p` from a determinant/Vandermonde expansion is the `AddCo
 action `coeff_smul` expects, so `rw [MvPolynomial.coeff_smul]` reports "did not find pattern". Convert both directions:
 `rw [← Int.cast_smul_eq_zsmul (R := ℂ) z, MvPolynomial.coeff_smul, …, Int.cast_smul_eq_zsmul (R := ℂ)]`.
 
+### `Representation.character` on a `tprod`/`prod`/`directSum` fails to elaborate — pin the carrier `(V := …)` (#7538, Ch4 Problem 4.12.6)
+
+Post-v4.32 Mathlib adds *shortcut* `Semiring ℂ`/`CommSemiring ℂ`/`AddCommMonoid ℂ` instances
+(`delta% inferInstance` in `Data/Complex/Basic.lean`). `Representation.character` needs
+`[Field k]` and derives the carrier's `AddCommMonoid` from an `[AddCommGroup V]` binder, whereas
+`Representation.tprod`/`prod`/`directSum` carry `TensorProduct.addCommMonoid` /
+`Prod.instAddCommMonoid` / `instAddCommMonoidDirectSum` directly. These are **defeq** (verify with
+`rfl`), but writing `(tprod ρ σ).character g` leaves the carrier `V` a metavariable, so the
+elaborator eagerly assigns the `AddCommGroup.toAddCommMonoid` monoid slot and then can't unify it
+at reducible transparency → "application type mismatch" / "typeclass instance is stuck". Fixes:
+- **Statement:** pin the carrier, `Representation.character (V := TensorProduct ℂ ↥p ↥p) (tprod …) g`.
+  Mathlib's own `Representation.char_tensor` shares `character`'s `[AddCommGroup V]` setup, so it
+  still `rw`s cleanly against the pinned form.
+- **Applying project lemmas** (`char_prod`, `char_directSum`): build them **standalone** with every
+  carrier pinned — `have key := char_prod (V := …) (W := …) ρ σ g` — then `rw [key]`. A bare
+  `rw [char_prod]` or `have h : <pinned type> := char_prod …` fails (σ stays a metavar). Pin the
+  `directSum` index too: `char_directSum (V := fun _ : ι => …)`, else `Fintype ?ι` is stuck.
+- **`equiv_of_character_eq_reducible _ _`** leaves `FiniteDimensional ℂ ?m` stuck — pass
+  `(V := …) (W := …)` and both representations explicitly.
+- **Residual `ring` failure on `X = X`:** the two `.character` atoms differ only by the defeq
+  carrier instance (e.g. `↥(zeroSum K)` from `char_directSum` vs the natural `↥p.toSubmodule`);
+  `show` the goal with the natural atom (defeq) first, then `ring` sees one atom.
+
 ### `restrictScalars k` map equalities over `A ⊗[k] X` modules are prohibitively slow for symbolic degree — state the identity pointwise (Ch8 bar resolution, #6414)
 
 When a map is `A`-linear (e.g. the bar differential `barDiff n : (A ⊗[k] Xₙ₊₁) →ₗ[A] (A ⊗[k] Xₙ)`) and
