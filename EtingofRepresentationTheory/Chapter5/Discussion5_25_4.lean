@@ -159,7 +159,7 @@ lemma cs_f_involutive (hq : 2 ≤ q) (x : ZMod (q ^ 2 - 1)) : cs_f q (cs_f q x) 
   have hsq : (q : ZMod (q ^ 2 - 1)) ^ 2 = 1 := by
     have e1 : ((q ^ 2 : ℕ) : ZMod (q ^ 2 - 1)) = (q : ZMod (q ^ 2 - 1)) ^ 2 := by push_cast; ring
     have e2 : (q ^ 2 : ℕ) = (q ^ 2 - 1) + 1 := by have := four_le q hq; omega
-    rw [← e1, e2, Nat.cast_add, Nat.cast_one, ZMod.natCast_self, zero_add]
+    rw [← e1, e2, Nat.cast_add, Nat.cast_one, CharP.cast_eq_zero, zero_add]
   simp only [cs_f]
   rw [← mul_assoc, ← pow_two, hsq, one_mul]
 
