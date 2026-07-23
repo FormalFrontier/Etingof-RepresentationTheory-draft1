@@ -57,6 +57,12 @@ vanishes). Re-resolve each time with
 verify signatures against the compiler (`example : <sig> := by exact?` / a scratch `#check`)
 rather than trusting a cached source path.
 
+**When you do grep Mathlib source, use `rg` or `command grep` — not bare `grep`.** The
+shell's `grep` is wrapped (ugrep with `--ignore-files`) and honors `.gitignore`; since
+`.lake/` is gitignored, `grep pattern .lake/packages/mathlib/...` silently returns nothing
+(no error, empty output) and reads as "the lemma doesn't exist." `rg -n pattern <path>` and
+`command grep -n pattern <path>` both bypass the wrapper and search the file directly.
+
 **In this Mathlib version `Basis` lives in the `Module` namespace.** The type is
 `Module.Basis ι R M` and explicit lemma references need the prefix: `Module.Basis.ext`,
 `Module.Basis.constr_basis`, `Module.finBasis` (returns a `Module.Basis`). A bare identifier
