@@ -13,7 +13,7 @@ irreducibles of representations of `S₃ = Sym(Fin 3)` induced from one-dimensio
 representations of the cyclic subgroups `Z₂` and `Z₃`:
 
 * `Ind_{Z₂}^{S₃} ℂ₊ ≅ ℂ² ⊕ ℂ₊` and `Ind_{Z₂}^{S₃} ℂ₋ ≅ ℂ² ⊕ ℂ₋`;
-* `Ind_{Z₃}^{S₃} ℂ₊ ≅ ℂ₊ ⊕ ℂ₋` and `Ind_{Z₃}^{S₃} ℂ_ε ≅ ℂ²`,
+* `Ind_{Z₃}^{S₃} ℂ₊ ≅ ℂ₊ ⊕ ℂ₋` and `Ind_{Z₃}^{S₃} ℂ_ε ≅ Ind_{Z₃}^{S₃} ℂ_{ε²} ≅ ℂ²`,
 
 where `ℂ₊` is the trivial representation, `ℂ₋` the sign representation, and `ℂ²`
 the two-dimensional standard (irreducible) representation of `S₃`.
@@ -375,6 +375,33 @@ noncomputable def epsRep : FDRep ℂ ↥Z3 := FDRep.of (charRep epsHom)
 
 /-- `ℂ_ε` is simple (it is one-dimensional). -/
 lemma epsRep_simple : Simple epsRep := charRep_simple _
+
+/-! ### The conjugate primitive character `ℂ_{ε²}`
+
+The other nontrivial character of `Z₃ = A₃` sends the generator to `ζ² = ζ⁻¹`, the
+complex-conjugate primitive cube root of unity; it is `ε²` in that its value on the
+generator is the square of `ε`'s. -/
+
+/-- `(ζ²)³ = 1`. -/
+lemma zeta3_sq_pow_three : (zeta3 ^ 2) ^ 3 = 1 := by
+  rw [← pow_mul, show 2 * 3 = 3 * 2 from rfl, pow_mul, zeta3_pow_three, one_pow]
+
+/-- The conjugate primitive cube-root character `ε² : Z₃ →* ℂˣ`, sending the 3-cycle
+generator to `ζ² = exp(4πi/3)`. -/
+noncomputable def epsSqHom : ↥Z3 →* ℂˣ :=
+  monoidHomOfForallMemZpowers gen3_zpowers (g' := zeta3 ^ 2)
+    (by rw [gen3_orderOf]; exact orderOf_dvd_of_pow_eq_one zeta3_sq_pow_three)
+
+/-- The representation `ℂ_{ε²}` of `S₃`'s subgroup `Z₃`: the conjugate primitive cube-root
+character. -/
+noncomputable def epsSqRep : FDRep ℂ ↥Z3 := FDRep.of (charRep epsSqHom)
+
+/-- `ℂ_{ε²}` is simple (it is one-dimensional). -/
+lemma epsSqRep_simple : Simple epsSqRep := charRep_simple _
+
+/-- `ε²` sends the generator `(0 1 2)` of `Z₃` to `ζ²`. -/
+lemma epsSqHom_gen3 : epsSqHom gen3 = zeta3 ^ 2 :=
+  monoidHomOfForallMemZpowers_apply_gen _ _
 
 /-! ## Multiplicity machinery: characters, dimensions, completeness
 
@@ -917,6 +944,79 @@ theorem indZ3_eps_decomp :
     have hR : finrank ℂ (S ⟶ stdRep) = 1 := by
       rw [FDRep.finrank_hom_simple_simple S stdRep, if_pos ⟨e⟩]
     rw [hR]; exact_mod_cast hL
+
+/-- **Induction of any nontrivial character of `Z₃` gives the standard representation.**
+If a character `χ : Z₃ →* ℂˣ` sends the generator `(0 1 2)` to a primitive cube root of
+unity, then `Ind_{Z₃}^{S₃} ℂ_χ ≅ ℂ²`. Over `Z₃` primitivity of `χ gen3` is exactly
+nontriviality of `χ`, so this covers both nontrivial characters `ε` and `ε²`; the source's
+`Ind ℂ_ε = Ind ℂ_{ε²} = ℂ²` are the two instances. (Etingof Discussion 5.11(2))
+
+The multiplicity of each irreducible is `⟨Ind ℂ_χ, V_i⟩ = ⅟3 · ∑_{h ∈ Z₃} χ_{V_i}(h)·χ(h)⁻¹`;
+using `1 + ω + ω² = 0` for the primitive root `ω = χ(gen3)` these evaluate to `0, 0, 1` on
+`ℂ₊, ℂ₋, ℂ²`, so only the standard representation appears, with multiplicity one. -/
+theorem indZ3_primitive_decomp (χ : ↥Z3 →* ℂˣ)
+    (hχ : IsPrimitiveRoot ((χ gen3 : ℂˣ) : ℂ) 3) :
+    Nonempty (FDRep.of (Etingof.Definition5_8_1 Z3 (charRep χ)) ≅ stdRep) := by
+  set ω : ℂ := ((χ gen3 : ℂˣ) : ℂ) with hω
+  have hcube : ω ^ 3 = 1 := hχ.pow_eq_one
+  have hne1 : ω ≠ 1 := hχ.ne_one (by norm_num)
+  have hsum : ω ^ 2 + ω + 1 = 0 := by
+    have hfac : (ω - 1) * (ω ^ 2 + ω + 1) = 0 := by linear_combination hcube
+    rcases mul_eq_zero.mp hfac with h | h
+    · exact absurd (sub_eq_zero.mp h) hne1
+    · exact h
+  have hinv1 : ω⁻¹ = ω ^ 2 := inv_eq_of_mul_eq_one_right (by linear_combination hcube)
+  have hinv2 : (ω ^ 2)⁻¹ = ω := inv_eq_of_mul_eq_one_right (by linear_combination hcube)
+  refine iso_of_forall_finrank_hom_eq _ _ _ rfl (fun S hS => ?_)
+  haveI : Simple S := hS
+  rcases S3_simple_iso S with h | h | h
+  · -- S ≅ trivRep : multiplicity 0
+    obtain ⟨e⟩ := h
+    have hc := FDRep.char_iso e
+    have hL : (finrank ℂ (S ⟶ FDRep.of (Etingof.Definition5_8_1 Z3 (charRep χ))) : ℂ) = 0 := by
+      rw [indZ3_finrank_eq]
+      simp only [hc, trivRep_character, map_one, map_pow,
+        Units.val_pow_eq_pow_val, Units.val_one]
+      rw [← hω, hinv1, hinv2, invOf_smul_eq_iff, Z3_card, smul_eq_mul]
+      push_cast; linear_combination hsum
+    have hR : finrank ℂ (S ⟶ stdRep) = 0 := by
+      rw [FDRep.finrank_hom_simple_simple S stdRep,
+        if_neg (fun hh => trivRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩)]
+    rw [hR]; exact_mod_cast hL
+  · -- S ≅ signRep : multiplicity 0
+    obtain ⟨e⟩ := h
+    have hc := FDRep.char_iso e
+    have hL : (finrank ℂ (S ⟶ FDRep.of (Etingof.Definition5_8_1 Z3 (charRep χ))) : ℂ) = 0 := by
+      rw [indZ3_finrank_eq]
+      simp only [hc, signRep_char_one, signRep_char_cycle, signRep_char_cycle_sq, map_one,
+        map_pow, Units.val_pow_eq_pow_val, Units.val_one]
+      rw [← hω, hinv1, hinv2, invOf_smul_eq_iff, Z3_card, smul_eq_mul]
+      push_cast; linear_combination hsum
+    have hR : finrank ℂ (S ⟶ stdRep) = 0 := by
+      rw [FDRep.finrank_hom_simple_simple S stdRep,
+        if_neg (fun hh => signRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩)]
+    rw [hR]; exact_mod_cast hL
+  · -- S ≅ stdRep : multiplicity 1
+    obtain ⟨e⟩ := h
+    have hc := FDRep.char_iso e
+    have hL : (finrank ℂ (S ⟶ FDRep.of (Etingof.Definition5_8_1 Z3 (charRep χ))) : ℂ) = 1 := by
+      rw [indZ3_finrank_eq]
+      simp only [hc, stdRep_char_one, stdRep_char_cycle, stdRep_char_cycle_sq, map_one,
+        map_pow, Units.val_pow_eq_pow_val, Units.val_one]
+      rw [← hω, hinv1, hinv2, invOf_smul_eq_iff, Z3_card, smul_eq_mul]
+      push_cast; linear_combination -hsum
+    have hR : finrank ℂ (S ⟶ stdRep) = 1 := by
+      rw [FDRep.finrank_hom_simple_simple S stdRep, if_pos ⟨e⟩]
+    rw [hR]; exact_mod_cast hL
+
+/-- `Ind_{Z₃}^{S₃} ℂ_{ε²} ≅ ℂ²`. The second nontrivial character of `Z₃` induces the same
+standard representation as `ℂ_ε`; an instance of `indZ3_primitive_decomp` since `ζ²` is a
+primitive cube root of unity. (Etingof Discussion 5.11(2)) -/
+theorem indZ3_epsSq_decomp :
+    Nonempty (FDRep.of (Etingof.Definition5_8_1 Z3 (charRep epsSqHom)) ≅ stdRep) :=
+  indZ3_primitive_decomp epsSqHom (by
+    rw [epsSqHom_gen3, Units.val_pow_eq_pow_val]
+    exact zeta3_primitive.pow_of_coprime 2 (by decide))
 
 end Etingof.Discussion5_11
 

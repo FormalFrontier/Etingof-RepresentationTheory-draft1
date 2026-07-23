@@ -5268,11 +5268,9 @@
       "wave": 1,
       "result": "gap"
     },
-    "coverage": "covered_partial",
-    "coverage_note": "The Z₂→S₃, trivial-Z₃→S₃, ε→S₃, and all three S₃→S₄ decompositions are public FDRep isomorphisms. The source also explicitly states Ind_{Z₃}^{S₃} ℂ_{ε²} ≅ ℂ², but no ε² representation or generic nontrivial-character induction theorem is exposed; follow-up #7449.",
-    "fidelity_issue": 7449,
-    "followup_issue": 7449,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "The Z₂→S₃, trivial-Z₃→S₃, ε→S₃, ε²→S₃, and all three S₃→S₄ decompositions are public FDRep isomorphisms. The ε² character `epsSqHom`/`epsSqRep` is now defined, and `indZ3_epsSq_decomp` proves Ind_{Z₃}^{S₃} ℂ_{ε²} ≅ ℂ² as an instance of the generic `indZ3_primitive_decomp` (induction of any character sending the generator to a primitive cube root of unity — equivalently any nontrivial character — gives the standard representation). Closes #7449.",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter5/Problem5.11.1",
