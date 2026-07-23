@@ -209,7 +209,14 @@ noncomputable def rhoLieHom (d : ℕ) :
         2 * X.val 1 0 * Y.val 0 0 - 2 * Y.val 1 0 * X.val 0 0 := by
       simp [show ⁅X, Y⁆.val = X.val * Y.val - Y.val * X.val from rfl,
         Matrix.sub_apply, Matrix.mul_apply, Fin.sum_univ_two, htX, htY]; ring
-    simp only [add_lie, lie_add, smul_lie, lie_smul, lie_self, smul_zero,
+    -- The library `smul_lie`/`lie_smul` do not fire under `simp only` here (their
+    -- discrimination-tree keys miss the `Module.End` Lie-algebra instance path), so
+    -- reintroduce them as local hypotheses stated in the goal's exact form.
+    have smul_lie' : ∀ (c : k) (a b : Module.End k (Fin d → k)),
+        ⁅c • a, b⁆ = c • ⁅a, b⁆ := fun c a b => smul_lie c a b
+    have lie_smul' : ∀ (c : k) (a b : Module.End k (Fin d → k)),
+        ⁅a, c • b⁆ = c • ⁅a, b⁆ := fun c a b => lie_smul c a b
+    simp only [add_lie, lie_add, smul_lie', lie_smul', lie_self, smul_zero,
       add_zero, zero_add, lie_rhoH_rhoE, lie_rhoH_rhoF, lie_rhoE_rhoF,
       hEH, hFH, hFE, smul_neg, smul_smul, hbr00, hbr01, hbr10]
     module
@@ -529,10 +536,13 @@ variable {k}
 /-- `[h, e] = 2e` in `𝔰𝔩(2, k)`. -/
 theorem lie_sl2_h_e : ⁅sl2_h k, sl2_e k⁆ = (2 : k) • sl2_e k := by
   apply Subtype.ext
-  simp only [sl2_h, sl2_e]
-  rw [LieSubalgebra.coe_bracket, LieRing.of_associative_ring_bracket]
-  simp only [LieAlgebra.SpecialLinear.val_singleSubSingle,
-    LieAlgebra.SpecialLinear.val_single, SetLike.val_smul]
+  -- Apply `coe_bracket` *before* unfolding `sl2_h`/`sl2_e`: unfolding first retypes the
+  -- bracket arguments as bare `SpecialLinear.sl` elements, which no longer unify with the
+  -- project-level `sl2 k` that `coe_bracket` keys on.
+  rw [LieSubalgebra.coe_bracket, LieRing.of_associative_ring_bracket,
+    show (↑((2 : k) • sl2_e k) : Matrix (Fin 2) (Fin 2) k) = (2 : k) • ↑(sl2_e k) from rfl]
+  simp only [sl2_h, sl2_e, LieAlgebra.SpecialLinear.val_singleSubSingle,
+    LieAlgebra.SpecialLinear.val_single]
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply,
@@ -541,10 +551,10 @@ theorem lie_sl2_h_e : ⁅sl2_h k, sl2_e k⁆ = (2 : k) • sl2_e k := by
 /-- `[h, f] = -2f` in `𝔰𝔩(2, k)`. -/
 theorem lie_sl2_h_f : ⁅sl2_h k, sl2_f k⁆ = -((2 : k) • sl2_f k) := by
   apply Subtype.ext
-  simp only [sl2_h, sl2_f]
-  rw [LieSubalgebra.coe_bracket, LieRing.of_associative_ring_bracket]
-  simp only [LieAlgebra.SpecialLinear.val_singleSubSingle,
-    LieAlgebra.SpecialLinear.val_single, SetLike.val_smul, NegMemClass.coe_neg]
+  rw [LieSubalgebra.coe_bracket, LieRing.of_associative_ring_bracket,
+    show (↑(-((2 : k) • sl2_f k)) : Matrix (Fin 2) (Fin 2) k) = -((2 : k) • ↑(sl2_f k)) from rfl]
+  simp only [sl2_h, sl2_f, LieAlgebra.SpecialLinear.val_singleSubSingle,
+    LieAlgebra.SpecialLinear.val_single]
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.neg_apply,
@@ -553,9 +563,8 @@ theorem lie_sl2_h_f : ⁅sl2_h k, sl2_f k⁆ = -((2 : k) • sl2_f k) := by
 /-- `[e, f] = h` in `𝔰𝔩(2, k)`. -/
 theorem lie_sl2_e_f : ⁅sl2_e k, sl2_f k⁆ = sl2_h k := by
   apply Subtype.ext
-  simp only [sl2_h, sl2_e, sl2_f]
   rw [LieSubalgebra.coe_bracket, LieRing.of_associative_ring_bracket]
-  simp only [LieAlgebra.SpecialLinear.val_singleSubSingle,
+  simp only [sl2_h, sl2_e, sl2_f, LieAlgebra.SpecialLinear.val_singleSubSingle,
     LieAlgebra.SpecialLinear.val_single]
   ext i j
   fin_cases i <;> fin_cases j <;>
@@ -567,8 +576,14 @@ theorem sl2_decomp (x : sl2 k) :
     x = x.val 0 1 • sl2_e k + x.val 1 0 • sl2_f k + x.val 0 0 • sl2_h k := by
   apply Subtype.ext
   have htr : x.val 1 1 = -x.val 0 0 := sl2_traceless k x
-  simp only [sl2_e, sl2_f, sl2_h, AddSubmonoid.coe_add, Submodule.coe_toAddSubmonoid,
-    SetLike.val_smul, LieAlgebra.SpecialLinear.val_single,
+  -- The additive/scalar coercions out of `sl2 k` are definitional; rewrite the right-hand
+  -- side in one step rather than relying on `SetLike.val_smul`/`coe_add` simp lemmas, whose
+  -- discrimination keys miss the `sl2 k` instance path here.
+  rw [show (↑(x.val 0 1 • sl2_e k + x.val 1 0 • sl2_f k + x.val 0 0 • sl2_h k)
+        : Matrix (Fin 2) (Fin 2) k)
+      = x.val 0 1 • (↑(sl2_e k) : Matrix (Fin 2) (Fin 2) k)
+        + x.val 1 0 • ↑(sl2_f k) + x.val 0 0 • ↑(sl2_h k) from rfl]
+  simp only [sl2_e, sl2_f, sl2_h, LieAlgebra.SpecialLinear.val_single,
     LieAlgebra.SpecialLinear.val_singleSubSingle]
   ext i j
   fin_cases i <;> fin_cases j <;>
