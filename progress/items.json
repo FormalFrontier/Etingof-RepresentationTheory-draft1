@@ -8658,13 +8658,12 @@
     "end_page": "192",
     "start_line": 21,
     "end_line": 21,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "proved",
+    "fidelity": "full",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_issue": 7562,
-    "coverage_note": "The canonical sequence is proved short exact, but the public declaration projects away the canonical ShortComplex.Splitting witness, so the source's split/trivial-extension structure is not exposed (#7562).",
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "The public API now exposes the canonical ShortComplex.Splitting witness (split_exact_sequence_splitting) with named retraction/section identities (split_exact_sequence_f_r, split_exact_sequence_s_g), the split mono/epi (split_exact_sequence_splitMono/splitEpi), and short exactness (split_exact_sequence) as a consequence of the splitting. A downstream import/#check regression test (Example7_8_3_Test.lean) pins the signatures. Closes #7562.",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter7/Exercise7.8.4",

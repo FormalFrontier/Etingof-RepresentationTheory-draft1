@@ -28,6 +28,7 @@ import EtingofRepresentationTheory.Chapter7.Example7_5_3
 import EtingofRepresentationTheory.Chapter7.Example7_6_3
 import EtingofRepresentationTheory.Chapter7.Example7_7_2
 import EtingofRepresentationTheory.Chapter7.Example7_8_3
+import EtingofRepresentationTheory.Chapter7.Example7_8_3_Test
 import EtingofRepresentationTheory.Chapter7.Example7_9_2
 import EtingofRepresentationTheory.Chapter7.Example7_9_5
 import EtingofRepresentationTheory.Chapter7.Example7_9_6
