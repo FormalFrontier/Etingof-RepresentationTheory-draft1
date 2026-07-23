@@ -1125,4 +1125,81 @@ theorem classCard_isElliptic (hn : n ≠ 0) {g : GL2' p n} (hg : GL2.IsElliptic 
 
 end Counts
 
+/-! ## Representative / normal-form column (Discussion 5.25.1)
+
+The last column of Etingof's §5.25 table displays a *canonical representative* for
+each conjugacy type. Here we prove that every element of a given type is indeed
+conjugate to the displayed representative:
+
+| Type              | representative              | normalization              |
+|-------------------|-----------------------------|----------------------------|
+| scalar            | `x • I`                     | `x` its own value          |
+| parabolic         | `!![x,1;0,x]`               | `x` the repeated eigenvalue|
+| split semisimple  | `!![x,0;0,y]`, `x ≠ y`      | `{x,y}` unordered          |
+| elliptic          | `!![x, ε·y;y, x]`, `y ≠ 0`  | `y ∼ −y`                   |
+
+These are genuine `2 × 2` rational-canonical-form facts: for each type we exhibit an
+explicit change-of-basis matrix `P ∈ GL₂` conjugating `g` to the representative.
+The conjugations are verified at the level of the underlying matrices via
+`GL2.isConj_of_val_conj`. -/
+
+section Representatives
+
+open scoped Matrix
+
+variable {p n}
+
+/-- **Conjugation helper.** If `g.val * P.val = P.val * r.val` for some `P : GL₂`, then
+`g` and `r` are conjugate in `GL₂` (`r = P⁻¹ g P`). Used to certify each normal form
+from an explicit change-of-basis matrix `P`. -/
+lemma isConj_of_val_conj {g r : GL2' p n} (P : GL2' p n)
+    (h : g.val * P.val = P.val * r.val) : IsConj g r := by
+  refine isConj_iff.mpr ⟨P⁻¹, Units.ext ?_⟩
+  have hPP : (P⁻¹ : GL2' p n).val * P.val = 1 := by
+    rw [← Units.val_mul, inv_mul_cancel, Units.val_one]
+  rw [Units.val_mul, Units.val_mul, inv_inv]
+  calc (P⁻¹ : GL2' p n).val * g.val * P.val
+      = (P⁻¹ : GL2' p n).val * (g.val * P.val) := by rw [mul_assoc]
+    _ = (P⁻¹ : GL2' p n).val * (P.val * r.val) := by rw [h]
+    _ = (P⁻¹ : GL2' p n).val * P.val * r.val := by rw [mul_assoc]
+    _ = r.val := by rw [hPP, one_mul]
+
+/-- The **scalar representative** `x • I` for a nonzero `x`. -/
+noncomputable def scalarRepr (x : GaloisField p n) (hx : x ≠ 0) : GL2' p n :=
+  Matrix.GeneralLinearGroup.mkOfDetNeZero
+    (x • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)))
+    (by rw [Matrix.det_smul, Matrix.det_one, mul_one, Fintype.card_fin]
+        exact pow_ne_zero 2 hx)
+
+@[simp] lemma scalarRepr_val (x : GaloisField p n) (hx : x ≠ 0) :
+    (scalarRepr x hx).val = x • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) := by
+  simp [scalarRepr, Matrix.GeneralLinearGroup.mkOfDetNeZero,
+    Matrix.GeneralLinearGroup.mk', Matrix.unitOfDetInvertible]
+
+/-- **Scalar normal form.** Every scalar `g` equals `x • I` for a nonzero `x` (its own
+diagonal value), hence is (trivially) conjugate to the scalar representative. -/
+theorem exists_conj_isScalar {g : GL2' p n} (hg : GL2.IsScalar g) :
+    ∃ (x : GaloisField p n) (hx : x ≠ 0), IsConj g (scalarRepr x hx) := by
+  obtain ⟨h01, h10, h00⟩ := (GL2.isScalar_iff g).mp hg
+  have hdet : Matrix.det g.val = g.val 0 0 * g.val 0 0 := by
+    rw [Matrix.det_fin_two, h01, h10, ← h00]; ring
+  have hx : g.val 0 0 ≠ 0 := by
+    intro h0
+    have hmul : g.val * (g⁻¹ : GL2' p n).val = 1 := by
+      rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
+    have hdet1 : Matrix.det g.val * Matrix.det (g⁻¹ : GL2' p n).val = 1 := by
+      rw [← Matrix.det_mul, hmul, Matrix.det_one]
+    rw [hdet, h0, mul_zero, zero_mul] at hdet1
+    exact one_ne_zero hdet1.symm
+  refine ⟨g.val 0 0, hx, ?_⟩
+  have heq : scalarRepr (g.val 0 0) hx = g := by
+    apply Units.ext
+    rw [scalarRepr_val]
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.one_apply, h01, h10, h00]
+  rw [heq]
+
+end Representatives
+
 end GL2
