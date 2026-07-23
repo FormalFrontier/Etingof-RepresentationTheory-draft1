@@ -1253,3 +1253,41 @@ theorem Etingof.Example5_1_3_Q8 :
         · show (Etingof.Q8.Mfun (QuaternionGroup.xa k)).det = 1
           simp [Etingof.Q8.Mfun, Matrix.det_mul, Matrix.det_pow]
       rw [hdet, one_mul]
+
+/-- **The one-dimensional representations of `Q₈` are of real type.** Any one-dimensional
+complex representation `ρ` of `Q₈ = QuaternionGroup 2` on `ℂ` is of real type: its
+character `χ(g) = ρ g 1` is multiplicative, and `Q₈` is *ambivalent* (every element is
+conjugate to its inverse, a finite `decide` check), so `χ(g⁻¹) = χ(g)`. Combined with
+`χ(g⁻¹) = χ(g)⁻¹` (multiplicativity) this forces `χ(g)² = 1`, i.e. `χ(g) ∈ {1, -1}`, and
+`oneDim_isRealType_of_character_pm_one` finishes. (Etingof Example 5.1.3.) -/
+theorem Etingof.Example5_1_3_Q8_oneDim_isRealType
+    (ρ : Representation ℂ (QuaternionGroup 2) ℂ) :
+    Etingof.IsRealType ρ := by
+  apply Etingof.oneDim_isRealType_of_character_pm_one
+  -- The character `χ(g) = ρ g 1` is multiplicative.
+  have hmul : ∀ a b : QuaternionGroup 2, ρ (a * b) 1 = ρ a 1 * ρ b 1 := by
+    intro a b
+    have hstep : ρ a (ρ b 1) = ρ b 1 * ρ a 1 := by
+      have h := (ρ a).map_smul (ρ b 1) (1 : ℂ)
+      simpa [smul_eq_mul] using h
+    rw [map_mul, Module.End.mul_apply, hstep, mul_comm]
+  have hone : ρ 1 1 = 1 := by simp
+  -- `Q₈` is ambivalent: each `g` is conjugate to `g⁻¹`.
+  have hamb : ∀ g : QuaternionGroup 2, ∃ c : QuaternionGroup 2, c * g * c⁻¹ = g⁻¹ := by
+    decide
+  intro g
+  obtain ⟨c, hc⟩ := hamb g
+  -- Conjugation-invariance of the character: `χ(g⁻¹) = χ(c g c⁻¹) = χ(g)`.
+  have hcc : ρ c 1 * ρ c⁻¹ 1 = 1 := by rw [← hmul, mul_inv_cancel, hone]
+  have hconj : ρ g⁻¹ 1 = ρ g 1 := by
+    rw [← hc, hmul, hmul]
+    calc ρ c 1 * ρ g 1 * ρ c⁻¹ 1
+        = (ρ c 1 * ρ c⁻¹ 1) * ρ g 1 := by ring
+      _ = 1 * ρ g 1 := by rw [hcc]
+      _ = ρ g 1 := one_mul _
+  -- Hence `χ(g)² = χ(g⁻¹ g) = χ(1) = 1`.
+  have hsq : ρ g 1 * ρ g 1 = 1 := by
+    have h1 : ρ (g⁻¹ * g) 1 = 1 := by rw [inv_mul_cancel, hone]
+    rw [hmul, hconj] at h1
+    exact h1
+  exact mul_self_eq_one_iff.mp hsq
