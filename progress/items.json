@@ -9261,12 +9261,13 @@
     "end_page": "217",
     "start_line": 5,
     "end_line": 6,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "needs_statement": false,
-    "attention_needed": false,
-    "notes": "The exact Hilbert-syzygy conclusion is proved directly: homologicalDimension (MvPolynomial (Fin n) k) = n, with both upper and lower bounds.",
-    "coverage": "covered_full",
+    "attention_needed": true,
+    "notes": "The file has the exact Hilbert-syzygy endpoint, but its current implementation fails a fresh Lean check and cannot be imported. The failures occur in the exact-sequence, change-of-rings, and Koszul support used by the upper and lower bounds; regression #7491.",
+    "coverage": "covered_partial",
+    "fidelity_issue": 7491,
     "last_updated": "2026-07-22"
   },
   {
