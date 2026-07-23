@@ -1998,7 +1998,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The alternative proof can use an arbitrary kernel complement, but the book's conclusion selects a sub-sum from the given irreducible family. That structured Lemma 3.1.6 endpoint remains #7409.",
+    "fidelity_issue": 7409,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Introduction_to_3.2",
@@ -2519,7 +2524,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The intended Krull–Schmidt proof is source-present, but Theorem3_8_1.lean currently fails fresh elaboration, so this proof discussion cannot rebuild; regression #7495.",
+    "coverage_issue": 7495,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter3/Problem3.8.3",
@@ -3754,7 +3764,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The Frobenius-determinant proof chain is source-present, but Theorem4_10_2.lean currently fails fresh elaboration; regression #7494.",
+    "coverage_issue": 7494,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter4/Discussion_4.11",
@@ -4785,7 +4800,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The character-integrality proof is source-present, but Theorem5_4_4.lean currently fails a fresh check at a scalar-tower instance; regression #7514.",
+    "coverage_issue": 7514,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Theorem5.4.6",
@@ -4829,7 +4849,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The nonsimplicity proof is source-present, but Theorem5_4_6.lean currently fails a fresh check at the trivial-representation scalar tower; regression #7515.",
+    "coverage_issue": 7515,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.4.3",
@@ -5731,7 +5756,13 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The intended proof is source-present but Theorem5_15_1.lean currently fails fresh elaboration (#7512); the independent-N semantic gap remains #7456.",
+    "fidelity_issue": 7456,
+    "coverage_issue": 7512,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Frobenius_character_formula",
@@ -6481,7 +6512,13 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The complete-reducibility/highest-weight proof chain is source-present, but its AlgIrrepGL/Peter–Weyl sources currently fail fresh checks (#7534); full classification remains #7400.",
+    "fidelity_issue": 7400,
+    "coverage_issue": 7534,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Remark5.23.3",
@@ -6826,7 +6863,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The two-direction Artin proof is source-present, but Theorem5_26_1.lean currently fails a fresh check at a scalar-tower instance; regression #7513.",
+    "coverage_issue": 7513,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter5/Corollary5.26.3",
@@ -9560,7 +9602,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The equivalence functor setup is source-present, but Theorem9_6_4.lean currently fails fresh elaboration, preventing the setup from rebuilding into the required equivalence; regression #7505.",
+    "coverage_issue": 7505,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter9/Theorem9.6.4",
