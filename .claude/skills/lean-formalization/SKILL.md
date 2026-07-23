@@ -200,6 +200,21 @@ restoring `Definition2_8_4.lean` (#7499), cost ~15 iterations:**
   Small `Finsupp`-typed helpers (`c • single x 1 = single x c`, `c • 0 = 0`) proved by `rw` then
   applied to `Foo` goals by `exact` cover the `SMulZeroClass k Foo`-not-synthesizable gaps.
 
+**`TensorProduct.finsuppScalarRight`/`finsuppScalarLeft` rewrites that stop matching on a
+`MonoidAlgebra ℚ G` factor (#7522, `Chapter5/Corollary5_12_4.lean`).** These lemmas
+(`finsuppScalarRight_apply_tmul_apply`, …) are stated over `ι →₀ R`, but `MonoidAlgebra R G`
+is `G →₀ R` with `MonoidAlgebra.addCommMonoid` *overriding the `AddCommMonoid.nsmul` field*
+(the "abuses definitional equality" TODO in Mathlib's `MonoidAlgebra/Defs.lean`). The two
+instances are defeq at `default` (so the `def` composing `finsuppScalarRight` with a
+base-changed submodule inclusion still elaborates) but not reducibly equal, so `rw`/`simp`
+report "did not find pattern" and even leave the goal "not type-correct under `instances`
+transparency". **Fix: don't fight the rewrite — build the value term with explicit `Finsupp`
+typing** (`have h := finsuppScalarRight_apply_tmul_apply (R := …) … (↑w) g`, passing the
+`MonoidAlgebra`-typed coercion where `ι →₀ R` is expected; it unifies by defeq) **then
+transport with `refine h.trans ?_`** (`Eq.trans`'s first argument unifies up to defeq, unlike
+`rw`). Close the residual scalar goal with `Algebra.smul_def`, `mul_comm`, `rfl`. Only the
+one coefficient lemma broke; the surrounding `def`s and other proofs were untouched.
+
 **A `neg_smul`/cast rewrite tail that breaks under a Mathlib bump: close it with `push_cast;
 module` instead of chasing the rewrite (#7530, `Chapter2/Problem2_7_4.lean`).** A proof ending
 `rw […, ← Nat.cast_smul_eq_nsmul (R := k) (n + 1), neg_smul]; congr 1; push_cast; ring` regressed
