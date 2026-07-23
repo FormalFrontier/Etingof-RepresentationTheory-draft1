@@ -60,16 +60,32 @@ def Etingof.MoritaEquivalent (A : Type u) [Ring A] (B : Type v) [Ring B] : Prop 
 /-- k-linear Morita equivalence of k-algebras.
 
 Two k-algebras A and B are k-linearly Morita equivalent if there exists an
-equivalence of their module categories whose functor is k-linear on Hom spaces.
+equivalence of their module categories whose functor is k-linear on Hom spaces,
+i.e. commutes with the central `k`-action `algebraMap k A • -` on morphisms.
+This `k`-linearity of the functor is exactly the compatibility condition needed
+to promote a bare (additive) equivalence of module categories to a `k`-linear
+one; it is what lets us upgrade the resulting ring isomorphisms to k-algebra
+isomorphisms.
 
-For k-algebras, every categorical equivalence is automatically k-linear
-(Eilenberg-Watts theorem), so this is equivalent to bare `MoritaEquivalent`.
-We use the k-linear version because Eilenberg-Watts is not yet formalized, and
-the k-linearity is needed to upgrade ring isomorphisms to k-algebra isomorphisms.
+**k-linearity is genuinely an extra condition, not automatic.** A bare
+categorical equivalence `ModuleCat A ≌ ModuleCat B` need not be `k`-linear.
+By Eilenberg-Watts every such equivalence is given by tensoring with an
+`(A, B)`-bimodule, but the two central `k`-actions on that bimodule (through `A`
+and through `B`) need not agree, and only their agreement forces `k`-linearity.
+Concretely, if `k` has a nontrivial field automorphism `σ`, restricting scalars
+along `σ` is an additive self-equivalence of `ModuleCat k` that is `σ`-semilinear
+rather than `k`-linear. So `MoritaEquivalent A B` does **not** imply
+`KLinearMoritaEquivalent k A B`; the two are inequivalent and we track the
+`k`-linear refinement separately. (The forgetting direction
+`KLinearMoritaEquivalent → MoritaEquivalent` is the honest one, and is
+`KLinearMoritaEquivalent.toMoritaEquivalent` below.)
 
 All Morita equivalences constructed in this project (via the corner functor
-`M ↦ eM`) are provably k-linear, so this definition is satisfied by all
-concrete instances. -/
+`M ↦ eM`) come with an explicit proof of `k`-linearity
+(`cornerFunctor_linear_k`), so they satisfy this definition. Downstream
+consumers (`MoritaStructural`, `Corollary_9_7_3_i_unique`, `Corollary_9_7_3_ii`)
+take `KLinearMoritaEquivalent` as a hypothesis; a bare `MoritaEquivalent` is
+never silently upgraded to it. -/
 def Etingof.KLinearMoritaEquivalent (k : Type*) [Field k]
     (A : Type u) [Ring A] [Algebra k A]
     (B : Type u) [Ring B] [Algebra k B] : Prop :=

@@ -57,6 +57,19 @@ theorem Etingof.IsProgenerator.isSeparator {C : Type u} [Category.{v} C]
     exact hf _
   exact (cancel_epi π).mp (by rw [this, comp_zero])
 
+/-- The finite progenerator notion implies the general one of Definition 9.6.2: a finite
+progenerator is projective (by definition) and a separator (`Etingof.IsProgenerator.isSeparator`),
+hence a `Etingof.IsProjectiveGenerator`. This records the compatibility that keeps the
+finite-abelian-category consumers of `Etingof.IsProgenerator` valid witnesses of the general
+book definition. -/
+theorem Etingof.IsProgenerator.isProjectiveGenerator {C : Type u} [Category.{v} C]
+    [Preadditive C] {P : C} [hp : Etingof.IsProgenerator P] :
+    Etingof.IsProjectiveGenerator P :=
+  -- take the projective witness from the structure directly; a bare `inferInstance` for
+  -- `Projective P` is slow to synthesize amid this file's imports (cf. the `maxHeartbeats`
+  -- bump on `full_preadditiveCoyonedaObj` below).
+  ⟨hp.toProjective, Etingof.IsProgenerator.isSeparator⟩
+
 -- Faithfulness of Hom(P, -) when P is a progenerator
 instance Etingof.IsProgenerator.faithful_preadditiveCoyonedaObj
     {C : Type u} [Category.{v} C] [Preadditive C]
