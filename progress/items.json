@@ -298,10 +298,9 @@
     "start_line": 24,
     "end_line": 26,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "fidelity": "partial",
-    "coverage_note": "The group-algebra iff and the free-algebra claim are covered by public infrastructure and the two-generator witness. The remaining substantive gap is the source's quantified End_k(V) noncommutativity theorem for every finite-dimensional V with dim V > 1; narrowed follow-up #7455.",
-    "fidelity_issue": 7455,
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "The group-algebra iff, the free-algebra claim, and the source's quantified End_k(V) noncommutativity theorem for every finite-dimensional V with 2 ≤ dim V (End_noncommutative_of_two_le_finrank) are all public. The concrete V = k² matrix-unit witness remains as the dim V = 2 special case.",
     "last_updated": "2026-07-22"
   },
   {
