@@ -280,12 +280,19 @@ theorem Etingof.Theorem_6_5_2_Gabriels_theorem
     · -- the dimension vector is nonzero: an indecomposable is nontrivial at some vertex
       obtain ⟨v, hv⟩ := hρ.1
       intro heq
+      haveI : Nontrivial (ρ.obj v) := hv
       have hv0 : Module.finrank k (ρ.obj v) = 0 := by
         have h := congr_fun heq v
         simpa using h
-      letI : AddCommGroup (ρ.obj v) := Etingof.addCommGroupOfRing (k := k)
-      haveI : Subsingleton (ρ.obj v) := Module.finrank_zero_iff.mp hv0
-      exact not_nontrivial (ρ.obj v) hv
+      -- A nontrivial free module has a nonempty basis index, hence positive `finrank`,
+      -- contradicting `hv0`. This stays over the ambient `AddCommMonoid`, avoiding the
+      -- diamond that an `AddCommGroup` upgrade would introduce for `Module`/`Module.Finite`.
+      haveI : Nonempty (Module.Free.ChooseBasisIndex k (ρ.obj v)) :=
+        (Module.Free.chooseBasis k (ρ.obj v)).index_nonempty
+      have hpos : 0 < Module.finrank k (ρ.obj v) := by
+        rw [Module.finrank_eq_card_chooseBasisIndex]
+        exact Fintype.card_pos
+      omega
     · -- B(d, d) = 2 (Tits form on an indecomposable dimension vector)
       exact Etingof.indecomposable_bilinearForm_eq_two hDynkin hQ ρ hρ
   · -- (c): from the standalone bijection theorem
