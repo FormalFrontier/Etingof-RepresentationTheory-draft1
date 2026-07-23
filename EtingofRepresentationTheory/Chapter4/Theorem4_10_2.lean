@@ -209,8 +209,13 @@ private lemma IrrepDecomp.frobeniusDet_eq_signSmul_prod [NeZero (Nat.card G : k)
     funext g h
     rw [of_apply, leftMulMatrix_monoidAlgebra_entry]
     change σ (g * h⁻¹) = (∑ s : G, σ s • MonoidAlgebra.of k G s : MonoidAlgebra k G) (g * h⁻¹)
-    rw [Finsupp.finset_sum_apply]
-    simp [MonoidAlgebra.of_apply, Finsupp.smul_apply, Finsupp.single_apply]
+    -- Push the pointwise evaluation through the finite sum. The sum lives in
+    -- `MonoidAlgebra k G`, so `Finsupp.finsetSum_apply` cannot match the coercion
+    -- directly; apply the evaluation `AddMonoidHom` via `map_sum` instead.
+    rw [show (∑ s : G, σ s • MonoidAlgebra.of k G s : MonoidAlgebra k G) (g * h⁻¹)
+          = ∑ s : G, (σ s • MonoidAlgebra.of k G s : MonoidAlgebra k G) (g * h⁻¹) from
+        map_sum (Finsupp.applyAddHom (g * h⁻¹)) _ _]
+    simp [MonoidAlgebra.of_apply, MonoidAlgebra.single_apply]
   -- Evaluate the scalar smul on the RHS
   have hsmul : MvPolynomial.eval σ
       (((Equiv.Perm.sign (Equiv.inv G) : ℤ) : k) • ∏ i : Fin D.n, D.blockPoly i ^ D.d i) =
