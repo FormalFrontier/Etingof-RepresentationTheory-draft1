@@ -215,6 +215,7 @@ import EtingofRepresentationTheory.Chapter5.QuotDetDegreeAlgebraic
 
 -- Section 5.27: Representations of Semidirect Products
 import EtingofRepresentationTheory.Chapter5.Theorem5_27_1
+import EtingofRepresentationTheory.Chapter5.Theorem5_27_1_Test
 
 -- Chapter 5 exercises (statement pass)
 import EtingofRepresentationTheory.Chapter5.Exercise5_1_7
