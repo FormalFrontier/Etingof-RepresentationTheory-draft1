@@ -1019,8 +1019,9 @@
     "end_line": 4,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "coverage_note": "The two constructions and the module-side equivalence are present. The representation-side round trip is only a QuiverRepresentationHom, not an isomorphism, and no bijection on isomorphism classes is exposed; reopened #5224.",
+    "coverage_note": "The two constructions and module-side equivalence are source-present, but the representation-side round trip is only a QuiverRepresentationHom and no bijection on isomorphism classes is exposed. The backing file also currently fails a fresh source check at Finsupp/PathAlgebra carrier mismatches; reopened #5224 tracks both.",
     "fidelity_issue": 5224,
+    "coverage_issue": 5224,
     "last_updated": "2026-07-22",
     "coverage_swept": {
       "wave": 1,
@@ -4266,8 +4267,10 @@
     "start_line": 12,
     "end_line": 14,
     "status": "sorry_free",
-    "coverage": "covered_full",
-    "coverage_note": "Public theorem Etingof.even_finrank_of_isQuaternionicType proves that every quaternionic-type representation has even dimension.",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "Public theorem Etingof.even_finrank_of_isQuaternionicType is source-present, but FrobeniusSchurRealType.lean fails a fresh check at missing freeness instances and a finrank proof; regression #7527.",
+    "coverage_issue": 7527,
     "last_updated": "2026-07-22"
   },
   {
@@ -7125,8 +7128,12 @@
     "start_line": 1,
     "end_line": 4,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "needs_statement": false
+    "fidelity": "partial",
+    "needs_statement": false,
+    "coverage": "covered_partial",
+    "coverage_note": "The intended finite-type iff Dynkin theorem is source-present, but a clean rebuild is blocked by the decomposition dependency (#7525) and the Gabriel-theorem source regression (#7518).",
+    "coverage_issue": 7525,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Problem6.1.5_parts",
@@ -7136,7 +7143,12 @@
     "end_page": "153",
     "start_line": 5,
     "end_line": 20,
-    "status": "sorry_free"
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The orbit-finiteness proof route depends on exists_decomposition, whose DecompositionExistence.lean source currently fails a fresh check; regression #7525.",
+    "coverage_issue": 7525,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Problem6.1.6",
@@ -7590,9 +7602,13 @@
     "end_page": "169",
     "start_line": 3,
     "end_line": 26,
-    "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "coverage_note": "The F⁻ construction and computation theorems are source-present, but Definition6_6_4.lean fails a fresh check in DirectSum module instances and the map formula; regression #7524.",
+    "coverage_issue": 7524,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter6/Proposition6.6.5",
@@ -7879,7 +7895,12 @@
     "start_line": 25,
     "end_line": 5,
     "status": "partially_proved",
-    "coverage_note": "Faithful statements in Chapter6/Problem6_9_3.lean: simpleRep S_i, source/sink, Ext^1 via two-term complex differential, Jordan-Holder data as Prop-def (b). Part (a) proved sorry-free: ext1_source and ext1_sink (Ext vanishing at source/sink via subsingleton target/source component). Part (b) IsJordanHolderData remains a Prop-def pending composition-series infrastructure. Audit #7001: 0-sorry confirmed; part (b) genuinely a Prop-def (not proven), so partially_proved is correct — retained."
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "Part (b)'s actual Jordan–Hölder construction remains #7359. Independently, Problem6_9_3.lean now fails a fresh check because extDiff lacks subtraction on its linear-map space, so the completed part (a) Ext¹ endpoints cannot rebuild; regression #7523.",
+    "fidelity_issue": 7359,
+    "coverage_issue": 7523,
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Introduction",
@@ -8582,8 +8603,12 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "gap"
-    }
+      "result": "covered"
+    },
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "Public fresh-building theorem Etingof.AdditiveFunctor.mapBiprod gives the required isomorphism F(X ⊞ Y) ≅ F(X) ⊞ F(Y).",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Example7.9.2",
@@ -8593,11 +8618,12 @@
     "end_page": "194",
     "start_line": 25,
     "end_line": 26,
-    "status": "sorry_free",
-    "fidelity": "verified",
+    "status": "partially_proved",
+    "fidelity": "partial",
     "sorry_free": true,
-    "coverage": "covered_full",
-    "coverage_note": "The induction, restriction, and Hom constructions have public additive and k-linear functor endpoints matching the example.",
+    "coverage": "covered_partial",
+    "coverage_note": "The intended Ind, Res, and Hom endpoints are source-present, but Example7_9_2.lean fails a fresh check in left_adjoint_linear, preventing indFunctor_linear from rebuilding; regression #7526.",
+    "coverage_issue": 7526,
     "last_updated": "2026-07-22"
   },
   {
@@ -8655,8 +8681,12 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "gap"
-    }
+      "result": "covered"
+    },
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "Public fresh-building theorem Etingof.additiveFunctor_shortExact_of_isSemisimpleCategory proves that additive functors from a semisimple category preserve short exact sequences.",
+    "last_updated": "2026-07-22"
   },
   {
     "id": "Chapter7/Example7.9.6",
