@@ -258,15 +258,17 @@ theorem antiperiodic_isIndecomposable :
     simp [cM_coe, cosπ_apply] at this
   · intro W₁ W₂ hC
     -- The `A`-linear projection onto `W₁` along `W₂`.
-    set π := LinearMap.ofIsCompl hC W₁.subtype 0 with hπ
+    set π := @Submodule.projection (periodicSubalg) _ (antiperiodicSubmod) _ _ W₁ W₂ hC with hπ
     have hleft : ∀ w, w ∈ W₁ → π w = w := by
       intro w hw
-      have := LinearMap.ofIsCompl_apply_left hC (φ := W₁.subtype) (ψ := 0) ⟨w, hw⟩
-      simpa [hπ] using this
+      simpa [hπ] using
+        (@Submodule.projection_apply_of_mem_left (periodicSubalg) _ (antiperiodicSubmod) _ _
+          W₁ W₂ hC w hw)
     have hright : ∀ w, w ∈ W₂ → π w = 0 := by
       intro w hw
-      have := LinearMap.ofIsCompl_apply_right hC (φ := W₁.subtype) (ψ := 0) ⟨w, hw⟩
-      simpa [hπ] using this
+      simpa [hπ] using
+        (@Submodule.projection_apply_of_mem_right (periodicSubalg) _ (antiperiodicSubmod) _ _
+          W₁ W₂ hC w hw)
     have hmem : ∀ g, π g ∈ W₁ := by
       intro g
       have hg : g ∈ W₁ ⊔ W₂ := by rw [hC.sup_eq_top]; trivial
