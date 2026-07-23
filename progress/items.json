@@ -3360,7 +3360,8 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-23",
+    "notes": "UnitaryRepresentation now requires [FiniteDimensional ℂ V], matching the book's finite-dimensional definition; previously it admitted infinite-dimensional carriers. Regression example checks a finite-dimensional witness typechecks."
   },
   {
     "id": "Chapter4/Theorem4.6.2",
