@@ -125,6 +125,31 @@ construction of the reflection functor `F⁻`. Same knob as the `@[implicit_redu
 mass `Module`/`HasQuotient` synthesis failures, grep the warnings for "class type must be
 marked" first — it points straight at the culprit.
 
+**For a `def Foo := Bar` wrapper (e.g. `def PathAlgebra := _ →₀ k`) with re-exposed
+`inferInstanceAs` instances, two more traps beyond the `rw`/`exact` split — both hit while
+restoring `Definition2_8_4.lean` (#7499), cost ~15 iterations:**
+- **A type ascription `(e : Foo)` is *erased* during elaboration**, so a `Finset.sum`/`∑`
+  over `(summand : Foo)` still takes the summand's *native* `Bar` `AddCommMonoid`, not `Foo`'s
+  (confirmed with `set_option pp.all`). `Finset.sum_mul`/`mul_sum` then "make no progress"
+  because they expect the ambient semiring's monoid. **Fix: build the summand from a function
+  whose *declared return type* is `Foo`** (here `ofPath x : PathAlgebra := single x 1`), so the
+  sum genuinely lives in `Foo`'s structure. Keep the public `Finsupp.single`-form lemma for
+  downstream clients and add a definitionally-equal `foo_eq_sum` (`:= rfl`) in the `Foo` form
+  for the internal proof.
+- **After `Finset.sum_mul` fires, the result sum is in the *semiring-derived* `AddCommMonoid`,
+  but `Finset.sum_ite_eq'`/`simp` re-synthesize the *group-derived* one** → the two are defeq
+  but `rw`/`simp` won't match ("did not find pattern" on syntactically-identical goals).
+  **Fix: evaluate the sum with `Finset.sum_eq_single_of_mem`**, which consumes the goal's sum
+  as-is (no instance re-synthesis); discharge its `∀ b ≠ a, f b = 0` side goal with a term-mode
+  `(hterm b).trans (if_neg …)` (a bare `rw` leaves an unclosed `0 = 0` across the same diamond).
+- **Ring-law instance fields (`left_distrib`, `zero_mul`, `smul_mul`, …) whose old `change …;
+  rw [map_add]` broke: rewrite them term-mode** as `map_add (mulLinear a) b c` /
+  `(LinearMap.congr_fun (map_add …) c).trans (LinearMap.add_apply …)`. And for
+  `Finsupp.induction_linear` leaking `Bar`-typed pieces into `Foo` multiplication, wrap a
+  `Foo`-native `induction_linear` (`:= Finsupp.induction_linear …`) whose step binders are `Foo`.
+  Small `Finsupp`-typed helpers (`c • single x 1 = single x c`, `c • 0 = 0`) proved by `rw` then
+  applied to `Foo` goals by `exact` cover the `SMulZeroClass k Foo`-not-synthesizable gaps.
+
 **Same failure for `AddCommGrpCat`/`ModuleCat` homology goals in `ConcreteCategory.hom` form**
 (cost ~5 iterations in #6952, `Chapter8/HomComplexHomologyK.lean`). After
 `AddCommGrpCat.comp_apply`, terms read `ConcreteCategory.hom f (ConcreteCategory.hom g x)`; the
