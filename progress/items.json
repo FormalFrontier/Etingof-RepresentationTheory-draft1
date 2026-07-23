@@ -973,11 +973,12 @@
     "end_page": "20",
     "start_line": 2,
     "end_line": 4,
-    "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true,
-    "coverage": "covered_full",
-    "coverage_note": "The public path algebra is the free module on paths with concatenation-or-zero multiplication; associativity and the finite-vertex unit are proved, with the source's opposite product convention documented.",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "sorry_free": false,
+    "coverage": "covered_partial",
+    "coverage_note": "The intended path-algebra declarations are present, but the current defining file fails to elaborate across the opaque PathAlgebra/Finsupp boundary in multiplication, associativity, and unit proofs; regression #7499.",
+    "fidelity_issue": 7499,
     "last_updated": "2026-07-22"
   },
   {
@@ -988,10 +989,11 @@
     "end_page": "20",
     "start_line": 5,
     "end_line": 5,
-    "status": "sorry_free",
-    "fidelity": "verified",
-    "coverage": "covered_full",
-    "coverage_note": "PathAlgebra.sum_trivialPaths_eq_one and the finite-quiver algebra instance expose the source identity Σ_i p_i = 1 and unitality.",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "PathAlgebra.sum_trivialPaths_eq_one and the finite-quiver algebra instance have the right signatures, but their defining file currently fails to elaborate and they cannot be imported; regression #7499.",
+    "fidelity_issue": 7499,
     "last_updated": "2026-07-22"
   },
   {
@@ -1588,7 +1590,7 @@
     "status": "sorry_free",
     "coverage": "covered_full",
     "last_updated": "2026-07-22",
-    "coverage_note": "Chapter2/Exercise2_11_7.lean: M ⊗[A] N is an A-module for a commutative ring A (TensorProduct.instModule via inferInstance), with the action lemmas a•(m⊗ₜn) = (a•m)⊗ₜn = m⊗ₜ(a•n). Sorry-free. NOTE: blobs/Chapter2/Exercise2.11.7.md is mis-extracted (holds the trailing clause of Problem 2.11.6(b)); the real statement is confirmed against source/original.pdf p.35 and matches this title."
+    "coverage_note": "Chapter2/Exercise2_11_7.lean shows that M ⊗[A] N is an A-module for a commutative ring A (TensorProduct.instModule via inferInstance), with the action lemmas a•(m⊗ₜn) = (a•m)⊗ₜn = m⊗ₜ(a•n). The corrected blob now contains this source statement."
   },
   {
     "id": "Chapter2/Discussion_2.12_heading",
@@ -6562,8 +6564,10 @@
       "wave": 1,
       "result": "covered"
     },
-    "coverage": "covered_full",
-    "coverage_note": "The four conjugacy-class types, their individual class counts, and the total q²−1 count are proved under the source's odd-characteristic hypothesis in GL2ConjugacyClassCount.lean (#5679).",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "The discriminant partition, per-type number of conjugacy classes, and total q²−1 count are public. The table's normal-form classification, type-specific centralizer descriptions/orders, and individual class sizes are private proof data or absent; follow-up #7500.",
+    "fidelity_issue": 7500,
     "last_updated": "2026-07-22"
   },
   {
@@ -6730,8 +6734,10 @@
     "start_line": 25,
     "end_line": 29,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "coverage": "covered_full",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_note": "Theorem_6_5_2a_finiteness proves finiteness only for positive roots. Lemma_6_4_6 gives the root sign dichotomy, but no public theorem assembles it with negation into finiteness of the full set {x | IsRoot n adj x}; follow-up #7501.",
+    "fidelity_issue": 7501,
     "last_updated": "2026-07-22"
   },
   {
