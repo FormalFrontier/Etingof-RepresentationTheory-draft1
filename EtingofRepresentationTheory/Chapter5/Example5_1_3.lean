@@ -6,6 +6,8 @@ import EtingofRepresentationTheory.Chapter5.FrobeniusSchurTraceIdentity
 import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Classification
 import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
 import EtingofRepresentationTheory.Chapter5.Theorem5_1_5
+import EtingofRepresentationTheory.Chapter5.AbelianFDRep
+import EtingofRepresentationTheory.Chapter5.Exercise5_3_3
 import EtingofRepresentationTheory.Chapter4.Corollary4_2_2
 
 /-!
@@ -30,15 +32,16 @@ and the type predicates `Etingof.IsRealType` / `Etingof.IsQuaternionicType` come
 Definition 5.1.1.
 -/
 
-/-- For `ℤ/nℤ` (written multiplicatively), a 1-dimensional representation `ρ` on `ℂ`
-whose character `g ↦ ρ g 1` takes some value other than `±1` is not of real type,
-i.e. it is of complex type. The only real-type characters are those landing in
-`{1, -1}`, namely the trivial representation and (for `n` even) the sign representation.
-(Etingof Example 5.1.3) -/
-theorem Etingof.Example5_1_3_ZMod
-    {n : ℕ} [NeZero n]
-    (ρ : Representation ℂ (Multiplicative (ZMod n)) ℂ)
-    (h : ∃ g : Multiplicative (ZMod n), ρ g 1 ≠ 1 ∧ ρ g 1 ≠ -1) :
+/-- **General one-dimensional not-real-type criterion.** A one-dimensional complex
+representation `ρ` on `ℂ` whose character `g ↦ ρ g 1` takes some value other than `±1`
+is not of real type: a `G`-invariant nondegenerate bilinear form on the character `χ`
+satisfies `χ(g)² B(v,w) = B(v,w)`, forcing `χ(g)² = 1`, i.e. `χ(g) ∈ {1, -1}`, for every
+`g`. The hypothesis exhibits a `g` violating this. (Etingof Example 5.1.3, the `ℤ/nℤ`
+case.) -/
+theorem Etingof.oneDim_not_isRealType_of_character_not_pm_one
+    {G : Type*} [Group G] [Fintype G]
+    (ρ : Representation ℂ G ℂ)
+    (h : ∃ g : G, ρ g 1 ≠ 1 ∧ ρ g 1 ≠ -1) :
     ¬ Etingof.IsRealType ρ := by
   -- A `G`-invariant bilinear form `B` on a 1-dimensional character `χ` satisfies
   -- `χ(g)² B(v,w) = B(v,w)`, forcing `χ(g)² = 1`, i.e. `χ(g) ∈ {1, -1}`, for all `g`
@@ -71,6 +74,162 @@ theorem Etingof.Example5_1_3_ZMod
   rcases mul_self_eq_one_iff.mp hχχ with h1 | h1
   · exact hg1 h1
   · exact hg2 h1
+
+/-- For `ℤ/nℤ` (written multiplicatively), a 1-dimensional representation `ρ` on `ℂ`
+whose character `g ↦ ρ g 1` takes some value other than `±1` is not of real type,
+i.e. it is of complex type. The only real-type characters are those landing in
+`{1, -1}`, namely the trivial representation and (for `n` even) the sign representation.
+(Etingof Example 5.1.3) -/
+theorem Etingof.Example5_1_3_ZMod
+    {n : ℕ} [NeZero n]
+    (ρ : Representation ℂ (Multiplicative (ZMod n)) ℂ)
+    (h : ∃ g : Multiplicative (ZMod n), ρ g 1 ≠ 1 ∧ ρ g 1 ≠ -1) :
+    ¬ Etingof.IsRealType ρ :=
+  Etingof.oneDim_not_isRealType_of_character_not_pm_one ρ h
+
+section ZModTypeClassification
+
+/-- Any one-dimensional complex representation `ρ` on `ℂ` is simple as a `ℂ[G]`-module:
+the only `ℂ`-subspaces of `ℂ` are `⊥` and `⊤`, and both are automatically `ρ`-invariant. -/
+theorem Etingof.oneDim_isSimpleModule
+    {G : Type*} [Group G]
+    (ρ : Representation ℂ G ℂ) :
+    IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule := by
+  suffices hSO : IsSimpleOrder ρ.invtSubmodule by
+    haveI := (Representation.mapSubmodule ρ).isSimpleOrder_iff.mp hSO
+    exact ⟨⟩
+  refine { eq_bot_or_eq_top := fun a => ?_ }
+  rcases IsSimpleOrder.eq_bot_or_eq_top (a : Submodule ℂ ℂ) with h | h
+  · exact Or.inl (Subtype.ext (by rw [Representation.invtSubmodule.coe_bot]; exact h))
+  · exact Or.inr (Subtype.ext (by rw [Representation.invtSubmodule.coe_top]; exact h))
+
+/-- **General one-dimensional real-type criterion.** A one-dimensional complex
+representation `ρ` on `ℂ` whose character takes only the values `±1` is of real type:
+the multiplication form `B a b = a * b` is symmetric, nondegenerate, and `G`-invariant
+(invariance is `B (ρ g a) (ρ g b) = a * b * (ρ g 1)² = a * b` since `(ρ g 1)² = 1`).
+(Etingof Example 5.1.3, the trivial and sign characters of `ℤ/nℤ`.) -/
+theorem Etingof.oneDim_isRealType_of_character_pm_one
+    {G : Type*} [Group G] [Fintype G]
+    (ρ : Representation ℂ G ℂ)
+    (h : ∀ g : G, ρ g 1 = 1 ∨ ρ g 1 = -1) :
+    Etingof.IsRealType ρ := by
+  -- `ρ g` is multiplication by the scalar `ρ g 1`.
+  have hlin : ∀ (g : G) (a : ℂ), ρ g a = a * ρ g 1 := by
+    intro g a
+    have := (ρ g).map_smul a (1 : ℂ)
+    simpa using this
+  refine ⟨LinearMap.mul ℂ ℂ, ?_, ?_, ?_⟩
+  · -- symmetric
+    intro v w; rw [LinearMap.mul_apply', LinearMap.mul_apply', mul_comm]
+  · -- nondegenerate
+    intro v hv
+    have := hv 1
+    rwa [LinearMap.mul_apply', mul_one] at this
+  · -- G-invariant
+    intro g v w
+    rw [LinearMap.mul_apply', LinearMap.mul_apply', hlin g v, hlin g w]
+    rcases h g with hg | hg <;> rw [hg] <;> ring
+
+/-- **General one-dimensional complex-type criterion.** A one-dimensional complex
+representation `ρ` on `ℂ` whose character takes some value other than `±1` is of complex
+type: it is not isomorphic to its dual. If it were self-dual it would be real or
+quaternionic (the Schur dichotomy for a self-dual simple representation), but real type
+is excluded by `oneDim_not_isRealType_of_character_not_pm_one` and quaternionic type
+forces even dimension, contradicting `finrank ℂ ℂ = 1`.
+(Etingof Example 5.1.3: the non-`±1` characters of `ℤ/nℤ`.) -/
+theorem Etingof.oneDim_isComplexType_of_character_not_pm_one
+    {G : Type} [Group G] [Fintype G]
+    (ρ : Representation ℂ G ℂ)
+    (h : ∃ g : G, ρ g 1 ≠ 1 ∧ ρ g 1 ≠ -1) :
+    Etingof.IsComplexType ρ := by
+  classical
+  intro hsd
+  have hsimple := Etingof.oneDim_isSimpleModule ρ
+  rcases Etingof.isRealType_or_isQuaternionicType_of_selfDual ρ hsimple hsd with hr | hq
+  · exact Etingof.oneDim_not_isRealType_of_character_not_pm_one ρ h hr
+  · have heven := Etingof.even_finrank_of_isQuaternionicType ρ hq
+    rw [Module.finrank_self] at heven
+    exact (Nat.not_even_one) heven
+
+/-- **Classification (completeness).** Every simple `ℂ[ℤ/nℤ]`-module is isomorphic to a
+one-dimensional character `charFDRep ξ` for some `ξ : ℤ/nℤ →* ℂˣ`: the irreducible
+complex representations of `ℤ/nℤ` are exactly its characters. (Etingof Example 5.1.3.) -/
+theorem Etingof.Example5_1_3_ZMod_classification
+    {n : ℕ} [NeZero n] (S : FDRep ℂ (Multiplicative (ZMod n)))
+    [CategoryTheory.Simple S] :
+    ∃ ξ : Multiplicative (ZMod n) →* ℂˣ,
+      Nonempty (S ≅ Etingof.AbelianFDRep.charFDRep ξ) :=
+  Etingof.AbelianFDRep.exists_charFDRep_iso S
+
+/-- The trivial representation of `ℤ/nℤ` is of real type. (Etingof Example 5.1.3.) -/
+theorem Etingof.Example5_1_3_ZMod_trivial_isRealType {n : ℕ} [NeZero n] :
+    Etingof.IsRealType (Etingof.AbelianFDRep.charRep (1 : Multiplicative (ZMod n) →* ℂˣ)) := by
+  apply Etingof.oneDim_isRealType_of_character_pm_one
+  intro g
+  left
+  change ((((1 : Multiplicative (ZMod n) →* ℂˣ) g : ℂˣ) : ℂ) • LinearMap.id) (1 : ℂ) = 1
+  simp
+
+/-- A monoid element `u` with `u² = 1` has `u ^ a = u ^ (a % 2)`. -/
+private lemma pow_eq_pow_mod_two_of_sq_eq_one {M : Type*} [Monoid M] {u : M}
+    (hu : u ^ 2 = 1) (a : ℕ) : u ^ a = u ^ (a % 2) := by
+  conv_lhs => rw [← Nat.div_add_mod a 2]
+  rw [pow_add, pow_mul, hu, one_pow, one_mul]
+
+/-- The **sign character** `m ↦ (-1)^m` of `ℤ/nℤ`, defined for even `n`. -/
+def Etingof.ZModSignChar {n : ℕ} [NeZero n] (hn : 2 ∣ n) :
+    Multiplicative (ZMod n) →* ℂˣ where
+  toFun g := (-1 : ℂˣ) ^ (Multiplicative.toAdd g).val
+  map_one' := by simp
+  map_mul' a b := by
+    change (-1 : ℂˣ) ^ (Multiplicative.toAdd (a * b)).val
+        = (-1 : ℂˣ) ^ (Multiplicative.toAdd a).val * (-1 : ℂˣ) ^ (Multiplicative.toAdd b).val
+    rw [← pow_add]
+    have hsq : (-1 : ℂˣ) ^ 2 = 1 := by
+      rw [pow_two]; ext; simp
+    rw [pow_eq_pow_mod_two_of_sq_eq_one hsq,
+      pow_eq_pow_mod_two_of_sq_eq_one hsq
+        ((Multiplicative.toAdd a).val + (Multiplicative.toAdd b).val)]
+    congr 1
+    change (Multiplicative.toAdd a + Multiplicative.toAdd b).val % 2
+        = ((Multiplicative.toAdd a).val + (Multiplicative.toAdd b).val) % 2
+    rw [ZMod.val_add]
+    exact (Nat.mod_modEq _ n).of_dvd hn
+
+/-- The sign character is nontrivial (for `n` even, `n ≥ 1`): it sends the generator
+`ofAdd 1` to `-1 ≠ 1`. -/
+theorem Etingof.ZModSignChar_ne_one {n : ℕ} [NeZero n] (hn : 2 ∣ n) (hn2 : 2 ≤ n) :
+    Etingof.ZModSignChar hn ≠ 1 := by
+  intro hcontra
+  haveI : Fact (1 < n) := ⟨by omega⟩
+  have h1 : Etingof.ZModSignChar hn (Multiplicative.ofAdd (1 : ZMod n)) = 1 := by
+    rw [hcontra]; rfl
+  rw [show Etingof.ZModSignChar hn (Multiplicative.ofAdd (1 : ZMod n))
+      = (-1 : ℂˣ) ^ (1 : ZMod n).val from rfl] at h1
+  rw [ZMod.val_one, pow_one] at h1
+  have hv := congrArg Units.val h1
+  norm_num at hv
+
+/-- The sign representation `charRep (ZModSignChar hn)` of `ℤ/nℤ` (for `n` even) is of
+real type. (Etingof Example 5.1.3.) -/
+theorem Etingof.Example5_1_3_ZMod_sign_isRealType {n : ℕ} [NeZero n] (hn : 2 ∣ n) :
+    Etingof.IsRealType (Etingof.AbelianFDRep.charRep (Etingof.ZModSignChar hn)) := by
+  apply Etingof.oneDim_isRealType_of_character_pm_one
+  intro g
+  have hval : (Etingof.AbelianFDRep.charRep (Etingof.ZModSignChar hn) g) (1 : ℂ)
+      = ((-1 : ℂ)) ^ (Multiplicative.toAdd g).val := by
+    change (((Etingof.ZModSignChar hn g : ℂˣ) : ℂ) • LinearMap.id) (1 : ℂ) = _
+    change ((Etingof.ZModSignChar hn g : ℂˣ) : ℂ) * 1 = _
+    rw [mul_one]
+    change (((-1 : ℂˣ) ^ (Multiplicative.toAdd g).val : ℂˣ) : ℂ) = _
+    push_cast
+    ring
+  rw [hval]
+  rcases Nat.even_or_odd (Multiplicative.toAdd g).val with he | ho
+  · left; rw [he.neg_one_pow]
+  · right; rw [ho.neg_one_pow]
+
+end ZModTypeClassification
 
 namespace Etingof.S3
 
@@ -1094,3 +1253,41 @@ theorem Etingof.Example5_1_3_Q8 :
         · show (Etingof.Q8.Mfun (QuaternionGroup.xa k)).det = 1
           simp [Etingof.Q8.Mfun, Matrix.det_mul, Matrix.det_pow]
       rw [hdet, one_mul]
+
+/-- **The one-dimensional representations of `Q₈` are of real type.** Any one-dimensional
+complex representation `ρ` of `Q₈ = QuaternionGroup 2` on `ℂ` is of real type: its
+character `χ(g) = ρ g 1` is multiplicative, and `Q₈` is *ambivalent* (every element is
+conjugate to its inverse, a finite `decide` check), so `χ(g⁻¹) = χ(g)`. Combined with
+`χ(g⁻¹) = χ(g)⁻¹` (multiplicativity) this forces `χ(g)² = 1`, i.e. `χ(g) ∈ {1, -1}`, and
+`oneDim_isRealType_of_character_pm_one` finishes. (Etingof Example 5.1.3.) -/
+theorem Etingof.Example5_1_3_Q8_oneDim_isRealType
+    (ρ : Representation ℂ (QuaternionGroup 2) ℂ) :
+    Etingof.IsRealType ρ := by
+  apply Etingof.oneDim_isRealType_of_character_pm_one
+  -- The character `χ(g) = ρ g 1` is multiplicative.
+  have hmul : ∀ a b : QuaternionGroup 2, ρ (a * b) 1 = ρ a 1 * ρ b 1 := by
+    intro a b
+    have hstep : ρ a (ρ b 1) = ρ b 1 * ρ a 1 := by
+      have h := (ρ a).map_smul (ρ b 1) (1 : ℂ)
+      simpa [smul_eq_mul] using h
+    rw [map_mul, Module.End.mul_apply, hstep, mul_comm]
+  have hone : ρ 1 1 = 1 := by simp
+  -- `Q₈` is ambivalent: each `g` is conjugate to `g⁻¹`.
+  have hamb : ∀ g : QuaternionGroup 2, ∃ c : QuaternionGroup 2, c * g * c⁻¹ = g⁻¹ := by
+    decide
+  intro g
+  obtain ⟨c, hc⟩ := hamb g
+  -- Conjugation-invariance of the character: `χ(g⁻¹) = χ(c g c⁻¹) = χ(g)`.
+  have hcc : ρ c 1 * ρ c⁻¹ 1 = 1 := by rw [← hmul, mul_inv_cancel, hone]
+  have hconj : ρ g⁻¹ 1 = ρ g 1 := by
+    rw [← hc, hmul, hmul]
+    calc ρ c 1 * ρ g 1 * ρ c⁻¹ 1
+        = (ρ c 1 * ρ c⁻¹ 1) * ρ g 1 := by ring
+      _ = 1 * ρ g 1 := by rw [hcc]
+      _ = ρ g 1 := one_mul _
+  -- Hence `χ(g)² = χ(g⁻¹ g) = χ(1) = 1`.
+  have hsq : ρ g 1 * ρ g 1 = 1 := by
+    have h1 : ρ (g⁻¹ * g) 1 = 1 := by rw [inv_mul_cancel, hone]
+    rw [hmul, hconj] at h1
+    exact h1
+  exact mul_self_eq_one_iff.mp hsq
