@@ -5,6 +5,8 @@ import Mathlib.Algebra.Algebra.Subalgebra.Lattice
 import Mathlib.Algebra.Polynomial.Derivative
 import Mathlib.Algebra.Polynomial.AlgebraMap
 import Mathlib.LinearAlgebra.Finsupp.LinearCombination
+import Mathlib.Algebra.CharP.Basic
+import Mathlib.Data.Nat.Choose.Basic
 
 /-!
 # Proposition 2.7.1: Basis for the Weyl Algebra
@@ -415,6 +417,37 @@ theorem WeylAlgebra.polyRep_injective [CharZero k] [NoZeroDivisors k] :
   have hf : f = 0 :=
     hli.finsuppLinearCombination_injective (h0.trans (map_zero _).symm)
   rw [hf, map_zero]
+
+-- === Characteristic `p`: derivative nilpotence and non-faithfulness of `k[t]` ===
+
+/-- **Derivative nilpotence in characteristic `p` (Discussion after Proposition 2.7.1).**
+Over a commutative ring `k` of prime characteristic `p`, the `p`-fold iterate of the polynomial
+derivative annihilates *every* polynomial: `(d/dt)^p Q = 0`.
+
+This is the book's reason that `k[t]` fails to be a faithful Weyl-algebra module in characteristic
+`p`. The `m`-th coefficient of `(d/dt)^p Q` is `(m + p).descFactorial p • Q.coeff (m + p)`, and
+`(m + p).descFactorial p = (m+p)(m+p-1)⋯(m+1)` is a product of `p` consecutive integers, hence
+divisible by `p !` and in particular by `p`, so it vanishes in `k`. -/
+theorem iterate_derivative_eq_zero_of_charP (p : ℕ) [Fact p.Prime] [CharP k p]
+    (Q : Polynomial k) : (Polynomial.derivative (R := k))^[p] Q = 0 := by
+  ext m
+  rw [Polynomial.coeff_iterate_derivative, Polynomial.coeff_zero]
+  have hdvd : p ∣ (m + p).descFactorial p :=
+    (Nat.dvd_factorial (Fact.out : p.Prime).pos le_rfl).trans
+      (Nat.factorial_dvd_descFactorial (m + p) p)
+  rw [nsmul_eq_mul, (CharP.cast_eq_zero_iff k p _).mpr hdvd, zero_mul]
+
+/-- In prime characteristic `p`, the polynomial representation sends `yᵖ` to `0`:
+`polyRep k (yᵖ) = (d/dt)^p = 0` as an endomorphism of `k[t]`. Together with `yᵖ ≠ 0`
+(the Weyl monomials are a basis) this witnesses the non-faithfulness of `k[t]`; see
+`WeylAlgebra.polyRep_not_injective`. -/
+theorem WeylAlgebra.polyRep_y_pow_eq_zero (p : ℕ) [Fact p.Prime] [CharP k p] :
+    polyRep k (WeylAlgebra.y k ^ p) = 0 := by
+  rw [map_pow, polyRep_y]
+  apply LinearMap.ext
+  intro Q
+  rw [Module.End.pow_apply, LinearMap.zero_apply]
+  exact iterate_derivative_eq_zero_of_charP k p Q
 
 /-- **Proposition 2.7.1 (i)**: The standard monomials `{xⁱyʲ : i, j ≥ 0}` form a basis
 for the Weyl algebra `A` over `k`.

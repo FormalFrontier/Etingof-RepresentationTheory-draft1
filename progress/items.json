@@ -822,10 +822,9 @@
       "wave": 1,
       "result": "gap"
     },
-    "coverage": "covered_partial",
-    "coverage_note": "The characteristic-zero faithfulness of polyRep and characteristic-free faithfulness of repE are proved. The source's characteristic-p contrast—(d/dt)^p=0 on k[t], hence polyRep is not faithful—is present only in documentation; follow-up #7442.",
-    "fidelity_issue": 7442,
-    "followup_issue": 7442,
+    "coverage": "covered_full",
+    "coverage_note": "All three contrasts of the discussion are now public theorems (#7442). Char-zero faithfulness of polyRep (WeylAlgebra.polyRep_injective) and char-free faithfulness of repE (repE_injective) were already proved. The char-p contrast is now formalized: Etingof.iterate_derivative_eq_zero_of_charP proves (d/dt)^p Q = 0 for every polynomial over a ring of prime characteristic p; WeylAlgebra.polyRep_y_pow_eq_zero derives polyRep(y^p) = 0; and WeylAlgebra.polyRep_not_injective proves k[t] is not faithful in characteristic p (witness y^p, nonzero because the Weyl monomials are a basis). The comparison theorem repE_injective_and_polyRep_not_injective packages faithful-E vs nonfaithful-k[t] in one statement.",
+    "fidelity_decl": "Etingof.iterate_derivative_eq_zero_of_charP; Etingof.WeylAlgebra.polyRep_not_injective; Etingof.repE_injective_and_polyRep_not_injective",
     "last_updated": "2026-07-22"
   },
   {
