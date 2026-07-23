@@ -4032,7 +4032,7 @@
     "start_line": 5,
     "end_line": 8,
     "status": "partially_proved",
-    "coverage_note": "The affine-group classification, character formulas, and tensor-product isomorphisms are source-present, but Problem4_12_6.lean currently fails fresh elaboration at several application/typeclass sites; regression #7538.",
+    "coverage_note": "The q >= 3 affine-group classification, character formulas, and tensor-product isomorphisms are source-present, but the file currently fails fresh elaboration (#7538). Independently, the source asks for every finite field and the q = 2 classification/character/tensor-table case is not publicly completed (#7560).",
     "fidelity": "partial",
     "fidelity_decl": [
       "Etingof.Problem4_12_6.one_dim_reps_card",
@@ -4047,7 +4047,8 @@
     ],
     "coverage": "covered_partial",
     "coverage_issue": 7538,
-    "fidelity_note": "All three requests in the book are now represented by proved declarations: the irreducible classification, character formulas, and explicit tensor-product decompositions. The formerly outstanding representation-level isomorphisms landed after the earlier partial-coverage audit.",
+    "fidelity_issue": 7560,
+    "fidelity_note": "For q >= 3, all three requests are represented by classification, character formulas, and explicit representation-level tensor-product isomorphisms. The exceptional q = 2 case is handled only by a dimension dichotomy, not by corresponding classification, character, and tensor-table endpoints (#7560).",
     "last_updated": "2026-07-22"
   },
   {
@@ -5131,10 +5132,12 @@
     "end_page": "109",
     "start_line": 5,
     "end_line": 10,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "sorry_free": true,
-    "fidelity": "verified",
-    "coverage": "covered_full",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_issue": 7559,
+    "coverage_note": "The averaged all-G Frobenius formula is proved, but the theorem in the source is the right-coset-representative formula; no public declaration states it or proves the docstring's claimed equivalence (#7559).",
     "last_updated": "2026-07-22"
   },
   {
@@ -5159,9 +5162,11 @@
     "end_page": "110",
     "start_line": 15,
     "end_line": 2,
-    "status": "sorry_free",
-    "coverage": "covered_full",
-    "coverage_note": "Public theorem Etingof.Theorem5_9_1 gives the source Frobenius character formula; its choice-free averaged expression is proved equivalent to the coset-representative form.",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "coverage_issue": 7559,
+    "coverage_note": "The averaged trace computation is proved, but the asserted coset-counting/conjugacy bridge to the source's representative formula exists only in prose (#7559).",
     "last_updated": "2026-07-22"
   },
   {
@@ -7673,9 +7678,12 @@
     "end_page": "168",
     "start_line": 21,
     "end_line": 35,
-    "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "sorry_free": true,
+    "coverage": "covered_partial",
+    "fidelity_issue": 7383,
+    "coverage_note": "The positive reflection object assignment is defined componentwise, but Definition 6.6.3 calls it a functor and no action on morphisms or functor laws are exposed (#7383)."
   },
   {
     "id": "Chapter6/Definition6.6.3_maps",
@@ -7685,9 +7693,11 @@
     "end_page": "169",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free",
-    "coverage": "covered_full",
-    "coverage_note": "The component maps of the positive reflection functor are part of the public F_i^+ construction and its componentwise definitions in Definition6_6_3.lean.",
+    "status": "partially_proved",
+    "fidelity": "partial",
+    "coverage": "covered_partial",
+    "fidelity_issue": 7383,
+    "coverage_note": "The reflected representation's internal arrow maps are defined, but the source also requires F_i^+ to map representation morphisms; that categorical action and its functor laws are missing (#7383).",
     "last_updated": "2026-07-22"
   },
   {
@@ -7702,8 +7712,9 @@
     "fidelity": "partial",
     "sorry_free": true,
     "coverage": "covered_partial",
-    "coverage_note": "The F⁻ construction and computation theorems are source-present, but Definition6_6_4.lean fails a fresh check in DirectSum module instances and the map formula; regression #7524.",
+    "coverage_note": "The F⁻ object construction and computation theorems are source-present, but Definition6_6_4.lean fails a fresh source check (#7524). Independently, the action on representation morphisms and functor laws required by the word 'functor' are missing (#7383).",
     "coverage_issue": 7524,
+    "fidelity_issue": 7383,
     "last_updated": "2026-07-22"
   },
   {
