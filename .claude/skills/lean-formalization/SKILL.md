@@ -121,6 +121,23 @@ into a loop — e.g. `Quotient.map' (fun w => g • w) h` before `Quotient.map'`
 gives the same `HSMul … ?` timeout. Ascribe it: `fun w : T => (g • w : T)`. Both bit during the
 octahedral four-diagonal quotient action (#6972).
 
+**A `def`-based phantom type synonym carrying a restriction-of-scalars module (e.g. an
+`Inflate 𝒜 i W := W` viewing an `𝒜 i`-module `W` as a `∀ j, 𝒜 j`-module via
+`Module.compHom … (Pi.evalRingHom 𝒜 i)`) fights you in tactic blocks** (Ch3 `Problem3_3_3.lean`,
+#7564). Because `Inflate … W` is defeq to `W` but not reducible for TC search, applying an
+equiv `e : Inflate … W₁ ≃ₗ Inflate … W₂` to a variable typed `W₁` throws `failed to synthesize
+SMul (∀ j, 𝒜 j) W₁` / `HSMul … W₁ (Inflate …)`, and a `(w : Inflate … W₁)` **ascription does
+not stick** — the elaborator keeps the underlying type. Recipe that works: (1) prove a
+`prod_smul_def : c • w = c i • w` and a `single_smul : Pi.single i a • w = a • w` by
+`change`+`Pi.evalRingHom_apply` / `rw`, so scalar actions become rewritable; (2) forward the
+instances you need on the synonym (`instance [Nontrivial W] : Nontrivial (Inflate 𝒜 i W) :=
+inferInstanceAs _`) and **obtain elements at the synonym type** — `obtain ⟨w, hw⟩ := exists_ne
+(0 : Inflate 𝒜 i W₁)` — instead of ascribing a `W₁`-typed element into a synonym-typed hole;
+(3) transfer simplicity along the identity as a σ-semilinear bijection with
+`LinearMap.isSimpleModule_iff_of_bijective` (σ = the surjective `Pi.evalRingHom`), rather than
+building submodule-lattice order-isos by hand. `change`, not `show`, when unfolding the synonym
+(the style linter rejects a goal-changing `show`).
+
 **`letI : AddCommGroup P := addCommGroupOfRing …` on a parent type `P` SHADOWS and breaks
 `Module R P` synthesis** (v4.31/v4.32 regression; cost ~10 iterations in #7509,
 `Chapter6/CoxeterInfrastructure.lean`). The old trick of adding a ring-induced `AddCommGroup`

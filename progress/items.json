@@ -2133,21 +2133,30 @@
     "end_page": "48",
     "start_line": 1,
     "end_line": 14,
-    "status": "partially_proved",
+    "status": "proved",
     "sorry_free": true,
-    "coverage_note": "Part (b)'s matrix-algebra classification is proved. Part (a) proves the idempotent-range criterion only as a statement about modules over the full product; it does not construct the actual factor-module restriction/inflation or the requested isomorphism-class classification in terms of simple A_i-modules (#7564).",
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_issue": 7564,
+    "coverage_note": "Both parts fully covered. Part (b)'s matrix-algebra classification is proved. Part (a) now classifies the irreducibles of A = ⊕ᵢ Aᵢ genuinely in terms of the factor algebras: the summand 1ᵢV carries an honest Module (𝒜 i) structure (factorSummandModule), the inflation of a factor module is defined (Inflate) with the simplicity/isomorphism correspondence (isSimpleModule_iff, congr/ofCongr, index_eq_of_equiv), part (a) is restated over the factors (simpleModule_prod_iff_factor), and every simple product module is exhibited as the inflation of a simple factor module from a unique index (exists_isSimpleFactor, exists_inflate_of_isSimple). Closed #7564.",
+    "fidelity": "full",
+    "coverage": "covered_full",
     "coverage_arm": "audited",
     "derived": [
       {
         "part": "(a) irreducibles of a direct sum of algebras",
-        "coverage": "covered_partial",
+        "coverage": "covered_full",
         "lean_decl": [
-          "Etingof.Problem3_3_3.simpleModule_prod_iff"
+          "Etingof.Problem3_3_3.simpleModule_prod_iff",
+          "Etingof.Problem3_3_3.Inflate",
+          "Etingof.Problem3_3_3.Inflate.isSimpleModule_iff",
+          "Etingof.Problem3_3_3.Inflate.congr",
+          "Etingof.Problem3_3_3.Inflate.ofCongr",
+          "Etingof.Problem3_3_3.Inflate.index_eq_of_equiv",
+          "Etingof.Problem3_3_3.factorSummandModule",
+          "Etingof.Problem3_3_3.simpleModule_prod_iff_factor",
+          "Etingof.Problem3_3_3.isSimpleModule_summand_iff",
+          "Etingof.Problem3_3_3.exists_isSimpleFactor",
+          "Etingof.Problem3_3_3.exists_inflate_of_isSimple"
         ],
-        "reason": "simpleModule_prod_iff proves the central-idempotent range criterion over the full product algebra. The range is never equipped with the actual A_i-module structure named by the source, and the converse inflation plus exhaustion/uniqueness classification by factor simples is absent (#7564)."
+        "reason": "The summand 1ᵢV = range (idemProj i) is given a genuine Module (𝒜 i) structure (factorSummandModule); Inflate 𝒜 i W restricts scalars along Pi.evalRingHom to view a factor module as a product-algebra representation. isSimpleModule_iff and isSimpleModule_summand_iff give the simplicity/submodule-lattice correspondence; simpleModule_prod_iff_factor restates part (a) with IsSimpleModule (𝒜 i) (1ᵢV); exists_isSimpleFactor/exists_inflate_of_isSimple exhibit every simple product module as the inflation of a simple factor module from a unique index; congr/ofCongr and index_eq_of_equiv give the isomorphism-class uniqueness (same index and isomorphic factor modules). simpleModule_prod_iff retained as the idempotent-range corollary."
       },
       {
         "part": "(b) representations of Mat_d(k)",
@@ -2168,7 +2177,7 @@
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_3_3.lean"
     ],
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter3/Remark3.3.4",
