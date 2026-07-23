@@ -264,7 +264,10 @@ theorem exists_fg_subalgebra_baseChange_iso
         intro y x
         simp only [RingHom.id_apply]
         induction y using TensorProduct.induction_on with
-        | zero => simp only [zero_smul, map_zero]
+        -- `bcMod` is a `Module.compHom` action, so bare `zero_smul`/`simp` cannot resolve which
+        -- `SMulWithZero (↥RA ⊗[K] A) _` instance the goal's `0 • _` uses; pass the element
+        -- explicitly to pin the `↥RA ⊗[K] A`-module structure.
+        | zero => rw [zero_smul (↥RA ⊗[K] A) x, zero_smul (↥RA ⊗[K] A) (φ x), map_zero]
         | tmul t a =>
             have hmul : (t ⊗ₜ[K] a : ↥RA ⊗[K] A) = (t ⊗ₜ[K] (1 : A)) * (1 ⊗ₜ[K] a) := by
               rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
@@ -461,7 +464,7 @@ theorem exists_fg_subalgebra_baseChange_directSummand
         intro y x
         simp only [RingHom.id_apply]
         induction y using TensorProduct.induction_on with
-        | zero => simp only [zero_smul, map_zero]
+        | zero => rw [zero_smul (↥RA ⊗[K] A) x, zero_smul (↥RA ⊗[K] A) (i'R x), map_zero]
         | tmul t a =>
             have hmul : (t ⊗ₜ[K] a : ↥RA ⊗[K] A) = (t ⊗ₜ[K] (1 : A)) * (1 ⊗ₜ[K] a) := by
               rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
@@ -474,7 +477,7 @@ theorem exists_fg_subalgebra_baseChange_directSummand
         intro y x
         simp only [RingHom.id_apply]
         induction y using TensorProduct.induction_on with
-        | zero => simp only [zero_smul, map_zero]
+        | zero => rw [zero_smul (↥RA ⊗[K] A) x, zero_smul (↥RA ⊗[K] A) (p'R x), map_zero]
         | tmul t a =>
             have hmul : (t ⊗ₜ[K] a : ↥RA ⊗[K] A) = (t ⊗ₜ[K] (1 : A)) * (1 ⊗ₜ[K] a) := by
               rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
