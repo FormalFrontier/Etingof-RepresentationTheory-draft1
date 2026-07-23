@@ -331,10 +331,11 @@
     "start_line": 1,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "partial",
     "sorry_free": true,
-    "coverage": "covered_full",
-    "coverage_note": "Module A V is the source's unital left representation under the active algebra convention; right modules are represented as Module Aᵐᵒᵖ V and exposed by the immediately following Remark2_3_2 API. This invalidates the withdrawn scope claim #7465.",
+    "coverage": "covered_partial",
+    "coverage_note": "The generic unital Module A V convention is valid, and right modules are exposed via Module Aᵐᵒᵖ V in Remark2_3_2; the withdrawn non-unitality claim #7465 was false. However, the source's k-algebra hom A → End_k(V), its scalar compatibility, and the round-trip bridge with modules are not public; follow-up #7482.",
+    "fidelity_issue": 7482,
     "last_updated": "2026-07-22"
   },
   {
