@@ -9248,12 +9248,11 @@
     "end_page": "211",
     "start_line": 1,
     "end_line": 4,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "last_updated": "2026-07-22",
-    "coverage_note": "All three theorem signatures exist, but the current file fails a fresh Lean check in the finite-dimensional k[x]-module proof before the later part-(ii) declaration can be imported. The broken quotient scalar-action and unit-lift rewrites are tracked by regression #7492.",
-    "fidelity_issue": 7492
+    "status": "proved",
+    "fidelity": "full",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-23",
+    "coverage_note": "All three public endpoints (Exercise_8_2_9_i_finAb, Exercise_8_2_9_i_polynomial, Exercise_8_2_9_ii) are sorry-free and fresh-buildable on the current toolchain. The quotient scalar-action rewrites broken in #7492 were repaired by relating the Polynomial-k-module smul on k[x]/(pⁿ) to the quotient-ring multiplication via IsScalarTower.algebraMap_smul instead of Algebra.smul_def."
   },
   {
     "id": "Chapter8/Problem8.2.10",
