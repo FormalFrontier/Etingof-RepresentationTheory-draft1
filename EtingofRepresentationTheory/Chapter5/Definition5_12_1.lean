@@ -13,9 +13,20 @@ A **Young tableau** of shape λ is a filling of the Young diagram with numbers 1
 The **row subgroup** P_λ ⊂ S_n consists of permutations preserving each row.
 The **column subgroup** Q_λ ⊂ S_n consists of permutations preserving each column.
 
-The **Young symmetrizer** c_λ = b_λ · a_λ (column antisymmetrizer × row symmetrizer) where:
-- a_λ = Σ_{g ∈ P_λ} g
-- b_λ = Σ_{g ∈ Q_λ} sign(g) · g
+Etingof's Young projectors (Discussion after Definition 5.12.1) are the **normalized**
+elements of ℂ[S_n]
+- a_λ = |P_λ|⁻¹ Σ_{g ∈ P_λ} g   (`youngProjectorRow`),
+- b_λ = |Q_λ|⁻¹ Σ_{g ∈ Q_λ} sign(g) · g   (`youngProjectorCol`),
+- c_λ = a_λ · b_λ   (`youngProjector`, row-then-column).
+
+This file *also* provides the **unnormalized** sums `RowSymmetrizer = Σ_{g ∈ P_λ} g` and
+`ColumnAntisymmetrizer = Σ_{g ∈ Q_λ} sign(g) · g`, and the element
+`YoungSymmetrizer = ColumnAntisymmetrizer · RowSymmetrizer` (the *opposite*, unnormalized
+`b_λ · a_λ` order). `YoungSymmetrizer` is the generator used by the downstream
+`SpechtModule` construction; it is NOT Etingof's `c_λ`. The two are related by the
+positive scalar `|P_λ| · |Q_λ|` and the factor order swap (see
+`Etingof.youngProjectorCol_mul_youngProjectorRow` and the source-order
+`Etingof.Lemma5_13_1_source` in `Lemma5_13_1.lean`).
 
 ## Mathlib correspondence
 
@@ -116,19 +127,44 @@ noncomputable def ColumnAntisymmetrizer (n : ℕ) (la : Nat.Partition n) :
   ∑ g : (ColumnSubgroup n la),
     ((↑(Equiv.Perm.sign g.val) : ℤ) : ℂ) • MonoidAlgebra.of ℂ _ g.val
 
-/-- The Young symmetrizer c_λ = b_λ · a_λ in the group algebra ℂ[S_n].
-(Etingof Definition 5.12.1)
+/-- The **unnormalized** element `b_λ · a_λ = ColumnAntisymmetrizer · RowSymmetrizer` in
+the group algebra ℂ[S_n], where a_λ = ∑_{g ∈ P_λ} g and b_λ = ∑_{g ∈ Q_λ} sign(g) · g.
 
-Here a_λ = ∑_{g ∈ P_λ} g and b_λ = ∑_{g ∈ Q_λ} sign(g) · g,
-where P_λ is the row subgroup and Q_λ is the column subgroup.
-
-**Convention**: We use c_λ = b_λ · a_λ (column × row) following Fulton-Harris
-and Etingof. This convention ensures polytabloids lie in the Specht module:
-the polytabloid e_T = κ_T · of(σ_T) · a_λ is a left multiple of b_λ · a_λ
-for the canonical filling. -/
+**Warning on naming/convention.** This is *not* Etingof's Young projector `c_λ`. Etingof
+defines the normalized `c_λ = a_λ · b_λ` (row-then-column); see `youngProjector`. The
+element here differs from `c_λ` both in normalization (by the positive scalar
+`|P_λ| · |Q_λ|`) and in factor order (`b_λ · a_λ` vs `a_λ · b_λ`), and the factors do not
+commute. It is retained under this name because it is the historical generator of the
+downstream `SpechtModule` left ideal ℂ[S_n]·(b_λ a_λ): the ordering makes polytabloids
+`e_T = κ_T · of(σ_T) · a_λ` left multiples of `b_λ · a_λ` for the canonical filling. The
+precise relationship to the source projectors is
+`Etingof.youngProjectorCol_mul_youngProjectorRow`. -/
 noncomputable def YoungSymmetrizer (n : ℕ) (la : Nat.Partition n) :
     MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
   ColumnAntisymmetrizer n la * RowSymmetrizer n la
+
+/-- Etingof's **normalized row projector** `a_λ = |P_λ|⁻¹ ∑_{g ∈ P_λ} g` in ℂ[S_n]
+(Discussion of Young projectors after Definition 5.12.1). Unlike `RowSymmetrizer`, this is
+a genuine idempotent: `youngProjectorRow_mul_self`. -/
+noncomputable def youngProjectorRow (n : ℕ) (la : Nat.Partition n) :
+    MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
+  (Nat.card (RowSubgroup n la) : ℂ)⁻¹ • RowSymmetrizer n la
+
+/-- Etingof's **normalized column projector** `b_λ = |Q_λ|⁻¹ ∑_{g ∈ Q_λ} sign(g) · g` in
+ℂ[S_n] (Discussion of Young projectors after Definition 5.12.1). A genuine idempotent:
+`youngProjectorCol_mul_self`. -/
+noncomputable def youngProjectorCol (n : ℕ) (la : Nat.Partition n) :
+    MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
+  (Nat.card (ColumnSubgroup n la) : ℂ)⁻¹ • ColumnAntisymmetrizer n la
+
+/-- Etingof's **Young projector** `c_λ = a_λ · b_λ` (row-then-column, normalized), the
+source-faithful element of ℂ[S_n] from the Discussion after Definition 5.12.1.
+
+This is the honest formalization of Etingof's `c_λ`. It is distinct from the
+implementation element `YoungSymmetrizer = b_λ · a_λ` (opposite order, unnormalized). -/
+noncomputable def youngProjector (n : ℕ) (la : Nat.Partition n) :
+    MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
+  youngProjectorRow n la * youngProjectorCol n la
 
 /-! ## Helper lemmas for rowOfPos and colOfPos -/
 
