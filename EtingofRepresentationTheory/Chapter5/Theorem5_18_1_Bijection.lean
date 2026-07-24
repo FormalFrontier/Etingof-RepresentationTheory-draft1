@@ -138,4 +138,146 @@ theorem homA_iso_of_homA_congr
   obtain ⟨eST⟩ := multiplicitySpace_biduality_Aiso k E A S T hST
   exact ⟨eVS.trans (eST.trans eWT.symm)⟩
 
+/-!
+## Surjectivity and the bijection
+
+We now realise `V ↦ Hom_A(V, E)` as a bijection between the finite index sets
+`isotypicComponents A E` and `isotypicComponents B E` (`B = centralizer A`).
+
+The engine is a single **generic realization map**
+`homRealizationComponent`: for any semisimple subalgebra `D ⊆ End_k(E)` acting
+faithfully (`k` algebraically closed), send an isotypic component `c` over `D` to
+the isotypic component over `centralizer D` of `Hom_D(V_c, E)` realised inside
+`E` (`V_c ≤ c` a chosen simple submodule). It is injective by the biduality
+bridge. Instantiating at `D = A` gives an injection
+`isotypicComponents A E → isotypicComponents B E`; at `D = B` an injection
+`isotypicComponents B E → isotypicComponents (centralizer B) E`. Since
+`centralizer B = A` (double centralizer), the two index sets have equal finite
+cardinality, so the first injection is a bijection.
+-/
+
+variable {k E} in
+/-- The simple submodule of `E` chosen inside a nonzero isotypic component `c`
+over a semisimple subalgebra `D`. -/
+private noncomputable def compSimple
+    (D : Subalgebra k (Module.End k E)) [IsSemisimpleRing D]
+    (c : isotypicComponents D E) : Submodule D E :=
+  haveI : IsSemisimpleModule D E := IsSemisimpleRing.isSemisimpleModule
+  ((IsSemisimpleModule.eq_bot_or_exists_simple_le (c.1 : Submodule D E)).resolve_left
+    (bot_lt_isotypicComponents c.2).ne').choose
+
+variable {k E} in
+omit [Module.Finite k E] in
+private theorem compSimple_le
+    (D : Subalgebra k (Module.End k E)) [IsSemisimpleRing D]
+    (c : isotypicComponents D E) : compSimple D c ≤ c.1 :=
+  haveI : IsSemisimpleModule D E := IsSemisimpleRing.isSemisimpleModule
+  ((IsSemisimpleModule.eq_bot_or_exists_simple_le (c.1 : Submodule D E)).resolve_left
+    (bot_lt_isotypicComponents c.2).ne').choose_spec.1
+
+variable {k E} in
+omit [Module.Finite k E] in
+private instance compSimple_isSimple
+    (D : Subalgebra k (Module.End k E)) [IsSemisimpleRing D]
+    (c : isotypicComponents D E) : IsSimpleModule D (compSimple D c) :=
+  haveI : IsSemisimpleModule D E := IsSemisimpleRing.isSemisimpleModule
+  ((IsSemisimpleModule.eq_bot_or_exists_simple_le (c.1 : Submodule D E)).resolve_left
+    (bot_lt_isotypicComponents c.2).ne').choose_spec.2
+
+variable {k E} in
+omit [Module.Finite k E] in
+private theorem compSimple_component
+    (D : Subalgebra k (Module.End k E)) [IsSemisimpleRing D]
+    (c : isotypicComponents D E) :
+    (c.1 : Submodule D E) = isotypicComponent D E (compSimple D c) :=
+  haveI : IsSemisimpleModule D E := IsSemisimpleRing.isSemisimpleModule
+  eq_isotypicComponent_of_le c.2 (compSimple_le D c)
+
+/-- **Generic realization map.** For a semisimple subalgebra `D ⊆ End_k(E)`
+acting faithfully on the finite-dimensional space `E` over an algebraically
+closed field, send an isotypic component `c` over `D` to the isotypic component
+over `centralizer D` carrying `Hom_D(V_c, E)` (`V_c ≤ c` the chosen simple
+submodule). This is the component-level shadow of `V ↦ Hom_D(V, E)`. -/
+noncomputable def homRealizationComponent
+    (D : Subalgebra k (Module.End k E)) [IsSemisimpleRing D] [IsAlgClosed k]
+    (c : isotypicComponents D E) :
+    isotypicComponents (Subalgebra.centralizer k (D : Set (Module.End k E))) E :=
+  haveI : IsSemisimpleRing (Subalgebra.centralizer k (D : Set (Module.End k E))) :=
+    Theorem5_18_1_commutant_semisimple k E D
+  haveI : IsSemisimpleModule (Subalgebra.centralizer k (D : Set (Module.End k E))) E :=
+    IsSemisimpleRing.isSemisimpleModule
+  haveI : IsSimpleModule (Subalgebra.centralizer k (D : Set (Module.End k E)))
+      (↥(compSimple D c) →ₗ[D] E) := isSimpleModule_homA_centralizer k E D (compSimple D c)
+  ⟨isotypicComponent (Subalgebra.centralizer k (D : Set (Module.End k E))) E
+      (exists_simpleSubmodule_iso_of_faithful k E
+        (Subalgebra.centralizer k (D : Set (Module.End k E)))
+        (↥(compSimple D c) →ₗ[D] E)).choose,
+    ⟨(exists_simpleSubmodule_iso_of_faithful k E
+        (Subalgebra.centralizer k (D : Set (Module.End k E)))
+        (↥(compSimple D c) →ₗ[D] E)).choose,
+      (exists_simpleSubmodule_iso_of_faithful k E
+        (Subalgebra.centralizer k (D : Set (Module.End k E)))
+        (↥(compSimple D c) →ₗ[D] E)).choose_spec.1, rfl⟩⟩
+
+/-- The generic realization map is injective: distinct isotypic components over
+`D` map to distinct components over `centralizer D`. The proof runs the biduality
+bridge `multiplicitySpace_biduality_Aiso` backwards — equal target components
+force `Hom_D(V_c, E) ≃ Hom_D(V_{c'}, E)`, hence `V_c ≃ V_{c'}`, hence `c = c'`. -/
+theorem homRealizationComponent_injective
+    (D : Subalgebra k (Module.End k E)) [IsSemisimpleRing D] [IsAlgClosed k] :
+    Function.Injective (homRealizationComponent k E D) := by
+  classical
+  haveI : IsSemisimpleModule D E := IsSemisimpleRing.isSemisimpleModule
+  haveI hCss : IsSemisimpleRing (Subalgebra.centralizer k (D : Set (Module.End k E))) :=
+    Theorem5_18_1_commutant_semisimple k E D
+  haveI : IsSemisimpleModule (Subalgebra.centralizer k (D : Set (Module.End k E))) E :=
+    IsSemisimpleRing.isSemisimpleModule
+  intro c c' hcc
+  haveI : IsSimpleModule (Subalgebra.centralizer k (D : Set (Module.End k E)))
+      (↥(compSimple D c) →ₗ[D] E) := isSimpleModule_homA_centralizer k E D (compSimple D c)
+  haveI : IsSimpleModule (Subalgebra.centralizer k (D : Set (Module.End k E)))
+      (↥(compSimple D c') →ₗ[D] E) := isSimpleModule_homA_centralizer k E D (compSimple D c')
+  -- Unfold the two realizations `W`, `W'` and their defining specs.
+  set W := (exists_simpleSubmodule_iso_of_faithful k E
+      (Subalgebra.centralizer k (D : Set (Module.End k E)))
+      (↥(compSimple D c) →ₗ[D] E)).choose with hWdef
+  set W' := (exists_simpleSubmodule_iso_of_faithful k E
+      (Subalgebra.centralizer k (D : Set (Module.End k E)))
+      (↥(compSimple D c') →ₗ[D] E)).choose with hW'def
+  obtain ⟨hWsimple, ⟨eMW⟩⟩ := (exists_simpleSubmodule_iso_of_faithful k E
+      (Subalgebra.centralizer k (D : Set (Module.End k E)))
+      (↥(compSimple D c) →ₗ[D] E)).choose_spec
+  obtain ⟨hW'simple, ⟨eMW'⟩⟩ := (exists_simpleSubmodule_iso_of_faithful k E
+      (Subalgebra.centralizer k (D : Set (Module.End k E)))
+      (↥(compSimple D c') →ₗ[D] E)).choose_spec
+  haveI := hWsimple
+  haveI := hW'simple
+  -- `hcc` says the two chosen components coincide.
+  have hcomp : isotypicComponent (Subalgebra.centralizer k (D : Set (Module.End k E))) E W =
+      isotypicComponent (Subalgebra.centralizer k (D : Set (Module.End k E))) E W' :=
+    congrArg (fun x => (x.1 : Submodule _ E)) hcc
+  -- `W ≃ W'` over `centralizer D`: both simple submodules of a shared component.
+  have hWle : W ≤ isotypicComponent (Subalgebra.centralizer k (D : Set (Module.End k E))) E W :=
+    Submodule.le_isotypicComponent W
+  have hW'le : W' ≤ isotypicComponent (Subalgebra.centralizer k (D : Set (Module.End k E))) E W :=
+    hcomp ▸ Submodule.le_isotypicComponent W'
+  obtain ⟨eWc⟩ := isIsotypicOfType_submodule_iff.mp
+    (IsIsotypicOfType.isotypicComponent (Subalgebra.centralizer k (D : Set (Module.End k E))) E W)
+    W hWle
+  obtain ⟨eW'c⟩ := isIsotypicOfType_submodule_iff.mp
+    (IsIsotypicOfType.isotypicComponent (Subalgebra.centralizer k (D : Set (Module.End k E))) E W)
+    W' hW'le
+  -- Assemble `Hom_D(V_c, E) ≃ Hom_D(V_{c'}, E)` over `centralizer D`.
+  have hMM : Nonempty ((↥(compSimple D c) →ₗ[D] E)
+      ≃ₗ[Subalgebra.centralizer k (D : Set (Module.End k E))] (↥(compSimple D c') →ₗ[D] E)) :=
+    ⟨eMW.trans (eWc.trans (eW'c.symm.trans eMW'.symm))⟩
+  -- Biduality: `V_c ≃ V_{c'}` over `D`.
+  obtain ⟨eVV⟩ := multiplicitySpace_biduality_Aiso k E D (compSimple D c) (compSimple D c') hMM
+  -- Equal `D`-isotypic components ⟹ `c = c'`.
+  have hDcomp : isotypicComponent D E (compSimple D c) = isotypicComponent D E (compSimple D c') :=
+    eVV.isotypicComponent_eq
+  have hc1 : (c.1 : Submodule D E) = c'.1 := by
+    rw [compSimple_component D c, compSimple_component D c', hDcomp]
+  exact Subtype.ext hc1
+
 end Etingof
