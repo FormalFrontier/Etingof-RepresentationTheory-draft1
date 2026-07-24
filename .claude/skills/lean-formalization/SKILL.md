@@ -151,10 +151,19 @@ uses defeq, unlike `rw`'s syntactic match) or replace the rewrite with the defeq
 **`Subrepresentation.mem_ofSubmodule'_iff` (and kin) fail to synthesize `Module k
 (Representation.asModule ρ)`** — the derived `Module k (asModule ρ)` instance cannot be found
 while `ρ` is still a metavariable during application, and a local `haveI` does NOT help. Fix:
-pin the section variable, `(Subrepresentation.mem_ofSubmodule'_iff (ρ := V.ρ)).mpr h`. When
-closing a `⊥`-membership goal whose element is typed at the `asModule` synonym, prefer
-`rw [Submodule.mem_bot]; exact h` over `simpa using h` (`simpa`'s final `exact` runs at reducible
-transparency and will not unfold `asModule`, giving a `↑V.V` vs `asModule V.ρ` type mismatch).
+pin the section variable, `(Subrepresentation.mem_ofSubmodule'_iff (ρ := V.ρ)).mpr h` — but note
+that in the `.mp` direction toward a goal `u ∈ N` (N over `asModule`), even a pinned `ρ` can still
+trip the `Module k asModule` synthesis; since `mem_ofSubmodule'_iff` is `Iff.rfl`, just
+`exact h` (the two memberships are defeq, closed at default transparency, no lemma-instance
+synthesis). When the element is typed at the `asModule` synonym, `rw [Submodule.mem_bot]` can fail
+outright — not just `simpa` — because the membership carries a mismatched element-type index
+(`@Membership.mem asModule (Submodule k V) … ⊥ w`); use `(Submodule.mem_bot k).mp h` instead
+(`.mp` elaborates up to defeq). Symmetrically, `Submodule.mem_top` reads its carrier `M` from the
+element's `asModule` type and fails the same synthesis — pin it, `Submodule.mem_top (R := k) (M := V)`.
+Separately, `is_simple_module_of_finrank_eq_one` on a trivial/`asModule` target fails to synthesize
+`IsScalarTower k k[G] asModule` when `Module.finrank_self k` pins `Module k V` to the wrong instance;
+pass `(K := k) (A := k[G]) (V := ρ.asModule)` explicitly and discharge `finrank = 1` via
+`ρ.asModuleEquiv.finrank_eq` (precedent: `Chapter5/Theorem5_4_6.lean`, `Chapter6/Problem6_1_6.lean`).
 
 **`letI : AddCommGroup P := addCommGroupOfRing …` on a parent type `P` SHADOWS and breaks
 `Module R P` synthesis** (v4.31/v4.32 regression; cost ~10 iterations in #7509,
