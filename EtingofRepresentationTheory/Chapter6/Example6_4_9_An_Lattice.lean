@@ -153,4 +153,71 @@ lemma fromLat_toLat (c : Fin n → ℤ) : fromLat n (toLat n c) = c := by
   rw [Finset.sum_ite_eq']
   simp
 
+/-- Round-trip: a sum-zero vector is `toLat` of its coordinates.
+This is the spanning half of the basis; it uses the sum-zero condition. -/
+lemma toLat_fromLat {x : Fin (n + 1) → ℤ} (hx : x ∈ sumZeroLattice n) :
+    toLat n (fromLat n x) = x := by
+  have hsum : ∑ i, x i = 0 := (mem_sumZeroLattice n).mp hx
+  set S : ℕ → ℤ :=
+    fun m => ∑ j ∈ Finset.univ.filter (fun j : Fin (n + 1) => j.val ≤ m), x j with hS
+  have hPf : ∀ (m : ℕ) (hm : m < n), fromLat n x ⟨m, hm⟩ = S m := by
+    intro m hm; rw [fromLat_apply]
+  have hzero : S 0 = x ⟨0, by omega⟩ := by
+    simp only [hS]
+    rw [show Finset.univ.filter (fun j : Fin (n + 1) => j.val ≤ 0)
+          = {(⟨0, by omega⟩ : Fin (n + 1))} from ?_]
+    · rw [Finset.sum_singleton]
+    · ext j; simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_singleton]
+      constructor
+      · intro h; exact Fin.ext (show j.val = 0 by omega)
+      · intro h; rw [h]
+  -- Prefix-sum recurrence, stated at a fixed `Fin` index to avoid dependent rewrites.
+  have hstepFin : ∀ (i : Fin (n + 1)), 0 < i.val → S i.val = S (i.val - 1) + x i := by
+    intro i hi; simp only [hS]
+    rw [show Finset.univ.filter (fun j : Fin (n + 1) => j.val ≤ i.val)
+          = insert i (Finset.univ.filter (fun j : Fin (n + 1) => j.val ≤ i.val - 1)) from ?_]
+    · rw [Finset.sum_insert (by
+        simp only [Finset.mem_filter, Finset.mem_univ, true_and]; omega)]
+      ring
+    · ext j; simp only [Finset.mem_insert, Finset.mem_filter, Finset.mem_univ, true_and]
+      constructor
+      · intro h
+        by_cases hji : j.val ≤ i.val - 1
+        · exact Or.inr hji
+        · exact Or.inl (Fin.ext (by omega))
+      · rintro (rfl | h) <;> omega
+  have hfull : S n = 0 := by
+    simp only [hS]
+    rw [show Finset.univ.filter (fun j : Fin (n + 1) => j.val ≤ n) = Finset.univ from ?_]
+    · rw [← hsum]
+    · ext j; simp only [Finset.mem_filter, Finset.mem_univ, true_and, iff_true]
+      exact Nat.lt_succ_iff.mp j.isLt
+  funext k
+  rw [toLat_apply_coord]
+  by_cases hk : k.val < n
+  · rw [dif_pos hk, hPf k.val hk]
+    by_cases hk0 : 0 < k.val
+    · rw [dif_pos hk0, hPf (k.val - 1) (by omega)]
+      have hst := hstepFin k (by omega)
+      rw [hst, add_sub_cancel_left]
+    · rw [dif_neg hk0]
+      have hk0' : k.val = 0 := by omega
+      rw [hk0', sub_zero, hzero]
+      congr 1; exact Fin.ext hk0'.symm
+  · rw [dif_neg hk]
+    have hkn : k.val = n := by omega
+    by_cases hn0 : 0 < n
+    · rw [dif_pos (by omega : 0 < k.val), hPf (k.val - 1) (by omega)]
+      have hst := hstepFin k (by omega)
+      have hSk : S k.val = 0 := by rw [hkn]; exact hfull
+      rw [hSk] at hst
+      -- hst : 0 = S (k.val - 1) + x k ; goal : 0 - S (k.val - 1) = x k
+      linarith [hst]
+    · rw [dif_neg (by omega : ¬ 0 < k.val), sub_zero]
+      have hn : n = 0 := by omega
+      have hx0 : x ⟨0, by omega⟩ = 0 := by
+        have hf := hfull; rw [hn] at hf; rw [hzero] at hf; exact hf
+      rw [show k = ⟨0, by omega⟩ from Fin.ext (show k.val = 0 by omega)]
+      exact hx0.symm
+
 end Etingof.An
