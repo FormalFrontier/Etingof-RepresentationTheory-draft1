@@ -86,6 +86,16 @@ pointwise `Finsupp` product available under `import Mathlib`). -/
 private noncomputable def gmul {K : Type*} [Group K] (x y : K →₀ ℂ) : K →₀ ℂ :=
   LinearMap.mul ℂ (MonoidAlgebra ℂ K) x y
 
+/-- The convolution product as a genuine `Finsupp`-typed bilinear map. Ascribing the honest
+`K →₀ ℂ` domains (definitionally `MonoidAlgebra ℂ K`) lets `map_add`/`map_smul` fire without
+crossing the `MonoidAlgebra`/`Finsupp` transparency boundary. -/
+private noncomputable def gmulBilin {K : Type*} [Group K] :
+    (K →₀ ℂ) →ₗ[ℂ] (K →₀ ℂ) →ₗ[ℂ] (K →₀ ℂ) :=
+  LinearMap.mul ℂ (MonoidAlgebra ℂ K)
+
+private theorem gmul_eq_bilin {K : Type*} [Group K] (x y : K →₀ ℂ) :
+    gmul x y = gmulBilin x y := rfl
+
 private theorem gmul_single {K : Type*} [Group K] (a b : K) (r s : ℂ) :
     gmul (Finsupp.single a r) (Finsupp.single b s) = Finsupp.single (a * b) (r * s) := by
   simp only [gmul, LinearMap.mul_apply']
@@ -101,15 +111,15 @@ private theorem gmul_one_left {K : Type*} [Group K] (x : K →₀ ℂ) :
 
 private theorem gmul_add_left {K : Type*} [Group K] (x y z : K →₀ ℂ) :
     gmul (x + y) z = gmul x z + gmul y z := by
-  simp only [gmul, LinearMap.mul_apply']; rw [add_mul]
+  simp only [gmul_eq_bilin, map_add, LinearMap.add_apply]
 
 private theorem gmul_add_right {K : Type*} [Group K] (x y z : K →₀ ℂ) :
     gmul x (y + z) = gmul x y + gmul x z := by
-  simp only [gmul, LinearMap.mul_apply']; rw [mul_add]
+  simp only [gmul_eq_bilin, map_add]
 
 private theorem gmul_smul_left {K : Type*} [Group K] (c : ℂ) (x y : K →₀ ℂ) :
     gmul (c • x) y = c • gmul x y := by
-  simp only [gmul, LinearMap.mul_apply']; rw [smul_mul_assoc]
+  simp only [gmul_eq_bilin, map_smul, LinearMap.smul_apply]
 
 /-- Left multiplication by `x`, as a linear map (`Finsupp`-typed). -/
 private noncomputable def gmulLeftMap {K : Type*} [Group K] (x : K →₀ ℂ) :
@@ -140,8 +150,8 @@ private theorem psiStar_gmul (x y : H →₀ ℂ) :
 /-- `leftRegular` acts by left multiplication in the group algebra. -/
 private theorem leftRegular_gmul {K : Type*} [Group K] (g : K) (b : K →₀ ℂ) :
     Representation.leftRegular ℂ K g b = gmul (Finsupp.single g 1) b := by
-  induction b using MonoidAlgebra.induction_linear with
-  | zero => simp [gmul]
+  induction b using Finsupp.induction_linear with
+  | zero => simp [gmul_eq_bilin]
   | add x y hx hy => rw [map_add, hx, hy, gmul_add_right]
   | single x r =>
     rw [Representation.ofMulAction_single, gmul_single, one_mul, smul_eq_mul]
@@ -149,8 +159,8 @@ private theorem leftRegular_gmul {K : Type*} [Group K] (g : K) (b : K →₀ ℂ
 /-- `lmapDomain (· * g)` is right multiplication by `single g 1`. -/
 private theorem lmapDomain_gmul {K : Type*} [Group K] (g : K) (a : K →₀ ℂ) :
     Finsupp.lmapDomain ℂ ℂ (· * g) a = gmul a (Finsupp.single g 1) := by
-  induction a using MonoidAlgebra.induction_linear with
-  | zero => simp [gmul]
+  induction a using Finsupp.induction_linear with
+  | zero => simp [gmul_eq_bilin]
   | add x y hx hy => rw [map_add, hx, hy, gmul_add_left]
   | single x r =>
     rw [Finsupp.lmapDomain_apply, Finsupp.mapDomain_single, gmul_single, mul_one]
@@ -420,7 +430,12 @@ theorem ind_ind_iso_ind
     rfl
   refine ⟨e1.trans relabelLE, ?_⟩
   intro g x
-  simp only [LinearEquiv.trans_apply, Etingof.Definition5_8_1]
+  -- Unfold the `Definition5_8_1` wrappers to the underlying `Representation.ind` (definitionally
+  -- equal) so that `he1` and `stepB` apply syntactically; unfolding via `simp` leaves an ill-typed
+  -- instance argument, so restate the goal with `change` instead.
+  change relabelLE (e1 (Representation.ind H.subtype
+        (Representation.ind (K.subgroupOf H).subtype (indStagesInnerRep H K hKH ρ)) g x))
+      = Representation.ind K.subtype ρ g (relabelLE (e1 x))
   rw [he1, stepB]
 
 end Problem584
