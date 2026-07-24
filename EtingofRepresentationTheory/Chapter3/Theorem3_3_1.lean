@@ -4,6 +4,8 @@ import Mathlib.RingTheory.Artinian.Module
 import Mathlib.LinearAlgebra.Matrix.ToLin
 import Mathlib.LinearAlgebra.Matrix.Module
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+import Mathlib.Algebra.DirectSum.Module
+import Mathlib.LinearAlgebra.Dual.Lemmas
 
 /-!
 # Theorem 3.3.1: Irreducible Representations of Direct Sums of Matrix Algebras
@@ -19,6 +21,8 @@ algebras are exactly the irreducible representations of the individual factors.
 -/
 
 open Matrix.Module Finset
+
+open scoped DirectSum
 
 private theorem matrix_single_smul_vec {k : Type*} [Field k] {d : ℕ}
     (j i : Fin d) (c : k) (v : Fin d → k) :
@@ -245,4 +249,101 @@ theorem Etingof.irreducible_reps_of_matrix_algebra :
   ⟨isSimpleModule_vModuleProd, fun W => exists_iso_vModuleProd W,
     isSemisimpleModule_of_matrixProd⟩
 
+/-! ## Regular-module decomposition `A ≅ ⊕ᵢ dᵢ Vᵢ`
+
+The book's proof of Theorem 3.3.1 uses the identity `Mat_{dᵢ}(k) = dᵢ Vᵢ`, hence
+`A = ⊕ᵢ dᵢ Vᵢ` and `Aⁿ = ⊕ᵢ (n dᵢ) Vᵢ` as representations of `A`. Concretely, viewing the
+left regular module `A = ⊕ᵢ Mat_{dᵢ}(k)` over itself, within the `i`-th matrix factor the
+`dᵢ` columns each span a copy of the standard representation `Vᵢ = k^{dᵢ}`, and the columns
+transform independently under left multiplication. -/
+
+/-- The `A`-linear map extracting the `c`-th column of the `i`-th matrix factor:
+`M ↦ (fun j => (M i) j c)`, landing in `Vᵢ = k^{dᵢ}`. This is the single-factor,
+single-column building block of the regular decomposition; it is `A`-linear because within
+the `i`-th factor, left multiplication acts columnwise by `mulVec`. -/
+def colVec (i : Fin r) (c : Fin (d i)) :
+    MatProd k d →ₗ[MatProd k d] (Fin (d i) → k) where
+  toFun M := fun j => M i j c
+  map_add' M N := by funext j; simp
+  map_smul' N M := by
+    funext j
+    rw [RingHom.id_apply, vModuleProd_smul, Matrix.Module.smul_apply, smul_eq_mul, Pi.mul_apply,
+      Matrix.mul_apply]
+    simp [smul_eq_mul]
+
+/-- The columns of the `i`-th matrix factor, packaged as an `A`-linear map into
+`Fin (dᵢ) → Vᵢ`. -/
+def colMap (i : Fin r) : MatProd k d →ₗ[MatProd k d] (Fin (d i) → (Fin (d i) → k)) :=
+  LinearMap.pi fun c => colVec i c
+
+/-- **Regular-module decomposition** (`A ≅ ⊕ᵢ dᵢ Vᵢ`). As a module over itself,
+`A = ⊕ᵢ Mat_{dᵢ}(k)` is isomorphic to `⊕ᵢ dᵢ Vᵢ`, realized as the direct sum
+`⨁ i, (Fin (dᵢ) → Vᵢ)` (each `Fin (dᵢ) → Vᵢ` is `dᵢ` copies of `Vᵢ = k^{dᵢ}`, with `A`
+acting through its `i`-th projection). The isomorphism sends a tuple of matrices to its
+columns, `M ↦ fun i c j => (M i) j c`, packaged in the direct sum.
+
+The direct-sum target (rather than the product `∀ i, …`) is deliberate: it matches the
+ambient of `Etingof.subrepresentation_of_semisimple` (Proposition 3.1.4) and avoids the
+`Pi.module'` instance (product ring acting factorwise), which would otherwise supply a
+different, column-mixing action on `∀ i, Fin (dᵢ) → Fin (dᵢ) → k`. -/
+noncomputable def regularDecomp :
+    MatProd k d ≃ₗ[MatProd k d] (⨁ i, (Fin (d i) → (Fin (d i) → k))) :=
+  (LinearEquiv.ofBijective (LinearMap.pi colMap)
+      (Function.bijective_iff_has_inverse.mpr
+        ⟨fun w i j c => w i c j, fun _ => rfl, fun _ => rfl⟩)).trans
+    (DirectSum.linearEquivFunOnFintype (MatProd k d) (Fin r)
+      (fun i => Fin (d i) → (Fin (d i) → k))).symm
+
+@[simp] theorem regularDecomp_apply (M : MatProd k d) (i : Fin r) (c j : Fin (d i)) :
+    regularDecomp M i c j = M i j c := rfl
+
 end Product
+
+/-! ## Transpose self-duality and the dual-of-surjection bridge
+
+Two further ingredients of the book's proof of Theorem 3.3.1:
+
+* the matrix transpose realizes `Mat_d(k) ≅ Mat_d(k)ᵒᵖ`, hence `A ≅ Aᵒᵖ`, which is what lets
+  the `k`-dual `X*` (a priori an `Aᵒᵖ`-module) be viewed as an `A`-module;
+* the `k`-dual of a surjection is an injection, which turns the surjection `Aⁿ ↠ X*` into the
+  injection `X ↪ Aⁿ*`.
+-/
+
+section Duality
+
+variable {k : Type*} [Field k]
+
+/-- **Transpose self-duality of a matrix algebra.** `Matrix.transpose` realizes
+`Mat_d(k) ≅ Mat_d(k)ᵐᵒᵖ` as `k`-algebras (equivalently `Mat_d(k)ᵒᵖ ≅ Mat_d(k)`), since
+`(BC)ᵀ = CᵀBᵀ`. This is the isomorphism `A ≅ Aᵒᵖ` used in the proof of Theorem 3.3.1 to
+turn the dual `X*` (a priori an `Aᵒᵖ`-module) into an `A`-module. -/
+abbrev matrixTransposeSelfDuality (k : Type*) [Field k] (D : ℕ) :
+    Matrix (Fin D) (Fin D) k ≃ₐ[k] (Matrix (Fin D) (Fin D) k)ᵐᵒᵖ :=
+  Matrix.transposeAlgEquiv (Fin D) k k
+
+/-- The opposite of a finite product of rings is the product of the opposites. -/
+def piMulOppositeRingEquiv {ι : Type*} (R : ι → Type*) [∀ i, Semiring (R i)] :
+    (∀ i, (R i)ᵐᵒᵖ) ≃+* (∀ i, R i)ᵐᵒᵖ where
+  toFun f := MulOpposite.op fun i => (f i).unop
+  invFun g := fun i => MulOpposite.op ((MulOpposite.unop g) i)
+  left_inv f := by funext i; simp
+  right_inv g := by simp
+  map_mul' f g := MulOpposite.unop_injective <| funext fun i => by simp [MulOpposite.unop_mul]
+  map_add' f g := MulOpposite.unop_injective <| funext fun i => by simp
+
+/-- **Transpose self-duality of `A = ⊕ᵢ Mat_{dᵢ}(k)`**: `A ≅ Aᵐᵒᵖ` as rings, applying the
+matrix transpose factorwise. -/
+def matProdTransposeSelfDuality {r : ℕ} (d : Fin r → ℕ) :
+    MatProd k d ≃+* (MatProd k d)ᵐᵒᵖ :=
+  (RingEquiv.piCongrRight fun i => Matrix.transposeRingEquiv (Fin (d i)) k).trans
+    (piMulOppositeRingEquiv _)
+
+/-- **Dual of a surjection is an injection.** If `φ : M → N` is a surjective `k`-linear map,
+its transpose `φ.dualMap : N* → M*` is injective. This is the step in the proof of Theorem
+3.3.1 turning the surjection `Aⁿ ↠ X*` into the injection `X ↪ Aⁿ*`. -/
+theorem dualMap_injective_of_surjective {M N : Type*} [AddCommGroup M] [Module k M]
+    [AddCommGroup N] [Module k N] {φ : M →ₗ[k] N} (hφ : Function.Surjective φ) :
+    Function.Injective φ.dualMap :=
+  LinearMap.dualMap_injective_of_surjective hφ
+
+end Duality

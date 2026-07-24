@@ -8,6 +8,7 @@ import EtingofRepresentationTheory.Chapter3.Corollary3_2_1
 import EtingofRepresentationTheory.Chapter3.Theorem3_2_2
 import EtingofRepresentationTheory.Chapter3.Definition3_3_2
 import EtingofRepresentationTheory.Chapter3.Theorem3_3_1
+import EtingofRepresentationTheory.Chapter3.Theorem3_3_1_Test
 import EtingofRepresentationTheory.Chapter3.Problem3_3_3
 import EtingofRepresentationTheory.Chapter3.Remark3_3_4
 import EtingofRepresentationTheory.Chapter3.Definition3_4_1
