@@ -757,7 +757,14 @@ theorem mckayCartan_not_posDef (hW : IsCompleteIrreps W) (hne : Nontrivial G) :
   haveI htrivsimple : Simple (FDRep.of (Representation.trivial ℂ G ℂ)) := by
     haveI : IsSimpleModule (MonoidAlgebra ℂ G) (Representation.trivial ℂ G ℂ).asModule := by
       rw [isSimpleModule_iff]
-      exact is_simple_module_of_finrank_eq_one (Module.finrank_self ℂ)
+      -- Fix `V := asModule` explicitly and prove `finrank ℂ = 1` through `asModuleEquiv`,
+      -- so the canonical (transferred) `Module ℂ asModule` is used consistently with the
+      -- `IsScalarTower ℂ ℂ[G] asModule` instance. Passing `Module.finrank_self ℂ` directly
+      -- pins `Module ℂ V` to `Complex.instModule`, which no longer matches the scalar-tower
+      -- instance (defined with reduced transparency) and fails synthesis.
+      refine is_simple_module_of_finrank_eq_one (K := ℂ) (A := MonoidAlgebra ℂ G)
+        (V := (Representation.trivial ℂ G ℂ).asModule) ?_
+      rw [(Representation.trivial ℂ G ℂ).asModuleEquiv.finrank_eq, Module.finrank_self]
     infer_instance
   obtain ⟨i₀, ⟨iso₀⟩⟩ := hW.exhaustive (FDRep.of (Representation.trivial ℂ G ℂ)) htrivsimple
   -- `dim W i₀ = 1`
@@ -858,11 +865,11 @@ lemma finrank_invariants_V_eq_zero (hne : Nontrivial G) :
     obtain ⟨g, hg⟩ := exists_ne (1 : G)
     set A : Matrix (Fin 2) (Fin 2) ℂ :=
       ((g.val : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) with hA
-    have hgv : A *ᵥ v = v := by
-      have h := hv g
-      simp only [V, FDRep.of_ρ'] at h
-      rw [show tautRep G g = Matrix.toLin' A from rfl, Matrix.toLin'_apply] at h
-      exact h
+    -- `(V G).ρ g v` is defeq to `Matrix.toLin' A v = A *ᵥ v`; chain through the
+    -- defeq with `Eq.trans` (which unfolds at default transparency) rather than a
+    -- `rw [show … from rfl]`, whose pattern match runs at `instances` transparency
+    -- and no longer aligns the `FDRep.of`-derived instances.
+    have hgv : A *ᵥ v = v := (Matrix.toLin'_apply A v).symm.trans (hv g)
     have hker : (A - 1) *ᵥ v = 0 := by
       rw [Matrix.sub_mulVec, Matrix.one_mulVec, hgv, sub_self]
     have hdet0 : (A - 1).det = 0 :=
@@ -1091,16 +1098,25 @@ private lemma exists_eigen_character_of_not_simple
     obtain ⟨w, hwN, hw0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hNb
     intro hbot
     have hwP : w ∈ P := (Subrepresentation.mem_ofSubmodule'_iff).mpr hwN
-    rw [hbot, Submodule.mem_bot] at hwP
-    exact hw0 hwP
+    rw [hbot] at hwP
+    -- `w : (tautRep G).asModule` but `P : Submodule ℂ (Fin 2 → ℂ)`, so the membership
+    -- carries a mismatched element-type index that blocks a `Submodule.mem_bot` rewrite;
+    -- use `.mp` (elaborated up to defeq) instead.
+    exact hw0 ((Submodule.mem_bot ℂ).mp hwP)
   obtain ⟨v₀, hv0P, hv0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hPbot
   have hPtop : P ≠ ⊤ := by
     intro htop
     apply hNt
     rw [eq_top_iff]
     intro u _
-    have huP : u ∈ P := by rw [htop]; exact Submodule.mem_top
-    exact (Subrepresentation.mem_ofSubmodule'_iff).mp huP
+    -- `u : (tautRep G).asModule`; pin `M := Fin 2 → ℂ` so `Submodule.mem_top`
+    -- reads its module carrier from `P` rather than from `u`'s `asModule` type
+    -- (whose `Module ℂ` instance the elaborator otherwise fails to find here).
+    have huP : u ∈ P := by rw [htop]; exact Submodule.mem_top (R := ℂ) (M := Fin 2 → ℂ)
+    -- `u ∈ P` and `u ∈ N` are defeq (`mem_ofSubmodule'_iff` is `Iff.rfl`); close by
+    -- `exact` to avoid the lemma's implicit-argument synthesis picking up an
+    -- unresolvable `Module ℂ (tautRep G).asModule` metavariable in this context.
+    exact huP
   -- `P` is one-dimensional: proper (`≠ ⊤`) and nonzero (`v₀`) in the `2`-dimensional `ℂ²`.
   have hspanle : Submodule.span ℂ {v₀} ≤ P := by
     rw [Submodule.span_le, Set.singleton_subset_iff]; exact hv0P
@@ -1428,8 +1444,10 @@ lemma mckayAdj_no_selfLoop (hW : IsCompleteIrreps W) (hm : 3 ≤ m) (hne : Nontr
     have hzval : (z.val : specialUnitaryGroup (Fin 2) ℂ) = negIdSU := rfl
     have hzV : ∀ v, (V G).ρ z v = -v := by
       intro v
-      have h := tautRep_negId z hzval v
-      simpa only [V, FDRep.of_ρ'] using h
+      -- `(V G).ρ z v` is defeq to `(tautRep G) z v`; close by `exact` (default
+      -- transparency) rather than `simpa`, whose rewritten goal keeps the
+      -- `FGModuleCat.of` carrier and no longer matches `h`'s `Fin 2 → ℂ` carrier.
+      exact tautRep_negId z hzval v
     exact mckayAdj_no_selfLoop_of_central_neg W hW z hz_central hzV i
 
 /-- **(c)** Off-diagonal multiplicities are at most `1` (single edges): for `i ≠ j`
