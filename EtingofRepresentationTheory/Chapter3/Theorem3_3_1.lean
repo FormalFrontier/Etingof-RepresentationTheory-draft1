@@ -6,6 +6,7 @@ import Mathlib.LinearAlgebra.Matrix.Module
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Algebra.DirectSum.Module
 import Mathlib.LinearAlgebra.Dual.Lemmas
+import Mathlib.LinearAlgebra.Matrix.Trace
 
 /-!
 # Theorem 3.3.1: Irreducible Representations of Direct Sums of Matrix Algebras
@@ -249,6 +250,26 @@ theorem Etingof.irreducible_reps_of_matrix_algebra :
   ⟨isSimpleModule_vModuleProd, fun W => exists_iso_vModuleProd W,
     isSemisimpleModule_of_matrixProd⟩
 
+/-- **Pairwise non-isomorphism of the standard representations.** The `Vᵢ = k^{dᵢ}` are
+pairwise non-isomorphic as `A`-modules: the central idempotent `eᵢ = Pi.single i 1` acts as
+the identity on `Vᵢ` but as zero on `Vⱼ` for `j ≠ i`, so an `A`-linear isomorphism
+`Vᵢ ≃ₗ[A] Vⱼ` forces `i = j`. This is the `hd` hypothesis needed to invoke Proposition
+3.1.4 in the dual-route proof of Theorem 3.3.1. -/
+theorem vModuleProd_iso_imp_eq {i j : Fin r}
+    (h : Nonempty ((Fin (d i) → k) ≃ₗ[MatProd k d] (Fin (d j) → k))) : i = j := by
+  obtain ⟨φ⟩ := h
+  by_contra hij
+  obtain ⟨v, hv⟩ := exists_ne (0 : Fin (d i) → k)
+  have hVi : (Pi.single i 1 : MatProd k d) • v = v := by
+    rw [vModuleProd_smul, Pi.single_eq_same, one_smul]
+  have hVj : (Pi.single i 1 : MatProd k d) • φ v = 0 := by
+    rw [vModuleProd_smul, Pi.single_eq_of_ne (Ne.symm hij), zero_smul]
+  have hz : φ v = 0 := by
+    have h1 := map_smul φ (Pi.single i 1 : MatProd k d) v
+    rw [hVi, hVj] at h1
+    exact h1
+  exact hv (φ.injective (by rw [hz, map_zero]))
+
 /-! ## Regular-module decomposition `A ≅ ⊕ᵢ dᵢ Vᵢ`
 
 The book's proof of Theorem 3.3.1 uses the identity `Mat_{dᵢ}(k) = dᵢ Vᵢ`, hence
@@ -347,3 +368,263 @@ theorem dualMap_injective_of_surjective {M N : Type*} [AddCommGroup M] [Module k
   LinearMap.dualMap_injective_of_surjective hφ
 
 end Duality
+
+/-! ## The transpose-twisted dual module
+
+The `k`-dual `X* = X →ₗ[k] k` of a left `A`-module `X` is naturally a *right* `A`-module.
+Composing with a ring isomorphism `e : A ≃+* Aᵐᵒᵖ` (for `A = ⊕ᵢ Mat_{dᵢ}(k)` this is the
+transpose self-duality `A ≅ Aᵒᵖ`, `matProdTransposeSelfDuality`) turns `X*` into a *left*
+`A`-module via `(a • f) x = f (τ a • x)`, where `τ a = (e a).unop` is the induced
+anti-automorphism of `A`. This is the structure the book uses to regard `X*` as an
+`A`-representation in the proof of Theorem 3.3.1. -/
+
+section TwistedDual
+
+variable {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
+
+/-- Left multiplication by `b : A`, as a `k`-linear endomorphism of a left `A`-module `X`
+(finite over the ground field `k`). `k`-linearity is `SMulCommClass k A X`, which holds
+because `A` is a `k`-algebra. -/
+def lsmulHom (b : A) (X : Type*) [AddCommGroup X] [Module k X] [Module A X]
+    [IsScalarTower k A X] : X →ₗ[k] X where
+  toFun x := b • x
+  map_add' := smul_add b
+  map_smul' c x := (smul_comm c b x).symm
+
+@[simp] theorem lsmulHom_apply (b : A) (X : Type*) [AddCommGroup X] [Module k X] [Module A X]
+    [IsScalarTower k A X] (x : X) : lsmulHom (k := k) b X x = b • x := rfl
+
+variable (e : A ≃+* Aᵐᵒᵖ)
+
+/-- The transpose-twisted left `A`-module structure on the `k`-dual `X* = X →ₗ[k] k` of a
+left `A`-module `X`: `(a • f) x = f (τ a • x)` with `τ a = (e a).unop`. -/
+def twistedDualModule (X : Type*) [AddCommGroup X] [Module k X] [Module A X]
+    [IsScalarTower k A X] : Module A (Module.Dual k X) where
+  smul a f := f ∘ₗ lsmulHom (e a).unop X
+  one_smul f := by
+    ext x
+    change f ((e 1).unop • x) = f x
+    rw [map_one, MulOpposite.unop_one, one_smul]
+  mul_smul a b f := by
+    ext x
+    change f ((e (a * b)).unop • x) = f ((e b).unop • (e a).unop • x)
+    rw [map_mul, MulOpposite.unop_mul, mul_smul]
+  smul_zero a := by ext x; rfl
+  smul_add a f g := by ext x; rfl
+  add_smul a b f := by
+    ext x
+    change f ((e (a + b)).unop • x) = f ((e a).unop • x) + f ((e b).unop • x)
+    rw [map_add, MulOpposite.unop_add, add_smul, map_add]
+  zero_smul f := by
+    ext x
+    change f ((e 0).unop • x) = 0
+    rw [map_zero, MulOpposite.unop_zero, zero_smul, map_zero]
+
+@[simp] theorem twistedDualModule_smul_apply (X : Type*) [AddCommGroup X] [Module k X]
+    [Module A X] [IsScalarTower k A X] (a : A) (f : Module.Dual k X) (x : X) :
+    letI : Module A (Module.Dual k X) := twistedDualModule e X
+    (a • f) x = f ((e a).unop • x) := rfl
+
+/-- With the transpose-twisted action, `X*` is a `k`-`A`-scalar tower, provided `e` is
+`k`-linear on underlying elements (`(e (c • a)).unop = c • (e a).unop`). -/
+theorem twistedDual_isScalarTower (X : Type*) [AddCommGroup X] [Module k X] [Module A X]
+    [IsScalarTower k A X]
+    (he : ∀ (c : k) (a : A), (e (c • a)).unop = c • (e a).unop) :
+    letI : Module A (Module.Dual k X) := twistedDualModule e X
+    IsScalarTower k A (Module.Dual k X) := by
+  letI : Module A (Module.Dual k X) := twistedDualModule e X
+  refine ⟨fun c a f => ?_⟩
+  ext x
+  change f ((e (c • a)).unop • x) = c • f ((e a).unop • x)
+  rw [he, smul_assoc, map_smul]
+
+end TwistedDual
+
+/-! ## Self-duality of the regular module `A ≅ A*`
+
+For `A = ⊕ᵢ Mat_{dᵢ}(k)` the regular representation is self-dual: `A ≅ A*` as left
+`A`-modules, where `A*` carries the transpose-twisted action of the previous section. The
+isomorphism is the (twisted) Frobenius pairing `a ↦ (x ↦ ∑ᵢ tr(aᵢᵀ xᵢ))`; it is `A`-linear
+because `tr((a'ᵢaᵢ)ᵀ xᵢ) = tr(aᵢᵀ (a'ᵢᵀ xᵢ))`, and bijective because the pairing is
+nondegenerate (a dimension count over `k`). Taking `n`-fold sums gives `(Aⁿ)* ≅ Aⁿ`, the
+step "`A^{n*} ≅ A^n` (check it!)" in the book's proof. -/
+
+section DualRoute
+
+open Matrix
+
+variable {k : Type*} [Field k] {r : ℕ} {d : Fin r → ℕ}
+
+/-- The transpose anti-automorphism `τ = (matProdTransposeSelfDuality ·).unop` acts
+factorwise as the matrix transpose. -/
+theorem matProdTransposeSelfDuality_unop (a : MatProd k d) :
+    (matProdTransposeSelfDuality d a).unop = fun i => (a i)ᵀ := rfl
+
+/-- `τ` is `k`-linear on underlying elements: the `he` hypothesis of
+`twistedDual_isScalarTower` for `e = matProdTransposeSelfDuality`. -/
+theorem matProdTransposeSelfDuality_unop_smul (c : k) (a : MatProd k d) :
+    (matProdTransposeSelfDuality d (c • a)).unop = c • (matProdTransposeSelfDuality d a).unop := by
+  rw [matProdTransposeSelfDuality_unop, matProdTransposeSelfDuality_unop]
+  funext i
+  rw [Pi.smul_apply, Pi.smul_apply, Matrix.transpose_smul]
+
+variable {X : Type*} [AddCommGroup X] [Module k X] [Module (MatProd k d) X]
+  [IsScalarTower k (MatProd k d) X]
+
+/-- The transpose-twisted `A`-module structure on the `k`-dual `X*` of any left `A`-module
+`X` (for `A = ⊕ᵢ Mat_{dᵢ}(k)`), via the factorwise transpose anti-automorphism. -/
+local instance instTwistedDual : Module (MatProd k d) (Module.Dual k X) :=
+  twistedDualModule (matProdTransposeSelfDuality d) X
+
+local instance instTwistedDualTower : IsScalarTower k (MatProd k d) (Module.Dual k X) := by
+  refine ⟨fun c a f => ?_⟩
+  refine LinearMap.ext fun x => ?_
+  change f ((matProdTransposeSelfDuality d (c • a)).unop • x)
+       = c • f ((matProdTransposeSelfDuality d a).unop • x)
+  rw [matProdTransposeSelfDuality_unop_smul, smul_assoc, map_smul]
+
+/-- The Frobenius pairing `a ↦ (x ↦ ∑ᵢ tr(aᵢᵀ xᵢ))` as a `k`-linear functional for fixed `a`. -/
+def frobPairing (a : MatProd k d) : Module.Dual k (MatProd k d) where
+  toFun x := ∑ i, Matrix.trace ((a i)ᵀ * x i)
+  map_add' x y := by
+    simp only [Pi.add_apply, Matrix.mul_add, Matrix.trace_add, Finset.sum_add_distrib]
+  map_smul' c x := by
+    simp only [Pi.smul_apply, RingHom.id_apply, mul_smul_comm, Matrix.trace_smul,
+      Finset.smul_sum]
+
+@[simp] theorem frobPairing_apply (a x : MatProd k d) :
+    frobPairing a x = ∑ i, Matrix.trace ((a i)ᵀ * x i) := rfl
+
+/-- The Frobenius pairing packaged as an `A`-linear map `A → A*` (twisted action on `A*`). -/
+def frobHom : MatProd k d →ₗ[MatProd k d] Module.Dual k (MatProd k d) where
+  toFun := frobPairing
+  map_add' a b := by
+    refine LinearMap.ext fun x => ?_
+    simp only [frobPairing_apply, Pi.add_apply, Matrix.transpose_add, Matrix.add_mul,
+      Matrix.trace_add, Finset.sum_add_distrib, LinearMap.add_apply]
+  map_smul' a' a := by
+    refine LinearMap.ext fun x => ?_
+    change (∑ i, Matrix.trace (((a' * a) i)ᵀ * x i))
+         = ∑ i, Matrix.trace ((a i)ᵀ * ((matProdTransposeSelfDuality d a').unop • x) i)
+    refine Finset.sum_congr rfl (fun i _ => ?_)
+    simp only [smul_eq_mul, Pi.mul_apply, matProdTransposeSelfDuality_unop]
+    rw [Matrix.transpose_mul, Matrix.mul_assoc]
+
+@[simp] theorem frobHom_apply (a x : MatProd k d) :
+    frobHom a x = ∑ i, Matrix.trace ((a i)ᵀ * x i) := rfl
+
+theorem frobHom_injective : Function.Injective (frobHom (k := k) (d := d)) := by
+  rw [injective_iff_map_eq_zero]
+  intro a ha
+  funext i
+  ext p q
+  have h0 : frobHom a (Pi.single i (Matrix.single p q 1)) = 0 := by rw [ha]; rfl
+  rw [frobHom_apply, Finset.sum_eq_single i] at h0
+  · rw [Pi.single_eq_same, Matrix.trace_mul_single] at h0
+    simpa [Matrix.transpose_apply] using h0
+  · intro j _ hj
+    rw [Pi.single_eq_of_ne hj, Matrix.mul_zero, Matrix.trace_zero]
+  · intro h; exact absurd (Finset.mem_univ i) h
+
+theorem frobHom_bijective : Function.Bijective (frobHom (k := k) (d := d)) := by
+  refine ⟨frobHom_injective, ?_⟩
+  have hdim : Module.finrank k (MatProd k d)
+      = Module.finrank k (Module.Dual k (MatProd k d)) := Subspace.dual_finrank_eq.symm
+  have hinj : Function.Injective ((frobHom (k := k) (d := d)).restrictScalars k) := by
+    simpa [LinearMap.coe_restrictScalars] using frobHom_injective
+  have hsurj := (LinearMap.injective_iff_surjective_of_finrank_eq_finrank hdim).mp hinj
+  simpa [LinearMap.coe_restrictScalars] using hsurj
+
+/-- **Self-duality of the regular module** (`A ≅ A*`). The Frobenius pairing gives an
+`A`-linear isomorphism from `A = ⊕ᵢ Mat_{dᵢ}(k)` to its transpose-twisted `k`-dual `A*`. -/
+noncomputable def matProdSelfDual :
+    MatProd k d ≃ₗ[MatProd k d] Module.Dual k (MatProd k d) :=
+  LinearEquiv.ofBijective frobHom frobHom_bijective
+
+/-- The free-module map `Aⁿ → X*`, `(a₁,…,aₙ) ↦ ∑ₗ aₗ • yₗ`, associated to a `k`-basis
+`{yₗ}` of `X*`. It is `A`-linear for the diagonal `A`-action on `Aⁿ` and the twisted action
+on `X*`. -/
+noncomputable def toDualHom {n : ℕ} (yb : Module.Basis (Fin n) k (Module.Dual k X)) :
+    (Fin n → MatProd k d) →ₗ[MatProd k d] Module.Dual k X where
+  toFun a := ∑ l, a l • yb l
+  map_add' a b := by simp only [Pi.add_apply, add_smul, Finset.sum_add_distrib]
+  map_smul' b a := by
+    simp only [RingHom.id_apply, Pi.smul_apply, smul_eq_mul, mul_smul, Finset.smul_sum]
+
+@[simp] theorem toDualHom_apply {n : ℕ} (yb : Module.Basis (Fin n) k (Module.Dual k X))
+    (a : Fin n → MatProd k d) : toDualHom yb a = ∑ l, a l • yb l := rfl
+
+/-- **The surjection `Aⁿ ↠ X*`** of the book's proof of Theorem 3.3.1: `∑ₗ aₗ • yₗ` hits
+every functional because `k ⊆ A` (take `aₗ = c_ℓ · 1` for the `k`-coordinates `c_ℓ` of the
+target). Here `{yₗ}` is any `k`-basis of `X*`. -/
+theorem toDualHom_surjective {n : ℕ} (yb : Module.Basis (Fin n) k (Module.Dual k X)) :
+    Function.Surjective (toDualHom (d := d) yb) := by
+  intro f
+  refine ⟨fun l => algebraMap k (MatProd k d) (yb.repr f l), ?_⟩
+  change ∑ l, algebraMap k (MatProd k d) (yb.repr f l) • yb l = f
+  simp only [algebraMap_smul]
+  exact yb.sum_repr f
+
+/-- The transpose anti-automorphism `τ` is an involution: `τ (τ a) = a` (double transpose). -/
+theorem matProdTransposeSelfDuality_unop_unop (a : MatProd k d) :
+    (matProdTransposeSelfDuality d (matProdTransposeSelfDuality d a).unop).unop = a := by
+  funext i
+  simp only [matProdTransposeSelfDuality_unop, Matrix.transpose_transpose]
+
+section DualMap
+
+variable {M N : Type*}
+  [AddCommGroup M] [Module k M] [Module (MatProd k d) M] [IsScalarTower k (MatProd k d) M]
+  [AddCommGroup N] [Module k N] [Module (MatProd k d) N] [IsScalarTower k (MatProd k d) N]
+
+/-- **The transpose-twisted dual of an `A`-linear map** `f : M → N`, namely `g ↦ g ∘ f`,
+is `A`-linear `N* → M*`. This is the operation `φ ↦ φ*` in the book's proof. -/
+noncomputable def twistedDualMap (f : M →ₗ[MatProd k d] N) :
+    Module.Dual k N →ₗ[MatProd k d] Module.Dual k M where
+  toFun g := (f.restrictScalars k).dualMap g
+  map_add' g h := by simp only [map_add]
+  map_smul' a g := by
+    refine LinearMap.ext fun m => ?_
+    change g ((matProdTransposeSelfDuality d a).unop • f m)
+         = g (f ((matProdTransposeSelfDuality d a).unop • m))
+    rw [map_smul f]
+
+/-- **Dual of a surjection is injective** (`A`-linear form): if `f` is a surjective `A`-linear
+map then `twistedDualMap f` is injective. This turns the surjection `Aⁿ ↠ X*` into the
+injection `X ↪ Aⁿ*` in the proof of Theorem 3.3.1. -/
+theorem twistedDualMap_injective {f : M →ₗ[MatProd k d] N} (hf : Function.Surjective f) :
+    Function.Injective (twistedDualMap f) := by
+  have hf' : Function.Surjective (f.restrictScalars k) := by
+    simpa [LinearMap.coe_restrictScalars] using hf
+  exact dualMap_injective_of_surjective hf'
+
+end DualMap
+
+/-- **`X ≅ X**` as `A`-modules** (transpose-twisted double dual), from `Module.evalEquiv` and
+the involutivity of `τ`. This realizes the book's identification `X ≅ (X*)*`. -/
+noncomputable def twistedEvalEquiv (X : Type*)
+    [AddCommGroup X] [Module k X] [Module (MatProd k d) X] [IsScalarTower k (MatProd k d) X]
+    [FiniteDimensional k X] :
+    X ≃ₗ[MatProd k d] Module.Dual k (Module.Dual k X) :=
+  { (Module.evalEquiv k X).toAddEquiv with
+    map_smul' := fun a x => by
+      refine LinearMap.ext fun g => ?_
+      change g (a • x)
+           = g ((matProdTransposeSelfDuality d (matProdTransposeSelfDuality d a).unop).unop • x)
+      rw [matProdTransposeSelfDuality_unop_unop] }
+
+variable (X) [FiniteDimensional k X]
+
+/-- **The embedding `X ↪ Aⁿ*`** from the book's proof of Theorem 3.3.1 (`n = dim_k X*`):
+dualize the surjection `Aⁿ ↠ X*` to `X** → Aⁿ*` and precompose with `X ≅ X**`. -/
+noncomputable def toDualEmbedding :
+    X →ₗ[MatProd k d]
+      Module.Dual k (Fin (Module.finrank k (Module.Dual k X)) → MatProd k d) :=
+  (twistedDualMap (toDualHom (Module.finBasis k (Module.Dual k X)))).comp
+    (twistedEvalEquiv X).toLinearMap
+
+theorem toDualEmbedding_injective : Function.Injective (toDualEmbedding (k := k) (d := d) X) := by
+  rw [toDualEmbedding, LinearMap.coe_comp]
+  exact (twistedDualMap_injective (toDualHom_surjective _)).comp (twistedEvalEquiv X).injective
+
+end DualRoute

@@ -136,6 +136,20 @@ canonical and `Linear k C` resolves. (2026-07, #7640, `Definition9_6_1_Example.l
 `k`-parameterised finite-abelian structures on `FGModuleCat A` cannot be global `instance`s —
 `IsFiniteAbelianCategory (FGModuleCat A)` never mentions `k`, so resolution can't recover the
 ground field; expose them as `def`s/`theorem`s and activate with `letI` at call sites.
+**When activating such a `k`-parameterised module `def` (e.g. `twistedDualModule e X :
+Module A (Dual k X)`) via `letI` in a *statement type*, annotate the `letI` with its full
+type** — `letI : Module A (Dual k X) := twistedDualModule e X`, not bare `letI :=
+twistedDualModule e X`. A bare `letI` leaves `k` a metavariable (nothing in `e`/`X` forces
+it), and the very next `•` / `[IsScalarTower k A …]` binder fails with "typeclass instance
+problem is stuck `IsScalarTower ?m A X`". Same pitfall applies to *applying* such a def in a
+`rfl`-lemma statement (`foo b X x = b • x`): pin the scalar with `foo (k := k) b X x`, or `k`
+metavars again. (When the def is used *inside a composition* — `f ∘ₗ twistedDualModule…` —
+the scalar is forced by `f`, so no annotation is needed there.) Also: proving
+`IsScalarTower k A (Dual k X)` for such an instance by feeding a helper theorem whose
+conclusion is itself under a `letI` can hit a `whnf`/`isDefEq` heartbeat timeout matching the
+two instances — **inline the scalar-tower proof** (`refine ⟨fun c a f => ?_⟩; refine
+LinearMap.ext fun x => ?_; change …; rw […]`) against the ambient instance instead.
+(2026-07, #7662, `Chapter3/Theorem3_3_1.lean`.)
 
 **A section `variable`/instance is auto-included only if the declaration's *signature*
 mentions it — a proof body that uses it is not enough.** A theorem stated purely about
