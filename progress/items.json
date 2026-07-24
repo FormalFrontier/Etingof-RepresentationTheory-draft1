@@ -8504,11 +8504,10 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "The all-modules half is exact. The finite-dimensional-module half is represented only by an Abelian (FGModuleCat A) instance under an assumed Noetherian-ring hypothesis; the asserted finite-dimensional-k-algebra bridge and a source-faithful finite-dimensional module category endpoint are absent. Follow-up #7429.",
-    "followup_issue": 7429,
-    "last_updated": "2026-07-22",
-    "fidelity_note": "The `ModuleCat A` half is faithful. The finite-dimensional-module half changes the category to `FGModuleCat A` and leaves the required finite-dimensional-algebra bridge only in prose; #7429.",
+    "coverage": "covered",
+    "coverage_note": "The all-modules half is exact (Abelian (ModuleCat A)). The finite-dimensional-module half is now source-faithful: `module_finite_iff_finiteDimensional` proves the finite-dimensional-k-algebra bridge (an A-module is finitely generated over A iff finite dimensional over the base field k), and `abelian_fgModuleCat_of_finiteDimensional` states Abelian (FGModuleCat A) under the book's hypotheses ([Field k] [Algebra k A] [FiniteDimensional k A]), deriving IsNoetherianRing A internally via `isNoetherianRing_of_finiteDimensional` rather than assuming it. Resolves #7429.",
+    "last_updated": "2026-07-24",
+    "fidelity_note": "Both halves faithful: `ModuleCat A` for all modules, and `FGModuleCat A` identified with the finite-dimensional-over-k module category via the proved bridge `module_finite_iff_finiteDimensional`, with the Noetherian hypothesis derived from A being a finite dimensional k-algebra.",
     "sorry_free": true
   },
   {
