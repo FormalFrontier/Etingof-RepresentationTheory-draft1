@@ -188,6 +188,19 @@ into a loop — e.g. `Quotient.map' (fun w => g • w) h` before `Quotient.map'`
 gives the same `HSMul … ?` timeout. Ascribe it: `fun w : T => (g • w : T)`. Both bit during the
 octahedral four-diagonal quotient action (#6972).
 
+**`Submodule.mem_top` forces fresh instance synthesis; read membership off an
+equality hypothesis instead.** When you have `h : S = ⊤` for a submodule `S` of an
+awkward carrier (e.g. `Representation.invariants (FDRep.ρ ((Action.res …).obj σ))`,
+whose module `Module ℂ ↑σ.V` no longer synthesizes through the restriction after a
+Mathlib bump), `rw [h]; exact Submodule.mem_top` fails: `Submodule.mem_top`
+re-synthesizes `Module R M` from scratch. Use `(Submodule.eq_top_iff'.mp h) x`
+instead — the module instance is already carried by the type of `h`, so no fresh
+search is triggered. (A scoped `haveI : Module ℂ ↑σ.V := σ.V.obj.isModule` also
+patches `mem_top`, but only if kept inside the membership `by`-block so it does not
+shadow the canonical instance the rest of the proof infers, causing a
+"synthesized instance is not definitionally equal" error downstream.) Bit restoring
+the A₄ induction in Problem 5.11.1 (#7544).
+
 **`Module.Finite R X` for `X : ModuleCat R` needs the explicit `↥` coercion.** A `Type`-argument
 predicate applied to a *categorical object* — `Module.Finite R (syzygy P n)`, `Module R (P.X n)`,
 etc. — unifies the object's category with `Type` instead of inserting the `CoeSort`, so you get a
