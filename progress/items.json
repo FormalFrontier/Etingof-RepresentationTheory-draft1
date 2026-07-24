@@ -5049,11 +5049,10 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "fidelity": "verified",
-    "fidelity_note": "The objectwise induction/coinduction isomorphism is present, but the source's naturality is not packaged as a functor NatIso; follow-up #7417.",
-    "fidelity_issue": 7417,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "Both the objectwise isomorphism (Remark5_8_2) and the source's naturality are formalized: Remark5_8_2NatIso : Rep.indFunctor k H.subtype ≅ Rep.coindFunctor' k H.subtype is a NatIso built from Mathlib's Rep.indCoindNatIso and Rep.coindFunctorIso, and Remark5_8_2NatIso_app shows its component at each A is defeq to Remark5_8_2 H A. Axiom-clean [propext, Classical.choice, Quot.sound]. Closes #7417.",
+    "last_updated": "2026-07-24"
   },
   {
     "id": "Chapter5/Discussion_verification_of_Ind",
