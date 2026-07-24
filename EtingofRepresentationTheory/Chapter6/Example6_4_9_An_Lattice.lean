@@ -255,4 +255,29 @@ noncomputable def basis : Basis (Fin n) ℤ (sumZeroLattice n) :=
 @[simp] lemma coe_basis (i : Fin n) : (basis n i : Fin (n + 1) → ℤ) = simpleRoot n i := by
   rw [basis, Basis.map_apply, Pi.basisFun_apply, latticeEquiv_apply, toLat_single]
 
+/-- Gram matrix of the simple roots: the standard inner product takes the same values on
+the `α_i` as the `A_n` Cartan form `B` (namely `(α_i,α_i) = 2`, `(α_i,α_j) = -1` for
+adjacent `i, j`, and `0` otherwise). This is the book's isometry statement. -/
+lemma dotProduct_simpleRoot (hn : 1 ≤ n) (i j : Fin n) :
+    dotProduct (simpleRoot n i) (simpleRoot n j)
+      = (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - (Etingof.DynkinType.A n hn).adj) i j := by
+  rw [show simpleRoot n j = Pi.single j.castSucc 1 - Pi.single j.succ 1 from rfl,
+    dotProduct_sub, dotProduct_single, dotProduct_single, mul_one, mul_one]
+  simp only [simpleRoot_apply, Fin.val_castSucc, Fin.val_succ,
+    Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
+    Etingof.DynkinType.adj]
+  split_ifs <;> simp_all [Fin.ext_iff] <;> omega
+
+/-- Isometry: the standard inner product on `ℤ^{n+1}`, restricted to the sum-zero lattice
+and read in the simple-root coordinates, is the `A_n` Cartan form `xᵀ(2·1 - adj)y`. -/
+lemma dotProduct_toLat (hn : 1 ≤ n) (c d : Fin n → ℤ) :
+    dotProduct (toLat n c) (toLat n d)
+      = dotProduct c ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) -
+          (Etingof.DynkinType.A n hn).adj).mulVec d) := by
+  rw [toLat_apply, toLat_apply, sum_dotProduct]
+  simp only [smul_dotProduct, dotProduct_sum, dotProduct_smul, smul_eq_mul,
+    dotProduct_simpleRoot n hn]
+  simp only [dotProduct, mulVec, Finset.mul_sum]
+  exact Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by ring
+
 end Etingof.An
