@@ -6129,12 +6129,12 @@
     "coverage": "covered_partial",
     "fidelity": "partial",
     "needs_statement": false,
-    "notes": "All current declarations are sorry-free. Part (iii)'s decomposition is only k-linear, not A⊗B-equivariant (#2489), and the advertised exhaustive bijection between simple A- and B-module classes is absent (#7413).",
+    "notes": "All current declarations are sorry-free. Exhaustiveness of both simple families is now proven (Theorem5_18_1_Exhaustive.lean: simpleModule_classification_of_semisimple, Theorem5_18_1_A_classification, Theorem5_18_1_B_classification give complete irredundant lists of simple A- and B-modules). Remaining: the explicit V ↦ Hom_A(V,E) bijection packaging identifying the two lists (#7659), and A⊗B-equivariance of the decomposition (#2489).",
     "sorry_free": true,
-    "fidelity_note": "The double-centralizer/semisimplicity core is genuine, but the source's structured decomposition and exhaustive simple-module correspondence remain partial.",
+    "fidelity_note": "The double-centralizer/semisimplicity core and the exhaustive classification of both simple families are genuine; the explicit simple-class correspondence packaging and the A⊗B-equivariant decomposition remain partial.",
     "fidelity_issue": 2489,
-    "followup_issue": 7413,
-    "last_updated": "2026-07-22"
+    "followup_issue": 7659,
+    "last_updated": "2026-07-24"
   },
   {
     "id": "Chapter5/Discussion_before_Theorem5.18.2",

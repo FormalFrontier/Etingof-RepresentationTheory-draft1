@@ -639,8 +639,9 @@ sibling (`left_adjoint_additive`: `set_option backward.defeqAttrib.useBackward t
 (adj.homEquiv _ _).injective (by simp [homEquiv_unit])`) and mirror it verbatim for `map_smul`.
 When a stale-proof regression is on a lemma that names a Mathlib analogue in its docstring,
 grep Mathlib for that analogue and copy its proof style first — it is usually a one-liner and
-tracks the API drift you are fighting. (Also: `set_option … in` must sit *before* the
-docstring, not between docstring and `lemma`.)
+tracks the API drift you are fighting. (Also: any `… in` modifier — `set_option … in`,
+`omit … in`, `open … in` — must sit *before* the docstring, not between docstring and
+`theorem`/`lemma`; otherwise the parser errors with `unexpected token … expected 'lemma'`.)
 
 **Discharging an `↔`/membership goal over a `Prop` def with `omega`: use `unfold theDef; omega`, not
 `simp only [theDef]; omega`.** For a decidable `Prop` def built from `∨`/`∧`/`=`/`≤` over `ℕ` (e.g. an
