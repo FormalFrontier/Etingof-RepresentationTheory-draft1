@@ -104,6 +104,7 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_17_1
 
 -- Section 5.18: Schur-Weyl Duality
 import EtingofRepresentationTheory.Chapter5.Theorem5_18_1
+import EtingofRepresentationTheory.Chapter5.Theorem5_18_1_Exhaustive
 import EtingofRepresentationTheory.Chapter5.Theorem5_18_2
 import EtingofRepresentationTheory.Chapter5.Lemma5_18_3
 import EtingofRepresentationTheory.Chapter5.Theorem5_18_4
