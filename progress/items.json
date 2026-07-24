@@ -9412,7 +9412,7 @@
     "end_line": 10,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "coverage_note": "Splus and Sminus are constructed, proved simple and nonisomorphic, and Pplus/Pminus are proved projective. The source's exhaustiveness of the simple classification, indecomposability and exhaustiveness of the projectives, and Cartan-matrix computation are absent. Follow-up: #7388.",
+    "coverage_note": "Splus and Sminus are constructed, proved simple and nonisomorphic; every simple A-module is now proved isomorphic to exactly one of them (simple_module_classification), and Example 9.5.2 (iii) is upgraded to all simple modules via problem_9_3_2_single_block_of_simple. Pplus/Pminus are proved projective, indecomposable (Etingof.IsIndecomposable), and projective covers of Splus/Sminus (surjective with superfluous kernel). Still absent: exhaustiveness of the indecomposable projectives, and the Cartan-matrix computation via Etingof.algebraCartanMatrix (blocked on Pplus and Pminus sharing the carrier Fin 2 -> C, which prevents forming an indexed family of the two projectives). Follow-up: #7388.",
     "followup_issue": 7388,
     "last_updated": "2026-07-22"
   },
