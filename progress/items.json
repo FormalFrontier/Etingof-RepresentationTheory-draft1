@@ -9490,7 +9490,7 @@
     "fidelity": "full",
     "needs_statement": false,
     "attention_needed": false,
-    "notes": "The file has the exact Hilbert-syzygy endpoint `Etingof.Example_9_4_4` and checks cleanly (sorry-free, importable) on the current toolchain. Regression #7491 (fresh-check failures in the exact-sequence, change-of-rings, and Koszul support) was fixed by restoring `backward.isDefEq.respectTransparency false` on the change-of-scalars morphism proofs, which the stricter migrated elaborator otherwise rejects.",
+    "notes": "The file has the exact Hilbert-syzygy endpoint `Etingof.Example_9_4_4` and checks cleanly (sorry-free) under `lake build` (2454 jobs). Regression #7491 was reproduced only via bare `lake env lean`, which does not apply the lakefile's global `weak.backward.isDefEq.respectTransparency = false`; under that stricter elaborator the change-of-scalars morphism proofs fail as `rw`/`simp` no longer match defeq `F.obj (G.obj M)` vs `(G ⋙ F).obj M`. Pinned `backward.isDefEq.respectTransparency false` at the three affected declarations so the file also passes bare `lake env lean` (mirroring Mathlib's own usage on ExtendRestrictScalarsAdj.counit). CI was never broken.",
     "coverage": "covered_full",
     "last_updated": "2026-07-24"
   },
