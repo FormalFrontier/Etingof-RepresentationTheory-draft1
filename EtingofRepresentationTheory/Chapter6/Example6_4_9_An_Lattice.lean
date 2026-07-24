@@ -27,7 +27,7 @@ Dynkin type is `A_n` (the book's `A_{N-1}`).
 
 namespace Etingof.An
 
-open Matrix Finset
+open Matrix Finset Module
 
 variable (n : ℕ)
 
@@ -219,5 +219,40 @@ lemma toLat_fromLat {x : Fin (n + 1) → ℤ} (hx : x ∈ sumZeroLattice n) :
         have hf := hfull; rw [hn] at hf; rw [hzero] at hf; exact hf
       rw [show k = ⟨0, by omega⟩ from Fin.ext (show k.val = 0 by omega)]
       exact hx0.symm
+
+/-- `toLat`, corestricted to the sum-zero lattice it lands in. -/
+def toLatL : (Fin n → ℤ) →ₗ[ℤ] sumZeroLattice n :=
+  LinearMap.codRestrict (sumZeroLattice n) (toLat n) fun c => by
+    rw [mem_sumZeroLattice, toLat_apply]
+    simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul]
+    rw [Finset.sum_comm]
+    simp only [← Finset.mul_sum, sum_simpleRoot, mul_zero, Finset.sum_const_zero]
+
+@[simp] lemma coe_toLatL (c : Fin n → ℤ) : (toLatL n c : Fin (n + 1) → ℤ) = toLat n c := rfl
+
+/-- The coordinates `↔` sum-zero-lattice linear equivalence. The forward map sends a
+Cartan coordinate vector `c` to `∑ i, c i • α_i`; the inverse takes prefix sums. -/
+def latticeEquiv : (Fin n → ℤ) ≃ₗ[ℤ] sumZeroLattice n :=
+  LinearEquiv.ofLinear (toLatL n) (fromLat n ∘ₗ (sumZeroLattice n).subtype)
+    (by
+      refine LinearMap.ext fun y => Subtype.ext ?_
+      show toLat n (fromLat n y.val) = y.val
+      exact toLat_fromLat n y.2)
+    (by
+      refine LinearMap.ext fun c => ?_
+      show fromLat n (toLat n c) = c
+      exact fromLat_toLat n c)
+
+@[simp] lemma latticeEquiv_apply (c : Fin n → ℤ) :
+    (latticeEquiv n c : Fin (n + 1) → ℤ) = toLat n c := rfl
+
+/-- The consecutive-difference simple roots `α_i = e_i - e_{i+1}` form a basis of the
+sum-zero lattice `L` of type `A_n`. -/
+noncomputable def basis : Basis (Fin n) ℤ (sumZeroLattice n) :=
+  (Pi.basisFun ℤ (Fin n)).map (latticeEquiv n)
+
+/-- The `i`-th basis vector is the simple root `α_i = e_i - e_{i+1}`. -/
+@[simp] lemma coe_basis (i : Fin n) : (basis n i : Fin (n + 1) → ℤ) = simpleRoot n i := by
+  rw [basis, Basis.map_apply, Pi.basisFun_apply, latticeEquiv_apply, toLat_single]
 
 end Etingof.An
