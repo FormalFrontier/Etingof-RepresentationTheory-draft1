@@ -249,6 +249,26 @@ theorem Etingof.irreducible_reps_of_matrix_algebra :
   ⟨isSimpleModule_vModuleProd, fun W => exists_iso_vModuleProd W,
     isSemisimpleModule_of_matrixProd⟩
 
+/-- **Pairwise non-isomorphism of the standard representations.** The `Vᵢ = k^{dᵢ}` are
+pairwise non-isomorphic as `A`-modules: the central idempotent `eᵢ = Pi.single i 1` acts as
+the identity on `Vᵢ` but as zero on `Vⱼ` for `j ≠ i`, so an `A`-linear isomorphism
+`Vᵢ ≃ₗ[A] Vⱼ` forces `i = j`. This is the `hd` hypothesis needed to invoke Proposition
+3.1.4 in the dual-route proof of Theorem 3.3.1. -/
+theorem vModuleProd_iso_imp_eq {i j : Fin r}
+    (h : Nonempty ((Fin (d i) → k) ≃ₗ[MatProd k d] (Fin (d j) → k))) : i = j := by
+  obtain ⟨φ⟩ := h
+  by_contra hij
+  obtain ⟨v, hv⟩ := exists_ne (0 : Fin (d i) → k)
+  have hVi : (Pi.single i 1 : MatProd k d) • v = v := by
+    rw [vModuleProd_smul, Pi.single_eq_same, one_smul]
+  have hVj : (Pi.single i 1 : MatProd k d) • φ v = 0 := by
+    rw [vModuleProd_smul, Pi.single_eq_of_ne (Ne.symm hij), zero_smul]
+  have hz : φ v = 0 := by
+    have h1 := map_smul φ (Pi.single i 1 : MatProd k d) v
+    rw [hVi, hVj] at h1
+    exact h1
+  exact hv (φ.injective (by rw [hz, map_zero]))
+
 /-! ## Regular-module decomposition `A ≅ ⊕ᵢ dᵢ Vᵢ`
 
 The book's proof of Theorem 3.3.1 uses the identity `Mat_{dᵢ}(k) = dᵢ Vᵢ`, hence
