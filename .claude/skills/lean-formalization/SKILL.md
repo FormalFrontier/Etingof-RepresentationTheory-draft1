@@ -1078,6 +1078,22 @@ Multiple files define `private abbrev GL2 = ...` / `private abbrev GL2' = ...` f
 - Use `change` instead of `show` when the target uses a different abbreviation
 - For sorry'd lemmas that need `[Fintype F] [DecidableEq F]` instances (needed by callers and the sorry body): wrap in a `section` with `set_option linter.unusedFintypeInType false` / `set_option linter.unusedDecidableInType false`. The `set_option ... in` syntax doesn't work before `private`.
 
+### `Fin n` arithmetic: `NatCast` is scoped, and `ring` doesn't work — `abel` does (#7387)
+
+Two independent traps when a construction is indexed by `Fin n` (cyclic bases, twisted shift
+operators, `Fin p → k` modules):
+
+- `(t : Fin n)` for `t : ℕ` fails with `type mismatch ... but is expected to have type Fin n`,
+  even with `[NeZero n]` in scope. The instance is `Fin.NatCast.instNatCast`, in a *scoped*
+  namespace; put `open scoped Fin.NatCast` at the top of the file. Related: `[NeZero n]` itself
+  is not automatic from `[Fact (Nat.Prime p)]`, so declare
+  `instance : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩`.
+- `ring` reports `` `ring_nf` made no progress `` on `Fin n` goals such as
+  `j - ((t : Fin n) + 1) = j - 1 - (t : Fin n)`, despite `Fin n` being a `CommRing`. Use `abel`
+  — these goals are additive-group identities and `abel` closes them.
+- `push_cast` does not normalise `((t + 1 : ℕ) : Fin n)`; rewrite with `Nat.cast_add_one` first,
+  then `abel`.
+
 ### Greek-capital notation chars (`Π`, `Σ`, `λ`) can't be identifiers
 
 Greek *lowercase* (`σ`, `τ`, `π`) work fine as identifiers, but the capitals `Π`/`Σ` are reserved notation (Pi/Sigma types), so `set Π := …`, `let Σ := …`, or even embedding them in a name like `hΠ`/`hΣ` fails to tokenize (`unexpected token 'Π'; expected '_' or identifier`, sometimes cascading into confusing downstream parse errors). Use ASCII names for permutation/projection matrices etc. (`PL`, `PR`, `permMat`), and `hperm…` not `hΠ`. Cost two build cycles in #6807.
