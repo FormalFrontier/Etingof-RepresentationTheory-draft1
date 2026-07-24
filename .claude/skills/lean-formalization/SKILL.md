@@ -491,6 +491,20 @@ proof, `Equiv.sumCompl (fun g => orderOf g = 5)` gives a hypothesis mentioning
 rw [he]`, so both sides share one atom. Cost one build cycle in `simpleGroup_card60_exists_index_five`
 (#6982, `Chapter4/Problem4_12_8.lean`).
 
+**Transporting `Fintype.card` along an instance-dependent type equality: route through `Nat.card`.**
+When you have `h : S = A` between subalgebras (e.g. the double-centralizer `centralizer C = A`) and
+want `Fintype.card (isotypicComponents S E) = Fintype.card (isotypicComponents A E)`, both `rw [h]`
+and `congrArg (fun x => …) h` fail: `rw` reports "motive is not type correct" because the `Fintype`
+instance in the motive is specific to `S` and cannot be resynthesized for a generic bound variable,
+and `congrArg` leaves the body an unresolved metavariable for the same reason. `Nat.card` takes **no**
+instance argument, so it transports cleanly. Prove the plain *type* equality once
+(`have hType : (isotypicComponents S E : Type _) = (isotypicComponents A E : Type _) := by rw [h]` —
+motive-correct because only the generic `Module ↥x E` instance is needed), then
+`rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hType]`. Cost 3 failed attempts
+(`rw`/`congr 1`/`congrArg`) in `homRealizationComponent_bijective` (#7659,
+`Chapter5/Theorem5_18_1_Bijection.lean`). Note the `: Type _` ascription — `isotypicComponents` is a
+`Set`, so a bare equality is read as a heterogeneous `Set` equality and mis-typechecks.
+
 **Adding a heavy import to a foundational *definition* file can break a *downstream* file by
 slowing generic typeclass search past its heartbeat budget.** Hit in #7443: adding
 `import Mathlib.Algebra.Category.ModuleCat.Projective` to `Chapter9/Definition9_6_2.lean` (to state
