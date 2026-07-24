@@ -122,6 +122,21 @@ declaration then re-auto-binds `k`/`A`/`n` as fresh implicits with no instances,
 of `failed to synthesize CommSemiring k` / `AddMonoidWithOne k` on lines that look correct. Put
 the `open` on its own line and let `variable` stand alone.
 
+**Instantiating a class that extends `Abelian` (e.g. `IsFiniteAbelianCategoryOverField k C`,
+which requires `[IsFiniteAbelianCategory C]` and `[Linear k C]`) against an *opaque*
+`[IsFiniteAbelianCategory C]` hypothesis makes `Linear k C` fail to synthesize** — a
+`Preadditive C` diamond: the opaque instance's `toAbelian.toPreadditive` is not syntactically
+the canonical `Preadditive C`, so `Linear.fullSubcategory` (which builds on the canonical one)
+no longer matches. Standalone `Linear k C := inferInstance` still succeeds; only the
+class-parameter synthesis fails. **Fix: state the derived structure relative to the *concrete*
+base instance, not an opaque hypothesis** — `def foo : letI := myConcreteInst k A;
+IsFiniteAbelianCategoryOverField k C := by letI := myConcreteInst k A; exact { … }`. The
+concrete instance's `toAbelian` is Mathlib's canonical `Abelian C`, so `Preadditive C` stays
+canonical and `Linear k C` resolves. (2026-07, #7640, `Definition9_6_1_Example.lean`.) Related:
+`k`-parameterised finite-abelian structures on `FGModuleCat A` cannot be global `instance`s —
+`IsFiniteAbelianCategory (FGModuleCat A)` never mentions `k`, so resolution can't recover the
+ground field; expose them as `def`s/`theorem`s and activate with `letI` at call sites.
+
 **A section `variable`/instance is auto-included only if the declaration's *signature*
 mentions it — a proof body that uses it is not enough.** A theorem stated purely about
 `FGModuleCat A` (no `k` in the type) but whose *proof* calls `IsArtinianRing.of_finite k A`
