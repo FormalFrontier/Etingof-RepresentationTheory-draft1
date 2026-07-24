@@ -6128,11 +6128,10 @@
     "coverage": "covered_partial",
     "fidelity": "partial",
     "needs_statement": false,
-    "notes": "All current declarations are sorry-free. Exhaustiveness of both simple families is now proven (Theorem5_18_1_Exhaustive.lean: simpleModule_classification_of_semisimple, Theorem5_18_1_A_classification, Theorem5_18_1_B_classification give complete irredundant lists of simple A- and B-modules). Remaining: the explicit V ↦ Hom_A(V,E) bijection packaging identifying the two lists (#7659), and A⊗B-equivariance of the decomposition (#2489).",
+    "notes": "All current declarations are sorry-free. Exhaustiveness of both simple families is proven (Theorem5_18_1_Exhaustive.lean). The explicit V ↦ Hom_A(V,E) bijection is now packaged (Theorem5_18_1_Bijection.lean: homACongrLeftCentralizer well-definedness, isSimpleModule_homA_centralizer' simplicity, homA_iso_of_homA_congr injectivity, homRealizationComponent_bijective / homRealizationComponentEquiv the index-set bijection, exists_simple_A_submodule_homA_iso surjectivity), closing #7659. Remaining: A⊗B-equivariance of the decomposition (#2489).",
     "sorry_free": true,
-    "fidelity_note": "The double-centralizer/semisimplicity core and the exhaustive classification of both simple families are genuine; the explicit simple-class correspondence packaging and the A⊗B-equivariant decomposition remain partial.",
+    "fidelity_note": "The double-centralizer/semisimplicity core, the exhaustive classification of both simple families, and the explicit V ↦ Hom_A(V,E) simple-class bijection are genuine; the A⊗B-equivariant decomposition remains partial (#2489).",
     "fidelity_issue": 2489,
-    "followup_issue": 7659,
     "last_updated": "2026-07-24"
   },
   {
