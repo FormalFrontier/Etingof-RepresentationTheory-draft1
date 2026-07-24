@@ -188,6 +188,15 @@ into a loop — e.g. `Quotient.map' (fun w => g • w) h` before `Quotient.map'`
 gives the same `HSMul … ?` timeout. Ascribe it: `fun w : T => (g • w : T)`. Both bit during the
 octahedral four-diagonal quotient action (#6972).
 
+**`Module.Finite R X` for `X : ModuleCat R` needs the explicit `↥` coercion.** A `Type`-argument
+predicate applied to a *categorical object* — `Module.Finite R (syzygy P n)`, `Module R (P.X n)`,
+etc. — unifies the object's category with `Type` instead of inserting the `CoeSort`, so you get a
+misleading `failed to synthesize Abelian (Type ?)` (or `Module.of ?` / `AddCommGroup ?`) rather
+than a coercion. Write `↥` on every `ModuleCat` object under such a predicate: `Module.Finite R
+↥(syzygy P n)`, `Module.Finite R ↥(P.complex.X n)`, `Module.Finite R ↥M`. (Predicates that
+already take a category object — `Projective (syzygy P n)`, `Mono f` — need no coercion.) Bit while
+stating the finite-syzygy refinement of Problem 9.4.2(iii) (#7673).
+
 **`set x := (…)/2` + `ring`/`linear_combination` = `2⁻¹` that `ring` cannot cancel; add
 `clear_value`.** In elementary field/matrix proofs (e.g. the GL₂ normal forms of #7624), after
 `set x := (a+d)/2 with hxdef` prove the multiplied-out relation you actually need (`have hx2 : 2*x
