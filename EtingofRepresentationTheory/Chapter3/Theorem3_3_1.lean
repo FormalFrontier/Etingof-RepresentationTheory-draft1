@@ -6,6 +6,7 @@ import Mathlib.LinearAlgebra.Matrix.Module
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Algebra.DirectSum.Module
 import Mathlib.LinearAlgebra.Dual.Lemmas
+import Mathlib.LinearAlgebra.Matrix.Trace
 
 /-!
 # Theorem 3.3.1: Irreducible Representations of Direct Sums of Matrix Algebras
@@ -434,7 +435,107 @@ theorem twistedDual_isScalarTower (X : Type*) [AddCommGroup X] [Module k X] [Mod
   letI : Module A (Module.Dual k X) := twistedDualModule e X
   refine ⟨fun c a f => ?_⟩
   ext x
-  show f ((e (c • a)).unop • x) = c • f ((e a).unop • x)
+  change f ((e (c • a)).unop • x) = c • f ((e a).unop • x)
   rw [he, smul_assoc, map_smul]
 
 end TwistedDual
+
+/-! ## Self-duality of the regular module `A ≅ A*`
+
+For `A = ⊕ᵢ Mat_{dᵢ}(k)` the regular representation is self-dual: `A ≅ A*` as left
+`A`-modules, where `A*` carries the transpose-twisted action of the previous section. The
+isomorphism is the (twisted) Frobenius pairing `a ↦ (x ↦ ∑ᵢ tr(aᵢᵀ xᵢ))`; it is `A`-linear
+because `tr((a'ᵢaᵢ)ᵀ xᵢ) = tr(aᵢᵀ (a'ᵢᵀ xᵢ))`, and bijective because the pairing is
+nondegenerate (a dimension count over `k`). Taking `n`-fold sums gives `(Aⁿ)* ≅ Aⁿ`, the
+step "`A^{n*} ≅ A^n` (check it!)" in the book's proof. -/
+
+section DualRoute
+
+open Matrix
+
+variable {k : Type*} [Field k] {r : ℕ} {d : Fin r → ℕ}
+
+/-- The transpose anti-automorphism `τ = (matProdTransposeSelfDuality ·).unop` acts
+factorwise as the matrix transpose. -/
+theorem matProdTransposeSelfDuality_unop (a : MatProd k d) :
+    (matProdTransposeSelfDuality d a).unop = fun i => (a i)ᵀ := rfl
+
+/-- `τ` is `k`-linear on underlying elements: the `he` hypothesis of
+`twistedDual_isScalarTower` for `e = matProdTransposeSelfDuality`. -/
+theorem matProdTransposeSelfDuality_unop_smul (c : k) (a : MatProd k d) :
+    (matProdTransposeSelfDuality d (c • a)).unop = c • (matProdTransposeSelfDuality d a).unop := by
+  rw [matProdTransposeSelfDuality_unop, matProdTransposeSelfDuality_unop]
+  funext i
+  rw [Pi.smul_apply, Pi.smul_apply, Matrix.transpose_smul]
+
+/-- The transpose-twisted `A`-module structure on `A* = Dual k A`. -/
+local instance instTwistedDualMatProd :
+    Module (MatProd k d) (Module.Dual k (MatProd k d)) :=
+  twistedDualModule (matProdTransposeSelfDuality d) (MatProd k d)
+
+local instance : IsScalarTower k (MatProd k d) (Module.Dual k (MatProd k d)) := by
+  refine ⟨fun c a f => ?_⟩
+  refine LinearMap.ext fun x => ?_
+  change f ((matProdTransposeSelfDuality d (c • a)).unop • x)
+       = c • f ((matProdTransposeSelfDuality d a).unop • x)
+  rw [matProdTransposeSelfDuality_unop_smul, smul_assoc, map_smul]
+
+/-- The Frobenius pairing `a ↦ (x ↦ ∑ᵢ tr(aᵢᵀ xᵢ))` as a `k`-linear functional for fixed `a`. -/
+def frobPairing (a : MatProd k d) : Module.Dual k (MatProd k d) where
+  toFun x := ∑ i, Matrix.trace ((a i)ᵀ * x i)
+  map_add' x y := by
+    simp only [Pi.add_apply, Matrix.mul_add, Matrix.trace_add, Finset.sum_add_distrib]
+  map_smul' c x := by
+    simp only [Pi.smul_apply, RingHom.id_apply, mul_smul_comm, Matrix.trace_smul,
+      Finset.smul_sum]
+
+@[simp] theorem frobPairing_apply (a x : MatProd k d) :
+    frobPairing a x = ∑ i, Matrix.trace ((a i)ᵀ * x i) := rfl
+
+/-- The Frobenius pairing packaged as an `A`-linear map `A → A*` (twisted action on `A*`). -/
+def frobHom : MatProd k d →ₗ[MatProd k d] Module.Dual k (MatProd k d) where
+  toFun := frobPairing
+  map_add' a b := by
+    refine LinearMap.ext fun x => ?_
+    simp only [frobPairing_apply, Pi.add_apply, Matrix.transpose_add, Matrix.add_mul,
+      Matrix.trace_add, Finset.sum_add_distrib, LinearMap.add_apply]
+  map_smul' a' a := by
+    refine LinearMap.ext fun x => ?_
+    change (∑ i, Matrix.trace (((a' * a) i)ᵀ * x i))
+         = ∑ i, Matrix.trace ((a i)ᵀ * ((matProdTransposeSelfDuality d a').unop • x) i)
+    refine Finset.sum_congr rfl (fun i _ => ?_)
+    simp only [smul_eq_mul, Pi.mul_apply, matProdTransposeSelfDuality_unop]
+    rw [Matrix.transpose_mul, Matrix.mul_assoc]
+
+@[simp] theorem frobHom_apply (a x : MatProd k d) :
+    frobHom a x = ∑ i, Matrix.trace ((a i)ᵀ * x i) := rfl
+
+theorem frobHom_injective : Function.Injective (frobHom (k := k) (d := d)) := by
+  rw [injective_iff_map_eq_zero]
+  intro a ha
+  funext i
+  ext p q
+  have h0 : frobHom a (Pi.single i (Matrix.single p q 1)) = 0 := by rw [ha]; rfl
+  rw [frobHom_apply, Finset.sum_eq_single i] at h0
+  · rw [Pi.single_eq_same, Matrix.trace_mul_single] at h0
+    simpa [Matrix.transpose_apply] using h0
+  · intro j _ hj
+    rw [Pi.single_eq_of_ne hj, Matrix.mul_zero, Matrix.trace_zero]
+  · intro h; exact absurd (Finset.mem_univ i) h
+
+theorem frobHom_bijective : Function.Bijective (frobHom (k := k) (d := d)) := by
+  refine ⟨frobHom_injective, ?_⟩
+  have hdim : Module.finrank k (MatProd k d)
+      = Module.finrank k (Module.Dual k (MatProd k d)) := Subspace.dual_finrank_eq.symm
+  have hinj : Function.Injective ((frobHom (k := k) (d := d)).restrictScalars k) := by
+    simpa [LinearMap.coe_restrictScalars] using frobHom_injective
+  have hsurj := (LinearMap.injective_iff_surjective_of_finrank_eq_finrank hdim).mp hinj
+  simpa [LinearMap.coe_restrictScalars] using hsurj
+
+/-- **Self-duality of the regular module** (`A ≅ A*`). The Frobenius pairing gives an
+`A`-linear isomorphism from `A = ⊕ᵢ Mat_{dᵢ}(k)` to its transpose-twisted `k`-dual `A*`. -/
+noncomputable def matProdSelfDual :
+    MatProd k d ≃ₗ[MatProd k d] Module.Dual k (MatProd k d) :=
+  LinearEquiv.ofBijective frobHom frobHom_bijective
+
+end DualRoute
