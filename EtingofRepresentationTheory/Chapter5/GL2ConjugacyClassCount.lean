@@ -1164,6 +1164,15 @@ lemma isConj_of_val_conj {g r : GL2' p n} (P : GL2' p n)
     _ = (P⁻¹ : GL2' p n).val * P.val * r.val := by rw [mul_assoc]
     _ = r.val := by rw [hPP, one_mul]
 
+/-- The determinant of a `GL₂` element is nonzero. -/
+private lemma detval_ne_zero (g : GL2' p n) : Matrix.det g.val ≠ 0 := by
+  intro h0
+  have hmul : g.val * (g⁻¹ : GL2' p n).val = 1 := by
+    rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
+  have hdet1 : Matrix.det g.val * Matrix.det (g⁻¹ : GL2' p n).val = 1 := by
+    rw [← Matrix.det_mul, hmul, Matrix.det_one]
+  rw [h0, zero_mul] at hdet1; exact one_ne_zero hdet1.symm
+
 /-- The **scalar representative** `x • I` for a nonzero `x`. -/
 noncomputable def scalarRepr (x : GaloisField p n) (hx : x ≠ 0) : GL2' p n :=
   Matrix.GeneralLinearGroup.mkOfDetNeZero
@@ -1404,6 +1413,160 @@ theorem exists_conj_isSplitSemisimple (hp2 : p ≠ 2) {g : GL2' p n}
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Fin.sum_univ_two, ← ha, ← hb, ← hc', ← hd] <;>
       (try ring) <;> (try linear_combination -hxroot) <;> (try linear_combination -hyroot)
+
+/-- **Companion form.** Every non-scalar `g ∈ GL₂` is conjugate to the companion matrix
+`!![0,-det;1,tr]` of its characteristic polynomial. For a cyclic vector `v` (one with
+`{v, g·v}` a basis), the change of basis `P = [v | g·v]` sends `g` to its companion
+matrix: `g·(g·v) = tr·(g·v) - det·v` by Cayley–Hamilton, and the companion relation
+`g·P = P·companion` then holds for **any** `v`; only invertibility of `P` (cyclicity of
+`v`) is case-dependent. -/
+private lemma isConj_companion {g : GL2' p n} (hns : ¬ GL2.IsScalar g)
+    (t dt : GaloisField p n) (hdt : dt ≠ 0)
+    (ht : t = g.val 0 0 + g.val 1 1) (hdtv : dt = Matrix.det g.val) :
+    IsConj g (Matrix.GeneralLinearGroup.mkOfDetNeZero !![0, -dt; 1, t]
+      (by rw [Matrix.det_fin_two_of]; simpa using hdt)) := by
+  subst ht hdtv
+  set a := g.val 0 0 with ha
+  set b := g.val 0 1 with hb
+  set c := g.val 1 0 with hc'
+  set d := g.val 1 1 with hd
+  -- The companion relation `g·P = P·companion` for `P = !![v0, a·v0+b·v1; v1, c·v0+d·v1]`.
+  have key : ∀ v0 v1 : GaloisField p n,
+      ∀ h : (!![v0, a * v0 + b * v1; v1, c * v0 + d * v1] :
+        Matrix (Fin 2) (Fin 2) (GaloisField p n)).det ≠ 0,
+      IsConj g (Matrix.GeneralLinearGroup.mkOfDetNeZero
+        !![(0 : GaloisField p n), -Matrix.det g.val; 1, a + d]
+        (by rw [Matrix.det_fin_two_of]; simpa using detval_ne_zero g)) := by
+    intro v0 v1 h
+    refine isConj_of_val_conj
+      (Matrix.GeneralLinearGroup.mkOfDetNeZero
+        !![v0, a * v0 + b * v1; v1, c * v0 + d * v1] h) ?_
+    simp only [mkOfDetNeZero_val]
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.det_fin_two,
+        ← ha, ← hb, ← hc', ← hd] <;> ring
+  by_cases hc0 : c = 0
+  · by_cases hb0 : b = 0
+    · -- Diagonal non-scalar (`a ≠ d`): cyclic vector `(1,1)`.
+      have hane : a ≠ d := fun h => hns ((GL2.isScalar_iff g).mpr ⟨hb0, hc0, h⟩)
+      refine key 1 1 ?_
+      have hval : (!![(1 : GaloisField p n), a * 1 + b * 1; 1, c * 1 + d * 1]).det = d - a := by
+        rw [Matrix.det_fin_two_of, hb0, hc0]; ring
+      rw [hval]; exact sub_ne_zero.mpr (Ne.symm hane)
+    · -- `c = 0`, `b ≠ 0`: cyclic vector `(0,1)`.
+      refine key 0 1 ?_
+      have hval : (!![(0 : GaloisField p n), a * 0 + b * 1; 1, c * 0 + d * 1]).det = -b := by
+        rw [Matrix.det_fin_two_of]; ring
+      rw [hval]; exact neg_ne_zero.mpr hb0
+  · -- `c ≠ 0`: cyclic vector `(1,0)`.
+    refine key 1 0 ?_
+    have hval : (!![(1 : GaloisField p n), a * 1 + b * 0; 0, c * 1 + d * 0]).det = c := by
+      rw [Matrix.det_fin_two_of]; ring
+    rw [hval]; exact hc0
+
+/-- Two **non-scalar** `GL₂` elements with equal trace and determinant are conjugate:
+both are conjugate to the same companion matrix `!![0,-det;1,tr]`. -/
+private lemma isConj_of_nonscalar_tr_det {g h : GL2' p n}
+    (hg : ¬ GL2.IsScalar g) (hh : ¬ GL2.IsScalar h)
+    (htr : g.val 0 0 + g.val 1 1 = h.val 0 0 + h.val 1 1)
+    (hdet : Matrix.det g.val = Matrix.det h.val) : IsConj g h := by
+  have h1 := isConj_companion hg (g.val 0 0 + g.val 1 1) (Matrix.det g.val)
+    (detval_ne_zero g) rfl rfl
+  have h2 := isConj_companion hh (g.val 0 0 + g.val 1 1) (Matrix.det g.val)
+    (detval_ne_zero g) htr hdet
+  exact h1.trans h2.symm
+
+/-- The **elliptic representative** `!![x, ε·y; y, x]` for a fixed non-square `ε` and
+`y ≠ 0`. Its determinant `x² − ε·y²` is nonzero: otherwise `ε = (x/y)²` would be a
+square. -/
+noncomputable def ellipticRep (ε x y : GaloisField p n) (hε : ¬ IsSquare ε) (hy : y ≠ 0) :
+    GL2' p n :=
+  Matrix.GeneralLinearGroup.mkOfDetNeZero !![x, ε * y; y, x] (by
+    rw [Matrix.det_fin_two_of]
+    intro h0
+    apply hε
+    refine ⟨x * y⁻¹, ?_⟩
+    field_simp
+    linear_combination -h0)
+
+@[simp] lemma ellipticRep_val (ε x y : GaloisField p n) (hε : ¬ IsSquare ε) (hy : y ≠ 0) :
+    (ellipticRep ε x y hε hy).val = !![x, ε * y; y, x] := by
+  simp [ellipticRep, Matrix.GeneralLinearGroup.mkOfDetNeZero,
+    Matrix.GeneralLinearGroup.mk', Matrix.unitOfDetInvertible]
+
+/-- **Elliptic normal form.** For any fixed non-square `ε`, every elliptic `g` is
+conjugate to `!![x, ε·y; y, x]` with `y ≠ 0` (and `x = tr(g)/2`). Since the elliptic
+representative has the same trace and determinant as `g` and both are non-scalar, they are
+conjugate by `isConj_of_nonscalar_tr_det`. The scale `y` is found from
+`IsSquare (disc·ε)` (a product of two non-squares is a square). -/
+theorem exists_conj_isElliptic (hp2 : p ≠ 2) (hn : n ≠ 0) {g : GL2' p n}
+    (hg : GL2.IsElliptic g) {ε : GaloisField p n} (hε : ¬ IsSquare ε) :
+    ∃ (x y : GaloisField p n) (hy : y ≠ 0),
+      IsConj g (ellipticRep ε x y hε hy) := by
+  haveI : Fintype (GaloisField p n) := Fintype.ofFinite _
+  haveI : DecidableEq (GaloisField p n) := Classical.decEq _
+  have h2 : (2 : GaloisField p n) ≠ 0 := by
+    intro h
+    have hchar2 : CharP (GaloisField p n) 2 :=
+      (CharP.charP_iff_prime_eq_zero (by norm_num)).mpr h
+    have hp_char : CharP (GaloisField p n) p :=
+      charP_of_injective_algebraMap (algebraMap (ZMod p) (GaloisField p n)).injective p
+    exact hp2 (CharP.eq (GaloisField p n) hp_char hchar2)
+  have h4 : (4 : GaloisField p n) ≠ 0 := by
+    have : (4 : GaloisField p n) = 2 * 2 := by ring
+    rw [this]; exact mul_ne_zero h2 h2
+  set a := g.val 0 0 with ha
+  set b := g.val 0 1 with hb
+  set c := g.val 1 0 with hc'
+  set d := g.val 1 1 with hd
+  set D := GL2.disc g with hDdef
+  have hDsq : ¬ IsSquare D := hg
+  have hDne : D ≠ 0 := fun h => hDsq (h ▸ ⟨0, by ring⟩)
+  have hεne : ε ≠ 0 := fun h => hε (h ▸ ⟨0, by ring⟩)
+  -- `disc · ε` is a square: product of two non-squares.
+  have hχD : quadraticChar (GaloisField p n) D = -1 :=
+    (quadraticChar_neg_one_iff_not_isSquare).mpr hDsq
+  have hχε : quadraticChar (GaloisField p n) ε = -1 :=
+    (quadraticChar_neg_one_iff_not_isSquare).mpr hε
+  have hDεne : D * ε ≠ 0 := mul_ne_zero hDne hεne
+  have hχDε : quadraticChar (GaloisField p n) (D * ε) = 1 := by
+    rw [map_mul, hχD, hχε]; ring
+  obtain ⟨z, hz⟩ := (quadraticChar_one_iff_isSquare hDεne).mp hχDε
+  have hzne : z ≠ 0 := by
+    intro h; apply hDεne; rw [hz, h, mul_zero]
+  set x := (a + d) / 2 with hxdef
+  set y := z * (2 * ε)⁻¹ with hydef
+  have hx2 : 2 * x = a + d := by rw [hxdef]; field_simp
+  have hy : y ≠ 0 := by
+    rw [hydef]; exact mul_ne_zero hzne (inv_ne_zero (mul_ne_zero h2 hεne))
+  -- `ε·y² = disc/4`, from `z² = disc·ε`.
+  have hεyy : ε * y * y = D / 4 := by
+    rw [hydef, eq_div_iff h4]
+    field_simp
+    linear_combination (-4 : GaloisField p n) * hz
+  clear_value x y
+  refine ⟨x, y, hy, ?_⟩
+  -- `g` and the elliptic representative are non-scalar with equal trace and determinant.
+  apply isConj_of_nonscalar_tr_det
+  · exact fun hsc => GL2.isScalar_not_isElliptic g hsc hg
+  · intro hsc
+    have hy0 : (ellipticRep ε x y hε hy).val 1 0 = 0 := ((GL2.isScalar_iff _).mp hsc).2.1
+    rw [ellipticRep_val] at hy0
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val',
+      Matrix.head_fin_const, Matrix.cons_val_fin_one, Matrix.of_apply, Matrix.empty_val'] at hy0
+    exact hy hy0
+  · rw [ellipticRep_val]
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
+      Matrix.head_fin_const, Matrix.cons_val_fin_one, Matrix.of_apply, Matrix.cons_val',
+      Matrix.empty_val', ← ha, ← hd]
+    linear_combination -hx2
+  · rw [ellipticRep_val, Matrix.det_fin_two, Matrix.det_fin_two_of, ← ha, ← hb, ← hc', ← hd]
+    have hDval : D = (a - d) ^ 2 + 4 * b * c := by rw [hDdef, GL2.disc_eq, ← ha, ← hb, ← hc', ← hd]
+    have hx2' : a * d - b * c = x * x - D / 4 := by
+      rw [hDval]; field_simp
+      linear_combination -(2 * x + a + d) * hx2
+    rw [hx2', ← hεyy]
 
 end Representatives
 
