@@ -32,12 +32,15 @@ correspondence, providing:
 * **Injectivity** (`homA_iso_of_homA_congr`): if `Hom_A(V, E) ≃ₗ[B] Hom_A(W, E)`
   then `V ≃ₗ[A] W`. Combined with `Theorem5_18_1_A_classification` this shows
   the map is injective on iso-classes.
-* **Surjectivity** (`exists_simple_A_module_homA_iso`): every simple `B`-module
-  is `≃ₗ[B] Hom_A(V, E)` for some simple `A`-module `V` (realised as
-  `Hom_B(W₀, E)` via the biduality bridge / double-centralizer).
-* **Bijection** (`homA_bijection_isotypicComponents`): the induced map on the
-  finite index sets `isotypicComponents A E → isotypicComponents B E` is a
-  bijection.
+* **Surjectivity** (`exists_simple_A_submodule_homA_iso`): every simple
+  `B`-module is `≃ₗ[B] Hom_A(V, E)` for some simple `A`-submodule `V ≤ E`,
+  read off the surjectivity of the realization map below.
+* **Bijection** (`homRealizationComponent_bijective`,
+  `homRealizationComponentEquiv`): the induced map on the finite index sets
+  `isotypicComponents A E → isotypicComponents B E` is a bijection. The engine
+  is the generic realization map `homRealizationComponent` (injective by the
+  biduality bridge), with bijectivity forced by the double-centralizer
+  cardinality balance.
 
 The `A ⊗ B`-equivariance packaging tracked separately (see the Schur-Weyl
 transfer files) consumes these endpoints.
@@ -346,5 +349,65 @@ noncomputable def homRealizationComponentEquiv
     isotypicComponents A E ≃
       isotypicComponents (Subalgebra.centralizer k (A : Set (Module.End k E))) E :=
   Equiv.ofBijective _ (homRealizationComponent_bijective k E A)
+
+/-- **Surjectivity of `V ↦ Hom_A(V, E)` (the book's final sentence).**
+
+Every simple `B`-module `W` (`B = centralizer A`) is `B`-isomorphic to
+`Hom_A(V, E)` for some simple `A`-submodule `V ≤ E`. This is the surjectivity
+half of the classification: combined with `homA_iso_of_homA_congr` (injectivity)
+and `isSimpleModule_homA_centralizer'` (simple-valued), it shows `V ↦ Hom_A(V, E)`
+is a bijection between iso-classes of simple `A`-modules and simple `B`-modules.
+
+The witness is read off the surjectivity of `homRealizationComponent A`: realise
+`W ≃ₗ[B] ↥W₀` inside `E`, hit its isotypic component by some `c`, and identify
+the realisation of `Hom_A(V_c, E)` with `↥W₀` inside the shared component. -/
+theorem exists_simple_A_submodule_homA_iso
+    (A : Subalgebra k (Module.End k E)) [IsSemisimpleRing A] [IsAlgClosed k]
+    (W : Type w) [AddCommGroup W]
+    [Module (↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) W]
+    [IsSimpleModule (↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) W] :
+    ∃ V : Submodule A E, IsSimpleModule A V ∧
+      Nonempty (W ≃ₗ[↥(Subalgebra.centralizer k (A : Set (Module.End k E)))]
+        (↥V →ₗ[A] E)) := by
+  classical
+  haveI hCss : IsSemisimpleRing (Subalgebra.centralizer k (A : Set (Module.End k E))) :=
+    Theorem5_18_1_commutant_semisimple k E A
+  haveI : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
+  haveI : IsSemisimpleModule (Subalgebra.centralizer k (A : Set (Module.End k E))) E :=
+    IsSemisimpleRing.isSemisimpleModule
+  -- Realise `W` as a simple `B`-submodule `W₀ ≤ E`.
+  obtain ⟨W₀, hW₀simple, ⟨eWW₀⟩⟩ := exists_simpleSubmodule_iso_of_faithful k E
+    (Subalgebra.centralizer k (A : Set (Module.End k E))) W
+  haveI := hW₀simple
+  -- Its isotypic component `d`, hit by some `c` via surjectivity.
+  set d : isotypicComponents (Subalgebra.centralizer k (A : Set (Module.End k E))) E :=
+    ⟨isotypicComponent _ E W₀, ⟨W₀, hW₀simple, rfl⟩⟩ with hd
+  obtain ⟨c, hc⟩ := (homRealizationComponent_bijective k E A).2 d
+  -- Unfold the realisation `R` of `Hom_A(V_c, E)`.
+  haveI : IsSimpleModule (Subalgebra.centralizer k (A : Set (Module.End k E)))
+      (↥(compSimple A c) →ₗ[A] E) := isSimpleModule_homA_centralizer k E A (compSimple A c)
+  set R := (exists_simpleSubmodule_iso_of_faithful k E
+      (Subalgebra.centralizer k (A : Set (Module.End k E)))
+      (↥(compSimple A c) →ₗ[A] E)).choose with hRdef
+  obtain ⟨hRsimple, ⟨eMR⟩⟩ := (exists_simpleSubmodule_iso_of_faithful k E
+      (Subalgebra.centralizer k (A : Set (Module.End k E)))
+      (↥(compSimple A c) →ₗ[A] E)).choose_spec
+  haveI := hRsimple
+  -- `hc` gives `isotypicComponent B E R = isotypicComponent B E W₀`.
+  have hcomp : isotypicComponent (Subalgebra.centralizer k (A : Set (Module.End k E))) E R =
+      isotypicComponent (Subalgebra.centralizer k (A : Set (Module.End k E))) E W₀ :=
+    congrArg Subtype.val hc
+  -- `R ≃ W₀` over `B`: both simple submodules of the shared component.
+  have hRle : R ≤ isotypicComponent (Subalgebra.centralizer k (A : Set (Module.End k E))) E R :=
+    Submodule.le_isotypicComponent R
+  have hW₀le : W₀ ≤ isotypicComponent (Subalgebra.centralizer k (A : Set (Module.End k E))) E R :=
+    hcomp ▸ Submodule.le_isotypicComponent W₀
+  obtain ⟨eRc⟩ := isIsotypicOfType_submodule_iff.mp
+    (IsIsotypicOfType.isotypicComponent _ E R) R hRle
+  obtain ⟨eW₀c⟩ := isIsotypicOfType_submodule_iff.mp
+    (IsIsotypicOfType.isotypicComponent _ E R) W₀ hW₀le
+  -- `W ≃ W₀ ≃ R ≃ Hom_A(V_c, E)`.
+  exact ⟨compSimple A c, compSimple_isSimple A c,
+    ⟨eWW₀.trans (eW₀c.trans (eRc.symm.trans eMR.symm))⟩⟩
 
 end Etingof
