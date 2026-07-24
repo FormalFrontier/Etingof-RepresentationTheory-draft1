@@ -27,6 +27,9 @@ the scalars `α`, `βⁿ` respectively (their common values are the *central cha
 * `Etingof.Problem2_7_5.famRel` — the defining relation `Ylin·Xlin = q•(Xlin·Ylin)`.
 * `Etingof.Problem2_7_5.Xlin_pow_orderOf` / `Ylin_pow_orderOf` — the central-scalar actions
   `Xⁿ = α·1`, `Yⁿ = βⁿ·1`.
+* `Etingof.Problem2_7_5.famModule_xpow_smul` / `famModule_ypow_smul` — the same statements on
+  `V(α,β)`: the central elements `xⁿ`, `yⁿ` act by `α`, `βⁿ`, i.e. `V(α,β)` has central character
+  `(α, βⁿ)`.
 -/
 
 namespace Etingof.Problem2_7_5
@@ -197,6 +200,139 @@ theorem famModule_isScalarTower (hqorder : orderOf q = N) :
     letI := famModule q α β N hqorder
     IsScalarTower ℂ (qWeylAlgebra ℂ q) (Fin N → ℂ) :=
   Etingof.QWeyl.module_isScalarTower q (Xunit α N) (Yunit q β N) (famRel_unit q α β N hqorder)
+
+/-! ### Shifting the index set
+
+`Fin N` carries only an additive group structure here (there is no `NatCast`, since `N` is a
+variable constrained merely by `NeZero N`), so "shift by `m` steps" is written as the `ℕ`-multiple
+`m • (1 : Fin N)`. -/
+
+/-- The `m`-step shift is `m` reduced modulo `N`. -/
+theorem val_nsmul_one (m : ℕ) : ((m • (1 : Fin N) : Fin N) : ℕ) = m % N := by
+  induction m with
+  | zero => simp
+  | succ m ih => rw [succ_nsmul, Fin.val_add, ih, Fin.val_one', ← Nat.add_mod]
+
+/-- Shifting `0` by `k` steps lands on `k`, so every index is reached by the shift. -/
+theorem nsmul_one_val (k : Fin N) : ((k : ℕ) • (1 : Fin N)) = k :=
+  Fin.ext (by rw [val_nsmul_one, Nat.mod_eq_of_lt k.isLt])
+
+/-- Shifting by `N` steps is the identity: the shift orbit is one full cycle. -/
+theorem nsmul_one_card : (N • (1 : Fin N)) = 0 :=
+  Fin.ext (by rw [val_nsmul_one, Nat.mod_self]; rfl)
+
+/-! ### Powers of the generators: the central-scalar actions -/
+
+/-- The weights of the twisted shift multiply to `α` over a full cycle: as `i` runs through
+`range N` the index `k - i` runs through all of `Fin N`, so exactly one factor (the one at index
+`0`) contributes `α` and the rest contribute `1`. -/
+theorem prod_wX_cycle (k : Fin N) :
+    ∏ i ∈ Finset.range N, wX α N (k - i • (1 : Fin N)) = (α : ℂ) := by
+  rw [← Fin.prod_univ_eq_prod_range (fun i : ℕ => wX α N (k - i • (1 : Fin N))) N]
+  have h : ∀ i : Fin N, wX α N (k - (i : ℕ) • (1 : Fin N)) = wX α N (Equiv.subLeft k i) := by
+    intro i; rw [nsmul_one_val]; rfl
+  simp_rw [h]
+  rw [Equiv.prod_comp (Equiv.subLeft k) (wX α N)]
+  simp only [wX]
+  rw [Finset.prod_ite_eq' Finset.univ (0 : Fin N) (fun _ => (α : ℂ))]
+  simp
+
+/-- Closed form for the powers of the twisted shift: `(Xᵐ f) k` is `f` at the index `m` steps
+back from `k`, weighted by the product of the weights along that orbit segment. -/
+theorem Xlin_pow_apply (m : ℕ) (f : Fin N → ℂ) (k : Fin N) :
+    ((Xlin α N) ^ m) f k
+      = (∏ i ∈ Finset.range m, wX α N (k - i • (1 : Fin N))) • f (k - m • (1 : Fin N)) := by
+  induction m generalizing f with
+  | zero => simp
+  | succ m ih =>
+    rw [pow_succ, Module.End.mul_apply, ih (Xlin α N f), Finset.prod_range_succ]
+    simp only [Xlin, LinearMap.coe_mk, AddHom.coe_mk, smul_eq_mul]
+    rw [succ_nsmul, ← sub_sub]
+    ring
+
+/-- **Central scalar action of `xⁿ` on the operators.** The `n`-th power of the twisted cyclic
+shift is the scalar `α`. -/
+theorem Xlin_pow_orderOf : (Xlin α N) ^ N = (α : ℂ) • (1 : Module.End ℂ (Fin N → ℂ)) := by
+  refine LinearMap.ext fun f => ?_
+  funext k
+  rw [Xlin_pow_apply, prod_wX_cycle, nsmul_one_card, sub_zero]
+  simp
+
+omit [NeZero N] in
+/-- Closed form for the powers of the diagonal operator. -/
+theorem Ylin_pow_apply (m : ℕ) (f : Fin N → ℂ) (k : Fin N) :
+    ((Ylin q β N) ^ m) f k = (wY q β N k) ^ m • f k := by
+  induction m generalizing f with
+  | zero => simp
+  | succ m ih =>
+    rw [pow_succ, Module.End.mul_apply, ih (Ylin q β N f)]
+    simp only [Ylin, LinearMap.coe_mk, AddHom.coe_mk, smul_eq_mul, pow_succ]
+    ring
+
+omit [NeZero N] in
+/-- `q` is an `N`-th root of unity, `N` being its order. -/
+theorem q_pow_card (hqorder : orderOf q = N) : (q : ℂ) ^ N = 1 := by
+  have h : q ^ N = 1 := by rw [← hqorder]; exact pow_orderOf_eq_one q
+  have hval := congrArg Units.val h
+  push_cast at hval
+  simpa using hval
+
+omit [NeZero N] in
+/-- **Central scalar action of `yⁿ` on the operators.** The `n`-th power of the diagonal operator
+is the scalar `βⁿ`: the `qᵏ` factors are killed by `qⁿ = 1`. -/
+theorem Ylin_pow_orderOf (hqorder : orderOf q = N) :
+    (Ylin q β N) ^ N = ((β : ℂ) ^ N) • (1 : Module.End ℂ (Fin N → ℂ)) := by
+  refine LinearMap.ext fun f => ?_
+  funext k
+  have hk : ((q : ℂ) ^ (k : ℕ)) ^ N = 1 := by
+    rw [← pow_mul, mul_comm, pow_mul, q_pow_card q N hqorder, one_pow]
+  rw [Ylin_pow_apply]
+  simp [wY, mul_pow, hk]
+
+/-! ### The central character of `V(α,β)`
+
+The elements `xⁿ` and `yⁿ` are central in `qWeylAlgebra ℂ q`; on `V(α,β)` they act by the scalars
+`α` and `βⁿ`, so the central character of `V(α,β)` is `(α, βⁿ)`. -/
+
+/-- The central element `xⁿ = qWeylMono (n, 0)` acts on `V(α,β)` by the scalar `α`. -/
+theorem famModule_xpow_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
+    letI := famModule q α β N hqorder
+    (Etingof.QWeyl.qWeylMono q ((N : ℤ), 0)) • f = (α : ℂ) • f := by
+  letI := famModule q α β N hqorder
+  rw [Etingof.QWeyl.module_smul]
+  change Etingof.QWeyl.toEnd q (Xunit α N) (Yunit q β N) _
+    (Etingof.QWeyl.qWeylMono q ((N : ℤ), 0)) f = _
+  rw [Etingof.QWeyl.toEnd_qWeylMono]
+  simp only [Etingof.QWeyl.op, zpow_zero, Units.val_one, mul_one, zpow_natCast,
+    Units.val_pow_eq_pow_val, Xunit_val, Xlin_pow_orderOf]
+  simp
+
+/-- The central element `yⁿ = qWeylMono (0, n)` acts on `V(α,β)` by the scalar `βⁿ`. -/
+theorem famModule_ypow_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
+    letI := famModule q α β N hqorder
+    (Etingof.QWeyl.qWeylMono q (0, (N : ℤ))) • f = ((β : ℂ) ^ N) • f := by
+  letI := famModule q α β N hqorder
+  rw [Etingof.QWeyl.module_smul]
+  change Etingof.QWeyl.toEnd q (Xunit α N) (Yunit q β N) _
+    (Etingof.QWeyl.qWeylMono q (0, (N : ℤ))) f = _
+  rw [Etingof.QWeyl.toEnd_qWeylMono]
+  simp only [Etingof.QWeyl.op, zpow_zero, Units.val_one, one_mul, zpow_natCast,
+    Units.val_pow_eq_pow_val, Yunit_val, Ylin_pow_orderOf q β N hqorder]
+  simp
+
+/-- The same statement phrased through the generator `x = qWeylMono (1, 0)`: `xⁿ` acts by `α`. -/
+theorem famModule_x_pow_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
+    letI := famModule q α β N hqorder
+    ((Etingof.QWeyl.qWeylMono q (1, 0)) ^ N) • f = (α : ℂ) • f := by
+  rw [Etingof.QWeyl.qWeylMono_x_pow, one_mul]
+  exact famModule_xpow_smul q α β N hqorder f
+
+/-- The same statement phrased through the generator `y = qWeylMono (0, 1)`: `yⁿ` acts by `βⁿ`. -/
+theorem famModule_y_pow_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
+    letI := famModule q α β N hqorder
+    ((Etingof.QWeyl.qWeylMono q (0, 1)) ^ N) • f = ((β : ℂ) ^ N) • f := by
+  rw [Etingof.QWeyl.qWeylMono_y_pow, one_mul]
+  exact famModule_ypow_smul q α β N hqorder f
 
 end Family
 
