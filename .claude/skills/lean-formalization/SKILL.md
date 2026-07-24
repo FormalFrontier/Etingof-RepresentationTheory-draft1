@@ -91,6 +91,17 @@ with `lake build <Module>` before debugging — the on-`main` file fails `lake e
 too. (Some places below still say `lake env lean`; prefer `lake build` when the file uses
 these instances.)
 
+The lakefile *also* drops `weak.backward.isDefEq.respectTransparency = false` under `lake
+env lean`. That option restores pre-v4.29 `isDefEq` transparency, which the
+`addCommGroupOfRing` instance diamonds in the Chapter 6 reflection-functor infrastructure
+(`ReflectionFunctorInfrastructure`, `Proposition6_6_6[_source]`, `Corollary6_8_3`, …) rely
+on; without it, `Module k (DirectSum …)` synthesis (e.g. under `Submodule.Quotient.equiv`)
+fails spuriously. **A "restore/regression" issue whose reproduction is `lake env lean
+<file>` and whose errors are `synthInstanceFailed` / `Module k (DirectSum …)` is very
+likely a false positive — verify the premise with `lake build <Module>` before doing any
+work.** (2026-07: issue #7490 was filed this way; all four files build clean under `lake
+build` and the endpoints are axiom-clean.)
+
 **Two Mathlib lemmas can produce the *same* `1`/`0`/`Pi.single i 1` through *different*
 typeclass paths — `rw` then fails syntactically, `exact` succeeds by defeq.** Classic case
 (cost real iterations in #6597, `Chapter9/Problem9_5_3_PrimitiveIdempotents.lean`):
