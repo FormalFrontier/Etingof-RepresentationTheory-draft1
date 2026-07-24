@@ -62,9 +62,10 @@ section Proof
 variable (χ : K →* ℂˣ)
 
 /-- Abbreviation for the underlying `K`-representation on `ℂ[G] ⊗ ℂ` whose coinvariants form
-`Ind_K^G ℂ_χ`. -/
-private noncomputable abbrev indRep :
-    Representation ℂ K (TensorProduct ℂ (G →₀ ℂ) ℂ) :=
+`Ind_K^G ℂ_χ`. The type ascription is deliberately omitted: writing it out wraps the term so
+that the defeq `Coinvariants (indRep K χ) = Representation.IndV K.subtype (chiRep K χ)` forces
+Lean to fully reduce the tensor-product representation, blowing the `whnf` heartbeat budget. -/
+private noncomputable abbrev indRep :=
   Representation.tprod ((leftRegular ℂ G).comp K.subtype) (chiRep K χ)
 
 private lemma chiRep_apply (k : K) (z : ℂ) : chiRep K χ k z = ((χ k : ℂˣ) : ℂ) • z := rfl
@@ -223,13 +224,14 @@ private lemma bwd_of_inv_mul_idem (h : G) :
 /-- The composite `fwd ∘ bwd` is right multiplication by `e_χ`. -/
 private lemma fwd_bwd (x : MonoidAlgebra ℂ G) :
     fwd K χ (bwd K χ x) = x * idempotentOfChar K χ := by
-  induction x using Finsupp.induction_linear with
-  | zero => simp
-  | add p q hp hq => simp only [map_add, hp, hq, add_mul]
-  | single g c =>
-    rw [show (Finsupp.single g c : MonoidAlgebra ℂ G) = c • MonoidAlgebra.of ℂ G g by
-          rw [MonoidAlgebra.of_apply, Finsupp.smul_single, smul_eq_mul, mul_one],
-      map_smul, map_smul, bwd_of, fwd_mk, inv_inv, one_smul, smul_mul_assoc]
+  -- Induct with `MonoidAlgebra.induction_on` (not `Finsupp.induction_linear`): its case
+  -- variables stay in `ℂ[G]`, whereas the `Finsupp` principle types them as `G →₀ ℂ`, and the
+  -- resulting `ℂ[G] = G →₀ ℂ` mismatch is only defeq at default (not `instances`) transparency,
+  -- which breaks the `map_add`/`map_smul` rewrites into `bwd`/`fwd`.
+  induction x using MonoidAlgebra.induction_on with
+  | hM g => rw [bwd_of, fwd_mk, inv_inv, one_smul]
+  | hadd p q hp hq => rw [map_add, map_add, hp, hq, add_mul]
+  | hsmul r p hp => rw [map_smul, map_smul, hp, smul_mul_assoc]
 
 end Proof
 
