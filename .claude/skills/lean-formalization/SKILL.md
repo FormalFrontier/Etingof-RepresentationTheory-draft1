@@ -263,6 +263,26 @@ when `sinkMap : ⊕ⱼVⱼ →ₗ Vᵢ` makes it a submodule of the direct sum).
 contradictions on `Module.Free` carriers, `Module.finrank_eq_zero_iff_of_free` avoids needing any
 `AddCommGroup` upgrade at all.
 
+**Categorical `kernel f` (for `f : A ⟶ B` in `ModuleCat R`) in a `Type`-expecting position
+silently elaborates in the WRONG category.** Writing `Module.Finite R (kernel f)` as a return
+type makes Lean elaborate `kernel f` against the expected type `Type`, so it picks
+`@kernel (Type _) types …` and reports a baffling `failed to synthesize HasZeroMorphisms (Type ?u)`
+(seen building `FiniteProjectiveResolution.lean`, #7678). **Fix:** ascribe the category —
+`Module.Finite R (kernel f : ModuleCat.{u} R)` — so the coercion `↥` is inserted around a
+ModuleCat-kernel. (In a slot already expecting `ModuleCat R`, e.g. `X = kernel g` or inside a
+`Σ' K : ModuleCat R, …`, no ascription is needed.) Companion gotcha: kernels/homology/ShortComplex
+in `ModuleCat R` need `import Mathlib.Algebra.Category.ModuleCat.Abelian` in scope — without it
+`Abelian (ModuleCat R)` / `HasKernel` fail to synthesize even though `R` is a plain `Ring`.
+
+**Applying `ShortComplex.exact_iff_of_epi_of_isIso_of_mono φ` fails instance synthesis when `φ` is
+an inline `{ τ₁ := …, … }` literal** — Lean cannot reduce `Epi φ.τ₁`/`IsIso φ.τ₂`/`Mono φ.τ₃`
+through the un-named projection while other comm-fields are still metavariables. **Fix (mirrors
+Mathlib's `exact_d_f`):** bind `let α : S₁ ⟶ S₂ := { … }` with BOTH `S₁` and `S₂` pinned via the
+ascribed `let` type (never leave `S₂` to be inferred from the goal — it defaults wrong and mistypes
+`τ₃`), then feed the three instances explicitly, e.g.
+`haveI : Epi α.τ₁ := (inferInstance : Epi (<concrete map>))` (let-reduction makes `α.τ₁` defeq the
+concrete map), before `rw`/`.mp`/`.mpr` on the iff.
+
 **`LinearMap.ofIsCompl hC W₁.subtype 0` (and sibling complement/projection constructors) can
 stop elaborating** when the ring/module are only inferrable from a coerced-subtype argument
 (regression seen fixing Ch3 `Problem3_8_5.lean`, #7533). The non-`@` application fails to infer
