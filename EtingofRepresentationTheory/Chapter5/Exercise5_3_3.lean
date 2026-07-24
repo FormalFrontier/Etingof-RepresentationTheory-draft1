@@ -107,7 +107,7 @@ private def stableSubmodule (ρ : Representation ℂ G V) (P : Submodule ℂ ρ.
     | single g a =>
         have hsingle : (MonoidAlgebra.single g a : MonoidAlgebra ℂ G) =
             a • MonoidAlgebra.single g (1 : ℂ) := by
-          rw [Finsupp.smul_single, smul_eq_mul, mul_one]
+          rw [MonoidAlgebra.smul_single', mul_one]
         rw [hsingle, smul_assoc]
         apply P.smul_mem
         rw [Representation.single_smul, one_smul]
