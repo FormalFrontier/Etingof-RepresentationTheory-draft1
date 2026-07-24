@@ -153,7 +153,8 @@ variable {C : Type*} [Category C] [Abelian C]
 of `f`. This is one half of the subobject correspondence used to prove length additivity. -/
 theorem map_pullback_obj_inf {X Y : C} (f : X ⟶ Y) [Mono f] (P : Subobject Y) :
     (Subobject.map f).obj ((Subobject.pullback f).obj P) = P ⊓ Subobject.mk f := by
-  sorry
+  rw [inf_comm, Subobject.inf_def]
+  exact (Subobject.inf_eq_map_pullback' (MonoOver.mk f) P).symm
 
 /-- **Image–pullback correspondence (join).** For an arbitrary morphism `g`, the preimage under
 `g` of the image `g(P)` of a subobject `P` is `P` joined with the kernel of `g`. This is the
