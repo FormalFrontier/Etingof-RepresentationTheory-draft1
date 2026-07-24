@@ -190,6 +190,16 @@ Check that the plan's assumptions still hold:
   discover this. If it already exists, reuse it: the task shrinks to a thin
   bridge/assembly (or, for audits, a tracking reconciliation — flip `items.json`,
   repoint `lean_ref`, drop the residual issue), not new infrastructure.
+- **A "restore/regression" issue whose reproduction is `lake env lean <file>` may
+  be a false positive — reconfirm the failure with `lake build <Module>` before any
+  work.** `lake env lean` drops the lakefile's `[leanOptions]` (`maxSynthPendingDepth
+  = 3`, `backward.isDefEq.respectTransparency = false`), so files with deep instance
+  chains or `isDefEq` diamonds throw spurious `synthInstanceFailed` / instance-path
+  errors under it that never occur under `lake build`. See `lean-formalization`
+  ("Typecheck with `lake build`, NOT `lake env lean`") for the full account. If
+  `lake build <Module>` is green and `#print axioms` on the endpoints is clean, the
+  issue is already resolved (often by a since-merged dependency fix) — close it with
+  the build evidence rather than editing a working file. (2026-07: #7490, #7547.)
 
 If stale:
 ```
