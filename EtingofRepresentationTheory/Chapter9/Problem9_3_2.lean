@@ -12,6 +12,7 @@ import Mathlib.Algebra.Homology.DerivedCategory.Ext.ExtClass
 import Mathlib.Algebra.Module.Projective
 import Mathlib.Algebra.Category.ModuleCat.Projective
 import Mathlib.Algebra.Algebra.Bilinear
+import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 import EtingofRepresentationTheory.Chapter9.Definition9_5_1
 
 /-!
@@ -176,6 +177,12 @@ noncomputable def mkAlgLinear {W : Type v} [AddCommGroup W] [Module ℂ W]
     simp only [hV, hW, RingHom.id_apply, intertwine_all ρV ρW φ hg hx a v]
 
 end Rep
+
+/-- Scalars from `ℂ` act on an `A`-module through `A`, so `A`-submodules are `ℂ`-stable. -/
+lemma smul_mem_complex {M : Type u} [AddCommGroup M] [Module ℂ M] [Module A M]
+    [IsScalarTower ℂ A M] (N : Submodule A M) (c : ℂ) {v : M} (hv : v ∈ N) : c • v ∈ N := by
+  have h := N.smul_mem (algebraMap ℂ A c) hv
+  rwa [algebraMap_smul] at h
 
 /-! ## The two one-dimensional simple modules `S₊` and `S₋` -/
 
@@ -514,6 +521,80 @@ lemma rPlus_comp_iPlus : rPlus.comp iPlus = LinearMap.id := by
 instance projective_Pplus : Module.Projective A Pplus :=
   Module.Projective.of_split iPlus rPlus rPlus_comp_iPlus
 
+
+/-! ### `P₊` is indecomposable and is a projective cover of `S₊`
+
+The submodule lattice of `P₊` is the chain `0 ⊂ ℂ·(0,1) ⊂ P₊`: any nonzero submodule contains
+the socle vector `(0,1)`, and any submodule containing a vector with nonzero first coordinate is
+everything. Both facts follow from `x · (a, b) = (0, a)`. -/
+
+/-- Every nonzero `A`-submodule of `P₊` contains the socle vector `(0, 1)`. -/
+lemma socle_mem_of_ne_bot_Pplus (N : Submodule A Pplus) (hN : N ≠ ⊥) :
+    (![0, 1] : Pplus) ∈ N := by
+  obtain ⟨v, hvN, hv⟩ := (Submodule.ne_bot_iff N).mp hN
+  by_cases h0 : v 0 = 0
+  · have h1 : v 1 ≠ 0 := by
+      intro h1
+      exact hv (by funext j; fin_cases j <;> simpa [h0, h1])
+    have := smul_mem_complex N (v 1)⁻¹ hvN
+    convert this using 1
+    funext j; fin_cases j <;> simp [h0, inv_mul_cancel₀ h1]
+  · have hx : x • v ∈ N := N.smul_mem x hvN
+    rw [Pplus.x_smul] at hx
+    have := smul_mem_complex N (v 0)⁻¹ hx
+    convert this using 1
+    funext j; fin_cases j <;> simp [inv_mul_cancel₀ h0]
+
+/-- An `A`-submodule of `P₊` containing a vector with nonzero first coordinate is all of `P₊`. -/
+lemma eq_top_of_mem_Pplus (N : Submodule A Pplus) {v : Pplus} (hvN : v ∈ N) (h0 : v 0 ≠ 0) :
+    N = ⊤ := by
+  have hsoc : (![0, 1] : Pplus) ∈ N :=
+    socle_mem_of_ne_bot_Pplus N (Submodule.ne_bot_iff N |>.mpr
+      ⟨v, hvN, fun h => h0 (by rw [h]; rfl)⟩)
+  have he0 : (![1, 0] : Pplus) ∈ N := by
+    have hsub : v - v 1 • (![0, 1] : Pplus) ∈ N :=
+      N.sub_mem hvN (smul_mem_complex N (v 1) hsoc)
+    have := smul_mem_complex N (v 0)⁻¹ hsub
+    convert this using 1
+    funext j; fin_cases j <;>
+      simp [Matrix.vecHead, Matrix.vecTail, inv_mul_cancel₀ h0]
+  refine Submodule.eq_top_iff'.mpr fun w => ?_
+  have hw : w = w 0 • (![1, 0] : Pplus) + w 1 • (![0, 1] : Pplus) := by
+    funext j; fin_cases j <;> simp
+  rw [hw]
+  exact N.add_mem (smul_mem_complex N _ he0) (smul_mem_complex N _ hsoc)
+
+/-- **`P₊` is indecomposable.** Every nonzero submodule contains the socle vector `(0, 1)`, so
+two nonzero submodules can never be disjoint. -/
+theorem isIndecomposable_Pplus : Etingof.IsIndecomposable A Pplus := by
+  refine ⟨inferInstance, fun M N hMN => ?_⟩
+  by_contra hc
+  obtain ⟨hM, hN⟩ := not_or.mp hc
+  have hmem : (![0, 1] : Pplus) ∈ M ⊓ N :=
+    ⟨socle_mem_of_ne_bot_Pplus M hM, socle_mem_of_ne_bot_Pplus N hN⟩
+  rw [hMN.inf_eq_bot, Submodule.mem_bot] at hmem
+  have hone : (![0, 1] : Pplus) 1 = (0 : Pplus) 1 := by rw [hmem]
+  simp at hone
+
+/-- The kernel of `P₊ ↠ S₊` is superfluous: no proper submodule of `P₊` complements it. -/
+theorem ker_gSES_superfluous (N : Submodule A Pplus)
+    (h : N ⊔ LinearMap.ker gSES = ⊤) : N = ⊤ := by
+  have hmem : (![1, 0] : Pplus) ∈ N ⊔ LinearMap.ker gSES := h ▸ Submodule.mem_top
+  obtain ⟨n, hn, k, hk, hnk⟩ := Submodule.mem_sup.mp hmem
+  have hk0 : k 0 = 0 := hk
+  refine eq_top_of_mem_Pplus N hn ?_
+  have : n 0 + k 0 = (1 : ℂ) := congrFun hnk 0
+  rw [hk0, add_zero] at this
+  rw [this]
+  exact one_ne_zero
+
+/-- **`P₊ ↠ S₊` is a projective cover of `S₊`.** `P₊` is projective, the map is surjective, and
+its kernel `S₋` is superfluous in `P₊`. -/
+theorem isProjectiveCover_Pplus :
+    Module.Projective A Pplus ∧ Function.Surjective gSES ∧
+      ∀ N : Submodule A Pplus, N ⊔ LinearMap.ker gSES = ⊤ → N = ⊤ :=
+  ⟨projective_Pplus, gSES_surjective, ker_gSES_superfluous⟩
+
 /-! ## The mirror projective `P₋` and the mirror extension `0 → S₊ → P₋ → S₋ → 0`
 
 `P₋` is the second projective indecomposable: `ℂ²` with `g = diag(-1, 1)` and
@@ -752,6 +833,73 @@ theorem areLinked :
   Relation.EqvGen.rel _ _
     ⟨(inferInstance : IsSimpleModule A Splus), (inferInstance : IsSimpleModule A Sminus),
       Or.inl (Or.inl directlyExtLinked)⟩
+
+/-! ### `P₋` is indecomposable and is a projective cover of `S₋` -/
+
+/-- Every nonzero `A`-submodule of `P₋` contains the socle vector `(0, 1)`. -/
+lemma socle_mem_of_ne_bot_Pminus (N : Submodule A Pminus) (hN : N ≠ ⊥) :
+    (![0, 1] : Pminus) ∈ N := by
+  obtain ⟨v, hvN, hv⟩ := (Submodule.ne_bot_iff N).mp hN
+  by_cases h0 : v 0 = 0
+  · have h1 : v 1 ≠ 0 := by
+      intro h1
+      exact hv (by funext j; fin_cases j <;> simpa [h0, h1])
+    have := smul_mem_complex N (v 1)⁻¹ hvN
+    convert this using 1
+    funext j; fin_cases j <;> simp [h0, inv_mul_cancel₀ h1]
+  · have hx : x • v ∈ N := N.smul_mem x hvN
+    rw [Pminus.x_smul] at hx
+    have := smul_mem_complex N (v 0)⁻¹ hx
+    convert this using 1
+    funext j; fin_cases j <;> simp [inv_mul_cancel₀ h0]
+
+/-- An `A`-submodule of `P₋` containing a vector with nonzero first coordinate is all of `P₋`. -/
+lemma eq_top_of_mem_Pminus (N : Submodule A Pminus) {v : Pminus} (hvN : v ∈ N) (h0 : v 0 ≠ 0) :
+    N = ⊤ := by
+  have hsoc : (![0, 1] : Pminus) ∈ N :=
+    socle_mem_of_ne_bot_Pminus N (Submodule.ne_bot_iff N |>.mpr
+      ⟨v, hvN, fun h => h0 (by rw [h]; rfl)⟩)
+  have he0 : (![1, 0] : Pminus) ∈ N := by
+    have hsub : v - v 1 • (![0, 1] : Pminus) ∈ N :=
+      N.sub_mem hvN (smul_mem_complex N (v 1) hsoc)
+    have := smul_mem_complex N (v 0)⁻¹ hsub
+    convert this using 1
+    funext j; fin_cases j <;>
+      simp [Matrix.vecHead, Matrix.vecTail, inv_mul_cancel₀ h0]
+  refine Submodule.eq_top_iff'.mpr fun w => ?_
+  have hw : w = w 0 • (![1, 0] : Pminus) + w 1 • (![0, 1] : Pminus) := by
+    funext j; fin_cases j <;> simp
+  rw [hw]
+  exact N.add_mem (smul_mem_complex N _ he0) (smul_mem_complex N _ hsoc)
+
+/-- **`P₋` is indecomposable.** -/
+theorem isIndecomposable_Pminus : Etingof.IsIndecomposable A Pminus := by
+  refine ⟨inferInstance, fun M N hMN => ?_⟩
+  by_contra hc
+  obtain ⟨hM, hN⟩ := not_or.mp hc
+  have hmem : (![0, 1] : Pminus) ∈ M ⊓ N :=
+    ⟨socle_mem_of_ne_bot_Pminus M hM, socle_mem_of_ne_bot_Pminus N hN⟩
+  rw [hMN.inf_eq_bot, Submodule.mem_bot] at hmem
+  have hone : (![0, 1] : Pminus) 1 = (0 : Pminus) 1 := by rw [hmem]
+  simp at hone
+
+/-- The kernel of `P₋ ↠ S₋` is superfluous: no proper submodule of `P₋` complements it. -/
+theorem ker_gSESm_superfluous (N : Submodule A Pminus)
+    (h : N ⊔ LinearMap.ker gSESm = ⊤) : N = ⊤ := by
+  have hmem : (![1, 0] : Pminus) ∈ N ⊔ LinearMap.ker gSESm := h ▸ Submodule.mem_top
+  obtain ⟨n, hn, k, hk, hnk⟩ := Submodule.mem_sup.mp hmem
+  have hk0 : k 0 = 0 := hk
+  refine eq_top_of_mem_Pminus N hn ?_
+  have hsum : n 0 + k 0 = (1 : ℂ) := congrFun hnk 0
+  rw [hk0, add_zero] at hsum
+  rw [hsum]
+  exact one_ne_zero
+
+/-- **`P₋ ↠ S₋` is a projective cover of `S₋`.** -/
+theorem isProjectiveCover_Pminus :
+    Module.Projective A Pminus ∧ Function.Surjective gSESm ∧
+      ∀ N : Submodule A Pminus, N ⊔ LinearMap.ker gSESm = ⊤ → N = ⊤ :=
+  ⟨projective_Pminus, gSESm_surjective, ker_gSESm_superfluous⟩
 
 /-! ## Classification of the simple modules
 
