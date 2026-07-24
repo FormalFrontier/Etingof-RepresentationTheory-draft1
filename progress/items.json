@@ -9624,12 +9624,11 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "IsFiniteAbelianCategory class: extends Abelian + EnoughProjectives, with finite indexing type for simple objects",
+    "notes": "IsFiniteAbelianCategory class: extends Abelian + EnoughProjectives, with finite indexing type for simple objects. The motivating example is realized in Definition9_6_1_Example.lean: for A a finite-dimensional algebra over an algebraically closed field k, fgModuleCatIsFiniteAbelianCategory and fgModuleCatIsFiniteAbelianCategoryOverField assemble the IsFiniteAbelianCategory / IsFiniteAbelianCategoryOverField data on FGModuleCat A (finite simple family, order-theoretic finite length, Schur's lemma End X ≃ₐ[k] k), and exists_progenerator_fgModuleCat / morita_fgModuleCat / isNoetherianRing_endOp_fgModuleCat run the §9.6 capstones (Exercise 9.6.3, Theorem 9.6.4) on it.",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The abstract finite-abelian-category classes are defined. The source's motivating example is not realized: there is no IsFiniteAbelianCategory or over-field instance for FGModuleCat of a finite-dimensional algebra, and the two finite-length encodings are unbridged. Follow-up #7424.",
-    "followup_issue": 7424,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "The abstract finite-abelian-category classes are defined and the source's motivating example FGModuleCat A (A finite-dimensional over an algebraically closed field) is realized sorry-free in Definition9_6_1_Example.lean (#7640), consuming the sub-issue results #7637/#7638/#7639. The two finite-length encodings are used directly (not through the abstract bridge #7643).",
+    "last_updated": "2026-07-24"
   },
   {
     "id": "Chapter9/Definition9.6.2",
