@@ -1287,6 +1287,124 @@ theorem exists_conj_isParabolic (hp2 : p ≠ 2) {g : GL2' p n} (hg : GL2.IsParab
         | linear_combination hkey
         | linear_combination c * hx2
 
+/-- The **split-semisimple (diagonal) representative** `!![x,0;0,y]` for nonzero
+`x, y`. -/
+noncomputable def diagRepr (x y : GaloisField p n) (hx : x ≠ 0) (hy : y ≠ 0) : GL2' p n :=
+  Matrix.GeneralLinearGroup.mkOfDetNeZero !![x, 0; 0, y]
+    (by rw [Matrix.det_fin_two_of]; simpa using mul_ne_zero hx hy)
+
+@[simp] lemma diagRepr_val (x y : GaloisField p n) (hx : x ≠ 0) (hy : y ≠ 0) :
+    (diagRepr x y hx hy).val = !![x, 0; 0, y] := by
+  simp [diagRepr, Matrix.GeneralLinearGroup.mkOfDetNeZero,
+    Matrix.GeneralLinearGroup.mk', Matrix.unitOfDetInvertible]
+
+/-- **Split-semisimple normal form.** Every split-semisimple `g` is conjugate to a
+diagonal matrix `!![x,0;0,y]` with distinct nonzero eigenvalues `x ≠ y` (the two
+roots of the characteristic polynomial; the unordered pair `{x,y}` is the invariant). -/
+theorem exists_conj_isSplitSemisimple (hp2 : p ≠ 2) {g : GL2' p n}
+    (hg : GL2.IsSplitSemisimple g) :
+    ∃ (x y : GaloisField p n) (hx : x ≠ 0) (hy : y ≠ 0),
+      x ≠ y ∧ IsConj g (diagRepr x y hx hy) := by
+  obtain ⟨hdne, hsq⟩ := hg
+  rw [GL2.disc_eq] at hdne hsq
+  set a := g.val 0 0 with ha
+  set b := g.val 0 1 with hb
+  set c := g.val 1 0 with hc'
+  set d := g.val 1 1 with hd
+  obtain ⟨s, hs⟩ := hsq
+  -- `s` is a square root of the discriminant; nonzero since `disc ≠ 0`.
+  have hsne : s ≠ 0 := by
+    intro h0; apply hdne; rw [hs, h0, mul_zero]
+  have h2 : (2 : GaloisField p n) ≠ 0 := by
+    intro h
+    have hchar2 : CharP (GaloisField p n) 2 :=
+      (CharP.charP_iff_prime_eq_zero (by norm_num)).mpr h
+    have hp_char : CharP (GaloisField p n) p :=
+      charP_of_injective_algebraMap (algebraMap (ZMod p) (GaloisField p n)).injective p
+    exact hp2 (CharP.eq (GaloisField p n) hp_char hchar2)
+  have h4 : (4 : GaloisField p n) ≠ 0 := by
+    have : (4 : GaloisField p n) = 2 * 2 := by ring
+    rw [this]; exact mul_ne_zero h2 h2
+  -- The two eigenvalues `x = (tr+s)/2`, `y = (tr-s)/2`.
+  set x := (a + d + s) / 2 with hxdef
+  set y := (a + d - s) / 2 with hydef
+  have hx2 : 2 * x = a + d + s := by rw [hxdef]; field_simp
+  have hy2 : 2 * y = a + d - s := by rw [hydef]; field_simp
+  clear_value x y
+  have hxysub : x - y = s := by
+    have h2s : 2 * (x - y) = 2 * s := by linear_combination hx2 - hy2
+    exact mul_left_cancel₀ h2 h2s
+  -- Both eigenvalues satisfy the characteristic equation.
+  have hxroot : x * x - (a + d) * x + (a * d - b * c) = 0 := by
+    apply mul_left_cancel₀ h4; rw [mul_zero]
+    linear_combination -hs + (2 * x - (a + d) + s) * hx2
+  have hyroot : y * y - (a + d) * y + (a * d - b * c) = 0 := by
+    apply mul_left_cancel₀ h4; rw [mul_zero]
+    linear_combination -hs + (2 * y - (a + d) - s) * hy2
+  -- `det g = x·y`, so both eigenvalues are nonzero.
+  have hxy : x * y = a * d - b * c := by
+    apply mul_left_cancel₀ h4
+    linear_combination hs + (2 * y) * hx2 + (a + d + s) * hy2
+  have hdetv : Matrix.det g.val = a * d - b * c := by
+    rw [Matrix.det_fin_two, ← ha, ← hb, ← hc', ← hd]
+  have hdet_ne : Matrix.det g.val ≠ 0 := by
+    intro h0
+    have hmul : g.val * (g⁻¹ : GL2' p n).val = 1 := by
+      rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
+    have hdet1 : Matrix.det g.val * Matrix.det (g⁻¹ : GL2' p n).val = 1 := by
+      rw [← Matrix.det_mul, hmul, Matrix.det_one]
+    rw [h0, zero_mul] at hdet1; exact one_ne_zero hdet1.symm
+  have hxyne : x * y ≠ 0 := by rw [hxy, ← hdetv]; exact hdet_ne
+  have hx0 : x ≠ 0 := fun h => hxyne (by rw [h, zero_mul])
+  have hy0 : y ≠ 0 := fun h => hxyne (by rw [h, mul_zero])
+  have hxney : x ≠ y := by
+    intro h; apply hsne; rw [← hxysub, h, sub_self]
+  by_cases hb0 : b = 0
+  · by_cases hc0 : c = 0
+    · -- Diagonal case `b = c = 0`: `g = diag(a,d)`; witnesses `a, d`.
+      have hdetad : Matrix.det g.val = a * d := by rw [hdetv, hb0, zero_mul, sub_zero]
+      have ha0 : a ≠ 0 := by
+        intro h; apply hdet_ne; rw [hdetad, h, zero_mul]
+      have hd0 : d ≠ 0 := by
+        intro h; apply hdet_ne; rw [hdetad, h, mul_zero]
+      have hane : a ≠ d := by
+        intro h; apply hdne; rw [h, hb0]; ring
+      refine ⟨a, d, ha0, hd0, hane, ?_⟩
+      have heq : diagRepr a d ha0 hd0 = g := by
+        apply Units.ext
+        rw [diagRepr_val]
+        ext i j
+        fin_cases i <;> fin_cases j <;> simp [← ha, ← hb, ← hc', ← hd, hb0, hc0]
+      rw [heq]
+    · -- `b = 0`, `c ≠ 0`: conjugator `!![x-d,y-d;c,c]`, det `c·s`.
+      have hPdet : (!![x - d, y - d; c, c] :
+          Matrix (Fin 2) (Fin 2) (GaloisField p n)).det ≠ 0 := by
+        rw [Matrix.det_fin_two_of]
+        have : (x - d) * c - (y - d) * c = c * s := by rw [← hxysub]; ring
+        rw [this]; exact mul_ne_zero hc0 hsne
+      refine ⟨x, y, hx0, hy0, hxney, ?_⟩
+      refine isConj_of_val_conj
+        (Matrix.GeneralLinearGroup.mkOfDetNeZero !![x - d, y - d; c, c] hPdet) ?_
+      rw [mkOfDetNeZero_val, diagRepr_val]
+      ext i j
+      fin_cases i <;> fin_cases j <;>
+        simp [Matrix.mul_apply, Fin.sum_univ_two, ← ha, ← hb, ← hc', ← hd] <;>
+        (try ring) <;> (try linear_combination -hxroot) <;> (try linear_combination -hyroot)
+  · -- `b ≠ 0`: conjugator `!![b,b;x-a,y-a]`, det `-b·s`.
+    have hPdet : (!![b, b; x - a, y - a] :
+        Matrix (Fin 2) (Fin 2) (GaloisField p n)).det ≠ 0 := by
+      rw [Matrix.det_fin_two_of]
+      have : b * (y - a) - b * (x - a) = -(b * s) := by rw [← hxysub]; ring
+      rw [this]; simpa using mul_ne_zero hb0 hsne
+    refine ⟨x, y, hx0, hy0, hxney, ?_⟩
+    refine isConj_of_val_conj
+      (Matrix.GeneralLinearGroup.mkOfDetNeZero !![b, b; x - a, y - a] hPdet) ?_
+    rw [mkOfDetNeZero_val, diagRepr_val]
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.mul_apply, Fin.sum_univ_two, ← ha, ← hb, ← hc', ← hd] <;>
+      (try ring) <;> (try linear_combination -hxroot) <;> (try linear_combination -hyroot)
+
 end Representatives
 
 end GL2
