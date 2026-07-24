@@ -468,12 +468,15 @@ theorem matProdTransposeSelfDuality_unop_smul (c : k) (a : MatProd k d) :
   funext i
   rw [Pi.smul_apply, Pi.smul_apply, Matrix.transpose_smul]
 
-/-- The transpose-twisted `A`-module structure on `A* = Dual k A`. -/
-local instance instTwistedDualMatProd :
-    Module (MatProd k d) (Module.Dual k (MatProd k d)) :=
-  twistedDualModule (matProdTransposeSelfDuality d) (MatProd k d)
+variable {X : Type*} [AddCommGroup X] [Module k X] [Module (MatProd k d) X]
+  [IsScalarTower k (MatProd k d) X]
 
-local instance : IsScalarTower k (MatProd k d) (Module.Dual k (MatProd k d)) := by
+/-- The transpose-twisted `A`-module structure on the `k`-dual `X*` of any left `A`-module
+`X` (for `A = ⊕ᵢ Mat_{dᵢ}(k)`), via the factorwise transpose anti-automorphism. -/
+local instance instTwistedDual : Module (MatProd k d) (Module.Dual k X) :=
+  twistedDualModule (matProdTransposeSelfDuality d) X
+
+local instance instTwistedDualTower : IsScalarTower k (MatProd k d) (Module.Dual k X) := by
   refine ⟨fun c a f => ?_⟩
   refine LinearMap.ext fun x => ?_
   change f ((matProdTransposeSelfDuality d (c • a)).unop • x)
@@ -537,5 +540,29 @@ theorem frobHom_bijective : Function.Bijective (frobHom (k := k) (d := d)) := by
 noncomputable def matProdSelfDual :
     MatProd k d ≃ₗ[MatProd k d] Module.Dual k (MatProd k d) :=
   LinearEquiv.ofBijective frobHom frobHom_bijective
+
+/-- The free-module map `Aⁿ → X*`, `(a₁,…,aₙ) ↦ ∑ₗ aₗ • yₗ`, associated to a `k`-basis
+`{yₗ}` of `X*`. It is `A`-linear for the diagonal `A`-action on `Aⁿ` and the twisted action
+on `X*`. -/
+noncomputable def toDualHom {n : ℕ} (yb : Module.Basis (Fin n) k (Module.Dual k X)) :
+    (Fin n → MatProd k d) →ₗ[MatProd k d] Module.Dual k X where
+  toFun a := ∑ l, a l • yb l
+  map_add' a b := by simp only [Pi.add_apply, add_smul, Finset.sum_add_distrib]
+  map_smul' b a := by
+    simp only [RingHom.id_apply, Pi.smul_apply, smul_eq_mul, mul_smul, Finset.smul_sum]
+
+@[simp] theorem toDualHom_apply {n : ℕ} (yb : Module.Basis (Fin n) k (Module.Dual k X))
+    (a : Fin n → MatProd k d) : toDualHom yb a = ∑ l, a l • yb l := rfl
+
+/-- **The surjection `Aⁿ ↠ X*`** of the book's proof of Theorem 3.3.1: `∑ₗ aₗ • yₗ` hits
+every functional because `k ⊆ A` (take `aₗ = c_ℓ · 1` for the `k`-coordinates `c_ℓ` of the
+target). Here `{yₗ}` is any `k`-basis of `X*`. -/
+theorem toDualHom_surjective {n : ℕ} (yb : Module.Basis (Fin n) k (Module.Dual k X)) :
+    Function.Surjective (toDualHom (d := d) yb) := by
+  intro f
+  refine ⟨fun l => algebraMap k (MatProd k d) (yb.repr f l), ?_⟩
+  change ∑ l, algebraMap k (MatProd k d) (yb.repr f l) • yb l = f
+  simp only [algebraMap_smul]
+  exact yb.sum_repr f
 
 end DualRoute
