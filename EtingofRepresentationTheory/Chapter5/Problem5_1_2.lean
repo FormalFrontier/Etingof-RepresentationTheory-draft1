@@ -896,10 +896,16 @@ theorem realGEndAlgebra_equiv_quaternion_of_isQuaternionicType
     have hmj : realMinus f * j' = complexToRealGEnd ρ w := by
       apply Subtype.ext; ext v; rw [complexToRealGEnd_coe_apply]; exact hw v
     -- `j'² = -1`, so `realMinus f = -(complexToRealGEnd w * j')`.
-    have hRM : realMinus f = -(complexToRealGEnd ρ w * j') :=
-      calc realMinus f = -(realMinus f * (j' * j')) := by rw [hj'sq, mul_neg_one, neg_neg]
-        _ = -(realMinus f * j' * j') := by rw [mul_assoc]
-        _ = -(complexToRealGEnd ρ w * j') := by rw [hmj]
+    -- `mul_neg_one` cannot be rewritten directly: its `-1` (via `HasDistribNeg`) is only
+    -- defeq to `hj'sq`'s `-1` (via the ring's `Neg`), not syntactically equal, so we state
+    -- the `* -1` step with an explicitly written `-1` that matches `hj'sq`.
+    have hmulneg : realMinus f * (-1 : realGEndAlgebra ρ) = -realMinus f :=
+      mul_neg_one (realMinus f)
+    have hRM : realMinus f = -(complexToRealGEnd ρ w * j') := by
+      have hstep : realMinus f * (j' * j') = complexToRealGEnd ρ w * j' := by
+        rw [← mul_assoc, hmj]
+      rw [hj'sq, hmulneg] at hstep
+      exact neg_eq_iff_eq_neg.mp hstep
     obtain ⟨z, hz⟩ := realPlus_eq_complexScalar hirr f
     have hfbasis : f = z.re • (1 : realGEndAlgebra ρ) + z.im • realJ ρ
         + (-w.re) • j' + (-w.im) • (realJ ρ * j') := by
