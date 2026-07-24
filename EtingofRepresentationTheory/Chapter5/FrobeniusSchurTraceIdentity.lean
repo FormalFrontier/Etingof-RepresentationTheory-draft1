@@ -96,22 +96,25 @@ private lemma trace_involution_eq_pm_one {W : Type*} [AddCommGroup W] [Module �
   rw [htr]
   exact mul_self_eq_one_iff.mp hsq
 
-/-- **Frobenius-Schur dichotomy (numerical form).** A simple complex representation with
-self-dual character (`χ(g⁻¹) = χ(g)`) has Frobenius-Schur indicator `±1`.
+/-- **The Frobenius-Schur indicator as an involution trace (dimension-free core).**
 
-This is the trace identity `FS = dim(Sym²)^G − dim(Λ²)^G` together with the Schur
-bound `dim(Bil)^G = 1` for self-dual simple representations. -/
-theorem frobeniusSchurIndicator_eq_pm_one_of_self_dual_simple
+For *any* complex representation `ρ`, working on `V ⊗ V` with the diagonal
+representation `T = tprod ρ ρ` and the swap involution `cm = TensorProduct.comm`,
+the Frobenius-Schur indicator equals the trace of an involution `g₀` on the
+invariants `T.invariants`: `g₀` is the swap restricted to `(V ⊗ V)^G` (where the
+averaging projector acts as the identity). This is the shared core of both the
+`±1` case (`dim (V ⊗ V)^G = 1`, self-dual simple) and the `0` case
+(`dim (V ⊗ V)^G = 0`, non-self-dual simple). No simplicity hypothesis is used. -/
+private lemma exists_involution_trace_eq_frobeniusSchur
     [NeZero (Nat.card G : ℂ)] [Invertible (Fintype.card G : ℂ)]
-    (ρ : Representation ℂ G V)
-    (hρ : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
-    (hsd : ∀ g, ρ.character g⁻¹ = ρ.character g) :
-    Etingof.frobeniusSchurIndicator ρ = 1 ∨ Etingof.frobeniusSchurIndicator ρ = -1 := by
+    (ρ : Representation ℂ G V) :
+    ∃ g₀ : (Representation.tprod ρ ρ).invariants →ₗ[ℂ] (Representation.tprod ρ ρ).invariants,
+      g₀ ∘ₗ g₀ = LinearMap.id ∧
+      Etingof.frobeniusSchurIndicator ρ
+        = LinearMap.trace ℂ (Representation.tprod ρ ρ).invariants g₀ := by
   classical
   haveI : Invertible (Nat.card G : ℂ) := by
     rw [Nat.card_eq_fintype_card]; infer_instance
-  haveI : Representation.IsIrreducible ρ :=
-    (Representation.irreducible_iff_isSimpleModule_asModule ρ).mpr hρ
   -- The diagonal representation `T` on `V ⊗ V`, the swap `cm`, and the projector `P`.
   set T : Representation ℂ G (V ⊗[ℂ] V) := Representation.tprod ρ ρ with hT
   set cm : V ⊗[ℂ] V →ₗ[ℂ] V ⊗[ℂ] V :=
@@ -134,21 +137,6 @@ theorem frobeniusSchurIndicator_eq_pm_one_of_self_dual_simple
     have key : (T g ∘ₗ cm) x = (cm ∘ₗ T g) x := by rw [hequiv]
     have hxg : T g x = x := hx g
     simpa [hxg] using key
-  -- The dimension of the invariants is `1`.
-  have hdim : Module.finrank ℂ (T.invariants) = 1 := by
-    have hkey := Representation.card_inv_mul_sum_char_eq_finrank T
-    have hortho := Representation.char_orthonormal ρ ρ
-    rw [if_pos ⟨Representation.Equiv.refl ρ⟩] at hortho
-    have hchar : ∀ g, T.character g = ρ.character g * ρ.character g := by
-      intro g; rw [hT, Representation.char_tensor]; rfl
-    have hsum : (Nat.card G : ℂ)⁻¹ * ∑ g : G, T.character g = 1 := by
-      rw [Finset.sum_congr rfl (fun g _ => hchar g)]
-      rw [show (∑ g : G, ρ.character g * ρ.character g)
-            = ∑ g : G, ρ.character g * ρ.character g⁻¹ from
-          Finset.sum_congr rfl (fun g _ => by rw [hsd g])]
-      exact hortho
-    rw [hkey] at hsum
-    exact_mod_cast hsum
   -- `FS(ρ) = trace (cm ∘ averageMap T)`.
   have hP : T.averageMap = ⅟(Fintype.card G : ℂ) • ∑ g : G, T g := by
     simp only [Representation.averageMap, GroupAlgebra.average, map_smul, map_sum,
@@ -170,7 +158,7 @@ theorem frobeniusSchurIndicator_eq_pm_one_of_self_dual_simple
     rw [hR, Etingof.frobeniusSchurIndicator]
     exact congrArg (fun s => (Fintype.card G : ℂ)⁻¹ * s)
       (Finset.sum_congr rfl (fun g _ => hterm g))
-  -- Restrict to the invariants and apply the involution argument.
+  -- Restrict to the invariants and package the involution.
   have hmaps : ∀ x, (cm ∘ₗ T.averageMap) x ∈ T.invariants := by
     intro x
     exact hpres _ (T.averageMap_invariant x)
@@ -178,7 +166,6 @@ theorem frobeniusSchurIndicator_eq_pm_one_of_self_dual_simple
     fun x _ => hmaps x
   have htr := LinearMap.trace_restrict_eq_of_forall_mem T.invariants
     (cm ∘ₗ T.averageMap) hmaps hmaps'
-  -- The restricted map is an involution on the 1-dimensional invariants.
   set g₀ := (cm ∘ₗ T.averageMap).restrict hmaps' with hg₀
   have hg₀sq : g₀ ∘ₗ g₀ = LinearMap.id := by
     refine LinearMap.ext fun x => Subtype.ext ?_
@@ -194,7 +181,110 @@ theorem frobeniusSchurIndicator_eq_pm_one_of_self_dual_simple
       simpa using hinv
     rw [LinearMap.comp_apply, e2]
     simp
-  rw [hFS, ← htr]
+  exact ⟨g₀, hg₀sq, hFS.trans htr.symm⟩
+
+/-- **Frobenius-Schur dichotomy (numerical form).** A simple complex representation with
+self-dual character (`χ(g⁻¹) = χ(g)`) has Frobenius-Schur indicator `±1`.
+
+This is the trace identity `FS = dim(Sym²)^G − dim(Λ²)^G` together with the Schur
+bound `dim(Bil)^G = 1` for self-dual simple representations. -/
+theorem frobeniusSchurIndicator_eq_pm_one_of_self_dual_simple
+    [NeZero (Nat.card G : ℂ)] [Invertible (Fintype.card G : ℂ)]
+    (ρ : Representation ℂ G V)
+    (hρ : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
+    (hsd : ∀ g, ρ.character g⁻¹ = ρ.character g) :
+    Etingof.frobeniusSchurIndicator ρ = 1 ∨ Etingof.frobeniusSchurIndicator ρ = -1 := by
+  classical
+  haveI : Invertible (Nat.card G : ℂ) := by
+    rw [Nat.card_eq_fintype_card]; infer_instance
+  haveI : Representation.IsIrreducible ρ :=
+    (Representation.irreducible_iff_isSimpleModule_asModule ρ).mpr hρ
+  obtain ⟨g₀, hg₀sq, hfs⟩ := exists_involution_trace_eq_frobeniusSchur ρ
+  -- The dimension of the invariants is `1`.
+  have hdim : Module.finrank ℂ ((Representation.tprod ρ ρ).invariants) = 1 := by
+    have hkey := Representation.card_inv_mul_sum_char_eq_finrank (Representation.tprod ρ ρ)
+    have hortho := Representation.char_orthonormal ρ ρ
+    rw [if_pos ⟨Representation.Equiv.refl ρ⟩] at hortho
+    have hchar : ∀ g, (Representation.tprod ρ ρ).character g = ρ.character g * ρ.character g := by
+      intro g; rw [Representation.char_tensor]; rfl
+    have hsum : (Nat.card G : ℂ)⁻¹ * ∑ g : G, (Representation.tprod ρ ρ).character g = 1 := by
+      rw [Finset.sum_congr rfl (fun g _ => hchar g)]
+      rw [show (∑ g : G, ρ.character g * ρ.character g)
+            = ∑ g : G, ρ.character g * ρ.character g⁻¹ from
+          Finset.sum_congr rfl (fun g _ => by rw [hsd g])]
+      exact hortho
+    rw [hkey] at hsum
+    exact_mod_cast hsum
+  rw [hfs]
   exact trace_involution_eq_pm_one hdim g₀ hg₀sq
+
+/-- **Frobenius-Schur vanishing (complex type).** A simple complex representation whose
+character is *not* self-dual (`χ(g⁻¹) ≠ χ(g)` for some `g`, i.e. `V ≇ V*`) has
+Frobenius-Schur indicator `0`.
+
+The invariant bilinear forms `(V ⊗ V)^G ≅ Hom_G(V*, V)` vanish by Schur's lemma
+(`V*` is not isomorphic to `V`), so the swap involution acts on a zero-dimensional
+space and its trace `FS(ρ)` is `0`. -/
+theorem frobeniusSchurIndicator_eq_zero_of_not_self_dual_simple
+    [NeZero (Nat.card G : ℂ)] [Invertible (Fintype.card G : ℂ)]
+    (ρ : Representation ℂ G V)
+    (hρ : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
+    (hnsd : ¬ ∀ g, ρ.character g⁻¹ = ρ.character g) :
+    Etingof.frobeniusSchurIndicator ρ = 0 := by
+  classical
+  haveI : Invertible (Nat.card G : ℂ) := by
+    rw [Nat.card_eq_fintype_card]; infer_instance
+  haveI : Representation.IsIrreducible ρ :=
+    (Representation.irreducible_iff_isSimpleModule_asModule ρ).mpr hρ
+  obtain ⟨g₀, _, hfs⟩ := exists_involution_trace_eq_frobeniusSchur ρ
+  -- No `G`-equivariant iso `V ≅ V*` (else the characters would agree, contradicting `hnsd`).
+  have hempty : IsEmpty (ρ.Equiv ρ.dual) := by
+    rw [isEmpty_iff]
+    intro φ
+    refine hnsd (fun g => ?_)
+    have hc := congrFun (Representation.char_iso φ) g
+    rw [Representation.char_dual] at hc
+    exact hc.symm
+  -- `Hom_G(V, V*)` is a subsingleton: a nonzero intertwiner is injective (Schur), hence
+  -- bijective (equal dimension), giving an equivalence `V ≅ V*`, which is impossible.
+  haveI hsub : Subsingleton (Representation.IntertwiningMap ρ ρ.dual) := by
+    refine ⟨fun f h => ?_⟩
+    suffices hz : ∀ e : Representation.IntertwiningMap ρ ρ.dual, e = 0 by rw [hz f, hz h]
+    intro e
+    rcases Representation.IsIrreducible.injective_or_eq_zero e with hinj | h0
+    · exfalso
+      have hdimeq : Module.finrank ℂ V = Module.finrank ℂ (Module.Dual ℂ V) :=
+        (Subspace.dual_finrank_eq).symm
+      have hsurj : Function.Surjective ⇑e :=
+        (LinearMap.injective_iff_surjective_of_finrank_eq_finrank hdimeq
+          (f := e.toLinearMap)).mp hinj
+      exact hempty.false (e.ofBijective ⟨hinj, hsurj⟩)
+    · exact h0
+  -- The dimension of the invariants is `0`: `(V ⊗ V)^G ≅ Hom_G(V, V*) = 0` by the above.
+  have hdim : Module.finrank ℂ ((Representation.tprod ρ ρ).invariants) = 0 := by
+    have hkey := Representation.card_inv_mul_sum_char_eq_finrank (Representation.tprod ρ ρ)
+    have hInt := Representation.card_inv_mul_sum_char_mul_char_eq_finrank ρ ρ.dual
+    -- `∑ T.character g = ∑ ρ.dual.character g * ρ.character g⁻¹` (reindex `g ↦ g⁻¹`).
+    have hsum : (∑ g : G, (Representation.tprod ρ ρ).character g)
+        = ∑ g : G, ρ.dual.character g * ρ.character g⁻¹ := by
+      rw [Finset.sum_congr rfl
+            (fun g _ => by rw [Representation.char_tensor, Pi.mul_apply] :
+              ∀ g ∈ Finset.univ, (Representation.tprod ρ ρ).character g
+                = ρ.character g * ρ.character g),
+          Finset.sum_congr rfl
+            (fun g _ => by rw [Representation.char_dual] :
+              ∀ g ∈ Finset.univ, ρ.dual.character g * ρ.character g⁻¹
+                = ρ.character g⁻¹ * ρ.character g⁻¹)]
+      exact (Equiv.sum_comp (Equiv.inv G) (fun g => ρ.character g * ρ.character g)).symm
+    rw [hsum, hInt] at hkey
+    have hInt0 : Module.finrank ℂ (Representation.IntertwiningMap ρ ρ.dual) = 0 :=
+      (finrank_zero_iff_forall_zero (K := ℂ)).mpr fun x => Subsingleton.elim x 0
+    rw [hInt0] at hkey
+    exact_mod_cast hkey.symm
+  -- Zero-dimensional invariants force `g₀ = 0`, hence `FS(ρ) = trace g₀ = 0`.
+  haveI : Subsingleton ((Representation.tprod ρ ρ).invariants) :=
+    ⟨fun a b => ((finrank_zero_iff_forall_zero (K := ℂ)).mp hdim a).trans
+      ((finrank_zero_iff_forall_zero (K := ℂ)).mp hdim b).symm⟩
+  rw [hfs, Subsingleton.elim g₀ 0, map_zero]
 
 end Etingof
