@@ -2,7 +2,10 @@ import Mathlib.Algebra.Lie.Basic
 import Mathlib.Algebra.Lie.OfAssociative
 import Mathlib.Algebra.Lie.UniversalEnveloping
 import Mathlib.RingTheory.TwoSidedIdeal.Operations
+import Mathlib.RingTheory.TwoSidedIdeal.Kernel
 import Mathlib.RingTheory.Congruence.Basic
+import Mathlib.RingTheory.Congruence.Hom
+import EtingofRepresentationTheory.Chapter2.Proposition2_7_1
 
 /-!
 # Example 2.9.13: Universal Enveloping Algebra of the Heisenberg Lie Algebra
@@ -28,14 +31,19 @@ The content is:
 * inside `U(ℋ)`, the images `X = ι x`, `Y = ι y`, `C = ι c` satisfy the book's relations
   `YX − XY = C`, `YC − CY = 0`, `XC − CX = 0` (`heisenberg_universal_relations`). These are
   specific to the Heisenberg algebra: they are not provable for an arbitrary `L`;
-* the Weyl algebra is `U(ℋ) ⧸ (C − 1)`, in which `C` becomes `1` (`weyl_c_eq_one`).
+* the quotient `U(ℋ) ⧸ (C − 1)` (`HeisenbergWeylQuot`) has `C` equal to `1` (`weyl_c_eq_one`);
+* this quotient is genuinely the Weyl algebra: `heisenbergWeylEquiv` is an explicit `AlgEquiv`
+  between `U(ℋ) ⧸ (C − 1)` and the project's `Etingof.WeylAlgebra k` from Proposition 2.7.1
+  (the free algebra on `x, y` modulo `yx − xy = 1`), sending the class of `X` to `x` and the
+  class of `Y` to `y` (`heisenbergWeylEquiv_X`, `heisenbergWeylEquiv_Y`).
 
 ## Mathlib correspondence
 
 Mathlib has `UniversalEnvelopingAlgebra` but the Heisenberg Lie algebra is not defined, so we build
 it here. The full universal property (that `x, y, c` generate `U(ℋ)` and that these relations are
-a complete presentation) and the identification of `U(ℋ)/(c−1)` with an abstractly-defined Weyl
-algebra are beyond current Mathlib infrastructure; we assert and prove the defining relations.
+a complete presentation) is beyond current Mathlib infrastructure; we assert and prove the defining
+relations and construct the identification of `U(ℋ)/(c−1)` with the Weyl algebra directly from the
+universal property of `U(ℋ)` and of the free algebra.
 -/
 
 namespace Etingof.Example2_9_13
@@ -138,10 +146,12 @@ abbrev weylCon (k : Type*) [CommRing k] :
     RingCon (UniversalEnvelopingAlgebra k (Heisenberg k)) :=
   (TwoSidedIdeal.span {ι k (c : Heisenberg k) - 1}).ringCon
 
-/-- The Weyl algebra as the quotient of `U(ℋ)` by the two-sided relation `c = 1`. -/
-abbrev WeylAlgebra (k : Type*) [CommRing k] : Type _ := (weylCon k).Quotient
+/-- The quotient `U(ℋ) ⧸ (C − 1)` of the Heisenberg enveloping algebra by the two-sided relation
+`c = 1`. This carries a natural `k`-algebra structure (`RingCon.instAlgebra`); we prove below that
+it is isomorphic to the project's Weyl algebra `Etingof.WeylAlgebra` (`heisenbergWeylEquiv`). -/
+abbrev HeisenbergWeylQuot (k : Type*) [CommRing k] : Type _ := (weylCon k).Quotient
 
-/-- In the Weyl algebra `U(ℋ) ⧸ (C − 1)`, the central generator `c` becomes `1`: this is the
+/-- In the quotient `U(ℋ) ⧸ (C − 1)`, the central generator `c` becomes `1`: this is the
 relation `c = 1` from the book. -/
 theorem weyl_c_eq_one (k : Type*) [CommRing k] :
     (weylCon k).mk' (ι k (c : Heisenberg k)) = (weylCon k).mk' 1 := by
@@ -149,5 +159,243 @@ theorem weyl_c_eq_one (k : Type*) [CommRing k] :
     rw [weylCon, TwoSidedIdeal.rel_iff]
     exact TwoSidedIdeal.subset_span (Set.mem_singleton _)
   exact (RingCon.eq _).mpr h
+
+/-! ## Identification with the Weyl algebra of Proposition 2.7.1
+
+We now prove the actual content of Example 2.9.13: the quotient `U(ℋ) ⧸ (C − 1)` is the Weyl
+algebra. The target is the project's `Etingof.WeylAlgebra k`, the free algebra on two generators
+`x, y` modulo `yx = xy + 1`. We build algebra homomorphisms in both directions and show they are
+mutually inverse, packaging the result as an `AlgEquiv`.
+-/
+
+open scoped Etingof in
+/-- The `k`-linear map `ℋ → A` sending `(a, b, d) = a·x + b·y + d·c` to `a·x + b·y + d·1` in the
+Weyl algebra `A = Etingof.WeylAlgebra k`. This is the underlying linear map of the Lie algebra
+homomorphism `heisenbergToWeyl`. -/
+noncomputable def heisenbergToWeylLin (k : Type*) [CommRing k] :
+    Heisenberg k →ₗ[k] Etingof.WeylAlgebra k where
+  toFun u := u.1 • Etingof.WeylAlgebra.x k + u.2.1 • Etingof.WeylAlgebra.y k + u.2.2 • 1
+  map_add' u v := by
+    simp only [add_fst, add_snd_fst, add_snd_snd, add_smul]; abel
+  map_smul' t u := by
+    simp only [smul_fst, smul_snd_fst, smul_snd_snd, RingHom.id_apply, smul_assoc, smul_add]
+
+@[simp] theorem heisenbergToWeylLin_apply (k : Type*) [CommRing k] (u : Heisenberg k) :
+    heisenbergToWeylLin k u =
+      u.1 • Etingof.WeylAlgebra.x k + u.2.1 • Etingof.WeylAlgebra.y k + u.2.2 • 1 := rfl
+
+section WeylBrackets
+
+variable (k : Type*) [CommRing k]
+
+private theorem lie_y_x_weyl :
+    ⁅Etingof.WeylAlgebra.y k, Etingof.WeylAlgebra.x k⁆ = (1 : Etingof.WeylAlgebra k) := by
+  rw [LieRing.of_associative_ring_bracket, Etingof.WeylAlgebra.yx_eq]; abel
+
+private theorem lie_x_y_weyl :
+    ⁅Etingof.WeylAlgebra.x k, Etingof.WeylAlgebra.y k⁆ = (-1 : Etingof.WeylAlgebra k) := by
+  rw [LieRing.of_associative_ring_bracket, Etingof.WeylAlgebra.yx_eq]; abel
+
+private theorem lie_x_one_weyl :
+    ⁅Etingof.WeylAlgebra.x k, (1 : Etingof.WeylAlgebra k)⁆ = 0 := by
+  rw [LieRing.of_associative_ring_bracket, mul_one, one_mul, sub_self]
+
+private theorem lie_one_x_weyl :
+    ⁅(1 : Etingof.WeylAlgebra k), Etingof.WeylAlgebra.x k⁆ = 0 := by
+  rw [LieRing.of_associative_ring_bracket, mul_one, one_mul, sub_self]
+
+private theorem lie_y_one_weyl :
+    ⁅Etingof.WeylAlgebra.y k, (1 : Etingof.WeylAlgebra k)⁆ = 0 := by
+  rw [LieRing.of_associative_ring_bracket, mul_one, one_mul, sub_self]
+
+private theorem lie_one_y_weyl :
+    ⁅(1 : Etingof.WeylAlgebra k), Etingof.WeylAlgebra.y k⁆ = 0 := by
+  rw [LieRing.of_associative_ring_bracket, mul_one, one_mul, sub_self]
+
+private theorem lie_one_one_weyl :
+    ⁅(1 : Etingof.WeylAlgebra k), (1 : Etingof.WeylAlgebra k)⁆ = 0 := by
+  rw [LieRing.of_associative_ring_bracket, mul_one, sub_self]
+
+end WeylBrackets
+
+/-- The Lie algebra homomorphism `ℋ → A` (with `A = Etingof.WeylAlgebra k` viewed as a Lie algebra
+via `LieRing.ofAssociativeRing`) sending `x ↦ x`, `y ↦ y`, `c ↦ 1`. The bracket relation
+`⁅y, x⁆ = c` is sent to `⁅y, x⁆ = 1`, which is the Weyl relation `yx − xy = 1`. -/
+noncomputable def heisenbergToWeyl (k : Type*) [CommRing k] :
+    Heisenberg k →ₗ⁅k⁆ Etingof.WeylAlgebra k :=
+  { heisenbergToWeylLin k with
+    map_lie' := fun {u v} => by
+      change heisenbergToWeylLin k ⁅u, v⁆ =
+        ⁅heisenbergToWeylLin k u, heisenbergToWeylLin k v⁆
+      rw [LieRing.of_associative_ring_bracket]
+      simp only [heisenbergToWeylLin_apply, bracket_def,
+        mul_add, add_mul, smul_mul_assoc, mul_smul_comm, smul_smul, mul_one, one_mul,
+        Etingof.WeylAlgebra.yx_eq, smul_add, zero_smul, add_zero, zero_add]
+      module }
+
+@[simp] theorem heisenbergToWeyl_apply (k : Type*) [CommRing k] (u : Heisenberg k) :
+    heisenbergToWeyl k u =
+      u.1 • Etingof.WeylAlgebra.x k + u.2.1 • Etingof.WeylAlgebra.y k + u.2.2 • 1 := rfl
+
+/-- The algebra homomorphism `U(ℋ) → A` obtained from `heisenbergToWeyl` by the universal property
+of the enveloping algebra. -/
+noncomputable def envToWeyl (k : Type*) [CommRing k] :
+    UniversalEnvelopingAlgebra k (Heisenberg k) →ₐ[k] Etingof.WeylAlgebra k :=
+  UniversalEnvelopingAlgebra.lift k (heisenbergToWeyl k)
+
+theorem envToWeyl_c (k : Type*) [CommRing k] :
+    envToWeyl k (ι k (c : Heisenberg k)) = 1 := by
+  rw [envToWeyl, UniversalEnvelopingAlgebra.lift_ι_apply, heisenbergToWeyl_apply, c]
+  simp
+
+/-- `envToWeyl` sends `C − 1` to `0`, hence descends to the quotient `U(ℋ) ⧸ (C − 1)`. -/
+theorem weylCon_le_ker (k : Type*) [CommRing k] :
+    weylCon k ≤ RingCon.ker (envToWeyl k).toRingHom := by
+  have hsub : TwoSidedIdeal.span {ι k (c : Heisenberg k) - 1} ≤
+      TwoSidedIdeal.ker (envToWeyl k).toRingHom := by
+    rw [TwoSidedIdeal.span_le]
+    intro z hz
+    rw [Set.mem_singleton_iff] at hz
+    subst hz
+    rw [SetLike.mem_coe, TwoSidedIdeal.mem_ker]
+    change envToWeyl k (ι k (c : Heisenberg k) - 1) = 0
+    rw [map_sub, map_one, envToWeyl_c, sub_self]
+  intro a b hab
+  rw [RingCon.ker_apply]
+  change envToWeyl k a = envToWeyl k b
+  rw [← sub_eq_zero, ← map_sub]
+  exact (TwoSidedIdeal.mem_ker _).1 (hsub ((TwoSidedIdeal.rel_iff _ _ _).1 hab))
+
+/-- The forward algebra map `U(ℋ) ⧸ (C − 1) → Etingof.WeylAlgebra k`. -/
+noncomputable def toWeyl (k : Type*) [CommRing k] :
+    HeisenbergWeylQuot k →ₐ[k] Etingof.WeylAlgebra k :=
+  (weylCon k).liftₐ (envToWeyl k) (weylCon_le_ker k)
+
+@[simp] theorem toWeyl_mk (k : Type*) [CommRing k]
+    (a : UniversalEnvelopingAlgebra k (Heisenberg k)) :
+    toWeyl k ((weylCon k).mkₐ k a) = envToWeyl k a := rfl
+
+/-- The image of `X` (the class of `ι x`) in the quotient `U(ℋ) ⧸ (C − 1)`. -/
+noncomputable def Xbar (k : Type*) [CommRing k] : HeisenbergWeylQuot k :=
+  (weylCon k).mkₐ k (ι k (x : Heisenberg k))
+
+/-- The image of `Y` (the class of `ι y`) in the quotient `U(ℋ) ⧸ (C − 1)`. -/
+noncomputable def Ybar (k : Type*) [CommRing k] : HeisenbergWeylQuot k :=
+  (weylCon k).mkₐ k (ι k (y : Heisenberg k))
+
+/-- In `U(ℋ) ⧸ (C − 1)`, the classes of `X` and `Y` satisfy the Weyl relation `YX = XY + 1`,
+because `YX − XY = C = 1`. -/
+theorem Ybar_mul_Xbar (k : Type*) [CommRing k] :
+    Ybar k * Xbar k = Xbar k * Ybar k + 1 := by
+  have hrel := (heisenberg_universal_relations k).1
+  have hmk : (weylCon k).mkₐ k (ι k (y : Heisenberg k) * ι k x - ι k x * ι k y) =
+      (weylCon k).mkₐ k (ι k (c : Heisenberg k)) := by rw [hrel]
+  rw [map_sub, map_mul, map_mul] at hmk
+  have hc : (weylCon k).mkₐ k (ι k (c : Heisenberg k)) = 1 := by
+    change (weylCon k).mk' (ι k (c : Heisenberg k)) = 1
+    rw [weyl_c_eq_one]; exact map_one _
+  rw [hc] at hmk
+  rw [Xbar, Ybar, ← sub_eq_iff_eq_add']
+  exact hmk
+
+/-- The generators-to-quotient assignment `x ↦ Xbar`, `y ↦ Ybar` used to build the reverse map. -/
+noncomputable def weylGenToQuot (k : Type*) [CommRing k] : Etingof.WeylGen → HeisenbergWeylQuot k :=
+  ![Xbar k, Ybar k]
+
+/-- The reverse algebra map `Etingof.WeylAlgebra k → U(ℋ) ⧸ (C − 1)`, obtained from the universal
+property of the free algebra and of the Weyl relation, sending `x ↦ Xbar`, `y ↦ Ybar`. -/
+noncomputable def ofWeyl (k : Type*) [CommRing k] :
+    Etingof.WeylAlgebra k →ₐ[k] HeisenbergWeylQuot k :=
+  RingQuot.liftAlgHom k
+    ⟨FreeAlgebra.lift k (weylGenToQuot k), by
+      rintro a b ⟨rfl, rfl⟩
+      simp only [Etingof.weylX, Etingof.weylY, map_mul, map_add, map_one,
+        FreeAlgebra.lift_ι_apply, weylGenToQuot, Matrix.cons_val_zero, Matrix.cons_val_one]
+      exact Ybar_mul_Xbar k⟩
+
+@[simp] theorem ofWeyl_x (k : Type*) [CommRing k] :
+    ofWeyl k (Etingof.WeylAlgebra.x k) = Xbar k := by
+  rw [ofWeyl, Etingof.WeylAlgebra.x, Etingof.WeylAlgebra.mk, RingQuot.liftAlgHom_mkAlgHom_apply,
+    Etingof.weylX, FreeAlgebra.lift_ι_apply]
+  simp [weylGenToQuot]
+
+@[simp] theorem ofWeyl_y (k : Type*) [CommRing k] :
+    ofWeyl k (Etingof.WeylAlgebra.y k) = Ybar k := by
+  rw [ofWeyl, Etingof.WeylAlgebra.y, Etingof.WeylAlgebra.mk, RingQuot.liftAlgHom_mkAlgHom_apply,
+    Etingof.weylY, FreeAlgebra.lift_ι_apply]
+  simp [weylGenToQuot]
+
+/-- `toWeyl` sends the class of `X` to the Weyl generator `x`. -/
+@[simp] theorem toWeyl_Xbar (k : Type*) [CommRing k] :
+    toWeyl k (Xbar k) = Etingof.WeylAlgebra.x k := by
+  rw [Xbar, toWeyl_mk, envToWeyl, UniversalEnvelopingAlgebra.lift_ι_apply, heisenbergToWeyl_apply,
+    x]
+  simp
+
+/-- `toWeyl` sends the class of `Y` to the Weyl generator `y`. -/
+@[simp] theorem toWeyl_Ybar (k : Type*) [CommRing k] :
+    toWeyl k (Ybar k) = Etingof.WeylAlgebra.y k := by
+  rw [Ybar, toWeyl_mk, envToWeyl, UniversalEnvelopingAlgebra.lift_ι_apply, heisenbergToWeyl_apply,
+    y]
+  simp
+
+/-- `toWeyl` and `ofWeyl` compose to the identity on `Etingof.WeylAlgebra k`; checked on the two
+generators `x, y`. -/
+theorem toWeyl_comp_ofWeyl (k : Type*) [CommRing k] :
+    (toWeyl k).comp (ofWeyl k) = AlgHom.id k (Etingof.WeylAlgebra k) := by
+  apply RingQuot.ringQuot_ext'
+  apply FreeAlgebra.hom_ext
+  funext i
+  fin_cases i
+  · change toWeyl k (ofWeyl k (Etingof.WeylAlgebra.x k)) = Etingof.WeylAlgebra.x k
+    rw [ofWeyl_x, toWeyl_Xbar]
+  · change toWeyl k (ofWeyl k (Etingof.WeylAlgebra.y k)) = Etingof.WeylAlgebra.y k
+    rw [ofWeyl_y, toWeyl_Ybar]
+
+/-- `ofWeyl` and `toWeyl` compose to the identity on `U(ℋ) ⧸ (C − 1)`; checked on the generating
+images `ι x, ι y, ι c` of the enveloping algebra. -/
+theorem ofWeyl_comp_toWeyl (k : Type*) [CommRing k] :
+    (ofWeyl k).comp (toWeyl k) = AlgHom.id k (HeisenbergWeylQuot k) := by
+  -- It suffices to agree after precomposing with the surjective quotient map `mkₐ`.
+  have key : ((ofWeyl k).comp (toWeyl k)).comp ((weylCon k).mkₐ k) = (weylCon k).mkₐ k := by
+    apply UniversalEnvelopingAlgebra.hom_ext
+    apply LieHom.ext
+    intro d
+    change ofWeyl k (toWeyl k ((weylCon k).mkₐ k (ι k d))) = (weylCon k).mkₐ k (ι k d)
+    rw [toWeyl_mk, envToWeyl, UniversalEnvelopingAlgebra.lift_ι_apply, heisenbergToWeyl_apply,
+      map_add, map_add, map_smul, map_smul, map_smul, map_one, ofWeyl_x, ofWeyl_y]
+    -- RHS: `mkₐ (ι d)` with `d = d.1 • x + d.2.1 • y + d.2.2 • c`, and `mkₐ (ι c) = 1`.
+    have hd : ι k d = d.1 • ι k (x : Heisenberg k) + d.2.1 • ι k y + d.2.2 • ι k c := by
+      rw [← map_smul, ← map_smul, ← map_smul, ← map_add, ← map_add]
+      congr 1
+      apply Heisenberg.ext <;> simp [x, y, c]
+    have hcbar : (weylCon k).mkₐ k (ι k (c : Heisenberg k)) = 1 := by
+      change (weylCon k).mk' (ι k (c : Heisenberg k)) = 1
+      rw [weyl_c_eq_one]; exact map_one _
+    rw [hd, map_add, map_add, map_smul, map_smul, map_smul, hcbar, ← Xbar, ← Ybar]
+  apply AlgHom.ext
+  intro q
+  obtain ⟨a, rfl⟩ := (weylCon k).mkₐ_surjective (α := k) q
+  exact AlgHom.congr_fun key a
+
+/-- **Example 2.9.13.** The quotient `U(ℋ) ⧸ (C − 1)` of the Heisenberg enveloping algebra by the
+central relation `c = 1` is isomorphic, as a `k`-algebra, to the Weyl algebra
+`Etingof.WeylAlgebra k` of Proposition 2.7.1. The isomorphism sends the class of `X` to `x` and
+the class of `Y` to `y`. -/
+noncomputable def heisenbergWeylEquiv (k : Type*) [CommRing k] :
+    HeisenbergWeylQuot k ≃ₐ[k] Etingof.WeylAlgebra k :=
+  AlgEquiv.ofAlgHom (toWeyl k) (ofWeyl k) (toWeyl_comp_ofWeyl k) (ofWeyl_comp_toWeyl k)
+
+@[simp] theorem heisenbergWeylEquiv_X (k : Type*) [CommRing k] :
+    heisenbergWeylEquiv k (Xbar k) = Etingof.WeylAlgebra.x k := toWeyl_Xbar k
+
+@[simp] theorem heisenbergWeylEquiv_Y (k : Type*) [CommRing k] :
+    heisenbergWeylEquiv k (Ybar k) = Etingof.WeylAlgebra.y k := toWeyl_Ybar k
+
+@[simp] theorem heisenbergWeylEquiv_symm_x (k : Type*) [CommRing k] :
+    (heisenbergWeylEquiv k).symm (Etingof.WeylAlgebra.x k) = Xbar k := ofWeyl_x k
+
+@[simp] theorem heisenbergWeylEquiv_symm_y (k : Type*) [CommRing k] :
+    (heisenbergWeylEquiv k).symm (Etingof.WeylAlgebra.y k) = Ybar k := ofWeyl_y k
 
 end Etingof.Example2_9_13
