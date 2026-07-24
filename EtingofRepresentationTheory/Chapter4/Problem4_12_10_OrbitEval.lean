@@ -350,7 +350,10 @@ theorem Etingof.Problem4_12_10_symmetric {G : Type*} [Group G] [Fintype G]
     Representation.asModuleHomOfIntertwiner E
       (fun g x => LinearMap.congr_fun (hE_equiv g) x) with hF
   have hF_surj : Function.Surjective F := hE_surj
-  obtain ⟨s, hs⟩ := IsSemisimpleModule.lifting_property F hF_surj (LinearMap.id)
+  obtain ⟨s, hs⟩ := IsSemisimpleModule.lifting_property (R := MonoidAlgebra ℂ G)
+    (M := (Representation.directSum (fun n => symPowRep ρ n)).asModule)
+    (N := (Representation.ofMulAction ℂ G G).asModule)
+    (P := (Representation.ofMulAction ℂ G G).asModule) F hF_surj (LinearMap.id)
   have hs_linv : Function.LeftInverse F s := fun x => by
     simpa using LinearMap.congr_fun hs x
   -- Repackage the section as a `ℂ`-linear `G`-equivariant map `ℂ[G] → ⨁ₙ SⁿV`.
