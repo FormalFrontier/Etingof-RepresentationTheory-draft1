@@ -100,7 +100,16 @@ fails spuriously. **A "restore/regression" issue whose reproduction is `lake env
 <file>` and whose errors are `synthInstanceFailed` / `Module k (DirectSum …)` is very
 likely a false positive — verify the premise with `lake build <Module>` before doing any
 work.** (2026-07: issue #7490 was filed this way; all four files build clean under `lake
-build` and the endpoints are axiom-clean.)
+build` and the endpoints are axiom-clean.) The *same* missing option produces a second,
+different symptom on change-of-scalars / adjunction proofs: `rw`/`simp` reporting "did not
+find … the pattern" together with a "target expression is not type-correct under the
+`instances` transparency level" note, because terms mixing `F.obj (G.obj M)` with
+`(G ⋙ F).obj M` (or a let-bound `C` with `Polynomial.C`) stop matching. If closing as a
+false positive is undesirable (you want the file to also pass bare `lake env lean`), pin
+`set_option backward.isDefEq.respectTransparency false in` on just the affected
+declarations — the same idiom Mathlib uses on `ExtendRestrictScalarsAdj.counit`. (2026-07:
+#7491, `Chapter9/Example9_4_4.lean` — pristine file built clean under `lake build`; three
+per-declaration pins made it pass `lake env lean` too, no proof changes.)
 
 **Two Mathlib lemmas can produce the *same* `1`/`0`/`Pi.single i 1` through *different*
 typeclass paths — `rw` then fails syntactically, `exact` succeeds by defeq.** Classic case
