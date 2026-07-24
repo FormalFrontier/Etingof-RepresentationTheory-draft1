@@ -280,4 +280,95 @@ lemma dotProduct_toLat (hn : 1 ≤ n) (c d : Fin n → ℤ) :
   simp only [dotProduct, mulVec, Finset.mul_sum]
   exact Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by ring
 
+/-- The roots of the sum-zero lattice `L`: nonzero elements of squared length `2` for the
+standard inner product (equivalently, by `dotProduct_toLat`, roots of the `A_n` Cartan
+form). -/
+def latticeRoots : Set (Fin (n + 1) → ℤ) :=
+  {x | x ∈ sumZeroLattice n ∧ x ≠ 0 ∧ dotProduct x x = 2}
+
+/-- **Explicit classification of the roots.** The roots of the type-`A_n` sum-zero lattice
+are exactly the vectors `±(e_i - e_j)` with `i ≠ j`. -/
+theorem mem_latticeRoots_iff (x : Fin (n + 1) → ℤ) :
+    x ∈ latticeRoots n ↔
+      ∃ i j : Fin (n + 1), i ≠ j ∧ x = Pi.single i 1 - Pi.single j 1 := by
+  constructor
+  · rintro ⟨hmem, _, hq⟩
+    have hsum : ∑ k, x k = 0 := (mem_sumZeroLattice n).mp hmem
+    have hqq : ∑ k, x k ^ 2 = 2 := by rw [← hq]; simp [dotProduct, pow_two]
+    -- every coordinate lies in `{-1, 0, 1}`
+    have hb2 : ∀ k, x k ^ 2 ≤ 2 := fun k =>
+      hqq ▸ Finset.single_le_sum (fun i _ => sq_nonneg (x i)) (mem_univ k)
+    have hpm : ∀ k, x k = -1 ∨ x k = 0 ∨ x k = 1 := by
+      intro k
+      have hb := hb2 k
+      have hlo : -1 ≤ x k := by
+        by_contra h; push_neg at h
+        have hle : x k ≤ -2 := by omega
+        nlinarith [hb, sq_nonneg (x k + 2)]
+      have hhi : x k ≤ 1 := by
+        by_contra h; push_neg at h
+        have hge : 2 ≤ x k := by omega
+        nlinarith [hb, sq_nonneg (x k - 2)]
+      interval_cases (x k) <;> tauto
+    -- the support has exactly two elements
+    have hsq : ∀ k, x k ^ 2 = if x k ≠ 0 then 1 else 0 := by
+      intro k; rcases hpm k with h | h | h <;> simp [h]
+    have hcard : (univ.filter (fun k => x k ≠ 0)).card = 2 := by
+      have h := hqq
+      rw [Finset.sum_congr rfl (fun k _ => hsq k), Finset.sum_boole] at h
+      exact_mod_cast h
+    obtain ⟨i, j, hij, hT⟩ := Finset.card_eq_two.mp hcard
+    -- coordinates off `{i, j}` vanish; the two on `{i, j}` are `±1`
+    have hzero : ∀ k, k ≠ i → k ≠ j → x k = 0 := by
+      intro k hki hkj
+      by_contra h
+      have hmemk : k ∈ univ.filter (fun k => x k ≠ 0) := Finset.mem_filter.mpr ⟨mem_univ k, h⟩
+      rw [hT] at hmemk
+      simp only [Finset.mem_insert, Finset.mem_singleton] at hmemk
+      tauto
+    have hxi : x i ≠ 0 := by
+      have : i ∈ univ.filter (fun k => x k ≠ 0) := by rw [hT]; simp
+      exact (Finset.mem_filter.mp this).2
+    have hxj : x j ≠ 0 := by
+      have : j ∈ univ.filter (fun k => x k ≠ 0) := by rw [hT]; simp
+      exact (Finset.mem_filter.mp this).2
+    have hsij : x i + x j = 0 := by
+      have hsupp : ∑ k ∈ univ.filter (fun k => x k ≠ 0), x k = ∑ k, x k :=
+        Finset.sum_filter_ne_zero univ
+      rw [hT, Finset.sum_pair hij, hsum] at hsupp
+      exact hsupp
+    -- a reusable builder: two opposite `±1` coordinates spell out `e_p - e_q`
+    have key : ∀ (p q : Fin (n + 1)), x p = 1 → x q = -1 → p ≠ q →
+        (∀ k, k ≠ p → k ≠ q → x k = 0) → x = Pi.single p 1 - Pi.single q 1 := by
+      intro p q hp hq hpq hz
+      funext k
+      by_cases hkp : k = p
+      · subst hkp
+        rw [Pi.sub_apply, Pi.single_eq_same, Pi.single_eq_of_ne hpq, hp, sub_zero]
+      · by_cases hkq : k = q
+        · subst hkq
+          rw [Pi.sub_apply, Pi.single_eq_of_ne (Ne.symm hpq), Pi.single_eq_same, hq, zero_sub]
+        · rw [Pi.sub_apply, Pi.single_eq_of_ne hkp, Pi.single_eq_of_ne hkq, hz k hkp hkq, sub_zero]
+    have hxi' : x i = -1 ∨ x i = 1 := by rcases hpm i with h | h | h; exacts [Or.inl h, absurd h hxi, Or.inr h]
+    rcases hxi' with hi1 | hi1
+    · have hj1 : x j = 1 := by omega
+      exact ⟨j, i, hij.symm, key j i hj1 hi1 hij.symm (fun k hkj hki => hzero k hki hkj)⟩
+    · have hj1 : x j = -1 := by omega
+      exact ⟨i, j, hij, key i j hi1 hj1 hij hzero⟩
+  · rintro ⟨i, j, hij, rfl⟩
+    refine ⟨?_, ?_, ?_⟩
+    · rw [mem_sumZeroLattice]
+      simp only [Pi.sub_apply, Finset.sum_sub_distrib]
+      rw [Finset.sum_pi_single', Finset.sum_pi_single']
+      simp
+    · intro h
+      have hi := congr_fun h i
+      simp only [Pi.sub_apply, Pi.single_eq_same, Pi.single_eq_of_ne hij,
+        sub_zero, Pi.zero_apply] at hi
+      exact one_ne_zero hi
+    · rw [sub_dotProduct, single_dotProduct, single_dotProduct, one_mul, one_mul]
+      simp only [Pi.sub_apply, Pi.single_eq_same, Pi.single_eq_of_ne hij,
+        Pi.single_eq_of_ne (Ne.symm hij)]
+      ring
+
 end Etingof.An
