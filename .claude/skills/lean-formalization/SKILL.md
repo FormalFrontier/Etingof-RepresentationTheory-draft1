@@ -6434,3 +6434,32 @@ Fixes, in order of preference:
 2. **Let Mathlib supply Pi-linearity.** `LinearMap.pi (fun i => fᵢ)` discharges linearity into `∀ i, gᵢ` for free — you only prove `map_smul'` for the single-index building block `fᵢ`, where there is no nested-Pi diamond. Assemble the equiv with `LinearEquiv.ofBijective` + `Function.bijective_iff_has_inverse` (the two inverse laws are `fun _ => rfl`), avoiding a reverse `map_smul'` for the inverse.
 
 Also: a `local instance` module action (e.g. `vModuleProd`) is **not** available downstream. In `_Test.lean` files, pin such a decl's signature with `#check @name`, not a type-ascribed `example`, which would fail to synthesize the unexported instance.
+
+## Reordering "q-commuting" operators: work in the unit group, not with `smul`/`coe` (q-Weyl, quantum tori, #7685)
+
+For a pair of *invertible* operators `X, Y : (Module.End k V)ˣ` with a twisted-commutation
+relation `↑Y * ↑X = q • (↑X * ↑Y)` (`q : kˣ`), proving the reordering law
+`X^i Y^j · X^i' Y^j' = q^(j·i') • X^(i+i') Y^(j+j')` **directly on `End k V`** is a slog: every
+`↑(X^n)` is a `Units.val` of a `zpow`, so each step needs `Units.val_mul`, and mixing `zpow`
+with `k`-scalar `smul` (`smul_mul_assoc`, `mul_smul_comm`, `smul_smul`) is error-prone.
+
+**Do the reordering at the unit-group level.** `q • 1` is a *central unit*:
+`qU q := Units.map (algebraMap k (End k V)).toMonoidHom q`, with `↑(qU q) = algebraMap k _ ↑q`
+(rfl) and `↑(qU q) * m = q • m` (`← Algebra.smul_def`). Transport the relation to
+`Y * X = qU q * X * Y` in `(End k V)ˣ` (`Units.ext`), then everything is a group identity:
+
+- Centrality: `commute_qU q u : Commute (qU q) u` via `Units.ext` + `Algebra.commutes`. Move it
+  past powers with `.symm.eq`, `.zpow_right`, `.inv_left`/`.inv_right`.
+- Pure-associativity rearrangements close with the `group` tactic (import `Mathlib.Tactic.Group`);
+  the *swaps* that use centrality need explicit `Commute` rewrites (`group` won't use hypotheses).
+- Powers combine with `zpow_add`/`zpow_add_one`/`zpow_sub_one`; `map_zpow (Units.map …)` gives
+  `(qU q)^a = qU (q^a)` so `↑((qU q)^a) = algebraMap ↑(q^a)`.
+
+Only at the very end coerce back to `End k V` (`congrArg (↑·)`, `simp [Units.val_mul, coe_qU_zpow]`)
+and convert the leading `algebraMap ↑(q^…)` factor to `q^… • _` with `← Algebra.smul_def`. This cut
+a many-iteration `End`-level attempt down to clean, first-try-ish group proofs.
+
+**Two `Int.induction_on` traps that cost iterations:** the case tags are `| zero | succ n ih |
+pred n ih` (not `hz/hp/hn`), and in the `succ`/`pred` branches the bound variable is a **`ℕ`** — so
+write `X ^ (-(n : ℤ))`, never `X ^ (-n)` (the latter elaborates `Neg ℕ` and fails with
+"failed to synthesize instance", often cascading into bogus `X ^ sorry` in later hypotheses).
