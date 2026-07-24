@@ -111,6 +111,31 @@ declarations — the same idiom Mathlib uses on `ExtendRestrictScalarsAdj.counit
 #7491, `Chapter9/Example9_4_4.lean` — pristine file built clean under `lake build`; three
 per-declaration pins made it pass `lake env lean` too, no proof changes.)
 
+**For fast per-file iteration, pass the lakefile options to `lake env lean` explicitly.**
+`lake build <Module>` re-runs the whole dependency trace and is slow to loop on; `lake env
+lean` on one file is seconds. You get the accurate result *and* the speed by passing the
+`[leanOptions]` yourself:
+
+```
+lake env lean -D backward.isDefEq.respectTransparency=false -D relaxedAutoImplicit=false \
+  -D maxSynthPendingDepth=3 EtingofRepresentationTheory/<Chapter>/<File>.lean
+```
+
+Keep `lake build <Module>` as the final check before committing (it also catches
+`lakefile`/import-graph problems), but iterate with the `-D` form. Re-read `lakefile.toml`
+if the options list looks stale — it is the source of truth.
+
+**Beware `abbrev` carriers shared by two modules over the same ring.** In
+`Chapter9/Problem9_3_2.lean`, `Pplus` and `Pminus` are both `abbrev ... : Type := Fin 2 → ℂ`.
+Because `abbrev` is reducible, `Module A Pplus` and `Module A Pminus` are two instances on
+the *same* type, and instance resolution silently picks the last-declared one. The file only
+works because every `P₊` declaration textually precedes the `Module A Pminus` instance — so
+**new lemmas about the earlier module must be inserted before the later instance, not
+appended at the end of the file.** This also blocks forming an indexed family `P : ι → Type`
+of the two modules (needed by `Etingof.algebraCartanMatrix`); that requires giving them
+genuinely distinct carriers. If you are defining several modules over one ring with the same
+underlying type, prefer a one-field structure per module over `abbrev`.
+
 **Two Mathlib lemmas can produce the *same* `1`/`0`/`Pi.single i 1` through *different*
 typeclass paths — `rw` then fails syntactically, `exact` succeeds by defeq.** Classic case
 (cost real iterations in #6597, `Chapter9/Problem9_5_3_PrimitiveIdempotents.lean`):
