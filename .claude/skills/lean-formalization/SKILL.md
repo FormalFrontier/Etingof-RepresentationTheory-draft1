@@ -1065,6 +1065,24 @@ Multiple files define `private abbrev GL2 = ...` / `private abbrev GL2' = ...` f
 - Use `change` instead of `show` when the target uses a different abbreviation
 - For sorry'd lemmas that need `[Fintype F] [DecidableEq F]` instances (needed by callers and the sorry body): wrap in a `section` with `set_option linter.unusedFintypeInType false` / `set_option linter.unusedDecidableInType false`. The `set_option ... in` syntax doesn't work before `private`.
 
+### There is no `NatCast (Fin n)` — use `Fin.ofNat n m`, not `(m : Fin n)` (#7698)
+
+Under this toolchain (Lean 4.32.0-rc1) `(m : Fin N)` for `m : ℕ` does **not** elaborate, even with
+`[NeZero N]` in scope: you get `Type mismatch: m has type ℕ but is expected to have type Fin N`,
+with no mention of a missing coercion. (`Fin.natCast_self` in Mathlib still displays as `↑n`, which
+makes it look like the instance exists — it doesn't resolve outside Mathlib's own context.) Use
+`Fin.ofNat N m` instead; `(Fin.ofNat N m).val = m % N` holds by `rfl`, so `change`-then-`Nat` lemmas
+work directly. Useful companions when stepping around the cycle:
+
+- `Fin.val_add a b : (a + b).val = (a.val + b.val) % n`
+- `Fin.val_one' n : ((1 : Fin n) : ℕ) = 1 % n`
+- `Nat.add_mod_mod : (a + b % n) % n = (a + b) % n` and `Nat.mod_add_mod : (a % n + b) % n = (a + b) % n`
+  — these two close `Fin.ofNat N (m + 1) = Fin.ofNat N m + 1` after `Fin.ext`.
+
+To reach an arbitrary `i : Fin N` from a base point `k` by repeated `+1`, iterate `(i - k).val`
+times and finish with `Fin.ofNat N ((i - k).val) = i - k` (`Nat.mod_eq_of_lt`) plus
+`sub_add_cancel i k`. Cost one build cycle in #7698 (`Problem2_7_5_FamilySimple.lean`).
+
 ### Greek-capital notation chars (`Π`, `Σ`, `λ`) can't be identifiers
 
 Greek *lowercase* (`σ`, `τ`, `π`) work fine as identifiers, but the capitals `Π`/`Σ` are reserved notation (Pi/Sigma types), so `set Π := …`, `let Σ := …`, or even embedding them in a name like `hΠ`/`hΣ` fails to tokenize (`unexpected token 'Π'; expected '_' or identifier`, sometimes cascading into confusing downstream parse errors). Use ASCII names for permutation/projection matrices etc. (`PL`, `PR`, `permMat`), and `hperm…` not `hΠ`. Cost two build cycles in #6807.
