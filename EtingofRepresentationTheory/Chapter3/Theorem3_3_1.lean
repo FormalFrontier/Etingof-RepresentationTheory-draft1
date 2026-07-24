@@ -5,6 +5,7 @@ import Mathlib.LinearAlgebra.Matrix.ToLin
 import Mathlib.LinearAlgebra.Matrix.Module
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Algebra.DirectSum.Module
+import Mathlib.LinearAlgebra.Dual.Lemmas
 
 /-!
 # Theorem 3.3.1: Irreducible Representations of Direct Sums of Matrix Algebras
@@ -297,3 +298,52 @@ noncomputable def regularDecomp :
     regularDecomp M i c j = M i j c := rfl
 
 end Product
+
+/-! ## Transpose self-duality and the dual-of-surjection bridge
+
+Two further ingredients of the book's proof of Theorem 3.3.1:
+
+* the matrix transpose realizes `Mat_d(k) ≅ Mat_d(k)ᵒᵖ`, hence `A ≅ Aᵒᵖ`, which is what lets
+  the `k`-dual `X*` (a priori an `Aᵒᵖ`-module) be viewed as an `A`-module;
+* the `k`-dual of a surjection is an injection, which turns the surjection `Aⁿ ↠ X*` into the
+  injection `X ↪ Aⁿ*`.
+-/
+
+section Duality
+
+variable {k : Type*} [Field k]
+
+/-- **Transpose self-duality of a matrix algebra.** `Matrix.transpose` realizes
+`Mat_d(k) ≅ Mat_d(k)ᵐᵒᵖ` as `k`-algebras (equivalently `Mat_d(k)ᵒᵖ ≅ Mat_d(k)`), since
+`(BC)ᵀ = CᵀBᵀ`. This is the isomorphism `A ≅ Aᵒᵖ` used in the proof of Theorem 3.3.1 to
+turn the dual `X*` (a priori an `Aᵒᵖ`-module) into an `A`-module. -/
+abbrev matrixTransposeSelfDuality (k : Type*) [Field k] (D : ℕ) :
+    Matrix (Fin D) (Fin D) k ≃ₐ[k] (Matrix (Fin D) (Fin D) k)ᵐᵒᵖ :=
+  Matrix.transposeAlgEquiv (Fin D) k k
+
+/-- The opposite of a finite product of rings is the product of the opposites. -/
+def piMulOppositeRingEquiv {ι : Type*} (R : ι → Type*) [∀ i, Semiring (R i)] :
+    (∀ i, (R i)ᵐᵒᵖ) ≃+* (∀ i, R i)ᵐᵒᵖ where
+  toFun f := MulOpposite.op fun i => (f i).unop
+  invFun g := fun i => MulOpposite.op ((MulOpposite.unop g) i)
+  left_inv f := by funext i; simp
+  right_inv g := by simp
+  map_mul' f g := MulOpposite.unop_injective <| funext fun i => by simp [MulOpposite.unop_mul]
+  map_add' f g := MulOpposite.unop_injective <| funext fun i => by simp
+
+/-- **Transpose self-duality of `A = ⊕ᵢ Mat_{dᵢ}(k)`**: `A ≅ Aᵐᵒᵖ` as rings, applying the
+matrix transpose factorwise. -/
+def matProdTransposeSelfDuality {r : ℕ} (d : Fin r → ℕ) :
+    MatProd k d ≃+* (MatProd k d)ᵐᵒᵖ :=
+  (RingEquiv.piCongrRight fun i => Matrix.transposeRingEquiv (Fin (d i)) k).trans
+    (piMulOppositeRingEquiv _)
+
+/-- **Dual of a surjection is an injection.** If `φ : M → N` is a surjective `k`-linear map,
+its transpose `φ.dualMap : N* → M*` is injective. This is the step in the proof of Theorem
+3.3.1 turning the surjection `Aⁿ ↠ X*` into the injection `X ↪ Aⁿ*`. -/
+theorem dualMap_injective_of_surjective {M N : Type*} [AddCommGroup M] [Module k M]
+    [AddCommGroup N] [Module k N] {φ : M →ₗ[k] N} (hφ : Function.Surjective φ) :
+    Function.Injective φ.dualMap :=
+  LinearMap.dualMap_injective_of_surjective hφ
+
+end Duality
