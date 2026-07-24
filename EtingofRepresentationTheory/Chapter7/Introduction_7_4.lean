@@ -1,5 +1,6 @@
 import Mathlib.CategoryTheory.IsomorphismClasses
 import Mathlib.CategoryTheory.Equivalence
+import Mathlib.CategoryTheory.IsoCat
 import EtingofRepresentationTheory.Chapter7.Discussion_after_Definition7_4_1
 
 /-!
@@ -28,6 +29,15 @@ We show:
 * `functorIsoClassesEquiv`: applying this to the equivalence `C₁ ≌ C₂` precomposed into
   the functor category (`Equivalence.congrLeft`) gives the natural bijection between
   isomorphism classes of functors `C₁ → D` and `C₂ → D`.
+
+The text stresses that this bijection is the sense in which `C₁` and `C₂` are "the same",
+*even though* they are not isomorphic as categories: a strict isomorphism of categories
+would require a bijection between their object types, which is impossible since `C₁` has one
+object and `C₂` has two. Mathlib's strict (on-the-nose) notion of isomorphism of categories
+is `CategoryTheory.IsoCat`. We record the negative claim:
+
+* `isEmpty_isoCat_cat₁_cat₂`: there is no `IsoCat Cat₁ Cat₂`, i.e. `C₁` and `C₂` are *not*
+  isomorphic as categories.
 -/
 
 open CategoryTheory
@@ -52,5 +62,22 @@ which `C₁` and `C₂` are "the same for all practical purposes". -/
 def functorIsoClassesEquiv (D : Type*) [Category D] :
     Quotient (isIsomorphicSetoid (Cat₁ ⥤ D)) ≃ Quotient (isIsomorphicSetoid (Cat₂ ⥤ D)) :=
   isoClassesEquivOfEquivalence (cat₁EquivCat₂.congrLeft (E := D))
+
+/-- Introduction to Section 7.4: although `C₁` and `C₂` are equivalent (`cat₁EquivCat₂`) and
+have the "same" functor-isomorphism classes into any `D` (`functorIsoClassesEquiv`), they are
+**not isomorphic as categories**. A strict isomorphism of categories (`CategoryTheory.IsoCat`)
+has a forward functor that is bijective on objects, hence would give a bijection `Cat₁ ≃ Cat₂`;
+but `Cat₁` (one object) is a subsingleton while `Cat₂` (two objects) is not. This is the
+contrast between equivalence and the naive strict notion of isomorphism the text draws. -/
+theorem isEmpty_isoCat_cat₁_cat₂ : IsEmpty (IsoCat Cat₁ Cat₂) := by
+  refine ⟨fun e => ?_⟩
+  -- The forward functor of an isomorphism of categories is bijective on objects, so it
+  -- induces an equivalence of object types `Cat₁ ≃ Cat₂`, i.e. `PUnit ≃ Bool`.
+  let f : PUnit ≃ Bool := e.functor.objEquiv
+  -- `PUnit` is a subsingleton, so `f.symm` collapses `true` and `false`; injectivity of
+  -- `f.symm` then forces `true = false`, a contradiction.
+  have : (true : Bool) = false :=
+    f.symm.injective (Subsingleton.elim (f.symm true) (f.symm false))
+  exact absurd this (by decide)
 
 end Etingof

@@ -8291,12 +8291,11 @@
     "start_line": 1,
     "end_line": 13,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "full",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The equivalence C₁ ≌ C₂ and induced bijection on functor isomorphism classes are public, but the source's contrasting claim that the categories are not strictly inverse-on-the-nose isomorphic is absent; follow-up #7480.",
-    "fidelity_issue": 7480,
-    "last_updated": "2026-07-22",
+    "coverage": "covered_full",
+    "coverage_note": "The equivalence C₁ ≌ C₂ and induced bijection on functor isomorphism classes are public; the source's contrasting claim that the categories are not strictly (on-the-nose) isomorphic is now formalized as isEmpty_isoCat_cat₁_cat₂ via CategoryTheory.IsoCat.",
+    "last_updated": "2026-07-24",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
