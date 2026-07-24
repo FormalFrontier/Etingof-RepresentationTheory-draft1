@@ -8556,12 +8556,11 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "full",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "Mathlib supplies the matrix-ring module-category equivalence, but the project exposes no combined witness that the equivalent module categories come from nonisomorphic rings; follow-up #7470.",
-    "fidelity_issue": 7470,
-    "last_updated": "2026-07-22"
+    "coverage": "covered",
+    "coverage_note": "Chapter7/Remark7_7_4.lean gives the concrete Morita counterexample: ℚ and Matrix (Fin 2) (Fin 2) ℚ have equivalent module categories (ModuleCat.matrixEquivalence) yet no ring isomorphism (Etingof.exists_matrix_not_comm_of_ne transports commutativity), packaged as Etingof.morita_equivalent_not_ringEquiv. The prose claim that many abelian categories admit no natural ring remains philosophical.",
+    "last_updated": "2026-07-24"
   },
   {
     "id": "Chapter7/Discussion_after_Remark7.7.4",

@@ -35,6 +35,7 @@ import EtingofRepresentationTheory.Chapter7.Example7_9_5
 import EtingofRepresentationTheory.Chapter7.Example7_9_6
 import EtingofRepresentationTheory.Chapter7.Exercise7_8_4
 import EtingofRepresentationTheory.Chapter7.Problem7_7_3
+import EtingofRepresentationTheory.Chapter7.Remark7_7_4
 import EtingofRepresentationTheory.Chapter7.Problem7_8_5
 import EtingofRepresentationTheory.Chapter7.Exercise7_9_7
 import EtingofRepresentationTheory.Chapter7.Exercise7_9_8
