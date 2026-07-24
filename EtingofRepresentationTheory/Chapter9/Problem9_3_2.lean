@@ -40,7 +40,7 @@ has no section `S₊ → P₊` (any such section would force `x · (section 1) =
 the section condition forces its first coordinate to be `1`).
 -/
 
-universe u
+universe u v
 
 open CategoryTheory
 
@@ -134,7 +134,7 @@ noncomputable def repHom (G X : Module.End ℂ V)
 
 /-- A `ℂ`-linear map intertwining the actions of the generators `g` and `x` automatically
 intertwines the action of every element of `A`, because `g` and `x` generate `A`. -/
-lemma intertwine_all {W : Type u} [AddCommGroup W] [Module ℂ W]
+lemma intertwine_all {W : Type v} [AddCommGroup W] [Module ℂ W]
     (ρV : A →ₐ[ℂ] Module.End ℂ V) (ρW : A →ₐ[ℂ] Module.End ℂ W) (φ : V →ₗ[ℂ] W)
     (hg : ∀ v, φ (ρV g v) = ρW g (φ v)) (hx : ∀ v, φ (ρV x v) = ρW x (φ v)) :
     ∀ (a : A) (v : V), φ (ρV a v) = ρW a (φ v) := by
@@ -164,7 +164,7 @@ lemma intertwine_all {W : Type u} [AddCommGroup W] [Module ℂ W]
 
 /-- Promote a `ℂ`-linear map intertwining `g` and `x` to an `A`-linear map, for `A`-module
 structures defined through representations `ρV`, `ρW`. -/
-noncomputable def mkAlgLinear {W : Type u} [AddCommGroup W] [Module ℂ W]
+noncomputable def mkAlgLinear {W : Type v} [AddCommGroup W] [Module ℂ W]
     [Module A V] [Module A W]
     (ρV : A →ₐ[ℂ] Module.End ℂ V) (ρW : A →ₐ[ℂ] Module.End ℂ W)
     (hV : ∀ (a : A) (v : V), a • v = ρV a v) (hW : ∀ (a : A) (w : W), a • w = ρW a w)
@@ -752,5 +752,176 @@ theorem areLinked :
   Relation.EqvGen.rel _ _
     ⟨(inferInstance : IsSimpleModule A Splus), (inferInstance : IsSimpleModule A Sminus),
       Or.inl (Or.inl directlyExtLinked)⟩
+
+/-! ## Classification of the simple modules
+
+Every simple `A`-module is isomorphic to `S₊` or to `S₋`, and not to both. The argument is the
+standard one: the ideal `A x = x A` is two-sided with square zero, so it annihilates any simple
+module; the quotient `A / A x ≅ ℂ[g]/(g² - 1) ≅ ℂ × ℂ` is commutative and split semisimple, so
+`g` acts by `+1` or by `-1`; and then every `ℂ`-subspace is an `A`-submodule, forcing the module
+to be one-dimensional. -/
+
+/-- `x` normalises `A` on the left: for every `a : A` there is `b : A` with `x * a = b * x`.
+Equivalently `x A ⊆ A x`, i.e. `A x` is a two-sided ideal. -/
+lemma exists_mul_eq_mul_x (a : A) : ∃ b : A, x * a = b * x := by
+  obtain ⟨w, rfl⟩ : ∃ w, mk w = a := RingQuot.mkAlgHom_surjective ℂ Rel a
+  induction w with
+  | grade0 r =>
+      refine ⟨algebraMap ℂ A r, ?_⟩
+      rw [mk.commutes]
+      exact (Algebra.commutes r x).symm
+  | grade1 i =>
+      fin_cases i
+      · refine ⟨-g, ?_⟩
+        show x * g = -g * x
+        have h2 : x * g = -(g * x) := by
+          rw [eq_neg_iff_add_eq_zero, add_comm]; exact anticomm_rel
+        exact h2.trans (neg_mul g x).symm
+      · exact ⟨0, by show x * x = 0 * x; rw [xsq_rel, zero_mul]⟩
+  | mul p q hp hq =>
+      obtain ⟨bp, hbp⟩ := hp
+      obtain ⟨bq, hbq⟩ := hq
+      refine ⟨bp * bq, ?_⟩
+      calc x * mk (p * q) = (x * mk p) * mk q := by rw [map_mul, mul_assoc]
+        _ = bp * (x * mk q) := by rw [hbp, mul_assoc]
+        _ = bp * bq * x := by rw [hbq, mul_assoc]
+  | add p q hp hq =>
+      obtain ⟨bp, hbp⟩ := hp
+      obtain ⟨bq, hbq⟩ := hq
+      exact ⟨bp + bq, by rw [map_add, mul_add, hbp, hbq, add_mul]⟩
+
+section Classification
+
+variable (S : Type u) [AddCommGroup S] [Module A S]
+
+/-- The `x`-annihilator `{s | x • s = 0}` of an `A`-module, as an `A`-submodule. It is a
+submodule because `x A ⊆ A x` (`exists_mul_eq_mul_x`). -/
+def xAnnihilator : Submodule A S where
+  carrier := {s : S | x • s = 0}
+  add_mem' := by
+    intro a b ha hb
+    show x • (a + b) = 0
+    rw [smul_add, show x • a = 0 from ha, show x • b = 0 from hb, add_zero]
+  zero_mem' := by show x • (0 : S) = 0; rw [smul_zero]
+  smul_mem' := by
+    intro c s hs
+    obtain ⟨b, hb⟩ := exists_mul_eq_mul_x c
+    show x • (c • s) = 0
+    rw [smul_smul, hb, ← smul_smul]
+    show b • (x • s) = 0
+    rw [show x • s = 0 from hs, smul_zero]
+
+variable {S}
+
+@[simp] lemma mem_xAnnihilator {s : S} : s ∈ xAnnihilator S ↔ x • s = 0 := Iff.rfl
+
+/-- **`x` annihilates every simple `A`-module.** The ideal `A x` has square zero, so the
+`x`-annihilator of a simple module is a nonzero submodule, hence everything. -/
+theorem x_smul_eq_zero_of_isSimpleModule [IsSimpleModule A S] (s : S) : x • s = 0 := by
+  by_cases h : ∀ t : S, x • t = 0
+  · exact h s
+  · obtain ⟨t, ht⟩ := not_forall.mp h
+    have hmem : x • t ∈ xAnnihilator S := by
+      show x • (x • t) = 0
+      rw [smul_smul, xsq_rel, zero_smul]
+    have hne : xAnnihilator S ≠ ⊥ := fun hb => ht (by simpa [hb] using hmem)
+    have htop : xAnnihilator S = ⊤ := (eq_bot_or_eq_top (xAnnihilator S)).resolve_left hne
+    exact mem_xAnnihilator.mp (htop ▸ Submodule.mem_top)
+
+variable [Module ℂ S] [IsScalarTower ℂ A S]
+
+/-- If `x` acts as zero then every `g`-stable `ℂ`-subspace is stable under all of `A`, because
+`g` and `x` generate `A` as a `ℂ`-algebra. -/
+lemma smul_mem_of_g_stable (W : Submodule ℂ S)
+    (hx : ∀ t : S, x • t = 0) (hg : ∀ w ∈ W, g • w ∈ W) (a : A) :
+    ∀ w ∈ W, a • w ∈ W := by
+  obtain ⟨v, rfl⟩ : ∃ v, mk v = a := RingQuot.mkAlgHom_surjective ℂ Rel a
+  induction v with
+  | grade0 r =>
+      intro w hw
+      rw [mk.commutes, algebraMap_smul]
+      exact W.smul_mem r hw
+  | grade1 i =>
+      intro w hw
+      fin_cases i
+      · exact hg w hw
+      · show x • w ∈ W
+        rw [hx w]
+        exact W.zero_mem
+  | mul p q hp hq =>
+      intro w hw
+      rw [map_mul, mul_smul]
+      exact hp _ (hq w hw)
+  | add p q hp hq =>
+      intro w hw
+      rw [map_add, add_smul]
+      exact W.add_mem (hp w hw) (hq w hw)
+
+/-- The `+1`-eigenspace of `g`, as a `ℂ`-subspace. -/
+noncomputable def gPlusEigenspace : Submodule ℂ S :=
+  LinearMap.ker (Algebra.lsmul ℂ ℂ S g - 1)
+
+lemma mem_gPlusEigenspace {s : S} : s ∈ (gPlusEigenspace : Submodule ℂ S) ↔ g • s = s := by
+  simp [gPlusEigenspace, sub_eq_zero, Algebra.lsmul_coe]
+
+omit [Module ℂ S] [IsScalarTower ℂ A S] in
+lemma g_smul_g_smul (s : S) : g • (g • s) = s := by
+  rw [smul_smul, gsq_rel, one_smul]
+
+/-- **On a simple `A`-module, `g` acts as the scalar `+1` or as the scalar `-1`.** The `+1`
+eigenspace of the involution `g` is an `A`-submodule (using that `x` acts as zero), so it is all
+of the module or zero; in the second case `s + g • s = 0` for every `s`. -/
+theorem g_smul_eq_self_or_neg [IsSimpleModule A S] :
+    (∀ s : S, g • s = s) ∨ (∀ s : S, g • s = -s) := by
+  have hx : ∀ t : S, x • t = 0 := x_smul_eq_zero_of_isSimpleModule
+  have hgst : ∀ w ∈ (gPlusEigenspace : Submodule ℂ S), g • w ∈ gPlusEigenspace := by
+    intro w hw
+    rw [mem_gPlusEigenspace] at hw ⊢
+    rw [hw]; exact hw
+  let N : Submodule A S :=
+    { carrier := (gPlusEigenspace : Submodule ℂ S)
+      add_mem' := fun ha hb => Submodule.add_mem _ ha hb
+      zero_mem' := Submodule.zero_mem _
+      smul_mem' := fun c s hs => smul_mem_of_g_stable _ hx hgst c s hs }
+  rcases eq_bot_or_eq_top N with hb | ht
+  · refine Or.inr fun s => ?_
+    have hmem : s + g • s ∈ N := by
+      show s + g • s ∈ (gPlusEigenspace : Submodule ℂ S)
+      rw [mem_gPlusEigenspace, smul_add, g_smul_g_smul, add_comm]
+    have hz : s + g • s = 0 := by simpa [hb] using hmem
+    rw [eq_neg_iff_add_eq_zero, add_comm]
+    exact hz
+  · refine Or.inl fun s => ?_
+    have hs : s ∈ N := ht ▸ Submodule.mem_top
+    exact mem_gPlusEigenspace.mp hs
+
+/-- A simple `A`-module is simple as a `ℂ`-vector space: once `x` acts as zero and `g` acts as a
+scalar, *every* `ℂ`-subspace is an `A`-submodule. -/
+theorem isSimpleModule_complex [IsSimpleModule A S] : IsSimpleModule ℂ S := by
+  have hx : ∀ t : S, x • t = 0 := x_smul_eq_zero_of_isSimpleModule
+  have hgstab : ∀ W : Submodule ℂ S, ∀ w ∈ W, g • w ∈ W := by
+    rcases g_smul_eq_self_or_neg (S := S) with h | h
+    · intro W w hw; rw [h w]; exact hw
+    · intro W w hw; rw [h w]; exact W.neg_mem hw
+  have : Nontrivial S := IsSimpleModule.nontrivial A S
+  refine { exists_pair_ne := ⟨⊥, ⊤, bot_ne_top⟩, eq_bot_or_eq_top := fun W => ?_ }
+  let N : Submodule A S :=
+    { carrier := (W : Set S)
+      add_mem' := fun ha hb => W.add_mem ha hb
+      zero_mem' := W.zero_mem
+      smul_mem' := fun c s hs => smul_mem_of_g_stable W hx (hgstab W) c s hs }
+  rcases eq_bot_or_eq_top N with hb | ht
+  · refine Or.inl (le_antisymm (fun s hs => ?_) bot_le)
+    have hsN : s ∈ N := hs
+    simpa [hb] using hsN
+  · refine Or.inr (le_antisymm le_top fun s _ => ?_)
+    have hs : s ∈ N := ht ▸ Submodule.mem_top
+    exact hs
+
+/-- Every simple `A`-module is one-dimensional over `ℂ`. -/
+theorem finrank_eq_one_of_isSimpleModule [IsSimpleModule A S] : Module.finrank ℂ S = 1 :=
+  isSimpleModule_iff_finrank_eq_one.mp isSimpleModule_complex
+
+end Classification
 
 end Etingof.Problem932
