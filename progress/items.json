@@ -9486,14 +9486,13 @@
     "end_page": "217",
     "start_line": 5,
     "end_line": 6,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "proved",
+    "fidelity": "full",
     "needs_statement": false,
-    "attention_needed": true,
-    "notes": "The file has the exact Hilbert-syzygy endpoint, but its current implementation fails a fresh Lean check and cannot be imported. The failures occur in the exact-sequence, change-of-rings, and Koszul support used by the upper and lower bounds; regression #7491.",
-    "coverage": "covered_partial",
-    "fidelity_issue": 7491,
-    "last_updated": "2026-07-22"
+    "attention_needed": false,
+    "notes": "The file has the exact Hilbert-syzygy endpoint `Etingof.Example_9_4_4` and checks cleanly (sorry-free, importable) on the current toolchain. Regression #7491 (fresh-check failures in the exact-sequence, change-of-rings, and Koszul support) was fixed by restoring `backward.isDefEq.respectTransparency false` on the change-of-scalars morphism proofs, which the stricter migrated elaborator otherwise rejects.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-24"
   },
   {
     "id": "Chapter9/Problem9.4.5",
