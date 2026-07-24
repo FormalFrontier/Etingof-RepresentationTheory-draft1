@@ -1,6 +1,5 @@
+import Mathlib
 import EtingofRepresentationTheory.Chapter2.Proposition2_7_1_ii
-import Mathlib.LinearAlgebra.Basis.Basic
-import Mathlib.Tactic.Group
 
 /-!
 # Universal mapping property for the `q`-Weyl algebra
@@ -27,7 +26,7 @@ basis-defined linear map multiplicative.
 
 namespace Etingof.QWeyl
 
-open Etingof Finsupp
+open Etingof Finsupp Module
 
 variable {k : Type*} [CommRing k] (q : kˣ)
 variable {V : Type*} [AddCommGroup V] [Module k V]
@@ -198,5 +197,152 @@ theorem op_mul (hrel : (↑Y : Module.End k V) * ↑X = (q : k) • (↑X * ↑Y
           simp only [mul_assoc]
 
 end Relation
+
+/-! ### The monomial basis of the source algebra -/
+
+/-- `xⁱyʲ` as an element of the concrete subalgebra `qWeylAlgebra k q`. -/
+noncomputable def qWeylMono (p : ℤ × ℤ) : qWeylAlgebra k q :=
+  ⟨qMono k q p, qMono_mem k q p⟩
+
+@[simp] theorem coe_qWeylMono (p : ℤ × ℤ) :
+    ((qWeylMono q p : qWeylAlgebra k q) : Module.End k (QWeylModule k)) = qMono k q p := rfl
+
+theorem qWeylMono_zero : qWeylMono q (0, 0) = 1 := by
+  apply Subtype.ext
+  rw [coe_qWeylMono, OneMemClass.coe_one, qMono_zero]
+
+/-- The reordering law on the source algebra, mirroring `qMono_mul`. -/
+theorem qWeylMono_mul (p r : ℤ × ℤ) :
+    qWeylMono q p * qWeylMono q r
+      = (↑(q ^ (p.2 * r.1)) : k) • qWeylMono q (p.1 + r.1, p.2 + r.2) := by
+  apply Subtype.ext
+  rw [MulMemClass.coe_mul, coe_qWeylMono, coe_qWeylMono, Subalgebra.coe_smul, coe_qWeylMono,
+    qMono_mul]
+
+theorem qWeylMono_linearIndependent : LinearIndependent k (qWeylMono q) := by
+  apply LinearIndependent.of_comp (qWeylAlgebra k q).val.toLinearMap
+  have h : (qWeylAlgebra k q).val.toLinearMap ∘ qWeylMono q = qMono k q := rfl
+  rw [h]
+  exact qMono_linearIndependent k q
+
+theorem qWeylMono_span : ⊤ ≤ Submodule.span k (Set.range (qWeylMono q)) := by
+  rintro a -
+  have h1 : (a : Module.End k (QWeylModule k)) ∈ Submodule.span k (Set.range (qMono k q)) := by
+    rw [← qWeyl_toSubmodule_eq_span, Subalgebra.mem_toSubmodule]
+    exact a.2
+  have himg : Submodule.map (qWeylAlgebra k q).val.toLinearMap
+        (Submodule.span k (Set.range (qWeylMono q)))
+      = Submodule.span k (Set.range (qMono k q)) := by
+    rw [Submodule.map_span]
+    congr 1
+    rw [← Set.range_comp]
+    rfl
+  rw [← himg] at h1
+  obtain ⟨a', ha'mem, ha'eq⟩ := h1
+  have hpa : a' = a := Subtype.ext ha'eq
+  rwa [hpa] at ha'mem
+
+/-- The monomial basis `{xⁱyʲ}` of the concrete `q`-Weyl algebra (Proposition 2.7.1(ii)). -/
+noncomputable def basis : Basis (ℤ × ℤ) k (qWeylAlgebra k q) :=
+  Basis.mk (qWeylMono_linearIndependent q) (qWeylMono_span q)
+
+@[simp] theorem basis_apply (p : ℤ × ℤ) : basis q p = qWeylMono q p :=
+  Basis.mk_apply _ _ _
+
+/-! ### The lift `qWeylAlgebra k q →ₐ[k] Module.End k V` -/
+
+/-- The underlying `k`-linear map of the lift, `xⁱyʲ ↦ Xⁱ Yʲ`. -/
+noncomputable def toEndLinear : qWeylAlgebra k q →ₗ[k] Module.End k V :=
+  (basis q).constr k (fun p => op X Y p.1 p.2)
+
+@[simp] theorem toEndLinear_qWeylMono (p : ℤ × ℤ) :
+    toEndLinear q X Y (qWeylMono q p) = op X Y p.1 p.2 := by
+  rw [toEndLinear, ← basis_apply, Basis.constr_basis]
+
+/-- Multiplicativity of the lift on two basis monomials (this is exactly `op_mul`). -/
+theorem toEndLinear_key (hrel : (↑Y : Module.End k V) * ↑X = (q : k) • (↑X * ↑Y)) (p r : ℤ × ℤ) :
+    toEndLinear q X Y (qWeylMono q p * qWeylMono q r)
+      = toEndLinear q X Y (qWeylMono q p) * toEndLinear q X Y (qWeylMono q r) := by
+  rw [qWeylMono_mul, map_smul, toEndLinear_qWeylMono, toEndLinear_qWeylMono, toEndLinear_qWeylMono,
+    op_mul q X Y hrel]
+
+/-- Multiplicativity of the lift with the right argument a basis monomial. -/
+theorem toEndLinear_mul_right (hrel : (↑Y : Module.End k V) * ↑X = (q : k) • (↑X * ↑Y))
+    (a : qWeylAlgebra k q) (r : ℤ × ℤ) :
+    toEndLinear q X Y (a * qWeylMono q r)
+      = toEndLinear q X Y a * toEndLinear q X Y (qWeylMono q r) := by
+  have h : (toEndLinear q X Y).comp (LinearMap.mulRight k (qWeylMono q r))
+      = (LinearMap.mulRight k (toEndLinear q X Y (qWeylMono q r))).comp (toEndLinear q X Y) := by
+    apply (basis q).ext
+    intro p
+    simp only [LinearMap.comp_apply, LinearMap.mulRight_apply, basis_apply]
+    exact toEndLinear_key q X Y hrel p r
+  have hcf := DFunLike.congr_fun h a
+  simpa only [LinearMap.comp_apply, LinearMap.mulRight_apply] using hcf
+
+/-- Full multiplicativity of the lift. -/
+theorem toEndLinear_mul (hrel : (↑Y : Module.End k V) * ↑X = (q : k) • (↑X * ↑Y))
+    (a b : qWeylAlgebra k q) :
+    toEndLinear q X Y (a * b) = toEndLinear q X Y a * toEndLinear q X Y b := by
+  have h : (toEndLinear q X Y).comp (LinearMap.mulLeft k a)
+      = (LinearMap.mulLeft k (toEndLinear q X Y a)).comp (toEndLinear q X Y) := by
+    apply (basis q).ext
+    intro r
+    simp only [LinearMap.comp_apply, LinearMap.mulLeft_apply, basis_apply]
+    exact toEndLinear_mul_right q X Y hrel a r
+  have hcf := DFunLike.congr_fun h b
+  simpa only [LinearMap.comp_apply, LinearMap.mulLeft_apply] using hcf
+
+/-- **Universal mapping property of the `q`-Weyl algebra.** Given invertible operators `X, Y` on a
+`k`-module `V` satisfying `Y X = q • (X Y)`, the assignment `xⁱyʲ ↦ Xⁱ Yʲ` extends to an algebra
+homomorphism `qWeylAlgebra k q →ₐ[k] Module.End k V`. -/
+noncomputable def toEnd (hrel : (↑Y : Module.End k V) * ↑X = (q : k) • (↑X * ↑Y)) :
+    qWeylAlgebra k q →ₐ[k] Module.End k V :=
+  AlgHom.ofLinearMap (toEndLinear q X Y)
+    (by
+      rw [show (1 : qWeylAlgebra k q) = qWeylMono q (0, 0) from (qWeylMono_zero q).symm,
+        toEndLinear_qWeylMono]
+      simp)
+    (toEndLinear_mul q X Y hrel)
+
+@[simp] theorem toEnd_qWeylMono (hrel : (↑Y : Module.End k V) * ↑X = (q : k) • (↑X * ↑Y))
+    (p : ℤ × ℤ) : toEnd q X Y hrel (qWeylMono q p) = op X Y p.1 p.2 :=
+  toEndLinear_qWeylMono q X Y p
+
+/-- Characterizing equation: the lift sends the generator `x = qMono (1,0)` to `X`. -/
+theorem toEnd_x (hrel : (↑Y : Module.End k V) * ↑X = (q : k) • (↑X * ↑Y)) :
+    toEnd q X Y hrel (qWeylMono q (1, 0)) = (↑X : Module.End k V) := by
+  rw [toEnd_qWeylMono]
+  simp [op]
+
+/-- Characterizing equation: the lift sends the generator `y = qMono (0,1)` to `Y`. -/
+theorem toEnd_y (hrel : (↑Y : Module.End k V) * ↑X = (q : k) • (↑X * ↑Y)) :
+    toEnd q X Y hrel (qWeylMono q (0, 1)) = (↑Y : Module.End k V) := by
+  rw [toEnd_qWeylMono]
+  simp [op]
+
+/-! ### Convenience wrapper: `(V, X, Y)` data as a `qWeylAlgebra`-module -/
+
+/-- The `qWeylAlgebra k q`-module structure on `V` obtained from the generator actions `X, Y`.
+Here `a • v = toEnd a v`. -/
+@[reducible] noncomputable def module
+    (hrel : (↑Y : Module.End k V) * ↑X = (q : k) • (↑X * ↑Y)) :
+    Module (qWeylAlgebra k q) V :=
+  Module.compHom V (toEnd q X Y hrel).toRingHom
+
+theorem module_smul (hrel : (↑Y : Module.End k V) * ↑X = (q : k) • (↑X * ↑Y))
+    (a : qWeylAlgebra k q) (v : V) :
+    letI := module q X Y hrel
+    a • v = toEnd q X Y hrel a v := rfl
+
+/-- The module produced by `module` is compatible with the ambient `k`-action: it forms a scalar
+tower `k → qWeylAlgebra k q → V`, matching the representation API used in `Problem2_7_5.lean`. -/
+theorem module_isScalarTower (hrel : (↑Y : Module.End k V) * ↑X = (q : k) • (↑X * ↑Y)) :
+    letI := module q X Y hrel
+    IsScalarTower k (qWeylAlgebra k q) V := by
+  letI := module q X Y hrel
+  refine ⟨fun c a v => ?_⟩
+  change toEnd q X Y hrel (c • a) v = c • (toEnd q X Y hrel a v)
+  rw [map_smul, LinearMap.smul_apply]
 
 end Etingof.QWeyl
