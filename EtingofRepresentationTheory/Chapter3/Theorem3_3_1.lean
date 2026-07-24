@@ -565,4 +565,66 @@ theorem toDualHom_surjective {n : ℕ} (yb : Module.Basis (Fin n) k (Module.Dual
   simp only [algebraMap_smul]
   exact yb.sum_repr f
 
+/-- The transpose anti-automorphism `τ` is an involution: `τ (τ a) = a` (double transpose). -/
+theorem matProdTransposeSelfDuality_unop_unop (a : MatProd k d) :
+    (matProdTransposeSelfDuality d (matProdTransposeSelfDuality d a).unop).unop = a := by
+  funext i
+  simp only [matProdTransposeSelfDuality_unop, Matrix.transpose_transpose]
+
+section DualMap
+
+variable {M N : Type*}
+  [AddCommGroup M] [Module k M] [Module (MatProd k d) M] [IsScalarTower k (MatProd k d) M]
+  [AddCommGroup N] [Module k N] [Module (MatProd k d) N] [IsScalarTower k (MatProd k d) N]
+
+/-- **The transpose-twisted dual of an `A`-linear map** `f : M → N`, namely `g ↦ g ∘ f`,
+is `A`-linear `N* → M*`. This is the operation `φ ↦ φ*` in the book's proof. -/
+noncomputable def twistedDualMap (f : M →ₗ[MatProd k d] N) :
+    Module.Dual k N →ₗ[MatProd k d] Module.Dual k M where
+  toFun g := (f.restrictScalars k).dualMap g
+  map_add' g h := by simp only [map_add]
+  map_smul' a g := by
+    refine LinearMap.ext fun m => ?_
+    change g ((matProdTransposeSelfDuality d a).unop • f m)
+         = g (f ((matProdTransposeSelfDuality d a).unop • m))
+    rw [map_smul f]
+
+/-- **Dual of a surjection is injective** (`A`-linear form): if `f` is a surjective `A`-linear
+map then `twistedDualMap f` is injective. This turns the surjection `Aⁿ ↠ X*` into the
+injection `X ↪ Aⁿ*` in the proof of Theorem 3.3.1. -/
+theorem twistedDualMap_injective {f : M →ₗ[MatProd k d] N} (hf : Function.Surjective f) :
+    Function.Injective (twistedDualMap f) := by
+  have hf' : Function.Surjective (f.restrictScalars k) := by
+    simpa [LinearMap.coe_restrictScalars] using hf
+  exact dualMap_injective_of_surjective hf'
+
+end DualMap
+
+/-- **`X ≅ X**` as `A`-modules** (transpose-twisted double dual), from `Module.evalEquiv` and
+the involutivity of `τ`. This realizes the book's identification `X ≅ (X*)*`. -/
+noncomputable def twistedEvalEquiv (X : Type*)
+    [AddCommGroup X] [Module k X] [Module (MatProd k d) X] [IsScalarTower k (MatProd k d) X]
+    [FiniteDimensional k X] :
+    X ≃ₗ[MatProd k d] Module.Dual k (Module.Dual k X) :=
+  { (Module.evalEquiv k X).toAddEquiv with
+    map_smul' := fun a x => by
+      refine LinearMap.ext fun g => ?_
+      change g (a • x)
+           = g ((matProdTransposeSelfDuality d (matProdTransposeSelfDuality d a).unop).unop • x)
+      rw [matProdTransposeSelfDuality_unop_unop] }
+
+variable (X) [FiniteDimensional k X]
+
+/-- **The embedding `X ↪ Aⁿ*`** from the book's proof of Theorem 3.3.1 (`n = dim_k X*`):
+dualize the surjection `Aⁿ ↠ X*` to `X** → Aⁿ*` and precompose with `X ≅ X**`. -/
+noncomputable def toDualEmbedding :
+    X →ₗ[MatProd k d]
+      Module.Dual k (Fin (Module.finrank k (Module.Dual k X)) → MatProd k d) :=
+  (twistedDualMap (toDualHom (Module.finBasis k (Module.Dual k X)))).comp
+    (twistedEvalEquiv X).toLinearMap
+
+theorem toDualEmbedding_injective : Function.Injective (toDualEmbedding (k := k) (d := d) X) := by
+  rw [toDualEmbedding, LinearMap.coe_comp]
+  exact (twistedDualMap_injective (toDualHom_surjective _)).comp (twistedEvalEquiv X).injective
+
 end DualRoute
