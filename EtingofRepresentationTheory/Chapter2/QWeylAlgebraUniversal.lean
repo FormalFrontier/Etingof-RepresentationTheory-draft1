@@ -219,6 +219,29 @@ theorem qWeylMono_mul (p r : ℤ × ℤ) :
   rw [MulMemClass.coe_mul, coe_qWeylMono, coe_qWeylMono, Subalgebra.coe_smul, coe_qWeylMono,
     qMono_mul]
 
+/-- Natural powers of a pure `x`-monomial: `(xⁱ)ᵐ = x^{i·m}`. The reordering scalars all vanish
+because the `y`-exponent is zero. -/
+theorem qWeylMono_x_pow (i : ℤ) (m : ℕ) : qWeylMono q (i, 0) ^ m = qWeylMono q (i * m, 0) := by
+  induction m with
+  | zero => rw [pow_zero, Nat.cast_zero, mul_zero, qWeylMono_zero]
+  | succ m ih =>
+    rw [pow_succ, ih, qWeylMono_mul]
+    simp only [zero_mul, zpow_zero, Units.val_one, one_smul, add_zero]
+    congr 2
+    push_cast
+    ring
+
+/-- Natural powers of a pure `y`-monomial: `(yʲ)ᵐ = y^{j·m}`. -/
+theorem qWeylMono_y_pow (j : ℤ) (m : ℕ) : qWeylMono q (0, j) ^ m = qWeylMono q (0, j * m) := by
+  induction m with
+  | zero => rw [pow_zero, Nat.cast_zero, mul_zero, qWeylMono_zero]
+  | succ m ih =>
+    rw [pow_succ, ih, qWeylMono_mul]
+    simp only [mul_zero, zpow_zero, Units.val_one, one_smul, add_zero]
+    congr 2
+    push_cast
+    ring
+
 theorem qWeylMono_linearIndependent : LinearIndependent k (qWeylMono q) := by
   apply LinearIndependent.of_comp (qWeylAlgebra k q).val.toLinearMap
   have h : (qWeylAlgebra k q).val.toLinearMap ∘ qWeylMono q = qMono k q := rfl
