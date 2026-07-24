@@ -280,4 +280,71 @@ theorem homRealizationComponent_injective
     rw [compSimple_component D c, compSimple_component D c', hDcomp]
   exact Subtype.ext hc1
 
+/-- **The `V ↦ Hom_A(V, E)` map is a bijection of simple-class index sets.**
+
+The generic realization map at `A` is an injection
+`isotypicComponents A E → isotypicComponents B E` (`B = centralizer A`); at `B`
+it is an injection `isotypicComponents B E → isotypicComponents (centralizer B) E`.
+Since `centralizer B = A` (double centralizer, `Theorem5_18_1_double_centralizer`),
+the two finite index sets have equal cardinality, so the first injection is a
+bijection. This is the index-set form of the book's bijection between simple
+`A`-modules and simple `B`-modules. -/
+theorem homRealizationComponent_bijective
+    (A : Subalgebra k (Module.End k E)) [IsSemisimpleRing A] [IsAlgClosed k] :
+    Function.Bijective (homRealizationComponent k E A) := by
+  classical
+  set C := Subalgebra.centralizer k (A : Set (Module.End k E)) with hC
+  haveI hCss : IsSemisimpleRing C := Theorem5_18_1_commutant_semisimple k E A
+  haveI hCCss : IsSemisimpleRing (Subalgebra.centralizer k (C : Set (Module.End k E))) :=
+    Theorem5_18_1_commutant_semisimple k E C
+  -- Finiteness of all three index sets.
+  haveI : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
+  haveI : IsSemisimpleModule C E := IsSemisimpleRing.isSemisimpleModule
+  haveI : IsSemisimpleModule (Subalgebra.centralizer k (C : Set (Module.End k E))) E :=
+    IsSemisimpleRing.isSemisimpleModule
+  haveI : Module.Finite A E := Module.Finite.of_restrictScalars_finite k A E
+  haveI : Module.Finite C E := Module.Finite.of_restrictScalars_finite k C E
+  haveI : Module.Finite (Subalgebra.centralizer k (C : Set (Module.End k E))) E :=
+    Module.Finite.of_restrictScalars_finite k _ E
+  haveI : IsNoetherian A E := inferInstance
+  haveI : IsNoetherian C E := inferInstance
+  haveI : IsNoetherian (Subalgebra.centralizer k (C : Set (Module.End k E))) E := inferInstance
+  haveI : Fintype (isotypicComponents A E) := Fintype.ofFinite _
+  haveI : Fintype (isotypicComponents C E) := Fintype.ofFinite _
+  haveI : Fintype (isotypicComponents
+      (Subalgebra.centralizer k (C : Set (Module.End k E))) E) := Fintype.ofFinite _
+  -- Injections at `A` and at `C`.
+  have hα : Function.Injective (homRealizationComponent k E A) :=
+    homRealizationComponent_injective k E A
+  have hβ : Function.Injective (homRealizationComponent k E C) :=
+    homRealizationComponent_injective k E C
+  have hcardα : Fintype.card (isotypicComponents A E) ≤ Fintype.card (isotypicComponents C E) :=
+    Fintype.card_le_of_injective _ hα
+  have hcardβ : Fintype.card (isotypicComponents C E) ≤
+      Fintype.card (isotypicComponents (Subalgebra.centralizer k (C : Set (Module.End k E))) E) :=
+    Fintype.card_le_of_injective _ hβ
+  -- Double centralizer: `centralizer C = A`, so the outer index set matches `Θ_A`.
+  have hCC : Subalgebra.centralizer k (C : Set (Module.End k E)) = A :=
+    Theorem5_18_1_double_centralizer k E A
+  -- Transport the outer index set to `Θ_A` at the level of `Nat.card` (which,
+  -- unlike `Fintype.card`, carries no instance argument, so `rw [hCC]` is
+  -- motive-correct on the plain type equality).
+  have hType : (isotypicComponents (Subalgebra.centralizer k (C : Set (Module.End k E))) E :
+        Type _) = (isotypicComponents A E : Type _) := by rw [hCC]
+  have hcardCC : Fintype.card
+      (isotypicComponents (Subalgebra.centralizer k (C : Set (Module.End k E))) E) =
+      Fintype.card (isotypicComponents A E) := by
+    rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hType]
+  have hcard_eq : Fintype.card (isotypicComponents A E) = Fintype.card (isotypicComponents C E) :=
+    le_antisymm hcardα (hcardβ.trans (le_of_eq hcardCC))
+  exact (Fintype.bijective_iff_injective_and_card _).mpr ⟨hα, hcard_eq⟩
+
+/-- **The `V ↦ Hom_A(V, E)` bijection of simple-class index sets, packaged as an
+`Equiv`.** See `homRealizationComponent_bijective`. -/
+noncomputable def homRealizationComponentEquiv
+    (A : Subalgebra k (Module.End k E)) [IsSemisimpleRing A] [IsAlgClosed k] :
+    isotypicComponents A E ≃
+      isotypicComponents (Subalgebra.centralizer k (A : Set (Module.End k E))) E :=
+  Equiv.ofBijective _ (homRealizationComponent_bijective k E A)
+
 end Etingof
