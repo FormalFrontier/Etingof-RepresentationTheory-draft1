@@ -924,4 +924,109 @@ theorem finrank_eq_one_of_isSimpleModule [IsSimpleModule A S] : Module.finrank �
 
 end Classification
 
+/-! ### Every simple module is `S₊` or `S₋` -/
+
+section Exhaustive
+
+variable {S : Type u} [AddCommGroup S] [Module ℂ S] [Module A S] [IsScalarTower ℂ A S]
+
+/-- `S₊` has carrier `ℂ`; this is the identity, used to view a vector of `S₊` as a scalar. -/
+def Splus.toℂ (c : Splus) : ℂ := c
+
+/-- `S₋` has carrier `ℂ`; this is the identity, used to view a vector of `S₋` as a scalar. -/
+def Sminus.toℂ (c : Sminus) : ℂ := c
+
+/-- In a simple `A`-module, scaling a fixed nonzero vector is a `ℂ`-linear bijection `ℂ ≃ S`:
+injective because `ℂ` is a field, surjective because a nonzero vector spans. -/
+lemma smul_singleton_bijective [IsSimpleModule A S] {s₀ : S} (hs₀ : s₀ ≠ 0) :
+    Function.Bijective (fun c : ℂ => c • s₀) := by
+  have : IsSimpleModule ℂ S := isSimpleModule_complex
+  constructor
+  · intro a b hab
+    have hz : (a - b) • s₀ = 0 := by
+      simp only at hab
+      rw [sub_smul, hab, sub_self]
+    exact sub_eq_zero.mp ((smul_eq_zero.mp hz).resolve_right hs₀)
+  · intro t
+    have hmem : t ∈ (ℂ ∙ s₀) :=
+      (IsSimpleModule.span_singleton_eq_top ℂ hs₀) ▸ Submodule.mem_top
+    obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp hmem
+    exact ⟨c, hc⟩
+
+/-- The `ℂ`-linear map `S₊ → S` sending the scalar `c` to `c • s₀`. -/
+noncomputable def spanMapPlus (s₀ : S) : Splus →ₗ[ℂ] S where
+  toFun c := c.toℂ • s₀
+  map_add' a b := add_smul a.toℂ b.toℂ s₀
+  map_smul' r c := mul_smul r c.toℂ s₀
+
+omit [Module A S] [IsScalarTower ℂ A S] in
+@[simp] lemma spanMapPlus_apply (s₀ : S) (c : Splus) : spanMapPlus s₀ c = c.toℂ • s₀ := rfl
+
+/-- The `ℂ`-linear map `S₋ → S` sending the scalar `c` to `c • s₀`. -/
+noncomputable def spanMapMinus (s₀ : S) : Sminus →ₗ[ℂ] S where
+  toFun c := c.toℂ • s₀
+  map_add' a b := add_smul a.toℂ b.toℂ s₀
+  map_smul' r c := mul_smul r c.toℂ s₀
+
+omit [Module A S] [IsScalarTower ℂ A S] in
+@[simp] lemma spanMapMinus_apply (s₀ : S) (c : Sminus) : spanMapMinus s₀ c = c.toℂ • s₀ := rfl
+
+/-- If `g` acts as `+1` on a simple `A`-module `S`, then `S₊ ≅ S`. -/
+noncomputable def equivSplusOfGSmulEqSelf [IsSimpleModule A S]
+    {s₀ : S} (hs₀ : s₀ ≠ 0) (h : ∀ s : S, g • s = s) : Splus ≃ₗ[A] S :=
+  LinearEquiv.ofBijective
+    (mkAlgLinear ρplus (Algebra.lsmul ℂ ℂ S) Splus.smul_def (fun _ _ => rfl) (spanMapPlus s₀)
+      (by intro v
+          simp only [ρplus, repHom_g, Module.End.one_apply, Algebra.lsmul_coe,
+            spanMapPlus_apply]
+          rw [smul_comm, h s₀])
+      (by intro v
+          simp only [ρplus, repHom_x, LinearMap.zero_apply, Algebra.lsmul_coe,
+            spanMapPlus_apply, map_zero]
+          rw [smul_comm, x_smul_eq_zero_of_isSimpleModule s₀, smul_zero]))
+    (by exact smul_singleton_bijective hs₀)
+
+/-- If `g` acts as `-1` on a simple `A`-module `S`, then `S₋ ≅ S`. -/
+noncomputable def equivSminusOfGSmulEqNeg [IsSimpleModule A S]
+    {s₀ : S} (hs₀ : s₀ ≠ 0) (h : ∀ s : S, g • s = -s) : Sminus ≃ₗ[A] S :=
+  LinearEquiv.ofBijective
+    (mkAlgLinear ρminus (Algebra.lsmul ℂ ℂ S) Sminus.smul_def (fun _ _ => rfl) (spanMapMinus s₀)
+      (by intro v
+          simp only [ρminus, repHom_g, LinearMap.neg_apply, Module.End.one_apply,
+            Algebra.lsmul_coe, map_neg, spanMapMinus_apply]
+          rw [smul_comm, h s₀, smul_neg])
+      (by intro v
+          simp only [ρminus, repHom_x, LinearMap.zero_apply, Algebra.lsmul_coe,
+            spanMapMinus_apply, map_zero]
+          rw [smul_comm, x_smul_eq_zero_of_isSimpleModule s₀, smul_zero]))
+    (by exact smul_singleton_bijective hs₀)
+
+/-- **Exhaustiveness of the classification of simple modules (Problem 9.3.2, part 1).**
+Every simple `A`-module is isomorphic to `S₊` or to `S₋`. -/
+theorem nonempty_linearEquiv_splus_or_sminus (S : Type u) [AddCommGroup S] [Module ℂ S]
+    [Module A S] [IsScalarTower ℂ A S] [IsSimpleModule A S] :
+    Nonempty (S ≃ₗ[A] Splus) ∨ Nonempty (S ≃ₗ[A] Sminus) := by
+  have : Nontrivial S := IsSimpleModule.nontrivial A S
+  obtain ⟨s₀, hs₀⟩ := exists_ne (0 : S)
+  rcases g_smul_eq_self_or_neg (S := S) with h | h
+  · exact Or.inl ⟨(equivSplusOfGSmulEqSelf hs₀ h).symm⟩
+  · exact Or.inr ⟨(equivSminusOfGSmulEqNeg hs₀ h).symm⟩
+
+/-- The two cases are mutually exclusive: no `A`-module is isomorphic to both `S₊` and `S₋`. -/
+theorem not_linearEquiv_splus_and_sminus (S : Type u) [AddCommGroup S] [Module A S] :
+    ¬(Nonempty (S ≃ₗ[A] Splus) ∧ Nonempty (S ≃ₗ[A] Sminus)) := by
+  rintro ⟨⟨e₁⟩, ⟨e₂⟩⟩
+  exact splus_not_iso_sminus.false (e₁.symm.trans e₂)
+
+/-- **The simple `A`-modules are exactly `S₊` and `S₋`.** Every simple `A`-module is isomorphic
+to exactly one of them. This is the first part of Problem 9.3.2. -/
+theorem simple_module_classification (S : Type u) [AddCommGroup S] [Module ℂ S]
+    [Module A S] [IsScalarTower ℂ A S] [IsSimpleModule A S] :
+    Xor (Nonempty (S ≃ₗ[A] Splus)) (Nonempty (S ≃ₗ[A] Sminus)) := by
+  rcases nonempty_linearEquiv_splus_or_sminus S with h | h
+  · exact Or.inl ⟨h, fun h' => not_linearEquiv_splus_and_sminus S ⟨h, h'⟩⟩
+  · exact Or.inr ⟨h, fun h' => not_linearEquiv_splus_and_sminus S ⟨h', h⟩⟩
+
+end Exhaustive
+
 end Etingof.Problem932
