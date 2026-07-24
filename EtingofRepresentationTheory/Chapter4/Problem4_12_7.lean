@@ -427,7 +427,7 @@ noncomputable def quaternionBasis : Module.Basis (Fin 4) ℝ ℍ[ℝ] :=
 @[simp] lemma quaternionBasis_zero : quaternionBasis 0 = 1 := by
   change QuaternionAlgebra.basisOneIJK (-1) 0 (-1) 0 = 1
   apply Module.Basis.apply_eq_iff.mpr; ext i
-  fin_cases i <;> simp [QuaternionAlgebra.coe_basisOneIJK_repr]
+  fin_cases i <;> simp [QuaternionAlgebra.coe_basisOneIJK_repr] <;> rfl
 @[simp] lemma quaternionBasis_one : quaternionBasis 1 = qI := by
   change QuaternionAlgebra.basisOneIJK (-1) 0 (-1) 1 = qI
   apply Module.Basis.apply_eq_iff.mpr; ext i
