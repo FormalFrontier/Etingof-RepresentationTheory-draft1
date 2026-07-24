@@ -9111,12 +9111,11 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "last_updated": "2026-07-22",
-    "coverage_note": "Closed #6014 proves existence of an arbitrary projective resolution via ProjectiveResolution.of. The source's explicit free-term construction is not certified by that generic API; follow-up #7487.",
-    "fidelity_issue": 7487
+    "coverage": "covered_full",
+    "last_updated": "2026-07-24",
+    "coverage_note": "Exercise_8_2_2 gives the plain existence via ProjectiveResolution.of. Exercise_8_2_2_free (#7487) certifies the source's explicit free-term construction: a hand-built resolution (FreeResolutionBuilder.of, parameterised by an explicit free cover M ↦ (M →₀ A)) with every term a free A-module, sorry-free."
   },
   {
     "id": "Chapter8/Definition8.2.3",
