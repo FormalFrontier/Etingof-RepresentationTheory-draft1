@@ -135,6 +135,72 @@ theorem exists_simpleSubmodule_iso_of_faithful
   exact IsSimpleModule.congr (LinearEquiv.ofInjective f hf_inj).symm
 
 omit [Module.Finite k E] in
+/-- **Complete irredundant classification of the simple modules of a semisimple
+subalgebra `C ⊆ End_k(E)`.**
+
+Indexing by the isotypic components of `E`, choose one simple submodule
+`V c ≤ c` per component. Then the family `{V c}`:
+
+* consists of simple `C`-modules;
+* is **irredundant**: `V c ≃ V c' ⟹ c = c'` (distinct components carry
+  non-isomorphic simples, since isomorphic simple submodules generate the same
+  isotypic component);
+* is **exhaustive**: every simple `C`-module `S` is isomorphic to some `V c`
+  (`exists_simpleSubmodule_iso_of_faithful` realises `S` as a simple submodule
+  `W ≤ E`, which lies in — hence is isomorphic to the chosen simple of — its
+  isotypic component).
+
+This is the abstract engine behind both sides of Theorem 5.18.1: applied to
+`C = A` it classifies the simple `A`-modules; applied to `C = centralizer(A)`
+(semisimple by `Theorem5_18_1_commutant_semisimple`) it classifies the simple
+`B`-modules. When `E` is finite-dimensional the index `isotypicComponents C E`
+is finite, so each family is a finite complete list. -/
+theorem simpleModule_classification_of_semisimple
+    (C : Subalgebra k (Module.End k E)) [IsSemisimpleRing C] :
+    ∃ (V : isotypicComponents C E → Submodule C E) (_ : ∀ c, IsSimpleModule C (V c)),
+      (∀ c, (V c : Submodule C E) ≤ (c : Submodule C E)) ∧
+      (∀ c c', Nonempty (↥(V c) ≃ₗ[C] ↥(V c')) → c = c') ∧
+      ∀ (S : Type w) [AddCommGroup S] [Module C S] [IsSimpleModule C S],
+        ∃ c, Nonempty (S ≃ₗ[C] ↥(V c)) := by
+  classical
+  haveI : IsSemisimpleModule C E := IsSemisimpleRing.isSemisimpleModule
+  -- Choose a simple submodule `V c ≤ c` in each isotypic component.
+  let V : isotypicComponents C E → Submodule C E := fun c =>
+    ((IsSemisimpleModule.eq_bot_or_exists_simple_le (c.1 : Submodule C E)).resolve_left
+      (bot_lt_isotypicComponents c.2).ne').choose
+  have V_le : ∀ c, V c ≤ c.1 := fun c =>
+    ((IsSemisimpleModule.eq_bot_or_exists_simple_le (c.1 : Submodule C E)).resolve_left
+      (bot_lt_isotypicComponents c.2).ne').choose_spec.1
+  have V_simple : ∀ c, IsSimpleModule C (V c) := fun c =>
+    ((IsSemisimpleModule.eq_bot_or_exists_simple_le (c.1 : Submodule C E)).resolve_left
+      (bot_lt_isotypicComponents c.2).ne').choose_spec.2
+  have V_spec : ∀ c, (c.1 : Submodule C E) = isotypicComponent C E (V c) := by
+    intro c
+    haveI := V_simple c
+    exact eq_isotypicComponent_of_le c.2 (V_le c)
+  refine ⟨V, V_simple, V_le, ?_, ?_⟩
+  · -- Irredundant: isomorphic representatives share an isotypic component.
+    rintro c c' ⟨e⟩
+    have h_eq : isotypicComponent C E (V c) = isotypicComponent C E (V c') :=
+      e.isotypicComponent_eq
+    have hc : (c.1 : Submodule C E) = c'.1 := by rw [V_spec c, V_spec c']; exact h_eq
+    exact Subtype.ext hc
+  · -- Exhaustive: every simple `C`-module is one of the `V c`.
+    intro S _ _ _
+    obtain ⟨W, hW_simple, ⟨eSW⟩⟩ := exists_simpleSubmodule_iso_of_faithful k E C S
+    haveI := hW_simple
+    set c : isotypicComponents C E := ⟨isotypicComponent C E W, ⟨W, hW_simple, rfl⟩⟩ with hc
+    haveI := V_simple c
+    -- `isotypicComponent C E (V c) = c.1 = isotypicComponent C E W`.
+    have hcomp : isotypicComponent C E (V c) = isotypicComponent C E W := (V_spec c).symm
+    have hWle : W ≤ isotypicComponent C E (V c) := by
+      rw [hcomp]; exact Submodule.le_isotypicComponent W
+    obtain ⟨eWV⟩ :=
+      isIsotypicOfType_submodule_iff.mp
+        (IsIsotypicOfType.isotypicComponent C E (V c)) W hWle
+    exact ⟨c, ⟨eSW.trans eWV⟩⟩
+
+omit [Module.Finite k E] in
 /-- **A-family exhaustiveness (Double Centralizer Theorem 5.18.1(iii)).**
 
 Every simple `A`-module is isomorphic to a simple `A`-submodule of `E`, i.e. is
@@ -169,5 +235,47 @@ theorem Theorem5_18_1_B_family_exhaustive
     Theorem5_18_1_commutant_semisimple k E A
   exact exists_simpleSubmodule_iso_of_faithful k E
     (Subalgebra.centralizer k (A : Set (Module.End k E))) T
+
+omit [Module.Finite k E] in
+/-- **The `A`-family `{Vᵢ}` is a complete irredundant list of simple
+`A`-modules.** Indexed by the isotypic components of `E`, the chosen simple
+submodules `V c ≤ c` are pairwise non-isomorphic and exhaust the simple
+`A`-modules up to isomorphism. This is the strong (indexed) form of
+`Theorem5_18_1_A_family_exhaustive`. -/
+theorem Theorem5_18_1_A_classification
+    (A : Subalgebra k (Module.End k E)) [IsSemisimpleRing A] [FaithfulSMul A E] :
+    ∃ (V : isotypicComponents A E → Submodule A E) (_ : ∀ c, IsSimpleModule A (V c)),
+      (∀ c, (V c : Submodule A E) ≤ (c : Submodule A E)) ∧
+      (∀ c c', Nonempty (↥(V c) ≃ₗ[A] ↥(V c')) → c = c') ∧
+      ∀ (S : Type w) [AddCommGroup S] [Module A S] [IsSimpleModule A S],
+        ∃ c, Nonempty (S ≃ₗ[A] ↥(V c)) :=
+  simpleModule_classification_of_semisimple k E A
+
+/-- **The `B`-family is a complete irredundant list of simple `B`-modules**
+(`B = centralizer(A)`). Indexed by the isotypic components of `E` over `B`, the
+chosen simple `B`-submodules `W c ≤ c` are pairwise non-isomorphic and exhaust
+the simple `B`-modules. This is the strong (indexed) form of
+`Theorem5_18_1_B_family_exhaustive`. Identifying these `B`-submodules with the
+multiplicity spaces `Hom_A(Vᵢ, E)` is handled by the biduality correspondence
+(`MultiplicitySpaceBiduality`). -/
+theorem Theorem5_18_1_B_classification
+    (A : Subalgebra k (Module.End k E)) [IsSemisimpleRing A] [FaithfulSMul A E] :
+    ∃ (W : isotypicComponents (Subalgebra.centralizer k (A : Set (Module.End k E))) E →
+          Submodule (↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) E)
+        (_ : ∀ c, IsSimpleModule
+          (↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) (W c)),
+      (∀ c, (W c : Submodule (↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) E) ≤
+          (c : Submodule (↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) E)) ∧
+      (∀ c c', Nonempty
+          (↥(W c) ≃ₗ[↥(Subalgebra.centralizer k (A : Set (Module.End k E)))] ↥(W c')) → c = c') ∧
+      ∀ (T : Type w) [AddCommGroup T]
+        [Module (↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) T]
+        [IsSimpleModule (↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) T],
+        ∃ c, Nonempty
+          (T ≃ₗ[↥(Subalgebra.centralizer k (A : Set (Module.End k E)))] ↥(W c)) := by
+  haveI : IsSemisimpleRing (↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) :=
+    Theorem5_18_1_commutant_semisimple k E A
+  exact simpleModule_classification_of_semisimple k E
+    (Subalgebra.centralizer k (A : Set (Module.End k E)))
 
 end Etingof
