@@ -315,7 +315,9 @@ theorem exists_injective_intertwiner_ofMulAction
   have hf : Function.Surjective f :=
     e.symm.surjective.comp ((Submodule.mkQ_surjective I).comp reg.surjective)
   -- Maschke: the regular module is semisimple, so the surjection splits.
-  obtain ⟨h, hfh⟩ := IsSemisimpleModule.lifting_property f hf (LinearMap.id)
+  obtain ⟨h, hfh⟩ := IsSemisimpleModule.lifting_property (R := MonoidAlgebra k G)
+    (M := (Representation.ofMulAction k G G).asModule) (N := σ.asModule)
+    (P := σ.asModule) f hf (LinearMap.id)
   have hlinv : Function.LeftInverse f h := fun x => by
     simpa using LinearMap.congr_fun hfh x
   refine ⟨Representation.intertwinerOfAsModuleHom h,
