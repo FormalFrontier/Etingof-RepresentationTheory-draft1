@@ -62,6 +62,7 @@ import EtingofRepresentationTheory.Chapter2.FaithfulWeylModule
 import EtingofRepresentationTheory.Chapter2.Remark2_7_2
 import EtingofRepresentationTheory.Chapter2.Problem2_7_4
 import EtingofRepresentationTheory.Chapter2.Problem2_7_5
+import EtingofRepresentationTheory.Chapter2.Problem2_7_5_Family
 
 -- Section 2.8: Quivers
 import EtingofRepresentationTheory.Chapter2.Definition2_8_1
