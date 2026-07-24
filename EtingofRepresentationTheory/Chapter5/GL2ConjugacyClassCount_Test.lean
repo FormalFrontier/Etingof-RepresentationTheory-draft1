@@ -34,6 +34,14 @@ of the GL₂ conjugacy table).
 #check @GL2.classCard_isSplitSemisimple
 #check @GL2.classCard_isElliptic
 
+-- Representative / normal-form column (canonical representatives).
+#check @GL2.scalarRepr
+#check @GL2.jordanRepr
+#check @GL2.diagRepr
+#check @GL2.exists_conj_isScalar
+#check @GL2.exists_conj_isParabolic
+#check @GL2.exists_conj_isSplitSemisimple
+
 variable {p : ℕ} [Fact (Nat.Prime p)] {n : ℕ}
   [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
   [Fintype (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n))]
