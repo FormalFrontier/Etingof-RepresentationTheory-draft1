@@ -5,6 +5,7 @@ import EtingofRepresentationTheory.Chapter5.Definition5_1_4
 import EtingofRepresentationTheory.Chapter5.Theorem5_1_5
 import EtingofRepresentationTheory.Chapter5.FrobeniusSchurRealType
 import EtingofRepresentationTheory.Chapter5.FrobeniusSchurTraceIdentity
+import EtingofRepresentationTheory.Chapter5.FrobeniusSchurTrichotomy
 import EtingofRepresentationTheory.Chapter5.Corollary5_1_6
 
 -- Section 5.2: Algebraic Numbers and Integers
