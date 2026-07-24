@@ -236,11 +236,11 @@ def latticeEquiv : (Fin n → ℤ) ≃ₗ[ℤ] sumZeroLattice n :=
   LinearEquiv.ofLinear (toLatL n) (fromLat n ∘ₗ (sumZeroLattice n).subtype)
     (by
       refine LinearMap.ext fun y => Subtype.ext ?_
-      show toLat n (fromLat n y.val) = y.val
+      change toLat n (fromLat n y.val) = y.val
       exact toLat_fromLat n y.2)
     (by
       refine LinearMap.ext fun c => ?_
-      show fromLat n (toLat n c) = c
+      change fromLat n (toLat n c) = c
       exact fromLat_toLat n c)
 
 @[simp] lemma latticeEquiv_apply (c : Fin n → ℤ) :
@@ -264,7 +264,7 @@ lemma dotProduct_simpleRoot (hn : 1 ≤ n) (i j : Fin n) :
   rw [show simpleRoot n j = Pi.single j.castSucc 1 - Pi.single j.succ 1 from rfl,
     dotProduct_sub, dotProduct_single, dotProduct_single, mul_one, mul_one]
   simp only [simpleRoot_apply, Fin.val_castSucc, Fin.val_succ,
-    Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
+    Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
     Etingof.DynkinType.adj]
   split_ifs <;> simp_all [Fin.ext_iff] <;> omega
 
@@ -349,7 +349,8 @@ theorem mem_latticeRoots_iff (x : Fin (n + 1) → ℤ) :
         · subst hkq
           rw [Pi.sub_apply, Pi.single_eq_of_ne (Ne.symm hpq), Pi.single_eq_same, hq, zero_sub]
         · rw [Pi.sub_apply, Pi.single_eq_of_ne hkp, Pi.single_eq_of_ne hkq, hz k hkp hkq, sub_zero]
-    have hxi' : x i = -1 ∨ x i = 1 := by rcases hpm i with h | h | h; exacts [Or.inl h, absurd h hxi, Or.inr h]
+    have hxi' : x i = -1 ∨ x i = 1 := by
+      rcases hpm i with h | h | h; exacts [Or.inl h, absurd h hxi, Or.inr h]
     rcases hxi' with hi1 | hi1
     · have hj1 : x j = 1 := by omega
       exact ⟨j, i, hij.symm, key j i hj1 hi1 hij.symm (fun k hkj hki => hzero k hki hkj)⟩
