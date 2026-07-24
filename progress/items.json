@@ -3222,10 +3222,9 @@
     "start_line": 15,
     "end_line": 16,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "The character-determines-representation theorem is proved only for FDRep ℂ G. Under the book-wide algebraically-closed-field convention, the source states it for arbitrary algebraically closed characteristic-zero k; that generalization is #7433.",
-    "followup_issue": 7433,
-    "last_updated": "2026-07-22",
+    "coverage": "covered",
+    "coverage_note": "Etingof.Corollary4_2_4 now proves the character-determines-representation theorem for FDRep k G over an arbitrary algebraically closed characteristic-zero field k ([Field k] [IsAlgClosed k] [CharZero k]), matching the book-wide convention and the source hypotheses. Etingof.Corollary4_2_4_complex records the classical k=ℂ special case. sorry-free (#print axioms = [propext, Classical.choice, Quot.sound]).",
+    "last_updated": "2026-07-24",
     "sorry_free": true
   },
   {
