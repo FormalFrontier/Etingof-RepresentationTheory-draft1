@@ -1200,6 +1200,93 @@ theorem exists_conj_isScalar {g : GL2' p n} (hg : GL2.IsScalar g) :
       simp [Matrix.one_apply, h01, h10, h00]
   rw [heq]
 
+/-- The **parabolic (Jordan) representative** `!![x,1;0,x]` for a nonzero `x`. -/
+noncomputable def jordanRepr (x : GaloisField p n) (hx : x ≠ 0) : GL2' p n :=
+  Matrix.GeneralLinearGroup.mkOfDetNeZero !![x, 1; 0, x]
+    (by rw [Matrix.det_fin_two_of]; simpa using mul_ne_zero hx hx)
+
+@[simp] lemma jordanRepr_val (x : GaloisField p n) (hx : x ≠ 0) :
+    (jordanRepr x hx).val = !![x, 1; 0, x] := by
+  simp [jordanRepr, Matrix.GeneralLinearGroup.mkOfDetNeZero,
+    Matrix.GeneralLinearGroup.mk', Matrix.unitOfDetInvertible]
+
+/-- Value of `mkOfDetNeZero` of an explicit matrix. -/
+private lemma mkOfDetNeZero_val (M : Matrix (Fin 2) (Fin 2) (GaloisField p n))
+    (h : M.det ≠ 0) : (Matrix.GeneralLinearGroup.mkOfDetNeZero M h).val = M := by
+  simp [Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
+    Matrix.unitOfDetInvertible]
+
+/-- **Parabolic normal form.** Every parabolic `g` is conjugate to the Jordan block
+`!![x,1;0,x]`, where `x` is the repeated eigenvalue `tr(g)/2`. -/
+theorem exists_conj_isParabolic (hp2 : p ≠ 2) {g : GL2' p n} (hg : GL2.IsParabolic g) :
+    ∃ (x : GaloisField p n) (hx : x ≠ 0), IsConj g (jordanRepr x hx) := by
+  obtain ⟨hdisc, hns⟩ := hg
+  rw [GL2.disc_eq] at hdisc
+  have h2 : (2 : GaloisField p n) ≠ 0 := by
+    intro h
+    have hchar2 : CharP (GaloisField p n) 2 :=
+      (CharP.charP_iff_prime_eq_zero (by norm_num)).mpr h
+    have hp_char : CharP (GaloisField p n) p :=
+      charP_of_injective_algebraMap (algebraMap (ZMod p) (GaloisField p n)).injective p
+    exact hp2 (CharP.eq (GaloisField p n) hp_char hchar2)
+  set a := g.val 0 0 with ha
+  set b := g.val 0 1 with hb
+  set c := g.val 1 0 with hc'
+  set d := g.val 1 1 with hd
+  -- The repeated eigenvalue `x = tr/2`.
+  set x := (a + d) / 2 with hxdef
+  have hx2 : a + d = 2 * x := by rw [hxdef]; field_simp
+  -- `det g = x²`, hence `x ≠ 0`.
+  have hkey : (a - x) ^ 2 + b * c = 0 := by
+    have h4 : (4 : GaloisField p n) ≠ 0 := by
+      have : (4 : GaloisField p n) = 2 * 2 := by ring
+      rw [this]; exact mul_ne_zero h2 h2
+    apply mul_left_cancel₀ h4
+    rw [mul_zero]
+    linear_combination hdisc + (3 * a - d - 2 * x) * hx2
+  have hdetx : Matrix.det g.val = x * x := by
+    rw [Matrix.det_fin_two, ← ha, ← hb, ← hc', ← hd]
+    linear_combination -hkey + a * hx2
+  have hx : x ≠ 0 := by
+    intro h0
+    have hmul : g.val * (g⁻¹ : GL2' p n).val = 1 := by
+      rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
+    have hdet1 : Matrix.det g.val * Matrix.det (g⁻¹ : GL2' p n).val = 1 := by
+      rw [← Matrix.det_mul, hmul, Matrix.det_one]
+    rw [hdetx, h0, mul_zero, zero_mul] at hdet1
+    exact one_ne_zero hdet1.symm
+  refine ⟨x, hx, ?_⟩
+  by_cases hc0 : c = 0
+  · -- `c = 0` forces `a = d = x`; representative conjugator `!![b,0;0,1]`.
+    have hax : a = x := by
+      have hk : (a - x) ^ 2 = 0 := by rw [← hkey, hc0, mul_zero, add_zero]
+      have : a - x = 0 := by
+        exact pow_eq_zero_iff (by norm_num) |>.mp hk
+      linear_combination this
+    have hdx : d = x := by linear_combination hx2 - hax
+    have hbne : b ≠ 0 := by
+      intro hb0
+      exact hns ((GL2.isScalar_iff g).mpr ⟨hb0, hc0, by rw [← ha, ← hd, hax, hdx]⟩)
+    have hPdet : Matrix.det (!![b, 0; 0, 1] : Matrix (Fin 2) (Fin 2) (GaloisField p n)) ≠ 0 := by
+      rw [Matrix.det_fin_two_of]; simpa using hbne
+    refine isConj_of_val_conj (Matrix.GeneralLinearGroup.mkOfDetNeZero !![b, 0; 0, 1] hPdet) ?_
+    rw [mkOfDetNeZero_val, jordanRepr_val]
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.mul_apply, Fin.sum_univ_two, ← ha, ← hb, ← hc', ← hd, hc0, hax, hdx] <;>
+      ring
+  · -- `c ≠ 0`: representative conjugator `!![a-x,1;c,0]`, det `-c ≠ 0`.
+    have hPdet : Matrix.det (!![a - x, 1; c, 0] : Matrix (Fin 2) (Fin 2) (GaloisField p n)) ≠ 0 := by
+      rw [Matrix.det_fin_two_of]; simpa using hc0
+    refine isConj_of_val_conj (Matrix.GeneralLinearGroup.mkOfDetNeZero !![a - x, 1; c, 0] hPdet) ?_
+    rw [mkOfDetNeZero_val, jordanRepr_val]
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.mul_apply, Fin.sum_univ_two, ← ha, ← hb, ← hc', ← hd] <;>
+      first
+        | linear_combination hkey
+        | linear_combination c * hx2
+
 end Representatives
 
 end GL2
