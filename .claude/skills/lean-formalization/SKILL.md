@@ -122,6 +122,24 @@ declaration then re-auto-binds `k`/`A`/`n` as fresh implicits with no instances,
 of `failed to synthesize CommSemiring k` / `AddMonoidWithOne k` on lines that look correct. Put
 the `open` on its own line and let `variable` stand alone.
 
+**A section `variable`/instance is auto-included only if the declaration's *signature*
+mentions it — a proof body that uses it is not enough.** A theorem stated purely about
+`FGModuleCat A` (no `k` in the type) but whose *proof* calls `IsArtinianRing.of_finite k A`
+fails with `unknown identifier k` on the first body line, even with `variable (k) [Field k]
+[Algebra k A] [Module.Finite k A]` in scope. Fix: name the instances
+(`[instField : Field k] [instAlg : Algebra k A] [instFin : Module.Finite k A]`) and add an
+explicit `include instField instAlg instFin` before the declarations that need them. Bit while
+packaging the simple-module family for `FGModuleCat A` (#7637).
+
+**A `∃ (S : ι → Type) (_ : ∀ i, Module A (S i)) …, P (S i)` existential cannot thread the
+instances into `P`.** The anonymous `Module`/`AddCommGroup` witnesses are plain data, not
+registered instances, so a later component like `∀ i, Module.Finite k (S i)` (or any `P`
+needing `Module k (S i)`) fails to synthesize. **Return concrete carrier types instead** — e.g.
+`∃ (n : ℕ) (S : Fin n → Submodule A M), (∀ i, Module.Finite k ↥(S i)) ∧ …`, where `↥(S i)` is a
+real subtype whose `AddCommGroup`/`Module A`/`Module k`/`IsScalarTower` instances all resolve
+automatically. Consumers extract the module completeness (`∃ i, Nonempty (N ≃ₗ[A] ↥(S i))`)
+directly. Bit while stating `exists_simpleModule_family` (#7637).
+
 **`set`/`let`-abbreviating a *type* hides its instances from synthesis.** `set O :=
 MulAction.orbit ↥G b` then writing `↥O` makes `MulAction ↥G ↥O` (and `Finite`/`Fintype ↥O`)
 **unfindable** — typeclass search will not unfold a local `set`/`let` definition, so you get
