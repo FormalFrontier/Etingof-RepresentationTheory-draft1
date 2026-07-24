@@ -524,6 +524,22 @@ Same #6852. Fix: open each branch with `change <goal with (0 : Fin 3)/(1 : Fin 3
 restate at the `OfNat` literals (defeq, so `change` accepts), *then* `rw`/`decide`-facts match.
 Prefer `change` over `show` here (the linter flags `show` for non-readability goal changes).
 
+**For a *variable* `N`, `Fin N` with `[NeZero N]` is only an `AddCommGroup` — there is no
+`NatCast (Fin N)` and no `CommRing (Fin N)`** (those exist for the *literal* successor shape
+`Fin (n+1)`). So `(i : Fin N)` for `i : ℕ` does not elaborate, and cyclic index arithmetic must be
+written as the `ℕ`-multiple `i • (1 : Fin N)`. Three helper lemmas make that workable, and the
+proofs are short enough to re-derive:
+`(m • (1 : Fin N)).val = m % N` (induction, `succ_nsmul` + `Fin.val_add` + `Fin.val_one'` +
+`← Nat.add_mod`); `k.val • (1 : Fin N) = k` (`Fin.ext` + `Nat.mod_eq_of_lt k.isLt`); and
+`N • (1 : Fin N) = 0` (`Fin.ext` + `Nat.mod_self`). To turn a product/sum over a full cycle into
+one over `Fin N`, chain `← Fin.prod_univ_eq_prod_range` (moves `Finset.range N` to `Fin N`), then
+`k.val • 1 = k` to expose `k - i`, then `Equiv.prod_comp (Equiv.subLeft k)` to reindex, then
+`Finset.prod_ite_eq'` for a weight that is `1` away from a single index. Worked example:
+`prod_wX_cycle` / `Xlin_pow_orderOf` (#7697, `Chapter2/Problem2_7_5_Family.lean`), where the
+twisted cyclic shift `x·eⱼ = e_{j+1}`, `x·e_{N-1} = α·e₀` satisfies `xᴺ = α`. Switching the model
+to `ZMod N → ℂ` (a `CommRing` index) is the alternative, but it is a real refactor of every
+downstream statement — only worth it if the ring structure is needed pervasively.
+
 **`omega` treats `(⟨c, _⟩ : Fin n).val` as an *opaque* atom (it does NOT reduce `Fin.mk`'s value to
 `c`), so a goal `x = ⟨c, _⟩` — or `x.val = (⟨c, _⟩).val` after `apply Fin.ext` — is unprovable by
 `omega` even when `x.val = c` is derivable.** Tell-tale: the omega counterexample lists a variable
