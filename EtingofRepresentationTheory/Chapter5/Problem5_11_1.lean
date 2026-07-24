@@ -2311,9 +2311,14 @@ lemma charval_A4_involution (H : Subgroup A5) (hH : Nat.card H = 12)
       intro w hw
       have hwV : w ∈ kleinV H hH := hw
       ext x
+      -- Every vector is invariant. We read this off `hinv_top` directly via
+      -- `Submodule.eq_top_iff'` rather than `Submodule.mem_top`: the module
+      -- instance on the restricted carrier no longer synthesizes on its own,
+      -- but it is already carried by the type of `hinv_top`, so no fresh
+      -- instance search is triggered here.
       have hx : x ∈ Representation.invariants
-          (FDRep.ρ ((Action.res (FGModuleCat ℂ) (kleinV H hH).subtype).obj σ)) := by
-        rw [hinv_top]; exact Submodule.mem_top
+          (FDRep.ρ ((Action.res (FGModuleCat ℂ) (kleinV H hH).subtype).obj σ)) :=
+        (Submodule.eq_top_iff'.mp hinv_top) x
       have hfix := (Representation.mem_invariants _ x).mp hx (⟨w, hwV⟩ : ↥(kleinV H hH))
       show (σ.ρ w) x = x
       exact hfix
