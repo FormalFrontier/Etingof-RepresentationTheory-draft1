@@ -4540,13 +4540,11 @@
     "start_line": 17,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "fidelity_note": "The operation lemmas prove closure of algebraic integers under + and × and of algebraic numbers under +, ×, and nonzero inversion (#5390). They do not bundle the algebraic-number subfield or prove the proposition's final claim that it is an algebraic closure of ℚ; follow-up #7439.",
-    "fidelity_issue": 7439,
-    "followup_issue": 7439,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "fidelity_note": "The algebraic integers are bundled as `Etingof.algebraicIntegers = integralClosure ℤ ℂ` and the algebraic numbers as the subfield `Etingof.algebraicNumbers = algebraicClosure ℚ ℂ` (IntermediateField ℚ ℂ), with membership characterizations. `Etingof.Proposition5_2_4_isAlgClosure : IsAlgClosure ℚ algebraicNumbers` records the proposition's headline claim that ℚ̄ is an algebraic closure of ℚ (algebraically closed and algebraic over ℚ). The operation-closure lemmas are retained as corollaries (#7439).",
+    "last_updated": "2026-07-23"
   },
   {
     "id": "Chapter5/Proposition5.2.5",
