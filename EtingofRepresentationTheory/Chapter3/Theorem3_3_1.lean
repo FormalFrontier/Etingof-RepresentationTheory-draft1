@@ -4,6 +4,7 @@ import Mathlib.RingTheory.Artinian.Module
 import Mathlib.LinearAlgebra.Matrix.ToLin
 import Mathlib.LinearAlgebra.Matrix.Module
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+import Mathlib.Algebra.DirectSum.Module
 
 /-!
 # Theorem 3.3.1: Irreducible Representations of Direct Sums of Matrix Algebras
@@ -19,6 +20,8 @@ algebras are exactly the irreducible representations of the individual factors.
 -/
 
 open Matrix.Module Finset
+
+open scoped DirectSum
 
 private theorem matrix_single_smul_vec {k : Type*} [Field k] {d : ℕ}
     (j i : Fin d) (c : k) (v : Fin d → k) :
@@ -244,5 +247,53 @@ theorem Etingof.irreducible_reps_of_matrix_algebra :
     (∀ (X : Type*) [AddCommGroup X] [Module (MatProd k d) X], IsSemisimpleModule (MatProd k d) X) :=
   ⟨isSimpleModule_vModuleProd, fun W => exists_iso_vModuleProd W,
     isSemisimpleModule_of_matrixProd⟩
+
+/-! ## Regular-module decomposition `A ≅ ⊕ᵢ dᵢ Vᵢ`
+
+The book's proof of Theorem 3.3.1 uses the identity `Mat_{dᵢ}(k) = dᵢ Vᵢ`, hence
+`A = ⊕ᵢ dᵢ Vᵢ` and `Aⁿ = ⊕ᵢ (n dᵢ) Vᵢ` as representations of `A`. Concretely, viewing the
+left regular module `A = ⊕ᵢ Mat_{dᵢ}(k)` over itself, within the `i`-th matrix factor the
+`dᵢ` columns each span a copy of the standard representation `Vᵢ = k^{dᵢ}`, and the columns
+transform independently under left multiplication. -/
+
+/-- The `A`-linear map extracting the `c`-th column of the `i`-th matrix factor:
+`M ↦ (fun j => (M i) j c)`, landing in `Vᵢ = k^{dᵢ}`. This is the single-factor,
+single-column building block of the regular decomposition; it is `A`-linear because within
+the `i`-th factor, left multiplication acts columnwise by `mulVec`. -/
+def colVec (i : Fin r) (c : Fin (d i)) :
+    MatProd k d →ₗ[MatProd k d] (Fin (d i) → k) where
+  toFun M := fun j => M i j c
+  map_add' M N := by funext j; simp
+  map_smul' N M := by
+    funext j
+    rw [RingHom.id_apply, vModuleProd_smul, Matrix.Module.smul_apply, smul_eq_mul, Pi.mul_apply,
+      Matrix.mul_apply]
+    simp [smul_eq_mul]
+
+/-- The columns of the `i`-th matrix factor, packaged as an `A`-linear map into
+`Fin (dᵢ) → Vᵢ`. -/
+def colMap (i : Fin r) : MatProd k d →ₗ[MatProd k d] (Fin (d i) → (Fin (d i) → k)) :=
+  LinearMap.pi fun c => colVec i c
+
+/-- **Regular-module decomposition** (`A ≅ ⊕ᵢ dᵢ Vᵢ`). As a module over itself,
+`A = ⊕ᵢ Mat_{dᵢ}(k)` is isomorphic to `⊕ᵢ dᵢ Vᵢ`, realized as the direct sum
+`⨁ i, (Fin (dᵢ) → Vᵢ)` (each `Fin (dᵢ) → Vᵢ` is `dᵢ` copies of `Vᵢ = k^{dᵢ}`, with `A`
+acting through its `i`-th projection). The isomorphism sends a tuple of matrices to its
+columns, `M ↦ fun i c j => (M i) j c`, packaged in the direct sum.
+
+The direct-sum target (rather than the product `∀ i, …`) is deliberate: it matches the
+ambient of `Etingof.subrepresentation_of_semisimple` (Proposition 3.1.4) and avoids the
+`Pi.module'` instance (product ring acting factorwise), which would otherwise supply a
+different, column-mixing action on `∀ i, Fin (dᵢ) → Fin (dᵢ) → k`. -/
+noncomputable def regularDecomp :
+    MatProd k d ≃ₗ[MatProd k d] (⨁ i, (Fin (d i) → (Fin (d i) → k))) :=
+  (LinearEquiv.ofBijective (LinearMap.pi colMap)
+      (Function.bijective_iff_has_inverse.mpr
+        ⟨fun w i j c => w i c j, fun _ => rfl, fun _ => rfl⟩)).trans
+    (DirectSum.linearEquivFunOnFintype (MatProd k d) (Fin r)
+      (fun i => Fin (d i) → (Fin (d i) → k))).symm
+
+@[simp] theorem regularDecomp_apply (M : MatProd k d) (i : Fin r) (c j : Fin (d i)) :
+    regularDecomp M i c j = M i j c := rfl
 
 end Product
