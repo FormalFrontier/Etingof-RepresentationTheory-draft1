@@ -162,6 +162,7 @@ private noncomputable def xActionAsRLinear {R : Type u} [CommRing R]
   (ModuleCat.restrictScalars (Polynomial.C (R := R))).map
     ((Polynomial.X : Polynomial R) • (𝟙 M))
 
+set_option backward.isDefEq.respectTransparency false in
 set_option maxHeartbeats 800000 in
 /-- The Koszul short exact sequence for an R[X]-module M:
   0 → R[X] ⊗_R M|_R →^d R[X] ⊗_R M|_R →^ε M → 0
@@ -584,6 +585,7 @@ private theorem Polynomial.divX_X_mul (R : Type u) [CommRing R] (p : R[X]) :
   ext n
   simp [coeff_divX, coeff_X_mul]
 
+set_option backward.isDefEq.respectTransparency false in
 /-- X-multiplication on R[X] ⊗_R M is injective: X· has a left inverse (divX ⊗ id),
 since divX is a left inverse of X· on R[X] as an R-linear map. -/
 private theorem polynomial_X_mul_mono_extendScalars (R : Type u) [CommRing R]
@@ -687,6 +689,7 @@ private theorem ext_eq_zero_of_X_action_vanishing
   -- Combine: e = f*(e₂) = X • e₂ = 0
   rw [← he₂, h_precomp, h_smul_zero]
 
+set_option backward.isDefEq.respectTransparency false in
 /-- The Shapiro transfer: for any R-module N, Ext vanishing for R[X]-modules with
 trivial X-action transfers to Ext vanishing over R via the extension-restriction
 adjunction. This combines ext_subsingleton_of_extendScalars with the observation
