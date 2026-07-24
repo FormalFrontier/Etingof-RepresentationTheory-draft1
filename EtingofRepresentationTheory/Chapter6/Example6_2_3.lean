@@ -168,3 +168,192 @@ theorem Etingof.Example_6_2_3 (k : Type*) [Field k] (ρ : A₂Rep k)
       · right; exact hq₁
     right; right; exact ⟨hV₁_dim1, hdim_eq ▸ hV₁_dim1, hf_inj⟩
 
+
+/-!
+## Classification: the three indecomposable representatives
+
+We construct the three canonical indecomposable representations, prove each is
+indecomposable, and prove every indecomposable A₂-representation is isomorphic to
+exactly one of them. This upgrades the dimension-vector necessary condition above to
+a full classification of isomorphism classes.
+-/
+
+open Module
+
+/-- Isomorphism of A₂-representations. -/
+structure A₂Rep.Iso {k : Type*} [Field k] (ρ σ : A₂Rep k) where
+  e₁ : ρ.V₁ ≃ₗ[k] σ.V₁
+  e₂ : ρ.V₂ ≃ₗ[k] σ.V₂
+  comm : ∀ x, e₂ (ρ.f x) = σ.f (e₁ x)
+
+namespace A₂Rep.Iso
+
+/-- The identity isomorphism. -/
+def refl {k : Type*} [Field k] (ρ : A₂Rep k) : ρ.Iso ρ where
+  e₁ := LinearEquiv.refl k ρ.V₁
+  e₂ := LinearEquiv.refl k ρ.V₂
+  comm := fun _ => rfl
+
+/-- The inverse of an isomorphism. -/
+def symm {k : Type*} [Field k] {ρ σ : A₂Rep k} (e : ρ.Iso σ) : σ.Iso ρ where
+  e₁ := e.e₁.symm
+  e₂ := e.e₂.symm
+  comm := fun y => by
+    apply e.e₂.injective
+    rw [e.e₂.apply_symm_apply, e.comm, e.e₁.apply_symm_apply]
+
+/-- Composition of isomorphisms. -/
+def trans {k : Type*} [Field k] {ρ σ τ : A₂Rep k} (e : ρ.Iso σ) (e' : σ.Iso τ) : ρ.Iso τ where
+  e₁ := e.e₁.trans e'.e₁
+  e₂ := e.e₂.trans e'.e₂
+  comm := fun x => by
+    simp only [LinearEquiv.trans_apply]
+    rw [e.comm, e'.comm]
+
+/-- Isomorphic A₂-representations have equal dimensions at both vertices. -/
+lemma finrank_eq {k : Type*} [Field k] {ρ σ : A₂Rep k} (e : ρ.Iso σ) :
+    Module.finrank k ρ.V₁ = Module.finrank k σ.V₁ ∧
+    Module.finrank k ρ.V₂ = Module.finrank k σ.V₂ :=
+  ⟨e.e₁.finrank_eq, e.e₂.finrank_eq⟩
+
+end A₂Rep.Iso
+
+/-- The kernel representative `k → 0`. -/
+abbrev A₂Rep.rep_ker (k : Type*) [Field k] : A₂Rep k where
+  V₁ := k
+  V₂ := PUnit
+  f := 0
+
+/-- The cokernel representative `0 → k`. -/
+abbrev A₂Rep.rep_cok (k : Type*) [Field k] : A₂Rep k where
+  V₁ := PUnit
+  V₂ := k
+  f := 0
+
+/-- The identity representative `k ≃ k`. -/
+abbrev A₂Rep.rep_id (k : Type*) [Field k] : A₂Rep k where
+  V₁ := k
+  V₂ := k
+  f := LinearMap.id
+
+namespace A₂Rep
+
+/-- Every submodule of a subsingleton module is trivial. -/
+theorem submodule_eq_bot_of_subsingleton {k M : Type*} [Field k] [AddCommGroup M] [Module k M]
+    [Subsingleton M] (p : Submodule k M) : p = ⊥ := by
+  rw [eq_bot_iff]; intro x _; rw [Submodule.mem_bot]; exact Subsingleton.elim _ _
+
+/-- The kernel representative `k → 0` is indecomposable. -/
+theorem rep_ker_indecomposable (k : Type*) [Field k] : (rep_ker k).Indecomposable := by
+  refine ⟨Or.inl Module.finrank_pos, ?_⟩
+  intro p₁ q₁ p₂ q₂ hpq₁ _ _ _
+  have hp₂ : p₂ = ⊥ := submodule_eq_bot_of_subsingleton p₂
+  have hq₂ : q₂ = ⊥ := submodule_eq_bot_of_subsingleton q₂
+  have hsum : Module.finrank k p₁ + Module.finrank k q₁ = 1 := by
+    rw [Submodule.finrank_add_eq_of_isCompl hpq₁]; exact finrank_self k
+  rcases Nat.eq_zero_or_pos (Module.finrank k p₁) with h0 | hpos
+  · exact Or.inl ⟨Submodule.finrank_eq_zero.mp h0, hp₂⟩
+  · exact Or.inr ⟨Submodule.finrank_eq_zero.mp (by omega), hq₂⟩
+
+/-- The cokernel representative `0 → k` is indecomposable. -/
+theorem rep_cok_indecomposable (k : Type*) [Field k] : (rep_cok k).Indecomposable := by
+  refine ⟨Or.inr Module.finrank_pos, ?_⟩
+  intro p₁ q₁ p₂ q₂ _ hpq₂ _ _
+  have hp₁ : p₁ = ⊥ := submodule_eq_bot_of_subsingleton p₁
+  have hq₁ : q₁ = ⊥ := submodule_eq_bot_of_subsingleton q₁
+  have hsum : Module.finrank k p₂ + Module.finrank k q₂ = 1 := by
+    rw [Submodule.finrank_add_eq_of_isCompl hpq₂]; exact finrank_self k
+  rcases Nat.eq_zero_or_pos (Module.finrank k p₂) with h0 | hpos
+  · exact Or.inl ⟨hp₁, Submodule.finrank_eq_zero.mp h0⟩
+  · exact Or.inr ⟨hq₁, Submodule.finrank_eq_zero.mp (by omega)⟩
+
+/-- The identity representative `k ≃ k` is indecomposable. -/
+theorem rep_id_indecomposable (k : Type*) [Field k] : (rep_id k).Indecomposable := by
+  refine ⟨Or.inl Module.finrank_pos, ?_⟩
+  intro p₁ q₁ p₂ q₂ hpq₁ hpq₂ hp hq
+  have hsum₁ : Module.finrank k p₁ + Module.finrank k q₁ = 1 := by
+    rw [Submodule.finrank_add_eq_of_isCompl hpq₁]; exact finrank_self k
+  have hsum₂ : Module.finrank k p₂ + Module.finrank k q₂ = 1 := by
+    rw [Submodule.finrank_add_eq_of_isCompl hpq₂]; exact finrank_self k
+  have hp₁₂ : p₁ ≤ p₂ := fun x hx => by simpa using hp x hx
+  have hq₁₂ : q₁ ≤ q₂ := fun x hx => by simpa using hq x hx
+  have hfp : Module.finrank k p₁ ≤ Module.finrank k p₂ := Submodule.finrank_mono hp₁₂
+  have hfq : Module.finrank k q₁ ≤ Module.finrank k q₂ := Submodule.finrank_mono hq₁₂
+  rcases Nat.eq_zero_or_pos (Module.finrank k p₁) with h0 | hpos
+  · refine Or.inl ⟨Submodule.finrank_eq_zero.mp h0, Submodule.finrank_eq_zero.mp (by omega)⟩
+  · refine Or.inr ⟨Submodule.finrank_eq_zero.mp (by omega), Submodule.finrank_eq_zero.mp (by omega)⟩
+
+/-- The three representatives, indexed by `Fin 3`. -/
+def rep (k : Type*) [Field k] : Fin 3 → A₂Rep k
+  | 0 => rep_ker k
+  | 1 => rep_cok k
+  | 2 => rep_id k
+
+/-- Dimension vector of an A₂-representation. -/
+noncomputable def dimvec (k : Type*) [Field k] (σ : A₂Rep k) : ℕ × ℕ :=
+  (Module.finrank k σ.V₁, Module.finrank k σ.V₂)
+
+theorem Iso.dimvec_eq {k : Type*} [Field k] {ρ σ : A₂Rep k} (e : ρ.Iso σ) :
+    dimvec k ρ = dimvec k σ := by
+  obtain ⟨h₁, h₂⟩ := e.finrank_eq
+  simp [dimvec, h₁, h₂]
+
+theorem dimvec_rep_ker (k : Type*) [Field k] : dimvec k (rep_ker k) = (1, 0) := by
+  simp [dimvec, finrank_self, finrank_zero_of_subsingleton]
+
+theorem dimvec_rep_cok (k : Type*) [Field k] : dimvec k (rep_cok k) = (0, 1) := by
+  simp [dimvec, finrank_self, finrank_zero_of_subsingleton]
+
+theorem dimvec_rep_id (k : Type*) [Field k] : dimvec k (rep_id k) = (1, 1) := by
+  simp [dimvec, finrank_self]
+
+/-- The three representatives are indecomposable. -/
+theorem rep_indecomposable (k : Type*) [Field k] (i : Fin 3) : (rep k i).Indecomposable := by
+  fin_cases i
+  · exact rep_ker_indecomposable k
+  · exact rep_cok_indecomposable k
+  · exact rep_id_indecomposable k
+
+/-- Every indecomposable A₂-representation is isomorphic to exactly one of the three
+representatives. This is the full classification of Example 6.2.3. -/
+theorem exists_unique_iso_rep (k : Type*) [Field k] (ρ : A₂Rep k) (hind : ρ.Indecomposable) :
+    ∃! i : Fin 3, Nonempty (ρ.Iso (rep k i)) := by
+  -- Existence, from the dimension-vector classification.
+  have hexists : ∃ i : Fin 3, Nonempty (ρ.Iso (rep k i)) := by
+    rcases Etingof.Example_6_2_3 k ρ hind with ⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2, hinj⟩
+    · refine ⟨0, ?_⟩
+      change Nonempty (ρ.Iso (rep_ker k))
+      exact ⟨{ e₁ := (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
+                  (by rw [h1]; exact (finrank_self k).symm)).some,
+               e₂ := (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
+                  (by rw [h2]; exact finrank_zero_of_subsingleton.symm)).some,
+               comm := fun _ => Subsingleton.elim _ _ }⟩
+    · refine ⟨1, ?_⟩
+      change Nonempty (ρ.Iso (rep_cok k))
+      haveI hsub : Subsingleton ρ.V₁ := Module.finrank_zero_iff.mp h1
+      exact ⟨{ e₁ := (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
+                  (by rw [h1]; exact finrank_zero_of_subsingleton.symm)).some,
+               e₂ := (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
+                  (by rw [h2]; exact (finrank_self k).symm)).some,
+               comm := fun x => by rw [Subsingleton.elim x 0]; simp }⟩
+    · refine ⟨2, ?_⟩
+      change Nonempty (ρ.Iso (rep_id k))
+      obtain ⟨e₁⟩ := FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
+        (R := k) (M := ρ.V₁) (M' := (rep_id k).V₁) (by rw [h1]; exact (finrank_self k).symm)
+      have hsurj := (LinearMap.injective_iff_surjective_of_finrank_eq_finrank
+        (by rw [h1, h2])).mp hinj
+      let fEq : ρ.V₁ ≃ₗ[k] ρ.V₂ := LinearEquiv.ofBijective ρ.f ⟨hinj, hsurj⟩
+      refine ⟨{ e₁ := e₁, e₂ := fEq.symm.trans e₁, comm := fun x => ?_ }⟩
+      have hfx : fEq.symm (ρ.f x) = x := fEq.symm_apply_apply x
+      simp only [LinearEquiv.trans_apply, hfx]
+      rfl
+  obtain ⟨i, hi⟩ := hexists
+  refine ⟨i, hi, fun j hj => ?_⟩
+  -- Uniqueness: two representatives isomorphic to ρ are isomorphic, hence equal dimvec.
+  obtain ⟨ei⟩ := hi
+  obtain ⟨ej⟩ := hj
+  have hdv : dimvec k (rep k j) = dimvec k (rep k i) := (ej.symm.trans ei).dimvec_eq
+  fin_cases i <;> fin_cases j <;>
+    simp_all [rep, dimvec_rep_ker, dimvec_rep_cok, dimvec_rep_id]
+
+end A₂Rep
