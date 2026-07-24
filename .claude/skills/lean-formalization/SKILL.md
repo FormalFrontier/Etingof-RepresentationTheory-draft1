@@ -6353,3 +6353,18 @@ finrank bookkeeping (`Submodule.finrank_add_eq_of_isCompl` + `Submodule.finrank_
 submodules of the zero carrier are `⊥` via a one-line
 `submodule_eq_bot_of_subsingleton` (`eq_bot_iff`; `Subsingleton.elim`), avoiding a fresh
 `finrank (rep_ker k).V₂` that would re-trigger trap 1.
+
+## Trap: `Pi.module'` shadows `Pi.module` on product-ring representations
+
+When the acting algebra is a **product ring** `A = ∀ i, Rᵢ` (e.g. `MatProd k d = ∀ i, Matrix (Fin (dᵢ)) (Fin (dᵢ)) k`) and you write an `A`-module whose carrier is itself a product `∀ i, gᵢ`, Mathlib has **two** competing `Module A (∀ i, gᵢ)` instances:
+
+- `Pi.module` (generic): `A` acts on each `gᵢ` through the module structure you intend (e.g. via a projection `A → Rᵢ`);
+- `Pi.module'` (in `Mathlib/Algebra/Module/Pi.lean`): the product ring acts **factorwise**, `(N • w) i = N i • w i`, using whatever `Module Rᵢ gᵢ` exists — a *different, often column-mixing* action.
+
+A bare type annotation `A →ₗ[A] (∀ i, gᵢ)` picks `Pi.module'` (higher priority), while `LinearMap.pi`, `DirectSum.linearEquivFunOnFintype`, and `Proposition 3.1.4`'s ambient use `Pi.module`. Symptoms: `Pi.smul_apply` / `Matrix.Module.smul_apply` silently refuse to fire (reported "unused" by `simp only`), and `rw`/`exact` fail with `Pi.smul'` vs `DistribMulAction.toDistribSMul.toSMul` mismatches, or `Type mismatch … Pi.module vs Pi.module'`. Do **not** try to grind the `map_smul'` by hand — you cannot win the diamond that way.
+
+Fixes, in order of preference:
+1. **Target `⨁ i, gᵢ` (a `DirectSum`) instead of `∀ i, gᵢ`.** `Pi.module'` only matches products, so the `⨁` annotation is safe, and it matches `Etingof.subrepresentation_of_semisimple` (the `⨁` form of Proposition 3.1.4). Build the map into the product with `LinearMap.pi` (unannotated, so it keeps `Pi.module`), wrap with `LinearEquiv.ofBijective` (mark `noncomputable`), then `.trans (DirectSum.linearEquivFunOnFintype A ι g).symm`.
+2. **Let Mathlib supply Pi-linearity.** `LinearMap.pi (fun i => fᵢ)` discharges linearity into `∀ i, gᵢ` for free — you only prove `map_smul'` for the single-index building block `fᵢ`, where there is no nested-Pi diamond. Assemble the equiv with `LinearEquiv.ofBijective` + `Function.bijective_iff_has_inverse` (the two inverse laws are `fun _ => rfl`), avoiding a reverse `map_smul'` for the inverse.
+
+Also: a `local instance` module action (e.g. `vModuleProd`) is **not** available downstream. In `_Test.lean` files, pin such a decl's signature with `#check @name`, not a type-ascribed `example`, which would fail to synthesize the unexported instance.
