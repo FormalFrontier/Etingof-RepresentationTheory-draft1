@@ -36,9 +36,9 @@
   },
   {
     "id": "Chapter6/Example6.2.3",
-    "lean_decl": "Etingof.Example_6_2_3",
+    "lean_decl": "A₂Rep.exists_unique_iso_rep",
     "verdict": "verified",
-    "reason": "Every indecomposable A2-rep (structure V1 -f-> V2) has dim vector in {(1,0),(0,1),(1,1 with f injective)}. Matches the book's three indecomposables 1->0, 0->1, 1~1. Indecomposability defined faithfully via compatible IsCompl decompositions.",
+    "reason": "Full classification now formalized. A₂Rep.exists_unique_iso_rep proves every indecomposable A₂-representation is isomorphic to exactly one of the three explicit representatives rep_ker (1→0), rep_cok (0→1), rep_id (1≅1) via A₂Rep.Iso; each is proved indecomposable (rep_indecomposable) and the three are pairwise nonisomorphic (distinct dimvec). The earlier dimension-vector necessary condition Etingof.Example_6_2_3 is retained and used to prove existence.",
     "dropped_conjunct": null
   },
   {

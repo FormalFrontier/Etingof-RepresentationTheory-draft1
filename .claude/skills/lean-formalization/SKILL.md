@@ -6312,3 +6312,44 @@ the group in scope when you also need the bundled `Module`/`Module.Finite`. Inst
    for the group-keyed argument by `default`-transparency defeq. For anything messier (positivity),
    factor a standalone helper lemma with plain `[AddCommGroup M] [Module k M] [FiniteDimensional k M]`
    hypotheses and apply it with `@` + explicit `addCommGroupOfRing`.
+
+## Constructing named "representatives" and isomorphisms for classify-up-to-iso tasks (#7404, A₂ quiver)
+
+For completeness-audit issues that upgrade a dimension/invariant *necessary condition* to a
+full "isomorphic to exactly one representative" classification (Examples 6.2.3/6.2.4, 3.5.6,
+Gabriel-style A_n), define a bespoke `Iso` structure (commuting `LinearEquiv`s), the explicit
+representatives, and an `∃!` theorem. Reuse the existing invariant theorem to prove *existence*;
+uniqueness falls out of the representatives having distinct invariants (`Iso.finrank_eq`). Three
+non-obvious traps cost most of the iterations:
+
+1. **The zero object must be universe-floating.** A representation bundles carrier types
+   `Vᵢ : Type*` at independent universes. When you claim `ρ.Iso (rep_ker k)` for an *arbitrary*
+   `ρ`, the representative's zero carrier must unify its universe with `ρ.Vᵢ`. Use `PUnit`
+   (its universe floats), **not** a fixed-universe zero like `Fin 0 → k : Type u_k` — the latter
+   forces `ρ.Vᵢ : Type u_k`, silently destroying generality. `PUnit` has `Module k`,
+   `FiniteDimensional k`, `Module.Free k`, `Subsingleton` at every universe, and
+   `finrank_zero_of_subsingleton` gives its finrank.
+
+2. **Representatives must be `abbrev`, not `def`.** Instance search (`Subsingleton (rep_ker k).V₂`,
+   `Module k (rep_ker k).V₁`) and `finrank_zero_of_subsingleton` only see through a structure
+   projection if the enclosing value is reducible. A plain `def` blocks unfolding and you get
+   `failed to synthesize Subsingleton …`. If you *also* index representatives by `Fin n` via a
+   plain `def rep : Fin n → …`, insert `change Nonempty (ρ.Iso (rep_ker k))` to expose the
+   reducible `abbrev` form before building the `Iso` (the `change`, not `show`, avoids the style
+   linter since it genuinely rewrites the goal).
+
+3. **Build the component equivs inline as structure fields**, e.g.
+   `exact ⟨{ e₁ := (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq proof).some, … }⟩`.
+   A pre-`obtain ⟨e₂⟩ := … (M' := (rep_ker k).V₂)` pins `PUnit`'s floating universe to a *default*
+   (often `0`) that then mismatches the `Iso` field's expected universe (`Type mismatch … sort
+   Type 0 vs Type (max …)`). Letting the field's expected type drive elaboration fixes the universe.
+
+For the "identity" representative `k ≃ k` with map `f`, the intertwiner needs
+`e₂ := fEq.symm.trans e₁` where `fEq := LinearEquiv.ofBijective ρ.f ⟨hinj, hsurj⟩` and
+`hsurj := (LinearMap.injective_iff_surjective_of_finrank_eq_finrank …).mp hinj`; then
+`fEq.symm (ρ.f x) = x` is `fEq.symm_apply_apply x` (uses `fEq x = ρ.f x` definitionally).
+Indecomposability of each representative: reduce a compatible `IsCompl` decomposition to the
+finrank bookkeeping (`Submodule.finrank_add_eq_of_isCompl` + `Submodule.finrank_mono` + `omega`);
+submodules of the zero carrier are `⊥` via a one-line
+`submodule_eq_bot_of_subsingleton` (`eq_bot_iff`; `Subsingleton.elim`), avoiding a fresh
+`finrank (rep_ker k).V₂` that would re-trigger trap 1.
