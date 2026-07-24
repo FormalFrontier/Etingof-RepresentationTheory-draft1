@@ -347,3 +347,74 @@ theorem dualMap_injective_of_surjective {M N : Type*} [AddCommGroup M] [Module k
   LinearMap.dualMap_injective_of_surjective hφ
 
 end Duality
+
+/-! ## The transpose-twisted dual module
+
+The `k`-dual `X* = X →ₗ[k] k` of a left `A`-module `X` is naturally a *right* `A`-module.
+Composing with a ring isomorphism `e : A ≃+* Aᵐᵒᵖ` (for `A = ⊕ᵢ Mat_{dᵢ}(k)` this is the
+transpose self-duality `A ≅ Aᵒᵖ`, `matProdTransposeSelfDuality`) turns `X*` into a *left*
+`A`-module via `(a • f) x = f (τ a • x)`, where `τ a = (e a).unop` is the induced
+anti-automorphism of `A`. This is the structure the book uses to regard `X*` as an
+`A`-representation in the proof of Theorem 3.3.1. -/
+
+section TwistedDual
+
+variable {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
+
+/-- Left multiplication by `b : A`, as a `k`-linear endomorphism of a left `A`-module `X`
+(finite over the ground field `k`). `k`-linearity is `SMulCommClass k A X`, which holds
+because `A` is a `k`-algebra. -/
+def lsmulHom (b : A) (X : Type*) [AddCommGroup X] [Module k X] [Module A X]
+    [IsScalarTower k A X] : X →ₗ[k] X where
+  toFun x := b • x
+  map_add' := smul_add b
+  map_smul' c x := (smul_comm c b x).symm
+
+@[simp] theorem lsmulHom_apply (b : A) (X : Type*) [AddCommGroup X] [Module k X] [Module A X]
+    [IsScalarTower k A X] (x : X) : lsmulHom (k := k) b X x = b • x := rfl
+
+variable (e : A ≃+* Aᵐᵒᵖ)
+
+/-- The transpose-twisted left `A`-module structure on the `k`-dual `X* = X →ₗ[k] k` of a
+left `A`-module `X`: `(a • f) x = f (τ a • x)` with `τ a = (e a).unop`. -/
+def twistedDualModule (X : Type*) [AddCommGroup X] [Module k X] [Module A X]
+    [IsScalarTower k A X] : Module A (Module.Dual k X) where
+  smul a f := f ∘ₗ lsmulHom (e a).unop X
+  one_smul f := by
+    ext x
+    change f ((e 1).unop • x) = f x
+    rw [map_one, MulOpposite.unop_one, one_smul]
+  mul_smul a b f := by
+    ext x
+    change f ((e (a * b)).unop • x) = f ((e b).unop • (e a).unop • x)
+    rw [map_mul, MulOpposite.unop_mul, mul_smul]
+  smul_zero a := by ext x; rfl
+  smul_add a f g := by ext x; rfl
+  add_smul a b f := by
+    ext x
+    change f ((e (a + b)).unop • x) = f ((e a).unop • x) + f ((e b).unop • x)
+    rw [map_add, MulOpposite.unop_add, add_smul, map_add]
+  zero_smul f := by
+    ext x
+    change f ((e 0).unop • x) = 0
+    rw [map_zero, MulOpposite.unop_zero, zero_smul, map_zero]
+
+@[simp] theorem twistedDualModule_smul_apply (X : Type*) [AddCommGroup X] [Module k X]
+    [Module A X] [IsScalarTower k A X] (a : A) (f : Module.Dual k X) (x : X) :
+    letI : Module A (Module.Dual k X) := twistedDualModule e X
+    (a • f) x = f ((e a).unop • x) := rfl
+
+/-- With the transpose-twisted action, `X*` is a `k`-`A`-scalar tower, provided `e` is
+`k`-linear on underlying elements (`(e (c • a)).unop = c • (e a).unop`). -/
+theorem twistedDual_isScalarTower (X : Type*) [AddCommGroup X] [Module k X] [Module A X]
+    [IsScalarTower k A X]
+    (he : ∀ (c : k) (a : A), (e (c • a)).unop = c • (e a).unop) :
+    letI : Module A (Module.Dual k X) := twistedDualModule e X
+    IsScalarTower k A (Module.Dual k X) := by
+  letI : Module A (Module.Dual k X) := twistedDualModule e X
+  refine ⟨fun c a f => ?_⟩
+  ext x
+  show f ((e (c • a)).unop • x) = c • f ((e a).unop • x)
+  rw [he, smul_assoc, map_smul]
+
+end TwistedDual
