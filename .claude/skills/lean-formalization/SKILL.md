@@ -121,6 +121,18 @@ into a loop — e.g. `Quotient.map' (fun w => g • w) h` before `Quotient.map'`
 gives the same `HSMul … ?` timeout. Ascribe it: `fun w : T => (g • w : T)`. Both bit during the
 octahedral four-diagonal quotient action (#6972).
 
+**`set x := (…)/2` + `ring`/`linear_combination` = `2⁻¹` that `ring` cannot cancel; add
+`clear_value`.** In elementary field/matrix proofs (e.g. the GL₂ normal forms of #7624), after
+`set x := (a+d)/2 with hxdef` prove the multiplied-out relation you actually need (`have hx2 : 2*x
+= a+d := by rw [hxdef]; field_simp`) and then **`clear_value x`** before any `ring`/`linear_combination`/`field_simp`.
+Otherwise those tactics zeta-unfold the let-body, reintroduce `2⁻¹`/`4⁻¹`, and fail (`ring`
+doesn't know `2*2⁻¹=1`). Two companions: (a) never put a division in a `linear_combination`
+*coefficient* (`… (hx2 - hy2)/2 …`) for the same reason — instead prove `2*(x-y)=2*s` by
+`linear_combination hx2 - hy2` then `mul_left_cancel₀ h2`; (b) `field_simp` clears a **numeral**
+denominator (`/4`) only when the matching `(4:F) ≠ 0` is a hypothesis in context — derive it
+(`have h4 : (4:F) ≠ 0 := by rw [show (4:F)=2*2 by ring]; exact mul_ne_zero h2 h2`) first. To close
+the resulting `4*(…)=0` goals, `apply mul_left_cancel₀ h4; rw [mul_zero]` then `linear_combination`.
+
 **A `def`-based phantom type synonym carrying a restriction-of-scalars module (e.g. an
 `Inflate 𝒜 i W := W` viewing an `𝒜 i`-module `W` as a `∀ j, 𝒜 j`-module via
 `Module.compHom … (Pi.evalRingHom 𝒜 i)`) fights you in tactic blocks** (Ch3 `Problem3_3_3.lean`,
