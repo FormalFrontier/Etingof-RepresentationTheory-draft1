@@ -7537,10 +7537,9 @@
     "start_line": 19,
     "end_line": 21,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "The A/D/E positive-root counts are proved, and private Cartan-coordinate lemmas classify A-type positive roots by interval vectors. The source's explicit A_{N-1} model as the sum-zero lattice in ℤ^N, its consecutive-difference basis and isometry, and a public classification of all roots as ±(e_i-e_j) are absent. Follow-up #7432.",
-    "followup_issue": 7432,
-    "last_updated": "2026-07-22",
+    "coverage": "covered_full",
+    "coverage_note": "The A/D/E positive-root counts are proved. The source's explicit A_{N-1} model is now formalized in Example6_4_9_An_Lattice: the sum-zero lattice Etingof.An.sumZeroLattice in ℤ^N, its consecutive-difference basis Etingof.An.basis (basis i = e_i - e_{i+1}), the isometry Etingof.An.dotProduct_toLat identifying the restricted standard inner product with the Cartan form, the public classification Etingof.An.mem_latticeRoots_iff of all roots as exactly ±(e_i-e_j), and the reconnected positive-root count Etingof.An.ncard_positiveLatticeRoots = n(n+1)/2 (#7432).",
+    "last_updated": "2026-07-24",
     "needs_statement": false,
     "aristotle_projects": {
       "Dn_bound": "9f0c4ab7-5906-4bd0-b188-410df0f4e548",
