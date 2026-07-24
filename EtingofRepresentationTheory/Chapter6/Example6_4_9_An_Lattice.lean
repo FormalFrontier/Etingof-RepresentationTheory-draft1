@@ -371,4 +371,103 @@ theorem mem_latticeRoots_iff (x : Fin (n + 1) → ℤ) :
         Pi.single_eq_of_ne (Ne.symm hij)]
       ring
 
+/-- Root-notion reconnection: a coordinate vector `c` is a root of the `A_n` Cartan form
+(the abstract `Etingof.IsRoot`) iff its image `toLat c` is a root of the explicit sum-zero
+lattice. Composed with `mem_latticeRoots_iff` this identifies the Cartan-form roots with the
+`±(e_i - e_j)`. -/
+theorem isRoot_iff_toLat_mem (hn : 1 ≤ n) (c : Fin n → ℤ) :
+    Etingof.IsRoot n (Etingof.DynkinType.A n hn).adj c ↔ toLat n c ∈ latticeRoots n := by
+  unfold Etingof.IsRoot latticeRoots
+  simp only [Set.mem_setOf_eq]
+  rw [dotProduct_toLat n hn]
+  constructor
+  · rintro ⟨hne, hq⟩
+    exact ⟨(toLatL n c).2, fun h => hne (by rw [← fromLat_toLat n c, h, map_zero]), hq⟩
+  · rintro ⟨_, hne, hq⟩
+    exact ⟨fun h => hne (by rw [h, map_zero]), hq⟩
+
+/-- The positive roots of the explicit `A_n` lattice model: the `e_i - e_j` with `i < j`. -/
+def positiveLatticeRoots : Set (Fin (n + 1) → ℤ) :=
+  {x | ∃ i j : Fin (n + 1), i < j ∧ x = Pi.single i 1 - Pi.single j 1}
+
+/-- The difference map `(i, j) ↦ e_i - e_j` is injective. -/
+private lemma diff_injOn :
+    Set.InjOn (fun p : Fin (n + 1) × Fin (n + 1) =>
+        (Pi.single p.1 1 - Pi.single p.2 1 : Fin (n + 1) → ℤ))
+      {p | p.1 < p.2} := by
+  -- The value `+1` occurs exactly at the first index, `-1` exactly at the second.
+  have hval1 : ∀ (a b k : Fin (n + 1)), a ≠ b →
+      ((Pi.single a 1 - Pi.single b 1 : Fin (n + 1) → ℤ) k = 1 ↔ k = a) := by
+    intro a b k hab
+    rw [Pi.sub_apply, Pi.single_apply, Pi.single_apply]
+    constructor
+    · intro h; by_contra hka; rw [if_neg hka] at h; split_ifs at h <;> omega
+    · intro h; subst h; rw [if_pos rfl, if_neg hab, sub_zero]
+  have hvaln : ∀ (a b k : Fin (n + 1)), a ≠ b →
+      ((Pi.single a 1 - Pi.single b 1 : Fin (n + 1) → ℤ) k = -1 ↔ k = b) := by
+    intro a b k hab
+    rw [Pi.sub_apply, Pi.single_apply, Pi.single_apply]
+    constructor
+    · intro h; by_contra hkb; rw [if_neg hkb] at h; split_ifs at h <;> omega
+    · intro h; subst h; rw [if_neg (Ne.symm hab), if_pos rfl, zero_sub]
+  rintro ⟨i₁, j₁⟩ h₁ ⟨i₂, j₂⟩ h₂ heq
+  simp only [Set.mem_setOf_eq] at h₁ h₂
+  have hne₁ : i₁ ≠ j₁ := ne_of_lt h₁
+  have hne₂ : i₂ ≠ j₂ := ne_of_lt h₂
+  have hci : (Pi.single i₁ 1 - Pi.single j₁ 1 : Fin (n + 1) → ℤ) i₁
+      = (Pi.single i₂ 1 - Pi.single j₂ 1 : Fin (n + 1) → ℤ) i₁ := congr_fun heq i₁
+  have hcj : (Pi.single i₁ 1 - Pi.single j₁ 1 : Fin (n + 1) → ℤ) j₁
+      = (Pi.single i₂ 1 - Pi.single j₂ 1 : Fin (n + 1) → ℤ) j₁ := congr_fun heq j₁
+  rw [(hval1 i₁ j₁ i₁ hne₁).mpr rfl] at hci
+  rw [(hvaln i₁ j₁ j₁ hne₁).mpr rfl] at hcj
+  exact Prod.ext ((hval1 i₂ j₂ i₁ hne₂).mp hci.symm) ((hvaln i₂ j₂ j₁ hne₂).mp hcj.symm)
+
+/-- Count of strictly-ordered index pairs. -/
+private lemma card_strictPairs :
+    (univ.filter (fun p : Fin (n + 1) × Fin (n + 1) => p.1 < p.2)).card = n * (n + 1) / 2 := by
+  have hD : (univ : Finset (Fin (n + 1))).offDiag.card = n * (n + 1) := by
+    rw [Finset.offDiag_card, Finset.card_univ, Fintype.card_fin, Nat.succ_mul,
+      Nat.add_sub_cancel]
+  have hAB : (univ.filter (fun p : Fin (n + 1) × Fin (n + 1) => p.1 < p.2)).card
+      = (univ.filter (fun p : Fin (n + 1) × Fin (n + 1) => p.2 < p.1)).card := by
+    refine Finset.card_bij (fun p _ => (p.2, p.1)) ?_ ?_ ?_
+    · intro p hp; simp only [mem_filter, mem_univ, true_and] at *; exact hp
+    · intro p₁ h₁ p₂ h₂ he; simp only [Prod.mk.injEq] at he; exact Prod.ext he.2 he.1
+    · intro p hp; simp only [mem_filter, mem_univ, true_and] at hp
+      exact ⟨(p.2, p.1), by simp [hp], by simp⟩
+  have hunion : univ.filter (fun p : Fin (n + 1) × Fin (n + 1) => p.1 < p.2)
+        ∪ univ.filter (fun p => p.2 < p.1) = (univ : Finset (Fin (n + 1))).offDiag := by
+    ext p; simp only [mem_union, mem_filter, mem_univ, true_and, Finset.mem_offDiag]
+    constructor
+    · rintro (h | h)
+      · exact ne_of_lt h
+      · exact (ne_of_lt h).symm
+    · intro hne; rcases lt_or_gt_of_ne hne with h | h
+      · exact Or.inl h
+      · exact Or.inr h
+  have hdisj : Disjoint (univ.filter (fun p : Fin (n + 1) × Fin (n + 1) => p.1 < p.2))
+      (univ.filter (fun p => p.2 < p.1)) := by
+    rw [Finset.disjoint_left]; intro p h₁ h₂
+    simp only [mem_filter, mem_univ, true_and] at h₁ h₂
+    exact absurd h₁ (not_lt.mpr (le_of_lt h₂))
+  have hcu := Finset.card_union_of_disjoint hdisj
+  rw [hunion, hD, ← hAB] at hcu
+  omega
+
+/-- **Reconnection of the positive-root count.** The explicit lattice model has exactly
+`n(n+1)/2` positive roots — matching `Etingof.Example_6_4_9_An`. -/
+theorem ncard_positiveLatticeRoots : Set.ncard (positiveLatticeRoots n) = n * (n + 1) / 2 := by
+  have hset : positiveLatticeRoots n =
+      ↑((univ.filter (fun p : Fin (n + 1) × Fin (n + 1) => p.1 < p.2)).image
+        (fun p => (Pi.single p.1 1 - Pi.single p.2 1 : Fin (n + 1) → ℤ))) := by
+    ext x
+    simp only [positiveLatticeRoots, Set.mem_setOf_eq, Finset.coe_image, Set.mem_image,
+      Finset.mem_coe, mem_filter, mem_univ, true_and]
+    constructor
+    · rintro ⟨i, j, hij, rfl⟩; exact ⟨(i, j), hij, rfl⟩
+    · rintro ⟨⟨i, j⟩, hij, rfl⟩; exact ⟨i, j, hij, rfl⟩
+  rw [hset, Set.ncard_coe_finset, Finset.card_image_of_injOn, card_strictPairs]
+  intro p hp q hq he
+  exact diff_injOn n (by simpa using (mem_filter.mp hp).2) (by simpa using (mem_filter.mp hq).2) he
+
 end Etingof.An
