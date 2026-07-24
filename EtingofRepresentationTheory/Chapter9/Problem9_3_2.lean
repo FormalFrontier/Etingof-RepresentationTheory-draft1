@@ -12,6 +12,7 @@ import Mathlib.Algebra.Homology.DerivedCategory.Ext.ExtClass
 import Mathlib.Algebra.Module.Projective
 import Mathlib.Algebra.Category.ModuleCat.Projective
 import Mathlib.Algebra.Algebra.Bilinear
+import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 import EtingofRepresentationTheory.Chapter9.Definition9_5_1
 
 /-!
@@ -40,7 +41,7 @@ has no section `S₊ → P₊` (any such section would force `x · (section 1) =
 the section condition forces its first coordinate to be `1`).
 -/
 
-universe u
+universe u v
 
 open CategoryTheory
 
@@ -134,7 +135,7 @@ noncomputable def repHom (G X : Module.End ℂ V)
 
 /-- A `ℂ`-linear map intertwining the actions of the generators `g` and `x` automatically
 intertwines the action of every element of `A`, because `g` and `x` generate `A`. -/
-lemma intertwine_all {W : Type u} [AddCommGroup W] [Module ℂ W]
+lemma intertwine_all {W : Type v} [AddCommGroup W] [Module ℂ W]
     (ρV : A →ₐ[ℂ] Module.End ℂ V) (ρW : A →ₐ[ℂ] Module.End ℂ W) (φ : V →ₗ[ℂ] W)
     (hg : ∀ v, φ (ρV g v) = ρW g (φ v)) (hx : ∀ v, φ (ρV x v) = ρW x (φ v)) :
     ∀ (a : A) (v : V), φ (ρV a v) = ρW a (φ v) := by
@@ -164,7 +165,7 @@ lemma intertwine_all {W : Type u} [AddCommGroup W] [Module ℂ W]
 
 /-- Promote a `ℂ`-linear map intertwining `g` and `x` to an `A`-linear map, for `A`-module
 structures defined through representations `ρV`, `ρW`. -/
-noncomputable def mkAlgLinear {W : Type u} [AddCommGroup W] [Module ℂ W]
+noncomputable def mkAlgLinear {W : Type v} [AddCommGroup W] [Module ℂ W]
     [Module A V] [Module A W]
     (ρV : A →ₐ[ℂ] Module.End ℂ V) (ρW : A →ₐ[ℂ] Module.End ℂ W)
     (hV : ∀ (a : A) (v : V), a • v = ρV a v) (hW : ∀ (a : A) (w : W), a • w = ρW a w)
@@ -176,6 +177,12 @@ noncomputable def mkAlgLinear {W : Type u} [AddCommGroup W] [Module ℂ W]
     simp only [hV, hW, RingHom.id_apply, intertwine_all ρV ρW φ hg hx a v]
 
 end Rep
+
+/-- Scalars from `ℂ` act on an `A`-module through `A`, so `A`-submodules are `ℂ`-stable. -/
+lemma smul_mem_complex {M : Type u} [AddCommGroup M] [Module ℂ M] [Module A M]
+    [IsScalarTower ℂ A M] (N : Submodule A M) (c : ℂ) {v : M} (hv : v ∈ N) : c • v ∈ N := by
+  have h := N.smul_mem (algebraMap ℂ A c) hv
+  rwa [algebraMap_smul] at h
 
 /-! ## The two one-dimensional simple modules `S₊` and `S₋` -/
 
@@ -514,6 +521,80 @@ lemma rPlus_comp_iPlus : rPlus.comp iPlus = LinearMap.id := by
 instance projective_Pplus : Module.Projective A Pplus :=
   Module.Projective.of_split iPlus rPlus rPlus_comp_iPlus
 
+
+/-! ### `P₊` is indecomposable and is a projective cover of `S₊`
+
+The submodule lattice of `P₊` is the chain `0 ⊂ ℂ·(0,1) ⊂ P₊`: any nonzero submodule contains
+the socle vector `(0,1)`, and any submodule containing a vector with nonzero first coordinate is
+everything. Both facts follow from `x · (a, b) = (0, a)`. -/
+
+/-- Every nonzero `A`-submodule of `P₊` contains the socle vector `(0, 1)`. -/
+lemma socle_mem_of_ne_bot_Pplus (N : Submodule A Pplus) (hN : N ≠ ⊥) :
+    (![0, 1] : Pplus) ∈ N := by
+  obtain ⟨v, hvN, hv⟩ := (Submodule.ne_bot_iff N).mp hN
+  by_cases h0 : v 0 = 0
+  · have h1 : v 1 ≠ 0 := by
+      intro h1
+      exact hv (by funext j; fin_cases j <;> simpa [h0, h1])
+    have := smul_mem_complex N (v 1)⁻¹ hvN
+    convert this using 1
+    funext j; fin_cases j <;> simp [h0, inv_mul_cancel₀ h1]
+  · have hx : x • v ∈ N := N.smul_mem x hvN
+    rw [Pplus.x_smul] at hx
+    have := smul_mem_complex N (v 0)⁻¹ hx
+    convert this using 1
+    funext j; fin_cases j <;> simp [inv_mul_cancel₀ h0]
+
+/-- An `A`-submodule of `P₊` containing a vector with nonzero first coordinate is all of `P₊`. -/
+lemma eq_top_of_mem_Pplus (N : Submodule A Pplus) {v : Pplus} (hvN : v ∈ N) (h0 : v 0 ≠ 0) :
+    N = ⊤ := by
+  have hsoc : (![0, 1] : Pplus) ∈ N :=
+    socle_mem_of_ne_bot_Pplus N (Submodule.ne_bot_iff N |>.mpr
+      ⟨v, hvN, fun h => h0 (by rw [h]; rfl)⟩)
+  have he0 : (![1, 0] : Pplus) ∈ N := by
+    have hsub : v - v 1 • (![0, 1] : Pplus) ∈ N :=
+      N.sub_mem hvN (smul_mem_complex N (v 1) hsoc)
+    have := smul_mem_complex N (v 0)⁻¹ hsub
+    convert this using 1
+    funext j; fin_cases j <;>
+      simp [Matrix.vecHead, Matrix.vecTail, inv_mul_cancel₀ h0]
+  refine Submodule.eq_top_iff'.mpr fun w => ?_
+  have hw : w = w 0 • (![1, 0] : Pplus) + w 1 • (![0, 1] : Pplus) := by
+    funext j; fin_cases j <;> simp
+  rw [hw]
+  exact N.add_mem (smul_mem_complex N _ he0) (smul_mem_complex N _ hsoc)
+
+/-- **`P₊` is indecomposable.** Every nonzero submodule contains the socle vector `(0, 1)`, so
+two nonzero submodules can never be disjoint. -/
+theorem isIndecomposable_Pplus : Etingof.IsIndecomposable A Pplus := by
+  refine ⟨inferInstance, fun M N hMN => ?_⟩
+  by_contra hc
+  obtain ⟨hM, hN⟩ := not_or.mp hc
+  have hmem : (![0, 1] : Pplus) ∈ M ⊓ N :=
+    ⟨socle_mem_of_ne_bot_Pplus M hM, socle_mem_of_ne_bot_Pplus N hN⟩
+  rw [hMN.inf_eq_bot, Submodule.mem_bot] at hmem
+  have hone : (![0, 1] : Pplus) 1 = (0 : Pplus) 1 := by rw [hmem]
+  simp at hone
+
+/-- The kernel of `P₊ ↠ S₊` is superfluous: no proper submodule of `P₊` complements it. -/
+theorem ker_gSES_superfluous (N : Submodule A Pplus)
+    (h : N ⊔ LinearMap.ker gSES = ⊤) : N = ⊤ := by
+  have hmem : (![1, 0] : Pplus) ∈ N ⊔ LinearMap.ker gSES := h ▸ Submodule.mem_top
+  obtain ⟨n, hn, k, hk, hnk⟩ := Submodule.mem_sup.mp hmem
+  have hk0 : k 0 = 0 := hk
+  refine eq_top_of_mem_Pplus N hn ?_
+  have : n 0 + k 0 = (1 : ℂ) := congrFun hnk 0
+  rw [hk0, add_zero] at this
+  rw [this]
+  exact one_ne_zero
+
+/-- **`P₊ ↠ S₊` is a projective cover of `S₊`.** `P₊` is projective, the map is surjective, and
+its kernel `S₋` is superfluous in `P₊`. -/
+theorem isProjectiveCover_Pplus :
+    Module.Projective A Pplus ∧ Function.Surjective gSES ∧
+      ∀ N : Submodule A Pplus, N ⊔ LinearMap.ker gSES = ⊤ → N = ⊤ :=
+  ⟨projective_Pplus, gSES_surjective, ker_gSES_superfluous⟩
+
 /-! ## The mirror projective `P₋` and the mirror extension `0 → S₊ → P₋ → S₋ → 0`
 
 `P₋` is the second projective indecomposable: `ℂ²` with `g = diag(-1, 1)` and
@@ -752,5 +833,348 @@ theorem areLinked :
   Relation.EqvGen.rel _ _
     ⟨(inferInstance : IsSimpleModule A Splus), (inferInstance : IsSimpleModule A Sminus),
       Or.inl (Or.inl directlyExtLinked)⟩
+
+/-! ### `P₋` is indecomposable and is a projective cover of `S₋` -/
+
+/-- Every nonzero `A`-submodule of `P₋` contains the socle vector `(0, 1)`. -/
+lemma socle_mem_of_ne_bot_Pminus (N : Submodule A Pminus) (hN : N ≠ ⊥) :
+    (![0, 1] : Pminus) ∈ N := by
+  obtain ⟨v, hvN, hv⟩ := (Submodule.ne_bot_iff N).mp hN
+  by_cases h0 : v 0 = 0
+  · have h1 : v 1 ≠ 0 := by
+      intro h1
+      exact hv (by funext j; fin_cases j <;> simpa [h0, h1])
+    have := smul_mem_complex N (v 1)⁻¹ hvN
+    convert this using 1
+    funext j; fin_cases j <;> simp [h0, inv_mul_cancel₀ h1]
+  · have hx : x • v ∈ N := N.smul_mem x hvN
+    rw [Pminus.x_smul] at hx
+    have := smul_mem_complex N (v 0)⁻¹ hx
+    convert this using 1
+    funext j; fin_cases j <;> simp [inv_mul_cancel₀ h0]
+
+/-- An `A`-submodule of `P₋` containing a vector with nonzero first coordinate is all of `P₋`. -/
+lemma eq_top_of_mem_Pminus (N : Submodule A Pminus) {v : Pminus} (hvN : v ∈ N) (h0 : v 0 ≠ 0) :
+    N = ⊤ := by
+  have hsoc : (![0, 1] : Pminus) ∈ N :=
+    socle_mem_of_ne_bot_Pminus N (Submodule.ne_bot_iff N |>.mpr
+      ⟨v, hvN, fun h => h0 (by rw [h]; rfl)⟩)
+  have he0 : (![1, 0] : Pminus) ∈ N := by
+    have hsub : v - v 1 • (![0, 1] : Pminus) ∈ N :=
+      N.sub_mem hvN (smul_mem_complex N (v 1) hsoc)
+    have := smul_mem_complex N (v 0)⁻¹ hsub
+    convert this using 1
+    funext j; fin_cases j <;>
+      simp [Matrix.vecHead, Matrix.vecTail, inv_mul_cancel₀ h0]
+  refine Submodule.eq_top_iff'.mpr fun w => ?_
+  have hw : w = w 0 • (![1, 0] : Pminus) + w 1 • (![0, 1] : Pminus) := by
+    funext j; fin_cases j <;> simp
+  rw [hw]
+  exact N.add_mem (smul_mem_complex N _ he0) (smul_mem_complex N _ hsoc)
+
+/-- **`P₋` is indecomposable.** -/
+theorem isIndecomposable_Pminus : Etingof.IsIndecomposable A Pminus := by
+  refine ⟨inferInstance, fun M N hMN => ?_⟩
+  by_contra hc
+  obtain ⟨hM, hN⟩ := not_or.mp hc
+  have hmem : (![0, 1] : Pminus) ∈ M ⊓ N :=
+    ⟨socle_mem_of_ne_bot_Pminus M hM, socle_mem_of_ne_bot_Pminus N hN⟩
+  rw [hMN.inf_eq_bot, Submodule.mem_bot] at hmem
+  have hone : (![0, 1] : Pminus) 1 = (0 : Pminus) 1 := by rw [hmem]
+  simp at hone
+
+/-- The kernel of `P₋ ↠ S₋` is superfluous: no proper submodule of `P₋` complements it. -/
+theorem ker_gSESm_superfluous (N : Submodule A Pminus)
+    (h : N ⊔ LinearMap.ker gSESm = ⊤) : N = ⊤ := by
+  have hmem : (![1, 0] : Pminus) ∈ N ⊔ LinearMap.ker gSESm := h ▸ Submodule.mem_top
+  obtain ⟨n, hn, k, hk, hnk⟩ := Submodule.mem_sup.mp hmem
+  have hk0 : k 0 = 0 := hk
+  refine eq_top_of_mem_Pminus N hn ?_
+  have hsum : n 0 + k 0 = (1 : ℂ) := congrFun hnk 0
+  rw [hk0, add_zero] at hsum
+  rw [hsum]
+  exact one_ne_zero
+
+/-- **`P₋ ↠ S₋` is a projective cover of `S₋`.** -/
+theorem isProjectiveCover_Pminus :
+    Module.Projective A Pminus ∧ Function.Surjective gSESm ∧
+      ∀ N : Submodule A Pminus, N ⊔ LinearMap.ker gSESm = ⊤ → N = ⊤ :=
+  ⟨projective_Pminus, gSESm_surjective, ker_gSESm_superfluous⟩
+
+/-! ## Classification of the simple modules
+
+Every simple `A`-module is isomorphic to `S₊` or to `S₋`, and not to both. The argument is the
+standard one: the ideal `A x = x A` is two-sided with square zero, so it annihilates any simple
+module; the quotient `A / A x ≅ ℂ[g]/(g² - 1) ≅ ℂ × ℂ` is commutative and split semisimple, so
+`g` acts by `+1` or by `-1`; and then every `ℂ`-subspace is an `A`-submodule, forcing the module
+to be one-dimensional. -/
+
+/-- `x` normalises `A` on the left: for every `a : A` there is `b : A` with `x * a = b * x`.
+Equivalently `x A ⊆ A x`, i.e. `A x` is a two-sided ideal. -/
+lemma exists_mul_eq_mul_x (a : A) : ∃ b : A, x * a = b * x := by
+  obtain ⟨w, rfl⟩ : ∃ w, mk w = a := RingQuot.mkAlgHom_surjective ℂ Rel a
+  induction w with
+  | grade0 r =>
+      refine ⟨algebraMap ℂ A r, ?_⟩
+      rw [mk.commutes]
+      exact (Algebra.commutes r x).symm
+  | grade1 i =>
+      fin_cases i
+      · refine ⟨-g, ?_⟩
+        show x * g = -g * x
+        have h2 : x * g = -(g * x) := by
+          rw [eq_neg_iff_add_eq_zero, add_comm]; exact anticomm_rel
+        exact h2.trans (neg_mul g x).symm
+      · exact ⟨0, by show x * x = 0 * x; rw [xsq_rel, zero_mul]⟩
+  | mul p q hp hq =>
+      obtain ⟨bp, hbp⟩ := hp
+      obtain ⟨bq, hbq⟩ := hq
+      refine ⟨bp * bq, ?_⟩
+      calc x * mk (p * q) = (x * mk p) * mk q := by rw [map_mul, mul_assoc]
+        _ = bp * (x * mk q) := by rw [hbp, mul_assoc]
+        _ = bp * bq * x := by rw [hbq, mul_assoc]
+  | add p q hp hq =>
+      obtain ⟨bp, hbp⟩ := hp
+      obtain ⟨bq, hbq⟩ := hq
+      exact ⟨bp + bq, by rw [map_add, mul_add, hbp, hbq, add_mul]⟩
+
+section Classification
+
+variable (S : Type u) [AddCommGroup S] [Module A S]
+
+/-- The `x`-annihilator `{s | x • s = 0}` of an `A`-module, as an `A`-submodule. It is a
+submodule because `x A ⊆ A x` (`exists_mul_eq_mul_x`). -/
+def xAnnihilator : Submodule A S where
+  carrier := {s : S | x • s = 0}
+  add_mem' := by
+    intro a b ha hb
+    show x • (a + b) = 0
+    rw [smul_add, show x • a = 0 from ha, show x • b = 0 from hb, add_zero]
+  zero_mem' := by show x • (0 : S) = 0; rw [smul_zero]
+  smul_mem' := by
+    intro c s hs
+    obtain ⟨b, hb⟩ := exists_mul_eq_mul_x c
+    show x • (c • s) = 0
+    rw [smul_smul, hb, ← smul_smul]
+    show b • (x • s) = 0
+    rw [show x • s = 0 from hs, smul_zero]
+
+variable {S}
+
+@[simp] lemma mem_xAnnihilator {s : S} : s ∈ xAnnihilator S ↔ x • s = 0 := Iff.rfl
+
+/-- **`x` annihilates every simple `A`-module.** The ideal `A x` has square zero, so the
+`x`-annihilator of a simple module is a nonzero submodule, hence everything. -/
+theorem x_smul_eq_zero_of_isSimpleModule [IsSimpleModule A S] (s : S) : x • s = 0 := by
+  by_cases h : ∀ t : S, x • t = 0
+  · exact h s
+  · obtain ⟨t, ht⟩ := not_forall.mp h
+    have hmem : x • t ∈ xAnnihilator S := by
+      show x • (x • t) = 0
+      rw [smul_smul, xsq_rel, zero_smul]
+    have hne : xAnnihilator S ≠ ⊥ := fun hb => ht (by simpa [hb] using hmem)
+    have htop : xAnnihilator S = ⊤ := (eq_bot_or_eq_top (xAnnihilator S)).resolve_left hne
+    exact mem_xAnnihilator.mp (htop ▸ Submodule.mem_top)
+
+variable [Module ℂ S] [IsScalarTower ℂ A S]
+
+/-- If `x` acts as zero then every `g`-stable `ℂ`-subspace is stable under all of `A`, because
+`g` and `x` generate `A` as a `ℂ`-algebra. -/
+lemma smul_mem_of_g_stable (W : Submodule ℂ S)
+    (hx : ∀ t : S, x • t = 0) (hg : ∀ w ∈ W, g • w ∈ W) (a : A) :
+    ∀ w ∈ W, a • w ∈ W := by
+  obtain ⟨v, rfl⟩ : ∃ v, mk v = a := RingQuot.mkAlgHom_surjective ℂ Rel a
+  induction v with
+  | grade0 r =>
+      intro w hw
+      rw [mk.commutes, algebraMap_smul]
+      exact W.smul_mem r hw
+  | grade1 i =>
+      intro w hw
+      fin_cases i
+      · exact hg w hw
+      · show x • w ∈ W
+        rw [hx w]
+        exact W.zero_mem
+  | mul p q hp hq =>
+      intro w hw
+      rw [map_mul, mul_smul]
+      exact hp _ (hq w hw)
+  | add p q hp hq =>
+      intro w hw
+      rw [map_add, add_smul]
+      exact W.add_mem (hp w hw) (hq w hw)
+
+/-- The `+1`-eigenspace of `g`, as a `ℂ`-subspace. -/
+noncomputable def gPlusEigenspace : Submodule ℂ S :=
+  LinearMap.ker (Algebra.lsmul ℂ ℂ S g - 1)
+
+lemma mem_gPlusEigenspace {s : S} : s ∈ (gPlusEigenspace : Submodule ℂ S) ↔ g • s = s := by
+  simp [gPlusEigenspace, sub_eq_zero, Algebra.lsmul_coe]
+
+omit [Module ℂ S] [IsScalarTower ℂ A S] in
+lemma g_smul_g_smul (s : S) : g • (g • s) = s := by
+  rw [smul_smul, gsq_rel, one_smul]
+
+/-- **On a simple `A`-module, `g` acts as the scalar `+1` or as the scalar `-1`.** The `+1`
+eigenspace of the involution `g` is an `A`-submodule (using that `x` acts as zero), so it is all
+of the module or zero; in the second case `s + g • s = 0` for every `s`. -/
+theorem g_smul_eq_self_or_neg [IsSimpleModule A S] :
+    (∀ s : S, g • s = s) ∨ (∀ s : S, g • s = -s) := by
+  have hx : ∀ t : S, x • t = 0 := x_smul_eq_zero_of_isSimpleModule
+  have hgst : ∀ w ∈ (gPlusEigenspace : Submodule ℂ S), g • w ∈ gPlusEigenspace := by
+    intro w hw
+    rw [mem_gPlusEigenspace] at hw ⊢
+    rw [hw]; exact hw
+  let N : Submodule A S :=
+    { carrier := (gPlusEigenspace : Submodule ℂ S)
+      add_mem' := fun ha hb => Submodule.add_mem _ ha hb
+      zero_mem' := Submodule.zero_mem _
+      smul_mem' := fun c s hs => smul_mem_of_g_stable _ hx hgst c s hs }
+  rcases eq_bot_or_eq_top N with hb | ht
+  · refine Or.inr fun s => ?_
+    have hmem : s + g • s ∈ N := by
+      show s + g • s ∈ (gPlusEigenspace : Submodule ℂ S)
+      rw [mem_gPlusEigenspace, smul_add, g_smul_g_smul, add_comm]
+    have hz : s + g • s = 0 := by simpa [hb] using hmem
+    rw [eq_neg_iff_add_eq_zero, add_comm]
+    exact hz
+  · refine Or.inl fun s => ?_
+    have hs : s ∈ N := ht ▸ Submodule.mem_top
+    exact mem_gPlusEigenspace.mp hs
+
+/-- A simple `A`-module is simple as a `ℂ`-vector space: once `x` acts as zero and `g` acts as a
+scalar, *every* `ℂ`-subspace is an `A`-submodule. -/
+theorem isSimpleModule_complex [IsSimpleModule A S] : IsSimpleModule ℂ S := by
+  have hx : ∀ t : S, x • t = 0 := x_smul_eq_zero_of_isSimpleModule
+  have hgstab : ∀ W : Submodule ℂ S, ∀ w ∈ W, g • w ∈ W := by
+    rcases g_smul_eq_self_or_neg (S := S) with h | h
+    · intro W w hw; rw [h w]; exact hw
+    · intro W w hw; rw [h w]; exact W.neg_mem hw
+  have : Nontrivial S := IsSimpleModule.nontrivial A S
+  refine { exists_pair_ne := ⟨⊥, ⊤, bot_ne_top⟩, eq_bot_or_eq_top := fun W => ?_ }
+  let N : Submodule A S :=
+    { carrier := (W : Set S)
+      add_mem' := fun ha hb => W.add_mem ha hb
+      zero_mem' := W.zero_mem
+      smul_mem' := fun c s hs => smul_mem_of_g_stable W hx (hgstab W) c s hs }
+  rcases eq_bot_or_eq_top N with hb | ht
+  · refine Or.inl (le_antisymm (fun s hs => ?_) bot_le)
+    have hsN : s ∈ N := hs
+    simpa [hb] using hsN
+  · refine Or.inr (le_antisymm le_top fun s _ => ?_)
+    have hs : s ∈ N := ht ▸ Submodule.mem_top
+    exact hs
+
+/-- Every simple `A`-module is one-dimensional over `ℂ`. -/
+theorem finrank_eq_one_of_isSimpleModule [IsSimpleModule A S] : Module.finrank ℂ S = 1 :=
+  isSimpleModule_iff_finrank_eq_one.mp isSimpleModule_complex
+
+end Classification
+
+/-! ### Every simple module is `S₊` or `S₋` -/
+
+section Exhaustive
+
+variable {S : Type u} [AddCommGroup S] [Module ℂ S] [Module A S] [IsScalarTower ℂ A S]
+
+/-- `S₊` has carrier `ℂ`; this is the identity, used to view a vector of `S₊` as a scalar. -/
+def Splus.toℂ (c : Splus) : ℂ := c
+
+/-- `S₋` has carrier `ℂ`; this is the identity, used to view a vector of `S₋` as a scalar. -/
+def Sminus.toℂ (c : Sminus) : ℂ := c
+
+/-- In a simple `A`-module, scaling a fixed nonzero vector is a `ℂ`-linear bijection `ℂ ≃ S`:
+injective because `ℂ` is a field, surjective because a nonzero vector spans. -/
+lemma smul_singleton_bijective [IsSimpleModule A S] {s₀ : S} (hs₀ : s₀ ≠ 0) :
+    Function.Bijective (fun c : ℂ => c • s₀) := by
+  have : IsSimpleModule ℂ S := isSimpleModule_complex
+  constructor
+  · intro a b hab
+    have hz : (a - b) • s₀ = 0 := by
+      simp only at hab
+      rw [sub_smul, hab, sub_self]
+    exact sub_eq_zero.mp ((smul_eq_zero.mp hz).resolve_right hs₀)
+  · intro t
+    have hmem : t ∈ (ℂ ∙ s₀) :=
+      (IsSimpleModule.span_singleton_eq_top ℂ hs₀) ▸ Submodule.mem_top
+    obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp hmem
+    exact ⟨c, hc⟩
+
+/-- The `ℂ`-linear map `S₊ → S` sending the scalar `c` to `c • s₀`. -/
+noncomputable def spanMapPlus (s₀ : S) : Splus →ₗ[ℂ] S where
+  toFun c := c.toℂ • s₀
+  map_add' a b := add_smul a.toℂ b.toℂ s₀
+  map_smul' r c := mul_smul r c.toℂ s₀
+
+omit [Module A S] [IsScalarTower ℂ A S] in
+@[simp] lemma spanMapPlus_apply (s₀ : S) (c : Splus) : spanMapPlus s₀ c = c.toℂ • s₀ := rfl
+
+/-- The `ℂ`-linear map `S₋ → S` sending the scalar `c` to `c • s₀`. -/
+noncomputable def spanMapMinus (s₀ : S) : Sminus →ₗ[ℂ] S where
+  toFun c := c.toℂ • s₀
+  map_add' a b := add_smul a.toℂ b.toℂ s₀
+  map_smul' r c := mul_smul r c.toℂ s₀
+
+omit [Module A S] [IsScalarTower ℂ A S] in
+@[simp] lemma spanMapMinus_apply (s₀ : S) (c : Sminus) : spanMapMinus s₀ c = c.toℂ • s₀ := rfl
+
+/-- If `g` acts as `+1` on a simple `A`-module `S`, then `S₊ ≅ S`. -/
+noncomputable def equivSplusOfGSmulEqSelf [IsSimpleModule A S]
+    {s₀ : S} (hs₀ : s₀ ≠ 0) (h : ∀ s : S, g • s = s) : Splus ≃ₗ[A] S :=
+  LinearEquiv.ofBijective
+    (mkAlgLinear ρplus (Algebra.lsmul ℂ ℂ S) Splus.smul_def (fun _ _ => rfl) (spanMapPlus s₀)
+      (by intro v
+          simp only [ρplus, repHom_g, Module.End.one_apply, Algebra.lsmul_coe,
+            spanMapPlus_apply]
+          rw [smul_comm, h s₀])
+      (by intro v
+          simp only [ρplus, repHom_x, LinearMap.zero_apply, Algebra.lsmul_coe,
+            spanMapPlus_apply, map_zero]
+          rw [smul_comm, x_smul_eq_zero_of_isSimpleModule s₀, smul_zero]))
+    (by exact smul_singleton_bijective hs₀)
+
+/-- If `g` acts as `-1` on a simple `A`-module `S`, then `S₋ ≅ S`. -/
+noncomputable def equivSminusOfGSmulEqNeg [IsSimpleModule A S]
+    {s₀ : S} (hs₀ : s₀ ≠ 0) (h : ∀ s : S, g • s = -s) : Sminus ≃ₗ[A] S :=
+  LinearEquiv.ofBijective
+    (mkAlgLinear ρminus (Algebra.lsmul ℂ ℂ S) Sminus.smul_def (fun _ _ => rfl) (spanMapMinus s₀)
+      (by intro v
+          simp only [ρminus, repHom_g, LinearMap.neg_apply, Module.End.one_apply,
+            Algebra.lsmul_coe, map_neg, spanMapMinus_apply]
+          rw [smul_comm, h s₀, smul_neg])
+      (by intro v
+          simp only [ρminus, repHom_x, LinearMap.zero_apply, Algebra.lsmul_coe,
+            spanMapMinus_apply, map_zero]
+          rw [smul_comm, x_smul_eq_zero_of_isSimpleModule s₀, smul_zero]))
+    (by exact smul_singleton_bijective hs₀)
+
+/-- **Exhaustiveness of the classification of simple modules (Problem 9.3.2, part 1).**
+Every simple `A`-module is isomorphic to `S₊` or to `S₋`. -/
+theorem nonempty_linearEquiv_splus_or_sminus (S : Type u) [AddCommGroup S] [Module ℂ S]
+    [Module A S] [IsScalarTower ℂ A S] [IsSimpleModule A S] :
+    Nonempty (S ≃ₗ[A] Splus) ∨ Nonempty (S ≃ₗ[A] Sminus) := by
+  have : Nontrivial S := IsSimpleModule.nontrivial A S
+  obtain ⟨s₀, hs₀⟩ := exists_ne (0 : S)
+  rcases g_smul_eq_self_or_neg (S := S) with h | h
+  · exact Or.inl ⟨(equivSplusOfGSmulEqSelf hs₀ h).symm⟩
+  · exact Or.inr ⟨(equivSminusOfGSmulEqNeg hs₀ h).symm⟩
+
+/-- The two cases are mutually exclusive: no `A`-module is isomorphic to both `S₊` and `S₋`. -/
+theorem not_linearEquiv_splus_and_sminus (S : Type u) [AddCommGroup S] [Module A S] :
+    ¬(Nonempty (S ≃ₗ[A] Splus) ∧ Nonempty (S ≃ₗ[A] Sminus)) := by
+  rintro ⟨⟨e₁⟩, ⟨e₂⟩⟩
+  exact splus_not_iso_sminus.false (e₁.symm.trans e₂)
+
+/-- **The simple `A`-modules are exactly `S₊` and `S₋`.** Every simple `A`-module is isomorphic
+to exactly one of them. This is the first part of Problem 9.3.2. -/
+theorem simple_module_classification (S : Type u) [AddCommGroup S] [Module ℂ S]
+    [Module A S] [IsScalarTower ℂ A S] [IsSimpleModule A S] :
+    Xor (Nonempty (S ≃ₗ[A] Splus)) (Nonempty (S ≃ₗ[A] Sminus)) := by
+  rcases nonempty_linearEquiv_splus_or_sminus S with h | h
+  · exact Or.inl ⟨h, fun h' => not_linearEquiv_splus_and_sminus S ⟨h, h'⟩⟩
+  · exact Or.inr ⟨h, fun h' => not_linearEquiv_splus_and_sminus S ⟨h', h⟩⟩
+
+end Exhaustive
 
 end Etingof.Problem932
