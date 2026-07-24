@@ -2,6 +2,7 @@ import Mathlib.Algebra.Category.ModuleCat.Ext.HasExt
 import Mathlib.CategoryTheory.Abelian.Projective.Dimension
 import Mathlib.Algebra.Homology.ShortComplex.ShortExact
 import EtingofRepresentationTheory.Chapter9.Definition9_4_1
+import EtingofRepresentationTheory.Chapter9.ProjectiveResolutionSyzygy
 
 /-!
 # Problem 9.4.2: Projective dimension via Ext, and dimension shifting
@@ -115,5 +116,54 @@ theorem hasProjectiveDimensionLE_syzygy
     hS.hasProjectiveDimensionLT_X₁ d inferInstance hM
   change HasProjectiveDimensionLT S.X₁ (d - 1 + 1)
   rwa [Nat.sub_add_cancel hd]
+
+open Etingof.ProjectiveResolution in
+/-- **Problem 9.4.2 (iii), the arbitrary-resolution statement.** Let `M` be a left `R`-module
+with `pd(M) ≤ d`, and let `P` be *any* projective resolution of `M`. Then the `d`-th syzygy
+`Ω^d M = syzygy P d` (the kernel `K_d = ker(P_{d-1} → P_{d-2})`, with the convention `P_{-1} = M`)
+is projective.
+
+The proof iterates the one-step dimension shift `hasProjectiveDimensionLE_syzygy` along the
+syzygy short exact sequences `0 → Ωⁿ⁺¹M → Pₙ → ΩⁿM → 0` (all short exact with projective middle
+term, from `syzygySES_shortExact`): by induction `pd(ΩⁿM) ≤ d - n` for `n ≤ d`, and at `n = d`
+this reads `pd(Ω^d M) ≤ 0`, i.e. `Ω^d M` is projective. -/
+theorem projective_syzygy_of_hasProjectiveDimensionLE
+    (M : ModuleCat.{u} R) (P : ProjectiveResolution M) (d : ℕ)
+    (hM : HasProjectiveDimensionLE M d) :
+    Projective (syzygy P d) := by
+  -- Iterated dimension shift: the `n`-th syzygy has projective dimension `≤ d - n`.
+  have key : ∀ n, n ≤ d → HasProjectiveDimensionLE (syzygy P n) (d - n) := by
+    intro n
+    induction n with
+    | zero => intro _; simpa using hM
+    | succ n ih =>
+      intro hn
+      have hpos : 0 < d - n := by omega
+      -- Apply the one-step shift to `syzygySES P n : 0 → Ωⁿ⁺¹M → Pₙ → ΩⁿM → 0`.
+      have hstep := hasProjectiveDimensionLE_syzygy R (syzygySES P n)
+        (syzygySES_shortExact P n) inferInstance (d - n) hpos
+        (by rw [syzygySES_X₃]; exact ih (by omega))
+      -- `(syzygySES P n).X₁ = syzygy P (n+1)` and `d - n - 1 = d - (n+1)`.
+      simpa only [syzygySES_X₁, Nat.sub_sub] using hstep
+  have hd0 := key d (le_refl d)
+  rw [Nat.sub_self] at hd0
+  rw [projective_iff_hasProjectiveDimensionLE_zero]
+  exact hd0
+
+open Etingof.ProjectiveResolution in
+/-- **Problem 9.4.2 (iii), truncated projective resolution.** For a module `M` of projective
+dimension `≤ d` and *any* projective resolution `P`, the resolution truncates to length `d`.
+
+This packages the truncated exact sequence `0 → Ω^d M → P_{d-1} → ⋯ → P₀ → M → 0`: the syzygy
+short exact sequences `0 → Ωⁿ⁺¹M → Pₙ → ΩⁿM → 0` for `n < d` splice along their common syzygy
+terms, the bottom syzygy is `Ω⁰ M = M` (`syzygy_zero`), and the top term `Ω^d M = syzygy P d`
+is projective (so, replacing `P_d` by `K_d = Ω^d M` and everything to its left by `0`, we obtain
+a genuine projective resolution of `M` of length `d`). -/
+theorem truncated_projective_resolution
+    (M : ModuleCat.{u} R) (P : ProjectiveResolution M) (d : ℕ)
+    (hM : HasProjectiveDimensionLE M d) :
+    Projective (syzygy P d) ∧ syzygy P 0 = M ∧ ∀ n, (syzygySES P n).ShortExact :=
+  ⟨projective_syzygy_of_hasProjectiveDimensionLE R M P d hM, syzygy_zero P,
+    syzygySES_shortExact P⟩
 
 end Etingof.Problem942

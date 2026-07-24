@@ -9459,9 +9459,9 @@
     "end_line": 2,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "coverage_note": "The Ext-vanishing characterization, nonsplit-SES formula, and one-step syzygy dimension shift are proved. Part (iii)'s arbitrary-resolution statement—projectivity of the dth kernel, construction of a length-d truncation, and finite-dimensional terms—is absent and tracked by #7401.",
+    "coverage_note": "The Ext-vanishing characterization (i), the nonsplit-SES formula (ii), and part (iii) are proved. Part (iii)'s arbitrary-resolution statement is now covered: for any projective resolution P of a module with pd(M) ≤ d, the d-th syzygy Ω^d M = syzygy P d is projective (projective_syzygy_of_hasProjectiveDimensionLE) and the length-d truncation is packaged by truncated_projective_resolution, built on the syzygy short exact sequences of ProjectiveResolutionSyzygy.lean (#7671). The finite-dimensional refinement of (iii) remains, tracked by #7673.",
     "fidelity_issue": 7401,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-24"
   },
   {
     "id": "Chapter9/Definition9.4.3",
