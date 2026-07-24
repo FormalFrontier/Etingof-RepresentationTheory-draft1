@@ -1,6 +1,7 @@
 import EtingofRepresentationTheory.Chapter9.Introduction_9_6
 import Mathlib.CategoryTheory.Subobject.Lattice
 import Mathlib.CategoryTheory.Subobject.Limits
+import Mathlib.CategoryTheory.Abelian.Exact
 import Mathlib.Order.KrullDimension
 import Mathlib.Data.ENat.Basic
 
@@ -130,11 +131,55 @@ theorem finiteDimensionalOrder_prod [FiniteDimensionalOrder α] [FiniteDimension
   rw [htop] at hle
   exact krullDim_ne_top_of_finiteDimensionalOrder (top_le_iff.mp hle)
 
+/-- Finite dimensionality transfers backwards along a strictly monotone map into a
+finite-dimensional order, provided the domain is nonempty: a `<`-series in `α` maps to one of
+the same length in `β`, so `krullDim α ≤ krullDim β < ⊤`. -/
+theorem finiteDimensionalOrder_of_strictMono {f : α → β} (hf : StrictMono f)
+    [FiniteDimensionalOrder β] [Nonempty α] : FiniteDimensionalOrder α := by
+  rw [finiteDimensionalOrder_iff_krullDim_ne_bot_and_top]
+  refine ⟨by rw [Ne, krullDim_eq_bot_iff, not_isEmpty_iff]; infer_instance, fun htop => ?_⟩
+  have hle := krullDim_le_of_strictMono f hf
+  rw [htop] at hle
+  exact krullDim_ne_top_of_finiteDimensionalOrder (top_le_iff.mp hle)
+
 end Order
 
 namespace Etingof
 
 variable {C : Type*} [Category C] [Abelian C]
+
+/-- **Image–pullback correspondence (intersection).** Pulling a subobject `P` back along a mono
+`f` and pushing it forward again recovers the intersection `P ⊓ mk f`, where `mk f` is the image
+of `f`. This is one half of the subobject correspondence used to prove length additivity. -/
+theorem map_pullback_obj_inf {X Y : C} (f : X ⟶ Y) [Mono f] (P : Subobject Y) :
+    (Subobject.map f).obj ((Subobject.pullback f).obj P) = P ⊓ Subobject.mk f := by
+  sorry
+
+/-- **Image–pullback correspondence (join).** For an arbitrary morphism `g`, the preimage under
+`g` of the image `g(P)` of a subobject `P` is `P` joined with the kernel of `g`. This is the
+other half of the subobject correspondence used to prove length additivity. -/
+theorem pullback_exists_obj_sup {X Y : C} (g : X ⟶ Y) (P : Subobject X) :
+    (Subobject.pullback g).obj ((Subobject.«exists» g).obj P) = P ⊔ kernelSubobject g := by
+  sorry
+
+/-- **Modularity of the subobject lattice.** The lattice of subobjects of an object in an abelian
+category is modular. Not currently in Mathlib; needed for the short-exact length-additivity
+step. -/
+theorem isModularLattice_subobject (X : C) : IsModularLattice (Subobject X) := by
+  sorry
+
+/-- Cancellation in a modular lattice: an element `Q` above `P` that agrees with `P` on both the
+meet and the join with a third element `K` equals `P`. This is the abstract heart of length
+additivity in a short exact sequence. -/
+private theorem eq_of_le_of_inf_eq_of_sup_eq {X : C} [IsModularLattice (Subobject X)]
+    {P Q K : Subobject X} (hPQ : P ≤ Q) (hinf : P ⊓ K = Q ⊓ K) (hsup : P ⊔ K = Q ⊔ K) :
+    P = Q := by
+  refine le_antisymm hPQ ?_
+  calc Q = Q ⊓ (Q ⊔ K) := inf_sup_self.symm
+    _ = Q ⊓ (P ⊔ K) := by rw [hsup]
+    _ ≤ Q ⊓ K ⊔ P := by rw [sup_comm P K]; exact inf_sup_le_assoc_of_le K hPQ
+    _ = P ⊓ K ⊔ P := by rw [hinf]
+    _ = P := by rw [sup_comm]; exact sup_inf_self
 
 /-- **The bridge (forward direction).** If `X` has finite length in the inductive sense
 (`Etingof.HasFiniteLength`), then its subobject lattice is finite dimensional as an order.
@@ -156,8 +201,38 @@ theorem finiteDimensionalOrder_subobject_of_hasFiniteLength {X : C}
       haveI : FiniteDimensionalOrder Bool := Order.finiteDimensionalOrder_of_finite Bool
       exact Order.finiteDimensionalOrder_of_orderIso IsSimpleOrder.orderIsoBool
   | @of_shortExact S hS h₁ h₃ ih₁ ih₃ =>
-      -- Length additivity in a short exact sequence, via a strictly monotone map into the
-      -- product `Subobject S.X₁ × Subobject S.X₃`. See issue #7643.
-      sorry
+      -- Length additivity in a short exact sequence `0 → X₁ → X₂ → X₃ → 0`, via the strictly
+      -- monotone measuring map `θ P = (f⁻¹P, g(P))` into the finite-dimensional product
+      -- `Subobject S.X₁ × Subobject S.X₃`. See issue #7643.
+      haveI := hS.mono_f
+      haveI := hS.epi_g
+      haveI := ih₁
+      haveI := ih₃
+      haveI : IsModularLattice (Subobject S.X₂) := isModularLattice_subobject S.X₂
+      haveI : FiniteDimensionalOrder (Subobject S.X₁ × Subobject S.X₃) :=
+        Order.finiteDimensionalOrder_prod
+      haveI : Nonempty (Subobject S.X₂) := ⟨⊥⟩
+      -- `K = im f = ker g` by exactness.
+      set K : Subobject S.X₂ := kernelSubobject S.g with hKdef
+      have hmkK : Subobject.mk S.f = K := by
+        rw [hKdef, ← imageSubobject_mono S.f, S.exact_iff_image_eq_kernel.mp hS.exact]
+      -- The measuring map and its (strict) monotonicity.
+      set θ : Subobject S.X₂ → Subobject S.X₁ × Subobject S.X₃ :=
+        fun P => ((Subobject.pullback S.f).obj P, (Subobject.«exists» S.g).obj P) with hθ
+      have hmono : Monotone θ := fun P Q h =>
+        ⟨leOfHom ((Subobject.pullback S.f).map (homOfLE h)),
+         leOfHom ((Subobject.«exists» S.g).map (homOfLE h))⟩
+      have hstrict : StrictMono θ := by
+        refine fun P Q hlt => lt_of_le_of_ne (hmono hlt.le) (fun heq => hlt.ne ?_)
+        rw [hθ, Prod.mk.injEq] at heq
+        obtain ⟨h1, h2⟩ := heq
+        have hinf : P ⊓ K = Q ⊓ K := by
+          have h1' := congrArg (Subobject.map S.f).obj h1
+          rwa [map_pullback_obj_inf, map_pullback_obj_inf, hmkK] at h1'
+        have hsup : P ⊔ K = Q ⊔ K := by
+          have h2' := congrArg (Subobject.pullback S.g).obj h2
+          rwa [pullback_exists_obj_sup, pullback_exists_obj_sup] at h2'
+        exact eq_of_le_of_inf_eq_of_sup_eq hlt.le hinf hsup
+      exact Order.finiteDimensionalOrder_of_strictMono hstrict
 
 end Etingof
