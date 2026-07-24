@@ -2,6 +2,9 @@ import EtingofRepresentationTheory.Chapter9.Introduction_9_6
 import Mathlib.CategoryTheory.Subobject.Lattice
 import Mathlib.CategoryTheory.Subobject.Limits
 import Mathlib.CategoryTheory.Abelian.Exact
+import Mathlib.CategoryTheory.Abelian.Refinements
+import Mathlib.CategoryTheory.Preadditive.Biproducts
+import Mathlib.Algebra.Homology.ShortComplex.Exact
 import Mathlib.Order.KrullDimension
 import Mathlib.Data.ENat.Basic
 
@@ -163,11 +166,97 @@ theorem pullback_exists_obj_sup {X Y : C} (g : X ⟶ Y) (P : Subobject X) :
     (Subobject.pullback g).obj ((Subobject.«exists» g).obj P) = P ⊔ kernelSubobject g := by
   sorry
 
+/-- **Epi-descent for subobject factoring.** If `π` is an epimorphism and `π ≫ a` factors through
+a subobject `T`, then `a` itself factors through `T`. (In an abelian category `T.arrow` is the
+kernel of its cokernel, so `a ≫ cokernel.π T.arrow = 0` lifts `a` through `T.arrow`.) -/
+private theorem factors_of_epi_comp {X : C} (T : Subobject X) {A' A : C} (π : A' ⟶ A) [Epi π]
+    {a : A ⟶ X} (h : T.Factors (π ≫ a)) : T.Factors a := by
+  have hc : T.factorThru (π ≫ a) h ≫ T.arrow = π ≫ a := T.factorThru_arrow _ _
+  have key : a ≫ cokernel.π T.arrow = 0 := by
+    rw [← cancel_epi π, comp_zero, ← Category.assoc, ← hc, Category.assoc, cokernel.condition,
+      comp_zero]
+  haveI : Mono (ShortComplex.cokernelSequence T.arrow).f := by
+    simpa only [ShortComplex.cokernelSequence_f] using (inferInstance : Mono T.arrow)
+  obtain ⟨d, hd⟩ := (ShortComplex.cokernelSequence_exact T.arrow).lift' a key
+  have hd' : d ≫ T.arrow = a := by simpa only [ShortComplex.cokernelSequence_f] using hd
+  exact hd' ▸ T.factors_comp_arrow d
+
+/-- **Join membership up to refinements.** If `a : A ⟶ X` factors through `P ⊔ Q`, then, after
+precomposing with a suitable epimorphism `π`, it decomposes as a sum of a morphism into `P` and a
+morphism into `Q`. This is the categorical replacement for "an element of `P + Q` is a sum `p + q`"
+used in the module-theoretic proof of the modular law. -/
+private theorem sup_factors_refinements {X : C} (P Q : Subobject X) {A : C} (a : A ⟶ X)
+    (h : (P ⊔ Q).Factors a) :
+    ∃ (A' : C) (π : A' ⟶ A) (_ : Epi π) (p : A' ⟶ (P : C)) (q : A' ⟶ (Q : C)),
+      π ≫ a = p ≫ P.arrow + q ≫ Q.arrow := by
+  set d : ((P : C) ⊞ (Q : C)) ⟶ X := biprod.desc P.arrow Q.arrow with hd
+  -- `P ⊔ Q` is the image of `d = biprod.desc P.arrow Q.arrow`.
+  have hPQ : (P ⊔ Q : Subobject X) = imageSubobject d := by
+    set fP : (P : C) ⟶ (P ⊔ Q : Subobject X) :=
+      (P ⊔ Q).factorThru P.arrow (Subobject.sup_factors_of_factors_left P.factors_self) with hfP
+    set fQ : (Q : C) ⟶ (P ⊔ Q : Subobject X) :=
+      (P ⊔ Q).factorThru Q.arrow (Subobject.sup_factors_of_factors_right Q.factors_self) with hfQ
+    refine le_antisymm (sup_le ?_ ?_) (imageSubobject_le d (biprod.desc fP fQ) ?_)
+    · refine Subobject.le_of_factors ?_
+      have hPd : biprod.inl ≫ d = P.arrow := by rw [hd, biprod.inl_desc]
+      rw [← hPd]
+      exact imageSubobject_factors_comp_self d biprod.inl
+    · refine Subobject.le_of_factors ?_
+      have hQd : biprod.inr ≫ d = Q.arrow := by rw [hd, biprod.inr_desc]
+      rw [← hQd]
+      exact imageSubobject_factors_comp_self d biprod.inr
+    · apply biprod.hom_ext'
+      · simp only [hfP, biprod.inl_desc_assoc, Subobject.factorThru_arrow, hd, biprod.inl_desc]
+      · simp only [hfQ, biprod.inr_desc_assoc, Subobject.factorThru_arrow, hd, biprod.inr_desc]
+  -- Lift `a` through the epimorphism `factorThruImageSubobject d` onto the biproduct.
+  set b : A ⟶ (imageSubobject d : C) := (imageSubobject d).factorThru a (hPQ ▸ h) with hb
+  have hbfac : b ≫ (imageSubobject d).arrow = a := Subobject.factorThru_arrow _ _ _
+  obtain ⟨A', π, hπ, w, hw⟩ :=
+    surjective_up_to_refinements_of_epi (factorThruImageSubobject d) b
+  refine ⟨A', π, hπ, w ≫ biprod.fst, w ≫ biprod.snd, ?_⟩
+  have hπa : π ≫ a = w ≫ d :=
+    calc π ≫ a = π ≫ b ≫ (imageSubobject d).arrow := by rw [hbfac]
+      _ = (w ≫ factorThruImageSubobject d) ≫ (imageSubobject d).arrow := by
+          rw [← Category.assoc, hw]
+      _ = w ≫ d := by rw [Category.assoc, imageSubobject_arrow_comp]
+  rw [hπa, hd, biprod.desc_eq, Preadditive.comp_add]
+  simp only [Category.assoc]
+
 /-- **Modularity of the subobject lattice.** The lattice of subobjects of an object in an abelian
 category is modular. Not currently in Mathlib; needed for the short-exact length-additivity
 step. -/
-theorem isModularLattice_subobject (X : C) : IsModularLattice (Subobject X) := by
-  sorry
+theorem isModularLattice_subobject (X : C) : IsModularLattice (Subobject X) where
+  sup_inf_le_assoc_of_le := by
+    intro P Q R hPR
+    -- Reduce `(P ⊔ Q) ⊓ R ≤ P ⊔ Q ⊓ R` to a factoring statement for the intersection arrow.
+    refine Subobject.le_of_factors ?_
+    have haPQ : (P ⊔ Q).Factors ((P ⊔ Q) ⊓ R).arrow := Subobject.inf_arrow_factors_left _ _
+    have haR : R.Factors ((P ⊔ Q) ⊓ R).arrow := Subobject.inf_arrow_factors_right _ _
+    obtain ⟨A', π, hπ, p, q, hpq⟩ := sup_factors_refinements P Q _ haPQ
+    haveI := hπ
+    -- `P ≤ R`, so `P.arrow` factors through `R`.
+    have hPR' : R.Factors P.arrow := Subobject.factors_of_le P.arrow hPR P.factors_self
+    -- `q ≫ Q.arrow = (π ≫ a) - (p ≫ P.arrow)` factors through `R` (both summands do).
+    have hqQ_R : R.Factors (q ≫ Q.arrow) := by
+      have haRf : R.factorThru _ haR ≫ R.arrow = ((P ⊔ Q) ⊓ R).arrow :=
+        Subobject.factorThru_arrow _ _ _
+      have hPRf : R.factorThru P.arrow hPR' ≫ R.arrow = P.arrow := Subobject.factorThru_arrow _ _ _
+      have hwR : (π ≫ R.factorThru _ haR - p ≫ R.factorThru P.arrow hPR') ≫ R.arrow
+          = q ≫ Q.arrow := by
+        rw [Preadditive.sub_comp, Category.assoc, Category.assoc, haRf, hPRf, hpq]
+        abel
+      exact hwR ▸ Subobject.factors_comp_arrow _
+    -- `q ≫ Q.arrow` factors through `Q` and through `R`, hence through `Q ⊓ R`.
+    have hqQR : (Q ⊓ R).Factors (q ≫ Q.arrow) :=
+      (Subobject.inf_factors _).2 ⟨Subobject.factors_comp_arrow q, hqQ_R⟩
+    -- Assemble: `π ≫ a = (p ≫ P.arrow) + (q ≫ Q.arrow)` factors through `P ⊔ Q ⊓ R`.
+    have hstep : (P ⊔ Q ⊓ R).Factors (π ≫ ((P ⊔ Q) ⊓ R).arrow) := by
+      rw [hpq]
+      exact Subobject.factors_add _ _
+        (Subobject.sup_factors_of_factors_left (Subobject.factors_comp_arrow p))
+        (Subobject.sup_factors_of_factors_right hqQR)
+    -- Descend through the epimorphism `π`.
+    exact factors_of_epi_comp _ π hstep
 
 /-- Cancellation in a modular lattice: an element `Q` above `P` that agrees with `P` on both the
 meet and the join with a third element `K` equals `P`. This is the abstract heart of length
