@@ -159,12 +159,93 @@ theorem map_pullback_obj_inf {X Y : C} (f : X ⟶ Y) [Mono f] (P : Subobject Y) 
   rw [inf_comm, Subobject.inf_def]
   exact (Subobject.inf_eq_map_pullback' (MonoOver.mk f) P).symm
 
+/-- A subobject `Q` lies below `S` as soon as `Q.arrow` becomes zero after composing with the
+cokernel projection of `S.arrow`: in an abelian category `S.arrow` is the kernel of its own
+cokernel, so `Q.arrow` factors through `S.arrow`. -/
+private theorem le_of_arrow_comp_cokernel {X : C} (Q S : Subobject X)
+    (h : Q.arrow ≫ cokernel.π S.arrow = 0) : Q ≤ S :=
+  Subobject.le_of_comm (Abelian.monoLift S.arrow Q.arrow h) (Abelian.monoLift_comp _ _ _)
+
 /-- **Image–pullback correspondence (join).** For an arbitrary morphism `g`, the preimage under
 `g` of the image `g(P)` of a subobject `P` is `P` joined with the kernel of `g`. This is the
 other half of the subobject correspondence used to prove length additivity. -/
 theorem pullback_exists_obj_sup {X Y : C} (g : X ⟶ Y) (P : Subobject X) :
     (Subobject.pullback g).obj ((Subobject.«exists» g).obj P) = P ⊔ kernelSubobject g := by
-  sorry
+  refine le_antisymm ?_ ?_
+  · -- `pullback g (∃_g P) ≤ P ⊔ ker g`.  We show `Q.arrow ≫ cokernel.π S.arrow = 0`.
+    set Q := (Subobject.pullback g).obj ((Subobject.«exists» g).obj P) with hQ
+    set S := P ⊔ kernelSubobject g with hS
+    -- Epi–mono factorisation `g = e ≫ image.ι g`.
+    set e := Limits.factorThruImage g with he
+    have hgfac : e ≫ Limits.image.ι g = g := Limits.image.fac g
+    -- `(ker g).arrow` and `kernel.ι e` both die against `cokernel.π S.arrow`.
+    have hKc : (kernelSubobject g).arrow ≫ cokernel.π S.arrow = 0 := by
+      rw [← Subobject.ofLE_arrow (le_sup_right : kernelSubobject g ≤ S), Category.assoc,
+        cokernel.condition, comp_zero]
+    have hkerc : Limits.kernel.ι e ≫ cokernel.π S.arrow = 0 := by
+      have hkeg : Limits.kernel.ι e ≫ g = 0 := by
+        calc Limits.kernel.ι e ≫ g
+            = (Limits.kernel.ι e ≫ e) ≫ Limits.image.ι g := by rw [Category.assoc, hgfac]
+          _ = 0 := by rw [Limits.kernel.condition, zero_comp]
+      have hfac := kernelSubobject_factors g (Limits.kernel.ι e) hkeg
+      rw [← Subobject.factorThru_arrow (kernelSubobject g) (Limits.kernel.ι e) hfac,
+        Category.assoc, hKc, comp_zero]
+    -- `c̄ : image g ⟶ cokernel S.arrow` with `e ≫ c̄ = cokernel.π S.arrow`.
+    set cbar := Abelian.epiDesc e (cokernel.π S.arrow) hkerc with hcbar
+    have hecbar : e ≫ cbar = cokernel.π S.arrow := Abelian.comp_epiDesc e _ hkerc
+    -- `v : ∃_g P ⟶ image g` with `v ≫ image.ι g = (∃_g P).arrow`.
+    let F' : Limits.MonoFactorisation (P.arrow ≫ g) :=
+      { I := Limits.image g
+        m := Limits.image.ι g
+        e := P.arrow ≫ e
+        fac := by rw [Category.assoc, hgfac] }
+    set v := (Subobject.imageFactorisation g P).isImage.lift F' with hvdef
+    have hv : v ≫ Limits.image.ι g = ((Subobject.«exists» g).obj P).arrow := by
+      have h := (Subobject.imageFactorisation g P).isImage.lift_fac F'
+      rw [Subobject.imageFactorisation_F_m] at h
+      exact h
+    -- The image factorisation of `P.arrow ≫ g` through `∃_g P`, with `F.e` a (strong) epi.
+    set fe := (Subobject.imageFactorisation g P).F.e with hfe
+    have hfefac : fe ≫ ((Subobject.«exists» g).obj P).arrow = P.arrow ≫ g := by
+      have h := (Subobject.imageFactorisation g P).F.fac
+      rw [Subobject.imageFactorisation_F_m] at h
+      exact h
+    haveI : Epi fe := by
+      rw [hfe]
+      haveI : StrongEpi ((Subobject.imageFactorisation g P).F.e) :=
+        Limits.strongEpi_of_strongEpiMonoFactorisation
+          (Classical.choice (Limits.HasStrongEpiMonoFactorisations.has_fac (P.arrow ≫ g)))
+          (Subobject.imageFactorisation g P).isImage
+      infer_instance
+    -- `v ≫ c̄ = 0`: precomposing with the epi `fe` gives `P.arrow ≫ (e ≫ c̄) = P.arrow ≫ π = 0`.
+    have hfev : fe ≫ v = P.arrow ≫ e := by
+      rw [← cancel_mono (Limits.image.ι g), Category.assoc, hv, hfefac, Category.assoc, hgfac]
+    have hvc : v ≫ cbar = 0 := by
+      rw [← cancel_epi fe, comp_zero, ← Category.assoc, hfev, Category.assoc, hecbar,
+        ← Subobject.ofLE_arrow (le_sup_left : P ≤ S), Category.assoc, cokernel.condition,
+        comp_zero]
+    -- Assemble `Q.arrow ≫ cokernel.π S.arrow = 0` using `Q.arrow ≫ e = w ≫ v`.
+    refine le_of_arrow_comp_cokernel Q S ?_
+    set w := Subobject.pullbackπ g ((Subobject.«exists» g).obj P) with hw
+    have hwsq : w ≫ ((Subobject.«exists» g).obj P).arrow = Q.arrow ≫ g :=
+      (Subobject.isPullback g ((Subobject.«exists» g).obj P)).w
+    have hQe : Q.arrow ≫ e = w ≫ v := by
+      rw [← cancel_mono (Limits.image.ι g), Category.assoc, Category.assoc, hv, hwsq, hgfac]
+    calc Q.arrow ≫ cokernel.π S.arrow
+        = Q.arrow ≫ e ≫ cbar := by rw [hecbar]
+      _ = (Q.arrow ≫ e) ≫ cbar := by rw [Category.assoc]
+      _ = (w ≫ v) ≫ cbar := by rw [hQe]
+      _ = w ≫ v ≫ cbar := by rw [Category.assoc]
+      _ = w ≫ 0 := by rw [hvc]
+      _ = 0 := comp_zero
+  · -- `P ⊔ ker g ≤ pullback g (∃_g P)`.
+    refine sup_le ?_ ?_
+    · exact leOfHom ((Subobject.existsPullbackAdj g).unit.app P)
+    · refine Subobject.le_of_comm
+        ((Subobject.isPullback g ((Subobject.«exists» g).obj P)).lift 0
+          (kernelSubobject g).arrow ?_) ?_
+      · rw [zero_comp, kernelSubobject_arrow_comp]
+      · exact (Subobject.isPullback g ((Subobject.«exists» g).obj P)).lift_snd _ _ _
 
 /-- **Epi-descent for subobject factoring.** If `π` is an epimorphism and `π ≫ a` factors through
 a subobject `T`, then `a` itself factors through `T`. (In an abelian category `T.arrow` is the
