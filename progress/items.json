@@ -3250,13 +3250,12 @@
     "start_line": 21,
     "end_line": 2,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_decl": "Etingof.Example4_3_FiniteAbelianGroups",
-    "fidelity_note": "The one-dimensionality of irreducible representations is proved. The source's character-group product duality, noncanonical G ≅ G∨, and canonical evaluation isomorphism G ≅ (G∨)∨ are absent; follow-up #7412.",
-    "fidelity_issue": 7412,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "The one-dimensionality of irreducible representations is proved (Etingof.Example4_3_FiniteAbelianGroups). The dual-group half of Example 4.3(1) is now formalized with G∨ = G →* ℂˣ (Etingof.CharacterGroup): product duality (characterGroupProdEquiv, characterGroupPiEquiv), noncanonical G ≅ G∨ (nonempty_mulEquiv_characterGroup), and the canonical evaluation double-dual isomorphism G ≅ (G∨)∨ with φ(g)(χ)=χ(g) (characterDoubleDualEquiv, characterDoubleDualEquiv_apply_apply), via Mathlib finite-abelian duality over ℂ. Closes #7412.",
+    "last_updated": "2026-07-24"
   },
   {
     "id": "Chapter4/Example4.3_S3",
