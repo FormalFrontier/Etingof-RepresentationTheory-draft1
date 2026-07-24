@@ -5145,13 +5145,12 @@
     "end_page": "109",
     "start_line": 5,
     "end_line": 10,
-    "status": "partially_proved",
+    "status": "proved",
     "sorry_free": true,
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_issue": 7559,
-    "coverage_note": "The averaged all-G Frobenius formula is proved, but the theorem in the source is the right-coset-representative formula; no public declaration states it or proves the docstring's claimed equivalence (#7559).",
-    "last_updated": "2026-07-22"
+    "fidelity": "full",
+    "coverage": "covered",
+    "coverage_note": "[resolved #7559] EtingofRepresentationTheory/Chapter5/Theorem5_9_1_Coset.lean now provides Etingof.Theorem5_9_1_coset, stating the Frobenius formula in the source's sum-over-right-cosets form χ(g) = Σ_{σ ∈ H\\G : x_σ g x_σ⁻¹ ∈ H} χ_V(x_σ g x_σ⁻¹) (representatives x_σ = σ.out), and proves it equal to the averaged form Etingof.Theorem5_9_1 via the coset-counting bridge Etingof.frobenius_coset_bridge. Representative-independence is proved: Etingof.frobeniusSummand_smul_left (the summand is H-left-invariant) and Etingof.frobeniusSummand_congr (the summand depends only on the right H-coset). sorry-free.",
+    "last_updated": "2026-07-24"
   },
   {
     "id": "Chapter5/Remark5.9.2",
