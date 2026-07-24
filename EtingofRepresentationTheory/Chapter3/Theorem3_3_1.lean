@@ -7,6 +7,7 @@ import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Algebra.DirectSum.Module
 import Mathlib.LinearAlgebra.Dual.Lemmas
 import Mathlib.LinearAlgebra.Matrix.Trace
+import EtingofRepresentationTheory.Chapter3.Proposition3_1_4
 
 /-!
 # Theorem 3.3.1: Irreducible Representations of Direct Sums of Matrix Algebras
@@ -318,6 +319,49 @@ noncomputable def regularDecomp :
 @[simp] theorem regularDecomp_apply (M : MatProd k d) (i : Fin r) (c j : Fin (d i)) :
     regularDecomp M i c j = M i j c := rfl
 
+/-! ### Free-module decomposition `Aⁿ ≅ ⊕ᵢ (n·dᵢ) Vᵢ`
+
+Stacking `n` copies of `A = ⊕ᵢ dᵢ Vᵢ` gives `Aⁿ = ⊕ᵢ (n·dᵢ) Vᵢ`. The `(n·dᵢ)` copies of
+`Vᵢ = k^{dᵢ}` are indexed by pairs `(l, c)` with `l : Fin n` (which copy of `A`) and
+`c : Fin dᵢ` (which column of the `i`-th matrix factor), packaged into `Fin (n·dᵢ) → Vᵢ`
+via `finProdFinEquiv : Fin n × Fin dᵢ ≃ Fin (n·dᵢ)`. This is the `Aⁿ` side of the book's
+`Aⁿ = ⊕ᵢ n dᵢ Vᵢ` step in the proof of Theorem 3.3.1. -/
+
+/-- The `i`-th block of the free-module decomposition of `Aⁿ`: the `(n·dᵢ)` columns of the
+`n` stacked `i`-th matrix factors, packaged into `Fin (n·dᵢ) → Vᵢ`. `A`-linear as a
+composition of the columnwise `colVec` and the coordinate projection `Aⁿ → A`. -/
+def freeColMap (n : ℕ) (i : Fin r) :
+    (Fin n → MatProd k d) →ₗ[MatProd k d] (Fin (n * d i) → (Fin (d i) → k)) :=
+  LinearMap.pi fun m =>
+    (colVec i (finProdFinEquiv.symm m).2).comp (LinearMap.proj (finProdFinEquiv.symm m).1)
+
+@[simp] theorem freeColMap_apply (n : ℕ) (i : Fin r) (M : Fin n → MatProd k d)
+    (m : Fin (n * d i)) (j : Fin (d i)) :
+    freeColMap n i M m j =
+      M (finProdFinEquiv.symm m).1 i j (finProdFinEquiv.symm m).2 := rfl
+
+/-- **Free-module decomposition** (`Aⁿ ≅ ⊕ᵢ (n·dᵢ) Vᵢ`). The free module `Aⁿ = Fin n → A`
+over `A = ⊕ᵢ Mat_{dᵢ}(k)` is isomorphic to `⊕ᵢ (n·dᵢ) Vᵢ`, realized as the direct sum
+`⨁ i, (Fin (n·dᵢ) → Vᵢ)`. The isomorphism sends `M : Fin n → A` to its columns, grouped by
+matrix factor `i` and reindexed by `finProdFinEquiv`. As with `regularDecomp`, the direct-sum
+target matches the ambient of `Etingof.subrepresentation_of_semisimple` and avoids the
+`Pi.module'` diamond. -/
+noncomputable def freeModuleDecomp (n : ℕ) :
+    (Fin n → MatProd k d) ≃ₗ[MatProd k d] (⨁ i, (Fin (n * d i) → (Fin (d i) → k))) :=
+  (LinearEquiv.ofBijective (LinearMap.pi fun i => freeColMap n i)
+      (Function.bijective_iff_has_inverse.mpr
+        ⟨fun w l i => Matrix.of fun j c => w i (finProdFinEquiv (l, c)) j,
+          fun M => by
+            funext l i j c
+            simp only [LinearMap.pi_apply, freeColMap_apply, Matrix.of_apply,
+              Equiv.symm_apply_apply],
+          fun w => by
+            funext i m j
+            simp only [LinearMap.pi_apply, freeColMap_apply, Matrix.of_apply, Prod.mk.eta,
+              Equiv.apply_symm_apply]⟩)).trans
+    (DirectSum.linearEquivFunOnFintype (MatProd k d) (Fin r)
+       (fun i => Fin (n * d i) → (Fin (d i) → k))).symm
+
 end Product
 
 /-! ## Transpose self-duality and the dual-of-surjection bridge
@@ -626,5 +670,89 @@ noncomputable def toDualEmbedding :
 theorem toDualEmbedding_injective : Function.Injective (toDualEmbedding (k := k) (d := d) X) := by
   rw [toDualEmbedding, LinearMap.coe_comp]
   exact (twistedDualMap_injective (toDualHom_surjective _)).comp (twistedEvalEquiv X).injective
+
+/-! ## Assembling the dual route: `X ≅ ⊕ᵢ mᵢ Vᵢ`
+
+The remaining ingredients of the book's proof of Theorem 3.3.1. First `(Aⁿ)* ≅ Aⁿ`: the
+`k`-dual of the free module `Aⁿ`, with the transpose-twisted action, is `A`-linearly
+isomorphic to `Aⁿ` (this is the step "`A^{n*} ≅ A^n` (check it!)"). Then, transporting the
+injection `X ↪ (Aⁿ)*` across `(Aⁿ)* ≅ Aⁿ ≅ ⊕ᵢ (n·dᵢ) Vᵢ` and applying Proposition 3.1.4,
+`X ≅ ⊕ᵢ mᵢ Vᵢ`. -/
+
+/-- **`(Aⁿ)* ≅ ∏ⁿ A*` as `A`-modules.** The `k`-dual of the free module `Aⁿ = Fin n → A`,
+with the transpose-twisted `A`-action, is `A`-linearly isomorphic to the product of `n`
+copies of the twisted dual `A*`, via `f ↦ (l ↦ f ∘ singleₗ)` (the diagonal `A`-action on
+`Aⁿ` restricts to each `singleₗ` copy of `A`). -/
+noncomputable def dualPiEquiv (n : ℕ) :
+    Module.Dual k (Fin n → MatProd k d) ≃ₗ[MatProd k d]
+      (Fin n → Module.Dual k (MatProd k d)) where
+  toFun f l := f ∘ₗ LinearMap.single k (fun _ : Fin n => MatProd k d) l
+  map_add' f g := by funext l; ext b; simp
+  map_smul' a f := by
+    funext l
+    refine LinearMap.ext fun b => ?_
+    show f ((matProdTransposeSelfDuality d a).unop
+              • LinearMap.single k (fun _ : Fin n => MatProd k d) l b)
+       = f (LinearMap.single k (fun _ : Fin n => MatProd k d) l
+              ((matProdTransposeSelfDuality d a).unop • b))
+    congr 1
+    funext l'
+    simp only [LinearMap.single_apply, Pi.single_apply, Pi.smul_apply]
+    by_cases h : l' = l <;> simp [h, smul_zero]
+  invFun g := ∑ l, (g l) ∘ₗ LinearMap.proj l
+  left_inv f := by
+    refine LinearMap.ext fun x => ?_
+    simp only [LinearMap.coeFn_sum, Finset.sum_apply, LinearMap.comp_apply, LinearMap.proj_apply,
+      LinearMap.single_apply]
+    rw [← map_sum]
+    congr 1
+    exact Finset.univ_sum_single x
+  right_inv g := by
+    funext l
+    refine LinearMap.ext fun b => ?_
+    simp only [LinearMap.comp_apply, LinearMap.single_apply, LinearMap.coeFn_sum,
+      Finset.sum_apply, LinearMap.proj_apply]
+    rw [Finset.sum_eq_single l]
+    · simp [Pi.single_apply]
+    · intro l' _ hl'; simp [Pi.single_apply, Ne.symm hl']
+    · intro h; exact absurd (Finset.mem_univ l) h
+
+/-- **`(Aⁿ)* ≅ Aⁿ` as `A`-modules** — the step "`A^{n*} ≅ A^n` (check it!)" of the book's
+proof of Theorem 3.3.1. Split the dual of the free module into `n` copies of `A*`
+(`dualPiEquiv`), then apply the regular self-duality `A* ≅ A` (`matProdSelfDual`) on each. -/
+noncomputable def dualPowSelfDual (n : ℕ) :
+    Module.Dual k (Fin n → MatProd k d) ≃ₗ[MatProd k d] (Fin n → MatProd k d) :=
+  (dualPiEquiv n).trans
+    (LinearEquiv.piCongrRight fun _ : Fin n => (matProdSelfDual (k := k) (d := d)).symm)
+
+variable [∀ i, NeZero (d i)]
+
+/-- The standard representation `Vⱼ = k^{dⱼ}` as an `A`-module, needed to phrase the
+conclusion of the dual route in the `DualRoute` section (the `Product`-section instance
+`vModuleProd` is out of scope here). Definitionally equal to it. -/
+local instance vModuleProdDual (j : Fin r) : Module (MatProd k d) (Fin (d j) → k) :=
+  Module.compHom _ (Pi.evalRingHom (fun i => Matrix (Fin (d i)) (Fin (d i)) k) j)
+
+/-- **Theorem 3.3.1, dual route: `X ≅ ⊕ᵢ mᵢ Vᵢ`.** Any finite-dimensional representation
+`X` of `A = ⊕ᵢ Mat_{dᵢ}(k)` is a direct sum of copies of the standard representations
+`Vᵢ = k^{dᵢ}`. This is the end-to-end conclusion of the book's dual-route proof: dualize the
+surjection `Aⁿ ↠ X*` (`n = dim_k X*`) to the injection `X ↪ (Aⁿ)*`, transport across
+`(Aⁿ)* ≅ Aⁿ ≅ ⊕ᵢ (n·dᵢ) Vᵢ`, and apply Proposition 3.1.4 to the image subrepresentation. -/
+theorem exists_iso_directSum_of_matrixProd :
+    ∃ m : Fin r → ℕ,
+      Nonempty (X ≃ₗ[MatProd k d] ⨁ i, (Fin (m i) → (Fin (d i) → k))) := by
+  haveI : ∀ i, IsSimpleModule (MatProd k d) (Fin (d i) → k) := isSimpleModule_vModuleProd
+  -- `(Aⁿ)* ≅ Aⁿ ≅ ⊕ᵢ (n·dᵢ) Vᵢ`, with `n = dim_k X*`.
+  let e := (dualPowSelfDual (k := k) (d := d) (Module.finrank k (Module.Dual k X))).trans
+    (freeModuleDecomp (Module.finrank k (Module.Dual k X)))
+  -- The injection `X ↪ ⊕ᵢ (n·dᵢ) Vᵢ`.
+  let F := e.toLinearMap.comp (toDualEmbedding X)
+  have hF : Function.Injective F := e.injective.comp (toDualEmbedding_injective X)
+  -- Its image is a subrepresentation of `⊕ᵢ (n·dᵢ) Vᵢ`; apply Proposition 3.1.4.
+  obtain ⟨m, -, ⟨φ⟩⟩ := Etingof.subrepresentation_of_semisimple
+    (V := fun i => Fin (d i) → k)
+    (fun i => Module.finrank k (Module.Dual k X) * d i)
+    (fun ⦃i j⦄ h => vModuleProd_iso_imp_eq h) (LinearMap.range F)
+  exact ⟨m, ⟨(LinearEquiv.ofInjective F hF).trans φ⟩⟩
 
 end DualRoute
