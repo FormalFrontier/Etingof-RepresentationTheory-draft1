@@ -6754,3 +6754,27 @@ whole obligation and cut 126 lines out of three existing proofs in `Problem2_16_
   massage `h` into shape with `abel`.
 - Index arithmetic from a Leibniz-style recursion leaves `aElt k n (4 + 1)` where lemmas say
   `aElt k n 5`. Normalise with `simp only [Nat.reduceAdd, …]` before rewriting.
+
+## Assembling this project's `Nonempty (X ≃+ Y)` results into a bigger equivalence (#7737)
+
+Every `Tor`/`Ext` computation here is stated as `Nonempty (… ≃+ …)` (`Problem_8_2_6_i_ext`,
+`Problem_8_2_7_i_ext_one`, …). That is fine to *consume* in a `Prop` goal, but the moment you build
+a composite equivalence with `refine ⟨(…).trans (AddEquiv.piCongrRight fun i => ?_)⟩`, the remaining
+goals are **data** (`_ ≃+ _`, not `Nonempty _`), and `obtain ⟨e⟩ := someNonemptyResult` fails with
+
+```
+Tactic `induction` failed: recursor `Nonempty.casesOn` can only eliminate into `Prop`
+```
+
+Use `Nonempty.some` instead — `exact (Problem_8_2_7_i_ext_one_cyclic a c ha).some` — or hoist the
+`obtain` above the `refine` while the goal is still the `Nonempty`. Same shape as the "cannot
+eliminate an `Or` into a `Homotopy`" trap above. This bites once per summand in any
+decomposition-and-reassemble proof, so expect it throughout the Problem 8.2.7 `Tor` half too.
+
+**Companion trap: a helper stated over `[AddCommGroup Z]` alone will not apply to a `ModuleCat ℤ`
+object.** Writing `(ℤ →ₗ[ℤ] Z) ≃+ Z` with only `[AddCommGroup Z]` bakes in
+`AddCommGroup.toIntModule Z`, while `↑(Z : ModuleCat ℤ)` carries `Z.isModule`; they are
+propositionally but not definitionally equal, and you get an application type mismatch naming both.
+Always take `[Module ℤ Z]` (or `[Module A Z]`) explicitly in helpers destined for `ModuleCat`
+consumers — `Etingof.homSelfAddEquiv` in `Chapter8/Problem8_2_7_ExtFG.lean` is the fixed form.
+Cheaper than the element-level `conv` bridging described earlier.
