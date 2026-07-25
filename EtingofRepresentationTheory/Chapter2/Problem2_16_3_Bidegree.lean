@@ -1,5 +1,6 @@
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Grading
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Layers
+import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Tower
 
 /-!
 # Bidegrees of the Chapter 2 vocabulary for `𝔤₄`
@@ -268,20 +269,20 @@ theorem gDeg_le_span_singleton_of_topDefect_eq_zero (h2 : (2 : k) ≠ 0) (h3 : (
 If the imaginary bidegree component `(2m+2, 4m+4)` of `𝔤₄` is spanned by `D (evenTower k m)`
 alone, then the layer defect at `m` vanishes: the defect lies in that component, so it is a
 multiple `λ • D (evenTower k m)`; bracketing with `x̄` sends the defect to `0` (it is central)
-and `D (evenTower k m)` to the next odd top, so `λ = 0`.
+and `D (evenTower k m)` to the next odd top, which is nonzero by `topOdd_ne_zero`, so `λ = 0`.
 
 Together with `gDeg_le_span_singleton_of_topDefect_eq_zero` this identifies the Gabber–Kac
 statement for `A₂⁽²⁾` with the sharpening of the unconditional bound `gDeg_imaginary_le` from
 two generators to one. -/
 theorem topDefect_eq_zero_of_gDeg_le (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
-    (m : ℕ) (hdim : gDeg k 4 (2 * m + 2, 4 * m + 4) ≤ Submodule.span k {dY k 1 (evenTower k m)})
-    (hne : topOdd k (m + 1) ≠ 0) : topDefect k m = 0 := by
+    (m : ℕ) (hdim : gDeg k 4 (2 * m + 2, 4 * m + 4) ≤ Submodule.span k {dY k 1 (evenTower k m)}) :
+    topDefect k m = 0 := by
   obtain ⟨lam, hlam⟩ := Submodule.mem_span_singleton.1 (hdim (topDefect_mem_gDeg k m))
   have h0 : ⁅aElt k 4 0, topDefect k m⁆ = 0 := central_topDefect h2 h3 h5 m _
   rw [← hlam, lie_smul, lie_zero_dY_one_evenTower h2 h3 h5 m] at h0
   rcases smul_eq_zero.1 h0 with hz | hz
   · rw [← hlam, hz, zero_smul]
-  · exact absurd hz hne
+  · exact absurd hz (topOdd_ne_zero h2 h3 (m + 1))
 
 end Imaginary
 
