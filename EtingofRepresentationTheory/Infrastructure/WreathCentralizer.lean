@@ -58,6 +58,18 @@ abbrev WreathBlock (β : Type*) (m : ℕ) : Type _ :=
   SemidirectProduct (β → Multiplicative (ZMod m)) (Perm β)
     (coordAut β (Multiplicative (ZMod m)))
 
+/-- Reindexing the cycles of a fixed length by an equivalent type. -/
+def wreathBlockCongr {β γ : Type*} (e : β ≃ γ) (m : ℕ) : WreathBlock β m ≃* WreathBlock γ m where
+  toFun w := ⟨fun c => w.left (e.symm c), e.permCongr w.right⟩
+  invFun w := ⟨fun b => w.left (e b), e.symm.permCongr w.right⟩
+  left_inv w := SemidirectProduct.ext (funext fun _ => by simp) (Equiv.ext fun _ => by simp)
+  right_inv w := SemidirectProduct.ext (funext fun _ => by simp) (Equiv.ext fun _ => by simp)
+  map_mul' w₁ w₂ :=
+    SemidirectProduct.ext
+      (funext fun c => by
+        simp [SemidirectProduct.mul_left, Equiv.permCongr_def])
+      (Equiv.ext fun c => by simp [SemidirectProduct.mul_right])
+
 variable (β : ℕ → Type*)
 
 /-- The standard set on which a permutation with `β m` cycles of length `m` acts: a disjoint
