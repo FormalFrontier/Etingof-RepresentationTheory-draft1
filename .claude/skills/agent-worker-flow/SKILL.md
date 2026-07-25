@@ -439,6 +439,21 @@ agent. Leave the PR alone after `create-pr`; the next planning cycle's merge swe
 checks `statusCheckRollup` before merging. (2026-07-25: PR #7725 merged 24s after
 creation, both `build` checks still running.)
 
+**This rule overrides the project `.claude/CLAUDE.md`, which still says to run
+`gh pr merge "$PR_NUM" --auto --squash` right after `create-pr`.** That file is
+off-limits to agents, so the contradiction cannot be fixed at the source — when the
+two disagree, follow this skill. (2026-07-25: an agent that had read CLAUDE.md's PR
+workflow section ran the command on its own PR #7744 *and* on another session's #7743,
+merging both with `build` still `IN_PROGRESS`.)
+
+**The merge sweep in CLAUDE.md has the same hazard: its jq filter is
+`all(.conclusion != "FAILURE" and .conclusion != "CANCELLED")`, which is vacuously
+true for a PR whose checks are still queued or running (`conclusion` is empty), and
+also true for a PR with no checks at all.** Before merging anything in the sweep,
+require every check to have *completed successfully* — e.g. select on
+`(.statusCheckRollup | length > 0 and all(.conclusion == "SUCCESS"))`, or just read
+`gh pr checks <N>` and skip anything `pending`. "Not failing" is not "passing".
+
 **Once the PR is created, exit.** Do not poll CI, wait for the merge, or
 otherwise spin on the PR. Another session will pick up any follow-up work
 (e.g. a "fix PR #N" issue if CI fails). Polling burns context and tokens
