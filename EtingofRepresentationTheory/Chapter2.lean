@@ -64,6 +64,7 @@ import EtingofRepresentationTheory.Chapter2.Problem2_7_4
 import EtingofRepresentationTheory.Chapter2.Problem2_7_4_Family
 import EtingofRepresentationTheory.Chapter2.Problem2_7_5
 import EtingofRepresentationTheory.Chapter2.Problem2_7_5_Family
+import EtingofRepresentationTheory.Chapter2.Problem2_7_5_FamilySimple
 
 -- Section 2.8: Quivers
 import EtingofRepresentationTheory.Chapter2.Definition2_8_1
