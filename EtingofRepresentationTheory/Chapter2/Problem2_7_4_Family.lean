@@ -38,8 +38,12 @@ exactly once.
   `Xᵖ = α·1`, `Yᵖ = cᵖ·1`.
 * `Etingof.Problem2_7_4.exists_unique_pow_char` — every central character `(α, β)` is `(α, cᵖ)`
   for a unique `c`.
+* `Etingof.Problem2_7_4.FamEquiv` — the type of `WeylAlgebra k`-linear equivalences
+  `V(α,c) ≃ V(α',c')`.
+* `Etingof.Problem2_7_4.famEquiv_nonempty_iff` — the isomorphism criterion
+  `V(α,c) ≅ V(α',c') ↔ α = α' ∧ c = c'`, so the family lists each isomorphism class at most once.
 
-Irreducibility of `V(α,c)`, the isomorphism criterion, and exhaustiveness are follow-up work.
+Irreducibility of `V(α,c)` and exhaustiveness are follow-up work.
 -/
 
 namespace Etingof.Problem2_7_4
@@ -301,6 +305,80 @@ theorem exists_unique_pow_char [IsAlgClosed k] (β : k) : ∃! c : k, c ^ p = β
     rw [sub_pow_char, hd, hc, sub_self]
   have hdc : d - c = 0 := pow_eq_zero_iff (n := p) (Fact.out : p.Prime).ne_zero |>.mp this
   exact sub_eq_zero.mp hdc
+
+/-- Frobenius is injective on a field of characteristic `p`, so a `p`-th power determines its
+root. No algebraic closure is needed for this direction. -/
+theorem pow_char_inj {c c' : k} (h : c ^ p = c' ^ p) : c = c' := by
+  haveI : ExpChar k p := ExpChar.prime Fact.out
+  have h0 : (c - c') ^ p = 0 := by rw [sub_pow_char, h, sub_self]
+  exact sub_eq_zero.mp (pow_eq_zero_iff (n := p) (Fact.out : p.Prime).ne_zero |>.mp h0)
+
+/-! ### The isomorphism criterion `V(α,c) ≅ V(α',c') ↔ α = α' ∧ c = c'`
+
+The family is *classifying* only if it lists each isomorphism class at most once. That is what
+this section proves: two members are isomorphic exactly when their parameters agree. The central
+character does all the work — `xᵖ` and `yᵖ` are central (Problem 2.7.4(b)), so any `A`-linear
+map intertwines their actions, which are the scalars `α` and `cᵖ`. -/
+
+/-- The type of `WeylAlgebra k`-linear equivalences `V(α,c) ≃ V(α',c')`.
+
+Both members of the family have the same carrier `Fin p → k` and differ only in their
+`WeylAlgebra k`-module structure, so the two `Module` instances must be supplied explicitly
+rather than found by instance resolution. -/
+abbrev FamEquiv (α c α' c' : k) : Type _ :=
+  @LinearEquiv (WeylAlgebra k) (WeylAlgebra k) _ _
+    (RingHom.id (WeylAlgebra k)) (RingHom.id (WeylAlgebra k)) _ _
+    (Fin p → k) (Fin p → k) _ _ (famModule k p α c) (famModule k p α' c')
+
+variable {k p}
+
+/-- Unfolding of `A`-linearity for a `FamEquiv`: it intertwines the two representations. -/
+theorem famEquiv_intertwines {α c α' c' : k} (e : FamEquiv k p α c α' c') (a : WeylAlgebra k)
+    (f : Fin p → k) : e (famRep k p α c a f) = famRep k p α' c' a (e f) :=
+  map_smulₛₗ e a f
+
+/-- A `FamEquiv` is automatically `k`-linear: scalars act through
+`algebraMap k (WeylAlgebra k)`, whose action an `A`-linear map already respects. -/
+theorem famEquiv_map_smul_field {α c α' c' : k} (e : FamEquiv k p α c α' c') (a : k)
+    (f : Fin p → k) : e (a • f) = a • e f := by
+  have h := famEquiv_intertwines e (algebraMap k (WeylAlgebra k) a) f
+  simpa only [AlgHom.commutes, Module.algebraMap_end_apply] using h
+
+variable (k p)
+
+/-- **Isomorphism criterion for the family.** Two members of the family `V(α,c)` are isomorphic
+as `WeylAlgebra k`-modules if and only if their parameters coincide.
+
+The interesting direction is `→`: an arbitrary `A`-linear equivalence recovers `(α, c)`. It
+intertwines the central elements `xᵖ` and `yᵖ`, which act by the scalars `α` and `cᵖ`
+(`Xlin_pow_char`, `Ylin_pow_char`); since it is also `k`-linear and nonzero this forces `α = α'`
+and `cᵖ = c'ᵖ`, and Frobenius injectivity (`pow_char_inj`) upgrades the latter to `c = c'`.
+
+Combined with irreducibility and exhaustiveness this says the family enumerates the
+finite-dimensional irreducible `WeylAlgebra k`-modules without repetition. -/
+theorem famEquiv_nonempty_iff (α c α' c' : k) :
+    Nonempty (FamEquiv k p α c α' c') ↔ α = α' ∧ c = c' := by
+  constructor
+  · rintro ⟨e⟩
+    -- Pick a vector `g` in the target with a nonzero coordinate, and its preimage `f`.
+    haveI : Nonempty (Fin p) := ⟨⟨0, p_pos p⟩⟩
+    obtain ⟨g, hg⟩ := exists_ne (0 : Fin p → k)
+    obtain ⟨j, hj⟩ := Function.ne_iff.mp hg
+    rw [Pi.zero_apply] at hj
+    obtain ⟨f, rfl⟩ : ∃ f, e f = g := ⟨e.symm g, e.apply_symm_apply g⟩
+    -- `xᵖ` acts by `α` on the source and by `α'` on the target.
+    have hx := famEquiv_intertwines e (WeylAlgebra.x k ^ p) f
+    -- `yᵖ` acts by `cᵖ` on the source and by `c'ᵖ` on the target.
+    have hy := famEquiv_intertwines e (WeylAlgebra.y k ^ p) f
+    simp only [map_pow, famRep_x, famRep_y, Xlin_pow_char, Ylin_pow_char, LinearMap.smul_apply,
+      Module.End.one_apply, famEquiv_map_smul_field e] at hx hy
+    refine ⟨?_, pow_char_inj k p ?_⟩
+    · have := congrFun hx j
+      simpa only [Pi.smul_apply, smul_eq_mul] using mul_right_cancel₀ hj this
+    · have := congrFun hy j
+      simpa only [Pi.smul_apply, smul_eq_mul] using mul_right_cancel₀ hj this
+  · rintro ⟨rfl, rfl⟩
+    exact ⟨@LinearEquiv.refl (WeylAlgebra k) (Fin p → k) _ _ (famModule k p α c)⟩
 
 end Family
 
