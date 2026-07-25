@@ -458,6 +458,16 @@ noncomputable def kunnethNatTrans (i : ℤ) :
       Category.comp_id, Category.id_comp]
     exact kunnethSummand_naturality φ.1 φ.2 j m
 
+/-- Naturality of the Künneth map itself, unpacked from `kunnethNatTrans`. -/
+lemma kunnethMap_naturality {C C' D D' : CochainComplex (ModuleCat.{u} k) ℤ}
+    (f : C ⟶ C') (g : D ⟶ D') (i : ℤ) :
+    (kunnethSource i).map ((f, g) : ((C, D) : (CochainComplex (ModuleCat.{u} k) ℤ) ×
+        (CochainComplex (ModuleCat.{u} k) ℤ)) ⟶ (C', D')) ≫ kunnethMap C' D' i
+      = kunnethMap C D i
+        ≫ HomologicalComplex.homologyMap (HomologicalComplex.tensorHom f g) i :=
+  (kunnethNatTrans i).naturality ((f, g) : ((C, D) : (CochainComplex (ModuleCat.{u} k) ℤ) ×
+    (CochainComplex (ModuleCat.{u} k) ℤ)) ⟶ (C', D'))
+
 end Assembly
 
 /-- `Etingof.tensorComplex` is by definition Mathlib's `HomologicalComplex.tensorObj`, so
