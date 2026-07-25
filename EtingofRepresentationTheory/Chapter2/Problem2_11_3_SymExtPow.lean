@@ -29,15 +29,26 @@ stated about the book's own objects.
 ## Main results
 
 * `symTprod_comp_perm` : the canonical map to `S^n V` is invariant under *all* permutations of its
-  arguments, not just transpositions.
+  arguments, not just the transpositions used to define the quotient.
+* `symPowMap_comp`, `extPowMap_comp`, `symPowMap_id`, `extPowMap_id` : functoriality of `S^n` and
+  `⋀^n` on operators.
 * `extPowOfExteriorPower_surjective` : the canonical map from Mathlib's `⋀[k]^n V` onto the book's
-  `ExtPow k V n` is surjective.
-* `extRelSubmodule_le_ker`, `exteriorPowerEquiv` : in characteristic `≠ 2` that map is an
-  isomorphism, so the book's quotient model agrees with Mathlib's exterior power.
+  `ExtPow k V n` is surjective, and `extPowOfExteriorPower_naturality` says it intertwines
+  `exteriorPower.map` with `extPowMap`.
+* `exteriorPowerEquiv` : away from characteristic 2 that map is an isomorphism, so the book's
+  quotient model agrees with Mathlib's exterior power. Transporting Mathlib's basis and dimension
+  along it gives `extPowBasis` and `finrank_extPow`, which are the exterior half of part (d).
 
-Parts (d) (bases and dimensions), (e) (the characteristic-zero identification with the symmetric
-and antisymmetric *subspaces* of `V^{⊗ n}`) and the trace formulas of part (f) are stated in
-`Problem2_11_3_SymExtPow_Statements` and tracked separately.
+Still open, tracked as separate items:
+
+* the symmetric half of part (d) — a basis of `S^n V` indexed by multisets and the dimension
+  `(m + n - 1).choose n`. Mathlib's `SymmetricPower` has no universal property or basis yet, so
+  this has to be built here;
+* part (e), the characteristic-zero identification of `S^n V` and `⋀^n V` with the symmetric and
+  antisymmetric *subspaces* of `V^{⊗ n}`;
+* the trace formulas of part (f), `Tr(S^n A)` and `Tr(⋀^n A)` in terms of the eigenvalues of `A`;
+* part (g), `⋀^N A = det(A) • id` proved from the exterior-power construction. (The determinant
+  multiplicativity it is meant to yield is already available as `Problem2_11_3.det_comp`.)
 -/
 
 namespace Etingof.Problem2_11_3
@@ -261,7 +272,8 @@ end Functoriality
 
 section ExteriorComparison
 
-variable {k : Type*} [CommRing k] {V : Type*} [AddCommGroup V] [Module k V]
+variable {k : Type*} [CommRing k] {V W : Type*}
+  [AddCommGroup V] [Module k V] [AddCommGroup W] [Module k W]
 
 variable (k V) in
 /-- The canonical map from Mathlib's exterior power onto the book's model `ExtPow k V n`,
@@ -310,6 +322,17 @@ lemma tensorPowToExteriorPower_swap {n : ℕ} {i j : Fin n} (hij : i ≠ j) (T :
         smul_neg]
   | add a b ha hb => simp only [map_add, ha, hb, neg_add]
 
+/-- The comparison map is natural: it intertwines Mathlib's `exteriorPower.map A` with the book's
+`⋀^n A`. -/
+lemma extPowOfExteriorPower_naturality (A : V →ₗ[k] W) (n : ℕ) :
+    extPowMap A n ∘ₗ extPowOfExteriorPower k V n
+      = extPowOfExteriorPower k W n ∘ₗ exteriorPower.map n A := by
+  refine LinearMap.ext_on (exteriorPower.ιMulti_span k n V) ?_
+  rintro _ ⟨f, rfl⟩
+  simp only [LinearMap.comp_apply, extPowOfExteriorPower_ιMulti,
+    exteriorPower.map_apply_ιMulti]
+  simpa [Function.comp_def] using extPowMap_extTprod A f
+
 end ExteriorComparison
 
 section CharNeTwo
@@ -352,6 +375,19 @@ noncomputable def exteriorPowerEquiv (h2 : (2 : k) ≠ 0) (n : ℕ) :
 lemma exteriorPowerEquiv_ιMulti (h2 : (2 : k) ≠ 0) {n : ℕ} (f : Fin n → V) :
     exteriorPowerEquiv (V := V) h2 n (exteriorPower.ιMulti k n f) = extTprod k V n f :=
   extPowOfExteriorPower_ιMulti f
+
+/-- **Problem 2.11.3(d), exterior case.** A basis `{vᵢ}` of `V` indexed by a linearly ordered `I`
+induces a basis of `⋀^n V` indexed by the `n`-element subsets of `I`, whose members are the
+classes of the tensors `v_{i₁} ⊗ ⋯ ⊗ v_{iₙ}` for `i₁ < ⋯ < iₙ`. -/
+noncomputable def extPowBasis (h2 : (2 : k) ≠ 0) {I : Type*} [LinearOrder I]
+    (b : Module.Basis I k V) (n : ℕ) :
+    Module.Basis (Set.powersetCard I n) k (ExtPow k V n) :=
+  (b.exteriorPower n).map (exteriorPowerEquiv h2 n)
+
+/-- **Problem 2.11.3(d), exterior case.** If `dim V = m` then `dim ⋀^n V = m.choose n`. -/
+theorem finrank_extPow (h2 : (2 : k) ≠ 0) [Module.Finite k V] (n : ℕ) :
+    Module.finrank k (ExtPow k V n) = (Module.finrank k V).choose n := by
+  rw [← (exteriorPowerEquiv (V := V) h2 n).finrank_eq, exteriorPower.finrank_eq]
 
 end CharNeTwo
 
