@@ -287,4 +287,138 @@ theorem dY_one_evenTower_ne_zero (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (m : 
 
 end NonVanishing
 
+/-! ## Fidelity of `gbar` on the whole spanning family
+
+`loopFam₄ k (.odd m i) = ad(ȳ)ⁱ (topOdd k m)` and `loopFam₄ k (.even m i) = ad(ȳ)ⁱ (evenTower k m)`,
+so running `gbar_dY_of` along the closed forms of the previous section evaluates `gbar` on every
+member of the family at once. Each value is a nonzero multiple of a graded basis vector of `𝔫₊`,
+but the `Fin`-index inside the degree is *reversed*: `ad(ȳ)` walks a string downwards from its top
+vector `gone 4` (resp. `gzero 2`), while `gone` and `gzero` are enumerated upwards from `gone 0`
+(resp. `gzero 0`). -/
+
+section Fidelity
+
+variable {k : Type*} [Field k]
+
+/-- The `ad(gzero 0)`-string on the top `𝔤₁`-vector, indexed by `Fin 5`: it runs
+`gone 4, gone 3, gone 2, gone 1, gone 0` with coefficients `1, -1, -1, 3, 6`. -/
+theorem adG0_iterate_gone_four (i : Fin 5) :
+    (fun B => ⁅gzero k 0, B⁆)^[(i : ℕ)] (gone k 4)
+      = (![1, -1, -1, 3, 6] : Fin 5 → k) i • gone k i.rev := by
+  have e1 : (fun B => ⁅gzero k 0, B⁆)^[1] (gone k 4) = (-1 : k) • gone k 3 := by
+    change ⁅gzero k 0, gone k 4⁆ = _
+    rw [lie_gzero0_gone4]
+  have e2 : (fun B => ⁅gzero k 0, B⁆)^[2] (gone k 4) = (-1 : k) • gone k 2 := by
+    change ⁅gzero k 0, ⁅gzero k 0, gone k 4⁆⁆ = _
+    simp only [lie_gzero0_gone4, lie_smul, lie_gzero0_gone3, smul_smul]
+    norm_num
+  have e3 : (fun B => ⁅gzero k 0, B⁆)^[3] (gone k 4) = (3 : k) • gone k 1 := by
+    change ⁅gzero k 0, ⁅gzero k 0, ⁅gzero k 0, gone k 4⁆⁆⁆ = _
+    simp only [lie_gzero0_gone4, lie_smul, lie_gzero0_gone3, lie_gzero0_gone2, smul_smul]
+    norm_num
+  have e4 : (fun B => ⁅gzero k 0, B⁆)^[4] (gone k 4) = (6 : k) • gone k 0 := by
+    change ⁅gzero k 0, ⁅gzero k 0, ⁅gzero k 0, ⁅gzero k 0, gone k 4⁆⁆⁆⁆ = _
+    simp only [lie_gzero0_gone4, lie_smul, lie_gzero0_gone3, lie_gzero0_gone2, lie_gzero0_gone1,
+      smul_smul]
+    norm_num
+  fin_cases i
+  · simp
+  · simpa using e1
+  · simpa using e2
+  · simpa using e3
+  · simpa using e4
+
+/-- The `ad(gzero 0)`-string on the top `𝔤₀`-vector, indexed by `Fin 3`: it runs
+`gzero 2, gzero 1, gzero 0` with coefficients `1, 1, -1`. -/
+theorem adG0_iterate_gzero_two (i : Fin 3) :
+    (fun B => ⁅gzero k 0, B⁆)^[(i : ℕ)] (gzero k 2)
+      = (![1, 1, -1] : Fin 3 → k) i • gzero k i.rev := by
+  have e1 : (fun B => ⁅gzero k 0, B⁆)^[1] (gzero k 2) = (1 : k) • gzero k 1 := by
+    change ⁅gzero k 0, gzero k 2⁆ = _
+    rw [lie_gzero0_gzero2]
+  have e2 : (fun B => ⁅gzero k 0, B⁆)^[2] (gzero k 2) = (-1 : k) • gzero k 0 := by
+    change ⁅gzero k 0, ⁅gzero k 0, gzero k 2⁆⁆ = _
+    simp only [lie_gzero0_gzero2, lie_smul, lie_gzero0_gzero1, smul_smul]
+    norm_num
+  fin_cases i
+  · simp
+  · simpa using e1
+  · simpa using e2
+
+/-- The index-reversing involution of `LoopIdx`: `ad(ȳ)` enumerates each graded piece in the
+order opposite to `gone` / `gzero`. -/
+def loopRev : LoopIdx → LoopIdx
+  | .base => .base
+  | .odd m i => .odd m i.rev
+  | .even m i => .even m i.rev
+
+@[simp] theorem loopRev_base : loopRev .base = .base := rfl
+
+@[simp] theorem loopRev_odd (m : ℕ) (i : Fin 5) : loopRev (.odd m i) = .odd m i.rev := rfl
+
+@[simp] theorem loopRev_even (m : ℕ) (i : Fin 3) : loopRev (.even m i) = .even m i.rev := rfl
+
+theorem loopRev_involutive : Function.Involutive loopRev := by
+  intro I
+  cases I <;> simp
+
+theorem loopRev_injective : Function.Injective loopRev := loopRev_involutive.injective
+
+/-- The scalar by which `gbar` scales the `I`-th member of `loopFam₄` against the graded basis
+vector `loopVec (loopRev I)` of `𝔫₊`. -/
+noncomputable def loopCoef (k : Type*) [CommRing k] : LoopIdx → k
+  | .base => 1
+  | .odd m i => (6 : k) ^ m * (![1, -1, -1, 3, 6] : Fin 5 → k) i
+  | .even m i => 3 * (6 : k) ^ m * (![1, 1, -1] : Fin 3 → k) i
+
+/-- **Fidelity of the loop realization on the spanning family.** `gbar` carries `loopFam₄ k I` to
+a multiple of the graded basis vector `loopVec k (loopRev I)` of `𝔫₊(A₂⁽²⁾)`. -/
+theorem gbar_loopFam₄ (I : LoopIdx) :
+    gbar k (loopFam₄ k I) = loopCoef k I • loopVec k (loopRev I) := by
+  cases I with
+  | base => rw [loopFam₄_base, gbar_yb, NY_eq_emb, loopCoef, loopRev_base, one_smul]; rfl
+  | odd m i =>
+      rw [loopFam₄_odd, gbar_dY_of (gbar_topOdd m) (i : ℕ), adG0_iterate_gone_four, map_smul,
+        smul_smul, loopCoef, loopRev_odd]
+      rfl
+  | even m i =>
+      rw [loopFam₄_even, gbar_dY_of (gbar_evenTower m) (i : ℕ), adG0_iterate_gzero_two, map_smul,
+        smul_smul, loopCoef, loopRev_even]
+      rfl
+
+/-- Every fidelity scalar is nonzero: they are `±1`, `±3`, `6` times a power of `6`. -/
+theorem loopCoef_ne_zero (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (I : LoopIdx) :
+    loopCoef k I ≠ 0 := by
+  have h6 : (6 : k) ≠ 0 := six_ne_zero h2 h3
+  cases I with
+  | base => exact one_ne_zero
+  | odd m i =>
+      refine mul_ne_zero (pow_ne_zero m h6) ?_
+      fin_cases i <;> norm_num [h3, h6]
+  | even m i =>
+      refine mul_ne_zero (mul_ne_zero h3 (pow_ne_zero m h6)) ?_
+      fin_cases i <;> norm_num
+
+/-- **The spanning family of `𝔤₄` is linearly independent.** Its image under `gbar` is the graded
+basis of `𝔫₊(A₂⁽²⁾)`, reindexed along the involution `loopRev` and rescaled by units.
+
+Together with `span_range_loopFam₄_eq_top` (which still needs the Gabber-Kac vanishing of the
+layer defects) this makes `loopFam₄` a basis of `𝔤₄`; on its own it already gives the *lower*
+bound on the graded dimensions of `𝔤₄`, unconditionally. -/
+theorem linearIndependent_loopFam₄ (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) :
+    LinearIndependent k (loopFam₄ k) := by
+  refine LinearIndependent.of_comp (gbar k) ?_
+  have hbase : LinearIndependent k (loopVec k ∘ loopRev) :=
+    (linearIndependent_loopVec k).comp loopRev loopRev_injective
+  have hu := hbase.units_smul fun I => Units.mk0 (loopCoef k I) (loopCoef_ne_zero h2 h3 I)
+  have heq : ((fun I => Units.mk0 (loopCoef k I) (loopCoef_ne_zero h2 h3 I)) •
+      (loopVec k ∘ loopRev)) = gbar k ∘ loopFam₄ k := by
+    funext I
+    rw [Pi.smul_apply', Function.comp_apply, Function.comp_apply, Units.smul_def,
+      Units.val_mk0]
+    exact (gbar_loopFam₄ I).symm
+  rwa [heq] at hu
+
+end Fidelity
+
 end Etingof.Problem2_16_3
