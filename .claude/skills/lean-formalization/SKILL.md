@@ -136,6 +136,33 @@ of the two modules (needed by `Etingof.algebraCartanMatrix`); that requires givi
 genuinely distinct carriers. If you are defining several modules over one ring with the same
 underlying type, prefer a one-field structure per module over `abbrev`.
 
+**The phantom-parameter type synonym is the cheaper fix, and the vacuity trap is worse than
+the shadowing one.** A plain (semireducible) `def` with the distinguishing data as unused
+parameters gives genuinely distinct carriers at zero wrapping cost — no `structure`, no
+`.mk`/`.val` noise, everything still defeq to the underlying type:
+```lean
+def Fam (_q _α _β : ℂˣ) : Type := Fin (orderOf _q) → ℂ
+instance : AddCommGroup (Fam q α β) := inferInstanceAs (AddCommGroup (Fin (orderOf q) → ℂ))
+noncomputable instance famQWeylModule : Module (qWeylAlgebra ℂ q) (Fam q α β) := ...
+```
+Instance search does not unfold a `def`, so `Fam q α β` and `Fam q α' β'` get separate
+instances, while defeq still lets you `exact` the underlying-type lemmas directly
+(`Chapter2/Problem2_7_5_Iso.lean`). Two further points that matter:
+
+* **Index by a value, not a hypothesis, so the action can be a real `instance`.** Baking
+  `N := orderOf q` into the synonym turns a `(hqorder : orderOf q = N)` argument into `rfl`,
+  which is what lets `Module A (Fam q α β)` be an `instance` instead of something every
+  downstream statement has to `letI` in.
+* **Two `letI`s do not work, and the failure is silent.** To state `V ≅ V'` you need both
+  module structures live at once; the second `letI` shadows the first, so `≃ₗ[A]` elaborates
+  with *one* structure on both sides. That statement compiles, has no `sorry`, and passes
+  `#print axioms` while being vacuous. Whenever a statement compares two structures on one
+  underlying type, verify with `set_option pp.explicit true in #check @thm` that the two sides
+  really carry the *different* instances before believing the result.
+
+`Chapter9/Problem9_3_2.lean`'s `Pplus`/`Pminus` (issue #7704, "give P₊ and P₋ distinct
+carriers") is exactly this pattern.
+
 **Two Mathlib lemmas can produce the *same* `1`/`0`/`Pi.single i 1` through *different*
 typeclass paths — `rw` then fails syntactically, `exact` succeeds by defeq.** Classic case
 (cost real iterations in #6597, `Chapter9/Problem9_5_3_PrimitiveIdempotents.lean`):
