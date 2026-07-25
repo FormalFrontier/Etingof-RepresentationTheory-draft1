@@ -8058,13 +8058,13 @@
     "end_page": "179",
     "start_line": 25,
     "end_line": 5,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "Part (b)'s actual Jordan–Hölder construction remains #7359. Independently, Problem6_9_3.lean now fails a fresh check because extDiff lacks subtraction on its linear-map space, so the completed part (a) Ext¹ endpoints cannot rebuild; regression #7523.",
-    "fidelity_issue": 7359,
-    "coverage_issue": 7523,
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "Part (a) proves both Ext-vanishing endpoints. Part (b) now builds a genuine Jordan-Holder series: a filtration by subrepresentations whose successive subquotients are the vertex simples S_i (IsSimpleStep, whose steps admit no intermediate subrepresentation by IsSimpleStep.eq_or_eq), ordered by a topological sort of the orientation, with S_i occurring exactly alpha_i times; instantiated at the indecomposable V_alpha of Corollary 6.8.4. The placeholder IsJordanHolderData is gone.",
+    "last_updated": "2026-07-25",
+    "sorry_free": true,
+    "fidelity_decl": "Problem6_9_3.ext1_source, ext1_sink (part a); Problem6_9_3.exists_jordanHolderSeries and Problem6_9_3.exists_compositionSeries_of_positiveRoot (part b), on Infrastructure/QuiverCompositionSeries.lean (QuiverRepCompositionSeries, IsSimpleStep, exists_compositionSeries)"
   },
   {
     "id": "Chapter7/Introduction",
