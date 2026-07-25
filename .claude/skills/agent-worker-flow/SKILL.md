@@ -152,6 +152,15 @@ If the changes look like real work (not stray build artifacts), stash them
 (`git stash`, never `git stash -u`) or commit them on a scratch branch before
 resetting.
 
+Judge that inspection in *both* directions: stray changes you leave in place ride
+along into your PR as unrelated regressions. Check `git diff --numstat` for changes
+that are pure *deletions* against `main` in files you were not asked to touch,
+especially under `.claude/`. A crashed session can leave an accidental revert of
+accumulated workflow guidance, which is easy to commit without noticing and hard to
+spot in review. Restore those (`git checkout HEAD -- <paths>`) rather than carrying
+them. (2026-07-25: a worktree arrived with 169 lines of `.claude/` guidance deleted
+and nothing added.)
+
 Record any project-specific quality metrics (e.g. sorry count, test coverage)
 as described in the project's CLAUDE.md.
 
@@ -190,6 +199,16 @@ Check that the plan's assumptions still hold:
   discover this. If it already exists, reuse it: the task shrinks to a thin
   bridge/assembly (or, for audits, a tracking reconciliation — flip `items.json`,
   repoint `lean_ref`, drop the residual issue), not new infrastructure.
+- **The issue's work may be *entirely* done and merged already — if so `close` it,
+  don't `skip` it.** A PR whose body omits `Closes #N` merges without closing its
+  issue, so the issue keeps appearing in `coordination list-unclaimed` forever and
+  the next worker redoes landed work. Cheapest check, before claiming: scan
+  `git log origin/main --oneline -20` for a commit whose title matches the issue
+  title or cites `#N`, then confirm the decls are on `main`
+  (`git show origin/main:<file> | grep <decl>`). If they are, `gh issue close <N>
+  --comment "Completed by PR #M (merged as <sha>); the PR body omitted a Closes
+  line."` — `coordination skip` is wrong here, it only re-queues the issue for a
+  planner. (2026-07: #7704, landed in #7722, sat unclaimed for a full cycle.)
 - **A "restore/regression" issue whose reproduction is `lake env lean <file>` may
   be a false positive — reconfirm the failure with `lake build <Module>` before any
   work.** `lake env lean` drops the lakefile's `[leanOptions]` (`maxSynthPendingDepth
@@ -206,6 +225,40 @@ If stale:
 coordination skip <issue-number> "reason: <what changed>"
 ```
 Go back to Step 1 and try the next issue.
+
+**If the premise is wrong but the problem is real, fix the real defect, not the
+prescribed one.** A third case sits between "proceed" and `skip`: the issue reports a
+genuine failure but misdiagnoses its cause, so following it literally would leave the
+failure in place or actively damage correct data. Neither exit fits: proceeding as
+written does harm, and `skip` abandons a real defect. Instead:
+
+- Deliver the issue's stated **verification criterion**, not its prescribed **method**.
+  The criterion is what the planner wanted; the method was a guess at how to get there.
+- Comment on the issue, before or alongside opening the PR: what the actual defect was,
+  why the prescribed fix was rejected, and what you did instead.
+- Repeat that reasoning in the PR body, so a reviewer meeting a diff that touches
+  different files than the issue named is not surprised by it.
+- This still counts as full completion (no `--partial`) as long as the criterion is met.
+
+Worked example: #7712 correctly reported `scripts/validate_items.py` exiting 1 with ten
+errors, but blamed `progress/items.json`. Both remedies it proposed would have corrupted
+correct data: the ten entries already matched `PLAN.md` Stage 1.6, and the defect was in
+the validator, which never implemented that part of the spec. PR #7713 fixed the validator,
+met the stated criterion (`validate_items.py` exits 0), and left `items.json` content
+untouched.
+
+**Where the authority sits.** `PLAN.md` is the spec and is off-limits to agents, so when an
+issue body and `PLAN.md` disagree, `PLAN.md` wins and the issue is the thing that is wrong.
+This is the *reverse* of the `directive` rule in Step 1, and the two are easy to confuse: a
+`directive` carries the owner's own stated approach, which is not yours to second-guess even
+when you would have done it differently; an `agent-plan` issue carries a planner's guess,
+which you are expected to check against the spec and the code.
+
+| Situation | Exit |
+|---|---|
+| Plan is stale (work already done, moot, or blocked on an unmerged foundation) | `coordination skip` |
+| Symptom real, diagnosis or prescribed fix wrong | fix the real defect, document the deviation on the issue and in the PR |
+| `directive` whose approach you would have chosen differently | do it as asked (Step 1) |
 
 **items.json status reconciliation — sorry-free ≠ item-complete.** For issues
 that ask you to flip a `partially_*`/`statement_formalized`/`formalized` entry
@@ -363,7 +416,28 @@ Write a progress entry to `progress/<UTC-timestamp>_<UUID-prefix>.md`:
 ```bash
 git push -u origin <branch>
 coordination create-pr <issue-number>
+gh pr edit <new-pr-number> --body "$(cat <<'EOF'
+This PR ...
+EOF
+)"
 ```
+
+**`create-pr` writes a placeholder body, so replace it.** The body it generates is just
+the `Closes #N` line, your session UUID, and a raw `git log`; it takes no body argument
+and reads nothing from stdin. Follow it with `gh pr edit <N> --body`, opening with a
+paragraph that starts "This PR ..." in imperative present, since that paragraph becomes
+the release note. Keep the `Closes #N`, `Session:` and `🤖 Prepared with Claude Code`
+lines.
+
+**Do not run `gh pr merge --auto --squash` yourself.** `create-pr` already attempts to
+enable auto-merge, and on this repo it reports `auto-merge not available (branch
+protection may not be set up)`. That warning is the whole story: with auto-merge
+unavailable, a follow-up `gh pr merge <N> --auto --squash` does not queue behind CI, it
+**merges immediately**, landing your branch on `main` with `build` still `IN_PROGRESS`.
+For a Lean change that means unbuilt code on `main` and a broken base for every other
+agent. Leave the PR alone after `create-pr`; the next planning cycle's merge sweep
+checks `statusCheckRollup` before merging. (2026-07-25: PR #7725 merged 24s after
+creation, both `build` checks still running.)
 
 **Once the PR is created, exit.** Do not poll CI, wait for the merge, or
 otherwise spin on the PR. Another session will pick up any follow-up work

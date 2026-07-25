@@ -1,48 +1,84 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "items.json",
-  "description": "Stage 1.5 structure analysis output: every content blob in the book with line-precise boundaries.",
+  "description": "Stage 1.5 structure analysis output: every content blob in the book with line-precise boundaries, plus the Stage 1.6 `derived` overlay of formalizable claims found inside those blobs.",
   "type": "array",
   "items": {
-    "type": "object",
-    "required": ["id", "type", "title", "start_page", "end_page", "start_line", "end_line"],
-    "properties": {
-      "id": {
-        "type": "string",
-        "description": "Unique identifier, e.g. Chapter3/Theorem3.1 or Frontmatter/Preface"
+    "oneOf": [
+      { "$ref": "#/$defs/partitionItem" },
+      { "$ref": "#/$defs/derivedItem" }
+    ]
+  },
+  "$defs": {
+    "partitionItem": {
+      "type": "object",
+      "description": "A member of the text partition: a contiguous span of book text. Every line of every page belongs to exactly one of these.",
+      "required": ["id", "type", "title", "start_page", "end_page", "start_line", "end_line"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier, e.g. Chapter3/Theorem3.1 or Frontmatter/Preface"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "theorem", "lemma", "proposition", "corollary",
+            "definition", "example", "exercise", "remark",
+            "discussion", "introduction", "preface", "notation",
+            "bibliography", "index"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "description": "Human-readable title or brief description"
+        },
+        "start_page": {
+          "type": "string",
+          "description": "Logical page name matching pages/*.md filename without extension"
+        },
+        "end_page": {
+          "type": "string",
+          "description": "Logical page name matching pages/*.md filename without extension"
+        },
+        "start_line": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "1-based line number within start_page"
+        },
+        "end_line": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "1-based line number within end_page (inclusive)"
+        }
       },
-      "type": {
-        "type": "string",
-        "enum": [
-          "theorem", "lemma", "proposition", "corollary",
-          "definition", "example", "exercise", "remark",
-          "discussion", "introduction", "preface", "notation",
-          "bibliography", "index"
-        ]
-      },
-      "title": {
-        "type": "string",
-        "description": "Human-readable title or brief description"
-      },
-      "start_page": {
-        "type": "string",
-        "description": "Logical page name matching pages/*.md filename without extension"
-      },
-      "end_page": {
-        "type": "string",
-        "description": "Logical page name matching pages/*.md filename without extension"
-      },
-      "start_line": {
-        "type": "integer",
-        "minimum": 1,
-        "description": "1-based line number within start_page"
-      },
-      "end_line": {
-        "type": "integer",
-        "minimum": 1,
-        "description": "1-based line number within end_page (inclusive)"
-      }
+      "additionalProperties": false
     },
-    "additionalProperties": false
+    "derivedItem": {
+      "type": "object",
+      "description": "An overlay on the partition, not a member of it: a formalizable claim discovered inside an existing blob. Keyed by `derived_from` rather than `id`, carries no line span, and is skipped by the contiguity check.",
+      "required": ["type", "derived_from", "source_span", "claim", "status"],
+      "properties": {
+        "type": {
+          "const": "derived"
+        },
+        "derived_from": {
+          "type": "string",
+          "description": "The `id` of the partition item this claim was found inside"
+        },
+        "source_span": {
+          "type": "string",
+          "description": "The exact quoted sentence from the book, for provenance"
+        },
+        "claim": {
+          "type": "string",
+          "description": "One-line normalized statement of the claim"
+        },
+        "status": {
+          "type": "string",
+          "description": "Triage/formalization status, e.g. accepted, sorry_free, rejected_duplicate, rejected_trivial, rejected_nonformal, rejected_already_covered"
+        }
+      },
+      "additionalProperties": false
+    }
   }
 }
