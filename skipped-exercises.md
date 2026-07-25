@@ -54,6 +54,32 @@ This omission is documented in
 `EtingofRepresentationTheory/Chapter2/Problem2_16_5.lean`; no unproved
 classification declaration is introduced.
 
+### Remark 5.23.3 — the `𝔰𝔩(V)` complete-reducibility and highest-weight assertions
+
+Remark 5.23.3 records two assertions about the Lie algebra `𝔰𝔩(V)`: every
+finite-dimensional `𝔰𝔩(V)`-representation is completely reducible, and every
+irreducible one is an `L_λ`. The book states both and then writes "we will not do
+this here". Following the policy above, the project does not carry a declaration
+for either assertion, and in particular does not record them as `proof_wanted`:
+they are not results the book proves, so they are not proof obligations this
+formalization inherits.
+
+The rest of the remark is formalized. The group-level content — the restriction of
+a `GL_N`-representation to `SL_N`, the triviality of the determinant character
+there, the `SL_N`-equivariant isomorphism `L_λ ≅ L_{λ + c·1ᴺ}`, and the
+well-defined surjection from `SLWeightParam N` (dominant weights modulo a
+simultaneous constant shift) onto the isomorphism classes of the
+`L_λ|_{SL_N}` — lives in
+`EtingofRepresentationTheory/Chapter5/Remark5_23_3.lean`. The `dim V = 2` case
+that the remark points at, complete reducibility for `𝔰𝔩(2)`, is proved
+independently as `Etingof.Sl2Irrep.complete_reducibility` (Problem 2.15.1).
+
+Two parts of the `SL_N` picture are unfinished rather than omitted, and are
+tracked as ordinary work items: that weights in different shift classes give
+non-isomorphic `SL_N`-representations, and that the `L_λ|_{SL_N}` exhaust the
+irreducibles. The latter rests on the `GL_N` highest-weight classification, which
+is itself still open.
+
 ### Problem 6.1.6 — residual McKay-correspondence classification
 
 The project has formalized the tautological representation, symmetry and

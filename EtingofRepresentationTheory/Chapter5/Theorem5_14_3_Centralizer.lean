@@ -28,6 +28,10 @@ the convention of the book (`i_1` is the number of fixed points), whereas Mathli
   `Σ m, CyclesOfLen g m × ZMod m`.
 * `Etingof.centralizerMulEquiv` :
   `centralizer {g} ≃* ∀ m, (CyclesOfLen g m → Multiplicative (ZMod m)) ⋊ Perm (CyclesOfLen g m)`.
+* `Etingof.minimalPeriod_eq_card_support_cycleOf` : the length of the orbit of a non-fixed point
+  is the size of the support of its `Equiv.Perm.cycleOf`.
+* `Etingof.cycleCount_eq_cycleType_count` : `iₘ` is the multiplicity of `m` in
+  `Equiv.Perm.cycleType g`, for every `m ≥ 2`.
 -/
 
 namespace Etingof
@@ -231,5 +235,143 @@ theorem prod_cycleCount_eq_cycleType_formula [Fintype α] [DecidableEq α] :
         ∏ n ∈ g.cycleType.toFinset, Nat.factorial (g.cycleType.count n) := by
   rw [← Equiv.Perm.nat_card_centralizer g, nat_card_centralizer_eq_prod g,
     Nat.card_eq_fintype_card]
+
+/-! ### Comparison with `Equiv.Perm.cycleType`, length by length
+
+The previous theorem reconciles the book's cycle counts with Mathlib's `Equiv.Perm.cycleType`
+only *in aggregate*, through the order of the centralizer. This section identifies the two
+notions of cycle themselves: a cycle of `g` in the sense used here is a `g`-orbit, whereas
+Mathlib's `Equiv.Perm.cycleFactorsFinset` lists the nontrivial cyclic factors of `g`. The two
+agree in every length `m ≥ 2` (`cycleCount_eq_cycleType_count`); the length-`1` cycles are the
+fixed points, which `cycleType` omits and `cycleCount_one` counts.
+
+The link is `minimalPeriod_eq_card_support_cycleOf`, which says that the length of the orbit of
+a non-fixed point `x` is the size of the support of `Equiv.Perm.cycleOf g x`. Mathlib does not
+have this: `Mathlib/GroupTheory/Perm/Cycle/*.lean` never mentions `Function.minimalPeriod`.
+-/
+
+section CycleType
+
+open scoped Finset
+
+variable {α : Type*} [Fintype α] [DecidableEq α] (g : Perm α)
+
+/-- The `⟨g⟩`-orbit of a non-fixed point `x` is the support of the cycle of `g` through `x`.
+This is the set-level form of the identification of the two notions of "cycle". -/
+theorem orbit_zpowers_eq_support_cycleOf {x : α} (hx : g x ≠ x) :
+    orbit (zpowers g) x = ↑(g.cycleOf x).support := by
+  ext y
+  rw [Finset.mem_coe, Equiv.Perm.mem_support_cycleOf_iff' hx]
+  constructor
+  · rintro ⟨c, hc⟩
+    obtain ⟨i, hi⟩ := c.property
+    exact ⟨i, by rw [show g ^ i = (c : Perm α) from hi]; exact hc⟩
+  · rintro ⟨i, hi⟩
+    exact ⟨⟨g ^ i, Subgroup.zpow_mem_zpowers g i⟩, hi⟩
+
+/-- **The length of an orbit is the size of the corresponding cycle's support.**
+
+For a point `x` that `g` does not fix, the minimal period of `x` under `g` equals
+`#(g.cycleOf x).support`. This is the bridge between the orbit description of cycles used in
+this file and Mathlib's `Equiv.Perm.cycleOf` / `Equiv.Perm.cycleType`. -/
+theorem minimalPeriod_eq_card_support_cycleOf {x : α} (hx : g x ≠ x) :
+    minimalPeriod (g • ·) x = #(g.cycleOf x).support := by
+  have horb : Nat.card (orbit (zpowers g) x) = minimalPeriod (g • ·) x := by
+    rw [Nat.card_congr (orbitZPowersEquiv g x), Nat.card_zmod]
+  rw [← horb, Nat.card_congr (Equiv.setCongr (orbit_zpowers_eq_support_cycleOf g hx))]
+  simp only [Finset.coe_sort_coe, Nat.card_eq_finsetCard]
+
+variable {g}
+
+/-- A cycle of length `≠ 1` is a cycle in Mathlib's sense too, of the same length. -/
+theorem cycleLen_eq_card_support_cycleOf {q : CycleIdx g} (hq : cycleLen g q ≠ 1) :
+    cycleLen g q = #(g.cycleOf q.out).support :=
+  minimalPeriod_eq_card_support_cycleOf g fun h => hq ((cycleLen_eq_one_iff g q).mpr h)
+
+omit [Fintype α] [DecidableEq α] in
+/-- The chosen representative of a cycle of length `≠ 1` is not a fixed point. -/
+theorem apply_out_ne_self {q : CycleIdx g} (hq : cycleLen g q ≠ 1) : g q.out ≠ q.out :=
+  fun h => hq ((cycleLen_eq_one_iff g q).mpr h)
+
+variable (g)
+
+/-- **The cycles of length `m ≥ 2` are exactly Mathlib's cyclic factors with support of size
+`m`.** The map sends an orbit to the cycle of `g` through any of its points. -/
+noncomputable def cyclesOfLenEquivCycleFactors {m : ℕ} (hm : 2 ≤ m) :
+    CyclesOfLen g m ≃ {c : Perm α // c ∈ g.cycleFactorsFinset ∧ #c.support = m} := by
+  have hne : ∀ q : CyclesOfLen g m, g q.val.out ≠ q.val.out := fun q =>
+    apply_out_ne_self (by rw [q.property]; omega)
+  refine Equiv.ofBijective
+    (fun q => ⟨g.cycleOf q.val.out,
+      Equiv.Perm.cycleOf_mem_cycleFactorsFinset_iff.mpr (Equiv.Perm.mem_support.mpr (hne q)),
+      (cycleLen_eq_card_support_cycleOf (by rw [q.property]; omega)).symm.trans q.property⟩)
+    ⟨fun q₁ q₂ h => ?_, fun c => ?_⟩
+  · -- Injectivity: equal cycles means the representatives lie in the same orbit.
+    have hsame : (g.SameCycle · ·) q₁.val.out q₂.val.out :=
+      (Equiv.Perm.sameCycle_iff_cycleOf_eq_of_mem_support
+        (Equiv.Perm.mem_support.mpr (hne q₁)) (Equiv.Perm.mem_support.mpr (hne q₂))).mpr
+        (Subtype.ext_iff.mp h)
+    obtain ⟨i, hi⟩ := hsame.symm
+    refine Subtype.ext ?_
+    rw [← Quotient.out_eq' q₁.val, ← Quotient.out_eq' q₂.val]
+    exact Quotient.sound' ⟨⟨g ^ i, Subgroup.zpow_mem_zpowers g i⟩, hi⟩
+  · -- Surjectivity: every cyclic factor is the cycle through a point of its support.
+    obtain ⟨c, hc, hcard⟩ := c
+    obtain ⟨x, hx⟩ := (Equiv.Perm.mem_cycleFactorsFinset_iff.mp hc).1.nonempty_support
+    have hgx : g x ≠ x :=
+      Equiv.Perm.mem_support.mp (Equiv.Perm.mem_cycleFactorsFinset_support_le hc hx)
+    -- `q` is the orbit of `x`; its chosen representative lies in the same orbit.
+    set q : CycleIdx g := Quotient.mk'' x with hq
+    obtain ⟨d, hd⟩ : q.out ∈ orbit (zpowers g) x :=
+      Quotient.mk_out (s := orbitRel (zpowers g) α) x
+    obtain ⟨i, hi⟩ := d.property
+    have hsame : g.SameCycle x q.out := ⟨i, by rw [show g ^ i = (d : Perm α) from hi]; exact hd⟩
+    have hcyc : g.cycleOf q.out = c := by
+      rw [← hsame.cycleOf_eq, Equiv.Perm.cycle_is_cycleOf hx hc]
+    have hout : g q.out ≠ q.out := fun h => hgx (hsame.apply_eq_self_iff.mpr h)
+    have hlen : cycleLen g q = m := by
+      rw [cycleLen_eq_card_support_cycleOf fun h => hout ((cycleLen_eq_one_iff g q).mp h),
+        hcyc, hcard]
+    exact ⟨⟨q, hlen⟩, Subtype.ext hcyc⟩
+
+/-- **The book's cycle count agrees with Mathlib's `cycleType`, length by length.**
+
+For `m ≥ 2`, the number `iₘ` of cycles of `g` of length `m` is the multiplicity of `m` in
+`Equiv.Perm.cycleType g`. (For `m = 1` the two disagree: `cycleCount g 1` is the number of
+fixed points, while `cycleType` omits them; see `cycleCount_one`.) -/
+theorem cycleCount_eq_cycleType_count {m : ℕ} (hm : 2 ≤ m) :
+    cycleCount g m = g.cycleType.count m := by
+  classical
+  rw [cycleCount, Nat.card_congr (cyclesOfLenEquivCycleFactors g hm), Nat.card_eq_fintype_card,
+    Fintype.card_subtype, Equiv.Perm.cycleType_def, Multiset.count_map]
+  have : (Finset.univ.filter fun c : Perm α => c ∈ g.cycleFactorsFinset ∧ #c.support = m) =
+      g.cycleFactorsFinset.filter fun c => m = (Finset.card ∘ Equiv.Perm.support) c := by
+    ext c
+    simp [eq_comm]
+  rw [this, ← Finset.filter_val]
+  rfl
+
+omit [DecidableEq α] in
+/-- The lengths of the cycles of `g` add up to the size of the underlying set:
+`∑ₘ m · iₘ = |α|`. -/
+theorem sum_cycleCount_mul_eq_card :
+    ∑ m ∈ Finset.range (Fintype.card α + 1), m * cycleCount g m = Fintype.card α := by
+  classical
+  have hmaps : ∀ q : CycleIdx g, cycleLen g q ∈ Finset.range (Fintype.card α + 1) := fun q => by
+    rw [Finset.mem_range, Nat.lt_succ_iff, ← Nat.card_eq_fintype_card]
+    exact cycleLen_le g q
+  haveI : ∀ q : CycleIdx g, NeZero (cycleLen g q) := fun q => ⟨cycleLen_ne_zero q⟩
+  have hsum : Fintype.card α = ∑ q : CycleIdx g, cycleLen g q := by
+    rw [← Nat.card_eq_fintype_card, Nat.card_congr (cycleEquiv g), Nat.card_sigma]
+    exact Finset.sum_congr rfl fun q _ => Nat.card_zmod _
+  refine Eq.trans ?_ hsum.symm
+  rw [← Finset.sum_fiberwise_of_maps_to (fun q _ => hmaps q) (fun q => cycleLen g q)]
+  refine Finset.sum_congr rfl fun m _ => ?_
+  rw [Finset.sum_congr rfl fun q hq => (Finset.mem_filter.mp hq).2, Finset.sum_const,
+    smul_eq_mul, mul_comm]
+  congr 1
+  rw [cycleCount, Nat.card_eq_fintype_card, Fintype.card_subtype]
+
+end CycleType
 
 end Etingof

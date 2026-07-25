@@ -1648,6 +1648,31 @@ and the summand API. Four gotchas, each cost multiple iterations:
 - **Make the complex (and any `mapBifunctorDesc`-based map) an `abbrev`, not `def`.** A `def` wrapper
   is defeq-but-not-syntactic to `mapBifunctor`, so `ι_mapBifunctorDesc`/`d_eq`/`ι_D₁`/`ι_D₂` silently
   fail to fire through it.
+  **The same bites the other way round when you build on an existing `def` wrapper (#7829,
+  `Chapter7/KunnethNatural.lean`).** `Etingof.tensorComplex C D` is a `def` for
+  `HomologicalComplex.tensorObj C D`, but Mathlib's `cyclesMap` / `homologyπ` / `iCycles` /
+  `homologyMap` API always produces the `tensorObj` spelling. Mixing them makes `rw` unable to
+  assign the complex metavariable (`Did not find an occurrence of the pattern
+  cyclesMap ?φ ?i ≫ iCycles ?K ?i`), and `attribute [local reducible]` on the wrapper is
+  *rejected* ("failed to set `[local reducible]` … affects the term indexing datastructures").
+  Pick one spelling — `tensorObj` — for every statement in the file, and record the wrapper
+  bridge as a one-line `rfl` lemma for downstream clients.
+- **`set_option backward.isDefEq.respectTransparency false` file-wide is the right default in any
+  file that touches `mapBifunctor` (#7829).** Goals built from `mapBifunctor.d₁_eq'` / `d₂_eq'`
+  are "not type-correct under `instances` transparency" (the `GradedObject` layers), which makes
+  `rw` *and* `simp only` refuse to match patterns that are visibly present — including trivia
+  like `Preadditive.comp_zsmul`. Mathlib sets the same option in
+  `ShortComplex/HomologicalComplex.lean` and `Bifunctor.lean`. Where even that is not enough:
+  (i) state the equation you need as a `have` in **exactly** the spelling that the goal displays
+  (e.g. `ιTensorObj …`, not the `ιMapBifunctor …` the lemma is stated with) and prove it by
+  applying the Mathlib lemma with all-underscore arguments, then `rw` your `have`; (ii) finish
+  with `exact` rather than `rw`/`simp`, since `exact` unifies at default transparency. Package
+  the recurring Koszul-sign step as a tiny private lemma
+  (`f ≫ g = 0 → f ≫ (e • g) = 0` for `e : ℤˣ`, proved by
+  `rw [Units.smul_def, Preadditive.comp_zsmul, h, smul_zero]`) and apply it with `exact` — the
+  `ε₁`/`ε₂` signs are `ℤˣ`, so `Preadditive.comp_zsmul` only fires after `Units.smul_def`, and
+  `(↑e * ↑e : ℤ) = 1` needs `← Units.val_mul, Int.units_mul_self, Units.val_one` rather than
+  `Int.units_mul_self` directly.
 - **Dependent descent (`mapBifunctorDesc (fun i₁ i₂ h => …)`): use a structural `match`, never
   `obtain ⟨rfl,rfl⟩`.** `obtain` on the opaque proof `h : π(i₁,i₂)=0` leaves a stuck `Eq.ndrec`
   (no iota on a non-`rfl` proof) so `ι_mapBifunctorDesc` reduces to un-usable cruft. Instead
@@ -6005,6 +6030,46 @@ in the goal. Also note `schurModule_isAlgebraic`/`iso_of_formalCharacter_eq_schu
 `k` is unconstrained by `(N) (lam)` — pass `(k := k)` or it stalls on `IsAlgClosed ?m`.
 Diagnosed building `linearDual_half_detTwist_contragredient` (#5544,
 `LinearDualContragredientHalf.lean`).
+
+### Descending the `GL_N` classification to `SL_N`: use the scalar matrices, not the `SL_N` torus (#7807)
+
+To prove an `SL_N`-statement about the `L_λ` (Remark 5.23.3's "parametrized by `λ₁ ≥ ⋯ ≥ λ_N` up
+to a simultaneous shift by a constant"), do **not** redo the weight-space bookkeeping of
+`AlgIrrepGLNonIso` for the `SL_N` torus — the whole descent goes through the *scalar* matrices
+`t · 1`, and `algIrrepGLRepρ_iso_iff_eq` then supplies the classification unchanged. The recipe
+(`Chapter5/Remark5_23_3_SLInjective.lean`, sorry-free):
+
+* **Central character, elementary.** `t · 1` acts on `L_λ` by `t^{|λ|}`, `|λ| = ∑ᵢ λᵢ`. Prove it
+  on the *tensor power*: `glTensorRep` is `PiTensorProduct.map (fun _ => mulVecLin g)`, so for a
+  scalar matrix each factor scales by `t` and `MultilinearMap.map_smul_univ` gives `t^d`;
+  `schurModuleRep` is its restriction (`Subtype.ext` + `LinearMap.restrict_coe_apply`), and the
+  `det^{-λ.shift}` twist contributes `t^{-N·λ.shift}`, cancelling the shift inside
+  `λ.toNatWeight`. Do **not** reach for `PolynomialRepEmbedding.scalarGL_acts_as_pow`: it is
+  `private` and needs `IsAlgebraicCoefficientFamily` + `h_span` + `h_homog`, none of which this
+  argument requires.
+* **`GL_N = Z · SL_N` over an algebraically closed field.** `IsAlgClosed.exists_pow_nat_eq` gives
+  an `N`-th root `s` of `det g`, and `(s⁻¹ : k) • (g : Matrix …)` has determinant one
+  (`Matrix.det_smul`); reassemble with `Matrix.smul_eq_diagonal_mul`. Consequence: an
+  `SL_N`-intertwiner between two `L_λ` whose *central characters agree* is automatically
+  `GL_N`-equivariant, so `Representation.asModuleEquivOfIntertwiner` lands you straight in the
+  `GL_N` classification. Matching the central characters is exactly what the constant shift is
+  for.
+* **A primitive `N`-th root of unity** in an algebraically closed field of characteristic zero is
+  a root of `Polynomial.cyclotomic N k` (degree `Nat.totient N > 0`, so `IsAlgClosed.exists_root`
+  applies), identified by `Polynomial.isRoot_cyclotomic_iff` (needs `NeZero ((N : ℕ) : k)`, from
+  `Nat.cast_ne_zero`); move it to `kˣ` with `IsPrimitiveRoot.isUnit`/`.coe_units_iff`. This is
+  what turns "`ζ^{|λ|} = ζ^{|μ|}` for every `N`-th root of unity" into `N ∣ |λ| - |μ|`
+  (`IsPrimitiveRoot.zpow_eq_one_iff_dvd`).
+* **Nonvanishing** of `L_λ`, needed to cancel a vector from `c • v = c' • v`, is
+  `schurModuleSubmodule_ne_bot` (Theorem5_23_2Core) plus `Submodule.nontrivial_iff_ne_bot`.
+
+Two mechanical traps in the same file. `Representation.Equiv` (Mathlib
+`RepresentationTheory/Intertwining.lean`) has **no coercion to `≃ₗ`**: `(E : V ≃ₗ[k] W)` fails
+with a type mismatch — write `E.toLinearEquiv`, and state any helper `have` about `E` in that
+same spelling or a later `rw` will not match. And the usual `AlgIrrepGL`/`SchurModuleSubmodule`
+carrier-alias wall applies: `rw [schurModuleRep_centralGL]` cannot fire on an
+`algIrrepGLRepρ` goal, so `change` the whole `charTwistRep` application to its
+`(c g : k) • schurModuleRep … g` form (defeq, `charTwistRep` is a structure literal) first.
 
 ### Degree-bound `Finset.sup` over an `AlgEquiv`-image: two whnf traps (#5486)
 

@@ -4,9 +4,10 @@ import EtingofRepresentationTheory.Chapter7.Problem7_8_7
 /-!
 # Künneth for `ℕ`-indexed chain complexes via `ℕ`/`ℤ` reindexing
 
-Chapter 7's Künneth formula (`Etingof.Problem7_8_7_iv`) is stated for cohomologically indexed
-`CochainComplex (ModuleCat k) ℤ`. The `Tor`/`Ext` construction of Problem 8.2.8, however, works with
-its own complexes `P• ⊗_A N`, which are homologically indexed `ChainComplex (ModuleCat.{u} k) ℕ`
+Chapter 7's Künneth formula (`Etingof.Problem7_8_7_iv_nonempty`) is stated for cohomologically
+indexed `CochainComplex (ModuleCat k) ℤ`. The `Tor`/`Ext` construction of Problem 8.2.8,
+however, works with its own complexes `P• ⊗_A N`, which are homologically indexed
+`ChainComplex (ModuleCat.{u} k) ℕ`
 (`= HomologicalComplex _ (ComplexShape.down ℕ)`). This file provides a Künneth
 isomorphism for `ℕ`-indexed chain complexes, obtained by reindexing the `ℤ` result rather than
 reproving it.
@@ -50,7 +51,7 @@ this iso can equivalently be read as "the `ℤ`-tensor of the extends is the ext
 `≅ ⨁_{p+q=i} H_p(C) ⊗ H_q(D)` (reindex `a = -p`, `b = -q`; the `a > 0` / `b > 0` summands are
 zero by `homology_extend_isZero`).
 
-The final identification uses the universe-general `Problem7_8_7_iv`. The reindex of the
+The final identification uses the universe-general `Problem7_8_7_iv_nonempty`. The reindex of the
 coproduct is not a bare index bijection: the `ℤ`-side sum `⨁_{a+b=-i}` ranges over all of
 `ℤ × ℤ`, and the extra summands vanish only via `homology_extend_isZero`.
 
@@ -555,8 +556,8 @@ theorem nonempty_tensorObj_extend_iso (C D : ChainComplex (ModuleCat.{u} k) ℕ)
 indexed over `ℕ`, the homology of the tensor product decomposes as a direct sum:
 `Hᵢ(C ⊗ D) ≅ ⨁_{p+q=i} H_p(C) ⊗ H_q(D)`.
 
-Reindexes Chapter 7's `Problem7_8_7_iv` along `embeddingDownNat`; see the module docstring for the
-derivation. Consumed by the Problem 8.2.8 `Tor`/`Ext` construction. -/
+Reindexes Chapter 7's `Problem7_8_7_iv_nonempty` along `embeddingDownNat`; see the module
+docstring for the derivation. Consumed by the Problem 8.2.8 `Tor`/`Ext` construction. -/
 theorem kunnethChainComplexNat (C D : ChainComplex (ModuleCat.{u} k) ℕ) (i : ℕ) :
     Nonempty ((HomologicalComplex.tensorObj C D).homology i ≅
       ∐ fun (p : {p : ℕ × ℕ // p.1 + p.2 = i}) =>
@@ -574,7 +575,7 @@ theorem kunnethChainComplexNat (C D : ChainComplex (ModuleCat.{u} k) ℕ) (i : �
   let α₂ := (HomologicalComplex.homologyFunctor (ModuleCat.{u} k) (ComplexShape.up ℤ)
     (-(i : ℤ))).mapIso φ
   -- Step 3: Chapter 7's universe-general Künneth at degree `-i`.
-  let α₃ := (Problem7_8_7_iv (C.extend e) (D.extend e) (-(i : ℤ))).some
+  let α₃ := (Problem7_8_7_iv_nonempty (C.extend e) (D.extend e) (-(i : ℤ))).some
   -- Step 4: reindex the `ℤ`-coproduct `⨁_{a+b=-i}` onto the `ℕ`-antidiagonal `⨁_{p+q=i}`;
   -- the summands with `a > 0` or `b > 0` vanish by `homology_extend_isZero`.
   let ι : {p : ℕ × ℕ // p.1 + p.2 = i} → {p : ℤ × ℤ // p.1 + p.2 = -(i : ℤ)} :=
