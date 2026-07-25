@@ -15,6 +15,7 @@ import Mathlib.Algebra.Algebra.Bilinear
 import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 import EtingofRepresentationTheory.Chapter9.Definition9_3_1
 import EtingofRepresentationTheory.Chapter9.Definition9_5_1
+import EtingofRepresentationTheory.Chapter9.Theorem9_2_1
 
 /-!
 # Problem 9.3.2: a four-dimensional algebra with a single block
@@ -1663,5 +1664,255 @@ theorem algebraCartanMatrix_Pfam_diag_pos (i : Fin 2) :
   Etingof.algebraCartanMatrix_diag_pos Pfam i
 
 end Cartan
+
+/-! ## The left regular module: `A ≅ P₊ ⊕ P₋`
+
+The idempotents `e₊ = (1 + g)/2` and `e₋ = (1 - g)/2` are orthogonal and sum to `1`, so the
+left regular module splits as `A = A·e₊ ⊕ A·e₋`. The sections `iPlus`, `iMinus` and the
+retractions `rPlus`, `rMinus` already built for projectivity assemble into an isomorphism of
+left `A`-modules `P₊ × P₋ ≃ₗ[A] A`.
+
+Only one new ingredient is needed: each retraction kills the *other* summand. `e₋ · e₀⁺ = 0`
+because `g` acts as `+1` on `e₀⁺`, so `(1 - g)·e₀⁺ = 0`; and `x·e₋ · e₀⁺ = x · (e₋ · e₀⁺) = 0`
+follows. Dually on `P₋`. With that, `rProd ∘ iProd = id`, while `iProd ∘ rProd` is
+multiplication by `e₊ + e₋ = 1`.
+
+This makes the four-dimensionality of `A` concrete: `dim_ℂ A = 4`, matching the basis
+`1, g, x, gx` asserted in the book. -/
+
+section RegularDecomposition
+
+/-- The two idempotents are complementary: `e₊ + e₋ = 1`. -/
+lemma eplus_add_eminus : eplus + eminus = (1 : A) := by
+  have h : (1 + g) + (1 - g) = (2 : ℂ) • (1 : A) := by rw [two_smul]; abel
+  rw [eplus, eminus, ← smul_add, h, smul_smul, show ((2 : ℂ)⁻¹ * 2) = 1 by norm_num, one_smul]
+
+/-! ### Each retraction kills the other summand -/
+
+/-- `e₋` annihilates the generator of `P₊`: `g` acts as `+1` there, so `(1 - g)·e₀ = 0`. -/
+lemma eminus_smul_Pplus_e0 : eminus • Pplus.e0 = 0 := by
+  have h : eminus • Pplus.e0 = (2⁻¹ : ℂ) • (Pplus.e0 - g • Pplus.e0) := by
+    rw [eminus, smul_assoc, sub_smul, one_smul]
+  rw [h, Pplus.g_smul_e0, sub_self, smul_zero]
+
+lemma xeminus_smul_Pplus_e0 : xeminus • Pplus.e0 = 0 := by
+  rw [← x_mul_eminus, mul_smul, eminus_smul_Pplus_e0, smul_zero]
+
+/-- `e₊` annihilates the generator of `P₋`: `g` acts as `-1` there, so `(1 + g)·e₀ = 0`. -/
+lemma eplus_smul_Pminus_e0 : eplus • Pminus.e0 = 0 := by
+  have h : eplus • Pminus.e0 = (2⁻¹ : ℂ) • (Pminus.e0 + g • Pminus.e0) := by
+    rw [eplus, smul_assoc, add_smul, one_smul]
+  rw [h, Pminus.g_smul_e0, add_neg_cancel, smul_zero]
+
+lemma xeplus_smul_Pminus_e0 : xeplus • Pminus.e0 = 0 := by
+  rw [← x_mul_eplus, mul_smul, eplus_smul_Pminus_e0, smul_zero]
+
+@[simp] lemma iPlus_e0 : iPlus Pplus.e0 = eplus := by
+  show Pplus.e0 0 • eplus + Pplus.e0 1 • xeplus = eplus
+  rw [Pplus.e0_zero, Pplus.e0_one, one_smul, zero_smul, add_zero]
+
+@[simp] lemma iMinus_e0 : iMinus Pminus.e0 = eminus := by
+  show Pminus.e0 0 • eminus + Pminus.e0 1 • xeminus = eminus
+  rw [Pminus.e0_zero, Pminus.e0_one, one_smul, zero_smul, add_zero]
+
+lemma rPlus_iPlus (u : Pplus) : rPlus (iPlus u) = u :=
+  LinearMap.congr_fun rPlus_comp_iPlus u
+
+lemma rMinus_iMinus (v : Pminus) : rMinus (iMinus v) = v :=
+  LinearMap.congr_fun rMinus_comp_iMinus v
+
+/-- The retraction onto `P₊` kills the image of `P₋` in `A`. -/
+lemma rPlus_iMinus (v : Pminus) : rPlus (iMinus v) = 0 := by
+  have hiv : iMinus v = v 0 • eminus + v 1 • xeminus := rfl
+  rw [rPlus, LinearMap.toSpanSingleton_apply, hiv, add_smul, smul_assoc, smul_assoc,
+    eminus_smul_Pplus_e0, xeminus_smul_Pplus_e0, smul_zero, smul_zero, add_zero]
+
+/-- The retraction onto `P₋` kills the image of `P₊` in `A`. -/
+lemma rMinus_iPlus (u : Pplus) : rMinus (iPlus u) = 0 := by
+  have hiu : iPlus u = u 0 • eplus + u 1 • xeplus := rfl
+  rw [rMinus, LinearMap.toSpanSingleton_apply, hiu, add_smul, smul_assoc, smul_assoc,
+    eplus_smul_Pminus_e0, xeplus_smul_Pminus_e0, smul_zero, smul_zero, add_zero]
+
+/-! ### The isomorphism `P₊ × P₋ ≃ₗ[A] A` -/
+
+/-- The `A`-linear map `P₊ × P₋ → A`, `(u, v) ↦ i₊ u + i₋ v`. -/
+noncomputable def iProd : (Pplus × Pminus) →ₗ[A] A :=
+  iPlus.comp (LinearMap.fst A Pplus Pminus) + iMinus.comp (LinearMap.snd A Pplus Pminus)
+
+/-- The `A`-linear map `A → P₊ × P₋`, `a ↦ (a · e₀⁺, a · e₀⁻)`. -/
+noncomputable def rProd : A →ₗ[A] (Pplus × Pminus) := rPlus.prod rMinus
+
+@[simp] lemma iProd_apply (p : Pplus × Pminus) : iProd p = iPlus p.1 + iMinus p.2 := rfl
+
+@[simp] lemma rProd_apply (a : A) : rProd a = (rPlus a, rMinus a) := rfl
+
+lemma iProd_comp_rProd : iProd.comp rProd = LinearMap.id := by
+  refine LinearMap.ext fun a => ?_
+  show iPlus (rPlus a) + iMinus (rMinus a) = a
+  rw [rPlus, rMinus, LinearMap.toSpanSingleton_apply, LinearMap.toSpanSingleton_apply,
+    map_smul, map_smul, iPlus_e0, iMinus_e0, ← smul_add, eplus_add_eminus, smul_eq_mul, mul_one]
+
+lemma rProd_comp_iProd : rProd.comp iProd = LinearMap.id := by
+  refine LinearMap.ext fun p => ?_
+  show (rPlus (iPlus p.1 + iMinus p.2), rMinus (iPlus p.1 + iMinus p.2)) = p
+  rw [map_add, map_add, rPlus_iMinus, rMinus_iPlus, add_zero, zero_add, rPlus_iPlus,
+    rMinus_iMinus]
+
+/-- **The left regular module of `A` decomposes as `P₊ ⊕ P₋`.**
+
+Both summands are indecomposable (`isIndecomposable_Pplus`, `isIndecomposable_Pminus`), so this
+is *the* Krull-Schmidt decomposition of the regular module, and it is what makes `P₊` and `P₋`
+projective. -/
+noncomputable def regularEquivProd : (Pplus × Pminus) ≃ₗ[A] A :=
+  LinearEquiv.ofLinear iProd rProd iProd_comp_rProd rProd_comp_iProd
+
+@[simp] lemma regularEquivProd_apply (p : Pplus × Pminus) :
+    regularEquivProd p = iPlus p.1 + iMinus p.2 := rfl
+
+@[simp] lemma regularEquivProd_symm_apply (a : A) :
+    regularEquivProd.symm a = (rPlus a, rMinus a) := rfl
+
+/-! ### `A` is four-dimensional over `ℂ` -/
+
+lemma Pplus.finrank_complex : Module.finrank ℂ Pplus = 2 := by
+  show Module.finrank ℂ (Fin 2 → ℂ) = 2
+  simp
+
+lemma Pminus.finrank_complex : Module.finrank ℂ Pminus = 2 := by
+  show Module.finrank ℂ (Fin 2 → ℂ) = 2
+  simp
+
+/-- The `ℂ`-linear form of the decomposition, obtained by restricting scalars. -/
+noncomputable def regularEquivProdComplex : (Pplus × Pminus) ≃ₗ[ℂ] A :=
+  regularEquivProd.restrictScalars ℂ
+
+instance : FiniteDimensional ℂ A :=
+  Module.Finite.equiv regularEquivProdComplex
+
+/-- **`A` is four-dimensional over `ℂ`**, as asserted in the statement of Problem 9.3.2
+(basis `1, g, x, gx`). Here it is read off from `A ≅ P₊ ⊕ P₋` with both summands of
+dimension `2`. -/
+theorem finrank_A : Module.finrank ℂ A = 4 := by
+  rw [← regularEquivProdComplex.finrank_eq, Module.finrank_prod, Pplus.finrank_complex,
+    Pminus.finrank_complex]
+
+end RegularDecomposition
+
+/-! ## Classification of the indecomposable projectives
+
+This is the second part of Problem 9.3.2: `P₊` and `P₋` are *all* of the indecomposable
+projectives. The statement is for finite dimensional modules over `ℂ` (equivalently, finitely
+generated over `A`, since `A` is finite dimensional); the unrestricted statement needs
+infinite-rank projective machinery the book does not use here.
+
+The argument is the standard projective-cover one, already available in the project as
+`Etingof.indecomposable_projective_iso_of_hom` (Fitting's lemma: two indecomposable finitely
+generated projectives with nonzero `Hom` to the same simple are isomorphic). What this file
+supplies is its inputs for this particular `A`:
+
+* `A` is artinian, because `dim_ℂ A = 4` (`finrank_A`, from `A ≅ P₊ ⊕ P₋` above);
+* a nonzero finite dimensional `Q` has a nonzero map to `S₊` or to `S₋`: take a maximal
+  submodule, and identify the simple quotient by `nonempty_linearEquiv_splus_or_sminus`;
+* `gSES : P₊ ↠ S₊` and `gSESm : P₋ ↠ S₋` are the matching nonzero maps out of the projectives.
+
+The two cases are mutually exclusive (`pplus_not_iso_pminus`), so the classification is by
+`Xor`, exactly as for the simples. -/
+
+section ProjectiveClassification
+
+instance isArtinianRing_A : IsArtinianRing A := isArtinian_of_tower ℂ inferInstance
+
+/-- The socle vector of `P₋` is killed by `x` (as `x² = 0`). -/
+@[simp] lemma Pminus.x_smul_e1 : x • Pminus.e1 = 0 := by
+  rw [Pminus.x_smul]
+  refine Pminus.ext fun i => ?_
+  fin_cases i <;> simp
+
+/-- `P₊` and `P₋` are not isomorphic. Every `A`-linear map `P₊ → P₋` is a multiple of `Tpm`,
+which kills the socle: an `A`-linear `e : P₊ → P₋` sends `e₀` into the `+1`-eigenline `ℂ·e₁` of
+`g`, and then `e e₁ = e (x · e₀) = x · e e₀ ∈ x · ℂ·e₁ = 0`, so `e` is not injective. -/
+theorem pplus_not_iso_pminus : IsEmpty (Pplus ≃ₗ[A] Pminus) := by
+  refine ⟨fun e => ?_⟩
+  have h0 : e Pplus.e0 = (e Pplus.e0) 1 • Pminus.e1 :=
+    Pminus.eq_smul_e1_of_g_smul_eq_self (Pplus.g_smul_apply_e0 e.toLinearMap)
+  have h1 : e Pplus.e1 = 0 := by
+    rw [← Pplus.x_smul_e0, map_smul, h0, smul_comm, Pminus.x_smul_e1, smul_zero]
+  have h2 : Pplus.e1 = 0 := by
+    have := e.injective (h1.trans (map_zero e).symm)
+    exact this
+  have h3 : (Pplus.e1 : Pplus) 1 = 0 := by rw [h2]; rfl
+  rw [Pplus.e1_one] at h3
+  exact one_ne_zero h3
+
+lemma gSES_ne_zero : gSES ≠ 0 := by
+  intro h
+  have h1 : gSES Pplus.e0 = 0 := by rw [h]; rfl
+  rw [gSES_apply, Pplus.e0_zero] at h1
+  exact one_ne_zero (α := ℂ) h1
+
+lemma gSESm_ne_zero : gSESm ≠ 0 := by
+  intro h
+  have h1 : gSESm Pminus.e0 = 0 := by rw [h]; rfl
+  rw [gSESm_apply, Pminus.e0_zero] at h1
+  exact one_ne_zero (α := ℂ) h1
+
+/-- Composing the quotient map by a proper submodule with an isomorphism of the quotient never
+gives the zero map: the quotient map is onto and the submodule is not everything. -/
+lemma comp_mkQ_ne_zero {Q : Type u} [AddCommGroup Q] [Module A Q] {T : Type v} [AddCommGroup T]
+    [Module A T] (N : Submodule A Q) (hN : N ≠ ⊤) (e : (Q ⧸ N) ≃ₗ[A] T) :
+    e.toLinearMap.comp N.mkQ ≠ 0 := by
+  intro h
+  refine hN (Submodule.eq_top_iff'.mpr fun q => ?_)
+  have h1 : e (N.mkQ q) = 0 := by have := LinearMap.congr_fun h q; simpa using this
+  have h2 : N.mkQ q = 0 := e.injective (h1.trans (map_zero e).symm)
+  exact (Submodule.Quotient.mk_eq_zero N).mp h2
+
+/-- Any nonzero finite dimensional `A`-module has a nonzero `A`-linear map to `S₊` or to `S₋`:
+it has a maximal submodule, and the resulting simple quotient is one of the two simples. -/
+theorem exists_nonzero_hom_to_simple (Q : Type u) [AddCommGroup Q] [Module ℂ Q] [Module A Q]
+    [IsScalarTower ℂ A Q] [FiniteDimensional ℂ Q] [Nontrivial Q] :
+    (∃ φ : Q →ₗ[A] Splus, φ ≠ 0) ∨ (∃ φ : Q →ₗ[A] Sminus, φ ≠ 0) := by
+  haveI : Module.Finite A Q := Module.Finite.of_restrictScalars_finite ℂ A Q
+  obtain ⟨N, hN⟩ := Etingof.Theorem921.exists_isCoatom_submodule (R := A) (M := Q)
+  haveI : IsSimpleModule A (Q ⧸ N) := isSimpleModule_iff_isCoatom.mpr hN
+  rcases nonempty_linearEquiv_splus_or_sminus (Q ⧸ N) with h | h
+  · obtain ⟨e⟩ := h
+    exact Or.inl ⟨e.toLinearMap.comp N.mkQ, comp_mkQ_ne_zero N hN.1 e⟩
+  · obtain ⟨e⟩ := h
+    exact Or.inr ⟨e.toLinearMap.comp N.mkQ, comp_mkQ_ne_zero N hN.1 e⟩
+
+/-- **Every finite dimensional indecomposable projective `A`-module is `P₊` or `P₋`.**
+
+This is the converse half of the second part of Problem 9.3.2: together with
+`projective_Pplus`, `projective_Pminus`, `isIndecomposable_Pplus` and
+`isIndecomposable_Pminus`, it says the indecomposable projectives are exactly `P₊` and `P₋`. -/
+theorem indecomposable_projective_classification (Q : Type u) [AddCommGroup Q] [Module ℂ Q]
+    [Module A Q] [IsScalarTower ℂ A Q] [FiniteDimensional ℂ Q] [Module.Projective A Q]
+    (hQ : Etingof.IsIndecomposable A Q) :
+    Nonempty (Q ≃ₗ[A] Pplus) ∨ Nonempty (Q ≃ₗ[A] Pminus) := by
+  haveI : Nontrivial Q := hQ.1
+  rcases exists_nonzero_hom_to_simple Q with ⟨φ, hφ⟩ | ⟨φ, hφ⟩
+  · exact Or.inl (Etingof.indecomposable_projective_iso_of_hom (k := ℂ) hQ
+      isIndecomposable_Pplus φ hφ gSES gSES_ne_zero)
+  · exact Or.inr (Etingof.indecomposable_projective_iso_of_hom (k := ℂ) hQ
+      isIndecomposable_Pminus φ hφ gSESm gSESm_ne_zero)
+
+/-- **The indecomposable projective `A`-modules are exactly `P₊` and `P₋`** — every finite
+dimensional indecomposable projective is isomorphic to exactly one of them.
+
+This is the second part of Problem 9.3.2, in the same `Xor` form as
+`simple_module_classification` for the first part. -/
+theorem indecomposable_projective_classification_xor (Q : Type u) [AddCommGroup Q] [Module ℂ Q]
+    [Module A Q] [IsScalarTower ℂ A Q] [FiniteDimensional ℂ Q] [Module.Projective A Q]
+    (hQ : Etingof.IsIndecomposable A Q) :
+    Xor (Nonempty (Q ≃ₗ[A] Pplus)) (Nonempty (Q ≃ₗ[A] Pminus)) := by
+  have hnot : ¬(Nonempty (Q ≃ₗ[A] Pplus) ∧ Nonempty (Q ≃ₗ[A] Pminus)) := by
+    rintro ⟨⟨e₁⟩, ⟨e₂⟩⟩
+    exact pplus_not_iso_pminus.false (e₁.symm.trans e₂)
+  rcases indecomposable_projective_classification Q hQ with h | h
+  · exact Or.inl ⟨h, fun h' => hnot ⟨h, h'⟩⟩
+  · exact Or.inr ⟨h, fun h' => hnot ⟨h', h⟩⟩
+
+end ProjectiveClassification
 
 end Etingof.Problem932
