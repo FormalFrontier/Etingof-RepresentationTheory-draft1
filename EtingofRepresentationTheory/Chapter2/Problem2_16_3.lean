@@ -1742,6 +1742,18 @@ theorem lie_a3_a4_smul : (5 : k) • ⁅aElt k 4 3, aElt k 4 4⁆ = 0 := by
 theorem lie_a1_a2_eq : ⁅aElt k 4 1, aElt k 4 2⁆ = -⁅aElt k 4 0, aElt k 4 3⁆ := by
   rw [eq_neg_iff_add_eq_zero]; exact lie_a1_a2_add k
 
+/-- `⁅x̄, ⁅a₀, a₃⁆⁆ = 0`: the adjoint action of `x̄` kills the top of the degree-`2` layer.
+
+The loop model predicts this (`⁅E₂₀, E₁₀ - E₂₁⁆ = 0`), but for the upper bound it has to be
+derived inside `𝔤₄` itself, which the Jacobi identity does: rewrite `⁅a₀,a₃⁆` as `-⁅a₁,a₂⁆` and
+expand, landing on the two vanishing brackets `⁅a₀,a₁⁆` and `⁅a₀,a₂⁆`. This is the template for
+the vanishing statements in the higher layers. -/
+theorem lie_a0_lie_a0_a3 : ⁅aElt k 4 0, ⁅aElt k 4 0, aElt k 4 3⁆⁆ = 0 := by
+  have h3 : ⁅aElt k 4 0, aElt k 4 3⁆ = -⁅aElt k 4 1, aElt k 4 2⁆ := by
+    rw [lie_a1_a2_eq, neg_neg]
+  rw [h3, lie_neg, leibniz_lie, lie_a0_a1, lie_a0_a2]
+  simp
+
 end Layers
 
 section LayersField
