@@ -152,6 +152,15 @@ If the changes look like real work (not stray build artifacts), stash them
 (`git stash`, never `git stash -u`) or commit them on a scratch branch before
 resetting.
 
+Judge that inspection in *both* directions: stray changes you leave in place ride
+along into your PR as unrelated regressions. Check `git diff --numstat` for changes
+that are pure *deletions* against `main` in files you were not asked to touch,
+especially under `.claude/`. A crashed session can leave an accidental revert of
+accumulated workflow guidance, which is easy to commit without noticing and hard to
+spot in review. Restore those (`git checkout HEAD -- <paths>`) rather than carrying
+them. (2026-07-25: a worktree arrived with 169 lines of `.claude/` guidance deleted
+and nothing added.)
+
 Record any project-specific quality metrics (e.g. sorry count, test coverage)
 as described in the project's CLAUDE.md.
 
@@ -397,7 +406,28 @@ Write a progress entry to `progress/<UTC-timestamp>_<UUID-prefix>.md`:
 ```bash
 git push -u origin <branch>
 coordination create-pr <issue-number>
+gh pr edit <new-pr-number> --body "$(cat <<'EOF'
+This PR ...
+EOF
+)"
 ```
+
+**`create-pr` writes a placeholder body, so replace it.** The body it generates is just
+the `Closes #N` line, your session UUID, and a raw `git log`; it takes no body argument
+and reads nothing from stdin. Follow it with `gh pr edit <N> --body`, opening with a
+paragraph that starts "This PR ..." in imperative present, since that paragraph becomes
+the release note. Keep the `Closes #N`, `Session:` and `🤖 Prepared with Claude Code`
+lines.
+
+**Do not run `gh pr merge --auto --squash` yourself.** `create-pr` already attempts to
+enable auto-merge, and on this repo it reports `auto-merge not available (branch
+protection may not be set up)`. That warning is the whole story: with auto-merge
+unavailable, a follow-up `gh pr merge <N> --auto --squash` does not queue behind CI, it
+**merges immediately**, landing your branch on `main` with `build` still `IN_PROGRESS`.
+For a Lean change that means unbuilt code on `main` and a broken base for every other
+agent. Leave the PR alone after `create-pr`; the next planning cycle's merge sweep
+checks `statusCheckRollup` before merging. (2026-07-25: PR #7725 merged 24s after
+creation, both `build` checks still running.)
 
 **Once the PR is created, exit.** Do not poll CI, wait for the merge, or
 otherwise spin on the PR. Another session will pick up any follow-up work
