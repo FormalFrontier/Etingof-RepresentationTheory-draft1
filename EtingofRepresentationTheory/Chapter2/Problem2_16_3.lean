@@ -10,6 +10,9 @@ import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Algebra.Polynomial.Basis
 import Mathlib.LinearAlgebra.Matrix.Trace
+import Mathlib.Algebra.Polynomial.Degree.Support
+import Mathlib.Tactic.IntervalCases
+import Mathlib.Tactic.LinearCombination
 
 /-!
 # Problem 2.16.3: The Lie algebras `𝔤ₙ = ⟨x, y | ad(x)²y = ad(y)ⁿ⁺¹x = 0⟩`
@@ -135,6 +138,68 @@ theorem lieSpan_gens_eq_top (n : ℕ) :
   | smul t u _ hu => rw [map_smul]; exact LieSubalgebra.smul_mem _ t hu
   | lie u v _ _ hu hv => rw [LieHom.map_lie]; exact LieSubalgebra.lie_mem _ hu hv
 
+/-- **Closure principle.** A submodule of `𝔤ₙ` that contains both generators and is stable under
+the two operators `⁅x̄, ·⁆` and `⁅ȳ, ·⁆` is already everything.
+
+Stability under the adjoint action of the *generators* is enough: the elements whose adjoint action
+preserves `M` form a Lie subalgebra, so once it contains `x̄` and `ȳ` it is all of `𝔤ₙ` by
+`lieSpan_gens_eq_top`, and then `M` itself is a Lie subalgebra containing the generators. -/
+theorem eq_top_of_closed_under_ad (n : ℕ) (M : Submodule k (g k n))
+    (hx : xb k n ∈ M) (hy : yb k n ∈ M)
+    (hadx : ∀ m ∈ M, ⁅xb k n, m⁆ ∈ M) (hady : ∀ m ∈ M, ⁅yb k n, m⁆ ∈ M) :
+    M = ⊤ := by
+  have hall : ∀ a : g k n, ∀ m ∈ M, ⁅a, m⁆ ∈ M := by
+    let N : LieSubalgebra k (g k n) :=
+      { carrier := {a | ∀ m ∈ M, ⁅a, m⁆ ∈ M}
+        add_mem' := fun ha hb m hm => by rw [add_lie]; exact M.add_mem (ha m hm) (hb m hm)
+        zero_mem' := fun m _ => by rw [zero_lie]; exact M.zero_mem
+        smul_mem' := fun c _ ha m hm => by rw [smul_lie]; exact M.smul_mem c (ha m hm)
+        lie_mem' := fun ha hb m hm => by
+          rw [lie_lie]; exact M.sub_mem (ha _ (hb m hm)) (hb _ (ha m hm)) }
+    have hN : N = ⊤ := by
+      rw [← top_le_iff, ← lieSpan_gens_eq_top k n, LieSubalgebra.lieSpan_le]
+      intro w hw
+      simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
+      rcases hw with rfl | rfl
+      · exact hadx
+      · exact hady
+    intro a
+    have ha : a ∈ N := by rw [hN]; trivial
+    exact ha
+  let W : LieSubalgebra k (g k n) := { M with lie_mem' := fun {u v} _ hv => hall u v hv }
+  have hW : W = ⊤ := by
+    rw [← top_le_iff, ← lieSpan_gens_eq_top k n, LieSubalgebra.lieSpan_le]
+    intro w hw
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
+    rcases hw with rfl | rfl
+    · exact hx
+    · exact hy
+  have := congrArg LieSubalgebra.toSubmodule hW
+  simpa [W] using this
+
+/-- Spanning-set form of `eq_top_of_closed_under_ad`: to see that a set `S` containing the two
+generators spans `𝔤ₙ`, it suffices to bracket each *member* of `S` with `x̄` and with `ȳ` and land
+back in the span. No bracket `⁅s, s'⁆` of two general members needs to be computed. -/
+theorem span_eq_top_of_closed_under_ad (n : ℕ) (S : Set (g k n))
+    (hx : xb k n ∈ S) (hy : yb k n ∈ S)
+    (hadx : ∀ s ∈ S, ⁅xb k n, s⁆ ∈ Submodule.span k S)
+    (hady : ∀ s ∈ S, ⁅yb k n, s⁆ ∈ Submodule.span k S) :
+    Submodule.span k S = ⊤ := by
+  refine eq_top_of_closed_under_ad k n _ (Submodule.subset_span hx) (Submodule.subset_span hy)
+    ?_ ?_
+  · intro m hm
+    induction hm using Submodule.span_induction with
+    | mem s hs => exact hadx s hs
+    | zero => rw [lie_zero]; exact Submodule.zero_mem _
+    | add a b _ _ ha hb => rw [lie_add]; exact Submodule.add_mem _ ha hb
+    | smul c a _ ha => rw [lie_smul]; exact Submodule.smul_mem _ c ha
+  · intro m hm
+    induction hm using Submodule.span_induction with
+    | mem s hs => exact hady s hs
+    | zero => rw [lie_zero]; exact Submodule.zero_mem _
+    | add a b _ _ ha hb => rw [lie_add]; exact Submodule.add_mem _ ha hb
+    | smul c a _ ha => rw [lie_smul]; exact Submodule.smul_mem _ c ha
+
 theorem proj_eq_zero_iff (n : ℕ) (a : FreeLieAlgebra k (Fin 2)) :
     proj k n a = 0 ↔ a ∈ relIdeal k n := by
   rw [proj_apply]; exact LieSubmodule.Quotient.mk_eq_zero _
@@ -242,44 +307,21 @@ end Matrix
 /-- The three elements `x̄, ȳ, z̄` span `𝔤₁` as a module. -/
 theorem span_eq_top_one :
     Submodule.span k {xb k 1, yb k 1, zb k 1} = ⊤ := by
-  have hclosed : ∀ {u v : g k 1}, u ∈ Submodule.span k {xb k 1, yb k 1, zb k 1} →
-      v ∈ Submodule.span k {xb k 1, yb k 1, zb k 1} →
-      ⁅u, v⁆ ∈ Submodule.span k {xb k 1, yb k 1, zb k 1} := by
-    intro u v hu hv
-    induction hu, hv using Submodule.span_induction₂ with
-    | mem_mem a b ha hb =>
-      simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb
-      have hz : zb k 1 ∈ ({xb k 1, yb k 1, zb k 1} : Set (g k 1)) := by simp
-      rcases ha with rfl | rfl | rfl <;> rcases hb with rfl | rfl | rfl
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · exact Submodule.subset_span hz
-      · rw [lie_xb_zb]; exact Submodule.zero_mem _
-      · rw [← lie_skew (x := yb k 1) (y := xb k 1)]
-        exact neg_mem (Submodule.subset_span hz)
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · rw [lie_yb_zb_one]; exact Submodule.zero_mem _
-      · rw [← lie_skew (x := zb k 1) (y := xb k 1), lie_xb_zb, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := zb k 1) (y := yb k 1), lie_yb_zb_one, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [lie_self]; exact Submodule.zero_mem _
-    | zero_left b hb => rw [zero_lie]; exact Submodule.zero_mem _
-    | zero_right a ha => rw [lie_zero]; exact Submodule.zero_mem _
-    | add_left a b c _ _ _ ha hb => rw [add_lie]; exact Submodule.add_mem _ ha hb
-    | add_right a b c _ _ _ ha hb => rw [lie_add]; exact Submodule.add_mem _ ha hb
-    | smul_left r a b _ _ ha => rw [smul_lie]; exact Submodule.smul_mem _ r ha
-    | smul_right r a b _ _ ha => rw [lie_smul]; exact Submodule.smul_mem _ r ha
-  let W : LieSubalgebra k (g k 1) :=
-    { Submodule.span k {xb k 1, yb k 1, zb k 1} with lie_mem' := @hclosed }
-  have hWtop : W = ⊤ := by
-    rw [← top_le_iff, ← lieSpan_gens_eq_top k 1, LieSubalgebra.lieSpan_le]
-    intro w hw
-    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
-    rcases hw with rfl | rfl
-    · exact Submodule.subset_span (by simp)
-    · exact Submodule.subset_span (by simp)
-  have := congrArg (LieSubalgebra.toSubmodule) hWtop
-  simpa [W] using this
+  have hz : zb k 1 ∈ ({xb k 1, yb k 1, zb k 1} : Set (g k 1)) := by simp
+  refine span_eq_top_of_closed_under_ad k 1 _ (by simp) (by simp) ?_ ?_
+  · intro s hs
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hs
+    rcases hs with rfl | rfl | rfl
+    · rw [lie_self]; exact Submodule.zero_mem _
+    · exact Submodule.subset_span hz
+    · rw [lie_xb_zb]; exact Submodule.zero_mem _
+  · intro s hs
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hs
+    rcases hs with rfl | rfl | rfl
+    · rw [← lie_skew (x := yb k 1) (y := xb k 1)]
+      exact neg_mem (Submodule.subset_span hz)
+    · rw [lie_self]; exact Submodule.zero_mem _
+    · rw [lie_yb_zb_one]; exact Submodule.zero_mem _
 
 /-- **(a)** `𝔤₁` is finite dimensional of dimension `3` (type `A₂` positive part). -/
 theorem finrank_g_one (k : Type*) [Field k] : Module.finrank k (g k 1) = 3 := by
@@ -426,59 +468,24 @@ end Matrix2
 /-- The four elements `x̄, ȳ, z̄, w̄` span `𝔤₂` as a module. -/
 theorem span_eq_top_two :
     Submodule.span k {xb k 2, yb k 2, zb k 2, wb k 2} = ⊤ := by
-  have hclosed : ∀ {u v : g k 2}, u ∈ Submodule.span k {xb k 2, yb k 2, zb k 2, wb k 2} →
-      v ∈ Submodule.span k {xb k 2, yb k 2, zb k 2, wb k 2} →
-      ⁅u, v⁆ ∈ Submodule.span k {xb k 2, yb k 2, zb k 2, wb k 2} := by
-    intro u v hu hv
-    induction hu, hv using Submodule.span_induction₂ with
-    | mem_mem a b ha hb =>
-      simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb
-      have hz : zb k 2 ∈ ({xb k 2, yb k 2, zb k 2, wb k 2} : Set (g k 2)) := by simp
-      have hw : wb k 2 ∈ ({xb k 2, yb k 2, zb k 2, wb k 2} : Set (g k 2)) := by simp
-      rcases ha with rfl | rfl | rfl | rfl <;> rcases hb with rfl | rfl | rfl | rfl
-      -- a = x̄
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · exact Submodule.subset_span hz
-      · rw [lie_xb_zb]; exact Submodule.zero_mem _
-      · rw [lie_xb_wb_two]; exact Submodule.zero_mem _
-      -- a = ȳ
-      · rw [← lie_skew (x := yb k 2) (y := xb k 2)]
-        exact neg_mem (Submodule.subset_span hz)
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · exact Submodule.subset_span hw
-      · rw [lie_yb_wb_two]; exact Submodule.zero_mem _
-      -- a = z̄
-      · rw [← lie_skew (x := zb k 2) (y := xb k 2), lie_xb_zb, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := zb k 2) (y := yb k 2)]
-        exact neg_mem (Submodule.subset_span hw)
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · rw [lie_zb_wb_two]; exact Submodule.zero_mem _
-      -- a = w̄
-      · rw [← lie_skew (x := wb k 2) (y := xb k 2), lie_xb_wb_two, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := wb k 2) (y := yb k 2), lie_yb_wb_two, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := wb k 2) (y := zb k 2), lie_zb_wb_two, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [lie_self]; exact Submodule.zero_mem _
-    | zero_left b hb => rw [zero_lie]; exact Submodule.zero_mem _
-    | zero_right a ha => rw [lie_zero]; exact Submodule.zero_mem _
-    | add_left a b c _ _ _ ha hb => rw [add_lie]; exact Submodule.add_mem _ ha hb
-    | add_right a b c _ _ _ ha hb => rw [lie_add]; exact Submodule.add_mem _ ha hb
-    | smul_left r a b _ _ ha => rw [smul_lie]; exact Submodule.smul_mem _ r ha
-    | smul_right r a b _ _ ha => rw [lie_smul]; exact Submodule.smul_mem _ r ha
-  let W : LieSubalgebra k (g k 2) :=
-    { Submodule.span k {xb k 2, yb k 2, zb k 2, wb k 2} with lie_mem' := @hclosed }
-  have hWtop : W = ⊤ := by
-    rw [← top_le_iff, ← lieSpan_gens_eq_top k 2, LieSubalgebra.lieSpan_le]
-    intro w hw
-    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
-    rcases hw with rfl | rfl
-    · exact Submodule.subset_span (by simp)
-    · exact Submodule.subset_span (by simp)
-  have := congrArg (LieSubalgebra.toSubmodule) hWtop
-  simpa [W] using this
+  have hz : zb k 2 ∈ ({xb k 2, yb k 2, zb k 2, wb k 2} : Set (g k 2)) := by simp
+  have hw : wb k 2 ∈ ({xb k 2, yb k 2, zb k 2, wb k 2} : Set (g k 2)) := by simp
+  refine span_eq_top_of_closed_under_ad k 2 _ (by simp) (by simp) ?_ ?_
+  · intro s hs
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hs
+    rcases hs with rfl | rfl | rfl | rfl
+    · rw [lie_self]; exact Submodule.zero_mem _
+    · exact Submodule.subset_span hz
+    · rw [lie_xb_zb]; exact Submodule.zero_mem _
+    · rw [lie_xb_wb_two]; exact Submodule.zero_mem _
+  · intro s hs
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hs
+    rcases hs with rfl | rfl | rfl | rfl
+    · rw [← lie_skew (x := yb k 2) (y := xb k 2)]
+      exact neg_mem (Submodule.subset_span hz)
+    · rw [lie_self]; exact Submodule.zero_mem _
+    · exact Submodule.subset_span hw
+    · rw [lie_yb_wb_two]; exact Submodule.zero_mem _
 
 /-- **(a)** `𝔤₂` is finite dimensional of dimension `4` (type `B₂` positive part). -/
 theorem finrank_g_two (k : Type*) [Field k] : Module.finrank k (g k 2) = 4 := by
@@ -1277,98 +1284,30 @@ end Matrix3
 relations `[z̄, v̄] = 0` etc.). -/
 theorem span_eq_top_three (k : Type*) [Field k] (hk : (2 : k) ≠ 0) :
     Submodule.span k {xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} = ⊤ := by
-  have hclosed : ∀ {u v : g k 3},
-      u ∈ Submodule.span k {xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} →
-      v ∈ Submodule.span k {xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} →
-      ⁅u, v⁆ ∈ Submodule.span k {xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} := by
-    intro u v hu hv
-    induction hu, hv using Submodule.span_induction₂ with
-    | mem_mem a b ha hb =>
-      simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb
-      have hzm : zb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by
-        simp
-      have hwm : wb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by
-        simp
-      have hvm : vb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by
-        simp
-      have hum : ub k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by
-        simp
-      rcases ha with rfl | rfl | rfl | rfl | rfl | rfl <;>
-        rcases hb with rfl | rfl | rfl | rfl | rfl | rfl
-      -- a = x̄
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · exact Submodule.subset_span hzm
-      · rw [lie_xb_zb]; exact Submodule.zero_mem _
-      · rw [lie_xb_wb_three]; exact Submodule.zero_mem _
-      · exact Submodule.subset_span hum
-      · rw [lie_xb_ub_three]; exact Submodule.zero_mem _
-      -- a = ȳ
-      · rw [← lie_skew (x := yb k 3) (y := xb k 3)]
-        exact neg_mem (Submodule.subset_span hzm)
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · exact Submodule.subset_span hwm
-      · exact Submodule.subset_span hvm
-      · rw [lie_yb_vb_three]; exact Submodule.zero_mem _
-      · rw [lie_yb_ub_three_zero k hk]; exact Submodule.zero_mem _
-      -- a = z̄
-      · rw [← lie_skew (x := zb k 3) (y := xb k 3), lie_xb_zb, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := zb k 3) (y := yb k 3)]
-        exact neg_mem (Submodule.subset_span hwm)
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · rw [lie_zb_wb_three]; exact Submodule.subset_span hum
-      · rw [lie_zb_vb_three_zero k hk]; exact Submodule.zero_mem _
-      · rw [lie_zb_ub_three k hk]; exact Submodule.zero_mem _
-      -- a = w̄
-      · rw [← lie_skew (x := wb k 3) (y := xb k 3), lie_xb_wb_three, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := wb k 3) (y := yb k 3)]
-        exact neg_mem (Submodule.subset_span hvm)
-      · rw [← lie_skew (x := wb k 3) (y := zb k 3), lie_zb_wb_three]
-        exact neg_mem (Submodule.subset_span hum)
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · rw [lie_wb_vb_three k hk]; exact Submodule.zero_mem _
-      · rw [lie_wb_ub_three k hk]; exact Submodule.zero_mem _
-      -- a = v̄
-      · rw [← lie_skew (x := vb k 3) (y := xb k 3)]
-        exact neg_mem (Submodule.subset_span hum)
-      · rw [← lie_skew (x := vb k 3) (y := yb k 3), lie_yb_vb_three, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := vb k 3) (y := zb k 3), lie_zb_vb_three_zero k hk, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := vb k 3) (y := wb k 3), lie_wb_vb_three k hk, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · rw [lie_vb_ub_three k hk]; exact Submodule.zero_mem _
-      -- a = ū
-      · rw [← lie_skew (x := ub k 3) (y := xb k 3), lie_xb_ub_three, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := ub k 3) (y := yb k 3), lie_yb_ub_three_zero k hk, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := ub k 3) (y := zb k 3), lie_zb_ub_three k hk, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := ub k 3) (y := wb k 3), lie_wb_ub_three k hk, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := ub k 3) (y := vb k 3), lie_vb_ub_three k hk, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [lie_self]; exact Submodule.zero_mem _
-    | zero_left b hb => rw [zero_lie]; exact Submodule.zero_mem _
-    | zero_right a ha => rw [lie_zero]; exact Submodule.zero_mem _
-    | add_left a b c _ _ _ ha hb => rw [add_lie]; exact Submodule.add_mem _ ha hb
-    | add_right a b c _ _ _ ha hb => rw [lie_add]; exact Submodule.add_mem _ ha hb
-    | smul_left r a b _ _ ha => rw [smul_lie]; exact Submodule.smul_mem _ r ha
-    | smul_right r a b _ _ ha => rw [lie_smul]; exact Submodule.smul_mem _ r ha
-  let W : LieSubalgebra k (g k 3) :=
-    { Submodule.span k {xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} with lie_mem' := @hclosed }
-  have hWtop : W = ⊤ := by
-    rw [← top_le_iff, ← lieSpan_gens_eq_top k 3, LieSubalgebra.lieSpan_le]
-    intro w hw
-    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
-    rcases hw with rfl | rfl
-    · exact Submodule.subset_span (by simp)
-    · exact Submodule.subset_span (by simp)
-  have := congrArg (LieSubalgebra.toSubmodule) hWtop
-  simpa [W] using this
+  have hzm : zb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by simp
+  have hwm : wb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by simp
+  have hvm : vb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by simp
+  have hum : ub k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by simp
+  refine span_eq_top_of_closed_under_ad k 3 _ (by simp) (by simp) ?_ ?_
+  · intro s hs
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hs
+    rcases hs with rfl | rfl | rfl | rfl | rfl | rfl
+    · rw [lie_self]; exact Submodule.zero_mem _
+    · exact Submodule.subset_span hzm
+    · rw [lie_xb_zb]; exact Submodule.zero_mem _
+    · rw [lie_xb_wb_three]; exact Submodule.zero_mem _
+    · exact Submodule.subset_span hum
+    · rw [lie_xb_ub_three]; exact Submodule.zero_mem _
+  · intro s hs
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hs
+    rcases hs with rfl | rfl | rfl | rfl | rfl | rfl
+    · rw [← lie_skew (x := yb k 3) (y := xb k 3)]
+      exact neg_mem (Submodule.subset_span hzm)
+    · rw [lie_self]; exact Submodule.zero_mem _
+    · exact Submodule.subset_span hwm
+    · exact Submodule.subset_span hvm
+    · rw [lie_yb_vb_three]; exact Submodule.zero_mem _
+    · rw [lie_yb_ub_three_zero k hk]; exact Submodule.zero_mem _
 
 /-- **(a)** `𝔤₃` is finite dimensional of dimension `6` (type `G₂` positive part). The hypothesis
 `(2 : k) ≠ 0` is sharp: over characteristic `2` the algebra is `7`-dimensional. -/
@@ -1693,6 +1632,855 @@ theorem NY_mem_loopPos : NY k ∈ loopPos k := by
     rw [this]
     exact Submodule.mem_span_singleton_self _
 
+/-! ### The `σ`-eigenspaces are spanned by `gzero` and `gone`
+
+`sigInv_gzero` and `sigInv_gone` place `gzero` in the `+1`-eigenspace of `σ` and `gone` in the
+`-1`-eigenspace. Here we prove the converse inclusions, which is what turns the intrinsic
+description of `loopPos` into the graded one. Both are entry chases through
+`rev = (0 ↔ 2, 1 ↔ 1)`.
+
+Note the `-1`-eigenspace of `σ` on all of `𝔤𝔩₃` is `6`-dimensional (`σ(1) = -1`); it is the
+traceless condition that cuts it down to the `5`-dimensional `gone`. The `+1`-eigenspace is
+automatically traceless, but pinning it to `gzero` needs `2 ≠ 0` (the entries `a₀₂`, `a₁₁`, `a₂₀`
+are only killed by `2a = 0`). -/
+
+/-- Away from characteristic `2`, the `+1`-eigenspace of `σ` on `𝔤𝔩₃` is exactly the span of
+`gzero`. -/
+theorem mem_span_gzero_of_sigInv_eq (k : Type*) [Field k] (h2 : (2 : k) ≠ 0)
+    {A : Matrix (Fin 3) (Fin 3) k} (h : sigInv A = A) :
+    A ∈ Submodule.span k (Set.range (gzero k)) := by
+  have e : ∀ i j : Fin 3, -(A j.rev i.rev) = A i j := fun i j => congrFun (congrFun h i) j
+  have two_cancel : ∀ a : k, -a = a → a = 0 := by
+    intro a ha
+    have : (2 : k) * a = 0 := by linear_combination -ha
+    exact (mul_eq_zero.mp this).resolve_left h2
+  have h02 : A 0 2 = 0 := two_cancel _ (by simpa using e 0 2)
+  have h11 : A 1 1 = 0 := two_cancel _ (by simpa using e 1 1)
+  have h20 : A 2 0 = 0 := two_cancel _ (by simpa using e 2 0)
+  have h22 : A 2 2 = -A 0 0 := by simpa [eq_comm] using e 2 2
+  have h12 : A 1 2 = -A 0 1 := by simpa [eq_comm] using e 1 2
+  have h21 : A 2 1 = -A 1 0 := by simpa [eq_comm] using e 2 1
+  have key : A = A 0 1 • gzero k 0 + A 0 0 • gzero k 1 + A 1 0 • gzero k 2 := by
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [gzero, Matrix.single, Matrix.add_apply, h02, h11, h20, h22, h12, h21]
+  rw [key]
+  refine Submodule.add_mem _ (Submodule.add_mem _ ?_ ?_) ?_ <;>
+    exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨_, rfl⟩)
+
+set_option linter.unnecessarySeqFocus false in
+/-- The traceless part of the `-1`-eigenspace of `σ` on `𝔤𝔩₃` is exactly the span of `gone`.
+No hypothesis on the characteristic is needed. -/
+theorem mem_span_gone_of_sigInv_eq_neg {A : Matrix (Fin 3) (Fin 3) k}
+    (htr : Matrix.trace A = 0) (h : sigInv A = -A) :
+    A ∈ Submodule.span k (Set.range (gone k)) := by
+  have e : ∀ i j : Fin 3, A j.rev i.rev = A i j := by
+    intro i j
+    have := congrFun (congrFun h i) j
+    simpa [Matrix.neg_apply, neg_inj] using this
+  have h22 : A 2 2 = A 0 0 := by simpa using e 0 0
+  have h12 : A 1 2 = A 0 1 := by simpa using e 0 1
+  have h21 : A 2 1 = A 1 0 := by simpa using e 1 0
+  have h11 : A 1 1 = -(2 : k) * A 0 0 := by
+    have := htr
+    simp only [Matrix.trace, Matrix.diag, Fin.sum_univ_three] at this
+    linear_combination this - h22
+  have key : A = A 0 2 • gone k 0 + A 0 1 • gone k 1 + A 0 0 • gone k 2
+      + A 1 0 • gone k 3 + A 2 0 • gone k 4 := by
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [gone, Matrix.single, Matrix.add_apply, h22, h12, h21, h11] <;> ring
+  rw [key]
+  refine Submodule.add_mem _ (Submodule.add_mem _ (Submodule.add_mem _
+    (Submodule.add_mem _ ?_ ?_) ?_) ?_) ?_ <;>
+    exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨_, rfl⟩)
+
+/-! ### The monomial embedding and the `t`-degree decomposition -/
+
+/-- `A ↦ A·tⁿ`, entrywise: a constant matrix placed in `t`-degree `n`. -/
+noncomputable def emb (n : ℕ) :
+    Matrix (Fin 3) (Fin 3) k →ₗ[k] Matrix (Fin 3) (Fin 3) (Polynomial k) where
+  toFun A := A.map (Polynomial.monomial n)
+  map_add' A B := Matrix.ext fun a b => by
+    simp [Matrix.map_apply, Matrix.add_apply]
+  map_smul' c A := Matrix.ext fun a b => by
+    simp [Matrix.map_apply, Matrix.smul_apply, Polynomial.smul_monomial]
+
+@[simp] theorem emb_apply (n : ℕ) (A : Matrix (Fin 3) (Fin 3) k) (a b : Fin 3) :
+    emb k n A a b = Polynomial.monomial n (A a b) := rfl
+
+/-- Reading off the `tᵐ`-coefficient of a `t`-homogeneous matrix. -/
+@[simp] theorem coeffMat_emb (m n : ℕ) (A : Matrix (Fin 3) (Fin 3) k) :
+    coeffMat k m (emb k n A) = if n = m then A else 0 := by
+  ext a b
+  by_cases h : n = m <;> simp [Polynomial.coeff_monomial, h]
+
+/-- Every polynomial matrix is the finite sum of its `t`-homogeneous pieces. -/
+theorem exists_sum_emb_coeffMat (P : Matrix (Fin 3) (Fin 3) (Polynomial k)) :
+    ∃ N, P = ∑ n ∈ Finset.range N, emb k n (coeffMat k n P) := by
+  refine ⟨(Finset.univ.sup fun ij : Fin 3 × Fin 3 => (P ij.1 ij.2).natDegree) + 1, ?_⟩
+  refine Matrix.ext fun a b => ?_
+  have hlt : (P a b).natDegree
+      < (Finset.univ.sup fun ij : Fin 3 × Fin 3 => (P ij.1 ij.2).natDegree) + 1 :=
+    Nat.lt_succ_of_le
+      (Finset.le_sup (f := fun ij : Fin 3 × Fin 3 => (P ij.1 ij.2).natDegree)
+        (Finset.mem_univ (a, b)))
+  simp only [Matrix.sum_apply, emb_apply, coeffMat_apply]
+  exact Polynomial.as_sum_range' (P a b) _ hlt
+
+/-- The trace of a `t`-homogeneous matrix is the corresponding monomial in the trace. -/
+theorem trace_emb (n : ℕ) (A : Matrix (Fin 3) (Fin 3) k) :
+    Matrix.trace (emb k n A) = Polynomial.monomial n (Matrix.trace A) := by
+  simp only [Matrix.trace, Matrix.diag, Fin.sum_univ_three, emb_apply, map_add]
+
+/-- The `tⁿ`-coefficient of a traceless polynomial matrix is traceless. -/
+theorem trace_coeffMat (n : ℕ) {P : Matrix (Fin 3) (Fin 3) (Polynomial k)}
+    (h : Matrix.trace P = 0) : Matrix.trace (coeffMat k n P) = 0 := by
+  have : Matrix.trace (coeffMat k n P) = (Matrix.trace P).coeff n := by
+    simp [Matrix.trace, Matrix.diag, Fin.sum_univ_three]
+  rw [this, h, Polynomial.coeff_zero]
+
+/-- A `t`-homogeneous matrix lies in `𝔫₊` as soon as its constant matrix is traceless, sits in
+the right `σ`-eigenspace for the parity of its degree, and — in degree `0` only — is a multiple
+of the raising vector. -/
+theorem emb_mem_loopPos (n : ℕ) (A : Matrix (Fin 3) (Fin 3) k) (htr : Matrix.trace A = 0)
+    (hsig : sigInv A = (-1 : k) ^ n • A)
+    (hconst : n = 0 → A ∈ Submodule.span k {gzero k 0}) :
+    emb k n A ∈ loopPos k := by
+  refine ⟨by rw [trace_emb, htr, map_zero], ?_, ?_⟩
+  · rw [sigInv_eq_twMat_iff]
+    intro m
+    rw [coeffMat_emb]
+    by_cases h : n = m
+    · subst h; simpa using hsig
+    · simp [h]
+  · rw [constMat_eq_coeffMat_zero, coeffMat_emb]
+    by_cases hn : n = 0
+    · rw [if_pos hn]; exact hconst hn
+    · rw [if_neg hn]; exact Submodule.zero_mem _
+
+/-! ### The graded basis of `𝔫₊` -/
+
+/-- Index type for the graded basis of `𝔫₊`: one element in `t`-degree `0` (the raising vector),
+five in each odd `t`-degree `2m+1` (a copy of `𝔤₁`), three in each even `t`-degree `2m+2`
+(a copy of `𝔤₀`). Graded dimensions `1, 5, 3, 5, 3, …`. -/
+inductive LoopIdx where
+  | base : LoopIdx
+  | odd (m : ℕ) (i : Fin 5) : LoopIdx
+  | even (m : ℕ) (i : Fin 3) : LoopIdx
+  deriving DecidableEq
+
+/-- The `t`-degree of a basis index. -/
+def LoopIdx.deg : LoopIdx → ℕ
+  | .base => 0
+  | .odd m _ => 2 * m + 1
+  | .even m _ => 2 * m + 2
+
+/-- The constant matrix carried by a basis index. -/
+noncomputable def LoopIdx.mat (k : Type*) [CommRing k] : LoopIdx → Matrix (Fin 3) (Fin 3) k
+  | .base => gzero k 0
+  | .odd _ i => gone k i
+  | .even _ i => gzero k i
+
+/-- The basis vector of `𝔫₊` at a given index, viewed in the ambient `𝔤𝔩₃(k[t])`. -/
+noncomputable def loopVec (I : LoopIdx) : Matrix (Fin 3) (Fin 3) (Polynomial k) :=
+  emb k I.deg (I.mat k)
+
+theorem loopVec_mem (I : LoopIdx) : loopVec k I ∈ loopPos k := by
+  change emb k I.deg (I.mat k) ∈ loopPos k
+  refine emb_mem_loopPos k I.deg (I.mat k) ?_ ?_ ?_
+  · cases I <;> simp [LoopIdx.mat]
+  · cases I with
+    | base => simp [LoopIdx.deg, LoopIdx.mat]
+    | odd m i =>
+        rw [LoopIdx.mat, LoopIdx.deg, sigInv_gone, pow_succ, pow_mul]
+        simp
+    | even m i =>
+        rw [LoopIdx.mat, LoopIdx.deg, sigInv_gzero, show 2 * m + 2 = 2 * (m + 1) by ring, pow_mul]
+        simp
+  · intro h
+    cases I with
+    | base => simp [LoopIdx.mat, Submodule.mem_span_singleton_self]
+    | odd m i => rw [LoopIdx.deg] at h; omega
+    | even m i => rw [LoopIdx.deg] at h; omega
+
+/-- The basis vector of `𝔫₊` at a given index. -/
+noncomputable def loopFam (I : LoopIdx) : loopPos k := ⟨loopVec k I, loopVec_mem k I⟩
+
+/-! #### Linear independence, via a dual family of coordinate functionals
+
+Each `gzero i` and each `gone i` has a distinguished matrix entry where it equals `1` while the
+other members of its family vanish. Combined with reading off the `t`-degree, this produces a
+family of functionals dual to `loopVec`. -/
+
+/-- The matrix entry at which the constant matrix of an index equals `1` while the constant
+matrix of every other index of the same `t`-degree vanishes. -/
+def LoopIdx.pos : LoopIdx → Fin 3 × Fin 3
+  | .base => (0, 1)
+  | .odd _ i => ![(0, 2), (0, 1), (0, 0), (1, 0), (2, 0)] i
+  | .even _ i => ![(0, 1), (0, 0), (1, 0)] i
+
+/-- The coordinate functional dual to the basis vector at index `I`: read off the entry
+`I.pos` and take its `t`-degree `I.deg` coefficient. -/
+noncomputable def loopCoord (I : LoopIdx) :
+    Matrix (Fin 3) (Fin 3) (Polynomial k) →ₗ[k] k where
+  toFun P := (P I.pos.1 I.pos.2).coeff I.deg
+  map_add' P Q := by simp [Matrix.add_apply]
+  map_smul' c P := by simp [Matrix.smul_apply, Polynomial.coeff_smul]
+
+theorem loopCoord_loopVec (I J : LoopIdx) :
+    loopCoord k I (loopVec k J) = if I = J then 1 else 0 := by
+  have hL : loopCoord k I (loopVec k J)
+      = if J.deg = I.deg then (J.mat k) I.pos.1 I.pos.2 else 0 := by
+    simp [loopCoord, loopVec, Polynomial.coeff_monomial]
+  rw [hL]
+  by_cases h : I = J
+  · subst h
+    rw [if_pos rfl, if_pos rfl]
+    cases I with
+    | base => simp [LoopIdx.mat, LoopIdx.pos, gzero, Matrix.single]
+    | odd m i =>
+        fin_cases i <;> simp [LoopIdx.mat, LoopIdx.pos, gone, Matrix.single]
+    | even m i =>
+        fin_cases i <;> simp [LoopIdx.mat, LoopIdx.pos, gzero, Matrix.single]
+  · rw [if_neg h]
+    by_cases hd : J.deg = I.deg
+    · rw [if_pos hd]
+      cases I with
+      | base =>
+          cases J with
+          | base => exact absurd rfl h
+          | odd m' i' => rw [LoopIdx.deg, LoopIdx.deg] at hd; omega
+          | even m' i' => rw [LoopIdx.deg, LoopIdx.deg] at hd; omega
+      | odd m i =>
+          cases J with
+          | base => rw [LoopIdx.deg, LoopIdx.deg] at hd; omega
+          | odd m' i' =>
+              have hm : m' = m := by rw [LoopIdx.deg, LoopIdx.deg] at hd; omega
+              subst hm
+              have hi : i' ≠ i := fun hh => h (by rw [hh])
+              clear hd h
+              fin_cases i <;> fin_cases i' <;>
+                first
+                  | exact absurd rfl hi
+                  | simp [LoopIdx.mat, LoopIdx.pos, gone, Matrix.single]
+          | even m' i' => rw [LoopIdx.deg, LoopIdx.deg] at hd; omega
+      | even m i =>
+          cases J with
+          | base => rw [LoopIdx.deg, LoopIdx.deg] at hd; omega
+          | odd m' i' => rw [LoopIdx.deg, LoopIdx.deg] at hd; omega
+          | even m' i' =>
+              have hm : m' = m := by rw [LoopIdx.deg, LoopIdx.deg] at hd; omega
+              subst hm
+              have hi : i' ≠ i := fun hh => h (by rw [hh])
+              clear hd h
+              fin_cases i <;> fin_cases i' <;>
+                first
+                  | exact absurd rfl hi
+                  | simp [LoopIdx.mat, LoopIdx.pos, gzero, Matrix.single]
+    · rw [if_neg hd]
+
+theorem linearIndependent_loopVec (k : Type*) [Field k] : LinearIndependent k (loopVec k) := by
+  rw [linearIndependent_iff']
+  intro s g hg I hI
+  have hz := congrArg (loopCoord k I) hg
+  rw [map_sum, map_zero] at hz
+  rw [Finset.sum_eq_single_of_mem I hI ?_] at hz
+  · simpa [loopCoord_loopVec] using hz
+  · intro J _ hne
+    simp [loopCoord_loopVec, Ne.symm hne]
+
+theorem linearIndependent_loopFam (k : Type*) [Field k] : LinearIndependent k (loopFam k) := by
+  have h : LinearIndependent k ((loopPos k).incl.toLinearMap ∘ loopFam k) :=
+    linearIndependent_loopVec k
+  exact LinearIndependent.of_comp _ h
+
+/-! #### Spanning -/
+
+/-- Every element of `𝔫₊` is a finite combination of the graded family: split it into
+`t`-homogeneous pieces and apply the `σ`-eigenspace characterizations degreewise. -/
+theorem mem_span_loopVec (k : Type*) [Field k] (h2 : (2 : k) ≠ 0)
+    {P : Matrix (Fin 3) (Fin 3) (Polynomial k)} (hP : P ∈ loopPos k) :
+    P ∈ Submodule.span k (Set.range (loopVec k)) := by
+  obtain ⟨htr, hsig, hconst⟩ := hP
+  rw [sigInv_eq_twMat_iff] at hsig
+  obtain ⟨N, hN⟩ := exists_sum_emb_coeffMat k P
+  rw [hN]
+  refine Submodule.sum_mem _ fun n _ => ?_
+  have htrA : Matrix.trace (coeffMat k n P) = 0 := trace_coeffMat k n htr
+  rcases Nat.eq_zero_or_pos n with rfl | hn
+  · rw [constMat_eq_coeffMat_zero] at hconst
+    obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp hconst
+    rw [← hc, map_smul]
+    refine Submodule.smul_mem _ _ (Submodule.subset_span ⟨LoopIdx.base, ?_⟩)
+    simp [loopVec, LoopIdx.deg, LoopIdx.mat]
+  · rcases Nat.even_or_odd n with he | ho
+    · obtain ⟨r, hr⟩ := he
+      obtain ⟨m, hm⟩ : ∃ m, n = 2 * m + 2 := ⟨r - 1, by omega⟩
+      have hpow : (-1 : k) ^ n = 1 := by
+        rw [hm, show 2 * m + 2 = 2 * (m + 1) by ring, pow_mul]; simp
+      have hfix : sigInv (coeffMat k n P) = coeffMat k n P := by
+        have := hsig n; rwa [hpow, one_smul] at this
+      have hmem := mem_span_gzero_of_sigInv_eq k h2 hfix
+      have himg := Submodule.mem_map_of_mem (f := emb k n) hmem
+      rw [Submodule.map_span, ← Set.range_comp] at himg
+      refine Submodule.span_mono ?_ himg
+      rintro _ ⟨i, rfl⟩
+      exact ⟨LoopIdx.even m i, by simp [loopVec, LoopIdx.deg, LoopIdx.mat, hm]⟩
+    · obtain ⟨m, hm⟩ := ho
+      have hpow : (-1 : k) ^ n = -1 := by rw [hm, pow_succ, pow_mul]; simp
+      have hneg : sigInv (coeffMat k n P) = -coeffMat k n P := by
+        have := hsig n; rwa [hpow, neg_one_smul] at this
+      have hmem := mem_span_gone_of_sigInv_eq_neg k htrA hneg
+      have himg := Submodule.mem_map_of_mem (f := emb k n) hmem
+      rw [Submodule.map_span, ← Set.range_comp] at himg
+      refine Submodule.span_mono ?_ himg
+      rintro _ ⟨i, rfl⟩
+      exact ⟨LoopIdx.odd m i, by simp [loopVec, LoopIdx.deg, LoopIdx.mat, hm]⟩
+
+theorem span_loopFam_eq_top (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) :
+    Submodule.span k (Set.range (loopFam k)) = ⊤ := by
+  rw [eq_top_iff]
+  rintro ⟨P, hP⟩ -
+  have hmap : Submodule.map (loopPos k).incl.toLinearMap
+      (Submodule.span k (Set.range (loopFam k))) = Submodule.span k (Set.range (loopVec k)) := by
+    rw [Submodule.map_span, ← Set.range_comp]; rfl
+  have hmem : P ∈ Submodule.map (loopPos k).incl.toLinearMap
+      (Submodule.span k (Set.range (loopFam k))) := by
+    rw [hmap]; exact mem_span_loopVec k h2 hP
+  obtain ⟨Q, hQ, hQP⟩ := hmem
+  have hQeq : Q = ⟨P, hP⟩ := Subtype.ext hQP
+  rwa [hQeq] at hQ
+
+/-- **The graded basis of `𝔫₊`.** Away from characteristic `2`, the positive part of `A₂⁽²⁾`
+has the explicit basis `NY` in `t`-degree `0`, `gone i · t^(2m+1)` in each odd `t`-degree, and
+`gzero i · t^(2m+2)` in each even `t`-degree `≥ 2` — graded dimensions `1, 5, 3, 5, 3, …`. -/
+noncomputable def loopBasis (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) :
+    Module.Basis LoopIdx k (loopPos k) :=
+  Module.Basis.mk (linearIndependent_loopFam k) (span_loopFam_eq_top k h2).ge
+
+@[simp] theorem loopBasis_apply (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) (I : LoopIdx) :
+    loopBasis k h2 I = loopFam k I := Module.Basis.mk_apply _ _ _
+
+/-- The `t`-degree `0` basis vector is the generator `NY`. -/
+theorem loopFam_base : (loopFam k LoopIdx.base : Matrix (Fin 3) (Fin 3) (Polynomial k)) = NY k := by
+  ext a b
+  fin_cases a <;> fin_cases b <;>
+    simp [loopFam, loopVec, LoopIdx.deg, LoopIdx.mat, gzero, NY, Matrix.single,
+      Matrix.sub_apply, Polynomial.monomial_zero_left]
+
+/-! ### `range matHom₄ = 𝔫₊`
+
+The inclusion `range matHom₄ ≤ 𝔫₊` is immediate: `𝔫₊` is a Lie subalgebra containing both
+generator images (`NX_mem_loopPos`, `NY_mem_loopPos`), and the free Lie algebra is the Lie span
+of its generators (`lieSpan_range_of_eq_top`).
+
+For the reverse inclusion we exhibit every graded basis vector `loopVec` as a bracket word in
+`NX`, `NY`. Writing `𝔤₁·t^n` for the odd layers and `𝔤₀·t^n` for the even ones:
+
+* the `t`-degree-`1` layer `𝔤₁·t` is the `ad(NY)`-string on `NX`, with the five values
+  `NX = E₂₀t`, `-(E₁₀+E₂₁)t`, `-(E₀₀-2E₁₁+E₂₂)t`, `3(E₀₁+E₁₂)t`, `6·E₀₂t`. This is where the
+  hypotheses `2 ≠ 0` and `3 ≠ 0` enter — and they are genuinely needed, since in characteristic
+  `3` the image really is finite dimensional (see the `gl₄` witness of section `Matrix4c`);
+* `⁅𝔤₁·t, 𝔤₁·t^{2m+1}⁆` sweeps out all of `𝔤₀·t^{2m+2}`, by the three brackets
+  `⁅E₀₂, E₁₀+E₂₁⁆ = E₀₁-E₁₂`, `⁅E₂₀, E₀₂⁆ = -(E₀₀-E₂₂)`, `⁅E₂₀, E₀₁+E₁₂⁆ = -(E₁₀-E₂₁)`;
+* `ad(gzero 1 · t²)` is diagonal on the `gone` basis with eigenvalues `2, 1, 0, -1, -2`, so it
+  climbs `𝔤₁·t^{2m+1} → 𝔤₁·t^{2m+3}` in every coordinate except the middle one, and the middle
+  one is reached separately from `⁅gzero 0 · t², gone 3 · t^{2m+1}⁆ = gone 2 · t^{2m+3}`.
+
+So the induction runs `𝔤₁·t` → `𝔤₀·t²` → `𝔤₁·t^{2m+1}` (induction on `m`) → `𝔤₀·t^{2m+2}`. Note
+this uses no irreducibility statement about the `𝔤₀`-module `𝔤₁`: the ladders are explicit.
+-/
+
+/-- Monomial placement is multiplicative: `(A·tᵐ)·(B·tⁿ) = (A·B)·t^{m+n}`. -/
+theorem emb_mul (m n : ℕ) (A B : Matrix (Fin 3) (Fin 3) k) :
+    emb k m A * emb k n B = emb k (m + n) (A * B) := by
+  refine Matrix.ext fun a b => ?_
+  calc (emb k m A * emb k n B) a b
+      = ∑ l : Fin 3, Polynomial.monomial (m + n) (A a l * B l b) := by
+        rw [Matrix.mul_apply]
+        exact Finset.sum_congr rfl fun l _ => by
+          rw [emb_apply, emb_apply, Polynomial.monomial_mul_monomial]
+    _ = Polynomial.monomial (m + n) (∑ l : Fin 3, A a l * B l b) := (map_sum _ _ _).symm
+    _ = emb k (m + n) (A * B) a b := by rw [emb_apply, Matrix.mul_apply]
+
+/-- Monomial placement respects the grading of the bracket: `⁅A·tᵐ, B·tⁿ⁆ = ⁅A, B⁆·t^{m+n}`. -/
+theorem emb_lie (m n : ℕ) (A B : Matrix (Fin 3) (Fin 3) k) :
+    ⁅emb k m A, emb k n B⁆ = emb k (m + n) ⁅A, B⁆ := by
+  rw [LieRing.of_associative_ring_bracket, LieRing.of_associative_ring_bracket, emb_mul, emb_mul,
+    add_comm n m, map_sub]
+
+/-- The generator `NX = E₂₀·t` is the top `𝔤₁`-vector placed in `t`-degree `1`. -/
+theorem NX_eq_emb : NX k = emb k 1 (gone k 4) := by
+  ext a b
+  fin_cases a <;> fin_cases b <;>
+    simp [NX, gone, Matrix.single, Polynomial.monomial_one_one_eq_X]
+
+/-- The generator `NY = E₀₁ - E₁₂` is the raising `𝔤₀`-vector placed in `t`-degree `0`. -/
+theorem NY_eq_emb : NY k = emb k 0 (gzero k 0) := by
+  ext a b
+  fin_cases a <;> fin_cases b <;>
+    simp [NY, gzero, Matrix.single, Matrix.sub_apply, Polynomial.monomial_zero_left]
+
+/-! #### The constant-matrix bracket table
+
+Each entry is normalised to the shape `⁅A, B⁆ = c • D` so it can be fed directly to
+`emb_mem_range_of_lie`, whose job is to divide by `c`. -/
+
+/-- `⁅E₀₁-E₁₂, E₂₀⁆ = -(E₁₀+E₂₁)`: the first step of the `ad(NY)`-string on `NX`. -/
+theorem lie_gzero0_gone4 : ⁅gzero k 0, gone k 4⁆ = (-1 : k) • gone k 3 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply]
+
+set_option linter.unnecessarySeqFocus false in
+/-- `⁅E₀₁-E₁₂, E₁₀+E₂₁⁆ = E₀₀-2E₁₁+E₂₂`: the second step of the `ad(NY)`-string. Also the ladder
+that reaches the middle `𝔤₁`-vector in every odd `t`-degree. -/
+theorem lie_gzero0_gone3 : ⁅gzero k 0, gone k 3⁆ = (1 : k) • gone k 2 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply] <;> ring
+
+/-- `⁅E₀₁-E₁₂, E₀₀-2E₁₁+E₂₂⁆ = -3(E₀₁+E₁₂)`: the third step of the `ad(NY)`-string. The scalar
+`-3` is why characteristic `3` must be excluded. -/
+theorem lie_gzero0_gone2 : ⁅gzero k 0, gone k 2⁆ = (-3 : k) • gone k 1 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply] <;> ring
+
+set_option linter.unnecessarySeqFocus false in
+/-- `⁅E₀₁-E₁₂, E₀₁+E₁₂⁆ = 2E₀₂`: the fourth (and last nonzero) step of the `ad(NY)`-string. -/
+theorem lie_gzero0_gone1 : ⁅gzero k 0, gone k 1⁆ = (2 : k) • gone k 0 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply] <;> ring
+
+set_option linter.unnecessarySeqFocus false in
+/-- `ad(E₀₀-E₂₂)` has eigenvalue `2` on `E₀₂`. -/
+theorem lie_gzero1_gone0 : ⁅gzero k 1, gone k 0⁆ = (2 : k) • gone k 0 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply] <;> ring
+
+/-- `ad(E₀₀-E₂₂)` has eigenvalue `1` on `E₀₁+E₁₂`. -/
+theorem lie_gzero1_gone1 : ⁅gzero k 1, gone k 1⁆ = (1 : k) • gone k 1 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply]
+
+/-- `ad(E₀₀-E₂₂)` has eigenvalue `-1` on `E₁₀+E₂₁`. -/
+theorem lie_gzero1_gone3 : ⁅gzero k 1, gone k 3⁆ = (-1 : k) • gone k 3 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply]
+
+set_option linter.unnecessarySeqFocus false in
+/-- `ad(E₀₀-E₂₂)` has eigenvalue `-2` on `E₂₀`. -/
+theorem lie_gzero1_gone4 : ⁅gzero k 1, gone k 4⁆ = (-2 : k) • gone k 4 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply] <;> ring
+
+/-- `⁅E₂₀, E₀₂⁆ = -(E₀₀-E₂₂)`: an even-layer ladder. -/
+theorem lie_gone4_gone0 : ⁅gone k 4, gone k 0⁆ = (-1 : k) • gzero k 1 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply]
+
+/-- `⁅E₂₀, E₀₁+E₁₂⁆ = -(E₁₀-E₂₁)`: an even-layer ladder. -/
+theorem lie_gone4_gone1 : ⁅gone k 4, gone k 1⁆ = (-1 : k) • gzero k 2 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply]
+
+/-- `⁅E₀₂, E₁₀+E₂₁⁆ = E₀₁-E₁₂`: an even-layer ladder. -/
+theorem lie_gone0_gone3 : ⁅gone k 0, gone k 3⁆ = (1 : k) • gzero k 0 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply]
+
+/-! #### `range matHom₄ ≤ 𝔫₊` -/
+
+/-- The image of `matHom₄` lands in `𝔫₊`: both generator images do, `𝔫₊` is a Lie subalgebra, and
+the free Lie algebra is the Lie span of its generators. -/
+theorem range_matHom₄_le_loopPos : (matHom₄ k).range ≤ loopPos k := by
+  intro P hP
+  rw [LieHom.mem_range] at hP
+  obtain ⟨a, rfl⟩ := hP
+  have ha : a ∈ LieSubalgebra.lieSpan k (FreeLieAlgebra k (Fin 2))
+      (Set.range (FreeLieAlgebra.of k)) := by
+    rw [lieSpan_range_of_eq_top]; trivial
+  induction ha using LieSubalgebra.lieSpan_induction with
+  | mem u hu =>
+    obtain ⟨i, rfl⟩ := hu
+    have hval : matHom₄ k (FreeLieAlgebra.of k i) = ![NX k, NY k] i := by
+      simp only [matHom₄, FreeLieAlgebra.lift_of_apply]
+    rw [hval]
+    fin_cases i
+    · exact NX_mem_loopPos k
+    · exact NY_mem_loopPos k
+  | zero => rw [map_zero]; exact LieSubalgebra.zero_mem _
+  | add u v _ _ hu hv => rw [map_add]; exact LieSubalgebra.add_mem _ hu hv
+  | smul t u _ hu => rw [map_smul]; exact LieSubalgebra.smul_mem _ t hu
+  | lie u v _ _ hu hv => rw [LieHom.map_lie]; exact LieSubalgebra.lie_mem _ hu hv
+
+/-! #### `𝔫₊ ≤ range matHom₄`: climbing the graded basis -/
+
+/-- Scaling by a nonzero field element does not change membership in the range. -/
+theorem smul_mem_range_iff (k : Type*) [Field k] {c : k} (hc : c ≠ 0)
+    {P : Matrix (Fin 3) (Fin 3) (Polynomial k)} :
+    c • P ∈ (matHom₄ k).range ↔ P ∈ (matHom₄ k).range :=
+  Submodule.smul_mem_iff (p := (matHom₄ k).range.toSubmodule) hc
+
+/-- **One climbing step.** If `A·tᵐ` and `B·tⁿ` are in the range and `⁅A, B⁆ = c·D` with `c ≠ 0`,
+then `D·t^{m+n}` is in the range. Every layer of the graded basis is reached this way.
+
+The target degree `d` is a separate argument with `hd : m + n = d` rather than the literal `m + n`,
+so that unification reads `d` off the goal instead of having to solve `?m + ?n =?= d`. -/
+theorem emb_mem_range_of_lie (k : Type*) [Field k] {m n : ℕ}
+    {A B D : Matrix (Fin 3) (Fin 3) k}
+    (hA : emb k m A ∈ (matHom₄ k).range) (hB : emb k n B ∈ (matHom₄ k).range)
+    {c : k} (hc : c ≠ 0) (h : ⁅A, B⁆ = c • D) {d : ℕ} (hd : m + n = d) :
+    emb k d D ∈ (matHom₄ k).range := by
+  subst hd
+  have hlie := LieSubalgebra.lie_mem (matHom₄ k).range hA hB
+  rw [emb_lie, h, map_smul] at hlie
+  exact (smul_mem_range_iff k hc).mp hlie
+
+/-- `NX = E₂₀·t` is in the range. -/
+theorem emb_one_gone_four_mem_range : emb k 1 (gone k 4) ∈ (matHom₄ k).range := by
+  rw [← NX_eq_emb, ← matHom₄_x]
+  exact LieHom.mem_range_self _ _
+
+/-- `NY = (E₀₁-E₁₂)·t⁰` is in the range. -/
+theorem emb_zero_gzero_zero_mem_range : emb k 0 (gzero k 0) ∈ (matHom₄ k).range := by
+  rw [← NY_eq_emb, ← matHom₄_y]
+  exact LieHom.mem_range_self _ _
+
+/-- **The `t`-degree-`1` layer.** Away from characteristics `2` and `3`, the `ad(NY)`-string on
+`NX` sweeps out all five basis vectors of `𝔤₁·t`. -/
+theorem emb_one_gone_mem_range (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0)
+    (i : Fin 5) : emb k 1 (gone k i) ∈ (matHom₄ k).range := by
+  have hNX := emb_one_gone_four_mem_range k
+  have hNY := emb_zero_gzero_zero_mem_range k
+  have e3 : emb k 1 (gone k 3) ∈ (matHom₄ k).range :=
+    emb_mem_range_of_lie k hNY hNX (neg_ne_zero.mpr one_ne_zero) (lie_gzero0_gone4 k) rfl
+  have e2 : emb k 1 (gone k 2) ∈ (matHom₄ k).range :=
+    emb_mem_range_of_lie k hNY e3 one_ne_zero (lie_gzero0_gone3 k) rfl
+  have e1 : emb k 1 (gone k 1) ∈ (matHom₄ k).range :=
+    emb_mem_range_of_lie k hNY e2 (neg_ne_zero.mpr h3) (lie_gzero0_gone2 k) rfl
+  have e0 : emb k 1 (gone k 0) ∈ (matHom₄ k).range :=
+    emb_mem_range_of_lie k hNY e1 h2 (lie_gzero0_gone1 k) rfl
+  fin_cases i
+  · exact e0
+  · exact e1
+  · exact e2
+  · exact e3
+  · exact hNX
+
+/-- **The even layers.** Bracketing `𝔤₁·t` against `𝔤₁·tⁿ` sweeps out all of `𝔤₀·t^{1+n}`. -/
+theorem emb_gzero_mem_range (k : Type*) [Field k]
+    (h1 : ∀ j, emb k 1 (gone k j) ∈ (matHom₄ k).range) {n : ℕ}
+    (hn : ∀ j, emb k n (gone k j) ∈ (matHom₄ k).range) (i : Fin 3) :
+    emb k (1 + n) (gzero k i) ∈ (matHom₄ k).range := by
+  fin_cases i
+  · exact emb_mem_range_of_lie k (h1 0) (hn 3) one_ne_zero (lie_gone0_gone3 k) rfl
+  · exact emb_mem_range_of_lie k (h1 4) (hn 0) (neg_ne_zero.mpr one_ne_zero)
+      (lie_gone4_gone0 k) rfl
+  · exact emb_mem_range_of_lie k (h1 4) (hn 1) (neg_ne_zero.mpr one_ne_zero)
+      (lie_gone4_gone1 k) rfl
+
+/-- **Climbing two `t`-degrees inside `𝔤₁`.** `ad(gzero 1 · t²)` is diagonal on the `gone` basis
+with eigenvalues `2, 1, 0, -1, -2`, so it moves `𝔤₁·tⁿ` to `𝔤₁·t^{n+2}` in every coordinate but
+the middle; the middle one comes from `⁅gzero 0 · t², gone 3 · tⁿ⁆ = gone 2 · t^{n+2}`. -/
+theorem emb_gone_step (k : Type*) [Field k] (h2 : (2 : k) ≠ 0)
+    (hz1 : emb k 2 (gzero k 1) ∈ (matHom₄ k).range)
+    (hz0 : emb k 2 (gzero k 0) ∈ (matHom₄ k).range)
+    {n : ℕ} (hn : ∀ j, emb k n (gone k j) ∈ (matHom₄ k).range) (i : Fin 5) :
+    emb k (2 + n) (gone k i) ∈ (matHom₄ k).range := by
+  fin_cases i
+  · exact emb_mem_range_of_lie k hz1 (hn 0) h2 (lie_gzero1_gone0 k) rfl
+  · exact emb_mem_range_of_lie k hz1 (hn 1) one_ne_zero (lie_gzero1_gone1 k) rfl
+  · exact emb_mem_range_of_lie k hz0 (hn 3) one_ne_zero (lie_gzero0_gone3 k) rfl
+  · exact emb_mem_range_of_lie k hz1 (hn 3) (neg_ne_zero.mpr one_ne_zero)
+      (lie_gzero1_gone3 k) rfl
+  · exact emb_mem_range_of_lie k hz1 (hn 4) (neg_ne_zero.mpr h2) (lie_gzero1_gone4 k) rfl
+
+/-- **All odd layers.** `𝔤₁·t^{2m+1} ⊆ range matHom₄` for every `m`, by induction on `m`. -/
+theorem emb_odd_gone_mem_range (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) :
+    ∀ (m : ℕ) (i : Fin 5), emb k (2 * m + 1) (gone k i) ∈ (matHom₄ k).range := by
+  have h1 := emb_one_gone_mem_range k h2 h3
+  have hz : ∀ j, emb k 2 (gzero k j) ∈ (matHom₄ k).range := fun j => by
+    simpa using emb_gzero_mem_range k h1 (n := 1) h1 j
+  intro m
+  induction m with
+  | zero => simpa using h1
+  | succ m ih =>
+      intro i
+      have hdeg : 2 * (m + 1) + 1 = 2 + (2 * m + 1) := by ring
+      rw [hdeg]
+      exact emb_gone_step k h2 (hz 1) (hz 0) ih i
+
+/-- **All even layers.** `𝔤₀·t^{2m+2} ⊆ range matHom₄` for every `m`. -/
+theorem emb_even_gzero_mem_range (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0)
+    (m : ℕ) (i : Fin 3) : emb k (2 * m + 2) (gzero k i) ∈ (matHom₄ k).range := by
+  have hdeg : 2 * m + 2 = 1 + (2 * m + 1) := by ring
+  rw [hdeg]
+  exact emb_gzero_mem_range k (emb_one_gone_mem_range k h2 h3)
+    (emb_odd_gone_mem_range k h2 h3 m) i
+
+/-- Every vector of the graded basis of `𝔫₊` is a bracket word in `NX`, `NY`. -/
+theorem loopVec_mem_range (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0)
+    (I : LoopIdx) : loopVec k I ∈ (matHom₄ k).range := by
+  cases I with
+  | base => exact emb_zero_gzero_zero_mem_range k
+  | odd m i => exact emb_odd_gone_mem_range k h2 h3 m i
+  | even m i => exact emb_even_gzero_mem_range k h2 h3 m i
+
+/-! #### The identification -/
+
+/-- **The image of `matHom₄` is exactly `𝔫₊`.** Away from characteristics `2` and `3`, the twisted
+loop realization of `𝔤₄` is the full positive part of `A₂⁽²⁾`. -/
+theorem range_matHom₄_eq_loopPos' (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) :
+    (matHom₄ k).range = loopPos k := by
+  refine le_antisymm (range_matHom₄_le_loopPos k) fun P hP => ?_
+  have hle : Submodule.span k (Set.range (loopVec k)) ≤ (matHom₄ k).range.toSubmodule := by
+    rw [Submodule.span_le]
+    rintro Q ⟨I, rfl⟩
+    exact loopVec_mem_range k h2 h3 I
+  exact hle (mem_span_loopVec k h2 hP)
+
+/-- **The image of `matHom₄` is exactly `𝔫₊`**, as an equality of `k`-submodules of `𝔤𝔩₃(k[t])`.
+Combined with `loopBasis`, this gives `range matHom₄` an explicit basis with graded dimensions
+`1, 5, 3, 5, 3, …`. -/
+theorem range_matHom₄_eq_loopPos (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) :
+    LinearMap.range (matHom₄ k).toLinearMap = (loopPos k).toSubmodule :=
+  congrArg LieSubalgebra.toSubmodule (range_matHom₄_eq_loopPos' k h2 h3)
+
 end TwistedLoop
+
+/-!
+## The layer structure of `𝔤₄`
+
+Give `x` degree `1` and `y` degree `0`, matching the `t`-degree under `matHom₄`
+(`x ↦ E₂₀·t`, `y ↦ E₀₁ - E₁₂`). Then:
+
+* the degree-`0` layer is `k·ȳ`, of dimension `1`;
+* the degree-`1` layer is spanned by the `ad(ȳ)`-string `aᵢ = ad(ȳ)ⁱ(x̄)`, which the defining
+  relation `ad(y)⁵(x) = 0` cuts off at `i = 4`: five elements;
+* the degree-`2` layer is spanned by the ten brackets `⁅aᵢ, aⱼ⁆`, which the relations cut down to
+  the three elements `⁅a₀,a₃⁆, ⁅a₀,a₄⁆, ⁅a₁,a₄⁆` (this needs `2 ≠ 0` and `5 ≠ 0`).
+
+These match the graded dimensions `1, 5, 3, …` of `loopPos`, so together with the lower bound
+supplied by `matHom₄` they are the first two layers of the upper bound for `𝔤₄`.
+-/
+
+section Layers
+
+/-- The degree-`1` layer generators of `𝔤ₙ`: `aElt n i = ad(ȳ)ⁱ(x̄)`. -/
+noncomputable def aElt (n i : ℕ) : g k n := (fun u => ⁅yb k n, u⁆)^[i] (xb k n)
+
+@[simp] theorem aElt_zero (n : ℕ) : aElt k n 0 = xb k n := rfl
+
+theorem aElt_succ (n i : ℕ) : aElt k n (i + 1) = ⁅yb k n, aElt k n i⁆ :=
+  Function.iterate_succ_apply' _ _ _
+
+theorem aElt_one (n : ℕ) : aElt k n 1 = -zb k n := by
+  rw [aElt_succ, aElt_zero, zb, ← lie_skew]
+
+/-- `ad(ȳ)ⁱ` commutes with the projection: `proj (ad(y)ⁱ x) = aᵢ`. -/
+theorem proj_iterate_ad_y (n i : ℕ) :
+    proj k n ((fun z => ⁅y k, z⁆)^[i] (x k)) = aElt k n i := by
+  induction i with
+  | zero => rfl
+  | succ i ih =>
+      rw [Function.iterate_succ_apply', aElt_succ, ← ih, LieHom.map_lie]
+      rfl
+
+/-- The defining relation `ad(y)⁵(x) = 0` in `𝔤₄`: the degree-`1` layer stops after five
+elements `a₀, …, a₄`. -/
+theorem aElt_five_eq_zero : aElt k 4 5 = 0 := by
+  have hmem : (fun z => ⁅y k, z⁆)^[4 + 1] (x k) ∈ relIdeal k 4 :=
+    LieSubmodule.subset_lieSpan (Set.mem_insert_of_mem _ rfl)
+  rw [← proj_iterate_ad_y k 4 5, proj_eq_zero_iff]
+  exact hmem
+
+/-- `ad(ȳ)` is a derivation: `ad(ȳ)⁅aᵢ, aⱼ⁆ = ⁅aᵢ₊₁, aⱼ⁆ + ⁅aᵢ, aⱼ₊₁⁆`. This single formula, fed
+the relation `⁅a₀, a₁⁆ = 0` and iterated, produces every relation in the degree-`2` layer. -/
+theorem lie_yb_lie_aElt (n i j : ℕ) :
+    ⁅yb k n, ⁅aElt k n i, aElt k n j⁆⁆
+      = ⁅aElt k n (i + 1), aElt k n j⁆ + ⁅aElt k n i, aElt k n (j + 1)⁆ := by
+  rw [leibniz_lie, aElt_succ, aElt_succ]
+
+/-- `⁅a₀, a₁⁆ = 0`: a restatement of the defining relation `ad(x)²(y) = 0`. -/
+theorem lie_a0_a1 : ⁅aElt k 4 0, aElt k 4 1⁆ = 0 := by
+  rw [aElt_zero, aElt_one, lie_neg, lie_xb_zb, neg_zero]
+
+/-- `⁅a₀, a₂⁆ = 0`, obtained by applying `ad(ȳ)` to `⁅a₀, a₁⁆ = 0`. -/
+theorem lie_a0_a2 : ⁅aElt k 4 0, aElt k 4 2⁆ = 0 := by
+  have h : ⁅yb k 4, ⁅aElt k 4 0, aElt k 4 1⁆⁆ = 0 := by rw [lie_a0_a1, lie_zero]
+  rw [lie_yb_lie_aElt] at h
+  simpa using h
+
+/-- `⁅a₁, a₂⁆ + ⁅a₀, a₃⁆ = 0`. -/
+theorem lie_a1_a2_add : ⁅aElt k 4 1, aElt k 4 2⁆ + ⁅aElt k 4 0, aElt k 4 3⁆ = 0 := by
+  have h : ⁅yb k 4, ⁅aElt k 4 0, aElt k 4 2⁆⁆ = 0 := by rw [lie_a0_a2, lie_zero]
+  rw [lie_yb_lie_aElt] at h
+  simpa using h
+
+/-- `2⁅a₁, a₃⁆ + ⁅a₀, a₄⁆ = 0`. -/
+theorem lie_a1_a3_add :
+    (2 : k) • ⁅aElt k 4 1, aElt k 4 3⁆ + ⁅aElt k 4 0, aElt k 4 4⁆ = 0 := by
+  have h : ⁅yb k 4, ⁅aElt k 4 1, aElt k 4 2⁆ + ⁅aElt k 4 0, aElt k 4 3⁆⁆ = 0 := by
+    rw [lie_a1_a2_add, lie_zero]
+  rw [lie_add, lie_yb_lie_aElt, lie_yb_lie_aElt] at h
+  simp only [Nat.reduceAdd, lie_self, zero_add] at h
+  rw [← h]; module
+
+/-- `2⁅a₂, a₃⁆ + 3⁅a₁, a₄⁆ = 0`; here the truncation `a₅ = 0` first enters. -/
+theorem lie_a2_a3_add :
+    (2 : k) • ⁅aElt k 4 2, aElt k 4 3⁆ + (3 : k) • ⁅aElt k 4 1, aElt k 4 4⁆ = 0 := by
+  have h : ⁅yb k 4,
+      (2 : k) • ⁅aElt k 4 1, aElt k 4 3⁆ + ⁅aElt k 4 0, aElt k 4 4⁆⁆ = 0 := by
+    rw [lie_a1_a3_add, lie_zero]
+  rw [lie_add, lie_smul, lie_yb_lie_aElt, lie_yb_lie_aElt] at h
+  simp only [Nat.reduceAdd, zero_add, aElt_five_eq_zero, lie_zero, add_zero] at h
+  rw [← h]; module
+
+/-- `5⁅a₂, a₄⁆ = 0`. The coefficient `5` is why the degree-`2` layer collapses to dimension `3`
+exactly when `5 ≠ 0`. -/
+theorem lie_a2_a4_smul : (5 : k) • ⁅aElt k 4 2, aElt k 4 4⁆ = 0 := by
+  have h : ⁅yb k 4,
+      (2 : k) • ⁅aElt k 4 2, aElt k 4 3⁆ + (3 : k) • ⁅aElt k 4 1, aElt k 4 4⁆⁆ = 0 := by
+    rw [lie_a2_a3_add, lie_zero]
+  rw [lie_add, lie_smul, lie_smul, lie_yb_lie_aElt, lie_yb_lie_aElt] at h
+  simp only [Nat.reduceAdd, lie_self, zero_add, aElt_five_eq_zero, lie_zero, add_zero] at h
+  rw [← h]; module
+
+/-- `5⁅a₃, a₄⁆ = 0`. -/
+theorem lie_a3_a4_smul : (5 : k) • ⁅aElt k 4 3, aElt k 4 4⁆ = 0 := by
+  have h : ⁅yb k 4, (5 : k) • ⁅aElt k 4 2, aElt k 4 4⁆⁆ = 0 := by
+    rw [lie_a2_a4_smul, lie_zero]
+  rw [lie_smul, lie_yb_lie_aElt] at h
+  simp only [Nat.reduceAdd, aElt_five_eq_zero, lie_zero, add_zero] at h
+  exact h
+
+/-- `⁅a₁, a₂⁆ = -⁅a₀, a₃⁆`. -/
+theorem lie_a1_a2_eq : ⁅aElt k 4 1, aElt k 4 2⁆ = -⁅aElt k 4 0, aElt k 4 3⁆ := by
+  rw [eq_neg_iff_add_eq_zero]; exact lie_a1_a2_add k
+
+/-- `⁅x̄, ⁅a₀, a₃⁆⁆ = 0`: the adjoint action of `x̄` kills the top of the degree-`2` layer.
+
+The loop model predicts this (`⁅E₂₀, E₁₀ - E₂₁⁆ = 0`), but for the upper bound it has to be
+derived inside `𝔤₄` itself, which the Jacobi identity does: rewrite `⁅a₀,a₃⁆` as `-⁅a₁,a₂⁆` and
+expand, landing on the two vanishing brackets `⁅a₀,a₁⁆` and `⁅a₀,a₂⁆`. This is the template for
+the vanishing statements in the higher layers. -/
+theorem lie_a0_lie_a0_a3 : ⁅aElt k 4 0, ⁅aElt k 4 0, aElt k 4 3⁆⁆ = 0 := by
+  have h3 : ⁅aElt k 4 0, aElt k 4 3⁆ = -⁅aElt k 4 1, aElt k 4 2⁆ := by
+    rw [lie_a1_a2_eq, neg_neg]
+  rw [h3, lie_neg, leibniz_lie, lie_a0_a1, lie_a0_a2]
+  simp
+
+end Layers
+
+section LayersField
+
+variable (k : Type*) [Field k]
+
+/-- `⁅a₂, a₄⁆ = 0` once `5` is invertible. -/
+theorem lie_a2_a4_eq_zero (h5 : (5 : k) ≠ 0) : ⁅aElt k 4 2, aElt k 4 4⁆ = 0 := by
+  have h : (5 : k)⁻¹ • ((5 : k) • ⁅aElt k 4 2, aElt k 4 4⁆) = 0 := by
+    rw [lie_a2_a4_smul, smul_zero]
+  rwa [smul_smul, inv_mul_cancel₀ h5, one_smul] at h
+
+/-- `⁅a₃, a₄⁆ = 0` once `5` is invertible. -/
+theorem lie_a3_a4_eq_zero (h5 : (5 : k) ≠ 0) : ⁅aElt k 4 3, aElt k 4 4⁆ = 0 := by
+  have h : (5 : k)⁻¹ • ((5 : k) • ⁅aElt k 4 3, aElt k 4 4⁆) = 0 := by
+    rw [lie_a3_a4_smul, smul_zero]
+  rwa [smul_smul, inv_mul_cancel₀ h5, one_smul] at h
+
+/-- `⁅a₁, a₃⁆ = -½⁅a₀, a₄⁆`. -/
+theorem lie_a1_a3_eq (h2 : (2 : k) ≠ 0) :
+    ⁅aElt k 4 1, aElt k 4 3⁆ = -((2 : k)⁻¹ • ⁅aElt k 4 0, aElt k 4 4⁆) := by
+  have h : (2 : k) • ⁅aElt k 4 1, aElt k 4 3⁆ = -⁅aElt k 4 0, aElt k 4 4⁆ := by
+    rw [eq_neg_iff_add_eq_zero]; exact lie_a1_a3_add k
+  have h' := congrArg (fun u : g k 4 => (2 : k)⁻¹ • u) h
+  simp only [smul_smul, inv_mul_cancel₀ h2, one_smul, smul_neg] at h'
+  exact h'
+
+/-- `⁅a₂, a₃⁆ = -(3/2)⁅a₁, a₄⁆`. -/
+theorem lie_a2_a3_eq (h2 : (2 : k) ≠ 0) :
+    ⁅aElt k 4 2, aElt k 4 3⁆ = -(((2 : k)⁻¹ * 3) • ⁅aElt k 4 1, aElt k 4 4⁆) := by
+  have h : (2 : k) • ⁅aElt k 4 2, aElt k 4 3⁆ = -((3 : k) • ⁅aElt k 4 1, aElt k 4 4⁆) := by
+    rw [eq_neg_iff_add_eq_zero]; exact lie_a2_a3_add k
+  have h' := congrArg (fun u : g k 4 => (2 : k)⁻¹ • u) h
+  simp only [smul_smul, inv_mul_cancel₀ h2, one_smul, smul_neg] at h'
+  exact h'
+
+/-- **The degree-`2` layer of `𝔤₄` has dimension at most `3`.** Every bracket of two degree-`1`
+elements lies in the span of `⁅a₀,a₃⁆`, `⁅a₀,a₄⁆`, `⁅a₁,a₄⁆`, matching `dim 𝔤₀ = 3` on the loop
+side of `loopPos`. -/
+theorem lie_aElt_mem_layerTwo (h2 : (2 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
+    (i j : ℕ) (hi : i < 5) (hj : j < 5) :
+    ⁅aElt k 4 i, aElt k 4 j⁆ ∈ Submodule.span k
+      ({⁅aElt k 4 0, aElt k 4 3⁆, ⁅aElt k 4 0, aElt k 4 4⁆,
+        ⁅aElt k 4 1, aElt k 4 4⁆} : Set (g k 4)) := by
+  have m03 : ⁅aElt k 4 0, aElt k 4 3⁆ ∈ Submodule.span k
+      ({⁅aElt k 4 0, aElt k 4 3⁆, ⁅aElt k 4 0, aElt k 4 4⁆,
+        ⁅aElt k 4 1, aElt k 4 4⁆} : Set (g k 4)) := Submodule.subset_span (by simp)
+  have m04 : ⁅aElt k 4 0, aElt k 4 4⁆ ∈ Submodule.span k
+      ({⁅aElt k 4 0, aElt k 4 3⁆, ⁅aElt k 4 0, aElt k 4 4⁆,
+        ⁅aElt k 4 1, aElt k 4 4⁆} : Set (g k 4)) := Submodule.subset_span (by simp)
+  have m14 : ⁅aElt k 4 1, aElt k 4 4⁆ ∈ Submodule.span k
+      ({⁅aElt k 4 0, aElt k 4 3⁆, ⁅aElt k 4 0, aElt k 4 4⁆,
+        ⁅aElt k 4 1, aElt k 4 4⁆} : Set (g k 4)) := Submodule.subset_span (by simp)
+  set N : Submodule k (g k 4) := Submodule.span k
+    ({⁅aElt k 4 0, aElt k 4 3⁆, ⁅aElt k 4 0, aElt k 4 4⁆,
+      ⁅aElt k 4 1, aElt k 4 4⁆} : Set (g k 4)) with hNdef
+  clear_value N
+  interval_cases i <;> interval_cases j
+  -- i = 0
+  · rw [lie_self]; exact N.zero_mem
+  · rw [lie_a0_a1]; exact N.zero_mem
+  · rw [lie_a0_a2]; exact N.zero_mem
+  · exact m03
+  · exact m04
+  -- i = 1
+  · rw [← lie_skew, lie_a0_a1, neg_zero]; exact N.zero_mem
+  · rw [lie_self]; exact N.zero_mem
+  · rw [lie_a1_a2_eq]; exact neg_mem m03
+  · rw [lie_a1_a3_eq k h2]; exact neg_mem (N.smul_mem _ m04)
+  · exact m14
+  -- i = 2
+  · rw [← lie_skew, lie_a0_a2, neg_zero]; exact N.zero_mem
+  · rw [← lie_skew, lie_a1_a2_eq, neg_neg]; exact m03
+  · rw [lie_self]; exact N.zero_mem
+  · rw [lie_a2_a3_eq k h2]; exact neg_mem (N.smul_mem _ m14)
+  · rw [lie_a2_a4_eq_zero k h5]; exact N.zero_mem
+  -- i = 3
+  · rw [← lie_skew]; exact neg_mem m03
+  · rw [← lie_skew, lie_a1_a3_eq k h2, neg_neg]; exact N.smul_mem _ m04
+  · rw [← lie_skew, lie_a2_a3_eq k h2, neg_neg]; exact N.smul_mem _ m14
+  · rw [lie_self]; exact N.zero_mem
+  · rw [lie_a3_a4_eq_zero k h5]; exact N.zero_mem
+  -- i = 4
+  · rw [← lie_skew]; exact neg_mem m04
+  · rw [← lie_skew]; exact neg_mem m14
+  · rw [← lie_skew, lie_a2_a4_eq_zero k h5, neg_zero]; exact N.zero_mem
+  · rw [← lie_skew, lie_a3_a4_eq_zero k h5, neg_zero]; exact N.zero_mem
+  · rw [lie_self]; exact N.zero_mem
+
+end LayersField
 
 end Etingof.Problem2_16_3

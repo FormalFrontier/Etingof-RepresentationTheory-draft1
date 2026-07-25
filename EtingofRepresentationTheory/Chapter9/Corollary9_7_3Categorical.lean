@@ -123,6 +123,53 @@ theorem Etingof.Corollary_9_7_3_i_categorical_fgModule
   obtain ⟨eC⟩ := hcat
   exact ⟨B, instR, instA, instF, hbasic, ⟨eC.trans eFG⟩⟩
 
+/-- **Corollary 9.7.3(i), categorical input form, with uniqueness.** The strong form of
+`Etingof.Corollary_9_7_3_i_categorical_fgModule`: for a `k`-linear finite abelian category `𝒞`
+over an algebraically closed field with a progenerator `P`, the basic algebra `B` realizing
+`𝒞 ≌ FGModuleCat B` is basic in both senses (`IsBasicAlgebraSplit` and the book's literal
+`IsBasicAlgebra`), is `k`-linearly Morita equivalent to the endomorphism algebra
+`A = (End P)ᵐᵒᵖ` of the progenerator, satisfies `dim B ≤ dim A`, and is unique up to
+`k`-algebra isomorphism among basic algebras `k`-linearly Morita equivalent to `A`.
+
+## Why uniqueness is stated relative to `(End P)ᵐᵒᵖ`
+
+The book phrases uniqueness as "`B(𝒞)` is unique", i.e. relative to `𝒞` itself: any basic `B'`
+with `𝒞 ≌ B'`-fmod is isomorphic to `B`. Deriving that form from this one needs the converse
+of `Etingof.MoritaEquivalent.fgModuleCatEquiv` — an equivalence `FGModuleCat A ≌ FGModuleCat B'`
+of the finitely generated subcategories has to be promoted back to a `k`-linear Morita
+equivalence `ModuleCat A ≌ ModuleCat B'` of the full module categories, which the project does
+not yet have (it is the subject of the open converse-bridge item on `Definition 9.7.1`).
+Uniqueness relative to `A = (End P)ᵐᵒᵖ` is what the available machinery supports, and it is the
+whole content once that converse bridge lands, since `𝒞 ≌ FGModuleCat A` by Theorem 9.6.4.
+(Etingof Corollary 9.7.3(i), categorical form) -/
+theorem Etingof.Corollary_9_7_3_i_categorical_strong
+    {k : Type v} [Field k] [IsAlgClosed k]
+    (C : Type u) [Category.{v} C]
+    [Etingof.IsFiniteAbelianCategory C] [Linear k C]
+    [Etingof.IsFiniteAbelianCategoryOverField k C]
+    (P : C) [hp : Etingof.IsProgenerator P] :
+    ∃ (B : Type v) (_ : Ring B) (_ : Algebra k B) (_ : Module.Finite k B),
+      Etingof.IsBasicAlgebraSplit.{v, v, v} k B ∧
+        Etingof.IsBasicAlgebra k B ∧
+          Nonempty (C ≌ FGModuleCat.{v} B) ∧
+            Etingof.KLinearMoritaEquivalent k (End P)ᵐᵒᵖ B ∧
+              Module.finrank k B ≤ Module.finrank k (End P)ᵐᵒᵖ ∧
+                ∀ (B' : Type v) (_ : Ring B') (_ : Algebra k B') (_ : Module.Finite k B'),
+                  Etingof.IsBasicAlgebra k B' →
+                  Etingof.KLinearMoritaEquivalent k (End P)ᵐᵒᵖ B' →
+                    Nonempty (B' ≃ₐ[k] B) := by
+  haveI : FiniteDimensional k (End P) :=
+    @Etingof.IsFiniteAbelianCategoryOverField.finiteDimensional_hom k _ C _ _ _ _ P P
+  haveI : Module.Finite k (End P)ᵐᵒᵖ := inferInstance
+  -- Theorem 9.6.4: `𝒞 ≌ FGModuleCat (End P)ᵐᵒᵖ`.
+  obtain ⟨eC⟩ := Etingof.Theorem_9_6_4_corollary (k := k) C P
+  -- The bundled algebra version applied to `A = (End P)ᵐᵒᵖ`.
+  obtain ⟨B, instR, instA, instF, hsplit, hbasic, hmor, hdim, huniq⟩ :=
+    Etingof.Corollary_9_7_3 k (End P)ᵐᵒᵖ
+  -- Restrict the Morita equivalence to the finitely generated subcategories and compose.
+  obtain ⟨eFG⟩ := Etingof.MoritaEquivalent.fgModuleCatEquiv hmor.toMoritaEquivalent
+  exact ⟨B, instR, instA, instF, hsplit, hbasic, ⟨eC.trans eFG⟩, hmor, hdim, huniq⟩
+
 /-- **Corollary 9.7.3(i), algebra version, book-faithful `fmod` form.** Any
 finite-dimensional algebra `A` over an algebraically closed field `k` is Morita equivalent
 (in the book's sense, on finite-dimensional/finitely generated modules) to some basic

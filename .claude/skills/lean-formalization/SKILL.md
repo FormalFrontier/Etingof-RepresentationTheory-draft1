@@ -147,32 +147,62 @@ classes do not transfer either** — for `def Splus : Type := ℂ`, `one_ne_zero
 synthesize `One Splus` even when the hypothesis is literally `(1 : ℂ) = 0`. Pass the type
 explicitly: `exact one_ne_zero (α := ℂ) h`.
 
-**The phantom-parameter type synonym is the cheaper fix, and the vacuity trap is worse than
-the shadowing one.** A plain (semireducible) `def` with the distinguishing data as unused
-parameters gives genuinely distinct carriers at zero wrapping cost — no `structure`, no
-`.mk`/`.val` noise, everything still defeq to the underlying type:
+**Relating two members of a `letI`-supplied family of module structures: `letI` twice is
+vacuous.** The classifying families (`Chapter2/Problem2_7_4_Family.lean`,
+`Problem2_7_5_Family.lean`) define `famModule α c : Module (WeylAlgebra k) (Fin p → k)` as a
+*parameter-indexed* instance and every theorem opens with `letI := famModule k p α c`. That
+works for statements about one member, but to state `V(α,c) ≅ V(α',c')` the obvious
+`letI := famModule … α c; letI := famModule … α' c'; Nonempty ((Fin p → k) ≃ₗ[A] (Fin p → k))`
+is **wrong and silently vacuous**: both sides of the `≃ₗ` resolve to the last `letI`, so
+`LinearEquiv.refl` inhabits it for any parameters. Instead give both instances positionally:
+
+```lean
+abbrev FamEquiv (α c α' c' : k) : Type _ :=
+  @LinearEquiv (WeylAlgebra k) (WeylAlgebra k) _ _
+    (RingHom.id (WeylAlgebra k)) (RingHom.id (WeylAlgebra k)) _ _
+    (Fin p → k) (Fin p → k) _ _ (famModule k p α c) (famModule k p α' c')
+```
+
+(`@LinearEquiv` arg order: `R S _ _ σ σ' _ _ M M₂ _ _ instModuleRM instModuleSM₂`.) A proved
+iff of the form `Nonempty (FamEquiv …) ↔ params agree` is self-certifying against the collapse:
+if both slots held the same instance, the `refl` direction would contradict the forward
+direction. Three consequences worth knowing before you start:
+
+* **Dot notation dies on the `abbrev`.** `e.intertwines` fails with "does not have a usable
+  parameter of type `FamEquiv ...`" because `e`'s type elaborates to `LinearEquiv`. Name helper
+  lemmas `famEquiv_intertwines` and apply them prefix-style.
+* **`LinearEquiv.refl _ _` cannot synthesize the module** — write
+  `@LinearEquiv.refl A (Fin p → k) _ _ (famModule k p α c)`.
+* **`Module.compHom` makes the intertwining lemma free**: `a • f` is defeq to `famRep α c a f`,
+  so `famEquiv_intertwines` is literally `map_smulₛₗ e a f`. And `AlgHom.commutes` plus
+  `Module.algebraMap_end_apply` upgrade `A`-linearity to `k`-linearity, which is what lets you
+  compare scalar actions coordinatewise.
+
+**The phantom-parameter type synonym is the cheaper fix.** Rather than threading `@LinearEquiv`
+by hand, a plain (semireducible) `def` with the distinguishing data as unused parameters gives
+genuinely distinct carriers at zero wrapping cost — no `structure`, no `.mk`/`.val` noise,
+everything still defeq to the underlying type:
 ```lean
 def Fam (_q _α _β : ℂˣ) : Type := Fin (orderOf _q) → ℂ
 instance : AddCommGroup (Fam q α β) := inferInstanceAs (AddCommGroup (Fin (orderOf q) → ℂ))
 noncomputable instance famQWeylModule : Module (qWeylAlgebra ℂ q) (Fam q α β) := ...
 ```
 Instance search does not unfold a `def`, so `Fam q α β` and `Fam q α' β'` get separate
-instances, while defeq still lets you `exact` the underlying-type lemmas directly
-(`Chapter2/Problem2_7_5_Iso.lean`). Two further points that matter:
+instances and `V ≅ V'` can be written with plain `≃ₗ[A]`, while defeq still lets you `exact`
+the underlying-type lemmas directly (`Chapter2/Problem2_7_5_Iso.lean`). Two further points that
+matter:
 
 * **Index by a value, not a hypothesis, so the action can be a real `instance`.** Baking
   `N := orderOf q` into the synonym turns a `(hqorder : orderOf q = N)` argument into `rfl`,
   which is what lets `Module A (Fam q α β)` be an `instance` instead of something every
   downstream statement has to `letI` in.
-* **Two `letI`s do not work, and the failure is silent.** To state `V ≅ V'` you need both
-  module structures live at once; the second `letI` shadows the first, so `≃ₗ[A]` elaborates
-  with *one* structure on both sides. That statement compiles, has no `sorry`, and passes
-  `#print axioms` while being vacuous. Whenever a statement compares two structures on one
-  underlying type, verify with `set_option pp.explicit true in #check @thm` that the two sides
-  really carry the *different* instances before believing the result.
+* **Verify the statement is not the vacuous one anyway.** Whenever a statement compares two
+  structures on one underlying type, check with `set_option pp.explicit true in #check @thm`
+  that the two sides really carry the *different* instances before believing the result — the
+  collapsed version compiles, has no `sorry`, and passes `#print axioms`.
 
 `Chapter9/Problem9_3_2.lean`'s `Pplus`/`Pminus` (issue #7704, "give P₊ and P₋ distinct
-carriers") is exactly this pattern.
+carriers") is the same pattern with the parameters dropped entirely.
 
 **Two Mathlib lemmas can produce the *same* `1`/`0`/`Pi.single i 1` through *different*
 typeclass paths — `rw` then fails syntactically, `exact` succeeds by defeq.** Classic case
@@ -1238,6 +1268,35 @@ exists. A bare `open MvPolynomial` from inside `namespace Etingof` resolves to t
 `open _root_.MvPolynomial`. (Cost one build cycle in #5565.) Same pattern applies to
 any namespace the repo redeclares under `Etingof`.
 
+### A `ModuleCat` morphism between objects whose module structure is *not* an instance: `ConcreteCategory.ofHom`, and don't `@ModuleCat.of` in a statement (#7736)
+
+Chapter 8/9 keeps ad-hoc module structures out of the instance graph (`Etingof.mopZMod`,
+`Etingof.mopPolyQuot`: `local instance`s giving `Module Aᵐᵒᵖ (A ⧸ I)` by `Module.compHom`). Two
+walls when you build maps between the resulting objects, each costing a build cycle:
+
+1. **`ModuleCat.ofHom f` synthesises its own `[Module R X]`**, so it cannot produce a morphism out
+   of an object whose structure is the ad-hoc one — you get `synthesized … Semiring.toOppositeModule,
+   inferred Module.compHom …`. `ModuleCat.Hom`'s constructor is `private`, so `⟨f⟩` is rejected too
+   (`Invalid ⟨...⟩ notation: Constructor … is marked as private`). **Fix:** go through the
+   `ConcreteCategory` API, which is stated for *objects* and therefore reuses their bundled
+   instances: `hom := ConcreteCategory.ofHom (C := ModuleCat Rᵐᵒᵖ) { toFun := id, map_add' _ _ := rfl,
+   map_smul' c x := … }`. The expected type fixes `X`/`Y`, so the `map_smul'` goal is stated with the
+   two objects' own actions (e.g. `unop c * x = x * unop c`, closed by `mul_comm`). `Iso` fields
+   `hom_inv_id`/`inv_hom_id` then close by `rfl`.
+2. **Don't write `@ModuleCat.of R _ M _ myInstance` in a declaration's *type*.** `ModuleCat.of` is a
+   reducible `abbrev`, so TC search sees through `↑(ModuleCat.of R M)` to `M` and then looks for a
+   `Module R M` *instance* in scope — failing with `failed to synthesize Module Rᵐᵒᵖ ↑(ModuleCat.of Rᵐᵒᵖ M)`
+   even though you supplied the structure explicitly. **Fix:** re-enable the ad-hoc instance instead
+   (`attribute [local instance] mopZMod mopPolyQuot`) and write `ModuleCat.of Rᵐᵒᵖ M` plainly; the
+   elaborated statement then matches the theorems in the file that declared those `local instance`s.
+
+Related: to move a whole decomposition to `ModuleCat Aᵐᵒᵖ` for commutative `A`, don't transport a
+plain `DirectSum` isomorphism (for a `Sum.elim` family the pointwise `Module Aᵐᵒᵖ` instances are a
+case split, so the `A`- and `Aᵐᵒᵖ`-direct sums are not the same type). Use
+`ModuleCat.restrictScalars (mopRingEquiv A).toRingHom`: it is `Additive` and an equivalence, so
+`preservesBiproduct_of_preservesProduct` plus `Functor.mapBiproduct` moves the entire biproduct in
+one step. See `Chapter8/PIDDecomposition.lean`.
+
 ### Stuck `Module ?m (M i)` Metavariable Errors
 
 When working over a *family* `(M : ι → Type*) [∀ i, Module A (M i)] [∀ i, Module 𝕜 (M i)] [∀ i, IsScalarTower 𝕜 A (M i)]` (common for representation families), `lake build` errors like `typeclass instance problem is stuck … (i : ι) → Module ?m (M i)` mean a ring/field implicit was left undetermined. Three concrete causes, each with a one-line fix (diagnosed across ~5 build cycles in #4885, `CharacterIndependence.lean`):
@@ -1788,6 +1847,8 @@ cheap pieces:
 **Infinite-dimensional (affine) case — `¬ Module.Finite k (Free ⧸ relIdeal)` (Ch2 2.16.3(b) `𝔤₄`, #6388, worked sorry-free in `Problem2_16_3.lean`).** Map into `gl_d(k[t]) = Matrix (Fin d) (Fin d) (Polynomial k)` with `x ↦ t·A`, `y ↦ B` (`matHom₄c := lift k ![NXc, NYc]`), so bracket words with `j` factors of `x` land in `t^j·gl_d(k)`. Exhibit a **climbing tower** `S₀` (a fixed low-degree bracket) with `Sₙ₊₁ = ⁅⁅y,x⁆, Sₙ⁆` and prove `matHom (Sₙ) = tⁿ⁺ᶜ • E` for a fixed nonzero matrix `E` by induction (base + a one-step lemma `⁅⁅y,x⁆, tᵐ•E⁆ = tᵐ⁺¹•E`). Then `LinearIndependent k (fun n => proj (Sₙ))` via `LinearIndependent.of_comp η` where `η : g →ₗ[k] k[t]` is the `(i,j)`-entry functional built with `Submodule.liftQ (relIdeal).toSubmodule ((Matrix.entryLinearMap k _ i j).comp matHom.toLinearMap) (…relIdeal ≤ ker…)` (the LieSubmodule quotient `M ⧸ N` is *defeq* to `M ⧸ N.toSubmodule`, so `liftQ` typechecks against `g` and `η (proj a) = (matHom a) i j` is `rfl`); `η (proj Sₙ) = tⁿ⁺ᶜ` are distinct monomials (`Polynomial.basisMonomials` + `LinearIndependent.comp (·+c)`). Close with `Module.Finite.not_linearIndependent_of_infinite` (needs `import Mathlib.LinearAlgebra.Dimension.Finite`).
   - **Finding the witness matrices is a search, not a recall.** The natural `𝔰𝔩₃`-loop realization (`x ↦ E₂₀·t`, `y ↦ E₀₁−E₁₂`) **collapses mod `p`** for the affine node's characteristic (`𝔤₄` dies to 4 dims over `𝔽₃`: every `𝔰𝔩₃` root vector has `ad`-weight divisible by 3, so the collapse is representation-independent). Search over `𝔽ₚ` for `A,B ∈ gl_d(𝔽ₚ)` with both relators `↦ 0` and the height-graded image climbing (a pure-Python mod-`p` bracket/BFS search over sparse `A,B` found a clean 4×4 witness in minutes; prefer sparse `{0,1,2}` entries for cheap `simp`). **Both relators may hold only mod `p`** — check which are ℤ-clean (here `ad(y)⁵x=0` over ℤ, `ad(x)²y=0` only mod 3) to know where `h3 : (3:k)=0` is needed.
   - **Char-`p` matrix-identity tactic recipe** (the relator/step/base lemmas): (1) collapse products with **full `simp`** (not `simp only` — the `Fin` `≠` side-goal of `single_mul_single_of_ne` needs the default simproc `Fin.reduceEq`) `[defs, LieRing.of_associative_ring_bracket, mul_add, add_mul, mul_sub, sub_mul, single_mul_single_same, single_mul_single_of_ne]`; (2) **`apply Matrix.ext; intro i j`**, NOT `ext i j` — over `Polynomial k` a bare `ext` keeps going into `Polynomial.coeff`, breaking `ring`; (3) fold all char-`p` content into a single `(p : Polynomial k) • (junk)` summand so the closing `Matrix.ext … <;> ring` is a **ℤ-clean identity** (uniform `ring`, no per-entry `linear_combination`), then `rw [key, three_eq_zero_poly k h3, zero_smul, add_zero]` where `three_eq_zero_poly : (3:k)=0 → (3:Polynomial k)=0` is `rw [← map_ofNat (Polynomial.C) 3, h3, map_zero]`; (4) **stage deep `ad`-strings** (`ad(y)⁵x`, a 4-fold nested `⁅x,ad(y)³x⁆`) as a chain of collapsed-single `have e1,e2,e3` — a single `simp` on the fully-nested bracket hits the `whnf` heartbeat **timeout**.
+  - **Identifying the image with the *whole* twisted loop subalgebra (`range matHom₄ = loopPos`, #7729, sorry-free).** Two reusable moves. (1) **Build a graded monomial calculus first**: `emb k n A = A·tⁿ` with `emb_mul : emb m A * emb n B = emb (m+n) (A*B)` and `emb_lie : ⁅emb m A, emb n B⁆ = emb (m+n) ⁅A,B⁆` (both by `refine Matrix.ext fun a b => ?_` + `Polynomial.monomial_mul_monomial` + `map_sum`). Every ladder step then reduces to a bracket of **constant** matrices, provable by a uniform `fin_cases i <;> fin_cases j <;> simp [defs, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single, …] <;> ring`. (2) **Don't reach for irreducibility of the `𝔤₀`-module `𝔤₁` to fill the higher layers** — you don't need it, and proving it is real work. Instead find a *diagonal* `ad`: for `A₂⁽²⁾`, `ad((E₀₀−E₂₂)·t²)` has eigenvalues `2,1,0,−1,−2` on the `𝔤₁` basis, so one division climbs `𝔤₁·t^{2m+1} → 𝔤₁·t^{2m+3}` in four of five coordinates, and the zero-weight coordinate is reached by one separate bracket. The `≤` half is a `LieSubalgebra.lieSpan_induction` over the free generators against the intrinsic subalgebra.
+  - **A graded helper lemma must NOT conclude at `emb k (m + n) D` with `m`, `n` implicit.** Call sites then hand the unifier `?m + ?n =?= 1` *before* the argument types pin `m`, `n` down; it flails in `whnf` and you get `(deterministic) timeout at whnf` **reported at the enclosing declaration's line**, with nothing in the message pointing at the real cause. Fix: take the target degree as its own implicit `{d : ℕ}` plus `(hd : m + n = d)`, and order `hd` *after* the membership hypotheses that determine `m` and `n`; call sites pass `rfl`. Same shape applies to any indexed/graded helper (`Fin (m+n)`, `X^(a+b)`, shifted complex degrees).
 
 ### Heavy Instance Resolves Abstractly but Fails Concretely
 
@@ -4328,6 +4389,16 @@ These naming mismatches have bitten multiple agents across waves 44-47. Check th
 
 **When unsure about a lemma name:** Use `#check` or `exact?` on a small test goal. Don't guess and iterate — the 30 seconds spent checking saves 10 minutes of mysterious failures.
 
+**A missing *tactic* import reads as a broken proof, not a missing import.** Chapter files import
+selective `Mathlib.*` modules, never `import Mathlib`, so tactics beyond the core set are often
+absent. Lean reports this as `unknown tactic` at a **misleading line** (often the next
+declaration, or a `<;>` several lines below the real call) plus cascading `unsolved goals` on
+every `have` that used it — which reads as "my algebra was wrong". Before rewriting the
+mathematics by hand, check whether the tactic is imported: `linear_combination` needs
+`Mathlib.Tactic.LinearCombination`, `module` → `Mathlib.Tactic.Module`, `noncomm_ring` →
+`Mathlib.Tactic.NoncommRing`, `group` → `Mathlib.Tactic.Group`. Adding the import is cheap and
+almost always the right fix. (#7728)
+
 ## Trace-Based Proof Pattern
 
 When a proof involves showing a group algebra element is nonzero, or bounding the dimension of a representation, try using traces of left-multiplication operators.
@@ -6647,3 +6718,39 @@ a many-iteration `End`-level attempt down to clean, first-try-ish group proofs.
 pred n ih` (not `hz/hp/hn`), and in the `succ`/`pred` branches the bound variable is a **`ℕ`** — so
 write `X ^ (-(n : ℤ))`, never `X ^ (-n)` (the latter elaborates `Neg ℕ` and fails with
 "failed to synthesize instance", often cascading into bogus `X ^ sorry` in later hypotheses).
+
+## Spanning a generated Lie algebra: bracket the *generators*, not every pair (#7719)
+
+To show an explicit family spans `L = Free ⧸ relIdeal` (generated as a Lie algebra by `x̄, ȳ`), the
+obvious route builds a `LieSubalgebra` from `Submodule.span_induction₂` and needs the **full
+pairwise bracket table** — `n²` cases for `n` spanning elements. Don't. Prove once:
+
+> If `M : Submodule k L` contains `x̄` and `ȳ` and is stable under `⁅x̄, ·⁆` and `⁅ȳ, ·⁆`, then
+> `M = ⊤`.
+
+Proof in two moves: (1) `N := {a | ∀ m ∈ M, ⁅a,m⁆ ∈ M}` is a `LieSubalgebra` (its `lie_mem'` is
+`lie_lie` + `Submodule.sub_mem`), it contains the generators by hypothesis, so `N = ⊤` by
+`lieSpan_gens_eq_top`; (2) hence `M` is itself a `LieSubalgebra` (`{ M with lie_mem' := … }`)
+containing the generators, so `M = ⊤` by the same lemma. Recover the submodule equality with
+`congrArg LieSubalgebra.toSubmodule` + `simpa`.
+
+The spanning-set corollary takes `S : Set L` and only asks for `⁅x̄, s⁆, ⁅ȳ, s⁆ ∈ span S` for
+`s ∈ S`; a one-line `Submodule.span_induction` lifts it off `S`. This turned `2n` cases into the
+whole obligation and cut 126 lines out of three existing proofs in `Problem2_16_3.lean`
+(`span_eq_top_one/two/three`, previously 9 / 16 / 36 cases each).
+
+**Related traps in the same session:**
+
+- Files here import *narrow* Mathlib modules, not `Mathlib.Tactic`. `interval_cases` fails with a
+  bare `unknown tactic` until you `import Mathlib.Tactic.IntervalCases`. (`fin_cases`, `module`,
+  `abel` happened to be transitively available; don't assume.)
+- Prefer `interval_cases i` on `i : ℕ` with `hi : i < 5` over `fin_cases` on `Fin 5`: you get clean
+  numeral goals with no `Fin.val` coercions to simp away.
+- For `ad(ȳ)`-strings, `simpa`/`simp` will happily rewrite `aElt k 4 0` back to `xb k 4` and flip
+  brackets by skew-symmetry, so a `simpa … using h'` can land on a *different* normal form than the
+  goal. Use `simp only [smul_smul, inv_mul_cancel₀ h2, one_smul, smul_neg] at h'; exact h'`.
+- To turn `h : E = 0` into a scalar-normalised goal `G = 0`, `rw [← h]; module` is reliable: it
+  rewrites the goal's `0` to `E` and lets `module` do the linear algebra. Safer than trying to
+  massage `h` into shape with `abel`.
+- Index arithmetic from a Leibniz-style recursion leaves `aElt k n (4 + 1)` where lemmas say
+  `aElt k n 5`. Normalise with `simp only [Nat.reduceAdd, …]` before rewriting.
