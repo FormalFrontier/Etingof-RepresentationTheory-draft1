@@ -44,13 +44,32 @@ three-term `D`-string with top `c`. `OddLayer b c` and `EvenLayer c` record the 
 vacuous; `evenLayer_deg_two` is the resulting statement about the degree-`2` layer, whose top is
 `-⁅a₀, a₃⁆`.
 
+## The even-to-odd step
+
+`oddTop c = -⁅a₁, c⁆` (equivalently `⁅x̄, D c⁆`) is the top of the next, odd, layer, and
+`evenTop (oddTop c) = ⁅a₃, oddTop c⁆` the top of the one after that. From `EvenLayer c` **alone**
+we obtain
+
+* `EvenLayer.lie_zero_oddTop`, `lie_one_oddTop`, `lie_two_oddTop`, `dY_five_oddTop` — four of the
+  six `OddLayer` fields (the fifth, `⁅a₃, b'⁆ = c''`, is a definition);
+* `EvenLayer.step` — the whole of `EvenLayer (evenTop (oddTop c))`.
+
+So the even-layer invariant propagates by itself, two `t`-degrees at a time
+(`evenLayer_evenTower`), with no extra hypotheses beyond `2, 3, 5 ≠ 0`. The pair `(b, c)` does
+*not* have to be carried: `⁅a₁, b'⁆ = 0` comes from `serre_x` applied to `D c`, not from
+`⁅⁅a₁, a₄⁆, b⁆`.
+
 ## What is still missing
 
-The even-to-odd step (from `EvenLayer c` back to `OddLayer (-⁅a₁, c⁆) _`) and the assembly of the
-spanning family indexed by `LoopIdx`. Note that the even-to-odd step needs more than `EvenLayer c`
-alone: the vanishing `⁅a₁, ⁅a₁, c⁆⁆ = 0` is not a formal consequence of the commutation relations
-and the even-layer table, and has to be derived using the *previous* odd top `b` as well
-(through `⁅⁅a₁, a₄⁆, b⁆`), so the induction has to carry the pair `(b, c)`.
+The sixth odd-layer field, `⁅a₄, b'⁆ = 2 D c''`. Its defect
+
+`EvenLayer.defect c = ⁅a₄, b'⁆ - 2 D c''`
+
+is annihilated by both `ad(x̄)` (`lie_zero_lie_four_oddTop`) and `ad(ȳ)`
+(`dY_one_lie_four_oddTop`), hence is **central** in `𝔤₄` (`EvenLayer.central_defect`). So the
+remaining gap is exactly the triviality of the centre of `𝔤₄`, and
+`OddLayer.of_evenLayer_of_center` derives the full odd-layer invariant from it. Also still open:
+the assembly of the spanning family indexed by `LoopIdx`.
 -/
 
 namespace Etingof.Problem2_16_3
@@ -632,8 +651,7 @@ theorem dY_one_lie_four_oddTop (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (
   have hs := serre_y k (oddTop c)
   rw [h.dY_five_oddTop h2 h3, h.lie_zero_oddTop, h.lie_one_oddTop h3,
     h.lie_two_oddTop h2 h3] at hs
-  simp only [_root_.lie_zero, dY_zero_elt, smul_zero, sub_zero, zero_sub, add_zero,
-    zero_add, neg_zero] at hs
+  simp only [_root_.lie_zero, dY_zero_elt, smul_zero, sub_zero, zero_sub, add_zero] at hs
   rw [← evenTop_eq] at hs
   refine smul_cancel₀ h5 ?_
   linear_combination (norm := module) -hs
@@ -649,7 +667,172 @@ theorem lie_zero_lie_four_oddTop (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h : 
   rw [h.lie_zero_dY_one_evenTop h2 h3] at hs
   linear_combination (norm := module) hs
 
+/-- `D²⁅a₄, b'⁆ = 2 D³ c''`. -/
+theorem dY_two_lie_four_oddTop (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
+    (h : EvenLayer k c) :
+    dY k 2 ⁅aElt k 4 4, oddTop c⁆ = (2 : k) • dY k 3 (evenTop (oddTop c)) := by
+  have e := congrArg (fun v : g k 4 => dY k 1 v) (h.dY_one_lie_four_oddTop h2 h3 h5)
+  simpa [dY_one_dY] using e
+
+/-- **`D³ c'' = 0`**: the string of the next even layer again has length three. -/
+theorem dY_three_evenTop (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
+    (h : EvenLayer k c) : dY k 3 (evenTop (oddTop c)) = 0 := by
+  have h10 : (10 : k) ≠ 0 := by
+    have h' : (10 : k) = 2 * 5 := by norm_num
+    rw [h']; exact mul_ne_zero h2 h5
+  have hs := serre_y k (dY k 1 (oddTop c))
+  rw [dY_dY_one, ← dY_one_dY, h.dY_five_oddTop h2 h3] at hs
+  simp only [dY_zero_elt, _root_.lie_zero] at hs
+  have g0 : ⁅aElt k 4 0, dY k 1 (oddTop c)⁆ = 0 := by
+    have e := lie_aElt_dY_one k 0 (oddTop c)
+    simp only [Nat.zero_add] at e
+    rw [e, h.lie_zero_oddTop, h.lie_one_oddTop h3]; simp
+  have g1 : ⁅aElt k 4 1, dY k 1 (oddTop c)⁆ = 0 := by
+    have e := lie_aElt_dY_one k 1 (oddTop c)
+    simp only [Nat.reduceAdd] at e
+    rw [e, h.lie_one_oddTop h3, h.lie_two_oddTop h2 h3]; simp
+  have g2 : ⁅aElt k 4 2, dY k 1 (oddTop c)⁆ = -evenTop (oddTop c) := by
+    have e := lie_aElt_dY_one k 2 (oddTop c)
+    simp only [Nat.reduceAdd] at e
+    rw [e, h.lie_two_oddTop h2 h3, ← evenTop_eq]; simp
+  have g3 : ⁅aElt k 4 3, dY k 1 (oddTop c)⁆
+      = dY k 1 (evenTop (oddTop c)) - ⁅aElt k 4 4, oddTop c⁆ := by
+    have e := lie_aElt_dY_one k 3 (oddTop c)
+    simp only [Nat.reduceAdd] at e
+    rw [e, ← evenTop_eq]
+  have g4 : ⁅aElt k 4 4, dY k 1 (oddTop c)⁆ = dY k 1 ⁅aElt k 4 4, oddTop c⁆ := by
+    have e := lie_aElt_dY_one k 4 (oddTop c)
+    simp only [Nat.reduceAdd, lie_aElt_five, sub_zero] at e
+    exact e
+  rw [g0, g1, g2, g3, g4] at hs
+  simp only [dY_zero_elt, smul_zero, dY_neg_elt, dY_sub_elt, dY_dY_one] at hs
+  refine eq_zero_of_smul₀ h10 ?_
+  linear_combination (norm := module) -hs - (15 : k) • h.dY_two_lie_four_oddTop h2 h3 h5
+
+/-- **`2⁅a₂, c''⁆ = 3 D⁅a₁, c''⁆`**: the third even-layer field for the next even top. -/
+theorem two_smul_lie_two_evenTop (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
+    (h : EvenLayer k c) :
+    (2 : k) • ⁅aElt k 4 2, evenTop (oddTop c)⁆
+      = (3 : k) • dY k 1 ⁅aElt k 4 1, evenTop (oddTop c)⁆ := by
+  have hs := serre_x k (dY k 4 (oddTop c))
+  rw [dY_one_dY, h.dY_five_oddTop h2 h3, h.lie_zero_dY_four_oddTop h2 h3] at hs
+  simp only [_root_.lie_zero] at hs
+  have hP : ⁅aElt k 4 0, -((4 : k) • dY k 1 (evenTop (oddTop c))) + ⁅aElt k 4 4, oddTop c⁆⁆
+      = (2 : k) • ⁅aElt k 4 1, evenTop (oddTop c)⁆ := by
+    rw [lie_add, lie_neg, lie_smul, h.lie_zero_dY_one_evenTop h2 h3,
+      h.lie_zero_lie_four_oddTop h2 h3]
+    module
+  have hQ : dY k 1 (-((4 : k) • dY k 1 (evenTop (oddTop c))) + ⁅aElt k 4 4, oddTop c⁆)
+      = -((2 : k) • dY k 2 (evenTop (oddTop c))) := by
+    rw [dY_add_elt, dY_neg_elt, dY_smul_elt, dY_one_dY, h.dY_one_lie_four_oddTop h2 h3 h5]
+    module
+  rw [hP, hQ] at hs
+  have hexp := lie_aElt_dY_two k 0 (evenTop (oddTop c))
+  rw [h.lie_zero_evenTop h2 h3] at hexp
+  simp only [Nat.zero_add, dY_zero_elt, zero_sub] at hexp
+  rw [lie_neg, lie_smul, dY_smul_elt] at hs
+  refine smul_cancel₀ h2 ?_
+  linear_combination (norm := module) hs - (4 : k) • hexp
+
+/-- **The even-to-odd-to-even step.** The even-layer invariant propagates on its own, two
+`t`-degrees at a time: no odd-layer data is needed. -/
+theorem step (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) (h : EvenLayer k c) :
+    EvenLayer k (evenTop (oddTop c)) where
+  lie_zero := h.lie_zero_evenTop h2 h3
+  dY_top := h.dY_three_evenTop h2 h3 h5
+  lie_two := h.two_smul_lie_two_evenTop h2 h3 h5
+
+/-! ### The one missing field is a central element -/
+
+/-- The defect of the sixth odd-layer field, `w = ⁅a₄, b'⁆ - 2 D c''`. -/
+noncomputable def defect (c : g k 4) : g k 4 :=
+  ⁅aElt k 4 4, oddTop c⁆ - (2 : k) • dY k 1 (evenTop (oddTop c))
+
+/-- **The defect is central in `𝔤₄`.** Both `⁅x̄, w⁆ = 0` and `⁅ȳ, w⁆ = 0`, and the elements
+killing `w` form a Lie subalgebra, so the closure principle applies. Consequently the missing
+sixth field of the odd layer is *exactly* the statement that `𝔤₄` has no central element in this
+bidegree. -/
+theorem central_defect (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
+    (h : EvenLayer k c) (v : g k 4) : ⁅v, defect c⁆ = 0 := by
+  have hx : ⁅xb k 4, defect c⁆ = 0 := by
+    rw [defect, ← aElt_zero k 4, lie_sub, lie_smul, h.lie_zero_lie_four_oddTop h2 h3,
+      h.lie_zero_dY_one_evenTop h2 h3]
+    module
+  have hy : ⁅yb k 4, defect c⁆ = 0 := by
+    rw [defect, ← dY_one, dY_sub_elt, dY_smul_elt, dY_one_dY,
+      h.dY_one_lie_four_oddTop h2 h3 h5]
+    module
+  let M : Submodule k (g k 4) :=
+    { carrier := {u | ⁅u, defect c⁆ = 0}
+      add_mem' := fun {a b} ha hb => by
+        simp only [Set.mem_setOf_eq] at ha hb ⊢; rw [add_lie, ha, hb, add_zero]
+      zero_mem' := by simp only [Set.mem_setOf_eq, zero_lie]
+      smul_mem' := fun a u hu => by
+        simp only [Set.mem_setOf_eq] at hu ⊢; rw [smul_lie, hu, smul_zero] }
+  have hM : M = ⊤ := by
+    refine eq_top_of_closed_under_ad k 4 M hx hy ?_ ?_
+    · intro m hm
+      have hm' : ⁅m, defect c⁆ = 0 := hm
+      change ⁅⁅xb k 4, m⁆, defect c⁆ = 0
+      rw [lie_lie, hm', hx]; simp
+    · intro m hm
+      have hm' : ⁅m, defect c⁆ = 0 := hm
+      change ⁅⁅yb k 4, m⁆, defect c⁆ = 0
+      rw [lie_lie, hm', hy]; simp
+  have : v ∈ M := by rw [hM]; trivial
+  exact this
+
 end EvenLayer
+
+/-! ### The odd layer, modulo the defect -/
+
+/-- **The even-to-odd step**, given the one field that does not follow from `EvenLayer c`. -/
+theorem OddLayer.of_evenLayer (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0)
+    (h : EvenLayer k c) (hgap : EvenLayer.defect c = 0) :
+    OddLayer k (oddTop c) (evenTop (oddTop c)) where
+  lie_zero := h.lie_zero_oddTop
+  lie_one := h.lie_one_oddTop h3
+  lie_two := h.lie_two_oddTop h2 h3
+  lie_three := rfl
+  lie_four := by rwa [EvenLayer.defect, sub_eq_zero] at hgap
+  dY_top := h.dY_five_oddTop h2 h3
+
+/-- **The even-to-odd step, from the triviality of the centre.** `𝔤₄` has trivial centre (it is
+the positive part of `A₂⁽²⁾`), so this hypothesis is expected to hold; proving it is the one
+remaining gap in the layer induction. -/
+theorem OddLayer.of_evenLayer_of_center (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
+    (h : EvenLayer k c) (hZ : ∀ w : g k 4, (∀ v : g k 4, ⁅v, w⁆ = 0) → w = 0) :
+    OddLayer k (oddTop c) (evenTop (oddTop c)) :=
+  OddLayer.of_evenLayer h2 h3 h (hZ _ (h.central_defect h2 h3 h5))
+
+/-! ### The tower of even layers
+
+Iterating `step` from the degree-`2` layer gives the even-layer invariant in every even
+`t`-degree, unconditionally. -/
+
+/-- `evenTower k m` is the top of the layer of `t`-degree `2m + 2`. -/
+noncomputable def evenTower (K : Type*) [CommRing K] : ℕ → g K 4
+  | 0 => -⁅aElt K 4 0, aElt K 4 3⁆
+  | m + 1 => evenTop (oddTop (evenTower K m))
+
+@[simp] theorem evenTower_zero (K : Type*) [CommRing K] :
+    evenTower K 0 = -⁅aElt K 4 0, aElt K 4 3⁆ := rfl
+
+@[simp] theorem evenTower_succ (K : Type*) [CommRing K] (m : ℕ) :
+    evenTower K (m + 1) = evenTop (oddTop (evenTower K m)) := rfl
+
+/-- **Every even layer satisfies the even-layer invariant.** No hypothesis beyond
+`2, 3, 5 ≠ 0`; in particular `D³` kills the top of every even layer. -/
+theorem evenLayer_evenTower (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) (m : ℕ) :
+    EvenLayer k (evenTower k m) := by
+  induction m with
+  | zero => exact evenLayer_deg_two h2 h5
+  | succ m ih => exact ih.step h2 h3 h5
+
+/-- Non-vacuity of the step at the first new degree: the layer of `t`-degree `4`. -/
+theorem evenLayer_deg_four (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) :
+    EvenLayer k (evenTop (oddTop (-⁅aElt k 4 0, aElt k 4 3⁆))) :=
+  evenLayer_evenTower h2 h3 h5 1
 
 end EvenToOdd
 
