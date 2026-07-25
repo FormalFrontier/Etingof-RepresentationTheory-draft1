@@ -77,10 +77,21 @@ can be *closed* while the def/lemma it produced is still in an open PR
 you need to build on is in such a PR, do NOT wait or skip — `git fetch`
 that PR's head branch and base your branch on it
 (`git reset --hard origin/<pr-head>`). Then in your PR body add an
-ordering note ("based on #<pr>, merge it first; rebase onto `main` after
-it squash-merges to drop the duplicate commit") so a repair/planner agent
-sequences the merges. Confirm the dependency file actually builds on that
-base before writing new code.
+ordering note naming the predecessor PR and the exact rebase command, so a
+repair/planner agent can sequence the merges. Confirm the dependency file
+actually builds on that base before writing new code.
+
+The rebase is **not** a plain `git rebase origin/main`. A squash merge
+collapses the predecessor's commits into one new commit that is not
+patch-equivalent to any of them, so a plain rebase re-applies them on top of
+`main`, which already has the same content — an add/add conflict on every
+file the predecessor created. Replay only *your* commits instead:
+
+```bash
+git rebase --onto origin/main <pr-head-sha-you-branched-from> <your-branch>
+```
+
+See Step 2 for the publish-time version of this.
 
 **Branch naming**: `agent/<first-8-chars-of-UUID>`
 **Plan files**: `plans/<UUID-prefix>.md`
@@ -161,25 +172,15 @@ spot in review. Restore those (`git checkout HEAD -- <paths>`) rather than carry
 them. (2026-07-25: a worktree arrived with 169 lines of `.claude/` guidance deleted
 and nothing added.)
 
-**If your issue builds on an open PR that has not merged yet** (common when a
-planner or a decomposing worker chained sub-issues), branch off *that PR's head*,
-not `main` — you need its code to compile against. Say so explicitly:
+**If you branched off an unmerged PR's head** (see "Dependency code that lives
+only in an unmerged PR" above), decide at publish time:
 
-```bash
-git fetch origin
-git reset --hard origin/<pr-head-branch>   # your branch now contains the PR's commits
-```
-
-Then, at publish time:
-
-- If the predecessor PR has merged (squash), replay only *your* commits:
-  `git rebase --onto origin/main <pr-head-sha> <your-branch>`. Do **not** plain
-  `git rebase origin/main` — a squash merge is not patch-equivalent to the
-  individual commits, so git re-applies them and you get an add/add conflict.
-- If it still has not merged, publish anyway rather than stalling the session,
-  and leave a PR comment naming the predecessor PR and the exact `rebase --onto`
-  command. Do not wait more than ~15 minutes on someone else's CI; a `repair`
-  agent handles the conflict if one appears, but only if it knows the stacking.
+- Predecessor already merged → replay only *your* commits onto `main` with
+  `git rebase --onto origin/main <pr-head-sha> <your-branch>`, then push.
+- Predecessor still open → publish anyway rather than stalling the session, and
+  leave a PR comment naming it and giving that exact command. Do not wait more
+  than ~15 minutes on someone else's CI; a `repair` agent can fix the conflict
+  if one appears, but only if the PR says what it is stacked on.
 
 Record any project-specific quality metrics (e.g. sorry count, test coverage)
 as described in the project's CLAUDE.md.
