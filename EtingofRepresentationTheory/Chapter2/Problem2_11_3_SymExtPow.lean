@@ -259,4 +259,100 @@ lemma extPowMap_comp (A : W →ₗ[k] U) (B : V →ₗ[k] W) (n : ℕ) :
 
 end Functoriality
 
+section ExteriorComparison
+
+variable {k : Type*} [CommRing k] {V : Type*} [AddCommGroup V] [Module k V]
+
+variable (k V) in
+/-- The canonical map from Mathlib's exterior power onto the book's model `ExtPow k V n`,
+sending `v₁ ∧ ⋯ ∧ vₙ` to the class of `v₁ ⊗ ⋯ ⊗ vₙ`. -/
+noncomputable def extPowOfExteriorPower (n : ℕ) : (⋀[k]^n V) →ₗ[k] ExtPow k V n :=
+  exteriorPower.alternatingMapLinearEquiv (extTprod k V n)
+
+@[simp]
+lemma extPowOfExteriorPower_ιMulti {n : ℕ} (f : Fin n → V) :
+    extPowOfExteriorPower k V n (exteriorPower.ιMulti k n f) = extTprod k V n f :=
+  exteriorPower.alternatingMapLinearEquiv_apply_ιMulti _ _
+
+/-- The book's `⋀^n V` is a quotient of Mathlib's exterior power. -/
+theorem extPowOfExteriorPower_surjective (n : ℕ) :
+    Function.Surjective (extPowOfExteriorPower k V n) := by
+  intro x
+  obtain ⟨T, rfl⟩ := Submodule.mkQ_surjective _ x
+  induction T using PiTensorProduct.induction_on with
+  | smul_tprod r f =>
+      exact ⟨r • exteriorPower.ιMulti k n f, by simp⟩
+  | add a b ha hb =>
+      obtain ⟨u, hu⟩ := ha
+      obtain ⟨v, hv⟩ := hb
+      exact ⟨u + v, by rw [map_add, hu, hv, map_add]⟩
+
+variable (k V) in
+/-- The map `V^{⊗ n} → ⋀[k]^n V`, `v₁ ⊗ ⋯ ⊗ vₙ ↦ v₁ ∧ ⋯ ∧ vₙ`. -/
+noncomputable def tensorPowToExteriorPower (n : ℕ) : TensorPow k V n →ₗ[k] ⋀[k]^n V :=
+  PiTensorProduct.lift (exteriorPower.ιMulti k n).toMultilinearMap
+
+@[simp]
+lemma tensorPowToExteriorPower_tprod {n : ℕ} (f : Fin n → V) :
+    tensorPowToExteriorPower k V n (PiTensorProduct.tprod k f) = exteriorPower.ιMulti k n f :=
+  PiTensorProduct.lift.tprod _
+
+/-- Transposing two tensor factors negates the image in the exterior power. -/
+lemma tensorPowToExteriorPower_swap {n : ℕ} {i j : Fin n} (hij : i ≠ j) (T : TensorPow k V n) :
+    tensorPowToExteriorPower k V n (permAct (Equiv.swap i j) T)
+      = - tensorPowToExteriorPower k V n T := by
+  induction T using PiTensorProduct.induction_on with
+  | smul_tprod r f =>
+      have h : exteriorPower.ιMulti k n (fun l => f (Equiv.swap i j l))
+          = - exteriorPower.ιMulti k n f :=
+        (exteriorPower.ιMulti k n).map_swap (v := f) hij
+      simp only [map_smul, permAct_tprod, Equiv.symm_swap, tensorPowToExteriorPower_tprod, h,
+        smul_neg]
+  | add a b ha hb => simp only [map_add, ha, hb, neg_add]
+
+end ExteriorComparison
+
+section CharNeTwo
+
+variable {k : Type*} [Field k] {V : Type*} [AddCommGroup V] [Module k V]
+
+/-- **Away from characteristic 2**, every tensor fixed by a transposition maps to zero in the
+exterior power. This is the content that identifies Etingof's quotient model with the usual
+exterior power. -/
+lemma extRelSubmodule_le_ker (h2 : (2 : k) ≠ 0) (n : ℕ) :
+    extRelSubmodule k V n ≤ LinearMap.ker (tensorPowToExteriorPower k V n) := by
+  rw [extRelSubmodule, Submodule.span_le]
+  rintro T ⟨i, j, hij, hT⟩
+  have hswap := tensorPowToExteriorPower_swap hij T
+  rw [hT] at hswap
+  have h : (2 : k) • tensorPowToExteriorPower k V n T = 0 := by
+    rw [two_smul]
+    nth_rewrite 1 [hswap]
+    exact neg_add_cancel _
+  rcases smul_eq_zero.mp h with h' | h'
+  · exact absurd h' h2
+  · simpa using h'
+
+/-- **Problem 2.11.3(d), exterior case.** Away from characteristic 2, the book's quotient model
+`ExtPow k V n` is canonically isomorphic to Mathlib's exterior power `⋀[k]^n V`. -/
+noncomputable def exteriorPowerEquiv (h2 : (2 : k) ≠ 0) (n : ℕ) :
+    (⋀[k]^n V) ≃ₗ[k] ExtPow k V n := by
+  refine LinearEquiv.ofLinear (extPowOfExteriorPower k V n)
+    (Submodule.liftQ _ (tensorPowToExteriorPower k V n) (extRelSubmodule_le_ker h2 n)) ?_ ?_
+  · refine LinearMap.ext fun x => ?_
+    obtain ⟨T, rfl⟩ := Submodule.mkQ_surjective _ x
+    induction T using PiTensorProduct.induction_on with
+    | smul_tprod r f => simp
+    | add a b ha hb => simp only [map_add, ha, hb]
+  · refine LinearMap.ext_on (exteriorPower.ιMulti_span k n V) ?_
+    rintro _ ⟨f, rfl⟩
+    simp
+
+@[simp]
+lemma exteriorPowerEquiv_ιMulti (h2 : (2 : k) ≠ 0) {n : ℕ} (f : Fin n → V) :
+    exteriorPowerEquiv (V := V) h2 n (exteriorPower.ιMulti k n f) = extTprod k V n f :=
+  extPowOfExteriorPower_ιMulti f
+
+end CharNeTwo
+
 end Etingof.Problem2_11_3
