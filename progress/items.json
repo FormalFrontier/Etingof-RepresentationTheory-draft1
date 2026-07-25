@@ -1539,13 +1539,14 @@
     "start_line": 2,
     "end_line": 15,
     "status": "sorry_free",
-    "coverage_note": "Partially formalized in EtingofRepresentationTheory/Chapter2/Problem2_11_3.lean. Parts (a)-(c) and determinant multiplicativity from part (g) are proved; the symmetric/exterior-power quotient models, characteristic-zero tensor identifications, induced maps and trace formulas in parts (d)-(f), and the top-exterior-power proof of (g) remain. Follow-up: #7365.",
-    "followup_issue": 7365,
+    "coverage_note": "Partially formalized. Parts (a)-(c) and determinant multiplicativity from part (g) are in EtingofRepresentationTheory/Chapter2/Problem2_11_3.lean. Problem2_11_3_SymExtPow.lean constructs the book's quotient models S^n V and ∧^n V of V^{⊗n}, the induced operators S^n A and ∧^n A with their functoriality, and the exterior half of part (d) (basis and dimension m.choose n) via an isomorphism with Mathlib's exterior power, proved away from characteristic 2. Remaining: the symmetric basis and dimension of part (d) (#7816), the characteristic-zero identification with the (anti)symmetric subspaces of part (e) (#7817), the trace formulas of part (f) (#7819), the top-exterior-power proof of part (g) (#7818), and removing the characteristic-2 hypothesis (#7820).",
+    "followup_issue": 7816,
     "coverage": "covered_partial",
     "lean_file": [
-      "EtingofRepresentationTheory/Chapter2/Problem2_11_3.lean"
+      "EtingofRepresentationTheory/Chapter2/Problem2_11_3.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_11_3_SymExtPow.lean"
     ],
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter2/Remark2.11.4",
