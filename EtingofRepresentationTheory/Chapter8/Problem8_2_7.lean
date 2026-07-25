@@ -29,9 +29,8 @@ import EtingofRepresentationTheory.Chapter8.Problem8_2_6
 
 A finitely generated module over the PID `ℤ` (resp. `k[x]`) is a direct sum of a free module
 and cyclic torsion modules, and `Tor`/`Ext` are additive in each argument, so the whole
-computation reduces to two cases: a **free** generator and a pair of **cyclic** modules. We
-formalize exactly these building blocks, the content the book's "reduce to cyclic groups" hint
-points at:
+computation reduces to two cases: a **free** generator and a pair of **cyclic** modules. This file
+formalizes those building blocks, the content the book's "reduce to cyclic groups" hint points at:
 
 * **Cyclic pair.** For `a, b ≠ 0` (finite cyclic groups `ℤ/a`, `ℤ/b`):
   `Tor₀ ≅ Tor₁ ≅ ℤ/gcd(a,b)` and `Extⁿ⁺² = Ext¹ ≅ Ext⁰ ≅ ℤ/gcd(a,b)`, with `Torᵢ = Extⁱ = 0`
@@ -47,6 +46,24 @@ ring hom (`local instance`s below).
 The reusable number theory is packaged in the `ZModGcd` namespace below: the kernel and
 cokernel of multiplication by `a` on `ZMod b` are both `ZMod (gcd a b)`, giving the tensor and
 Hom isomorphisms `ZMod a ⊗_ℤ ZMod b ≅ ZMod (gcd a b)` and `Hom_ℤ(ZMod a, ZMod b) ≅ ZMod (gcd a b)`.
+
+## Where the arbitrary finitely generated case lives
+
+The building blocks below are *not* the whole exercise: they are the summand-level input to it. The
+reduction of arbitrary finitely generated `M`, `N` to these summands, and the resulting formulas
+for `Extⁱ(M, N)`, are in three further files:
+
+* `Chapter8/PIDDecomposition.lean` — the structure theorem as a biproduct decomposition;
+* `Chapter8/Problem8_2_7_ExtFG.lean` — additivity of `Ext` along a decomposition
+  (`Etingof.extPIDDecompositionAddEquiv` and its one-variable forms), and projective dimension
+  `< 2` for every finitely generated module over a PID (`Etingof.fg_hasProjectiveDimensionLT_two`),
+  which gives `Extⁱ = 0` for `i ≥ 2`;
+* `Chapter8/Problem8_2_7_ExtInt.lean` (part (i)) and `Chapter8/Problem8_2_7_ExtPoly.lean`
+  (part (ii)) — the completed summand tables and the assembled answers
+  `Etingof.Problem_8_2_7_i_ext_fg` and `Etingof.Problem_8_2_7_ii_ext_fg`.
+
+The `Tor` half of the arbitrary finitely generated case uses `Chapter8/Additivity.lean` and is
+tracked separately.
 
 For part (i), the degree-`0` identifications (`Tor₀`, `Ext⁰`), the degree-`1`
 identifications (`Tor₁`, `Ext¹`), and all higher-degree vanishing are established. The degree-`1`
@@ -106,7 +123,7 @@ open Limits in
 /-- If `Q = S.X₃` fits in a short exact sequence `0 → S.X₁ → S.X₂ → Q → 0` with `S.X₁`, `S.X₂`
 projective, then `Q` has projective dimension `< 2`. (Categorical form of "a length-`1` projective
 resolution bounds the projective dimension by `1`".) -/
-private lemma hasProjectiveDimensionLT_two_of_shortExact
+lemma hasProjectiveDimensionLT_two_of_shortExact
     {R : Type u} [Ring R] [Small.{u} R] {S : ShortComplex (ModuleCat.{u} R)}
     (hS : S.ShortExact) (h₁ : Projective S.X₁) (h₂ : Projective S.X₂) :
     HasProjectiveDimensionLT S.X₃ 2 := by
@@ -197,8 +214,25 @@ def zmodCokerEquiv (a b : ℕ) [NeZero b] :
 
 /-! ### Kernel of multiplication by `a` on `ZMod b` -/
 
+/-- Multiplication-by-`a` endomorphism of an arbitrary abelian group, as a ℤ-linear map. Its
+cokernel is what `Ext¹(ℤ/a, -)` computes and its kernel (the `a`-torsion) is what `Hom(ℤ/a, -)`
+computes; both are needed for arbitrary targets, not just for `ZMod b`. -/
+def mulBy (a : ℕ) (Y : Type*) [AddCommGroup Y] : Y →ₗ[ℤ] Y := (a : ℤ) • LinearMap.id
+
+@[simp] lemma mulBy_apply (a : ℕ) {Y : Type*} [AddCommGroup Y] (x : Y) :
+    mulBy a Y x = (a : ℤ) • x := rfl
+
+/-- The image of multiplication by `a` is the submodule `(a) • ⊤`, the denominator of the
+cokernel. -/
+lemma range_mulBy (a : ℕ) (Y : Type*) [AddCommGroup Y] :
+    LinearMap.range (mulBy a Y) = Ideal.span {(a : ℤ)} • (⊤ : Submodule ℤ Y) := by
+  rw [Submodule.ideal_span_singleton_smul]
+  ext x
+  simp only [LinearMap.mem_range, mulBy_apply, Submodule.mem_smul_pointwise_iff_exists]
+  exact ⟨fun ⟨y, hy⟩ => ⟨y, Submodule.mem_top, hy⟩, fun ⟨y, _, hy⟩ => ⟨y, hy⟩⟩
+
 /-- Multiplication-by-`a` endomorphism of `ZMod b`, as a ℤ-linear map. -/
-def mulByCast (a b : ℕ) : ZMod b →ₗ[ℤ] ZMod b := (a : ℤ) • LinearMap.id
+def mulByCast (a b : ℕ) : ZMod b →ₗ[ℤ] ZMod b := mulBy a (ZMod b)
 
 @[simp] lemma mulByCast_apply (a b : ℕ) (x : ZMod b) : mulByCast a b x = (a : ℤ) • x := rfl
 
@@ -280,18 +314,18 @@ def tensorEquiv (a b : ℕ) [NeZero b] :
     (TensorProduct.quotTensorEquivQuotSMul (ZMod b) (Ideal.span {(a : ℤ)})) ≪≫ₗ
     zmodCokerEquiv a b
 
-/-- The `a`-torsion element `f 1` of a ℤ-linear map `ZMod a → ZMod b`, packaged as an
-additive isomorphism `Hom(ZMod a, ZMod b) ≃+ ker(·a)`. -/
-def homToKer (a b : ℕ) [NeZero a] :
-    (ZMod a →ₗ[ℤ] ZMod b) ≃+ LinearMap.ker (mulByCast a b) where
+/-- The `a`-torsion element `f 1` of a ℤ-linear map `ZMod a → Y`, packaged as an additive
+isomorphism `Hom(ZMod a, Y) ≃+ ker(·a)` for an arbitrary abelian group `Y`. -/
+def homToKer (a : ℕ) (Y : Type*) [AddCommGroup Y] [NeZero a] :
+    (ZMod a →ₗ[ℤ] Y) ≃+ LinearMap.ker (mulBy a Y) where
   toFun f := ⟨f 1, by
-    rw [LinearMap.mem_ker, mulByCast_apply, ← map_smul]
+    rw [LinearMap.mem_ker, mulBy_apply, ← map_smul]
     have h1 : (a : ℤ) • (1 : ZMod a) = 0 := by
       rw [zsmul_eq_mul, mul_one, Int.cast_natCast, ZMod.natCast_self]
     rw [h1, map_zero]⟩
-  invFun x := (ZMod.lift a ⟨zmultiplesHom (ZMod b) (x : ZMod b), by
+  invFun x := (ZMod.lift a ⟨zmultiplesHom Y (x : Y), by
     have hx := LinearMap.mem_ker.mp x.2
-    rw [mulByCast_apply] at hx
+    rw [mulBy_apply] at hx
     simpa only [zmultiplesHom_apply] using hx⟩).toIntLinearMap
   left_inv f := by
     ext z
@@ -302,7 +336,7 @@ def homToKer (a b : ℕ) [NeZero a] :
     rw [← zsmul_one n, map_zsmul]
   right_inv x := by
     apply Subtype.ext
-    change (ZMod.lift a ⟨zmultiplesHom (ZMod b) (x : ZMod b), _⟩).toIntLinearMap 1 = (x : ZMod b)
+    change (ZMod.lift a ⟨zmultiplesHom Y (x : Y), _⟩).toIntLinearMap 1 = (x : Y)
     rw [AddMonoidHom.coe_toIntLinearMap,
       show (1 : ZMod a) = ((1 : ℤ) : ZMod a) by push_cast; rfl, ZMod.lift_coe]
     simp only [zmultiplesHom_apply, one_zsmul]
@@ -311,7 +345,20 @@ def homToKer (a b : ℕ) [NeZero a] :
 /-- **`Hom_ℤ(ZMod a, ZMod b) ≃ ZMod (gcd a b)`.** -/
 def homEquiv (a b : ℕ) [NeZero a] [NeZero b] :
     (ZMod a →ₗ[ℤ] ZMod b) ≃+ ZMod (Nat.gcd a b) :=
-  (homToKer a b).trans (zmodKerEquiv a b).toAddEquiv
+  (homToKer a (ZMod b)).trans (zmodKerEquiv a b).toAddEquiv
+
+/-- **`Hom_ℤ(ZMod a, ℤ) = 0`** for `a ≠ 0`: a torsion group has no nonzero map to a torsion-free
+one. This is the degree-`0` value at a torsion summand of `M` paired with a *free* summand of `N`,
+the one place where the uniform `ZMod (gcd a b)` answer fails (`gcd a 0 = a ≠ 0`). -/
+lemma subsingleton_hom_zmod_int (a : ℕ) [NeZero a] : Subsingleton (ZMod a →ₗ[ℤ] ℤ) := by
+  have hker : ∀ z : LinearMap.ker (mulBy a ℤ), (z : ℤ) = 0 := by
+    intro z
+    have hz : (a : ℤ) • (z : ℤ) = 0 := LinearMap.mem_ker.mp z.2
+    rw [smul_eq_mul, mul_eq_zero] at hz
+    exact hz.resolve_left (Int.natCast_ne_zero.mpr (NeZero.ne a))
+  haveI : Subsingleton (LinearMap.ker (mulBy a ℤ)) :=
+    ⟨fun x y => Subtype.ext (by rw [hker x, hker y])⟩
+  exact (homToKer a ℤ).toEquiv.subsingleton
 
 end
 
@@ -604,12 +651,19 @@ theorem Problem_8_2_7_i_ext_zero (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
   obtain ⟨e₀⟩ := Problem_8_2_6_i_ext ℤ (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ (ZMod b))
   exact ⟨e₀.trans (ModuleCat.homAddEquiv.trans (ZModGcd.homEquiv a b))⟩
 
-/-- **Problem 8.2.7(i), `Ext¹`.** `Ext¹(ℤ/a, ℤ/b) ≅ ℤ/gcd(a,b)` for `a, b ≠ 0`. -/
-theorem Problem_8_2_7_i_ext_one (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
-    Nonempty (Etingof.Ext (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ (ZMod b)) 1
-      ≃+ ZMod (Nat.gcd a b)) := by
+/-- **`Ext¹(ℤ/a, Y)` is the cokernel of multiplication by `a` on `Y`**, for `a ≠ 0` and an
+arbitrary abelian group `Y`. This is the whole degree-`1` content of Problem 8.2.7(i), read off the
+length-`1` free resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0` via the contravariant six-term sequence: the
+connecting map `Ext⁰(ℤ, Y) → Ext¹(ℤ/a, Y)` is surjective because `Ext¹(ℤ, Y) = 0`, and its kernel
+is the image of precomposition by `·a`, which under `Ext⁰(ℤ, Y) ≅ Hom_ℤ(ℤ, Y) ≅ Y` is
+multiplication by `a` on `Y`.
+
+`Problem_8_2_7_i_ext_one` is the case `Y = ZMod b`, where the cokernel is `ZMod (gcd a b)`; the
+case `Y = ℤ` (a *free* summand of `N`) gives `Ext¹(ℤ/a, ℤ) ≅ ZMod a`. -/
+theorem ext_one_zmod_quotSMul (a : ℕ) (ha : a ≠ 0) (Y : Type) [AddCommGroup Y] :
+    Nonempty (Etingof.Ext (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ Y) 1
+      ≃+ (Y ⧸ Ideal.span {(a : ℤ)} • (⊤ : Submodule ℤ Y))) := by
   haveI : NeZero a := ⟨ha⟩
-  haveI : NeZero b := ⟨hb⟩
   have ha' : (a : ℤ) ≠ 0 := by exact_mod_cast ha
   -- Length-`1` resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0` over `ModuleCat ℤ`, inline for access to `S.f`.
   let f : ℤ →ₗ[ℤ] ℤ := (a : ℤ) • LinearMap.id
@@ -633,27 +687,28 @@ theorem Problem_8_2_7_i_ext_one (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
     intro z; obtain ⟨y, rfl⟩ := ZMod.intCast_surjective z; exact ⟨y, hg y⟩
   set S := ModuleCat.shortComplexOfCompEqZero f g eq0 with hSdef
   have hS : S.ShortExact := ModuleCat.shortComplex_shortExact S hexact hinjf hsurjg
-  set Y := ModuleCat.of ℤ (ZMod b) with hY
+  set Yc := ModuleCat.of ℤ Y with hY
   -- Contravariant six-term window `Ext⁰(ℤ/a) → Ext⁰(ℤ) →[·a] Ext⁰(ℤ) →[δ] Ext¹(ℤ/a) → 0 → 0`.
-  have hExactCS := Abelian.Ext.contravariantSequence_exact hS Y 0 1 (by norm_num)
-  -- Connecting map `δ : Ext⁰(ℤ, ℤ/b) → Ext¹(ℤ/a, ℤ/b)`, and precomposition-by-`·a` map.
-  let dhom : Etingof.Ext S.X₁ Y 0 →+ Etingof.Ext S.X₃ Y 1 := hS.extClass.precomp Y (by norm_num)
-  let m12 : Etingof.Ext S.X₂ Y 0 →+ Etingof.Ext S.X₁ Y 0 :=
-    (Abelian.Ext.mk₀ S.f).precomp Y (zero_add 0)
-  -- `Ext¹(ℤ, ℤ/b) = 0`, so `δ` is surjective; and `ker δ = range(·a)`.
+  have hExactCS := Abelian.Ext.contravariantSequence_exact hS Yc 0 1 (by norm_num)
+  -- Connecting map `δ : Ext⁰(ℤ, Y) → Ext¹(ℤ/a, Y)`, and precomposition-by-`·a` map.
+  let dhom : Etingof.Ext S.X₁ Yc 0 →+ Etingof.Ext S.X₃ Yc 1 :=
+    hS.extClass.precomp Yc (by norm_num)
+  let m12 : Etingof.Ext S.X₂ Yc 0 →+ Etingof.Ext S.X₁ Yc 0 :=
+    (Abelian.Ext.mk₀ S.f).precomp Yc (zero_add 0)
+  -- `Ext¹(ℤ, Y) = 0`, so `δ` is surjective; and `ker δ = range(·a)`.
   have hsurjδ : Function.Surjective dhom := by
     rw [← AddMonoidHom.range_eq_top,
       show dhom.range = _ from (hExactCS.exact' 2 3 4).ab_range_eq_ker]
     ext x
     simp only [AddSubgroup.mem_top, iff_true, AddMonoidHom.mem_ker]
-    exact (Abelian.Ext.subsingleton_of_projective S.X₂ Y 0).elim _ _
+    exact (Abelian.Ext.subsingleton_of_projective S.X₂ Yc 0).elim _ _
   have hkerδ : dhom.ker = m12.range := ((hExactCS.exact' 1 2 3).ab_range_eq_ker).symm
-  -- `Ext⁰(ℤ, ℤ/b) ≅ Hom_ℤ(ℤ, ℤ/b) ≅ ℤ/b`, sending `α ↦ (addEquiv₀ α)(1)`.
-  let e0 : (Etingof.Ext S.X₁ Y 0) ≃+ ZMod b :=
+  -- `Ext⁰(ℤ, Y) ≅ Hom_ℤ(ℤ, Y) ≅ Y`, sending `α ↦ (addEquiv₀ α)(1)`.
+  let e0 : (Etingof.Ext S.X₁ Yc 0) ≃+ Y :=
     (Abelian.Ext.addEquiv₀).trans (ModuleCat.homAddEquiv.trans
-      (LinearMap.ringLmapEquivSelf ℤ ℤ (ZMod b)).toAddEquiv)
-  -- The precomposition map `·a` on `Ext⁰(ℤ)` is multiplication by `a` on `ℤ/b`.
-  have hconj : ∀ β, e0 (m12 β) = ZModGcd.mulByCast a b (e0 β) := by
+      (LinearMap.ringLmapEquivSelf ℤ ℤ Y).toAddEquiv)
+  -- The precomposition map `·a` on `Ext⁰(ℤ)` is multiplication by `a` on `Y`.
+  have hconj : ∀ β, e0 (m12 β) = ZModGcd.mulBy a Y (e0 β) := by
     intro β
     have hred : m12 β = (Abelian.Ext.mk₀ S.f).comp β (zero_add 0) := rfl
     have step1 : Abelian.Ext.addEquiv₀ (m12 β) = S.f ≫ Abelian.Ext.addEquiv₀ β := by
@@ -661,33 +716,23 @@ theorem Problem_8_2_7_i_ext_one (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
       apply Abelian.Ext.addEquiv₀.symm.injective
       rw [AddEquiv.symm_apply_apply, Abelian.Ext.addEquiv₀_symm_apply, ← Abelian.Ext.mk₀_comp_mk₀,
         Abelian.Ext.mk₀_addEquiv₀_apply]
-    change (LinearMap.ringLmapEquivSelf ℤ ℤ (ZMod b))
+    change (LinearMap.ringLmapEquivSelf ℤ ℤ Y)
         (ModuleCat.homAddEquiv (Abelian.Ext.addEquiv₀ (m12 β)))
-      = ZModGcd.mulByCast a b ((LinearMap.ringLmapEquivSelf ℤ ℤ (ZMod b))
+      = ZModGcd.mulBy a Y ((LinearMap.ringLmapEquivSelf ℤ ℤ Y)
         (ModuleCat.homAddEquiv (Abelian.Ext.addEquiv₀ β)))
     rw [step1]
     simp only [ModuleCat.homAddEquiv_apply, ModuleCat.hom_comp,
-      LinearMap.ringLmapEquivSelf_apply, ZModGcd.mulByCast_apply]
+      LinearMap.ringLmapEquivSelf_apply, ZModGcd.mulBy_apply]
     change (Abelian.Ext.addEquiv₀ β).hom (S.f.hom 1) = (a : ℤ) • (Abelian.Ext.addEquiv₀ β).hom 1
     rw [show S.f.hom (1 : ℤ) = (a : ℤ) • (1 : ℤ) from rfl, map_smul]
-  -- `range(mulByCast) = (a) • ⊤`, matching the domain of `zmodCokerEquiv`.
-  have hrange : LinearMap.range (ZModGcd.mulByCast a b)
-      = Ideal.span {(a : ℤ)} • (⊤ : Submodule ℤ (ZMod b)) := by
-    rw [Submodule.ideal_span_singleton_smul]
-    ext x
-    simp only [LinearMap.mem_range, ZModGcd.mulByCast_apply,
-      Submodule.mem_smul_pointwise_iff_exists]
-    constructor
-    · rintro ⟨y, rfl⟩; exact ⟨y, Submodule.mem_top, rfl⟩
-    · rintro ⟨y, _, rfl⟩; exact ⟨y, rfl⟩
-  -- Assemble: `Ext¹ ≃ Ext⁰(ℤ)/ker δ ≃ ℤ/b / (a)•⊤ ≃ ℤ/gcd`.
+  -- Assemble: `Ext¹ ≃ Ext⁰(ℤ)/ker δ ≃ Y / (a)•⊤`.
   let δL := dhom.toIntLinearMap
   have hsurjδL : Function.Surjective δL := hsurjδ
-  let e0L : (Etingof.Ext S.X₁ Y 0) ≃ₗ[ℤ] ZMod b := e0.toIntLinearEquiv
-  have he0L : ∀ x, (e0L : (Etingof.Ext S.X₁ Y 0) →ₗ[ℤ] ZMod b) x = e0 x := fun _ => rfl
-  have hmap : Submodule.map (e0L : (Etingof.Ext S.X₁ Y 0) →ₗ[ℤ] ZMod b) (LinearMap.ker δL)
-      = Ideal.span {(a : ℤ)} • (⊤ : Submodule ℤ (ZMod b)) := by
-    rw [← hrange]
+  let e0L : (Etingof.Ext S.X₁ Yc 0) ≃ₗ[ℤ] Y := e0.toIntLinearEquiv
+  have he0L : ∀ x, (e0L : (Etingof.Ext S.X₁ Yc 0) →ₗ[ℤ] Y) x = e0 x := fun _ => rfl
+  have hmap : Submodule.map (e0L : (Etingof.Ext S.X₁ Yc 0) →ₗ[ℤ] Y) (LinearMap.ker δL)
+      = Ideal.span {(a : ℤ)} • (⊤ : Submodule ℤ Y) := by
+    rw [← ZModGcd.range_mulBy a Y]
     ext z
     simp only [Submodule.mem_map, LinearMap.mem_ker, LinearMap.mem_range, he0L]
     constructor
@@ -702,9 +747,18 @@ theorem Problem_8_2_7_i_ext_one (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
           hkerδ.symm ▸ AddMonoidHom.mem_range.mpr ⟨e0.symm w, rfl⟩
         exact AddMonoidHom.mem_ker.mp this
       · rw [hconj, e0.apply_symm_apply]
-  exact ⟨(((LinearMap.quotKerEquivOfSurjective δL hsurjδL).symm.trans
-    (Submodule.Quotient.equiv (LinearMap.ker δL) _ e0L hmap)).trans
-    (ZModGcd.zmodCokerEquiv a b)).toAddEquiv⟩
+  exact ⟨((LinearMap.quotKerEquivOfSurjective δL hsurjδL).symm.trans
+    (Submodule.Quotient.equiv (LinearMap.ker δL) _ e0L hmap)).toAddEquiv⟩
+
+/-- **Problem 8.2.7(i), `Ext¹`.** `Ext¹(ℤ/a, ℤ/b) ≅ ℤ/gcd(a,b)` for `a, b ≠ 0`: the cokernel of
+multiplication by `a` on `ℤ/b` (`Etingof.ext_one_zmod_quotSMul`) is `ℤ/gcd(a,b)`
+(`ZModGcd.zmodCokerEquiv`). -/
+theorem Problem_8_2_7_i_ext_one (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
+    Nonempty (Etingof.Ext (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ (ZMod b)) 1
+      ≃+ ZMod (Nat.gcd a b)) := by
+  haveI : NeZero b := ⟨hb⟩
+  obtain ⟨e⟩ := ext_one_zmod_quotSMul a ha (ZMod b)
+  exact ⟨e.trans (ZModGcd.zmodCokerEquiv a b).toAddEquiv⟩
 
 /-- `ℤ/a` has projective dimension `< 2` as a `ℤ`-module. For `a ≠ 0` the length-`1` free
 resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0` exhibits this; for `a = 0`, `ℤ/0 = ℤ` is projective. -/

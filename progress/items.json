@@ -9206,13 +9206,18 @@
     "start_line": 23,
     "end_line": 26,
     "status": "sorry_free",
-    "coverage_note": "Partially formalized in EtingofRepresentationTheory/Chapter8/Problem8_2_7.lean. The file proves the cyclic-pair Tor/Ext computations and higher vanishing over Z and k[X], plus the free-generator vanishing results. It does not yet assemble those building blocks, via the structure theorem and additivity, into formulas for arbitrary finitely generated modules M and N as the exercise asks.",
+    "coverage_note": "The Ext half of the exercise is complete for arbitrary finitely generated modules. Problem8_2_7.lean has the summand-level building blocks (cyclic-pair and free-generator Tor/Ext over Z and k[X]); PIDDecomposition.lean packages the structure theorem as a biproduct decomposition; Problem8_2_7_ExtFG.lean supplies additivity of Ext along a decomposition and projective dimension < 2 for every f.g. module over a PID; Problem8_2_7_ExtInt.lean and Problem8_2_7_ExtPoly.lean assemble Ext^0, Ext^1 and the vanishing in degrees >= 2 for arbitrary f.g. M, N (Problem_8_2_7_i_ext_fg, Problem_8_2_7_ii_ext_fg). The Tor half for arbitrary f.g. modules is still open (#7738), so this item stays covered_partial.",
     "followup_issue": 7381,
     "coverage": "covered_partial",
     "lean_file": [
-      "EtingofRepresentationTheory/Chapter8/Problem8_2_7.lean"
+      "EtingofRepresentationTheory/Chapter8/Problem8_2_7.lean",
+      "EtingofRepresentationTheory/Chapter8/PIDDecomposition.lean",
+      "EtingofRepresentationTheory/Chapter8/Additivity.lean",
+      "EtingofRepresentationTheory/Chapter8/Problem8_2_7_ExtFG.lean",
+      "EtingofRepresentationTheory/Chapter8/Problem8_2_7_ExtInt.lean",
+      "EtingofRepresentationTheory/Chapter8/Problem8_2_7_ExtPoly.lean"
     ],
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter8/Problem8.2.8",
