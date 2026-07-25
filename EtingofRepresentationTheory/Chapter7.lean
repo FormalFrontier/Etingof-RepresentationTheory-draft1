@@ -44,6 +44,7 @@ import EtingofRepresentationTheory.Chapter7.Problem7_8_7
 import EtingofRepresentationTheory.Chapter7.KunnethChainComplexNat
 import EtingofRepresentationTheory.Chapter7.KunnethCochainComplexNat
 import EtingofRepresentationTheory.Chapter7.KunnethNatural
+import EtingofRepresentationTheory.Chapter7.KunnethIso
 
 /-!
 # Chapter 7: Introduction to Categories

@@ -14,8 +14,3 @@ to pick the most important unclaimed issue and execute it.
 3. Based on your own judgment, select the most important one
 4. Identify its label (`feature`, `review`, `summarize`, or `meditate`)
 5. Execute the appropriate sub-command (`/feature`, `/review`, `/summarize`, `/meditate`)
-
-Step 5 means **actually invoking that sub-command**, not just doing the work you
-judge it implies. Each sub-command carries setup its issue type depends on — for
-`/feature`, reading the `lean-formalization` skill before writing Lean. Skipping
-the dispatch silently drops that setup.
