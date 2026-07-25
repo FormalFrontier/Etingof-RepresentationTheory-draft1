@@ -154,7 +154,14 @@ git rev-parse HEAD      # record starting commit
 **If the branch already exists** (common in reused worktrees): check for an
 open PR on it first (`gh pr list --head agent/<id>`). If a PR exists, create
 a new branch with a suffix (`agent/<id>-v2`). If no PR exists, reset it to
-master: `git checkout agent/<id> && git reset --hard origin/master`.
+the default branch: `git checkout agent/<id> && git reset --hard origin/main`
+(this repo's default branch is `main`, not `master`).
+
+**Do not try to `git checkout main` in a pod worktree.** `main` is checked out
+in the primary worktree, so the checkout fails — and if you chain it as
+`git checkout main || git checkout master` the first failure is silent and you
+only see a confusing "pathspec 'master' did not match" error. Fetch and compare
+against `origin/main` instead: `git fetch origin && git log --oneline -1 origin/main`.
 
 **Before that `git reset --hard`, run `git status --short` and inspect any
 uncommitted changes** (`git diff`). A reused worktree can carry in-progress

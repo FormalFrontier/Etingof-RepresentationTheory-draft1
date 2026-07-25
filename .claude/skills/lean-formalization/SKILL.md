@@ -6787,3 +6787,29 @@ propositionally but not definitionally equal, and you get an application type mi
 Always take `[Module ℤ Z]` (or `[Module A Z]`) explicitly in helpers destined for `ModuleCat`
 consumers — `Etingof.homSelfAddEquiv` in `Chapter8/Problem8_2_7_ExtFG.lean` is the fixed form.
 Cheaper than the element-level `conv` bridging described earlier.
+
+## A homomorphism can witness non-vanishing, never vanishing (presented algebras, #7759)
+
+For `L = Free ⧸ relIdeal` (path algebras, generators-and-relations Lie algebras, universal
+enveloping quotients, quiver algebras), the *only* way to prove a specific element `u : L` is `0`
+is to derive it from the relations. A map `φ : L → M` into a concrete model can prove `u ≠ 0`
+(exhibit `φ u ≠ 0`), but `φ u = 0` proves nothing unless you separately have `Injective φ` — and
+injectivity is usually the hard theorem the element-vanishing was standing in for.
+
+Symptom that you are in this trap: the vanishing you want and the injectivity you would need are
+the *same* statement, so a spanning argument that consumes the vanishing cannot be used to supply
+the injectivity. Check for that circularity **before** starting to build the concrete model.
+
+The productive move, when a session lands in this position, is to prove the negative explicitly
+and record it, so no successor re-runs the same computation. `Chapter2/Problem2_16_3_Center.lean`
+does this for `𝔤₄`: `gbar_defect_eq_zero` shows the twisted `A₂⁽²⁾` loop model maps the whole
+centre of `𝔤₄` — and hence the layer-induction defect — to `0` unconditionally, so no computation
+in matrices, in `loopPos`, or in the `LoopIdx` basis can settle it. The paired
+`oddLayer_evenTower_of_gbar_injective` restates the residual gap as `Injective gbar`, which is the
+honest target.
+
+Cheap way to get the negative: if the obstruction is known to be central (here
+`EvenLayer.central_defect`), compute the centre of the *image* subalgebra instead. That is a
+finite matrix chase (`centralizer_NX_NY_eq_scalar`: commuting with the two generator images forces
+a scalar matrix; the trace condition then forces `0` when `3 ≠ 0`), and it settles the whole
+family at once rather than one element at a time.

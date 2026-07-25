@@ -119,6 +119,7 @@ import EtingofRepresentationTheory.Chapter2.Problem2_16_2
 import EtingofRepresentationTheory.Chapter2.Discussion_concrete_Lie_examples_continued
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Layers
+import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Center
 import EtingofRepresentationTheory.Chapter2.Problem2_16_4
 import EtingofRepresentationTheory.Chapter2.Problem2_16_5
 
