@@ -145,12 +145,24 @@ open PR on it first (`gh pr list --head agent/<id>`). If a PR exists, create
 a new branch with a suffix (`agent/<id>-v2`). If no PR exists, reset it to
 master: `git checkout agent/<id> && git reset --hard origin/master`.
 
-**Before that `git reset --hard`, run `git status --short` and inspect any
-uncommitted changes** (`git diff`). A reused worktree can carry in-progress
-edits from a crashed prior session; `reset --hard` discards them irrecoverably.
-If the changes look like real work (not stray build artifacts), stash them
-(`git stash`, never `git stash -u`) or commit them on a scratch branch before
-resetting.
+**Run `git status --short` and inspect any uncommitted changes (`git diff`) before
+you touch anything** — whether or not you plan to `git reset --hard`. A reused
+worktree can arrive dirty, in two opposite ways, and they need opposite responses:
+
+- *In-progress work from a crashed prior session.* `reset --hard` discards it
+  irrecoverably. Stash it (`git stash`, never `git stash -u`) or commit it on a
+  scratch branch before resetting.
+- *Stale content that silently reverts committed work.* Check `git diff --numstat`:
+  a diff that is **almost all deletions** of text that exists in `HEAD` is not new
+  work, it is an old checkout. Confirm with `git log -3 -- <file>` that the deleted
+  blocks came from real commits, then restore with
+  `git checkout HEAD -- <files>` (not `git checkout -- .`). Skipping this silently
+  ships the reversion inside your PR: in one session `.claude/skills/` and
+  `.claude/commands/` arrived with 169 lines of accumulated guidance deleted, which
+  would have landed as a stealth revert attached to an unrelated Lean change.
+
+Either way, `git status --short` must be clean (or knowingly non-clean) before you
+start editing, so that the diff you eventually publish is only your own work.
 
 Record any project-specific quality metrics (e.g. sorry count, test coverage)
 as described in the project's CLAUDE.md.
