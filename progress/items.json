@@ -7008,9 +7008,9 @@
     "start_line": 15,
     "end_line": 16,
     "status": "proved",
-    "coverage_note": "The three classifications genuinely use Theorem 5.27.1 and are exhaustive on their semidirect-product models; the q=2 affine companion is included. The dihedral result is transported to the textbook group through a genuine MulEquiv. The Heisenberg and affine files instead define new group types and identify them with the Chapter 4 textbook groups only in prose, so those re-derivations are not exposed over the actual Problem 4.12.2/4.12.6 objects or their named representations. Follow-up #7320.",
+    "coverage_note": "Re-audited 2026-07-25 (#7320, second pass) against main @ 7c90a4e4; the 2026-07-22 verdict is confirmed unchanged. All three re-derivations genuinely discharge their result by applying Etingof.Theorem5_27_1 (Dihedral:207, Heisenberg:345, Affine:209 and 454), all are exhaustive classifications (Simple + pairwise-non-iso + completeness + dimension counts), and all six headline declarations are sorry-free by #print axioms (only propext, Classical.choice, Quot.sound). The affine q>2 scope worry is resolved: affine_classification_two covers Fintype.card K = 2, so the two theorems together span every finite field. The dihedral arm is FULL: it is stated over Mathlib's DihedralGroup N, the same type Problem 4.12.1(a) uses, and transported through the genuine MulEquiv dihedralEquiv via Action.resEquiv. The Heisenberg and affine arms remain PARTIAL: they classify the newly defined Exercise5_27_2.HeisenbergGroup p and Exercise5_27_2.AffineGroup K, neither file imports its Chapter 4 counterpart, and the identification with Problem4_12_2.Heisenberg p / Problem4_12_6.Affine K is made only in prose — so the re-derivations are not exposed over the actual Problem 4.12.2/4.12.6 objects or their named representations (R_z, the zero-sum Vsub). Follow-ups #7788 (Heisenberg transport) and #7789 (affine transport), each carrying the explicit MulEquiv formula.",
     "coverage": "covered_partial",
-    "followup_issue": 7320,
+    "followup_issue": 7788,
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Exercise5_27_2_Dihedral.lean",
@@ -7034,7 +7034,7 @@
           "Etingof.Exercise5_27_2.dihedralEquiv",
           "Etingof.Exercise5_27_2.DihedralSemidirect"
         ],
-        "reason": "FULL. dihedralEquiv is a genuine ≃* (real toFun/invFun/left_inv/right_inv/map_mul', no stub) between Mathlib's DihedralGroup N and Multiplicative (ZMod N) ⋊[dihedralφ] Multiplicative (ZMod 2). semidirect_classification obtains its result via Etingof.Theorem5_27_1 (Multiplicative (ZMod 2)) (Multiplicative (ZMod N)) (dihedralφ N); dihedral_classification transports it across the resEquiv along dihedralEquiv. Conclusion is exhaustive: ∃ n W, (∀ i, Simple (W i)) ∧ pairwise-non-iso ∧ completeness ∧ (dim 1 or 2) ∧ parity-split counts — Odd N: 2 one-dim + (N-1)/2 two-dim; Even N: 4 one-dim + (N-2)/2 two-dim, matching Problem 4.12.1(a). Hypothesis only [NeZero N]; both parities handled. Sorry-free.",
+        "reason": "FULL (re-confirmed 2026-07-25). dihedralEquiv is a genuine ≃* between Mathlib's DihedralGroup N and Multiplicative (ZMod N) ⋊[dihedralφ N] Multiplicative (ZMod 2): real toFun (r i ↦ ⟨ofAdd i, 1⟩, sr i ↦ ⟨ofAdd (-i), ofAdd 1⟩), real invFun, and left_inv/right_inv/map_mul' all proved, no stub. semidirect_classification obtains its result via Etingof.Theorem5_27_1 (Multiplicative (ZMod 2)) (Multiplicative (ZMod N)) (dihedralφ N) at line 207; dihedral_classification (496) transports it along dihedralRepEquiv = Action.resEquiv (FGModuleCat ℂ) (dihedralEquiv N), pushing simplicity (simple_equivalence_functor), pairwise-non-iso (fullyFaithfulFunctor.preimageIso), essential surjectivity, and dimensions (finrank_dihedralRepEquiv_functor) across it. Critically the conclusion is stated over FDRep ℂ (DihedralGroup N), the same type Chapter 4 uses, so this arm really does redo Problem 4.12.1(a). Exhaustive: ∃ n W, (∀ i, Simple (W i)) ∧ pairwise-non-iso ∧ completeness ∧ (dim 1 or 2) ∧ parity-split counts — Odd N: 2 one-dim + (N-1)/2 two-dim; Even N: 4 one-dim + (N-2)/2 two-dim, matching the book. Both parities handled, only [NeZero N] assumed. Sorry-free by #print axioms.",
         "followup_issue": null
       },
       {
@@ -7045,8 +7045,8 @@
           "Etingof.Exercise5_27_2.heisenberg_classification",
           "Etingof.Exercise5_27_2.HeisenbergGroup"
         ],
-        "reason": "PARTIAL. The orbit-method classification is exhaustive and sorry-free on Exercise5_27_2.HeisenbergGroup, but no MulEquiv transports it to Problem4_12_2.Heisenberg or identifies its p-dimensional branch with the named Chapter 4 models.",
-        "followup_issue": 7320
+        "reason": "PARTIAL (re-confirmed 2026-07-25). The orbit-method classification is exhaustive and sorry-free by #print axioms on Exercise5_27_2.HeisenbergGroup p = Multiplicative (ZMod p × ZMod p) ⋊[heisenbergφ p] Multiplicative (ZMod p), and it does apply Etingof.Theorem5_27_1 (line 345). But that is a different type from the group Problem 4.12.2 studies, the structure Problem4_12_2.Heisenberg p with fields a b c : ZMod p encoding [[1,a,c],[0,1,b],[0,0,1]]. Exercise5_27_2_Heisenberg.lean does not import Chapter4/Problem4_12_2.lean, no MulEquiv transports the classification there, and the p-dimensional branch is not identified with the book's named reps R_z (Problem4_12_2.rhoHom). Follow-up #7788 records the explicit equivalence ⟨a,b,c⟩ ↦ ⟨ofAdd (b,c), ofAdd a⟩ and points at the dihedral transport as the template.",
+        "followup_issue": 7788
       },
       {
         "part": "(iii) affine (4.12.6)",
@@ -7058,11 +7058,11 @@
           "Etingof.Exercise5_27_2.AffineGroup",
           "Etingof.Exercise5_27_2.affineφ"
         ],
-        "reason": "PARTIAL. The q>2 and q=2 classifications are exhaustive and sorry-free on Exercise5_27_2.AffineGroup, but no MulEquiv transports them to Problem4_12_6.Affine or identifies the nonlinear branch with the named Chapter 4 deleted-permutation model.",
-        "followup_issue": 7320
+        "reason": "PARTIAL (re-confirmed 2026-07-25). Both the q>2 and q=2 classifications are exhaustive and sorry-free by #print axioms on Exercise5_27_2.AffineGroup K = Multiplicative K ⋊[affineφ K] Kˣ, and both apply Etingof.Theorem5_27_1 (lines 209, 454); the earlier q>2 scope worry is therefore settled, since affine_classification_two covers Fintype.card K = 2. The remaining gap is the same as the Heisenberg arm's: AffineGroup K is a different type from Problem4_12_6.Affine K (the structure with a : Kˣ, b : K), the file does not import Chapter4/Problem4_12_6.lean, no MulEquiv transports the classifications there, and the (q-1)-dimensional member is not identified with the book's zero-sum representation Problem4_12_6.Vsub. Follow-up #7789 records the explicit equivalence ⟨a,b⟩ ↦ ⟨ofAdd b, a⟩ and flags the Type vs Type* binder mismatch.",
+        "followup_issue": 7789
       }
     ],
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter5/Exercise5.27.3",
