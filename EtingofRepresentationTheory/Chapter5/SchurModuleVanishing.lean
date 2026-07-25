@@ -296,3 +296,224 @@ theorem partYoungSymEnd_eq_zero (N : ℕ) {n : ℕ} (la : Nat.Partition n)
   rw [partYoungSymEnd_eq_colAntiEnd_mul, colAntiEnd_eq_zero k N la hN, zero_mul]
 
 end Etingof
+
+namespace Etingof
+
+/-! ### The Schur module of an arbitrary partition -/
+
+variable (k : Type*) [Field k]
+
+/-- The `GL_N(k)`-diagonal action commutes with the Young symmetrizer of an arbitrary
+partition. (Same argument as `glTensor_comm_youngSym`: the symmetrizer lies in
+`symGroupImage`, which centralises `diagonalActionImage`.) -/
+theorem glTensor_comm_partYoungSym (N : ℕ) {n : ℕ} (la : Nat.Partition n)
+    (g : Matrix.GeneralLinearGroup (Fin N) k) :
+    glTensorRep k N n g ∘ₗ partYoungSymEnd k N la =
+      partYoungSymEnd k N la ∘ₗ glTensorRep k N n g := by
+  set V := Fin N → k
+  have h_sym : (partYoungSymEnd k N la : Module.End k (TensorPower k V n)) ∈
+      (symGroupImage k V n : Set (Module.End k (TensorPower k V n))) := by
+    rw [← symGroupAlgHom_range k V n]
+    exact ⟨_, rfl⟩
+  have h_diag : (glTensorRep k N n g : Module.End k (TensorPower k V n)) ∈
+      (diagonalActionImage k V n : Set (Module.End k (TensorPower k V n))) :=
+    Algebra.subset_adjoin ⟨Matrix.mulVecLin g.val, rfl⟩
+  have hcent := diagonalActionImage_le_centralizer_symGroupImage k V n h_diag
+  rw [Subalgebra.mem_centralizer_iff] at hcent
+  exact (hcent _ h_sym).symm
+
+theorem glTensorRep_mem_range_partYoungSym (N : ℕ) {n : ℕ} (la : Nat.Partition n)
+    (g : Matrix.GeneralLinearGroup (Fin N) k) (v : TensorPower k (Fin N → k) n)
+    (hv : v ∈ LinearMap.range (partYoungSymEnd k N la)) :
+    (glTensorRep k N n g) v ∈ LinearMap.range (partYoungSymEnd k N la) := by
+  obtain ⟨w, rfl⟩ := hv
+  exact ⟨(glTensorRep k N n g) w,
+    (LinearMap.ext_iff.mp (glTensor_comm_partYoungSym k N la g) w).symm⟩
+
+/-- The Schur module of an arbitrary partition `la : Nat.Partition n`, as a submodule of
+`(k^N)^{⊗n}`: the image of the Young symmetrizer `c_λ`. No relation is imposed between
+the number of parts of `la` and `N`. -/
+def SchurModulePSubmodule (N : ℕ) {n : ℕ} (la : Nat.Partition n) :
+    Submodule k (TensorPower k (Fin N → k) n) :=
+  LinearMap.range (partYoungSymEnd k N la)
+
+/-- The `GL_N(k)`-action on the partition-indexed Schur module. -/
+def schurModulePRep (N : ℕ) {n : ℕ} (la : Nat.Partition n) :
+    Representation k (Matrix.GeneralLinearGroup (Fin N) k) (SchurModulePSubmodule k N la) where
+  toFun g := (glTensorRep k N n g).restrict
+    (p := SchurModulePSubmodule k N la) (q := SchurModulePSubmodule k N la)
+    (fun v hv => glTensorRep_mem_range_partYoungSym k N la g v hv)
+  map_one' := by
+    ext ⟨v, hv⟩
+    simp only [LinearMap.coe_restrict_apply]
+    exact LinearMap.ext_iff.mp (map_one (glTensorRep k N _)) v
+  map_mul' g₁ g₂ := by
+    ext ⟨v, hv⟩
+    have h_mul := LinearMap.ext_iff.mp (map_mul (glTensorRep k N n) g₁ g₂) v
+    simp only [LinearMap.coe_restrict_apply, Module.End.mul_apply] at h_mul ⊢
+    exact h_mul
+
+instance schurModulePSubmodule_finite (N : ℕ) {n : ℕ} (la : Nat.Partition n) :
+    Module.Finite k (SchurModulePSubmodule k N la) :=
+  inferInstance
+
+/-- **The Schur module `L_λ` of an arbitrary partition**, as a finite-dimensional
+`GL_N(k)`-representation. For `la` with at most `N` parts this is the module of
+`Theorem5_22_1.lean` (`SchurModuleP_weightToPartition`); for `la` with more than `N`
+parts it is zero (`SchurModuleP_eq_bot_iff`). -/
+def SchurModuleP (k : Type*) [Field k] [IsAlgClosed k] (N : ℕ) {n : ℕ} (la : Nat.Partition n) :
+    FDRep k (Matrix.GeneralLinearGroup (Fin N) k) :=
+  FDRep.of (schurModulePRep k N la)
+
+/-- The partition-indexed Schur module agrees on the nose with the weight-indexed one. -/
+theorem SchurModulePSubmodule_weightToPartition (N : ℕ) (lam : Fin N → ℕ) :
+    SchurModulePSubmodule k N (weightToPartition N lam) = SchurModuleSubmodule k N lam :=
+  rfl
+
+theorem SchurModuleP_weightToPartition (k : Type*) [Field k] [IsAlgClosed k]
+    (N : ℕ) (lam : Fin N → ℕ) :
+    SchurModuleP k N (weightToPartition N lam) = SchurModule k N lam :=
+  rfl
+
+/-! ### `L_λ = 0 ↔ N < p` -/
+
+variable [CharZero k]
+
+/-- Half of Theorem 5.22.1's opening claim: too few colours forces `L_λ = 0`. -/
+theorem SchurModulePSubmodule_eq_bot_of_lt (N : ℕ) {n : ℕ} (la : Nat.Partition n)
+    (hN : N < Multiset.card la.parts) : SchurModulePSubmodule k N la = ⊥ := by
+  rw [SchurModulePSubmodule, partYoungSymEnd_eq_zero k N la hN, LinearMap.range_zero]
+
+/-- Every factor of the Weyl dimension product is positive for an antitone weight. -/
+theorem weylDimension_pos (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
+    0 < weylDimension N lam := by
+  refine Finset.prod_pos fun i _ => Finset.prod_pos fun j hj => ?_
+  have hij : i < j := Finset.mem_Ioi.mp hj
+  have h1 : (lam j : ℚ) ≤ (lam i : ℚ) := by exact_mod_cast hlam (le_of_lt hij)
+  have h2 : ((i : ℕ) : ℚ) < ((j : ℕ) : ℚ) := by exact_mod_cast (Fin.lt_def.mp hij)
+  exact div_pos (by linarith) (by linarith)
+
+/-- The other half: a partition with at most `N` parts has a nonzero Schur module.
+The module is the one `Theorem5_22_1.lean` analysed, and its dimension is the Weyl
+dimension product, a product of strictly positive rationals. -/
+theorem SchurModulePSubmodule_ne_bot_of_le [IsAlgClosed k] (N : ℕ) {n : ℕ}
+    (la : Nat.Partition n) (hcard : Multiset.card la.parts ≤ N) :
+    SchurModulePSubmodule k N la ≠ ⊥ := by
+  obtain ⟨lam, hanti, hsum, hparts⟩ : ∃ lam : Fin N → ℕ, Antitone lam ∧
+      (∑ i, lam i) = n ∧ (weightToPartition N lam).parts = la.parts :=
+    ⟨partWeight N la, partWeight_antitone N la, sum_partWeight N la hcard,
+      weightToPartition_partWeight N la hcard⟩
+  clear hcard
+  subst hsum
+  have hla : weightToPartition N lam = la := Nat.Partition.ext hparts
+  subst hla
+  rw [SchurModulePSubmodule_weightToPartition]
+  intro hbot
+  have hdim : (Module.finrank k (SchurModule k N lam) : ℚ) = weylDimension N lam :=
+    Theorem5_22_1_dim k N lam hanti
+  have hzero : Module.finrank k (SchurModuleSubmodule k N lam) = 0 :=
+    Submodule.finrank_eq_zero.mpr hbot
+  rw [show Module.finrank k (SchurModule k N lam) =
+      Module.finrank k (SchurModuleSubmodule k N lam) from rfl, hzero] at hdim
+  exact absurd hdim.symm (ne_of_gt (weylDimension_pos N lam hanti))
+
+/-- **Theorem 5.22.1, opening claim.** `L_λ = 0` exactly when `N` is smaller than the
+number of parts `p` of `λ`. The statement quantifies over an arbitrary partition, with
+no bound tying its length to `N`. -/
+theorem SchurModuleP_eq_bot_iff [IsAlgClosed k] (N : ℕ) {n : ℕ} (la : Nat.Partition n) :
+    SchurModulePSubmodule k N la = ⊥ ↔ N < Multiset.card la.parts := by
+  refine ⟨fun hbot => ?_, SchurModulePSubmodule_eq_bot_of_lt k N la⟩
+  by_contra hle
+  exact SchurModulePSubmodule_ne_bot_of_le k N la (not_lt.mp hle) hbot
+
+/-- Positive form of `SchurModuleP_eq_bot_iff`. -/
+theorem SchurModuleP_ne_bot_iff [IsAlgClosed k] (N : ℕ) {n : ℕ} (la : Nat.Partition n) :
+    SchurModulePSubmodule k N la ≠ ⊥ ↔ Multiset.card la.parts ≤ N := by
+  rw [ne_eq, SchurModuleP_eq_bot_iff, not_lt]
+
+/-- `dim L_λ = 0 ↔ N < p`: the vanishing criterion read off the dimension. -/
+theorem finrank_SchurModuleP_eq_zero_iff [IsAlgClosed k] (N : ℕ) {n : ℕ}
+    (la : Nat.Partition n) :
+    Module.finrank k (SchurModuleP k N la) = 0 ↔ N < Multiset.card la.parts := by
+  rw [show Module.finrank k (SchurModuleP k N la) =
+      Module.finrank k (SchurModulePSubmodule k N la) from rfl,
+    Submodule.finrank_eq_zero, SchurModuleP_eq_bot_iff]
+
+/-! ### The character and dimension formulas on the nonvanishing branch -/
+
+/-- **Weyl character formula for the partition-indexed Schur module.** On the
+nonvanishing branch, presented by any antitone weight `lam` of `la`, the formal
+character of `L_λ` is the Schur polynomial `S_λ(x₁, …, x_N)`. -/
+theorem formalCharacter_SchurModuleP_of_weight [IsAlgClosed k] (N : ℕ) {n : ℕ}
+    (la : Nat.Partition n) (lam : Fin N → ℕ) (hanti : Antitone lam)
+    (hsum : (∑ i, lam i) = n) (hparts : (weightToPartition N lam).parts = la.parts) :
+    formalCharacter k N (SchurModuleP k N la) = schurPoly N lam := by
+  subst hsum
+  have hla : weightToPartition N lam = la := Nat.Partition.ext hparts
+  subst hla
+  rw [SchurModuleP_weightToPartition]
+  exact Theorem5_22_1 k N lam hanti
+
+/-- **Weyl dimension formula for the partition-indexed Schur module.** -/
+theorem finrank_SchurModuleP_of_weight [IsAlgClosed k] (N : ℕ) {n : ℕ}
+    (la : Nat.Partition n) (lam : Fin N → ℕ) (hanti : Antitone lam)
+    (hsum : (∑ i, lam i) = n) (hparts : (weightToPartition N lam).parts = la.parts) :
+    (Module.finrank k (SchurModuleP k N la) : ℚ) = weylDimension N lam := by
+  subst hsum
+  have hla : weightToPartition N lam = la := Nat.Partition.ext hparts
+  subst hla
+  rw [SchurModuleP_weightToPartition]
+  exact Theorem5_22_1_dim k N lam hanti
+
+/-- Character formula in terms of the canonical zero-padded weight of `la`. -/
+theorem formalCharacter_SchurModuleP [IsAlgClosed k] (N : ℕ) {n : ℕ}
+    (la : Nat.Partition n) (hcard : Multiset.card la.parts ≤ N) :
+    formalCharacter k N (SchurModuleP k N la) = schurPoly N (partWeight N la) :=
+  formalCharacter_SchurModuleP_of_weight k N la (partWeight N la) (partWeight_antitone N la)
+    (sum_partWeight N la hcard) (weightToPartition_partWeight N la hcard)
+
+/-- Dimension formula in terms of the canonical zero-padded weight of `la`. -/
+theorem finrank_SchurModuleP [IsAlgClosed k] (N : ℕ) {n : ℕ}
+    (la : Nat.Partition n) (hcard : Multiset.card la.parts ≤ N) :
+    (Module.finrank k (SchurModuleP k N la) : ℚ) = weylDimension N (partWeight N la) :=
+  finrank_SchurModuleP_of_weight k N la (partWeight N la) (partWeight_antitone N la)
+    (sum_partWeight N la hcard) (weightToPartition_partWeight N la hcard)
+
+/-- **Etingof Theorem 5.22.1, assembled.** For an arbitrary partition `λ` of `n`:
+`L_λ = 0` iff `N < p`, and otherwise the character is `S_λ` and the dimension is the
+Weyl product `∏_{i<j} (λ_i − λ_j + j − i)/(j − i)`. -/
+theorem Theorem5_22_1_full [IsAlgClosed k] (N : ℕ) {n : ℕ} (la : Nat.Partition n) :
+    (SchurModulePSubmodule k N la = ⊥ ↔ N < Multiset.card la.parts) ∧
+      (Multiset.card la.parts ≤ N →
+        formalCharacter k N (SchurModuleP k N la) = schurPoly N (partWeight N la) ∧
+          (Module.finrank k (SchurModuleP k N la) : ℚ) =
+            weylDimension N (partWeight N la)) :=
+  ⟨SchurModuleP_eq_bot_iff k N la,
+    fun hcard => ⟨formalCharacter_SchurModuleP k N la hcard,
+      finrank_SchurModuleP k N la hcard⟩⟩
+
+/-! ### Non-vacuity: both branches are inhabited
+
+`SchurModuleP_eq_bot_iff` would be worthless if one side never held. The partition
+`(1,1)` of `2` has two parts, so `Λ²` of a line vanishes while `Λ²` of a plane does not:
+the same partition lands on opposite sides of the criterion for `N = 1` and `N = 2`. -/
+
+/-- The partition `(1,1)` of `2`, the smallest witness with more than one part. -/
+def onePlusOne : Nat.Partition 2 where
+  parts := {1, 1}
+  parts_pos := by decide
+  parts_sum := by decide
+
+theorem card_onePlusOne_parts : Multiset.card onePlusOne.parts = 2 := by decide
+
+/-- `Λ²` of a line is zero: one colour cannot fill a two-cell column. -/
+theorem SchurModuleP_onePlusOne_dim_one : SchurModulePSubmodule ℂ 1 onePlusOne = ⊥ := by
+  rw [SchurModuleP_eq_bot_iff]
+  decide
+
+/-- `Λ²` of a plane is not zero. -/
+theorem SchurModuleP_onePlusOne_dim_two : SchurModulePSubmodule ℂ 2 onePlusOne ≠ ⊥ := by
+  rw [SchurModuleP_ne_bot_iff]
+  decide
+
+end Etingof
