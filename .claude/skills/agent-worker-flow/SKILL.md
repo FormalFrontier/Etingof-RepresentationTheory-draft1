@@ -71,17 +71,6 @@ open. `check-blocked` (run by `pod` each loop) removes `blocked` when
 all dependencies close. Blocked issues are excluded from
 `list-unclaimed` and `queue-depth`.
 
-**Dependency code that lives only in an unmerged PR**: a dependency issue
-can be *closed* while the def/lemma it produced is still in an open PR
-(residual assembly, split work), so it is absent from `main`. If the code
-you need to build on is in such a PR, do NOT wait or skip — `git fetch`
-that PR's head branch and base your branch on it
-(`git reset --hard origin/<pr-head>`). Then in your PR body add an
-ordering note ("based on #<pr>, merge it first; rebase onto `main` after
-it squash-merges to drop the duplicate commit") so a repair/planner agent
-sequences the merges. Confirm the dependency file actually builds on that
-base before writing new code.
-
 **Branch naming**: `agent/<first-8-chars-of-UUID>`
 **Plan files**: `plans/<UUID-prefix>.md`
 **Progress files**: `progress/<UTC-timestamp>_<UUID-prefix>.md`
@@ -145,13 +134,6 @@ open PR on it first (`gh pr list --head agent/<id>`). If a PR exists, create
 a new branch with a suffix (`agent/<id>-v2`). If no PR exists, reset it to
 master: `git checkout agent/<id> && git reset --hard origin/master`.
 
-**Before that `git reset --hard`, run `git status --short` and inspect any
-uncommitted changes** (`git diff`). A reused worktree can carry in-progress
-edits from a crashed prior session; `reset --hard` discards them irrecoverably.
-If the changes look like real work (not stray build artifacts), stash them
-(`git stash`, never `git stash -u`) or commit them on a scratch branch before
-resetting.
-
 Record any project-specific quality metrics (e.g. sorry count, test coverage)
 as described in the project's CLAUDE.md.
 
@@ -167,66 +149,12 @@ Check that the plan's assumptions still hold:
 - Quality metrics match what the issue says
 - Files mentioned in the issue still exist and haven't been restructured
 - No recently merged PR invalidates the plan
-- **A foundation the issue says "landed in #N" is actually in `main`.** Planners
-  often reference a sibling PR/commit by number as if merged. If the issue's
-  "Current state" describes machinery you'll build on (e.g. "added in #7222"),
-  confirm it: `grep` for the named decls in the target file, and if absent check
-  whether #N is still an *open* PR (`gh pr view <N>`, `git merge-base --is-ancestor
-  <sha> origin/main`). If the foundation is only in an unmerged branch, the issue
-  is blocked — `coordination skip` it with a "blocked on unmerged #N" reason
-  rather than stacking your work on that branch (a stacked PR against `main`
-  carries the other PR's commits and conflicts on merge).
-- **The "missing"/"partial" result may already exist — grep before implementing.**
-  Any issue that describes a gap — an audit reconciliation flagging a
-  `covered_partial` residual, *or* a feature issue asserting a result is "not in
-  Mathlib and not yet in this repo" — describes it as of when the issue was
-  written, which can be stale: a parallel agent may since have proved it, often in
-  a *more general* form and in a *different, downstream* file than the issue names
-  (e.g. #7315 asked to build reducible "characters determine the representation"
-  from scratch; `Etingof.charEq_iso` in `Chapter5/CharEqIso.lean` already had it).
-  Before writing any new lemma — *especially* general infrastructure an issue calls
-  missing — `grep -rn "<decl_name>\|<key phrase>"` across `EtingofRepresentationTheory/`
-  for an existing version; a name collision at build time is the expensive way to
-  discover this. If it already exists, reuse it: the task shrinks to a thin
-  bridge/assembly (or, for audits, a tracking reconciliation — flip `items.json`,
-  repoint `lean_ref`, drop the residual issue), not new infrastructure.
-- **A "restore/regression" issue whose reproduction is `lake env lean <file>` may
-  be a false positive — reconfirm the failure with `lake build <Module>` before any
-  work.** `lake env lean` drops the lakefile's `[leanOptions]` (`maxSynthPendingDepth
-  = 3`, `backward.isDefEq.respectTransparency = false`), so files with deep instance
-  chains or `isDefEq` diamonds throw spurious `synthInstanceFailed` / instance-path
-  errors under it that never occur under `lake build`. See `lean-formalization`
-  ("Typecheck with `lake build`, NOT `lake env lean`") for the full account. If
-  `lake build <Module>` is green and `#print axioms` on the endpoints is clean, the
-  issue is already resolved (often by a since-merged dependency fix) — close it with
-  the build evidence rather than editing a working file. (2026-07: #7490, #7547.)
 
 If stale:
 ```
 coordination skip <issue-number> "reason: <what changed>"
 ```
 Go back to Step 1 and try the next issue.
-
-**items.json status reconciliation — sorry-free ≠ item-complete.** For issues
-that ask you to flip a `partially_*`/`statement_formalized`/`formalized` entry
-to `sorry_free` because "the `.lean` file is sorry-free," read the entry's
-existing `coverage_note`/`fidelity_note` **before** changing anything. Those
-notes often record a deliberate "sorry-free file but kept `partially_*` because
-book part (X) is not formalized as a theorem / is only a `Prop`-def / is an
-informal identification" decision that a raw sorry-count sweep cannot see.
-Cross-check each part against the item's `blobs/…` file. A file with zero
-sorries can still leave a book part unformalized; flipping it to `sorry_free`
-hides genuine remaining exercise work. Only set `sorry_free` when a **complete**
-sorry-free file backs the item. (Recurred: #7001, #7092.)
-
-**items.json is Unicode + 2-space-indented — preserve both when scripting an
-edit.** The file contains math glyphs (`ℂ`, `λ`, `≅`, em-dashes). A naive
-`json.dump(d, f, indent=2)` escapes every glyph to `\uXXXX` and reflows the whole
-file, turning a 3-line change into a multi-thousand-line diff. Always dump with
-`indent=2, ensure_ascii=False` and re-add the trailing newline
-(`f.write("\n")`), then confirm with `git diff --stat` that only your entry
-changed. For a single-field flip, a targeted `Edit` on the entry is simpler and
-safer than a full re-dump.
 
 **PR fix plans**: If the plan asks you to fix a broken PR, use judgement. If the
 PR is low quality or not worth salvaging:

@@ -1381,4 +1381,94 @@ theorem finrank_g_three (k : Type*) [Field k] (hk : (2 : k) ≠ 0) :
   let b : Module.Basis (Fin 6) k (g k 3) := Module.Basis.mk (indep_three k) hspan
   rw [Module.finrank_eq_card_basis b, Fintype.card_fin]
 
+/-!
+## The twisted `A₂⁽²⁾` loop subalgebra `𝔫₊ ⊆ 𝔤𝔩₃(k[t])`
+
+`𝔤₄` is the positive nilpotent part of the affine Kac–Moody algebra of type `A₂⁽²⁾`, and the
+existing `matHom₄` already places its two generators inside `𝔤𝔩₃(k[t])`. This section builds the
+receiving object: the twisted loop algebra `𝔫₊`, described intrinsically.
+
+Let `σ(A) = -J Aᵀ J`, where `J` is the antidiagonal permutation matrix; entrywise
+`σ(A)ᵢⱼ = -A_{rev j, rev i}` for `rev` the order-reversing involution of `Fin 3`. Then `σ` is an
+involutive Lie algebra automorphism of `𝔤𝔩₃`, and (away from characteristic `2`) it splits the
+traceless part into eigenspaces
+
+* `𝔤₀` (eigenvalue `+1`, dimension `3`, `≅ 𝔰𝔬₃ ≅ 𝔰𝔩₂`): `E₀₁ - E₁₂`, `E₀₀ - E₂₂`, `E₁₀ - E₂₁`;
+* `𝔤₁` (eigenvalue `-1`, dimension `5`, the spin-`2` irrep of `𝔤₀`):
+  `E₀₂`, `E₀₁ + E₁₂`, `E₀₀ - 2E₁₁ + E₂₂`, `E₁₀ + E₂₁`, `E₂₀`,
+
+satisfying `[𝔤₀,𝔤₀] ⊆ 𝔤₀`, `[𝔤₀,𝔤₁] ⊆ 𝔤₁`, `[𝔤₁,𝔤₁] ⊆ 𝔤₀`. The positive part is
+
+```
+𝔫₊ = k·(E₀₁ - E₁₂)  ⊕  ⨁_{n ≥ 1} 𝔤_{n mod 2} · tⁿ,
+```
+
+i.e. `t`-degree `0` contributes only the raising vector of `𝔤₀`, and every higher `t`-degree
+contributes a whole eigenspace. Graded dimensions `1, 5, 3, 5, 3, …`.
+
+Rather than define `𝔫₊` as that span and check bracket-closure generator by generator, we cut it
+out by three conditions that are each visibly stable under the bracket:
+
+* `trace P = 0`;
+* `σ(P(t)) = P(-t)`, which says exactly that the coefficient of `tⁿ` lies in the `(-1)ⁿ`-eigenspace
+  of `σ` — stable because `σ` and `t ↦ -t` are both automorphisms;
+* `P(0) ∈ k·(E₀₁ - E₁₂)` — stable because `⁅P,Q⁆(0) = ⁅P(0), Q(0)⁆` and the bracket of two
+  multiples of a single element vanishes.
+-/
+
+section TwistedLoop
+
+attribute [local instance] LieRing.ofAssociativeRing
+
+open Polynomial
+
+variable {R : Type*} [CommRing R]
+
+/-- The involution `σ(A) = -J Aᵀ J` of `𝔤𝔩₃`, where `J` is the antidiagonal permutation matrix.
+Entrywise `σ(A)ᵢⱼ = -A_{rev j, rev i}`, with `rev` the order-reversing involution of `Fin 3`.
+`σ` is the automorphism whose fixed subalgebra is the `𝔰𝔬₃ ≅ 𝔰𝔩₂` underlying type `A₂⁽²⁾`. -/
+def sigInv (A : Matrix (Fin 3) (Fin 3) R) : Matrix (Fin 3) (Fin 3) R :=
+  Matrix.of fun i j => -(A j.rev i.rev)
+
+@[simp] theorem sigInv_apply (A : Matrix (Fin 3) (Fin 3) R) (i j : Fin 3) :
+    sigInv A i j = -(A j.rev i.rev) := rfl
+
+@[simp] theorem sigInv_sigInv (A : Matrix (Fin 3) (Fin 3) R) : sigInv (sigInv A) = A := by
+  ext i j; simp [Fin.rev_rev]
+
+@[simp] theorem sigInv_zero : sigInv (0 : Matrix (Fin 3) (Fin 3) R) = 0 := by
+  ext i j; simp
+
+theorem sigInv_add (A B : Matrix (Fin 3) (Fin 3) R) :
+    sigInv (A + B) = sigInv A + sigInv B := by
+  ext i j; simp only [sigInv_apply, Matrix.add_apply]; ring
+
+theorem sigInv_sub (A B : Matrix (Fin 3) (Fin 3) R) :
+    sigInv (A - B) = sigInv A - sigInv B := by
+  ext i j; simp only [sigInv_apply, Matrix.sub_apply]; ring
+
+theorem sigInv_smul (c : R) (A : Matrix (Fin 3) (Fin 3) R) :
+    sigInv (c • A) = c • sigInv A := by
+  ext i j; simp [Matrix.smul_apply]
+
+/-- `σ` reverses products up to sign: `σ(A)·σ(B) = -σ(B·A)`. -/
+theorem sigInv_mul (A B : Matrix (Fin 3) (Fin 3) R) :
+    sigInv A * sigInv B = -sigInv (B * A) := by
+  ext i j
+  have h : ∑ l : Fin 3, B j.rev (Fin.revPerm l) * A (Fin.revPerm l) i.rev
+      = ∑ m : Fin 3, B j.rev m * A m i.rev :=
+    Equiv.sum_comp (Fin.revPerm (n := 3)) (fun m => B j.rev m * A m i.rev)
+  simp only [Fin.revPerm_apply] at h
+  simp only [Matrix.mul_apply, sigInv_apply, Matrix.neg_apply, neg_neg, neg_mul_neg]
+  rw [← h]
+  exact Finset.sum_congr rfl fun l _ => mul_comm _ _
+
+/-- `σ` is a Lie algebra automorphism of `𝔤𝔩₃`. -/
+theorem sigInv_lie (A B : Matrix (Fin 3) (Fin 3) R) :
+    sigInv ⁅A, B⁆ = ⁅sigInv A, sigInv B⁆ := by
+  simp only [LieRing.of_associative_ring_bracket, sigInv_sub, sigInv_mul]
+  abel
+
+end TwistedLoop
+
 end Etingof.Problem2_16_3
