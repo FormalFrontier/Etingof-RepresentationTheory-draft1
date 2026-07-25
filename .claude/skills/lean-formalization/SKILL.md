@@ -136,6 +136,37 @@ of the two modules (needed by `Etingof.algebraCartanMatrix`); that requires givi
 genuinely distinct carriers. If you are defining several modules over one ring with the same
 underlying type, prefer a one-field structure per module over `abbrev`.
 
+**Relating two members of a `letI`-supplied family of module structures: `letI` twice is
+vacuous.** The classifying families (`Chapter2/Problem2_7_4_Family.lean`,
+`Problem2_7_5_Family.lean`) define `famModule α c : Module (WeylAlgebra k) (Fin p → k)` as a
+*parameter-indexed* instance and every theorem opens with `letI := famModule k p α c`. That
+works for statements about one member, but to state `V(α,c) ≅ V(α',c')` the obvious
+`letI := famModule … α c; letI := famModule … α' c'; Nonempty ((Fin p → k) ≃ₗ[A] (Fin p → k))`
+is **wrong and silently vacuous**: both sides of the `≃ₗ` resolve to the last `letI`, so
+`LinearEquiv.refl` inhabits it for any parameters. Instead give both instances positionally:
+
+```lean
+abbrev FamEquiv (α c α' c' : k) : Type _ :=
+  @LinearEquiv (WeylAlgebra k) (WeylAlgebra k) _ _
+    (RingHom.id (WeylAlgebra k)) (RingHom.id (WeylAlgebra k)) _ _
+    (Fin p → k) (Fin p → k) _ _ (famModule k p α c) (famModule k p α' c')
+```
+
+(`@LinearEquiv` arg order: `R S _ _ σ σ' _ _ M M₂ _ _ instModuleRM instModuleSM₂`.) A proved
+iff of the form `Nonempty (FamEquiv …) ↔ params agree` is self-certifying against the collapse:
+if both slots held the same instance, the `refl` direction would contradict the forward
+direction. Three consequences worth knowing before you start:
+
+* **Dot notation dies on the `abbrev`.** `e.intertwines` fails with "does not have a usable
+  parameter of type `FamEquiv ...`" because `e`'s type elaborates to `LinearEquiv`. Name helper
+  lemmas `famEquiv_intertwines` and apply them prefix-style.
+* **`LinearEquiv.refl _ _` cannot synthesize the module** — write
+  `@LinearEquiv.refl A (Fin p → k) _ _ (famModule k p α c)`.
+* **`Module.compHom` makes the intertwining lemma free**: `a • f` is defeq to `famRep α c a f`,
+  so `famEquiv_intertwines` is literally `map_smulₛₗ e a f`. And `AlgHom.commutes` plus
+  `Module.algebraMap_end_apply` upgrade `A`-linearity to `k`-linearity, which is what lets you
+  compare scalar actions coordinatewise.
+
 **Two Mathlib lemmas can produce the *same* `1`/`0`/`Pi.single i 1` through *different*
 typeclass paths — `rw` then fails syntactically, `exact` succeeds by defeq.** Classic case
 (cost real iterations in #6597, `Chapter9/Problem9_5_3_PrimitiveIdempotents.lean`):
