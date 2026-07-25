@@ -895,9 +895,14 @@
     "end_line": 20,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "coverage_note": "Part (a) is formalized. Part (b) has only the necessary direction (a nontrivial finite-dimensional representation forces q to be a root of unity), with no converse existence theorem. Part (c) has the necessary dimension theorem but no parameter family, isomorphism criterion, or exhaustiveness. Follow-up #7392 covers both residual endpoints.",
+    "coverage_note": "Part (a) is formalized. Part (b) has only the necessary direction (a nontrivial finite-dimensional representation forces q to be a root of unity), with no converse existence theorem. For part (c), Problem2_7_5_Family.lean constructs the classifying family V(alpha,beta) with its central character (alpha, beta^n), and Problem2_7_5_Iso.lean proves the isomorphism criterion V(alpha,beta) = V(alpha',beta') iff alpha = alpha' and beta^n = beta'^n; irreducibility (#7698) and exhaustiveness (#7700) remain open under #7686.",
     "fidelity_issue": 7392,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-25",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter2/Problem2_7_5.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_7_5_Family.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_7_5_Iso.lean"
+    ]
   },
   {
     "id": "Chapter2/Definition2.8.1",
