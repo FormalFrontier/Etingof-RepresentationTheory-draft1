@@ -5190,6 +5190,32 @@ These are proof approaches that multiple agents have attempted and failed. Don't
 
 **Status:** 3+ agents have attempted this (Example 5.19.3 exterior part). All failed. **Sorry and move on.** This requires new Mathlib bridging infrastructure between `ExteriorAlgebra` and `PiTensorProduct`.
 
+**Scope note — the *quotient* direction is NOT blocked by this.** The dead end above is about realising `∧ⁿ V` as a *subspace* of `V^{⊗n}`. Identifying Etingof's *quotient* model with `⋀[k]^n V` went through without difficulty (#7365): forward by `exteriorPower.alternatingMapLinearEquiv`, backward by `Submodule.liftQ` of `PiTensorProduct.lift (ιMulti …)`. To prove two maps out of `⋀[k]^n V` agree use `LinearMap.ext_on (exteriorPower.ιMulti_span k n V)`, **not** `exteriorPower.linearMap_ext` — the latter is what produces the unresolvable `compAlternatingMap` coercion goals above.
+
+### Top-degree exterior power and `LinearMap.det` (the route that works)
+
+**Mathlib has no lemma connecting `exteriorPower.map` in top degree to `LinearMap.det`** (nothing in `Mathlib/LinearAlgebra/Determinant.lean` mentions `exteriorPower`), so `⋀ᴺ A = det A • id` has to be proved here. Two traps:
+
+- **`AlternatingMap.eq_smul_basis_det` is `R`-valued only** (`f : M [⋀^ι]→ₗ[R] R`), and there is **no module-valued analogue**. Do not hunt for "a top-degree alternating map is determined by its value on a basis" for maps into `⋀[k]^N V`; it is not there.
+- `Module.Basis.ext_alternating` reduces to a basis argument but still leaves the crux unproved.
+
+**The route that works** (#7818, `Chapter2/Problem2_11_3_SymExtPow.lean`, `exteriorPower_ιMulti_comp`): pair against a basis determinant and use injectivity of the pairing.
+
+```lean
+set b := Module.finBasisOfFinrankEq k V hN            -- hN : finrank k V = N
+haveI : FiniteDimensional k (⋀[k]^N V) := Module.Finite.of_basis (b.exteriorPower N)
+set D : ⋀[k]^N V →ₗ[k] k := exteriorPower.alternatingMapLinearEquiv b.det
+-- D surjective:  D (ιMulti k N b) = b.det b = 1  (`Module.Basis.det_self`)
+-- finrank (⋀[k]^N V) = N.choose N = 1 = finrank k k  (`exteriorPower.finrank_eq`, `Nat.choose_self`)
+have hDinj := (LinearMap.injective_iff_surjective_of_finrank_eq_finrank hrank).mpr hDsurj
+apply hDinj    -- goal becomes `b.det (A ∘ f) = det A * b.det f`
+exact Module.Basis.det_comp b A f
+```
+
+`Module.Basis.det_comp` does all the matrix work. Take `{N : ℕ} (hN : finrank k V = N)` as **hypotheses** rather than writing `finrank k V` inline and `set N := finrank k V`: the `set` shadows the multilinear argument into an `f✝` and leaves `ιMulti k (finrank k V)` unfolded, so `alternatingMapLinearEquiv_apply_ιMulti` never fires.
+
+**Descending such an identity to a book quotient needs only surjectivity of the comparison map**, not an isomorphism — so char-2 hypotheses that guard the *equivalence* are usually unnecessary for the identity itself. Check before copying an `h2` from the surrounding section.
+
 ### Dependent Type Issues with `if`-branching `obj` Fields
 
 **Problem:** When a `QuiverRepresentation`-like structure has `obj v := if v = i then T₁ else T₂`, filling `Module` instance fields fails because the `AddCommMonoid` instance becomes opaque after filling.
