@@ -59,17 +59,34 @@ So the even-layer invariant propagates by itself, two `t`-degrees at a time
 *not* have to be carried: `⁅a₁, b'⁆ = 0` comes from `serre_x` applied to `D c`, not from
 `⁅⁅a₁, a₄⁆, b⁆`.
 
-## What is still missing
+## The defect, and what is still missing
 
-The sixth odd-layer field, `⁅a₄, b'⁆ = 2 D c''`. Its defect
+The sixth odd-layer field, `⁅a₄, b'⁆ = 2 D c''`, does not follow from `EvenLayer c`. Its defect
 
 `EvenLayer.defect c = ⁅a₄, b'⁆ - 2 D c''`
 
 is annihilated by both `ad(x̄)` (`lie_zero_lie_four_oddTop`) and `ad(ȳ)`
-(`dY_one_lie_four_oddTop`), hence is **central** in `𝔤₄` (`EvenLayer.central_defect`). So the
-remaining gap is exactly the triviality of the centre of `𝔤₄`, and
-`OddLayer.of_evenLayer_of_center` derives the full odd-layer invariant from it. Also still open:
-the assembly of the spanning family indexed by `LoopIdx`.
+(`dY_one_lie_four_oddTop`), hence is **central** in `𝔤₄` (`EvenLayer.central_defect`), and
+`OddLayer.of_evenLayer_of_center` derives the full odd-layer invariant from the triviality of the
+centre.
+
+`EvenLayer.defect_eq` collapses the defect to a *single bracket*,
+
+`EvenLayer.defect c = ⁅⁅a₁, a₃⁆, D c⁆`,
+
+by writing `b' = ⁅x̄, D c⁆` and moving `a₄` across the outer bracket, using `⁅a₄, x̄⁆ = 2⁅a₁, a₃⁆`
+(`lie_a4_a0`). Since `⁅a₁, a₃⁆ = D (evenTower k 0)` (`dY_one_evenTower_zero`), the defect at the
+bottom of the tower is the bracket of an element with itself, so it vanishes
+(`defect_evenTower_zero`) and the layer of `t`-degree `3` satisfies the full odd-layer invariant
+unconditionally (`oddLayer_deg_three`).
+
+Still missing: `⁅⁅a₁, a₃⁆, D (evenTower k m)⁆ = 0` for `m ≥ 1`, which by
+`oddLayer_evenTower_of_lie_eq_zero` is all that stands between the even tower and the odd layer in
+every degree. Both factors lie in the tower, so this is a statement about the bracket of two
+explicit elements rather than about all central elements — but it is still equivalent to the
+triviality of the centre of `𝔤₄` in that bidegree, and every Jacobi rearrangement of it is a
+tautology, so it needs an input beyond the commutation relations. Also still open: the assembly of
+the spanning family indexed by `LoopIdx`.
 -/
 
 namespace Etingof.Problem2_16_3
@@ -478,6 +495,13 @@ private theorem smul_cancel₀ {a : k} (ha : a ≠ 0) {v w : g k 4} (hvw : a •
 private theorem eq_zero_of_smul₀ {a : k} (ha : a ≠ 0) {v : g k 4} (hv : a • v = 0) : v = 0 :=
   smul_cancel₀ ha (by rw [hv, smul_zero])
 
+/-- `⁅a₄, x̄⁆ = 2⁅a₁, a₃⁆`. The right-hand side is `D` of the top of the degree-`2` layer
+(`dY_one_evenTower_zero`), which is what makes `defect_eq` below possible. -/
+theorem lie_a4_a0 : ⁅aElt k 4 4, aElt k 4 0⁆ = (2 : k) • ⁅aElt k 4 1, aElt k 4 3⁆ := by
+  have h := lie_a1_a3_add k
+  rw [(lie_skew (aElt k 4 4) (aElt k 4 0)).symm]
+  linear_combination (norm := module) -h
+
 namespace EvenLayer
 
 /-! ### What the even-layer table says about `a₃` and `a₄` -/
@@ -782,6 +806,36 @@ theorem central_defect (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) �
   have : v ∈ M := by rw [hM]; trivial
   exact this
 
+/-! ### The defect is a single bracket
+
+The three-term expansion of `⁅a₄, b'⁆` obtained by writing `b' = ⁅x̄, D c⁆` and moving `a₄` past
+`x̄` collapses the defect to one bracket against the *fixed* degree-`2` element `⁅a₁, a₃⁆`. -/
+
+/-- `⁅a₄, D c⁆ = -D⁴ b'`. -/
+theorem lie_four_dY_one (h2 : (2 : k) ≠ 0) (h : EvenLayer k c) :
+    ⁅aElt k 4 4, dY k 1 c⁆ = -dY k 4 (oddTop c) := by
+  have e := lie_aElt_dY_one k 4 c
+  simp only [Nat.reduceAdd, lie_aElt_five, sub_zero] at e
+  rw [e, h.lie_four h2, dY_one_dY, lie_one_eq_neg_oddTop, dY_neg_elt]
+
+/-- **The defect is a single bracket:** `defect c = ⁅⁅a₁, a₃⁆, D c⁆`.
+
+Write `b' = ⁅x̄, D c⁆` (`lie_zero_dY_one`) and move `a₄` across the outer bracket:
+`⁅a₄, b'⁆ = ⁅⁅a₄, x̄⁆, D c⁆ + ⁅x̄, ⁅a₄, D c⁆⁆`. The first term is `2⁅⁅a₁, a₃⁆, D c⁆` by
+`lie_a4_a0`, and the second is `-⁅x̄, D⁴ b'⁆ = 4 D c'' - ⁅a₄, b'⁆` by
+`lie_zero_dY_four_oddTop`; solving for `⁅a₄, b'⁆` gives `⁅a₄, b'⁆ = ⁅⁅a₁,a₃⁆, D c⁆ + 2 D c''`. -/
+theorem defect_eq (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h : EvenLayer k c) :
+    defect c = ⁅⁅aElt k 4 1, aElt k 4 3⁆, dY k 1 c⁆ := by
+  have hjac : ⁅aElt k 4 4, oddTop c⁆
+      = ⁅⁅aElt k 4 4, aElt k 4 0⁆, dY k 1 c⁆
+        + ⁅aElt k 4 0, ⁅aElt k 4 4, dY k 1 c⁆⁆ := by
+    rw [← h.lie_zero_dY_one]; exact leibniz_lie _ _ _
+  rw [lie_a4_a0, smul_lie, h.lie_four_dY_one h2, lie_neg,
+    h.lie_zero_dY_four_oddTop h2 h3] at hjac
+  rw [defect]
+  refine smul_cancel₀ h2 ?_
+  linear_combination (norm := module) hjac
+
 end EvenLayer
 
 /-! ### The odd layer, modulo the defect -/
@@ -833,6 +887,47 @@ theorem evenLayer_evenTower (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 :
 theorem evenLayer_deg_four (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) :
     EvenLayer k (evenTop (oddTop (-⁅aElt k 4 0, aElt k 4 3⁆))) :=
   evenLayer_evenTower h2 h3 h5 1
+
+/-! ### The odd layer of `t`-degree `3`
+
+`D (evenTower k 0) = ⁅a₁, a₃⁆` is exactly the element the defect brackets against, so at the
+bottom of the tower the defect is `⁅⁅a₁, a₃⁆, ⁅a₁, a₃⁆⁆ = 0` and the even-to-odd step goes
+through with no hypothesis on the centre. -/
+
+/-- `D(evenTower 0) = ⁅a₁, a₃⁆`: applying `D` to `-⁅a₀, a₃⁆` gives `-⁅a₁,a₃⁆ - ⁅a₀,a₄⁆`, and
+`⁅a₀, a₄⁆ = -2⁅a₁, a₃⁆`. -/
+theorem dY_one_evenTower_zero : dY k 1 (evenTower k 0) = ⁅aElt k 4 1, aElt k 4 3⁆ := by
+  have h := lie_a1_a3_add k
+  rw [evenTower_zero, dY_neg_elt, dY_one, lie_yb_lie_aElt]
+  linear_combination (norm := module) -h
+
+/-- **The defect vanishes at the bottom of the tower.** `defect (evenTower k 0)` is the bracket
+of `⁅a₁, a₃⁆` with itself. -/
+theorem defect_evenTower_zero (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) :
+    EvenLayer.defect (evenTower k 0) = 0 := by
+  rw [(evenLayer_evenTower h2 h3 h5 0).defect_eq h2 h3, dY_one_evenTower_zero, lie_self]
+
+/-- **The layer of `t`-degree `3` satisfies the odd-layer invariant**, unconditionally: the
+even-to-odd step is not vacuous, and in particular `⁅a₄, b'⁆ = 2 D c''` really does hold there.
+Here `b' = oddTop (evenTower k 0)` is the top of the `t`-degree-`3` layer and
+`evenTop b' = evenTower k 1` the top of the `t`-degree-`4` one. -/
+theorem oddLayer_deg_three (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) :
+    OddLayer k (oddTop (evenTower k 0)) (evenTop (oddTop (evenTower k 0))) :=
+  OddLayer.of_evenLayer h2 h3 (evenLayer_evenTower h2 h3 h5 0)
+    (defect_evenTower_zero h2 h3 h5)
+
+/-- The remaining gap in the layer induction, in its reduced form: the odd layer above
+`evenTower k m` follows from the single vanishing `⁅⁅a₁, a₃⁆, D (evenTower k m)⁆ = 0`.
+
+By `EvenLayer.defect_eq` this is equivalent to the vanishing of the defect, and by
+`EvenLayer.central_defect` the bracket is central in `𝔤₄`, so the triviality of the centre of
+`𝔤₄` still suffices; but the statement to be proved is now a single bracket of two explicit
+elements of the tower rather than a statement about all central elements. -/
+theorem oddLayer_evenTower_of_lie_eq_zero (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
+    (m : ℕ) (hgap : ⁅⁅aElt k 4 1, aElt k 4 3⁆, dY k 1 (evenTower k m)⁆ = 0) :
+    OddLayer k (oddTop (evenTower k m)) (evenTop (oddTop (evenTower k m))) :=
+  OddLayer.of_evenLayer h2 h3 (evenLayer_evenTower h2 h3 h5 m)
+    (by rw [(evenLayer_evenTower h2 h3 h5 m).defect_eq h2 h3, hgap])
 
 end EvenToOdd
 
