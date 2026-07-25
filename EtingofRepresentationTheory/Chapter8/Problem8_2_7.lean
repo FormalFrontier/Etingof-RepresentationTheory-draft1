@@ -106,7 +106,7 @@ open Limits in
 /-- If `Q = S.X₃` fits in a short exact sequence `0 → S.X₁ → S.X₂ → Q → 0` with `S.X₁`, `S.X₂`
 projective, then `Q` has projective dimension `< 2`. (Categorical form of "a length-`1` projective
 resolution bounds the projective dimension by `1`".) -/
-private lemma hasProjectiveDimensionLT_two_of_shortExact
+lemma hasProjectiveDimensionLT_two_of_shortExact
     {R : Type u} [Ring R] [Small.{u} R] {S : ShortComplex (ModuleCat.{u} R)}
     (hS : S.ShortExact) (h₁ : Projective S.X₁) (h₂ : Projective S.X₂) :
     HasProjectiveDimensionLT S.X₃ 2 := by

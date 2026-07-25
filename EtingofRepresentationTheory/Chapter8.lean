@@ -49,6 +49,7 @@ import EtingofRepresentationTheory.Chapter8.BarResolution
 import EtingofRepresentationTheory.Chapter8.HomComplexHomologyK
 import EtingofRepresentationTheory.Chapter8.ExtAbelianComparison
 import EtingofRepresentationTheory.Chapter8.PIDDecomposition
+import EtingofRepresentationTheory.Chapter8.Problem8_2_7_ExtFG
 
 /-!
 # Chapter 8: Homological Algebra
