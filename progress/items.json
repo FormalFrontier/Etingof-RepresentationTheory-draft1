@@ -6600,11 +6600,11 @@
     "status": "partially_proved",
     "fidelity": "partial",
     "sorry_free": true,
-    "fidelity_note": "Added in #5729: the file defines the constant-shift relation and SLWeightParam and proves specialLinear_det_eq_one plus the dimension shadow algIrrepGL_finrank_constShift. It does not yet construct the claimed SL_N-equivariant shift isomorphism or prove the parametrization theorem. The general sl_N assertions are explicitly disavowed by the book and should be documented as intentional omissions rather than represented by proof_wanted; follow-up #7357.",
+    "fidelity_note": "#7357 completed the SL_N half. slRestrict restricts a GL_N representation along Matrix.SpecialLinearGroup.toGL; detChar_toGL and slRestrict_charTwistRep_detChar_zpow show every determinant twist is invisible on SL_N; algIrrepGL_slEquiv_constShift is the SL_N-equivariant isomorphism L_{lam + c*1^N} = L_lam as a Representation.Equiv (algIrrepGL_finrank_constShift is its dimension shadow); slIsoSetoid, shiftEquiv_slIso, slIrrepClass and slIrrepClass_surjective make the parametrization by SLWeightParam N well defined and surjective onto the isomorphism classes of the L_lam|_SL. The book-disavowed sl_N complete-reducibility and highest-weight assertions are now recorded in skipped-exercises.md under 'Remark 5.23.3' rather than as proof_wanted. Still open: injectivity of slIrrepClass (#7807) and exhaustiveness of the L_lam|_SL among the irreducibles (#7808, blocked on the GL_N classification #7400).",
     "coverage": "covered_partial",
     "coverage_issue": 7547,
-    "followup_issue": 7357,
-    "last_updated": "2026-07-22"
+    "followup_issue": 7807,
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter5/Introduction_5.24",
