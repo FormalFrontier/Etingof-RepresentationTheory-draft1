@@ -52,6 +52,9 @@ import EtingofRepresentationTheory.Chapter8.PIDDecomposition
 import EtingofRepresentationTheory.Chapter8.Problem8_2_7_ExtFG
 import EtingofRepresentationTheory.Chapter8.Problem8_2_7_ExtInt
 import EtingofRepresentationTheory.Chapter8.Problem8_2_7_ExtPoly
+import EtingofRepresentationTheory.Chapter8.Problem8_2_7_TorFG
+import EtingofRepresentationTheory.Chapter8.Problem8_2_7_TorInt
+import EtingofRepresentationTheory.Chapter8.Problem8_2_7_TorPoly
 
 /-!
 # Chapter 8: Homological Algebra
