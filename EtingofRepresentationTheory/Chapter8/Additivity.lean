@@ -4,6 +4,7 @@ import Mathlib.Algebra.Category.ModuleCat.Biproducts
 import Mathlib.Algebra.Homology.DerivedCategory.Ext.Basic
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import EtingofRepresentationTheory.Chapter8.Definition8_2_4
+import EtingofRepresentationTheory.Chapter8.Problem8_2_6_Core
 
 /-!
 # Additivity of `Tor` and `Ext`
@@ -81,6 +82,32 @@ instance Functor.leftDerived_additive (F : C ⥤ D) [F.Additive] (n : ℕ) :
   dsimp only [Functor.leftDerived, Functor.leftDerivedToHomotopyCategory]
   infer_instance
 
+omit [HasProjectiveResolutions C] in
+/-- `NatTrans.mapHomologicalComplex` is additive in the natural transformation: it acts degreewise
+by the components of `α`. -/
+lemma NatTrans.mapHomologicalComplex_add {ι : Type*} (c : ComplexShape ι) {F G : C ⥤ D}
+    [F.Additive] [G.Additive] (α β : F ⟶ G) :
+    NatTrans.mapHomologicalComplex (α + β) c =
+      NatTrans.mapHomologicalComplex α c + NatTrans.mapHomologicalComplex β c := by
+  ext K i
+  rfl
+
+/-- **`NatTrans.leftDerived` is additive in the natural transformation.** Mathlib records that it
+is compatible with identities and composition; this is the remaining bilinearity fact, and it is
+what makes `Torₙᴬ(M, -)` additive in its second argument. -/
+lemma NatTrans.leftDerived_add {F G : C ⥤ D} [F.Additive] [G.Additive] (α β : F ⟶ G) (n : ℕ) :
+    NatTrans.leftDerived (α + β) n = NatTrans.leftDerived α n + NatTrans.leftDerived β n := by
+  ext X
+  rw [ProjectiveResolution.leftDerived_app_eq (α + β) (projectiveResolution X) n,
+    NatTrans.mapHomologicalComplex_add]
+  change _ ≫ (HomologicalComplex.homologyFunctor D (ComplexShape.down ℕ) n).map
+      ((NatTrans.mapHomologicalComplex α _).app _ +
+        (NatTrans.mapHomologicalComplex β _).app _) ≫ _ = _
+  rw [Functor.map_add, Preadditive.add_comp, Preadditive.comp_add,
+    ← ProjectiveResolution.leftDerived_app_eq α (projectiveResolution X) n,
+    ← ProjectiveResolution.leftDerived_app_eq β (projectiveResolution X) n]
+  rfl
+
 end LeftDerived
 
 end CategoryTheory
@@ -112,5 +139,111 @@ reduction of Problem 8.2.7 to the cyclic and free building blocks uses additivit
 noncomputable def torBiproductIso {ι : Type} [Finite ι] (M : ι → ModuleCat.{u} Aᵐᵒᵖ) :
     Tor.{u} A N (⨁ M) n ≅ ⨁ ((TorFunctor.{u} A N n).obj ∘ M) :=
   (TorFunctor.{u} A N n).mapBiproduct M
+
+/-! ### `Tor` is additive in its second argument
+
+`Torₙᴬ(M, -)` is not a left derived functor in the present set-up — the second argument is baked
+into `tensorRightFunctor` before deriving — so additivity in it has to be assembled by hand from
+the second-argument functoriality `Etingof.torSndMap` of Problem 8.2.6. The three functoriality
+laws below (identity, composition, additivity) say exactly that `N ↦ Torₙᴬ(M, N)` is an additive
+assignment on morphisms, and they let the biproduct identities of `N₁ × N₂` be transported. -/
+
+section SecondArgument
+
+variable {A}
+variable {N₁ N₂ : Type u} [AddCommGroup N₁] [Module A N₁] [AddCommGroup N₂] [Module A N₂]
+
+/-- Two natural transformations `- ⊗_A N ⟶ - ⊗_A N'` agree as soon as their components agree on
+pure tensors. -/
+private lemma tensorRightNatTrans_ext {N N' : Type u} [AddCommGroup N] [Module A N]
+    [AddCommGroup N'] [Module A N']
+    {α β : tensorRightFunctor A N ⟶ tensorRightFunctor A N'}
+    (h : ∀ (M : ModuleCat.{u} Aᵐᵒᵖ) (m : M) (x : N),
+      α.app M (TensorProduct.tmul ℤ m x : tensorOver A N M)
+        = β.app M (TensorProduct.tmul ℤ m x : tensorOver A N M)) : α = β := by
+  ext M z
+  obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective z
+  induction y with
+  | zero => simp
+  | tmul m x => exact h M m x
+  | add a b ha hb =>
+    rw [show ((a + b : TensorProduct ℤ M N) : tensorOver A N M)
+          = (a : tensorOver A N M) + b from map_add (QuotientAddGroup.mk' _) a b,
+      map_add, map_add, ha, hb]
+
+@[simp]
+lemma tensorRightNatTrans_id (A : Type u) [Ring A] (N : Type u) [AddCommGroup N] [Module A N] :
+    tensorRightNatTrans A (LinearMap.id : N →ₗ[A] N) = 𝟙 (tensorRightFunctor A N) :=
+  tensorRightNatTrans_ext fun _ _ _ => rfl
+
+@[simp]
+lemma tensorRightNatTrans_comp {N₃ : Type u} [AddCommGroup N₃] [Module A N₃]
+    (g : N₁ →ₗ[A] N₂) (g' : N₂ →ₗ[A] N₃) :
+    tensorRightNatTrans A (g'.comp g) =
+      tensorRightNatTrans A g ≫ tensorRightNatTrans A g' :=
+  tensorRightNatTrans_ext fun _ _ _ => rfl
+
+@[simp]
+lemma tensorRightNatTrans_add (g g' : N₁ →ₗ[A] N₂) :
+    tensorRightNatTrans A (g + g') =
+      tensorRightNatTrans A g + tensorRightNatTrans A g' :=
+  tensorRightNatTrans_ext fun M m x => by
+    change (TensorProduct.tmul ℤ m (g x + g' x) : tensorOver A N₂ M) = _
+    rw [TensorProduct.tmul_add]
+    exact map_add (QuotientAddGroup.mk' (balancedSubgroup A N₂ M)) _ _
+
+variable (M : ModuleCat.{u} Aᵐᵒᵖ)
+
+@[simp]
+lemma torSndMap_id (A : Type u) [Ring A] (N : Type u) [AddCommGroup N] [Module A N]
+    (n : ℕ) (M : ModuleCat.{u} Aᵐᵒᵖ) :
+    torSndMap A (LinearMap.id : N →ₗ[A] N) n M = 𝟙 _ := by
+  rw [torSndMap, tensorRightNatTrans_id, NatTrans.leftDerived_id]
+  rfl
+
+@[simp]
+lemma torSndMap_comp {N₃ : Type u} [AddCommGroup N₃] [Module A N₃]
+    (g : N₁ →ₗ[A] N₂) (g' : N₂ →ₗ[A] N₃) (n : ℕ) :
+    torSndMap A (g'.comp g) n M = torSndMap A g n M ≫ torSndMap A g' n M := by
+  rw [torSndMap, tensorRightNatTrans_comp, NatTrans.leftDerived_comp]
+  rfl
+
+@[simp]
+lemma torSndMap_add (g g' : N₁ →ₗ[A] N₂) (n : ℕ) :
+    torSndMap A (g + g') n M = torSndMap A g n M + torSndMap A g' n M := by
+  rw [torSndMap, tensorRightNatTrans_add, NatTrans.leftDerived_add]
+  rfl
+
+/-- `g ↦ Torₙᴬ(M, g)` as an additive map on `Hom_A(N₁, N₂)`. -/
+noncomputable def torSndAddHom (n : ℕ) :
+    (N₁ →ₗ[A] N₂) →+ (Tor.{u} A N₁ M n ⟶ Tor.{u} A N₂ M n) :=
+  AddMonoidHom.mk' (fun g => torSndMap A g n M) fun g g' => torSndMap_add M g g' n
+
+@[simp]
+lemma torSndMap_zero (n : ℕ) :
+    torSndMap A (0 : N₁ →ₗ[A] N₂) n M = 0 :=
+  (torSndAddHom M n).map_zero
+
+/-- **`Tor` is additive in its second argument.**
+`Torₙᴬ(M, N₁ ⊕ N₂) ≅ Torₙᴬ(M, N₁) ⊕ Torₙᴬ(M, N₂)`, with the isomorphism given by the maps
+induced by the two projections and the two inclusions of `N₁ × N₂`. -/
+noncomputable def torProdIso (n : ℕ) :
+    Tor.{u} A (N₁ × N₂) M n ≅ Tor.{u} A N₁ M n ⊞ Tor.{u} A N₂ M n where
+  hom := biprod.lift (torSndMap A (LinearMap.fst A N₁ N₂) n M)
+    (torSndMap A (LinearMap.snd A N₁ N₂) n M)
+  inv := biprod.desc (torSndMap A (LinearMap.inl A N₁ N₂) n M)
+    (torSndMap A (LinearMap.inr A N₁ N₂) n M)
+  hom_inv_id := by
+    rw [biprod.lift_desc, ← torSndMap_comp, ← torSndMap_comp, ← torSndMap_add]
+    rw [show (LinearMap.inl A N₁ N₂).comp (LinearMap.fst A N₁ N₂) +
+        (LinearMap.inr A N₁ N₂).comp (LinearMap.snd A N₁ N₂) = LinearMap.id from by
+      ext x <;> simp]
+    exact torSndMap_id A (N₁ × N₂) n M
+  inv_hom_id := by
+    refine biprod.hom_ext' _ _ ?_ ?_ <;> refine biprod.hom_ext _ _ ?_ ?_ <;>
+      simp [← torSndMap_comp, LinearMap.fst_comp_inl, LinearMap.snd_comp_inl,
+        LinearMap.fst_comp_inr, LinearMap.snd_comp_inr]
+
+end SecondArgument
 
 end Etingof
