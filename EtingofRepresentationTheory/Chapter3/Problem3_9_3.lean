@@ -280,7 +280,8 @@ theorem ext1_simpleRep_vanishes_iff [DecidableEq Q] (i j : Q) :
     letI : AddCommGroup ((simpleRep (k := k) j).obj p.2.1) := Etingof.Problem6_9_3.acg (k := k)
     show (simpleRep (k := k) j).mapLinear p.2.2 ∘ₗ f p.1
         - f p.2.1 ∘ₗ (simpleRep (k := k) i).mapLinear p.2.2 = 0
-    simp only [simpleRep, LinearMap.zero_comp, LinearMap.comp_zero]
+    simp only [simpleRep, Etingof.vertexSimple_mapLinear, LinearMap.zero_comp,
+      LinearMap.comp_zero]
     exact sub_self (0 : (simpleRep (k := k) i).obj p.1 →ₗ[k] (simpleRep (k := k) j).obj p.2.1)
   rw [Ext1Vanishes, hzero]
   constructor
@@ -396,7 +397,8 @@ theorem extDiffₗ_simpleRep_eq_zero [DecidableEq Q] (i j : Q) :
   letI : AddCommGroup ((simpleRep (k := k) j).obj p.2.1) := Etingof.Problem6_9_3.acg (k := k)
   show (simpleRep (k := k) j).mapLinear p.2.2 ∘ₗ f p.1
       - f p.2.1 ∘ₗ (simpleRep (k := k) i).mapLinear p.2.2 = 0
-  simp only [simpleRep, LinearMap.zero_comp, LinearMap.comp_zero]
+  simp only [simpleRep, Etingof.vertexSimple_mapLinear, LinearMap.zero_comp,
+      LinearMap.comp_zero]
   exact sub_self (0 : (simpleRep (k := k) i).obj p.1 →ₗ[k] (simpleRep (k := k) j).obj p.2.1)
 
 /-- **`Ext¹` between irreducibles, dimension.** For a finite quiver `Q`, the Ext group between
