@@ -50,6 +50,7 @@ import EtingofRepresentationTheory.Chapter8.HomComplexHomologyK
 import EtingofRepresentationTheory.Chapter8.ExtAbelianComparison
 import EtingofRepresentationTheory.Chapter8.PIDDecomposition
 import EtingofRepresentationTheory.Chapter8.Problem8_2_7_ExtFG
+import EtingofRepresentationTheory.Chapter8.Problem8_2_7_ExtInt
 
 /-!
 # Chapter 8: Homological Algebra

@@ -163,6 +163,15 @@ noncomputable def extPIDDecompositionAddEquiv (D : PIDDecomposition A M) (E : PI
       (AddEquiv.piCongrRight fun _ =>
         Abelian.Ext.addEquivBiproduct _ (biproduct.isBilimit E.summand) n))
 
+/-- `Hom_A(A, Z) ≅ Z`, evaluation at `1`: the degree-`0` value of `Ext` at a *free* summand. -/
+noncomputable def homSelfAddEquiv (A : Type u) [CommRing A] (Z : Type u) [AddCommGroup Z]
+    [Module A Z] : (A →ₗ[A] Z) ≃+ Z where
+  toFun f := f 1
+  invFun z := LinearMap.toSpanSingleton A Z z
+  left_inv f := by ext; simp [LinearMap.toSpanSingleton_apply]
+  right_inv z := by simp [LinearMap.toSpanSingleton_apply]
+  map_add' _ _ := rfl
+
 /-! ### The summands, uniformly as cyclic modules
 
 A free summand `A` is the cyclic module `A ⧸ (0)`, so *every* summand of a decomposition is
