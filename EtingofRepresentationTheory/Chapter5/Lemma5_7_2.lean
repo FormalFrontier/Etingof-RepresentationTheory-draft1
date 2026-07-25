@@ -24,6 +24,11 @@ The conclusion "`V` is the class of an irreducible representation" is rendered a
 exactly one coefficient equals `1` and all others vanish, i.e. `χ_V = χ_{W i₀}` for a
 single irreducible `W i₀`.
 
+The index type `ι` is universe-polymorphic so that the family may be indexed by
+`Etingof.IrrepClasses ℂ G` (which does not live in `Type 0`); see
+`Chapter5/Definition5_7_1_Bridge.lean`, where the representative family of a
+`Etingof.VirtualRepresentation` is fed to this lemma.
+
 ## Mathlib correspondence
 
 Uses `FDRep.character`, `FDRep.char_orthonormal` (orthonormality of irreducible
@@ -36,7 +41,7 @@ identity is (the class of) an irreducible representation: exactly one coefficien
 and the rest are `0`. (Etingof Lemma 5.7.2) -/
 theorem Etingof.Lemma5_7_2
     {G : Type} [Group G] [Fintype G] [Invertible (Fintype.card G : ℂ)]
-    {ι : Type} [Fintype ι]
+    {ι : Type*} [Fintype ι]
     (W : ι → FDRep ℂ G) [∀ i, CategoryTheory.Simple (W i)]
     (hdistinct : ∀ i j, Nonempty (W i ≅ W j) → i = j)
     (n : ι → ℤ)

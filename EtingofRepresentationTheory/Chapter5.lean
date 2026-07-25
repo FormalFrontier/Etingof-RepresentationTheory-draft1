@@ -37,6 +37,7 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_6_1
 
 -- Section 5.7: Virtual Representations
 import EtingofRepresentationTheory.Chapter5.Definition5_7_1
+import EtingofRepresentationTheory.Chapter5.Definition5_7_1_Bridge
 import EtingofRepresentationTheory.Chapter5.Lemma5_7_2
 
 -- Section 5.8: Induced Representations
