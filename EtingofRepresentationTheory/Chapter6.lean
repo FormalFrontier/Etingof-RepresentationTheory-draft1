@@ -35,6 +35,7 @@ import EtingofRepresentationTheory.Chapter6.Definition6_4_7
 import EtingofRepresentationTheory.Chapter6.Remark6_4_4
 import EtingofRepresentationTheory.Chapter6.Example6_4_9
 import EtingofRepresentationTheory.Chapter6.Definition6_4_10
+import EtingofRepresentationTheory.Chapter6.Remark6_4_11
 import EtingofRepresentationTheory.Chapter6.Definition6_5_1
 import EtingofRepresentationTheory.Chapter6.Theorem6_5_2
 
