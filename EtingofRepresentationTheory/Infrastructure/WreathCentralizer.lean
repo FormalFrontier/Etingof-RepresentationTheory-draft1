@@ -70,6 +70,34 @@ def wreathBlockCongr {β γ : Type*} (e : β ≃ γ) (m : ℕ) : WreathBlock β 
         simp [SemidirectProduct.mul_left, Equiv.permCongr_def])
       (Equiv.ext fun c => by simp [SemidirectProduct.mul_right])
 
+instance wreathBlock_subsingleton (β : Type*) [IsEmpty β] (m : ℕ) :
+    Subsingleton (WreathBlock β m) :=
+  ⟨fun _ _ => SemidirectProduct.ext (funext fun b => isEmptyElim b)
+    (Equiv.ext fun b => isEmptyElim b)⟩
+
+/-- The order of a wreath block: `|(ℤ/mℤ)^β ⋊ S_β| = m^{|β|} · |β|!`. -/
+theorem nat_card_wreathBlock (β : Type*) [Finite β] (m : ℕ) :
+    Nat.card (WreathBlock β m) = m ^ Nat.card β * Nat.factorial (Nat.card β) := by
+  rw [Nat.card_congr SemidirectProduct.equivProd, Nat.card_prod, Nat.card_perm, Nat.card_fun,
+    Nat.card_congr (Multiplicative.toAdd (α := ZMod m)), Nat.card_zmod]
+
+/-- A dependent product over `ℕ` whose factors above `N` are all trivial is the finite product
+of the first `N + 1` factors. -/
+def piTruncEquiv {G : ℕ → Type*} [∀ m, One (G m)] (N : ℕ)
+    (h : ∀ m, N < m → Subsingleton (G m)) : (∀ m, G m) ≃ (∀ m : Fin (N + 1), G m) where
+  toFun f m := f m
+  invFun f m := if hm : m < N + 1 then f ⟨m, hm⟩ else 1
+  left_inv f := by
+    funext m
+    by_cases hm : m < N + 1
+    · simp [hm]
+    · haveI := h m (by omega)
+      simp only [hm, dif_neg, not_false_eq_true]
+      exact Subsingleton.elim _ _
+  right_inv f := by
+    funext m
+    simp [m.isLt]
+
 variable (β : ℕ → Type*)
 
 /-- The standard set on which a permutation with `β m` cycles of length `m` acts: a disjoint
