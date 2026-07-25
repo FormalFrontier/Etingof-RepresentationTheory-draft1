@@ -3675,16 +3675,16 @@
     "start_line": 3,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "complete",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "Specific tensor-product tables are formalized, and the character/Hom ingredients exist, but no generic theorem states the source's multiplicity inner-product formula and decomposition; follow-up #7479.",
-    "fidelity_issue": 7479,
-    "last_updated": "2026-07-22",
+    "coverage": "covered_full",
+    "coverage_note": "Introduction_4_9.lean states both source claims generically: Etingof.tensorMultiplicity X Y S = finrank ℂ (S ⟶ X ⊗ Y) with Etingof.tensorMultiplicity_eq_inner giving N = ⅟|G| • Σ_g χ_X(g) χ_Y(g) χ_S(g⁻¹) (FDRep.char_tensor into Etingof.Theorem4_5_1_i), and Etingof.tensorDecomposition giving the representation isomorphism X ⊗ Y ≅ ⨁ₖ (Vₖ)^(Nᵏ) for any complete family of pairwise non-isomorphic irreducibles, with Etingof.exists_tensorDecomposition supplying such a family unconditionally from IrrepDecomp. The decomposition comes from semisimplicity (Maschke) and Schur, not from character equality alone; the general machinery is Infrastructure/FDRepIsotypic.lean (#7479).",
+    "last_updated": "2026-07-25",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "fidelity_decl": "Etingof.tensorMultiplicity, Etingof.tensorMultiplicity_eq_inner, Etingof.tensorDecompositionTarget, Etingof.tensorDecomposition, Etingof.finrank_hom_eq_sum_tensorMultiplicity, Etingof.exists_tensorDecomposition"
   },
   {
     "id": "Chapter4/Example4.9.1",
