@@ -1242,6 +1242,35 @@ exists. A bare `open MvPolynomial` from inside `namespace Etingof` resolves to t
 `open _root_.MvPolynomial`. (Cost one build cycle in #5565.) Same pattern applies to
 any namespace the repo redeclares under `Etingof`.
 
+### A `ModuleCat` morphism between objects whose module structure is *not* an instance: `ConcreteCategory.ofHom`, and don't `@ModuleCat.of` in a statement (#7736)
+
+Chapter 8/9 keeps ad-hoc module structures out of the instance graph (`Etingof.mopZMod`,
+`Etingof.mopPolyQuot`: `local instance`s giving `Module Aᵐᵒᵖ (A ⧸ I)` by `Module.compHom`). Two
+walls when you build maps between the resulting objects, each costing a build cycle:
+
+1. **`ModuleCat.ofHom f` synthesises its own `[Module R X]`**, so it cannot produce a morphism out
+   of an object whose structure is the ad-hoc one — you get `synthesized … Semiring.toOppositeModule,
+   inferred Module.compHom …`. `ModuleCat.Hom`'s constructor is `private`, so `⟨f⟩` is rejected too
+   (`Invalid ⟨...⟩ notation: Constructor … is marked as private`). **Fix:** go through the
+   `ConcreteCategory` API, which is stated for *objects* and therefore reuses their bundled
+   instances: `hom := ConcreteCategory.ofHom (C := ModuleCat Rᵐᵒᵖ) { toFun := id, map_add' _ _ := rfl,
+   map_smul' c x := … }`. The expected type fixes `X`/`Y`, so the `map_smul'` goal is stated with the
+   two objects' own actions (e.g. `unop c * x = x * unop c`, closed by `mul_comm`). `Iso` fields
+   `hom_inv_id`/`inv_hom_id` then close by `rfl`.
+2. **Don't write `@ModuleCat.of R _ M _ myInstance` in a declaration's *type*.** `ModuleCat.of` is a
+   reducible `abbrev`, so TC search sees through `↑(ModuleCat.of R M)` to `M` and then looks for a
+   `Module R M` *instance* in scope — failing with `failed to synthesize Module Rᵐᵒᵖ ↑(ModuleCat.of Rᵐᵒᵖ M)`
+   even though you supplied the structure explicitly. **Fix:** re-enable the ad-hoc instance instead
+   (`attribute [local instance] mopZMod mopPolyQuot`) and write `ModuleCat.of Rᵐᵒᵖ M` plainly; the
+   elaborated statement then matches the theorems in the file that declared those `local instance`s.
+
+Related: to move a whole decomposition to `ModuleCat Aᵐᵒᵖ` for commutative `A`, don't transport a
+plain `DirectSum` isomorphism (for a `Sum.elim` family the pointwise `Module Aᵐᵒᵖ` instances are a
+case split, so the `A`- and `Aᵐᵒᵖ`-direct sums are not the same type). Use
+`ModuleCat.restrictScalars (mopRingEquiv A).toRingHom`: it is `Additive` and an equivalence, so
+`preservesBiproduct_of_preservesProduct` plus `Functor.mapBiproduct` moves the entire biproduct in
+one step. See `Chapter8/PIDDecomposition.lean`.
+
 ### Stuck `Module ?m (M i)` Metavariable Errors
 
 When working over a *family* `(M : ι → Type*) [∀ i, Module A (M i)] [∀ i, Module 𝕜 (M i)] [∀ i, IsScalarTower 𝕜 A (M i)]` (common for representation families), `lake build` errors like `typeclass instance problem is stuck … (i : ι) → Module ?m (M i)` mean a ring/field implicit was left undetermined. Three concrete causes, each with a one-line fix (diagnosed across ~5 build cycles in #4885, `CharacterIndependence.lean`):
