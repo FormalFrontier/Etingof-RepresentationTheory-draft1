@@ -4199,6 +4199,36 @@ When a proof requires FDRep categorical machinery that's blocked by `.hom` plumb
 2. Check if Mathlib has the needed lemmas at the `LinearMap` / `Matrix` level
 3. If yes, build the proof there — it's usually cleaner than the categorical version
 
+## Standard-Model Conjugation Pattern (#7481)
+
+When an issue asks for the structure of the symmetry group of an object (a centralizer, an
+automorphism group, the stabilizer of a configuration), the cheap route is usually *not* to
+assemble Mathlib's structural decomposition of that group. It is to conjugate the object into a
+normal form and analyse the symmetry group there.
+
+**Example (#7481, `Z_g ≅ ∏ₘ S_{iₘ} ⋉ (ℤ/mℤ)^{iₘ}` for a permutation `g`).** The issue asked to
+build the isomorphism from `Equiv.Perm.OnCycleFactors.toPermHom`, `Basis.toCentralizer` and the
+kernel/range parametrization. That needs a split-extension lemma, two separate factor
+identifications, a transport of the range's conjugation action on the kernel, and a regrouping
+of `(A × ∏ Nₘ) ⋊ ∏ Gₘ` that is *not uniform in `m`* (the fixed-point `S_{i₁}` lands in the
+kernel, every other `S_{iₘ}` in the range). Instead: build `e : α ≃ Σ m, βₘ × ZMod m` carrying
+`g` to the obvious shift (`MulAction.selfEquivSigmaOrbits` + `MulAction.orbitZPowersEquiv` give
+this almost for free), prove the two structure lemmas about shift-commuting permutations, and
+transport with `Equiv.permCongrHom` + a `map_centralizer_singleton` lemma. Two files, no action
+transport, no regrouping.
+
+**When to reach for it:**
+- The target group is described by a formula indexed by a decomposition of the object.
+- Mathlib gives you the *normal form* (orbit decomposition, canonical basis, Smith normal form)
+  more readily than the group-theoretic decomposition.
+- Grouping by the invariant (here: cycle length) *before* setting up the model kills the
+  dependent-type transport that otherwise infects every proof — index `Σ m, βₘ × ZMod m`, not
+  `Σ q, ZMod (len q)`.
+
+Say so in the PR when you deviate from an issue's prescribed route, and keep whatever piece of
+the prescribed API still pulls its weight (here `Equiv.Perm.nat_card_centralizer`, for the
+cardinality reconciliation).
+
 ## Helper Lemma Extraction Pattern
 
 When a proof is too complex for a single session, extract helper lemmas into separate declarations. This pattern was critical for Theorem 4.10.2 (block polynomial irreducibility) and the Young symmetrizer chain (5.13.1-5.13.4).
