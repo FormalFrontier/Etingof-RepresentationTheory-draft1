@@ -1800,9 +1800,9 @@
     "end_line": 12,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "coverage_note": "Part (a)'s dimension results and part (b)'s non-finiteness theorem not_finiteDimensional_g_four are proved. The source additionally asks for an explicit basis of g_4; no basis or equivalent normal-form theorem is present (follow-up #7394).",
-    "fidelity_issue": 7394,
-    "last_updated": "2026-07-22"
+    "coverage_note": "Part (a)'s dimension results and part (b)'s non-finiteness theorem not_finiteDimensional_g_four are proved. The source additionally asks for an explicit basis of g_4; the twisted A_2^(2) loop subalgebra n_+ that receives it is now built (loopPos, #7717), but the Module.Basis itself is still missing (#7718, #7719, #7720).",
+    "fidelity_issue": 7720,
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter2/Problem2.16.4",

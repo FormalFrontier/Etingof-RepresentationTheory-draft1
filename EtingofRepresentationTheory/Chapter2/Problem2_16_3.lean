@@ -9,6 +9,7 @@ import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Algebra.Polynomial.Basis
+import Mathlib.LinearAlgebra.Matrix.Trace
 
 /-!
 # Problem 2.16.3: The Lie algebras `𝔤ₙ = ⟨x, y | ad(x)²y = ad(y)ⁿ⁺¹x = 0⟩`
@@ -1380,5 +1381,318 @@ theorem finrank_g_three (k : Type*) [Field k] (hk : (2 : k) ≠ 0) :
       Set.singleton_union, Set.singleton_union, Set.singleton_union, span_eq_top_three k hk]
   let b : Module.Basis (Fin 6) k (g k 3) := Module.Basis.mk (indep_three k) hspan
   rw [Module.finrank_eq_card_basis b, Fintype.card_fin]
+
+/-!
+## The twisted `A₂⁽²⁾` loop subalgebra `𝔫₊ ⊆ 𝔤𝔩₃(k[t])`
+
+`𝔤₄` is the positive nilpotent part of the affine Kac–Moody algebra of type `A₂⁽²⁾`, and the
+existing `matHom₄` already places its two generators inside `𝔤𝔩₃(k[t])`. This section builds the
+receiving object: the twisted loop algebra `𝔫₊`, described intrinsically.
+
+Let `σ(A) = -J Aᵀ J`, where `J` is the antidiagonal permutation matrix; entrywise
+`σ(A)ᵢⱼ = -A_{rev j, rev i}` for `rev` the order-reversing involution of `Fin 3`. Then `σ` is an
+involutive Lie algebra automorphism of `𝔤𝔩₃`, and (away from characteristic `2`) it splits the
+traceless part into eigenspaces
+
+* `𝔤₀` (eigenvalue `+1`, dimension `3`, `≅ 𝔰𝔬₃ ≅ 𝔰𝔩₂`): `E₀₁ - E₁₂`, `E₀₀ - E₂₂`, `E₁₀ - E₂₁`;
+* `𝔤₁` (eigenvalue `-1`, dimension `5`, the spin-`2` irrep of `𝔤₀`):
+  `E₀₂`, `E₀₁ + E₁₂`, `E₀₀ - 2E₁₁ + E₂₂`, `E₁₀ + E₂₁`, `E₂₀`,
+
+satisfying `[𝔤₀,𝔤₀] ⊆ 𝔤₀`, `[𝔤₀,𝔤₁] ⊆ 𝔤₁`, `[𝔤₁,𝔤₁] ⊆ 𝔤₀`. The positive part is
+
+```
+𝔫₊ = k·(E₀₁ - E₁₂)  ⊕  ⨁_{n ≥ 1} 𝔤_{n mod 2} · tⁿ,
+```
+
+i.e. `t`-degree `0` contributes only the raising vector of `𝔤₀`, and every higher `t`-degree
+contributes a whole eigenspace. Graded dimensions `1, 5, 3, 5, 3, …`.
+
+Rather than define `𝔫₊` as that span and check bracket-closure generator by generator, we cut it
+out by three conditions that are each visibly stable under the bracket:
+
+* `trace P = 0`;
+* `σ(P(t)) = P(-t)`, which says exactly that the coefficient of `tⁿ` lies in the `(-1)ⁿ`-eigenspace
+  of `σ` — stable because `σ` and `t ↦ -t` are both automorphisms;
+* `P(0) ∈ k·(E₀₁ - E₁₂)` — stable because `⁅P,Q⁆(0) = ⁅P(0), Q(0)⁆` and the bracket of two
+  multiples of a single element vanishes.
+-/
+
+section TwistedLoop
+
+attribute [local instance] LieRing.ofAssociativeRing
+
+open Polynomial
+
+variable {R : Type*} [CommRing R]
+
+/-- The involution `σ(A) = -J Aᵀ J` of `𝔤𝔩₃`, where `J` is the antidiagonal permutation matrix.
+Entrywise `σ(A)ᵢⱼ = -A_{rev j, rev i}`, with `rev` the order-reversing involution of `Fin 3`.
+`σ` is the automorphism whose fixed subalgebra is the `𝔰𝔬₃ ≅ 𝔰𝔩₂` underlying type `A₂⁽²⁾`. -/
+def sigInv (A : Matrix (Fin 3) (Fin 3) R) : Matrix (Fin 3) (Fin 3) R :=
+  Matrix.of fun i j => -(A j.rev i.rev)
+
+@[simp] theorem sigInv_apply (A : Matrix (Fin 3) (Fin 3) R) (i j : Fin 3) :
+    sigInv A i j = -(A j.rev i.rev) := rfl
+
+@[simp] theorem sigInv_sigInv (A : Matrix (Fin 3) (Fin 3) R) : sigInv (sigInv A) = A := by
+  ext i j; simp [Fin.rev_rev]
+
+@[simp] theorem sigInv_zero : sigInv (0 : Matrix (Fin 3) (Fin 3) R) = 0 := by
+  ext i j; simp
+
+@[simp] theorem sigInv_add (A B : Matrix (Fin 3) (Fin 3) R) :
+    sigInv (A + B) = sigInv A + sigInv B := by
+  ext i j; simp only [sigInv_apply, Matrix.add_apply]; ring
+
+@[simp] theorem sigInv_sub (A B : Matrix (Fin 3) (Fin 3) R) :
+    sigInv (A - B) = sigInv A - sigInv B := by
+  ext i j; simp only [sigInv_apply, Matrix.sub_apply]; ring
+
+@[simp] theorem sigInv_neg (A : Matrix (Fin 3) (Fin 3) R) : sigInv (-A) = -sigInv A := by
+  ext i j; simp only [sigInv_apply, Matrix.neg_apply]
+
+@[simp] theorem sigInv_smul {S : Type*} [Monoid S] [DistribMulAction S R] (c : S)
+    (A : Matrix (Fin 3) (Fin 3) R) : sigInv (c • A) = c • sigInv A := by
+  ext i j; simp [Matrix.smul_apply]
+
+/-- `σ` sends the elementary matrix `Eᵢⱼ` to `-E_{rev j, rev i}`. -/
+@[simp] theorem sigInv_single (i j : Fin 3) (c : R) :
+    sigInv (Matrix.single i j c) = -Matrix.single j.rev i.rev c := by
+  ext a b
+  simp only [sigInv_apply, Matrix.neg_apply, Matrix.single, Matrix.of_apply, neg_inj]
+  by_cases h : j.rev = a ∧ i.rev = b
+  · obtain ⟨h1, h2⟩ := h
+    subst h1; subst h2
+    simp [Fin.rev_rev]
+  · rw [if_neg h, if_neg]
+    rintro ⟨h1, h2⟩
+    exact h ⟨by rw [h2, Fin.rev_rev], by rw [h1, Fin.rev_rev]⟩
+
+@[simp] private theorem rev_zero_three : (0 : Fin 3).rev = 2 := by decide
+@[simp] private theorem rev_one_three : (1 : Fin 3).rev = 1 := by decide
+@[simp] private theorem rev_two_three : (2 : Fin 3).rev = 0 := by decide
+
+/-- `σ` reverses products up to sign: `σ(A)·σ(B) = -σ(B·A)`. -/
+theorem sigInv_mul (A B : Matrix (Fin 3) (Fin 3) R) :
+    sigInv A * sigInv B = -sigInv (B * A) := by
+  ext i j
+  have h : ∑ l : Fin 3, B j.rev (Fin.revPerm l) * A (Fin.revPerm l) i.rev
+      = ∑ m : Fin 3, B j.rev m * A m i.rev :=
+    Equiv.sum_comp (Fin.revPerm (n := 3)) (fun m => B j.rev m * A m i.rev)
+  simp only [Fin.revPerm_apply] at h
+  simp only [Matrix.mul_apply, sigInv_apply, Matrix.neg_apply, neg_neg, neg_mul_neg]
+  rw [← h]
+  exact Finset.sum_congr rfl fun l _ => mul_comm _ _
+
+/-- `σ` is a Lie algebra automorphism of `𝔤𝔩₃`. -/
+theorem sigInv_lie (A B : Matrix (Fin 3) (Fin 3) R) :
+    sigInv ⁅A, B⁆ = ⁅sigInv A, sigInv B⁆ := by
+  simp only [LieRing.of_associative_ring_bracket, sigInv_sub, sigInv_mul]
+  abel
+
+/-! ### The two `σ`-eigenspaces of `𝔰𝔩₃` -/
+
+/-- Basis of the `+1`-eigenspace `𝔤₀ ≅ 𝔰𝔬₃ ≅ 𝔰𝔩₂` of `σ`: `E₀₁ - E₁₂`, `E₀₀ - E₂₂`, `E₁₀ - E₂₁`.
+Its first member is the raising vector, the `t`-degree `0` part of `𝔫₊`. -/
+noncomputable def gzero : Fin 3 → Matrix (Fin 3) (Fin 3) k :=
+  ![Matrix.single 0 1 1 - Matrix.single 1 2 1,
+    Matrix.single 0 0 1 - Matrix.single 2 2 1,
+    Matrix.single 1 0 1 - Matrix.single 2 1 1]
+
+/-- Basis of the `-1`-eigenspace `𝔤₁` of `σ` inside `𝔰𝔩₃`, the spin-`2` irreducible `𝔤₀`-module:
+`E₀₂`, `E₀₁ + E₁₂`, `E₀₀ - 2E₁₁ + E₂₂`, `E₁₀ + E₂₁`, `E₂₀`. -/
+noncomputable def gone : Fin 5 → Matrix (Fin 3) (Fin 3) k :=
+  ![Matrix.single 0 2 1,
+    Matrix.single 0 1 1 + Matrix.single 1 2 1,
+    Matrix.single 0 0 1 - Matrix.single 1 1 (2 : k) + Matrix.single 2 2 1,
+    Matrix.single 1 0 1 + Matrix.single 2 1 1,
+    Matrix.single 2 0 1]
+
+set_option linter.unnecessarySeqFocus false in
+@[simp] theorem sigInv_gzero (i : Fin 3) : sigInv (gzero k i) = gzero k i := by
+  fin_cases i <;> simp [gzero] <;> abel
+
+set_option linter.unnecessarySeqFocus false in
+@[simp] theorem sigInv_gone (i : Fin 5) : sigInv (gone k i) = -gone k i := by
+  fin_cases i <;> simp [gone] <;> abel
+
+@[simp] theorem trace_gzero (i : Fin 3) : Matrix.trace (gzero k i) = 0 := by
+  fin_cases i <;>
+    simp [gzero, Matrix.trace, Matrix.diag, Fin.sum_univ_three, Matrix.sub_apply]
+
+set_option linter.unnecessarySeqFocus false in
+@[simp] theorem trace_gone (i : Fin 5) : Matrix.trace (gone k i) = 0 := by
+  fin_cases i <;>
+    simp [gone, Matrix.trace, Matrix.diag, Fin.sum_univ_three, Matrix.add_apply,
+      Matrix.sub_apply] <;> ring
+
+/-- The three matrices of `gzero` have pairwise disjoint supports, so reading off the entries
+`(0,1)`, `(0,0)`, `(1,0)` proves independence over any commutative base ring. -/
+theorem linearIndependent_gzero : LinearIndependent k (gzero k) := by
+  rw [Fintype.linearIndependent_iff]
+  intro c hc
+  have key : ∀ a b : Fin 3, ∑ i, c i * gzero k i a b = 0 := by
+    intro a b
+    have h := congrFun (congrFun hc a) b
+    simpa [Matrix.sum_apply, Matrix.smul_apply, smul_eq_mul] using h
+  intro i
+  fin_cases i
+  · simpa [Fin.sum_univ_three, gzero, Matrix.sub_apply] using key 0 1
+  · simpa [Fin.sum_univ_three, gzero, Matrix.sub_apply] using key 0 0
+  · simpa [Fin.sum_univ_three, gzero, Matrix.sub_apply] using key 1 0
+
+/-- The five matrices of `gone` have pairwise disjoint supports, so reading off the entries
+`(0,2)`, `(0,1)`, `(0,0)`, `(1,0)`, `(2,0)` proves independence over any commutative base ring. -/
+theorem linearIndependent_gone : LinearIndependent k (gone k) := by
+  rw [Fintype.linearIndependent_iff]
+  intro c hc
+  have key : ∀ a b : Fin 3, ∑ i, c i * gone k i a b = 0 := by
+    intro a b
+    have h := congrFun (congrFun hc a) b
+    simpa [Matrix.sum_apply, Matrix.smul_apply, smul_eq_mul] using h
+  intro i
+  fin_cases i
+  · simpa [Fin.sum_univ_five, gone, Matrix.add_apply, Matrix.sub_apply] using key 0 2
+  · simpa [Fin.sum_univ_five, gone, Matrix.add_apply, Matrix.sub_apply] using key 0 1
+  · simpa [Fin.sum_univ_five, gone, Matrix.add_apply, Matrix.sub_apply] using key 0 0
+  · simpa [Fin.sum_univ_five, gone, Matrix.add_apply, Matrix.sub_apply] using key 1 0
+  · simpa [Fin.sum_univ_five, gone, Matrix.add_apply, Matrix.sub_apply] using key 2 0
+
+/-! ### The twist `t ↦ -t` and the constant term -/
+
+/-- The `k`-algebra involution `t ↦ -t` of `k[t]`. -/
+noncomputable def twPoly : Polynomial k →ₐ[k] Polynomial k :=
+  Polynomial.aeval (-Polynomial.X : Polynomial k)
+
+theorem twPoly_coeff (p : Polynomial k) (n : ℕ) :
+    (twPoly k p).coeff n = (-1 : k) ^ n * p.coeff n := by
+  induction p using Polynomial.induction_on' with
+  | add p q hp hq => simp [hp, hq, mul_add]
+  | monomial m a =>
+      have hpow : (-Polynomial.X : Polynomial k) ^ m
+          = Polynomial.C ((-1 : k) ^ m) * Polynomial.X ^ m := by
+        rw [show (-Polynomial.X : Polynomial k) = Polynomial.C (-1 : k) * Polynomial.X by simp,
+          mul_pow, Polynomial.C_pow]
+      have h1 : twPoly k ((Polynomial.monomial m) a)
+          = Polynomial.C ((-1 : k) ^ m) * (Polynomial.monomial m) a := by
+        rw [twPoly, Polynomial.aeval_monomial, Polynomial.algebraMap_eq, hpow,
+          ← Polynomial.C_mul_X_pow_eq_monomial]
+        ring
+      rw [h1, Polynomial.coeff_C_mul, Polynomial.coeff_monomial]
+      by_cases h : m = n
+      · subst h; simp
+      · simp [h]
+
+/-- `P(t) ↦ P(-t)`, entrywise, as an algebra map of `𝔤𝔩₃(k[t])`. -/
+noncomputable def twMat : Matrix (Fin 3) (Fin 3) (Polynomial k) →ₐ[k]
+    Matrix (Fin 3) (Fin 3) (Polynomial k) := (twPoly k).mapMatrix
+
+/-- `P ↦ P(0)`, the constant term of a polynomial matrix. -/
+noncomputable def constMat : Matrix (Fin 3) (Fin 3) (Polynomial k) →ₐ[k]
+    Matrix (Fin 3) (Fin 3) k := (Polynomial.aeval (0 : k)).mapMatrix
+
+/-- Any algebra map between matrix algebras preserves the commutator bracket. -/
+theorem map_lie_of_algHom {A B : Type*} [Ring A] [Ring B] [Algebra k A] [Algebra k B]
+    (f : A →ₐ[k] B) (P Q : A) : f ⁅P, Q⁆ = ⁅f P, f Q⁆ := by
+  simp only [LieRing.of_associative_ring_bracket, map_sub, map_mul]
+
+/-! ### The positive part `𝔫₊` of `A₂⁽²⁾` -/
+
+/-- The positive part `𝔫₊` of the twisted affine Kac–Moody algebra of type `A₂⁽²⁾`, realized
+inside `𝔤𝔩₃(k[t])` as the traceless polynomial matrices `P` with `σ(P(t)) = P(-t)` whose constant
+term is a multiple of the raising vector `E₀₁ - E₁₂`.
+
+The middle condition says exactly that the coefficient of `tⁿ` lies in the `(-1)ⁿ`-eigenspace of
+`σ`, so (away from characteristic `2`) this is
+`k·(E₀₁ - E₁₂) ⊕ ⨁_{n ≥ 1} 𝔤_{n mod 2}·tⁿ`, of graded dimensions `1, 5, 3, 5, 3, …`. -/
+noncomputable def loopPos : LieSubalgebra k (Matrix (Fin 3) (Fin 3) (Polynomial k)) where
+  carrier := {P | Matrix.trace P = 0 ∧ sigInv P = twMat k P ∧
+    constMat k P ∈ Submodule.span k {gzero k 0}}
+  add_mem' := by
+    rintro P Q ⟨hP1, hP2, hP3⟩ ⟨hQ1, hQ2, hQ3⟩
+    refine ⟨by rw [Matrix.trace_add, hP1, hQ1, add_zero], ?_, ?_⟩
+    · rw [sigInv_add, hP2, hQ2, map_add]
+    · rw [map_add]; exact Submodule.add_mem _ hP3 hQ3
+  zero_mem' := ⟨Matrix.trace_zero _ _, by rw [sigInv_zero, map_zero], by
+    rw [map_zero]; exact Submodule.zero_mem _⟩
+  smul_mem' := by
+    rintro c P ⟨hP1, hP2, hP3⟩
+    refine ⟨by rw [Matrix.trace_smul, hP1, smul_zero], ?_, ?_⟩
+    · rw [sigInv_smul, hP2, map_smul]
+    · rw [map_smul]; exact Submodule.smul_mem _ _ hP3
+  lie_mem' := by
+    rintro P Q ⟨hP1, hP2, hP3⟩ ⟨hQ1, hQ2, hQ3⟩
+    refine ⟨?_, ?_, ?_⟩
+    · rw [LieRing.of_associative_ring_bracket, Matrix.trace_sub, Matrix.trace_mul_comm,
+        sub_self]
+    · rw [sigInv_lie, hP2, hQ2, map_lie_of_algHom]
+    · obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.mp hP3
+      obtain ⟨b, hb⟩ := Submodule.mem_span_singleton.mp hQ3
+      rw [map_lie_of_algHom, ← ha, ← hb, smul_lie, lie_smul, lie_self, smul_zero, smul_zero]
+      exact Submodule.zero_mem _
+
+/-- The coefficient of `tⁿ` of a polynomial matrix, entrywise. -/
+noncomputable def coeffMat (n : ℕ) (P : Matrix (Fin 3) (Fin 3) (Polynomial k)) :
+    Matrix (Fin 3) (Fin 3) k := P.map (fun p => p.coeff n)
+
+@[simp] theorem coeffMat_apply (n : ℕ) (P : Matrix (Fin 3) (Fin 3) (Polynomial k))
+    (a b : Fin 3) : coeffMat k n P a b = (P a b).coeff n := rfl
+
+theorem constMat_eq_coeffMat_zero (P : Matrix (Fin 3) (Fin 3) (Polynomial k)) :
+    constMat k P = coeffMat k 0 P := by
+  ext a b
+  simp [constMat, AlgHom.mapMatrix_apply, Polynomial.coeff_zero_eq_eval_zero,
+    Polynomial.coe_aeval_eq_eval]
+
+/-- The condition `σ(P(t)) = P(-t)` says exactly that the coefficient of `tⁿ` lies in the
+`(-1)ⁿ`-eigenspace of `σ`. This is the bridge from the intrinsic description of `𝔫₊` to the
+graded one `k·(E₀₁ - E₁₂) ⊕ ⨁_{n ≥ 1} 𝔤_{n mod 2}·tⁿ`. -/
+theorem sigInv_eq_twMat_iff (P : Matrix (Fin 3) (Fin 3) (Polynomial k)) :
+    sigInv P = twMat k P ↔ ∀ n, sigInv (coeffMat k n P) = (-1 : k) ^ n • coeffMat k n P := by
+  constructor
+  · intro h n
+    ext a b
+    have hab := congrArg (fun p : Polynomial k => Polynomial.coeff p n)
+      (congrFun (congrFun h a) b)
+    simpa [twMat, AlgHom.mapMatrix_apply, twPoly_coeff, Matrix.smul_apply] using hab
+  · intro h
+    ext a b n
+    have hab := congrFun (congrFun (h n) a) b
+    simpa [twMat, AlgHom.mapMatrix_apply, twPoly_coeff, Matrix.smul_apply] using hab
+
+theorem mem_loopPos {P : Matrix (Fin 3) (Fin 3) (Polynomial k)} :
+    P ∈ loopPos k ↔ Matrix.trace P = 0 ∧ sigInv P = twMat k P ∧
+      constMat k P ∈ Submodule.span k {gzero k 0} := Iff.rfl
+
+/-- The generator `NX = E₂₀·t` lies in `𝔫₊`. -/
+theorem NX_mem_loopPos : NX k ∈ loopPos k := by
+  refine ⟨?_, ?_, ?_⟩
+  · simp [NX, Matrix.trace, Matrix.diag, Fin.sum_univ_three]
+  · ext a b
+    fin_cases a <;> fin_cases b <;>
+      simp [NX, sigInv, twMat, twPoly, Matrix.single, Fin.rev, AlgHom.mapMatrix_apply]
+  · have : constMat k (NX k) = 0 := by
+      ext a b
+      fin_cases a <;> fin_cases b <;>
+        simp [NX, constMat, Matrix.single, AlgHom.mapMatrix_apply]
+    rw [this]; exact Submodule.zero_mem _
+
+/-- The generator `NY = E₀₁ - E₁₂` lies in `𝔫₊`; it is the raising vector `gzero 0` at
+`t`-degree `0`. -/
+theorem NY_mem_loopPos : NY k ∈ loopPos k := by
+  refine ⟨?_, ?_, ?_⟩
+  · simp [NY, Matrix.trace, Matrix.diag, Fin.sum_univ_three, Matrix.sub_apply]
+  · ext a b
+    fin_cases a <;> fin_cases b <;>
+      simp [NY, sigInv, twMat, twPoly, Matrix.single, Matrix.sub_apply, Fin.rev,
+        AlgHom.mapMatrix_apply]
+  · have : constMat k (NY k) = gzero k 0 := by
+      ext a b
+      fin_cases a <;> fin_cases b <;>
+        simp [NY, gzero, constMat, Matrix.single, AlgHom.mapMatrix_apply]
+    rw [this]
+    exact Submodule.mem_span_singleton_self _
+
+end TwistedLoop
 
 end Etingof.Problem2_16_3
