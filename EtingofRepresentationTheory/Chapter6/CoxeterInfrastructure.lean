@@ -534,8 +534,11 @@ theorem iteratedReversedAtVertices_perm_eq
   · exact iteratedReversed_hom_both_mem Q σ hnodup (hmem a) (hmem b) hab
 
 /-- A topological sort of a Dynkin quiver exists: a permutation of vertices
-where ordering[k] has no Q-outgoing edges to ordering[m] for m ≥ k. -/
-private theorem exists_topoSort
+where ordering[k] has no Q-outgoing edges to ordering[m] for m ≥ k.
+
+Besides driving `admissibleOrdering_exists` below, this is the ordering of the vertices that
+Problem 6.9.3(b) reads off from an orientation in order to build a Jordan-Hölder series. -/
+theorem exists_topoSort
     (hDynkin : IsDynkinDiagram n adj)
     {Q : Quiver (Fin n)} (hOrient : IsOrientationOf Q adj) :
     ∃ (ordering : List (Fin n)),

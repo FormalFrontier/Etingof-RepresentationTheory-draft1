@@ -1,5 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter2.Definition2_8_3
+import EtingofRepresentationTheory.Infrastructure.QuiverCompositionSeries
 
 /-!
 # Problem 6.9.3: Indecomposable representations of a Dynkin quiver
@@ -57,10 +58,13 @@ noncomputable def acg {M : Type*} [inst : AddCommMonoid M] [Module k M] :
 `i`, `0` elsewhere, with all arrow maps zero. The vertex object is
 `Fin (if v = i then 1 else 0) → k` (dimension `1` at `i`, `0` otherwise), which
 avoids the type-level `if`/instance diamond by branching only on the
-dimension. -/
-def simpleRep [DecidableEq Q] (i : Q) : QuiverRepresentation k Q where
-  obj v := Fin (if v = i then 1 else 0) → k
-  mapLinear _ := 0
+dimension.
+
+This is `Etingof.vertexSimple` from
+`Infrastructure/QuiverCompositionSeries.lean`, where the composition-series
+machinery used in part (b) lives. -/
+abbrev simpleRep [DecidableEq Q] (i : Q) : QuiverRepresentation k Q :=
+  Etingof.vertexSimple i
 
 /-- A vertex `i` is a **source** if no arrows point *into* it. -/
 def IsSource (i : Q) : Prop := ∀ j, IsEmpty (j ⟶ i)
@@ -130,23 +134,41 @@ defined over the bundled `AddCommMonoid` carriers). -/
 noncomputable def dimVec (V : QuiverRepresentation k Q) (i : Q) : ℕ :=
   finrank k (V.obj i)
 
-/-- **(b)** The claim that the indecomposable `V_α` (with dimension vector `α`,
-a positive root) admits a Jordan–Hölder series whose factors are exactly the
-simples `S_i`, each occurring `α i` times.
+/-- A basis of every vertex space computes the dimension vector. -/
+theorem dimVec_eq_of_basis {Vα : QuiverRepresentation k Q} {α : Q → ℕ}
+    (basis : ∀ v, Basis (Fin (α v)) k (Vα.obj v)) (v : Q) : dimVec Vα v = α v := by
+  rw [dimVec, Module.finrank_eq_card_basis (basis v), Fintype.card_fin]
 
-The multiset of Jordan–Hölder factors is orientation-independent (it is always
-`{ S_i^{α_i} }`), while the order of the factors depends on the orientation.
-Since `S_i` is `1`-dimensional at vertex `i` and `0` elsewhere, the multiplicity
-`[V_α : S_i]` equals the dimension vector entry `dimVec V_α i = α i`.
+/-- **(b)** *Given an orientation of the quiver, find a Jordan–Hölder series of `V_α` for that
+orientation.*
 
-This is recorded as a `Prop` about the actual representation; a composition-series
-notion for `Etingof.QuiverRepresentation` belongs to the Gabriel-theorem
-infrastructure. -/
-def IsJordanHolderData [DecidableEq Q] (α : Q → ℕ) (Vα : QuiverRepresentation k Q) : Prop :=
-  -- `V_α` has dimension vector `α`, i.e. `S_i` occurs with multiplicity `α i`.
-  (∀ i, dimVec Vα i = α i) ∧
-  -- there is an ordering of the factors (a list of vertices, each `i` repeated
-  -- `α i` times) realizing the composition series for the given orientation.
-  (∃ order : List Q, ∀ i, order.count i = α i)
+An orientation enters through an enumeration `order` of the vertices along which every arrow
+decreases — a topological sort, which exists exactly when the quiver has no oriented cycle,
+in particular for every orientation of a Dynkin diagram
+(`Etingof.exists_topoSort`). Relative to such an enumeration, **any** representation `Vα`
+whose vertex spaces are finite-dimensional (here: given by bases) has a genuine
+Jordan–Hölder series
+`0 = V₀ ⊂ V₁ ⊂ ⋯ ⊂ V_N = Vα`
+of subrepresentations whose successive subquotients are the vertex simples `S i`
+(`Etingof.QuiverRepCompositionSeries`, whose steps are `Etingof.IsSimpleStep` and therefore
+admit no intermediate subrepresentation), with `S i` occurring exactly `dim (Vα)ᵢ = α i`
+times.
+
+The filtration itself is read off from the orientation: it fills the vertex spaces up one
+basis vector at a time, in the order given by `order`. The multiset of factors is
+orientation-independent; the order in which they occur is not.
+
+For the indecomposable `V_α` attached to a positive root of a Dynkin quiver, see
+`Etingof.Problem6_9_3.exists_compositionSeries_of_positiveRoot` in
+`Chapter6/Problem6_9_3_JordanHolder.lean`. -/
+theorem exists_jordanHolderSeries [DecidableEq Q] (Vα : QuiverRepresentation k Q)
+    (n : ℕ) (order : Q ≃ Fin n)
+    (horder : ∀ {v w : Q}, (v ⟶ w) → (order w : ℕ) < (order v : ℕ))
+    (α : Q → ℕ) (basis : ∀ v, Basis (Fin (α v)) k (Vα.obj v)) :
+    ∃ s : Etingof.QuiverRepCompositionSeries Vα,
+      s.length = ∑ l : Fin n, α (order.symm l) ∧ ∀ i, s.mult i = dimVec Vα i := by
+  obtain ⟨s, hlen, hmult⟩ :=
+    Etingof.exists_compositionSeries Vα n order horder α basis
+  exact ⟨s, hlen, fun i => (hmult i).trans (dimVec_eq_of_basis basis i).symm⟩
 
 end Etingof.Problem6_9_3
