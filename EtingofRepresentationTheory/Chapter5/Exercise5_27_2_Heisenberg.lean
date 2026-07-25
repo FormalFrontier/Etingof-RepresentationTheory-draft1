@@ -47,6 +47,16 @@ The classification `heisenberg_classification` follows from the orbit method: th
 representations `V(χ, U)` of Theorem 5.27.1 are computed via the explicit character formula (iv),
 whose closed forms (`fixed_charρ`, `free_char`) give both the pairwise non-isomorphism and the
 completeness.
+
+## Landing on the group of Problem 4.12.2
+
+Problem 4.12.2 studies the unitriangular-matrix group `Problem4_12_2.Heisenberg p`, a different
+type from the semidirect-product model `HeisenbergGroup p`. `heisenbergEquiv` is the group
+isomorphism between them, `heisenberg_classification'` is the classification transported onto
+the textbook group along it (via `Exercise5_27_2_Transport`), and
+`heisenberg_classification_named` matches the transported family with the book's own named
+representations: the `p²` characters `charRep χ` and the `p - 1` representations
+`R_z = rhoHom z` with `z ≠ 1`.
 -/
 
 noncomputable section
@@ -760,5 +770,67 @@ theorem heisenberg_classification' :
   refine ⟨n, W, hW1, hW2, hW3, fun i => by rw [hWdim i]; exact hDim i, hn, ?_, ?_⟩
   · rw [hfilt]; exact hcard1
   · rw [hfilt]; exact hcardp
+
+open Classical in
+/-- **The orbit-method family is the book's family.** Problem 4.12.2 names its irreducibles:
+the `p²` one-dimensional characters `charRep χ` and the `p - 1` representations
+`R_z = rhoHom z` for `z ≠ 1` a `p`-th root of unity. The family produced by the orbit method
+consists of exactly those, matched by dimension: every `1`-dimensional member is a character,
+every `p`-dimensional member is some `R_z` with `z ≠ 1`, and conversely every character and
+every `R_z` (`z ≠ 1`) occurs in the family. So "redo Problem 4.12.2 using Theorem 5.27.1"
+lands on the book's own list of representations. -/
+theorem heisenberg_classification_named :
+    ∃ (n : ℕ) (W : Fin n → FDRep ℂ (Problem4_12_2.Heisenberg p)),
+      (∀ i, Simple (W i)) ∧
+      (∀ i j, Nonempty (W i ≅ W j) → i = j) ∧
+      (∀ S : FDRep ℂ (Problem4_12_2.Heisenberg p), Simple S → ∃ i, Nonempty (S ≅ W i)) ∧
+      n = p ^ 2 + (p - 1) ∧
+      (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 1)).card = p ^ 2 ∧
+      (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = p)).card = p - 1 ∧
+      (∀ i, finrank ℂ (W i : Type) = 1 → ∃ χ : Problem4_12_2.Heisenberg p →* ℂˣ,
+        Nonempty (W i ≅ FDRep.of (Etingof.Example4_3_S3.charRep χ))) ∧
+      (∀ i, finrank ℂ (W i : Type) = p → ∃ (z : ℂ) (hz : z ^ p = 1), z ≠ 1 ∧
+        Nonempty (W i ≅ FDRep.of (Problem4_12_2.rhoHom z hz))) ∧
+      (∀ χ : Problem4_12_2.Heisenberg p →* ℂˣ,
+        ∃ i, Nonempty (FDRep.of (Etingof.Example4_3_S3.charRep χ) ≅ W i)) ∧
+      (∀ (z : ℂ) (hz : z ^ p = 1), z ≠ 1 →
+        ∃ i, Nonempty (FDRep.of (Problem4_12_2.rhoHom z hz) ≅ W i)) := by
+  classical
+  obtain ⟨n, W, hSimple, hInj, hComplete, _, hn, hcard1, hcardp⟩ := heisenberg_classification' p
+  have hp1 : 1 < p := (Fact.out : p.Prime).one_lt
+  refine ⟨n, W, hSimple, hInj, hComplete, hn, hcard1, hcardp, ?_, ?_, ?_, ?_⟩
+  · -- a `1`-dimensional member cannot be an `R_z` (those have dimension `p > 1`)
+    intro i hi
+    haveI := hSimple i
+    rcases Problem4_12_2.simple_iso_charRep_or_rhoHom (W i) with ⟨χ, hχ⟩ | ⟨z, hz, _, hiso⟩
+    · exact ⟨χ, hχ⟩
+    · exfalso
+      have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hiso.some)
+      rw [hi, Problem4_12_2.finrank_rhoHom z hz] at hfr
+      omega
+  · -- a `p`-dimensional member cannot be a character (those have dimension `1 < p`)
+    intro i hi
+    haveI := hSimple i
+    rcases Problem4_12_2.simple_iso_charRep_or_rhoHom (W i) with ⟨χ, hχ⟩ | ⟨z, hz, hz1, hiso⟩
+    · exfalso
+      have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hχ.some)
+      rw [hi, show finrank ℂ (FDRep.of (Etingof.Example4_3_S3.charRep χ)) = 1 from
+        Module.finrank_self ℂ] at hfr
+      omega
+    · exact ⟨z, hz, hz1, hiso⟩
+  · -- every character occurs: it is simple, so completeness catches it
+    intro χ
+    haveI : Simple (FDRep.of (Etingof.Example4_3_S3.charRep χ)) :=
+      Etingof.Example4_3_S3.charRep_simple χ
+    exact hComplete _ inferInstance
+  · -- every `R_z` with `z ≠ 1` occurs: it is simple by Problem 4.12.2(b)
+    intro z hz hz1
+    haveI : IsSimpleModule (MonoidAlgebra ℂ (Problem4_12_2.Heisenberg p))
+        (Problem4_12_2.rhoHom z hz).asModule :=
+      (Problem4_12_2.irreducible_iff z hz (Problem4_12_2.rhoHom z hz)
+        (Problem4_12_2.rhoHom_xGen z hz) (Problem4_12_2.rhoHom_yGen z hz)).mpr hz1
+    haveI : Simple (FDRep.of (Problem4_12_2.rhoHom z hz)) :=
+      Etingof.simple_fdRepOf_of_isSimpleModule _
+    exact hComplete _ inferInstance
 
 end Etingof.Exercise5_27_2
