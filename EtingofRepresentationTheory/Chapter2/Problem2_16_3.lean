@@ -1850,7 +1850,7 @@ noncomputable def loopVec (I : LoopIdx) : Matrix (Fin 3) (Fin 3) (Polynomial k) 
   emb k I.deg (I.mat k)
 
 theorem loopVec_mem (I : LoopIdx) : loopVec k I ∈ loopPos k := by
-  show emb k I.deg (I.mat k) ∈ loopPos k
+  change emb k I.deg (I.mat k) ∈ loopPos k
   refine emb_mem_loopPos k I.deg (I.mat k) ?_ ?_ ?_
   · cases I <;> simp [LoopIdx.mat]
   · cases I with
@@ -1863,7 +1863,7 @@ theorem loopVec_mem (I : LoopIdx) : loopVec k I ∈ loopPos k := by
         simp
   · intro h
     cases I with
-    | base => simpa [LoopIdx.mat] using Submodule.mem_span_singleton_self (gzero k 0)
+    | base => simp [LoopIdx.mat, Submodule.mem_span_singleton_self]
     | odd m i => rw [LoopIdx.deg] at h; omega
     | even m i => rw [LoopIdx.deg] at h; omega
 
@@ -1901,14 +1901,11 @@ theorem loopCoord_loopVec (I J : LoopIdx) :
   · subst h
     rw [if_pos rfl, if_pos rfl]
     cases I with
-    | base => simp [LoopIdx.mat, LoopIdx.pos, gzero, Matrix.single, Matrix.sub_apply]
+    | base => simp [LoopIdx.mat, LoopIdx.pos, gzero, Matrix.single]
     | odd m i =>
-        fin_cases i <;>
-          simp [LoopIdx.mat, LoopIdx.pos, gone, Matrix.single, Matrix.add_apply,
-            Matrix.sub_apply]
+        fin_cases i <;> simp [LoopIdx.mat, LoopIdx.pos, gone, Matrix.single]
     | even m i =>
-        fin_cases i <;>
-          simp [LoopIdx.mat, LoopIdx.pos, gzero, Matrix.single, Matrix.sub_apply]
+        fin_cases i <;> simp [LoopIdx.mat, LoopIdx.pos, gzero, Matrix.single]
   · rw [if_neg h]
     by_cases hd : J.deg = I.deg
     · rw [if_pos hd]
