@@ -161,6 +161,26 @@ spot in review. Restore those (`git checkout HEAD -- <paths>`) rather than carry
 them. (2026-07-25: a worktree arrived with 169 lines of `.claude/` guidance deleted
 and nothing added.)
 
+**If your issue builds on an open PR that has not merged yet** (common when a
+planner or a decomposing worker chained sub-issues), branch off *that PR's head*,
+not `main` — you need its code to compile against. Say so explicitly:
+
+```bash
+git fetch origin
+git reset --hard origin/<pr-head-branch>   # your branch now contains the PR's commits
+```
+
+Then, at publish time:
+
+- If the predecessor PR has merged (squash), replay only *your* commits:
+  `git rebase --onto origin/main <pr-head-sha> <your-branch>`. Do **not** plain
+  `git rebase origin/main` — a squash merge is not patch-equivalent to the
+  individual commits, so git re-applies them and you get an add/add conflict.
+- If it still has not merged, publish anyway rather than stalling the session,
+  and leave a PR comment naming the predecessor PR and the exact `rebase --onto`
+  command. Do not wait more than ~15 minutes on someone else's CI; a `repair`
+  agent handles the conflict if one appears, but only if it knows the stacking.
+
 Record any project-specific quality metrics (e.g. sorry count, test coverage)
 as described in the project's CLAUDE.md.
 
