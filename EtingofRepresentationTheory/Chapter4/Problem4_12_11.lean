@@ -1501,4 +1501,148 @@ theorem hooke_law (f : EndV →ₗ[ℝ] EndV)
   exact Submodule.add_mem _ (Submodule.smul_mem symSub K (scalar_le_sym hs))
     (Submodule.smul_mem symSub μ (tracelessSym_le_sym hw))
 
+/-- **(b), the book's displayed conclusion.** For `x` in the trivial summand `ℝ·1` and `y` in
+the `5`-dimensional summand `W`, an equivariant `f` satisfies `f (x + y) = K x + μ y`. -/
+theorem hooke_law_add (f : EndV →ₗ[ℝ] EndV)
+    (hf : ∀ A : SO3, f.comp (conjRep A) = (conjRep A).comp f) :
+    ∃ K μ : ℝ, ∀ x ∈ scalarSub, ∀ y ∈ tracelessSymSub, f (x + y) = K • x + μ • y := by
+  obtain ⟨K, μ, hK, hμ, -⟩ := hooke_law f hf
+  exact ⟨K, μ, fun x hx y hy => by rw [map_add, hK x hx, hμ y hy]⟩
+
+/-! ### Part (b) on the book's exact domain `f : S²V → End(V)`
+
+The book's elasticity law is a linear map `f : S²V → End(V)`, defined only on the symmetric
+matrices, so `hooke_law` above — which assumes an equivariant self-map of `End(V)` — cannot be
+instantiated at the book's data. This section restates the conclusion on the exact domain.
+
+The route is supplied by part (a): `End(V) = S²V ⊕ Λ²V` as representations, with the
+`SO(3)`-equivariant projection `symProj : M ↦ (M + Mᵀ)/2` onto the symmetric summand. So an
+equivariant `f : S²V → End(V)` extends to `symExtend f = f ∘ symProj` on all of `End(V)`
+(equivalently: extend by `0` on the skew summand), the extension is again equivariant, and
+`hooke_law` applies to it. Restricting back gives the exact-domain statement. -/
+
+/-- The symmetric matrices `S²V` form an `SO(3)`-invariant subspace of `End(V)`. -/
+theorem conjRep_symSub_mem (A : SO3) {M : EndV} (hM : M ∈ symSub) : conjRep A M ∈ symSub := by
+  have h : Mᵀ = M := hM
+  change (conjRep A M)ᵀ = conjRep A M
+  rw [← conjRep_transpose, h]
+
+/-- `S²V` as a representation of `SO(3)`: the restriction of `conjRep` to `symSub`. -/
+def symRep : Representation ℝ SO3 symSub where
+  toFun A := (conjRep A).restrict (fun _ hM => conjRep_symSub_mem A hM)
+  map_one' := by
+    refine LinearMap.ext fun x => Subtype.ext ?_
+    simp
+  map_mul' A B := by
+    refine LinearMap.ext fun x => Subtype.ext ?_
+    simp [mul_assoc]
+
+@[simp] theorem symRep_coe_apply (A : SO3) (x : symSub) :
+    (symRep A x : EndV) = conjRep A (x : EndV) := rfl
+
+/-- The equivariance hypothesis below is satisfiable by a nonzero map: the inclusion
+`S²V ↪ End(V)` is `SO(3)`-equivariant. (It is the elasticity law with `K = μ = 1`.) -/
+theorem symSub_subtype_equivariant (A : SO3) :
+    symSub.subtype.comp (symRep A) = (conjRep A).comp symSub.subtype :=
+  LinearMap.ext fun _ => rfl
+
+/-- Projection of `End(V)` onto the symmetric summand `S²V`: `M ↦ (1/2) • (M + Mᵀ)`. -/
+def symProj : EndV →ₗ[ℝ] EndV where
+  toFun M := (1 / 2 : ℝ) • (M + Mᵀ)
+  map_add' M N := by rw [Matrix.transpose_add]; module
+  map_smul' c M := by rw [Matrix.transpose_smul]; simp only [RingHom.id_apply]; module
+
+@[simp] theorem symProj_apply (M : EndV) : symProj M = (1 / 2 : ℝ) • (M + Mᵀ) := rfl
+
+/-- `symProj M` lies in `symSub`. -/
+theorem symProj_mem (M : EndV) : symProj M ∈ symSub := by
+  rw [symProj_apply, mem_symSub_iff, Matrix.transpose_smul, Matrix.transpose_add,
+    Matrix.transpose_transpose]
+  module
+
+/-- `symProj` is `SO(3)`-equivariant. -/
+theorem symProj_equivariant (A : SO3) (M : EndV) :
+    symProj (conjRep A M) = conjRep A (symProj M) := by
+  rw [symProj_apply, symProj_apply, map_smul, map_add, conjRep_transpose]
+
+/-- `symProj` is the identity on `S²V`. -/
+theorem symProj_eq_self {M : EndV} (hM : M ∈ symSub) : symProj M = M := by
+  have h : Mᵀ = M := hM
+  rw [symProj_apply, h]
+  module
+
+/-- `symProj` viewed as a map into `S²V`. -/
+def symProjTo : EndV →ₗ[ℝ] symSub := LinearMap.codRestrict symSub symProj symProj_mem
+
+@[simp] theorem symProjTo_coe (M : EndV) : (symProjTo M : EndV) = symProj M := rfl
+
+theorem symProjTo_apply_coe (x : symSub) : symProjTo (x : EndV) = x :=
+  Subtype.ext (by rw [symProjTo_coe, symProj_eq_self x.2])
+
+theorem symProjTo_equivariant (A : SO3) (M : EndV) :
+    symProjTo (conjRep A M) = symRep A (symProjTo M) :=
+  Subtype.ext (by rw [symProjTo_coe, symRep_coe_apply, symProjTo_coe, symProj_equivariant])
+
+/-- Extension of an elasticity law `f : S²V → End(V)` to all of `End(V)`, by composing with the
+equivariant projection onto `S²V`; equivalently, extension by `0` on the skew summand `Λ²V`. -/
+def symExtend (f : symSub →ₗ[ℝ] EndV) : EndV →ₗ[ℝ] EndV := f.comp symProjTo
+
+theorem symExtend_apply_coe (f : symSub →ₗ[ℝ] EndV) (x : symSub) :
+    symExtend f (x : EndV) = f x := by
+  rw [symExtend, LinearMap.comp_apply, symProjTo_apply_coe]
+
+/-- The extension of an equivariant `f : S²V → End(V)` is equivariant on all of `End(V)`. -/
+theorem symExtend_equivariant (f : symSub →ₗ[ℝ] EndV)
+    (hf : ∀ A : SO3, f.comp (symRep A) = (conjRep A).comp f) (A : SO3) :
+    (symExtend f).comp (conjRep A) = (conjRep A).comp (symExtend f) := by
+  refine LinearMap.ext fun M => ?_
+  have hpt := LinearMap.congr_fun (hf A) (symProjTo M)
+  simp only [LinearMap.comp_apply] at hpt
+  simp only [symExtend, LinearMap.comp_apply]
+  rw [symProjTo_equivariant, hpt]
+
+/-- **(b), Hooke's law on the book's exact domain.** An `SO(3)`-equivariant linear map
+`f : S²V → End(V)` — the book's elasticity law, defined only on the deformation tensors — acts
+as the compression modulus `K` on the trivial summand `ℝ·1` and as the shearing modulus `μ` on
+the `5`-dimensional summand `W`, and takes values in the symmetric matrices, so the stress
+tensor `S_P = f (d_P)` is always symmetric. -/
+theorem hooke_law_symSub (f : symSub →ₗ[ℝ] EndV)
+    (hf : ∀ A : SO3, f.comp (symRep A) = (conjRep A).comp f) :
+    ∃ K μ : ℝ,
+      (∀ x : symSub, (x : EndV) ∈ scalarSub → f x = K • (x : EndV)) ∧
+      (∀ y : symSub, (y : EndV) ∈ tracelessSymSub → f y = μ • (y : EndV)) ∧
+      (∀ x : symSub, f x ∈ symSub) := by
+  obtain ⟨K, μ, hK, hμ, hsym⟩ := hooke_law (symExtend f) (symExtend_equivariant f hf)
+  refine ⟨K, μ, fun x hx => ?_, fun y hy => ?_, fun x => ?_⟩
+  · rw [← symExtend_apply_coe f x]; exact hK _ hx
+  · rw [← symExtend_apply_coe f y]; exact hμ _ hy
+  · rw [← symExtend_apply_coe f x]; exact hsym _ x.2
+
+/-- **(b), the book's displayed conclusion on the exact domain.** For `x ∈ ℝ·1` and `y ∈ W`,
+`f (x + y) = K x + μ y`. -/
+theorem hooke_law_symSub_add (f : symSub →ₗ[ℝ] EndV)
+    (hf : ∀ A : SO3, f.comp (symRep A) = (conjRep A).comp f) :
+    ∃ K μ : ℝ, ∀ x y : symSub, (x : EndV) ∈ scalarSub → (y : EndV) ∈ tracelessSymSub →
+      f (x + y) = K • (x : EndV) + μ • (y : EndV) := by
+  obtain ⟨K, μ, hK, hμ, -⟩ := hooke_law_symSub f hf
+  exact ⟨K, μ, fun x y hx hy => by rw [map_add, hK x hx, hμ y hy]⟩
+
+/-- **(b), the `54 = 2` statement.** Two real parameters determine the elasticity law
+completely: every deformation tensor `d ∈ S²V` splits as `d = x + y` with `x ∈ ℝ·1` and
+`y ∈ W`, and then `f d = K x + μ y`. -/
+theorem hooke_law_symSub_two_moduli (f : symSub →ₗ[ℝ] EndV)
+    (hf : ∀ A : SO3, f.comp (symRep A) = (conjRep A).comp f) :
+    ∃ K μ : ℝ, ∀ d : symSub, ∃ x ∈ scalarSub, ∃ y ∈ tracelessSymSub,
+      (d : EndV) = x + y ∧ f d = K • x + μ • y := by
+  obtain ⟨K, μ, hK, hμ, -⟩ := hooke_law_symSub f hf
+  refine ⟨K, μ, fun d => ?_⟩
+  have hd : (d : EndV) ∈ scalarSub ⊔ tracelessSymSub := by
+    rw [symSub_eq_scalar_sup_tracelessSym.1]; exact d.2
+  rw [Submodule.mem_sup] at hd
+  obtain ⟨x, hx, y, hy, hxy⟩ := hd
+  refine ⟨x, hx, y, hy, hxy.symm, ?_⟩
+  have hdxy : d = (⟨x, scalar_le_sym hx⟩ : symSub) + ⟨y, tracelessSym_le_sym hy⟩ :=
+    Subtype.ext (by simpa using hxy.symm)
+  rw [hdxy, map_add, hK _ hx, hμ _ hy]
+
 end Etingof.Problem4_12_11
