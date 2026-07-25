@@ -6969,3 +6969,67 @@ Two hazards seen while doing this:
   because plain `simp` already closed it.
 * `omega` will not close a non-arithmetic goal (`LoopIdx.base = LoopIdx.odd m i`) from
   contradictory arithmetic hypotheses. Write `exfalso; omega`.
+
+## Building a `NatTrans` into `Type`: build the `Equiv` first (representability, coyoneda, #7403)
+
+Writing a natural transformation whose *target* category is `Type u` with the obvious field
+syntax does **not** elaborate, even though the goal type is literally a function type:
+
+```lean
+-- FAILS
+def evalOne : coyoneda.obj (op (ModuleCat.of R R)) ⟶ forget (ModuleCat.{u} R) where
+  app M f := ModuleCat.Hom.hom f 1
+```
+
+```
+Type mismatch
+  fun M f ↦ f.hom 1
+has type   (M : ModuleCat R) → ModuleCat.Hom (?m M) (?m M) → ↑(?m M)
+but is expected to have type
+  (X : ModuleCat R) → (coyoneda.obj (op (ModuleCat.of R R))).obj X ⟶ (forget (ModuleCat R)).obj X
+```
+
+`X ⟶ Y` in `Type u` is `X → Y`, but Lean will not unfold `Quiver.Hom` far enough to push the
+binder type into `f` while elaborating the structure instance, so `f` gets a metavariable type and
+`f.hom` resolves against the wrong structure. Worse, the failure **cascades**: the `app` field is
+filled with `sorry`, and every later field, `simp` lemma, and `rfl` in the same declaration then
+reports its own confusing error (`(ConcreteCategory.hom (sorry () N)) …`). Do not debug those
+downstream errors — fix the first one.
+
+The clean route for a representability statement is to never write the `NatTrans` by hand:
+
+```lean
+def homEquivOne (M : ModuleCat.{u} R) : (ModuleCat.of R R ⟶ M) ≃ M :=      -- plain Equiv, no ⟶ in Type
+  ModuleCat.homEquiv.trans (LinearMap.ringLmapEquivSelf R ℕ M).toEquiv
+
+def forgetCorepresentableBy :
+    (forget (ModuleCat.{u} R)).CorepresentableBy (ModuleCat.of R R) where
+  homEquiv {M} := homEquivOne R M
+  homEquiv_comp _ _ := rfl                                                -- this *is* the naturality
+
+def forgetNatIso : coyoneda.obj (op (ModuleCat.of R R)) ≅ forget (ModuleCat.{u} R) :=
+  Functor.corepresentableByEquiv (forgetCorepresentableBy R)
+
+def evalOne : coyoneda.obj (op (ModuleCat.of R R)) ⟶ forget (ModuleCat.{u} R) := (forgetNatIso R).hom
+def smulOne : forget (ModuleCat.{u} R) ⟶ coyoneda.obj (op (ModuleCat.of R R)) := (forgetNatIso R).inv
+```
+
+The two named natural transformations come out of `.hom`/`.inv`, and their component descriptions
+(`(evalOne R).app M f = ModuleCat.Hom.hom f 1`, and the `smulOne` counterpart) are `rfl`, so you
+lose nothing by not writing them directly. The mutually-inverse lemmas are
+`(homEquivOne R M).symm_apply_apply` / `.apply_symm_apply`, and the whole-transformation versions
+are `(forgetNatIso R).hom_inv_id` / `.inv_hom_id`.
+
+Three related points:
+
+* **Co- vs. contravariant.** A book statement `F ≅ Hom(X, ?)` (covariant in the argument) is
+  Mathlib's `Functor.CorepresentableBy` for `F : C ⥤ Type v`. `Functor.RepresentableBy` is for
+  `F : Cᵒᵖ ⥤ Type v`, i.e. `F ≅ Hom(?, X)`. Picking the wrong one costs a full rewrite.
+* **Don't `ext` a goal in `(forget C).obj M` or `(coyoneda.obj X).obj M`.** `ext` reports
+  `No applicable extensionality theorem found for type (fun X ↦ X) (…)` because the functor
+  application blocks it. Go through the underlying `Equiv`/`LinearMap` instead:
+  `apply ModuleCat.hom_ext; refine LinearMap.ext fun r => ?_; simp`.
+* **`rfl` failures on `Iso`/`Equiv` equalities after a cascade are usually not real.** Several
+  `rfl`s in this file "failed" only because the sorry'd `app` above them had poisoned the terms;
+  they all closed once the first error was fixed. Re-run the build after fixing error #1 before
+  believing errors #2 onward.
