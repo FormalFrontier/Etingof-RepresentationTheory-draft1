@@ -125,16 +125,27 @@ Keep `lake build <Module>` as the final check before committing (it also catches
 `lakefile`/import-graph problems), but iterate with the `-D` form. Re-read `lakefile.toml`
 if the options list looks stale — it is the source of truth.
 
-**Beware `abbrev` carriers shared by two modules over the same ring.** In
-`Chapter9/Problem9_3_2.lean`, `Pplus` and `Pminus` are both `abbrev ... : Type := Fin 2 → ℂ`.
-Because `abbrev` is reducible, `Module A Pplus` and `Module A Pminus` are two instances on
-the *same* type, and instance resolution silently picks the last-declared one. The file only
-works because every `P₊` declaration textually precedes the `Module A Pminus` instance — so
-**new lemmas about the earlier module must be inserted before the later instance, not
-appended at the end of the file.** This also blocks forming an indexed family `P : ι → Type`
-of the two modules (needed by `Etingof.algebraCartanMatrix`); that requires giving them
-genuinely distinct carriers. If you are defining several modules over one ring with the same
-underlying type, prefer a one-field structure per module over `abbrev`.
+**Beware `abbrev` carriers shared by two modules over the same ring.** If `Pplus` and `Pminus`
+are both `abbrev ... : Type := Fin 2 → ℂ`, then because `abbrev` is reducible,
+`Module A Pplus` and `Module A Pminus` are two instances on the *same* type and instance
+resolution silently picks the last-declared one. Such a file only works while every `P₊`
+declaration textually precedes the `Module A Pminus` instance, and it cannot form an indexed
+family `P : ι → Type` of the two modules at all (needed by e.g.
+`Etingof.algebraCartanMatrix`). **Fix: semireducible `def` carriers**, one per module, each
+with its own `AddCommGroup`/`Module`/`Nontrivial`/`Module.Finite` instances via
+`inferInstanceAs`. `Chapter9/Problem9_3_2.lean` was converted this way in 2026-07 (#7704) and
+is the worked example: declaration order no longer matters there, and new lemmas are appended
+at the end of the file like anywhere else. If you are defining several modules over one ring
+with the same underlying type, never use `abbrev`.
+
+Budget for the fallout, which is the same in any such conversion (see also the `Cyc n k` entry
+below): Mathlib's `Pi.add_apply`/`Pi.smul_apply` and friends stop firing (`simp` matches only
+up to *reducible* transparency), so add a small coordinate API of `rfl` lemmas and an `@[ext]`
+lemma; `funext` and `convert … using 1` fail on goals at the new carrier; a type *ascription*
+`(![1, 0] : Pplus)` does not stick, so name the generators instead. **And numeral/instance
+classes do not transfer either** — for `def Splus : Type := ℂ`, `one_ne_zero` fails to
+synthesize `One Splus` even when the hypothesis is literally `(1 : ℂ) = 0`. Pass the type
+explicitly: `exact one_ne_zero (α := ℂ) h`.
 
 **The phantom-parameter type synonym is the cheaper fix, and the vacuity trap is worse than
 the shadowing one.** A plain (semireducible) `def` with the distinguishing data as unused
@@ -1174,6 +1185,43 @@ operators, `Fin p → k` modules):
   — these goals are additive-group identities and `abel` closes them.
 - `push_cast` does not normalise `((t + 1 : ℕ) : Fin n)`; rewrite with `Nat.cast_add_one` first,
   then `abel`.
+- For a longer cast such as `((a + b + 1 : ℕ) : Fin n) = (a : Fin n) + (b : Fin n) + 1`, neither
+  `push_cast; ring` nor `push_cast; abel` closes the goal (`push_cast` also tries to expand any
+  `ℕ`-subtraction hiding in `a` or `b`). Chain the cast lemmas explicitly instead:
+  `rw [Nat.cast_add, Nat.cast_add, Nat.cast_one]`. Worked example: `Ylin_zero_pow_max` in
+  `Chapter2/Problem2_7_4_Family.lean` (#7707).
+
+### `Nat.factorial` postfix notation does not parse inside a type ascription
+
+`n !` is fine on its own, but `((m : ℕ)! : k)` fails with `unexpected token '!'; expected ')',
+',' or ':'`. Inside an ascription (and inside `have h : p ∣ (m : ℕ)!`), write
+`Nat.factorial (m : ℕ)`. The cast-to-`k` form is then `(Nat.factorial (m : ℕ) : k)`, and
+`Finset.prod_range_add_one_eq_factorial : ∏ i ∈ range n, (i + 1) = n !` rewrites it after a
+`← Nat.cast_prod`. Nonvanishing in characteristic `p` is
+`Nat.Prime.dvd_factorial : p.Prime → (p ∣ n ! ↔ p ≤ n)` composed with
+`CharP.cast_eq_zero_iff`.
+
+### `Pi.single` needs its function type pinned when the context does not fix it
+
+`Pi.single`'s family argument `f : I → Type v` stays a metavariable unless the surrounding
+expression determines it, and the failure is reported on the *value*: `application type
+mismatch: the argument 1 has type k but is expected to have type ?m 0`. It bites in `have`
+statements and in equalities where both sides are `Pi.single` applications. Fix by ascribing the
+function, `(Pi.single j (1 : k) : Fin p → k)`; the ascription is erased, so later `rw`s still
+match. Where only an evaluation is needed, `simp [Pi.single_apply, h]` with `h` the relevant
+index disequality avoids the problem entirely.
+
+### `rw [smul_assoc]` / `rw [mul_smul]` match the scalar field's multiplication first
+
+In a proof mixing a base-field scalar and a ring element, e.g.
+`((s⁻¹ * z j) • (x ^ i * y ^ m)) • f`, a bare `rw [smul_assoc]` splits the *field* product
+`s⁻¹ * z j` (via `smul_eq_mul`) rather than the intended module action, and the following
+`rw [mul_smul]` then compounds the mismatch. State each step as a `have` with all arguments
+spelled out (`smul_assoc _ _ _`, `mul_smul _ _ _`, `smul_comm _ _ _`) and rewrite with those.
+Note also that moving a base-field scalar past the ring action needs
+`SMulCommClass k A M` in scope; for a module built by `Module.compHom` from a `k`-algebra map it
+is one line, since each `famRep a` is `k`-linear. Worked example: `famModule_isSimpleModule` in
+`Chapter2/Problem2_7_4_Family.lean` (#7707).
 
 ### Greek-capital notation chars (`Π`, `Σ`, `λ`) can't be identifiers
 
@@ -3647,6 +3695,32 @@ For character identities involving the regular representation (e.g., χ_reg(g) =
 - Conclude the trace (= character value) is zero
 
 This is more concrete than abstract character theory and avoids FDRep entirely.
+
+### Never pass `Matrix.single` to `simp`; prove one transport lemma instead (Ch2 #7717, `Problem2_16_3.lean`)
+
+Two traps when computing with explicit small matrices built from `Matrix.single i j c`.
+
+**1. Do not put `Matrix.single` in the simp set.** It unfolds to
+`of fun i' j' => if i = i' ∧ j = j' then c else 0`, and simp then rewrites diagonal sums such as
+`Matrix.trace` into `↑{x | 0 = x ∧ 1 = x}.card`-shaped goals it cannot close. Left folded, the
+existing `@[simp] Matrix.single_apply_same` / `Matrix.single_apply_of_ne` fire and simp's
+discharger settles the `Fin` side conditions by `decide`. Symptom of the mistake: a residual goal
+mentioning `Finset.card` of a set-builder where you expected `0 = 0`.
+
+**2. Transport the operator across `single` once, rather than `ext`-ing every entry.** For an
+entrywise operator (transpose-like involutions, conjugations, `σ(A)ᵢⱼ = -A_{rev j, rev i}`), the
+naive `fin_cases i <;> (ext a b; fin_cases a <;> fin_cases b <;> simp [...])` over five 3×3
+matrices hits the `whnf` heartbeat limit. Prove `op (single i j c) = ±single (f i) (g j) c` once,
+mark it plus the structural lemmas (`op_add`, `op_sub`, `op_neg`, `op_smul`) `@[simp]`, and each
+subsequent check collapses to `simp [myFamily] <;> abel`.
+
+Two smaller companions:
+
+* Write scalar multiples **inside** `single` — `Matrix.single 1 1 (2 : k)`, not
+  `(2 : k) • Matrix.single 1 1 1`. simp normalizes the two differently, and in the smul form your
+  `op_smul` lemma silently fails to fire (reported by the linter as an unused simp argument).
+* `ext a b` on an equality of *polynomial* matrices applies `Polynomial.ext` as well, leaving a
+  `coeff n✝` goal. Write `ext a b n`; a follow-up `apply Polynomial.ext` fails to unify.
 
 ### Jacobson Radical for Injectivity
 

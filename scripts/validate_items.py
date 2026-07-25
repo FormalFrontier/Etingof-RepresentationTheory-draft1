@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """Validate items.json for Stage 1.5 contiguity: every line of every page
-belongs to exactly one blob, with no gaps and no overlaps."""
+belongs to exactly one blob, with no gaps and no overlaps.
+
+`derived` items (PLAN Stage 1.6) are an overlay on that partition rather than
+members of it: they record a formalizable claim found inside an existing blob,
+are keyed by `derived_from` instead of `id`, carry no line span, and are
+skipped by the contiguity check."""
 
 import json
 import sys
@@ -17,6 +22,12 @@ VALID_TYPES = {
     "discussion", "introduction", "preface", "notation",
     "bibliography", "index",
 }
+
+# Derived items (PLAN Stage 1.6) are an overlay on the text partition, not
+# members of it: they record a formalizable claim found *inside* an existing
+# blob, so they carry no line span and are skipped by the contiguity check.
+DERIVED_TYPE = "derived"
+DERIVED_REQUIRED_FIELDS = {"type", "derived_from", "source_span", "claim", "status"}
 
 # Files in pages/ that are not actual page content
 EXCLUDED_FILES = {"CONVENTIONS.md"}
@@ -156,10 +167,40 @@ def validate(items_path):
     required_fields = {"id", "type", "title", "start_page", "end_page", "start_line", "end_line"}
     seen_ids = set()
 
+    # Every partition id, collected up front so derived items can be checked
+    # against parents that appear later in the array.
+    partition_ids = {
+        item["id"] for item in items
+        if isinstance(item, dict) and "id" in item
+    }
+    derived_count = 0
+
     for i, item in enumerate(items):
         prefix = f"Item [{i}]"
         if not isinstance(item, dict):
             errors.append(f"{prefix}: not an object")
+            continue
+
+        # Derived items are keyed by `derived_from` rather than `id` and carry
+        # no line span, so they get their own required-field set.
+        if item.get("type") == DERIVED_TYPE:
+            derived_count += 1
+            parent = item.get("derived_from", f"<index {i}>")
+            prefix = f"Derived item '{parent}'"
+
+            missing = DERIVED_REQUIRED_FIELDS - set(item.keys())
+            if missing:
+                errors.append(f"{prefix}: missing fields: {missing}")
+                continue
+
+            extra = set(item.keys()) - DERIVED_REQUIRED_FIELDS
+            if extra:
+                warnings.append(f"{prefix}: unexpected fields: {extra}")
+
+            if parent not in partition_ids:
+                errors.append(
+                    f"{prefix}: derived_from '{parent}' does not name any item"
+                )
             continue
 
         item_id = item.get("id", f"<index {i}>")
@@ -191,11 +232,13 @@ def validate(items_path):
         if not isinstance(item["end_line"], int):
             errors.append(f"{prefix}: end_line must be integer, got {type(item['end_line']).__name__}")
 
-    # --- Contiguity check ---
+    # --- Contiguity check (partition items only; derived items are an overlay) ---
     # Build complete coverage map: (page, line) -> item_id
     coverage = {}
     for item in items:
         if not isinstance(item, dict) or "id" not in item:
+            continue
+        if item.get("type") == DERIVED_TYPE:
             continue
         item_id = item["id"]
         covered, item_errors = expand_item_lines(item, page_order)
@@ -213,7 +256,7 @@ def validate(items_path):
     # --- Gap check: every line of every page file must be covered ---
     pages_referenced = set()
     for item in items:
-        if not isinstance(item, dict):
+        if not isinstance(item, dict) or item.get("type") == DERIVED_TYPE:
             continue
         sp = item.get("start_page")
         ep = item.get("end_page")
@@ -272,7 +315,10 @@ def validate(items_path):
         for p in page_order if p in page_files
     )
     print(f"\nCoverage: {len(coverage)}/{total_lines} lines across {len(page_files)} pages")
-    print(f"Items: {len(items)} blobs, {len(seen_ids)} unique IDs")
+    print(
+        f"Items: {len(items) - derived_count} blobs, {len(seen_ids)} unique IDs, "
+        f"{derived_count} derived overlay items"
+    )
     print("VALIDATION PASSED")
     return 0
 
