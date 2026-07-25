@@ -22,12 +22,15 @@ enough, the family has to be natural. So the endpoint here is a natural isomorph
 
 `coyoneda.obj (op (ModuleCat.of R R)) ≅ forget (ModuleCat R)`,
 
-built from the two mutually inverse natural transformations the book names: evaluation at
-`1` (`Etingof.Example753.evalOne`) and multiplication of `1`'s image
+built from two mutually inverse natural transformations: evaluation at `1`
+(`Etingof.Example753.evalOne`) and multiplication into a chosen element
 (`Etingof.Example753.smulOne`, `m ↦ (r ↦ r • m)`). Objectwise this is the core equivalence
 `Hom_R(R, M) ≃ M`, which is `LinearMap.ringLmapEquivSelf` in Mathlib
-(`Etingof.forgetful_representable`); `Etingof.Example753.forgetCorepresentableBy_homEquiv_apply`
+(`Etingof.forgetful_representable`); `Etingof.Example753.forgetCorepresentableBy_homEquiv_eq`
 records that the natural isomorphism's components are exactly that equivalence.
+
+Lemma 7.5.1 then pins the representing object down: `Etingof.Example753.uniqueUpToIso` turns
+any other corepresenting module into an isomorphism with the regular module `R`.
 
 The book's `F ≅ Hom(X, ?)` is *covariant* in the argument, so the Mathlib API it lands in is
 `CategoryTheory.Functor.CorepresentableBy` (representability of a `C ⥤ Type` functor by an
