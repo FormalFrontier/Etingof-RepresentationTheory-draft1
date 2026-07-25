@@ -1,6 +1,7 @@
 import Mathlib.CategoryTheory.Abelian.LeftDerived
 import Mathlib.CategoryTheory.Limits.Preserves.Shapes.Biproducts
 import Mathlib.Algebra.Category.ModuleCat.Biproducts
+import Mathlib.Algebra.Category.Grp.Biproducts
 import Mathlib.Algebra.Homology.DerivedCategory.Ext.Basic
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import EtingofRepresentationTheory.Chapter8.Definition8_2_4
@@ -245,5 +246,51 @@ noncomputable def torProdIso (n : ℕ) :
         LinearMap.fst_comp_inr, LinearMap.snd_comp_inr]
 
 end SecondArgument
+
+/-! ### `Tor` commutes with finite direct sums in its second argument
+
+The finite-index form of `Etingof.torProdIso`. The direct sum of a finite family of `A`-modules is
+realised as the product type `∀ i, N i`, whose projections and inclusions satisfy
+`∑ i, (single i) ∘ (proj i) = id` and `(proj j) ∘ (single i) = if i = j then id else 0`; these are
+exactly the two identities the biproduct `⨁ i, Torₙᴬ(M, N i)` needs. -/
+
+section FiniteSecondArgument
+
+variable {ι : Type} [Fintype ι] [DecidableEq ι]
+variable (N : ι → Type u) [∀ i, AddCommGroup (N i)] [∀ i, Module A (N i)]
+
+/-- **`Tor` commutes with finite direct sums in its second argument.**
+`Torₙᴬ(M, ⨁ i, N i) ≅ ⨁ i, Torₙᴬ(M, N i)` for a finite index type, with the isomorphism given by
+the maps induced by the projections `LinearMap.proj i` and the inclusions `LinearMap.single A N i`
+of `∀ i, N i`. -/
+noncomputable def torPiIso (M : ModuleCat.{u} Aᵐᵒᵖ) (n : ℕ) :
+    Tor.{u} A (∀ i, N i) M n ≅ ⨁ fun i => Tor.{u} A (N i) M n where
+  hom := biproduct.lift fun i => torSndMap A (LinearMap.proj i) n M
+  inv := biproduct.desc fun i => torSndMap A (LinearMap.single A N i) n M
+  hom_inv_id := by
+    rw [biproduct.lift_desc]
+    have h : ∀ i : ι,
+        torSndMap A (LinearMap.proj (R := A) (φ := N) i) n M ≫
+            torSndMap A (LinearMap.single A N i) n M
+          = torSndAddHom M n ((LinearMap.single A N i).comp (LinearMap.proj i)) :=
+      fun i => (torSndMap_comp M _ _ n).symm
+    simp_rw [h]
+    rw [← map_sum (torSndAddHom M n),
+      show ∑ i : ι, (LinearMap.single A N i).comp (LinearMap.proj i) = LinearMap.id from
+        LinearMap.ext fun x => by
+          simp only [LinearMap.sum_apply, LinearMap.comp_apply, LinearMap.proj_apply,
+            LinearMap.coe_single, LinearMap.id_apply]
+          exact Finset.univ_sum_single x]
+    exact torSndMap_id A (∀ i, N i) n M
+  inv_hom_id := by
+    refine biproduct.hom_ext' _ _ fun i => biproduct.hom_ext _ _ fun j => ?_
+    rw [biproduct.ι_desc_assoc, Category.assoc, biproduct.lift_π, ← torSndMap_comp,
+      Category.comp_id]
+    rcases eq_or_ne i j with rfl | hij
+    · rw [LinearMap.proj_comp_single_same, biproduct.ι_π_self, torSndMap_id]
+    · rw [LinearMap.proj_comp_single_ne A N j i hij.symm, torSndMap_zero,
+        biproduct.ι_π_ne _ hij]
+
+end FiniteSecondArgument
 
 end Etingof
