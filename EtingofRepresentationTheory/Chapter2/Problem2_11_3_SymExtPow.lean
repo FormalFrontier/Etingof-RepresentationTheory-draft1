@@ -38,6 +38,9 @@ stated about the book's own objects.
 * `exteriorPowerEquiv` : away from characteristic 2 that map is an isomorphism, so the book's
   quotient model agrees with Mathlib's exterior power. Transporting Mathlib's basis and dimension
   along it gives `extPowBasis` and `finrank_extPow`, which are the exterior half of part (d).
+* `extPowMap_top` : part (g), `⋀^N A = det(A) • Id` in the top degree `N = dim V`, on the book's
+  own `ExtPow`. Its Mathlib-side counterpart is `exteriorPower_map_top`, and `det_comp_of_extPowMap`
+  runs the book's one-line derivation of `det(A ∘ B) = det(A) det(B)` from it.
 
 Still open, tracked as separate items:
 
@@ -46,9 +49,7 @@ Still open, tracked as separate items:
   this has to be built here;
 * part (e), the characteristic-zero identification of `S^n V` and `⋀^n V` with the symmetric and
   antisymmetric *subspaces* of `V^{⊗ n}`;
-* the trace formulas of part (f), `Tr(S^n A)` and `Tr(⋀^n A)` in terms of the eigenvalues of `A`;
-* part (g), `⋀^N A = det(A) • id` proved from the exterior-power construction. (The determinant
-  multiplicativity it is meant to yield is already available as `Problem2_11_3.det_comp`.)
+* the trace formulas of part (f), `Tr(S^n A)` and `Tr(⋀^n A)` in terms of the eigenvalues of `A`.
 -/
 
 namespace Etingof.Problem2_11_3
@@ -390,5 +391,88 @@ theorem finrank_extPow (h2 : (2 : k) ≠ 0) [Module.Finite k V] (n : ℕ) :
   rw [← (exteriorPowerEquiv (V := V) h2 n).finrank_eq, exteriorPower.finrank_eq]
 
 end CharNeTwo
+
+section TopDegree
+
+variable {k : Type*} [Field k] {V : Type*} [AddCommGroup V] [Module k V]
+
+/-- **The determinant appears in top degree.** If `dim V = N`, then feeding `A : V → V` into every
+argument of the canonical alternating map `V^N → ⋀[k]^N V` multiplies the value by `det A`.
+
+This is the computational content of part (g). The top exterior power is one-dimensional, so
+pairing against the determinant of any basis is *injective*, and `Module.Basis.det_comp` supplies
+the determinant on the other side. -/
+theorem exteriorPower_ιMulti_comp [FiniteDimensional k V] {N : ℕ} (hN : Module.finrank k V = N)
+    (A : V →ₗ[k] V) (f : Fin N → V) :
+    exteriorPower.ιMulti k N (fun i => A (f i))
+      = LinearMap.det A • exteriorPower.ιMulti k N f := by
+  classical
+  set b := Module.finBasisOfFinrankEq k V hN with hb
+  haveI : FiniteDimensional k (⋀[k]^N V) := Module.Finite.of_basis (b.exteriorPower N)
+  -- `D` pairs the top exterior power against the determinant in the basis `b`.
+  set D : ⋀[k]^N V →ₗ[k] k := exteriorPower.alternatingMapLinearEquiv b.det with hD
+  have hDsurj : Function.Surjective D := by
+    intro c
+    exact ⟨c • exteriorPower.ιMulti k N b, by simp [hD, Module.Basis.det_self]⟩
+  have hrank : Module.finrank k (⋀[k]^N V) = Module.finrank k k := by
+    rw [exteriorPower.finrank_eq, hN, Nat.choose_self, Module.finrank_self]
+  have hDinj : Function.Injective D :=
+    (LinearMap.injective_iff_surjective_of_finrank_eq_finrank hrank).mpr hDsurj
+  apply hDinj
+  rw [map_smul, hD]
+  simp only [exteriorPower.alternatingMapLinearEquiv_apply_ιMulti, smul_eq_mul]
+  exact Module.Basis.det_comp b A f
+
+/-- **Problem 2.11.3(g)** for Mathlib's exterior power: in the top degree `N = dim V`, the operator
+`⋀^N A` is multiplication by `det A`. -/
+theorem exteriorPower_map_top [FiniteDimensional k V] {N : ℕ} (hN : Module.finrank k V = N)
+    (A : V →ₗ[k] V) :
+    exteriorPower.map N A = LinearMap.det A • (LinearMap.id : ⋀[k]^N V →ₗ[k] ⋀[k]^N V) := by
+  refine LinearMap.ext_on (exteriorPower.ιMulti_span k N V) ?_
+  rintro _ ⟨f, rfl⟩
+  rw [exteriorPower.map_apply_ιMulti]
+  simpa [Function.comp_def] using exteriorPower_ιMulti_comp hN A f
+
+/-- **Problem 2.11.3(g).** `⋀^N A = det(A) • Id` on Etingof's own top exterior power `ExtPow k V N`.
+
+No hypothesis on the characteristic is needed: the comparison map `extPowOfExteriorPower` onto the
+book's quotient is surjective for every commutative ring, and it intertwines `exteriorPower.map`
+with `extPowMap`, so the identity descends from `exteriorPower_map_top` regardless of whether the
+comparison map is injective. -/
+theorem extPowMap_top [FiniteDimensional k V] {N : ℕ} (hN : Module.finrank k V = N)
+    (A : V →ₗ[k] V) :
+    extPowMap A N = LinearMap.det A • (LinearMap.id : ExtPow k V N →ₗ[k] ExtPow k V N) := by
+  refine LinearMap.ext fun x => ?_
+  obtain ⟨y, rfl⟩ := extPowOfExteriorPower_surjective (k := k) (V := V) N x
+  have h := LinearMap.congr_fun (extPowOfExteriorPower_naturality A N) y
+  rw [LinearMap.comp_apply, LinearMap.comp_apply] at h
+  rw [h, exteriorPower_map_top hN A]
+  simp
+
+/-- **Problem 2.11.3(g), the book's one-line proof that the determinant is multiplicative.**
+
+`⋀^N` is functorial, so `⋀^N (A ∘ B) = ⋀^N A ∘ ⋀^N B`; by `extPowMap_top` the three sides are
+multiplication by `det (A ∘ B)`, `det A` and `det B` on the *one-dimensional* space `⋀^N V`, and
+comparing scalars gives the result.
+
+This is the argument Etingof asks for, on the book's own model of `⋀^N V`. Away from
+characteristic 2 that model is one-dimensional in top degree (`finrank_extPow`), which is where the
+hypothesis `h2` is used; the statement itself holds over any field, and is recorded unconditionally
+as `Etingof.Problem2_11_3.det_comp` (proved there by citing `LinearMap.det_comp` instead). -/
+theorem det_comp_of_extPowMap (h2 : (2 : k) ≠ 0) [FiniteDimensional k V] {N : ℕ}
+    (hN : Module.finrank k V = N) (A B : V →ₗ[k] V) :
+    LinearMap.det (A ∘ₗ B) = LinearMap.det A * LinearMap.det B := by
+  have hrank : Module.finrank k (ExtPow k V N) = 1 := by
+    rw [finrank_extPow h2 N, hN, Nat.choose_self]
+  haveI : Nontrivial (ExtPow k V N) :=
+    Module.nontrivial_of_finrank_pos (R := k) (by rw [hrank]; norm_num)
+  obtain ⟨x, hx⟩ := exists_ne (0 : ExtPow k V N)
+  have h := extPowMap_comp A B N
+  rw [extPowMap_top hN (A ∘ₗ B), extPowMap_top hN A, extPowMap_top hN B] at h
+  have hx' := LinearMap.congr_fun h x
+  simp only [LinearMap.smul_apply, LinearMap.id_apply, LinearMap.comp_apply, smul_smul] at hx'
+  exact smul_left_injective k hx hx'
+
+end TopDegree
 
 end Etingof.Problem2_11_3
