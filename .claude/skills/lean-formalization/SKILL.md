@@ -1281,6 +1281,23 @@ is one line, since each `famRep a` is `k`-linear. Worked example: `famModule_isS
 
 Greek *lowercase* (`σ`, `τ`, `π`) work fine as identifiers, but the capitals `Π`/`Σ` are reserved notation (Pi/Sigma types), so `set Π := …`, `let Σ := …`, or even embedding them in a name like `hΠ`/`hΣ` fails to tokenize (`unexpected token 'Π'; expected '_' or identifier`, sometimes cascading into confusing downstream parse errors). Use ASCII names for permutation/projection matrices etc. (`PL`, `PR`, `permMat`), and `hperm…` not `hΠ`. Cost two build cycles in #6807.
 
+### `omit [inst] in` goes *before* the docstring, not between it and the declaration
+
+The `unusedSectionVars` linter's suggested fix is `omit [IsAlgClosed k] in theorem …`, which is
+easy to paste directly above the `theorem`/`lemma` line — but if the declaration has a `/-- … -/`
+docstring, that puts `omit` *between* the docstring and the declaration and is a parse error:
+`unexpected token 'omit'; expected 'lemma'`, reported at a column that points nowhere useful. The
+`omit … in` must come **before** the docstring:
+
+```lean
+omit [IsAlgClosed k] [CharZero k] in
+/-- Doc comment. -/
+lemma foo : … := …
+```
+
+(Cost one build cycle in #7807; the existing `omit` sites in `Chapter5/Remark5_23_3.lean` show the
+right placement.)
+
 ### `open MvPolynomial` inside `namespace Etingof` opens the wrong namespace
 
 Several Ch5 files declare `namespace MvPolynomial` *inside* `namespace Etingof`
@@ -1352,6 +1369,49 @@ theorem lie_smul_cg (x : sl2) (c : ℂ) (m : (Fin (lam+1) → ℂ) ⊗[ℂ] (Fin
     ⁅x, c • m⁆ = c • ⁅x, m⁆ := lie_smul c x m
 ```
 Now `lie_smul_cg`'s statement `c • m` elaborates with the *same* `TensorProduct.instSMul` the goals use (concrete carrier ⇒ same instance search), so `rw [lie_smul_cg]` fires; the body still typechecks because `lie_smul` proves it up to defeq. This pattern generalizes to any `Module`-keyed rewrite (`map_smul`, `smul_comm`, …) that stalls on a concrete-tensor goal. It is a recurring cause of "no longer elaborates" regressions across the tensor-product/Lie-module files after a Mathlib bump.
+
+### A `def`-wrapped carrier (`AlgIrrepGL`) re-declares its `Module` instance — submodule-level lemmas won't `rw` into it (#7807, Chapter 5)
+
+Chapter 5 defines `AlgIrrepGL n lam k : Type _ := ↥(SchurModuleSubmodule k n lam.toNatWeight)` as a
+plain `def`, then re-declares `AlgIrrepGL.addCommGroup`/`AlgIrrepGL.module` as
+`show Module k ↥(SchurModuleSubmodule …) from inferInstance`. Those are *defeq* to the submodule's
+own instances but are different instance terms, so a lemma stated over
+`SchurModuleSubmodule k n a` will **not** `rw` into a goal whose carrier is `AlgIrrepGL n lam k`.
+The error is an application type mismatch showing two `@Representation k (GL (Fin n) k) …` types
+that differ only in their `AddCommMonoid`/`Module` arguments, plus a "target expression is not
+type-correct under the `instances` transparency level" note.
+
+**Fix: `change` the goal onto the submodule carrier, rewrite there, and let defeq carry it back.**
+Keep the lemma's *statement* at the `AlgIrrepGL` type (that is where callers use it) and open the
+proof with a `change` that ascribes the vector, e.g.
+
+```lean
+lemma algIrrepGLRepρ_scalarGL (lam : DominantWeight n) (s : kˣ) (v : AlgIrrepGL n lam k) :
+    algIrrepGLRepρ n lam k (scalarGL k n s) v = ((s ^ lam.total : kˣ) : k) • v := by
+  change (… : k) • schurModuleRep k n lam.toNatWeight (scalarGL k n s)
+      (v : SchurModuleSubmodule k n lam.toNatWeight)
+    = ((s ^ lam.total : kˣ) : k) • (v : SchurModuleSubmodule k n lam.toNatWeight)
+  rw [schurModuleRep_scalarGL, …]
+```
+
+This is the same phenomenon as the `lie_smul`/`TensorProduct.instSMul` entry above — defeq
+instances, syntactic `rw` — and the same fix shape as `restrict_coe_apply` threading in the
+`Subrepresentation` bullet. It is *not* fixed by the file's `backward.isDefEq.respectTransparency
+false` option, which helps elaboration but not discrimination-tree matching.
+
+**Companion trap in the same family:** `Representation.IntertwiningMap.isIntertwining` takes `ρ`
+and `σ` as **explicit** arguments, so `E.isIntertwining g v` on a `Representation.Equiv` fails
+with `↑E has type (slRestrict …).IntertwiningMap … but is expected to have type
+Representation.IntertwiningMap ?m ?m`. The `∘ₗ` form `E.isIntertwining' g` *does* work with dot
+notation. Wrap it once and phrase everything downstream on `E.toLinearEquiv`, which is also the
+form `Representation.asModuleEquivOfIntertwiner` consumes:
+
+```lean
+private lemma equiv_apply_rho {ρ : Representation k G V} {σ : Representation k G W}
+    (E : Representation.Equiv ρ σ) (g : G) (v : V) :
+    E.toLinearEquiv (ρ g v) = σ g (E.toLinearEquiv v) :=
+  LinearMap.ext_iff.mp (E.isIntertwining' g) v
+```
 
 ### An `∃ Q : Quiver (Fin n), …` binder becomes a stray local instance and pins `ρ.obj` to the wrong quiver (#7436, Chapter 6 quiver reps)
 
