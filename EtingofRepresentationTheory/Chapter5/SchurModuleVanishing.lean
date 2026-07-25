@@ -175,4 +175,124 @@ theorem weightToPartition_partWeight (N : ℕ) {n : ℕ} (la : Nat.Partition n)
   rw [h₁, h₂, List.append_nil]
   exact Multiset.sort_eq la.parts (· ≥ ·)
 
+/-! ### The vanishing branch: too few colours to fill the first column -/
+
+/-- A permutation reindexes the standard tensor basis: `σ · b_f = b_{f ∘ σ⁻¹}`.
+(Public restatement of the `private` `symGroupAction_tensorStdBasis`.) -/
+theorem symGroupAction_tensorStdBasis' (N n : ℕ) (σ : Equiv.Perm (Fin n))
+    (f : Fin n → Fin N) :
+    (symGroupAction k (Fin N → k) n σ) (tensorStdBasis k N n f) =
+      tensorStdBasis k N n (f ∘ σ.symm) := by
+  simp only [tensorStdBasis, _root_.Basis.piTensorProduct_apply, symGroupAction,
+    PiTensorProduct.reindex_tprod, Function.comp, Pi.basisFun_apply]
+
+/-- The column antisymmetrizer on a standard tensor basis vector is the signed sum over
+the column subgroup of the reindexed basis vectors. -/
+theorem colAntiEnd_apply_tensorStdBasis (N : ℕ) {n : ℕ} (la : Nat.Partition n)
+    (f : Fin n → Fin N) :
+    haveI : DecidablePred (· ∈ ColumnSubgroup n la) := Classical.decPred _
+    colAntiEnd k N la (tensorStdBasis k N n f) =
+      ∑ g : (ColumnSubgroup n la),
+        ((↑(Equiv.Perm.sign g.val) : ℤ) : k) • tensorStdBasis k N n (f ∘ g.val.symm) := by
+  haveI : DecidablePred (· ∈ ColumnSubgroup n la) := Classical.decPred _
+  rw [colAntiEnd, map_sum, LinearMap.sum_apply]
+  refine Finset.sum_congr rfl fun g _ => ?_
+  rw [map_smul, LinearMap.smul_apply]
+  congr 1
+  change (symGroupAlgHom k (Fin N → k) n (MonoidAlgebra.single g.val 1))
+      (tensorStdBasis k N n f) = _
+  rw [symGroupAlgHom, MonoidAlgebra.lift_single, one_smul]
+  exact symGroupAction_tensorStdBasis' k N n g.val f
+
+/-- **Pigeonhole on the first column.** The first column of the Young diagram of `la`
+contains one cell in each of its `p = card la.parts` rows. If a colouring
+`f : Fin n → Fin N` has fewer than `p` colours available, two distinct first-column
+positions must receive the same colour. -/
+theorem exists_first_column_collision (N : ℕ) {n : ℕ} (la : Nat.Partition n)
+    (hN : N < Multiset.card la.parts) (f : Fin n → Fin N) :
+    ∃ i j : Fin n, i ≠ j ∧
+      colOfPos la.sortedParts i.val = colOfPos la.sortedParts j.val ∧ f i = f j := by
+  classical
+  have hlsum : la.sortedParts.sum = n := by
+    have h := Multiset.sort_eq la.parts (· ≥ ·)
+    have hcoe : (la.sortedParts : Multiset ℕ).sum = la.parts.sum := congrArg Multiset.sum h
+    rw [Multiset.sum_coe] at hcoe
+    rw [hcoe, la.parts_sum]
+  -- Every row `r` contributes a cell in column `0`.
+  have hcell : ∀ r : Fin la.sortedParts.length,
+      ∃ m, m < la.sortedParts.sum ∧ rowOfPos la.sortedParts m = r.val ∧
+        colOfPos la.sortedParts m = 0 := by
+    intro r
+    refine exists_pos_of_cell la.sortedParts r.val 0 ?_
+    rw [List.getD_eq_getElem _ _ r.isLt]
+    exact la.parts_pos ((Multiset.mem_sort _).mp (List.getElem_mem r.isLt))
+  choose F hFlt hFrow hFcol using hcell
+  set G : Fin la.sortedParts.length → Fin n :=
+    fun r => ⟨F r, by rw [← hlsum]; exact hFlt r⟩ with hG
+  have hcard : Fintype.card (Fin N) < Fintype.card (Fin la.sortedParts.length) := by
+    rw [Fintype.card_fin, Fintype.card_fin, sortedParts_length]
+    exact hN
+  obtain ⟨r, s, hrs, hfg⟩ := Fintype.exists_ne_map_eq_of_card_lt (fun r => f (G r)) hcard
+  refine ⟨G r, G s, fun h => hrs ?_, ?_, hfg⟩
+  · have hval : F r = F s := congrArg Fin.val h
+    exact Fin.ext (by rw [← hFrow r, ← hFrow s, hval])
+  · change colOfPos la.sortedParts (F r) = colOfPos la.sortedParts (F s)
+    rw [hFcol r, hFcol s]
+
+variable [CharZero k]
+
+/-- **The column antisymmetrizer annihilates `(k^N)^{⊗n}` when `N < p`.**
+
+Fix a standard basis vector `b_f`. Pigeonhole gives two first-column cells `i ≠ j`
+with `f i = f j`, so `τ = (i j)` lies in the column subgroup `Q_λ`. Right translation
+by `τ` is an involution of `Q_λ` that flips the sign and fixes `f ∘ σ⁻¹`, so the signed
+sum equals its own negative. -/
+theorem colAntiEnd_eq_zero (N : ℕ) {n : ℕ} (la : Nat.Partition n)
+    (hN : N < Multiset.card la.parts) : colAntiEnd k N la = 0 := by
+  classical
+  refine Module.Basis.ext (tensorStdBasis k N n) fun f => ?_
+  rw [LinearMap.zero_apply, colAntiEnd_apply_tensorStdBasis]
+  obtain ⟨i, j, hij, hcol, hf⟩ := exists_first_column_collision N la hN f
+  set τ : Equiv.Perm (Fin n) := Equiv.swap i j with hτdef
+  have hτmem : τ ∈ ColumnSubgroup n la := swap_mem_ColumnSubgroup hcol
+  -- `f` is invariant under `τ`, since `τ` only swaps two equally-coloured positions.
+  have hfτ : ∀ x, f (τ.symm x) = f x := by
+    intro x
+    rw [hτdef, Equiv.symm_swap]
+    rcases eq_or_ne x i with rfl | hx
+    · rw [Equiv.swap_apply_left]; exact hf.symm
+    · rcases eq_or_ne x j with rfl | hx'
+      · rw [Equiv.swap_apply_right]; exact hf
+      · rw [Equiv.swap_apply_of_ne_of_ne hx hx']
+  set S := ∑ g : (ColumnSubgroup n la),
+    ((↑(Equiv.Perm.sign g.val) : ℤ) : k) • tensorStdBasis k N n (f ∘ g.val.symm) with hS
+  -- Right translation by `τ` negates every summand.
+  have hneg : S = -S := by
+    conv_lhs => rw [hS, ← Equiv.sum_comp (Equiv.mulRight (⟨τ, hτmem⟩ : ColumnSubgroup n la))]
+    rw [hS, ← Finset.sum_neg_distrib]
+    refine Finset.sum_congr rfl fun g _ => ?_
+    have hcomp : f ∘ ((g * ⟨τ, hτmem⟩ : ColumnSubgroup n la) : Equiv.Perm (Fin n)).symm =
+        f ∘ (g : Equiv.Perm (Fin n)).symm := by
+      funext x
+      exact hfτ ((g : Equiv.Perm (Fin n)).symm x)
+    have hsign : Equiv.Perm.sign ((g * ⟨τ, hτmem⟩ : ColumnSubgroup n la) :
+        Equiv.Perm (Fin n)) = -Equiv.Perm.sign (g : Equiv.Perm (Fin n)) := by
+      change Equiv.Perm.sign ((g : Equiv.Perm (Fin n)) * τ) = _
+      rw [map_mul, hτdef, Equiv.Perm.sign_swap hij]
+      exact mul_neg_one _
+    simp only [Equiv.coe_mulRight, hcomp, hsign, Int.cast_neg, Units.val_neg,
+      neg_smul]
+  have : (2 : k) • S = 0 := by
+    rw [two_smul]
+    nth_rewrite 2 [hneg]
+    exact add_neg_cancel S
+  have h2 : (2 : k) ≠ 0 := two_ne_zero
+  exact (smul_eq_zero.mp this).resolve_left h2
+
+/-- **The Schur module vanishes when `N < p`.** The Young symmetrizer factors as
+`c_λ = b_λ · a_λ`, and `b_λ` already acts by zero. -/
+theorem partYoungSymEnd_eq_zero (N : ℕ) {n : ℕ} (la : Nat.Partition n)
+    (hN : N < Multiset.card la.parts) : partYoungSymEnd k N la = 0 := by
+  rw [partYoungSymEnd_eq_colAntiEnd_mul, colAntiEnd_eq_zero k N la hN, zero_mul]
+
 end Etingof
