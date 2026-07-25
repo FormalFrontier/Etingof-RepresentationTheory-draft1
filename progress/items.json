@@ -875,7 +875,7 @@
     "start_line": 25,
     "end_line": 8,
     "status": "sorry_free",
-    "coverage_note": "Parts (a), (b), and the characteristic-p dimension result are source-present. Problem2_7_4_Family.lean now constructs the classifying family V(alpha,c) for part (c), with the defining relation, the module structure, and the central-scalar actions x^p = alpha, y^p = c^p; irreducibility, the isomorphism criterion, and exhaustiveness remain open under #7387. Independently, Problem2_7_4.lean now fails a fresh check at a scalar-cast/neg_smul rewrite; regression #7530.",
+    "coverage_note": "Parts (a), (b), and the characteristic-p dimension result are source-present. Problem2_7_4_Family.lean now constructs the classifying family V(alpha,c) for part (c), with the defining relation, the module structure, and the central-scalar actions x^p = alpha, y^p = c^p, and irreducibility of V(alpha,c) for every parameter pair (famModule_isSimpleModule); the isomorphism criterion and exhaustiveness remain open under #7387. Independently, Problem2_7_4.lean now fails a fresh check at a scalar-cast/neg_smul rewrite; regression #7530.",
     "followup_issue": 7387,
     "coverage_issue": 7530,
     "coverage": "covered_partial",
