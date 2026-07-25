@@ -7008,9 +7008,9 @@
     "start_line": 15,
     "end_line": 16,
     "status": "proved",
-    "coverage_note": "The three classifications genuinely use Theorem 5.27.1 and are exhaustive on their semidirect-product models; the q=2 affine companion is included. The dihedral result is transported to the textbook group through a genuine MulEquiv. The Heisenberg and affine files instead define new group types and identify them with the Chapter 4 textbook groups only in prose, so those re-derivations are not exposed over the actual Problem 4.12.2/4.12.6 objects or their named representations. Follow-up #7320.",
+    "coverage_note": "The three classifications genuinely use Theorem 5.27.1 and are exhaustive on their semidirect-product models; the q=2 affine companion is included. The dihedral and Heisenberg results are transported to the textbook groups through genuine MulEquivs, and the Heisenberg family is matched with the book's named charRep/R_z representations. The affine file still defines its own group type and identifies it with Problem4_12_6.Affine only in prose, so that re-derivation is not exposed over the actual textbook object. Follow-up #7789.",
     "coverage": "covered_partial",
-    "followup_issue": 7320,
+    "followup_issue": 7789,
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Exercise5_27_2_Dihedral.lean",
@@ -7020,6 +7020,7 @@
     "lean_decl": [
       "Etingof.Exercise5_27_2.dihedral_classification",
       "Etingof.Exercise5_27_2.heisenberg_classification",
+      "Etingof.Exercise5_27_2.heisenberg_classification'",
       "Etingof.Exercise5_27_2.affine_classification",
       "Etingof.Exercise5_27_2.affine_classification_two"
     ],
@@ -7040,13 +7041,16 @@
       {
         "part": "(ii) Heisenberg (4.12.2)",
         "claim": "Redo the Heisenberg-group (over 𝔽_p) irreducible classification via Theorem 5.27.1 ((ZMod p)² ⋊ ZMod p by shear): p² dim-1 and p−1 dim-p.",
-        "coverage": "covered_partial",
+        "coverage": "covered_full",
         "lean_decl": [
           "Etingof.Exercise5_27_2.heisenberg_classification",
+          "Etingof.Exercise5_27_2.heisenberg_classification'",
+          "Etingof.Exercise5_27_2.heisenberg_classification_named",
+          "Etingof.Exercise5_27_2.heisenbergEquiv",
           "Etingof.Exercise5_27_2.HeisenbergGroup"
         ],
-        "reason": "PARTIAL. The orbit-method classification is exhaustive and sorry-free on Exercise5_27_2.HeisenbergGroup, but no MulEquiv transports it to Problem4_12_2.Heisenberg or identifies its p-dimensional branch with the named Chapter 4 models.",
-        "followup_issue": 7320
+        "reason": "FULL. heisenberg_classification obtains the orbit-method classification via Etingof.Theorem5_27_1 (Multiplicative (ZMod p)) (Multiplicative (ZMod p × ZMod p)) (heisenbergφ p) on the semidirect-product model. heisenbergEquiv is a genuine ≃* (real toFun/invFun/left_inv/right_inv/map_mul', no stub) from Problem4_12_2.Heisenberg p onto that model, and heisenberg_classification' transports the classification across it, so the conclusion is stated over FDRep ℂ (Problem4_12_2.Heisenberg p): exhaustive (Simple, pairwise-non-iso, completeness), dimensions 1 or p, n = p² + (p-1) with p² dim-1 and p-1 dim-p members. heisenberg_classification_named further identifies the family with the book's named representations: every dim-1 member is a charRep χ, every dim-p member is an R_z = rhoHom z with z ≠ 1, and conversely every character and every such R_z occurs. Sorry-free, #print axioms clean.",
+        "followup_issue": null
       },
       {
         "part": "(iii) affine (4.12.6)",
@@ -7059,7 +7063,7 @@
           "Etingof.Exercise5_27_2.affineφ"
         ],
         "reason": "PARTIAL. The q>2 and q=2 classifications are exhaustive and sorry-free on Exercise5_27_2.AffineGroup, but no MulEquiv transports them to Problem4_12_6.Affine or identifies the nonlinear branch with the named Chapter 4 deleted-permutation model.",
-        "followup_issue": 7320
+        "followup_issue": 7789
       }
     ],
     "last_updated": "2026-07-22"
