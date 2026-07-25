@@ -8681,10 +8681,9 @@
     "start_line": 1,
     "end_line": 8,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "last_updated": "2026-07-22",
-    "coverage_note": "Contractibility, the split-short-exact consequence, and the abelian-group counterexample are proved. The source asks for an actual isomorphism to a direct sum of two-term identity complexes; the file only asserts its equivalence with contractibility in prose and does not construct that decomposition. Follow-up #7435.",
-    "followup_issue": 7435
+    "coverage": "covered_full",
+    "last_updated": "2026-07-25",
+    "coverage_note": "Exercise7_8_4_directSum gives the isomorphism the source asks for: an acyclic complex is isomorphic to a direct sum of two-term complexes concentrated in degrees i, i+1 with an isomorphism between them (disk_d_self identifies that map with the identity). Contractibility, the split-short-exact consequence, and the abelian-group counterexample are also proved."
   },
   {
     "id": "Chapter7/Problem7.8.5",
