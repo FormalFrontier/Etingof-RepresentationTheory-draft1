@@ -1,6 +1,8 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_27_1
 import EtingofRepresentationTheory.Chapter5.AbelianFDRep
+import EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Transport
+import EtingofRepresentationTheory.Chapter4.Problem4_12_6
 
 /-!
 # Exercise 5.27.2 (affine group): redo Problem 4.12.6 using Theorem 5.27.1
@@ -698,5 +700,79 @@ theorem affine_classification_two (hq : Fintype.card K = 2) :
       · exact hdim_inl ρ
       · exact hdim_inr
     exact fun i => hall (e.symm i)
+
+/-! ## Landing the classification on the group of Problem 4.12.6
+
+Problem 4.12.6 studies the affine group as the `structure Problem4_12_6.Affine K` with fields
+`a : Kˣ` and `b : K`, multiplying by `⟨a₁, b₁⟩ * ⟨a₂, b₂⟩ = ⟨a₁ a₂, a₁ · b₂ + b₁⟩`. That is a
+different type from the semidirect-product model `AffineGroup K` used above, so "redo Problem
+4.12.6" is only finished once the orbit-method classification is transported onto it. The
+identification sends `⟨a, b⟩` to the pair `⟨ofAdd b, a⟩`: the abelian normal subgroup is the
+translation part `b` and the complement is the linear part `a`. -/
+
+/-- **The affine group of Problem 4.12.6 is the semidirect-product model.** The transformation
+`x ↦ a x + b`, encoded by `⟨a, b⟩`, corresponds to `⟨ofAdd b, a⟩`: no correction term is needed,
+because `⟨a₁, b₁⟩ * ⟨a₂, b₂⟩ = ⟨a₁ a₂, a₁ · b₂ + b₁⟩` matches the semidirect product
+`⟨b₁, a₁⟩ * ⟨b₂, a₂⟩ = ⟨b₁ + a₁ · b₂, a₁ a₂⟩` under `affineφ K a : b ↦ a · b`. -/
+def affineEquiv : Problem4_12_6.Affine K ≃* AffineGroup K where
+  toFun g := ⟨Multiplicative.ofAdd g.b, g.a⟩
+  invFun y := ⟨y.right, Multiplicative.toAdd y.left⟩
+  left_inv g := rfl
+  right_inv y := rfl
+  map_mul' g h := by
+    refine SemidirectProduct.ext ?_ rfl
+    change Multiplicative.ofAdd ((g.a : K) * h.b + g.b)
+      = Multiplicative.ofAdd g.b * (affineφ K g.a) (Multiplicative.ofAdd h.b)
+    apply Multiplicative.toAdd.injective
+    rw [toAdd_ofAdd, toAdd_mul, toAdd_ofAdd, affineφ_apply]
+    exact add_comm _ _
+
+omit [Fintype K] in
+@[simp] lemma affineEquiv_apply (g : Problem4_12_6.Affine K) :
+    affineEquiv K g = ⟨Multiplicative.ofAdd g.b, g.a⟩ := rfl
+
+open Classical in
+/-- **Exercise 5.27.2 for Problem 4.12.6.** The classification of the irreducible complex
+representations of the affine group *as Problem 4.12.6 poses it* — the group
+`Problem4_12_6.Affine K` of pairs `⟨a, b⟩` acting by `x ↦ a x + b` — derived from the orbit
+method of Theorem 5.27.1 by transporting `affine_classification` along `affineEquiv`. For
+`q = |K| > 2` there are exactly `q` irreducibles: `q - 1` of dimension `1` and one of dimension
+`q - 1`. -/
+theorem affine_classification' (hq : 2 < Fintype.card K) :
+    ∃ (n : ℕ) (W : Fin n → FDRep ℂ (Problem4_12_6.Affine K)),
+      (∀ i, Simple (W i)) ∧
+      (∀ i j, Nonempty (W i ≅ W j) → i = j) ∧
+      (∀ S : FDRep ℂ (Problem4_12_6.Affine K), Simple S → ∃ i, Nonempty (S ≅ W i)) ∧
+      n = Fintype.card K ∧
+      (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 1)).card = Fintype.card K - 1 ∧
+      (Finset.univ.filter
+        (fun i => finrank ℂ (W i : Type) = Fintype.card K - 1)).card = 1 := by
+  classical
+  obtain ⟨n, V, hSimple, hInj, hComplete, hn, hcard1, hcardq⟩ := affine_classification K hq
+  obtain ⟨W, hW1, hW2, hW3, hWdim⟩ :=
+    transport_classification (affineEquiv K) V hSimple hInj hComplete
+  have hfilt : ∀ d : ℕ, (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = d)) =
+      (Finset.univ.filter (fun i => finrank ℂ (V i : Type) = d)) :=
+    fun d => filter_finrank_congr hWdim d
+  refine ⟨n, W, hW1, hW2, hW3, hn, ?_, ?_⟩
+  · rw [hfilt]; exact hcard1
+  · rw [hfilt]; exact hcardq
+
+open Classical in
+/-- **Exercise 5.27.2 for Problem 4.12.6, degenerate field `K = 𝔽₂`.** The `q = 2` companion to
+`affine_classification'`, transported onto `Problem4_12_6.Affine K` along `affineEquiv`: the
+affine group over `𝔽₂` is `ℤ/2`, with two one-dimensional irreducibles. -/
+theorem affine_classification_two' (hq : Fintype.card K = 2) :
+    ∃ (n : ℕ) (W : Fin n → FDRep ℂ (Problem4_12_6.Affine K)),
+      (∀ i, Simple (W i)) ∧
+      (∀ i j, Nonempty (W i ≅ W j) → i = j) ∧
+      (∀ S : FDRep ℂ (Problem4_12_6.Affine K), Simple S → ∃ i, Nonempty (S ≅ W i)) ∧
+      n = 2 ∧
+      (∀ i, finrank ℂ (W i : Type) = 1) := by
+  classical
+  obtain ⟨n, V, hSimple, hInj, hComplete, hn, hdim⟩ := affine_classification_two K hq
+  obtain ⟨W, hW1, hW2, hW3, hWdim⟩ :=
+    transport_classification (affineEquiv K) V hSimple hInj hComplete
+  exact ⟨n, W, hW1, hW2, hW3, hn, fun i => by rw [hWdim i]; exact hdim i⟩
 
 end Etingof.Exercise5_27_2
