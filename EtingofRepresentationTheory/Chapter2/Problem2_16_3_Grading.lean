@@ -380,6 +380,23 @@ theorem gProj_of_mem {n : ℕ} {p q : ℕ × ℕ} {a : g k n} (ha : a ∈ gDeg k
 theorem gProj_self_of_mem {n : ℕ} {p : ℕ × ℕ} {a : g k n} (ha : a ∈ gDeg k n p) :
     gProj k n p a = a := by simp [gProj_of_mem k ha]
 
+theorem gProj_mem (n : ℕ) (p : ℕ × ℕ) (a : g k n) : gProj k n p a ∈ gDeg k n p := by
+  obtain ⟨u, rfl⟩ := proj_surjective k n a
+  rw [gProj_proj]
+  exact proj_mem_gDeg k (homogProj_mem k p u)
+
+/-- The bidegree-`p` projection has image exactly the bidegree-`p` component. -/
+theorem range_gProj (n : ℕ) (p : ℕ × ℕ) : LinearMap.range (gProj k n p) = gDeg k n p := by
+  refine le_antisymm ?_ fun a ha => ⟨a, gProj_self_of_mem k ha⟩
+  rintro _ ⟨a, rfl⟩
+  exact gProj_mem k n p a
+
+/-- **A spanning set of `𝔤ₙ` induces a spanning set of every bidegree component**, by projecting
+it. This is the tool that turns a global spanning family into bidegree-wise upper bounds. -/
+theorem gDeg_eq_span_image {n : ℕ} (p : ℕ × ℕ) {S : Set (g k n)} (hS : Submodule.span k S = ⊤) :
+    gDeg k n p = Submodule.span k (gProj k n p '' S) := by
+  rw [← range_gProj k n p, ← Submodule.map_top, ← hS, Submodule.map_span]
+
 theorem gProj_eq_zero_of_mem {n : ℕ} {p q : ℕ × ℕ} {a : g k n} (ha : a ∈ gDeg k n p)
     (hpq : p ≠ q) : gProj k n q a = 0 := by simp [gProj_of_mem k ha, hpq]
 
