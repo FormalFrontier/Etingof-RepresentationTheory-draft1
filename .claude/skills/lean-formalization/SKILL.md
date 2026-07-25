@@ -6006,6 +6006,46 @@ in the goal. Also note `schurModule_isAlgebraic`/`iso_of_formalCharacter_eq_schu
 Diagnosed building `linearDual_half_detTwist_contragredient` (#5544,
 `LinearDualContragredientHalf.lean`).
 
+### Descending the `GL_N` classification to `SL_N`: use the scalar matrices, not the `SL_N` torus (#7807)
+
+To prove an `SL_N`-statement about the `L_λ` (Remark 5.23.3's "parametrized by `λ₁ ≥ ⋯ ≥ λ_N` up
+to a simultaneous shift by a constant"), do **not** redo the weight-space bookkeeping of
+`AlgIrrepGLNonIso` for the `SL_N` torus — the whole descent goes through the *scalar* matrices
+`t · 1`, and `algIrrepGLRepρ_iso_iff_eq` then supplies the classification unchanged. The recipe
+(`Chapter5/Remark5_23_3_SLInjective.lean`, sorry-free):
+
+* **Central character, elementary.** `t · 1` acts on `L_λ` by `t^{|λ|}`, `|λ| = ∑ᵢ λᵢ`. Prove it
+  on the *tensor power*: `glTensorRep` is `PiTensorProduct.map (fun _ => mulVecLin g)`, so for a
+  scalar matrix each factor scales by `t` and `MultilinearMap.map_smul_univ` gives `t^d`;
+  `schurModuleRep` is its restriction (`Subtype.ext` + `LinearMap.restrict_coe_apply`), and the
+  `det^{-λ.shift}` twist contributes `t^{-N·λ.shift}`, cancelling the shift inside
+  `λ.toNatWeight`. Do **not** reach for `PolynomialRepEmbedding.scalarGL_acts_as_pow`: it is
+  `private` and needs `IsAlgebraicCoefficientFamily` + `h_span` + `h_homog`, none of which this
+  argument requires.
+* **`GL_N = Z · SL_N` over an algebraically closed field.** `IsAlgClosed.exists_pow_nat_eq` gives
+  an `N`-th root `s` of `det g`, and `(s⁻¹ : k) • (g : Matrix …)` has determinant one
+  (`Matrix.det_smul`); reassemble with `Matrix.smul_eq_diagonal_mul`. Consequence: an
+  `SL_N`-intertwiner between two `L_λ` whose *central characters agree* is automatically
+  `GL_N`-equivariant, so `Representation.asModuleEquivOfIntertwiner` lands you straight in the
+  `GL_N` classification. Matching the central characters is exactly what the constant shift is
+  for.
+* **A primitive `N`-th root of unity** in an algebraically closed field of characteristic zero is
+  a root of `Polynomial.cyclotomic N k` (degree `Nat.totient N > 0`, so `IsAlgClosed.exists_root`
+  applies), identified by `Polynomial.isRoot_cyclotomic_iff` (needs `NeZero ((N : ℕ) : k)`, from
+  `Nat.cast_ne_zero`); move it to `kˣ` with `IsPrimitiveRoot.isUnit`/`.coe_units_iff`. This is
+  what turns "`ζ^{|λ|} = ζ^{|μ|}` for every `N`-th root of unity" into `N ∣ |λ| - |μ|`
+  (`IsPrimitiveRoot.zpow_eq_one_iff_dvd`).
+* **Nonvanishing** of `L_λ`, needed to cancel a vector from `c • v = c' • v`, is
+  `schurModuleSubmodule_ne_bot` (Theorem5_23_2Core) plus `Submodule.nontrivial_iff_ne_bot`.
+
+Two mechanical traps in the same file. `Representation.Equiv` (Mathlib
+`RepresentationTheory/Intertwining.lean`) has **no coercion to `≃ₗ`**: `(E : V ≃ₗ[k] W)` fails
+with a type mismatch — write `E.toLinearEquiv`, and state any helper `have` about `E` in that
+same spelling or a later `rw` will not match. And the usual `AlgIrrepGL`/`SchurModuleSubmodule`
+carrier-alias wall applies: `rw [schurModuleRep_centralGL]` cannot fire on an
+`algIrrepGLRepρ` goal, so `change` the whole `charTwistRep` application to its
+`(c g : k) • schurModuleRep … g` form (defeq, `charTwistRep` is a structure literal) first.
+
 ### Degree-bound `Finset.sup` over an `AlgEquiv`-image: two whnf traps (#5486)
 
 When `s` is a uniform degree bound `Finset.univ.sup (… natDegree (E (P …)) …)` for a heavy
