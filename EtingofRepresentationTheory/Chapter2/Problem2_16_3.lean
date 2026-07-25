@@ -10,6 +10,7 @@ import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Algebra.Polynomial.Basis
 import Mathlib.LinearAlgebra.Matrix.Trace
+import Mathlib.Tactic.IntervalCases
 
 /-!
 # Problem 2.16.3: The Lie algebras `𝔤ₙ = ⟨x, y | ad(x)²y = ad(y)ⁿ⁺¹x = 0⟩`
@@ -1756,5 +1757,206 @@ theorem NY_mem_loopPos : NY k ∈ loopPos k := by
     exact Submodule.mem_span_singleton_self _
 
 end TwistedLoop
+
+/-!
+## The layer structure of `𝔤₄`
+
+Give `x` degree `1` and `y` degree `0`, matching the `t`-degree under `matHom₄`
+(`x ↦ E₂₀·t`, `y ↦ E₀₁ - E₁₂`). Then:
+
+* the degree-`0` layer is `k·ȳ`, of dimension `1`;
+* the degree-`1` layer is spanned by the `ad(ȳ)`-string `aᵢ = ad(ȳ)ⁱ(x̄)`, which the defining
+  relation `ad(y)⁵(x) = 0` cuts off at `i = 4`: five elements;
+* the degree-`2` layer is spanned by the ten brackets `⁅aᵢ, aⱼ⁆`, which the relations cut down to
+  the three elements `⁅a₀,a₃⁆, ⁅a₀,a₄⁆, ⁅a₁,a₄⁆` (this needs `2 ≠ 0` and `5 ≠ 0`).
+
+These match the graded dimensions `1, 5, 3, …` of `loopPos`, so together with the lower bound
+supplied by `matHom₄` they are the first two layers of the upper bound for `𝔤₄`.
+-/
+
+section Layers
+
+/-- The degree-`1` layer generators of `𝔤ₙ`: `aElt n i = ad(ȳ)ⁱ(x̄)`. -/
+noncomputable def aElt (n i : ℕ) : g k n := (fun u => ⁅yb k n, u⁆)^[i] (xb k n)
+
+@[simp] theorem aElt_zero (n : ℕ) : aElt k n 0 = xb k n := rfl
+
+theorem aElt_succ (n i : ℕ) : aElt k n (i + 1) = ⁅yb k n, aElt k n i⁆ :=
+  Function.iterate_succ_apply' _ _ _
+
+theorem aElt_one (n : ℕ) : aElt k n 1 = -zb k n := by
+  rw [aElt_succ, aElt_zero, zb, ← lie_skew]
+
+/-- `ad(ȳ)ⁱ` commutes with the projection: `proj (ad(y)ⁱ x) = aᵢ`. -/
+theorem proj_iterate_ad_y (n i : ℕ) :
+    proj k n ((fun z => ⁅y k, z⁆)^[i] (x k)) = aElt k n i := by
+  induction i with
+  | zero => rfl
+  | succ i ih =>
+      rw [Function.iterate_succ_apply', aElt_succ, ← ih, LieHom.map_lie]
+      rfl
+
+/-- The defining relation `ad(y)⁵(x) = 0` in `𝔤₄`: the degree-`1` layer stops after five
+elements `a₀, …, a₄`. -/
+theorem aElt_five_eq_zero : aElt k 4 5 = 0 := by
+  have hmem : (fun z => ⁅y k, z⁆)^[4 + 1] (x k) ∈ relIdeal k 4 :=
+    LieSubmodule.subset_lieSpan (Set.mem_insert_of_mem _ rfl)
+  rw [← proj_iterate_ad_y k 4 5, proj_eq_zero_iff]
+  exact hmem
+
+/-- `ad(ȳ)` is a derivation: `ad(ȳ)⁅aᵢ, aⱼ⁆ = ⁅aᵢ₊₁, aⱼ⁆ + ⁅aᵢ, aⱼ₊₁⁆`. This single formula, fed
+the relation `⁅a₀, a₁⁆ = 0` and iterated, produces every relation in the degree-`2` layer. -/
+theorem lie_yb_lie_aElt (n i j : ℕ) :
+    ⁅yb k n, ⁅aElt k n i, aElt k n j⁆⁆
+      = ⁅aElt k n (i + 1), aElt k n j⁆ + ⁅aElt k n i, aElt k n (j + 1)⁆ := by
+  rw [leibniz_lie, aElt_succ, aElt_succ]
+
+/-- `⁅a₀, a₁⁆ = 0`: a restatement of the defining relation `ad(x)²(y) = 0`. -/
+theorem lie_a0_a1 : ⁅aElt k 4 0, aElt k 4 1⁆ = 0 := by
+  rw [aElt_zero, aElt_one, lie_neg, lie_xb_zb, neg_zero]
+
+/-- `⁅a₀, a₂⁆ = 0`, obtained by applying `ad(ȳ)` to `⁅a₀, a₁⁆ = 0`. -/
+theorem lie_a0_a2 : ⁅aElt k 4 0, aElt k 4 2⁆ = 0 := by
+  have h : ⁅yb k 4, ⁅aElt k 4 0, aElt k 4 1⁆⁆ = 0 := by rw [lie_a0_a1, lie_zero]
+  rw [lie_yb_lie_aElt] at h
+  simpa using h
+
+/-- `⁅a₁, a₂⁆ + ⁅a₀, a₃⁆ = 0`. -/
+theorem lie_a1_a2_add : ⁅aElt k 4 1, aElt k 4 2⁆ + ⁅aElt k 4 0, aElt k 4 3⁆ = 0 := by
+  have h : ⁅yb k 4, ⁅aElt k 4 0, aElt k 4 2⁆⁆ = 0 := by rw [lie_a0_a2, lie_zero]
+  rw [lie_yb_lie_aElt] at h
+  simpa using h
+
+/-- `2⁅a₁, a₃⁆ + ⁅a₀, a₄⁆ = 0`. -/
+theorem lie_a1_a3_add :
+    (2 : k) • ⁅aElt k 4 1, aElt k 4 3⁆ + ⁅aElt k 4 0, aElt k 4 4⁆ = 0 := by
+  have h : ⁅yb k 4, ⁅aElt k 4 1, aElt k 4 2⁆ + ⁅aElt k 4 0, aElt k 4 3⁆⁆ = 0 := by
+    rw [lie_a1_a2_add, lie_zero]
+  rw [lie_add, lie_yb_lie_aElt, lie_yb_lie_aElt] at h
+  simp only [Nat.reduceAdd, lie_self, zero_add] at h
+  rw [← h]; module
+
+/-- `2⁅a₂, a₃⁆ + 3⁅a₁, a₄⁆ = 0`; here the truncation `a₅ = 0` first enters. -/
+theorem lie_a2_a3_add :
+    (2 : k) • ⁅aElt k 4 2, aElt k 4 3⁆ + (3 : k) • ⁅aElt k 4 1, aElt k 4 4⁆ = 0 := by
+  have h : ⁅yb k 4,
+      (2 : k) • ⁅aElt k 4 1, aElt k 4 3⁆ + ⁅aElt k 4 0, aElt k 4 4⁆⁆ = 0 := by
+    rw [lie_a1_a3_add, lie_zero]
+  rw [lie_add, lie_smul, lie_yb_lie_aElt, lie_yb_lie_aElt] at h
+  simp only [Nat.reduceAdd, zero_add, aElt_five_eq_zero, lie_zero, add_zero] at h
+  rw [← h]; module
+
+/-- `5⁅a₂, a₄⁆ = 0`. The coefficient `5` is why the degree-`2` layer collapses to dimension `3`
+exactly when `5 ≠ 0`. -/
+theorem lie_a2_a4_smul : (5 : k) • ⁅aElt k 4 2, aElt k 4 4⁆ = 0 := by
+  have h : ⁅yb k 4,
+      (2 : k) • ⁅aElt k 4 2, aElt k 4 3⁆ + (3 : k) • ⁅aElt k 4 1, aElt k 4 4⁆⁆ = 0 := by
+    rw [lie_a2_a3_add, lie_zero]
+  rw [lie_add, lie_smul, lie_smul, lie_yb_lie_aElt, lie_yb_lie_aElt] at h
+  simp only [Nat.reduceAdd, lie_self, zero_add, aElt_five_eq_zero, lie_zero, add_zero] at h
+  rw [← h]; module
+
+/-- `5⁅a₃, a₄⁆ = 0`. -/
+theorem lie_a3_a4_smul : (5 : k) • ⁅aElt k 4 3, aElt k 4 4⁆ = 0 := by
+  have h : ⁅yb k 4, (5 : k) • ⁅aElt k 4 2, aElt k 4 4⁆⁆ = 0 := by
+    rw [lie_a2_a4_smul, lie_zero]
+  rw [lie_smul, lie_yb_lie_aElt] at h
+  simp only [Nat.reduceAdd, aElt_five_eq_zero, lie_zero, add_zero] at h
+  exact h
+
+/-- `⁅a₁, a₂⁆ = -⁅a₀, a₃⁆`. -/
+theorem lie_a1_a2_eq : ⁅aElt k 4 1, aElt k 4 2⁆ = -⁅aElt k 4 0, aElt k 4 3⁆ := by
+  rw [eq_neg_iff_add_eq_zero]; exact lie_a1_a2_add k
+
+end Layers
+
+section LayersField
+
+variable (k : Type*) [Field k]
+
+/-- `⁅a₂, a₄⁆ = 0` once `5` is invertible. -/
+theorem lie_a2_a4_eq_zero (h5 : (5 : k) ≠ 0) : ⁅aElt k 4 2, aElt k 4 4⁆ = 0 := by
+  have h : (5 : k)⁻¹ • ((5 : k) • ⁅aElt k 4 2, aElt k 4 4⁆) = 0 := by
+    rw [lie_a2_a4_smul, smul_zero]
+  rwa [smul_smul, inv_mul_cancel₀ h5, one_smul] at h
+
+/-- `⁅a₃, a₄⁆ = 0` once `5` is invertible. -/
+theorem lie_a3_a4_eq_zero (h5 : (5 : k) ≠ 0) : ⁅aElt k 4 3, aElt k 4 4⁆ = 0 := by
+  have h : (5 : k)⁻¹ • ((5 : k) • ⁅aElt k 4 3, aElt k 4 4⁆) = 0 := by
+    rw [lie_a3_a4_smul, smul_zero]
+  rwa [smul_smul, inv_mul_cancel₀ h5, one_smul] at h
+
+/-- `⁅a₁, a₃⁆ = -½⁅a₀, a₄⁆`. -/
+theorem lie_a1_a3_eq (h2 : (2 : k) ≠ 0) :
+    ⁅aElt k 4 1, aElt k 4 3⁆ = -((2 : k)⁻¹ • ⁅aElt k 4 0, aElt k 4 4⁆) := by
+  have h : (2 : k) • ⁅aElt k 4 1, aElt k 4 3⁆ = -⁅aElt k 4 0, aElt k 4 4⁆ := by
+    rw [eq_neg_iff_add_eq_zero]; exact lie_a1_a3_add k
+  have h' := congrArg (fun u : g k 4 => (2 : k)⁻¹ • u) h
+  simp only [smul_smul, inv_mul_cancel₀ h2, one_smul, smul_neg] at h'
+  exact h'
+
+/-- `⁅a₂, a₃⁆ = -(3/2)⁅a₁, a₄⁆`. -/
+theorem lie_a2_a3_eq (h2 : (2 : k) ≠ 0) :
+    ⁅aElt k 4 2, aElt k 4 3⁆ = -(((2 : k)⁻¹ * 3) • ⁅aElt k 4 1, aElt k 4 4⁆) := by
+  have h : (2 : k) • ⁅aElt k 4 2, aElt k 4 3⁆ = -((3 : k) • ⁅aElt k 4 1, aElt k 4 4⁆) := by
+    rw [eq_neg_iff_add_eq_zero]; exact lie_a2_a3_add k
+  have h' := congrArg (fun u : g k 4 => (2 : k)⁻¹ • u) h
+  simp only [smul_smul, inv_mul_cancel₀ h2, one_smul, smul_neg] at h'
+  exact h'
+
+/-- **The degree-`2` layer of `𝔤₄` has dimension at most `3`.** Every bracket of two degree-`1`
+elements lies in the span of `⁅a₀,a₃⁆`, `⁅a₀,a₄⁆`, `⁅a₁,a₄⁆`, matching `dim 𝔤₀ = 3` on the loop
+side of `loopPos`. -/
+theorem lie_aElt_mem_layerTwo (h2 : (2 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
+    (i j : ℕ) (hi : i < 5) (hj : j < 5) :
+    ⁅aElt k 4 i, aElt k 4 j⁆ ∈ Submodule.span k
+      ({⁅aElt k 4 0, aElt k 4 3⁆, ⁅aElt k 4 0, aElt k 4 4⁆,
+        ⁅aElt k 4 1, aElt k 4 4⁆} : Set (g k 4)) := by
+  have m03 : ⁅aElt k 4 0, aElt k 4 3⁆ ∈ Submodule.span k
+      ({⁅aElt k 4 0, aElt k 4 3⁆, ⁅aElt k 4 0, aElt k 4 4⁆,
+        ⁅aElt k 4 1, aElt k 4 4⁆} : Set (g k 4)) := Submodule.subset_span (by simp)
+  have m04 : ⁅aElt k 4 0, aElt k 4 4⁆ ∈ Submodule.span k
+      ({⁅aElt k 4 0, aElt k 4 3⁆, ⁅aElt k 4 0, aElt k 4 4⁆,
+        ⁅aElt k 4 1, aElt k 4 4⁆} : Set (g k 4)) := Submodule.subset_span (by simp)
+  have m14 : ⁅aElt k 4 1, aElt k 4 4⁆ ∈ Submodule.span k
+      ({⁅aElt k 4 0, aElt k 4 3⁆, ⁅aElt k 4 0, aElt k 4 4⁆,
+        ⁅aElt k 4 1, aElt k 4 4⁆} : Set (g k 4)) := Submodule.subset_span (by simp)
+  set N : Submodule k (g k 4) := Submodule.span k
+    ({⁅aElt k 4 0, aElt k 4 3⁆, ⁅aElt k 4 0, aElt k 4 4⁆,
+      ⁅aElt k 4 1, aElt k 4 4⁆} : Set (g k 4)) with hNdef
+  clear_value N
+  interval_cases i <;> interval_cases j
+  -- i = 0
+  · rw [lie_self]; exact N.zero_mem
+  · rw [lie_a0_a1]; exact N.zero_mem
+  · rw [lie_a0_a2]; exact N.zero_mem
+  · exact m03
+  · exact m04
+  -- i = 1
+  · rw [← lie_skew, lie_a0_a1, neg_zero]; exact N.zero_mem
+  · rw [lie_self]; exact N.zero_mem
+  · rw [lie_a1_a2_eq]; exact neg_mem m03
+  · rw [lie_a1_a3_eq k h2]; exact neg_mem (N.smul_mem _ m04)
+  · exact m14
+  -- i = 2
+  · rw [← lie_skew, lie_a0_a2, neg_zero]; exact N.zero_mem
+  · rw [← lie_skew, lie_a1_a2_eq, neg_neg]; exact m03
+  · rw [lie_self]; exact N.zero_mem
+  · rw [lie_a2_a3_eq k h2]; exact neg_mem (N.smul_mem _ m14)
+  · rw [lie_a2_a4_eq_zero k h5]; exact N.zero_mem
+  -- i = 3
+  · rw [← lie_skew]; exact neg_mem m03
+  · rw [← lie_skew, lie_a1_a3_eq k h2, neg_neg]; exact N.smul_mem _ m04
+  · rw [← lie_skew, lie_a2_a3_eq k h2, neg_neg]; exact N.smul_mem _ m14
+  · rw [lie_self]; exact N.zero_mem
+  · rw [lie_a3_a4_eq_zero k h5]; exact N.zero_mem
+  -- i = 4
+  · rw [← lie_skew]; exact neg_mem m04
+  · rw [← lie_skew]; exact neg_mem m14
+  · rw [← lie_skew, lie_a2_a4_eq_zero k h5, neg_zero]; exact N.zero_mem
+  · rw [← lie_skew, lie_a3_a4_eq_zero k h5, neg_zero]; exact N.zero_mem
+  · rw [lie_self]; exact N.zero_mem
+
+end LayersField
 
 end Etingof.Problem2_16_3
