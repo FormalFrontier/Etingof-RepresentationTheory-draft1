@@ -25,6 +25,7 @@ import EtingofRepresentationTheory.Chapter6.Example6_2_2
 import EtingofRepresentationTheory.Chapter6.Example6_2_3
 import EtingofRepresentationTheory.Chapter6.Example6_2_4
 import EtingofRepresentationTheory.Chapter6.Example6_2_4_Sink
+import EtingofRepresentationTheory.Chapter6.Example6_2_4_Source
 import EtingofRepresentationTheory.Chapter6.Example6_3_1_Helpers
 import EtingofRepresentationTheory.Chapter6.Example6_3_1
 import EtingofRepresentationTheory.Chapter6.Definition6_4_1
