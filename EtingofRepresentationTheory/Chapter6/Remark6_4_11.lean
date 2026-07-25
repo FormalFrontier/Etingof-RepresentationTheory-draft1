@@ -265,9 +265,35 @@ theorem weyl_simpleRoot_isRoot (hDynkin : IsDynkinDiagram n adj)
     IsRoot n adj (w (simpleRoot n i)) :=
   IsRoot.weyl hDynkin hw (isRoot_simpleRoot hDynkin i)
 
-/-! ## Finiteness -/
+/-! ## The permutation action on the root set, and finiteness -/
 
-/-- A `ℤ`-linear endomorphism of `ℤⁿ` is determined by its values on the simple roots,
+/-- The inverse of a Weyl group element also maps roots to roots. -/
+theorem IsRoot.weyl_symm (hDynkin : IsDynkinDiagram n adj) (w : weylGroup hDynkin)
+    {x : Fin n → ℤ} (hx : IsRoot n adj x) :
+    IsRoot n adj ((w : (Fin n → ℤ) ≃ₗ[ℤ] (Fin n → ℤ)).symm x) :=
+  IsRoot.weyl hDynkin (w⁻¹).2 hx
+
+/-- A Weyl group element, viewed as a permutation of the (finite) root set. -/
+def weylRootEquiv (hDynkin : IsDynkinDiagram n adj) (w : weylGroup hDynkin) :
+    Equiv.Perm {x : Fin n → ℤ | IsRoot n adj x} where
+  toFun x := ⟨(w : (Fin n → ℤ) ≃ₗ[ℤ] (Fin n → ℤ)) x, IsRoot.weyl hDynkin w.2 x.2⟩
+  invFun x := ⟨(w : (Fin n → ℤ) ≃ₗ[ℤ] (Fin n → ℤ)).symm x, IsRoot.weyl_symm hDynkin w x.2⟩
+  left_inv _ := Subtype.ext (LinearEquiv.symm_apply_apply _ _)
+  right_inv _ := Subtype.ext (LinearEquiv.apply_symm_apply _ _)
+
+@[simp]
+lemma weylRootEquiv_apply_coe (hDynkin : IsDynkinDiagram n adj) (w : weylGroup hDynkin)
+    (x : {x : Fin n → ℤ | IsRoot n adj x}) :
+    (weylRootEquiv hDynkin w x : Fin n → ℤ) = (w : (Fin n → ℤ) ≃ₗ[ℤ] (Fin n → ℤ)) x := rfl
+
+/-- **Remark 6.4.11**: the Weyl group acts on the root set by permutations. -/
+def weylRootPerm (hDynkin : IsDynkinDiagram n adj) :
+    weylGroup hDynkin →* Equiv.Perm {x : Fin n → ℤ | IsRoot n adj x} where
+  toFun := weylRootEquiv hDynkin
+  map_one' := by ext x; rfl
+  map_mul' _ _ := by ext x; rfl
+
+/-- A `ℤ`-linear automorphism of `ℤⁿ` is determined by its values on the simple roots,
 which form a basis of the lattice (Definition 6.4.5). -/
 theorem linearEquiv_eq_of_simpleRoot (f g : (Fin n → ℤ) ≃ₗ[ℤ] (Fin n → ℤ))
     (h : ∀ i, f (simpleRoot n i) = g (simpleRoot n i)) : f = g := by
@@ -275,25 +301,27 @@ theorem linearEquiv_eq_of_simpleRoot (f g : (Fin n → ℤ) ≃ₗ[ℤ] (Fin n �
   refine (Pi.basisFun ℤ (Fin n)).ext fun i => ?_
   simpa [simpleRoot, Pi.basisFun_apply] using h i
 
+/-- The action of the Weyl group on the root set is **faithful**: a Weyl group element is
+determined by its values on the simple roots, and those are roots. -/
+theorem weylRootPerm_injective (hDynkin : IsDynkinDiagram n adj) :
+    Function.Injective (weylRootPerm hDynkin) := by
+  intro w₁ w₂ h
+  refine Subtype.ext (linearEquiv_eq_of_simpleRoot _ _ fun i => ?_)
+  have := congrArg (fun σ => (σ ⟨simpleRoot n i, isRoot_simpleRoot hDynkin i⟩ : _)) h
+  exact congrArg Subtype.val this
+
 /-- **Remark 6.4.11**: the Weyl group is finite.
 
-The book's argument: a Weyl group element `w` is determined by the vectors `w(αᵢ)` (the
-simple roots are a basis of `ℤⁿ`), each `w(αᵢ)` is a root, and there are only finitely many
-roots (Remark 6.4.4). So `w ↦ (w(α₁), …, w(αₙ))` is an injection of `W` into a finite set of
-tuples of roots. -/
+The book's argument, verbatim: `W` acts faithfully on the root set (a Weyl group element is
+determined by the vectors `w(αᵢ)`, since the simple roots are a basis of `ℤⁿ`, and each
+`w(αᵢ)` is a root), and there are only finitely many roots (Remark 6.4.4). So `W` embeds in
+the finite group of permutations of the root set. -/
 theorem Remark_6_4_11_weylGroup_finite (hDynkin : IsDynkinDiagram n adj) :
     Finite (weylGroup hDynkin) := by
   have hfin : Set.Finite {x : Fin n → ℤ | IsRoot n adj x} :=
     Remark_6_4_4_roots_finite hDynkin
   have : Finite {x : Fin n → ℤ | IsRoot n adj x} := hfin.to_subtype
-  refine Finite.of_injective
-    (fun w : weylGroup hDynkin =>
-      fun i : Fin n =>
-        (⟨(w : (Fin n → ℤ) ≃ₗ[ℤ] (Fin n → ℤ)) (simpleRoot n i),
-          weyl_simpleRoot_isRoot hDynkin w.2 i⟩ : {x : Fin n → ℤ | IsRoot n adj x})) ?_
-  intro w₁ w₂ h
-  refine Subtype.ext (linearEquiv_eq_of_simpleRoot _ _ fun i => ?_)
-  exact congrArg Subtype.val (congrFun h i)
+  exact Finite.of_injective _ (weylRootPerm_injective hDynkin)
 
 /-- The Weyl group is finite as a `Fintype` (noncomputably). -/
 noncomputable instance fintypeWeylGroup (hDynkin : IsDynkinDiagram n adj) :
