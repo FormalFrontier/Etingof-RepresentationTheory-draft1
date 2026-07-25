@@ -632,7 +632,7 @@ theorem exists_toFamEquiv [IsAlgClosed k] (V : Type*) [AddCommGroup V] [Module k
   letI := famModule k p α c
   haveI := famModule_isScalarTower k p α c
   -- The coordinate isomorphism, viewed as a map *into* `V`.
-  set ψ : (Fin p → k) ≃ₗ[k] V := b.equivFun.symm with hψdef
+  set ψ : (Fin p → k) ≃ₗ[k] V := b.equivFun.symm
   have hψ : ∀ f : Fin p → k, ψ f = ∑ j, f j • b j := fun f => b.equivFun_symm_apply f
   -- Shifting the summation index by one; used to line the two cyclic patterns up.
   have reindex : ∀ g : Fin p → V, ∑ j, g j = ∑ i : Fin p, g (i + 1) := by
