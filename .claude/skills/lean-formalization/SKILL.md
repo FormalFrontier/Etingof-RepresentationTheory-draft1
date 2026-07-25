@@ -2598,6 +2598,26 @@ cast through with `push_cast; ring` inside a `show`); `orderOf ζ ∣ orderOf g�
 `orderOf_dvd_of_pow_eq_one`. Package `ℂ_ε := FDRep.of (charRep χ)`; simplicity is free from the
 existing `charRep_simple`.
 
+**Character through a QUOTIENT (not a cyclic subgroup): factor through `ZMod n`, never `decide` on
+`ℂˣ` (#7478, `Chapter4/Introduction_4_8.lean`, the `A₄/V₄ ≅ ℤ/3` characters).**
+`monoidHomOfForallMemZpowers` only builds characters of a cyclic *subgroup*; for a one-dimensional
+character of `G` that is trivial on a normal subgroup `N` with `G/N` cyclic of order `n`, build it
+in two decidable steps. (1) A concrete `qVal : G → ZMod n`, and `qVal (g*h) = qVal g + qVal h` by
+**`revert g h; decide`** — `ZMod n` has `DecidableEq`, so the whole `|G|²` multiplication table is a
+kernel computation (needs `set_option maxRecDepth 10000`; `|G| = 12` costs seconds). Package as
+`qHom : G →* Multiplicative (ZMod n)` with `map_mul' := congrArg Multiplicative.ofAdd (qVal_mul _ _)`.
+(2) `cubeChar k : Multiplicative (ZMod n) →* ℂˣ`, `x ↦ ζ ^ (k * toAdd x).val`, whose `map_mul'` is
+`rw [mul_add, ZMod.val_add, ← pow_add, zeta_pow_mod]` where
+`zeta_pow_mod (m) : ζ ^ (m % n) = ζ ^ m` comes from `conv_rhs => rw [← Nat.div_add_mod m n]` +
+`pow_add`/`pow_mul`/`ζ^n = 1`. Then `χ k := (cubeChar k).comp qHom`, and `k = 0,…,n-1` gives all `n`
+characters at once. Do **not** try to prove `map_mul` for the `ℂˣ`-valued map directly by `decide`
+(`ℂˣ` is not decidable) or by `Nat`-level `%` juggling (`omega` cannot do `k * c` with two variables).
+Kernel identification is also pure `decide`: `∀ g, qVal g = 0 → (g = 1 ∨ <cycleType condition>)` and
+its converse, fed to `le_antisymm` with `Subgroup.closure_le`/`Subgroup.subset_closure` — no
+cardinality argument needed. For `A₄` the `qVal` came for free from the existing `S₄` conjugation
+action on the three pair-partitions (`Example4_8_1.S4.conjIdxS4`): `g ↦ g • 0` is additive because
+the image of `A₄` is the rotations of `{0,1,2}`, and any 3-cycle there is translation by `±1`.
+
 #### Building `MulAut (Multiplicative A)` from a coordinate formula (semidirect-product `φ`, #5920)
 
 To apply `Etingof.Theorem5_27_1` you must exhibit the group as `A ⋊[φ] G` with `A` a `CommGroup`,
