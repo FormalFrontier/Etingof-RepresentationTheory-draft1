@@ -3239,6 +3239,33 @@ Three API gotchas that cost build cycles here:
 - **Tensor-basis coefficients:** `Basis.piTensorProduct_repr_tprod_apply` gives
   `(piTensorProduct b).repr (⨂ₜ x) p = ∏ i, (b i).repr (x i) (p i)` — the clean way
   to read a coefficient of `PiTensorProduct.map f (tprod …)`.
+- **`⨂[k] (_ : ι), V` needs `open scoped TensorProduct`, NOT `open PiTensorProduct`** (the
+  notation is `scoped[TensorProduct]` even though it lives in `PiTensorProduct/Basic.lean`).
+  Getting this wrong is expensive out of all proportion: the only honest error is a bare
+  `expected token` at the first use, after which the enclosing `def`/`abbrev` auto-binds a
+  wrong implicit and *every later declaration in the file* fails with
+  `Application type mismatch: argument k … expected ℕ`. **Read the HEAD of the build log, not
+  the tail** — grepping `| tail -60` shows only the cascade and sends you rewriting correct
+  proofs. Same discipline for any file where the error count is suspiciously large: fix the
+  first error and rebuild before reading the rest.
+- **`exteriorPower.map` takes `n` explicitly:** `exteriorPower.map n A`, not
+  `exteriorPower.map A` (`variable (n) in` sits above the `def`). The failure is
+  `argument A … expected ℕ`, which reads like a unification bug rather than a missing argument.
+- **`simp` normalises `p.mkQ x` to `Submodule.Quotient.mk x`.** In quotient-heavy files this
+  silently desynchronises hypotheses from goals: a `have` you built with `mkQ` will not `rw`
+  into a goal `simp` has already touched, with `Did not find an occurrence of the pattern`
+  naming a term the goal visibly contains modulo that one coercion. Normalise both sides —
+  `simp only [Submodule.mkQ_apply, …] at h₁ h₂ ⊢` — before rewriting. Corollary: a `@[simp]`
+  lemma stated as `f (someTprodIntoQuotient …) = …` can never fire once the projection has
+  been normalised away; state such lemmas at the `Submodule.Quotient.mk` level.
+- **The default simp set rewrites `-(a + b)` to `-b + -a`** (`neg_add_rev`), reversing an
+  addition and leaving a goal that only `add_comm`/`abel` closes. In an
+  `induction … using PiTensorProduct.induction_on` `add` case, prefer
+  `simp only [map_add, ha, hb, neg_add]` over a bare `simp`.
+- **A type variable that appears only in a declaration's *result* type cannot be inferred from
+  its arguments.** Applying e.g. `exteriorPowerEquiv h2 n` to an element then fails with
+  `Function expected at …, but this term has type … ?m.10 …` — the coercion cannot be inserted
+  because the type is still a metavariable. Pass it: `exteriorPowerEquiv (V := V) h2 n x`.
 - **`Matrix.col` has no `col_apply`.** `M.col j = Mᵀ`, so `(M.col j) i` is
   *definitionally* `M i j` (via `transpose`/`of_apply`). After
   `rw [Matrix.mulVec_single_one]` just close the entry goal with `rfl`, not a
@@ -5189,6 +5216,15 @@ These are proof approaches that multiple agents have attempted and failed. Don't
 - `congr 1` strips one coercion layer but leaves incompatible goal forms
 
 **Status:** 3+ agents have attempted this (Example 5.19.3 exterior part). All failed. **Sorry and move on.** This requires new Mathlib bridging infrastructure between `ExteriorAlgebra` and `PiTensorProduct`.
+
+**Scope: this dead-end is the SUBSPACE direction only. The QUOTIENT direction works — do not sorry it.** The blocked statement realises `⋀[k]^n V` *inside* `V^{⊗ n}` as the alternating subspace. Identifying `⋀[k]^n V` with a *quotient* of `V^{⊗ n}` is a different problem and goes through in a few build cycles, because both maps come from universal properties instead of a coercion:
+- out of the tensor power: `PiTensorProduct.lift (exteriorPower.ιMulti k n).toMultilinearMap`, descended past the relation submodule with `Submodule.liftQ`;
+- out of the exterior power: `exteriorPower.alternatingMapLinearEquiv f` for an `AlternatingMap` `f` into the quotient (build `f` by giving `map_eq_zero_of_eq'` — a pure tensor with a repeated entry is in the relation submodule);
+- assemble with `LinearEquiv.ofLinear` and check both round-trips on generators.
+
+**To prove two linear maps out of `⋀[k]^n V` agree, use `LinearMap.ext_on (exteriorPower.ιMulti_span k n V)`, NOT `exteriorPower.linearMap_ext`.** `ιMulti_span` says the range of `ιMulti` spans, so `ext_on` reduces the goal to `ιMulti` generators as ordinary elements; `linearMap_ext` is exactly the lemma that produces the unresolvable `compAlternatingMap`/`↑` goals listed above. Worked sorry-free: `Chapter2/Problem2_11_3_SymExtPow.lean` `exteriorPowerEquiv` (#7365), identifying Etingof's quotient model of `∧^n V` with Mathlib's, plus `extPowOfExteriorPower_naturality` for `exteriorPower.map n A`.
+
+Note the char-2 caveat that argument carries: `span {T | ∃ transposition s, s • T = T} ≤ ker` is proved from `Φ T = Φ (s T) = -Φ T`, i.e. `(2 : k) • Φ T = 0`, so it needs `(2 : k) ≠ 0`. The statement is still true in characteristic 2 (the fixed space of `1 + s` equals the span of the pure tensors with a repeated entry) but there the averaging step has no analogue and you need a basis-and-orbits argument — see #7820.
 
 ### Dependent Type Issues with `if`-branching `obj` Fields
 
