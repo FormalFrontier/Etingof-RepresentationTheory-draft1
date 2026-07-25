@@ -295,6 +295,8 @@ theorem partYoungSymEnd_eq_zero (N : ℕ) {n : ℕ} (la : Nat.Partition n)
     (hN : N < Multiset.card la.parts) : partYoungSymEnd k N la = 0 := by
   rw [partYoungSymEnd_eq_colAntiEnd_mul, colAntiEnd_eq_zero k N la hN, zero_mul]
 
+-- Reopened to drop the `[CharZero k]` assumption: the representation-theoretic
+-- construction below needs only a field, and reintroduces `CharZero` where it is used.
 end Etingof
 
 namespace Etingof
