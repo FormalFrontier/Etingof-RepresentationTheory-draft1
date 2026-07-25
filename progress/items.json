@@ -875,7 +875,7 @@
     "start_line": 25,
     "end_line": 8,
     "status": "sorry_free",
-    "coverage_note": "Parts (a), (b), and the characteristic-p dimension result are source-present. Problem2_7_4_Family.lean now constructs the classifying family V(alpha,c) for part (c), with the defining relation, the module structure, and the central-scalar actions x^p = alpha, y^p = c^p, and irreducibility of V(alpha,c) for every parameter pair (famModule_isSimpleModule); the isomorphism criterion and exhaustiveness remain open under #7387. Independently, Problem2_7_4.lean now fails a fresh check at a scalar-cast/neg_smul rewrite; regression #7530.",
+    "coverage_note": "Parts (a), (b), and the characteristic-p dimension result are source-present. Problem2_7_4_Family.lean now constructs the classifying family V(alpha,c) for part (c), with the defining relation, the module structure, the central-scalar actions x^p = alpha, y^p = c^p, irreducibility of V(alpha,c) for every parameter pair (famModule_isSimpleModule), and the isomorphism criterion V(alpha,c) = V(alpha',c') iff alpha = alpha' and c = c' (famEquiv_nonempty_iff), so the family lists each isomorphism class at most once; exhaustiveness remains open under #7387. Independently, Problem2_7_4.lean now fails a fresh check at a scalar-cast/neg_smul rewrite; regression #7530.",
     "followup_issue": 7387,
     "coverage_issue": 7530,
     "coverage": "covered_partial",
@@ -883,7 +883,7 @@
       "EtingofRepresentationTheory/Chapter2/Problem2_7_4.lean",
       "EtingofRepresentationTheory/Chapter2/Problem2_7_4_Family.lean"
     ],
-    "last_updated": "2026-07-24"
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter2/Problem2.7.5",
@@ -1800,7 +1800,7 @@
     "end_line": 12,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "coverage_note": "Part (a)'s dimension results and part (b)'s non-finiteness theorem not_finiteDimensional_g_four are proved. The source additionally asks for an explicit basis of g_4; the twisted A_2^(2) loop subalgebra n_+ that receives it is now built (loopPos, #7717), but the Module.Basis itself is still missing (#7718, #7719, #7720).",
+    "coverage_note": "Part (a)'s dimension results and part (b)'s non-finiteness theorem not_finiteDimensional_g_four are proved. The source additionally asks for an explicit basis of g_4; the twisted A_2^(2) loop subalgebra n_+ that receives it is built (loopPos, #7717) and now carries an explicit graded Module.Basis (loopBasis, #7728, graded dimensions 1, 5, 3, 5, 3, ... away from characteristic 2). Still missing: range matHom_4 = loopPos (#7729), the upper bound on g_4 (#7719), and transporting the basis back to g_4 (#7720).",
     "fidelity_issue": 7720,
     "last_updated": "2026-07-25"
   },
@@ -9809,11 +9809,11 @@
     "needs_statement": false,
     "notes": "The chosen-progenerator categorical form is sorry-free. Exercise963.exists_progenerator now proves that every finite abelian category has a progenerator, but Corollary_9_7_3_i_categorical and its FGModuleCat endpoint still require P from the caller instead of choosing it internally. Follow-up: #7367.",
     "attention_needed": false,
-    "fidelity_note": "The FGModuleCat equivalence, uniqueness, and dimension-bound conclusions are proved. Two wiring/API gaps remain: the categorical corollary still asks the caller for a progenerator (#7367), and the public algebraic existence result returns weaker basicness/Morita notions than the uniqueness and dimension theorems accept (#7423).",
+    "fidelity_note": "The FGModuleCat equivalence, uniqueness, and dimension-bound conclusions are proved. The public-API incoherence is closed (#7423): Corollary_9_7_3_i_strong and the bundled Corollary_9_7_3 return IsBasicAlgebraSplit + IsBasicAlgebra + KLinearMoritaEquivalent, so the constructed B satisfies the hypotheses of Corollary_9_7_3_i_unique and Corollary_9_7_3_ii, and BasicAlgebraSplitBridge proves the two basicness predicates agree over an algebraically closed field. One wiring gap remains: the categorical corollary still asks the caller for a progenerator (#7367).",
     "coverage": "covered_partial",
-    "fidelity_issue": 7423,
+    "fidelity_issue": 7367,
     "followup_issue": 7367,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Backmatter/ReferencesHistorical",

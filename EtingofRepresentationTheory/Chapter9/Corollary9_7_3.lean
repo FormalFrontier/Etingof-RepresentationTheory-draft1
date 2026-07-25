@@ -1,3 +1,4 @@
+import EtingofRepresentationTheory.Chapter9.BasicAlgebraSplitBridge
 import EtingofRepresentationTheory.Chapter9.Definition9_7_1
 import EtingofRepresentationTheory.Chapter9.Definition9_7_2
 import EtingofRepresentationTheory.Chapter9.MoritaStructural
@@ -233,3 +234,100 @@ theorem Etingof.Corollary_9_7_3_ii [IsAlgClosed k]
       = Module.finrank k (Etingof.CornerRing (k := k) e) :=
         LinearEquiv.finrank_eq φ.toLinearEquiv
     _ ≤ Module.finrank k A := Etingof.CornerRing.finrank_le
+
+/-! ## The coherent public API
+
+`Etingof.Corollary_9_7_3_i` above returns the book's literal `IsBasicAlgebra` together with a
+bare `MoritaEquivalent`, while `Etingof.Corollary_9_7_3_i_unique` and
+`Etingof.Corollary_9_7_3_ii` consume `IsBasicAlgebraSplit` and `KLinearMoritaEquivalent`. The
+`B` handed out by the former therefore could not be fed to either. The results below close
+that gap in both directions:
+
+* `Etingof.Corollary_9_7_3_i_strong` produces all of `IsBasicAlgebraSplit`, `IsBasicAlgebra`
+  and `KLinearMoritaEquivalent` at once — all three are already established by the
+  construction in `Infrastructure/BasicAlgebraExistence.lean`, which merely discarded two of
+  them at the public boundary.
+* `Etingof.Corollary_9_7_3_i_unique'` and `Etingof.Corollary_9_7_3_ii'` accept the book's
+  literal `IsBasicAlgebra` hypothesis instead, via
+  `Etingof.IsBasicAlgebra.isBasicAlgebraSplit` (`BasicAlgebraSplitBridge.lean`). Over the
+  standing algebraically closed field the two predicates agree, so no generality is lost.
+* `Etingof.Corollary_9_7_3` bundles existence, uniqueness and the dimension bound into a
+  single statement phrased throughout in the strong notions.
+
+`Etingof.Corollary_9_7_3_i` itself is kept unchanged as the convenient weak form.
+-/
+
+/-- **Corollary 9.7.3(i), strong form**: any finite-dimensional algebra `A` over an
+algebraically closed field `k` is `k`-linearly Morita equivalent to an algebra `B` that is
+basic in *both* senses — `IsBasicAlgebraSplit` (every simple `B`-module is one-dimensional)
+and the book's literal `IsBasicAlgebra` (`B / Rad(B)` commutative).
+
+Unlike `Etingof.Corollary_9_7_3_i`, the output of this theorem can be fed directly to
+`Etingof.Corollary_9_7_3_i_unique` and `Etingof.Corollary_9_7_3_ii`.
+(Etingof Corollary 9.7.3(i), algebra version) -/
+theorem Etingof.Corollary_9_7_3_i_strong [IsAlgClosed k]
+    (A : Type u) [Ring A] [Algebra k A] [Module.Finite k A] :
+    ∃ (B : Type u) (_ : Ring B) (_ : Algebra k B) (_ : Module.Finite k B),
+      Etingof.IsBasicAlgebraSplit.{u, u, u} k B ∧ Etingof.IsBasicAlgebra k B ∧
+        Etingof.KLinearMoritaEquivalent k A B :=
+  Etingof.exists_basicSplit_klinearMorita k A
+
+/-- **Corollary 9.7.3(i), uniqueness from the book's basicness condition.** The variant of
+`Etingof.Corollary_9_7_3_i_unique` whose hypotheses on `B₁` and `B₂` are the book's literal
+Definition 9.7.2 (`Bᵢ / Rad(Bᵢ)` commutative) rather than `IsBasicAlgebraSplit`.
+
+Over the algebraically closed field `k` the two conditions agree
+(`Etingof.isBasicAlgebra_iff_isBasicAlgebraSplit`), so this is exactly as strong.
+(Etingof Corollary 9.7.3(i), uniqueness) -/
+theorem Etingof.Corollary_9_7_3_i_unique' [IsAlgClosed k]
+    (A : Type u) [Ring A] [Algebra k A] [Module.Finite k A]
+    (B₁ : Type u) [Ring B₁] [Algebra k B₁] [Module.Finite k B₁]
+    (B₂ : Type u) [Ring B₂] [Algebra k B₂] [Module.Finite k B₂]
+    (hB₁ : Etingof.IsBasicAlgebra k B₁) (hB₂ : Etingof.IsBasicAlgebra k B₂)
+    (h₁ : Etingof.KLinearMoritaEquivalent k A B₁)
+    (h₂ : Etingof.KLinearMoritaEquivalent k A B₂) :
+    Nonempty (B₁ ≃ₐ[k] B₂) :=
+  Etingof.Corollary_9_7_3_i_unique k A B₁ B₂
+    hB₁.isBasicAlgebraSplit hB₂.isBasicAlgebraSplit h₁ h₂
+
+/-- **Corollary 9.7.3(ii), from the book's basicness condition.** The variant of
+`Etingof.Corollary_9_7_3_ii` whose hypothesis on `B` is the book's literal Definition 9.7.2
+(`B / Rad(B)` commutative) rather than `IsBasicAlgebraSplit`.
+(Etingof Corollary 9.7.3(ii)) -/
+theorem Etingof.Corollary_9_7_3_ii' [IsAlgClosed k]
+    (A : Type u) [Ring A] [Algebra k A] [Module.Finite k A]
+    (B : Type u) [Ring B] [Algebra k B] [Module.Finite k B]
+    (hB : Etingof.IsBasicAlgebra k B)
+    (hMor : Etingof.KLinearMoritaEquivalent k A B) :
+    Module.finrank k B ≤ Module.finrank k A :=
+  Etingof.Corollary_9_7_3_ii k A B hB.isBasicAlgebraSplit hMor
+
+/-- **Corollary 9.7.3, bundled.** For a finite-dimensional algebra `A` over an algebraically
+closed field `k` there is a `k`-algebra `B` which is
+
+* basic, in both the split sense and the book's literal sense;
+* `k`-linearly Morita equivalent to `A`;
+* of dimension at most that of `A` (part (ii)); and
+* unique: any basic `B'` that is `k`-linearly Morita equivalent to `A` is `k`-algebra
+  isomorphic to `B` (part (i), uniqueness).
+
+This is the single statement in which the existence, uniqueness and dimension claims of the
+corollary are phrased in one coherent set of notions, so that the `B` produced by the
+existence clause really does satisfy the hypotheses of the uniqueness clause.
+(Etingof Corollary 9.7.3) -/
+theorem Etingof.Corollary_9_7_3 [IsAlgClosed k]
+    (A : Type u) [Ring A] [Algebra k A] [Module.Finite k A] :
+    ∃ (B : Type u) (_ : Ring B) (_ : Algebra k B) (_ : Module.Finite k B),
+      Etingof.IsBasicAlgebraSplit.{u, u, u} k B ∧
+        Etingof.IsBasicAlgebra k B ∧
+          Etingof.KLinearMoritaEquivalent k A B ∧
+            Module.finrank k B ≤ Module.finrank k A ∧
+              ∀ (B' : Type u) (_ : Ring B') (_ : Algebra k B') (_ : Module.Finite k B'),
+                Etingof.IsBasicAlgebra k B' → Etingof.KLinearMoritaEquivalent k A B' →
+                  Nonempty (B' ≃ₐ[k] B) := by
+  obtain ⟨B, instR, instA, instF, hsplit, hbasic, hmor⟩ :=
+    Etingof.Corollary_9_7_3_i_strong k A
+  refine ⟨B, instR, instA, instF, hsplit, hbasic, hmor, ?_, ?_⟩
+  · exact Etingof.Corollary_9_7_3_ii k A B hsplit hmor
+  · intro B' _ _ _ hbasic' hmor'
+    exact Etingof.Corollary_9_7_3_i_unique k A B' B hbasic'.isBasicAlgebraSplit hsplit hmor' hmor

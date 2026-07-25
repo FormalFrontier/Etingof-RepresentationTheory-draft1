@@ -10,7 +10,9 @@ import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Algebra.Polynomial.Basis
 import Mathlib.LinearAlgebra.Matrix.Trace
+import Mathlib.Algebra.Polynomial.Degree.Support
 import Mathlib.Tactic.IntervalCases
+import Mathlib.Tactic.LinearCombination
 
 /-!
 # Problem 2.16.3: The Lie algebras `𝔤ₙ = ⟨x, y | ad(x)²y = ad(y)ⁿ⁺¹x = 0⟩`
@@ -1629,6 +1631,343 @@ theorem NY_mem_loopPos : NY k ∈ loopPos k := by
         simp [NY, gzero, constMat, Matrix.single, AlgHom.mapMatrix_apply]
     rw [this]
     exact Submodule.mem_span_singleton_self _
+
+/-! ### The `σ`-eigenspaces are spanned by `gzero` and `gone`
+
+`sigInv_gzero` and `sigInv_gone` place `gzero` in the `+1`-eigenspace of `σ` and `gone` in the
+`-1`-eigenspace. Here we prove the converse inclusions, which is what turns the intrinsic
+description of `loopPos` into the graded one. Both are entry chases through
+`rev = (0 ↔ 2, 1 ↔ 1)`.
+
+Note the `-1`-eigenspace of `σ` on all of `𝔤𝔩₃` is `6`-dimensional (`σ(1) = -1`); it is the
+traceless condition that cuts it down to the `5`-dimensional `gone`. The `+1`-eigenspace is
+automatically traceless, but pinning it to `gzero` needs `2 ≠ 0` (the entries `a₀₂`, `a₁₁`, `a₂₀`
+are only killed by `2a = 0`). -/
+
+/-- Away from characteristic `2`, the `+1`-eigenspace of `σ` on `𝔤𝔩₃` is exactly the span of
+`gzero`. -/
+theorem mem_span_gzero_of_sigInv_eq (k : Type*) [Field k] (h2 : (2 : k) ≠ 0)
+    {A : Matrix (Fin 3) (Fin 3) k} (h : sigInv A = A) :
+    A ∈ Submodule.span k (Set.range (gzero k)) := by
+  have e : ∀ i j : Fin 3, -(A j.rev i.rev) = A i j := fun i j => congrFun (congrFun h i) j
+  have two_cancel : ∀ a : k, -a = a → a = 0 := by
+    intro a ha
+    have : (2 : k) * a = 0 := by linear_combination -ha
+    exact (mul_eq_zero.mp this).resolve_left h2
+  have h02 : A 0 2 = 0 := two_cancel _ (by simpa using e 0 2)
+  have h11 : A 1 1 = 0 := two_cancel _ (by simpa using e 1 1)
+  have h20 : A 2 0 = 0 := two_cancel _ (by simpa using e 2 0)
+  have h22 : A 2 2 = -A 0 0 := by simpa [eq_comm] using e 2 2
+  have h12 : A 1 2 = -A 0 1 := by simpa [eq_comm] using e 1 2
+  have h21 : A 2 1 = -A 1 0 := by simpa [eq_comm] using e 2 1
+  have key : A = A 0 1 • gzero k 0 + A 0 0 • gzero k 1 + A 1 0 • gzero k 2 := by
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [gzero, Matrix.single, Matrix.add_apply, h02, h11, h20, h22, h12, h21]
+  rw [key]
+  refine Submodule.add_mem _ (Submodule.add_mem _ ?_ ?_) ?_ <;>
+    exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨_, rfl⟩)
+
+set_option linter.unnecessarySeqFocus false in
+/-- The traceless part of the `-1`-eigenspace of `σ` on `𝔤𝔩₃` is exactly the span of `gone`.
+No hypothesis on the characteristic is needed. -/
+theorem mem_span_gone_of_sigInv_eq_neg {A : Matrix (Fin 3) (Fin 3) k}
+    (htr : Matrix.trace A = 0) (h : sigInv A = -A) :
+    A ∈ Submodule.span k (Set.range (gone k)) := by
+  have e : ∀ i j : Fin 3, A j.rev i.rev = A i j := by
+    intro i j
+    have := congrFun (congrFun h i) j
+    simpa [Matrix.neg_apply, neg_inj] using this
+  have h22 : A 2 2 = A 0 0 := by simpa using e 0 0
+  have h12 : A 1 2 = A 0 1 := by simpa using e 0 1
+  have h21 : A 2 1 = A 1 0 := by simpa using e 1 0
+  have h11 : A 1 1 = -(2 : k) * A 0 0 := by
+    have := htr
+    simp only [Matrix.trace, Matrix.diag, Fin.sum_univ_three] at this
+    linear_combination this - h22
+  have key : A = A 0 2 • gone k 0 + A 0 1 • gone k 1 + A 0 0 • gone k 2
+      + A 1 0 • gone k 3 + A 2 0 • gone k 4 := by
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [gone, Matrix.single, Matrix.add_apply, h22, h12, h21, h11] <;> ring
+  rw [key]
+  refine Submodule.add_mem _ (Submodule.add_mem _ (Submodule.add_mem _
+    (Submodule.add_mem _ ?_ ?_) ?_) ?_) ?_ <;>
+    exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨_, rfl⟩)
+
+/-! ### The monomial embedding and the `t`-degree decomposition -/
+
+/-- `A ↦ A·tⁿ`, entrywise: a constant matrix placed in `t`-degree `n`. -/
+noncomputable def emb (n : ℕ) :
+    Matrix (Fin 3) (Fin 3) k →ₗ[k] Matrix (Fin 3) (Fin 3) (Polynomial k) where
+  toFun A := A.map (Polynomial.monomial n)
+  map_add' A B := Matrix.ext fun a b => by
+    simp [Matrix.map_apply, Matrix.add_apply]
+  map_smul' c A := Matrix.ext fun a b => by
+    simp [Matrix.map_apply, Matrix.smul_apply, Polynomial.smul_monomial]
+
+@[simp] theorem emb_apply (n : ℕ) (A : Matrix (Fin 3) (Fin 3) k) (a b : Fin 3) :
+    emb k n A a b = Polynomial.monomial n (A a b) := rfl
+
+/-- Reading off the `tᵐ`-coefficient of a `t`-homogeneous matrix. -/
+@[simp] theorem coeffMat_emb (m n : ℕ) (A : Matrix (Fin 3) (Fin 3) k) :
+    coeffMat k m (emb k n A) = if n = m then A else 0 := by
+  ext a b
+  by_cases h : n = m <;> simp [Polynomial.coeff_monomial, h]
+
+/-- Every polynomial matrix is the finite sum of its `t`-homogeneous pieces. -/
+theorem exists_sum_emb_coeffMat (P : Matrix (Fin 3) (Fin 3) (Polynomial k)) :
+    ∃ N, P = ∑ n ∈ Finset.range N, emb k n (coeffMat k n P) := by
+  refine ⟨(Finset.univ.sup fun ij : Fin 3 × Fin 3 => (P ij.1 ij.2).natDegree) + 1, ?_⟩
+  refine Matrix.ext fun a b => ?_
+  have hlt : (P a b).natDegree
+      < (Finset.univ.sup fun ij : Fin 3 × Fin 3 => (P ij.1 ij.2).natDegree) + 1 :=
+    Nat.lt_succ_of_le
+      (Finset.le_sup (f := fun ij : Fin 3 × Fin 3 => (P ij.1 ij.2).natDegree)
+        (Finset.mem_univ (a, b)))
+  simp only [Matrix.sum_apply, emb_apply, coeffMat_apply]
+  exact Polynomial.as_sum_range' (P a b) _ hlt
+
+/-- The trace of a `t`-homogeneous matrix is the corresponding monomial in the trace. -/
+theorem trace_emb (n : ℕ) (A : Matrix (Fin 3) (Fin 3) k) :
+    Matrix.trace (emb k n A) = Polynomial.monomial n (Matrix.trace A) := by
+  simp only [Matrix.trace, Matrix.diag, Fin.sum_univ_three, emb_apply, map_add]
+
+/-- The `tⁿ`-coefficient of a traceless polynomial matrix is traceless. -/
+theorem trace_coeffMat (n : ℕ) {P : Matrix (Fin 3) (Fin 3) (Polynomial k)}
+    (h : Matrix.trace P = 0) : Matrix.trace (coeffMat k n P) = 0 := by
+  have : Matrix.trace (coeffMat k n P) = (Matrix.trace P).coeff n := by
+    simp [Matrix.trace, Matrix.diag, Fin.sum_univ_three]
+  rw [this, h, Polynomial.coeff_zero]
+
+/-- A `t`-homogeneous matrix lies in `𝔫₊` as soon as its constant matrix is traceless, sits in
+the right `σ`-eigenspace for the parity of its degree, and — in degree `0` only — is a multiple
+of the raising vector. -/
+theorem emb_mem_loopPos (n : ℕ) (A : Matrix (Fin 3) (Fin 3) k) (htr : Matrix.trace A = 0)
+    (hsig : sigInv A = (-1 : k) ^ n • A)
+    (hconst : n = 0 → A ∈ Submodule.span k {gzero k 0}) :
+    emb k n A ∈ loopPos k := by
+  refine ⟨by rw [trace_emb, htr, map_zero], ?_, ?_⟩
+  · rw [sigInv_eq_twMat_iff]
+    intro m
+    rw [coeffMat_emb]
+    by_cases h : n = m
+    · subst h; simpa using hsig
+    · simp [h]
+  · rw [constMat_eq_coeffMat_zero, coeffMat_emb]
+    by_cases hn : n = 0
+    · rw [if_pos hn]; exact hconst hn
+    · rw [if_neg hn]; exact Submodule.zero_mem _
+
+/-! ### The graded basis of `𝔫₊` -/
+
+/-- Index type for the graded basis of `𝔫₊`: one element in `t`-degree `0` (the raising vector),
+five in each odd `t`-degree `2m+1` (a copy of `𝔤₁`), three in each even `t`-degree `2m+2`
+(a copy of `𝔤₀`). Graded dimensions `1, 5, 3, 5, 3, …`. -/
+inductive LoopIdx where
+  | base : LoopIdx
+  | odd (m : ℕ) (i : Fin 5) : LoopIdx
+  | even (m : ℕ) (i : Fin 3) : LoopIdx
+  deriving DecidableEq
+
+/-- The `t`-degree of a basis index. -/
+def LoopIdx.deg : LoopIdx → ℕ
+  | .base => 0
+  | .odd m _ => 2 * m + 1
+  | .even m _ => 2 * m + 2
+
+/-- The constant matrix carried by a basis index. -/
+noncomputable def LoopIdx.mat (k : Type*) [CommRing k] : LoopIdx → Matrix (Fin 3) (Fin 3) k
+  | .base => gzero k 0
+  | .odd _ i => gone k i
+  | .even _ i => gzero k i
+
+/-- The basis vector of `𝔫₊` at a given index, viewed in the ambient `𝔤𝔩₃(k[t])`. -/
+noncomputable def loopVec (I : LoopIdx) : Matrix (Fin 3) (Fin 3) (Polynomial k) :=
+  emb k I.deg (I.mat k)
+
+theorem loopVec_mem (I : LoopIdx) : loopVec k I ∈ loopPos k := by
+  change emb k I.deg (I.mat k) ∈ loopPos k
+  refine emb_mem_loopPos k I.deg (I.mat k) ?_ ?_ ?_
+  · cases I <;> simp [LoopIdx.mat]
+  · cases I with
+    | base => simp [LoopIdx.deg, LoopIdx.mat]
+    | odd m i =>
+        rw [LoopIdx.mat, LoopIdx.deg, sigInv_gone, pow_succ, pow_mul]
+        simp
+    | even m i =>
+        rw [LoopIdx.mat, LoopIdx.deg, sigInv_gzero, show 2 * m + 2 = 2 * (m + 1) by ring, pow_mul]
+        simp
+  · intro h
+    cases I with
+    | base => simp [LoopIdx.mat, Submodule.mem_span_singleton_self]
+    | odd m i => rw [LoopIdx.deg] at h; omega
+    | even m i => rw [LoopIdx.deg] at h; omega
+
+/-- The basis vector of `𝔫₊` at a given index. -/
+noncomputable def loopFam (I : LoopIdx) : loopPos k := ⟨loopVec k I, loopVec_mem k I⟩
+
+/-! #### Linear independence, via a dual family of coordinate functionals
+
+Each `gzero i` and each `gone i` has a distinguished matrix entry where it equals `1` while the
+other members of its family vanish. Combined with reading off the `t`-degree, this produces a
+family of functionals dual to `loopVec`. -/
+
+/-- The matrix entry at which the constant matrix of an index equals `1` while the constant
+matrix of every other index of the same `t`-degree vanishes. -/
+def LoopIdx.pos : LoopIdx → Fin 3 × Fin 3
+  | .base => (0, 1)
+  | .odd _ i => ![(0, 2), (0, 1), (0, 0), (1, 0), (2, 0)] i
+  | .even _ i => ![(0, 1), (0, 0), (1, 0)] i
+
+/-- The coordinate functional dual to the basis vector at index `I`: read off the entry
+`I.pos` and take its `t`-degree `I.deg` coefficient. -/
+noncomputable def loopCoord (I : LoopIdx) :
+    Matrix (Fin 3) (Fin 3) (Polynomial k) →ₗ[k] k where
+  toFun P := (P I.pos.1 I.pos.2).coeff I.deg
+  map_add' P Q := by simp [Matrix.add_apply]
+  map_smul' c P := by simp [Matrix.smul_apply, Polynomial.coeff_smul]
+
+theorem loopCoord_loopVec (I J : LoopIdx) :
+    loopCoord k I (loopVec k J) = if I = J then 1 else 0 := by
+  have hL : loopCoord k I (loopVec k J)
+      = if J.deg = I.deg then (J.mat k) I.pos.1 I.pos.2 else 0 := by
+    simp [loopCoord, loopVec, Polynomial.coeff_monomial]
+  rw [hL]
+  by_cases h : I = J
+  · subst h
+    rw [if_pos rfl, if_pos rfl]
+    cases I with
+    | base => simp [LoopIdx.mat, LoopIdx.pos, gzero, Matrix.single]
+    | odd m i =>
+        fin_cases i <;> simp [LoopIdx.mat, LoopIdx.pos, gone, Matrix.single]
+    | even m i =>
+        fin_cases i <;> simp [LoopIdx.mat, LoopIdx.pos, gzero, Matrix.single]
+  · rw [if_neg h]
+    by_cases hd : J.deg = I.deg
+    · rw [if_pos hd]
+      cases I with
+      | base =>
+          cases J with
+          | base => exact absurd rfl h
+          | odd m' i' => rw [LoopIdx.deg, LoopIdx.deg] at hd; omega
+          | even m' i' => rw [LoopIdx.deg, LoopIdx.deg] at hd; omega
+      | odd m i =>
+          cases J with
+          | base => rw [LoopIdx.deg, LoopIdx.deg] at hd; omega
+          | odd m' i' =>
+              have hm : m' = m := by rw [LoopIdx.deg, LoopIdx.deg] at hd; omega
+              subst hm
+              have hi : i' ≠ i := fun hh => h (by rw [hh])
+              clear hd h
+              fin_cases i <;> fin_cases i' <;>
+                first
+                  | exact absurd rfl hi
+                  | simp [LoopIdx.mat, LoopIdx.pos, gone, Matrix.single]
+          | even m' i' => rw [LoopIdx.deg, LoopIdx.deg] at hd; omega
+      | even m i =>
+          cases J with
+          | base => rw [LoopIdx.deg, LoopIdx.deg] at hd; omega
+          | odd m' i' => rw [LoopIdx.deg, LoopIdx.deg] at hd; omega
+          | even m' i' =>
+              have hm : m' = m := by rw [LoopIdx.deg, LoopIdx.deg] at hd; omega
+              subst hm
+              have hi : i' ≠ i := fun hh => h (by rw [hh])
+              clear hd h
+              fin_cases i <;> fin_cases i' <;>
+                first
+                  | exact absurd rfl hi
+                  | simp [LoopIdx.mat, LoopIdx.pos, gzero, Matrix.single]
+    · rw [if_neg hd]
+
+theorem linearIndependent_loopVec (k : Type*) [Field k] : LinearIndependent k (loopVec k) := by
+  rw [linearIndependent_iff']
+  intro s g hg I hI
+  have hz := congrArg (loopCoord k I) hg
+  rw [map_sum, map_zero] at hz
+  rw [Finset.sum_eq_single_of_mem I hI ?_] at hz
+  · simpa [loopCoord_loopVec] using hz
+  · intro J _ hne
+    simp [loopCoord_loopVec, Ne.symm hne]
+
+theorem linearIndependent_loopFam (k : Type*) [Field k] : LinearIndependent k (loopFam k) := by
+  have h : LinearIndependent k ((loopPos k).incl.toLinearMap ∘ loopFam k) :=
+    linearIndependent_loopVec k
+  exact LinearIndependent.of_comp _ h
+
+/-! #### Spanning -/
+
+/-- Every element of `𝔫₊` is a finite combination of the graded family: split it into
+`t`-homogeneous pieces and apply the `σ`-eigenspace characterizations degreewise. -/
+theorem mem_span_loopVec (k : Type*) [Field k] (h2 : (2 : k) ≠ 0)
+    {P : Matrix (Fin 3) (Fin 3) (Polynomial k)} (hP : P ∈ loopPos k) :
+    P ∈ Submodule.span k (Set.range (loopVec k)) := by
+  obtain ⟨htr, hsig, hconst⟩ := hP
+  rw [sigInv_eq_twMat_iff] at hsig
+  obtain ⟨N, hN⟩ := exists_sum_emb_coeffMat k P
+  rw [hN]
+  refine Submodule.sum_mem _ fun n _ => ?_
+  have htrA : Matrix.trace (coeffMat k n P) = 0 := trace_coeffMat k n htr
+  rcases Nat.eq_zero_or_pos n with rfl | hn
+  · rw [constMat_eq_coeffMat_zero] at hconst
+    obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp hconst
+    rw [← hc, map_smul]
+    refine Submodule.smul_mem _ _ (Submodule.subset_span ⟨LoopIdx.base, ?_⟩)
+    simp [loopVec, LoopIdx.deg, LoopIdx.mat]
+  · rcases Nat.even_or_odd n with he | ho
+    · obtain ⟨r, hr⟩ := he
+      obtain ⟨m, hm⟩ : ∃ m, n = 2 * m + 2 := ⟨r - 1, by omega⟩
+      have hpow : (-1 : k) ^ n = 1 := by
+        rw [hm, show 2 * m + 2 = 2 * (m + 1) by ring, pow_mul]; simp
+      have hfix : sigInv (coeffMat k n P) = coeffMat k n P := by
+        have := hsig n; rwa [hpow, one_smul] at this
+      have hmem := mem_span_gzero_of_sigInv_eq k h2 hfix
+      have himg := Submodule.mem_map_of_mem (f := emb k n) hmem
+      rw [Submodule.map_span, ← Set.range_comp] at himg
+      refine Submodule.span_mono ?_ himg
+      rintro _ ⟨i, rfl⟩
+      exact ⟨LoopIdx.even m i, by simp [loopVec, LoopIdx.deg, LoopIdx.mat, hm]⟩
+    · obtain ⟨m, hm⟩ := ho
+      have hpow : (-1 : k) ^ n = -1 := by rw [hm, pow_succ, pow_mul]; simp
+      have hneg : sigInv (coeffMat k n P) = -coeffMat k n P := by
+        have := hsig n; rwa [hpow, neg_one_smul] at this
+      have hmem := mem_span_gone_of_sigInv_eq_neg k htrA hneg
+      have himg := Submodule.mem_map_of_mem (f := emb k n) hmem
+      rw [Submodule.map_span, ← Set.range_comp] at himg
+      refine Submodule.span_mono ?_ himg
+      rintro _ ⟨i, rfl⟩
+      exact ⟨LoopIdx.odd m i, by simp [loopVec, LoopIdx.deg, LoopIdx.mat, hm]⟩
+
+theorem span_loopFam_eq_top (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) :
+    Submodule.span k (Set.range (loopFam k)) = ⊤ := by
+  rw [eq_top_iff]
+  rintro ⟨P, hP⟩ -
+  have hmap : Submodule.map (loopPos k).incl.toLinearMap
+      (Submodule.span k (Set.range (loopFam k))) = Submodule.span k (Set.range (loopVec k)) := by
+    rw [Submodule.map_span, ← Set.range_comp]; rfl
+  have hmem : P ∈ Submodule.map (loopPos k).incl.toLinearMap
+      (Submodule.span k (Set.range (loopFam k))) := by
+    rw [hmap]; exact mem_span_loopVec k h2 hP
+  obtain ⟨Q, hQ, hQP⟩ := hmem
+  have hQeq : Q = ⟨P, hP⟩ := Subtype.ext hQP
+  rwa [hQeq] at hQ
+
+/-- **The graded basis of `𝔫₊`.** Away from characteristic `2`, the positive part of `A₂⁽²⁾`
+has the explicit basis `NY` in `t`-degree `0`, `gone i · t^(2m+1)` in each odd `t`-degree, and
+`gzero i · t^(2m+2)` in each even `t`-degree `≥ 2` — graded dimensions `1, 5, 3, 5, 3, …`. -/
+noncomputable def loopBasis (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) :
+    Module.Basis LoopIdx k (loopPos k) :=
+  Module.Basis.mk (linearIndependent_loopFam k) (span_loopFam_eq_top k h2).ge
+
+@[simp] theorem loopBasis_apply (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) (I : LoopIdx) :
+    loopBasis k h2 I = loopFam k I := Module.Basis.mk_apply _ _ _
+
+/-- The `t`-degree `0` basis vector is the generator `NY`. -/
+theorem loopFam_base : (loopFam k LoopIdx.base : Matrix (Fin 3) (Fin 3) (Polynomial k)) = NY k := by
+  ext a b
+  fin_cases a <;> fin_cases b <;>
+    simp [loopFam, loopVec, LoopIdx.deg, LoopIdx.mat, gzero, NY, Matrix.single,
+      Matrix.sub_apply, Polynomial.monomial_zero_left]
 
 end TwistedLoop
 

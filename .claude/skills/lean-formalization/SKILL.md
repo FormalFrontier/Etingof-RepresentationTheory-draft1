@@ -147,6 +147,37 @@ classes do not transfer either** — for `def Splus : Type := ℂ`, `one_ne_zero
 synthesize `One Splus` even when the hypothesis is literally `(1 : ℂ) = 0`. Pass the type
 explicitly: `exact one_ne_zero (α := ℂ) h`.
 
+**Relating two members of a `letI`-supplied family of module structures: `letI` twice is
+vacuous.** The classifying families (`Chapter2/Problem2_7_4_Family.lean`,
+`Problem2_7_5_Family.lean`) define `famModule α c : Module (WeylAlgebra k) (Fin p → k)` as a
+*parameter-indexed* instance and every theorem opens with `letI := famModule k p α c`. That
+works for statements about one member, but to state `V(α,c) ≅ V(α',c')` the obvious
+`letI := famModule … α c; letI := famModule … α' c'; Nonempty ((Fin p → k) ≃ₗ[A] (Fin p → k))`
+is **wrong and silently vacuous**: both sides of the `≃ₗ` resolve to the last `letI`, so
+`LinearEquiv.refl` inhabits it for any parameters. Instead give both instances positionally:
+
+```lean
+abbrev FamEquiv (α c α' c' : k) : Type _ :=
+  @LinearEquiv (WeylAlgebra k) (WeylAlgebra k) _ _
+    (RingHom.id (WeylAlgebra k)) (RingHom.id (WeylAlgebra k)) _ _
+    (Fin p → k) (Fin p → k) _ _ (famModule k p α c) (famModule k p α' c')
+```
+
+(`@LinearEquiv` arg order: `R S _ _ σ σ' _ _ M M₂ _ _ instModuleRM instModuleSM₂`.) A proved
+iff of the form `Nonempty (FamEquiv …) ↔ params agree` is self-certifying against the collapse:
+if both slots held the same instance, the `refl` direction would contradict the forward
+direction. Three consequences worth knowing before you start:
+
+* **Dot notation dies on the `abbrev`.** `e.intertwines` fails with "does not have a usable
+  parameter of type `FamEquiv ...`" because `e`'s type elaborates to `LinearEquiv`. Name helper
+  lemmas `famEquiv_intertwines` and apply them prefix-style.
+* **`LinearEquiv.refl _ _` cannot synthesize the module** — write
+  `@LinearEquiv.refl A (Fin p → k) _ _ (famModule k p α c)`.
+* **`Module.compHom` makes the intertwining lemma free**: `a • f` is defeq to `famRep α c a f`,
+  so `famEquiv_intertwines` is literally `map_smulₛₗ e a f`. And `AlgHom.commutes` plus
+  `Module.algebraMap_end_apply` upgrade `A`-linearity to `k`-linearity, which is what lets you
+  compare scalar actions coordinatewise.
+
 **Two Mathlib lemmas can produce the *same* `1`/`0`/`Pi.single i 1` through *different*
 typeclass paths — `rw` then fails syntactically, `exact` succeeds by defeq.** Classic case
 (cost real iterations in #6597, `Chapter9/Problem9_5_3_PrimitiveIdempotents.lean`):
@@ -4300,6 +4331,16 @@ These naming mismatches have bitten multiple agents across waves 44-47. Check th
 **General principle:** When a `rw`/`simp` doesn't fire on a MonoidAlgebra goal, the issue is usually that MonoidAlgebra is a `def` (not `abbrev`), so `simp` can't see through to `Finsupp` lemmas. Use `change` to coerce to `Finsupp` form first.
 
 **When unsure about a lemma name:** Use `#check` or `exact?` on a small test goal. Don't guess and iterate — the 30 seconds spent checking saves 10 minutes of mysterious failures.
+
+**A missing *tactic* import reads as a broken proof, not a missing import.** Chapter files import
+selective `Mathlib.*` modules, never `import Mathlib`, so tactics beyond the core set are often
+absent. Lean reports this as `unknown tactic` at a **misleading line** (often the next
+declaration, or a `<;>` several lines below the real call) plus cascading `unsolved goals` on
+every `have` that used it — which reads as "my algebra was wrong". Before rewriting the
+mathematics by hand, check whether the tactic is imported: `linear_combination` needs
+`Mathlib.Tactic.LinearCombination`, `module` → `Mathlib.Tactic.Module`, `noncomm_ring` →
+`Mathlib.Tactic.NoncommRing`, `group` → `Mathlib.Tactic.Group`. Adding the import is cheap and
+almost always the right fix. (#7728)
 
 ## Trace-Based Proof Pattern
 
