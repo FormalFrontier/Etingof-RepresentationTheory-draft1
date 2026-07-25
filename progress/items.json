@@ -9820,12 +9820,12 @@
     "status": "sorry_free",
     "fidelity": "partial",
     "needs_statement": false,
-    "notes": "The chosen-progenerator categorical form is sorry-free. Exercise963.exists_progenerator now proves that every finite abelian category has a progenerator, but Corollary_9_7_3_i_categorical and its FGModuleCat endpoint still require P from the caller instead of choosing it internally. Follow-up: #7367.",
+    "notes": "The categorical form is sorry-free and no longer asks the caller for a progenerator (#7367): Corollary_9_7_3_i_categorical, _fgModule and _strong quantify only over the category and obtain P internally from Exercise963.exists_progenerator; the chosen-P forms remain as _of_progenerator variants. Remaining gap: uniqueness is stated relative to (End P)ᵐᵒᵖ rather than to the category itself, pending the fmod-to-full-module Morita converse bridge. Follow-up: #7689.",
     "attention_needed": false,
-    "fidelity_note": "The FGModuleCat equivalence, uniqueness, and dimension-bound conclusions are proved. The public-API incoherence is closed (#7423): Corollary_9_7_3_i_strong and the bundled Corollary_9_7_3 return IsBasicAlgebraSplit + IsBasicAlgebra + KLinearMoritaEquivalent, so the constructed B satisfies the hypotheses of Corollary_9_7_3_i_unique and Corollary_9_7_3_ii, and BasicAlgebraSplitBridge proves the two basicness predicates agree over an algebraically closed field. One wiring gap remains: the categorical corollary still asks the caller for a progenerator (#7367).",
+    "fidelity_note": "The FGModuleCat equivalence, uniqueness, and dimension-bound conclusions are proved. The public-API incoherence is closed (#7423): Corollary_9_7_3_i_strong and the bundled Corollary_9_7_3 return IsBasicAlgebraSplit + IsBasicAlgebra + KLinearMoritaEquivalent, so the constructed B satisfies the hypotheses of Corollary_9_7_3_i_unique and Corollary_9_7_3_ii, and BasicAlgebraSplitBridge proves the two basicness predicates agree over an algebraically closed field. The chosen-progenerator wiring gap is closed (#7367): the categorical corollaries now produce the progenerator from Exercise963.exists_progenerator. One gap remains: the book phrases part (i)'s uniqueness relative to the category, which needs the converse of MoritaEquivalent.fgModuleCatEquiv (#7689); uniqueness is therefore stated relative to the endomorphism algebra (End P)ᵐᵒᵖ of the progenerator.",
     "coverage": "covered_partial",
-    "fidelity_issue": 7367,
-    "followup_issue": 7367,
+    "fidelity_issue": 7689,
+    "followup_issue": 7689,
     "last_updated": "2026-07-25"
   },
   {

@@ -53,13 +53,12 @@ basic algebra `B(𝒞)`. What is formalized here is the algebra version: the inp
 is a finite-dimensional algebra `A` (Theorem `Etingof.Corollary_9_7_3_i`), not an
 abstract category. The categorical input form is formalized as
 `Etingof.Corollary_9_7_3_i_categorical_fgModule` in `Corollary9_7_3Categorical.lean`:
-for a `k`-linear finite abelian category `𝒞` over an algebraically closed field with a
-progenerator `P`, it produces a basic `k`-algebra `B` together with a single equivalence
-`𝒞 ≌ FGModuleCat B`, the book's part (i) exactly. It composes
-`Etingof.Theorem_9_6_4_corollary` (`𝒞 ≌ FGModuleCat (End P)ᵐᵒᵖ` for the progenerator `P`,
-carried as an explicit hypothesis since the project has no theorem that an abstract finite
-abelian category has a progenerator) with the algebra version applied to
-`A = (End P)ᵐᵒᵖ`. The two conjuncts are combined into `𝒞 ≌ FGModuleCat B` via
+for a `k`-linear finite abelian category `𝒞` over an algebraically closed field, it produces
+a basic `k`-algebra `B` together with a single equivalence `𝒞 ≌ FGModuleCat B`, the book's
+part (i) exactly. It chooses a progenerator `P` of `𝒞` using
+`Etingof.Exercise963.exists_progenerator` (Exercise 9.6.3), then composes
+`Etingof.Theorem_9_6_4_corollary` (`𝒞 ≌ FGModuleCat (End P)ᵐᵒᵖ`) with the algebra version
+applied to `A = (End P)ᵐᵒᵖ`. The two conjuncts are combined into `𝒞 ≌ FGModuleCat B` via
 `Etingof.MoritaEquivalent.fgModuleCatEquiv` (`Infrastructure/MoritaFGRestriction.lean`),
 which restricts a Morita equivalence `ModuleCat A ≌ ModuleCat B` to the finitely
 generated subcategories by proving it preserves finite generation (the image of the

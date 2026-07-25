@@ -79,6 +79,15 @@ a bare `lake build` **silently builds Mathlib and reports success** — a green 
 touched your project. If builds report "unknown target" or an unexpected job count, run `pwd`
 and `cd` back to the worktree root before trusting any result.
 
+**Never run two `lake build`s at once in the same worktree.** They share `.lake/build`, and
+the second invocation reads oleans the first is mid-write, producing bogus `failed to open
+file '….olean': No such file or directory` errors on files you never touched. The usual way
+to fall into this: kick off a full `lake build` with `run_in_background`, then start another
+build to "check on it". If you need to wait for a background build, wait for its completion
+notification, or start a *single* foreground `lake build` and let lake's lock queue it — do
+not interleave. When a build fails on a missing olean for an unrelated module, suspect this
+before debugging, and confirm with one clean re-run.
+
 **Typecheck with `lake build EtingofRepresentationTheory.<Module>`, NOT `lake env lean
 <file>`.** `lake env lean` does **not** apply the lakefile's `[leanOptions]` — in
 particular `maxSynthPendingDepth = 3` (lakefile.toml; the Lean default is 2). Deep
