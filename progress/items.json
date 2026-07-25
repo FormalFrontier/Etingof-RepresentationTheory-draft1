@@ -1116,10 +1116,10 @@
     "start_line": 15,
     "end_line": 11,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "The coefficient-level path-count and degree-dimension formulas are proved, but part (d)'s Hilbert-series/geometric-series identity 1ᵀ(I-tM_Q)⁻¹1 is not stated (follow-up #7393).",
-    "fidelity_issue": 7393,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "All four parts are public, each as a graded-dimension formula together with the closed generating function. Part (d)'s Hilbert-series identity is hilbertSeries_pathAlgebra: mk (fun n => #{paths of length n}) = 𝟙ᵀ (I - t M_Q)⁻¹ 𝟙 over k⟦t⟧, with inv_one_sub_smul_adjacencyPS certifying that (I - t M_Q)⁻¹ is a genuine (two-sided) inverse and not a Matrix.inv junk value.",
+    "fidelity_decl": "theorem hilbertSeries_pathAlgebra, theorem inv_one_sub_smul_adjacencyPS",
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter2/Discussion_2.9_heading",
