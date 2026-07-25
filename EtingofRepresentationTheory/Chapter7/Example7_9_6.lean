@@ -5,6 +5,8 @@ import Mathlib.Algebra.Category.ModuleCat.ChangeOfRingsExact
 import Mathlib.Algebra.Category.ModuleCat.Descent
 import Mathlib.LinearAlgebra.TensorProduct.Basic
 import Mathlib.Data.ZMod.Basic
+import Mathlib.RepresentationTheory.FiniteIndex
+import Mathlib.RepresentationTheory.Rep.Res
 
 /-!
 # Example 7.9.6: Exactness Properties of Standard Functors
@@ -105,6 +107,85 @@ lemma extendScalars_exact_of_flat
     PreservesFiniteLimits (ModuleCat.extendScalars.{u, u, u} f) ∧
       PreservesFiniteColimits (ModuleCat.extendScalars.{u, u, u} f) :=
   ⟨extendScalars_preservesFiniteLimits_of_flat hf, inferInstance⟩
+
+/-! ### The actual representation-theoretic `Ind` and `Res`
+
+The change-of-rings statements above are the algebraic shadow of Example 7.9.6(i).
+The book's functors are `Res_K^G : Rep k G ⥤ Rep k K` and `Ind_K^G : Rep k K ⥤ Rep k G`
+for a subgroup `K ≤ G`, which in Mathlib are `Rep.resFunctor K.subtype` and
+`Rep.indFunctor k K.subtype` (the same functors used in `Chapter7/Example7_9_2.lean`).
+
+Restriction along *any* group homomorphism is both a right adjoint (of induction,
+`Rep.indResAdjunction`) and a left adjoint (of coinduction, `Rep.resCoindAdjunction`),
+so `Res` is exact with no hypothesis at all.
+
+For a *finite index* subgroup, induction and coinduction agree (`Rep.indCoindNatIso`),
+so `Ind_K^G` is simultaneously a left adjoint of `Res_K^G` (`Rep.indResAdjunction`) and
+a right adjoint of it (`Rep.resIndAdjunction`). Hence `Ind` is exact as well, and no
+flatness hypothesis has to be supplied from outside. -/
+
+section GroupRepresentations
+
+variable {k : Type u} [CommRing k] {G H : Type u} [Group G] [Group H]
+
+/-- `Res_K^G : Rep k G ⥤ Rep k K` preserves finite limits: it is left exact.
+Restriction along a group homomorphism is the right adjoint of induction
+(`Rep.indResAdjunction`). (Etingof Example 7.9.6(i)) -/
+instance resFunctor_preservesFiniteLimits (φ : G →* H) :
+    PreservesFiniteLimits (Rep.resFunctor.{u, u, u} (k := k) φ) :=
+  letI : PreservesLimitsOfSize.{0, 0} (Rep.resFunctor.{u, u, u} (k := k) φ) :=
+    (Rep.indResAdjunction.{u, u, u} k φ).rightAdjoint_preservesLimits
+  inferInstance
+
+/-- `Res_K^G : Rep k G ⥤ Rep k K` preserves finite colimits: it is right exact.
+Restriction along a group homomorphism is also a *left* adjoint, namely of coinduction
+(`Rep.resCoindAdjunction`). (Etingof Example 7.9.6(i)) -/
+instance resFunctor_preservesFiniteColimits (φ : G →* H) :
+    PreservesFiniteColimits (Rep.resFunctor.{u, u, u} (k := k) φ) :=
+  letI : PreservesColimitsOfSize.{0, 0} (Rep.resFunctor.{u, u, u} (k := k) φ) :=
+    (Rep.resCoindAdjunction.{u, u, u} k φ).leftAdjoint_preservesColimits
+  inferInstance
+
+/-- **Etingof Example 7.9.6(i)**: `Res_K^G` is exact — it preserves finite limits and
+finite colimits. This holds for restriction along an arbitrary group homomorphism; the
+subgroup inclusion `K ↪ G` of the book is the case `φ = K.subtype`. -/
+theorem resFunctor_exact (φ : G →* H) :
+    PreservesFiniteLimits (Rep.resFunctor.{u, u, u} (k := k) φ) ∧
+      PreservesFiniteColimits (Rep.resFunctor.{u, u, u} (k := k) φ) :=
+  ⟨inferInstance, inferInstance⟩
+
+variable (S : Subgroup G) [S.FiniteIndex]
+
+open scoped Classical in
+/-- `Ind_K^G : Rep k K ⥤ Rep k G` preserves finite colimits: it is right exact.
+Induction is the left adjoint of restriction (`Rep.indResAdjunction`), and this needs
+no finiteness hypothesis. (Etingof Example 7.9.6(i)) -/
+instance indFunctor_preservesFiniteColimits :
+    PreservesFiniteColimits (Rep.indFunctor.{u, u, u} k S.subtype) :=
+  letI : PreservesColimitsOfSize.{0, 0} (Rep.indFunctor.{u, u, u} k S.subtype) :=
+    (Rep.indResAdjunction.{u, u, u} k S.subtype).leftAdjoint_preservesColimits
+  inferInstance
+
+open scoped Classical in
+/-- `Ind_K^G : Rep k K ⥤ Rep k G` preserves finite limits: it is left exact.
+For a finite index subgroup `Ind_K^G ≅ Coind_K^G`, so induction is also a *right*
+adjoint of restriction (`Rep.resIndAdjunction`). This is where the book's finiteness
+assumption on `[G : K]` enters; no flatness hypothesis is needed.
+(Etingof Example 7.9.6(i)) -/
+instance indFunctor_preservesFiniteLimits :
+    PreservesFiniteLimits (Rep.indFunctor.{u, u, u} k S.subtype) :=
+  letI : PreservesLimitsOfSize.{0, 0} (Rep.indFunctor.{u, u, u} k S.subtype) :=
+    (Rep.resIndAdjunction.{u, u, u} k S).rightAdjoint_preservesLimits
+  inferInstance
+
+/-- **Etingof Example 7.9.6(i)**: `Ind_K^G` is exact — it preserves finite limits and
+finite colimits — for a finite index subgroup `K ≤ G`. -/
+theorem indFunctor_exact :
+    PreservesFiniteLimits (Rep.indFunctor.{u, u, u} k S.subtype) ∧
+      PreservesFiniteColimits (Rep.indFunctor.{u, u, u} k S.subtype) :=
+  ⟨inferInstance, inferInstance⟩
+
+end GroupRepresentations
 
 /-! ## Part (ii): left exactness of `Hom` -/
 
