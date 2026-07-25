@@ -3638,12 +3638,12 @@
     "start_line": 25,
     "end_line": 27,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "General character-table infrastructure and the neighboring S3/Q8/S4/A5 examples exist, but the source's complete A4 class data, four irreducibles, and table are not exposed; follow-up #7478.",
-    "fidelity_issue": 7478,
-    "last_updated": "2026-07-22",
+    "coverage": "covered",
+    "coverage_note": "The A4 character table is realized in Chapter4/Introduction_4_8.lean by four genuine simple, pairwise nonisomorphic representations with the tabulated characters (1,1,1,1), (1,eps,eps^2,1), (1,eps^2,eps,1), (3,0,0,-1) at the class representatives Id, (012), (021), (01)(23), with eps = exp(2*pi*i/3) a primitive cube root of unity. The three one-dimensional characters are pulled back along a surjection A4 -> Z/3 whose kernel is exactly Mathlib's alternatingGroup.kleinFour (Fin 4), realizing the source's A4/(Z/2 + Z/2) = Z/3; the three-dimensional one is the deleted natural permutation representation. Class sizes 1,4,4,3 and the count of four conjugacy classes are proved by honest decide (no native_decide), completeness via Corollary 4.2.2. The optional tetrahedron realization of C^3 is not formalized.",
+    "fidelity_decl": "Etingof.Introduction_4_8_A4_card, Etingof.Introduction_4_8_A4_conj_classes, Etingof.Introduction_4_8_A4_class_sizes, Etingof.Introduction_4_8_A4_class_reps, Etingof.Introduction_4_8_A4_quotient, Etingof.Introduction_4_8_A4_eps, Etingof.Introduction_4_8_A4_sum_sq_dim, Etingof.Introduction_4_8_A4_simple, Etingof.Introduction_4_8_A4_character, Etingof.Introduction_4_8_A4_pairwise, Etingof.Introduction_4_8_A4_complete",
+    "last_updated": "2026-07-25",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
