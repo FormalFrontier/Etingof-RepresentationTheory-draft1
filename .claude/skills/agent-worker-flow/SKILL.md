@@ -183,6 +183,22 @@ guidance deleted and nothing added.)
 Skills load from the working tree, so a truncated `SKILL.md` means the guidance you
 started the session on was the deleted version and you never saw these instructions.
 
+That instruction only reaches an agent who already *has* the full file, so do not rely
+on it — run the check unconditionally, right after `git status`, whether or not
+anything looked wrong:
+
+```bash
+wc -l .claude/skills/agent-worker-flow/SKILL.md
+git show HEAD:.claude/skills/agent-worker-flow/SKILL.md | wc -l
+```
+
+If the counts differ, restore and **re-invoke the skill** (not just `Read` the file), then
+restart the workflow from Step 1. Guidance added since the stale revision is exactly the
+guidance you are most likely to need — e.g. the Step 7 rules on replacing `create-pr`'s
+placeholder PR body and on never running `gh pr merge --auto` yourself.
+(2026-07-25: a third worktree that day arrived 193 lines stale; the session ran to
+completion on the old copy and shipped a placeholder PR body.)
+
 **If you branched off an unmerged PR's head** (see "Dependency code that lives
 only in an unmerged PR" above), decide at publish time:
 
