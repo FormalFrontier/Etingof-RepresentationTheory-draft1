@@ -760,10 +760,9 @@
     "start_line": 20,
     "end_line": 29,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "Parts (a) and (b) are proved exactly. Part (c), the indecomposable noncyclic coregular-module counterexample, remains #7366.",
-    "followup_issue": 7366,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "All three parts are proved. (a) `irreducible_iff_forall_cyclic`, (b) `cyclic_iff_isoQuotient`, (c) the textbook hint in full: `PartC.A` is `ℂ[x, y]/I₂` (as a trivial square-zero extension, identified with the literal quotient by `PartC.algEquiv`, with basis `1, x, y` given by `PartC.basis`), and its coregular module `PartC.V = Etingof.Coregular ℂ PartC.A` is indecomposable (`PartC.isIndecomposable`) but not cyclic (`PartC.not_cyclic`), packaged as `PartC.indecomposable_not_cyclic`.",
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter2/Discussion_2.6",
