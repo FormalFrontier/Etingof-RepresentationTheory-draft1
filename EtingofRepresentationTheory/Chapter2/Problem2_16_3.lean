@@ -2032,6 +2032,305 @@ theorem loopFam_base : (loopFam k LoopIdx.base : Matrix (Fin 3) (Fin 3) (Polynom
     simp [loopFam, loopVec, LoopIdx.deg, LoopIdx.mat, gzero, NY, Matrix.single,
       Matrix.sub_apply, Polynomial.monomial_zero_left]
 
+/-! ### `range matHom₄ = 𝔫₊`
+
+The inclusion `range matHom₄ ≤ 𝔫₊` is immediate: `𝔫₊` is a Lie subalgebra containing both
+generator images (`NX_mem_loopPos`, `NY_mem_loopPos`), and the free Lie algebra is the Lie span
+of its generators (`lieSpan_range_of_eq_top`).
+
+For the reverse inclusion we exhibit every graded basis vector `loopVec` as a bracket word in
+`NX`, `NY`. Writing `𝔤₁·t^n` for the odd layers and `𝔤₀·t^n` for the even ones:
+
+* the `t`-degree-`1` layer `𝔤₁·t` is the `ad(NY)`-string on `NX`, with the five values
+  `NX = E₂₀t`, `-(E₁₀+E₂₁)t`, `-(E₀₀-2E₁₁+E₂₂)t`, `3(E₀₁+E₁₂)t`, `6·E₀₂t`. This is where the
+  hypotheses `2 ≠ 0` and `3 ≠ 0` enter — and they are genuinely needed, since in characteristic
+  `3` the image really is finite dimensional (see the `gl₄` witness of section `Matrix4c`);
+* `⁅𝔤₁·t, 𝔤₁·t^{2m+1}⁆` sweeps out all of `𝔤₀·t^{2m+2}`, by the three brackets
+  `⁅E₀₂, E₁₀+E₂₁⁆ = E₀₁-E₁₂`, `⁅E₂₀, E₀₂⁆ = -(E₀₀-E₂₂)`, `⁅E₂₀, E₀₁+E₁₂⁆ = -(E₁₀-E₂₁)`;
+* `ad(gzero 1 · t²)` is diagonal on the `gone` basis with eigenvalues `2, 1, 0, -1, -2`, so it
+  climbs `𝔤₁·t^{2m+1} → 𝔤₁·t^{2m+3}` in every coordinate except the middle one, and the middle
+  one is reached separately from `⁅gzero 0 · t², gone 3 · t^{2m+1}⁆ = gone 2 · t^{2m+3}`.
+
+So the induction runs `𝔤₁·t` → `𝔤₀·t²` → `𝔤₁·t^{2m+1}` (induction on `m`) → `𝔤₀·t^{2m+2}`. Note
+this uses no irreducibility statement about the `𝔤₀`-module `𝔤₁`: the ladders are explicit.
+-/
+
+/-- Monomial placement is multiplicative: `(A·tᵐ)·(B·tⁿ) = (A·B)·t^{m+n}`. -/
+theorem emb_mul (m n : ℕ) (A B : Matrix (Fin 3) (Fin 3) k) :
+    emb k m A * emb k n B = emb k (m + n) (A * B) := by
+  refine Matrix.ext fun a b => ?_
+  calc (emb k m A * emb k n B) a b
+      = ∑ l : Fin 3, Polynomial.monomial (m + n) (A a l * B l b) := by
+        rw [Matrix.mul_apply]
+        exact Finset.sum_congr rfl fun l _ => by
+          rw [emb_apply, emb_apply, Polynomial.monomial_mul_monomial]
+    _ = Polynomial.monomial (m + n) (∑ l : Fin 3, A a l * B l b) := (map_sum _ _ _).symm
+    _ = emb k (m + n) (A * B) a b := by rw [emb_apply, Matrix.mul_apply]
+
+/-- Monomial placement respects the grading of the bracket: `⁅A·tᵐ, B·tⁿ⁆ = ⁅A, B⁆·t^{m+n}`. -/
+theorem emb_lie (m n : ℕ) (A B : Matrix (Fin 3) (Fin 3) k) :
+    ⁅emb k m A, emb k n B⁆ = emb k (m + n) ⁅A, B⁆ := by
+  rw [LieRing.of_associative_ring_bracket, LieRing.of_associative_ring_bracket, emb_mul, emb_mul,
+    add_comm n m, map_sub]
+
+/-- The generator `NX = E₂₀·t` is the top `𝔤₁`-vector placed in `t`-degree `1`. -/
+theorem NX_eq_emb : NX k = emb k 1 (gone k 4) := by
+  ext a b
+  fin_cases a <;> fin_cases b <;>
+    simp [NX, gone, Matrix.single, Polynomial.monomial_one_one_eq_X]
+
+/-- The generator `NY = E₀₁ - E₁₂` is the raising `𝔤₀`-vector placed in `t`-degree `0`. -/
+theorem NY_eq_emb : NY k = emb k 0 (gzero k 0) := by
+  ext a b
+  fin_cases a <;> fin_cases b <;>
+    simp [NY, gzero, Matrix.single, Matrix.sub_apply, Polynomial.monomial_zero_left]
+
+/-! #### The constant-matrix bracket table
+
+Each entry is normalised to the shape `⁅A, B⁆ = c • D` so it can be fed directly to
+`emb_mem_range_of_lie`, whose job is to divide by `c`. -/
+
+/-- `⁅E₀₁-E₁₂, E₂₀⁆ = -(E₁₀+E₂₁)`: the first step of the `ad(NY)`-string on `NX`. -/
+theorem lie_gzero0_gone4 : ⁅gzero k 0, gone k 4⁆ = (-1 : k) • gone k 3 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply]
+
+set_option linter.unnecessarySeqFocus false in
+/-- `⁅E₀₁-E₁₂, E₁₀+E₂₁⁆ = E₀₀-2E₁₁+E₂₂`: the second step of the `ad(NY)`-string. Also the ladder
+that reaches the middle `𝔤₁`-vector in every odd `t`-degree. -/
+theorem lie_gzero0_gone3 : ⁅gzero k 0, gone k 3⁆ = (1 : k) • gone k 2 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply] <;> ring
+
+/-- `⁅E₀₁-E₁₂, E₀₀-2E₁₁+E₂₂⁆ = -3(E₀₁+E₁₂)`: the third step of the `ad(NY)`-string. The scalar
+`-3` is why characteristic `3` must be excluded. -/
+theorem lie_gzero0_gone2 : ⁅gzero k 0, gone k 2⁆ = (-3 : k) • gone k 1 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply] <;> ring
+
+set_option linter.unnecessarySeqFocus false in
+/-- `⁅E₀₁-E₁₂, E₀₁+E₁₂⁆ = 2E₀₂`: the fourth (and last nonzero) step of the `ad(NY)`-string. -/
+theorem lie_gzero0_gone1 : ⁅gzero k 0, gone k 1⁆ = (2 : k) • gone k 0 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply] <;> ring
+
+set_option linter.unnecessarySeqFocus false in
+/-- `ad(E₀₀-E₂₂)` has eigenvalue `2` on `E₀₂`. -/
+theorem lie_gzero1_gone0 : ⁅gzero k 1, gone k 0⁆ = (2 : k) • gone k 0 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply] <;> ring
+
+/-- `ad(E₀₀-E₂₂)` has eigenvalue `1` on `E₀₁+E₁₂`. -/
+theorem lie_gzero1_gone1 : ⁅gzero k 1, gone k 1⁆ = (1 : k) • gone k 1 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply]
+
+/-- `ad(E₀₀-E₂₂)` has eigenvalue `-1` on `E₁₀+E₂₁`. -/
+theorem lie_gzero1_gone3 : ⁅gzero k 1, gone k 3⁆ = (-1 : k) • gone k 3 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply]
+
+set_option linter.unnecessarySeqFocus false in
+/-- `ad(E₀₀-E₂₂)` has eigenvalue `-2` on `E₂₀`. -/
+theorem lie_gzero1_gone4 : ⁅gzero k 1, gone k 4⁆ = (-2 : k) • gone k 4 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply] <;> ring
+
+/-- `⁅E₂₀, E₀₂⁆ = -(E₀₀-E₂₂)`: an even-layer ladder. -/
+theorem lie_gone4_gone0 : ⁅gone k 4, gone k 0⁆ = (-1 : k) • gzero k 1 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply]
+
+/-- `⁅E₂₀, E₀₁+E₁₂⁆ = -(E₁₀-E₂₁)`: an even-layer ladder. -/
+theorem lie_gone4_gone1 : ⁅gone k 4, gone k 1⁆ = (-1 : k) • gzero k 2 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply]
+
+/-- `⁅E₀₂, E₁₀+E₂₁⁆ = E₀₁-E₁₂`: an even-layer ladder. -/
+theorem lie_gone0_gone3 : ⁅gone k 0, gone k 3⁆ = (1 : k) • gzero k 0 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
+      Matrix.sub_apply, Matrix.smul_apply]
+
+/-! #### `range matHom₄ ≤ 𝔫₊` -/
+
+/-- The image of `matHom₄` lands in `𝔫₊`: both generator images do, `𝔫₊` is a Lie subalgebra, and
+the free Lie algebra is the Lie span of its generators. -/
+theorem range_matHom₄_le_loopPos : (matHom₄ k).range ≤ loopPos k := by
+  intro P hP
+  rw [LieHom.mem_range] at hP
+  obtain ⟨a, rfl⟩ := hP
+  have ha : a ∈ LieSubalgebra.lieSpan k (FreeLieAlgebra k (Fin 2))
+      (Set.range (FreeLieAlgebra.of k)) := by
+    rw [lieSpan_range_of_eq_top]; trivial
+  induction ha using LieSubalgebra.lieSpan_induction with
+  | mem u hu =>
+    obtain ⟨i, rfl⟩ := hu
+    have hval : matHom₄ k (FreeLieAlgebra.of k i) = ![NX k, NY k] i := by
+      simp only [matHom₄, FreeLieAlgebra.lift_of_apply]
+    rw [hval]
+    fin_cases i
+    · exact NX_mem_loopPos k
+    · exact NY_mem_loopPos k
+  | zero => rw [map_zero]; exact LieSubalgebra.zero_mem _
+  | add u v _ _ hu hv => rw [map_add]; exact LieSubalgebra.add_mem _ hu hv
+  | smul t u _ hu => rw [map_smul]; exact LieSubalgebra.smul_mem _ t hu
+  | lie u v _ _ hu hv => rw [LieHom.map_lie]; exact LieSubalgebra.lie_mem _ hu hv
+
+/-! #### `𝔫₊ ≤ range matHom₄`: climbing the graded basis -/
+
+/-- Scaling by a nonzero field element does not change membership in the range. -/
+theorem smul_mem_range_iff (k : Type*) [Field k] {c : k} (hc : c ≠ 0)
+    {P : Matrix (Fin 3) (Fin 3) (Polynomial k)} :
+    c • P ∈ (matHom₄ k).range ↔ P ∈ (matHom₄ k).range :=
+  Submodule.smul_mem_iff (p := (matHom₄ k).range.toSubmodule) hc
+
+/-- **One climbing step.** If `A·tᵐ` and `B·tⁿ` are in the range and `⁅A, B⁆ = c·D` with `c ≠ 0`,
+then `D·t^{m+n}` is in the range. Every layer of the graded basis is reached this way.
+
+The target degree `d` is a separate argument with `hd : m + n = d` rather than the literal `m + n`,
+so that unification reads `d` off the goal instead of having to solve `?m + ?n =?= d`. -/
+theorem emb_mem_range_of_lie (k : Type*) [Field k] {m n : ℕ}
+    {A B D : Matrix (Fin 3) (Fin 3) k}
+    (hA : emb k m A ∈ (matHom₄ k).range) (hB : emb k n B ∈ (matHom₄ k).range)
+    {c : k} (hc : c ≠ 0) (h : ⁅A, B⁆ = c • D) {d : ℕ} (hd : m + n = d) :
+    emb k d D ∈ (matHom₄ k).range := by
+  subst hd
+  have hlie := LieSubalgebra.lie_mem (matHom₄ k).range hA hB
+  rw [emb_lie, h, map_smul] at hlie
+  exact (smul_mem_range_iff k hc).mp hlie
+
+/-- `NX = E₂₀·t` is in the range. -/
+theorem emb_one_gone_four_mem_range : emb k 1 (gone k 4) ∈ (matHom₄ k).range := by
+  rw [← NX_eq_emb, ← matHom₄_x]
+  exact LieHom.mem_range_self _ _
+
+/-- `NY = (E₀₁-E₁₂)·t⁰` is in the range. -/
+theorem emb_zero_gzero_zero_mem_range : emb k 0 (gzero k 0) ∈ (matHom₄ k).range := by
+  rw [← NY_eq_emb, ← matHom₄_y]
+  exact LieHom.mem_range_self _ _
+
+/-- **The `t`-degree-`1` layer.** Away from characteristics `2` and `3`, the `ad(NY)`-string on
+`NX` sweeps out all five basis vectors of `𝔤₁·t`. -/
+theorem emb_one_gone_mem_range (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0)
+    (i : Fin 5) : emb k 1 (gone k i) ∈ (matHom₄ k).range := by
+  have hNX := emb_one_gone_four_mem_range k
+  have hNY := emb_zero_gzero_zero_mem_range k
+  have e3 : emb k 1 (gone k 3) ∈ (matHom₄ k).range :=
+    emb_mem_range_of_lie k hNY hNX (neg_ne_zero.mpr one_ne_zero) (lie_gzero0_gone4 k) rfl
+  have e2 : emb k 1 (gone k 2) ∈ (matHom₄ k).range :=
+    emb_mem_range_of_lie k hNY e3 one_ne_zero (lie_gzero0_gone3 k) rfl
+  have e1 : emb k 1 (gone k 1) ∈ (matHom₄ k).range :=
+    emb_mem_range_of_lie k hNY e2 (neg_ne_zero.mpr h3) (lie_gzero0_gone2 k) rfl
+  have e0 : emb k 1 (gone k 0) ∈ (matHom₄ k).range :=
+    emb_mem_range_of_lie k hNY e1 h2 (lie_gzero0_gone1 k) rfl
+  fin_cases i
+  · exact e0
+  · exact e1
+  · exact e2
+  · exact e3
+  · exact hNX
+
+/-- **The even layers.** Bracketing `𝔤₁·t` against `𝔤₁·tⁿ` sweeps out all of `𝔤₀·t^{1+n}`. -/
+theorem emb_gzero_mem_range (k : Type*) [Field k]
+    (h1 : ∀ j, emb k 1 (gone k j) ∈ (matHom₄ k).range) {n : ℕ}
+    (hn : ∀ j, emb k n (gone k j) ∈ (matHom₄ k).range) (i : Fin 3) :
+    emb k (1 + n) (gzero k i) ∈ (matHom₄ k).range := by
+  fin_cases i
+  · exact emb_mem_range_of_lie k (h1 0) (hn 3) one_ne_zero (lie_gone0_gone3 k) rfl
+  · exact emb_mem_range_of_lie k (h1 4) (hn 0) (neg_ne_zero.mpr one_ne_zero)
+      (lie_gone4_gone0 k) rfl
+  · exact emb_mem_range_of_lie k (h1 4) (hn 1) (neg_ne_zero.mpr one_ne_zero)
+      (lie_gone4_gone1 k) rfl
+
+/-- **Climbing two `t`-degrees inside `𝔤₁`.** `ad(gzero 1 · t²)` is diagonal on the `gone` basis
+with eigenvalues `2, 1, 0, -1, -2`, so it moves `𝔤₁·tⁿ` to `𝔤₁·t^{n+2}` in every coordinate but
+the middle; the middle one comes from `⁅gzero 0 · t², gone 3 · tⁿ⁆ = gone 2 · t^{n+2}`. -/
+theorem emb_gone_step (k : Type*) [Field k] (h2 : (2 : k) ≠ 0)
+    (hz1 : emb k 2 (gzero k 1) ∈ (matHom₄ k).range)
+    (hz0 : emb k 2 (gzero k 0) ∈ (matHom₄ k).range)
+    {n : ℕ} (hn : ∀ j, emb k n (gone k j) ∈ (matHom₄ k).range) (i : Fin 5) :
+    emb k (2 + n) (gone k i) ∈ (matHom₄ k).range := by
+  fin_cases i
+  · exact emb_mem_range_of_lie k hz1 (hn 0) h2 (lie_gzero1_gone0 k) rfl
+  · exact emb_mem_range_of_lie k hz1 (hn 1) one_ne_zero (lie_gzero1_gone1 k) rfl
+  · exact emb_mem_range_of_lie k hz0 (hn 3) one_ne_zero (lie_gzero0_gone3 k) rfl
+  · exact emb_mem_range_of_lie k hz1 (hn 3) (neg_ne_zero.mpr one_ne_zero)
+      (lie_gzero1_gone3 k) rfl
+  · exact emb_mem_range_of_lie k hz1 (hn 4) (neg_ne_zero.mpr h2) (lie_gzero1_gone4 k) rfl
+
+/-- **All odd layers.** `𝔤₁·t^{2m+1} ⊆ range matHom₄` for every `m`, by induction on `m`. -/
+theorem emb_odd_gone_mem_range (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) :
+    ∀ (m : ℕ) (i : Fin 5), emb k (2 * m + 1) (gone k i) ∈ (matHom₄ k).range := by
+  have h1 := emb_one_gone_mem_range k h2 h3
+  have hz : ∀ j, emb k 2 (gzero k j) ∈ (matHom₄ k).range := fun j => by
+    simpa using emb_gzero_mem_range k h1 (n := 1) h1 j
+  intro m
+  induction m with
+  | zero => simpa using h1
+  | succ m ih =>
+      intro i
+      have hdeg : 2 * (m + 1) + 1 = 2 + (2 * m + 1) := by ring
+      rw [hdeg]
+      exact emb_gone_step k h2 (hz 1) (hz 0) ih i
+
+/-- **All even layers.** `𝔤₀·t^{2m+2} ⊆ range matHom₄` for every `m`. -/
+theorem emb_even_gzero_mem_range (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0)
+    (m : ℕ) (i : Fin 3) : emb k (2 * m + 2) (gzero k i) ∈ (matHom₄ k).range := by
+  have hdeg : 2 * m + 2 = 1 + (2 * m + 1) := by ring
+  rw [hdeg]
+  exact emb_gzero_mem_range k (emb_one_gone_mem_range k h2 h3)
+    (emb_odd_gone_mem_range k h2 h3 m) i
+
+/-- Every vector of the graded basis of `𝔫₊` is a bracket word in `NX`, `NY`. -/
+theorem loopVec_mem_range (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0)
+    (I : LoopIdx) : loopVec k I ∈ (matHom₄ k).range := by
+  cases I with
+  | base => exact emb_zero_gzero_zero_mem_range k
+  | odd m i => exact emb_odd_gone_mem_range k h2 h3 m i
+  | even m i => exact emb_even_gzero_mem_range k h2 h3 m i
+
+/-! #### The identification -/
+
+/-- **The image of `matHom₄` is exactly `𝔫₊`.** Away from characteristics `2` and `3`, the twisted
+loop realization of `𝔤₄` is the full positive part of `A₂⁽²⁾`. -/
+theorem range_matHom₄_eq_loopPos' (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) :
+    (matHom₄ k).range = loopPos k := by
+  refine le_antisymm (range_matHom₄_le_loopPos k) fun P hP => ?_
+  have hle : Submodule.span k (Set.range (loopVec k)) ≤ (matHom₄ k).range.toSubmodule := by
+    rw [Submodule.span_le]
+    rintro Q ⟨I, rfl⟩
+    exact loopVec_mem_range k h2 h3 I
+  exact hle (mem_span_loopVec k h2 hP)
+
+/-- **The image of `matHom₄` is exactly `𝔫₊`**, as an equality of `k`-submodules of `𝔤𝔩₃(k[t])`.
+Combined with `loopBasis`, this gives `range matHom₄` an explicit basis with graded dimensions
+`1, 5, 3, 5, 3, …`. -/
+theorem range_matHom₄_eq_loopPos (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) :
+    LinearMap.range (matHom₄ k).toLinearMap = (loopPos k).toSubmodule :=
+  congrArg LieSubalgebra.toSubmodule (range_matHom₄_eq_loopPos' k h2 h3)
+
 end TwistedLoop
 
 end Etingof.Problem2_16_3
