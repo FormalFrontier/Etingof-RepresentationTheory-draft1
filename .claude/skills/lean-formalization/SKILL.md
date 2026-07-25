@@ -1146,16 +1146,29 @@ Multiple files define `private abbrev GL2 = ...` / `private abbrev GL2' = ...` f
 - Use `change` instead of `show` when the target uses a different abbreviation
 - For sorry'd lemmas that need `[Fintype F] [DecidableEq F]` instances (needed by callers and the sorry body): wrap in a `section` with `set_option linter.unusedFintypeInType false` / `set_option linter.unusedDecidableInType false`. The `set_option ... in` syntax doesn't work before `private`.
 
-### `Fin n` arithmetic: `NatCast` is scoped, and `ring` doesn't work — `abel` does (#7387)
+### `Fin n` arithmetic: `NatCast` is scoped, and `ring` doesn't work — `abel` does (#7387, #7698)
 
-Two independent traps when a construction is indexed by `Fin n` (cyclic bases, twisted shift
+Several independent traps when a construction is indexed by `Fin n` (cyclic bases, twisted shift
 operators, `Fin p → k` modules):
 
 - `(t : Fin n)` for `t : ℕ` fails with `type mismatch ... but is expected to have type Fin n`,
-  even with `[NeZero n]` in scope. The instance is `Fin.NatCast.instNatCast`, in a *scoped*
-  namespace; put `open scoped Fin.NatCast` at the top of the file. Related: `[NeZero n]` itself
-  is not automatic from `[Fact (Nat.Prime p)]`, so declare
-  `instance : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩`.
+  even with `[NeZero n]` in scope, and the error never mentions a missing coercion. The instance
+  exists but is *scoped*: it is `Fin.NatCast.instNatCast`, so put `open scoped Fin.NatCast` at
+  the top of the file. (This is why `Fin.natCast_self` displays as `↑n` in Mathlib yet the cast
+  refuses to elaborate in your file.) Related: `[NeZero n]` itself is not automatic from
+  `[Fact (Nat.Prime p)]`, so declare `instance : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩`.
+- If you would rather not open the scoped namespace, `Fin.ofNat N m` is the same map spelled
+  explicitly, and `(Fin.ofNat N m).val = m % N` holds by `rfl`, so `change`-then-`Nat` lemmas work
+  directly. Useful companions when stepping around the cycle:
+  - `Fin.val_add a b : (a + b).val = (a.val + b.val) % n`
+  - `Fin.val_one' n : ((1 : Fin n) : ℕ) = 1 % n`
+  - `Nat.add_mod_mod : (a + b % n) % n = (a + b) % n` and
+    `Nat.mod_add_mod : (a % n + b) % n = (a + b) % n` — these two close
+    `Fin.ofNat N (m + 1) = Fin.ofNat N m + 1` after `Fin.ext`.
+
+  To reach an arbitrary `i : Fin N` from a base point `k` by repeated `+1`, iterate `(i - k).val`
+  times and finish with `Fin.ofNat N ((i - k).val) = i - k` (`Nat.mod_eq_of_lt`) plus
+  `sub_add_cancel i k`. Cost one build cycle in #7698 (`Problem2_7_5_FamilySimple.lean`).
 - `ring` reports `` `ring_nf` made no progress `` on `Fin n` goals such as
   `j - ((t : Fin n) + 1) = j - 1 - (t : Fin n)`, despite `Fin n` being a `CommRing`. Use `abel`
   — these goals are additive-group identities and `abel` closes them.

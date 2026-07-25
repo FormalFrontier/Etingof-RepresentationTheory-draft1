@@ -895,7 +895,7 @@
     "end_line": 20,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "coverage_note": "Part (a) is formalized. Part (b) has only the necessary direction (a nontrivial finite-dimensional representation forces q to be a root of unity), with no converse existence theorem. For part (c), Problem2_7_5_Family.lean constructs the classifying family V(alpha,beta) with its central character (alpha, beta^n), and Problem2_7_5_Iso.lean proves the isomorphism criterion V(alpha,beta) = V(alpha',beta') iff alpha = alpha' and beta^n = beta'^n; irreducibility (#7698) and exhaustiveness (#7700) remain open under #7686.",
+    "coverage_note": "Part (a) is formalized. Part (b) has only the necessary direction (a nontrivial finite-dimensional representation forces q to be a root of unity), with no converse existence theorem. For part (c), Problem2_7_5_Family.lean constructs the classifying family V(alpha,beta) with its central character (alpha, beta^n), and Problem2_7_5_Iso.lean proves the isomorphism criterion V(alpha,beta) = V(alpha',beta') iff alpha = alpha' and beta^n = beta'^n; Problem2_7_5_FamilySimple.lean proves each V(alpha,beta) is simple; exhaustiveness (#7700) remains open under #7686.",
     "fidelity_issue": 7392,
     "last_updated": "2026-07-25",
     "lean_file": [
@@ -9418,9 +9418,9 @@
     "end_line": 10,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "coverage_note": "Splus and Sminus are constructed, proved simple and nonisomorphic; every simple A-module is now proved isomorphic to exactly one of them (simple_module_classification), and Example 9.5.2 (iii) is upgraded to all simple modules via problem_9_3_2_single_block_of_simple. Pplus/Pminus are proved projective, indecomposable (Etingof.IsIndecomposable), and projective covers of Splus/Sminus (surjective with superfluous kernel). Still absent: exhaustiveness of the indecomposable projectives, and the Cartan-matrix computation via Etingof.algebraCartanMatrix (blocked on Pplus and Pminus sharing the carrier Fin 2 -> C, which prevents forming an indexed family of the two projectives). Follow-up: #7388.",
+    "coverage_note": "Splus and Sminus are constructed, proved simple and nonisomorphic; every simple A-module is proved isomorphic to exactly one of them (simple_module_classification), and Example 9.5.2 (iii) is upgraded to all simple modules via problem_9_3_2_single_block_of_simple. Pplus/Pminus are proved projective, indecomposable (Etingof.IsIndecomposable), and projective covers of Splus/Sminus (surjective with superfluous kernel). The Cartan matrix is now computed: Pplus and Pminus have genuinely distinct carriers (both were reducible abbrevs for Fin 2 -> C, so their two Module A instances collided), each of the four Hom spaces is proved one-dimensional over C by an explicit LinearEquiv (finrank_hom_Pplus_Pplus and the three siblings), and algebraCartanMatrix_Pfam gives Etingof.algebraCartanMatrix ![Pplus, Pminus] = !![1, 1; 1, 1]. Still absent: exhaustiveness of the indecomposable projectives (that Pplus and Pminus are the only ones) -- #7705. Follow-up: #7388.",
     "followup_issue": 7388,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter9/Introduction_9.4",
