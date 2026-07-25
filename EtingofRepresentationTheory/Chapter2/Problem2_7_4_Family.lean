@@ -2,12 +2,14 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter2.Problem2_7_4
 
 /-!
-# Problem 2.7.4(c): the classifying family of irreducible Weyl-algebra modules in characteristic `p`
+# Problem 2.7.4(c): classification of the irreducible Weyl-algebra modules in characteristic `p`
 
 `Problem2_7_4.lean` proves (`Etingof.Problem2_7_4.finrank_irreducible_charP`) that over an
 algebraically closed field `k` of characteristic `p` every finite dimensional irreducible module
 over the Weyl algebra `A = Etingof.WeylAlgebra k` has dimension exactly `p`. That is a dimension
-statement, not a classification. This file constructs the family that does the classifying.
+statement, not a classification. This file constructs the family that does the classifying and
+proves it is a complete, irredundant list: `existsUnique_toFamEquiv` says every finite
+dimensional irreducible `A`-module is isomorphic to exactly one member of the family.
 
 ## The family
 
@@ -44,8 +46,13 @@ exactly once.
   `V(α,c) ≃ V(α',c')`.
 * `Etingof.Problem2_7_4.famEquiv_nonempty_iff` — the isomorphism criterion
   `V(α,c) ≅ V(α',c') ↔ α = α' ∧ c = c'`, so the family lists each isomorphism class at most once.
-
-Exhaustiveness of the family is follow-up work.
+* `Etingof.Problem2_7_4.exists_toFamEquiv` — exhaustiveness: every finite dimensional irreducible
+  `A`-module is isomorphic to some `V(α,c)`, so the family lists each isomorphism class at least
+  once.
+* `Etingof.Problem2_7_4.existsUnique_toFamEquiv` — the classification endpoint: the parameter pair
+  `(α, c)` of an irreducible module exists and is unique.
+* `Etingof.Problem2_7_4.finrank_eq_of_classification` — the book's dimension answer `dim V = p`
+  read back off the classification.
 -/
 
 namespace Etingof.Problem2_7_4
