@@ -62,6 +62,19 @@ shell's `grep` is wrapped (ugrep with `--ignore-files`) and honors `.gitignore`;
 `.lake/` is gitignored, `grep pattern .lake/packages/mathlib/...` silently returns nothing
 (no error, empty output) and reads as "the lemma doesn't exist." `rg -n pattern <path>` and
 `command grep -n pattern <path>` both bypass the wrapper and search the file directly.
+Caveat on `rg` in this environment: its output can come back with the *matched substring
+elided*, so `def toGL : SpecialLinearGroup n R →* GL n R` prints as `def  : SpecialLinearGroup
+n R →* GL n R` and reads as if the declaration were named after the next token. Never read an
+identifier's spelling off an `rg` hit; confirm it with `#check @Full.Name` in a scratch file
+(`lake env lean /tmp/probe.lean`) before using it.
+
+**Copy the `open` lines, not just the identifier, when you reuse an idiom from another project
+file.** Much of this repo's infrastructure lives in sub-namespaces (`charTwistRep`, `detChar`,
+`quotDetRep`, … are `Etingof.KernelLemmaKPrime.*`) yet is written unqualified in consumer files
+because those files carry an `open Etingof.KernelLemmaKPrime` above `namespace Etingof`. Being
+inside `namespace Etingof` is *not* enough. If a name you copied from `Theorem5_23_2.lean` or
+`AlgIrrepGLRep.lean` comes back `Unknown identifier`, `grep -n "^open" <that file>` before
+hunting for a rename.
 
 **In this Mathlib version `Basis` lives in the `Module` namespace.** The type is
 `Module.Basis ι R M` and explicit lemma references need the prefix: `Module.Basis.ext`,
