@@ -5748,15 +5748,15 @@
     "start_line": 1,
     "end_line": 9,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "complete",
     "needs_statement": false,
     "aristotle_project_id": "d6d0df76-8214-4097-ac8f-c191f819a556",
     "notes": "Complete and sorry-free: fixedCosets_eq_card_colorings and the headline Theorem5_14_3 are both proved in EtingofRepresentationTheory/Chapter5/Theorem5_14_3.lean.",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "fidelity_note": "The headline character formula and its N-variable stability are covered. The proof's structural identification of a permutation centralizer as a product of semidirect/wreath factors is not public; follow-up #7481.",
-    "fidelity_issue": 7481,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "fidelity_note": "The headline character formula and its N-variable stability are covered. The proof's structural identification of the centralizer is now public: Etingof.centralizerMulEquiv (Chapter5/Theorem5_14_3_Centralizer.lean) gives centralizer {g} ≃* ∏ₘ (ℤ/mℤ)^{iₘ} ⋊ S_{iₘ}, with Etingof.centralizerMulEquivFin the Fin-indexed form and Etingof.nat_card_centralizer_eq_prod the |Z_g| = ∏ₘ mᶦᵐ iₘ! formula (reconciled with Mathlib's cycleType formula in Etingof.prod_cycleCount_eq_cycleType_formula).",
+    "last_updated": "2026-07-25",
+    "fidelity_decl": "Etingof.centralizerMulEquiv"
   },
   {
     "id": "Chapter5/Introduction_5.15",

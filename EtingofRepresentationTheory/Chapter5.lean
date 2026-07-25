@@ -83,6 +83,7 @@ import EtingofRepresentationTheory.Chapter5.Introduction5_14
 import EtingofRepresentationTheory.Chapter5.Proposition5_14_1
 import EtingofRepresentationTheory.Chapter5.Definition5_14_2
 import EtingofRepresentationTheory.Chapter5.Theorem5_14_3
+import EtingofRepresentationTheory.Chapter5.Theorem5_14_3_Centralizer
 
 -- Section 5.15: Frobenius Character Formula
 import EtingofRepresentationTheory.Chapter5.Theorem5_15_1
