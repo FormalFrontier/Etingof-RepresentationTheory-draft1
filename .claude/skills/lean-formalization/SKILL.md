@@ -6885,3 +6885,47 @@ Cheap way to get the negative: if the obstruction is known to be central (here
 finite matrix chase (`centralizer_NX_NY_eq_scalar`: commuting with the two generator images forces
 a scalar matrix; the trace condition then forces `0` when `3 ≠ 0`), and it settles the whole
 family at once rather than one element at a time.
+
+## Turning a global spanning theorem into graded upper bounds (#7759)
+
+When you have `Submodule.span k S = ⊤` for a presented algebra and a grading `deg : ι → Submodule k L`
+with projections `proj p`, you can convert the *global* spanning statement into a *per-degree*
+one for free, provided every member of `S` is homogeneous:
+
+```lean
+theorem range_proj (p) : LinearMap.range (proj p) = deg p           -- ≤ from `proj_mem`, ≥ from `proj_self_of_mem`
+theorem deg_eq_span_image (p) (hS : Submodule.span k S = ⊤) :
+    deg p = Submodule.span k (proj p '' S) := by
+  rw [← range_proj p, ← Submodule.map_top, ← hS, Submodule.map_span]
+```
+
+Then `proj p s` is either `s` (when `s` is homogeneous of degree `p`) or `0`, so the span collapses
+to the members of `S` that actually sit in degree `p`. Landed as `gDeg_eq_span_image` /
+`gDeg_le_span` in `Chapter2/Problem2_16_3_{Grading,Bidegree}.lean`.
+
+Two things make this pay off, and both are cheap:
+
+* **Prove the degree of every spanning-set member.** One lemma per constructor; the inductive
+  families (`evenTower`, `topOdd`) are inductions using the bracket-additivity lemma.
+* **Prove the degree assignment is injective on the index type.** `rintro` both indices,
+  `simp only [<the rfl degree lemmas>, Prod.mk.injEq] at h`, then `exfalso; omega` on the
+  cross cases and `Fin.ext (by omega)` on the diagonal ones. Injectivity is what turns "at most
+  the members of degree `p`" into the sharp count "at most **one** member".
+
+The payoff shape: the bound is `1` in every degree except where two spanning-set members collide,
+and *those* collisions are exactly the open problem, now stated as one submodule inequality
+instead of a family of element vanishings. This is the right way to leave a
+homomorphism-can't-witness-vanishing trap (previous section) in a state a successor can act on:
+`gDeg_imaginary_le` gives the unconditional bound `2`, and `topDefect_eq_zero_of_gDeg_le` /
+`gDeg_le_span_singleton_of_topDefect_eq_zero` prove that sharpening it to `1` is *equivalent* to the
+vanishing you could not derive. Recording the equivalence stops successors from hunting for a
+weaker sufficient condition that does not exist.
+
+Two hazards seen while doing this:
+
+* `Prod` equalities of the form `(2*m+2, 4*m+3+1) = (2*m+2, 4*m+4)` are **not** `rfl` for variable
+  `m`. Use `rw [Prod.mk.injEq]; omega`, or the `simp [Prod.ext_iff]; omega` idiom already used in
+  the file — but check the linter: `simp [Prod.ext_iff]` sometimes reports `Prod.ext_iff` unused
+  because plain `simp` already closed it.
+* `omega` will not close a non-arithmetic goal (`LoopIdx.base = LoopIdx.odd m i`) from
+  contradictory arithmetic hypotheses. Write `exfalso; omega`.
