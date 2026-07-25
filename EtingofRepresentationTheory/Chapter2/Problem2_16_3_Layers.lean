@@ -80,6 +80,11 @@ bottom of the tower is the bracket of an element with itself, so it vanishes
 (`defect_evenTower_zero`) and the layer of `t`-degree `3` satisfies the full odd-layer invariant
 unconditionally (`oddLayer_deg_three`).
 
+The tower itself has a compact description: `c₀ = evenTower k 0` commutes with every even top
+(`lie_evenTower_zero_evenTower`) and carries each one to the next,
+`2⁅c₀, D c⁆ = c''` (`two_smul_lie_evenTower_zero_dY_one`), so the whole tower is the orbit of the
+single operator `2 ad(c₀) ∘ D`.
+
 Still missing: `⁅⁅a₁, a₃⁆, D (evenTower k m)⁆ = 0` for `m ≥ 1`, which by
 `oddLayer_evenTower_of_lie_eq_zero` is all that stands between the even tower and the odd layer in
 every degree. Both factors lie in the tower, so this is a statement about the bracket of two
@@ -806,6 +811,50 @@ theorem central_defect (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) �
   have : v ∈ M := by rw [hM]; trivial
   exact this
 
+/-! ### The tower is the orbit of `2 ad(c₀) ∘ D`
+
+The top of the degree-`2` layer, `c₀ = -⁅a₀, a₃⁆`, commutes with every even top and carries each
+even top to the next one. -/
+
+/-- `2⁅a₃, D c⁆ = -D³ b'`. -/
+theorem two_smul_lie_three_dY_one (h2 : (2 : k) ≠ 0) (h : EvenLayer k c) :
+    (2 : k) • ⁅aElt k 4 3, dY k 1 c⁆ = -dY k 3 (oddTop c) := by
+  have e := lie_aElt_dY_one k 3 c
+  simp only [Nat.reduceAdd] at e
+  have hD : dY k 1 ((2 : k) • ⁅aElt k 4 3, c⁆) = (3 : k) • dY k 3 ⁅aElt k 4 1, c⁆ := by
+    rw [h.two_smul_lie_three, dY_smul_elt, dY_one_dY]
+  rw [dY_smul_elt] at hD
+  have hb : dY k 3 (oddTop c) = -dY k 3 ⁅aElt k 4 1, c⁆ := by rw [oddTop_eq, dY_neg_elt]
+  linear_combination (norm := module) (2 : k) • e + hD - (2 : k) • h.lie_four h2 + hb
+
+/-- **`⁅c₀, c⁆ = 0`**: the top of the degree-`2` layer commutes with every even top. Both
+`⁅x̄, c⁆ = 0` and `⁅a₂, b'⁆ = 0` go into this. -/
+theorem lie_lie_a0_a3_self (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h : EvenLayer k c) :
+    ⁅⁅aElt k 4 0, aElt k 4 3⁆, c⁆ = 0 := by
+  have hjac : ⁅⁅aElt k 4 0, aElt k 4 3⁆, c⁆
+      = ⁅aElt k 4 0, ⁅aElt k 4 3, c⁆⁆ - ⁅aElt k 4 3, ⁅aElt k 4 0, c⁆⁆ := lie_lie _ _ _
+  rw [h.lie_zero, _root_.lie_zero, sub_zero] at hjac
+  refine eq_zero_of_smul₀ h2 ?_
+  rw [hjac, ← lie_smul, h.two_smul_lie_three, lie_smul, lie_one_eq_neg_oddTop, dY_neg_elt,
+    lie_neg, h.lie_zero_dY_two_oddTop h3, h.lie_two_oddTop h2 h3]
+  module
+
+/-- **`2⁅c₀, D c⁆ = c''`**: bracketing with `c₀` after one `D` sends each even top to the next.
+Stated with `⁅a₀, a₃⁆ = -c₀`, so the sign is on the right. -/
+theorem two_smul_lie_a0_a3_dY_one (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h : EvenLayer k c) :
+    (2 : k) • ⁅⁅aElt k 4 0, aElt k 4 3⁆, dY k 1 c⁆ = -evenTop (oddTop c) := by
+  have hjac : ⁅aElt k 4 3, oddTop c⁆
+      = ⁅⁅aElt k 4 3, aElt k 4 0⁆, dY k 1 c⁆
+        + ⁅aElt k 4 0, ⁅aElt k 4 3, dY k 1 c⁆⁆ := by
+    rw [← h.lie_zero_dY_one]; exact leibniz_lie _ _ _
+  have ha30 : ⁅aElt k 4 3, aElt k 4 0⁆ = -⁅aElt k 4 0, aElt k 4 3⁆ :=
+    (lie_skew (aElt k 4 3) (aElt k 4 0)).symm
+  have h2s : (2 : k) • ⁅aElt k 4 0, ⁅aElt k 4 3, dY k 1 c⁆⁆ = evenTop (oddTop c) := by
+    rw [← lie_smul, h.two_smul_lie_three_dY_one h2, lie_neg,
+      h.lie_zero_dY_three_oddTop h2 h3, neg_neg]
+  rw [ha30, neg_lie, ← evenTop_eq] at hjac
+  linear_combination (norm := module) (2 : k) • hjac + h2s
+
 /-! ### The defect is a single bracket
 
 The three-term expansion of `⁅a₄, b'⁆` obtained by writing `b' = ⁅x̄, D c⁆` and moving `a₄` past
@@ -887,6 +936,20 @@ theorem evenLayer_evenTower (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 :
 theorem evenLayer_deg_four (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) :
     EvenLayer k (evenTop (oddTop (-⁅aElt k 4 0, aElt k 4 3⁆))) :=
   evenLayer_evenTower h2 h3 h5 1
+
+/-- **The even tower is the orbit of `2 ad(c₀) ∘ D`.** Every even top is obtained from the
+previous one by applying `D` and bracketing with the degree-`2` top `c₀ = evenTower k 0`. -/
+theorem two_smul_lie_evenTower_zero_dY_one (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0)
+    (h5 : (5 : k) ≠ 0) (m : ℕ) :
+    (2 : k) • ⁅evenTower k 0, dY k 1 (evenTower k m)⁆ = evenTower k (m + 1) := by
+  have h := (evenLayer_evenTower h2 h3 h5 m).two_smul_lie_a0_a3_dY_one h2 h3
+  rw [evenTower_zero, evenTower_succ, neg_lie, smul_neg, h, neg_neg]
+
+/-- **`c₀` commutes with the whole even tower.** -/
+theorem lie_evenTower_zero_evenTower (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
+    (m : ℕ) : ⁅evenTower k 0, evenTower k m⁆ = 0 := by
+  rw [evenTower_zero, neg_lie,
+    (evenLayer_evenTower h2 h3 h5 m).lie_lie_a0_a3_self h2 h3, neg_zero]
 
 /-! ### The odd layer of `t`-degree `3`
 
