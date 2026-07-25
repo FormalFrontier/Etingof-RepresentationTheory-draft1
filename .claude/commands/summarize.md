@@ -43,10 +43,32 @@ Write an updated progress document that:
   remaining work, gaps between goals and achievements)
 - **Is honest in its framing** — don't overstate what has been achieved
 
+### Step 5b: Reconciling `items.json` statuses (when asked)
+
+Summarize issues often ask you to correct stale `items.json` statuses using a
+comment-stripped `sorry` scan as ground truth. Two things bite here:
+
+- **A zero-sorry scan does NOT license reclassifying to `sorry_free`.** Many
+  `statement_formalized` items are *deliberate holds* with sorry-free source:
+  a crux passed in as a hypothesis, an unstated/deferred book part, or a
+  `Prop`-only stub definition. Before flipping any `statement_formalized` /
+  `partially_proved` item, **blob-check it**: read `blobs/<Chapter>/<Item>.md`
+  for the full set of book parts, then confirm each part is both *stated and
+  proved* in the item's Lean file(s) and its imported sub-files. Reclassify only
+  when every part is genuinely met. Treat any reclassification list in the issue
+  body as a *heuristic suggestion*, not a directive — the issue's own examples
+  have included genuine holds (verify each; do not overstate completion).
+- **`items.json` is not a uniform schema.** Most items are problem items keyed
+  by `id` (e.g. `Chapter6/Problem6.9.2`), but some are `derived`-type items with
+  **no `id`**, keyed instead by `lean_file`. Match on whichever key the item
+  actually has, and assert exactly one hit before editing. A `derived` item may
+  also carry a stale `note` listing now-closed sorries — fix it in the same edit.
+
 ## Constraints
 
 - Do NOT modify any code or implementation files
-- Commit ONLY the progress document changes
+- Commit ONLY the progress document changes (plus `items.json` / `PROGRESS.md`
+  when the issue asks for a status reconciliation)
 - The progress entry should note what changed and why
 
 ## Reflect
