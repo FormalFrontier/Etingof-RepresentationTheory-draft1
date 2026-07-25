@@ -27,15 +27,25 @@ The proof has two halves.
 * **Reduction to that case.** Problem 7.8.7(iii) writes `C ≅ E ⊞ homologyZeroComplex C` with
   `E` acyclic, and Exercise 7.8.4 makes an acyclic complex contractible. Consequently the two
   structure maps between `C` and `homologyZeroComplex C` are mutually inverse *up to homotopy*
-  (`Etingof.exists_homotopyEquiv_homologyZeroComplex`). A homotopy equivalence in either
+  (`Etingof.nonempty_homotopyEquiv_homologyZeroComplex`). A homotopy equivalence in either
   variable stays a homotopy equivalence after tensoring
   (`HomologicalComplex.mapBifunctorMapHomotopy₁`/`₂`), so both the source and the target
   bifunctor of `κ` send it to an isomorphism. The naturality square of `kunnethNatTrans` then
   transports the zero-differential case to arbitrary `C` and `D`.
 
-Note that this is a different route from the additivity/four-summand bookkeeping of
-`Problem7_8_7_iv`: replacing the abstract biproduct splitting by an explicit homotopy
-equivalence lets the naturality square do all of the work.
+This is a shorter route than the additivity/four-summand bookkeeping used by
+`Problem7_8_7_iv_nonempty`: replacing the abstract biproduct splitting by an explicit homotopy
+equivalence lets the naturality square do all of the work, so no compatibility of `κ` with
+`Functor.mapBiprod` has to be established. The degenerate case where one factor is acyclic is
+still recorded (`Etingof.isZero_kunnethSource_of_acyclic_left` and friends), since it identifies
+both sides as zero objects rather than merely asserting that `κ` is invertible there.
+
+## Main results
+
+* `Etingof.isIso_kunnethMap` : `κ_{C,D,i}` is an isomorphism.
+* `Etingof.kunnethIso` : the isomorphism `∐_{j+m=i} Hʲ(C) ⊗ Hᵐ(D) ≅ Hⁱ(C ⊗ D)`.
+* `Etingof.kunnethNatIso` : the same as a natural isomorphism of bifunctors.
+* `Etingof.Problem7_8_7_iv` : the book's statement, `Hⁱ(C ⊗ D) ≅ ⨁_{j+m=i} Hʲ(C) ⊗ Hᵐ(D)`.
 -/
 
 open CategoryTheory Limits MonoidalCategory HomologicalComplex
@@ -333,6 +343,46 @@ noncomputable def Problem7_8_7_iv (i : ℤ) :
     (tensorComplex C D).homology i ≅
       ∐ fun p : KunnethIndex i => C.homology p.1.1 ⊗ D.homology p.1.2 :=
   (kunnethIso C D i).symm
+
+/-! ### The acyclic case
+
+If either factor is acyclic then both sides of the Künneth map are zero objects: the source
+because each summand `Hʲ(C) ⊗ Hᵐ(D)` has a vanishing tensor factor, the target by
+`Problem7_8_7_ii`. This is the degenerate case of the theorem, recorded separately because it is
+what identifies the "extra" summands in a splitting argument.
+-/
+
+/-- If `C` is acyclic then every summand `Hʲ(C) ⊗ Hᵐ(D)` vanishes, so the source of the Künneth
+map is a zero object. -/
+lemma isZero_kunnethSource_of_acyclic_left (i : ℤ) (hC : C.Acyclic) :
+    IsZero ((kunnethSource i).obj (C, D)) := by
+  rw [IsZero.iff_id_eq_zero]
+  refine Sigma.hom_ext _ _ fun p => ?_
+  have hz : IsZero (C.homology p.1.1 ⊗ D.homology p.1.2) := by
+    rw [IsZero.iff_id_eq_zero, ← MonoidalCategory.id_tensorHom_id,
+      (IsZero.iff_id_eq_zero _).mp
+        ((HomologicalComplex.exactAt_iff_isZero_homology _ _).mp (hC p.1.1)),
+      MonoidalPreadditive.zero_tensor]
+  rw [comp_zero]
+  exact hz.eq_zero_of_src _
+
+/-- The mirror statement for an acyclic second factor. -/
+lemma isZero_kunnethSource_of_acyclic_right (i : ℤ) (hD : D.Acyclic) :
+    IsZero ((kunnethSource i).obj (C, D)) := by
+  rw [IsZero.iff_id_eq_zero]
+  refine Sigma.hom_ext _ _ fun p => ?_
+  have hz : IsZero (C.homology p.1.1 ⊗ D.homology p.1.2) := by
+    rw [IsZero.iff_id_eq_zero, ← MonoidalCategory.id_tensorHom_id,
+      (IsZero.iff_id_eq_zero _).mp
+        ((HomologicalComplex.exactAt_iff_isZero_homology _ _).mp (hD p.1.2)),
+      MonoidalPreadditive.tensor_zero]
+  rw [comp_zero]
+  exact hz.eq_zero_of_src _
+
+/-- If either factor is acyclic then `Hⁱ(C ⊗ D)` is a zero object: this is `Problem7_8_7_ii`. -/
+lemma isZero_kunnethTarget_of_acyclic (i : ℤ) (h : C.Acyclic ∨ D.Acyclic) :
+    IsZero ((kunnethTarget i).obj (C, D)) :=
+  (HomologicalComplex.exactAt_iff_isZero_homology _ _).mp (Problem7_8_7_ii C D h i)
 
 end API
 
