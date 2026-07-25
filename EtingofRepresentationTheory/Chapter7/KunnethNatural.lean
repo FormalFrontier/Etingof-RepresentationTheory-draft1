@@ -70,7 +70,7 @@ variable (C D : CochainComplex (ModuleCat.{u} k) ℤ)
 /-- The summand inclusion `Zʲ(C) ⊗ Zᵐ(D) ⟶ (C ⊗ D)^{j+m}` obtained from the inclusions of
 cycles into the two factors. -/
 noncomputable def cyclesTensorι (j m : ℤ) :
-    C.cycles j ⊗ D.cycles m ⟶ (tensorComplex C D).X (j + m) :=
+    C.cycles j ⊗ D.cycles m ⟶ (HomologicalComplex.tensorObj C D).X (j + m) :=
   (C.iCycles j ⊗ₘ D.iCycles m) ≫ HomologicalComplex.ιTensorObj C D j m (j + m) rfl
 
 /-- The `dᶜ ⊗ 1` half of the total differential kills a cycle of `C`. -/
@@ -102,7 +102,7 @@ private lemma iCycles_tensor_comp_d₂ (j m j' : ℤ) :
 /-- A tensor of cycles is a cycle: the tensor of `Zʲ(C)` and `Zᵐ(D)` is annihilated by the
 total differential of `C ⊗ D`. -/
 lemma cyclesTensorι_d (j m j' : ℤ) :
-    cyclesTensorι C D j m ≫ (tensorComplex C D).d (j + m) j' = 0 := by
+    cyclesTensorι C D j m ≫ (HomologicalComplex.tensorObj C D).d (j + m) j' = 0 := by
   have h1 : HomologicalComplex.ιTensorObj C D j m (j + m) rfl ≫
       mapBifunctor.D₁ C D (curriedTensor (ModuleCat.{u} k)) (ComplexShape.up ℤ) (j + m) j'
       = mapBifunctor.d₁ C D (curriedTensor (ModuleCat.{u} k)) (ComplexShape.up ℤ) j m j' :=
@@ -118,19 +118,19 @@ lemma cyclesTensorι_d (j m j' : ℤ) :
 
 /-- The cross product on cycles, `Zʲ(C) ⊗ Zᵐ(D) ⟶ Z^{j+m}(C ⊗ D)`. -/
 noncomputable def cyclesTensorLift (j m : ℤ) :
-    C.cycles j ⊗ D.cycles m ⟶ (tensorComplex C D).cycles (j + m) :=
-  (tensorComplex C D).liftCycles (cyclesTensorι C D j m) (j + m + 1) (by simp)
+    C.cycles j ⊗ D.cycles m ⟶ (HomologicalComplex.tensorObj C D).cycles (j + m) :=
+  (HomologicalComplex.tensorObj C D).liftCycles (cyclesTensorι C D j m) (j + m + 1) (by simp)
     (cyclesTensorι_d C D j m _)
 
 @[reassoc (attr := simp)]
 lemma cyclesTensorLift_i (j m : ℤ) :
-    cyclesTensorLift C D j m ≫ (tensorComplex C D).iCycles (j + m) = cyclesTensorι C D j m :=
+    cyclesTensorLift C D j m ≫ (HomologicalComplex.tensorObj C D).iCycles (j + m) = cyclesTensorι C D j m :=
   HomologicalComplex.liftCycles_i _ _ _ _ _
 
 /-- The cross product on cycles followed by the projection to homology. -/
 noncomputable def cyclesTensorHomologyπ (j m : ℤ) :
-    C.cycles j ⊗ D.cycles m ⟶ (tensorComplex C D).homology (j + m) :=
-  cyclesTensorLift C D j m ≫ (tensorComplex C D).homologyπ (j + m)
+    C.cycles j ⊗ D.cycles m ⟶ (HomologicalComplex.tensorObj C D).homology (j + m) :=
+  cyclesTensorLift C D j m ≫ (HomologicalComplex.tensorObj C D).homologyπ (j + m)
 
 /-! ### The cross product kills boundaries in either variable -/
 
@@ -161,7 +161,7 @@ private lemma toCycles_whiskerRight_cyclesTensorι (j m : ℤ) :
     (C.toCycles (j - 1) j ▷ D.cycles m) ≫ cyclesTensorι C D j m
       = ((C.X (j - 1) ◁ D.iCycles m) ≫
           HomologicalComplex.ιTensorObj C D (j - 1) m (j - 1 + m) rfl) ≫
-        (tensorComplex C D).d (j - 1 + m) (j + m) := by
+        (HomologicalComplex.tensorObj C D).d (j - 1 + m) (j + m) := by
   have h1 : HomologicalComplex.ιTensorObj C D (j - 1) m (j - 1 + m) rfl ≫
       mapBifunctor.D₁ C D (curriedTensor (ModuleCat.{u} k)) (ComplexShape.up ℤ) (j - 1 + m) (j + m)
       = mapBifunctor.d₁ C D (curriedTensor (ModuleCat.{u} k)) (ComplexShape.up ℤ)
@@ -198,7 +198,7 @@ private lemma whiskerLeft_toCycles_cyclesTensorι (j m : ℤ) :
       = (ComplexShape.ε₂ (ComplexShape.up ℤ) (ComplexShape.up ℤ) (ComplexShape.up ℤ) (j, m - 1) •
           ((C.iCycles j ▷ D.X (m - 1)) ≫
             HomologicalComplex.ιTensorObj C D j (m - 1) (j + (m - 1)) rfl)) ≫
-        (tensorComplex C D).d (j + (m - 1)) (j + m) := by
+        (HomologicalComplex.tensorObj C D).d (j + (m - 1)) (j + m) := by
   have h1 : HomologicalComplex.ιTensorObj C D j (m - 1) (j + (m - 1)) rfl ≫
       mapBifunctor.D₁ C D (curriedTensor (ModuleCat.{u} k)) (ComplexShape.up ℤ)
         (j + (m - 1)) (j + m)
@@ -259,7 +259,7 @@ noncomputable def isColimitTensorLeftHomologyπ (m : ℤ) (W : ModuleCat.{u} k) 
 /-- The cross product after descending in the first variable only:
 `Hʲ(C) ⊗ Zᵐ(D) ⟶ H^{j+m}(C ⊗ D)`. -/
 noncomputable def kunnethAux (j m : ℤ) :
-    C.homology j ⊗ D.cycles m ⟶ (tensorComplex C D).homology (j + m) :=
+    C.homology j ⊗ D.cycles m ⟶ (HomologicalComplex.tensorObj C D).homology (j + m) :=
   (isColimitTensorRightHomologyπ C j (D.cycles m)).desc
     (CokernelCofork.ofπ (cyclesTensorHomologyπ C D j m) (by
       show (C.toCycles (j - 1) j ▷ D.cycles m) ≫ cyclesTensorHomologyπ C D j m = 0
@@ -276,7 +276,7 @@ lemma whiskerRight_homologyπ_kunnethAux (j m : ℤ) :
 /-- The **cross product** on homology,
 `κ_{j,m} : Hʲ(C) ⊗ Hᵐ(D) ⟶ H^{j+m}(C ⊗ D)`. -/
 noncomputable def kunnethSummand (j m : ℤ) :
-    C.homology j ⊗ D.homology m ⟶ (tensorComplex C D).homology (j + m) :=
+    C.homology j ⊗ D.homology m ⟶ (HomologicalComplex.tensorObj C D).homology (j + m) :=
   (isColimitTensorLeftHomologyπ D m (C.homology j)).desc
     (CokernelCofork.ofπ (kunnethAux C D j m) (by
       show (C.homology j ◁ D.toCycles (m - 1) m) ≫ kunnethAux C D j m = 0
@@ -295,6 +295,22 @@ lemma whiskerLeft_homologyπ_kunnethSummand (j m : ℤ) :
     (C.homology j ◁ D.homologyπ m) ≫ kunnethSummand C D j m = kunnethAux C D j m :=
   Cofork.IsColimit.π_desc (isColimitTensorLeftHomologyπ D m (C.homology j))
 
+/-- `homologyπ ▷ Z` is an epimorphism (it is a cokernel projection). -/
+instance epi_whiskerRight_homologyπ (j : ℤ) (Z : ModuleCat.{u} k) :
+    Epi (C.homologyπ j ▷ Z) :=
+  Limits.epi_of_isColimit_cofork (isColimitTensorRightHomologyπ C j Z)
+
+/-- `W ◁ homologyπ` is an epimorphism (it is a cokernel projection). -/
+instance epi_whiskerLeft_homologyπ (m : ℤ) (W : ModuleCat.{u} k) :
+    Epi (W ◁ D.homologyπ m) :=
+  Limits.epi_of_isColimit_cofork (isColimitTensorLeftHomologyπ D m W)
+
+/-- `homologyπ ⊗ homologyπ` is an epimorphism, so it can be cancelled on the left. -/
+instance epi_tensorHom_homologyπ (j m : ℤ) :
+    Epi (C.homologyπ j ⊗ₘ D.homologyπ m) := by
+  rw [MonoidalCategory.tensorHom_def]
+  infer_instance
+
 /-- The workhorse identity: precomposing the cross product with `homologyπ ⊗ homologyπ`
 recovers the cycle-level cross product. -/
 @[reassoc (attr := simp)]
@@ -305,5 +321,56 @@ lemma homologyπ_tensorHom_kunnethSummand (j m : ℤ) :
     whiskerRight_homologyπ_kunnethAux]
 
 end CrossProduct
+
+section Naturality
+
+variable {C C' D D' : CochainComplex (ModuleCat.{u} k) ℤ}
+
+/-- The summand inclusion of a tensor of cycles is natural. -/
+lemma cyclesTensorι_naturality (f : C ⟶ C') (g : D ⟶ D') (j m : ℤ) :
+    (HomologicalComplex.cyclesMap f j ⊗ₘ HomologicalComplex.cyclesMap g m)
+        ≫ cyclesTensorι C' D' j m
+      = cyclesTensorι C D j m ≫ (HomologicalComplex.tensorHom f g).f (j + m) := by
+  rw [cyclesTensorι, cyclesTensorι, ← Category.assoc,
+    MonoidalCategory.tensorHom_comp_tensorHom, HomologicalComplex.cyclesMap_i,
+    HomologicalComplex.cyclesMap_i, Category.assoc, HomologicalComplex.ι_mapBifunctorMap,
+    ← MonoidalCategory.tensorHom_comp_tensorHom, Category.assoc]
+  congr 1
+  rw [MonoidalCategory.tensorHom_def]
+  rfl
+
+/-- The cycle-level cross product is natural in both complexes. -/
+lemma cyclesTensorLift_naturality (f : C ⟶ C') (g : D ⟶ D') (j m : ℤ) :
+    (HomologicalComplex.cyclesMap f j ⊗ₘ HomologicalComplex.cyclesMap g m)
+        ≫ cyclesTensorLift C' D' j m
+      = cyclesTensorLift C D j m
+        ≫ HomologicalComplex.cyclesMap (HomologicalComplex.tensorHom f g) (j + m) := by
+  rw [← cancel_mono ((HomologicalComplex.tensorObj C' D').iCycles (j + m)), Category.assoc, Category.assoc,
+    cyclesTensorLift_i, HomologicalComplex.cyclesMap_i, ← Category.assoc, cyclesTensorLift_i,
+    cyclesTensorι_naturality]
+
+/-- The cycle-level cross product into homology is natural in both complexes. -/
+lemma cyclesTensorHomologyπ_naturality (f : C ⟶ C') (g : D ⟶ D') (j m : ℤ) :
+    (HomologicalComplex.cyclesMap f j ⊗ₘ HomologicalComplex.cyclesMap g m)
+        ≫ cyclesTensorHomologyπ C' D' j m
+      = cyclesTensorHomologyπ C D j m
+        ≫ HomologicalComplex.homologyMap (HomologicalComplex.tensorHom f g) (j + m) := by
+  rw [cyclesTensorHomologyπ, cyclesTensorHomologyπ, ← Category.assoc, cyclesTensorLift_naturality,
+    Category.assoc, Category.assoc, HomologicalComplex.homologyπ_naturality]
+
+/-- **Naturality of the cross product.** For chain maps `f : C ⟶ C'` and `g : D ⟶ D'`, the
+square relating `κ_{j,m}` to `Hʲ(f) ⊗ Hᵐ(g)` and `H^{j+m}(f ⊗ g)` commutes. -/
+lemma kunnethSummand_naturality (f : C ⟶ C') (g : D ⟶ D') (j m : ℤ) :
+    (HomologicalComplex.homologyMap f j ⊗ₘ HomologicalComplex.homologyMap g m)
+        ≫ kunnethSummand C' D' j m
+      = kunnethSummand C D j m
+        ≫ HomologicalComplex.homologyMap (HomologicalComplex.tensorHom f g) (j + m) := by
+  rw [← cancel_epi (C.homologyπ j ⊗ₘ D.homologyπ m), ← Category.assoc,
+    MonoidalCategory.tensorHom_comp_tensorHom, HomologicalComplex.homologyπ_naturality,
+    HomologicalComplex.homologyπ_naturality, ← MonoidalCategory.tensorHom_comp_tensorHom,
+    Category.assoc, homologyπ_tensorHom_kunnethSummand, ← Category.assoc,
+    homologyπ_tensorHom_kunnethSummand, cyclesTensorHomologyπ_naturality]
+
+end Naturality
 
 end Etingof
