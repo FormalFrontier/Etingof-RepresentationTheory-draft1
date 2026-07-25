@@ -20,22 +20,32 @@ import Mathlib.RepresentationTheory.Rep.Res
 
 ## Mathlib correspondence
 
-In the representation-theoretic setting (group representations over a field `k`,
-finite groups) the functors of part (i) are change-of-rings functors along the
-inclusion of group algebras `f : k[K] → k[G]`:
+### Part (i)
 
-* `Res_K^G` is restriction of scalars, `ModuleCat.restrictScalars f`;
-* `Ind_K^G` is extension of scalars, `ModuleCat.extendScalars f` (the functor
-  `k[G] ⊗_{k[K]} -`).
+The book's functors are `Res_K^G : Rep k G ⥤ Rep k K` and `Ind_K^G : Rep k K ⥤ Rep k G`.
+They are formalized here as the actual representation-theoretic functors
+`Rep.resFunctor K.subtype` and `Rep.indFunctor k K.subtype` (the ones used in
+`Chapter7/Example7_9_2.lean`), and their exactness is `Etingof.resFunctor_exact` and
+`Etingof.indFunctor_exact`:
 
-Restriction of scalars is always exact (parts (i) Res below). Extension of
-scalars is always right exact (it is a left adjoint), and it is left exact,
-hence exact, exactly when the ring map is flat. For the group-algebra
-inclusion `k[K] → k[G]` of a subgroup, `k[G]` is free of rank `[G : K]` as a
-`k[K]`-module, hence flat, so `Ind_K^G` is exact. We record the flat hypothesis
-explicitly in `Etingof.extendScalars_exact_of_flat`.
+* restriction along an arbitrary group homomorphism is both a right adjoint (of
+  induction, `Rep.indResAdjunction`) and a left adjoint (of coinduction,
+  `Rep.resCoindAdjunction`), hence exact with no hypothesis;
+* for a *finite index* subgroup induction and coinduction agree
+  (`Rep.indCoindNatIso`), so induction is both a left adjoint (`Rep.indResAdjunction`)
+  and a right adjoint (`Rep.resIndAdjunction`) of restriction, hence exact.
 
-Left exactness of `Hom` (part (ii)) is available via the covariant Yoneda functor
+Neither statement needs a flatness hypothesis supplied from outside.
+
+Underneath, these functors are change-of-rings functors along the inclusion of group
+algebras `f : k[K] → k[G]`: `Res_K^G` is `ModuleCat.restrictScalars f` and `Ind_K^G` is
+`ModuleCat.extendScalars f`, the functor `k[G] ⊗_{k[K]} -`. That algebraic shadow is
+recorded first, with `Etingof.extendScalars_exact_of_flat` carrying the flatness
+hypothesis that holds for `k[K] → k[G]` because `k[G]` is `k[K]`-free of rank `[G : K]`.
+
+### Part (ii)
+
+Left exactness of `Hom` is available via the covariant Yoneda functor
 `coyoneda.obj (op X)`, which preserves all limits. The negative direction
 (failure of right exactness) is formalized concretely in
 `Etingof.hom_not_right_exact`: applying `Hom(ℤ/2ℤ, -)` to the surjection
@@ -43,15 +53,24 @@ Left exactness of `Hom` (part (ii)) is available via the covariant Yoneda functo
 `Hom(ℤ/2ℤ, ℤ) = 0` (`Etingof.subsingleton_hom_zmod_int`) while
 `Hom(ℤ/2ℤ, ℤ/2ℤ) ≠ 0`.
 
-For the tensor functor (part (iii)), Mathlib's monoidal closed structure on
-`ModuleCat` is defined over a commutative ring, so the categorical statement
-`Etingof.tensor_right_exact` below is restricted to `[CommRing R]`. The book's
-claim is for `X ⊗_A -` over an arbitrary (possibly noncommutative) ring `A`; the
-general noncommutative monoidal statement is not currently expressible through
-Mathlib's `ModuleCat` monoidal API. The negative direction (failure of left
-exactness) is formalized concretely in `Etingof.tensor_not_left_exact`: applying
-`ℤ/2ℤ ⊗ -` to the injection `(· * 2) : ℤ ↪ ℤ` gives a non-injective map, because
-it kills the nonzero element `1 ⊗ 1` (`Etingof.tmul_one_one_ne_zero`).
+### Part (iii)
+
+Mathlib's monoidal closed structure on `ModuleCat` is defined over a commutative ring, so
+the categorical statement `Etingof.tensor_right_exact` is restricted to `[CommRing R]`.
+The book states part (iii) for a right module `X` over an arbitrary, possibly
+noncommutative, ring `A`. Mathlib's `TensorProduct` also requires a commutative base ring
+(and `Mathlib/LinearAlgebra/TensorProduct/RightExactness.lean` lists the noncommutative
+case as an explicit TODO), so the balanced tensor product `X ⊗_A M` is constructed here as
+`Etingof.BalancedTensor`: the quotient of the abelian group `X ⊗_ℤ M` by the balancing
+relations `x·a ⊗ m - x ⊗ a·m`. It is functorial in `M` (`Etingof.balancedLTensor`) and
+right exact over an arbitrary ring, by `Etingof.balancedLTensor_exact` together with
+`Etingof.balancedLTensor_surjective`.
+
+The negative direction (failure of left exactness) is formalized concretely in
+`Etingof.tensor_not_left_exact`: applying `ℤ/2ℤ ⊗ -` to the injection `(· * 2) : ℤ ↪ ℤ`
+gives a non-injective map, because it kills the nonzero element `1 ⊗ 1`
+(`Etingof.tmul_one_one_ne_zero`). `Etingof.balancedLTensor_not_left_exact` transports that
+same counterexample to the general construction, instantiated at `A = ℤ`.
 -/
 
 open CategoryTheory CategoryTheory.Limits
@@ -196,8 +215,8 @@ This is the covariant Yoneda functor applied to X. (Etingof Example 7.9.6(ii))
 In Mathlib, `coyoneda.obj (op X)` is the functor `Hom(X, -)`, and it preserves
 all limits (hence in particular finite limits, making it left exact). The book
 also notes `Hom(X, -)` need not be right exact, witnessed by applying
-`Hom(ℤ/2ℤ, -)` to `0 → ℤ → ℤ → ℤ/2ℤ → 0`; that negative direction is not
-formalized here. -/
+`Hom(ℤ/2ℤ, -)` to `0 → ℤ → ℤ → ℤ/2ℤ → 0`; that negative direction is
+`Etingof.hom_not_right_exact` below. -/
 instance hom_left_exact {C : Type*} [Category C] (X : C) :
     PreservesFiniteLimits (coyoneda.obj (Opposite.op X)) :=
   inferInstance
@@ -248,10 +267,12 @@ colimits, hence in particular finite colimits, making the tensor functor right e
 The `[CommRing R]` hypothesis comes from Mathlib's monoidal closed structure on
 `ModuleCat`, which is built over a commutative ring. The book states part (iii) for
 `X ⊗_A -` with `X` a right module over an arbitrary (possibly noncommutative) ring
-`A`; that general statement is not currently expressible through Mathlib's
-`ModuleCat` monoidal API. The book's negative direction (the tensor functor need not
-be left exact, witnessed by `ℤ/2ℤ ⊗ -` on `0 → ℤ → ℤ → ℤ/2ℤ → 0`) is also not
-formalized here. -/
+`A`; that generality is not expressible through Mathlib's `ModuleCat` monoidal API,
+so it is handled separately by the balanced tensor product `Etingof.BalancedTensor`
+and `Etingof.balancedLTensor_exact` below. The book's negative direction (the tensor
+functor need not be left exact, witnessed by `ℤ/2ℤ ⊗ -` on `0 → ℤ → ℤ → ℤ/2ℤ → 0`)
+is `Etingof.tensor_not_left_exact`, transported to the balanced tensor product by
+`Etingof.balancedLTensor_not_left_exact`. -/
 instance tensor_right_exact {R : Type*} [CommRing R] (X : ModuleCat R) :
     PreservesFiniteColimits (MonoidalCategory.tensorLeft X) :=
   inferInstance
@@ -302,6 +323,14 @@ a surjection `g : N ↠ P` of left `A`-modules carries the balancing submodule o
 needed to descend exactness to the quotients. -/
 
 section NoncommutativeTensor
+
+-- The `ℤ`-module structure on `X ⊗[ℤ] M` reaches Lean by two routes (`TensorProduct`'s own
+-- instance and `AddCommGroup.toIntModule`), so the `Submodule ℤ` bookkeeping below relies on
+-- the project-wide `backward.isDefEq.respectTransparency false` option set in `lakefile.toml`.
+-- A consequence: `#print axioms` run through `lake env lean` *on this source file* reports a
+-- spurious `sorryAx` for the declarations in this section, because `lake env lean` does not
+-- apply the library's `leanOptions`. Audit axioms against the built olean instead (a scratch
+-- file that only `import`s this module).
 
 open TensorProduct
 
