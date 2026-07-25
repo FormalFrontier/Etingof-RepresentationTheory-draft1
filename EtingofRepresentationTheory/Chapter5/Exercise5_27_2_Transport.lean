@@ -18,6 +18,10 @@ isomorphism `e : G ≃* H` is an equivalence of representation categories
 irredundant family of irreducibles across it, keeping the dimensions on the nose. Any counting
 statement about the family (how many members have each dimension) transports along the
 dimension equality by `Finset.filter_congr`.
+
+It also holds `exists_charRep_iso_of_finrank_eq_one`: every one-dimensional representation of a
+finite group is the character representation `charRep ξ` of its own character. That is what lets
+each arm name the one-dimensional members of its transported family.
 -/
 
 noncomputable section

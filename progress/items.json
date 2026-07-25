@@ -7008,9 +7008,9 @@
     "start_line": 15,
     "end_line": 16,
     "status": "proved",
-    "coverage_note": "The three classifications genuinely use Theorem 5.27.1 and are exhaustive on their semidirect-product models; the q=2 affine companion is included. The dihedral and Heisenberg results are transported to the textbook groups through genuine MulEquivs, and the Heisenberg family is matched with the book's named charRep/R_z representations. The affine file still defines its own group type and identifies it with Problem4_12_6.Affine only in prose, so that re-derivation is not exposed over the actual textbook object. Follow-up #7789.",
-    "coverage": "covered_partial",
-    "followup_issue": 7789,
+    "coverage_note": "The three classifications genuinely use Theorem 5.27.1 and are exhaustive on their semidirect-product models; the q=2 affine companion is included. All three are transported to the textbook groups through genuine MulEquivs, and all three families are matched with the book's named representations (dihedral; Heisenberg charRep/R_z; affine charRep and the zero-sum Vsub).",
+    "coverage": "covered_full",
+    "followup_issue": null,
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Exercise5_27_2_Dihedral.lean",
@@ -7022,7 +7022,9 @@
       "Etingof.Exercise5_27_2.heisenberg_classification",
       "Etingof.Exercise5_27_2.heisenberg_classification'",
       "Etingof.Exercise5_27_2.affine_classification",
-      "Etingof.Exercise5_27_2.affine_classification_two"
+      "Etingof.Exercise5_27_2.affine_classification_two",
+      "Etingof.Exercise5_27_2.affine_classification'",
+      "Etingof.Exercise5_27_2.affine_classification_two'"
     ],
     "derived": [
       {
@@ -7055,18 +7057,23 @@
       {
         "part": "(iii) affine (4.12.6)",
         "claim": "Redo the affine x↦ax+b group (over 𝔽_q) irreducible classification via Theorem 5.27.1 (Multiplicative K ⋊ Kˣ): q−1 dim-1 characters and one dim-(q−1) rep.",
-        "coverage": "covered_partial",
+        "coverage": "covered_full",
         "lean_decl": [
           "Etingof.Exercise5_27_2.affine_classification",
           "Etingof.Exercise5_27_2.affine_classification_two",
+          "Etingof.Exercise5_27_2.affine_classification'",
+          "Etingof.Exercise5_27_2.affine_classification_two'",
+          "Etingof.Exercise5_27_2.affine_classification_named",
+          "Etingof.Exercise5_27_2.affineEquiv",
+          "Etingof.Exercise5_27_2.zeroSumFDRep",
           "Etingof.Exercise5_27_2.AffineGroup",
           "Etingof.Exercise5_27_2.affineφ"
         ],
-        "reason": "PARTIAL. The q>2 and q=2 classifications are exhaustive and sorry-free on Exercise5_27_2.AffineGroup, but no MulEquiv transports them to Problem4_12_6.Affine or identifies the nonlinear branch with the named Chapter 4 deleted-permutation model.",
-        "followup_issue": 7789
+        "reason": "FULL. affine_classification (q>2) and affine_classification_two (q=2) obtain the orbit-method classification via Etingof.Theorem5_27_1 Kˣ (Multiplicative K) (affineφ K) on the semidirect-product model. affineEquiv is a genuine ≃* (real toFun/invFun/left_inv/right_inv/map_mul', no stub) from Problem4_12_6.Affine K onto that model, sending ⟨a, b⟩ to ⟨ofAdd b, a⟩; affine_classification' and affine_classification_two' transport the two classifications across it, so the conclusions are stated over FDRep ℂ (Problem4_12_6.Affine K): exhaustive (Simple, pairwise-non-iso, completeness), n = q with q-1 dim-1 members and one dim-(q-1) member (resp. n = 2 all dim-1 when q = 2). affine_classification_named further identifies the family with the book's named representations: every dim-1 member is a Problem4_12_6.charRep χ and every character occurs, and the unique dim-(q-1) member is the hint's zero-sum representation V = Problem4_12_6.Vsub (zeroSumFDRep). Sorry-free, #print axioms clean.",
+        "followup_issue": null
       }
     ],
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter5/Exercise5.27.3",

@@ -45,6 +45,16 @@ Thus there are exactly `q` irreducibles: `q - 1` of dimension `1` and one of dim
 
 The classification `affine_classification` is proved below by feeding the two orbit facts above
 into Theorem 5.27.1 (for fields with `q > 2`; see the theorem docstring for the `q = 2` caveat).
+
+## Landing on the group of Problem 4.12.6
+
+Problem 4.12.6 studies the `structure Problem4_12_6.Affine K` of pairs `⟨a, b⟩`, a different type
+from the semidirect-product model `AffineGroup K`. `affineEquiv` is the group isomorphism between
+them, `affine_classification'` and `affine_classification_two'` are the two classifications
+transported onto the textbook group along it (via `Exercise5_27_2_Transport`), and
+`affine_classification_named` matches the transported family with the book's own named
+representations: the `q - 1` characters `charRep χ` and the zero-sum representation
+`V = Vsub` of dimension `q - 1` that the problem's hint singles out.
 -/
 
 noncomputable section
