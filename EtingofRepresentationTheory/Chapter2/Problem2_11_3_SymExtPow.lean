@@ -158,4 +158,105 @@ lemma symTprod_comp_perm {n : ℕ} (σ : Equiv.Perm (Fin n)) (f : Fin n → V) :
 
 end Basic
 
+section Functoriality
+
+variable {k : Type*} [CommRing k] {V W U : Type*}
+  [AddCommGroup V] [Module k V] [AddCommGroup W] [Module k W] [AddCommGroup U] [Module k U]
+
+/-- The operator `A^{⊗ n} : V^{⊗ n} → W^{⊗ n}` induced by `A : V → W`. -/
+def tensorPowMap (A : V →ₗ[k] W) (n : ℕ) : TensorPow k V n →ₗ[k] TensorPow k W n :=
+  PiTensorProduct.map fun _ : Fin n => A
+
+@[simp]
+lemma tensorPowMap_tprod (A : V →ₗ[k] W) {n : ℕ} (f : Fin n → V) :
+    tensorPowMap A n (PiTensorProduct.tprod k f) = PiTensorProduct.tprod k fun i => A (f i) :=
+  PiTensorProduct.map_tprod _ _
+
+lemma tensorPowMap_permAct (A : V →ₗ[k] W) {n : ℕ} (σ : Equiv.Perm (Fin n))
+    (T : TensorPow k V n) :
+    tensorPowMap A n (permAct σ T) = permAct σ (tensorPowMap A n T) := by
+  induction T using PiTensorProduct.induction_on with
+  | smul_tprod r f => simp
+  | add x y hx hy => simp [hx, hy]
+
+lemma symRelSubmodule_le_comap (A : V →ₗ[k] W) (n : ℕ) :
+    symRelSubmodule k V n ≤ (symRelSubmodule k W n).comap (tensorPowMap A n) := by
+  rw [symRelSubmodule, Submodule.span_le]
+  rintro _ ⟨T, i, j, hij, rfl⟩
+  refine Submodule.subset_span ⟨tensorPowMap A n T, i, j, hij, ?_⟩
+  rw [map_sub, tensorPowMap_permAct]
+
+lemma extRelSubmodule_le_comap (A : V →ₗ[k] W) (n : ℕ) :
+    extRelSubmodule k V n ≤ (extRelSubmodule k W n).comap (tensorPowMap A n) := by
+  rw [extRelSubmodule, Submodule.span_le]
+  rintro T ⟨i, j, hij, hT⟩
+  refine Submodule.subset_span ⟨i, j, hij, ?_⟩
+  rw [← tensorPowMap_permAct, hT]
+
+/-- **Problem 2.11.3(f).** The operator `S^n A : S^n V → S^n W` induced by `A : V → W`. -/
+def symPowMap (A : V →ₗ[k] W) (n : ℕ) : SymPow k V n →ₗ[k] SymPow k W n :=
+  Submodule.mapQ _ _ (tensorPowMap A n) (symRelSubmodule_le_comap A n)
+
+/-- **Problem 2.11.3(f).** The operator `⋀^n A : ⋀^n V → ⋀^n W` induced by `A : V → W`. -/
+def extPowMap (A : V →ₗ[k] W) (n : ℕ) : ExtPow k V n →ₗ[k] ExtPow k W n :=
+  Submodule.mapQ _ _ (tensorPowMap A n) (extRelSubmodule_le_comap A n)
+
+@[simp]
+lemma symPowMap_symTprod (A : V →ₗ[k] W) {n : ℕ} (f : Fin n → V) :
+    symPowMap A n (symTprod k V n f) = symTprod k W n fun i => A (f i) := by
+  simp [symPowMap, symTprod, Submodule.mapQ_apply]
+
+@[simp]
+lemma extPowMap_extTprod (A : V →ₗ[k] W) {n : ℕ} (f : Fin n → V) :
+    extPowMap A n (extTprod k V n f) = extTprod k W n fun i => A (f i) := by
+  simp [extPowMap, extTprod, Submodule.mapQ_apply]
+
+@[simp]
+lemma symPowMap_id (n : ℕ) : symPowMap (LinearMap.id : V →ₗ[k] V) n = LinearMap.id := by
+  refine LinearMap.ext fun x => ?_
+  obtain ⟨T, rfl⟩ := Submodule.mkQ_surjective _ x
+  induction T using PiTensorProduct.induction_on with
+  | smul_tprod r f => simpa using congrArg (r • ·) (symPowMap_symTprod LinearMap.id f)
+  | add a b ha hb => simp only [map_add, ha, hb]
+
+@[simp]
+lemma extPowMap_id (n : ℕ) : extPowMap (LinearMap.id : V →ₗ[k] V) n = LinearMap.id := by
+  refine LinearMap.ext fun x => ?_
+  obtain ⟨T, rfl⟩ := Submodule.mkQ_surjective _ x
+  induction T using PiTensorProduct.induction_on with
+  | smul_tprod r f => simpa using congrArg (r • ·) (extPowMap_extTprod LinearMap.id f)
+  | add a b ha hb => simp only [map_add, ha, hb]
+
+lemma symPowMap_comp (A : W →ₗ[k] U) (B : V →ₗ[k] W) (n : ℕ) :
+    symPowMap (A ∘ₗ B) n = symPowMap A n ∘ₗ symPowMap B n := by
+  refine LinearMap.ext fun x => ?_
+  obtain ⟨T, rfl⟩ := Submodule.mkQ_surjective _ x
+  induction T using PiTensorProduct.induction_on with
+  | smul_tprod r f =>
+      simp only [map_smul, LinearMap.comp_apply]
+      congr 1
+      have h1 := symPowMap_symTprod (A ∘ₗ B) f
+      have h2 := symPowMap_symTprod A fun i => B (f i)
+      have h3 := symPowMap_symTprod B f
+      simp only [symTprod_apply, Submodule.mkQ_apply, LinearMap.comp_apply] at h1 h2 h3 ⊢
+      rw [h1, h3, h2]
+  | add a b ha hb => simp only [map_add, ha, hb, LinearMap.comp_apply]
+
+lemma extPowMap_comp (A : W →ₗ[k] U) (B : V →ₗ[k] W) (n : ℕ) :
+    extPowMap (A ∘ₗ B) n = extPowMap A n ∘ₗ extPowMap B n := by
+  refine LinearMap.ext fun x => ?_
+  obtain ⟨T, rfl⟩ := Submodule.mkQ_surjective _ x
+  induction T using PiTensorProduct.induction_on with
+  | smul_tprod r f =>
+      simp only [map_smul, LinearMap.comp_apply]
+      congr 1
+      have h1 := extPowMap_extTprod (A ∘ₗ B) f
+      have h2 := extPowMap_extTprod A fun i => B (f i)
+      have h3 := extPowMap_extTprod B f
+      simp only [extTprod_apply, Submodule.mkQ_apply, LinearMap.comp_apply] at h1 h2 h3 ⊢
+      rw [h1, h3, h2]
+  | add a b ha hb => simp only [map_add, ha, hb, LinearMap.comp_apply]
+
+end Functoriality
+
 end Etingof.Problem2_11_3
