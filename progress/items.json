@@ -8728,10 +8728,10 @@
     "start_line": 23,
     "end_line": 18,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "Parts (i)–(iii) are proved. Part (iv) now gives Nonempty of an objectwise Künneth isomorphism, but the source explicitly requires a natural isomorphism; no NatIso or naturality in C and D is exposed (follow-up #7397).",
-    "fidelity_issue": 7397,
-    "last_updated": "2026-07-22"
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Parts (i)–(iv) are proved. Part (iv) now meets the source's demand for a *natural* isomorphism: Etingof.kunnethNatIso (Chapter7/KunnethIso.lean) is a natural isomorphism of bifunctors (C,D) ↦ ∐_{j+m=i} Hʲ(C) ⊗ Hᵐ(D) ≅ (C,D) ↦ Hⁱ(C ⊗ D), with Etingof.kunnethIso its objectwise form; the underlying map is the choice-free cross product Etingof.kunnethMap. Problem7_8_7_iv_nonempty is retained only as a compatibility corollary. The ℕ-reindexed variants kunnethChainComplexNatIso / kunnethCochainComplexNatIso are objectwise isomorphisms only: three of their four steps have formalized naturality squares, but the tensor/extend comparison TensorExtend.tensorObjExtendIso is natural without its naturality being formalized, so they are deliberately not claimed as natural isomorphisms.",
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter7/Introduction_7.9",

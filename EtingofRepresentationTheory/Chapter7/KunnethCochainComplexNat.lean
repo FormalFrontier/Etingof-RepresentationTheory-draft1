@@ -504,8 +504,8 @@ As in the chain case, **all four steps are natural in `(C, D)`** and none is a n
 choice: `α₁`, `α₄` by `homology_extend_iso_up_hom_naturality`, `α₃` by `Etingof.kunnethNatIso`.
 Step `α₂` (`TensorExtendUp.tensorObjExtendIso`) is natural too, but its naturality square is
 **not formalized here** — stating it needs the bifunctor form of `extend` on `ℕ`-indexed
-complexes, which this file does not set up. So this file exposes an isomorphism, not a natural
-isomorphism of bifunctors. -/
+complexes, which this file does not set up (tracked as issue #7837). So this file exposes an
+isomorphism, not a natural isomorphism of bifunctors. -/
 noncomputable def kunnethCochainComplexNatIso (C D : CochainComplex (ModuleCat.{u} k) ℕ) (i : ℕ) :
     (HomologicalComplex.tensorObj C D).homology i ≅
       ∐ fun (p : {p : ℕ × ℕ // p.1 + p.2 = i}) =>

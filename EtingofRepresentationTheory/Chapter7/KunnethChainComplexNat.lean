@@ -598,6 +598,7 @@ currently *formalized*:
   but **the naturality square is not formalized here**. Stating it needs the bifunctor form of
   `extend` on `ℕ`-indexed complexes, which this file does not set up. This is the one gap
   between "natural" and "proved natural"; it is not a claim that the step is non-natural.
+  Tracked as issue #7837.
 
 Consequently this file exposes the isomorphism, not a natural isomorphism of bifunctors. -/
 noncomputable def kunnethChainComplexNatIso (C D : ChainComplex (ModuleCat.{u} k) ℕ) (i : ℕ) :
