@@ -21,17 +21,27 @@ triple `(a, b, d)` denoting `a·e + b·f + d·h`, and verify the defining bracke
 The content is:
 
 * `sl2` is a Lie algebra with the stated brackets (`bracket_h_e`, `bracket_h_f`,
-  `bracket_e_f`);
+  `bracket_e_f`), and `slEquiv` identifies it with Mathlib's `LieAlgebra.SpecialLinear.sl (Fin 2) k`
+  — the canonical traceless `2 × 2` matrices — carrying `e`, `f`, `h` to `E₀₁`, `E₁₀`, `E₀₀ − E₁₁`
+  (`isSl2Triple_slEquiv` records that this is an `𝔰𝔩₂`-triple in Mathlib's sense);
 * inside `U(𝔰𝔩(2))`, the images `E = ι e`, `F = ι f`, `H = ι h` satisfy the book's relations
   `HE − EH = 2E`, `HF − FH = −2F`, `EF − FE = H` (`sl2_universal_relations`). These are specific
-  to `𝔰𝔩(2)`: they are not provable for an arbitrary `L`.
+  to `𝔰𝔩(2)`: they are not provable for an arbitrary `L`;
+* `E`, `F`, `H` *generate* `U(𝔰𝔩(2))` as a `k`-algebra (`adjoin_ι_e_f_h`);
+* the three relations are a *complete* presentation: the algebra `Presentation k` freely generated
+  by three symbols modulo exactly those relations is isomorphic to `U(𝔰𝔩(2))` by an isomorphism
+  matching the generators up (`presentationEquiv`, `presentationEquiv_gen_zero` and friends).
+  This is the book's assertion in full;
+* the presentation does not collapse: the standard two-dimensional representation `stdRep` shows
+  `ι e ≠ 0` and hence `Presentation k` is nontrivial for nontrivial `k`.
 
 ## Mathlib correspondence
 
-Mathlib has `UniversalEnvelopingAlgebra`, but `𝔰𝔩(2)` with the explicit `e, f, h` basis and these
-relations is not directly available as a concrete presentation, so we build it here. The full
-universal property (that `e, f, h` generate `U(𝔰𝔩(2))` and that these relations are a complete
-presentation) is beyond current Mathlib infrastructure; we assert and prove the defining relations.
+Mathlib has `UniversalEnvelopingAlgebra` and `LieAlgebra.SpecialLinear.sl`, but not `𝔰𝔩(2)` with
+the explicit `e, f, h` basis presented by generators and relations, so we build that here. The
+computational heart is `liftTriple`: a triple in an associative `k`-algebra satisfying the three
+relations is exactly a Lie algebra morphism out of `𝔰𝔩(2)`. It is what makes both halves of the
+presentation isomorphism available, and it is used once in each direction.
 -/
 
 namespace Etingof.Example2_9_12
@@ -381,5 +391,128 @@ def presentationEquiv (k : Type*) [CommRing k] :
     presentationEquiv k (presGen k 2) = ι k (h : sl2 k) := by simp [presentationEquiv]
 
 end Presentation
+
+/-! ### `𝔰𝔩(2)` really is the traceless `2 × 2` matrices
+
+The coordinate model `sl2 k = k × k × k` used above is identified with Mathlib's
+`LieAlgebra.SpecialLinear.sl (Fin 2) k`, the canonical Lie algebra of traceless `2 × 2` matrices,
+by the isomorphism carrying `e`, `f`, `h` to `E₀₁`, `E₁₀`, `E₀₀ − E₁₁`. This pins down what
+`𝔰𝔩(2)` means: none of the results above are about an accidentally-chosen bracket.
+-/
+
+section MatrixModel
+
+open LieAlgebra.SpecialLinear
+
+/-- The traceless matrix attached to `(a, b, d) = a·e + b·f + d·h`, namely `!![d, a; b, -d]`. -/
+def toMatrix (u : sl2 k) : Matrix (Fin 2) (Fin 2) k := !![u.2.2, u.1; u.2.1, -u.2.2]
+
+theorem toMatrix_mem (u : sl2 k) : toMatrix u ∈ sl (Fin 2) k := by
+  change Matrix.trace (toMatrix u) = 0
+  simp [toMatrix, Matrix.trace_fin_two]
+
+theorem trace_eq_zero (M : sl (Fin 2) k) : M.val 0 0 + M.val 1 1 = 0 := by
+  have hM : Matrix.trace M.val = 0 := M.2
+  simpa [Matrix.trace_fin_two] using hM
+
+/-- The identification of the coordinate model `𝔰𝔩(2)` with Mathlib's traceless `2 × 2` matrices,
+`e ↦ E₀₁`, `f ↦ E₁₀`, `h ↦ E₀₀ − E₁₁`. -/
+def slEquiv (k : Type*) [CommRing k] : sl2 k ≃ₗ⁅k⁆ sl (Fin 2) k where
+  toFun u := ⟨toMatrix u, toMatrix_mem u⟩
+  map_add' u v := by
+    ext i j; fin_cases i <;> fin_cases j <;> simp [toMatrix]; ring
+  map_smul' t u := by
+    ext i j; fin_cases i <;> fin_cases j <;> simp [toMatrix]
+  map_lie' {u v} := by
+    apply Subtype.ext
+    rw [sl_bracket]
+    ext i j
+    fin_cases i <;> fin_cases j <;> simp [toMatrix, bracket_def] <;> ring
+  invFun M := (M.val 0 1, M.val 1 0, M.val 0 0)
+  left_inv u := by apply sl2.ext <;> simp [toMatrix]
+  right_inv M := by
+    apply Subtype.ext
+    have h11 : M.val 1 1 = -M.val 0 0 := by linear_combination trace_eq_zero M
+    ext i j
+    fin_cases i <;> fin_cases j <;> simp [toMatrix, h11]
+
+@[simp] theorem slEquiv_apply (u : sl2 k) :
+    (slEquiv k u : Matrix (Fin 2) (Fin 2) k) = toMatrix u := rfl
+
+theorem slEquiv_lie (u v : sl2 k) : slEquiv k ⁅u, v⁆ = ⁅slEquiv k u, slEquiv k v⁆ :=
+  LieHom.map_lie (slEquiv k).toLieHom u v
+
+@[simp] theorem slEquiv_e (k : Type*) [CommRing k] :
+    (slEquiv k (e : sl2 k) : Matrix (Fin 2) (Fin 2) k) = !![0, 1; 0, 0] := by
+  ext i j; fin_cases i <;> fin_cases j <;> simp [toMatrix, e]
+
+@[simp] theorem slEquiv_f (k : Type*) [CommRing k] :
+    (slEquiv k (f : sl2 k) : Matrix (Fin 2) (Fin 2) k) = !![0, 0; 1, 0] := by
+  ext i j; fin_cases i <;> fin_cases j <;> simp [toMatrix, f]
+
+@[simp] theorem slEquiv_h (k : Type*) [CommRing k] :
+    (slEquiv k (h : sl2 k) : Matrix (Fin 2) (Fin 2) k) = !![1, 0; 0, -1] := by
+  ext i j; fin_cases i <;> fin_cases j <;> simp [toMatrix, h]
+
+theorem slEquiv_h_ne_zero (k : Type*) [CommRing k] [Nontrivial k] :
+    slEquiv k (h : sl2 k) ≠ 0 := by
+  intro hzero
+  have hval : ((slEquiv k (h : sl2 k)) : Matrix (Fin 2) (Fin 2) k) = 0 := by rw [hzero]; rfl
+  rw [slEquiv_h] at hval
+  have hent := congrFun (congrFun hval 0) 0
+  simp at hent
+
+/-- The images of `h`, `e`, `f` in the traceless `2 × 2` matrices form an `𝔰𝔩₂`-triple in
+Mathlib's sense. -/
+theorem isSl2Triple_slEquiv (k : Type*) [CommRing k] [Nontrivial k] :
+    IsSl2Triple (slEquiv k (h : sl2 k)) (slEquiv k (e : sl2 k)) (slEquiv k (f : sl2 k)) where
+  h_ne_zero := slEquiv_h_ne_zero k
+  lie_e_f := by rw [← slEquiv_lie, bracket_e_f]
+  lie_h_e_nsmul := by
+    rw [← slEquiv_lie, bracket_h_e]
+    apply Subtype.ext
+    ext i j; fin_cases i <;> fin_cases j <;> simp [toMatrix, e]
+  lie_h_f_nsmul := by
+    rw [← slEquiv_lie, bracket_h_f]
+    apply Subtype.ext
+    ext i j; fin_cases i <;> fin_cases j <;> simp [toMatrix, f]
+
+/-! ### Non-vacuity
+
+The standard two-dimensional representation shows `U(𝔰𝔩(2))` — and hence the presented algebra —
+is not the zero ring, and that the generators `ι e`, `ι f`, `ι h` are nonzero.
+-/
+
+/-- The standard 2-dimensional representation of `𝔰𝔩(2)`, as a Lie algebra morphism into the
+associative algebra of `2 × 2` matrices. -/
+def stdRep (k : Type*) [CommRing k] : sl2 k →ₗ⁅k⁆ Matrix (Fin 2) (Fin 2) k :=
+  liftTriple !![0, 1; 0, 0] !![0, 0; 1, 0] !![1, 0; 0, -1]
+    (by ext i j; fin_cases i <;> fin_cases j <;> simp; ring)
+    (by ext i j; fin_cases i <;> fin_cases j <;> simp; ring)
+    (by ext i j; fin_cases i <;> fin_cases j <;> simp)
+
+/-- The algebra morphism `U(𝔰𝔩(2)) → M₂(k)` induced by the standard representation. -/
+def stdRepU (k : Type*) [CommRing k] :
+    UniversalEnvelopingAlgebra k (sl2 k) →ₐ[k] Matrix (Fin 2) (Fin 2) k :=
+  UniversalEnvelopingAlgebra.lift k (stdRep k)
+
+theorem ι_e_ne_zero (k : Type*) [CommRing k] [Nontrivial k] : ι k (e : sl2 k) ≠ 0 := by
+  intro hzero
+  have himg := congrArg (stdRepU k) hzero
+  rw [map_zero, stdRepU, UniversalEnvelopingAlgebra.lift_ι_apply, stdRep, liftTriple_e] at himg
+  have : (1 : k) = 0 := by simpa using congrFun (congrFun himg 0) 1
+  exact one_ne_zero this
+
+instance nontrivial_U (k : Type*) [CommRing k] [Nontrivial k] :
+    Nontrivial (UniversalEnvelopingAlgebra k (sl2 k)) :=
+  nontrivial_of_ne _ _ (ι_e_ne_zero k)
+
+/-- The presented algebra of Example 2.9.12 is not the zero ring: the presentation does not
+collapse. -/
+instance nontrivial_Presentation (k : Type*) [CommRing k] [Nontrivial k] :
+    Nontrivial (Presentation k) :=
+  (presentationEquiv k).toRingEquiv.nontrivial
+
+end MatrixModel
 
 end Etingof.Example2_9_12
