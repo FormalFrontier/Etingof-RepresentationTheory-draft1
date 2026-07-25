@@ -775,4 +775,80 @@ theorem affine_classification_two' (hq : Fintype.card K = 2) :
     transport_classification (affineEquiv K) V hSimple hInj hComplete
   exact ⟨n, W, hW1, hW2, hW3, hn, fun i => by rw [hWdim i]; exact hdim i⟩
 
+/-! ## The transported family is the book's family
+
+Problem 4.12.6 names its irreducibles: the `q - 1` one-dimensional characters `charRep χ` and
+the single `(q-1)`-dimensional zero-sum representation `V` — the hint's subrepresentation
+`Vsub` of the permutation representation on `K → ℂ`. Matching the orbit-method family against
+that list is what makes "redo Problem 4.12.6 using Theorem 5.27.1" land on the book's own
+answer rather than on an abstract count. -/
+
+/-- The zero-sum representation `V` of Problem 4.12.6 — the hint's `(q-1)`-dimensional
+subrepresentation of the permutation representation on `K → ℂ` — as an object of
+`FDRep ℂ (Problem4_12_6.Affine K)`. -/
+def zeroSumFDRep : FDRep ℂ (Problem4_12_6.Affine K) :=
+  FDRep.of (Problem4_12_6.Vsub (K := K)).toRepresentation
+
+/-- `V` has dimension `q - 1`. -/
+lemma finrank_zeroSumFDRep :
+    finrank ℂ (zeroSumFDRep K : Type) = Fintype.card K - 1 :=
+  Problem4_12_6.zeroSum_finrank (K := K)
+
+/-- `V` is irreducible (Problem 4.12.6's hint, `zeroSum_irreducible`). -/
+lemma zeroSumFDRep_simple : Simple (zeroSumFDRep K) :=
+  haveI := Problem4_12_6.Vrep_isSimpleModule (K := K) Fintype.one_lt_card
+  Etingof.simple_fdRepOf_of_isSimpleModule _
+
+open Classical in
+/-- **The orbit-method family is the book's family.** For `q = |K| > 2`, the family of
+irreducibles that Theorem 5.27.1 produces for `Problem4_12_6.Affine K` consists of exactly the
+representations Problem 4.12.6 names, matched by dimension: every one-dimensional member is a
+character `charRep χ` and every character occurs, while the unique `(q-1)`-dimensional member is
+the zero-sum representation `V = Vsub`. So redoing Problem 4.12.6 through the orbit method
+recovers the book's own list. -/
+theorem affine_classification_named (hq : 2 < Fintype.card K) :
+    ∃ (n : ℕ) (W : Fin n → FDRep ℂ (Problem4_12_6.Affine K)),
+      (∀ i, Simple (W i)) ∧
+      (∀ i j, Nonempty (W i ≅ W j) → i = j) ∧
+      (∀ S : FDRep ℂ (Problem4_12_6.Affine K), Simple S → ∃ i, Nonempty (S ≅ W i)) ∧
+      n = Fintype.card K ∧
+      (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 1)).card = Fintype.card K - 1 ∧
+      (Finset.univ.filter
+        (fun i => finrank ℂ (W i : Type) = Fintype.card K - 1)).card = 1 ∧
+      (∀ i, finrank ℂ (W i : Type) = 1 → ∃ χ : Problem4_12_6.Affine K →* ℂˣ,
+        Nonempty (W i ≅ FDRep.of (Problem4_12_6.charRep χ))) ∧
+      (∀ i, finrank ℂ (W i : Type) = Fintype.card K - 1 →
+        Nonempty (W i ≅ zeroSumFDRep K)) ∧
+      (∀ χ : Problem4_12_6.Affine K →* ℂˣ,
+        ∃ i, Nonempty (FDRep.of (Problem4_12_6.charRep χ) ≅ W i)) ∧
+      (∃ i, Nonempty (zeroSumFDRep K ≅ W i)) := by
+  classical
+  obtain ⟨n, W, hSimple, hInj, hComplete, hn, hcard1, hcardq⟩ := affine_classification' K hq
+  refine ⟨n, W, hSimple, hInj, hComplete, hn, hcard1, hcardq, ?_, ?_, ?_, ?_⟩
+  · -- a one-dimensional member is the character representation of its own character
+    intro i hi
+    obtain ⟨ξ, hξ⟩ := exists_charRep_iso_of_finrank_eq_one (W i) hi
+    exact ⟨ξ, hξ⟩
+  · -- the `(q-1)`-dimensional member is unique, and `V` is one such, so they agree
+    intro i hi
+    haveI := zeroSumFDRep_simple K
+    obtain ⟨j, hj⟩ := hComplete (zeroSumFDRep K) inferInstance
+    have hjdim : finrank ℂ (W j : Type) = Fintype.card K - 1 := by
+      rw [← LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hj.some)]
+      exact finrank_zeroSumFDRep K
+    -- both `i` and `j` lie in a filter of cardinality one
+    have hij : i = j := by
+      have hmem : ∀ l : Fin n, finrank ℂ (W l : Type) = Fintype.card K - 1 →
+          l ∈ Finset.univ.filter (fun l => finrank ℂ (W l : Type) = Fintype.card K - 1) :=
+        fun l hl => Finset.mem_filter.mpr ⟨Finset.mem_univ l, hl⟩
+      exact Finset.card_le_one.mp (le_of_eq hcardq) i (hmem i hi) j (hmem j hjdim)
+    exact ⟨hij ▸ hj.some.symm⟩
+  · -- every character occurs: it is simple, so completeness catches it
+    intro χ
+    haveI : Simple (FDRep.of (Problem4_12_6.charRep χ)) := Problem4_12_6.charRep_simple χ
+    exact hComplete _ inferInstance
+  · -- `V` occurs, for the same reason
+    haveI := zeroSumFDRep_simple K
+    exact hComplete _ inferInstance
+
 end Etingof.Exercise5_27_2
