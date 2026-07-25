@@ -13,6 +13,7 @@ import Mathlib.Algebra.Module.Projective
 import Mathlib.Algebra.Category.ModuleCat.Projective
 import Mathlib.Algebra.Algebra.Bilinear
 import EtingofRepresentationTheory.Chapter2.Definition2_3_8
+import EtingofRepresentationTheory.Chapter9.Definition9_3_1
 import EtingofRepresentationTheory.Chapter9.Definition9_5_1
 
 /-!
@@ -1290,5 +1291,377 @@ theorem simple_module_classification (S : Type u) [AddCommGroup S] [Module ℂ S
   · exact Or.inr ⟨h, fun h' => not_linearEquiv_splus_and_sminus S ⟨h', h⟩⟩
 
 end Exhaustive
+
+/-! ## The Cartan matrix of `A` (Definition 9.3.1)
+
+The third question of Problem 9.3.2. Each of the four Hom spaces `Hom_A(P_s, P_t)`,
+`s, t ∈ {+, -}`, is one-dimensional over `ℂ`, so the Cartan matrix of `A` is `!![1, 1; 1, 1]`.
+
+The computation is uniform. Each `P_s` is generated over `A` by `e₀`, since `e₁ = x · e₀`
+(`Pplus.eq_smul_e0`), so an `A`-linear map out of `P_s` is determined by its value on `e₀`
+(`Pplus.hom_ext`). That value is constrained by `g`-equivariance: `g · e₀ = ε e₀` with
+`ε = +1` on `P₊` and `ε = -1` on `P₋`, so `φ e₀` lies in the `ε`-eigenspace of `g` on the
+target. Each eigenspace of the involution `g` on `P_t` is one-dimensional, spanned by `e₀` or
+by `e₁` — that is the content of the four `eq_smul_e*_of_g_smul_eq_*` lemmas. Hence each Hom
+space is `ℂ · T` for a single explicit generator `T`, and the coefficient map `φ ↦ (φ e₀) k` is
+a `ℂ`-linear isomorphism onto `ℂ`. -/
+
+section Cartan
+
+/-! ### `ℂ` is central, so the Hom spaces are `ℂ`-vector spaces -/
+
+instance : SMulCommClass A ℂ Pplus where
+  smul_comm a c v := by
+    rw [← algebraMap_smul A c v, ← algebraMap_smul A c (a • v), smul_smul, smul_smul,
+      Algebra.commutes]
+
+instance : SMulCommClass A ℂ Pminus where
+  smul_comm a c v := by
+    rw [← algebraMap_smul A c v, ← algebraMap_smul A c (a • v), smul_smul, smul_smul,
+      Algebra.commutes]
+
+/-! ### The generators `e₀` generate `P₊` and `P₋` over `A` -/
+
+lemma Pplus.eq_smul_e0 (v : Pplus) :
+    v = (algebraMap ℂ A (v 0) + algebraMap ℂ A (v 1) * x) • Pplus.e0 := by
+  rw [add_smul, mul_smul, Pplus.x_smul]
+  simp only [algebraMap_smul, Pplus.e0_zero]
+  refine Pplus.ext fun i => ?_
+  fin_cases i <;> simp
+
+lemma Pminus.eq_smul_e0 (v : Pminus) :
+    v = (algebraMap ℂ A (v 0) + algebraMap ℂ A (v 1) * x) • Pminus.e0 := by
+  rw [add_smul, mul_smul, Pminus.x_smul]
+  simp only [algebraMap_smul, Pminus.e0_zero]
+  refine Pminus.ext fun i => ?_
+  fin_cases i <;> simp
+
+/-- An `A`-linear map out of `P₊` is determined by its value on the generator `e₀`. -/
+lemma Pplus.hom_ext {M : Type u} [AddCommGroup M] [Module A M] {φ ψ : Pplus →ₗ[A] M}
+    (h : φ Pplus.e0 = ψ Pplus.e0) : φ = ψ := by
+  refine LinearMap.ext fun v => ?_
+  rw [Pplus.eq_smul_e0 v, map_smul, map_smul, h]
+
+/-- An `A`-linear map out of `P₋` is determined by its value on the generator `e₀`. -/
+lemma Pminus.hom_ext {M : Type u} [AddCommGroup M] [Module A M] {φ ψ : Pminus →ₗ[A] M}
+    (h : φ Pminus.e0 = ψ Pminus.e0) : φ = ψ := by
+  refine LinearMap.ext fun v => ?_
+  rw [Pminus.eq_smul_e0 v, map_smul, map_smul, h]
+
+/-! ### The action of the generators on `e₀` and `e₁` -/
+
+lemma Pplus.g_smul_e0 : g • Pplus.e0 = Pplus.e0 := by
+  rw [Pplus.g_smul]; refine Pplus.ext fun i => ?_; fin_cases i <;> simp
+
+lemma Pplus.x_smul_e0 : x • Pplus.e0 = Pplus.e1 := by
+  rw [Pplus.x_smul]; refine Pplus.ext fun i => ?_; fin_cases i <;> simp
+
+lemma Pminus.g_smul_e0 : g • Pminus.e0 = -Pminus.e0 := by
+  rw [Pminus.g_smul]; refine Pminus.ext fun i => ?_; fin_cases i <;> simp
+
+lemma Pminus.x_smul_e0 : x • Pminus.e0 = Pminus.e1 := by
+  rw [Pminus.x_smul]; refine Pminus.ext fun i => ?_; fin_cases i <;> simp
+
+/-- `g` fixes `φ e₀` for any `A`-linear `φ` out of `P₊`, since `g · e₀ = e₀` there. -/
+lemma Pplus.g_smul_apply_e0 {M : Type u} [AddCommGroup M] [Module A M] (φ : Pplus →ₗ[A] M) :
+    g • φ Pplus.e0 = φ Pplus.e0 := by
+  rw [← map_smul, Pplus.g_smul_e0]
+
+/-- `g` negates `φ e₀` for any `A`-linear `φ` out of `P₋`, since `g · e₀ = -e₀` there. -/
+lemma Pminus.g_smul_apply_e0 {M : Type u} [AddCommGroup M] [Module A M] (φ : Pminus →ₗ[A] M) :
+    g • φ Pminus.e0 = -φ Pminus.e0 := by
+  rw [← map_smul, Pminus.g_smul_e0, map_neg]
+
+/-! ### The `g`-eigenspaces of `P₊` and `P₋` are the coordinate lines -/
+
+/-- `g` is an involution, so its eigenvalues are `±1` and the two eigenspaces are transverse:
+a scalar fixed up to sign by `g` and equal to its own negative vanishes (`ℂ` has
+characteristic `0`). -/
+private lemma eq_zero_of_neg_eq {z : ℂ} (h : -z = z) : z = 0 := by
+  have h2 : (2 : ℂ) * z = 0 := by
+    rw [two_mul]
+    calc z + z = -z + z := by rw [h]
+      _ = 0 := neg_add_cancel z
+  exact (mul_eq_zero.mp h2).resolve_left two_ne_zero
+
+/-- The `+1`-eigenspace of `g` on `P₊` is the line spanned by `e₀`. -/
+lemma Pplus.eq_smul_e0_of_g_smul_eq_self {w : Pplus} (h : g • w = w) : w = w 0 • Pplus.e0 := by
+  have h1 : w 1 = 0 := by
+    have h2 : (![w 0, -w 1] : Pplus) 1 = w 1 := by rw [← Pplus.g_smul, h]
+    exact eq_zero_of_neg_eq (z := w 1) h2
+  refine Pplus.ext fun i => ?_
+  fin_cases i <;> simp [h1]
+
+/-- The `-1`-eigenspace of `g` on `P₊` is the line spanned by the socle vector `e₁`. -/
+lemma Pplus.eq_smul_e1_of_g_smul_eq_neg {w : Pplus} (h : g • w = -w) : w = w 1 • Pplus.e1 := by
+  have h0 : w 0 = 0 := by
+    have h2 : (![w 0, -w 1] : Pplus) 0 = (-w) 0 := by rw [← Pplus.g_smul, h]
+    exact eq_zero_of_neg_eq (z := w 0) h2.symm
+  refine Pplus.ext fun i => ?_
+  fin_cases i <;> simp [h0]
+
+/-- The `+1`-eigenspace of `g` on `P₋` is the line spanned by the socle vector `e₁`. -/
+lemma Pminus.eq_smul_e1_of_g_smul_eq_self {w : Pminus} (h : g • w = w) : w = w 1 • Pminus.e1 := by
+  have h0 : w 0 = 0 := by
+    have h2 : (![-w 0, w 1] : Pminus) 0 = w 0 := by rw [← Pminus.g_smul, h]
+    exact eq_zero_of_neg_eq (z := w 0) h2
+  refine Pminus.ext fun i => ?_
+  fin_cases i <;> simp [h0]
+
+/-- The `-1`-eigenspace of `g` on `P₋` is the line spanned by `e₀`. -/
+lemma Pminus.eq_smul_e0_of_g_smul_eq_neg {w : Pminus} (h : g • w = -w) : w = w 0 • Pminus.e0 := by
+  have h1 : w 1 = 0 := by
+    have h2 : (![-w 0, w 1] : Pminus) 1 = (-w) 1 := by rw [← Pminus.g_smul, h]
+    exact eq_zero_of_neg_eq (z := w 1) h2.symm
+  refine Pminus.ext fun i => ?_
+  fin_cases i <;> simp [h1]
+
+/-! ### The generators of the four Hom spaces
+
+`Hom_A(P₊, P₊)` and `Hom_A(P₋, P₋)` are generated by the identity. The two off-diagonal Hom
+spaces are generated by the map `(a, b) ↦ (0, a)`, which sends `e₀` to the socle vector `e₁` and
+kills `e₁`. -/
+
+/-- The `ℂ`-linear map `P₊ → P₋`, `(a, b) ↦ (0, a)`, underlying the generator of
+`Hom_A(P₊, P₋)`. -/
+def φTpm : Pplus →ₗ[ℂ] Pminus where
+  toFun v := ![0, v 0]
+  map_add' u v := by refine Pminus.ext fun i => ?_; fin_cases i <;> simp
+  map_smul' c v := by refine Pminus.ext fun i => ?_; fin_cases i <;> simp
+
+@[simp] lemma φTpm_apply (v : Pplus) : φTpm v = ![0, v 0] := rfl
+
+/-- The `ℂ`-linear map `P₋ → P₊`, `(a, b) ↦ (0, a)`, underlying the generator of
+`Hom_A(P₋, P₊)`. -/
+def φTmp : Pminus →ₗ[ℂ] Pplus where
+  toFun v := ![0, v 0]
+  map_add' u v := by refine Pplus.ext fun i => ?_; fin_cases i <;> simp
+  map_smul' c v := by refine Pplus.ext fun i => ?_; fin_cases i <;> simp
+
+@[simp] lemma φTmp_apply (v : Pminus) : φTmp v = ![0, v 0] := rfl
+
+/-- **The generator of `Hom_A(P₊, P₋)`**: `e₀ ↦ e₁`, `e₁ ↦ 0`. It is `A`-linear because the
+`+1`-eigenline of `g` in `P₋` is spanned by `e₁`, and `x · e₁ = 0`. -/
+noncomputable def Tpm : Pplus →ₗ[A] Pminus :=
+  mkAlgLinear ρP ρPm Pplus.smul_def Pminus.smul_def φTpm
+    (by intro v
+        rw [← Pplus.smul_def, ← Pminus.smul_def, Pplus.g_smul, Pminus.g_smul]
+        refine Pminus.ext fun i => ?_
+        fin_cases i <;> simp)
+    (by intro v
+        rw [← Pplus.smul_def, ← Pminus.smul_def, Pplus.x_smul, Pminus.x_smul]
+        refine Pminus.ext fun i => ?_
+        fin_cases i <;> simp)
+
+/-- **The generator of `Hom_A(P₋, P₊)`**: `e₀ ↦ e₁`, `e₁ ↦ 0`. -/
+noncomputable def Tmp : Pminus →ₗ[A] Pplus :=
+  mkAlgLinear ρPm ρP Pminus.smul_def Pplus.smul_def φTmp
+    (by intro v
+        rw [← Pminus.smul_def, ← Pplus.smul_def, Pminus.g_smul, Pplus.g_smul]
+        refine Pplus.ext fun i => ?_
+        fin_cases i <;> simp)
+    (by intro v
+        rw [← Pminus.smul_def, ← Pplus.smul_def, Pminus.x_smul, Pplus.x_smul]
+        refine Pplus.ext fun i => ?_
+        fin_cases i <;> simp)
+
+@[simp] lemma Tpm_apply (v : Pplus) : Tpm v = ![0, v 0] := rfl
+
+@[simp] lemma Tmp_apply (v : Pminus) : Tmp v = ![0, v 0] := rfl
+
+lemma Tpm_e0 : Tpm Pplus.e0 = Pminus.e1 := by
+  rw [Tpm_apply]; refine Pminus.ext fun i => ?_; fin_cases i <;> simp
+
+lemma Tmp_e0 : Tmp Pminus.e0 = Pplus.e1 := by
+  rw [Tmp_apply]; refine Pplus.ext fun i => ?_; fin_cases i <;> simp
+
+/-! ### The four Hom spaces are one-dimensional
+
+For each pair the coefficient map `φ ↦ (φ e₀) k` is a `ℂ`-linear bijection onto `ℂ`, where `k`
+is the coordinate of the eigenline containing `φ e₀`. -/
+
+/-- The coefficient of `φ ∈ Hom_A(P₊, P₊)` on the generator `id`. -/
+noncomputable def homCoeffPP : (Pplus →ₗ[A] Pplus) →ₗ[ℂ] ℂ where
+  toFun φ := (φ Pplus.e0) 0
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+
+/-- The coefficient of `φ ∈ Hom_A(P₊, P₋)` on the generator `Tpm`. -/
+noncomputable def homCoeffPM : (Pplus →ₗ[A] Pminus) →ₗ[ℂ] ℂ where
+  toFun φ := (φ Pplus.e0) 1
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+
+/-- The coefficient of `φ ∈ Hom_A(P₋, P₊)` on the generator `Tmp`. -/
+noncomputable def homCoeffMP : (Pminus →ₗ[A] Pplus) →ₗ[ℂ] ℂ where
+  toFun φ := (φ Pminus.e0) 1
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+
+/-- The coefficient of `φ ∈ Hom_A(P₋, P₋)` on the generator `id`. -/
+noncomputable def homCoeffMM : (Pminus →ₗ[A] Pminus) →ₗ[ℂ] ℂ where
+  toFun φ := (φ Pminus.e0) 0
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+
+lemma homCoeffPP_bijective : Function.Bijective homCoeffPP := by
+  constructor
+  · intro φ ψ h
+    refine Pplus.hom_ext ?_
+    rw [Pplus.eq_smul_e0_of_g_smul_eq_self (Pplus.g_smul_apply_e0 φ),
+      Pplus.eq_smul_e0_of_g_smul_eq_self (Pplus.g_smul_apply_e0 ψ)]
+    exact congrArg (fun c : ℂ => c • Pplus.e0) h
+  · intro c
+    refine ⟨c • LinearMap.id, ?_⟩
+    show ((c • (LinearMap.id : Pplus →ₗ[A] Pplus)) Pplus.e0) 0 = c
+    simp
+
+lemma homCoeffPM_bijective : Function.Bijective homCoeffPM := by
+  constructor
+  · intro φ ψ h
+    refine Pplus.hom_ext ?_
+    rw [Pminus.eq_smul_e1_of_g_smul_eq_self (Pplus.g_smul_apply_e0 φ),
+      Pminus.eq_smul_e1_of_g_smul_eq_self (Pplus.g_smul_apply_e0 ψ)]
+    exact congrArg (fun c : ℂ => c • Pminus.e1) h
+  · intro c
+    refine ⟨c • Tpm, ?_⟩
+    show ((c • Tpm) Pplus.e0) 1 = c
+    rw [LinearMap.smul_apply, Tpm_e0]
+    simp
+
+lemma homCoeffMP_bijective : Function.Bijective homCoeffMP := by
+  constructor
+  · intro φ ψ h
+    refine Pminus.hom_ext ?_
+    rw [Pplus.eq_smul_e1_of_g_smul_eq_neg (Pminus.g_smul_apply_e0 φ),
+      Pplus.eq_smul_e1_of_g_smul_eq_neg (Pminus.g_smul_apply_e0 ψ)]
+    exact congrArg (fun c : ℂ => c • Pplus.e1) h
+  · intro c
+    refine ⟨c • Tmp, ?_⟩
+    show ((c • Tmp) Pminus.e0) 1 = c
+    rw [LinearMap.smul_apply, Tmp_e0]
+    simp
+
+lemma homCoeffMM_bijective : Function.Bijective homCoeffMM := by
+  constructor
+  · intro φ ψ h
+    refine Pminus.hom_ext ?_
+    rw [Pminus.eq_smul_e0_of_g_smul_eq_neg (Pminus.g_smul_apply_e0 φ),
+      Pminus.eq_smul_e0_of_g_smul_eq_neg (Pminus.g_smul_apply_e0 ψ)]
+    exact congrArg (fun c : ℂ => c • Pminus.e0) h
+  · intro c
+    refine ⟨c • LinearMap.id, ?_⟩
+    show ((c • (LinearMap.id : Pminus →ₗ[A] Pminus)) Pminus.e0) 0 = c
+    simp
+
+/-- `Hom_A(P₊, P₊) ≅ ℂ`, the isomorphism sending `φ` to its coefficient on `id`. -/
+noncomputable def homEquivPP : (Pplus →ₗ[A] Pplus) ≃ₗ[ℂ] ℂ :=
+  LinearEquiv.ofBijective homCoeffPP homCoeffPP_bijective
+
+/-- `Hom_A(P₊, P₋) ≅ ℂ`, the isomorphism sending `φ` to its coefficient on `Tpm`. -/
+noncomputable def homEquivPM : (Pplus →ₗ[A] Pminus) ≃ₗ[ℂ] ℂ :=
+  LinearEquiv.ofBijective homCoeffPM homCoeffPM_bijective
+
+/-- `Hom_A(P₋, P₊) ≅ ℂ`, the isomorphism sending `φ` to its coefficient on `Tmp`. -/
+noncomputable def homEquivMP : (Pminus →ₗ[A] Pplus) ≃ₗ[ℂ] ℂ :=
+  LinearEquiv.ofBijective homCoeffMP homCoeffMP_bijective
+
+/-- `Hom_A(P₋, P₋) ≅ ℂ`, the isomorphism sending `φ` to its coefficient on `id`. -/
+noncomputable def homEquivMM : (Pminus →ₗ[A] Pminus) ≃ₗ[ℂ] ℂ :=
+  LinearEquiv.ofBijective homCoeffMM homCoeffMM_bijective
+
+theorem finrank_hom_Pplus_Pplus : Module.finrank ℂ (Pplus →ₗ[A] Pplus) = 1 := by
+  rw [homEquivPP.finrank_eq, Module.finrank_self]
+
+theorem finrank_hom_Pplus_Pminus : Module.finrank ℂ (Pplus →ₗ[A] Pminus) = 1 := by
+  rw [homEquivPM.finrank_eq, Module.finrank_self]
+
+theorem finrank_hom_Pminus_Pplus : Module.finrank ℂ (Pminus →ₗ[A] Pplus) = 1 := by
+  rw [homEquivMP.finrank_eq, Module.finrank_self]
+
+theorem finrank_hom_Pminus_Pminus : Module.finrank ℂ (Pminus →ₗ[A] Pminus) = 1 := by
+  rw [homEquivMM.finrank_eq, Module.finrank_self]
+
+/-! ### The Cartan matrix
+
+The indexed family `Pfam = ![P₊, P₋]` of the two projective indecomposables. This is the input
+`Etingof.algebraCartanMatrix` (Definition 9.3.1) consumes, and forming it is exactly what the
+distinct carriers of `P₊` and `P₋` make possible. -/
+
+/-- The family of the two projective indecomposables of `A`, indexed as `P₊, P₋`. -/
+def Pfam : Fin 2 → Type
+  | 0 => Pplus
+  | 1 => Pminus
+
+instance : ∀ i, AddCommGroup (Pfam i)
+  | 0 => inferInstanceAs (AddCommGroup Pplus)
+  | 1 => inferInstanceAs (AddCommGroup Pminus)
+
+noncomputable instance : ∀ i, Module A (Pfam i)
+  | 0 => inferInstanceAs (Module A Pplus)
+  | 1 => inferInstanceAs (Module A Pminus)
+
+instance : ∀ i, Module ℂ (Pfam i)
+  | 0 => inferInstanceAs (Module ℂ Pplus)
+  | 1 => inferInstanceAs (Module ℂ Pminus)
+
+instance : ∀ i, SMulCommClass A ℂ (Pfam i)
+  | 0 => inferInstanceAs (SMulCommClass A ℂ Pplus)
+  | 1 => inferInstanceAs (SMulCommClass A ℂ Pminus)
+
+instance : ∀ i, IsScalarTower ℂ A (Pfam i)
+  | 0 => inferInstanceAs (IsScalarTower ℂ A Pplus)
+  | 1 => inferInstanceAs (IsScalarTower ℂ A Pminus)
+
+instance : ∀ i, Module.Finite ℂ (Pfam i)
+  | 0 => inferInstanceAs (Module.Finite ℂ Pplus)
+  | 1 => inferInstanceAs (Module.Finite ℂ Pminus)
+
+instance : ∀ i, Nontrivial (Pfam i)
+  | 0 => inferInstanceAs (Nontrivial Pplus)
+  | 1 => inferInstanceAs (Nontrivial Pminus)
+
+@[simp] lemma Pfam_zero : Pfam 0 = Pplus := rfl
+
+@[simp] lemma Pfam_one : Pfam 1 = Pminus := rfl
+
+/-- The family carries the intended module structures, not merely the intended carriers: the
+off-diagonal entry of the Cartan matrix is *literally* `dim_ℂ Hom_A(P₊, P₋)`, computed with the
+`A`-action of `P₊` on the source and that of `P₋` on the target. This is the statement that
+could not even be formed while `Pplus` and `Pminus` shared a carrier, since the two `Module A`
+instances then collided. -/
+lemma algebraCartanMatrix_Pfam_apply_zero_one :
+    Etingof.algebraCartanMatrix (k := ℂ) (A := A) Pfam 0 1
+      = Module.finrank ℂ (Pplus →ₗ[A] Pminus) := rfl
+
+/-- Every entry of the Cartan matrix of `A` is `1`. -/
+theorem algebraCartanMatrix_Pfam_apply (i j : Fin 2) :
+    Etingof.algebraCartanMatrix (k := ℂ) (A := A) Pfam i j = 1 := by
+  fin_cases i <;> fin_cases j
+  · exact finrank_hom_Pplus_Pplus
+  · exact finrank_hom_Pplus_Pminus
+  · exact finrank_hom_Pminus_Pplus
+  · exact finrank_hom_Pminus_Pminus
+
+/-- **The Cartan matrix of the algebra of Problem 9.3.2 is `!![1, 1; 1, 1]`.**
+
+This is the third and last part of Problem 9.3.2. All four entries are `1`: each Hom space
+`Hom_A(P_s, P_t)` is the line spanned by a single explicit generator. Equivalently (Proposition
+9.2.3) each simple `S_s` occurs exactly once in the Jordan–Hölder series of each `P_t`, which
+matches the composition series `0 ⊂ S₋ ⊂ P₊` and `0 ⊂ S₊ ⊂ P₋`. -/
+theorem algebraCartanMatrix_Pfam :
+    Etingof.algebraCartanMatrix (k := ℂ) (A := A) Pfam = !![1, 1; 1, 1] := by
+  refine Matrix.ext fun i j => ?_
+  rw [algebraCartanMatrix_Pfam_apply]
+  fin_cases i <;> fin_cases j <;> simp
+
+/-- Consistency with Etingof's remark after Definition 9.3.1 that the Cartan matrix has positive
+diagonal entries: the general lemma `Etingof.algebraCartanMatrix_diag_pos` applies to this family
+(the projectives are nonzero and finite dimensional over `ℂ`), and agrees with the computation. -/
+theorem algebraCartanMatrix_Pfam_diag_pos (i : Fin 2) :
+    0 < Etingof.algebraCartanMatrix (k := ℂ) (A := A) Pfam i i :=
+  Etingof.algebraCartanMatrix_diag_pos Pfam i
+
+end Cartan
 
 end Etingof.Problem932
