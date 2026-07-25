@@ -1,6 +1,8 @@
 import Mathlib.Algebra.Algebra.Bilinear
+import Mathlib.Algebra.Exact.Basic
 import Mathlib.LinearAlgebra.Prod
 import Mathlib.LinearAlgebra.BilinearMap
+import Mathlib.LinearAlgebra.Isomorphisms
 import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import EtingofRepresentationTheory.Chapter2.Corollary2_3_10
@@ -486,5 +488,320 @@ theorem irreducible_ext_iso_iff_proportional [IsAlgClosed k]
       exact Submodule.smul_mem _ _ hcob
   · rintro ⟨c, hc, hsub⟩
     exact ext_iso_of_sub_smul_mem_coboundaries k A V W f f' c hc hsub
+
+/-! ## The extension module `U_f`
+
+Everything above is phrased through the block operators on `V × W`. We now construct the
+actual `A`-module `U_f` that the source works with: the representation `U` sitting in
+`0 → V → U → W → 0`. The cocycle condition of part (a) is exactly what makes the
+block-triangular formula an `A`-action, so `U_f` is a genuine module, not a surrogate.
+-/
+
+/-- Evaluation of the block operator on an arbitrary element of `V × W` (rather than on an
+explicit pair). -/
+theorem blockOp_apply_prod (f : A →ₗ[k] (W →ₗ[k] V)) (a : A) (p : V × W) :
+    blockOp k A V W f a p = (a • p.1 + f a p.2, a • p.2) :=
+  blockOp_apply k A V W f a p.1 p.2
+
+/-- A 1-cocycle kills the unit of `A`: taking `a = b = 1` in the cocycle identity gives
+`f 1 = f 1 + f 1`. -/
+theorem IsCocycle.apply_one {f : A →ₗ[k] (W →ₗ[k] V)} (hf : IsCocycle k A V W f) : f 1 = 0 := by
+  have h := hf 1 1
+  rw [mul_one] at h
+  have h2 : f 1 = f 1 + f 1 := by
+    refine h.trans ?_
+    ext w
+    simp
+  simpa using h2
+
+/-- The zero map is a 1-cocycle; the associated extension is the split one. -/
+theorem isCocycle_zero : IsCocycle k A V W (0 : A →ₗ[k] (W →ₗ[k] V)) := by
+  intro a b; simp
+
+/-- **The extension module `U_f`** (Problem 3.9.1). For a 1-cocycle `f ∈ Z¹(W, V)` this is
+the `k`-vector space `V × W` carrying the block-triangular `A`-action
+`a • (v, w) = (a • v + f a w, a • w)`, i.e. the action by `blockOp f a`. -/
+def ExtMod (f : A →ₗ[k] (W →ₗ[k] V)) (_hf : IsCocycle k A V W f) : Type _ := V × W
+
+namespace ExtMod
+
+variable {k A V W}
+variable {f f' : A →ₗ[k] (W →ₗ[k] V)}
+variable {hf : IsCocycle k A V W f} {hf' : IsCocycle k A V W f'}
+
+instance instAddCommGroup : AddCommGroup (ExtMod k A V W f hf) :=
+  inferInstanceAs (AddCommGroup (V × W))
+
+instance instModuleK : Module k (ExtMod k A V W f hf) :=
+  inferInstanceAs (Module k (V × W))
+
+/-- The pair in `V × W` underlying an element of `U_f`. -/
+def val (u : ExtMod k A V W f hf) : V × W := u
+
+/-- The element of `U_f` with underlying pair `p`. -/
+def ofProd (g : A →ₗ[k] (W →ₗ[k] V)) (hg : IsCocycle k A V W g) (p : V × W) :
+    ExtMod k A V W g hg := p
+
+/-- The element `(v, w)` of `U_f`. -/
+def mk (g : A →ₗ[k] (W →ₗ[k] V)) (hg : IsCocycle k A V W g) (v : V) (w : W) :
+    ExtMod k A V W g hg := ofProd g hg (v, w)
+
+theorem ext {u u' : ExtMod k A V W f hf} (h : u.val = u'.val) : u = u' := h
+
+@[simp] theorem val_ofProd (p : V × W) : (ofProd f hf p).val = p := rfl
+
+@[simp] theorem ofProd_val (u : ExtMod k A V W f hf) : ofProd f hf u.val = u := rfl
+
+@[simp] theorem val_mk (v : V) (w : W) : (mk f hf v w).val = (v, w) := rfl
+
+@[simp] theorem val_zero : (0 : ExtMod k A V W f hf).val = 0 := rfl
+
+@[simp] theorem val_add (u u' : ExtMod k A V W f hf) : (u + u').val = u.val + u'.val := rfl
+
+@[simp] theorem val_smulK (c : k) (u : ExtMod k A V W f hf) : (c • u).val = c • u.val := rfl
+
+/-- The block-triangular `A`-action on `U_f`: `a • (v, w) = (a • v + f a w, a • w)`. -/
+noncomputable instance instSMul : SMul A (ExtMod k A V W f hf) :=
+  ⟨fun a u => ofProd f hf (a • u.val.1 + f a u.val.2, a • u.val.2)⟩
+
+@[simp] theorem val_smul (a : A) (u : ExtMod k A V W f hf) :
+    (a • u).val = (a • u.val.1 + f a u.val.2, a • u.val.2) := rfl
+
+/-- The `A`-action on `U_f` is the action by the block operators of part (a). -/
+theorem val_smul_eq_blockOp (a : A) (u : ExtMod k A V W f hf) :
+    (a • u).val = blockOp k A V W f a u.val := by
+  rw [val_smul, blockOp_apply_prod]
+
+/-- The source's action formula, on pairs. -/
+@[simp] theorem smul_mk (a : A) (v : V) (w : W) :
+    a • mk f hf v w = mk f hf (a • v + f a w) (a • w) := rfl
+
+noncomputable instance instMulAction : MulAction A (ExtMod k A V W f hf) :=
+  { instSMul with
+    one_smul := fun u => by
+      apply ExtMod.ext
+      simp [hf.apply_one]
+    mul_smul := fun a b u => by
+      apply ExtMod.ext
+      have hc := LinearMap.congr_fun (hf a b) u.val.2
+      simp only [LinearMap.add_apply, LinearMap.comp_apply, Algebra.lsmul_coe] at hc
+      simp only [val_smul, hc, mul_smul, smul_add, Prod.mk.injEq]
+      exact ⟨by abel, trivial⟩ }
+
+noncomputable instance instDistribMulAction : DistribMulAction A (ExtMod k A V W f hf) :=
+  { instMulAction with
+    smul_zero := fun a => by
+      apply ExtMod.ext
+      simp
+    smul_add := fun a u u' => by
+      apply ExtMod.ext
+      simp only [val_smul, val_add, Prod.fst_add, Prod.snd_add, smul_add, map_add,
+        Prod.mk_add_mk, Prod.mk.injEq]
+      exact ⟨by abel, trivial⟩ }
+
+noncomputable instance instModuleA : Module A (ExtMod k A V W f hf) :=
+  { instDistribMulAction with
+    add_smul := fun a b u => by
+      apply ExtMod.ext
+      simp only [val_smul, val_add, add_smul, map_add, LinearMap.add_apply, Prod.mk_add_mk,
+        Prod.mk.injEq]
+      exact ⟨by abel, trivial⟩
+    zero_smul := fun u => by
+      apply ExtMod.ext
+      simp }
+
+instance instIsScalarTower : IsScalarTower k A (ExtMod k A V W f hf) where
+  smul_assoc c a u := by
+    apply ExtMod.ext
+    simp only [val_smul, val_smulK, smul_assoc, map_smul, LinearMap.smul_apply, Prod.smul_mk,
+      smul_add]
+
+/-- The tautological `k`-linear equivalence `U_f ≃ₗ[k] V × W`: `U_f` differs from `V × W`
+only in its `A`-module structure. -/
+def valEquiv (g : A →ₗ[k] (W →ₗ[k] V)) (hg : IsCocycle k A V W g) :
+    ExtMod k A V W g hg ≃ₗ[k] V × W where
+  toFun := val
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+  invFun := ofProd g hg
+  left_inv _ := rfl
+  right_inv _ := rfl
+
+@[simp] theorem valEquiv_apply (u : ExtMod k A V W f hf) : valEquiv f hf u = u.val := rfl
+
+@[simp] theorem valEquiv_symm_apply (p : V × W) : (valEquiv f hf).symm p = ofProd f hf p := rfl
+
+/-! ### The short exact sequence `0 → V → U_f → W → 0` -/
+
+/-- The canonical inclusion `V → U_f`, `v ↦ (v, 0)`. It is `A`-linear, so it exhibits `V` as a
+subrepresentation of `U_f`. -/
+def inclusion (g : A →ₗ[k] (W →ₗ[k] V)) (hg : IsCocycle k A V W g) :
+    V →ₗ[A] ExtMod k A V W g hg where
+  toFun v := mk g hg v 0
+  map_add' v v' := by apply ExtMod.ext; simp
+  map_smul' a v := by apply ExtMod.ext; simp
+
+@[simp] theorem inclusion_apply (v : V) : inclusion f hf v = mk f hf v 0 := rfl
+
+/-- The canonical projection `U_f → W`, `(v, w) ↦ w`. It is `A`-linear and realises
+`U_f / V = W`. -/
+def projection (g : A →ₗ[k] (W →ₗ[k] V)) (hg : IsCocycle k A V W g) :
+    ExtMod k A V W g hg →ₗ[A] W where
+  toFun u := u.val.2
+  map_add' u u' := by simp
+  map_smul' a u := by simp
+
+@[simp] theorem projection_apply (u : ExtMod k A V W f hf) : projection f hf u = u.val.2 := rfl
+
+theorem inclusion_injective : Function.Injective (inclusion f hf) := by
+  intro v v' h
+  have := congrArg ExtMod.val h
+  simpa using congrArg Prod.fst this
+
+theorem projection_surjective : Function.Surjective (projection f hf) :=
+  fun w => ⟨mk f hf 0 w, by simp⟩
+
+theorem projection_comp_inclusion :
+    (projection f hf).comp (inclusion f hf) = 0 := by
+  ext v
+  simp
+
+/-- Exactness at the middle: the image of `V` is exactly the kernel of the projection. -/
+theorem range_inclusion_eq_ker_projection :
+    LinearMap.range (inclusion f hf) = LinearMap.ker (projection f hf) := by
+  apply le_antisymm
+  · rintro _ ⟨v, rfl⟩
+    simp [LinearMap.mem_ker]
+  · intro u hu
+    rw [LinearMap.mem_ker, projection_apply] at hu
+    exact ⟨u.val.1, ExtMod.ext (by simp [Prod.ext_iff, hu])⟩
+
+/-- **`0 → V → U_f → W → 0` is exact.** Together with `inclusion_injective` and
+`projection_surjective` this is the short exact sequence promised by Problem 3.9.1. -/
+theorem exact_inclusion_projection :
+    Function.Exact (inclusion f hf) (projection f hf) :=
+  LinearMap.exact_iff.mpr range_inclusion_eq_ker_projection.symm
+
+/-- **`U_f / V ≅ W`.** The quotient of `U_f` by the copy of `V` is `W`, as representations. -/
+noncomputable def quotEquiv (g : A →ₗ[k] (W →ₗ[k] V)) (hg : IsCocycle k A V W g) :
+    (ExtMod k A V W g hg ⧸ LinearMap.range (inclusion g hg)) ≃ₗ[A] W :=
+  (Submodule.quotEquivOfEq _ _ range_inclusion_eq_ker_projection).trans
+    ((projection g hg).quotKerEquivOfSurjective projection_surjective)
+
+/-- **The obvious extension.** The zero cocycle gives back the direct sum `V ⊕ W`. -/
+noncomputable def zeroEquivProd : ExtMod k A V W (0 : A →ₗ[k] (W →ₗ[k] V)) (isCocycle_zero k A V W)
+    ≃ₗ[A] V × W where
+  toFun := val
+  map_add' _ _ := rfl
+  map_smul' a u := by simp [Prod.ext_iff]
+  invFun := ofProd _ _
+  left_inv _ := rfl
+  right_inv _ := rfl
+
+/-! ### Isomorphism of extensions
+
+An `A`-linear isomorphism `U_f ≃ U_{f'}` is precisely a `k`-linear automorphism of `V × W`
+intertwining the block operators, i.e. `IntertwinesExt`. This connects the module-level
+statements to the predicate-level theorems (c) and (d) proved above. -/
+
+/-- An intertwiner of block operators induces an `A`-linear isomorphism `U_f ≃ₗ[A] U_{f'}`. -/
+noncomputable def equivOfIntertwines (hf : IsCocycle k A V W f) (hf' : IsCocycle k A V W f')
+    (φ : (V × W) ≃ₗ[k] (V × W)) (hφ : IntertwinesExt k A V W f f' φ) :
+    ExtMod k A V W f hf ≃ₗ[A] ExtMod k A V W f' hf' where
+  toFun u := ofProd f' hf' (φ u.val)
+  map_add' u u' := by apply ExtMod.ext; simp
+  map_smul' a u := by
+    apply ExtMod.ext
+    have h := LinearMap.congr_fun (hφ a) u.val
+    simp only [LinearMap.comp_apply, LinearEquiv.coe_coe] at h
+    simpa [val_smul_eq_blockOp, blockOp_apply_prod] using h
+  invFun u := ofProd f hf (φ.symm u.val)
+  left_inv u := by apply ExtMod.ext; simp
+  right_inv u := by apply ExtMod.ext; simp
+
+@[simp] theorem equivOfIntertwines_apply (hf : IsCocycle k A V W f) (hf' : IsCocycle k A V W f')
+    (φ : (V × W) ≃ₗ[k] (V × W)) (hφ : IntertwinesExt k A V W f f' φ)
+    (u : ExtMod k A V W f hf) :
+    (equivOfIntertwines hf hf' φ hφ u).val = φ u.val := rfl
+
+/-- The `k`-linear automorphism of `V × W` underlying an `A`-linear isomorphism
+`U_f ≃ₗ[A] U_{f'}` (restriction of scalars along `k → A`). -/
+noncomputable def intertwinerOfEquiv (ψ : ExtMod k A V W f hf ≃ₗ[A] ExtMod k A V W f' hf') :
+    (V × W) ≃ₗ[k] (V × W) :=
+  ((valEquiv f hf).symm.trans (ψ.restrictScalars k)).trans (valEquiv f' hf')
+
+@[simp] theorem intertwinerOfEquiv_apply
+    (ψ : ExtMod k A V W f hf ≃ₗ[A] ExtMod k A V W f' hf') (p : V × W) :
+    intertwinerOfEquiv ψ p = (ψ (ofProd f hf p)).val := rfl
+
+theorem intertwinesExt_intertwinerOfEquiv
+    (ψ : ExtMod k A V W f hf ≃ₗ[A] ExtMod k A V W f' hf') :
+    IntertwinesExt k A V W f f' (intertwinerOfEquiv ψ) := by
+  intro a
+  apply LinearMap.ext
+  intro p
+  have hkey : ofProd f hf (blockOp k A V W f a p) = a • ofProd f hf p :=
+    ExtMod.ext (by rw [val_ofProd, val_smul_eq_blockOp, val_ofProd])
+  simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, intertwinerOfEquiv_apply, hkey,
+    map_smul, val_smul_eq_blockOp]
+
+/-- **Extensions are isomorphic exactly when their block operators are intertwined.** This
+is the translation between the module-level classification and the predicate-level
+statements `iso_of_sub_mem_coboundaries` and `irreducible_ext_iso_iff_proportional`. -/
+theorem nonempty_equiv_iff_intertwines (hf : IsCocycle k A V W f) (hf' : IsCocycle k A V W f') :
+    Nonempty (ExtMod k A V W f hf ≃ₗ[A] ExtMod k A V W f' hf')
+      ↔ ∃ φ : (V × W) ≃ₗ[k] (V × W), IntertwinesExt k A V W f f' φ :=
+  ⟨fun ⟨ψ⟩ => ⟨intertwinerOfEquiv ψ, intertwinesExt_intertwinerOfEquiv ψ⟩,
+   fun ⟨φ, hφ⟩ => ⟨equivOfIntertwines hf hf' φ hφ⟩⟩
+
+/-- **Problem 3.9.1(c), for actual modules.** If `f − f' ∈ B¹` then `U_f` and `U_{f'}` are
+isomorphic representations of `A`. -/
+theorem nonempty_equiv_of_sub_mem_coboundaries (hf : IsCocycle k A V W f)
+    (hf' : IsCocycle k A V W f') (hsub : f - f' ∈ coboundaries k A V W) :
+    Nonempty (ExtMod k A V W f hf ≃ₗ[A] ExtMod k A V W f' hf') :=
+  (nonempty_equiv_iff_intertwines hf hf').mpr
+    (iso_of_sub_mem_coboundaries k A V W f f' hf hf' hsub)
+
+/-- **Problem 3.9.1(c), converse, for actual modules.** If the isomorphism is unitriangular,
+`φ (v, w) = (v + X w, w)`, then `f − f' = dX ∈ B¹`. -/
+theorem sub_mem_coboundaries_of_unitriangular_equiv (hf : IsCocycle k A V W f)
+    (hf' : IsCocycle k A V W f') (ψ : ExtMod k A V W f hf ≃ₗ[A] ExtMod k A V W f' hf')
+    (X : W →ₗ[k] V) (hψX : ∀ p : V × W, (ψ (ofProd f hf p)).val = (p.1 + X p.2, p.2)) :
+    f - f' ∈ coboundaries k A V W :=
+  converse_sub_mem_coboundaries_of_unitriangular_intertwines k A V W f f' hf hf'
+    (intertwinerOfEquiv ψ) X hψX (intertwinesExt_intertwinerOfEquiv ψ)
+
+/-- **Problem 3.9.1(d), for actual modules.** Over an algebraically closed field, for finite
+dimensional irreducible `V` and `W`, the extension modules `U_f` and `U_{f'}` are isomorphic
+representations if and only if the cocycle classes are proportional with nonzero ratio. Thus
+the nontrivial extensions of `W` by `V` are parametrised by `ℙ Ext¹(W, V)`. -/
+theorem nonempty_equiv_iff_proportional [IsAlgClosed k]
+    [FiniteDimensional k V] [FiniteDimensional k W]
+    [IsSimpleModule A V] [IsSimpleModule A W]
+    (hf : IsCocycle k A V W f) (hf' : IsCocycle k A V W f') :
+    Nonempty (ExtMod k A V W f hf ≃ₗ[A] ExtMod k A V W f' hf')
+      ↔ ∃ c : k, c ≠ 0 ∧ f - c • f' ∈ coboundaries k A V W :=
+  (nonempty_equiv_iff_intertwines hf hf').trans
+    (irreducible_ext_iso_iff_proportional k A V W f f' hf hf')
+
+/-- **The extension `U_f` splits iff `f` is a coboundary.** In particular every extension of
+`W` by `V` is trivial exactly when `Ext¹(W, V) = 0`. -/
+theorem nonempty_equiv_prod_iff_mem_coboundaries [IsAlgClosed k]
+    [FiniteDimensional k V] [FiniteDimensional k W]
+    [IsSimpleModule A V] [IsSimpleModule A W] (hf : IsCocycle k A V W f) :
+    Nonempty (ExtMod k A V W f hf ≃ₗ[A] (V × W)) ↔ f ∈ coboundaries k A V W := by
+  constructor
+  · rintro ⟨ψ⟩
+    have h : Nonempty (ExtMod k A V W f hf
+        ≃ₗ[A] ExtMod k A V W (0 : A →ₗ[k] (W →ₗ[k] V)) (isCocycle_zero k A V W)) :=
+      ⟨ψ.trans zeroEquivProd.symm⟩
+    obtain ⟨c, -, hc⟩ := (nonempty_equiv_iff_proportional hf (isCocycle_zero k A V W)).1 h
+    simpa using hc
+  · intro hmem
+    obtain ⟨ψ⟩ := nonempty_equiv_of_sub_mem_coboundaries hf (isCocycle_zero k A V W)
+      (by simpa using hmem)
+    exact ⟨ψ.trans zeroEquivProd⟩
+
+end ExtMod
 
 end Etingof.Problem3_9_1
