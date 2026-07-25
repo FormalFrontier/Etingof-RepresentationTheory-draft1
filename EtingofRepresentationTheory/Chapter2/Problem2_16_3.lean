@@ -1631,6 +1631,35 @@ noncomputable def loopPos : LieSubalgebra k (Matrix (Fin 3) (Fin 3) (Polynomial 
       rw [map_lie_of_algHom, ← ha, ← hb, smul_lie, lie_smul, lie_self, smul_zero, smul_zero]
       exact Submodule.zero_mem _
 
+/-- The coefficient of `tⁿ` of a polynomial matrix, entrywise. -/
+noncomputable def coeffMat (n : ℕ) (P : Matrix (Fin 3) (Fin 3) (Polynomial k)) :
+    Matrix (Fin 3) (Fin 3) k := P.map (fun p => p.coeff n)
+
+@[simp] theorem coeffMat_apply (n : ℕ) (P : Matrix (Fin 3) (Fin 3) (Polynomial k))
+    (a b : Fin 3) : coeffMat k n P a b = (P a b).coeff n := rfl
+
+theorem constMat_eq_coeffMat_zero (P : Matrix (Fin 3) (Fin 3) (Polynomial k)) :
+    constMat k P = coeffMat k 0 P := by
+  ext a b
+  simp [constMat, AlgHom.mapMatrix_apply, Polynomial.coeff_zero_eq_eval_zero,
+    Polynomial.coe_aeval_eq_eval]
+
+/-- The condition `σ(P(t)) = P(-t)` says exactly that the coefficient of `tⁿ` lies in the
+`(-1)ⁿ`-eigenspace of `σ`. This is the bridge from the intrinsic description of `𝔫₊` to the
+graded one `k·(E₀₁ - E₁₂) ⊕ ⨁_{n ≥ 1} 𝔤_{n mod 2}·tⁿ`. -/
+theorem sigInv_eq_twMat_iff (P : Matrix (Fin 3) (Fin 3) (Polynomial k)) :
+    sigInv P = twMat k P ↔ ∀ n, sigInv (coeffMat k n P) = (-1 : k) ^ n • coeffMat k n P := by
+  constructor
+  · intro h n
+    ext a b
+    have hab := congrArg (fun p : Polynomial k => Polynomial.coeff p n)
+      (congrFun (congrFun h a) b)
+    simpa [twMat, AlgHom.mapMatrix_apply, twPoly_coeff, Matrix.smul_apply] using hab
+  · intro h
+    ext a b n
+    have hab := congrFun (congrFun (h n) a) b
+    simpa [twMat, AlgHom.mapMatrix_apply, twPoly_coeff, Matrix.smul_apply] using hab
+
 theorem mem_loopPos {P : Matrix (Fin 3) (Fin 3) (Polynomial k)} :
     P ∈ loopPos k ↔ Matrix.trace P = 0 ∧ sigInv P = twMat k P ∧
       constMat k P ∈ Submodule.span k {gzero k 0} := Iff.rfl
