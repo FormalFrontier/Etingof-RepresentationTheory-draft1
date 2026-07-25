@@ -305,44 +305,21 @@ end Matrix
 /-- The three elements `x̄, ȳ, z̄` span `𝔤₁` as a module. -/
 theorem span_eq_top_one :
     Submodule.span k {xb k 1, yb k 1, zb k 1} = ⊤ := by
-  have hclosed : ∀ {u v : g k 1}, u ∈ Submodule.span k {xb k 1, yb k 1, zb k 1} →
-      v ∈ Submodule.span k {xb k 1, yb k 1, zb k 1} →
-      ⁅u, v⁆ ∈ Submodule.span k {xb k 1, yb k 1, zb k 1} := by
-    intro u v hu hv
-    induction hu, hv using Submodule.span_induction₂ with
-    | mem_mem a b ha hb =>
-      simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb
-      have hz : zb k 1 ∈ ({xb k 1, yb k 1, zb k 1} : Set (g k 1)) := by simp
-      rcases ha with rfl | rfl | rfl <;> rcases hb with rfl | rfl | rfl
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · exact Submodule.subset_span hz
-      · rw [lie_xb_zb]; exact Submodule.zero_mem _
-      · rw [← lie_skew (x := yb k 1) (y := xb k 1)]
-        exact neg_mem (Submodule.subset_span hz)
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · rw [lie_yb_zb_one]; exact Submodule.zero_mem _
-      · rw [← lie_skew (x := zb k 1) (y := xb k 1), lie_xb_zb, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := zb k 1) (y := yb k 1), lie_yb_zb_one, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [lie_self]; exact Submodule.zero_mem _
-    | zero_left b hb => rw [zero_lie]; exact Submodule.zero_mem _
-    | zero_right a ha => rw [lie_zero]; exact Submodule.zero_mem _
-    | add_left a b c _ _ _ ha hb => rw [add_lie]; exact Submodule.add_mem _ ha hb
-    | add_right a b c _ _ _ ha hb => rw [lie_add]; exact Submodule.add_mem _ ha hb
-    | smul_left r a b _ _ ha => rw [smul_lie]; exact Submodule.smul_mem _ r ha
-    | smul_right r a b _ _ ha => rw [lie_smul]; exact Submodule.smul_mem _ r ha
-  let W : LieSubalgebra k (g k 1) :=
-    { Submodule.span k {xb k 1, yb k 1, zb k 1} with lie_mem' := @hclosed }
-  have hWtop : W = ⊤ := by
-    rw [← top_le_iff, ← lieSpan_gens_eq_top k 1, LieSubalgebra.lieSpan_le]
-    intro w hw
-    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
-    rcases hw with rfl | rfl
-    · exact Submodule.subset_span (by simp)
-    · exact Submodule.subset_span (by simp)
-  have := congrArg (LieSubalgebra.toSubmodule) hWtop
-  simpa [W] using this
+  have hz : zb k 1 ∈ ({xb k 1, yb k 1, zb k 1} : Set (g k 1)) := by simp
+  refine span_eq_top_of_closed_under_ad k 1 _ (by simp) (by simp) ?_ ?_
+  · intro s hs
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hs
+    rcases hs with rfl | rfl | rfl
+    · rw [lie_self]; exact Submodule.zero_mem _
+    · exact Submodule.subset_span hz
+    · rw [lie_xb_zb]; exact Submodule.zero_mem _
+  · intro s hs
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hs
+    rcases hs with rfl | rfl | rfl
+    · rw [← lie_skew (x := yb k 1) (y := xb k 1)]
+      exact neg_mem (Submodule.subset_span hz)
+    · rw [lie_self]; exact Submodule.zero_mem _
+    · rw [lie_yb_zb_one]; exact Submodule.zero_mem _
 
 /-- **(a)** `𝔤₁` is finite dimensional of dimension `3` (type `A₂` positive part). -/
 theorem finrank_g_one (k : Type*) [Field k] : Module.finrank k (g k 1) = 3 := by
@@ -489,59 +466,24 @@ end Matrix2
 /-- The four elements `x̄, ȳ, z̄, w̄` span `𝔤₂` as a module. -/
 theorem span_eq_top_two :
     Submodule.span k {xb k 2, yb k 2, zb k 2, wb k 2} = ⊤ := by
-  have hclosed : ∀ {u v : g k 2}, u ∈ Submodule.span k {xb k 2, yb k 2, zb k 2, wb k 2} →
-      v ∈ Submodule.span k {xb k 2, yb k 2, zb k 2, wb k 2} →
-      ⁅u, v⁆ ∈ Submodule.span k {xb k 2, yb k 2, zb k 2, wb k 2} := by
-    intro u v hu hv
-    induction hu, hv using Submodule.span_induction₂ with
-    | mem_mem a b ha hb =>
-      simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb
-      have hz : zb k 2 ∈ ({xb k 2, yb k 2, zb k 2, wb k 2} : Set (g k 2)) := by simp
-      have hw : wb k 2 ∈ ({xb k 2, yb k 2, zb k 2, wb k 2} : Set (g k 2)) := by simp
-      rcases ha with rfl | rfl | rfl | rfl <;> rcases hb with rfl | rfl | rfl | rfl
-      -- a = x̄
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · exact Submodule.subset_span hz
-      · rw [lie_xb_zb]; exact Submodule.zero_mem _
-      · rw [lie_xb_wb_two]; exact Submodule.zero_mem _
-      -- a = ȳ
-      · rw [← lie_skew (x := yb k 2) (y := xb k 2)]
-        exact neg_mem (Submodule.subset_span hz)
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · exact Submodule.subset_span hw
-      · rw [lie_yb_wb_two]; exact Submodule.zero_mem _
-      -- a = z̄
-      · rw [← lie_skew (x := zb k 2) (y := xb k 2), lie_xb_zb, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := zb k 2) (y := yb k 2)]
-        exact neg_mem (Submodule.subset_span hw)
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · rw [lie_zb_wb_two]; exact Submodule.zero_mem _
-      -- a = w̄
-      · rw [← lie_skew (x := wb k 2) (y := xb k 2), lie_xb_wb_two, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := wb k 2) (y := yb k 2), lie_yb_wb_two, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := wb k 2) (y := zb k 2), lie_zb_wb_two, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [lie_self]; exact Submodule.zero_mem _
-    | zero_left b hb => rw [zero_lie]; exact Submodule.zero_mem _
-    | zero_right a ha => rw [lie_zero]; exact Submodule.zero_mem _
-    | add_left a b c _ _ _ ha hb => rw [add_lie]; exact Submodule.add_mem _ ha hb
-    | add_right a b c _ _ _ ha hb => rw [lie_add]; exact Submodule.add_mem _ ha hb
-    | smul_left r a b _ _ ha => rw [smul_lie]; exact Submodule.smul_mem _ r ha
-    | smul_right r a b _ _ ha => rw [lie_smul]; exact Submodule.smul_mem _ r ha
-  let W : LieSubalgebra k (g k 2) :=
-    { Submodule.span k {xb k 2, yb k 2, zb k 2, wb k 2} with lie_mem' := @hclosed }
-  have hWtop : W = ⊤ := by
-    rw [← top_le_iff, ← lieSpan_gens_eq_top k 2, LieSubalgebra.lieSpan_le]
-    intro w hw
-    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
-    rcases hw with rfl | rfl
-    · exact Submodule.subset_span (by simp)
-    · exact Submodule.subset_span (by simp)
-  have := congrArg (LieSubalgebra.toSubmodule) hWtop
-  simpa [W] using this
+  have hz : zb k 2 ∈ ({xb k 2, yb k 2, zb k 2, wb k 2} : Set (g k 2)) := by simp
+  have hw : wb k 2 ∈ ({xb k 2, yb k 2, zb k 2, wb k 2} : Set (g k 2)) := by simp
+  refine span_eq_top_of_closed_under_ad k 2 _ (by simp) (by simp) ?_ ?_
+  · intro s hs
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hs
+    rcases hs with rfl | rfl | rfl | rfl
+    · rw [lie_self]; exact Submodule.zero_mem _
+    · exact Submodule.subset_span hz
+    · rw [lie_xb_zb]; exact Submodule.zero_mem _
+    · rw [lie_xb_wb_two]; exact Submodule.zero_mem _
+  · intro s hs
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hs
+    rcases hs with rfl | rfl | rfl | rfl
+    · rw [← lie_skew (x := yb k 2) (y := xb k 2)]
+      exact neg_mem (Submodule.subset_span hz)
+    · rw [lie_self]; exact Submodule.zero_mem _
+    · exact Submodule.subset_span hw
+    · rw [lie_yb_wb_two]; exact Submodule.zero_mem _
 
 /-- **(a)** `𝔤₂` is finite dimensional of dimension `4` (type `B₂` positive part). -/
 theorem finrank_g_two (k : Type*) [Field k] : Module.finrank k (g k 2) = 4 := by
@@ -1340,98 +1282,30 @@ end Matrix3
 relations `[z̄, v̄] = 0` etc.). -/
 theorem span_eq_top_three (k : Type*) [Field k] (hk : (2 : k) ≠ 0) :
     Submodule.span k {xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} = ⊤ := by
-  have hclosed : ∀ {u v : g k 3},
-      u ∈ Submodule.span k {xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} →
-      v ∈ Submodule.span k {xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} →
-      ⁅u, v⁆ ∈ Submodule.span k {xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} := by
-    intro u v hu hv
-    induction hu, hv using Submodule.span_induction₂ with
-    | mem_mem a b ha hb =>
-      simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb
-      have hzm : zb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by
-        simp
-      have hwm : wb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by
-        simp
-      have hvm : vb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by
-        simp
-      have hum : ub k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by
-        simp
-      rcases ha with rfl | rfl | rfl | rfl | rfl | rfl <;>
-        rcases hb with rfl | rfl | rfl | rfl | rfl | rfl
-      -- a = x̄
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · exact Submodule.subset_span hzm
-      · rw [lie_xb_zb]; exact Submodule.zero_mem _
-      · rw [lie_xb_wb_three]; exact Submodule.zero_mem _
-      · exact Submodule.subset_span hum
-      · rw [lie_xb_ub_three]; exact Submodule.zero_mem _
-      -- a = ȳ
-      · rw [← lie_skew (x := yb k 3) (y := xb k 3)]
-        exact neg_mem (Submodule.subset_span hzm)
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · exact Submodule.subset_span hwm
-      · exact Submodule.subset_span hvm
-      · rw [lie_yb_vb_three]; exact Submodule.zero_mem _
-      · rw [lie_yb_ub_three_zero k hk]; exact Submodule.zero_mem _
-      -- a = z̄
-      · rw [← lie_skew (x := zb k 3) (y := xb k 3), lie_xb_zb, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := zb k 3) (y := yb k 3)]
-        exact neg_mem (Submodule.subset_span hwm)
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · rw [lie_zb_wb_three]; exact Submodule.subset_span hum
-      · rw [lie_zb_vb_three_zero k hk]; exact Submodule.zero_mem _
-      · rw [lie_zb_ub_three k hk]; exact Submodule.zero_mem _
-      -- a = w̄
-      · rw [← lie_skew (x := wb k 3) (y := xb k 3), lie_xb_wb_three, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := wb k 3) (y := yb k 3)]
-        exact neg_mem (Submodule.subset_span hvm)
-      · rw [← lie_skew (x := wb k 3) (y := zb k 3), lie_zb_wb_three]
-        exact neg_mem (Submodule.subset_span hum)
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · rw [lie_wb_vb_three k hk]; exact Submodule.zero_mem _
-      · rw [lie_wb_ub_three k hk]; exact Submodule.zero_mem _
-      -- a = v̄
-      · rw [← lie_skew (x := vb k 3) (y := xb k 3)]
-        exact neg_mem (Submodule.subset_span hum)
-      · rw [← lie_skew (x := vb k 3) (y := yb k 3), lie_yb_vb_three, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := vb k 3) (y := zb k 3), lie_zb_vb_three_zero k hk, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := vb k 3) (y := wb k 3), lie_wb_vb_three k hk, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [lie_self]; exact Submodule.zero_mem _
-      · rw [lie_vb_ub_three k hk]; exact Submodule.zero_mem _
-      -- a = ū
-      · rw [← lie_skew (x := ub k 3) (y := xb k 3), lie_xb_ub_three, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := ub k 3) (y := yb k 3), lie_yb_ub_three_zero k hk, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := ub k 3) (y := zb k 3), lie_zb_ub_three k hk, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := ub k 3) (y := wb k 3), lie_wb_ub_three k hk, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [← lie_skew (x := ub k 3) (y := vb k 3), lie_vb_ub_three k hk, neg_zero]
-        exact Submodule.zero_mem _
-      · rw [lie_self]; exact Submodule.zero_mem _
-    | zero_left b hb => rw [zero_lie]; exact Submodule.zero_mem _
-    | zero_right a ha => rw [lie_zero]; exact Submodule.zero_mem _
-    | add_left a b c _ _ _ ha hb => rw [add_lie]; exact Submodule.add_mem _ ha hb
-    | add_right a b c _ _ _ ha hb => rw [lie_add]; exact Submodule.add_mem _ ha hb
-    | smul_left r a b _ _ ha => rw [smul_lie]; exact Submodule.smul_mem _ r ha
-    | smul_right r a b _ _ ha => rw [lie_smul]; exact Submodule.smul_mem _ r ha
-  let W : LieSubalgebra k (g k 3) :=
-    { Submodule.span k {xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} with lie_mem' := @hclosed }
-  have hWtop : W = ⊤ := by
-    rw [← top_le_iff, ← lieSpan_gens_eq_top k 3, LieSubalgebra.lieSpan_le]
-    intro w hw
-    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
-    rcases hw with rfl | rfl
-    · exact Submodule.subset_span (by simp)
-    · exact Submodule.subset_span (by simp)
-  have := congrArg (LieSubalgebra.toSubmodule) hWtop
-  simpa [W] using this
+  have hzm : zb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by simp
+  have hwm : wb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by simp
+  have hvm : vb k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by simp
+  have hum : ub k 3 ∈ ({xb k 3, yb k 3, zb k 3, wb k 3, vb k 3, ub k 3} : Set (g k 3)) := by simp
+  refine span_eq_top_of_closed_under_ad k 3 _ (by simp) (by simp) ?_ ?_
+  · intro s hs
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hs
+    rcases hs with rfl | rfl | rfl | rfl | rfl | rfl
+    · rw [lie_self]; exact Submodule.zero_mem _
+    · exact Submodule.subset_span hzm
+    · rw [lie_xb_zb]; exact Submodule.zero_mem _
+    · rw [lie_xb_wb_three]; exact Submodule.zero_mem _
+    · exact Submodule.subset_span hum
+    · rw [lie_xb_ub_three]; exact Submodule.zero_mem _
+  · intro s hs
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hs
+    rcases hs with rfl | rfl | rfl | rfl | rfl | rfl
+    · rw [← lie_skew (x := yb k 3) (y := xb k 3)]
+      exact neg_mem (Submodule.subset_span hzm)
+    · rw [lie_self]; exact Submodule.zero_mem _
+    · exact Submodule.subset_span hwm
+    · exact Submodule.subset_span hvm
+    · rw [lie_yb_vb_three]; exact Submodule.zero_mem _
+    · rw [lie_yb_ub_three_zero k hk]; exact Submodule.zero_mem _
 
 /-- **(a)** `𝔤₃` is finite dimensional of dimension `6` (type `G₂` positive part). The hypothesis
 `(2 : k) ≠ 0` is sharp: over characteristic `2` the algebra is `7`-dimensional. -/
