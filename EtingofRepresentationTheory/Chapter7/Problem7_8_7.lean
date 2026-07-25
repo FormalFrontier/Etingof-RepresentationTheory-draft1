@@ -44,8 +44,12 @@ by `ComplexShape.up ℤ` via `TensorSigns`) and its differential carries the Kos
   `homologyZeroComplex C ⟶ C` given by `biprod.inr ≫ iso.inv` induces an isomorphism on
   `Hⁱ` (its `homologyMap` is `IsIso`); since `Hⁱ(homologyZeroComplex C)` is canonically
   `Hⁱ(C)`, this is exactly the "identity on homology" refinement.
-* **(iv)** `Etingof.Problem7_8_7_iv` (Künneth): `Hⁱ(C ⊗ D)` is isomorphic to the coproduct
-  of `Hʲ(C) ⊗ Hᵐ(D)` over `j + m = i`.
+* **(iv)** `Etingof.Problem7_8_7_iv_nonempty` (Künneth): `Hⁱ(C ⊗ D)` is isomorphic to the
+  coproduct of `Hʲ(C) ⊗ Hᵐ(D)` over `j + m = i`. This file proves only the bare existence of
+  such an isomorphism; the *natural* Künneth isomorphism, which is what
+  `Etingof.Problem7_8_7_iv` now denotes, is built in
+  `EtingofRepresentationTheory/Chapter7/KunnethNatural.lean` and
+  `EtingofRepresentationTheory/Chapter7/KunnethIso.lean`.
 -/
 
 open CategoryTheory Limits MonoidalCategory
@@ -377,9 +381,14 @@ noncomputable def homologyTensorHomologyZeroIso
     K.iCyclesIso i (i + 1) (by simp) (tensorHomologyZero_d_eq_zero C D i (i + 1))) ≪≫
     tensorObjXIsoCoproduct (homologyZeroComplex C) (homologyZeroComplex D) i
 
-/-- Problem 7.8.7(iv), the **Künneth formula**: there is a natural isomorphism of vector
-spaces `Hⁱ(C ⊗ D) ≅ ⨁_{j+m=i} Hʲ(C) ⊗ Hᵐ(D)`. -/
-theorem Problem7_8_7_iv (C D : CochainComplex (ModuleCat.{u} k) ℤ) (i : ℤ) :
+/-- Problem 7.8.7(iv), the **Künneth formula**, in its bare `Nonempty` form: `Hⁱ(C ⊗ D)` is
+isomorphic to `⨁_{j+m=i} Hʲ(C) ⊗ Hᵐ(D)`. The isomorphism produced here is built from the
+non-natural splitting of part (iii), so it carries no naturality data. The honest, natural
+statement is `Etingof.Problem7_8_7_iv` in
+`EtingofRepresentationTheory/Chapter7/KunnethIso.lean`, which exhibits the isomorphism as the
+choice-free cross product `Etingof.kunnethMap`; this version is kept as a compatibility
+corollary. -/
+theorem Problem7_8_7_iv_nonempty (C D : CochainComplex (ModuleCat.{u} k) ℤ) (i : ℤ) :
     Nonempty ((tensorComplex C D).homology i ≅
       ∐ fun (p : {p : ℤ × ℤ // p.1 + p.2 = i}) => C.homology p.1.1 ⊗ D.homology p.1.2) := by
   -- Part (iii): decompose each factor into an acyclic complex plus its zero-differential

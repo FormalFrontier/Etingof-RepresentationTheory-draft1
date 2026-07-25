@@ -148,4 +148,192 @@ instance isIso_kunnethMap_homologyZeroComplex (i : ℤ) :
 
 end ZeroDifferential
 
+section HomotopyEquivalence
+
+/-- The monoidal tensor product of cochain complexes is Mathlib's `mapBifunctorMap` for the
+curried tensor bifunctor; this is how the homotopy-invariance API is phrased. -/
+lemma tensorHom_eq_mapBifunctorMap {C C' D D' : CochainComplex (ModuleCat.{u} k) ℤ}
+    (f : C ⟶ C') (g : D ⟶ D') :
+    f ⊗ₘ g = HomologicalComplex.mapBifunctorMap f g (curriedTensor (ModuleCat.{u} k))
+      (ComplexShape.up ℤ) :=
+  rfl
+
+/-- Tensoring cochain complexes is homotopy invariant in both variables. -/
+noncomputable def tensorHomotopy {C C' D D' : CochainComplex (ModuleCat.{u} k) ℤ}
+    {f f' : C ⟶ C'} {g g' : D ⟶ D'} (hf : Homotopy f f') (hg : Homotopy g g') :
+    Homotopy (f ⊗ₘ g) (f' ⊗ₘ g') :=
+  (Homotopy.ofEq (tensorHom_eq_mapBifunctorMap f g)).trans
+    (((HomologicalComplex.mapBifunctorMapHomotopy₁ hf g
+        (curriedTensor (ModuleCat.{u} k)) (ComplexShape.up ℤ)).trans
+      (HomologicalComplex.mapBifunctorMapHomotopy₂ f' hg
+        (curriedTensor (ModuleCat.{u} k)) (ComplexShape.up ℤ))).trans
+      (Homotopy.ofEq (tensorHom_eq_mapBifunctorMap f' g').symm))
+
+/-- **Over a field every complex is homotopy equivalent to its homology** (with the zero
+differential). Problem 7.8.7(iii) splits `C ≅ E ⊞ homologyZeroComplex C` with `E` acyclic, and
+Exercise 7.8.4 contracts `E`; the two structure maps of the second summand are therefore
+mutually inverse up to homotopy. -/
+lemma nonempty_homotopyEquiv_homologyZeroComplex (C : CochainComplex (ModuleCat.{u} k) ℤ) :
+    Nonempty (HomotopyEquiv (homologyZeroComplex C) C) := by
+  obtain ⟨E, hE, iso, -⟩ := Problem7_8_7_iii C
+  obtain ⟨hEH⟩ := Etingof.Exercise7_8_4 E hE
+  -- `biprod.fst ≫ biprod.inl` is null-homotopic because `𝟙 E` is.
+  have H₁ : Homotopy ((biprod.fst : E ⊞ homologyZeroComplex C ⟶ E) ≫ biprod.inl)
+      (0 : E ⊞ homologyZeroComplex C ⟶ E ⊞ homologyZeroComplex C) :=
+    (Homotopy.ofEq (by simp)).trans
+      (((hEH.compLeft (biprod.fst : E ⊞ homologyZeroComplex C ⟶ E)).compRight
+        (biprod.inl : E ⟶ E ⊞ homologyZeroComplex C)).trans (Homotopy.ofEq (by simp)))
+  -- hence `𝟙 = biprod.fst ≫ biprod.inl + biprod.snd ≫ biprod.inr` is homotopic to the second
+  -- term alone.
+  have H₂ : Homotopy (𝟙 (E ⊞ homologyZeroComplex C))
+      ((biprod.snd : E ⊞ homologyZeroComplex C ⟶ homologyZeroComplex C) ≫ biprod.inr) :=
+    (Homotopy.ofEq biprod.total.symm).trans
+      ((H₁.add (Homotopy.refl _)).trans (Homotopy.ofEq (zero_add _)))
+  refine ⟨{ hom := biprod.inr ≫ iso.inv
+            inv := iso.hom ≫ biprod.snd
+            homotopyHomInvId := Homotopy.ofEq ?_
+            homotopyInvHomId := ?_ }⟩
+  · rw [Category.assoc, Iso.inv_hom_id_assoc, biprod.inr_snd]
+  · exact (Homotopy.ofEq (by simp)).trans
+      (((H₂.compLeft iso.hom).compRight iso.inv).symm.trans (Homotopy.ofEq (by simp)))
+
+end HomotopyEquivalence
+
+section Reduction
+
+/-- If both components of an endomorphism of a pair of complexes are null-homotopic to the
+identity, then `kunnethSource i` sends it to the identity: `kunnethSource i` only sees the
+induced maps on homology. -/
+lemma kunnethSource_map_eq_id (i : ℤ) {C D : CochainComplex (ModuleCat.{u} k) ℤ}
+    {f : C ⟶ C} {g : D ⟶ D} (hf : Homotopy f (𝟙 C)) (hg : Homotopy g (𝟙 D)) :
+    (kunnethSource i).map ((f, g) : ((C, D) : (CochainComplex (ModuleCat.{u} k) ℤ) ×
+      (CochainComplex (ModuleCat.{u} k) ℤ)) ⟶ (C, D)) = 𝟙 _ := by
+  have key : (kunnethSource i).map ((f, g) : ((C, D) : (CochainComplex (ModuleCat.{u} k) ℤ) ×
+        (CochainComplex (ModuleCat.{u} k) ℤ)) ⟶ (C, D))
+      = (kunnethSource i).map (𝟙 ((C, D) : (CochainComplex (ModuleCat.{u} k) ℤ) ×
+        (CochainComplex (ModuleCat.{u} k) ℤ))) := by
+    refine Sigma.hom_ext _ _ fun p => ?_
+    rw [ι_kunnethSource_map, ι_kunnethSource_map]
+    congr 1
+    change HomologicalComplex.homologyMap f p.1.1 ⊗ₘ HomologicalComplex.homologyMap g p.1.2
+      = HomologicalComplex.homologyMap (𝟙 C) p.1.1 ⊗ₘ HomologicalComplex.homologyMap (𝟙 D) p.1.2
+    rw [hf.homologyMap_eq, hg.homologyMap_eq]
+  rw [key, CategoryTheory.Functor.map_id]
+
+/-- The same statement for `kunnethTarget i`: tensoring is homotopy invariant, so `Hⁱ(f ⊗ g)`
+is the identity as soon as `f` and `g` are homotopic to identities. -/
+lemma kunnethTarget_map_eq_id (i : ℤ) {C D : CochainComplex (ModuleCat.{u} k) ℤ}
+    {f : C ⟶ C} {g : D ⟶ D} (hf : Homotopy f (𝟙 C)) (hg : Homotopy g (𝟙 D)) :
+    (kunnethTarget i).map ((f, g) : ((C, D) : (CochainComplex (ModuleCat.{u} k) ℤ) ×
+      (CochainComplex (ModuleCat.{u} k) ℤ)) ⟶ (C, D)) = 𝟙 _ := by
+  have key : (kunnethTarget i).map ((f, g) : ((C, D) : (CochainComplex (ModuleCat.{u} k) ℤ) ×
+        (CochainComplex (ModuleCat.{u} k) ℤ)) ⟶ (C, D))
+      = (kunnethTarget i).map (𝟙 ((C, D) : (CochainComplex (ModuleCat.{u} k) ℤ) ×
+        (CochainComplex (ModuleCat.{u} k) ℤ))) := by
+    change HomologicalComplex.homologyMap (f ⊗ₘ g) i
+      = HomologicalComplex.homologyMap (𝟙 C ⊗ₘ 𝟙 D) i
+    exact (tensorHomotopy hf hg).homologyMap_eq i
+  rw [key, CategoryTheory.Functor.map_id]
+
+/-- A functor on pairs of complexes that is insensitive to homotopies (in the sense of
+`kunnethSource_map_eq_id` / `kunnethTarget_map_eq_id`) sends a pair of homotopy equivalences to
+an isomorphism. -/
+lemma isIso_map_of_homotopyEquiv
+    (F : (CochainComplex (ModuleCat.{u} k) ℤ) × (CochainComplex (ModuleCat.{u} k) ℤ) ⥤
+      ModuleCat.{u} k)
+    (hF : ∀ {C D : CochainComplex (ModuleCat.{u} k) ℤ} {f : C ⟶ C} {g : D ⟶ D},
+      Homotopy f (𝟙 C) → Homotopy g (𝟙 D) →
+        F.map ((f, g) : ((C, D) : (CochainComplex (ModuleCat.{u} k) ℤ) ×
+          (CochainComplex (ModuleCat.{u} k) ℤ)) ⟶ (C, D)) = 𝟙 _)
+    {C C' D D' : CochainComplex (ModuleCat.{u} k) ℤ}
+    (eC : HomotopyEquiv C C') (eD : HomotopyEquiv D D') :
+    IsIso (F.map ((eC.hom, eD.hom) : ((C, D) : (CochainComplex (ModuleCat.{u} k) ℤ) ×
+      (CochainComplex (ModuleCat.{u} k) ℤ)) ⟶ (C', D'))) := by
+  refine ⟨F.map ((eC.inv, eD.inv) : ((C', D') : (CochainComplex (ModuleCat.{u} k) ℤ) ×
+    (CochainComplex (ModuleCat.{u} k) ℤ)) ⟶ (C, D)), ?_, ?_⟩
+  · rw [← F.map_comp]
+    exact hF eC.homotopyHomInvId eD.homotopyHomInvId
+  · rw [← F.map_comp]
+    exact hF eC.homotopyInvHomId eD.homotopyInvHomId
+
+/-- **The Künneth natural transformation is an isomorphism at every pair of complexes.** Each
+factor is homotopy equivalent to its homology with zero differential; both the source and the
+target bifunctor turn that homotopy equivalence into an isomorphism, and the split case handles
+the zero-differential pair, so the naturality square forces `κ` itself to be invertible. -/
+instance isIso_kunnethNatTrans_app (i : ℤ)
+    (X : (CochainComplex (ModuleCat.{u} k) ℤ) × (CochainComplex (ModuleCat.{u} k) ℤ)) :
+    IsIso ((kunnethNatTrans (k := k) i).app X) := by
+  obtain ⟨C, D⟩ := X
+  obtain ⟨eC⟩ := nonempty_homotopyEquiv_homologyZeroComplex C
+  obtain ⟨eD⟩ := nonempty_homotopyEquiv_homologyZeroComplex D
+  haveI : IsIso ((kunnethSource i).map ((eC.hom, eD.hom) :
+      ((homologyZeroComplex C, homologyZeroComplex D) :
+        (CochainComplex (ModuleCat.{u} k) ℤ) × (CochainComplex (ModuleCat.{u} k) ℤ)) ⟶ (C, D))) :=
+    isIso_map_of_homotopyEquiv _ (fun hf hg => kunnethSource_map_eq_id i hf hg) eC eD
+  haveI : IsIso ((kunnethTarget i).map ((eC.hom, eD.hom) :
+      ((homologyZeroComplex C, homologyZeroComplex D) :
+        (CochainComplex (ModuleCat.{u} k) ℤ) × (CochainComplex (ModuleCat.{u} k) ℤ)) ⟶ (C, D))) :=
+    isIso_map_of_homotopyEquiv _ (fun hf hg => kunnethTarget_map_eq_id i hf hg) eC eD
+  haveI : IsIso ((kunnethNatTrans (k := k) i).app
+      (homologyZeroComplex C, homologyZeroComplex D)) :=
+    isIso_kunnethMap_homologyZeroComplex C D i
+  haveI : IsIso ((kunnethSource i).map ((eC.hom, eD.hom) :
+      ((homologyZeroComplex C, homologyZeroComplex D) :
+        (CochainComplex (ModuleCat.{u} k) ℤ) × (CochainComplex (ModuleCat.{u} k) ℤ)) ⟶ (C, D)) ≫
+      (kunnethNatTrans i).app (C, D)) := by
+    rw [(kunnethNatTrans i).naturality]
+    infer_instance
+  exact IsIso.of_isIso_comp_left ((kunnethSource i).map ((eC.hom, eD.hom) :
+    ((homologyZeroComplex C, homologyZeroComplex D) :
+      (CochainComplex (ModuleCat.{u} k) ℤ) × (CochainComplex (ModuleCat.{u} k) ℤ)) ⟶ (C, D)))
+    ((kunnethNatTrans (k := k) i).app (C, D))
+
+/-- **The Künneth map is an isomorphism.** Over a field the natural cross product
+`∐_{j+m=i} Hʲ(C) ⊗ Hᵐ(D) ⟶ Hⁱ(C ⊗ D)` is invertible. -/
+instance isIso_kunnethMap (C D : CochainComplex (ModuleCat.{u} k) ℤ) (i : ℤ) :
+    IsIso (kunnethMap C D i) :=
+  isIso_kunnethNatTrans_app i (C, D)
+
+end Reduction
+
+section API
+
+variable (C D : CochainComplex (ModuleCat.{u} k) ℤ)
+
+/-- **The Künneth isomorphism**, `∐_{j+m=i} Hʲ(C) ⊗ Hᵐ(D) ≅ Hⁱ(C ⊗ D)`, given by the natural
+cross product `kunnethMap`. -/
+noncomputable def kunnethIso (i : ℤ) :
+    (∐ fun p : KunnethIndex i => C.homology p.1.1 ⊗ D.homology p.1.2) ≅
+      (tensorComplex C D).homology i :=
+  asIso (kunnethMap C D i)
+
+@[simp]
+lemma kunnethIso_hom (i : ℤ) : (kunnethIso C D i).hom = kunnethMap C D i := rfl
+
+instance isIso_kunnethNatTrans (i : ℤ) : IsIso (kunnethNatTrans (k := k) i) :=
+  NatIso.isIso_of_isIso_app _
+
+/-- **The Künneth natural isomorphism of bifunctors**
+`(C, D) ↦ ∐_{j+m=i} Hʲ(C) ⊗ Hᵐ(D)` ≅ `(C, D) ↦ Hⁱ(C ⊗ D)`. -/
+noncomputable def kunnethNatIso (i : ℤ) :
+    kunnethSource (k := k) i ≅ kunnethTarget (k := k) i :=
+  asIso (kunnethNatTrans i)
+
+@[simp]
+lemma kunnethNatIso_hom (i : ℤ) : (kunnethNatIso (k := k) i).hom = kunnethNatTrans i := rfl
+
+@[simp]
+lemma kunnethNatIso_hom_app (i : ℤ)
+    (X : (CochainComplex (ModuleCat.{u} k) ℤ) × (CochainComplex (ModuleCat.{u} k) ℤ)) :
+    (kunnethNatIso (k := k) i).hom.app X = kunnethMap X.1 X.2 i := rfl
+
+/-- **Problem 7.8.7(iv), the Künneth formula.** There is an isomorphism of vector spaces
+`Hⁱ(C ⊗ D) ≅ ⨁_{j+m=i} Hʲ(C) ⊗ Hᵐ(D)`, natural in `C` and `D` (see `kunnethNatIso`). -/
+noncomputable def Problem7_8_7_iv (i : ℤ) :
+    (tensorComplex C D).homology i ≅
+      ∐ fun p : KunnethIndex i => C.homology p.1.1 ⊗ D.homology p.1.2 :=
+  (kunnethIso C D i).symm
+
+end API
+
 end Etingof
