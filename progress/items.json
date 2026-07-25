@@ -9206,16 +9206,19 @@
     "start_line": 23,
     "end_line": 26,
     "status": "sorry_free",
-    "coverage_note": "The Ext half of the exercise is complete for arbitrary finitely generated modules. Problem8_2_7.lean has the summand-level building blocks (cyclic-pair and free-generator Tor/Ext over Z and k[X]); PIDDecomposition.lean packages the structure theorem as a biproduct decomposition; Problem8_2_7_ExtFG.lean supplies additivity of Ext along a decomposition and projective dimension < 2 for every f.g. module over a PID; Problem8_2_7_ExtInt.lean and Problem8_2_7_ExtPoly.lean assemble Ext^0, Ext^1 and the vanishing in degrees >= 2 for arbitrary f.g. M, N (Problem_8_2_7_i_ext_fg, Problem_8_2_7_ii_ext_fg). The Tor half for arbitrary f.g. modules is still open (#7738), so this item stays covered_partial.",
+    "coverage_note": "Both halves are complete for arbitrary finitely generated modules over Z (part i) and k[X] (part ii). Problem8_2_7.lean has the summand-level building blocks, now stated for arbitrary second arguments (tor_zero_zmod_quotSMul, tor_one_zmod_kerSMul, tor_one_polyQuot_kerSMul, tor_vanish_zmod, tor_vanish_polyQuot, ext_one_zmod_quotSMul); PIDDecomposition.lean packages the structure theorem as a biproduct decomposition; Problem8_2_7_ExtFG.lean and Problem8_2_7_TorFG.lean supply additivity along a decomposition in both arguments; Problem8_2_7_ExtInt/ExtPoly and Problem8_2_7_TorInt/TorPoly assemble degrees 0, 1 and the vanishing in degrees >= 2 (Problem_8_2_7_i_ext_fg, Problem_8_2_7_ii_ext_fg, Problem_8_2_7_i_tor_fg, Problem_8_2_7_ii_tor_fg). One scope note: the general Tor statements over k[X] are for k : Type, since Mathlib's PreservesBiproduct instances and AddCommGrpCat.biproductIsoPi are indexed by a Type 0; the Ext statements are universe-polymorphic in k.",
     "followup_issue": 7381,
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter8/Problem8_2_7.lean",
       "EtingofRepresentationTheory/Chapter8/PIDDecomposition.lean",
       "EtingofRepresentationTheory/Chapter8/Additivity.lean",
       "EtingofRepresentationTheory/Chapter8/Problem8_2_7_ExtFG.lean",
       "EtingofRepresentationTheory/Chapter8/Problem8_2_7_ExtInt.lean",
-      "EtingofRepresentationTheory/Chapter8/Problem8_2_7_ExtPoly.lean"
+      "EtingofRepresentationTheory/Chapter8/Problem8_2_7_ExtPoly.lean",
+      "EtingofRepresentationTheory/Chapter8/Problem8_2_7_TorFG.lean",
+      "EtingofRepresentationTheory/Chapter8/Problem8_2_7_TorInt.lean",
+      "EtingofRepresentationTheory/Chapter8/Problem8_2_7_TorPoly.lean"
     ],
     "last_updated": "2026-07-25"
   },

@@ -347,17 +347,23 @@ def homEquiv (a b : ℕ) [NeZero a] [NeZero b] :
     (ZMod a →ₗ[ℤ] ZMod b) ≃+ ZMod (Nat.gcd a b) :=
   (homToKer a (ZMod b)).trans (zmodKerEquiv a b).toAddEquiv
 
-/-- **`Hom_ℤ(ZMod a, ℤ) = 0`** for `a ≠ 0`: a torsion group has no nonzero map to a torsion-free
-one. This is the degree-`0` value at a torsion summand of `M` paired with a *free* summand of `N`,
-the one place where the uniform `ZMod (gcd a b)` answer fails (`gcd a 0 = a ≠ 0`). -/
-lemma subsingleton_hom_zmod_int (a : ℕ) [NeZero a] : Subsingleton (ZMod a →ₗ[ℤ] ℤ) := by
+/-- **`ℤ` is torsion-free**: the kernel of multiplication by `a ≠ 0` on `ℤ` is trivial. This is
+what makes both `Hom(ℤ/a, ℤ) = 0` and `Tor₁(ℤ/a, ℤ) = 0`, since the first is the `a`-torsion of `ℤ`
+(`Etingof.ZModGcd.homToKer`) and so is the second (`Etingof.tor_one_zmod_kerSMul`). -/
+lemma subsingleton_ker_mulBy_int (a : ℕ) [NeZero a] :
+    Subsingleton (LinearMap.ker (mulBy a ℤ)) := by
   have hker : ∀ z : LinearMap.ker (mulBy a ℤ), (z : ℤ) = 0 := by
     intro z
     have hz : (a : ℤ) • (z : ℤ) = 0 := LinearMap.mem_ker.mp z.2
     rw [smul_eq_mul, mul_eq_zero] at hz
     exact hz.resolve_left (Int.natCast_ne_zero.mpr (NeZero.ne a))
-  haveI : Subsingleton (LinearMap.ker (mulBy a ℤ)) :=
-    ⟨fun x y => Subtype.ext (by rw [hker x, hker y])⟩
+  exact ⟨fun x y => Subtype.ext (by rw [hker x, hker y])⟩
+
+/-- **`Hom_ℤ(ZMod a, ℤ) = 0`** for `a ≠ 0`: a torsion group has no nonzero map to a torsion-free
+one. This is the degree-`0` value at a torsion summand of `M` paired with a *free* summand of `N`,
+the one place where the uniform `ZMod (gcd a b)` answer fails (`gcd a 0 = a ≠ 0`). -/
+lemma subsingleton_hom_zmod_int (a : ℕ) [NeZero a] : Subsingleton (ZMod a →ₗ[ℤ] ℤ) := by
+  haveI := subsingleton_ker_mulBy_int a
   exact (homToKer a ℤ).toEquiv.subsingleton
 
 end
@@ -373,6 +379,37 @@ coincide because `ℤ` is commutative). Needed to supply `ZMod a` as a right mod
 noncomputable local instance mopZMod (a : ℕ) : Module ℤᵐᵒᵖ (ZMod a) :=
   Module.compHom (ZMod a) ((RingHom.id ℤ).fromOpposite fun x y => mul_comm x y)
 
+/-- Over the commutative base `ℤ`, the balancing subgroup of `ZMod a ⊗_ℤ N` is trivial, for any
+abelian group `N`: the right action `op r • m` on `ZMod a` *is* the left action `r • m`. -/
+private lemma balancedSubgroup_zmod_eq_bot (a : ℕ) (N : Type) [AddCommGroup N] :
+    balancedSubgroup ℤ N (ZMod a) = ⊥ := by
+  rw [balancedSubgroup]
+  apply le_antisymm _ bot_le
+  rw [AddSubgroup.closure_le]
+  rintro x ⟨r, m, n, rfl⟩
+  simp only [SetLike.mem_coe, AddSubgroup.mem_bot]
+  have hop : (MulOpposite.op r • m : ZMod a) = r • m := rfl
+  rw [hop, sub_eq_zero]
+  exact TensorProduct.smul_tmul r m n
+
+/-- **`Tor₀(ℤ/a, N) ≅ N / aN`** for an *arbitrary* abelian group `N` and every `a` (including
+`a = 0`, where `ZMod 0 = ℤ` and the right-hand side is `N`). `Tor₀` is the tensor product
+(Problem 8.2.6(i)), and `(ℤ ⧸ (a)) ⊗_ℤ N ≅ N ⧸ aN` is Mathlib's
+`TensorProduct.quotTensorEquivQuotSMul`. This is the `Tor` counterpart of
+`Etingof.ext_one_zmod_quotSMul`, and specialising `N` gives every entry of the degree-`0` row of
+the summand table for Problem 8.2.7(i). -/
+theorem tor_zero_zmod_quotSMul (a : ℕ) (N : Type) [AddCommGroup N] :
+    Nonempty (Etingof.Tor ℤ N (ModuleCat.of ℤᵐᵒᵖ (ZMod a)) 0
+      ≅ AddCommGrpCat.of (N ⧸ (Ideal.span {(a : ℤ)} • (⊤ : Submodule ℤ N)))) := by
+  obtain ⟨e₀⟩ := Problem_8_2_6_i_tor ℤ N (ModuleCat.of ℤᵐᵒᵖ (ZMod a))
+  refine ⟨e₀ ≪≫ AddEquiv.toAddCommGrpIso ?_⟩
+  let e_a : ZMod a ≃ₗ[ℤ] (ℤ ⧸ Ideal.span {(a : ℤ)}) :=
+    ((Int.quotientSpanNatEquivZMod a).symm.toAddEquiv).toIntLinearEquiv
+  exact ((QuotientAddGroup.quotientAddEquivOfEq (balancedSubgroup_zmod_eq_bot a N)).trans
+    QuotientAddGroup.quotientBot).trans
+    (((TensorProduct.congr e_a (LinearEquiv.refl ℤ N)).trans
+      (TensorProduct.quotTensorEquivQuotSMul N (Ideal.span {(a : ℤ)}))).toAddEquiv)
+
 /-- **Problem 8.2.7(i), `Tor₀`.** For finite cyclic groups `ℤ/a`, `ℤ/b` (`a, b ≠ 0`),
 `Tor₀(ℤ/a, ℤ/b) ≅ ℤ/gcd(a,b)`. (This is `ℤ/a ⊗_ℤ ℤ/b`, Problem 8.2.6(i).) -/
 theorem Problem_8_2_7_i_tor_zero (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
@@ -383,18 +420,8 @@ theorem Problem_8_2_7_i_tor_zero (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
   -- `Tor₀ ≅ ZMod a ⊗_ℤ ZMod b`, and the latter is `ZMod (gcd a b)`.
   obtain ⟨e₀⟩ := Problem_8_2_6_i_tor ℤ (ZMod b) (ModuleCat.of ℤᵐᵒᵖ (ZMod a))
   refine ⟨e₀ ≪≫ AddEquiv.toAddCommGrpIso ?_⟩
-  -- the balancing subgroup is trivial over the commutative base `ℤ`
-  have hbot : balancedSubgroup ℤ (ZMod b) (ZMod a) = ⊥ := by
-    rw [balancedSubgroup]
-    apply le_antisymm _ bot_le
-    rw [AddSubgroup.closure_le]
-    rintro x ⟨r, m, n, rfl⟩
-    simp only [SetLike.mem_coe, AddSubgroup.mem_bot]
-    have hop : (MulOpposite.op r • m : ZMod a) = r • m := rfl
-    rw [hop, sub_eq_zero]
-    exact TensorProduct.smul_tmul r m n
-  exact ((QuotientAddGroup.quotientAddEquivOfEq hbot).trans QuotientAddGroup.quotientBot).trans
-    (ZModGcd.tensorEquiv a b).toAddEquiv
+  exact ((QuotientAddGroup.quotientAddEquivOfEq (balancedSubgroup_zmod_eq_bot a (ZMod b))).trans
+    QuotientAddGroup.quotientBot).trans (ZModGcd.tensorEquiv a b).toAddEquiv
 
 /-! ### The degree-`0` tensor `ℤ ⊗_ℤ N ≅ N`, for the `Tor₁` connecting-map identification
 
@@ -431,13 +458,19 @@ open scoped TensorProduct in
   rfl
 
 open scoped TensorProduct in
-/-- **Problem 8.2.7(i), `Tor₁`.** For finite cyclic groups `ℤ/a`, `ℤ/b` (`a, b ≠ 0`),
-`Tor₁(ℤ/a, ℤ/b) ≅ ℤ/gcd(a,b)`. -/
-theorem Problem_8_2_7_i_tor_one (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
-    Nonempty (Etingof.Tor ℤ (ZMod b) (ModuleCat.of ℤᵐᵒᵖ (ZMod a)) 1
-      ≅ AddCommGrpCat.of (ZMod (Nat.gcd a b))) := by
+/-- **`Tor₁(ℤ/a, N)` is the `a`-torsion of `N`**, i.e. the kernel of multiplication by `a`, for
+`a ≠ 0` and an *arbitrary* abelian group `N`. This is read off the length-`1` free resolution
+`0 → ℤ →(·a) ℤ → ℤ/a → 0` through the six-term sequence: `Tor₁` is the kernel of the map induced
+on `Tor₀(ℤ, N) = ℤ ⊗_ℤ N ≅ N`, which is multiplication by `a`.
+
+This is the exact `Tor` mirror of `Etingof.ext_one_zmod_quotSMul` (`Ext¹(ℤ/a, N) ≅ N / aN`):
+`Ext¹` is the cokernel of `·a`, `Tor₁` its kernel. Specialising `N` gives the degree-`1` row of the
+summand table for Problem 8.2.7(i) — `N = ZMod b` gives `ℤ/gcd(a, b)`
+(`Problem_8_2_7_i_tor_one`), and `N = ℤ` gives `0`, since `ℤ` is torsion-free. -/
+theorem tor_one_zmod_kerSMul (a : ℕ) (ha : a ≠ 0) (N : Type) [AddCommGroup N] :
+    Nonempty (Etingof.Tor ℤ N (ModuleCat.of ℤᵐᵒᵖ (ZMod a)) 1
+      ≅ AddCommGrpCat.of (LinearMap.ker (ZModGcd.mulBy a N))) := by
   haveI : NeZero a := ⟨ha⟩
-  haveI : NeZero b := ⟨hb⟩
   have ha' : (a : ℤ) ≠ 0 := by exact_mod_cast ha
   -- Length-`1` resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0` over `ℤᵐᵒᵖ`, inline for access to `S.f`.
   let f : ℤ →ₗ[ℤᵐᵒᵖ] ℤ :=
@@ -472,7 +505,7 @@ theorem Problem_8_2_7_i_tor_one (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
     intro z; obtain ⟨y, rfl⟩ := ZMod.intCast_surjective z; exact ⟨y, rfl⟩
   set S := ModuleCat.shortComplexOfCompEqZero f g eq0 with hSdef
   have hS : S.ShortExact := ModuleCat.shortComplex_shortExact S hexact hinjf hsurjg
-  set F := tensorRightFunctor ℤ (ZMod b) with hF
+  set F := tensorRightFunctor ℤ N with hF
   -- Six-term window `0 = L₁X₁ → 0 = L₁X₂ → Tor₁ →[δ] Tor₀ℤ →[φ] Tor₀ℤ → …`.
   obtain ⟨δ, hExact⟩ := Etingof.Functor.leftDerived_sixTerm_exact F hS 0 1 rfl
   let φ : (F.leftDerived 0).obj S.X₁ ⟶ (F.leftDerived 0).obj S.X₂ := (F.leftDerived 0).map S.f
@@ -486,50 +519,50 @@ theorem Problem_8_2_7_i_tor_one (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
   -- Exactness at `Tor₀ℤ`: `range δ = ker φ`.
   have hrk : δ.hom.range = φ.hom.ker := (hExact.exact' 2 3 4).ab_range_eq_ker
   have hcompl : δ ≫ φ = 0 := hExact.toIsComplex.zero' 2 3 4
-  -- `Tor₀(ℤ) = ℤ ⊗_ℤ (ZMod b) ≅ ZMod b`, natural in the argument (`leftDerivedZeroIsoSelf`).
+  -- `Tor₀(ℤ) = ℤ ⊗_ℤ N ≅ N`, natural in the argument (`leftDerivedZeroIsoSelf`).
   let ζ := F.leftDerivedZeroIsoSelf
-  let τ₁ : ((F.leftDerived 0).obj S.X₁) ≃+ ZMod b :=
-    (ζ.app S.X₁).addCommGroupIsoToAddEquiv.trans (intTensorOverEquiv (ZMod b))
-  let τ₂ : ((F.leftDerived 0).obj S.X₂) ≃+ ZMod b :=
-    (ζ.app S.X₂).addCommGroupIsoToAddEquiv.trans (intTensorOverEquiv (ZMod b))
+  let τ₁ : ((F.leftDerived 0).obj S.X₁) ≃+ N :=
+    (ζ.app S.X₁).addCommGroupIsoToAddEquiv.trans (intTensorOverEquiv N)
+  let τ₂ : ((F.leftDerived 0).obj S.X₂) ≃+ N :=
+    (ζ.app S.X₂).addCommGroupIsoToAddEquiv.trans (intTensorOverEquiv N)
   -- The induced map `φ` on `Tor₀(ℤ)` is multiplication by `a`.
-  have key : ∀ w : tensorOver ℤ (ZMod b) S.X₁,
-      intTensorOverEquiv (ZMod b) (tensorRightMap ℤ (ZMod b) S.f w)
-        = ZModGcd.mulByCast a b (intTensorOverEquiv (ZMod b) w) := by
+  have key : ∀ w : tensorOver ℤ N S.X₁,
+      intTensorOverEquiv N (tensorRightMap ℤ N S.f w)
+        = ZModGcd.mulBy a N (intTensorOverEquiv N w) := by
     intro w
     induction w using QuotientAddGroup.induction_on with
     | _ y =>
       induction y using TensorProduct.induction_on with
       | zero => simp
       | tmul m n =>
-        change intTensorOverEquiv (ZMod b)
-            (tensorRightMap ℤ (ZMod b) S.f (TensorProduct.tmul ℤ m n : tensorOver ℤ (ZMod b) S.X₁))
-          = ZModGcd.mulByCast a b
-            (intTensorOverEquiv (ZMod b) (TensorProduct.tmul ℤ m n : tensorOver ℤ (ZMod b) S.X₁))
-        rw [show tensorRightMap ℤ (ZMod b) S.f
-              (TensorProduct.tmul ℤ m n : tensorOver ℤ (ZMod b) S.X₁)
-            = (TensorProduct.tmul ℤ (S.f.hom m) n : tensorOver ℤ (ZMod b) S.X₂) from rfl,
-          intTensorOverEquiv_mk, intTensorOverEquiv_mk, ZModGcd.mulByCast_apply, smul_smul]
+        change intTensorOverEquiv N
+            (tensorRightMap ℤ N S.f (TensorProduct.tmul ℤ m n : tensorOver ℤ N S.X₁))
+          = ZModGcd.mulBy a N
+            (intTensorOverEquiv N (TensorProduct.tmul ℤ m n : tensorOver ℤ N S.X₁))
+        rw [show tensorRightMap ℤ N S.f
+              (TensorProduct.tmul ℤ m n : tensorOver ℤ N S.X₁)
+            = (TensorProduct.tmul ℤ (S.f.hom m) n : tensorOver ℤ N S.X₂) from rfl,
+          intTensorOverEquiv_mk, intTensorOverEquiv_mk, ZModGcd.mulBy_apply, smul_smul]
         rfl
       | add p q hp hq =>
-        rw [show ((p + q : TensorProduct ℤ S.X₁ (ZMod b)) : tensorOver ℤ (ZMod b) S.X₁)
-              = ((p : tensorOver ℤ (ZMod b) S.X₁) + (q : tensorOver ℤ (ZMod b) S.X₁))
+        rw [show ((p + q : TensorProduct ℤ S.X₁ N) : tensorOver ℤ N S.X₁)
+              = ((p : tensorOver ℤ N S.X₁) + (q : tensorOver ℤ N S.X₁))
             from map_add (QuotientAddGroup.mk' _) p q,
           map_add, map_add, map_add, map_add, hp, hq]
-  have hconj : ∀ x, τ₂ (φ.hom x) = ZModGcd.mulByCast a b (τ₁ x) := by
+  have hconj : ∀ x, τ₂ (φ.hom x) = ZModGcd.mulBy a N (τ₁ x) := by
     intro x
     have hn := congrArg (fun (m : (F.leftDerived 0).obj S.X₁ ⟶ F.obj S.X₂) => m.hom x)
       (ζ.hom.naturality S.f)
     simp only [AddCommGrpCat.hom_comp, AddMonoidHom.comp_apply] at hn
     simp only [τ₁, τ₂, AddEquiv.trans_apply, Iso.addCommGroupIsoToAddEquiv_apply]
-    calc intTensorOverEquiv (ZMod b) ((ζ.app S.X₂).hom (φ.hom x))
-        = intTensorOverEquiv (ZMod b)
-            (tensorRightMap ℤ (ZMod b) S.f ((ζ.app S.X₁).hom x)) :=
-          congrArg (intTensorOverEquiv (ZMod b)) hn
-      _ = ZModGcd.mulByCast a b (intTensorOverEquiv (ZMod b) ((ζ.app S.X₁).hom x)) :=
+    calc intTensorOverEquiv N ((ζ.app S.X₂).hom (φ.hom x))
+        = intTensorOverEquiv N
+            (tensorRightMap ℤ N S.f ((ζ.app S.X₁).hom x)) :=
+          congrArg (intTensorOverEquiv N) hn
+      _ = ZModGcd.mulBy a N (intTensorOverEquiv N ((ζ.app S.X₁).hom x)) :=
           key _
-  -- Assemble: `Tor₁ = W.obj 2 ≃+ ker(mulByCast) ≃+ ZMod (gcd a b)`.
-  have mem : ∀ x, τ₁ (δ.hom x) ∈ LinearMap.ker (ZModGcd.mulByCast a b) := by
+  -- Assemble: `Tor₁ = W.obj 2 ≃+ ker(·a)`.
+  have mem : ∀ x, τ₁ (δ.hom x) ∈ LinearMap.ker (ZModGcd.mulBy a N) := by
     intro x
     rw [LinearMap.mem_ker, ← hconj (δ.hom x)]
     have : φ.hom (δ.hom x) = 0 := by
@@ -538,7 +571,7 @@ theorem Problem_8_2_7_i_tor_one (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
       simpa only [AddCommGrpCat.hom_comp, AddMonoidHom.comp_apply, AddCommGrpCat.hom_zero,
         AddMonoidHom.zero_apply] using this
     rw [this, map_zero]
-  let κ : ((F.leftDerived 1).obj S.X₃) →+ LinearMap.ker (ZModGcd.mulByCast a b) :=
+  let κ : ((F.leftDerived 1).obj S.X₃) →+ LinearMap.ker (ZModGcd.mulBy a N) :=
     { toFun := fun x => ⟨τ₁ (δ.hom x), mem x⟩
       map_zero' := by apply Subtype.ext; simp
       map_add' := fun x y => by apply Subtype.ext; simp }
@@ -556,10 +589,30 @@ theorem Problem_8_2_7_i_tor_one (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
         exact (LinearMap.mem_ker.mp hz)
       rw [← hrk] at hwker
       obtain ⟨x, hx⟩ := hwker
-      exact ⟨x, Subtype.ext (by rw [show ((κ x : _) : ZMod b) = τ₁ (δ.hom x) from rfl, hx,
+      exact ⟨x, Subtype.ext (by rw [show ((κ x : _) : N) = τ₁ (δ.hom x) from rfl, hx,
         τ₁.apply_symm_apply])⟩
-  exact ⟨((AddEquiv.ofBijective κ hκbij).trans
-    (ZModGcd.zmodKerEquiv a b).toAddEquiv).toAddCommGrpIso⟩
+  exact ⟨(AddEquiv.ofBijective κ hκbij).toAddCommGrpIso⟩
+
+/-- **Problem 8.2.7(i), `Tor₁`.** For finite cyclic groups `ℤ/a`, `ℤ/b` (`a, b ≠ 0`),
+`Tor₁(ℤ/a, ℤ/b) ≅ ℤ/gcd(a,b)`: the `a`-torsion of `ℤ/b` (`Etingof.tor_one_zmod_kerSMul`) is
+`ℤ/gcd(a, b)` (`Etingof.ZModGcd.zmodKerEquiv`). -/
+theorem Problem_8_2_7_i_tor_one (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
+    Nonempty (Etingof.Tor ℤ (ZMod b) (ModuleCat.of ℤᵐᵒᵖ (ZMod a)) 1
+      ≅ AddCommGrpCat.of (ZMod (Nat.gcd a b))) := by
+  haveI : NeZero b := ⟨hb⟩
+  obtain ⟨e⟩ := tor_one_zmod_kerSMul a ha (ZMod b)
+  exact ⟨e ≪≫ (ZModGcd.zmodKerEquiv a b).toAddEquiv.toAddCommGrpIso⟩
+
+/-- **`Tor₁(ℤ/a, ℤ) = 0`** for `a ≠ 0`: `ℤ` is torsion-free, so the `a`-torsion subgroup that
+`Etingof.tor_one_zmod_kerSMul` computes is trivial. This is the degree-`1` entry at a torsion
+summand of `M` paired with a *free* summand of `N` — the place where the uniform
+`ℤ/gcd(a, c)` answer of degree `0` fails on the `Tor` side (`gcd a 0 = a ≠ 0`). -/
+theorem Problem_8_2_7_i_tor_cyclic_free_one (a : ℕ) (ha : a ≠ 0) :
+    Limits.IsZero (Etingof.Tor ℤ ℤ (ModuleCat.of ℤᵐᵒᵖ (ZMod a)) 1) := by
+  haveI : NeZero a := ⟨ha⟩
+  haveI := ZModGcd.subsingleton_ker_mulBy_int a
+  obtain ⟨e⟩ := tor_one_zmod_kerSMul a ha ℤ
+  exact (AddCommGrpCat.isZero_of_subsingleton _).of_iso e
 
 /-- The right-module length-`1` free resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0` over `ℤᵐᵒᵖ`
 (`a ≠ 0`): `ℤ` and `ℤ/a` as right `ℤ`-modules, with `·a` and the quotient map made `ℤᵐᵒᵖ`-linear.
@@ -609,20 +662,23 @@ private noncomputable def zmodZeroOpEquiv : ℤ ≃ₗ[ℤᵐᵒᵖ] (ZMod 0) :=
       rw [smul_eq_mul, mul_comm] }
 
 open Limits in
-/-- **Problem 8.2.7(i), higher `Tor` vanishes.** `Torᵢ(ℤ/a, ℤ/b) = 0` for `i ≥ 2`, because
-`ℤ/a` has a length-`1` free resolution over the PID `ℤ`. For `i ≥ 2` the `Tor` is squeezed
-between the vanishing `Tor` of the two free terms in the six-term long exact sequence. -/
-theorem Problem_8_2_7_i_tor_vanish (a b : ℕ) (n : ℕ) :
-    Limits.IsZero (Etingof.Tor ℤ (ZMod b) (ModuleCat.of ℤᵐᵒᵖ (ZMod a)) (n + 2)) := by
+/-- **Higher `Tor` out of a cyclic group vanishes, for an arbitrary second argument.**
+`Torᵢ(ℤ/a, N) = 0` for `i ≥ 2` and any abelian group `N`, because `ℤ/a` has a length-`1` free
+resolution over the PID `ℤ`: for `i ≥ 2` the `Tor` is squeezed between the vanishing `Tor` of the
+two free terms in the six-term long exact sequence. Since `ZMod 0 = ℤ`, the `a = 0` case covers the
+free summands too, which is what lets the finitely-generated statement treat all summands
+uniformly. -/
+theorem tor_vanish_zmod (a : ℕ) (N : Type) [AddCommGroup N] (n : ℕ) :
+    Limits.IsZero (Etingof.Tor ℤ N (ModuleCat.of ℤᵐᵒᵖ (ZMod a)) (n + 2)) := by
   rcases eq_or_ne a 0 with rfl | ha
   · -- `ZMod 0 = ℤ` is a projective (free rank-one) right module
     have hz := Functor.isZero_leftDerived_obj_projective_succ
-      (tensorRightFunctor ℤ (ZMod b)) (n + 1) (ModuleCat.of ℤᵐᵒᵖ ℤ)
+      (tensorRightFunctor ℤ N) (n + 1) (ModuleCat.of ℤᵐᵒᵖ ℤ)
     exact hz.of_iso
-      (((tensorRightFunctor ℤ (ZMod b)).leftDerived (n + 2)).mapIso
+      (((tensorRightFunctor ℤ N).leftDerived (n + 2)).mapIso
         zmodZeroOpEquiv.symm.toModuleIso)
   · obtain ⟨S, hS, hX₁, hX₂, hX₃⟩ := zmodMopResolution a ha
-    set F := tensorRightFunctor ℤ (ZMod b) with hF
+    set F := tensorRightFunctor ℤ N with hF
     obtain ⟨δ, hExact⟩ := Etingof.Functor.leftDerived_sixTerm_exact F hS (n + 1) (n + 2) rfl
     have h1 : IsZero ((F.leftDerived (n + 2)).obj S.X₂) := by
       rw [hX₂]; exact Functor.isZero_leftDerived_obj_projective_succ F (n + 1) _
@@ -632,6 +688,12 @@ theorem Problem_8_2_7_i_tor_vanish (a b : ℕ) (n : ℕ) :
       isZero_obj_two_of_sixTerm_exact hExact h1 h3
     rw [hX₃] at hgoal
     exact hgoal
+
+/-- **Problem 8.2.7(i), higher `Tor` vanishes.** `Torᵢ(ℤ/a, ℤ/b) = 0` for `i ≥ 2`, because
+`ℤ/a` has a length-`1` free resolution over the PID `ℤ`. -/
+theorem Problem_8_2_7_i_tor_vanish (a b : ℕ) (n : ℕ) :
+    Limits.IsZero (Etingof.Tor ℤ (ZMod b) (ModuleCat.of ℤᵐᵒᵖ (ZMod a)) (n + 2)) :=
+  tor_vanish_zmod a (ZMod b) n
 
 /-- **Problem 8.2.7(i), free generator.** `ℤ` is projective as a `ℤ`-module, so
 `Torᵢ₊₁(ℤ, N) = 0` for every abelian group `N`. -/
@@ -826,12 +888,33 @@ noncomputable section
 
 variable {k : Type*} [Field k]
 
+/-- Multiplication-by-`f` endomorphism of an arbitrary `k[X]`-module, as a `k[X]`-linear map. Its
+kernel is what `Tor₁(k[X]/(f), -)` computes and its cokernel is what `Ext¹(k[X]/(f), -)` computes;
+both are needed for arbitrary targets, not just for `k[X]/(g)`. -/
+def mulByOn (f : k[X]) (N : Type*) [AddCommGroup N] [Module k[X] N] : N →ₗ[k[X]] N :=
+  f • LinearMap.id
+
+@[simp] lemma mulByOn_apply (f : k[X]) {N : Type*} [AddCommGroup N] [Module k[X] N] (x : N) :
+    mulByOn f N x = f • x := rfl
+
 /-- Multiplication-by-`f` endomorphism of `k[X]/(g)`, as a `k[X]`-linear map. -/
 def mulBy (f g : k[X]) : (k[X] ⧸ Ideal.span {g}) →ₗ[k[X]] (k[X] ⧸ Ideal.span {g}) :=
-  f • LinearMap.id
+  mulByOn f _
 
 @[simp] lemma mulBy_apply (f g : k[X]) (x : k[X] ⧸ Ideal.span {g}) :
     mulBy f g x = f • x := rfl
+
+/-- **`k[X]` is torsion-free**: the kernel of multiplication by `f ≠ 0` on `k[X]` is trivial,
+since `k[X]` is a domain. This is what makes both `Hom(k[X]/(f), k[X]) = 0` and
+`Tor₁(k[X]/(f), k[X]) = 0`. -/
+lemma subsingleton_ker_mulByOn_self (f : k[X]) (hf : f ≠ 0) :
+    Subsingleton (LinearMap.ker (mulByOn f k[X])) := by
+  refine ⟨fun x y => Subtype.ext ?_⟩
+  have h : ∀ z : LinearMap.ker (mulByOn f k[X]), (z : k[X]) = 0 := fun z => by
+    have hz : f • (z : k[X]) = 0 := LinearMap.mem_ker.mp z.2
+    rw [smul_eq_mul, mul_eq_zero] at hz
+    exact hz.resolve_left hf
+  rw [h x, h y]
 
 /-- The `k[X]`-linear projection `k[X]/(g) → k[X]/(f,g)` induced by the identity
 (well-defined since `(g) ≤ (f,g)`). -/
@@ -1070,11 +1153,17 @@ open scoped TensorProduct in
     LinearEquiv.coe_toAddEquiv]
   exact TensorProduct.lid_tmul n m
 
-/-- **Problem 8.2.7(ii), `Tor₁`.** `Tor₁(k[x]/(f), k[x]/(g)) ≅ k[x]/(gcd(f,g))` for `f, g ≠ 0`. -/
-theorem Problem_8_2_7_ii_tor_one (k : Type*) [Field k] (f g : k[X]) (hf : f ≠ 0) (hg : g ≠ 0) :
-    Nonempty (Etingof.Tor k[X] (k[X] ⧸ Ideal.span {g})
-        (ModuleCat.of (k[X])ᵐᵒᵖ (k[X] ⧸ Ideal.span {f})) 1
-      ≅ AddCommGrpCat.of (k[X] ⧸ Ideal.span {f, g})) := by
+/-- **`Tor₁(k[x]/(f), N)` is the `f`-torsion of `N`**, i.e. the kernel of multiplication by `f`,
+for `f ≠ 0` and an *arbitrary* `k[x]`-module `N`. This is the `k[x]` analogue of
+`Etingof.tor_one_zmod_kerSMul`: read off the length-`1` free resolution
+`0 → k[x] →(·f) k[x] → k[x]/(f) → 0` through the six-term sequence, `Tor₁` is the kernel of the map
+induced on `Tor₀(k[x], N) = k[x] ⊗ N ≅ N`, which is multiplication by `f`. Specialising `N` gives
+the degree-`1` row of the summand table: `N = k[x]/(g)` gives `k[x]/(f, g)`
+(`Problem_8_2_7_ii_tor_one`), and `N = k[x]` gives `0`. -/
+theorem tor_one_polyQuot_kerSMul {k : Type u} [Field k] (f : k[X]) (hf : f ≠ 0)
+    (N : Type u) [AddCommGroup N] [Module k[X] N] :
+    Nonempty (Etingof.Tor k[X] N (ModuleCat.of (k[X])ᵐᵒᵖ (k[X] ⧸ Ideal.span {f})) 1
+      ≅ AddCommGrpCat.of (LinearMap.ker (PolyGcd.mulByOn f N))) := by
   -- Length-`1` resolution `0 → k[x] →(·f) k[x] → k[x]/f → 0` over `k[x]ᵐᵒᵖ`, inline for `S.f`.
   let mfL : k[X] →ₗ[(k[X])ᵐᵒᵖ] k[X] :=
     { toFun := fun x => f * x
@@ -1109,7 +1198,7 @@ theorem Problem_8_2_7_ii_tor_one (k : Type*) [Field k] (f g : k[X]) (hf : f ≠ 
   have hsurjg : Function.Surjective pfL := (Ideal.span {f}).mkQ_surjective
   set S := ModuleCat.shortComplexOfCompEqZero mfL pfL eq0 with hSdef
   have hS : S.ShortExact := ModuleCat.shortComplex_shortExact S hexact hinjf hsurjg
-  set F := tensorRightFunctor k[X] (k[X] ⧸ Ideal.span {g}) with hF
+  set F := tensorRightFunctor k[X] N with hF
   -- Six-term window `0 = L₁X₁ → 0 = L₁X₂ → Tor₁ →[δ] Tor₀ k[x] →[φ] Tor₀ k[x] → …`.
   obtain ⟨δ, hExact⟩ := Etingof.Functor.leftDerived_sixTerm_exact F hS 0 1 rfl
   let φ : (F.leftDerived 0).obj S.X₁ ⟶ (F.leftDerived 0).obj S.X₂ := (F.leftDerived 0).map S.f
@@ -1123,51 +1212,46 @@ theorem Problem_8_2_7_ii_tor_one (k : Type*) [Field k] (f g : k[X]) (hf : f ≠ 
   -- Exactness at `Tor₀ k[x]`: `range δ = ker φ`.
   have hrk : δ.hom.range = φ.hom.ker := (hExact.exact' 2 3 4).ab_range_eq_ker
   have hcompl : δ ≫ φ = 0 := hExact.toIsComplex.zero' 2 3 4
-  -- `Tor₀(k[x]) = k[x] ⊗_{k[x]} (k[x]/g) ≅ k[x]/g`, natural in the argument.
+  -- `Tor₀(k[x]) = k[x] ⊗_{k[x]} N ≅ N`, natural in the argument.
   let ζ := F.leftDerivedZeroIsoSelf
-  let τ₁ : ((F.leftDerived 0).obj S.X₁) ≃+ (k[X] ⧸ Ideal.span {g}) :=
-    (ζ.app S.X₁).addCommGroupIsoToAddEquiv.trans (polyTensorOverEquiv (k[X] ⧸ Ideal.span {g}))
-  let τ₂ : ((F.leftDerived 0).obj S.X₂) ≃+ (k[X] ⧸ Ideal.span {g}) :=
-    (ζ.app S.X₂).addCommGroupIsoToAddEquiv.trans (polyTensorOverEquiv (k[X] ⧸ Ideal.span {g}))
+  let τ₁ : ((F.leftDerived 0).obj S.X₁) ≃+ N :=
+    (ζ.app S.X₁).addCommGroupIsoToAddEquiv.trans (polyTensorOverEquiv N)
+  let τ₂ : ((F.leftDerived 0).obj S.X₂) ≃+ N :=
+    (ζ.app S.X₂).addCommGroupIsoToAddEquiv.trans (polyTensorOverEquiv N)
   -- The induced map `φ` on `Tor₀(k[x])` is multiplication by `f`.
-  have key : ∀ w : tensorOver k[X] (k[X] ⧸ Ideal.span {g}) S.X₁,
-      polyTensorOverEquiv (k[X] ⧸ Ideal.span {g})
-          (tensorRightMap k[X] (k[X] ⧸ Ideal.span {g}) S.f w)
-        = PolyGcd.mulBy f g (polyTensorOverEquiv (k[X] ⧸ Ideal.span {g}) w) := by
+  have key : ∀ w : tensorOver k[X] N S.X₁,
+      polyTensorOverEquiv N (tensorRightMap k[X] N S.f w)
+        = PolyGcd.mulByOn f N (polyTensorOverEquiv N w) := by
     intro w
     induction w using QuotientAddGroup.induction_on with
     | _ y =>
       induction y using TensorProduct.induction_on with
       | zero => simp
       | tmul m n =>
-        rw [show tensorRightMap k[X] (k[X] ⧸ Ideal.span {g}) S.f
-              (TensorProduct.tmul ℤ m n : tensorOver k[X] (k[X] ⧸ Ideal.span {g}) S.X₁)
-            = (TensorProduct.tmul ℤ (S.f.hom m) n :
-                tensorOver k[X] (k[X] ⧸ Ideal.span {g}) S.X₂) from rfl,
-          polyTensorOverEquiv_mk, polyTensorOverEquiv_mk, PolyGcd.mulBy_apply]
+        rw [show tensorRightMap k[X] N S.f
+              (TensorProduct.tmul ℤ m n : tensorOver k[X] N S.X₁)
+            = (TensorProduct.tmul ℤ (S.f.hom m) n : tensorOver k[X] N S.X₂) from rfl,
+          polyTensorOverEquiv_mk, polyTensorOverEquiv_mk, PolyGcd.mulByOn_apply]
         change (f * m) • n = f • (m • n)
         rw [mul_smul]
       | add p q hp hq =>
-        rw [show ((p + q : TensorProduct ℤ S.X₁ (k[X] ⧸ Ideal.span {g})) :
-              tensorOver k[X] (k[X] ⧸ Ideal.span {g}) S.X₁)
-              = ((p : tensorOver k[X] (k[X] ⧸ Ideal.span {g}) S.X₁)
-                  + (q : tensorOver k[X] (k[X] ⧸ Ideal.span {g}) S.X₁))
+        rw [show ((p + q : TensorProduct ℤ S.X₁ N) : tensorOver k[X] N S.X₁)
+              = ((p : tensorOver k[X] N S.X₁) + (q : tensorOver k[X] N S.X₁))
             from map_add (QuotientAddGroup.mk' _) p q,
           map_add, map_add, map_add, map_add, hp, hq]
-  have hconj : ∀ x, τ₂ (φ.hom x) = PolyGcd.mulBy f g (τ₁ x) := by
+  have hconj : ∀ x, τ₂ (φ.hom x) = PolyGcd.mulByOn f N (τ₁ x) := by
     intro x
     have hn := congrArg (fun (m : (F.leftDerived 0).obj S.X₁ ⟶ F.obj S.X₂) => m.hom x)
       (ζ.hom.naturality S.f)
     simp only [AddCommGrpCat.hom_comp, AddMonoidHom.comp_apply] at hn
     simp only [τ₁, τ₂, AddEquiv.trans_apply, Iso.addCommGroupIsoToAddEquiv_apply]
-    calc polyTensorOverEquiv (k[X] ⧸ Ideal.span {g}) ((ζ.app S.X₂).hom (φ.hom x))
-        = polyTensorOverEquiv (k[X] ⧸ Ideal.span {g})
-            (tensorRightMap k[X] (k[X] ⧸ Ideal.span {g}) S.f ((ζ.app S.X₁).hom x)) :=
-          congrArg (polyTensorOverEquiv (k[X] ⧸ Ideal.span {g})) hn
-      _ = PolyGcd.mulBy f g
-            (polyTensorOverEquiv (k[X] ⧸ Ideal.span {g}) ((ζ.app S.X₁).hom x)) := key _
-  -- Assemble: `Tor₁ ≃+ ker(mulBy) ≃+ k[x]/(f,g)`.
-  have mem : ∀ x, τ₁ (δ.hom x) ∈ LinearMap.ker (PolyGcd.mulBy f g) := by
+    calc polyTensorOverEquiv N ((ζ.app S.X₂).hom (φ.hom x))
+        = polyTensorOverEquiv N
+            (tensorRightMap k[X] N S.f ((ζ.app S.X₁).hom x)) :=
+          congrArg (polyTensorOverEquiv N) hn
+      _ = PolyGcd.mulByOn f N (polyTensorOverEquiv N ((ζ.app S.X₁).hom x)) := key _
+  -- Assemble: `Tor₁ ≃+ ker(·f)`.
+  have mem : ∀ x, τ₁ (δ.hom x) ∈ LinearMap.ker (PolyGcd.mulByOn f N) := by
     intro x
     rw [LinearMap.mem_ker, ← hconj (δ.hom x)]
     have : φ.hom (δ.hom x) = 0 := by
@@ -1176,7 +1260,7 @@ theorem Problem_8_2_7_ii_tor_one (k : Type*) [Field k] (f g : k[X]) (hf : f ≠ 
       simpa only [AddCommGrpCat.hom_comp, AddMonoidHom.comp_apply, AddCommGrpCat.hom_zero,
         AddMonoidHom.zero_apply] using this
     rw [this, map_zero]
-  let κ : ((F.leftDerived 1).obj S.X₃) →+ LinearMap.ker (PolyGcd.mulBy f g) :=
+  let κ : ((F.leftDerived 1).obj S.X₃) →+ LinearMap.ker (PolyGcd.mulByOn f N) :=
     { toFun := fun x => ⟨τ₁ (δ.hom x), mem x⟩
       map_zero' := by apply Subtype.ext; simp
       map_add' := fun x y => by apply Subtype.ext; simp }
@@ -1195,10 +1279,27 @@ theorem Problem_8_2_7_ii_tor_one (k : Type*) [Field k] (f g : k[X]) (hf : f ≠ 
       rw [← hrk] at hwker
       obtain ⟨x, hx⟩ := hwker
       refine ⟨x, Subtype.ext ?_⟩
-      rw [show ((κ x : _) : k[X] ⧸ Ideal.span {g}) = τ₁ (δ.hom x) from rfl, hx,
-        τ₁.apply_symm_apply]
-  exact ⟨((AddEquiv.ofBijective κ hκbij).trans
-    (PolyGcd.kerEquiv f g hg).toAddEquiv).toAddCommGrpIso⟩
+      rw [show ((κ x : _) : N) = τ₁ (δ.hom x) from rfl, hx, τ₁.apply_symm_apply]
+  exact ⟨(AddEquiv.ofBijective κ hκbij).toAddCommGrpIso⟩
+
+/-- **Problem 8.2.7(ii), `Tor₁`.** `Tor₁(k[x]/(f), k[x]/(g)) ≅ k[x]/(f, g)` for `f, g ≠ 0`: the
+`f`-torsion of `k[x]/(g)` (`Etingof.tor_one_polyQuot_kerSMul`) is `k[x]/(f, g)`
+(`Etingof.PolyGcd.kerEquiv`). -/
+theorem Problem_8_2_7_ii_tor_one {k : Type u} [Field k] (f g : k[X]) (hf : f ≠ 0) (hg : g ≠ 0) :
+    Nonempty (Etingof.Tor k[X] (k[X] ⧸ Ideal.span {g})
+        (ModuleCat.of (k[X])ᵐᵒᵖ (k[X] ⧸ Ideal.span {f})) 1
+      ≅ AddCommGrpCat.of (k[X] ⧸ Ideal.span {f, g})) := by
+  obtain ⟨e⟩ := tor_one_polyQuot_kerSMul f hf (k[X] ⧸ Ideal.span {g})
+  exact ⟨e ≪≫ (PolyGcd.kerEquiv f g hg).toAddEquiv.toAddCommGrpIso⟩
+
+/-- **`Tor₁(k[x]/(f), k[x]) = 0`** for `f ≠ 0`: `k[x]` is torsion-free, so the `f`-torsion that
+`Etingof.tor_one_polyQuot_kerSMul` computes is trivial. This is the degree-`1` entry at a torsion
+summand of `M` paired with a *free* summand of `N`. -/
+theorem Problem_8_2_7_ii_tor_cyclic_free_one {k : Type u} [Field k] (f : k[X]) (hf : f ≠ 0) :
+    Limits.IsZero (Etingof.Tor k[X] k[X] (ModuleCat.of (k[X])ᵐᵒᵖ (k[X] ⧸ Ideal.span {f})) 1) := by
+  haveI := PolyGcd.subsingleton_ker_mulByOn_self f hf
+  obtain ⟨e⟩ := tor_one_polyQuot_kerSMul f hf k[X]
+  exact (AddCommGrpCat.isZero_of_subsingleton _).of_iso e
 
 /-- The right-module length-`1` free resolution `0 → k[x] →(·p) k[x] → k[x]/(p) → 0` over
 `k[x]ᵐᵒᵖ` (`p ≠ 0`), the `k[x]` analogue of `zmodMopResolution`. -/
@@ -1251,20 +1352,23 @@ private noncomputable def polyZeroOpEquiv (k : Type u) [Field k] :
       rw [map_smul, smul_eq_mul, mul_comm] }
 
 open Limits in
-/-- **Problem 8.2.7(ii), higher `Tor` vanishes.** `Torᵢ(k[x]/(f), k[x]/(g)) = 0` for `i ≥ 2`,
-by the same six-term long-exact-sequence squeeze as part (i), over the PID `k[x]`. -/
-theorem Problem_8_2_7_ii_tor_vanish (k : Type*) [Field k] (f g : k[X]) (n : ℕ) :
-    Limits.IsZero (Etingof.Tor k[X] (k[X] ⧸ Ideal.span {g})
+/-- **Higher `Tor` out of a cyclic `k[x]`-module vanishes, for an arbitrary second argument.**
+`Torᵢ(k[x]/(f), N) = 0` for `i ≥ 2` and any `k[x]`-module `N`, by the same six-term
+long-exact-sequence squeeze as part (i), over the PID `k[x]`. The `f = 0` case is
+`k[x]/(0) ≅ k[x]`, so this covers the free summands too, which is what lets the finitely-generated
+statement treat all summands uniformly. -/
+theorem tor_vanish_polyQuot {k : Type u} [Field k] (f : k[X]) (N : Type u) [AddCommGroup N]
+    [Module k[X] N] (n : ℕ) :
+    Limits.IsZero (Etingof.Tor k[X] N
       (ModuleCat.of (k[X])ᵐᵒᵖ (k[X] ⧸ Ideal.span {f})) (n + 2)) := by
   rcases eq_or_ne f 0 with rfl | hf
   · -- `k[x]/(0) ≅ k[x]` is a projective (free rank-one) right module
     have hz := Functor.isZero_leftDerived_obj_projective_succ
-      (tensorRightFunctor k[X] (k[X] ⧸ Ideal.span {g})) (n + 1) (ModuleCat.of (k[X])ᵐᵒᵖ k[X])
+      (tensorRightFunctor k[X] N) (n + 1) (ModuleCat.of (k[X])ᵐᵒᵖ k[X])
     exact hz.of_iso
-      (((tensorRightFunctor k[X] (k[X] ⧸ Ideal.span {g})).leftDerived (n + 2)).mapIso
-        (polyZeroOpEquiv k).toModuleIso)
+      (((tensorRightFunctor k[X] N).leftDerived (n + 2)).mapIso (polyZeroOpEquiv k).toModuleIso)
   · obtain ⟨S, hS, hX₁, hX₂, hX₃⟩ := polyMopResolution k f hf
-    set F := tensorRightFunctor k[X] (k[X] ⧸ Ideal.span {g}) with hF
+    set F := tensorRightFunctor k[X] N with hF
     obtain ⟨δ, hExact⟩ := Etingof.Functor.leftDerived_sixTerm_exact F hS (n + 1) (n + 2) rfl
     have h1 : IsZero ((F.leftDerived (n + 2)).obj S.X₂) := by
       rw [hX₂]; exact Functor.isZero_leftDerived_obj_projective_succ F (n + 1) _
@@ -1274,6 +1378,12 @@ theorem Problem_8_2_7_ii_tor_vanish (k : Type*) [Field k] (f g : k[X]) (n : ℕ)
       isZero_obj_two_of_sixTerm_exact hExact h1 h3
     rw [hX₃] at hgoal
     exact hgoal
+
+/-- **Problem 8.2.7(ii), higher `Tor` vanishes.** `Torᵢ(k[x]/(f), k[x]/(g)) = 0` for `i ≥ 2`. -/
+theorem Problem_8_2_7_ii_tor_vanish {k : Type u} [Field k] (f g : k[X]) (n : ℕ) :
+    Limits.IsZero (Etingof.Tor k[X] (k[X] ⧸ Ideal.span {g})
+      (ModuleCat.of (k[X])ᵐᵒᵖ (k[X] ⧸ Ideal.span {f})) (n + 2)) :=
+  tor_vanish_polyQuot f (k[X] ⧸ Ideal.span {g}) n
 
 /-- **Problem 8.2.7(ii), free generator.** `k[x]` is projective, so `Torᵢ₊₁(k[x], N) = 0` for
 every `k[x]`-module `N`. -/
