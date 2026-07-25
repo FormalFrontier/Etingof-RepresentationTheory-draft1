@@ -135,6 +135,68 @@ theorem lieSpan_gens_eq_top (n : ℕ) :
   | smul t u _ hu => rw [map_smul]; exact LieSubalgebra.smul_mem _ t hu
   | lie u v _ _ hu hv => rw [LieHom.map_lie]; exact LieSubalgebra.lie_mem _ hu hv
 
+/-- **Closure principle.** A submodule of `𝔤ₙ` that contains both generators and is stable under
+the two operators `⁅x̄, ·⁆` and `⁅ȳ, ·⁆` is already everything.
+
+Stability under the adjoint action of the *generators* is enough: the elements whose adjoint action
+preserves `M` form a Lie subalgebra, so once it contains `x̄` and `ȳ` it is all of `𝔤ₙ` by
+`lieSpan_gens_eq_top`, and then `M` itself is a Lie subalgebra containing the generators. -/
+theorem eq_top_of_closed_under_ad (n : ℕ) (M : Submodule k (g k n))
+    (hx : xb k n ∈ M) (hy : yb k n ∈ M)
+    (hadx : ∀ m ∈ M, ⁅xb k n, m⁆ ∈ M) (hady : ∀ m ∈ M, ⁅yb k n, m⁆ ∈ M) :
+    M = ⊤ := by
+  have hall : ∀ a : g k n, ∀ m ∈ M, ⁅a, m⁆ ∈ M := by
+    let N : LieSubalgebra k (g k n) :=
+      { carrier := {a | ∀ m ∈ M, ⁅a, m⁆ ∈ M}
+        add_mem' := fun ha hb m hm => by rw [add_lie]; exact M.add_mem (ha m hm) (hb m hm)
+        zero_mem' := fun m _ => by rw [zero_lie]; exact M.zero_mem
+        smul_mem' := fun c _ ha m hm => by rw [smul_lie]; exact M.smul_mem c (ha m hm)
+        lie_mem' := fun ha hb m hm => by
+          rw [lie_lie]; exact M.sub_mem (ha _ (hb m hm)) (hb _ (ha m hm)) }
+    have hN : N = ⊤ := by
+      rw [← top_le_iff, ← lieSpan_gens_eq_top k n, LieSubalgebra.lieSpan_le]
+      intro w hw
+      simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
+      rcases hw with rfl | rfl
+      · exact hadx
+      · exact hady
+    intro a
+    have ha : a ∈ N := by rw [hN]; trivial
+    exact ha
+  let W : LieSubalgebra k (g k n) := { M with lie_mem' := fun {u v} _ hv => hall u v hv }
+  have hW : W = ⊤ := by
+    rw [← top_le_iff, ← lieSpan_gens_eq_top k n, LieSubalgebra.lieSpan_le]
+    intro w hw
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
+    rcases hw with rfl | rfl
+    · exact hx
+    · exact hy
+  have := congrArg LieSubalgebra.toSubmodule hW
+  simpa [W] using this
+
+/-- Spanning-set form of `eq_top_of_closed_under_ad`: to see that a set `S` containing the two
+generators spans `𝔤ₙ`, it suffices to bracket each *member* of `S` with `x̄` and with `ȳ` and land
+back in the span. No bracket `⁅s, s'⁆` of two general members needs to be computed. -/
+theorem span_eq_top_of_closed_under_ad (n : ℕ) (S : Set (g k n))
+    (hx : xb k n ∈ S) (hy : yb k n ∈ S)
+    (hadx : ∀ s ∈ S, ⁅xb k n, s⁆ ∈ Submodule.span k S)
+    (hady : ∀ s ∈ S, ⁅yb k n, s⁆ ∈ Submodule.span k S) :
+    Submodule.span k S = ⊤ := by
+  refine eq_top_of_closed_under_ad k n _ (Submodule.subset_span hx) (Submodule.subset_span hy)
+    ?_ ?_
+  · intro m hm
+    induction hm using Submodule.span_induction with
+    | mem s hs => exact hadx s hs
+    | zero => rw [lie_zero]; exact Submodule.zero_mem _
+    | add a b _ _ ha hb => rw [lie_add]; exact Submodule.add_mem _ ha hb
+    | smul c a _ ha => rw [lie_smul]; exact Submodule.smul_mem _ c ha
+  · intro m hm
+    induction hm using Submodule.span_induction with
+    | mem s hs => exact hady s hs
+    | zero => rw [lie_zero]; exact Submodule.zero_mem _
+    | add a b _ _ ha hb => rw [lie_add]; exact Submodule.add_mem _ ha hb
+    | smul c a _ ha => rw [lie_smul]; exact Submodule.smul_mem _ c ha
+
 theorem proj_eq_zero_iff (n : ℕ) (a : FreeLieAlgebra k (Fin 2)) :
     proj k n a = 0 ↔ a ∈ relIdeal k n := by
   rw [proj_apply]; exact LieSubmodule.Quotient.mk_eq_zero _
