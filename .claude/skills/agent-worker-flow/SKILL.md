@@ -144,6 +144,22 @@ on that issue — pick a different one. Only proceed if the output says
 coordination read-issue <N> --json body --jq .body
 ```
 
+**Read the comments too, not just the body.** An issue that was closed and reopened
+keeps its original body, so the body describes the state of the world when it was
+filed — the *live* scope is in the reopening comment. Bodies also go stale when a
+later PR lands part of the work:
+
+```bash
+gh issue view <N> --json comments --jq '.comments[] | "\(.createdAt) \(.body)"'
+```
+
+Treat any comment starting "Reopening:" as authoritative over the body, and check the
+body's factual claims about the repo before acting on them. (2026-07-25, #7320: the
+body said an item in `progress/items.json` had no `coverage` field and "was never
+coverage-audited"; it had been audited three days earlier and reopened over a
+*different*, narrower objection recorded only in a comment. A session that trusts the
+body redoes finished work and misses the actual ask.)
+
 ## Step 2: Set Up
 
 ```bash

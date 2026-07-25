@@ -7,6 +7,31 @@ work item from the issue queue.
 claim/branch/verify/publish workflow. This document only covers what is specific
 to review sessions.
 
+## Before anything else: check the worktree is not stale
+
+Pod reuses worktrees, and a killed session can leave uncommitted **deletions** of
+tracked `.claude/` files. Skills and commands load from the working tree, so a
+truncated `SKILL.md` means you silently run the whole session on an old copy of the
+guidance and never see the parts that were added since. Run this **before** invoking
+any skill:
+
+```bash
+git status --porcelain
+wc -l .claude/skills/agent-worker-flow/SKILL.md
+git show origin/main:.claude/skills/agent-worker-flow/SKILL.md | wc -l
+```
+
+If the counts differ, or `git status` shows modified `.claude/` files you did not
+write, `git checkout -- .claude/` first, then invoke the skill. The skill carries the
+same check, but that copy only reaches an agent who already has the full file — which
+is exactly the agent who does not need it. This is why the check lives here too.
+
+(2026-07-25, session `444393c8`: arrived with 291 lines deleted across
+`agent-worker-flow/SKILL.md`, `commands/review.md` and `commands/summarize.md`,
+invoked the skill before looking, and so missed the Step 7 rules on replacing
+`create-pr`'s placeholder PR body and on never running `gh pr merge --auto` — then
+broke both.)
+
 ## Claiming Your Issue
 
 Use `coordination list-unclaimed --label review` to find work for this session type.
