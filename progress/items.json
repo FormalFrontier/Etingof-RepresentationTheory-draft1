@@ -2708,12 +2708,34 @@
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_9_1.lean"
     ],
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "coverage_arm": "audited",
-    "coverage_note": "The cocycle/coboundary algebra and predicate-level intertwiner classification are proved. The source's actual A-modules U_f, their inclusion/quotient short exact sequences, and the bridge from module isomorphisms to IntertwinesExt are not constructed; follow-up #7418.",
-    "fidelity_issue": 7418,
-    "last_updated": "2026-07-22",
+    "coverage_note": "All four parts plus the source's setup paragraph are covered. The extension modules U_f are now genuine A-modules (Etingof.Problem3_9_1.ExtMod), with the short exact sequence 0 -> V -> U_f -> W -> 0, the quotient identification U_f/V = W, the split case U_0 = V (+) W, and the equivalence between A-linear isomorphisms U_f = U_f' and the IntertwinesExt predicate used by parts (c) and (d). Closed by #7418.",
+    "last_updated": "2026-07-25",
     "derived": [
+      {
+        "part": "setup: the extension module U_f",
+        "claim": "For a representation U with V a subrepresentation and U/V = W, a vector-space identification U = V (+) W makes rho_U(a) block triangular with off-diagonal block f(a); conversely each cocycle f yields an actual A-module U_f containing V with U_f/V = W, and the obvious example is U = V (+) W.",
+        "description": "Construction of the extension module U_f itself, its A-module structure, the inclusion of V, the projection onto W, exactness, and the split case.",
+        "source_span": "blobs/Chapter3/Problem3.9.1.md (setup paragraph)",
+        "coverage": "covered_full",
+        "lean_decl": [
+          "Etingof.Problem3_9_1.ExtMod",
+          "Etingof.Problem3_9_1.ExtMod.instModuleA",
+          "Etingof.Problem3_9_1.ExtMod.instIsScalarTower",
+          "Etingof.Problem3_9_1.ExtMod.smul_mk",
+          "Etingof.Problem3_9_1.ExtMod.val_smul_eq_blockOp",
+          "Etingof.Problem3_9_1.ExtMod.inclusion",
+          "Etingof.Problem3_9_1.ExtMod.projection",
+          "Etingof.Problem3_9_1.ExtMod.inclusion_injective",
+          "Etingof.Problem3_9_1.ExtMod.projection_surjective",
+          "Etingof.Problem3_9_1.ExtMod.range_inclusion_eq_ker_projection",
+          "Etingof.Problem3_9_1.ExtMod.exact_inclusion_projection",
+          "Etingof.Problem3_9_1.ExtMod.quotEquiv",
+          "Etingof.Problem3_9_1.ExtMod.zeroEquivProd"
+        ],
+        "reason": "ExtMod f hf is the type V x W carrying the block-triangular A-action a.(v,w) = (a.v + f a w, a.w); the cocycle hypothesis is what supplies mul_smul, so the module is real and the definition has no sorry. val_smul_eq_blockOp records that the action is exactly blockOp f a, i.e. the source's matrix formula. inclusion/projection are A-linear, injective/surjective respectively, with range inclusion = ker projection (exact_inclusion_projection), so 0 -> V -> U_f -> W -> 0 is a short exact sequence of representations and quotEquiv gives U_f / V = W. zeroEquivProd identifies U_0 with the direct sum V (+) W, the source's obvious example. Axioms [propext, Classical.choice, Quot.sound]."
+      },
       {
         "part": "(a) 1-cocycle condition",
         "claim": "rho_U(a)=[[rho_V(a),f(a)],[0,rho_W(a)]] is a representation (multiplicative in a) iff f is a 1-cocycle f(ab)=rho_V(a).f(b)+f(a).rho_W(b); cocycles form Z1(W,V).",
@@ -2753,9 +2775,12 @@
         "lean_decl": [
           "Etingof.Problem3_9_1.IntertwinesExt",
           "Etingof.Problem3_9_1.iso_of_sub_mem_coboundaries",
-          "Etingof.Problem3_9_1.converse_sub_mem_coboundaries_of_unitriangular_intertwines"
+          "Etingof.Problem3_9_1.converse_sub_mem_coboundaries_of_unitriangular_intertwines",
+          "Etingof.Problem3_9_1.ExtMod.nonempty_equiv_iff_intertwines",
+          "Etingof.Problem3_9_1.ExtMod.nonempty_equiv_of_sub_mem_coboundaries",
+          "Etingof.Problem3_9_1.ExtMod.sub_mem_coboundaries_of_unitriangular_equiv"
         ],
-        "reason": "BOTH directions now covered_full. FORWARD: iso_of_sub_mem_coboundaries (203) builds the genuine unitriangular intertwiner phi=[[1,X],[0,1]] from f-f'=dX and proves IntertwinesExt (a real k-linear equiv intertwining the block operators for every a), over any algebra A. CONVERSE: converse_sub_mem_coboundaries_of_unitriangular_intertwines (#7362) takes an intertwiner phi of the special unitriangular form (phi (v,w)=(v+X w,w) for some X) and reads off the (1,2)-block of the intertwining identity to conclude f-f' = dX in B1, over any algebra A with no irreducibility/finite-dimensionality hypotheses. It is the exact mirror of the forward proof and is distinct from the part-(d) theorem (which needs [IsAlgClosed k] + f.d. + irreducible and yields a possibly-nonunit ratio). Clean axioms [propext, Classical.choice, Quot.sound]. Gap from #7361 audit closed."
+        "reason": "BOTH directions now covered_full. FORWARD: iso_of_sub_mem_coboundaries (203) builds the genuine unitriangular intertwiner phi=[[1,X],[0,1]] from f-f'=dX and proves IntertwinesExt (a real k-linear equiv intertwining the block operators for every a), over any algebra A. CONVERSE: converse_sub_mem_coboundaries_of_unitriangular_intertwines (#7362) takes an intertwiner phi of the special unitriangular form (phi (v,w)=(v+X w,w) for some X) and reads off the (1,2)-block of the intertwining identity to conclude f-f' = dX in B1, over any algebra A with no irreducibility/finite-dimensionality hypotheses. It is the exact mirror of the forward proof and is distinct from the part-(d) theorem (which needs [IsAlgClosed k] + f.d. + irreducible and yields a possibly-nonunit ratio). Clean axioms [propext, Classical.choice, Quot.sound]. Gap from #7361 audit closed. #7418 additionally restates both directions for the actual modules: nonempty_equiv_iff_intertwines shows Nonempty (U_f =_A U_f') is equivalent to the existence of an intertwiner, so the predicate-level statements are exactly statements about module isomorphism; nonempty_equiv_of_sub_mem_coboundaries and sub_mem_coboundaries_of_unitriangular_equiv are the module-level forward and converse."
       },
       {
         "part": "(d) iso classes <-> P Ext1",
@@ -2765,9 +2790,11 @@
         "coverage": "covered_full",
         "lean_decl": [
           "Etingof.Problem3_9_1.ext_iso_of_sub_smul_mem_coboundaries",
-          "Etingof.Problem3_9_1.irreducible_ext_iso_iff_proportional"
+          "Etingof.Problem3_9_1.irreducible_ext_iso_iff_proportional",
+          "Etingof.Problem3_9_1.ExtMod.nonempty_equiv_iff_proportional",
+          "Etingof.Problem3_9_1.ExtMod.nonempty_equiv_prod_iff_mem_coboundaries"
         ],
-        "reason": "irreducible_ext_iso_iff_proportional (307) is a genuine iff: (exists phi, IntertwinesExt f f' phi) iff (exists c != 0, f - c.f' in B1) - the faithful P-form of the book's projective-space classification (a nonzero ratio = a line in P Ext1; f in B1 = the split/trivial class). [IsAlgClosed k] is the mathematically correct hypothesis, not an artificial narrowing: the P_k Ext1 parametrization needs End_A(V)=End_A(W)=k, which Schur (Corollary_2_3_10, used in the forward proof) supplies only over an algebraically closed field; the docstring records that over a non-closed field the classes are Ext1 mod D_V^x x D_W^x. Forward => block-decomposes an arbitrary phi; <= reuses ext_iso_of_sub_smul_mem_coboundaries. Clean axioms."
+        "reason": "irreducible_ext_iso_iff_proportional (307) is a genuine iff: (exists phi, IntertwinesExt f f' phi) iff (exists c != 0, f - c.f' in B1) - the faithful P-form of the book's projective-space classification (a nonzero ratio = a line in P Ext1; f in B1 = the split/trivial class). [IsAlgClosed k] is the mathematically correct hypothesis, not an artificial narrowing: the P_k Ext1 parametrization needs End_A(V)=End_A(W)=k, which Schur (Corollary_2_3_10, used in the forward proof) supplies only over an algebraically closed field; the docstring records that over a non-closed field the classes are Ext1 mod D_V^x x D_W^x. Forward => block-decomposes an arbitrary phi; <= reuses ext_iso_of_sub_smul_mem_coboundaries. Clean axioms. #7418 restates this for actual modules: nonempty_equiv_iff_proportional is the same iff with the left-hand side replaced by Nonempty (U_f =_A U_f'), and nonempty_equiv_prod_iff_mem_coboundaries gives the source's final clause, U_f = V (+) W iff f is a coboundary (so every extension is trivial iff Ext1(W,V)=0)."
       }
     ]
   },
