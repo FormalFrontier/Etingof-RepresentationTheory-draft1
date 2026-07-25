@@ -90,12 +90,65 @@ lemma hasProjectiveDimensionLT_biproduct {ι : Type*} [Finite ι] (X : ι → C)
 
 end ProjectiveDimension
 
+/-! ### Splitting a product indexed by a sum -/
+
+/-- `Π (j : α ⊕ β), f j ≃+ (Π a, f (inl a)) × (Π b, f (inr b))`: the additive form of
+`Equiv.sumPiEquivProdPi`, used to split the free and cyclic blocks of a decomposition apart. -/
+@[simps]
+def piSumAddEquiv {α β : Type*} (f : α ⊕ β → Type*) [∀ j, AddCommGroup (f j)] :
+    (∀ j, f j) ≃+ (∀ a, f (Sum.inl a)) × (∀ b, f (Sum.inr b)) where
+  toFun g := (fun a => g (Sum.inl a), fun b => g (Sum.inr b))
+  invFun p := Sum.rec p.1 p.2
+  left_inv g := funext fun j => by cases j <;> rfl
+  right_inv _ := rfl
+  map_add' _ _ := rfl
+
+/-- A product of trivial groups is trivial: the block of a decomposition on which `Ext` vanishes
+contributes nothing. -/
+lemma subsingleton_pi {α : Type*} (f : α → Type*) [∀ a, Subsingleton (f a)] :
+    Subsingleton (∀ a, f a) :=
+  ⟨fun _ _ => funext fun _ => Subsingleton.elim _ _⟩
+
+/-- Drop a trivial first factor: `X × Y ≃+ Y` when `X` is trivial. -/
+noncomputable def subsingletonProdAddEquiv (X Y : Type*) [AddCommGroup X] [AddCommGroup Y]
+    [Subsingleton X] : (X × Y) ≃+ Y where
+  toFun p := p.2
+  invFun y := (0, y)
+  left_inv _ := Prod.ext (Subsingleton.elim _ _) rfl
+  right_inv _ := rfl
+  map_add' _ _ := rfl
+
+/-- Drop a trivial second factor: `X × Y ≃+ X` when `Y` is trivial. -/
+noncomputable def prodSubsingletonAddEquiv (X Y : Type*) [AddCommGroup X] [AddCommGroup Y]
+    [Subsingleton Y] : (X × Y) ≃+ X where
+  toFun p := p.1
+  invFun x := (x, 0)
+  left_inv _ := Prod.ext rfl (Subsingleton.elim _ _)
+  right_inv _ := rfl
+  map_add' _ _ := rfl
+
 /-! ### The reduction to summand pairs -/
 
 section Reduction
 
 variable {A : Type u} [CommRing A] {M N : Type u} [AddCommGroup M] [Module A M]
   [AddCommGroup N] [Module A N]
+
+/-- **Additivity of `Ext` in the first variable, along a decomposition.**
+`Extⁿ(M, Y) ≃+ Π j, Extⁿ(D.summand j, Y)` for an arbitrary second argument `Y`. -/
+noncomputable def extFstDecompositionAddEquiv (D : PIDDecomposition A M) (Y : ModuleCat.{u} A)
+    (n : ℕ) :
+    Etingof.Ext (ModuleCat.of A M) Y n ≃+ ∀ j : D.index, Etingof.Ext (D.summand j) Y n :=
+  (extCongr D.biproductIso (Iso.refl Y) n).trans
+    (Abelian.Ext.biproductAddEquiv (biproduct.isBilimit D.summand) Y n)
+
+/-- **Additivity of `Ext` in the second variable, along a decomposition.**
+`Extⁿ(X, N) ≃+ Π l, Extⁿ(X, E.summand l)` for an arbitrary first argument `X`. -/
+noncomputable def extSndDecompositionAddEquiv (X : ModuleCat.{u} A) (E : PIDDecomposition A N)
+    (n : ℕ) :
+    Etingof.Ext X (ModuleCat.of A N) n ≃+ ∀ l : E.index, Etingof.Ext X (E.summand l) n :=
+  (extCongr (Iso.refl X) E.biproductIso n).trans
+    (Abelian.Ext.addEquivBiproduct X (biproduct.isBilimit E.summand) n)
 
 /-- **The reduction of Problem 8.2.7 to the free and cyclic building blocks.** For decompositions
 `D` of `M` and `E` of `N` into a free part and cyclic parts, `Extⁿ(M, N)` is the product, over
@@ -109,6 +162,32 @@ noncomputable def extPIDDecompositionAddEquiv (D : PIDDecomposition A M) (E : PI
     ((Abelian.Ext.biproductAddEquiv (biproduct.isBilimit D.summand) _ n).trans
       (AddEquiv.piCongrRight fun _ =>
         Abelian.Ext.addEquivBiproduct _ (biproduct.isBilimit E.summand) n))
+
+/-! ### The summands, uniformly as cyclic modules
+
+A free summand `A` is the cyclic module `A ⧸ (0)`, so *every* summand of a decomposition is
+`A ⧸ (d)` for a suitable `d` — `0` for the free ones. This uniformity is what makes the degree-`1`
+answer of Problem 8.2.7 a single formula (over `ℤ`: `ZMod (gcd aᵢ c_l)` with `c_l = 0` for the free
+summands of `N`, since `gcd a 0 = a`). -/
+
+/-- The generator of the annihilator of the `j`-th summand, uniformly: `0` on the free summands. -/
+def PIDDecomposition.genOf (D : PIDDecomposition A M) : D.index → A :=
+  Sum.elim (fun _ => 0) D.gen
+
+@[simp] lemma PIDDecomposition.genOf_inl (D : PIDDecomposition A M) (i : Fin D.freeRank) :
+    D.genOf (Sum.inl i) = 0 := rfl
+
+@[simp] lemma PIDDecomposition.genOf_inr (D : PIDDecomposition A M) (i : D.torsionIndex) :
+    D.genOf (Sum.inr i) = D.gen i := rfl
+
+/-- **Every summand is a cyclic module `A ⧸ (genOf j)`**, the free ones being `A ⧸ (0) ≅ A`. -/
+noncomputable def PIDDecomposition.summandIso (D : PIDDecomposition A M) (j : D.index) :
+    D.summand j ≅ ModuleCat.of A (A ⧸ Ideal.span {D.genOf j}) := by
+  cases j with
+  | inl i =>
+    exact LinearEquiv.toModuleIso
+      (Submodule.quotEquivOfEqBot _ (Ideal.span_singleton_eq_bot.mpr rfl)).symm
+  | inr i => exact Iso.refl _
 
 end Reduction
 
@@ -182,5 +261,30 @@ lemma fg_hasProjectiveDimensionLT_two [IsDomain A] [IsPrincipalIdealRing A] (M :
   (exists_pidDecomposition A M).elim (hasProjectiveDimensionLT_two_of_pidDecomposition A)
 
 end PIDProjectiveDimension
+
+/-! ### Decompositions with nonzero torsion generators
+
+The degree-`0` computation distinguishes a *genuinely torsion* cyclic summand `A ⧸ (d)`, `d ≠ 0`,
+from a free one (`Hom(A ⧸ (d), A) = 0` for `d ≠ 0`, whereas `Hom(A, A) = A`). The structure theorem
+produces prime-power generators, which are nonzero, so this costs nothing — but
+`Etingof.PIDDecomposition` itself does not record it, so we strengthen the existence statement. -/
+
+/-- **Structure theorem, with nonzero torsion generators.** Every finitely generated module over a
+PID admits a decomposition whose cyclic summands `A ⧸ (gen i)` are genuinely torsion, i.e.
+`gen i ≠ 0`: the structure theorem produces `gen i = pᵢ ^ eᵢ` with `pᵢ` irreducible. -/
+theorem exists_pidDecomposition_gen_ne_zero (A : Type u) [CommRing A] [IsDomain A]
+    [IsPrincipalIdealRing A] (M : Type u) [AddCommGroup M] [Module A M] [Module.Finite A M] :
+    ∃ D : PIDDecomposition A M, ∀ i, D.gen i ≠ 0 := by
+  classical
+  obtain ⟨n, ι, hι, p, hp, e, ⟨f⟩⟩ := Module.equiv_free_prod_directSum A M
+  refine ⟨{ freeRank := n
+            torsionIndex := ι
+            torsionFintype := hι
+            torsionDecEq := Classical.decEq ι
+            gen := fun i => p i ^ e i
+            equivProd := f ≪≫ₗ LinearEquiv.prodCongr
+              (Finsupp.linearEquivFunOnFinite A A (Fin n))
+              (DirectSum.linearEquivFunOnFintype A ι fun i => A ⧸ Ideal.span {p i ^ e i}) },
+    fun i => pow_ne_zero _ (hp i).ne_zero⟩
 
 end Etingof
