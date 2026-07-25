@@ -202,6 +202,11 @@ Read the specific files mentioned in the plan/issue. Understand the current stat
 of code you'll be modifying. Don't read progress history — the issue body provides
 that context.
 
+Also load the domain skill for the work you're about to do (`lean-formalization`
+for any proof or statement work, `dependency-analysis` for Phase 2). These skills
+carry the accumulated tactic-level gotchas — linter rules, `rw` patterns that
+silently fail, instance traps — and rediscovering one costs a full build cycle.
+
 ## Step 4: Verify Assumptions
 
 Check that the plan's assumptions still hold:
