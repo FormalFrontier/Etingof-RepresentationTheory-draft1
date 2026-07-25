@@ -190,6 +190,16 @@ Check that the plan's assumptions still hold:
   discover this. If it already exists, reuse it: the task shrinks to a thin
   bridge/assembly (or, for audits, a tracking reconciliation — flip `items.json`,
   repoint `lean_ref`, drop the residual issue), not new infrastructure.
+- **The issue's work may be *entirely* done and merged already — if so `close` it,
+  don't `skip` it.** A PR whose body omits `Closes #N` merges without closing its
+  issue, so the issue keeps appearing in `coordination list-unclaimed` forever and
+  the next worker redoes landed work. Cheapest check, before claiming: scan
+  `git log origin/main --oneline -20` for a commit whose title matches the issue
+  title or cites `#N`, then confirm the decls are on `main`
+  (`git show origin/main:<file> | grep <decl>`). If they are, `gh issue close <N>
+  --comment "Completed by PR #M (merged as <sha>); the PR body omitted a Closes
+  line."` — `coordination skip` is wrong here, it only re-queues the issue for a
+  planner. (2026-07: #7704, landed in #7722, sat unclaimed for a full cycle.)
 - **A "restore/regression" issue whose reproduction is `lake env lean <file>` may
   be a false positive — reconfirm the failure with `lake build <Module>` before any
   work.** `lake env lean` drops the lakefile's `[leanOptions]` (`maxSynthPendingDepth

@@ -125,16 +125,27 @@ Keep `lake build <Module>` as the final check before committing (it also catches
 `lakefile`/import-graph problems), but iterate with the `-D` form. Re-read `lakefile.toml`
 if the options list looks stale — it is the source of truth.
 
-**Beware `abbrev` carriers shared by two modules over the same ring.** In
-`Chapter9/Problem9_3_2.lean`, `Pplus` and `Pminus` are both `abbrev ... : Type := Fin 2 → ℂ`.
-Because `abbrev` is reducible, `Module A Pplus` and `Module A Pminus` are two instances on
-the *same* type, and instance resolution silently picks the last-declared one. The file only
-works because every `P₊` declaration textually precedes the `Module A Pminus` instance — so
-**new lemmas about the earlier module must be inserted before the later instance, not
-appended at the end of the file.** This also blocks forming an indexed family `P : ι → Type`
-of the two modules (needed by `Etingof.algebraCartanMatrix`); that requires giving them
-genuinely distinct carriers. If you are defining several modules over one ring with the same
-underlying type, prefer a one-field structure per module over `abbrev`.
+**Beware `abbrev` carriers shared by two modules over the same ring.** If `Pplus` and `Pminus`
+are both `abbrev ... : Type := Fin 2 → ℂ`, then because `abbrev` is reducible,
+`Module A Pplus` and `Module A Pminus` are two instances on the *same* type and instance
+resolution silently picks the last-declared one. Such a file only works while every `P₊`
+declaration textually precedes the `Module A Pminus` instance, and it cannot form an indexed
+family `P : ι → Type` of the two modules at all (needed by e.g.
+`Etingof.algebraCartanMatrix`). **Fix: semireducible `def` carriers**, one per module, each
+with its own `AddCommGroup`/`Module`/`Nontrivial`/`Module.Finite` instances via
+`inferInstanceAs`. `Chapter9/Problem9_3_2.lean` was converted this way in 2026-07 (#7704) and
+is the worked example: declaration order no longer matters there, and new lemmas are appended
+at the end of the file like anywhere else. If you are defining several modules over one ring
+with the same underlying type, never use `abbrev`.
+
+Budget for the fallout, which is the same in any such conversion (see also the `Cyc n k` entry
+below): Mathlib's `Pi.add_apply`/`Pi.smul_apply` and friends stop firing (`simp` matches only
+up to *reducible* transparency), so add a small coordinate API of `rfl` lemmas and an `@[ext]`
+lemma; `funext` and `convert … using 1` fail on goals at the new carrier; a type *ascription*
+`(![1, 0] : Pplus)` does not stick, so name the generators instead. **And numeral/instance
+classes do not transfer either** — for `def Splus : Type := ℂ`, `one_ne_zero` fails to
+synthesize `One Splus` even when the hypothesis is literally `(1 : ℂ) = 0`. Pass the type
+explicitly: `exact one_ne_zero (α := ℂ) h`.
 
 **Two Mathlib lemmas can produce the *same* `1`/`0`/`Pi.single i 1` through *different*
 typeclass paths — `rw` then fails syntactically, `exact` succeeds by defeq.** Classic case
