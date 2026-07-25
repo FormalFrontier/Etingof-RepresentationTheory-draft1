@@ -176,8 +176,11 @@ that are pure *deletions* against `main` in files you were not asked to touch,
 especially under `.claude/`. A crashed session can leave an accidental revert of
 accumulated workflow guidance, which is easy to commit without noticing and hard to
 spot in review. Restore those (`git checkout HEAD -- <paths>`) rather than carrying
-them. (2026-07-25: twice, worktrees arrived with 169 and 279 lines of `.claude/`
-guidance deleted and nothing added.)
+them. (2026-07-25: three times, worktrees arrived with 169, 279 and 320 lines of
+`.claude/` guidance deleted and nothing added. In the third case the session-start
+`git status` listed all five modified files right in the agent's context and it
+committed them anyway, because its own stale copy of this skill lacked this check —
+see the publish-time backstop in Step 7.)
 
 **If the restored files include this skill or your `/command` file, re-read them.**
 Skills load from the working tree, so a truncated `SKILL.md` means the guidance you
@@ -459,6 +462,15 @@ Write a progress entry to `progress/<UTC-timestamp>_<UUID-prefix>.md`:
 - Date/time (UTC), session type, what was accomplished
 - Decisions made, key patterns discovered
 - What remains, quality metric deltas
+
+**Before pushing, check the scope of your diff: `git diff --stat origin/main...HEAD`.**
+Every changed file must belong to the issue you claimed. **Never stage with a blanket
+`git add -A`/`git commit -a`** — in a reused worktree that sweeps up whatever a previous
+session left behind, and stale `.claude/` copies land on `main` as silent reverts of
+accumulated guidance. Stage the paths you actually touched. This is the backstop for the
+Step 2 stale-worktree check: it catches the same damage even when the copy of this skill
+you started on was itself the truncated one. (2026-07-25: PR #7834 shipped a clean
+Künneth proof together with a 320-line revert of `.claude/`, repaired by #7835.)
 
 **Full completion:**
 ```bash
