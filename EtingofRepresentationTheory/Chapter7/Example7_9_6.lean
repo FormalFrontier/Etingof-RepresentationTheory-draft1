@@ -327,10 +327,11 @@ section NoncommutativeTensor
 -- The `ℤ`-module structure on `X ⊗[ℤ] M` reaches Lean by two routes (`TensorProduct`'s own
 -- instance and `AddCommGroup.toIntModule`), so the `Submodule ℤ` bookkeeping below relies on
 -- the project-wide `backward.isDefEq.respectTransparency false` option set in `lakefile.toml`.
--- A consequence: `#print axioms` run through `lake env lean` *on this source file* reports a
--- spurious `sorryAx` for the declarations in this section, because `lake env lean` does not
--- apply the library's `leanOptions`. Audit axioms against the built olean instead (a scratch
--- file that only `import`s this module).
+-- A consequence: `#print axioms` run through a bare `lake env lean` *on this source file*
+-- reports a spurious `sorryAx` for the declarations in this section, because `lake env lean`
+-- does not apply the library's `leanOptions`. Pass `-D backward.isDefEq.respectTransparency
+-- =false`, or audit against the built olean from a scratch file that only `import`s this
+-- module.
 
 open TensorProduct
 
