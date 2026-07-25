@@ -17,6 +17,23 @@ of `𝔤₄` in `EtingofRepresentationTheory/Chapter2/Problem2_16_3_Layers.lean`
 The last one is the point: `evenTower k m` has bidegree `(m + 1) • (2, 4) + (0, -1)`, so the
 whole tower lives on the single ray of imaginary roots of `A₂⁽²⁾` that the layer induction
 walks up.
+
+The second half of the file cashes the grading in. `span_loopSet_eq_top` spans `𝔤₄`
+unconditionally by `loopFam₄` together with the layer defects; every member of that spanning set
+is bihomogeneous, and the bidegree assignment on `LoopIdx` is injective
+(`LoopIdx.bideg_injective`). Projecting the spanning statement onto a single bidegree therefore
+gives:
+
+* `gDeg_eq_bot` — `𝔤₄` vanishes in every bidegree the spanning set misses;
+* `gDeg_le_span_singleton` — `𝔤₄` is at most **one**-dimensional off the imaginary ray;
+* `gDeg_imaginary_le` — on the imaginary ray `(2m+2, 4m+4)` the unconditional bound is **two**,
+  `span {D (evenTower k m), topDefect k m}`, because the defect collides there with
+  `loopFam₄ (.even m 1)`.
+
+That single collision is the whole remaining gap in Problem 2.16.3(b):
+`topDefect_eq_zero_of_gDeg_le` and `gDeg_le_span_singleton_of_topDefect_eq_zero` show that
+sharpening the imaginary bound from two generators to one is *equivalent* to the vanishing of
+the layer defect, i.e. to the Gabber–Kac statement `mult((m+1)δ) = 1` for `A₂⁽²⁾`.
 -/
 
 namespace Etingof.Problem2_16_3
