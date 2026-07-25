@@ -191,6 +191,30 @@ theorem lie_a1_a3_dY_one_evenTower_of_gbar_injective (h2 : (2 : k) ≠ 0) (h3 : 
   rw [← h.defect_eq h2 h3]
   exact defect_eq_zero_of_gbar_injective h2 h3 h5 hinj h
 
+/-! ### The spanning family, given injectivity -/
+
+/-- Every layer defect vanishes once `gbar` is injective. -/
+theorem topDefect_eq_zero_of_gbar_injective (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0)
+    (h5 : (5 : k) ≠ 0) (hinj : Function.Injective (gbar k)) (m : ℕ) : topDefect k m = 0 := by
+  cases m with
+  | zero => exact topDefect_zero_eq
+  | succ m =>
+      exact defect_eq_zero_of_gbar_injective h2 h3 h5 hinj (evenLayer_evenTower h2 h3 h5 m)
+
+/-- The odd-layer invariant in every odd `t`-degree, indexed uniformly by `topOdd`. -/
+theorem oddLayer_topOdd_of_gbar_injective (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
+    (hinj : Function.Injective (gbar k)) (m : ℕ) : OddLayer k (topOdd k m) (evenTower k m) :=
+  oddLayer_topOdd h2 h3 h5 (topDefect_eq_zero_of_gbar_injective h2 h3 h5 hinj) m
+
+/-- **The upper bound of Problem 2.16.3(b), given injectivity of `gbar`.** The `LoopIdx`-indexed
+family `loopFam₄` spans `𝔤₄`, with `1` element in `t`-degree `0`, `5` in each odd degree and `3`
+in each even degree `≥ 2` — the graded dimensions of `𝔫₊(A₂⁽²⁾)`. Together with
+`range_matHom₄_eq_loopPos` this is what turns `matHom₄` into an isomorphism. -/
+theorem span_range_loopFam₄_eq_top_of_gbar_injective (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0)
+    (h5 : (5 : k) ≠ 0) (hinj : Function.Injective (gbar k)) :
+    Submodule.span k (Set.range (loopFam₄ k)) = ⊤ :=
+  span_range_loopFam₄_eq_top h2 h3 h5 (topDefect_eq_zero_of_gbar_injective h2 h3 h5 hinj)
+
 end Gbar
 
 end Etingof.Problem2_16_3
