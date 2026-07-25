@@ -356,6 +356,31 @@ inferInstanceAs _`) and **obtain elements at the synonym type** — `obtain ⟨w
 building submodule-lattice order-isos by hand. `change`, not `show`, when unfolding the synonym
 (the style linter rejects a goal-changing `show`).
 
+**A `def` that builds a bundled structure whose *instance fields* are synthesized must be
+`@[reducible]`, or its projections will not unify at `instances` transparency** (Ch6
+`Problem6_9_3`/`Infrastructure/QuiverCompositionSeries.lean`, #7359). `QuiverRepresentation`
+bundles `{instAddCommMonoid : ∀ v, AddCommMonoid (obj v)}`, so
+`def toRep (W : QuiverSubrepresentation …) : QuiverRepresentation k Q := { obj := fun v =>
+W.carrier v, … }` gives `W.toRep.instAddCommMonoid v` — defeq to `Submodule.addCommMonoid` but
+only after delta-unfolding `toRep`, which tactics at `instances` transparency will not do. The
+symptom is a `rw`/`exact` failing with *"the target expression is not type-correct under the
+`instances` transparency level"* and an `Application type mismatch: W.toRep.instAddCommMonoid u
+has type AddCommMonoid (W.toRep.obj u) but is expected to have type AddCommMonoid
+↥(W.carrier u)`. Marking the `def` `@[reducible]` fixes every such mismatch at once; chasing
+them individually with `show`/`change` does not, because `Submodule.add_mem` and friends drag
+you back to the submodule instances.
+
+**Related, same file: a family of linear maps into a representation whose vertex object is
+`Fin (if v = i then 1 else 0) → k` needs its dependent `if` handled exactly once.** Define the
+family as `fun u => if h : u = i then by subst h; exact <the map> else 0`, immediately prove
+`app i = <the map>` (by `simp only [dif_pos rfl]`) and `u ≠ i → app u = 0` (by `dif_neg`), and
+never look inside the `dite` again. Prove the surjectivity/kernel/naturality obligations as
+standalone `have`s *before* assembling the structure: `{ app := app, … }.app u` does not reduce
+to `app u` for `rw`, so a `refine ⟨…, { app := app, naturality := ?_ }, ?_, ?_⟩` skeleton leaves
+goals you cannot rewrite in. For the index type, `def uniqueIndex (i) : Unique (Fin (if i = i
+then 1 else 0)) := by rw [if_pos rfl]; infer_instance` and the `if_neg` twin for `IsEmpty` —
+`rw` works fine on `Sort`-valued goals, and the `Unique` version must be `@[reducible]`.
+
 **Mathlib v4.32 module-system bump: two recurring `MonoidAlgebra`/`Representation.asModule`
 source-elaboration regressions** (Ch4 `Exercise4_2_3`/`_Cocenter`, #7535; the same shapes hit
 the `fix(...)` completeness-audit batch, e.g. Ch6 `Problem6_1_6` #7550, and any file using
