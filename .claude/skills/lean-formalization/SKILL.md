@@ -4301,6 +4301,16 @@ These naming mismatches have bitten multiple agents across waves 44-47. Check th
 
 **When unsure about a lemma name:** Use `#check` or `exact?` on a small test goal. Don't guess and iterate — the 30 seconds spent checking saves 10 minutes of mysterious failures.
 
+**A missing *tactic* import reads as a broken proof, not a missing import.** Chapter files import
+selective `Mathlib.*` modules, never `import Mathlib`, so tactics beyond the core set are often
+absent. Lean reports this as `unknown tactic` at a **misleading line** (often the next
+declaration, or a `<;>` several lines below the real call) plus cascading `unsolved goals` on
+every `have` that used it — which reads as "my algebra was wrong". Before rewriting the
+mathematics by hand, check whether the tactic is imported: `linear_combination` needs
+`Mathlib.Tactic.LinearCombination`, `module` → `Mathlib.Tactic.Module`, `noncomm_ring` →
+`Mathlib.Tactic.NoncommRing`, `group` → `Mathlib.Tactic.Group`. Adding the import is cheap and
+almost always the right fix. (#7728)
+
 ## Trace-Based Proof Pattern
 
 When a proof involves showing a group algebra element is nonzero, or bounding the dimension of a representation, try using traces of left-multiplication operators.
