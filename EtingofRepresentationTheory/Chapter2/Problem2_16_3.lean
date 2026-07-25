@@ -10,6 +10,8 @@ import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Algebra.Polynomial.Basis
 import Mathlib.LinearAlgebra.Matrix.Trace
+import Mathlib.Algebra.Polynomial.Degree.Support
+import Mathlib.Tactic.LinearCombination
 
 /-!
 # Problem 2.16.3: The Lie algebras `𝔤ₙ = ⟨x, y | ad(x)²y = ad(y)ⁿ⁺¹x = 0⟩`
@@ -1692,6 +1694,69 @@ theorem NY_mem_loopPos : NY k ∈ loopPos k := by
         simp [NY, gzero, constMat, Matrix.single, AlgHom.mapMatrix_apply]
     rw [this]
     exact Submodule.mem_span_singleton_self _
+
+/-! ### The `σ`-eigenspaces are spanned by `gzero` and `gone`
+
+`sigInv_gzero` and `sigInv_gone` place `gzero` in the `+1`-eigenspace of `σ` and `gone` in the
+`-1`-eigenspace. Here we prove the converse inclusions, which is what turns the intrinsic
+description of `loopPos` into the graded one. Both are entry chases through
+`rev = (0 ↔ 2, 1 ↔ 1)`.
+
+Note the `-1`-eigenspace of `σ` on all of `𝔤𝔩₃` is `6`-dimensional (`σ(1) = -1`); it is the
+traceless condition that cuts it down to the `5`-dimensional `gone`. The `+1`-eigenspace is
+automatically traceless, but pinning it to `gzero` needs `2 ≠ 0` (the entries `a₀₂`, `a₁₁`, `a₂₀`
+are only killed by `2a = 0`). -/
+
+/-- Away from characteristic `2`, the `+1`-eigenspace of `σ` on `𝔤𝔩₃` is exactly the span of
+`gzero`. -/
+theorem mem_span_gzero_of_sigInv_eq (k : Type*) [Field k] (h2 : (2 : k) ≠ 0)
+    {A : Matrix (Fin 3) (Fin 3) k} (h : sigInv A = A) :
+    A ∈ Submodule.span k (Set.range (gzero k)) := by
+  have e : ∀ i j : Fin 3, -(A j.rev i.rev) = A i j := fun i j => congrFun (congrFun h i) j
+  have two_cancel : ∀ a : k, -a = a → a = 0 := by
+    intro a ha
+    have : (2 : k) * a = 0 := by linear_combination -ha
+    exact (mul_eq_zero.mp this).resolve_left h2
+  have h02 : A 0 2 = 0 := two_cancel _ (by simpa using e 0 2)
+  have h11 : A 1 1 = 0 := two_cancel _ (by simpa using e 1 1)
+  have h20 : A 2 0 = 0 := two_cancel _ (by simpa using e 2 0)
+  have h22 : A 2 2 = -A 0 0 := by simpa [eq_comm] using e 2 2
+  have h12 : A 1 2 = -A 0 1 := by simpa [eq_comm] using e 1 2
+  have h21 : A 2 1 = -A 1 0 := by simpa [eq_comm] using e 2 1
+  have key : A = A 0 1 • gzero k 0 + A 0 0 • gzero k 1 + A 1 0 • gzero k 2 := by
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [gzero, Matrix.single, Matrix.add_apply, h02, h11, h20, h22, h12, h21]
+  rw [key]
+  refine Submodule.add_mem _ (Submodule.add_mem _ ?_ ?_) ?_ <;>
+    exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨_, rfl⟩)
+
+set_option linter.unnecessarySeqFocus false in
+/-- The traceless part of the `-1`-eigenspace of `σ` on `𝔤𝔩₃` is exactly the span of `gone`.
+No hypothesis on the characteristic is needed. -/
+theorem mem_span_gone_of_sigInv_eq_neg {A : Matrix (Fin 3) (Fin 3) k}
+    (htr : Matrix.trace A = 0) (h : sigInv A = -A) :
+    A ∈ Submodule.span k (Set.range (gone k)) := by
+  have e : ∀ i j : Fin 3, A j.rev i.rev = A i j := by
+    intro i j
+    have := congrFun (congrFun h i) j
+    simpa [Matrix.neg_apply, neg_inj] using this
+  have h22 : A 2 2 = A 0 0 := by simpa using e 0 0
+  have h12 : A 1 2 = A 0 1 := by simpa using e 0 1
+  have h21 : A 2 1 = A 1 0 := by simpa using e 1 0
+  have h11 : A 1 1 = -(2 : k) * A 0 0 := by
+    have := htr
+    simp only [Matrix.trace, Matrix.diag, Fin.sum_univ_three] at this
+    linear_combination this - h22
+  have key : A = A 0 2 • gone k 0 + A 0 1 • gone k 1 + A 0 0 • gone k 2
+      + A 1 0 • gone k 3 + A 2 0 • gone k 4 := by
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [gone, Matrix.single, Matrix.add_apply, h22, h12, h21, h11] <;> ring
+  rw [key]
+  refine Submodule.add_mem _ (Submodule.add_mem _ (Submodule.add_mem _
+    (Submodule.add_mem _ ?_ ?_) ?_) ?_) ?_ <;>
+    exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨_, rfl⟩)
 
 end TwistedLoop
 
