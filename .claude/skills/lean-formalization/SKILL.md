@@ -134,6 +134,21 @@ Keep `lake build <Module>` as the final check before committing (it also catches
 `lakefile`/import-graph problems), but iterate with the `-D` form. Re-read `lakefile.toml`
 if the options list looks stale — it is the source of truth.
 
+**The same caveat applies to `#print axioms`, and the failure mode there is worse:** a
+bare `lake env lean` re-elaborates the file without the `[leanOptions]`, and Lean fills any
+resulting elaboration error with `sorryAx` — so a genuinely sorry-free declaration is
+reported as depending on `sorryAx`. Do not conclude your own work has a sorry on that
+evidence. Either append the `#print axioms` lines to the source and run the `-D` form above,
+or (once `lake build <Module>` has succeeded, so the oleans exist) check against the built
+olean, which never re-elaborates:
+
+```
+printf 'import EtingofRepresentationTheory.<Chapter>.<File>\n#print axioms <Decl>\n' > /tmp/ax.lean
+lake env lean /tmp/ax.lean
+```
+
+A clean declaration reports exactly `[propext, Classical.choice, Quot.sound]`.
+
 **Beware `abbrev` carriers shared by two modules over the same ring.** If `Pplus` and `Pminus`
 are both `abbrev ... : Type := Fin 2 → ℂ`, then because `abbrev` is reducible,
 `Module A Pplus` and `Module A Pminus` are two instances on the *same* type and instance
