@@ -112,7 +112,7 @@ lemma cyclesTensorι_d (j m j' : ℤ) :
       = mapBifunctor.d₂ C D (curriedTensor (ModuleCat.{u} k)) (ComplexShape.up ℤ) j m j' :=
     mapBifunctor.ι_D₂ _ _ _ _ _ _ _ _ _
   rw [cyclesTensorι, Category.assoc]
-  show _ ≫ _ ≫ (HomologicalComplex.tensorObj C D).d _ _ = 0
+  change _ ≫ _ ≫ (HomologicalComplex.tensorObj C D).d _ _ = 0
   rw [mapBifunctor.d_eq, Preadditive.comp_add, h1, h2, Preadditive.comp_add,
     iCycles_tensor_comp_d₁, iCycles_tensor_comp_d₂, add_zero]
 
@@ -124,7 +124,8 @@ noncomputable def cyclesTensorLift (j m : ℤ) :
 
 @[reassoc (attr := simp)]
 lemma cyclesTensorLift_i (j m : ℤ) :
-    cyclesTensorLift C D j m ≫ (HomologicalComplex.tensorObj C D).iCycles (j + m) = cyclesTensorι C D j m :=
+    cyclesTensorLift C D j m ≫ (HomologicalComplex.tensorObj C D).iCycles (j + m)
+      = cyclesTensorι C D j m :=
   HomologicalComplex.liftCycles_i _ _ _ _ _
 
 /-- The cross product on cycles followed by the projection to homology. -/
@@ -181,10 +182,11 @@ private lemma toCycles_whiskerRight_cyclesTensorι (j m : ℤ) :
       intro W z
       rw [← Category.assoc, ← MonoidalCategory.whiskerLeft_comp,
         HomologicalComplex.iCycles_d, MonoidalPreadditive.whiskerLeft_zero, zero_comp]
-    rw [mapBifunctor.d₂_eq' _ _ _ _ (j - 1) (show (ComplexShape.up ℤ).Rel m (m + 1) by simp) (j + m)]
+    rw [mapBifunctor.d₂_eq' _ _ _ _ (j - 1)
+      (show (ComplexShape.up ℤ).Rel m (m + 1) by simp) (j + m)]
     exact comp_units_zsmul_eq_zero _ _ _ (h0 _)
   rw [Category.assoc]
-  show _ = _ ≫ _ ≫ (HomologicalComplex.tensorObj C D).d _ _
+  change _ = _ ≫ _ ≫ (HomologicalComplex.tensorObj C D).d _ _
   rw [mapBifunctor.d_eq, Preadditive.comp_add, h1, h2, Preadditive.comp_add, hzero, add_zero,
     d₁_eq_first, cyclesTensorι, ← Category.assoc, ← Category.assoc,
     ← MonoidalCategory.tensorHom_id, ← MonoidalCategory.id_tensorHom,
@@ -220,10 +222,11 @@ private lemma whiskerLeft_toCycles_cyclesTensorι (j m : ℤ) :
       intro W z
       rw [← Category.assoc, ← MonoidalCategory.comp_whiskerRight,
         HomologicalComplex.iCycles_d, MonoidalPreadditive.zero_whiskerRight, zero_comp]
-    rw [mapBifunctor.d₁_eq' _ _ _ _ (show (ComplexShape.up ℤ).Rel j (j + 1) by simp) (m - 1) (j + m)]
+    rw [mapBifunctor.d₁_eq' _ _ _ _
+      (show (ComplexShape.up ℤ).Rel j (j + 1) by simp) (m - 1) (j + m)]
     exact comp_units_zsmul_eq_zero _ _ _ (h0 _)
   rw [Units.smul_def, Preadditive.zsmul_comp, Category.assoc]
-  show _ = _ • (_ ≫ _ ≫ (HomologicalComplex.tensorObj C D).d _ _)
+  change _ = _ • (_ ≫ _ ≫ (HomologicalComplex.tensorObj C D).d _ _)
   rw [mapBifunctor.d_eq, Preadditive.comp_add, h1, h2, Preadditive.comp_add, hzero, zero_add,
     d₂_eq_second, Units.smul_def, Preadditive.comp_zsmul, smul_smul, int_units_val_mul_self,
     one_smul, cyclesTensorι, ← Category.assoc, ← Category.assoc,
@@ -262,7 +265,7 @@ noncomputable def kunnethAux (j m : ℤ) :
     C.homology j ⊗ D.cycles m ⟶ (HomologicalComplex.tensorObj C D).homology (j + m) :=
   (isColimitTensorRightHomologyπ C j (D.cycles m)).desc
     (CokernelCofork.ofπ (cyclesTensorHomologyπ C D j m) (by
-      show (C.toCycles (j - 1) j ▷ D.cycles m) ≫ cyclesTensorHomologyπ C D j m = 0
+      change (C.toCycles (j - 1) j ▷ D.cycles m) ≫ cyclesTensorHomologyπ C D j m = 0
       rw [cyclesTensorHomologyπ, cyclesTensorLift, ← Category.assoc,
         HomologicalComplex.comp_liftCycles]
       exact HomologicalComplex.liftCycles_homologyπ_eq_zero_of_boundary _ _ _ _ _
@@ -279,9 +282,9 @@ noncomputable def kunnethSummand (j m : ℤ) :
     C.homology j ⊗ D.homology m ⟶ (HomologicalComplex.tensorObj C D).homology (j + m) :=
   (isColimitTensorLeftHomologyπ D m (C.homology j)).desc
     (CokernelCofork.ofπ (kunnethAux C D j m) (by
-      show (C.homology j ◁ D.toCycles (m - 1) m) ≫ kunnethAux C D j m = 0
+      change (C.homology j ◁ D.toCycles (m - 1) m) ≫ kunnethAux C D j m = 0
       refine Cofork.IsColimit.hom_ext (isColimitTensorRightHomologyπ C j (D.X (m - 1))) ?_
-      show (C.homologyπ j ▷ D.X (m - 1)) ≫ _ = (C.homologyπ j ▷ D.X (m - 1)) ≫ _
+      change (C.homologyπ j ▷ D.X (m - 1)) ≫ _ = (C.homologyπ j ▷ D.X (m - 1)) ≫ _
       rw [comp_zero, ← Category.assoc, ← MonoidalCategory.whisker_exchange, Category.assoc,
         whiskerRight_homologyπ_kunnethAux, cyclesTensorHomologyπ, cyclesTensorLift,
         ← Category.assoc, HomologicalComplex.comp_liftCycles]
@@ -345,9 +348,9 @@ lemma cyclesTensorLift_naturality (f : C ⟶ C') (g : D ⟶ D') (j m : ℤ) :
         ≫ cyclesTensorLift C' D' j m
       = cyclesTensorLift C D j m
         ≫ HomologicalComplex.cyclesMap (HomologicalComplex.tensorHom f g) (j + m) := by
-  rw [← cancel_mono ((HomologicalComplex.tensorObj C' D').iCycles (j + m)), Category.assoc, Category.assoc,
-    cyclesTensorLift_i, HomologicalComplex.cyclesMap_i, ← Category.assoc, cyclesTensorLift_i,
-    cyclesTensorι_naturality]
+  rw [← cancel_mono ((HomologicalComplex.tensorObj C' D').iCycles (j + m)),
+    Category.assoc, Category.assoc, cyclesTensorLift_i, HomologicalComplex.cyclesMap_i,
+    ← Category.assoc, cyclesTensorLift_i, cyclesTensorι_naturality]
 
 /-- The cycle-level cross product into homology is natural in both complexes. -/
 lemma cyclesTensorHomologyπ_naturality (f : C ⟶ C') (g : D ⟶ D') (j m : ℤ) :
@@ -372,5 +375,96 @@ lemma kunnethSummand_naturality (f : C ⟶ C') (g : D ⟶ D') (j m : ℤ) :
     homologyπ_tensorHom_kunnethSummand, cyclesTensorHomologyπ_naturality]
 
 end Naturality
+
+section Assembly
+
+/-- The index type of the Künneth decomposition in total degree `i`: pairs `(j, m)` with
+`j + m = i`. -/
+abbrev KunnethIndex (i : ℤ) := {p : ℤ × ℤ // p.1 + p.2 = i}
+
+/-- The **Künneth map** in total degree `i`:
+`∐_{j+m=i} Hʲ(C) ⊗ Hᵐ(D) ⟶ Hⁱ(C ⊗ D)`, assembled from the cross products `kunnethSummand`. -/
+noncomputable def kunnethMap (C D : CochainComplex (ModuleCat.{u} k) ℤ) (i : ℤ) :
+    (∐ fun p : KunnethIndex i => C.homology p.1.1 ⊗ D.homology p.1.2)
+      ⟶ (HomologicalComplex.tensorObj C D).homology i :=
+  Sigma.desc fun p => kunnethSummand C D p.1.1 p.1.2 ≫ eqToHom (by rw [p.2])
+
+@[reassoc (attr := simp)]
+lemma ι_kunnethMap (C D : CochainComplex (ModuleCat.{u} k) ℤ) (i : ℤ) (p : KunnethIndex i) :
+    Sigma.ι (fun p : KunnethIndex i => C.homology p.1.1 ⊗ D.homology p.1.2) p
+        ≫ kunnethMap C D i
+      = kunnethSummand C D p.1.1 p.1.2 ≫ eqToHom (by rw [p.2]) :=
+  Sigma.ι_desc _ _
+
+/-- On the diagonal `j + m = i` the Künneth map is literally the cross product. -/
+lemma ι_kunnethMap_diagonal (C D : CochainComplex (ModuleCat.{u} k) ℤ) (j m : ℤ) :
+    Sigma.ι (fun p : KunnethIndex (j + m) => C.homology p.1.1 ⊗ D.homology p.1.2)
+        ⟨(j, m), rfl⟩ ≫ kunnethMap C D (j + m)
+      = kunnethSummand C D j m := by
+  rw [ι_kunnethMap]
+  simp
+
+/-! ### The two sides as bifunctors, and the Künneth natural transformation -/
+
+/-- The source of the Künneth map as a bifunctor of the pair of complexes:
+`(C, D) ↦ ∐_{j+m=i} Hʲ(C) ⊗ Hᵐ(D)`. -/
+noncomputable def kunnethSource (i : ℤ) :
+    (CochainComplex (ModuleCat.{u} k) ℤ) × (CochainComplex (ModuleCat.{u} k) ℤ) ⥤
+      ModuleCat.{u} k where
+  obj X := ∐ fun p : KunnethIndex i => X.1.homology p.1.1 ⊗ X.2.homology p.1.2
+  map {X Y} φ := Sigma.desc fun p =>
+    (HomologicalComplex.homologyMap φ.1 p.1.1 ⊗ₘ HomologicalComplex.homologyMap φ.2 p.1.2) ≫
+      Sigma.ι (fun p : KunnethIndex i => Y.1.homology p.1.1 ⊗ Y.2.homology p.1.2) p
+  map_id X := by
+    refine Sigma.hom_ext _ _ fun p => ?_
+    simp
+  map_comp {X Y Z} φ ψ := by
+    refine Sigma.hom_ext _ _ fun p => ?_
+    rw [← Category.assoc, Sigma.ι_desc, Sigma.ι_desc, Category.assoc, Sigma.ι_desc,
+      ← Category.assoc]
+    congr 1
+    rw [show (φ ≫ ψ).1 = φ.1 ≫ ψ.1 from rfl, show (φ ≫ ψ).2 = φ.2 ≫ ψ.2 from rfl,
+      HomologicalComplex.homologyMap_comp, HomologicalComplex.homologyMap_comp,
+      MonoidalCategory.tensorHom_comp_tensorHom]
+
+@[reassoc (attr := simp)]
+lemma ι_kunnethSource_map (i : ℤ)
+    {X Y : (CochainComplex (ModuleCat.{u} k) ℤ) × (CochainComplex (ModuleCat.{u} k) ℤ)}
+    (φ : X ⟶ Y) (p : KunnethIndex i) :
+    Sigma.ι (fun p : KunnethIndex i => X.1.homology p.1.1 ⊗ X.2.homology p.1.2) p
+        ≫ (kunnethSource i).map φ
+      = (HomologicalComplex.homologyMap φ.1 p.1.1 ⊗ₘ HomologicalComplex.homologyMap φ.2 p.1.2)
+        ≫ Sigma.ι (fun p : KunnethIndex i => Y.1.homology p.1.1 ⊗ Y.2.homology p.1.2) p :=
+  Sigma.ι_desc _ _
+
+/-- The target of the Künneth map as a bifunctor of the pair of complexes:
+`(C, D) ↦ Hⁱ(C ⊗ D)`. This is the monoidal tensor bifunctor on complexes followed by the
+degree-`i` homology functor. -/
+noncomputable def kunnethTarget (i : ℤ) :
+    (CochainComplex (ModuleCat.{u} k) ℤ) × (CochainComplex (ModuleCat.{u} k) ℤ) ⥤
+      ModuleCat.{u} k :=
+  MonoidalCategory.tensor (CochainComplex (ModuleCat.{u} k) ℤ) ⋙
+    HomologicalComplex.homologyFunctor (ModuleCat.{u} k) (ComplexShape.up ℤ) i
+
+/-- **The Künneth map is a natural transformation of bifunctors.** Its component at `(C, D)`
+is `kunnethMap C D i`, and naturality in each variable is `kunnethSummand_naturality`. -/
+noncomputable def kunnethNatTrans (i : ℤ) :
+    kunnethSource (k := k) i ⟶ kunnethTarget (k := k) i where
+  app X := kunnethMap X.1 X.2 i
+  naturality {X Y} φ := by
+    refine Sigma.hom_ext _ _ fun p => ?_
+    obtain ⟨⟨j, m⟩, rfl⟩ := p
+    simp only [ι_kunnethSource_map_assoc, ι_kunnethMap, ι_kunnethMap_assoc, eqToHom_refl,
+      Category.comp_id, Category.id_comp]
+    exact kunnethSummand_naturality φ.1 φ.2 j m
+
+end Assembly
+
+/-- `Etingof.tensorComplex` is by definition Mathlib's `HomologicalComplex.tensorObj`, so
+`kunnethMap C D i` is also a morphism into `Hⁱ(tensorComplex C D)` and can be used directly by
+clients phrased in terms of `tensorComplex` (such as `Problem7_8_7_iv`). -/
+lemma tensorComplex_eq (C D : CochainComplex (ModuleCat.{u} k) ℤ) :
+    tensorComplex C D = HomologicalComplex.tensorObj C D :=
+  rfl
 
 end Etingof
