@@ -169,8 +169,12 @@ that are pure *deletions* against `main` in files you were not asked to touch,
 especially under `.claude/`. A crashed session can leave an accidental revert of
 accumulated workflow guidance, which is easy to commit without noticing and hard to
 spot in review. Restore those (`git checkout HEAD -- <paths>`) rather than carrying
-them. (2026-07-25: a worktree arrived with 169 lines of `.claude/` guidance deleted
-and nothing added.)
+them. (2026-07-25: twice, worktrees arrived with 169 and 279 lines of `.claude/`
+guidance deleted and nothing added.)
+
+**If the restored files include this skill or your `/command` file, re-read them.**
+Skills load from the working tree, so a truncated `SKILL.md` means the guidance you
+started the session on was the deleted version and you never saw these instructions.
 
 **If you branched off an unmerged PR's head** (see "Dependency code that lives
 only in an unmerged PR" above), decide at publish time:
