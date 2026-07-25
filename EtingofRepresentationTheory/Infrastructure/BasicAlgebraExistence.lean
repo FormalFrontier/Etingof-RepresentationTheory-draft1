@@ -1334,4 +1334,32 @@ theorem exists_basic_morita_equivalent
     hbasic,
     morita_equiv_of_full_idempotent he⟩
 
+/-- **Basic algebra existence, full strength.** For a finite-dimensional algebra `A`
+over an algebraically closed field `k`, the corner ring `B = eAe` produced by
+`exists_full_idempotent_basic_corner` satisfies *both* basic predicates
+(`IsBasicAlgebraSplit` and the book's literal `IsBasicAlgebra`) and is `k`-linearly
+Morita equivalent to `A`.
+
+`exists_basic_morita_equivalent` is this statement with the split-basic conjunct and
+the `k`-linearity of the equivalence forgotten. Those two are exactly what
+`Etingof.Corollary_9_7_3_i_unique` and `Etingof.Corollary_9_7_3_ii` require of their
+input, so downstream consumers that need to feed the constructed `B` into either
+should use this version. -/
+theorem exists_basicSplit_klinearMorita
+    (k : Type u) [Field k] [IsAlgClosed k]
+    (A : Type u) [Ring A] [Algebra k A] [Module.Finite k A] :
+    ∃ (B : Type u) (_ : Ring B) (_ : Algebra k B) (_ : Module.Finite k B),
+      IsBasicAlgebraSplit.{u, u, u} k B ∧ IsBasicAlgebra k B ∧
+        KLinearMoritaEquivalent k A B := by
+  obtain ⟨e, he, hsplit, hbasic⟩ := exists_full_idempotent_basic_corner k A
+  letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
+  letI : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he.1
+  exact ⟨CornerRing (k := k) e,
+    CornerRing.instRing he.1,
+    CornerRing.instAlgebra he.1,
+    CornerRing.instModuleFinite,
+    hsplit,
+    hbasic,
+    klinear_morita_equiv_of_full_idempotent he⟩
+
 end Etingof
