@@ -36,7 +36,8 @@ orbits are exactly the fibres of `tupleSym : (Fin n → I) → Sym I n`, the mul
 * `Etingof.Problem2_11_3.symPowBasis_apply` : the basis vector at a multiset `s` is the class of
   *any* pure tensor `v_{g 0} ⊗ ⋯ ⊗ v_{g (n-1)}` whose indices realise `s`.
 * `Etingof.Problem2_11_3.finrank_symPow` : **Problem 2.11.3(d), symmetric case** — if
-  `dim V = m` then `dim S^n V = (m + n - 1).choose n`.
+  `dim V = m` then `dim S^n V = (m + n - 1).choose n`, restated as
+  `Nat.multichoose m n` in `finrank_symPow_eq_multichoose`.
 -/
 
 namespace Etingof.Problem2_11_3
@@ -307,6 +308,12 @@ theorem finrank_symPow [FiniteDimensional k V] (n : ℕ) :
   classical
   rw [Module.finrank_eq_card_basis (symPowBasis (Module.finBasis k V) n),
     Sym.card_sym_eq_choose, Fintype.card_fin]
+
+/-- The dimension of `S^n V` in multichoose form: the number of size-`n` multisets drawn from
+`dim V` basis vectors. -/
+theorem finrank_symPow_eq_multichoose [FiniteDimensional k V] (n : ℕ) :
+    Module.finrank k (SymPow k V n) = Nat.multichoose (Module.finrank k V) n := by
+  rw [finrank_symPow, Nat.multichoose_eq]
 
 end Finrank
 
