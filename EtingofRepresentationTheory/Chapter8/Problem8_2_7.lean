@@ -29,9 +29,8 @@ import EtingofRepresentationTheory.Chapter8.Problem8_2_6
 
 A finitely generated module over the PID `ℤ` (resp. `k[x]`) is a direct sum of a free module
 and cyclic torsion modules, and `Tor`/`Ext` are additive in each argument, so the whole
-computation reduces to two cases: a **free** generator and a pair of **cyclic** modules. We
-formalize exactly these building blocks, the content the book's "reduce to cyclic groups" hint
-points at:
+computation reduces to two cases: a **free** generator and a pair of **cyclic** modules. This file
+formalizes those building blocks, the content the book's "reduce to cyclic groups" hint points at:
 
 * **Cyclic pair.** For `a, b ≠ 0` (finite cyclic groups `ℤ/a`, `ℤ/b`):
   `Tor₀ ≅ Tor₁ ≅ ℤ/gcd(a,b)` and `Extⁿ⁺² = Ext¹ ≅ Ext⁰ ≅ ℤ/gcd(a,b)`, with `Torᵢ = Extⁱ = 0`
@@ -47,6 +46,24 @@ ring hom (`local instance`s below).
 The reusable number theory is packaged in the `ZModGcd` namespace below: the kernel and
 cokernel of multiplication by `a` on `ZMod b` are both `ZMod (gcd a b)`, giving the tensor and
 Hom isomorphisms `ZMod a ⊗_ℤ ZMod b ≅ ZMod (gcd a b)` and `Hom_ℤ(ZMod a, ZMod b) ≅ ZMod (gcd a b)`.
+
+## Where the arbitrary finitely generated case lives
+
+The building blocks below are *not* the whole exercise: they are the summand-level input to it. The
+reduction of arbitrary finitely generated `M`, `N` to these summands, and the resulting formulas
+for `Extⁱ(M, N)`, are in three further files:
+
+* `Chapter8/PIDDecomposition.lean` — the structure theorem as a biproduct decomposition;
+* `Chapter8/Problem8_2_7_ExtFG.lean` — additivity of `Ext` along a decomposition
+  (`Etingof.extPIDDecompositionAddEquiv` and its one-variable forms), and projective dimension
+  `< 2` for every finitely generated module over a PID (`Etingof.fg_hasProjectiveDimensionLT_two`),
+  which gives `Extⁱ = 0` for `i ≥ 2`;
+* `Chapter8/Problem8_2_7_ExtInt.lean` (part (i)) and `Chapter8/Problem8_2_7_ExtPoly.lean`
+  (part (ii)) — the completed summand tables and the assembled answers
+  `Etingof.Problem_8_2_7_i_ext_fg` and `Etingof.Problem_8_2_7_ii_ext_fg`.
+
+The `Tor` half of the arbitrary finitely generated case uses `Chapter8/Additivity.lean` and is
+tracked separately.
 
 For part (i), the degree-`0` identifications (`Tor₀`, `Ext⁰`), the degree-`1`
 identifications (`Tor₁`, `Ext¹`), and all higher-degree vanishing are established. The degree-`1`
