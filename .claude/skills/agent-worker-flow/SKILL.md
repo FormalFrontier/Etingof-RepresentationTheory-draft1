@@ -207,6 +207,40 @@ coordination skip <issue-number> "reason: <what changed>"
 ```
 Go back to Step 1 and try the next issue.
 
+**If the premise is wrong but the problem is real, fix the real defect, not the
+prescribed one.** A third case sits between "proceed" and `skip`: the issue reports a
+genuine failure but misdiagnoses its cause, so following it literally would leave the
+failure in place or actively damage correct data. Neither exit fits: proceeding as
+written does harm, and `skip` abandons a real defect. Instead:
+
+- Deliver the issue's stated **verification criterion**, not its prescribed **method**.
+  The criterion is what the planner wanted; the method was a guess at how to get there.
+- Comment on the issue, before or alongside opening the PR: what the actual defect was,
+  why the prescribed fix was rejected, and what you did instead.
+- Repeat that reasoning in the PR body, so a reviewer meeting a diff that touches
+  different files than the issue named is not surprised by it.
+- This still counts as full completion (no `--partial`) as long as the criterion is met.
+
+Worked example: #7712 correctly reported `scripts/validate_items.py` exiting 1 with ten
+errors, but blamed `progress/items.json`. Both remedies it proposed would have corrupted
+correct data: the ten entries already matched `PLAN.md` Stage 1.6, and the defect was in
+the validator, which never implemented that part of the spec. PR #7713 fixed the validator,
+met the stated criterion (`validate_items.py` exits 0), and left `items.json` content
+untouched.
+
+**Where the authority sits.** `PLAN.md` is the spec and is off-limits to agents, so when an
+issue body and `PLAN.md` disagree, `PLAN.md` wins and the issue is the thing that is wrong.
+This is the *reverse* of the `directive` rule in Step 1, and the two are easy to confuse: a
+`directive` carries the owner's own stated approach, which is not yours to second-guess even
+when you would have done it differently; an `agent-plan` issue carries a planner's guess,
+which you are expected to check against the spec and the code.
+
+| Situation | Exit |
+|---|---|
+| Plan is stale (work already done, moot, or blocked on an unmerged foundation) | `coordination skip` |
+| Symptom real, diagnosis or prescribed fix wrong | fix the real defect, document the deviation on the issue and in the PR |
+| `directive` whose approach you would have chosen differently | do it as asked (Step 1) |
+
 **items.json status reconciliation — sorry-free ≠ item-complete.** For issues
 that ask you to flip a `partially_*`/`statement_formalized`/`formalized` entry
 to `sorry_free` because "the `.lean` file is sorry-free," read the entry's
