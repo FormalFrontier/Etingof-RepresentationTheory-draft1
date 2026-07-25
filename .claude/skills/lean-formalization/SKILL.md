@@ -1134,6 +1134,43 @@ operators, `Fin p → k` modules):
   — these goals are additive-group identities and `abel` closes them.
 - `push_cast` does not normalise `((t + 1 : ℕ) : Fin n)`; rewrite with `Nat.cast_add_one` first,
   then `abel`.
+- For a longer cast such as `((a + b + 1 : ℕ) : Fin n) = (a : Fin n) + (b : Fin n) + 1`, neither
+  `push_cast; ring` nor `push_cast; abel` closes the goal (`push_cast` also tries to expand any
+  `ℕ`-subtraction hiding in `a` or `b`). Chain the cast lemmas explicitly instead:
+  `rw [Nat.cast_add, Nat.cast_add, Nat.cast_one]`. Worked example: `Ylin_zero_pow_max` in
+  `Chapter2/Problem2_7_4_Family.lean` (#7707).
+
+### `Nat.factorial` postfix notation does not parse inside a type ascription
+
+`n !` is fine on its own, but `((m : ℕ)! : k)` fails with `unexpected token '!'; expected ')',
+',' or ':'`. Inside an ascription (and inside `have h : p ∣ (m : ℕ)!`), write
+`Nat.factorial (m : ℕ)`. The cast-to-`k` form is then `(Nat.factorial (m : ℕ) : k)`, and
+`Finset.prod_range_add_one_eq_factorial : ∏ i ∈ range n, (i + 1) = n !` rewrites it after a
+`← Nat.cast_prod`. Nonvanishing in characteristic `p` is
+`Nat.Prime.dvd_factorial : p.Prime → (p ∣ n ! ↔ p ≤ n)` composed with
+`CharP.cast_eq_zero_iff`.
+
+### `Pi.single` needs its function type pinned when the context does not fix it
+
+`Pi.single`'s family argument `f : I → Type v` stays a metavariable unless the surrounding
+expression determines it, and the failure is reported on the *value*: `application type
+mismatch: the argument 1 has type k but is expected to have type ?m 0`. It bites in `have`
+statements and in equalities where both sides are `Pi.single` applications. Fix by ascribing the
+function, `(Pi.single j (1 : k) : Fin p → k)`; the ascription is erased, so later `rw`s still
+match. Where only an evaluation is needed, `simp [Pi.single_apply, h]` with `h` the relevant
+index disequality avoids the problem entirely.
+
+### `rw [smul_assoc]` / `rw [mul_smul]` match the scalar field's multiplication first
+
+In a proof mixing a base-field scalar and a ring element, e.g.
+`((s⁻¹ * z j) • (x ^ i * y ^ m)) • f`, a bare `rw [smul_assoc]` splits the *field* product
+`s⁻¹ * z j` (via `smul_eq_mul`) rather than the intended module action, and the following
+`rw [mul_smul]` then compounds the mismatch. State each step as a `have` with all arguments
+spelled out (`smul_assoc _ _ _`, `mul_smul _ _ _`, `smul_comm _ _ _`) and rewrite with those.
+Note also that moving a base-field scalar past the ring action needs
+`SMulCommClass k A M` in scope; for a module built by `Module.compHom` from a `k`-algebra map it
+is one line, since each `famRep a` is `k`-linear. Worked example: `famModule_isSimpleModule` in
+`Chapter2/Problem2_7_4_Family.lean` (#7707).
 
 ### Greek-capital notation chars (`Π`, `Σ`, `λ`) can't be identifiers
 
