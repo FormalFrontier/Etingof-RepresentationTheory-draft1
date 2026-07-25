@@ -2665,6 +2665,13 @@ Four gotchas that each cost a build cycle (watch for the analogues in any finite
 4. **`⅟c • x = ↑m` arithmetic**: don't `rw` the card inside `⅟` (the `Invertible` instance is keyed
    on the old term). Use `invOf_smul_eq_iff` (`⅟c • x = y ↔ x = c • y`) to clear the `⅟` first,
    then `rw [<card lemma>, smul_eq_mul]; norm_num` (or `linear_combination` for the cube-root case).
+   Same keying trap in the other direction: do **not** open a proof of a `⅟(card G) • …`-shaped
+   goal with `haveI : Invertible (card G : k) := invertibleOfNonzero …`. The goal's `⅟` was already
+   elaborated with the instance found by search (`invertibleOfPos`), so after `rw`ing in
+   `Etingof.Theorem4_5_1_i` (or `FDRep.scalar_product_char_eq_finrank_equivariant`) the two sides
+   are visually identical but `rfl` fails with "not definitionally equal" on two `Invertible.invOf`
+   terms differing only in their instance argument. Just drop the `haveI` and let instance search
+   supply it on both sides (`Chapter4/Introduction_4_9.lean`, `tensorMultiplicity_eq_inner`).
 For `ℂ_ε`: `zeta3_primitive : IsPrimitiveRoot (zeta3:ℂ) 3` via `Complex.isPrimitiveRoot_exp 3`
 (`rw [show (3:ℂ)=((3:ℕ):ℂ) by norm_num]; exact h` to reconcile `/3` vs `/↑3`), then
 `IsPrimitiveRoot.geom_sum_eq_zero` gives `ζ²+ζ+1=0`; `ζ⁻¹=ζ²`, `(ζ²)⁻¹=ζ` via
