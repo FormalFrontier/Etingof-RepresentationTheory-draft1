@@ -6661,3 +6661,39 @@ a many-iteration `End`-level attempt down to clean, first-try-ish group proofs.
 pred n ih` (not `hz/hp/hn`), and in the `succ`/`pred` branches the bound variable is a **`ℕ`** — so
 write `X ^ (-(n : ℤ))`, never `X ^ (-n)` (the latter elaborates `Neg ℕ` and fails with
 "failed to synthesize instance", often cascading into bogus `X ^ sorry` in later hypotheses).
+
+## Spanning a generated Lie algebra: bracket the *generators*, not every pair (#7719)
+
+To show an explicit family spans `L = Free ⧸ relIdeal` (generated as a Lie algebra by `x̄, ȳ`), the
+obvious route builds a `LieSubalgebra` from `Submodule.span_induction₂` and needs the **full
+pairwise bracket table** — `n²` cases for `n` spanning elements. Don't. Prove once:
+
+> If `M : Submodule k L` contains `x̄` and `ȳ` and is stable under `⁅x̄, ·⁆` and `⁅ȳ, ·⁆`, then
+> `M = ⊤`.
+
+Proof in two moves: (1) `N := {a | ∀ m ∈ M, ⁅a,m⁆ ∈ M}` is a `LieSubalgebra` (its `lie_mem'` is
+`lie_lie` + `Submodule.sub_mem`), it contains the generators by hypothesis, so `N = ⊤` by
+`lieSpan_gens_eq_top`; (2) hence `M` is itself a `LieSubalgebra` (`{ M with lie_mem' := … }`)
+containing the generators, so `M = ⊤` by the same lemma. Recover the submodule equality with
+`congrArg LieSubalgebra.toSubmodule` + `simpa`.
+
+The spanning-set corollary takes `S : Set L` and only asks for `⁅x̄, s⁆, ⁅ȳ, s⁆ ∈ span S` for
+`s ∈ S`; a one-line `Submodule.span_induction` lifts it off `S`. This turned `2n` cases into the
+whole obligation and cut 126 lines out of three existing proofs in `Problem2_16_3.lean`
+(`span_eq_top_one/two/three`, previously 9 / 16 / 36 cases each).
+
+**Related traps in the same session:**
+
+- Files here import *narrow* Mathlib modules, not `Mathlib.Tactic`. `interval_cases` fails with a
+  bare `unknown tactic` until you `import Mathlib.Tactic.IntervalCases`. (`fin_cases`, `module`,
+  `abel` happened to be transitively available; don't assume.)
+- Prefer `interval_cases i` on `i : ℕ` with `hi : i < 5` over `fin_cases` on `Fin 5`: you get clean
+  numeral goals with no `Fin.val` coercions to simp away.
+- For `ad(ȳ)`-strings, `simpa`/`simp` will happily rewrite `aElt k 4 0` back to `xb k 4` and flip
+  brackets by skew-symmetry, so a `simpa … using h'` can land on a *different* normal form than the
+  goal. Use `simp only [smul_smul, inv_mul_cancel₀ h2, one_smul, smul_neg] at h'; exact h'`.
+- To turn `h : E = 0` into a scalar-normalised goal `G = 0`, `rw [← h]; module` is reliable: it
+  rewrites the goal's `0` to `E` and lets `module` do the linear algebra. Safer than trying to
+  massage `h` into shape with `abel`.
+- Index arithmetic from a Leibniz-style recursion leaves `aElt k n (4 + 1)` where lemmas say
+  `aElt k n 5`. Normalise with `simp only [Nat.reduceAdd, …]` before rewriting.
