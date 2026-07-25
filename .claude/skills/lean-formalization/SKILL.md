@@ -125,16 +125,36 @@ Keep `lake build <Module>` as the final check before committing (it also catches
 `lakefile`/import-graph problems), but iterate with the `-D` form. Re-read `lakefile.toml`
 if the options list looks stale — it is the source of truth.
 
-**Beware `abbrev` carriers shared by two modules over the same ring.** In
-`Chapter9/Problem9_3_2.lean`, `Pplus` and `Pminus` are both `abbrev ... : Type := Fin 2 → ℂ`.
-Because `abbrev` is reducible, `Module A Pplus` and `Module A Pminus` are two instances on
-the *same* type, and instance resolution silently picks the last-declared one. The file only
-works because every `P₊` declaration textually precedes the `Module A Pminus` instance — so
-**new lemmas about the earlier module must be inserted before the later instance, not
-appended at the end of the file.** This also blocks forming an indexed family `P : ι → Type`
-of the two modules (needed by `Etingof.algebraCartanMatrix`); that requires giving them
-genuinely distinct carriers. If you are defining several modules over one ring with the same
-underlying type, prefer a one-field structure per module over `abbrev`.
+**Never give two modules over the same ring the same `abbrev` carrier.** Because `abbrev` is
+reducible, `Module A X` and `Module A Y` with `abbrev X := T`, `abbrev Y := T` are two
+instances on the *same* type and instance resolution silently picks the last-declared one.
+Symptoms: lemmas about the earlier module only elaborate if they textually precede the later
+instance, and you cannot form an indexed family `P : ι → Type` of the two modules at all
+(which is what `Etingof.algebraCartanMatrix` consumes). Use a semireducible `def` (or a
+one-field structure) per carrier from the start.
+
+Retyping an existing `abbrev` carrier to a `def` after the fact is mechanical but touches every
+proof about it (~30 sites for the two `Fin 2 → ℂ` carriers of `Chapter9/Problem9_3_2.lean`, done
+in #7704). Budget for these four failure modes, none of which is obvious from the first error:
+
+- **Mathlib's `Pi.add_apply` / `Pi.smul_apply` / … stop firing**, because `simp` matches only up
+  to *reducible* transparency. Add a coordinate API of `rfl` lemmas (`X.add_apply`, `sub_apply`,
+  `neg_apply`, `zero_apply`, `smul_apply`) and an `@[ext]` `X.ext := funext`.
+- **`funext` and `convert … using 1` fail** on `X`-valued goals — `convert` generates a stray
+  *type*-equality subgoal `T = X`. Use `refine X.ext fun i => ?_`, and replace `convert h using 1`
+  with an explicit `have heq : … = … ; rwa [heq] at h`.
+- **A type ascription does not stick**: `(![1, 0] : X)` elaborates to a term whose type is still
+  `T`, so a following `•` fails with `failed to synthesize HSMul A T ?m`. Name the constants
+  you use repeatedly (`X.e0`, `X.e1`) rather than ascribing literals at each use site.
+- **Matrix-valued definitions break**: `Matrix.toLinAlgEquiv' M : Module.End k T` is defeq to
+  `Module.End k X` but its `_apply` simp lemma and `map_mul`/`map_add` rewrites are stated at `T`,
+  so they no longer match. Define the endomorphisms pointwise instead and, to keep the book's
+  matrix presentation, add `*_eq_mulVec` lemmas. (`*ᵥ` is scoped notation in the `Matrix`
+  namespace: spell out `Matrix.mulVec` unless the file `open`s `Matrix`.)
+
+Guard against a vacuous result afterwards: state one `rfl` lemma showing an entry of the
+downstream construction really is the intended `Hom`/`finrank` over the intended *actions*
+(`algebraCartanMatrix_Pfam_apply_zero_one`), not merely over the intended carriers.
 
 **Two Mathlib lemmas can produce the *same* `1`/`0`/`Pi.single i 1` through *different*
 typeclass paths — `rw` then fails syntactically, `exact` succeeds by defeq.** Classic case
