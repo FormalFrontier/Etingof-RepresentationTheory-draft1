@@ -1648,6 +1648,31 @@ and the summand API. Four gotchas, each cost multiple iterations:
 - **Make the complex (and any `mapBifunctorDesc`-based map) an `abbrev`, not `def`.** A `def` wrapper
   is defeq-but-not-syntactic to `mapBifunctor`, so `ι_mapBifunctorDesc`/`d_eq`/`ι_D₁`/`ι_D₂` silently
   fail to fire through it.
+  **The same bites the other way round when you build on an existing `def` wrapper (#7829,
+  `Chapter7/KunnethNatural.lean`).** `Etingof.tensorComplex C D` is a `def` for
+  `HomologicalComplex.tensorObj C D`, but Mathlib's `cyclesMap` / `homologyπ` / `iCycles` /
+  `homologyMap` API always produces the `tensorObj` spelling. Mixing them makes `rw` unable to
+  assign the complex metavariable (`Did not find an occurrence of the pattern
+  cyclesMap ?φ ?i ≫ iCycles ?K ?i`), and `attribute [local reducible]` on the wrapper is
+  *rejected* ("failed to set `[local reducible]` … affects the term indexing datastructures").
+  Pick one spelling — `tensorObj` — for every statement in the file, and record the wrapper
+  bridge as a one-line `rfl` lemma for downstream clients.
+- **`set_option backward.isDefEq.respectTransparency false` file-wide is the right default in any
+  file that touches `mapBifunctor` (#7829).** Goals built from `mapBifunctor.d₁_eq'` / `d₂_eq'`
+  are "not type-correct under `instances` transparency" (the `GradedObject` layers), which makes
+  `rw` *and* `simp only` refuse to match patterns that are visibly present — including trivia
+  like `Preadditive.comp_zsmul`. Mathlib sets the same option in
+  `ShortComplex/HomologicalComplex.lean` and `Bifunctor.lean`. Where even that is not enough:
+  (i) state the equation you need as a `have` in **exactly** the spelling that the goal displays
+  (e.g. `ιTensorObj …`, not the `ιMapBifunctor …` the lemma is stated with) and prove it by
+  applying the Mathlib lemma with all-underscore arguments, then `rw` your `have`; (ii) finish
+  with `exact` rather than `rw`/`simp`, since `exact` unifies at default transparency. Package
+  the recurring Koszul-sign step as a tiny private lemma
+  (`f ≫ g = 0 → f ≫ (e • g) = 0` for `e : ℤˣ`, proved by
+  `rw [Units.smul_def, Preadditive.comp_zsmul, h, smul_zero]`) and apply it with `exact` — the
+  `ε₁`/`ε₂` signs are `ℤˣ`, so `Preadditive.comp_zsmul` only fires after `Units.smul_def`, and
+  `(↑e * ↑e : ℤ) = 1` needs `← Units.val_mul, Int.units_mul_self, Units.val_one` rather than
+  `Int.units_mul_self` directly.
 - **Dependent descent (`mapBifunctorDesc (fun i₁ i₂ h => …)`): use a structural `match`, never
   `obtain ⟨rfl,rfl⟩`.** `obtain` on the opaque proof `h : π(i₁,i₂)=0` leaves a stuck `Eq.ndrec`
   (no iota on a non-`rfl` proof) so `ι_mapBifunctorDesc` reduces to un-usable cruft. Instead
