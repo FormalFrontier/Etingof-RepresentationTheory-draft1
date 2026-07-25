@@ -178,6 +178,32 @@ direction. Three consequences worth knowing before you start:
   `Module.algebraMap_end_apply` upgrade `A`-linearity to `k`-linearity, which is what lets you
   compare scalar actions coordinatewise.
 
+**The phantom-parameter type synonym is the cheaper fix.** Rather than threading `@LinearEquiv`
+by hand, a plain (semireducible) `def` with the distinguishing data as unused parameters gives
+genuinely distinct carriers at zero wrapping cost — no `structure`, no `.mk`/`.val` noise,
+everything still defeq to the underlying type:
+```lean
+def Fam (_q _α _β : ℂˣ) : Type := Fin (orderOf _q) → ℂ
+instance : AddCommGroup (Fam q α β) := inferInstanceAs (AddCommGroup (Fin (orderOf q) → ℂ))
+noncomputable instance famQWeylModule : Module (qWeylAlgebra ℂ q) (Fam q α β) := ...
+```
+Instance search does not unfold a `def`, so `Fam q α β` and `Fam q α' β'` get separate
+instances and `V ≅ V'` can be written with plain `≃ₗ[A]`, while defeq still lets you `exact`
+the underlying-type lemmas directly (`Chapter2/Problem2_7_5_Iso.lean`). Two further points that
+matter:
+
+* **Index by a value, not a hypothesis, so the action can be a real `instance`.** Baking
+  `N := orderOf q` into the synonym turns a `(hqorder : orderOf q = N)` argument into `rfl`,
+  which is what lets `Module A (Fam q α β)` be an `instance` instead of something every
+  downstream statement has to `letI` in.
+* **Verify the statement is not the vacuous one anyway.** Whenever a statement compares two
+  structures on one underlying type, check with `set_option pp.explicit true in #check @thm`
+  that the two sides really carry the *different* instances before believing the result — the
+  collapsed version compiles, has no `sorry`, and passes `#print axioms`.
+
+`Chapter9/Problem9_3_2.lean`'s `Pplus`/`Pminus` (issue #7704, "give P₊ and P₋ distinct
+carriers") is the same pattern with the parameters dropped entirely.
+
 **Two Mathlib lemmas can produce the *same* `1`/`0`/`Pi.single i 1` through *different*
 typeclass paths — `rw` then fails syntactically, `exact` succeeds by defeq.** Classic case
 (cost real iterations in #6597, `Chapter9/Problem9_5_3_PrimitiveIdempotents.lean`):
