@@ -232,6 +232,78 @@ private lemma whiskerLeft_toCycles_cyclesTensorι (j m : ℤ) :
     MonoidalCategory.tensorHom_comp_tensorHom]
   simp
 
+/-! ### Descending the cross product to homology
+
+`Hʲ(C)` is the cokernel of `toCycles : Cʲ⁻¹ ⟶ Zʲ(C)`, and `ModuleCat k` is monoidal closed,
+so `tensorRight Z` and `tensorLeft W` are left adjoints and preserve that cokernel. Descending
+first in the `C` variable and then in the `D` variable produces the cross product on homology
+without any choice of splitting.
+-/
+
+/-- `homologyπ ▷ Z` is a cokernel of `toCycles ▷ Z`. -/
+noncomputable def isColimitTensorRightHomologyπ (j : ℤ) (Z : ModuleCat.{u} k) :
+    IsColimit (CokernelCofork.ofπ ((tensorRight Z).map (C.homologyπ j))
+      (show (tensorRight Z).map (C.toCycles (j - 1) j) ≫ (tensorRight Z).map (C.homologyπ j) = 0 by
+        rw [← Functor.map_comp, HomologicalComplex.toCycles_comp_homologyπ, Functor.map_zero])) :=
+  isColimitCoforkMapOfIsColimit' (tensorRight Z) _
+    (C.homologyIsCokernel (j - 1) j (by simp))
+
+/-- `W ◁ homologyπ` is a cokernel of `W ◁ toCycles`. -/
+noncomputable def isColimitTensorLeftHomologyπ (m : ℤ) (W : ModuleCat.{u} k) :
+    IsColimit (CokernelCofork.ofπ ((tensorLeft W).map (D.homologyπ m))
+      (show (tensorLeft W).map (D.toCycles (m - 1) m) ≫ (tensorLeft W).map (D.homologyπ m) = 0 by
+        rw [← Functor.map_comp, HomologicalComplex.toCycles_comp_homologyπ, Functor.map_zero])) :=
+  isColimitCoforkMapOfIsColimit' (tensorLeft W) _
+    (D.homologyIsCokernel (m - 1) m (by simp))
+
+/-- The cross product after descending in the first variable only:
+`Hʲ(C) ⊗ Zᵐ(D) ⟶ H^{j+m}(C ⊗ D)`. -/
+noncomputable def kunnethAux (j m : ℤ) :
+    C.homology j ⊗ D.cycles m ⟶ (tensorComplex C D).homology (j + m) :=
+  (isColimitTensorRightHomologyπ C j (D.cycles m)).desc
+    (CokernelCofork.ofπ (cyclesTensorHomologyπ C D j m) (by
+      show (C.toCycles (j - 1) j ▷ D.cycles m) ≫ cyclesTensorHomologyπ C D j m = 0
+      rw [cyclesTensorHomologyπ, cyclesTensorLift, ← Category.assoc,
+        HomologicalComplex.comp_liftCycles]
+      exact HomologicalComplex.liftCycles_homologyπ_eq_zero_of_boundary _ _ _ _ _
+        (toCycles_whiskerRight_cyclesTensorι C D j m)))
+
+@[reassoc (attr := simp)]
+lemma whiskerRight_homologyπ_kunnethAux (j m : ℤ) :
+    (C.homologyπ j ▷ D.cycles m) ≫ kunnethAux C D j m = cyclesTensorHomologyπ C D j m :=
+  Cofork.IsColimit.π_desc (isColimitTensorRightHomologyπ C j (D.cycles m))
+
+/-- The **cross product** on homology,
+`κ_{j,m} : Hʲ(C) ⊗ Hᵐ(D) ⟶ H^{j+m}(C ⊗ D)`. -/
+noncomputable def kunnethSummand (j m : ℤ) :
+    C.homology j ⊗ D.homology m ⟶ (tensorComplex C D).homology (j + m) :=
+  (isColimitTensorLeftHomologyπ D m (C.homology j)).desc
+    (CokernelCofork.ofπ (kunnethAux C D j m) (by
+      show (C.homology j ◁ D.toCycles (m - 1) m) ≫ kunnethAux C D j m = 0
+      refine Cofork.IsColimit.hom_ext (isColimitTensorRightHomologyπ C j (D.X (m - 1))) ?_
+      show (C.homologyπ j ▷ D.X (m - 1)) ≫ _ = (C.homologyπ j ▷ D.X (m - 1)) ≫ _
+      rw [comp_zero, ← Category.assoc, ← MonoidalCategory.whisker_exchange, Category.assoc,
+        whiskerRight_homologyπ_kunnethAux, cyclesTensorHomologyπ, cyclesTensorLift,
+        ← Category.assoc, HomologicalComplex.comp_liftCycles]
+      exact HomologicalComplex.liftCycles_homologyπ_eq_zero_of_boundary _ _ _ _ _
+        (whiskerLeft_toCycles_cyclesTensorι C D j m)))
+
+/-- The defining equation of the cross product: it is the unique map making the square with
+`homologyπ ⊗ homologyπ` and the cycle-level cross product commute. -/
+@[reassoc (attr := simp)]
+lemma whiskerLeft_homologyπ_kunnethSummand (j m : ℤ) :
+    (C.homology j ◁ D.homologyπ m) ≫ kunnethSummand C D j m = kunnethAux C D j m :=
+  Cofork.IsColimit.π_desc (isColimitTensorLeftHomologyπ D m (C.homology j))
+
+/-- The workhorse identity: precomposing the cross product with `homologyπ ⊗ homologyπ`
+recovers the cycle-level cross product. -/
+@[reassoc (attr := simp)]
+lemma homologyπ_tensorHom_kunnethSummand (j m : ℤ) :
+    (C.homologyπ j ⊗ₘ D.homologyπ m) ≫ kunnethSummand C D j m
+      = cyclesTensorHomologyπ C D j m := by
+  rw [MonoidalCategory.tensorHom_def, Category.assoc, whiskerLeft_homologyπ_kunnethSummand,
+    whiskerRight_homologyπ_kunnethAux]
+
 end CrossProduct
 
 end Etingof
