@@ -16,9 +16,21 @@ open FDRep CategoryTheory CategoryTheory.Limits Module
 
 variable {k : Type} [Field k] [IsAlgClosed k] [CharZero k]
 
+/-! ## Reusable semisimplicity lemmas
+
+The lemmas in this namespace are the categorical core of the corollary: `FDRep k G` is
+semisimple (Maschke), so every nonzero object has a simple direct summand
+(`exists_simple_biprod`), and two objects with the same Hom-space dimensions from every object
+are isomorphic (`iso_of_hom_finrank_eq`). They are stated for a general algebraically closed
+field and reused by the isotypic-decomposition infrastructure
+(`EtingofRepresentationTheory.Infrastructure.FDRepIsotypic`).
+-/
+
+namespace Etingof.Semisimple
+
 omit [IsAlgClosed k] in
 /-- Equal characters ⟹ equal Hom-space dimensions from any S. -/
-private lemma hom_finrank_eq_of_char_eq
+lemma hom_finrank_eq_of_char_eq
     {G : Type} [Group G] [Fintype G]
     (V W : FDRep k G)
     (h : FDRep.character V = FDRep.character W)
@@ -33,7 +45,7 @@ private lemma hom_finrank_eq_of_char_eq
 
 omit [IsAlgClosed k] in
 /-- Equal characters imply equal dimension. -/
-private lemma finrank_eq_of_char_eq
+lemma finrank_eq_of_char_eq
     {G : Type} [Group G] [Fintype G]
     (V W : FDRep k G)
     (h : FDRep.character V = FDRep.character W) :
@@ -44,7 +56,7 @@ private lemma finrank_eq_of_char_eq
   exact_mod_cast h1.symm.trans (h3.trans h2)
 
 /-- In a preadditive k-linear category, Hom into a biproduct decomposes as a product. -/
-private noncomputable def homBiprodLinearEquiv
+noncomputable def homBiprodLinearEquiv
     {G : Type} [Group G] [Fintype G]
     (T X Y : FDRep k G) [HasBinaryBiproduct X Y] :
     (T ⟶ X ⊞ Y) ≃ₗ[k] (T ⟶ X) × (T ⟶ Y) where
@@ -59,7 +71,7 @@ private noncomputable def homBiprodLinearEquiv
   right_inv p := by simp
 
 omit [IsAlgClosed k] [CharZero k] in
-private lemma finrank_hom_biprod_eq
+lemma finrank_hom_biprod_eq
     {G : Type} [Group G] [Fintype G]
     (T X Y : FDRep k G) [HasBinaryBiproduct X Y] :
     finrank k (T ⟶ X ⊞ Y) = finrank k (T ⟶ X) + finrank k (T ⟶ Y) := by
@@ -68,7 +80,7 @@ private lemma finrank_hom_biprod_eq
 
 omit [IsAlgClosed k] [CharZero k] in
 /-- In FDRep k G, Hom dimensions are preserved by isomorphism in the target. -/
-private lemma finrank_hom_iso
+lemma finrank_hom_iso
     {G : Type} [Group G] [Fintype G]
     (T V W : FDRep k G) (φ : V ≅ W) :
     finrank k (T ⟶ V) = finrank k (T ⟶ W) :=
@@ -82,7 +94,7 @@ private lemma finrank_hom_iso
 
 omit [IsAlgClosed k] [CharZero k] in
 /-- finrank is preserved by FDRep isomorphisms. -/
-private lemma finrank_iso
+lemma finrank_iso
     {G : Type} [Group G] [Fintype G]
     (V W : FDRep k G) (φ : V ≅ W) :
     finrank k V = finrank k W :=
@@ -90,7 +102,7 @@ private lemma finrank_iso
 
 omit [IsAlgClosed k] [CharZero k] in
 /-- finrank of a biproduct in FDRep equals the sum of finranks. -/
-private lemma finrank_biprod
+lemma finrank_biprod
     {G : Type} [Group G] [Fintype G]
     (X Y : FDRep k G) [HasBinaryBiproduct X Y] :
     finrank k (X ⊞ Y : FDRep k G) = finrank k X + finrank k Y := by
@@ -132,7 +144,7 @@ private lemma finrank_biprod
 
 omit [IsAlgClosed k] [CharZero k] in
 /-- Zero case: if V is zero and all Hom dimensions match, then W is also zero. -/
-private lemma iso_of_hom_finrank_eq_zero
+lemma iso_of_hom_finrank_eq_zero
     {G : Type} [Group G] [Fintype G]
     (V W : FDRep k G)
     (hV0 : IsZero V)
@@ -149,7 +161,7 @@ private lemma iso_of_hom_finrank_eq_zero
 
 omit [CharZero k] in
 /-- Simple FDRep objects have positive finrank. -/
-private lemma finrank_pos_of_simple
+lemma finrank_pos_of_simple
     {G : Type} [Group G] [Fintype G]
     (S : FDRep k G) [Simple S] : 0 < finrank k S := by
   by_contra h
@@ -167,7 +179,7 @@ private lemma finrank_pos_of_simple
 omit [IsAlgClosed k] in
 /-- In FDRep k G (semisimple by Maschke), any nonzero morphism from a simple object
 is mono and splits: if f : S ⟶ W is nonzero with S simple, then W ≅ S ⊞ W'. -/
-private lemma biprod_of_nonzero_from_simple
+lemma biprod_of_nonzero_from_simple
     {G : Type} [Group G] [Fintype G]
     (S W : FDRep k G) [Simple S] (f : S ⟶ W) (hf : f ≠ 0) :
     ∃ (W' : FDRep k G), Nonempty (W ≅ S ⊞ W') := by
@@ -188,7 +200,7 @@ private lemma biprod_of_nonzero_from_simple
 
 omit [IsAlgClosed k] [CharZero k] in
 /-- A split mono in FDRep gives a biproduct decomposition with the cokernel. -/
-private lemma biprod_of_split_mono
+lemma biprod_of_split_mono
     {G : Type} [Group G] [Fintype G]
     (Y V : FDRep k G) (f : Y ⟶ V) [Mono f] [IsSplitMono f] :
     Nonempty (V ≅ Y ⊞ cokernel f) := by
@@ -199,17 +211,21 @@ private lemma biprod_of_split_mono
     HasBinaryBiproduct.mk ⟨bc, hbl⟩
   exact ⟨biprod.uniqueUpToIso Y (cokernel f) hbl⟩
 
+omit [IsAlgClosed k] [CharZero k] in
+/-- A finite-dimensional representation of dimension `0` is a zero object. -/
+lemma isZero_of_finrank_zero
+    {G : Type} [Group G] [Fintype G]
+    (W : FDRep k G) (h0 : finrank k W = 0) : IsZero W := by
+  rw [IsZero.iff_id_eq_zero]
+  have hsub : Subsingleton W := Module.finrank_zero_iff.mp h0
+  exact Action.Hom.ext (FGModuleCat.hom_ext (LinearMap.ext (fun x => hsub.elim _ _)))
+
 omit [IsAlgClosed k] in
 /-- In FDRep k G (semisimple by Maschke), any nonzero object has a simple direct summand. -/
-private lemma exists_simple_biprod
+lemma exists_simple_biprod
     {G : Type} [Group G] [Fintype G]
     (V : FDRep k G) (hV : ¬IsZero V) :
     ∃ (S V' : FDRep k G), Simple S ∧ Nonempty (V ≅ S ⊞ V') := by
-  -- Helper: zero finrank implies IsZero
-  have isZero_of_finrank_zero : ∀ (W : FDRep k G), finrank k W = 0 → IsZero W := by
-    intro W h0; rw [IsZero.iff_id_eq_zero]
-    have hsub : Subsingleton W := Module.finrank_zero_iff.mp h0
-    exact Action.Hom.ext (FGModuleCat.hom_ext (LinearMap.ext (fun x => hsub.elim _ _)))
   haveI : NeZero (Nat.card G : k) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
   -- Strong induction on finrank
   suffices key : ∀ (n : ℕ) (V : FDRep k G), ¬IsZero V → finrank k V ≤ n →
@@ -276,7 +292,7 @@ private lemma exists_simple_biprod
 /-- In a semisimple category (FDRep k G), objects with equal Hom-space dimensions
 from every object are isomorphic. This is the categorical core: it uses semisimplicity
 (Maschke) and Schur's lemma to match simple constituents. -/
-private lemma iso_of_hom_finrank_eq
+lemma iso_of_hom_finrank_eq
     {G : Type} [Group G] [Fintype G]
     (V W : FDRep k G)
     (h : ∀ S : FDRep k G, finrank k (S ⟶ V) = finrank k (S ⟶ W)) :
@@ -336,6 +352,10 @@ private lemma iso_of_hom_finrank_eq
         omega
       obtain ⟨θ⟩ := ih V' W' hV'_le hV'W'
       exact ⟨φ.trans ((biprod.mapIso (Iso.refl S) θ).trans ψ.symm)⟩
+
+end Etingof.Semisimple
+
+open Etingof.Semisimple
 
 /-- Over an algebraically closed field of characteristic zero, finite-dimensional
 representations of a finite group are determined by their characters.
