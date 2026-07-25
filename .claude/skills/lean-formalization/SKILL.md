@@ -1528,6 +1528,25 @@ A `(sign π : ℤ) • p` from a determinant/Vandermonde expansion is the `AddCo
 action `coeff_smul` expects, so `rw [MvPolynomial.coeff_smul]` reports "did not find pattern". Convert both directions:
 `rw [← Int.cast_smul_eq_zsmul (R := ℂ) z, MvPolynomial.coeff_smul, …, Int.cast_smul_eq_zsmul (R := ℂ)]`.
 
+### A `def` whose type variable appears only in its *result* type can't be applied — pass `(V := V)` (#7365, #7817)
+
+`noncomputable def foo {n : ℕ} (h : …) : SymPow k V n ≃ₗ[k] bar k V n` takes `V` from a
+`variable {V}` binder, and `V` occurs nowhere in `n` or `h`. Applying it — `foo h x`, or even
+`(foo h).symm x` — fails with
+
+```
+Function expected at
+  foo h
+but this term has type
+  SymPow k ?m.14 n ≃ₗ[k] ↥(bar k ?m.14 n)
+```
+
+which reads like a coercion problem but is not: `?m` is just unsolved because nothing constrains
+it before the application is elaborated. Write `foo (V := V) h`. Bites every downstream `@[simp]`
+lemma and `rfl` compatibility statement about such a definition, so pin it on the *first* use.
+Hit twice in a row on the Problem 2.11.3 symmetric/exterior power files
+(`exteriorPowerEquiv`, then `symPowEquivSymTensor` / `extPowEquivAltTensor`).
+
 ### `Representation.character` on a `tprod`/`prod`/`directSum` fails to elaborate — pin the carrier `(V := …)` (#7538, Ch4 Problem 4.12.6)
 
 Post-v4.32 Mathlib adds *shortcut* `Semiring ℂ`/`CommSemiring ℂ`/`AddCommMonoid ℂ` instances
