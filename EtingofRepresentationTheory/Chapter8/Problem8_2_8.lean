@@ -104,8 +104,39 @@ tensors.
 
 The proof is the four-step book route: a tensor of projective resolutions
 (`extTensorProjectiveResolution`), the complex-level rearrangement `rearrangeComplex`, and the
-algebraic Künneth theorem over the field `kunnethChainComplexNat`, with the factor homologies
+algebraic Künneth theorem over the field `kunnethChainComplexNatIso`, with the factor homologies
 identified as `Torₖ` through `torIsoHomologyTensorRightₖ`. -/
+noncomputable def Problem_8_2_8_torIso (i : ℕ)
+    (hN : ∀ (a₁ : A₁) (a₂ : A₂) (n₁ : N₁) (n₂ : N₂),
+      (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂) • (n₁ ⊗ₜ[k] n₂ : N₁ ⊗[k] N₂)
+        = (a₁ • n₁) ⊗ₜ[k] (a₂ • n₂)) :
+    Torₖ k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (extTensorFunctorObj k A₁ A₂ M₁ M₂) i
+      ≅ ∐ fun p : {p : ℕ × ℕ // p.1 + p.2 = i} =>
+          Torₖ k A₁ N₁ M₁ p.1.1 ⊗ Torₖ k A₂ N₂ M₂ p.1.2 :=
+  -- Chosen projective resolutions of the two right modules, and of their external tensor.
+  let P₁ : ProjectiveResolution M₁ := ProjectiveResolution.of M₁
+  let P₂ : ProjectiveResolution M₂ := ProjectiveResolution.of M₂
+  let Q : ProjectiveResolution (extTensorFunctorObj k A₁ A₂ M₁ M₂) :=
+    extTensorProjectiveResolution P₁ P₂
+  -- The two `k`-linear factor complexes `Cᵢ = P•ᵢ ⊗_{Aᵢ} Nᵢ`.
+  -- Step 1: `Torᵢ` of the external tensor = `Hᵢ` of `(P•₁ ⊗_k P•₂) ⊗_{A₁⊗A₂} (N₁⊗ₖN₂)`.
+  torIsoHomologyTensorRightₖ k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)
+      (extTensorFunctorObj k A₁ A₂ M₁ M₂) Q i ≪≫
+  -- Step 2 & 3: rearrange the complex to `(P•₁ ⊗_{A₁} N₁) ⊗_k (P•₂ ⊗_{A₂} N₂)`, then take `Hᵢ`.
+  (HomologicalComplex.homologyFunctor (ModuleCat.{u} k) (ComplexShape.down ℕ) i).mapIso
+      (rearrangeComplex k A₁ A₂ N₁ N₂ hN P₁ P₂) ≪≫
+  -- Step 4a: algebraic Künneth over the field for the tensor of the two factor complexes.
+  kunnethChainComplexNatIso
+      (((tensorRightFunctorₖ k A₁ N₁).mapHomologicalComplex (ComplexShape.down ℕ)).obj P₁.complex)
+      (((tensorRightFunctorₖ k A₂ N₂).mapHomologicalComplex (ComplexShape.down ℕ)).obj P₂.complex)
+      i ≪≫
+  -- Step 4b: identify the factor homologies as `Torⱼ^{A₁}` / `Torₘ^{A₂}`.
+  Sigma.mapIso (fun p => tensorIso
+    (torIsoHomologyTensorRightₖ k A₁ N₁ M₁ P₁ p.1.1).symm
+    (torIsoHomologyTensorRightₖ k A₂ N₂ M₂ P₂ p.1.2).symm)
+
+/-- **Problem 8.2.8, `Tor`**, `Nonempty` form: a one-line corollary of the isomorphism
+`Problem_8_2_8_torIso`, kept for consumers phrased in terms of `Nonempty`. -/
 theorem Problem_8_2_8_tor (i : ℕ)
     (hN : ∀ (a₁ : A₁) (a₂ : A₂) (n₁ : N₁) (n₂ : N₂),
       (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂) • (n₁ ⊗ₜ[k] n₂ : N₁ ⊗[k] N₂)
@@ -113,29 +144,8 @@ theorem Problem_8_2_8_tor (i : ℕ)
     Nonempty
       (Torₖ k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (extTensorFunctorObj k A₁ A₂ M₁ M₂) i
         ≅ ∐ fun p : {p : ℕ × ℕ // p.1 + p.2 = i} =>
-            Torₖ k A₁ N₁ M₁ p.1.1 ⊗ Torₖ k A₂ N₂ M₂ p.1.2) := by
-  -- Chosen projective resolutions of the two right modules, and of their external tensor.
-  let P₁ : ProjectiveResolution M₁ := ProjectiveResolution.of M₁
-  let P₂ : ProjectiveResolution M₂ := ProjectiveResolution.of M₂
-  let Q : ProjectiveResolution (extTensorFunctorObj k A₁ A₂ M₁ M₂) :=
-    extTensorProjectiveResolution P₁ P₂
-  -- The two `k`-linear factor complexes `Cᵢ = P•ᵢ ⊗_{Aᵢ} Nᵢ`.
-  refine ⟨
-    -- Step 1: `Torᵢ` of the external tensor = `Hᵢ` of `(P•₁ ⊗_k P•₂) ⊗_{A₁⊗A₂} (N₁⊗ₖN₂)`.
-    torIsoHomologyTensorRightₖ k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)
-        (extTensorFunctorObj k A₁ A₂ M₁ M₂) Q i ≪≫
-    -- Step 2 & 3: rearrange the complex to `(P•₁ ⊗_{A₁} N₁) ⊗_k (P•₂ ⊗_{A₂} N₂)`, then take `Hᵢ`.
-    (HomologicalComplex.homologyFunctor (ModuleCat.{u} k) (ComplexShape.down ℕ) i).mapIso
-        (rearrangeComplex k A₁ A₂ N₁ N₂ hN P₁ P₂) ≪≫
-    -- Step 4a: algebraic Künneth over the field for the tensor of the two factor complexes.
-    (kunnethChainComplexNat
-        (((tensorRightFunctorₖ k A₁ N₁).mapHomologicalComplex (ComplexShape.down ℕ)).obj P₁.complex)
-        (((tensorRightFunctorₖ k A₂ N₂).mapHomologicalComplex (ComplexShape.down ℕ)).obj P₂.complex)
-        i).some ≪≫
-    -- Step 4b: identify the factor homologies as `Torⱼ^{A₁}` / `Torₘ^{A₂}`.
-    Sigma.mapIso (fun p => tensorIso
-      (torIsoHomologyTensorRightₖ k A₁ N₁ M₁ P₁ p.1.1).symm
-      (torIsoHomologyTensorRightₖ k A₂ N₂ M₂ P₂ p.1.2).symm)⟩
+            Torₖ k A₁ N₁ M₁ p.1.1 ⊗ Torₖ k A₂ N₂ M₂ p.1.2) :=
+  ⟨Problem_8_2_8_torIso k A₁ A₂ M₁ M₂ N₁ N₂ i hN⟩
 
 end Tor
 
@@ -233,7 +243,7 @@ The proof is the four-step book route dualised through `Hom`:
    with `P•₁ ⊗ₖ P•₂ = extTensorProjectiveResolutionLeft P₁ P₂`;
 2. rearrange the Hom cochain complex to `Hom_{A₁}(P•₁, N₁) ⊗ₖ Hom_{A₂}(P•₂, N₂)`
    (`rearrangeHomComplex`, needs the `Pᵢ` finitely generated projective), then take `Hⁱ`;
-3. cochain Künneth over `k` (`kunnethCochainComplexNat`);
+3. cochain Künneth over `k` (`kunnethCochainComplexNatIso`);
 4. identify the factor cohomologies as `Extⱼ^{A₁}` / `Extₘ^{A₂}` (`extIsoCohomologyHomₖ` again).
 
 The finite-generation of the `Pᵢ` (an `∀ j, Module.Finite Aᵢ (Pᵢ.complex.X j)` hypothesis) is what
@@ -241,6 +251,40 @@ makes the degreewise Hom-tensor map an isomorphism; it holds for finite dimensio
 finite dimensional `Aᵢ`. This `Extₖ` isomorphism is used in the derived-category `Etingof.Ext`
 statement `Problem_8_2_8_ext` through the module-structure reconciliation and the
 `Etingof.Ext ≃ Extₖ` comparison isomorphism. -/
+noncomputable def Problem_8_2_8_extₖIso (i : ℕ)
+    (P₁ : ProjectiveResolution (ModuleCat.of A₁ M₁))
+    (P₂ : ProjectiveResolution (ModuleCat.of A₂ M₂))
+    [∀ j, Module.Finite A₁ (P₁.complex.X j)] [∀ j, Module.Projective A₁ (P₁.complex.X j)]
+    [∀ m, Module.Finite A₂ (P₂.complex.X m)] [∀ m, Module.Projective A₂ (P₂.complex.X m)]
+    [IsScalarTower k A₁ N₁] [IsScalarTower k A₂ N₂]
+    [instN : Module (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)]
+    [IsScalarTower k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)]
+    (hN : ∀ (a₁ : A₁) (a₂ : A₂) (n₁ : N₁) (n₂ : N₂),
+      (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂) • (n₁ ⊗ₜ[k] n₂ : N₁ ⊗[k] N₂)
+        = (a₁ • n₁) ⊗ₜ[k] (a₂ • n₂)) :
+    Extₖ k (A₁ ⊗[k] A₂)
+        (extTensorFunctorLeftObj k A₁ A₂ (ModuleCat.of A₁ M₁) (ModuleCat.of A₂ M₂))
+        (ModuleCat.of (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)) i
+      ≅ ∐ fun p : {p : ℕ × ℕ // p.1 + p.2 = i} =>
+          Extₖ k A₁ (ModuleCat.of A₁ M₁) (ModuleCat.of A₁ N₁) p.1.1
+            ⊗ Extₖ k A₂ (ModuleCat.of A₂ M₂) (ModuleCat.of A₂ N₂) p.1.2 :=
+    -- Step 1: `Extⁱ` of the external tensor = `Hⁱ` of `Hom_{A₁⊗A₂}(P•₁ ⊗ₖ P•₂, N₁⊗ₖN₂)`.
+    extIsoCohomologyHomₖ k (A₁ ⊗[k] A₂) _
+        (ModuleCat.of (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)) (extTensorProjectiveResolutionLeft P₁ P₂) i ≪≫
+    -- Step 2 & 3: rearrange to `Hom_{A₁}(P•₁,N₁) ⊗ₖ Hom_{A₂}(P•₂,N₂)`, then take `Hⁱ`.
+    (HomologicalComplex.homologyFunctor (ModuleCat.{u} k) (ComplexShape.up ℕ) i).mapIso
+        (rearrangeHomComplex k N₁ N₂ hN P₁ P₂) ≪≫
+    -- Step 4a: cochain Künneth over the field for the tensor of the two Hom complexes.
+    kunnethCochainComplexNatIso
+        (P₁.complex.linearYonedaObj k (ModuleCat.of A₁ N₁))
+        (P₂.complex.linearYonedaObj k (ModuleCat.of A₂ N₂)) i ≪≫
+    -- Step 4b: identify the factor cohomologies as `Extⱼ^{A₁}` / `Extₘ^{A₂}`.
+    Sigma.mapIso (fun p => tensorIso
+      (extIsoCohomologyHomₖ k A₁ (ModuleCat.of A₁ M₁) (ModuleCat.of A₁ N₁) P₁ p.1.1).symm
+      (extIsoCohomologyHomₖ k A₂ (ModuleCat.of A₂ M₂) (ModuleCat.of A₂ N₂) P₂ p.1.2).symm)
+
+/-- **Problem 8.2.8, `Extₖ`**, `Nonempty` form: a one-line corollary of the isomorphism
+`Problem_8_2_8_extₖIso`, kept for consumers phrased in terms of `Nonempty`. -/
 theorem Problem_8_2_8_extₖ (i : ℕ)
     (P₁ : ProjectiveResolution (ModuleCat.of A₁ M₁))
     (P₂ : ProjectiveResolution (ModuleCat.of A₂ M₂))
@@ -258,22 +302,8 @@ theorem Problem_8_2_8_extₖ (i : ℕ)
           (ModuleCat.of (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)) i
         ≅ ∐ fun p : {p : ℕ × ℕ // p.1 + p.2 = i} =>
             Extₖ k A₁ (ModuleCat.of A₁ M₁) (ModuleCat.of A₁ N₁) p.1.1
-              ⊗ Extₖ k A₂ (ModuleCat.of A₂ M₂) (ModuleCat.of A₂ N₂) p.1.2) := by
-  refine ⟨
-    -- Step 1: `Extⁱ` of the external tensor = `Hⁱ` of `Hom_{A₁⊗A₂}(P•₁ ⊗ₖ P•₂, N₁⊗ₖN₂)`.
-    extIsoCohomologyHomₖ k (A₁ ⊗[k] A₂) _
-        (ModuleCat.of (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)) (extTensorProjectiveResolutionLeft P₁ P₂) i ≪≫
-    -- Step 2 & 3: rearrange to `Hom_{A₁}(P•₁,N₁) ⊗ₖ Hom_{A₂}(P•₂,N₂)`, then take `Hⁱ`.
-    (HomologicalComplex.homologyFunctor (ModuleCat.{u} k) (ComplexShape.up ℕ) i).mapIso
-        (rearrangeHomComplex k N₁ N₂ hN P₁ P₂) ≪≫
-    -- Step 4a: cochain Künneth over the field for the tensor of the two Hom complexes.
-    (kunnethCochainComplexNat
-        (P₁.complex.linearYonedaObj k (ModuleCat.of A₁ N₁))
-        (P₂.complex.linearYonedaObj k (ModuleCat.of A₂ N₂)) i).some ≪≫
-    -- Step 4b: identify the factor cohomologies as `Extⱼ^{A₁}` / `Extₘ^{A₂}`.
-    Sigma.mapIso (fun p => tensorIso
-      (extIsoCohomologyHomₖ k A₁ (ModuleCat.of A₁ M₁) (ModuleCat.of A₁ N₁) P₁ p.1.1).symm
-      (extIsoCohomologyHomₖ k A₂ (ModuleCat.of A₂ M₂) (ModuleCat.of A₂ N₂) P₂ p.1.2).symm)⟩
+              ⊗ Extₖ k A₂ (ModuleCat.of A₂ M₂) (ModuleCat.of A₂ N₂) p.1.2) :=
+  ⟨Problem_8_2_8_extₖIso k A₁ A₂ M₁ M₂ N₁ N₂ i P₁ P₂ hN⟩
 
 -- The factor `k`-scalar towers on `Mᵢ` / `Nᵢ`: needed to form the finitely generated projective
 -- `Etingof.barResolution` and consumed by `Problem_8_2_8_extₖ`. They only attach to
@@ -368,8 +398,8 @@ theorem Problem_8_2_8_ext (i : ℕ)
   refine (extAbelianIsoExtₖ k (ModuleCat.of (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂))
       (barResolution k (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂)) i) ≪≫ₗ ?_
   rw [hXM]
-  refine (Problem_8_2_8_extₖ k A₁ A₂ M₁ M₂ N₁ N₂ i
-      (barResolution k A₁ M₁) (barResolution k A₂ M₂) hN).some.toLinearEquiv ≪≫ₗ ?_
+  refine (Problem_8_2_8_extₖIso k A₁ A₂ M₁ M₂ N₁ N₂ i
+      (barResolution k A₁ M₁) (barResolution k A₂ M₂) hN).toLinearEquiv ≪≫ₗ ?_
   refine (ModuleCat.coprodIsoDirectSum _).toLinearEquiv ≪≫ₗ ?_
   exact DirectSum.congrLinearEquiv (fun p => TensorProduct.congr
     (extAbelianIsoExtₖ k (ModuleCat.of A₁ N₁) (barResolution k A₁ M₁) p.1.1).symm
