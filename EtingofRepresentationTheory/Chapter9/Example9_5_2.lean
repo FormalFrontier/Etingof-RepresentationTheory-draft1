@@ -134,3 +134,42 @@ theorem Etingof.problem_9_3_2_single_block :
       (ModuleCat.of _ Etingof.Problem932.Splus)
       (ModuleCat.of _ Etingof.Problem932.Sminus) :=
   Etingof.Problem932.areLinked
+
+open Etingof.Problem932 in
+/-- Every simple module over the Problem 9.3.2 algebra is linked to `S₊`: by the classification
+of simple modules it is isomorphic to `S₊` or to `S₋`, and `S₋` is itself linked to `S₊`. -/
+theorem Etingof.problem_9_3_2_areLinked_splus
+    (Z : Type) [AddCommGroup Z] [Module ℂ Z] [Module A Z] [IsScalarTower ℂ A Z]
+    [IsSimpleModule A Z] :
+    Etingof.AreLinked A (ModuleCat.of A Z) (ModuleCat.of A Splus) := by
+  have hZ : IsSimpleModule A (ModuleCat.of A Z) := inferInstanceAs (IsSimpleModule A Z)
+  have hP : IsSimpleModule A (ModuleCat.of A Splus) := inferInstanceAs (IsSimpleModule A Splus)
+  have hM : IsSimpleModule A (ModuleCat.of A Sminus) := inferInstanceAs (IsSimpleModule A Sminus)
+  rcases nonempty_linearEquiv_splus_or_sminus Z with h | h
+  · obtain ⟨e⟩ := h
+    exact Etingof.areLinked_of_iso A hZ hP
+      { hom := ModuleCat.ofHom e.toLinearMap
+        inv := ModuleCat.ofHom e.symm.toLinearMap
+        hom_inv_id := by ext z; exact e.symm_apply_apply z
+        inv_hom_id := by ext z; exact e.apply_symm_apply z }
+  · obtain ⟨e⟩ := h
+    refine Relation.EqvGen.trans _ _ _ (Etingof.areLinked_of_iso A hZ hM
+        { hom := ModuleCat.ofHom e.toLinearMap
+          inv := ModuleCat.ofHom e.symm.toLinearMap
+          hom_inv_id := by ext z; exact e.symm_apply_apply z
+          inv_hom_id := by ext z; exact e.apply_symm_apply z })
+      (Relation.EqvGen.symm _ _ Etingof.problem_9_3_2_single_block)
+
+open Etingof.Problem932 in
+/-- **The Problem 9.3.2 algebra has a single block, for every simple module.** Any two simple
+`A`-modules are `Etingof.AreLinked`. This upgrades `Etingof.problem_9_3_2_single_block`, which
+only links the two exhibited simples `S₊` and `S₋`, using the classification theorem
+`Etingof.Problem932.simple_module_classification`: those two are all the simple modules.
+(Etingof Example 9.5.2 (iii).) -/
+theorem Etingof.problem_9_3_2_single_block_of_simple
+    (X Y : Type) [AddCommGroup X] [Module ℂ X] [Module A X] [IsScalarTower ℂ A X]
+    [IsSimpleModule A X] [AddCommGroup Y] [Module ℂ Y] [Module A Y] [IsScalarTower ℂ A Y]
+    [IsSimpleModule A Y] :
+    Etingof.AreLinked A (ModuleCat.of A X) (ModuleCat.of A Y) :=
+  Relation.EqvGen.trans _ _ _ (Etingof.problem_9_3_2_areLinked_splus X)
+    (Relation.EqvGen.symm _ _ (Etingof.problem_9_3_2_areLinked_splus Y))

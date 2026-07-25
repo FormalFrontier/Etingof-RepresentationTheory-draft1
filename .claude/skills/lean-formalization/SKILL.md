@@ -111,6 +111,31 @@ declarations — the same idiom Mathlib uses on `ExtendRestrictScalarsAdj.counit
 #7491, `Chapter9/Example9_4_4.lean` — pristine file built clean under `lake build`; three
 per-declaration pins made it pass `lake env lean` too, no proof changes.)
 
+**For fast per-file iteration, pass the lakefile options to `lake env lean` explicitly.**
+`lake build <Module>` re-runs the whole dependency trace and is slow to loop on; `lake env
+lean` on one file is seconds. You get the accurate result *and* the speed by passing the
+`[leanOptions]` yourself:
+
+```
+lake env lean -D backward.isDefEq.respectTransparency=false -D relaxedAutoImplicit=false \
+  -D maxSynthPendingDepth=3 EtingofRepresentationTheory/<Chapter>/<File>.lean
+```
+
+Keep `lake build <Module>` as the final check before committing (it also catches
+`lakefile`/import-graph problems), but iterate with the `-D` form. Re-read `lakefile.toml`
+if the options list looks stale — it is the source of truth.
+
+**Beware `abbrev` carriers shared by two modules over the same ring.** In
+`Chapter9/Problem9_3_2.lean`, `Pplus` and `Pminus` are both `abbrev ... : Type := Fin 2 → ℂ`.
+Because `abbrev` is reducible, `Module A Pplus` and `Module A Pminus` are two instances on
+the *same* type, and instance resolution silently picks the last-declared one. The file only
+works because every `P₊` declaration textually precedes the `Module A Pminus` instance — so
+**new lemmas about the earlier module must be inserted before the later instance, not
+appended at the end of the file.** This also blocks forming an indexed family `P : ι → Type`
+of the two modules (needed by `Etingof.algebraCartanMatrix`); that requires giving them
+genuinely distinct carriers. If you are defining several modules over one ring with the same
+underlying type, prefer a one-field structure per module over `abbrev`.
+
 **Two Mathlib lemmas can produce the *same* `1`/`0`/`Pi.single i 1` through *different*
 typeclass paths — `rw` then fails syntactically, `exact` succeeds by defeq.** Classic case
 (cost real iterations in #6597, `Chapter9/Problem9_5_3_PrimitiveIdempotents.lean`):
@@ -187,6 +212,19 @@ lines). Relatedly, a lambda whose **output** type is still a metavariable sends 
 into a loop — e.g. `Quotient.map' (fun w => g • w) h` before `Quotient.map'`'s codomain is pinned
 gives the same `HSMul … ?` timeout. Ascribe it: `fun w : T => (g • w : T)`. Both bit during the
 octahedral four-diagonal quotient action (#6972).
+
+**`Submodule.mem_top` forces fresh instance synthesis; read membership off an
+equality hypothesis instead.** When you have `h : S = ⊤` for a submodule `S` of an
+awkward carrier (e.g. `Representation.invariants (FDRep.ρ ((Action.res …).obj σ))`,
+whose module `Module ℂ ↑σ.V` no longer synthesizes through the restriction after a
+Mathlib bump), `rw [h]; exact Submodule.mem_top` fails: `Submodule.mem_top`
+re-synthesizes `Module R M` from scratch. Use `(Submodule.eq_top_iff'.mp h) x`
+instead — the module instance is already carried by the type of `h`, so no fresh
+search is triggered. (A scoped `haveI : Module ℂ ↑σ.V := σ.V.obj.isModule` also
+patches `mem_top`, but only if kept inside the membership `by`-block so it does not
+shadow the canonical instance the rest of the proof infers, causing a
+"synthesized instance is not definitionally equal" error downstream.) Bit restoring
+the A₄ induction in Problem 5.11.1 (#7544).
 
 **`Module.Finite R X` for `X : ModuleCat R` needs the explicit `↥` coercion.** A `Type`-argument
 predicate applied to a *categorical object* — `Module.Finite R (syzygy P n)`, `Module R (P.X n)`,
@@ -523,6 +561,22 @@ on `(0 : Fin 3)` (an `OfNat`) cannot match** — "did not find pattern" even tho
 Same #6852. Fix: open each branch with `change <goal with (0 : Fin 3)/(1 : Fin 3)/(2 : Fin 3)>` to
 restate at the `OfNat` literals (defeq, so `change` accepts), *then* `rw`/`decide`-facts match.
 Prefer `change` over `show` here (the linter flags `show` for non-readability goal changes).
+
+**For a *variable* `N`, `Fin N` with `[NeZero N]` is only an `AddCommGroup` — there is no
+`NatCast (Fin N)` and no `CommRing (Fin N)`** (those exist for the *literal* successor shape
+`Fin (n+1)`). So `(i : Fin N)` for `i : ℕ` does not elaborate, and cyclic index arithmetic must be
+written as the `ℕ`-multiple `i • (1 : Fin N)`. Three helper lemmas make that workable, and the
+proofs are short enough to re-derive:
+`(m • (1 : Fin N)).val = m % N` (induction, `succ_nsmul` + `Fin.val_add` + `Fin.val_one'` +
+`← Nat.add_mod`); `k.val • (1 : Fin N) = k` (`Fin.ext` + `Nat.mod_eq_of_lt k.isLt`); and
+`N • (1 : Fin N) = 0` (`Fin.ext` + `Nat.mod_self`). To turn a product/sum over a full cycle into
+one over `Fin N`, chain `← Fin.prod_univ_eq_prod_range` (moves `Finset.range N` to `Fin N`), then
+`k.val • 1 = k` to expose `k - i`, then `Equiv.prod_comp (Equiv.subLeft k)` to reindex, then
+`Finset.prod_ite_eq'` for a weight that is `1` away from a single index. Worked example:
+`prod_wX_cycle` / `Xlin_pow_orderOf` (#7697, `Chapter2/Problem2_7_5_Family.lean`), where the
+twisted cyclic shift `x·eⱼ = e_{j+1}`, `x·e_{N-1} = α·e₀` satisfies `xᴺ = α`. Switching the model
+to `ZMod N → ℂ` (a `CommRing` index) is the alternative, but it is a real refactor of every
+downstream statement — only worth it if the ring structure is needed pervasively.
 
 **`omega` treats `(⟨c, _⟩ : Fin n).val` as an *opaque* atom (it does NOT reduce `Fin.mk`'s value to
 `c`), so a goal `x = ⟨c, _⟩` — or `x.val = (⟨c, _⟩).val` after `apply Fin.ext` — is unprovable by
@@ -1065,23 +1119,34 @@ Multiple files define `private abbrev GL2 = ...` / `private abbrev GL2' = ...` f
 - Use `change` instead of `show` when the target uses a different abbreviation
 - For sorry'd lemmas that need `[Fintype F] [DecidableEq F]` instances (needed by callers and the sorry body): wrap in a `section` with `set_option linter.unusedFintypeInType false` / `set_option linter.unusedDecidableInType false`. The `set_option ... in` syntax doesn't work before `private`.
 
-### There is no `NatCast (Fin n)` — use `Fin.ofNat n m`, not `(m : Fin n)` (#7698)
+### `Fin n` arithmetic: `NatCast` is scoped, and `ring` doesn't work — `abel` does (#7387, #7698)
 
-Under this toolchain (Lean 4.32.0-rc1) `(m : Fin N)` for `m : ℕ` does **not** elaborate, even with
-`[NeZero N]` in scope: you get `Type mismatch: m has type ℕ but is expected to have type Fin N`,
-with no mention of a missing coercion. (`Fin.natCast_self` in Mathlib still displays as `↑n`, which
-makes it look like the instance exists — it doesn't resolve outside Mathlib's own context.) Use
-`Fin.ofNat N m` instead; `(Fin.ofNat N m).val = m % N` holds by `rfl`, so `change`-then-`Nat` lemmas
-work directly. Useful companions when stepping around the cycle:
+Several independent traps when a construction is indexed by `Fin n` (cyclic bases, twisted shift
+operators, `Fin p → k` modules):
 
-- `Fin.val_add a b : (a + b).val = (a.val + b.val) % n`
-- `Fin.val_one' n : ((1 : Fin n) : ℕ) = 1 % n`
-- `Nat.add_mod_mod : (a + b % n) % n = (a + b) % n` and `Nat.mod_add_mod : (a % n + b) % n = (a + b) % n`
-  — these two close `Fin.ofNat N (m + 1) = Fin.ofNat N m + 1` after `Fin.ext`.
+- `(t : Fin n)` for `t : ℕ` fails with `type mismatch ... but is expected to have type Fin n`,
+  even with `[NeZero n]` in scope, and the error never mentions a missing coercion. The instance
+  exists but is *scoped*: it is `Fin.NatCast.instNatCast`, so put `open scoped Fin.NatCast` at
+  the top of the file. (This is why `Fin.natCast_self` displays as `↑n` in Mathlib yet the cast
+  refuses to elaborate in your file.) Related: `[NeZero n]` itself is not automatic from
+  `[Fact (Nat.Prime p)]`, so declare `instance : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩`.
+- If you would rather not open the scoped namespace, `Fin.ofNat N m` is the same map spelled
+  explicitly, and `(Fin.ofNat N m).val = m % N` holds by `rfl`, so `change`-then-`Nat` lemmas work
+  directly. Useful companions when stepping around the cycle:
+  - `Fin.val_add a b : (a + b).val = (a.val + b.val) % n`
+  - `Fin.val_one' n : ((1 : Fin n) : ℕ) = 1 % n`
+  - `Nat.add_mod_mod : (a + b % n) % n = (a + b) % n` and
+    `Nat.mod_add_mod : (a % n + b) % n = (a + b) % n` — these two close
+    `Fin.ofNat N (m + 1) = Fin.ofNat N m + 1` after `Fin.ext`.
 
-To reach an arbitrary `i : Fin N` from a base point `k` by repeated `+1`, iterate `(i - k).val`
-times and finish with `Fin.ofNat N ((i - k).val) = i - k` (`Nat.mod_eq_of_lt`) plus
-`sub_add_cancel i k`. Cost one build cycle in #7698 (`Problem2_7_5_FamilySimple.lean`).
+  To reach an arbitrary `i : Fin N` from a base point `k` by repeated `+1`, iterate `(i - k).val`
+  times and finish with `Fin.ofNat N ((i - k).val) = i - k` (`Nat.mod_eq_of_lt`) plus
+  `sub_add_cancel i k`. Cost one build cycle in #7698 (`Problem2_7_5_FamilySimple.lean`).
+- `ring` reports `` `ring_nf` made no progress `` on `Fin n` goals such as
+  `j - ((t : Fin n) + 1) = j - 1 - (t : Fin n)`, despite `Fin n` being a `CommRing`. Use `abel`
+  — these goals are additive-group identities and `abel` closes them.
+- `push_cast` does not normalise `((t + 1 : ℕ) : Fin n)`; rewrite with `Nat.cast_add_one` first,
+  then `abel`.
 
 ### Greek-capital notation chars (`Π`, `Σ`, `λ`) can't be identifiers
 
