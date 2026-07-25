@@ -3621,6 +3621,32 @@ For character identities involving the regular representation (e.g., χ_reg(g) =
 
 This is more concrete than abstract character theory and avoids FDRep entirely.
 
+### Never pass `Matrix.single` to `simp`; prove one transport lemma instead (Ch2 #7717, `Problem2_16_3.lean`)
+
+Two traps when computing with explicit small matrices built from `Matrix.single i j c`.
+
+**1. Do not put `Matrix.single` in the simp set.** It unfolds to
+`of fun i' j' => if i = i' ∧ j = j' then c else 0`, and simp then rewrites diagonal sums such as
+`Matrix.trace` into `↑{x | 0 = x ∧ 1 = x}.card`-shaped goals it cannot close. Left folded, the
+existing `@[simp] Matrix.single_apply_same` / `Matrix.single_apply_of_ne` fire and simp's
+discharger settles the `Fin` side conditions by `decide`. Symptom of the mistake: a residual goal
+mentioning `Finset.card` of a set-builder where you expected `0 = 0`.
+
+**2. Transport the operator across `single` once, rather than `ext`-ing every entry.** For an
+entrywise operator (transpose-like involutions, conjugations, `σ(A)ᵢⱼ = -A_{rev j, rev i}`), the
+naive `fin_cases i <;> (ext a b; fin_cases a <;> fin_cases b <;> simp [...])` over five 3×3
+matrices hits the `whnf` heartbeat limit. Prove `op (single i j c) = ±single (f i) (g j) c` once,
+mark it plus the structural lemmas (`op_add`, `op_sub`, `op_neg`, `op_smul`) `@[simp]`, and each
+subsequent check collapses to `simp [myFamily] <;> abel`.
+
+Two smaller companions:
+
+* Write scalar multiples **inside** `single` — `Matrix.single 1 1 (2 : k)`, not
+  `(2 : k) • Matrix.single 1 1 1`. simp normalizes the two differently, and in the smul form your
+  `op_smul` lemma silently fails to fire (reported by the linter as an unused simp argument).
+* `ext a b` on an equality of *polynomial* matrices applies `Polynomial.ext` as well, leaving a
+  `coeff n✝` goal. Write `ext a b n`; a follow-up `apply Polynomial.ext` fails to unify.
+
 ### Jacobson Radical for Injectivity
 
 To prove a ring homomorphism from a semisimple ring is injective:
