@@ -1913,6 +1913,39 @@ theorem indecomposable_projective_classification_xor (Q : Type u) [AddCommGroup 
   · exact Or.inl ⟨h, fun h' => hnot ⟨h, h'⟩⟩
   · exact Or.inr ⟨h, fun h' => hnot ⟨h', h⟩⟩
 
+/-- **Problem 9.3.2, part 2, indexed by the family `Pfam = ![P₊, P₋]`.** Every finite
+dimensional indecomposable projective is isomorphic to `Pfam i` for exactly one `i`. This is the
+same family the Cartan matrix of part 3 is computed over, so parts 2 and 3 speak about the same
+two objects. -/
+theorem existsUnique_index_of_indecomposable_projective (Q : Type u) [AddCommGroup Q]
+    [Module ℂ Q] [Module A Q] [IsScalarTower ℂ A Q] [FiniteDimensional ℂ Q]
+    [Module.Projective A Q] (hQ : Etingof.IsIndecomposable A Q) :
+    ∃! i : Fin 2, Nonempty (Q ≃ₗ[A] Pfam i) := by
+  rcases indecomposable_projective_classification_xor Q hQ with ⟨h, hne⟩ | ⟨h, hne⟩
+  · refine ⟨0, h, fun j hj => ?_⟩
+    fin_cases j
+    · rfl
+    · exact absurd hj hne
+  · refine ⟨1, h, fun j hj => ?_⟩
+    fin_cases j
+    · exact absurd hj hne
+    · rfl
+
+/-! ### The classification is not vacuous
+
+Its hypotheses are satisfied by the two modules it classifies: `P₊` and `P₋` really are finite
+dimensional indecomposable projectives, so instance resolution finds `FiniteDimensional ℂ`,
+`Module.Projective A` and `IsScalarTower ℂ A` for them, and the theorem returns the expected
+index. -/
+
+theorem indecomposable_projective_classification_Pplus :
+    Xor (Nonempty (Pplus ≃ₗ[A] Pplus)) (Nonempty (Pplus ≃ₗ[A] Pminus)) :=
+  indecomposable_projective_classification_xor Pplus isIndecomposable_Pplus
+
+theorem indecomposable_projective_classification_Pminus :
+    Xor (Nonempty (Pminus ≃ₗ[A] Pplus)) (Nonempty (Pminus ≃ₗ[A] Pminus)) :=
+  indecomposable_projective_classification_xor Pminus isIndecomposable_Pminus
+
 end ProjectiveClassification
 
 end Etingof.Problem932
