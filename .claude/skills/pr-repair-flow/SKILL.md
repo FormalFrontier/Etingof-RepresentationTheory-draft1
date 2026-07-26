@@ -76,10 +76,13 @@ git stash push -m "pod $POD_SESSION_ID pre-repair"
 
 Inspect it (`git stash show -p`) and leave it in the stash — a repair session's
 diff must contain only the PR fix. Watch in particular for files with many
-deletions and ~zero insertions under `.claude/`: that is a prior session's stale
-copy of accumulated guidance, and force-pushing it reverts guidance other
-sessions paid to learn. Note the stash message and patch path in your progress
-entry. See `agent-worker-flow` Step 2a for the full rationale.
+deletions and ~zero insertions under `.claude/`: that is pod's own bundled copy of
+the guidance, which it writes over `.claude/commands` and `.claude/skills` at the
+start of every session (#7935), and force-pushing it reverts guidance other
+sessions paid to learn. Since #7935 a `SessionStart` hook usually restores those
+two directories before you get here, so this may well print nothing. Note the
+stash message and patch path in your progress entry. See `agent-worker-flow`
+Step 0 and Step 2a for the full rationale.
 
 Then:
 

@@ -11,9 +11,10 @@ Session-specific commands reference this skill rather than duplicating it.
 
 ## Step 0: Check you are reading the current skill (do this first)
 
-Reused worktrees keep arriving with `.claude/` guidance deleted, and skills load from
-the working tree — so the copy you are reading may be a stale revision with exactly the
-guidance you need cut out. Run this **before Step 1**, whether or not anything looks wrong:
+Your worktree almost certainly arrived with `.claude/` guidance deleted, and skills load
+from the working tree — so the copy you are reading is very likely a stale revision with
+exactly the guidance you need cut out. Run this **before Step 1**, whether or not anything
+looks wrong:
 
 ```bash
 git status --short
@@ -24,6 +25,30 @@ git show HEAD:.claude/skills/agent-worker-flow/SKILL.md | wc -l
 If the counts differ: save the diff (`git diff > /tmp/<uuid>-stale.patch`), restore with
 `git checkout HEAD -- .claude/`, then reload this skill and start over from Step 1. Do the
 same for your `/command` file.
+
+**Root cause, settled 2026-07-26 in #7935 — this is not a crash, and not bad luck.** pod
+creates a *fresh* worktree from `origin/main` every session and then, in
+`install_agent_config` (dev-pod `pod/cli.py`, Claude branch), unconditionally runs
+`shutil.copytree(..., dirs_exist_ok=True)` from a copy of `commands/` and `skills/`
+bundled *inside the installed dev-pod package* over `.claude/commands` and
+`.claude/skills`. That bundled copy is frozen at dev-pod install time; this repo's `main`
+keeps improving the same files via meditate sessions. So every session, deterministically,
+starts with those two directories reverted to whatever dev-pod shipped. On 2026-07-26 that
+was a 7-file, 659-line pure deletion, and 91 of the repo's 116 git stashes were sessions
+working around this same thing. Do not spend time looking for the crashed predecessor
+session — there isn't one.
+
+A `SessionStart` hook (`.claude/hooks/restore-claude-config.sh`, wired in
+`.claude/settings.json`) now restores those two directories to HEAD automatically at
+startup, saving the pre-restore diff to `/tmp/pod-claude-staleness-*.patch`. That means a
+later `git add -A` can no longer revert the newer guidance on `main` — the damage that
+produced those 91 stashes.
+
+**It does not mean the text you were served is current.** Measured directly in #7935: with
+the hook firing and demonstrably restoring both files on disk, the session was still handed
+the *stale* command file and the *stale* skill. Both are snapshotted at session start,
+before the hook's writes become visible to the loader. The hook fixes the working tree, not
+your context. The `Read`-based reload below is still mandatory.
 
 **Reloading means `Read`, not the Skill tool.** The Skill tool caches per session: invoking
 an already-loaded skill returns `already loaded above; instructions unchanged` and does *not*
@@ -270,7 +295,8 @@ directions — neither keeping nor discarding is the safe default:
   forward, it lands on `main` as a silent revert of guidance other sessions paid
   to learn. A further tell that it is staleness and not real work: the handful of
   "insertions" turn out to be older wordings of lines that still exist. Real work
-  adds something.
+  adds something. (Strictly it is pod's bundled copy overwriting yours, not a
+  crashed session — see Step 0 and #7935. The handling is the same either way.)
 - **Anything that looks like real work in progress** also stays in the stash, with
   a note in your progress entry naming it. Do not try to finish someone else's
   half-edit inside your own issue's PR.
@@ -287,7 +313,11 @@ in Step 7. Another session caught it only because the copy of this check in
 that cross-file duplication.** A check that lives only inside the file that goes
 stale cannot fire in the case it exists for — which is also why Step 0 exists.
 It is still happening: the repair session that resolved this file's merge on
-2026-07-26 arrived the same way, 567 deletions across six files, nothing added.)
+2026-07-26 arrived the same way, 567 deletions across six files, nothing added.
+#7935 later established *why* it kept happening — pod overwrites these files from
+its own bundled copy on every session — and added the `SessionStart` hook that
+now cleans the working tree automatically. Keep the duplication anyway: the hook
+does not change what text you were *served*.)
 
 ### Step 2b: Verify the skill you loaded is not itself the stale copy
 
@@ -656,6 +686,9 @@ accumulated guidance. Stage the paths you actually touched. This is the backstop
 Step 2 stale-worktree check: it catches the same damage even when the copy of this skill
 you started on was itself the truncated one. (2026-07-25: PR #7834 shipped a clean
 Künneth proof together with a 320-line revert of `.claude/`, repaired by #7835.)
+Since #7935 the `SessionStart` hook usually cleans this up before you ever stage, but
+keep staging explicitly: the hook covers only `.claude/commands` and `.claude/skills`,
+and only on a `startup` launch, not on `--resume`.
 
 **Full completion:**
 ```bash
