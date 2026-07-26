@@ -174,4 +174,39 @@ noncomputable def schurFunctor : ModuleCat.{u} k ⥤ ModuleCat.{u} k where
 
 end Schur
 
+section Trivial
+
+variable {k : Type u} [CommRing k] {n : ℕ}
+  {V : Type u} [AddCommGroup V] [Module k V]
+
+/-- The Schur functor of the trivial `Sₙ`-representation on `k` is the space of symmetric
+tensors: `Hom_{Sₙ}(k, V^{⊗n}) ≃ (V^{⊗n})^{Sₙ}`, by evaluation at `1`.
+
+This pins down the construction: the invariants submodule `schurObj` really is the
+equivariant Hom the book asks for, and in the simplest case it is visibly nonzero
+whenever `V` is (for `n = 0`, or for `n ≥ 1` and `v : V`, the symmetrised pure tensor
+lies in it). -/
+noncomputable def schurObjTrivialEquiv :
+    schurObj (Representation.trivial k (Equiv.Perm (Fin n)) k) V ≃ₗ[k]
+      (tensorPowerPermRep k n V).invariants where
+  toFun φ := ⟨(φ : k →ₗ[k] ⨂[k] (_ : Fin n), V) 1, fun σ => by
+    have := (mem_schurObj_iff _ _).mp φ.2 σ
+    have h := congrArg (fun ψ : k →ₗ[k] ⨂[k] (_ : Fin n), V => ψ 1) this
+    simpa [Representation.trivial_apply] using h⟩
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+  invFun t := ⟨LinearMap.toSpanSingleton k _ (t : ⨂[k] (_ : Fin n), V), by
+    rw [mem_schurObj_iff]
+    intro σ
+    ext
+    simpa [LinearMap.toSpanSingleton_apply, Representation.trivial_apply] using t.2 σ⟩
+  left_inv φ := by
+    refine Subtype.ext (LinearMap.ext_ring ?_)
+    simp [LinearMap.toSpanSingleton_apply]
+  right_inv t := by
+    refine Subtype.ext ?_
+    simp [LinearMap.toSpanSingleton_apply]
+
+end Trivial
+
 end Etingof

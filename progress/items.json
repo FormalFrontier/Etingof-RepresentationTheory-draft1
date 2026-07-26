@@ -8298,9 +8298,9 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_partial",
-    "coverage_note": "Items (1)-(7) and the tensor/exterior-power portions of (8) are formalized. Symmetric/Schur functors in item (8) remain #5642; BGP reflection functors in item (9) remain #7383.",
-    "followup_issue": 5642,
-    "last_updated": "2026-07-22"
+    "coverage_note": "Items (1)-(8) are formalized, including the symmetric-power functor (ModuleCat.symmetricPower, built on a new SymmetricPower.map since Mathlib has none) and the Schur functors (Etingof.schurFunctor). Only item (9), packaging the BGP reflection constructions as functors, remains; that is #7383.",
+    "followup_issue": 7383,
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter7/Introduction_7.3",
