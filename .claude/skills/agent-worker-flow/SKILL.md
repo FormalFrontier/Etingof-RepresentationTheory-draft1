@@ -32,6 +32,13 @@ telling you nothing about the file on disk. `Read` the restored paths directly i
 (2026-07-26, #7873: a session hit exactly this, saw "unchanged" after restoring 477 deleted
 lines, and only got the current guidance by falling back to `Read`.)
 
+**When you `Read` a `.claude/` path, make sure it is *your worktree's* copy.** The project
+root is itself a checkout, so `<project-root>/.claude/skills/<skill>/SKILL.md` and
+`<project-root>/worktrees/<id>/.claude/skills/<skill>/SKILL.md` both exist, at different
+revisions, and the shorter path is the one you will type by reflex. Nothing warns you: you
+get a real file with plausible content and line numbers that quietly disagree with your own
+`grep`. Prefer relative paths from the worktree root, or paste the path from `pwd`.
+
 This check lives at the top of the file on purpose. The fuller treatment is in Step 2 under
 "If the branch already exists", but every observed truncation left lines 1-70 intact while
 cutting blocks further down — so an instruction placed there is one a stale session never
@@ -349,6 +356,18 @@ as described in the project's CLAUDE.md.
 Read the specific files mentioned in the plan/issue. Understand the current state
 of code you'll be modifying. Don't read progress history — the issue body provides
 that context.
+
+**If the issue touches `EtingofRepresentationTheory/`, read
+`.claude/skills/lean-conventions/SKILL.md` in full before your first edit.** It is
+short by design and carries the rules that otherwise cost a build cycle
+each to rediscover: `lake exe cache get`, `lake build <Module>` rather than `lake env
+lean`, the lint-clean policy, and the one working order for `set_option`/`omit`/
+docstring above a declaration. The large `lean-formalization` skill is the *searchable*
+companion to it — `grep` that one for your chapter item and Mathlib types, never read
+it top to bottom.
+
+Read both with `Read` rather than the Skill tool: the Skill tool caches per session and
+will answer `instructions unchanged` without re-reading the file.
 
 ## Step 4: Verify Assumptions
 
