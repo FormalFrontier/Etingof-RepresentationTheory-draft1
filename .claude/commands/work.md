@@ -7,27 +7,6 @@ to pick the most important unclaimed issue and execute it.
 `/feature`, `/review`, `/summarize`, or `/meditate` based on issue labels.
 `/work` exists as a manual escape hatch.
 
-## Before You Start: Verify the Worktree Is Not Stale
-
-Pod worktrees are reused, and a crashed prior session can leave them holding *older*
-copies of `.claude/` files than `main` has. Because skills and commands load from the
-working tree, you would then be running on guidance that has since been superseded, and
-a later `git add -A` would revert it on `main`. Run this unconditionally, before Step 1:
-
-```bash
-git status --short
-git diff --numstat HEAD -- .claude/
-```
-
-Any pure-deletion lines under `.claude/` are stale leftovers, not your work: restore them
-with `git checkout HEAD -- .claude/` and then reload the `agent-worker-flow` skill and this
-command, since the copies you loaded were the old ones.
-
-Reload by `Read`ing those paths. **Do not use the Skill tool for this**: it caches per
-session and answers an already-loaded skill with `instructions unchanged` without re-reading
-the file, so the restored content never reaches you and the "unchanged" reply tells you
-nothing about what is on disk.
-
 ## What to Do
 
 1. Run `coordination list-unclaimed` to see all unclaimed issues (all labels)
@@ -35,8 +14,3 @@ nothing about what is on disk.
 3. Based on your own judgment, select the most important one
 4. Identify its label (`feature`, `review`, `summarize`, or `meditate`)
 5. Execute the appropriate sub-command (`/feature`, `/review`, `/summarize`, `/meditate`)
-
-Step 5 means **actually invoking that sub-command**, not just doing the work you
-judge it implies. Each sub-command carries setup its issue type depends on — for
-`/feature`, reading the `lean-formalization` skill before writing Lean. Skipping
-the dispatch silently drops that setup.
