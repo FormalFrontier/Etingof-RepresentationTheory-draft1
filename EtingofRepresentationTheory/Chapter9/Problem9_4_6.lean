@@ -542,7 +542,11 @@ the path algebra `P_Q`, computed with the concrete indecomposable projective cov
 This discharges the `hcover` hypothesis of `cartanMatrix_pathAlgebra_eq_pathCount` by supplying the
 Hom-space identification `Etingof.PathAlgebra.pathAlgebraHomEquiv`,
 `Hom_A(A·eᵢ, A·eⱼ) ≃ₗ[k] (paths i → j) →₀ k`, making the result unconditional for the natural
-projective family. Acyclicity (`hacyclic`) together with finiteness of the vertex set (`Fintype Q`)
+projective family. That this family really consists of the projective covers of the simple modules,
+so that the matrix below is the Cartan matrix of Definition 9.3.1, is
+`Etingof.Problem946.cartanMatrix_pathAlgebra_eq_pathCount_of_projectiveCovers`
+(`Chapter9/PathAlgebraVertexCovers.lean`).
+Acyclicity (`hacyclic`) together with finiteness of the vertex set (`Fintype Q`)
 and of each arrow set (`Finite (i ⟶ j)`) makes each `Quiver.Path i j` finite (`finite_path`), so
 `Nat.card` is the honest count. -/
 theorem cartanMatrix_pathAlgebra_eq_pathCount'

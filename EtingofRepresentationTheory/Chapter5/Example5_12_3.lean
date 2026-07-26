@@ -3,6 +3,7 @@ import EtingofRepresentationTheory.Chapter5.FRTHelpers
 import EtingofRepresentationTheory.Chapter5.Lemma5_13_1
 import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Distinct
 import EtingofRepresentationTheory.Chapter5.Problem5_24_1_b
+import EtingofRepresentationTheory.Chapter5.Discussion5_11_S4S3
 
 /-!
 # Example 5.12.3: Concrete Examples of Specht Modules
@@ -37,7 +38,11 @@ irreducibles: `V_{(3,1)} = ℂ³₋` (standard) and `V_{(2,1,1)} = ℂ³₊ = �
 `Example5_12_3_sign_twist_31_211` witnesses the sign-twist relation `ℂ³₊ = ℂ³₋ ⊗ ℂ₋`
 (since `(2,1,1)` is the conjugate partition of `(3,1)`, `conjugatePartition_p_31`), and
 `Example5_12_3_specht_31_211_noniso` witnesses that the two are non-isomorphic, neither of
-which a dimension count (both `= 3`) can capture.
+which a dimension count (both `= 3`) can capture. Finally
+`Example5_12_3_specht_31_iso_stdRep` and `Example5_12_3_specht_211_iso_rotRep` orient the
+pair, identifying `V_{(3,1)}` with the named standard representation
+`Etingof.Example4_3_S4.stdRep = ℂ³₋` and `V_{(2,1,1)}` with its sign twist
+`Etingof.Example4_3_S4.rotRep = ℂ³₊`.
 
 ## Mathlib correspondence
 
@@ -511,6 +516,178 @@ theorem Example5_12_3_sign_rep (n : ℕ) (hn : 0 < n) (σ : Equiv.Perm (Fin n))
       = ((↑(↑(Equiv.Perm.sign σ) : ℤ) : ℂ)) • v :=
   spechtModule_smul_eq n (columnPartition n hn) σ _ (Example5_12_3_sign n hn)
     (of_mul_youngSymmetrizer_columnPartition n hn σ) v
+
+/-! ## Orientation: which of `ℂ³₋`, `ℂ³₊` is which
+
+`Example5_12_3_specht_31_211_noniso` separates `V_{(3,1)}` from `V_{(2,1,1)}` but does not say
+which is the standard representation `ℂ³₋` and which is its sign twist `ℂ³₊`. The book does:
+`V_{(3,1)} = ℂ³₋` and `V_{(2,1,1)} = ℂ³₊`. We prove exactly that, against the named `S₄` models
+`Etingof.Example4_3_S4.stdRep` (`ℂ³₋`, the sum-zero subrepresentation of `ℂ⁴`) and
+`Etingof.Example4_3_S4.rotRep` (`ℂ³₊ = ℂ³₋ ⊗ ℂ₋`).
+
+The orientation comes from a single vector. Since `c_λ = b_λ a_λ`, the element `a_λ c_λ` of the
+left ideal `V_λ = ℂ[S₄]c_λ` is fixed by the whole row group `P_λ`, and it is nonzero because
+`c_λ² = b_λ (a_λ c_λ)` is nonzero. For `λ = (3,1)` the row group contains the transpositions
+`(0 1)` and `(1 2)`, so `V_{(3,1)}` has a nonzero vector fixed by both. The sign twist `ℂ³₊` has
+no such vector: on `ℂ³₊` a transposition acts by `−1` times the coordinate permutation, and the
+two conditions force all four coordinates to vanish. Since `dim V_{(3,1)} = 3`, the `S₄`
+catalogue (`Etingof.Example4_3_S4.S4_simple_iso`) leaves only `ℂ³₋`.
+
+`V_{(2,1,1)}` is then `ℂ³₊` by elimination: it is 3-dimensional, hence `ℂ³₋` or `ℂ³₊`, and it
+cannot be `ℂ³₋` because that would give it the same character as `V_{(3,1)}`, forcing
+`(2,1,1) = (3,1)` by `spechtModuleCharacter_injective`. -/
+
+section Orientation
+
+open Etingof.Example4_3_S4
+
+/-- `a_λ c_λ ≠ 0`: otherwise `c_λ² = b_λ (a_λ c_λ)` would vanish. -/
+theorem rowSymmetrizer_mul_youngSymmetrizer_ne_zero (n : ℕ) (la : Nat.Partition n) :
+    RowSymmetrizer n la * YoungSymmetrizer n la ≠ 0 := by
+  intro h
+  apply young_symmetrizer_sq_ne_zero n la
+  have hy : YoungSymmetrizer n la = ColumnAntisymmetrizer n la * RowSymmetrizer n la := rfl
+  nth_rewrite 1 [hy]
+  rw [mul_assoc, h, mul_zero]
+
+/-- The sorted parts of `(3,1)`. -/
+theorem sortedParts_p_31 : p_31.sortedParts = [3, 1] :=
+  sortedParts_eq_of _ [3, 1] rfl (by decide)
+
+/-- The transposition `(0 1)` preserves the rows of `(3,1)`: both cells lie in row `0`. -/
+theorem swap01_mem_rowSubgroup_p_31 :
+    Equiv.swap (0 : Fin 4) 1 ∈ RowSubgroup 4 p_31 := by
+  intro k
+  rw [sortedParts_p_31]
+  revert k
+  decide
+
+/-- The transposition `(1 2)` preserves the rows of `(3,1)`: both cells lie in row `0`. -/
+theorem swap12_mem_rowSubgroup_p_31 :
+    Equiv.swap (1 : Fin 4) 2 ∈ RowSubgroup 4 p_31 := by
+  intro k
+  rw [sortedParts_p_31]
+  revert k
+  decide
+
+/-- The row-invariant generator `a_λ c_λ` of `V_{(3,1)}`. -/
+noncomputable def w31 : ↥(SpechtModule 4 p_31) :=
+  ⟨RowSymmetrizer 4 p_31 * YoungSymmetrizer 4 p_31,
+    (SpechtModule 4 p_31).smul_mem (RowSymmetrizer 4 p_31) (Submodule.subset_span rfl)⟩
+
+theorem w31_ne_zero : w31 ≠ 0 := by
+  intro h
+  exact rowSymmetrizer_mul_youngSymmetrizer_ne_zero 4 p_31 (congrArg Subtype.val h)
+
+/-- Every row-group element fixes `a_λ c_λ`, because it is absorbed by `a_λ`. -/
+theorem spechtModuleRep_p_31_w31 (σ : Equiv.Perm (Fin 4)) (hσ : σ ∈ RowSubgroup 4 p_31) :
+    spechtModuleRep 4 p_31 σ w31 = w31 := by
+  apply Subtype.ext
+  change MonoidAlgebra.of ℂ (Equiv.Perm (Fin 4)) σ
+        * (RowSymmetrizer 4 p_31 * YoungSymmetrizer 4 p_31)
+      = RowSymmetrizer 4 p_31 * YoungSymmetrizer 4 p_31
+  rw [← mul_assoc, of_row_mul_RowSymmetrizer σ hσ]
+
+/-- On `ℂ³₊` a transposition acts by `−1` times the coordinate permutation. -/
+theorem rotRep_swap_apply (a b : Fin 4) (hab : a ≠ b) (v : ↥stdSub.toSubmodule) (i : Fin 4) :
+    (twistRep signHom stdSub.toRepresentation (Equiv.swap a b) v).1 i
+      = -(v.1 (Equiv.swap a b i)) := by
+  rw [twistRep_apply, signHom_coe, Equiv.Perm.sign_swap hab]
+  change ((-1 : ℤ) : ℂ) * (permRep (Equiv.swap a b) v.1 i) = _
+  rw [permRep_apply, Equiv.swap_inv]
+  ring
+
+/-- **`ℂ³₊` has no vector fixed by both `(0 1)` and `(1 2)`.** This is what orients the two
+3-dimensional irreducibles: `V_{(3,1)}` does have such a vector (`w31`). -/
+theorem rotRep_no_common_fixed_vector (v : ↥stdSub.toSubmodule)
+    (h1 : twistRep signHom stdSub.toRepresentation (Equiv.swap (0 : Fin 4) 1) v = v)
+    (h2 : twistRep signHom stdSub.toRepresentation (Equiv.swap (1 : Fin 4) 2) v = v) :
+    v = 0 := by
+  have e1 : ∀ i, -(v.1 (Equiv.swap (0 : Fin 4) 1 i)) = v.1 i := fun i => by
+    rw [← rotRep_swap_apply 0 1 (by decide) v i, h1]
+  have e2 : ∀ i, -(v.1 (Equiv.swap (1 : Fin 4) 2 i)) = v.1 i := fun i => by
+    rw [← rotRep_swap_apply 1 2 (by decide) v i, h2]
+  have h2' := e1 2
+  rw [show Equiv.swap (0 : Fin 4) 1 2 = 2 by decide] at h2'
+  have hv2 : v.1 2 = 0 := by linear_combination -h2' / 2
+  have h3' := e1 3
+  rw [show Equiv.swap (0 : Fin 4) 1 3 = 3 by decide] at h3'
+  have hv3 : v.1 3 = 0 := by linear_combination -h3' / 2
+  have h0' := e2 0
+  rw [show Equiv.swap (1 : Fin 4) 2 0 = 0 by decide] at h0'
+  have hv0 : v.1 0 = 0 := by linear_combination -h0' / 2
+  have h1' := e1 0
+  rw [show Equiv.swap (0 : Fin 4) 1 0 = 1 by decide] at h1'
+  have hv1 : v.1 1 = 0 := by linear_combination -h1' - hv0
+  apply Subtype.ext
+  funext i
+  fin_cases i <;> assumption
+
+/-- Transport of a fixed vector along an isomorphism of representations. -/
+theorem fixed_vector_of_iso {V W : FDRep ℂ S4} (e : V ≅ W) (g : S4) (v : V)
+    (hv : V.ρ g v = v) : W.ρ g (FDRep.isoToLinearEquiv e v) = FDRep.isoToLinearEquiv e v := by
+  rw [FDRep.Iso.conj_ρ e g, LinearEquiv.conj_apply]
+  simp only [LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_coe,
+    LinearEquiv.symm_apply_apply]
+  rw [hv]
+
+/-- `dim V_{(3,1)} = 3` in the `FDRep` packaging. -/
+theorem finrank_spechtModuleFDRep_p_31 :
+    Module.finrank ℂ ((spechtModuleFDRep 4 p_31 : FDRep ℂ S4) : Type) = 3 :=
+  Example5_12_3_dim_31
+
+/-- `dim V_{(2,1,1)} = 3` in the `FDRep` packaging. -/
+theorem finrank_spechtModuleFDRep_p_211 :
+    Module.finrank ℂ ((spechtModuleFDRep 4 p_211 : FDRep ℂ S4) : Type) = 3 :=
+  Example5_12_3_dim_211
+
+/-- **Etingof Example 5.12.3 (`V_{(3,1)} = ℂ³₋`).** The Specht module for `λ = (3,1)` is the
+standard 3-dimensional irreducible `ℂ³₋` of `S₄`. -/
+theorem Example5_12_3_specht_31_iso_stdRep :
+    Nonempty (spechtModuleFDRep 4 p_31 ≅ stdRep) := by
+  rcases S4_simple_iso (spechtModuleFDRep 4 p_31) with h | h | h | h | h
+  · exact absurd (((FDRep.isoToLinearEquiv h.some).finrank_eq).symm.trans
+      finrank_spechtModuleFDRep_p_31) (by rw [trivRep_finrank]; decide)
+  · exact absurd (((FDRep.isoToLinearEquiv h.some).finrank_eq).symm.trans
+      finrank_spechtModuleFDRep_p_31) (by rw [signRep_finrank]; decide)
+  · exact absurd (((FDRep.isoToLinearEquiv h.some).finrank_eq).symm.trans
+      finrank_spechtModuleFDRep_p_31) (by rw [twoDimRep_finrank]; decide)
+  · exact h
+  · -- `V_{(3,1)}` has a vector fixed by `(0 1)` and `(1 2)`; `ℂ³₊` has none.
+    exfalso
+    obtain ⟨e⟩ := h
+    set u := FDRep.isoToLinearEquiv e w31 with hu
+    have hu0 : u ≠ 0 := fun h0 => w31_ne_zero
+      ((FDRep.isoToLinearEquiv e).injective (by rw [← hu, h0, map_zero]))
+    refine hu0 (rotRep_no_common_fixed_vector u ?_ ?_)
+    · exact fixed_vector_of_iso e _ w31
+        (spechtModuleRep_p_31_w31 _ swap01_mem_rowSubgroup_p_31)
+    · exact fixed_vector_of_iso e _ w31
+        (spechtModuleRep_p_31_w31 _ swap12_mem_rowSubgroup_p_31)
+
+/-- **Etingof Example 5.12.3 (`V_{(2,1,1)} = ℂ³₊`).** The Specht module for `λ = (2,1,1)` is the
+sign-twisted standard representation `ℂ³₊ = ℂ³₋ ⊗ ℂ₋` of `S₄`. -/
+theorem Example5_12_3_specht_211_iso_rotRep :
+    Nonempty (spechtModuleFDRep 4 p_211 ≅ rotRep) := by
+  rcases S4_simple_iso (spechtModuleFDRep 4 p_211) with h | h | h | h | h
+  · exact absurd (((FDRep.isoToLinearEquiv h.some).finrank_eq).symm.trans
+      finrank_spechtModuleFDRep_p_211) (by rw [trivRep_finrank]; decide)
+  · exact absurd (((FDRep.isoToLinearEquiv h.some).finrank_eq).symm.trans
+      finrank_spechtModuleFDRep_p_211) (by rw [signRep_finrank]; decide)
+  · exact absurd (((FDRep.isoToLinearEquiv h.some).finrank_eq).symm.trans
+      finrank_spechtModuleFDRep_p_211) (by rw [twoDimRep_finrank]; decide)
+  · -- `V_{(2,1,1)} ≅ ℂ³₋ ≅ V_{(3,1)}` would force `(2,1,1) = (3,1)`.
+    exfalso
+    obtain ⟨e⟩ := h
+    obtain ⟨e'⟩ := Example5_12_3_specht_31_iso_stdRep
+    have hchar : ∀ σ, spechtModuleCharacter 4 p_211 σ = spechtModuleCharacter 4 p_31 σ := by
+      intro σ
+      rw [← spechtModuleFDRep_character, ← spechtModuleFDRep_character,
+        congrFun (FDRep.char_iso e) σ, congrFun (FDRep.char_iso e') σ]
+    exact absurd (spechtModuleCharacter_injective 4 hchar) (by decide)
+  · exact h
+
+end Orientation
 
 end Example5_12_3
 
