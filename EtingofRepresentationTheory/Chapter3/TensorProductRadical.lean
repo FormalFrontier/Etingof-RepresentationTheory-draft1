@@ -94,23 +94,24 @@ theorem tensorRadQuot_tmul (a : A) (b : B) :
       (Ideal.Quotient.mk (Ring.jacobson A) a) ⊗ₜ[k] (Ideal.Quotient.mk (Ring.jacobson B) b) :=
   rfl
 
-theorem tensorRadQuot_surjective : Function.Surjective (tensorRadQuot k A B) := by
-  sorry
-
-instance : (radTensorLeft k A B).IsTwoSided := by
-  sorry
-
-instance : (radTensorRight k A B).IsTwoSided := by
-  sorry
-
-instance : (radTensorSum k A B).IsTwoSided := by
-  sorry
+theorem tensorRadQuot_surjective : Function.Surjective (tensorRadQuot k A B) :=
+  Algebra.TensorProduct.map_surjective _ _ Ideal.Quotient.mk_surjective
+    Ideal.Quotient.mk_surjective
 
 /-- `J` is exactly the kernel of `A ⊗ B ↠ (A/Rad A) ⊗ (B/Rad B)`. This is the precise form of
 the book's `(A ⊗ B)/J = (A/Rad(A)) ⊗ (B/Rad(B))`. -/
 theorem radTensorSum_eq_ker :
     radTensorSum k A B = RingHom.ker (tensorRadQuot k A B) := by
-  sorry
+  have hA : RingHom.ker (Ideal.Quotient.mkₐ k (Ring.jacobson A)) = Ring.jacobson A :=
+    Ideal.mk_ker
+  have hB : RingHom.ker (Ideal.Quotient.mkₐ k (Ring.jacobson B)) = Ring.jacobson B :=
+    Ideal.mk_ker
+  rw [tensorRadQuot, Algebra.TensorProduct.map_ker _ _ Ideal.Quotient.mk_surjective
+    Ideal.Quotient.mk_surjective, hA, hB]
+  rfl
+
+instance : (radTensorSum k A B).IsTwoSided := by
+  rw [radTensorSum_eq_ker]; infer_instance
 
 /-- The book's displayed identification `(A ⊗ B)/J ≅ (A/Rad A) ⊗ (B/Rad B)`. -/
 noncomputable def quotientRadTensorSumEquiv :
