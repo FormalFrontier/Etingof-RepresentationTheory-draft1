@@ -817,6 +817,14 @@ motive-correct because only the generic `Module ↥x E` instance is needed), the
 (`rw`/`congr 1`/`congrArg`) in `homRealizationComponent_bijective` (#7659,
 `Chapter5/Theorem5_18_1_Bijection.lean`). Note the `: Type _` ascription — `isotypicComponents` is a
 `Set`, so a bare equality is read as a heterogeneous `Set` equality and mis-typechecks.
+Same remedy, different symptom: a helper lemma stated as `Fintype.card ↥H = …` for a **subgroup**
+under `open scoped Classical in` will not `rw` into a goal that mentions `Fintype.card ↥H` if the
+goal's `Fintype ↥H` came from a different elaboration (e.g. via another lemma also elaborated under
+`open Classical`). The diagnostic is maximally confusing — "did not find an occurrence of the pattern
+`Fintype.card ↥H`" printed against a goal displaying exactly `Fintype.card ↥H`, because instances are
+not shown. State such cardinality helpers with **`Nat.card ↥H`** and open the use site with a bare
+`rw [← Nat.card_eq_fintype_card]` (which unifies against any instance). Cost 3 build cycles in
+`finrank_ellipticInduced_eq_mul` (#7904, `Chapter5/EllipticInduced.lean`).
 
 **Adding a heavy import to a foundational *definition* file can break a *downstream* file by
 slowing generic typeclass search past its heartbeat budget.** Hit in #7443: adding
