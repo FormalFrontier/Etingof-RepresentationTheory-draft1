@@ -452,6 +452,55 @@ theorem Theorem5_18_4_bimodule_decomposition_explicit
   exact Theorem5_18_1_bimodule_decomposition_explicit k (TensorPower k V n)
     (symGroupImage k V n)
 
+-- Heartbeat bumps match the generic equivariant decomposition theorem.
+set_option maxHeartbeats 4000000 in
+-- The existential output repeats the generic centralizer-module instance chain.
+set_option synthInstance.maxHeartbeats 1500000 in
+/-- Schur-Weyl duality, part (iii), as a structured bimodule equivalence.
+
+The returned `BimoduleDecompositionEquiv` contains the all-vector
+`symGroupImage`-equivariance and centralizer-equivariance laws.  The final
+clause restates the latter directly for `diagonalActionImage`: each of its
+elements is inserted into the centralizer using
+`diagonalActionImage_le_centralizer_symGroupImage`.  Thus the public
+Schur-Weyl endpoint explicitly intertwines both actions from Theorem 5.18.4,
+not merely the underlying `k`-vector-space structures. -/
+theorem Theorem5_18_4_bimodule_decomposition_equivariant
+    [IsAlgClosed k] [CharZero k] :
+    ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
+      (S : ι → Submodule (symGroupImage k V n) (TensorPower k V n))
+      (_ : ∀ i, IsSimpleModule (symGroupImage k V n) (S i))
+      (_ : ∀ i j, Nonempty (↥(S i) ≃ₗ[symGroupImage k V n] ↥(S j)) → i = j)
+      (_ : ∀ i, Module.Finite k ↥(S i))
+      (_ : ∀ i, IsSimpleModule
+        (↥(Subalgebra.centralizer k
+          (symGroupImage k V n : Set (Module.End k (TensorPower k V n)))))
+        (↥(S i) →ₗ[symGroupImage k V n] TensorPower k V n)),
+      ∃ e : BimoduleDecompositionEquiv
+          (k := k) (E := TensorPower k V n) (A := symGroupImage k V n) S,
+        (∀ (i : ι) (s : ↥(S i))
+            (l : ↥(S i) →ₗ[symGroupImage k V n] TensorPower k V n),
+          e.toLinearEquiv.symm (DirectSum.of _ i (s ⊗ₜ[k] l)) = l s) ∧
+        ∀ (b : ↥(diagonalActionImage k V n)) (x : TensorPower k V n),
+          e.toLinearEquiv (b.val x) =
+            bimoduleDecompositionCentralizerAction
+              (k := k) (E := TensorPower k V n) (A := symGroupImage k V n) S
+              (⟨b.val, diagonalActionImage_le_centralizer_symGroupImage
+                k V n b.property⟩ :
+                ↥(Subalgebra.centralizer k
+                  (symGroupImage k V n :
+                    Set (Module.End k (TensorPower k V n)))))
+              (e.toLinearEquiv x) := by
+  obtain ⟨ι, hι, hιDec, S, hSSimple, hSDistinct, hSFinite, hLSimple, e, he⟩ :=
+    Theorem5_18_1_bimodule_decomposition_equivariant k (TensorPower k V n)
+      (symGroupImage k V n)
+  refine ⟨ι, hι, hιDec, S, hSSimple, hSDistinct, hSFinite, hLSimple, e, he, ?_⟩
+  intro b x
+  exact e.map_centralizer_action
+    (⟨b.val, diagonalActionImage_le_centralizer_symGroupImage k V n b.property⟩ :
+      ↥(Subalgebra.centralizer k
+        (symGroupImage k V n : Set (Module.End k (TensorPower k V n))))) x
+
 /-! ### GL_N-representation form of the bimodule decomposition
 
 The `L_i` summands from the bimodule decomposition carry a natural
