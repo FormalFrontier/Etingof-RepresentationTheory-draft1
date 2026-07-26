@@ -192,7 +192,7 @@ theorem reflFunctorMinus_homAt_id
     obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective (LinearMap.range (ρ.sourceMap i))
       (show ((DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) ⧸
         LinearMap.range (ρ.sourceMap i)) from x)
-    show Submodule.Quotient.mk (reflFunctorMinus_dsMap _ i y) = Submodule.Quotient.mk y
+    change Submodule.Quotient.mk (reflFunctorMinus_dsMap _ i y) = Submodule.Quotient.mk y
     rw [reflFunctorMinus_dsMap_id]
 
 /-- The functor law `F⁻ᵢ(f ≫ g) = F⁻ᵢ(f) ≫ F⁻ᵢ(g)`, pointwise and at an explicit
@@ -220,7 +220,7 @@ theorem reflFunctorMinus_homAt_comp
     obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective (LinearMap.range (ρ₁.sourceMap i))
       (show ((DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₁.obj a.1)) ⧸
         LinearMap.range (ρ₁.sourceMap i)) from x)
-    show Submodule.Quotient.mk (reflFunctorMinus_dsMap (f.comp g) i y) =
+    change Submodule.Quotient.mk (reflFunctorMinus_dsMap (f.comp g) i y) =
       Submodule.Quotient.mk (reflFunctorMinus_dsMap g i (reflFunctorMinus_dsMap f i y))
     rw [reflFunctorMinus_dsMap_comp]
 

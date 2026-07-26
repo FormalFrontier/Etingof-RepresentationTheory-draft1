@@ -7753,12 +7753,12 @@
     "end_page": "168",
     "start_line": 21,
     "end_line": 35,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "fidelity_issue": 7383,
-    "coverage_note": "The positive reflection object assignment is defined componentwise, but Definition 6.6.3 calls it a functor and no action on morphisms or functor laws are exposed (#7383)."
+    "coverage": "covered",
+    "coverage_note": "The object assignment (Definition6_6_3.lean) is now packaged as an actual CategoryTheory.Functor Rep Q ⥤ Rep Q̄ᵢ by Etingof.reflectionFunctorPlusFunctor (Definition6_6_3_Functor.lean), with the action on representation morphisms, the identity/composition laws, and lemmas identifying the object action with the componentwise construction (#7383).",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter6/Definition6.6.3_maps",
@@ -7768,12 +7768,11 @@
     "end_page": "169",
     "start_line": 1,
     "end_line": 2,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "fidelity_issue": 7383,
-    "coverage_note": "The reflected representation's internal arrow maps are defined, but the source also requires F_i^+ to map representation morphisms; that categorical action and its functor laws are missing (#7383).",
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "coverage": "covered",
+    "coverage_note": "The reflected representation's internal arrow maps are defined, and the categorical action of F⁺ᵢ on representation morphisms plus the functor laws are supplied by Definition6_6_3_Functor.lean (#7383).",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter6/Definition6.6.4",
@@ -7783,14 +7782,12 @@
     "end_page": "169",
     "start_line": 3,
     "end_line": 26,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The F⁻ object construction and computation theorems are source-present, but Definition6_6_4.lean fails a fresh source check (#7524). Independently, the action on representation morphisms and functor laws required by the word 'functor' are missing (#7383).",
-    "coverage_issue": 7524,
-    "fidelity_issue": 7383,
-    "last_updated": "2026-07-22"
+    "coverage": "covered",
+    "coverage_note": "The F⁻ object construction and computation theorems are source-present, and the object assignment is now packaged as an actual CategoryTheory.Functor Rep Q ⥤ Rep Q̄ᵢ by Etingof.reflectionFunctorMinusFunctor (Definition6_6_4_Functor.lean), with the action on representation morphisms and the functor laws (#7383).",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter6/Proposition6.6.5",
@@ -8293,9 +8290,8 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "Items (1)-(8) are formalized, including the symmetric-power functor (ModuleCat.symmetricPower, built on a new SymmetricPower.map since Mathlib has none) and the Schur functors (Etingof.schurFunctor). Only item (9), packaging the BGP reflection constructions as functors, remains; that is #7383.",
-    "followup_issue": 7383,
+    "coverage": "covered",
+    "coverage_note": "All nine items are formalized, including the symmetric-power functor (ModuleCat.symmetricPower, built on a new SymmetricPower.map since Mathlib has none), the Schur functors (Etingof.schurFunctor), and item (9), the BGP reflection functors Etingof.reflectionFunctorPlusFunctor / reflectionFunctorMinusFunctor (#7383).",
     "last_updated": "2026-07-26"
   },
   {
