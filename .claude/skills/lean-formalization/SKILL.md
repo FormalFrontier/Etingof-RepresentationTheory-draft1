@@ -3917,6 +3917,61 @@ If your proof requires distributing `.hom.hom` over `Finset.sum` or similar, you
 
 **When stuck on FDRep plumbing after 2 attempts:** Sorry the categorical step with a comment explaining what's needed, and file an issue. Don't spend an entire session on unwrapping functors.
 
+#### The plumbing that *does* work, when you genuinely need it (#7416, `Infrastructure/FDRepDirectSum.lean`)
+
+Patterns 1–3 above say to route around the layers. When the deliverable *is* a categorical
+statement (a biproduct, an explicit intertwiner), route through them with these four moves
+instead — each is a one-liner, and together they took a session's worth of guessing out of the
+`⨁`/`≅` work for Problem 4.12.9.
+
+**Build a morphism from an equivariant linear map.** `ModuleCat.ofHom` gives the wrong object
+(`ModuleCat.of k ↑V.V`, not `V.V`); use `FGModuleCat.ofHom`:
+
+```lean
+def mkHom (V W : FDRep k G) (f : (V : Type) →ₗ[k] (W : Type))
+    (hf : ∀ g v, f (V.ρ g v) = W.ρ g (f v)) : V ⟶ W where
+  hom := FGModuleCat.ofHom f
+  comm := by intro g; ext v; exact hf g v
+```
+
+For an iso, `Action.mkIso e.toFGModuleCatIso fun g => by apply FGModuleCat.hom_ext; …`. Note
+`FGModuleCat.hom_ext` lands you directly on the underlying `LinearMap` — do **not** chain
+`ModuleCat.hom_ext` after it (it will not unify).
+
+**Distribute `.hom.hom.hom` over `Finset.sum`.** Pattern 3 says this means you are fighting the
+abstraction; it is actually five lines, because the unwrapping is additive *definitionally*:
+
+```lean
+def homAddHom (X Y : FDRep k G) : (X ⟶ Y) →+ ((X : Type) →ₗ[k] (Y : Type)) where
+  toFun f := f.hom.hom.hom
+  map_zero' := rfl
+  map_add' _ _ := rfl
+-- then `map_sum (homAddHom X Y) g Finset.univ` turns `(∑ i, g i).hom.hom.hom` into `∑ i, …`
+```
+
+This is what makes `∑ i, π i ≫ ι i = 𝟙` (the biproduct totality condition) provable.
+
+**`rw`/`simp` fail on the coerced carrier; `change` fixes it.** `(FDRep.of ρ : Type)` is
+`↑(FDRep.of ρ).V`, defeq to but not syntactically the concrete space, so `rw` reports "did not
+find an occurrence" on a goal that looks right. State the goal in concrete terms with `change`
+first. Same story for `Pi.single` there: pin the family explicitly, and the implicit is named
+`M`, not `f` — `Pi.single (M := fun j => ((V j : Type))) i x`.
+
+**`(V ⊗ W).ρ g = TensorProduct.map (V.ρ g) (W.ρ g)` by `rfl`**, so explicit intertwiners out of
+a tensor product are `TensorProduct.ext'` plus a `change` and `ring`. `⊗` needs
+`open CategoryTheory MonoidalCategory`.
+
+**Don't rebuild the direct sum.** `Infrastructure/FDRepDirectSum.lean` already provides
+`Etingof.FDRep.pi` (a finite family's direct sum, as the componentwise action on `∀ i, V i`),
+its projections/inclusions, `character_pi : (pi V).character g = ∑ i, (V i).character g`,
+`trace_piEnd`, and the proof that `pi V` *is* the categorical biproduct — hence the instance
+`HasFiniteBiproducts (FDRep k G)` (Mathlib does not supply it) and
+`piIsoBiproduct : pi V ≅ ⨁ V`. Combined with `Etingof.charEq_iso` this is the standard route
+from a character computation to a book-shaped `V ≅ ⨁ …` statement. The same file has
+`Etingof.sum_char_apply`, orthogonality for the `ℂˣ`-valued character group of a finite abelian
+group (bridged to Mathlib's `AddChar.sum_apply_eq_ite` via `MonoidHom.toHomUnits`), which is
+what evaluates "the direct sum of *all* one-dimensional characters".
+
 ### Bezout Reduction for Integrality
 
 When proving `IsIntegral ℤ (a / b)` where `a` and `b` are related by coprimality:
