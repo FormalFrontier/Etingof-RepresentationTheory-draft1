@@ -37,7 +37,7 @@ covers both the decomposable and the indecomposable normal forms:
   decomposable (`c = 0`) and indecomposable (`c ≠ 0` on an arrow `i → j`) cases.
 * `twoRep_isIndecomposable`, `twoRep_zero_not_isIndecomposable` -- the two branches are
   genuinely different isomorphism classes.
-* `twoRep_equiv_smul` and `exists_smul_of_equiv_twoRep` -- the **parameter criterion**: for
+* `twoRepEquivSmul` and `exists_smul_of_equiv_twoRep` -- the **parameter criterion**: for
   `i ≠ j`, `twoRep i j c ≅ twoRep i j c'` if and only if `c'` and `c` agree up to a single
   nonzero scalar on the arrows `i → j`. This is where parallel arrows enter: the
   isomorphism classes of indecomposable two-dimensional representations supported on `i ≠ j` are
@@ -46,7 +46,8 @@ covers both the decomposable and the indecomposable normal forms:
 * `vertices_eq_of_equiv_twoRep` -- the **support criterion**: the unordered pair `{i, j}` is an
   isomorphism invariant.
 * `two_dim_classification_of_normalForm` -- the old necessary-condition disjunction
-  `Problem3_9_3.two_dim_classification`, recovered as a corollary of the normal form.
+  `Problem3_9_3.two_dim_classification`, recovered verbatim as a corollary of the normal form
+  (its original standalone proof is retained in `Problem3_9_3.lean`, which this file imports).
 -/
 
 namespace Etingof
@@ -796,6 +797,211 @@ theorem two_dim_normalForm [DecidableEq Q] [Fintype Q]
         · subst b
           exact Or.inr (key j i (Ne.symm hij) hj1 hi1 (fun v h1 h2 => h0 v h2 h1) e hne0)
         · exact absurd hbj.symm hab
+
+/-! ### Distinguishing the isomorphism classes
+
+Three invariants separate the normal forms: the unordered pair of supported vertices, the
+indecomposability dichotomy, and -- within the indecomposable family supported on `i ≠ j` -- the
+coefficient vector up to a single nonzero scalar. -/
+
+/-- Rescaling all coefficients by a nonzero scalar `t` gives an isomorphic normal form: scale the
+`j`-slot by `t` and leave the `i`-slot alone. -/
+noncomputable def twoRepEquivSmul [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k)
+    {t : k} (ht : t ≠ 0) :
+    QuiverRepresentationEquiv k Q (twoRep i j c) (twoRep i j fun p => t * c p) where
+  equivAt v := (LinearEquiv.refl k (Fin (if v = i then 1 else 0) → k)).prodCongr
+    (LinearEquiv.smulOfNeZero k (Fin (if v = j then 1 else 0) → k) t ht)
+  commutes e x := by
+    refine Prod.ext rfl ?_
+    change t • (((twoRep i j c).mapLinear e x).2) = _
+    rw [twoRep_mapLinear_apply_snd, smul_smul]
+    rfl
+
+/-- **The parameter criterion.** An isomorphism between two normal forms supported on `i ≠ j`
+forces the two coefficient vectors to agree, on the arrows `i → j`, up to one nonzero scalar.
+Together with `twoRepEquivSmul` this says the indecomposable normal forms supported on `i ≠ j`
+are classified by `k^{#(i ⟶ j)}` modulo scaling: a single point when there is exactly one arrow
+`i → j`, and a projective space of positive dimension as soon as there are parallel arrows. -/
+theorem exists_smul_of_equiv_twoRep [DecidableEq Q] {i j : Q} (hij : i ≠ j)
+    (c c' : (Σ a b : Q, (a ⟶ b)) → k)
+    (φ : QuiverRepresentationEquiv k Q (twoRep i j c) (twoRep i j c')) :
+    ∃ t : k, t ≠ 0 ∧ ∀ e : i ⟶ j, c' ⟨i, j, e⟩ = t * c ⟨i, j, e⟩ := by
+  haveI hsub_i : Subsingleton (Fin (if i = j then 1 else 0) → k) :=
+    finPi_subsingleton (if_neg hij)
+  haveI hsub_j : Subsingleton (Fin (if j = i then 1 else 0) → k) :=
+    finPi_subsingleton (if_neg (Ne.symm hij))
+  have hi1 : (if i = i then 1 else 0) = 1 := if_pos rfl
+  have hj1 : (if j = j then 1 else 0) = 1 := if_pos rfl
+  -- `φ` acts on the `i`-slot by a scalar `gi` and on the `j`-slot by a scalar `gj`.
+  obtain ⟨gi, hgi⟩ : ∃ g : k, finPiEquivOfEqOne k hi1 (φ.equivAt i (genFst i j c)).1 = g :=
+    ⟨_, rfl⟩
+  obtain ⟨gj, hgj⟩ : ∃ g : k, finPiEquivOfEqOne k hj1 (φ.equivAt j (genSnd i j c)).2 = g :=
+    ⟨_, rfl⟩
+  have hgi0 : gi ≠ 0 := by
+    intro h
+    have hz : φ.equivAt i (genFst i j c) = 0 := by
+      refine Prod.ext ?_ (Subsingleton.elim _ _)
+      apply (finPiEquivOfEqOne k hi1).injective
+      rw [hgi, h]
+      exact (map_zero _).symm
+    exact genFst_ne_zero i j c ((φ.equivAt i).injective (hz.trans (map_zero _).symm))
+  have hgj0 : gj ≠ 0 := by
+    intro h
+    have hz : φ.equivAt j (genSnd i j c) = 0 := by
+      refine Prod.ext (Subsingleton.elim _ _) ?_
+      apply (finPiEquivOfEqOne k hj1).injective
+      rw [hgj, h]
+      exact (map_zero _).symm
+    exact genSnd_ne_zero i j c ((φ.equivAt j).injective (hz.trans (map_zero _).symm))
+  -- Compare the two sides of `commutes` on the `i`-generator, read in the `j`-slot.
+  have hrel : ∀ e : i ⟶ j, c ⟨i, j, e⟩ * gj = c' ⟨i, j, e⟩ * gi := by
+    intro e
+    have hcomm := φ.commutes e (genFst i j c)
+    rw [twoRep_mapLinear_genFst, map_smul] at hcomm
+    have h4 : finPiEquivOfEqOne k hj1 (c ⟨i, j, e⟩ • (φ.equivAt j (genSnd i j c)).2)
+        = finPiEquivOfEqOne k hj1 (c' ⟨i, j, e⟩ •
+            truncMap k (if i = i then 1 else 0) (if j = j then 1 else 0)
+              (φ.equivAt i (genFst i j c)).1) :=
+      congrArg (fun y => finPiEquivOfEqOne k hj1 (Prod.snd y)) hcomm
+    rw [map_smul, map_smul, smul_eq_mul, smul_eq_mul,
+      finPiEquivOfEqOne_truncMap hi1 hj1, hgi, hgj] at h4
+    exact h4
+  refine ⟨gj * gi⁻¹, mul_ne_zero hgj0 (inv_ne_zero hgi0), fun e => ?_⟩
+  calc c' ⟨i, j, e⟩ = c' ⟨i, j, e⟩ * gi * gi⁻¹ := by
+        rw [mul_assoc, mul_inv_cancel₀ hgi0, mul_one]
+    _ = c ⟨i, j, e⟩ * gj * gi⁻¹ := by rw [hrel e]
+    _ = gj * gi⁻¹ * c ⟨i, j, e⟩ := by ring
+
+/-- **The support criterion.** The unordered pair of supported vertices is an isomorphism
+invariant of the normal form. -/
+theorem vertices_eq_of_equiv_twoRep [DecidableEq Q] {i j i' j' : Q}
+    (c c' : (Σ a b : Q, (a ⟶ b)) → k)
+    (φ : QuiverRepresentationEquiv k Q (twoRep i j c) (twoRep i' j' c')) :
+    (i = i' ∧ j = j') ∨ (i = j' ∧ j = i') := by
+  have hd : ∀ v : Q, (if v = i then 1 else 0) + (if v = j then 1 else 0)
+      = (if v = i' then 1 else 0) + (if v = j' then 1 else 0) := by
+    intro v
+    rw [← dimVec_twoRep i j c v, ← dimVec_twoRep i' j' c' v]
+    exact φ.dimVec_eq v
+  have hi : i = i' ∨ i = j' := by
+    by_contra hcon
+    have h1 := hd i
+    rw [if_pos rfl, if_neg (fun h => hcon (Or.inl h)), if_neg (fun h => hcon (Or.inr h))] at h1
+    omega
+  have hj : j = i' ∨ j = j' := by
+    by_contra hcon
+    have h1 := hd j
+    rw [if_pos rfl, if_neg (fun h => hcon (Or.inl h)), if_neg (fun h => hcon (Or.inr h))] at h1
+    omega
+  rcases hi with hi | hi
+  · refine Or.inl ⟨hi, ?_⟩
+    rcases hj with hj | hj
+    · -- `j = i' = i`, so `i = j` and the whole dimension sits at one vertex.
+      have hij : i = j := hi.trans hj.symm
+      have h1 := hd i
+      rw [if_pos rfl, if_pos hij, if_pos hi] at h1
+      have hij' : i = j' := by
+        by_contra hne
+        rw [if_neg hne] at h1
+        omega
+      exact hij.symm.trans hij'
+    · exact hj
+  · refine Or.inr ⟨hi, ?_⟩
+    rcases hj with hj | hj
+    · exact hj
+    · -- `j = j' = i`, so `i = j` again.
+      have hij : i = j := hi.trans hj.symm
+      have h1 := hd i
+      rw [if_pos rfl, if_pos hij, if_pos hi] at h1
+      have hij' : i = i' := by
+        by_contra hne
+        rw [if_neg hne] at h1
+        omega
+      exact hij.symm.trans hij'
+
+/-! ### The old necessary condition, as a corollary -/
+
+/-- Indecomposability transports along an isomorphism of quiver representations. -/
+theorem isIndecomposable_of_equiv {ρ σ : QuiverRepresentation k Q}
+    (φ : QuiverRepresentationEquiv k Q ρ σ) (h : ρ.IsIndecomposable) : σ.IsIndecomposable := by
+  obtain ⟨⟨v₀, hv₀⟩, hdec⟩ := h
+  refine ⟨⟨v₀, ?_⟩, ?_⟩
+  · obtain ⟨x, y, hxy⟩ := hv₀
+    exact ⟨φ.equivAt v₀ x, φ.equivAt v₀ y, fun h => hxy ((φ.equivAt v₀).injective h)⟩
+  intro W₁ W₂ h1 h2 hcompl
+  -- Pull the two subrepresentations back along `φ`.
+  have hpull : ∀ (W : ∀ v, Submodule k (σ.obj v)),
+      (∀ {a b : Q} (e : a ⟶ b), ∀ x ∈ W a, σ.mapLinear e x ∈ W b) →
+      ∀ {a b : Q} (e : a ⟶ b), ∀ x ∈ Submodule.comap (φ.equivAt a).toLinearMap (W a),
+        ρ.mapLinear e x ∈ Submodule.comap (φ.equivAt b).toLinearMap (W b) := by
+    intro W hW a b e x hx
+    rw [Submodule.mem_comap] at hx ⊢
+    rw [LinearEquiv.coe_coe, φ.commutes e]
+    exact hW e _ hx
+  have hcompl' : ∀ v, IsCompl (Submodule.comap (φ.equivAt v).toLinearMap (W₁ v))
+      (Submodule.comap (φ.equivAt v).toLinearMap (W₂ v)) := by
+    intro v
+    exact (Submodule.orderIsoMapComap (φ.equivAt v)).symm.isCompl (hcompl v)
+  have hcomap_inj : ∀ (v : Q) (W : Submodule k (σ.obj v)),
+      Submodule.comap (φ.equivAt v).toLinearMap W = ⊥ → W = ⊥ := by
+    intro v W hW
+    have := (Submodule.orderIsoMapComap (φ.equivAt v)).symm.injective
+      (a₁ := W) (a₂ := ⊥) (by simpa using hW)
+    exact this
+  rcases hdec _ _ (hpull W₁ h1) (hpull W₂ h2) hcompl' with hb | hb
+  · exact Or.inl fun v => hcomap_inj v (W₁ v) (hb v)
+  · exact Or.inr fun v => hcomap_inj v (W₂ v) (hb v)
+
+/-- An arrow with a nonzero coefficient acts bijectively on the normal form `twoRep i j c`
+(`i ≠ j`): both slots are one-dimensional. -/
+theorem twoRep_mapLinear_bijective [DecidableEq Q] {i j : Q} (hij : i ≠ j)
+    (c : (Σ a b : Q, (a ⟶ b)) → k) {e : i ⟶ j} (hc : c ⟨i, j, e⟩ ≠ 0) :
+    Function.Bijective ((twoRep i j c).mapLinear e) := by
+  haveI hsi : IsSimpleModule k ((twoRep (k := k) i j c).obj i) :=
+    isSimpleModule_iff_finrank_eq_one.mpr (finrank_twoRep_fst hij c)
+  haveI hsj : IsSimpleModule k ((twoRep (k := k) i j c).obj j) :=
+    isSimpleModule_iff_finrank_eq_one.mpr (finrank_twoRep_snd hij c)
+  have hne : (twoRep i j c).mapLinear e ≠ 0 := by
+    intro h
+    have hg := twoRep_mapLinear_genFst i j c e
+    rw [h, LinearMap.zero_apply] at hg
+    exact smul_ne_zero hc (genSnd_ne_zero i j c) hg.symm
+  refine ⟨?_, ?_⟩
+  · rw [← LinearMap.ker_eq_bot]
+    rcases eq_bot_or_eq_top (LinearMap.ker ((twoRep i j c).mapLinear e)) with h | h
+    · exact h
+    · exact absurd (LinearMap.ker_eq_top.mp h) hne
+  · rw [← LinearMap.range_eq_top]
+    rcases eq_bot_or_eq_top (LinearMap.range ((twoRep i j c).mapLinear e)) with h | h
+    · exact absurd (LinearMap.range_eq_bot.mp h) hne
+    · exact h
+
+/-- The necessary-condition disjunction of `Problem3_9_3.two_dim_classification`, now a corollary
+of the normal-form classification: the decomposable branch comes from
+`twoRep_zero_not_isIndecomposable`, the bijective-arrow branch from
+`twoRep_mapLinear_bijective`. -/
+theorem two_dim_classification_of_normalForm [Fintype Q]
+    (hQ : NoOrientedCycles Q) (ρ : QuiverRepresentation k Q)
+    [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
+    (h2 : ∑ v, dimVec ρ v = 2) :
+    (¬ ρ.IsIndecomposable)
+      ∨ (∃ (i j : Q) (a : i ⟶ j), i ≠ j ∧ Function.Bijective (ρ.mapLinear a)) := by
+  classical
+  rcases two_dim_normalForm hQ ρ h2 with ⟨i, j, ⟨φ⟩⟩ | ⟨i, j, c, e₀, hij, hc, ⟨φ⟩⟩
+  · exact Or.inl fun h => twoRep_zero_not_isIndecomposable i j (isIndecomposable_of_equiv φ h)
+  · refine Or.inr ⟨i, j, e₀, hij, ?_⟩
+    have hcomp : ∀ x, ρ.mapLinear e₀ x =
+        (φ.equivAt j).symm ((twoRep i j c).mapLinear e₀ (φ.equivAt i x)) := by
+      intro x
+      rw [← φ.commutes e₀, LinearEquiv.symm_apply_apply]
+    have hbij := twoRep_mapLinear_bijective hij c hc
+    refine ⟨fun x y hxy => ?_, fun y => ?_⟩
+    · refine (φ.equivAt i).injective (hbij.1 ((φ.equivAt j).symm.injective ?_))
+      rw [← hcomp, ← hcomp]
+      exact hxy
+    · obtain ⟨z, hz⟩ := hbij.2 (φ.equivAt j y)
+      obtain ⟨x, hx⟩ := (φ.equivAt i).surjective z
+      exact ⟨x, by rw [hcomp, hx, hz, LinearEquiv.symm_apply_apply]⟩
 
 end Problem3_9_3
 
