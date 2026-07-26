@@ -3,3 +3,4 @@ lake-packages/
 build/
 .DS_Store
 .claude/.pod-checksums
+__pycache__/
