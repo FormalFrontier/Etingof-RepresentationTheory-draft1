@@ -40,16 +40,6 @@ namespace Etingof
 
 /-! ## Supporting definitions for Gabriel's theorem -/
 
-/-- An equivalence (isomorphism) of quiver representations: a family of linear equivalences
-at each vertex that commute with the arrow maps. -/
-structure QuiverRepresentationEquiv (k : Type*) (Q : Type*) [CommSemiring k] [Quiver Q]
-    (ρ₁ ρ₂ : QuiverRepresentation k Q) where
-  /-- A linear equivalence at each vertex -/
-  equivAt : ∀ v, ρ₁.obj v ≃ₗ[k] ρ₂.obj v
-  /-- The equivalences commute with the arrow maps -/
-  commutes : ∀ {v w : Q} (e : v ⟶ w) (x : ρ₁.obj v),
-    equivAt w (ρ₁.mapLinear e x) = ρ₂.mapLinear e (equivAt v x)
-
 /-- Quiver representation with all universes pinned to 0 (the natural setting for
 finite-dimensional representations over a concrete field on a finite vertex set). -/
 abbrev FinQuiverRep (k : Type) [CommSemiring k] (n : ℕ) [Quiver.{0} (Fin n)] :=
