@@ -9021,10 +9021,9 @@
     "start_line": 9,
     "end_line": 16,
     "status": "sorry_free",
-    "coverage_note": "All commutative-ring statements are proved sorry-free. Part (i) remains narrower than the source: the book treats projective right modules over arbitrary rings, while the current Module.Flat theorem requires CommRing A. The source-faithful noncommutative tensor-exactness theorem is tracked by #6053.",
-    "coverage": "covered_partial",
-    "followup_issue": 6053,
-    "last_updated": "2026-07-22"
+    "coverage_note": "All three parts are proved sorry-free. Part (i) is now source-faithful: Etingof.IsFlat A M is the book's definition (exactness of the ring-tensor functor M ⊗_A - on left A-modules) for a right module over an arbitrary Ring A, and Problem_8_1_3_i proves every projective right A-module satisfies it. Problem_8_1_3_i_commRing retains the Module.Flat bridge that parts (ii) and (iii) — stated by the book for commutative A — are phrased against.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter8/Exercise8.1.4",
