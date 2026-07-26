@@ -156,7 +156,8 @@ of the embedded ideals is contained in the embedding of the product. -/
 theorem map_includeLeft_mul_le (I J : Ideal A) :
     Ideal.map (Algebra.TensorProduct.includeLeft (R := k) (S := k) (A := A) (B := B)) I *
         Ideal.map (Algebra.TensorProduct.includeLeft (R := k) (S := k) (A := A) (B := B)) J ≤
-      Ideal.map (Algebra.TensorProduct.includeLeft (R := k) (S := k) (A := A) (B := B)) (I * J) := by
+      Ideal.map (Algebra.TensorProduct.includeLeft (R := k) (S := k) (A := A) (B := B))
+        (I * J) := by
   rw [Ideal.mul_le]
   have key : ∀ x ∈ Ideal.map
       (Algebra.TensorProduct.includeLeft (R := k) (S := k) (A := A) (B := B)) I,
@@ -197,7 +198,8 @@ theorem map_includeLeft_mul_le (I J : Ideal A) :
 /-- Powers of the embedded ideal: `(Rad(A) ⊗ B)^n ⊆ (Rad(A)^n) ⊗ B`. -/
 theorem map_includeLeft_pow_le (I : Ideal A) (n : ℕ) :
     Ideal.map (Algebra.TensorProduct.includeLeft (R := k) (S := k) (A := A) (B := B)) I ^ n ≤
-      Ideal.map (Algebra.TensorProduct.includeLeft (R := k) (S := k) (A := A) (B := B)) (I ^ n) := by
+      Ideal.map (Algebra.TensorProduct.includeLeft (R := k) (S := k) (A := A) (B := B))
+        (I ^ n) := by
   induction n with
   | zero =>
     rw [Submodule.pow_zero, Submodule.pow_zero, Ideal.one_eq_top, Ideal.one_eq_top,
@@ -323,7 +325,15 @@ theorem exists_algEquiv_pi_matrix (A : Type*) [Ring A] [Algebra k A] [FiniteDime
     [IsSemisimpleRing A] :
     ∃ (n : ℕ) (d : Fin n → ℕ), (∀ i, NeZero (d i)) ∧
       Nonempty (A ≃ₐ[k] ∀ i, Matrix (Fin (d i)) (Fin (d i)) k) := by
-  sorry
+  obtain ⟨n, D, d, _, _, hDfin, hd, ⟨e⟩⟩ :=
+    IsSemisimpleRing.exists_algEquiv_pi_matrix_divisionRing_finite (R₀ := k) (R := A)
+  refine ⟨n, d, hd, ⟨e.trans (AlgEquiv.piCongrRight fun i => ?_)⟩⟩
+  haveI := hDfin i
+  -- every element of a finite-dimensional division algebra over an algebraically closed field
+  -- generates a finite field extension of `k`, hence lies in `k`
+  have hbij : Function.Bijective (algebraMap k (D i)) :=
+    IsAlgClosed.algebraMap_bijective_of_isIntegral
+  exact (AlgEquiv.ofBijective (Algebra.ofId k (D i)) hbij).symm.mapMatrix
 
 /-- **Over an algebraically closed field, the tensor product of two finite-dimensional
 semisimple algebras is semisimple.** This is the "product of two semisimple algebras, hence
@@ -332,7 +342,28 @@ theorem isSemisimpleRing_tensorProduct
     (A B : Type*) [Ring A] [Algebra k A] [FiniteDimensional k A] [IsSemisimpleRing A]
     [Ring B] [Algebra k B] [FiniteDimensional k B] [IsSemisimpleRing B] :
     IsSemisimpleRing (A ⊗[k] B) := by
-  sorry
+  classical
+  obtain ⟨n, d, hd, ⟨eA⟩⟩ := exists_algEquiv_pi_matrix (k := k) A
+  obtain ⟨m, c, hc, ⟨eB⟩⟩ := exists_algEquiv_pi_matrix (k := k) B
+  -- `(∏ᵢ Mat_{dᵢ}) ⊗ Mat_{cⱼ} ≅ ∏ᵢ (Mat_{cⱼ} ⊗ Mat_{dᵢ}) ≅ ∏ᵢ Mat_{cⱼdᵢ}` — the Kronecker
+  -- product is where "matrix algebras over `k` itself" is used.
+  haveI model : ∀ (j : Fin m),
+      IsSemisimpleRing ((∀ i, Matrix (Fin (d i)) (Fin (d i)) k) ⊗[k]
+        Matrix (Fin (c j)) (Fin (c j)) k) := by
+    intro j
+    haveI : ∀ i, IsSemisimpleRing
+        (Matrix (Fin (c j)) (Fin (c j)) k ⊗[k] Matrix (Fin (d i)) (Fin (d i)) k) := fun i =>
+      (Matrix.kroneckerAlgEquiv (Fin (c j)) (Fin (d i)) k).symm.toRingEquiv.isSemisimpleRing
+    have e1 : (∀ i, Matrix (Fin (d i)) (Fin (d i)) k) ⊗[k]
+        Matrix (Fin (c j)) (Fin (c j)) k ≃ₐ[k]
+        ∀ i, Matrix (Fin (c j)) (Fin (c j)) k ⊗[k] Matrix (Fin (d i)) (Fin (d i)) k :=
+      (Algebra.TensorProduct.comm k _ _).trans (Algebra.TensorProduct.piRight k k _ _)
+    exact e1.symm.toRingEquiv.isSemisimpleRing
+  haveI : IsSemisimpleRing ((∀ i, Matrix (Fin (d i)) (Fin (d i)) k) ⊗[k]
+      (∀ j, Matrix (Fin (c j)) (Fin (c j)) k)) :=
+    (Algebra.TensorProduct.piRight k k (∀ i, Matrix (Fin (d i)) (Fin (d i)) k)
+      (fun j => Matrix (Fin (c j)) (Fin (c j)) k)).symm.toRingEquiv.isSemisimpleRing
+  exact (Algebra.TensorProduct.congr eA eB).symm.toRingEquiv.isSemisimpleRing
 
 end AlgClosed
 
