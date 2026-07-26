@@ -54,6 +54,7 @@ EtingofRepresentationTheory/Chapter4/Example4_8_1/A5Golden.lean
 EtingofRepresentationTheory/Chapter4/Example4_8_1/A5Lambda2.lean
 EtingofRepresentationTheory/Chapter4/Example4_8_1/Q8.lean
 EtingofRepresentationTheory/Chapter4/Example4_8_1/S4.lean
+EtingofRepresentationTheory/Chapter4/Example4_9_1.lean
 EtingofRepresentationTheory/Chapter4/Exercise4_2_3.lean
 EtingofRepresentationTheory/Chapter4/Exercise4_2_3_Cocenter.lean
 EtingofRepresentationTheory/Chapter4/Exercise4_2_3_FieldGeneral.lean
@@ -130,6 +131,7 @@ EtingofRepresentationTheory/Chapter5/PowerSumCauchyBilinear.lean
 EtingofRepresentationTheory/Chapter5/PowerSumCauchyBilinearGen.lean
 EtingofRepresentationTheory/Chapter5/PowerSumCauchyIdentity.lean
 EtingofRepresentationTheory/Chapter5/PrimitiveIdempotentSimplicity.lean
+EtingofRepresentationTheory/Chapter5/Problem5_11_1.lean
 EtingofRepresentationTheory/Chapter5/Problem5_16_1.lean
 EtingofRepresentationTheory/Chapter5/Problem5_16_2.lean
 EtingofRepresentationTheory/Chapter5/Problem5_16_3.lean
