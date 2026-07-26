@@ -1,4 +1,5 @@
 import EtingofRepresentationTheory.Chapter8.KoszulContraction
+import EtingofRepresentationTheory.Chapter8.KoszulDifferential
 
 /-!
 # Problem 8.2.10: Koszul resolution and the Hilbert syzygies theorem
@@ -56,8 +57,15 @@ The exercise itself is being formalized bottom-up. Landed so far:
   `ιᵤ ∘ ιᵤ' = - ιᵤ' ∘ ιᵤ` (`Etingof.exteriorContraction_comm`). The last two are exactly what
   makes the Koszul differential `d = ∑ₐ xₐ ⊗ ι_{xₐ*}` square to zero.
 
-Still to come: the complex `Cᵢ = SV ⊗ ⋀ⁱ V` with `d² = 0` and its exactness (i), the `SW`
-resolution (ii), the bimodule resolution (iii), Hilbert syzygies (iv), and the `Ext`/`Tor`
-computation (v). See the child issues linked from
+* `Chapter8/KoszulDifferential.lean` — the terms `Etingof.koszulX k V i = SV ⊗[k] ⋀ⁱ V` as
+  `SV`-modules and the Koszul differential
+  `Etingof.koszulD b i : koszulX k V (i + 1) →ₗ[SV] koszulX k V i`, the algebraic form
+  `d = ∑ₐ (multiplication by xₐ) ⊗ ι_{xₐ*}` of the book's `dᵢ(f)(u) = ιᵤ (f u)`, together with
+  `Etingof.koszulD_comp_koszulD : d ∘ d = 0`. The cancellation is characteristic-free
+  (`Finset.sum_ninvolution` on the off-diagonal pairs, `ιᵤ ∘ ιᵤ = 0` on the diagonal).
+
+Still to come: packaging `C_•` as a `ChainComplex` with its augmentation and proving exactness
+(i), the `SW` resolution (ii), the bimodule resolution (iii), Hilbert syzygies (iv), and the
+`Ext`/`Tor` computation (v). See the child issues linked from
 <https://github.com/kim-em/Etingof-RepresentationTheory-draft1/issues/5723>.
 -/
