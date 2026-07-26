@@ -1790,12 +1790,11 @@
     "start_line": 5,
     "end_line": 6,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "The characteristic-zero one-dimensional family and a characteristic-p p-dimensional counterexample are formalized. The source asks for a classification in positive characteristic, but no parameter family, isomorphism criterion, or exhaustiveness theorem exists there; follow-up #7410.",
+    "coverage": "covered_full",
+    "coverage_note": "Both characteristics are classified. Characteristic zero: charZero_exists_unique_iso_oneDim identifies every finite-dimensional irreducible with a unique member of the one-dimensional family oneDimModule. Characteristic p: the p-dimensional family Fam (X diagonal with eigenvalues a + i, Y the cyclic shift scaled by a unit) is constructed and proved irreducible, fam_nonempty_equiv_iff is the isomorphism criterion, and charP_exists_iso / charP_exists_unique_iso give exhaustiveness and uniqueness. lie_theorem_fails_charP is the resulting failure of Lie's theorem.",
     "fidelity": "faithful",
-    "fidelity_note": "The characteristic-zero scalar/family results are faithful, though a closing family-isomorphism theorem would improve the API. The positive-characteristic portion currently supplies only one irreducible witness, not the requested classification; #7410.",
-    "fidelity_issue": 7410,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "Existence-and-uniqueness classifications are exposed in both characteristics, together with the isomorphism criterion for the p-dimensional family and the disjointness of the one- and p-dimensional families (oneDim_not_equiv_fam).",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter2/Problem2.16.3",
