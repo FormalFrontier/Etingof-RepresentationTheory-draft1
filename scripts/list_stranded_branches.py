@@ -280,6 +280,57 @@ def recover(record: dict, base: str) -> list[str]:
     return log
 
 
+def audit_remote(base: str) -> int:
+    """Report remote `agent/*` branches that no PR ever pointed at.
+
+    Milder than a local stranding — the commits are at least fetchable — but
+    the same leak: nothing links them to an issue, so nobody finds them.
+
+    Per-branch `gh pr list` would be ~2700 requests here, so this pulls every
+    PR head once (~4800 PRs, a minute or so) and does the rest locally. That
+    cost is why it is opt-in and not part of the default report.
+    """
+    r = subprocess.run(
+        ["gh", "pr", "list", "--state", "all", "--limit", "10000",
+         "--json", "headRefName"],
+        capture_output=True, text=True, timeout=900,
+    )
+    if r.returncode != 0:
+        raise CheckFailed(f"gh pr list failed: {r.stderr.strip()}")
+    try:
+        heads = {p["headRefName"] for p in (json.loads(r.stdout) or [])}
+    except json.JSONDecodeError:
+        raise CheckFailed("gh pr list returned non-JSON")
+
+    remotes = git("for-each-ref", "--format=%(refname:short)",
+                  f"refs/remotes/origin/{BRANCH_GLOB}").splitlines()
+    print(f"{len(remotes)} remote agent/* branches, {len(heads)} distinct PR heads")
+
+    found = []
+    for ref in remotes:
+        if ref[len("origin/"):] in heads:
+            continue
+        ahead = rev_count(f"{base}..{ref}")
+        if not ahead:
+            continue
+        changed = git("diff", "--name-only", f"{base}...{ref}").splitlines()
+        lean = [f for f in changed
+                if f.startswith("EtingofRepresentationTheory/") and f.endswith(".lean")]
+        found.append((len(lean), ahead, ref, git("log", "-1", "--format=%s", ref)))
+
+    found.sort(reverse=True)
+    lean_ones = [f for f in found if f[0]]
+    print(f"{len(found)} carry commits not on {base}; {len(lean_ones)} touch Lean "
+          f"sources (the rest are progress notes and planner bookkeeping):\n")
+    for nlean, ahead, ref, subject in found:
+        if not nlean:
+            continue
+        print(f"  {ref}  {ahead} commit(s), {nlean} Lean file(s)\n      {subject[:100]}")
+    print("\nCheck each against `main` before acting: most of these were "
+          "superseded by later work that landed through a different branch.")
+    return 0
+
+
 def parse_args(argv: list[str]) -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     p.add_argument("--base", default=DEFAULT_BASE,
@@ -293,10 +344,18 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     p.add_argument("--include-live", action="store_true",
                    help="also report branches whose session is still running "
                         "(they are expected to be ahead; useful for debugging)")
+    p.add_argument("--remote-audit", action="store_true",
+                   help="instead of the local check, audit remote agent/* "
+                        "branches that no PR points at (slow: pulls every PR)")
     return p.parse_args(argv)
 
 
 def run(args: argparse.Namespace) -> int:
+    if args.remote_audit:
+        if not ref_exists(args.base):
+            raise CheckFailed(f"base ref {args.base} does not exist — run `git fetch origin`")
+        return audit_remote(args.base)
+
     root = main_repo_root()
     live = live_session_uuids(root)
 
