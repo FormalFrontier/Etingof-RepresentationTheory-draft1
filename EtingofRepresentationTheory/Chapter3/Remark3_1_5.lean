@@ -186,7 +186,67 @@ theorem injective_iff_rows_linearIndependent (r n : ℕ)
     have h2 := LinearMap.congr_fun this v
     simpa [hc, LinearMap.proj_apply] using h2
 
+/-- The explicit right-`D`-linear-relation condition of `injective_iff_rows_linearIndependent`
+is `LinearIndependent Dᵐᵒᵖ` for the rows, the form in which
+`Etingof.subrepresentation_of_semisimple_matrix` states it. -/
+theorem rows_linearIndependent_iff (r n : ℕ) (X : Matrix (Fin r) (Fin n) (Module.End A V)) :
+    LinearIndependent (Module.End A V)ᵐᵒᵖ X ↔
+      ∀ c : Fin r → Module.End A V, (∀ j, ∑ i, X i j * c i = 0) → ∀ i, c i = 0 := by
+  rw [Fintype.linearIndependent_iff]
+  constructor
+  · intro H c hc i
+    have hsum : (∑ i, MulOpposite.op (c i) • X i) = 0 := by
+      funext j
+      have := hc j
+      simpa [Finset.sum_apply] using this
+    simpa using H (fun i => MulOpposite.op (c i)) hsum i
+  · intro H c hc i
+    have hsum : ∀ j, ∑ i, X i j * (c i).unop = 0 := by
+      intro j
+      have := congrFun hc j
+      simpa [Finset.sum_apply] using this
+    have := H (fun i => (c i).unop) hsum i
+    exact MulOpposite.unop_injective (by simpa using this)
+
 end Injective
+
+section Blocks
+
+variable {A : Type*} [Ring A]
+  {ι : Type*} [Fintype ι] [DecidableEq ι]
+  {V : ι → Type*} [∀ i, AddCommGroup (V i)] [∀ i, Module A (V i)]
+  [∀ i, IsSimpleModule A (V i)]
+
+/-- **Proposition 3.1.4 / Remark 3.1.5**, block form. Assembling
+`Etingof.subrepresentation_of_semisimple_matrix` with the single-isotypic matrix API above:
+the inclusion `W ↪ ⊕ᵢ nᵢVᵢ` is the direct sum of block maps `φ i : rᵢVᵢ → nᵢVᵢ`, each of
+which is injective, and the matrix of `φ i` over `Dᵢ = End_A (V i)` supplied by
+`homMatrixEquiv` has linearly independent rows. This is the book's
+"`φ` is a direct sum of inclusions `φᵢ : rᵢVᵢ → nᵢVᵢ` given by a matrix `Xᵢ` with linearly
+independent rows". -/
+theorem subrepresentation_blocks (n : ι → ℕ)
+    (hd : ∀ ⦃i j⦄, Nonempty (V i ≃ₗ[A] V j) → i = j)
+    (W : Submodule A (⨁ i, (Fin (n i) → V i))) :
+    ∃ (r : ι → ℕ) (φ : ∀ i, (Fin (r i) → V i) →ₗ[A] (Fin (n i) → V i))
+      (e : ↥W ≃ₗ[A] ⨁ i, (Fin (r i) → V i)),
+      (∀ i, r i ≤ n i) ∧
+      (∀ i, Function.Injective (φ i)) ∧
+      (∀ i, LinearIndependent (Module.End A (V i))ᵐᵒᵖ
+        (homMatrixEquiv (r i) (n i) (φ i))) ∧
+      ∀ (w : ↥W) (i : ι), (w : ⨁ k, (Fin (n k) → V k)) i = φ i (e w i) := by
+  obtain ⟨r, X, e, hr, hli, hform⟩ := Etingof.subrepresentation_of_semisimple_matrix n hd W
+  refine ⟨r, fun i => (homMatrixEquiv (r i) (n i)).symm (X i), e, hr, ?_, ?_, ?_⟩
+  · intro i
+    rw [injective_iff_rows_linearIndependent, ← rows_linearIndependent_iff]
+    simpa using hli i
+  · intro i
+    simpa using hli i
+  · intro w i
+    funext l
+    rw [hform w i]
+    exact (homMatrixEquiv_symm_apply (r i) (n i) (X i) (e w i) l).symm
+
+end Blocks
 
 section DivisionRing
 
