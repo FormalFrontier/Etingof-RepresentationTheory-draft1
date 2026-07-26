@@ -35,6 +35,9 @@ which is harmless because both choices give isomorphic representations.
 * `Etingof.GL2.detChar_finrank`, `Etingof.GL2.detChar_character` — `dim ℂ_μ = 1` and
   `χ_{ℂ_μ}(g) = μ(det g)`.
 * `Etingof.GL2.detChar_iso_iff` — `ℂ_μ ≅ ℂ_ν` iff `μ = ν`.
+* `Etingof.GL2.detChar_not_iso_complementW`, `Etingof.GL2.detChar_not_iso_principalSeries`,
+  `Etingof.GL2.complementW_not_iso_principalSeries` — the three cross-kind
+  non-isomorphisms, all by dimension count.
 * `Etingof.GL2.principalFamily_simple` — every member of the family is simple.
 * `Etingof.GL2.principalFamily_injective` — distinct indices give non-isomorphic members.
 * `Etingof.GL2.card_principalIndex` — the family has `(q − 1) + q(q−1)/2` members.
@@ -205,6 +208,40 @@ def principalFamily : PrincipalIndex p n → FDRep ℂ (Grp p n)
 private theorem two_le_q (hn : n ≠ 0) : 2 ≤ p ^ n :=
   Nat.one_lt_pow hn hp.out.one_lt
 
+/-! ### Cross-kind non-isomorphism
+
+The three kinds of representation have dimensions `1`, `q`, and `q + 1`, which are pairwise
+distinct as soon as `q ≥ 2`. That is the whole argument: no character theory is needed to
+separate one kind from another, only `finrank_eq_of_iso`. -/
+
+/-- **`ℂ_μ ≇ W_ν`**: the dimensions are `1` and `q`, and `q ≥ 2`. -/
+theorem detChar_not_iso_complementW (hn : n ≠ 0) (mu nu : Chars p n) :
+    ¬ Nonempty (detChar p n mu ≅ complementW p n nu) := by
+  rintro ⟨e⟩
+  have h := finrank_eq_of_iso e
+  rw [detChar_finrank, (Theorem5_25_2_part2 p n (Nat.pos_of_ne_zero hn) nu).2.2] at h
+  have := two_le_q p n hn
+  omega
+
+/-- **`ℂ_μ ≇ V(χ₁, χ₂)`**: the dimensions are `1` and `q + 1`, and `q ≥ 2`. -/
+theorem detChar_not_iso_principalSeries (hn : n ≠ 0) (mu chi1 chi2 : Chars p n) :
+    ¬ Nonempty (detChar p n mu ≅ principalSeries p n chi1 chi2) := by
+  haveI : NeZero n := ⟨hn⟩
+  rintro ⟨e⟩
+  have h := finrank_eq_of_iso e
+  rw [detChar_finrank, principalSeries_finrank] at h
+  have := two_le_q p n hn
+  omega
+
+/-- **`W_μ ≇ V(χ₁, χ₂)`**: the dimensions are `q` and `q + 1`. -/
+theorem complementW_not_iso_principalSeries (hn : n ≠ 0) (mu chi1 chi2 : Chars p n) :
+    ¬ Nonempty (complementW p n mu ≅ principalSeries p n chi1 chi2) := by
+  haveI : NeZero n := ⟨hn⟩
+  rintro ⟨e⟩
+  have h := finrank_eq_of_iso e
+  rw [(Theorem5_25_2_part2 p n (Nat.pos_of_ne_zero hn) mu).2.2, principalSeries_finrank] at h
+  omega
+
 /-- The dimension of each member of the family: `1`, `q`, `q + 1` for the three summands. -/
 theorem principalFamily_finrank (hn : n ≠ 0) :
     ∀ i, Module.finrank ℂ (principalFamily p n i).V =
@@ -224,31 +261,23 @@ theorem principalFamily_simple (hn : n ≠ 0) : ∀ i, Simple (principalFamily p
   | .inr (.inr s) => Theorem5_25_2_part1 p n s.fst s.snd s.fst_ne_snd
 
 /-- **Distinct indices give non-isomorphic representations.** Within a summand this is
-`detChar_iso_iff`, `Theorem5_25_2_part3a`, and `Theorem5_25_2_part3b`. Across summands the
-dimensions `1`, `q`, `q + 1` are pairwise distinct because `q ≥ 2`. -/
+`detChar_iso_iff`, `Theorem5_25_2_part3a`, and `Theorem5_25_2_part3b`; across summands it is
+the three dimension comparisons above. -/
 theorem principalFamily_injective (hn : n ≠ 0) :
     ∀ i j : PrincipalIndex p n, Nonempty (principalFamily p n i ≅ principalFamily p n j) →
       i = j := by
   haveI : NeZero n := ⟨hn⟩
-  have hq := two_le_q p n hn
-  -- Dimension is an isomorphism invariant, so compare the three dimensions `1`, `q`, `q+1`.
-  have hdim : ∀ i j : PrincipalIndex p n,
-      Nonempty (principalFamily p n i ≅ principalFamily p n j) →
-      Sum.elim (fun _ => 1) (Sum.elim (fun _ => p ^ n) (fun _ => p ^ n + 1)) i =
-      Sum.elim (fun _ => 1) (Sum.elim (fun _ => p ^ n) (fun _ => p ^ n + 1)) j := by
-    rintro i j ⟨e⟩
-    rw [← principalFamily_finrank p n hn i, ← principalFamily_finrank p n hn j]
-    exact finrank_eq_of_iso e
   rintro (mu | mu | s) (nu | nu | t) h
   · exact congrArg Sum.inl ((detChar_iso_iff p n mu nu).mp h)
-  · exact absurd (hdim _ _ h) (by simp only [Sum.elim_inl, Sum.elim_inr]; omega)
-  · exact absurd (hdim _ _ h) (by simp only [Sum.elim_inl, Sum.elim_inr]; omega)
-  · exact absurd (hdim _ _ h) (by simp only [Sum.elim_inl, Sum.elim_inr]; omega)
+  · exact absurd h (detChar_not_iso_complementW p n hn mu nu)
+  · exact absurd h (detChar_not_iso_principalSeries p n hn mu t.fst t.snd)
+  · exact absurd (Nonempty.map Iso.symm h) (detChar_not_iso_complementW p n hn nu mu)
   · exact congrArg (fun x => Sum.inr (Sum.inl x))
       ((Theorem5_25_2_part3a p n mu nu).mp h)
-  · exact absurd (hdim _ _ h) (by simp only [Sum.elim_inl, Sum.elim_inr]; omega)
-  · exact absurd (hdim _ _ h) (by simp only [Sum.elim_inl, Sum.elim_inr]; omega)
-  · exact absurd (hdim _ _ h) (by simp only [Sum.elim_inl, Sum.elim_inr]; omega)
+  · exact absurd h (complementW_not_iso_principalSeries p n hn mu t.fst t.snd)
+  · exact absurd (Nonempty.map Iso.symm h) (detChar_not_iso_principalSeries p n hn nu s.fst s.snd)
+  · exact absurd (Nonempty.map Iso.symm h)
+      (complementW_not_iso_principalSeries p n hn nu s.fst s.snd)
   · refine congrArg (fun x => Sum.inr (Sum.inr x)) (CharPair.ext_of_pair_eq ?_)
     exact (Theorem5_25_2_part3b p n s.fst s.snd t.fst t.snd s.fst_ne_snd t.fst_ne_snd).mp h
 
