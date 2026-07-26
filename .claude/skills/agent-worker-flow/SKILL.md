@@ -9,6 +9,30 @@ allowed-tools: Bash, Read, Glob, Grep
 This skill covers the shared workflow used by all pod worker agents.
 Session-specific commands reference this skill rather than duplicating it.
 
+## Step 0: Check you are reading the current skill (do this first)
+
+Reused worktrees keep arriving with `.claude/` guidance deleted, and skills load from
+the working tree — so the copy you are reading may be a stale revision with exactly the
+guidance you need cut out. Run this **before Step 1**, whether or not anything looks wrong:
+
+```bash
+git status --short
+wc -l .claude/skills/agent-worker-flow/SKILL.md
+git show HEAD:.claude/skills/agent-worker-flow/SKILL.md | wc -l
+```
+
+If the counts differ: save the diff (`git diff > /tmp/<uuid>-stale.patch`), restore with
+`git checkout HEAD -- .claude/`, then **re-invoke this skill** (the Skill tool, not `Read`)
+and start over from Step 1. Do the same for your `/command` file.
+
+This check lives at the top of the file on purpose. The fuller treatment is in Step 2 under
+"If the branch already exists", but every observed truncation left lines 1-70 intact while
+cutting blocks further down — so an instruction placed there is one a stale session never
+sees, and only this one is reliably reachable. (2026-07-25: four worktrees that day arrived
+with 169, 279, 193 and 209 lines of `.claude/` guidance deleted and nothing added. Three ran
+to completion on the old copy; the fourth caught it at Step 2 but only re-read the restored
+skill at the end of the session, after already publishing.)
+
 ## Coordination Reference
 
 The `coordination` script handles all GitHub-based multi-agent coordination.
