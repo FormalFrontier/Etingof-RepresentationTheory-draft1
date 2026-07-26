@@ -1,5 +1,22 @@
 # Review — Ch7 Example 7.3.2: Examples of Natural Transformations
 
+> **Superseded (2026-07-26).** Issue #7103 was reopened on 2026-07-22 because this review's
+> "FAITHFUL, no defect filed" verdict was too lenient on two points, both of which it does
+> record below but classifies as non-defects:
+>
+> 1. **Parts (3)/(4)** — the "trivial reverse-surjection observation" in §1 is the missing half
+>    of the book's `End F = A` and `End(id) = Z(A)`. Determination alone gives injectivity, not
+>    the equalities the docstrings assert.
+> 2. **Part (2)** — the `∃ l ≠ 0, l² ≠ 1` hypothesis is not merely "documented, not silent": the
+>    book states the non-naturality for an arbitrary field, and the claim is in fact true over
+>    `𝔽₂` and `𝔽₃`. The restriction was an artefact of testing at the one-dimensional object.
+>
+> Both gaps are now closed in `EtingofRepresentationTheory/Chapter7/Example7_3_2.lean`
+> (`forgetfulEndRingEquiv : End F ≃+* A`, `idFunctorEndRingEquiv : End 𝟭 ≃+* Subring.center A`,
+> and a hypothesis-free `not_natIso_id_contragredientFunctor` proved via transvections at `k³`).
+> The section-by-section analysis below remains accurate as a description of the file *before*
+> that work; only its dispositions are superseded.
+
 - **Issue:** #7103 (review, report-only)
 - **Reviewer session:** `/review` worker, branch `agent/d549ccad`
 - **Target:** `EtingofRepresentationTheory/Chapter7/Example7_3_2.lean` (361 lines), sorry-free on `main`

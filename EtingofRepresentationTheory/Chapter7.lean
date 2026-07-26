@@ -22,6 +22,8 @@ import EtingofRepresentationTheory.Chapter7.Introduction_7_4
 import EtingofRepresentationTheory.Chapter7.Example7_1_3
 import EtingofRepresentationTheory.Chapter7.Example7_1_5
 import EtingofRepresentationTheory.Chapter7.Example7_1_6
+import EtingofRepresentationTheory.Chapter7.SymmetricPowerFunctor
+import EtingofRepresentationTheory.Chapter7.SchurFunctor
 import EtingofRepresentationTheory.Chapter7.Example7_2_2
 import EtingofRepresentationTheory.Chapter7.Example7_3_2
 import EtingofRepresentationTheory.Chapter7.Example7_5_3

@@ -3,7 +3,11 @@ import Mathlib.LinearAlgebra.Dual.Defs
 import Mathlib.LinearAlgebra.Span.Basic
 import Mathlib.Algebra.Algebra.Tower
 import Mathlib.Algebra.Category.FGModuleCat.Basic
+import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
+import Mathlib.Algebra.Ring.Subring.Basic
 import Mathlib.CategoryTheory.Core
+import Mathlib.CategoryTheory.Endomorphism
+import Mathlib.CategoryTheory.Preadditive.FunctorCategory
 
 /-!
 # Example 7.3.2: Examples of Natural Transformations
@@ -21,6 +25,15 @@ import Mathlib.CategoryTheory.Core
 The double dual natural isomorphism is captured by `Module.evalEquiv` (for reflexive
 modules) and its naturality by `Module.Dual.eval_naturality`. Finite-dimensional
 modules over a field are automatically reflexive (`IsReflexive.of_finite_of_free`).
+
+## Headline results
+
+* (1) `Etingof.doubleDualNatIso : 𝟭 (FGModuleCat k) ≅ doubleDualFunctor k`, and
+  `Etingof.linearEquiv_dualDual_iff_finiteDimensional` for the failure on `Vect_k`.
+* (2) `Etingof.not_natIso_id_contragredientFunctor : IsEmpty (𝟭 ≅ contragredientFunctor k)`,
+  over an arbitrary field.
+* (3) `Etingof.forgetfulEndRingEquiv : End F ≃+* A`.
+* (4) `Etingof.idFunctorEndRingEquiv : End 𝟭 ≃+* Subring.center A`.
 -/
 
 universe u v
@@ -137,10 +150,16 @@ elements) the scalar automorphisms `a = l • 𝟙` already force `l² · B = B`
 `η_V = 0`. So no natural family can consist of isomorphisms once `V ≠ 0`: `F` is not naturally
 isomorphic to the identity, precisely because `V ≇ V*` as `GL(V)`-representations.
 
+That scalar argument is Etingof's own, but it is silent over `𝔽₂` and `𝔽₃`, where every nonzero
+scalar squares to `1`. Since the book claims the non-naturality for an arbitrary field, the
+section "Example 7.3.2(2) over an arbitrary field" below replaces the scalars by transvections
+and the line `k` by `k³`, giving `dual_gl_natural_eq_zero_of_three_le_finrank` with **no**
+hypothesis on `k`.
+
 We also package this categorically: `contragredientFunctor k` is `F` itself, built as an
 endofunctor of the groupoid `Core (FGModuleCat k)` (Etingof's `FVect'_k`), and
-`not_natIso_id_contragredientFunctor` proves `𝟭 ≇ F` there, deriving it from the obstruction
-by extracting the component and the scalar-naturality square at the line `k`.
+`not_natIso_id_contragredientFunctor` proves `𝟭 ≇ F` there, for every field, by extracting the
+component and the naturality square at the object `k³`.
 -/
 
 /-- **Example 7.3.2(2), positive part.** A vector space `V` over a field `k` is linearly
@@ -212,32 +231,137 @@ noncomputable def Etingof.contragredientFunctor (k : Type u) [Field k] :
   obj X := Core.mk (FGModuleCat.of k (Module.Dual k (X.of : Type u)))
   map {X Y} f := ⟨(FGModuleCat.isoToLinearEquiv f.iso).symm.dualMap.toFGModuleCatIso⟩
 
+/-!
+### Example 7.3.2(2) over an arbitrary field
+
+The scalar-automorphism obstruction above needs a scalar `l` with `l ≠ 0`, `l² ≠ 1`, so it says
+nothing over `𝔽₂` and `𝔽₃` — where every nonzero scalar does satisfy `l² = 1`, and where the
+one-dimensional test object genuinely fails to obstruct anything (for `dim V = 1` the scalars
+are all of `GL(V)`, and `B(l u, l w) = l² B(u, w) = B(u, w)`). Etingof states the
+non-naturality for an arbitrary field, so we recover the missing fields by testing a bigger
+object instead of a bigger field.
+
+The characteristic-free replacement uses *transvections* rather than scalars. Given a
+functional `f` and a vector `x` with `f x = 0`, the map `T v = v + f v • x` is a linear
+automorphism. If `η : V →ₗ[k] V*` is `GL(V)`-natural and `f u = f w = 0` while `f p = 1`, then
+naturality against `T v = v + f v • u` reads
+
+  `η (p + u) w = η (T p) (T w) = η p w`,
+
+which forces `η u w = 0`. So all that is needed is, for each pair `u, w`, a nonzero functional
+annihilating both — and that exists as soon as `dim V ≥ 3`, over any field whatsoever. Taking
+`V = k³` therefore obstructs `𝟭 ≅ F` uniformly.
+-/
+
+/-- The transvection `v ↦ v + f v • x` attached to a functional `f` and a vector `x` in its
+kernel; a linear automorphism with inverse `v ↦ v - f v • x`. These are the automorphisms that
+replace the scalars `l • 𝟙` in the characteristic-free form of Example 7.3.2(2). -/
+def Etingof.dualTransvection {k V : Type u} [Field k] [AddCommGroup V] [Module k V]
+    (f : Module.Dual k V) (x : V) (hx : f x = 0) : V ≃ₗ[k] V where
+  toFun v := v + f v • x
+  map_add' u v := by simp only [map_add, add_smul]; abel
+  map_smul' c v := by simp only [map_smul, smul_eq_mul, RingHom.id_apply, smul_add, mul_smul]
+  invFun v := v - f v • x
+  left_inv v := by simp [hx]
+  right_inv v := by simp [hx]
+
+@[simp]
+theorem Etingof.dualTransvection_apply {k V : Type u} [Field k] [AddCommGroup V] [Module k V]
+    (f : Module.Dual k V) (x : V) (hx : f x = 0) (v : V) :
+    Etingof.dualTransvection f x hx v = v + f v • x := rfl
+
+/-- In dimension at least three, any two vectors are annihilated by a common **nonzero**
+functional: the two evaluation conditions cut out at most a codimension-`2` subspace of the
+dual, which is `finrank V ≥ 3`-dimensional. This is the only place the dimension hypothesis
+enters the characteristic-free form of Example 7.3.2(2). -/
+theorem Etingof.exists_dual_eq_zero_pair {k V : Type u} [Field k] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V] (hdim : 3 ≤ Module.finrank k V) (u w : V) :
+    ∃ f : Module.Dual k V, f ≠ 0 ∧ f u = 0 ∧ f w = 0 := by
+  set φ : Module.Dual k V →ₗ[k] (Fin 2 → k) :=
+    LinearMap.pi ![Module.Dual.eval k V u, Module.Dual.eval k V w] with hφ
+  have hker : LinearMap.ker φ ≠ ⊥ := by
+    intro h
+    have hinj : Function.Injective φ := LinearMap.ker_eq_bot.mp h
+    have hle := LinearMap.finrank_le_finrank_of_injective hinj
+    rw [Subspace.dual_finrank_eq, Module.finrank_fin_fun] at hle
+    omega
+  obtain ⟨f, hfmem, hfne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hker
+  have h0 : φ f = 0 := hfmem
+  exact ⟨f, hfne, by simpa [hφ] using congrFun h0 0, by simpa [hφ] using congrFun h0 1⟩
+
+/-- **Example 7.3.2(2), non-naturality obstruction over an arbitrary field.** If
+`dim V ≥ 3` then a `GL(V)`-natural map `η : V →ₗ[k] V*` — one satisfying
+`a* ∘ η ∘ a = η` for every `a ∈ GL(V)`, equivalently one whose bilinear form is
+`GL(V)`-invariant — is zero. Unlike `Etingof.dual_gl_natural_eq_zero` this needs **no**
+hypothesis on `k`: it uses transvections instead of scalars, so it covers `𝔽₂` and `𝔽₃`. -/
+theorem Etingof.dual_gl_natural_eq_zero_of_three_le_finrank
+    {k V : Type u} [Field k] [AddCommGroup V] [Module k V] [FiniteDimensional k V]
+    (hdim : 3 ≤ Module.finrank k V) (η : V →ₗ[k] Module.Dual k V)
+    (hnat : ∀ a : V ≃ₗ[k] V, (a : V →ₗ[k] V).dualMap ∘ₗ η ∘ₗ (a : V →ₗ[k] V) = η) :
+    η = 0 := by
+  ext u w
+  -- A nonzero functional killing both `u` and `w`, and a vector on which it takes the value `1`.
+  obtain ⟨f, hf0, hfu, hfw⟩ := Etingof.exists_dual_eq_zero_pair hdim u w
+  obtain ⟨q, hq⟩ : ∃ q : V, f q ≠ 0 := by
+    by_contra hcon
+    exact hf0 (LinearMap.ext fun v => by simpa using not_not.mp (not_exists.mp hcon v))
+  have hp : f ((f q)⁻¹ • q) = 1 := by
+    rw [map_smul, smul_eq_mul, inv_mul_cancel₀ hq]
+  set p : V := (f q)⁻¹ • q with hpdef
+  -- Naturality against the transvection `T v = v + f v • u`.
+  have h := LinearMap.congr_fun (LinearMap.congr_fun (hnat (Etingof.dualTransvection f u hfu)) p) w
+  simp only [LinearMap.comp_apply, LinearMap.dualMap_apply, LinearEquiv.coe_coe,
+    Etingof.dualTransvection_apply, hp, hfw, one_smul, zero_smul, add_zero, map_add,
+    LinearMap.add_apply] at h
+  -- `h : η p w + η u w = η p w`.
+  simpa using h
+
+/-- **Example 7.3.2(2), non-bijectivity over an arbitrary field.** Corollary of
+`Etingof.dual_gl_natural_eq_zero_of_three_le_finrank`: in dimension at least three no
+`GL(V)`-natural map `V →ₗ[k] V*` is bijective, over any field. -/
+theorem Etingof.not_bijective_of_gl_natural_dual_of_three_le_finrank
+    {k V : Type u} [Field k] [AddCommGroup V] [Module k V] [FiniteDimensional k V]
+    (hdim : 3 ≤ Module.finrank k V) (η : V →ₗ[k] Module.Dual k V)
+    (hnat : ∀ a : V ≃ₗ[k] V, (a : V →ₗ[k] V).dualMap ∘ₗ η ∘ₗ (a : V →ₗ[k] V) = η) :
+    ¬ Function.Bijective η := by
+  intro hbij
+  have hη0 : η = 0 := Etingof.dual_gl_natural_eq_zero_of_three_le_finrank hdim η hnat
+  have hV : Nontrivial V := by
+    refine Module.nontrivial_of_finrank_pos (R := k) ?_
+    omega
+  obtain ⟨v, hv⟩ := exists_ne (0 : V)
+  exact hv (hbij.injective (by rw [hη0]; simp))
+
 open CategoryTheory in
-/-- **Example 7.3.2(2), categorical form: `𝟭 ≇ F`.** On the groupoid `FVect'_k`
-(`Core (FGModuleCat k)`) the identity functor is not naturally isomorphic to the
-contragredient functor `F : V ↦ V*`, over any field `k` with a scalar `l ≠ 0`, `l² ≠ 1`
-(any field with more than three elements). This is Etingof's statement that `F`, though
-pointwise isomorphic to the identity (`linearEquiv_dual_iff_finiteDimensional`), is not
-naturally isomorphic to it. The proof extracts, from a putative natural isomorphism, its
-component `η : k → k*` at the line `k` and the `GL(k)`-naturality square for scalar
-automorphisms, then invokes the obstruction `not_bijective_of_gl_natural_dual`: naturality
-forces `η = 0`, contradicting that a component of a natural isomorphism is an isomorphism. -/
-theorem Etingof.not_natIso_id_contragredientFunctor (k : Type u) [Field k]
-    (hk : ∃ l : k, l ≠ 0 ∧ l ^ 2 ≠ 1) :
+/-- **Example 7.3.2(2), categorical form: `𝟭 ≇ F`, over an arbitrary field.** On the groupoid
+`FVect'_k` (`Core (FGModuleCat k)`) the identity functor is not naturally isomorphic to the
+contragredient functor `F : V ↦ V*`. This is Etingof's statement that `F`, though pointwise
+isomorphic to the identity (`linearEquiv_dual_iff_finiteDimensional`), is not naturally
+isomorphic to it — and it holds for **every** field `k`, with no cardinality restriction.
+
+The proof extracts, from a putative natural isomorphism, its component
+`η : k³ →ₗ[k] (k³)*` at the three-dimensional object `k³` together with the `GL(k³)`-naturality
+square, then invokes `not_bijective_of_gl_natural_dual_of_three_le_finrank`: naturality forces
+`η = 0`, contradicting that a component of a natural isomorphism is an isomorphism. Testing at
+`k³` rather than at the line `k` is what removes the field hypothesis — in dimension one the
+scalars exhaust `GL(V)` and give no obstruction over `𝔽₂` or `𝔽₃`, whereas transvections
+obstruct in dimension three over any field. -/
+theorem Etingof.not_natIso_id_contragredientFunctor (k : Type u) [Field k] :
     IsEmpty (𝟭 (Core (FGModuleCat.{u} k)) ≅ Etingof.contragredientFunctor k) := by
   refine ⟨fun ε => ?_⟩
-  set X₀ : Core (FGModuleCat.{u} k) := Core.mk (FGModuleCat.of k k) with hX
-  -- The underlying linear map `η : k →ₗ[k] k*` of the component at the line `k`.
-  set η : (k : Type u) →ₗ[k] Module.Dual k k := (ε.hom.app X₀).iso.hom.hom.hom with hη
+  set X₀ : Core (FGModuleCat.{u} k) := Core.mk (FGModuleCat.of k (Fin 3 → k)) with hX
+  -- The underlying linear map `η : k³ →ₗ[k] (k³)*` of the component at `k³`.
+  set η : (Fin 3 → k) →ₗ[k] Module.Dual k (Fin 3 → k) := (ε.hom.app X₀).iso.hom.hom.hom with hη
   -- A component of a natural isomorphism is an isomorphism, so `η` is bijective.
   have hbij : Function.Bijective η :=
     (FGModuleCat.isoToLinearEquiv (ε.hom.app X₀).iso).bijective
-  -- The obstruction: no bijective `GL(k)`-natural map `k →ₗ[k] k*` exists.
-  refine Etingof.not_bijective_of_gl_natural_dual η (fun a => ?_) hk hbij
-  -- Naturality of `ε` against the automorphism `a` of the line `k`.
+  have hdim : 3 ≤ Module.finrank k (Fin 3 → k) := by simp
+  -- The obstruction: in dimension three no bijective `GL(V)`-natural map `V →ₗ[k] V*` exists.
+  refine Etingof.not_bijective_of_gl_natural_dual_of_three_le_finrank hdim η (fun a => ?_) hbij
+  -- Naturality of `ε` against the automorphism `a` of `k³`.
   have hn := ε.hom.naturality (X := X₀) (Y := X₀) (⟨a.toFGModuleCatIso⟩)
   have hn' := congrArg
-    (fun p => (p.iso.hom.hom.hom : (k : Type u) →ₗ[k] Module.Dual k k)) hn
+    (fun p => (p.iso.hom.hom.hom : (Fin 3 → k) →ₗ[k] Module.Dual k (Fin 3 → k))) hn
   have rt : FGModuleCat.isoToLinearEquiv a.toFGModuleCatIso = a := by
     ext x; rfl
   have Fmap : ((Etingof.contragredientFunctor k).map (⟨a.toFGModuleCatIso⟩ : X₀ ⟶ X₀)).iso
@@ -247,7 +371,7 @@ theorem Etingof.not_natIso_id_contragredientFunctor (k : Type u) [Field k]
   -- The naturality square, read pointwise, is `η (a x) (a w) = η x (a⁻¹ (a w))`.
   refine LinearMap.ext fun x => LinearMap.ext fun w => ?_
   have hx := LinearMap.congr_fun (LinearMap.congr_fun hn' x) (a w)
-  have hx2 : (η ((a : k →ₗ[k] k) x)) (a w) = (η x) (a.symm (a w)) := hx
+  have hx2 : (η ((a : (Fin 3 → k) →ₗ[k] (Fin 3 → k)) x)) (a w) = (η x) (a.symm (a w)) := hx
   rw [LinearEquiv.symm_apply_apply] at hx2
   exact hx2
 
@@ -272,16 +396,18 @@ The correspondence `a ↦ (m ↦ a • m)` is a ring isomorphism (composition of
 families multiplies the elements in the same order: `a • (b • m) = (a*b) • m`), so
 `End(F) ≅ A`, not `Aᵒᵖ`. The opposite appears in Problem 2.3.17 only because there
 one composes `A`-linear self-maps of the single module `A`; here the elements act
-uniformly on all modules by left multiplication.
+uniformly on all modules by left multiplication. That ring isomorphism is constructed
+below as `Etingof.forgetfulEndRingEquiv`, on Mathlib's categorical `End`; the lemmas in
+this section are its determination and composition ingredients.
 -/
 
 /-- **Example 7.3.2(3).** A natural endomorphism `η` of the forgetful functor
 `F : A-mod → Vect_k`, a `k`-linear map `η M : M →ₗ[k] M` for every `A`-module `M`,
 natural in `M`, acts on every module as scalar multiplication by the single element
-`η A 1 ∈ A`. Consequently the natural endomorphisms of `F` are in bijection with `A`
-(each is determined by its value `η A 1`), which is the content of `End(F) = A`. The
-argument specialises Problem 2.3.17: naturality against right multiplication
-`r_m : A → M`, `x ↦ x • m`, forces `η M m = (η A 1) • m`. -/
+`η A 1 ∈ A`. This is the injective half of `End(F) = A`: each natural endomorphism is
+determined by its value `η A 1`. The full bijection, together with its ring structure, is
+`Etingof.forgetfulEndRingEquiv`. The argument specialises Problem 2.3.17: naturality against
+right multiplication `r_m : A → M`, `x ↦ x • m`, forces `η M m = (η A 1) • m`. -/
 theorem Etingof.forgetful_natEnd_eq_smul
     {k : Type v} {A : Type u} [CommRing k] [Ring A] [Algebra k A]
     (η : ∀ (M : Type u) [AddCommGroup M] [Module A M] [Module k M] [IsScalarTower k A M],
@@ -300,8 +426,9 @@ theorem Etingof.forgetful_natEnd_eq_smul
     LinearMap.toSpanSingleton_apply, one_smul] using h1.symm
 
 /-- The scalar families of Example 7.3.2(3) compose in the same order: acting by `a`
-after acting by `b` is acting by `a * b`. This is why the endomorphism ring of the
-forgetful functor is `A` itself (not `Aᵒᵖ`). -/
+after acting by `b` is acting by `a * b`. This is the module-level reason the endomorphism ring
+of the forgetful functor is `A` itself and not `Aᵒᵖ`; the statement that actually carries that
+content is `Etingof.forgetfulEndRingEquiv.map_mul`. -/
 theorem Etingof.forgetful_smul_comp
     {k : Type v} {A : Type u} [CommRing k] [Ring A] [Algebra k A]
     {M : Type u} [AddCommGroup M] [Module A M] [Module k M] [IsScalarTower k A M]
@@ -319,7 +446,9 @@ family is determined by `c := η_A 1`: naturality against right multiplication
 and `A`-linearity of `η_A` itself pins `c` down further: it must be central. Indeed
 `η_A a = c • a` (determination) while `η_A a = η_A (a • 1) = a • c` (`A`-linearity), so
 `c * a = a * c` for every `a ∈ A`. Thus the natural endomorphisms of the identity
-functor are exactly the central elements: `End(Id_{A-mod}) = Z(A)`.
+functor are exactly the central elements: `End(Id_{A-mod}) = Z(A)`. The two lemmas below are
+the injective half; the equality, as a ring isomorphism onto `Subring.center A`, is
+`Etingof.idFunctorEndRingEquiv`.
 -/
 
 /-- **Example 7.3.2(4).** A natural endomorphism `η` of the identity functor on
@@ -343,8 +472,8 @@ theorem Etingof.idFunctor_natEnd_eq_smul
 /-- **Example 7.3.2(4).** The element `η A 1` determining a natural endomorphism of the
 identity functor on `A-mod` lies in the center of `A`: `A`-linearity of `η A`, combined
 with the determination `Etingof.idFunctor_natEnd_eq_smul`, forces `η A 1` to commute
-with every element of `A`. Together with the determination this is the statement
-`End(Id_{A-mod}) = Z(A)`. -/
+with every element of `A`. Together with the determination this gives the injective half of
+`End(Id_{A-mod}) = Z(A)`; the full ring isomorphism is `Etingof.idFunctorEndRingEquiv`. -/
 theorem Etingof.idFunctor_natEnd_central
     {A : Type u} [Ring A]
     (η : ∀ (M : Type u) [AddCommGroup M] [Module A M], M →ₗ[A] M)
@@ -358,3 +487,184 @@ theorem Etingof.idFunctor_natEnd_central
   rw [smul_eq_mul, mul_one] at hlin
   rw [hlin] at hdet
   simpa only [smul_eq_mul] using hdet.symm
+
+/-!
+## Example 7.3.2(3)-(4), bundled form: the ring isomorphisms `End F ≃+* A` and
+`End 𝟭 ≃+* Z(A)`
+
+The determination lemmas above say the map `η ↦ η_A 1` from natural endomorphisms to `A` is
+injective. That is only half of the book's `End F = A` and `End(id) = Z(A)`: the other half is
+that *every* `a ∈ A` (resp. every central `c`) actually arises from a natural family, and that
+the correspondence respects the ring structure. This section supplies both halves as genuine
+`RingEquiv`s, on Mathlib's real categorical `End`.
+
+The category `A-mod` is `ModuleCat A`; the forgetful functor to `Vect_k` is restriction of
+scalars along `algebraMap k A`. `End` of an object in a preadditive category is a ring, and a
+functor category into a preadditive category is preadditive, so `End F` is a ring on the nose,
+with multiplication `η * θ = θ ≫ η` (`CategoryTheory.End.mul`, in `Function.comp` order).
+That order is what makes the answer `A` rather than `Aᵒᵖ`: `(η * θ)_A 1 = η_A (θ_A 1)`, and
+determination turns the right-hand side into `(η_A 1) * (θ_A 1)`.
+-/
+
+open CategoryTheory in
+/-- The forgetful functor `F : A-mod ⥤ Vect_k` of Example 7.3.2(3), realised as restriction of
+scalars along `algebraMap k A`. -/
+noncomputable abbrev Etingof.forgetfulFunctor (k : Type v) (A : Type u)
+    [CommRing k] [Ring A] [Algebra k A] :
+    ModuleCat.{u} A ⥤ ModuleCat.{u} k :=
+  ModuleCat.restrictScalars (algebraMap k A)
+
+open CategoryTheory in
+/-- **Example 7.3.2(3), the reverse direction.** Every `a : A` gives a natural endomorphism of
+the forgetful functor `F : A-mod ⥤ Vect_k`, namely the family `m ↦ a • m`. Each component is
+`k`-linear because the image of `algebraMap k A` is central (`Algebra.commutes`), and the
+family is natural because `A`-linear maps commute with the action of `a`. -/
+noncomputable def Etingof.forgetfulSmul {k : Type v} {A : Type u}
+    [CommRing k] [Ring A] [Algebra k A] (a : A) :
+    End (Etingof.forgetfulFunctor k A) where
+  app M :=
+    ModuleCat.ofHom (X := (Etingof.forgetfulFunctor k A).obj M)
+      (Y := (Etingof.forgetfulFunctor k A).obj M)
+      { toFun := fun m => a • (m : M)
+        map_add' := fun x y => smul_add a x y
+        map_smul' := fun c m => by
+          simp only [RingHom.id_apply, ModuleCat.restrictScalars.smul_def]
+          rw [← mul_smul, ← mul_smul, Algebra.commutes] }
+  naturality M N f := by
+    ext m
+    exact (f.hom.map_smul a m).symm
+
+open CategoryTheory in
+/-- The element of `A` attached to a natural endomorphism of the forgetful functor: the value
+of its component at the regular module `A` on `1`. This is the forward map of
+`Etingof.forgetfulEndRingEquiv`. -/
+noncomputable def Etingof.forgetfulEndElt {k : Type v} {A : Type u}
+    [CommRing k] [Ring A] [Algebra k A] (η : End (Etingof.forgetfulFunctor k A)) : A :=
+  (η.app (ModuleCat.of A A)).hom (1 : A)
+
+open CategoryTheory in
+/-- **Example 7.3.2(3), determination.** A natural endomorphism of the forgetful functor
+`F : A-mod ⥤ Vect_k` acts on every `A`-module as multiplication by the single element
+`Etingof.forgetfulEndElt η = η_A 1`. This is `Etingof.forgetful_natEnd_eq_smul` transported to
+Mathlib's categorical `End`; the proof is the same Problem 2.3.17 argument, naturality against
+the `A`-linear map `r_m : A → M`, `x ↦ x • m`, evaluated at `1`. -/
+theorem Etingof.forgetful_natEnd_app_eq_smul {k : Type v} {A : Type u}
+    [CommRing k] [Ring A] [Algebra k A] (η : End (Etingof.forgetfulFunctor k A))
+    (M : ModuleCat.{u} A) (m : M) :
+    (η.app M).hom m = Etingof.forgetfulEndElt η • m := by
+  have h := η.naturality (ModuleCat.ofHom (LinearMap.toSpanSingleton A M m))
+  have h1 := congrArg (fun g => (ModuleCat.Hom.hom g) (1 : A)) h
+  -- The two sides of `h1` are definitionally those of the goal, up to `1 • m = m`.
+  have h2 : (η.app M).hom ((1 : A) • m) = Etingof.forgetfulEndElt η • m := h1
+  rwa [one_smul] at h2
+
+open CategoryTheory in
+/-- The scalar family of `a` recovers `a`: the two maps of `Etingof.forgetfulEndRingEquiv` are
+inverse on the `A` side. -/
+theorem Etingof.forgetfulEndElt_forgetfulSmul {k : Type v} {A : Type u}
+    [CommRing k] [Ring A] [Algebra k A] (a : A) :
+    Etingof.forgetfulEndElt (Etingof.forgetfulSmul (k := k) a) = a :=
+  -- definitionally `a • (1 : A) = a * 1`
+  mul_one a
+
+open CategoryTheory in
+/-- **Example 7.3.2(3), the book's `End F = A`.** For a `k`-algebra `A`, the endomorphism ring
+of the forgetful functor `F : A-mod ⥤ Vect_k` is isomorphic to `A` itself, by `η ↦ η_A 1` with
+inverse `a ↦ (m ↦ a • m)`. Injectivity is `Etingof.forgetful_natEnd_app_eq_smul`, surjectivity
+is `Etingof.forgetfulSmul`, and multiplicativity is where the answer comes out as `A` and not
+`Aᵒᵖ` (see the section docstring). -/
+noncomputable def Etingof.forgetfulEndRingEquiv (k : Type v) (A : Type u)
+    [CommRing k] [Ring A] [Algebra k A] :
+    End (Etingof.forgetfulFunctor k A) ≃+* A where
+  toFun := Etingof.forgetfulEndElt
+  invFun := Etingof.forgetfulSmul
+  left_inv η :=
+    NatTrans.ext (funext fun M => ModuleCat.hom_ext (LinearMap.ext fun m =>
+      (Etingof.forgetful_natEnd_app_eq_smul η M m).symm))
+  right_inv a := Etingof.forgetfulEndElt_forgetfulSmul a
+  map_add' _ _ := rfl
+  map_mul' η θ :=
+    -- `η * θ = θ ≫ η` (`End.mul` is in `Function.comp` order), so the left-hand side is
+    -- definitionally `η_A (θ_A 1)`; determination rewrites it as `(η_A 1) * (θ_A 1)`.
+    Etingof.forgetful_natEnd_app_eq_smul η (ModuleCat.of A A)
+      ((θ.app (ModuleCat.of A A)).hom (1 : A))
+
+/-!
+### Example 7.3.2(4): `End 𝟭 ≃+* Z(A)`
+-/
+
+open CategoryTheory in
+/-- **Example 7.3.2(4), the reverse direction.** Every central `c : A` gives a natural
+endomorphism of the identity functor on `A-mod`, namely `m ↦ c • m`. Centrality is exactly what
+makes each component `A`-linear. -/
+def Etingof.idSmul {A : Type u} [Ring A] (c : Subring.center A) :
+    End (𝟭 (ModuleCat.{u} A)) where
+  app M :=
+    ModuleCat.ofHom
+      { toFun := fun m => (c : A) • (m : M)
+        map_add' := fun x y => smul_add (c : A) x y
+        map_smul' := fun b m => by
+          simp only [RingHom.id_apply, ← mul_smul]
+          rw [Subring.mem_center_iff.mp c.2 b] }
+  naturality M N f := by
+    ext m
+    exact (f.hom.map_smul (c : A) m).symm
+
+open CategoryTheory in
+/-- The element of `A` attached to a natural endomorphism of the identity functor on `A-mod`:
+the value of its component at the regular module on `1`. -/
+def Etingof.idEndElt {A : Type u} [Ring A] (η : End (𝟭 (ModuleCat.{u} A))) : A :=
+  (η.app (ModuleCat.of A A)).hom (1 : A)
+
+open CategoryTheory in
+/-- **Example 7.3.2(4), determination.** A natural endomorphism of the identity functor on
+`A-mod` acts on every module as multiplication by `Etingof.idEndElt η = η_A 1`. Same argument as
+`Etingof.forgetful_natEnd_app_eq_smul`, now with `A`-linear components. -/
+theorem Etingof.idFunctor_natEnd_app_eq_smul {A : Type u} [Ring A]
+    (η : End (𝟭 (ModuleCat.{u} A))) (M : ModuleCat.{u} A) (m : M) :
+    (η.app M).hom m = Etingof.idEndElt η • m := by
+  have h := η.naturality (ModuleCat.ofHom (LinearMap.toSpanSingleton A M m))
+  have h1 := congrArg (fun g => (ModuleCat.Hom.hom g) (1 : A)) h
+  have h2 : (η.app M).hom ((1 : A) • m) = Etingof.idEndElt η • m := h1
+  rwa [one_smul] at h2
+
+open CategoryTheory in
+/-- **Example 7.3.2(4), centrality.** The element determining a natural endomorphism of the
+identity functor on `A-mod` lies in the center of `A`: this is `Etingof.idFunctor_natEnd_central`
+on Mathlib's categorical `End`. -/
+theorem Etingof.idEndElt_mem_center {A : Type u} [Ring A] (η : End (𝟭 (ModuleCat.{u} A))) :
+    Etingof.idEndElt η ∈ Subring.center A := by
+  refine Subring.mem_center_iff.mpr fun b => ?_
+  -- Determination applied to the regular module at the element `b`.
+  have hdet : ((η.app (ModuleCat.of A A)).hom (b : A) : A) = Etingof.idEndElt η * b :=
+    Etingof.idFunctor_natEnd_app_eq_smul η (ModuleCat.of A A) b
+  -- `A`-linearity of the component at `A`, evaluated at `b • 1`.
+  have hlin : ((η.app (ModuleCat.of A A)).hom (b * (1 : A)) : A) = b * Etingof.idEndElt η :=
+    (η.app (ModuleCat.of A A)).hom.map_smul b (1 : A)
+  rw [mul_one] at hlin
+  exact hlin.symm.trans hdet
+
+open CategoryTheory in
+/-- The natural family of a central `c` recovers `c`. -/
+theorem Etingof.idEndElt_idSmul {A : Type u} [Ring A] (c : Subring.center A) :
+    Etingof.idEndElt (Etingof.idSmul c) = (c : A) :=
+  -- definitionally `(c : A) • (1 : A) = (c : A) * 1`
+  mul_one (c : A)
+
+open CategoryTheory in
+/-- **Example 7.3.2(4), the book's `End(id_{A-mod}) = Z(A)`.** The endomorphism ring of the
+identity functor on `A-mod` is isomorphic to the center of `A`, by `η ↦ η_A 1` with inverse
+`c ↦ (m ↦ c • m)`. Well-definedness of the forward map is `Etingof.idEndElt_mem_center`,
+injectivity is `Etingof.idFunctor_natEnd_app_eq_smul`, and surjectivity is `Etingof.idSmul`. -/
+def Etingof.idFunctorEndRingEquiv (A : Type u) [Ring A] :
+    End (𝟭 (ModuleCat.{u} A)) ≃+* Subring.center A where
+  toFun η := ⟨Etingof.idEndElt η, Etingof.idEndElt_mem_center η⟩
+  invFun c := Etingof.idSmul c
+  left_inv η :=
+    NatTrans.ext (funext fun M => ModuleCat.hom_ext (LinearMap.ext fun m =>
+      (Etingof.idFunctor_natEnd_app_eq_smul η M m).symm))
+  right_inv c := Subtype.ext (Etingof.idEndElt_idSmul c)
+  map_add' _ _ := rfl
+  map_mul' η θ :=
+    Subtype.ext (Etingof.idFunctor_natEnd_app_eq_smul η (ModuleCat.of A A)
+      ((θ.app (ModuleCat.of A A)).hom (1 : A)))

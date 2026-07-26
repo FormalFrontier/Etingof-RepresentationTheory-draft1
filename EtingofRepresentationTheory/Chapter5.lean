@@ -167,6 +167,7 @@ import EtingofRepresentationTheory.Chapter5.Proposition5_21_2
 -- Section 5.22: Weyl Character Formula
 import EtingofRepresentationTheory.Chapter5.PermDiagonalTrace
 import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
+import EtingofRepresentationTheory.Chapter5.SchurModuleVanishing
 import EtingofRepresentationTheory.Chapter5.SchurWeylGLTransfer
 import EtingofRepresentationTheory.Chapter5.SchurWeylSpecialBlockGeneral
 import EtingofRepresentationTheory.Chapter5.SemisimpleIsotypic
@@ -216,6 +217,7 @@ import EtingofRepresentationTheory.Chapter5.Proposition5_25_1
 import EtingofRepresentationTheory.Chapter5.Discussion_1dim_reps
 import EtingofRepresentationTheory.Chapter5.Theorem5_25_2
 import EtingofRepresentationTheory.Chapter5.Theorem5_25_2_Test
+import EtingofRepresentationTheory.Chapter5.GL2PrincipalFamily
 import EtingofRepresentationTheory.Chapter5.GL2CharacterValues
 import EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount
 import EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount_Test

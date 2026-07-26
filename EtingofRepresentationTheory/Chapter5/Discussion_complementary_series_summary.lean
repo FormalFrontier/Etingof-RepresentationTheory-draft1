@@ -1,6 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount
 import EtingofRepresentationTheory.Chapter5.IrrepCountConjClasses
+import EtingofRepresentationTheory.Infrastructure.CompletenessByCounting
 
 /-!
 # Discussion: all `q² − 1` irreducible representations of `GL₂(𝔽_q)` found
@@ -196,6 +197,74 @@ theorem card_irreps_eq_q_sq_sub_one (hp2 : p ≠ 2) (hn : n ≠ 0) :
       Nat.card Irrep = Fintype.card (GaloisField p n) ^ 2 - 1 := by
   obtain ⟨Irrep, hFin, _, hcard⟩ := constructed_irreps_complete_unconditional p n hp2 hn
   exact ⟨Irrep, hFin, hcard.trans (constructed_irrep_count _ Fintype.card_pos)⟩
+
+/-! ### Completeness at the level of actual representations
+
+The theorems above count an abstract Wedderburn index type. What Etingof's sentence claims is
+stronger: the *constructed* representations exhaust the irreducibles. The two statements below
+work with honest `FDRep ℂ (GL₂ 𝔽_q)` objects instead of an index type — the first exhibits a
+complete list of `q² − 1` irreducibles, the second is the reduction that turns the construction
+of the three families into the completeness conclusion. -/
+
+open CategoryTheory in
+/-- **A complete list of `q² − 1` irreducible `ℂ`-representations of `GL₂(𝔽_q)`.** For
+`q = pⁿ` with `p` odd and `n ≠ 0` there are `m` pairwise non-isomorphic simple
+`FDRep ℂ (GL₂ 𝔽_q)` objects `V i` such that *every* simple `FDRep ℂ (GL₂ 𝔽_q)` is isomorphic
+to one of them, and `m = q² − 1`.
+
+Unlike `constructed_irreps_complete_unconditional`, which counts an abstract index type, this
+statement is about representations: it carries the exhaustiveness clause
+`∀ U, Simple U → ∃ i, Nonempty (U ≅ V i)`. It does not identify the `V i` with the
+one-dimensional, principal-series, and complementary-series families; that identification is
+what `constructed_families_exhaust` below reduces to a finite amount of construction work. -/
+theorem exists_complete_simples (hp2 : p ≠ 2) (hn : n ≠ 0) :
+    ∃ (m : ℕ) (V : Fin m → FDRep ℂ (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n))),
+      (∀ i, Simple (V i)) ∧
+      (∀ i j, Nonempty (V i ≅ V j) → i = j) ∧
+      (∀ U, Simple U → ∃ i, Nonempty (U ≅ V i)) ∧
+      m = Fintype.card (GaloisField p n) ^ 2 - 1 := by
+  classical
+  haveI : Fintype (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) := inferInstance
+  haveI : Invertible
+      ((Fintype.card (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) : ℂ)) :=
+    invertibleOfNonzero (by exact_mod_cast Fintype.card_ne_zero)
+  obtain ⟨m, V, hsimp, hinj, hsurj, hm⟩ :=
+    Etingof.Corollary4_2_2 (k := ℂ)
+      (G := Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n))
+  refine ⟨m, V, hsimp, hinj, hsurj, ?_⟩
+  rw [hm, ← Nat.card_eq_fintype_card]
+  exact _root_.GL2.card_conjClasses_eq hp2 hn
+
+open CategoryTheory in
+/-- **The constructed families exhaust the irreducibles (reduction).** Etingof's payoff
+sentence, with the counting argument discharged and only the construction left as hypotheses.
+
+Given *any* family `W` of `(q − 1) + q(q−1)/2 + q(q−1)/2` representations of `GL₂(𝔽_q)` over
+`ℂ` that are simple and pairwise non-isomorphic, every simple `FDRep ℂ (GL₂ 𝔽_q)` is
+isomorphic to one of them. In particular, once the `q − 1` one-dimensional representations,
+the `q(q−1)/2` principal series representations, and the `q(q−1)/2` complementary series
+representations are packaged as one such family, "we have in fact found all irreducible
+representations of `GL₂(𝔽_q)`" follows with no further work.
+
+Equal cardinalities alone do not give this: the count has to be turned into an injection into
+the set of isomorphism classes and then a pigeonhole. That is
+`Etingof.exhaustive_of_card_eq_card_conjClasses`, applied here to the class count
+`constructedCount_eq_card_conjClasses`. -/
+theorem constructed_families_exhaust (hp2 : p ≠ 2) (hn : n ≠ 0) {N : ℕ}
+    (W : Fin N → FDRep ℂ (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)))
+    (hWsimple : ∀ i, Simple (W i))
+    (hWnoniso : ∀ i j, Nonempty (W i ≅ W j) → i = j)
+    (hN : N = (Fintype.card (GaloisField p n) - 1)
+      + Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) / 2
+      + Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) / 2) :
+    ∀ U, Simple U → ∃ i, Nonempty (U ≅ W i) := by
+  classical
+  haveI : Fintype (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) := inferInstance
+  haveI : Invertible
+      ((Fintype.card (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) : ℂ)) :=
+    invertibleOfNonzero (by exact_mod_cast Fintype.card_ne_zero)
+  exact Etingof.exhaustive_of_card_eq_card_conjClasses W hWsimple hWnoniso
+    (hN.trans (constructedCount_eq_card_conjClasses p n hp2 hn))
 
 end GaloisField
 

@@ -236,6 +236,22 @@ If the changes look like real work (not stray build artifacts), stash them
 (`git stash`, never `git stash -u`) or commit them on a scratch branch before
 resetting.
 
+**Run `git status --short` even when you do not reset** — including when the
+branch already exists with no PR and no commits ahead of `main`. Leftover
+uncommitted edits are not inert:
+
+- `coordination create-pr` stages the whole worktree, so they land in your PR
+  as unrelated changes, and edits under `.claude/` will get the PR rejected.
+- The Skill tool serves the **working-tree** copy of `.claude/skills/*/SKILL.md`.
+  A prior session's half-finished edit there means you are reading truncated
+  workflow instructions without knowing it. If `git diff` touches a skill or
+  command file, re-read the `HEAD` version (`git show HEAD:<path>`) before
+  trusting what you loaded.
+
+Back the diff up (`git diff > /tmp/<session-id>-stale.patch`) and restore the
+files (`git checkout HEAD -- <paths>`) so your branch starts clean; note the
+backup path in your progress entry.
+
 Judge that inspection in *both* directions: stray changes you leave in place ride
 along into your PR as unrelated regressions. Check `git diff --numstat` for changes
 that are pure *deletions* against `main` in files you were not asked to touch,
