@@ -1419,20 +1419,10 @@ Greek *lowercase* (`σ`, `τ`, `π`) work fine as identifiers, but the capitals 
 
 ### `omit [inst] in` goes *before* the docstring, not between it and the declaration
 
-The `unusedSectionVars` linter's suggested fix is `omit [IsAlgClosed k] in theorem …`, which is
-easy to paste directly above the `theorem`/`lemma` line — but if the declaration has a `/-- … -/`
-docstring, that puts `omit` *between* the docstring and the declaration and is a parse error:
-`unexpected token 'omit'; expected 'lemma'`, reported at a column that points nowhere useful. The
-`omit … in` must come **before** the docstring:
-
-```lean
-omit [IsAlgClosed k] [CharZero k] in
-/-- Doc comment. -/
-lemma foo : … := …
-```
-
-(Cost one build cycle in #7807; the existing `omit` sites in `Chapter5/Remark5_23_3.lean` show the
-right placement.)
+The full ordering rule for `set_option`/`omit`/docstring/attributes above a declaration,
+and the three linters that police it, live in `.claude/skills/lean-conventions/SKILL.md`
+("`omit` and `set_option` placement"). The existing `omit` sites in
+`Chapter5/Remark5_23_3.lean` show the right placement.
 
 ### `open MvPolynomial` inside `namespace Etingof` opens the wrong namespace
 
@@ -2763,7 +2753,7 @@ noncomputable def pathMap (R …) {a b : Q} (p : Quiver.Path a b) : … :=
 `induction p with | nil | cons …` still works on top of the recursor def (it just uses these simp
 lemmas). Separately: when a lemma over a section with `variable [DecidableEq Q]` does not actually
 use it (the `pathMap_*` lemmas don't), the `unusedDecidableInType` linter warns — prefix the lemma
-with `omit [DecidableEq Q] in` (placed *before* any docstring).
+with `omit [DecidableEq Q] in` (placement rule: `lean-conventions/SKILL.md`).
 
 ### Representation Theory Patterns
 
@@ -2860,11 +2850,9 @@ Mathlib's prebuilt `Module.Dual.instLieRingModule`. Worked example:
   (`MulOpposite`).** Using `ᵒᵖ` for an algebra gives a bare `expected token` parse
   error. Import `Mathlib.Algebra.Module.Opposite` for the notation and `Module Aᵐᵒᵖ`
   prerequisites, and `Mathlib.Algebra.Algebra.Defs` if you reference `Algebra k A`.
-- **`omit [Inst] in` must precede the docstring AND the attributes**, i.e.
-  `omit [Algebra k A] in` / `/-- … -/` / `@[simp]` / `theorem …`, in that order.
-  Placing it after the docstring (or after `@[simp]`) is a parse error. Use it to
-  silence the "automatically included section variable unused" warning for a lemma
-  (e.g. the `rfl` defining-equation lemma) that doesn't touch every section variable.
+- **`omit [Inst] in`** silences the "automatically included section variable unused"
+  warning for a lemma (e.g. the `rfl` defining-equation lemma) that doesn't touch
+  every section variable. Placement rule: `lean-conventions/SKILL.md`.
 
 #### Adjunction / universal-property examples — Mathlib usually has both directions (#5644, Example7.6.3)
 
@@ -3389,7 +3377,7 @@ Before submitting a PR for a formalized item:
    - **400000–800000**: Acceptable for trace/character computations over finite groups. Add a comment explaining why.
    - **800000–1600000**: Borderline. Acceptable only for GL₂(𝔽_q) trace computations or similar unavoidable large finite sums. Must have a comment. Consider whether `simp` can be replaced with targeted `rw` to reduce heartbeats.
    - **> 1600000**: Refactor the proof. Extract helper lemmas, precompute intermediate results, or split the finite check into smaller pieces. **NEVER reach for `native_decide`** — it is FORBIDDEN in this project (an unverified trust hole outside the kernel; see "FORBIDDEN: `native_decide`" below). If a finite check is too slow for honest `decide`, that is a signal to find a real proof, not a bigger hammer.
-   - **Placement:** `set_option ... in` lines must come *before* the `/-- ... -/` docstring (the docstring must sit immediately above `theorem`/`def`). Putting the docstring first gives `unexpected token 'set_option'; expected 'lemma'`. **The same constraint applies to `omit [Inst] in`** (used to silence the `unusedSectionVars` linter when a section instance like `[Fintype ι]`/`[∀ i, Module.Finite ...]` is genuinely unused by a lemma): it must precede the docstring, else `unexpected token 'omit'; expected 'lemma'`. Note the linter reports unused instances *one at a time* — after omitting the flagged ones it may flag a further instance (e.g. `Module.Finite` once `Fintype`/`DecidableEq` are omitted), so expect to extend the `omit` list across a build cycle or two. **Section-wide vs per-lemma:** if an earlier `def` in the section *captured* the instance (Lean auto-includes an instance-implicit section var whenever its type mentions an already-used var, even if the def's body never touches it), then a per-lemma `omit [Inst] in` on a *downstream* lemma that calls that def fails with `failed to synthesize instance … Inst` — the def now demands it. Fix by putting a bare `omit [Inst]` command (no `in`, no docstring) *right after the section's `variable` line, before the defs*, so nothing in the section captures `Inst` in the first place; keep per-lemma `omit … in` only for instances (like `Module.Finite`) that some later lemma genuinely needs but others don't.
+   - **Placement:** `set_option … in` / its explanatory comment / `omit … in` / docstring / attributes / declaration, in that order. The full rule, the parse errors each wrong order gives, the one-at-a-time linter behaviour, and the section-wide bare `omit` for an instance an earlier `def` captured are all in `.claude/skills/lean-conventions/SKILL.md`.
    - **`whnf` timeout despite a high budget** usually means Lean is eagerly reducing through a *non-reducible* coercion (e.g. an `FDRep`/`FGModuleCat` carrier identified with a hom-space, re-typed mid-proof via `let e' := e`). Fix it by paying that coercion *once* in a helper theorem whose output is already stated in the target type, then consume the result opaquely — do not re-coerce inside the heavy proof.
    - **`whnf` timeout through a `Quotient.liftOn'` definition** (e.g. `MulAction.orbitRel.Quotient.orbit`, relevant to the Ch6 orbit-counting chain #4777). Proving a membership like `a ∈ (Quotient.mk'' a).orbit` via `orbitRel.Quotient.mem_orbit.mpr rfl` forces Lean to whnf-unfold the `liftOn'` and blows the heartbeat budget for a one-line goal. Fix: don't lean on defeq — rewrite with the `_mk` simp lemma first (`rw [orbitRel.Quotient.orbit_mk]`, turning the quotient orbit into `MulAction.orbit G a`), then close with the plain-orbit API (`mem_orbit_self`). Also pin the quotient index explicitly (`Set.mem_biUnion (Set.mem_univ (Quotient.mk'' a)) …`) rather than letting unification infer it through the `liftOn'`. With both, the proof drops back under the default 200000 budget.
    - **Pushing an `AlgEquiv`/`RingEquiv` through `Polynomial.eval₂`/`aeval`** (e.g. the scaling-action transcendence argument in `Problem6_1_5_StrictDimBound`, #4828). To rewrite `(e : K ≃ₐ[k] K) (eval₂ f x p)` with `Polynomial.hom_eval₂` (which is stated for a bare `RingHom`), first bridge the coercion: `rw [show (e) (eval₂ f x p) = e.toRingHom (eval₂ f x p) from rfl]`, then `rw [Polynomial.hom_eval₂]`. The `⇑e` vs `⇑e.toRingHom` coercions are defeq, so `show … from rfl` matches — but an ascribed `(rfl : … = …)` does **not** match under `rw` (it fails to find the pattern). Express `aeval` as `eval₂` first via `Polynomial.aeval_def`. CI runs only `lake build` (no separate linter), so the `show`-tactic style warning on the `from rfl` term is harmless.
@@ -5080,7 +5068,7 @@ These naming mismatches have bitten multiple agents across waves 44-47. Check th
 **When unsure about a lemma name:** Use `#check` or `exact?` on a small test goal. Don't guess and iterate — the 30 seconds spent checking saves 10 minutes of mysterious failures.
 
 **A missing *tactic* import reads as a broken proof, not a missing import.** Chapter files import
-selective `Mathlib.*` modules, never `import Mathlib`, so tactics beyond the core set are often
+selective `Mathlib.*` modules rather than bare `import Mathlib`, so tactics beyond the core set are often
 absent. Lean reports this as `unknown tactic` at a **misleading line** (often the next
 declaration, or a `<;>` several lines below the real call) plus cascading `unsolved goals` on
 every `have` that used it — which reads as "my algebra was wrong". Before rewriting the
@@ -6288,14 +6276,10 @@ instance/hypothesis from the `variable` block that a lemma does not use emits
 a stated `(hdeg : …)` emit `Variable name … is not explicitly referenced`).
 These are **warnings only** — plain `lake build` still returns 0, so CI passes —
 but the project keeps lint clean. Silence an unused instance with
-`omit [Inst] in` immediately before the declaration. Gotcha: `omit … in` must go
-**before** the docstring, not between the `/-- … -/` and the `theorem`
-(`omit` after a docstring gives `unexpected token 'omit'; expected 'lemma'`):
-```lean
-omit [FiniteDimensional ℂ V] in
-/-- doc … -/
-theorem foo … := …
-```
+`omit [Inst] in` before the declaration; for the exact ordering against the
+docstring, attributes and any `set_option … in`, see
+`.claude/skills/lean-conventions/SKILL.md`.
+
 Related `mathlibStandardSet` linter: `linter.style.show` flags every `show` used
 to *change* the goal to a defeq form. Use `change` instead of `show` for those
 (reserve `show` for readability of an intermediate state).
@@ -6922,10 +6906,9 @@ full graph rather than waiting on the aggregator locally.
   output, an idempotent in a local ring being `0`/`1` (End ring `1 = 𝟙` via `End.one_def`)
   bridges back to morphism `g = 0 ∨ g = 𝟙 Z` cleanly; wrap this once and consume the morphism-level
   result so callers never touch `End`-vs-`Hom` zero/one mismatches.
-- **`set_option … in` must precede the doc comment, not sit between `/-- … -/` and the theorem**
-  (otherwise: `unexpected token 'set_option'; expected 'lemma'`). To silence
-  `linter.unusedFintypeInType` on a theorem whose `[Fintype κ]` is only used to form `⨁` in the
-  type, put `set_option linter.unusedFintypeInType false in` on the line *above* the docstring.
+- **To silence `linter.unusedFintypeInType`** on a theorem whose `[Fintype κ]` is only used to
+  form `⨁` in the type, use `set_option linter.unusedFintypeInType false in` (placement rule:
+  `.claude/skills/lean-conventions/SKILL.md`).
 - **Round-tripping a functor/decomposition through a *derived* module (e.g. `forwardRep`/
   `vertexSpace` applied to `reverseModule R`) — three frictions that cost many iterations
   (see `Chapter2/Discussion_quiver_rep_bijection.lean`):**
