@@ -126,6 +126,21 @@ coordination orient
    coordination list-unclaimed --label <your-label>
    ```
 
+   **`coordination list-unclaimed` caps its output at 20 and shows the *newest* issues, not the
+   oldest, despite the table above documenting FIFO order.** So genuinely starved issues are
+   invisible to it: on 2026-07-26 the head of `list-unclaimed` was 2026-07-22, while #6045, #6053,
+   #6217, #6276 and others had sat unclaimed since 2026-07-09. If you want the real FIFO head, ask
+   GitHub directly:
+   ```bash
+   gh issue list --state open --label agent-plan --json number,title,labels,createdAt --limit 200 \
+     --jq 'map(select([.labels[].name] | (contains(["claimed"]) or contains(["has-pr"])
+       or contains(["blocked"]) or contains(["replan"])) | not))
+       | sort_by(.createdAt) | .[:10] | .[] | "\(.number) \(.createdAt) \(.title)"'
+   ```
+   Prefer a starved issue over a fresh one when both are in scope: the queue view means nobody
+   else is seeing it. (2026-07-26: #6276 had been reopened with expanded scope on top of a merged
+   PR and then sat unclaimed for 17 days purely because it fell off the bottom of this list.)
+
 **Don't repair PRs from a worker session.** PR health (merge conflicts,
 failed CI, stuck CI) is the `repair` agent's responsibility; pod dispatches
 `/repair` automatically when `coordination list-pr-repair` reports
@@ -196,7 +211,11 @@ git show HEAD:.claude/skills/agent-worker-flow/SKILL.md | wc -l
 ```
 
 If the counts differ, restore and **re-invoke the skill** (not just `Read` the file), then
-restart the workflow from Step 1. Guidance added since the stale revision is exactly the
+restart the workflow from Step 1. **Caveat: re-invoking may be a no-op.** The harness caches
+skills per session and answers the second `Skill` call with "instructions unchanged", serving the
+truncated copy it already loaded. If you see that message after restoring, fall back to `Read` on
+`.claude/skills/agent-worker-flow/SKILL.md` and your `/command` file — that does pick up the
+restored text. Guidance added since the stale revision is exactly the
 guidance you are most likely to need — e.g. the Step 7 rules on replacing `create-pr`'s
 placeholder PR body and on never running `gh pr merge --auto` yourself.
 (2026-07-25: a third worktree that day arrived 193 lines stale; the session ran to
