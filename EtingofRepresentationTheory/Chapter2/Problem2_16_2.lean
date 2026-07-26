@@ -127,6 +127,61 @@ private theorem bracket_mem_span_Y (x y : g k) : ⁅x, y⁆ ∈ Submodule.span k
   rw [LieSubalgebra.coe_bracket, ← hx, ← hy, bracket_expand]
   rfl
 
+/-! ## Coordinates on `𝔤` and the resulting module calculus
+
+Every `Z ∈ 𝔤` is `Z₀₀ · X + Z₀₁ · Y`. Consequently the action of an arbitrary element of `𝔤` on a
+module is determined by the actions of `X` and `Y`, and a subspace invariant under those two
+actions is a `𝔤`-submodule. Both facts are used throughout the classification below. -/
+
+/-- The coordinates of `Z ∈ 𝔤` in the basis `X, Y` are the matrix entries `Z₀₀` and `Z₀₁`. -/
+theorem eq_smul_X_add_smul_Y (Z : g k) :
+    Z = (Z : Matrix (Fin 2) (Fin 2) k) 0 0 • X k
+      + (Z : Matrix (Fin 2) (Fin 2) k) 0 1 • Y k := by
+  obtain ⟨a, b, hab⟩ := Submodule.mem_span_pair.mp (coe_mem_span k Z)
+  have h00 : (Z : Matrix (Fin 2) (Fin 2) k) 0 0 = a := by
+    rw [← hab]; simp [e11, e12, Matrix.single_apply]
+  have h01 : (Z : Matrix (Fin 2) (Fin 2) k) 0 1 = b := by
+    rw [← hab]; simp [e11, e12, Matrix.single_apply]
+  rw [h00, h01]
+  apply Subtype.ext
+  rw [AddMemClass.coe_add, SetLike.val_smul, SetLike.val_smul]
+  exact hab.symm
+
+/-- The action of an arbitrary `Z ∈ 𝔤` on a module is the corresponding combination of the actions
+of the generators `X` and `Y`. -/
+theorem lie_eq_smul_lie_X_add_smul_lie_Y (M : Type*) [AddCommGroup M] [Module k M]
+    [LieRingModule (g k) M] [LieModule k (g k) M] (Z : g k) (m : M) :
+    ⁅Z, m⁆ = (Z : Matrix (Fin 2) (Fin 2) k) 0 0 • ⁅X k, m⁆
+      + (Z : Matrix (Fin 2) (Fin 2) k) 0 1 • ⁅Y k, m⁆ := by
+  conv_lhs => rw [eq_smul_X_add_smul_Y k Z]
+  rw [add_lie, smul_lie, smul_lie]
+
+/-- A subspace invariant under the actions of `X` and `Y` is a `𝔤`-submodule. -/
+def ofInvariantXY (M : Type*) [AddCommGroup M] [Module k M] [LieRingModule (g k) M]
+    [LieModule k (g k) M] (N : Submodule k M)
+    (hX : ∀ m ∈ N, ⁅X k, m⁆ ∈ N) (hY : ∀ m ∈ N, ⁅Y k, m⁆ ∈ N) : LieSubmodule k (g k) M where
+  __ := N
+  lie_mem {Z m} hm := by
+    have hm' : m ∈ N := hm
+    rw [lie_eq_smul_lie_X_add_smul_lie_Y k M Z m]
+    exact N.add_mem (N.smul_mem _ (hX m hm')) (N.smul_mem _ (hY m hm'))
+
+@[simp] theorem ofInvariantXY_toSubmodule (M : Type*) [AddCommGroup M] [Module k M]
+    [LieRingModule (g k) M] [LieModule k (g k) M] (N : Submodule k M)
+    (hX : ∀ m ∈ N, ⁅X k, m⁆ ∈ N) (hY : ∀ m ∈ N, ⁅Y k, m⁆ ∈ N) :
+    (ofInvariantXY k M N hX hY : Submodule k M) = N := rfl
+
+/-- An irreducible module is spanned by any invariant subspace containing a nonzero vector. -/
+theorem eq_top_of_invariant_of_ne_zero (M : Type*) [AddCommGroup M] [Module k M]
+    [LieRingModule (g k) M] [LieModule k (g k) M] [LieModule.IsIrreducible k (g k) M]
+    (N : Submodule k M) (hX : ∀ m ∈ N, ⁅X k, m⁆ ∈ N) (hY : ∀ m ∈ N, ⁅Y k, m⁆ ∈ N)
+    {m₀ : M} (hm₀N : m₀ ∈ N) (hm₀ : m₀ ≠ 0) : N = ⊤ := by
+  have hne : ofInvariantXY k M N hX hY ≠ ⊥ := fun h => hm₀ (by
+    have : m₀ ∈ ofInvariantXY k M N hX hY := hm₀N
+    rwa [h, LieSubmodule.mem_bot] at this)
+  have := (IsSimpleOrder.eq_bot_or_eq_top (ofInvariantXY k M N hX hY)).resolve_left hne
+  rwa [← LieSubmodule.toSubmodule_eq_top, ofInvariantXY_toSubmodule] at this
+
 /-- The first derived algebra `⁅g, g⁆` is contained in `span{Y}`. -/
 private theorem derivedSeries_one_le_span_Y (x : g k)
     (hx : x ∈ LieAlgebra.derivedSeries k (g k) 1) : x ∈ Submodule.span k {Y k} := by
@@ -334,6 +389,78 @@ theorem charZero_X_scalar [IsAlgClosed k] [CharZero k]
   rcases smul_eq_zero.mp hz with h1 | h2
   · exact (sub_eq_zero.mp h1).symm
   · exact absurd h2 hm
+
+/-! ## Realizing a one-dimensional module inside the named family
+
+The next two results turn the scalar data of a one-dimensional module into an isomorphism with a
+named member of the family `oneDimModule`. They are characteristic-free, and serve both the
+characteristic-`0` classification and the `Y`-acts-by-zero branch of the characteristic-`p` one. -/
+
+/-- The identification of the carrier of `oneDimModule μ` with `k`. -/
+def oneDimEquivSelf (μ : k) : k ≃ₗ[k] oneDimModule k μ where
+  toFun c := c
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+  invFun c := c
+  left_inv _ := rfl
+  right_inv _ := rfl
+
+/-- The action of an arbitrary `Z ∈ 𝔤` on `oneDimModule μ`, in closed form. -/
+theorem oneDim_lie (μ : k) (Z : g k) (x : oneDimModule k μ) :
+    (⁅Z, x⁆ : oneDimModule k μ) = ((Z : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • x := by
+  have h : (⁅Z, x⁆ : oneDimModule k μ) = oneDimRep k μ Z x := rfl
+  rw [h, oneDimRep_apply, LinearMap.smul_apply, LinearMap.id_apply]
+
+/-- **Realization.** A one-dimensional module on which `X` acts by the scalar `μ` and `Y` acts by
+`0` is isomorphic to `oneDimModule μ`. -/
+theorem nonempty_equiv_oneDim (M : Type*) [AddCommGroup M] [Module k M] [LieRingModule (g k) M]
+    [LieModule k (g k) M] {μ : k} (hX : ∀ m : M, ⁅X k, m⁆ = μ • m)
+    (hY : ∀ m : M, ⁅Y k, m⁆ = 0) (hdim : Module.finrank k M = 1) :
+    Nonempty (M ≃ₗ⁅k, g k⁆ oneDimModule k μ) := by
+  have hlie : ∀ (Z : g k) (m : M),
+      ⁅Z, m⁆ = ((Z : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • m := fun Z m => by
+    rw [lie_eq_smul_lie_X_add_smul_lie_Y k M Z m, hX, hY, smul_zero, add_zero, smul_smul]
+  haveI : Nontrivial M := Module.nontrivial_of_finrank_pos (R := k) (by rw [hdim]; norm_num)
+  haveI : FiniteDimensional k M := Module.finite_of_finrank_pos (R := k) (by rw [hdim]; norm_num)
+  obtain ⟨m₀, hm₀⟩ := exists_ne (0 : M)
+  have hinj : Function.Injective (LinearMap.toSpanSingleton k M m₀) := by
+    intro c d hcd
+    have h0 : (c - d) • m₀ = 0 := by
+      rw [sub_smul, ← LinearMap.toSpanSingleton_apply, ← LinearMap.toSpanSingleton_apply, hcd,
+        sub_self]
+    rcases smul_eq_zero.mp h0 with h | h
+    · exact sub_eq_zero.mp h
+    · exact absurd h hm₀
+  have hsurj : Function.Surjective (LinearMap.toSpanSingleton k M m₀) := by
+    have hspan : Submodule.span k {m₀} = ⊤ := by
+      apply Submodule.eq_top_of_finrank_eq
+      rw [finrank_span_singleton hm₀, hdim]
+    intro m
+    have hm : m ∈ Submodule.span k {m₀} := hspan ▸ Submodule.mem_top
+    obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hm
+    exact ⟨c, LinearMap.toSpanSingleton_apply k M m₀ c⟩
+  let e : M ≃ₗ[k] oneDimModule k μ :=
+    (LinearEquiv.ofBijective _ ⟨hinj, hsurj⟩).symm.trans (oneDimEquivSelf k μ)
+  refine ⟨{ e with map_lie' := ?_ }⟩
+  intro Z m
+  show e ⁅Z, m⁆ = ⁅Z, e m⁆
+  rw [hlie, map_smul, oneDim_lie]
+
+/-- **The characteristic-`0` classification.** Over an algebraically closed field of characteristic
+`0`, every finite-dimensional irreducible `𝔤`-module is isomorphic to exactly one member
+`oneDimModule μ` of the named one-dimensional family. Together with `oneDim_irreducible` (every
+member is irreducible) this is the existence-and-uniqueness statement asked for by the problem. -/
+theorem charZero_exists_unique_iso_oneDim [IsAlgClosed k] [CharZero k]
+    (M : Type*) [AddCommGroup M] [Module k M] [LieRingModule (g k) M] [LieModule k (g k) M]
+    [FiniteDimensional k M] [LieModule.IsIrreducible k (g k) M] :
+    ∃! μ : k, Nonempty (M ≃ₗ⁅k, g k⁆ oneDimModule k μ) := by
+  obtain ⟨μ, hμ, -⟩ := charZero_X_scalar k M
+  obtain ⟨φ⟩ := nonempty_equiv_oneDim k M hμ (charZero_Y_acts_zero k M)
+    (charZero_irreducible_finrank_one k M)
+  refine ⟨μ, ⟨φ⟩, ?_⟩
+  rintro ν ⟨ψ⟩
+  by_contra hne
+  exact oneDim_not_iso k (Ne.symm hne) ⟨φ.symm.trans ψ⟩
 
 /-! ## Characteristic `p`: an irreducible representation of dimension `p`
 
