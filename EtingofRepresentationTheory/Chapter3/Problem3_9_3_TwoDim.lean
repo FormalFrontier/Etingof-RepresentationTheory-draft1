@@ -218,6 +218,15 @@ noncomputable def twoRep [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) 
       (0, c ⟨a, b, e⟩ • truncMap k (if a = i then 1 else 0) (if b = j then 1 else 0) x.1) :=
   rfl
 
+theorem twoRep_mapLinear_apply_fst [DecidableEq Q] (i j : Q)
+    (c : (Σ a b : Q, (a ⟶ b)) → k) {a b : Q} (e : a ⟶ b) (x : (twoRep i j c).obj a) :
+    ((twoRep i j c).mapLinear e x).1 = 0 := rfl
+
+theorem twoRep_mapLinear_apply_snd [DecidableEq Q] (i j : Q)
+    (c : (Σ a b : Q, (a ⟶ b)) → k) {a b : Q} (e : a ⟶ b) (x : (twoRep i j c).obj a) :
+    ((twoRep i j c).mapLinear e x).2 =
+      c ⟨a, b, e⟩ • truncMap k (if a = i then 1 else 0) (if b = j then 1 else 0) x.1 := rfl
+
 /-- Away from `i` and `j` the normal form is trivial. -/
 theorem twoRep_obj_subsingleton [DecidableEq Q] {i j : Q} (c : (Σ a b : Q, (a ⟶ b)) → k)
     {v : Q} (hi : v ≠ i) (hj : v ≠ j) : Subsingleton ((twoRep i j c).obj v) := by
@@ -235,12 +244,13 @@ instance twoRep_finite [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) �
   inferInstanceAs
     (Module.Finite k ((Fin (if v = i then 1 else 0) → k) × (Fin (if v = j then 1 else 0) → k)))
 
-/-- The carriers of the normal form are honest `AddCommGroup`s. Registered at low priority so
-that the bundled `AddCommMonoid` stays preferred elsewhere. -/
+/-- The carriers of the normal form are honest `AddCommGroup`s, built from the bundled
+`AddCommMonoid` via `Module.addCommMonoidToAddCommGroup` so that `toAddCommMonoid` is *defeq* to
+the bundled one (hence the bundled `Module k` is still found). Registered at low priority so that
+the bundled `AddCommMonoid` stays preferred elsewhere. -/
 noncomputable instance (priority := 100) twoRep_addCommGroup [DecidableEq Q] (i j : Q)
     (c : (Σ a b : Q, (a ⟶ b)) → k) (v : Q) : AddCommGroup ((twoRep i j c).obj v) :=
-  inferInstanceAs
-    (AddCommGroup ((Fin (if v = i then 1 else 0) → k) × (Fin (if v = j then 1 else 0) → k)))
+  Module.addCommMonoidToAddCommGroup k
 
 /-- The dimension vector of the normal form. -/
 theorem dimVec_twoRep [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) (v : Q) :
@@ -274,7 +284,130 @@ noncomputable def twoRepZeroEquivDirectSum [DecidableEq Q] (i j : Q) :
     rw [h1, map_zero]
     rfl
 
+/-! ### Generators of the two one-dimensional slots -/
+
+/-- The generator of the `i`-slot of `twoRep i j c`. -/
+noncomputable def genFst [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) :
+    (twoRep i j c).obj i :=
+  ((finPiEquivOfEqOne k (if_pos rfl)).symm 1, 0)
+
+/-- The generator of the `j`-slot of `twoRep i j c`. -/
+noncomputable def genSnd [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) :
+    (twoRep i j c).obj j :=
+  (0, (finPiEquivOfEqOne k (if_pos rfl)).symm 1)
+
+/-- An arrow `e : i ⟶ j` sends the `i`-generator to `c ⟨i, j, e⟩` times the `j`-generator. This is
+the defining property of the normal form. -/
+theorem twoRep_mapLinear_genFst [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k)
+    (e : i ⟶ j) :
+    (twoRep i j c).mapLinear e (genFst i j c) = c ⟨i, j, e⟩ • genSnd i j c := by
+  rw [twoRep_mapLinear_apply]
+  refine Prod.ext (smul_zero _).symm ?_
+  change c ⟨i, j, e⟩ • truncMap k _ _ ((finPiEquivOfEqOne k (if_pos rfl)).symm (1 : k))
+    = c ⟨i, j, e⟩ • (finPiEquivOfEqOne k (if_pos rfl)).symm (1 : k)
+  congr 1
+  apply (finPiEquivOfEqOne k (if_pos (rfl : j = j))).injective
+  rw [finPiEquivOfEqOne_truncMap (if_pos (rfl : i = i)) (if_pos (rfl : j = j)),
+    LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply]
+
+/-- The `j`-generator is nonzero. -/
+theorem genSnd_ne_zero [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) :
+    genSnd (k := k) i j c ≠ 0 := by
+  intro h
+  have h2 : (finPiEquivOfEqOne k (if_pos (rfl : j = j))).symm (1 : k) = 0 := congrArg Prod.snd h
+  have := congrArg (finPiEquivOfEqOne k (if_pos (rfl : j = j))) h2
+  rw [LinearEquiv.apply_symm_apply, map_zero] at this
+  exact one_ne_zero this
+
+/-- The `i`-generator is nonzero. -/
+theorem genFst_ne_zero [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) :
+    genFst (k := k) i j c ≠ 0 := by
+  intro h
+  have h2 : (finPiEquivOfEqOne k (if_pos (rfl : i = i))).symm (1 : k) = 0 := congrArg Prod.fst h
+  have := congrArg (finPiEquivOfEqOne k (if_pos (rfl : i = i))) h2
+  rw [LinearEquiv.apply_symm_apply, map_zero] at this
+  exact one_ne_zero this
+
 /-! ### The two normal forms are not isomorphic: indecomposability -/
+
+/-- In a simple module a complementary pair is `(⊥, ⊤)` or `(⊤, ⊥)`. -/
+private theorem isCompl_dichotomy {M : Type*} [AddCommGroup M] [Module k M]
+    [IsSimpleModule k M] {A B : Submodule k M} (h : IsCompl A B) :
+    (A = ⊥ ∧ B = ⊤) ∨ (A = ⊤ ∧ B = ⊥) := by
+  rcases eq_bot_or_eq_top A with hA | hA
+  · exact Or.inl ⟨hA, by rw [← h.sup_eq_top, hA, bot_sup_eq]⟩
+  · exact Or.inr ⟨hA, by rw [← h.inf_eq_bot, hA, top_inf_eq]⟩
+
+/-- Off the two supported vertices every subrepresentation of `twoRep i j c` is zero. -/
+theorem eq_bot_of_ne [DecidableEq Q] {i j : Q} {c : (Σ a b : Q, (a ⟶ b)) → k}
+    (W : ∀ v, Submodule k ((twoRep i j c).obj v)) {v : Q} (hvi : v ≠ i) (hvj : v ≠ j) :
+    W v = ⊥ := by
+  haveI := twoRep_obj_subsingleton c hvi hvj
+  rw [Submodule.eq_bot_iff]
+  intro x _
+  exact Subsingleton.elim x 0
+
+/-- The `i`-slot of `twoRep i j c` is one-dimensional when `i ≠ j`. -/
+theorem finrank_twoRep_fst [DecidableEq Q] {i j : Q} (hij : i ≠ j)
+    (c : (Σ a b : Q, (a ⟶ b)) → k) : finrank k ((twoRep i j c).obj i) = 1 := by
+  have h := dimVec_twoRep (k := k) i j c i
+  rw [if_pos rfl, if_neg hij] at h
+  exact h
+
+/-- The `j`-slot of `twoRep i j c` is one-dimensional when `i ≠ j`. -/
+theorem finrank_twoRep_snd [DecidableEq Q] {i j : Q} (hij : i ≠ j)
+    (c : (Σ a b : Q, (a ⟶ b)) → k) : finrank k ((twoRep i j c).obj j) = 1 := by
+  have h := dimVec_twoRep (k := k) i j c j
+  rw [if_pos rfl, if_neg (Ne.symm hij)] at h
+  exact h
+
+/-- **`twoRep i j c` is indecomposable** as soon as `i ≠ j` and some arrow `i → j` acts by a
+nonzero scalar. Together with `twoRep_zero_not_isIndecomposable` this separates the two families
+of normal forms. -/
+theorem twoRep_isIndecomposable [DecidableEq Q] {i j : Q} (hij : i ≠ j)
+    (c : (Σ a b : Q, (a ⟶ b)) → k) {e₀ : i ⟶ j} (hc : c ⟨i, j, e₀⟩ ≠ 0) :
+    (twoRep i j c).IsIndecomposable := by
+  haveI hsi : IsSimpleModule k ((twoRep (k := k) i j c).obj i) :=
+    isSimpleModule_iff_finrank_eq_one.mpr (finrank_twoRep_fst hij c)
+  haveI hsj : IsSimpleModule k ((twoRep (k := k) i j c).obj j) :=
+    isSimpleModule_iff_finrank_eq_one.mpr (finrank_twoRep_snd hij c)
+  -- The arrow `e₀` sends the (nonzero) `i`-generator to a nonzero multiple of the `j`-generator.
+  have hmap : (twoRep i j c).mapLinear e₀ (genFst i j c) ≠ 0 := by
+    rw [twoRep_mapLinear_genFst]
+    exact smul_ne_zero hc (genSnd_ne_zero i j c)
+  refine ⟨⟨i, Module.finrank_pos_iff.mp (by rw [finrank_twoRep_fst hij c]; norm_num)⟩, ?_⟩
+  intro W₁ W₂ h1 h2 hcompl
+  -- One-dimensionality at `i` and at `j` forces each `W` to be `⊥` or `⊤` there.
+  rcases isCompl_dichotomy (hcompl i) with ⟨hi1, hi2⟩ | ⟨hi1, hi2⟩
+  · rcases isCompl_dichotomy (hcompl j) with ⟨hj1, _⟩ | ⟨_, hj2⟩
+    · -- `W₁` is zero at both supported vertices, hence everywhere.
+      refine Or.inl fun v => ?_
+      by_cases hvi : v = i
+      · exact hvi ▸ hi1
+      by_cases hvj : v = j
+      · exact hvj ▸ hj1
+      exact eq_bot_of_ne W₁ hvi hvj
+    · -- `W₂ i = ⊤` but `W₂ j = ⊥`: the arrow `e₀` breaks stability of `W₂`.
+      exact absurd (by
+        have hmem : genFst i j c ∈ W₂ i := by rw [hi2]; exact Submodule.mem_top
+        have := h2 e₀ _ hmem
+        rw [hj2, Submodule.mem_bot] at this
+        exact this) hmap
+  · rcases isCompl_dichotomy (hcompl j) with ⟨hj1, _⟩ | ⟨_, hj2⟩
+    · -- `W₁ i = ⊤` but `W₁ j = ⊥`: the arrow `e₀` breaks stability of `W₁`.
+      exact absurd (by
+        have hmem : genFst i j c ∈ W₁ i := by rw [hi1]; exact Submodule.mem_top
+        have := h1 e₀ _ hmem
+        rw [hj1, Submodule.mem_bot] at this
+        exact this) hmap
+    · -- `W₂` is zero at both supported vertices, hence everywhere.
+      refine Or.inr fun v => ?_
+      by_cases hvi : v = i
+      · exact hvi ▸ hi2
+      by_cases hvj : v = j
+      · exact hvj ▸ hj2
+      exact eq_bot_of_ne W₂ hvi hvj
+
 
 /-- **`twoRep i j 0` is decomposable** -- it splits as `S_i ⊕ S_j`. -/
 theorem twoRep_zero_not_isIndecomposable [DecidableEq Q] (i j : Q) :
@@ -323,6 +456,191 @@ theorem twoRep_zero_not_isIndecomposable [DecidableEq Q] (i j : Q) :
       have := h2 j
       rw [Submodule.eq_bot_iff] at this
       exact this _ (LinearMap.mem_range_self _ _))
+
+/-! ### Reading a representation off at its two supported vertices -/
+
+/-- Transport a vertexwise linear equivalence along an equality of vertices. Using this instead
+of a bare `▸` keeps the rewrite from also renaming the *normal form's* vertex parameters. -/
+def transportEquivAt {ρ σ : QuiverRepresentation k Q} {v w : Q} (h : v = w)
+    (φ : ρ.obj w ≃ₗ[k] σ.obj w) : ρ.obj v ≃ₗ[k] σ.obj v := by
+  subst h; exact φ
+
+@[simp] theorem transportEquivAt_rfl {ρ σ : QuiverRepresentation k Q} {v : Q}
+    (φ : ρ.obj v ≃ₗ[k] σ.obj v) : transportEquivAt (rfl : v = v) φ = φ := rfl
+
+/-- The coefficient family of a representation `ρ`, read off through trivializations `α` at `i`
+and `β` at `j`: the arrow `e : i ⟶ j` gets the scalar by which it acts on the chosen generator.
+Only the values on arrows `i → j` matter, so all other arrows are sent to `0`. -/
+noncomputable def coeffOf [DecidableEq Q] {ρ : QuiverRepresentation k Q} {i j : Q}
+    (α : ρ.obj i ≃ₗ[k] k) (β : ρ.obj j ≃ₗ[k] k) : (Σ a b : Q, (a ⟶ b)) → k :=
+  fun p =>
+    if h : p.1 = i then
+      (if h' : p.2.1 = j then β (h' ▸ ρ.mapLinear p.2.2 (h.symm ▸ α.symm 1)) else 0)
+    else 0
+
+theorem coeffOf_apply [DecidableEq Q] {ρ : QuiverRepresentation k Q} {i j : Q}
+    (α : ρ.obj i ≃ₗ[k] k) (β : ρ.obj j ≃ₗ[k] k) (e : i ⟶ j) :
+    coeffOf α β ⟨i, j, e⟩ = β (ρ.mapLinear e (α.symm 1)) := by
+  simp [coeffOf]
+
+/-- The vertexwise trivialization putting a representation supported on two distinct vertices
+`i ≠ j` into normal form: `α` at `i`, `β` at `j`, and the unique map between trivial spaces
+elsewhere. -/
+noncomputable def normalFormEquivAt [DecidableEq Q] {ρ : QuiverRepresentation k Q} {i j : Q}
+    (hij : i ≠ j) (α : ρ.obj i ≃ₗ[k] k) (β : ρ.obj j ≃ₗ[k] k)
+    (htriv : ∀ v, v ≠ i → v ≠ j → Subsingleton (ρ.obj v))
+    (c : (Σ a b : Q, (a ⟶ b)) → k) (v : Q) :
+    ρ.obj v ≃ₗ[k] (twoRep i j c).obj v :=
+  if hv : v = i then
+    transportEquivAt hv (α.trans ((finPiEquivOfEqOne k (if_pos rfl)).symm.trans
+      (prodTrivRight k (finPi_subsingleton (k := k) (if_neg hij))).symm))
+  else if hv' : v = j then
+    transportEquivAt hv' (β.trans ((finPiEquivOfEqOne k (if_pos rfl)).symm.trans
+      (prodTrivLeft k (finPi_subsingleton (k := k) (if_neg (Ne.symm hij)))).symm))
+  else subsingletonEquiv k (htriv v hv hv') (twoRep_obj_subsingleton c hv hv')
+
+section NormalFormEquivAt
+
+variable [DecidableEq Q] {ρ : QuiverRepresentation k Q} {i j : Q} (hij : i ≠ j)
+  (α : ρ.obj i ≃ₗ[k] k) (β : ρ.obj j ≃ₗ[k] k)
+  (htriv : ∀ v, v ≠ i → v ≠ j → Subsingleton (ρ.obj v)) (c : (Σ a b : Q, (a ⟶ b)) → k)
+
+/-- At `i` the trivialization is `α`, read in the first slot. -/
+theorem normalFormEquivAt_fst (x : ρ.obj i) :
+    (normalFormEquivAt hij α β htriv c i x).1 = (finPiEquivOfEqOne k (if_pos rfl)).symm (α x) := by
+  rw [normalFormEquivAt, dif_pos (rfl : i = i), transportEquivAt_rfl]
+  rfl
+
+/-- At `j` the trivialization is `β`, read in the second slot. -/
+theorem normalFormEquivAt_snd (y : ρ.obj j) :
+    (normalFormEquivAt hij α β htriv c j y).2 = (finPiEquivOfEqOne k (if_pos rfl)).symm (β y) := by
+  rw [normalFormEquivAt, dif_neg (Ne.symm hij), dif_pos (rfl : j = j), transportEquivAt_rfl]
+  rfl
+
+end NormalFormEquivAt
+
+/-- **The normal form of a representation supported on two distinct vertices.** If `ρ` is
+one-dimensional at `i` and at `j` (`i ≠ j`), trivial elsewhere, and every arrow other than those
+from `i` to `j` acts by zero, then `ρ` is isomorphic to `twoRep i j (coeffOf α β)`. -/
+theorem nonempty_equiv_twoRep [DecidableEq Q] {ρ : QuiverRepresentation k Q} {i j : Q}
+    (hij : i ≠ j) (α : ρ.obj i ≃ₗ[k] k) (β : ρ.obj j ≃ₗ[k] k)
+    (htriv : ∀ v, v ≠ i → v ≠ j → Subsingleton (ρ.obj v))
+    (hzero : ∀ {a b : Q} (e : a ⟶ b), a ≠ i ∨ b ≠ j → ρ.mapLinear e = 0) :
+    Nonempty (QuiverRepresentationEquiv k Q ρ (twoRep i j (coeffOf α β))) := by
+  refine ⟨⟨normalFormEquivAt hij α β htriv (coeffOf α β), ?_⟩⟩
+  intro a b e x
+  by_cases ha : a = i
+  · subst a
+    by_cases hb : b = j
+    · subst b
+      refine Prod.ext ?_ ?_
+      · -- The first slot at `j` is trivial, since `j ≠ i`.
+        haveI := finPi_subsingleton (k := k) (if_neg (Ne.symm hij) : (if j = i then 1 else 0) = 0)
+        exact Subsingleton.elim _ _
+      · -- The second slot carries the whole content: `β (ρ_e x) = c ⟨i, j, e⟩ * α x`.
+        have hfin : (if j = j then 1 else 0) = 1 := if_pos rfl
+        apply (finPiEquivOfEqOne k hfin).injective
+        rw [normalFormEquivAt_snd, twoRep_mapLinear_apply_snd, LinearEquiv.apply_symm_apply,
+          map_smul, normalFormEquivAt_fst,
+          finPiEquivOfEqOne_truncMap (if_pos (rfl : i = i)) hfin, LinearEquiv.apply_symm_apply,
+          smul_eq_mul, coeffOf_apply]
+        have hx : ρ.mapLinear e x = α x • ρ.mapLinear e (α.symm (1 : k)) := by
+          rw [← map_smul]
+          congr 1
+          rw [← map_smul, smul_eq_mul, mul_one, α.symm_apply_apply]
+        rw [hx, map_smul, smul_eq_mul, mul_comm]
+    · -- `b ≠ j`: the normal form's target slot is zero-dimensional, and `ρ_e = 0`.
+      rw [hzero e (Or.inr hb), LinearMap.zero_apply, map_zero]
+      symm
+      refine Prod.ext rfl ?_
+      rw [twoRep_mapLinear_apply_snd, truncMap_eq_zero_of_target (if_neg hb),
+        LinearMap.zero_apply, smul_zero]
+      rfl
+  · -- `a ≠ i`: the normal form's source slot is zero-dimensional, and `ρ_e = 0`.
+    rw [hzero e (Or.inl ha), LinearMap.zero_apply, map_zero]
+    symm
+    refine Prod.ext rfl ?_
+    rw [twoRep_mapLinear_apply_snd, truncMap_eq_zero_of_source (if_neg ha),
+      LinearMap.zero_apply, smul_zero]
+    rfl
+
+/-- Two representations all of whose arrow maps vanish and whose dimension vectors agree are
+isomorphic. -/
+theorem nonempty_equiv_of_mapLinear_eq_zero (ρ σ : QuiverRepresentation k Q)
+    [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
+    [∀ v, Module.Free k (σ.obj v)] [∀ v, Module.Finite k (σ.obj v)]
+    (hρ : ∀ {a b : Q} (e : a ⟶ b), ρ.mapLinear e = 0)
+    (hσ : ∀ {a b : Q} (e : a ⟶ b), σ.mapLinear e = 0)
+    (hdim : ∀ v, dimVec ρ v = dimVec σ v) :
+    Nonempty (QuiverRepresentationEquiv k Q ρ σ) := by
+  have hE : ∀ v, Nonempty (ρ.obj v ≃ₗ[k] σ.obj v) := by
+    intro v
+    letI : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
+    letI : AddCommGroup (σ.obj v) := Module.addCommMonoidToAddCommGroup k
+    exact FiniteDimensional.nonempty_linearEquiv_of_finrank_eq (hdim v)
+  refine ⟨⟨fun v => (hE v).some, ?_⟩⟩
+  intro a b e x
+  rw [hρ e, LinearMap.zero_apply, map_zero, hσ e, LinearMap.zero_apply]
+
+/-! ### Support of a two-dimensional representation -/
+
+/-- A vertex space of dimension `0` is trivial. -/
+theorem subsingleton_of_dimVec_eq_zero {ρ : QuiverRepresentation k Q}
+    [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)] {v : Q}
+    (h : dimVec ρ v = 0) : Subsingleton (ρ.obj v) := by
+  letI : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
+  by_contra hns
+  rw [not_subsingleton_iff_nontrivial] at hns
+  have h1 : 0 < finrank k (ρ.obj v) := Module.finrank_pos_iff.mpr hns
+  have h2 : finrank k (ρ.obj v) = 0 := h
+  omega
+
+/-- A vertex space of dimension `1` is the ground field. -/
+theorem nonempty_linearEquiv_of_dimVec_eq_one {ρ : QuiverRepresentation k Q}
+    [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)] {v : Q}
+    (h : dimVec ρ v = 1) : Nonempty (ρ.obj v ≃ₗ[k] k) := by
+  letI : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
+  refine FiniteDimensional.nonempty_linearEquiv_of_finrank_eq ?_
+  rw [Module.finrank_self]
+  exact h
+
+/-- A dimension vector on a finite vertex set summing to `2` is either `2` at a single vertex or
+`1` at each of two distinct vertices. -/
+theorem support_of_sum_eq_two {Q : Type*} [Fintype Q] (d : Q → ℕ) (h2 : ∑ v, d v = 2) :
+    (∃ i, d i = 2 ∧ ∀ v, v ≠ i → d v = 0) ∨
+      (∃ i j, i ≠ j ∧ d i = 1 ∧ d j = 1 ∧ ∀ v, v ≠ i → v ≠ j → d v = 0) := by
+  classical
+  set S : Finset Q := Finset.univ.filter (fun v => d v ≠ 0) with hS
+  have hmemS : ∀ v, v ∈ S ↔ d v ≠ 0 := by intro v; simp [hS]
+  have hout : ∀ v, v ∉ S → d v = 0 := by
+    intro v hv
+    by_contra h
+    exact hv ((hmemS v).mpr h)
+  have hsum : ∑ v ∈ S, d v = 2 :=
+    (Finset.sum_subset (Finset.subset_univ S) (fun x _ hx => hout x hx)).trans h2
+  have hcard : S.card ≤ 2 := by
+    rw [← hsum, Finset.card_eq_sum_ones]
+    exact Finset.sum_le_sum fun v hv => Nat.one_le_iff_ne_zero.mpr ((hmemS v).mp hv)
+  have hne : S.Nonempty := by
+    rw [Finset.nonempty_iff_ne_empty]
+    intro h
+    rw [h, Finset.sum_empty] at hsum
+    omega
+  have hcard1 : 1 ≤ S.card := Finset.card_pos.mpr hne
+  interval_cases h : S.card
+  · -- `S = {i}`
+    obtain ⟨i, hi⟩ := Finset.card_eq_one.mp h
+    refine Or.inl ⟨i, ?_, ?_⟩
+    · rw [hi, Finset.sum_singleton] at hsum; exact hsum
+    · intro v hv
+      exact hout v (by rw [hi]; simpa using hv)
+  · -- `S = {i, j}` with `i ≠ j`
+    obtain ⟨i, j, hij, hS2⟩ := Finset.card_eq_two.mp h
+    rw [hS2, Finset.sum_pair hij] at hsum
+    have hi : d i ≠ 0 := (hmemS i).mp (by rw [hS2]; simp)
+    have hj : d j ≠ 0 := (hmemS j).mp (by rw [hS2]; simp)
+    refine Or.inr ⟨i, j, hij, by omega, by omega, fun v hvi hvj => ?_⟩
+    exact hout v (by rw [hS2]; simp [hvi, hvj])
 
 end Problem3_9_3
 
