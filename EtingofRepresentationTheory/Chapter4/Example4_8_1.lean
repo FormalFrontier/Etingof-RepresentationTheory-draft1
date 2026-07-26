@@ -1,5 +1,6 @@
 import EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Golden
 import EtingofRepresentationTheory.Chapter4.Example4_8_1.A5OuterTwist
+import EtingofRepresentationTheory.Chapter4.Example4_8_1.S4Quotient
 
 /-!
 # Example 4.8.1: Character Tables of `Q₈`, `S₄`, and `A₅`
