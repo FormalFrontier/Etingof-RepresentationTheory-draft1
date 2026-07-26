@@ -5094,6 +5094,48 @@ of objects via `Quotient.map e.functor.obj (fun _ _ ⟨f⟩ => ⟨e.functor.mapI
 `Equivalence.congrLeft` to get the iso-class bijection on functor categories `C₁ ⥤ D` vs
 `C₂ ⥤ D`.
 
+**"The subcategory `𝒞ₖ ⊆ ModuleCat R` *is* the category of `B`-modules" — build the equivalence
+from `Full` + `Faithful` + `EssSurj`, never from unit/counit.** Hand-building the inverse functor
+forces a `letI`-bound `Module B M` instance through `obj`, `map`, `map_id`, `map_comp` and two
+natural isos; the cheap route needs none of that. Worked template (Problem 9.5.3(i), #7414,
+`Chapter9/Problem9_5_3_BlockCategory.lean`), for `B = R ⧸ I` a quotient by a two-sided ideal:
+
+1. `F := ObjectProperty.lift _ (ModuleCat.restrictScalars (Ideal.Quotient.mk I)) h` where
+   `h : ∀ N, P ((restrictScalars _).obj N)` is the membership proof. `ObjectProperty.lift`
+   *inherits* `Full`/`Faithful` instances from the lifted functor, so only `EssSurj` is left.
+2. `Faithful` of `restrictScalars` is already an instance in Mathlib. `Full` holds whenever the
+   ring map is surjective, and is four lines: pull back the `R`-linear map and prove `map_smul'`
+   after `obtain ⟨a, rfl⟩ := hf b`.
+3. `EssSurj`: `Module.IsTorsionBySet.module` turns an `R`-module killed by `I` into a `B`-module,
+   and its `mk_smul` is `rfl` — so the required iso is the *identity*,
+   `LinearEquiv.toModuleIso { toFun := id, invFun := id, map_add'/map_smul'/left_inv/right_inv :=
+   fun _ _ => rfl }`, packaged with `ObjectProperty.isoMk`.
+4. `instance : F.IsEquivalence where` (the class's three fields default to `by infer_instance`),
+   then `F.asEquivalence : ModuleCat B ≌ P.FullSubcategory`.
+
+Two elaboration traps in step 3. (a) Instance synthesis does not see through `(ObjectProperty.ι
+P).obj ⟨X, hX⟩`, so an inlined `LinearEquiv.toModuleIso` fails with `failed to synthesize Module R
+↑((ι …).obj …)`; state the iso as a `have e : (restrictScalars f).obj (ModuleCat.of _ …) ≅ M.obj
+:= …` with its *unfolded* type and close with `exact e`. (b) `ModuleCat.ofHom` between a
+`FullSubcategory` object and an `of`-shaped object leaves the ring a metavariable — go through
+`LinearEquiv.toModuleIso`, not `ofHom`, whenever one side is `X.obj`.
+
+**Transport finiteness across restriction of scalars along a surjection with the semilinear
+identity map.** `restrictScalars f` does not change the submodule lattice, and Mathlib exposes
+exactly the right lemmas: with `l : ((restrictScalars f).obj N) →ₛₗ[f] N := ⟨id, fun _ _ => rfl,
+fun _ _ => rfl⟩` and `[RingHomSurjective f]`,
+`l.isNoetherian_iff_of_bijective Function.bijective_id` and `l.isArtinian_iff_of_bijective …`
+give `IsFiniteLength R ((restrictScalars f).obj N) ↔ IsFiniteLength B N` after
+`isFiniteLength_iff_isNoetherian_isArtinian`. This is what lets the block equivalence restrict to
+the book's *finite* categories. Note `ModuleCat R` objects carry no `Module k` instance, so
+"finite dimensional over `k`" is not directly statable about them — use finite length, which
+Chapter 9 uses throughout, and say so in the docstring rather than silently weakening.
+
+**`set x := … with h` cannot be followed by a structure-instance literal.** In
+`set ψ : M →ₗ[R] M := LinearMap.id - { toFun := …, map_add' := …, map_smul' := … } with hψ` the
+`with hψ` is parsed as the structure-instance `with`, giving `unexpected identifier; expected '}'`
+plus a bogus `Fields missing: map_add', map_smul'`. Bind the map with a plain `let` first.
+
 ## FDRep Morphism Extensionality Patterns
 
 FDRep morphisms are `Action.Hom` wrapping `FGModuleCat.Hom` wrapping `ModuleCat.Hom` wrapping `LinearMap`. Proving `f = g` for FDRep morphisms requires decomposing through all layers.
