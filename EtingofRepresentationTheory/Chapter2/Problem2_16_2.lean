@@ -182,6 +182,31 @@ theorem eq_top_of_invariant_of_ne_zero (M : Type*) [AddCommGroup M] [Module k M]
   have := (IsSimpleOrder.eq_bot_or_eq_top (ofInvariantXY k M N hX hY)).resolve_left hne
   rwa [← LieSubmodule.toSubmodule_eq_top, ofInvariantXY_toSubmodule] at this
 
+/-- To build an isomorphism of `𝔤`-modules from a linear isomorphism it is enough to intertwine
+the actions of the two generators. -/
+def lieEquivOfIntertwines {M N : Type*} [AddCommGroup M] [Module k M] [LieRingModule (g k) M]
+    [LieModule k (g k) M] [AddCommGroup N] [Module k N] [LieRingModule (g k) N]
+    [LieModule k (g k) N] (e : M ≃ₗ[k] N) (hX : ∀ m : M, e ⁅X k, m⁆ = ⁅X k, e m⁆)
+    (hY : ∀ m : M, e ⁅Y k, m⁆ = ⁅Y k, e m⁆) : M ≃ₗ⁅k, g k⁆ N where
+  __ := e
+  map_lie' {Z m} := by
+    show e ⁅Z, m⁆ = ⁅Z, e m⁆
+    rw [lie_eq_smul_lie_X_add_smul_lie_Y k M Z m, map_add, map_smul, map_smul, hX, hY,
+      lie_eq_smul_lie_X_add_smul_lie_Y k N Z (e m)]
+
+/-- An isomorphism of `𝔤`-modules commutes with the iterated action of any element. -/
+theorem lieEquiv_toEnd_pow {M N : Type*} [AddCommGroup M] [Module k M] [LieRingModule (g k) M]
+    [LieModule k (g k) M] [AddCommGroup N] [Module k N] [LieRingModule (g k) N]
+    [LieModule k (g k) N] (φ : M ≃ₗ⁅k, g k⁆ N) (Z : g k) (n : ℕ) (m : M) :
+    φ (((LieModule.toEnd k (g k) M Z) ^ n) m)
+      = ((LieModule.toEnd k (g k) N Z) ^ n) (φ m) := by
+  induction n generalizing m with
+  | zero => simp
+  | succ j ih =>
+    rw [pow_succ, pow_succ, Module.End.mul_apply, Module.End.mul_apply, ih,
+      LieModule.toEnd_apply_apply, LieModule.toEnd_apply_apply]
+    exact congrArg _ (LieModuleHom.map_lie φ.toLieModuleHom Z m)
+
 /-- The first derived algebra `⁅g, g⁆` is contained in `span{Y}`. -/
 private theorem derivedSeries_one_le_span_Y (x : g k)
     (hx : x ∈ LieAlgebra.derivedSeries k (g k) 1) : x ∈ Submodule.span k {Y k} := by
@@ -853,6 +878,173 @@ theorem fam_irreducible (γ : kˣ) (a : k) : LieModule.IsIrreducible k (g k) (Fa
   rcases eq_bot_or_eq_top_of_invariant γ a (N : Submodule k (Fam k p γ a)) hdiag hshift with h | h
   · exact absurd (by rwa [← LieSubmodule.toSubmodule_eq_bot]) hN
   · rwa [← LieSubmodule.toSubmodule_eq_top]
+
+
+/-! ### The isomorphism criterion
+
+Two invariants separate the members of the family. The `p`-th power of the `Y`-action is the scalar
+`γᵖ`, which pins down `γ` because the Frobenius map is injective; and the eigenvalues of the
+`X`-action are `a + i` for `i` in the prime field, which pins down `a` modulo the prime field.
+Conversely, translating the index by `n` is an isomorphism `V(γ, a) ≅ V(γ, a + n)`. -/
+
+/-- Iterating the cyclic shift `n` times moves a coordinate `n` steps back. -/
+theorem shiftOp_pow_apply (n : ℕ) : ∀ (v : ZMod p → k) (i : ZMod p),
+    ((shiftOp k p ^ n) v) i = v (i - n) := by
+  induction n with
+  | zero => intro v i; simp
+  | succ m ih =>
+    intro v i
+    rw [pow_succ, Module.End.mul_apply, ih, shiftOp_apply]
+    congr 1
+    push_cast
+    ring
+
+/-- The cyclic shift has order dividing `p`. -/
+theorem shiftOp_pow_char : shiftOp k p ^ p = 1 := by
+  refine LinearMap.ext fun v => funext fun i => ?_
+  rw [shiftOp_pow_apply, ZMod.natCast_self, sub_zero, Module.End.one_apply]
+
+/-- The `p`-th power of the `Y`-operator of `V(γ, a)` is the scalar `γᵖ`. -/
+theorem famShift_pow_char (γ : kˣ) :
+    famShift k p γ ^ p = ((γ : k) ^ p) • (1 : Module.End k (ZMod p → k)) := by
+  rw [famShift, smul_pow, shiftOp_pow_char]
+
+/-- The `n`-fold action of `Y` on `V(γ, a)` is the `n`-th power of the scaled shift. -/
+theorem toEnd_Y_pow_apply (γ : kˣ) (a : k) (n : ℕ) : ∀ v : Fam k p γ a,
+    ((LieModule.toEnd k (g k) (Fam k p γ a) (Y k)) ^ n) v = (famShift k p γ ^ n) v := by
+  induction n with
+  | zero => intro v; simp
+  | succ m ih =>
+    intro v
+    rw [pow_succ, pow_succ, Module.End.mul_apply, Module.End.mul_apply,
+      LieModule.toEnd_apply_apply, fam_lie_Y]
+    exact ih _
+
+/-- **The invariant pinning down `γ`.** The `p`-fold action of `Y` on `V(γ, a)` is the scalar
+`γᵖ`. -/
+theorem toEnd_Y_pow_char (γ : kˣ) (a : k) (v : Fam k p γ a) :
+    ((LieModule.toEnd k (g k) (Fam k p γ a) (Y k)) ^ p) v = ((γ : k) ^ p) • v := by
+  rw [toEnd_Y_pow_apply, famShift_pow_char, LinearMap.smul_apply, Module.End.one_apply]
+
+/-- The first standard basis vector of `V(γ, a)`. -/
+def famUnit (γ : kˣ) (a : k) : Fam k p γ a := (Pi.single (0 : ZMod p) (1 : k) : ZMod p → k)
+
+theorem famUnit_ne_zero (γ : kˣ) (a : k) : famUnit γ a ≠ (0 : Fam k p γ a) := by
+  intro h
+  have h0 : (Pi.single (0 : ZMod p) (1 : k) : ZMod p → k) = 0 := h
+  simpa using congrFun h0 (0 : ZMod p)
+
+/-- The first standard basis vector is an eigenvector of the diagonal operator with eigenvalue
+`a`. -/
+theorem famDiag_single_zero (a : k) :
+    famDiag k p a (Pi.single (0 : ZMod p) (1 : k)) = a • (Pi.single (0 : ZMod p) (1 : k)) := by
+  funext i
+  rw [famDiag_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply]
+  by_cases hi : i = 0
+  · rw [if_pos hi, mul_one, mul_one, hi, map_zero, add_zero]
+  · rw [if_neg hi, mul_zero, mul_zero]
+
+/-- **The invariant pinning down `a`.** Every eigenvalue of the diagonal operator of `V(γ, a)` is
+of the form `a + i` with `i` in the prime field. -/
+theorem exists_eq_add_lam_of_eigenvector (a c : k) (w : ZMod p → k) (hw : w ≠ 0)
+    (h : famDiag k p a w = c • w) : ∃ i : ZMod p, c = a + lam k p i := by
+  obtain ⟨i, hi⟩ := Function.ne_iff.mp hw
+  refine ⟨i, ?_⟩
+  have h1 := congrFun h i
+  rw [famDiag_apply, Pi.smul_apply, smul_eq_mul] at h1
+  exact (mul_right_cancel₀ hi h1).symm
+
+/-- Reindexing `k^{ℤ/p}` by the translation `i ↦ i + n`. -/
+def reindexEquiv (n : ZMod p) : (ZMod p → k) ≃ₗ[k] (ZMod p → k) where
+  toFun v i := v (i + n)
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+  invFun w i := w (i - n)
+  left_inv v := by funext i; simp
+  right_inv w := by funext i; simp
+
+@[simp] theorem reindexEquiv_apply (n : ZMod p) (v : ZMod p → k) (i : ZMod p) :
+    reindexEquiv n v i = v (i + n) := rfl
+
+/-- Reindexing shifts the eigenvalues of the diagonal operator by `n`. -/
+theorem reindexEquiv_famDiag (a : k) (n : ZMod p) (v : ZMod p → k) :
+    reindexEquiv n (famDiag k p a v) = famDiag k p (a + lam k p n) (reindexEquiv n v) := by
+  funext i
+  simp only [reindexEquiv_apply, famDiag_apply, map_add]
+  ring
+
+/-- Reindexing commutes with the shift. -/
+theorem reindexEquiv_famShift (γ : kˣ) (n : ZMod p) (v : ZMod p → k) :
+    reindexEquiv n (famShift k p γ v) = famShift k p γ (reindexEquiv n v) := by
+  funext i
+  simp only [reindexEquiv_apply, famShift_apply]
+  congr 2
+  ring
+
+/-- **Translation of the parameter.** Reindexing by `n` is an isomorphism of `𝔤`-modules
+`V(γ, a) ≅ V(γ, a + n)`: it shifts the eigenvalues of the diagonal operator by `n` and commutes
+with the shift. -/
+noncomputable def famTranslateEquiv (γ : kˣ) (a : k) (n : ZMod p) :
+    Fam k p γ a ≃ₗ⁅k, g k⁆ Fam k p γ (a + lam k p n) := by
+  refine lieEquivOfIntertwines k (reindexEquiv n) (fun m => ?_) (fun m => ?_)
+  · rw [fam_lie_X, fam_lie_X]
+    exact reindexEquiv_famDiag a n m
+  · rw [fam_lie_Y, fam_lie_Y]
+    exact reindexEquiv_famShift γ n m
+
+/-- **The isomorphism criterion.** `V(γ, a)` and `V(γ', a')` are isomorphic exactly when `γ = γ'`
+and `a` and `a'` differ by an element of the prime field. So the `p`-dimensional irreducibles are
+parametrized by `kˣ` together with `k` modulo the prime field. -/
+theorem fam_nonempty_equiv_iff (γ γ' : kˣ) (a a' : k) :
+    Nonempty (Fam k p γ a ≃ₗ⁅k, g k⁆ Fam k p γ' a')
+      ↔ γ = γ' ∧ ∃ n : ZMod p, a' = a + lam k p n := by
+  constructor
+  · rintro ⟨φ⟩
+    have hu : φ (famUnit γ a) ≠ 0 := fun h =>
+      famUnit_ne_zero γ a (by simpa using congrArg φ.symm h)
+    refine ⟨?_, ?_⟩
+    · -- the `p`-fold action of `Y` is the scalar `γᵖ`, and `φ` preserves it
+      have h1 := lieEquiv_toEnd_pow k φ (Y k) p (famUnit γ a)
+      rw [toEnd_Y_pow_char, toEnd_Y_pow_char, map_smul] at h1
+      have h2 : ((γ : k) ^ p - (γ' : k) ^ p) • φ (famUnit γ a) = 0 := by
+        rw [sub_smul, h1, sub_self]
+      rcases smul_eq_zero.mp h2 with h | h
+      · refine Units.ext ?_
+        refine frobenius_inj k p ?_
+        rw [frobenius_def, frobenius_def]
+        exact sub_eq_zero.mp h
+      · exact absurd h hu
+    · -- the eigenvalue `a` of `X` transports to an eigenvalue of the diagonal operator of `V(γ', a')`
+      have hXu : (⁅X k, famUnit γ a⁆ : Fam k p γ a) = a • famUnit γ a := by
+        rw [fam_lie_X]; exact famDiag_single_zero a
+      have h1 : famDiag k p a' (φ (famUnit γ a)) = a • φ (famUnit γ a) := by
+        have h := LieModuleHom.map_lie φ.toLieModuleHom (X k) (famUnit γ a)
+        rw [hXu, map_smul, fam_lie_X] at h
+        exact h.symm
+      obtain ⟨i, hi⟩ := exists_eq_add_lam_of_eigenvector a' a (φ (famUnit γ a)) hu h1
+      refine ⟨-i, ?_⟩
+      rw [map_neg, hi]
+      ring
+  · rintro ⟨rfl, n, rfl⟩
+    exact ⟨famTranslateEquiv γ a n⟩
+
+/-- Distinct classified members are non-isomorphic. -/
+theorem fam_not_equiv {γ γ' : kˣ} {a a' : k} (h : ¬ (γ = γ' ∧ ∃ n : ZMod p, a' = a + lam k p n)) :
+    ¬ Nonempty (Fam k p γ a ≃ₗ⁅k, g k⁆ Fam k p γ' a') :=
+  fun hh => h ((fam_nonempty_equiv_iff γ γ' a a').mp hh)
+
+/-- A one-dimensional module is never isomorphic to a member of the `p`-dimensional family: the
+dimensions `1` and `p` differ. -/
+theorem oneDim_not_equiv_fam (μ : k) (γ : kˣ) (a : k) :
+    ¬ Nonempty (oneDimModule k μ ≃ₗ⁅k, g k⁆ Fam k p γ a) := by
+  rintro ⟨φ⟩
+  have h : Module.finrank k (oneDimModule k μ) = Module.finrank k (Fam k p γ a) :=
+    φ.toLinearEquiv.finrank_eq
+  rw [fam_finrank] at h
+  have h1 : Module.finrank k (oneDimModule k μ) = 1 :=
+    (Module.finrank_self k).symm ▸ rfl
+  rw [h1] at h
+  exact ((Fact.out : p.Prime).one_lt).ne h
 
 /-- **Characteristic `p`.** Lie's theorem fails: it is not the case that every irreducible
 finite-dimensional representation of `𝔤` is `1`-dimensional. The `p`-dimensional module `V(1, 0)`
