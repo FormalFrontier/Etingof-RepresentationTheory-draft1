@@ -59,10 +59,9 @@ bifunctors `(C, D) ↦ extend C ⊗ extend D` and `(C, D) ↦ extend (C ⊗ D)`.
 `≅ ⨁_{p+q=i} H_p(C) ⊗ H_q(D)` (reindex `a = p`, `b = q`; the `a < 0` / `b < 0` summands are zero by
 `homology_extend_isZero_up`).
 
-The main deliverable is `kunnethCochainComplexNatIso`, an actual `Iso`;
-`kunnethCochainComplexNat` is the `Nonempty` corollary kept for compatibility. Nothing in this
-file extracts an isomorphism from a `Nonempty` via `Classical.choice`. See
-`kunnethCochainComplexNatIso`'s docstring for which naturality squares are formalized.
+The objectwise deliverable is `kunnethCochainComplexNatIso`; `kunnethCochainComplexNat` is its
+`Nonempty` compatibility corollary. `KunnethNatBifunctor.lean` packages these same components as
+the natural isomorphism `kunnethCochainComplexNatNatIso`.
 -/
 
 open CategoryTheory Limits MonoidalCategory HomologicalComplex
@@ -669,10 +668,9 @@ complexes `Hom_A(P•, N)`.
 
 As in the chain case, **all four steps are natural in `(C, D)`** and none is a non-natural
 choice: `α₁`, `α₄` by `homology_extend_iso_up_hom_naturality`, `α₃` by `Etingof.kunnethNatIso`.
-Step `α₂` (`TensorExtendUp.tensorObjExtendIso`) is natural too, but its naturality square is
-**not formalized here** — stating it needs the bifunctor form of `extend` on `ℕ`-indexed
-complexes, which this file does not set up (tracked as issue #7837). So this file exposes an
-isomorphism, not a natural isomorphism of bifunctors. -/
+Step `α₂` is formalized by `TensorExtendUp.tensorObjExtendIso_hom_naturality` and packaged by
+`TensorExtendUp.tensorObjExtendNatIso`. `KunnethNatBifunctor.lean` composes all four squares into
+`kunnethCochainComplexNatNatIso`, whose component theorem recovers this isomorphism. -/
 noncomputable def kunnethCochainComplexNatIso (C D : CochainComplex (ModuleCat.{u} k) ℕ) (i : ℕ) :
     (HomologicalComplex.tensorObj C D).homology i ≅
       ∐ fun (p : {p : ℕ × ℕ // p.1 + p.2 = i}) =>
