@@ -1,3 +1,4 @@
+import EtingofRepresentationTheory.Infrastructure.FDRepCharacterBiprod
 import EtingofRepresentationTheory.Infrastructure.CompletenessByCounting
 import EtingofRepresentationTheory.Infrastructure.FDRepDirectSum
 import EtingofRepresentationTheory.Infrastructure.FDRepIsotypic
