@@ -872,10 +872,8 @@
     "start_line": 25,
     "end_line": 8,
     "status": "sorry_free",
-    "coverage_note": "Parts (a), (b), and the characteristic-p dimension result are source-present. Problem2_7_4_Family.lean now constructs the classifying family V(alpha,c) for part (c), with the defining relation, the module structure, the central-scalar actions x^p = alpha, y^p = c^p, irreducibility of V(alpha,c) for every parameter pair (famModule_isSimpleModule), and the isomorphism criterion V(alpha,c) = V(alpha',c') iff alpha = alpha' and c = c' (famEquiv_nonempty_iff), so the family lists each isomorphism class at most once; exhaustiveness remains open under #7387. Independently, Problem2_7_4.lean now fails a fresh check at a scalar-cast/neg_smul rewrite; regression #7530.",
-    "followup_issue": 7387,
-    "coverage_issue": 7530,
-    "coverage": "covered_partial",
+    "coverage_note": "All three parts are source-present. (a) characteristic zero: no nonzero finite-dimensional representation, and the Weyl algebra is simple. (b) characteristic p: x^p and y^p are central and the center is k[x^p, y^p]. (c) characteristic p over an algebraically closed field is a full classification, not just the dimension: Problem2_7_4.exists_normalForm puts an arbitrary finite-dimensional simple module in the book's normal form, Problem2_7_4_Family.lean constructs the family V(alpha,c) with the central-scalar actions x^p = alpha and y^p = c^p, proves each member irreducible (famModule_isSimpleModule) and the isomorphism criterion V(alpha,c) = V(alpha',c') iff alpha = alpha' and c = c' (famEquiv_nonempty_iff), and exists_toFamEquiv proves the family exhausts every finite-dimensional irreducible. The public endpoint existsUnique_toFamEquiv returns explicit family parameters together with an isomorphism, unique as a pair; finrank_eq_of_classification recovers dim V = p from it, and Problem2_7_4.finrank_irreducible_charP is retained.",
+    "coverage": "covered_full",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_7_4.lean",
       "EtingofRepresentationTheory/Chapter2/Problem2_7_4_Family.lean"
@@ -1159,12 +1157,12 @@
     "start_line": 22,
     "end_line": 35,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "sorry_free": true,
-    "fidelity_note": "Examples (1)–(3) are exact. The derivation example is implemented only for commutative A, while the source allows an arbitrary associative algebra; the noncommutative derivation Lie algebra remains reopened #5363.",
-    "fidelity_decl": "Abelian k V (abelian); LieRing A / LieAlgebra k (End k V) (associative); LieSubalgebra k A; commutative-only LieAlgebra k (Derivation k A A)",
-    "followup_issue": 5363,
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "fidelity_note": "All four examples are formalized at the source's generality. (4) is now Etingof.Example2_9_2.Der k A, the Leibniz-rule endomorphisms of an *arbitrary associative* k-algebra A, packaged as a LieSubalgebra k (Module.End k A); Mathlib's Derivation k A A requires [CommSemiring A] and so cannot state (4) as the book does. derivationLieEquiv identifies the two in the commutative case, and Der.inner exhibits the inner derivations as a non-vacuity witness.",
+    "fidelity_decl": "Abelian k V (abelian); LieRing A / LieAlgebra k (End k V) (associative); LieSubalgebra k A; Der k A with LieAlgebra k (Der k A) for arbitrary associative A, plus derivationLieEquiv : Derivation k A A ≃ₗ⁅k⁆ Der k A",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter2/Example2.9.2_continued",
@@ -1539,9 +1537,8 @@
     "start_line": 2,
     "end_line": 15,
     "status": "sorry_free",
-    "coverage_note": "Parts (a)-(g) formalized. Parts (a)-(c) are in Problem2_11_3.lean. Problem2_11_3_SymExtPow.lean constructs the book's quotient models S^n V and ∧^n V of V^{⊗n}, the induced operators S^n A and ∧^n A with their functoriality, the exterior half of part (d) (basis and dimension m.choose n) via an isomorphism with Mathlib's exterior power valid in every characteristic, and part (g): extPowMap_top proves ∧^N A = det(A) • Id in the top degree N = dim V on the book's own ∧^N V, and det_comp_of_extPowMap derives det(A ∘ B) = det(A) det(B) from it by functoriality, the book's one-line argument. Problem2_11_3_SymPowBasis.lean has the symmetric half of part (d): symPowBasis indexes a basis of S^n V by multisets, with dimension (m+n-1).choose n. Problem2_11_3_SymExtSubspace.lean has all of part (e): the symmetrizer and antisymmetrizer on V^{⊗n}, the computation of their ranges and kernels, and the resulting isomorphisms S^n V ≃ symTensorSubmodule and ∧^n V ≃ altTensorSubmodule, valid whenever n! is invertible in k. Problem2_11_3_Trace.lean has part (f): trace_extPowMap gives Tr(∧^n A) as the elementary symmetric function e_n of the eigenvalues and trace_symPowMap gives Tr(S^n A) as the complete homogeneous symmetric function h_n, for an operator triangularized by a basis with diagonal lam; IsTriangularizedBy.charpoly certifies that lam is exactly the eigenvalue list with multiplicity. Remaining: upgrading the triangularizing-basis hypothesis of part (f) to the literal 'the characteristic polynomial splits' hypothesis needs a triangularization theorem that Mathlib lacks (#7876).",
-    "followup_issue": 7876,
-    "coverage": "covered_partial",
+    "coverage_note": "Parts (a)-(g) formalized. Parts (a)-(c) are in Problem2_11_3.lean. Problem2_11_3_SymExtPow.lean constructs the book's quotient models S^n V and ∧^n V of V^{⊗n}, the induced operators S^n A and ∧^n A with their functoriality, the exterior half of part (d) (basis and dimension m.choose n) via an isomorphism with Mathlib's exterior power valid in every characteristic, and part (g): extPowMap_top proves ∧^N A = det(A) • Id in the top degree N = dim V on the book's own ∧^N V, and det_comp_of_extPowMap derives det(A ∘ B) = det(A) det(B) from it by functoriality, the book's one-line argument. Problem2_11_3_SymPowBasis.lean has the symmetric half of part (d): symPowBasis indexes a basis of S^n V by multisets, with dimension (m+n-1).choose n. Problem2_11_3_SymExtSubspace.lean has all of part (e): the symmetrizer and antisymmetrizer on V^{⊗n}, the computation of their ranges and kernels, and the resulting isomorphisms S^n V ≃ symTensorSubmodule and ∧^n V ≃ altTensorSubmodule, valid whenever n! is invertible in k. Problem2_11_3_Trace.lean has part (f): trace_extPowMap gives Tr(∧^n A) as the elementary symmetric function e_n of the eigenvalues and trace_symPowMap gives Tr(S^n A) as the complete homogeneous symmetric function h_n, for an operator triangularized by a basis with diagonal lam; IsTriangularizedBy.charpoly certifies that lam is exactly the eigenvalue list with multiplicity. The triangularizing-basis hypothesis of part (f) is no longer needed: Infrastructure/Triangularization.lean supplies the triangularization theorem Mathlib lacks, and trace_extPowMap_of_charpoly and trace_symPowMap_of_charpoly state both formulas under the book's own hypothesis charpoly A = prod_i (X - C (lam i)), with no basis mentioned.",
+    "coverage": "covered_full",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_11_3.lean",
       "EtingofRepresentationTheory/Chapter2/Problem2_11_3_SymExtPow.lean",
@@ -1807,9 +1804,9 @@
     "end_line": 12,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "coverage_note": "Part (a)'s dimension results and part (b)'s non-finiteness theorem not_finiteDimensional_g_four are proved. The source additionally asks for an explicit basis of g_4; the twisted A_2^(2) loop subalgebra n_+ that receives it is built (loopPos, #7717), carries an explicit graded Module.Basis (loopBasis, #7728, graded dimensions 1, 5, 3, 5, 3, ... away from characteristic 2), and is now identified with the image of the loop realization (range_matHom_4_eq_loopPos, #7729, away from characteristics 2 and 3). The layer induction for the upper bound is in Problem2_16_3_Layers.lean: the odd-to-even step (#7732) and, from #7749, the even-to-odd step for four of the six odd-layer fields together with EvenLayer.step, which propagates the even-layer invariant unconditionally in every even t-degree (evenLayer_evenTower). Problem2_16_3_Tower.lean (#7782) computes the loop realization on both layer towers (gbar_topOdd, gbar_evenTower), giving topOdd_ne_zero / evenTower_ne_zero and the full fidelity statement gbar_loopFam_4, hence linearIndependent_loopFam_4: the LoopIdx-indexed family in g_4 is linearly independent away from characteristics 2 and 3, so the graded dimensions 1, 5, 3, 5, 3, ... are a lower bound unconditionally. Problem2_16_3_Kernel.lean (#7801) identifies the kernel of the loop realization with the span of the layer defects (ker_gbar_eq_span_topDefect), and records that this kernel is central (lie_mem_ker_gbar) and meets only the imaginary bidegrees (2m+2, 4m+4) (ker_gbar_inf_gDeg_eq_bot), so g_4 is a graded central extension of n_+; injectivity of gbar is equivalent to the vanishing of every layer defect (gbar_injective_iff_topDefect_eq_zero). Still missing: the sixth odd-layer field, i.e. the Gabber-Kac vanishing of the layer defect, now reduced to a single bidegree-wise dimension inequality (#7783), and assembling the Module.Basis for g_4 (#7720).",
+    "coverage_note": "Part (a)'s dimension results and part (b)'s non-finiteness theorem not_finiteDimensional_g_four are proved. The source additionally asks for an explicit basis of g_4; the twisted A_2^(2) loop subalgebra n_+ that receives it is built (loopPos, #7717), carries an explicit graded Module.Basis (loopBasis, #7728, graded dimensions 1, 5, 3, 5, 3, ... away from characteristic 2), and is now identified with the image of the loop realization (range_matHom_4_eq_loopPos, #7729, away from characteristics 2 and 3). The layer induction for the upper bound is in Problem2_16_3_Layers.lean: the odd-to-even step (#7732) and, from #7749, the even-to-odd step for four of the six odd-layer fields together with EvenLayer.step, which propagates the even-layer invariant unconditionally in every even t-degree (evenLayer_evenTower). Problem2_16_3_Tower.lean (#7782) computes the loop realization on both layer towers (gbar_topOdd, gbar_evenTower), giving topOdd_ne_zero / evenTower_ne_zero and the full fidelity statement gbar_loopFam_4, hence linearIndependent_loopFam_4: the LoopIdx-indexed family in g_4 is linearly independent away from characteristics 2 and 3, so the graded dimensions 1, 5, 3, 5, 3, ... are a lower bound unconditionally. Problem2_16_3_Kernel.lean (#7801) identifies the kernel of the loop realization with the span of the layer defects (ker_gbar_eq_span_topDefect), and records that this kernel is central (lie_mem_ker_gbar) and meets only the imaginary bidegrees (2m+2, 4m+4) (ker_gbar_inf_gDeg_eq_bot), so g_4 is a graded central extension of n_+; injectivity of gbar is equivalent to the vanishing of every layer defect (gbar_injective_iff_topDefect_eq_zero). Problem2_16_3_Cocycle.lean (#7802) trades that central extension for a statement about n_+ alone: the graded basis lifts to a linear section loopSect of gbar (gbar_loopSect), whose failure to be a Lie homomorphism is the 2-cocycle loopCocycle (isTwoCocycle_loopCocycle), supported on pairs of basis vectors whose bidegrees sum to an imaginary bidegree (loopCocycle_eq_zero_of_bideg). The reduction topDefect_eq_zero_of_twoCocycle / gbar_injective_of_twoCocycle shows that if every k-valued 2-cocycle on n_+ of imaginary weight (HasImaginaryWeight) is a coboundary, then every layer defect vanishes and gbar is injective -- a hypothesis mentioning neither g_4, the free Lie algebra, nor the Serre relators. Discharging that hypothesis is #7803. Still missing: the sixth odd-layer field, i.e. the Gabber-Kac vanishing of the layer defect, now reduced to a single bidegree-wise dimension inequality (#7783), and assembling the Module.Basis for g_4 (#7720).",
     "fidelity_issue": 7720,
-    "last_updated": "2026-07-25"
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter2/Problem2.16.4",
@@ -1931,32 +1928,28 @@
     "end_page": "44",
     "start_line": 3,
     "end_line": 8,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "sorry_free": false,
-    "fidelity_decl": "Etingof.subrepresentation_of_semisimple",
-    "fidelity_note": "The multiplicity-bounded abstract decomposition of W has a public declaration, but its current file fails to elaborate because the top-submodule AddCommGroup and IsSimpleModule instances are not synthesized; regression #7496. Independently, the source's remaining structural conclusion—putting the actual inclusion into simultaneous block-matrix form with row-independent matrices X_i—is not assembled from the single-isotypic matrix lemmas in Remark3_1_5.lean.",
-    "coverage": "covered_partial",
-    "followup_issue": 5370,
-    "coverage_issue": 7496,
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "sorry_free": true,
+    "fidelity_decl": "Etingof.subrepresentation_of_semisimple, Etingof.subrepresentation_of_semisimple_matrix, Etingof.Remark315.subrepresentation_blocks",
+    "fidelity_note": "Fully formalized in Chapter3/Proposition3_1_4.lean. subrepresentation_of_semisimple gives the multiplicity-bounded decomposition W = (+)_i r_i V_i with r_i <= n_i; subrepresentation_of_semisimple_matrix (and its Pi form _matrix_pi) adds the source's remaining structural conclusion: the inclusion is block diagonal and block i is right multiplication by a matrix X i over End_A (V i) whose rows are linearly independent (independence over the opposite ring, matching the book's row-vector-times-matrix convention). Etingof.Remark315.subrepresentation_blocks packages the same data as injective block maps phi_i with X i = homMatrixEquiv (phi i), assembling the single-isotypic matrix lemmas of Remark3_1_5.lean. Over the book's algebraically closed base End_A (V i) = k, so the entries are the book's scalars. No sorry; axioms propext/Classical.choice/Quot.sound only.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter3/Remark3.1.5",
-    "source_regression_note": "Clean rebuild imports the broken Proposition3_1_4 source (#7496).",
     "type": "remark",
     "title": "Generalization of Proposition 3.1.4 to non-algebraically-closed fields",
     "start_page": "44",
     "end_page": "45",
     "start_line": 9,
     "end_line": 2,
-    "status": "partially_proved",
-    "coverage": "covered_partial",
-    "coverage_issue": 7496,
-    "last_updated": "2026-07-22",
-    "fidelity": "partial",
-    "fidelity_note": "Formalized in Chapter3/Remark3_1_5.lean. The classification (Prop 3.1.4) is already proved over an arbitrary ring with arbitrary simple modules (no algebraic closure, no finite-dimensionality): re-exported as subrepresentation_general. The new content - matrix entries in D_i = End_A(V_i) - is homMatrixEquiv: Hom_A(Fin r -> V, Fin n -> V) = Matrix over End_A(V). D_i is a division ring by Schur (end_divisionRing). \"Linearly independent rows\" = injectivity is captured by injective_iff_rows_linearIndependent.",
-    "fidelity_decl": "Etingof.Remark315.subrepresentation_general, Etingof.Remark315.homMatrixEquiv, Etingof.Remark315.injective_iff_rows_linearIndependent"
+    "status": "sorry_free",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-26",
+    "fidelity": "verified",
+    "fidelity_note": "Formalized in Chapter3/Remark3_1_5.lean. The classification (Prop 3.1.4) is already proved over an arbitrary ring with arbitrary simple modules (no algebraic closure, no finite-dimensionality): re-exported as subrepresentation_general. The new content - matrix entries in D_i = End_A(V_i) - is homMatrixEquiv: Hom_A(Fin r -> V, Fin n -> V) = Matrix over End_A(V). D_i is a division ring by Schur (end_divisionRing). \"Linearly independent rows\" = injectivity is injective_iff_rows_linearIndependent, and rows_linearIndependent_iff identifies that condition with LinearIndependent over the opposite ring. subrepresentation_blocks assembles these into the block form of the inclusion for the full pairwise-nonisomorphic family.",
+    "fidelity_decl": "Etingof.Remark315.subrepresentation_general, Etingof.Remark315.homMatrixEquiv, Etingof.Remark315.injective_iff_rows_linearIndependent, Etingof.Remark315.rows_linearIndependent_iff, Etingof.Remark315.subrepresentation_blocks"
   },
   {
     "id": "Chapter3/Discussion_alternative_proof_of_Proposition3.1.4",
@@ -3093,11 +3086,13 @@
       "wave": 1,
       "result": "gap"
     },
-    "coverage": "covered_partial",
-    "coverage_note": "Theorem 3.10.2 is proved by another route, but the source proof's structural claims Rad(A⊗B)=Rad(A)⊗B+A⊗Rad(B) and the corresponding quotient equivalence for finite-dimensional image algebras are not formalized; follow-up #7453.",
-    "fidelity_issue": 7453,
-    "followup_issue": 7453,
-    "last_updated": "2026-07-22"
+    "coverage": {
+      "result": "covered",
+      "lean_decl": "Etingof.jacobson_tensorProduct_eq",
+      "note": "The source proof's two structural claims are now formalized in EtingofRepresentationTheory/Chapter3/TensorProductRadical.lean: jacobson_tensorProduct_eq gives Rad(A⊗B) = Rad(A)⊗B + A⊗Rad(B) for finite-dimensional A, B over an algebraically closed field, and quotientJacobsonTensorEquiv gives the displayed identification (A⊗B)/Rad(A⊗B) ≅ (A/Rad A) ⊗ (B/Rad B). The book's two steps are separated by hypothesis: radTensorSum_le_jacobson (nilpotence; no hypothesis on k) and jacobson_le_radTensorSum (semisimplicity of the quotient), the latter discharged over an algebraically closed field by isSemisimpleRing_tensorProduct. jacobson_tensorProduct_range_eq states the formula for the image algebras A', B' ⊆ End M, matching the book's image-algebra reduction. Theorem 3.10.2 itself is still proved by the independent density/Artinian route in Theorem3_10_2.lean, which does not consume these results."
+    },
+    "last_updated": "2026-07-26",
+    "lean_ref": "EtingofRepresentationTheory/Chapter3/TensorProductRadical.lean :: Etingof.jacobson_tensorProduct_eq, Etingof.quotientJacobsonTensorEquiv, Etingof.quotientRadTensorSumEquiv, Etingof.radTensorSum_eq_ker, Etingof.radTensorSum_le_jacobson, Etingof.jacobson_le_radTensorSum, Etingof.isSemisimpleRing_tensorProduct, Etingof.jacobson_tensorProduct_range_eq"
   },
   {
     "id": "Chapter4/Introduction",
@@ -3635,12 +3630,12 @@
     "start_line": 15,
     "end_line": 24,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "The two matrix-coefficient orthogonality formulas are proved faithfully. The source's final conclusion that all irreducible matrix coefficients form a basis of F(G, ℂ) is not stated: spanning via the sum-of-squares formula remains follow-up #7395.",
-    "fidelity_issue": 7395,
-    "last_updated": "2026-07-22"
+    "lean_decl": "Etingof.Proposition4_7_1_i, Etingof.Proposition4_7_1_ii, Etingof.Proposition4_7_1_orthogonal_basis, Etingof.Proposition4_7_1_exists_orthogonal_basis",
+    "fidelity_note": "All three sentences are formalized. Parts (i) and (ii) are the two matrix-coefficient orthogonality formulas. The concluding sentence -- that the irreducible matrix coefficients form an orthogonal basis of F(G, ℂ) -- is `Etingof.MatrixCoefficients.basis` (the `Module.Basis` itself), packaged as `Etingof.Proposition4_7_1_orthogonal_basis` and, unconditionally for algebraically closed characteristic-zero k, as `Etingof.Proposition4_7_1_exists_orthogonal_basis`; spanning comes from the Artin-Wedderburn sum-of-squares count as the source indicates. Orthogonality is stated for the bilinear convolution pairing |G|^-1 sum_g f(g) h(g^-1) rather than the source's Hermitian form, since parts (i) and (ii) hold over any algebraically closed k; the two agree on matrix coefficients over the complex numbers in a unitary basis.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter4/Introduction_4.8",
@@ -4062,16 +4057,14 @@
     "end_page": "85",
     "start_line": 19,
     "end_line": 4,
-    "status": "partially_proved",
-    "coverage_note": "The conditional vertex/face/edge A₅ decompositions are source-present, but Problem4_12_5.lean currently leaves an unsolved goal (#7537). The separate missing geometric/coset action models remain #7276.",
-    "fidelity": "partial",
-    "fidelity_decl": "Etingof.Problem4_12_5.vertices_decomposition, Etingof.Problem4_12_5.faces_decomposition, Etingof.Problem4_12_5.edges_decomposition",
-    "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_12_5.lean",
-    "coverage": "covered_partial",
-    "followup_issue": 7276,
-    "coverage_issue": 7537,
-    "fidelity_note": "The conditional decompositions and multiplicities for transitive A5-actions with stabilizer orders 5/3/2 are genuine and sorry-free. The regular icosahedron's vertex, face, and edge actions (or concrete coset models) are not constructed, and no equivariant equivalence connects the conditional Fin 12/20/30 representations to the source's geometric actions. Follow-up #7276.",
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "coverage_note": "Parts (a) and (b) are fully covered and sorry-free. Problem4_12_5.lean proves the vertex/face/edge decompositions for any transitive A₅-action on 12/20/30 points with stabilizer orders 5/3/2; Problem4_12_5_CosetModels.lean constructs those actions (verticesAct, facesAct, edgesAct, as left translation on A₅ ⧸ ⟨5-cycle⟩, A₅ ⧸ ⟨3-cycle⟩, A₅ ⧸ ⟨involution⟩) and discharges the hypotheses, giving the unconditional *_decomposition_icosahedral theorems.",
+    "fidelity": "verified",
+    "fidelity_decl": "Etingof.Problem4_12_5.vertices_decomposition_icosahedral, Etingof.Problem4_12_5.faces_decomposition_icosahedral, Etingof.Problem4_12_5.edges_decomposition_icosahedral, Etingof.Problem4_12_5.verticesAct_unique, Etingof.Problem4_12_5.facesAct_unique, Etingof.Problem4_12_5.edgesAct_unique",
+    "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_12_5.lean, EtingofRepresentationTheory/Chapter4/Problem4_12_5_CosetModels.lean",
+    "coverage": "covered_full",
+    "fidelity_note": "The multiplicity data (1 ⊕ 3 ⊕ 3' ⊕ 5 on 12 vertices, 1 ⊕ 3 ⊕ 3' ⊕ 4² ⊕ 5 on 20 faces, 1 ⊕ 3 ⊕ 3' ⊕ 4² ⊕ 5³ on 30 edges) matches the book, with DirectSum.IsInternal the genuine internal direct sum, IsIrredSub genuine irreducibility, and the two 3-dimensional summands separated by a character value. The earlier vacuity concern (#7276) is closed: the actions are now constructed rather than hypothesized, and verticesAct_unique/facesAct_unique/edgesAct_unique show any transitive A₅-action of the right degree and stabilizer order is equivariantly isomorphic to the constructed model (Sylow conjugacy for orders 5 and 3, conjugacy of involutions for order 2), so the models are the icosahedral vertex/face/edge actions up to equivariant isomorphism. #print axioms on all six endpoints: [propext, Classical.choice, Quot.sound].",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter4/Problem4.12.6",
@@ -6825,9 +6818,10 @@
     "fidelity": "partial",
     "needs_statement": false,
     "coverage": "covered_partial",
-    "coverage_note": "The intended principal-series classification is source-present, but Theorem5_25_2.lean fails a fresh source check at a missing scalar-tower instance (#7516). The preceding discussion's public dimension endpoint is separately #7563.",
+    "coverage_note": "Theorem5_25_2.lean builds clean (#7516 is stale: the scalar-tower instance is fixed and the full project build is green). Parts 1, 2, 3a, 3b are public. Chapter5/GL2PrincipalFamily.lean (#7893) adds the endpoints that were missing for the one-dimensional summand (detChar_simple made public, detChar_finrank, detChar_character, detChar_iso_iff), the three cross-kind non-isomorphisms by dimension count, and packages all of it as principalFamily over PrincipalIndex = Chars + Chars + {s : Sym2 Chars // not s.IsDiag}, with card_principalIndex = (q-1) + q(q-1)/2.",
     "coverage_issue": 7516,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-26",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Theorem5_25_2.lean :: Etingof.Theorem5_25_2_part1, part2, part3a, part3b, Etingof.GL2.detChar_simple, Etingof.GL2.principalSeries_finrank; EtingofRepresentationTheory/Chapter5/GL2PrincipalFamily.lean :: Etingof.GL2.principalFamily, principalFamily_simple, principalFamily_injective, card_principalIndex, exists_principal_family"
   },
   {
     "id": "Chapter5/Discussion_principal_series_name",
@@ -6858,9 +6852,9 @@
     },
     "fidelity": "partial",
     "coverage": "covered_partial",
-    "coverage_note": "The complementary-series construction and count are present, but Discussion5_25_4.lean fails a fresh source check in the ZMod cast arithmetic, so its public character/count/transversal endpoints cannot currently be rebuilt; regression #7508.",
+    "coverage_note": "The complementary-series construction and count are present, but Discussion5_25_4.lean fails a fresh source check in the ZMod cast arithmetic, so its public character/count/transversal endpoints cannot currently be rebuilt; regression #7508. The third term of the virtual character is no longer a bare formula: Chapter5/EllipticInduced.lean constructs Ind_K^G ℂ_ν as an FDRep with the Frobenius character formula and dimension q(q−1) (#7904).",
     "fidelity_issue": 7508,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter5/Lemma5.25.3",
@@ -8298,9 +8292,9 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_partial",
-    "coverage_note": "Items (1)-(7) and the tensor/exterior-power portions of (8) are formalized. Symmetric/Schur functors in item (8) remain #5642; BGP reflection functors in item (9) remain #7383.",
-    "followup_issue": 5642,
-    "last_updated": "2026-07-22"
+    "coverage_note": "Items (1)-(8) are formalized, including the symmetric-power functor (ModuleCat.symmetricPower, built on a new SymmetricPower.map since Mathlib has none) and the Schur functors (Etingof.schurFunctor). Only item (9), packaging the BGP reflection constructions as functors, remains; that is #7383.",
+    "followup_issue": 7383,
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter7/Introduction_7.3",
@@ -8554,12 +8548,11 @@
     "start_line": 17,
     "end_line": 17,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "Lean uses the correct intrinsic Abelian class, but the claimed Freyd–Mitchell equivalence with the source's closure-stable full module subcategory is only prose; follow-up #7476.",
-    "fidelity_issue": 7476,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "Etingof.Abelian is the intrinsic Mathlib class. The source's description is now proved equivalent to it: Etingof.exists_equiv_moduleCat_fullSubcategory realizes an abelian category as the essential image of the Freyd-Mitchell embedding into a module category, a full subcategory closed under finite direct sums, kernels, cokernels and images, and Etingof.abelianOfClosedFullSubcategory is the converse.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter7/Example7.7.2",
@@ -9308,9 +9301,9 @@
     "end_line": 1,
     "status": "partially_formalized",
     "coverage": "covered_partial",
-    "note": "The Lean file is documentary and contains no declarations for the exercise. Example 9.4.4 independently proves one downstream Hilbert-syzygy consequence, but the Koszul, SW, and bimodule resolutions, the exercise's bounded-resolution result, and the Ext/Tor(k,k) computations remain unformalized under reopened #5723.",
+    "note": "Part (i) is complete (#7912): KoszulContraction/KoszulDifferential build the complex Cᵢ = SV ⊗ ⋀ⁱ V with d ∘ d = 0, KoszulAugmentation adds the augmentation, freeness of the terms and basis-independence of d, KoszulBasis writes d out on the monomial/subset k-basis, KoszulHomotopy (#7911) constructs the k-linear contracting homotopy, and KoszulResolution turns it into exactness (koszulD_range_eq_ker, koszulD_zero_range_eq_ker_koszulAug) and the packaged CategoryTheory.ProjectiveResolution Etingof.koszulResolution, recorded as Etingof.Problem_8_2_10_i. Parts (ii)-(v) are still open: see issues #7883, #7884, #7885, #7886.",
     "fidelity_issue": 5723,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter9/Introduction",
@@ -9816,9 +9809,9 @@
     "coverage": "covered_partial",
     "fidelity": "partial",
     "coverage_issue": 7549,
-    "coverage_note": "The dimension-minimization and matrix-product commutativity lemmas are source-present. Their Krull-Schmidt support currently has independent existence (#7549) and Fitting/local-endomorphism (#7552) source regressions. The quotient isomorphism remains #5145, and Morita-class exhaustion remains #5147.",
-    "followup_issue": 5145,
-    "last_updated": "2026-07-22",
+    "coverage_note": "The dimension-minimization and matrix-product commutativity lemmas are source-present. Their Krull-Schmidt support currently has independent existence (#7549) and Fitting/local-endomorphism (#7552) source regressions. The quotient isomorphism now holds for the genuine B_n / Rad(B_n) as a product of matrix algebras of abstract sizes (Chapter9/SemisimpleQuotientMatrixForm.lean); identifying those sizes with the multiplicities n_i remains #7921, and Morita-class exhaustion remains #5147.",
+    "followup_issue": 7921,
+    "last_updated": "2026-07-26",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"

@@ -1507,7 +1507,11 @@ private lemma Etingof.GL2.detChar_eq_of
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Etingof.GL2.detChar p n mu = FDRep.of (Etingof.GL2.detCharRep p n mu) := rfl
 
-private lemma Etingof.GL2.detChar_simple
+/-- **ℂ_μ is irreducible.** The one-dimensional representation `g ↦ μ(det g)` is a simple
+object of `FDRep ℂ (GL₂ 𝔽_q)`: it has no proper nonzero subrepresentation because it has no
+proper nonzero subspace. This is the "`q − 1` one-dimensional representations" third of
+Etingof's list of irreducibles of `GL₂(𝔽_q)`. -/
+theorem Etingof.GL2.detChar_simple
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Simple (Etingof.GL2.detChar p n mu) := by
   haveI : NeZero (Nat.card (GL2 p n) : ℂ) :=

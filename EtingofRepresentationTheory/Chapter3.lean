@@ -51,6 +51,7 @@ import EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim
 import EtingofRepresentationTheory.Chapter3.Problem3_9_4
 import EtingofRepresentationTheory.Chapter3.Problem3_9_5
 import EtingofRepresentationTheory.Chapter3.Theorem3_10_2
+import EtingofRepresentationTheory.Chapter3.TensorProductRadical
 import EtingofRepresentationTheory.Chapter3.Remark3_10_3
 import EtingofRepresentationTheory.Chapter3.Exercise3_10_1
 

@@ -13,13 +13,16 @@ import Mathlib.Algebra.Ring.Pi
 import Mathlib.LinearAlgebra.Dual.Defs
 import Mathlib.RepresentationTheory.Rep.Res
 import Mathlib.RepresentationTheory.Induced
+import EtingofRepresentationTheory.Chapter7.SymmetricPowerFunctor
+import EtingofRepresentationTheory.Chapter7.SchurFunctor
 
 /-!
 # Example 7.2.2: Examples of Functors
 
 Etingof's Example 7.2.2 collects nine illustrations of functors. We formalize
-each item against Mathlib where the construction is available, and note the
-advanced ones (Schur and reflection functors) that are out of scope.
+each item, against Mathlib where the construction is available and against
+purpose-built API otherwise (the symmetric-power and Schur functors, neither of
+which Mathlib carries).
 
 1. A category with one object is a monoid; a functor between such categories is
    a monoid homomorphism.
@@ -29,9 +32,9 @@ advanced ones (Schur and reflection functors) that are out of scope.
 5. X ↦ Fun(X, ℤ) is a functor Sets → Rings^op.
 6. Functors from the path category of a quiver to Vect_k are quiver representations.
 7. Induction and restriction functors Ind_K^G, Res_K^G.
-8. Direct sum, tensor product, tensor/exterior power as functors on Vect_k; the
-   symmetric-power and Schur functors are discussed as scope notes.
-9. Reflection functors on quiver representation categories (scope note).
+8. Direct sum, tensor product, tensor/symmetric/exterior power as functors on Vect_k,
+   and the Schur functors `V ↦ Hom_{S_n}(π, V^{⊗n})`.
+9. Reflection functors on quiver representation categories (object level only; see below).
 -/
 
 open CategoryTheory
@@ -165,10 +168,9 @@ noncomputable example (k : Type*) [CommRing k] {K G : Type*} [Group K] [Group G]
 /-! ### (8) Products of categories: direct sum, tensor, and power functors
 
 Using the Cartesian product `Vect_k × Vect_k`, direct sum and tensor product are
-bifunctors `Vect_k × Vect_k ⥤ Vect_k`, and the powers `V ↦ V^{⊗n}`, `V ↦ ∧ⁿ V`
-are endofunctors of `Vect_k`. We formalize each against `ModuleCat k`. The
-symmetric power `Sⁿ V` and the general Schur functors are discussed in the scope
-notes below. -/
+bifunctors `Vect_k × Vect_k ⥤ Vect_k`, and the powers `V ↦ V^{⊗n}`, `V ↦ SⁿV`,
+`V ↦ ∧ⁿ V` are endofunctors of `Vect_k`, as are the Schur functors
+`V ↦ Hom_{S_n}(π, V^{⊗n})`. We formalize each against `ModuleCat k`. -/
 
 /-- The direct-sum bifunctor `⊕ : Vect_k × Vect_k → Vect_k`. On modules the binary
 direct sum is carried by the product `M × N`, with `LinearMap.prodMap` on arrows.
@@ -209,22 +211,42 @@ noncomputable example (k : Type*) [CommRing k] (n : ℕ) : ModuleCat k ⥤ Modul
 noncomputable example (k : Type*) [CommRing k] (n : ℕ) : ModuleCat k ⥤ ModuleCat k :=
   ModuleCat.exteriorPower.functor k n
 
-/-! #### (8) Scope notes: symmetric power and Schur functors
+/-- The `n`-th symmetric-power functor `V ↦ SⁿV` on `Vect_k`. Mathlib has the
+symmetric power `Sym[k]^n V` but no action on linear maps (the universal property
+is listed as future work there), so `SymmetricPower.map` and the resulting functor
+are supplied by `Chapter7/SymmetricPowerFunctor.lean`. (Etingof 7.2.2(8)) -/
+noncomputable example (k : Type) [Field k] (n : ℕ) : ModuleCat k ⥤ ModuleCat k :=
+  ModuleCat.symmetricPower k n
 
-**Symmetric power `V ↦ Sⁿ V`.** Mathlib has the symmetric power `Sym[k]^n V`
-(`Mathlib.LinearAlgebra.TensorPower.Symmetric`, the quotient of `V^{⊗n}` by the
-symmetric-group action), but its functoriality (a `map` on linear maps together
-with the universal property) is not yet available (it is listed as future work
-in that file). Once `SymmetricPower.map` (or the symmetric universal property)
-lands upstream, `V ↦ Sⁿ V` forms an endofunctor of `ModuleCat k` exactly
-as the exterior power does above. This is a missing-API gap, not a mathematical
-obstruction.
+/-! #### (8) Schur functors
 
-**Schur functors `V ↦ Hom_{S_n}(π, V^{⊗n})`.** For a representation `π` of `Sₙ`,
-the Schur functor sends `V` to `Hom_{S_n}(π, V^{⊗n})`; the irreducible ones are
-labeled by Young diagrams. This requires the `Sₙ`-action on `V^{⊗n}` and the
-`Sₙ`-equivariant Hom, neither packaged as a functor in Mathlib. It is advanced
-and is deferred; the tensor-power functor above is the first ingredient. -/
+For a representation `π` of `Sₙ` on `W`, the Schur functor sends `V` to
+`Hom_{S_n}(π, V^{⊗n})`, the `Sₙ`-intertwiners from `π` into the tensor power
+carrying the slot-permutation action. Neither that action nor the equivariant Hom
+is packaged in Mathlib, so both are built in `Chapter7/SchurFunctor.lean`. -/
+
+/-- The Schur functor attached to an `Sₙ`-representation `π`. (Etingof 7.2.2(8)) -/
+noncomputable example (k : Type) [Field k] (n : ℕ) (W : Type) [AddCommGroup W]
+    [Module k W] (π : Representation k (Equiv.Perm (Fin n)) W) :
+    ModuleCat k ⥤ ModuleCat k :=
+  Etingof.schurFunctor π
+
+/-- The value of the Schur functor at `V` really is the space of `Sₙ`-equivariant maps
+`π → V^{⊗n}`: membership unfolds to the intertwining identity. (Etingof 7.2.2(8)) -/
+example (k : Type) [Field k] (n : ℕ) {W : Type} [AddCommGroup W] [Module k W]
+    (π : Representation k (Equiv.Perm (Fin n)) W)
+    {V : Type} [AddCommGroup V] [Module k V] (φ : W →ₗ[k] ⨂[k] (_ : Fin n), V) :
+    φ ∈ Etingof.schurObj π V ↔
+      ∀ σ : Equiv.Perm (Fin n),
+        (Etingof.tensorPowerPermRep k n V σ) ∘ₗ φ = φ ∘ₗ (π σ) :=
+  Etingof.mem_schurObj_iff π φ
+
+/-- Sanity check on the Schur construction: at the trivial `Sₙ`-representation it returns
+the symmetric tensors `(V^{⊗n})^{Sₙ}`. (Etingof 7.2.2(8)) -/
+noncomputable example (k : Type) [Field k] (n : ℕ) (V : Type) [AddCommGroup V] [Module k V] :
+    Etingof.schurObj (Representation.trivial k (Equiv.Perm (Fin n)) k) V ≃ₗ[k]
+      (Etingof.tensorPowerPermRep k n V).invariants :=
+  Etingof.schurObjTrivialEquiv
 
 /-! ### (9) Reflection functors (scope note)
 
@@ -238,7 +260,11 @@ of `Q̄_i` at a source, with the companion `reflectionFunctorPlus` at a sink.
 Packaging these as `CategoryTheory.Functor`s between the representation categories
 `Rep(Q) ⥤ Rep(Q̄_i)` additionally requires the action on morphisms of representations
 plus the functor laws, which are not carried out here (BGP reflection functors are not
-in Mathlib). This is deferred pending a `CategoryTheory`-level quiver-representation
-category compatible with the object-level construction of Definition 6.6.4. -/
+in Mathlib). That packaging is tracked as its own work item,
+https://github.com/FormalFrontier/Etingof-RepresentationTheory-draft1/issues/7383
+("feat(Ch6–7): package BGP reflection constructions as actual functors"), because it
+needs a `CategoryTheory`-level quiver-representation category compatible with the
+object-level construction of Definition 6.6.4, and that construction is Chapter 6's
+to supply. -/
 
 end EtingofRepresentationTheory.Example722

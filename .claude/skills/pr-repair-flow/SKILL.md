@@ -57,6 +57,32 @@ exit — another dispatch will handle the work later.
 
 ## Step 2: Check Out the PR Branch
 
+**First snapshot the worktree.** Pod reuses worktrees, so yours can arrive
+carrying a crashed session's uncommitted edits, and `gh pr checkout` will drag
+them onto the PR's head branch — where your force-push publishes them into
+someone else's PR. Run this before the checkout, unconditionally:
+
+```bash
+git status --porcelain
+```
+
+If it prints anything, snapshot and set it aside before continuing (never
+`git stash -u`; untracked files may be another session's work):
+
+```bash
+git diff HEAD > /tmp/$POD_SESSION_ID-stale.patch
+git stash push -m "pod $POD_SESSION_ID pre-repair"
+```
+
+Inspect it (`git stash show -p`) and leave it in the stash — a repair session's
+diff must contain only the PR fix. Watch in particular for files with many
+deletions and ~zero insertions under `.claude/`: that is a prior session's stale
+copy of accumulated guidance, and force-pushing it reverts guidance other
+sessions paid to learn. Note the stash message and patch path in your progress
+entry. See `agent-worker-flow` Step 2a for the full rationale.
+
+Then:
+
 ```bash
 gh pr checkout <pr-number>
 ```

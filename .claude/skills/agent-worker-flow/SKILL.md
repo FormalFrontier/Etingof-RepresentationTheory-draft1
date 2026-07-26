@@ -9,6 +9,44 @@ allowed-tools: Bash, Read, Glob, Grep
 This skill covers the shared workflow used by all pod worker agents.
 Session-specific commands reference this skill rather than duplicating it.
 
+## Step 0: Check you are reading the current skill (do this first)
+
+Reused worktrees keep arriving with `.claude/` guidance deleted, and skills load from
+the working tree — so the copy you are reading may be a stale revision with exactly the
+guidance you need cut out. Run this **before Step 1**, whether or not anything looks wrong:
+
+```bash
+git status --short
+wc -l .claude/skills/agent-worker-flow/SKILL.md
+git show HEAD:.claude/skills/agent-worker-flow/SKILL.md | wc -l
+```
+
+If the counts differ: save the diff (`git diff > /tmp/<uuid>-stale.patch`), restore with
+`git checkout HEAD -- .claude/`, then reload this skill and start over from Step 1. Do the
+same for your `/command` file.
+
+**Reloading means `Read`, not the Skill tool.** The Skill tool caches per session: invoking
+an already-loaded skill returns `already loaded above; instructions unchanged` and does *not*
+re-read the file, so the restored content never reaches you. Treat that "unchanged" reply as
+telling you nothing about the file on disk. `Read` the restored paths directly instead.
+(2026-07-26, #7873: a session hit exactly this, saw "unchanged" after restoring 477 deleted
+lines, and only got the current guidance by falling back to `Read`.)
+
+**When you `Read` a `.claude/` path, make sure it is *your worktree's* copy.** The project
+root is itself a checkout, so `<project-root>/.claude/skills/<skill>/SKILL.md` and
+`<project-root>/worktrees/<id>/.claude/skills/<skill>/SKILL.md` both exist, at different
+revisions, and the shorter path is the one you will type by reflex. Nothing warns you: you
+get a real file with plausible content and line numbers that quietly disagree with your own
+`grep`. Prefer relative paths from the worktree root, or paste the path from `pwd`.
+
+This check lives at the top of the file on purpose. The fuller treatment is in Step 2 under
+"If the branch already exists", but every observed truncation left lines 1-70 intact while
+cutting blocks further down — so an instruction placed there is one a stale session never
+sees, and only this one is reliably reachable. (2026-07-25: four worktrees that day arrived
+with 169, 279, 193 and 209 lines of `.claude/` guidance deleted and nothing added. Three ran
+to completion on the old copy; the fourth caught it at Step 2 but only re-read the restored
+skill at the end of the session, after already publishing.)
+
 ## Coordination Reference
 
 The `coordination` script handles all GitHub-based multi-agent coordination.
@@ -71,6 +109,42 @@ open. `check-blocked` (run by `pod` each loop) removes `blocked` when
 all dependencies close. Blocked issues are excluded from
 `list-unclaimed` and `queue-depth`.
 
+**Dependency code that lives only in an unmerged PR**: a dependency issue
+can be *closed* while the def/lemma it produced is still in an open PR
+(residual assembly, split work), so it is absent from `main`.
+
+**Check first whether that PR is simply mergeable — if so, merge it and work
+off `main`.** This is strictly better than either stacking or skipping, and it
+is the same merge sweep CLAUDE.md prescribes, just triggered by need rather
+than by the calendar. Require every check to have *completed successfully*
+(`gh pr view <N> --json mergeable,mergeStateStatus,statusCheckRollup`;
+`MERGEABLE` + `CLEAN` + every `statusCheckRollup` entry `COMPLETED`/`SUCCESS`)
+— "not failing" is not "passing", and a PR whose checks are still queued has
+empty `conclusion` fields. Merge with `gh pr merge <N> --squash
+--delete-branch`, re-`git fetch`, confirm the decls are on `main`, and proceed
+normally. (2026-07-25: #7807's stated foundation was in open PR #7809, green
+and clean; merging it removed the stacking problem entirely.)
+
+If the PR is *not* mergeable (conflicts, failing or still-running CI), do NOT
+wait or skip — `git fetch` that PR's head branch and base your branch on it
+(`git reset --hard origin/<pr-head>`, only after the Step 2a snapshot and with a
+clean `git status --porcelain`). Then in your PR body add an ordering note
+naming the predecessor PR and the exact rebase command, so a
+repair/planner agent can sequence the merges. Confirm the dependency file
+actually builds on that base before writing new code.
+
+The rebase is **not** a plain `git rebase origin/main`. A squash merge
+collapses the predecessor's commits into one new commit that is not
+patch-equivalent to any of them, so a plain rebase re-applies them on top of
+`main`, which already has the same content — an add/add conflict on every
+file the predecessor created. Replay only *your* commits instead:
+
+```bash
+git rebase --onto origin/main <pr-head-sha-you-branched-from> <your-branch>
+```
+
+See Step 2 for the publish-time version of this.
+
 **Branch naming**: `agent/<first-8-chars-of-UUID>`
 **Plan files**: `plans/<UUID-prefix>.md`
 **Progress files**: `progress/<UTC-timestamp>_<UUID-prefix>.md`
@@ -104,6 +178,21 @@ coordination orient
    coordination list-unclaimed --label <your-label>
    ```
 
+   **`coordination list-unclaimed` caps its output at 20 and shows the *newest* issues, not the
+   oldest, despite the table above documenting FIFO order.** So genuinely starved issues are
+   invisible to it: on 2026-07-26 the head of `list-unclaimed` was 2026-07-22, while #6045, #6053,
+   #6217, #6276 and others had sat unclaimed since 2026-07-09. If you want the real FIFO head, ask
+   GitHub directly:
+   ```bash
+   gh issue list --state open --label agent-plan --json number,title,labels,createdAt --limit 200 \
+     --jq 'map(select([.labels[].name] | (contains(["claimed"]) or contains(["has-pr"])
+       or contains(["blocked"]) or contains(["replan"])) | not))
+       | sort_by(.createdAt) | .[:10] | .[] | "\(.number) \(.createdAt) \(.title)"'
+   ```
+   Prefer a starved issue over a fresh one when both are in scope: the queue view means nobody
+   else is seeing it. (2026-07-26: #6276 had been reopened with expanded scope on top of a merged
+   PR and then sat unclaimed for 17 days purely because it fell off the bottom of this list.)
+
 **Don't repair PRs from a worker session.** PR health (merge conflicts,
 failed CI, stuck CI) is the `repair` agent's responsibility; pod dispatches
 `/repair` automatically when `coordination list-pr-repair` reports
@@ -122,17 +211,163 @@ on that issue — pick a different one. Only proceed if the output says
 coordination read-issue <N> --json body --jq .body
 ```
 
-## Step 2: Set Up
+**Read the comments too, not just the body.** An issue that was closed and reopened
+keeps its original body, so the body describes the state of the world when it was
+filed — the *live* scope is in the reopening comment. Bodies also go stale when a
+later PR lands part of the work:
 
 ```bash
+gh issue view <N> --json stateReason,comments \
+  --jq '.stateReason, (.comments[] | "--- \(.createdAt) \(.author.login)\n\(.body)")'
+```
+
+`stateReason == "REOPENED"` is the mechanical tell that the body is stale — ask for it
+explicitly, because nothing in `list-unclaimed` or `orient` surfaces it. As of
+2026-07-26, 17 open `agent-plan` issues are reopened, so this is the common case, not
+an edge case. To see them all at once:
+
+```bash
+gh issue list --state open --label agent-plan --limit 200 \
+  --json number,title,stateReason,labels \
+  --jq 'map(select(.stateReason=="REOPENED")) | .[] | "\(.number) \(.title)"'
+```
+
+**Any comment that reopens or re-scopes the issue is authoritative over the body,
+however it is worded.** Do not look for a literal `Reopening:` prefix — reopening
+comments are written in prose and usually do not have one. #7276's began "Reopening
+because the audit treated unformalized existence/model identification as sufficient.",
+and it silently converted a report-only `review` audit into a multi-hour Lean
+construction task; a session grepping for `Reopening:` would have matched nothing and
+trusted the stale body. Also check the body's factual claims about the repo before
+acting on them. (2026-07-25, #7320: the body said an item in `progress/items.json` had
+no `coverage` field and "was never coverage-audited"; it had been audited three days
+earlier and reopened over a *different*, narrower objection recorded only in a comment.
+A session that trusts the body redoes finished work and misses the actual ask.)
+
+A re-scope can change the *kind* of deliverable, not just its size: a `review` issue
+whose reopening comment asks for constructions is a PR task, not a report task. Let the
+comments, not the label, decide what you hand back.
+
+## Step 2: Set Up
+
+Do 2a, 2b and 2c **in that order**. The order is the safety property: every
+remedy in this step (`reset --hard`, `checkout HEAD -- <paths>`) destroys
+uncommitted work irreversibly, so the snapshot in 2a has to happen before you
+know whether you need it.
+
+### Step 2a: Snapshot the worktree before touching it
+
+Pod reuses worktrees, so yours can arrive carrying a crashed session's edits.
+Run this *first*, before any branch operation, unconditionally:
+
+```bash
+git status --porcelain
+```
+
+**If it prints nothing**, go to 2b. **If it prints anything**, make the state
+recoverable *before* you change it — not after you have decided the changes look
+worthless:
+
+```bash
+git diff HEAD > /tmp/$POD_SESSION_ID-stale.patch    # staged + unstaged, tracked files
+git stash push -m "pod $POD_SESSION_ID pre-reset"   # NEVER -u / --include-untracked
+```
+
+`git stash push` without `-u` leaves untracked files alone; do not sweep them up,
+they may be another session's in-progress work. Record the stash message and the
+patch path in your progress entry so a successor can recover whatever you set aside.
+
+Leftover edits are not inert if you just leave them sitting there: `coordination
+create-pr` stages the whole worktree, so they ride into your PR as unrelated
+changes, and any edit under `.claude/` gets the PR rejected outright.
+
+Now inspect what you stashed (`git stash show -p`) and judge it in *both*
+directions — neither keeping nor discarding is the safe default:
+
+- **Pure deletions under `.claude/` are an accidental revert, not work.** Check
+  `git stash show --numstat` for files with many deletions and ~zero
+  insertions that the issue never mentioned. That is a crashed session's
+  stale copy of accumulated workflow guidance. Leave it in the stash — carried
+  forward, it lands on `main` as a silent revert of guidance other sessions paid
+  to learn. A further tell that it is staleness and not real work: the handful of
+  "insertions" turn out to be older wordings of lines that still exist. Real work
+  adds something.
+- **Anything that looks like real work in progress** also stays in the stash, with
+  a note in your progress entry naming it. Do not try to finish someone else's
+  half-edit inside your own issue's PR.
+
+Either way the working tree is now clean and nothing was destroyed.
+
+(2026-07-25/26: repeatedly, over two days, worktrees arrived with 169, 279, 294,
+320 and 364 lines of `.claude/` guidance deleted and nothing added — nearly always
+the same five files. In one case the session-start `git status` listed all five
+modified files right in the agent's context and it committed them anyway, because
+its own stale copy of this skill lacked this check — see the publish-time backstop
+in Step 7. Another session caught it only because the copy of this check in
+`.claude/commands/{work,feature}.md` reached it when this file could not. **Keep
+that cross-file duplication.** A check that lives only inside the file that goes
+stale cannot fire in the case it exists for — which is also why Step 0 exists.
+It is still happening: the repair session that resolved this file's merge on
+2026-07-26 arrived the same way, 567 deletions across six files, nothing added.)
+
+### Step 2b: Verify the skill you loaded is not itself the stale copy
+
+The Skill tool serves the **working-tree** copy of `.claude/skills/*/SKILL.md`. So a
+truncated file means the workflow instructions you are running on are the deleted
+version and you never saw any of the above. Run this unconditionally, even when 2a
+found nothing — the check has to work for an agent who does not have the file that
+tells them to run it:
+
+```bash
+wc -l .claude/skills/agent-worker-flow/SKILL.md
+git show HEAD:.claude/skills/agent-worker-flow/SKILL.md | wc -l
+```
+
+If the counts differ, restore (`git checkout HEAD -- <path>` — safe now, 2a took the
+snapshot) and **re-invoke the skill**, then restart from Step 1. **Caveat: re-invoking
+may be a no-op.** The harness caches skills per session and answers the second `Skill`
+call with "instructions unchanged", serving the truncated copy it already loaded. If
+you see that message, fall back to `Read` on
+`.claude/skills/agent-worker-flow/SKILL.md` and on your `/command` file — that does
+pick up the restored text. Guidance added since the stale revision is exactly the
+guidance you are most likely to need: e.g. the Step 7 rules on replacing `create-pr`'s
+placeholder PR body and on never running `gh pr merge --auto` yourself. (2026-07-25: a
+worktree arrived 193 lines stale; the session ran to completion on the old copy and
+shipped a placeholder PR body. Another arrived at 318 lines against 539, restored and
+restarted from Step 1, and that restart is the only reason it saw those two rules at
+all — restoring the file is not enough on its own, you have to re-read it and go back.)
+
+### Step 2c: Get onto your branch
+
+```bash
+git fetch origin
 git checkout -b agent/<first-8-chars-of-session-UUID>
 git rev-parse HEAD      # record starting commit
 ```
 
-**If the branch already exists** (common in reused worktrees): check for an
-open PR on it first (`gh pr list --head agent/<id>`). If a PR exists, create
-a new branch with a suffix (`agent/<id>-v2`). If no PR exists, reset it to
-master: `git checkout agent/<id> && git reset --hard origin/master`.
+**If the branch already exists** (common in reused worktrees), check for an open PR on
+it first (`gh pr list --head agent/<id>`):
+
+- **PR exists** → leave that branch alone; branch afresh with a suffix (`agent/<id>-v2`).
+- **No PR** → `git checkout agent/<id> && git reset --hard origin/main`. The default
+  branch here is `main`, not `master`. This `reset --hard` is safe *only because* 2a
+  already stashed anything uncommitted — if you skipped 2a, go back and run it now.
+
+**Do not try to `git checkout main` in a pod worktree.** `main` is checked out in the
+primary worktree, so the checkout fails — and if you chain it as `git checkout main ||
+git checkout master` the first failure is silent and you only see a confusing
+"pathspec 'master' did not match" error. Compare against `origin/main` instead:
+`git log --oneline -1 origin/main`.
+
+**If you branched off an unmerged PR's head** (see "Dependency code that lives
+only in an unmerged PR" above), decide at publish time:
+
+- Predecessor already merged → replay only *your* commits onto `main` with
+  `git rebase --onto origin/main <pr-head-sha> <your-branch>`, then push.
+- Predecessor still open → publish anyway rather than stalling the session, and
+  leave a PR comment naming it and giving that exact command. Do not wait more
+  than ~15 minutes on someone else's CI; a `repair` agent can fix the conflict
+  if one appears, but only if the PR says what it is stacked on.
 
 Record any project-specific quality metrics (e.g. sorry count, test coverage)
 as described in the project's CLAUDE.md.
@@ -143,18 +378,165 @@ Read the specific files mentioned in the plan/issue. Understand the current stat
 of code you'll be modifying. Don't read progress history — the issue body provides
 that context.
 
+**If the issue touches `EtingofRepresentationTheory/`, read
+`.claude/skills/lean-conventions/SKILL.md` in full before your first edit.** It is
+short by design and carries the rules that otherwise cost a build cycle
+each to rediscover: `lake exe cache get`, `lake build <Module>` rather than `lake env
+lean`, the lint-clean policy, and the one working order for `set_option`/`omit`/
+docstring above a declaration. The large `lean-formalization` skill is the *searchable*
+companion to it — `grep` that one for your chapter item and Mathlib types, never read
+it top to bottom.
+
+Read both with `Read` rather than the Skill tool: the Skill tool caches per session and
+will answer `instructions unchanged` without re-reading the file.
+
 ## Step 4: Verify Assumptions
 
 Check that the plan's assumptions still hold:
 - Quality metrics match what the issue says
 - Files mentioned in the issue still exist and haven't been restructured
 - No recently merged PR invalidates the plan
+- **A foundation the issue says "landed in #N" is actually in `main`.** Planners
+  often reference a sibling PR/commit by number as if merged. If the issue's
+  "Current state" describes machinery you'll build on (e.g. "added in #7222"),
+  confirm it: `grep` for the named decls in the target file, and if absent check
+  whether #N is still an *open* PR (`gh pr view <N>`, `git merge-base --is-ancestor
+  <sha> origin/main`). If the foundation is only in an unmerged branch, follow
+  "Dependency code that lives only in an unmerged PR" above: **merge #N first if
+  it is mergeable with all checks passed** (the common case, and it makes the
+  problem go away); otherwise `coordination skip` with a "blocked on unmerged #N"
+  reason rather than stacking your work on that branch (a stacked PR against
+  `main` carries the other PR's commits and conflicts on merge).
+- **The "missing"/"partial" result may already exist — grep before implementing.**
+  Any issue that describes a gap — an audit reconciliation flagging a
+  `covered_partial` residual, *or* a feature issue asserting a result is "not in
+  Mathlib and not yet in this repo" — describes it as of when the issue was
+  written, which can be stale: a parallel agent may since have proved it, often in
+  a *more general* form and in a *different, downstream* file than the issue names
+  (e.g. #7315 asked to build reducible "characters determine the representation"
+  from scratch; `Etingof.charEq_iso` in `Chapter5/CharEqIso.lean` already had it).
+  Before writing any new lemma — *especially* general infrastructure an issue calls
+  missing — `grep -rn "<decl_name>\|<key phrase>"` across `EtingofRepresentationTheory/`
+  for an existing version; a name collision at build time is the expensive way to
+  discover this. If it already exists, reuse it: the task shrinks to a thin
+  bridge/assembly (or, for audits, a tracking reconciliation — flip `items.json`,
+  repoint `lean_ref`, drop the residual issue), not new infrastructure.
+- **The issue's work may be *entirely* done and merged already — if so `close` it,
+  don't `skip` it.** A PR whose body omits `Closes #N` merges without closing its
+  issue, so the issue keeps appearing in `coordination list-unclaimed` forever and
+  the next worker redoes landed work. Cheapest check, before claiming: scan
+  `git log origin/main --oneline -20` for a commit whose title matches the issue
+  title or cites `#N`, then confirm the decls are on `main`
+  (`git show origin/main:<file> | grep <decl>`). If they are, `gh issue close <N>
+  --comment "Completed by PR #M (merged as <sha>); the PR body omitted a Closes
+  line."` — `coordination skip` is wrong here, it only re-queues the issue for a
+  planner. (2026-07: #7704, landed in #7722, sat unclaimed for a full cycle.)
+- **Before closing an already-landed issue, check whether a later audit narrowed its
+  scope in `progress/items.json`.** Coverage sweeps record the *residual* scope in the
+  item's `coverage_note`/`followup_issue`, not in the issue body — so an issue whose
+  literal deliverables are all on `main` can still have real work left, and the issue
+  body will not say so. Look up the item
+  (`python3 -c "import json; [print(json.dumps(i,indent=2)) for i in
+  json.load(open('progress/items.json'))['items'] if i['id']=='<Chapter>/<Item>']"`)
+  and read `coverage_note` for phrasing like "X remains #N". If it names your issue,
+  the residual scope is the deliverable — work that, don't close. (2026-07-26: #5145's
+  two stated deliverables landed in #5194, but the note read "The quotient isomorphism
+  remains #5145"; closing on the issue body alone would have dropped it.)
+- **A "restore/regression" issue whose reproduction is `lake env lean <file>` may
+  be a false positive — reconfirm the failure with `lake build <Module>` before any
+  work.** `lake env lean` drops the lakefile's `[leanOptions]` (`maxSynthPendingDepth
+  = 3`, `backward.isDefEq.respectTransparency = false`), so files with deep instance
+  chains or `isDefEq` diamonds throw spurious `synthInstanceFailed` / instance-path
+  errors under it that never occur under `lake build`. See `lean-formalization`
+  ("Typecheck with `lake build`, NOT `lake env lean`") for the full account. If
+  `lake build <Module>` is green and `#print axioms` on the endpoints is clean, the
+  issue is already resolved (often by a since-merged dependency fix) — close it with
+  the build evidence rather than editing a working file. (2026-07: #7490, #7547.)
 
 If stale:
 ```
 coordination skip <issue-number> "reason: <what changed>"
 ```
 Go back to Step 1 and try the next issue.
+
+**If the premise is wrong but the problem is real, fix the real defect, not the
+prescribed one.** A third case sits between "proceed" and `skip`: the issue reports a
+genuine failure but misdiagnoses its cause, so following it literally would leave the
+failure in place or actively damage correct data. Neither exit fits: proceeding as
+written does harm, and `skip` abandons a real defect. Instead:
+
+- Deliver the issue's stated **verification criterion**, not its prescribed **method**.
+  The criterion is what the planner wanted; the method was a guess at how to get there.
+- Comment on the issue, before or alongside opening the PR: what the actual defect was,
+  why the prescribed fix was rejected, and what you did instead.
+- Repeat that reasoning in the PR body, so a reviewer meeting a diff that touches
+  different files than the issue named is not surprised by it.
+- This still counts as full completion (no `--partial`) as long as the criterion is met.
+
+Worked example: #7712 correctly reported `scripts/validate_items.py` exiting 1 with ten
+errors, but blamed `progress/items.json`. Both remedies it proposed would have corrupted
+correct data: the ten entries already matched `PLAN.md` Stage 1.6, and the defect was in
+the validator, which never implemented that part of the spec. PR #7713 fixed the validator,
+met the stated criterion (`validate_items.py` exits 0), and left `items.json` content
+untouched.
+
+**Where the authority sits.** `PLAN.md` is the spec and is off-limits to agents, so when an
+issue body and `PLAN.md` disagree, `PLAN.md` wins and the issue is the thing that is wrong.
+This is the *reverse* of the `directive` rule in Step 1, and the two are easy to confuse: a
+`directive` carries the owner's own stated approach, which is not yours to second-guess even
+when you would have done it differently; an `agent-plan` issue carries a planner's guess,
+which you are expected to check against the spec and the code.
+
+| Situation | Exit |
+|---|---|
+| Plan is stale (work already done, or moot) | `coordination skip` |
+| Prerequisite file/lemma exists only in a healthy open PR | stack on it (see below) |
+| Prerequisite does not exist anywhere | `coordination skip` |
+| Symptom real, diagnosis or prescribed fix wrong | fix the real defect, document the deviation on the issue and in the PR |
+| `directive` whose approach you would have chosen differently | do it as asked (Step 1) |
+
+**A prerequisite sitting in an open PR is a reason to stack, not to skip.** Issue
+bodies are written from the planner's view of `main`, and in a repo with this much
+PR concurrency they routinely describe a file as "landed" when it is still in an
+open PR. Do not `skip` on that alone — the issue is fully specified and its
+foundation exists; only *where* it lives is wrong. Check the PR's health first
+(`gh pr view <N> --json state,mergeable,statusCheckRollup`); if it is `MERGEABLE`
+and CI is not failing:
+
+```bash
+git log --oneline origin/main..origin/<their-branch>   # find the commit you need
+git cherry-pick <sha>                                  # develop against it locally
+```
+
+Keep the cherry-pick as its own commit so it is trivially droppable, rebase onto
+`origin/main` just before pushing (if their PR merged first, the commit rebases
+away to nothing), and **say so in a PR comment** — otherwise a reviewer or repair
+agent meeting an unexplained extra commit will treat the PR as scope-creeping.
+Reserve `skip` for the case where the prerequisite exists nowhere, or its PR is
+itself unhealthy. Worked example: #7911 named `Chapter8/KoszulBasis.lean` as
+landed while it was still in open PR #7913; PR #7918 stacked on it and landed the
+full deliverable.
+
+**items.json status reconciliation — sorry-free ≠ item-complete.** For issues
+that ask you to flip a `partially_*`/`statement_formalized`/`formalized` entry
+to `sorry_free` because "the `.lean` file is sorry-free," read the entry's
+existing `coverage_note`/`fidelity_note` **before** changing anything. Those
+notes often record a deliberate "sorry-free file but kept `partially_*` because
+book part (X) is not formalized as a theorem / is only a `Prop`-def / is an
+informal identification" decision that a raw sorry-count sweep cannot see.
+Cross-check each part against the item's `blobs/…` file. A file with zero
+sorries can still leave a book part unformalized; flipping it to `sorry_free`
+hides genuine remaining exercise work. Only set `sorry_free` when a **complete**
+sorry-free file backs the item. (Recurred: #7001, #7092.)
+
+**items.json is Unicode + 2-space-indented — preserve both when scripting an
+edit.** The file contains math glyphs (`ℂ`, `λ`, `≅`, em-dashes). A naive
+`json.dump(d, f, indent=2)` escapes every glyph to `\uXXXX` and reflows the whole
+file, turning a 3-line change into a multi-thousand-line diff. Always dump with
+`indent=2, ensure_ascii=False` and re-add the trailing newline
+(`f.write("\n")`), then confirm with `git diff --stat` that only your entry
+changed. For a single-field flip, a targeted `Edit` on the entry is simpler and
+safer than a full re-dump.
 
 **PR fix plans**: If the plan asks you to fix a broken PR, use judgement. If the
 PR is low quality or not worth salvaging:
@@ -287,11 +669,56 @@ Write a progress entry to `progress/<UTC-timestamp>_<UUID-prefix>.md`:
 - Decisions made, key patterns discovered
 - What remains, quality metric deltas
 
+**Before pushing, check the scope of your diff: `git diff --stat origin/main...HEAD`.**
+Every changed file must belong to the issue you claimed. **Never stage with a blanket
+`git add -A`/`git commit -a`** — in a reused worktree that sweeps up whatever a previous
+session left behind, and stale `.claude/` copies land on `main` as silent reverts of
+accumulated guidance. Stage the paths you actually touched. This is the backstop for the
+Step 2 stale-worktree check: it catches the same damage even when the copy of this skill
+you started on was itself the truncated one. (2026-07-25: PR #7834 shipped a clean
+Künneth proof together with a 320-line revert of `.claude/`, repaired by #7835.)
+
 **Full completion:**
 ```bash
 git push -u origin <branch>
 coordination create-pr <issue-number>
+gh pr edit <new-pr-number> --body "$(cat <<'EOF'
+This PR ...
+EOF
+)"
 ```
+
+**`create-pr` writes a placeholder body, so replace it.** The body it generates is just
+the `Closes #N` line, your session UUID, and a raw `git log`; it takes no body argument
+and reads nothing from stdin. Follow it with `gh pr edit <N> --body`, opening with a
+paragraph that starts "This PR ..." in imperative present, since that paragraph becomes
+the release note. Keep the `Closes #N`, `Session:` and `🤖 Prepared with Claude Code`
+lines.
+
+**Do not run `gh pr merge --auto --squash` yourself.** `create-pr` already attempts to
+enable auto-merge, and on this repo it reports `auto-merge not available (branch
+protection may not be set up)`. That warning is the whole story: with auto-merge
+unavailable, a follow-up `gh pr merge <N> --auto --squash` does not queue behind CI, it
+**merges immediately**, landing your branch on `main` with `build` still `IN_PROGRESS`.
+For a Lean change that means unbuilt code on `main` and a broken base for every other
+agent. Leave the PR alone after `create-pr`; the next planning cycle's merge sweep
+checks `statusCheckRollup` before merging. (2026-07-25: PR #7725 merged 24s after
+creation, both `build` checks still running.)
+
+**This rule overrides the project `.claude/CLAUDE.md`, which still says to run
+`gh pr merge "$PR_NUM" --auto --squash` right after `create-pr`.** That file is
+off-limits to agents, so the contradiction cannot be fixed at the source — when the
+two disagree, follow this skill. (2026-07-25: an agent that had read CLAUDE.md's PR
+workflow section ran the command on its own PR #7744 *and* on another session's #7743,
+merging both with `build` still `IN_PROGRESS`.)
+
+**The merge sweep in CLAUDE.md has the same hazard: its jq filter is
+`all(.conclusion != "FAILURE" and .conclusion != "CANCELLED")`, which is vacuously
+true for a PR whose checks are still queued or running (`conclusion` is empty), and
+also true for a PR with no checks at all.** Before merging anything in the sweep,
+require every check to have *completed successfully* — e.g. select on
+`(.statusCheckRollup | length > 0 and all(.conclusion == "SUCCESS"))`, or just read
+`gh pr checks <N>` and skip anything `pending`. "Not failing" is not "passing".
 
 **Once the PR is created, exit.** Do not poll CI, wait for the merge, or
 otherwise spin on the PR. Another session will pick up any follow-up work
