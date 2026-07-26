@@ -14,6 +14,13 @@ The priority order in the worker skill still applies — check for PR-fix issues
 
 ## Executing Implementation Work
 
+**Before writing any Lean, read the `lean-formalization` skill** — and don't just
+read the top: it is thousands of lines of accumulated traps, so `grep` it for the
+file, chapter item, and Mathlib types you are about to touch (e.g.
+`grep -n 'Problem2_16_3\|LieSubalgebra' .claude/skills/lean-formalization/SKILL.md`).
+Most items already have a section naming the exact instance/tactic trap that will
+otherwise cost you a build cycle to rediscover.
+
 Follow the plan's deliverables. For new implementations, follow the development
 cycle described in the project's CLAUDE.md.
 
