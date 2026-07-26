@@ -240,4 +240,123 @@ theorem dim_pathAlgebra_degree (Q : Type*) [Quiver Q] [Fintype Q] [DecidableEq Q
   refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
   exact card_paths_length_eq_adjacencyMatrix_pow Q i j n
 
+/-! ### (d), generating-function form
+
+The coefficient computations above say that `dim P_Q[n] = 𝟙ᵀ M_Q^n 𝟙`. The book's answer is the
+closed form of the generating function they assemble into,
+
+`∑ₙ (𝟙ᵀ M_Q^n 𝟙) tⁿ = 𝟙ᵀ (I - t M_Q)⁻¹ 𝟙`,
+
+an identity of formal power series. We prove it by exhibiting the matrix of power series
+`resolvent Q i j = ∑ₙ (M_Q^n) i j tⁿ` as a genuine two-sided inverse of `I - t M_Q` over
+`k⟦t⟧`, so the `(I - t M_Q)⁻¹` on the right is `Matrix.inv` of an honestly invertible matrix and
+not a junk value. -/
+
+section HilbertSeries
+
+variable (k : Type*) [CommRing k] (Q : Type*) [Quiver Q] [Fintype Q] [DecidableEq Q]
+  [∀ i j : Q, Fintype (i ⟶ j)]
+
+open PowerSeries
+open scoped Matrix
+
+/-- The adjacency matrix of `Q` viewed over the power-series ring `k⟦t⟧`, so that `t • adjacencyPS`
+is the matrix `t M_Q` appearing in the book's answer. -/
+noncomputable def adjacencyPS : Matrix Q Q (PowerSeries k) :=
+  (adjacencyMatrix Q).map fun a => C (a : k)
+
+omit [DecidableEq Q] in
+@[simp]
+theorem adjacencyPS_apply (i j : Q) :
+    adjacencyPS k Q i j = C ((adjacencyMatrix Q i j : ℕ) : k) :=
+  rfl
+
+/-- The resolvent `(I - t M_Q)⁻¹` written out as a matrix of power series: its `(i,j)` entry is
+`∑ₙ (M_Q^n) i j tⁿ`, the generating function counting paths from `i` to `j` by length. -/
+noncomputable def resolvent : Matrix Q Q (PowerSeries k) :=
+  fun i j => mk fun n => (((adjacencyMatrix Q ^ n) i j : ℕ) : k)
+
+@[simp]
+theorem coeff_resolvent (i j : Q) (n : ℕ) :
+    coeff n (resolvent k Q i j) = (((adjacencyMatrix Q ^ n) i j : ℕ) : k) :=
+  coeff_mk n _
+
+/-- Multiplying the resolvent by the adjacency matrix shifts the path-counting coefficients by
+one: the `tᵈ`-coefficient of `(M_Q · resolvent) i j` counts paths of length `d + 1`. -/
+theorem coeff_adjacencyPS_mul_resolvent (i j : Q) (d : ℕ) :
+    coeff d ((adjacencyPS k Q * resolvent k Q) i j)
+      = (((adjacencyMatrix Q ^ (d + 1)) i j : ℕ) : k) := by
+  rw [Matrix.mul_apply, map_sum, pow_succ', Matrix.mul_apply]
+  push_cast
+  exact Finset.sum_congr rfl fun b _ => by rw [adjacencyPS_apply, coeff_C_mul, coeff_resolvent]
+
+/-- The geometric-series identity `(I - t M_Q) · (∑ₙ M_Q^n tⁿ) = I` over `k⟦t⟧`. -/
+theorem one_sub_smul_adjacencyPS_mul_resolvent :
+    (1 - (X : PowerSeries k) • adjacencyPS k Q) * resolvent k Q = 1 := by
+  have key : (1 - (X : PowerSeries k) • adjacencyPS k Q) * resolvent k Q
+      = resolvent k Q - (X : PowerSeries k) • (adjacencyPS k Q * resolvent k Q) := by
+    rw [Matrix.sub_mul, Matrix.one_mul, Matrix.smul_mul]
+  rw [key]
+  ext i j d
+  rw [Matrix.sub_apply, Matrix.smul_apply, smul_eq_mul, map_sub, coeff_resolvent]
+  rcases d with _ | e
+  · rw [coeff_zero_eq_constantCoeff_apply, map_mul, constantCoeff_X, zero_mul, sub_zero, pow_zero,
+      Matrix.one_apply, Matrix.one_apply]
+    split <;> simp
+  · rw [coeff_succ_X_mul, coeff_adjacencyPS_mul_resolvent, sub_self, Matrix.one_apply]
+    split <;> simp
+
+/-- `I - t M_Q` is invertible over `k⟦t⟧` (its determinant is a unit). -/
+theorem isUnit_det_one_sub_smul_adjacencyPS :
+    IsUnit (1 - (X : PowerSeries k) • adjacencyPS k Q).det :=
+  Matrix.isUnit_det_of_right_inverse (one_sub_smul_adjacencyPS_mul_resolvent k Q)
+
+/-- The resolvent really is the inverse of `I - t M_Q`, so writing `(I - t M_Q)⁻¹` below is
+legitimate. -/
+theorem inv_one_sub_smul_adjacencyPS :
+    (1 - (X : PowerSeries k) • adjacencyPS k Q)⁻¹ = resolvent k Q :=
+  Matrix.inv_eq_right_inv (one_sub_smul_adjacencyPS_mul_resolvent k Q)
+
+/-- `(I - t M_Q) · (I - t M_Q)⁻¹ = I`; recorded so that the inverse is visibly two-sided. -/
+theorem resolvent_mul_one_sub_smul_adjacencyPS :
+    resolvent k Q * (1 - (X : PowerSeries k) • adjacencyPS k Q) = 1 :=
+  mul_eq_one_comm.mp (one_sub_smul_adjacencyPS_mul_resolvent k Q)
+
+omit [Quiver Q] [DecidableEq Q] [∀ i j : Q, Fintype (i ⟶ j)] in
+/-- `𝟙ᵀ A 𝟙` is the sum of all entries of `A`. -/
+theorem one_vecMul_dotProduct_one (A : Matrix Q Q (PowerSeries k)) :
+    (fun _ => 1) ᵥ* A ⬝ᵥ (fun _ => 1) = ∑ i : Q, ∑ j : Q, A i j := by
+  simp only [Matrix.vecMul, dotProduct, one_mul, mul_one]
+  exact Finset.sum_comm
+
+/-- **(d)**, generating-function form. The Hilbert series of the path algebra `P_Q`, whose
+degree-`n` coefficient is the number of paths of length `n` in `Q`, is `𝟙ᵀ (I - t M_Q)⁻¹ 𝟙`:
+
+`∑ₙ (∑_{i,j} #{paths i ⟶ j of length n}) tⁿ = 𝟙ᵀ (I - t M_Q)⁻¹ 𝟙`.
+
+This is the closed rational form asked for in part (d); `dim_pathAlgebra_degree` and
+`card_paths_length_eq_adjacencyMatrix_pow` supply the coefficients. -/
+theorem hilbertSeries_pathAlgebra :
+    (mk fun n => ((∑ i : Q, ∑ j : Q, Nat.card {p : Quiver.Path i j // p.length = n} : ℕ) : k))
+      = (fun _ => 1) ᵥ* (1 - (X : PowerSeries k) • adjacencyPS k Q)⁻¹ ⬝ᵥ (fun _ => 1) := by
+  rw [one_vecMul_dotProduct_one, inv_one_sub_smul_adjacencyPS]
+  ext d
+  rw [coeff_mk, dim_pathAlgebra_degree, map_sum, Nat.cast_sum]
+  refine Finset.sum_congr rfl fun i _ => ?_
+  rw [map_sum, Nat.cast_sum]
+  exact Finset.sum_congr rfl fun j _ => (coeff_resolvent k Q i j d).symm
+
+/-- **(d)**, generating-function form, stated directly in terms of the adjacency matrix:
+
+`∑ₙ (𝟙ᵀ M_Q^n 𝟙) tⁿ = 𝟙ᵀ (I - t M_Q)⁻¹ 𝟙`. -/
+theorem hilbertSeries_pathAlgebra_adjacencyMatrix :
+    (mk fun n => ((∑ i : Q, ∑ j : Q, (adjacencyMatrix Q ^ n) i j : ℕ) : k))
+      = (fun _ => 1) ᵥ* (1 - (X : PowerSeries k) • adjacencyPS k Q)⁻¹ ⬝ᵥ (fun _ => 1) := by
+  rw [← hilbertSeries_pathAlgebra k Q]
+  congr 1
+  funext n
+  rw [dim_pathAlgebra_degree]
+
+end HilbertSeries
+
 end Etingof.Problem2_8_11

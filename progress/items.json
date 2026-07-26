@@ -1114,10 +1114,10 @@
     "start_line": 15,
     "end_line": 11,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "The coefficient-level path-count and degree-dimension formulas are proved, but part (d)'s Hilbert-series/geometric-series identity 1ᵀ(I-tM_Q)⁻¹1 is not stated (follow-up #7393).",
-    "fidelity_issue": 7393,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "All four parts are public, each as a graded-dimension formula together with the closed generating function. Part (d)'s Hilbert-series identity is hilbertSeries_pathAlgebra: mk (fun n => #{paths of length n}) = 𝟙ᵀ (I - t M_Q)⁻¹ 𝟙 over k⟦t⟧, with inv_one_sub_smul_adjacencyPS certifying that (I - t M_Q)⁻¹ is a genuine (two-sided) inverse and not a Matrix.inv junk value.",
+    "fidelity_decl": "theorem hilbertSeries_pathAlgebra, theorem inv_one_sub_smul_adjacencyPS",
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter2/Discussion_2.9_heading",
@@ -3703,13 +3703,12 @@
     "start_line": 9,
     "end_line": 31,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_decl": "Etingof.Example4_9_1.S3_tensor_character, Etingof.Example4_9_1.S3_tensor_product_character, Etingof.Example4_9_1.A5_tensor_character, Etingof.Example4_9_1.A5_tensor_product_character, Etingof.Example4_9_1.S4_tensor_character, Etingof.Example4_9_1.S4_tensor_product_character",
-    "fidelity_note": "All three book tables (S3, S4, A5) are proved as genuine character identities for FDRep tensor products. The source states direct-sum decompositions of representations, but the corresponding RHS FDRep objects and equivariant isomorphisms are not exposed; reopened #5377 tracks that residual endpoint.",
-    "fidelity_issue": 5377,
-    "last_updated": "2026-07-22"
+    "fidelity_decl": "Etingof.Example4_9_1.S3_tensor_iso, Etingof.Example4_9_1.S4_tensor_iso, Etingof.Example4_9_1.A5_tensor_iso, Etingof.Example4_9_1.S3_tensor_iso_biproduct, Etingof.Example4_9_1.S4_tensor_iso_biproduct, Etingof.Example4_9_1.A5_tensor_iso_biproduct, Etingof.Example4_9_1.stdRep_tensor_stdRep_iso, Etingof.Example4_9_1.S3_tensor_character, Etingof.Example4_9_1.S3_tensor_product_character, Etingof.Example4_9_1.A5_tensor_character, Etingof.Example4_9_1.A5_tensor_product_character, Etingof.Example4_9_1.S4_tensor_character, Etingof.Example4_9_1.S4_tensor_product_character",
+    "fidelity_note": "All three book tables (S3, S4, A5) are formalized at the level the source asserts: `*_tensor_iso` gives `V_i ⊗ V_j ≅ ⊕_k n_ij^k V_k` in FDRep ℂ G for every table entry (quantified over i, j, so every entry of all three tables, including the multiplicity-2 constituents of ℂ⁴⊗ℂ⁵ and ℂ⁵⊗ℂ⁵ for A5), with `*_biproduct` variants using the categorical ⨁ and `stdRep_tensor_stdRep_iso` spelling out ℂ²⊗ℂ² ≅ ℂ₊⊕ℂ₋⊕ℂ² for S3. The right-hand sides are the genuine FDRep objects `multSum` (Etingof.FDRep.pi with multiplicities); the isomorphisms come from the character identities `*_tensor_character` / `*_tensor_product_character` via Etingof.charEq_iso, and are non-canonical, hence stated as `Nonempty (· ≅ ·)`.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter4/Introduction_4.10",
@@ -7750,12 +7749,12 @@
     "end_page": "168",
     "start_line": 21,
     "end_line": 35,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "fidelity_issue": 7383,
-    "coverage_note": "The positive reflection object assignment is defined componentwise, but Definition 6.6.3 calls it a functor and no action on morphisms or functor laws are exposed (#7383)."
+    "coverage": "covered",
+    "coverage_note": "The object assignment (Definition6_6_3.lean) is now packaged as an actual CategoryTheory.Functor Rep Q ⥤ Rep Q̄ᵢ by Etingof.reflectionFunctorPlusFunctor (Definition6_6_3_Functor.lean), with the action on representation morphisms, the identity/composition laws, and lemmas identifying the object action with the componentwise construction (#7383).",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter6/Definition6.6.3_maps",
@@ -7765,12 +7764,11 @@
     "end_page": "169",
     "start_line": 1,
     "end_line": 2,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "fidelity_issue": 7383,
-    "coverage_note": "The reflected representation's internal arrow maps are defined, but the source also requires F_i^+ to map representation morphisms; that categorical action and its functor laws are missing (#7383).",
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "coverage": "covered",
+    "coverage_note": "The reflected representation's internal arrow maps are defined, and the categorical action of F⁺ᵢ on representation morphisms plus the functor laws are supplied by Definition6_6_3_Functor.lean (#7383).",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter6/Definition6.6.4",
@@ -7780,14 +7778,12 @@
     "end_page": "169",
     "start_line": 3,
     "end_line": 26,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The F⁻ object construction and computation theorems are source-present, but Definition6_6_4.lean fails a fresh source check (#7524). Independently, the action on representation morphisms and functor laws required by the word 'functor' are missing (#7383).",
-    "coverage_issue": 7524,
-    "fidelity_issue": 7383,
-    "last_updated": "2026-07-22"
+    "coverage": "covered",
+    "coverage_note": "The F⁻ object construction and computation theorems are source-present, and the object assignment is now packaged as an actual CategoryTheory.Functor Rep Q ⥤ Rep Q̄ᵢ by Etingof.reflectionFunctorMinusFunctor (Definition6_6_4_Functor.lean), with the action on representation morphisms and the functor laws (#7383).",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter6/Proposition6.6.5",
@@ -8290,9 +8286,8 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "Items (1)-(8) are formalized, including the symmetric-power functor (ModuleCat.symmetricPower, built on a new SymmetricPower.map since Mathlib has none) and the Schur functors (Etingof.schurFunctor). Only item (9), packaging the BGP reflection constructions as functors, remains; that is #7383.",
-    "followup_issue": 7383,
+    "coverage": "covered",
+    "coverage_note": "All nine items are formalized, including the symmetric-power functor (ModuleCat.symmetricPower, built on a new SymmetricPower.map since Mathlib has none), the Schur functors (Etingof.schurFunctor), and item (9), the BGP reflection functors Etingof.reflectionFunctorPlusFunctor / reflectionFunctorMinusFunctor (#7383).",
     "last_updated": "2026-07-26"
   },
   {
