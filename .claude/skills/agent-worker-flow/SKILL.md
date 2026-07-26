@@ -32,6 +32,13 @@ telling you nothing about the file on disk. `Read` the restored paths directly i
 (2026-07-26, #7873: a session hit exactly this, saw "unchanged" after restoring 477 deleted
 lines, and only got the current guidance by falling back to `Read`.)
 
+**When you `Read` a `.claude/` path, make sure it is *your worktree's* copy.** The project
+root is itself a checkout, so `<project-root>/.claude/skills/<skill>/SKILL.md` and
+`<project-root>/worktrees/<id>/.claude/skills/<skill>/SKILL.md` both exist, at different
+revisions, and the shorter path is the one you will type by reflex. Nothing warns you: you
+get a real file with plausible content and line numbers that quietly disagree with your own
+`grep`. Prefer relative paths from the worktree root, or paste the path from `pwd`.
+
 This check lives at the top of the file on purpose. The fuller treatment is in Step 2 under
 "If the branch already exists", but every observed truncation left lines 1-70 intact while
 cutting blocks further down — so an instruction placed there is one a stale session never
@@ -119,10 +126,10 @@ normally. (2026-07-25: #7807's stated foundation was in open PR #7809, green
 and clean; merging it removed the stacking problem entirely.)
 
 If the PR is *not* mergeable (conflicts, failing or still-running CI), do NOT
-wait or skip — `git fetch`
-that PR's head branch and base your branch on it
-(`git reset --hard origin/<pr-head>`). Then in your PR body add an
-ordering note naming the predecessor PR and the exact rebase command, so a
+wait or skip — `git fetch` that PR's head branch and base your branch on it
+(`git reset --hard origin/<pr-head>`, only after the Step 2a snapshot and with a
+clean `git status --porcelain`). Then in your PR body add an ordering note
+naming the predecessor PR and the exact rebase command, so a
 repair/planner agent can sequence the merges. Confirm the dependency file
 actually builds on that base before writing new code.
 
@@ -210,99 +217,147 @@ filed — the *live* scope is in the reopening comment. Bodies also go stale whe
 later PR lands part of the work:
 
 ```bash
-gh issue view <N> --json comments --jq '.comments[] | "\(.createdAt) \(.body)"'
+gh issue view <N> --json stateReason,comments \
+  --jq '.stateReason, (.comments[] | "--- \(.createdAt) \(.author.login)\n\(.body)")'
 ```
 
-Treat any comment starting "Reopening:" as authoritative over the body, and check the
-body's factual claims about the repo before acting on them. (2026-07-25, #7320: the
-body said an item in `progress/items.json` had no `coverage` field and "was never
-coverage-audited"; it had been audited three days earlier and reopened over a
-*different*, narrower objection recorded only in a comment. A session that trusts the
-body redoes finished work and misses the actual ask.)
+`stateReason == "REOPENED"` is the mechanical tell that the body is stale — ask for it
+explicitly, because nothing in `list-unclaimed` or `orient` surfaces it. As of
+2026-07-26, 17 open `agent-plan` issues are reopened, so this is the common case, not
+an edge case. To see them all at once:
+
+```bash
+gh issue list --state open --label agent-plan --limit 200 \
+  --json number,title,stateReason,labels \
+  --jq 'map(select(.stateReason=="REOPENED")) | .[] | "\(.number) \(.title)"'
+```
+
+**Any comment that reopens or re-scopes the issue is authoritative over the body,
+however it is worded.** Do not look for a literal `Reopening:` prefix — reopening
+comments are written in prose and usually do not have one. #7276's began "Reopening
+because the audit treated unformalized existence/model identification as sufficient.",
+and it silently converted a report-only `review` audit into a multi-hour Lean
+construction task; a session grepping for `Reopening:` would have matched nothing and
+trusted the stale body. Also check the body's factual claims about the repo before
+acting on them. (2026-07-25, #7320: the body said an item in `progress/items.json` had
+no `coverage` field and "was never coverage-audited"; it had been audited three days
+earlier and reopened over a *different*, narrower objection recorded only in a comment.
+A session that trusts the body redoes finished work and misses the actual ask.)
+
+A re-scope can change the *kind* of deliverable, not just its size: a `review` issue
+whose reopening comment asks for constructions is a PR task, not a report task. Let the
+comments, not the label, decide what you hand back.
 
 ## Step 2: Set Up
 
+Do 2a, 2b and 2c **in that order**. The order is the safety property: every
+remedy in this step (`reset --hard`, `checkout HEAD -- <paths>`) destroys
+uncommitted work irreversibly, so the snapshot in 2a has to happen before you
+know whether you need it.
+
+### Step 2a: Snapshot the worktree before touching it
+
+Pod reuses worktrees, so yours can arrive carrying a crashed session's edits.
+Run this *first*, before any branch operation, unconditionally:
+
 ```bash
-git checkout -b agent/<first-8-chars-of-session-UUID>
-git rev-parse HEAD      # record starting commit
+git status --porcelain
 ```
 
-**If the branch already exists** (common in reused worktrees): check for an
-open PR on it first (`gh pr list --head agent/<id>`). If a PR exists, create
-a new branch with a suffix (`agent/<id>-v2`). If no PR exists, reset it to
-the default branch: `git checkout agent/<id> && git reset --hard origin/main`
-(this repo's default branch is `main`, not `master`).
+**If it prints nothing**, go to 2b. **If it prints anything**, make the state
+recoverable *before* you change it — not after you have decided the changes look
+worthless:
 
-**Do not try to `git checkout main` in a pod worktree.** `main` is checked out
-in the primary worktree, so the checkout fails — and if you chain it as
-`git checkout main || git checkout master` the first failure is silent and you
-only see a confusing "pathspec 'master' did not match" error. Fetch and compare
-against `origin/main` instead: `git fetch origin && git log --oneline -1 origin/main`.
+```bash
+git diff HEAD > /tmp/$POD_SESSION_ID-stale.patch    # staged + unstaged, tracked files
+git stash push -m "pod $POD_SESSION_ID pre-reset"   # NEVER -u / --include-untracked
+```
 
-**Before that `git reset --hard`, run `git status --short` and inspect any
-uncommitted changes** (`git diff`). A reused worktree can carry in-progress
-edits from a crashed prior session; `reset --hard` discards them irrecoverably.
-If the changes look like real work (not stray build artifacts), stash them
-(`git stash`, never `git stash -u`) or commit them on a scratch branch before
-resetting.
+`git stash push` without `-u` leaves untracked files alone; do not sweep them up,
+they may be another session's in-progress work. Record the stash message and the
+patch path in your progress entry so a successor can recover whatever you set aside.
 
-**Run `git status --short` even when you do not reset** — including when the
-branch already exists with no PR and no commits ahead of `main`. Leftover
-uncommitted edits are not inert:
+Leftover edits are not inert if you just leave them sitting there: `coordination
+create-pr` stages the whole worktree, so they ride into your PR as unrelated
+changes, and any edit under `.claude/` gets the PR rejected outright.
 
-- `coordination create-pr` stages the whole worktree, so they land in your PR
-  as unrelated changes, and edits under `.claude/` will get the PR rejected.
-- The Skill tool serves the **working-tree** copy of `.claude/skills/*/SKILL.md`.
-  A prior session's half-finished edit there means you are reading truncated
-  workflow instructions without knowing it. If `git diff` touches a skill or
-  command file, re-read the `HEAD` version (`git show HEAD:<path>`) before
-  trusting what you loaded.
+Now inspect what you stashed (`git stash show -p`) and judge it in *both*
+directions — neither keeping nor discarding is the safe default:
 
-Back the diff up (`git diff > /tmp/<session-id>-stale.patch`) and restore the
-files (`git checkout HEAD -- <paths>`) so your branch starts clean; note the
-backup path in your progress entry.
+- **Pure deletions under `.claude/` are an accidental revert, not work.** Check
+  `git stash show --numstat` for files with many deletions and ~zero
+  insertions that the issue never mentioned. That is a crashed session's
+  stale copy of accumulated workflow guidance. Leave it in the stash — carried
+  forward, it lands on `main` as a silent revert of guidance other sessions paid
+  to learn. A further tell that it is staleness and not real work: the handful of
+  "insertions" turn out to be older wordings of lines that still exist. Real work
+  adds something.
+- **Anything that looks like real work in progress** also stays in the stash, with
+  a note in your progress entry naming it. Do not try to finish someone else's
+  half-edit inside your own issue's PR.
 
-Judge that inspection in *both* directions: stray changes you leave in place ride
-along into your PR as unrelated regressions. Check `git diff --numstat` for changes
-that are pure *deletions* against `main` in files you were not asked to touch,
-especially under `.claude/`. A crashed session can leave an accidental revert of
-accumulated workflow guidance, which is easy to commit without noticing and hard to
-spot in review. Restore those (`git checkout HEAD -- <paths>`) rather than carrying
-them. (2026-07-25: four times, worktrees arrived with 169, 279, 320 and 364 lines of
-`.claude/` guidance deleted and nothing added — always the same five files. In the third
-case the session-start `git status` listed all five modified files right in the agent's
-context and it committed them anyway, because its own stale copy of this skill lacked this
-check — see the publish-time backstop in Step 7. The fourth session caught it, but only
-because the duplicate of this check in `.claude/commands/{work,feature}.md` reached it when
-this file could not. **Keep that duplication.** A check that lives only inside the file that
-goes stale cannot fire in the case it exists for.)
+Either way the working tree is now clean and nothing was destroyed.
 
-A tell for staleness rather than real work: `git diff --numstat` showing near-pure
-deletions, where the handful of "insertions" turn out to be older wordings of lines that
-still exist. Real work adds something.
+(2026-07-25/26: repeatedly, over two days, worktrees arrived with 169, 279, 294,
+320 and 364 lines of `.claude/` guidance deleted and nothing added — nearly always
+the same five files. In one case the session-start `git status` listed all five
+modified files right in the agent's context and it committed them anyway, because
+its own stale copy of this skill lacked this check — see the publish-time backstop
+in Step 7. Another session caught it only because the copy of this check in
+`.claude/commands/{work,feature}.md` reached it when this file could not. **Keep
+that cross-file duplication.** A check that lives only inside the file that goes
+stale cannot fire in the case it exists for — which is also why Step 0 exists.
+It is still happening: the repair session that resolved this file's merge on
+2026-07-26 arrived the same way, 567 deletions across six files, nothing added.)
 
-**If the restored files include this skill or your `/command` file, re-read them.**
-Skills load from the working tree, so a truncated `SKILL.md` means the guidance you
-started the session on was the deleted version and you never saw these instructions.
+### Step 2b: Verify the skill you loaded is not itself the stale copy
 
-That instruction only reaches an agent who already *has* the full file, so do not rely
-on it — run the check unconditionally, right after `git status`, whether or not
-anything looked wrong:
+The Skill tool serves the **working-tree** copy of `.claude/skills/*/SKILL.md`. So a
+truncated file means the workflow instructions you are running on are the deleted
+version and you never saw any of the above. Run this unconditionally, even when 2a
+found nothing — the check has to work for an agent who does not have the file that
+tells them to run it:
 
 ```bash
 wc -l .claude/skills/agent-worker-flow/SKILL.md
 git show HEAD:.claude/skills/agent-worker-flow/SKILL.md | wc -l
 ```
 
-If the counts differ, restore and reload the skill by `Read`ing it (the Skill tool will just
-reply `instructions unchanged` without re-reading disk; see Step 0), then
-restart the workflow from Step 1. Guidance added since the stale revision is exactly the
-guidance you are most likely to need — e.g. the Step 7 rules on replacing `create-pr`'s
-placeholder PR body and on never running `gh pr merge --auto` yourself.
-(2026-07-25: a third worktree that day arrived 193 lines stale; the session ran to
-completion on the old copy and shipped a placeholder PR body. A fourth arrived at 318
-lines against 539; that session re-invoked the skill and restarted from Step 1, which is
-the only reason it saw these two rules at all.)
+If the counts differ, restore (`git checkout HEAD -- <path>` — safe now, 2a took the
+snapshot) and **re-invoke the skill**, then restart from Step 1. **Caveat: re-invoking
+may be a no-op.** The harness caches skills per session and answers the second `Skill`
+call with "instructions unchanged", serving the truncated copy it already loaded. If
+you see that message, fall back to `Read` on
+`.claude/skills/agent-worker-flow/SKILL.md` and on your `/command` file — that does
+pick up the restored text. Guidance added since the stale revision is exactly the
+guidance you are most likely to need: e.g. the Step 7 rules on replacing `create-pr`'s
+placeholder PR body and on never running `gh pr merge --auto` yourself. (2026-07-25: a
+worktree arrived 193 lines stale; the session ran to completion on the old copy and
+shipped a placeholder PR body. Another arrived at 318 lines against 539, restored and
+restarted from Step 1, and that restart is the only reason it saw those two rules at
+all — restoring the file is not enough on its own, you have to re-read it and go back.)
+
+### Step 2c: Get onto your branch
+
+```bash
+git fetch origin
+git checkout -b agent/<first-8-chars-of-session-UUID>
+git rev-parse HEAD      # record starting commit
+```
+
+**If the branch already exists** (common in reused worktrees), check for an open PR on
+it first (`gh pr list --head agent/<id>`):
+
+- **PR exists** → leave that branch alone; branch afresh with a suffix (`agent/<id>-v2`).
+- **No PR** → `git checkout agent/<id> && git reset --hard origin/main`. The default
+  branch here is `main`, not `master`. This `reset --hard` is safe *only because* 2a
+  already stashed anything uncommitted — if you skipped 2a, go back and run it now.
+
+**Do not try to `git checkout main` in a pod worktree.** `main` is checked out in the
+primary worktree, so the checkout fails — and if you chain it as `git checkout main ||
+git checkout master` the first failure is silent and you only see a confusing
+"pathspec 'master' did not match" error. Compare against `origin/main` instead:
+`git log --oneline -1 origin/main`.
 
 **If you branched off an unmerged PR's head** (see "Dependency code that lives
 only in an unmerged PR" above), decide at publish time:
@@ -322,6 +377,18 @@ as described in the project's CLAUDE.md.
 Read the specific files mentioned in the plan/issue. Understand the current state
 of code you'll be modifying. Don't read progress history — the issue body provides
 that context.
+
+**If the issue touches `EtingofRepresentationTheory/`, read
+`.claude/skills/lean-conventions/SKILL.md` in full before your first edit.** It is
+short by design and carries the rules that otherwise cost a build cycle
+each to rediscover: `lake exe cache get`, `lake build <Module>` rather than `lake env
+lean`, the lint-clean policy, and the one working order for `set_option`/`omit`/
+docstring above a declaration. The large `lean-formalization` skill is the *searchable*
+companion to it — `grep` that one for your chapter item and Mathlib types, never read
+it top to bottom.
+
+Read both with `Read` rather than the Skill tool: the Skill tool caches per session and
+will answer `instructions unchanged` without re-reading the file.
 
 ## Step 4: Verify Assumptions
 
@@ -364,6 +431,17 @@ Check that the plan's assumptions still hold:
   --comment "Completed by PR #M (merged as <sha>); the PR body omitted a Closes
   line."` — `coordination skip` is wrong here, it only re-queues the issue for a
   planner. (2026-07: #7704, landed in #7722, sat unclaimed for a full cycle.)
+- **Before closing an already-landed issue, check whether a later audit narrowed its
+  scope in `progress/items.json`.** Coverage sweeps record the *residual* scope in the
+  item's `coverage_note`/`followup_issue`, not in the issue body — so an issue whose
+  literal deliverables are all on `main` can still have real work left, and the issue
+  body will not say so. Look up the item
+  (`python3 -c "import json; [print(json.dumps(i,indent=2)) for i in
+  json.load(open('progress/items.json'))['items'] if i['id']=='<Chapter>/<Item>']"`)
+  and read `coverage_note` for phrasing like "X remains #N". If it names your issue,
+  the residual scope is the deliverable — work that, don't close. (2026-07-26: #5145's
+  two stated deliverables landed in #5194, but the note read "The quotient isomorphism
+  remains #5145"; closing on the issue body alone would have dropped it.)
 - **A "restore/regression" issue whose reproduction is `lake env lean <file>` may
   be a false positive — reconfirm the failure with `lake build <Module>` before any
   work.** `lake env lean` drops the lakefile's `[leanOptions]` (`maxSynthPendingDepth
