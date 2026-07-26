@@ -1,10 +1,11 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter7.Problem7_8_7
+import EtingofRepresentationTheory.Chapter7.KunnethIso
 
 /-!
 # Künneth for `ℕ`-indexed chain complexes via `ℕ`/`ℤ` reindexing
 
-Chapter 7's Künneth formula (`Etingof.Problem7_8_7_iv_nonempty`) is stated for cohomologically
+Chapter 7's Künneth formula (`Etingof.Problem7_8_7_iv`) is stated for cohomologically
 indexed `CochainComplex (ModuleCat k) ℤ`. The `Tor`/`Ext` construction of Problem 8.2.8,
 however, works with its own complexes `P• ⊗_A N`, which are homologically indexed
 `ChainComplex (ModuleCat.{u} k) ℕ`
@@ -51,12 +52,15 @@ this iso can equivalently be read as "the `ℤ`-tensor of the extends is the ext
 `≅ ⨁_{p+q=i} H_p(C) ⊗ H_q(D)` (reindex `a = -p`, `b = -q`; the `a > 0` / `b > 0` summands are
 zero by `homology_extend_isZero`).
 
-The final identification uses the universe-general `Problem7_8_7_iv_nonempty`. The reindex of the
-coproduct is not a bare index bijection: the `ℤ`-side sum `⨁_{a+b=-i}` ranges over all of
-`ℤ × ℤ`, and the extra summands vanish only via `homology_extend_isZero`.
+The final identification uses the universe-general `Problem7_8_7_iv`, the honest isomorphism
+inverse to the natural cross product `Etingof.kunnethMap`. The reindex of the coproduct is not a
+bare index bijection: the `ℤ`-side sum `⨁_{a+b=-i}` ranges over all of `ℤ × ℤ`, and the extra
+summands vanish only via `homology_extend_isZero`.
 
-The main deliverable `kunnethChainComplexNat` is stated below (Prop-valued `Nonempty`), pinning the
-API that the Problem 8.2.8 construction consumes.
+The main deliverable is `kunnethChainComplexNatIso`, an actual `Iso`; `kunnethChainComplexNat` is
+the `Nonempty` corollary kept for compatibility. Nothing in this file extracts an isomorphism from
+a `Nonempty` via `Classical.choice`. See `kunnethChainComplexNatIso`'s docstring for a step-by-step
+account of which naturality squares are formalized.
 -/
 
 open CategoryTheory Limits MonoidalCategory HomologicalComplex
@@ -72,6 +76,24 @@ Mathlib's `extendHomologyIso` for `embeddingDownNat` (`e.f n = -n`). -/
 noncomputable def homology_extend_iso (C : ChainComplex (ModuleCat.{u} k) ℕ) (n : ℕ) :
     (C.extend ComplexShape.embeddingDownNat).homology (-(n : ℤ)) ≅ C.homology n :=
   C.extendHomologyIso ComplexShape.embeddingDownNat (by simp)
+
+/-- **`homology_extend_iso` is natural in the complex.** For `φ : C ⟶ D` the square
+
+`H_{-n}(extend C) → H_{-n}(extend D)`
+`      ↓                  ↓        `
+`   H_n(C)      →      H_n(D)      `
+
+commutes, the horizontal maps being `homologyMap (extendMap φ e) (-n)` and `homologyMap φ n`.
+This is Mathlib's `extendHomologyIso_hom_naturality` at `e = embeddingDownNat`; it supplies the
+naturality of steps 1 and 4 of `kunnethChainComplexNatIso` (see that definition's docstring). -/
+@[reassoc]
+lemma homology_extend_iso_hom_naturality {C D : ChainComplex (ModuleCat.{u} k) ℕ} (φ : C ⟶ D)
+    (n : ℕ) :
+    homologyMap (extendMap φ ComplexShape.embeddingDownNat) (-(n : ℤ)) ≫
+        (homology_extend_iso D n).hom =
+      (homology_extend_iso C n).hom ≫ homologyMap φ n :=
+  HomologicalComplex.extendHomologyIso_hom_naturality (φ := φ)
+    (e := ComplexShape.embeddingDownNat) (hj' := by simp)
 
 /-- Homology of `extend e C` vanishes at positive degrees `j' > 0`, which lie outside the image
 `{-n : n : ℕ} = ℤ≤0` of `embeddingDownNat`. -/
@@ -552,17 +574,37 @@ theorem nonempty_tensorObj_extend_iso (C D : ChainComplex (ModuleCat.{u} k) ℕ)
       (HomologicalComplex.tensorObj C D).extend ComplexShape.embeddingDownNat) :=
   ⟨TensorExtend.tensorObjExtendIso C D⟩
 
-/-- **Künneth for `ℕ`-indexed chain complexes.** For chain complexes `C, D` of `k`-vector spaces
-indexed over `ℕ`, the homology of the tensor product decomposes as a direct sum:
+/-- **Künneth for `ℕ`-indexed chain complexes**, as an honest isomorphism. For chain complexes
+`C, D` of `k`-vector spaces indexed over `ℕ`,
 `Hᵢ(C ⊗ D) ≅ ⨁_{p+q=i} H_p(C) ⊗ H_q(D)`.
 
-Reindexes Chapter 7's `Problem7_8_7_iv_nonempty` along `embeddingDownNat`; see the module
-docstring for the derivation. Consumed by the Problem 8.2.8 `Tor`/`Ext` construction. -/
-theorem kunnethChainComplexNat (C D : ChainComplex (ModuleCat.{u} k) ℕ) (i : ℕ) :
-    Nonempty ((HomologicalComplex.tensorObj C D).homology i ≅
+Reindexes Chapter 7's `Etingof.Problem7_8_7_iv` along `embeddingDownNat`; see the module
+docstring for the derivation. Consumed by the Problem 8.2.8 `Tor`/`Ext` construction.
+
+## Naturality of the four steps
+
+The composite is `α₁ ≪≫ α₂ ≪≫ α₃ ≪≫ α₄`, and **every one of the four steps is natural in
+`(C, D)`**; nothing here is a non-natural choice, and no step uses `Classical.choice` to
+extract an isomorphism from a `Nonempty`. What differs is how much of that naturality is
+currently *formalized*:
+
+* `α₁`, `α₄` (the `extend` homology comparison): naturality is proved, as
+  `homology_extend_iso_hom_naturality` (a restatement of Mathlib's
+  `extendHomologyIso_hom_naturality`).
+* `α₃` (Chapter 7 Künneth): naturality is proved, as `Etingof.kunnethNatIso` — the underlying
+  map is the choice-free cross product `Etingof.kunnethMap`.
+* `α₂` (the tensor/extend compatibility `TensorExtend.tensorObjExtendIso`): natural in `(C, D)`,
+  since it is assembled degreewise from `mapBifunctorDesc` over the `ιTensorObj` injections,
+  but **the naturality square is not formalized here**. Stating it needs the bifunctor form of
+  `extend` on `ℕ`-indexed complexes, which this file does not set up. This is the one gap
+  between "natural" and "proved natural"; it is not a claim that the step is non-natural.
+  Tracked as issue #7837.
+
+Consequently this file exposes the isomorphism, not a natural isomorphism of bifunctors. -/
+noncomputable def kunnethChainComplexNatIso (C D : ChainComplex (ModuleCat.{u} k) ℕ) (i : ℕ) :
+    (HomologicalComplex.tensorObj C D).homology i ≅
       ∐ fun (p : {p : ℕ × ℕ // p.1 + p.2 = i}) =>
-        C.homology p.1.1 ⊗ D.homology p.1.2) := by
-  classical
+        C.homology p.1.1 ⊗ D.homology p.1.2 := by
   let e := ComplexShape.embeddingDownNat
   -- Step 1: `Hᵢ(C ⊗ D) ≅ H_{-i}(extend (C ⊗ D))`.
   let α₁ : (HomologicalComplex.tensorObj C D).homology i ≅
@@ -571,11 +613,12 @@ theorem kunnethChainComplexNat (C D : ChainComplex (ModuleCat.{u} k) ℕ) (i : �
   -- Step 2: apply `H_{-i}` to the compatibility iso `extend (C ⊗ D) ≅ extend C ⊗ extend D`.
   let φ : (HomologicalComplex.tensorObj C D).extend e ≅
       HomologicalComplex.tensorObj (C.extend e) (D.extend e) :=
-    (nonempty_tensorObj_extend_iso C D).some.symm
+    (TensorExtend.tensorObjExtendIso C D).symm
   let α₂ := (HomologicalComplex.homologyFunctor (ModuleCat.{u} k) (ComplexShape.up ℤ)
     (-(i : ℤ))).mapIso φ
-  -- Step 3: Chapter 7's universe-general Künneth at degree `-i`.
-  let α₃ := (Problem7_8_7_iv_nonempty (C.extend e) (D.extend e) (-(i : ℤ))).some
+  -- Step 3: Chapter 7's universe-general Künneth at degree `-i`, as the honest isomorphism
+  -- inverse to the natural cross product `kunnethMap`.
+  let α₃ := Problem7_8_7_iv (C.extend e) (D.extend e) (-(i : ℤ))
   -- Step 4: reindex the `ℤ`-coproduct `⨁_{a+b=-i}` onto the `ℕ`-antidiagonal `⨁_{p+q=i}`;
   -- the summands with `a > 0` or `b > 0` vanish by `homology_extend_isZero`.
   let ι : {p : ℕ × ℕ // p.1 + p.2 = i} → {p : ℤ × ℤ // p.1 + p.2 = -(i : ℤ)} :=
@@ -611,6 +654,15 @@ theorem kunnethChainComplexNat (C D : ChainComplex (ModuleCat.{u} k) ℕ) (i : �
         change (-(((-a).toNat : ℕ) : ℤ), -(((-b).toNat : ℕ) : ℤ)) = (a, b)
         rw [Prod.mk.injEq]
         exact ⟨by rw [hp]; ring, by rw [hq]; ring⟩)
-  exact ⟨α₁ ≪≫ α₂ ≪≫ α₃ ≪≫ α₄⟩
+  exact α₁ ≪≫ α₂ ≪≫ α₃ ≪≫ α₄
+
+/-- **Künneth for `ℕ`-indexed chain complexes**, `Nonempty` form. A one-line corollary of
+`kunnethChainComplexNatIso`, kept so that existing consumers phrased in terms of `Nonempty`
+keep working; new consumers should use the `Iso` directly. -/
+theorem kunnethChainComplexNat (C D : ChainComplex (ModuleCat.{u} k) ℕ) (i : ℕ) :
+    Nonempty ((HomologicalComplex.tensorObj C D).homology i ≅
+      ∐ fun (p : {p : ℕ × ℕ // p.1 + p.2 = i}) =>
+        C.homology p.1.1 ⊗ D.homology p.1.2) :=
+  ⟨kunnethChainComplexNatIso C D i⟩
 
 end Etingof

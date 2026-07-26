@@ -5,7 +5,7 @@ import EtingofRepresentationTheory.Chapter7.KunnethChainComplexNat
 /-!
 # Künneth for `ℕ`-indexed cochain complexes via `ℕ`/`ℤ` reindexing (cochain case)
 
-Chapter 7's Künneth formula (`Etingof.Problem7_8_7_iv_nonempty`) is stated for cohomologically
+Chapter 7's Künneth formula (`Etingof.Problem7_8_7_iv`) is stated for cohomologically
 indexed `CochainComplex (ModuleCat k) ℤ`. The `Ext` construction of Problem 8.2.8, however,
 works with the Hom cochain complexes `Hom_A(P•, N)`, which are `ℕ`-indexed cochain complexes
 `CochainComplex (ModuleCat.{u} k) ℕ` (`= HomologicalComplex _ (ComplexShape.up ℕ)`). This file
@@ -54,8 +54,10 @@ constructed via `TensorExtend.tensorObjExtendIso`.
 `≅ ⨁_{p+q=i} H_p(C) ⊗ H_q(D)` (reindex `a = p`, `b = q`; the `a < 0` / `b < 0` summands are zero by
 `homology_extend_isZero_up`).
 
-The main deliverable `kunnethCochainComplexNat` is stated below (Prop-valued `Nonempty`), pinning
-the API that the Problem 8.2.8 `Ext` construction consumes.
+The main deliverable is `kunnethCochainComplexNatIso`, an actual `Iso`;
+`kunnethCochainComplexNat` is the `Nonempty` corollary kept for compatibility. Nothing in this
+file extracts an isomorphism from a `Nonempty` via `Classical.choice`. See
+`kunnethCochainComplexNatIso`'s docstring for which naturality squares are formalized.
 -/
 
 open CategoryTheory Limits MonoidalCategory HomologicalComplex
@@ -86,6 +88,19 @@ Mathlib's `extendHomologyIso` for `embeddingUpNat` (`e.f n = n`). -/
 noncomputable def homology_extend_iso_up (C : CochainComplex (ModuleCat.{u} k) ℕ) (n : ℕ) :
     (C.extend ComplexShape.embeddingUpNat).homology (n : ℤ) ≅ C.homology n :=
   C.extendHomologyIso ComplexShape.embeddingUpNat (by simp)
+
+/-- **`homology_extend_iso_up` is natural in the complex.** For `φ : C ⟶ D` the comparison
+squares of `Hⁿ(extend -) ≅ Hⁿ(-)` commute; Mathlib's `extendHomologyIso_hom_naturality` at
+`e = embeddingUpNat`. This supplies the naturality of steps 1 and 4 of
+`kunnethCochainComplexNatIso` (see that definition's docstring). -/
+@[reassoc]
+lemma homology_extend_iso_up_hom_naturality {C D : CochainComplex (ModuleCat.{u} k) ℕ} (φ : C ⟶ D)
+    (n : ℕ) :
+    homologyMap (extendMap φ ComplexShape.embeddingUpNat) (n : ℤ) ≫
+        (homology_extend_iso_up D n).hom =
+      (homology_extend_iso_up C n).hom ≫ homologyMap φ n :=
+  HomologicalComplex.extendHomologyIso_hom_naturality (φ := φ)
+    (e := ComplexShape.embeddingUpNat) (hj' := by simp)
 
 /-- Homology of `extend e C` vanishes at negative degrees `j' < 0`, which lie outside the image
 `{n : n : ℕ} = ℤ≥0` of `embeddingUpNat`. -/
@@ -479,14 +494,22 @@ theorem nonempty_tensorObj_extend_iso_up (C D : CochainComplex (ModuleCat.{u} k)
 spaces indexed over `ℕ`, the homology of the tensor product decomposes as a direct sum:
 `Hⁱ(C ⊗ D) ≅ ⨁_{p+q=i} Hᵖ(C) ⊗ Hᵍ(D)`.
 
-Reindexes Chapter 7's `Problem7_8_7_iv_nonempty` along `embeddingUpNat`; the exact mirror of
-`kunnethChainComplexNat`. Consumed by the Problem 8.2.8 `Ext` construction on the Hom cochain
-complexes `Hom_A(P•, N)`. -/
-theorem kunnethCochainComplexNat (C D : CochainComplex (ModuleCat.{u} k) ℕ) (i : ℕ) :
-    Nonempty ((HomologicalComplex.tensorObj C D).homology i ≅
+Reindexes Chapter 7's `Etingof.Problem7_8_7_iv` along `embeddingUpNat`; the exact mirror of
+`kunnethChainComplexNatIso`. Consumed by the Problem 8.2.8 `Ext` construction on the Hom cochain
+complexes `Hom_A(P•, N)`.
+
+## Naturality of the four steps
+
+As in the chain case, **all four steps are natural in `(C, D)`** and none is a non-natural
+choice: `α₁`, `α₄` by `homology_extend_iso_up_hom_naturality`, `α₃` by `Etingof.kunnethNatIso`.
+Step `α₂` (`TensorExtendUp.tensorObjExtendIso`) is natural too, but its naturality square is
+**not formalized here** — stating it needs the bifunctor form of `extend` on `ℕ`-indexed
+complexes, which this file does not set up (tracked as issue #7837). So this file exposes an
+isomorphism, not a natural isomorphism of bifunctors. -/
+noncomputable def kunnethCochainComplexNatIso (C D : CochainComplex (ModuleCat.{u} k) ℕ) (i : ℕ) :
+    (HomologicalComplex.tensorObj C D).homology i ≅
       ∐ fun (p : {p : ℕ × ℕ // p.1 + p.2 = i}) =>
-        C.homology p.1.1 ⊗ D.homology p.1.2) := by
-  classical
+        C.homology p.1.1 ⊗ D.homology p.1.2 := by
   let e := ComplexShape.embeddingUpNat
   -- Step 1: `Hⁱ(C ⊗ D) ≅ Hⁱ(extend (C ⊗ D))`.
   let α₁ : (HomologicalComplex.tensorObj C D).homology i ≅
@@ -495,11 +518,12 @@ theorem kunnethCochainComplexNat (C D : CochainComplex (ModuleCat.{u} k) ℕ) (i
   -- Step 2: apply `Hⁱ` to the compatibility iso `extend (C ⊗ D) ≅ extend C ⊗ extend D`.
   let φ : (HomologicalComplex.tensorObj C D).extend e ≅
       HomologicalComplex.tensorObj (C.extend e) (D.extend e) :=
-    (nonempty_tensorObj_extend_iso_up C D).some.symm
+    (TensorExtendUp.tensorObjExtendIso C D).symm
   let α₂ := (HomologicalComplex.homologyFunctor (ModuleCat.{u} k) (ComplexShape.up ℤ)
     (i : ℤ)).mapIso φ
-  -- Step 3: Chapter 7's universe-general Künneth at degree `i`.
-  let α₃ := (Problem7_8_7_iv_nonempty (C.extend e) (D.extend e) (i : ℤ)).some
+  -- Step 3: Chapter 7's universe-general Künneth at degree `i`, as the honest isomorphism
+  -- inverse to the natural cross product `kunnethMap`.
+  let α₃ := Problem7_8_7_iv (C.extend e) (D.extend e) (i : ℤ)
   -- Step 4: reindex the `ℤ`-coproduct `⨁_{a+b=i}` onto the `ℕ`-antidiagonal `⨁_{p+q=i}`;
   -- the summands with `a < 0` or `b < 0` vanish by `homology_extend_isZero_up`.
   let ι : {p : ℕ × ℕ // p.1 + p.2 = i} → {p : ℤ × ℤ // p.1 + p.2 = (i : ℤ)} :=
@@ -535,6 +559,15 @@ theorem kunnethCochainComplexNat (C D : CochainComplex (ModuleCat.{u} k) ℕ) (i
         change (((a.toNat : ℕ) : ℤ), ((b.toNat : ℕ) : ℤ)) = (a, b)
         rw [Prod.mk.injEq]
         exact ⟨hp, hq⟩)
-  exact ⟨α₁ ≪≫ α₂ ≪≫ α₃ ≪≫ α₄⟩
+  exact α₁ ≪≫ α₂ ≪≫ α₃ ≪≫ α₄
+
+/-- **Künneth for `ℕ`-indexed cochain complexes**, `Nonempty` form. A one-line corollary of
+`kunnethCochainComplexNatIso`, kept so that existing consumers phrased in terms of `Nonempty`
+keep working; new consumers should use the `Iso` directly. -/
+theorem kunnethCochainComplexNat (C D : CochainComplex (ModuleCat.{u} k) ℕ) (i : ℕ) :
+    Nonempty ((HomologicalComplex.tensorObj C D).homology i ≅
+      ∐ fun (p : {p : ℕ × ℕ // p.1 + p.2 = i}) =>
+        C.homology p.1.1 ⊗ D.homology p.1.2) :=
+  ⟨kunnethCochainComplexNatIso C D i⟩
 
 end Etingof

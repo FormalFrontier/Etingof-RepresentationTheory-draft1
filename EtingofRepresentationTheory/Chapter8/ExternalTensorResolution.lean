@@ -40,8 +40,8 @@ identifies with the augmentation `Φ` of the `k`-tensor total complex
 
 * **positive degrees** by `homology_tensorObj_res_isZero_succ`: the `k`-tensor of the two restricted
   resolutions is exact in every degree `n + 1`, via the Chapter 7 Künneth formula
-  `kunnethChainComplexNat` (`H_{n+1}(C₁ ⊗ C₂) ≅ ⨁_{p+q=n+1} H_p(C₁) ⊗ H_q(C₂)`, every summand zero
-  since one index is positive and the restricted resolutions are acyclic in positive degrees);
+  `kunnethChainComplexNatIso` (`H_{n+1}(C₁ ⊗ C₂) ≅ ⨁_{p+q=n+1} H_p(C₁) ⊗ H_q(C₂)`, every summand
+  zero since one index is positive and the restricted resolutions are acyclic in positive degrees);
 * **degree `0`** by `quasiIsoAt_zero_of_isColimitCokernelCofork` together with
   `isColimitCokernelCofork_tensorObj_augmentation`: `Φ.f 0` is a cokernel of the total-complex
   differential `d 1 0`. Its degree-`0` component is `res₁ (P₁.π)₀ ⊗ res₂ (P₂.π)₀` (the map-level
@@ -132,7 +132,7 @@ theorem homology_mapHomologicalComplex_projective_isZero_succ
     (by simp)
 
 /-- **Positive-degree acyclicity** of the `k`-tensor of the two restricted resolutions. By the
-Chapter 7 Künneth formula `kunnethChainComplexNat`,
+Chapter 7 Künneth formula `kunnethChainComplexNatIso`,
 `H_{n+1}(C₁ ⊗ C₂) ≅ ⨁_{p+q=n+1} H_p(C₁) ⊗ H_q(C₂)`; every summand vanishes because one of `p, q`
 is positive and `homology_mapHomologicalComplex_projective_isZero_succ` makes the corresponding
 restricted-resolution homology zero, so the tensor summand is zero. This is the positive-degree
@@ -143,8 +143,8 @@ theorem homology_tensorObj_res_isZero_succ
       (res₂Complex (k := k) P₂)).homology (n + 1)) := by
   haveI : (res₁ k A₁).PreservesHomology := restrictScalars_preservesHomology _
   haveI : (res₂ k A₂).PreservesHomology := restrictScalars_preservesHomology _
-  obtain ⟨iso⟩ := kunnethChainComplexNat (res₁Complex (k := k) P₁) (res₂Complex (k := k) P₂) (n + 1)
-  refine IsZero.of_iso ?_ iso
+  refine IsZero.of_iso ?_
+    (kunnethChainComplexNatIso (res₁Complex (k := k) P₁) (res₂Complex (k := k) P₂) (n + 1))
   rw [IsZero.iff_id_eq_zero]
   apply Limits.Sigma.hom_ext
   intro a
