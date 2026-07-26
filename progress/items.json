@@ -9302,9 +9302,9 @@
     "end_line": 1,
     "status": "partially_formalized",
     "coverage": "covered_partial",
-    "note": "The Lean file is documentary and contains no declarations for the exercise. Example 9.4.4 independently proves one downstream Hilbert-syzygy consequence, but the Koszul, SW, and bimodule resolutions, the exercise's bounded-resolution result, and the Ext/Tor(k,k) computations remain unformalized under reopened #5723.",
+    "note": "Part (i) is now most of the way in: KoszulContraction/KoszulDifferential build the complex Cᵢ = SV ⊗ ⋀ⁱ V with d ∘ d = 0, KoszulAugmentation adds the augmentation, freeness of the terms and basis-independence of d, KoszulBasis writes d out on the monomial/subset k-basis, and KoszulHomotopy (#7911) constructs the characteristic-free contracting homotopy of the augmented complex with both identities dh + hd = id and dh + ηε = id proved sorry-free. Exactness itself (deducing it from the homotopy) is #7912; the SW and bimodule resolutions, the bounded-resolution result and the Ext/Tor(k,k) computations of parts (ii)-(v) remain unformalized under reopened #5723.",
     "fidelity_issue": 5723,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter9/Introduction",
