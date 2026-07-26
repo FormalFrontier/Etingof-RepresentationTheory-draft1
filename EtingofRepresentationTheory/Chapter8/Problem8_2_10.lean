@@ -62,10 +62,11 @@ The exercise itself is being formalized bottom-up. Landed so far:
   `Etingof.koszulD b i : koszulX k V (i + 1) →ₗ[SV] koszulX k V i`, the algebraic form
   `d = ∑ₐ (multiplication by xₐ) ⊗ ι_{xₐ*}` of the book's `dᵢ(f)(u) = ιᵤ (f u)`, together with
   `Etingof.koszulD_comp_koszulD : d ∘ d = 0`. The cancellation is characteristic-free
-  (`Finset.sum_ninvolution` on the off-diagonal pairs, `ιᵤ ∘ ιᵤ = 0` on the diagonal).
+  (`Finset.sum_ninvolution` on the off-diagonal pairs, `ιᵤ ∘ ιᵤ = 0` on the diagonal). The
+  complex itself is `Etingof.koszulComplex b : ChainComplex (ModuleCat SV) ℕ`.
 
-Still to come: packaging `C_•` as a `ChainComplex` with its augmentation and proving exactness
-(i), the `SW` resolution (ii), the bimodule resolution (iii), Hilbert syzygies (iv), and the
-`Ext`/`Tor` computation (v). See the child issues linked from
-<https://github.com/kim-em/Etingof-RepresentationTheory-draft1/issues/5723>.
+Still to come: the augmentation `C₀ = SV → k`, freeness of each `Cᵢ`, basis-independence of `d`,
+and exactness (i), the `SW` resolution (ii), the bimodule resolution (iii), Hilbert syzygies
+(iv), and the `Ext`/`Tor` computation (v). See the child issues linked from
+<https://github.com/FormalFrontier/Etingof-RepresentationTheory-draft1/issues/5723>.
 -/

@@ -1,6 +1,8 @@
 import EtingofRepresentationTheory.Chapter8.KoszulContraction
 import Mathlib.LinearAlgebra.SymmetricAlgebra.Basis
 import Mathlib.LinearAlgebra.TensorProduct.Tower
+import Mathlib.Algebra.Homology.HomologicalComplex
+import Mathlib.Algebra.Category.ModuleCat.Basic
 
 /-!
 # The Koszul differential `d : SV ⊗ ⋀ⁱ⁺¹ V → SV ⊗ ⋀ⁱ V` of Problem 8.2.10
@@ -28,6 +30,7 @@ cancellation is done with `Finset.sum_ninvolution`, so the argument is character
 
 * `Etingof.koszulD_tmul` — the value of `d` on an elementary tensor.
 * `Etingof.koszulD_comp_koszulD` — `d ∘ d = 0`.
+* `Etingof.koszulComplex b : ChainComplex (ModuleCat SV) ℕ` — the assembled complex.
 
 Exactness of the resulting complex (the "free resolution of `k`" half of Problem 8.2.10(i)) is
 not proved here.
@@ -127,5 +130,25 @@ theorem koszulD_comp_koszulD (b : Module.Basis κ k V) (i : ℕ) :
   have : p.1 = p.2 := congrArg Prod.snd hswap
   rw [show p = (p.1, p.1) from Prod.ext rfl this.symm]
   exact koszulDD_diag b i p.1
+
+/-- **The Koszul complex** `C_• : ⋯ → SV ⊗ ⋀² V → SV ⊗ ⋀¹ V → SV ⊗ ⋀⁰ V` of
+Problem 8.2.10(i), as a chain complex of `SV`-modules. Exactness (equivalently, that the
+augmentation `C₀ = SV → k` makes this a free resolution of `k`) is not proved here. -/
+noncomputable def koszulComplex (b : Module.Basis κ k V) :
+    ChainComplex (ModuleCat.{max u v} (SymmetricAlgebra k V)) ℕ :=
+  ChainComplex.of (fun i => ModuleCat.of _ (koszulX k V i))
+    (fun i => ModuleCat.ofHom (koszulD b i))
+    (fun i => by
+      apply ModuleCat.hom_ext
+      exact koszulD_comp_koszulD b i)
+
+@[simp]
+theorem koszulComplex_X (b : Module.Basis κ k V) (i : ℕ) :
+    (koszulComplex b).X i = ModuleCat.of _ (koszulX k V i) :=
+  rfl
+
+theorem koszulComplex_d (b : Module.Basis κ k V) (i : ℕ) :
+    (koszulComplex b).d (i + 1) i = ModuleCat.ofHom (koszulD b i) :=
+  by simp [koszulComplex]
 
 end Etingof
