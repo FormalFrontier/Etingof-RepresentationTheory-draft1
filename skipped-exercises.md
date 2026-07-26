@@ -178,13 +178,6 @@ These exercises were removed from the original skip list after substantial
 formalization, but a later fidelity audit found a remaining source-level endpoint.
 They are active work, not intentional omissions:
 
-- Problem 2.7.5 — parts (a) and (c) are complete: the center and ideal results, and the
-  full classification of the finite-dimensional irreducibles by the family `V(α,β)`
-  (construction, simplicity, isomorphism criterion, and exhaustiveness, the last in
-  `EtingofRepresentationTheory/Chapter2/Problem2_7_5_Exhaustive.lean`). Part (b) still has
-  only the necessary direction of the book's iff — a nonzero finite-dimensional
-  representation forces `q` to be a root of unity — so the converse existence half
-  remains #7846;
 - Problem 2.16.3 — the dimension and non-finiteness results are proved, but the
   requested explicit basis of `g_4` remains #7394;
 - Problem 4.12.8 — the finite-subgroup classification of `SO(3)` and much of the
