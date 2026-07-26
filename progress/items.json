@@ -4241,11 +4241,13 @@
       "Etingof.Problem4_12_9.tensor_iso_Rz_mul",
       "Etingof.Problem4_12_9.tensor_iso_oneDimSum",
       "Etingof.Problem4_12_9.tensor_iso_char_char",
-      "Etingof.Problem4_12_9.tensor_iso_char_Rz"
+      "Etingof.Problem4_12_9.tensor_iso_char_Rz",
+      "Etingof.Problem4_12_9.tensor_iso_Rz_mul_biproduct",
+      "Etingof.Problem4_12_9.tensor_iso_oneDimSum_biproduct"
     ],
     "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_12_9.lean",
     "coverage": "covered",
-    "fidelity_note": "The source's four decompositions are now representation isomorphisms, not only trace identities; the right-hand sides are constructed direct sums with structural projections and inclusions (`Etingof.FDRep.piπ` / `piι`).",
+    "fidelity_note": "The source's four decompositions are now representation isomorphisms, not only trace identities. The right-hand sides are the constructed direct sums `Etingof.FDRep.pi`, which is proved to be the categorical biproduct (`Etingof.FDRep.piBiconeIsBilimit`), so the two direct-sum statements are also available in `⨁` form.",
     "last_updated": "2026-07-26"
   },
   {

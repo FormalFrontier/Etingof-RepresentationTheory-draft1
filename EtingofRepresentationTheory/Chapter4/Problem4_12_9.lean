@@ -43,6 +43,10 @@ identities to `Etingof.charEq_iso` and building the right-hand sides with
 * `tensor_iso_oneDimSum`: `R_z ⊗ R_w ≅ ⨁_{χ : G →* ℂˣ} χ` when `z·w = 1`;
 * `tensor_iso_char_char`: `χ ⊗ χ' ≅ χχ'`;
 * `tensor_iso_char_Rz`: `χ ⊗ R_z ≅ R_z`.
+
+`Etingof.FDRep.pi` is proved to be the categorical biproduct, so the two direct-sum statements
+are also available in `⨁` form (`tensor_iso_Rz_mul_biproduct`,
+`tensor_iso_oneDimSum_biproduct`).
 -/
 
 noncomputable section
@@ -325,6 +329,30 @@ theorem tensor_iso_oneDimSum
   simp only [Etingof.Example4_3_S3.charRep_character]
   rw [sum_oneDimChar a b c]
   exact tensor_character_inv z w hz hz1 hw1 hzw ρz ρw hρz hρw a b c
+
+/-- `R_z ⊗ R_w ≅ ⨁_{Fin p} R_{zw}`, stated with the categorical biproduct: `Etingof.FDRep.pi`
+is the biproduct (`Etingof.FDRep.piIsoBiproduct`), so this is `tensor_iso_Rz_mul` transported
+along that comparison. -/
+theorem tensor_iso_Rz_mul_biproduct
+    (z w : ℂ) (hz : z ^ p = 1) (hw : w ^ p = 1)
+    (hz1 : z ≠ 1) (hw1 : w ≠ 1) (hzw : z * w ≠ 1)
+    (ρz ρw ρzw : Representation ℂ (Heisenberg p) (ZMod p → ℂ))
+    (hρz : IsRz z ρz) (hρw : IsRz w ρw) (hρzw : IsRz (z * w) ρzw) :
+    Nonempty ((FDRep.of ρz ⊗ FDRep.of ρw : FDRep ℂ (Heisenberg p)) ≅
+      ⨁ fun _ : Fin p => FDRep.of ρzw) :=
+  (tensor_iso_Rz_mul z w hz hw hz1 hw1 hzw ρz ρw ρzw hρz hρw hρzw).map fun e =>
+    e ≪≫ Etingof.FDRep.piIsoBiproduct _
+
+/-- `R_z ⊗ R_{z⁻¹} ≅ ⨁_χ χ`, stated with the categorical biproduct. -/
+theorem tensor_iso_oneDimSum_biproduct
+    (z w : ℂ) (hz : z ^ p = 1) (hz1 : z ≠ 1) (hw1 : w ≠ 1) (hzw : z * w = 1)
+    (ρz ρw : Representation ℂ (Heisenberg p) (ZMod p → ℂ))
+    (hρz : IsRz z ρz) (hρw : IsRz w ρw) :
+    Nonempty ((FDRep.of ρz ⊗ FDRep.of ρw : FDRep ℂ (Heisenberg p)) ≅
+      ⨁ fun χ : Heisenberg p →* ℂˣ => FDRep.of (Etingof.Example4_3_S3.charRep χ)) := by
+  classical
+  exact (tensor_iso_oneDimSum z w hz hz1 hw1 hzw ρz ρw hρz hρw).map fun e =>
+    e ≪≫ Etingof.FDRep.piIsoBiproduct _
 
 /-- **`χ ⊗ χ' ≅ χχ'`.** The tensor product of two one-dimensional characters is the
 one-dimensional representation attached to their product; the `p²` characters form a group

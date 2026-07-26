@@ -17,7 +17,10 @@ Main definitions and results:
   `piι i ≫ piπ i = 𝟙` and `piι i ≫ piπ j = 0` for `i ≠ j`, exhibiting `FDRep.pi V` as the direct
   sum of the family `V`;
 * `Etingof.FDRep.character_pi` — additivity of the character:
-  `(FDRep.pi V).character g = ∑ i, (V i).character g`.
+  `(FDRep.pi V).character g = ∑ i, (V i).character g`;
+* `Etingof.FDRep.piBiconeIsBilimit` — the projections and inclusions satisfy
+  `∑ i, piπ i ≫ piι i = 𝟙`, so `FDRep.pi V` is the categorical biproduct of `V`. This supplies
+  `HasFiniteBiproducts (FDRep k G)` and the comparison `piIsoBiproduct : FDRep.pi V ≅ ⨁ V`.
 
 Combined with `Etingof.charEq_iso` ("equal characters imply isomorphism", `Chapter5/CharEqIso`)
 this turns a character computation into an actual isomorphism of representations onto a direct
@@ -158,6 +161,61 @@ of the characters of the summands. -/
 theorem character_pi [Fintype ι] (V : ι → FDRep k G) (g : G) :
     (pi V).character g = ∑ i, (V i).character g :=
   trace_piEnd _
+
+/-! ### `FDRep.pi` really is the biproduct
+
+The projections and inclusions above satisfy the completeness relation
+`∑ i, piπ i ≫ piι i = 𝟙`, so `FDRep.pi V` is a bilimit of the family `V`. In particular
+`FDRep k G` has all finite biproducts, and `FDRep.pi V ≅ ⨁ V`. -/
+
+/-- Taking underlying linear maps is additive on the hom-groups of `FDRep k G`. -/
+def homAddHom (X Y : FDRep k G) : (X ⟶ Y) →+ ((X : Type) →ₗ[k] (Y : Type)) where
+  toFun f := f.hom.hom.hom
+  map_zero' := rfl
+  map_add' _ _ := rfl
+
+/-- **Completeness of the projections and inclusions**: `∑ i, piπ i ≫ piι i = 𝟙`. -/
+theorem pi_total [Fintype ι] [DecidableEq ι] (V : ι → FDRep k G) :
+    ∑ i, piπ V i ≫ piι V i = 𝟙 (pi V) := by
+  apply Action.Hom.ext
+  apply FGModuleCat.hom_ext
+  ext x
+  have h := map_sum (homAddHom (pi V) (pi V)) (fun i => piπ V i ≫ piι V i) Finset.univ
+  have h2 := congrFun (congrArg (fun m : (pi V : Type) →ₗ[k] (pi V : Type) => (m : _ → _)) h) x
+  simp only [homAddHom, AddMonoidHom.coe_mk, ZeroHom.coe_mk] at h2
+  rw [h2]
+  have hstep : ∀ i : ι, ((piπ V i ≫ piι V i).hom.hom.hom) x
+      = Pi.single (M := fun j => ((V j : Type))) i (x i) := fun _ => rfl
+  simp only [LinearMap.coe_sum, Finset.sum_apply, hstep]
+  exact Finset.univ_sum_single x
+
+/-- `FDRep.pi V`, with its projections and inclusions, as a bicone over the family `V`. -/
+noncomputable def piBicone [Fintype ι] [DecidableEq ι] (V : ι → FDRep k G) :
+    Limits.Bicone V where
+  pt := pi V
+  π := piπ V
+  ι := piι V
+  ι_π i j := by
+    rcases eq_or_ne i j with rfl | h
+    · simp [piι_piπ_self]
+    · simp [piι_piπ_of_ne V h, dif_neg h]
+
+/-- **`FDRep.pi V` is the biproduct of `V`.** -/
+noncomputable def piBiconeIsBilimit [Fintype ι] [DecidableEq ι] (V : ι → FDRep k G) :
+    (piBicone V).IsBilimit :=
+  Limits.isBilimitOfTotal _ (pi_total V)
+
+instance hasBiproduct_of_fintype [Fintype ι] (V : ι → FDRep k G) : Limits.HasBiproduct V := by
+  classical
+  exact Limits.HasBiproduct.mk ⟨_, piBiconeIsBilimit V⟩
+
+instance : Limits.HasFiniteBiproducts (FDRep k G) :=
+  ⟨fun _ => ⟨fun _ => inferInstance⟩⟩
+
+/-- The concrete direct sum agrees with the categorical biproduct. -/
+noncomputable def piIsoBiproduct [Fintype ι] [DecidableEq ι] (V : ι → FDRep k G) :
+    pi V ≅ ⨁ V :=
+  Limits.biproduct.uniqueUpToIso V (piBiconeIsBilimit V)
 
 end FDRep
 
