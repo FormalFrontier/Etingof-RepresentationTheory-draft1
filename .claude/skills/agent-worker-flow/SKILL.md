@@ -325,7 +325,7 @@ that context.
 
 **If the issue touches `EtingofRepresentationTheory/`, read
 `.claude/skills/lean-conventions/SKILL.md` in full before your first edit.** It is
-short by design (~160 lines) and carries the rules that otherwise cost a build cycle
+short by design and carries the rules that otherwise cost a build cycle
 each to rediscover: `lake exe cache get`, `lake build <Module>` rather than `lake env
 lean`, the lint-clean policy, and the one working order for `set_option`/`omit`/
 docstring above a declaration. The large `lean-formalization` skill is the *searchable*

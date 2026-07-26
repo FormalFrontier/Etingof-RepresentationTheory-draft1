@@ -36,7 +36,7 @@ The priority order in the worker skill still applies — check for PR-fix issues
 ## Executing Implementation Work
 
 **Before writing any Lean, read `.claude/skills/lean-conventions/SKILL.md` in full.**
-It is deliberately short (~160 lines) and holds the house rules every Lean session
+It is deliberately short and holds the house rules every Lean session
 needs: the build commands, the lint-clean policy and the exact `omit`/`set_option`
 ordering, import practice, and the non-negotiables. Sessions that skip it spend build
 cycles re-deriving the same handful of rules. Read it with `Read`, not the Skill tool.
