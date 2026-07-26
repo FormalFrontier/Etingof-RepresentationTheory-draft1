@@ -47,6 +47,11 @@ non-mechanical step is the sign match, here `negOnePow_natCast` (`Int.negOnePow 
 simpler than the chain case (no `negOnePow_neg`). This is `nonempty_tensorObj_extend_iso` below,
 constructed via `TensorExtend.tensorObjExtendIso`.
 
+The comparison is moreover natural in `(C, D)`:
+`TensorExtendUp.tensorObjExtendIso_hom_naturality` states the joint naturality square, and
+`TensorExtendUp.tensorObjExtendNatIso` packages the whole comparison as an isomorphism of the
+bifunctors `(C, D) ↦ extend C ⊗ extend D` and `(C, D) ↦ extend (C ⊗ D)`.
+
 ## The resulting isomorphism
 
 `Hᵢ(C ⊗ D)` (`ℕ`) `≅ Hᵢ(extend (C ⊗ D))` `≅ Hᵢ(extend C ⊗ extend D)` (compatibility)
@@ -459,6 +464,168 @@ noncomputable def tensorObjExtendIso :
       congr 1
       rw [← tensorExtendXIso_hom_extendXIso C D (n + 1), Category.assoc, Iso.hom_inv_id,
         Category.comp_id])
+
+/-!
+## Naturality of the comparison
+
+The cochain mirror of `TensorExtend`'s milestone (d). `tensorObjExtendIso` is natural in
+`(C, D)`: degreewise it is a `mapBifunctorDesc` over the `ιTensorObj` injections, and both those
+injections (`ι_mapBifunctorMap`) and the `extendXIso` transports (`extendMap_f`) are natural.
+
+`fwdNat_naturality` is the degreewise square, `tensorObjExtendIso_hom_naturality` the
+complex-level one (with `_left`/`_right` giving the one-variable specialisations), and
+`tensorObjExtendNatIso` packages the comparison as an isomorphism of the two bifunctors
+`(C, D) ↦ extend C ⊗ extend D` and `(C, D) ↦ extend (C ⊗ D)`.
+-/
+
+section Naturality
+
+variable {C₁ C₂ D₁ D₂ : CochainComplex (ModuleCat.{u} k) ℕ}
+
+/-- **Naturality of the degree `n` forward map.** The coproduct forward maps `fwdNat` intertwine
+`tensorHom (extendMap f) (extendMap g)` with `tensorHom f g`. Proved summand-by-summand: the
+summands outside the image of the embedding have zero source, and on an `(a, b) = (p, q)` summand
+both sides reduce to `((extendXIso C₁).hom ≫ f.f p) ⊗ₘ ((extendXIso D₁).hom ≫ g.f q)` followed by
+the `ℕ`-side injection `ιN C₂ D₂ p q n`. -/
+lemma fwdNat_naturality (f : C₁ ⟶ C₂) (g : D₁ ⟶ D₂) (n : ℕ) :
+    (HomologicalComplex.tensorHom (HomologicalComplex.extendMap f e)
+          (HomologicalComplex.extendMap g e)).f (n : ℤ) ≫ fwdNat C₂ D₂ n =
+      fwdNat C₁ D₁ n ≫ (HomologicalComplex.tensorHom f g).f n := by
+  apply HomologicalComplex.mapBifunctor.hom_ext
+  intro a b hab
+  rcases ha : e.r a with _ | p
+  · exact (isZero_tensorObj_left (C₁.isZero_extend_X' e a ha)).eq_of_src _ _
+  rcases hb : e.r b with _ | q
+  · exact (isZero_tensorObj_right (D₁.isZero_extend_X' e b hb)).eq_of_src _ _
+  obtain rfl : a = (p : ℤ) := by have := e.f_eq_of_r_eq_some ha; simpa using this.symm
+  obtain rfl : b = (q : ℤ) := by have := e.f_eq_of_r_eq_some hb; simpa using this.symm
+  have hab' : (p : ℤ) + (q : ℤ) = (n : ℤ) := hab
+  have hpq : (ComplexShape.up ℕ).π (ComplexShape.up ℕ) (ComplexShape.up ℕ) (p, q) = n := by
+    have : p + q = n := by omega
+    simpa using this
+  rw [show HomologicalComplex.ιMapBifunctor (C₁.extend e) (D₁.extend e)
+        (curriedTensor (ModuleCat.{u} k)) (ComplexShape.up ℤ)
+        (p : ℤ) (q : ℤ) (n : ℤ) hab = ιZ C₁ D₁ _ _ _ hab from rfl]
+  rw [HomologicalComplex.ι_mapBifunctorMap_assoc, ιZ_fwdNat,
+    phiFwd_some C₂ D₂ n _ (r_nat p) (r_nat q) hpq,
+    ← Category.assoc (ιZ C₁ D₁ _ _ _ hab), ιZ_fwdNat,
+    phiFwd_some C₁ D₁ n _ (r_nat p) (r_nat q) hpq,
+    Category.assoc, HomologicalComplex.ι_mapBifunctorMap,
+    HomologicalComplex.extendMap_f f e (ef_eq p),
+    HomologicalComplex.extendMap_f g e (ef_eq q)]
+  simp only [curriedTensor_map_app, curriedTensor_obj_map, Functor.map_comp, NatTrans.comp_app,
+    Category.assoc, ← MonoidalCategory.tensorHom_id, ← MonoidalCategory.id_tensorHom,
+    MonoidalCategory.tensorHom_comp_tensorHom_assoc, Category.comp_id, Category.id_comp,
+    Iso.inv_hom_id]
+
+-- The reassociated form of `tensorExtendXIso_hom_extendXIso`, used to strip the extend
+-- transport off the middle of a composite in `tensorObjExtendIso_hom_naturality`.
+attribute [reassoc] tensorExtendXIso_hom_extendXIso
+
+/-- **Naturality of the complex isomorphism.** The tensor/extend comparison
+`extend C ⊗ extend D ≅ extend (C ⊗ D)` commutes with the maps induced by arbitrary cochain maps
+`f : C₁ ⟶ C₂` and `g : D₁ ⟶ D₂`. Degreewise this is `fwdNat_naturality`; the degrees outside the
+image of the embedding are handled by vanishing of the target. -/
+theorem tensorObjExtendIso_hom_naturality (f : C₁ ⟶ C₂) (g : D₁ ⟶ D₂) :
+    HomologicalComplex.tensorHom (HomologicalComplex.extendMap f e)
+          (HomologicalComplex.extendMap g e) ≫ (tensorObjExtendIso C₂ D₂).hom =
+      (tensorObjExtendIso C₁ D₁).hom ≫
+        HomologicalComplex.extendMap (HomologicalComplex.tensorHom f g) e := by
+  ext j' : 1
+  by_cases hj : j' < 0
+  · exact (HomologicalComplex.isZero_extend_X (HomologicalComplex.tensorObj C₂ D₂) e j'
+      (fun m => by simp only [ComplexShape.embeddingUpNat_f]; omega)).eq_of_tgt _ _
+  · rw [not_lt] at hj
+    obtain ⟨n, rfl⟩ : ∃ n : ℕ, j' = (n : ℤ) := ⟨j'.toNat, by omega⟩
+    rw [← cancel_mono (HomologicalComplex.extendXIso
+      (HomologicalComplex.tensorObj C₂ D₂) e (ef_eq n)).hom,
+      HomologicalComplex.comp_f, HomologicalComplex.comp_f, Category.assoc, Category.assoc,
+      show (tensorObjExtendIso C₂ D₂).hom.f (n : ℤ) = (tensorExtendXIso C₂ D₂ (n : ℤ)).hom
+        from rfl,
+      show (tensorObjExtendIso C₁ D₁).hom.f (n : ℤ) = (tensorExtendXIso C₁ D₁ (n : ℤ)).hom
+        from rfl,
+      tensorExtendXIso_hom_extendXIso,
+      HomologicalComplex.extendMap_f (HomologicalComplex.tensorHom f g) e (ef_eq n),
+      Category.assoc, Category.assoc, Iso.inv_hom_id, Category.comp_id,
+      tensorExtendXIso_hom_extendXIso_assoc]
+    exact fwdNat_naturality f g n
+
+/-- Naturality in the first argument. -/
+theorem tensorObjExtendIso_hom_naturality_left (f : C₁ ⟶ C₂)
+    (D : CochainComplex (ModuleCat.{u} k) ℕ) :
+    HomologicalComplex.tensorHom (HomologicalComplex.extendMap f e) (𝟙 (D.extend e)) ≫
+        (tensorObjExtendIso C₂ D).hom =
+      (tensorObjExtendIso C₁ D).hom ≫
+        HomologicalComplex.extendMap (HomologicalComplex.tensorHom f (𝟙 D)) e := by
+  simpa using tensorObjExtendIso_hom_naturality f (𝟙 D)
+
+/-- Naturality in the second argument. -/
+theorem tensorObjExtendIso_hom_naturality_right (C : CochainComplex (ModuleCat.{u} k) ℕ)
+    (g : D₁ ⟶ D₂) :
+    HomologicalComplex.tensorHom (𝟙 (C.extend e)) (HomologicalComplex.extendMap g e) ≫
+        (tensorObjExtendIso C D₂).hom =
+      (tensorObjExtendIso C D₁).hom ≫
+        HomologicalComplex.extendMap (HomologicalComplex.tensorHom (𝟙 C) g) e := by
+  simpa using tensorObjExtendIso_hom_naturality (𝟙 C) g
+
+end Naturality
+
+section Bifunctor
+
+/-- The tensor bifunctor on `ℕ`-cochain complexes. -/
+noncomputable abbrev tensorBifunctorN :
+    CochainComplex (ModuleCat.{u} k) ℕ ⥤ CochainComplex (ModuleCat.{u} k) ℕ ⥤
+      CochainComplex (ModuleCat.{u} k) ℕ :=
+  (curriedTensor (ModuleCat.{u} k)).map₂HomologicalComplex
+    (ComplexShape.up ℕ) (ComplexShape.up ℕ) (ComplexShape.up ℕ)
+
+/-- `extend` along `embeddingUpNat` as a functor `CochainComplex ℕ ⥤ CochainComplex ℤ`. -/
+noncomputable abbrev extFunctor :
+    CochainComplex (ModuleCat.{u} k) ℕ ⥤ CochainComplex (ModuleCat.{u} k) ℤ :=
+  e.extendFunctor (ModuleCat.{u} k)
+
+/-- The bifunctor `(C, D) ↦ extend C ⊗ extend D`. -/
+noncomputable abbrev tensorExtendSrc :
+    CochainComplex (ModuleCat.{u} k) ℕ ⥤ CochainComplex (ModuleCat.{u} k) ℕ ⥤
+      CochainComplex (ModuleCat.{u} k) ℤ :=
+  (extFunctor ⋙ TensorExtend.tensorBifunctorZ) ⋙
+    (CategoryTheory.Functor.whiskeringLeft (CochainComplex (ModuleCat.{u} k) ℕ)
+      (CochainComplex (ModuleCat.{u} k) ℤ)
+      (CochainComplex (ModuleCat.{u} k) ℤ)).obj extFunctor
+
+/-- The bifunctor `(C, D) ↦ extend (C ⊗ D)`. -/
+noncomputable abbrev tensorExtendTgt :
+    CochainComplex (ModuleCat.{u} k) ℕ ⥤ CochainComplex (ModuleCat.{u} k) ℕ ⥤
+      CochainComplex (ModuleCat.{u} k) ℤ :=
+  tensorBifunctorN ⋙
+    (CategoryTheory.Functor.whiskeringRight (CochainComplex (ModuleCat.{u} k) ℕ)
+      (CochainComplex (ModuleCat.{u} k) ℕ)
+      (CochainComplex (ModuleCat.{u} k) ℤ)).obj extFunctor
+
+/-- **The tensor/extend comparison as an isomorphism of bifunctors (cochain case).** Assembles
+`tensorObjExtendIso` over all `(C, D)` into a `NatIso` between `tensorExtendSrc` and
+`tensorExtendTgt`; the objectwise isos are recovered as `(tensorObjExtendNatIso.app C).app D`. -/
+noncomputable def tensorObjExtendNatIso :
+    tensorExtendSrc (k := k) ≅ tensorExtendTgt (k := k) :=
+  NatIso.ofComponents
+    (fun C => NatIso.ofComponents (fun D => tensorObjExtendIso C D) (fun {D₁ D₂} g => by
+      have h := tensorObjExtendIso_hom_naturality (𝟙 C) g
+      rw [HomologicalComplex.extendMap_id] at h
+      exact h))
+    (fun {C₁ C₂} f => by
+      ext D : 2
+      simp only [NatTrans.comp_app]
+      have h := tensorObjExtendIso_hom_naturality f (𝟙 D)
+      rw [HomologicalComplex.extendMap_id] at h
+      exact h)
+
+/-- The objectwise components of `tensorObjExtendNatIso` are the original `tensorObjExtendIso`. -/
+@[simp]
+lemma tensorObjExtendNatIso_app_app (C D : CochainComplex (ModuleCat.{u} k) ℕ) :
+    (tensorObjExtendNatIso.app C).app D = tensorObjExtendIso C D :=
+  rfl
+
+end Bifunctor
 
 end TensorExtendUp
 
