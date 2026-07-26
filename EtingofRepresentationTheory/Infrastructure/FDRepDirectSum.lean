@@ -205,8 +205,9 @@ noncomputable def piBiconeIsBilimit [Fintype ι] [DecidableEq ι] (V : ι → FD
     (piBicone V).IsBilimit :=
   Limits.isBilimitOfTotal _ (pi_total V)
 
-instance hasBiproduct_of_fintype [Fintype ι] (V : ι → FDRep k G) : Limits.HasBiproduct V := by
+instance hasBiproduct_of_finite [Finite ι] (V : ι → FDRep k G) : Limits.HasBiproduct V := by
   classical
+  have : Fintype ι := Fintype.ofFinite ι
   exact Limits.HasBiproduct.mk ⟨_, piBiconeIsBilimit V⟩
 
 instance : Limits.HasFiniteBiproducts (FDRep k G) :=

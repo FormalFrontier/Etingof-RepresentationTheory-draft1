@@ -249,7 +249,15 @@ computes the character of the finite direct sum `Etingof.FDRep.pi`. The four iso
 * `χ ⊗ R_z ≅ R_z` (`tensor_iso_char_Rz`)
 
 are the actual content of the problem; the character identities above are the computations they
-rest on. -/
+rest on. The two direct-sum cases are restated with the categorical `⨁` in
+`tensor_iso_Rz_mul_biproduct` and `tensor_iso_oneDimSum_biproduct`, using
+`Etingof.FDRep.piIsoBiproduct`.
+
+Only `χ ⊗ χ' ≅ χχ'` has a canonical intertwiner (multiplication `ℂ ⊗_ℂ ℂ ≃ ℂ`), given as an
+actual `Iso` in `tensorIsoCharChar`. The other three isomorphisms are genuinely non-canonical —
+`charEq_iso` produces one from a character computation without singling one out — so they are
+stated as `Nonempty (· ≅ ·)`, as elsewhere in the project (`charRep_iso_iff`,
+`rhoHom_iso_iff`). -/
 
 section Isomorphisms
 
