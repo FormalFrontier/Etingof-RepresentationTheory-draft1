@@ -372,8 +372,10 @@ theorem card_index (hV : ∀ i, Simple (V i))
 /-- **Proposition 4.7.1, concluding statement.** The matrix coefficients of a complete set
 of pairwise non-isomorphic irreducible representations of `G` form a basis of `F(G, k)`.
 
-Orthogonality is `basis_pairing` below; the two together are Etingof's "matrix elements of
-irreducible representations of `G` form an orthogonal basis of `F(G, ℂ)`". -/
+Orthogonality of this basis is `pairing_coeff_of_ne` and `pairing_coeff_self` (transported
+along `coe_basis`); the two together are Etingof's "matrix elements of irreducible
+representations of `G` form an orthogonal basis of `F(G, ℂ)`", packaged as
+`Etingof.Proposition4_7_1_orthogonal_basis`. -/
 noncomputable def basis (hV : ∀ i, Simple (V i))
     (hinj : ∀ i j, Nonempty ((V i) ≅ (V j)) → i = j)
     (hsurj : ∀ (W : FDRep k G), Simple W → ∃ i, Nonempty (W ≅ V i))
