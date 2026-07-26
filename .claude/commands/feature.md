@@ -38,8 +38,14 @@ The priority order in the worker skill still applies — check for PR-fix issues
 
 ## Executing Implementation Work
 
-**Before writing any Lean, read the `lean-formalization` skill** — and don't just
-read the top: it is thousands of lines of accumulated traps, so `grep` it for the
+**Before writing any Lean, read `.claude/skills/lean-conventions/SKILL.md` in full.**
+It is deliberately short and holds the house rules every Lean session
+needs: the build commands, the lint-clean policy and the exact `omit`/`set_option`
+ordering, import practice, and the non-negotiables. Sessions that skip it spend build
+cycles re-deriving the same handful of rules. Read it with `Read`, not the Skill tool.
+
+**Then use the `lean-formalization` skill as a reference** — do not read it top to
+bottom: it is thousands of lines of accumulated traps, so `grep` it for the
 file, chapter item, and Mathlib types you are about to touch (e.g.
 `grep -n 'Problem2_16_3\|LieSubalgebra' .claude/skills/lean-formalization/SKILL.md`).
 Most items already have a section naming the exact instance/tactic trap that will

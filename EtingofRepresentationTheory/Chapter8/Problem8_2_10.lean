@@ -2,6 +2,7 @@ import EtingofRepresentationTheory.Chapter8.KoszulContraction
 import EtingofRepresentationTheory.Chapter8.KoszulDifferential
 import EtingofRepresentationTheory.Chapter8.KoszulAugmentation
 import EtingofRepresentationTheory.Chapter8.KoszulBasis
+import EtingofRepresentationTheory.Chapter8.KoszulResolution
 
 /-!
 # Problem 8.2.10: Koszul resolution and the Hilbert syzygies theorem
@@ -101,8 +102,70 @@ The exercise itself is being formalized bottom-up. Landed so far:
   sends it to `(-1)^(pos(a,s)+1) e_(s \ {a})` for `a ∈ s`. The augmentation is
   `Etingof.koszulAug_koszulKBasis`: `ε (x^α ⊗ 1) = 1` if `α = 0` and `0` otherwise.
 
-Still to come: exactness of the augmented complex (i), the `SW` resolution (ii), the bimodule
-resolution (iii), Hilbert syzygies (iv), and the `Ext`/`Tor` computation (v). See the child issues
-linked from
+* `Chapter8/KoszulHomotopy.lean` — the `k`-linear contracting homotopy `Etingof.koszulH` of the
+  augmented complex, together with the splitting `Etingof.koszulEta` of the augmentation. On the
+  basis vector `x^α ⊗ e_s` it is `-(x^(α - eₚ) ⊗ e_(insert p s))` when `p = min (supp α)` lies
+  strictly below every element of `s` (the pivot condition `Etingof.IsKoszulPivot`), and `0`
+  otherwise. The two identities it satisfies are
+  `Etingof.koszulD_koszulH_add_koszulH_koszulD` (`d h + h d = id` on `Cᵢ₊₁`) and
+  `Etingof.koszulD_koszulH_add_eta_aug` (`d h + η ε = id` on `C₀`). No `SV`-linear homotopy can
+  exist — the complex resolves `k` and is not `SV`-split — and the construction is
+  characteristic-free, unlike the Euler-operator homotopy `dκ + κd = (p + q) • id`.
+
+* `Chapter8/KoszulResolution.lean` — **part (i), complete**. The homotopy gives exactness, since
+  exactness is a statement about the underlying additive groups: a cycle `x` satisfies
+  `x = d (h x) + h (d x) = d (h x)`, so `Etingof.koszulD_range_eq_ker` (`range dᵢ₊₁ = ker dᵢ`) and
+  `Etingof.koszulD_zero_range_eq_ker_koszulAug` (`range d₀ = ker ε`), the two ranges and kernels
+  being honest `SV`-submodules because `d` and `ε` are `SV`-linear. Packaged categorically, the
+  augmentation `Etingof.koszulPi : C_• ⟶ k[0]` is a quasi-isomorphism
+  (`Etingof.koszulPi_quasiIso`), giving `Etingof.koszulResolution` — see `Etingof.Problem_8_2_10_i`
+  below.
+
+Still to come: the `SW` resolution (ii), the bimodule resolution (iii), Hilbert syzygies (iv), and
+the `Ext`/`Tor` computation (v). See the child issues linked from
 <https://github.com/FormalFrontier/Etingof-RepresentationTheory-draft1/issues/5723>.
 -/
+
+universe u v w
+
+namespace Etingof
+
+/-- **Problem 8.2.10(i).** For a vector space `V` with a finite basis `b` over a commutative ring
+`k`, the Koszul complex `Cᵢ = SV ⊗ ⋀ⁱ V` with the contraction differential `dᵢ(f)(u) = ιᵤ (f u)` is
+a **free resolution of `k`** as an `SV`-module, `k` carrying the trivial action of `V` — the
+*Koszul resolution*.
+
+This is `Etingof.koszulResolution`. The three components of the assertion are recorded separately
+below: the underlying complex is the Koszul complex itself (`Etingof.Problem_8_2_10_i_complex`),
+its terms are free and not merely projective (`Etingof.Problem_8_2_10_i_free`), and the
+augmentation is the counit `ε : SV ⊗ ⋀⁰ V → k` (`Etingof.Problem_8_2_10_i_π`). The book states
+this for a finite dimensional `V` over a field, which is
+`Etingof.koszulResolutionOfFiniteDimensional`. -/
+noncomputable def Problem_8_2_10_i {k : Type u} [CommRing k] {V : Type v} [AddCommGroup V]
+    [Module k V] {κ : Type w} [LinearOrder κ] [Fintype κ] (b : Module.Basis κ k V) :
+    CategoryTheory.ProjectiveResolution
+      (ModuleCat.of (SymmetricAlgebra k V) (KoszulAugModule k V)) :=
+  koszulResolution b
+
+section
+
+variable {k : Type u} [CommRing k] {V : Type v} [AddCommGroup V] [Module k V]
+variable {κ : Type w} [LinearOrder κ] [Fintype κ] (b : Module.Basis κ k V)
+
+/-- The resolving complex of Problem 8.2.10(i) is the Koszul complex `Cᵢ = SV ⊗ ⋀ⁱ V` of the
+problem statement, not some abstract resolution produced by `EnoughProjectives`. -/
+theorem Problem_8_2_10_i_complex : (Problem_8_2_10_i b).complex = koszulComplex b := rfl
+
+/-- The resolution of Problem 8.2.10(i) is by **free** `SV`-modules — the parenthetical
+"(in fact, free)" of the problem statement. -/
+theorem Problem_8_2_10_i_free (i : ℕ) :
+    Module.Free (SymmetricAlgebra k V) ((Problem_8_2_10_i b).complex.X i) :=
+  koszulResolution_free b i
+
+/-- The map resolving `k` is the augmentation `ε : C₀ = SV ⊗ ⋀⁰ V → k`, the counit of `SV`. -/
+theorem Problem_8_2_10_i_π : (Problem_8_2_10_i b).π.f 0 = ModuleCat.ofHom (koszulAug k V) :=
+  koszulPi_f_zero b
+
+end
+
+end Etingof
