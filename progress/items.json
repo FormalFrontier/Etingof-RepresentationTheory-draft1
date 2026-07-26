@@ -8550,12 +8550,11 @@
     "start_line": 17,
     "end_line": 17,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "Lean uses the correct intrinsic Abelian class, but the claimed Freyd–Mitchell equivalence with the source's closure-stable full module subcategory is only prose; follow-up #7476.",
-    "fidelity_issue": 7476,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "Etingof.Abelian is the intrinsic Mathlib class. The source's description is now proved equivalent to it: Etingof.exists_equiv_moduleCat_fullSubcategory realizes an abelian category as the essential image of the Freyd-Mitchell embedding into a module category, a full subcategory closed under finite direct sums, kernels, cokernels and images, and Etingof.abelianOfClosedFullSubcategory is the converse.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter7/Example7.7.2",
