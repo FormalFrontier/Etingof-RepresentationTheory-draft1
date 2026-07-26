@@ -21,8 +21,16 @@ git diff --numstat HEAD -- .claude/
 ```
 
 Any pure-deletion lines under `.claude/` are stale leftovers, not your work: restore them
-with `git checkout HEAD -- .claude/` and then **re-invoke** (not merely `Read`) the
-`agent-worker-flow` skill and this command, since the copies you loaded were the old ones.
+with `git checkout HEAD -- .claude/` and then **`Read` the restored `agent-worker-flow`
+SKILL.md and this command in full**, since the copies you loaded were the old ones.
+
+Use `Read`, not the Skill tool: re-invoking a skill that is already loaded answers
+"instructions unchanged" and hands back the stale copy from session start, so it silently
+does nothing. (Earlier revisions of this file advised the reverse.)
+
+Cheaper still, the `gitStatus` block in your system prompt already lists these files at
+session start — five modified files under `.claude/` there is the signal, and it costs no
+tool call to notice.
 
 ## Claiming Your Issue
 

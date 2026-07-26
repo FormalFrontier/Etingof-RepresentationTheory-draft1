@@ -22,8 +22,20 @@ git show HEAD:.claude/skills/agent-worker-flow/SKILL.md | wc -l
 ```
 
 If the counts differ: save the diff (`git diff > /tmp/<uuid>-stale.patch`), restore with
-`git checkout HEAD -- .claude/`, then **re-invoke this skill** (the Skill tool, not `Read`)
-and start over from Step 1. Do the same for your `/command` file.
+`git checkout HEAD -- .claude/`, then **`Read` the restored `SKILL.md` in full** and start
+over from Step 1. Do the same for your `/command` file.
+
+**Re-invoking the Skill tool does not work for this** — it answers "already loaded above;
+instructions unchanged" and hands back the stale copy it loaded at session start, without
+re-reading the file you just restored. `Read` is the only way to see the restored text.
+(Earlier revisions of this file said the opposite. 2026-07-26: a session followed that
+advice, got the no-op response, and only saw the real skill because it fell back to `Read`.)
+
+**The earliest signal is free and arrives before any tool call**: the `gitStatus` block in
+your system prompt lists modified files at session start. Five modified files under
+`.claude/` there means a stale worktree — act on it *then*, not after you have already
+chosen an issue and started working on it against guidance that may be missing the check
+you needed.
 
 This check lives at the top of the file on purpose. The fuller treatment is in Step 2 under
 "If the branch already exists", but every observed truncation left lines 1-70 intact while
@@ -256,13 +268,14 @@ wc -l .claude/skills/agent-worker-flow/SKILL.md
 git show HEAD:.claude/skills/agent-worker-flow/SKILL.md | wc -l
 ```
 
-If the counts differ, restore and **re-invoke the skill** (not just `Read` the file), then
-restart the workflow from Step 1. Guidance added since the stale revision is exactly the
-guidance you are most likely to need — e.g. the Step 7 rules on replacing `create-pr`'s
-placeholder PR body and on never running `gh pr merge --auto` yourself.
+If the counts differ, restore and **`Read` the restored file** (the Skill tool will not
+re-read it — see Step 0), then restart the workflow from Step 1. Guidance added since the
+stale revision is exactly the guidance you are most likely to need — e.g. the Step 7 rules
+on replacing `create-pr`'s placeholder PR body and on never running `gh pr merge --auto`
+yourself.
 (2026-07-25: a third worktree that day arrived 193 lines stale; the session ran to
 completion on the old copy and shipped a placeholder PR body. A fourth arrived at 318
-lines against 539; that session re-invoked the skill and restarted from Step 1, which is
+lines against 539; that session restarted from Step 1 on the restored copy, which is
 the only reason it saw these two rules at all.)
 
 **If you branched off an unmerged PR's head** (see "Dependency code that lives
