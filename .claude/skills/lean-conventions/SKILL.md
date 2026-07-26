@@ -46,7 +46,7 @@ and a bare `lake build` **silently builds Mathlib and reports success**. If a bu
 "unknown target" or an unexpected job count, run `pwd` first. Read Mathlib sources by
 absolute path from the worktree root instead.
 
-**Use `set -o pipefail` when piping a build through `tee`/`tail`** — otherwise the
+**Use `set -o pipefail` when piping a build through `tee`/`tail`**, otherwise the
 pipeline's exit status is `tee`'s `0` and a real failure reads as success:
 
 ```bash
@@ -98,7 +98,7 @@ against the current toolchain:
   in theorem …`, which is exactly the wrong thing to paste above a documented declaration.
 - **`set_option maxHeartbeats` needs a `--` comment between the `in` and whatever follows**,
   or `linter.style.setOption` asks you to "add a comment explaining the need for modifying
-  the maxHeartbeat limit". **A docstring does not satisfy this** — it must be a `--`
+  the maxHeartbeat limit". **A docstring does not satisfy this**: it must be a `--`
   comment.
 - **`set_option … in` must come *above* `omit … in`, not below it.** With the `omit` on
   top, `linter.style.setOption` loses track of the scope and reports the confusing
@@ -114,7 +114,7 @@ Three follow-on details:
   instance (Lean auto-includes an instance-implicit section variable whenever its type
   mentions an already-used variable, even if the body never touches it), a per-lemma
   `omit [Inst] in` on a *downstream* lemma that calls that def fails with `failed to
-  synthesize instance … Inst` — the def now demands it. Fix by putting a bare `omit
+  synthesize instance … Inst`, because the def now demands it. Fix by putting a bare `omit
   [Inst]` command (no `in`, no docstring) right after the section's `variable` line, so
   nothing in the section captures it.
 - **`set_option … in` does not work before `private`.** Wrap those declarations in a
@@ -138,7 +138,7 @@ Go granular only when there is a specific reason:
 
 **A missing *tactic* import reads as a broken proof, not a missing import.** In a file with
 granular imports, `unknown tactic` is reported at a misleading line (often the next
-declaration) plus cascading `unsolved goals` on every `have` that used it — which reads as
+declaration) plus cascading `unsolved goals` on every `have` that used it, which reads as
 "my algebra was wrong". `linear_combination` needs `Mathlib.Tactic.LinearCombination`,
 `module` → `Mathlib.Tactic.Module`, `noncomm_ring` → `Mathlib.Tactic.NoncommRing`, `group`
 → `Mathlib.Tactic.Group`.
