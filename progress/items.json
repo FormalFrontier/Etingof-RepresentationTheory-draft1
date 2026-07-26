@@ -5499,10 +5499,20 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "The trivial/sign cases are proved at representation level, and the two three-dimensional Specht modules are proved nonisomorphic and related by sign twist. The missing endpoint is their oriented identification with the separately constructed named S₄ models: V_(3,1) ≅ stdRep = ℂ³₋ and V_(2,1,1) ≅ rotRep = ℂ³₊.",
-    "coverage": "covered_partial",
-    "followup_issue": 7188,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "All four book claims are now at representation level. The (n) and (1^n) extremes are the trivial and sign representations (Example5_12_3_trivial_rep, Example5_12_3_sign_rep). The n=3 lambda=(2,1) and n=4 lambda=(2,2) cases are dimension-only, which is faithful because each symmetric group has a unique 2-dimensional irreducible. The two 3-dimensional n=4 cases are oriented against the named S4 models of Chapter4/Example4_3_S4: Example5_12_3_specht_31_iso_stdRep gives V_(3,1) iso stdRep = C^3_-, and Example5_12_3_specht_211_iso_rotRep gives V_(2,1,1) iso rotRep = C^3_+. The orientation argument uses the row-invariant generator a_lambda c_lambda of V_(3,1), which C^3_+ cannot carry, plus the S4 irreducible catalogue Etingof.Example4_3_S4.S4_simple_iso. Closes the gap tracked by issue 7188.",
+    "coverage": "covered",
+    "last_updated": "2026-07-26",
+    "fidelity_decl": [
+      "Etingof.Example5_12_3.Example5_12_3_trivial_rep",
+      "Etingof.Example5_12_3.Example5_12_3_sign_rep",
+      "Etingof.Example5_12_3.Example5_12_3_dim_21",
+      "Etingof.Example5_12_3.Example5_12_3_dim_22",
+      "Etingof.Example5_12_3.Example5_12_3_specht_31_iso_stdRep",
+      "Etingof.Example5_12_3.Example5_12_3_specht_211_iso_rotRep",
+      "Etingof.Example5_12_3.Example5_12_3_sign_twist_31_211",
+      "Etingof.Example5_12_3.Example5_12_3_specht_31_211_noniso"
+    ],
+    "lean_file": "EtingofRepresentationTheory/Chapter5/Example5_12_3.lean"
   },
   {
     "id": "Chapter5/Corollary5.12.4",

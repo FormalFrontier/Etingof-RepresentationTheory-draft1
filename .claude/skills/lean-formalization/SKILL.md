@@ -7701,3 +7701,59 @@ Three related points:
   `rfl`s in this file "failed" only because the sorry'd `app` above them had poisoned the terms;
   they all closed once the first error was fixed. Re-run the build after fixing error #1 before
   believing errors #2 onward.
+
+## Orienting a constructed simple rep against a named model (#7188, Specht modules vs the `S₄` catalogue)
+
+When the book says "and this one *is* the standard representation", a dimension count and even a
+non-isomorphism proof are not enough — you need an *oriented* identification. The recipe that
+worked, in three moves:
+
+1. **Narrow by the catalogue.** `Etingof.Example4_3_S4.S4_simple_iso` (and its `S₃` sibling) takes
+   any `S : FDRep ℂ S4` with `[Simple S]` and returns a five-way disjunction of `Nonempty (S ≅ _)`.
+   Kill the wrong-dimension branches with `(FDRep.isoToLinearEquiv h.some).finrank_eq`. For a
+   3-dimensional rep this leaves exactly `stdRep` (`ℂ³₋`) and `rotRep` (`ℂ³₊`).
+2. **Separate the survivors by a transported vector.** Find a property of a single vector that one
+   model has and the other cannot. The project had no equivariance-transport helper before this
+   (every prior `FDRep.isoToLinearEquiv` use was for `finrank`), so write one:
+
+   ```lean
+   theorem fixed_vector_of_iso {V W : FDRep ℂ S4} (e : V ≅ W) (g : S4) (v : V)
+       (hv : V.ρ g v = v) : W.ρ g (FDRep.isoToLinearEquiv e v) = FDRep.isoToLinearEquiv e v := by
+     rw [FDRep.Iso.conj_ρ e g, LinearEquiv.conj_apply]
+     simp only [LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_coe,
+       LinearEquiv.symm_apply_apply]
+     rw [hv]
+   ```
+
+   `FDRep.Iso.conj_ρ` is the only bridge you need; note `LinearEquiv.conj_apply` leaves the goal in
+   `∘ₗ` form, so `symm_apply_apply` has to go in the `simp only`, not in the preceding `rw`.
+3. **Get the second identification by elimination, not by repeating the work.** Once
+   `V_{(3,1)} ≅ stdRep` is in hand, `V_{(2,1,1)} ≅ stdRep` would give the two Specht modules equal
+   characters (`FDRep.char_iso` both ways, then `spechtModuleFDRep_character`), and
+   `spechtModuleCharacter_injective` turns that into `(2,1,1) = (3,1)`, refuted by `decide`. One
+   concrete computation, two oriented theorems.
+
+### The `c_λ = b_λ a_λ` ordering trap
+
+`Etingof.YoungSymmetrizer n la` is `ColumnAntisymmetrizer * RowSymmetrizer`, i.e. `b_λ a_λ`, **not**
+Etingof's `c_λ = a_λ b_λ` (its own docstring warns about this). Consequences for choosing a witness
+vector in `SpechtModule n la = ℂ[Sₙ]·c_λ`:
+
+* `of(p) · c_λ = c_λ` is **false** for `p ∈ P_λ`. What is true is `of(q) · c_λ = sign(q) • c_λ` for
+  `q ∈ Q_λ` (`of_col_mul_ColumnAntisymmetrizer`), and the column group is usually too small to
+  separate a rep from its sign twist.
+* The row-invariant vector is `a_λ c_λ`, not `c_λ`: `of(p) · (a_λ c_λ) = a_λ c_λ` by
+  `of_row_mul_RowSymmetrizer` after `← mul_assoc`.
+* `a_λ c_λ ≠ 0` is free: `c_λ² = b_λ (a_λ c_λ)`, so `a_λ c_λ = 0` would contradict
+  `young_symmetrizer_sq_ne_zero`. Prove it with `nth_rewrite 1 [hy]` where
+  `hy : YoungSymmetrizer n la = ColumnAntisymmetrizer n la * RowSymmetrizer n la := rfl` — a plain
+  `rw [YoungSymmetrizer]` rewrites both factors of `c_λ * c_λ` and loses the shape you want.
+
+### Small tactic notes from the same proof
+
+* Row/column-subgroup membership for a *literal* partition is `decide`-able once you rewrite
+  `sortedParts`: `intro k; rw [sortedParts_p_31]; revert k; decide`. `rowOfPos`/`colOfPos` are plain
+  structural recursions on the parts list, so the kernel evaluates them fine.
+* `linear_combination` coefficients for `-x = x ⊢ x = 0` are `-h/2`, not `-h`. The residue rule is
+  `goal_lhs - goal_rhs - Σ cᵢ (hᵢ_lhs - hᵢ_rhs) ≡ 0 by ring`; work the coefficient out rather than
+  guessing, since the error message shows the *unreduced* residue and reads confusingly.
