@@ -22,15 +22,20 @@ We take `V = Fin 3 → ℝ` and `End(V) = Matrix (Fin 3) (Fin 3) ℝ`, with `SO(
 `M ↦ A · M · Aᵀ` (`conjRep`; for orthogonal `A`, `Aᵀ = A⁻¹`). Inside `End(V)`:
 
 * `scalarSub` = scalar matrices `ℝ·1` (the trivial summand `ℝ`);
-* `skewSub` = skew-symmetric matrices `Mᵀ = -M` (`3`-dimensional, isomorphic to the standard
-  representation `V`);
+* `skewSub` = skew-symmetric matrices `Mᵀ = -M` (`3`-dimensional; the hat map `hatEquiv`
+  identifies it with the standard representation `stdRep` on `ℝ³`, see
+  `hatEquiv_equivariant`);
 * `symSub` = symmetric matrices `Mᵀ = M` (this is `S²V`, `6`-dimensional);
 * `tracelessSymSub` = traceless symmetric matrices (the `5`-dimensional representation `W`).
 
 Results:
 
 * **(a)** each subspace is `SO(3)`-invariant; `End(V) = scalarSub ⊕ skewSub ⊕ tracelessSymSub`
-  and `symSub = scalarSub ⊕ tracelessSymSub`; the dimensions are `1, 3, 5`.
+  and `symSub = scalarSub ⊕ tracelessSymSub`; the dimensions are `1, 3, 5`. The middle summand
+  is the standard representation: the hat map gives an isomorphism
+  `hatEquiv : ℝ³ ≃ₗ[ℝ] skewSub` intertwining `stdRep` with `skewRep` (`hatEquiv_equivariant`).
+  The book identifies `S²V` with the symmetric matrices, so `symSub` needs no such
+  identification, and `W` is only described as `5`-dimensional.
 * **(b)** `skewSub` (`≅ V`) and `tracelessSymSub` (`= W`) are irreducible over `ℝ`
   (`skewSub_irreducible`, `tracelessSymSub_irreducible`), and "even after complexification":
   the complexified representations `skewSubc` (`= V ⊗ ℂ`) and `tracelessSymSubc` (`= W ⊗ ℂ`) on
@@ -75,8 +80,8 @@ theorem conjRep_apply (A : SO3) (M : EndV) :
 /-- The trivial summand `ℝ ⊆ End(V)`: the scalar matrices `ℝ·1`. -/
 def scalarSub : Submodule ℝ EndV := Submodule.span ℝ {(1 : EndV)}
 
-/-- The skew-symmetric matrices `{M | Mᵀ = -M}`, a `3`-dimensional subrepresentation
-isomorphic to the standard representation `V`. -/
+/-- The skew-symmetric matrices `{M | Mᵀ = -M}`, a `3`-dimensional subrepresentation. It is
+isomorphic to the standard representation `V` via the hat map: see `hatEquiv_equivariant`. -/
 def skewSub : Submodule ℝ EndV where
   carrier := {M | Mᵀ = -M}
   add_mem' {a b} ha hb := by
@@ -382,6 +387,118 @@ theorem tracelessSymSub_finrank : Module.finrank ℝ tracelessSymSub = 5 := by
         fin_cases i <;> simp [hv, Matrix.trace_fin_three]
   rw [hspan, finrank_span_eq_card hindep, Fintype.card_fin]
 
+/-! ### The standard representation `V` and its identification with `skewSub` -/
+
+/-- The standard `3`-dimensional representation of `SO(3)` on `V = ℝ³`, acting by
+matrix-vector multiplication `A · v`. -/
+def stdRep : Representation ℝ SO3 (Fin 3 → ℝ) where
+  toFun A := Matrix.mulVecLin (A : EndV)
+  map_one' := by rw [Submonoid.coe_one, Matrix.mulVecLin_one]; rfl
+  map_mul' A B := by rw [Submonoid.coe_mul, Matrix.mulVecLin_mul]; rfl
+
+@[simp]
+theorem stdRep_apply (A : SO3) (v : Fin 3 → ℝ) : stdRep A v = (A : EndV) *ᵥ v := rfl
+
+/-- The hat map `V → End(V)` sending `v` to the skew-symmetric matrix of the cross product
+`w ↦ v × w`. -/
+def hatMap : (Fin 3 → ℝ) →ₗ[ℝ] EndV where
+  toFun v := !![0, -v 2, v 1; v 2, 0, -v 0; -v 1, v 0, 0]
+  map_add' u v := by ext i j; fin_cases i <;> fin_cases j <;> simp <;> ring
+  map_smul' c v := by ext i j; fin_cases i <;> fin_cases j <;> simp
+
+@[simp]
+theorem hatMap_apply (v : Fin 3 → ℝ) :
+    hatMap v = !![0, -v 2, v 1; v 2, 0, -v 0; -v 1, v 0, 0] := rfl
+
+theorem hatMap_mem (v : Fin 3 → ℝ) : hatMap v ∈ skewSub := by
+  show (hatMap v)ᵀ = -hatMap v
+  ext i j; fin_cases i <;> fin_cases j <;> simp
+
+/-- The hat map transforms under an arbitrary `3 × 3` matrix by
+`Aᵀ · hat(A · v) · A = det A • hat(v)`. This is a polynomial identity in the entries of `A`
+and `v`; the determinant factor is what makes the equivariance below specific to `SO(3)`. -/
+theorem transpose_mul_hatMap_mulVec (A : EndV) (v : Fin 3 → ℝ) :
+    Aᵀ * hatMap (A *ᵥ v) * A = A.det • hatMap v := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.mulVec, dotProduct,
+      Matrix.det_fin_three] <;> ring
+
+/-- Equivariance of the hat map: `hat(A · v) = A · hat(v) · Aᵀ` for `A ∈ SO(3)`. Both
+`A · Aᵀ = 1` and `det A = 1` are used, the latter through
+`transpose_mul_hatMap_mulVec`; over `O(3)` the identity acquires a factor of `det A`, which
+is why the summand is the standard representation and not its twist by the determinant. -/
+theorem hatMap_mulVec (A : SO3) (v : Fin 3 → ℝ) :
+    hatMap ((A : EndV) *ᵥ v) = conjRep A (hatMap v) := by
+  have hdet : (A : EndV).det = 1 := (mem_specialOrthogonalGroup_iff.mp A.2).2
+  have hAAt : (A : EndV) * (A : EndV)ᵀ = 1 := by
+    simpa [star_coe_eq_transpose] using coe_mul_star A
+  have key := transpose_mul_hatMap_mulVec (A : EndV) v
+  rw [hdet, one_smul] at key
+  calc hatMap ((A : EndV) *ᵥ v)
+      = (A : EndV) * (A : EndV)ᵀ * hatMap ((A : EndV) *ᵥ v) * ((A : EndV) * (A : EndV)ᵀ) := by
+        rw [hAAt, one_mul, mul_one]
+    _ = (A : EndV) * ((A : EndV)ᵀ * hatMap ((A : EndV) *ᵥ v) * (A : EndV)) * (A : EndV)ᵀ := by
+        simp only [Matrix.mul_assoc]
+    _ = (A : EndV) * hatMap v * (A : EndV)ᵀ := by rw [key]
+    _ = conjRep A (hatMap v) := by rw [conjRep_apply, star_coe_eq_transpose]
+
+/-- The inverse of the hat map, reading off the three independent entries of a
+skew-symmetric matrix. -/
+def unhat : EndV →ₗ[ℝ] (Fin 3 → ℝ) where
+  toFun M := ![M 2 1, M 0 2, M 1 0]
+  map_add' M N := by ext i; fin_cases i <;> simp
+  map_smul' c M := by ext i; fin_cases i <;> simp
+
+@[simp]
+theorem unhat_apply (M : EndV) : unhat M = ![M 2 1, M 0 2, M 1 0] := rfl
+
+@[simp]
+theorem unhat_hatMap (v : Fin 3 → ℝ) : unhat (hatMap v) = v := by
+  ext i; fin_cases i <;> simp
+
+theorem hatMap_unhat {M : EndV} (hM : M ∈ skewSub) : hatMap (unhat M) = M := by
+  have hM' : Mᵀ = -M := hM
+  have hd : ∀ i, M i i = 0 := fun i => by
+    have h := congr_fun (congr_fun hM' i) i
+    simp only [Matrix.transpose_apply, Matrix.neg_apply] at h; linarith
+  have ho : ∀ i j, M j i = -M i j := fun i j => by
+    have h := congr_fun (congr_fun hM' i) j
+    simpa only [Matrix.transpose_apply, Matrix.neg_apply] using h
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp <;>
+    linarith [hd 0, hd 1, hd 2, ho 0 1, ho 0 2, ho 1 2]
+
+/-- The subrepresentation of `conjRep` carried by the skew-symmetric matrices. -/
+def skewRep : Representation ℝ SO3 skewSub where
+  toFun A := (conjRep A).restrict
+    (fun M hM => conjRep_invariant skewSub (Or.inr (Or.inl rfl)) A M hM)
+  map_one' := by ext M; simp
+  map_mul' A B := by ext M; simp
+
+@[simp]
+theorem skewRep_coe_apply (A : SO3) (M : skewSub) :
+    (skewRep A M : EndV) = conjRep A (M : EndV) := rfl
+
+/-- The hat map as a linear isomorphism `V ≃ skewSub`. -/
+def hatEquiv : (Fin 3 → ℝ) ≃ₗ[ℝ] skewSub where
+  toFun v := ⟨hatMap v, hatMap_mem v⟩
+  map_add' u v := by ext : 1; exact hatMap.map_add u v
+  map_smul' c v := by ext : 1; exact hatMap.map_smul c v
+  invFun M := unhat (M : EndV)
+  left_inv v := unhat_hatMap v
+  right_inv M := by ext : 1; exact hatMap_unhat M.2
+
+@[simp]
+theorem hatEquiv_coe_apply (v : Fin 3 → ℝ) : (hatEquiv v : EndV) = hatMap v := rfl
+
+/-- **(a)** The `3`-dimensional summand of `End(V)` is the standard representation: `hatEquiv`
+is an isomorphism `V ≃ skewSub` intertwining `stdRep` with `skewRep`. -/
+theorem hatEquiv_equivariant (A : SO3) (v : Fin 3 → ℝ) :
+    hatEquiv (stdRep A v) = skewRep A (hatEquiv v) := by
+  ext : 1
+  rw [hatEquiv_coe_apply, skewRep_coe_apply, hatEquiv_coe_apply, stdRep_apply, hatMap_mulVec]
+
 /-! ### Rotation matrices used for the irreducibility arguments -/
 
 /-- The explicit basis of `skewSub` (as in `skewSub_finrank`). -/
@@ -641,9 +758,10 @@ private theorem conjRep_Dz_w4 : conjRep Dz (wbasis 4) = wbasis 4 := by
 
 /-! ### Part (b): irreducibility and Hooke's law -/
 
-/-- **(b)** The standard representation `V ≅ skewSub` is irreducible: every `SO(3)`-invariant
-subspace contained in `skewSub` is `⊥` or all of `skewSub`. Irreducibility survives
-complexification: see `skewSub_irreducible_complexified`. -/
+/-- **(b)** The standard representation, realized as `skewSub` by `hatEquiv_equivariant`, is
+irreducible: every `SO(3)`-invariant subspace contained in `skewSub` is `⊥` or all of
+`skewSub`. Irreducibility survives complexification: see
+`skewSub_irreducible_complexified`. -/
 theorem skewSub_irreducible (U : Submodule ℝ EndV) (hUle : U ≤ skewSub)
     (hUinv : ∀ (A : SO3), ∀ M ∈ U, conjRep A M ∈ U) :
     U = ⊥ ∨ U = skewSub := by
