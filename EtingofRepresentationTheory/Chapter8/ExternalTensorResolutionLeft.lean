@@ -95,9 +95,8 @@ theorem homology_tensorObj_resL_isZero_succ
       (res₂ComplexL (k := k) P₂)).homology (n + 1)) := by
   haveI : (res₁L k A₁).PreservesHomology := restrictScalars_preservesHomology _
   haveI : (res₂L k A₂).PreservesHomology := restrictScalars_preservesHomology _
-  obtain ⟨iso⟩ :=
-    kunnethChainComplexNat (res₁ComplexL (k := k) P₁) (res₂ComplexL (k := k) P₂) (n + 1)
-  refine IsZero.of_iso ?_ iso
+  refine IsZero.of_iso ?_
+    (kunnethChainComplexNatIso (res₁ComplexL (k := k) P₁) (res₂ComplexL (k := k) P₂) (n + 1))
   rw [IsZero.iff_id_eq_zero]
   apply Limits.Sigma.hom_ext
   intro a

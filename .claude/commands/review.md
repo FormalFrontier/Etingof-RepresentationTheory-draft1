@@ -7,6 +7,22 @@ work item from the issue queue.
 claim/branch/verify/publish workflow. This document only covers what is specific
 to review sessions.
 
+## Before You Start: Verify the Worktree Is Not Stale
+
+Pod worktrees are reused, and a crashed prior session can leave them holding *older*
+copies of `.claude/` files than `main` has. Because skills and commands load from the
+working tree, you would then be running on guidance that has since been superseded, and
+a later `git add -A` would revert it on `main`. Run this unconditionally, before Step 1:
+
+```bash
+git status --short
+git diff --numstat HEAD -- .claude/
+```
+
+Any pure-deletion lines under `.claude/` are stale leftovers, not your work: restore them
+with `git checkout HEAD -- .claude/` and then **re-invoke** (not merely `Read`) the
+`agent-worker-flow` skill and this command, since the copies you loaded were the old ones.
+
 ## Claiming Your Issue
 
 Use `coordination list-unclaimed --label review` to find work for this session type.

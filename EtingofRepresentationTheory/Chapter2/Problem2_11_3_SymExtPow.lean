@@ -42,13 +42,15 @@ stated about the book's own objects.
   own `ExtPow`. Its Mathlib-side counterpart is `exteriorPower_map_top`, and `det_comp_of_extPowMap`
   runs the book's one-line derivation of `det(A ∘ B) = det(A) det(B)` from it.
 
+The symmetric half of part (d) — the universal property of `S^n V`, a basis indexed by multisets
+and the dimension `(m + n - 1).choose n` — is in the sibling file `Problem2_11_3_SymPowBasis.lean`.
+
+Part (e), the characteristic-zero identification of `S^n V` and `⋀^n V` with the symmetric and
+antisymmetric *subspaces* of `V^{⊗ n}`, is in
+`EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtSubspace`.
+
 Still open, tracked as separate items:
 
-* the symmetric half of part (d) — a basis of `S^n V` indexed by multisets and the dimension
-  `(m + n - 1).choose n`. Mathlib's `SymmetricPower` has no universal property or basis yet, so
-  this has to be built here;
-* part (e), the characteristic-zero identification of `S^n V` and `⋀^n V` with the symmetric and
-  antisymmetric *subspaces* of `V^{⊗ n}`;
 * the trace formulas of part (f), `Tr(S^n A)` and `Tr(⋀^n A)` in terms of the eigenvalues of `A`.
 -/
 
