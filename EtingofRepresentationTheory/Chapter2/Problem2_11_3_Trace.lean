@@ -1,4 +1,5 @@
 import EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymPowBasis
+import EtingofRepresentationTheory.Infrastructure.Triangularization
 
 /-!
 # Problem 2.11.3(f): the traces of `S^n A` and `⋀^n A`
@@ -15,12 +16,18 @@ The answers are the two classical families of symmetric functions in the eigenva
 ## The shape of the hypothesis
 
 The book's proof is "put `A` in upper-triangular form"; the induced operators are then triangular
-in the induced bases, with the products `∏ λ_i` down the diagonal. Mathlib has no theorem
-producing a triangularizing basis from a split characteristic polynomial, so the triangularizing
-basis is taken as the hypothesis, packaged as `Etingof.Problem2_11_3.IsTriangularizedBy`.
+in the induced bases, with the products `∏ λ_i` down the diagonal. So the triangularizing basis is
+what the two main theorems take as their hypothesis, packaged as
+`Etingof.Problem2_11_3.IsTriangularizedBy`.
 
 That this really is the "eigenvalues listed with multiplicity" hypothesis is certified by
 `IsTriangularizedBy.charpoly`: it says exactly that `charpoly A = ∏ i, (X - λ i)`.
+
+The converse — that the book's hypothesis produces such a basis — is
+`EtingofRepresentationTheory.Infrastructure.Triangularization`, which supplies the
+triangularization theorem Mathlib lacks. Combining the two gives the trace formulas under the
+book's own hypothesis, with no basis mentioned: see `trace_extPowMap_of_charpoly` and
+`trace_symPowMap_of_charpoly` below.
 
 ## Main results
 
@@ -35,6 +42,11 @@ That this really is the "eigenvalues listed with multiplicity" hypothesis is cer
 * `Etingof.Problem2_11_3.trace_extPowMap_top`, `Etingof.Problem2_11_3.trace_extPowMap_one` and
   `Etingof.Problem2_11_3.trace_symPowMap_one` : the degenerate degrees, `n = N` (the determinant)
   and `n = 1` (the trace of `A` itself, from both sides).
+* `Etingof.Problem2_11_3.exists_isTriangularizedBy` : a split characteristic polynomial produces
+  the triangularizing data.
+* `Etingof.Problem2_11_3.trace_extPowMap_of_charpoly` and
+  `Etingof.Problem2_11_3.trace_symPowMap_of_charpoly` : **the book's statement of part (f)** — the
+  same two formulas with `charpoly A = ∏ i, (X - C (lam i))` as the only hypothesis on `lam`.
 
 ## Proof strategy
 
@@ -265,5 +277,54 @@ theorem trace_symPowMap_one (h : IsTriangularizedBy A b lam) :
     (fun s => ((s : Multiset (Fin N)).map lam).prod) fun i => by simp).symm
 
 end Symmetric
+
+/-! ### The book's hypothesis: the eigenvalue list
+
+The two theorems above assume a triangularizing basis. The book assumes only that the eigenvalues
+of `A` are `λ_1, …, λ_N`, i.e. that `charpoly A = ∏ i, (X - C (λ i))`. The triangularization
+theorem of `Infrastructure.Triangularization` turns the latter into the former — at the cost of a
+permutation of `Fin N`, since `lam` is determined by `charpoly A` only up to reordering. Both
+right-hand sides are symmetric functions of `lam`, so the permutation washes out.
+-/
+
+section Charpoly
+
+open Polynomial
+
+variable {k : Type*} [Field k] {V : Type*} [AddCommGroup V] [Module k V] [Module.Finite k V]
+
+/-- **The triangularizing hypothesis is available whenever the book's is.** If the characteristic
+polynomial of `A` splits, some basis puts `A` in upper-triangular form, with some diagonal.
+
+This is `Etingof.exists_basis_blockTriangular_charpoly` repackaged into `IsTriangularizedBy`. -/
+theorem exists_isTriangularizedBy {N : ℕ} (A : V →ₗ[k] V) (hN : Module.finrank k V = N)
+    (hsplit : (LinearMap.charpoly A).Splits) :
+    ∃ (b : Module.Basis (Fin N) k V) (lam : Fin N → k), IsTriangularizedBy A b lam := by
+  obtain ⟨b, lam, hb, hdiag, -⟩ := Etingof.exists_basis_blockTriangular_charpoly A hN hsplit
+  exact ⟨b, lam, hb, hdiag⟩
+
+/-- **Problem 2.11.3(f), exterior case, as the book states it.** If the eigenvalues of `A`, with
+multiplicity, are `lam 0, …, lam (N-1)` — that is, `charpoly A = ∏ i, (X - C (lam i))` — then
+`Tr(⋀^n A)` is the `n`th elementary symmetric function of `lam`. No basis appears. -/
+theorem trace_extPowMap_of_charpoly {N : ℕ} (A : V →ₗ[k] V) (hN : Module.finrank k V = N)
+    (lam : Fin N → k) (hlam : LinearMap.charpoly A = ∏ i, (X - C (lam i))) (n : ℕ) :
+    LinearMap.trace k (ExtPow k V n) (extPowMap A n)
+      = ∑ s ∈ Finset.powersetCard n (Finset.univ : Finset (Fin N)), ∏ i ∈ s, lam i := by
+  obtain ⟨b, e, hb, hdiag⟩ := Etingof.exists_basis_blockTriangular_diag_perm A hN lam hlam
+  rw [trace_extPowMap (⟨hb, hdiag⟩ : IsTriangularizedBy A b fun i => lam (e i)) n]
+  exact Etingof.sum_powersetCard_prod_comp lam e n
+
+/-- **Problem 2.11.3(f), symmetric case, as the book states it.** If the eigenvalues of `A`, with
+multiplicity, are `lam 0, …, lam (N-1)`, then `Tr(S^n A)` is the `n`th complete homogeneous
+symmetric function of `lam`. No basis appears. -/
+theorem trace_symPowMap_of_charpoly {N : ℕ} (A : V →ₗ[k] V) (hN : Module.finrank k V = N)
+    (lam : Fin N → k) (hlam : LinearMap.charpoly A = ∏ i, (X - C (lam i))) (n : ℕ) :
+    LinearMap.trace k (SymPow k V n) (symPowMap A n)
+      = ∑ s : Sym (Fin N) n, ((s : Multiset (Fin N)).map lam).prod := by
+  obtain ⟨b, e, hb, hdiag⟩ := Etingof.exists_basis_blockTriangular_diag_perm A hN lam hlam
+  rw [trace_symPowMap (⟨hb, hdiag⟩ : IsTriangularizedBy A b fun i => lam (e i)) n]
+  exact Etingof.sum_sym_prod_comp lam e n
+
+end Charpoly
 
 end Etingof.Problem2_11_3
