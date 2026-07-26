@@ -1,5 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter7.Introduction_7_4
+import EtingofRepresentationTheory.Infrastructure.IrrepClasses
 
 /-!
 # Exercise 4.2.3: fewer irreducibles than conjugacy classes in the modular case
@@ -44,12 +45,13 @@ open CategoryTheory
 
 namespace Etingof
 
-/-- The type of isomorphism classes of irreducible (simple) representations of `G` over
-`k`: isomorphism classes of objects in the full subcategory of `FDRep k G` on the simple
-objects. -/
-def IrrepClasses (k G : Type*) [Field k] [Monoid G] : Type _ :=
-  Quotient (isIsomorphicSetoid
-    (ObjectProperty.FullSubcategory (fun V : FDRep k G => Simple V)))
+/-! `IrrepClasses k G`, the type of isomorphism classes of irreducible (simple)
+representations of `G` over `k`, is defined in
+`EtingofRepresentationTheory.Infrastructure.IrrepClasses`. It was originally introduced here,
+but it is the correct index type for any statement about the irreducibles of `G` up to
+isomorphism (notably Definition 5.7.1), so it lives in a file that imports nothing but
+Mathlib. Its quotient API (`IrrepClasses.mk`, `mk_eq_mk_iff`, `lift`, `repOf`, `character`)
+is available from that file. -/
 
 /-! ### The group sum `P = ∑_g g` and non-semisimplicity in the modular case
 

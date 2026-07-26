@@ -5009,13 +5009,12 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "fidelity_note": "Closed #5382 added simple support and the virtual character. The remaining coefficient type is indexed by literal FDRep objects rather than irreducible isomorphism classes, so isomorphic copies are incorrectly distinguished; follow-up #7483.",
+    "coverage": "covered_full",
+    "fidelity_note": "Coefficients are indexed by Etingof.IrrepClasses ℂ G (irreducibles up to isomorphism), so isomorphic models are the same summand (VirtualRepresentation.coeff_congr_iso, ofSingle_add_ofSingle_neg_of_iso). The virtual character is an additive homomorphism with the book's formula (VirtualRepresentation.character_apply) and χ_V(1) = Σ nᵢ dim Vᵢ (character_one_eq_dim). Definition5_7_1_Bridge feeds the class-indexed representative family to the general Lemma 5.7.2 and derives the book's conclusion V = ofSingle W hW 1 (eq_ofSingle_of_norm_one). Fixed by #7483.",
     "fidelity_decl": "Etingof.VirtualRepresentation",
-    "fidelity_issue": 7483,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter5/Discussion_before_Lemma5.7.2",
