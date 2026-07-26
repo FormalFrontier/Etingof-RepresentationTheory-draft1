@@ -1308,12 +1308,11 @@
     "start_line": 21,
     "end_line": 23,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "fidelity_note": "Lean aliases Mathlib's coordinate-free universal enveloping algebra and omits the source's chosen-basis, structure-constant presentation; combined bridge follow-up #7474.",
-    "fidelity_issue": 7474,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "fidelity_note": "The chosen-basis presentation is defined using finitely supported structure constants and is explicitly algebra-equivalent to the coordinate-free enveloping algebra.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter2/Remark2.9.10",
@@ -1324,12 +1323,11 @@
     "start_line": 24,
     "end_line": 24,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The promised equivalence between the earlier basis presentation and later coordinate-free construction is absent because both Lean names alias the same type; combined follow-up #7474.",
-    "fidelity_issue": 7474,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "The promised equivalence is `Etingof.ueaBasisAlgEquiv`; its forward and inverse maps have generator formulas and uniqueness characterizations.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter2/Exercise2.9.11",
@@ -1625,12 +1623,11 @@
     "start_line": 1,
     "end_line": 16,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "fidelity_note": "The coordinate-free symmetric, exterior, and enveloping algebras are present. The final identification of the coordinate-free enveloping algebra with Definition 2.9.9's basis presentation is not formalized; combined follow-up #7474.",
-    "fidelity_issue": 7474,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "fidelity_note": "The coordinate-free symmetric, exterior, and enveloping algebras are present, and the enveloping algebra is explicitly identified with Definition 2.9.9's basis presentation.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter2/Discussion_2.13_heading",
