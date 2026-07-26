@@ -5920,10 +5920,9 @@
     "start_line": 11,
     "end_line": 16,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "No Lean declaration states the positive-root order, the inverse-Kostka character expansion, or the resulting root-order vanishing of Kostka numbers. Existing dominance-order results are weaker; follow-up #7406.",
-    "fidelity_issue": 7406,
-    "last_updated": "2026-07-22"
+    "coverage": "covered",
+    "coverage_note": "All four claims of the remark are formalized in EtingofRepresentationTheory/Chapter5/Remark5_15_5.lean: the positive-root order (Nat.Partition.RootLe) with its partial-order laws, its equivalence with the dominance order (Nat.Partition.rootLe_iff_dominates), the inverse-Kostka character expansion (Etingof.spechtCharacter_eq_sum_inverseKostka_rootLe), and the root-order vanishing of Kostka numbers (Etingof.spechtMultiplicity_vanishing_rootOrder). The Kostka numbers are taken in their Young’s-rule form (Etingof.spechtMultiplicity); reconciling that with the semistandard-tableau count Etingof.KostkaNumber is tracked separately in #7457.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter5/Introduction_5.16",
