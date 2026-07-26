@@ -7148,3 +7148,88 @@ Two hazards seen while doing this:
   because plain `simp` already closed it.
 * `omega` will not close a non-arithmetic goal (`LoopIdx.base = LoopIdx.odd m i`) from
   contradictory arithmetic hypotheses. Write `exfalso; omega`.
+
+## Classifying the simple modules of an algebra with "diagonal characters" (#7419, Example 3.5.6)
+
+Two recipes that generalise well beyond upper triangular matrices.
+
+### One-dimensional representations from a character `χ : A →ₐ[k] k`
+
+Use a plain `def` carrier, not a quotient of `A`:
+
+```lean
+def V (i : ι) : Type _ := k
+instance (i : ι) : AddCommGroup (V k ι i) := inferInstanceAs (AddCommGroup k)
+instance (i : ι) : Nontrivial  (V k ι i) := inferInstanceAs (Nontrivial k)
+instance (i : ι) : Module k    (V k ι i) := inferInstanceAs (Module k k)
+instance (i : ι) : Module A    (V k ι i) := Module.compHom (V k ι i) (χ i).toRingHom
+
+theorem smul_def (a : A) (v : V k ι i) : a • v = (show k from χ i a) * (show k from v) := rfl
+```
+
+`A ⧸ RingHom.ker (χ i)` is the obvious alternative and is worse: for noncommutative `A` the
+ring quotient needs an `Ideal.IsTwoSided` instance, and the `k`-vector-space structure has to
+be threaded through `Submodule.Quotient` instances before you can say "one-dimensional". With
+the `def` carrier, `finrank = 1` is `Module.finrank_self` and the action lemma is `rfl`.
+
+Points to remember:
+- Keep it a `def`, never an `abbrev`. Instance search then does not unfold it, so the new
+  `Module A` instance cannot clash with `Module k k`.
+- `V k ι i` has no `One`, `Inv`, or `Field` instance. Inside proofs write
+  `let one' : V k ι i := (1 : k)` and convert with `show k from v` / `change`; do not add a
+  `Field (V …)` instance just to write `x⁻¹`.
+
+### Exhaustiveness without forming `A / Rad A`
+
+To prove *every* simple `A`-module is one of the `V i`, the textbook route is
+`A/Rad A ≅ kⁿ` followed by transport of modules. Transporting a module along a ring quotient
+is a lot of Lean. Stay inside `A` instead, using orthogonal idempotents `eᵢ` with `∑ eᵢ = 1`:
+
+1. `Rad A` annihilates any simple `M`: `IsSemisimpleModule.jacobson_le_annihilator A M`
+   (a simple module is semisimple by instance) plus your own `Rad A = I` theorem, then
+   `Module.mem_annihilator`.
+2. `∑ eᵢ = 1`, so `eᵢ • m₀ ≠ 0` for some `i` and some `m₀ ≠ 0`.
+3. `eᵢ * a - a * eᵢ ∈ I` for every `a`, so `φ : m ↦ eᵢ • m` is `A`-linear. It is idempotent
+   and nonzero, so by `eq_bot_or_eq_top (LinearMap.ker φ)` its kernel is `⊥`; injectivity plus
+   `φ ∘ φ = φ` gives `φ = id`, i.e. `eᵢ` acts as the identity on `M`.
+4. `(a - algebraMap k A (χ i a)) * eᵢ ∈ I`, so every `a` acts as the scalar `χ i a`.
+5. `c ↦ algebraMap k A c • m₀` is then an `A`-map `V i → M`; it is nonzero, and both modules
+   are simple, so `eq_bot_or_eq_top` on its kernel and range gives bijectivity and
+   `LinearEquiv.ofBijective`.
+
+All the "modulo the radical" reasoning stays as explicit ideal memberships in `A`. No quotient
+ring, no `IsTwoSided` instances, no scalar-restriction diamond.
+
+Related: state the conclusion purely `A`-linearly (`M ≃ₗ[A] V i`). An abstract simple
+`A`-module carries **no** `k`-action, so do not add `[Module k M] [IsScalarTower k A M]`
+hypotheses — pull the scalars you need out of `algebraMap k A`.
+
+Pairwise non-isomorphism is the same idempotent: `eᵢ` acts as `1` on `V i` and as `0` on
+`V j`, so any `e : V i ≃ₗ[A] V j` sends `1` to `0` and contradicts injectivity.
+
+### `Matrix.single` lemmas have several explicit index arguments
+
+`Matrix.single_apply_of_ne`, `Matrix.single_mul_apply_of_ne`, and
+`Matrix.mul_single_apply_of_ne` take the indices (and the scalar) explicitly *before* the
+hypothesis, so a positional `_ _ _ _ h` silently misaligns. The error surfaces as a bogus
+
+```
+Application type mismatch: the argument hp has type p ≠ i of sort `Prop`
+but is expected to have type ?m of sort `Type ?u`
+```
+
+which reads like an instance problem and is not. Rather than counting placeholders, wrap the
+entry computations once in local lemmas stated with an `if`:
+
+```lean
+theorem single_diag_mul_apply (i : Fin n) (T : Matrix (Fin n) (Fin n) k) (p q : Fin n) :
+    (Matrix.single i i (1 : k) * T) p q = if p = i then T i q else 0 := by
+  rcases eq_or_ne p i with rfl | hp
+  · simp
+  · simp [hp]
+```
+
+and then discharge the triangularity side conditions with `split_ifs`. This is much more
+robust than `rw`-ing the Mathlib lemmas directly, and `split_ifs` keeps both indices around
+(a `rcases … with rfl` on `p = i` substitutes in whichever direction Lean picks, which
+silently breaks later references to the eliminated variable).
