@@ -41,13 +41,15 @@ stated about the book's own objects.
   input is `tensorPowToExteriorPower_eq_zero_of_permAct_swap_eq`, proved on a tensor-product basis
   so that it covers characteristic 2, where the usual `2 • Φ T = 0` argument says nothing.
 
+The symmetric half of part (d) — the universal property of `S^n V`, a basis indexed by multisets
+and the dimension `(m + n - 1).choose n` — is in the sibling file `Problem2_11_3_SymPowBasis.lean`.
+
+Part (e), the characteristic-zero identification of `S^n V` and `⋀^n V` with the symmetric and
+antisymmetric *subspaces* of `V^{⊗ n}`, is in
+`EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtSubspace`.
+
 Still open, tracked as separate items:
 
-* the symmetric half of part (d) — a basis of `S^n V` indexed by multisets and the dimension
-  `(m + n - 1).choose n`. Mathlib's `SymmetricPower` has no universal property or basis yet, so
-  this has to be built here;
-* part (e), the characteristic-zero identification of `S^n V` and `⋀^n V` with the symmetric and
-  antisymmetric *subspaces* of `V^{⊗ n}`;
 * the trace formulas of part (f), `Tr(S^n A)` and `Tr(⋀^n A)` in terms of the eigenvalues of `A`;
 * part (g), `⋀^N A = det(A) • id` proved from the exterior-power construction. (The determinant
   multiplicativity it is meant to yield is already available as `Problem2_11_3.det_comp`.)
