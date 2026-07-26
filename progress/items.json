@@ -2312,10 +2312,9 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The radical-quotient isomorphism is proved conditional on a finite exhaustive family of simples. The supplemental finiteness file proves that each simple is finite-dimensional and bounds any already finite pairwise-nonisomorphic family, but it does not construct the finite exhaustive family whose existence the source proves; follow-up #7127.",
-    "followup_issue": 7127,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "Both clauses of the book statement are now proved. Theorem3_5_4.lean gives the radical-quotient isomorphism from a complete family, and Theorem3_5_4_CompleteFamily.lean constructs that family: Etingof.exists_finset_complete_family produces a finite set of maximal left ideals whose quotients are pairwise nonisomorphic, exhaustive, and at most finrank k A in number, and Etingof.exists_structure_mod_radical packages the isomorphism with the constructed family (#7127).",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter3/Corollary3.5.5",
