@@ -37,6 +37,8 @@ though the witness `h x` is produced by a merely `k`-linear map.
   `CategoryTheory.ProjectiveResolution (ModuleCat.of SV (Etingof.KoszulAugModule k V))`. Its terms
   are free, not merely projective (`Etingof.koszulXBasis`), which is the "(in fact, free)" of the
   problem statement.
+* `Etingof.koszulResolutionOfFiniteDimensional` — the same under the book's hypothesis, `V` a
+  finite dimensional vector space over a field.
 -/
 
 universe u v w
@@ -204,5 +206,17 @@ theorem koszulResolution_free (i : ℕ) :
   koszulX_free_of_basis b i
 
 end Resolution
+
+/-! ### The book's hypothesis: `V` a finite dimensional vector space -/
+
+/-- **The Koszul resolution of a finite dimensional vector space**, the exact hypothesis of
+Problem 8.2.10: `V` finite dimensional over a field `k`. This is `Etingof.koszulResolution` for the
+basis `Module.finBasis k V`; by `Etingof.koszulComplex_eq_of_basis` the underlying complex does not
+depend on that choice. -/
+noncomputable def koszulResolutionOfFiniteDimensional (k : Type u) [Field k] (V : Type v)
+    [AddCommGroup V] [Module k V] [FiniteDimensional k V] :
+    CategoryTheory.ProjectiveResolution
+      (ModuleCat.of (SymmetricAlgebra k V) (KoszulAugModule k V)) :=
+  koszulResolution (Module.finBasis k V)
 
 end Etingof
