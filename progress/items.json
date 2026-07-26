@@ -6848,8 +6848,8 @@
     },
     "fidelity": "partial",
     "coverage": "covered_partial",
-    "coverage_note": "The complementary-series construction and count are present, but Discussion5_25_4.lean fails a fresh source check in the ZMod cast arithmetic, so its public character/count/transversal endpoints cannot currently be rebuilt; regression #7508. The third term of the virtual character is no longer a bare formula: Chapter5/EllipticInduced.lean constructs Ind_K^G ℂ_ν as an FDRep with the Frobenius character formula and dimension q(q−1) (#7904).",
-    "fidelity_issue": 7508,
+    "coverage_note": "The virtual character is now realized by the honest simple FDRep Etingof.GL2.complementarySeriesRep, with its character identified and dimension q−1 proved in Chapter5/GL2ComplementarySeries.lean (#7906). Discussion5_25_4.lean rebuilds and proves the standalone additive ZMod orbit transversal/count q(q−1)/2. RESIDUAL: connect the actual elliptic-torus character group to that additive model and prove the iff isomorphism classification/pairwise non-isomorphic family (#7947).",
+    "fidelity_issue": 7947,
     "last_updated": "2026-07-26"
   },
   {
