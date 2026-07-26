@@ -3,7 +3,11 @@ import Mathlib.LinearAlgebra.Dual.Defs
 import Mathlib.LinearAlgebra.Span.Basic
 import Mathlib.Algebra.Algebra.Tower
 import Mathlib.Algebra.Category.FGModuleCat.Basic
+import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
+import Mathlib.Algebra.Ring.Subring.Basic
 import Mathlib.CategoryTheory.Core
+import Mathlib.CategoryTheory.Endomorphism
+import Mathlib.CategoryTheory.Preadditive.FunctorCategory
 
 /-!
 # Example 7.3.2: Examples of Natural Transformations
@@ -358,3 +362,184 @@ theorem Etingof.idFunctor_natEnd_central
   rw [smul_eq_mul, mul_one] at hlin
   rw [hlin] at hdet
   simpa only [smul_eq_mul] using hdet.symm
+
+/-!
+## Example 7.3.2(3)-(4), bundled form: the ring isomorphisms `End F ≃+* A` and
+`End 𝟭 ≃+* Z(A)`
+
+The determination lemmas above say the map `η ↦ η_A 1` from natural endomorphisms to `A` is
+injective. That is only half of the book's `End F = A` and `End(id) = Z(A)`: the other half is
+that *every* `a ∈ A` (resp. every central `c`) actually arises from a natural family, and that
+the correspondence respects the ring structure. This section supplies both halves as genuine
+`RingEquiv`s, on Mathlib's real categorical `End`.
+
+The category `A-mod` is `ModuleCat A`; the forgetful functor to `Vect_k` is restriction of
+scalars along `algebraMap k A`. `End` of an object in a preadditive category is a ring, and a
+functor category into a preadditive category is preadditive, so `End F` is a ring on the nose,
+with multiplication `η * θ = θ ≫ η` (`CategoryTheory.End.mul`, in `Function.comp` order).
+That order is what makes the answer `A` rather than `Aᵒᵖ`: `(η * θ)_A 1 = η_A (θ_A 1)`, and
+determination turns the right-hand side into `(η_A 1) * (θ_A 1)`.
+-/
+
+open CategoryTheory in
+/-- The forgetful functor `F : A-mod ⥤ Vect_k` of Example 7.3.2(3), realised as restriction of
+scalars along `algebraMap k A`. -/
+noncomputable abbrev Etingof.forgetfulFunctor (k : Type v) (A : Type u)
+    [CommRing k] [Ring A] [Algebra k A] :
+    ModuleCat.{u} A ⥤ ModuleCat.{u} k :=
+  ModuleCat.restrictScalars (algebraMap k A)
+
+open CategoryTheory in
+/-- **Example 7.3.2(3), the reverse direction.** Every `a : A` gives a natural endomorphism of
+the forgetful functor `F : A-mod ⥤ Vect_k`, namely the family `m ↦ a • m`. Each component is
+`k`-linear because the image of `algebraMap k A` is central (`Algebra.commutes`), and the
+family is natural because `A`-linear maps commute with the action of `a`. -/
+noncomputable def Etingof.forgetfulSmul {k : Type v} {A : Type u}
+    [CommRing k] [Ring A] [Algebra k A] (a : A) :
+    End (Etingof.forgetfulFunctor k A) where
+  app M :=
+    ModuleCat.ofHom (X := (Etingof.forgetfulFunctor k A).obj M)
+      (Y := (Etingof.forgetfulFunctor k A).obj M)
+      { toFun := fun m => a • (m : M)
+        map_add' := fun x y => smul_add a x y
+        map_smul' := fun c m => by
+          simp only [RingHom.id_apply, ModuleCat.restrictScalars.smul_def]
+          rw [← mul_smul, ← mul_smul, Algebra.commutes] }
+  naturality M N f := by
+    ext m
+    exact (f.hom.map_smul a m).symm
+
+open CategoryTheory in
+/-- The element of `A` attached to a natural endomorphism of the forgetful functor: the value
+of its component at the regular module `A` on `1`. This is the forward map of
+`Etingof.forgetfulEndRingEquiv`. -/
+noncomputable def Etingof.forgetfulEndElt {k : Type v} {A : Type u}
+    [CommRing k] [Ring A] [Algebra k A] (η : End (Etingof.forgetfulFunctor k A)) : A :=
+  (η.app (ModuleCat.of A A)).hom (1 : A)
+
+open CategoryTheory in
+/-- **Example 7.3.2(3), determination.** A natural endomorphism of the forgetful functor
+`F : A-mod ⥤ Vect_k` acts on every `A`-module as multiplication by the single element
+`Etingof.forgetfulEndElt η = η_A 1`. This is `Etingof.forgetful_natEnd_eq_smul` transported to
+Mathlib's categorical `End`; the proof is the same Problem 2.3.17 argument, naturality against
+the `A`-linear map `r_m : A → M`, `x ↦ x • m`, evaluated at `1`. -/
+theorem Etingof.forgetful_natEnd_app_eq_smul {k : Type v} {A : Type u}
+    [CommRing k] [Ring A] [Algebra k A] (η : End (Etingof.forgetfulFunctor k A))
+    (M : ModuleCat.{u} A) (m : M) :
+    (η.app M).hom m = Etingof.forgetfulEndElt η • m := by
+  have h := η.naturality (ModuleCat.ofHom (LinearMap.toSpanSingleton A M m))
+  have h1 := congrArg (fun g => (ModuleCat.Hom.hom g) (1 : A)) h
+  -- The two sides of `h1` are definitionally those of the goal, up to `1 • m = m`.
+  have h2 : (η.app M).hom ((1 : A) • m) = Etingof.forgetfulEndElt η • m := h1
+  rwa [one_smul] at h2
+
+open CategoryTheory in
+/-- The scalar family of `a` recovers `a`: the two maps of `Etingof.forgetfulEndRingEquiv` are
+inverse on the `A` side. -/
+theorem Etingof.forgetfulEndElt_forgetfulSmul {k : Type v} {A : Type u}
+    [CommRing k] [Ring A] [Algebra k A] (a : A) :
+    Etingof.forgetfulEndElt (Etingof.forgetfulSmul (k := k) a) = a :=
+  -- definitionally `a • (1 : A) = a * 1`
+  mul_one a
+
+open CategoryTheory in
+/-- **Example 7.3.2(3), the book's `End F = A`.** For a `k`-algebra `A`, the endomorphism ring
+of the forgetful functor `F : A-mod ⥤ Vect_k` is isomorphic to `A` itself, by `η ↦ η_A 1` with
+inverse `a ↦ (m ↦ a • m)`. Injectivity is `Etingof.forgetful_natEnd_app_eq_smul`, surjectivity
+is `Etingof.forgetfulSmul`, and multiplicativity is where the answer comes out as `A` and not
+`Aᵒᵖ` (see the section docstring). -/
+noncomputable def Etingof.forgetfulEndRingEquiv (k : Type v) (A : Type u)
+    [CommRing k] [Ring A] [Algebra k A] :
+    End (Etingof.forgetfulFunctor k A) ≃+* A where
+  toFun := Etingof.forgetfulEndElt
+  invFun := Etingof.forgetfulSmul
+  left_inv η :=
+    NatTrans.ext (funext fun M => ModuleCat.hom_ext (LinearMap.ext fun m =>
+      (Etingof.forgetful_natEnd_app_eq_smul η M m).symm))
+  right_inv a := Etingof.forgetfulEndElt_forgetfulSmul a
+  map_add' _ _ := rfl
+  map_mul' η θ :=
+    -- `η * θ = θ ≫ η` (`End.mul` is in `Function.comp` order), so the left-hand side is
+    -- definitionally `η_A (θ_A 1)`; determination rewrites it as `(η_A 1) * (θ_A 1)`.
+    Etingof.forgetful_natEnd_app_eq_smul η (ModuleCat.of A A)
+      ((θ.app (ModuleCat.of A A)).hom (1 : A))
+
+/-!
+### Example 7.3.2(4): `End 𝟭 ≃+* Z(A)`
+-/
+
+open CategoryTheory in
+/-- **Example 7.3.2(4), the reverse direction.** Every central `c : A` gives a natural
+endomorphism of the identity functor on `A-mod`, namely `m ↦ c • m`. Centrality is exactly what
+makes each component `A`-linear. -/
+def Etingof.idSmul {A : Type u} [Ring A] (c : Subring.center A) :
+    End (𝟭 (ModuleCat.{u} A)) where
+  app M :=
+    ModuleCat.ofHom
+      { toFun := fun m => (c : A) • (m : M)
+        map_add' := fun x y => smul_add (c : A) x y
+        map_smul' := fun b m => by
+          simp only [RingHom.id_apply, ← mul_smul]
+          rw [Subring.mem_center_iff.mp c.2 b] }
+  naturality M N f := by
+    ext m
+    exact (f.hom.map_smul (c : A) m).symm
+
+open CategoryTheory in
+/-- The element of `A` attached to a natural endomorphism of the identity functor on `A-mod`:
+the value of its component at the regular module on `1`. -/
+def Etingof.idEndElt {A : Type u} [Ring A] (η : End (𝟭 (ModuleCat.{u} A))) : A :=
+  (η.app (ModuleCat.of A A)).hom (1 : A)
+
+open CategoryTheory in
+/-- **Example 7.3.2(4), determination.** A natural endomorphism of the identity functor on
+`A-mod` acts on every module as multiplication by `Etingof.idEndElt η = η_A 1`. Same argument as
+`Etingof.forgetful_natEnd_app_eq_smul`, now with `A`-linear components. -/
+theorem Etingof.idFunctor_natEnd_app_eq_smul {A : Type u} [Ring A]
+    (η : End (𝟭 (ModuleCat.{u} A))) (M : ModuleCat.{u} A) (m : M) :
+    (η.app M).hom m = Etingof.idEndElt η • m := by
+  have h := η.naturality (ModuleCat.ofHom (LinearMap.toSpanSingleton A M m))
+  have h1 := congrArg (fun g => (ModuleCat.Hom.hom g) (1 : A)) h
+  have h2 : (η.app M).hom ((1 : A) • m) = Etingof.idEndElt η • m := h1
+  rwa [one_smul] at h2
+
+open CategoryTheory in
+/-- **Example 7.3.2(4), centrality.** The element determining a natural endomorphism of the
+identity functor on `A-mod` lies in the center of `A`: this is `Etingof.idFunctor_natEnd_central`
+on Mathlib's categorical `End`. -/
+theorem Etingof.idEndElt_mem_center {A : Type u} [Ring A] (η : End (𝟭 (ModuleCat.{u} A))) :
+    Etingof.idEndElt η ∈ Subring.center A := by
+  refine Subring.mem_center_iff.mpr fun b => ?_
+  -- Determination applied to the regular module at the element `b`.
+  have hdet : ((η.app (ModuleCat.of A A)).hom (b : A) : A) = Etingof.idEndElt η * b :=
+    Etingof.idFunctor_natEnd_app_eq_smul η (ModuleCat.of A A) b
+  -- `A`-linearity of the component at `A`, evaluated at `b • 1`.
+  have hlin : ((η.app (ModuleCat.of A A)).hom (b * (1 : A)) : A) = b * Etingof.idEndElt η :=
+    (η.app (ModuleCat.of A A)).hom.map_smul b (1 : A)
+  rw [mul_one] at hlin
+  exact hlin.symm.trans hdet
+
+open CategoryTheory in
+/-- The natural family of a central `c` recovers `c`. -/
+theorem Etingof.idEndElt_idSmul {A : Type u} [Ring A] (c : Subring.center A) :
+    Etingof.idEndElt (Etingof.idSmul c) = (c : A) :=
+  -- definitionally `(c : A) • (1 : A) = (c : A) * 1`
+  mul_one (c : A)
+
+open CategoryTheory in
+/-- **Example 7.3.2(4), the book's `End(id_{A-mod}) = Z(A)`.** The endomorphism ring of the
+identity functor on `A-mod` is isomorphic to the center of `A`, by `η ↦ η_A 1` with inverse
+`c ↦ (m ↦ c • m)`. Well-definedness of the forward map is `Etingof.idEndElt_mem_center`,
+injectivity is `Etingof.idFunctor_natEnd_app_eq_smul`, and surjectivity is `Etingof.idSmul`. -/
+def Etingof.idFunctorEndRingEquiv (A : Type u) [Ring A] :
+    End (𝟭 (ModuleCat.{u} A)) ≃+* Subring.center A where
+  toFun η := ⟨Etingof.idEndElt η, Etingof.idEndElt_mem_center η⟩
+  invFun c := Etingof.idSmul c
+  left_inv η :=
+    NatTrans.ext (funext fun M => ModuleCat.hom_ext (LinearMap.ext fun m =>
+      (Etingof.idFunctor_natEnd_app_eq_smul η M m).symm))
+  right_inv c := Subtype.ext (Etingof.idEndElt_idSmul c)
+  map_add' _ _ := rfl
+  map_mul' η θ :=
+    Subtype.ext (Etingof.idFunctor_natEnd_app_eq_smul η (ModuleCat.of A A)
+      ((θ.app (ModuleCat.of A A)).hom (1 : A)))
