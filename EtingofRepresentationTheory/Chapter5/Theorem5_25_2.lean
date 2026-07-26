@@ -1800,7 +1800,7 @@ private lemma Etingof.GL2.incl_comp_proj_eq_id
   rw [hker, mul_zero, zero_mul, sub_zero]
 
 /-- V(μ,μ) decomposes as ℂ_μ ⊕ W_μ in FDRep. -/
-private lemma Etingof.GL2.principalSeries_decomp
+lemma Etingof.GL2.principalSeries_decomp
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Nonempty (Etingof.GL2.principalSeries p n mu mu ≅
       Etingof.GL2.detChar p n mu ⊞ Etingof.GL2.complementW p n mu) := by

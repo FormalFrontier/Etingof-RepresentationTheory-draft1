@@ -97,7 +97,7 @@ lemma psEquiv_symm_apply (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
 /-- **Coset form of the principal-series character.** Only the coset representatives `r_i` with
 `B r_i g = B r_i` contribute to the trace of `g` on `V(χ₁, χ₂)`, and the contribution of such an
 `r_i` is the value of the Borel character on `r_i g r_i⁻¹`. -/
-theorem principalSeries_character_apply
+theorem principalSeries_character_apply [Fintype (GaloisField p n)]
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) (g : GL2 p n) :
     (Etingof.GL2.principalSeries p n chi1 chi2).character g =
       ∑ i : Option (GaloisField p n),
@@ -185,7 +185,8 @@ def borelEntriesEquiv :
 
 /-- `|B| = (q − 1)² q`: an element of the Borel subgroup is a pair of invertible diagonal
 entries together with an arbitrary upper-right entry. -/
-theorem card_borelSubgroup [Fintype ↥(Etingof.GL2.BorelSubgroup p n)] :
+theorem card_borelSubgroup [Fintype (GaloisField p n)]
+    [Fintype ↥(Etingof.GL2.BorelSubgroup p n)] :
     Fintype.card ↥(Etingof.GL2.BorelSubgroup p n) =
       (Fintype.card (GaloisField p n) - 1) ^ 2 * Fintype.card (GaloisField p n) := by
   rw [Fintype.card_congr (Etingof.GL2.borelEntriesEquiv p n), Fintype.card_prod,
@@ -285,7 +286,8 @@ lemma borelCharExt_cosetRep (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
 /-- **Frobenius character formula for the principal series** in its raw form: summing the
 Borel character (extended by zero) over all of `G` gives `|B|` times the character. -/
 theorem sum_borelCharExt_conj
-    [Fintype (GL2 p n)] [Fintype ↥(Etingof.GL2.BorelSubgroup p n)]
+    [Fintype (GaloisField p n)] [Fintype (GL2 p n)]
+    [Fintype ↥(Etingof.GL2.BorelSubgroup p n)]
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) (g : GL2 p n) :
     ∑ x : GL2 p n, Etingof.GL2.borelCharExt p n chi1 chi2 (x * g * x⁻¹) =
       (Fintype.card ↥(Etingof.GL2.BorelSubgroup p n) : ℂ) *
@@ -317,7 +319,7 @@ theorem sum_borelCharExt_conj
 /-- **Deliverable 1.** The character of the principal series `V(α, 1) = Ind_B^G ℂ_α` is the
 Frobenius sum `Etingof.GL2.charVα₁`. -/
 theorem character_principalSeries
-    [DecidableEq (GaloisField p n)] [Fintype (GL2 p n)]
+    [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)] [Fintype (GL2 p n)]
     (alpha : (GaloisField p n)ˣ →* ℂˣ) (g : GL2 p n) :
     (Etingof.GL2.principalSeries p n alpha 1).character g =
       Etingof.GL2.charVα₁ p n alpha g := by
@@ -353,6 +355,200 @@ theorem character_principalSeries
     rw [Etingof.GL2.card_borelSubgroup]
   rw [hcard, ← mul_assoc, inv_mul_cancel₀, one_mul]
   exact_mod_cast (Fintype.card_pos (α := ↥(Etingof.GL2.BorelSubgroup p n))).ne'
+
+-- ============================================================
+-- Deliverable 2 : the character of `W₁` is `charW₁`
+-- ============================================================
+
+/-- The Borel character attached to the pair of trivial characters is identically `1`. -/
+lemma borelCharValue_one_one (b : ↥(Etingof.GL2.BorelSubgroup p n)) :
+    Etingof.GL2.borelCharValue p n 1 1 b = 1 := by
+  simp [Etingof.GL2.borelCharValue]
+
+/-- The character of the one-dimensional representation `ℂ_μ : g ↦ μ(det g)`. -/
+lemma character_detChar (mu : (GaloisField p n)ˣ →* ℂˣ) (g : GL2 p n) :
+    (Etingof.GL2.detChar p n mu).character g =
+      ((mu (Matrix.GeneralLinearGroup.det g) : ℂˣ) : ℂ) := by
+  show LinearMap.trace ℂ ℂ
+    (((mu (Matrix.GeneralLinearGroup.det g) : ℂˣ) : ℂ) • LinearMap.id) = _
+  rw [map_smul, LinearMap.trace_id]
+  simp
+
+/-- `W_μ` is the complement of `ℂ_μ` in `V(μ, μ)`, so its character is the difference. -/
+lemma character_complementW_eq (mu : (GaloisField p n)ˣ →* ℂˣ) (g : GL2 p n) :
+    (Etingof.GL2.complementW p n mu).character g =
+      (Etingof.GL2.principalSeries p n mu mu).character g -
+        (Etingof.GL2.detChar p n mu).character g := by
+  obtain ⟨iso⟩ := Etingof.GL2.principalSeries_decomp p n mu
+  have h := congrFun (FDRep.char_iso iso) g
+  rw [character_biprod] at h
+  rw [h]; ring
+
+/-- `[0 : 1]` is fixed by `g` exactly when `g₁₀ = 0`. -/
+lemma cosetIndex_cosetRep_none_mul (g : GL2 p n) :
+    (Etingof.GL2.cosetIndex p n (Etingof.GL2.cosetRep p n none * g) = none) ↔
+      (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0 := by
+  have hr : Etingof.GL2.cosetRep p n none = 1 := rfl
+  rw [hr, one_mul, Etingof.GL2.cosetIndex]
+  split_ifs with h <;> simp [h]
+
+/-- The bottom row of `r_t · g`, where `r_t = !![0, -1; 1, t]`. -/
+lemma cosetRep_some_mul_row (t : GaloisField p n) (g : GL2 p n) :
+    (((Etingof.GL2.cosetRep p n (some t) * g).val :
+        Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 =
+      (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 0 0 +
+        t * (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0) ∧
+    (((Etingof.GL2.cosetRep p n (some t) * g).val :
+        Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 1 =
+      (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 0 1 +
+        t * (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 1) := by
+  constructor <;>
+    · simp [Etingof.GL2.cosetRep, Matrix.GeneralLinearGroup.mkOfDetNeZero,
+        Matrix.GeneralLinearGroup.mk', Matrix.unitOfDetInvertible, Units.val_mul,
+        Matrix.mul_apply, Fin.sum_univ_two]
+
+/-- `[1 : t]` is fixed by `g` exactly when `t` is a root of `g₁₀X² + (g₀₀ − g₁₁)X − g₀₁`.
+(The side condition `g₀₀ + t g₁₀ ≠ 0` implicit in the coset description is automatic: it would
+force `det g = 0`.) -/
+lemma cosetIndex_cosetRep_some_mul (t : GaloisField p n) (g : GL2 p n) :
+    (Etingof.GL2.cosetIndex p n (Etingof.GL2.cosetRep p n (some t) * g) = some t) ↔
+      (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 * t ^ 2 +
+          ((g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 0 0 -
+            (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 1) * t -
+          (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 0 1 = 0 := by
+  have hdet : (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 0 0 *
+      (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 1 -
+      (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 0 1 *
+      (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 ≠ 0 := by
+    have h : (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)).det ≠ 0 :=
+      IsUnit.ne_zero ((Units.isUnit g).map Matrix.detMonoidHom)
+    rwa [Matrix.det_fin_two] at h
+  obtain ⟨h10, h11⟩ := Etingof.GL2.cosetRep_some_mul_row p n t g
+  rw [Etingof.GL2.cosetIndex]
+  by_cases hu : ((Etingof.GL2.cosetRep p n (some t) * g).val :
+      Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0
+  · rw [dif_pos hu]
+    rw [h10] at hu
+    constructor
+    · intro hcon; exact absurd hcon (by simp)
+    · intro hroot
+      exact absurd (by
+        linear_combination ((g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 1 -
+          (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 * t) * hu +
+          (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 * hroot) hdet
+  · rw [dif_neg hu, h10, h11]
+    rw [h10] at hu
+    rw [Option.some_inj, div_eq_iff hu]
+    constructor <;> intro h <;> linear_combination -h
+
+/-- The involution `t ↦ −t⁻¹` of `P¹(𝔽_q)`, exchanging `0` and `∞`. It matches the row-line
+parametrization used by the coset representatives with the column-line parametrization used by
+`Etingof.GL2.charW₁`. -/
+def projInvol : Option (GaloisField p n) → Option (GaloisField p n)
+  | none => some 0
+  | some t => if t = 0 then none else some (-t⁻¹)
+
+lemma projInvol_involutive : Function.Involutive (Etingof.GL2.projInvol p n) := by
+  rintro (_ | t)
+  · simp [Etingof.GL2.projInvol]
+  · by_cases ht : t = 0
+    · simp [Etingof.GL2.projInvol, ht]
+    · have h1 : -t⁻¹ ≠ 0 := neg_ne_zero.mpr (inv_ne_zero ht)
+      simp only [Etingof.GL2.projInvol, if_neg ht, if_neg h1]
+      rw [inv_neg, inv_inv, neg_neg]
+
+/-- The involution `t ↦ −t⁻¹` as a permutation of `P¹(𝔽_q)`. -/
+def projInvolEquiv : Option (GaloisField p n) ≃ Option (GaloisField p n) :=
+  Function.Involutive.toPerm _ (Etingof.GL2.projInvol_involutive p n)
+
+/-- The indicator of "`i ∈ P¹` is a root of `aX² + bX − c`", with `∞` counted when `a = 0`. -/
+def rootIndicator [DecidableEq (GaloisField p n)] (a b c : GaloisField p n) :
+    Option (GaloisField p n) → ℂ
+  | none => if a = 0 then 1 else 0
+  | some t => if a * t ^ 2 + b * t - c = 0 then 1 else 0
+
+/-- The involution `t ↦ −t⁻¹` exchanges the root sets of `aX² + bX − c` and `cX² + bX − a`. -/
+lemma rootIndicator_projInvol [DecidableEq (GaloisField p n)]
+    (a b c : GaloisField p n) (i : Option (GaloisField p n)) :
+    Etingof.GL2.rootIndicator p n c b a (Etingof.GL2.projInvol p n i) =
+      Etingof.GL2.rootIndicator p n a b c i := by
+  rcases i with _ | t
+  · simp only [Etingof.GL2.projInvol, Etingof.GL2.rootIndicator]
+    simp [neg_eq_zero]
+  · by_cases ht : t = 0
+    · subst ht
+      simp only [Etingof.GL2.projInvol, if_pos rfl, Etingof.GL2.rootIndicator]
+      simp [neg_eq_zero]
+    · simp only [Etingof.GL2.projInvol, if_neg ht, Etingof.GL2.rootIndicator]
+      have hexp : c * (-t⁻¹) ^ 2 + b * (-t⁻¹) - a = -(a * t ^ 2 + b * t - c) / t ^ 2 := by
+        field_simp
+        ring
+      have hiff : (c * (-t⁻¹) ^ 2 + b * (-t⁻¹) - a = 0) ↔ (a * t ^ 2 + b * t - c = 0) := by
+        rw [hexp, div_eq_zero_iff, neg_eq_zero]
+        simp [pow_ne_zero 2 ht]
+      simp only [hiff]
+
+lemma sum_rootIndicator_swap [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
+    (a b c : GaloisField p n) :
+    ∑ i : Option (GaloisField p n), Etingof.GL2.rootIndicator p n a b c i =
+      ∑ i : Option (GaloisField p n), Etingof.GL2.rootIndicator p n c b a i := by
+  rw [← Equiv.sum_comp (Etingof.GL2.projInvolEquiv p n) (Etingof.GL2.rootIndicator p n c b a)]
+  exact Finset.sum_congr rfl fun i _ =>
+    (Etingof.GL2.rootIndicator_projInvol p n a b c i).symm
+
+/-- **Deliverable 2.** The character of the `q`-dimensional irreducible `W₁ ⊆ V(1, 1)` is the
+fixed-point count `Etingof.GL2.charW₁`. -/
+theorem character_complementW [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
+    (g : GL2 p n) :
+    (Etingof.GL2.complementW p n 1).character g = Etingof.GL2.charW₁ p n g := by
+  classical
+  -- `charW₁` in the shape produced below: an affine root count plus the point at infinity.
+  have hW : Etingof.GL2.charW₁ p n g =
+      (if (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 0 1 = 0 then (1 : ℂ) else 0) +
+        ((Finset.univ.filter fun t : GaloisField p n =>
+            (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 0 1 * t ^ 2 +
+              ((g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 0 0 -
+                (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 1) * t -
+              (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0).card : ℂ) - 1 := by
+    simp only [Etingof.GL2.charW₁]
+    split_ifs with h <;> push_cast <;> ring
+  set M := (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) with hM
+  -- The character of `V(1,1)` counts the points of `P¹` fixed by `g`.
+  have hchar : (Etingof.GL2.principalSeries p n 1 1).character g =
+      ∑ i : Option (GaloisField p n),
+        Etingof.GL2.rootIndicator p n (M 1 0) (M 0 0 - M 1 1) (M 0 1) i := by
+    rw [Etingof.GL2.principalSeries_character_apply]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    rw [Etingof.GL2.borelCharValue_one_one]
+    rcases i with _ | t
+    · rw [Etingof.GL2.rootIndicator]
+      by_cases h : M 1 0 = 0
+      · rw [if_pos ((Etingof.GL2.cosetIndex_cosetRep_none_mul p n g).mpr h), if_pos h]
+      · rw [if_neg (fun hc => h ((Etingof.GL2.cosetIndex_cosetRep_none_mul p n g).mp hc)),
+          if_neg h]
+    · rw [Etingof.GL2.rootIndicator]
+      by_cases h : M 1 0 * t ^ 2 + (M 0 0 - M 1 1) * t - M 0 1 = 0
+      · rw [if_pos ((Etingof.GL2.cosetIndex_cosetRep_some_mul p n t g).mpr h), if_pos h]
+      · rw [if_neg (fun hc => h ((Etingof.GL2.cosetIndex_cosetRep_some_mul p n t g).mp hc)),
+          if_neg h]
+  rw [Etingof.GL2.character_complementW_eq, hchar,
+    Etingof.GL2.sum_rootIndicator_swap p n (M 1 0) (M 0 0 - M 1 1) (M 0 1),
+    Etingof.GL2.character_detChar, Fintype.sum_option, hW]
+  simp only [Etingof.GL2.rootIndicator, Finset.sum_boole, MonoidHom.one_apply, Units.val_one]
+
+/-- **Deliverable 3.** Evaluating `Etingof.GL2.character_complementW` at `g = 1` gives the
+dimension of `W₁` with no hypothesis on `n`: `dim W₁ = q`. (`Theorem5_25_2_part2` records the
+same dimension in the form `p ^ n`, but only for `0 < n`.) -/
+theorem finrank_complementW_one [Fintype (GaloisField p n)] :
+    Module.finrank ℂ (Etingof.GL2.complementW p n 1).V = Fintype.card (GaloisField p n) := by
+  classical
+  have hscalar : _root_.GL2.IsScalar (p := p) (n := n) 1 := by
+    rw [_root_.GL2.isScalar_iff]
+    refine ⟨?_, ?_, ?_⟩ <;>
+      simp [Matrix.one_apply, (by decide : (0 : Fin 2) ≠ 1), (by decide : (1 : Fin 2) ≠ 0)]
+  have h := (Etingof.GL2.character_complementW p n (1 : GL2 p n)).symm
+  rw [Etingof.charW₁_scalar p n 1 hscalar, FDRep.char_one] at h
+  exact_mod_cast h.symm
 
 end Etingof.GL2
 
