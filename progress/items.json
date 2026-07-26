@@ -9631,10 +9631,9 @@
     "start_line": 7,
     "end_line": 12,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "The block/idempotent indexing equivalence and cross-block orthogonality are proved. Part (i) still erases which idempotent belongs to a block and does not characterize the block's modules by idempotent support or package the supported module category; follow-up #7414. Part (iii)'s separate S3 characteristic-2 development has its own coverage record.",
-    "fidelity_issue": 7414,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "Part (i) is complete: the block/idempotent bijection is now the named `blockEquivIndecomposableCentralIdempotent` (forward map `blockIdempotent`), a module lies in a block iff that block's idempotent acts as the identity on it (`inBlock_iff_simpleIdempotent_smul`, with the complementary idempotents acting by zero), and the block is equivalent to the category of modules over the corner algebra `eₖ A` (`blockEquivalence`, and `blockEquivalenceFin` on finite length objects). Part (ii) is proved; part (iii)'s separate S3 characteristic-2 development has its own coverage record.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter9/Introduction_9.6",
