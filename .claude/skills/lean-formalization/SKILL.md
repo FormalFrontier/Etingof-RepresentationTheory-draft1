@@ -632,6 +632,36 @@ type-variable level where `f x : W` matches `asModule σ` syntactically) instead
 re-deriving. Worked example: #7554 (`Chapter5/RepresentationAsModuleHom.lean`, all
 four `map_smul'` proofs).
 
+**`ext` over-applies on `A ⊗[R] N →ₗ[A] P` when `N` carries its own `@[ext]` lemma.** On a goal
+`f = g` between `A`-linear maps out of a tensor product, `ext s w` does not stop after splitting
+off the elementary tensor: it keeps going into the second factor, so if `N` is something like
+`⋀[R]^n M` (which has an exterior-power ext lemma) you land on a goal phrased in
+`TensorProduct.curry … |>.compAlternatingMap (exteriorPower.ιMulti …)` applied to a
+`Fin n → M`, and every `rw` naming your `_tmul` simp lemma fails to find its pattern —
+`ext` also warns `` `ext` did not consume the patterns `w` ``, which is the tell. Don't chase it
+with more `simp only [… curry_apply, coe_restrictScalars]`. **Use `LinearMap.ext` plus an
+explicit `TensorProduct.induction_on` instead**, which stops exactly where you want:
+
+```lean
+refine LinearMap.ext fun x => ?_
+simp only [LinearMap.add_apply, LinearMap.zero_apply]   -- reduce to `F x + G x = 0` first
+induction x using TensorProduct.induction_on with
+| zero => simp
+| tmul s w => rw [my_tmul_lemma, my_tmul_lemma]; …
+| add x y hx hy => rw [map_add, map_add, add_add_add_comm, hx, hy, add_zero]
+```
+
+Doing the `simp only` *before* the induction is what makes the `add` case a one-liner: the
+induction hypotheses are then already in the summed-to-zero form. Worked example: #5723
+(`Chapter8/KoszulDifferential.lean`, `koszulDD_swap_add` / `koszulDD_diag`).
+
+Two related name checks from the same session: there is **no `LinearMap.sum_comp`** — prove
+`(∑ a, F a).comp (∑ c, G c) = …` pointwise with `LinearMap.ext` + `LinearMap.sum_apply` +
+`map_sum`, then reindex with `Finset.univ_product_univ` / `Finset.sum_product` /
+`Finset.sum_comm`. And `ChainComplex.of_d` is stated about the auxiliary `ChainComplex.of.d`,
+so it will not `exact`-match a goal about `(ChainComplex.of X d sq).d (i+1) i` even though the
+two are defeq; close that with `by simp [<your complex def>]`.
+
 **A `Module.compHom` scalar action defeats bare `zero_smul`/`simp` in the `| zero =>` case
 of a `TensorProduct.induction_on` on the scalar.** When the module is built with
 `Module.compHom` (e.g. `Problem3_8_4_Functoriality.bcMod`, the `↥R ⊗[K] A`-action on
