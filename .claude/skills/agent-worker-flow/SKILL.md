@@ -76,7 +76,8 @@ can be *closed* while the def/lemma it produced is still in an open PR
 (residual assembly, split work), so it is absent from `main`. If the code
 you need to build on is in such a PR, do NOT wait or skip — `git fetch`
 that PR's head branch and base your branch on it
-(`git reset --hard origin/<pr-head>`). Then in your PR body add an
+(`git reset --hard origin/<pr-head>`, only after the Step 2a snapshot and with a
+clean `git status --porcelain`). Then in your PR body add an
 ordering note naming the predecessor PR and the exact rebase command, so a
 repair/planner agent can sequence the merges. Confirm the dependency file
 actually builds on that base before writing new code.
@@ -161,111 +162,100 @@ coordination read-issue <N> --json body --jq .body
 
 ## Step 2: Set Up
 
+Do 2a, 2b and 2c **in that order**. The order is the safety property: every
+remedy in this step (`reset --hard`, `checkout HEAD -- <paths>`) destroys
+uncommitted work irreversibly, so the snapshot in 2a has to happen before you
+know whether you need it.
+
+### Step 2a: Snapshot the worktree before touching it
+
+Pod reuses worktrees, so yours can arrive carrying a crashed session's edits.
+Run this *first*, before any branch operation, unconditionally:
+
 ```bash
-git checkout -b agent/<first-8-chars-of-session-UUID>
-git rev-parse HEAD      # record starting commit
+git status --porcelain
 ```
 
-**If the branch already exists** (common in reused worktrees): check for an
-open PR on it first (`gh pr list --head agent/<id>`). If a PR exists, create
-a new branch with a suffix (`agent/<id>-v2`). If no PR exists, reset it to
-the default branch: `git checkout agent/<id> && git reset --hard origin/main`
-(this repo's default branch is `main`, not `master`).
+**If it prints nothing**, go to 2b. **If it prints anything**, make the state
+recoverable *before* you change it — not after you have decided the changes look
+worthless:
 
-**Do not try to `git checkout main` in a pod worktree.** `main` is checked out
-in the primary worktree, so the checkout fails — and if you chain it as
-`git checkout main || git checkout master` the first failure is silent and you
-only see a confusing "pathspec 'master' did not match" error. Fetch and compare
-against `origin/main` instead: `git fetch origin && git log --oneline -1 origin/main`.
+```bash
+git diff HEAD > /tmp/$POD_SESSION_ID-stale.patch    # staged + unstaged, tracked files
+git stash push -m "pod $POD_SESSION_ID pre-reset"   # NEVER -u / --include-untracked
+```
 
-**Before that `git reset --hard`, run `git status --short` and inspect any
-uncommitted changes** (`git diff`). A reused worktree can carry in-progress
-edits from a crashed prior session; `reset --hard` discards them irrecoverably.
-If the changes look like real work (not stray build artifacts), stash them
-(`git stash`, never `git stash -u`) or commit them on a scratch branch before
-resetting.
+`git stash push` without `-u` leaves untracked files alone; do not sweep them up,
+they may be another session's in-progress work. Record the stash message and the
+patch path in your progress entry so a successor can recover whatever you set aside.
 
-Judge that inspection in *both* directions: stray changes you leave in place ride
-along into your PR as unrelated regressions. Check `git diff --numstat` for changes
-that are pure *deletions* against `main` in files you were not asked to touch,
-especially under `.claude/`. A crashed session can leave an accidental revert of
-accumulated workflow guidance, which is easy to commit without noticing and hard to
-spot in review. Restore those (`git checkout HEAD -- <paths>`) rather than carrying
-them. (2026-07-25: three times, worktrees arrived with 169, 279 and 320 lines of
-`.claude/` guidance deleted and nothing added. In the third case the session-start
-`git status` listed all five modified files right in the agent's context and it
-committed them anyway, because its own stale copy of this skill lacked this check —
-see the publish-time backstop in Step 7.)
+Now inspect what you stashed (`git stash show -p`) and judge it in *both*
+directions — neither keeping nor discarding is the safe default:
 
-**If the restored files include this skill or your `/command` file, re-read them.**
-Skills load from the working tree, so a truncated `SKILL.md` means the guidance you
-started the session on was the deleted version and you never saw these instructions.
+- **Pure deletions under `.claude/` are an accidental revert, not work.** Check
+  `git stash show --numstat` for files with many deletions and ~zero
+  insertions that the issue never mentioned. That is a crashed session's
+  stale copy of accumulated workflow guidance. Leave it in the stash — carried
+  forward, it lands on `main` as a silent revert of guidance other sessions paid
+  to learn.
+- **Anything that looks like real work in progress** also stays in the stash, with
+  a note in your progress entry naming it. Do not try to finish someone else's
+  half-edit inside your own issue's PR.
 
-That instruction only reaches an agent who already *has* the full file, so do not rely
-on it — run the check unconditionally, right after `git status`, whether or not
-anything looked wrong:
+Either way the working tree is now clean and nothing was destroyed.
+
+(2026-07-25/26: four times in two days a worktree arrived with 169, 279, 294 and
+320 lines of `.claude/` guidance deleted and nothing added. In one case the
+session-start `git status` listed all five modified files right in the agent's
+context and it committed them anyway, because its own stale copy of this skill
+lacked this check — see the publish-time backstop in Step 7.)
+
+### Step 2b: Verify the skill you loaded is not itself the stale copy
+
+The Skill tool serves the **working-tree** copy of `.claude/skills/*/SKILL.md`. So a
+truncated file means the workflow instructions you are running on are the deleted
+version and you never saw any of the above. Run this unconditionally, even when 2a
+found nothing — the check has to work for an agent who does not have the file that
+tells them to run it:
 
 ```bash
 wc -l .claude/skills/agent-worker-flow/SKILL.md
 git show HEAD:.claude/skills/agent-worker-flow/SKILL.md | wc -l
 ```
 
-If the counts differ, restore and **re-invoke the skill** (not just `Read` the file), then
-restart the workflow from Step 1. **Caveat: re-invoking may be a no-op.** The harness caches
-skills per session and answers the second `Skill` call with "instructions unchanged", serving the
-truncated copy it already loaded. If you see that message after restoring, fall back to `Read` on
-`.claude/skills/agent-worker-flow/SKILL.md` and your `/command` file — that does pick up the
-restored text. Guidance added since the stale revision is exactly the
-guidance you are most likely to need — e.g. the Step 7 rules on replacing `create-pr`'s
-placeholder PR body and on never running `gh pr merge --auto` yourself.
-(2026-07-25: a third worktree that day arrived 193 lines stale; the session ran to
-completion on the old copy and shipped a placeholder PR body.)
+If the counts differ, restore (`git checkout HEAD -- <path>` — safe now, 2a took the
+snapshot) and **re-invoke the skill**, then restart from Step 1. **Caveat: re-invoking
+may be a no-op.** The harness caches skills per session and answers the second `Skill`
+call with "instructions unchanged", serving the truncated copy it already loaded. If
+you see that message, fall back to `Read` on
+`.claude/skills/agent-worker-flow/SKILL.md` and on your `/command` file — that does
+pick up the restored text. Guidance added since the stale revision is exactly the
+guidance you are most likely to need: e.g. the Step 7 rules on replacing `create-pr`'s
+placeholder PR body and on never running `gh pr merge --auto` yourself. (2026-07-25: a
+worktree arrived 193 lines stale; the session ran to completion on the old copy and
+shipped a placeholder PR body.)
 
-**If you branched off an unmerged PR's head** (see "Dependency code that lives
-only in an unmerged PR" above), decide at publish time:
+### Step 2c: Get onto your branch
 
-- Predecessor already merged → replay only *your* commits onto `main` with
-  `git rebase --onto origin/main <pr-head-sha> <your-branch>`, then push.
-- Predecessor still open → publish anyway rather than stalling the session, and
-  leave a PR comment naming it and giving that exact command. Do not wait more
-  than ~15 minutes on someone else's CI; a `repair` agent can fix the conflict
-  if one appears, but only if the PR says what it is stacked on.
+```bash
+git fetch origin
+git checkout -b agent/<first-8-chars-of-session-UUID>
+git rev-parse HEAD      # record starting commit
+```
 
-**Before that `git reset --hard`, run `git status --short` and inspect any
-uncommitted changes** (`git diff`). A reused worktree can carry in-progress
-edits from a crashed prior session; `reset --hard` discards them irrecoverably.
-If the changes look like real work (not stray build artifacts), stash them
-(`git stash`, never `git stash -u`) or commit them on a scratch branch before
-resetting.
+**If the branch already exists** (common in reused worktrees), check for an open PR on
+it first (`gh pr list --head agent/<id>`):
 
-**Run `git status --short` even when you do not reset** — including when the
-branch already exists with no PR and no commits ahead of `main`. Leftover
-uncommitted edits are not inert:
+- **PR exists** → leave that branch alone; branch afresh with a suffix (`agent/<id>-v2`).
+- **No PR** → `git checkout agent/<id> && git reset --hard origin/main`. The default
+  branch here is `main`, not `master`. This `reset --hard` is safe *only because* 2a
+  already stashed anything uncommitted — if you skipped 2a, go back and run it now.
 
-- `coordination create-pr` stages the whole worktree, so they land in your PR
-  as unrelated changes, and edits under `.claude/` will get the PR rejected.
-- The Skill tool serves the **working-tree** copy of `.claude/skills/*/SKILL.md`.
-  A prior session's half-finished edit there means you are reading truncated
-  workflow instructions without knowing it. If `git diff` touches a skill or
-  command file, re-read the `HEAD` version (`git show HEAD:<path>`) before
-  trusting what you loaded.
-
-Back the diff up (`git diff > /tmp/<session-id>-stale.patch`) and restore the
-files (`git checkout HEAD -- <paths>`) so your branch starts clean; note the
-backup path in your progress entry.
-
-Judge that inspection in *both* directions: stray changes you leave in place ride
-along into your PR as unrelated regressions. Check `git diff --numstat` for changes
-that are pure *deletions* against `main` in files you were not asked to touch,
-especially under `.claude/`. A crashed session can leave an accidental revert of
-accumulated workflow guidance, which is easy to commit without noticing and hard to
-spot in review. Restore those (`git checkout HEAD -- <paths>`) rather than carrying
-them. (2026-07-25: twice, worktrees arrived with 169 and 279 lines of `.claude/`
-guidance deleted and nothing added.)
-
-**If the restored files include this skill or your `/command` file, re-read them.**
-Skills load from the working tree, so a truncated `SKILL.md` means the guidance you
-started the session on was the deleted version and you never saw these instructions.
+**Do not try to `git checkout main` in a pod worktree.** `main` is checked out in the
+primary worktree, so the checkout fails — and if you chain it as `git checkout main ||
+git checkout master` the first failure is silent and you only see a confusing
+"pathspec 'master' did not match" error. Compare against `origin/main` instead:
+`git log --oneline -1 origin/main`.
 
 **If you branched off an unmerged PR's head** (see "Dependency code that lives
 only in an unmerged PR" above), decide at publish time:
