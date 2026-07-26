@@ -31,7 +31,7 @@ namespace Etingof
 section PiEnd
 
 variable {k : Type} [Field k]
-variable {ι : Type} [Fintype ι] [DecidableEq ι]
+variable {ι : Type} [Fintype ι]
 variable {M : ι → Type} [∀ i, AddCommGroup (M i)] [∀ i, Module k (M i)]
 
 /-- The diagonal endomorphism of `∀ i, M i` assembled from a family of endomorphisms `f i`. -/
@@ -47,12 +47,12 @@ theorem piEnd_comp (f g : ∀ i, M i →ₗ[k] M i) :
     piEnd (fun i => (f i) ∘ₗ (g i)) = (piEnd f) ∘ₗ (piEnd g) := rfl
 
 /-- The diagonal endomorphism, written out as `∑ i, single i ∘ f i ∘ proj i`. -/
-theorem piEnd_eq_sum (f : ∀ i, M i →ₗ[k] M i) :
+theorem piEnd_eq_sum [DecidableEq ι] (f : ∀ i, M i →ₗ[k] M i) :
     piEnd f = ∑ i, (LinearMap.single k M i) ∘ₗ ((f i) ∘ₗ LinearMap.proj i) := by
   ext x j
   simp [Finset.sum_apply]
 
-theorem proj_comp_single (i : ι) :
+theorem proj_comp_single [DecidableEq ι] (i : ι) :
     (LinearMap.proj i : (∀ j, M j) →ₗ[k] M i) ∘ₗ LinearMap.single k M i = LinearMap.id := by
   ext x
   simp
@@ -63,6 +63,7 @@ variable [∀ i, FiniteDimensional k (M i)]
 of `∀ i, M i` is the sum of the traces of its components. -/
 theorem trace_piEnd (f : ∀ i, M i →ₗ[k] M i) :
     LinearMap.trace k (∀ i, M i) (piEnd f) = ∑ i, LinearMap.trace k (M i) (f i) := by
+  classical
   rw [piEnd_eq_sum, map_sum]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [LinearMap.trace_comp_comm' ((f i) ∘ₗ LinearMap.proj i) (LinearMap.single k M i),
@@ -73,7 +74,7 @@ end PiEnd
 namespace Representation
 
 variable {k : Type} [Field k] {G : Type} [Monoid G]
-variable {ι : Type} [Fintype ι] [DecidableEq ι]
+variable {ι : Type} [Fintype ι]
 variable {M : ι → Type} [∀ i, AddCommGroup (M i)] [∀ i, Module k (M i)]
 
 /-- The componentwise action of `G` on `∀ i, M i`: the direct sum of a finite family of
@@ -95,7 +96,7 @@ end Representation
 namespace FDRep
 
 variable {k : Type} [Field k] {G : Type} [Monoid G]
-variable {ι : Type} [Fintype ι] [DecidableEq ι]
+variable {ι : Type} [Fintype ι]
 
 /-- Build a morphism of `FDRep`s from an equivariant linear map. -/
 def mkHom (V W : FDRep k G) (f : (V : Type) →ₗ[k] (W : Type))
@@ -120,7 +121,7 @@ noncomputable def piπ (V : ι → FDRep k G) (i : ι) : pi V ⟶ V i :=
   mkHom _ _ (LinearMap.proj i) fun _ _ => rfl
 
 /-- The `i`-th structural inclusion into the direct sum. -/
-noncomputable def piι (V : ι → FDRep k G) (i : ι) : V i ⟶ pi V :=
+noncomputable def piι [DecidableEq ι] (V : ι → FDRep k G) (i : ι) : V i ⟶ pi V :=
   mkHom _ _ (LinearMap.single k (fun j => ((V j : Type))) i) fun g v => by
     refine funext fun j => ?_
     change (Pi.single (M := fun j => ((V j : Type))) i ((V i).ρ g v)) j
@@ -132,18 +133,19 @@ noncomputable def piι (V : ι → FDRep k G) (i : ι) : V i ⟶ pi V :=
 @[simp] theorem piπ_apply (V : ι → FDRep k G) (i : ι) (x : (pi V : Type)) :
     (piπ V i).hom.hom.hom x = x i := rfl
 
-@[simp] theorem piι_apply (V : ι → FDRep k G) (i : ι) (v : (V i : Type)) :
+@[simp] theorem piι_apply [DecidableEq ι] (V : ι → FDRep k G) (i : ι) (v : (V i : Type)) :
     (piι V i).hom.hom.hom v = Pi.single i v := rfl
 
 /-- `piι i ≫ piπ i = 𝟙`: the inclusion followed by its own projection is the identity. -/
-theorem piι_piπ_self (V : ι → FDRep k G) (i : ι) : piι V i ≫ piπ V i = 𝟙 (V i) := by
+theorem piι_piπ_self [DecidableEq ι] (V : ι → FDRep k G) (i : ι) :
+    piι V i ≫ piπ V i = 𝟙 (V i) := by
   apply Action.Hom.ext
   apply FGModuleCat.hom_ext
   ext v
   simp
 
 /-- `piι i ≫ piπ j = 0` for `i ≠ j`: distinct summands are orthogonal. -/
-theorem piι_piπ_of_ne (V : ι → FDRep k G) {i j : ι} (h : i ≠ j) :
+theorem piι_piπ_of_ne [DecidableEq ι] (V : ι → FDRep k G) {i j : ι} (h : i ≠ j) :
     piι V i ≫ piπ V j = 0 := by
   apply Action.Hom.ext
   apply FGModuleCat.hom_ext
@@ -157,5 +159,31 @@ theorem character_pi (V : ι → FDRep k G) (g : G) :
   trace_piEnd _
 
 end FDRep
+
+/-! ## Summing a finite abelian group's characters
+
+The direct sum of *all* one-dimensional characters of a finite group has character
+`g ↦ ∑_χ χ g`, so identifying such a direct sum needs the value of that sum. For a finite
+abelian group this is the classical orthogonality relation: the sum is the order of the group
+at the identity and vanishes elsewhere. -/
+
+/-- Characters of a group with values in `ℂˣ` are the same data as monoid homomorphisms into
+`ℂ`: a homomorphism from a group into a monoid automatically lands in the units. -/
+def unitsCharEquiv {A : Type} [Group A] : (A →* ℂˣ) ≃ (A →* ℂ) where
+  toFun f := (Units.coeHom ℂ).comp f
+  invFun f := f.toHomUnits
+  left_inv f := by ext a; simp
+  right_inv f := by ext a; simp
+
+/-- **Orthogonality for the character group of a finite abelian group.** Summing all `ℂˣ`-valued
+characters of `Multiplicative α` at a point gives `|α|` at the identity and `0` elsewhere. -/
+theorem sum_char_apply {α : Type} [AddCommGroup α] [Fintype α] [DecidableEq α]
+    [Fintype (Multiplicative α →* ℂˣ)] (x : α) :
+    ∑ f : Multiplicative α →* ℂˣ, ((f (Multiplicative.ofAdd x) : ℂ)) =
+      if x = 0 then (Fintype.card α : ℂ) else 0 := by
+  have h : ∑ f : Multiplicative α →* ℂˣ, ((f (Multiplicative.ofAdd x) : ℂ))
+      = ∑ ψ : AddChar α ℂ, ψ x :=
+    Fintype.sum_equiv (unitsCharEquiv.trans AddChar.toMonoidHomEquiv.symm) _ _ fun _ => rfl
+  rw [h, AddChar.sum_apply_eq_ite]
 
 end Etingof
