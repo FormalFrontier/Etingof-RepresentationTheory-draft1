@@ -32,6 +32,13 @@ telling you nothing about the file on disk. `Read` the restored paths directly i
 (2026-07-26, #7873: a session hit exactly this, saw "unchanged" after restoring 477 deleted
 lines, and only got the current guidance by falling back to `Read`.)
 
+**When you `Read` a `.claude/` path, make sure it is *your worktree's* copy.** The project
+root is itself a checkout, so `<project-root>/.claude/skills/<skill>/SKILL.md` and
+`<project-root>/worktrees/<id>/.claude/skills/<skill>/SKILL.md` both exist, at different
+revisions, and the shorter path is the one you will type by reflex. Nothing warns you: you
+get a real file with plausible content and line numbers that quietly disagree with your own
+`grep`. Prefer relative paths from the worktree root, or paste the path from `pwd`.
+
 This check lives at the top of the file on purpose. The fuller treatment is in Step 2 under
 "If the branch already exists", but every observed truncation left lines 1-70 intact while
 cutting blocks further down — so an instruction placed there is one a stale session never
