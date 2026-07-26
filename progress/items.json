@@ -3086,11 +3086,13 @@
       "wave": 1,
       "result": "gap"
     },
-    "coverage": "covered_partial",
-    "coverage_note": "Theorem 3.10.2 is proved by another route, but the source proof's structural claims Rad(A⊗B)=Rad(A)⊗B+A⊗Rad(B) and the corresponding quotient equivalence for finite-dimensional image algebras are not formalized; follow-up #7453.",
-    "fidelity_issue": 7453,
-    "followup_issue": 7453,
-    "last_updated": "2026-07-22"
+    "coverage": {
+      "result": "covered",
+      "lean_decl": "Etingof.jacobson_tensorProduct_eq",
+      "note": "The source proof's two structural claims are now formalized in EtingofRepresentationTheory/Chapter3/TensorProductRadical.lean: jacobson_tensorProduct_eq gives Rad(A⊗B) = Rad(A)⊗B + A⊗Rad(B) for finite-dimensional A, B over an algebraically closed field, and quotientJacobsonTensorEquiv gives the displayed identification (A⊗B)/Rad(A⊗B) ≅ (A/Rad A) ⊗ (B/Rad B). The book's two steps are separated by hypothesis: radTensorSum_le_jacobson (nilpotence; no hypothesis on k) and jacobson_le_radTensorSum (semisimplicity of the quotient), the latter discharged over an algebraically closed field by isSemisimpleRing_tensorProduct. jacobson_tensorProduct_range_eq states the formula for the image algebras A', B' ⊆ End M, matching the book's image-algebra reduction. Theorem 3.10.2 itself is still proved by the independent density/Artinian route in Theorem3_10_2.lean, which does not consume these results."
+    },
+    "last_updated": "2026-07-26",
+    "lean_ref": "EtingofRepresentationTheory/Chapter3/TensorProductRadical.lean :: Etingof.jacobson_tensorProduct_eq, Etingof.quotientJacobsonTensorEquiv, Etingof.quotientRadTensorSumEquiv, Etingof.radTensorSum_eq_ker, Etingof.radTensorSum_le_jacobson, Etingof.jacobson_le_radTensorSum, Etingof.isSemisimpleRing_tensorProduct, Etingof.jacobson_tensorProduct_range_eq"
   },
   {
     "id": "Chapter4/Introduction",
