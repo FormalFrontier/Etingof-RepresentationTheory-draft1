@@ -230,11 +230,18 @@ that are pure *deletions* against `main` in files you were not asked to touch,
 especially under `.claude/`. A crashed session can leave an accidental revert of
 accumulated workflow guidance, which is easy to commit without noticing and hard to
 spot in review. Restore those (`git checkout HEAD -- <paths>`) rather than carrying
-them. (2026-07-25: three times, worktrees arrived with 169, 279 and 320 lines of
-`.claude/` guidance deleted and nothing added. In the third case the session-start
-`git status` listed all five modified files right in the agent's context and it
-committed them anyway, because its own stale copy of this skill lacked this check —
-see the publish-time backstop in Step 7.)
+them. (2026-07-25: four times, worktrees arrived with 169, 279, 320 and 364 lines of
+`.claude/` guidance deleted and nothing added — always the same five files. In the third
+case the session-start `git status` listed all five modified files right in the agent's
+context and it committed them anyway, because its own stale copy of this skill lacked this
+check — see the publish-time backstop in Step 7. The fourth session caught it, but only
+because the duplicate of this check in `.claude/commands/{work,feature}.md` reached it when
+this file could not. **Keep that duplication.** A check that lives only inside the file that
+goes stale cannot fire in the case it exists for.)
+
+A tell for staleness rather than real work: `git diff --numstat` showing near-pure
+deletions, where the handful of "insertions" turn out to be older wordings of lines that
+still exist. Real work adds something.
 
 **If the restored files include this skill or your `/command` file, re-read them.**
 Skills load from the working tree, so a truncated `SKILL.md` means the guidance you
@@ -254,7 +261,9 @@ restart the workflow from Step 1. Guidance added since the stale revision is exa
 guidance you are most likely to need — e.g. the Step 7 rules on replacing `create-pr`'s
 placeholder PR body and on never running `gh pr merge --auto` yourself.
 (2026-07-25: a third worktree that day arrived 193 lines stale; the session ran to
-completion on the old copy and shipped a placeholder PR body.)
+completion on the old copy and shipped a placeholder PR body. A fourth arrived at 318
+lines against 539; that session re-invoked the skill and restarted from Step 1, which is
+the only reason it saw these two rules at all.)
 
 **If you branched off an unmerged PR's head** (see "Dependency code that lives
 only in an unmerged PR" above), decide at publish time:
