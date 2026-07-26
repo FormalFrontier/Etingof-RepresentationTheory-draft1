@@ -185,6 +185,81 @@ theorem exists_basis_blockTriangular_of_splits_minpoly (k : Type u) [Field k] :
           rw [← ht]
           exact Submodule.smul_mem _ _ hvmem
 
+variable {V : Type v} [AddCommGroup V] [Module k V] [Module.Finite k V]
+
+/-- **Triangularization.** If the characteristic polynomial of `A` splits over `k` and
+`Module.finrank k V = N`, then `V` has a basis in which the matrix of `A` is upper triangular.
+
+Mathlib has no such statement: `Mathlib/LinearAlgebra/Eigenspace/Triangularizable.lean` is about
+`iSup_maxGenEigenspace_eq_top`, not about bases. -/
+theorem exists_basis_blockTriangular {N : ℕ} (A : V →ₗ[k] V) (hN : Module.finrank k V = N)
+    (hsplit : (LinearMap.charpoly A).Splits) :
+    ∃ b : Basis (Fin N) k V, (LinearMap.toMatrix b b A).BlockTriangular id :=
+  exists_basis_blockTriangular_of_splits_minpoly k N A hN
+    (hsplit.of_dvd A.charpoly_monic.ne_zero (LinearMap.minpoly_dvd_charpoly A))
+
+/-- **Triangularization, with the eigenvalue list.** The triangularizing basis of
+`exists_basis_blockTriangular` comes with a diagonal `lam`, and that diagonal is exactly the list
+of eigenvalues of `A` with multiplicity: `charpoly A = ∏ i, (X - C (lam i))`.
+
+This is the form the book's Problem 2.11.3(f) needs: it turns the hypothesis "the eigenvalues of
+`A` are `λ_1, …, λ_N`" into a triangularizing basis. -/
+theorem exists_basis_blockTriangular_charpoly {N : ℕ} (A : V →ₗ[k] V)
+    (hN : Module.finrank k V = N) (hsplit : (LinearMap.charpoly A).Splits) :
+    ∃ (b : Basis (Fin N) k V) (lam : Fin N → k),
+      (LinearMap.toMatrix b b A).BlockTriangular id ∧
+        (∀ i, LinearMap.toMatrix b b A i i = lam i) ∧
+        LinearMap.charpoly A = ∏ i, (X - C (lam i)) := by
+  obtain ⟨b, hb⟩ := exists_basis_blockTriangular A hN hsplit
+  refine ⟨b, fun i => LinearMap.toMatrix b b A i i, hb, fun _ => rfl, ?_⟩
+  rw [← LinearMap.charpoly_toMatrix A b, Matrix.charpoly_of_upperTriangular _ hb]
+
+/-- Over an algebraically closed field every operator on a finite-dimensional space is
+triangularizable. -/
+theorem exists_basis_blockTriangular_of_isAlgClosed [IsAlgClosed k] {N : ℕ} (A : V →ₗ[k] V)
+    (hN : Module.finrank k V = N) :
+    ∃ b : Basis (Fin N) k V, (LinearMap.toMatrix b b A).BlockTriangular id :=
+  exists_basis_blockTriangular A hN (IsAlgClosed.splits _)
+
 end Existence
+
+section Perm
+
+variable {k : Type*} [Field k]
+
+/-- The roots of `∏ i, (X - C (f i))`, with multiplicity, are the values of `f`. -/
+theorem roots_prod_X_sub_C_comp {ι : Type*} [Fintype ι] (f : ι → k) :
+    (∏ i, (X - C (f i))).roots = Finset.univ.val.map f := by
+  have h : (∏ i, (X - C (f i))) = ((Finset.univ.val.map f).map fun a => X - C a).prod := by
+    rw [Multiset.map_map]; rfl
+  rw [h, Polynomial.roots_multiset_prod_X_sub_C]
+
+/-- Two families of scalars with the same multiset of values differ by a permutation. -/
+theorem exists_perm_of_map_univ_eq {N : ℕ} {lam mu : Fin N → k}
+    (h : Finset.univ.val.map lam = Finset.univ.val.map mu) :
+    ∃ e : Equiv.Perm (Fin N), ∀ i, lam i = mu (e i) := by
+  classical
+  -- Equal multisets of values means each value is attained equally often.
+  have hcard : ∀ a : k, Fintype.card {i // lam i = a} = Fintype.card {i // mu i = a} := by
+    intro a
+    have hc := congrArg (Multiset.count a) h
+    rw [Multiset.count_map, Multiset.count_map] at hc
+    simpa [Fintype.card_subtype, Finset.card_def, Finset.filter_val, eq_comm] using hc
+  -- Matching the fibres of `lam` and `mu` one by one assembles the permutation.
+  let fib : ∀ a : k, {i // lam i = a} ≃ {i // mu i = a} := fun a =>
+    Fintype.equivOfCardEq (hcard a)
+  refine ⟨((Equiv.sigmaFiberEquiv lam).symm.trans (Equiv.sigmaCongrRight fib)).trans
+    (Equiv.sigmaFiberEquiv mu), fun i => ?_⟩
+  exact ((fib (lam i)) ⟨i, rfl⟩).2.symm
+
+/-- Two families of scalars with the same `∏ (X - C ·)` differ by a permutation: a split monic
+polynomial determines its root list up to reordering. -/
+theorem exists_perm_of_prod_X_sub_C_eq {N : ℕ} {lam mu : Fin N → k}
+    (h : (∏ i, (X - C (lam i))) = ∏ i, (X - C (mu i))) :
+    ∃ e : Equiv.Perm (Fin N), ∀ i, lam i = mu (e i) := by
+  refine exists_perm_of_map_univ_eq ?_
+  rw [← roots_prod_X_sub_C_comp lam, ← roots_prod_X_sub_C_comp mu, h]
+
+end Perm
 
 end Etingof
