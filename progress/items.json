@@ -5241,13 +5241,12 @@
     "start_line": 7,
     "end_line": 34,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "fidelity": "faithful",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "The Hom-space equivalence is in the book's orientation and axiom-clean, resolving #7187. The source calls it natural, but the public result remains Nonempty of a pointwise linear equivalence rather than an Adjunction or natural Hom-bifunctor isomorphism; reopened #647.",
-    "fidelity_issue": 647,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "The Hom-space equivalence is in the book's orientation and axiom-clean, resolving #7187. The source's 'naturally isomorphic' is now formalized as such (#647): Etingof.Theorem5_10_1 is a natural isomorphism of the ModuleCat k-valued Hom bifunctors Hom_G(-, Ind_H^G -) ≅ Hom_H(Res_H^G -, -) on (Rep k G)ᵒᵖ × Rep k H, natural in V and in W, and Theorem5_10_1_adjunction gives Res_H^G ⊣ Ind_H^G. Theorem5_10_1_hom_app_app_apply identifies its components with the pointwise equivalence Rep.resCoindHomEquiv.symm, and Theorem5_10_1_apply pins them to the book's own formula F(α)v = (αv)(e). The earlier Nonempty-of-a-pointwise-equivalence statement is retained as Theorem5_10_1_nonempty. All axiom-clean.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter5/Problem5.10.2",

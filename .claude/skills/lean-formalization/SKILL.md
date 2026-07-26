@@ -101,6 +101,15 @@ notification, or start a *single* foreground `lake build` and let lake's lock qu
 not interleave. When a build fails on a missing olean for an unrelated module, suspect this
 before debugging, and confirm with one clean re-run.
 
+**Read build logs with an anchored `grep -nE '^error:'`, never a bare `grep -i error`.** A
+full-library `lake build` currently emits ~970 `PANIC at Lean.Expr.appFn!/appArg!` lines with
+long C++ backtraces, all from `Chapter4/Example4_9_1.lean:328`. They are pre-existing, the
+build still exits 0, and they are *not* a regression from whatever you just changed — but an
+unanchored grep surfaces the backtrace frames (which contain the substring `mapErrorImp`) and
+reads as if your change broke the world. Confirm by counting `PANIC` in a before-and-after
+log; identical counts mean it is the known noise. Trust the final
+`Build completed successfully` line and the exit code.
+
 **Typecheck with `lake build EtingofRepresentationTheory.<Module>`, NOT `lake env lean
 <file>`.** `lake env lean` does **not** apply the lakefile's `[leanOptions]` — in
 particular `maxSynthPendingDepth = 3` (lakefile.toml; the Lean default is 2). Deep
@@ -2881,6 +2890,41 @@ not by hand-building counits:
   (`Res ⊣ Ind`/`Res ⊣ Coind`, finite index, since `Ind ≅ Coind`). Before treating an
   adjoint-direction discrepancy as a real gap, grep for the other-direction adjunction;
   record both with docstrings explaining the biadjointness rather than "fixing" one.
+- **"The book says *naturally* isomorphic but Lean has only a pointwise `Hom`-equivalence"
+  IS a real gap, and the fix is mechanical.** (#647, Theorem 5.10.1 Frobenius reciprocity,
+  `Chapter5/Theorem5_10_1.lean`.) Build the two `Hom` bifunctors from
+  `CategoryTheory.linearCoyoneda k C : Cᵒᵖ ⥤ C ⥤ ModuleCat k` — the curried `k`-linear Hom
+  bifunctor, which is what `NatIso.ofComponents` wants; there is no `Cᵒᵖ × C ⥤ ModuleCat k`
+  version and you do not need one. `Rep k G` has the required `Linear k` instance. Precompose
+  the *inner* functor with `(Functor.whiskeringLeft _ _ _).obj F` and the *outer* one with
+  `G.op ⋙ …` (note `whiskeringLeft` lives in `CategoryTheory.Functor`, so it is
+  `Functor.whiskeringLeft` under a bare `open CategoryTheory`). Both naturality squares are
+  then one-liners off the adjunction — inner (covariant variable)
+  `adj.homEquiv_naturality_right_symm α g`, outer (contravariant variable)
+  `adj.homEquiv_naturality_left_symm f.unop α`, each after `ext` — so no `simp` ever runs
+  over the nested `NatIso.ofComponents` and the whnf-timeout trap noted above never fires.
+  Finish with a `rfl` lemma identifying the components with the pre-existing pointwise
+  equivalence, and another pinning them to the book's own formula for the map; without that
+  second one you have proved *some* isomorphism natural, not the book's.
+- **Universe trap in that construction: `Rep.resCoindHomEquiv` cannot synthesize its first
+  universe.** Its own Mathlib docstring says so ("even with all inputs explicitly given"):
+  its arguments are `Rep.{max w t}` and only the max ever appears, leaving `t` ambiguous.
+  Symptom is a wall of `Rep.coind.{0,0,0,u_1}` vs `?u.12` mismatches on *every* new
+  declaration at once. Fix: declare a file-level `universe w`, spell every representation
+  `Rep.{w} k G`, and write `Rep.resCoindHomEquiv.{w}` / `Rep.resCoindAdjunction.{w}`
+  (`max w w = w`). Relatedly, state object-level `rfl` lemmas through the *functors*
+  (`(coindFunctor …).obj W`), never through a bare `Rep.coind H.subtype W` — the standalone
+  spelling auto-binds a fresh universe and the `rfl` is then rejected. Do not be reassured
+  by the file's *existing* declarations compiling without annotations; a single unconstrained
+  statement can auto-bind its own universe while a file that ties several declarations
+  together cannot.
+- **Give the item's own name to the strongest statement in the file.** When a fidelity fix
+  adds a stronger form alongside the old one, rename so `Etingof.<ItemID>` resolves to the
+  strong one and the superseded form gets a qualified name (`…_nonempty`, `…_pointwise`).
+  A later audit greps the item name and stops at the first hit; leaving the weak statement
+  there invites a re-reopening of the issue you just closed. Check first that nothing but
+  docstrings references the old name (`grep -rn "Etingof.<ItemID>" --include=*.lean`), and
+  that no script keys on it — as of 2026-07 none do.
 - **A fidelity finding of "the bridge linking the computed shadow to the real
   object is assumed implicitly" — check whether that bridge is already a proved
   Proposition in the project before treating it as a doc-only caveat or a big new
