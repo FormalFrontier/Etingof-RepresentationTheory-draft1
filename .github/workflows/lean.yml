@@ -53,6 +53,7 @@ jobs:
           build: false
       - name: Build all modules
         run: |
+          set -o pipefail
           # Build individual modules, excluding:
           # - Chapter/root aggregation files (mindepth 2 skips these)
           # - Modules that import full Mathlib + large chapter environments,
@@ -61,4 +62,17 @@ jobs:
           find EtingofRepresentationTheory -mindepth 2 -name '*.lean' \
             | grep -vE "$EXCLUDE" \
             | sed 's|/|.|g; s|\.lean$||' \
-            | xargs lake build
+            > "$RUNNER_TEMP/modules.txt"
+          # Keep the log: the lint-clean check below reads warnings out of it
+          # rather than paying for a second build.
+          xargs lake build < "$RUNNER_TEMP/modules.txt" 2>&1 | tee "$RUNNER_TEMP/build.log"
+      - name: No new build warnings
+        run: |
+          # `lake build` exits 0 on warnings, so without this step nothing
+          # enforces the project's lint-clean policy. The check ratchets against
+          # scripts/lint-warning-baseline.txt: a file not on that list must build
+          # warning-free, and a listed file that has since been cleaned has to be
+          # dropped from the list.
+          scripts/check_lint_clean.py \
+            --log "$RUNNER_TEMP/build.log" \
+            --modules "$RUNNER_TEMP/modules.txt"
