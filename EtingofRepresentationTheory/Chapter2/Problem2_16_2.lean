@@ -8,20 +8,29 @@ Let `𝔤` be the two-dimensional Lie algebra with basis `X, Y` and commutation 
 `X = e₁₁` and `Y = e₁₂` (which satisfy `[e₁₁, e₁₂] = e₁₂`).
 
 The problem asks to classify the irreducible finite-dimensional representations in characteristic
-`0` and characteristic `p`, and whether Lie's theorem holds in characteristic `p`. We render the
-book's answers as the statements:
+`0` and characteristic `p`, and whether Lie's theorem holds in characteristic `p`. Over an
+algebraically closed field the answers are:
 
-* **Characteristic `0`** (algebraically closed, so Lie's theorem applies): every irreducible
-  finite-dimensional representation is `1`-dimensional, and on such a representation `Y` acts as
-  `0`. So the irreducibles are classified by the scalar `X ↦ λ ∈ k` (with `Y ↦ 0`).
-* **Characteristic `p`**: Lie's theorem is false: there exist irreducible finite-dimensional
-  representations of dimension `> 1` (in fact of dimension `p`).
+* **Characteristic `0`**: every irreducible finite-dimensional representation is `1`-dimensional
+  with `Y` acting as `0`, so the irreducibles are the modules `oneDimModule μ` given by `X ↦ μ`,
+  `Y ↦ 0`, and `μ ∈ k` is a complete invariant.
+* **Characteristic `p`**: besides the same one-dimensional family there is a family of
+  `p`-dimensional irreducibles `Fam γ a = V(γ, a)` on `k^{ℤ/p}`, with `X` acting diagonally by
+  `a + i` and `Y` by `γ` times the cyclic shift. Every finite-dimensional irreducible is one of
+  these, `V(γ, a) ≅ V(γ', a')` exactly when `γ = γ'` and `a - a'` lies in the prime field, and no
+  one-dimensional module meets the `p`-dimensional family. In particular Lie's theorem fails.
 
-The characteristic-`0` results (`bracket_X_Y`, `charZero_irreducible_finrank_one`,
-`charZero_Y_acts_zero`) are established below, along with the supporting fact that `𝔤` is
-solvable (`instIsSolvable`). The characteristic-`p` failure `lie_theorem_fails_charP` follows from
-`section CharP`, which constructs the `p`-dimensional irreducible `𝔤`-module (`X` diagonal with
-distinct eigenvalues `0, …, p-1`, `Y` the cyclic shift) and instantiates the statement at it.
+Main statements:
+
+* `bracket_X_Y`, `instIsSolvable` — the defining relation and solvability of `𝔤`.
+* `charZero_irreducible_finrank_one`, `charZero_Y_acts_zero`, `charZero_X_scalar` — the
+  characteristic-`0` structure of an irreducible.
+* `charZero_exists_unique_iso_oneDim` — the characteristic-`0` classification.
+* `fam_irreducible`, `fam_finrank` — the `p`-dimensional family and its irreducibility.
+* `fam_nonempty_equiv_iff`, `oneDim_not_equiv_fam` — the isomorphism criterion and disjointness of
+  the two families.
+* `charP_exists_iso`, `charP_exists_unique_iso` — the characteristic-`p` classification.
+* `lie_theorem_fails_charP` — the resulting failure of Lie's theorem.
 -/
 
 namespace Etingof.Problem2_16_2
