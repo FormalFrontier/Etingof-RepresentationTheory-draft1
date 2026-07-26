@@ -301,6 +301,30 @@ Check that the plan's assumptions still hold:
   problem go away); otherwise `coordination skip` with a "blocked on unmerged #N"
   reason rather than stacking your work on that branch (a stacked PR against
   `main` carries the other PR's commits and conflicts on merge).
+- **If the foundation is in no PR either, it may exist on a dead session's local
+  branch — look before you rewrite it.** A session killed mid-task leaves its
+  commits on a local branch in its own worktree: no PR, usually no remote branch,
+  nothing `coordination` can see. Worktrees share one object store, so those
+  commits *are* reachable from here — but only if you go looking. Whenever an
+  issue's "Current state" describes work as landed and `main` disagrees, run
+
+  ```bash
+  python3 scripts/list_stranded_branches.py --verbose
+  git log --all --oneline -- '<path/you/expected>'   # targeted second pass
+  ```
+
+  `--verbose` reports every local `agent/*` branch carrying commits nobody can
+  see; the `git log --all` is the backstop for branches the script rules out
+  (e.g. a *live* session's, which it suppresses by design). If you find the work,
+  cherry-pick it onto your branch and credit the original commits in your PR body
+  rather than rewriting it. If it belongs to someone else's issue, run
+  `python3 scripts/list_stranded_branches.py --recover` so the branch is pushed
+  and its issue gets a comment, and carry on with your own item.
+
+  (2026-07-26: three commits and ~370 lines of finished, compiling Lean for
+  Problem 8.2.10 sat on dead `agent/65a63411`. #7881's body said they had landed;
+  they had not, and a worker who trusted the body would have rewritten all of it.
+  Recovered in PR #7890; the detector exists because of #7891.)
 - **The "missing"/"partial" result may already exist — grep before implementing.**
   Any issue that describes a gap — an audit reconciliation flagging a
   `covered_partial` residual, *or* a feature issue asserting a result is "not in
@@ -489,8 +513,23 @@ After each coherent chunk of changes:
 
 Each commit must compile. One logical change per commit.
 
-**Commit early, create PRs early.** Sessions can terminate at any time.
-Pushed-but-not-PR'd work is effectively lost — nobody will find it.
+**Commit early, push early, create PRs early.** Sessions can terminate at any time.
+
+**Push the branch the moment you have your first commit**, long before it is
+PR-worthy:
+
+```bash
+git push -u origin <branch>      # repeat after later commits; no PR needed yet
+```
+
+A commit that exists only locally is invisible to every other agent and every
+other worktree, and a killed session leaves no trace of it anywhere the
+coordination layer looks — the issue's claim is released, the issue goes back on
+the queue, and the next worker rewrites work that already exists. Pushing costs
+nothing and downgrades that to a branch `scripts/list_stranded_branches.py` will
+report and `--recover` can link back to its issue. Do it even if you expect to
+force-push over it later. (2026-07-26: ~370 lines of finished Lean for Problem
+8.2.10, found by accident days later — #7891.)
 
 - Commit after every compiling milestone. Don't wait for the full feature.
 - WIP commits are fine: `feat: WIP prove helper_lemma (2/4 sorries remain)`
