@@ -6286,8 +6286,12 @@ This project's CI runs `weak.linter.mathlibStandardSet = true`, so an
 instance/hypothesis from the `variable` block that a lemma does not use emits
 `automatically included section variable(s) unused` (and unused hypotheses like
 a stated `(hdeg : …)` emit `Variable name … is not explicitly referenced`).
-These are **warnings only** — plain `lake build` still returns 0, so CI passes —
-but the project keeps lint clean. Silence an unused instance with
+`lake build` still returns 0 on these, but **CI does not**: the "No new build
+warnings" step runs `scripts/check_lint_clean.py` over the build log and fails on
+any warning in a file not listed in `scripts/lint-warning-baseline.txt`. New files
+are never on that list, so a new file must be warning-free. If you clean up a file
+that *is* listed, delete its line, or the same step fails on the stale entry.
+Silence an unused instance with
 `omit [Inst] in` immediately before the declaration. Gotcha: `omit … in` must go
 **before** the docstring, not between the `/-- … -/` and the `theorem`
 (`omit` after a docstring gives `unexpected token 'omit'; expected 'lemma'`):
