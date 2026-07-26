@@ -241,6 +241,53 @@ matter:
 `Chapter9/Problem9_3_2.lean`'s `Pplus`/`Pminus` (issue #7704, "give P₊ and P₋ distinct
 carriers") is the same pattern with the parameters dropped entirely.
 
+**Three `rw` traps specific to parameter-indexed `def` synonyms** (`def Jrep (_a _c : Fin n → ℂ) :
+Type := DualNumber ℂ`, `Chapter3/Problem3_9_2_Classification.lean`, #6276). All three cost a build
+cycle each, and none of the error messages points at the cause.
+
+1. **`rw [← lemma]` can rewrite a term of a *different* parameter instance**, because the two
+   synonyms are defeq. `jrepBasis_zero_eq a c : jrepBasis a c 0 = (1 : Jrep a c)` used as
+   `rw [← jrepBasis_zero_eq a c]` on the goal `e 1 = 1` (LHS `1 : Jrep a c`, RHS
+   `1 : Jrep a c'`) hit the **RHS**, leaving `1 = jrepBasis a c 0`. The reported goal looks as
+   though the rewrite never fired. **Fix: never `rw [←…]` across such a synonym.** State the
+   lemma at the basis (`have hb : e (B 0) = 1`), then rewrite *forward* into it
+   (`rw [jrepBasis_zero_eq a c] at hb`), which touches only the one occurrence.
+2. **`rw [h]` for `h : c' = e` fails with "motive is not type correct" whenever `c'` indexes a
+   type in another hypothesis's type** (here `φ : Jrep a c ≃ₗ Jrep a c'`). Do not reach for
+   `conv`/`occs`: **`subst h` (or `subst c'`) as the first line of the proof** is the fix, so the
+   whole proof runs at the substituted parameter.
+3. **`rcases h with rfl | rfl` on `h : w = b ∨ w = a` eliminates the theorem's binder `b`, not the
+   local `w`** — the symptom is `Unknown identifier b` many lines later, plus a `whnf` timeout
+   cascade. This is the `subst` trap ("name the one to drop") in disguise: `rcases`'s `rfl`
+   pattern gives you no name to aim at. **Fix: `rcases h with h | h` then `subst w`.**
+
+**Recipe: a Jordan-block module over a commutative algebra, via dual numbers.** To give
+`Fin 2 → k` the action `xᵢ ↦ [[aᵢ, cᵢ], [0, aᵢ]]` you cannot use `MvPolynomial.aeval`: its target
+must be a `CommSemiring`, and `Module.End k (Fin 2 → k)` is not one. Do **not** hand-roll a
+commutative carrier or fight `Algebra.adjoin`. Use Mathlib's dual numbers: `CommRing (DualNumber k)`
+does synthesize (`DualNumber R := TrivSqZeroExt R R`, carrier `R × R`), so
+`jHom a c := MvPolynomial.aeval fun i => algebraMap k (Jrep a c) (a i) + c i • Jrep.eps a c` is an
+honest `AlgHom`, and `Module.compHom _ (jHom a c).toRingHom` is the module. Give the synonym the
+full ring structure by `inferInstanceAs` (`CommRing`, `Algebra k`, `Nontrivial`, and
+`Module.Finite k (k × k)` / `FiniteDimensional k (k × k)` — the `DualNumber` spellings do **not**
+resolve, you must go through `k × k`) so `jHom a c p * x` typechecks entirely inside the synonym
+and no ascription is needed. `fst`/`snd` wrappers plus `rfl` coordinate lemmas then give the
+`ℂ`-basis `1, ε` and all the extensionality you need.
+
+**Reducing `A`-linearity to the generators.** For `A = MvPolynomial ι k`, a `k`-linear equiv that
+commutes with every `X i` is `A`-linear: `induction p using MvPolynomial.induction_on` with cases
+`C r` (`← MvPolynomial.algebraMap_eq`, `algebraMap_smul`, `map_smul`), `add`, and
+`mul_X` (`rw [mul_smul, ih, h, ← mul_smul]`). Package it once over *abstract* modules
+(`nonempty_linearEquiv_of_comm_X`, plus a `Module.Basis`-indexed variant that checks the generators
+on a basis via `B.ext`) — per the "prove it over an abstract module and instantiate" rule above,
+this keeps the concrete module's `compHom` action from being unfolded during the induction.
+
+**After editing a *dependency* file, `lake build` that module before `lake env lean` on the
+dependent one.** `lake env lean` reads the existing olean, so de-privatizing a lemma (or any
+signature change) in `Foo.lean` is invisible to a `lake env lean Bar.lean` that imports it — you
+get `Unknown identifier` for the very name you just exposed, which reads as a cascade from some
+earlier error. One `lake build …Foo` fixes it.
+
 **For a *Lie* module on a phantom carrier, retype the representation at the carrier or the
 generator action will not reduce (#7410, `Chapter2/Problem2_16_2.lean`).** With
 `def Fam (_γ) (_a) : Type := ZMod p → k` and `famRep : g k →ₗ⁅k⁆ Module.End k (ZMod p → k)`, the

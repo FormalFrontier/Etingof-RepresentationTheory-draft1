@@ -126,6 +126,21 @@ coordination orient
    coordination list-unclaimed --label <your-label>
    ```
 
+   **`coordination list-unclaimed` caps its output at 20 and shows the *newest* issues, not the
+   oldest, despite the table above documenting FIFO order.** So genuinely starved issues are
+   invisible to it: on 2026-07-26 the head of `list-unclaimed` was 2026-07-22, while #6045, #6053,
+   #6217, #6276 and others had sat unclaimed since 2026-07-09. If you want the real FIFO head, ask
+   GitHub directly:
+   ```bash
+   gh issue list --state open --label agent-plan --json number,title,labels,createdAt --limit 200 \
+     --jq 'map(select([.labels[].name] | (contains(["claimed"]) or contains(["has-pr"])
+       or contains(["blocked"]) or contains(["replan"])) | not))
+       | sort_by(.createdAt) | .[:10] | .[] | "\(.number) \(.createdAt) \(.title)"'
+   ```
+   Prefer a starved issue over a fresh one when both are in scope: the queue view means nobody
+   else is seeing it. (2026-07-26: #6276 had been reopened with expanded scope on top of a merged
+   PR and then sat unclaimed for 17 days purely because it fell off the bottom of this list.)
+
 **Don't repair PRs from a worker session.** PR health (merge conflicts,
 failed CI, stuck CI) is the `repair` agent's responsibility; pod dispatches
 `/repair` automatically when `coordination list-pr-repair` reports
@@ -154,7 +169,67 @@ git rev-parse HEAD      # record starting commit
 **If the branch already exists** (common in reused worktrees): check for an
 open PR on it first (`gh pr list --head agent/<id>`). If a PR exists, create
 a new branch with a suffix (`agent/<id>-v2`). If no PR exists, reset it to
-master: `git checkout agent/<id> && git reset --hard origin/master`.
+the default branch: `git checkout agent/<id> && git reset --hard origin/main`
+(this repo's default branch is `main`, not `master`).
+
+**Do not try to `git checkout main` in a pod worktree.** `main` is checked out
+in the primary worktree, so the checkout fails — and if you chain it as
+`git checkout main || git checkout master` the first failure is silent and you
+only see a confusing "pathspec 'master' did not match" error. Fetch and compare
+against `origin/main` instead: `git fetch origin && git log --oneline -1 origin/main`.
+
+**Before that `git reset --hard`, run `git status --short` and inspect any
+uncommitted changes** (`git diff`). A reused worktree can carry in-progress
+edits from a crashed prior session; `reset --hard` discards them irrecoverably.
+If the changes look like real work (not stray build artifacts), stash them
+(`git stash`, never `git stash -u`) or commit them on a scratch branch before
+resetting.
+
+Judge that inspection in *both* directions: stray changes you leave in place ride
+along into your PR as unrelated regressions. Check `git diff --numstat` for changes
+that are pure *deletions* against `main` in files you were not asked to touch,
+especially under `.claude/`. A crashed session can leave an accidental revert of
+accumulated workflow guidance, which is easy to commit without noticing and hard to
+spot in review. Restore those (`git checkout HEAD -- <paths>`) rather than carrying
+them. (2026-07-25: three times, worktrees arrived with 169, 279 and 320 lines of
+`.claude/` guidance deleted and nothing added. In the third case the session-start
+`git status` listed all five modified files right in the agent's context and it
+committed them anyway, because its own stale copy of this skill lacked this check —
+see the publish-time backstop in Step 7.)
+
+**If the restored files include this skill or your `/command` file, re-read them.**
+Skills load from the working tree, so a truncated `SKILL.md` means the guidance you
+started the session on was the deleted version and you never saw these instructions.
+
+That instruction only reaches an agent who already *has* the full file, so do not rely
+on it — run the check unconditionally, right after `git status`, whether or not
+anything looked wrong:
+
+```bash
+wc -l .claude/skills/agent-worker-flow/SKILL.md
+git show HEAD:.claude/skills/agent-worker-flow/SKILL.md | wc -l
+```
+
+If the counts differ, restore and **re-invoke the skill** (not just `Read` the file), then
+restart the workflow from Step 1. **Caveat: re-invoking may be a no-op.** The harness caches
+skills per session and answers the second `Skill` call with "instructions unchanged", serving the
+truncated copy it already loaded. If you see that message after restoring, fall back to `Read` on
+`.claude/skills/agent-worker-flow/SKILL.md` and your `/command` file — that does pick up the
+restored text. Guidance added since the stale revision is exactly the
+guidance you are most likely to need — e.g. the Step 7 rules on replacing `create-pr`'s
+placeholder PR body and on never running `gh pr merge --auto` yourself.
+(2026-07-25: a third worktree that day arrived 193 lines stale; the session ran to
+completion on the old copy and shipped a placeholder PR body.)
+
+**If you branched off an unmerged PR's head** (see "Dependency code that lives
+only in an unmerged PR" above), decide at publish time:
+
+- Predecessor already merged → replay only *your* commits onto `main` with
+  `git rebase --onto origin/main <pr-head-sha> <your-branch>`, then push.
+- Predecessor still open → publish anyway rather than stalling the session, and
+  leave a PR comment naming it and giving that exact command. Do not wait more
+  than ~15 minutes on someone else's CI; a `repair` agent can fix the conflict
+  if one appears, but only if the PR says what it is stacked on.
 
 **Before that `git reset --hard`, run `git status --short` and inspect any
 uncommitted changes** (`git diff`). A reused worktree can carry in-progress
@@ -452,6 +527,15 @@ Write a progress entry to `progress/<UTC-timestamp>_<UUID-prefix>.md`:
 - Date/time (UTC), session type, what was accomplished
 - Decisions made, key patterns discovered
 - What remains, quality metric deltas
+
+**Before pushing, check the scope of your diff: `git diff --stat origin/main...HEAD`.**
+Every changed file must belong to the issue you claimed. **Never stage with a blanket
+`git add -A`/`git commit -a`** — in a reused worktree that sweeps up whatever a previous
+session left behind, and stale `.claude/` copies land on `main` as silent reverts of
+accumulated guidance. Stage the paths you actually touched. This is the backstop for the
+Step 2 stale-worktree check: it catches the same damage even when the copy of this skill
+you started on was itself the truncated one. (2026-07-25: PR #7834 shipped a clean
+Künneth proof together with a 320-line revert of `.claude/`, repaired by #7835.)
 
 **Full completion:**
 ```bash
