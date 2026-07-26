@@ -97,8 +97,22 @@ all dependencies close. Blocked issues are excluded from
 
 **Dependency code that lives only in an unmerged PR**: a dependency issue
 can be *closed* while the def/lemma it produced is still in an open PR
-(residual assembly, split work), so it is absent from `main`. If the code
-you need to build on is in such a PR, do NOT wait or skip — `git fetch`
+(residual assembly, split work), so it is absent from `main`.
+
+**Check first whether that PR is simply mergeable — if so, merge it and work
+off `main`.** This is strictly better than either stacking or skipping, and it
+is the same merge sweep CLAUDE.md prescribes, just triggered by need rather
+than by the calendar. Require every check to have *completed successfully*
+(`gh pr view <N> --json mergeable,mergeStateStatus,statusCheckRollup`;
+`MERGEABLE` + `CLEAN` + every `statusCheckRollup` entry `COMPLETED`/`SUCCESS`)
+— "not failing" is not "passing", and a PR whose checks are still queued has
+empty `conclusion` fields. Merge with `gh pr merge <N> --squash
+--delete-branch`, re-`git fetch`, confirm the decls are on `main`, and proceed
+normally. (2026-07-25: #7807's stated foundation was in open PR #7809, green
+and clean; merging it removed the stacking problem entirely.)
+
+If the PR is *not* mergeable (conflicts, failing or still-running CI), do NOT
+wait or skip — `git fetch`
 that PR's head branch and base your branch on it
 (`git reset --hard origin/<pr-head>`). Then in your PR body add an
 ordering note naming the predecessor PR and the exact rebase command, so a
@@ -272,10 +286,12 @@ Check that the plan's assumptions still hold:
   "Current state" describes machinery you'll build on (e.g. "added in #7222"),
   confirm it: `grep` for the named decls in the target file, and if absent check
   whether #N is still an *open* PR (`gh pr view <N>`, `git merge-base --is-ancestor
-  <sha> origin/main`). If the foundation is only in an unmerged branch, the issue
-  is blocked — `coordination skip` it with a "blocked on unmerged #N" reason
-  rather than stacking your work on that branch (a stacked PR against `main`
-  carries the other PR's commits and conflicts on merge).
+  <sha> origin/main`). If the foundation is only in an unmerged branch, follow
+  "Dependency code that lives only in an unmerged PR" above: **merge #N first if
+  it is mergeable with all checks passed** (the common case, and it makes the
+  problem go away); otherwise `coordination skip` with a "blocked on unmerged #N"
+  reason rather than stacking your work on that branch (a stacked PR against
+  `main` carries the other PR's commits and conflicts on merge).
 - **The "missing"/"partial" result may already exist — grep before implementing.**
   Any issue that describes a gap — an audit reconciliation flagging a
   `covered_partial` residual, *or* a feature issue asserting a result is "not in
