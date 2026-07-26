@@ -132,6 +132,13 @@ theorem coeff_toLaurent (n : ℕ) (P : MvPolynomial (Fin n) ℂ) (e : Fin n →�
   rw [Finsupp.mapDomain_apply (expEmbed_injective n)]
   rfl
 
+/-- `toLaurent` is injective, so passing to the Laurent ring loses nothing and the target
+is not a degenerate ring. -/
+theorem toLaurent_injective (n : ℕ) : Function.Injective (toLaurent n) := by
+  intro P Q h
+  ext e
+  rw [← coeff_toLaurent n P e, ← coeff_toLaurent n Q e, h]
+
 @[simp] theorem toLaurent_X (n : ℕ) (i : Fin n) :
     toLaurent n (MvPolynomial.X i) = MvLaurent.X i := by
   change Finsupp.mapDomain (expEmbed n) (MvPolynomial.X i) = _

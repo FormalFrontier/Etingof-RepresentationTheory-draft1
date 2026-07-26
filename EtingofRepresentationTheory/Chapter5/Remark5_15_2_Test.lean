@@ -40,10 +40,16 @@ what makes `frobeniusLaurentFactor` live outside `MvPolynomial`. -/
 example (n : ℕ) (i : Fin n) : MvLaurent.X i * MvLaurent.Xinv i = 1 :=
   MvLaurent.X_mul_Xinv i
 
-/-- `toLaurent` is injective on coefficients, so the embedding loses no information. -/
+/-- `toLaurent` preserves coefficients, so the embedding loses no information. -/
 example (n : ℕ) (P : MvPolynomial (Fin n) ℂ) (e : Fin n →₀ ℕ) :
     MvLaurent.coeff (expEmbed n e) (toLaurent n P) = MvPolynomial.coeff e P :=
   coeff_toLaurent n P e
+
+/-- Non-vacuity: `MvLaurent n` is not the zero ring, and `toLaurent` is injective, so the
+coefficient statements above are not trivially satisfied. -/
+example (n : ℕ) : Nontrivial (MvLaurent n) := inferInstance
+
+example (n : ℕ) : Function.Injective (toLaurent n) := toLaurent_injective n
 
 #print axioms Etingof.Remark5_15_2
 #print axioms Etingof.Remark5_15_2_equiv_Theorem5_15_1
