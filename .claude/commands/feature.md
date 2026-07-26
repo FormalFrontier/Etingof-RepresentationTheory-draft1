@@ -43,7 +43,10 @@ read the top: it is thousands of lines of accumulated traps, so `grep` it for th
 file, chapter item, and Mathlib types you are about to touch (e.g.
 `grep -n 'Problem2_16_3\|LieSubalgebra' .claude/skills/lean-formalization/SKILL.md`).
 Most items already have a section naming the exact instance/tactic trap that will
-otherwise cost you a build cycle to rediscover.
+otherwise cost you a build cycle to rediscover. A rewrite or `simp` that fails to
+find a pattern the goal visibly contains is almost always one of those documented
+instance/elaboration traps, not a mistake in your proof — check the skill before
+rewriting the proof.
 
 Follow the plan's deliverables. For new implementations, follow the development
 cycle described in the project's CLAUDE.md.

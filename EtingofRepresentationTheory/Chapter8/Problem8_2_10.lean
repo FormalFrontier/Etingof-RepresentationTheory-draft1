@@ -1,6 +1,7 @@
 import EtingofRepresentationTheory.Chapter8.KoszulContraction
 import EtingofRepresentationTheory.Chapter8.KoszulDifferential
 import EtingofRepresentationTheory.Chapter8.KoszulAugmentation
+import EtingofRepresentationTheory.Chapter8.KoszulBasis
 
 /-!
 # Problem 8.2.10: Koszul resolution and the Hilbert syzygies theorem
@@ -84,6 +85,21 @@ The exercise itself is being formalized bottom-up. Landed so far:
     `dᵢ(f)(u) = ιᵤ (f u)`. Since `SV`-linear maps out of `Cᵢ₊₁` are determined by those values
     (`Etingof.koszulX_hom_ext`), this gives `Etingof.koszulD_eq_of_basis` and
     `Etingof.koszulComplex_eq_of_basis`.
+
+* `Chapter8/KoszulBasis.lean` — the complex in coordinates, which is what a characteristic-free
+  exactness proof needs. A finite basis `b : Module.Basis κ k V` on a linearly ordered `κ` gives
+  the monomial `k`-basis of `SV` and the subset `k`-basis of `⋀ⁱ V`, hence the `k`-basis
+  `Etingof.koszulKBasis` of `Cᵢ` indexed by pairs `(α, s)` of a monomial exponent and an
+  `i`-element subset. On it, `Etingof.koszulD_koszulKBasis` reads
+
+    `d (x^α ⊗ e_s) = ∑_{a ∈ s} (-1)^(pos(a, s) + 1) x^(α + xₐ) ⊗ e_(s \ {a})`,
+
+  where `pos(a, s) = #{c ∈ s : c < a}` is `Etingof.finsetPos`; the sign is the book's `(-1)ʲ`,
+  since deleting `a` deletes the entry in position `pos(a, s)`. The two contraction lemmas
+  behind it, `Etingof.exteriorContraction_basis_of_notMem` and
+  `Etingof.exteriorContraction_basis_of_mem`, say that `ι_{xₐ*}` kills `e_s` for `a ∉ s` and
+  sends it to `(-1)^(pos(a,s)+1) e_(s \ {a})` for `a ∈ s`. The augmentation is
+  `Etingof.koszulAug_koszulKBasis`: `ε (x^α ⊗ 1) = 1` if `α = 0` and `0` otherwise.
 
 Still to come: exactness of the augmented complex (i), the `SW` resolution (ii), the bimodule
 resolution (iii), Hilbert syzygies (iv), and the `Ext`/`Tor` computation (v). See the child issues
