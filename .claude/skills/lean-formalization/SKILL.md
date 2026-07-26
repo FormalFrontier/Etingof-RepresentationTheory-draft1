@@ -101,6 +101,15 @@ notification, or start a *single* foreground `lake build` and let lake's lock qu
 not interleave. When a build fails on a missing olean for an unrelated module, suspect this
 before debugging, and confirm with one clean re-run.
 
+**Read build logs with an anchored `grep -nE '^error:'`, never a bare `grep -i error`.** A
+full-library `lake build` currently emits ~970 `PANIC at Lean.Expr.appFn!/appArg!` lines with
+long C++ backtraces, all from `Chapter4/Example4_9_1.lean:328`. They are pre-existing, the
+build still exits 0, and they are *not* a regression from whatever you just changed — but an
+unanchored grep surfaces the backtrace frames (which contain the substring `mapErrorImp`) and
+reads as if your change broke the world. Confirm by counting `PANIC` in a before-and-after
+log; identical counts mean it is the known noise. Trust the final
+`Build completed successfully` line and the exit code.
+
 **Typecheck with `lake build EtingofRepresentationTheory.<Module>`, NOT `lake env lean
 <file>`.** `lake env lean` does **not** apply the lakefile's `[leanOptions]` — in
 particular `maxSynthPendingDepth = 3` (lakefile.toml; the Lean default is 2). Deep
@@ -2343,7 +2352,9 @@ cheap pieces:
 
 ### Matrix Lie bracket (`𝔰𝔬(n)`, `𝔰𝔩`, §2.9 examples) is a *local* instance
 
-**`LieRing (Matrix n n R)` from `LieRing.ofAssociativeRing` (`⁅a,b⁆ = ab − ba`) is NOT a global instance** — Mathlib declares it `attribute [local instance 100]`, active only inside `Mathlib/Algebra/Lie/OfAssociative.lean`. A `LieSubalgebra` like `LieAlgebra.Orthogonal.so n R` still works (its subtype's `LieRing`/`LieAlgebra` are baked in), but the moment you write the *ambient* matrix bracket `⁅A, B⁆` (e.g. in a `map_lie'` obligation, or via `LieSubalgebra.coe_bracket : ↑⁅x,y⁆ = ⁅↑x,↑y⁆`) you get `failed to synthesize LieRing (Matrix …)`. **Fix: re-enable it in your file with `attribute [local instance 100] LieRing.ofAssociativeRing`.** The priority `100` is deliberate: `Fin n → R` is also a ring, so this instance *would* diamond with `Cross.lieRing` (the cross-product bracket, itself a Mathlib non-instance you enable at default priority ~1000) — but the higher default priority of `Cross.lieRing` wins, so the vector bracket stays `⨯₃` and `bracket_eq_cross : ⁅u,v⁆ = u ⨯₃ v := rfl` is unaffected. **Worked sorry-free template: `Chapter2/Exercise2_9_5.lean` (#5965), the hat-map `LieEquiv (Fin 3 → ℝ) ≃ₗ⁅ℝ⁆ so(3)`.** Recipe: `hatFun v := !![0,-v 2,v 1; v 2,0,-v 0; -v 1,v 0,0]`; membership/linearity/`map_lie'`/`left_inv`/`right_inv` all discharge entrywise by `ext i j; fin_cases i <;> fin_cases j <;> simp [hatFun, cross_apply] <;> ring` (matrix `*` evaluates via default `!!`/`Fin 3` simp lemmas — `Matrix.mul_apply`/`Fin.sum_univ_three` are *unused* here); `right_inv` (reading entries off a skew matrix) needs the skew relations `A j i = -A i j` from `A.property` via `congrFun (congrFun ((mem_so _).1 A.property) i) j`, fed to `linarith`. Inside a `LieEquiv … where` block, unfold the subtype-`toFun` goal with `apply Subtype.ext` then `change` (not `show` — the style linter flags `show` for defeq goal changes).
+**`LieRing (Matrix n n R)` from `LieRing.ofAssociativeRing` (`⁅a,b⁆ = ab − ba`) is NOT a global instance** — Mathlib declares it `attribute [local instance 100]`, active only inside `Mathlib/Algebra/Lie/OfAssociative.lean`. A `LieSubalgebra` like `LieAlgebra.Orthogonal.so n R` still works (its subtype's `LieRing`/`LieAlgebra` are baked in), but the moment you write the *ambient* matrix bracket `⁅A, B⁆` (e.g. in a `map_lie'` obligation, or via `LieSubalgebra.coe_bracket : ↑⁅x,y⁆ = ⁅↑x,↑y⁆`) you get `failed to synthesize LieRing (Matrix …)`. **Fix: re-enable it in your file with `attribute [local instance 100] LieRing.ofAssociativeRing`.** The priority `100` is deliberate: `Fin n → R` is also a ring, so this instance *would* diamond with `Cross.lieRing` (the cross-product bracket, itself a Mathlib non-instance you enable at default priority ~1000) — but the higher default priority of `Cross.lieRing` wins, so the vector bracket stays `⨯₃` and `bracket_eq_cross : ⁅u,v⁆ = u ⨯₃ v := rfl` is unaffected. **Worked sorry-free template: `Chapter2/Exercise2_9_5.lean` (#5965), the hat-map `LieEquiv (Fin 3 → ℝ) ≃ₗ⁅ℝ⁆ so(3)`.** Recipe: `hatFun v := !![0,-v 2,v 1; v 2,0,-v 0; -v 1,v 0,0]`; membership/linearity/`map_lie'`/`left_inv`/`right_inv` all discharge entrywise by `ext i j; fin_cases i <;> fin_cases j <;> simp [hatFun, cross_apply] <;> ring` (matrix `*` evaluates via default `!!`/`Fin 3` simp lemmas — `Matrix.mul_apply`/`Fin.sum_univ_three` are *unused* here); `right_inv` (reading entries off a skew matrix) needs the skew relations `A j i = -A i j` from `A.property` via `congrFun (congrFun ((mem_so _).1 A.property) i) j`, fed to `linarith`. Inside a `LieEquiv … where` block, unfold the subtype-`toFun` goal with `apply Subtype.ext` then `change` (not `show` — the style linter flags `show` for defeq goal changes). **The locality does *not* leak into downstream files, so do not hand-roll a bespoke `LieRing` structure to avoid it.** A `def Foo : LieSubalgebra k (Module.End k A)` written under the `local` attribute stores those instances as fixed implicit arguments in `Foo`'s type, so later files get `↥(Foo …)`, `LieAlgebra k (Foo …)` and every subtype lemma by `inferInstance` **without** re-enabling anything — only re-stating the ambient type yourself needs the attribute. This is exactly how Mathlib ships `LieAlgebra.Orthogonal.so`. Confirmed 2026-07-26 (#5363, `Chapter2/Example2_9_2.lean`): `Der k A`, the derivations of an *arbitrary associative* `k`-algebra as a `LieSubalgebra k (Module.End k A)`, is fully usable from a file that never imports the attribute — verified against a scratch file before committing, which is the cheap way to settle this. (That file is also the template for noncommutative derivations generally: Mathlib's `Derivation R A M` requires `[CommSemiring A]`, so any book item saying "derivations of an algebra" needs this construction, not `Derivation`.)
+
+While proving the `lie_mem'`/module fields there: the endomorphism apply-lemmas are `LinearMap.add_apply` / `LinearMap.smul_apply` / `LinearMap.sub_apply`, but *composition* is `Module.End.mul_apply` — the `Module.End.{add,smul,sub}_apply` spellings do not exist, and reaching for the uniform `Module.End.*` prefix costs a build cycle. Closing the commutator computation needs `noncomm_ring` (`import Mathlib.Tactic.NoncommRing`); `ring` does not apply to a noncommutative `A`, and `abel` cannot distribute the products.
 
 ### Matrix-conjugation reps `conjRep A N = A·N·star A` on a *variable* `N` — go through basis characters + `module`, NOT entrywise `simp` (Ch4 SO(3), #6547)
 
@@ -2879,6 +2890,41 @@ not by hand-building counits:
   (`Res ⊣ Ind`/`Res ⊣ Coind`, finite index, since `Ind ≅ Coind`). Before treating an
   adjoint-direction discrepancy as a real gap, grep for the other-direction adjunction;
   record both with docstrings explaining the biadjointness rather than "fixing" one.
+- **"The book says *naturally* isomorphic but Lean has only a pointwise `Hom`-equivalence"
+  IS a real gap, and the fix is mechanical.** (#647, Theorem 5.10.1 Frobenius reciprocity,
+  `Chapter5/Theorem5_10_1.lean`.) Build the two `Hom` bifunctors from
+  `CategoryTheory.linearCoyoneda k C : Cᵒᵖ ⥤ C ⥤ ModuleCat k` — the curried `k`-linear Hom
+  bifunctor, which is what `NatIso.ofComponents` wants; there is no `Cᵒᵖ × C ⥤ ModuleCat k`
+  version and you do not need one. `Rep k G` has the required `Linear k` instance. Precompose
+  the *inner* functor with `(Functor.whiskeringLeft _ _ _).obj F` and the *outer* one with
+  `G.op ⋙ …` (note `whiskeringLeft` lives in `CategoryTheory.Functor`, so it is
+  `Functor.whiskeringLeft` under a bare `open CategoryTheory`). Both naturality squares are
+  then one-liners off the adjunction — inner (covariant variable)
+  `adj.homEquiv_naturality_right_symm α g`, outer (contravariant variable)
+  `adj.homEquiv_naturality_left_symm f.unop α`, each after `ext` — so no `simp` ever runs
+  over the nested `NatIso.ofComponents` and the whnf-timeout trap noted above never fires.
+  Finish with a `rfl` lemma identifying the components with the pre-existing pointwise
+  equivalence, and another pinning them to the book's own formula for the map; without that
+  second one you have proved *some* isomorphism natural, not the book's.
+- **Universe trap in that construction: `Rep.resCoindHomEquiv` cannot synthesize its first
+  universe.** Its own Mathlib docstring says so ("even with all inputs explicitly given"):
+  its arguments are `Rep.{max w t}` and only the max ever appears, leaving `t` ambiguous.
+  Symptom is a wall of `Rep.coind.{0,0,0,u_1}` vs `?u.12` mismatches on *every* new
+  declaration at once. Fix: declare a file-level `universe w`, spell every representation
+  `Rep.{w} k G`, and write `Rep.resCoindHomEquiv.{w}` / `Rep.resCoindAdjunction.{w}`
+  (`max w w = w`). Relatedly, state object-level `rfl` lemmas through the *functors*
+  (`(coindFunctor …).obj W`), never through a bare `Rep.coind H.subtype W` — the standalone
+  spelling auto-binds a fresh universe and the `rfl` is then rejected. Do not be reassured
+  by the file's *existing* declarations compiling without annotations; a single unconstrained
+  statement can auto-bind its own universe while a file that ties several declarations
+  together cannot.
+- **Give the item's own name to the strongest statement in the file.** When a fidelity fix
+  adds a stronger form alongside the old one, rename so `Etingof.<ItemID>` resolves to the
+  strong one and the superseded form gets a qualified name (`…_nonempty`, `…_pointwise`).
+  A later audit greps the item name and stops at the first hit; leaving the weak statement
+  there invites a re-reopening of the issue you just closed. Check first that nothing but
+  docstrings references the old name (`grep -rn "Etingof.<ItemID>" --include=*.lean`), and
+  that no script keys on it — as of 2026-07 none do.
 - **A fidelity finding of "the bridge linking the computed shadow to the real
   object is assumed implicitly" — check whether that bridge is already a proved
   Proposition in the project before treating it as a doc-only caveat or a big new
@@ -5892,6 +5938,18 @@ exact Module.Basis.det_comp b A f
 - The dependent `hv ▸ appAtI r` in an `if hv : v = i then …` branch: don't re-`show` the `▸` (motive fails to compute); reduce the *existing* term applied to an argument with `simp only [reduceDIte]` (works where bare `rw [dif_pos rfl]` hits "motive not type correct").
 - `DirectSum.induction_on` case names are `zero` / `of` / `add` (not `H_*`); the `of` case yields `DirectSum.of` which is *defeq but not syntactically* `DirectSum.lof` — bridge with a one-line `show … lof … = … lof …` before applying `lof`-stated lemmas.
 - Give the whole assembly `set_option maxHeartbeats 3200000 in` (the `let g`/`liftG`/`appAtI` chain plus two `ext` proofs is heavy).
+
+**Packaging an object-level `Decidable.casesOn` construction as a `CategoryTheory.Functor` (Definitions 6.6.3/6.6.4 → `Definition6_6_3_Functor.lean`/`Definition6_6_4_Functor.lean`, #7383, sorry-free):** the reflection functors' object side is built from `objAt`/`acmAt`/`modAt`/`mapAt` helpers parametrised by an *explicit* `d : Decidable (v = i)`. Mirror that for the morphism side (`homAt f i v d`) and every functor law becomes a two-line `cases da <;> cases db` — no `HEq` transport at all, in contrast to the ~100-line `HEq` proofs the object-level API lemmas needed. Three rules make this work:
+- **State the laws pointwise**, `homAt f i v d x = …`, not as equalities of `LinearMap`s. The `LinearMap`-valued form forces Lean to synthesize `AddCommMonoid (objAt ρ i v d)` / `Module k (objAt …)` at elaboration time and fails (`No applicable extensionality theorem found`); the pointwise form gets them from the map's own type. The category-level `map_id`/`map_comp` then go through `@Etingof.QuiverRepresentationHom.ext … (fun v => LinearMap.ext (fun x => ?_))`, where the instances *are* ambient because they come from the `QuiverRepresentation` structure fields.
+- **`(x : T)` type ascription fails where `refine`/`exact` succeed** when `T` is only defeq to `x`'s type after unfolding a `def` + iota-reducing a `Decidable.casesOn`. Use `refine Subtype.ext ?_; exact lemma … _` (let unification find the coercion) or `Subtype.val x`, not `((x : ↥p) : M)`.
+- **Explicit universe annotations must match the *declaration's* parameter order**, which is not the order the binders appear in. `reflFunctorMinus_objAt` is `.{u_k, u_V, u_obj, u_hom}` but `reflFunctorMinus_equivAt_ne` is `.{u_k, u_V, u_hom, u_obj}`. Guessing wrong silently turns later explicit arguments into metavariables (`?m.58`). Check with `set_option pp.universes true in #check @Foo` in a scratch file before writing the annotation.
+
+**`DirectSum.lof`/`toModule`/`component`/`induction_on` all take a `DecidableEq ι` argument, so `rfl` fails between differently-obtained instances** (#7383). A `def` written `by classical; exact DirectSum.toModule …` bakes in a `Classical.propDecidable`-derived instance that is *not* syntactically the `[DecidableEq ι]` of a lemma's binder, and the resulting `rfl` failure prints two identical-looking sides (use `set_option pp.all true` or a plain `rfl` — the error message shows the instance argument). Two fixes:
+- **Pin the instance**: write `letI : DecidableEq ι := Classical.decEq _` in the definition *and* at the top of every proof about it. Both then elaborate to the same term.
+- **Take it as an explicit argument** when you must interoperate with an existing `classical`-baked definition (e.g. `sourceMap`): state `(d : DecidableEq ι)` and open the proof with `have : d = Classical.decEq _ := Subsingleton.elim _ _; subst this`. `DecidableEq` is a subsingleton, so this is free and the lemma then applies at *any* instance.
+`erw` papers over the mismatch inside a single `rw` step but does not fix the statement, so prefer one of the two above for anything reused.
+
+Also: `Etingof.ArrowsInto`/`ArrowsOutOf` are plain `def`s over `Σ`, so `rw` with lemmas mentioning `a.fst` can fail with `Application type mismatch: … has type ArrowsInto Q i but is expected to have type (j : Q) × (j ⟶ i)` (type-correctness is checked at `instances` transparency). `simp only [DirectSum.component.of, dif_neg hba, map_zero]` goes through where the corresponding `rw` chain does not.
 
 ## Common Failure Modes
 

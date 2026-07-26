@@ -1,5 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter4.Example4_8_1
+import EtingofRepresentationTheory.Chapter5.CharEqIso
+import EtingofRepresentationTheory.Infrastructure.FDRepDirectSum
 
 /-!
 # Example 4.9.1: Tensor Product Multiplicities
@@ -18,6 +20,15 @@ character formula `n_{ij}^k = (χ_i · χ_j, χ_k)`; equivalently, the product o
 irreducible characters decomposes as the integer combination `χ_i · χ_j = Σ_k n_{ij}^k χ_k`
 of irreducible characters, which is exactly the statement `V_i ⊗ V_j ≅ ⊕_k n_{ij}^k V_k`.
 
+The book asserts decompositions of *representations*, so for each of the three groups the
+table is formalized twice: first as the character identity it is computed from, and then as
+the isomorphism of representations it asserts.  The right-hand side `⊕_k n_{ij}^k V_k` is the
+object `multSum` built below, and the upgrade is `Etingof.charEq_iso` (Chapter 5: over `ℂ`,
+equal characters imply isomorphism).  The isomorphisms are `S3_tensor_iso`, `S4_tensor_iso`,
+`A5_tensor_iso` — one statement quantified over `i, j`, hence covering *every* entry of all
+three tables, including the multiplicity-2 constituents of `ℂ⁴ ⊗ ℂ⁵` and `ℂ⁵ ⊗ ℂ⁵` for `A₅` —
+with `*_biproduct` variants stated using the categorical `⨁`.
+
 ## The representations of `S₃`
 
 The three irreducible representations of `S₃` are built as objects of `FDRep ℂ S₃`, and the
@@ -35,6 +46,9 @@ representations):
 * `S3_tensor_product_character`: the same identity phrased on the tensor product
   `V_i ⊗ V_j` of `FDRep`s, via `FDRep.char_tensor`.  This is the character form of
   `V_i ⊗ V_j ≅ ⊕_k n_{ij}^k V_k`.
+* `S3_tensor_iso` / `S3_tensor_iso_biproduct`: the decomposition itself,
+  `V_i ⊗ V_j ≅ ⊕_k n_{ij}^k V_k` in `FDRep ℂ S₃`, for every entry of the table;
+  `stdRep_tensor_stdRep_iso` spells out the one nontrivial entry `ℂ² ⊗ ℂ² ≅ ℂ₊ ⊕ ℂ₋ ⊕ ℂ²`.
 
 ## The representations of `A₅`
 
@@ -51,6 +65,8 @@ functions, the multiplicity identity for every `g` reduces to the five conjugacy
   characters (traces) of the five representations.
 * `A5_tensor_product_character`: the same identity on the tensor product
   `V_i ⊗ V_j` of `FDRep`s, via `FDRep.char_tensor`.
+* `A5_tensor_iso` / `A5_tensor_iso_biproduct`: the decomposition itself,
+  `V_i ⊗ V_j ≅ ⊕_k n_{ij}^k V_k` in `FDRep ℂ A₅`, for every entry of the table.
 
 ## The representations of `S₄`
 
@@ -66,12 +82,17 @@ multiplicity identity for every `g` reduces, via `Etingof.Example4_8_1.S4.classR
   characters (traces) of the five representations.
 * `S4_tensor_product_character`: the same identity on the tensor product
   `V_i ⊗ V_j` of `FDRep`s, via `FDRep.char_tensor`.
+* `S4_tensor_iso` / `S4_tensor_iso_biproduct`: the decomposition itself,
+  `V_i ⊗ V_j ≅ ⊕_k n_{ij}^k V_k` in `FDRep ℂ S₄`, for every entry of the table.
 
 ## Mathlib correspondence
 
 Tensor-product decomposition multiplicities for these groups are not in Mathlib; the
 standard representation and its character are built here from scratch.  `FDRep.char_tensor`
-supplies `(V ⊗ W).character = V.character · W.character`.
+supplies `(V ⊗ W).character = V.character · W.character`.  Mathlib has no `⨁`-indexed
+biproduct for `FDRep`, so the right-hand sides are built with `Etingof.FDRep.pi`
+(`Infrastructure/FDRepDirectSum`), and the converse of `FDRep.char_iso` needed to go from
+characters to isomorphisms is `Etingof.charEq_iso` (`Chapter5/CharEqIso`).
 -/
 
 open CategoryTheory MonoidalCategory
@@ -79,6 +100,62 @@ open CategoryTheory MonoidalCategory
 noncomputable section
 
 namespace Etingof.Example4_9_1
+
+/-! ## The right-hand sides of the tables, and the character-to-isomorphism bridge
+
+Every entry of Etingof's three tables is a direct sum `⊕_k n_{ij}^k V_k` of irreducibles with
+multiplicities, so the right-hand side needs to exist as an object of `FDRep ℂ G` before the
+table entry can be stated as an isomorphism.  `multSum V n` is that object: the direct sum
+`Etingof.FDRep.pi` (`Infrastructure/FDRepDirectSum`) of the family indexed by the sigma type
+`(k : ι) × Fin (n k)`, i.e. `n k` copies of `V k` for each `k`.  Its character is
+`Σ_k n k · χ_{V k}` (`character_multSum`), which is exactly the shape of the multiplicity
+identities proved below, so `Etingof.charEq_iso` (Chapter 5, equal characters imply isomorphism
+over `ℂ`) turns each of them into an isomorphism of representations (`iso_multSum_of_character`).
+
+The isomorphisms are non-canonical — `charEq_iso` produces one from a character computation
+without singling one out — so they are stated as `Nonempty (· ≅ ·)`, as elsewhere in the project
+(`Etingof.Problem4_12_9.tensor_iso_Rz_mul`). -/
+
+section MultSum
+
+variable {G : Type} [Group G] [Finite G] {ι : Type} [Fintype ι]
+
+/-- **The right-hand side of a multiplicity table entry**: the direct sum `⊕_k n k · V k`,
+containing `n k` copies of `V k` for each `k`, realised as `Etingof.FDRep.pi` over the sigma
+type `(k : ι) × Fin (n k)`. -/
+def multSum (V : ι → FDRep ℂ G) (n : ι → ℕ) : FDRep ℂ G :=
+  Etingof.FDRep.pi fun p : (k : ι) × Fin (n k) => V p.1
+
+/-- **Character of `multSum`**: `χ_{⊕_k n k · V k} = Σ_k n k · χ_{V k}`.  Character additivity
+over the direct sum (`Etingof.FDRep.character_pi`), with the sum over the sigma type unfolded
+to a double sum. -/
+theorem character_multSum (V : ι → FDRep ℂ G) (n : ι → ℕ) (g : G) :
+    (multSum V n).character g = ∑ k, (n k : ℂ) * (V k).character g := by
+  classical
+  rw [multSum, Etingof.FDRep.character_pi, ← Finset.univ_sigma_univ, Finset.sum_sigma]
+  refine Finset.sum_congr rfl fun k _ => ?_
+  -- the summand `(V ⟨k, s⟩.1).character g` is `(V k).character g` by iota reduction, but not
+  -- syntactically constant in `s`, so `Finset.sum_const` needs the reduced form first
+  show ∑ _s : Fin (n k), (V k).character g = (n k : ℂ) * (V k).character g
+  rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
+
+/-- **The bridge from a multiplicity identity to a decomposition of representations.**  If the
+character of `W` is the tabulated combination `Σ_k n k · χ_{V k}`, then `W ≅ ⊕_k n k · V k`.
+This is `Etingof.charEq_iso` ("equal characters imply isomorphism", Chapter 5) applied to
+`character_multSum`. -/
+theorem iso_multSum_of_character (V : ι → FDRep ℂ G) (n : ι → ℕ) (W : FDRep ℂ G)
+    (h : ∀ g, W.character g = ∑ k, (n k : ℂ) * (V k).character g) :
+    Nonempty (W ≅ multSum V n) :=
+  Etingof.charEq_iso _ _ (funext fun g => by rw [character_multSum]; exact h g)
+
+/-- `multSum V n` is the categorical biproduct of the family `(k, _) ↦ V k`
+(`Etingof.FDRep.piIsoBiproduct`). -/
+def multSumIsoBiproduct (V : ι → FDRep ℂ G) (n : ι → ℕ) :
+    multSum V n ≅ ⨁ fun p : (k : ι) × Fin (n k) => V p.1 := by
+  classical
+  exact Etingof.FDRep.piIsoBiproduct _
+
+end MultSum
 
 /-- `S₃`, realised as the symmetric group on `Fin 3`. -/
 abbrev S3 : Type := Equiv.Perm (Fin 3)
@@ -349,6 +426,31 @@ theorem S3_tensor_product_character (i j : Fin 3) (g : S3) :
   rw [FDRep.char_tensor, Pi.mul_apply]
   exact S3_tensor_character i j g
 
+/-- **Tensor-product decomposition for `S₃`, as an isomorphism of representations**
+(Etingof Example 4.9.1).  Every entry of the book's `S₃` table holds at the level of
+representations, not merely characters: `V_i ⊗ V_j ≅ ⊕_k n_{ij}^k V_k` in `FDRep ℂ S₃`.
+The character identity `S3_tensor_product_character` is the computation this rests on. -/
+theorem S3_tensor_iso (i j : Fin 3) :
+    Nonempty ((irrep i ⊗ irrep j : FDRep ℂ S3) ≅ multSum irrep (nS3 i j)) :=
+  iso_multSum_of_character irrep (nS3 i j) _ (S3_tensor_product_character i j)
+
+/-- `V_i ⊗ V_j ≅ ⊕_k n_{ij}^k V_k` for `S₃`, stated with the categorical biproduct. -/
+theorem S3_tensor_iso_biproduct (i j : Fin 3) :
+    Nonempty ((irrep i ⊗ irrep j : FDRep ℂ S3) ≅
+      ⨁ fun p : (k : Fin 3) × Fin (nS3 i j k) => irrep p.1) :=
+  (S3_tensor_iso i j).map fun e => e ≪≫ multSumIsoBiproduct irrep (nS3 i j)
+
+/-- **`ℂ² ⊗ ℂ² ≅ ℂ₊ ⊕ ℂ₋ ⊕ ℂ²`**, the one nontrivial entry of Etingof's `S₃` table, in the
+book's own form: each of the three irreducibles occurs exactly once, so the right-hand side is
+the plain direct sum of the catalogue `irrep`. -/
+theorem stdRep_tensor_stdRep_iso :
+    Nonempty ((stdRep ⊗ stdRep : FDRep ℂ S3) ≅ Etingof.FDRep.pi irrep) := by
+  have hone : ∀ k, nS3 2 2 k = 1 := by decide
+  refine Etingof.charEq_iso _ _ (funext fun g => ?_)
+  rw [Etingof.FDRep.character_pi]
+  refine (S3_tensor_product_character 2 2 g).trans (Finset.sum_congr rfl fun k _ => ?_)
+  rw [hone k, Nat.cast_one, one_mul]
+
 /-! ## Underlying combinatorial data -/
 
 /-- `S₃` has exactly 3 conjugacy classes, hence 3 irreducible representations
@@ -467,6 +569,21 @@ theorem A5_tensor_product_character (i j : Fin 5) (g : A5.G) :
   rw [FDRep.char_tensor, Pi.mul_apply]
   exact A5_tensor_character i j g
 
+/-- **Tensor-product decomposition for `A₅`, as an isomorphism of representations**
+(Etingof Example 4.9.1).  Every entry of the book's `A₅` table holds at the level of
+representations, not merely characters: `V_i ⊗ V_j ≅ ⊕_k n_{ij}^k V_k` in `FDRep ℂ A₅`,
+including the multiplicity-2 constituents of `ℂ⁴ ⊗ ℂ⁵` and `ℂ⁵ ⊗ ℂ⁵`. -/
+theorem A5_tensor_iso (i j : Fin 5) :
+    Nonempty ((A5.irrepA5 i ⊗ A5.irrepA5 j : FDRep ℂ A5.G) ≅
+      multSum A5.irrepA5 (nA5 i j)) :=
+  iso_multSum_of_character A5.irrepA5 (nA5 i j) _ (A5_tensor_product_character i j)
+
+/-- `V_i ⊗ V_j ≅ ⊕_k n_{ij}^k V_k` for `A₅`, stated with the categorical biproduct. -/
+theorem A5_tensor_iso_biproduct (i j : Fin 5) :
+    Nonempty ((A5.irrepA5 i ⊗ A5.irrepA5 j : FDRep ℂ A5.G) ≅
+      ⨁ fun p : (k : Fin 5) × Fin (nA5 i j k) => A5.irrepA5 p.1) :=
+  (A5_tensor_iso i j).map fun e => e ≪≫ multSumIsoBiproduct A5.irrepA5 (nA5 i j)
+
 /-- `A₅` has exactly 5 conjugacy classes, hence 5 irreducible representations
 (the trivial `ℂ`, the two icosahedral `ℂ³₊, ℂ³₋`, and the permutation reps `ℂ⁴, ℂ⁵`).
 (Etingof Example 4.9.1) -/
@@ -561,6 +678,19 @@ theorem S4_tensor_product_character (i j : Fin 5) (g : S4) :
       = ∑ k, (nS4 i j k : ℂ) * (irrepS4 k).character g := by
   rw [FDRep.char_tensor, Pi.mul_apply]
   exact S4_tensor_character i j g
+
+/-- **Tensor-product decomposition for `S₄`, as an isomorphism of representations**
+(Etingof Example 4.9.1).  Every entry of the book's `S₄` table holds at the level of
+representations, not merely characters: `V_i ⊗ V_j ≅ ⊕_k n_{ij}^k V_k` in `FDRep ℂ S₄`. -/
+theorem S4_tensor_iso (i j : Fin 5) :
+    Nonempty ((irrepS4 i ⊗ irrepS4 j : FDRep ℂ S4) ≅ multSum irrepS4 (nS4 i j)) :=
+  iso_multSum_of_character irrepS4 (nS4 i j) _ (S4_tensor_product_character i j)
+
+/-- `V_i ⊗ V_j ≅ ⊕_k n_{ij}^k V_k` for `S₄`, stated with the categorical biproduct. -/
+theorem S4_tensor_iso_biproduct (i j : Fin 5) :
+    Nonempty ((irrepS4 i ⊗ irrepS4 j : FDRep ℂ S4) ≅
+      ⨁ fun p : (k : Fin 5) × Fin (nS4 i j k) => irrepS4 p.1) :=
+  (S4_tensor_iso i j).map fun e => e ≪≫ multSumIsoBiproduct irrepS4 (nS4 i j)
 
 /-- `S₄` has exactly 5 conjugacy classes, hence 5 irreducible representations
 (the trivial `ℂ₊`, sign `ℂ₋`, standard `ℂ²`, and the two 3-dimensionals `ℂ³₊, ℂ³₋`).

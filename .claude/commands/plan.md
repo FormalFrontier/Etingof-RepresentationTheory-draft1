@@ -5,7 +5,7 @@ items as GitHub issues, then exit. You do NOT execute any code changes.
 
 ## Step 1: Orient
 
-1. `git fetch origin master`
+1. `git fetch origin` (this repo's default branch is `main`, not `master`)
 2. `coordination orient` — see open issues (claimed and unclaimed), PRs, attention items
 3. Read the last 5 files in `progress/` (sorted by filename) to understand recent work
 4. Read the project's roadmap document to understand current phase
@@ -66,6 +66,42 @@ the default branch locally before deleting, which can park a worktree on
 delete merged head branches automatically (`pod init`).
 
 Never skip this step. Downstream agents are blocked on `main` until merged PRs land.
+
+## Step 2b: Recover stranded branches
+
+Also part of the start-of-cycle sweep. A session killed mid-task leaves its
+commits on a **local** branch in its own worktree — no PR, often no remote
+branch, nothing `coordination` can see. `release-orphan-claims` releases such a
+session's issue *claim* but never looks at its branch, so the issue goes back on
+the queue and the next worker rewrites work that already exists.
+
+```bash
+python3 scripts/list_stranded_branches.py
+```
+
+Exit 0 with "No stranded agent branches" is the expected result; exit 2 means the
+check could not run (say `.pod/agents/` was unreadable), which is **not** the same
+as "nothing stranded" — fix it rather than reading it as a pass.
+
+If it reports anything, recover it before planning. Pushing is the point: a local
+branch is invisible to every other worktree, so a planner that only notes it in an
+issue body has not saved the work.
+
+```bash
+python3 scripts/list_stranded_branches.py --verbose   # see what is on them
+python3 scripts/list_stranded_branches.py --recover   # push + comment on the cited issue
+```
+
+Then read the recovered commits before writing issues that overlap them: an issue
+planned as "formalize X from scratch" becomes "finish and land branch `agent/…`",
+which is a much smaller item. Branches reported with `session unknown` (a
+hand-named branch, no owning UUID) or with no issue reference in their commit
+subjects are not linked to anything by `--recover` — triage those yourself.
+
+(2026-07-26: ~370 lines of finished Lean for Problem 8.2.10 sat on a dead
+session's local `agent/65a63411` for days. Issue #7881's body asserted the files
+"already landed"; they were not on `main`, and only an unprompted `git log --all`
+found them. See #7891.)
 
 Replan triage is handled by `/replan`, which dispatch always runs
 before `/plan` when there are `replan`-labelled candidates. Do not

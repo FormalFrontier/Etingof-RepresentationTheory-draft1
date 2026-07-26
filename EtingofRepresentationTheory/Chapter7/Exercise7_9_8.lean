@@ -3,6 +3,7 @@ import EtingofRepresentationTheory.Chapter6.Definition6_6_3
 import EtingofRepresentationTheory.Chapter6.Definition6_6_4
 import EtingofRepresentationTheory.Chapter6.ReflectionFunctorInfrastructure
 import EtingofRepresentationTheory.Chapter2.Definition2_8_10
+import EtingofRepresentationTheory.Chapter2.QuiverRepresentationCategory
 
 /-!
 # Exercise 7.9.8: Reflection functors are adjoint (`F⁺ᵢ` right adjoint to `F⁻ᵢ`)
@@ -276,14 +277,8 @@ arrow-compatibility and source-constraint fields are propositions. -/
     {r₁ r₂ : Etingof.AdjReducedData hi V W} (h : r₁.h = r₂.h) : r₁ = r₂ := by
   cases r₁; cases r₂; cases h; rfl
 
-/-- Two representation morphisms are equal as soon as their vertex maps agree. -/
-@[ext] theorem Etingof.QuiverRepresentationHom.ext
-    {k : Type*} {Q : Type*} [CommSemiring k] [Quiver Q]
-    {ρ₁ ρ₂ : Etingof.QuiverRepresentation k Q}
-    {f g : Etingof.QuiverRepresentationHom k Q ρ₁ ρ₂} (h : ∀ v, f.app v = g.app v) : f = g := by
-  cases f with
-  | mk fa fn => cases g with
-    | mk ga gn => have : fa = ga := funext h; subst this; rfl
+-- `Etingof.QuiverRepresentationHom.ext` now lives in
+-- `Chapter2.QuiverRepresentationCategory`, alongside the `Rep Q` category instance.
 
 /-! ### Index round-trip helpers for `revOut`
 

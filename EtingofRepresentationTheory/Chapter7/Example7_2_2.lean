@@ -15,6 +15,8 @@ import Mathlib.RepresentationTheory.Rep.Res
 import Mathlib.RepresentationTheory.Induced
 import EtingofRepresentationTheory.Chapter7.SymmetricPowerFunctor
 import EtingofRepresentationTheory.Chapter7.SchurFunctor
+import EtingofRepresentationTheory.Chapter6.Definition6_6_3_Functor
+import EtingofRepresentationTheory.Chapter6.Definition6_6_4_Functor
 
 /-!
 # Example 7.2.2: Examples of Functors
@@ -34,7 +36,7 @@ which Mathlib carries).
 7. Induction and restriction functors Ind_K^G, Res_K^G.
 8. Direct sum, tensor product, tensor/symmetric/exterior power as functors on Vect_k,
    and the Schur functors `V ↦ Hom_{S_n}(π, V^{⊗n})`.
-9. Reflection functors on quiver representation categories (object level only; see below).
+9. Reflection functors `F_i^± : Rep Q ⥤ Rep Q̄_i` on quiver representation categories.
 -/
 
 open CategoryTheory
@@ -248,23 +250,35 @@ noncomputable example (k : Type) [Field k] (n : ℕ) (V : Type) [AddCommGroup V]
       (Etingof.tensorPowerPermRep k n V).invariants :=
   Etingof.schurObjTrivialEquiv
 
-/-! ### (9) Reflection functors (scope note)
+/-! ### (9) Reflection functors
 
-The Bernstein-Gelfand-Ponomarev reflection functors `F_i^± : Rep(Q) → Rep(Q̄_i)`
-reflect a quiver representation at a source/sink vertex `i` (replacing `V_i` by the
-cokernel/kernel of the canonical map to/from `⊕_{i→j} V_j`). This project already
-constructs the reflection functor at the level of objects: `Etingof.reflectionFunctorMinus`
-(`Chapter6/Definition6_6_4.lean`) sends a representation of `Q` to a representation
-of `Q̄_i` at a source, with the companion `reflectionFunctorPlus` at a sink.
+The Bernstein-Gelfand-Ponomarev reflection functors `F_i^± : Rep Q ⥤ Rep Q̄_i`
+reflect a quiver representation at a sink/source vertex `i`, replacing `V_i` by the
+kernel/cokernel of the canonical map to/from `⊕_{i→j} V_j` (Definitions 6.6.3 and 6.6.4).
 
-Packaging these as `CategoryTheory.Functor`s between the representation categories
-`Rep(Q) ⥤ Rep(Q̄_i)` additionally requires the action on morphisms of representations
-plus the functor laws, which are not carried out here (BGP reflection functors are not
-in Mathlib). That packaging is tracked as its own work item,
-https://github.com/FormalFrontier/Etingof-RepresentationTheory-draft1/issues/7383
-("feat(Ch6–7): package BGP reflection constructions as actual functors"), because it
-needs a `CategoryTheory`-level quiver-representation category compatible with the
-object-level construction of Definition 6.6.4, and that construction is Chapter 6's
-to supply. -/
+`Rep Q` is `Etingof.QuiverRepresentation k Q` with the category structure of
+`Chapter2/QuiverRepresentationCategory.lean` (objects from Definition 2.8.3, morphisms
+from Definition 2.8.10). The two reflection functors are assembled in
+`Chapter6/Definition6_6_3_Functor.lean` and `Chapter6/Definition6_6_4_Functor.lean`;
+their object actions are the Chapter 6 constructions `Etingof.reflectionFunctorPlus`
+and `Etingof.reflectionFunctorMinus`. BGP reflection functors are not in Mathlib. -/
+
+/-- `F⁺ᵢ : Rep Q ⥤ Rep Q̄ᵢ` at a sink `i` is a functor. (Etingof 7.2.2(9)) -/
+noncomputable example (k : Type) [CommSemiring k] (Q : Type) [DecidableEq Q] [Quiver Q]
+    (i : Q) (hi : Etingof.IsSink Q i) :
+    @CategoryTheory.Functor
+      (Etingof.QuiverRepresentation k Q) Etingof.QuiverRepresentation.instCategory
+      (@Etingof.QuiverRepresentation k Q _ (Etingof.reversedAtVertex Q i))
+      (@Etingof.QuiverRepresentation.instCategory k _ Q (Etingof.reversedAtVertex Q i)) :=
+  Etingof.reflectionFunctorPlusFunctor k Q i hi
+
+/-- `F⁻ᵢ : Rep Q ⥤ Rep Q̄ᵢ` at a source `i` is a functor. (Etingof 7.2.2(9)) -/
+noncomputable example (k : Type) [CommRing k] (Q : Type) [DecidableEq Q] [Quiver Q]
+    (i : Q) (hi : Etingof.IsSource Q i) [Fintype (Etingof.ArrowsOutOf Q i)] :
+    @CategoryTheory.Functor
+      (Etingof.QuiverRepresentation k Q) Etingof.QuiverRepresentation.instCategory
+      (@Etingof.QuiverRepresentation k Q _ (Etingof.reversedAtVertex Q i))
+      (@Etingof.QuiverRepresentation.instCategory k _ Q (Etingof.reversedAtVertex Q i)) :=
+  Etingof.reflectionFunctorMinusFunctor k Q i hi
 
 end EtingofRepresentationTheory.Example722
