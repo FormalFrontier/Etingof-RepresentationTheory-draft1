@@ -3499,6 +3499,26 @@ Three API gotchas that cost build cycles here:
 - **Tensor-basis coefficients:** `Basis.piTensorProduct_repr_tprod_apply` gives
   `(piTensorProduct b).repr (⨂ₜ x) p = ∏ i, (b i).repr (x i) (p i)` — the clean way
   to read a coefficient of `PiTensorProduct.map f (tprod …)`.
+- **`Basis.piTensorProduct` lives in the *root* namespace**, unlike almost every
+  other basis lemma: write `Basis.piTensorProduct` / `Basis.piTensorProduct_apply`,
+  *not* `Module.Basis.…` (which is an unknown constant), even though the structure
+  itself is `Module.Basis`. It is declared under `open Module` in
+  `Mathlib/LinearAlgebra/PiTensorProduct/Basis.lean`, which does not rename the
+  declaration. So dot notation `b.piTensorProduct` does not work either.
+- **Basis of a quotient by a group action on the index set** (e.g. Etingof's
+  `S^n V = V^{⊗ n} ⧸ span {T - s(T)}`, see
+  `Chapter2/Problem2_11_3_SymPowBasis.lean`): do *not* try to prove
+  `span {T - s(T) : T arbitrary} = span {e_g - e_{g∘σ}}`. Instead build the
+  `LinearEquiv` to `Q →₀ k` by hand with `LinearEquiv.ofLinear`:
+  `Submodule.liftQ` of `Finsupp.lmapDomain k k q ∘ₗ b.repr` one way (the descent
+  hypothesis `Φ ∘ₗ permAct σ = Φ` is checked on the basis by `Module.Basis.ext`,
+  which covers arbitrary `T` for free), and
+  `Finsupp.linearCombination k (fun c => mkQ (b (Function.surjInv hq c)))` back.
+  The combinatorial input — two families `f g : ι → I` on a `Fintype ι` with the
+  same multiset of values differ by a permutation of `ι` — is **not** in Mathlib;
+  it is `Etingof.Problem2_11_3.exists_perm_of_map_univ_val_eq`, proved by comparing
+  fibre cardinalities (`Multiset.count_map`, `Fintype.card_subtype`) and gluing
+  with `Equiv.ofFiberEquiv`.
 - **`⨂[k] (_ : ι), V` needs `open scoped TensorProduct`, NOT `open PiTensorProduct`** (the
   notation is `scoped[TensorProduct]` even though it lives in `PiTensorProduct/Basic.lean`).
   Getting this wrong is expensive out of all proportion: the only honest error is a bare
