@@ -38,11 +38,14 @@ line, and the two fixed-point sets correspond under `t ↦ −t⁻¹`. Subtracti
 `ℂ_1` of `V(1, 1)` gives `charW₁`.
 -/
 
-open CategoryTheory CategoryTheory.Limits Classical
+open CategoryTheory CategoryTheory.Limits
 
 noncomputable section
 
 variable (p : ℕ) [hp : Fact (Nat.Prime p)] (n : ℕ)
+
+local instance (priority := low) : DecidableEq (GaloisField p n) := Classical.decEq _
+local instance (priority := low) (q : Prop) : Decidable q := Classical.propDecidable q
 
 private abbrev GL2 (p n : ℕ) [Fact (Nat.Prime p)] :=
   Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)
@@ -105,7 +108,7 @@ theorem principalSeries_character_apply [Fintype (GaloisField p n)]
           Etingof.GL2.borelCharValue p n chi1 chi2
             (Etingof.GL2.cosetBorel p n (Etingof.GL2.cosetRep p n i * g))
         else 0 := by
-  show LinearMap.trace ℂ ↥(Etingof.GL2.principalSeriesSubmodule p n chi1 chi2)
+  change LinearMap.trace ℂ ↥(Etingof.GL2.principalSeriesSubmodule p n chi1 chi2)
       (Etingof.GL2.principalSeriesRep p n chi1 chi2 g) = _
   rw [← LinearMap.trace_conj' (Etingof.GL2.principalSeriesRep p n chi1 chi2 g)
       (Etingof.GL2.psEquiv p n chi1 chi2),
@@ -125,8 +128,7 @@ theorem principalSeries_character_apply [Fintype (GaloisField p n)]
     change ((Etingof.GL2.psEquiv p n chi1 chi2).symm (Pi.single i 1) : GL2 p n → ℂ)
       (Etingof.GL2.cosetRep p n i * g) = _
     rw [Etingof.GL2.psEquiv_symm_apply]
-  simp only [LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_coe,
-    LinearEquiv.coe_toLinearMap] at hval ⊢
+  simp only [LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_coe] at hval ⊢
   rw [hval, Etingof.GL2.mkCovariantFun, Pi.single_apply]
   by_cases h : Etingof.GL2.cosetIndex p n (Etingof.GL2.cosetRep p n i * g) = i <;> simp [h]
 
@@ -163,7 +165,7 @@ def borelEntriesEquiv :
         !![(adc.1 : GaloisField p n), adc.2.2; 0, (adc.2.1 : GaloisField p n)]
         (by simp [Matrix.det_fin_two]),
       by
-        show ((Matrix.GeneralLinearGroup.mkOfDetNeZero
+        change ((Matrix.GeneralLinearGroup.mkOfDetNeZero
           !![(adc.1 : GaloisField p n), adc.2.2; 0, (adc.2.1 : GaloisField p n)]
           (by simp [Matrix.det_fin_two])).val :
             Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0
@@ -286,7 +288,7 @@ lemma borelCharExt_cosetRep (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
 /-- **Frobenius character formula for the principal series** in its raw form: summing the
 Borel character (extended by zero) over all of `G` gives `|B|` times the character. -/
 theorem sum_borelCharExt_conj
-    [Fintype (GaloisField p n)] [Fintype (GL2 p n)]
+    [Fintype (GL2 p n)]
     [Fintype ↥(Etingof.GL2.BorelSubgroup p n)]
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) (g : GL2 p n) :
     ∑ x : GL2 p n, Etingof.GL2.borelCharExt p n chi1 chi2 (x * g * x⁻¹) =
@@ -369,7 +371,7 @@ lemma borelCharValue_one_one (b : ↥(Etingof.GL2.BorelSubgroup p n)) :
 lemma character_detChar (mu : (GaloisField p n)ˣ →* ℂˣ) (g : GL2 p n) :
     (Etingof.GL2.detChar p n mu).character g =
       ((mu (Matrix.GeneralLinearGroup.det g) : ℂˣ) : ℂ) := by
-  show LinearMap.trace ℂ ℂ
+  change LinearMap.trace ℂ ℂ
     (((mu (Matrix.GeneralLinearGroup.det g) : ℂˣ) : ℂ) • LinearMap.id) = _
   rw [map_smul, LinearMap.trace_id]
   simp
@@ -477,7 +479,7 @@ lemma rootIndicator_projInvol [DecidableEq (GaloisField p n)]
     simp [neg_eq_zero]
   · by_cases ht : t = 0
     · subst ht
-      simp only [Etingof.GL2.projInvol, if_pos rfl, Etingof.GL2.rootIndicator]
+      simp only [Etingof.GL2.projInvol, Etingof.GL2.rootIndicator]
       simp [neg_eq_zero]
     · simp only [Etingof.GL2.projInvol, if_neg ht, Etingof.GL2.rootIndicator]
       have hexp : c * (-t⁻¹) ^ 2 + b * (-t⁻¹) - a = -(a * t ^ 2 + b * t - c) / t ^ 2 := by
@@ -545,7 +547,7 @@ theorem finrank_complementW_one [Fintype (GaloisField p n)] :
   have hscalar : _root_.GL2.IsScalar (p := p) (n := n) 1 := by
     rw [_root_.GL2.isScalar_iff]
     refine ⟨?_, ?_, ?_⟩ <;>
-      simp [Matrix.one_apply, (by decide : (0 : Fin 2) ≠ 1), (by decide : (1 : Fin 2) ≠ 0)]
+      simp [(by decide : (0 : Fin 2) ≠ 1), (by decide : (1 : Fin 2) ≠ 0)]
   have h := (Etingof.GL2.character_complementW p n (1 : GL2 p n)).symm
   rw [Etingof.charW₁_scalar p n 1 hscalar, FDRep.char_one] at h
   exact_mod_cast h.symm
