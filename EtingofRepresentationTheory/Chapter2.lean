@@ -12,6 +12,7 @@ import EtingofRepresentationTheory.Chapter2.Sl2NullitySequence
 import EtingofRepresentationTheory.Chapter2.Sl2SemisimpleDecomposition
 import EtingofRepresentationTheory.Chapter2.Theorem2_1_1
 import EtingofRepresentationTheory.Chapter2.Theorem2_1_2
+import EtingofRepresentationTheory.Chapter2.Theorem2_1_2_General
 
 -- Section 2.2: Algebras
 import EtingofRepresentationTheory.Chapter2.Definition2_2_1
@@ -26,6 +27,7 @@ import EtingofRepresentationTheory.Chapter2.Discussion_commutativity_examples
 import EtingofRepresentationTheory.Chapter2.Definition2_3_1
 import EtingofRepresentationTheory.Chapter2.Remark2_3_2
 import EtingofRepresentationTheory.Chapter2.Discussion_2_5_well_defined
+import EtingofRepresentationTheory.Chapter2.Discussion_2_6
 import EtingofRepresentationTheory.Chapter2.Discussion_pure_tensors
 import EtingofRepresentationTheory.Chapter2.Definition2_3_4
 import EtingofRepresentationTheory.Chapter2.Definition2_3_5
@@ -65,6 +67,8 @@ import EtingofRepresentationTheory.Chapter2.Problem2_7_4_Family
 import EtingofRepresentationTheory.Chapter2.Problem2_7_5
 import EtingofRepresentationTheory.Chapter2.Problem2_7_5_Family
 import EtingofRepresentationTheory.Chapter2.Problem2_7_5_FamilySimple
+import EtingofRepresentationTheory.Chapter2.Problem2_7_5_Exhaustive
+import EtingofRepresentationTheory.Chapter2.Problem2_7_5_Converse
 import EtingofRepresentationTheory.Chapter2.Problem2_7_5_Iso
 
 -- Section 2.8: Quivers
@@ -98,6 +102,10 @@ import EtingofRepresentationTheory.Chapter2.Exercise2_9_11
 import EtingofRepresentationTheory.Chapter2.Definition2_11_1
 import EtingofRepresentationTheory.Chapter2.Remark2_11_4
 import EtingofRepresentationTheory.Chapter2.Problem2_11_3
+import EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow
+import EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtSubspace
+import EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymPowBasis
+import EtingofRepresentationTheory.Chapter2.Problem2_11_3_Trace
 import EtingofRepresentationTheory.Chapter2.Problem2_11_6
 import EtingofRepresentationTheory.Chapter2.Exercise2_11_2
 import EtingofRepresentationTheory.Chapter2.Exercise2_11_5
@@ -118,7 +126,13 @@ import EtingofRepresentationTheory.Chapter2.Problem2_16_2
 -- Section 2.9 (continued): concrete Lie algebra examples aff(1), built on Problem2_16_2
 import EtingofRepresentationTheory.Chapter2.Discussion_concrete_Lie_examples_continued
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3
+import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Grading
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Layers
+import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Bidegree
+import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Center
+import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Commutation
+import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Tower
+import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Kernel
 import EtingofRepresentationTheory.Chapter2.Problem2_16_4
 import EtingofRepresentationTheory.Chapter2.Problem2_16_5
 

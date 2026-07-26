@@ -127,6 +127,31 @@ noncomputable def Yunit : (Module.End ℂ (Fin N → ℂ))ˣ where
 
 @[simp] theorem Yunit_val : (Yunit q β N : Module.End ℂ (Fin N → ℂ)) = Ylin q β N := rfl
 
+/-! ### The generator actions on the standard basis -/
+
+/-- The twisted shift on a standard basis vector: `x·eₘ = wX(m+1)·e_{m+1}`, i.e. `e_{m+1}`
+except at the wrap-around `m = n-1`, where it is `α·e₀`. -/
+theorem Xlin_single (m : Fin N) :
+    Xlin α N (Pi.single m (1 : ℂ)) = wX α N (m + 1) • Pi.single (m + 1) (1 : ℂ) := by
+  classical
+  funext i
+  simp only [Xlin, LinearMap.coe_mk, AddHom.coe_mk, Pi.smul_apply, smul_eq_mul]
+  by_cases hi : i = m + 1
+  · subst hi; simp
+  · have hne : i - 1 ≠ m := fun h => hi (sub_eq_iff_eq_add.mp h)
+    simp [hne, hi]
+
+omit [NeZero N] in
+/-- The diagonal operator on a standard basis vector: `y·eₘ = β·qᵐ·eₘ`. -/
+theorem Ylin_single (m : Fin N) :
+    Ylin q β N (Pi.single m (1 : ℂ)) = wY q β N m • Pi.single m (1 : ℂ) := by
+  classical
+  funext i
+  simp only [Ylin, LinearMap.coe_mk, AddHom.coe_mk, Pi.smul_apply, smul_eq_mul]
+  by_cases hi : i = m
+  · subst hi; simp
+  · simp [hi]
+
 /-! ### The defining relation -/
 
 /-- The exponent identity underlying the relation: `qᵏ = q·q^{k-1}` (cyclically), which holds

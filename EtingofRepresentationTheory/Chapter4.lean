@@ -36,7 +36,9 @@ import EtingofRepresentationTheory.Chapter4.Remark4_6_4
 import EtingofRepresentationTheory.Chapter4.Proposition4_7_1
 
 -- Section 4.8-4.9: Character Tables and Tensor Products
+import EtingofRepresentationTheory.Chapter4.Introduction_4_8
 import EtingofRepresentationTheory.Chapter4.Example4_8_1
+import EtingofRepresentationTheory.Chapter4.Introduction_4_9
 import EtingofRepresentationTheory.Chapter4.Example4_9_1
 import EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Complete
 

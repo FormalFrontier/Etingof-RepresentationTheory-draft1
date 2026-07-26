@@ -90,8 +90,19 @@ Still missing: `⁅⁅a₁, a₃⁆, D (evenTower k m)⁆ = 0` for `m ≥ 1`, wh
 every degree. Both factors lie in the tower, so this is a statement about the bracket of two
 explicit elements rather than about all central elements — but it is still equivalent to the
 triviality of the centre of `𝔤₄` in that bidegree, and every Jacobi rearrangement of it is a
-tautology, so it needs an input beyond the commutation relations. Also still open: the assembly of
-the spanning family indexed by `LoopIdx`.
+tautology, so it needs an input beyond the commutation relations.
+
+## The spanning family
+
+The last section assembles the calculus into the `LoopIdx`-indexed family `loopFam₄` — `ȳ` in
+`t`-degree `0`, the five-term `ad(ȳ)`-string on `topOdd m` in degree `2m+1`, the three-term string
+on `evenTower m` in degree `2m+2` — and feeds it to `span_eq_top_of_closed_under_ad`. All the
+closure obligations follow from the calculus above except one: `⁅x̄, D⁴ (topOdd m)⁆` is
+`-2 D (evenTower m)` only up to the defect `topDefect m`. So the family together with the defects
+spans unconditionally (`span_loopSet_eq_top`), and the family alone spans as soon as the defects
+vanish (`span_range_loopFam₄_eq_top`), in particular if the centre of `𝔤₄` is trivial
+(`span_range_loopFam₄_eq_top_of_center`). The graded dimensions of the index type are
+`1, 5, 3, 5, 3, …` (`card_loopIdx_deg_zero`, `card_loopIdx_deg_odd`, `card_loopIdx_deg_even`).
 -/
 
 namespace Etingof.Problem2_16_3
@@ -993,5 +1004,337 @@ theorem oddLayer_evenTower_of_lie_eq_zero (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠
     (by rw [(evenLayer_evenTower h2 h3 h5 m).defect_eq h2 h3, hgap])
 
 end EvenToOdd
+
+/-!
+## The `LoopIdx`-indexed spanning family
+
+`loopFam₄` is the upper-bound counterpart of the graded basis `loopFam` of `𝔫₊`: the same index
+type `LoopIdx`, with `1` element in `t`-degree `0`, `5` in each odd degree and `3` in each even
+degree `≥ 2`. Together with `range_matHom₄_eq_loopPos` (the matching lower bound) it is the input
+needed to turn `matHom₄` into an isomorphism `𝔤₄ ≃ 𝔫₊`.
+-/
+
+section Spanning
+
+variable {k : Type*} [Field k]
+
+/-- The top of the layer of `t`-degree `2m+1`: `x̄` at the bottom, and `oddTop` of the previous
+even top afterwards. -/
+noncomputable def topOdd (K : Type*) [CommRing K] : ℕ → g K 4
+  | 0 => xb K 4
+  | m + 1 => oddTop (evenTower K m)
+
+@[simp] theorem topOdd_zero (K : Type*) [CommRing K] : topOdd K 0 = xb K 4 := rfl
+
+@[simp] theorem topOdd_succ (K : Type*) [CommRing K] (m : ℕ) :
+    topOdd K (m + 1) = oddTop (evenTower K m) := rfl
+
+/-- The defect of the sixth odd-layer field at the top of `t`-degree `2m+1`:
+`w_m = ⁅a₄, topOdd m⁆ - 2 D (evenTower m)`. It vanishes for `m = 0` and `m = 1`, and is always
+central; whether it vanishes in general is the triviality of the centre of `𝔤₄`. -/
+noncomputable def topDefect (K : Type*) [CommRing K] (m : ℕ) : g K 4 :=
+  ⁅aElt K 4 4, topOdd K m⁆ - (2 : K) • dY K 1 (evenTower K m)
+
+theorem topDefect_succ (m : ℕ) : topDefect k (m + 1) = EvenLayer.defect (evenTower k m) := rfl
+
+/-- The defect vanishes at the bottom: `⁅a₄, x̄⁆ = 2⁅a₁, a₃⁆ = 2 D (evenTower 0)`. -/
+@[simp] theorem topDefect_zero_eq : topDefect k 0 = 0 := by
+  rw [topDefect, topOdd_zero, ← aElt_zero k 4, lie_a4_a0, dY_one_evenTower_zero, sub_self]
+
+theorem topDefect_one (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) :
+    topDefect k 1 = 0 :=
+  defect_evenTower_zero h2 h3 h5
+
+/-- **Every defect is central in `𝔤₄`.** -/
+theorem central_topDefect (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) (m : ℕ)
+    (v : g k 4) : ⁅v, topDefect k m⁆ = 0 := by
+  cases m with
+  | zero => rw [topDefect_zero_eq, _root_.lie_zero]
+  | succ m =>
+      rw [topDefect_succ]
+      exact (evenLayer_evenTower h2 h3 h5 m).central_defect h2 h3 h5 v
+
+/-- **The odd-layer invariant in every degree**, given the vanishing of the defects. -/
+theorem oddLayer_topOdd (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
+    (hgap : ∀ m : ℕ, topDefect k m = 0) (m : ℕ) : OddLayer k (topOdd k m) (evenTower k m) := by
+  cases m with
+  | zero => exact oddLayer_xb k
+  | succ m =>
+      exact OddLayer.of_evenLayer h2 h3 (evenLayer_evenTower h2 h3 h5 m) (hgap (m + 1))
+
+/-! ### The family -/
+
+/-- The `LoopIdx`-indexed family in `𝔤₄`: `ȳ` in `t`-degree `0`, the `ad(ȳ)`-string on
+`topOdd m` in degree `2m+1`, the `ad(ȳ)`-string on `evenTower m` in degree `2m+2`. -/
+noncomputable def loopFam₄ (K : Type*) [CommRing K] : LoopIdx → g K 4
+  | .base => yb K 4
+  | .odd m i => dY K i (topOdd K m)
+  | .even m i => dY K i (evenTower K m)
+
+@[simp] theorem loopFam₄_base (K : Type*) [CommRing K] : loopFam₄ K .base = yb K 4 := rfl
+
+@[simp] theorem loopFam₄_odd (K : Type*) [CommRing K] (m : ℕ) (i : Fin 5) :
+    loopFam₄ K (.odd m i) = dY K i (topOdd K m) := rfl
+
+@[simp] theorem loopFam₄_even (K : Type*) [CommRing K] (m : ℕ) (i : Fin 3) :
+    loopFam₄ K (.even m i) = dY K i (evenTower K m) := rfl
+
+/-- The family together with the defects. -/
+noncomputable def loopSet (K : Type*) [CommRing K] : Set (g K 4) :=
+  Set.range (loopFam₄ K) ∪ Set.range (topDefect K)
+
+theorem loopFam₄_mem_loopSet (I : LoopIdx) : loopFam₄ k I ∈ loopSet k := Or.inl ⟨I, rfl⟩
+
+theorem topDefect_mem_loopSet (m : ℕ) : topDefect k m ∈ loopSet k := Or.inr ⟨m, rfl⟩
+
+theorem mem_loopSet {v : g k 4} (h : v ∈ loopSet k) :
+    (∃ I, loopFam₄ k I = v) ∨ ∃ m, topDefect k m = v := h
+
+/-! ### The `ad(ȳ)`-strings have the right lengths -/
+
+theorem dY_five_topOdd (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) (m : ℕ) :
+    dY k 5 (topOdd k m) = 0 := by
+  cases m with
+  | zero => rw [topOdd_zero, dY_xb, aElt_five_eq_zero]
+  | succ m => exact (evenLayer_evenTower h2 h3 h5 m).dY_five_oddTop h2 h3
+
+theorem dY_three_evenTower (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) (m : ℕ) :
+    dY k 3 (evenTower k m) = 0 :=
+  (evenLayer_evenTower h2 h3 h5 m).dY_top
+
+/-! ### The `ad(x̄)` table along the strings -/
+
+theorem lie_zero_topOdd (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) (m : ℕ) :
+    ⁅aElt k 4 0, topOdd k m⁆ = 0 := by
+  cases m with
+  | zero => rw [topOdd_zero, ← aElt_zero k 4, lie_self]
+  | succ m => exact (evenLayer_evenTower h2 h3 h5 m).lie_zero_oddTop
+
+theorem lie_zero_dY_one_topOdd (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) (m : ℕ) :
+    ⁅aElt k 4 0, dY k 1 (topOdd k m)⁆ = 0 := by
+  cases m with
+  | zero => rw [topOdd_zero, dY_xb, lie_a0_a1]
+  | succ m =>
+      have h := evenLayer_evenTower h2 h3 h5 m
+      rw [topOdd_succ, h.lie_zero_dY_one_oddTop, h.lie_one_oddTop h3, neg_zero]
+
+theorem lie_zero_dY_two_topOdd (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) (m : ℕ) :
+    ⁅aElt k 4 0, dY k 2 (topOdd k m)⁆ = 0 := by
+  cases m with
+  | zero => rw [topOdd_zero, dY_xb, lie_a0_a2]
+  | succ m =>
+      have h := evenLayer_evenTower h2 h3 h5 m
+      rw [topOdd_succ, h.lie_zero_dY_two_oddTop h3, h.lie_two_oddTop h2 h3]
+
+/-- `⁅x̄, D³ (topOdd m)⁆ = -evenTower m`: the third step of the string reaches the next even top. -/
+theorem lie_zero_dY_three_topOdd (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
+    (m : ℕ) : ⁅aElt k 4 0, dY k 3 (topOdd k m)⁆ = -evenTower k m := by
+  cases m with
+  | zero => rw [topOdd_zero, dY_xb, evenTower_zero, neg_neg]
+  | succ m => exact (evenLayer_evenTower h2 h3 h5 m).lie_zero_dY_three_oddTop h2 h3
+
+/-- `⁅x̄, D⁴ (topOdd m)⁆ = -2 D (evenTower m) + w_m`: the only place where the defect appears. -/
+theorem lie_zero_dY_four_topOdd (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
+    (m : ℕ) : ⁅aElt k 4 0, dY k 4 (topOdd k m)⁆
+      = -((2 : k) • dY k 1 (evenTower k m)) + topDefect k m := by
+  have key : ⁅aElt k 4 0, dY k 4 (topOdd k m)⁆
+      = -((4 : k) • dY k 1 (evenTower k m)) + ⁅aElt k 4 4, topOdd k m⁆ := by
+    cases m with
+    | zero =>
+        have hd : dY k 1 (evenTower k 0) = ⁅aElt k 4 1, aElt k 4 3⁆ := dY_one_evenTower_zero
+        have h04 : ⁅aElt k 4 0, aElt k 4 4⁆ = -((2 : k) • ⁅aElt k 4 1, aElt k 4 3⁆) := by
+          rw [← two_smul_dY_lie_a0_a3]
+          have hneg : dY k 1 ⁅aElt k 4 0, aElt k 4 3⁆ = -dY k 1 (evenTower k 0) := by
+            rw [evenTower_zero, dY_neg_elt, neg_neg]
+          rw [hneg, hd, smul_neg]
+        rw [topOdd_zero, dY_xb, ← aElt_zero k 4, lie_a4_a0, hd, h04]
+        module
+    | succ m => exact (evenLayer_evenTower h2 h3 h5 m).lie_zero_dY_four_oddTop h2 h3
+  rw [key, topDefect]
+  module
+
+theorem lie_zero_evenTower (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) (m : ℕ) :
+    ⁅aElt k 4 0, evenTower k m⁆ = 0 :=
+  (evenLayer_evenTower h2 h3 h5 m).lie_zero
+
+/-- `⁅x̄, D (evenTower m)⁆` is the top of the next odd layer. -/
+theorem lie_zero_dY_one_evenTower (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
+    (m : ℕ) : ⁅aElt k 4 0, dY k 1 (evenTower k m)⁆ = topOdd k (m + 1) :=
+  (evenLayer_evenTower h2 h3 h5 m).lie_zero_dY_one
+
+theorem two_smul_lie_zero_dY_two_evenTower (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
+    (m : ℕ) : (2 : k) • ⁅aElt k 4 0, dY k 2 (evenTower k m)⁆ = dY k 1 (topOdd k (m + 1)) :=
+  (evenLayer_evenTower h2 h3 h5 m).two_smul_lie_zero_dY_two
+
+/-! ### The spanning theorems -/
+
+/-- **The family together with the defects spans `𝔤₄`**, unconditionally.
+
+Every closure obligation of `span_eq_top_of_closed_under_ad` is a line of the layer calculus:
+`ad(ȳ)` walks along each string and falls off its end (`dY_five_topOdd`, `dY_three_evenTower`),
+while `ad(x̄)` kills the first three entries of an odd string, produces the next even top at the
+fourth (`lie_zero_dY_three_topOdd`) and its `ad(ȳ)`-image at the fifth up to the defect
+(`lie_zero_dY_four_topOdd`), and climbs back from an even string to the next odd top
+(`lie_zero_dY_one_evenTower`). -/
+theorem span_loopSet_eq_top (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) :
+    Submodule.span k (loopSet k) = ⊤ := by
+  have hF : ∀ I : LoopIdx, loopFam₄ k I ∈ Submodule.span k (loopSet k) := fun I =>
+    Submodule.subset_span (loopFam₄_mem_loopSet I)
+  have hW : ∀ m : ℕ, topDefect k m ∈ Submodule.span k (loopSet k) := fun m =>
+    Submodule.subset_span (topDefect_mem_loopSet m)
+  refine span_eq_top_of_closed_under_ad k 4 (loopSet k)
+    (loopFam₄_mem_loopSet (LoopIdx.odd 0 0)) (loopFam₄_mem_loopSet LoopIdx.base) ?_ ?_
+  · rintro s hs
+    rcases mem_loopSet hs with ⟨I, rfl⟩ | ⟨m, rfl⟩
+    · cases I with
+      | base =>
+          change ⁅aElt k 4 0, yb k 4⁆ ∈ Submodule.span k (loopSet k)
+          have hb : ⁅aElt k 4 0, yb k 4⁆ = -dY k 1 (topOdd k 0) := by
+            rw [topOdd_zero, dY_one, aElt_zero, ← lie_skew]
+          rw [hb]
+          exact neg_mem (hF (LoopIdx.odd 0 1))
+      | odd m i =>
+          fin_cases i
+          · change ⁅aElt k 4 0, topOdd k m⁆ ∈ Submodule.span k (loopSet k)
+            rw [lie_zero_topOdd h2 h3 h5 m]
+            exact Submodule.zero_mem _
+          · change ⁅aElt k 4 0, dY k 1 (topOdd k m)⁆ ∈ Submodule.span k (loopSet k)
+            rw [lie_zero_dY_one_topOdd h2 h3 h5 m]
+            exact Submodule.zero_mem _
+          · change ⁅aElt k 4 0, dY k 2 (topOdd k m)⁆ ∈ Submodule.span k (loopSet k)
+            rw [lie_zero_dY_two_topOdd h2 h3 h5 m]
+            exact Submodule.zero_mem _
+          · change ⁅aElt k 4 0, dY k 3 (topOdd k m)⁆ ∈ Submodule.span k (loopSet k)
+            rw [lie_zero_dY_three_topOdd h2 h3 h5 m]
+            exact neg_mem (hF (LoopIdx.even m 0))
+          · change ⁅aElt k 4 0, dY k 4 (topOdd k m)⁆ ∈ Submodule.span k (loopSet k)
+            rw [lie_zero_dY_four_topOdd h2 h3 h5 m]
+            exact add_mem (neg_mem (Submodule.smul_mem _ _ (hF (LoopIdx.even m 1)))) (hW m)
+      | even m i =>
+          fin_cases i
+          · change ⁅aElt k 4 0, evenTower k m⁆ ∈ Submodule.span k (loopSet k)
+            rw [lie_zero_evenTower h2 h3 h5 m]
+            exact Submodule.zero_mem _
+          · change ⁅aElt k 4 0, dY k 1 (evenTower k m)⁆ ∈ Submodule.span k (loopSet k)
+            rw [lie_zero_dY_one_evenTower h2 h3 h5 m]
+            exact hF (LoopIdx.odd (m + 1) 0)
+          · change ⁅aElt k 4 0, dY k 2 (evenTower k m)⁆ ∈ Submodule.span k (loopSet k)
+            have hhalf : ⁅aElt k 4 0, dY k 2 (evenTower k m)⁆
+                = (2 : k)⁻¹ • dY k 1 (topOdd k (m + 1)) := by
+              rw [← two_smul_lie_zero_dY_two_evenTower h2 h3 h5 m, smul_smul,
+                inv_mul_cancel₀ h2, one_smul]
+            rw [hhalf]
+            exact Submodule.smul_mem _ _ (hF (LoopIdx.odd (m + 1) 1))
+    · change ⁅xb k 4, topDefect k m⁆ ∈ Submodule.span k (loopSet k)
+      rw [central_topDefect h2 h3 h5 m]
+      exact Submodule.zero_mem _
+  · rintro s hs
+    rcases mem_loopSet hs with ⟨I, rfl⟩ | ⟨m, rfl⟩
+    · cases I with
+      | base =>
+          change ⁅yb k 4, yb k 4⁆ ∈ Submodule.span k (loopSet k)
+          rw [lie_self]
+          exact Submodule.zero_mem _
+      | odd m i =>
+          fin_cases i
+          · change ⁅yb k 4, dY k 0 (topOdd k m)⁆ ∈ Submodule.span k (loopSet k)
+            rw [← dY_succ]
+            exact hF (LoopIdx.odd m 1)
+          · change ⁅yb k 4, dY k 1 (topOdd k m)⁆ ∈ Submodule.span k (loopSet k)
+            rw [← dY_succ]
+            exact hF (LoopIdx.odd m 2)
+          · change ⁅yb k 4, dY k 2 (topOdd k m)⁆ ∈ Submodule.span k (loopSet k)
+            rw [← dY_succ]
+            exact hF (LoopIdx.odd m 3)
+          · change ⁅yb k 4, dY k 3 (topOdd k m)⁆ ∈ Submodule.span k (loopSet k)
+            rw [← dY_succ]
+            exact hF (LoopIdx.odd m 4)
+          · change ⁅yb k 4, dY k 4 (topOdd k m)⁆ ∈ Submodule.span k (loopSet k)
+            rw [← dY_succ]
+            rw [show dY k (4 + 1) (topOdd k m) = dY k 5 (topOdd k m) from rfl,
+              dY_five_topOdd h2 h3 h5 m]
+            exact Submodule.zero_mem _
+      | even m i =>
+          fin_cases i
+          · change ⁅yb k 4, dY k 0 (evenTower k m)⁆ ∈ Submodule.span k (loopSet k)
+            rw [← dY_succ]
+            exact hF (LoopIdx.even m 1)
+          · change ⁅yb k 4, dY k 1 (evenTower k m)⁆ ∈ Submodule.span k (loopSet k)
+            rw [← dY_succ]
+            exact hF (LoopIdx.even m 2)
+          · change ⁅yb k 4, dY k 2 (evenTower k m)⁆ ∈ Submodule.span k (loopSet k)
+            rw [← dY_succ]
+            rw [show dY k (2 + 1) (evenTower k m) = dY k 3 (evenTower k m) from rfl,
+              dY_three_evenTower h2 h3 h5 m]
+            exact Submodule.zero_mem _
+    · change ⁅yb k 4, topDefect k m⁆ ∈ Submodule.span k (loopSet k)
+      rw [central_topDefect h2 h3 h5 m]
+      exact Submodule.zero_mem _
+
+/-- **The `LoopIdx`-indexed family spans `𝔤₄`**, once the defects vanish. This is the upper bound
+of Problem 2.16.3(b): `𝔤₄` is spanned by `1` element in `t`-degree `0`, `5` in each odd degree and
+`3` in each even degree `≥ 2`, matching the graded basis of `𝔫₊ ⊆ A₂⁽²⁾`. -/
+theorem span_range_loopFam₄_eq_top (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
+    (hgap : ∀ m : ℕ, topDefect k m = 0) :
+    Submodule.span k (Set.range (loopFam₄ k)) = ⊤ := by
+  refine le_antisymm le_top ?_
+  rw [← span_loopSet_eq_top h2 h3 h5, Submodule.span_le]
+  intro v hv
+  rcases mem_loopSet hv with ⟨I, rfl⟩ | ⟨m, rfl⟩
+  · exact Submodule.subset_span ⟨I, rfl⟩
+  · rw [hgap m]
+    exact Submodule.zero_mem _
+
+/-- **The family spans as soon as `𝔤₄` has trivial centre**, since every defect is central. -/
+theorem span_range_loopFam₄_eq_top_of_center (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0)
+    (h5 : (5 : k) ≠ 0) (hZ : ∀ w : g k 4, (∀ v : g k 4, ⁅v, w⁆ = 0) → w = 0) :
+    Submodule.span k (Set.range (loopFam₄ k)) = ⊤ :=
+  span_range_loopFam₄_eq_top h2 h3 h5 fun m => hZ _ (central_topDefect h2 h3 h5 m)
+
+/-! ### The graded dimensions `1, 5, 3, 5, 3, …` -/
+
+/-- Only the base index sits in `t`-degree `0`. -/
+theorem card_loopIdx_deg_zero : Nat.card {I : LoopIdx // I.deg = 0} = 1 := by
+  have hbij : Function.Bijective
+      (fun _ : Unit => (⟨LoopIdx.base, rfl⟩ : {I : LoopIdx // I.deg = 0})) := by
+    refine ⟨fun a b _ => Subsingleton.elim a b, ?_⟩
+    rintro ⟨I, hI⟩
+    cases I with
+    | base => exact ⟨(), rfl⟩
+    | odd m i => rw [LoopIdx.deg] at hI; omega
+    | even m i => rw [LoopIdx.deg] at hI; omega
+  simpa using (Nat.card_eq_of_bijective _ hbij).symm
+
+/-- Five indices in each odd `t`-degree `2m+1`. -/
+theorem card_loopIdx_deg_odd (m : ℕ) : Nat.card {I : LoopIdx // I.deg = 2 * m + 1} = 5 := by
+  have hbij : Function.Bijective
+      (fun i : Fin 5 => (⟨LoopIdx.odd m i, rfl⟩ : {I : LoopIdx // I.deg = 2 * m + 1})) := by
+    refine ⟨fun i j hij => by simpa using hij, ?_⟩
+    rintro ⟨I, hI⟩
+    cases I with
+    | base => rw [LoopIdx.deg] at hI; omega
+    | odd m' i =>
+        have hm : m' = m := by rw [LoopIdx.deg] at hI; omega
+        subst hm
+        exact ⟨i, rfl⟩
+    | even m' i => rw [LoopIdx.deg] at hI; omega
+  simpa using (Nat.card_eq_of_bijective _ hbij).symm
+
+/-- Three indices in each even `t`-degree `2m+2`. -/
+theorem card_loopIdx_deg_even (m : ℕ) : Nat.card {I : LoopIdx // I.deg = 2 * m + 2} = 3 := by
+  have hbij : Function.Bijective
+      (fun i : Fin 3 => (⟨LoopIdx.even m i, rfl⟩ : {I : LoopIdx // I.deg = 2 * m + 2})) := by
+    refine ⟨fun i j hij => by simpa using hij, ?_⟩
+    rintro ⟨I, hI⟩
+    cases I with
+    | base => rw [LoopIdx.deg] at hI; omega
+    | odd m' i => rw [LoopIdx.deg] at hI; omega
+    | even m' i =>
+        have hm : m' = m := by rw [LoopIdx.deg] at hI; omega
+        subst hm
+        exact ⟨i, rfl⟩
+  simpa using (Nat.card_eq_of_bijective _ hbij).symm
+
+end Spanning
 
 end Etingof.Problem2_16_3
