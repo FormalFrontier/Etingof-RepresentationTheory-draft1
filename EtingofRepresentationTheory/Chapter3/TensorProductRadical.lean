@@ -124,6 +124,31 @@ end Basic
 
 section Nilpotent
 
+/-- **A nilpotent ideal is contained in the Jacobson radical.** Mathlib has this only for
+commutative rings (`Ideal.radical_le_jacobson`, `nilradical_le_jacobson`); the argument here is
+the usual one and works over any ring: for `x ∈ I` and any `y`, the product `y * x` lies in the
+left ideal `I`, hence is nilpotent, so `1 + y * x` is a unit, which is exactly the unit
+criterion `Ideal.mem_jacobson_iff` for membership in `Ring.jacobson`. -/
+theorem le_jacobson_of_isNilpotent {R : Type*} [Ring R] {I : Ideal R} (h : IsNilpotent I) :
+    I ≤ Ring.jacobson R := by
+  obtain ⟨n, hn⟩ := h
+  intro x hx
+  rw [← Ideal.jacobson_bot, Ideal.mem_jacobson_iff]
+  intro y
+  have hyx : y * x ∈ I := I.mul_mem_left y hx
+  have hpow : (y * x) ^ n ∈ I ^ n := Ideal.pow_mem_pow hyx n
+  rw [hn] at hpow
+  have hnil : IsNilpotent (-(y * x)) :=
+    IsNilpotent.neg (⟨n, by simpa using hpow⟩ : IsNilpotent (y * x))
+  obtain ⟨u, hu⟩ := IsNilpotent.isUnit_one_sub hnil
+  refine ⟨(↑u⁻¹ : R), ?_⟩
+  have h1 : (↑u⁻¹ : R) * (1 + y * x) = 1 := by
+    rw [show (1 : R) + y * x = (u : R) by rw [hu, sub_neg_eq_add]]
+    exact u.inv_mul
+  have h2 : (↑u⁻¹ : R) * y * x + (↑u⁻¹ : R) = (↑u⁻¹ : R) * (1 + y * x) := by noncomm_ring
+  rw [h2, h1, sub_self]
+  exact Ideal.zero_mem _
+
 variable {k A B : Type*} [Field k] [Ring A] [Ring B] [Algebra k A] [Algebra k B]
 variable [FiniteDimensional k A] [FiniteDimensional k B]
 
@@ -134,23 +159,25 @@ theorem isNilpotent_radTensorSum : IsNilpotent (radTensorSum k A B) := by
 /-- The easy inclusion `Rad(A) ⊗ B + A ⊗ Rad(B) ⊆ Rad(A ⊗ B)`: a nilpotent two-sided ideal is
 contained in the Jacobson radical. No hypothesis on `k` beyond finite dimensionality. -/
 theorem radTensorSum_le_jacobson :
-    radTensorSum k A B ≤ Ring.jacobson (A ⊗[k] B) := by
-  sorry
+    radTensorSum k A B ≤ Ring.jacobson (A ⊗[k] B) :=
+  le_jacobson_of_isNilpotent isNilpotent_radTensorSum
 
 end Nilpotent
 
 section Semisimple
 
 variable {k A B : Type*} [Field k] [Ring A] [Ring B] [Algebra k A] [Algebra k B]
-variable [FiniteDimensional k A] [FiniteDimensional k B]
 
 /-- The hard inclusion `Rad(A ⊗ B) ⊆ J`: "`(A ⊗ B)/J = (A/Rad A) ⊗ (B/Rad B)`, which is
 semisimple. This implies `J ⊃ Rad(A ⊗ B)`." Stated with the semisimplicity as an explicit
-hypothesis, since over a general field it can fail. -/
+hypothesis, since over a general field it can fail. Note that no finiteness is needed here:
+all the finiteness is in the other inclusion. -/
 theorem jacobson_le_radTensorSum
     (h : IsSemisimpleRing ((A ⧸ Ring.jacobson A) ⊗[k] (B ⧸ Ring.jacobson B))) :
     Ring.jacobson (A ⊗[k] B) ≤ radTensorSum k A B := by
-  sorry
+  have hq : IsSemisimpleRing ((A ⊗[k] B) ⧸ radTensorSum k A B) :=
+    (quotientRadTensorSumEquiv (k := k) (A := A) (B := B)).symm.toRingEquiv.isSemisimpleRing
+  exact Ring.jacobson_le_of_eq_bot (IsSemisimpleRing.jacobson_eq_bot _)
 
 end Semisimple
 
@@ -189,7 +216,17 @@ variable [FiniteDimensional k A] [FiniteDimensional k B]
 closed field. -/
 theorem jacobson_tensorProduct_eq :
     Ring.jacobson (A ⊗[k] B) = radTensorSum k A B := by
-  sorry
+  -- `IsArtinianRing` does not fire from `FiniteDimensional k A` by instance search.
+  haveI : IsArtinianRing A := IsArtinianRing.of_finite k A
+  haveI : IsArtinianRing B := IsArtinianRing.of_finite k B
+  haveI : FiniteDimensional k (A ⧸ Ring.jacobson A) :=
+    Module.Finite.of_surjective (Ideal.Quotient.mkₐ k (Ring.jacobson A)).toLinearMap
+      Ideal.Quotient.mk_surjective
+  haveI : FiniteDimensional k (B ⧸ Ring.jacobson B) :=
+    Module.Finite.of_surjective (Ideal.Quotient.mkₐ k (Ring.jacobson B)).toLinearMap
+      Ideal.Quotient.mk_surjective
+  exact le_antisymm (jacobson_le_radTensorSum (isSemisimpleRing_tensorProduct _ _))
+    radTensorSum_le_jacobson
 
 /-- **The displayed quotient identification** (Etingof, proof of Theorem 3.10.2):
 `(A ⊗ B)/Rad(A ⊗ B) ≅ (A/Rad A) ⊗ (B/Rad B)`. -/
