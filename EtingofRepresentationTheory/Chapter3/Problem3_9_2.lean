@@ -109,7 +109,7 @@ private lemma smul_quot_eq_zero {n : ℕ} (a : Fin n → ℂ) {r : polyAlg n} (h
 
 /-- **The action is by the scalar `p(a)`.** Any `q ∈ A` acts on `Vrep a` as multiplication by the
 complex number `aeval a q`. -/
-private lemma Vrep_smul_eq {n : ℕ} (a : Fin n → ℂ) (q : polyAlg n) (v : Vrep a) :
+lemma Vrep_smul_eq {n : ℕ} (a : Fin n → ℂ) (q : polyAlg n) (v : Vrep a) :
     q • v = aeval a q • v := by
   rw [← algebraMap_smul (polyAlg n) (aeval a q) v, MvPolynomial.algebraMap_eq, ← sub_eq_zero,
     ← sub_smul]
@@ -125,7 +125,7 @@ private lemma mk_eq_aeval_smul_mk_one {n : ℕ} (a : Fin n → ℂ) (p : polyAlg
   exact sub_C_aeval_mem a p
 
 /-- The distinguished generator `w₀ = [1] ∈ Vrep a`, which spans it over `ℂ`. -/
-private lemma quot_mk_one_ne_zero {n : ℕ} (a : Fin n → ℂ) :
+lemma quot_mk_one_ne_zero {n : ℕ} (a : Fin n → ℂ) :
     (Submodule.Quotient.mk (1 : polyAlg n) : Vrep a) ≠ 0 := by
   rw [Ne, Submodule.Quotient.mk_eq_zero]
   intro h

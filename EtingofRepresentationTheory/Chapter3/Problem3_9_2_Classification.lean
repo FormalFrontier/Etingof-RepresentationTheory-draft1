@@ -172,7 +172,7 @@ instance {n : ℕ} (a c : Fin n → ℂ) : IsScalarTower ℂ (polyAlg n) (Jrep a
   ⟨fun r p x => by rw [jrep_smul_def, jrep_smul_def, map_smul, smul_mul_assoc]⟩
 
 theorem jrep_finrank {n : ℕ} (a c : Fin n → ℂ) : Module.finrank ℂ (Jrep a c) = 2 := by
-  show Module.finrank ℂ (ℂ × ℂ) = 2
+  change Module.finrank ℂ (ℂ × ℂ) = 2
   rw [Module.finrank_prod, Module.finrank_self]
 
 /-- The generator `xᵢ` acts on `Jrep a c` as `aᵢ + cᵢ ε`. -/
@@ -614,16 +614,116 @@ theorem jrep_iso_iff {n : ℕ} (a c a' c' : Fin n → ℂ) :
   · rintro ⟨rfl, lam, hlam, hc'⟩
     exact jrep_iso_of_scalar a c c' lam hlam hc'
 
+/-! ## Weights as an isomorphism invariant -/
+
+section Weights
+
+variable {n : ℕ}
+
+/-- The set of weights of a module: those `a` admitting a nonzero simultaneous eigenvector for
+all the generators, with `xᵢ` acting by `aᵢ`. -/
+def Weights (M : Type*) [AddCommGroup M] [Module ℂ M] [Module (polyAlg n) M] :
+    Set (Fin n → ℂ) :=
+  {a | ∃ m : M, m ≠ 0 ∧ ∀ i, (X i : polyAlg n) • m = a i • m}
+
+variable {M N : Type*}
+  [AddCommGroup M] [Module ℂ M] [Module (polyAlg n) M] [IsScalarTower ℂ (polyAlg n) M]
+  [AddCommGroup N] [Module ℂ N] [Module (polyAlg n) N] [IsScalarTower ℂ (polyAlg n) N]
+
+theorem weights_subset_of_linearEquiv (φ : M ≃ₗ[polyAlg n] N) :
+    Weights (n := n) M ⊆ Weights (n := n) N := by
+  rintro a ⟨m, hm, ha⟩
+  refine ⟨φ m, fun h => hm (φ.injective (by rw [h, map_zero])), fun i => ?_⟩
+  rw [← map_smul, ha i, map_smul_complex]
+
+/-- Isomorphic modules have the same weights. -/
+theorem weights_eq_of_linearEquiv (φ : M ≃ₗ[polyAlg n] N) :
+    Weights (n := n) M = Weights (n := n) N :=
+  Set.Subset.antisymm (weights_subset_of_linearEquiv φ)
+    (weights_subset_of_linearEquiv φ.symm)
+
+end Weights
+
+/-- A dual-number module has the single weight `a`. -/
+theorem weights_jrep {n : ℕ} (a c : Fin n → ℂ) : Weights (Jrep a c) = {a} := by
+  apply Set.Subset.antisymm
+  · rintro w ⟨x, hx, hw⟩
+    funext i
+    have h := hw i
+    rw [jrep_X_smul, Jrep.eps_mul, smul_smul] at h
+    have h1 := congrArg (Jrep.fst a c) h
+    have h2 := congrArg (Jrep.snd a c) h
+    simp only [Jrep.fst_add, Jrep.snd_add, Jrep.fst_smul, Jrep.snd_smul, Jrep.fst_eps,
+      Jrep.snd_eps, mul_zero, mul_one, add_zero] at h1 h2
+    by_cases hfx : Jrep.fst a c x = 0
+    · have hsx : Jrep.snd a c x ≠ 0 := by
+        intro hs
+        exact hx (Jrep.ext a c (by simp [hfx]) (by simp [hs]))
+      rw [hfx, mul_zero, add_zero] at h2
+      exact (mul_right_cancel₀ hsx h2).symm
+    · exact (mul_right_cancel₀ hfx h1).symm
+  · rintro w hw
+    rw [Set.mem_singleton_iff] at hw
+    rw [hw]
+    exact ⟨Jrep.eps a c, jrep_eps_ne_zero a c, fun i => jrep_X_smul_eps a c i⟩
+
+/-- A direct sum of two one-dimensional representations has exactly the two weights. -/
+theorem weights_vrep_prod {n : ℕ} (b a : Fin n → ℂ) :
+    Weights (Vrep b × Vrep a) = {b, a} := by
+  have hXb : ∀ (i : Fin n) (x : Vrep b), (X i : polyAlg n) • x = b i • x := by
+    intro i x; rw [Vrep_smul_eq]; simp
+  have hXa : ∀ (i : Fin n) (y : Vrep a), (X i : polyAlg n) • y = a i • y := by
+    intro i y; rw [Vrep_smul_eq]; simp
+  apply Set.Subset.antisymm
+  · rintro w ⟨⟨x, y⟩, hxy, hw⟩
+    by_cases hx : x = 0
+    · have hy : y ≠ 0 := fun h => hxy (Prod.ext hx h)
+      refine Or.inr (funext fun i => ?_)
+      have h2 : (X i : polyAlg n) • y = w i • y := congrArg Prod.snd (hw i)
+      rw [hXa i y] at h2
+      have h3 : (a i - w i) • y = 0 := by rw [sub_smul, h2, sub_self]
+      exact (sub_eq_zero.mp ((smul_eq_zero.mp h3).resolve_right hy)).symm
+    · refine Or.inl (funext fun i => ?_)
+      have h1 : (X i : polyAlg n) • x = w i • x := congrArg Prod.fst (hw i)
+      rw [hXb i x] at h1
+      have h3 : (b i - w i) • x = 0 := by rw [sub_smul, h1, sub_self]
+      exact (sub_eq_zero.mp ((smul_eq_zero.mp h3).resolve_right hx)).symm
+  · rintro w hw
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
+    rcases hw with hw | hw
+    · subst w
+      refine ⟨(Submodule.Quotient.mk 1, 0), fun h => ?_, fun i => ?_⟩
+      · exact quot_mk_one_ne_zero b (Prod.mk_eq_zero.mp h).1
+      · exact Prod.ext (hXb i _) (by simp)
+    · subst w
+      refine ⟨(0, Submodule.Quotient.mk 1), fun h => ?_, fun i => ?_⟩
+      · exact quot_mk_one_ne_zero a (Prod.mk_eq_zero.mp h).2
+      · exact Prod.ext (by simp) (hXa i _)
+
 /-- The split normal forms are isomorphic exactly when their weights agree as unordered pairs. -/
-theorem split_iso_iff {n : ℕ} (b a b' a' : Fin n → ℂ) (hba : b ≠ a) (hba' : b' ≠ a') :
+theorem split_iso_iff {n : ℕ} (b a b' a' : Fin n → ℂ) :
     Nonempty ((Vrep b × Vrep a) ≃ₗ[polyAlg n] Vrep b' × Vrep a') ↔
       (b = b' ∧ a = a') ∨ (b = a' ∧ a = b') := by
-  sorry
+  constructor
+  · rintro ⟨φ⟩
+    have h := weights_eq_of_linearEquiv φ
+    rw [weights_vrep_prod, weights_vrep_prod] at h
+    exact Set.pair_eq_pair_iff.mp h
+  · rintro (⟨rfl, rfl⟩ | ⟨rfl, rfl⟩)
+    · exact ⟨LinearEquiv.refl _ _⟩
+    · exact ⟨LinearEquiv.prodComm (polyAlg n) (Vrep b) (Vrep a)⟩
 
 /-- A split module with distinct weights is never a dual-number module: it has two weights,
 whereas `Jrep a' c'` has only the weight `a'`. -/
 theorem split_not_iso_jrep {n : ℕ} (b a a' c' : Fin n → ℂ) (hba : b ≠ a) :
     ¬ Nonempty ((Vrep b × Vrep a) ≃ₗ[polyAlg n] Jrep a' c') := by
-  sorry
+  rintro ⟨φ⟩
+  have h := weights_eq_of_linearEquiv φ
+  rw [weights_vrep_prod, weights_jrep] at h
+  have hmem : ∀ w : Fin n → ℂ, w ∈ ({b, a} : Set (Fin n → ℂ)) → w = a' := by
+    intro w hwmem
+    rw [h, Set.mem_singleton_iff] at hwmem
+    exact hwmem
+  exact hba ((hmem b (by simp)).trans (hmem a (by simp)).symm)
 
 end Etingof.Problem3_9_2

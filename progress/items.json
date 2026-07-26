@@ -2817,19 +2817,23 @@
     "sorry_free": true,
     "fidelity": "verified",
     "lean_file": [
-      "EtingofRepresentationTheory/Chapter3/Problem3_9_2.lean"
+      "EtingofRepresentationTheory/Chapter3/Problem3_9_2.lean",
+      "EtingofRepresentationTheory/Chapter3/Problem3_9_2_Classification.lean"
     ],
-    "coverage": "covered_partial",
-    "followup_issue": 6276,
+    "coverage": "covered",
     "coverage_arm": "audited",
     "lean_decl": [
       "Etingof.Problem3_9_2.ext1_self",
       "Etingof.Problem3_9_2.ext1_subsingleton_of_ne",
       "Etingof.Problem3_9_2.two_dim_is_extension",
-      "Etingof.Problem3_9_2.infinitely_many_indecomposables"
+      "Etingof.Problem3_9_2.infinitely_many_indecomposables",
+      "Etingof.Problem3_9_2.two_dim_normal_form",
+      "Etingof.Problem3_9_2.jrep_iso_iff",
+      "Etingof.Problem3_9_2.split_iso_iff",
+      "Etingof.Problem3_9_2.split_not_iso_jrep"
     ],
-    "last_updated": "2026-07-22",
-    "coverage_note": "The Ext¹ computation and the infinite indecomposable family in part (b) are proved. For part (a), two_dim_is_extension only reduces an arbitrary two-dimensional module to an extension of one-dimensional modules; it does not provide normal forms or the isomorphism criterion obtained by splitting distinct weights and quotienting self-extension classes by automorphisms. The requested classification remains #6276.",
+    "last_updated": "2026-07-26",
+    "coverage_note": "The Ext¹ computation and the infinite indecomposable family in part (b) are proved. Part (a)'s classification of two-dimensional representations is complete: two_dim_normal_form exhibits every two-dimensional module as a direct sum V_b × Vₐ with distinct weights or as a dual-number module Jrep a c, jrep_iso_iff identifies Jrep a c with Jrep a' c' exactly when a = a' and the classes are proportional (so nonzero self-extension classes are parametrized by the projective space of ℂⁿ), split_iso_iff gives the unordered-pair criterion for the split forms, and split_not_iso_jrep separates the two families.",
     "derived": [
       {
         "part": "(a) Ext¹(Vₐ,V_b) and 2-dim reps of ℂ[x₁..xₙ]",
