@@ -9,19 +9,25 @@ to pick the most important unclaimed issue and execute it.
 
 ## Before You Start: Verify the Worktree Is Not Stale
 
-Pod worktrees are reused, and a crashed prior session can leave them holding *older*
-copies of `.claude/` files than `main` has. Because skills and commands load from the
-working tree, you would then be running on guidance that has since been superseded, and
-a later `git add -A` would revert it on `main`. Run this unconditionally, before Step 1:
+Pod overwrites `.claude/commands` and `.claude/skills` with a copy bundled inside the
+installed dev-pod package at the start of *every* session — see #7935 for the call site.
+That bundled copy is frozen at dev-pod install time and so is older than `main`, which
+means you are very likely running on guidance that has since been superseded, and a later
+`git add -A` would revert it on `main`. Run this unconditionally, before Step 1:
 
 ```bash
 git status --short
 git diff --numstat HEAD -- .claude/
 ```
 
-Any pure-deletion lines under `.claude/` are stale leftovers, not your work: restore them
-with `git checkout HEAD -- .claude/` and then **`Read` the restored `agent-worker-flow`
-SKILL.md and this command in full**, since the copies you loaded were the old ones.
+Any pure-deletion lines under `.claude/` are pod's bundled copy, not your work. A
+`SessionStart` hook (`.claude/hooks/restore-claude-config.sh`) normally restores them before
+you get here, so `git status` may already be clean. **That does not mean the text you were
+served is current**: the command file and the skill are both snapshotted at session start,
+before the hook's writes become visible to the loader (measured directly in #7935). Restore
+anything the hook left with `git checkout HEAD -- .claude/`, and reload the
+`agent-worker-flow` skill and this command either way, since the copies you loaded were the
+old ones.
 
 Use `Read`, not the Skill tool: re-invoking a skill that is already loaded answers
 "instructions unchanged" and hands back the stale copy from session start, so it silently
