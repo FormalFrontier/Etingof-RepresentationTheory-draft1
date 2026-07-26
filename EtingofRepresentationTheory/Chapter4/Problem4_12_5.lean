@@ -27,6 +27,12 @@ element set with point stabilizer of order `5`/`3`/`2` is unique up to isomorphi
 face / edge action of the icosahedron. We therefore take the action as a hypothesis `act`
 together with these transitivity and stabilizer-order conditions.
 
+`Chapter4/Problem4_12_5_CosetModels.lean` constructs such actions (as left translation on the
+coset spaces `A₅ ⧸ ⟨5-cycle⟩`, `A₅ ⧸ ⟨3-cycle⟩`, `A₅ ⧸ ⟨involution⟩`), proves the uniqueness
+claimed above, and derives the hypothesis-free corollaries
+`vertices_decomposition_icosahedral`, `faces_decomposition_icosahedral`,
+`edges_decomposition_icosahedral`.
+
 Given `act : G →* Equiv.Perm (Fin n)`, `permRep act` is the permutation representation on
 `Fin n → ℂ`, `(permRep act g f) i = f (act g⁻¹ i)`. Writing `χ(g)` for the number of fixed
 points of `act g`, the character inner products give the multiplicities:
