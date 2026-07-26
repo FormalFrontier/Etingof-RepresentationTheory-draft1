@@ -209,7 +209,10 @@ variable {κ : Type w} [Fintype κ]
 `d (1 ⊗ v₁ ∧ ⋯ ∧ v_{i+1}) = ∑ⱼ (-1)ʲ vⱼ ⊗ v₁ ∧ ⋯ v̂ⱼ ⋯ ∧ v_{i+1}`,
 
 with no basis appearing. This is what makes `d` the book's `dᵢ(f)(u) = ιᵤ (f u)`: the
-contraction's alternating sum is reassembled by `∑ₐ b.coord a (vⱼ) • b a = vⱼ`. -/
+contraction's alternating sum is reassembled by `∑ₐ b.coord a (vⱼ) • b a = vⱼ`.
+
+As in `Etingof.exteriorContraction_ιMulti`, `Fin (i + 1)` is 0-indexed, so the book's `(-1)ʲ`
+for `j = 1, …, i + 1` appears below as `(-1) ^ (j + 1)`. -/
 theorem koszulD_one_tmul_ιMulti (b : Module.Basis κ k V) (i : ℕ) (v : Fin (i + 1) → V) :
     koszulD b i (1 ⊗ₜ[k] exteriorPower.ιMulti k (i + 1) v) =
       ∑ j : Fin (i + 1), ((-1 : k) ^ ((j : ℕ) + 1)) •
@@ -218,7 +221,8 @@ theorem koszulD_one_tmul_ιMulti (b : Module.Basis κ k V) (i : ℕ) (v : Fin (i
   simp only [mul_one, exteriorContraction_ιMulti, TensorProduct.tmul_sum, TensorProduct.tmul_smul]
   rw [Finset.sum_comm]
   refine Finset.sum_congr rfl fun j _ => ?_
-  -- Only the coefficient of `v j` survives: `∑ₐ b.coord a (v j) • b a = v j`.
+  -- The basis is eliminated here: `v j` is reassembled from its coordinates,
+  -- `∑ₐ b.coord a (v j) • b a = v j`.
   have hb : ∑ a : κ, (b.coord a) (v j) • SymmetricAlgebra.ι k V (b a)
       = SymmetricAlgebra.ι k V (v j) := by
     simp only [← map_smul, ← map_sum]
