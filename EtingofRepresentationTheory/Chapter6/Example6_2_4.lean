@@ -57,7 +57,7 @@ def A₃Rep.Indecomposable {k : Type*} [Field k] (ρ : A₃Rep k) : Prop :=
     (∀ x ∈ p₂, ρ.g x ∈ p₃) → (∀ x ∈ q₂, ρ.g x ∈ q₃) →
     (p₁ = ⊥ ∧ p₂ = ⊥ ∧ p₃ = ⊥) ∨ (q₁ = ⊥ ∧ q₂ = ⊥ ∧ q₃ = ⊥)
 
-private lemma a3_zero_of_finrank_zero {k : Type*} [Field k]
+lemma a3_zero_of_finrank_zero {k : Type*} [Field k]
     (V : Type*) [AddCommGroup V] [Module k V] [FiniteDimensional k V]
     (h : Module.finrank k V = 0) (x : V) : x = 0 := by
   have htop : (⊤ : Submodule k V) = ⊥ :=
@@ -92,7 +92,7 @@ private lemma exists_isCompl_containing {k : Type*} [Field k]
     _ = ⊤ := hC₀.2.eq_top
 
 /-- Bijective linear map preserves IsCompl under map. -/
-private lemma isCompl_map_of_bijective {k : Type*} [Field k]
+lemma isCompl_map_of_bijective {k : Type*} [Field k]
     {V W : Type*} [AddCommGroup V] [Module k V] [AddCommGroup W] [Module k W]
     (g : V →ₗ[k] W) (hg : Function.Bijective g)
     (p q : Submodule k V) (hpq : IsCompl p q) :

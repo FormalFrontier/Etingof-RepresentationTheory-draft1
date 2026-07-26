@@ -7095,6 +7095,36 @@ non-obvious traps cost most of the iterations:
    (often `0`) that then mismatches the `Iso` field's expected universe (`Type mismatch … sort
    Type 0 vs Type (max …)`). Letting the field's expected type drive elaboration fixes the universe.
 
+4. **With three or more vertices, rule 3 is not enough and its two escapes fail in opposite
+   directions** (#7402, the A₃ orientations). A representative carrying *several* `PUnit`
+   vertices has several floating universes, and only the ones whose field you actually supply
+   get constrained. Two distinct failures, 3 build cycles:
+   - Naming the representative in a hoisted term — `obtain ⟨e₁⟩ := … (M' := (rep_110 k).V₁)` —
+     builds a **fresh** `rep_110` whose *other* `PUnit` universe is never mentioned and stays a
+     metavariable. The error is `declaration … contains universe level metavariables at the
+     expression V₁.{…, ?u} (rep_110.{…, ?u} k)` and is reported against the *whole declaration
+     body*, so it points nowhere near the `obtain`.
+   - "Fix" that by pinning inside the structure literal (`e₂ := (… (M' := (rep_100 k).V₂)).some`)
+     and instance search must now unfold the projection under the pin: `failed to synthesize
+     Module.Free k (rep_100 k).V₂`, `(deterministic) timeout at typeclass, 20000 heartbeats`.
+
+   What works: pin a field whose target is a **concrete type you can name** (`(M' := k)`, since
+   `(rep_110 k).V₁` is `k` definitionally, and `k`'s universe is fixed), and leave every
+   `PUnit`-valued field as a `?_` hole in the structure literal so its type comes from the goal:
+   ```lean
+   obtain ⟨e₁⟩ := FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
+     (R := k) (M := ρ.V₁) (M' := k) (by rw [h1]; exact (finrank_self k).symm)
+   refine ⟨{ e₁ := e₁, e₂ := fEq.symm.trans e₁, e₃ := ?_, comm_f := fun x => ?_, … }⟩
+   · exact (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
+       (by rw [h3]; exact finrank_zero_of_subsingleton.symm)).some
+   ```
+   A representative with no `PUnit` at all (the all-`k` one) may be named freely.
+
+5. **`theorem Etingof.Foo` written inside `namespace Bar` silently declares `Bar.Etingof.Foo`.**
+   Nothing errors; the file builds. Use `theorem _root_.Etingof.Foo` when the headline result must
+   sit in the book's namespace. The cheap detector is the `#print axioms` pass you run anyway: it
+   reports `Unknown constant 'Etingof.Foo'`.
+
 For the "identity" representative `k ≃ k` with map `f`, the intertwiner needs
 `e₂ := fEq.symm.trans e₁` where `fEq := LinearEquiv.ofBijective ρ.f ⟨hinj, hsurj⟩` and
 `hsurj := (LinearMap.injective_iff_surjective_of_finrank_eq_finrank …).mp hinj`; then

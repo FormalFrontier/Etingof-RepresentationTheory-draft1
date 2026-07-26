@@ -7390,13 +7390,12 @@
     "start_line": 21,
     "end_line": 10,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "fidelity": "verified",
-    "needs_statement": true,
+    "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "The orientation V1 → V2 → V3 is formalized. The source also treats V1 → V2 ← V3 (the pair-of-subspaces problem) and classifies its six indecomposables; that second half is absent and tracked by #7402.",
-    "fidelity_issue": 7402,
-    "last_updated": "2026-07-22"
+    "coverage_note": "Both orientations are covered at the representation level. Chapter6/Example6_2_4.lean gives the dimension-vector classification for V1 → V2 → V3 and Chapter6/Example6_2_4_Source.lean upgrades it to A₃Rep.exists_unique_iso_rep; Chapter6/Example6_2_4_Sink.lean does the same for the pair-of-subspaces orientation V1 → V2 ← V3, via Etingof.Example_6_2_4_sink and A₃SinkRep.exists_unique_iso_rep. Each of the six representatives per orientation is constructed and proved indecomposable.",
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter6/Section6.3_heading",
