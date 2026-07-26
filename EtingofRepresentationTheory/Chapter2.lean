@@ -12,6 +12,7 @@ import EtingofRepresentationTheory.Chapter2.Sl2NullitySequence
 import EtingofRepresentationTheory.Chapter2.Sl2SemisimpleDecomposition
 import EtingofRepresentationTheory.Chapter2.Theorem2_1_1
 import EtingofRepresentationTheory.Chapter2.Theorem2_1_2
+import EtingofRepresentationTheory.Chapter2.Theorem2_1_2_General
 
 -- Section 2.2: Algebras
 import EtingofRepresentationTheory.Chapter2.Definition2_2_1
