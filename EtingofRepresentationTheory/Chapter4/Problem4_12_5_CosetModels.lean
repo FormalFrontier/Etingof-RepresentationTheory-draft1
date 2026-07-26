@@ -125,6 +125,129 @@ lemma card_quotient_mul_card (H : Subgroup G) : Nat.card (G ⧸ H) * Nat.card H 
 
 end CosetModel
 
+/-! ## Model independence
+
+Two ingredients. First, every transitive action of `A₅` on `Fin N` *is* a coset action: the orbit
+map `a ↦ act a i₀` descends to an equivariant bijection `A₅ ⧸ stabSub act i₀ ≃ Fin N`. Second,
+conjugate subgroups have equivariantly isomorphic coset spaces. Together they say that a
+transitive action is determined, up to equivariant isomorphism, by the conjugacy class of its
+point stabilizer. -/
+
+section ModelIndependence
+
+variable {N : ℕ} (act : A5 →* Equiv.Perm (Fin N)) (i₀ : Fin N)
+
+/-- The orbit map `a ↦ act a i₀`, descended to the coset space of the point stabilizer. -/
+def quotStabToFin : (A5 ⧸ stabSub act i₀) → Fin N := fun x =>
+  Quotient.liftOn' x (fun a => act a i₀) <| by
+    intro a b hab
+    have hmem : a⁻¹ * b ∈ stabSub act i₀ := QuotientGroup.leftRel_apply.mp hab
+    have h1 : act (a⁻¹ * b) i₀ = i₀ := hmem
+    rw [map_mul, map_inv, Equiv.Perm.mul_apply, Equiv.Perm.inv_def,
+      Equiv.symm_apply_eq] at h1
+    exact h1.symm
+
+@[simp] lemma quotStabToFin_mk (a : A5) :
+    quotStabToFin act i₀ (a : A5 ⧸ stabSub act i₀) = act a i₀ := rfl
+
+lemma quotStabToFin_injective : Function.Injective (quotStabToFin act i₀) := by
+  intro x y h
+  induction x using Quotient.inductionOn' with | _ a =>
+  induction y using Quotient.inductionOn' with | _ b =>
+  have h' : act a i₀ = act b i₀ := h
+  refine QuotientGroup.eq.mpr ?_
+  change act (a⁻¹ * b) i₀ = i₀
+  rw [map_mul, map_inv, Equiv.Perm.mul_apply, ← h', Equiv.Perm.inv_def,
+    Equiv.symm_apply_apply]
+
+lemma quotStabToFin_surjective (htrans : ∀ j : Fin N, ∃ x : A5, act x i₀ = j) :
+    Function.Surjective (quotStabToFin act i₀) := by
+  intro j
+  obtain ⟨x, hx⟩ := htrans j
+  exact ⟨(x : A5 ⧸ stabSub act i₀), hx⟩
+
+/-- **Every transitive action is a coset action.** For a transitive `act`, the orbit map is an
+equivariant bijection `A₅ ⧸ stabSub act i₀ ≃ Fin N` (see `quotStabEquivFin_smul`). -/
+def quotStabEquivFin (htrans : ∀ j : Fin N, ∃ x : A5, act x i₀ = j) :
+    (A5 ⧸ stabSub act i₀) ≃ Fin N :=
+  Equiv.ofBijective _ ⟨quotStabToFin_injective act i₀, quotStabToFin_surjective act i₀ htrans⟩
+
+@[simp] lemma quotStabEquivFin_mk (htrans : ∀ j : Fin N, ∃ x : A5, act x i₀ = j) (a : A5) :
+    quotStabEquivFin act i₀ htrans (a : A5 ⧸ stabSub act i₀) = act a i₀ := rfl
+
+/-- The orbit bijection intertwines left translation on cosets with `act`. -/
+lemma quotStabEquivFin_smul (htrans : ∀ j : Fin N, ∃ x : A5, act x i₀ = j)
+    (g : A5) (x : A5 ⧸ stabSub act i₀) :
+    quotStabEquivFin act i₀ htrans (g • x) = act g (quotStabEquivFin act i₀ htrans x) := by
+  induction x using Quotient.inductionOn' with | _ a =>
+  change act (g * a) i₀ = act g (act a i₀)
+  rw [map_mul, Equiv.Perm.mul_apply]
+
+/-- The inverse form of `quotStabEquivFin_smul`, in the shape needed downstream. -/
+lemma quotStabEquivFin_symm_act (htrans : ∀ j : Fin N, ∃ x : A5, act x i₀ = j)
+    (g : A5) (i : Fin N) :
+    (quotStabEquivFin act i₀ htrans).symm (act g i)
+      = g • (quotStabEquivFin act i₀ htrans).symm i := by
+  apply (quotStabEquivFin act i₀ htrans).injective
+  rw [Equiv.apply_symm_apply, quotStabEquivFin_smul, Equiv.apply_symm_apply]
+
+variable {act i₀}
+
+/-- **Conjugate subgroups give equivariantly isomorphic coset spaces.** If `H₂ = c H₁ c⁻¹`
+(written pointwise as `y ∈ H₂ ↔ c⁻¹ y c ∈ H₁`), then `a H₁ ↦ a c⁻¹ H₂` is an `A₅`-equivariant
+bijection `A₅ ⧸ H₁ ≃ A₅ ⧸ H₂`. -/
+def quotientEquivOfConjSubgroup {H₁ H₂ : Subgroup A5} (c : A5)
+    (hc : ∀ y : A5, y ∈ H₂ ↔ c⁻¹ * y * c ∈ H₁) : (A5 ⧸ H₁) ≃ (A5 ⧸ H₂) where
+  toFun x := Quotient.liftOn' x (fun a => ((a * c⁻¹ : A5) : A5 ⧸ H₂)) <| by
+    intro a b hab
+    have hmem : a⁻¹ * b ∈ H₁ := QuotientGroup.leftRel_apply.mp hab
+    refine QuotientGroup.eq.mpr ?_
+    rw [hc]
+    rw [show c⁻¹ * ((a * c⁻¹)⁻¹ * (b * c⁻¹)) * c = a⁻¹ * b by group]
+    exact hmem
+  invFun x := Quotient.liftOn' x (fun a => ((a * c : A5) : A5 ⧸ H₁)) <| by
+    intro a b hab
+    have hmem : a⁻¹ * b ∈ H₂ := QuotientGroup.leftRel_apply.mp hab
+    rw [hc] at hmem
+    refine QuotientGroup.eq.mpr ?_
+    rw [show (a * c)⁻¹ * (b * c) = c⁻¹ * (a⁻¹ * b) * c by group]
+    exact hmem
+  left_inv x := by
+    induction x using Quotient.inductionOn' with | _ a =>
+    change ((a * c⁻¹ * c : A5) : A5 ⧸ H₁) = (a : A5 ⧸ H₁)
+    rw [inv_mul_cancel_right]
+  right_inv x := by
+    induction x using Quotient.inductionOn' with | _ a =>
+    change ((a * c * c⁻¹ : A5) : A5 ⧸ H₂) = (a : A5 ⧸ H₂)
+    rw [mul_inv_cancel_right]
+
+@[simp] lemma quotientEquivOfConjSubgroup_mk {H₁ H₂ : Subgroup A5} (c : A5)
+    (hc : ∀ y : A5, y ∈ H₂ ↔ c⁻¹ * y * c ∈ H₁) (a : A5) :
+    quotientEquivOfConjSubgroup c hc (a : A5 ⧸ H₁) = ((a * c⁻¹ : A5) : A5 ⧸ H₂) := rfl
+
+lemma quotientEquivOfConjSubgroup_smul {H₁ H₂ : Subgroup A5} (c : A5)
+    (hc : ∀ y : A5, y ∈ H₂ ↔ c⁻¹ * y * c ∈ H₁) (g : A5) (x : A5 ⧸ H₁) :
+    quotientEquivOfConjSubgroup c hc (g • x) = g • quotientEquivOfConjSubgroup c hc x := by
+  induction x using Quotient.inductionOn' with | _ a =>
+  change ((g * a * c⁻¹ : A5) : A5 ⧸ H₂) = ((g * (a * c⁻¹) : A5) : A5 ⧸ H₂)
+  rw [mul_assoc]
+
+/-- **Model independence.** A transitive action of `A₅` on `Fin N` whose point stabilizer at `0`
+is conjugate to `H` is equivariantly isomorphic to the coset model `cosetAct H e`. -/
+theorem exists_equivariant_equiv_cosetAct [NeZero N] {H : Subgroup A5} (e : (A5 ⧸ H) ≃ Fin N)
+    (act : A5 →* Equiv.Perm (Fin N)) (htrans : ∀ i j : Fin N, ∃ g : A5, act g i = j)
+    (c : A5) (hc : ∀ y : A5, y ∈ H ↔ c⁻¹ * y * c ∈ stabSub act 0) :
+    ∃ φ : Fin N ≃ Fin N, ∀ (g : A5) (i : Fin N), φ (act g i) = cosetAct H e g (φ i) := by
+  have htrans0 : ∀ j : Fin N, ∃ x : A5, act x 0 = j := fun j => htrans 0 j
+  set ψ := quotStabEquivFin act 0 htrans0 with hψ
+  set χ := quotientEquivOfConjSubgroup c hc with hχ
+  refine ⟨(ψ.symm.trans χ).trans e, fun g i => ?_⟩
+  change e (χ (ψ.symm (act g i))) = cosetAct H e g (e (χ (ψ.symm i)))
+  rw [quotStabEquivFin_symm_act act 0 htrans0, hχ, quotientEquivOfConjSubgroup_smul,
+    cosetAct_apply, Equiv.symm_apply_apply]
+
+end ModelIndependence
+
 /-! ## The three icosahedral models
 
 `classRepA5 3`, `classRepA5 1`, `classRepA5 2` have orders `5`, `3`, `2` (`ord_cr3`, `ord_cr1`,
@@ -216,6 +339,53 @@ lemma edgesAct_stab (i : Fin 30) : Nat.card {g : A5 // edgesAct g i = i} = 2 := 
   have h := card_mul_card_stab edgesAct i (fun j => edgesAct_transitive i j)
   rw [card_A5] at h
   omega
+
+/-! ### Every icosahedral model is *this* model
+
+The three lemmas below discharge the hypothesis of `exists_equivariant_equiv_cosetAct` using the
+conjugacy results already in `Problem4_12_5.lean`: Sylow's second theorem for the vertex and face
+stabilizers (orders `5` and `3`, the full `5`- and `3`-parts of `|A₅| = 60`), and the conjugacy of
+involutions for the edge stabilizers. The upshot is that *any* transitive `A₅`-action of the right
+degree and stabilizer order — in particular the vertex/face/edge action of any concrete
+realization of the regular icosahedron — is equivariantly isomorphic to the model built above, so
+the decompositions below are statements about the genuine icosahedral representations. -/
+
+/-- Repackage the decomposition theorems' `hstab` hypothesis as a statement about `stabSub`. -/
+lemma card_stabSub_of_hstab {N p : ℕ} (act : A5 →* Equiv.Perm (Fin N)) (i₀ : Fin N)
+    (hstab : Nat.card {g : A5 // act g i₀ = i₀} = p) : Nat.card (stabSub act i₀) = p := by
+  rw [← hstab]
+  exact Nat.card_congr (Equiv.subtypeEquivRight (mem_stabSub act i₀))
+
+/-- **Uniqueness of the vertex model.** Any transitive action of `A₅` on `12` points with point
+stabilizers of order `5` is equivariantly isomorphic to `verticesAct`. -/
+theorem verticesAct_unique (act : A5 →* Equiv.Perm (Fin 12))
+    (htrans : ∀ i j : Fin 12, ∃ g : A5, act g i = j)
+    (hstab : ∀ i : Fin 12, Nat.card {g : A5 // act g i = i} = 5) :
+    ∃ φ : Fin 12 ≃ Fin 12, ∀ (g : A5) (i : Fin 12), φ (act g i) = verticesAct g (φ i) := by
+  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  obtain ⟨c, hc⟩ := exists_conj_stab_sylow act (classRepA5 3) ord_cr3 fact5
+    (card_stabSub_of_hstab act 0 (hstab 0))
+  exact exists_equivariant_equiv_cosetAct vertexEquiv act htrans c hc
+
+/-- **Uniqueness of the face model.** Any transitive action of `A₅` on `20` points with point
+stabilizers of order `3` is equivariantly isomorphic to `facesAct`. -/
+theorem facesAct_unique (act : A5 →* Equiv.Perm (Fin 20))
+    (htrans : ∀ i j : Fin 20, ∃ g : A5, act g i = j)
+    (hstab : ∀ i : Fin 20, Nat.card {g : A5 // act g i = i} = 3) :
+    ∃ φ : Fin 20 ≃ Fin 20, ∀ (g : A5) (i : Fin 20), φ (act g i) = facesAct g (φ i) := by
+  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  obtain ⟨c, hc⟩ := exists_conj_stab_sylow act (classRepA5 1) ord_cr1 fact3
+    (card_stabSub_of_hstab act 0 (hstab 0))
+  exact exists_equivariant_equiv_cosetAct faceEquiv act htrans c hc
+
+/-- **Uniqueness of the edge model.** Any transitive action of `A₅` on `30` points with point
+stabilizers of order `2` is equivariantly isomorphic to `edgesAct`. -/
+theorem edgesAct_unique (act : A5 →* Equiv.Perm (Fin 30))
+    (htrans : ∀ i j : Fin 30, ∃ g : A5, act g i = j)
+    (hstab : ∀ i : Fin 30, Nat.card {g : A5 // act g i = i} = 2) :
+    ∃ φ : Fin 30 ≃ Fin 30, ∀ (g : A5) (i : Fin 30), φ (act g i) = edgesAct g (φ i) := by
+  obtain ⟨c, hc⟩ := exists_conj_stab_invol act (card_stabSub_of_hstab act 0 (hstab 0))
+  exact exists_equivariant_equiv_cosetAct edgeEquiv act htrans c hc
 
 /-! ## The unconditional decompositions -/
 
