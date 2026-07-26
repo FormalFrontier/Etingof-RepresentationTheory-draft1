@@ -1916,6 +1916,45 @@ Two API pins this needs:
   `Finset.sum_ninvolution`, whose `g_mem : ∀ a, g a ∈ s` quantifies over all of `ι` and is false
   for a support.
 
+### `Tr(⋀^n A)` / `Tr(S^n A)`: compute the diagonal entries only, never the induced matrix's triangularity (#7819, `Chapter2/Problem2_11_3_Trace.lean`)
+
+Mathlib has **no** trace API for exterior or symmetric powers, and — check this before you go
+looking — **no triangularization theorem either**: there is no `exists_upperTriangular` and no
+`schurTriangulation`, and `Mathlib/LinearAlgebra/Eigenspace/Triangularizable.lean` only proves
+`iSup_maxGenEigenspace_eq_top`, never producing a basis. So state the hypothesis as a
+triangularizing basis (`IsTriangularizedBy A b lam`: `(toMatrix b b A).BlockTriangular id` plus
+`∀ i, toMatrix b b A i i = lam i`) and certify it means "the eigenvalues with multiplicity" via
+`Matrix.charpoly_of_upperTriangular` + `LinearMap.charpoly_toMatrix`. Upgrading to a split
+charpoly is a real induction, tracked separately (#7876).
+
+The book says "the induced maps are upper-triangular in the induced bases". **Do not formalize
+that.** `Matrix.trace` only reads the diagonal, so compute each diagonal entry outright and never
+order the index set:
+
+- **Exterior.** `exteriorPower.ιMultiDual_apply_ιMulti` *already* hands you the `s`-entry as a
+  `det` of `b.coord`s. After `Matrix.det_transpose` it is
+  `det ((toMatrix b b A).submatrix e e)` with `e = Finset.orderEmbOfFin ↑s (card_eq s)`. `e` is
+  strictly monotone, so the submatrix inherits `BlockTriangular id` and
+  `Matrix.det_of_upperTriangular` gives `∏ i ∈ s, lam i`. Route through Mathlib's `⋀[k]^n V` and
+  transport with `extPowOfExteriorPower_naturality`; `extPowBasis` is already
+  `(b.exteriorPower n).map (exteriorPowerEquiv n)`, so `Module.Basis.map_repr` is the bridge.
+- **Symmetric.** `MultilinearMap.map_sum` then `MultilinearMap.map_smul_univ` expand `symTprod`
+  into `∑_f (∏ i, A_{f i, g i}) • symTprod (b ∘ f)`; `symPowBasis`'s repr is `symPowToFinsupp`
+  (definitionally), so the `g`-entry is `∑_{tupleSym f = tupleSym g} ∏ i, A_{f i, g i}`.
+  Triangularity forces `f i ≤ g i` on surviving terms, and same-multiset + pointwise-`≤` ⟹ equal
+  (compare index sums via `Finset.sum_eq_sum_iff_of_le`), so exactly one term survives.
+
+Three pins that cost build cycles:
+
+- **`obtain ⟨g, rfl⟩ : ∃ g, tupleSym g = s`, not `set g := symIndexRep n s with hg`.** With
+  `set`, the later `rw [← hg]` rewrites `s` *inside* `g`'s own body and you get goals mentioning
+  `symIndexRep n (tupleSym (symIndexRep n s))`. Substituting `s` away has no such fixpoint.
+- **`Finset.sum_subtype` used as a `rw` leaves its predicate a metavariable** (`⊢ #x = n ↔ ?m x`).
+  State the conversion as a standalone `have` whose RHS spells out the subtype sum
+  (`∑ s : Set.powersetCard (Fin N) n, …`); the expected type then pins `p`.
+- `Finsupp.single_eq_of_ne` is `(h : a' ≠ a) : single a b a' = 0`; the orientation you usually
+  want is the primed `Finsupp.single_eq_of_ne'` `(h : a ≠ a') : single a b a' = 0`.
+
 ### `Fin.cons`/`Fin.init` on an empty or symbolic domain leaves the family `α` a metavariable — pin `(α := fun _ => A)` (#6414)
 
 `Fin.cons`/`Fin.init` are dependent (`{α : Fin (n+1) → Sort*}`). For an *empty* tail (`v : Fin 0 → A`) or a
