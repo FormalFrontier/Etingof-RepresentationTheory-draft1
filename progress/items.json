@@ -6416,14 +6416,13 @@
     "start_line": 1,
     "end_line": 14,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "exact",
     "needs_statement": false,
-    "notes": "Both Proposition5_21_2_geometric and Proposition5_21_2_dimension proved (PR #1161).",
+    "notes": "Both Proposition5_21_2_geometric and Proposition5_21_2_dimension proved (PR #1161). The geometric formula generalized to arbitrary characteristic-zero fields, with the source's complex-variable and negative-integer-exponent forms exposed (#7458).",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "fidelity_note": "The dimension formula is exact. The geometric formula is exposed only for rational z with nonzero denominator factors, not for the source's complex-variable specialization; follow-up #7458. A rational-function or general-field formulation would be optional generalization.",
-    "fidelity_issue": 7458,
-    "last_updated": "2026-07-22"
+    "coverage": "covered",
+    "fidelity_note": "Both source formulas are exact. The geometric specialization is stated over any characteristic-zero field (Proposition5_21_2_geometric_field), with a hypothesis-free cross-multiplied form (Proposition5_21_2_geometric_mul), the complex-variable corollaries (Proposition5_21_2_geometric_complex, Proposition5_21_2_geometric_complex_zpow, the latter in the book's own exponents z^{lambda_i - i} / z^{-i}), and the rational case retained as a corollary. The dimension formula is exact.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter5/Introduction_5.22",
