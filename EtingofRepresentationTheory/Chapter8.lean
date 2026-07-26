@@ -14,6 +14,7 @@ import EtingofRepresentationTheory.Chapter8.Definition8_2_4
 import EtingofRepresentationTheory.Chapter8.Problem8_2_10
 import EtingofRepresentationTheory.Chapter8.KoszulBasis
 import EtingofRepresentationTheory.Chapter8.KoszulHomotopy
+import EtingofRepresentationTheory.Chapter8.KoszulResolution
 import EtingofRepresentationTheory.Chapter8.Problem8_1_3
 import EtingofRepresentationTheory.Chapter8.Exercise8_1_4
 import EtingofRepresentationTheory.Chapter8.Horseshoe
