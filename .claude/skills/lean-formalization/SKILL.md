@@ -632,6 +632,36 @@ type-variable level where `f x : W` matches `asModule σ` syntactically) instead
 re-deriving. Worked example: #7554 (`Chapter5/RepresentationAsModuleHom.lean`, all
 four `map_smul'` proofs).
 
+**`ext` over-applies on `A ⊗[R] N →ₗ[A] P` when `N` carries its own `@[ext]` lemma.** On a goal
+`f = g` between `A`-linear maps out of a tensor product, `ext s w` does not stop after splitting
+off the elementary tensor: it keeps going into the second factor, so if `N` is something like
+`⋀[R]^n M` (which has an exterior-power ext lemma) you land on a goal phrased in
+`TensorProduct.curry … |>.compAlternatingMap (exteriorPower.ιMulti …)` applied to a
+`Fin n → M`, and every `rw` naming your `_tmul` simp lemma fails to find its pattern —
+`ext` also warns `` `ext` did not consume the patterns `w` ``, which is the tell. Don't chase it
+with more `simp only [… curry_apply, coe_restrictScalars]`. **Use `LinearMap.ext` plus an
+explicit `TensorProduct.induction_on` instead**, which stops exactly where you want:
+
+```lean
+refine LinearMap.ext fun x => ?_
+simp only [LinearMap.add_apply, LinearMap.zero_apply]   -- reduce to `F x + G x = 0` first
+induction x using TensorProduct.induction_on with
+| zero => simp
+| tmul s w => rw [my_tmul_lemma, my_tmul_lemma]; …
+| add x y hx hy => rw [map_add, map_add, add_add_add_comm, hx, hy, add_zero]
+```
+
+Doing the `simp only` *before* the induction is what makes the `add` case a one-liner: the
+induction hypotheses are then already in the summed-to-zero form. Worked example: #5723
+(`Chapter8/KoszulDifferential.lean`, `koszulDD_swap_add` / `koszulDD_diag`).
+
+Two related name checks from the same session: there is **no `LinearMap.sum_comp`** — prove
+`(∑ a, F a).comp (∑ c, G c) = …` pointwise with `LinearMap.ext` + `LinearMap.sum_apply` +
+`map_sum`, then reindex with `Finset.univ_product_univ` / `Finset.sum_product` /
+`Finset.sum_comm`. And `ChainComplex.of_d` is stated about the auxiliary `ChainComplex.of.d`,
+so it will not `exact`-match a goal about `(ChainComplex.of X d sq).d (i+1) i` even though the
+two are defeq; close that with `by simp [<your complex def>]`.
+
 **A `Module.compHom` scalar action defeats bare `zero_smul`/`simp` in the `| zero =>` case
 of a `TensorProduct.induction_on` on the scalar.** When the module is built with
 `Module.compHom` (e.g. `Problem3_8_4_Functoriality.bcMod`, the `↥R ⊗[K] A`-action on
@@ -1022,6 +1052,8 @@ Run this checklist before writing a single tactic. Skipping it has caused agents
 
    **The same trap applies to whole *theorems*, not just helpers: a headline result is often already proven sorry-free under a different book-item name than the issue you claimed.** Book theorems and later problem-set problems frequently establish the *same* mathematical fact (a theorem states it; an exercise re-derives it via a guided route). Before starting — or accepting a multi-session decomposition of — a proof of a headline result, grep for an existing proof of the *same statement* under any name and just read your conclusion off it (per CLAUDE.md "use earlier results in the project"). #5311 (Problem 2.15.1(h)–(k), `sl₂` complete reducibility) was decomposed into a multi-session build (#5316/#5317/#5318), but `ComplementedLattice (LieSubmodule ℂ sl2 V)` was already proven sorry-free as `Theorem_2_1_1_ii` (Theorem 2.1.1(ii)) via the *same* Casimir argument; the final `complete_reducibility` sorry was a one-line `exists_isCompl` away. Grep by the mathematical content (`ComplementedLattice`, `IsCompl`, the target conclusion), not just the item id. **A sharper version of the same trap: when the formalized statement is a weaker *existential* rendering of a book problem whose prose describes a heavy explicit construction, that existential often follows in a few lines from a *stronger* already-proven neighbor — do not build the construction.** #6567 (Problem 9.6.5) asks in prose to construct the tensor functor `G = P ⊗_B −` and prove it quasi-inverse to `F = preadditiveCoyonedaObjFG`, but the formalized goal is only `∃ G ξ, (G ⋙ F ≅ 𝟭) ∧ (∀ X, Epi (ξ.app X)) ∧ IsIso ξ`. Theorem 9.6.4 already proves `F.IsEquivalence` (via ess-surj + fully-faithful, no circularity — 9.6.5 imports it), and any equivalence yields a genuine quasi-inverse for free: `G := F.asEquivalence.inverse`, `ξ := F.asEquivalence.unitIso.inv`, with (i) = `counitIso`, (ii) from `NatIso.isIso_app_of_isIso` + `IsIso → Epi`, (iii) from `Iso.isIso_inv`. The book's construction is one *route* to a quasi-inverse; an existential only needs *some* witness, so a stronger equivalence result discharges it directly. Before decomposing a "construct X and prove property P" issue, read the actual Lean goal: if it is `∃`-quantified, look for a neighboring theorem that already gives more than P.
 
+   **Sharper still: the existing proof is often not under a book-item name at all, but in a *support* file built for an unrelated downstream purpose — so grep by the functor-level shape of the conclusion, not by the item id or the book's vocabulary.** #6053 (Problem 8.1.3(i), "any projective module is flat") was reopened because the landed proof narrowed the book's arbitrary-ring right-module claim to `[CommRing A]` + Mathlib's `Module.Flat`. The general statement was *already proven sorry-free* as `Etingof.tensorLeftFunctor_map_shortExact` in `Chapter8/TensorProjectiveExact.lean` — over an arbitrary `[Ring A]`, by the retract-of-free argument — where it had been built as flatness input for the Tor long exact sequence and the balancing theorem (Problem 8.2.6), with the word "flat" appearing only in the module docstring. Nothing named `8_1_3` or `Flat` would have found it. The whole remaining task was to name the predicate (`Etingof.IsFlat A M`, quantifying over `S.ShortExact → (S.map (tensorLeftFunctor …)).ShortExact`) and apply the existing lemma. **Procedure for a reopened fidelity-gap issue whose complaint is "the landed theorem is narrower than the book" (commutative vs. arbitrary ring, left vs. right module, `Module.Flat` vs. tensor-exactness): before building any new infrastructure, grep the chapter's support files for the *conclusion shape* — `map_shortExact`, `ShortExact`, `\.Exact`, `PreservesHomology`, `_map_exact` — and for the fixed-argument functor the book's definition quantifies over (here `tensorLeftFunctor`/`tensorRightFunctor`). Chapters 7–9 carry a lot of such functor-level exactness lemmas proved for derived-functor plumbing; several are verbatim book statements nobody has claimed.** Once found, prefer `CategoryTheory.Functor.exact_tfae` to hand out the equivalent readings (`ShortExact`-preserving ⇔ `Exact`-preserving ⇔ `PreservesHomology`) rather than reproving any of them; note it needs `have h' := (…out i j).mp h; exact h' S hS` — applying `.mp h` directly to arguments in term mode fails elaboration with `Function expected … but this term has type ?m`.
+
    **When verifying Mathlib lemma names/signatures, grep *this project's own* `.lake/packages/mathlib`, never another Mathlib checkout elsewhere on the machine.** This repo pins a recent Mathlib; other local clones (e.g. `lean-training-data`) can be months behind, with renamed or absent API. Confirming against the wrong checkout sends you down dead ends — e.g. hand-rolling a matrix-charpoly-eigenvector argument because the project's cleaner `Module.End.trace_eq_sum_roots_charpoly_of_splits` / `hasEigenvalue_iff_isRoot_charpoly` (and the single-argument `Polynomial.Splits`) weren't visible in the stale checkout (#5129). **The same drift hits `import` module *paths*, not just lemma names** — modules get split and relocated between versions. Before writing a new `import Mathlib.…`, confirm the file exists: `find .lake/packages/mathlib/Mathlib -name 'GeomSum.lean'` (or grep for the lemma and read its file's module path). Guessing from memory wastes a build cycle on `bad import` — e.g. (#5287) `Mathlib.Algebra.GeomSum → Mathlib.Algebra.Ring.GeomSum`, `Mathlib.Algebra.Polynomial.Eval → Mathlib.Algebra.Polynomial.Eval.Defs`. **For a *new* file, just `import Mathlib`** (every project file does). The pinned Mathlib uses the `module`/`public import` system, so granular `import Mathlib.Foo.Bar` lines silently fail to expose public declarations — symptom is a baffling `Unknown identifier 'Basis'` at the `variable` line even though the import "succeeded". Also note `Basis` is now `Module.Basis`: a fresh file needs `open Module` for bare `Basis`/`End`/`finrank`/`finBasis` to resolve (#5638). These two cost ~4 build cycles when writing `Chapter5/DiagonalCoordinate.lean` from scratch. **The same granular-import gap can hit individual `Basis.*` lemmas even when the `Basis` type itself resolves**: in a pre-existing granular-import file, `apply Basis.ext …` / `rw [Basis.constr_basis]` reported `Unknown identifier` while `Pi.basisFun` worked fine. Fix: use **dot notation** — `b.ext fun i => …`, `b.constr_basis …` — which resolves through the term's type even when the fully-qualified name doesn't (#5301). (Adding a granular `import Mathlib.LinearAlgebra.Basis.Basic` did *not* help.) **In a pre-existing granular-import file (no `open Module`) the basis *constructor* and finrank-from-basis lemma need the `Module.` prefix**: `Module.Basis.mk hli hsp` (bare `Basis.mk` is `Unknown identifier`) and `Module.finrank_eq_card_basis` (bare `finrank_eq_card_basis` is unknown), provided by `import Mathlib.LinearAlgebra.Dimension.Finrank` + `…Dimension.Finite`. Eigenvalue theory over `IsAlgClosed` (`Module.End.exists_eigenvalue`, `HasEigenvalue.exists_hasEigenvector`, `Module.End.mem_eigenspace_iff`) needs `import Mathlib.LinearAlgebra.Eigenspace.Triangularizable`; `IsAlgClosed` needs `import Mathlib.FieldTheory.IsAlgClosed.Basic` (#6189). A clean "central element acts as a scalar on a simple f.d. module over `IsAlgClosed k`" (Schur) is: take an eigenvalue of `Algebra.lsmul k k V z`, its eigenspace is a nonzero `WeylAlgebra`-invariant `k`-submodule (`z` central), hence `⊤` by `IsSimpleModule` — no need for the `Module.End`-is-a-division-ring machinery. **Reusing a lemma from a `section` under a *different* typeclass regime — a `section variable [CharZero k]` gets stamped onto *every* declaration in that section, even ones that never use it** (the `unusedSectionVars` linter confirms this by warning), so calling such a lemma under `[CharP k p]` fails with `failed to synthesize CharZero k`. Symptom while proving `center_charP` (#6188): the char-free `adx`/`ady` monomial lemmas lived inside `section CharZeroSimple` and would not apply in characteristic `p`. Fix: hoist genuinely hypothesis-free infrastructure into its own `section` with only the minimal `variable (k) [Field k]`, *above* the char-specific sections, so both a `[CharZero k]` and a `[CharP k p]` consumer can use it. Cheaper than re-proving the lemmas per characteristic. **Dual gotcha: a section-variable *hypothesis* (`variable (hpair : …) (hcomplete : …)`, common in Ch3+ semisimple files) that a theorem uses only in its *proof body* — never in its statement — is NOT auto-included, so the body fails with `Unknown identifier hpair`.** Lean only pulls in variables referenced by the *type*. Fix: add an explicit `include hpair hcomplete` line after the `variable` block (scoped to the rest of the section); it costs the mechanical unused-in-type linter warnings on statement-only theorems, which are benign here. Cost me one build cycle across `postcompHom_injective`/`_surjective`/`homPiHomEquiv`/`injective_iff` in `Chapter3/Discussion_alternative_proof_of_Proposition3_1_4.lean` (#7452).
 
 3. **Verify the statement.** Cross-reference the Lean statement against the book's text. Missing hypotheses (algebraic closure, field characteristic, orientation constraints, **finiteness/Artinian**) are a recurring source of wasted proof attempts. If the proof fails at a fundamental level after 1 attempt, suspect a statement bug before trying alternative tactics. **Missing-finiteness is the classic trap for statement-pass items that assert a *bijection/equivalence between two structures* (`Nonempty (X ≃ Y)`, `card X = card Y`) over a general `[Ring R]`** — Chapter 9's book results silently assume a finite-dimensional algebra over a field, but the pipeline's statement-pass often drops that to `[Ring R] [Small.{v} R]`, and the correspondence then fails on an infinite-dimensional witness. Concretely (#6581 part (i) → #6590): `blocks_equiv_indecomposableCentralIdempotents : Nonempty (Etingof.Block R ≃ {e // IsIndecomposableCentralIdempotent R e})` is **false for `R = ℤ`** — the simple ℤ-modules ℤ/p are pairwise unlinked (`Ext¹_ℤ(ℤ/p,ℤ/q)=0`, p≠q), so `Etingof.Block ℤ` is infinite (one block per prime), while `1` is the only indecomposable central idempotent of ℤ, giving `Nonempty (infinite ≃ singleton) = False`. Before proving any block/idempotent/Wedderburn-flavored equivalence, test `ℤ` (or `k[x]`) as an infinite-dimensional counterexample; if it breaks, the fix is `[IsArtinianRing R]` / `[Field k] [Algebra k A] [FiniteDimensional k A]`, and you report + decompose (per "Definition seems wrong: don't silently work around bad definitions") rather than grinding.
@@ -1214,6 +1246,7 @@ Read the item's blob text and its `.refs.md` file (Mathlib coverage + external s
 - **Decomposing an `sl(2)`-module into an internal/external direct sum of irreducibles via Casimir eigenvalues + a dimension count (#5301, sorry-free in `Chapter2/Problem2_15_1_m_Module.lean`; the Clebsch–Gordan iso `V_λ ⊗ V_μ ≅ ⨁_k V_{λ+μ−2k}`).** The generic Casimir infrastructure is **already built in `Chapter2/Problem2_15_1_complete_reducibility.lean`** — do NOT rebuild it: `casimir M : Module.End ℂ M` (`= EF+FE+H²/2` via `toEnd`), `casimir_apply`, `casimir_highest_weight` (value `μ(μ+2)/2` on an `E`-killed `H`-eigenvector), `casimir_central`/`commute_casimir_toEnd`, and `casimirGenEigenspace a : LieSubmodule ℂ sl2 M` with `casimirGenEigenspace_iSupIndep`. **Assembly recipe** (indexing summands by `k : Fin (min λ μ + 1)`): (1) each summand `N k := LieSubmodule.map (cgLieHom k) ⊤` sits in a distinct Casimir eigenspace — for `w = cgLieHom v`, `casimir M w = cgLieHom (casimir V_ν v) = s_k • w` via a one-line `casimir_comp_lieHom` (`casimir` is natural in Lie-module homs: `simp only [casimir_apply, map_add, map_smul, LieModuleHom.map_lie]`) plus `casimir` on the irrep is a scalar (`casimir (Fin (n+1)→ℂ) = n(n+2)/2 • 1`, got by rewriting `toEnd → rhoLieHom` — proved by `LinearMap.ext`+`toEnd_apply_apply`+`rfl` — and applying `casimir_eq_scalar_lambda`); (2) **independence** `iSupIndep N` = `(casimirGenEigenspace_iSupIndep.comp hginj).mono hle`, where `hginj` is injectivity of `k ↦ s_k` (from the project's `casimir_scalar_inj`) and `hle : N k ≤ casimirGenEigenspace s_k`; (3) **exhaustion** `⨆ N k = ⊤` by finrank: `LinearEquiv.ofInjective (DirectSum.coeLinearMap P) (hindep.dfinsupp_lsum_injective)` composed with `LinearEquiv.ofEq _ _ (DirectSum.range_coeLinearMap)` gives `⨁ P ≃ₗ ↥(⨆ P)`, so `finrank ↥(⨆ P) = Module.finrank_directSum = Σ finrank (N k) = (λ+1)(μ+1) = finrank M`, then `Submodule.eq_top_of_finrank_eq`; (4) `DirectSum.isInternal_submodule_of_iSupIndep_of_iSup_eq_top` for the internal form, or assemble the **external** `≃ₗ⁅ℂ,sl2⁆ ⨁` by `Φ := DirectSum.toModule ℂ _ M (fun k => (cgLieHom k).toLinearMap)`, prove it's a Lie hom with the project-local `lieHomOfGens`/`map_lie_of_gens` (reduce to `h,e,f` and each generator via `DirectSum.linearMap_ext` → the componentwise bracket `⁅x, lof k w⁆ = lof k ⁅x,w⁆`), surjective (`range ⊇ each N k`, and `⨆ N k = ⊤`), hence bijective by finrank (`LinearMap.injective_iff_surjective_of_finrank_eq_finrank`), packaged as a `LieModuleEquiv` via `{ LinearEquiv.ofBijective … with map_lie' := … }`. **Gotchas:** `⨁` needs `open scoped DirectSum`; the direct-sum Lie-module *instance* needs `import Mathlib.Algebra.Lie.DirectSum`; `DirectSum.ext` can't infer its family under `refine` — use `apply DirectSum.ext; intro j` (unifies the conclusion first); `FiniteDimensional ℂ (⨁ …)` is not automatic — supply `Module.Finite.equiv (DirectSum.linearEquivFunOnFintype ℂ _ _).symm`; and importing `complete_reducibility` brings in a generic `sl2_decomp`, so delete any local copy to avoid a duplicate-declaration clash.
 
 - **A generators-and-relations algebra `A = k⟨g,x⟩/(rels)`, its finite-dim modules, and `Ext¹≠0`/one-block (#5722, sorry-free in `Chapter9/Problem9_3_2.lean`).** Full reusable recipe for "construct a specific f.d. algebra and study its modules/blocks". **Algebra:** `A := RingQuot Rel` over `FreeAlgebra ℂ (Fin n)`; give `Rel` as an **inductive** Prop (one constructor per relation, e.g. `| anticomm : Rel (fg*fx + fx*fg) 0`) so multiple relations coexist; each relation lemma is `have h := RingQuot.mkAlgHom_rel ℂ Rel.<ctor>; simp only [map_add, map_mul, map_zero/one] at h; exact h` (do NOT `simpa using`, it over-simps the goal — `g`,`x` are `def`s, close by defeq `exact`). **Representation→module:** `repHom (G X : Module.End ℂ V) (hrels) := RingQuot.liftAlgHom ℂ ⟨FreeAlgebra.lift ℂ ![G,X], by intro a b r; induction r with | … => simp only [map_*, FreeAlgebra.lift_ι_apply, Matrix.cons_val_zero, Matrix.cons_val_one] ; exact h…⟩`; then `Module A V := Module.compHom V ρ.toRingHom` (the instance `Module (Module.End ℂ V) V` exists; `a • v = ρ a v` holds **by `rfl`** — expose it as `smul_def`). `repHom_g`/`repHom_x` (`repHom … g = G`) close by `simp only [repHom, g, mk, RingQuot.liftAlgHom_mkAlgHom_apply, FreeAlgebra.lift_ι_apply, Matrix.cons_val_*]`. **A-linear maps from a `ℂ`-linear `φ` intertwining only `g`,`x`:** generators generate `A`, so prove `∀ a v, φ (ρV a v) = ρW a (φ v)` by `obtain ⟨w,rfl⟩ : ∃ w, mk w = a := RingQuot.mkAlgHom_surjective ℂ Rel a; induction w with` `grade0` (use `mk.commutes`/`ρ.commutes` + `Module.algebraMap_end_apply` + `map_smul`), `grade1` (`fin_cases i` → the two hyps), `mul`/`add` (`simp only [map_mul/add, Module.End.mul_apply/LinearMap.add_apply] at *; rw [ha, hb]`); package as `mkAlgLinear` building `V →ₗ[A] W` with that as `map_smul'`. **Type-synonym carriers (CRUCIAL gotcha):** when two modules share an underlying type (e.g. both `≅ ℂ`), make them distinct `def Splus := ℂ` (NOT `abbrev`, else the two `Module A` instances clash) and supply EVERY instance via `inferInstanceAs` (`AddCommGroup`, `Module ℂ`, **and** `Nontrivial`, `NoZeroSMulDivisors` if used downstream); the synonym has NO `One`/`OfNat`, so never write `(1 : Splus)` — use a generic `obtain ⟨a, ha⟩ := exists_ne (0 : Splus)`; prove apply-lemmas by `rfl`, never `rw` through the synonym (coercion mismatch). For a carrier used only once (e.g. `ℂ²`), just use `abbrev Pplus := Fin 2 → ℂ` and `Matrix.toLinAlgEquiv'` for the operators (relations close by `simp only [← map_mul, ← map_add]; rw [<matrix identity via ext;fin_cases;simp [Matrix.mul_apply, Fin.sum_univ_two]>, map_zero/one]`). **1-dim simplicity:** `IsSimpleModule A V` from `hsimp : IsSimpleModule ℂ V := isSimpleModule_iff_finrank_eq_one.mpr (Module.finrank_self ℂ)` (import `RingTheory.SimpleModule.Rank`) via `refine { exists_pair_ne := ⟨⊥,⊤,bot_ne_top⟩, eq_bot_or_eq_top := fun N => ?_ }; rcases hsimp.eq_bot_or_eq_top (N.restrictScalars ℂ) …` then `Submodule.restrictScalars_injective ℂ A V` + `restrictScalars_bot/top` (needs an `IsScalarTower ℂ A V` instance, one-liner: `⟨fun c a v => by show ρ (c•a) v = c • ρ a v; rw [map_smul]; rfl⟩`). **Ext¹(S₃,S₁)≠0 from a nonsplit SES** `0→S₁→S₂→S₃→0`: build `ses := ModuleCat.shortComplexOfCompEqZero f g hcomp` + `ses_shortExact := ModuleCat.shortComplex_shortExact ses <Function.Exact f g> <inj f> <surj g>` (prove these as pure `LinearMap` facts, NOT through the ModuleCat coercion); then `ses_shortExact.extClass ≠ 0` because a vanishing class lifts `𝟙 S₃` through `g`: `obtain ⟨x₂,hx₂⟩ := Abelian.Ext.covariant_sequence_exact₃ ses.X₃ ses_shortExact (Abelian.Ext.mk₀ (𝟙 _)) (n₁:=1) rfl (by rw [heq, Abelian.Ext.comp_zero])`, `obtain ⟨h,rfl⟩ := (Abelian.Ext.mk₀_bijective _ _).surjective x₂`, `rw [Abelian.Ext.mk₀_comp_mk₀] at hx₂`, `mk₀`-injective gives the section `h ≫ ses.g = 𝟙`, contradicted by module-level `A`-linearity (apply `.hom` to an element via `congrArg (fun φ => φ.hom s) hsec; simpa [ses, ModuleCat.shortComplexOfCompEqZero, ModuleCat.hom_comp, ModuleCat.hom_id, ModuleCat.hom_ofHom]`). `DirectlyExtLinked` = `nontrivial_of_ne _ _ extClass_ne_zero`; `AreLinked` = `Relation.EqvGen.rel _ _ (Or.inl (Or.inl …))`.
+- **Before hand-rolling *any* presented algebra, use `Etingof.PresentedAlgebra` (#7475, `Chapter2/Discussion_2_6.lean`).** The project now has the book's Discussion 2.6 construction once, generically: for `rel : R → FreeAlgebra k X`, `PresentedAlgebra k X R rel` is `k⟨X⟩` modulo `TwoSidedIdeal.span (Set.range rel)`, with `mk` (quotient `→ₐ[k]`), `mk_surjective`, `gen`/`gen_def`, `mk_rel : mk rel (rel r) = 0`, and the universal property `lift`/`lift_mk`/`lift_gen`/`hom_ext`/`existsUnique_lift` plus the converse `lift_rel_eq_zero`. The book's `k⟨x₁,…,xₙ⟩/⟨f₁,…,f_m⟩` is `X := Fin n`, `R := Fin m`. **This supersedes the `RingQuot Rel` half of the bullet above for the common case** where the relations are "these elements are zero": a family `rel` is far less machinery than an inductive `Rel` Prop, and `hom_ext` gives generator-wise uniqueness for free. Keep `RingQuot` only when the relation is genuinely a *pair* relation not of the form `f = 0` (rare here — `a = b` is `a - b = 0` in a ring), or when you need to match an existing `RingQuot`-based definition such as `Proposition2_7_1.WeylAlgebra`. Two API details that cost a build cycle each: `RingCon.mkₐ_surjective` takes its scalar ring as an **implicit** `α`, so write `(c.mkₐ_surjective (α := k))` and not a positional `k`; and do not tag your own `hom_ext` `@[ext]` when the carrier is an `abbrev` for `RingCon.Quotient`, since the attribute keys on the unfolded head and then fires on unrelated goals.
 - **Frobenius-Schur trace identity `FS(ρ) = |G|⁻¹ ∑ χ(g²) ∈ {±1}` for self-dual simple ρ (#5261).** Work on `V ⊗ V` with `T = tprod ρ ρ` and the swap `cm = TensorProduct.comm`, NOT bilinear forms (the swap is then a clean permutation matrix). The chain (all sorry-free in `Chapter5/FrobeniusSchurTraceIdentity.lean`, reuse before rebuilding): (1) `tr(swap·(A ⊗ₖ A)) = tr(A·A)` — `Matrix.trace` + `Fintype.sum_prod_type` (one diagonal entry is `(A⊗ₖA)(Prod.swap p) p` via `Finset.sum_eq_single` on the `submatrix Prod.swap id` row of `1`); lift to endomorphisms with `TensorProduct.toMatrix_comm` + `TensorProduct.toMatrix_map` + `LinearMap.trace_eq_matrix_trace`/`toMatrix_comp`, giving `trace(cm ∘ map A A) = trace(A ∘ A)`, so `trace(cm ∘ T g) = χ(g²)`. (2) `averageMap T = ⅟|G| • ∑ T g` (`asAlgebraHom_of`); `cm` is equivariant + involutive so it preserves `T.invariants` and `averageMap` is the identity there, so `FS = trace(cm ∘ averageMap) = trace(cm|_invariants)` via `LinearMap.trace_restrict_eq_of_forall_mem`. (3) `dim T.invariants = |G|⁻¹ ∑ χ(g)² = |G|⁻¹ ∑ χ(g)χ(g⁻¹) = 1` (self-duality + `card_inv_mul_sum_char_eq_finrank` + `char_orthonormal`). (4) a linear involution on a 1-dim space has trace `±1` (`trace_fin_one` + `mul_self_eq_one_iff`). The exported theorem is `Etingof.frobeniusSchurIndicator_eq_pm_one_of_self_dual_simple`. **The twin #5214 (`exists_nonzero_invariant_symmetric_of_FS_eq_one`) landed (sorry-free) in the bilinear-form model** (`Bil = V →ₗ Dual V = linHom ρ ρ.dual`, flip `τ = LinearMap.lflip`) — see the next bullet for its (self-contained) machinery. Gotchas: `⊗ₖ` needs `open scoped Kronecker`; `W.ρ.asModule` dot-notation resolves to `MonoidHom.asModule` — write `Representation.asModule W.ρ`; a `Finset.sum_congr rfl (fun g _ => ?_)` left after `simp [map_sum]` stalls instance synthesis (`AddCommMonoid ?m`) — split the per-term equality into a named `have` and apply it via `congrArg (c * ·) (Finset.sum_congr …)` instead.
 - **`FS = 1 ⟹ ∃ nonzero invariant *symmetric* form (#5214, bilinear-form model, sorry-free in `Chapter5/FrobeniusSchurRealType.lean`).** Two reusable pieces. (a) `trace_comm_comp_map`: `trace((comm).toLinearMap ∘ₗ map A B) = trace (A ∘ₗ B)` on `W ⊗ W` for any finite-dim `W` (abstract sibling of #5261's Kronecker version) — proved with `Module.Basis.tensorProduct b b` + `trace_eq_sum_repr_diag` (= `∑ i, b.repr (f (b i)) i`) + `Module.Basis.tensorProduct_repr_tmul_apply`, matching the diagonal sum to `(toMatrix A * toMatrix B).trace` via `Finset.sum_comm`. (b) The projector-counting recipe: averaging projector `P = averageMap Λ` (`isProj_averageMap.trace` = `finrank invariants`), symmetric-part projector `Pₛ = ½(P + τ∘ₗP)` (idempotent via `τ²=1`, `τ` commutes with `P`; `IsProj` via `isProj_range_iff_isIdempotentElem`, trace = `finrank (range Pₛ)`), giving `2·finrank(sym∩Bil^G) = finrank Bil^G + trace(τ∘P)`. The crux `trace(τ∘P) = FS` reduces per-`g` (`trace(τ∘Λg) = χ(g⁻¹g⁻¹)`) by conjugating `τ∘Λg` to `comm∘map(ρ.dual g)(ρ.dual g)` through `E = dualTensorHomEquiv ℂ V (Dual V)` (prove the intertwiner `(τ∘Λg)∘E = E∘(comm∘map…)` on pure tensors, then `LinearMap.trace_comp_comm'` + `trace_comm_comp_map`). `FS=1 ⟹ 2s = d+1 ⟹ s ≥ 1`. **No simplicity needed for existence** — `hρ` is only used by the nondegeneracy half (`nondegenerate_of_invariant_of_simple`). Simp gotchas that cost iterations: (i) after `set Λ := linHom …`, `linHom_apply`/`dual_apply` will NOT fire in `simp` (terms display as `Λ`); prove a pointwise `hΛapp : (Λ g C) v w = C (ρ g⁻¹ v) (ρ g⁻¹ w)` once via `rw [hΛdef, linHom_apply]; simp [comp_apply, dual_apply, Module.Dual.transpose_apply]` and use *that* in later `rw`/`simp`. (ii) `LinearEquiv.coe_coe` in a `rw`/`simp` set unfolds EVERY `↑e` — including a `set`-defined `τ = (lflip).toLinearMap` → `LinearMap.lflip`, silently breaking `τ`-keyed lemmas; apply the operator's own `_apply` lemma (`hτ_apply`) BEFORE `coe_coe`. (iii) `ρ.dual g` is *defeq* but not *syntactically* `Module.Dual.transpose (ρ g⁻¹)` and its display flips unpredictably mid-`rw`-chain — finish the scalar reduction with `simp only [dual_apply, transpose_apply, comp_apply, smul_eq_mul]`, not a fixed `rw` order.
 
@@ -1524,6 +1557,86 @@ for `QuiverRepresentationEquiv`, and — for a family indexed by arrows you must
 it shadows the genuine `DecidableEq (Fin n)` and makes ordinary `DecidablePred` instances
 noncomputable.
 
+### A quiver normal form whose coefficients are indexed by **all** arrows — and the two transport traps in building the isomorphism onto it (#7420, `Chapter3/Problem3_9_3_TwoDim.lean`)
+
+Sequel to the `truncMap` recipe above, for the case where you must produce an *actual*
+`QuiverRepresentationEquiv ρ (normalForm …)` rather than just a numerical invariant.
+
+**Index the coefficient family by every arrow of `Q`, not by `i ⟶ j`.** For a normal form
+supported on two vertices,
+```lean
+noncomputable def twoRep [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) :
+    QuiverRepresentation k Q where
+  obj v := (Fin (if v = i then 1 else 0) → k) × (Fin (if v = j then 1 else 0) → k)
+  mapLinear {a b} e :=
+    (LinearMap.inr k _ _).comp
+      ((c ⟨a, b, e⟩ • truncMap k (if a = i then 1 else 0) (if b = j then 1 else 0)).comp
+        (LinearMap.fst k _ _))
+```
+`truncMap` zeroes out every arrow whose source is not `i` or whose target is not `j`, so the
+off-support values of `c` are **irrelevant** and the definition needs no transport at all.
+Taking `c : (i ⟶ j) → k` instead forces a dependent `h.1 ▸ h.2 ▸ e` *inside the def*, which every
+downstream `rw` then fights. Bonus from the product carrier: `c = 0` is (isomorphic to)
+`S_i ⊕ S_j` on the nose, and `i = j` gives `S_i ⊕ S_i`, so a *single* family covers the
+decomposable and indecomposable branches of a classification.
+
+`commutes` then has content at exactly one arrow: for `(a, b) ≠ (i, j)` both sides are `0` (the
+representation's map vanishes, and `truncMap` has a zero-dimensional source or target), closed by
+`rw [hzero e …, LinearMap.zero_apply, map_zero]; symm; refine Prod.ext rfl ?_;
+rw [twoRep_mapLinear_apply_snd, truncMap_eq_zero_of_target (if_neg hb), …]; rfl`. So you only
+need explicit trivializations at two vertices; the general-`v` branch is a `subsingletonEquiv`.
+
+**Trap 1: `h ▸ t` rewrites the wrong occurrences in the expected type.** Building the vertexwise
+family `∀ v, ρ.obj v ≃ₗ[k] (twoRep i j c).obj v` as
+`if hv : v = i then hv ▸ Ti else if hv' : v = j then hv' ▸ Tj else …` compiles the *first* branch
+and fails the second: `hv' : v = j` rewrites `j → v` in the target too, so Lean demands
+`ρ.obj v ≃ₗ[k] (twoRep i v c).obj v` (`Type mismatch … but is expected to have type
+ρ.obj v ≃ₗ[k] (twoRep i v c).obj v` — note the `i v`, the giveaway). `▸` has no way to know you
+meant only the `ρ.obj`/outer `v`. Fix: a named transport, so the motive is pinned to the vertex
+argument alone.
+```lean
+def transportEquivAt {ρ σ : QuiverRepresentation k Q} {v w : Q} (h : v = w)
+    (φ : ρ.obj w ≃ₗ[k] σ.obj w) : ρ.obj v ≃ₗ[k] σ.obj v := by subst h; exact φ
+
+@[simp] theorem transportEquivAt_rfl {ρ σ : QuiverRepresentation k Q} {v : Q}
+    (φ : ρ.obj v ≃ₗ[k] σ.obj v) : transportEquivAt (rfl : v = v) φ = φ := rfl
+```
+Then `rw [normalFormEquivAt, dif_pos (rfl : i = i), transportEquivAt_rfl]; rfl` proves the
+unfolding lemma at each distinguished vertex. State those lemmas as the *component* facts you
+actually need — `(normalFormEquivAt … i x).1 = (finPiEquivOfEqOne k (if_pos rfl)).symm (α x)` and
+the `.2` version at `j` — not as a full equality of equivs; the components are what `commutes`
+consumes.
+
+**Trap 2: `subst h` eliminates the variable *you* wanted to keep.** With `ha : a = i` where `a`
+came from `intro` and `i` is a theorem binder, `subst ha` eliminates **`i`**, silently renaming
+every hypothesis (`hij : a ≠ j`, `α : ρ.obj a ≃ₗ[k] k`, …) and breaking every later mention of
+`i` in the proof script with `Unknown identifier 'i'`. Write `subst a` — naming the variable, not
+the hypothesis — to eliminate `a` and keep `i`. `rcases hain with rfl | rfl` offers no such
+control, so prefer `rcases hain with hai | haj` followed by `subst a`. This bit twice in one file,
+in two different proofs, and the error surfaces far from the `subst`.
+
+**Trap 3: `rw [hx]` with `hx : x = <something mentioning x>` also rewrites the RHS.** Proving
+`β (ρ.mapLinear e x) = c * α x` by `rw [hx]` for `hx : x = α x • α.symm 1` loops into the goal's
+own `α x`, leaving `… * α (α x • α.symm 1)`. State the relation one level up —
+`hx : ρ.mapLinear e x = α x • ρ.mapLinear e (α.symm 1)` — so the pattern occurs only where wanted.
+
+**Unfolding a `dite`-with-transport at a `rfl` point: reach for `simp`, not `dif_pos`.**
+`simp only [coeffOf]` on `coeffOf α β ⟨i, j, e⟩` already reduces both conditions to `True` *and*
+discharges the `▸`s, so `simp [coeffOf]` closes the characterization lemma; the
+`rw [dif_pos rfl, dif_pos rfl]` you reach for first fails with "Did not find an occurrence of the
+pattern `dite (i = i) …`" because the `dite`s are gone.
+
+**Companion API you will have to add.** `QuiverRepresentationEquiv` still had no groupoid
+structure as of #7420: `refl`/`symm`/`trans` and `dimVec_eq` (via `(φ.equivAt v).finrank_eq`,
+after `letI : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k` on *both* sides) are
+now in `Chapter3/Problem3_9_3_TwoDim.lean`. Also there: `isIndecomposable_of_equiv`, which
+transports `IsIndecomposable` by pulling the subrepresentation families back with
+`Submodule.comap (φ.equivAt v).toLinearMap` — `IsCompl` survives via
+`(Submodule.orderIsoMapComap (φ.equivAt v)).symm.isCompl`, and `W v = ⊥` comes back from
+`comap … (W v) = ⊥` by that order iso's injectivity. Without it you cannot show a decomposable
+normal form makes the original representation decomposable, i.e. cannot separate the two branches
+of any such classification.
+
 ### `MonoidAlgebra` Ext: Don't Use `Finsupp.lhom_ext`
 
 `MonoidAlgebra k G` is `def`-equal to `G →₀ k`, so `Finsupp.lhom_ext` *applies* to a goal `F = 0` for `F : MonoidAlgebra k G →ₗ[k] N` — but it unifies the domain with the bare `G →₀ k`, which pries the type open and breaks instance search for everything registered on `MonoidAlgebra` (`failed to synthesize Ring (G →₀ ℂ)` / `Algebra ℂ (G →₀ ℂ)` / `Module (G →₀ ℂ) (M i)`). **To show a linear functional on `MonoidAlgebra k G` vanishes**, keep the type intact: prove `∀ a, F a = 0` by `induction a using MonoidAlgebra.induction_on` (base case `of k G g` — exactly the group-element evaluation you have a bridge lemma for; `hadd`/`hsmul` close by `simp only [map_add, …]` / `simp only [map_smul, …]`), then package via `LinearMap.ext`. (#4908)
@@ -1832,6 +1945,45 @@ Two API pins this needs:
 - Use `Finset.sum_involution` (dependent, `g_mem : ∀ a ha, g a ha ∈ s`), **not**
   `Finset.sum_ninvolution`, whose `g_mem : ∀ a, g a ∈ s` quantifies over all of `ι` and is false
   for a support.
+
+### `Tr(⋀^n A)` / `Tr(S^n A)`: compute the diagonal entries only, never the induced matrix's triangularity (#7819, `Chapter2/Problem2_11_3_Trace.lean`)
+
+Mathlib has **no** trace API for exterior or symmetric powers, and — check this before you go
+looking — **no triangularization theorem either**: there is no `exists_upperTriangular` and no
+`schurTriangulation`, and `Mathlib/LinearAlgebra/Eigenspace/Triangularizable.lean` only proves
+`iSup_maxGenEigenspace_eq_top`, never producing a basis. So state the hypothesis as a
+triangularizing basis (`IsTriangularizedBy A b lam`: `(toMatrix b b A).BlockTriangular id` plus
+`∀ i, toMatrix b b A i i = lam i`) and certify it means "the eigenvalues with multiplicity" via
+`Matrix.charpoly_of_upperTriangular` + `LinearMap.charpoly_toMatrix`. Upgrading to a split
+charpoly is a real induction, tracked separately (#7876).
+
+The book says "the induced maps are upper-triangular in the induced bases". **Do not formalize
+that.** `Matrix.trace` only reads the diagonal, so compute each diagonal entry outright and never
+order the index set:
+
+- **Exterior.** `exteriorPower.ιMultiDual_apply_ιMulti` *already* hands you the `s`-entry as a
+  `det` of `b.coord`s. After `Matrix.det_transpose` it is
+  `det ((toMatrix b b A).submatrix e e)` with `e = Finset.orderEmbOfFin ↑s (card_eq s)`. `e` is
+  strictly monotone, so the submatrix inherits `BlockTriangular id` and
+  `Matrix.det_of_upperTriangular` gives `∏ i ∈ s, lam i`. Route through Mathlib's `⋀[k]^n V` and
+  transport with `extPowOfExteriorPower_naturality`; `extPowBasis` is already
+  `(b.exteriorPower n).map (exteriorPowerEquiv n)`, so `Module.Basis.map_repr` is the bridge.
+- **Symmetric.** `MultilinearMap.map_sum` then `MultilinearMap.map_smul_univ` expand `symTprod`
+  into `∑_f (∏ i, A_{f i, g i}) • symTprod (b ∘ f)`; `symPowBasis`'s repr is `symPowToFinsupp`
+  (definitionally), so the `g`-entry is `∑_{tupleSym f = tupleSym g} ∏ i, A_{f i, g i}`.
+  Triangularity forces `f i ≤ g i` on surviving terms, and same-multiset + pointwise-`≤` ⟹ equal
+  (compare index sums via `Finset.sum_eq_sum_iff_of_le`), so exactly one term survives.
+
+Three pins that cost build cycles:
+
+- **`obtain ⟨g, rfl⟩ : ∃ g, tupleSym g = s`, not `set g := symIndexRep n s with hg`.** With
+  `set`, the later `rw [← hg]` rewrites `s` *inside* `g`'s own body and you get goals mentioning
+  `symIndexRep n (tupleSym (symIndexRep n s))`. Substituting `s` away has no such fixpoint.
+- **`Finset.sum_subtype` used as a `rw` leaves its predicate a metavariable** (`⊢ #x = n ↔ ?m x`).
+  State the conversion as a standalone `have` whose RHS spells out the subtype sum
+  (`∑ s : Set.powersetCard (Fin N) n, …`); the expected type then pins `p`.
+- `Finsupp.single_eq_of_ne` is `(h : a' ≠ a) : single a b a' = 0`; the orientation you usually
+  want is the primed `Finsupp.single_eq_of_ne'` `(h : a ≠ a') : single a b a' = 0`.
 
 ### `Fin.cons`/`Fin.init` on an empty or symbolic domain leaves the family `α` a metavariable — pin `(α := fun _ => A)` (#6414)
 
@@ -5639,6 +5791,30 @@ These are proof approaches that multiple agents have attempted and failed. Don't
 
 That argument used to carry a char-2 caveat: `span {T | ∃ transposition s, s • T = T} ≤ ker` was proved from `Φ T = Φ (s T) = -Φ T`, i.e. `(2 : k) • Φ T = 0`, which needs `(2 : k) ≠ 0`. **The hypothesis is now gone** (#7820): expand `T` on a tensor basis and cancel in pairs with `Finset.sum_involution` instead of dividing by 2. See "Making an alternating-map argument work in characteristic 2 — cancel in pairs, never halve" above for the recipe; `exteriorPowerEquiv` is stated over an arbitrary field.
 
+### Top-degree exterior power and `LinearMap.det` (the route that works)
+
+**Mathlib has no lemma connecting `exteriorPower.map` in top degree to `LinearMap.det`** (nothing in `Mathlib/LinearAlgebra/Determinant.lean` mentions `exteriorPower`), so `⋀ᴺ A = det A • id` has to be proved here. Two traps:
+
+- **`AlternatingMap.eq_smul_basis_det` is `R`-valued only** (`f : M [⋀^ι]→ₗ[R] R`), and there is **no module-valued analogue**. Do not hunt for "a top-degree alternating map is determined by its value on a basis" for maps into `⋀[k]^N V`; it is not there.
+- `Module.Basis.ext_alternating` reduces to a basis argument but still leaves the crux unproved.
+
+**The route that works** (#7818, `Chapter2/Problem2_11_3_SymExtPow.lean`, `exteriorPower_ιMulti_comp`): pair against a basis determinant and use injectivity of the pairing.
+
+```lean
+set b := Module.finBasisOfFinrankEq k V hN            -- hN : finrank k V = N
+haveI : FiniteDimensional k (⋀[k]^N V) := Module.Finite.of_basis (b.exteriorPower N)
+set D : ⋀[k]^N V →ₗ[k] k := exteriorPower.alternatingMapLinearEquiv b.det
+-- D surjective:  D (ιMulti k N b) = b.det b = 1  (`Module.Basis.det_self`)
+-- finrank (⋀[k]^N V) = N.choose N = 1 = finrank k k  (`exteriorPower.finrank_eq`, `Nat.choose_self`)
+have hDinj := (LinearMap.injective_iff_surjective_of_finrank_eq_finrank hrank).mpr hDsurj
+apply hDinj    -- goal becomes `b.det (A ∘ f) = det A * b.det f`
+exact Module.Basis.det_comp b A f
+```
+
+`Module.Basis.det_comp` does all the matrix work. Take `{N : ℕ} (hN : finrank k V = N)` as **hypotheses** rather than writing `finrank k V` inline and `set N := finrank k V`: the `set` shadows the multilinear argument into an `f✝` and leaves `ιMulti k (finrank k V)` unfolded, so `alternatingMapLinearEquiv_apply_ιMulti` never fires.
+
+**Descending such an identity to a book quotient needs only surjectivity of the comparison map**, not an isomorphism — so char-2 hypotheses that guard the *equivalence* are usually unnecessary for the identity itself. Check before copying an `h2` from the surrounding section.
+
 ### Dependent Type Issues with `if`-branching `obj` Fields
 
 **Problem:** When a `QuiverRepresentation`-like structure has `obj v := if v = i then T₁ else T₂`, filling `Module` instance fields fails because the `AddCommMonoid` instance becomes opaque after filling.
@@ -7597,3 +7773,59 @@ Three related points:
   `rfl`s in this file "failed" only because the sorry'd `app` above them had poisoned the terms;
   they all closed once the first error was fixed. Re-run the build after fixing error #1 before
   believing errors #2 onward.
+
+## Orienting a constructed simple rep against a named model (#7188, Specht modules vs the `S₄` catalogue)
+
+When the book says "and this one *is* the standard representation", a dimension count and even a
+non-isomorphism proof are not enough — you need an *oriented* identification. The recipe that
+worked, in three moves:
+
+1. **Narrow by the catalogue.** `Etingof.Example4_3_S4.S4_simple_iso` (and its `S₃` sibling) takes
+   any `S : FDRep ℂ S4` with `[Simple S]` and returns a five-way disjunction of `Nonempty (S ≅ _)`.
+   Kill the wrong-dimension branches with `(FDRep.isoToLinearEquiv h.some).finrank_eq`. For a
+   3-dimensional rep this leaves exactly `stdRep` (`ℂ³₋`) and `rotRep` (`ℂ³₊`).
+2. **Separate the survivors by a transported vector.** Find a property of a single vector that one
+   model has and the other cannot. The project had no equivariance-transport helper before this
+   (every prior `FDRep.isoToLinearEquiv` use was for `finrank`), so write one:
+
+   ```lean
+   theorem fixed_vector_of_iso {V W : FDRep ℂ S4} (e : V ≅ W) (g : S4) (v : V)
+       (hv : V.ρ g v = v) : W.ρ g (FDRep.isoToLinearEquiv e v) = FDRep.isoToLinearEquiv e v := by
+     rw [FDRep.Iso.conj_ρ e g, LinearEquiv.conj_apply]
+     simp only [LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_coe,
+       LinearEquiv.symm_apply_apply]
+     rw [hv]
+   ```
+
+   `FDRep.Iso.conj_ρ` is the only bridge you need; note `LinearEquiv.conj_apply` leaves the goal in
+   `∘ₗ` form, so `symm_apply_apply` has to go in the `simp only`, not in the preceding `rw`.
+3. **Get the second identification by elimination, not by repeating the work.** Once
+   `V_{(3,1)} ≅ stdRep` is in hand, `V_{(2,1,1)} ≅ stdRep` would give the two Specht modules equal
+   characters (`FDRep.char_iso` both ways, then `spechtModuleFDRep_character`), and
+   `spechtModuleCharacter_injective` turns that into `(2,1,1) = (3,1)`, refuted by `decide`. One
+   concrete computation, two oriented theorems.
+
+### The `c_λ = b_λ a_λ` ordering trap
+
+`Etingof.YoungSymmetrizer n la` is `ColumnAntisymmetrizer * RowSymmetrizer`, i.e. `b_λ a_λ`, **not**
+Etingof's `c_λ = a_λ b_λ` (its own docstring warns about this). Consequences for choosing a witness
+vector in `SpechtModule n la = ℂ[Sₙ]·c_λ`:
+
+* `of(p) · c_λ = c_λ` is **false** for `p ∈ P_λ`. What is true is `of(q) · c_λ = sign(q) • c_λ` for
+  `q ∈ Q_λ` (`of_col_mul_ColumnAntisymmetrizer`), and the column group is usually too small to
+  separate a rep from its sign twist.
+* The row-invariant vector is `a_λ c_λ`, not `c_λ`: `of(p) · (a_λ c_λ) = a_λ c_λ` by
+  `of_row_mul_RowSymmetrizer` after `← mul_assoc`.
+* `a_λ c_λ ≠ 0` is free: `c_λ² = b_λ (a_λ c_λ)`, so `a_λ c_λ = 0` would contradict
+  `young_symmetrizer_sq_ne_zero`. Prove it with `nth_rewrite 1 [hy]` where
+  `hy : YoungSymmetrizer n la = ColumnAntisymmetrizer n la * RowSymmetrizer n la := rfl` — a plain
+  `rw [YoungSymmetrizer]` rewrites both factors of `c_λ * c_λ` and loses the shape you want.
+
+### Small tactic notes from the same proof
+
+* Row/column-subgroup membership for a *literal* partition is `decide`-able once you rewrite
+  `sortedParts`: `intro k; rw [sortedParts_p_31]; revert k; decide`. `rowOfPos`/`colOfPos` are plain
+  structural recursions on the parts list, so the kernel evaluates them fine.
+* `linear_combination` coefficients for `-x = x ⊢ x = 0` are `-h/2`, not `-h`. The residue rule is
+  `goal_lhs - goal_rhs - Σ cᵢ (hᵢ_lhs - hᵢ_rhs) ≡ 0 by ring`; work the coefficient out rather than
+  guessing, since the error message shows the *unreduced* residue and reads confusingly.
