@@ -6483,20 +6483,18 @@
   },
   {
     "id": "Chapter5/Theorem5.22.1",
-    "source_regression_note": "Clean rebuild is blocked by the Theorem5_15_1 and Proposition5_21_1 chains (#7512, #7546).",
     "type": "theorem",
-    "title": "Weyl character formula: character of L_lambda is the Schur polynomial",
+    "title": "Weyl character formula: vanishing criterion, character of L_lambda, and dimension formula",
     "start_page": "132",
     "end_page": "132",
     "start_line": 33,
     "end_line": 37,
-    "status": "partially_proved",
-    "coverage": "covered_partial",
-    "coverage_issue": 7546,
-    "fidelity": "partial",
-    "fidelity_note": "The bounded-partition character and dimension formulas are proved. Because lam : Fin N → ℕ already has at most N entries, the source's first branch L_lambda = 0 iff lambda has more than N parts cannot be stated by the current API; follow-up #7399.",
-    "fidelity_issue": 7399,
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "coverage": "covered",
+    "fidelity": "full",
+    "fidelity_note": "All three branches of the source statement are formalized. SchurModuleVanishing.lean lifts the Schur module off the truncating index type: SchurModuleP k N la takes an arbitrary la : Nat.Partition n with no bound tying its parts to N, and is rfl-equal to Theorem5_22_1.lean's SchurModule at weightToPartition. The first branch is SchurModuleP_eq_bot_iff : SchurModulePSubmodule k N la = ⊥ ↔ N < Multiset.card la.parts (equivalently finrank_SchurModuleP_eq_zero_iff); the character and dimension branches are recovered on la.parts.card ≤ N as formalCharacter_SchurModuleP and finrank_SchurModuleP, and Theorem5_22_1_full bundles all three. Both sides of the criterion are witnessed non-vacuously by SchurModuleP_onePlusOne_dim_one / SchurModuleP_onePlusOne_dim_two.",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/SchurModuleVanishing.lean :: Etingof.Theorem5_22_1_full, SchurModuleP_eq_bot_iff, SchurModuleP_ne_bot_iff, finrank_SchurModuleP_eq_zero_iff, formalCharacter_SchurModuleP, finrank_SchurModuleP; EtingofRepresentationTheory/Chapter5/Theorem5_22_1.lean :: Etingof.Theorem5_22_1, Theorem5_22_1_dim",
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter5/Discussion_after_Theorem5.22.1",
