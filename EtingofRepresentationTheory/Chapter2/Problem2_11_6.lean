@@ -34,15 +34,16 @@ So the role of Problem 2.11.6 in the book is to supply the tensor-hom adjunction
 
 Theorem 5.10.1 itself is formalized directly in `Chapter5/Theorem5_10_1.lean` as
 
-  `Etingof.Theorem5_10_1 (k G : Type) [Field k] [Group G] (H : Subgroup G)`
-  `    (V : Rep k G) (W : Rep k ↥H) :`
-  `    Nonempty ((Rep.ind H.subtype W ⟶ V) ≃ₗ[k]`
-  `      (W ⟶ (Rep.resFunctor H.subtype).obj V))`
+  `Etingof.Theorem5_10_1 (k G : Type) [Field k] [Group G] (H : Subgroup G) :`
+  `    Etingof.homIndBifunctor k G H ≅ Etingof.homResBifunctor k G H`
 
-That proof obtains Frobenius reciprocity from Mathlib's `Rep.indResHomEquiv`, the
-`k`-linear equivalence packaging the `Ind ⊣ Res` adjunction, rather than from the
-`k[G]`-bimodule tensor-hom adjunction of Problem 2.11.6(b). So Theorem 5.10.1 does
-not depend on Problem 2.11.6.
+a natural isomorphism of the `ModuleCat k`-valued `Hom` bifunctors
+`Hom_G(-, Ind_H^G -)` and `Hom_H(Res_H^G -, -)` on `(Rep k G)ᵒᵖ × Rep k H`
+(`Etingof.Theorem5_10_1_nonempty` is the pointwise shadow of it). That proof
+obtains Frobenius reciprocity from Mathlib's `Rep.resCoindHomEquiv` and
+`Rep.resCoindAdjunction`, packaging the `Res ⊣ Coind` adjunction, rather than from
+the `k[G]`-bimodule tensor-hom adjunction of Problem 2.11.6(b). So Theorem 5.10.1
+does not depend on Problem 2.11.6.
 
 The Discussion of Problem 5.10.2 that carries the citation is an alternative,
 module-theoretic re-derivation of the induction/restriction adjunctions. The

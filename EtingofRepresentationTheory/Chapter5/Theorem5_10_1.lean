@@ -27,14 +27,15 @@ The word *naturally* in the book's statement is load-bearing, so a pointwise
 `Hom`-space equivalence does not on its own express Theorem 5.10.1. This file
 records the statement at three increasing strengths, all sorry-free:
 
-* `Etingof.Theorem5_10_1_adjunction` — the adjunction `Res_H^G ⊣ Ind_H^G`.
-* `Etingof.Theorem5_10_1_natIso` — the natural isomorphism of `k`-linear `Hom`
+* `Etingof.Theorem5_10_1` — the natural isomorphism of `k`-linear `Hom`
   bifunctors `Hom_G(-, Ind_H^G -) ≅ Hom_H(Res_H^G -, -)` on
   `(Rep k G)ᵒᵖ × Rep k H`, i.e. naturality in `V` *and* in `W`, with the
   isomorphism being one of `k`-modules (the book's "space ... isomorphic").
-* `Etingof.Theorem5_10_1_homEquiv` / `Etingof.Theorem5_10_1` — the underlying
-  pointwise `k`-linear equivalence, recovered as the components of the natural
-  isomorphism (`Theorem5_10_1_natIso_hom_app_app_apply`).
+  This is the book's statement, and carries the item's name for that reason.
+* `Etingof.Theorem5_10_1_adjunction` — the adjunction `Res_H^G ⊣ Ind_H^G`.
+* `Etingof.Theorem5_10_1_homEquiv` / `Etingof.Theorem5_10_1_nonempty` — the
+  underlying pointwise `k`-linear equivalence, recovered as the components of
+  the natural isomorphism (`Theorem5_10_1_hom_app_app_apply`).
 
 `Etingof.Theorem5_10_1_apply` pins the components down to the book's own formula
 `F(α)v = (αv)(e)`, so the natural isomorphism above is the map the book's proof
@@ -151,7 +152,7 @@ naturally isomorphic — natural in the `G`-representation `V` *and* in the
 This is the book's statement verbatim: "the space `Hom_G(V, Ind_H^G W)` is
 naturally isomorphic to `Hom_H(Res_H^G V, W)`". The components are the book's own
 map `F(α)v = (αv)(e)` — see `Theorem5_10_1_apply`. -/
-noncomputable def Theorem5_10_1_natIso :
+noncomputable def Theorem5_10_1 :
     homIndBifunctor.{w} k G H ≅ homResBifunctor.{w} k G H :=
   NatIso.ofComponents (fun V => frobeniusNatIsoApp V.unop)
     (fun {_ _} f => by
@@ -159,17 +160,17 @@ noncomputable def Theorem5_10_1_natIso :
       exact (Rep.resCoindAdjunction.{w} k H.subtype).homEquiv_naturality_left_symm f.unop α)
 
 @[simp]
-lemma Theorem5_10_1_natIso_hom_app (V : Rep.{w} k G) :
-    (Theorem5_10_1_natIso.{w} k G H).hom.app (op V) = (frobeniusNatIsoApp V).hom :=
+lemma Theorem5_10_1_hom_app (V : Rep.{w} k G) :
+    (Theorem5_10_1.{w} k G H).hom.app (op V) = (frobeniusNatIsoApp V).hom :=
   rfl
 
 /-- The components of the natural isomorphism are exactly Mathlib's Frobenius
 reciprocity equivalence `Rep.resCoindHomEquiv`, read in the book's orientation.
 This is what ties the naturality statement above to the pointwise equivalence. -/
 @[simp]
-lemma Theorem5_10_1_natIso_hom_app_app_apply (V : Rep.{w} k G) (W : Rep.{w} k ↥H)
+lemma Theorem5_10_1_hom_app_app_apply (V : Rep.{w} k G) (W : Rep.{w} k ↥H)
     (α : V ⟶ (indSubgroupFunctor.{w} k G H).obj W) :
-    (((Theorem5_10_1_natIso.{w} k G H).hom.app (op V)).app W).hom α =
+    (((Theorem5_10_1.{w} k G H).hom.app (op V)).app W).hom α =
       (Rep.resCoindHomEquiv.{w} H.subtype V W).symm α :=
   rfl
 
@@ -179,7 +180,7 @@ variable {k G H}
 
 /-- Frobenius reciprocity as a `k`-linear equivalence of `Hom` spaces,
 `Hom_G(V, Ind_H^G W) ≃ₗ[k] Hom_H(Res_H^G V, W)`, in the book's orientation.
-It is the component at `(V, W)` of `Theorem5_10_1_natIso`. -/
+It is the component at `(V, W)` of `Theorem5_10_1`. -/
 noncomputable def Theorem5_10_1_homEquiv (V : Rep.{w} k G) (W : Rep.{w} k ↥H) :
     (V ⟶ (indSubgroupFunctor.{w} k G H).obj W) ≃ₗ[k]
       ((resSubgroupFunctor.{w} k G H).obj V ⟶ W) :=
@@ -191,7 +192,7 @@ identity of `G`. -/
 @[simp]
 lemma Theorem5_10_1_apply (V : Rep.{w} k G) (W : Rep.{w} k ↥H)
     (α : V ⟶ (indSubgroupFunctor.{w} k G H).obj W) (v : V.V) :
-    (Theorem5_10_1_homEquiv V W α).hom v = (α.hom v).1 1 :=
+    (Theorem5_10_1_homEquiv V W α).hom v = (α.hom v).1 (1 : G) :=
   rfl
 
 /-- Frobenius reciprocity: there is a k-linear equivalence
@@ -201,9 +202,11 @@ representation, the right adjoint of restriction. The arrows match the book:
 maps `V ⟶ Ind W` of `G`-representations correspond to maps `Res V ⟶ W` of
 `H`-representations. (Etingof Theorem 5.10.1)
 
-This is the pointwise shadow of `Theorem5_10_1_natIso`, which additionally records
-the naturality asserted by the book. -/
-theorem Theorem5_10_1
+This is only the pointwise shadow of the book's statement; `Theorem5_10_1` itself
+is the natural isomorphism, which additionally records the naturality the book
+asserts. Retained under this name because it is the form cited from
+`Chapter2/Problem2_11_6.lean` and `Chapter5/Discussion5_11_examples.lean`. -/
+theorem Theorem5_10_1_nonempty
     (k G : Type) [Field k] [Group G]
     (H : Subgroup G)
     (V : Rep k G) (W : Rep k ↥H) :

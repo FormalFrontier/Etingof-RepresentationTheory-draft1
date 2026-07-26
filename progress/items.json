@@ -5247,7 +5247,7 @@
     "fidelity": "faithful",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "The Hom-space equivalence is in the book's orientation and axiom-clean, resolving #7187. The source's 'naturally isomorphic' is now formalized as such (#647): Theorem5_10_1_adjunction gives Res_H^G ⊣ Ind_H^G, and Theorem5_10_1_natIso is a natural isomorphism of the ModuleCat k-valued Hom bifunctors Hom_G(-, Ind_H^G -) ≅ Hom_H(Res_H^G -, -) on (Rep k G)ᵒᵖ × Rep k H, natural in V and in W. Theorem5_10_1_natIso_hom_app_app_apply identifies its components with the pointwise equivalence Rep.resCoindHomEquiv.symm, and Theorem5_10_1_apply pins them to the book's own formula F(α)v = (αv)(e). All axiom-clean.",
+    "fidelity_note": "The Hom-space equivalence is in the book's orientation and axiom-clean, resolving #7187. The source's 'naturally isomorphic' is now formalized as such (#647): Etingof.Theorem5_10_1 is a natural isomorphism of the ModuleCat k-valued Hom bifunctors Hom_G(-, Ind_H^G -) ≅ Hom_H(Res_H^G -, -) on (Rep k G)ᵒᵖ × Rep k H, natural in V and in W, and Theorem5_10_1_adjunction gives Res_H^G ⊣ Ind_H^G. Theorem5_10_1_hom_app_app_apply identifies its components with the pointwise equivalence Rep.resCoindHomEquiv.symm, and Theorem5_10_1_apply pins them to the book's own formula F(α)v = (αv)(e). The earlier Nonempty-of-a-pointwise-equivalence statement is retained as Theorem5_10_1_nonempty. All axiom-clean.",
     "last_updated": "2026-07-26"
   },
   {
