@@ -4235,18 +4235,22 @@
     "start_line": 3,
     "end_line": 4,
     "status": "proved",
-    "coverage_note": "The character formulas for all four tensor products are proved and axiom-clean. The source states representation decompositions, but no RHS direct-sum FDRep objects or equivariant isomorphisms are exposed; follow-up #7416.",
+    "coverage_note": "All four tensor-product decompositions are proved as equivariant isomorphisms in `FDRep ℂ (Heisenberg p)`: `R_z ⊗ R_w ≅ p·R_{zw}`, `R_z ⊗ R_{z⁻¹} ≅ ⨁_χ χ` over all p² one-dimensional characters, `χ ⊗ χ' ≅ χχ'`, and `χ ⊗ R_z ≅ R_z`. The RHS direct sums are the concrete objects `Etingof.FDRep.pi`, and the character identities are retained as the computations they rest on. Axiom-clean.",
     "fidelity": "verified",
-    "fidelity_issue": 7416,
     "fidelity_decl": [
       "Etingof.Problem4_12_9.character_Rz",
-      "Etingof.Problem4_12_9.tensor_character_nonone",
-      "Etingof.Problem4_12_9.tensor_character_inv"
+      "Etingof.Problem4_12_9.tensor_iso_Rz_mul",
+      "Etingof.Problem4_12_9.tensor_iso_oneDimSum",
+      "Etingof.Problem4_12_9.tensor_iso_char_char",
+      "Etingof.Problem4_12_9.tensor_iso_char_Rz",
+      "Etingof.Problem4_12_9.tensor_iso_Rz_mul_biproduct",
+      "Etingof.Problem4_12_9.tensor_iso_oneDimSum_biproduct",
+      "Etingof.Problem4_12_9.tensorIsoCharChar"
     ],
     "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_12_9.lean",
-    "coverage": "covered_partial",
-    "fidelity_note": "The trace identities are genuine and determine isomorphism classes over C, but the requested representation-level decompositions themselves are not packaged. #7416 records the structural endpoint.",
-    "last_updated": "2026-07-22"
+    "coverage": "covered",
+    "fidelity_note": "The source's four decompositions are now representation isomorphisms, not only trace identities. The right-hand sides are the constructed direct sums `Etingof.FDRep.pi`, which is proved to be the categorical biproduct (`Etingof.FDRep.piBiconeIsBilimit`), so the two direct-sum statements are also available in `⨁` form.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter4/Problem4.12.10",
