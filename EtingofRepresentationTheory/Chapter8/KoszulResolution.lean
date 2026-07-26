@@ -97,8 +97,9 @@ open CategoryTheory Limits
 variable (b : Module.Basis κ k V)
 
 /-- Each term of `Etingof.koszulComplex` is a projective object of `ModuleCat SV` — indeed a free
-module, by `Etingof.koszulXBasis`. -/
-instance koszulComplex_projective_X (i : ℕ) : Projective ((koszulComplex b).X i) :=
+module, by `Etingof.koszulXBasis`. Not an `instance`: it needs the basis `b`, which typeclass
+inference cannot supply. -/
+theorem koszulComplex_projective_X (i : ℕ) : Projective ((koszulComplex b).X i) :=
   haveI := koszulX_free_of_basis b i
   inferInstanceAs
     (Projective (ModuleCat.of (SymmetricAlgebra k V) (koszulX k V i)))
