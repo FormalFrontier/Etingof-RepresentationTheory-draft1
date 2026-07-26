@@ -31,7 +31,7 @@ namespace Etingof
 section PiEnd
 
 variable {k : Type} [Field k]
-variable {ι : Type} [Fintype ι]
+variable {ι : Type}
 variable {M : ι → Type} [∀ i, AddCommGroup (M i)] [∀ i, Module k (M i)]
 
 /-- The diagonal endomorphism of `∀ i, M i` assembled from a family of endomorphisms `f i`. -/
@@ -47,7 +47,7 @@ theorem piEnd_comp (f g : ∀ i, M i →ₗ[k] M i) :
     piEnd (fun i => (f i) ∘ₗ (g i)) = (piEnd f) ∘ₗ (piEnd g) := rfl
 
 /-- The diagonal endomorphism, written out as `∑ i, single i ∘ f i ∘ proj i`. -/
-theorem piEnd_eq_sum [DecidableEq ι] (f : ∀ i, M i →ₗ[k] M i) :
+theorem piEnd_eq_sum [Fintype ι] [DecidableEq ι] (f : ∀ i, M i →ₗ[k] M i) :
     piEnd f = ∑ i, (LinearMap.single k M i) ∘ₗ ((f i) ∘ₗ LinearMap.proj i) := by
   ext x j
   simp [Finset.sum_apply]
@@ -57,7 +57,7 @@ theorem proj_comp_single [DecidableEq ι] (i : ι) :
   ext x
   simp
 
-variable [∀ i, FiniteDimensional k (M i)]
+variable [Fintype ι] [∀ i, FiniteDimensional k (M i)]
 
 /-- **Trace additivity for a finite product.** The trace of the diagonal endomorphism `piEnd f`
 of `∀ i, M i` is the sum of the traces of its components. -/
@@ -74,7 +74,7 @@ end PiEnd
 namespace Representation
 
 variable {k : Type} [Field k] {G : Type} [Monoid G]
-variable {ι : Type} [Fintype ι]
+variable {ι : Type}
 variable {M : ι → Type} [∀ i, AddCommGroup (M i)] [∀ i, Module k (M i)]
 
 /-- The componentwise action of `G` on `∀ i, M i`: the direct sum of a finite family of
@@ -96,7 +96,7 @@ end Representation
 namespace FDRep
 
 variable {k : Type} [Field k] {G : Type} [Monoid G]
-variable {ι : Type} [Fintype ι]
+variable {ι : Type}
 
 /-- Build a morphism of `FDRep`s from an equivariant linear map. -/
 def mkHom (V W : FDRep k G) (f : (V : Type) →ₗ[k] (W : Type))
@@ -110,18 +110,18 @@ def mkHom (V W : FDRep k G) (f : (V : Type) →ₗ[k] (W : Type))
 
 /-- **The direct sum of a finite family of finite-dimensional representations**, realized on the
 product space `∀ i, V i` with the componentwise action. -/
-noncomputable def pi (V : ι → FDRep k G) : FDRep k G :=
+noncomputable def pi [Fintype ι] (V : ι → FDRep k G) : FDRep k G :=
   FDRep.of (Representation.pi fun i => (V i).ρ)
 
-@[simp] theorem pi_ρ_apply (V : ι → FDRep k G) (g : G) (x : (pi V : Type)) (i : ι) :
+@[simp] theorem pi_ρ_apply [Fintype ι] (V : ι → FDRep k G) (g : G) (x : (pi V : Type)) (i : ι) :
     (pi V).ρ g x i = (V i).ρ g (x i) := rfl
 
 /-- The `i`-th structural projection of the direct sum. -/
-noncomputable def piπ (V : ι → FDRep k G) (i : ι) : pi V ⟶ V i :=
+noncomputable def piπ [Fintype ι] (V : ι → FDRep k G) (i : ι) : pi V ⟶ V i :=
   mkHom _ _ (LinearMap.proj i) fun _ _ => rfl
 
 /-- The `i`-th structural inclusion into the direct sum. -/
-noncomputable def piι [DecidableEq ι] (V : ι → FDRep k G) (i : ι) : V i ⟶ pi V :=
+noncomputable def piι [Fintype ι] [DecidableEq ι] (V : ι → FDRep k G) (i : ι) : V i ⟶ pi V :=
   mkHom _ _ (LinearMap.single k (fun j => ((V j : Type))) i) fun g v => by
     refine funext fun j => ?_
     change (Pi.single (M := fun j => ((V j : Type))) i ((V i).ρ g v)) j
@@ -130,14 +130,15 @@ noncomputable def piι [DecidableEq ι] (V : ι → FDRep k G) (i : ι) : V i �
     · rw [Pi.single_eq_same, Pi.single_eq_same]
     · rw [Pi.single_eq_of_ne (Ne.symm h), Pi.single_eq_of_ne (Ne.symm h), map_zero]
 
-@[simp] theorem piπ_apply (V : ι → FDRep k G) (i : ι) (x : (pi V : Type)) :
+@[simp] theorem piπ_apply [Fintype ι] (V : ι → FDRep k G) (i : ι) (x : (pi V : Type)) :
     (piπ V i).hom.hom.hom x = x i := rfl
 
-@[simp] theorem piι_apply [DecidableEq ι] (V : ι → FDRep k G) (i : ι) (v : (V i : Type)) :
+@[simp] theorem piι_apply [Fintype ι] [DecidableEq ι] (V : ι → FDRep k G) (i : ι)
+    (v : (V i : Type)) :
     (piι V i).hom.hom.hom v = Pi.single i v := rfl
 
 /-- `piι i ≫ piπ i = 𝟙`: the inclusion followed by its own projection is the identity. -/
-theorem piι_piπ_self [DecidableEq ι] (V : ι → FDRep k G) (i : ι) :
+theorem piι_piπ_self [Fintype ι] [DecidableEq ι] (V : ι → FDRep k G) (i : ι) :
     piι V i ≫ piπ V i = 𝟙 (V i) := by
   apply Action.Hom.ext
   apply FGModuleCat.hom_ext
@@ -145,7 +146,7 @@ theorem piι_piπ_self [DecidableEq ι] (V : ι → FDRep k G) (i : ι) :
   simp
 
 /-- `piι i ≫ piπ j = 0` for `i ≠ j`: distinct summands are orthogonal. -/
-theorem piι_piπ_of_ne [DecidableEq ι] (V : ι → FDRep k G) {i j : ι} (h : i ≠ j) :
+theorem piι_piπ_of_ne [Fintype ι] [DecidableEq ι] (V : ι → FDRep k G) {i j : ι} (h : i ≠ j) :
     piι V i ≫ piπ V j = 0 := by
   apply Action.Hom.ext
   apply FGModuleCat.hom_ext
@@ -154,7 +155,7 @@ theorem piι_piπ_of_ne [DecidableEq ι] (V : ι → FDRep k G) {i j : ι} (h : 
 
 /-- **Character additivity over a finite direct sum**: the character of `FDRep.pi V` is the sum
 of the characters of the summands. -/
-theorem character_pi (V : ι → FDRep k G) (g : G) :
+theorem character_pi [Fintype ι] (V : ι → FDRep k G) (g : G) :
     (pi V).character g = ∑ i, (V i).character g :=
   trace_piEnd _
 

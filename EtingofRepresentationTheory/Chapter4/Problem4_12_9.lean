@@ -1,5 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter4.Problem4_12_2
+import EtingofRepresentationTheory.Chapter5.CharEqIso
+import EtingofRepresentationTheory.Infrastructure.FDRepDirectSum
 
 /-!
 # Problem 4.12.9: characters and tensor products for the Heisenberg group
@@ -31,6 +33,16 @@ character), so:
 
 The one-dimensional characters (there are `p²` of them) are classified in Problem 4.12.2
 (`one_dim_reps_card`); the tensor product of a character with any irreducible just twists it.
+
+The source asserts decompositions of *representations*, not merely of characters, so the final
+section upgrades all four to isomorphisms in `FDRep ℂ (Heisenberg p)` by feeding the character
+identities to `Etingof.charEq_iso` and building the right-hand sides with
+`Etingof.FDRep.pi` (the direct sum of a finite family, `Infrastructure/FDRepDirectSum`):
+
+* `tensor_iso_Rz_mul`: `R_z ⊗ R_w ≅ ⨁_{Fin p} R_{zw}` when `z·w ≠ 1`;
+* `tensor_iso_oneDimSum`: `R_z ⊗ R_w ≅ ⨁_{χ : G →* ℂˣ} χ` when `z·w = 1`;
+* `tensor_iso_char_char`: `χ ⊗ χ' ≅ χχ'`;
+* `tensor_iso_char_Rz`: `χ ⊗ R_z ≅ R_z`.
 -/
 
 noncomputable section
@@ -218,5 +230,127 @@ theorem tensor_character_char_Rz [Fact p.Prime] (χ : Heisenberg p →* ℂˣ)
       exact MonoidHom.mem_ker.mp (abHom_ker_le_ker χ hmem)
     rw [hcentral, Units.val_one, one_mul]
   · simp only [if_neg h, mul_zero]
+
+/-! ## From character identities to isomorphisms of representations
+
+The identities above compare characters. The book's Problem 4.12.9 asserts genuine
+decompositions of representations, so we upgrade each of them: `Etingof.charEq_iso`
+(Chapter 5) turns an equality of characters of finite-dimensional complex representations of a
+finite group into an isomorphism in `FDRep ℂ (Heisenberg p)`, and `Etingof.FDRep.character_pi`
+computes the character of the finite direct sum `Etingof.FDRep.pi`. The four isomorphisms
+
+* `R_z ⊗ R_w ≅ p·R_{zw}` (`tensor_iso_Rz_mul`),
+* `R_z ⊗ R_{z⁻¹} ≅ ⨁_χ χ` (`tensor_iso_oneDimSum`),
+* `χ ⊗ χ' ≅ χχ'` (`tensor_iso_char_char`),
+* `χ ⊗ R_z ≅ R_z` (`tensor_iso_char_Rz`)
+
+are the actual content of the problem; the character identities above are the computations they
+rest on. -/
+
+section Isomorphisms
+
+open CategoryTheory MonoidalCategory
+
+variable [Fact p.Prime]
+
+/-- The character group of the Heisenberg group is finite: it has exactly `p²` elements by
+Problem 4.12.2 (`one_dim_reps_card`). -/
+instance instFiniteHeisenbergCharGroup : Finite (Heisenberg p →* ℂˣ) :=
+  Nat.finite_of_card_ne_zero
+    (by rw [one_dim_reps_card]; exact pow_ne_zero 2 (Fact.out : p.Prime).ne_zero)
+
+noncomputable instance instFintypeHeisenbergCharGroup : Fintype (Heisenberg p →* ℂˣ) :=
+  Fintype.ofFinite _
+
+/-- The character of `FDRep.of ρ` is the trace of `ρ`. -/
+theorem character_of (ρ : Representation ℂ (Heisenberg p) (ZMod p → ℂ)) (g : Heisenberg p) :
+    (FDRep.of ρ).character g = LinearMap.trace ℂ (ZMod p → ℂ) (ρ g) := rfl
+
+/-- **Sum of all one-dimensional characters.** Summing the `p²` characters of the Heisenberg
+group at `⟨a,b,c⟩` gives `p²` on the center and `0` off it: every character factors through the
+abelianization `(ZMod p)²` (`oneDimRepEquiv`), where this is the orthogonality relation
+`Etingof.sum_char_apply`. This is exactly the character of `⨁_χ χ`. -/
+theorem sum_oneDimChar (a b c : ZMod p) :
+    ∑ χ : Heisenberg p →* ℂˣ, (χ ⟨a, b, c⟩ : ℂ) =
+      if a = 0 ∧ b = 0 then (p : ℂ) ^ 2 else 0 := by
+  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  haveI : Finite (Multiplicative (ZMod p × ZMod p) →* ℂˣ) :=
+    Finite.of_equiv _ (oneDimRepEquiv p).symm
+  haveI : Fintype (Multiplicative (ZMod p × ZMod p) →* ℂˣ) := Fintype.ofFinite _
+  have hre : ∑ χ : Heisenberg p →* ℂˣ, (χ ⟨a, b, c⟩ : ℂ) =
+      ∑ ψ : Multiplicative (ZMod p × ZMod p) →* ℂˣ,
+        ((ψ (Multiplicative.ofAdd (a, b)) : ℂ)) :=
+    (Fintype.sum_equiv (oneDimRepEquiv p) _ _ fun _ => rfl).symm
+  rw [hre, Etingof.sum_char_apply]
+  have hiff : ((a, b) : ZMod p × ZMod p) = 0 ↔ (a = 0 ∧ b = 0) := by
+    simp [Prod.ext_iff]
+  have hcard : (Fintype.card (ZMod p × ZMod p) : ℂ) = (p : ℂ) ^ 2 := by
+    rw [Fintype.card_prod, ZMod.card]
+    push_cast
+    ring
+  by_cases h : a = 0 ∧ b = 0
+  · rw [if_pos (hiff.mpr h), if_pos h, hcard]
+  · rw [if_neg fun hab => h (hiff.mp hab), if_neg h]
+
+/-- **`R_z ⊗ R_w ≅ p·R_{zw}` (generic case `z·w ≠ 1`).** For nontrivial `p`-th roots of unity
+`z, w` with `z·w ≠ 1`, the tensor product of `R_z` and `R_w` is isomorphic to the direct sum of
+`p` copies of `R_{zw}`. Both sides are `p²`-dimensional, and their characters agree by
+`tensor_character_nonone`. -/
+theorem tensor_iso_Rz_mul
+    (z w : ℂ) (hz : z ^ p = 1) (hw : w ^ p = 1)
+    (hz1 : z ≠ 1) (hw1 : w ≠ 1) (hzw : z * w ≠ 1)
+    (ρz ρw ρzw : Representation ℂ (Heisenberg p) (ZMod p → ℂ))
+    (hρz : IsRz z ρz) (hρw : IsRz w ρw) (hρzw : IsRz (z * w) ρzw) :
+    Nonempty ((FDRep.of ρz ⊗ FDRep.of ρw : FDRep ℂ (Heisenberg p)) ≅
+      Etingof.FDRep.pi fun _ : Fin p => FDRep.of ρzw) := by
+  refine Etingof.charEq_iso _ _ (funext fun g => ?_)
+  rw [FDRep.char_tensor, Pi.mul_apply, Etingof.FDRep.character_pi, Finset.sum_const,
+    Finset.card_univ, Fintype.card_fin, nsmul_eq_mul, character_of, character_of, character_of]
+  exact tensor_character_nonone z w hz hw hz1 hw1 hzw ρz ρw ρzw hρz hρw hρzw g
+
+/-- **`R_z ⊗ R_{z⁻¹} ≅ ⨁_χ χ`.** When `z·w = 1` the tensor product of `R_z` and `R_w` is
+isomorphic to the direct sum of *all* `p²` one-dimensional characters of the Heisenberg group,
+each occurring exactly once. Both sides are `p²`-dimensional; the characters agree by
+`tensor_character_inv` and `sum_oneDimChar`. -/
+theorem tensor_iso_oneDimSum
+    (z w : ℂ) (hz : z ^ p = 1) (hz1 : z ≠ 1) (hw1 : w ≠ 1) (hzw : z * w = 1)
+    (ρz ρw : Representation ℂ (Heisenberg p) (ZMod p → ℂ))
+    (hρz : IsRz z ρz) (hρw : IsRz w ρw) :
+    Nonempty ((FDRep.of ρz ⊗ FDRep.of ρw : FDRep ℂ (Heisenberg p)) ≅
+      Etingof.FDRep.pi fun χ : Heisenberg p →* ℂˣ =>
+        FDRep.of (Etingof.Example4_3_S3.charRep χ)) := by
+  refine Etingof.charEq_iso _ _ (funext fun g => ?_)
+  obtain ⟨a, b, c⟩ := g
+  rw [FDRep.char_tensor, Pi.mul_apply, Etingof.FDRep.character_pi, character_of, character_of]
+  simp only [Etingof.Example4_3_S3.charRep_character]
+  rw [sum_oneDimChar a b c]
+  exact tensor_character_inv z w hz hz1 hw1 hzw ρz ρw hρz hρw a b c
+
+/-- **`χ ⊗ χ' ≅ χχ'`.** The tensor product of two one-dimensional characters is the
+one-dimensional representation attached to their product; the `p²` characters form a group
+under tensor product. -/
+theorem tensor_iso_char_char (χ χ' : Heisenberg p →* ℂˣ) :
+    Nonempty ((FDRep.of (Etingof.Example4_3_S3.charRep χ) ⊗
+        FDRep.of (Etingof.Example4_3_S3.charRep χ') : FDRep ℂ (Heisenberg p)) ≅
+      FDRep.of (Etingof.Example4_3_S3.charRep (χ * χ'))) := by
+  refine Etingof.charEq_iso _ _ (funext fun g => ?_)
+  rw [FDRep.char_tensor, Pi.mul_apply]
+  simp only [Etingof.Example4_3_S3.charRep_character, MonoidHom.mul_apply, Units.val_mul]
+
+/-- **`χ ⊗ R_z ≅ R_z`.** Twisting the `p`-dimensional irreducible `R_z` by a one-dimensional
+character does nothing: `character_Rz` is supported on the center, where every character of the
+Heisenberg group is trivial. -/
+theorem tensor_iso_char_Rz (χ : Heisenberg p →* ℂˣ)
+    (z : ℂ) (hz : z ^ p = 1) (hz1 : z ≠ 1)
+    (ρ : Representation ℂ (Heisenberg p) (ZMod p → ℂ)) (hρ : IsRz z ρ) :
+    Nonempty ((FDRep.of (Etingof.Example4_3_S3.charRep χ) ⊗
+        FDRep.of ρ : FDRep ℂ (Heisenberg p)) ≅ FDRep.of ρ) := by
+  refine Etingof.charEq_iso _ _ (funext fun g => ?_)
+  obtain ⟨a, b, c⟩ := g
+  rw [FDRep.char_tensor, Pi.mul_apply, character_of,
+    Etingof.Example4_3_S3.charRep_character, ← character_charRep χ (⟨a, b, c⟩ : Heisenberg p)]
+  exact tensor_character_char_Rz χ z hz hz1 ρ hρ a b c
+
+end Isomorphisms
 
 end Etingof.Problem4_12_9
