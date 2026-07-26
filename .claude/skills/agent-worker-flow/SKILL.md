@@ -323,6 +323,18 @@ Read the specific files mentioned in the plan/issue. Understand the current stat
 of code you'll be modifying. Don't read progress history — the issue body provides
 that context.
 
+**If the issue touches `EtingofRepresentationTheory/`, read
+`.claude/skills/lean-conventions/SKILL.md` in full before your first edit.** It is
+short by design (~160 lines) and carries the rules that otherwise cost a build cycle
+each to rediscover: `lake exe cache get`, `lake build <Module>` rather than `lake env
+lean`, the lint-clean policy, and the one working order for `set_option`/`omit`/
+docstring above a declaration. The large `lean-formalization` skill is the *searchable*
+companion to it — `grep` that one for your chapter item and Mathlib types, never read
+it top to bottom.
+
+Read both with `Read` rather than the Skill tool: the Skill tool caches per session and
+will answer `instructions unchanged` without re-reading the file.
+
 ## Step 4: Verify Assumptions
 
 Check that the plan's assumptions still hold:
