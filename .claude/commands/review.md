@@ -32,6 +32,38 @@ nothing about what is on disk.
 
 Use `coordination list-unclaimed --label review` to find work for this session type.
 
+## Read the Comments Before Deciding the Deliverable
+
+A review issue's body describes the world as it was when the issue was *filed*. If the
+issue was later closed and reopened, the reopening comment — not the body — defines the
+live scope, and **a `review` issue can carry construction scope**. When it does, the
+deliverable is a PR with real `.lean` work, not a report, and "Completing the Review"
+below does not apply.
+
+Check before you start:
+
+```bash
+gh issue view <N> --json stateReason,comments \
+  --jq '.stateReason, (.comments[] | "--- \(.createdAt) \(.author.login)\n\(.body)")'
+```
+
+`stateReason == "REOPENED"` is the reliable tell. Two softer ones: a linked *merged* PR
+that already performed the audit named in the body, and a body whose factual claims about
+the repo no longer hold. Any of the three means re-derive the scope from the comments.
+
+Do not pattern-match on a `Reopening:` prefix — reopening comments are written in prose.
+#7276 was filed as a report-only Stage 3.7 fidelity audit of `Chapter4/Problem4_12_5.lean`,
+its audit ran and merged as #7300, and it was then reopened with a comment beginning
+"Reopening because the audit treated unformalized existence/model identification as
+sufficient." The new scope was to *construct* the icosahedral vertex/face/edge actions and
+prove transitivity/stabilizer facts — hours of Lean work, still wearing a `review` label,
+with the body still describing the finished report-only audit. A session that read the body
+and skipped the comments would have written a second report on an already-audited file and
+closed the issue, leaving the real gap open.
+
+This is not rare: as of 2026-07-26, 17 open `agent-plan` issues have
+`stateReason == "REOPENED"`, seven of them unclaimed.
+
 ## Review Focus Areas
 
 Each session should pick **one or two** focus areas and go deep, rather than
@@ -116,6 +148,10 @@ not thousands. If it is large, `git checkout progress/items.json` and redo with
 the right format. Prefer editing the single target entry over touching others.
 
 ## Completing the Review
+
+**This section assumes the report-only case.** If the comments re-scoped the issue to
+construction work (see "Read the Comments Before Deciding the Deliverable"), ignore it:
+finish the Lean work and publish with `coordination create-pr <N>` like a feature session.
 
 Post your report as a comment on the review issue. Then close the issue yourself —
 a review's deliverable is the report, not a code change, so there is usually **no PR**
