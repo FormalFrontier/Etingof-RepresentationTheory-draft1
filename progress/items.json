@@ -1157,12 +1157,12 @@
     "start_line": 22,
     "end_line": 35,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "sorry_free": true,
-    "fidelity_note": "Examples (1)–(3) are exact. The derivation example is implemented only for commutative A, while the source allows an arbitrary associative algebra; the noncommutative derivation Lie algebra remains reopened #5363.",
-    "fidelity_decl": "Abelian k V (abelian); LieRing A / LieAlgebra k (End k V) (associative); LieSubalgebra k A; commutative-only LieAlgebra k (Derivation k A A)",
-    "followup_issue": 5363,
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "fidelity_note": "All four examples are formalized at the source's generality. (4) is now Etingof.Example2_9_2.Der k A, the Leibniz-rule endomorphisms of an *arbitrary associative* k-algebra A, packaged as a LieSubalgebra k (Module.End k A); Mathlib's Derivation k A A requires [CommSemiring A] and so cannot state (4) as the book does. derivationLieEquiv identifies the two in the commutative case, and Der.inner exhibits the inner derivations as a non-vacuity witness.",
+    "fidelity_decl": "Abelian k V (abelian); LieRing A / LieAlgebra k (End k V) (associative); LieSubalgebra k A; Der k A with LieAlgebra k (Der k A) for arbitrary associative A, plus derivationLieEquiv : Derivation k A A ≃ₗ⁅k⁆ Der k A",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter2/Example2.9.2_continued",
