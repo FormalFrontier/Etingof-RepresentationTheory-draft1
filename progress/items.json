@@ -3703,13 +3703,12 @@
     "start_line": 9,
     "end_line": 31,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_decl": "Etingof.Example4_9_1.S3_tensor_character, Etingof.Example4_9_1.S3_tensor_product_character, Etingof.Example4_9_1.A5_tensor_character, Etingof.Example4_9_1.A5_tensor_product_character, Etingof.Example4_9_1.S4_tensor_character, Etingof.Example4_9_1.S4_tensor_product_character",
-    "fidelity_note": "All three book tables (S3, S4, A5) are proved as genuine character identities for FDRep tensor products. The source states direct-sum decompositions of representations, but the corresponding RHS FDRep objects and equivariant isomorphisms are not exposed; reopened #5377 tracks that residual endpoint.",
-    "fidelity_issue": 5377,
-    "last_updated": "2026-07-22"
+    "fidelity_decl": "Etingof.Example4_9_1.S3_tensor_iso, Etingof.Example4_9_1.S4_tensor_iso, Etingof.Example4_9_1.A5_tensor_iso, Etingof.Example4_9_1.S3_tensor_iso_biproduct, Etingof.Example4_9_1.S4_tensor_iso_biproduct, Etingof.Example4_9_1.A5_tensor_iso_biproduct, Etingof.Example4_9_1.stdRep_tensor_stdRep_iso, Etingof.Example4_9_1.S3_tensor_character, Etingof.Example4_9_1.S3_tensor_product_character, Etingof.Example4_9_1.A5_tensor_character, Etingof.Example4_9_1.A5_tensor_product_character, Etingof.Example4_9_1.S4_tensor_character, Etingof.Example4_9_1.S4_tensor_product_character",
+    "fidelity_note": "All three book tables (S3, S4, A5) are formalized at the level the source asserts: `*_tensor_iso` gives `V_i ⊗ V_j ≅ ⊕_k n_ij^k V_k` in FDRep ℂ G for every table entry (quantified over i, j, so every entry of all three tables, including the multiplicity-2 constituents of ℂ⁴⊗ℂ⁵ and ℂ⁵⊗ℂ⁵ for A5), with `*_biproduct` variants using the categorical ⨁ and `stdRep_tensor_stdRep_iso` spelling out ℂ²⊗ℂ² ≅ ℂ₊⊕ℂ₋⊕ℂ² for S3. The right-hand sides are the genuine FDRep objects `multSum` (Etingof.FDRep.pi with multiplicities); the isomorphisms come from the character identities `*_tensor_character` / `*_tensor_product_character` via Etingof.charEq_iso, and are non-canonical, hence stated as `Nonempty (· ≅ ·)`.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter4/Introduction_4.10",
