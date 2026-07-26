@@ -149,8 +149,13 @@ lean` on one file is seconds. You get the accurate result *and* the speed by pas
 
 ```
 lake env lean -D backward.isDefEq.respectTransparency=false -D relaxedAutoImplicit=false \
-  -D maxSynthPendingDepth=3 EtingofRepresentationTheory/<Chapter>/<File>.lean
+  -D maxSynthPendingDepth=3 -D linter.mathlibStandardSet=true \
+  EtingofRepresentationTheory/<Chapter>/<File>.lean
 ```
+
+**`linter.mathlibStandardSet` is the one you cannot afford to drop.** Without it none of
+the linters fire, so a file that CI's "No new build warnings" step will reject comes back
+silent under `lake env lean` and you learn about it an hour later from CI.
 
 Keep `lake build <Module>` as the final check before committing (it also catches
 `lakefile`/import-graph problems), but iterate with the `-D` form. Re-read `lakefile.toml`
@@ -6333,12 +6338,20 @@ This project's CI runs `weak.linter.mathlibStandardSet = true`, so an
 instance/hypothesis from the `variable` block that a lemma does not use emits
 `automatically included section variable(s) unused` (and unused hypotheses like
 a stated `(hdeg : …)` emit `Variable name … is not explicitly referenced`).
-These are **warnings only** — plain `lake build` still returns 0, so CI passes —
-but the project keeps lint clean. Silence an unused instance with
-`omit [Inst] in` before the declaration; for the exact ordering against the
-docstring, attributes and any `set_option … in`, see
-`.claude/skills/lean-conventions/SKILL.md`.
-
+`lake build` still returns 0 on these, but **CI does not**: the "No new build
+warnings" step runs `scripts/check_lint_clean.py` over the build log and fails on
+any warning in a file not listed in `scripts/lint-warning-baseline.txt`. New files
+are never on that list, so a new file must be warning-free. If you clean up a file
+that *is* listed, delete its line, or the same step fails on the stale entry.
+Silence an unused instance with
+`omit [Inst] in` immediately before the declaration. Gotcha: `omit … in` must go
+**before** the docstring, not between the `/-- … -/` and the `theorem`
+(`omit` after a docstring gives `unexpected token 'omit'; expected 'lemma'`):
+```lean
+omit [FiniteDimensional ℂ V] in
+/-- doc … -/
+theorem foo … := …
+```
 Related `mathlibStandardSet` linter: `linter.style.show` flags every `show` used
 to *change* the goal to a defeq form. Use `change` instead of `show` for those
 (reserve `show` for readability of an intermediate state).

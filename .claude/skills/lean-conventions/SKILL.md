@@ -56,9 +56,12 @@ lake build EtingofRepresentationTheory.Chapter5.Foo 2>&1 | tee /tmp/build-Foo.lo
 
 ## The build stays lint-clean
 
-`lakefile.toml` sets `weak.linter.mathlibStandardSet = true`. These warnings do **not**
-fail CI (CI runs plain `lake build`, which exits 0 on warnings), but the project keeps the
-build clean, and a PR that adds warnings will be asked to remove them.
+`lakefile.toml` sets `weak.linter.mathlibStandardSet = true`. Plain `lake build`
+still exits 0 on warnings, but CI's "No new build warnings" step runs
+`scripts/check_lint_clean.py` over the build log. It rejects warnings in files absent
+from `scripts/lint-warning-baseline.txt`, and it rejects stale baseline entries for
+files that have become warning-free. New files must therefore build without warnings;
+when cleaning a baselined file, remove its baseline entry too.
 
 The linters you will actually trip:
 

@@ -6800,8 +6800,8 @@
     },
     "fidelity": "full",
     "coverage": "covered_full",
-    "coverage_note": "The principal-series representation and its dimension are both public: Etingof.GL2.principalSeries_finrank states dim V(chi1,chi2) = q+1 = p^n+1, with a downstream #check in Theorem5_25_2_Test.lean confirming client access without private namespaces (#7563).",
-    "last_updated": "2026-07-23"
+    "coverage_note": "The principal-series representation and its dimension are both public: Etingof.GL2.principalSeries_finrank states dim V(chi1,chi2) = q+1 = p^n+1, with a downstream #check in Theorem5_25_2_Test.lean confirming client access without private namespaces (#7563). Chapter5/GL2CharacterIdentification.lean now also identifies the characters with the bare formulas of GL2CharacterValues.lean: Etingof.GL2.character_principalSeries ((principalSeries p n alpha 1).character = charValpha1 p n alpha, via the coset form of the character, the bijection G = B x P^1, and |B| = (q-1)^2 q) and Etingof.GL2.character_complementW ((complementW p n 1).character = charW1 p n) (#7905).",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter5/Theorem5.25.2",
@@ -8702,10 +8702,9 @@
     "start_line": 1,
     "end_line": 8,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "last_updated": "2026-07-22",
-    "coverage_note": "Contractibility, the split-short-exact consequence, and the abelian-group counterexample are proved. The source asks for an actual isomorphism to a direct sum of two-term identity complexes; the file only asserts its equivalence with contractibility in prose and does not construct that decomposition. Follow-up #7435.",
-    "followup_issue": 7435
+    "coverage": "covered_full",
+    "last_updated": "2026-07-25",
+    "coverage_note": "Exercise7_8_4_directSum gives the isomorphism the source asks for: an acyclic complex is isomorphic to a direct sum of two-term complexes concentrated in degrees i, i+1 with an isomorphism between them (disk_d_self identifies that map with the identity). Contractibility, the split-short-exact consequence, and the abelian-group counterexample are also proved."
   },
   {
     "id": "Chapter7/Problem7.8.5",
