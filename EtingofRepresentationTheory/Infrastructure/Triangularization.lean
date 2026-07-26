@@ -243,6 +243,7 @@ theorem roots_prod_X_sub_C_comp {ι : Type*} [Fintype ι] (f : ι → k) :
     rw [Multiset.map_map]; rfl
   rw [h, Polynomial.roots_multiset_prod_X_sub_C]
 
+omit [Field k] in
 /-- Two families of scalars with the same multiset of values differ by a permutation. -/
 theorem exists_perm_of_map_univ_eq {N : ℕ} {lam mu : Fin N → k}
     (h : Finset.univ.val.map lam = Finset.univ.val.map mu) :
@@ -282,7 +283,7 @@ theorem sum_powersetCard_prod_comp {N : ℕ} (lam : Fin N → k) (e : Equiv.Perm
       = ∑ s ∈ Finset.powersetCard n (Finset.univ : Finset (Fin N)), ∏ i ∈ s, lam i := by
   classical
   refine Finset.sum_equiv e.finsetCongr (fun s => ?_) (fun s _ => ?_)
-  · simp [Finset.mem_powersetCard_univ]
+  · simp
   · simp [Finset.prod_map]
 
 /-- `h_n` is invariant under reindexing the family: the symmetric-power trace formula does not
@@ -291,7 +292,7 @@ theorem sum_sym_prod_comp {N : ℕ} (lam : Fin N → k) (e : Equiv.Perm (Fin N))
     ∑ s : Sym (Fin N) n, ((s : Multiset (Fin N)).map (fun i => lam (e i))).prod
       = ∑ s : Sym (Fin N) n, ((s : Multiset (Fin N)).map lam).prod :=
   Fintype.sum_equiv (Sym.equivCongr e) _ _ fun s => by
-    simp [Sym.equivCongr, Sym.coe_map, Multiset.map_map, Function.comp_def]
+    simp [Sym.equivCongr, Sym.coe_map, Multiset.map_map]
 
 end Perm
 
