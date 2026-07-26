@@ -872,10 +872,8 @@
     "start_line": 25,
     "end_line": 8,
     "status": "sorry_free",
-    "coverage_note": "Parts (a), (b), and the characteristic-p dimension result are source-present. Problem2_7_4_Family.lean now constructs the classifying family V(alpha,c) for part (c), with the defining relation, the module structure, the central-scalar actions x^p = alpha, y^p = c^p, irreducibility of V(alpha,c) for every parameter pair (famModule_isSimpleModule), and the isomorphism criterion V(alpha,c) = V(alpha',c') iff alpha = alpha' and c = c' (famEquiv_nonempty_iff), so the family lists each isomorphism class at most once; exhaustiveness remains open under #7387. Independently, Problem2_7_4.lean now fails a fresh check at a scalar-cast/neg_smul rewrite; regression #7530.",
-    "followup_issue": 7387,
-    "coverage_issue": 7530,
-    "coverage": "covered_partial",
+    "coverage_note": "All three parts are source-present. (a) characteristic zero: no nonzero finite-dimensional representation, and the Weyl algebra is simple. (b) characteristic p: x^p and y^p are central and the center is k[x^p, y^p]. (c) characteristic p over an algebraically closed field is a full classification, not just the dimension: Problem2_7_4.exists_normalForm puts an arbitrary finite-dimensional simple module in the book's normal form, Problem2_7_4_Family.lean constructs the family V(alpha,c) with the central-scalar actions x^p = alpha and y^p = c^p, proves each member irreducible (famModule_isSimpleModule) and the isomorphism criterion V(alpha,c) = V(alpha',c') iff alpha = alpha' and c = c' (famEquiv_nonempty_iff), and exists_toFamEquiv proves the family exhausts every finite-dimensional irreducible. The public endpoint existsUnique_toFamEquiv returns explicit family parameters together with an isomorphism, unique as a pair; finrank_eq_of_classification recovers dim V = p from it, and Problem2_7_4.finrank_irreducible_charP is retained.",
+    "coverage": "covered_full",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_7_4.lean",
       "EtingofRepresentationTheory/Chapter2/Problem2_7_4_Family.lean"
@@ -6825,9 +6823,10 @@
     "fidelity": "partial",
     "needs_statement": false,
     "coverage": "covered_partial",
-    "coverage_note": "The intended principal-series classification is source-present, but Theorem5_25_2.lean fails a fresh source check at a missing scalar-tower instance (#7516). The preceding discussion's public dimension endpoint is separately #7563.",
+    "coverage_note": "Theorem5_25_2.lean builds clean (#7516 is stale: the scalar-tower instance is fixed and the full project build is green). Parts 1, 2, 3a, 3b are public. Chapter5/GL2PrincipalFamily.lean (#7893) adds the endpoints that were missing for the one-dimensional summand (detChar_simple made public, detChar_finrank, detChar_character, detChar_iso_iff), the three cross-kind non-isomorphisms by dimension count, and packages all of it as principalFamily over PrincipalIndex = Chars + Chars + {s : Sym2 Chars // not s.IsDiag}, with card_principalIndex = (q-1) + q(q-1)/2.",
     "coverage_issue": 7516,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-26",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Theorem5_25_2.lean :: Etingof.Theorem5_25_2_part1, part2, part3a, part3b, Etingof.GL2.detChar_simple, Etingof.GL2.principalSeries_finrank; EtingofRepresentationTheory/Chapter5/GL2PrincipalFamily.lean :: Etingof.GL2.principalFamily, principalFamily_simple, principalFamily_injective, card_principalIndex, exists_principal_family"
   },
   {
     "id": "Chapter5/Discussion_principal_series_name",
@@ -6894,14 +6893,14 @@
       "result": "covered_partial",
       "note": "The abstract number of irreducible isomorphism classes is proved to be q^2-1, but the constructed determinant, principal-series, and complementary-series families are not connected to that index type by an exhaustiveness theorem."
     },
-    "lean_ref": "EtingofRepresentationTheory/Chapter5/Discussion_complementary_series_summary.lean :: Etingof.GL2.constructedCount_eq_card_conjClasses, foundAllIrreducibles_galoisField, constructed_irreps_complete, constructed_irreps_complete_unconditional, card_irreps_eq_q_sq_sub_one",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Discussion_complementary_series_summary.lean :: Etingof.GL2.constructedCount_eq_card_conjClasses, foundAllIrreducibles_galoisField, constructed_irreps_complete, constructed_irreps_complete_unconditional, card_irreps_eq_q_sq_sub_one, exists_complete_simples, constructed_families_exhaust",
     "coverage": {
       "result": "covered_partial",
-      "lean_decl": "Etingof.GL2.constructed_irreps_complete_unconditional",
-      "note": "constructed_irreps_complete_unconditional proves only a cardinality statement for an abstract Wedderburn index type. It does not construct the complementary-series representations, prove cross-family nonisomorphism, or show every simple FDRep is isomorphic to one of the named families."
+      "lean_decl": "Etingof.GL2.constructed_families_exhaust",
+      "note": "Exhaustiveness is now stated and proved for honest FDRep ℂ (GL₂ 𝔽_q) objects, not only for an abstract Wedderburn index type: exists_complete_simples exhibits q²−1 pairwise non-isomorphic simples such that every simple is isomorphic to one of them, and constructed_families_exhaust shows that ANY family of (q−1)+q(q−1)/2+q(q−1)/2 pairwise non-isomorphic simples exhausts the irreducibles (the pigeonhole is Etingof.exhaustive_of_card_eq_card_conjClasses in Infrastructure/CompletenessByCounting.lean). RESIDUAL: the named families are still not fed into that reduction — the complementary series exists only as a virtual character (Lemma5_25_3_innerProduct/_dimension), not as a representation object, and cross-family non-isomorphism is unproved. Tracked by the sub-issues of #7252."
     },
     "fidelity_issue": 7252,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter5/Introduction_5.26",
@@ -8298,9 +8297,9 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_partial",
-    "coverage_note": "Items (1)-(7) and the tensor/exterior-power portions of (8) are formalized. Symmetric/Schur functors in item (8) remain #5642; BGP reflection functors in item (9) remain #7383.",
-    "followup_issue": 5642,
-    "last_updated": "2026-07-22"
+    "coverage_note": "Items (1)-(8) are formalized, including the symmetric-power functor (ModuleCat.symmetricPower, built on a new SymmetricPower.map since Mathlib has none) and the Schur functors (Etingof.schurFunctor). Only item (9), packaging the BGP reflection constructions as functors, remains; that is #7383.",
+    "followup_issue": 7383,
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter7/Introduction_7.3",
@@ -9939,7 +9938,7 @@
     "coverage_issue": 5681,
     "issue": 7252,
     "lean_ref": "Chapter5/Discussion_complementary_series_summary.lean (Etingof.GL2.constructed_irrep_count — arithmetic total); Chapter5/GL2ConjugacyClassCount.lean (GL2.card_conjClasses_eq — #classes = q²−1, odd char)",
-    "note": "Stage 3.7 reconciliation (audit #7245): covered_partial. Sub-claim (a) arithmetic (q−1)+q(q−1)/2+q(q−1)/2=q²−1: proved (constructed_irrep_count). Sub-claim (b) q²−1=#conjugacy classes: proved separately (card_conjClasses_eq, odd char) but not yet linked into the summary file, where it is only the unproved Prop foundAllIrreducibles. RESIDUAL: sub-claim (c) — \"these are ALL the irreducibles\" (completeness) — is not stated as a formal proposition → tracked by #7252. Kept status accepted with issue #7252."
+    "note": "Stage 3.7 reconciliation (audit #7245), updated 2026-07-26. Sub-claim (a) arithmetic (q−1)+q(q−1)/2+q(q−1)/2=q²−1: proved (constructed_irrep_count). Sub-claim (b) q²−1=#conjugacy classes: proved (card_conjClasses_eq, odd char) and linked into the summary file (foundAllIrreducibles_galoisField, constructedCount_eq_card_conjClasses). Sub-claim (c) \"these are ALL the irreducibles\": now a formal proposition about representations, not just a count — exists_complete_simples (a complete list of q²−1 simple FDRep ℂ (GL₂ 𝔽_q) objects) and constructed_families_exhaust (any q²−1 pairwise non-isomorphic simples exhaust the irreducibles). RESIDUAL: the three named families are not yet packaged into such a list — the complementary series is still only a virtual character, and cross-family non-isomorphism is unproved → tracked by the sub-issues of #7252. Kept status accepted with issue #7252."
   },
   {
     "type": "derived",

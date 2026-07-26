@@ -2,12 +2,14 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter2.Problem2_7_4
 
 /-!
-# Problem 2.7.4(c): the classifying family of irreducible Weyl-algebra modules in characteristic `p`
+# Problem 2.7.4(c): classification of the irreducible Weyl-algebra modules in characteristic `p`
 
 `Problem2_7_4.lean` proves (`Etingof.Problem2_7_4.finrank_irreducible_charP`) that over an
 algebraically closed field `k` of characteristic `p` every finite dimensional irreducible module
 over the Weyl algebra `A = Etingof.WeylAlgebra k` has dimension exactly `p`. That is a dimension
-statement, not a classification. This file constructs the family that does the classifying.
+statement, not a classification. This file constructs the family that does the classifying and
+proves it is a complete, irredundant list: `existsUnique_toFamEquiv` says every finite
+dimensional irreducible `A`-module is isomorphic to exactly one member of the family.
 
 ## The family
 
@@ -44,8 +46,13 @@ exactly once.
   `V(α,c) ≃ V(α',c')`.
 * `Etingof.Problem2_7_4.famEquiv_nonempty_iff` — the isomorphism criterion
   `V(α,c) ≅ V(α',c') ↔ α = α' ∧ c = c'`, so the family lists each isomorphism class at most once.
-
-Exhaustiveness of the family is follow-up work.
+* `Etingof.Problem2_7_4.exists_toFamEquiv` — exhaustiveness: every finite dimensional irreducible
+  `A`-module is isomorphic to some `V(α,c)`, so the family lists each isomorphism class at least
+  once.
+* `Etingof.Problem2_7_4.existsUnique_toFamEquiv` — the classification endpoint: the parameter pair
+  `(α, c)` of an irreducible module exists and is unique.
+* `Etingof.Problem2_7_4.finrank_eq_of_classification` — the book's dimension answer `dim V = p`
+  read back off the classification.
 -/
 
 namespace Etingof.Problem2_7_4
@@ -563,6 +570,164 @@ theorem famEquiv_nonempty_iff (α c α' c' : k) :
       simpa only [Pi.smul_apply, smul_eq_mul] using mul_right_cancel₀ hj this
   · rintro ⟨rfl, rfl⟩
     exact ⟨@LinearEquiv.refl (WeylAlgebra k) (Fin p → k) _ _ (famModule k p α c)⟩
+
+/-! ### Exhaustiveness: every finite dimensional irreducible module is in the family
+
+The other half of the classification. `Problem2_7_4.exists_normalForm` puts an arbitrary finite
+dimensional simple `WeylAlgebra k`-module `V` in the book's normal form: a basis `b₀, …, b_{p-1}`
+with `x · bᵢ = b_{i+1}` cyclically (wraparound scalar `α`) and `y · bᵢ = c · bᵢ + i · b_{i-1}`.
+Those are exactly the matrices of `Xlin α` and `Ylin c`, so the coordinate isomorphism
+`b.equivFun` is an isomorphism of `WeylAlgebra k`-modules `V ≅ V(α,c)`. -/
+
+omit [Fact (Nat.Prime p)] [CharP k p] in
+/-- A `k`-linear map between two `WeylAlgebra k`-modules that intertwines the actions of the
+generators `x` and `y` intertwines the action of every algebra element: `x` and `y` generate
+`WeylAlgebra k`. -/
+theorem smul_comm_of_gens {V W : Type*}
+    [AddCommGroup V] [Module k V] [Module (WeylAlgebra k) V] [IsScalarTower k (WeylAlgebra k) V]
+    [AddCommGroup W] [Module k W] [Module (WeylAlgebra k) W] [IsScalarTower k (WeylAlgebra k) W]
+    (e : V →ₗ[k] W)
+    (hx : ∀ z : V, e (WeylAlgebra.x k • z) = WeylAlgebra.x k • e z)
+    (hy : ∀ z : V, e (WeylAlgebra.y k • z) = WeylAlgebra.y k • e z) :
+    ∀ (a : WeylAlgebra k) (z : V), e (a • z) = a • e z := by
+  intro a
+  obtain ⟨a', rfl⟩ := RingQuot.mkAlgHom_surjective k (WeylAlgebraRel k) a
+  have ha' : a' ∈ Algebra.adjoin k (Set.range (FreeAlgebra.ι k)) := by
+    rw [FreeAlgebra.adjoin_range_ι]; exact Algebra.mem_top
+  induction ha' using Algebra.adjoin_induction with
+  | mem g hg =>
+      obtain ⟨idx, rfl⟩ := hg
+      intro z
+      fin_cases idx
+      · exact hx z
+      · exact hy z
+  | algebraMap r =>
+      intro z
+      rw [AlgHom.commutes, algebraMap_smul, algebraMap_smul, map_smul]
+  | add u v _ _ ihu ihv =>
+      intro z
+      rw [map_add, add_smul, map_add, ihu, ihv, add_smul]
+  | mul u v _ _ ihu ihv =>
+      intro z
+      rw [map_mul, mul_smul, ihu, ihv, mul_smul]
+
+/-- The type of `WeylAlgebra k`-linear equivalences from a module `V` onto the family member
+`V(α,c)`. As with `FamEquiv`, the module structure on the target is `famModule`, which is not an
+instance, so it has to be supplied explicitly. -/
+abbrev ToFamEquiv (V : Type*) [AddCommGroup V] [Module (WeylAlgebra k) V] (α c : k) : Type _ :=
+  @LinearEquiv (WeylAlgebra k) (WeylAlgebra k) _ _
+    (RingHom.id (WeylAlgebra k)) (RingHom.id (WeylAlgebra k)) _ _
+    V (Fin p → k) _ _ inferInstance (famModule k p α c)
+
+/-- **Exhaustiveness of the family.** Over an algebraically closed field of characteristic `p`,
+every finite dimensional irreducible `WeylAlgebra k`-module is isomorphic to a member `V(α,c)`
+of the family — with `α` the scalar by which the central element `xᵖ` acts and `c` an eigenvalue
+of `y`. -/
+theorem exists_toFamEquiv [IsAlgClosed k] (V : Type*) [AddCommGroup V] [Module k V]
+    [Module (WeylAlgebra k) V] [IsScalarTower k (WeylAlgebra k) V] [FiniteDimensional k V]
+    [IsSimpleModule (WeylAlgebra k) V] :
+    ∃ α c : k, Nonempty (ToFamEquiv k p V α c) := by
+  obtain ⟨α, c, b, hbx, hby⟩ := exists_normalForm k p V
+  refine ⟨α, c, ?_⟩
+  letI := famModule k p α c
+  haveI := famModule_isScalarTower k p α c
+  -- The coordinate isomorphism, viewed as a map *into* `V`.
+  set ψ : (Fin p → k) ≃ₗ[k] V := b.equivFun.symm
+  have hψ : ∀ f : Fin p → k, ψ f = ∑ j, f j • b j := fun f => b.equivFun_symm_apply f
+  -- Shifting the summation index by one; used to line the two cyclic patterns up.
+  have reindex : ∀ g : Fin p → V, ∑ j, g j = ∑ i : Fin p, g (i + 1) := by
+    intro g
+    exact (Fintype.sum_equiv (Equiv.addRight (1 : Fin p)) (fun i => g (i + 1)) g
+      (fun i => by simp)).symm
+  have hx : ∀ f : Fin p → k, ψ (WeylAlgebra.x k • f) = WeylAlgebra.x k • ψ f := by
+    intro f
+    have hsm : (WeylAlgebra.x k • f : Fin p → k) = Xlin k p α f := by
+      rw [famModule_smul k p α c, famRep_x]
+    rw [hsm, hψ, hψ, Finset.smul_sum, reindex fun j => Xlin k p α f j • b j]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    rw [smul_comm, hbx i, smul_smul, Xlin_apply, add_sub_cancel_right, wX, mul_comm]
+  have hy : ∀ f : Fin p → k, ψ (WeylAlgebra.y k • f) = WeylAlgebra.y k • ψ f := by
+    intro f
+    have hsm : (WeylAlgebra.y k • f : Fin p → k) = Ylin k p c f := by
+      rw [famModule_smul k p α c, famRep_y]
+    -- Both sides split as (the `c`-part) + (the lowering part); the `c`-parts differ by a shift.
+    have hR : ∑ j, WeylAlgebra.y k • (f j • b j)
+        = ∑ i : Fin p, ((c * f (i + 1)) • b (i + 1) + (wY k p i * f (i + 1)) • b i) := by
+      rw [reindex fun j => WeylAlgebra.y k • (f j • b j)]
+      refine Finset.sum_congr rfl fun i _ => ?_
+      rw [smul_comm, hby i, smul_add, smul_smul, smul_smul, wY_eq]
+      push_cast
+      rw [mul_comm (f (i + 1)) c, mul_comm (f (i + 1)) (((i : ℕ) : k) + 1)]
+    have hL : ∑ j, Ylin k p c f j • b j
+        = ∑ j : Fin p, ((c * f j) • b j + (wY k p j * f (j + 1)) • b j) := by
+      refine Finset.sum_congr rfl fun j _ => ?_
+      rw [Ylin_apply, add_smul]
+    rw [hsm, hψ, hψ, Finset.smul_sum, hR, hL, Finset.sum_add_distrib, Finset.sum_add_distrib]
+    exact congrArg₂ (· + ·) (reindex fun j => (c * f j) • b j) rfl
+  have hlin := smul_comm_of_gens k (ψ : (Fin p → k) →ₗ[k] V) hx hy
+  exact ⟨(show @LinearEquiv (WeylAlgebra k) (WeylAlgebra k) _ _
+      (RingHom.id (WeylAlgebra k)) (RingHom.id (WeylAlgebra k)) _ _
+      (Fin p → k) V _ _ (famModule k p α c) _ from
+    { toFun := ψ, map_add' := ψ.map_add, map_smul' := hlin
+      invFun := ψ.symm, left_inv := ψ.left_inv, right_inv := ψ.right_inv }).symm⟩
+
+variable {k p}
+
+/-- A `WeylAlgebra k`-linear equivalence onto a family member is automatically `k`-linear:
+scalars act through `algebraMap k (WeylAlgebra k)`. -/
+theorem toFamEquiv_map_smul_field {V : Type*} [AddCommGroup V] [Module k V]
+    [Module (WeylAlgebra k) V] [IsScalarTower k (WeylAlgebra k) V] {α c : k}
+    (e : ToFamEquiv k p V α c) (a : k) (z : V) : e (a • z) = a • e z := by
+  letI := famModule k p α c
+  have h : e (algebraMap k (WeylAlgebra k) a • z) = algebraMap k (WeylAlgebra k) a • e z :=
+    map_smulₛₗ e _ z
+  rw [algebraMap_smul] at h
+  rw [h, famModule_smul k p α c, AlgHom.commutes, Module.algebraMap_end_apply]
+
+variable (k p)
+
+/-- The `k`-linear equivalence underlying a `WeylAlgebra k`-linear equivalence onto `V(α,c)`. -/
+noncomputable def toFamEquivToLinearEquiv {V : Type*} [AddCommGroup V] [Module k V]
+    [Module (WeylAlgebra k) V] [IsScalarTower k (WeylAlgebra k) V] {α c : k}
+    (e : ToFamEquiv k p V α c) : V ≃ₗ[k] (Fin p → k) :=
+  letI := famModule k p α c
+  { toFun := e
+    map_add' := e.map_add
+    map_smul' := fun a z => toFamEquiv_map_smul_field e a z
+    invFun := e.symm
+    left_inv := e.left_inv
+    right_inv := e.right_inv }
+
+/-- **Classification of the finite dimensional irreducible representations of the Weyl algebra
+in characteristic `p`** (Etingof, Problem 2.7.4(c)).
+
+Over an algebraically closed field `k` of characteristic `p`, the family `V(α,c)` of
+`Problem2_7_4_Family.lean` is a complete, irredundant list of the finite dimensional irreducible
+`WeylAlgebra k`-modules: every such module is isomorphic to exactly one `V(α,c)`.
+
+Existence is `exists_toFamEquiv` (via the normal form `Problem2_7_4.exists_normalForm`);
+uniqueness of the parameter pair is `famEquiv_nonempty_iff`, the isomorphism criterion for the
+family. Each `V(α,c)` really is irreducible (`famModule_isSimpleModule`) and `p`-dimensional
+(`famModule_finrank`), so the list is exactly the isomorphism classes. -/
+theorem existsUnique_toFamEquiv [IsAlgClosed k] (V : Type*) [AddCommGroup V] [Module k V]
+    [Module (WeylAlgebra k) V] [IsScalarTower k (WeylAlgebra k) V] [FiniteDimensional k V]
+    [IsSimpleModule (WeylAlgebra k) V] :
+    ∃! q : k × k, Nonempty (ToFamEquiv k p V q.1 q.2) := by
+  obtain ⟨α, c, ⟨e⟩⟩ := exists_toFamEquiv k p V
+  refine ⟨(α, c), ⟨e⟩, ?_⟩
+  rintro ⟨α', c'⟩ ⟨e'⟩
+  obtain ⟨h1, h2⟩ := (famEquiv_nonempty_iff k p α' c' α c).mp ⟨e'.symm.trans e⟩
+  exact Prod.ext h1 h2
+
+/-- The dimension statement `Problem2_7_4.finrank_irreducible_charP`, read off from the
+classification: an irreducible module is some `V(α,c)`, and every member of the family has
+dimension `p`. This is a non-vacuity check on the classification endpoint. -/
+theorem finrank_eq_of_classification [IsAlgClosed k] (V : Type*) [AddCommGroup V] [Module k V]
+    [Module (WeylAlgebra k) V] [IsScalarTower k (WeylAlgebra k) V] [FiniteDimensional k V]
+    [IsSimpleModule (WeylAlgebra k) V] :
+    Module.finrank k V = p := by
+  obtain ⟨α, c, ⟨e⟩⟩ := exists_toFamEquiv k p V
+  rw [(toFamEquivToLinearEquiv k p e).finrank_eq, famModule_finrank k p]
 
 end Family
 
