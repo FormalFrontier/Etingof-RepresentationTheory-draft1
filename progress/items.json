@@ -5802,10 +5802,18 @@
     "start_line": 19,
     "end_line": 22,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "No Lean declaration states the Laurent-polynomial coefficient formula in this remark. Nearby Frobenius-character results do not expose this equivalent formulation; follow-up #7405.",
-    "fidelity_issue": 7405,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "Formalized (#7405) in Chapter5/Remark5_15_2.lean. Multivariate Laurent polynomials are modelled as MvLaurent n = AddMonoidAlgebra ℂ (Fin n →₀ ℤ), with the coefficient extraction MvLaurent.coeff and the ring embedding toLaurent from MvPolynomial (coefficient-preserving, coeff_toLaurent). frobeniusLaurentFactor n is the book's displayed factor ∏_{i<j} (1 - x_j/x_i), built from the genuinely invertible MvLaurent.Xinv (X_mul_Xinv). Etingof.Remark5_15_2 states the book's claim with no sign correction: spechtModuleCharacter n la σ = MvLaurent.coeff (expEmbed n la.toFinsupp) (frobeniusLaurentFactor n * toLaurent n (cycleTypePsumProduct n σ)). The equivalence with Theorem 5.15.1 is machine-checked and character-free in Remark5_15_2_equiv_Theorem5_15_1, which equates the x^e coefficient of ∏_{i<j}(1-x_j/x_i)·P with sign(rev) times the x^{e+ρ} coefficient of vandermondePoly·P for an arbitrary P. The mathematical content is rho_monomial_mul_frobeniusLaurentFactor: x^ρ · ∏_{i<j}(1-x_j/x_i) = ∏_{i<j}(x_i-x_j) = bookVandermondePoly. bookVandermondePoly_eq_smul reconciles the book's factor order with the project's vandermondePoly via sign(rev), computed from Equiv.Perm.sign_eq_prod_prod_Ioi (reversal inverts every pair); that sign cancels the one in Theorem5_15_1, which is why the remark is sign-free. Signature locks and #print axioms in Chapter5/Remark5_15_2_Test.lean: propext, Classical.choice, Quot.sound only, no sorryAx.",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter5/Remark5_15_2.lean"
+    ],
+    "fidelity_decl": [
+      "Etingof.Remark5_15_2",
+      "Etingof.Remark5_15_2_equiv_Theorem5_15_1",
+      "Etingof.rho_monomial_mul_frobeniusLaurentFactor",
+      "Etingof.frobeniusLaurentFactor"
+    ],
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.15.1",

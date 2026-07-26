@@ -88,6 +88,8 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_14_3_Centralizer
 -- Section 5.15: Frobenius Character Formula
 import EtingofRepresentationTheory.Chapter5.Theorem5_15_1
 import EtingofRepresentationTheory.Chapter5.Theorem5_15_1_Test
+import EtingofRepresentationTheory.Chapter5.Remark5_15_2
+import EtingofRepresentationTheory.Chapter5.Remark5_15_2_Test
 import EtingofRepresentationTheory.Chapter5.CharacterMultiplicityBridge
 import EtingofRepresentationTheory.Chapter5.Discussion_footnote_5_15
 import EtingofRepresentationTheory.Chapter5.Lemma5_15_3
