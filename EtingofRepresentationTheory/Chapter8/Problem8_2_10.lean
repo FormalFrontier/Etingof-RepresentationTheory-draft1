@@ -1,5 +1,6 @@
 import EtingofRepresentationTheory.Chapter8.KoszulContraction
 import EtingofRepresentationTheory.Chapter8.KoszulDifferential
+import EtingofRepresentationTheory.Chapter8.KoszulAugmentation
 
 /-!
 # Problem 8.2.10: Koszul resolution and the Hilbert syzygies theorem
@@ -65,8 +66,27 @@ The exercise itself is being formalized bottom-up. Landed so far:
   (`Finset.sum_ninvolution` on the off-diagonal pairs, `ιᵤ ∘ ιᵤ = 0` on the diagonal). The
   complex itself is `Etingof.koszulComplex b : ChainComplex (ModuleCat SV) ℕ`.
 
-Still to come: the augmentation `C₀ = SV → k`, freeness of each `Cᵢ`, basis-independence of `d`,
-and exactness (i), the `SW` resolution (ii), the bimodule resolution (iii), Hilbert syzygies
-(iv), and the `Ext`/`Tor` computation (v). See the child issues linked from
+* `Chapter8/KoszulAugmentation.lean` — the rest of the "free resolution" data of part (i), short
+  of exactness:
+
+  * the trivial `SV`-module `Etingof.KoszulAugModule k V` (the book's "`k` with trivial action of
+    `V`"): `k`, with `SV` acting through the counit `SymmetricAlgebra.algebraMapInv`, which kills
+    `V`;
+  * the augmentation `Etingof.koszulAug : C₀ = SV ⊗ ⋀⁰ V →ₗ[SV] k`, which is surjective
+    (`Etingof.koszulAug_surjective`) and annihilates the image of `d₀`
+    (`Etingof.koszulAug_comp_koszulD`), so the augmented complex is a complex;
+  * freeness of the terms: `Etingof.koszulXBasis` base-changes the standard `k`-basis of `⋀ⁱ V`
+    to an `SV`-basis of `Cᵢ`, giving `Etingof.koszulX_free` and hence
+    `Etingof.koszulX_projective` — the "projective (in fact, free)" of the statement;
+  * basis-independence of `d`. `Etingof.koszulD` is defined from a chosen basis, but
+    `Etingof.koszulD_one_tmul_ιMulti` evaluates it on the generators `1 ⊗ v₁ ∧ ⋯ ∧ v_{i+1}` by the
+    basis-free formula `∑ⱼ (-1)ʲ vⱼ ⊗ v₁ ∧ ⋯ v̂ⱼ ⋯ ∧ v_{i+1}`, matching the book's
+    `dᵢ(f)(u) = ιᵤ (f u)`. Since `SV`-linear maps out of `Cᵢ₊₁` are determined by those values
+    (`Etingof.koszulX_hom_ext`), this gives `Etingof.koszulD_eq_of_basis` and
+    `Etingof.koszulComplex_eq_of_basis`.
+
+Still to come: exactness of the augmented complex (i), the `SW` resolution (ii), the bimodule
+resolution (iii), Hilbert syzygies (iv), and the `Ext`/`Tor` computation (v). See the child issues
+linked from
 <https://github.com/FormalFrontier/Etingof-RepresentationTheory-draft1/issues/5723>.
 -/
