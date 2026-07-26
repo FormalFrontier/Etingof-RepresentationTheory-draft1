@@ -1842,6 +1842,55 @@ and extending by `Basis.sum_repr` — this yields the inverse relations and `A`-
 ever computing `φ` on non-basis vectors; (2) expect to need `set_option maxHeartbeats 800000 in`
 (with the required explanatory comment on the line *after* the `in`, not before).
 
+### The same trap for a *module instance* built by a universal property: hoist the proof into a lemma over an abstract module (#7700)
+
+The entry above is about an `Algebra.adjoin` term. The instance-level version bites just as hard
+and is easier to miss, because nothing in the proof text mentions the offending definition.
+`letI := famModule q α β N hqorder` (from `QWeyl.module`, i.e. `Module.compHom _ (toEnd …)`) makes
+every `•` on that carrier a redex: any `rw`, `change`, or `exact` whose unifier touches
+`a • f` unfolds `toEnd → toEndLinear → Basis.constr`. In `Problem2_7_5_Exhaustive.lean` a
+routine `Algebra.adjoin_induction` over the acting algebra blew the 200000-heartbeat limit in four
+separate places (`change E ((⟨u, hu⟩ + ⟨v, hv⟩ : A) • f) = _`, then elaborating `v • f`, then
+`← mul_smul`, then even `exact (mul_smul u v (E f)).symm`) — each fix just moved the timeout one
+token to the right, which is the signature of this problem rather than of a bad tactic choice.
+
+The fix is not `maxHeartbeats`. State the structural part as a standalone lemma whose module
+structures are **instance variables**, so they are opaque fvars and no unfolding is possible:
+```
+theorem nonempty_linearEquiv_of_intertwines_generators
+    {W V : Type*} [AddCommGroup W] [Module ℂ W] [Module (qWeylAlgebra ℂ q) W]
+    [IsScalarTower ℂ (qWeylAlgebra ℂ q) W] [AddCommGroup V] … (E : W ≃ₗ[ℂ] V)
+    (hx : ∀ f : W, E (x • f) = x • E f) (hy : ∀ f : W, E (y • f) = y • E f) :
+    Nonempty (W ≃ₗ[qWeylAlgebra ℂ q] V)
+```
+then apply it at `W := Fin N → ℂ` with the `letI` instance. The application only has to check the
+two *stated* hypotheses, which is cheap. The file went from four heartbeat timeouts to 6.9s.
+Rule of thumb: **whenever a proof about a concretely-constructed module needs induction or
+extensionality over the acting algebra, prove it over an abstract module and instantiate.**
+
+Same session, a second lever for the same proof: `Algebra.adjoin_induction` over
+`a.2 : ↑a ∈ Algebra.adjoin k S` forces you to write `⟨u, hu⟩` subtype literals in every case
+(`show ((⟨u, hu⟩ + ⟨v, hv⟩ : A)) • z ∈ W`, as in `Problem2_7_5.lean`'s `hstab`). If the algebra is
+*defined* as that adjoin, `Algebra.adjoin_adjoin_coe_preimage` gives
+`Algebra.adjoin k {generators, as elements of the subalgebra} = ⊤`, so the induction runs over
+honest elements and the cases are one `rw` each:
+```
+have hpre : (((↑) : qWeylAlgebra ℂ q → Module.End ℂ (QWeylModule ℂ)) ⁻¹' {qMono ℂ q (1, 0), …})
+    = ({QWeyl.qWeylMono q (1, 0), …} : Set (qWeylAlgebra ℂ q)) := by
+  ext a; simp [Set.mem_preimage, Subtype.ext_iff]
+have htop : Algebra.adjoin ℂ ({QWeyl.qWeylMono q (1, 0), …} : Set (qWeylAlgebra ℂ q)) = ⊤ := by
+  rw [← hpre]; exact Algebra.adjoin_adjoin_coe_preimage
+…
+have ha : a ∈ Algebra.adjoin ℂ {…} := by rw [htop]; exact Algebra.mem_top
+induction ha using Algebra.adjoin_induction with
+| mem g hg => simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg
+              rcases hg with rfl | rfl | rfl | rfl <;> …
+```
+For a generator that is invertible in the algebra, don't check it separately: if `u * u' = 1` and
+`u' * u = 1` and `E` intertwines `u`, it intertwines `u'` by pure module algebra (no additivity of
+`E` needed) — see `smul_inv_of_smul` in `Problem2_7_5_Exhaustive.lean`. That halves the generator
+work for `x, x⁻¹, y, y⁻¹`.
+
 ### Upgrading `dim V_λ = 1` to the book's representation-iso claim (trivial/sign, #5637)
 
 A recurring Chapter 5 fidelity-gap shape: the book says "`V_{(n)}` is the *trivial*

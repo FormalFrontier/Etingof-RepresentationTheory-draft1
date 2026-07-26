@@ -894,13 +894,15 @@
     "end_line": 20,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "coverage_note": "Part (a) is formalized. Part (b) has only the necessary direction (a nontrivial finite-dimensional representation forces q to be a root of unity), with no converse existence theorem. For part (c), Problem2_7_5_Family.lean constructs the classifying family V(alpha,beta) with its central character (alpha, beta^n), and Problem2_7_5_Iso.lean proves the isomorphism criterion V(alpha,beta) = V(alpha',beta') iff alpha = alpha' and beta^n = beta'^n; Problem2_7_5_FamilySimple.lean proves each V(alpha,beta) is simple; exhaustiveness (#7700) remains open under #7686.",
-    "fidelity_issue": 7392,
-    "last_updated": "2026-07-25",
+    "coverage_note": "Parts (a) and (c) are formalized. Part (b) has only the necessary direction (a nontrivial finite-dimensional representation forces q to be a root of unity); the converse existence half is #7846. For part (c) the classification is complete: Problem2_7_5_Family.lean constructs the family V(alpha,beta) with central character (alpha, beta^n), Problem2_7_5_FamilySimple.lean proves each member simple, Problem2_7_5_Iso.lean proves V(alpha,beta) = V(alpha',beta') iff alpha = alpha' and beta^n = beta'^n, and Problem2_7_5_Exhaustive.lean proves the family exhausts the finite-dimensional irreducibles (exists_fam_linearEquiv) and packages the existence-and-uniqueness endpoint exists_unique_fam_linearEquiv; finrank_irreducible_eq_orderOf is re-derived from it.",
+    "fidelity_issue": 7846,
+    "last_updated": "2026-07-26",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_7_5.lean",
       "EtingofRepresentationTheory/Chapter2/Problem2_7_5_Family.lean",
-      "EtingofRepresentationTheory/Chapter2/Problem2_7_5_Iso.lean"
+      "EtingofRepresentationTheory/Chapter2/Problem2_7_5_FamilySimple.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_7_5_Iso.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_7_5_Exhaustive.lean"
     ]
   },
   {
