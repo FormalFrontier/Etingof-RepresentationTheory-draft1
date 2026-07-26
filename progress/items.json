@@ -3632,12 +3632,12 @@
     "start_line": 15,
     "end_line": 24,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "The two matrix-coefficient orthogonality formulas are proved faithfully. The source's final conclusion that all irreducible matrix coefficients form a basis of F(G, ℂ) is not stated: spanning via the sum-of-squares formula remains follow-up #7395.",
-    "fidelity_issue": 7395,
-    "last_updated": "2026-07-22"
+    "lean_decl": "Etingof.Proposition4_7_1_i, Etingof.Proposition4_7_1_ii, Etingof.Proposition4_7_1_orthogonal_basis, Etingof.Proposition4_7_1_exists_orthogonal_basis",
+    "fidelity_note": "All three sentences are formalized. Parts (i) and (ii) are the two matrix-coefficient orthogonality formulas. The concluding sentence -- that the irreducible matrix coefficients form an orthogonal basis of F(G, ℂ) -- is `Etingof.MatrixCoefficients.basis` (the `Module.Basis` itself), packaged as `Etingof.Proposition4_7_1_orthogonal_basis` and, unconditionally for algebraically closed characteristic-zero k, as `Etingof.Proposition4_7_1_exists_orthogonal_basis`; spanning comes from the Artin-Wedderburn sum-of-squares count as the source indicates. Orthogonality is stated for the bilinear convolution pairing |G|^-1 sum_g f(g) h(g^-1) rather than the source's Hermitian form, since parts (i) and (ii) hold over any algebraically closed k; the two agree on matrix coefficients over the complex numbers in a unitary basis.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter4/Introduction_4.8",
