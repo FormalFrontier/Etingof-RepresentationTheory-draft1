@@ -7,6 +7,7 @@ import Mathlib.Algebra.Polynomial.Module.AEval
 import Mathlib.RingTheory.Nilpotent.Lemmas
 import Mathlib.LinearAlgebra.Eigenspace.Minpoly
 import Mathlib.LinearAlgebra.Pi
+import Mathlib.Algebra.Module.PID
 
 /-!
 # Example 2.3.14: Irreducible and Indecomposable Representations of k and k[x]
@@ -20,10 +21,9 @@ import Mathlib.LinearAlgebra.Pi
 
 This example shows that an indecomposable representation need not be irreducible.
 
-## Mathlib correspondence
-
-Exact match for the algebraic infrastructure. Polynomial rings, irreducibility, and Jordan
-normal form theory are available in Mathlib.
+The classification is exhaustive in both directions: `jordanRep_indecomposable` shows each
+`V_{λ,n}` is indecomposable, `exists_equiv_jordanRep` shows there are no others, and
+`jordanRep_equiv_iff` shows they are pairwise nonisomorphic.
 -/
 
 /-- For A = k, the unique irreducible representation is k itself (1-dimensional).
@@ -65,9 +65,12 @@ these as `k[X]`-modules (`Module.AEval'` of the Jordan-block operator), prove th
 indecomposable, and prove that for `n ≥ 2` they are not simple, giving the book's
 conclusion that an indecomposable representation need not be irreducible.
 
-The remaining half of the book's claim, that every finite-dimensional indecomposable
-`k[x]`-representation is isomorphic to some `V_{λ,n}`, is the existence-and-uniqueness of
-Jordan normal form, and is not formalized here.
+The other half of the book's claim — that every finite-dimensional indecomposable
+`k[x]`-representation is isomorphic to some `V_{λ,n}`, and that the parameters `(λ, n)` are
+determined — is the existence-and-uniqueness of Jordan normal form. It is proved below
+(`exists_equiv_jordanRep`, `jordanRep_equiv_iff`) from the structure theorem for finitely
+generated modules over the principal ideal domain `k[X]`, via the cyclic model
+`V_{λ,n} ≅ k[X]/((X-λ)ⁿ)` (`jordanQuotEquiv`).
 -/
 
 open Polynomial
@@ -394,15 +397,16 @@ lemma cyclicMap_X_sub_C_pow (lam : k) (n : ℕ) [NeZero n] (j : ℕ) :
       = Module.AEval'.of (jordanBlock lam n) (((shift n) ^ j) (eTop n)) := by
   rw [cyclicMap_apply, map_pow, aeval_jordanBlock_X_sub_C]
 
+/-- The shift on `kⁿ` is nilpotent of index exactly `n`. -/
+lemma shift_pow_self (n : ℕ) : ((shift n : (Fin n → k) →ₗ[k] (Fin n → k)) ^ n) = 0 := by
+  apply LinearMap.ext; intro v; funext i
+  rw [shift_pow_apply, dif_neg (by omega : ¬ (i : ℕ) + n < n)]
+  simp
+
 /-- `(X - λ)ⁿ` annihilates the cyclic vector, since the shift is nilpotent of index `n`. -/
 lemma cyclicMap_X_sub_C_pow_self (lam : k) (n : ℕ) [NeZero n] :
     cyclicMap lam n ((X - C lam) ^ n) = 0 := by
-  rw [cyclicMap_X_sub_C_pow]
-  have : ((shift n : (Fin n → k) →ₗ[k] (Fin n → k)) ^ n) = 0 := by
-    apply LinearMap.ext; intro v; funext i
-    rw [shift_pow_apply, dif_neg (by omega : ¬ (i : ℕ) + n < n)]
-    simp
-  rw [this]
+  rw [cyclicMap_X_sub_C_pow, shift_pow_self]
   simp
 
 /-- The cyclic vector generates: `q ↦ q • e_{n-1}` is onto `V_{λ,n}`. -/
@@ -461,5 +465,193 @@ noncomputable def jordanQuotEquiv (lam : k) (n : ℕ) [NeZero n] :
   · intro y
     obtain ⟨q, hq⟩ := cyclicMap_surjective lam n y
     exact ⟨Submodule.Quotient.mk q, hq⟩
+
+/-!
+## The converse: every finite-dimensional indecomposable `k[X]`-module is a Jordan block
+
+This is the second half of Etingof Example 2.3.14(2), the content the book attributes to the
+existence and uniqueness of Jordan normal form. We get it from the structure theorem for
+finitely generated modules over the principal ideal domain `k[X]`: such a module is a finite
+direct sum of cyclic primary pieces `k[X]/(pᵉ)`, indecomposability leaves exactly one piece,
+over an algebraically closed field `p` is linear, and `k[X]/((X-λ)ⁿ)` is the Jordan block
+`V_{λ,n}` by `jordanQuotEquiv`.
+-/
+
+/-- Indecomposability transfers along a linear equivalence. -/
+lemma IsIndecomposable.congr {R : Type*} [Ring R] {M N : Type*} [AddCommGroup M] [Module R M]
+    [AddCommGroup N] [Module R N] (e : M ≃ₗ[R] N) (h : IsIndecomposable R M) :
+    IsIndecomposable R N := by
+  haveI := h.1
+  refine ⟨e.symm.toEquiv.nontrivial, fun A B hAB => ?_⟩
+  set f := Submodule.orderIsoMapComap e with hf
+  rcases h.2 (f.symm A) (f.symm B) (f.symm.isCompl hAB) with hbot | hbot
+  · exact Or.inl (by rw [← f.apply_symm_apply A, hbot, f.map_bot])
+  · exact Or.inr (by rw [← f.apply_symm_apply B, hbot, f.map_bot])
+
+/-- An indecomposable module presented as a finite product of modules is isomorphic to one of
+the factors: the factor inclusions cut the product into complementary pieces, so all but one
+factor must vanish. -/
+lemma exists_equiv_of_equiv_pi {R : Type*} [Ring R] {M : Type*} [AddCommGroup M] [Module R M]
+    {ι : Type*} [Finite ι] (φ : ι → Type*) [∀ i, AddCommGroup (φ i)] [∀ i, Module R (φ i)]
+    (e : M ≃ₗ[R] ∀ i, φ i) (h : IsIndecomposable R M) :
+    ∃ i, Nonempty (M ≃ₗ[R] φ i) := by
+  classical
+  haveI := h.1
+  have hind : IsIndecomposable R (∀ i, φ i) := IsIndecomposable.congr e h
+  haveI := hind.1
+  set P : ι → Submodule R (∀ i, φ i) := fun i => LinearMap.range (LinearMap.single R φ i) with hP
+  have hsup : ⨆ i, P i = ⊤ := LinearMap.iSup_range_single R φ
+  -- some factor is nonzero, else the whole product would be
+  obtain ⟨i₀, hi₀⟩ : ∃ i, P i ≠ ⊥ := by
+    by_contra hcon
+    have hcon' : ∀ i, P i = ⊥ := fun i => not_not.mp fun hne => hcon ⟨i, hne⟩
+    exact top_ne_bot (α := Submodule R (∀ i, φ i)) (by rw [← hsup]; simp [hcon'])
+  -- the `i₀` factor and the rest are complementary
+  have hcompl : IsCompl (P i₀) (⨆ i ∈ ({i₀}ᶜ : Set ι), P i) := by
+    constructor
+    · have hd := LinearMap.disjoint_single_single R φ {i₀} {i₀}ᶜ disjoint_compl_right
+      rwa [iSup_singleton] at hd
+    · rw [codisjoint_iff, eq_top_iff, ← hsup]
+      refine iSup_le fun i => ?_
+      by_cases hi : i = i₀
+      · exact hi ▸ le_sup_left
+      · exact le_sup_of_le_right (le_biSup P hi)
+  rcases hind.2 _ _ hcompl with hbot | hbot
+  · exact absurd hbot hi₀
+  -- so the `i₀` factor is everything
+  have htop : P i₀ = ⊤ := by
+    have := hcompl.sup_eq_top
+    rwa [hbot, sup_bot_eq] at this
+  refine ⟨i₀, ⟨e.trans (LinearEquiv.ofBijective (LinearMap.single R φ i₀) ⟨?_, ?_⟩).symm⟩⟩
+  · rw [← LinearMap.ker_eq_bot]; exact LinearMap.ker_single R φ i₀
+  · rw [← LinearMap.range_eq_top]; exact htop
+
+section Converse
+
+variable (M : Type*) [AddCommGroup M] [Module k M] [Module (Polynomial k) M]
+  [IsScalarTower k (Polynomial k) M]
+
+/-- A `k[X]`-module that is finite dimensional over `k` is a torsion `k[X]`-module: no element
+can generate a free `k[X]`-submodule, because `k[X]` is infinite dimensional over `k`. -/
+lemma isTorsion_of_finiteDimensional [FiniteDimensional k M] :
+    Module.IsTorsion (Polynomial k) M := by
+  intro m
+  have hnotinj : ¬ Function.Injective
+      ((LinearMap.toSpanSingleton (Polynomial k) M m).restrictScalars k) := fun hinj =>
+    Polynomial.not_finite (Module.Finite.of_injective _ hinj)
+  rw [← LinearMap.ker_eq_bot] at hnotinj
+  obtain ⟨q, hq, hqne⟩ := (Submodule.ne_bot_iff _).mp hnotinj
+  exact ⟨⟨q, mem_nonZeroDivisors_of_ne_zero hqne⟩, LinearMap.mem_ker.mp hq⟩
+
+/-- **Etingof Example 2.3.14(2), the classification.** Over an algebraically closed field,
+every finite-dimensional indecomposable `k[X]`-representation is isomorphic to a Jordan block
+`V_{λ,n} = (kⁿ, ρ(x) = J_{λ,n})` with `n ≥ 1`.
+
+Together with `jordanRep_indecomposable` (each `V_{λ,n}` is indecomposable) and
+`jordanRep_equiv_iff` (they are pairwise nonisomorphic), this is the book's statement that the
+`V_{λ,n}` are exactly the finite-dimensional indecomposable representations of `k[x]`. -/
+theorem exists_equiv_jordanRep [IsAlgClosed k] [FiniteDimensional k M]
+    (h : IsIndecomposable (Polynomial k) M) :
+    ∃ (lam : k) (n : ℕ), 0 < n ∧ Nonempty (M ≃ₗ[Polynomial k] jordanRep lam n) := by
+  classical
+  haveI := h.1
+  haveI : Module.Finite (Polynomial k) M := Module.Finite.of_restrictScalars_finite k _ _
+  -- structure theorem over the PID `k[X]`
+  obtain ⟨ι, _, p, hp, expo, ⟨estr⟩⟩ :=
+    Module.equiv_directSum_of_isTorsion (isTorsion_of_finiteDimensional (k := k) M)
+  -- indecomposability keeps exactly one summand
+  obtain ⟨i, ⟨eqi⟩⟩ := exists_equiv_of_equiv_pi _
+    (estr.trans (DirectSum.linearEquivFunOnFintype _ _ _)) h
+  -- over an algebraically closed field the irreducible `p i` is linear
+  have hdeg : (p i).degree ≠ 0 := fun hd =>
+    (hp i).not_isUnit (Polynomial.isUnit_iff_degree_eq_zero.mpr hd)
+  obtain ⟨lam, hlam⟩ := IsAlgClosed.exists_root (p i) hdeg
+  have hassoc : Associated (X - C lam) (p i) :=
+    (Polynomial.irreducible_X_sub_C lam).associated_of_dvd (hp i)
+      (Polynomial.dvd_iff_isRoot.mpr hlam)
+  -- the exponent is positive, else the summand would be the zero module
+  have hpos : 0 < expo i := by
+    rcases Nat.eq_zero_or_pos (expo i) with h0 | h0
+    · exfalso
+      have : Subsingleton (Polynomial k ⧸ (Polynomial k) ∙ p i ^ expo i) := by
+        rw [h0, pow_zero, Ideal.submodule_span_eq, Ideal.span_singleton_one]
+        infer_instance
+      exact not_subsingleton M (eqi.toEquiv.subsingleton)
+    · exact h0
+  haveI : NeZero (expo i) := ⟨by omega⟩
+  refine ⟨lam, expo i, hpos, ⟨eqi.trans ((Submodule.quotEquivOfEq _ _ ?_).trans
+    (jordanQuotEquiv lam (expo i)))⟩⟩
+  rw [Ideal.submodule_span_eq]
+  exact Ideal.span_singleton_eq_span_singleton.mpr (hassoc.pow_pow (n := expo i)).symm
+
+end Converse
+
+/-!
+## The Jordan blocks are pairwise nonisomorphic
+
+The dimension pins down `n`; the eigenvalue is pinned down because `(X-λ)ⁿ` annihilates
+`V_{λ,n}`, while on `V_{μ,m}` the operator `X - λ` is `(μ-λ)·id + S` with `S` nilpotent, which
+is nilpotent only when `λ = μ`.
+-/
+
+/-- On `V_{μ,n}`, the element `X - λ` acts as `(μ - λ)·id` plus the nilpotent shift. -/
+lemma aeval_jordanBlock_X_sub_C' (lam mu : k) (n : ℕ) :
+    Polynomial.aeval (jordanBlock mu n) (X - C lam)
+      = (mu - lam) • (1 : Module.End k (Fin n → k)) + shift n := by
+  rw [map_sub, Polynomial.aeval_X, Polynomial.aeval_C]
+  ext v i
+  simp [jordanBlock, Module.algebraMap_end_apply, sub_smul]
+  ring
+
+/-- `(X - λ)ⁿ` annihilates every element of `V_{λ,n}`. -/
+lemma X_sub_C_pow_smul_jordanRep (lam : k) (n : ℕ) (v : jordanRep lam n) :
+    ((X - C lam) ^ n : Polynomial k) • v = 0 := by
+  obtain ⟨w, rfl⟩ := (Module.AEval'.of (jordanBlock lam n)).surjective v
+  have hsmul : ((X - C lam) ^ n : Polynomial k) • (Module.AEval'.of (jordanBlock lam n) w)
+      = Module.AEval'.of (jordanBlock lam n)
+        (Polynomial.aeval (jordanBlock lam n) ((X - C lam) ^ n) w) := rfl
+  rw [hsmul, map_pow, aeval_jordanBlock_X_sub_C, shift_pow_self]
+  simp
+
+/-- **The Jordan blocks are pairwise nonisomorphic.** `V_{λ,n} ≅ V_{μ,m}` as `k[X]`-modules
+forces `λ = μ` and `n = m`. (Etingof Example 2.3.14(2): "clearly, these representations are
+pairwise nonisomorphic".) -/
+theorem jordanRep_equiv_iff (lam mu : k) (n m : ℕ) [NeZero n] [NeZero m] :
+    Nonempty (jordanRep lam n ≃ₗ[Polynomial k] jordanRep mu m) ↔ lam = mu ∧ n = m := by
+  refine ⟨fun ⟨e⟩ => ?_, fun ⟨h1, h2⟩ => h1 ▸ h2 ▸ ⟨LinearEquiv.refl _ _⟩⟩
+  have hnm : n = m := by
+    have h := (e.restrictScalars k).finrank_eq
+    rwa [finrank_jordanRep, finrank_jordanRep] at h
+  refine ⟨?_, hnm⟩
+  by_contra hne
+  -- `(X-λ)ⁿ` kills `V_{λ,n}`, hence — transporting along `e` — also `V_{μ,m}`
+  have hop : Polynomial.aeval (jordanBlock mu m) ((X - C lam) ^ n) = 0 := by
+    apply LinearMap.ext
+    intro w
+    have h := X_sub_C_pow_smul_jordanRep lam n (e.symm (Module.AEval'.of (jordanBlock mu m) w))
+    have h2 := congrArg e h
+    rw [map_smul, e.apply_symm_apply, map_zero] at h2
+    exact (map_eq_zero_iff _ (Module.AEval'.of (jordanBlock mu m)).injective).mp h2
+  -- so `(μ-λ)·id + S` is nilpotent; subtracting the nilpotent `S` makes `(μ-λ)·id` nilpotent
+  set A := Polynomial.aeval (jordanBlock mu m) (X - C lam) with hA
+  have hAnil : IsNilpotent A := ⟨n, by rw [hA, ← map_pow]; exact hop⟩
+  have hAeq : A = (mu - lam) • (1 : Module.End k (Fin m → k)) + shift m :=
+    aeval_jordanBlock_X_sub_C' lam mu m
+  have hcomm : Commute A (shift m) := by
+    rw [hAeq]
+    exact Commute.add_left ((Commute.one_left _).smul_left _) (Commute.refl _)
+  have hscal : IsNilpotent ((mu - lam) • (1 : Module.End k (Fin m → k))) := by
+    have := hcomm.isNilpotent_sub hAnil (shift_nilpotent m)
+    rwa [hAeq, add_sub_cancel_right] at this
+  -- a nilpotent scalar on a nonzero space is zero
+  obtain ⟨j, hj⟩ := hscal
+  rw [smul_pow, one_pow] at hj
+  have hvec : ((mu - lam) ^ j) • (e0 m : Fin m → k) = 0 := by
+    have := congrArg (fun f : Module.End k (Fin m → k) => f (e0 m)) hj
+    simpa using this
+  have hpow : (mu - lam) ^ j = 0 := (smul_eq_zero.mp hvec).resolve_right (e0_ne_zero m)
+  rcases Nat.eq_zero_or_pos j with hj0 | hj0
+  · rw [hj0, pow_zero] at hpow; exact one_ne_zero hpow
+  · exact hne (by have := pow_eq_zero_iff (n := j) (by omega) |>.mp hpow; linear_combination -this)
 
 end Etingof.Example_2_3_14
