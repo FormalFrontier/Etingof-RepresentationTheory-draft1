@@ -1801,6 +1801,38 @@ The `restrictScalars` functor *does* have `Additive`/`ReflectsIsomorphisms`/`Pre
 code than the degreewise one here. Exactness of a `ModuleCat A` complex is an underlying-abelian-group
 fact, so a `k`-linear homotopy discharges it directly with no functor machinery.
 
+### Making an alternating-map argument work in characteristic 2 — cancel in pairs, never halve (#7820, `Chapter2/Problem2_11_3_SymExtPow.lean`)
+
+Any argument of the shape "`Φ (sT) = -Φ T` and `sT = T`, hence `2 • Φ T = 0`, hence `Φ T = 0`"
+carries a `(2 : k) ≠ 0` hypothesis that will propagate through every downstream signature. The
+hypothesis is almost always **removable**, and the removal is short. Expand on a basis and cancel
+in pairs instead of dividing by 2:
+
+1. Take any `b : Module.Basis I k V` (over a field, `Module.Basis.ofVectorSpace k V`) and the
+   induced `_root_.Basis.piTensorProduct fun _ : Fin n => b` on `V^{⊗ n}`.
+2. Prove once that permuting factors precomposes coordinates —
+   `piTensorProduct_repr_permAct b σ T g : bT.repr (permAct σ T) g = bT.repr T (g ∘ σ)`. One
+   `PiTensorProduct.induction_on`; the `smul_tprod` case is
+   `Basis.piTensorProduct_repr_tprod_apply` plus `Fintype.prod_equiv σ`. Reusable for any
+   `permAct`/coordinate argument, not just this one.
+3. The hypothesis `permAct s T = T` now reads `c (g ∘ s) = c g` on coordinates.
+4. Finish with **one** `Finset.sum_involution (fun g _ => g ∘ s)` over the *whole* support. Do not
+   split the support into `{g i = g j}` and its complement — the side conditions are uniform:
+   `F g + F (g ∘ s) = 0` holds everywhere (`AlternatingMap.map_swap` needs only `i ≠ j`, and
+   `x + -x = 0` in every characteristic), and the `g` the involution fixes are exactly those with
+   `g i = g j`, whose term is already `0` by `map_eq_zero_of_eq`.
+
+Two API pins this needs:
+
+- **`Basis.sum_repr` requires `[Fintype ι]`.** An arbitrary-index basis has no such instance
+  (`Fintype (Fin n → I)` fails to synthesize), so expand with
+  `conv_lhs => rw [← bT.linearCombination_repr T]` then
+  `rw [Finsupp.linearCombination_apply, Finsupp.sum, map_sum]` to land on
+  `∑ g ∈ (bT.repr T).support, …`.
+- Use `Finset.sum_involution` (dependent, `g_mem : ∀ a ha, g a ha ∈ s`), **not**
+  `Finset.sum_ninvolution`, whose `g_mem : ∀ a, g a ∈ s` quantifies over all of `ι` and is false
+  for a support.
+
 ### `Fin.cons`/`Fin.init` on an empty or symbolic domain leaves the family `α` a metavariable — pin `(α := fun _ => A)` (#6414)
 
 `Fin.cons`/`Fin.init` are dependent (`{α : Fin (n+1) → Sort*}`). For an *empty* tail (`v : Fin 0 → A`) or a
@@ -3501,11 +3533,14 @@ Three API gotchas that cost build cycles here:
   `(piTensorProduct b).repr (⨂ₜ x) p = ∏ i, (b i).repr (x i) (p i)` — the clean way
   to read a coefficient of `PiTensorProduct.map f (tprod …)`.
 - **`Basis.piTensorProduct` lives in the *root* namespace**, unlike almost every
-  other basis lemma: write `Basis.piTensorProduct` / `Basis.piTensorProduct_apply`,
-  *not* `Module.Basis.…` (which is an unknown constant), even though the structure
-  itself is `Module.Basis`. It is declared under `open Module` in
-  `Mathlib/LinearAlgebra/PiTensorProduct/Basis.lean`, which does not rename the
-  declaration. So dot notation `b.piTensorProduct` does not work either.
+  other basis lemma: write `Basis.piTensorProduct` / `Basis.piTensorProduct_apply` /
+  `Basis.piTensorProduct_repr_tprod_apply`, *not* `Module.Basis.…` (which is an unknown
+  constant), even though the structure itself is `Module.Basis`. It is declared under
+  `open Module` in `Mathlib/LinearAlgebra/PiTensorProduct/Basis.lean`, which does not rename
+  the declaration. So dot notation `b.piTensorProduct` does not work either. This is the
+  *opposite* of the `repr_reindex_apply` bullet further down, so check which of the two
+  namespaces a `Basis` lemma is in before assuming; the error either way is a bare
+  `Unknown constant`.
 - **Basis of a quotient by a group action on the index set** (e.g. Etingof's
   `S^n V = V^{⊗ n} ⧸ span {T - s(T)}`, see
   `Chapter2/Problem2_11_3_SymPowBasis.lean`): do *not* try to prove
@@ -5602,7 +5637,7 @@ These are proof approaches that multiple agents have attempted and failed. Don't
 
 **To prove two linear maps out of `⋀[k]^n V` agree, use `LinearMap.ext_on (exteriorPower.ιMulti_span k n V)`, NOT `exteriorPower.linearMap_ext`.** `ιMulti_span` says the range of `ιMulti` spans, so `ext_on` reduces the goal to `ιMulti` generators as ordinary elements; `linearMap_ext` is exactly the lemma that produces the unresolvable `compAlternatingMap`/`↑` goals listed above. Worked sorry-free: `Chapter2/Problem2_11_3_SymExtPow.lean` `exteriorPowerEquiv` (#7365), identifying Etingof's quotient model of `∧^n V` with Mathlib's, plus `extPowOfExteriorPower_naturality` for `exteriorPower.map n A`.
 
-Note the char-2 caveat that argument carries: `span {T | ∃ transposition s, s • T = T} ≤ ker` is proved from `Φ T = Φ (s T) = -Φ T`, i.e. `(2 : k) • Φ T = 0`, so it needs `(2 : k) ≠ 0`. The statement is still true in characteristic 2 (the fixed space of `1 + s` equals the span of the pure tensors with a repeated entry) but there the averaging step has no analogue and you need a basis-and-orbits argument — see #7820.
+That argument used to carry a char-2 caveat: `span {T | ∃ transposition s, s • T = T} ≤ ker` was proved from `Φ T = Φ (s T) = -Φ T`, i.e. `(2 : k) • Φ T = 0`, which needs `(2 : k) ≠ 0`. **The hypothesis is now gone** (#7820): expand `T` on a tensor basis and cancel in pairs with `Finset.sum_involution` instead of dividing by 2. See "Making an alternating-map argument work in characteristic 2 — cancel in pairs, never halve" above for the recipe; `exteriorPowerEquiv` is stated over an arbitrary field.
 
 ### Top-degree exterior power and `LinearMap.det` (the route that works)
 

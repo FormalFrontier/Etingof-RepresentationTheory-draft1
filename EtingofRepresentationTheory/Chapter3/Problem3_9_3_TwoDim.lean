@@ -1,5 +1,6 @@
 import EtingofRepresentationTheory.Chapter3.Problem3_9_3
 import EtingofRepresentationTheory.Chapter2.Definition2_8_9
+import EtingofRepresentationTheory.Chapter2.Theorem2_1_2_General
 
 /-!
 # Problem 3.9.3: the isomorphism classification of two-dimensional representations
@@ -58,7 +59,9 @@ variable {k Q : Type*} [Field k] [Quiver Q]
 
 /-! ### Basic API for isomorphism of quiver representations
 
-`QuiverRepresentationEquiv` (Chapter 2, Theorem 2.1.2) had no groupoid API. -/
+`QuiverRepresentationEquiv` (Chapter 2, Theorem 2.1.2) had no groupoid API.
+`symm` and `trans` come from `Chapter2/Theorem2_1_2_General.lean`; `refl` and the
+dimension-vector invariance are added here. -/
 
 namespace QuiverRepresentationEquiv
 
@@ -68,20 +71,6 @@ variable {ρ σ τ : QuiverRepresentation k Q}
 def refl (ρ : QuiverRepresentation k Q) : QuiverRepresentationEquiv k Q ρ ρ where
   equivAt _ := LinearEquiv.refl k _
   commutes _ _ := rfl
-
-/-- The inverse isomorphism. -/
-def symm (φ : QuiverRepresentationEquiv k Q ρ σ) : QuiverRepresentationEquiv k Q σ ρ where
-  equivAt v := (φ.equivAt v).symm
-  commutes e x := by
-    apply (φ.equivAt _).injective
-    rw [LinearEquiv.apply_symm_apply, φ.commutes e, LinearEquiv.apply_symm_apply]
-
-/-- Composition of isomorphisms. -/
-def trans (φ : QuiverRepresentationEquiv k Q ρ σ) (ψ : QuiverRepresentationEquiv k Q σ τ) :
-    QuiverRepresentationEquiv k Q ρ τ where
-  equivAt v := (φ.equivAt v).trans (ψ.equivAt v)
-  commutes e x := by
-    rw [LinearEquiv.trans_apply, LinearEquiv.trans_apply, φ.commutes e, ψ.commutes e]
 
 /-- The dimension vector is an isomorphism invariant. -/
 theorem dimVec_eq (φ : QuiverRepresentationEquiv k Q ρ σ) (v : Q) :

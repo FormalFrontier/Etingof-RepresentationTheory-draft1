@@ -35,9 +35,11 @@ stated about the book's own objects.
 * `extPowOfExteriorPower_surjective` : the canonical map from Mathlib's `⋀[k]^n V` onto the book's
   `ExtPow k V n` is surjective, and `extPowOfExteriorPower_naturality` says it intertwines
   `exteriorPower.map` with `extPowMap`.
-* `exteriorPowerEquiv` : away from characteristic 2 that map is an isomorphism, so the book's
-  quotient model agrees with Mathlib's exterior power. Transporting Mathlib's basis and dimension
-  along it gives `extPowBasis` and `finrank_extPow`, which are the exterior half of part (d).
+* `exteriorPowerEquiv` : over any field that map is an isomorphism, so the book's quotient model
+  agrees with Mathlib's exterior power. Transporting Mathlib's basis and dimension along it gives
+  `extPowBasis` and `finrank_extPow`, which are the exterior half of part (d). The injectivity
+  input is `tensorPowToExteriorPower_eq_zero_of_permAct_swap_eq`, proved on a tensor-product basis
+  so that it covers characteristic 2, where the usual `2 • Φ T = 0` argument says nothing.
 * `extPowMap_top` : part (g), `⋀^N A = det(A) • Id` in the top degree `N = dim V`, on the book's
   own `ExtPow`. Its Mathlib-side counterpart is `exteriorPower_map_top`, and `det_comp_of_extPowMap`
   runs the book's one-line derivation of `det(A ∘ B) = det(A) det(B)` from it.
@@ -336,35 +338,96 @@ lemma extPowOfExteriorPower_naturality (A : V →ₗ[k] W) (n : ℕ) :
     exteriorPower.map_apply_ιMulti]
   simpa [Function.comp_def] using extPowMap_extTprod A f
 
+/-- Permuting the tensor factors precomposes the coordinates in a tensor-product basis: if
+`T = ∑_g c_g (v_{g 0} ⊗ ⋯ ⊗ v_{g (n-1)})` then the `g`-coordinate of `σ(T)` is `c_{g ∘ σ}`. -/
+lemma piTensorProduct_repr_permAct {I : Type*} (b : Module.Basis I k V) {n : ℕ}
+    (σ : Equiv.Perm (Fin n)) (T : TensorPow k V n) (g : Fin n → I) :
+    (_root_.Basis.piTensorProduct fun _ : Fin n => b).repr (permAct σ T) g
+      = (_root_.Basis.piTensorProduct fun _ : Fin n => b).repr T (g ∘ σ) := by
+  induction T using PiTensorProduct.induction_on with
+  | smul_tprod r f =>
+      simp only [map_smul, permAct_tprod, Finsupp.smul_apply,
+        _root_.Basis.piTensorProduct_repr_tprod_apply, Function.comp_apply]
+      exact congrArg (r • ·)
+        (Fintype.prod_equiv σ _ _ fun l => by rw [Equiv.symm_apply_apply]).symm
+  | add x y hx hy => simp only [map_add, Finsupp.add_apply, hx, hy]
+
+/-- **The key step, valid in every characteristic.** A tensor fixed by a transposition maps to
+zero in Mathlib's exterior power.
+
+Away from characteristic 2 this is immediate — `Φ T = Φ (sT) = -Φ T` forces `2 • Φ T = 0` — but
+in characteristic 2 that argument is vacuous, so we argue on a basis. Expanding
+`T = ∑_g c_g e_g` in the tensor-product basis attached to a basis `{v_i}` of `V`, the hypothesis
+`sT = T` says `c_{g ∘ s} = c_g`, while `Φ e_{g ∘ s} = -Φ e_g` because `ιMulti` is alternating.
+So the terms of `Φ T = ∑_g c_g Φ e_g` cancel in pairs under the fixed-point-free-where-it-matters
+involution `g ↦ g ∘ s`; the `g` it does fix are exactly those with `g i = g j`, whose term is
+already zero. -/
+lemma tensorPowToExteriorPower_eq_zero_of_permAct_swap_eq {I : Type*} (b : Module.Basis I k V)
+    {n : ℕ} {i j : Fin n} (hij : i ≠ j) {T : TensorPow k V n}
+    (hT : permAct (Equiv.swap i j) T = T) :
+    tensorPowToExteriorPower k V n T = 0 := by
+  classical
+  -- the coordinates of `T` are invariant under precomposition with the transposition
+  have hcs : ∀ g : Fin n → I,
+      (_root_.Basis.piTensorProduct fun _ : Fin n => b).repr T (g ∘ Equiv.swap i j)
+        = (_root_.Basis.piTensorProduct fun _ : Fin n => b).repr T g := by
+    intro g
+    rw [← piTensorProduct_repr_permAct b (Equiv.swap i j) T g, hT]
+  -- expand `Φ T` in the tensor-product basis
+  have hexp : tensorPowToExteriorPower k V n T
+      = ∑ g ∈ ((_root_.Basis.piTensorProduct fun _ : Fin n => b).repr T).support,
+          (_root_.Basis.piTensorProduct fun _ : Fin n => b).repr T g •
+            exteriorPower.ιMulti k n fun l => b (g l) := by
+    conv_lhs => rw [← (_root_.Basis.piTensorProduct fun _ : Fin n => b).linearCombination_repr T]
+    rw [Finsupp.linearCombination_apply, Finsupp.sum, map_sum]
+    exact Finset.sum_congr rfl fun g _ => by simp [_root_.Basis.piTensorProduct_apply]
+  rw [hexp]
+  refine Finset.sum_involution (fun g _ => g ∘ Equiv.swap i j) ?_ ?_ ?_ ?_
+  · -- paired terms are negatives of one another
+    intro g _
+    have hswap : (exteriorPower.ιMulti k n fun l => b ((g ∘ Equiv.swap i j) l))
+        = -exteriorPower.ιMulti k n fun l => b (g l) :=
+      (exteriorPower.ιMulti k n).map_swap (v := fun l => b (g l)) hij
+    rw [hswap, hcs g, smul_neg, add_neg_cancel]
+  · -- a term fixed by the involution is itself zero
+    intro g _ hF hgs
+    refine hF ?_
+    have hgij : b (g i) = b (g j) := by
+      have h := congrFun hgs i
+      simp only [Function.comp_apply, Equiv.swap_apply_left] at h
+      rw [h]
+    rw [(exteriorPower.ιMulti k n).map_eq_zero_of_eq (fun l => b (g l)) hgij hij, smul_zero]
+  · -- the involution preserves the support
+    intro g hg
+    rw [Finsupp.mem_support_iff] at hg ⊢
+    rwa [hcs g]
+  · -- it really is an involution
+    intro g _
+    funext l
+    simp
+
 end ExteriorComparison
 
-section CharNeTwo
+section ExteriorEquiv
 
 variable {k : Type*} [Field k] {V : Type*} [AddCommGroup V] [Module k V]
 
-/-- **Away from characteristic 2**, every tensor fixed by a transposition maps to zero in the
-exterior power. This is the content that identifies Etingof's quotient model with the usual
+/-- Every tensor fixed by a transposition maps to zero in the exterior power, **in any
+characteristic**. This is the content that identifies Etingof's quotient model with the usual
 exterior power. -/
-lemma extRelSubmodule_le_ker (h2 : (2 : k) ≠ 0) (n : ℕ) :
+lemma extRelSubmodule_le_ker (n : ℕ) :
     extRelSubmodule k V n ≤ LinearMap.ker (tensorPowToExteriorPower k V n) := by
   rw [extRelSubmodule, Submodule.span_le]
   rintro T ⟨i, j, hij, hT⟩
-  have hswap := tensorPowToExteriorPower_swap hij T
-  rw [hT] at hswap
-  have h : (2 : k) • tensorPowToExteriorPower k V n T = 0 := by
-    rw [two_smul]
-    nth_rewrite 1 [hswap]
-    exact neg_add_cancel _
-  rcases smul_eq_zero.mp h with h' | h'
-  · exact absurd h' h2
-  · simpa using h'
+  exact tensorPowToExteriorPower_eq_zero_of_permAct_swap_eq
+    (Module.Basis.ofVectorSpace k V) hij hT
 
-/-- **Problem 2.11.3(d), exterior case.** Away from characteristic 2, the book's quotient model
+/-- **Problem 2.11.3(d), exterior case.** Over any field, the book's quotient model
 `ExtPow k V n` is canonically isomorphic to Mathlib's exterior power `⋀[k]^n V`. -/
-noncomputable def exteriorPowerEquiv (h2 : (2 : k) ≠ 0) (n : ℕ) :
+noncomputable def exteriorPowerEquiv (n : ℕ) :
     (⋀[k]^n V) ≃ₗ[k] ExtPow k V n := by
   refine LinearEquiv.ofLinear (extPowOfExteriorPower k V n)
-    (Submodule.liftQ _ (tensorPowToExteriorPower k V n) (extRelSubmodule_le_ker h2 n)) ?_ ?_
+    (Submodule.liftQ _ (tensorPowToExteriorPower k V n) (extRelSubmodule_le_ker n)) ?_ ?_
   · refine LinearMap.ext fun x => ?_
     obtain ⟨T, rfl⟩ := Submodule.mkQ_surjective _ x
     induction T using PiTensorProduct.induction_on with
@@ -375,24 +438,24 @@ noncomputable def exteriorPowerEquiv (h2 : (2 : k) ≠ 0) (n : ℕ) :
     simp
 
 @[simp]
-lemma exteriorPowerEquiv_ιMulti (h2 : (2 : k) ≠ 0) {n : ℕ} (f : Fin n → V) :
-    exteriorPowerEquiv (V := V) h2 n (exteriorPower.ιMulti k n f) = extTprod k V n f :=
+lemma exteriorPowerEquiv_ιMulti {n : ℕ} (f : Fin n → V) :
+    exteriorPowerEquiv (V := V) n (exteriorPower.ιMulti k n f) = extTprod k V n f :=
   extPowOfExteriorPower_ιMulti f
 
 /-- **Problem 2.11.3(d), exterior case.** A basis `{vᵢ}` of `V` indexed by a linearly ordered `I`
 induces a basis of `⋀^n V` indexed by the `n`-element subsets of `I`, whose members are the
 classes of the tensors `v_{i₁} ⊗ ⋯ ⊗ v_{iₙ}` for `i₁ < ⋯ < iₙ`. -/
-noncomputable def extPowBasis (h2 : (2 : k) ≠ 0) {I : Type*} [LinearOrder I]
+noncomputable def extPowBasis {I : Type*} [LinearOrder I]
     (b : Module.Basis I k V) (n : ℕ) :
     Module.Basis (Set.powersetCard I n) k (ExtPow k V n) :=
-  (b.exteriorPower n).map (exteriorPowerEquiv h2 n)
+  (b.exteriorPower n).map (exteriorPowerEquiv n)
 
 /-- **Problem 2.11.3(d), exterior case.** If `dim V = m` then `dim ⋀^n V = m.choose n`. -/
-theorem finrank_extPow (h2 : (2 : k) ≠ 0) [Module.Finite k V] (n : ℕ) :
+theorem finrank_extPow [Module.Finite k V] (n : ℕ) :
     Module.finrank k (ExtPow k V n) = (Module.finrank k V).choose n := by
-  rw [← (exteriorPowerEquiv (V := V) h2 n).finrank_eq, exteriorPower.finrank_eq]
+  rw [← (exteriorPowerEquiv (V := V) n).finrank_eq, exteriorPower.finrank_eq]
 
-end CharNeTwo
+end ExteriorEquiv
 
 section TopDegree
 
@@ -457,15 +520,15 @@ theorem extPowMap_top [FiniteDimensional k V] {N : ℕ} (hN : Module.finrank k V
 multiplication by `det (A ∘ B)`, `det A` and `det B` on the *one-dimensional* space `⋀^N V`, and
 comparing scalars gives the result.
 
-This is the argument Etingof asks for, on the book's own model of `⋀^N V`. Away from
-characteristic 2 that model is one-dimensional in top degree (`finrank_extPow`), which is where the
-hypothesis `h2` is used; the statement itself holds over any field, and is recorded unconditionally
-as `Etingof.Problem2_11_3.det_comp` (proved there by citing `LinearMap.det_comp` instead). -/
-theorem det_comp_of_extPowMap (h2 : (2 : k) ≠ 0) [FiniteDimensional k V] {N : ℕ}
+This is the argument Etingof asks for, on the book's own model of `⋀^N V`, over any field: the
+one-dimensionality of that model in top degree comes from `finrank_extPow`, which carries no
+characteristic hypothesis. The same statement is also recorded as
+`Etingof.Problem2_11_3.det_comp` (proved there by citing `LinearMap.det_comp` instead). -/
+theorem det_comp_of_extPowMap [FiniteDimensional k V] {N : ℕ}
     (hN : Module.finrank k V = N) (A B : V →ₗ[k] V) :
     LinearMap.det (A ∘ₗ B) = LinearMap.det A * LinearMap.det B := by
   have hrank : Module.finrank k (ExtPow k V N) = 1 := by
-    rw [finrank_extPow h2 N, hN, Nat.choose_self]
+    rw [finrank_extPow N, hN, Nat.choose_self]
   haveI : Nontrivial (ExtPow k V N) :=
     Module.nontrivial_of_finrank_pos (R := k) (by rw [hrank]; norm_num)
   obtain ⟨x, hx⟩ := exists_ne (0 : ExtPow k V N)

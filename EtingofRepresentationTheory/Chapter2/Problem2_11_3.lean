@@ -68,10 +68,9 @@ theorem exists_dualTensor_equiv_hom [FiniteDimensional k V] :
 /-- **Problem 2.11.3(g).** `∧ᴺ A = det(A)·Id` yields multiplicativity of the determinant:
 `det(A ∘ B) = det(A) · det(B)` for operators on a vector space.
 
-This records the endpoint unconditionally, by citing `LinearMap.det_comp`. The book's own
-derivation — from `⋀ᴺ A = det(A) • Id` on the top exterior power, via functoriality of `⋀ᴺ` — is
-`Problem2_11_3_SymExtPow`'s `det_comp_of_extPowMap`, which carries the hypothesis `(2 : k) ≠ 0`
-that identifies the book's quotient model of `⋀ᴺ V` with the usual exterior power. -/
+This records the endpoint by citing `LinearMap.det_comp`. The book's own derivation — from
+`⋀ᴺ A = det(A) • Id` on the top exterior power, via functoriality of `⋀ᴺ` — is
+`Problem2_11_3_SymExtPow`'s `det_comp_of_extPowMap`. -/
 theorem det_comp (A B : V →ₗ[k] V) :
     LinearMap.det (A ∘ₗ B) = LinearMap.det A * LinearMap.det B :=
   LinearMap.det_comp A B
