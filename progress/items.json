@@ -6825,9 +6825,10 @@
     "fidelity": "partial",
     "needs_statement": false,
     "coverage": "covered_partial",
-    "coverage_note": "The intended principal-series classification is source-present, but Theorem5_25_2.lean fails a fresh source check at a missing scalar-tower instance (#7516). The preceding discussion's public dimension endpoint is separately #7563.",
+    "coverage_note": "Theorem5_25_2.lean builds clean (#7516 is stale: the scalar-tower instance is fixed and the full project build is green). Parts 1, 2, 3a, 3b are public. Chapter5/GL2PrincipalFamily.lean (#7893) adds the endpoints that were missing for the one-dimensional summand (detChar_simple made public, detChar_finrank, detChar_character, detChar_iso_iff), the three cross-kind non-isomorphisms by dimension count, and packages all of it as principalFamily over PrincipalIndex = Chars + Chars + {s : Sym2 Chars // not s.IsDiag}, with card_principalIndex = (q-1) + q(q-1)/2.",
     "coverage_issue": 7516,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-26",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Theorem5_25_2.lean :: Etingof.Theorem5_25_2_part1, part2, part3a, part3b, Etingof.GL2.detChar_simple, Etingof.GL2.principalSeries_finrank; EtingofRepresentationTheory/Chapter5/GL2PrincipalFamily.lean :: Etingof.GL2.principalFamily, principalFamily_simple, principalFamily_injective, card_principalIndex, exists_principal_family"
   },
   {
     "id": "Chapter5/Discussion_principal_series_name",
