@@ -228,6 +228,31 @@ matter:
 `Chapter9/Problem9_3_2.lean`'s `Pplus`/`Pminus` (issue #7704, "give P₊ and P₋ distinct
 carriers") is the same pattern with the parameters dropped entirely.
 
+**For a *Lie* module on a phantom carrier, retype the representation at the carrier or the
+generator action will not reduce (#7410, `Chapter2/Problem2_16_2.lean`).** With
+`def Fam (_γ) (_a) : Type := ZMod p → k` and `famRep : g k →ₗ⁅k⁆ Module.End k (ZMod p → k)`, the
+instance `LieRingModule.compLieHom (Fam k p γ a) (famRep …)` *elaborates* (the two endomorphism
+algebras are defeq), but `compLieHom`'s bracket is `⁅x, m⁆ = ⁅f x, m⁆`, resolved through
+`LieRingModule (Module.End k (ZMod p → k)) (Fam …)` — the wrong carrier — so the expected
+`⁅X, v⁆ = famRep … (X k) v` is **not** closed by `rfl` (you get a bare `?m = ?m` mismatch). Fix:
+add a one-line retyping `def famRep' … : g k →ₗ⁅k⁆ Module.End k (Fam k p γ a) := famRep k p γ a`,
+build the instances from `famRep'`, and restate the generator lemmas through it. The retyped
+apply-lemmas (`famRep'_X := famRep_X`) transfer by defeq. Afterwards a `rw` chain ending on the two
+coercion paths still leaves a visually-identical `X = X`; close it with `exact rfl` (default
+transparency), not `rw`'s reducible-transparency trailing `rfl`.
+
+**A `set`-bound vector family zeta-unfolds under `rw`, so `smul_smul` silently rewrites *inside*
+it.** In the same file, `set t : ℕ → M := fun n => c⁻¹ ^ n • (B ^ n) v` then `set u := fun i =>
+t i.val` makes `u i` a let-bound term whose value is itself a `•`. A goal
+`((a + i) * f i) • u i = f i • ((a + i) • u i)` needs exactly one `smul_smul`; a second one does
+**not** fail with "did not find pattern" — it unfolds `u i` and rewrites the scalar chain inside,
+leaving `(c⁻¹ ^ i.val * ((a + i) * f i)) • (B ^ i.val) v` against an untouched right-hand side.
+Fix: introduce the families **opaquely** rather than with `set` —
+`obtain ⟨t, htdef⟩ : ∃ t : ℕ → M, ∀ n, t n = c⁻¹ ^ n • (B ^ n) v := ⟨_, fun _ => rfl⟩` — so `t`/`u`
+are value-free fvars that `rw` cannot see through, and unfold pointwise with `rw [htdef n]` where
+you actually want it. Same "opaque introduction" idiom as the `Algebra.adjoin` note above; reach
+for it for *any* locally-defined family you will `rw` around.
+
 **Two Mathlib lemmas can produce the *same* `1`/`0`/`Pi.single i 1` through *different*
 typeclass paths — `rw` then fails syntactically, `exact` succeeds by defeq.** Classic case
 (cost real iterations in #6597, `Chapter9/Problem9_5_3_PrimitiveIdempotents.lean`):
