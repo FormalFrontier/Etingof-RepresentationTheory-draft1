@@ -217,15 +217,36 @@ filed — the *live* scope is in the reopening comment. Bodies also go stale whe
 later PR lands part of the work:
 
 ```bash
-gh issue view <N> --json comments --jq '.comments[] | "\(.createdAt) \(.body)"'
+gh issue view <N> --json stateReason,comments \
+  --jq '.stateReason, (.comments[] | "--- \(.createdAt) \(.author.login)\n\(.body)")'
 ```
 
-Treat any comment starting "Reopening:" as authoritative over the body, and check the
-body's factual claims about the repo before acting on them. (2026-07-25, #7320: the
-body said an item in `progress/items.json` had no `coverage` field and "was never
-coverage-audited"; it had been audited three days earlier and reopened over a
-*different*, narrower objection recorded only in a comment. A session that trusts the
-body redoes finished work and misses the actual ask.)
+`stateReason == "REOPENED"` is the mechanical tell that the body is stale — ask for it
+explicitly, because nothing in `list-unclaimed` or `orient` surfaces it. As of
+2026-07-26, 17 open `agent-plan` issues are reopened, so this is the common case, not
+an edge case. To see them all at once:
+
+```bash
+gh issue list --state open --label agent-plan --limit 200 \
+  --json number,title,stateReason,labels \
+  --jq 'map(select(.stateReason=="REOPENED")) | .[] | "\(.number) \(.title)"'
+```
+
+**Any comment that reopens or re-scopes the issue is authoritative over the body,
+however it is worded.** Do not look for a literal `Reopening:` prefix — reopening
+comments are written in prose and usually do not have one. #7276's began "Reopening
+because the audit treated unformalized existence/model identification as sufficient.",
+and it silently converted a report-only `review` audit into a multi-hour Lean
+construction task; a session grepping for `Reopening:` would have matched nothing and
+trusted the stale body. Also check the body's factual claims about the repo before
+acting on them. (2026-07-25, #7320: the body said an item in `progress/items.json` had
+no `coverage` field and "was never coverage-audited"; it had been audited three days
+earlier and reopened over a *different*, narrower objection recorded only in a comment.
+A session that trusts the body redoes finished work and misses the actual ask.)
+
+A re-scope can change the *kind* of deliverable, not just its size: a `review` issue
+whose reopening comment asks for constructions is a PR task, not a report task. Let the
+comments, not the label, decide what you hand back.
 
 ## Step 2: Set Up
 
