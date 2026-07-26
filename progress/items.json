@@ -3666,13 +3666,12 @@
     "start_line": 28,
     "end_line": 2,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "full",
     "sorry_free": true,
-    "fidelity_note": "All three character tables are realized by genuine simple, pairwise nonisomorphic representations with the tabulated characters. For A₅, the remaining source-construction gap is the missing theorem that repC3minus is the twist of repC3plus by the outer automorphism induced by conjugation with (12), including the corresponding swap of five-cycle classes.",
-    "fidelity_decl": "Etingof.Example4_8_1_Q8_simple, Etingof.Example4_8_1_Q8_character, Etingof.Example4_8_1_S4_simple, Etingof.Example4_8_1_S4_character, Etingof.Example4_8_1_S4_pairwise, Etingof.Example4_8_1_S4_conj_classes, Etingof.Example4_8_1_S4_card, Etingof.Example4_8_1.A5_orthonormal, Etingof.Example4_8_1_A5_conj_classes",
-    "coverage": "covered_partial",
-    "followup_issue": 5449,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "All three character tables are realized by genuine simple, pairwise nonisomorphic representations with the tabulated characters. For A₅, outerAutomorphism is conjugation by (12), outerAutomorphism_classIdx proves that it swaps the two five-cycle classes, outerAutomorphism_not_inner proves it is genuinely outer, and repC3plus_outerTwist_iso_repC3minus identifies the two golden-ratio representations by twisting.",
+    "fidelity_decl": "Etingof.Example4_8_1_Q8_simple, Etingof.Example4_8_1_Q8_character, Etingof.Example4_8_1_S4_simple, Etingof.Example4_8_1_S4_character, Etingof.Example4_8_1_S4_pairwise, Etingof.Example4_8_1_S4_conj_classes, Etingof.Example4_8_1_S4_card, Etingof.Example4_8_1.A5_orthonormal, Etingof.Example4_8_1_A5_conj_classes, Etingof.Example4_8_1.A5.outerAutomorphism_classIdx, Etingof.Example4_8_1.A5.outerAutomorphism_not_inner, Etingof.Example4_8_1.A5.repC3plus_outerTwist_iso_repC3minus",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter4/Introduction_4.9",
