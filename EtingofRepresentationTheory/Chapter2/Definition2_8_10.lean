@@ -1,4 +1,5 @@
 import EtingofRepresentationTheory.Chapter2.Definition2_8_3
+import Mathlib.Algebra.Module.Equiv.Defs
 
 /-!
 # Definition 2.8.10: Homomorphism of Quiver Representations
@@ -21,3 +22,14 @@ structure Etingof.QuiverRepresentationHom (k : Type*) (Q : Type*) [CommSemiring 
   /-- The maps commute with the arrow maps -/
   naturality : ∀ {v w : Q} (e : v ⟶ w) (x : ρ₁.obj v),
     app w (ρ₁.mapLinear e x) = ρ₂.mapLinear e (app v x)
+
+/-- An equivalence (isomorphism) of quiver representations: a family of linear equivalences
+at each vertex that commute with the arrow maps. This foundational placement makes the notion
+available to constructions near Definition 2.8.10 without importing Gabriel's theorem. -/
+structure Etingof.QuiverRepresentationEquiv (k : Type*) (Q : Type*) [CommSemiring k]
+    [Quiver Q] (ρ₁ ρ₂ : Etingof.QuiverRepresentation k Q) where
+  /-- A linear equivalence at each vertex. -/
+  equivAt : ∀ v, ρ₁.obj v ≃ₗ[k] ρ₂.obj v
+  /-- The equivalences commute with the arrow maps. -/
+  commutes : ∀ {v w : Q} (e : v ⟶ w) (x : ρ₁.obj v),
+    equivAt w (ρ₁.mapLinear e x) = ρ₂.mapLinear e (equivAt v x)

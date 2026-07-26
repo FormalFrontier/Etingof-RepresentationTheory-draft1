@@ -1041,4 +1041,181 @@ theorem Theorem5_18_1_bimodule_decomposition_explicit
       have hne : φ.symm k' ≠ φ.symm i := fun h => hk (φ.symm.injective h)
       rw [DFinsupp.single_eq_of_ne hne]
 
+/-!
+## Equivariant form of the bimodule decomposition
+
+The two actions on the direct sum are made explicit below.  The `A`-action is
+on the first tensor factor, while the centralizer action is by
+post-composition on the multiplicity-space factor.  Keeping these as named
+linear maps avoids relying on an ambiguous inferred module structure on a
+tensor product with two independently acting algebras.
+-/
+
+/-- The action of `a : A` on the first tensor factor in every summand of the
+double-centralizer decomposition. -/
+noncomputable def bimoduleDecompositionAAction
+    {ι : Type*} {A : Subalgebra k (Module.End k E)}
+    (V : ι → Submodule A E) (a : A) :
+    DirectSum ι (fun i => ↥(V i) ⊗[k] (↥(V i) →ₗ[A] E)) →ₗ[k]
+      DirectSum ι (fun i => ↥(V i) ⊗[k] (↥(V i) →ₗ[A] E)) :=
+  DirectSum.lmap fun i => TensorProduct.map
+    (Algebra.lsmul k k (↥(V i)) a) LinearMap.id
+
+/-- The action of `b ∈ centralizer(A)` on every multiplicity-space factor,
+by post-composition with the endomorphism `b` of `E`. -/
+noncomputable def bimoduleDecompositionCentralizerAction
+    {ι : Type*} {A : Subalgebra k (Module.End k E)}
+    (V : ι → Submodule A E)
+    (b : ↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) :
+    DirectSum ι (fun i => ↥(V i) ⊗[k] (↥(V i) →ₗ[A] E)) →ₗ[k]
+      DirectSum ι (fun i => ↥(V i) ⊗[k] (↥(V i) →ₗ[A] E)) :=
+  DirectSum.lmap fun i => TensorProduct.map LinearMap.id
+    (postCompCentralizerMonoidHom k E A (↥(V i)) b)
+
+omit [Module.Finite k E] in
+@[simp]
+theorem bimoduleDecompositionAAction_of_tmul
+    {ι : Type*} [DecidableEq ι] {A : Subalgebra k (Module.End k E)}
+    (V : ι → Submodule A E) (a : A) (i : ι) (v : ↥(V i))
+    (l : ↥(V i) →ₗ[A] E) :
+    bimoduleDecompositionAAction (k := k) (E := E) V a
+        (DirectSum.of (fun j => ↥(V j) ⊗[k] (↥(V j) →ₗ[A] E))
+          i (v ⊗ₜ[k] l)) =
+      DirectSum.of (fun j => ↥(V j) ⊗[k] (↥(V j) →ₗ[A] E))
+        i ((a • v) ⊗ₜ[k] l) := by
+  rw [bimoduleDecompositionAAction, DirectSum.lmap_of,
+    TensorProduct.map_tmul, LinearMap.id_apply]
+  rfl
+
+omit [Module.Finite k E] in
+@[simp]
+theorem bimoduleDecompositionCentralizerAction_of_tmul
+    {ι : Type*} [DecidableEq ι] {A : Subalgebra k (Module.End k E)}
+    (V : ι → Submodule A E)
+    (b : ↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
+    (i : ι) (v : ↥(V i)) (l : ↥(V i) →ₗ[A] E) :
+    bimoduleDecompositionCentralizerAction (k := k) (E := E) V b
+        (DirectSum.of (fun j => ↥(V j) ⊗[k] (↥(V j) →ₗ[A] E))
+          i (v ⊗ₜ[k] l)) =
+      DirectSum.of (fun j => ↥(V j) ⊗[k] (↥(V j) →ₗ[A] E)) i
+        (v ⊗ₜ[k] ((centralizerToEndA k E A b).comp l)) := by
+  rw [bimoduleDecompositionCentralizerAction, DirectSum.lmap_of,
+    TensorProduct.map_tmul, LinearMap.id_apply]
+  rfl
+
+/-- A `k`-linear decomposition equivalence together with the two all-vector
+equivariance laws that make it an `A`-`centralizer(A)` bimodule equivalence.
+
+The target actions are the explicit maps
+`bimoduleDecompositionAAction` and
+`bimoduleDecompositionCentralizerAction`; thus this structure records the
+full bimodule claim without selecting one side as the tensor product's
+global scalar-action instance. -/
+structure BimoduleDecompositionEquiv
+    {ι : Type*} {A : Subalgebra k (Module.End k E)}
+    (V : ι → Submodule A E) where
+  toLinearEquiv : E ≃ₗ[k]
+    DirectSum ι (fun i => ↥(V i) ⊗[k] (↥(V i) →ₗ[A] E))
+  map_A_action : ∀ (a : A) (x : E),
+    toLinearEquiv (a.val x) =
+      bimoduleDecompositionAAction (k := k) (E := E) (A := A) V a (toLinearEquiv x)
+  map_centralizer_action :
+    ∀ (b : ↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) (x : E),
+      toLinearEquiv (b.val x) =
+        bimoduleDecompositionCentralizerAction (k := k) (E := E) (A := A)
+          V b (toLinearEquiv x)
+
+set_option maxHeartbeats 4000000 in
+-- Direct-sum/tensor induction repeatedly synthesizes the nested module
+-- structures on `V i ⊗ Hom_A(V i, E)`.
+set_option synthInstance.maxHeartbeats 1500000 in
+/-- The explicit evaluation formula upgrades a `k`-linear decomposition to
+an `A`-`centralizer(A)` bimodule equivalence.  The proof checks the inverse
+map on every direct-sum element by direct-sum and tensor-product induction,
+so both equivariance fields hold for all vectors, not only pure tensors. -/
+noncomputable def BimoduleDecompositionEquiv.ofEvaluation
+    {ι : Type*} [Fintype ι] [DecidableEq ι]
+    {A : Subalgebra k (Module.End k E)}
+    (V : ι → Submodule A E)
+    (e : E ≃ₗ[k] DirectSum ι (fun i => ↥(V i) ⊗[k] (↥(V i) →ₗ[A] E)))
+    (he : ∀ (i : ι) (v : ↥(V i)) (l : ↥(V i) →ₗ[A] E),
+      e.symm (DirectSum.of _ i (v ⊗ₜ[k] l)) = l v) :
+    BimoduleDecompositionEquiv (k := k) (E := E) (A := A) V := by
+  classical
+  refine ⟨e, ?_, ?_⟩
+  · intro a x
+    have h_inv : ∀ y : DirectSum ι
+        (fun i => ↥(V i) ⊗[k] (↥(V i) →ₗ[A] E)),
+        e.symm (bimoduleDecompositionAAction (k := k) (E := E) (A := A)
+          V a y) = a.val (e.symm y) := by
+      intro y
+      induction y using DirectSum.induction_on with
+      | zero => simp [bimoduleDecompositionAAction]
+      | add y z hy hz => simp only [map_add, hy, hz]
+      | of i t =>
+        induction t using TensorProduct.induction_on with
+        | zero => simp [bimoduleDecompositionAAction]
+        | add t s ht hs => simp only [map_add, ht, hs]
+        | tmul v l =>
+          rw [bimoduleDecompositionAAction_of_tmul]
+          change e.symm (DirectSum.of _ i ((a • v) ⊗ₜ[k] l)) =
+            a.val (e.symm (DirectSum.of _ i (v ⊗ₜ[k] l)))
+          rw [he, he, LinearMap.map_smul]
+          rfl
+    apply e.symm.injective
+    rw [e.symm_apply_apply, h_inv, e.symm_apply_apply]
+  · intro b x
+    have h_inv : ∀ y : DirectSum ι
+        (fun i => ↥(V i) ⊗[k] (↥(V i) →ₗ[A] E)),
+        e.symm (bimoduleDecompositionCentralizerAction
+          (k := k) (E := E) (A := A) V b y) =
+          b.val (e.symm y) := by
+      intro y
+      induction y using DirectSum.induction_on with
+      | zero => simp [bimoduleDecompositionCentralizerAction]
+      | add y z hy hz => simp only [map_add, hy, hz]
+      | of i t =>
+        induction t using TensorProduct.induction_on with
+        | zero => simp [bimoduleDecompositionCentralizerAction]
+        | add t s ht hs => simp only [map_add, ht, hs]
+        | tmul v l =>
+          rw [bimoduleDecompositionCentralizerAction_of_tmul]
+          change e.symm (DirectSum.of _ i
+            (v ⊗ₜ[k] ((centralizerToEndA k E A b).comp l))) =
+              b.val (e.symm (DirectSum.of _ i (v ⊗ₜ[k] l)))
+          rw [he, he]
+          rfl
+    apply e.symm.injective
+    rw [e.symm_apply_apply, h_inv, e.symm_apply_apply]
+
+set_option maxHeartbeats 4000000 in
+-- The existential output repeats the deep centralizer-module instance chain.
+set_option synthInstance.maxHeartbeats 1500000 in
+/-- Double centralizer theorem, part (iii), as an actual structured bimodule
+equivalence.
+
+This companion to `Theorem5_18_1_bimodule_decomposition_explicit` retains
+the explicit evaluation formula and packages the resulting all-vector
+`A`- and `centralizer(A)`-equivariance laws in
+`BimoduleDecompositionEquiv`. -/
+theorem Theorem5_18_1_bimodule_decomposition_equivariant
+    [IsAlgClosed k]
+    (A : Subalgebra k (Module.End k E))
+    [IsSemisimpleRing A]
+    [FaithfulSMul A E] :
+    ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
+      (V : ι → Submodule A E) (_ : ∀ i, IsSimpleModule A (V i))
+      (_ : ∀ i j, Nonempty (↥(V i) ≃ₗ[A] ↥(V j)) → i = j)
+      (_ : ∀ i, Module.Finite k ↥(V i))
+      (_ : ∀ i, IsSimpleModule
+        (↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
+        (↥(V i) →ₗ[A] E)),
+      ∃ e : BimoduleDecompositionEquiv (k := k) (E := E) (A := A) V,
+        ∀ (i : ι) (v : ↥(V i)) (l : ↥(V i) →ₗ[A] E),
+          e.toLinearEquiv.symm (DirectSum.of _ i (v ⊗ₜ[k] l)) = l v := by
+  obtain ⟨ι, hι, hιDec, V, hVSimple, hVDistinct, hVFinite, hLSimple, e, he⟩ :=
+    Theorem5_18_1_bimodule_decomposition_explicit k E A
+  exact ⟨ι, hι, hιDec, V, hVSimple, hVDistinct, hVFinite, hLSimple,
+    BimoduleDecompositionEquiv.ofEvaluation (k := k) (E := E) (A := A) V e he, he⟩
+
 end Etingof

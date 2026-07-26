@@ -109,6 +109,7 @@ with coefficient `1`. -/
 noncomputable def ofPath (x : QuiverPathIndex Q) : PathAlgebra k Q :=
   Finsupp.single x 1
 
+omit [DecidableEq Q] in
 /-- Scaling a basis path by `c` reindexes its coefficient: `c • single x 1 = single x c`. Stated at
 the underlying `QuiverPathIndex Q →₀ k` type so the `Finsupp.smul_single` rewrite fires directly;
 it is applied to `PathAlgebra k Q` goals through the definitional equality (an `exact` closes the
