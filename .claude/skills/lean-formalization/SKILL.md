@@ -1524,6 +1524,86 @@ for `QuiverRepresentationEquiv`, and — for a family indexed by arrows you must
 it shadows the genuine `DecidableEq (Fin n)` and makes ordinary `DecidablePred` instances
 noncomputable.
 
+### A quiver normal form whose coefficients are indexed by **all** arrows — and the two transport traps in building the isomorphism onto it (#7420, `Chapter3/Problem3_9_3_TwoDim.lean`)
+
+Sequel to the `truncMap` recipe above, for the case where you must produce an *actual*
+`QuiverRepresentationEquiv ρ (normalForm …)` rather than just a numerical invariant.
+
+**Index the coefficient family by every arrow of `Q`, not by `i ⟶ j`.** For a normal form
+supported on two vertices,
+```lean
+noncomputable def twoRep [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) :
+    QuiverRepresentation k Q where
+  obj v := (Fin (if v = i then 1 else 0) → k) × (Fin (if v = j then 1 else 0) → k)
+  mapLinear {a b} e :=
+    (LinearMap.inr k _ _).comp
+      ((c ⟨a, b, e⟩ • truncMap k (if a = i then 1 else 0) (if b = j then 1 else 0)).comp
+        (LinearMap.fst k _ _))
+```
+`truncMap` zeroes out every arrow whose source is not `i` or whose target is not `j`, so the
+off-support values of `c` are **irrelevant** and the definition needs no transport at all.
+Taking `c : (i ⟶ j) → k` instead forces a dependent `h.1 ▸ h.2 ▸ e` *inside the def*, which every
+downstream `rw` then fights. Bonus from the product carrier: `c = 0` is (isomorphic to)
+`S_i ⊕ S_j` on the nose, and `i = j` gives `S_i ⊕ S_i`, so a *single* family covers the
+decomposable and indecomposable branches of a classification.
+
+`commutes` then has content at exactly one arrow: for `(a, b) ≠ (i, j)` both sides are `0` (the
+representation's map vanishes, and `truncMap` has a zero-dimensional source or target), closed by
+`rw [hzero e …, LinearMap.zero_apply, map_zero]; symm; refine Prod.ext rfl ?_;
+rw [twoRep_mapLinear_apply_snd, truncMap_eq_zero_of_target (if_neg hb), …]; rfl`. So you only
+need explicit trivializations at two vertices; the general-`v` branch is a `subsingletonEquiv`.
+
+**Trap 1: `h ▸ t` rewrites the wrong occurrences in the expected type.** Building the vertexwise
+family `∀ v, ρ.obj v ≃ₗ[k] (twoRep i j c).obj v` as
+`if hv : v = i then hv ▸ Ti else if hv' : v = j then hv' ▸ Tj else …` compiles the *first* branch
+and fails the second: `hv' : v = j` rewrites `j → v` in the target too, so Lean demands
+`ρ.obj v ≃ₗ[k] (twoRep i v c).obj v` (`Type mismatch … but is expected to have type
+ρ.obj v ≃ₗ[k] (twoRep i v c).obj v` — note the `i v`, the giveaway). `▸` has no way to know you
+meant only the `ρ.obj`/outer `v`. Fix: a named transport, so the motive is pinned to the vertex
+argument alone.
+```lean
+def transportEquivAt {ρ σ : QuiverRepresentation k Q} {v w : Q} (h : v = w)
+    (φ : ρ.obj w ≃ₗ[k] σ.obj w) : ρ.obj v ≃ₗ[k] σ.obj v := by subst h; exact φ
+
+@[simp] theorem transportEquivAt_rfl {ρ σ : QuiverRepresentation k Q} {v : Q}
+    (φ : ρ.obj v ≃ₗ[k] σ.obj v) : transportEquivAt (rfl : v = v) φ = φ := rfl
+```
+Then `rw [normalFormEquivAt, dif_pos (rfl : i = i), transportEquivAt_rfl]; rfl` proves the
+unfolding lemma at each distinguished vertex. State those lemmas as the *component* facts you
+actually need — `(normalFormEquivAt … i x).1 = (finPiEquivOfEqOne k (if_pos rfl)).symm (α x)` and
+the `.2` version at `j` — not as a full equality of equivs; the components are what `commutes`
+consumes.
+
+**Trap 2: `subst h` eliminates the variable *you* wanted to keep.** With `ha : a = i` where `a`
+came from `intro` and `i` is a theorem binder, `subst ha` eliminates **`i`**, silently renaming
+every hypothesis (`hij : a ≠ j`, `α : ρ.obj a ≃ₗ[k] k`, …) and breaking every later mention of
+`i` in the proof script with `Unknown identifier 'i'`. Write `subst a` — naming the variable, not
+the hypothesis — to eliminate `a` and keep `i`. `rcases hain with rfl | rfl` offers no such
+control, so prefer `rcases hain with hai | haj` followed by `subst a`. This bit twice in one file,
+in two different proofs, and the error surfaces far from the `subst`.
+
+**Trap 3: `rw [hx]` with `hx : x = <something mentioning x>` also rewrites the RHS.** Proving
+`β (ρ.mapLinear e x) = c * α x` by `rw [hx]` for `hx : x = α x • α.symm 1` loops into the goal's
+own `α x`, leaving `… * α (α x • α.symm 1)`. State the relation one level up —
+`hx : ρ.mapLinear e x = α x • ρ.mapLinear e (α.symm 1)` — so the pattern occurs only where wanted.
+
+**Unfolding a `dite`-with-transport at a `rfl` point: reach for `simp`, not `dif_pos`.**
+`simp only [coeffOf]` on `coeffOf α β ⟨i, j, e⟩` already reduces both conditions to `True` *and*
+discharges the `▸`s, so `simp [coeffOf]` closes the characterization lemma; the
+`rw [dif_pos rfl, dif_pos rfl]` you reach for first fails with "Did not find an occurrence of the
+pattern `dite (i = i) …`" because the `dite`s are gone.
+
+**Companion API you will have to add.** `QuiverRepresentationEquiv` still had no groupoid
+structure as of #7420: `refl`/`symm`/`trans` and `dimVec_eq` (via `(φ.equivAt v).finrank_eq`,
+after `letI : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k` on *both* sides) are
+now in `Chapter3/Problem3_9_3_TwoDim.lean`. Also there: `isIndecomposable_of_equiv`, which
+transports `IsIndecomposable` by pulling the subrepresentation families back with
+`Submodule.comap (φ.equivAt v).toLinearMap` — `IsCompl` survives via
+`(Submodule.orderIsoMapComap (φ.equivAt v)).symm.isCompl`, and `W v = ⊥` comes back from
+`comap … (W v) = ⊥` by that order iso's injectivity. Without it you cannot show a decomposable
+normal form makes the original representation decomposable, i.e. cannot separate the two branches
+of any such classification.
+
 ### `MonoidAlgebra` Ext: Don't Use `Finsupp.lhom_ext`
 
 `MonoidAlgebra k G` is `def`-equal to `G →₀ k`, so `Finsupp.lhom_ext` *applies* to a goal `F = 0` for `F : MonoidAlgebra k G →ₗ[k] N` — but it unifies the domain with the bare `G →₀ k`, which pries the type open and breaks instance search for everything registered on `MonoidAlgebra` (`failed to synthesize Ring (G →₀ ℂ)` / `Algebra ℂ (G →₀ ℂ)` / `Module (G →₀ ℂ) (M i)`). **To show a linear functional on `MonoidAlgebra k G` vanishes**, keep the type intact: prove `∀ a, F a = 0` by `induction a using MonoidAlgebra.induction_on` (base case `of k G g` — exactly the group-element evaluation you have a bridge lemma for; `hadd`/`hsmul` close by `simp only [map_add, …]` / `simp only [map_smul, …]`), then package via `LinearMap.ext`. (#4908)
