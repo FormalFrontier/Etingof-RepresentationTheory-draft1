@@ -1,4 +1,6 @@
 import Mathlib
+import EtingofRepresentationTheory.Chapter4.Example4_3_S3
+import EtingofRepresentationTheory.Chapter5.CharEqIso
 
 /-!
 # Exercise 5.27.2: transporting a classification along a group isomorphism
@@ -16,6 +18,10 @@ isomorphism `e : G ≃* H` is an equivalence of representation categories
 irredundant family of irreducibles across it, keeping the dimensions on the nose. Any counting
 statement about the family (how many members have each dimension) transports along the
 dimension equality by `Finset.filter_congr`.
+
+It also holds `exists_charRep_iso_of_finrank_eq_one`: every one-dimensional representation of a
+finite group is the character representation `charRep ξ` of its own character. That is what lets
+each arm name the one-dimensional members of its transported family.
 -/
 
 noncomputable section
@@ -108,5 +114,68 @@ lemma filter_finrank_congr {n : ℕ} {W' : Fin n → FDRep ℂ G} {W : Fin n →
   apply Finset.filter_congr
   intro i _
   rw [hdim i]
+
+/-! ## Identifying the one-dimensional members of a transported family
+
+Each arm of the exercise wants to say not just *how many* irreducibles there are but *which*
+representations they are, in the names the corresponding Chapter 4 problem gives them. The
+one-dimensional members are always the character representations `charRep ξ`, and that holds for
+any finite group, so it belongs here rather than in one of the arms. -/
+
+section OneDim
+
+variable {G : Type} [Group G] [Finite G]
+
+omit [Finite G] in
+/-- On a one-dimensional representation, `S.ρ g` is multiplication by the scalar `S.character g`
+(there is nothing else a linear endomorphism of a line can be). -/
+private lemma rho_eq_character_smul (S : FDRep ℂ G) (hdim : finrank ℂ (S : Type) = 1) (g : G) :
+    S.ρ g = (S.character g : ℂ) • LinearMap.id := by
+  obtain ⟨c, hc, -⟩ := LinearMap.existsUnique_eq_smul_id_of_finrank_eq_one hdim (S.ρ g)
+  have hchar : S.character g = c := by
+    change LinearMap.trace ℂ _ (S.ρ g) = c
+    rw [hc, map_smul, LinearMap.trace_id, hdim]
+    simp
+  rw [hchar]; exact hc
+
+omit [Finite G] in
+/-- Scalars are determined by their action on a one-dimensional space. -/
+private lemma smul_id_inj (S : FDRep ℂ G) (hdim : finrank ℂ (S : Type) = 1) {a b : ℂ}
+    (h : (a : ℂ) • (LinearMap.id : (S : Type) →ₗ[ℂ] (S : Type)) = b • LinearMap.id) : a = b := by
+  have := congrArg (LinearMap.trace ℂ (S : Type)) h
+  rwa [map_smul, map_smul, LinearMap.trace_id, hdim, Nat.cast_one, smul_eq_mul, smul_eq_mul,
+    mul_one, mul_one] at this
+
+/-- **Every one-dimensional representation of a finite group is a character representation.**
+Its character `g ↦ S.character g` is multiplicative and nowhere zero, hence a group homomorphism
+`ξ : G →* ℂˣ`, and `S ≅ charRep ξ` because the two have the same character. Unlike
+`AbelianFDRep.exists_charFDRep_iso`, this needs no commutativity: the hypothesis is the dimension,
+not simplicity of every irreducible. -/
+theorem exists_charRep_iso_of_finrank_eq_one (S : FDRep ℂ G) (hdim : finrank ℂ (S : Type) = 1) :
+    ∃ ξ : G →* ℂˣ, Nonempty (S ≅ FDRep.of (Etingof.Example4_3_S3.charRep ξ)) := by
+  have hone : S.character (1 : G) = 1 := by rw [FDRep.char_one, hdim, Nat.cast_one]
+  have hmul : ∀ g h : G, S.character (g * h) = S.character g * S.character h := by
+    intro g h
+    apply smul_id_inj S hdim
+    have h1 : S.ρ (g * h) = (S.character (g * h) : ℂ) • LinearMap.id :=
+      rho_eq_character_smul S hdim (g * h)
+    have h2 : S.ρ (g * h) = (S.character g * S.character h : ℂ) • LinearMap.id := by
+      rw [map_mul, rho_eq_character_smul S hdim g, rho_eq_character_smul S hdim h]
+      ext x
+      simp only [Module.End.mul_apply, LinearMap.smul_apply, LinearMap.id_coe, id_eq, smul_smul]
+    rw [← h1, ← h2]
+  have hne : ∀ g : G, S.character g ≠ 0 := by
+    intro g h0
+    have hgi := hmul g g⁻¹
+    rw [mul_inv_cancel, hone, h0, zero_mul] at hgi
+    exact one_ne_zero hgi
+  refine ⟨{ toFun := fun g => Units.mk0 (S.character g) (hne g)
+            map_one' := Units.ext (by simp [hone])
+            map_mul' := fun g h => Units.ext (by simp [hmul g h, Units.val_mul]) }, ?_⟩
+  refine Etingof.charEq_iso S _ (funext fun g => ?_)
+  rw [Etingof.Example4_3_S3.charRep_character]
+  rfl
+
+end OneDim
 
 end Etingof.Exercise5_27_2

@@ -44,6 +44,13 @@ list above.)
   `2·A₅`), and if `-1 ∉ H` then `h` restricts to an isomorphism `H ≃* h(H)`. Supporting
   pieces: `su2_image_classification`, `su2_full_preimage_of_neg_one_mem`,
   `su2_iso_image_of_neg_one_not_mem`.
+* **(b), the exact list** `su2_finite_subgroup_binary_classification`: every finite
+  `H ≤ SU(2)` is *either* cyclic *or* the full binary preimage of a noncyclic `SO(3)` subgroup,
+  of order `4n` (binary dihedral `2·Dₙ`), `24` (binary tetrahedral `2·A₄`), `48` (binary
+  octahedral `2·S₄`) or `120` (binary icosahedral `2·A₅`). The cyclic disjunct is *proved*
+  rather than left open: `SU(2)` has a unique involution (`su2_sq_eq_one`), so `-1 ∉ H` forces
+  `H` cyclic of odd order (`su2_isCyclic_of_neg_one_not_mem`) and a cyclic image forces `H`
+  cyclic (`su2_isCyclic_of_image_isCyclic`).
 -/
 
 open Matrix
@@ -3666,5 +3673,377 @@ theorem su2_finite_subgroup_classification
   · intro hno
     exact ⟨su2_iso_image_of_neg_one_not_mem h hker H hno,
       (su2_finite_subgroup_double_cover h hker H).2 hno⟩
+
+/-!
+## Part (b), completed: the exact binary-polyhedral list
+
+`su2_finite_subgroup_classification` above states the dichotomy over the five `SO(3)` families
+but stops short of the book's list: in the `-1 ∉ H` branch it only records `H ≃* h(H)`, so an
+ordinary dihedral, `A₄`, `S₄` or `A₅` copy inside `SU(2)` is still formally allowed. It is not:
+`SU(2)` has exactly one element of order `2`, namely `-1` (`su2_sq_eq_one`), and that single
+fact collapses both loose branches.
+
+* `-1 ∉ H` ⟹ `|H|` is odd ⟹ `h(H)` is cyclic ⟹ `H` is cyclic
+  (`su2_isCyclic_of_neg_one_not_mem`).
+* `-1 ∈ H` with `h(H)` cyclic ⟹ `H` is cyclic (`su2_isCyclic_of_image_isCyclic`): the binary
+  cyclic group is cyclic, again because the extension has a unique involution.
+
+So a noncyclic finite subgroup of `SU(2)` is the full preimage of a noncyclic finite subgroup
+of `SO(3)`, and `su2_finite_subgroup_binary_classification` reads off the book's list: cyclic,
+binary dihedral (order `4n`), binary tetrahedral (`24`), binary octahedral (`48`), binary
+icosahedral (`120`).
+-/
+
+/-- **`SU(2)` has a unique involution.** If `A ∈ SU(2)` satisfies `A² = 1` then `A = ±1`.
+
+The `2 × 2` computation: writing `A = ![![a, b], ![c, d]]`, the relations `A² = 1` and
+`det A = 1` give `a² + bc = 1` and `ad - bc = 1`, so the trace `a + d` cannot vanish (else
+`1 = -1`); the off-diagonal equations `b(a + d) = c(a + d) = 0` then force `b = c = 0`, and
+`a² = ad = 1` forces `d = a` with `a = ±1`. So `A` is the scalar matrix `±1`, and `-1` is the
+only element of order `2` in `SU(2)`. This is what makes the double cover `SU(2) → SO(3)`
+*non-split*, and it is the engine of the whole binary classification below. -/
+theorem su2_sq_eq_one (A : specialUnitaryGroup (Fin 2) ℂ) (hA : A * A = 1) :
+    (A : Matrix (Fin 2) (Fin 2) ℂ) = 1 ∨ (A : Matrix (Fin 2) (Fin 2) ℂ) = -1 := by
+  set M : Matrix (Fin 2) (Fin 2) ℂ := (A : Matrix (Fin 2) (Fin 2) ℂ) with hMdef
+  have hMM : M * M = 1 := by
+    have h := congrArg (fun X : specialUnitaryGroup (Fin 2) ℂ =>
+      (X : Matrix (Fin 2) (Fin 2) ℂ)) hA
+    simpa [hMdef] using h
+  have hdet : M.det = 1 := (mem_specialUnitaryGroup_iff.mp A.2).2
+  rw [Matrix.det_fin_two] at hdet
+  have e00 : M 0 0 * M 0 0 + M 0 1 * M 1 0 = 1 := by
+    have h := congrFun (congrFun hMM 0) 0
+    rwa [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply_eq] at h
+  have e01 : M 0 0 * M 0 1 + M 0 1 * M 1 1 = 0 := by
+    have h := congrFun (congrFun hMM 0) 1
+    rwa [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply_ne (by decide : (0 : Fin 2) ≠ 1)]
+      at h
+  have e10 : M 1 0 * M 0 0 + M 1 1 * M 1 0 = 0 := by
+    have h := congrFun (congrFun hMM 1) 0
+    rwa [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply_ne (by decide : (1 : Fin 2) ≠ 0)]
+      at h
+  have htr : M 0 0 + M 1 1 ≠ 0 := by
+    intro h
+    have key : (0 : ℂ) = 2 := by linear_combination hdet + e00 - M 0 0 * h
+    norm_num at key
+  have hb : M 0 1 = 0 := by
+    rcases mul_eq_zero.mp (show M 0 1 * (M 0 0 + M 1 1) = 0 by linear_combination e01) with h | h
+    · exact h
+    · exact absurd h htr
+  have hc : M 1 0 = 0 := by
+    rcases mul_eq_zero.mp (show M 1 0 * (M 0 0 + M 1 1) = 0 by linear_combination e10) with h | h
+    · exact h
+    · exact absurd h htr
+  have ha2 : M 0 0 * M 0 0 = 1 := by rw [hb] at e00; linear_combination e00
+  have had : M 0 0 * M 1 1 = 1 := by rw [hb, hc] at hdet; linear_combination hdet
+  have hane : M 0 0 ≠ 0 := by
+    intro h
+    rw [h] at ha2
+    norm_num at ha2
+  have hda : M 1 1 = M 0 0 := by
+    rcases mul_eq_zero.mp (show M 0 0 * (M 1 1 - M 0 0) = 0 by
+      linear_combination had - ha2) with h | h
+    · exact absurd h hane
+    · exact sub_eq_zero.mp h
+  rcases mul_eq_zero.mp (show (M 0 0 - 1) * (M 0 0 + 1) = 0 by linear_combination ha2) with h | h
+  · left
+    have ha : M 0 0 = 1 := by linear_combination h
+    ext i j
+    fin_cases i <;> fin_cases j <;> simp [hb, hc, hda, ha]
+  · right
+    have ha : M 0 0 = -1 := by linear_combination h
+    ext i j
+    fin_cases i <;> fin_cases j <;> simp [hb, hc, hda, ha]
+
+/-! ### Bookkeeping lemmas for subgroups of `SU(2)` -/
+
+/-- `1 ≠ -1` as `2 × 2` complex matrices. -/
+theorem matrix_one_ne_neg_one : (1 : Matrix (Fin 2) (Fin 2) ℂ) ≠ -1 := by
+  intro he
+  have h00 := congrFun (congrFun he 0) 0
+  rw [Matrix.one_apply_eq, Matrix.neg_apply, Matrix.one_apply_eq] at h00
+  norm_num at h00
+
+/-- Elements of a subgroup of `SU(2)` are equal as soon as their underlying matrices are. -/
+theorem su2_subgroup_ext {H : Subgroup (specialUnitaryGroup (Fin 2) ℂ)} {x y : H}
+    (hxy : ((x : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ)
+      = ((y : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ)) : x = y :=
+  Subtype.ext (Subtype.ext hxy)
+
+/-- The matrix of a product in a subgroup of `SU(2)` is the product of the matrices. -/
+theorem su2_subgroup_coe_mul {H : Subgroup (specialUnitaryGroup (Fin 2) ℂ)} (x y : H) :
+    (((x * y : H) : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ)
+      = ((x : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) *
+        ((y : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) := rfl
+
+/-- The matrix of the identity of a subgroup of `SU(2)` is the identity matrix. -/
+theorem su2_subgroup_coe_one {H : Subgroup (specialUnitaryGroup (Fin 2) ℂ)} :
+    (((1 : H) : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) = 1 := rfl
+
+/-! ### No involutions away from `-1` -/
+
+/-- **Subgroups of `SU(2)` missing `-1` have odd order.** If no element of `H ≤ SU(2)` has
+matrix `-1` then `2 ∤ |H|`: otherwise Cauchy's theorem produces an element of order `2`, which
+by `su2_sq_eq_one` would have to be `-1`. -/
+theorem su2_two_not_dvd_card_of_neg_one_not_mem
+    (H : Subgroup (specialUnitaryGroup (Fin 2) ℂ)) [Finite H]
+    (hno : ∀ A ∈ H, (A : Matrix (Fin 2) (Fin 2) ℂ) ≠ -1) :
+    ¬ (2 ∣ Nat.card H) := by
+  intro h2
+  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := H) 2 h2
+  have hxx : ((x : specialUnitaryGroup (Fin 2) ℂ)) * ((x : specialUnitaryGroup (Fin 2) ℂ)) = 1 := by
+    have h1 : x * x = 1 := by
+      have hp := pow_orderOf_eq_one x
+      rw [hx, pow_two] at hp
+      exact hp
+    have h2 := congrArg (fun y : H => (y : specialUnitaryGroup (Fin 2) ℂ)) h1
+    simpa using h2
+  rcases su2_sq_eq_one _ hxx with h | h
+  · have : x = 1 := su2_subgroup_ext (by rw [h, su2_subgroup_coe_one])
+    rw [this, orderOf_one] at hx
+    norm_num at hx
+  · exact hno (x : specialUnitaryGroup (Fin 2) ℂ) x.2 h
+
+/-- Transfer of an involution relation from a subgroup of `SU(2)` to `SU(2)` itself. -/
+theorem su2_subgroup_coe_sq {H : Subgroup (specialUnitaryGroup (Fin 2) ℂ)} {x : H}
+    (hx : x * x = 1) :
+    ((x : specialUnitaryGroup (Fin 2) ℂ)) * ((x : specialUnitaryGroup (Fin 2) ℂ)) = 1 := by
+  have h := congrArg (fun y : H => (y : specialUnitaryGroup (Fin 2) ℂ)) hx
+  simpa using h
+
+/-! ### `-1 ∉ H` forces `H` cyclic -/
+
+/-- **The `-1 ∉ H` branch is cyclic.** A finite subgroup `H ≤ SU(2)` not containing `-1` is
+cyclic (of odd order).
+
+This is the missing half of the book's part (b): `su2_iso_image_of_neg_one_not_mem` only gives
+`H ≃* h(H)`, which by itself leaves an ordinary dihedral, `A₄`, `S₄` or `A₅` copy formally
+possible inside `SU(2)`. Those are ruled out by order: `|H| = |h(H)|` is odd by
+`su2_two_not_dvd_card_of_neg_one_not_mem`, while `|Dₙ| = 2n`, `|A₄| = 12`, `|S₄| = 24` and
+`|A₅| = 60` are all even. Only the cyclic disjunct of part (a) survives. -/
+theorem su2_isCyclic_of_neg_one_not_mem
+    (H : Subgroup (specialUnitaryGroup (Fin 2) ℂ)) [Finite H]
+    (hno : ∀ A ∈ H, (A : Matrix (Fin 2) (Fin 2) ℂ) ≠ -1) :
+    IsCyclic H := by
+  obtain ⟨h, _hsurj, hker⟩ := Problem4_12_7.exists_surjective_hom_to_SO3
+  obtain ⟨e⟩ := su2_iso_image_of_neg_one_not_mem h hker H hno
+  have hcard : Nat.card H = Nat.card (H.map h) :=
+    (su2_finite_subgroup_double_cover h hker H).2 hno
+  have h2 := su2_two_not_dvd_card_of_neg_one_not_mem H hno
+  rcases su2_image_classification h H with hcy | ⟨n, hd⟩ | ha4 | hs4 | ha5
+  · haveI := hcy
+    exact isCyclic_of_surjective e.symm e.symm.surjective
+  · obtain ⟨ed⟩ := hd
+    refine absurd ?_ h2
+    rw [hcard, Nat.card_congr ed.toEquiv, DihedralGroup.nat_card]
+    exact ⟨n, rfl⟩
+  · obtain ⟨ea⟩ := ha4
+    refine absurd ?_ h2
+    rw [hcard, Nat.card_congr ea.toEquiv, nat_card_alternatingGroup]
+    simp only [Nat.card_eq_fintype_card, Fintype.card_fin]
+    decide
+  · obtain ⟨es⟩ := hs4
+    refine absurd ?_ h2
+    rw [hcard, Nat.card_congr es.toEquiv, Nat.card_perm]
+    simp only [Nat.card_eq_fintype_card, Fintype.card_fin]
+    decide
+  · obtain ⟨ei⟩ := ha5
+    refine absurd ?_ h2
+    rw [hcard, Nat.card_congr ei.toEquiv, nat_card_alternatingGroup]
+    simp only [Nat.card_eq_fintype_card, Fintype.card_fin]
+    decide
+
+/-! ### `h(H)` cyclic forces `H` cyclic -/
+
+/-- **Binary cyclic groups are cyclic.** If `-1 ∈ H` and the image `h(H)` is cyclic, then `H`
+itself is cyclic — the extension `1 → {±1} → H → h(H) → 1` never produces a Klein-type group,
+because `SU(2)` has only one involution.
+
+Writing `n = |h(H)|`, `γ` for a generator of `h(H)` and `g ∈ H` for a lift of `γ`, the element
+`gⁿ` lies in `ker h ∩ H = {1, -1}`.
+
+* If `gⁿ = -1` then `g` has order `2n = |H|`, so `H = ⟨g⟩`.
+* If `gⁿ = 1` then `g` has order `n`, and `n` must be odd: for even `n = 2m` the element
+  `g^m` would be an involution, hence `-1` by `su2_sq_eq_one`, hence in `ker h`, forcing
+  `n ∣ m`. With `n` odd, `g` and the central involution `-1` have coprime orders `n` and `2`,
+  so `g · (-1)` has order `2n = |H|` and again generates.
+
+Together with `su2_isCyclic_of_neg_one_not_mem` this shows the *only* way a finite subgroup of
+`SU(2)` can be noncyclic is to sit over a noncyclic subgroup of `SO(3)`. -/
+theorem su2_isCyclic_of_image_isCyclic
+    (h : specialUnitaryGroup (Fin 2) ℂ →* specialOrthogonalGroup (Fin 3) ℝ)
+    (hker : ∀ A : specialUnitaryGroup (Fin 2) ℂ,
+      A ∈ h.ker ↔ ((A : Matrix (Fin 2) (Fin 2) ℂ) = 1 ∨
+        (A : Matrix (Fin 2) (Fin 2) ℂ) = -1))
+    (H : Subgroup (specialUnitaryGroup (Fin 2) ℂ)) [Finite H]
+    (hneg : ∃ A ∈ H, (A : Matrix (Fin 2) (Fin 2) ℂ) = -1)
+    (hcyc : IsCyclic (H.map h)) :
+    IsCyclic H := by
+  haveI : Finite (H.map h) :=
+    Finite.of_surjective (fun x : H => (⟨h x, Subgroup.mem_map.mpr ⟨x, x.2, rfl⟩⟩ : H.map h))
+      (by rintro ⟨y, hy⟩; obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hy; exact ⟨⟨x, hx⟩, rfl⟩)
+  haveI := hcyc
+  have hcardH : Nat.card H = 2 * Nat.card (H.map h) :=
+    (su2_finite_subgroup_double_cover h hker H).1 hneg
+  obtain ⟨A₀, hA₀H, hA₀⟩ := hneg
+  -- `ε` is the central involution `-1`, viewed inside `H`.
+  let ε : H := ⟨A₀, hA₀H⟩
+  have hεmat : ((ε : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) = -1 := hA₀
+  have hε2 : ε * ε = 1 := by
+    refine su2_subgroup_ext ?_
+    rw [su2_subgroup_coe_mul, su2_subgroup_coe_one, hεmat]
+    simp
+  have hεne : ε ≠ 1 := by
+    intro hcon
+    have hmat : ((ε : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) = 1 := by
+      rw [hcon, su2_subgroup_coe_one]
+    rw [hεmat] at hmat
+    exact matrix_one_ne_neg_one hmat.symm
+  have hεord : orderOf ε = 2 := orderOf_eq_prime (by rw [pow_two]; exact hε2) hεne
+  have hεcomm : ∀ x : H, Commute x ε := by
+    intro x
+    refine su2_subgroup_ext ?_
+    rw [su2_subgroup_coe_mul, su2_subgroup_coe_mul, hεmat]
+    simp
+  -- The restriction of `h` to `H`, viewed as a surjection onto the image subgroup.
+  let f : H →* (H.map h) :=
+    (h.comp H.subtype).codRestrict (H.map h) (fun x => Subgroup.mem_map_of_mem h x.2)
+  have hfval : ∀ x : H, ((f x : H.map h) : specialOrthogonalGroup (Fin 3) ℝ)
+      = h (x : specialUnitaryGroup (Fin 2) ℂ) := fun _ => rfl
+  have hfsurj : Function.Surjective f := by
+    rintro ⟨y, hy⟩
+    obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hy
+    exact ⟨⟨x, hx⟩, rfl⟩
+  have hfker : ∀ x : H, f x = 1 ↔
+      (((x : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) = 1 ∨
+       ((x : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) = -1) := by
+    intro x
+    rw [← hker, MonoidHom.mem_ker]
+    constructor
+    · intro hx
+      rw [← hfval x, hx]
+      rfl
+    · intro hx
+      exact Subtype.ext (by rw [hfval x, hx]; rfl)
+  -- A generator `γ` of the image, and a lift `g ∈ H`.
+  obtain ⟨γ, hγ⟩ := IsCyclic.exists_generator (α := (H.map h))
+  have hγord : orderOf γ = Nat.card (H.map h) := orderOf_eq_card_of_forall_mem_zpowers hγ
+  obtain ⟨g, hg⟩ := hfsurj γ
+  set n : ℕ := Nat.card (H.map h) with hn
+  have hnpos : 0 < n := Nat.card_pos
+  have hndvd : n ∣ orderOf g := by
+    rw [← hγord]
+    refine orderOf_dvd_of_pow_eq_one ?_
+    rw [← hg, ← map_pow, pow_orderOf_eq_one, map_one]
+  have hgn : f (g ^ n) = 1 := by
+    rw [map_pow, hg, ← hγord, pow_orderOf_eq_one]
+  rcases (hfker _).mp hgn with hgn1 | hgnε
+  · -- `g ^ n = 1`: then `n` is odd and `g * ε` has order `2n = |H|`.
+    have hgn1' : g ^ n = 1 := su2_subgroup_ext (by rw [hgn1, su2_subgroup_coe_one])
+    have hgord : orderOf g = n :=
+      Nat.dvd_antisymm (orderOf_dvd_of_pow_eq_one hgn1') hndvd
+    have hodd : Odd n := by
+      rcases Nat.even_or_odd n with he | ho
+      · exfalso
+        obtain ⟨m, hm⟩ := he
+        have hmpos : 0 < m := by omega
+        have hmlt : m < n := by omega
+        have hsq : g ^ m * g ^ m = 1 := by rw [← pow_add, ← hm, hgn1']
+        have hne1 : g ^ m ≠ 1 := by
+          intro hcon
+          have := orderOf_dvd_of_pow_eq_one hcon
+          rw [hgord] at this
+          exact absurd (Nat.le_of_dvd hmpos this) (by omega)
+        rcases su2_sq_eq_one _ (su2_subgroup_coe_sq hsq) with hmat | hmat
+        · exact hne1 (su2_subgroup_ext (by rw [hmat, su2_subgroup_coe_one]))
+        · have hfm : f (g ^ m) = 1 := (hfker _).mpr (Or.inr hmat)
+          rw [map_pow, hg] at hfm
+          have := orderOf_dvd_of_pow_eq_one hfm
+          rw [hγord] at this
+          exact absurd (Nat.le_of_dvd hmpos this) (by omega)
+      · exact ho
+    refine isCyclic_of_orderOf_eq_card (g * ε) ?_
+    rw [(hεcomm g).orderOf_mul_eq_mul_orderOf_of_coprime
+      (by rw [hgord, hεord]; exact Nat.coprime_two_right.mpr hodd), hgord, hεord, hcardH]
+    ring
+  · -- `g ^ n = ε`: then `g` itself has order `2n = |H|`.
+    have hgnε' : g ^ n = ε := su2_subgroup_ext (by rw [hgnε, hεmat])
+    have hdvd2 : orderOf g ∣ 2 * n := by
+      refine orderOf_dvd_of_pow_eq_one ?_
+      rw [mul_comm, pow_mul, hgnε', pow_two, hε2]
+    obtain ⟨k, hk⟩ := hndvd
+    have hk2 : k ∣ 2 := by
+      rw [hk, mul_comm 2 n] at hdvd2
+      exact (Nat.mul_dvd_mul_iff_left hnpos).mp hdvd2
+    have hkne1 : k ≠ 1 := by
+      intro hcon
+      rw [hcon, mul_one] at hk
+      have : g ^ n = 1 := by rw [← hk]; exact pow_orderOf_eq_one g
+      exact hεne (hgnε' ▸ this)
+    have hkeq : k = 2 := by
+      rcases (Nat.dvd_prime Nat.prime_two).mp hk2 with h1 | h2
+      · exact absurd h1 hkne1
+      · exact h2
+    refine isCyclic_of_orderOf_eq_card g ?_
+    rw [hk, hkeq, hcardH]
+    ring
+
+
+/-! ### The exact list -/
+
+/-- **Part (b), the book's exact list.** Every finite subgroup `H ≤ SU(2)` is *either* cyclic
+*or*, for the concrete double cover `h` of `Problem4_12_7.exists_surjective_hom_to_SO3`, the
+full binary preimage `h⁻¹(h(H))` of a noncyclic finite subgroup of `SO(3)`:
+
+* binary dihedral (dicyclic) `2·Dₙ`, of order `4n`;
+* binary tetrahedral `2·A₄`, of order `24`;
+* binary octahedral `2·S₄`, of order `48`;
+* binary icosahedral `2·A₅`, of order `120`.
+
+This is exactly the classification asked for in the book: cyclic groups plus the four binary
+polyhedral families. Both the cyclic disjunct and the order data are proved, not assumed —
+`su2_isCyclic_of_neg_one_not_mem` handles `-1 ∉ H` and `su2_isCyclic_of_image_isCyclic`
+handles `-1 ∈ H` with cyclic image, so the second disjunct really is the noncyclic case. -/
+theorem su2_finite_subgroup_binary_classification
+    (H : Subgroup (specialUnitaryGroup (Fin 2) ℂ)) [Finite H] :
+    IsCyclic H ∨
+    ∃ h : specialUnitaryGroup (Fin 2) ℂ →* specialOrthogonalGroup (Fin 3) ℝ,
+      Function.Surjective h ∧
+      (∀ A : specialUnitaryGroup (Fin 2) ℂ, A ∈ h.ker ↔
+        ((A : Matrix (Fin 2) (Fin 2) ℂ) = 1 ∨ (A : Matrix (Fin 2) (Fin 2) ℂ) = -1)) ∧
+      H = Subgroup.comap h (H.map h) ∧
+      ((∃ n : ℕ, Nonempty ((H.map h) ≃* DihedralGroup n) ∧ Nat.card H = 4 * n) ∨
+       (Nonempty ((H.map h) ≃* alternatingGroup (Fin 4)) ∧ Nat.card H = 24) ∨
+       (Nonempty ((H.map h) ≃* Equiv.Perm (Fin 4)) ∧ Nat.card H = 48) ∨
+       (Nonempty ((H.map h) ≃* alternatingGroup (Fin 5)) ∧ Nat.card H = 120)) := by
+  by_cases hneg : ∃ A ∈ H, (A : Matrix (Fin 2) (Fin 2) ℂ) = -1
+  · obtain ⟨h, hsurj, hker⟩ := Problem4_12_7.exists_surjective_hom_to_SO3
+    have hcard2 : Nat.card H = 2 * Nat.card (H.map h) :=
+      (su2_finite_subgroup_double_cover h hker H).1 hneg
+    have hpre : H = Subgroup.comap h (H.map h) := su2_full_preimage_of_neg_one_mem h hker H hneg
+    rcases su2_image_classification h H with hcy | ⟨n, hd⟩ | ha4 | hs4 | ha5
+    · exact Or.inl (su2_isCyclic_of_image_isCyclic h hker H hneg hcy)
+    · obtain ⟨ed⟩ := hd
+      refine Or.inr ⟨h, hsurj, hker, hpre, Or.inl ⟨n, ⟨ed⟩, ?_⟩⟩
+      rw [hcard2, Nat.card_congr ed.toEquiv, DihedralGroup.nat_card]
+      ring
+    · obtain ⟨ea⟩ := ha4
+      refine Or.inr ⟨h, hsurj, hker, hpre, Or.inr (Or.inl ⟨⟨ea⟩, ?_⟩)⟩
+      rw [hcard2, Nat.card_congr ea.toEquiv, nat_card_alternatingGroup]
+      simp only [Nat.card_eq_fintype_card, Fintype.card_fin]
+      decide
+    · obtain ⟨es⟩ := hs4
+      refine Or.inr ⟨h, hsurj, hker, hpre, Or.inr (Or.inr (Or.inl ⟨⟨es⟩, ?_⟩))⟩
+      rw [hcard2, Nat.card_congr es.toEquiv, Nat.card_perm]
+      simp only [Nat.card_eq_fintype_card, Fintype.card_fin]
+      decide
+    · obtain ⟨ei⟩ := ha5
+      refine Or.inr ⟨h, hsurj, hker, hpre, Or.inr (Or.inr (Or.inr ⟨⟨ei⟩, ?_⟩))⟩
+      rw [hcard2, Nat.card_congr ei.toEquiv, nat_card_alternatingGroup]
+      simp only [Nat.card_eq_fintype_card, Fintype.card_fin]
+      decide
+  · push Not at hneg
+    exact Or.inl (su2_isCyclic_of_neg_one_not_mem H hneg)
 
 end Etingof.Problem4_12_8

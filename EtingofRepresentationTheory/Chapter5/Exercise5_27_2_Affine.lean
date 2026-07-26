@@ -1,6 +1,8 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_27_1
 import EtingofRepresentationTheory.Chapter5.AbelianFDRep
+import EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Transport
+import EtingofRepresentationTheory.Chapter4.Problem4_12_6
 
 /-!
 # Exercise 5.27.2 (affine group): redo Problem 4.12.6 using Theorem 5.27.1
@@ -43,6 +45,16 @@ Thus there are exactly `q` irreducibles: `q - 1` of dimension `1` and one of dim
 
 The classification `affine_classification` is proved below by feeding the two orbit facts above
 into Theorem 5.27.1 (for fields with `q > 2`; see the theorem docstring for the `q = 2` caveat).
+
+## Landing on the group of Problem 4.12.6
+
+Problem 4.12.6 studies the `structure Problem4_12_6.Affine K` of pairs `⟨a, b⟩`, a different type
+from the semidirect-product model `AffineGroup K`. `affineEquiv` is the group isomorphism between
+them, `affine_classification'` and `affine_classification_two'` are the two classifications
+transported onto the textbook group along it (via `Exercise5_27_2_Transport`), and
+`affine_classification_named` matches the transported family with the book's own named
+representations: the `q - 1` characters `charRep χ` and the zero-sum representation
+`V = Vsub` of dimension `q - 1` that the problem's hint singles out.
 -/
 
 noncomputable section
@@ -698,5 +710,155 @@ theorem affine_classification_two (hq : Fintype.card K = 2) :
       · exact hdim_inl ρ
       · exact hdim_inr
     exact fun i => hall (e.symm i)
+
+/-! ## Landing the classification on the group of Problem 4.12.6
+
+Problem 4.12.6 studies the affine group as the `structure Problem4_12_6.Affine K` with fields
+`a : Kˣ` and `b : K`, multiplying by `⟨a₁, b₁⟩ * ⟨a₂, b₂⟩ = ⟨a₁ a₂, a₁ · b₂ + b₁⟩`. That is a
+different type from the semidirect-product model `AffineGroup K` used above, so "redo Problem
+4.12.6" is only finished once the orbit-method classification is transported onto it. The
+identification sends `⟨a, b⟩` to the pair `⟨ofAdd b, a⟩`: the abelian normal subgroup is the
+translation part `b` and the complement is the linear part `a`. -/
+
+/-- **The affine group of Problem 4.12.6 is the semidirect-product model.** The transformation
+`x ↦ a x + b`, encoded by `⟨a, b⟩`, corresponds to `⟨ofAdd b, a⟩`: no correction term is needed,
+because `⟨a₁, b₁⟩ * ⟨a₂, b₂⟩ = ⟨a₁ a₂, a₁ · b₂ + b₁⟩` matches the semidirect product
+`⟨b₁, a₁⟩ * ⟨b₂, a₂⟩ = ⟨b₁ + a₁ · b₂, a₁ a₂⟩` under `affineφ K a : b ↦ a · b`. -/
+def affineEquiv : Problem4_12_6.Affine K ≃* AffineGroup K where
+  toFun g := ⟨Multiplicative.ofAdd g.b, g.a⟩
+  invFun y := ⟨y.right, Multiplicative.toAdd y.left⟩
+  left_inv g := rfl
+  right_inv y := rfl
+  map_mul' g h := by
+    refine SemidirectProduct.ext ?_ rfl
+    change Multiplicative.ofAdd ((g.a : K) * h.b + g.b)
+      = Multiplicative.ofAdd g.b * (affineφ K g.a) (Multiplicative.ofAdd h.b)
+    apply Multiplicative.toAdd.injective
+    rw [toAdd_ofAdd, toAdd_mul, toAdd_ofAdd, affineφ_apply]
+    exact add_comm _ _
+
+omit [Fintype K] in
+@[simp] lemma affineEquiv_apply (g : Problem4_12_6.Affine K) :
+    affineEquiv K g = ⟨Multiplicative.ofAdd g.b, g.a⟩ := rfl
+
+open Classical in
+/-- **Exercise 5.27.2 for Problem 4.12.6.** The classification of the irreducible complex
+representations of the affine group *as Problem 4.12.6 poses it* — the group
+`Problem4_12_6.Affine K` of pairs `⟨a, b⟩` acting by `x ↦ a x + b` — derived from the orbit
+method of Theorem 5.27.1 by transporting `affine_classification` along `affineEquiv`. For
+`q = |K| > 2` there are exactly `q` irreducibles: `q - 1` of dimension `1` and one of dimension
+`q - 1`. -/
+theorem affine_classification' (hq : 2 < Fintype.card K) :
+    ∃ (n : ℕ) (W : Fin n → FDRep ℂ (Problem4_12_6.Affine K)),
+      (∀ i, Simple (W i)) ∧
+      (∀ i j, Nonempty (W i ≅ W j) → i = j) ∧
+      (∀ S : FDRep ℂ (Problem4_12_6.Affine K), Simple S → ∃ i, Nonempty (S ≅ W i)) ∧
+      n = Fintype.card K ∧
+      (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 1)).card = Fintype.card K - 1 ∧
+      (Finset.univ.filter
+        (fun i => finrank ℂ (W i : Type) = Fintype.card K - 1)).card = 1 := by
+  classical
+  obtain ⟨n, V, hSimple, hInj, hComplete, hn, hcard1, hcardq⟩ := affine_classification K hq
+  obtain ⟨W, hW1, hW2, hW3, hWdim⟩ :=
+    transport_classification (affineEquiv K) V hSimple hInj hComplete
+  have hfilt : ∀ d : ℕ, (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = d)) =
+      (Finset.univ.filter (fun i => finrank ℂ (V i : Type) = d)) :=
+    fun d => filter_finrank_congr hWdim d
+  refine ⟨n, W, hW1, hW2, hW3, hn, ?_, ?_⟩
+  · rw [hfilt]; exact hcard1
+  · rw [hfilt]; exact hcardq
+
+open Classical in
+/-- **Exercise 5.27.2 for Problem 4.12.6, degenerate field `K = 𝔽₂`.** The `q = 2` companion to
+`affine_classification'`, transported onto `Problem4_12_6.Affine K` along `affineEquiv`: the
+affine group over `𝔽₂` is `ℤ/2`, with two one-dimensional irreducibles. -/
+theorem affine_classification_two' (hq : Fintype.card K = 2) :
+    ∃ (n : ℕ) (W : Fin n → FDRep ℂ (Problem4_12_6.Affine K)),
+      (∀ i, Simple (W i)) ∧
+      (∀ i j, Nonempty (W i ≅ W j) → i = j) ∧
+      (∀ S : FDRep ℂ (Problem4_12_6.Affine K), Simple S → ∃ i, Nonempty (S ≅ W i)) ∧
+      n = 2 ∧
+      (∀ i, finrank ℂ (W i : Type) = 1) := by
+  classical
+  obtain ⟨n, V, hSimple, hInj, hComplete, hn, hdim⟩ := affine_classification_two K hq
+  obtain ⟨W, hW1, hW2, hW3, hWdim⟩ :=
+    transport_classification (affineEquiv K) V hSimple hInj hComplete
+  exact ⟨n, W, hW1, hW2, hW3, hn, fun i => by rw [hWdim i]; exact hdim i⟩
+
+/-! ## The transported family is the book's family
+
+Problem 4.12.6 names its irreducibles: the `q - 1` one-dimensional characters `charRep χ` and
+the single `(q-1)`-dimensional zero-sum representation `V` — the hint's subrepresentation
+`Vsub` of the permutation representation on `K → ℂ`. Matching the orbit-method family against
+that list is what makes "redo Problem 4.12.6 using Theorem 5.27.1" land on the book's own
+answer rather than on an abstract count. -/
+
+/-- The zero-sum representation `V` of Problem 4.12.6 — the hint's `(q-1)`-dimensional
+subrepresentation of the permutation representation on `K → ℂ` — as an object of
+`FDRep ℂ (Problem4_12_6.Affine K)`. -/
+def zeroSumFDRep : FDRep ℂ (Problem4_12_6.Affine K) :=
+  FDRep.of (Problem4_12_6.Vsub (K := K)).toRepresentation
+
+/-- `V` has dimension `q - 1`. -/
+lemma finrank_zeroSumFDRep :
+    finrank ℂ (zeroSumFDRep K : Type) = Fintype.card K - 1 :=
+  Problem4_12_6.zeroSum_finrank (K := K)
+
+/-- `V` is irreducible (Problem 4.12.6's hint, `zeroSum_irreducible`). -/
+lemma zeroSumFDRep_simple : Simple (zeroSumFDRep K) :=
+  haveI := Problem4_12_6.Vrep_isSimpleModule (K := K) Fintype.one_lt_card
+  Etingof.simple_fdRepOf_of_isSimpleModule _
+
+open Classical in
+/-- **The orbit-method family is the book's family.** For `q = |K| > 2`, the family of
+irreducibles that Theorem 5.27.1 produces for `Problem4_12_6.Affine K` consists of exactly the
+representations Problem 4.12.6 names, matched by dimension: every one-dimensional member is a
+character `charRep χ` and every character occurs, while the unique `(q-1)`-dimensional member is
+the zero-sum representation `V = Vsub`. So redoing Problem 4.12.6 through the orbit method
+recovers the book's own list. -/
+theorem affine_classification_named (hq : 2 < Fintype.card K) :
+    ∃ (n : ℕ) (W : Fin n → FDRep ℂ (Problem4_12_6.Affine K)),
+      (∀ i, Simple (W i)) ∧
+      (∀ i j, Nonempty (W i ≅ W j) → i = j) ∧
+      (∀ S : FDRep ℂ (Problem4_12_6.Affine K), Simple S → ∃ i, Nonempty (S ≅ W i)) ∧
+      n = Fintype.card K ∧
+      (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 1)).card = Fintype.card K - 1 ∧
+      (Finset.univ.filter
+        (fun i => finrank ℂ (W i : Type) = Fintype.card K - 1)).card = 1 ∧
+      (∀ i, finrank ℂ (W i : Type) = 1 → ∃ χ : Problem4_12_6.Affine K →* ℂˣ,
+        Nonempty (W i ≅ FDRep.of (Problem4_12_6.charRep χ))) ∧
+      (∀ i, finrank ℂ (W i : Type) = Fintype.card K - 1 →
+        Nonempty (W i ≅ zeroSumFDRep K)) ∧
+      (∀ χ : Problem4_12_6.Affine K →* ℂˣ,
+        ∃ i, Nonempty (FDRep.of (Problem4_12_6.charRep χ) ≅ W i)) ∧
+      (∃ i, Nonempty (zeroSumFDRep K ≅ W i)) := by
+  classical
+  obtain ⟨n, W, hSimple, hInj, hComplete, hn, hcard1, hcardq⟩ := affine_classification' K hq
+  refine ⟨n, W, hSimple, hInj, hComplete, hn, hcard1, hcardq, ?_, ?_, ?_, ?_⟩
+  · -- a one-dimensional member is the character representation of its own character
+    intro i hi
+    obtain ⟨ξ, hξ⟩ := exists_charRep_iso_of_finrank_eq_one (W i) hi
+    exact ⟨ξ, hξ⟩
+  · -- the `(q-1)`-dimensional member is unique, and `V` is one such, so they agree
+    intro i hi
+    haveI := zeroSumFDRep_simple K
+    obtain ⟨j, hj⟩ := hComplete (zeroSumFDRep K) inferInstance
+    have hjdim : finrank ℂ (W j : Type) = Fintype.card K - 1 := by
+      rw [← LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hj.some)]
+      exact finrank_zeroSumFDRep K
+    -- both `i` and `j` lie in a filter of cardinality one
+    have hij : i = j := by
+      have hmem : ∀ l : Fin n, finrank ℂ (W l : Type) = Fintype.card K - 1 →
+          l ∈ Finset.univ.filter (fun l => finrank ℂ (W l : Type) = Fintype.card K - 1) :=
+        fun l hl => Finset.mem_filter.mpr ⟨Finset.mem_univ l, hl⟩
+      exact Finset.card_le_one.mp (le_of_eq hcardq) i (hmem i hi) j (hmem j hjdim)
+    exact ⟨hij ▸ hj.some.symm⟩
+  · -- every character occurs: it is simple, so completeness catches it
+    intro χ
+    haveI : Simple (FDRep.of (Problem4_12_6.charRep χ)) := Problem4_12_6.charRep_simple χ
+    exact hComplete _ inferInstance
+  · -- `V` occurs, for the same reason
+    haveI := zeroSumFDRep_simple K
+    exact hComplete _ inferInstance
 
 end Etingof.Exercise5_27_2

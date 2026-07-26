@@ -175,12 +175,11 @@
     "start_line": 5,
     "end_line": 7,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "fidelity": "partial",
+    "coverage": "covered_full",
+    "fidelity": "full",
     "needs_statement": false,
-    "fidelity_note": "The existing ADE iff is proved only for orientations of loopless 0/1 simple graphs. The source quiver notion permits loops and multiple arrows; proving those cases are infinite type and removing the restrictive typeclasses remains #7408.",
-    "fidelity_issue": 7408,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "Theorem_2_1_2 proves the ADE iff for orientations of loopless simple graphs; Theorem_2_1_2_general (Theorem2_1_2_General.lean) removes the typeclass restrictions and classifies every connected finite quiver allowed by the book's definition, with loops, parallel arrows and two-way edges handled by proved infinite-type branches (not_hasFiniteRepresentationType_of_loop / _of_parallel / _of_opposite).",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter2/Discussion_after_Theorem2.1.2",
@@ -604,12 +603,11 @@
     "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "Part (1): k is the only simple/indecomposable k-module (IsSimpleModule k k). Part (2): the 1-dim irreducibles are classified (Example_2_3_14_polynomial_reps: simple k[x]-modules are 1-dimensional). The Jordan-block reps V_{λ,n} are now built as genuine k[X]-modules (jordanRep = Module.AEval' of jordanBlock), proved indecomposable (jordanRep_indecomposable, via: every nonzero J-invariant subspace contains the eigenvector e₀) and proved not simple for n≥2 (jordanRep_not_isSimpleModule), giving the book's conclusion 'indecomposable need not be irreducible' (exists_indecomposable_not_simple, witness V_{0,2}). Remaining (noted in file): the completeness half — that every f.d. indecomposable k[x]-rep is some V_{λ,n} — is Jordan normal form existence/uniqueness, which the book cites rather than proves and which is not formalized here.",
-    "fidelity_decl": "Etingof.Example_2_3_14.jordanRep_indecomposable; Etingof.Example_2_3_14.jordanRep_not_isSimpleModule; Etingof.Example_2_3_14.exists_indecomposable_not_simple",
-    "coverage": "covered_partial",
-    "coverage_note": "The Jordan-block modules are constructed and proved indecomposable, but the exhaustive and unique classification of every finite-dimensional indecomposable k[X]-module is not yet formalized. Follow-up: #7364.",
-    "followup_issue": 7364,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "Part (1): k is the only simple/indecomposable k-module (IsSimpleModule k k). Part (2): the 1-dim irreducibles are classified (Example_2_3_14_polynomial_reps: simple k[x]-modules are 1-dimensional). The Jordan-block reps V_{λ,n} are built as genuine k[X]-modules (jordanRep = Module.AEval' of jordanBlock), proved indecomposable (jordanRep_indecomposable, via: every nonzero J-invariant subspace contains the eigenvector e₀) and proved not simple for n>=2 (jordanRep_not_isSimpleModule), giving the book's conclusion 'indecomposable need not be irreducible' (exists_indecomposable_not_simple, witness V_{0,2}). The completeness half is now formalized too: exists_equiv_jordanRep shows every finite-dimensional indecomposable k[X]-module over an algebraically closed field is isomorphic to some V_{λ,n} with n ≥ 1, and jordanRep_equiv_iff shows the blocks are pairwise nonisomorphic (V_{λ,n} ≅ V_{μ,m} forces λ = μ and n = m). The route is the Mathlib structure theorem for finitely generated modules over the PID k[X] (Module.equiv_directSum_of_isTorsion) plus the cyclic model jordanQuotEquiv : k[X]/((X-λ)ⁿ) ≅ V_{λ,n}.",
+    "fidelity_decl": "Etingof.Example_2_3_14.jordanRep_indecomposable; Etingof.Example_2_3_14.jordanRep_not_isSimpleModule; Etingof.Example_2_3_14.exists_indecomposable_not_simple; Etingof.Example_2_3_14.exists_equiv_jordanRep; Etingof.Example_2_3_14.jordanRep_equiv_iff",
+    "coverage": "covered_full",
+    "coverage_note": "The Jordan-block modules are constructed, proved indecomposable, proved to exhaust the finite-dimensional indecomposable k[X]-modules over an algebraically closed field (exists_equiv_jordanRep), and proved pairwise nonisomorphic (jordanRep_equiv_iff). Both halves of the book's classification are formalized.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter2/Example2.3.14_continued",
@@ -773,12 +771,12 @@
     "start_line": 1,
     "end_line": 4,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "full",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "Mathlib supplies free algebras and two-sided-ideal quotients, but the project has no generic presented-algebra construction, relator theorem, or universal property for this source discussion; follow-up #7475.",
-    "fidelity_issue": 7475,
-    "last_updated": "2026-07-22",
+    "coverage": "covered",
+    "lean_file": "EtingofRepresentationTheory/Chapter2/Discussion_2_6.lean",
+    "coverage_note": "Chapter2/Discussion_2_6.lean now supplies the source construction generically: `PresentedAlgebra k X R rel` is `k⟨X⟩` modulo the two-sided ideal generated by the relators (`(TwoSidedIdeal.span (Set.range rel)).ringCon.Quotient`), with quotient hom `mk`, generator map `gen`, the defining-relation theorem `mk_rel`, and the universal property (`lift`, `lift_gen`, `hom_ext`, `existsUnique_lift`) plus its converse `lift_rel_eq_zero`. The book's finite `k⟨x₁,…,xₙ⟩/⟨f₁,…,f_m⟩` is the `X := Fin n`, `R := Fin m` specialization (`finPresentation_def`). All public declarations are sorryAx-free; #7475 resolved.",
+    "last_updated": "2026-07-26",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -893,16 +891,16 @@
     "start_line": 9,
     "end_line": 20,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "Parts (a) and (c) are formalized. Part (b) has only the necessary direction (a nontrivial finite-dimensional representation forces q to be a root of unity); the converse existence half is #7846. For part (c) the classification is complete: Problem2_7_5_Family.lean constructs the family V(alpha,beta) with central character (alpha, beta^n), Problem2_7_5_FamilySimple.lean proves each member simple, Problem2_7_5_Iso.lean proves V(alpha,beta) = V(alpha',beta') iff alpha = alpha' and beta^n = beta'^n, and Problem2_7_5_Exhaustive.lean proves the family exhausts the finite-dimensional irreducibles (exists_fam_linearEquiv) and packages the existence-and-uniqueness endpoint exists_unique_fam_linearEquiv; finrank_irreducible_eq_orderOf is re-derived from it.",
-    "fidelity_issue": 7846,
+    "coverage": "covered_full",
+    "coverage_note": "All three parts are formalized. Part (a): center_eq_bot_of_not_isOfFinOrder (trivial center when q is not a root of unity), center_of_isOfFinOrder (the subalgebra generated by x^{+-n}, y^{+-n} when it is), and isSimpleRing_of_not_isOfFinOrder (no proper two-sided ideals when q is not a root of unity). Part (b): isOfFinOrder_iff_exists_nontrivial_finrep in Problem2_7_5_Converse.lean is the book's iff — the necessary direction is the determinant obstruction q_pow_finrank_eq_one/isOfFinOrder_of_nontrivial_finrep, and the converse witness is the constructed module V(1,1), which is nonzero, finite-dimensional, irreducible (fam_isSimpleModule) and of dimension orderOf q. Part (c): Problem2_7_5_Family.lean constructs the family V(alpha,beta) with central character (alpha, beta^n), Problem2_7_5_FamilySimple.lean proves each member simple, Problem2_7_5_Iso.lean proves V(alpha,beta) = V(alpha',beta') iff alpha = alpha' and beta^n = beta'^n, and Problem2_7_5_Exhaustive.lean proves the family exhausts the finite-dimensional irreducibles (exists_fam_linearEquiv) and packages the existence-and-uniqueness endpoint exists_unique_fam_linearEquiv; finrank_irreducible_eq_orderOf is re-derived from it.",
     "last_updated": "2026-07-26",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_7_5.lean",
       "EtingofRepresentationTheory/Chapter2/Problem2_7_5_Family.lean",
       "EtingofRepresentationTheory/Chapter2/Problem2_7_5_FamilySimple.lean",
       "EtingofRepresentationTheory/Chapter2/Problem2_7_5_Iso.lean",
-      "EtingofRepresentationTheory/Chapter2/Problem2_7_5_Exhaustive.lean"
+      "EtingofRepresentationTheory/Chapter2/Problem2_7_5_Exhaustive.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_7_5_Converse.lean"
     ]
   },
   {
@@ -1363,12 +1361,12 @@
     "start_line": 3,
     "end_line": 6,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "sorry_free": true,
-    "fidelity_note": "The three relations are proved for a coordinate k×k×k Lie algebra, but that model is not connected to the canonical traceless-matrix sl₂ used elsewhere. The source also says U(sl₂) is generated by e,f,h with these relations; generation/completeness of the presentation is explicitly omitted. Reopened #5361.",
-    "fidelity_decl": "theorem sl2_universal_relations : HE-EH=2E ∧ HF-FH=-2F ∧ EF-FE=H (in U of the coordinate model)",
-    "followup_issue": 5361,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "FULL. The book's claim -- U(sl(2)) IS the algebra generated by e, f, h subject to he-eh=2e, hf-fh=-2f, ef-fe=h -- is now formalized in both halves. Generation: adjoin_ι_e_f_h proves Algebra.adjoin k {ι e, ι f, ι h} = ⊤ (via adjoin_range_ι, that ι's image generates any universal enveloping algebra). Completeness of the presentation: Presentation k, the free k-algebra on Fin 3 modulo exactly the three relations (PresRel), is exhibited as k-algebra isomorphic to U(sl2 k) by presentationEquiv, with presentationEquiv_gen_zero/one/two matching the three presented generators to ι e, ι f, ι h. The earlier gap 'coordinate model not connected to the canonical traceless-matrix sl₂' is closed by slEquiv, a LieEquiv onto Mathlib's LieAlgebra.SpecialLinear.sl (Fin 2) k sending e, f, h to E₀₁, E₁₀, E₀₀-E₁₁, with isSl2Triple_slEquiv recording that these form an IsSl2Triple. Non-vacuity: stdRep (the standard 2-dimensional representation) gives ι_e_ne_zero and hence Nontrivial instances for U(sl2 k) and Presentation k over nontrivial k, so the presented algebra is not the zero ring. All declarations depend only on propext/Classical.choice/Quot.sound. Closes #5361.",
+    "fidelity_decl": "def presentationEquiv : Presentation k ≃ₐ[k] UniversalEnvelopingAlgebra k (sl2 k); theorem adjoin_ι_e_f_h : Algebra.adjoin k {ι e, ι f, ι h} = ⊤; def slEquiv : sl2 k ≃ₗ⁅k⁆ LieAlgebra.SpecialLinear.sl (Fin 2) k",
+    "last_updated": "2026-07-25",
+    "fidelity": "verified"
   },
   {
     "id": "Chapter2/Example2.9.13",
@@ -1541,14 +1539,17 @@
     "start_line": 2,
     "end_line": 15,
     "status": "sorry_free",
-    "coverage_note": "Partially formalized. Parts (a)-(c) and determinant multiplicativity from part (g) are in EtingofRepresentationTheory/Chapter2/Problem2_11_3.lean. Problem2_11_3_SymExtPow.lean constructs the book's quotient models S^n V and ∧^n V of V^{⊗n}, the induced operators S^n A and ∧^n A with their functoriality, and the exterior half of part (d) (basis and dimension m.choose n) via an isomorphism with Mathlib's exterior power, proved away from characteristic 2. Remaining: the symmetric basis and dimension of part (d) (#7816), the characteristic-zero identification with the (anti)symmetric subspaces of part (e) (#7817), the trace formulas of part (f) (#7819), the top-exterior-power proof of part (g) (#7818), and removing the characteristic-2 hypothesis (#7820).",
-    "followup_issue": 7816,
+    "coverage_note": "Parts (a)-(g) formalized. Parts (a)-(c) are in Problem2_11_3.lean. Problem2_11_3_SymExtPow.lean constructs the book's quotient models S^n V and ∧^n V of V^{⊗n}, the induced operators S^n A and ∧^n A with their functoriality, the exterior half of part (d) (basis and dimension m.choose n) via an isomorphism with Mathlib's exterior power valid in every characteristic, and part (g): extPowMap_top proves ∧^N A = det(A) • Id in the top degree N = dim V on the book's own ∧^N V, and det_comp_of_extPowMap derives det(A ∘ B) = det(A) det(B) from it by functoriality, the book's one-line argument. Problem2_11_3_SymPowBasis.lean has the symmetric half of part (d): symPowBasis indexes a basis of S^n V by multisets, with dimension (m+n-1).choose n. Problem2_11_3_SymExtSubspace.lean has all of part (e): the symmetrizer and antisymmetrizer on V^{⊗n}, the computation of their ranges and kernels, and the resulting isomorphisms S^n V ≃ symTensorSubmodule and ∧^n V ≃ altTensorSubmodule, valid whenever n! is invertible in k. Problem2_11_3_Trace.lean has part (f): trace_extPowMap gives Tr(∧^n A) as the elementary symmetric function e_n of the eigenvalues and trace_symPowMap gives Tr(S^n A) as the complete homogeneous symmetric function h_n, for an operator triangularized by a basis with diagonal lam; IsTriangularizedBy.charpoly certifies that lam is exactly the eigenvalue list with multiplicity. Remaining: upgrading the triangularizing-basis hypothesis of part (f) to the literal 'the characteristic polynomial splits' hypothesis needs a triangularization theorem that Mathlib lacks (#7876).",
+    "followup_issue": 7876,
     "coverage": "covered_partial",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_11_3.lean",
-      "EtingofRepresentationTheory/Chapter2/Problem2_11_3_SymExtPow.lean"
+      "EtingofRepresentationTheory/Chapter2/Problem2_11_3_SymExtPow.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_11_3_SymPowBasis.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_11_3_SymExtSubspace.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_11_3_Trace.lean"
     ],
-    "last_updated": "2026-07-25"
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter2/Remark2.11.4",
@@ -1790,12 +1791,11 @@
     "start_line": 5,
     "end_line": 6,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "The characteristic-zero one-dimensional family and a characteristic-p p-dimensional counterexample are formalized. The source asks for a classification in positive characteristic, but no parameter family, isomorphism criterion, or exhaustiveness theorem exists there; follow-up #7410.",
+    "coverage": "covered_full",
+    "coverage_note": "Both characteristics are classified. Characteristic zero: charZero_exists_unique_iso_oneDim identifies every finite-dimensional irreducible with a unique member of the one-dimensional family oneDimModule. Characteristic p: the p-dimensional family Fam (X diagonal with eigenvalues a + i, Y the cyclic shift scaled by a unit) is constructed and proved irreducible, fam_nonempty_equiv_iff is the isomorphism criterion, and charP_exists_iso / charP_exists_unique_iso give exhaustiveness and uniqueness. lie_theorem_fails_charP is the resulting failure of Lie's theorem.",
     "fidelity": "faithful",
-    "fidelity_note": "The characteristic-zero scalar/family results are faithful, though a closing family-isomorphism theorem would improve the API. The positive-characteristic portion currently supplies only one irreducible witness, not the requested classification; #7410.",
-    "fidelity_issue": 7410,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "Existence-and-uniqueness classifications are exposed in both characteristics, together with the isomorphism criterion for the p-dimensional family and the disjointness of the one- and p-dimensional families (oneDim_not_equiv_fam).",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter2/Problem2.16.3",
@@ -1807,7 +1807,7 @@
     "end_line": 12,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "coverage_note": "Part (a)'s dimension results and part (b)'s non-finiteness theorem not_finiteDimensional_g_four are proved. The source additionally asks for an explicit basis of g_4; the twisted A_2^(2) loop subalgebra n_+ that receives it is built (loopPos, #7717), carries an explicit graded Module.Basis (loopBasis, #7728, graded dimensions 1, 5, 3, 5, 3, ... away from characteristic 2), and is now identified with the image of the loop realization (range_matHom_4_eq_loopPos, #7729, away from characteristics 2 and 3). The layer induction for the upper bound is in Problem2_16_3_Layers.lean: the odd-to-even step (#7732) and, from #7749, the even-to-odd step for four of the six odd-layer fields together with EvenLayer.step, which propagates the even-layer invariant unconditionally in every even t-degree (evenLayer_evenTower). Problem2_16_3_Tower.lean (#7782) computes the loop realization on both layer towers (gbar_topOdd, gbar_evenTower), giving topOdd_ne_zero / evenTower_ne_zero and the full fidelity statement gbar_loopFam_4, hence linearIndependent_loopFam_4: the LoopIdx-indexed family in g_4 is linearly independent away from characteristics 2 and 3, so the graded dimensions 1, 5, 3, 5, 3, ... are a lower bound unconditionally. Still missing: the sixth odd-layer field, i.e. the Gabber-Kac vanishing of the layer defect, now reduced to a single bidegree-wise dimension inequality (#7783), and assembling the Module.Basis for g_4 (#7720).",
+    "coverage_note": "Part (a)'s dimension results and part (b)'s non-finiteness theorem not_finiteDimensional_g_four are proved. The source additionally asks for an explicit basis of g_4; the twisted A_2^(2) loop subalgebra n_+ that receives it is built (loopPos, #7717), carries an explicit graded Module.Basis (loopBasis, #7728, graded dimensions 1, 5, 3, 5, 3, ... away from characteristic 2), and is now identified with the image of the loop realization (range_matHom_4_eq_loopPos, #7729, away from characteristics 2 and 3). The layer induction for the upper bound is in Problem2_16_3_Layers.lean: the odd-to-even step (#7732) and, from #7749, the even-to-odd step for four of the six odd-layer fields together with EvenLayer.step, which propagates the even-layer invariant unconditionally in every even t-degree (evenLayer_evenTower). Problem2_16_3_Tower.lean (#7782) computes the loop realization on both layer towers (gbar_topOdd, gbar_evenTower), giving topOdd_ne_zero / evenTower_ne_zero and the full fidelity statement gbar_loopFam_4, hence linearIndependent_loopFam_4: the LoopIdx-indexed family in g_4 is linearly independent away from characteristics 2 and 3, so the graded dimensions 1, 5, 3, 5, 3, ... are a lower bound unconditionally. Problem2_16_3_Kernel.lean (#7801) identifies the kernel of the loop realization with the span of the layer defects (ker_gbar_eq_span_topDefect), and records that this kernel is central (lie_mem_ker_gbar) and meets only the imaginary bidegrees (2m+2, 4m+4) (ker_gbar_inf_gDeg_eq_bot), so g_4 is a graded central extension of n_+; injectivity of gbar is equivalent to the vanishing of every layer defect (gbar_injective_iff_topDefect_eq_zero). Still missing: the sixth odd-layer field, i.e. the Gabber-Kac vanishing of the layer defect, now reduced to a single bidegree-wise dimension inequality (#7783), and assembling the Module.Basis for g_4 (#7720).",
     "fidelity_issue": 7720,
     "last_updated": "2026-07-25"
   },
@@ -2313,10 +2313,9 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The radical-quotient isomorphism is proved conditional on a finite exhaustive family of simples. The supplemental finiteness file proves that each simple is finite-dimensional and bounds any already finite pairwise-nonisomorphic family, but it does not construct the finite exhaustive family whose existence the source proves; follow-up #7127.",
-    "followup_issue": 7127,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "Both clauses of the book statement are now proved. Theorem3_5_4.lean gives the radical-quotient isomorphism from a complete family, and Theorem3_5_4_CompleteFamily.lean constructs that family: Etingof.exists_finset_complete_family produces a finite set of maximal left ideals whose quotients are pairwise nonisomorphic, exhaustive, and at most finrank k A in number, and Etingof.exists_structure_mod_radical packages the isomorphism with the constructed family (#7127).",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter3/Corollary3.5.5",
@@ -2341,12 +2340,11 @@
     "start_line": 5,
     "end_line": 8,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "The two Jacobson-radical equalities are proved. The source first classifies the unique simple k[x]/(x^n)-module and the n diagonal simple modules of the upper-triangular algebra; both representation classifications are absent and tracked by #7419.",
-    "fidelity_issue": 7419,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "Both Jacobson-radical equalities are proved, and both source representation classifications are now formalized: Etingof.TruncPolySimple (simple, one-dimensional, x acts by zero, and every simple k[x]/(x^n)-module is isomorphic to it) and Etingof.UpperTriangularSimple (the n diagonal characters V_i, each simple and one-dimensional, pairwise non-isomorphic, and exhaustive).",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter3/Definition3.5.7",
@@ -2817,19 +2815,23 @@
     "sorry_free": true,
     "fidelity": "verified",
     "lean_file": [
-      "EtingofRepresentationTheory/Chapter3/Problem3_9_2.lean"
+      "EtingofRepresentationTheory/Chapter3/Problem3_9_2.lean",
+      "EtingofRepresentationTheory/Chapter3/Problem3_9_2_Classification.lean"
     ],
-    "coverage": "covered_partial",
-    "followup_issue": 6276,
+    "coverage": "covered",
     "coverage_arm": "audited",
     "lean_decl": [
       "Etingof.Problem3_9_2.ext1_self",
       "Etingof.Problem3_9_2.ext1_subsingleton_of_ne",
       "Etingof.Problem3_9_2.two_dim_is_extension",
-      "Etingof.Problem3_9_2.infinitely_many_indecomposables"
+      "Etingof.Problem3_9_2.infinitely_many_indecomposables",
+      "Etingof.Problem3_9_2.two_dim_normal_form",
+      "Etingof.Problem3_9_2.jrep_iso_iff",
+      "Etingof.Problem3_9_2.split_iso_iff",
+      "Etingof.Problem3_9_2.split_not_iso_jrep"
     ],
-    "last_updated": "2026-07-22",
-    "coverage_note": "The Ext¹ computation and the infinite indecomposable family in part (b) are proved. For part (a), two_dim_is_extension only reduces an arbitrary two-dimensional module to an extension of one-dimensional modules; it does not provide normal forms or the isomorphism criterion obtained by splitting distinct weights and quotienting self-extension classes by automorphisms. The requested classification remains #6276.",
+    "last_updated": "2026-07-26",
+    "coverage_note": "The Ext¹ computation and the infinite indecomposable family in part (b) are proved. Part (a)'s classification of two-dimensional representations is complete: two_dim_normal_form exhibits every two-dimensional module as a direct sum V_b × Vₐ with distinct weights or as a dual-number module Jrep a c, jrep_iso_iff identifies Jrep a c with Jrep a' c' exactly when a = a' and the classes are proportional (so nonzero self-extension classes are parametrized by the projective space of ℂⁿ), split_iso_iff gives the unordered-pair criterion for the split forms, and split_not_iso_jrep separates the two families.",
     "derived": [
       {
         "part": "(a) Ext¹(Vₐ,V_b) and 2-dim reps of ℂ[x₁..xₙ]",
@@ -2869,20 +2871,28 @@
     "end_line": 17,
     "status": "sorry_free",
     "sorry_free": true,
-    "fidelity": "partial",
-    "coverage": "covered_partial",
+    "fidelity": "full",
+    "coverage": "covered_full",
     "coverage_arm": "audited",
     "lean_decl": [
       "Etingof.Problem3_9_3.simpleRep_isIrreducible",
       "Etingof.Problem3_9_3.irreducible_isSimpleRep",
       "Etingof.Problem3_9_3.ext1_simpleRep_vanishes_iff",
       "Etingof.Problem3_9_3.finrank_ext1_simpleRep",
-      "Etingof.Problem3_9_3.two_dim_classification"
+      "Etingof.Problem3_9_3.two_dim_classification",
+      "Etingof.Problem3_9_3.twoRep",
+      "Etingof.Problem3_9_3.sum_dimVec_twoRep",
+      "Etingof.Problem3_9_3.twoRepZeroEquivDirectSum",
+      "Etingof.Problem3_9_3.two_dim_normalForm",
+      "Etingof.Problem3_9_3.twoRep_isIndecomposable",
+      "Etingof.Problem3_9_3.twoRep_zero_not_isIndecomposable",
+      "Etingof.Problem3_9_3.twoRepEquivSmul",
+      "Etingof.Problem3_9_3.exists_smul_of_equiv_twoRep",
+      "Etingof.Problem3_9_3.vertices_eq_of_equiv_twoRep",
+      "Etingof.Problem3_9_3.two_dim_classification_of_normalForm"
     ],
-    "last_updated": "2026-07-22",
-    "coverage_note": "The irreducible classification and exact Ext^1 dimension formula are now proved (#7376). The two-dimensional theorem still gives only necessary conditions rather than isomorphisms to the classified normal forms required by the problem; follow-up #7420.",
-    "fidelity_issue": 7420,
-    "followup_issue": 7420,
+    "last_updated": "2026-07-26",
+    "coverage_note": "All three parts are covered. The irreducible classification and exact Ext^1 dimension formula are in Problem3_9_3.lean (#7376). The two-dimensional classification is in Problem3_9_3_TwoDim.lean (#7420): the normal form `twoRep i j c`, exhaustiveness as an actual isomorphism (`two_dim_normalForm`), the indecomposability dichotomy, and the support / scalar isomorphism criteria (the latter records the effect of parallel arrows). The old necessary-condition disjunction is re-derived from the normal form as `two_dim_classification_of_normalForm`.",
     "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_3.lean"
   },
   {
@@ -4214,16 +4224,15 @@
     "end_page": "87",
     "start_line": 5,
     "end_line": 2,
-    "status": "partially_proved",
-    "coverage_note": "Problem4_12_8.lean is fully sorry-free: (a) so3_finite_subgroup_classification — every finite subgroup of SO(3) is cyclic/dihedral/A4/S4/A5; (b) su2_finite_subgroup_double_cover — SU(2) double-cover relation. Part (a) proved via the pole-counting route (#6802): the milestone lemmas (exists_fixed_vector, isCyclic_of_common_fixed_vector, pole_order_diophantine) and the tetrahedral/octahedral/icosahedral disjuncts (including the icosahedral crux so3_icosahedral_exists_faithful_perm5 via the simple-group / index-5 coset route) are all proved. No Mathlib support (no SO(3) eigenvalue-1, no MulAction on vectors, no MulEquiv targets). (b) upgraded (#7281) to the enumerated binary-polyhedral classification: su2_finite_subgroup_classification pins the concrete double cover (Problem4_12_7.exists_surjective_hom_to_SO3), classifies the image h(H) into the five SO(3) families, and shows H is the full binary preimage h^-1(h(H)) when -1 in H (order 2|h(H)|) or isomorphic to h(H) when -1 not in H; supporting su2_image_classification, su2_full_preimage_of_neg_one_mem, su2_iso_image_of_neg_one_not_mem. All axiom-clean (no sorryAx).",
-    "fidelity": "partial",
-    "fidelity_decl": "Etingof.Problem4_12_8.so3_finite_subgroup_classification, Etingof.Problem4_12_8.su2_finite_subgroup_double_cover",
+    "status": "proved",
+    "coverage_note": "Problem4_12_8.lean is fully sorry-free: (a) so3_finite_subgroup_classification — every finite subgroup of SO(3) is cyclic/dihedral/A4/S4/A5; (b) su2_finite_subgroup_double_cover — SU(2) double-cover relation. Part (a) proved via the pole-counting route (#6802): the milestone lemmas (exists_fixed_vector, isCyclic_of_common_fixed_vector, pole_order_diophantine) and the tetrahedral/octahedral/icosahedral disjuncts (including the icosahedral crux so3_icosahedral_exists_faithful_perm5 via the simple-group / index-5 coset route) are all proved. No Mathlib support (no SO(3) eigenvalue-1, no MulAction on vectors, no MulEquiv targets). (b) upgraded (#7281) to the enumerated binary-polyhedral classification: su2_finite_subgroup_classification pins the concrete double cover (Problem4_12_7.exists_surjective_hom_to_SO3), classifies the image h(H) into the five SO(3) families, and shows H is the full binary preimage h^-1(h(H)) when -1 in H (order 2|h(H)|) or isomorphic to h(H) when -1 not in H; supporting su2_image_classification, su2_full_preimage_of_neg_one_mem, su2_iso_image_of_neg_one_not_mem. Completed (#7281, second pass) to the book's exact list: su2_sq_eq_one shows SU(2) has a unique involution (-1); su2_isCyclic_of_neg_one_not_mem shows -1 not in H forces H cyclic of odd order (the four noncyclic SO(3) families all have even order); su2_isCyclic_of_image_isCyclic shows a cyclic image forces H cyclic (binary cyclic is cyclic). su2_finite_subgroup_binary_classification is then the exact disjunction: cyclic, or the full binary preimage of a noncyclic SO(3) subgroup with order 4n (2.Dn), 24 (2.A4), 48 (2.S4), 120 (2.A5). All axiom-clean (no sorryAx).",
+    "fidelity": "full",
+    "fidelity_decl": "Etingof.Problem4_12_8.so3_finite_subgroup_classification, Etingof.Problem4_12_8.su2_finite_subgroup_binary_classification",
     "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_12_8.lean",
     "coverage": "covered_partial",
     "coverage_issue": 7539,
-    "followup_issue": 7281,
-    "fidelity_note": "Part (a), the finite-subgroup classification of SO(3), is fully proved. The SU(2) theorem classifies the image in SO(3) and identifies H with its image when -1 is absent, but it does not prove that this branch must be cyclic; ordinary dihedral/A4/S4/A5 copies therefore remain formally allowed instead of the exact cyclic-or-binary-polyhedral list. Follow-up #7281.",
-    "last_updated": "2026-07-22"
+    "fidelity_note": "Both parts fully proved. Part (a) is the finite-subgroup classification of SO(3). Part (b) is now the book's exact list: su2_finite_subgroup_binary_classification gives cyclic or one of the four binary polyhedral families with their orders; the cyclic disjunct is proved (not left open) via the unique involution of SU(2).",
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter4/Problem4.12.9",
@@ -4234,18 +4243,22 @@
     "start_line": 3,
     "end_line": 4,
     "status": "proved",
-    "coverage_note": "The character formulas for all four tensor products are proved and axiom-clean. The source states representation decompositions, but no RHS direct-sum FDRep objects or equivariant isomorphisms are exposed; follow-up #7416.",
+    "coverage_note": "All four tensor-product decompositions are proved as equivariant isomorphisms in `FDRep ℂ (Heisenberg p)`: `R_z ⊗ R_w ≅ p·R_{zw}`, `R_z ⊗ R_{z⁻¹} ≅ ⨁_χ χ` over all p² one-dimensional characters, `χ ⊗ χ' ≅ χχ'`, and `χ ⊗ R_z ≅ R_z`. The RHS direct sums are the concrete objects `Etingof.FDRep.pi`, and the character identities are retained as the computations they rest on. Axiom-clean.",
     "fidelity": "verified",
-    "fidelity_issue": 7416,
     "fidelity_decl": [
       "Etingof.Problem4_12_9.character_Rz",
-      "Etingof.Problem4_12_9.tensor_character_nonone",
-      "Etingof.Problem4_12_9.tensor_character_inv"
+      "Etingof.Problem4_12_9.tensor_iso_Rz_mul",
+      "Etingof.Problem4_12_9.tensor_iso_oneDimSum",
+      "Etingof.Problem4_12_9.tensor_iso_char_char",
+      "Etingof.Problem4_12_9.tensor_iso_char_Rz",
+      "Etingof.Problem4_12_9.tensor_iso_Rz_mul_biproduct",
+      "Etingof.Problem4_12_9.tensor_iso_oneDimSum_biproduct",
+      "Etingof.Problem4_12_9.tensorIsoCharChar"
     ],
     "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_12_9.lean",
-    "coverage": "covered_partial",
-    "fidelity_note": "The trace identities are genuine and determine isomorphism classes over C, but the requested representation-level decompositions themselves are not packaged. #7416 records the structural endpoint.",
-    "last_updated": "2026-07-22"
+    "coverage": "covered",
+    "fidelity_note": "The source's four decompositions are now representation isomorphisms, not only trace identities. The right-hand sides are the constructed direct sums `Etingof.FDRep.pi`, which is proved to be the categorical biproduct (`Etingof.FDRep.piBiconeIsBilimit`), so the two direct-sum statements are also available in `⨁` form.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter4/Problem4.12.10",
@@ -4281,14 +4294,13 @@
     "start_line": 9,
     "end_line": 12,
     "status": "sorry_free",
-    "coverage_note": "EtingofRepresentationTheory/Chapter4/Problem4_12_11.lean fully sorry-free (SO(3) conjugation on End(ℝ³): scalar/skew/traceless-symmetric decomposition, S²V=ℝ⊕W, irreducibility of V,W, Hooke's law f(x+y)=Kx+μy). Part (a) decomposition/finranks proved; skewSub_irreducible (#6539) and tracelessSymSub_irreducible (#6547, V4 sign-projections + Pc cyclic spread + 45° rotations Rz45/Ry45) both proved. Part (b) complexification (#6985): skewSub_irreducible_complexified and tracelessSymSub_irreducible_complexified prove V⊗ℂ (skewSubc) and W⊗ℂ (tracelessSymSubc) irreducible on EndVc=Matrix(Fin 3)(Fin 3)ℂ, by transporting the real combinatorial argument through the ring hom cx via cx_conjRep. hooke_law (#6548, Schur via odd-degree real eigenvalue) proved.",
+    "coverage_note": "EtingofRepresentationTheory/Chapter4/Problem4_12_11.lean fully sorry-free (SO(3) conjugation on End(ℝ³): scalar/skew/traceless-symmetric decomposition, S²V=ℝ⊕W, irreducibility of V,W, Hooke's law f(x+y)=Kx+μy). Part (a) decomposition/finranks proved; skewSub_irreducible (#6539) and tracelessSymSub_irreducible (#6547, V4 sign-projections + Pc cyclic spread + 45° rotations Rz45/Ry45) both proved. Part (b) complexification (#6985): skewSub_irreducible_complexified and tracelessSymSub_irreducible_complexified prove V⊗ℂ (skewSubc) and W⊗ℂ (tracelessSymSubc) irreducible on EndVc=Matrix(Fin 3)(Fin 3)ℂ, by transporting the real combinatorial argument through the ring hom cx via cx_conjRep. hooke_law (#6548, Schur via odd-degree real eigenvalue) proved. Exact-domain Hooke endpoint (#7795, Gap A of the #7302 audit): symRep packages S²V as a Representation ℝ SO3 symSub, symProj : M ↦ (M+Mᵀ)/2 is the SO(3)-equivariant projection End(V) ↠ S²V, symExtend f = f ∘ symProj extends the book's f : S²V → End(V) to End(V) (equivalently by 0 on the skew summand) and symExtend_equivariant shows the extension stays equivariant; hooke_law_symSub then states the conclusion for the book's data f : S²V → End(V), with hooke_law_symSub_add giving f(x+y) = Kx + μy and hooke_law_symSub_two_moduli giving the '54 parameters reduce to 2' form (every d ∈ S²V splits as x + y with x ∈ ℝ·1, y ∈ W, and f d = Kx + μy). hooke_law_add states the same displayed form for the End(V)-domain hooke_law. symSub_subtype_equivariant witnesses non-vacuity of the equivariance hypothesis. The 3-dimensional summand is also identified with the standard representation rather than only asserted in prose (#7796, Gap B of the same audit): stdRep is the SO(3)-action on ℝ³ by matrix-vector multiplication, hatMap/unhat are the hat map and its inverse, hatEquiv : (Fin 3 → ℝ) ≃ₗ[ℝ] skewSub, and hatEquiv_equivariant intertwines stdRep with skewRep (the restriction of conjRep to skewSub). The determinant enters via transpose_mul_hatMap_mulVec (Aᵀ · hat(A·v) · A = det A • hat v), which is why the summand is the SO(3)-standard representation and not its determinant twist.",
     "fidelity": "verified",
-    "fidelity_decl": "Etingof.Problem4_12_11.endV_isInternal, Etingof.Problem4_12_11.symSub_eq_scalar_sup_tracelessSym, Etingof.Problem4_12_11.scalarSub_finrank, Etingof.Problem4_12_11.skewSub_finrank, Etingof.Problem4_12_11.tracelessSymSub_finrank, Etingof.Problem4_12_11.skewSub_irreducible, Etingof.Problem4_12_11.tracelessSymSub_irreducible, Etingof.Problem4_12_11.skewSub_irreducible_complexified, Etingof.Problem4_12_11.tracelessSymSub_irreducible_complexified, Etingof.Problem4_12_11.hooke_law",
+    "fidelity_decl": "Etingof.Problem4_12_11.endV_isInternal, Etingof.Problem4_12_11.symSub_eq_scalar_sup_tracelessSym, Etingof.Problem4_12_11.scalarSub_finrank, Etingof.Problem4_12_11.skewSub_finrank, Etingof.Problem4_12_11.tracelessSymSub_finrank, Etingof.Problem4_12_11.skewSub_irreducible, Etingof.Problem4_12_11.tracelessSymSub_irreducible, Etingof.Problem4_12_11.skewSub_irreducible_complexified, Etingof.Problem4_12_11.tracelessSymSub_irreducible_complexified, Etingof.Problem4_12_11.hooke_law, Etingof.Problem4_12_11.hooke_law_add, Etingof.Problem4_12_11.symRep, Etingof.Problem4_12_11.symProj_equivariant, Etingof.Problem4_12_11.symExtend_equivariant, Etingof.Problem4_12_11.hooke_law_symSub, Etingof.Problem4_12_11.hooke_law_symSub_add, Etingof.Problem4_12_11.hooke_law_symSub_two_moduli, Etingof.Problem4_12_11.hatEquiv_equivariant, Etingof.Problem4_12_11.hatMap_mulVec",
     "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_12_11.lean",
     "coverage": "covered_partial",
-    "followup_issue": 7302,
-    "fidelity_note": "The SO(3) decomposition, dimensions, and real/complex irreducibility results are genuine and sorry-free. The Hooke endpoint is narrower than the source: it assumes an equivariant self-map End(V)→End(V), while the book supplies only f:S²V→End(V). The previously asserted extension through an equivariant projection is not formalized, so an exact-domain theorem remains #7302.",
-    "last_updated": "2026-07-22"
+    "fidelity_note": "[RE-AUDITED by #7302, 2026-07-25; both gaps of that audit are now closed — GAP B by #7796, GAP A by #7795 — so the rating returns to `verified`] lake build exits 0; file sorry-free; all headline declarations axiom-clean ([propext, Classical.choice, Quot.sound], no sorryAx, and the `lake env lean` run reported no error:, so no false-sorryAx elaboration artifact). FAITHFUL: SO3 = Matrix.specialOrthogonalGroup (Fin 3) ℝ is the genuine special orthogonal group (orthogonal AND det = 1, which matters — for O(3) the skew summand would be V ⊗ det); conjRep : Representation ℝ SO3 EndV is a real representation (map_one'/map_mul' discharged, conjRep A M = A * M * star A with star A = Aᵀ = A⁻¹ on SO3); scalarSub/skewSub/tracelessSymSub/symSub are genuine Submodule data, all conjRep-invariant (conjRep_invariant); scalarSub carries the trivial action (immediate from the axiom-checked conjRep_one + map_smul, not stated standalone — presentational nit). endV_isInternal is a genuine internal direct sum and with finranks 1/3/5 delivers End(V) = ℝ ⊕ (3-dim) ⊕ (5-dim) as representations; symSub_eq_scalar_sup_tracelessSym delivers S²V = ℝ ⊕ W. Reading S²V as symmetric matrices is NOT a gap — the book itself makes that identification. All four irreducibility theorems have the correct shape (U ≤ ambient, invariant ⟹ U = ⊥ ∨ U = ambient); the complexification is genuine, not a relabelling (skew_decompc/traceless_sym_decompc show skewSubc/tracelessSymSubc are ℂ-spanned by cx of the real bases, and cx_conjRep intertwines conjRep with conjRepc). The book's f(x+y) = Kx + μy is a verified corollary of hooke_law, and 'S_P symmetric' is its third conjunct. NON-VACUOUS (all witnesses elaborated against the real source file): SO3 nontrivial (Dz ≠ 1); the hooke_law intertwiner hypothesis is satisfiable by genuine non-trivial equivariant maps (scalarProj, skewProj) and hooke_law instantiates at scalarProj to yield real K, μ; skewSub ≠ ⊥ and tracelessSymSub ≠ ⊥; no True-typed or trivially-dischargeable hypothesis. GAP A (#7795, CLOSED 2026-07-25): hooke_law assumed f : End(V) →ₗ End(V) while the book supplies f : S²V → End(V), a STRONGER hypothesis that could not be instantiated at the book's data without first extending f. The extension is now formalized, not merely asserted: symProj is equivariant (symProj_equivariant), symExtend f = f ∘ symProj is equivariant on End(V) (symExtend_equivariant), restricting back is symExtend_apply_coe, and hooke_law_symSub states the conclusion directly for the book's f : S²V →ₗ[ℝ] End(V) under f ∘ symRep A = conjRep A ∘ f, concluding f = K on ℝ·1, f = μ on W, and f x ∈ S²V (the stress tensor is symmetric); hooke_law_symSub_add and hooke_law_symSub_two_moduli give the book's displayed f(x+y) = Kx+μy and the two-moduli form. The wider End(V)-domain hooke_law is retained unchanged. GAP B (#7796, CLOSED 2026-07-25): the 3-dimensional summand was never identified with the standard representation V = ℝ³ — the module docstring and the skewSub/skewSub_irreducible docstrings asserted 'isomorphic to the standard representation V' with no supporting theorem, the same docstring-only shape #6985 closed for complexified irreducibility. Now fixed as planned: stdRep : Representation ℝ SO3 (Fin 3 → ℝ), hatMap v = !![0,-v2,v1; v2,0,-v0; -v1,v0,0], hatEquiv : (Fin 3 → ℝ) ≃ₗ[ℝ] skewSub, and hatEquiv_equivariant/hatMap_mulVec give hat (A *ᵥ v) = conjRep A (hat v), consuming det A = 1 via transpose_mul_hatMap_mulVec. The prior note's followup_issue pointed at #7302, which is this audit, not a fix; both followups (#7795, #7796) are now resolved, so no followup_issue remains. Report: progress/reviews/2026-07-25T15-50-16Z-ch4-problem4_12_11-elasticity-hooke-fidelity.md.",
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter4/Discussion_4.13",
@@ -5487,10 +5499,20 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "The trivial/sign cases are proved at representation level, and the two three-dimensional Specht modules are proved nonisomorphic and related by sign twist. The missing endpoint is their oriented identification with the separately constructed named S₄ models: V_(3,1) ≅ stdRep = ℂ³₋ and V_(2,1,1) ≅ rotRep = ℂ³₊.",
-    "coverage": "covered_partial",
-    "followup_issue": 7188,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "All four book claims are now at representation level. The (n) and (1^n) extremes are the trivial and sign representations (Example5_12_3_trivial_rep, Example5_12_3_sign_rep). The n=3 lambda=(2,1) and n=4 lambda=(2,2) cases are dimension-only, which is faithful because each symmetric group has a unique 2-dimensional irreducible. The two 3-dimensional n=4 cases are oriented against the named S4 models of Chapter4/Example4_3_S4: Example5_12_3_specht_31_iso_stdRep gives V_(3,1) iso stdRep = C^3_-, and Example5_12_3_specht_211_iso_rotRep gives V_(2,1,1) iso rotRep = C^3_+. The orientation argument uses the row-invariant generator a_lambda c_lambda of V_(3,1), which C^3_+ cannot carry, plus the S4 irreducible catalogue Etingof.Example4_3_S4.S4_simple_iso. Closes the gap tracked by issue 7188.",
+    "coverage": "covered",
+    "last_updated": "2026-07-26",
+    "fidelity_decl": [
+      "Etingof.Example5_12_3.Example5_12_3_trivial_rep",
+      "Etingof.Example5_12_3.Example5_12_3_sign_rep",
+      "Etingof.Example5_12_3.Example5_12_3_dim_21",
+      "Etingof.Example5_12_3.Example5_12_3_dim_22",
+      "Etingof.Example5_12_3.Example5_12_3_specht_31_iso_stdRep",
+      "Etingof.Example5_12_3.Example5_12_3_specht_211_iso_rotRep",
+      "Etingof.Example5_12_3.Example5_12_3_sign_twist_31_211",
+      "Etingof.Example5_12_3.Example5_12_3_specht_31_211_noniso"
+    ],
+    "lean_file": "EtingofRepresentationTheory/Chapter5/Example5_12_3.lean"
   },
   {
     "id": "Chapter5/Corollary5.12.4",
@@ -5801,10 +5823,18 @@
     "start_line": 19,
     "end_line": 22,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "No Lean declaration states the Laurent-polynomial coefficient formula in this remark. Nearby Frobenius-character results do not expose this equivalent formulation; follow-up #7405.",
-    "fidelity_issue": 7405,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "Formalized (#7405) in Chapter5/Remark5_15_2.lean. Multivariate Laurent polynomials are modelled as MvLaurent n = AddMonoidAlgebra ℂ (Fin n →₀ ℤ), with the coefficient extraction MvLaurent.coeff and the ring embedding toLaurent from MvPolynomial (coefficient-preserving, coeff_toLaurent). frobeniusLaurentFactor n is the book's displayed factor ∏_{i<j} (1 - x_j/x_i), built from the genuinely invertible MvLaurent.Xinv (X_mul_Xinv). Etingof.Remark5_15_2 states the book's claim with no sign correction: spechtModuleCharacter n la σ = MvLaurent.coeff (expEmbed n la.toFinsupp) (frobeniusLaurentFactor n * toLaurent n (cycleTypePsumProduct n σ)). The equivalence with Theorem 5.15.1 is machine-checked and character-free in Remark5_15_2_equiv_Theorem5_15_1, which equates the x^e coefficient of ∏_{i<j}(1-x_j/x_i)·P with sign(rev) times the x^{e+ρ} coefficient of vandermondePoly·P for an arbitrary P. The mathematical content is rho_monomial_mul_frobeniusLaurentFactor: x^ρ · ∏_{i<j}(1-x_j/x_i) = ∏_{i<j}(x_i-x_j) = bookVandermondePoly. bookVandermondePoly_eq_smul reconciles the book's factor order with the project's vandermondePoly via sign(rev), computed from Equiv.Perm.sign_eq_prod_prod_Ioi (reversal inverts every pair); that sign cancels the one in Theorem5_15_1, which is why the remark is sign-free. Signature locks and #print axioms in Chapter5/Remark5_15_2_Test.lean: propext, Classical.choice, Quot.sound only, no sorryAx.",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter5/Remark5_15_2.lean"
+    ],
+    "fidelity_decl": [
+      "Etingof.Remark5_15_2",
+      "Etingof.Remark5_15_2_equiv_Theorem5_15_1",
+      "Etingof.rho_monomial_mul_frobeniusLaurentFactor",
+      "Etingof.frobeniusLaurentFactor"
+    ],
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.15.1",
@@ -5920,10 +5950,9 @@
     "start_line": 11,
     "end_line": 16,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "No Lean declaration states the positive-root order, the inverse-Kostka character expansion, or the resulting root-order vanishing of Kostka numbers. Existing dominance-order results are weaker; follow-up #7406.",
-    "fidelity_issue": 7406,
-    "last_updated": "2026-07-22"
+    "coverage": "covered",
+    "coverage_note": "All four claims of the remark are formalized in EtingofRepresentationTheory/Chapter5/Remark5_15_5.lean: the positive-root order (Nat.Partition.RootLe) with its partial-order laws, its equivalence with the dominance order (Nat.Partition.rootLe_iff_dominates), the inverse-Kostka character expansion (Etingof.spechtCharacter_eq_sum_inverseKostka_rootLe), and the root-order vanishing of Kostka numbers (Etingof.spechtMultiplicity_vanishing_rootOrder). The Kostka numbers are taken in their Young’s-rule form (Etingof.spechtMultiplicity); reconciling that with the semistandard-tableau count Etingof.KostkaNumber is tracked separately in #7457.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter5/Introduction_5.16",
@@ -6416,14 +6445,13 @@
     "start_line": 1,
     "end_line": 14,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "exact",
     "needs_statement": false,
-    "notes": "Both Proposition5_21_2_geometric and Proposition5_21_2_dimension proved (PR #1161).",
+    "notes": "Both Proposition5_21_2_geometric and Proposition5_21_2_dimension proved (PR #1161). The geometric formula generalized to arbitrary characteristic-zero fields, with the source's complex-variable and negative-integer-exponent forms exposed (#7458).",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "fidelity_note": "The dimension formula is exact. The geometric formula is exposed only for rational z with nonzero denominator factors, not for the source's complex-variable specialization; follow-up #7458. A rational-function or general-field formulation would be optional generalization.",
-    "fidelity_issue": 7458,
-    "last_updated": "2026-07-22"
+    "coverage": "covered",
+    "fidelity_note": "Both source formulas are exact. The geometric specialization is stated over any characteristic-zero field (Proposition5_21_2_geometric_field), with a hypothesis-free cross-multiplied form (Proposition5_21_2_geometric_mul), the complex-variable corollaries (Proposition5_21_2_geometric_complex, Proposition5_21_2_geometric_complex_zpow, the latter in the book's own exponents z^{lambda_i - i} / z^{-i}), and the rational case retained as a corollary. The dimension formula is exact.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter5/Introduction_5.22",
@@ -6455,20 +6483,18 @@
   },
   {
     "id": "Chapter5/Theorem5.22.1",
-    "source_regression_note": "Clean rebuild is blocked by the Theorem5_15_1 and Proposition5_21_1 chains (#7512, #7546).",
     "type": "theorem",
-    "title": "Weyl character formula: character of L_lambda is the Schur polynomial",
+    "title": "Weyl character formula: vanishing criterion, character of L_lambda, and dimension formula",
     "start_page": "132",
     "end_page": "132",
     "start_line": 33,
     "end_line": 37,
-    "status": "partially_proved",
-    "coverage": "covered_partial",
-    "coverage_issue": 7546,
-    "fidelity": "partial",
-    "fidelity_note": "The bounded-partition character and dimension formulas are proved. Because lam : Fin N → ℕ already has at most N entries, the source's first branch L_lambda = 0 iff lambda has more than N parts cannot be stated by the current API; follow-up #7399.",
-    "fidelity_issue": 7399,
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "coverage": "covered",
+    "fidelity": "full",
+    "fidelity_note": "All three branches of the source statement are formalized. SchurModuleVanishing.lean lifts the Schur module off the truncating index type: SchurModuleP k N la takes an arbitrary la : Nat.Partition n with no bound tying its parts to N, and is rfl-equal to Theorem5_22_1.lean's SchurModule at weightToPartition. The first branch is SchurModuleP_eq_bot_iff : SchurModulePSubmodule k N la = ⊥ ↔ N < Multiset.card la.parts (equivalently finrank_SchurModuleP_eq_zero_iff); the character and dimension branches are recovered on la.parts.card ≤ N as formalCharacter_SchurModuleP and finrank_SchurModuleP, and Theorem5_22_1_full bundles all three. Both sides of the criterion are witnessed non-vacuously by SchurModuleP_onePlusOne_dim_one / SchurModuleP_onePlusOne_dim_two.",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/SchurModuleVanishing.lean :: Etingof.Theorem5_22_1_full, SchurModuleP_eq_bot_iff, SchurModuleP_ne_bot_iff, finrank_SchurModuleP_eq_zero_iff, formalCharacter_SchurModuleP, finrank_SchurModuleP; EtingofRepresentationTheory/Chapter5/Theorem5_22_1.lean :: Etingof.Theorem5_22_1, Theorem5_22_1_dim",
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter5/Discussion_after_Theorem5.22.1",
@@ -6553,23 +6579,21 @@
   },
   {
     "id": "Chapter5/Theorem5.23.2",
-    "source_regression_note": "The highest-weight/Peter–Weyl source chain itself is broken (#7534).",
     "type": "theorem",
     "title": "Complete reducibility and Peter-Weyl theorem for GL(V) (continues to missing page)",
     "start_page": "133",
     "end_page": "133",
     "start_line": 13,
     "end_line": 21,
-    "status": "partially_proved",
-    "coverage": "covered_partial",
-    "fidelity": "partial",
+    "status": "proved",
+    "coverage": "covered_full",
+    "fidelity": "faithful",
     "needs_statement": false,
-    "fidelity_note": "Part (i)'s full named L_lambda/determinant-twist classification remains #7400. The equivariant Peter–Weyl and highest-weight endpoints are source-present, but their three-file dependency chain currently fails fresh elaboration; regression #7534.",
-    "fidelity_decl": "Theorem5_23_2_i, Theorem5_23_2_ii_equivariant",
+    "fidelity_note": "Part (i) now carries the book's named-constituent classification, not just semisimplicity: exists_directSum_algIrrepGL_of_isAlgebraic decomposes any finite-dimensional algebraic GL_n(k)-representation GL_n-equivariantly as a finite direct sum of the named irreducibles L_lambda = algIrrepGLRepro, and existsUnique_dominantWeight_asModuleEquiv_of_isSimpleModule classifies the simple algebraic representations by DominantWeight n (existence via the matrix-coefficient embedding into k[g_ij][1/det] plus the Peter-Weyl realization core, uniqueness via algIrrepGLRepro_iso_iff_eq). Simplicity of each L_lambda is algIrrepGLRepro_isSimpleModule and pairwise non-isomorphism is algIrrepGLRepro_noniso. Part (ii)'s equivariant Peter-Weyl endpoint is Theorem5_23_2_ii_equivariant. All sorry-free (#print axioms = propext/Classical.choice/Quot.sound). Closes #7400.",
+    "fidelity_decl": "Theorem5_23_2_i, exists_directSum_algIrrepGL_of_isAlgebraic, existsUnique_dominantWeight_asModuleEquiv_of_isSimpleModule, Theorem5_23_2_ii_equivariant",
     "fidelity_issue": 5384,
     "followup_issue": 7400,
-    "coverage_issue": 7534,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.23.2",
@@ -6603,10 +6627,10 @@
     "status": "partially_proved",
     "fidelity": "partial",
     "sorry_free": true,
-    "fidelity_note": "#7357 completed the SL_N half. slRestrict restricts a GL_N representation along Matrix.SpecialLinearGroup.toGL; detChar_toGL and slRestrict_charTwistRep_detChar_zpow show every determinant twist is invisible on SL_N; algIrrepGL_slEquiv_constShift is the SL_N-equivariant isomorphism L_{lam + c*1^N} = L_lam as a Representation.Equiv (algIrrepGL_finrank_constShift is its dimension shadow); slIsoSetoid, shiftEquiv_slIso, slIrrepClass and slIrrepClass_surjective make the parametrization by SLWeightParam N well defined and surjective onto the isomorphism classes of the L_lam|_SL. The book-disavowed sl_N complete-reducibility and highest-weight assertions are now recorded in skipped-exercises.md under 'Remark 5.23.3' rather than as proof_wanted. Still open: injectivity of slIrrepClass (#7807) and exhaustiveness of the L_lam|_SL among the irreducibles (#7808, blocked on the GL_N classification #7400).",
+    "fidelity_note": "#7357 completed the SL_N half. slRestrict restricts a GL_N representation along Matrix.SpecialLinearGroup.toGL; detChar_toGL and slRestrict_charTwistRep_detChar_zpow show every determinant twist is invisible on SL_N; algIrrepGL_slEquiv_constShift is the SL_N-equivariant isomorphism L_{lam + c*1^N} = L_lam as a Representation.Equiv (algIrrepGL_finrank_constShift is its dimension shadow); slIsoSetoid, shiftEquiv_slIso, slIrrepClass and slIrrepClass_surjective make the parametrization by SLWeightParam N well defined and surjective onto the isomorphism classes of the L_lam|_SL. #7807 added the converse, slIso_shiftEquiv: isomorphic SL_N restrictions force a constant shift, so slIrrepClass_injective and slIrrepEquiv give the bijection SLWeightParam n = Quotient (slIsoSetoid n k). Its route is the scalar torus: scalarGL acts on L_lam by s^total (algIrrepGLRepro_scalarGL), the N-th roots of unity inside SL_N force N | (total mu - total lam) (natCast_dvd_total_sub_of_slIso), and GL_N = scalars * SL_N over an algebraically closed field (specialLinearFactor) promotes the SL_N map to a GL_N map once the totals agree, at which point algIrrepGLRepro_iso_iff_eq applies. The book-disavowed sl_N complete-reducibility and highest-weight assertions are now recorded in skipped-exercises.md under 'Remark 5.23.3' rather than as proof_wanted. Still open: exhaustiveness of the L_lam|_SL among the irreducibles (#7808, blocked on the GL_N classification #7400).",
     "coverage": "covered_partial",
     "coverage_issue": 7547,
-    "followup_issue": 7807,
+    "followup_issue": 7808,
     "last_updated": "2026-07-25"
   },
   {
@@ -7011,9 +7035,9 @@
     "start_line": 15,
     "end_line": 16,
     "status": "proved",
-    "coverage_note": "Re-audited 2026-07-25 (#7320, second pass), then updated after the Heisenberg transport landed on main (#7792). All three re-derivations genuinely discharge their result by applying Etingof.Theorem5_27_1 (Dihedral:207, Heisenberg:345, Affine:209 and 454), all are exhaustive classifications (Simple + pairwise-non-iso + completeness + dimension counts), and the headline declarations are sorry-free by #print axioms (only propext, Classical.choice, Quot.sound). The affine q>2 scope worry is resolved: affine_classification_two covers Fintype.card K = 2, so the two theorems together span every finite field. The dihedral arm is FULL: it is stated over Mathlib's DihedralGroup N, the same type Problem 4.12.1(a) uses, and transported through the genuine MulEquiv dihedralEquiv via Action.resEquiv. The Heisenberg arm is now FULL too: heisenbergEquiv is a genuine ≃* from Problem4_12_2.Heisenberg p onto the semidirect-product model, heisenberg_classification' states the classification over FDRep ℂ (Problem4_12_2.Heisenberg p), and heisenberg_classification_named matches the family with the book's charRep χ and R_z representations. The affine arm remains PARTIAL: it classifies the newly defined Exercise5_27_2.AffineGroup K, the file does not import Chapter4/Problem4_12_6.lean, and the identification with Problem4_12_6.Affine K is made only in prose — so that re-derivation is not exposed over the actual Problem 4.12.6 object or its zero-sum representation Vsub. Follow-up #7789 (affine transport) carries the explicit MulEquiv formula.",
-    "coverage": "covered_partial",
-    "followup_issue": 7789,
+    "coverage_note": "Re-audited 2026-07-25 (#7320, second pass), then updated after the Heisenberg transport (#7792) and the affine transport (#7789) landed. All three re-derivations genuinely discharge their result by applying Etingof.Theorem5_27_1 (Dihedral:207, Heisenberg:345, Affine:209 and 454), all are exhaustive classifications (Simple + pairwise-non-iso + completeness + dimension counts), and the headline declarations are sorry-free by #print axioms (only propext, Classical.choice, Quot.sound). The affine q>2 scope worry is resolved: affine_classification_two covers Fintype.card K = 2, so the two theorems together span every finite field. All three arms are now FULL: each is transported onto the textbook group through a genuine MulEquiv — dihedral over Mathlib's DihedralGroup N via dihedralEquiv, Heisenberg over Problem4_12_2.Heisenberg p via heisenbergEquiv, affine over Problem4_12_6.Affine K via affineEquiv — and each family is matched with the book's named representations (dihedral; Heisenberg charRep χ and R_z; affine Problem4_12_6.charRep and the zero-sum Vsub).",
+    "coverage": "covered_full",
+    "followup_issue": null,
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Exercise5_27_2_Dihedral.lean",
@@ -7025,7 +7049,9 @@
       "Etingof.Exercise5_27_2.heisenberg_classification",
       "Etingof.Exercise5_27_2.heisenberg_classification'",
       "Etingof.Exercise5_27_2.affine_classification",
-      "Etingof.Exercise5_27_2.affine_classification_two"
+      "Etingof.Exercise5_27_2.affine_classification_two",
+      "Etingof.Exercise5_27_2.affine_classification'",
+      "Etingof.Exercise5_27_2.affine_classification_two'"
     ],
     "derived": [
       {
@@ -7058,15 +7084,20 @@
       {
         "part": "(iii) affine (4.12.6)",
         "claim": "Redo the affine x↦ax+b group (over 𝔽_q) irreducible classification via Theorem 5.27.1 (Multiplicative K ⋊ Kˣ): q−1 dim-1 characters and one dim-(q−1) rep.",
-        "coverage": "covered_partial",
+        "coverage": "covered_full",
         "lean_decl": [
           "Etingof.Exercise5_27_2.affine_classification",
           "Etingof.Exercise5_27_2.affine_classification_two",
+          "Etingof.Exercise5_27_2.affine_classification'",
+          "Etingof.Exercise5_27_2.affine_classification_two'",
+          "Etingof.Exercise5_27_2.affine_classification_named",
+          "Etingof.Exercise5_27_2.affineEquiv",
+          "Etingof.Exercise5_27_2.zeroSumFDRep",
           "Etingof.Exercise5_27_2.AffineGroup",
           "Etingof.Exercise5_27_2.affineφ"
         ],
-        "reason": "PARTIAL (re-confirmed 2026-07-25). Both the q>2 and q=2 classifications are exhaustive and sorry-free by #print axioms on Exercise5_27_2.AffineGroup K = Multiplicative K ⋊[affineφ K] Kˣ, and both apply Etingof.Theorem5_27_1 (lines 209, 454); the earlier q>2 scope worry is therefore settled, since affine_classification_two covers Fintype.card K = 2. The remaining gap is the same as the Heisenberg arm's: AffineGroup K is a different type from Problem4_12_6.Affine K (the structure with a : Kˣ, b : K), the file does not import Chapter4/Problem4_12_6.lean, no MulEquiv transports the classifications there, and the (q-1)-dimensional member is not identified with the book's zero-sum representation Problem4_12_6.Vsub. Follow-up #7789 records the explicit equivalence ⟨a,b⟩ ↦ ⟨ofAdd b, a⟩ and flags the Type vs Type* binder mismatch.",
-        "followup_issue": 7789
+        "reason": "FULL (as of #7789; the 2026-07-25 re-audit's PARTIAL verdict is superseded). affine_classification (q>2) and affine_classification_two (q=2) obtain the orbit-method classification via Etingof.Theorem5_27_1 Kˣ (Multiplicative K) (affineφ K) on the semidirect-product model. affineEquiv is a genuine ≃* (real toFun/invFun/left_inv/right_inv/map_mul', no stub) from Problem4_12_6.Affine K onto that model, sending ⟨a, b⟩ to ⟨ofAdd b, a⟩; affine_classification' and affine_classification_two' transport the two classifications across it, so the conclusions are stated over FDRep ℂ (Problem4_12_6.Affine K): exhaustive (Simple, pairwise-non-iso, completeness), n = q with q-1 dim-1 members and one dim-(q-1) member (resp. n = 2 all dim-1 when q = 2). affine_classification_named further identifies the family with the book's named representations: every dim-1 member is a Problem4_12_6.charRep χ and every character occurs, and the unique dim-(q-1) member is the hint's zero-sum representation V = Problem4_12_6.Vsub (zeroSumFDRep). Sorry-free, #print axioms clean.",
+        "followup_issue": null
       }
     ],
     "last_updated": "2026-07-25"
@@ -7384,13 +7415,12 @@
     "start_line": 21,
     "end_line": 10,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "fidelity": "verified",
-    "needs_statement": true,
+    "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "The orientation V1 → V2 → V3 is formalized. The source also treats V1 → V2 ← V3 (the pair-of-subspaces problem) and classifies its six indecomposables; that second half is absent and tracked by #7402.",
-    "fidelity_issue": 7402,
-    "last_updated": "2026-07-22"
+    "coverage_note": "Both orientations are covered at the representation level. Chapter6/Example6_2_4.lean gives the dimension-vector classification for V1 → V2 → V3 and Chapter6/Example6_2_4_Source.lean upgrades it to A₃Rep.exists_unique_iso_rep; Chapter6/Example6_2_4_Sink.lean does the same for the pair-of-subspaces orientation V1 → V2 ← V3, via Etingof.Example_6_2_4_sink and A₃SinkRep.exists_unique_iso_rep. Each of the six representatives per orientation is constructed and proved indecomposable.",
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter6/Section6.3_heading",
@@ -8307,13 +8337,12 @@
     "start_line": 9,
     "end_line": 15,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "Sub-item (1)'s double-dual NatIso is complete. For sub-item (2), the non-naturality theorem adds an unsupported field-element hypothesis and excludes F2/F3. For sub-items (3)–(4), the code proves determination by a scalar/central element but does not construct the reverse maps or the claimed ring equivalences End(F) ≃ A and End(Id) ≃ Z(A). Reopened #7103.",
-    "fidelity_issue": 7103,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "All four sub-items are now complete. (1) doubleDualNatIso plus linearEquiv_dualDual_iff_finiteDimensional. (2) not_natIso_id_contragredientFunctor holds over an arbitrary field: the scalar obstruction (which excluded F2/F3) is replaced by a transvection argument at the three-dimensional object, dual_gl_natural_eq_zero_of_three_le_finrank. (3)-(4) the determination lemmas are completed to genuine ring equivalences forgetfulEndRingEquiv : End F ~=+* A and idFunctorEndRingEquiv : End 1 ~=+* Subring.center A, on Mathlib's categorical End. Closes #7103.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter7/Introduction_7.4",
@@ -8414,13 +8443,12 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "fidelity": "partial",
+    "coverage": "covered_full",
+    "fidelity": "faithful",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "The negative finite-dimensional claim is substantively covered by the public theorem forgetful_not_representable and its Hom-dimension obstruction. The positive all-modules claim remains only an objectwise evaluation equivalence, without the natural isomorphism/CorepresentableBy witness (#7403). Independent Opus review rejected reopening #5838 as categorical repackaging rather than missing mathematical content.",
-    "fidelity_issue": 7403,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "Both source claims are public and sorry-free. The positive all-modules claim is now the natural isomorphism Etingof.Example753.forgetNatIso : coyoneda.obj (op (ModuleCat.of R R)) ≅ forget (ModuleCat R), with the Functor.CorepresentableBy witness forgetCorepresentableBy, the IsCorepresentable instance, and the two mutually inverse natural transformations evalOne (evaluation at 1) and smulOne (m ↦ (r ↦ r • m)); forgetCorepresentableBy_homEquiv_eq records that the components are the earlier objectwise equivalence Etingof.forgetful_representable (#7403). The negative finite-dimensional claim is forgetful_not_representable and its Hom-dimension obstruction. The enriched (vector-space-valued) refinement of representability is Remark 7.5.2, tracked in #7473.",
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter7/Introduction_7.6",
@@ -8730,10 +8758,10 @@
     "start_line": 23,
     "end_line": 18,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "Parts (i)–(iii) are proved. Part (iv) now gives Nonempty of an objectwise Künneth isomorphism, but the source explicitly requires a natural isomorphism; no NatIso or naturality in C and D is exposed (follow-up #7397).",
-    "fidelity_issue": 7397,
-    "last_updated": "2026-07-22"
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Parts (i)–(iv) are proved. Part (iv) now meets the source's demand for a *natural* isomorphism: Etingof.kunnethNatIso (Chapter7/KunnethIso.lean) is a natural isomorphism of bifunctors (C,D) ↦ ∐_{j+m=i} Hʲ(C) ⊗ Hᵐ(D) ≅ (C,D) ↦ Hⁱ(C ⊗ D), with Etingof.kunnethIso its objectwise form; the underlying map is the choice-free cross product Etingof.kunnethMap. Problem7_8_7_iv_nonempty is retained only as a compatibility corollary. The ℕ-reindexed variants kunnethChainComplexNatIso / kunnethCochainComplexNatIso are objectwise isomorphisms only: three of their four steps have formalized naturality squares, but the tensor/extend comparison TensorExtend.tensorObjExtendIso is natural without its naturality being formalized, so they are deliberately not claimed as natural isomorphisms.",
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter7/Introduction_7.9",
@@ -8992,10 +9020,9 @@
     "start_line": 9,
     "end_line": 16,
     "status": "sorry_free",
-    "coverage_note": "All commutative-ring statements are proved sorry-free. Part (i) remains narrower than the source: the book treats projective right modules over arbitrary rings, while the current Module.Flat theorem requires CommRing A. The source-faithful noncommutative tensor-exactness theorem is tracked by #6053.",
-    "coverage": "covered_partial",
-    "followup_issue": 6053,
-    "last_updated": "2026-07-22"
+    "coverage_note": "All three parts are proved sorry-free. Part (i) is now source-faithful: Etingof.IsFlat A M is the book's definition (exactness of the ring-tensor functor M ⊗_A - on left A-modules) for a right module over an arbitrary Ring A, and Problem_8_1_3_i proves every projective right A-module satisfies it. Problem_8_1_3_i_commRing retains the Module.Flat bridge that parts (ii) and (iii) — stated by the book for commutative A — are phrased against.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter8/Exercise8.1.4",
@@ -9561,10 +9588,9 @@
     "start_line": 11,
     "end_line": 14,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "last_updated": "2026-07-22",
-    "coverage_note": "Part (i) and the Hom-dimension/path-count computation are proved. For part (ii), the concrete family A·eᵢ is only called the family of indecomposable projective covers: projectivity, indecomposability, the vertex simples, and essential cover maps are not proved or packaged. Since algebraCartanMatrix accepts any module family, the current equality does not yet certify the source-defined Cartan matrix. Follow-up #7434.",
-    "followup_issue": 7434
+    "coverage": "covered",
+    "last_updated": "2026-07-26",
+    "coverage_note": "Part (i) and the Hom-dimension/path-count computation are proved. For part (ii) the family A·eᵢ is now certified as the source-defined projective covers, in Chapter9/PathAlgebraVertexCovers.lean: the vertex simple modules Sᵢ = augModule k Q i are simple (augModule_isSimpleModule), pairwise non-isomorphic (augModule_not_isomorphic_of_ne) and exhaust the simple modules (exists_augModule_iso), so the vertices index the simples exactly; each Pᵢ = A·eᵢ is projective (pathAlgebraProj_projective) and, for acyclic Q, indecomposable (pathAlgebraProj_isIndecomposable); the augmentation Pᵢ ↠ Sᵢ is surjective with superfluous kernel (projToSimple_essential), packaged as Etingof.ProjectiveCover in vertexProjectiveCover. cartanMatrix_pathAlgebra_eq_pathCount_of_projectiveCovers assembles these with cartanMatrix_pathAlgebra_eq_pathCount', so the computed matrix is the Cartan matrix of Definition 9.3.1."
   },
   {
     "id": "Chapter9/Introduction_9.5",
@@ -9621,10 +9647,9 @@
     "start_line": 7,
     "end_line": 12,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "The block/idempotent indexing equivalence and cross-block orthogonality are proved. Part (i) still erases which idempotent belongs to a block and does not characterize the block's modules by idempotent support or package the supported module category; follow-up #7414. Part (iii)'s separate S3 characteristic-2 development has its own coverage record.",
-    "fidelity_issue": 7414,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "Part (i) is complete: the block/idempotent bijection is now the named `blockEquivIndecomposableCentralIdempotent` (forward map `blockIdempotent`), a module lies in a block iff that block's idempotent acts as the identity on it (`inBlock_iff_simpleIdempotent_smul`, with the complementary idempotents acting by zero), and the block is equivalent to the category of modules over the corner algebra `eₖ A` (`blockEquivalence`, and `blockEquivalenceFin` on finite length objects). Part (ii) is proved; part (iii)'s separate S3 characteristic-2 development has its own coverage record.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter9/Introduction_9.6",
