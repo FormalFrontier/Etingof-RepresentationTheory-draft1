@@ -140,8 +140,13 @@ lean` on one file is seconds. You get the accurate result *and* the speed by pas
 
 ```
 lake env lean -D backward.isDefEq.respectTransparency=false -D relaxedAutoImplicit=false \
-  -D maxSynthPendingDepth=3 EtingofRepresentationTheory/<Chapter>/<File>.lean
+  -D maxSynthPendingDepth=3 -D linter.mathlibStandardSet=true \
+  EtingofRepresentationTheory/<Chapter>/<File>.lean
 ```
+
+**`linter.mathlibStandardSet` is the one you cannot afford to drop.** Without it none of
+the linters fire, so a file that CI's "No new build warnings" step will reject comes back
+silent under `lake env lean` and you learn about it an hour later from CI.
 
 Keep `lake build <Module>` as the final check before committing (it also catches
 `lakefile`/import-graph problems), but iterate with the `-D` form. Re-read `lakefile.toml`
