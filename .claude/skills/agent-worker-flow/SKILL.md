@@ -372,9 +372,33 @@ which you are expected to check against the spec and the code.
 
 | Situation | Exit |
 |---|---|
-| Plan is stale (work already done, moot, or blocked on an unmerged foundation) | `coordination skip` |
+| Plan is stale (work already done, or moot) | `coordination skip` |
+| Prerequisite file/lemma exists only in a healthy open PR | stack on it (see below) |
+| Prerequisite does not exist anywhere | `coordination skip` |
 | Symptom real, diagnosis or prescribed fix wrong | fix the real defect, document the deviation on the issue and in the PR |
 | `directive` whose approach you would have chosen differently | do it as asked (Step 1) |
+
+**A prerequisite sitting in an open PR is a reason to stack, not to skip.** Issue
+bodies are written from the planner's view of `main`, and in a repo with this much
+PR concurrency they routinely describe a file as "landed" when it is still in an
+open PR. Do not `skip` on that alone — the issue is fully specified and its
+foundation exists; only *where* it lives is wrong. Check the PR's health first
+(`gh pr view <N> --json state,mergeable,statusCheckRollup`); if it is `MERGEABLE`
+and CI is not failing:
+
+```bash
+git log --oneline origin/main..origin/<their-branch>   # find the commit you need
+git cherry-pick <sha>                                  # develop against it locally
+```
+
+Keep the cherry-pick as its own commit so it is trivially droppable, rebase onto
+`origin/main` just before pushing (if their PR merged first, the commit rebases
+away to nothing), and **say so in a PR comment** — otherwise a reviewer or repair
+agent meeting an unexplained extra commit will treat the PR as scope-creeping.
+Reserve `skip` for the case where the prerequisite exists nowhere, or its PR is
+itself unhealthy. Worked example: #7911 named `Chapter8/KoszulBasis.lean` as
+landed while it was still in open PR #7913; PR #7918 stacked on it and landed the
+full deliverable.
 
 **items.json status reconciliation — sorry-free ≠ item-complete.** For issues
 that ask you to flip a `partially_*`/`statement_formalized`/`formalized` entry
