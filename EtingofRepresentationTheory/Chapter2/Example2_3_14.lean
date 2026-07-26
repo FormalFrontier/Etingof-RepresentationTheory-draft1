@@ -335,4 +335,131 @@ theorem exists_indecomposable_not_simple :
       ¬ IsSimpleModule (Polynomial k) (jordanRep (0 : k) 2) :=
   ⟨jordanRep_indecomposable 0 2, jordanRep_not_isSimpleModule 0 2 le_rfl⟩
 
+/-!
+## The cyclic model of a Jordan block
+
+`V_{λ,n}` is the cyclic `k[X]`-module `k[X]/((X-λ)ⁿ)`: the top basis vector `e_{n-1}` is a
+cyclic vector, `X - λ` acts on it as the nilpotent down-shift, and `(X-λ)ⁿ` kills it.
+
+This is the form in which the structure theorem for modules over the principal ideal domain
+`k[X]` delivers its summands, so it is what connects that theorem to the Jordan blocks.
+-/
+
+/-- The top standard basis vector `e_{n-1} = (0, …, 0, 1)`. It is a cyclic vector for the
+Jordan block `J_{λ,n}`: applying the shift repeatedly sweeps out the whole standard basis. -/
+def eTop (n : ℕ) [NeZero n] : Fin n → k :=
+  Pi.single ⟨n - 1, Nat.sub_lt (Nat.pos_of_ne_zero (NeZero.ne n)) one_pos⟩ 1
+
+/-- Applying the shift `j < n` times to `e_{n-1}` gives the basis vector `e_{n-1-j}`. -/
+lemma shift_pow_eTop (n : ℕ) [NeZero n] {j : ℕ} (hj : j < n) :
+    ((shift n) ^ j) (eTop n : Fin n → k) = Pi.single ⟨n - 1 - j, by omega⟩ 1 := by
+  funext i
+  rw [shift_pow_apply]
+  by_cases h : (i : ℕ) + j < n
+  · rw [dif_pos h]
+    simp only [eTop, Pi.single_apply, Fin.ext_iff]
+    have : ((i : ℕ) + j = n - 1) ↔ ((i : ℕ) = n - 1 - j) := by omega
+    simp [this]
+  · rw [dif_neg h]
+    symm
+    simp only [Pi.single_apply, Fin.ext_iff]
+    rw [if_neg (by omega)]
+
+/-- `X - λ` acts on `V_{λ,n}` as the nilpotent down-shift: `J_{λ,n} - λ = S`. -/
+lemma aeval_jordanBlock_X_sub_C (lam : k) (n : ℕ) :
+    Polynomial.aeval (jordanBlock lam n) (X - C lam) = shift n := by
+  rw [map_sub, Polynomial.aeval_X, Polynomial.aeval_C]
+  ext v i
+  simp [jordanBlock, Module.algebraMap_end_apply]
+
+/-- `V_{λ,n}` has `k`-dimension `n`. -/
+@[simp] lemma finrank_jordanRep (lam : k) (n : ℕ) :
+    Module.finrank k (jordanRep lam n) = n := by
+  rw [← (Module.AEval'.of (jordanBlock lam n)).finrank_eq]
+  simp
+
+/-- Evaluation at the cyclic vector: the `k[X]`-linear map `k[X] → V_{λ,n}`, `q ↦ q • e_{n-1}`. -/
+noncomputable def cyclicMap (lam : k) (n : ℕ) [NeZero n] :
+    Polynomial k →ₗ[Polynomial k] jordanRep lam n :=
+  LinearMap.toSpanSingleton (Polynomial k) (jordanRep lam n)
+    (Module.AEval'.of (jordanBlock lam n) (eTop n))
+
+lemma cyclicMap_apply (lam : k) (n : ℕ) [NeZero n] (q : Polynomial k) :
+    cyclicMap lam n q
+      = Module.AEval'.of (jordanBlock lam n) (Polynomial.aeval (jordanBlock lam n) q (eTop n)) :=
+  rfl
+
+lemma cyclicMap_X_sub_C_pow (lam : k) (n : ℕ) [NeZero n] (j : ℕ) :
+    cyclicMap lam n ((X - C lam) ^ j)
+      = Module.AEval'.of (jordanBlock lam n) (((shift n) ^ j) (eTop n)) := by
+  rw [cyclicMap_apply, map_pow, aeval_jordanBlock_X_sub_C]
+
+/-- `(X - λ)ⁿ` annihilates the cyclic vector, since the shift is nilpotent of index `n`. -/
+lemma cyclicMap_X_sub_C_pow_self (lam : k) (n : ℕ) [NeZero n] :
+    cyclicMap lam n ((X - C lam) ^ n) = 0 := by
+  rw [cyclicMap_X_sub_C_pow]
+  have : ((shift n : (Fin n → k) →ₗ[k] (Fin n → k)) ^ n) = 0 := by
+    apply LinearMap.ext; intro v; funext i
+    rw [shift_pow_apply, dif_neg (by omega : ¬ (i : ℕ) + n < n)]
+    simp
+  rw [this]
+  simp
+
+/-- The cyclic vector generates: `q ↦ q • e_{n-1}` is onto `V_{λ,n}`. -/
+lemma cyclicMap_surjective (lam : k) (n : ℕ) [NeZero n] :
+    Function.Surjective (cyclicMap lam n) := by
+  set of := Module.AEval'.of (jordanBlock lam n) with hof
+  -- every standard basis vector is `(X-λ)^{n-1-i} • e_{n-1}`
+  have hbasis : ∀ i : Fin n,
+      of (Pi.single i 1) ∈ LinearMap.range (cyclicMap lam n) := by
+    intro i
+    have hi := i.isLt
+    refine ⟨(X - C lam) ^ (n - 1 - (i : ℕ)), ?_⟩
+    rw [cyclicMap_X_sub_C_pow, shift_pow_eTop n (by omega)]
+    have hidx : (⟨n - 1 - (n - 1 - (i : ℕ)), by omega⟩ : Fin n) = i :=
+      Fin.ext (show n - 1 - (n - 1 - (i : ℕ)) = (i : ℕ) by omega)
+    rw [hidx]
+  -- the standard basis spans, so the (a fortiori `k`-) submodule they generate is everything
+  have hspan : Submodule.span k (Set.range fun i : Fin n => (Pi.single i 1 : Fin n → k)) = ⊤ := by
+    rw [show (fun i : Fin n => (Pi.single i 1 : Fin n → k)) = ⇑(Pi.basisFun k (Fin n)) from
+      funext fun i => (Pi.basisFun_apply k (Fin n) i).symm]
+    exact (Pi.basisFun k (Fin n)).span_eq
+  have htop : (⊤ : Submodule k (Fin n → k)) ≤
+      Submodule.comap (of : (Fin n → k) →ₗ[k] jordanRep lam n)
+        ((LinearMap.range (cyclicMap lam n)).restrictScalars k) := by
+    rw [← hspan, Submodule.span_le]
+    rintro _ ⟨i, rfl⟩
+    exact hbasis i
+  intro y
+  have := htop (Submodule.mem_top (x := of.symm y))
+  rw [Submodule.mem_comap] at this
+  simpa using this
+
+/-- **The cyclic model of a Jordan block.** `V_{λ,n} ≅ k[X]/((X-λ)ⁿ)` as `k[X]`-modules.
+
+Both sides have `k`-dimension `n`, and `q ↦ q • e_{n-1}` is a surjection killing `(X-λ)ⁿ`,
+so the induced map out of the quotient is an isomorphism. -/
+noncomputable def jordanQuotEquiv (lam : k) (n : ℕ) [NeZero n] :
+    (Polynomial k ⧸ Ideal.span {(X - C lam) ^ n}) ≃ₗ[Polynomial k] jordanRep lam n := by
+  haveI : Module.Finite k (Polynomial k ⧸ Ideal.span {(X - C lam) ^ n}) :=
+    ((monic_X_sub_C lam).pow n).finite_quotient
+  have hle : Ideal.span {(X - C lam) ^ n} ≤ LinearMap.ker (cyclicMap lam n) := by
+    rw [Ideal.span_le]
+    rintro _ rfl
+    exact cyclicMap_X_sub_C_pow_self lam n
+  refine LinearEquiv.ofBijective (Submodule.liftQ _ (cyclicMap lam n) hle) ⟨?_, ?_⟩
+  · -- injective, by equality of `k`-dimensions
+    have hdim : Module.finrank k (Polynomial k ⧸ Ideal.span {(X - C lam) ^ n})
+        = Module.finrank k (jordanRep lam n) := by
+      rw [finrank_quotient_span_eq_natDegree, finrank_jordanRep]
+      simp [Polynomial.natDegree_pow]
+    have := (LinearMap.injective_iff_surjective_of_finrank_eq_finrank (K := k) hdim
+      (f := (Submodule.liftQ _ (cyclicMap lam n) hle).restrictScalars k)).2
+    exact this (fun y => by
+      obtain ⟨q, hq⟩ := cyclicMap_surjective lam n y
+      exact ⟨Submodule.Quotient.mk q, hq⟩)
+  · intro y
+    obtain ⟨q, hq⟩ := cyclicMap_surjective lam n y
+    exact ⟨Submodule.Quotient.mk q, hq⟩
+
 end Etingof.Example_2_3_14
