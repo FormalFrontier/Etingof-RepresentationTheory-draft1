@@ -1,3 +1,4 @@
+import EtingofRepresentationTheory.Infrastructure.FDRepDirectSum
 import EtingofRepresentationTheory.Infrastructure.FDRepIsotypic
 import EtingofRepresentationTheory.Infrastructure.FGModuleCatEnoughProjectives
 import EtingofRepresentationTheory.Infrastructure.FGModuleCatEnoughProjectives_Test
