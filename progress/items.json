@@ -894,13 +894,15 @@
     "end_line": 20,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "coverage_note": "Part (a) is formalized. Part (b) has only the necessary direction (a nontrivial finite-dimensional representation forces q to be a root of unity), with no converse existence theorem. For part (c), Problem2_7_5_Family.lean constructs the classifying family V(alpha,beta) with its central character (alpha, beta^n), and Problem2_7_5_Iso.lean proves the isomorphism criterion V(alpha,beta) = V(alpha',beta') iff alpha = alpha' and beta^n = beta'^n; Problem2_7_5_FamilySimple.lean proves each V(alpha,beta) is simple; exhaustiveness (#7700) remains open under #7686.",
-    "fidelity_issue": 7392,
-    "last_updated": "2026-07-25",
+    "coverage_note": "Parts (a) and (c) are formalized. Part (b) has only the necessary direction (a nontrivial finite-dimensional representation forces q to be a root of unity); the converse existence half is #7846. For part (c) the classification is complete: Problem2_7_5_Family.lean constructs the family V(alpha,beta) with central character (alpha, beta^n), Problem2_7_5_FamilySimple.lean proves each member simple, Problem2_7_5_Iso.lean proves V(alpha,beta) = V(alpha',beta') iff alpha = alpha' and beta^n = beta'^n, and Problem2_7_5_Exhaustive.lean proves the family exhausts the finite-dimensional irreducibles (exists_fam_linearEquiv) and packages the existence-and-uniqueness endpoint exists_unique_fam_linearEquiv; finrank_irreducible_eq_orderOf is re-derived from it.",
+    "fidelity_issue": 7846,
+    "last_updated": "2026-07-26",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_7_5.lean",
       "EtingofRepresentationTheory/Chapter2/Problem2_7_5_Family.lean",
-      "EtingofRepresentationTheory/Chapter2/Problem2_7_5_Iso.lean"
+      "EtingofRepresentationTheory/Chapter2/Problem2_7_5_FamilySimple.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_7_5_Iso.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_7_5_Exhaustive.lean"
     ]
   },
   {
@@ -1539,13 +1541,14 @@
     "start_line": 2,
     "end_line": 15,
     "status": "sorry_free",
-    "coverage_note": "Partially formalized in EtingofRepresentationTheory/Chapter2/Problem2_11_3.lean. Parts (a)-(c) and determinant multiplicativity from part (g) are proved; the symmetric/exterior-power quotient models, characteristic-zero tensor identifications, induced maps and trace formulas in parts (d)-(f), and the top-exterior-power proof of (g) remain. Follow-up: #7365.",
-    "followup_issue": 7365,
+    "coverage_note": "Partially formalized. Parts (a)-(c) and determinant multiplicativity from part (g) are in EtingofRepresentationTheory/Chapter2/Problem2_11_3.lean. Problem2_11_3_SymExtPow.lean constructs the book's quotient models S^n V and ∧^n V of V^{⊗n}, the induced operators S^n A and ∧^n A with their functoriality, and the exterior half of part (d) (basis and dimension m.choose n) via an isomorphism with Mathlib's exterior power, proved away from characteristic 2. Remaining: the symmetric basis and dimension of part (d) (#7816), the characteristic-zero identification with the (anti)symmetric subspaces of part (e) (#7817), the trace formulas of part (f) (#7819), the top-exterior-power proof of part (g) (#7818), and removing the characteristic-2 hypothesis (#7820).",
+    "followup_issue": 7816,
     "coverage": "covered_partial",
     "lean_file": [
-      "EtingofRepresentationTheory/Chapter2/Problem2_11_3.lean"
+      "EtingofRepresentationTheory/Chapter2/Problem2_11_3.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_11_3_SymExtPow.lean"
     ],
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter2/Remark2.11.4",
@@ -6600,11 +6603,11 @@
     "status": "partially_proved",
     "fidelity": "partial",
     "sorry_free": true,
-    "fidelity_note": "Added in #5729: the file defines the constant-shift relation and SLWeightParam and proves specialLinear_det_eq_one plus the dimension shadow algIrrepGL_finrank_constShift. It does not yet construct the claimed SL_N-equivariant shift isomorphism or prove the parametrization theorem. The general sl_N assertions are explicitly disavowed by the book and should be documented as intentional omissions rather than represented by proof_wanted; follow-up #7357.",
+    "fidelity_note": "#7357 completed the SL_N half. slRestrict restricts a GL_N representation along Matrix.SpecialLinearGroup.toGL; detChar_toGL and slRestrict_charTwistRep_detChar_zpow show every determinant twist is invisible on SL_N; algIrrepGL_slEquiv_constShift is the SL_N-equivariant isomorphism L_{lam + c*1^N} = L_lam as a Representation.Equiv (algIrrepGL_finrank_constShift is its dimension shadow); slIsoSetoid, shiftEquiv_slIso, slIrrepClass and slIrrepClass_surjective make the parametrization by SLWeightParam N well defined and surjective onto the isomorphism classes of the L_lam|_SL. The book-disavowed sl_N complete-reducibility and highest-weight assertions are now recorded in skipped-exercises.md under 'Remark 5.23.3' rather than as proof_wanted. Still open: injectivity of slIrrepClass (#7807) and exhaustiveness of the L_lam|_SL among the irreducibles (#7808, blocked on the GL_N classification #7400).",
     "coverage": "covered_partial",
     "coverage_issue": 7547,
-    "followup_issue": 7357,
-    "last_updated": "2026-07-22"
+    "followup_issue": 7807,
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter5/Introduction_5.24",
@@ -9618,10 +9621,9 @@
     "start_line": 7,
     "end_line": 12,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "The block/idempotent indexing equivalence and cross-block orthogonality are proved. Part (i) still erases which idempotent belongs to a block and does not characterize the block's modules by idempotent support or package the supported module category; follow-up #7414. Part (iii)'s separate S3 characteristic-2 development has its own coverage record.",
-    "fidelity_issue": 7414,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "Part (i) is complete: the block/idempotent bijection is now the named `blockEquivIndecomposableCentralIdempotent` (forward map `blockIdempotent`), a module lies in a block iff that block's idempotent acts as the identity on it (`inBlock_iff_simpleIdempotent_smul`, with the complementary idempotents acting by zero), and the block is equivalent to the category of modules over the corner algebra `eₖ A` (`blockEquivalence`, and `blockEquivalenceFin` on finite length objects). Part (ii) is proved; part (iii)'s separate S3 characteristic-2 development has its own coverage record.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter9/Introduction_9.6",

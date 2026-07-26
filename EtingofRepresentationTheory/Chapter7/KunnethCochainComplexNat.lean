@@ -5,9 +5,9 @@ import EtingofRepresentationTheory.Chapter7.KunnethChainComplexNat
 /-!
 # Künneth for `ℕ`-indexed cochain complexes via `ℕ`/`ℤ` reindexing (cochain case)
 
-Chapter 7's Künneth formula (`Etingof.Problem7_8_7_iv`) is stated for cohomologically indexed
-`CochainComplex (ModuleCat k) ℤ`. The `Ext` construction of Problem 8.2.8, however, works with the Hom
-cochain complexes `Hom_A(P•, N)`, which are `ℕ`-indexed cochain complexes
+Chapter 7's Künneth formula (`Etingof.Problem7_8_7_iv_nonempty`) is stated for cohomologically
+indexed `CochainComplex (ModuleCat k) ℤ`. The `Ext` construction of Problem 8.2.8, however,
+works with the Hom cochain complexes `Hom_A(P•, N)`, which are `ℕ`-indexed cochain complexes
 `CochainComplex (ModuleCat.{u} k) ℕ` (`= HomologicalComplex _ (ComplexShape.up ℕ)`). This file
 provides a Künneth isomorphism for `ℕ`-indexed cochain complexes, obtained by
 reindexing the `ℤ` result rather than reproving it.
@@ -479,7 +479,7 @@ theorem nonempty_tensorObj_extend_iso_up (C D : CochainComplex (ModuleCat.{u} k)
 spaces indexed over `ℕ`, the homology of the tensor product decomposes as a direct sum:
 `Hⁱ(C ⊗ D) ≅ ⨁_{p+q=i} Hᵖ(C) ⊗ Hᵍ(D)`.
 
-Reindexes Chapter 7's `Problem7_8_7_iv` along `embeddingUpNat`; the exact mirror of
+Reindexes Chapter 7's `Problem7_8_7_iv_nonempty` along `embeddingUpNat`; the exact mirror of
 `kunnethChainComplexNat`. Consumed by the Problem 8.2.8 `Ext` construction on the Hom cochain
 complexes `Hom_A(P•, N)`. -/
 theorem kunnethCochainComplexNat (C D : CochainComplex (ModuleCat.{u} k) ℕ) (i : ℕ) :
@@ -499,7 +499,7 @@ theorem kunnethCochainComplexNat (C D : CochainComplex (ModuleCat.{u} k) ℕ) (i
   let α₂ := (HomologicalComplex.homologyFunctor (ModuleCat.{u} k) (ComplexShape.up ℤ)
     (i : ℤ)).mapIso φ
   -- Step 3: Chapter 7's universe-general Künneth at degree `i`.
-  let α₃ := (Problem7_8_7_iv (C.extend e) (D.extend e) (i : ℤ)).some
+  let α₃ := (Problem7_8_7_iv_nonempty (C.extend e) (D.extend e) (i : ℤ)).some
   -- Step 4: reindex the `ℤ`-coproduct `⨁_{a+b=i}` onto the `ℕ`-antidiagonal `⨁_{p+q=i}`;
   -- the summands with `a < 0` or `b < 0` vanish by `homology_extend_isZero_up`.
   let ι : {p : ℕ × ℕ // p.1 + p.2 = i} → {p : ℤ × ℤ // p.1 + p.2 = (i : ℤ)} :=

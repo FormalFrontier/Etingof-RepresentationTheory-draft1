@@ -19,6 +19,11 @@ Etingof Problem 9.5.3 relates the block decomposition of a finite abelian catego
 * **(i)** There is a natural bijection between blocks of `𝒞` and *indecomposable* central
   idempotents `eₖ` of `A` (central idempotents that cannot be split nontrivially into a sum of
   two orthogonal central idempotents), under which `𝒞ₖ` is the category of `eₖ A`-modules.
+  *(This file provides the ingredients — the central character of a simple module, its linkage
+  invariance, and block connectivity from indecomposability. The bijection itself is assembled as
+  the named `Etingof.Problem953.blockEquivIndecomposableCentralIdempotent` in
+  `Problem9_5_3_BlockIdempotent.lean`, together with the characterization of `𝒞ₖ` as the modules
+  supported by `eₖ`.)*
 
 * **(ii)** Every indecomposable object of `𝒞` lies in some block `𝒞ₖ`, and
   `Hom(M, N) = 0` whenever `M ∈ 𝒞ₖ`, `N ∈ 𝒞ₗ` with `k ≠ l`. Thus `𝒞 = ⊕ₖ 𝒞ₖ`.
@@ -601,93 +606,6 @@ theorem areLinked_of_actsAsOne_common [Small.{v} R] {f : R}
       rw [h0, zero_smul] at h1; exact h1.symm)
     exact hindec.2.2.2
       ⟨f * c, f * c', hg1ne, hg2ne, g1idem, g2idem, hfc_comm, hfc'_comm, g12, hfsum⟩
-
-/-- **Problem 9.5.3 (i).** For a finite dimensional algebra `R` over a field `k`, there is a
-bijection between the blocks of the category of finite dimensional `R`-modules (linkage classes
-of simple modules) and the indecomposable central idempotents of `R`.
-
-The finiteness hypothesis is essential.
-Over a general ring the two sides differ: for `R = ℤ` the simple modules `ℤ/p` are pairwise
-unlinked (`Ext¹_ℤ(ℤ/p, ℤ/q) = 0` for `p ≠ q`), so there is one block per prime, infinitely many,
-while the only indecomposable central idempotent of `ℤ` is `1`. A finiteness assumption forcing
-a `1 = Σ eₖ` decomposition into primitive central idempotents (here: `FiniteDimensional k R`) is
-what makes the two sides match.
-
-The proof runs through `centralIdempotent_smul_simple`: each simple module has a central character
-(which central idempotents act as `1`), linked simples share it
-(`centralCharacter_eq_of_areLinked`), and the primitive central idempotents `eₖ` in the
-decomposition `1 = Σ eₖ` (`exists_completeOrthogonal_isIndecomposableCentral`) are exactly the
-indicators of the blocks. The *injectivity* direction is supplied by
-`areLinked_of_actsAsOne_common` (block connectivity from indecomposability). -/
-theorem blocks_equiv_indecomposableCentralIdempotents
-    {k : Type*} [Field k] [Algebra k R] [FiniteDimensional k R] [Small.{v} R] :
-    Nonempty (Etingof.Block.{v} R ≃ {e : R // IsIndecomposableCentralIdempotent R e}) := by
-  classical
-  -- A finite dimensional algebra has finite length as a module over itself.
-  have hfl : IsFiniteLength R R := by
-    rw [isFiniteLength_iff_isNoetherian_isArtinian]
-    exact ⟨isNoetherian_of_tower k inferInstance, isArtinian_of_tower k inferInstance⟩
-  obtain ⟨ι, hFin, e, hsum, hortho, hindec, hsurj⟩ :=
-    exists_completeOrthogonal_isIndecomposableCentral (R := R) (k := k)
-  letI : Fintype ι := hFin
-  have hidem : ∀ i, IsIdempotentElem (e i) := fun i => (hindec i).2.1
-  have hcentral : ∀ i (y : R), e i * y = y * e i := fun i => (hindec i).2.2.1
-  have hne0 : ∀ i, e i ≠ 0 := fun i => (hindec i).1
-  -- The finite side: `i ↦ e i` is a bijection `ι ≃ {indecomposable central idempotents}`.
-  have hinj : Function.Injective
-      (fun i => (⟨e i, hindec i⟩ : {f : R // IsIndecomposableCentralIdempotent R f})) := by
-    intro i j hij
-    by_contra hne
-    have heq : e i = e j := congrArg Subtype.val hij
-    have h0 : e j = 0 := by
-      have h := hortho i j hne; rw [heq, (hidem j).eq] at h; exact h
-    exact hne0 j h0
-  have hsurjf : Function.Surjective
-      (fun i => (⟨e i, hindec i⟩ : {f : R // IsIndecomposableCentralIdempotent R f})) := by
-    rintro ⟨f, hf⟩
-    obtain ⟨i, hi⟩ := hsurj f hf
-    exact ⟨i, Subtype.ext hi⟩
-  let eS : ι ≃ {f : R // IsIndecomposableCentralIdempotent R f} :=
-    Equiv.ofBijective _ ⟨hinj, hsurjf⟩
-  -- The central-character index of a simple object, and its defining/uniqueness properties.
-  let idxOf : Etingof.SimpleObj.{v} R → ι := fun X =>
-    (existsUnique_actsAsOne_of_completeOrthogonal R e hsum hortho hidem hcentral X.2).exists.choose
-  have idxOf_spec : ∀ X : Etingof.SimpleObj.{v} R, ∀ m : (X.1 : Type v), e (idxOf X) • m = m :=
-    fun X =>
-      (existsUnique_actsAsOne_of_completeOrthogonal R e hsum hortho hidem hcentral X.2).exists.choose_spec
-  have idxOf_unique : ∀ (X : Etingof.SimpleObj.{v} R) (i : ι),
-      (∀ m : (X.1 : Type v), e i • m = m) → idxOf X = i := fun X i hi =>
-    (existsUnique_actsAsOne_of_completeOrthogonal R e hsum hortho hidem hcentral X.2).unique
-      (idxOf_spec X) hi
-  -- `idxOf` is linkage-invariant, so it descends to blocks.
-  have hwd : ∀ a b : Etingof.SimpleObj.{v} R, Etingof.AreLinked R a.1 b.1 → idxOf a = idxOf b := by
-    intro a b hab
-    have htrans : ∀ m : (b.1 : Type v), e (idxOf a) • m = m :=
-      (actsAsId_iff_of_areLinked R ⟨e (idxOf a), hidem (idxOf a), hcentral (idxOf a)⟩ hab).mp
-        (idxOf_spec a)
-    exact (idxOf_unique b (idxOf a) htrans).symm
-  -- For each index, a simple module on which `e i` acts as `1` (for the inverse map).
-  have hexS : ∀ i, ∃ S : ModuleCat.{v} R, IsSimpleModule R S ∧ ∀ m : (S : Type v), e i • m = m :=
-    fun i => exists_simple_actsAsOne R (hne0 i) (hidem i) (hcentral i)
-  let Sof : ι → ModuleCat.{v} R := fun i => (hexS i).choose
-  have hSof : ∀ i, IsSimpleModule R (Sof i) := fun i => (hexS i).choose_spec.1
-  have hactOf : ∀ i, ∀ m : (Sof i : Type v), e i • m = m := fun i => (hexS i).choose_spec.2
-  -- The block ≃ index bijection. The `left_inv` round-trip is the injectivity step.
-  let eB : Etingof.Block.{v} R ≃ ι :=
-    { toFun := Quotient.lift idxOf hwd
-      invFun := fun i => Quotient.mk (Etingof.blockSetoid R) ⟨Sof i, hSof i⟩
-      left_inv := by
-        refine Quotient.ind (fun X => ?_)
-        show Quotient.mk (Etingof.blockSetoid R) ⟨Sof (idxOf X), hSof (idxOf X)⟩
-          = Quotient.mk (Etingof.blockSetoid R) X
-        refine Quotient.sound ?_
-        show Etingof.AreLinked R (Sof (idxOf X)) X.1
-        exact areLinked_of_actsAsOne_common R hfl (hindec (idxOf X)) (hSof (idxOf X)) X.2
-          (hactOf (idxOf X)) (idxOf_spec X)
-      right_inv := fun i => by
-        show idxOf ⟨Sof i, hSof i⟩ = i
-        exact idxOf_unique ⟨Sof i, hSof i⟩ i (hactOf i) }
-  exact ⟨eB.trans eS⟩
 
 /-- **Problem 9.5.3 (ii), orthogonality.** If `M` lies in the block of the simple module `S`
 and `N` lies in the block of the simple module `T`, and `S`, `T` are not linked (i.e. `M`, `N`

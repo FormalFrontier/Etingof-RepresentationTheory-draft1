@@ -65,6 +65,7 @@ import EtingofRepresentationTheory.Chapter2.Problem2_7_4_Family
 import EtingofRepresentationTheory.Chapter2.Problem2_7_5
 import EtingofRepresentationTheory.Chapter2.Problem2_7_5_Family
 import EtingofRepresentationTheory.Chapter2.Problem2_7_5_FamilySimple
+import EtingofRepresentationTheory.Chapter2.Problem2_7_5_Exhaustive
 import EtingofRepresentationTheory.Chapter2.Problem2_7_5_Iso
 
 -- Section 2.8: Quivers
@@ -98,6 +99,7 @@ import EtingofRepresentationTheory.Chapter2.Exercise2_9_11
 import EtingofRepresentationTheory.Chapter2.Definition2_11_1
 import EtingofRepresentationTheory.Chapter2.Remark2_11_4
 import EtingofRepresentationTheory.Chapter2.Problem2_11_3
+import EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow
 import EtingofRepresentationTheory.Chapter2.Problem2_11_6
 import EtingofRepresentationTheory.Chapter2.Exercise2_11_2
 import EtingofRepresentationTheory.Chapter2.Exercise2_11_5

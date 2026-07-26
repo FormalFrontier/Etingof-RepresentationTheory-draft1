@@ -1357,6 +1357,69 @@ Now `lie_smul_cg`'s statement `c • m` elaborates with the *same* `TensorProduc
 
 When stating a categorical existential over quiver representations — e.g. "there is an orientation `Q_end` and a representation `W` on it whose dim vector is a simple root" — the natural top-level shape `∃ (Q_end : @Quiver.{0,0} (Fin n)) (p) …, (clause about ρ.obj v) ∧ …` **fails to elaborate**: `error: synthesized type class instance is not definitionally equal … synthesized Q_end, inferred Q`. Cause: `Q_end : Quiver (Fin n)` is a local of a class type, so Lean treats it as a *local instance* candidate, and any later `Module.finrank k (ρ.obj v)` (with `ρ` on the original `Q`) re-resolves its `[Quiver (Fin n)]` to `Q_end` instead of `Q`. **Fix: introduce the new-quiver binder only *after* every clause that mentions the original representation.** Nest it: `∃ vertices p, (iteratedSimpleReflection … (fun v => finrank k (ρ.obj v)) = simpleRoot n p) ∧ ∃ (Q_end : Quiver (Fin n)), IsOrientationOf Q_end adj ∧ … ∃ W, …`. Now `ρ.obj` is elaborated before `Q_end` is in scope, so no ambiguity; clauses about `W.obj` are fine because `W` lives on `Q_end`. (Corollary of the general Chapter-6 style: always write `@QuiverRepresentation.{_,0,0,0} k (Fin n) _ Q` and `@Module.finrank k (W.obj v) _ (W.instAddCommMonoid v) (W.instModule v)` with explicit `@`/instance args, mirroring `SurvivingRepData`/`TerminalRepData` in `CoxeterInfrastructure.lean`, to keep instance search off the ambient locals.)
 
+### Building a quiver representation with a *variable* dimension vector and **nonzero** arrow maps — `truncMap`, not a type-level `if` (#7408, `Chapter2/Theorem2_1_2_General.lean`)
+
+`obj j := Fin (if S j then 1 else 0) → k` is the right carrier for "one-dimensional on the
+support `S`, zero elsewhere" (`simpleRepresentation` in `Chapter6/Corollary6_8_4.lean` already
+uses it, and `Module.Free.pi`/`Module.Finite.pi` then resolve for free). The trap is
+`mapLinear`: you cannot case-split on `a = v` to build the arrow map, because the two sides
+have *different types* `Fin (if S a then 1 else 0) → k` and `Fin (if S b then 1 else 0) → k`
+whose `if`s are stuck (the `Decidable` instance never reduces for a variable vertex). Do **not**
+reach for `PLift`, `Submodule`-valued `obj`, or a `dite` returning a transported map — all of
+them make every downstream `rw` fight a dependent motive.
+
+**Fix: define one uniform padding map and let the arithmetic do the case analysis.**
+
+```lean
+def truncMap (p q : ℕ) : (Fin p → k) →ₗ[k] (Fin q → k) where
+  toFun x i := if h : (i : ℕ) < p then x ⟨i, h⟩ else 0
+  map_add' x y := by funext i; by_cases h : (i : ℕ) < p <;> simp [h]
+  map_smul' a x := by funext i; by_cases h : (i : ℕ) < p <;> simp [h]
+
+def suppRep (S : Fin n → Prop) [DecidablePred S] (c : ∀ a b : Fin n, (a ⟶ b) → k) :
+    FinQuiverRep k n where
+  obj j := Fin (if S j then 1 else 0) → k
+  mapLinear {a b} e := c a b e • truncMap k (if S a then 1 else 0) (if S b then 1 else 0)
+```
+
+No `if` on types, no transport: `truncMap` is automatically the zero map whenever the source
+or target dimension is `0`, and the identity when both are `1`. So a single expression gives
+"acts by `c a b e` between supported vertices, `0` everywhere else".
+
+All reasoning then goes through **one** identification, stated on the *raw* Pi type so it can
+be shared by two members of a family (different `c`, same `obj`):
+
+```lean
+def finPiEquivOfEqOne {p : ℕ} (hp : p = 1) : (Fin p → k) ≃ₗ[k] k where
+  toFun x := x ⟨0, by omega⟩;  invFun t := fun _ => t
+  map_add' _ _ := rfl;  map_smul' _ _ := rfl
+  left_inv x := by subst hp; funext i; exact congrArg x (Subsingleton.elim _ _)
+  right_inv _ := rfl
+
+def suppEquivRaw {j : Fin n} (hj : S j) : (Fin (if S j then 1 else 0) → k) ≃ₗ[k] k :=
+  finPiEquivOfEqOne k (if_pos hj)
+```
+
+with the workhorse `finPiEquivOfEqOne k hq (truncMap k p q x) = finPiEquivOfEqOne k hp x`
+(proof: `simp only [...]; rw [dif_pos (show (0:ℕ) < p by omega)]`). Stating `suppEquivRaw` on
+the raw type rather than on `(suppRep k S c).obj j` is what keeps `rw` working across two reps
+`suppRep k S c` and `suppRep k S c'` — the `.obj` projections are defeq but not syntactically
+equal, and a `c`-indexed equiv forces a type mismatch at every rewrite.
+
+**Payoff.** Everything an infinite-type argument needs becomes one-line-ish:
+`suppEquivRaw hb (mapLinear e x) = c a b e * suppEquivRaw ha x`; indecomposability from
+`IsCompl W₁ W₂` on a rank-one space (`(Submodule.ne_bot_iff W).mp` + proportionality in `k`,
+no `IsSimpleModule` import needed); and the isomorphism invariant
+`g_b * c a b e = c' a b e * g_a`, where `g_j := suppEquivRaw hj (φ.equivAt j (suppEquivRaw hj).symm 1)`.
+That single relation separates `(k, lam)` for a loop and `(k, k, 1, lam)` for a Kronecker pair,
+which together with `Infinite k` (an instance for `[IsAlgClosed k]`) rules out finite
+representation type. Companion pieces you will also need and that were missing: `.symm`/`.trans`
+for `QuiverRepresentationEquiv`, and — for a family indexed by arrows you must *distinguish*
+(parallel arrows!) — compare `(⟨a, b, e⟩ : (a : Fin n) × (b : Fin n) × (a ⟶ b))` under
+`attribute [local instance 0] Classical.propDecidable`. Use priority `0`: at default priority
+it shadows the genuine `DecidableEq (Fin n)` and makes ordinary `DecidablePred` instances
+noncomputable.
+
 ### `MonoidAlgebra` Ext: Don't Use `Finsupp.lhom_ext`
 
 `MonoidAlgebra k G` is `def`-equal to `G →₀ k`, so `Finsupp.lhom_ext` *applies* to a goal `F = 0` for `F : MonoidAlgebra k G →ₗ[k] N` — but it unifies the domain with the bare `G →₀ k`, which pries the type open and breaks instance search for everything registered on `MonoidAlgebra` (`failed to synthesize Ring (G →₀ ℂ)` / `Algebra ℂ (G →₀ ℂ)` / `Module (G →₀ ℂ) (M i)`). **To show a linear functional on `MonoidAlgebra k G` vanishes**, keep the type intact: prove `∀ a, F a = 0` by `induction a using MonoidAlgebra.induction_on` (base case `of k G g` — exactly the group-element evaluation you have a bridge lemma for; `hadd`/`hsmul` close by `simp only [map_add, …]` / `simp only [map_smul, …]`), then package via `LinearMap.ext`. (#4908)
@@ -1648,6 +1711,31 @@ and the summand API. Four gotchas, each cost multiple iterations:
 - **Make the complex (and any `mapBifunctorDesc`-based map) an `abbrev`, not `def`.** A `def` wrapper
   is defeq-but-not-syntactic to `mapBifunctor`, so `ι_mapBifunctorDesc`/`d_eq`/`ι_D₁`/`ι_D₂` silently
   fail to fire through it.
+  **The same bites the other way round when you build on an existing `def` wrapper (#7829,
+  `Chapter7/KunnethNatural.lean`).** `Etingof.tensorComplex C D` is a `def` for
+  `HomologicalComplex.tensorObj C D`, but Mathlib's `cyclesMap` / `homologyπ` / `iCycles` /
+  `homologyMap` API always produces the `tensorObj` spelling. Mixing them makes `rw` unable to
+  assign the complex metavariable (`Did not find an occurrence of the pattern
+  cyclesMap ?φ ?i ≫ iCycles ?K ?i`), and `attribute [local reducible]` on the wrapper is
+  *rejected* ("failed to set `[local reducible]` … affects the term indexing datastructures").
+  Pick one spelling — `tensorObj` — for every statement in the file, and record the wrapper
+  bridge as a one-line `rfl` lemma for downstream clients.
+- **`set_option backward.isDefEq.respectTransparency false` file-wide is the right default in any
+  file that touches `mapBifunctor` (#7829).** Goals built from `mapBifunctor.d₁_eq'` / `d₂_eq'`
+  are "not type-correct under `instances` transparency" (the `GradedObject` layers), which makes
+  `rw` *and* `simp only` refuse to match patterns that are visibly present — including trivia
+  like `Preadditive.comp_zsmul`. Mathlib sets the same option in
+  `ShortComplex/HomologicalComplex.lean` and `Bifunctor.lean`. Where even that is not enough:
+  (i) state the equation you need as a `have` in **exactly** the spelling that the goal displays
+  (e.g. `ιTensorObj …`, not the `ιMapBifunctor …` the lemma is stated with) and prove it by
+  applying the Mathlib lemma with all-underscore arguments, then `rw` your `have`; (ii) finish
+  with `exact` rather than `rw`/`simp`, since `exact` unifies at default transparency. Package
+  the recurring Koszul-sign step as a tiny private lemma
+  (`f ≫ g = 0 → f ≫ (e • g) = 0` for `e : ℤˣ`, proved by
+  `rw [Units.smul_def, Preadditive.comp_zsmul, h, smul_zero]`) and apply it with `exact` — the
+  `ε₁`/`ε₂` signs are `ℤˣ`, so `Preadditive.comp_zsmul` only fires after `Units.smul_def`, and
+  `(↑e * ↑e : ℤ) = 1` needs `← Units.val_mul, Int.units_mul_self, Units.val_one` rather than
+  `Int.units_mul_self` directly.
 - **Dependent descent (`mapBifunctorDesc (fun i₁ i₂ h => …)`): use a structural `match`, never
   `obtain ⟨rfl,rfl⟩`.** `obtain` on the opaque proof `h : π(i₁,i₂)=0` leaves a stuck `Eq.ndrec`
   (no iota on a non-`rfl` proof) so `ι_mapBifunctorDesc` reduces to un-usable cruft. Instead
@@ -1816,6 +1904,55 @@ injective_linearMap`, `V` free over the field `K`), proving `incW ∘ φ = e ∘
 and extending by `Basis.sum_repr` — this yields the inverse relations and `A`-equivariance without
 ever computing `φ` on non-basis vectors; (2) expect to need `set_option maxHeartbeats 800000 in`
 (with the required explanatory comment on the line *after* the `in`, not before).
+
+### The same trap for a *module instance* built by a universal property: hoist the proof into a lemma over an abstract module (#7700)
+
+The entry above is about an `Algebra.adjoin` term. The instance-level version bites just as hard
+and is easier to miss, because nothing in the proof text mentions the offending definition.
+`letI := famModule q α β N hqorder` (from `QWeyl.module`, i.e. `Module.compHom _ (toEnd …)`) makes
+every `•` on that carrier a redex: any `rw`, `change`, or `exact` whose unifier touches
+`a • f` unfolds `toEnd → toEndLinear → Basis.constr`. In `Problem2_7_5_Exhaustive.lean` a
+routine `Algebra.adjoin_induction` over the acting algebra blew the 200000-heartbeat limit in four
+separate places (`change E ((⟨u, hu⟩ + ⟨v, hv⟩ : A) • f) = _`, then elaborating `v • f`, then
+`← mul_smul`, then even `exact (mul_smul u v (E f)).symm`) — each fix just moved the timeout one
+token to the right, which is the signature of this problem rather than of a bad tactic choice.
+
+The fix is not `maxHeartbeats`. State the structural part as a standalone lemma whose module
+structures are **instance variables**, so they are opaque fvars and no unfolding is possible:
+```
+theorem nonempty_linearEquiv_of_intertwines_generators
+    {W V : Type*} [AddCommGroup W] [Module ℂ W] [Module (qWeylAlgebra ℂ q) W]
+    [IsScalarTower ℂ (qWeylAlgebra ℂ q) W] [AddCommGroup V] … (E : W ≃ₗ[ℂ] V)
+    (hx : ∀ f : W, E (x • f) = x • E f) (hy : ∀ f : W, E (y • f) = y • E f) :
+    Nonempty (W ≃ₗ[qWeylAlgebra ℂ q] V)
+```
+then apply it at `W := Fin N → ℂ` with the `letI` instance. The application only has to check the
+two *stated* hypotheses, which is cheap. The file went from four heartbeat timeouts to 6.9s.
+Rule of thumb: **whenever a proof about a concretely-constructed module needs induction or
+extensionality over the acting algebra, prove it over an abstract module and instantiate.**
+
+Same session, a second lever for the same proof: `Algebra.adjoin_induction` over
+`a.2 : ↑a ∈ Algebra.adjoin k S` forces you to write `⟨u, hu⟩` subtype literals in every case
+(`show ((⟨u, hu⟩ + ⟨v, hv⟩ : A)) • z ∈ W`, as in `Problem2_7_5.lean`'s `hstab`). If the algebra is
+*defined* as that adjoin, `Algebra.adjoin_adjoin_coe_preimage` gives
+`Algebra.adjoin k {generators, as elements of the subalgebra} = ⊤`, so the induction runs over
+honest elements and the cases are one `rw` each:
+```
+have hpre : (((↑) : qWeylAlgebra ℂ q → Module.End ℂ (QWeylModule ℂ)) ⁻¹' {qMono ℂ q (1, 0), …})
+    = ({QWeyl.qWeylMono q (1, 0), …} : Set (qWeylAlgebra ℂ q)) := by
+  ext a; simp [Set.mem_preimage, Subtype.ext_iff]
+have htop : Algebra.adjoin ℂ ({QWeyl.qWeylMono q (1, 0), …} : Set (qWeylAlgebra ℂ q)) = ⊤ := by
+  rw [← hpre]; exact Algebra.adjoin_adjoin_coe_preimage
+…
+have ha : a ∈ Algebra.adjoin ℂ {…} := by rw [htop]; exact Algebra.mem_top
+induction ha using Algebra.adjoin_induction with
+| mem g hg => simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg
+              rcases hg with rfl | rfl | rfl | rfl <;> …
+```
+For a generator that is invertible in the algebra, don't check it separately: if `u * u' = 1` and
+`u' * u = 1` and `E` intertwines `u`, it intertwines `u'` by pure module algebra (no additivity of
+`E` needed) — see `smul_inv_of_smul` in `Problem2_7_5_Exhaustive.lean`. That halves the generator
+work for `x, x⁻¹, y, y⁻¹`.
 
 ### Upgrading `dim V_λ = 1` to the book's representation-iso claim (trivial/sign, #5637)
 
@@ -4957,6 +5094,48 @@ of objects via `Quotient.map e.functor.obj (fun _ _ ⟨f⟩ => ⟨e.functor.mapI
 `Equivalence.congrLeft` to get the iso-class bijection on functor categories `C₁ ⥤ D` vs
 `C₂ ⥤ D`.
 
+**"The subcategory `𝒞ₖ ⊆ ModuleCat R` *is* the category of `B`-modules" — build the equivalence
+from `Full` + `Faithful` + `EssSurj`, never from unit/counit.** Hand-building the inverse functor
+forces a `letI`-bound `Module B M` instance through `obj`, `map`, `map_id`, `map_comp` and two
+natural isos; the cheap route needs none of that. Worked template (Problem 9.5.3(i), #7414,
+`Chapter9/Problem9_5_3_BlockCategory.lean`), for `B = R ⧸ I` a quotient by a two-sided ideal:
+
+1. `F := ObjectProperty.lift _ (ModuleCat.restrictScalars (Ideal.Quotient.mk I)) h` where
+   `h : ∀ N, P ((restrictScalars _).obj N)` is the membership proof. `ObjectProperty.lift`
+   *inherits* `Full`/`Faithful` instances from the lifted functor, so only `EssSurj` is left.
+2. `Faithful` of `restrictScalars` is already an instance in Mathlib. `Full` holds whenever the
+   ring map is surjective, and is four lines: pull back the `R`-linear map and prove `map_smul'`
+   after `obtain ⟨a, rfl⟩ := hf b`.
+3. `EssSurj`: `Module.IsTorsionBySet.module` turns an `R`-module killed by `I` into a `B`-module,
+   and its `mk_smul` is `rfl` — so the required iso is the *identity*,
+   `LinearEquiv.toModuleIso { toFun := id, invFun := id, map_add'/map_smul'/left_inv/right_inv :=
+   fun _ _ => rfl }`, packaged with `ObjectProperty.isoMk`.
+4. `instance : F.IsEquivalence where` (the class's three fields default to `by infer_instance`),
+   then `F.asEquivalence : ModuleCat B ≌ P.FullSubcategory`.
+
+Two elaboration traps in step 3. (a) Instance synthesis does not see through `(ObjectProperty.ι
+P).obj ⟨X, hX⟩`, so an inlined `LinearEquiv.toModuleIso` fails with `failed to synthesize Module R
+↑((ι …).obj …)`; state the iso as a `have e : (restrictScalars f).obj (ModuleCat.of _ …) ≅ M.obj
+:= …` with its *unfolded* type and close with `exact e`. (b) `ModuleCat.ofHom` between a
+`FullSubcategory` object and an `of`-shaped object leaves the ring a metavariable — go through
+`LinearEquiv.toModuleIso`, not `ofHom`, whenever one side is `X.obj`.
+
+**Transport finiteness across restriction of scalars along a surjection with the semilinear
+identity map.** `restrictScalars f` does not change the submodule lattice, and Mathlib exposes
+exactly the right lemmas: with `l : ((restrictScalars f).obj N) →ₛₗ[f] N := ⟨id, fun _ _ => rfl,
+fun _ _ => rfl⟩` and `[RingHomSurjective f]`,
+`l.isNoetherian_iff_of_bijective Function.bijective_id` and `l.isArtinian_iff_of_bijective …`
+give `IsFiniteLength R ((restrictScalars f).obj N) ↔ IsFiniteLength B N` after
+`isFiniteLength_iff_isNoetherian_isArtinian`. This is what lets the block equivalence restrict to
+the book's *finite* categories. Note `ModuleCat R` objects carry no `Module k` instance, so
+"finite dimensional over `k`" is not directly statable about them — use finite length, which
+Chapter 9 uses throughout, and say so in the docstring rather than silently weakening.
+
+**`set x := … with h` cannot be followed by a structure-instance literal.** In
+`set ψ : M →ₗ[R] M := LinearMap.id - { toFun := …, map_add' := …, map_smul' := … } with hψ` the
+`with hψ` is parsed as the structure-instance `with`, giving `unexpected identifier; expected '}'`
+plus a bogus `Fields missing: map_add', map_smul'`. Bind the map with a plain `let` first.
+
 ## FDRep Morphism Extensionality Patterns
 
 FDRep morphisms are `Action.Hom` wrapping `FGModuleCat.Hom` wrapping `ModuleCat.Hom` wrapping `LinearMap`. Proving `f = g` for FDRep morphisms requires decomposing through all layers.
@@ -6969,6 +7148,91 @@ Two hazards seen while doing this:
   because plain `simp` already closed it.
 * `omega` will not close a non-arithmetic goal (`LoopIdx.base = LoopIdx.odd m i`) from
   contradictory arithmetic hypotheses. Write `exfalso; omega`.
+
+## Classifying the simple modules of an algebra with "diagonal characters" (#7419, Example 3.5.6)
+
+Two recipes that generalise well beyond upper triangular matrices.
+
+### One-dimensional representations from a character `χ : A →ₐ[k] k`
+
+Use a plain `def` carrier, not a quotient of `A`:
+
+```lean
+def V (i : ι) : Type _ := k
+instance (i : ι) : AddCommGroup (V k ι i) := inferInstanceAs (AddCommGroup k)
+instance (i : ι) : Nontrivial  (V k ι i) := inferInstanceAs (Nontrivial k)
+instance (i : ι) : Module k    (V k ι i) := inferInstanceAs (Module k k)
+instance (i : ι) : Module A    (V k ι i) := Module.compHom (V k ι i) (χ i).toRingHom
+
+theorem smul_def (a : A) (v : V k ι i) : a • v = (show k from χ i a) * (show k from v) := rfl
+```
+
+`A ⧸ RingHom.ker (χ i)` is the obvious alternative and is worse: for noncommutative `A` the
+ring quotient needs an `Ideal.IsTwoSided` instance, and the `k`-vector-space structure has to
+be threaded through `Submodule.Quotient` instances before you can say "one-dimensional". With
+the `def` carrier, `finrank = 1` is `Module.finrank_self` and the action lemma is `rfl`.
+
+Points to remember:
+- Keep it a `def`, never an `abbrev`. Instance search then does not unfold it, so the new
+  `Module A` instance cannot clash with `Module k k`.
+- `V k ι i` has no `One`, `Inv`, or `Field` instance. Inside proofs write
+  `let one' : V k ι i := (1 : k)` and convert with `show k from v` / `change`; do not add a
+  `Field (V …)` instance just to write `x⁻¹`.
+
+### Exhaustiveness without forming `A / Rad A`
+
+To prove *every* simple `A`-module is one of the `V i`, the textbook route is
+`A/Rad A ≅ kⁿ` followed by transport of modules. Transporting a module along a ring quotient
+is a lot of Lean. Stay inside `A` instead, using orthogonal idempotents `eᵢ` with `∑ eᵢ = 1`:
+
+1. `Rad A` annihilates any simple `M`: `IsSemisimpleModule.jacobson_le_annihilator A M`
+   (a simple module is semisimple by instance) plus your own `Rad A = I` theorem, then
+   `Module.mem_annihilator`.
+2. `∑ eᵢ = 1`, so `eᵢ • m₀ ≠ 0` for some `i` and some `m₀ ≠ 0`.
+3. `eᵢ * a - a * eᵢ ∈ I` for every `a`, so `φ : m ↦ eᵢ • m` is `A`-linear. It is idempotent
+   and nonzero, so by `eq_bot_or_eq_top (LinearMap.ker φ)` its kernel is `⊥`; injectivity plus
+   `φ ∘ φ = φ` gives `φ = id`, i.e. `eᵢ` acts as the identity on `M`.
+4. `(a - algebraMap k A (χ i a)) * eᵢ ∈ I`, so every `a` acts as the scalar `χ i a`.
+5. `c ↦ algebraMap k A c • m₀` is then an `A`-map `V i → M`; it is nonzero, and both modules
+   are simple, so `eq_bot_or_eq_top` on its kernel and range gives bijectivity and
+   `LinearEquiv.ofBijective`.
+
+All the "modulo the radical" reasoning stays as explicit ideal memberships in `A`. No quotient
+ring, no `IsTwoSided` instances, no scalar-restriction diamond.
+
+Related: state the conclusion purely `A`-linearly (`M ≃ₗ[A] V i`). An abstract simple
+`A`-module carries **no** `k`-action, so do not add `[Module k M] [IsScalarTower k A M]`
+hypotheses — pull the scalars you need out of `algebraMap k A`.
+
+Pairwise non-isomorphism is the same idempotent: `eᵢ` acts as `1` on `V i` and as `0` on
+`V j`, so any `e : V i ≃ₗ[A] V j` sends `1` to `0` and contradicts injectivity.
+
+### `Matrix.single` lemmas have several explicit index arguments
+
+`Matrix.single_apply_of_ne`, `Matrix.single_mul_apply_of_ne`, and
+`Matrix.mul_single_apply_of_ne` take the indices (and the scalar) explicitly *before* the
+hypothesis, so a positional `_ _ _ _ h` silently misaligns. The error surfaces as a bogus
+
+```
+Application type mismatch: the argument hp has type p ≠ i of sort `Prop`
+but is expected to have type ?m of sort `Type ?u`
+```
+
+which reads like an instance problem and is not. Rather than counting placeholders, wrap the
+entry computations once in local lemmas stated with an `if`:
+
+```lean
+theorem single_diag_mul_apply (i : Fin n) (T : Matrix (Fin n) (Fin n) k) (p q : Fin n) :
+    (Matrix.single i i (1 : k) * T) p q = if p = i then T i q else 0 := by
+  rcases eq_or_ne p i with rfl | hp
+  · simp
+  · simp [hp]
+```
+
+and then discharge the triangularity side conditions with `split_ifs`. This is much more
+robust than `rw`-ing the Mathlib lemmas directly, and `split_ifs` keeps both indices around
+(a `rcases … with rfl` on `p = i` substitutes in whichever direction Lean picks, which
+silently breaks later references to the eliminated variable).
 
 ## Building a `NatTrans` into `Type`: build the `Equiv` first (representability, coyoneda, #7403)
 
