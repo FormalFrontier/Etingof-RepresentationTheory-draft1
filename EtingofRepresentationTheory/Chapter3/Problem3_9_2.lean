@@ -378,7 +378,7 @@ exhibits a 2-dimensional representation as an extension of two 1-dimensional one
 
 /-- **Eigenvalue relation is multiplicative.** If every generator `Xᵢ` acts on `m₀` by the scalar
 `cᵢ`, then any polynomial `p` acts by `p(c) = aeval c p`. Mirrors `Vrep_smul_eq`. -/
-private lemma eigen_smul_eq {n : ℕ} {M : Type*} [AddCommGroup M] [Module ℂ M]
+lemma eigen_smul_eq {n : ℕ} {M : Type*} [AddCommGroup M] [Module ℂ M]
     [Module (polyAlg n) M] [IsScalarTower ℂ (polyAlg n) M]
     (c : Fin n → ℂ) (m₀ : M) (hc : ∀ i, (X i : polyAlg n) • m₀ = c i • m₀) (p : polyAlg n) :
     p • m₀ = aeval c p • m₀ := by
@@ -394,7 +394,7 @@ private lemma eigen_smul_eq {n : ℕ} {M : Type*} [AddCommGroup M] [Module ℂ M
 
 /-- A finite-dimensional 1-dimensional `A`-module `M` on which every generator `Xᵢ` acts on the
 spanning vector `m₀` by the scalar `cᵢ` is isomorphic, as an `A`-module, to `Vrep c`. -/
-private noncomputable def oneDim_iso_Vrep {n : ℕ} {M : Type*} [AddCommGroup M] [Module ℂ M]
+noncomputable def oneDim_iso_Vrep {n : ℕ} {M : Type*} [AddCommGroup M] [Module ℂ M]
     [Module (polyAlg n) M] [IsScalarTower ℂ (polyAlg n) M] [FiniteDimensional ℂ M]
     (c : Fin n → ℂ) (m₀ : M) (hm₀ : m₀ ≠ 0) (hdim : Module.finrank ℂ M = 1)
     (hc : ∀ i, (X i : polyAlg n) • m₀ = c i • m₀) :
@@ -443,7 +443,7 @@ private lemma oneDim_common_eigen {n : ℕ} {M : Type*} [AddCommGroup M] [Module
 `ℂ[x₁,…,xₙ]` has a nonzero vector `v` that is a simultaneous eigenvector for all the generators
 `Xᵢ`. Either every generator already acts by a scalar, or some generator `X_j` has a proper
 eigenspace `E` (necessarily 1-dimensional), and the commuting generators preserve `E`. -/
-private lemma exists_common_eigenvector {n : ℕ} (U : Type)
+lemma exists_common_eigenvector {n : ℕ} (U : Type)
     [AddCommGroup U] [Module ℂ U] [Module (polyAlg n) U] [IsScalarTower ℂ (polyAlg n) U]
     [FiniteDimensional ℂ U] (hdim : Module.finrank ℂ U = 2) :
     ∃ (b : Fin n → ℂ) (v : U), v ≠ 0 ∧ ∀ i, (X i : polyAlg n) • v = b i • v := by
