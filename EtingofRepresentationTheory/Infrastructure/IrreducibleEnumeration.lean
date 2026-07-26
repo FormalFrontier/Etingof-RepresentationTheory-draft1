@@ -802,3 +802,30 @@ theorem exists_simples_sum_finrank_sq_eq_card (k : Type u) (G : Type v) [Field k
   refine ⟨D.n, D.columnFDRep, D.columnFDRep_simple, D.columnFDRep_injective,
     D.columnFDRep_surjective, ?_⟩
   exact D.sum_finrank_sq_eq_card D.columnFDRep D.columnFDRep_simple D.columnFDRep_injective
+
+/-- **Artin-Wedderburn dimension count for an arbitrary complete family.** Unlike
+`IrrepDecomp.sum_finrank_sq_eq_card`, the index type here is an arbitrary `Fin n` rather
+than the Wedderburn index `Fin D.n`: completeness of the family forces `n = D.n`, because
+the assignment sending `i` to the Wedderburn block containing `V i` is a bijection. -/
+theorem sum_finrank_sq_eq_card_of_complete [NeZero (Nat.card G : k)]
+    {n : ℕ} (V : Fin n → FDRep k G)
+    (hV : ∀ i, Simple (V i))
+    (hinj : ∀ i j, Nonempty ((V i) ≅ (V j)) → i = j)
+    (hsurj : ∀ (W : FDRep k G), Simple W → ∃ i, Nonempty (W ≅ V i)) :
+    ∑ i, (Module.finrank k (V i)) ^ 2 = Fintype.card G := by
+  let D : IrrepDecomp k G := IrrepDecomp.mk'
+  -- `τ i` is the Wedderburn block matching `V i`
+  choose τ hτ using fun i => D.columnFDRep_surjective (V i) (hV i)
+  have hτ_inj : Function.Injective τ := fun i j h =>
+    hinj i j ⟨(hτ i).some ≪≫ (h ▸ (hτ j).some.symm)⟩
+  have hτ_surj : Function.Surjective τ := fun j => by
+    obtain ⟨i, hi⟩ := hsurj (D.columnFDRep j) (D.columnFDRep_simple j)
+    exact ⟨i, (D.columnFDRep_injective j (τ i) ⟨hi.some ≪≫ (hτ i).some⟩).symm⟩
+  let e : Fin n ≃ Fin D.n := Equiv.ofBijective τ ⟨hτ_inj, hτ_surj⟩
+  calc ∑ i, (Module.finrank k (V i)) ^ 2
+      = ∑ i, (D.d (e i)) ^ 2 := by
+        refine Finset.sum_congr rfl fun i _ => ?_
+        rw [show (e : Fin n → Fin D.n) i = τ i from rfl, ← D.finrank_columnFDRep (τ i)]
+        exact congrArg (· ^ 2) (LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv (hτ i).some))
+    _ = ∑ j, (D.d j) ^ 2 := Equiv.sum_comp e (fun j => D.d j ^ 2)
+    _ = Fintype.card G := D.sum_sq_eq_card

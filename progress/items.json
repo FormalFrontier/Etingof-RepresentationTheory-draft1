@@ -1928,32 +1928,28 @@
     "end_page": "44",
     "start_line": 3,
     "end_line": 8,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "sorry_free": false,
-    "fidelity_decl": "Etingof.subrepresentation_of_semisimple",
-    "fidelity_note": "The multiplicity-bounded abstract decomposition of W has a public declaration, but its current file fails to elaborate because the top-submodule AddCommGroup and IsSimpleModule instances are not synthesized; regression #7496. Independently, the source's remaining structural conclusion—putting the actual inclusion into simultaneous block-matrix form with row-independent matrices X_i—is not assembled from the single-isotypic matrix lemmas in Remark3_1_5.lean.",
-    "coverage": "covered_partial",
-    "followup_issue": 5370,
-    "coverage_issue": 7496,
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "sorry_free": true,
+    "fidelity_decl": "Etingof.subrepresentation_of_semisimple, Etingof.subrepresentation_of_semisimple_matrix, Etingof.Remark315.subrepresentation_blocks",
+    "fidelity_note": "Fully formalized in Chapter3/Proposition3_1_4.lean. subrepresentation_of_semisimple gives the multiplicity-bounded decomposition W = (+)_i r_i V_i with r_i <= n_i; subrepresentation_of_semisimple_matrix (and its Pi form _matrix_pi) adds the source's remaining structural conclusion: the inclusion is block diagonal and block i is right multiplication by a matrix X i over End_A (V i) whose rows are linearly independent (independence over the opposite ring, matching the book's row-vector-times-matrix convention). Etingof.Remark315.subrepresentation_blocks packages the same data as injective block maps phi_i with X i = homMatrixEquiv (phi i), assembling the single-isotypic matrix lemmas of Remark3_1_5.lean. Over the book's algebraically closed base End_A (V i) = k, so the entries are the book's scalars. No sorry; axioms propext/Classical.choice/Quot.sound only.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter3/Remark3.1.5",
-    "source_regression_note": "Clean rebuild imports the broken Proposition3_1_4 source (#7496).",
     "type": "remark",
     "title": "Generalization of Proposition 3.1.4 to non-algebraically-closed fields",
     "start_page": "44",
     "end_page": "45",
     "start_line": 9,
     "end_line": 2,
-    "status": "partially_proved",
-    "coverage": "covered_partial",
-    "coverage_issue": 7496,
-    "last_updated": "2026-07-22",
-    "fidelity": "partial",
-    "fidelity_note": "Formalized in Chapter3/Remark3_1_5.lean. The classification (Prop 3.1.4) is already proved over an arbitrary ring with arbitrary simple modules (no algebraic closure, no finite-dimensionality): re-exported as subrepresentation_general. The new content - matrix entries in D_i = End_A(V_i) - is homMatrixEquiv: Hom_A(Fin r -> V, Fin n -> V) = Matrix over End_A(V). D_i is a division ring by Schur (end_divisionRing). \"Linearly independent rows\" = injectivity is captured by injective_iff_rows_linearIndependent.",
-    "fidelity_decl": "Etingof.Remark315.subrepresentation_general, Etingof.Remark315.homMatrixEquiv, Etingof.Remark315.injective_iff_rows_linearIndependent"
+    "status": "sorry_free",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-26",
+    "fidelity": "verified",
+    "fidelity_note": "Formalized in Chapter3/Remark3_1_5.lean. The classification (Prop 3.1.4) is already proved over an arbitrary ring with arbitrary simple modules (no algebraic closure, no finite-dimensionality): re-exported as subrepresentation_general. The new content - matrix entries in D_i = End_A(V_i) - is homMatrixEquiv: Hom_A(Fin r -> V, Fin n -> V) = Matrix over End_A(V). D_i is a division ring by Schur (end_divisionRing). \"Linearly independent rows\" = injectivity is injective_iff_rows_linearIndependent, and rows_linearIndependent_iff identifies that condition with LinearIndependent over the opposite ring. subrepresentation_blocks assembles these into the block form of the inclusion for the full pairwise-nonisomorphic family.",
+    "fidelity_decl": "Etingof.Remark315.subrepresentation_general, Etingof.Remark315.homMatrixEquiv, Etingof.Remark315.injective_iff_rows_linearIndependent, Etingof.Remark315.rows_linearIndependent_iff, Etingof.Remark315.subrepresentation_blocks"
   },
   {
     "id": "Chapter3/Discussion_alternative_proof_of_Proposition3.1.4",
@@ -3090,11 +3086,13 @@
       "wave": 1,
       "result": "gap"
     },
-    "coverage": "covered_partial",
-    "coverage_note": "Theorem 3.10.2 is proved by another route, but the source proof's structural claims Rad(A⊗B)=Rad(A)⊗B+A⊗Rad(B) and the corresponding quotient equivalence for finite-dimensional image algebras are not formalized; follow-up #7453.",
-    "fidelity_issue": 7453,
-    "followup_issue": 7453,
-    "last_updated": "2026-07-22"
+    "coverage": {
+      "result": "covered",
+      "lean_decl": "Etingof.jacobson_tensorProduct_eq",
+      "note": "The source proof's two structural claims are now formalized in EtingofRepresentationTheory/Chapter3/TensorProductRadical.lean: jacobson_tensorProduct_eq gives Rad(A⊗B) = Rad(A)⊗B + A⊗Rad(B) for finite-dimensional A, B over an algebraically closed field, and quotientJacobsonTensorEquiv gives the displayed identification (A⊗B)/Rad(A⊗B) ≅ (A/Rad A) ⊗ (B/Rad B). The book's two steps are separated by hypothesis: radTensorSum_le_jacobson (nilpotence; no hypothesis on k) and jacobson_le_radTensorSum (semisimplicity of the quotient), the latter discharged over an algebraically closed field by isSemisimpleRing_tensorProduct. jacobson_tensorProduct_range_eq states the formula for the image algebras A', B' ⊆ End M, matching the book's image-algebra reduction. Theorem 3.10.2 itself is still proved by the independent density/Artinian route in Theorem3_10_2.lean, which does not consume these results."
+    },
+    "last_updated": "2026-07-26",
+    "lean_ref": "EtingofRepresentationTheory/Chapter3/TensorProductRadical.lean :: Etingof.jacobson_tensorProduct_eq, Etingof.quotientJacobsonTensorEquiv, Etingof.quotientRadTensorSumEquiv, Etingof.radTensorSum_eq_ker, Etingof.radTensorSum_le_jacobson, Etingof.jacobson_le_radTensorSum, Etingof.isSemisimpleRing_tensorProduct, Etingof.jacobson_tensorProduct_range_eq"
   },
   {
     "id": "Chapter4/Introduction",
@@ -3632,12 +3630,12 @@
     "start_line": 15,
     "end_line": 24,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "The two matrix-coefficient orthogonality formulas are proved faithfully. The source's final conclusion that all irreducible matrix coefficients form a basis of F(G, ℂ) is not stated: spanning via the sum-of-squares formula remains follow-up #7395.",
-    "fidelity_issue": 7395,
-    "last_updated": "2026-07-22"
+    "lean_decl": "Etingof.Proposition4_7_1_i, Etingof.Proposition4_7_1_ii, Etingof.Proposition4_7_1_orthogonal_basis, Etingof.Proposition4_7_1_exists_orthogonal_basis",
+    "fidelity_note": "All three sentences are formalized. Parts (i) and (ii) are the two matrix-coefficient orthogonality formulas. The concluding sentence -- that the irreducible matrix coefficients form an orthogonal basis of F(G, ℂ) -- is `Etingof.MatrixCoefficients.basis` (the `Module.Basis` itself), packaged as `Etingof.Proposition4_7_1_orthogonal_basis` and, unconditionally for algebraically closed characteristic-zero k, as `Etingof.Proposition4_7_1_exists_orthogonal_basis`; spanning comes from the Artin-Wedderburn sum-of-squares count as the source indicates. Orthogonality is stated for the bilinear convolution pairing |G|^-1 sum_g f(g) h(g^-1) rather than the source's Hermitian form, since parts (i) and (ii) hold over any algebraically closed k; the two agree on matrix coefficients over the complex numbers in a unitary basis.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter4/Introduction_4.8",
@@ -9306,9 +9304,9 @@
     "end_line": 1,
     "status": "partially_formalized",
     "coverage": "covered_partial",
-    "note": "The Lean file is documentary and contains no declarations for the exercise. Example 9.4.4 independently proves one downstream Hilbert-syzygy consequence, but the Koszul, SW, and bimodule resolutions, the exercise's bounded-resolution result, and the Ext/Tor(k,k) computations remain unformalized under reopened #5723.",
+    "note": "Part (i) is now most of the way in: KoszulContraction/KoszulDifferential build the complex Cᵢ = SV ⊗ ⋀ⁱ V with d ∘ d = 0, KoszulAugmentation adds the augmentation, freeness of the terms and basis-independence of d, KoszulBasis writes d out on the monomial/subset k-basis, and KoszulHomotopy (#7911) constructs the characteristic-free contracting homotopy of the augmented complex with both identities dh + hd = id and dh + ηε = id proved sorry-free. Exactness itself (deducing it from the homotopy) is #7912; the SW and bimodule resolutions, the bounded-resolution result and the Ext/Tor(k,k) computations of parts (ii)-(v) remain unformalized under reopened #5723.",
     "fidelity_issue": 5723,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter9/Introduction",

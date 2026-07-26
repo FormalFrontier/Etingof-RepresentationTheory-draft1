@@ -9,6 +9,37 @@ allowed-tools: Bash, Read, Glob, Grep
 This skill covers the shared workflow used by all pod worker agents.
 Session-specific commands reference this skill rather than duplicating it.
 
+## Step 0: Check you are reading the current skill (do this first)
+
+Reused worktrees keep arriving with `.claude/` guidance deleted, and skills load from
+the working tree — so the copy you are reading may be a stale revision with exactly the
+guidance you need cut out. Run this **before Step 1**, whether or not anything looks wrong:
+
+```bash
+git status --short
+wc -l .claude/skills/agent-worker-flow/SKILL.md
+git show HEAD:.claude/skills/agent-worker-flow/SKILL.md | wc -l
+```
+
+If the counts differ: save the diff (`git diff > /tmp/<uuid>-stale.patch`), restore with
+`git checkout HEAD -- .claude/`, then reload this skill and start over from Step 1. Do the
+same for your `/command` file.
+
+**Reloading means `Read`, not the Skill tool.** The Skill tool caches per session: invoking
+an already-loaded skill returns `already loaded above; instructions unchanged` and does *not*
+re-read the file, so the restored content never reaches you. Treat that "unchanged" reply as
+telling you nothing about the file on disk. `Read` the restored paths directly instead.
+(2026-07-26, #7873: a session hit exactly this, saw "unchanged" after restoring 477 deleted
+lines, and only got the current guidance by falling back to `Read`.)
+
+This check lives at the top of the file on purpose. The fuller treatment is in Step 2 under
+"If the branch already exists", but every observed truncation left lines 1-70 intact while
+cutting blocks further down — so an instruction placed there is one a stale session never
+sees, and only this one is reliably reachable. (2026-07-25: four worktrees that day arrived
+with 169, 279, 193 and 209 lines of `.claude/` guidance deleted and nothing added. Three ran
+to completion on the old copy; the fourth caught it at Step 2 but only re-read the restored
+skill at the end of the session, after already publishing.)
+
 ## Coordination Reference
 
 The `coordination` script handles all GitHub-based multi-agent coordination.
@@ -73,12 +104,25 @@ all dependencies close. Blocked issues are excluded from
 
 **Dependency code that lives only in an unmerged PR**: a dependency issue
 can be *closed* while the def/lemma it produced is still in an open PR
-(residual assembly, split work), so it is absent from `main`. If the code
-you need to build on is in such a PR, do NOT wait or skip — `git fetch`
-that PR's head branch and base your branch on it
+(residual assembly, split work), so it is absent from `main`.
+
+**Check first whether that PR is simply mergeable — if so, merge it and work
+off `main`.** This is strictly better than either stacking or skipping, and it
+is the same merge sweep CLAUDE.md prescribes, just triggered by need rather
+than by the calendar. Require every check to have *completed successfully*
+(`gh pr view <N> --json mergeable,mergeStateStatus,statusCheckRollup`;
+`MERGEABLE` + `CLEAN` + every `statusCheckRollup` entry `COMPLETED`/`SUCCESS`)
+— "not failing" is not "passing", and a PR whose checks are still queued has
+empty `conclusion` fields. Merge with `gh pr merge <N> --squash
+--delete-branch`, re-`git fetch`, confirm the decls are on `main`, and proceed
+normally. (2026-07-25: #7807's stated foundation was in open PR #7809, green
+and clean; merging it removed the stacking problem entirely.)
+
+If the PR is *not* mergeable (conflicts, failing or still-running CI), do NOT
+wait or skip — `git fetch` that PR's head branch and base your branch on it
 (`git reset --hard origin/<pr-head>`, only after the Step 2a snapshot and with a
-clean `git status --porcelain`). Then in your PR body add an
-ordering note naming the predecessor PR and the exact rebase command, so a
+clean `git status --porcelain`). Then in your PR body add an ordering note
+naming the predecessor PR and the exact rebase command, so a
 repair/planner agent can sequence the merges. Confirm the dependency file
 actually builds on that base before writing new code.
 
@@ -160,6 +204,22 @@ on that issue — pick a different one. Only proceed if the output says
 coordination read-issue <N> --json body --jq .body
 ```
 
+**Read the comments too, not just the body.** An issue that was closed and reopened
+keeps its original body, so the body describes the state of the world when it was
+filed — the *live* scope is in the reopening comment. Bodies also go stale when a
+later PR lands part of the work:
+
+```bash
+gh issue view <N> --json comments --jq '.comments[] | "\(.createdAt) \(.body)"'
+```
+
+Treat any comment starting "Reopening:" as authoritative over the body, and check the
+body's factual claims about the repo before acting on them. (2026-07-25, #7320: the
+body said an item in `progress/items.json` had no `coverage` field and "was never
+coverage-audited"; it had been audited three days earlier and reopened over a
+*different*, narrower objection recorded only in a comment. A session that trusts the
+body redoes finished work and misses the actual ask.)
+
 ## Step 2: Set Up
 
 Do 2a, 2b and 2c **in that order**. The order is the safety property: every
@@ -189,6 +249,10 @@ git stash push -m "pod $POD_SESSION_ID pre-reset"   # NEVER -u / --include-untra
 they may be another session's in-progress work. Record the stash message and the
 patch path in your progress entry so a successor can recover whatever you set aside.
 
+Leftover edits are not inert if you just leave them sitting there: `coordination
+create-pr` stages the whole worktree, so they ride into your PR as unrelated
+changes, and any edit under `.claude/` gets the PR rejected outright.
+
 Now inspect what you stashed (`git stash show -p`) and judge it in *both*
 directions — neither keeping nor discarding is the safe default:
 
@@ -197,18 +261,26 @@ directions — neither keeping nor discarding is the safe default:
   insertions that the issue never mentioned. That is a crashed session's
   stale copy of accumulated workflow guidance. Leave it in the stash — carried
   forward, it lands on `main` as a silent revert of guidance other sessions paid
-  to learn.
+  to learn. A further tell that it is staleness and not real work: the handful of
+  "insertions" turn out to be older wordings of lines that still exist. Real work
+  adds something.
 - **Anything that looks like real work in progress** also stays in the stash, with
   a note in your progress entry naming it. Do not try to finish someone else's
   half-edit inside your own issue's PR.
 
 Either way the working tree is now clean and nothing was destroyed.
 
-(2026-07-25/26: four times in two days a worktree arrived with 169, 279, 294 and
-320 lines of `.claude/` guidance deleted and nothing added. In one case the
-session-start `git status` listed all five modified files right in the agent's
-context and it committed them anyway, because its own stale copy of this skill
-lacked this check — see the publish-time backstop in Step 7.)
+(2026-07-25/26: repeatedly, over two days, worktrees arrived with 169, 279, 294,
+320 and 364 lines of `.claude/` guidance deleted and nothing added — nearly always
+the same five files. In one case the session-start `git status` listed all five
+modified files right in the agent's context and it committed them anyway, because
+its own stale copy of this skill lacked this check — see the publish-time backstop
+in Step 7. Another session caught it only because the copy of this check in
+`.claude/commands/{work,feature}.md` reached it when this file could not. **Keep
+that cross-file duplication.** A check that lives only inside the file that goes
+stale cannot fire in the case it exists for — which is also why Step 0 exists.
+It is still happening: the repair session that resolved this file's merge on
+2026-07-26 arrived the same way, 567 deletions across six files, nothing added.)
 
 ### Step 2b: Verify the skill you loaded is not itself the stale copy
 
@@ -233,7 +305,9 @@ pick up the restored text. Guidance added since the stale revision is exactly th
 guidance you are most likely to need: e.g. the Step 7 rules on replacing `create-pr`'s
 placeholder PR body and on never running `gh pr merge --auto` yourself. (2026-07-25: a
 worktree arrived 193 lines stale; the session ran to completion on the old copy and
-shipped a placeholder PR body.)
+shipped a placeholder PR body. Another arrived at 318 lines against 539, restored and
+restarted from Step 1, and that restart is the only reason it saw those two rules at
+all — restoring the file is not enough on its own, you have to re-read it and go back.)
 
 ### Step 2c: Get onto your branch
 
@@ -287,10 +361,12 @@ Check that the plan's assumptions still hold:
   "Current state" describes machinery you'll build on (e.g. "added in #7222"),
   confirm it: `grep` for the named decls in the target file, and if absent check
   whether #N is still an *open* PR (`gh pr view <N>`, `git merge-base --is-ancestor
-  <sha> origin/main`). If the foundation is only in an unmerged branch, the issue
-  is blocked — `coordination skip` it with a "blocked on unmerged #N" reason
-  rather than stacking your work on that branch (a stacked PR against `main`
-  carries the other PR's commits and conflicts on merge).
+  <sha> origin/main`). If the foundation is only in an unmerged branch, follow
+  "Dependency code that lives only in an unmerged PR" above: **merge #N first if
+  it is mergeable with all checks passed** (the common case, and it makes the
+  problem go away); otherwise `coordination skip` with a "blocked on unmerged #N"
+  reason rather than stacking your work on that branch (a stacked PR against
+  `main` carries the other PR's commits and conflicts on merge).
 - **The "missing"/"partial" result may already exist — grep before implementing.**
   Any issue that describes a gap — an audit reconciliation flagging a
   `covered_partial` residual, *or* a feature issue asserting a result is "not in
@@ -362,9 +438,33 @@ which you are expected to check against the spec and the code.
 
 | Situation | Exit |
 |---|---|
-| Plan is stale (work already done, moot, or blocked on an unmerged foundation) | `coordination skip` |
+| Plan is stale (work already done, or moot) | `coordination skip` |
+| Prerequisite file/lemma exists only in a healthy open PR | stack on it (see below) |
+| Prerequisite does not exist anywhere | `coordination skip` |
 | Symptom real, diagnosis or prescribed fix wrong | fix the real defect, document the deviation on the issue and in the PR |
 | `directive` whose approach you would have chosen differently | do it as asked (Step 1) |
+
+**A prerequisite sitting in an open PR is a reason to stack, not to skip.** Issue
+bodies are written from the planner's view of `main`, and in a repo with this much
+PR concurrency they routinely describe a file as "landed" when it is still in an
+open PR. Do not `skip` on that alone — the issue is fully specified and its
+foundation exists; only *where* it lives is wrong. Check the PR's health first
+(`gh pr view <N> --json state,mergeable,statusCheckRollup`); if it is `MERGEABLE`
+and CI is not failing:
+
+```bash
+git log --oneline origin/main..origin/<their-branch>   # find the commit you need
+git cherry-pick <sha>                                  # develop against it locally
+```
+
+Keep the cherry-pick as its own commit so it is trivially droppable, rebase onto
+`origin/main` just before pushing (if their PR merged first, the commit rebases
+away to nothing), and **say so in a PR comment** — otherwise a reviewer or repair
+agent meeting an unexplained extra commit will treat the PR as scope-creeping.
+Reserve `skip` for the case where the prerequisite exists nowhere, or its PR is
+itself unhealthy. Worked example: #7911 named `Chapter8/KoszulBasis.lean` as
+landed while it was still in open PR #7913; PR #7918 stacked on it and landed the
+full deliverable.
 
 **items.json status reconciliation — sorry-free ≠ item-complete.** For issues
 that ask you to flip a `partially_*`/`statement_formalized`/`formalized` entry
