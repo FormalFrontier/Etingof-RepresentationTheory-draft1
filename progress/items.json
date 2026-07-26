@@ -8320,13 +8320,12 @@
     "start_line": 9,
     "end_line": 15,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "Sub-item (1)'s double-dual NatIso is complete. For sub-item (2), the non-naturality theorem adds an unsupported field-element hypothesis and excludes F2/F3. For sub-items (3)–(4), the code proves determination by a scalar/central element but does not construct the reverse maps or the claimed ring equivalences End(F) ≃ A and End(Id) ≃ Z(A). Reopened #7103.",
-    "fidelity_issue": 7103,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "All four sub-items are now complete. (1) doubleDualNatIso plus linearEquiv_dualDual_iff_finiteDimensional. (2) not_natIso_id_contragredientFunctor holds over an arbitrary field: the scalar obstruction (which excluded F2/F3) is replaced by a transvection argument at the three-dimensional object, dual_gl_natural_eq_zero_of_three_le_finrank. (3)-(4) the determination lemmas are completed to genuine ring equivalences forgetfulEndRingEquiv : End F ~=+* A and idFunctorEndRingEquiv : End 1 ~=+* Subring.center A, on Mathlib's categorical End. Closes #7103.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter7/Introduction_7.4",
