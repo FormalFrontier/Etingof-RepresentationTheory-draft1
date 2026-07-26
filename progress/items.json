@@ -175,12 +175,11 @@
     "start_line": 5,
     "end_line": 7,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "fidelity": "partial",
+    "coverage": "covered_full",
+    "fidelity": "full",
     "needs_statement": false,
-    "fidelity_note": "The existing ADE iff is proved only for orientations of loopless 0/1 simple graphs. The source quiver notion permits loops and multiple arrows; proving those cases are infinite type and removing the restrictive typeclasses remains #7408.",
-    "fidelity_issue": 7408,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "Theorem_2_1_2 proves the ADE iff for orientations of loopless simple graphs; Theorem_2_1_2_general (Theorem2_1_2_General.lean) removes the typeclass restrictions and classifies every connected finite quiver allowed by the book's definition, with loops, parallel arrows and two-way edges handled by proved infinite-type branches (not_hasFiniteRepresentationType_of_loop / _of_parallel / _of_opposite).",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter2/Discussion_after_Theorem2.1.2",
