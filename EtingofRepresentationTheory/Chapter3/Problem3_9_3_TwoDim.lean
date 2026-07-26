@@ -642,6 +642,161 @@ theorem support_of_sum_eq_two {Q : Type*} [Fintype Q] (d : Q → ℕ) (h2 : ∑ 
     refine Or.inr ⟨i, j, hij, by omega, by omega, fun v hvi hvj => ?_⟩
     exact hout v (by rw [hS2]; simp [hvi, hvj])
 
+/-! ### Exhaustiveness: every two-dimensional representation is a normal form -/
+
+/-- **Classification of the two-dimensional representations of a path algebra.** Let `Q` be a
+finite quiver without oriented cycles and `ρ` a representation of total dimension `2`. Then `ρ`
+is *isomorphic* to a normal form, in exactly one of two ways:
+
+* `ρ ≅ twoRep i j 0 ≅ S_i ⊕ S_j` for a (possibly equal) pair of vertices -- the decomposable
+  case (`twoRep_zero_not_isIndecomposable`); or
+* `ρ ≅ twoRep i j c` with `i ≠ j` and some arrow `e₀ : i ⟶ j` acting by a nonzero scalar -- the
+  indecomposable case (`twoRep_isIndecomposable`).
+
+This is the isomorphism-class statement that `two_dim_classification` only approximated by a
+dimension/map-condition disjunction; that disjunction is recovered below as
+`two_dim_classification_of_normalForm`. -/
+theorem two_dim_normalForm [DecidableEq Q] [Fintype Q]
+    (hQ : NoOrientedCycles Q) (ρ : QuiverRepresentation k Q)
+    [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
+    (h2 : ∑ v, dimVec ρ v = 2) :
+    (∃ i j : Q, Nonempty (QuiverRepresentationEquiv k Q ρ
+        (twoRep i j (0 : (Σ a b : Q, (a ⟶ b)) → k))))
+      ∨ (∃ (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) (e₀ : i ⟶ j),
+          i ≠ j ∧ c ⟨i, j, e₀⟩ ≠ 0 ∧
+            Nonempty (QuiverRepresentationEquiv k Q ρ (twoRep i j c))) := by
+  classical
+  -- Acyclicity rules out loops and 2-cycles.
+  have hnoloop : ∀ v : Q, IsEmpty (v ⟶ v) := by
+    intro v
+    rw [isEmpty_iff]
+    intro a
+    have h := congrArg Quiver.Path.length (hQ v (Quiver.Path.nil.cons a))
+    simp [Quiver.Path.length_cons] at h
+  have hno2 : ∀ {u w : Q}, (u ⟶ w) → IsEmpty (w ⟶ u) := by
+    intro u w e
+    rw [isEmpty_iff]
+    intro f
+    have h := congrArg Quiver.Path.length (hQ u ((Quiver.Path.nil.cons e).cons f))
+    simp [Quiver.Path.length_cons] at h
+  -- The indecomposable case, packaged so it can be applied to either orientation.
+  have key : ∀ u w : Q, u ≠ w → dimVec ρ u = 1 → dimVec ρ w = 1 →
+      (∀ v, v ≠ u → v ≠ w → dimVec ρ v = 0) → ∀ e₀ : u ⟶ w, ρ.mapLinear e₀ ≠ 0 →
+      (∃ (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) (e : i ⟶ j),
+        i ≠ j ∧ c ⟨i, j, e⟩ ≠ 0 ∧
+          Nonempty (QuiverRepresentationEquiv k Q ρ (twoRep i j c))) := by
+    intro u w huw hu1 hw1 h0 e₀ hne0
+    have htriv : ∀ v, v ≠ u → v ≠ w → Subsingleton (ρ.obj v) :=
+      fun v h1 h2 => subsingleton_of_dimVec_eq_zero (h0 v h1 h2)
+    obtain ⟨α⟩ := nonempty_linearEquiv_of_dimVec_eq_one hu1
+    obtain ⟨β⟩ := nonempty_linearEquiv_of_dimVec_eq_one hw1
+    -- Every arrow other than the ones from `u` to `w` has a trivial source or target.
+    have hzero : ∀ {a b : Q} (e : a ⟶ b), a ≠ u ∨ b ≠ w → ρ.mapLinear e = 0 := by
+      intro a b e hd
+      by_cases ha : a = u
+      · subst a
+        have hbw : b ≠ w := hd.resolve_left fun h => h rfl
+        have hbu : b ≠ u := fun h => (hnoloop u).false (h ▸ e)
+        haveI := htriv b hbu hbw
+        exact LinearMap.ext fun _ => Subsingleton.elim _ _
+      · by_cases haw : a = w
+        · subst a
+          have hbu : b ≠ u := fun h => (hno2 e₀).false (h ▸ e)
+          have hbw : b ≠ w := fun h => (hnoloop w).false (h ▸ e)
+          haveI := htriv b hbu hbw
+          exact LinearMap.ext fun _ => Subsingleton.elim _ _
+        · haveI := htriv a ha haw
+          exact LinearMap.ext fun y => by
+            rw [Subsingleton.elim y 0, map_zero, LinearMap.zero_apply]
+    -- The coefficient of `e₀` is nonzero: otherwise `ρ_{e₀}` kills a generator, hence vanishes.
+    have hc : coeffOf α β ⟨u, w, e₀⟩ ≠ 0 := by
+      rw [coeffOf_apply]
+      intro h
+      have h0' : ρ.mapLinear e₀ (α.symm 1) = 0 := by
+        apply β.injective
+        rw [h, map_zero]
+      refine hne0 (LinearMap.ext fun y => ?_)
+      have hy : ρ.mapLinear e₀ y = α y • ρ.mapLinear e₀ (α.symm (1 : k)) := by
+        rw [← map_smul]
+        congr 1
+        rw [← map_smul, smul_eq_mul, mul_one, α.symm_apply_apply]
+      rw [hy, h0', smul_zero, LinearMap.zero_apply]
+    exact ⟨u, w, coeffOf α β, e₀, huw, hc, nonempty_equiv_twoRep huw α β htriv hzero⟩
+  rcases support_of_sum_eq_two (dimVec ρ) h2 with ⟨i, hi2, hi0⟩ | ⟨i, j, hij, hi1, hj1, h0⟩
+  · -- Both dimensions sit at one vertex `i`; with no loops every arrow map vanishes.
+    have hmz : ∀ {a b : Q} (e : a ⟶ b), ρ.mapLinear e = 0 := by
+      intro a b e
+      by_cases ha : a = i
+      · subst a
+        haveI := subsingleton_of_dimVec_eq_zero (hi0 b fun h => (hnoloop i).false (h ▸ e))
+        exact LinearMap.ext fun _ => Subsingleton.elim _ _
+      · haveI := subsingleton_of_dimVec_eq_zero (hi0 a ha)
+        exact LinearMap.ext fun y => by
+          rw [Subsingleton.elim y 0, map_zero, LinearMap.zero_apply]
+    refine Or.inl ⟨i, i, nonempty_equiv_of_mapLinear_eq_zero ρ _ hmz
+      (twoRep_zero_mapLinear i i) fun v => ?_⟩
+    rw [dimVec_twoRep]
+    by_cases hv : v = i
+    · subst v
+      rw [if_pos rfl]
+      omega
+    · rw [if_neg hv]
+      have := hi0 v hv
+      omega
+  · -- Two distinct one-dimensional vertices.
+    by_cases hall : ∀ (a b : Q) (e : a ⟶ b), ρ.mapLinear e = 0
+    · -- All arrows act by zero: `ρ ≅ S_i ⊕ S_j`.
+      refine Or.inl ⟨i, j, nonempty_equiv_of_mapLinear_eq_zero ρ _ (fun e => hall _ _ e)
+        (twoRep_zero_mapLinear i j) fun v => ?_⟩
+      rw [dimVec_twoRep]
+      by_cases hvi : v = i
+      · subst v
+        rw [if_pos rfl, if_neg hij]
+        omega
+      · by_cases hvj : v = j
+        · subst v
+          rw [if_neg (Ne.symm hij), if_pos rfl]
+          omega
+        · rw [if_neg hvi, if_neg hvj]
+          have := h0 v hvi hvj
+          omega
+    · -- Some arrow acts nontrivially; its endpoints must be `i` and `j` in one of the two orders.
+      push Not at hall
+      obtain ⟨a, b, e, hne0⟩ := hall
+      have hda : dimVec ρ a ≠ 0 := by
+        intro h
+        haveI := subsingleton_of_dimVec_eq_zero h
+        exact hne0 (LinearMap.ext fun y => by
+          rw [Subsingleton.elim y 0, map_zero, LinearMap.zero_apply])
+      have hdb : dimVec ρ b ≠ 0 := by
+        intro h
+        haveI := subsingleton_of_dimVec_eq_zero h
+        exact hne0 (LinearMap.ext fun _ => Subsingleton.elim _ _)
+      have hain : a = i ∨ a = j := by
+        by_cases h1 : a = i
+        · exact Or.inl h1
+        by_cases h2 : a = j
+        · exact Or.inr h2
+        exact absurd (h0 a h1 h2) hda
+      have hbin : b = i ∨ b = j := by
+        by_cases h1 : b = i
+        · exact Or.inl h1
+        by_cases h2 : b = j
+        · exact Or.inr h2
+        exact absurd (h0 b h1 h2) hdb
+      have hab : a ≠ b := fun h => (hnoloop a).false (h ▸ e)
+      rcases hain with hai | haj
+      · subst a
+        rcases hbin with hbi | hbj
+        · exact absurd hbi.symm hab
+        · subst b
+          exact Or.inr (key i j hij hi1 hj1 h0 e hne0)
+      · subst a
+        rcases hbin with hbi | hbj
+        · subst b
+          exact Or.inr (key j i (Ne.symm hij) hj1 hi1 (fun v h1 h2 => h0 v h2 h1) e hne0)
+        · exact absurd hbj.symm hab
+
 end Problem3_9_3
 
 end Etingof
