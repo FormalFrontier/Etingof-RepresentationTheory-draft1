@@ -20,6 +20,15 @@ character formula `n_{ij}^k = (χ_i · χ_j, χ_k)`; equivalently, the product o
 irreducible characters decomposes as the integer combination `χ_i · χ_j = Σ_k n_{ij}^k χ_k`
 of irreducible characters, which is exactly the statement `V_i ⊗ V_j ≅ ⊕_k n_{ij}^k V_k`.
 
+The book asserts decompositions of *representations*, so for each of the three groups the
+table is formalized twice: first as the character identity it is computed from, and then as
+the isomorphism of representations it asserts.  The right-hand side `⊕_k n_{ij}^k V_k` is the
+object `multSum` built below, and the upgrade is `Etingof.charEq_iso` (Chapter 5: over `ℂ`,
+equal characters imply isomorphism).  The isomorphisms are `S3_tensor_iso`, `S4_tensor_iso`,
+`A5_tensor_iso` — one statement quantified over `i, j`, hence covering *every* entry of all
+three tables, including the multiplicity-2 constituents of `ℂ⁴ ⊗ ℂ⁵` and `ℂ⁵ ⊗ ℂ⁵` for `A₅` —
+with `*_biproduct` variants stated using the categorical `⨁`.
+
 ## The representations of `S₃`
 
 The three irreducible representations of `S₃` are built as objects of `FDRep ℂ S₃`, and the
@@ -37,6 +46,9 @@ representations):
 * `S3_tensor_product_character`: the same identity phrased on the tensor product
   `V_i ⊗ V_j` of `FDRep`s, via `FDRep.char_tensor`.  This is the character form of
   `V_i ⊗ V_j ≅ ⊕_k n_{ij}^k V_k`.
+* `S3_tensor_iso` / `S3_tensor_iso_biproduct`: the decomposition itself,
+  `V_i ⊗ V_j ≅ ⊕_k n_{ij}^k V_k` in `FDRep ℂ S₃`, for every entry of the table;
+  `stdRep_tensor_stdRep_iso` spells out the one nontrivial entry `ℂ² ⊗ ℂ² ≅ ℂ₊ ⊕ ℂ₋ ⊕ ℂ²`.
 
 ## The representations of `A₅`
 
@@ -53,6 +65,8 @@ functions, the multiplicity identity for every `g` reduces to the five conjugacy
   characters (traces) of the five representations.
 * `A5_tensor_product_character`: the same identity on the tensor product
   `V_i ⊗ V_j` of `FDRep`s, via `FDRep.char_tensor`.
+* `A5_tensor_iso` / `A5_tensor_iso_biproduct`: the decomposition itself,
+  `V_i ⊗ V_j ≅ ⊕_k n_{ij}^k V_k` in `FDRep ℂ A₅`, for every entry of the table.
 
 ## The representations of `S₄`
 
@@ -68,12 +82,17 @@ multiplicity identity for every `g` reduces, via `Etingof.Example4_8_1.S4.classR
   characters (traces) of the five representations.
 * `S4_tensor_product_character`: the same identity on the tensor product
   `V_i ⊗ V_j` of `FDRep`s, via `FDRep.char_tensor`.
+* `S4_tensor_iso` / `S4_tensor_iso_biproduct`: the decomposition itself,
+  `V_i ⊗ V_j ≅ ⊕_k n_{ij}^k V_k` in `FDRep ℂ S₄`, for every entry of the table.
 
 ## Mathlib correspondence
 
 Tensor-product decomposition multiplicities for these groups are not in Mathlib; the
 standard representation and its character are built here from scratch.  `FDRep.char_tensor`
-supplies `(V ⊗ W).character = V.character · W.character`.
+supplies `(V ⊗ W).character = V.character · W.character`.  Mathlib has no `⨁`-indexed
+biproduct for `FDRep`, so the right-hand sides are built with `Etingof.FDRep.pi`
+(`Infrastructure/FDRepDirectSum`), and the converse of `FDRep.char_iso` needed to go from
+characters to isomorphisms is `Etingof.charEq_iso` (`Chapter5/CharEqIso`).
 -/
 
 open CategoryTheory MonoidalCategory
