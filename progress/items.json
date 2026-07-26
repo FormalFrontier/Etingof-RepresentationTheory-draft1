@@ -7010,9 +7010,9 @@
     "start_line": 15,
     "end_line": 16,
     "status": "proved",
-    "coverage_note": "Re-audited 2026-07-25 (#7320, second pass), then updated after the Heisenberg transport landed on main (#7792). All three re-derivations genuinely discharge their result by applying Etingof.Theorem5_27_1 (Dihedral:207, Heisenberg:345, Affine:209 and 454), all are exhaustive classifications (Simple + pairwise-non-iso + completeness + dimension counts), and the headline declarations are sorry-free by #print axioms (only propext, Classical.choice, Quot.sound). The affine q>2 scope worry is resolved: affine_classification_two covers Fintype.card K = 2, so the two theorems together span every finite field. The dihedral arm is FULL: it is stated over Mathlib's DihedralGroup N, the same type Problem 4.12.1(a) uses, and transported through the genuine MulEquiv dihedralEquiv via Action.resEquiv. The Heisenberg arm is now FULL too: heisenbergEquiv is a genuine ≃* from Problem4_12_2.Heisenberg p onto the semidirect-product model, heisenberg_classification' states the classification over FDRep ℂ (Problem4_12_2.Heisenberg p), and heisenberg_classification_named matches the family with the book's charRep χ and R_z representations. The affine arm remains PARTIAL: it classifies the newly defined Exercise5_27_2.AffineGroup K, the file does not import Chapter4/Problem4_12_6.lean, and the identification with Problem4_12_6.Affine K is made only in prose — so that re-derivation is not exposed over the actual Problem 4.12.6 object or its zero-sum representation Vsub. Follow-up #7789 (affine transport) carries the explicit MulEquiv formula.",
-    "coverage": "covered_partial",
-    "followup_issue": 7789,
+    "coverage_note": "Re-audited 2026-07-25 (#7320, second pass), then updated after the Heisenberg transport (#7792) and the affine transport (#7789) landed. All three re-derivations genuinely discharge their result by applying Etingof.Theorem5_27_1 (Dihedral:207, Heisenberg:345, Affine:209 and 454), all are exhaustive classifications (Simple + pairwise-non-iso + completeness + dimension counts), and the headline declarations are sorry-free by #print axioms (only propext, Classical.choice, Quot.sound). The affine q>2 scope worry is resolved: affine_classification_two covers Fintype.card K = 2, so the two theorems together span every finite field. All three arms are now FULL: each is transported onto the textbook group through a genuine MulEquiv — dihedral over Mathlib's DihedralGroup N via dihedralEquiv, Heisenberg over Problem4_12_2.Heisenberg p via heisenbergEquiv, affine over Problem4_12_6.Affine K via affineEquiv — and each family is matched with the book's named representations (dihedral; Heisenberg charRep χ and R_z; affine Problem4_12_6.charRep and the zero-sum Vsub).",
+    "coverage": "covered_full",
+    "followup_issue": null,
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Exercise5_27_2_Dihedral.lean",
@@ -7024,7 +7024,9 @@
       "Etingof.Exercise5_27_2.heisenberg_classification",
       "Etingof.Exercise5_27_2.heisenberg_classification'",
       "Etingof.Exercise5_27_2.affine_classification",
-      "Etingof.Exercise5_27_2.affine_classification_two"
+      "Etingof.Exercise5_27_2.affine_classification_two",
+      "Etingof.Exercise5_27_2.affine_classification'",
+      "Etingof.Exercise5_27_2.affine_classification_two'"
     ],
     "derived": [
       {
@@ -7057,15 +7059,20 @@
       {
         "part": "(iii) affine (4.12.6)",
         "claim": "Redo the affine x↦ax+b group (over 𝔽_q) irreducible classification via Theorem 5.27.1 (Multiplicative K ⋊ Kˣ): q−1 dim-1 characters and one dim-(q−1) rep.",
-        "coverage": "covered_partial",
+        "coverage": "covered_full",
         "lean_decl": [
           "Etingof.Exercise5_27_2.affine_classification",
           "Etingof.Exercise5_27_2.affine_classification_two",
+          "Etingof.Exercise5_27_2.affine_classification'",
+          "Etingof.Exercise5_27_2.affine_classification_two'",
+          "Etingof.Exercise5_27_2.affine_classification_named",
+          "Etingof.Exercise5_27_2.affineEquiv",
+          "Etingof.Exercise5_27_2.zeroSumFDRep",
           "Etingof.Exercise5_27_2.AffineGroup",
           "Etingof.Exercise5_27_2.affineφ"
         ],
-        "reason": "PARTIAL (re-confirmed 2026-07-25). Both the q>2 and q=2 classifications are exhaustive and sorry-free by #print axioms on Exercise5_27_2.AffineGroup K = Multiplicative K ⋊[affineφ K] Kˣ, and both apply Etingof.Theorem5_27_1 (lines 209, 454); the earlier q>2 scope worry is therefore settled, since affine_classification_two covers Fintype.card K = 2. The remaining gap is the same as the Heisenberg arm's: AffineGroup K is a different type from Problem4_12_6.Affine K (the structure with a : Kˣ, b : K), the file does not import Chapter4/Problem4_12_6.lean, no MulEquiv transports the classifications there, and the (q-1)-dimensional member is not identified with the book's zero-sum representation Problem4_12_6.Vsub. Follow-up #7789 records the explicit equivalence ⟨a,b⟩ ↦ ⟨ofAdd b, a⟩ and flags the Type vs Type* binder mismatch.",
-        "followup_issue": 7789
+        "reason": "FULL (as of #7789; the 2026-07-25 re-audit's PARTIAL verdict is superseded). affine_classification (q>2) and affine_classification_two (q=2) obtain the orbit-method classification via Etingof.Theorem5_27_1 Kˣ (Multiplicative K) (affineφ K) on the semidirect-product model. affineEquiv is a genuine ≃* (real toFun/invFun/left_inv/right_inv/map_mul', no stub) from Problem4_12_6.Affine K onto that model, sending ⟨a, b⟩ to ⟨ofAdd b, a⟩; affine_classification' and affine_classification_two' transport the two classifications across it, so the conclusions are stated over FDRep ℂ (Problem4_12_6.Affine K): exhaustive (Simple, pairwise-non-iso, completeness), n = q with q-1 dim-1 members and one dim-(q-1) member (resp. n = 2 all dim-1 when q = 2). affine_classification_named further identifies the family with the book's named representations: every dim-1 member is a Problem4_12_6.charRep χ and every character occurs, and the unique dim-(q-1) member is the hint's zero-sum representation V = Problem4_12_6.Vsub (zeroSumFDRep). Sorry-free, #print axioms clean.",
+        "followup_issue": null
       }
     ],
     "last_updated": "2026-07-25"
