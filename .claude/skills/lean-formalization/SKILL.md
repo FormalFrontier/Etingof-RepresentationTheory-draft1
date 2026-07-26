@@ -5155,6 +5155,35 @@ theorem main_result : conclusion := by
 
 **Infrastructure absorption pattern:** When helper lemmas are reusable across theorems, extract them into dedicated infrastructure files (e.g., `Infrastructure/BasicAlgebraExistence.lean`, `Infrastructure/MoritaStructural.lean`). This cleanly separates mathematical infrastructure from theorem proofs.
 
+### Triangularization exists here, not in Mathlib (#7876, `Infrastructure/Triangularization.lean`)
+
+"Put `A` in upper-triangular form" is a standard step in the book (Problem 2.11.3(f) and anywhere
+eigenvalues are listed with multiplicity), and **Mathlib has no basis-level triangularization
+theorem** — `Mathlib/LinearAlgebra/Eigenspace/Triangularizable.lean` is about
+`iSup_maxGenEigenspace_eq_top`, and there is no `exists_upperTriangular` or Schur triangulation.
+Don't re-search for it; use `Infrastructure/Triangularization.lean`:
+
+- `Etingof.exists_basis_blockTriangular (A) (hN : finrank k V = N) (hsplit : (LinearMap.charpoly A).Splits) : ∃ b : Basis (Fin N) k V, (LinearMap.toMatrix b b A).BlockTriangular id`
+  (plus `..._of_isAlgClosed`, and `..._charpoly` which also hands back the diagonal `lam` with
+  `charpoly A = ∏ i, (X - C (lam i))`).
+- `Etingof.exists_basis_blockTriangular_diag_perm` — from the book's hypothesis
+  `charpoly A = ∏ i, (X - C (lam i))`, a triangularizing basis whose diagonal is `lam ∘ e`. The
+  permutation is unavoidable (`lam` is determined only up to reordering); discard it with
+  `Etingof.sum_powersetCard_prod_comp` / `Etingof.sum_sym_prod_comp`, which say `e_n` and `h_n`
+  are reindexing-invariant.
+- `Etingof.blockTriangular_toMatrix_iff` — the working criterion: `b` triangularizes `A` iff every
+  `A (b j) ∈ span k (b '' Set.Iic j)`. Reach for this rather than manipulating matrix entries;
+  `Module.Basis.mem_span_image` converts between the span and the `repr` support.
+
+**Proof technique worth reusing.** The induction descends to `V ⧸ k ∙ v` and carries the
+**minimal** polynomial, not the characteristic polynomial: `p(A) = 0` forces `p(Ā) = 0` because
+`mkQ` is surjective, so `minpoly k Ā ∣ minpoly k A` in three lines (`Submodule.mapQ`, then
+`minpoly.dvd`, then `Polynomial.Splits.of_dvd`). The `charpoly A = (X - C μ) * charpoly Ā`
+multiplicativity you would otherwise need is *itself* missing from Mathlib. Convert at the end
+with `LinearMap.minpoly_dvd_charpoly`. Generally: when a dimension induction needs "the hypothesis
+survives passage to a quotient", check whether restating it in terms of `minpoly` makes the
+descent free.
+
 ## SMul Instance Diamond Bridge (Wave 43)
 
 When two `Module` instances on the same type are propositionally but not definitionally equal (common with equivalences, transport, or `restrictScalars`), direct `rfl` and `congr` fail.
