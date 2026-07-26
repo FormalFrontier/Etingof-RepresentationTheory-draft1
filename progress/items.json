@@ -872,10 +872,8 @@
     "start_line": 25,
     "end_line": 8,
     "status": "sorry_free",
-    "coverage_note": "Parts (a), (b), and the characteristic-p dimension result are source-present. Problem2_7_4_Family.lean now constructs the classifying family V(alpha,c) for part (c), with the defining relation, the module structure, the central-scalar actions x^p = alpha, y^p = c^p, irreducibility of V(alpha,c) for every parameter pair (famModule_isSimpleModule), and the isomorphism criterion V(alpha,c) = V(alpha',c') iff alpha = alpha' and c = c' (famEquiv_nonempty_iff), so the family lists each isomorphism class at most once; exhaustiveness remains open under #7387. Independently, Problem2_7_4.lean now fails a fresh check at a scalar-cast/neg_smul rewrite; regression #7530.",
-    "followup_issue": 7387,
-    "coverage_issue": 7530,
-    "coverage": "covered_partial",
+    "coverage_note": "All three parts are source-present. (a) characteristic zero: no nonzero finite-dimensional representation, and the Weyl algebra is simple. (b) characteristic p: x^p and y^p are central and the center is k[x^p, y^p]. (c) characteristic p over an algebraically closed field is a full classification, not just the dimension: Problem2_7_4.exists_normalForm puts an arbitrary finite-dimensional simple module in the book's normal form, Problem2_7_4_Family.lean constructs the family V(alpha,c) with the central-scalar actions x^p = alpha and y^p = c^p, proves each member irreducible (famModule_isSimpleModule) and the isomorphism criterion V(alpha,c) = V(alpha',c') iff alpha = alpha' and c = c' (famEquiv_nonempty_iff), and exists_toFamEquiv proves the family exhausts every finite-dimensional irreducible. The public endpoint existsUnique_toFamEquiv returns explicit family parameters together with an isomorphism, unique as a pair; finrank_eq_of_classification recovers dim V = p from it, and Problem2_7_4.finrank_irreducible_charP is retained.",
+    "coverage": "covered_full",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_7_4.lean",
       "EtingofRepresentationTheory/Chapter2/Problem2_7_4_Family.lean"
