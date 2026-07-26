@@ -1046,6 +1046,301 @@ theorem oneDim_not_equiv_fam (μ : k) (γ : kˣ) (a : k) :
   rw [h1] at h
   exact ((Fact.out : p.Prime).one_lt).ne h
 
+
+/-! ### Exhaustiveness
+
+Let `M` be a finite-dimensional irreducible module and write `A`, `B` for the operators by which
+`X`, `Y` act. The relation `[X, Y] = Y` reads `A B = B A + B`, whence `A Bⁿ = Bⁿ (A + n)`.
+
+`ker B` is a submodule, so either `B = 0`, and `M` is one-dimensional, or `B` is invertible. In the
+latter case `A Bᵖ = Bᵖ A` because `p = 0` in `k`, so the eigenspaces of `Bᵖ` are submodules and
+`Bᵖ` is a nonzero scalar `β`. Choosing `c` with `cᵖ = β` and an eigenvector `v` of `A` with
+eigenvalue `a`, the vectors `c⁻ⁿ Bⁿ v` depend only on `n` modulo `p`, are eigenvectors of `A` with
+the `p` distinct eigenvalues `a + n`, and are permuted cyclically by `B` up to the factor `c`.
+They therefore form a basis identifying `M` with `V(c, a)`. -/
+
+variable (k p)
+
+/-- The operator form of `[X, Y] = Y` on any module. -/
+theorem lie_X_lie_Y (M : Type*) [AddCommGroup M] [Module k M] [LieRingModule (g k) M]
+    [LieModule k (g k) M] (m : M) :
+    ⁅X k, ⁅Y k, m⁆⁆ = ⁅Y k, ⁅X k, m⁆⁆ + ⁅Y k, m⁆ := by
+  have h := lie_lie (X k) (Y k) m
+  rw [bracket_X_Y] at h
+  exact (sub_eq_iff_eq_add.mp h.symm).trans (add_comm _ _)
+
+/-- **The `Y`-acts-by-zero branch.** An irreducible module on which `Y` acts by `0` is
+one-dimensional, hence a member of the family `oneDimModule`. -/
+theorem exists_iso_oneDim_of_lie_Y_eq_zero [IsAlgClosed k] (M : Type*) [AddCommGroup M]
+    [Module k M] [LieRingModule (g k) M] [LieModule k (g k) M] [FiniteDimensional k M]
+    [LieModule.IsIrreducible k (g k) M] (hY : ∀ m : M, ⁅Y k, m⁆ = 0) :
+    ∃ μ : k, Nonempty (M ≃ₗ⁅k, g k⁆ oneDimModule k μ) := by
+  haveI : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (g k) M
+  obtain ⟨μ, hev⟩ := Module.End.exists_eigenvalue (LieModule.toEnd k (g k) M (X k))
+  obtain ⟨v, hvmem, hv0⟩ := hev.exists_hasEigenvector
+  have hvX : ⁅X k, v⁆ = μ • v := Module.End.mem_eigenspace_iff.mp hvmem
+  have hspan : Submodule.span k {v} = ⊤ := by
+    refine eq_top_of_invariant_of_ne_zero k M _ (fun m hm => ?_) (fun m _ => ?_)
+      (Submodule.mem_span_singleton_self v) hv0
+    · obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hm
+      rw [lie_smul, hvX, smul_smul]
+      exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self v)
+    · rw [hY]; exact Submodule.zero_mem _
+  have hdim : Module.finrank k M = 1 := by
+    rw [← finrank_top k M, ← hspan, finrank_span_singleton hv0]
+  refine ⟨μ, nonempty_equiv_oneDim k M (fun m => ?_) hY hdim⟩
+  have hm : m ∈ Submodule.span k {v} := hspan ▸ Submodule.mem_top
+  obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hm
+  rw [lie_smul, hvX, smul_smul, smul_smul, mul_comm]
+
+
+/-- **The `Y`-invertible branch.** An irreducible module on which `Y` acts nontrivially is
+isomorphic to a member of the `p`-dimensional family. -/
+theorem exists_iso_fam_of_lie_Y_ne_zero [IsAlgClosed k] (M : Type*) [AddCommGroup M]
+    [Module k M] [LieRingModule (g k) M] [LieModule k (g k) M] [FiniteDimensional k M]
+    [LieModule.IsIrreducible k (g k) M] (hYne : ∃ m : M, ⁅Y k, m⁆ ≠ 0) :
+    ∃ (γ : kˣ) (a : k), Nonempty (M ≃ₗ⁅k, g k⁆ Fam k p γ a) := by
+  classical
+  haveI : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (g k) M
+  haveI : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
+  -- name the two operators, keeping only the properties we need
+  obtain ⟨A, hAapp⟩ : ∃ A : Module.End k M, ∀ m, A m = ⁅X k, m⁆ :=
+    ⟨LieModule.toEnd k (g k) M (X k), fun _ => rfl⟩
+  obtain ⟨B, hBapp⟩ : ∃ B : Module.End k M, ∀ m, B m = ⁅Y k, m⁆ :=
+    ⟨LieModule.toEnd k (g k) M (Y k), fun _ => rfl⟩
+  have hrel : ∀ m : M, A (B m) = B (A m) + B m := by
+    intro m; simp only [hAapp, hBapp]; exact lie_X_lie_Y k M m
+  -- `ker B` is a submodule, so `B` is injective
+  have hBinj : Function.Injective B := by
+    rw [← LinearMap.ker_eq_bot]
+    by_contra hne
+    obtain ⟨m₀, hm₀N, hm₀⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hne
+    have hX : ∀ m ∈ LinearMap.ker B, ⁅X k, m⁆ ∈ LinearMap.ker B := by
+      intro m hm
+      rw [LinearMap.mem_ker] at hm ⊢
+      have h := hrel m
+      rw [hm, map_zero, add_zero] at h
+      rw [← hAapp]
+      exact h.symm
+    have hY : ∀ m ∈ LinearMap.ker B, ⁅Y k, m⁆ ∈ LinearMap.ker B := by
+      intro m hm
+      rw [LinearMap.mem_ker] at hm ⊢
+      rw [← hBapp, hm, map_zero]
+    have htop := eq_top_of_invariant_of_ne_zero k M (LinearMap.ker B) hX hY hm₀N hm₀
+    obtain ⟨m, hm⟩ := hYne
+    have hmem : m ∈ LinearMap.ker B := by rw [htop]; exact Submodule.mem_top
+    exact hm (by rw [← hBapp]; exact LinearMap.mem_ker.mp hmem)
+  have hBpow : ∀ n : ℕ, Function.Injective ((B : Module.End k M) ^ n) := by
+    intro n
+    induction n with
+    | zero => intro x y h; simpa using h
+    | succ j ih =>
+      intro x y h
+      rw [pow_succ, Module.End.mul_apply, Module.End.mul_apply] at h
+      exact hBinj (ih h)
+  -- the commutation `A Bⁿ = Bⁿ (A + n)`
+  have hApow : ∀ (n : ℕ) (m : M), A ((B ^ n) m) = (B ^ n) (A m) + (n : k) • (B ^ n) m := by
+    intro n
+    induction n with
+    | zero => intro m; simp
+    | succ j ih =>
+      intro m
+      simp only [pow_succ, Module.End.mul_apply]
+      rw [ih (B m), hrel m, map_add, Nat.cast_succ]
+      module
+  -- `Bᵖ` commutes with everything, hence is a scalar
+  obtain ⟨β, hβ⟩ : ∃ β : k, ∀ m : M, (B ^ p) m = β • m := by
+    obtain ⟨β, hev⟩ := Module.End.exists_eigenvalue (B ^ p)
+    obtain ⟨w, hwmem, hw0⟩ := hev.exists_hasEigenvector
+    refine ⟨β, fun m => ?_⟩
+    have hcomm : ∀ x : M, A ((B ^ p) x) = (B ^ p) (A x) := by
+      intro x
+      rw [hApow p x, CharP.cast_eq_zero k p, zero_smul, add_zero]
+    have hBcomm : ∀ x : M, (B ^ p) (B x) = B ((B ^ p) x) := by
+      intro x
+      rw [← Module.End.mul_apply, ← Module.End.mul_apply, ← pow_succ, ← pow_succ']
+    have hX : ∀ x ∈ Module.End.eigenspace (B ^ p) β,
+        ⁅X k, x⁆ ∈ Module.End.eigenspace (B ^ p) β := by
+      intro x hx
+      rw [Module.End.mem_eigenspace_iff] at hx ⊢
+      rw [← hAapp, ← hcomm, hx, map_smul]
+    have hY : ∀ x ∈ Module.End.eigenspace (B ^ p) β,
+        ⁅Y k, x⁆ ∈ Module.End.eigenspace (B ^ p) β := by
+      intro x hx
+      rw [Module.End.mem_eigenspace_iff] at hx ⊢
+      rw [← hBapp, hBcomm, hx, map_smul]
+    have htop :=
+      eq_top_of_invariant_of_ne_zero k M (Module.End.eigenspace (B ^ p) β) hX hY hwmem hw0
+    have hmem : m ∈ Module.End.eigenspace (B ^ p) β := by rw [htop]; exact Submodule.mem_top
+    exact Module.End.mem_eigenspace_iff.mp hmem
+  have hβ0 : β ≠ 0 := by
+    intro h
+    obtain ⟨w, hw⟩ := exists_ne (0 : M)
+    exact hw (hBpow p (by rw [hβ, h, zero_smul, map_zero]))
+  -- a `p`-th root of the scalar
+  obtain ⟨c, hc⟩ := IsAlgClosed.exists_pow_nat_eq (k := k) β (Fact.out : p.Prime).pos
+  have hc0 : c ≠ 0 := by
+    intro h
+    rw [h, zero_pow (Fact.out : p.Prime).ne_zero] at hc
+    exact hβ0 hc.symm
+  -- an eigenvector of `A`
+  obtain ⟨a, hev⟩ := Module.End.exists_eigenvalue A
+  obtain ⟨v, hvmem, hv0⟩ := hev.exists_hasEigenvector
+  have hAv : A v = a • v := Module.End.mem_eigenspace_iff.mp hvmem
+  -- the normalized orbit of `v` under `B`
+  obtain ⟨t, htdef⟩ : ∃ t : ℕ → M, ∀ n, t n = (c⁻¹ ^ n) • (B ^ n) v :=
+    ⟨fun n => (c⁻¹ ^ n) • (B ^ n) v, fun _ => rfl⟩
+  have htA : ∀ n : ℕ, A (t n) = (a + (n : k)) • t n := by
+    intro n
+    rw [htdef n, map_smul, hApow n v, hAv, map_smul]
+    module
+  have htB : ∀ n : ℕ, B (t n) = c • t (n + 1) := by
+    intro n
+    have hcc : c * c⁻¹ ^ (n + 1) = c⁻¹ ^ n := by
+      rw [pow_succ', ← mul_assoc, mul_inv_cancel₀ hc0, one_mul]
+    rw [htdef n, htdef (n + 1), map_smul, smul_smul, hcc, ← Module.End.mul_apply, ← pow_succ']
+  have ht0 : ∀ n : ℕ, t n ≠ 0 := by
+    intro n h
+    rw [htdef n] at h
+    rcases smul_eq_zero.mp h with h2 | h2
+    · exact pow_ne_zero _ (inv_ne_zero hc0) h2
+    · exact hv0 (hBpow n (by rw [h2, map_zero]))
+  have htper : ∀ n : ℕ, t (n + p) = t n := by
+    intro n
+    have h1 : (B ^ (n + p)) v = β • (B ^ n) v := by
+      rw [pow_add, Module.End.mul_apply, hβ v, map_smul]
+    have hpinv : c⁻¹ ^ p * c ^ p = 1 := by
+      rw [← mul_pow, inv_mul_cancel₀ hc0, one_pow]
+    have hscal : c⁻¹ ^ (n + p) * β = c⁻¹ ^ n := by
+      rw [← hc, pow_add, mul_assoc, hpinv, mul_one]
+    rw [htdef (n + p), htdef n, h1, smul_smul, hscal]
+  have htmul : ∀ q n : ℕ, t (n + p * q) = t n := by
+    intro q
+    induction q with
+    | zero => intro n; simp
+    | succ j ih => intro n; rw [Nat.mul_succ, ← Nat.add_assoc, htper, ih]
+  have htmod : ∀ n : ℕ, t (n % p) = t n := by
+    intro n
+    conv_rhs => rw [← Nat.mod_add_div n p]
+    rw [htmul]
+  -- reindex by `ℤ/p`
+  obtain ⟨u, hudef⟩ : ∃ u : ZMod p → M, ∀ i, u i = t i.val := ⟨fun i => t i.val, fun _ => rfl⟩
+  have huA : ∀ i : ZMod p, A (u i) = (a + lam k p i) • u i := by
+    intro i
+    rw [hudef i, htA, lam_val]
+  have huB : ∀ i : ZMod p, B (u i) = c • u (i + 1) := by
+    intro i
+    rw [hudef i, hudef (i + 1), htB]
+    congr 1
+    rw [← htmod (i.val + 1)]
+    congr 1
+    rw [ZMod.val_add, ZMod.val_one]
+  have hu0 : ∀ i : ZMod p, u i ≠ 0 := by
+    intro i
+    rw [hudef i]
+    exact ht0 i.val
+  -- the `u i` are eigenvectors of `A` with distinct eigenvalues, hence independent
+  have hindep : LinearIndependent k u := by
+    refine Module.End.eigenvectors_linearIndependent' A (fun i => a + lam k p i) ?_ u ?_
+    · intro i j hij
+      exact lam_injective k p (add_left_cancel hij)
+    · intro i
+      exact ⟨Module.End.mem_eigenspace_iff.mpr (huA i), hu0 i⟩
+  -- their span is invariant, hence everything
+  have hspanX : ∀ m ∈ Submodule.span k (Set.range u),
+      ⁅X k, m⁆ ∈ Submodule.span k (Set.range u) := by
+    intro m hm
+    induction hm using Submodule.span_induction with
+    | mem x hx =>
+      obtain ⟨i, rfl⟩ := hx
+      rw [← hAapp, huA]
+      exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)
+    | zero => rw [lie_zero]; exact Submodule.zero_mem _
+    | add x y _ _ hx hy => rw [lie_add]; exact Submodule.add_mem _ hx hy
+    | smul r x _ hx => rw [lie_smul]; exact Submodule.smul_mem _ _ hx
+  have hspanY : ∀ m ∈ Submodule.span k (Set.range u),
+      ⁅Y k, m⁆ ∈ Submodule.span k (Set.range u) := by
+    intro m hm
+    induction hm using Submodule.span_induction with
+    | mem x hx =>
+      obtain ⟨i, rfl⟩ := hx
+      rw [← hBapp, huB]
+      exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨i + 1, rfl⟩)
+    | zero => rw [lie_zero]; exact Submodule.zero_mem _
+    | add x y _ _ hx hy => rw [lie_add]; exact Submodule.add_mem _ hx hy
+    | smul r x _ hx => rw [lie_smul]; exact Submodule.smul_mem _ _ hx
+  have hspan : Submodule.span k (Set.range u) = ⊤ :=
+    eq_top_of_invariant_of_ne_zero k M _ hspanX hspanY
+      (Submodule.subset_span ⟨0, rfl⟩) (hu0 0)
+  -- so the `u i` form a basis
+  let b : Module.Basis (ZMod p) k M := Module.Basis.mk hindep (le_of_eq hspan.symm)
+  have hb : ∀ i, b i = u i := fun i => Module.Basis.mk_apply hindep _ i
+  -- and the coordinate isomorphism intertwines the two actions
+  have hXint : ∀ f : ZMod p → k,
+      b.equivFun.symm (famDiag k p a f) = A (b.equivFun.symm f) := by
+    intro f
+    rw [Module.Basis.equivFun_symm_apply, Module.Basis.equivFun_symm_apply, map_sum]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    rw [map_smul, hb i, huA i, famDiag_apply, smul_smul, mul_comm]
+  have hYint : ∀ f : ZMod p → k,
+      b.equivFun.symm (famShift k p (Units.mk0 c hc0) f) = B (b.equivFun.symm f) := by
+    intro f
+    rw [Module.Basis.equivFun_symm_apply, Module.Basis.equivFun_symm_apply, map_sum]
+    have hR : ∀ i : ZMod p, B (f i • b i) = (f i * c) • u (i + 1) := fun i => by
+      rw [hb, map_smul, huB, smul_smul]
+    have hL : ∀ i : ZMod p,
+        (famShift k p (Units.mk0 c hc0) f) i • b i = (c * f (i - 1)) • u i := fun i => by
+      rw [hb, famShift_apply, Units.val_mk0]
+    simp only [hR, hL]
+    exact (Fintype.sum_equiv (Equiv.addRight (1 : ZMod p)) _ _
+      (fun i => by simp [mul_comm])).symm
+  have key : Fam k p (Units.mk0 c hc0) a ≃ₗ⁅k, g k⁆ M := by
+    refine lieEquivOfIntertwines k b.equivFun.symm (fun f => ?_) (fun f => ?_)
+    · rw [fam_lie_X, ← hAapp]
+      exact hXint f
+    · rw [fam_lie_Y, ← hBapp]
+      exact hYint f
+  exact ⟨Units.mk0 c hc0, a, ⟨key.symm⟩⟩
+
+
+/-- **Characteristic-`p` exhaustiveness.** Over an algebraically closed field of characteristic
+`p`, every finite-dimensional irreducible `𝔤`-module is isomorphic either to a one-dimensional
+module `oneDimModule μ` or to a member `V(γ, a)` of the `p`-dimensional family. -/
+theorem charP_exists_iso [IsAlgClosed k] (M : Type*) [AddCommGroup M] [Module k M]
+    [LieRingModule (g k) M] [LieModule k (g k) M] [FiniteDimensional k M]
+    [LieModule.IsIrreducible k (g k) M] :
+    (∃ μ : k, Nonempty (M ≃ₗ⁅k, g k⁆ oneDimModule k μ))
+      ∨ ∃ (γ : kˣ) (a : k), Nonempty (M ≃ₗ⁅k, g k⁆ Fam k p γ a) := by
+  by_cases h : ∀ m : M, ⁅Y k, m⁆ = 0
+  · exact Or.inl (exists_iso_oneDim_of_lie_Y_eq_zero k M h)
+  · exact Or.inr (exists_iso_fam_of_lie_Y_ne_zero k p M (not_forall.mp h))
+
+/-- **The characteristic-`p` classification.** Over an algebraically closed field of characteristic
+`p`, a finite-dimensional irreducible `𝔤`-module is isomorphic to exactly one classified member:
+either to `oneDimModule μ` for a unique `μ ∈ k`, or to `V(γ, a)` for a `γ ∈ kˣ` unique on the nose
+and an `a ∈ k` unique modulo the prime field. The two cases are exclusive by
+`oneDim_not_equiv_fam`, since `1 ≠ p`. -/
+theorem charP_exists_unique_iso [IsAlgClosed k] (M : Type*) [AddCommGroup M] [Module k M]
+    [LieRingModule (g k) M] [LieModule k (g k) M] [FiniteDimensional k M]
+    [LieModule.IsIrreducible k (g k) M] :
+    (∃! μ : k, Nonempty (M ≃ₗ⁅k, g k⁆ oneDimModule k μ))
+      ∨ ∃ (γ : kˣ) (a : k), Nonempty (M ≃ₗ⁅k, g k⁆ Fam k p γ a)
+          ∧ ∀ (γ' : kˣ) (a' : k), Nonempty (M ≃ₗ⁅k, g k⁆ Fam k p γ' a') →
+              γ' = γ ∧ ∃ n : ZMod p, a' = a + lam k p n := by
+  rcases charP_exists_iso k p M with ⟨μ, hμ⟩ | ⟨γ, a, hγa⟩
+  · refine Or.inl ⟨μ, hμ, ?_⟩
+    rintro ν ⟨ψ⟩
+    obtain ⟨φ⟩ := hμ
+    by_contra hne
+    exact oneDim_not_iso k (Ne.symm hne) ⟨φ.symm.trans ψ⟩
+  · refine Or.inr ⟨γ, a, hγa, ?_⟩
+    rintro γ' a' ⟨ψ⟩
+    obtain ⟨φ⟩ := hγa
+    obtain ⟨hg, n, hn⟩ := (fam_nonempty_equiv_iff γ' γ a' a).mp ⟨ψ.symm.trans φ⟩
+    refine ⟨hg, -n, ?_⟩
+    rw [map_neg, hn]
+    ring
+
 /-- **Characteristic `p`.** Lie's theorem fails: it is not the case that every irreducible
 finite-dimensional representation of `𝔤` is `1`-dimensional. The `p`-dimensional module `V(1, 0)`
 is an explicit irreducible counterexample.
