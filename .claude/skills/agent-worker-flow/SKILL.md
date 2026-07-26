@@ -364,6 +364,17 @@ Check that the plan's assumptions still hold:
   --comment "Completed by PR #M (merged as <sha>); the PR body omitted a Closes
   line."` — `coordination skip` is wrong here, it only re-queues the issue for a
   planner. (2026-07: #7704, landed in #7722, sat unclaimed for a full cycle.)
+- **Before closing an already-landed issue, check whether a later audit narrowed its
+  scope in `progress/items.json`.** Coverage sweeps record the *residual* scope in the
+  item's `coverage_note`/`followup_issue`, not in the issue body — so an issue whose
+  literal deliverables are all on `main` can still have real work left, and the issue
+  body will not say so. Look up the item
+  (`python3 -c "import json; [print(json.dumps(i,indent=2)) for i in
+  json.load(open('progress/items.json'))['items'] if i['id']=='<Chapter>/<Item>']"`)
+  and read `coverage_note` for phrasing like "X remains #N". If it names your issue,
+  the residual scope is the deliverable — work that, don't close. (2026-07-26: #5145's
+  two stated deliverables landed in #5194, but the note read "The quotient isomorphism
+  remains #5145"; closing on the issue body alone would have dropped it.)
 - **A "restore/regression" issue whose reproduction is `lake env lean <file>` may
   be a false positive — reconfirm the failure with `lake build <Module>` before any
   work.** `lake env lean` drops the lakefile's `[leanOptions]` (`maxSynthPendingDepth

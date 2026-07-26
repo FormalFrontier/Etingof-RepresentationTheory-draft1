@@ -9812,9 +9812,9 @@
     "coverage": "covered_partial",
     "fidelity": "partial",
     "coverage_issue": 7549,
-    "coverage_note": "The dimension-minimization and matrix-product commutativity lemmas are source-present. Their Krull-Schmidt support currently has independent existence (#7549) and Fitting/local-endomorphism (#7552) source regressions. The quotient isomorphism remains #5145, and Morita-class exhaustion remains #5147.",
-    "followup_issue": 5145,
-    "last_updated": "2026-07-22",
+    "coverage_note": "The dimension-minimization and matrix-product commutativity lemmas are source-present. Their Krull-Schmidt support currently has independent existence (#7549) and Fitting/local-endomorphism (#7552) source regressions. The quotient isomorphism now holds for the genuine B_n / Rad(B_n) as a product of matrix algebras of abstract sizes (Chapter9/SemisimpleQuotientMatrixForm.lean); identifying those sizes with the multiplicities n_i remains #7921, and Morita-class exhaustion remains #5147.",
+    "followup_issue": 7921,
+    "last_updated": "2026-07-26",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
