@@ -41,7 +41,7 @@ identities to `Etingof.charEq_iso` and building the right-hand sides with
 
 * `tensor_iso_Rz_mul`: `R_z ⊗ R_w ≅ ⨁_{Fin p} R_{zw}` when `z·w ≠ 1`;
 * `tensor_iso_oneDimSum`: `R_z ⊗ R_w ≅ ⨁_{χ : G →* ℂˣ} χ` when `z·w = 1`;
-* `tensor_iso_char_char`: `χ ⊗ χ' ≅ χχ'`;
+* `tensor_iso_char_char`: `χ ⊗ χ' ≅ χχ'` (canonically, via `tensorIsoCharChar`);
 * `tensor_iso_char_Rz`: `χ ⊗ R_z ≅ R_z`.
 
 `Etingof.FDRep.pi` is proved to be the categorical biproduct, so the two direct-sum statements
@@ -354,16 +354,35 @@ theorem tensor_iso_oneDimSum_biproduct
   exact (tensor_iso_oneDimSum z w hz hz1 hw1 hzw ρz ρw hρz hρw).map fun e =>
     e ≪≫ Etingof.FDRep.piIsoBiproduct _
 
+omit [Fact p.Prime] in
+/-- **`χ ⊗ χ' ≅ χχ'`, canonically.** Unlike the other three decompositions this one has a
+canonical intertwiner: multiplication `ℂ ⊗_ℂ ℂ ≃ ℂ` (`TensorProduct.lid`) already carries
+`χ ⊗ χ'` to `χχ'`. -/
+def tensorIsoCharChar (χ χ' : Heisenberg p →* ℂˣ) :
+    (FDRep.of (Etingof.Example4_3_S3.charRep χ) ⊗
+        FDRep.of (Etingof.Example4_3_S3.charRep χ') : FDRep ℂ (Heisenberg p)) ≅
+      FDRep.of (Etingof.Example4_3_S3.charRep (χ * χ')) :=
+  Action.mkIso (TensorProduct.lid ℂ ℂ).toFGModuleCatIso fun g => by
+    apply FGModuleCat.hom_ext
+    refine TensorProduct.ext' fun a b => ?_
+    change (TensorProduct.lid ℂ ℂ)
+        (TensorProduct.map ((Etingof.Example4_3_S3.charRep χ) g)
+          ((Etingof.Example4_3_S3.charRep χ') g) (a ⊗ₜ[ℂ] b))
+      = (Etingof.Example4_3_S3.charRep (χ * χ')) g ((TensorProduct.lid ℂ ℂ) (a ⊗ₜ[ℂ] b))
+    simp only [TensorProduct.map_tmul, TensorProduct.lid_tmul, Etingof.Example4_3_S3.charRep,
+      MonoidHom.coe_mk, OneHom.coe_mk, LinearMap.smul_apply, LinearMap.id_coe, id_eq,
+      MonoidHom.mul_apply, Units.val_mul, smul_eq_mul]
+    ring
+
+omit [Fact p.Prime] in
 /-- **`χ ⊗ χ' ≅ χχ'`.** The tensor product of two one-dimensional characters is the
 one-dimensional representation attached to their product; the `p²` characters form a group
 under tensor product. -/
 theorem tensor_iso_char_char (χ χ' : Heisenberg p →* ℂˣ) :
     Nonempty ((FDRep.of (Etingof.Example4_3_S3.charRep χ) ⊗
         FDRep.of (Etingof.Example4_3_S3.charRep χ') : FDRep ℂ (Heisenberg p)) ≅
-      FDRep.of (Etingof.Example4_3_S3.charRep (χ * χ'))) := by
-  refine Etingof.charEq_iso _ _ (funext fun g => ?_)
-  rw [FDRep.char_tensor, Pi.mul_apply]
-  simp only [Etingof.Example4_3_S3.charRep_character, MonoidHom.mul_apply, Units.val_mul]
+      FDRep.of (Etingof.Example4_3_S3.charRep (χ * χ'))) :=
+  ⟨tensorIsoCharChar χ χ'⟩
 
 /-- **`χ ⊗ R_z ≅ R_z`.** Twisting the `p`-dimensional irreducible `R_z` by a one-dimensional
 character does nothing: `character_Rz` is supported on the center, where every character of the

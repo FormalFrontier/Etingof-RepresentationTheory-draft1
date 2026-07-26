@@ -4243,7 +4243,8 @@
       "Etingof.Problem4_12_9.tensor_iso_char_char",
       "Etingof.Problem4_12_9.tensor_iso_char_Rz",
       "Etingof.Problem4_12_9.tensor_iso_Rz_mul_biproduct",
-      "Etingof.Problem4_12_9.tensor_iso_oneDimSum_biproduct"
+      "Etingof.Problem4_12_9.tensor_iso_oneDimSum_biproduct",
+      "Etingof.Problem4_12_9.tensorIsoCharChar"
     ],
     "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_12_9.lean",
     "coverage": "covered",
