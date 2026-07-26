@@ -1357,6 +1357,69 @@ Now `lie_smul_cg`'s statement `c • m` elaborates with the *same* `TensorProduc
 
 When stating a categorical existential over quiver representations — e.g. "there is an orientation `Q_end` and a representation `W` on it whose dim vector is a simple root" — the natural top-level shape `∃ (Q_end : @Quiver.{0,0} (Fin n)) (p) …, (clause about ρ.obj v) ∧ …` **fails to elaborate**: `error: synthesized type class instance is not definitionally equal … synthesized Q_end, inferred Q`. Cause: `Q_end : Quiver (Fin n)` is a local of a class type, so Lean treats it as a *local instance* candidate, and any later `Module.finrank k (ρ.obj v)` (with `ρ` on the original `Q`) re-resolves its `[Quiver (Fin n)]` to `Q_end` instead of `Q`. **Fix: introduce the new-quiver binder only *after* every clause that mentions the original representation.** Nest it: `∃ vertices p, (iteratedSimpleReflection … (fun v => finrank k (ρ.obj v)) = simpleRoot n p) ∧ ∃ (Q_end : Quiver (Fin n)), IsOrientationOf Q_end adj ∧ … ∃ W, …`. Now `ρ.obj` is elaborated before `Q_end` is in scope, so no ambiguity; clauses about `W.obj` are fine because `W` lives on `Q_end`. (Corollary of the general Chapter-6 style: always write `@QuiverRepresentation.{_,0,0,0} k (Fin n) _ Q` and `@Module.finrank k (W.obj v) _ (W.instAddCommMonoid v) (W.instModule v)` with explicit `@`/instance args, mirroring `SurvivingRepData`/`TerminalRepData` in `CoxeterInfrastructure.lean`, to keep instance search off the ambient locals.)
 
+### Building a quiver representation with a *variable* dimension vector and **nonzero** arrow maps — `truncMap`, not a type-level `if` (#7408, `Chapter2/Theorem2_1_2_General.lean`)
+
+`obj j := Fin (if S j then 1 else 0) → k` is the right carrier for "one-dimensional on the
+support `S`, zero elsewhere" (`simpleRepresentation` in `Chapter6/Corollary6_8_4.lean` already
+uses it, and `Module.Free.pi`/`Module.Finite.pi` then resolve for free). The trap is
+`mapLinear`: you cannot case-split on `a = v` to build the arrow map, because the two sides
+have *different types* `Fin (if S a then 1 else 0) → k` and `Fin (if S b then 1 else 0) → k`
+whose `if`s are stuck (the `Decidable` instance never reduces for a variable vertex). Do **not**
+reach for `PLift`, `Submodule`-valued `obj`, or a `dite` returning a transported map — all of
+them make every downstream `rw` fight a dependent motive.
+
+**Fix: define one uniform padding map and let the arithmetic do the case analysis.**
+
+```lean
+def truncMap (p q : ℕ) : (Fin p → k) →ₗ[k] (Fin q → k) where
+  toFun x i := if h : (i : ℕ) < p then x ⟨i, h⟩ else 0
+  map_add' x y := by funext i; by_cases h : (i : ℕ) < p <;> simp [h]
+  map_smul' a x := by funext i; by_cases h : (i : ℕ) < p <;> simp [h]
+
+def suppRep (S : Fin n → Prop) [DecidablePred S] (c : ∀ a b : Fin n, (a ⟶ b) → k) :
+    FinQuiverRep k n where
+  obj j := Fin (if S j then 1 else 0) → k
+  mapLinear {a b} e := c a b e • truncMap k (if S a then 1 else 0) (if S b then 1 else 0)
+```
+
+No `if` on types, no transport: `truncMap` is automatically the zero map whenever the source
+or target dimension is `0`, and the identity when both are `1`. So a single expression gives
+"acts by `c a b e` between supported vertices, `0` everywhere else".
+
+All reasoning then goes through **one** identification, stated on the *raw* Pi type so it can
+be shared by two members of a family (different `c`, same `obj`):
+
+```lean
+def finPiEquivOfEqOne {p : ℕ} (hp : p = 1) : (Fin p → k) ≃ₗ[k] k where
+  toFun x := x ⟨0, by omega⟩;  invFun t := fun _ => t
+  map_add' _ _ := rfl;  map_smul' _ _ := rfl
+  left_inv x := by subst hp; funext i; exact congrArg x (Subsingleton.elim _ _)
+  right_inv _ := rfl
+
+def suppEquivRaw {j : Fin n} (hj : S j) : (Fin (if S j then 1 else 0) → k) ≃ₗ[k] k :=
+  finPiEquivOfEqOne k (if_pos hj)
+```
+
+with the workhorse `finPiEquivOfEqOne k hq (truncMap k p q x) = finPiEquivOfEqOne k hp x`
+(proof: `simp only [...]; rw [dif_pos (show (0:ℕ) < p by omega)]`). Stating `suppEquivRaw` on
+the raw type rather than on `(suppRep k S c).obj j` is what keeps `rw` working across two reps
+`suppRep k S c` and `suppRep k S c'` — the `.obj` projections are defeq but not syntactically
+equal, and a `c`-indexed equiv forces a type mismatch at every rewrite.
+
+**Payoff.** Everything an infinite-type argument needs becomes one-line-ish:
+`suppEquivRaw hb (mapLinear e x) = c a b e * suppEquivRaw ha x`; indecomposability from
+`IsCompl W₁ W₂` on a rank-one space (`(Submodule.ne_bot_iff W).mp` + proportionality in `k`,
+no `IsSimpleModule` import needed); and the isomorphism invariant
+`g_b * c a b e = c' a b e * g_a`, where `g_j := suppEquivRaw hj (φ.equivAt j (suppEquivRaw hj).symm 1)`.
+That single relation separates `(k, lam)` for a loop and `(k, k, 1, lam)` for a Kronecker pair,
+which together with `Infinite k` (an instance for `[IsAlgClosed k]`) rules out finite
+representation type. Companion pieces you will also need and that were missing: `.symm`/`.trans`
+for `QuiverRepresentationEquiv`, and — for a family indexed by arrows you must *distinguish*
+(parallel arrows!) — compare `(⟨a, b, e⟩ : (a : Fin n) × (b : Fin n) × (a ⟶ b))` under
+`attribute [local instance 0] Classical.propDecidable`. Use priority `0`: at default priority
+it shadows the genuine `DecidableEq (Fin n)` and makes ordinary `DecidablePred` instances
+noncomputable.
+
 ### `MonoidAlgebra` Ext: Don't Use `Finsupp.lhom_ext`
 
 `MonoidAlgebra k G` is `def`-equal to `G →₀ k`, so `Finsupp.lhom_ext` *applies* to a goal `F = 0` for `F : MonoidAlgebra k G →ₗ[k] N` — but it unifies the domain with the bare `G →₀ k`, which pries the type open and breaks instance search for everything registered on `MonoidAlgebra` (`failed to synthesize Ring (G →₀ ℂ)` / `Algebra ℂ (G →₀ ℂ)` / `Module (G →₀ ℂ) (M i)`). **To show a linear functional on `MonoidAlgebra k G` vanishes**, keep the type intact: prove `∀ a, F a = 0` by `induction a using MonoidAlgebra.induction_on` (base case `of k G g` — exactly the group-element evaluation you have a bridge lemma for; `hadd`/`hsmul` close by `simp only [map_add, …]` / `simp only [map_smul, …]`), then package via `LinearMap.ext`. (#4908)
