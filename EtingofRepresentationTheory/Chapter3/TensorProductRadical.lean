@@ -399,4 +399,32 @@ noncomputable def quotientJacobsonTensorEquiv :
 
 end Main
 
+section ImageAlgebras
+
+variable (k : Type*) (A B M : Type*) [Field k] [IsAlgClosed k]
+variable [Ring A] [Algebra k A] [Ring B] [Algebra k B]
+variable [AddCommGroup M] [Module k M] [FiniteDimensional k M]
+variable [Module A M] [IsScalarTower k A M] [Module B M] [IsScalarTower k B M]
+
+/-- **The radical formula in the situation Theorem 3.10.2 actually uses it.**
+
+The book's proof of part (ii) opens with the image-algebra reduction: "Let `A'`, `B'` be the
+images of `A`, `B` in `End M`. Then `A'`, `B'` are finite dimensional algebras, and `M` is a
+representation of `A' ⊗ B'`, so we may assume without loss of generality that `A` and `B` are
+finite dimensional." Applying `Etingof.jacobson_tensorProduct_eq` to those images gives the
+radical formula with **no** finiteness hypothesis on `A` or `B` themselves — only on the
+module `M`, which is exactly the hypothesis Theorem 3.10.2 carries.
+
+`EtingofRepresentationTheory/Chapter3/Theorem3_10_2.lean` proves the theorem itself by a
+different density/Artinian route, so this is a parallel formalization of the book's own
+argument rather than a lemma that route consumes. -/
+theorem jacobson_tensorProduct_range_eq :
+    Ring.jacobson
+        (↥(Algebra.lsmul k k M : A →ₐ[k] Module.End k M).range ⊗[k]
+          ↥(Algebra.lsmul k k M : B →ₐ[k] Module.End k M).range) =
+      radTensorSum k _ _ :=
+  jacobson_tensorProduct_eq
+
+end ImageAlgebras
+
 end Etingof

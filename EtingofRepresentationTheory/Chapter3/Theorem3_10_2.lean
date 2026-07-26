@@ -24,6 +24,20 @@ actions are {0} and the whole space.
 Note: These results require k to be algebraically closed (as assumed throughout Etingof's
 textbook). Without algebraic closure, the tensor product of irreducible representations
 need not be irreducible (e.g., ℂ ⊗_ℝ ℂ ≅ ℂ × ℂ as ℂ ⊗ ℂ-modules).
+
+## Relation to the book's own proof of (ii)
+
+The proof below takes a density/Artinian route. The book instead reduces to the
+finite-dimensional image algebras A', B' ⊆ End M and then computes
+
+  Rad(A ⊗ B) = Rad(A) ⊗ B + A ⊗ Rad(B),   (A ⊗ B)/Rad(A ⊗ B) = (A/Rad A) ⊗ (B/Rad B).
+
+Those two structural claims are formalized separately in
+`EtingofRepresentationTheory/Chapter3/TensorProductRadical.lean`
+(`Etingof.jacobson_tensorProduct_eq`, `Etingof.quotientJacobsonTensorEquiv`), together with
+`Etingof.jacobson_tensorProduct_range_eq`, which states the formula for the image algebras
+A', B' — i.e. under exactly the hypotheses this file's theorems carry. Nothing below depends
+on that file; it is a parallel formalization of the book's argument.
 -/
 
 section Part1
