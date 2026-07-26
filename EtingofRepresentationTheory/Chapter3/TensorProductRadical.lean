@@ -215,26 +215,83 @@ theorem isNilpotent_radTensorLeft [FiniteDimensional k A] :
   refine le_trans (map_includeLeft_pow_le (B := B) (Ring.jacobson A) n) ?_
   rw [show Ring.jacobson A ^ n = ⊥ from hn, Ideal.map_bot]
 
+/-- Mirror image of `Etingof.map_includeLeft_mul_le` for the embedding `b ↦ 1 ⊗ b`. -/
+theorem map_includeRight_mul_le (I J : Ideal B) :
+    Ideal.map (Algebra.TensorProduct.includeRight (R := k) (A := A) (B := B)) I *
+        Ideal.map (Algebra.TensorProduct.includeRight (R := k) (A := A) (B := B)) J ≤
+      Ideal.map (Algebra.TensorProduct.includeRight (R := k) (A := A) (B := B)) (I * J) := by
+  rw [Ideal.mul_le]
+  intro x hx y hy
+  have hx' : x ∈ LinearMap.range
+      (LinearMap.lTensor A (Submodule.subtype (I.restrictScalars k))) := by
+    rw [← Ideal.map_includeRight_eq]; exact hx
+  have hy' : y ∈ LinearMap.range
+      (LinearMap.lTensor A (Submodule.subtype (J.restrictScalars k))) := by
+    rw [← Ideal.map_includeRight_eq]; exact hy
+  obtain ⟨s, rfl⟩ := hx'
+  obtain ⟨t, rfl⟩ := hy'
+  clear hx hy
+  induction s with
+  | zero => simp
+  | add s₁ s₂ h₁ h₂ => rw [map_add, add_mul]; exact Ideal.add_mem _ h₁ h₂
+  | tmul a b =>
+    induction t with
+    | zero => simp
+    | add t₁ t₂ h₁ h₂ => rw [map_add, mul_add]; exact Ideal.add_mem _ h₁ h₂
+    | tmul a' b' =>
+      simp only [LinearMap.lTensor_tmul, Submodule.coe_subtype,
+        Algebra.TensorProduct.tmul_mul_tmul]
+      have hmem : (b : B) * (b' : B) ∈ I * J := Ideal.mul_mem_mul b.2 b'.2
+      have : (a * a') ⊗ₜ[k] ((b : B) * (b' : B)) =
+          ((a * a') ⊗ₜ[k] (1 : B)) * ((1 : A) ⊗ₜ[k] ((b : B) * (b' : B))) := by
+        simp [Algebra.TensorProduct.tmul_mul_tmul]
+      rw [this]
+      exact Ideal.mul_mem_left _ _ (Ideal.mem_map_of_mem _ hmem)
+
+/-- Mirror image of `Etingof.map_includeLeft_pow_le`. -/
+theorem map_includeRight_pow_le (I : Ideal B) (n : ℕ) :
+    Ideal.map (Algebra.TensorProduct.includeRight (R := k) (A := A) (B := B)) I ^ n ≤
+      Ideal.map (Algebra.TensorProduct.includeRight (R := k) (A := A) (B := B)) (I ^ n) := by
+  induction n with
+  | zero =>
+    rw [Submodule.pow_zero, Submodule.pow_zero, Ideal.one_eq_top, Ideal.one_eq_top,
+      Ideal.map_top]
+  | succ n ih =>
+    rw [Submodule.pow_succ, Submodule.pow_succ]
+    exact le_trans (Ideal.mul_mono ih le_rfl) (map_includeRight_mul_le _ _)
+
 /-- `A ⊗ Rad(B)` is a nilpotent ideal of `A ⊗ B`, because `Rad(B)` is. Same argument as
 `Etingof.isNilpotent_radTensorLeft` with the two tensor factors exchanged. -/
 theorem isNilpotent_radTensorRight [FiniteDimensional k B] :
     IsNilpotent (radTensorRight k A B) := by
-  sorry
-
-/-- "`J` is a nilpotent ideal in `A ⊗ B`, as `Rad(A)` and `Rad(B)` are nilpotent."
-Proved via the two summands separately: each is nilpotent, hence contained in the Jacobson
-radical, hence so is their sum — which is all the book's argument actually uses. -/
-theorem isNilpotent_radTensorSum [FiniteDimensional k A] [FiniteDimensional k B] :
-    IsNilpotent (radTensorSum k A B) := by
-  sorry
+  haveI : IsArtinianRing B := IsArtinianRing.of_finite k B
+  obtain ⟨n, hn⟩ := IsSemiprimaryRing.isNilpotent (R := B)
+  refine ⟨n, le_bot_iff.mp ?_⟩
+  refine le_trans (map_includeRight_pow_le (A := A) (Ring.jacobson B) n) ?_
+  rw [show Ring.jacobson B ^ n = ⊥ from hn, Ideal.map_bot]
 
 /-- The easy inclusion `Rad(A) ⊗ B + A ⊗ Rad(B) ⊆ Rad(A ⊗ B)`: each summand is a nilpotent
-ideal, so each is contained in the Jacobson radical. No hypothesis on `k` beyond finite
+ideal, so each is contained in the Jacobson radical, hence so is their sum. This is all the
+book's nilpotence argument is actually used for. No hypothesis on `k` beyond finite
 dimensionality. -/
 theorem radTensorSum_le_jacobson [FiniteDimensional k A] [FiniteDimensional k B] :
     radTensorSum k A B ≤ Ring.jacobson (A ⊗[k] B) :=
   sup_le (le_jacobson_of_isNilpotent isNilpotent_radTensorLeft)
     (le_jacobson_of_isNilpotent isNilpotent_radTensorRight)
+
+/-- "`J` is a nilpotent ideal in `A ⊗ B`, as `Rad(A)` and `Rad(B)` are nilpotent."
+
+The book gets this from nilpotence of the two summands directly; here it is cheaper to go
+through `Etingof.radTensorSum_le_jacobson` (which is proved summand-by-summand and does *not*
+use this lemma, so there is no circularity) and the nilpotence of the Jacobson radical of the
+Artinian ring `A ⊗ B`. -/
+theorem isNilpotent_radTensorSum [FiniteDimensional k A] [FiniteDimensional k B] :
+    IsNilpotent (radTensorSum k A B) := by
+  haveI : IsArtinianRing (A ⊗[k] B) := IsArtinianRing.of_finite k (A ⊗[k] B)
+  obtain ⟨n, hn⟩ := IsSemiprimaryRing.isNilpotent (R := A ⊗[k] B)
+  refine ⟨n, le_bot_iff.mp ?_⟩
+  refine le_trans (Ideal.pow_right_mono radTensorSum_le_jacobson n) ?_
+  rw [show Ring.jacobson (A ⊗[k] B) ^ n = ⊥ from hn]
 
 end Nilpotent
 
