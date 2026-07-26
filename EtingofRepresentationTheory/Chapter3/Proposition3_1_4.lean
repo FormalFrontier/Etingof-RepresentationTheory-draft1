@@ -1,6 +1,9 @@
 import Mathlib.RingTheory.SimpleModule.Isotypic
 import Mathlib.RingTheory.Length
 import Mathlib.Algebra.DirectSum.Module
+import Mathlib.Algebra.Module.Opposite
+import Mathlib.Data.Matrix.Basic
+import Mathlib.LinearAlgebra.LinearIndependent.Defs
 
 /-!
 # Proposition 3.1.4: Classification of Subrepresentations in Semisimple Representations
@@ -17,9 +20,22 @@ ambient representation `V = ⊕ᵢ nᵢ Vᵢ` is modeled by `⨁ i, (Fin (n i) �
 The substantive content of the proposition, and the part missing from a bare
 "submodules of a semisimple module are semisimple" statement, is the multiplicity
 bound `r i ≤ n i` together with the explicit isomorphism type `W ≅ ⊕ᵢ rᵢ Vᵢ`. Both are
-asserted here. (The book additionally describes the inclusion `φ : W → V` by matrices
-`X_i` with linearly independent rows; that structural description of the embedding is not
-formalized.)
+asserted here.
+
+The book additionally describes the inclusion `φ : W → V` as a direct sum of maps
+`φᵢ : rᵢVᵢ → nᵢVᵢ` given by right multiplication by an `rᵢ × nᵢ` matrix `Xᵢ` with linearly
+independent rows. That description is `subrepresentation_of_semisimple_matrix_pi` (and its
+`⨁` form `subrepresentation_of_semisimple_matrix`) below. The book works over an
+algebraically closed field, where Schur's lemma makes the entries of `Xᵢ` scalars; over the
+arbitrary ring `A` used here the entries are elements of the division ring
+`Module.End A (V i)`, acting on `V i` on the left. "Linearly independent rows" is then
+independence over `(Module.End A (V i))ᵐᵒᵖ`, i.e. with respect to the right multiplication
+`Xᵢ ↦ Xᵢ · c` that the book's row-vector convention `(v₁, …, v_{rᵢ}) Xᵢ` produces; the
+matrix is only recovered up to that convention, and there is no left/right symmetry to
+appeal to over a noncommutative `Module.End A (V i)`.
+Block-diagonality of `φ` — the "direct sum of inclusions" clause — is the statement that
+the `i`-th coordinate of `φ w` only involves the `i`-th block of `w`, which is exactly the
+shape of the displayed formula.
 
 The proof uses the isotypic decomposition of the semisimple module `W`: `W` is the direct
 sum of its `V i`-isotypic components `C i`, each `C i ≅ Fin (r i) → V i`, and `r i ≤ n i`
@@ -263,5 +279,165 @@ theorem subrepresentation_of_semisimple (n : ι → ℕ)
     (e.trans (DirectSum.linearEquivFunOnFintype A ι (fun i => Fin (r i) → V i)).symm)
 
 end
+
+section Matrix
+
+variable {A : Type*} [Ring A]
+  {ι : Type*} [Fintype ι] [DecidableEq ι]
+  {V : ι → Type*} [∀ i, AddCommGroup (V i)] [∀ i, Module A (V i)]
+  [∀ i, IsSimpleModule A (V i)]
+
+omit [Fintype ι] [DecidableEq ι] in
+/-- Schur's lemma for a pairwise nonisomorphic family of simple modules: every `A`-linear
+map between two distinct members is zero. -/
+private theorem hom_eq_zero_of_ne
+    (hd : ∀ ⦃i j⦄, Nonempty (V i ≃ₗ[A] V j) → i = j)
+    {i j : ι} (hij : i ≠ j) (f : V i →ₗ[A] V j) : f = 0 := by
+  by_contra h
+  exact hij (hd ⟨LinearEquiv.ofBijective f (LinearMap.bijective_of_ne_zero h)⟩)
+
+/-- **Proposition 3.1.4**, matrix form (`Pi` model of the ambient representation).
+
+On top of `subrepresentation_of_semisimple_pi` this exhibits the inclusion `W ↪ ⊕ᵢ nᵢVᵢ`
+in the book's shape: there are matrices `X i` over `Module.End A (V i)` with linearly
+independent rows such that, writing `w ∈ W` in the coordinates supplied by
+`e : W ≃ ⊕ᵢ rᵢVᵢ`, the `i`-th block of `w` is the row vector `e w i` multiplied by `X i`.
+In particular the inclusion is block diagonal: block `i` of the image depends only on
+block `i` of the source. -/
+theorem subrepresentation_of_semisimple_matrix_pi (n : ι → ℕ)
+    (hd : ∀ ⦃i j⦄, Nonempty (V i ≃ₗ[A] V j) → i = j)
+    (W : Submodule A (∀ i, Fin (n i) → V i)) :
+    ∃ (r : ι → ℕ) (X : ∀ i, Matrix (Fin (r i)) (Fin (n i)) (Module.End A (V i)))
+      (e : ↥W ≃ₗ[A] ∀ i, Fin (r i) → V i),
+      (∀ i, r i ≤ n i) ∧
+      (∀ i, LinearIndependent (Module.End A (V i))ᵐᵒᵖ (X i)) ∧
+      ∀ (w : ↥W) (i : ι) (l : Fin (n i)),
+        (w : ∀ k, Fin (n k) → V k) i l = ∑ a, X i a l (e w i a) := by
+  classical
+  obtain ⟨r, hr, ⟨e⟩⟩ := subrepresentation_of_semisimple_pi n hd W
+  -- The inclusion `W ↪ ⊕ᵢ nᵢVᵢ`, read through the model `⊕ᵢ rᵢVᵢ` of `W`.
+  set φ : (∀ k, Fin (r k) → V k) →ₗ[A] (∀ k, Fin (n k) → V k) :=
+    W.subtype ∘ₗ (e.symm : (∀ k, Fin (r k) → V k) →ₗ[A] ↥W) with hφdef
+  have hφinj : Function.Injective φ := W.subtype_injective.comp e.symm.injective
+  -- Its scalar coordinates.
+  set Φ : ∀ i : ι, Fin (n i) → ((∀ k, Fin (r k) → V k) →ₗ[A] V i) := fun i l =>
+    (LinearMap.proj l) ∘ₗ (LinearMap.proj i) ∘ₗ φ with hΦdef
+  -- The inclusion of the `a`-th copy of `V k` into `⊕ᵢ rᵢVᵢ`.
+  set sr : ∀ k : ι, Fin (r k) → (V k →ₗ[A] (∀ k, Fin (r k) → V k)) := fun k a =>
+    (LinearMap.single A (fun k => Fin (r k) → V k) k) ∘ₗ
+      (LinearMap.single A (fun _ : Fin (r k) => V k) a) with hsrdef
+  -- The full matrix of `φ`, including its off-diagonal blocks.
+  set G : ∀ k : ι, Fin (r k) → ∀ i : ι, Fin (n i) → (V k →ₗ[A] V i) := fun k a i l =>
+    (Φ i l) ∘ₗ (sr k a) with hGdef
+  set X : ∀ i, Matrix (Fin (r i)) (Fin (n i)) (Module.End A (V i)) := fun i a l =>
+    G i a i l with hXdef
+  -- Off-diagonal blocks vanish: that is Schur's lemma plus pairwise nonisomorphism.
+  have hoff : ∀ (k i : ι), k ≠ i → ∀ (a : Fin (r k)) (l : Fin (n i)), G k a i l = 0 :=
+    fun k i hki a l => hom_eq_zero_of_ne hd hki _
+  have decompR : ∀ y : ∀ k, Fin (r k) → V k,
+      (∑ k, LinearMap.single A (fun k => Fin (r k) → V k) k (y k)) = y := by
+    intro y
+    simpa [LinearMap.single_apply] using Finset.univ_sum_single y
+  have decompr : ∀ (k : ι) (z : Fin (r k) → V k),
+      (∑ a, LinearMap.single A (fun _ : Fin (r k) => V k) a (z a)) = z := by
+    intro k z
+    simpa [LinearMap.single_apply] using Finset.univ_sum_single z
+  -- The matrix formula for `φ`, valid on the whole of `⊕ᵢ rᵢVᵢ`.
+  have key : ∀ (y : ∀ k, Fin (r k) → V k) (i : ι) (l : Fin (n i)),
+      φ y i l = ∑ a, X i a l (y i a) := by
+    intro y i l
+    have h1 : Φ i l y = ∑ k, ∑ a, G k a i l (y k a) := by
+      conv_lhs => rw [← decompR y]
+      rw [map_sum]
+      refine Finset.sum_congr rfl fun k _ => ?_
+      conv_lhs => rw [← decompr k (y k)]
+      simp only [map_sum, hGdef, hsrdef, LinearMap.comp_apply]
+    have h2 : (∑ k, ∑ a, G k a i l (y k a)) = ∑ a, G i a i l (y i a) := by
+      refine Finset.sum_eq_single i (fun k _ hk => ?_) (fun h => absurd (Finset.mem_univ i) h)
+      simp [hoff k i hk]
+    calc φ y i l = Φ i l y := rfl
+      _ = ∑ a, G i a i l (y i a) := by rw [h1, h2]
+      _ = ∑ a, X i a l (y i a) := by simp [hXdef]
+  refine ⟨r, X, e, hr, ?_, ?_⟩
+  · -- Linear independence of the rows of `X i`, from injectivity of `φ`.
+    intro i
+    rw [Fintype.linearIndependent_iff]
+    intro c hc a
+    have hc' : ∀ (l : Fin (n i)) (v : V i), (∑ b, X i b l ((c b).unop v)) = 0 := by
+      intro l v
+      have h := congrFun hc l
+      rw [Finset.sum_apply] at h
+      have h2 : (∑ b, X i b l * (c b).unop) = 0 := h
+      have := congrArg (fun f : Module.End A (V i) => f v) h2
+      simpa [Module.End.mul_apply] using this
+    -- Every column vector `a ↦ (c a).unop v` is killed by `φ`, hence is zero.
+    have hz : ∀ v : V i, ∀ b : Fin (r i), (c b).unop v = 0 := by
+      intro v
+      set z : Fin (r i) → V i := fun b => (c b).unop v with hzdef
+      set y : ∀ k, Fin (r k) → V k :=
+        LinearMap.single A (fun k => Fin (r k) → V k) i z with hydef
+      have h0 : φ y = 0 := by
+        funext j
+        funext l'
+        rw [key y j l']
+        rcases eq_or_ne j i with rfl | hji
+        · have hyj : y j = z := by simp [hydef, LinearMap.single_apply]
+          rw [hyj]
+          simpa using hc' l' v
+        · have hyj : y j = 0 := by
+            simp [hydef, LinearMap.single_apply, Pi.single_eq_of_ne hji]
+          simp [hyj]
+      have hy0 : y = 0 := hφinj (by rw [h0, map_zero])
+      intro b
+      have := congrFun (congrFun hy0 i) b
+      simpa [hydef, LinearMap.single_apply] using this
+    have : (c a).unop = 0 := by
+      ext v
+      exact hz v a
+    exact MulOpposite.unop_injective (by simpa using this)
+  · intro w i l
+    have hw : (w : ∀ k, Fin (n k) → V k) = φ (e w) := by
+      simp [hφdef]
+    rw [hw]
+    exact key (e w) i l
+
+/-- **Proposition 3.1.4**, matrix form. See `subrepresentation_of_semisimple_matrix_pi`;
+this is the same statement with the ambient representation written as an external direct
+sum. Etingof Proposition 3.1.4. -/
+theorem subrepresentation_of_semisimple_matrix (n : ι → ℕ)
+    (hd : ∀ ⦃i j⦄, Nonempty (V i ≃ₗ[A] V j) → i = j)
+    (W : Submodule A (⨁ i, (Fin (n i) → V i))) :
+    ∃ (r : ι → ℕ) (X : ∀ i, Matrix (Fin (r i)) (Fin (n i)) (Module.End A (V i)))
+      (e : ↥W ≃ₗ[A] ⨁ i, (Fin (r i) → V i)),
+      (∀ i, r i ≤ n i) ∧
+      (∀ i, LinearIndependent (Module.End A (V i))ᵐᵒᵖ (X i)) ∧
+      ∀ (w : ↥W) (i : ι) (l : Fin (n i)),
+        (w : ⨁ k, (Fin (n k) → V k)) i l = ∑ a, X i a l (e w i a) := by
+  classical
+  set g := DirectSum.linearEquivFunOnFintype A ι (fun i => Fin (n i) → V i) with hg
+  obtain ⟨r, X, e, hr, hli, hform⟩ :=
+    subrepresentation_of_semisimple_matrix_pi n hd (Submodule.map g.toLinearMap W)
+  set g' := DirectSum.linearEquivFunOnFintype A ι (fun i => Fin (r i) → V i) with hg'
+  set em := Submodule.equivMapOfInjective g.toLinearMap g.injective W with hem
+  refine ⟨r, X, em.trans (e.trans g'.symm), hr, hli, ?_⟩
+  intro w i l
+  have h := hform (em w) i l
+  -- `linearEquivFunOnFintype` is the coercion `⨁ i, M i → ∀ i, M i`, so both transports are
+  -- invisible on coordinates.
+  have hcoe : ∀ (z : ⨁ k, (Fin (n k) → V k)) (j : ι), g z j = z j := fun _ _ => rfl
+  have hcoe' : ∀ (z : ⨁ k, (Fin (r k) → V k)) (j : ι), g' z j = z j := fun _ _ => rfl
+  have hleft : ((em w : ↥(Submodule.map g.toLinearMap W)) : ∀ k, Fin (n k) → V k) i
+      = (w : ⨁ k, (Fin (n k) → V k)) i := by
+    rw [hem, Submodule.coe_equivMapOfInjective_apply]
+    exact hcoe _ i
+  have hright : ∀ a, (e (em w)) i a = ((em.trans (e.trans g'.symm)) w) i a := by
+    intro a
+    have hz : ((em.trans (e.trans g'.symm)) w) i = (g' (g'.symm (e (em w)))) i :=
+      (hcoe' (g'.symm (e (em w))) i).symm
+    rw [hz, g'.apply_symm_apply]
+  rw [← hleft, h]
+  exact Finset.sum_congr rfl fun a _ => by rw [hright a]
+
+end Matrix
 
 end Etingof
