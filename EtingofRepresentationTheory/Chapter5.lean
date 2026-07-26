@@ -94,6 +94,8 @@ import EtingofRepresentationTheory.Chapter5.CharacterMultiplicityBridge
 import EtingofRepresentationTheory.Chapter5.Discussion_footnote_5_15
 import EtingofRepresentationTheory.Chapter5.Lemma5_15_3
 import EtingofRepresentationTheory.Chapter5.Corollary5_15_4
+import EtingofRepresentationTheory.Chapter5.Remark5_15_5
+import EtingofRepresentationTheory.Chapter5.Remark5_15_5_Test
 import EtingofRepresentationTheory.Chapter5.PowerSumCauchyIdentity
 
 -- Section 5.17: Hook Length Formula
