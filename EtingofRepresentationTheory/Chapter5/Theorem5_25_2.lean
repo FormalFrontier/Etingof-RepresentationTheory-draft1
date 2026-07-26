@@ -56,7 +56,7 @@ def Etingof.GL2.BorelSubgroup :
 -- Helper infrastructure for principal series definitions
 -- ============================================================
 
-private lemma Etingof.GL2.borel_diag00_ne_zero
+lemma Etingof.GL2.borel_diag00_ne_zero
     (b : ↥(Etingof.GL2.BorelSubgroup p n)) :
     (b.val.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 0 0 ≠ 0 := by
   intro h
@@ -65,7 +65,7 @@ private lemma Etingof.GL2.borel_diag00_ne_zero
   rw [Matrix.det_fin_two, b.prop, mul_zero, sub_zero, h, zero_mul] at hdet
   exact not_isUnit_zero hdet
 
-private lemma Etingof.GL2.borel_diag11_ne_zero
+lemma Etingof.GL2.borel_diag11_ne_zero
     (b : ↥(Etingof.GL2.BorelSubgroup p n)) :
     (b.val.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 1 ≠ 0 := by
   intro h
@@ -75,7 +75,7 @@ private lemma Etingof.GL2.borel_diag11_ne_zero
   exact not_isUnit_zero hdet
 
 /-- The value of the Borel character χ₁(b₀₀)·χ₂(b₁₁) for b ∈ B. -/
-private def Etingof.GL2.borelCharValue
+def Etingof.GL2.borelCharValue
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
     (b : ↥(Etingof.GL2.BorelSubgroup p n)) : ℂ :=
   let bmat := (b.val.val : Matrix (Fin 2) (Fin 2) (GaloisField p n))
@@ -83,7 +83,7 @@ private def Etingof.GL2.borelCharValue
   (chi2 (Units.mk0 (bmat 1 1) (Etingof.GL2.borel_diag11_ne_zero p n b)) : ℂ)
 
 /-- The covariance submodule: functions f : G → ℂ satisfying f(bg) = λ(b)·f(g). -/
-private def Etingof.GL2.principalSeriesSubmodule
+def Etingof.GL2.principalSeriesSubmodule
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) :
     Submodule ℂ (GL2 p n → ℂ) where
   carrier := {f | ∀ (b : ↥(Etingof.GL2.BorelSubgroup p n)) (g : GL2 p n),
@@ -96,7 +96,7 @@ private def Etingof.GL2.principalSeriesSubmodule
     rw [hf b g, mul_left_comm]
 
 /-- The principal series as a representation via right translation. -/
-private def Etingof.GL2.principalSeriesRep
+def Etingof.GL2.principalSeriesRep
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) :
     Representation ℂ (GL2 p n)
       (Etingof.GL2.principalSeriesSubmodule p n chi1 chi2) where
@@ -290,7 +290,7 @@ end Theorem5_25_2
 
 /-- Coset representatives for B\GL₂(𝔽_q), indexed by Option (GaloisField p n) ≅ P¹(𝔽_q).
     none ↦ I, some t ↦ [[0,-1],[1,t]] with det = 1. -/
-private noncomputable def Etingof.GL2.cosetRep
+noncomputable def Etingof.GL2.cosetRep
     (i : Option (GaloisField p n)) : GL2 p n :=
   match i with
   | none => 1
@@ -299,13 +299,13 @@ private noncomputable def Etingof.GL2.cosetRep
       (by simp [Matrix.det_fin_two])
 
 /-- The coset index of g ∈ GL₂: none if g ∈ B, some (g₁₁/g₁₀) if g₁₀ ≠ 0. -/
-private noncomputable def Etingof.GL2.cosetIndex
+noncomputable def Etingof.GL2.cosetIndex
     (g : GL2 p n) : Option (GaloisField p n) :=
   if h : (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0 then none
   else some ((g.val : Matrix _ _ _) 1 1 / (g.val : Matrix _ _ _) 1 0)
 
 /-- The Borel component of g in the coset decomposition g = b · rep(idx(g)). -/
-private noncomputable def Etingof.GL2.cosetBorel
+noncomputable def Etingof.GL2.cosetBorel
     (g : GL2 p n) : ↥(Etingof.GL2.BorelSubgroup p n) :=
   if h : (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0 then
     ⟨g, h⟩
@@ -326,7 +326,7 @@ private noncomputable def Etingof.GL2.cosetBorel
             Matrix.unitOfDetInvertible, bmat]⟩
 
 /-- The coset decomposition: g = cosetBorel(g) · rep(idx(g)). -/
-private lemma Etingof.GL2.cosetBorel_mul_cosetRep
+lemma Etingof.GL2.cosetBorel_mul_cosetRep
     (g : GL2 p n) :
     g = (Etingof.GL2.cosetBorel p n g).val * Etingof.GL2.cosetRep p n (Etingof.GL2.cosetIndex p n g) := by
   unfold Etingof.GL2.cosetBorel Etingof.GL2.cosetIndex Etingof.GL2.cosetRep
@@ -341,7 +341,7 @@ private lemma Etingof.GL2.cosetBorel_mul_cosetRep
       simp [Matrix.det_fin_two] <;> field_simp <;> ring
 
 /-- Every g ∈ GL₂ satisfies g = b * rep(idx(g)) for some b ∈ B. -/
-private lemma Etingof.GL2.mem_coset_of_cosetIndex
+lemma Etingof.GL2.mem_coset_of_cosetIndex
     (g : GL2 p n) :
     ∃ (b : ↥(Etingof.GL2.BorelSubgroup p n)),
       g = b.val * Etingof.GL2.cosetRep p n (Etingof.GL2.cosetIndex p n g) := by
@@ -373,7 +373,7 @@ private lemma Etingof.GL2.mem_coset_of_cosetIndex
         (try ring) <;> (field_simp; ring)
 
 /-- cosetIndex is invariant under left-multiplication by Borel elements. -/
-private lemma Etingof.GL2.cosetIndex_borel_mul
+lemma Etingof.GL2.cosetIndex_borel_mul
     (b : ↥(Etingof.GL2.BorelSubgroup p n)) (g : GL2 p n) :
     Etingof.GL2.cosetIndex p n (b.val * g) = Etingof.GL2.cosetIndex p n g := by
   simp only [Etingof.GL2.cosetIndex]
@@ -404,7 +404,7 @@ private lemma Etingof.GL2.cosetIndex_borel_mul
     rw [mul_div_mul_left _ _ hb11]
 
 /-- borelCharValue is multiplicative on the Borel subgroup. -/
-private lemma Etingof.GL2.borelCharValue_mul
+lemma Etingof.GL2.borelCharValue_mul
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
     (b1 b2 : ↥(Etingof.GL2.BorelSubgroup p n)) :
     Etingof.GL2.borelCharValue p n chi1 chi2
@@ -444,7 +444,7 @@ private lemma Etingof.GL2.borelCharValue_mul
   ring
 
 /-- cosetBorel(b * g) = b * cosetBorel(g) for b ∈ B. -/
-private lemma Etingof.GL2.cosetBorel_borel_mul
+lemma Etingof.GL2.cosetBorel_borel_mul
     (b : ↥(Etingof.GL2.BorelSubgroup p n)) (g : GL2 p n) :
     Etingof.GL2.cosetBorel p n (b.val * g) =
       ⟨b.val * (Etingof.GL2.cosetBorel p n g).val,
@@ -471,7 +471,7 @@ private lemma Etingof.GL2.cosetBorel_borel_mul
   exact mul_right_cancel key
 
 /-- Construct a covariant function from values at coset reps. -/
-private noncomputable def Etingof.GL2.mkCovariantFun
+noncomputable def Etingof.GL2.mkCovariantFun
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
     (c : Option (GaloisField p n) → ℂ) :
     GL2 p n → ℂ :=
@@ -479,7 +479,7 @@ private noncomputable def Etingof.GL2.mkCovariantFun
     (Etingof.GL2.cosetBorel p n g) * c (Etingof.GL2.cosetIndex p n g)
 
 /-- The covariant function constructed from c is in the principal series submodule. -/
-private lemma Etingof.GL2.mkCovariantFun_mem
+lemma Etingof.GL2.mkCovariantFun_mem
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
     (c : Option (GaloisField p n) → ℂ) :
     Etingof.GL2.mkCovariantFun p n chi1 chi2 c ∈
@@ -491,7 +491,7 @@ private lemma Etingof.GL2.mkCovariantFun_mem
   ring
 
 /-- cosetIndex(rep(i)) = i. -/
-private lemma Etingof.GL2.cosetIndex_cosetRep
+lemma Etingof.GL2.cosetIndex_cosetRep
     (i : Option (GaloisField p n)) :
     Etingof.GL2.cosetIndex p n (Etingof.GL2.cosetRep p n i) = i := by
   cases i with
@@ -512,7 +512,7 @@ private lemma Etingof.GL2.cosetIndex_cosetRep
           Matrix.unitOfDetInvertible]
 
 /-- borelCharValue at 1 is 1. -/
-private lemma Etingof.GL2.borelCharValue_one
+lemma Etingof.GL2.borelCharValue_one
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) :
     Etingof.GL2.borelCharValue p n chi1 chi2
       ⟨1, by simp [Etingof.GL2.BorelSubgroup]⟩ = 1 := by
@@ -520,7 +520,7 @@ private lemma Etingof.GL2.borelCharValue_one
   simp
 
 /-- cosetBorel(rep(i)) = 1 for all i. -/
-private lemma Etingof.GL2.cosetBorel_cosetRep
+lemma Etingof.GL2.cosetBorel_cosetRep
     (i : Option (GaloisField p n)) :
     Etingof.GL2.cosetBorel p n (Etingof.GL2.cosetRep p n i) =
       ⟨1, by simp [Etingof.GL2.BorelSubgroup]⟩ := by
@@ -546,7 +546,7 @@ private lemma Etingof.GL2.cosetBorel_cosetRep
     fin_cases i <;> fin_cases j <;> simp [Matrix.det_fin_two]
 
 /-- The covariant function evaluates to c at coset reps. -/
-private lemma Etingof.GL2.mkCovariantFun_eval
+lemma Etingof.GL2.mkCovariantFun_eval
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
     (c : Option (GaloisField p n) → ℂ)
     (i : Option (GaloisField p n)) :
@@ -558,7 +558,7 @@ private lemma Etingof.GL2.mkCovariantFun_eval
     Etingof.GL2.borelCharValue_one]
 
 /-- Evaluation at coset representatives is injective: if f(rep(i)) = 0 for all i, then f = 0. -/
-private lemma Etingof.GL2.principalSeries_eval_injective
+lemma Etingof.GL2.principalSeries_eval_injective
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
     (f : ↥(Etingof.GL2.principalSeriesSubmodule p n chi1 chi2))
     (hf : ∀ i : Option (GaloisField p n),
