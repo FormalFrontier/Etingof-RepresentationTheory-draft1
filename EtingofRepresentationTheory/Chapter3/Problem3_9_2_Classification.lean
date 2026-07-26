@@ -214,6 +214,12 @@ noncomputable def jrepBasis {n : ℕ} (a c : Fin n → ℂ) :
     jrepBasis a c j = ![(1 : Jrep a c), Jrep.eps a c] j := by
   rw [jrepBasis, coe_basisOfLinearIndependentOfCardEqFinrank]
 
+theorem jrepBasis_zero_eq {n : ℕ} (a c : Fin n → ℂ) : jrepBasis a c 0 = (1 : Jrep a c) := by
+  rw [jrepBasis_apply]; rfl
+
+theorem jrepBasis_one_eq {n : ℕ} (a c : Fin n → ℂ) : jrepBasis a c 1 = Jrep.eps a c := by
+  rw [jrepBasis_apply]; rfl
+
 /-! ## Weight lines -/
 
 section WeightLine
@@ -416,13 +422,197 @@ theorem two_dim_normal_form {n : ℕ} (U : Type)
 
 /-! ## The isomorphism criterion -/
 
+section JrepIso
+
+variable {n : ℕ}
+
+/-- An `A`-linear map is in particular `ℂ`-linear, because `ℂ` acts through `A`. -/
+lemma map_smul_complex {M N : Type*}
+    [AddCommGroup M] [Module ℂ M] [Module (polyAlg n) M] [IsScalarTower ℂ (polyAlg n) M]
+    [AddCommGroup N] [Module ℂ N] [Module (polyAlg n) N] [IsScalarTower ℂ (polyAlg n) N]
+    (φ : M ≃ₗ[polyAlg n] N) (r : ℂ) (x : M) : φ (r • x) = r • φ x := by
+  rw [← algebraMap_smul (polyAlg n) r x, map_smul, algebraMap_smul]
+
+/-- On `Jrep a c` the operator `xᵢ − r` is `(aᵢ − r)` plus `cᵢ` times multiplication by `ε`. -/
+theorem jrep_sub_smul (a c : Fin n → ℂ) (i : Fin n) (r : ℂ) (x : Jrep a c) :
+    (X i : polyAlg n) • x - r • x = (a i - r) • x + c i • (Jrep.eps a c * x) := by
+  rw [jrep_X_smul]; module
+
+/-- A multiple of `ε` vanishes only when the scalar does. -/
+theorem jrep_smul_eps_eq_zero_iff (a c : Fin n → ℂ) (r : ℂ) :
+    r • Jrep.eps a c = 0 ↔ r = 0 := by
+  refine ⟨fun h => ?_, fun h => by rw [h, zero_smul]⟩
+  have h2 := congrArg (Jrep.snd a c) h
+  simpa using h2
+
+/-- The operator `xᵢ − aᵢ` on `Jrep a c` squares to zero: it is `cᵢ ε`, and `ε² = 0`. -/
+theorem jrep_nilpotent (a c : Fin n → ℂ) (i : Fin n) (x : Jrep a c) :
+    (X i : polyAlg n) • ((X i : polyAlg n) • x - a i • x)
+      - a i • ((X i : polyAlg n) • x - a i • x) = 0 := by
+  have h : ∀ z : Jrep a c, (X i : polyAlg n) • z - a i • z = c i • (Jrep.eps a c * z) := by
+    intro z; rw [jrep_sub_smul]; simp
+  rw [h, h, mul_smul_comm, ← mul_assoc, Jrep.eps_mul_eps, zero_mul, smul_zero, smul_zero]
+
+/-- **The weight is an invariant.** If `Jrep a c ≅ Jrep a' c'` then `a = a'`: the operator
+`xᵢ − a'ᵢ` is nilpotent on the target, hence on the source, and on the source it differs from a
+nilpotent operator by the nonzero scalar `aᵢ − a'ᵢ` unless the two weights agree. -/
+theorem jrep_weight_eq (a c a' c' : Fin n → ℂ) (φ : Jrep a c ≃ₗ[polyAlg n] Jrep a' c') :
+    a = a' := by
+  funext i
+  have hstep : ∀ x : Jrep a c, φ ((X i : polyAlg n) • x - a' i • x)
+      = (X i : polyAlg n) • φ x - a' i • φ x := by
+    intro x; rw [map_sub, map_smul, map_smul_complex]
+  have hsrc : (X i : polyAlg n) • ((X i : polyAlg n) • (1 : Jrep a c) - a' i • (1 : Jrep a c))
+      - a' i • ((X i : polyAlg n) • (1 : Jrep a c) - a' i • (1 : Jrep a c)) = 0 := by
+    apply φ.injective
+    rw [map_zero, hstep, hstep]
+    exact jrep_nilpotent a' c' i (φ 1)
+  rw [jrep_sub_smul, jrep_sub_smul, mul_one] at hsrc
+  have hfst := congrArg (Jrep.fst a c) hsrc
+  simp only [Jrep.eps_mul, Jrep.fst_add, Jrep.fst_smul, Jrep.fst_one, Jrep.fst_eps,
+    Jrep.fst_zero, mul_zero, add_zero, mul_one] at hfst
+  have hd : a i - a' i = 0 := by
+    rcases mul_eq_zero.mp hfst with h' | h' <;> exact h'
+  exact sub_eq_zero.mp hd
+
+/-- If every generator acts by a scalar on `Jrep a c`, the extension class vanishes. -/
+theorem jrep_class_eq_zero_of_scalar (a c : Fin n → ℂ)
+    (h : ∀ (i : Fin n) (x : Jrep a c), (X i : polyAlg n) • x = a i • x) : c = 0 := by
+  funext i
+  have h1 := h i 1
+  rw [jrep_X_smul_one] at h1
+  have h2 : c i • Jrep.eps a c = 0 :=
+    calc c i • Jrep.eps a c
+        = (a i • (1 : Jrep a c) + c i • Jrep.eps a c) - a i • (1 : Jrep a c) := by abel
+      _ = a i • (1 : Jrep a c) - a i • (1 : Jrep a c) := by rw [h1]
+      _ = 0 := by abel
+  simpa using (jrep_smul_eps_eq_zero_iff a c (c i)).mp h2
+
+/-- A vanishing extension class on the target forces one on the source. -/
+theorem jrep_class_eq_zero_of_target (a c c' : Fin n → ℂ) (hc' : c' = 0)
+    (φ : Jrep a c ≃ₗ[polyAlg n] Jrep a c') : c = 0 := by
+  subst hc'
+  refine jrep_class_eq_zero_of_scalar a c fun i x => ?_
+  apply φ.injective
+  rw [map_smul, map_smul_complex, jrep_X_smul]
+  simp
+
+/-- **The extension class is determined up to a scalar.** -/
+theorem jrep_exists_scalar (a c c' : Fin n → ℂ) (hc' : c' ≠ 0)
+    (φ : Jrep a c ≃ₗ[polyAlg n] Jrep a c') : ∃ lam : ℂ, lam ≠ 0 ∧ c' = lam • c := by
+  -- The nilpotent parts of the two actions intertwine.
+  have hN : ∀ (i : Fin n) (x : Jrep a c),
+      φ (c i • (Jrep.eps a c * x)) = c' i • (Jrep.eps a c' * φ x) := by
+    intro i x
+    have h1 : ∀ z : Jrep a c, c i • (Jrep.eps a c * z)
+        = (X i : polyAlg n) • z - a i • z := by
+      intro z; rw [jrep_sub_smul]; simp
+    have h2 : ∀ z : Jrep a c', c' i • (Jrep.eps a c' * z)
+        = (X i : polyAlg n) • z - a i • z := by
+      intro z; rw [jrep_sub_smul]; simp
+    rw [h1, h2, map_sub, map_smul, map_smul_complex]
+  obtain ⟨s, hs⟩ : ∃ s, Jrep.fst a c' (φ 1) = s := ⟨_, rfl⟩
+  obtain ⟨s', hs'⟩ : ∃ s', Jrep.fst a c' (φ (Jrep.eps a c)) = s' := ⟨_, rfl⟩
+  obtain ⟨t', ht'⟩ : ∃ t', Jrep.snd a c' (φ (Jrep.eps a c)) = t' := ⟨_, rfl⟩
+  -- Testing the intertwining on `ε` kills the `1`-coordinate of `φ ε`.
+  have hs'zero : s' = 0 := by
+    obtain ⟨i, hi⟩ := Function.ne_iff.mp hc'
+    have hi' : c' i ≠ 0 := by simpa using hi
+    have h := hN i (Jrep.eps a c)
+    rw [Jrep.eps_mul_eps, smul_zero, map_zero, Jrep.eps_mul, hs', smul_smul] at h
+    have h2 := (jrep_smul_eps_eq_zero_iff a c' (c' i * s')).mp h.symm
+    exact (mul_eq_zero.mp h2).resolve_left hi'
+  have hepsimg : φ (Jrep.eps a c) = t' • Jrep.eps a c' := by
+    have h := Jrep.eq_smul_one_add_smul_eps a c' (φ (Jrep.eps a c))
+    rw [hs', ht', hs'zero, zero_smul, zero_add] at h
+    exact h
+  have ht'ne : t' ≠ 0 := by
+    intro h
+    rw [h, zero_smul] at hepsimg
+    exact jrep_eps_ne_zero a c (φ.injective (by rw [hepsimg, map_zero]))
+  -- Surjectivity forces the `1`-coordinate of `φ 1` to be nonzero.
+  have hsne : s ≠ 0 := by
+    intro h
+    obtain ⟨t, htdef⟩ : ∃ t, Jrep.snd a c' (φ 1) = t := ⟨_, rfl⟩
+    have honeimg : φ 1 = t • Jrep.eps a c' := by
+      have h0 := Jrep.eq_smul_one_add_smul_eps a c' (φ 1)
+      rw [hs, htdef, h, zero_smul, zero_add] at h0
+      exact h0
+    obtain ⟨x, hx⟩ := φ.surjective (1 : Jrep a c')
+    obtain ⟨p, q, hpq⟩ : ∃ p q : ℂ, x = p • (1 : Jrep a c) + q • Jrep.eps a c :=
+      ⟨_, _, Jrep.eq_smul_one_add_smul_eps a c x⟩
+    rw [hpq, map_add, map_smul_complex, map_smul_complex, honeimg, hepsimg, smul_smul,
+      smul_smul, ← add_smul] at hx
+    have hf := congrArg (Jrep.fst a c') hx
+    simp at hf
+  -- Testing the intertwining on `1` pins the scalar.
+  have hkey : ∀ i, c i * t' = c' i * s := by
+    intro i
+    have h := hN i 1
+    rw [mul_one, map_smul_complex, hepsimg, smul_smul, Jrep.eps_mul, hs, smul_smul] at h
+    have h2 : (c i * t' - c' i * s) • Jrep.eps a c' = 0 := by rw [sub_smul, h, sub_self]
+    exact sub_eq_zero.mp ((jrep_smul_eps_eq_zero_iff a c' _).mp h2)
+  refine ⟨t' / s, div_ne_zero ht'ne hsne, funext fun i => ?_⟩
+  simp only [Pi.smul_apply, smul_eq_mul]
+  field_simp
+  linear_combination -hkey i
+
+/-- Scaling the `ε`-coordinate realizes proportional classes as isomorphic modules. -/
+theorem jrep_iso_of_scalar (a c c' : Fin n → ℂ) (lam : ℂ) (hlam : lam ≠ 0) (hc' : c' = lam • c) :
+    Nonempty (Jrep a c ≃ₗ[polyAlg n] Jrep a c') := by
+  subst hc'
+  set B' := (jrepBasis a (lam • c)).unitsSMul ![1, Units.mk0 lam hlam] with hB'
+  set e := (jrepBasis a c).equiv B' (Equiv.refl (Fin 2)) with he
+  have hB'0 : B' 0 = (1 : Jrep a (lam • c)) := by
+    rw [hB', Module.Basis.unitsSMul_apply, jrepBasis_zero_eq]
+    simp
+  have hB'1 : B' 1 = lam • Jrep.eps a (lam • c) := by
+    rw [hB', Module.Basis.unitsSMul_apply, jrepBasis_one_eq]
+    simp [Units.smul_def]
+  have he0b : e (jrepBasis a c 0) = (1 : Jrep a (lam • c)) := by
+    rw [he, Module.Basis.equiv_apply, Equiv.refl_apply, hB'0]
+  have he1b : e (jrepBasis a c 1) = lam • Jrep.eps a (lam • c) := by
+    rw [he, Module.Basis.equiv_apply, Equiv.refl_apply, hB'1]
+  have he0 : e (1 : Jrep a c) = (1 : Jrep a (lam • c)) := by
+    rw [jrepBasis_zero_eq a c] at he0b; exact he0b
+  have he1 : e (Jrep.eps a c) = lam • Jrep.eps a (lam • c) := by
+    rw [jrepBasis_one_eq a c] at he1b; exact he1b
+  haveI : SMulCommClass (polyAlg n) ℂ (Jrep a (lam • c)) := smulCommClass_polyAlg
+  refine nonempty_linearEquiv_of_comm_X_basis (jrepBasis a c) e fun i j => ?_
+  have h0 : e ((X i : polyAlg n) • jrepBasis a c 0)
+      = (X i : polyAlg n) • e (jrepBasis a c 0) := by
+    rw [he0b, jrep_X_smul_one a (lam • c) i, jrepBasis_zero_eq a c, jrep_X_smul_one a c i,
+      map_add, map_smul, map_smul, he0, he1]
+    simp only [Pi.smul_apply, smul_eq_mul, smul_smul]
+    module
+  have h1 : e ((X i : polyAlg n) • jrepBasis a c 1)
+      = (X i : polyAlg n) • e (jrepBasis a c 1) := by
+    rw [he1b, smul_comm (X i : polyAlg n) lam (Jrep.eps a (lam • c)),
+      jrep_X_smul_eps a (lam • c) i, jrepBasis_one_eq a c, jrep_X_smul_eps a c i, map_smul, he1]
+    module
+  fin_cases j
+  · exact h0
+  · exact h1
+
+end JrepIso
+
 /-- Two dual-number normal forms are isomorphic exactly when they share the weight and their
 extension classes are proportional. So the nonzero classes contribute the projective space of
-`ℂⁿ`, and the zero class the split module. -/
+`ℂⁿ`, and the zero class the split module `Vₐ × Vₐ`. -/
 theorem jrep_iso_iff {n : ℕ} (a c a' c' : Fin n → ℂ) :
     Nonempty (Jrep a c ≃ₗ[polyAlg n] Jrep a' c') ↔
       a = a' ∧ ∃ lam : ℂ, lam ≠ 0 ∧ c' = lam • c := by
-  sorry
+  constructor
+  · rintro ⟨φ⟩
+    have haa : a = a' := jrep_weight_eq a c a' c' φ
+    subst haa
+    refine ⟨rfl, ?_⟩
+    by_cases hc' : c' = 0
+    · have hc : c = 0 := jrep_class_eq_zero_of_target a c c' hc' φ
+      exact ⟨1, one_ne_zero, by rw [hc, hc', smul_zero]⟩
+    · exact jrep_exists_scalar a c c' hc' φ
+  · rintro ⟨rfl, lam, hlam, hc'⟩
+    exact jrep_iso_of_scalar a c c' lam hlam hc'
 
 /-- The split normal forms are isomorphic exactly when their weights agree as unordered pairs. -/
 theorem split_iso_iff {n : ℕ} (b a b' a' : Fin n → ℂ) (hba : b ≠ a) (hba' : b' ≠ a') :
