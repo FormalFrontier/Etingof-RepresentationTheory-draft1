@@ -26,9 +26,18 @@ the end from `minpoly_dvd_charpoly`.
 * `Etingof.exists_basis_blockTriangular_charpoly` : the same, packaged with the diagonal `lam` and
   the identity `charpoly A = ∏ i, (X - C (lam i))`, so that `lam` is literally the eigenvalue list
   of `A` with multiplicity.
+* `Etingof.exists_basis_blockTriangular_of_isAlgClosed` : the algebraically closed special case.
 * `Etingof.exists_perm_of_prod_X_sub_C_eq` : two families with the same `∏ (X - C ·)` differ by a
   permutation. This is what lets one transport a statement proved for the diagonal produced above
   to an arbitrary root list of the characteristic polynomial.
+* `Etingof.exists_basis_blockTriangular_diag_perm` : combining the two, the book's hypothesis
+  "the eigenvalues of `A` are `λ_1, …, λ_N`" yields a triangularizing basis whose diagonal is
+  `lam ∘ e` for some permutation `e`.
+* `Etingof.sum_powersetCard_prod_comp` and `Etingof.sum_sym_prod_comp` : the elementary symmetric
+  and complete homogeneous sums are invariant under that permutation, so it can be discarded.
+
+Together the last two turn the triangularizing-basis hypothesis of the Problem 2.11.3(f) trace
+formulas into the literal hypothesis `charpoly A = ∏ i, (X - C (lam i))` of the book.
 -/
 
 open Polynomial Module
@@ -260,6 +269,55 @@ theorem exists_perm_of_prod_X_sub_C_eq {N : ℕ} {lam mu : Fin N → k}
   refine exists_perm_of_map_univ_eq ?_
   rw [← roots_prod_X_sub_C_comp lam, ← roots_prod_X_sub_C_comp mu, h]
 
+/-! ### Reindexing invariance of the two symmetric sums
+
+The right-hand sides of Problem 2.11.3(f) — the elementary symmetric function `e_n` for
+`Tr(⋀^n A)` and the complete homogeneous function `h_n` for `Tr(S^n A)` — are symmetric, so
+`exists_perm_of_prod_X_sub_C_eq` transports them between any two root lists of `charpoly A`. -/
+
+/-- `e_n` is invariant under reindexing the family: the exterior-power trace formula does not
+depend on the order in which the eigenvalues are listed. -/
+theorem sum_powersetCard_prod_comp {N : ℕ} (lam : Fin N → k) (e : Equiv.Perm (Fin N)) (n : ℕ) :
+    ∑ s ∈ Finset.powersetCard n (Finset.univ : Finset (Fin N)), ∏ i ∈ s, lam (e i)
+      = ∑ s ∈ Finset.powersetCard n (Finset.univ : Finset (Fin N)), ∏ i ∈ s, lam i := by
+  classical
+  refine Finset.sum_equiv e.finsetCongr (fun s => ?_) (fun s _ => ?_)
+  · simp [Finset.mem_powersetCard_univ]
+  · simp [Finset.prod_map]
+
+/-- `h_n` is invariant under reindexing the family: the symmetric-power trace formula does not
+depend on the order in which the eigenvalues are listed. -/
+theorem sum_sym_prod_comp {N : ℕ} (lam : Fin N → k) (e : Equiv.Perm (Fin N)) (n : ℕ) :
+    ∑ s : Sym (Fin N) n, ((s : Multiset (Fin N)).map (fun i => lam (e i))).prod
+      = ∑ s : Sym (Fin N) n, ((s : Multiset (Fin N)).map lam).prod :=
+  Fintype.sum_equiv (Sym.equivCongr e) _ _ fun s => by
+    simp [Sym.equivCongr, Sym.coe_map, Multiset.map_map, Function.comp_def]
+
 end Perm
+
+section Bridge
+
+variable {k : Type u} [Field k] {V : Type v} [AddCommGroup V] [Module k V] [Module.Finite k V]
+
+/-- **The book's hypothesis produces a triangularizing basis.** Given only "the eigenvalues of `A`,
+with multiplicity, are `lam 0, …, lam (N-1)`" — that is, `charpoly A = ∏ i, (X - C (lam i))` —
+there is a basis triangularizing `A` whose diagonal is `lam` *up to a permutation* of `Fin N`.
+
+The permutation is unavoidable: `lam` is only determined by `charpoly A` up to reordering. Since
+the elementary symmetric and complete homogeneous sums are symmetric
+(`sum_powersetCard_prod_comp`, `sum_sym_prod_comp`), it does no harm. -/
+theorem exists_basis_blockTriangular_diag_perm {N : ℕ} (A : V →ₗ[k] V)
+    (hN : Module.finrank k V = N) (lam : Fin N → k)
+    (hlam : LinearMap.charpoly A = ∏ i, (X - C (lam i))) :
+    ∃ (b : Basis (Fin N) k V) (e : Equiv.Perm (Fin N)),
+      (LinearMap.toMatrix b b A).BlockTriangular id ∧
+        ∀ i, LinearMap.toMatrix b b A i i = lam (e i) := by
+  have hsplit : (LinearMap.charpoly A).Splits :=
+    hlam ▸ Polynomial.Splits.prod fun i _ => Polynomial.Splits.X_sub_C (lam i)
+  obtain ⟨b, mu, hb, hdiag, hmu⟩ := exists_basis_blockTriangular_charpoly A hN hsplit
+  obtain ⟨e, he⟩ := exists_perm_of_prod_X_sub_C_eq (hmu.symm.trans hlam)
+  exact ⟨b, e, hb, fun i => (hdiag i).trans (he i)⟩
+
+end Bridge
 
 end Etingof
