@@ -9582,10 +9582,9 @@
     "start_line": 11,
     "end_line": 14,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "last_updated": "2026-07-22",
-    "coverage_note": "Part (i) and the Hom-dimension/path-count computation are proved. For part (ii), the concrete family A·eᵢ is only called the family of indecomposable projective covers: projectivity, indecomposability, the vertex simples, and essential cover maps are not proved or packaged. Since algebraCartanMatrix accepts any module family, the current equality does not yet certify the source-defined Cartan matrix. Follow-up #7434.",
-    "followup_issue": 7434
+    "coverage": "covered",
+    "last_updated": "2026-07-26",
+    "coverage_note": "Part (i) and the Hom-dimension/path-count computation are proved. For part (ii) the family A·eᵢ is now certified as the source-defined projective covers, in Chapter9/PathAlgebraVertexCovers.lean: the vertex simple modules Sᵢ = augModule k Q i are simple (augModule_isSimpleModule), pairwise non-isomorphic (augModule_not_isomorphic_of_ne) and exhaust the simple modules (exists_augModule_iso), so the vertices index the simples exactly; each Pᵢ = A·eᵢ is projective (pathAlgebraProj_projective) and, for acyclic Q, indecomposable (pathAlgebraProj_isIndecomposable); the augmentation Pᵢ ↠ Sᵢ is surjective with superfluous kernel (projToSimple_essential), packaged as Etingof.ProjectiveCover in vertexProjectiveCover. cartanMatrix_pathAlgebra_eq_pathCount_of_projectiveCovers assembles these with cartanMatrix_pathAlgebra_eq_pathCount', so the computed matrix is the Cartan matrix of Definition 9.3.1."
   },
   {
     "id": "Chapter9/Introduction_9.5",
