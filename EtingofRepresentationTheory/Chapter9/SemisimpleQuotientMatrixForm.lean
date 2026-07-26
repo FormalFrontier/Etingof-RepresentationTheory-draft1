@@ -43,9 +43,18 @@ applies to the genuine quotient and yields: `A / Rad(A)` is commutative iff ever
 * `Etingof.isBasicAlgebra_iff_of_matrixForm` — given any presentation of `A / Rad(A)` as
   `∏_i Mat_{d_i}(k)` with `d_i ≥ 1`, the quotient is commutative iff every `d_i = 1`.
 * `Etingof.exists_matrix_structure_isBasicAlgebra_iff` — the two combined.
+* `Etingof.exists_matrix_structure_cartanAlgebra` — the specialisation to `B_𝐧 = End(P_𝐧)ᵐᵒᵖ`.
+
+## What is not proved here
+
+Etingof identifies the matrix sizes of `B_𝐧 / Rad(B_𝐧)` with the multiplicities `n_i`. That
+identification needs the projective covers `P_i ↠ S_i` and the Kronecker-delta property
+`dim_k Hom(P_i, S_j) = δ_{ij}` for a general finite abelian category, which is not available in
+the project; `Etingof.exists_matrix_structure_cartanAlgebra` produces the matrix sizes
+abstractly instead.
 -/
 
-open Module
+open CategoryTheory CategoryTheory.Limits Module
 
 namespace Etingof
 
@@ -165,5 +174,53 @@ theorem exists_matrix_structure_isBasicAlgebra_iff :
     isBasicAlgebra_iff_of_matrixForm k A _ hpos e⟩
 
 end MatrixForm
+
+section CartanAlgebra
+
+/-! ## The basic algebras `B_𝐧` of §9.7
+
+`Chapter9/Discussion_after_Definition9_7_1.lean` treats `B_𝐧 = End(P_𝐧)ᵐᵒᵖ` only as a `k`-vector
+space, computing `dim_k B_𝐧 = ∑ c_{ij} n_i n_j`. It is also a finite dimensional `k`-algebra, so
+the matrix form above applies to it: `B_𝐧 / Rad(B_𝐧)` is a genuine product of matrix algebras,
+and `B_𝐧` is basic exactly when all the matrix sizes are `1`.
+
+What is *not* proved here is Etingof's identification of those matrix sizes with the
+multiplicities `n_i`; that needs the projective covers `P_i ↠ S_i` and the Kronecker-delta
+property `dim_k Hom(P_i, S_j) = δ_{ij}` in a general finite abelian category. -/
+
+variable {k : Type w} [Field k] [IsAlgClosed k]
+variable {C : Type u} [Category.{v} C] [IsFiniteAbelianCategory C] [Linear k C]
+  [IsFiniteAbelianCategoryOverField k C] [HasFiniteBiproducts C]
+variable {ι : Type v} [Fintype ι]
+
+omit [IsAlgClosed k] [HasFiniteBiproducts C] in
+/-- `End X` is a finite dimensional `k`-algebra in a finite abelian category over `k`, hence so
+is its opposite `End(X)ᵐᵒᵖ` (the same underlying `k`-module). -/
+theorem finiteDimensional_endOp (X : C) : FiniteDimensional k (End X)ᵐᵒᵖ := by
+  haveI : FiniteDimensional k (End X) :=
+    IsFiniteAbelianCategoryOverField.finiteDimensional_hom X X
+  exact Module.Finite.equiv (MulOpposite.opLinearEquiv k (M := End X))
+
+/-- **The semisimple quotient of `B_𝐧` is a product of matrix algebras.** For the basic algebra
+`B_𝐧 = End(P_𝐧)ᵐᵒᵖ` attached to `P_𝐧 = ⊕_i n_i P_i` over an algebraically closed field there are
+matrix sizes `d_j ≥ 1` with
+
+`B_𝐧 / Rad(B_𝐧) ≃ₐ[k] ∏_j Mat_{d_j}(k)`,
+
+and `B_𝐧` is basic (Definition 9.7.2) exactly when every `d_j = 1`. Etingof's discussion after
+Definition 9.7.1 identifies the `d_j` with the multiplicities `n_i`, which is not proved here. -/
+theorem exists_matrix_structure_cartanAlgebra (P : ι → C) (n : ι → ℕ) :
+    ∃ (J : Type v) (_ : Fintype J) (d : J → ℕ), (∀ j, 1 ≤ d j) ∧
+      Nonempty ((((End (multBiproduct P n))ᵐᵒᵖ) ⧸ Etingof.Radical ((End (multBiproduct P n))ᵐᵒᵖ))
+        ≃ₐ[k] ∀ j, Matrix (Fin (d j)) (Fin (d j)) k) ∧
+      (Etingof.IsBasicAlgebra k ((End (multBiproduct P n))ᵐᵒᵖ) ↔ ∀ j, d j = 1) := by
+  classical
+  haveI : FiniteDimensional k (End (multBiproduct P n))ᵐᵒᵖ :=
+    finiteDimensional_endOp (multBiproduct P n)
+  obtain ⟨s, -, -, -, hpos, ⟨e⟩, hbasic⟩ :=
+    exists_matrix_structure_isBasicAlgebra_iff k ((End (multBiproduct P n))ᵐᵒᵖ)
+  exact ⟨{x // x ∈ s}, inferInstance, _, hpos, ⟨e⟩, hbasic⟩
+
+end CartanAlgebra
 
 end Etingof
