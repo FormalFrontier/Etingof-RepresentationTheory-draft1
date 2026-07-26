@@ -4214,16 +4214,15 @@
     "end_page": "87",
     "start_line": 5,
     "end_line": 2,
-    "status": "partially_proved",
-    "coverage_note": "Problem4_12_8.lean is fully sorry-free: (a) so3_finite_subgroup_classification — every finite subgroup of SO(3) is cyclic/dihedral/A4/S4/A5; (b) su2_finite_subgroup_double_cover — SU(2) double-cover relation. Part (a) proved via the pole-counting route (#6802): the milestone lemmas (exists_fixed_vector, isCyclic_of_common_fixed_vector, pole_order_diophantine) and the tetrahedral/octahedral/icosahedral disjuncts (including the icosahedral crux so3_icosahedral_exists_faithful_perm5 via the simple-group / index-5 coset route) are all proved. No Mathlib support (no SO(3) eigenvalue-1, no MulAction on vectors, no MulEquiv targets). (b) upgraded (#7281) to the enumerated binary-polyhedral classification: su2_finite_subgroup_classification pins the concrete double cover (Problem4_12_7.exists_surjective_hom_to_SO3), classifies the image h(H) into the five SO(3) families, and shows H is the full binary preimage h^-1(h(H)) when -1 in H (order 2|h(H)|) or isomorphic to h(H) when -1 not in H; supporting su2_image_classification, su2_full_preimage_of_neg_one_mem, su2_iso_image_of_neg_one_not_mem. All axiom-clean (no sorryAx).",
-    "fidelity": "partial",
-    "fidelity_decl": "Etingof.Problem4_12_8.so3_finite_subgroup_classification, Etingof.Problem4_12_8.su2_finite_subgroup_double_cover",
+    "status": "proved",
+    "coverage_note": "Problem4_12_8.lean is fully sorry-free: (a) so3_finite_subgroup_classification — every finite subgroup of SO(3) is cyclic/dihedral/A4/S4/A5; (b) su2_finite_subgroup_double_cover — SU(2) double-cover relation. Part (a) proved via the pole-counting route (#6802): the milestone lemmas (exists_fixed_vector, isCyclic_of_common_fixed_vector, pole_order_diophantine) and the tetrahedral/octahedral/icosahedral disjuncts (including the icosahedral crux so3_icosahedral_exists_faithful_perm5 via the simple-group / index-5 coset route) are all proved. No Mathlib support (no SO(3) eigenvalue-1, no MulAction on vectors, no MulEquiv targets). (b) upgraded (#7281) to the enumerated binary-polyhedral classification: su2_finite_subgroup_classification pins the concrete double cover (Problem4_12_7.exists_surjective_hom_to_SO3), classifies the image h(H) into the five SO(3) families, and shows H is the full binary preimage h^-1(h(H)) when -1 in H (order 2|h(H)|) or isomorphic to h(H) when -1 not in H; supporting su2_image_classification, su2_full_preimage_of_neg_one_mem, su2_iso_image_of_neg_one_not_mem. Completed (#7281, second pass) to the book's exact list: su2_sq_eq_one shows SU(2) has a unique involution (-1); su2_isCyclic_of_neg_one_not_mem shows -1 not in H forces H cyclic of odd order (the four noncyclic SO(3) families all have even order); su2_isCyclic_of_image_isCyclic shows a cyclic image forces H cyclic (binary cyclic is cyclic). su2_finite_subgroup_binary_classification is then the exact disjunction: cyclic, or the full binary preimage of a noncyclic SO(3) subgroup with order 4n (2.Dn), 24 (2.A4), 48 (2.S4), 120 (2.A5). All axiom-clean (no sorryAx).",
+    "fidelity": "full",
+    "fidelity_decl": "Etingof.Problem4_12_8.so3_finite_subgroup_classification, Etingof.Problem4_12_8.su2_finite_subgroup_binary_classification",
     "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_12_8.lean",
     "coverage": "covered_partial",
     "coverage_issue": 7539,
-    "followup_issue": 7281,
-    "fidelity_note": "Part (a), the finite-subgroup classification of SO(3), is fully proved. The SU(2) theorem classifies the image in SO(3) and identifies H with its image when -1 is absent, but it does not prove that this branch must be cyclic; ordinary dihedral/A4/S4/A5 copies therefore remain formally allowed instead of the exact cyclic-or-binary-polyhedral list. Follow-up #7281.",
-    "last_updated": "2026-07-22"
+    "fidelity_note": "Both parts fully proved. Part (a) is the finite-subgroup classification of SO(3). Part (b) is now the book's exact list: su2_finite_subgroup_binary_classification gives cyclic or one of the four binary polyhedral families with their orders; the cyclic disjunct is proved (not left open) via the unique involution of SU(2).",
+    "last_updated": "2026-07-25"
   },
   {
     "id": "Chapter4/Problem4.12.9",
