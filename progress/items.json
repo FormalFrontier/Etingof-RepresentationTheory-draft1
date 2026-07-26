@@ -1540,15 +1540,17 @@
     "start_line": 2,
     "end_line": 15,
     "status": "sorry_free",
-    "coverage_note": "Partially formalized. Parts (a)-(c) and determinant multiplicativity from part (g) are in EtingofRepresentationTheory/Chapter2/Problem2_11_3.lean. Problem2_11_3_SymExtPow.lean constructs the book's quotient models S^n V and ∧^n V of V^{⊗n}, the induced operators S^n A and ∧^n A with their functoriality, the exterior half of part (d) (basis and dimension m.choose n) via an isomorphism with Mathlib's exterior power, proved away from characteristic 2, and part (g): extPowMap_top proves ∧^N A = det(A) • Id in the top degree N = dim V on the book's own ∧^N V (no characteristic hypothesis), and det_comp_of_extPowMap derives det(A ∘ B) = det(A) det(B) from it by functoriality, which is the book's one-line argument. Problem2_11_3_SymExtSubspace.lean has all of part (e): the symmetrizer and antisymmetrizer on V^{⊗n}, the computation of their ranges (the symmetric and antisymmetric tensors) and kernels (exactly the two relation subspaces), and the resulting isomorphisms S^n V ≃ symTensorSubmodule and ∧^n V ≃ altTensorSubmodule, valid whenever n! is invertible in k. Remaining: the symmetric basis and dimension of part (d) (#7816), the trace formulas of part (f) (#7819), and removing the characteristic-2 hypothesis (#7820).",
-    "followup_issue": 7816,
+    "coverage_note": "Parts (a)-(g) formalized. Parts (a)-(c) are in Problem2_11_3.lean. Problem2_11_3_SymExtPow.lean constructs the book's quotient models S^n V and ∧^n V of V^{⊗n}, the induced operators S^n A and ∧^n A with their functoriality, the exterior half of part (d) (basis and dimension m.choose n) via an isomorphism with Mathlib's exterior power valid in every characteristic, and part (g): extPowMap_top proves ∧^N A = det(A) • Id in the top degree N = dim V on the book's own ∧^N V, and det_comp_of_extPowMap derives det(A ∘ B) = det(A) det(B) from it by functoriality, the book's one-line argument. Problem2_11_3_SymPowBasis.lean has the symmetric half of part (d): symPowBasis indexes a basis of S^n V by multisets, with dimension (m+n-1).choose n. Problem2_11_3_SymExtSubspace.lean has all of part (e): the symmetrizer and antisymmetrizer on V^{⊗n}, the computation of their ranges and kernels, and the resulting isomorphisms S^n V ≃ symTensorSubmodule and ∧^n V ≃ altTensorSubmodule, valid whenever n! is invertible in k. Problem2_11_3_Trace.lean has part (f): trace_extPowMap gives Tr(∧^n A) as the elementary symmetric function e_n of the eigenvalues and trace_symPowMap gives Tr(S^n A) as the complete homogeneous symmetric function h_n, for an operator triangularized by a basis with diagonal lam; IsTriangularizedBy.charpoly certifies that lam is exactly the eigenvalue list with multiplicity. Remaining: upgrading the triangularizing-basis hypothesis of part (f) to the literal 'the characteristic polynomial splits' hypothesis needs a triangularization theorem that Mathlib lacks (#7876).",
+    "followup_issue": 7876,
     "coverage": "covered_partial",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_11_3.lean",
       "EtingofRepresentationTheory/Chapter2/Problem2_11_3_SymExtPow.lean",
-      "EtingofRepresentationTheory/Chapter2/Problem2_11_3_SymExtSubspace.lean"
+      "EtingofRepresentationTheory/Chapter2/Problem2_11_3_SymPowBasis.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_11_3_SymExtSubspace.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_11_3_Trace.lean"
     ],
-    "last_updated": "2026-07-25"
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter2/Remark2.11.4",
