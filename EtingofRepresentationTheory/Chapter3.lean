@@ -44,6 +44,7 @@ import EtingofRepresentationTheory.Chapter3.Problem3_8_5
 import EtingofRepresentationTheory.Chapter3.Remark3_8_6
 import EtingofRepresentationTheory.Chapter3.Problem3_9_1
 import EtingofRepresentationTheory.Chapter3.Problem3_9_2
+import EtingofRepresentationTheory.Chapter3.Problem3_9_2_Classification
 import EtingofRepresentationTheory.Chapter3.Problem3_9_3
 import EtingofRepresentationTheory.Chapter3.Problem3_9_4
 import EtingofRepresentationTheory.Chapter3.Problem3_9_5

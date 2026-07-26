@@ -399,15 +399,13 @@ theorem loopCoef_ne_zero (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (I : LoopIdx)
       refine mul_ne_zero (mul_ne_zero h3 (pow_ne_zero m h6)) ?_
       fin_cases i <;> norm_num
 
-/-- **The spanning family of `𝔤₄` is linearly independent.** Its image under `gbar` is the graded
-basis of `𝔫₊(A₂⁽²⁾)`, reindexed along the involution `loopRev` and rescaled by units.
+/-- **The image of the spanning family under `gbar` is linearly independent.** It is the graded
+basis `loopVec` of `𝔫₊(A₂⁽²⁾)`, reindexed along the involution `loopRev` and rescaled by units.
 
-Together with `span_range_loopFam₄_eq_top` (which still needs the Gabber-Kac vanishing of the
-layer defects) this makes `loopFam₄` a basis of `𝔤₄`; on its own it already gives the *lower*
-bound on the graded dimensions of `𝔤₄`, unconditionally. -/
-theorem linearIndependent_loopFam₄ (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) :
-    LinearIndependent k (loopFam₄ k) := by
-  refine LinearIndependent.of_comp (gbar k) ?_
+This is the sharp form: it says not only that `loopFam₄` is independent, but that no nonzero
+combination of its members lies in `ker (gbar k)`. -/
+theorem linearIndependent_gbar_comp_loopFam₄ (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) :
+    LinearIndependent k (gbar k ∘ loopFam₄ k) := by
   have hbase : LinearIndependent k (loopVec k ∘ loopRev) :=
     (linearIndependent_loopVec k).comp loopRev loopRev_injective
   have hu := hbase.units_smul fun I => Units.mk0 (loopCoef k I) (loopCoef_ne_zero h2 h3 I)
@@ -418,6 +416,16 @@ theorem linearIndependent_loopFam₄ (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) :
       Units.val_mk0]
     exact (gbar_loopFam₄ I).symm
   rwa [heq] at hu
+
+/-- **The spanning family of `𝔤₄` is linearly independent.** Its image under `gbar` is the graded
+basis of `𝔫₊(A₂⁽²⁾)`, reindexed along the involution `loopRev` and rescaled by units.
+
+Together with `span_range_loopFam₄_eq_top` (which still needs the Gabber-Kac vanishing of the
+layer defects) this makes `loopFam₄` a basis of `𝔤₄`; on its own it already gives the *lower*
+bound on the graded dimensions of `𝔤₄`, unconditionally. -/
+theorem linearIndependent_loopFam₄ (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) :
+    LinearIndependent k (loopFam₄ k) :=
+  LinearIndependent.of_comp (gbar k) (linearIndependent_gbar_comp_loopFam₄ h2 h3)
 
 end Fidelity
 

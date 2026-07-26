@@ -1,5 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter2.Proposition2_7_1_ii
+import EtingofRepresentationTheory.Chapter2.QWeylAlgebraUniversal
 
 /-!
 # Problem 2.7.5: Center, ideals, and representations of the `q`-Weyl algebra
@@ -768,20 +769,36 @@ private lemma central_smul_scalar (V : Type*) [AddCommGroup V] [Module ℂ V]
 
 /-! ## (c) Finite dimensional irreducible representations -/
 
-/-- **(c)** Every finite dimensional irreducible representation of the `q`-Weyl algebra has
-dimension exactly `orderOf q` (which is forced to be nonzero, i.e. `q` is a root of unity, by
-the existence of such a representation). -/
-theorem finrank_irreducible_eq_orderOf
+/-- **The orbit basis of a finite dimensional irreducible representation.** Let `V` be such a
+representation of the `q`-Weyl algebra and put `N = orderOf q`. Pick a `y`-eigenvector `v`, with
+eigenvalue `β` (one exists because `ℂ` is algebraically closed, and `β ≠ 0` because `y` acts
+invertibly), and sweep it around by the invertible `x`-action. The resulting orbit
+`bᵢ = xⁱ·v`, `i ∈ Fin N`, is a `ℂ`-basis of `V` on which
+
+* `y` acts diagonally, `y·bᵢ = β·qⁱ·bᵢ` — the eigenvalues are pairwise distinct because `q` is
+  primitive of order `N`, which is what makes the orbit linearly independent;
+* `x` acts as a twisted cyclic shift, `x·bᵢ = b_{i+1}`, except at the wrap-around `i = N-1`
+  where `x·b_{N-1} = α·b₀`, the scalar `α ≠ 0` being the one by which the central element `xᴺ`
+  acts (Schur).
+
+This is the structural core of Problem 2.7.5(c). The dimension formula
+`finrank_irreducible_eq_orderOf` below is the immediate consequence, and
+`Problem2_7_5_Exhaustive.lean` reads the classification by the explicit family `V(α,β)` off the
+same basis. -/
+theorem exists_orbit_basis
     (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (qWeylAlgebra ℂ q) V]
     [IsScalarTower ℂ (qWeylAlgebra ℂ q) V] [FiniteDimensional ℂ V]
-    [IsSimpleModule (qWeylAlgebra ℂ q) V] :
-    Module.finrank ℂ V = orderOf q := by
+    [IsSimpleModule (qWeylAlgebra ℂ q) V] (N : ℕ) [NeZero N] (hqorder : orderOf q = N) :
+    ∃ (α β : ℂˣ) (b : Module.Basis (Fin N) ℂ V),
+      (∀ i : Fin N, QWeyl.qWeylMono q (0, 1) • b i = ((β : ℂ) * (q : ℂ) ^ (i : ℕ)) • b i) ∧
+      (∀ i : Fin N, QWeyl.qWeylMono q (1, 0) • b i
+        = (if (i + 1 : Fin N) = 0 then (α : ℂ) else 1) • b (i + 1)) := by
+  subst hqorder
   haveI : Nontrivial V := IsSimpleModule.nontrivial (qWeylAlgebra ℂ q) V
   -- `q` is a root of unity, so `n := orderOf q` is positive and `qⁿ = 1`.
-  have hfin : IsOfFinOrder q := isOfFinOrder_of_nontrivial_finrep q V
+  have hn_pos : 0 < orderOf q := Nat.pos_of_ne_zero (NeZero.ne _)
+  have hqn : q ^ ((orderOf q : ℕ) : ℤ) = 1 := by rw [zpow_natCast]; exact pow_orderOf_eq_one q
   set n : ℕ := orderOf q with hn
-  have hn_pos : 0 < n := by rw [hn]; exact orderOf_pos_iff.mpr hfin
-  have hqn : q ^ (n : ℤ) = 1 := by rw [zpow_natCast, hn]; exact pow_orderOf_eq_one q
   -- The action `ρ` on `V`.
   set ρ := Algebra.lsmul ℂ ℂ V (A := qWeylAlgebra ℂ q) with hρ
   -- Eigenvector `v` of `ρ y` with eigenvalue `lam`.
@@ -985,9 +1002,55 @@ theorem finrank_irreducible_eq_orderOf
     exact hYw ((i : ℕ) : ℤ)
   have hli : LinearIndependent ℂ (fun i : Fin n => w ((i : ℕ) : ℤ)) :=
     Module.End.eigenvectors_linearIndependent' _ _ hinj _ heig
-  -- The orbit vectors span `V` and are independent, so they form a basis of size `n`.
+  -- The orbit vectors span `V` and are independent, so they form a basis indexed by `Fin n`.
   have hsp : ⊤ ≤ Submodule.span ℂ (Set.range (fun i : Fin n => w ((i : ℕ) : ℤ))) := by
     rw [← hWk]; intro z _; exact htop z
-  rw [Module.finrank_eq_card_basis (Module.Basis.mk hli hsp), Fintype.card_fin]
+  -- Read the two generator actions off that basis.
+  have hb : ∀ j : Fin n, (Module.Basis.mk hli hsp) j = w ((j : ℕ) : ℤ) := fun j => by
+    rw [Module.Basis.coe_mk]
+  have hzero : ((0 : Fin n) : ℕ) = 0 := by simp
+  refine ⟨Units.mk0 μ hμne, Units.mk0 lam hlam0, Module.Basis.mk hli hsp, ?_, ?_⟩
+  · intro i
+    rw [hb i]
+    change gMono q (0, 1) • w ((i : ℕ) : ℤ) = _
+    rw [hYw ((i : ℕ) : ℤ), zpow_natCast, Units.val_pow_eq_pow_val, Units.val_mk0, mul_comm]
+  · intro i
+    have hvadd : ((i + 1 : Fin n) : ℕ) = ((i : ℕ) + 1) % n := by
+      rw [Fin.val_add, Fin.val_one', Nat.add_mod_mod]
+    rw [hb i, hb (i + 1)]
+    change gMono q (1, 0) • w ((i : ℕ) : ℤ) = _
+    rw [hshiftX 1 ((i : ℕ) : ℤ)]
+    by_cases hlast : (i : ℕ) + 1 = n
+    · -- Wrap-around: `x` sends the last basis vector to `α` times the first.
+      have h0 : (i + 1 : Fin n) = 0 := by
+        refine Fin.ext ?_
+        rw [hvadd, hlast, Nat.mod_self, hzero]
+      have hcast : ((i : ℕ) : ℤ) + 1 = (n : ℤ) := by exact_mod_cast hlast
+      have heq : (1 : ℤ) + ((i : ℕ) : ℤ) = (n : ℤ) + 0 := by omega
+      rw [if_pos h0, h0, hzero, heq, hperiod 0, Units.val_mk0, Nat.cast_zero]
+    · -- Generic step: `x` shifts the basis by one.
+      have hlt : (i : ℕ) + 1 < n := by have := i.isLt; omega
+      have hval : ((i + 1 : Fin n) : ℕ) = (i : ℕ) + 1 := by rw [hvadd, Nat.mod_eq_of_lt hlt]
+      have h0 : (i + 1 : Fin n) ≠ 0 := by
+        intro h
+        rw [h, hzero] at hval
+        omega
+      have hcast : (1 : ℤ) + ((i : ℕ) : ℤ) = (((i : ℕ) + 1 : ℕ) : ℤ) := by push_cast; ring
+      rw [if_neg h0, hval, ← hcast, one_smul]
+
+/-- **(c)** Every finite dimensional irreducible representation of the `q`-Weyl algebra has
+dimension exactly `orderOf q` (which is forced to be nonzero, i.e. `q` is a root of unity, by
+the existence of such a representation): the orbit basis of `exists_orbit_basis` is indexed by
+`Fin (orderOf q)`. -/
+theorem finrank_irreducible_eq_orderOf
+    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (qWeylAlgebra ℂ q) V]
+    [IsScalarTower ℂ (qWeylAlgebra ℂ q) V] [FiniteDimensional ℂ V]
+    [IsSimpleModule (qWeylAlgebra ℂ q) V] :
+    Module.finrank ℂ V = orderOf q := by
+  haveI : Nontrivial V := IsSimpleModule.nontrivial (qWeylAlgebra ℂ q) V
+  haveI : NeZero (orderOf q) :=
+    ⟨(orderOf_pos_iff.mpr (isOfFinOrder_of_nontrivial_finrep q V)).ne'⟩
+  obtain ⟨-, -, b, -, -⟩ := exists_orbit_basis q V (orderOf q) rfl
+  rw [Module.finrank_eq_card_basis b, Fintype.card_fin]
 
 end Etingof.Problem2_7_5

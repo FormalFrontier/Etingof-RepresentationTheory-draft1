@@ -15,8 +15,13 @@ The problem collects several standard facts about tensor products of vector spac
 
 ## Formalization
 
-This file records the cleanly-statable parts (a), (b), (c) and (g). Parts (d)–(f) concern
-symmetric/exterior powers and traces and are deferred to a dedicated follow-up item.
+This file records parts (a), (b), (c) and the determinant-multiplicativity endpoint of (g).
+
+The symmetric and exterior powers of parts (d)–(g) are built in
+`EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow`, which constructs Etingof's
+quotient models `S^n V` and `⋀^n V` of `V^{⊗ n}`, the induced operators `S^n A` and `⋀^n A`, and
+the exterior half of part (d) (basis and dimension `m.choose n`, away from characteristic 2). See
+that file's module docstring for what remains open there.
 
 Bilinear maps `V × W → U` are modelled by `V →ₗ[k] W →ₗ[k] U`. All statements are fully proved.
 -/

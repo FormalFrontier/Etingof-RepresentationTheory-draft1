@@ -60,8 +60,20 @@ is completely reducible by Schur-Weyl duality (Theorem 5.18.4 / 5.22.1); a
 subrepresentation of a semisimple module is semisimple, so `Y` is semisimple.
 
 The finer statement of the book, that the irreducible summands are the `Lλ` and
-are pairwise nonisomorphic, is the highest-weight classification, which requires
-the GL-rep classification infrastructure (cf. `iso_of_formalCharacter_eq_schurPoly`).
+are pairwise nonisomorphic, is the highest-weight classification, and is
+`AlgIrrepGLExhaustive.lean`:
+
+* `exists_directSum_algIrrepGL_of_isAlgebraic` upgrades the bare semisimplicity below
+  to a `GL_n`-equivariant decomposition `ρ.asModule ≃ ⨁_{j < p} L_{λ_j}` into the named
+  irreducibles;
+* `existsUnique_dominantWeight_asModuleEquiv_of_isSimpleModule` is the
+  existence-and-uniqueness classification: each simple algebraic representation is
+  `L_λ` for exactly one dominant integer weight `λ`;
+* `algIrrepGLRepρ_isSimpleModule` and `algIrrepGLRepρ_noniso` supply the other two
+  halves — each `L_λ` is simple, and distinct `λ` give nonisomorphic `L_λ`.
+
+The statement below is retained as the semisimplicity corollary and is the input to
+the decomposition.
 
 **Proof used here.** Rather than the embedding-into-`Sʳ(V ⊗ V*)` argument above
 (one valid approach), this proves complete reducibility via the
