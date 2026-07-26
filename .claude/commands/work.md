@@ -20,8 +20,13 @@ git diff --numstat HEAD -- .claude/
 ```
 
 Any pure-deletion lines under `.claude/` are stale leftovers, not your work: restore them
-with `git checkout HEAD -- .claude/` and then **re-invoke** (not merely `Read`) the
-`agent-worker-flow` skill and this command, since the copies you loaded were the old ones.
+with `git checkout HEAD -- .claude/` and then reload the `agent-worker-flow` skill and this
+command, since the copies you loaded were the old ones.
+
+Reload by `Read`ing those paths. **Do not use the Skill tool for this**: it caches per
+session and answers an already-loaded skill with `instructions unchanged` without re-reading
+the file, so the restored content never reaches you and the "unchanged" reply tells you
+nothing about what is on disk.
 
 ## What to Do
 

@@ -22,8 +22,15 @@ git show HEAD:.claude/skills/agent-worker-flow/SKILL.md | wc -l
 ```
 
 If the counts differ: save the diff (`git diff > /tmp/<uuid>-stale.patch`), restore with
-`git checkout HEAD -- .claude/`, then **re-invoke this skill** (the Skill tool, not `Read`)
-and start over from Step 1. Do the same for your `/command` file.
+`git checkout HEAD -- .claude/`, then reload this skill and start over from Step 1. Do the
+same for your `/command` file.
+
+**Reloading means `Read`, not the Skill tool.** The Skill tool caches per session: invoking
+an already-loaded skill returns `already loaded above; instructions unchanged` and does *not*
+re-read the file, so the restored content never reaches you. Treat that "unchanged" reply as
+telling you nothing about the file on disk. `Read` the restored paths directly instead.
+(2026-07-26, #7873: a session hit exactly this, saw "unchanged" after restoring 477 deleted
+lines, and only got the current guidance by falling back to `Read`.)
 
 This check lives at the top of the file on purpose. The fuller treatment is in Step 2 under
 "If the branch already exists", but every observed truncation left lines 1-70 intact while
@@ -256,7 +263,8 @@ wc -l .claude/skills/agent-worker-flow/SKILL.md
 git show HEAD:.claude/skills/agent-worker-flow/SKILL.md | wc -l
 ```
 
-If the counts differ, restore and **re-invoke the skill** (not just `Read` the file), then
+If the counts differ, restore and reload the skill by `Read`ing it (the Skill tool will just
+reply `instructions unchanged` without re-reading disk; see Step 0), then
 restart the workflow from Step 1. Guidance added since the stale revision is exactly the
 guidance you are most likely to need — e.g. the Step 7 rules on replacing `create-pr`'s
 placeholder PR body and on never running `gh pr merge --auto` yourself.
