@@ -1,3 +1,9 @@
+/-
+Copyright (c) 2026 Kim Morrison. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Kim Morrison
+-/
+
 import EtingofRepresentationTheory.Chapter8.Theorem8_1_1
 import EtingofRepresentationTheory.Chapter8.Definition8_1_2
 import EtingofRepresentationTheory.Chapter8.Theorem8_1_5
@@ -12,6 +18,8 @@ import EtingofRepresentationTheory.Chapter8.TensorOverModule
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3_RightExact
 import EtingofRepresentationTheory.Chapter8.Definition8_2_4
 import EtingofRepresentationTheory.Chapter8.Problem8_2_10
+import EtingofRepresentationTheory.Chapter8.Problem8_2_10_HilbertSyzygy
+import EtingofRepresentationTheory.Chapter8.Problem8_2_10_HilbertSyzygyResolution
 import EtingofRepresentationTheory.Chapter8.KoszulBasis
 import EtingofRepresentationTheory.Chapter8.KoszulHomotopy
 import EtingofRepresentationTheory.Chapter8.KoszulResolution
@@ -41,6 +49,7 @@ import EtingofRepresentationTheory.Chapter8.ExternalTensorComplexLeft
 import EtingofRepresentationTheory.Chapter8.ExternalTensorProjectiveLeft
 import EtingofRepresentationTheory.Chapter8.ExternalTensorRestrictionLeft
 import EtingofRepresentationTheory.Chapter8.ExternalTensorResolutionLeft
+import EtingofRepresentationTheory.Chapter8.KoszulBimoduleShear
 import EtingofRepresentationTheory.Chapter8.HomTensorFGProjective
 import EtingofRepresentationTheory.Chapter8.MapBifunctorPostcomp
 import EtingofRepresentationTheory.Chapter8.Problem8_2_8
