@@ -545,7 +545,241 @@ theorem Theorem_2_1_1_i (d : ℕ+) :
 /-! The existential in `Theorem_2_1_1_i` establishes classification, but the book also names a
 specific representative: homogeneous binary polynomials of degree `d - 1`, with three explicit
 differential operators.  The following statement makes every part of that representative visible
-in the theorem type.  Its proof belongs to Stage 3.3. -/
+in the theorem type. -/
+
+private noncomputable def binaryExponent (d : ℕ+) (i : Fin d) : Fin 2 →₀ ℕ :=
+  Finsupp.single 0 ((d : ℕ) - 1 - (i : ℕ)) + Finsupp.single 1 (i : ℕ)
+
+private lemma binaryExponent_degree (d : ℕ+) (i : Fin d) :
+    (binaryExponent d i).degree = (d : ℕ) - 1 := by
+  rw [Finsupp.degree_eq_sum, Fin.sum_univ_two]
+  simp [binaryExponent]
+  omega
+
+private noncomputable def binaryExponentEquiv (d : ℕ+) :
+    Fin d ≃ {m : Fin 2 →₀ ℕ | m.degree = (d : ℕ) - 1} where
+  toFun i := ⟨binaryExponent d i, binaryExponent_degree d i⟩
+  invFun m := ⟨m.1 1, by
+    have hsum := m.2
+    change m.1.degree = (d : ℕ) - 1 at hsum
+    rw [Finsupp.degree_eq_sum, Fin.sum_univ_two] at hsum
+    have hd : 0 < (d : ℕ) := d.pos
+    omega⟩
+  left_inv i := by
+    apply Fin.ext
+    simp [binaryExponent]
+  right_inv m := by
+    apply Subtype.ext
+    apply Finsupp.ext
+    intro j
+    fin_cases j
+    · have hsum := m.2
+      change m.1.degree = (d : ℕ) - 1 at hsum
+      rw [Finsupp.degree_eq_sum, Fin.sum_univ_two] at hsum
+      simp [binaryExponent]
+      omega
+    · simp [binaryExponent]
+
+private noncomputable def binaryHomogeneousBasis (d : ℕ+) :
+    Module.Basis {m : Fin 2 →₀ ℕ | m.degree = (d : ℕ) - 1} ℂ
+      (MvPolynomial.homogeneousSubmodule (Fin 2) ℂ ((d : ℕ) - 1)) :=
+  (MvPolynomial.basisRestrictSupport ℂ _).map
+    (LinearEquiv.ofEq _ _
+      (MvPolynomial.homogeneousSubmodule_eq_finsupp_supported (Fin 2) ℂ
+        ((d : ℕ) - 1)).symm)
+
+private noncomputable def binaryPolynomialEquiv (d : ℕ+) :
+    (Fin d → ℂ) ≃ₗ[ℂ]
+      (MvPolynomial.homogeneousSubmodule (Fin 2) ℂ ((d : ℕ) - 1)) :=
+  (Pi.basisFun ℂ (Fin d)).equiv (binaryHomogeneousBasis d) (binaryExponentEquiv d)
+
+private lemma binaryPolynomialEquiv_basis (d : ℕ+) (i : Fin d) :
+    ((binaryPolynomialEquiv d (Etingof.Sl2Irrep.e_basis d i) :
+      MvPolynomial.homogeneousSubmodule (Fin 2) ℂ ((d : ℕ) - 1)) :
+        MvPolynomial (Fin 2) ℂ) = MvPolynomial.monomial (binaryExponent d i) 1 := by
+  rw [show Etingof.Sl2Irrep.e_basis d i = (Pi.basisFun ℂ (Fin d)) i by
+    simp [Etingof.Sl2Irrep.e_basis]]
+  rw [binaryPolynomialEquiv, Module.Basis.equiv_apply]
+  rw [binaryHomogeneousBasis, Module.Basis.map_apply]
+  change (((MvPolynomial.basisRestrictSupport ℂ
+    {m : Fin 2 →₀ ℕ | m.degree = (d : ℕ) - 1}) ((binaryExponentEquiv d) i) :
+      MvPolynomial.restrictSupport ℂ _) : MvPolynomial (Fin 2) ℂ) = _
+  have hb : MvPolynomial.basisRestrictSupport ℂ _ ((binaryExponentEquiv d) i) =
+      (MvPolynomial.basisRestrictSupport ℂ _).repr.symm
+        (Finsupp.single ((binaryExponentEquiv d) i) 1) := by
+    apply (MvPolynomial.basisRestrictSupport ℂ _).repr.injective
+    rw [Module.Basis.repr_self, LinearEquiv.apply_symm_apply]
+  rw [hb]
+  change (↑((Finsupp.supportedEquivFinsupp (M := ℂ) (R := ℂ)
+      {m : Fin 2 →₀ ℕ | m.degree = (d : ℕ) - 1}).symm
+        (Finsupp.single ((binaryExponentEquiv d) i) 1)) : (Fin 2 →₀ ℕ) →₀ ℂ) =
+    Finsupp.single (binaryExponent d i) 1
+  rw [Finsupp.supportedEquivFinsupp_symm_single]
+  rfl
+
+private noncomputable def polynomialMap (d : ℕ+) :
+    (Fin d → ℂ) →ₗ[ℂ] MvPolynomial (Fin 2) ℂ :=
+  (Submodule.subtype _).comp (binaryPolynomialEquiv d).toLinearMap
+
+private noncomputable def xPderiv (x deriv : Fin 2) :
+    MvPolynomial (Fin 2) ℂ →ₗ[ℂ] MvPolynomial (Fin 2) ℂ :=
+  (LinearMap.mulLeft ℂ (MvPolynomial.X x)).comp
+    (MvPolynomial.pderiv deriv).toLinearMap
+
+private lemma polynomialMap_basis (d : ℕ+) (i : Fin d) :
+    polynomialMap d (Etingof.Sl2Irrep.e_basis d i) =
+      MvPolynomial.monomial (binaryExponent d i) 1 := by
+  exact binaryPolynomialEquiv_basis d i
+
+private lemma h_action_basis (d : ℕ+) (i : Fin d) :
+    polynomialMap d (Etingof.Sl2Irrep.rhoLieHom d Etingof.Sl2Irrep.sl2_h
+      (Etingof.Sl2Irrep.e_basis d i)) =
+      (xPderiv 0 0 - xPderiv 1 1)
+        (polynomialMap d (Etingof.Sl2Irrep.e_basis d i)) := by
+  rw [← Etingof.Sl2Irrep.lie_eq_rhoLieHom,
+    Etingof.Sl2Irrep.lie_sl2_h_e_basis]
+  simp only [polynomialMap, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
+    Submodule.coe_subtype, map_smul, xPderiv, LinearMap.sub_apply]
+  rw [binaryPolynomialEquiv_basis,
+    LinearMap.mulLeft_apply, LinearMap.mulLeft_apply]
+  have hx0 : MvPolynomial.X (0 : Fin 2) *
+        (MvPolynomial.pderiv (0 : Fin 2)).toLinearMap
+          (MvPolynomial.monomial (binaryExponent d i) (1 : ℂ)) =
+      (binaryExponent d i) 0 •
+        MvPolynomial.monomial (binaryExponent d i) (1 : ℂ) :=
+    MvPolynomial.X_mul_pderiv_monomial
+  have hx1 : MvPolynomial.X (1 : Fin 2) *
+        (MvPolynomial.pderiv (1 : Fin 2)).toLinearMap
+          (MvPolynomial.monomial (binaryExponent d i) (1 : ℂ)) =
+      (binaryExponent d i) 1 •
+        MvPolynomial.monomial (binaryExponent d i) (1 : ℂ) :=
+    MvPolynomial.X_mul_pderiv_monomial
+  rw [hx0, hx1]
+  have hd1 : 1 ≤ (d : ℕ) := d.pos
+  rw [← Nat.cast_smul_eq_nsmul ℂ, ← Nat.cast_smul_eq_nsmul ℂ, ← sub_smul]
+  congr 1
+  simp [binaryExponent]
+  push_cast [Nat.cast_sub (by omega : (i : ℕ) ≤ (d : ℕ) - 1)]
+  rw [Nat.cast_sub hd1]
+  ring
+
+private lemma e_action_basis (d : ℕ+) (i : Fin d) :
+    polynomialMap d (Etingof.Sl2Irrep.rhoLieHom d Etingof.Sl2Irrep.sl2_e
+      (Etingof.Sl2Irrep.e_basis d i)) =
+      xPderiv 0 1 (polynomialMap d (Etingof.Sl2Irrep.e_basis d i)) := by
+  rw [← Etingof.Sl2Irrep.lie_eq_rhoLieHom,
+    Etingof.Sl2Irrep.lie_sl2_e_e_basis d (i : ℕ) i.isLt]
+  simp only [polynomialMap, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
+    Submodule.coe_subtype, map_smul, xPderiv]
+  rw [binaryPolynomialEquiv_basis, binaryPolynomialEquiv_basis,
+    LinearMap.mulLeft_apply]
+  have hp : (MvPolynomial.pderiv (1 : Fin 2)).toLinearMap
+        (MvPolynomial.monomial (binaryExponent d i) (1 : ℂ)) =
+      MvPolynomial.monomial (binaryExponent d i - Finsupp.single 1 1)
+        ((1 : ℂ) * ((binaryExponent d i) 1 : ℕ)) := by
+    change (MvPolynomial.pderiv (1 : Fin 2))
+      (MvPolynomial.monomial (binaryExponent d i) (1 : ℂ)) = _
+    rw [MvPolynomial.pderiv_monomial]
+  rw [hp]
+  change (i : ℂ) • MvPolynomial.monomial
+      (binaryExponent d ⟨(i : ℕ) - 1, by omega⟩) 1 =
+    MvPolynomial.monomial (Finsupp.single 0 1) 1 *
+      MvPolynomial.monomial
+        (binaryExponent d i - Finsupp.single 1 1)
+        ((1 : ℂ) * ((binaryExponent d i) 1 : ℕ))
+  rw [MvPolynomial.monomial_mul]
+  by_cases hi0 : (i : ℕ) = 0
+  · simp [binaryExponent, hi0]
+  · have hexp : Finsupp.single (0 : Fin 2) 1 +
+        (binaryExponent d i - Finsupp.single (1 : Fin 2) 1) =
+        binaryExponent d ⟨(i : ℕ) - 1, by omega⟩ := by
+      apply Finsupp.ext
+      intro j
+      fin_cases j
+      · simp [binaryExponent]
+        omega
+      · simp [binaryExponent]
+    rw [hexp]
+    ext m
+    simp [binaryExponent]
+
+private lemma f_action_basis (d : ℕ+) (i : Fin d) :
+    polynomialMap d (Etingof.Sl2Irrep.rhoLieHom d Etingof.Sl2Irrep.sl2_f
+      (Etingof.Sl2Irrep.e_basis d i)) =
+      xPderiv 1 0 (polynomialMap d (Etingof.Sl2Irrep.e_basis d i)) := by
+  by_cases htop : (i : ℕ) + 1 = (d : ℕ)
+  · rw [← Etingof.Sl2Irrep.lie_eq_rhoLieHom,
+      Etingof.Sl2Irrep.lie_sl2_f_e_basis_top d (i : ℕ) i.isLt htop]
+    simp only [map_zero, xPderiv, polynomialMap, LinearMap.comp_apply,
+      LinearEquiv.coe_toLinearMap, Submodule.coe_subtype]
+    rw [binaryPolynomialEquiv_basis, LinearMap.mulLeft_apply]
+    have hp : (MvPolynomial.pderiv (0 : Fin 2)).toLinearMap
+          (MvPolynomial.monomial (binaryExponent d i) (1 : ℂ)) =
+        MvPolynomial.monomial (binaryExponent d i - Finsupp.single 0 1)
+          ((1 : ℂ) * ((binaryExponent d i) 0 : ℕ)) := by
+      change (MvPolynomial.pderiv (0 : Fin 2))
+        (MvPolynomial.monomial (binaryExponent d i) (1 : ℂ)) = _
+      rw [MvPolynomial.pderiv_monomial]
+    rw [hp]
+    simp [binaryExponent, htop]
+  · have hbelow : (i : ℕ) + 1 < (d : ℕ) := by omega
+    rw [← Etingof.Sl2Irrep.lie_eq_rhoLieHom,
+      Etingof.Sl2Irrep.lie_sl2_f_e_basis d (i : ℕ) hbelow]
+    simp only [polynomialMap, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
+      Submodule.coe_subtype, map_smul, xPderiv]
+    rw [binaryPolynomialEquiv_basis, binaryPolynomialEquiv_basis,
+      LinearMap.mulLeft_apply]
+    have hp : (MvPolynomial.pderiv (0 : Fin 2)).toLinearMap
+          (MvPolynomial.monomial (binaryExponent d i) (1 : ℂ)) =
+        MvPolynomial.monomial (binaryExponent d i - Finsupp.single 0 1)
+          ((1 : ℂ) * ((binaryExponent d i) 0 : ℕ)) := by
+      change (MvPolynomial.pderiv (0 : Fin 2))
+        (MvPolynomial.monomial (binaryExponent d i) (1 : ℂ)) = _
+      rw [MvPolynomial.pderiv_monomial]
+    rw [hp]
+    change ((d : ℂ) - 1 - (i : ℕ)) •
+        MvPolynomial.monomial (binaryExponent d ⟨(i : ℕ) + 1, hbelow⟩) 1 =
+      MvPolynomial.monomial (Finsupp.single 1 1) 1 *
+        MvPolynomial.monomial
+          (binaryExponent d i - Finsupp.single 0 1)
+          ((1 : ℂ) * ((binaryExponent d i) 0 : ℕ))
+    rw [MvPolynomial.monomial_mul]
+    have hexp : Finsupp.single (1 : Fin 2) 1 +
+        (binaryExponent d i - Finsupp.single (0 : Fin 2) 1) =
+        binaryExponent d ⟨(i : ℕ) + 1, hbelow⟩ := by
+      apply Finsupp.ext
+      intro j
+      fin_cases j <;> simp [binaryExponent] <;> omega
+    rw [hexp]
+    ext m
+    simp [binaryExponent]
+    push_cast [Nat.cast_sub (by omega : (i : ℕ) ≤ (d : ℕ) - 1),
+      Nat.cast_sub (d.pos : 1 ≤ (d : ℕ))]
+    ring
+
+private lemma h_action (d : ℕ+) :
+    (polynomialMap d).comp
+        (Etingof.Sl2Irrep.rhoLieHom d Etingof.Sl2Irrep.sl2_h) =
+      (xPderiv 0 0 - xPderiv 1 1).comp (polynomialMap d) := by
+  apply (Pi.basisFun ℂ (Fin d)).ext
+  intro i
+  simpa [LinearMap.comp_apply, Etingof.Sl2Irrep.e_basis] using h_action_basis d i
+
+private lemma e_action (d : ℕ+) :
+    (polynomialMap d).comp
+        (Etingof.Sl2Irrep.rhoLieHom d Etingof.Sl2Irrep.sl2_e) =
+      (xPderiv 0 1).comp (polynomialMap d) := by
+  apply (Pi.basisFun ℂ (Fin d)).ext
+  intro i
+  simpa [LinearMap.comp_apply, Etingof.Sl2Irrep.e_basis] using e_action_basis d i
+
+private lemma f_action (d : ℕ+) :
+    (polynomialMap d).comp
+        (Etingof.Sl2Irrep.rhoLieHom d Etingof.Sl2Irrep.sl2_f) =
+      (xPderiv 1 0).comp (polynomialMap d) := by
+  apply (Pi.basisFun ℂ (Fin d)).ext
+  intro i
+  simpa [LinearMap.comp_apply, Etingof.Sl2Irrep.e_basis] using f_action_basis d i
 
 /-- The standard `d`-dimensional irreducible is the book's homogeneous-polynomial model, and the
 standard `h`, `e`, and `f` actions intertwine with
@@ -571,7 +805,13 @@ theorem Theorem_2_1_1_i_polynomial_model (d : ℕ+) :
               MvPolynomial (Fin 2) ℂ) =
             MvPolynomial.X (1 : Fin 2) *
               MvPolynomial.pderiv (0 : Fin 2) (Φ v : MvPolynomial (Fin 2) ℂ) := by
-  sorry
+  refine ⟨binaryPolynomialEquiv d, ?_⟩
+  intro v
+  have hh := LinearMap.congr_fun (h_action d) v
+  have he := LinearMap.congr_fun (e_action d) v
+  have hf := LinearMap.congr_fun (f_action d) v
+  simpa [polynomialMap, xPderiv, LinearMap.comp_apply, LinearMap.mulLeft_apply] using
+    And.intro hh (And.intro he hf)
 
 /-- **Problem 2.15.1(f): uniqueness of the irreducible representation in each dimension.**
 Every `(lam + 1)`-dimensional irreducible representation `V` of `sl(2, ℂ)` is isomorphic, as

@@ -580,7 +580,14 @@ theorem Theorem_2_1_2_general_arbitrary_field (hconn : QuiverUndirectedConnected
         (∀ v w : Fin n, Nonempty (v ⟶ w) → Nonempty (w ⟶ v) → False) ∧
         (∀ a b : Fin n, Subsingleton (a ⟶ b)) ∧
         IsDynkinDiagram n (quiverUndirectedAdj n)) := by
-  sorry
+  constructor
+  · -- The converse requires the field-independent negative half of Gabriel's theorem.
+    sorry
+  · rintro ⟨hloop, hbi, hsub, hDynkin⟩
+    letI : ∀ a b : Fin n, Subsingleton (a ⟶ b) := hsub
+    have hOrient : IsOrientationOf ‹Quiver (Fin n)› (quiverUndirectedAdj n) :=
+      (isOrientationOf_quiverUndirectedAdj_iff n).mpr ⟨hloop, hbi⟩
+    exact hasFiniteRepresentationType_of_isDynkinDiagram k n hOrient hconn hDynkin
 
 end ArbitraryField
 

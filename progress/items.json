@@ -116,6 +116,13 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": []
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -177,6 +184,18 @@
           "verdict": "covered_elsewhere",
           "lean_decl": "Etingof.DirectSumRepresentation"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.AssociativeAlgebra / Etingof.AssociativeAlgebra.IsUnit",
+        "Etingof.Representation.toAlgHom / Etingof.Representation.ofAlgHom",
+        "Etingof.Subrepresentation",
+        "Etingof.DirectSumRepresentation"
       ]
     },
     "coverage_swept": {
@@ -262,23 +281,33 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.IsIndecomposable.of_isSimpleModule",
+        "Etingof.IsIndecomposable.not_exists_nontrivial_compl",
+        "Etingof.Example_2_3_14.exists_indecomposable_not_simple",
+        "Etingof.Example2_9_12.presentationEquiv"
+      ]
+    },
     "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Theorem2.1.1",
-    "source_regression_note": "Clean rebuild imports the broken Sl2Irrep source used for its irreducible witnesses (#7531).",
     "type": "theorem",
     "title": "Classification of irreducible representations of U(sl(2))",
     "start_page": "6",
     "end_page": "6",
     "start_line": 18,
     "end_line": 25,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage": "covered_full",
-    "coverage_issue": 7531,
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "The classification, complemented-lattice, U(sl(2))/Lie-action preservation bridges, and indecomposable-implies-irreducible proofs are complete. The homogeneous-polynomial realization remains a Stage 3.3 proof obligation.",
+    "notes": "The classification, complemented-lattice, U(sl(2))/Lie-action preservation bridges, homogeneous-polynomial realization, and indecomposable-implies-irreducible proofs are complete.",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -318,6 +347,20 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Theorem_2_1_1_ii_indecomposable"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.sl2InvariantSubspace_iff_ueaInvariantSubspace",
+        "Etingof.sl2Intertwiner_iff_ueaIntertwiner",
+        "Etingof.Theorem_2_1_1_i",
+        "Etingof.Theorem_2_1_1_i_polynomial_model",
+        "Etingof.Theorem_2_1_1_ii",
+        "Etingof.Theorem_2_1_1_ii_indecomposable"
       ]
     },
     "fidelity_note": "All quantifiers, positivity of d, existence, uniqueness up to Lie-module equivalence, the explicit polynomial model and three operator formulas, complete reducibility, and the indecomposable formulation are now present in theorem types. The existential witnesses have fixed positive finrank and irreducibility, the polynomial claim requires an actual linear equivalence intertwining all three actions, and indecomposability includes Nontrivial V, so none of the claims is vacuous.",
@@ -370,6 +413,17 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.QuiverRepresentation",
+        "Etingof.PathAlgebra.isoClassEquiv",
+        "Etingof.HasFiniteRepresentationType"
+      ]
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -384,11 +438,11 @@
     "end_page": "8",
     "start_line": 5,
     "end_line": 7,
-    "status": "partially_proved",
+    "status": "proof_wanted",
     "coverage": "covered_full",
     "fidelity": "verified",
     "needs_statement": false,
-    "fidelity_note": "The algebraically closed case is proved by Theorem_2_1_2_general, including loops, parallel arrows, and opposite arrows. Stage 3.2 added Theorem_2_1_2_general_arbitrary_field for the footnote's stronger arbitrary-field assertion; its statement is faithful and nonvacuous but its proof remains for Stage 3.3. For nonempty graphs (1 ≤ n), Theorem_Dynkin_classification supplies the explicit A/D/E list rather than relying only on the predicate name IsDynkinDiagram; the scope excludes the vacuous zero-vertex bookkeeping case.",
+    "fidelity_note": "The algebraically closed case is proved by Theorem_2_1_2_general, including loops, parallel arrows, and opposite arrows. The arbitrary-field Dynkin-to-finite-type direction is now proved, but the arbitrary-field finite-type-to-Dynkin direction still needs a field-independent negative theorem. For nonempty graphs (1 ≤ n), Theorem_Dynkin_classification supplies the explicit A/D/E list rather than relying only on the predicate name IsDynkinDiagram; the scope excludes the vacuous zero-vertex bookkeeping case.",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -429,6 +483,19 @@
           "reason": "This is a humorous motivational remark with no mathematical truth condition."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "partial",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "proof_wanted",
+      "declarations": [
+        "Etingof.Theorem_2_1_2_general",
+        "Etingof.Theorem_2_1_2_general_orientation",
+        "Etingof.hasFiniteRepresentationType_of_isDynkinDiagram",
+        "Etingof.Theorem_Dynkin_classification"
+      ],
+      "remaining_obligation": "Etingof.Theorem_2_1_2_general_arbitrary_field, forward direction: finite representation type over an arbitrary (possibly finite) field must exclude loops, parallel/opposite arrows, and non-Dynkin underlying graphs. The existing parameter-family and orbit arguments require an infinite/algebraically closed field; a field-independent descent/base-change theorem or explicit unbounded indecomposable families is still required."
     },
     "last_updated": "2026-07-27"
   },
@@ -482,6 +549,18 @@
           "verdict": "non_formalizable",
           "reason": "These are historical and evaluative comments, not precise mathematical propositions."
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Theorem4_1_1_semisimple",
+        "Etingof.IsSimpleModule.of_isIndecomposable_of_isSemisimpleModule",
+        "finrank_dvd_card_of_irreducible",
+        "Etingof.Theorem5_4_3"
       ]
     },
     "coverage_swept": {
