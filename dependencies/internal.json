@@ -159,26 +159,22 @@
   "Chapter2/Discussion_2.6": [
     "Chapter2/Problem2.5.2"
   ],
-  "Chapter2/Discussion_2.7_intro": [
-    "Chapter2/Discussion_2.6"
-  ],
+  "Chapter2/Discussion_2.7_intro": [],
   "Chapter2/Proposition2.7.1": [
     "Chapter2/Discussion_2.7_intro"
   ],
   "Chapter2/Remark2.7.2": [
     "Chapter2/Proposition2.7.1"
   ],
-  "Chapter2/Definition2.7.3": [
-    "Chapter2/Remark2.7.2"
-  ],
+  "Chapter2/Definition2.7.3": [],
   "Chapter2/Discussion_faithful_example": [
-    "Chapter2/Definition2.7.3"
+    "Chapter2/Proposition2.7.1"
   ],
   "Chapter2/Problem2.7.4": [
-    "Chapter2/Discussion_faithful_example"
+    "Chapter2/Proposition2.7.1"
   ],
   "Chapter2/Problem2.7.5": [
-    "Chapter2/Problem2.7.4"
+    "Chapter2/Proposition2.7.1"
   ],
   "Chapter2/Definition2.8.1": [
     "Chapter2/Problem2.7.5"
