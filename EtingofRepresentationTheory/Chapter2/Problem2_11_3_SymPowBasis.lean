@@ -69,10 +69,12 @@ theorem exists_perm_of_map_univ_val_eq {ι I : Type*} [Fintype ι] {f g : ι →
 def tupleSym {I : Type*} {n : ℕ} (g : Fin n → I) : Sym I n :=
   ⟨(Finset.univ : Finset (Fin n)).val.map g, by simp⟩
 
+/-- Coercing a tuple multiset exposes the multiset obtained by mapping the tuple over Fin n. -/
 @[simp]
 lemma tupleSym_coe {I : Type*} {n : ℕ} (g : Fin n → I) :
     (tupleSym g : Multiset I) = (Finset.univ : Finset (Fin n)).val.map g := rfl
 
+/-- Permuting the entries of a tuple does not change its associated multiset. -/
 @[simp]
 lemma tupleSym_comp_perm {I : Type*} {n : ℕ} (g : Fin n → I) (σ : Equiv.Perm (Fin n)) :
     tupleSym (fun i => g (σ i)) = tupleSym g := by
@@ -139,7 +141,7 @@ def symPowLift {n : ℕ} (φ : MultilinearMap k (fun _ : Fin n => V) N)
     SymPow k V n →ₗ[k] N :=
   Submodule.liftQ _ (PiTensorProduct.lift φ) (symRelSubmodule_le_ker _ (lift_permAct φ hφ))
 
-@[simp]
+/-- The descended map agrees with the original multilinear map on pure symmetric tensors. -/
 lemma symPowLift_symTprod {n : ℕ} (φ : MultilinearMap k (fun _ : Fin n => V) N)
     (hφ : ∀ (σ : Equiv.Perm (Fin n)) (f : Fin n → V), φ (fun l => f (σ l)) = φ f)
     (f : Fin n → V) : symPowLift φ hφ (symTprod k V n f) = φ f := by
@@ -187,11 +189,13 @@ variable {k : Type*} [CommRing k] {V : Type*} [AddCommGroup V] [Module k V]
 noncomputable def tensorPowBasis : Module.Basis (Fin n → I) k (TensorPow k V n) :=
   Basis.piTensorProduct fun _ : Fin n => b
 
+/-- The tensor-power basis evaluates to the corresponding pure tensor of basis vectors. -/
 @[simp]
 lemma tensorPowBasis_apply (g : Fin n → I) :
     tensorPowBasis b n g = PiTensorProduct.tprod k fun i => b (g i) :=
   Basis.piTensorProduct_apply _ _
 
+/-- Permuting a tensor-basis vector permutes its tuple of basis indices. -/
 lemma permAct_tensorPowBasis (σ : Equiv.Perm (Fin n)) (g : Fin n → I) :
     permAct σ (tensorPowBasis b n g) = tensorPowBasis b n (g ∘ σ.symm) := by
   simp [Function.comp_def]
@@ -207,17 +211,20 @@ by its multiset of indices. -/
 noncomputable def tensorPowToSymFinsupp : TensorPow k V n →ₗ[k] Sym I n →₀ k :=
   Finsupp.lmapDomain k k tupleSym ∘ₗ (tensorPowBasis b n).repr.toLinearMap
 
+/-- The coefficient map sends a tensor-basis vector to the corresponding Finsupp singleton. -/
 lemma tensorPowToSymFinsupp_basis (g : Fin n → I) :
     tensorPowToSymFinsupp b n (tensorPowBasis b n g) = Finsupp.single (tupleSym g) 1 := by
   rw [tensorPowToSymFinsupp, LinearMap.comp_apply, LinearEquiv.coe_coe,
     Module.Basis.repr_self, Finsupp.lmapDomain_apply, Finsupp.mapDomain_single]
 
+/-- The coefficient map sends a pure tensor of basis vectors to its multiset singleton. -/
 @[simp]
 lemma tensorPowToSymFinsupp_tprod (g : Fin n → I) :
     tensorPowToSymFinsupp b n (PiTensorProduct.tprod k fun i => b (g i))
       = Finsupp.single (tupleSym g) 1 := by
   rw [← tensorPowBasis_apply b n g, tensorPowToSymFinsupp_basis]
 
+/-- The coefficient map is invariant under permutation of tensor factors. -/
 lemma tensorPowToSymFinsupp_permAct (σ : Equiv.Perm (Fin n)) (T : TensorPow k V n) :
     tensorPowToSymFinsupp b n (permAct σ T) = tensorPowToSymFinsupp b n T := by
   have key : tensorPowToSymFinsupp b n ∘ₗ (permAct (k := k) (V := V) σ).toLinearMap
@@ -233,7 +240,7 @@ noncomputable def symPowToFinsupp : SymPow k V n →ₗ[k] Sym I n →₀ k :=
   Submodule.liftQ _ (tensorPowToSymFinsupp b n)
     (symRelSubmodule_le_ker _ (tensorPowToSymFinsupp_permAct b n))
 
-@[simp]
+/-- The descended coefficient map sends a pure symmetric basis tensor to its singleton. -/
 lemma symPowToFinsupp_symTprod (g : Fin n → I) :
     symPowToFinsupp b n (symTprod k V n fun i => b (g i)) = Finsupp.single (tupleSym g) 1 := by
   rw [symTprod_apply, symPowToFinsupp, Submodule.mkQ_apply, Submodule.liftQ_apply,
@@ -243,6 +250,7 @@ lemma symPowToFinsupp_symTprod (g : Fin n → I) :
 noncomputable def symIndexRep : Sym I n → Fin n → I :=
   Function.surjInv tupleSym_surjective
 
+/-- The chosen tuple representative has the prescribed multiset of entries. -/
 @[simp]
 lemma tupleSym_symIndexRep (s : Sym I n) : tupleSym (symIndexRep n s) = s :=
   Function.surjInv_eq tupleSym_surjective s
@@ -252,6 +260,7 @@ vectors realising it. -/
 noncomputable def finsuppToSymPow : (Sym I n →₀ k) →ₗ[k] SymPow k V n :=
   Finsupp.linearCombination k fun s => symTprod k V n fun i => b (symIndexRep n s i)
 
+/-- The reconstruction map sends a Finsupp singleton to the corresponding symmetric tensor. -/
 @[simp]
 lemma finsuppToSymPow_single (s : Sym I n) (c : k) :
     finsuppToSymPow b n (Finsupp.single s c)
@@ -319,3 +328,12 @@ theorem finrank_symPow_eq_multichoose [FiniteDimensional k V] (n : ℕ) :
 end Finrank
 
 end Etingof.Problem2_11_3
+
+-- The leaf names follow Mathlib conventions; the underscore comes solely from the stable
+-- book-number namespace Problem2_11_3, which is part of this project's public API.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_11_3.tupleSym Etingof.Problem2_11_3.symPowLift
+  Etingof.Problem2_11_3.symPowLiftEquiv Etingof.Problem2_11_3.tensorPowBasis
+  Etingof.Problem2_11_3.tensorPowToSymFinsupp Etingof.Problem2_11_3.symPowToFinsupp
+  Etingof.Problem2_11_3.symIndexRep Etingof.Problem2_11_3.finsuppToSymPow
+  Etingof.Problem2_11_3.symPowEquivFinsupp Etingof.Problem2_11_3.symPowBasis
