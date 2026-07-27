@@ -1,4 +1,5 @@
-import Mathlib
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.Inverse
+import Mathlib.NumberTheory.Real.Irrational
 
 /-!
 # Problem 2.13.1: The Dehn invariant and Hilbert's third problem

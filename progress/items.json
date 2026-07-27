@@ -3686,7 +3686,7 @@
     "end_page": "36",
     "start_line": 17,
     "end_line": 17,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "fidelity": "verified",
     "claim_coverage": {
@@ -3712,6 +3712,13 @@
       "proof_integrity": "not_applicable",
       "declarations": []
     },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.13",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This organizational heading makes no mathematical assertion and depends on no earlier project item."
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -3725,7 +3732,7 @@
     "end_page": "37",
     "start_line": 18,
     "end_line": 8,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_partial",
     "fidelity": "verified",
     "lean_decl": "Etingof.Problem2_13_1.irrational_arccos_third_div_pi",
@@ -3796,6 +3803,13 @@
         "Etingof.Problem2_13_1.irrational_arccos_third_div_pi"
       ],
       "scope_note": "Proof integrity applies to the two formalized proof units. The five Dehn-invariant/scissors-congruence units remain explicit intentional omissions under skipped-exercises.md and are not represented by declarations."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.13",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The formalized irrationality proof uses only focused Mathlib inverse-trigonometric and irrational-number modules; it imports no earlier project item. The five intentional geometric omissions introduce no dependency edges."
     },
     "last_updated": "2026-07-27"
   },
