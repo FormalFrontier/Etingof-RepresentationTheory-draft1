@@ -1852,6 +1852,14 @@
           "reason": "This is an organizational description of the subsection and the book's later usage, not a mathematical proposition."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": [],
+      "basis": "The sole Stage 3.2 claim is organizational prose with verdict non_formalizable, so there is no mathematical proof obligation or Lean declaration to certify."
     }
   },
   {
@@ -1882,6 +1890,20 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.TensorProductDef; TensorProduct.tmul; TensorProduct.add_tmul; TensorProduct.tmul_add; TensorProduct.smul_tmul; TensorProduct.tmul_smul"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.TensorProductDef",
+        "TensorProduct.tmul",
+        "TensorProduct.add_tmul",
+        "TensorProduct.tmul_add",
+        "TensorProduct.smul_tmul",
+        "TensorProduct.tmul_smul"
       ]
     }
   },
@@ -1917,6 +1939,20 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Exercise2_11_2.instModule; Etingof.Exercise2_11_2.linearEquivTensorProduct; Etingof.Exercise2_11_2.linearEquivTensorProduct_mk"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Exercise2_11_2.relSet",
+        "Etingof.Exercise2_11_2.relSubgroup",
+        "Etingof.Exercise2_11_2.tensorQuot",
+        "Etingof.Exercise2_11_2.instModule",
+        "Etingof.Exercise2_11_2.linearEquivTensorProduct",
+        "Etingof.Exercise2_11_2.linearEquivTensorProduct_mk"
       ]
     }
   },
@@ -1978,6 +2014,20 @@
           "reason": "As written these are informal identifications without the finite-dimensional hypotheses and explicit equivalences needed for literal theorem statements; the precise finite-dimensional dual-tensor/Hom equivalence appears in Problem 2.11.3(c)."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.PureTensors.t_not_pure",
+        "PiTensorProduct",
+        "Etingof.Problem2_11_3.TensorPow",
+        "TensorProduct.assoc",
+        "Etingof.TensorTypes.TensorType"
+      ],
+      "basis": "The five mathematical declarations covering the formalized or covered-elsewhere claims are sorry-free; the two remaining claims are terminology or informal low-type identifications with no proof obligation."
     }
   },
   {
@@ -2032,6 +2082,18 @@
           "reason": "This is an editorial notation convention rather than a theorem or construction."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.TensorTypes.tensorTypeBasis",
+        "Module.Basis.repr",
+        "Module.Basis.sum_repr"
+      ],
+      "basis": "The basis construction and standard unique-coordinate expansion API are sorry-free; the other three inherited claims are an open-ended derivation prompt and index conventions, so they introduce no proof obligations."
     }
   },
   {
@@ -2071,6 +2133,17 @@
           "reason": "This is an organizational transition rather than a mathematical assertion."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "TensorProduct.map",
+        "TensorProduct.map_tmul"
+      ],
+      "basis": "Mathlib's induced map and its pure-tensor formula are sorry-free; the second claim is only an organizational transition."
     }
   },
   {
@@ -2183,6 +2256,41 @@
           "lean_decl": "Etingof.Problem2_11_3.det_comp_of_extPowMap"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_11_3.exists_bilinear_equiv_linear",
+        "Etingof.Problem2_11_3.exists_basis_tensorProduct",
+        "Etingof.Problem2_11_3.exists_dualTensor_equiv_hom",
+        "Etingof.Problem2_11_3.symRelSubmodule",
+        "Etingof.Problem2_11_3.SymPow",
+        "Etingof.Problem2_11_3.extRelSubmodule",
+        "Etingof.Problem2_11_3.ExtPow",
+        "Etingof.Problem2_11_3.symPowBasis",
+        "Etingof.Problem2_11_3.finrank_symPow",
+        "Etingof.Problem2_11_3.finrank_symPow_eq_multichoose",
+        "Etingof.Problem2_11_3.extPowBasis",
+        "Etingof.Problem2_11_3.finrank_extPow",
+        "Etingof.Problem2_11_3.symPowEquivSymTensor",
+        "Etingof.Problem2_11_3.symPowEquivSymTensorOfCharZero",
+        "Etingof.Problem2_11_3.extPowEquivAltTensor",
+        "Etingof.Problem2_11_3.extPowEquivAltTensorOfCharZero",
+        "Etingof.Problem2_11_3.tensorPowMap",
+        "Etingof.Problem2_11_3.symPowMap",
+        "Etingof.Problem2_11_3.extPowMap",
+        "Etingof.Problem2_11_3.symPowMap_comp",
+        "Etingof.Problem2_11_3.extPowMap_comp",
+        "Etingof.Problem2_11_3.trace_symPowMap",
+        "Etingof.Problem2_11_3.trace_symPowMap_of_charpoly",
+        "Etingof.Problem2_11_3.trace_extPowMap",
+        "Etingof.Problem2_11_3.trace_extPowMap_of_charpoly",
+        "Etingof.Problem2_11_3.extPowMap_top",
+        "Etingof.Problem2_11_3.det_comp_of_extPowMap"
+      ]
     }
   },
   {
@@ -2215,6 +2323,19 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.TensorProductOverRing; Etingof.TensorProductOverRing.tmul; Etingof.TensorProductOverRing.add_tmul; Etingof.TensorProductOverRing.tmul_add; Etingof.TensorProductOverRing.smul_tmul"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.TensorProductOverRing",
+        "Etingof.TensorProductOverRing.tmul",
+        "Etingof.TensorProductOverRing.add_tmul",
+        "Etingof.TensorProductOverRing.tmul_add",
+        "Etingof.TensorProductOverRing.smul_tmul"
       ]
     }
   },
@@ -2250,6 +2371,17 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Exercise2_11_5.exists_module_baseChange"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Exercise2_11_5.instRightAlgebra",
+        "Etingof.Exercise2_11_5.algebraMap_right_apply",
+        "Etingof.Exercise2_11_5.exists_module_baseChange"
       ]
     }
   },
@@ -2312,6 +2444,25 @@
           "reason": "This standalone adjunction is explicitly omitted in skipped-exercises.md; its only downstream application, Frobenius reciprocity, is formalized directly as Etingof.Theorem5_10_1."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Module",
+        "SMulCommClass",
+        "Etingof.TensorProductOverRing"
+      ],
+      "basis": "Proof integrity is certified only for the two non-omitted claim units: the standard commuting-action encoding of a bimodule and the balanced tensor product from Remark 2.11.4. The five inherited intentional_omission claims are not represented as proved declarations and are not certified by this result.",
+      "intentional_omissions": [
+        "induced left action on a balanced tensor product",
+        "induced right action and combined bimodule structure",
+        "balanced-tensor associativity",
+        "the displayed Hom bimodule",
+        "the noncommutative tensor-Hom adjunction"
+      ]
     }
   },
   {
@@ -2341,6 +2492,17 @@
           "verdict": "formalized",
           "lean_decl": "TensorProduct.instModule; TensorProduct.smul_tmul'; TensorProduct.tmul_smul"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "TensorProduct.instModule",
+        "TensorProduct.smul_tmul'",
+        "TensorProduct.tmul_smul"
       ]
     }
   },
