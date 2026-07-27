@@ -2969,6 +2969,13 @@
       "proof_integrity": "not_applicable",
       "declarations": [],
       "basis": "This item is only a section heading and has no Lean provider or proof obligation."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This item is an organizational heading with no Lean provider, so it has no actual internal dependency."
     }
   },
   {
@@ -3028,6 +3035,15 @@
         "Etingof.krull_schmidt_uniqueness"
       ],
       "basis": "Both public endpoints are admission-free constants. The exhaustive module-origin audit also covers four private authored proof-route helpers and 37 compiler-generated proof, match, and simp constants."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.3.8"
+      ],
+      "basis": "The provider retains Definition2_3_8 for the indecomposability predicate. Its direct import of the later Lemma 3.8.2 provider is a forward proof-order edge, excluded from the acyclic backward pedagogical graph and recorded in the Stage 3.4 audit note."
     }
   },
   {
@@ -3091,6 +3107,15 @@
         "Etingof.sum_nilpotent_endo_indecomposable"
       ],
       "basis": "Both authored lemma endpoints are admission-free constants and have no additional compiler-generated constants in their exact provider module."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.3.8"
+      ],
+      "basis": "The provider's only project import is Definition2_3_8, which supplies the indecomposability predicate used by both lemma endpoints."
     }
   },
   {
@@ -3148,6 +3173,13 @@
         "Etingof.krull_schmidt_uniqueness"
       ],
       "basis": "The discussion's complete exchange-and-induction argument is implemented inside the shared uniqueness endpoint. Its private proof-route helpers and generated constants are exhaustively audited on the theorem item."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This discussion has no provider of its own; its proof is contained in the shared Theorem 3.8.1 endpoint, so it introduces no direct provider dependency edge."
     }
   },
   {
@@ -3208,6 +3240,16 @@
         "Etingof.Problem3_8_3.krull_schmidt_uniqueness"
       ],
       "basis": "All four arbitrary-field wrapper endpoints are authored, admission-free constants; the exact provider emits no additional generated constants."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Theorem3.8.1",
+        "Chapter3/Lemma3.8.2"
+      ],
+      "basis": "The wrapper provider directly retains both exact theorem and lemma providers; all four arbitrary-field wrappers cite their declarations."
     }
   },
   {
@@ -3350,6 +3392,15 @@
         "Etingof.Problem3_8_4.baseChange_alinEquiv_pow"
       ],
       "basis": "All 42 public declarations across the eight-provider base-change, cancellation, descent, finite, functoriality, power, and general endpoint chain are admission-free. The exhaustive audit additionally covers nine private authored helpers and 82 compiler-generated proof, match, simp, and equation constants."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Problem3.8.3"
+      ],
+      "basis": "The cancellation provider retains Problem3_8_3 for arbitrary-field Krull-Schmidt. All other project imports in the eight-provider chain are intra-item edges; the unused Problem3_8_3 import in the base setup provider was removed after an isolated omission test."
     }
   },
   {
@@ -3477,6 +3528,15 @@
         "Etingof.Problem3_8_5.periodic_sq_linearEquiv_antiperiodic_sq"
       ],
       "basis": "All 29 public declarations supporting the literal continuous-function counterexample are admission-free. The exhaustive audit also covers one private authored helper and 27 generated structure-proof and simplifier constants."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.3.8"
+      ],
+      "basis": "The counterexample provider's sole project import is Definition2_3_8, which supplies the indecomposability predicate used by both module endpoints."
     }
   },
   {
@@ -3540,6 +3600,15 @@
         "Etingof.krull_schmidt_uniqueness_finiteLength"
       ],
       "basis": "All five public finite-length endpoints are admission-free. Four private authored induction/exchange helpers and 34 generated proof, match, and simp constants were also included in the exhaustive audit."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.3.8"
+      ],
+      "basis": "The finite-length provider's sole project import is Definition2_3_8, which supplies the shared indecomposability predicate. It has no direct provider edge to the separate Problem 3.8.5 counterexample."
     }
   },
   {

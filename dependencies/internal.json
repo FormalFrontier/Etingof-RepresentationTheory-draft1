@@ -483,29 +483,26 @@
   "Chapter3/Discussion_after_Theorem3.7.1": [
     "Chapter3/Theorem3.7.1"
   ],
-  "Chapter3/Introduction_to_3.8": [
-    "Chapter3/Discussion_after_Theorem3.7.1"
-  ],
+  "Chapter3/Introduction_to_3.8": [],
   "Chapter3/Theorem3.8.1": [
-    "Chapter3/Introduction_to_3.8"
+    "Chapter2/Definition2.3.8"
   ],
   "Chapter3/Lemma3.8.2": [
-    "Chapter3/Theorem3.8.1"
+    "Chapter2/Definition2.3.8"
   ],
-  "Chapter3/Discussion_proof_of_Theorem3.8.1": [
-    "Chapter3/Lemma3.8.2"
-  ],
+  "Chapter3/Discussion_proof_of_Theorem3.8.1": [],
   "Chapter3/Problem3.8.3": [
-    "Chapter3/Discussion_proof_of_Theorem3.8.1"
+    "Chapter3/Theorem3.8.1",
+    "Chapter3/Lemma3.8.2"
   ],
   "Chapter3/Problem3.8.4": [
     "Chapter3/Problem3.8.3"
   ],
   "Chapter3/Problem3.8.5": [
-    "Chapter3/Problem3.8.4"
+    "Chapter2/Definition2.3.8"
   ],
   "Chapter3/Remark3.8.6": [
-    "Chapter3/Problem3.8.5"
+    "Chapter2/Definition2.3.8"
   ],
   "Chapter3/Introduction_to_3.9": [
     "Chapter3/Remark3.8.6"
