@@ -745,6 +745,23 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.4",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Discussion2_4.leftIdeal_eq_regularSubrepresentation",
+        "Etingof.Discussion2_4.rightIdeal_eq_op_regularSubrepresentation",
+        "Etingof.Discussion2_4.mem_toLeft_iff",
+        "Etingof.Discussion2_4.mem_toRight_iff",
+        "Etingof.Discussion2_4.leftGenerated_le_iff",
+        "Etingof.Discussion2_4.rightGenerated_le_iff",
+        "Etingof.Discussion2_4.generated_le_iff",
+        "Etingof.Discussion2_4.mem_generated_iff_mem_addSubgroup_closure",
+        "Etingof.Discussion2_4.mem_ker_iff"
+      ]
+    },
     "last_updated": "2026-07-27",
     "coverage_swept": {
       "wave": 1,
@@ -793,6 +810,17 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Problem2_4_1.exists_maximal_twoSided_ideal"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.4",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_4_1.exists_maximal_left_ideal",
+        "Etingof.Problem2_4_1.exists_maximal_right_ideal",
+        "Etingof.Problem2_4_1.exists_maximal_twoSided_ideal"
       ]
     }
   },
