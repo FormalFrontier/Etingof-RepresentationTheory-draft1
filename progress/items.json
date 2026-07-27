@@ -204,6 +204,42 @@
     "start_line": 11,
     "end_line": 15,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.2",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A field is algebraically closed exactly when every nonconstant polynomial over it has a root.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.isAlgClosed_iff_nonconstant_polynomial_has_root"
+        },
+        {
+          "claim": "The complex numbers are algebraically closed.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.complex_isAlgClosed"
+        },
+        {
+          "claim": "For prime p, ZMod p models the field F_p and has p elements.",
+          "verdict": "formalized",
+          "lean_decl": "example (p) [Fact p.Prime] : Field (ZMod p); Etingof.card_zmod"
+        },
+        {
+          "claim": "The algebraic closure of F_p is algebraically closed and has characteristic p.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.algebraicClosure_zmod_isAlgClosed; Etingof.algebraicClosure_zmod_charP"
+        }
+      ]
+    },
+    "coverage_note": "All mathematical claims in the introductory paragraph are explicit: the root/splitting bridge, the complex example, and the positive-characteristic algebraic-closure example.",
+    "last_updated": "2026-07-27",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -220,8 +256,26 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] Book Definition 2.2.1 defines a NON-UNITAL associative algebra: a vector space with bilinear multiplication satisfying associativity only. The Lean abbrev uses [Ring A] which requires a mul",
-    "fidelity_issue": 5616
+    "coverage": "covered_full",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.2",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "An associative algebra over k is a k-vector space with an associative bilinear multiplication, without a unit assumption.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.AssociativeAlgebra"
+        }
+      ]
+    },
+    "fidelity_note": "The custom class is genuinely non-unital and records multiplication, associativity, additivity, and scalar compatibility in both arguments. No class data or definition body is sorried; closed issue #5616 describes the superseded unital encoding.",
+    "coverage_note": "The carrier assumptions and every bilinearity/associativity component of the source definition are fields or parameters of Etingof.AssociativeAlgebra.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Definition2.2.2",
@@ -234,9 +288,27 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] Book Definition 2.2.2 DEFINES the concept of 'unit in an associative algebra'. The Lean formalization is a theorem one_isUnit : [Ring A] → (a : A) → 1 * a = a ∧ a * 1 = a, which merely demo",
-    "fidelity_decl": "theorem one_isUnit (A) [Ring A] (a) : 1 * a = a ∧ a * 1 = a",
-    "fidelity_issue": 5617
+    "coverage": "covered_full",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.2",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A unit in a possibly non-unital associative algebra is an element acting as a left and right identity on every element.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.AssociativeAlgebra.IsUnit"
+        }
+      ]
+    },
+    "fidelity_note": "IsUnit is a predicate on an arbitrary element of the non-unital structure and quantifies both identity laws over every algebra element. It does not presuppose a Ring or canonical one; closed issue #5617 describes the superseded vacuous theorem.",
+    "fidelity_decl": "Etingof.AssociativeAlgebra.IsUnit",
+    "coverage_note": "The definition records both source conjuncts e*a = a and a*e = a for every a.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Proposition2.2.3",
@@ -250,8 +322,24 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "coverage_note": "The exact non-unital uniqueness claim is public as AssociativeAlgebra.isUnit_unique; the canonical-unit wrapper is a convenient specialization.",
-    "last_updated": "2026-07-22"
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.2",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "If a unit exists in a possibly non-unital associative algebra, it is unique.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Proposition_2_2_3"
+        }
+      ]
+    },
+    "coverage_note": "The item-local theorem now compares two arbitrary elements satisfying Definition 2.2.2 and reuses the exact non-unital uniqueness proof AssociativeAlgebra.isUnit_unique.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Discussion_after_Proposition2.2.3",
@@ -262,6 +350,27 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
+    "coverage": "non_formalizable",
+    "fidelity": "verified",
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.2",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "From this point onward, the word algebra follows the author's convention of meaning a unital associative algebra.",
+          "verdict": "non_formalizable",
+          "reason": "This is an editorial notation convention rather than a mathematical assertion; later declarations implement it with Mathlib's unital Algebra typeclass."
+        }
+      ]
+    },
+    "coverage_note": "The sole sentence is an editorial convention, and its implementation is checked in the subsequent unital algebra items.",
+    "last_updated": "2026-07-27",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -279,8 +388,54 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "coverage_note": "The examples use the standard public Mathlib algebra models for the base field, polynomial and multivariable polynomial algebras, endomorphisms, free algebras, and group algebras. Independent Opus review rejected extra project-local wrappers as packaging rather than missing mathematical content.",
-    "last_updated": "2026-07-22"
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.2",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The base field k is an algebra over itself.",
+          "verdict": "formalized",
+          "lean_decl": "example (k) [CommRing k] : Algebra k k"
+        },
+        {
+          "claim": "The polynomial ring k[x_1, ..., x_n] is a k-algebra.",
+          "verdict": "formalized",
+          "lean_decl": "example (k) (n : Nat) : Algebra k (MvPolynomial (Fin n) k)"
+        },
+        {
+          "claim": "End_k(V) is a k-algebra whose multiplication is composition.",
+          "verdict": "formalized",
+          "lean_decl": "examples for Algebra k (Module.End k V) and f * g = f.comp g"
+        },
+        {
+          "claim": "The free algebra k<x_1, ..., x_n> is a k-algebra with a basis indexed by words.",
+          "verdict": "formalized",
+          "lean_decl": "example for Algebra k (FreeAlgebra k (Fin n)); FreeAlgebra.basisFreeMonoid"
+        },
+        {
+          "claim": "Multiplication of free-algebra word-basis elements is concatenation.",
+          "verdict": "formalized",
+          "lean_decl": "example using FreeAlgebra.equivMonoidAlgebraFreeMonoid and MonoidAlgebra.single_mul_single"
+        },
+        {
+          "claim": "The group algebra k[G] is a k-algebra with basis {a_g | g in G}.",
+          "verdict": "formalized",
+          "lean_decl": "example for Algebra k (MonoidAlgebra k G); Finsupp.basisSingleOne"
+        },
+        {
+          "claim": "The group-algebra basis multiplication satisfies a_g a_h = a_(gh).",
+          "verdict": "formalized",
+          "lean_decl": "example using MonoidAlgebra.single_mul_single"
+        }
+      ]
+    },
+    "coverage_note": "All five examples and the stated multiplication/basis descriptions are machine checked. In particular, the polynomial example now uses Fin n variables rather than only one variable.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Definition2.2.5",
@@ -294,8 +449,24 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "coverage_note": "CommRing together with Algebra records the source definition under the explicit preceding convention that all subsequent algebras are unital; this convention invalidates the withdrawn false positive #7464.",
-    "last_updated": "2026-07-22"
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.2",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A unital algebra A is commutative when ab = ba for every a and b.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.CommutativeAlgebra (via CommRing.mul_comm)"
+        }
+      ]
+    },
+    "coverage_note": "Under the immediately preceding unital convention, CommRing together with Algebra records exactly the universal multiplication-commutativity condition; no nontrivial representation bridge is needed.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Discussion_commutativity_examples",
@@ -323,8 +494,24 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "coverage_note": "The public AlgHom abbreviation exactly records the source's linearity, multiplicativity, and unit-preservation conditions under the active unital-algebra convention.",
-    "last_updated": "2026-07-22"
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.2",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "An algebra homomorphism f : A -> B is k-linear, multiplicative, and preserves one.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.AlgebraHom (Mathlib AlgHom)"
+        }
+      ]
+    },
+    "coverage_note": "AlgHom records every source component: k-linearity, f(xy) = f(x)f(y), and f(1) = 1. The representations are definitionally the same under the active unital convention.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Definition2.3.1",
