@@ -44,7 +44,9 @@ noncomputable def jordanTensorOp (lam mu : ℕ) :
   TensorProduct.map (jordanShift (lam + 1)) LinearMap.id
     + TensorProduct.map LinearMap.id (jordanShift (mu + 1))
 
-theorem jordanTensorOp_tmul (lam mu : ℕ) (a : Fin (lam + 1) → ℂ) (b : Fin (mu + 1) → ℂ) :
+/-- The tensor-sum Jordan operator on a pure tensor. -/
+theorem jordanTensorOp_tmul (lam mu : ℕ) (a : Fin (lam + 1) → ℂ)
+    (b : Fin (mu + 1) → ℂ) :
     jordanTensorOp lam mu (a ⊗ₜ[ℂ] b)
       = jordanShift (lam + 1) a ⊗ₜ[ℂ] b + a ⊗ₜ[ℂ] jordanShift (mu + 1) b := by
   simp only [jordanTensorOp, LinearMap.add_apply, TensorProduct.map_tmul, LinearMap.id_coe,
@@ -57,6 +59,7 @@ noncomputable def cgJordan (lam mu : ℕ) :
   DirectSum.toModule ℂ _ _
     (fun k => (DirectSum.lof ℂ _ _ k).comp (jordanShift (lam + mu - 2 * (k : ℕ) + 1)))
 
+/-- The block-diagonal Jordan operator on one direct-sum summand. -/
 theorem cgJordan_lof (lam mu : ℕ) (k : Fin (min lam mu + 1))
     (w : Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ) :
     cgJordan lam mu (DirectSum.lof ℂ _ _ k w)
@@ -71,6 +74,7 @@ noncomputable def cgScale (lam mu : ℕ) :
       (⨁ k : Fin (min lam mu + 1), (Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ)) :=
   DirectSum.congrLinearEquiv (fun k => factScale (lam + mu - 2 * (k : ℕ) + 1))
 
+/-- The blockwise factorial rescaling on one direct-sum summand. -/
 theorem cgScale_lof (lam mu : ℕ) (k : Fin (min lam mu + 1))
     (w : Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ) :
     cgScale lam mu (DirectSum.lof ℂ _ _ k w)

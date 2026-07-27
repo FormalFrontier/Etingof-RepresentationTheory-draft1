@@ -39,6 +39,8 @@ variable {V : Type*} [AddCommGroup V] [Module ℂ V]
 
 /-- The space `V` equipped with the `sl(2)`-module structure defined by the representation
 `ρ` (the pullback along `ρ` of the tautological `Module.End`-action, `⁅x, m⁆ = ρ x m`). -/
+-- The index `ρ` intentionally distinguishes the module structures even though the carrier
+-- reduces to `V`.
 @[nolint unusedArguments]
 def RepOf (_ρ : sl2 →ₗ⁅ℂ⁆ Module.End ℂ V) : Type _ := V
 
@@ -48,9 +50,11 @@ variable (ρ : sl2 →ₗ⁅ℂ⁆ Module.End ℂ V)
 
 instance : AddCommGroup (RepOf ρ) := inferInstanceAs (AddCommGroup V)
 instance : Module ℂ (RepOf ρ) := inferInstanceAs (Module ℂ V)
+/-- Finite dimensionality is preserved when a representation is bundled as `RepOf`. -/
 instance [FiniteDimensional ℂ V] : FiniteDimensional ℂ (RepOf ρ) :=
   inferInstanceAs (FiniteDimensional ℂ V)
 noncomputable instance : LieRingModule sl2 (RepOf ρ) := LieRingModule.compLieHom V ρ
+/-- The scalar-compatible Lie action on `RepOf ρ`. -/
 instance : LieModule ℂ sl2 (RepOf ρ) := LieModule.compLieHom V ρ
 
 /-- The raising operator of `RepOf ρ` is exactly `ρ e`. -/

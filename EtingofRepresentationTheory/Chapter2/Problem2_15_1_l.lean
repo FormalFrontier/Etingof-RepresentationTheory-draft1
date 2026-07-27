@@ -56,6 +56,7 @@ noncomputable def jordanShift (n : ℕ) : Module.End ℂ (Fin n → ℂ) where
   map_smul' c v := by
     ext k; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split <;> simp
 
+/-- Evaluation formula for the nilpotent Jordan shift. -/
 theorem jordanShift_apply (n : ℕ) (v : Fin n → ℂ) (k : Fin n) :
     jordanShift n v k = if h : (k : ℕ) + 1 < n then v ⟨(k : ℕ) + 1, h⟩ else 0 := rfl
 
@@ -107,6 +108,7 @@ theorem jordanShift_pow_eq_zero (n : ℕ) : jordanShift n ^ n = 0 := by
   funext k
   rw [jordanShift_pow_apply, dif_neg (by omega), LinearMap.zero_apply, Pi.zero_apply]
 
+/-- The Jordan shift on `Fin n → ℂ` is nilpotent. -/
 theorem jordanShift_isNilpotent (n : ℕ) : IsNilpotent (jordanShift n) :=
   ⟨n, jordanShift_pow_eq_zero n⟩
 
@@ -199,9 +201,11 @@ noncomputable def factScale (n : ℕ) : (Fin n → ℂ) ≃ₗ[ℂ] (Fin n → �
     have hfac : ((k : ℕ).factorial : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero _)
     field_simp
 
+/-- The factorial rescaling acts diagonally in the standard basis. -/
 theorem factScale_apply (n : ℕ) (v : Fin n → ℂ) (k : Fin n) :
     factScale n v k = ((k : ℕ).factorial : ℂ) * v k := rfl
 
+/-- The inverse factorial rescaling acts by reciprocal factorials. -/
 theorem factScale_symm_apply (n : ℕ) (v : Fin n → ℂ) (k : Fin n) :
     (factScale n).symm v k = (((k : ℕ).factorial : ℂ))⁻¹ * v k := rfl
 
@@ -231,6 +235,7 @@ operator `ρ(e)` is the standard Jordan block `J_{0,n}` (see `sl2RepOfBlock_e`).
 noncomputable def sl2RepOfBlock (n : ℕ) : sl2 →ₗ⁅ℂ⁆ Module.End ℂ (Fin n → ℂ) :=
   ((factScale n).conjAlgEquiv ℂ : _ →ₐ[ℂ] _).toLieHom.comp (rhoLieHom n)
 
+/-- Evaluation of the representation conjugated by factorial rescaling. -/
 theorem sl2RepOfBlock_apply (n : ℕ) (x : sl2) :
     sl2RepOfBlock n x = (factScale n).conjAlgEquiv ℂ (rhoLieHom n x) := rfl
 
@@ -315,6 +320,7 @@ noncomputable def sl2Pi {ι : Type*} {W : ι → Type*}
       LieRing.of_associative_ring_bracket, LinearMap.sub_apply, Pi.sub_apply,
       Module.End.mul_apply]
 
+/-- The product representation acts componentwise. -/
 @[simp]
 theorem sl2Pi_apply {ι : Type*} {W : ι → Type*}
     [∀ i, AddCommGroup (W i)] [∀ i, Module ℂ (W i)]
@@ -335,6 +341,7 @@ noncomputable def sl2Transport {V W : Type*} [AddCommGroup V] [Module ℂ V]
     (ρ : sl2 →ₗ⁅ℂ⁆ Module.End ℂ W) : sl2 →ₗ⁅ℂ⁆ Module.End ℂ V :=
   (e.symm.lieConj.toLieHom).comp ρ
 
+/-- Evaluation of a representation transported along a linear equivalence. -/
 theorem sl2Transport_apply {V W : Type*} [AddCommGroup V] [Module ℂ V]
     [AddCommGroup W] [Module ℂ W] (e : V ≃ₗ[ℂ] W)
     (ρ : sl2 →ₗ⁅ℂ⁆ Module.End ℂ W) (x : sl2) :
@@ -387,6 +394,7 @@ open scoped DirectSum
 noncomputable def blockCoeffMap (e : ℕ) : Polynomial ℂ →ₗ[ℂ] (Fin e → ℂ) :=
   LinearMap.pi fun k : Fin e => Polynomial.lcoeff ℂ (e - 1 - (k : ℕ))
 
+/-- The block coefficient map reads coefficients in descending degree order. -/
 @[simp] theorem blockCoeffMap_apply (e : ℕ) (p : Polynomial ℂ) (k : Fin e) :
     blockCoeffMap e p k = p.coeff (e - 1 - (k : ℕ)) := rfl
 
@@ -410,7 +418,8 @@ noncomputable def blockForward (e : ℕ) :
   Submodule.liftQ ((Submodule.span (Polynomial ℂ) {(X : Polynomial ℂ) ^ e}).restrictScalars ℂ)
     (blockCoeffMap e) (blockSpan_le_ker_blockCoeffMap e)
 
-@[simp] theorem blockForward_mk (e : ℕ) (p : Polynomial ℂ) :
+/-- The forward block map on a polynomial representative. -/
+theorem blockForward_mk (e : ℕ) (p : Polynomial ℂ) :
     blockForward e (Submodule.Quotient.mk p) = blockCoeffMap e p := rfl
 
 /-- The inverse block map: a coefficient vector `v` to the truncated polynomial
@@ -418,11 +427,13 @@ noncomputable def blockForward (e : ℕ) :
 noncomputable def blockPolyOf (e : ℕ) : (Fin e → ℂ) →ₗ[ℂ] Polynomial ℂ :=
   ∑ j : Fin e, (Polynomial.monomial (e - 1 - (j : ℕ))).comp (LinearMap.proj j)
 
+/-- The polynomial reconstructed from a vector of descending coefficients. -/
 theorem blockPolyOf_apply (e : ℕ) (v : Fin e → ℂ) :
     blockPolyOf e v = ∑ j : Fin e, Polynomial.monomial (e - 1 - (j : ℕ)) (v j) := by
   simp only [blockPolyOf, LinearMap.coe_sum, Finset.sum_apply, LinearMap.comp_apply,
     LinearMap.proj_apply]
 
+/-- A coefficient of the polynomial reconstructed from a block vector. -/
 theorem blockPolyOf_coeff (e : ℕ) (v : Fin e → ℂ) (d : ℕ) :
     (blockPolyOf e v).coeff d = ∑ j : Fin e, (if e - 1 - (j : ℕ) = d then v j else 0) := by
   rw [blockPolyOf_apply, Polynomial.finsetSum_coeff]
@@ -433,9 +444,11 @@ noncomputable def blockBackward (e : ℕ) :
     (Fin e → ℂ) →ₗ[ℂ] (Polynomial ℂ ⧸ Submodule.span (Polynomial ℂ) {(X : Polynomial ℂ) ^ e}) :=
   ((Submodule.mkQ _).restrictScalars ℂ).comp (blockPolyOf e)
 
+/-- The backward block map is represented by `blockPolyOf`. -/
 @[simp] theorem blockBackward_apply (e : ℕ) (v : Fin e → ℂ) :
     blockBackward e v = Submodule.Quotient.mk (blockPolyOf e v) := rfl
 
+/-- The forward block map is a left inverse of the backward map. -/
 theorem blockForward_backward (e : ℕ) (v : Fin e → ℂ) :
     blockForward e (blockBackward e v) = v := by
   ext k
@@ -448,6 +461,7 @@ theorem blockForward_backward (e : ℕ) (v : Fin e → ℂ) :
     exact Fin.ext (by omega)
   · intro h; exact absurd (Finset.mem_univ k) h
 
+/-- The backward block map is a left inverse of the forward map. -/
 theorem blockBackward_forward (e : ℕ)
     (q : Polynomial ℂ ⧸ Submodule.span (Polynomial ℂ) {(X : Polynomial ℂ) ^ e}) :
     blockBackward e (blockForward e q) = q := by
@@ -481,6 +495,7 @@ noncomputable def blockQuotEquiv (e : ℕ) :
     left_inv := blockBackward_forward e
     right_inv := blockForward_backward e }
 
+/-- The block quotient equivalence agrees with the forward block map. -/
 @[simp] theorem blockQuotEquiv_apply (e : ℕ)
     (q : Polynomial ℂ ⧸ Submodule.span (Polynomial ℂ) {(X : Polynomial ℂ) ^ e}) :
     blockQuotEquiv e q = blockForward e q := rfl
