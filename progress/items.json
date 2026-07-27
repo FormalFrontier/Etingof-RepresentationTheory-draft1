@@ -1087,6 +1087,18 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.5",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.QuotientAlgebra",
+        "Etingof.quotientAlgHom_eq_iff_sub_mem",
+        "Etingof.quotientAlgHom",
+        "Etingof.quotientAlgHom_mul"
+      ]
+    },
     "last_updated": "2026-07-27"
   },
   {
@@ -1148,6 +1160,21 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.5",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.quotientAlgHom_mul_eq_of_sub_mem_left",
+        "Etingof.quotientAlgHom_mul_eq_of_sub_mem_right",
+        "Etingof.quotientAlgebraStructure",
+        "Etingof.quotientRepresentation",
+        "Etingof.quotientMk_smul",
+        "Etingof.RegularLeftIdeal",
+        "Etingof.regularQuotientRepresentation"
+      ]
+    },
     "last_updated": "2026-07-27"
   },
   {
@@ -1183,6 +1210,15 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Problem2_5_1.quotient_isIndecomposable"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.5",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_5_1.quotient_isIndecomposable"
       ]
     }
   },
@@ -1258,6 +1294,24 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Problem2_5_2.PartC.indecomposable_not_cyclic"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.5",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_5_2.IsCyclicVector",
+        "Etingof.Problem2_5_2.IsCyclic",
+        "Etingof.Problem2_5_2.irreducible_iff_forall_cyclic",
+        "Etingof.Problem2_5_2.cyclic_iff_isoQuotient",
+        "Etingof.Problem2_5_2.PartC.I₂_eq_span_homogeneous_ge_two",
+        "Etingof.Problem2_5_2.PartC.algEquiv",
+        "Etingof.Problem2_5_2.PartC.basis",
+        "Etingof.Coregular",
+        "Etingof.Coregular.toDual_smul",
+        "Etingof.Problem2_5_2.PartC.indecomposable_not_cyclic"
       ]
     },
     "last_updated": "2026-07-27"
