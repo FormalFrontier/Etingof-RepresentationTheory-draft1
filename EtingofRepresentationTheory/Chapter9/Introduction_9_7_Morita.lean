@@ -4,6 +4,7 @@ import EtingofRepresentationTheory.Chapter9.Definition9_7_1
 import EtingofRepresentationTheory.Chapter2.Problem2_3_17
 import EtingofRepresentationTheory.Infrastructure.FGModuleCatEnoughProjectives
 import EtingofRepresentationTheory.Infrastructure.MoritaFGRestriction
+import EtingofRepresentationTheory.Infrastructure.MoritaFmodProgenerator
 import Mathlib.Algebra.Category.FGModuleCat.Colimits
 import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
 import Mathlib.CategoryTheory.Conj
@@ -177,6 +178,87 @@ noncomputable def equivalenceEndRingEquiv
     Functor.additive_of_preserves_binary_products E.functor
   exact { E.fullyFaithfulFunctor.mulEquivEnd X with
     map_add' := fun _ _ => E.functor.map_add }
+
+/-! ## The finite Morita reconstruction package -/
+
+/-- An equivalence of finitely generated module categories determines a finite progenerator on
+the target side together with the expected endomorphism-ring identification.
+
+Concretely, the progenerator is the image of the regular `A`-module.  Transporting the finite
+progenerator structure supplies finite generator covers on the `B` side, while full faithfulness
+identifies its opposite endomorphism ring with `A`.  This is the complete *finite* algebraic
+input to the converse Morita theorem; what remains is the general theorem that a finite
+progenerator `P` induces an equivalence
+`ModuleCat B ≌ ModuleCat (End P)ᵐᵒᵖ`. -/
+theorem fmodEquiv_exists_progenerator_endRingEquiv {A B : Type u}
+    [Ring A] [Ring B] (E : FGModuleCat.{u} A ≌ FGModuleCat.{u} B) :
+    ∃ P : FGModuleCat.{u} B,
+      IsProgenerator P ∧ Nonempty (A ≃+* (End P)ᵐᵒᵖ) := by
+  letI : HasFiniteBiproducts (FGModuleCat.{u} A) :=
+    HasFiniteBiproducts.of_hasFiniteCoproducts
+  letI : HasFiniteBiproducts (FGModuleCat.{u} B) :=
+    HasFiniteBiproducts.of_hasFiniteCoproducts
+  let R := fgModuleCatRegular A
+  let P := E.functor.obj R
+  have hR : IsProgenerator R := fgModuleCatRegular_isProgenerator A
+  have hP : IsProgenerator P := hR.map_equivalence E
+  let endEquiv : End R ≃+* End P := equivalenceEndRingEquiv E R
+  let ringEquiv : A ≃+* (End P)ᵐᵒᵖ :=
+    (ringEquiv_fgModuleCatRegularEndOp A).trans (RingEquiv.op endEquiv)
+  exact ⟨P, hP, ⟨ringEquiv⟩⟩
+
+/-- The strengthened reconstruction statement for the exact regular-image object introduced in
+`Infrastructure.MoritaFmodProgenerator`.  Over a left-Noetherian source, it simultaneously
+records the original projective-separator result, the stronger finite-generator-cover
+property, and the endomorphism-ring identification. -/
+theorem fmodEquiv_regular_reconstruction {A B : Type u}
+    [Ring A] [IsNoetherianRing A] [Ring B]
+    (E : FGModuleCat.{u} A ≌ FGModuleCat.{u} B) :
+    let P := E.functor.obj (FGModuleCat.of.{u} A A)
+    IsFmodProgenerator P ∧ IsProgenerator P ∧
+      Nonempty (A ≃+* (End P)ᵐᵒᵖ) := by
+  letI : HasFiniteBiproducts (FGModuleCat.{u} A) :=
+    HasFiniteBiproducts.of_hasFiniteCoproducts
+  letI : HasFiniteBiproducts (FGModuleCat.{u} B) :=
+    HasFiniteBiproducts.of_hasFiniteCoproducts
+  let R := fgModuleCatRegular A
+  let P := E.functor.obj R
+  have hR : IsProgenerator R := fgModuleCatRegular_isProgenerator A
+  have hP : IsProgenerator P := hR.map_equivalence E
+  let endEquiv : End R ≃+* End P := equivalenceEndRingEquiv E R
+  let ringEquiv : A ≃+* (End P)ᵐᵒᵖ :=
+    (ringEquiv_fgModuleCatRegularEndOp A).trans (RingEquiv.op endEquiv)
+  exact ⟨fmodEquiv_regular_isFmodProgenerator E, hP, ⟨ringEquiv⟩⟩
+
+/-- Predicate-level form of `fmodEquiv_exists_progenerator_endRingEquiv`: a book-faithful
+Morita equivalence reconstructs both the finite progenerator and its endomorphism ring. -/
+theorem MoritaEquivalentFmod.exists_progenerator_endRingEquiv {A B : Type u}
+    [Ring A] [Ring B] (h : MoritaEquivalentFmod A B) :
+    ∃ P : FGModuleCat.{u} B,
+      IsProgenerator P ∧ Nonempty (A ≃+* (End P)ᵐᵒᵖ) := by
+  obtain ⟨E⟩ := h
+  exact fmodEquiv_exists_progenerator_endRingEquiv E
+
+/-- The exact remaining bridge in the converse from finite-module Morita equivalence to
+full-module Morita equivalence.
+
+Once one has the general progenerator form of the Morita theorem on `ModuleCat B`, the converse
+is formal: the finite equivalence reconstructs `P` and `A ≃+* (End P)ᵐᵒᵖ`; change of rings
+along this isomorphism and the progenerator equivalence then compose to
+`ModuleCat A ≌ ModuleCat B`.
+
+This theorem deliberately quantifies the missing engine as a hypothesis rather than hiding it
+behind an axiom.  It makes precise that no further finite-category reconstruction remains. -/
+theorem MoritaEquivalentFmod.toMoritaEquivalent_of_progenerator_equivalence
+    {A B : Type u} [Ring A] [Ring B] (h : MoritaEquivalentFmod A B)
+    (reconstruct : ∀ (P : FGModuleCat.{u} B), IsProgenerator P →
+      Nonempty (ModuleCat.{u} B ≌ ModuleCat.{u} (End P)ᵐᵒᵖ)) :
+    MoritaEquivalent A B := by
+  obtain ⟨P, hP, ⟨e⟩⟩ := h.exists_progenerator_endRingEquiv
+  obtain ⟨EP⟩ := reconstruct P hP
+  let changeRings : ModuleCat.{u} A ≌ ModuleCat.{u} (End P)ᵐᵒᵖ :=
+    (ModuleCat.restrictScalarsEquivalenceOfRingEquiv e).symm
+  exact ⟨changeRings.trans EP.symm⟩
 
 /-- **`B_𝐧(𝒞) = End(P_𝐧)ᵒᵖ`** (Etingof §9.7): the (opposite of the) endomorphism ring of
 the multiplicity biproduct `P_𝐧 = ⊕ᵢ nᵢ Pᵢ`. The opposite matches the convention of
