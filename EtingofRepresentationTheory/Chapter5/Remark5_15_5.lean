@@ -48,8 +48,10 @@ the restriction `μ ≽ λ` on the book's displayed sum.
 
 `Etingof.kostkaMatrix` uses `Etingof.spechtMultiplicity`, the Young's-rule multiplicity of
 `V_μ` in `U_λ`, which is the form Theorem 5.15.1 and its proof supply. Reconciling that
-with the semistandard-tableau count `Etingof.KostkaNumber` of Definition 5.14.2 is
-separate work (issue #7457) and is not needed for anything in this file.
+with the semistandard-tableau count `Etingof.KostkaNumber` of Definition 5.14.2 is separate
+work (issue #7457) and is not needed for anything in this file. The support and diagonal parts
+of that reconciliation are proved downstream in `YoungRuleKostkaBridge.lean`; only the strictly
+dominant positive coefficients remain.
 -/
 
 namespace Etingof

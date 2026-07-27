@@ -5702,10 +5702,10 @@
     "status": "sorry_free",
     "fidelity": "partial",
     "needs_statement": false,
-    "notes": "The vanishing and diagonal Hom-space claims and a public SymGroupAlgebra-linear global Young-rule decomposition are proved. The remaining gap is the identification of its Hom-space multiplicity with the semistandard-tableau cardinal KostkaNumber.",
+    "notes": "The vanishing and diagonal Hom-space claims and a public SymGroupAlgebra-linear global Young-rule decomposition are proved. The representation-theoretic and tableau multiplicities are identified off the dominance cone and on the diagonal; only the strictly dominant positive coefficients remain.",
     "sorry_free": true,
     "coverage": "covered_partial",
-    "fidelity_note": "Etingof.youngRuleDecomposition gives the public SymGroupAlgebra-linear direct-sum isomorphism, with dominance support and diagonal multiplicity. No theorem yet identifies its Hom-space multiplicity with the combinatorial KostkaNumber; follow-up #7457.",
+    "fidelity_note": "Etingof.youngRuleDecomposition gives the public SymGroupAlgebra-linear direct-sum isomorphism. YoungRuleKostkaBridge proves that its multiplicity agrees with the combinatorial KostkaNumber off the dominance cone and on the diagonal. The strictly dominant positive coefficients remain for follow-up #7457.",
     "fidelity_issue": 7457,
     "last_updated": "2026-07-27"
   },
@@ -5721,7 +5721,7 @@
     "fidelity": "partial",
     "sorry_free": true,
     "coverage": "covered_partial",
-    "fidelity_note": "The source names the multiplicities from Proposition 5.14.1 as Kostka numbers. Lean now exposes the module decomposition with representation-theoretic multiplicity YoungRuleMultiplicity, while KostkaNumber remains the semistandard-tableau cardinal; identifying them is the remaining part of #7457.",
+    "fidelity_note": "The source names the multiplicities from Proposition 5.14.1 as Kostka numbers. Lean exposes the module decomposition with representation-theoretic multiplicity YoungRuleMultiplicity, and proves its equality with the tableau cardinal KostkaNumber off the dominance cone and on the diagonal. The strictly dominant positive coefficients remain for #7457.",
     "fidelity_issue": 7457,
     "last_updated": "2026-07-27"
   },
