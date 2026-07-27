@@ -46,6 +46,7 @@ noncomputable def horseshoeComparisonDefect : P₃.complex.X 0 ⟶ T.X₂ :=
       @Projective.factorThru C _ (Q₃.complex.X 0) T.X₃ T.X₂ (Q₃.projective 0)
         (Q₃.π.f 0) T.g hT.epi_g
 
+set_option linter.unusedSectionVars false in
 lemma horseshoeComparisonDefect_comp_g :
     horseshoeComparisonDefect (hS := hS) (hT := hT) (φ := φ) (P₃ := P₃) (Q₃ := Q₃) ≫
       T.g = 0 := by
@@ -53,8 +54,8 @@ lemma horseshoeComparisonDefect_comp_g :
   simp only [Category.assoc]
   rw [φ.comm₂₃]
   simp only [Projective.factorThru_comp_assoc, Projective.factorThru_comp]
-  rw [ProjectiveResolution.lift_commutes_zero]
-  simp
+  rw [sub_eq_zero]
+  exact (ProjectiveResolution.lift_commutes_zero φ.τ₃ P₃ Q₃).symm
 
 /-- The factorisation of the degree-zero defect through the left object of the target short exact
 sequence. -/
@@ -68,7 +69,7 @@ noncomputable def horseshoeComparisonDefectLift : P₃.complex.X 0 ⟶ T.X₁ :=
 @[reassoc]
 lemma horseshoeComparisonDefectLift_comp_f :
     horseshoeComparisonDefectLift (hS := hS) (hT := hT) (φ := φ)
-        (P₃ := P₃) (Q₃ := Q₃) ≫ T.f =
+        (P₁ := P₁) (P₃ := P₃) (Q₁ := Q₁) (Q₃ := Q₃) ≫ T.f =
       horseshoeComparisonDefect (hS := hS) (hT := hT) (φ := φ)
         (P₃ := P₃) (Q₃ := Q₃) := by
   letI : Mono T.f := hT.mono_f
@@ -79,15 +80,15 @@ commute. -/
 noncomputable def horseshoeComparisonZero : P₃.complex.X 0 ⟶ Q₁.complex.X 0 := by
   exact @Projective.factorThru C _ (P₃.complex.X 0) T.X₁ (Q₁.complex.X 0)
     (P₃.projective 0) (horseshoeComparisonDefectLift (hS := hS) (hT := hT) (φ := φ)
-      (P₃ := P₃) (Q₃ := Q₃))
+      (P₁ := P₁) (P₃ := P₃) (Q₁ := Q₁) (Q₃ := Q₃))
     (Q₁.π.f 0) (epi_of_isColimit_cofork Q₁.isColimitCokernelCofork)
 
 @[reassoc]
 lemma horseshoeComparisonZero_comp_π :
     horseshoeComparisonZero (hS := hS) (hT := hT) (φ := φ)
-        (P₃ := P₃) (Q₁ := Q₁) (Q₃ := Q₃) ≫ Q₁.π.f 0 =
+        (P₁ := P₁) (P₃ := P₃) (Q₁ := Q₁) (Q₃ := Q₃) ≫ Q₁.π.f 0 =
       horseshoeComparisonDefectLift (hS := hS) (hT := hT) (φ := φ)
-        (P₃ := P₃) (Q₃ := Q₃) :=
+        (P₁ := P₁) (P₃ := P₃) (Q₁ := Q₁) (Q₃ := Q₃) :=
   Projective.factorThru_comp _ _
 
 /-- The expression which the next off-diagonal comparison component must lift. -/
@@ -98,24 +99,66 @@ noncomputable def horseshoeComparisonStep (n : ℕ)
     horseshoeTwist hS P₁ P₃ n ≫ (horseshoeComparison₁ φ P₁ Q₁).f n -
     (horseshoeComparison₃ φ P₃ Q₃).f (n + 1) ≫ horseshoeTwist hT Q₁ Q₃ n
 
+set_option backward.isDefEq.respectTransparency false in
 lemma horseshoeComparisonStep_zero_comp_π :
     horseshoeComparisonStep hS hT φ P₁ P₃ Q₁ Q₃ 0
       (horseshoeComparisonZero (hS := hS) (hT := hT) (φ := φ)
-        (P₃ := P₃) (Q₁ := Q₁) (Q₃ := Q₃)) ≫ Q₁.π.f 0 = 0 := by
+        (P₁ := P₁) (P₃ := P₃) (Q₁ := Q₁) (Q₃ := Q₃)) ≫ Q₁.π.f 0 = 0 := by
   letI : Mono T.f := hT.mono_f
+  letI : Epi S.g := hS.epi_g
+  letI : Epi T.g := hT.epi_g
+  let pπ : P₁.complex.X 0 ⟶ S.X₁ := P₁.π.f 0
+  let qπ : Q₁.complex.X 0 ⟶ T.X₁ := Q₁.π.f 0
+  let aS : P₃.complex.X 0 ⟶ S.X₂ :=
+    @Projective.factorThru C _ (P₃.complex.X 0) S.X₃ S.X₂ (P₃.projective 0)
+      (P₃.π.f 0) S.g hS.epi_g
+  let aT : Q₃.complex.X 0 ⟶ T.X₂ :=
+    @Projective.factorThru C _ (Q₃.complex.X 0) T.X₃ T.X₂ (Q₃.projective 0)
+      (Q₃.π.f 0) T.g hT.epi_g
+  change horseshoeComparisonStep hS hT φ P₁ P₃ Q₁ Q₃ 0
+      (horseshoeComparisonZero hS hT φ P₁ P₃ Q₁ Q₃) ≫ qπ = 0
+  have hzero : horseshoeComparisonZero hS hT φ P₁ P₃ Q₁ Q₃ ≫ qπ =
+      horseshoeComparisonDefectLift hS hT φ P₁ P₃ Q₁ Q₃ := by
+    dsimp only [qπ]
+    exact horseshoeComparisonZero_comp_π hS hT φ P₁ P₃ Q₁ Q₃
+  have hlift : (horseshoeComparison₁ φ P₁ Q₁).f 0 ≫ qπ = pπ ≫ φ.τ₁ := by
+    dsimp only [pπ, qπ]
+    exact ProjectiveResolution.lift_commutes_zero φ.τ₁ P₁ Q₁
+  have htwS : horseshoeTwist hS P₁ P₃ 0 ≫ pπ ≫ S.f =
+      -(P₃.complex.d 1 0) ≫ aS := by
+    dsimp only [pπ, aS]
+    exact horseshoeTwist_zero_comp_f hS P₁ P₃
+  have htwT : horseshoeTwist hT Q₁ Q₃ 0 ≫ qπ ≫ T.f =
+      -(Q₃.complex.d 1 0) ≫ aT := by
+    dsimp only [qπ, aT]
+    exact horseshoeTwist_zero_comp_f hT Q₁ Q₃
+  have htwSφ : horseshoeTwist hS P₁ P₃ 0 ≫ pπ ≫ S.f ≫ φ.τ₂ =
+      (-(P₃.complex.d 1 0) ≫ aS) ≫ φ.τ₂ := by
+    simpa only [Category.assoc] using congrArg (fun k => k ≫ φ.τ₂) htwS
+  have htwTcomp :
+      (horseshoeComparison₃ φ P₃ Q₃).f (0 + 1) ≫
+          horseshoeTwist hT Q₁ Q₃ 0 ≫ qπ ≫ T.f =
+        (horseshoeComparison₃ φ P₃ Q₃).f (0 + 1) ≫
+          (-(Q₃.complex.d 1 0) ≫ aT) := by
+    simpa only [Category.assoc] using congrArg
+      (fun k => (horseshoeComparison₃ φ P₃ Q₃).f (0 + 1) ≫ k) htwT
+  have hdefect : horseshoeComparisonDefect hS hT φ P₃ Q₃ =
+      aS ≫ φ.τ₂ - (horseshoeComparison₃ φ P₃ Q₃).f 0 ≫ aT := rfl
+  have hcomm : (horseshoeComparison₃ φ P₃ Q₃).f 1 ≫ Q₃.complex.d 1 0 ≫ aT =
+      P₃.complex.d 1 0 ≫ (horseshoeComparison₃ φ P₃ Q₃).f 0 ≫ aT := by
+    exact HomologicalComplex.Hom.comm_assoc (horseshoeComparison₃ φ P₃ Q₃) 1 0 aT
   rw [horseshoeComparisonStep, Preadditive.sub_comp, Preadditive.add_comp]
-  simp only [Category.assoc, horseshoeComparisonZero_comp_π,
-    ProjectiveResolution.lift_commutes_zero]
+  simp only [Category.assoc, hzero, hlift]
   apply (cancel_mono T.f).1
-  simp only [zero_comp]
-  rw [horseshoeComparisonDefectLift_comp_f]
-  rw [horseshoeComparisonDefect]
-  simp only [Preadditive.add_comp, Preadditive.sub_comp, Category.assoc]
-  rw [φ.comm₁₂]
-  simp only [← Category.assoc]
-  rw [horseshoeTwist_zero_comp_f, horseshoeTwist_zero_comp_f]
+  rw [zero_comp, Preadditive.sub_comp, Preadditive.add_comp]
   simp only [Category.assoc]
-  rw [← ProjectiveResolution.lift_commutes_zero_assoc]
+  rw [horseshoeComparisonDefectLift_comp_f]
+  rw [φ.comm₁₂]
+  rw [htwSφ, htwTcomp]
+  rw [hdefect]
+  simp only [Preadditive.comp_sub, Preadditive.neg_comp,
+    Preadditive.comp_neg, Category.assoc]
+  rw [hcomm]
   abel
 
 /-- Auxiliary recursion producing two consecutive off-diagonal comparison components and their
@@ -127,7 +170,7 @@ noncomputable def horseshoeComparisonAux :
           horseshoeComparisonStep hS hT φ P₁ P₃ Q₁ Q₃ n r
   | 0 =>
       let r := horseshoeComparisonZero (hS := hS) (hT := hT) (φ := φ)
-        (P₃ := P₃) (Q₁ := Q₁) (Q₃ := Q₃)
+        (P₁ := P₁) (P₃ := P₃) (Q₁ := Q₁) (Q₃ := Q₃)
       let r' := Q₁.exact₀.liftFromProjective
         (horseshoeComparisonStep hS hT φ P₁ P₃ Q₁ Q₃ 0 r)
         (horseshoeComparisonStep_zero_comp_π hS hT φ P₁ P₃ Q₁ Q₃)
@@ -144,12 +187,17 @@ noncomputable def horseshoeComparisonAux :
           Category.assoc]
         rw [hr']
         simp only [horseshoeComparisonStep, Preadditive.comp_sub, Preadditive.comp_add,
-          Category.assoc, P₃.complex.d_comp_d_assoc, zero_comp, zero_add]
+          P₃.complex.d_comp_d_assoc, zero_comp, zero_add]
         rw [HomologicalComplex.Hom.comm]
         rw [horseshoeTwist_comp_assoc]
         rw [← HomologicalComplex.Hom.comm_assoc]
         rw [horseshoeTwist_comp]
+        simp only [Preadditive.neg_comp, Preadditive.comp_neg]
+        rw [show n + 1 + 1 = n + 2 by omega]
         abel_nf
+        rw [neg_one_smul ℤ]
+        rw [Category.assoc]
+        abel
       let r'' := (Q₁.exact_succ n).liftFromProjective
         (horseshoeComparisonStep hS hT φ P₁ P₃ Q₁ Q₃ (n + 1) r') hz
       exact ⟨r', r'', (Q₁.exact_succ n).liftFromProjective_comp _ _⟩
@@ -173,10 +221,36 @@ lemma horseshoeComparisonOffDiag_comm (n : ℕ) :
 
 /-- The degreewise upper-triangular middle comparison map. -/
 noncomputable def horseshoeComparisonMiddleF (n : ℕ) :
-    (horseshoeComplex hS P₁ P₃).X n ⟶ (horseshoeComplex hT Q₁ Q₃).X n :=
+    (P₁.complex.X n ⊞ P₃.complex.X n) ⟶ (Q₁.complex.X n ⊞ Q₃.complex.X n) :=
   biprod.map ((horseshoeComparison₁ φ P₁ Q₁).f n)
       ((horseshoeComparison₃ φ P₃ Q₃).f n) +
     biprod.snd ≫ horseshoeComparisonOffDiag hS hT φ P₁ P₃ Q₁ Q₃ n ≫ biprod.inl
+
+@[reassoc (attr := simp)] lemma biprod_inl_horseshoeComparisonMiddleF (n : ℕ) :
+    biprod.inl ≫ horseshoeComparisonMiddleF hS hT φ P₁ P₃ Q₁ Q₃ n =
+      (horseshoeComparison₁ φ P₁ Q₁).f n ≫ biprod.inl := by
+  rw [horseshoeComparisonMiddleF, Preadditive.comp_add, biprod.inl_map]
+  simp
+
+@[reassoc (attr := simp)] lemma biprod_inr_horseshoeComparisonMiddleF (n : ℕ) :
+    biprod.inr ≫ horseshoeComparisonMiddleF hS hT φ P₁ P₃ Q₁ Q₃ n =
+      (horseshoeComparison₃ φ P₃ Q₃).f n ≫ biprod.inr +
+        horseshoeComparisonOffDiag hS hT φ P₁ P₃ Q₁ Q₃ n ≫ biprod.inl := by
+  rw [horseshoeComparisonMiddleF, Preadditive.comp_add, biprod.inr_map]
+  simp
+
+@[reassoc (attr := simp)] lemma horseshoeComparisonMiddleF_biprod_fst (n : ℕ) :
+    horseshoeComparisonMiddleF hS hT φ P₁ P₃ Q₁ Q₃ n ≫ biprod.fst =
+      biprod.fst ≫ (horseshoeComparison₁ φ P₁ Q₁).f n +
+        biprod.snd ≫ horseshoeComparisonOffDiag hS hT φ P₁ P₃ Q₁ Q₃ n := by
+  rw [horseshoeComparisonMiddleF, Preadditive.add_comp, biprod.map_fst]
+  simp [Category.assoc]
+
+@[reassoc (attr := simp)] lemma horseshoeComparisonMiddleF_biprod_snd (n : ℕ) :
+    horseshoeComparisonMiddleF hS hT φ P₁ P₃ Q₁ Q₃ n ≫ biprod.snd =
+      biprod.snd ≫ (horseshoeComparison₃ φ P₃ Q₃).f n := by
+  rw [horseshoeComparisonMiddleF, Preadditive.add_comp, biprod.map_snd]
+  simp [Category.assoc]
 
 lemma horseshoeComparisonMiddleF_comm (n : ℕ) :
     horseshoeComparisonMiddleF hS hT φ P₁ P₃ Q₁ Q₃ (n + 1) ≫
@@ -186,9 +260,10 @@ lemma horseshoeComparisonMiddleF_comm (n : ℕ) :
   simp only [horseshoeComplex, ChainComplex.of_d]
   apply biprod.hom_ext <;> apply biprod.hom_ext'
   all_goals
-    simp [horseshoeComparisonMiddleF, horseshoeComparisonOffDiag_comm,
-      horseshoeComparisonStep, HomologicalComplex.Hom.comm, Category.assoc,
+    simp [horseshoeComparisonOffDiag_comm, horseshoeComparisonStep,
+      HomologicalComplex.Hom.comm, Category.assoc,
       Preadditive.add_comp, Preadditive.comp_add]
+  all_goals abel
 
 /-- The strict middle chain map between the two horseshoe complexes. -/
 noncomputable def horseshoeComparisonMiddle :
@@ -208,18 +283,12 @@ noncomputable def horseshoeComparison :
     (by
       apply HomologicalComplex.hom_ext
       intro n
-      apply biprod.hom_ext
-      all_goals
-        simp [horseshoeShortComplex, horseshoeComparisonMiddle,
-          horseshoeComparisonMiddleF, horseshoeα, Category.assoc,
-          Preadditive.add_comp, Preadditive.comp_add])
+      dsimp [horseshoeShortComplex, horseshoeComparisonMiddle, horseshoeα]
+      exact (biprod_inl_horseshoeComparisonMiddleF hS hT φ P₁ P₃ Q₁ Q₃ n).symm)
     (by
       apply HomologicalComplex.hom_ext
       intro n
-      apply biprod.hom_ext'
-      all_goals
-        simp [horseshoeShortComplex, horseshoeComparisonMiddle,
-          horseshoeComparisonMiddleF, horseshoeβ, Category.assoc,
-          Preadditive.add_comp, Preadditive.comp_add])
+      dsimp [horseshoeShortComplex, horseshoeComparisonMiddle, horseshoeβ]
+      exact horseshoeComparisonMiddleF_biprod_snd hS hT φ P₁ P₃ Q₁ Q₃ n)
 
 end Etingof
