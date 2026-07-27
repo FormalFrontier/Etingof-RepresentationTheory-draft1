@@ -33,14 +33,12 @@ All parts (i)–(v) are stated below, for both the `Ext` and `Tor` sides.
   `Etingof.Ext` (Definition 8.2.4) with `Abelian.Ext.addEquiv₀` for the `Ext⁰` half.
 * (ii) relates `Etingof.Ext` in degree `1` to `Etingof.Problem3_9_1.Ext1`, the cocycle/coboundary
   description of extensions.
-* The `Ext` long exact sequences of (iii) and (v) are `Abelian.Ext.covariantSequence` and
-  `Abelian.Ext.contravariantSequence` from Mathlib, whose objects are exactly the
-  `Etingof.Ext` groups.
-* The `Tor` long exact sequences of (iii) and (v) are stated as six-term homology windows
-  (`ComposableArrows _ 5`) with an existentially quantified connecting homomorphism `δ`,
-  mirroring the shape of the `Ext` sequences. The horizontal maps are the first-argument
-  functoriality of `Etingof.TorFunctor` (for (v)) and the second-argument functoriality
-  `torSndMap` built below (for (iii)).
+* The local `Ext` and `Tor` windows of (iii) and (v) are proved here.  The companion file
+  `Problem8_2_6_LongExact.lean` packages them into globally indexed connecting families,
+  proves every adjacent window exact, and supplies the zero-ended `Ext⁰` mono and `Tor₀` epi
+  endpoints through the canonical `Ext⁰ ≃ Hom` and `Tor₀ ≅ tensor` comparisons.
+* The horizontal `Tor` maps are the first-argument functoriality of `Etingof.TorFunctor`
+  (for (v)) and the second-argument functoriality `torSndMap` built below (for (iii)).
 * The balancing theorem (iv) is stated as a canonical isomorphism between `Etingof.Tor` (left
   derived of `- ⊗_A N` in `M`) and the left derived functor of `M ⊗_A -` in `N`
   (`tensorLeftFunctor A M`).
