@@ -381,6 +381,40 @@ theorem KostkaTableau.column_eq_one_of_col_mul_row_preserves_positionEntry
       ⟨x, hxInRow, hxStrict⟩
   omega
 
+/-- If a column term in the standard polytabloid represents the same tabloid as
+a translate by the content row subgroup, then that column term is the identity.
+This is the quotient-level form of least-moved-row separation used by the
+diagonal-coordinate calculation. -/
+theorem KostkaTableau.column_eq_one_of_tabloid_inv_mul_standardization_eq_mul_row
+    {n : ℕ} {nu mu : Nat.Partition n} (T : KostkaTableau n nu mu)
+    (q p : Equiv.Perm (Fin n)) (hq : q ∈ ColumnSubgroup n nu)
+    (hp : p ∈ RowSubgroup n mu)
+    (htab : toTabloid n nu (q⁻¹ * sytPerm n nu T.standardization) =
+      toTabloid n nu (sytPerm n nu T.standardization * p)) :
+    q = 1 := by
+  rw [toTabloid_eq_iff] at htab
+  let σ := sytPerm n nu T.standardization
+  let r := q⁻¹ * σ * p⁻¹ * σ⁻¹
+  have hr : r ∈ RowSubgroup n nu := by
+    simpa only [r, σ, mul_inv_rev, inv_inv, mul_assoc] using htab
+  apply T.column_eq_one_of_col_mul_row_preserves_positionEntry q r hq hr
+  intro x
+  have hqr : q * r = σ * p⁻¹ * σ⁻¹ := by
+    simp only [r]
+    group
+  have hpInv := (RowSubgroup n mu).inv_mem hp
+  calc
+    T.positionEntry (q (r x)) =
+        T.positionEntry (σ (p⁻¹ (σ⁻¹ x))) := by
+      rw [← Equiv.Perm.mul_apply, hqr]
+      rfl
+    _ = rowOfPos mu.sortedParts (p⁻¹ (σ⁻¹ x)).val := by
+      exact T.positionEntry_sytPerm_standardization (p⁻¹ (σ⁻¹ x))
+    _ = rowOfPos mu.sortedParts (σ⁻¹ x).val := hpInv (σ⁻¹ x)
+    _ = T.positionEntry (σ (σ⁻¹ x)) := by
+      exact (T.positionEntry_sytPerm_standardization (σ⁻¹ x)).symm
+    _ = T.positionEntry x := by simp
+
 end
 
 end Etingof
