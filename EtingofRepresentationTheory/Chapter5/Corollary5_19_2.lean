@@ -31,10 +31,10 @@ each `L p` (= `Lλ`) is a distinct irreducible `diagonalActionImage`-module
 or zero, and the iso decomposes `V⊗ⁿ` as `⊕_p S p ⊗ L p`. The proof
 delegates to `Theorem5_18_4_partition_decomposition`.  No hypothesis
 `n ≤ finrank k V` is needed: absent constituents are represented by zero
-summands.  The companion `Theorem5_18_4_bimodule_decomposition_equivariant` exposes the literal
-equivariant Hom multiplicity spaces and both commuting action laws; unifying
-that structured decomposition with this zero-padded partition presentation is
-the remaining packaging step.
+summands.  The companion
+`Theorem5_18_4_partition_bimodule_decomposition_equivariant` gives the same
+genuine partition labelling and zero padding while retaining the literal
+equivariant Hom multiplicity spaces and both commuting all-vector action laws.
 (Etingof Corollary 5.19.2) -/
 theorem Etingof.Corollary5_19_2
     {k : Type u} [Field k] [IsAlgClosed k] [CharZero k]

@@ -90,6 +90,104 @@ variable (k : Type u) [Field k]
   (V : Type v) [AddCommGroup V] [Module k V] [Module.Finite k V]
   (n : ℕ)
 
+/-! ### Partition-reindexed equivariant decompositions -/
+
+/-- Reindex a literal-Hom double-centralizer target by the fibres of an
+embedding into the partitions of `n`.  The outer sum has a zero summand at a
+partition outside the image of `label`. -/
+noncomputable def partitionBimoduleReindexEquiv
+    {E : Type*} [AddCommGroup E] [Module k E]
+    {A : Subalgebra k (Module.End k E)} {iota : Type*} [DecidableEq iota]
+    (S : iota → Submodule A E) (label : iota ↪ Nat.Partition n) :
+    DirectSum iota (fun i => ↥(S i) ⊗[k] (↥(S i) →ₗ[A] E)) ≃ₗ[k]
+      DirectSum (Nat.Partition n) (fun p =>
+        DirectSum {i : iota // label i = p}
+          (fun j => ↥(S j.1) ⊗[k] (↥(S j.1) →ₗ[A] E))) :=
+  DirectSum.lequivCongrLeft k
+      (Equiv.sigmaFiberEquiv (label : iota → Nat.Partition n)).symm
+    ≪≫ₗ directSumSigmaLequiv (R := k)
+      (fun p (j : {i : iota // label i = p}) =>
+        ↥(S j.1) ⊗[k] (↥(S j.1) →ₗ[A] E))
+
+set_option synthInstance.maxHeartbeats 200000 in
+-- The nested direct-sum/tensor module instance chain exceeds the deterministic default.
+/-- The first-factor action on the partition-reindexed literal-Hom target. -/
+noncomputable def partitionBimoduleAAction
+    {E : Type*} [AddCommGroup E] [Module k E]
+    {A : Subalgebra k (Module.End k E)} {iota : Type*} [DecidableEq iota]
+    (S : iota → Submodule A E) (label : iota ↪ Nat.Partition n) (a : A) :
+    DirectSum (Nat.Partition n) (fun p =>
+        DirectSum {i : iota // label i = p}
+          (fun j => ↥(S j.1) ⊗[k] (↥(S j.1) →ₗ[A] E))) →ₗ[k]
+      DirectSum (Nat.Partition n) (fun p =>
+        DirectSum {i : iota // label i = p}
+          (fun j => ↥(S j.1) ⊗[k] (↥(S j.1) →ₗ[A] E))) :=
+  (partitionBimoduleReindexEquiv k n S label).toLinearMap.comp
+    ((bimoduleDecompositionAAction (k := k) (E := E) S a).comp
+      (partitionBimoduleReindexEquiv k n S label).symm.toLinearMap)
+
+set_option synthInstance.maxHeartbeats 200000 in
+-- The nested direct-sum/tensor module instance chain exceeds the deterministic default.
+/-- The post-composition centralizer action on the partition-reindexed
+literal-Hom target. -/
+noncomputable def partitionBimoduleCentralizerAction
+    {E : Type*} [AddCommGroup E] [Module k E]
+    {A : Subalgebra k (Module.End k E)} {iota : Type*} [DecidableEq iota]
+    (S : iota → Submodule A E) (label : iota ↪ Nat.Partition n)
+    (b : ↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) :
+    DirectSum (Nat.Partition n) (fun p =>
+        DirectSum {i : iota // label i = p}
+          (fun j => ↥(S j.1) ⊗[k] (↥(S j.1) →ₗ[A] E))) →ₗ[k]
+      DirectSum (Nat.Partition n) (fun p =>
+        DirectSum {i : iota // label i = p}
+          (fun j => ↥(S j.1) ⊗[k] (↥(S j.1) →ₗ[A] E))) :=
+  (partitionBimoduleReindexEquiv k n S label).toLinearMap.comp
+    ((bimoduleDecompositionCentralizerAction (k := k) (E := E) S b).comp
+      (partitionBimoduleReindexEquiv k n S label).symm.toLinearMap)
+
+/-- A partition-indexed literal-Hom decomposition together with its two
+all-vector equivariance laws. -/
+structure PartitionBimoduleDecompositionEquiv
+    {E : Type*} [AddCommGroup E] [Module k E]
+    {A : Subalgebra k (Module.End k E)} {iota : Type*} [DecidableEq iota]
+    (S : iota → Submodule A E) (label : iota ↪ Nat.Partition n) where
+  toLinearEquiv : E ≃ₗ[k]
+    DirectSum (Nat.Partition n) (fun p =>
+      DirectSum {i : iota // label i = p}
+        (fun j => ↥(S j.1) ⊗[k] (↥(S j.1) →ₗ[A] E)))
+  map_A_action : ∀ (a : A) (x : E),
+    toLinearEquiv (a.val x) =
+      partitionBimoduleAAction k n S label a (toLinearEquiv x)
+  map_centralizer_action :
+    ∀ (b : ↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) (x : E),
+      toLinearEquiv (b.val x) =
+        partitionBimoduleCentralizerAction k n S label b (toLinearEquiv x)
+
+/-- Reindex a structured double-centralizer decomposition along a partition
+label while retaining both all-vector action laws. -/
+noncomputable def BimoduleDecompositionEquiv.reindexByPartition
+    {E : Type*} [AddCommGroup E] [Module k E]
+    {A : Subalgebra k (Module.End k E)} {iota : Type*} [DecidableEq iota]
+    (S : iota → Submodule A E) (label : iota ↪ Nat.Partition n)
+    (e : BimoduleDecompositionEquiv (k := k) (E := E) (A := A) S) :
+    PartitionBimoduleDecompositionEquiv k n S label := by
+  let r := partitionBimoduleReindexEquiv k n S label
+  refine ⟨e.toLinearEquiv ≪≫ₗ r, ?_, ?_⟩
+  · intro a x
+    simp only [LinearEquiv.trans_apply, partitionBimoduleAAction,
+      LinearMap.comp_apply]
+    change r (e.toLinearEquiv (a.val x)) =
+      r (bimoduleDecompositionAAction (k := k) (E := E) S a
+        (r.symm (r (e.toLinearEquiv x))))
+    rw [r.symm_apply_apply, e.map_A_action]
+  · intro b x
+    simp only [LinearEquiv.trans_apply, partitionBimoduleCentralizerAction,
+      LinearMap.comp_apply]
+    change r (e.toLinearEquiv (b.val x)) =
+      r (bimoduleDecompositionCentralizerAction (k := k) (E := E) S b
+        (r.symm (r (e.toLinearEquiv x))))
+    rw [r.symm_apply_apply, e.map_centralizer_action]
+
 /-! ### `|ConjClasses(Sₙ)| ≤ p(n)` -/
 
 /-- The cycle-type map `ConjClasses(Sₙ) → Nat.Partition n`. -/
@@ -257,6 +355,94 @@ theorem spechtLabelEmbedding [IsAlgClosed k] [CharZero k]
   exact (spechtIso i).map_smul a x
 
 /-! ### The partition-indexed decomposition. -/
+
+set_option maxHeartbeats 5000000 in
+-- Classification and the partition-fibre transport exceed the default heartbeat budget.
+set_option synthInstance.maxHeartbeats 1800000 in
+-- The same transport synthesizes a deep nested direct-sum/tensor module chain.
+/-- Schur-Weyl duality as a genuinely partition-indexed, literal-Hom
+bimodule decomposition.
+
+The outer direct sum is indexed by every partition of `n`.  Its summand at
+`p` is the direct sum over the fibre `{i // label i = p}`; injectivity of the
+genuine Specht label makes that fibre subsingleton, and an empty fibre is the
+zero summand.  The multiplicity space remains literally
+`Hom_{symGroupImage}(Sᵢ, V^⊗n)`; these spaces are simple and pairwise
+nonisomorphic over the centralizer.  The returned structured equivalence
+records the all-vector action laws for both `symGroupImage` and its
+centralizer; the last clause exposes the latter directly for
+`diagonalActionImage`. -/
+theorem Theorem5_18_4_partition_bimodule_decomposition_equivariant
+    [IsAlgClosed k] [CharZero k] :
+    ∃ (iota : Type) (_ : Fintype iota) (_ : DecidableEq iota)
+      (S : iota → Submodule (symGroupImage k V n) (TensorPower k V n)),
+      letI : ∀ i, AddCommGroup (S i) := fun i =>
+        { Module.addCommMonoidToAddCommGroup k with
+          toAddCommMonoid := (S i).addCommMonoid }
+      ∃ (label : iota ↪ Nat.Partition n)
+        (specht : ∀ i, ↥(S i) ≃ₗ[k] ↥(SpechtModuleK k n (label i))),
+      (∀ p, Subsingleton {i : iota // label i = p}) ∧
+      (∀ i, IsSimpleModule
+        (↥(Subalgebra.centralizer k
+          (symGroupImage k V n : Set (Module.End k (TensorPower k V n)))))
+        (↥(S i) →ₗ[symGroupImage k V n] TensorPower k V n)) ∧
+      (∀ i j, Nonempty
+        ((↥(S i) →ₗ[symGroupImage k V n] TensorPower k V n) ≃ₗ[
+          ↥(Subalgebra.centralizer k
+            (symGroupImage k V n : Set (Module.End k (TensorPower k V n))))]
+          (↥(S j) →ₗ[symGroupImage k V n] TensorPower k V n)) → i = j) ∧
+      (∀ (i : iota) (a : MonoidAlgebra k (Equiv.Perm (Fin n))) (x : ↥(S i)),
+        specht i ((symGroupAlgHomToImage k V n a) • x) = a • specht i x) ∧
+      ∃ e : PartitionBimoduleDecompositionEquiv k n S label,
+        ∀ (b : ↥(diagonalActionImage k V n)) (x : TensorPower k V n),
+          e.toLinearEquiv (b.val x) =
+            partitionBimoduleCentralizerAction k n S label
+              (⟨b.val, diagonalActionImage_le_centralizer_symGroupImage
+                k V n b.property⟩ :
+                ↥(Subalgebra.centralizer k
+                  (symGroupImage k V n :
+                    Set (Module.End k (TensorPower k V n)))))
+              (e.toLinearEquiv x) := by
+  classical
+  haveI := symGroupImage_isSemisimpleRing k V n
+  haveI := symGroupImage_faithfulSMul k V n
+  obtain ⟨iota, hiota, hiotaDec, S, hSSimple, hSDistinct, hSFinite,
+      hLSimple, e, he⟩ :=
+    Theorem5_18_4_bimodule_decomposition_explicit k V n
+  letI := hiota
+  letI := hiotaDec
+  let coherentSAddCommGroup : ∀ i, AddCommGroup (S i) := fun i =>
+    { Module.addCommMonoidToAddCommGroup k with
+      toAddCommMonoid := (S i).addCommMonoid }
+  letI := coherentSAddCommGroup
+  haveI : ∀ i, IsSimpleModule (symGroupImage k V n) (S i) := hSSimple
+  haveI : ∀ i, Module.Finite k ↥(S i) := hSFinite
+  obtain ⟨label, specht, hspecht⟩ :=
+    spechtLabelEmbedding k V n (fun i => ↥(S i)) hSDistinct
+  have hfib : ∀ p, Subsingleton {i : iota // label i = p} := fun p =>
+    ⟨fun a b => Subtype.ext (label.injective (a.2.trans b.2.symm))⟩
+  have hLDistinct : ∀ i j, Nonempty
+      ((↥(S i) →ₗ[symGroupImage k V n] TensorPower k V n) ≃ₗ[
+        ↥(Subalgebra.centralizer k
+          (symGroupImage k V n : Set (Module.End k (TensorPower k V n))))]
+        (↥(S j) →ₗ[symGroupImage k V n] TensorPower k V n)) → i = j := by
+    intro i j hiso
+    exact multiplicitySpace_Cdistinct k (TensorPower k V n)
+      (symGroupImage k V n) S hSDistinct i j hiso
+  let equivariant := BimoduleDecompositionEquiv.ofEvaluation
+    (k := k) (E := TensorPower k V n) (A := symGroupImage k V n) S e he
+  let partitionEquivariant :=
+    equivariant.reindexByPartition (k := k) (n := n) S label
+  refine ⟨iota, hiota, hiotaDec, S, ?_⟩
+  letI : ∀ i, AddCommGroup (S i) := coherentSAddCommGroup
+  refine ⟨label, specht, hfib, hLSimple, hLDistinct, hspecht,
+    partitionEquivariant, ?_⟩
+  intro b x
+  exact partitionEquivariant.map_centralizer_action
+    (⟨b.val, diagonalActionImage_le_centralizer_symGroupImage
+      k V n b.property⟩ :
+      ↥(Subalgebra.centralizer k
+        (symGroupImage k V n : Set (Module.End k (TensorPower k V n))))) x
 
 /-- Schur-Weyl duality: partition-indexed decomposition of `V^⊗n`.
 
