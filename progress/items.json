@@ -480,7 +480,39 @@
     "coverage": "covered_full",
     "fidelity": "verified",
     "coverage_note": "The group-algebra iff, the free-algebra claim, and the source's quantified End_k(V) noncommutativity theorem for every finite-dimensional V with 2 ≤ dim V (End_noncommutative_of_two_le_finrank) are all public. The concrete V = k² matrix-unit witness remains as the dim V = 2 special case.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27",
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.2",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The base field and polynomial algebra examples are commutative.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "CommRing k; inferInstance : CommRing (MvPolynomial (Fin n) k)"
+        },
+        {
+          "claim": "End_k(V) is noncommutative whenever V is finite-dimensional and dim V > 1.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.End_noncommutative_of_two_le_finrank"
+        },
+        {
+          "claim": "The free algebra on n generators is noncommutative whenever n > 1.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.freeAlgebra_noncommutative_of_one_lt"
+        },
+        {
+          "claim": "The group algebra k[G] is commutative if and only if G is commutative.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.monoidAlgebra_mul_comm_iff"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Definition2.2.6",

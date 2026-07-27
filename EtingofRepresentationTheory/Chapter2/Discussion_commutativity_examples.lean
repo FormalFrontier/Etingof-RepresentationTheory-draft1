@@ -71,18 +71,23 @@ example : ∃ f g : Module.End k (Fin 2 → k), f * g ≠ g * f := by
   rw [← map_mul, ← map_mul] at h
   exact single_not_commute k ((Matrix.toLinAlgEquiv' (R := k)).injective h)
 
-/-- **Case 4.** `FreeAlgebra k (Fin n)` is not commutative when `n > 1`: already for `n = 2`
-the two generators `ι 0` and `ι 1` do not commute, since the algebra map sending them to the
-non-commuting matrix units `E₀₁`, `E₁₀` would otherwise force those to commute. -/
-example : ∃ a b : FreeAlgebra k (Fin 2), a * b ≠ b * a := by
-  refine ⟨FreeAlgebra.ι k 0, FreeAlgebra.ι k 1, ?_⟩
-  intro h
+/-- **Case 4.** `FreeAlgebra k (Fin n)` is not commutative when `n > 1`: the first two
+generators do not commute, since the algebra map sending them to the non-commuting matrix units
+`E₀₁`, `E₁₀` would otherwise force those matrix units to commute. -/
+theorem freeAlgebra_noncommutative_of_one_lt (n : ℕ) (hn : 1 < n) :
+    ∃ a b : FreeAlgebra k (Fin n), a * b ≠ b * a := by
+  let i0 : Fin n := ⟨0, by omega⟩
+  let i1 : Fin n := ⟨1, by omega⟩
+  have hne : i0 ≠ i1 := by simp [i0, i1, Fin.ext_iff]
+  let images : Fin n → Matrix (Fin 2) (Fin 2) k := fun i =>
+    if i = i0 then Matrix.single 0 1 1
+    else if i = i1 then Matrix.single 1 0 1
+    else 0
+  refine ⟨FreeAlgebra.ι k i0, FreeAlgebra.ι k i1, fun hcomm => ?_⟩
   apply single_not_commute k
   have := congrArg
-    (FreeAlgebra.lift k ![(Matrix.single 0 1 1 : Matrix (Fin 2) (Fin 2) k),
-      Matrix.single 1 0 1]) h
-  simpa only [map_mul, FreeAlgebra.lift_ι_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.head_cons] using this
+    (FreeAlgebra.lift k images) hcomm
+  simpa only [map_mul, FreeAlgebra.lift_ι_apply, images, if_pos, if_neg hne.symm, hne] using this
 
 end Noncommutative
 
