@@ -198,6 +198,21 @@ noncomputable def KostkaTableau.positionEntry {n : ℕ}
     {nu mu : Nat.Partition n} (T : KostkaTableau n nu mu) (x : Fin n) : ℕ :=
   T.1 ((canonicalFilling n nu x).1.1) ((canonicalFilling n nu x).1.2)
 
+/-- Reading a standardized position recovers the content block of its label. -/
+@[simp] theorem KostkaTableau.positionEntry_sytPerm_standardization {n : ℕ}
+    {nu mu : Nat.Partition n} (T : KostkaTableau n nu mu) (x : Fin n) :
+    T.positionEntry (sytPerm n nu T.standardization x) =
+      rowOfPos mu.sortedParts x.val := by
+  let e : Cell n nu ≃ Fin n :=
+    Equiv.ofBijective T.standardization.1 T.standardization.2.1
+  let c : Cell n nu := e.symm x
+  have hcx : T.standardization.1 c = x := e.apply_symm_apply x
+  rw [← hcx, sytPerm_apply_tableauEntry T.standardization c,
+    KostkaTableau.positionEntry]
+  have hcanon := (canonicalFilling n nu).apply_symm_apply c
+  rw [hcanon]
+  exact (T.rowOfPos_standardization c).symm
+
 private theorem canonicalCell_mem_partitionDiagram {n : ℕ}
     {nu : Nat.Partition n} (x : Fin n) :
     (canonicalFilling n nu x).1 ∈ nu.toYoungDiagram := by
