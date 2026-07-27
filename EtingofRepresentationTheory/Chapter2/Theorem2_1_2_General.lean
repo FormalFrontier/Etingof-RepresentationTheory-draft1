@@ -559,4 +559,29 @@ theorem Theorem_2_1_2_general_orientation (hconn : QuiverUndirectedConnected n) 
 
 end General
 
+/-! ## The field-independent statement
+
+The main proof above follows the route announced in the book and assumes that the field is
+algebraically closed.  The footnote attached to Theorem 2.1.2 also asserts that the finite-type
+classification itself is valid over an arbitrary field.  That stronger statement must remain
+visible as scaffolding even though its proof is separate. -/
+
+section ArbitraryField
+
+variable (k : Type) [Field k] (n : ℕ) [Quiver.{0} (Fin n)]
+  [∀ a b : Fin n, Decidable (Nonempty (a ⟶ b))]
+
+/-- **Gabriel's finite-type classification over an arbitrary field**, as asserted in the
+footnote to Etingof Theorem 2.1.2.  A connected finite quiver has finite representation type iff
+it has no loops, two-way edges, or parallel arrows and its underlying graph is Dynkin. -/
+theorem Theorem_2_1_2_general_arbitrary_field (hconn : QuiverUndirectedConnected n) :
+    HasFiniteRepresentationType k n ↔
+      ((∀ v : Fin n, IsEmpty (v ⟶ v)) ∧
+        (∀ v w : Fin n, Nonempty (v ⟶ w) → Nonempty (w ⟶ v) → False) ∧
+        (∀ a b : Fin n, Subsingleton (a ⟶ b)) ∧
+        IsDynkinDiagram n (quiverUndirectedAdj n)) := by
+  sorry
+
+end ArbitraryField
+
 end Etingof

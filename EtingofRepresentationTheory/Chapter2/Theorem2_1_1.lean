@@ -1,11 +1,14 @@
 import Mathlib.Algebra.Lie.Quotient
 import Mathlib.Algebra.Lie.Semisimple.Defs
 import Mathlib.Algebra.Lie.Sl2
+import Mathlib.Algebra.Lie.UniversalEnveloping
 import Mathlib.Analysis.Complex.Polynomial.Basic
 import Mathlib.Data.Complex.Basic
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
+import Mathlib.Algebra.MvPolynomial.PDeriv
+import Mathlib.RingTheory.MvPolynomial.Homogeneous
 import Mathlib.Tactic.NoncommRing
 import EtingofRepresentationTheory.Chapter2.Sl2Defs
 import EtingofRepresentationTheory.Chapter2.Sl2Irrep
@@ -46,6 +49,42 @@ namespace Etingof
 -- v4.31: `LieRing.ofAssociativeRing` is no longer a global instance (only file-local in Mathlib);
 -- re-enable it locally so the Lie structure on `End ℂ V` is found.
 attribute [local instance] LieRing.ofAssociativeRing
+
+/-! ## The enveloping-algebra and Lie-module presentations
+
+The book states the theorem for modules over `U(sl(2))`, while the proof below uses Lie modules
+over `sl(2)`.  The universal property of the enveloping algebra is the explicit bridge between
+the two action maps; this declaration records that the change of presentation is not being made
+silently. -/
+
+/-- Giving an action map of `sl(2, ℂ)` on a complex vector space is equivalent to giving an
+algebra-representation map of its universal enveloping algebra on that space. -/
+def sl2LieActionEquivUEAAction (V : Type*) [AddCommGroup V] [Module ℂ V] :
+    (sl2 →ₗ⁅ℂ⁆ Module.End ℂ V) ≃
+      (UniversalEnvelopingAlgebra ℂ sl2 →ₐ[ℂ] Module.End ℂ V) :=
+  UniversalEnvelopingAlgebra.lift ℂ
+
+/-- A subspace is invariant under an `sl(2)` action exactly when it is invariant under the
+corresponding `U(sl(2))` action.  This is the subrepresentation part of the presentation bridge. -/
+theorem sl2InvariantSubspace_iff_ueaInvariantSubspace
+    {V : Type*} [AddCommGroup V] [Module ℂ V]
+    (ρ : sl2 →ₗ⁅ℂ⁆ Module.End ℂ V) (W : Submodule ℂ V) :
+    (∀ (x : sl2) (v : V), v ∈ W → ρ x v ∈ W) ↔
+      (∀ (u : UniversalEnvelopingAlgebra ℂ sl2) (v : V), v ∈ W →
+        UniversalEnvelopingAlgebra.lift ℂ ρ u v ∈ W) := by
+  sorry
+
+/-- A linear map intertwines two `sl(2)` actions exactly when it intertwines the corresponding
+`U(sl(2))` actions.  Thus the universal-property bridge preserves the book's equivalence relation
+on representations, not merely the underlying action maps. -/
+theorem sl2Intertwiner_iff_ueaIntertwiner
+    {V W : Type*} [AddCommGroup V] [Module ℂ V] [AddCommGroup W] [Module ℂ W]
+    (ρV : sl2 →ₗ⁅ℂ⁆ Module.End ℂ V) (ρW : sl2 →ₗ⁅ℂ⁆ Module.End ℂ W) (f : V →ₗ[ℂ] W) :
+    (∀ (x : sl2) (v : V), f (ρV x v) = ρW x (f v)) ↔
+      (∀ (u : UniversalEnvelopingAlgebra ℂ sl2) (v : V),
+        f (UniversalEnvelopingAlgebra.lift ℂ ρV u v) =
+          UniversalEnvelopingAlgebra.lift ℂ ρW u (f v)) := by
+  sorry
 
 /-! ## Primitive vector theory for sl(2)-modules
 
@@ -439,6 +478,37 @@ theorem Theorem_2_1_1_i (d : ℕ+) :
     have hneq : nV = nW := by omega
     subst hneq
     exact ⟨sl2_irrep_equiv hirrV hirrW mV mW nV PV PW⟩
+
+/-! The existential in `Theorem_2_1_1_i` establishes classification, but the book also names a
+specific representative: homogeneous binary polynomials of degree `d - 1`, with three explicit
+differential operators.  The following statement makes every part of that representative visible
+in the theorem type.  Its proof belongs to Stage 3.3. -/
+
+/-- The standard `d`-dimensional irreducible is the book's homogeneous-polynomial model, and the
+standard `h`, `e`, and `f` actions intertwine with
+`x∂ₓ - y∂ᵧ`, `x∂ᵧ`, and `y∂ₓ`, respectively. -/
+theorem Theorem_2_1_1_i_polynomial_model (d : ℕ+) :
+    ∃ Φ : (Fin d → ℂ) ≃ₗ[ℂ]
+        ↑(MvPolynomial.homogeneousSubmodule (Fin 2) ℂ ((d : ℕ) - 1)),
+      ∀ v : Fin d → ℂ,
+        ((Φ (Sl2Irrep.rhoLieHom d Sl2Irrep.sl2_h v) :
+            MvPolynomial.homogeneousSubmodule (Fin 2) ℂ ((d : ℕ) - 1)) :
+              MvPolynomial (Fin 2) ℂ) =
+            MvPolynomial.X (0 : Fin 2) *
+                MvPolynomial.pderiv (0 : Fin 2) (Φ v : MvPolynomial (Fin 2) ℂ) -
+              MvPolynomial.X (1 : Fin 2) *
+                MvPolynomial.pderiv (1 : Fin 2) (Φ v : MvPolynomial (Fin 2) ℂ) ∧
+        ((Φ (Sl2Irrep.rhoLieHom d Sl2Irrep.sl2_e v) :
+            MvPolynomial.homogeneousSubmodule (Fin 2) ℂ ((d : ℕ) - 1)) :
+              MvPolynomial (Fin 2) ℂ) =
+            MvPolynomial.X (0 : Fin 2) *
+              MvPolynomial.pderiv (1 : Fin 2) (Φ v : MvPolynomial (Fin 2) ℂ) ∧
+        ((Φ (Sl2Irrep.rhoLieHom d Sl2Irrep.sl2_f v) :
+            MvPolynomial.homogeneousSubmodule (Fin 2) ℂ ((d : ℕ) - 1)) :
+              MvPolynomial (Fin 2) ℂ) =
+            MvPolynomial.X (1 : Fin 2) *
+              MvPolynomial.pderiv (0 : Fin 2) (Φ v : MvPolynomial (Fin 2) ℂ) := by
+  sorry
 
 /-- **Problem 2.15.1(f): uniqueness of the irreducible representation in each dimension.**
 Every `(lam + 1)`-dimensional irreducible representation `V` of `sl(2, ℂ)` is isomorphic, as
@@ -1703,6 +1773,22 @@ theorem Theorem_2_1_1_ii (V : Type*) [AddCommGroup V] [Module ℂ V] [FiniteDime
     [LieRingModule sl2 V] [LieModule ℂ sl2 V] :
     ComplementedLattice (LieSubmodule ℂ sl2 V) :=
   complementedLattice_sl2_aux (finrank ℂ V) V le_rfl
+
+/-- Indecomposability for a Lie module, expressed with the same complemented-submodule condition
+as `Etingof.IsIndecomposable` uses for associative-algebra modules. -/
+def IsIndecomposableLieModule (R L V : Type*) [CommRing R] [LieRing L] [LieAlgebra R L]
+    [AddCommGroup V] [Module R V] [LieRingModule L V] [LieModule R L V] : Prop :=
+  Nontrivial V ∧ ∀ (W₁ W₂ : LieSubmodule R L V),
+    IsCompl W₁ W₂ → W₁ = ⊥ ∨ W₂ = ⊥
+
+/-- The book's first formulation of Theorem 2.1.1(ii): every finite-dimensional
+indecomposable `sl(2, ℂ)`-module is irreducible.  Together with
+`sl2LieActionEquivUEAAction`, this is the stated result for `U(sl(2))`-modules. -/
+theorem Theorem_2_1_1_ii_indecomposable (V : Type*) [AddCommGroup V] [Module ℂ V]
+    [FiniteDimensional ℂ V] [LieRingModule sl2 V] [LieModule ℂ sl2 V]
+    (hV : IsIndecomposableLieModule ℂ sl2 V) :
+    LieModule.IsIrreducible ℂ sl2 V := by
+  sorry
 
 end CompleteReducibility
 
