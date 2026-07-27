@@ -2556,7 +2556,7 @@
     "end_page": "53",
     "start_line": 3,
     "end_line": 6,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -2596,6 +2596,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "This item is an organizational heading and roadmap with no Lean provider of its own, so it has no actual internal dependency."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.7",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "This organizational heading has no declaration of its own; every exact Section 3.7 provider was included in the documented, lint-clean, axiom-clean, warning-free, and import-irredundant quality audit."
     }
   },
   {
@@ -2606,7 +2613,7 @@
     "end_page": "54",
     "start_line": 7,
     "end_line": 4,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "fidelity": "partial",
     "sorry_free": true,
     "notes": "Full theorem now exposed (#5328): jordan_holder_equivalent gives s₁.Equivalent s₂; jordan_holder_factors gives the permutation σ with Wᵢ ≅ W'_{σ i} via Etingof.compositionFactor; jordan_holder retains the n = m length half. Characteristic-p footnote formalized (#7469) in Discussion_footnote_3_7_1.lean: character_fin_pi gives χ_{nV} = n • χ_V for the diagonal representation on Fin n → V (via trace_diagPi_fin, direct-sum additivity of the trace), and character_pcopies_eq_zero gives χ_{pV} = 0 under [CharP k p].",
@@ -2760,6 +2767,13 @@
         "Chapter3/Introduction_to_3.6"
       ],
       "basis": "The Jordan-Holder provider uses only Mathlib. The theorem item's footnote provider uses Etingof.character, the declaration tracked by the Section 3.6 introduction, through its sole retained project import of Theorem3_6_2."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.7",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "All theorem and footnote declarations are documented, lint-clean, axiom-clean, warning-free, and import-irredundant. The diagonal endomorphism API now works for arbitrary index types rather than needlessly requiring Fintype, and its simp theorem has its own documentation."
     }
   },
   {
@@ -2770,7 +2784,7 @@
     "end_page": "54",
     "start_line": 5,
     "end_line": 8,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "sorry_free": true,
     "notes": "Discussion_after_Theorem3_7_1.lean: jordanHolder_length_isGreatest_strict — the composition-series length n is IsGreatest among lengths of strictly-increasing submodule filtrations (LTSeries), via Module.length_compositionSeries and Order.LTSeries.length_le_krullDim.",
     "coverage_swept": {
@@ -2826,6 +2840,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "The discussion provider imports only Mathlib.RingTheory.Length and uses no declaration from another tracked book item."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.7",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The length-maximality theorem and its provider are documented, lint-clean, axiom-clean, warning-free, and import-irredundant; the focused Mathlib proof already required no source change."
     }
   },
   {
