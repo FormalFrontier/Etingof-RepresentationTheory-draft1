@@ -1,5 +1,6 @@
 import Mathlib.Algebra.Polynomial.Basic
 import Mathlib.RingTheory.SimpleModule.Basic
+import Mathlib.RingTheory.SimpleModule.Rank
 import Mathlib.RingTheory.AdjoinRoot
 import Mathlib.FieldTheory.IsAlgClosed.Basic
 import Mathlib.RingTheory.PrincipalIdealDomain
@@ -36,14 +37,26 @@ representation of the field `k` is isomorphic to the regular one-dimensional rep
 theorem Etingof.Example_2_3_14_field_irreducible_unique
     (k : Type*) [Field k] (V : Type*) [AddCommGroup V] [Module k V]
     [IsSimpleModule k V] : Nonempty (V ≃ₗ[k] k) := by
-  sorry
+  exact (Module.nonempty_linearEquiv_of_finrank_eq_one
+    (isSimpleModule_iff_finrank_eq_one.mp (inferInstance : IsSimpleModule k V))).map
+      LinearEquiv.symm
 
 /-- **Example 2.3.14(1), uniqueness of the indecomposable representation.** Every indecomposable
 representation of the field `k` is isomorphic to the regular one-dimensional representation `k`. -/
 theorem Etingof.Example_2_3_14_field_indecomposable_unique
     (k : Type*) [Field k] (V : Type*) [AddCommGroup V] [Module k V]
     (hV : Etingof.IsIndecomposable k V) : Nonempty (V ≃ₗ[k] k) := by
-  sorry
+  letI : Nontrivial V := hV.1
+  haveI : IsSimpleModule k V := (isSimpleModule_iff k V).2 {
+    eq_bot_or_eq_top := by
+      intro W
+      obtain ⟨P, hP⟩ := ComplementedLattice.exists_isCompl W
+      rcases hV.2 W P hP with hW | hPbot
+      · exact Or.inl hW
+      · right
+        have hsup : W ⊔ P = ⊤ := codisjoint_iff.mp hP.codisjoint
+        simpa [hPbot] using hsup }
+  exact Etingof.Example_2_3_14_field_irreducible_unique k V
 
 /-- Over an algebraically closed field k, every simple k[x]-module is 1-dimensional.
 Equivalently, every maximal ideal of k[x] has quotient of k-dimension 1.

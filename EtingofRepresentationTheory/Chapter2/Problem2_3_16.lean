@@ -252,7 +252,24 @@ theorem exists_irreducibleSubrepresentation_centralCharacter
           IsNilpotent (centralAction (V := V) z - (χ_V z) • (1 : Module.End A V))) ∧
         ∀ (z : Subalgebra.center k A) (s : S),
           (z : A) • (s : V) = (χ_V z) • (s : V) := by
-  sorry
+  haveI : Nontrivial V := hV.1
+  obtain ⟨S, hS⟩ := exists_isSimpleModule_of_finite (k := k) (A := A) (V := V)
+  haveI : IsSimpleModule A S := hS
+  haveI : Nontrivial S := IsSimpleModule.nontrivial A S
+  haveI : FiniteDimensional k S :=
+    (inferInstance : FiniteDimensional k (S.restrictScalars k))
+  let χ_V := centralCharacter (k := k) (A := A) (V := S)
+  refine ⟨S, hS, χ_V, ?_, ?_⟩
+  · intro z
+    obtain ⟨s₀, hs₀⟩ := exists_ne (0 : S)
+    have hv₀ : (s₀ : V) ≠ 0 := by simpa using hs₀
+    have heig : (z : A) • (s₀ : V) = (χ_V z) • (s₀ : V) := by
+      have h := centralCharacter_smul (k := k) (A := A) (V := S) z s₀
+      exact congrArg (fun s : S => (s : V)) h
+    exact centralAction_sub_smul_isNilpotent hV z hv₀ heig
+  · intro z s
+    have h := centralCharacter_smul (k := k) (A := A) (V := S) z s
+    exact congrArg (fun t : S => (t : V)) h
 
 end Indecomposable
 

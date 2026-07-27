@@ -38,15 +38,12 @@ Scope: the 24 catalog items from `Chapter2/Definition2.3.1` through
 
 ## Stage 3.3 follow-up exposed by this review
 
-The new statements `Etingof.isIndecomposable_iff_asDirectSum`,
-`Etingof.Example_2_3_14_field_irreducible_unique`,
-`Etingof.Example_2_3_14_field_indecomposable_unique`,
-`Etingof.Example_2_3_14.exists_equiv_pi_jordanRep`, and
-`Etingof.exists_irreducibleSubrepresentation_centralCharacter` have theorem-level `sorry`
-placeholders. Their data and statements are complete and faithful; proving them belongs to a
-separate Stage 3.3 PR. The corresponding three catalog items are therefore left at
-`definition_verified`; previously advanced statuses are preserved on all items whose proofs remain
-complete.
+Four of the five proof obligations exposed during the review were completed in this PR. The sole
+remaining theorem-level `sorry` is
+`Etingof.Example_2_3_14.exists_equiv_pi_jordanRep`, the general finite-dimensional Jordan
+decomposition theorem. Its statement is complete and faithful; proving it belongs to Stage 3.3.
+The corresponding Example 2.3.14 catalog item is therefore `partially_proved`; the definition and
+Problem 2.3.16 items are `sorry_free`.
 
 ## Validation
 

@@ -6,6 +6,7 @@
 #
 # Regenerate after a deliberate change with:
 #   scripts/check_lint_clean.py --log <build.log> --update
+EtingofRepresentationTheory/Chapter2/Example2_3_14.lean
 EtingofRepresentationTheory/Chapter2/FaithfulWeylModule.lean
 EtingofRepresentationTheory/Chapter2/Problem2_14_3.lean
 EtingofRepresentationTheory/Chapter2/Problem2_15_1_complete_reducibility.lean
