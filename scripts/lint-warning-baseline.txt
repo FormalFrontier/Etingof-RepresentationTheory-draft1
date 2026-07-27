@@ -6,6 +6,7 @@
 #
 # Regenerate after a deliberate change with:
 #   scripts/check_lint_clean.py --log <build.log> --update
+EtingofRepresentationTheory/Chapter2/Discussion_quiver_rep_bijection.lean
 EtingofRepresentationTheory/Chapter2/FaithfulWeylModule.lean
 EtingofRepresentationTheory/Chapter2/Problem2_15_1_complete_reducibility.lean
 EtingofRepresentationTheory/Chapter2/Problem2_15_1_m_Module.lean
@@ -17,6 +18,7 @@ EtingofRepresentationTheory/Chapter2/Problem2_5_2.lean
 EtingofRepresentationTheory/Chapter2/Problem2_7_4.lean
 EtingofRepresentationTheory/Chapter2/Problem2_7_5.lean
 EtingofRepresentationTheory/Chapter2/Problem2_7_5_Family.lean
+EtingofRepresentationTheory/Chapter2/Problem2_8_11.lean
 EtingofRepresentationTheory/Chapter2/Problem2_8_6.lean
 EtingofRepresentationTheory/Chapter2/Proposition2_7_1.lean
 EtingofRepresentationTheory/Chapter2/Sl2Irrep.lean

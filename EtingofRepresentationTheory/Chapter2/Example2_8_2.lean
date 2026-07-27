@@ -24,3 +24,28 @@ instance Etingof.Example_2_8_2 : Quiver (Fin 4) where
     else if a = 2 ∧ b = 1 then Unit
     else if a = 3 ∧ b = 0 then Unit
     else Empty
+
+namespace Etingof.Example_2_8_2
+
+/-- The displayed horizontal arrow from the left vertex to the center vertex. -/
+def edge01 : (0 : Fin 4) ⟶ (1 : Fin 4) := by
+  change (if (0 : Fin 4) = 0 ∧ (1 : Fin 4) = 1 then Unit else
+    if (0 : Fin 4) = 2 ∧ (1 : Fin 4) = 1 then Unit else
+    if (0 : Fin 4) = 3 ∧ (1 : Fin 4) = 0 then Unit else Empty)
+  simpa using Unit.unit
+
+/-- The displayed horizontal arrow from the right vertex to the center vertex. -/
+def edge21 : (2 : Fin 4) ⟶ (1 : Fin 4) := by
+  change (if (2 : Fin 4) = 0 ∧ (1 : Fin 4) = 1 then Unit else
+    if (2 : Fin 4) = 2 ∧ (1 : Fin 4) = 1 then Unit else
+    if (2 : Fin 4) = 3 ∧ (1 : Fin 4) = 0 then Unit else Empty)
+  simpa using Unit.unit
+
+/-- The displayed vertical arrow from the lower vertex to the left vertex. -/
+def edge30 : (3 : Fin 4) ⟶ (0 : Fin 4) := by
+  change (if (3 : Fin 4) = 0 ∧ (0 : Fin 4) = 1 then Unit else
+    if (3 : Fin 4) = 2 ∧ (0 : Fin 4) = 1 then Unit else
+    if (3 : Fin 4) = 3 ∧ (0 : Fin 4) = 0 then Unit else Empty)
+  simpa using Unit.unit
+
+end Etingof.Example_2_8_2
