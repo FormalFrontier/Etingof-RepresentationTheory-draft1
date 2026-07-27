@@ -149,7 +149,7 @@ variable (k : Type) [Field k] {n : ℕ} [Quiver.{0} (Fin n)]
 /-- The representation supported on `S`: a one-dimensional space at each vertex of `S`, the
 zero space elsewhere, and the arrow `e : a ⟶ b` acting by the scalar `c a b e` through the
 canonical identifications (automatically zero unless both `a` and `b` lie in `S`). -/
-def suppRep (S : Fin n → Prop) [DecidablePred S] (c : ∀ a b : Fin n, (a ⟶ b) → k) :
+abbrev suppRep (S : Fin n → Prop) [DecidablePred S] (c : ∀ a b : Fin n, (a ⟶ b) → k) :
     FinQuiverRep k n where
   obj j := Fin (if S j then 1 else 0) → k
   mapLinear {a b} e := c a b e • truncMap k (if S a then 1 else 0) (if S b then 1 else 0)

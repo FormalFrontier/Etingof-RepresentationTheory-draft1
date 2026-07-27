@@ -39,6 +39,14 @@ representations of a finite group. -/
 theorem IsSimpleModule.of_isIndecomposable_of_isSemisimpleModule
     (A V : Type*) [Ring A] [AddCommGroup V] [Module A V] [IsSemisimpleModule A V]
     (h : Etingof.IsIndecomposable A V) : IsSimpleModule A V := by
-  sorry
+  letI : Nontrivial V := h.1
+  refine (isSimpleModule_iff A V).2 { eq_bot_or_eq_top := ?_ }
+  intro W
+  obtain ⟨P, hP⟩ := ComplementedLattice.exists_isCompl W
+  rcases h.2 W P hP with hW | hPbot
+  · exact Or.inl hW
+  · right
+    have hsup : W ⊔ P = ⊤ := codisjoint_iff.mp hP.codisjoint
+    simpa [hPbot] using hsup
 
 end Etingof

@@ -72,7 +72,34 @@ theorem sl2InvariantSubspace_iff_ueaInvariantSubspace
     (∀ (x : sl2) (v : V), v ∈ W → ρ x v ∈ W) ↔
       (∀ (u : UniversalEnvelopingAlgebra ℂ sl2) (v : V), v ∈ W →
         UniversalEnvelopingAlgebra.lift ℂ ρ u v ∈ W) := by
-  sorry
+  constructor
+  · intro h
+    let S : Subalgebra ℂ (Module.End ℂ V) :=
+      { carrier := {g | ∀ v, v ∈ W → g v ∈ W}
+        zero_mem' := fun _ _ => by simp
+        add_mem' := fun hf hg v hv => W.add_mem (hf v hv) (hg v hv)
+        one_mem' := fun _ hv => by simpa using hv
+        mul_mem' := fun hf hg v hv => hf _ (hg v hv)
+        algebraMap_mem' := fun c v hv => by
+          simpa [Algebra.algebraMap_eq_smul_one] using W.smul_mem c hv }
+    let ρS : sl2 →ₗ⁅ℂ⁆ S :=
+      { toFun := fun x => ⟨ρ x, h x⟩
+        map_add' := fun x y => by ext v; simp
+        map_smul' := fun c x => by ext v; simp
+        map_lie' := by
+          intro x y
+          exact Subtype.ext (ρ.map_lie x y) }
+    have hlift :
+        S.val.comp (UniversalEnvelopingAlgebra.lift ℂ ρS) =
+          UniversalEnvelopingAlgebra.lift ℂ ρ := by
+      apply UniversalEnvelopingAlgebra.hom_ext
+      ext x v
+      simp [ρS]
+    intro u v hv
+    rw [← hlift]
+    exact (UniversalEnvelopingAlgebra.lift ℂ ρS u).property v hv
+  · intro h x v hv
+    simpa using h (UniversalEnvelopingAlgebra.ι ℂ x) v hv
 
 /-- A linear map intertwines two `sl(2)` actions exactly when it intertwines the corresponding
 `U(sl(2))` actions.  Thus the universal-property bridge preserves the book's equivalence relation
@@ -84,7 +111,43 @@ theorem sl2Intertwiner_iff_ueaIntertwiner
       (∀ (u : UniversalEnvelopingAlgebra ℂ sl2) (v : V),
         f (UniversalEnvelopingAlgebra.lift ℂ ρV u v) =
           UniversalEnvelopingAlgebra.lift ℂ ρW u (f v)) := by
-  sorry
+  constructor
+  · intro h
+    let S : Subalgebra ℂ (Module.End ℂ V × Module.End ℂ W) :=
+      { carrier := {g | ∀ v, f (g.1 v) = g.2 (f v)}
+        zero_mem' := fun v => by simp
+        add_mem' := fun ha hb v => by simp [ha v, hb v]
+        one_mem' := fun v => by simp
+        mul_mem' := by
+          intro a b ha hb v
+          calc
+            f ((a * b).1 v) = f (a.1 (b.1 v)) := rfl
+            _ = a.2 (f (b.1 v)) := ha _
+            _ = a.2 (b.2 (f v)) := congrArg a.2 (hb v)
+            _ = (a * b).2 (f v) := rfl
+        algebraMap_mem' := fun c v => by simp [map_smul] }
+    let ρS : sl2 →ₗ⁅ℂ⁆ S :=
+      { toFun := fun x => ⟨(ρV x, ρW x), h x⟩
+        map_add' := fun x y => by ext v <;> simp
+        map_smul' := fun c x => by ext v <;> simp
+        map_lie' := by
+          intro x y
+          exact Subtype.ext (Prod.ext (ρV.map_lie x y) (ρW.map_lie x y)) }
+    have hlift :
+        S.val.comp (UniversalEnvelopingAlgebra.lift ℂ ρS) =
+          (UniversalEnvelopingAlgebra.lift ℂ ρV).prod
+            (UniversalEnvelopingAlgebra.lift ℂ ρW) := by
+      apply UniversalEnvelopingAlgebra.hom_ext
+      ext x v <;> simp [ρS]
+    intro u v
+    have hprop := (UniversalEnvelopingAlgebra.lift ℂ ρS u).property v
+    rw [show ((UniversalEnvelopingAlgebra.lift ℂ ρS u : S) :
+        Module.End ℂ V × Module.End ℂ W) =
+          (UniversalEnvelopingAlgebra.lift ℂ ρV u,
+            UniversalEnvelopingAlgebra.lift ℂ ρW u) from DFunLike.congr_fun hlift u] at hprop
+    exact hprop
+  · intro h x v
+    simpa using h (UniversalEnvelopingAlgebra.ι ℂ x) v
 
 /-! ## Primitive vector theory for sl(2)-modules
 
@@ -1788,7 +1851,14 @@ theorem Theorem_2_1_1_ii_indecomposable (V : Type*) [AddCommGroup V] [Module ℂ
     [FiniteDimensional ℂ V] [LieRingModule sl2 V] [LieModule ℂ sl2 V]
     (hV : IsIndecomposableLieModule ℂ sl2 V) :
     LieModule.IsIrreducible ℂ sl2 V := by
-  sorry
+  letI : Nontrivial V := hV.1
+  letI : ComplementedLattice (LieSubmodule ℂ sl2 V) := Theorem_2_1_1_ii V
+  refine IsSimpleOrder.of_forall_eq_top fun W hW ↦ ?_
+  obtain ⟨P, hP⟩ := ComplementedLattice.exists_isCompl W
+  rcases hV.2 W P hP with hbot | hPbot
+  · exact (hW hbot).elim
+  · have hsup : W ⊔ P = ⊤ := codisjoint_iff.mp hP.codisjoint
+    simpa [hPbot] using hsup
 
 end CompleteReducibility
 

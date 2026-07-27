@@ -278,7 +278,7 @@
     "coverage_issue": 7531,
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "The classification and complemented-lattice proofs are complete. Stage 3.2 added precise theorem scaffolds for the homogeneous-polynomial realization and the stated indecomposable-implies-irreducible formulation; those new theorems remain for Stage 3.3.",
+    "notes": "The classification, complemented-lattice, U(sl(2))/Lie-action preservation bridges, and indecomposable-implies-irreducible proofs are complete. The homogeneous-polynomial realization remains a Stage 3.3 proof obligation.",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -440,7 +440,7 @@
     "end_page": "8",
     "start_line": 8,
     "end_line": 10,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "fidelity": "verified",
     "claim_coverage": {
