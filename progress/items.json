@@ -9283,9 +9283,9 @@
     "end_line": 1,
     "status": "partially_formalized",
     "coverage": "covered_partial",
-    "note": "Part (i) is complete (#7912): KoszulContraction/KoszulDifferential build the complex Cᵢ = SV ⊗ ⋀ⁱ V with d ∘ d = 0, KoszulAugmentation adds the augmentation, freeness of the terms and basis-independence of d, KoszulBasis writes d out on the monomial/subset k-basis, KoszulHomotopy (#7911) constructs the k-linear contracting homotopy, and KoszulResolution turns it into exactness (koszulD_range_eq_ker, koszulD_zero_range_eq_ker_koszulAug) and the packaged CategoryTheory.ProjectiveResolution Etingof.koszulResolution, recorded as Etingof.Problem_8_2_10_i. Parts (ii)-(v) are still open: see issues #7883, #7884, #7885, #7886.",
+    "note": "Parts (i) and (v) are complete. For (i) (#7912), KoszulContraction/KoszulDifferential build Cᵢ = SV ⊗ ⋀ⁱ V, KoszulAugmentation adds the augmentation and freeness, KoszulBasis and KoszulHomotopy establish exactness, and KoszulResolution packages Etingof.koszulResolution / Etingof.Problem_8_2_10_i. For (v) (#7886), KoszulExtTor proves the Hom and tensor complexes have zero differential and gives genuine k-linear categorical isomorphisms Etingof.koszulExtIso : Extⁱ_{SV}(k,k) ≅ (⋀ⁱV)∗ and Etingof.koszulTorIso : Torᵢ^{SV}(k,k) ≅ ⋀ⁱV for every i. Parts (ii)-(iv) remain open: see issues #7883, #7884, #7885.",
     "fidelity_issue": 5723,
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter9/Introduction",
