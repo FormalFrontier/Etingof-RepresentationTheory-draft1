@@ -7,7 +7,9 @@ The local six-term windows in `Problem8_2_6.lean` are assembled here into global
 cohomological and homological long exact sequence data.  In particular, a single indexed
 connecting family is used in every adjacent window.  The degree-zero endpoints are also made
 explicit: the first `Ext⁰` map is mono and the last `Tor₀` map is epi, after comparison with
-`Hom` and tensor product respectively.
+`Hom` and tensor product respectively.  The `Tor` connecting maps are the explicit left-derived
+maps from `LeftDerivedSequence.lean`.  Both are natural in the other module parameter, and the
+varying-functor construction is also natural under morphisms of short exact sequences.
 -/
 
 namespace Etingof
@@ -160,12 +162,67 @@ theorem Problem_8_2_6_v_ext_zero_exact
 
 /-! ## Tor in the second argument -/
 
+/-- The explicit left-derived connecting map for the second-argument `Tor` sequence. -/
+noncomputable def torSndδ
+    (A : Type u) [Ring A] (M : ModuleCat.{u} Aᵐᵒᵖ)
+    {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact) (n : ℕ) :
+    Etingof.Tor A S.X₃ M (n + 1) ⟶ Etingof.Tor A S.X₁ M n :=
+  NatTrans.leftDerivedδ
+    (tensorRightNatTrans A S.f.hom) (tensorRightNatTrans A S.g.hom)
+    (tensorRightNatTrans_comp_zero A)
+    (fun Y _ => tensorLeftFunctor_map_shortExact A Y hS) M n (n + 1) rfl
+
+/-- Naturality of the second-argument connecting map in the right module. -/
+theorem torSndδ_naturality
+    (A : Type u) [Ring A] {M M' : ModuleCat.{u} Aᵐᵒᵖ} (f : M ⟶ M')
+    {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact) (n : ℕ) :
+    torSndδ A M hS n ≫ (TorFunctor A S.X₁ n).map f =
+      (TorFunctor A S.X₃ (n + 1)).map f ≫ torSndδ A M' hS n := by
+  simpa [torSndδ, TorFunctor] using
+    NatTrans.leftDerivedδ_naturality
+      (tensorRightNatTrans A S.f.hom) (tensorRightNatTrans A S.g.hom)
+      (tensorRightNatTrans_comp_zero A)
+      (fun Y _ => tensorLeftFunctor_map_shortExact A Y hS) f n (n + 1) rfl
+
+/-- Naturality of the second-argument connecting map under a morphism of short exact
+sequences. -/
+theorem torSndδ_naturality_shortComplex
+    (A : Type u) [Ring A] (M : ModuleCat.{u} Aᵐᵒᵖ)
+    {S T : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact) (hT : T.ShortExact)
+    (φ : S ⟶ T) (n : ℕ) :
+    torSndMap A φ.τ₃.hom (n + 1) M ≫ torSndδ A M hT n =
+      torSndδ A M hS n ≫ torSndMap A φ.τ₁.hom n M := by
+  have comm₁₂ :
+      tensorRightNatTrans A φ.τ₁.hom ≫ tensorRightNatTrans A T.f.hom =
+        tensorRightNatTrans A S.f.hom ≫ tensorRightNatTrans A φ.τ₂.hom := by
+    change (tensorRightBifunctor A).map φ.τ₁ ≫
+        (tensorRightBifunctor A).map T.f =
+      (tensorRightBifunctor A).map S.f ≫ (tensorRightBifunctor A).map φ.τ₂
+    rw [← Functor.map_comp, φ.comm₁₂, Functor.map_comp]
+  have comm₂₃ :
+      tensorRightNatTrans A φ.τ₂.hom ≫ tensorRightNatTrans A T.g.hom =
+        tensorRightNatTrans A S.g.hom ≫ tensorRightNatTrans A φ.τ₃.hom := by
+    change (tensorRightBifunctor A).map φ.τ₂ ≫
+        (tensorRightBifunctor A).map T.g =
+      (tensorRightBifunctor A).map S.g ≫ (tensorRightBifunctor A).map φ.τ₃
+    rw [← Functor.map_comp, φ.comm₂₃, Functor.map_comp]
+  simpa [torSndδ, torSndMap] using
+    NatTrans.leftDerivedδ_naturality_sequence
+      (tensorRightNatTrans A S.f.hom) (tensorRightNatTrans A S.g.hom)
+      (tensorRightNatTrans_comp_zero A)
+      (fun Y _ => tensorLeftFunctor_map_shortExact A Y hS)
+      (tensorRightNatTrans A T.f.hom) (tensorRightNatTrans A T.g.hom)
+      (tensorRightNatTrans_comp_zero A)
+      (fun Y _ => tensorLeftFunctor_map_shortExact A Y hT)
+      (tensorRightNatTrans A φ.τ₁.hom) (tensorRightNatTrans A φ.τ₂.hom)
+      (tensorRightNatTrans A φ.τ₃.hom) comm₁₂ comm₂₃ M n (n + 1) rfl
+
 /-- A single globally indexed family of connecting maps for the second-argument `Tor` sequence. -/
 noncomputable def Problem_8_2_6_iii_torConnecting
     (A : Type u) [Ring A] (M : ModuleCat.{u} Aᵐᵒᵖ)
     {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact) (n : ℕ) :
     Etingof.Tor A S.X₃ M (n + 1) ⟶ Etingof.Tor A S.X₁ M n :=
-  Classical.choose (Problem_8_2_6_iii_tor A M hS n (n + 1) rfl)
+  torSndδ A M hS n
 
 /-- Exactness of every adjacent window for the global second-argument connecting family. -/
 theorem Problem_8_2_6_iii_torConnecting_window_exact
@@ -174,8 +231,12 @@ theorem Problem_8_2_6_iii_torConnecting_window_exact
     (ComposableArrows.mk₅
       (torSndMap A S.f.hom (n + 1) M) (torSndMap A S.g.hom (n + 1) M)
       (Problem_8_2_6_iii_torConnecting A M hS n)
-      (torSndMap A S.f.hom n M) (torSndMap A S.g.hom n M)).Exact :=
-  Classical.choose_spec (Problem_8_2_6_iii_tor A M hS n (n + 1) rfl)
+      (torSndMap A S.f.hom n M) (torSndMap A S.g.hom n M)).Exact := by
+  simpa [Problem_8_2_6_iii_torConnecting, torSndδ, torSndMap] using
+    NatTrans.leftDerivedδ_sixTerm_exact
+      (tensorRightNatTrans A S.f.hom) (tensorRightNatTrans A S.g.hom)
+      (tensorRightNatTrans_comp_zero A)
+      (fun Y _ => tensorLeftFunctor_map_shortExact A Y hS) M n (n + 1) rfl
 
 /-- **Problem 8.2.6(iii), coherent `Tor` sequence.** -/
 noncomputable def Problem_8_2_6_iii_torLongExact
@@ -233,13 +294,32 @@ theorem Problem_8_2_6_iii_tor_zero_exact
 
 /-! ## Tor in the first argument -/
 
+/-- The explicit left-derived connecting map for the first-argument `Tor` sequence. -/
+noncomputable def torFstδ
+    (A : Type u) [Ring A] (N : Type u) [AddCommGroup N] [Module A N]
+    {S : ShortComplex (ModuleCat.{u} Aᵐᵒᵖ)} (hS : S.ShortExact) (n : ℕ) :
+    (Etingof.TorFunctor A N (n + 1)).obj S.X₃ ⟶
+      (Etingof.TorFunctor A N n).obj S.X₁ :=
+  Functor.leftDerivedδ (tensorRightFunctor A N) hS n (n + 1) rfl
+
+/-- Naturality of the first-argument connecting map in the left module. -/
+theorem torFstδ_naturality
+    (A : Type u) [Ring A]
+    {N N' : Type u} [AddCommGroup N] [Module A N] [AddCommGroup N'] [Module A N']
+    (f : N →ₗ[A] N') {S : ShortComplex (ModuleCat.{u} Aᵐᵒᵖ)}
+    (hS : S.ShortExact) (n : ℕ) :
+    torSndMap A f (n + 1) S.X₃ ≫ torFstδ A N' hS n =
+      torFstδ A N hS n ≫ torSndMap A f n S.X₁ := by
+  simpa [torFstδ, torSndMap] using
+    Functor.leftDerivedδ_naturality_natTrans (tensorRightNatTrans A f) hS n (n + 1) rfl
+
 /-- A single globally indexed family of connecting maps for the first-argument `Tor` sequence. -/
 noncomputable def Problem_8_2_6_v_torConnecting
     (A : Type u) [Ring A] (N : Type u) [AddCommGroup N] [Module A N]
     {S : ShortComplex (ModuleCat.{u} Aᵐᵒᵖ)} (hS : S.ShortExact) (n : ℕ) :
     (Etingof.TorFunctor A N (n + 1)).obj S.X₃ ⟶
       (Etingof.TorFunctor A N n).obj S.X₁ :=
-  Classical.choose (Problem_8_2_6_v_tor A N hS n (n + 1) rfl)
+  torFstδ A N hS n
 
 /-- Exactness of every adjacent window for the global first-argument connecting family. -/
 theorem Problem_8_2_6_v_torConnecting_window_exact
@@ -248,8 +328,9 @@ theorem Problem_8_2_6_v_torConnecting_window_exact
     (ComposableArrows.mk₅
       ((TorFunctor A N (n + 1)).map S.f) ((TorFunctor A N (n + 1)).map S.g)
       (Problem_8_2_6_v_torConnecting A N hS n)
-      ((TorFunctor A N n).map S.f) ((TorFunctor A N n).map S.g)).Exact :=
-  Classical.choose_spec (Problem_8_2_6_v_tor A N hS n (n + 1) rfl)
+      ((TorFunctor A N n).map S.f) ((TorFunctor A N n).map S.g)).Exact := by
+  simpa [Problem_8_2_6_v_torConnecting, torFstδ, TorFunctor] using
+    Functor.leftDerivedδ_sixTerm_exact (tensorRightFunctor A N) hS n (n + 1) rfl
 
 /-- **Problem 8.2.6(v), coherent `Tor` sequence.** -/
 noncomputable def Problem_8_2_6_v_torLongExact

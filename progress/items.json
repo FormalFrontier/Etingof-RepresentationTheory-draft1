@@ -9203,7 +9203,7 @@
     "start_line": 9,
     "end_line": 22,
     "status": "sorry_free",
-    "coverage_note": "The local Tor/Ext results and part (ii)'s named Ext¹ equivalence are proved. Problem8_2_6_LongExact.lean now packages both argument variants into globally indexed Ext/Tor connecting families, proves every adjacent window exact, proves the zero-ended Ext⁰ mono and Tor₀ epi endpoints, and identifies the degree-zero maps through Ext⁰ ≃ Hom and Tor₀ ≅ tensor. Full naturality of the chosen Tor connecting maps remains #7866, so coverage remains partial (#7421).",
+    "coverage_note": "The local Tor/Ext results and part (ii)'s named Ext¹ equivalence are proved. Problem8_2_6_LongExact.lean packages both argument variants into globally indexed Ext/Tor connecting families, proves every adjacent window exact and the zero-ended Ext⁰ mono/Tor₀ epi endpoints, and identifies the degree-zero maps through Ext⁰ ≃ Hom and Tor₀ ≅ tensor. The Tor maps are explicit rather than existential, are natural in the left/right module parameters, and the second-argument map is natural under morphisms of short exact sequences. The analogous first-argument horseshoe comparison remains #7866, so coverage remains partial (#7421).",
     "coverage": "covered_partial",
     "coverage_issue": 7421,
     "followup_issue": 7866,
