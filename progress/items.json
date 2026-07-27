@@ -2581,6 +2581,14 @@
           "reason": "This is an organizational roadmap for the following sections, not a standalone mathematical assertion."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.7",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": [],
+      "basis": "The item consists only of a section heading and organizational roadmap, has no exact Lean provider, and introduces no proof obligation."
     }
   },
   {
@@ -2718,6 +2726,24 @@
           "lean_decl": "Etingof.jordan_holder_factors; Etingof.jordan_holder_equivalent"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.7",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.compositionFactor",
+        "Etingof.jordan_holder_equivalent",
+        "Etingof.jordan_holder_factors",
+        "Etingof.jordan_holder",
+        "Etingof.diagPi",
+        "Etingof.diagPi_apply",
+        "Etingof.trace_diagPi_fin",
+        "Etingof.character_fin_pi",
+        "Etingof.character_pcopies_eq_zero"
+      ],
+      "basis": "The four Jordan-Holder declarations and five characteristic-p footnote declarations are authored, admission-free constants. The exhaustive module-origin audit also covers the generated equation theorem Etingof.diagPi.eq_1 and internal proof constant Etingof.diagPi._proof_1."
     }
   },
   {
@@ -2767,6 +2793,16 @@
           "lean_decl": "CompositionSeries"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.7",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.jordanHolder_length_isGreatest_strict"
+      ],
+      "basis": "The authored theorem is an admission-free constant whose transitive axiom set contains only the standard Lean/Mathlib axioms."
     }
   },
   {
