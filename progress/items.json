@@ -9283,7 +9283,7 @@
     "end_line": 1,
     "status": "partially_formalized",
     "coverage": "covered_partial",
-    "note": "Part (i) is complete (#7912): KoszulContraction/KoszulDifferential build the complex Cᵢ = SV ⊗ ⋀ⁱ V with d ∘ d = 0, KoszulAugmentation adds the augmentation, freeness of the terms and basis-independence of d, KoszulBasis writes d out on the monomial/subset k-basis, KoszulHomotopy (#7911) constructs the k-linear contracting homotopy, and KoszulResolution turns it into exactness (koszulD_range_eq_ker, koszulD_zero_range_eq_ker_koszulAug) and the packaged CategoryTheory.ProjectiveResolution Etingof.koszulResolution, recorded as Etingof.Problem_8_2_10_i. Part (ii) now has the algebra equivalence S(U⊕W) ≃ S(U)⊗S(W) and an exact transported ProjectiveResolution Etingof.koszulComplementResolution; #7883 remains open for the degreewise identification with the literal free modules S(U⊕W)⊗⋀ⁱU. Parts (iii)-(v) remain tracked by #7884, #7885, and #7886.",
+    "note": "Parts (i) and (ii) are complete. For (i), KoszulContraction/KoszulDifferential build Cᵢ = SV ⊗ ⋀ⁱ V with d ∘ d = 0, KoszulAugmentation adds the augmentation and freeness, KoszulHomotopy constructs the contracting homotopy, and KoszulResolution packages exactness as Etingof.Problem_8_2_10_i. For (ii), SymmetricAlgebraDirectSum proves S(U⊕W) ≃ S(U)⊗S(W), KoszulDirectSumResolution constructs the exact transported resolution Etingof.Problem_8_2_10_ii, Etingof.Problem_8_2_10_ii_termIso identifies its degree-i term with the literal S(U⊕W)⊗⋀ⁱU, and Etingof.Problem_8_2_10_ii_free proves those terms free. Parts (iii)-(v) remain tracked by #7884, #7885, and #7886.",
     "fidelity_issue": 5723,
     "last_updated": "2026-07-27"
   },
