@@ -29,6 +29,16 @@ VALID_TYPES = {
 DERIVED_TYPE = "derived"
 DERIVED_REQUIRED_FIELDS = {"type", "derived_from", "source_span", "claim", "status"}
 
+# PLAN Stage 3.7 requires every exercise item to carry one of these honest
+# coverage states.  In particular, `status: sorry_free` is not a substitute:
+# an exercise can have no matching Lean declaration and still be sorry-free.
+VALID_EXERCISE_COVERAGE = {
+    "covered_full",
+    "covered_partial",
+    "not_started",
+    "non_formalizable",
+}
+
 # Files in pages/ that are not actual page content
 EXCLUDED_FILES = {"CONVENTIONS.md"}
 
@@ -225,6 +235,18 @@ def validate(items_path):
         # Type enum
         if item["type"] not in VALID_TYPES:
             errors.append(f"{prefix}: invalid type '{item['type']}'")
+
+        # Stage 3.7 exercise-coverage ratchet.  This is deliberately limited to
+        # the mechanically checkable part of the requirement: presence of a
+        # recognized state.  Whether the state is mathematically accurate still
+        # requires the source/Lean review recorded in `coverage_note`.
+        if item["type"] == "exercise":
+            exercise_coverage = item.get("coverage")
+            if exercise_coverage not in VALID_EXERCISE_COVERAGE:
+                errors.append(
+                    f"{prefix}: exercise coverage must be one of "
+                    f"{sorted(VALID_EXERCISE_COVERAGE)}, got {exercise_coverage!r}"
+                )
 
         # Line number types
         if not isinstance(item["start_line"], int):

@@ -2806,7 +2806,7 @@
       "EtingofRepresentationTheory/Chapter3/Problem3_9_2.lean",
       "EtingofRepresentationTheory/Chapter3/Problem3_9_2_Classification.lean"
     ],
-    "coverage": "covered",
+    "coverage": "covered_full",
     "coverage_arm": "audited",
     "lean_decl": [
       "Etingof.Problem3_9_2.ext1_self",
@@ -4242,7 +4242,7 @@
       "Etingof.Problem4_12_9.tensorIsoCharChar"
     ],
     "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_12_9.lean",
-    "coverage": "covered",
+    "coverage": "covered_full",
     "fidelity_note": "The source's four decompositions are now representation isomorphisms, not only trace identities. The right-hand sides are the constructed direct sums `Etingof.FDRep.pi`, which is proved to be the categorical biproduct (`Etingof.FDRep.piBiconeIsBilimit`), so the two direct-sum statements are also available in `⨁` form.",
     "last_updated": "2026-07-26"
   },
@@ -7278,7 +7278,18 @@
     "end_page": "152",
     "start_line": 35,
     "end_line": 37,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage": "covered_full",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter6/FiniteTypeDefs.lean",
+      "EtingofRepresentationTheory/Chapter6/Problem6_1_5_theorem.lean"
+    ],
+    "lean_decl": [
+      "Etingof.IsFiniteTypeQuiver",
+      "Etingof.Theorem_6_1_5"
+    ],
+    "coverage_note": "This introductory blob defines finite representation type and introduces Gabriel's theorem. `Etingof.IsFiniteTypeQuiver` gives the book's literal finite-type predicate (finitely many isomorphism classes of finite-dimensional indecomposable representations), while `Etingof.Theorem_6_1_5` supplies the announced finite-type iff Dynkin theorem. The separately partitioned theorem and parts (a)-(c) retain their own coverage records.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter6/Problem6.1.5_theorem",
@@ -8061,7 +8072,7 @@
     "fidelity": "full",
     "sorry_free": true,
     "coverage_note": "The lattice basis, coordinate descriptions, and root counts are joined to a faithful finite reduced simply-laced crystallographic root-system predicate. The E8, E7, and E6 root sets are proved finite, norm-two, reduced, integral, closed under negation, and closed under root reflections. Explicit compatible simple-root families are exhibited and their Gram graphs are proved to be the standard E8, E7, and E6 Dynkin diagrams, packaged by rootsOf_E8_type_E8, rootsOf_E7_type_E7, and rootsOf_E6_type_E6. All declarations are sorryAx-free; #7557 resolved.",
-    "coverage": "covered",
+    "coverage": "covered_full",
     "lean_file": "EtingofRepresentationTheory/Chapter6/Problem6_9_2.lean;EtingofRepresentationTheory/Chapter6/Problem6_9_2_RootSystem.lean",
     "last_updated": "2026-07-27"
   },
@@ -9559,7 +9570,7 @@
     "start_line": 11,
     "end_line": 14,
     "status": "sorry_free",
-    "coverage": "covered",
+    "coverage": "covered_full",
     "last_updated": "2026-07-26",
     "coverage_note": "Part (i) and the Hom-dimension/path-count computation are proved. For part (ii) the family A·eᵢ is now certified as the source-defined projective covers, in Chapter9/PathAlgebraVertexCovers.lean: the vertex simple modules Sᵢ = augModule k Q i are simple (augModule_isSimpleModule), pairwise non-isomorphic (augModule_not_isomorphic_of_ne) and exhaust the simple modules (exists_augModule_iso), so the vertices index the simples exactly; each Pᵢ = A·eᵢ is projective (pathAlgebraProj_projective) and, for acyclic Q, indecomposable (pathAlgebraProj_isIndecomposable); the augmentation Pᵢ ↠ Sᵢ is surjective with superfluous kernel (projToSimple_essential), packaged as Etingof.ProjectiveCover in vertexProjectiveCover. cartanMatrix_pathAlgebra_eq_pathCount_of_projectiveCovers assembles these with cartanMatrix_pathAlgebra_eq_pathCount', so the computed matrix is the Cartan matrix of Definition 9.3.1."
   },
