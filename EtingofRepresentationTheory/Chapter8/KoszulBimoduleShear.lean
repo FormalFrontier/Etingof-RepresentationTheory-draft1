@@ -18,7 +18,7 @@ the literal tensor product, then packages the transported exact projective resol
 `koszulBimoduleResolution`.
 -/
 
-open CategoryTheory TensorProduct
+open CategoryTheory Limits TensorProduct
 
 universe u
 namespace Etingof
@@ -384,6 +384,71 @@ noncomputable abbrev shearRestrictionFunctor :
 
 noncomputable def regularResolution : ProjectiveResolution (regularObj k V) :=
   ProjectiveResolution.self _
+
+/-- The degree-zero regular resolution has its sole nonzero term at degree zero. -/
+noncomputable def regularResolutionZeroIso :
+    (regularResolution k V).complex.X 0 ≅ regularObj k V :=
+  HomologicalComplex.singleObjXIsoOfEq
+    (ComplexShape.down ℕ) 0 (regularObj k V) 0 rfl
+
+noncomputable def externalRegularTermComponent
+    {M : ModuleCat.{u} (S k V)} (P : ProjectiveResolution M) (n i₁ i₂ : ℕ)
+    (h : (ComplexShape.down ℕ).π (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+      (i₁, i₂) = n) :
+    ((extTensorFunctorLeft k (S k V) (S k V)).obj (P.complex.X i₁)).obj
+        ((regularResolution k V).complex.X i₂) ⟶
+      ((extTensorFunctorLeft k (S k V) (S k V)).obj (P.complex.X n)).obj
+        (regularObj k V) := by
+  rcases i₂ with _ | i₂
+  · have hi : i₁ = n := by simpa using h
+    subst i₁
+    exact ((extTensorFunctorLeft k (S k V) (S k V)).obj (P.complex.X n)).map
+      (regularResolutionZeroIso k V).hom
+  · exact 0
+
+@[simp]
+theorem externalRegularTermComponent_zero
+    {M : ModuleCat.{u} (S k V)} (P : ProjectiveResolution M) (n : ℕ)
+    (h : (ComplexShape.down ℕ).π (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+      (n, 0) = n) :
+    externalRegularTermComponent k V P n n 0 h =
+      ((extTensorFunctorLeft k (S k V) (S k V)).obj (P.complex.X n)).map
+        (regularResolutionZeroIso k V).hom := by
+  simp [externalRegularTermComponent]
+
+/-- Tensoring a complex with the degree-zero regular resolution introduces no extra terms:
+the degree-`n` total-complex object is its degree-`n` term externally tensored with `SV`. -/
+noncomputable def externalRegularTermIso
+    {M : ModuleCat.{u} (S k V)} (P : ProjectiveResolution M) (n : ℕ) :
+    (extTensorComplexLeft (k := k) P (regularResolution k V)).X n ≅
+      ((extTensorFunctorLeft k (S k V) (S k V)).obj (P.complex.X n)).obj
+        (regularObj k V) where
+  hom := HomologicalComplex.mapBifunctorDesc (j := n)
+    (externalRegularTermComponent k V P n)
+  inv := ((extTensorFunctorLeft k (S k V) (S k V)).obj (P.complex.X n)).map
+      (regularResolutionZeroIso k V).inv ≫
+    HomologicalComplex.ιMapBifunctor P.complex (regularResolution k V).complex
+      (extTensorFunctorLeft k (S k V) (S k V)) (ComplexShape.down ℕ) n 0 n (by simp)
+  hom_inv_id := by
+    apply HomologicalComplex.mapBifunctor.hom_ext
+    intro i₁ i₂ h
+    rcases i₂ with _ | i₂
+    · have hi : i₁ = n := by simpa using h
+      subst i₁
+      rw [← Category.assoc, HomologicalComplex.ι_mapBifunctorDesc,
+        externalRegularTermComponent_zero, ← Category.assoc, ← Functor.map_comp]
+      simp
+    · have hz : IsZero ((regularResolution k V).complex.X (i₂ + 1)) := by
+        change IsZero (((ChainComplex.single₀ (ModuleCat.{u} (S k V))).obj
+          (regularObj k V)).X (i₂ + 1))
+        apply HomologicalComplex.isZero_single_obj_X
+        simp
+      exact (((extTensorFunctorLeft k (S k V) (S k V)).obj
+        (P.complex.X i₁)).map_isZero hz).eq_of_src _ _
+  inv_hom_id := by
+    rw [Category.assoc, HomologicalComplex.ι_mapBifunctorDesc,
+      externalRegularTermComponent_zero, ← Functor.map_comp]
+    simp
 
 noncomputable def externalKoszulResolution
     (b : Module.Basis (Fin (Module.finrank k V)) k V) :
