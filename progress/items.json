@@ -4455,6 +4455,16 @@
           "lean_decl": "Algebra.TensorProduct.tmul_mul_tmul"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Algebra.TensorProduct.tmul_mul_tmul"
+      ],
+      "basis": "The organizational heading is nonformalizable, while the stated pure-tensor multiplication law is supplied by this external Mathlib declaration; that declaration was resolved and its complete axiom closure was audited."
     }
   },
   {
@@ -4490,6 +4500,16 @@
           "lean_decl": "Etingof.matrix_tensorProduct_matrix"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.matrix_tensorProduct_matrix"
+      ],
+      "basis": "The sole exact-provider constant is this durable authored theorem. It is admission-free and its complete axiom closure contains only Lean's accepted foundational axioms."
     }
   },
   {
@@ -4520,6 +4540,14 @@
           "reason": "This is an organizational preview of Theorem 3.10.2, whose individual mathematical assertions are inventoried on the theorem item."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": [],
+      "basis": "This item is only an organizational preview of Theorem 3.10.2 and contains no independently auditable proof declaration."
     }
   },
   {
@@ -4564,6 +4592,21 @@
           "lean_decl": "Etingof.tensor_product_irreducible_classification_unique"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.tensor_product_irreducible",
+        "evalMap",
+        "evalMap_tmul",
+        "Etingof.tensor_product_irreducible_classification",
+        "Etingof.tensor_left_factor_unique",
+        "Etingof.tensor_product_irreducible_classification_unique"
+      ],
+      "basis": "These are all six durable authored declarations in the exact provider. The exhaustive environment audit also checked all 30 provider-attributed constants (28 proofs), including local regression instances and generated/private helpers; every proof is admission-free and depends only on accepted foundational axioms."
     }
   },
   {
@@ -4604,6 +4647,55 @@
           "lean_decl": "EtingofRepresentationTheory.Chapter3.Remark3_10_3.ratFunc_tensor_ratFunc_not_isField; isSimpleModule_self_iff_isUnit"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.ratFunc_tensor_ratFunc_not_isField",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.WeylCounterexampleModule",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.mulVar",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.pderivEnd",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstX",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstY",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.secondX",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.secondY",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.first_weyl_relation",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.second_weyl_relation",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstX_secondX_commute",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstX_secondY_commute",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstY_secondX_commute",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstY_secondY_commute",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstRep",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.secondRep",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstRep_secondRep_commute",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorRep",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorModule",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorRep_tmul",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstRep_x",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstRep_y",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.secondRep_x",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.secondRep_y",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.entangled_generator_relations",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorModule_isSimpleModule",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorRep_not_factors_finiteDimensional",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.regularLinearEquiv",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.regularLinearEquiv_monomial",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstOrbit",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstOrbit_monomial",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.regularLinearEquiv_eq_firstOrbit",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstRestrictionModule",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.regularModuleEquiv",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.regularModuleEquiv_apply",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.noSimpleRegularSubmodule_of_noLeftInverse",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.weylY_noLeftInverse",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.regularWeyl_noSimpleSubmodule",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorModule_not_equiv_tensorProduct_of_simple_left",
+        "isSimpleModule_self_iff_isUnit"
+      ],
+      "basis": "The list contains all 39 durable authored exact-provider declarations and the external self-module simplicity bridge used by the rational-function counterexample. The exhaustive audit covered all 88 provider-attributed constants (67 proofs), including generated/private helpers, and found no admissions or non-foundational axioms."
     }
   },
   {
@@ -4691,6 +4783,44 @@
           "lean_decl": "Etingof.tensor_product_irreducible_classification_unique"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.tensorRadQuot",
+        "Etingof.radTensorLeft",
+        "Etingof.radTensorRight",
+        "Etingof.radTensorSum",
+        "Etingof.tensorRadQuot_tmul",
+        "Etingof.tensorRadQuot_surjective",
+        "Etingof.radTensorSum_eq_ker",
+        "Etingof.instIsTwoSidedTensorProductRadTensorSum",
+        "Etingof.quotientRadTensorSumEquiv",
+        "Etingof.le_jacobson_of_isNilpotent",
+        "Etingof.map_includeLeft_mul_le",
+        "Etingof.map_includeLeft_pow_le",
+        "Etingof.isNilpotent_radTensorLeft",
+        "Etingof.map_includeRight_mul_le",
+        "Etingof.map_includeRight_pow_le",
+        "Etingof.isNilpotent_radTensorRight",
+        "Etingof.radTensorSum_le_jacobson",
+        "Etingof.isNilpotent_radTensorSum",
+        "Etingof.jacobson_le_radTensorSum",
+        "Etingof.exists_algEquiv_pi_matrix",
+        "Etingof.isSemisimpleRing_tensorProduct",
+        "Etingof.jacobson_tensorProduct_eq",
+        "Etingof.quotientJacobsonTensorEquiv",
+        "Etingof.jacobson_tensorProduct_range_eq",
+        "Etingof.density_theorem_part1",
+        "Etingof.tensor_product_irreducible",
+        "Algebra.TensorProduct.lift",
+        "Etingof.tensor_product_irreducible_classification",
+        "Etingof.tensor_product_irreducible_classification_unique"
+      ],
+      "basis": "The first 24 entries are every durable authored declaration in the exact radical provider; the remaining entries are the audited density, tensor-action, classification, uniqueness, and tensor-lift endpoints used by the proof discussion. All 33 exact-provider constants and all external endpoints were checked for complete axiom closure, with no admissions or non-foundational axioms."
     }
   },
   {
