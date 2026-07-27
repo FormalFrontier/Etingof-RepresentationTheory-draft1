@@ -1,4 +1,5 @@
-import Mathlib
+import Mathlib.Algebra.Algebra.Subalgebra.Lattice
+import Mathlib.LinearAlgebra.Finsupp.LinearCombination
 import EtingofRepresentationTheory.Chapter2.Definition2_8_4
 
 /-!

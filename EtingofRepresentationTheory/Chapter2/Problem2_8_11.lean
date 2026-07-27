@@ -1,19 +1,13 @@
 import Mathlib.RingTheory.MvPolynomial.Homogeneous
 import Mathlib.RingTheory.MvPolynomial.Basic
-import Mathlib.LinearAlgebra.ExteriorPower.Basic
 import Mathlib.LinearAlgebra.ExteriorPower.Basis
-import Mathlib.RingTheory.PowerSeries.Basic
 import Mathlib.RingTheory.PowerSeries.WellKnown
 import Mathlib.Algebra.Order.Antidiag.FinsuppEquiv
-import Mathlib.Combinatorics.Quiver.Path
 import Mathlib.Data.Matrix.Mul
 import Mathlib.Algebra.FreeAlgebra
 import Mathlib.SetTheory.Cardinal.Finite
 import Mathlib.Data.Finite.Sigma
-import Mathlib.Data.Finite.Prod
 import Mathlib.Algebra.DirectSum.Module
-import Mathlib.LinearAlgebra.Finsupp.Supported
-import Mathlib.LinearAlgebra.Finsupp.VectorSpace
 import EtingofRepresentationTheory.Chapter2.Definition2_8_4
 
 /-!

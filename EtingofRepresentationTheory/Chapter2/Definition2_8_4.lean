@@ -1,8 +1,5 @@
-import Mathlib.Algebra.Algebra.Basic
 import Mathlib.Algebra.Algebra.Opposite
 import Mathlib.Combinatorics.Quiver.Path
-import Mathlib.Data.Finsupp.Defs
-import Mathlib.Algebra.Group.Finsupp
 import Mathlib.LinearAlgebra.Finsupp.LSum
 
 /-!

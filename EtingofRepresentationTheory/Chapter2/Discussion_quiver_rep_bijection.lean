@@ -1,12 +1,9 @@
-import EtingofRepresentationTheory.Chapter2.Definition2_8_3
 import EtingofRepresentationTheory.Chapter2.Definition2_8_4
 import EtingofRepresentationTheory.Chapter2.Definition2_8_10
-import Mathlib.Algebra.Algebra.Tower
 import Mathlib.Algebra.Algebra.RestrictScalars
 import Mathlib.Algebra.Module.NatInt
 import Mathlib.RingTheory.Idempotents
 import Mathlib.Algebra.DirectSum.Module
-import Mathlib.LinearAlgebra.Projection
 
 /-!
 # Discussion: quiver representations vs. path-algebra modules
