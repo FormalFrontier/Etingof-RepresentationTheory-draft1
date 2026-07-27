@@ -36,14 +36,11 @@ Scope: the 24 catalog items from `Chapter2/Definition2.3.1` through
 - `Problem2_3_16.lean`: added the omitted clause that the unique central eigenvalue is the scalar
   action on an irreducible subrepresentation.
 
-## Stage 3.3 follow-up exposed by this review
+## Proof completion
 
-Four of the five proof obligations exposed during the review were completed in this PR. The sole
-remaining theorem-level `sorry` is
+All five proof obligations exposed during the review were completed in this PR, including
 `Etingof.Example_2_3_14.exists_equiv_pi_jordanRep`, the general finite-dimensional Jordan
-decomposition theorem. Its statement is complete and faithful; proving it belongs to Stage 3.3.
-The corresponding Example 2.3.14 catalog item is therefore `partially_proved`; the definition and
-Problem 2.3.16 items are `sorry_free`.
+decomposition theorem. The three affected catalog items are all `sorry_free`.
 
 ## Validation
 

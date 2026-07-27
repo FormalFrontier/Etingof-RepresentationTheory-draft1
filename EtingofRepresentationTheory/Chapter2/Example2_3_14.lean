@@ -267,17 +267,6 @@ lemma e0_mem_of_invariant (lam : k) (n : ℕ) [NeZero n] {W : Submodule k (Fin n
 (Etingof Example 2.3.14(2)) -/
 abbrev jordanRep (lam : k) (n : ℕ) := Module.AEval' (jordanBlock lam n)
 
-/-- **Jordan normal form, in representation-theoretic form.** Every finite-dimensional
-`k[X]`-representation over an algebraically closed field is a finite direct sum of Jordan-block
-representations. A finite product is Mathlib's model for this finite direct sum. -/
-theorem exists_equiv_pi_jordanRep
-    (M : Type*) [AddCommGroup M] [Module k M] [Module (Polynomial k) M]
-    [IsScalarTower k (Polynomial k) M] [IsAlgClosed k] [FiniteDimensional k M] :
-    ∃ (m : ℕ) (lam : Fin m → k) (n : Fin m → ℕ),
-      (∀ i, 0 < n i) ∧
-        Nonempty (M ≃ₗ[Polynomial k] ∀ i : Fin m, jordanRep (lam i) (n i)) := by
-  sorry
-
 instance jordanRep_nontrivial (lam : k) (n : ℕ) [NeZero n] :
     Nontrivial (jordanRep lam n) :=
   (Module.AEval'.of (jordanBlock lam n)).symm.toEquiv.nontrivial
@@ -576,6 +565,64 @@ lemma isTorsion_of_finiteDimensional [FiniteDimensional k M] :
   rw [← LinearMap.ker_eq_bot] at hnotinj
   obtain ⟨q, hq, hqne⟩ := (Submodule.ne_bot_iff _).mp hnotinj
   exact ⟨⟨q, mem_nonZeroDivisors_of_ne_zero hqne⟩, LinearMap.mem_ker.mp hq⟩
+
+/-- **Jordan normal form, in representation-theoretic form.** Every finite-dimensional
+`k[X]`-representation over an algebraically closed field is a finite direct sum of Jordan-block
+representations. A finite product is Mathlib's model for this finite direct sum. -/
+theorem exists_equiv_pi_jordanRep [IsAlgClosed k] [FiniteDimensional k M] :
+    ∃ (m : ℕ) (lam : Fin m → k) (n : Fin m → ℕ),
+      (∀ i, 0 < n i) ∧
+        Nonempty (M ≃ₗ[Polynomial k] ∀ i : Fin m, jordanRep (lam i) (n i)) := by
+  classical
+  let R := Polynomial k
+  haveI : Module.Finite R M := Module.Finite.of_restrictScalars_finite k R M
+  obtain ⟨ι, instι, p, hp, expo, ⟨estr⟩⟩ :=
+    Module.equiv_directSum_of_isTorsion (isTorsion_of_finiteDimensional (k := k) M)
+  letI : Fintype ι := instι
+  let I := {i : ι // 0 < expo i}
+  let Q : ι → Type _ := fun i => R ⧸ (R ∙ p i ^ expo i)
+  -- Discard the zero summands arising from exponent zero.
+  let dropZero : (∀ i : ι, Q i) ≃ₗ[R] ∀ i : I, Q i := {
+    toFun := fun f i => f i
+    invFun := fun f i => if hi : 0 < expo i then f ⟨i, hi⟩ else 0
+    left_inv := by
+      intro f
+      funext i
+      by_cases hi : 0 < expo i
+      · simp [hi]
+      · have hzero : expo i = 0 := Nat.eq_zero_of_not_pos hi
+        haveI : Subsingleton (Q i) := by
+          dsimp [Q]
+          rw [hzero, pow_zero, Ideal.submodule_span_eq, Ideal.span_singleton_one]
+          infer_instance
+        exact Subsingleton.elim _ _
+    right_inv := by
+      intro f
+      funext i
+      change (if hi : 0 < expo (i : ι) then f ⟨i, hi⟩ else 0) = f i
+      rw [dif_pos i.property]
+    map_add' := by intro f g; rfl
+    map_smul' := by intro c f; rfl }
+  -- Every irreducible polynomial over an algebraically closed field is associated to `X - λ`.
+  have hassoc : ∀ i : I, ∃ lam : k, Associated (X - C lam) (p i) := by
+    intro i
+    have hdeg : (p i).degree ≠ 0 := fun hd =>
+      (hp i).not_isUnit (Polynomial.isUnit_iff_degree_eq_zero.mpr hd)
+    obtain ⟨lam, hlam⟩ := IsAlgClosed.exists_root (p i) hdeg
+    exact ⟨lam, (Polynomial.irreducible_X_sub_C lam).associated_of_dvd (hp i)
+      (Polynomial.dvd_iff_isRoot.mpr hlam)⟩
+  choose lam hlam using hassoc
+  let blockEquiv : ∀ i : I, Q i ≃ₗ[R] jordanRep (lam i) (expo i) := fun i => by
+    letI : NeZero (expo i) := ⟨Nat.ne_of_gt i.property⟩
+    refine (Submodule.quotEquivOfEq _ _ ?_).trans (jordanQuotEquiv (lam i) (expo i))
+    rw [Ideal.submodule_span_eq]
+    exact Ideal.span_singleton_eq_span_singleton.mpr
+      ((hlam i).pow_pow (n := expo i)).symm
+  let e : Fin (Fintype.card I) ≃ I := (Fintype.equivFin I).symm
+  refine ⟨Fintype.card I, lam ∘ e, fun i => expo (e i), fun i => (e i).property, ?_⟩
+  exact ⟨estr.trans (DirectSum.linearEquivFunOnFintype R ι Q) |>.trans dropZero |>.trans
+    (LinearEquiv.piCongrRight blockEquiv) |>.trans
+    (LinearEquiv.piCongrLeft R (fun i : I => jordanRep (lam i) (expo i)) e).symm⟩
 
 /-- **Etingof Example 2.3.14(2), the classification.** Over an algebraically closed field,
 every finite-dimensional indecomposable `k[X]`-representation is isomorphic to a Jordan block
