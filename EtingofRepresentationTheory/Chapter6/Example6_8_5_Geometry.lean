@@ -23,7 +23,7 @@ noncomputable abbrev finalArmMap₃ :=
   @Etingof.QuiverRepresentation.mapLinear ℂ (Fin 4) _ Q₀ finalRepresentation
     2 3 finalArmArrow₃
 
-private theorem Q₀_arrow_cases {a b : Fin 4} (e : @Quiver.Hom (Fin 4) Q₀ a b) :
+theorem Q₀_arrow_cases {a b : Fin 4} (e : @Quiver.Hom (Fin 4) Q₀ a b) :
     (a = 0 ∧ b = 3 ∧ HEq e finalArmArrow₁) ∨
     (a = 1 ∧ b = 3 ∧ HEq e finalArmArrow₂) ∨
     (a = 2 ∧ b = 3 ∧ HEq e finalArmArrow₃) := by

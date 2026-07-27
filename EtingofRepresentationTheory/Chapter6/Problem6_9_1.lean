@@ -87,6 +87,132 @@ def Q₂Rep.Indecomposable {k : Type*} [Field k] (ρ : Q₂Rep k) : Prop :=
     (∀ x ∈ pW, ρ.B x ∈ pV) → (∀ x ∈ qW, ρ.B x ∈ qV) →
     (pV = ⊥ ∧ pW = ⊥) ∨ (qV = ⊥ ∧ qW = ⊥)
 
+/-- An isomorphism of `Q₂`-representations is a pair of vertexwise linear
+equivalences intertwining both arrows. -/
+structure Q₂Rep.Iso {k : Type*} [Field k] (ρ σ : Q₂Rep k) where
+  eV : ρ.V ≃ₗ[k] σ.V
+  eW : ρ.W ≃ₗ[k] σ.W
+  map_A : ∀ v, eW (ρ.A v) = σ.A (eV v)
+  map_B : ∀ w, eV (ρ.B w) = σ.B (eW w)
+
+namespace Q₂Rep.Iso
+
+/-- The identity isomorphism of a `Q₂`-representation. -/
+def refl {k : Type*} [Field k] (ρ : Q₂Rep k) : ρ.Iso ρ where
+  eV := LinearEquiv.refl k ρ.V
+  eW := LinearEquiv.refl k ρ.W
+  map_A := fun _ => rfl
+  map_B := fun _ => rfl
+
+/-- Reverse an isomorphism of `Q₂`-representations. -/
+def symm {k : Type*} [Field k] {ρ σ : Q₂Rep k} (e : ρ.Iso σ) : σ.Iso ρ where
+  eV := e.eV.symm
+  eW := e.eW.symm
+  map_A := fun w => by
+    apply e.eW.injective
+    simpa using (e.map_A (e.eV.symm w)).symm
+  map_B := fun v => by
+    apply e.eV.injective
+    simpa using (e.map_B (e.eW.symm v)).symm
+
+/-- Compose isomorphisms of `Q₂`-representations. -/
+def trans {k : Type*} [Field k] {ρ σ τ : Q₂Rep k} (e : ρ.Iso σ) (f : σ.Iso τ) :
+    ρ.Iso τ where
+  eV := e.eV.trans f.eV
+  eW := e.eW.trans f.eW
+  map_A := fun v => by
+    calc
+      f.eW (e.eW (ρ.A v)) = f.eW (σ.A (e.eV v)) := congrArg f.eW (e.map_A v)
+      _ = τ.A (f.eV (e.eV v)) := f.map_A _
+      _ = τ.A ((e.eV.trans f.eV) v) := rfl
+  map_B := fun w => by
+    calc
+      f.eV (e.eV (ρ.B w)) = f.eV (σ.B (e.eW w)) := congrArg f.eV (e.map_B w)
+      _ = τ.B (f.eW (e.eW w)) := f.map_B _
+      _ = τ.B ((e.eW.trans f.eW) w) := rfl
+
+end Q₂Rep.Iso
+
+/-- Swapping the two vertices preserves indecomposability. -/
+theorem Q₂Rep.indecomposable_swap_iff {k : Type*} [Field k] (ρ : Q₂Rep k) :
+    ρ.swap.Indecomposable ↔ ρ.Indecomposable := by
+  constructor
+  · rintro ⟨hne, h⟩
+    refine ⟨hne.symm, ?_⟩
+    intro pV qV pW qW hcV hcW hApV hAqV hBpW hBqW
+    rcases h pW qW pV qV hcW hcV hBpW hBqW hApV hAqV with hp | hq
+    · exact Or.inl hp.symm
+    · exact Or.inr hq.symm
+  · rintro ⟨hne, h⟩
+    refine ⟨hne.symm, ?_⟩
+    intro pW qW pV qV hcW hcV hBpW hBqW hApV hAqV
+    rcases h pV qV pW qW hcV hcW hApV hAqV hBpW hBqW with hp | hq
+    · exact Or.inl hp.symm
+    · exact Or.inr hq.symm
+
+/-- Isomorphic `Q₂`-representations have the same dimension vector. -/
+theorem Q₂Rep.Iso.finrank_eq {k : Type*} [Field k] {ρ σ : Q₂Rep k} (e : ρ.Iso σ) :
+    Module.finrank k ρ.V = Module.finrank k σ.V ∧
+      Module.finrank k ρ.W = Module.finrank k σ.W :=
+  ⟨e.eV.finrank_eq, e.eW.finrank_eq⟩
+
+/-- Indecomposability is invariant under isomorphism of `Q₂`-representations. -/
+theorem Q₂Rep.Iso.indecomposable_of {k : Type*} [Field k] {ρ σ : Q₂Rep k}
+    (e : ρ.Iso σ) (hρ : ρ.Indecomposable) : σ.Indecomposable := by
+  let oV := Submodule.orderIsoMapComap e.eV
+  let oW := Submodule.orderIsoMapComap e.eW
+  constructor
+  · rcases hρ.1 with hV | hW
+    · left
+      rwa [← e.eV.finrank_eq]
+    · right
+      rwa [← e.eW.finrank_eq]
+  · intro pV qV pW qW hcV hcW hApV hAqV hBpW hBqW
+    have hcV' : IsCompl (oV.symm pV) (oV.symm qV) := oV.symm.isCompl hcV
+    have hcW' : IsCompl (oW.symm pW) (oW.symm qW) := oW.symm.isCompl hcW
+    have hApV' : ∀ x ∈ oV.symm pV, ρ.A x ∈ oW.symm pW := by
+      intro x hx
+      change e.eV x ∈ pV at hx
+      change e.eW (ρ.A x) ∈ pW
+      rw [e.map_A]
+      exact hApV _ hx
+    have hAqV' : ∀ x ∈ oV.symm qV, ρ.A x ∈ oW.symm qW := by
+      intro x hx
+      change e.eV x ∈ qV at hx
+      change e.eW (ρ.A x) ∈ qW
+      rw [e.map_A]
+      exact hAqV _ hx
+    have hBpW' : ∀ x ∈ oW.symm pW, ρ.B x ∈ oV.symm pV := by
+      intro x hx
+      change e.eW x ∈ pW at hx
+      change e.eV (ρ.B x) ∈ pV
+      rw [e.map_B]
+      exact hBpW _ hx
+    have hBqW' : ∀ x ∈ oW.symm qW, ρ.B x ∈ oV.symm qV := by
+      intro x hx
+      change e.eW x ∈ qW at hx
+      change e.eV (ρ.B x) ∈ qV
+      rw [e.map_B]
+      exact hBqW _ hx
+    rcases hρ.2 _ _ _ _ hcV' hcW' hApV' hAqV' hBpW' hBqW' with hp | hq
+    · left
+      constructor
+      · have := congrArg oV hp.1
+        simpa using this
+      · have := congrArg oW hp.2
+        simpa using this
+    · right
+      constructor
+      · have := congrArg oV hq.1
+        simpa using this
+      · have := congrArg oW hq.2
+        simpa using this
+
+/-- Isomorphic `Q₂`-representations are indecomposable simultaneously. -/
+theorem Q₂Rep.Iso.indecomposable_iff {k : Type*} [Field k] {ρ σ : Q₂Rep k}
+    (e : ρ.Iso σ) : ρ.Indecomposable ↔ σ.Indecomposable :=
+  ⟨e.indecomposable_of, e.symm.indecomposable_of⟩
+
 /-! ## Shared Fitting decomposition infrastructure for Q₂ representations -/
 
 /-- Intertwining identity: (AB)^n ∘ A = A ∘ (BA)^n -/
@@ -371,6 +497,389 @@ noncomputable def Etingof.Q₂Rep_H (n : ℕ) (hn : 0 < n) : Q₂Rep ℂ where
     if i.val = j.val then (1 : ℂ) else 0)
   B := Matrix.toEuclideanLin (Matrix.of fun (i : Fin n) (j : Fin (n - 1)) =>
     if i.val = j.val + 1 then (1 : ℂ) else 0)
+
+/-- The second arrow in `H_n` is injective. -/
+private theorem Etingof.Q₂Rep_H_B_injective (n : ℕ) (hn : 0 < n) :
+    Function.Injective (Etingof.Q₂Rep_H n hn).B := by
+  intro x y hxy
+  apply WithLp.ofLp_injective
+  funext j
+  have hcoord := congr_fun (congr_arg WithLp.ofLp hxy) ⟨j.val + 1, by omega⟩
+  simp only [Q₂Rep_H, Matrix.toLpLin_apply, Matrix.mulVec, dotProduct,
+    Matrix.of_apply, ite_mul, one_mul, zero_mul] at hcoord
+  have hsum : ∀ z : Fin (n - 1) → ℂ,
+      (∑ a, if j.val = a.val then z a else 0) = z j := by
+    intro z
+    simpa [Fin.ext_iff] using (Finset.sum_ite_eq (Finset.univ) j z)
+  have hcoord' :
+      (∑ a, if j.val = a.val then x.ofLp a else 0) =
+        ∑ a, if j.val = a.val then y.ofLp a else 0 := by
+    simpa only [Nat.add_right_cancel_iff] using hcoord
+  rw [hsum, hsum] at hcoord'
+  exact hcoord'
+
+/-- The composite `BA` in `H_n` is the nilpotent single Jordan block used by
+`E_{n,0}`. -/
+private theorem Etingof.Q₂Rep_H_BA (n : ℕ) (hn : 0 < n) :
+    (Etingof.Q₂Rep_H n hn).B.comp (Etingof.Q₂Rep_H n hn).A =
+      (Etingof.Q₂Rep_E n hn 0).A := by
+  rw [show (Etingof.Q₂Rep_H n hn).B.comp (Etingof.Q₂Rep_H n hn).A =
+      Matrix.toEuclideanLin
+        ((Matrix.of fun (i : Fin n) (j : Fin (n - 1)) =>
+            if i.val = j.val + 1 then (1 : ℂ) else 0) *
+          (Matrix.of fun (i : Fin (n - 1)) (j : Fin n) =>
+            if i.val = j.val then (1 : ℂ) else 0)) from by
+        simp only [Q₂Rep_H]
+        exact (Matrix.toLpLin_mul 2 2 2 _ _).symm]
+  change Matrix.toEuclideanLin
+      ((Matrix.of fun (i : Fin n) (j : Fin (n - 1)) =>
+          if i.val = j.val + 1 then (1 : ℂ) else 0) *
+        (Matrix.of fun (i : Fin (n - 1)) (j : Fin n) =>
+          if i.val = j.val then (1 : ℂ) else 0)) =
+    Matrix.toEuclideanLin (Matrix.of fun (i j : Fin n) =>
+      if i = j then (0 : ℂ) else if i.val = j.val + 1 then 1 else 0)
+  apply_fun Matrix.toEuclideanLin.symm using Matrix.toEuclideanLin.symm.injective
+  simp only [LinearEquiv.symm_apply_apply]
+  ext i j
+  simp only [Matrix.mul_apply, Matrix.of_apply]
+  by_cases hij : i.val = j.val + 1
+  · have hj : j.val < n - 1 := by omega
+    have hne : i ≠ j := by intro h; subst i; omega
+    rw [Finset.sum_eq_single ⟨j.val, hj⟩]
+    · simp [hij, hne]
+    · intro a _ hne
+      simp only [ite_mul, one_mul, zero_mul]
+      split_ifs with hia haj
+      · exact absurd (Fin.ext (by omega)) hne
+      all_goals rfl
+    · simp
+  · rw [Finset.sum_eq_zero]
+    · simp [hij]
+    · intro a _
+      simp only [ite_mul, one_mul, zero_mul]
+      split_ifs with hia haj
+      · exact absurd (by omega : i.val = j.val + 1) hij
+      all_goals rfl
+
+/-- Every representation in the preprojective family `H_n` is indecomposable. -/
+theorem Etingof.Q₂Rep_H_indecomposable (n : ℕ) (hn : 0 < n) :
+    (Etingof.Q₂Rep_H n hn).Indecomposable := by
+  constructor
+  · left
+    simpa [Q₂Rep_H] using hn
+  · intro pV qV pW qW hcV hcW hApV hAqV hBpW hBqW
+    have hBAp : ∀ x ∈ pV,
+        (Etingof.Q₂Rep_E n hn 0).A x ∈ pV := by
+      intro x hx
+      rw [← Q₂Rep_H_BA]
+      exact hBpW _ (hApV _ hx)
+    have hBAq : ∀ x ∈ qV,
+        (Etingof.Q₂Rep_E n hn 0).A x ∈ qV := by
+      intro x hx
+      rw [← Q₂Rep_H_BA]
+      exact hBqW _ (hAqV _ hx)
+    rcases (Etingof.Q₂Rep_E_indecomposable n hn 0).2 pV qV pV qV hcV hcV
+      hBAp hBAq (fun _ h => h) (fun _ h => h) with hp | hq
+    · left
+      refine ⟨hp.1, ?_⟩
+      apply le_antisymm
+      · intro w hw
+        have : (Etingof.Q₂Rep_H n hn).B w = 0 := by
+          have := hBpW w hw
+          simpa [hp.1] using this
+        have hw0 : w = 0 := Etingof.Q₂Rep_H_B_injective n hn (by simpa using this)
+        exact hw0 ▸ Submodule.zero_mem _
+      · exact bot_le
+    · right
+      refine ⟨hq.1, ?_⟩
+      apply le_antisymm
+      · intro w hw
+        have : (Etingof.Q₂Rep_H n hn).B w = 0 := by
+          have := hBqW w hw
+          simpa [hq.1] using this
+        have hw0 : w = 0 := Etingof.Q₂Rep_H_B_injective n hn (by simpa using this)
+        exact hw0 ▸ Submodule.zero_mem _
+      · exact bot_le
+
+/-- The `E_{n,∞}` family, obtained by exchanging the two vertices of `E_{n,0}`. -/
+noncomputable def Etingof.Q₂Rep_E_infinity (n : ℕ) (hn : 0 < n) : Q₂Rep ℂ :=
+  (Etingof.Q₂Rep_E n hn 0).swap
+
+/-- The `K_n` family, obtained by exchanging the two vertices of `H_n`. -/
+noncomputable def Etingof.Q₂Rep_K (n : ℕ) (hn : 0 < n) : Q₂Rep ℂ :=
+  (Etingof.Q₂Rep_H n hn).swap
+
+theorem Etingof.Q₂Rep_E_infinity_indecomposable (n : ℕ) (hn : 0 < n) :
+    (Etingof.Q₂Rep_E_infinity n hn).Indecomposable := by
+  rw [Q₂Rep_E_infinity, Q₂Rep.indecomposable_swap_iff]
+  exact Etingof.Q₂Rep_E_indecomposable n hn 0
+
+theorem Etingof.Q₂Rep_K_indecomposable (n : ℕ) (hn : 0 < n) :
+    (Etingof.Q₂Rep_K n hn).Indecomposable := by
+  rw [Q₂Rep_K, Q₂Rep.indecomposable_swap_iff]
+  exact Etingof.Q₂Rep_H_indecomposable n hn
+
+/-- An isomorphism conjugates the `BA` endomorphisms at the first vertex. -/
+theorem Q₂Rep.Iso.conj_BA {k : Type*} [Field k] {ρ σ : Q₂Rep k} (e : ρ.Iso σ) :
+    e.eV.conj (ρ.B.comp ρ.A) = σ.B.comp σ.A := by
+  ext v
+  change e.eV (ρ.B (ρ.A (e.eV.symm v))) = σ.B (σ.A v)
+  calc
+    e.eV (ρ.B (ρ.A (e.eV.symm v))) = σ.B (e.eW (ρ.A (e.eV.symm v))) :=
+      e.map_B _
+    _ = σ.B (σ.A (e.eV (e.eV.symm v))) := congrArg σ.B (e.map_A _)
+    _ = σ.B (σ.A v) := by rw [LinearEquiv.apply_symm_apply]
+
+/-- The trace of `BA` is an isomorphism invariant of a `Q₂`-representation. -/
+theorem Q₂Rep.Iso.trace_BA_eq {ρ σ : Q₂Rep ℂ} (e : ρ.Iso σ) :
+    LinearMap.trace ℂ ρ.V (ρ.B.comp ρ.A) =
+      LinearMap.trace ℂ σ.V (σ.B.comp σ.A) := by
+  have h := (LinearMap.trace_conj' (ρ.B.comp ρ.A) e.eV).symm
+  rwa [e.conj_BA] at h
+
+/-- Isomorphisms preserve injectivity of the second arrow. -/
+theorem Q₂Rep.Iso.injective_B_iff {k : Type*} [Field k] {ρ σ : Q₂Rep k}
+    (e : ρ.Iso σ) : Function.Injective ρ.B ↔ Function.Injective σ.B := by
+  constructor
+  · intro h x y hxy
+    apply e.eW.symm.injective
+    apply h
+    apply e.eV.injective
+    rw [e.map_B, e.map_B]
+    simpa using hxy
+  · intro h x y hxy
+    apply e.eW.injective
+    apply h
+    rw [← e.map_B, ← e.map_B, hxy]
+
+/-- On `E_{n,λ}`, the trace of `BA` is `nλ`. -/
+theorem Etingof.Q₂Rep_E_trace_BA (n : ℕ) (hn : 0 < n) (eigenval : ℂ) :
+    LinearMap.trace ℂ (Etingof.Q₂Rep_E n hn eigenval).V
+        ((Etingof.Q₂Rep_E n hn eigenval).B.comp
+          (Etingof.Q₂Rep_E n hn eigenval).A) = n * eigenval := by
+  change LinearMap.trace ℂ (EuclideanSpace ℂ (Fin n))
+      (Matrix.toLpLin 2 2 (Matrix.of fun (i j : Fin n) =>
+        if i = j then eigenval else if i.val = j.val + 1 then 1 else 0)) = n * eigenval
+  rw [Matrix.toLpLin_eq_toLin, Matrix.trace_toLin_eq]
+  simp [Matrix.trace]
+
+/-- The zero-parameter Jordan arrow in `E_{n,0}` is nilpotent. -/
+private theorem Etingof.Q₂Rep_E_zero_A_nilpotent (n : ℕ) (_hn : 0 < n) :
+    IsNilpotent (Matrix.toEuclideanLin (Matrix.of fun (i j : Fin n) =>
+      if i = j then (0 : ℂ) else if i.val = j.val + 1 then 1 else 0) :
+        Module.End ℂ (EuclideanSpace ℂ (Fin n))) := by
+  set S := Matrix.of fun (a b : Fin n) =>
+    if a.val = b.val + 1 then (1 : ℂ) else 0
+  have hS_entry : ∀ (a b : Fin n), S a b =
+      if a.val = b.val + 1 then 1 else 0 := by
+    intro a b
+    simp [S]
+  have hmat : (Matrix.of fun (i j : Fin n) =>
+      if i = j then (0 : ℂ) else if i.val = j.val + 1 then 1 else 0) = S := by
+    ext i j
+    by_cases h : i = j
+    · subst i
+      simp [S]
+    · simp [S, h]
+  rw [hmat]
+  have hS_pow : S ^ n = 0 := by
+    ext i j
+    rw [shift_matrix_pow_entry S hS_entry]
+    simp only [Matrix.zero_apply]
+    split_ifs with h
+    · exact absurd h (by omega)
+    · rfl
+  refine ⟨n, ?_⟩
+  rw [← Matrix.toLpLin_pow 2, hS_pow, map_zero]
+
+set_option synthInstance.maxHeartbeats 100000 in
+-- Elaborating injectivity of powers of the bundled endomorphism needs a larger instance budget.
+/-- For positive `n`, the nilpotent arrow of `E_{n,0}` is not injective. -/
+private theorem Etingof.Q₂Rep_E_zero_A_not_injective (n : ℕ) (hn : 0 < n) :
+    ¬Function.Injective (Etingof.Q₂Rep_E n hn 0).A := by
+  change ¬Function.Injective (Matrix.toEuclideanLin (Matrix.of fun (i j : Fin n) =>
+    if i = j then (0 : ℂ) else if i.val = j.val + 1 then 1 else 0))
+  let T : Module.End ℂ (EuclideanSpace ℂ (Fin n)) :=
+    Matrix.toEuclideanLin (Matrix.of fun (i j : Fin n) =>
+      if i = j then (0 : ℂ) else if i.val = j.val + 1 then 1 else 0)
+  intro hA
+  change Function.Injective T at hA
+  have hpow : ∀ m : ℕ, Function.Injective (T ^ m) := by
+    intro m
+    induction m with
+    | zero =>
+      intro x y hxy
+      have hx : (1 : Module.End ℂ (EuclideanSpace ℂ (Fin n))) x = x := rfl
+      have hy : (1 : Module.End ℂ (EuclideanSpace ℂ (Fin n))) y = y := rfl
+      simpa only [pow_zero, hx, hy] using hxy
+    | succ m ih =>
+      intro x y hxy
+      rw [pow_succ] at hxy
+      simp only [Module.End.mul_apply] at hxy
+      exact hA (ih hxy)
+  have hnil : IsNilpotent T := by
+    simpa [T] using Etingof.Q₂Rep_E_zero_A_nilpotent n hn
+  obtain ⟨m, hm⟩ := hnil
+  haveI : Nontrivial (EuclideanSpace ℂ (Fin n)) :=
+    Module.finrank_pos_iff.mp (by rw [finrank_euclideanSpace_fin]; exact hn)
+  obtain ⟨v, hv⟩ := exists_ne (0 : EuclideanSpace ℂ (Fin n))
+  apply hv
+  apply hpow m
+  rw [hm]
+  simp
+
+/-- The finite parameter of an `E`-family representation is uniquely determined by its
+isomorphism class (and the common dimension determines `n`). -/
+theorem Etingof.Q₂Rep_E_iso_parameter_unique {n m : ℕ} {hn : 0 < n} {hm : 0 < m}
+    {eigenval eigenval' : ℂ} (e : (Etingof.Q₂Rep_E n hn eigenval).Iso
+      (Etingof.Q₂Rep_E m hm eigenval')) : n = m ∧ eigenval = eigenval' := by
+  have hnm : n = m := by
+    simpa [Q₂Rep_E] using e.finrank_eq.1
+  subst m
+  have htrace := e.trace_BA_eq
+  rw [Etingof.Q₂Rep_E_trace_BA, Etingof.Q₂Rep_E_trace_BA] at htrace
+  constructor
+  · rfl
+  · exact (mul_left_cancel₀ (show (n : ℂ) ≠ 0 by exact_mod_cast (Nat.ne_of_gt hn))) htrace
+
+/-- The four normal-form families occurring in Problem 6.9.1. Positivity is part of the
+index, so every constructor denotes a genuine nonzero representation. -/
+inductive Etingof.Q₂Family where
+  | finite (n : {n : ℕ // 0 < n}) (eigenval : ℂ)
+  | infinity (n : {n : ℕ // 0 < n})
+  | preprojective (n : {n : ℕ // 0 < n})
+  | preinjective (n : {n : ℕ // 0 < n})
+
+/-- The concrete `Q₂`-representation denoted by a normal-form family index. -/
+noncomputable def Etingof.Q₂Family.rep : Etingof.Q₂Family → Q₂Rep ℂ
+  | .finite n eigenval => Etingof.Q₂Rep_E n n.2 eigenval
+  | .infinity n => Etingof.Q₂Rep_E_infinity n n.2
+  | .preprojective n => Etingof.Q₂Rep_H n n.2
+  | .preinjective n => Etingof.Q₂Rep_K n n.2
+
+/-- Every normal form named in Problem 6.9.1 is indecomposable. -/
+theorem Etingof.Q₂Family.rep_indecomposable (c : Etingof.Q₂Family) :
+    c.rep.Indecomposable := by
+  cases c with
+  | finite n eigenval => exact Etingof.Q₂Rep_E_indecomposable n n.2 eigenval
+  | infinity n => exact Etingof.Q₂Rep_E_infinity_indecomposable n n.2
+  | preprojective n => exact Etingof.Q₂Rep_H_indecomposable n n.2
+  | preinjective n => exact Etingof.Q₂Rep_K_indecomposable n n.2
+
+/-- Dimension vectors of the four concrete normal forms. -/
+theorem Etingof.Q₂Family.rep_finrank (c : Etingof.Q₂Family) :
+    (Module.finrank ℂ c.rep.V, Module.finrank ℂ c.rep.W) =
+      match c with
+      | .finite n _ => (n, n)
+      | .infinity n => (n, n)
+      | .preprojective n => (n, n - 1)
+      | .preinjective n => (n - 1, n) := by
+  cases c <;> simp [Etingof.Q₂Family.rep, Etingof.Q₂Rep_E,
+    Etingof.Q₂Rep_E_infinity, Etingof.Q₂Rep_H, Etingof.Q₂Rep_K, Q₂Rep.swap]
+
+/-- The actual exhaustiveness proposition requested by Problem 6.9.1. Unlike the old
+dimension-vector surrogate, this predicate explicitly asks for an isomorphism with one of
+the four named normal forms. -/
+def Etingof.Q₂Rep.IsClassified (ρ : Q₂Rep ℂ) : Prop :=
+  ∃ c : Etingof.Q₂Family, Nonempty (ρ.Iso c.rep)
+
+private theorem Etingof.Q₂Rep_E_B_injective (n : ℕ) (hn : 0 < n) (eigenval : ℂ) :
+    Function.Injective (Etingof.Q₂Rep_E n hn eigenval).B := by
+  simpa [Q₂Rep_E] using (Function.injective_id : Function.Injective (id :
+    EuclideanSpace ℂ (Fin n) → EuclideanSpace ℂ (Fin n)))
+
+private theorem Etingof.Q₂Rep_E_infinity_B_not_injective (n : ℕ) (hn : 0 < n) :
+    ¬Function.Injective (Etingof.Q₂Rep_E_infinity n hn).B := by
+  exact Etingof.Q₂Rep_E_zero_A_not_injective n hn
+
+/-- The normal-form index is unique: two concrete representatives from the four families
+can be isomorphic only when their family, size, and (for `E`) eigenvalue parameters agree. -/
+theorem Etingof.Q₂Family.eq_of_rep_iso {c d : Etingof.Q₂Family} (e : c.rep.Iso d.rep) :
+    c = d := by
+  cases c with
+  | finite n eigenval =>
+    cases d with
+    | finite m eigenval' =>
+      obtain ⟨hnm, he⟩ := Etingof.Q₂Rep_E_iso_parameter_unique
+        (hn := n.2) (hm := m.2) e
+      have hnm' : n = m := Subtype.ext hnm
+      subst m
+      subst eigenval'
+      rfl
+    | infinity m =>
+      exfalso
+      exact Etingof.Q₂Rep_E_infinity_B_not_injective m m.2
+        (e.injective_B_iff.mp (Etingof.Q₂Rep_E_B_injective n n.2 eigenval))
+    | preprojective m =>
+      have h := e.finrank_eq
+      simp [Etingof.Q₂Family.rep, Q₂Rep_E, Q₂Rep_H] at h
+      omega
+    | preinjective m =>
+      have h := e.finrank_eq
+      simp [Etingof.Q₂Family.rep, Q₂Rep_E, Q₂Rep_K, Q₂Rep_H, Q₂Rep.swap] at h
+      omega
+  | infinity n =>
+    cases d with
+    | finite m eigenval =>
+      exfalso
+      exact Etingof.Q₂Rep_E_infinity_B_not_injective n n.2
+        (e.injective_B_iff.mpr (Etingof.Q₂Rep_E_B_injective m m.2 eigenval))
+    | infinity m =>
+      have h := e.finrank_eq
+      have hnm : n.val = m.val := by
+        simpa [Etingof.Q₂Family.rep, Q₂Rep_E_infinity, Q₂Rep_E, Q₂Rep.swap] using h.1
+      cases Subtype.ext hnm
+      rfl
+    | preprojective m =>
+      have h := e.finrank_eq
+      simp [Etingof.Q₂Family.rep, Q₂Rep_E_infinity, Q₂Rep_E, Q₂Rep_H,
+        Q₂Rep.swap] at h
+      omega
+    | preinjective m =>
+      have h := e.finrank_eq
+      simp [Etingof.Q₂Family.rep, Q₂Rep_E_infinity, Q₂Rep_E, Q₂Rep_K, Q₂Rep_H,
+        Q₂Rep.swap] at h
+      omega
+  | preprojective n =>
+    cases d with
+    | finite m eigenval =>
+      have h := e.finrank_eq
+      simp [Etingof.Q₂Family.rep, Q₂Rep_E, Q₂Rep_H] at h
+      omega
+    | infinity m =>
+      have h := e.finrank_eq
+      simp [Etingof.Q₂Family.rep, Q₂Rep_E_infinity, Q₂Rep_E, Q₂Rep_H,
+        Q₂Rep.swap] at h
+      omega
+    | preprojective m =>
+      have hnm : n.val = m.val := by
+        simpa [Etingof.Q₂Family.rep, Q₂Rep_H] using e.finrank_eq.1
+      cases Subtype.ext hnm
+      rfl
+    | preinjective m =>
+      have h := e.finrank_eq
+      simp [Etingof.Q₂Family.rep, Q₂Rep_K, Q₂Rep_H, Q₂Rep.swap] at h
+      omega
+  | preinjective n =>
+    cases d with
+    | finite m eigenval =>
+      have h := e.finrank_eq
+      simp [Etingof.Q₂Family.rep, Q₂Rep_E, Q₂Rep_K, Q₂Rep_H, Q₂Rep.swap] at h
+      omega
+    | infinity m =>
+      have h := e.finrank_eq
+      simp [Etingof.Q₂Family.rep, Q₂Rep_E_infinity, Q₂Rep_E, Q₂Rep_K, Q₂Rep_H,
+        Q₂Rep.swap] at h
+      omega
+    | preprojective m =>
+      have h := e.finrank_eq
+      simp [Etingof.Q₂Family.rep, Q₂Rep_K, Q₂Rep_H, Q₂Rep.swap] at h
+      omega
+    | preinjective m =>
+      have hnm : n.val = m.val := by
+        simpa [Etingof.Q₂Family.rep, Q₂Rep_K, Q₂Rep_H, Q₂Rep.swap] using e.finrank_eq.2
+      cases Subtype.ext hnm
+      rfl
 
 /-- **Problem 6.9.1(b) (Etingof)**: If AB : W → W is not nilpotent in a Q₂-representation,
 then the representation decomposes as E' ⊕ E_{n,λ} for some λ ≠ 0.
