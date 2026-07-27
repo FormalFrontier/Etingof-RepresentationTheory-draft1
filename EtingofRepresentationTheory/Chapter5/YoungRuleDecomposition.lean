@@ -6,15 +6,16 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_15_1
 This file packages the isotypic analysis used by the Frobenius character proof
 as the global `SymGroupAlgebra n`-linear decomposition promised by Proposition
 5.14.1.  The multiplicity is deliberately named `YoungRuleMultiplicity`: it is
-the representation-theoretic Hom-space dimension `spechtMultiplicity`, and is
-not definitionally the separately introduced tableau cardinal `KostkaNumber`.
+the representation-theoretic Hom-space dimension `spechtMultiplicity` rather
+than the definitionally separate tableau cardinal `KostkaNumber`; their equality
+is established downstream by the semistandard-tableau basis of row invariants.
 -/
 
 namespace Etingof
 
-/-- The representation-theoretic multiplicity in Young's rule.  This name
-separates the Hom-space dimension from the combinatorial tableau cardinal until
-their equality is established. -/
+/-- The representation-theoretic multiplicity in Young's rule.  This name keeps
+the Hom-space dimension distinguishable from the combinatorial tableau cardinal;
+`youngRuleMultiplicity_eq_kostkaNumber` identifies them downstream. -/
 noncomputable abbrev YoungRuleMultiplicity
     (n : ℕ) (mu nu : Nat.Partition n) : ℕ :=
   spechtMultiplicity n mu nu

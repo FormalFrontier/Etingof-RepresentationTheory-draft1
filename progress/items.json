@@ -5700,13 +5700,12 @@
     "start_line": 13,
     "end_line": 14,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "needs_statement": false,
-    "notes": "The vanishing and diagonal Hom-space claims and a public SymGroupAlgebra-linear global Young-rule decomposition are proved. The representation-theoretic and tableau multiplicities are identified off the dominance cone and on the diagonal; only the strictly dominant positive coefficients remain.",
+    "notes": "The vanishing and diagonal Hom-space claims, a public SymGroupAlgebra-linear global Young-rule decomposition, and the identification of its multiplicity with the semistandard-tableau KostkaNumber are proved.",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "fidelity_note": "Etingof.youngRuleDecomposition gives the public SymGroupAlgebra-linear direct-sum isomorphism. YoungRuleKostkaBridge proves that its multiplicity agrees with the combinatorial KostkaNumber off the dominance cone and on the diagonal. The strictly dominant positive coefficients remain for follow-up #7457.",
-    "fidelity_issue": 7457,
+    "coverage": "covered_full",
+    "fidelity_note": "Etingof.youngRuleKostkaDecomposition gives the public SymGroupAlgebra-linear direct-sum isomorphism with multiplicities indexed by the combinatorial KostkaNumber. The equality with the representation-theoretic Hom-space multiplicity is Etingof.youngRuleMultiplicity_eq_kostkaNumber.",
     "last_updated": "2026-07-27"
   },
   {
@@ -5718,11 +5717,10 @@
     "start_line": 15,
     "end_line": 16,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "fidelity_note": "The source names the multiplicities from Proposition 5.14.1 as Kostka numbers. Lean exposes the module decomposition with representation-theoretic multiplicity YoungRuleMultiplicity, and proves its equality with the tableau cardinal KostkaNumber off the dominance cone and on the diagonal. The strictly dominant positive coefficients remain for #7457.",
-    "fidelity_issue": 7457,
+    "coverage": "covered_full",
+    "fidelity_note": "Etingof.youngRuleMultiplicity_eq_kostkaNumber identifies the tableau cardinal KostkaNumber with the Hom-space multiplicity in Young's rule for all shapes and contents, and Etingof.youngRuleKostkaDecomposition uses it in the global module decomposition.",
     "last_updated": "2026-07-27"
   },
   {
@@ -5937,9 +5935,9 @@
     "start_line": 11,
     "end_line": 16,
     "status": "sorry_free",
-    "coverage": "covered",
-    "coverage_note": "All four claims of the remark are formalized in EtingofRepresentationTheory/Chapter5/Remark5_15_5.lean: the positive-root order (Nat.Partition.RootLe) with its partial-order laws, its equivalence with the dominance order (Nat.Partition.rootLe_iff_dominates), the inverse-Kostka character expansion (Etingof.spechtCharacter_eq_sum_inverseKostka_rootLe), and the root-order vanishing of Kostka numbers (Etingof.spechtMultiplicity_vanishing_rootOrder). The Kostka numbers are taken in their Young’s-rule form (Etingof.spechtMultiplicity); reconciling that with the semistandard-tableau count Etingof.KostkaNumber is tracked separately in #7457.",
-    "last_updated": "2026-07-26"
+    "coverage": "covered_full",
+    "coverage_note": "All four claims of the remark are formalized in EtingofRepresentationTheory/Chapter5/Remark5_15_5.lean: the positive-root order (Nat.Partition.RootLe) with its partial-order laws, its equivalence with the dominance order (Nat.Partition.rootLe_iff_dominates), the inverse-Kostka character expansion (Etingof.spechtCharacter_eq_sum_inverseKostka_rootLe), and the root-order vanishing of Kostka numbers (Etingof.spechtMultiplicity_vanishing_rootOrder). Etingof.youngRuleMultiplicity_eq_kostkaNumber identifies this Young-rule multiplicity with the semistandard-tableau count Etingof.KostkaNumber.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Introduction_5.16",
