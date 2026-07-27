@@ -22,7 +22,7 @@ denominators so they are well-typed for every `q` (the coefficient `q - q⁻¹` 
   `K L = 1`,  `L K = 1`,  `K e = q²·(e K)`,  `K f = q⁻²·(f K)`,
   `(q - q⁻¹)·(e f - f e) = K - L`.
 
-The main classification results for both cases are established below:
+The following structural constraints in the two cases are established below:
 
 * **`q` not a root of unity**: every nontrivial finite dimensional representation has a highest
   weight vector (`exists_highest_weight_vector`), and on a simple such module the highest weight
@@ -35,10 +35,10 @@ The main classification results for both cases are established below:
   `finrank_le_of_epow_orderOf_eq_zero`, `finrank_le_of_fpow_orderOf_eq_zero`, and
   `finrank_le_of_cyclic`).
 
-These are the core structural results of the classification. The exhaustive enumeration of
-irreducibles up to isomorphism is intentionally omitted by the project-wide scope decision in
-`skipped-exercises.md`. The omission is documentation-only: this file does not introduce an
-unproved classification declaration.
+These are inputs to a classification, not an enumeration up to isomorphism. The exhaustive
+enumeration of irreducibles up to isomorphism is intentionally omitted by the project-wide scope
+decision in `skipped-exercises.md`. The omission is documentation-only: this file does not
+introduce an unproved classification declaration.
 -/
 
 namespace Etingof.Problem2_16_5
@@ -100,6 +100,39 @@ noncomputable def L (q : ℂˣ) : Uqsl2 q := mk q fL
     ((q : ℂ) - (q : ℂ)⁻¹) • (e q * f q - f q * e q) = K q - L q := by
   have h := RingQuot.mkAlgHom_rel ℂ (Rel.ef (q := q))
   simp only [map_smul, map_sub, map_mul] at h; exact h
+
+/-! ## A nontrivial one-dimensional quotient
+
+Sending `e` and `f` to `0` and both `K` and `L` to `1` respects every defining relation. The
+resulting surjection `U_q(sl₂) →ₐ[ℂ] ℂ` proves in Lean that the presented algebra is nontrivial;
+in particular, the representation-theoretic statements below are not about a collapsed quotient.
+-/
+
+/-- Values of the four generators in the one-dimensional quotient. -/
+private noncomputable def augmentationGen : Gen → ℂ := ![0, 0, 1, 1]
+
+/-- The free-algebra map underlying the one-dimensional quotient. -/
+private noncomputable def augmentationFree : FreeAlgebra ℂ Gen →ₐ[ℂ] ℂ :=
+  FreeAlgebra.lift ℂ augmentationGen
+
+private theorem augmentationFree_rel (q : ℂˣ) :
+    ∀ ⦃a b⦄, Rel q a b → augmentationFree a = augmentationFree b := by
+  rintro _ _ h
+  cases h <;> simp [augmentationFree, augmentationGen]
+
+/-- The one-dimensional quotient `U_q(sl₂) →ₐ[ℂ] ℂ`, with `e,f ↦ 0` and `K,L ↦ 1`. -/
+noncomputable def augmentation (q : ℂˣ) : Uqsl2 q →ₐ[ℂ] ℂ :=
+  RingQuot.liftAlgHom ℂ ⟨augmentationFree, augmentationFree_rel q⟩
+
+/-- The one-dimensional quotient is onto. -/
+theorem augmentation_surjective (q : ℂˣ) : Function.Surjective (augmentation q) := by
+  intro z
+  refine ⟨algebraMap ℂ (Uqsl2 q) z, ?_⟩
+  exact (augmentation q).commutes z
+
+/-- The presentation of `U_q(sl₂)` does not collapse to the zero ring. -/
+noncomputable instance instNontrivialUqsl2 (q : ℂˣ) : Nontrivial (Uqsl2 q) :=
+  (augmentation_surjective q).nontrivial
 
 /-! ## Classification of irreducible representations (spec) -/
 
@@ -439,10 +472,12 @@ lemma smul_mem_of_generators (q : ℂˣ) (V : Type*) [AddCommGroup V] [Module �
     rw [map_add, add_smul]
     exact W.add_mem (ha y hy) (hb y hy)
 
-/-- **Non-root-of-unity case.** When `q` is not a root of unity, every finite dimensional
-irreducible representation is determined up to isomorphism by its dimension together with a
-sign `ε ∈ {±1}`: on a highest weight vector `v` of an `(n+1)`-dimensional irreducible, `K`
-acts by `ε qⁿ`. We record the eigenvalue constraint on the highest weight. -/
+/-- **Non-root-of-unity necessary constraint.** On a highest weight vector `v` of an
+`(n+1)`-dimensional irreducible, `K` acts by `ε qⁿ` for some `ε` with `ε² = 1`.
+
+This theorem records only the eigenvalue constraint. It does not assert that dimension and sign
+determine the representation up to isomorphism; that enumeration is part of the intentionally
+omitted classification. -/
 theorem highest_weight_eigenvalue_of_not_isOfFinOrder (q : ℂˣ) (hq : ¬ IsOfFinOrder q)
     (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (Uqsl2 q) V]
     [IsScalarTower ℂ (Uqsl2 q) V] [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V] :

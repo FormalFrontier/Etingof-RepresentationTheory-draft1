@@ -36,7 +36,9 @@ number of positive roots:
 * `n = 3`: type `G₂`,  `dim 𝔤₃ = 6`;
 * `n = 4`: the Cartan matrix has determinant `0` (affine type), so `𝔤₄` is infinite dimensional.
 
-Statement-only (proofs deferred).
+The finite-dimensional cases and the infinite-dimensionality of `𝔤₄` are proved in this file.
+The companion `Problem2_16_3_*` files construct the requested explicit characteristic-zero basis
+of `𝔤₄` and identify it with the positive twisted loop algebra of type `A₂⁽²⁾`.
 -/
 
 namespace Etingof.Problem2_16_3

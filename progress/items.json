@@ -1756,7 +1756,27 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "non_formalizable"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Stage 3.2 reviewed the section heading; it is organizational prose announcing the Lie-algebra problem set and contains no mathematical proposition.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.16",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Section 2.16 is the collection of problems on Lie algebras.",
+          "verdict": "non_formalizable",
+          "reason": "This is an organizational heading, not a mathematical assertion."
+        }
+      ]
     }
   },
   {
@@ -1769,10 +1789,43 @@
     "end_line": 4,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22",
-    "coverage_note": "Proved via Mathlib LieModule.exists_nontrivial_weightSpace_of_isSolvable (#6116, 2026-07-10). Axioms: propext, Classical.choice, Quot.sound.",
+    "last_updated": "2026-07-27",
+    "coverage_note": "The book's commutant and solvability definitions are exactly Mathlib's first derived ideal and derived-series solvability, and Lie's theorem is proved over the literal field ℂ via LieModule.exists_nontrivial_weightSpace_of_isSolvable. The detailed induction/trace paragraph is a proof-strategy hint rather than an additional conclusion; the provider uses Mathlib's stronger common-weight theorem and then proves that the invariant line is all of V.",
     "fidelity": "verified",
-    "fidelity_note": "Reviewed #7198 (2026-07-21). FAITHFUL and non-vacuous. Ground field ℂ is fixed literally (no over-general [IsAlgClosed]/[CharZero]); CharZero and triangularizability are discharged as instances for ℂ, not statement hypotheses. IsSimpleOrder (LieSubmodule ℂ L V) is the genuine 'only subreps are 0 and V, V≠0' irreducibility; [Nontrivial V] is implied by IsSimpleOrder (redundant, not an added restriction). LieAlgebra.IsSolvable = derived-series definition = book's Kⁿ(𝔤)=0 commutant series; LieRingModule+LieModule is the genuine Lie action; finrank ℂ V = 1 renders '1-dimensional'. Non-vacuity witness: solvable L acting on V=ℂ. Axiom-clean (propext, Classical.choice, Quot.sound), no sorryAx. No follow-up filed. See progress/reviews/2026-07-21-ch2-problem2_16_1-lie-theorem-fidelity.md"
+    "fidelity_note": "Reviewed #7198 (2026-07-21) and Stage 3.2 (2026-07-27). FAITHFUL and non-vacuous. Ground field ℂ is fixed literally. IsSimpleOrder (LieSubmodule ℂ L V) is genuine irreducibility; [Nontrivial V] is redundant because simplicity implies it. LieAlgebra.IsSolvable is the source derived-series definition, and finrank ℂ V = 1 is the exact conclusion. Non-vacuity witness: the zero Lie algebra acting on V = ℂ. No sorryAx.",
+    "lean_file": "EtingofRepresentationTheory/Chapter2/Problem2_16_1.lean",
+    "lean_decl": "Etingof.Problem2_16_1.finrank_eq_one_of_isSolvable",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.16",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The commutant K(g) is the linear span of brackets [x,y] and is an ideal.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "LieAlgebra.derivedSeries; LieIdeal.coe_derivedSeries_one_eq"
+        },
+        {
+          "claim": "A finite-dimensional Lie algebra is solvable exactly when some iterate of its commutant is zero.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "LieAlgebra.IsSolvable; LieAlgebra.isSolvable_iff"
+        },
+        {
+          "claim": "A finite-dimensional irreducible representation of a solvable complex Lie algebra is one-dimensional.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_1.finrank_eq_one_of_isSolvable"
+        },
+        {
+          "claim": "The hint proposes induction through K(g), invariance of common eigenspaces, and the trace calculation χ([x,a]) = 0 on the smallest x-invariant subspace containing a common eigenvector.",
+          "verdict": "non_formalizable",
+          "reason": "This paragraph prescribes a proof route rather than stating another result to retain. The formal proof uses Mathlib's stronger common-weight theorem for the whole solvable algebra and completes the invariant-line argument directly."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Problem2.16.2",
@@ -1785,9 +1838,51 @@
     "status": "sorry_free",
     "coverage": "covered_full",
     "coverage_note": "Both characteristics are classified. Characteristic zero: charZero_exists_unique_iso_oneDim identifies every finite-dimensional irreducible with a unique member of the one-dimensional family oneDimModule. Characteristic p: the p-dimensional family Fam (X diagonal with eigenvalues a + i, Y the cyclic shift scaled by a unit) is constructed and proved irreducible, fam_nonempty_equiv_iff is the isomorphism criterion, and charP_exists_iso / charP_exists_unique_iso give exhaustiveness and uniqueness. lie_theorem_fails_charP is the resulting failure of Lie's theorem.",
-    "fidelity": "faithful",
-    "fidelity_note": "Existence-and-uniqueness classifications are exposed in both characteristics, together with the isomorphism criterion for the p-dimensional family and the disjointness of the one- and p-dimensional families (oneDim_not_equiv_fam).",
-    "last_updated": "2026-07-26"
+    "fidelity": "verified",
+    "fidelity_note": "Existence-and-uniqueness classifications are exposed in both characteristics, together with the isomorphism criterion for the p-dimensional family and the disjointness of the one- and p-dimensional families (oneDim_not_equiv_fam). The algebraically closed hypothesis is the standing Chapter 2 convention from Discussion 2.2.",
+    "last_updated": "2026-07-27",
+    "lean_file": "EtingofRepresentationTheory/Chapter2/Problem2_16_2.lean",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.16",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The two-dimensional Lie algebra has a basis X,Y satisfying [X,Y] = Y and is solvable.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_2.g; Etingof.Problem2_16_2.bracket_X_Y; Etingof.Problem2_16_2.instIsSolvable"
+        },
+        {
+          "claim": "In characteristic zero, every finite-dimensional irreducible is the unique one-dimensional module on which X acts by μ and Y acts by zero.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_2.oneDimModule; Etingof.Problem2_16_2.charZero_exists_unique_iso_oneDim"
+        },
+        {
+          "claim": "In characteristic p, the modules V(γ,a) on k^(Z/p), with X diagonal and Y a nonzero cyclic shift, have dimension p and are irreducible.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_2.Fam; Etingof.Problem2_16_2.fam_finrank; Etingof.Problem2_16_2.fam_irreducible"
+        },
+        {
+          "claim": "V(γ,a) is isomorphic to V(γ',a') exactly when γ = γ' and a' - a lies in the prime field; this family is disjoint from the one-dimensional family.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_2.fam_nonempty_equiv_iff; Etingof.Problem2_16_2.oneDim_not_equiv_fam"
+        },
+        {
+          "claim": "Every finite-dimensional irreducible in characteristic p occurs uniquely in the one-dimensional family or the p-dimensional family, with the stated parameter equivalence.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_2.charP_exists_iso; Etingof.Problem2_16_2.charP_exists_unique_iso"
+        },
+        {
+          "claim": "Lie's theorem is false in positive characteristic.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_2.lie_theorem_fails_charP"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Problem2.16.3",
@@ -1800,9 +1895,69 @@
     "status": "sorry_free",
     "coverage": "covered_full",
     "coverage_note": "All requested dimension statements are proved, including not_finiteDimensional_g_four. In characteristic zero, Problem2_16_3_CocycleVanishing.lean proves every imaginary-weight scalar 2-cocycle on loopPos is a coboundary (twoCocycle_isTwoCoboundary), hence all layer defects vanish (topDefect_eq_zero), the loop realization is injective (gbar_injective), and the explicit LoopIdx-indexed family is the public basis gFourBasis of g_4. Its degree fibers have cardinalities 1, 5, 3, 5, 3, ... by card_loopIdx_deg_zero/card_loopIdx_deg_odd/card_loopIdx_deg_even, and gbarLieEquiv identifies g_4 with the positive twisted A_2^(2) loop algebra. The characteristic-zero scope is essential: the stronger h2/h3/h5-only cocycle claim is false in positive characteristic.",
-    "lean_file": "EtingofRepresentationTheory/Chapter2/Problem2_16_3_CocycleVanishing.lean",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter2/Problem2_16_3.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_16_3_Grading.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_16_3_Layers.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_16_3_Bidegree.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_16_3_Center.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_16_3_Commutation.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_16_3_Tower.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_16_3_Kernel.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_16_3_Cocycle.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_16_3_CocycleCombinatorics.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_16_3_CocycleRecurrence.lean",
+      "EtingofRepresentationTheory/Chapter2/Problem2_16_3_CocycleVanishing.lean"
+    ],
     "lean_decl": "Etingof.Problem2_16_3.gFourBasis",
-    "last_updated": "2026-07-27"
+    "last_updated": "2026-07-27",
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.16",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "ad(x) is the operator y ↦ [x,y], and g_n is the free Lie algebra on x,y modulo ad(x)^2(y) = ad(y)^(n+1)(x) = 0.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_3.relIdeal; Etingof.Problem2_16_3.g; Etingof.Problem2_16_3.proj"
+        },
+        {
+          "claim": "The images of x and y generate g_n as a Lie algebra.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_3.lieSpan_gens_eq_top"
+        },
+        {
+          "claim": "g_1 is finite-dimensional with dimension 3.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_3.finrank_g_one"
+        },
+        {
+          "claim": "g_2 is finite-dimensional with dimension 4.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_3.finrank_g_two"
+        },
+        {
+          "claim": "Over fields of characteristic different from 2 (in particular in characteristic zero), g_3 is finite-dimensional with dimension 6.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_3.finrank_g_three"
+        },
+        {
+          "claim": "g_4 is infinite-dimensional.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_3.not_finiteDimensional_g_four"
+        },
+        {
+          "claim": "In characteristic zero, g_4 has an explicit basis consisting of y, five vectors in every odd loop degree, and three vectors in every positive even loop degree.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_3.LoopIdx; Etingof.Problem2_16_3.loopFam₄; Etingof.Problem2_16_3.gFourBasis; Etingof.Problem2_16_3.card_loopIdx_deg_zero; Etingof.Problem2_16_3.card_loopIdx_deg_odd; Etingof.Problem2_16_3.card_loopIdx_deg_even"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Problem2.16.4",
@@ -1819,10 +1974,46 @@
       "Etingof.Problem2_16_4.finrank_irreducible_le_char",
       "Etingof.Problem2_16_4.exists_irreducible_dim_char"
     ],
-    "notes": "The dimension bound and standard examples are intentionally only the early partial treatment. Parameterization, isomorphism criteria, and exhaustiveness remain assigned to the later reprise in deferred-reprises.md. The existing partial source currently fails fresh elaboration; regression #7531 repairs that source without changing the deferral decision.",
-    "coverage_note": "The dimension bound dim V ≤ p and standard irreducible modules are source-present but Sl2Irrep.lean and Problem2_16_4.lean currently fail direct checks (#7531). Full classification remains intentionally deferred to the later Reprises/Problem2_16_4.lean; no placeholder reprise exists yet.",
-    "coverage_issue": 7531,
-    "last_updated": "2026-07-22"
+    "lean_file": "EtingofRepresentationTheory/Chapter2/Problem2_16_4.lean",
+    "notes": "The dimension bound and standard examples are the early partial treatment. Parameterization, isomorphism criteria, and exhaustiveness remain assigned to the later reprise in deferred-reprises.md. Regression #7531 restored fresh elaboration of the existing partial endpoints without changing that deferral decision.",
+    "coverage_note": "The provider builds the standard modules of dimensions 1 through p and proves their irreducibility, proves dim V ≤ p for every finite-dimensional irreducible, and proves sharpness. All these endpoints now pass a fresh build. The explicit parameter family, isomorphism criteria, and exhaustiveness required for a full classification remain a documented unfinished reprise; no placeholder declaration represents them.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.16",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Over an algebraically closed field of characteristic p > 2, the standard modules L(d-1), 1 ≤ d ≤ p, have dimension d and are irreducible.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_4.irrep_finrank; Etingof.Problem2_16_4.irrep_isIrreducible"
+        },
+        {
+          "claim": "Every finite-dimensional irreducible sl(2,k)-module has dimension at most p, and the bound p is achieved.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_4.finrank_irreducible_le_char; Etingof.Problem2_16_4.exists_irreducible_dim_char"
+        },
+        {
+          "claim": "The characteristic-p irreducibles are described by an explicit complete parameter family.",
+          "verdict": "intentional_omission",
+          "reason": "This is unfinished work assigned to the later reprise in deferred-reprises.md, not a permanent scope exclusion; no placeholder theorem is introduced at the Chapter 2 location."
+        },
+        {
+          "claim": "The classification determines exactly when two parameterized modules are isomorphic.",
+          "verdict": "intentional_omission",
+          "reason": "The isomorphism criterion is an explicit acceptance requirement of the documented later reprise and is not claimed by the partial Chapter 2 endpoints."
+        },
+        {
+          "claim": "Every finite-dimensional irreducible sl(2,k)-module occurs in the parameter family.",
+          "verdict": "intentional_omission",
+          "reason": "Exhaustiveness is an explicit acceptance requirement of the documented later reprise and is not represented by a weakened or assumed wrapper."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Problem2.16.5",
@@ -1839,7 +2030,66 @@
       "Etingof.Problem2_16_5.Kop_isSemisimple_and_eigenvalues",
       "Etingof.Problem2_16_5.finrank_irreducible_le_of_isOfFinOrder"
     ],
-    "coverage_note": "EtingofRepresentationTheory/Chapter2/Problem2_16_5.lean constructs U_q(sl2) and proves substantial structural results in both cases without placeholders: highest-weight/eigenvalue control when q is not a root of unity, and semisimplicity, central-scalar facts, and dimension bounds at roots of unity. The exhaustive classification up to isomorphism requested by the exercise is intentionally omitted by the project-wide decision in skipped-exercises.md; no sorry, axiom, proof_wanted, or unproved classification declaration represents it."
+    "lean_file": "EtingofRepresentationTheory/Chapter2/Problem2_16_5.lean",
+    "coverage_note": "The provider constructs U_q(sl2) over the canonical allowed field ℂ, proves its presentation nontrivial via the one-dimensional augmentation, and proves structural results in both cases without placeholders: highest-weight/eigenvalue constraints when q is not a root of unity, and semisimplicity, central-scalar facts, and a dimension bound at roots of unity. Stage 3.2 corrected prose that had overstated the necessary eigenvalue constraint as classification up to isomorphism. The exhaustive classification requested by the exercise remains the project-wide intentional omission in skipped-exercises.md.",
+    "fidelity": "verified",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.16",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The source fixes an algebraically closed characteristic-zero field and q ∈ k× with q ≠ ±1, and asks for separate root-of-unity and non-root-of-unity cases.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_5.Uqsl2; IsOfFinOrder"
+        },
+        {
+          "claim": "U_q(sl2) is generated by e,f,K,K⁻¹ with the three displayed relations and inverse relations for K; this presentation is nontrivial.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_5.Rel; Etingof.Problem2_16_5.KL_rel; Etingof.Problem2_16_5.LK_rel; Etingof.Problem2_16_5.Ke_rel; Etingof.Problem2_16_5.Kf_rel; Etingof.Problem2_16_5.ef_rel; Etingof.Problem2_16_5.augmentation_surjective"
+        },
+        {
+          "claim": "Formally setting K = q^h makes U_q(sl2) degenerate to U(sl2) as q tends to 1 in an appropriate sense.",
+          "verdict": "non_formalizable",
+          "reason": "The parenthetical is explicitly heuristic and does not specify a topology, integral form, or flat family defining the limiting sense."
+        },
+        {
+          "claim": "If q is not a root of unity, every nonzero finite-dimensional representation has a nonzero highest-weight vector.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_5.exists_highest_weight_vector"
+        },
+        {
+          "claim": "For a simple module in the non-root-of-unity case, the highest K-eigenvalue has the necessary form ε q^(dim V - 1), with ε² = 1.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_5.highest_weight_eigenvalue_of_not_isOfFinOrder"
+        },
+        {
+          "claim": "All non-root-of-unity irreducibles are explicitly constructed, classified up to isomorphism, and exhausted by the parameter list.",
+          "verdict": "intentional_omission",
+          "reason": "The exhaustive enumeration is explicitly excluded by skipped-exercises.md. The provider states only necessary structural constraints and no longer describes them as an isomorphism classification."
+        },
+        {
+          "claim": "At a root of unity, K^ord(q) acts as a nonzero scalar and K is semisimple with eigenvalues in one finite root set.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_5.Kpow_orderOf_isScalar; Etingof.Problem2_16_5.Kop_isSemisimple_and_eigenvalues"
+        },
+        {
+          "claim": "For q² ≠ 1 at a root of unity, e^ord(q) and f^ord(q) act as scalars and every finite-dimensional simple module has dimension at most ord(q).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_5.epow_orderOf_isScalar; Etingof.Problem2_16_5.fpow_orderOf_isScalar; Etingof.Problem2_16_5.finrank_irreducible_le_of_isOfFinOrder"
+        },
+        {
+          "claim": "All root-of-unity irreducibles are explicitly parameterized, their isomorphisms determined, and the list proved exhaustive.",
+          "verdict": "intentional_omission",
+          "reason": "This quantum-specific enumeration and case analysis is the permanent project-wide scope exclusion recorded in skipped-exercises.md; no placeholder or weakened wrapper purports to prove it."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Introduction",
