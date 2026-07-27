@@ -1111,7 +1111,7 @@
       "section": "2.5",
       "reviewed_on": "2026-07-27",
       "mathlib_quality": "verified",
-      "result": "Imports were minimized to the exact Mathlib quotient and two-sided-ideal modules, and the redundant simp attribute on the named multiplication bridge was removed after simpNF review. The scoped file is warning-free with the flexible-tactic linter enabled and passes all applicable declaration linters."
+      "result": "The shared source now uses direct Mathlib quotient and two-sided-ideal imports, and the redundant simp attribute on the named multiplication bridge was removed after simpNF review. The scoped file is warning-free with the flexible-tactic linter enabled and passes all applicable declaration linters."
     },
     "last_updated": "2026-07-27"
   },
@@ -1203,7 +1203,7 @@
       "section": "2.5",
       "reviewed_on": "2026-07-27",
       "mathlib_quality": "verified",
-      "result": "The shared discussion file now uses its exact minimal Mathlib imports and exposes a small documented quotient API without redundant simp declarations. It is warning-free with the flexible-tactic linter enabled and passes all applicable declaration linters."
+      "result": "The shared discussion file now uses direct Mathlib quotient and two-sided-ideal imports and exposes a small documented quotient API without redundant simp declarations. It is warning-free with the flexible-tactic linter enabled and passes all applicable declaration linters."
     },
     "last_updated": "2026-07-27"
   },
@@ -1265,7 +1265,7 @@
       "section": "2.5",
       "reviewed_on": "2026-07-27",
       "mathlib_quality": "verified",
-      "result": "The umbrella Mathlib import was replaced by the exact minimal dependency set. The theorem remains a single documented public result with a structured local-ring and complementary-submodule proof, and the file is warning-free under the flexible-tactic linter and all applicable declaration linters."
+      "result": "The file retains the Mathlib umbrella because the global import diagnostic produced unrelated transitive providers rather than a maintainable direct import set. The theorem remains a single documented public result with a structured local-ring and complementary-submodule proof, and the file is warning-free under the flexible-tactic linter and all applicable declaration linters."
     }
   },
   {
@@ -1374,7 +1374,7 @@
       "section": "2.5",
       "reviewed_on": "2026-07-27",
       "mathlib_quality": "verified",
-      "result": "The umbrella Mathlib import was replaced by the exact minimal dependency set, and both non-terminal broad simp calls in the basis proof were replaced by stable simp-only lists, eliminating all three flexible-tactic warnings. The documented public API and proof decomposition pass all applicable declaration linters."
+      "result": "The file retains the Mathlib umbrella because the global import diagnostic produced unrelated transitive providers rather than a maintainable direct import set. Both non-terminal broad simp calls in the basis proof were replaced by stable simp-only lists, eliminating all three flexible-tactic warnings. The documented public API and proof decomposition pass all applicable declaration linters."
     },
     "last_updated": "2026-07-27"
   },

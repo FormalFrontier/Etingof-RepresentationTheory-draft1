@@ -9,8 +9,11 @@ This pass reviews exactly `Chapter2/Discussion_2.5_heading`,
 
 ## Source polish
 
-- Replaced both `import Mathlib` umbrella imports in the exercise files and the overly broad
-  quotient imports in the discussion file with the exact import sets reported by `#min_imports`.
+- Trimmed the discussion file to its direct quotient and two-sided-ideal imports. The exercise
+  files retain `import Mathlib`: the global end-of-file `#min_imports` command suggested
+  semantically unrelated modules that happened to provide transitive dependencies, and its
+  documented syntax-and-tactic limitation makes that raw output unsuitable as a source import
+  list.
 - Removed the redundant `[simp]` attribute from `quotientAlgHom_mul`. The theorem remains the
   named book-facing multiplication formula, while `AlgHom.map_mul` already provides the generic
   simp rule; removing the duplicate also makes the declaration pass `simpNF`.
@@ -27,9 +30,11 @@ records.
 
 ## Lint and build evidence
 
-Temporary end-of-file commands were used during review and removed afterward:
+Temporary commands were used during review and removed afterward:
 
-- `#min_imports` returned exactly the imports now present in each scoped file.
+- The global end-of-file `#min_imports` output was reviewed as a diagnostic rather than copied
+  mechanically. Its useful direct suggestions informed the discussion-file trim; its unrelated
+  transitive suggestions for the tactic-heavy exercise files were rejected.
 - `#lint only checkUnivs defLemma deprecatedNoSince docBlame dupNamespace impossibleInstance
   nonClassInstance simpComm simpNF simpVarHead structureInType synTaut tacticDocs unusedArguments
   unusedHavesSuffices` passed with zero errors in all three scoped files (11, 1, and 65 checked

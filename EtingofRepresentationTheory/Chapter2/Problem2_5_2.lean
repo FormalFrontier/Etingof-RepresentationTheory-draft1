@@ -1,13 +1,5 @@
+import Mathlib
 import EtingofRepresentationTheory.Chapter2.Definition2_3_8
-import Mathlib.AlgebraicTopology.SimplexCategory.Basic
-import Mathlib.Analysis.CStarAlgebra.Classes
-import Mathlib.Analysis.Complex.Polynomial.Basic
-import Mathlib.Analysis.Normed.Algebra.TrivSqZeroExt
-import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
-import Mathlib.RingTheory.MvPolynomial.Ideal
-import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
-import Mathlib.RingTheory.PicardGroup
-import Mathlib.RingTheory.TotallySplit
 
 /-!
 # Problem 2.5.2: Cyclic vectors and cyclic representations

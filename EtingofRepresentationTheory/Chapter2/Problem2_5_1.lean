@@ -1,8 +1,5 @@
+import Mathlib
 import EtingofRepresentationTheory.Chapter2.Definition2_3_8
-import Mathlib.Algebra.Order.Ring.Star
-import Mathlib.RingTheory.Ideal.Quotient.Operations
-import Mathlib.RingTheory.MvPolynomial.Homogeneous
-import Mathlib.RingTheory.Nilpotent.Basic
 
 /-!
 # Problem 2.5.1: A quotient of a polynomial ring is indecomposable
