@@ -67,14 +67,14 @@ theorem adjoin_generators_eq_top [Fintype Q] :
       exact mul_mem ih (Algebra.subset_adjoin (Or.inr ⟨_, _, e, rfl⟩))
   rw [Algebra.eq_top_iff]
   intro f
-  induction f using Finsupp.induction_linear with
+  induction f using PathAlgebra.induction_linear with
   | zero => exact zero_mem _
   | add f g hf hg => exact add_mem hf hg
   | single x c =>
     obtain ⟨a, b, p⟩ := x
     have hsc : (Finsupp.single (⟨a, b, p⟩ : QuiverPathIndex Q) c : PathAlgebra k Q)
         = c • PathAlgebra.ofPath (k := k) (⟨a, b, p⟩ : QuiverPathIndex Q) := by
-      rw [PathAlgebra.ofPath, Finsupp.smul_single, smul_eq_mul, mul_one]
+      exact (PathAlgebra.smul_single_one c _).symm
     rw [hsc]
     exact Subalgebra.smul_mem _ (hgen a b p) c
 
@@ -97,7 +97,8 @@ theorem vertexIdem_sq [Fintype Q] (i : Q) :
 theorem vertexIdem_mul_of_ne [Fintype Q] (i j : Q) (h : i ≠ j) :
     vertexIdem k Q i * vertexIdem k Q j = 0 := by
   unfold vertexIdem PathAlgebra.ofPath
-  rw [PathAlgebra.single_mul_single, PathAlgebra.compSingle_nil_left, if_neg h, smul_zero]
+  rw [PathAlgebra.single_mul_single, PathAlgebra.compSingle_nil_left, if_neg h]
+  exact PathAlgebra.smul_pathAlgebra_zero _
 
 /-- Relation (3): the source idempotent absorbs an arrow (on the left, in the
 source-to-target convention): `p_{source} · aₕ = aₕ`. -/
@@ -111,7 +112,8 @@ theorem source_mul_arrowGen [Fintype Q] {i j : Q} (e : i ⟶ j) :
 theorem vertexIdem_mul_arrowGen_of_ne [Fintype Q] {i j : Q} (l : Q) (e : i ⟶ j) (h : l ≠ i) :
     vertexIdem k Q l * arrowGen k Q e = 0 := by
   unfold vertexIdem arrowGen PathAlgebra.ofPath
-  rw [PathAlgebra.single_mul_single, PathAlgebra.compSingle_nil_left, if_neg h, smul_zero]
+  rw [PathAlgebra.single_mul_single, PathAlgebra.compSingle_nil_left, if_neg h]
+  exact PathAlgebra.smul_pathAlgebra_zero _
 
 /-- Relation (4): the target idempotent absorbs an arrow (on the right, in the
 source-to-target convention): `aₕ · p_{target} = aₕ`. -/
@@ -125,7 +127,8 @@ theorem arrowGen_mul_target [Fintype Q] {i j : Q} (e : i ⟶ j) :
 theorem arrowGen_mul_vertexIdem_of_ne [Fintype Q] {i j : Q} (l : Q) (e : i ⟶ j) (h : l ≠ j) :
     arrowGen k Q e * vertexIdem k Q l = 0 := by
   unfold arrowGen vertexIdem PathAlgebra.ofPath
-  rw [PathAlgebra.single_mul_single, PathAlgebra.compSingle_nil_right, if_neg h.symm, smul_zero]
+  rw [PathAlgebra.single_mul_single, PathAlgebra.compSingle_nil_right, if_neg h.symm]
+  exact PathAlgebra.smul_pathAlgebra_zero _
 
 /-! ## The exact book-facing presentation -/
 
@@ -181,8 +184,10 @@ theorem adjoin_generators_eq_top [Fintype Q] :
         apply MulOpposite.unop_injective
         exact (PathAlgebra.smul_single_one c
           (⟨a, b, p⟩ : QuiverPathIndex Q)).symm
-      rw [hsc]
-      exact Subalgebra.smul_mem _ (hgen a b p) c
+      have hmem : c • BookPathAlgebra.ofPath (k := k)
+          (⟨a, b, p⟩ : QuiverPathIndex Q) ∈ Algebra.adjoin k S :=
+        Subalgebra.smul_mem _ (hgen a b p) c
+      exact hsc.symm ▸ hmem
 
 /-- Relation (1): `∑ᵢ pᵢ = 1`. -/
 theorem sum_vertexIdem [Fintype Q] :
@@ -240,9 +245,11 @@ def evalPath {a : Q} : {b : Q} → Quiver.Path a b → B
   | _, Quiver.Path.nil => P a
   | _, Quiver.Path.cons q e => evalPath q * A _ _ e
 
+omit [DecidableEq Q] in
 @[simp] theorem evalPath_nil (a : Q) :
     evalPath P A (Quiver.Path.nil : Quiver.Path a a) = P a := rfl
 
+omit [DecidableEq Q] in
 @[simp] theorem evalPath_cons {a b c : Q} (q : Quiver.Path a b) (e : b ⟶ c) :
     evalPath P A (q.cons e) = evalPath P A q * A b c e := rfl
 
@@ -269,9 +276,9 @@ theorem defining_relations_universal [Fintype Q]
     (hidem : ∀ i, P i * P i = P i)
     (horth : ∀ i j, i ≠ j → P i * P j = 0)
     (hsa : ∀ i j (e : i ⟶ j), P i * A i j e = A i j e)
-    (hsa0 : ∀ (l : Q) i j (e : i ⟶ j), l ≠ i → P l * A i j e = 0)
+    (_hsa0 : ∀ (l : Q) i j (e : i ⟶ j), l ≠ i → P l * A i j e = 0)
     (hat : ∀ i j (e : i ⟶ j), A i j e * P j = A i j e)
-    (hat0 : ∀ (l : Q) i j (e : i ⟶ j), l ≠ j → A i j e * P l = 0) :
+    (_hat0 : ∀ (l : Q) i j (e : i ⟶ j), l ≠ j → A i j e * P l = 0) :
     ∃! φ : PathAlgebra k Q →ₐ[k] B,
       (∀ i, φ (vertexIdem k Q i) = P i) ∧
         (∀ i j (e : i ⟶ j), φ (arrowGen k Q e) = A i j e) := by
@@ -296,18 +303,18 @@ theorem defining_relations_universal [Fintype Q]
     | cons r e ih => rw [Quiver.Path.comp_cons, evalPath_cons, evalPath_cons, ih, mul_assoc]
   -- `evalMap` sends the unit to the unit.
   have h1 : evalMap P A (1 : PathAlgebra k Q) = 1 := by
-    rw [PathAlgebra.one_def, map_sum]
+    rw [PathAlgebra.one_eq_ofPath_sum, map_sum]
     refine Eq.trans (Finset.sum_congr rfl fun i _ => ?_) hsum
-    simp [evalMap_single]
+    simp [PathAlgebra.ofPath, evalMap_single]
   -- `evalMap` is multiplicative.
   have hmul : ∀ x y : PathAlgebra k Q,
       evalMap P A (x * y) = evalMap P A x * evalMap P A y := by
     intro x y
-    induction x using Finsupp.induction_linear with
+    induction x using PathAlgebra.induction_linear with
     | zero => rw [zero_mul, map_zero, zero_mul]
     | add x1 x2 hx1 hx2 => rw [add_mul, map_add, map_add, add_mul, hx1, hx2]
     | single sx a =>
-      induction y using Finsupp.induction_linear with
+      induction y using PathAlgebra.induction_linear with
       | zero => rw [mul_zero, map_zero, mul_zero]
       | add y1 y2 hy1 hy2 => rw [mul_add, map_add, map_add, mul_add, hy1, hy2]
       | single sy b =>
@@ -342,14 +349,14 @@ theorem defining_relations_universal [Fintype Q]
   intro ψ hψ
   apply AlgHom.ext
   intro z
-  induction z using Finsupp.induction_linear with
+  induction z using PathAlgebra.induction_linear with
   | zero => rw [map_zero, map_zero]
   | add u v hu hv => rw [map_add, map_add, hu, hv]
   | single x c =>
     obtain ⟨a, b, p⟩ := x
     have hsc : (Finsupp.single (⟨a, b, p⟩ : QuiverPathIndex Q) c : PathAlgebra k Q)
         = c • PathAlgebra.ofPath (k := k) (⟨a, b, p⟩ : QuiverPathIndex Q) := by
-      rw [PathAlgebra.ofPath, Finsupp.smul_single, smul_eq_mul, mul_one]
+      exact (PathAlgebra.smul_single_one c _).symm
     rw [hsc, map_smul, map_smul]
     congr 1
     clear hsc
@@ -442,3 +449,10 @@ theorem defining_relations_universal [Fintype Q]
 end Book
 
 end Etingof.Problem2_8_6
+
+-- The leaf names follow Mathlib conventions; the underscore comes solely from the stable
+-- book-number namespace `Problem2_8_6`, which is part of this project's public API.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_8_6.vertexIdem Etingof.Problem2_8_6.arrowGen
+  Etingof.Problem2_8_6.Book.vertexIdem Etingof.Problem2_8_6.Book.arrowGen
+  Etingof.Problem2_8_6.evalPath Etingof.Problem2_8_6.evalMap

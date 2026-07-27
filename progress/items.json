@@ -1188,7 +1188,7 @@
     "end_page": "19",
     "start_line": 21,
     "end_line": 24,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -1225,6 +1225,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "QuiverDef is an abbreviation of Mathlib's Quiver and its provider imports only Mathlib.Combinatorics.Quiver.Basic."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The focused Quiver abbreviation provider elaborates without warnings and passes all 16 declaration linters with no redundant imports."
     }
   },
   {
@@ -1235,7 +1242,7 @@
     "end_page": "19",
     "start_line": 25,
     "end_line": 30,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "last_updated": "2026-07-22",
     "fidelity": "verified",
@@ -1274,6 +1281,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "The concrete Fin 4 quiver is defined directly from Mathlib's Quiver API and uses no project declaration."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The concrete quiver and its three documented arrows pass all 16 declaration linters; the only naming exception is the stable book-number namespace."
     }
   },
   {
@@ -1284,7 +1298,7 @@
     "end_page": "19",
     "start_line": 31,
     "end_line": 34,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -1326,6 +1340,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "The bundled-arrow notation now imports Mathlib.Combinatorics.Quiver.Basic directly and does not use QuiverDef or any earlier project item."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The bundled-arrow notation provider elaborates without warnings and passes all 16 declaration linters with no redundant imports."
     }
   },
   {
@@ -1336,7 +1357,7 @@
     "end_page": "19",
     "start_line": 35,
     "end_line": 35,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -1373,6 +1394,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "QuiverRepresentation is defined directly from Mathlib's Quiver and LinearMap APIs and uses no earlier project declaration."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The quiver-representation structure provider elaborates without warnings and passes all 16 declaration linters with no redundant imports."
     }
   },
   {
@@ -1383,7 +1411,7 @@
     "end_page": "20",
     "start_line": 1,
     "end_line": 1,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -1437,6 +1465,13 @@
         "Chapter2/Definition2.8.3"
       ],
       "basis": "At this point in book order, the organizational announcement uses the quiver-representation notion from Definition 2.8.3. The path algebra and isomorphism-class theorem are the later declarations announced here, so they are not encoded as forward dependencies."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The path-algebra and correspondence providers have documented public API, irredundant imports, warning-free elaboration, and pass all 16 declaration linters."
     }
   },
   {
@@ -1447,7 +1482,7 @@
     "end_page": "20",
     "start_line": 2,
     "end_line": 4,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -1498,6 +1533,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "PathAlgebra and BookPathAlgebra are constructed in a Mathlib-only provider from quiver paths, Finsupp linear sums, and opposite algebras."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The path-algebra API documents its intentional instance-indexed carrier, elaborates without warnings, and passes all 16 declaration linters with no redundant imports."
     }
   },
   {
@@ -1508,7 +1550,7 @@
     "end_page": "20",
     "start_line": 5,
     "end_line": 5,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "fidelity": "verified",
     "coverage": "covered_full",
     "coverage_note": "For a finite vertex type, BookPathAlgebra inherits a unital algebra structure from the opposite algebra and its trivial paths sum to one.",
@@ -1547,6 +1589,13 @@
         "Chapter2/Definition2.8.4"
       ],
       "basis": "The unit theorem is part of the path-algebra provider and uses only the BookPathAlgebra construction from Definition 2.8.4."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The unit theorem is documented, warning-free, axiom-clean, and passes all 16 declaration linters in its provider."
     }
   },
   {
@@ -1557,7 +1606,7 @@
     "end_page": "20",
     "start_line": 6,
     "end_line": 16,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "last_updated": "2026-07-27",
     "coverage_note": "The Book namespace states and proves generation, all four printed relations in their exact source/target order, both annihilation clauses, and the defining-relations universal property for BookPathAlgebra.",
@@ -1624,6 +1673,13 @@
         "Chapter2/Definition2.8.4"
       ],
       "basis": "The generators, relations, and universal property use only the path-algebra API from Definition 2.8.4; the broad Mathlib import was replaced by focused subalgebra and Finsupp linear-combination imports."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The generators-relations provider is warning-free and passes all 16 declaration linters; only its stable book-number namespace has a documented naming exception."
     }
   },
   {
@@ -1634,7 +1690,7 @@
     "end_page": "21",
     "start_line": 17,
     "end_line": 4,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "coverage_note": "The legacy PathAlgebra/Qᵒᵖ correspondence remains fully proved. The exact book-facing BookPathAlgebra/Q correspondence now constructs both assignments, proves their module and representation round trips, and packages the specified V↦(p_iV) and direct-sum inverse as an equivalence on isomorphism classes.",
     "last_updated": "2026-07-27",
@@ -1697,6 +1753,13 @@
         "Chapter2/Definition2.8.4"
       ],
       "basis": "The correspondence depends mathematically on quiver representations and the book-facing path algebra. Its source imports the later Definition 2.8.10 module for shared equivalence infrastructure, but the book-order dependency DAG records the earlier Definition 2.8.3 prerequisite and does not admit forward edges."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The correspondence provider now has documented bundled-module fields, nonredundant simp attributes and imports, warning-free elaboration, and all 16 declaration linters passing."
     }
   },
   {
@@ -1707,7 +1770,7 @@
     "end_page": "21",
     "start_line": 5,
     "end_line": 7,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "fidelity": "verified",
     "claim_coverage": {
       "stage": "3.2",
@@ -1743,6 +1806,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "This item is solely editorial prose and introduces no declaration or mathematical dependency."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "This editorial item introduces no declaration; its section providers were verified warning-free, lint-clean, and irredundantly imported."
     }
   },
   {
@@ -1753,7 +1823,7 @@
     "end_page": "21",
     "start_line": 8,
     "end_line": 9,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -1793,6 +1863,13 @@
         "Chapter2/Definition2.8.3"
       ],
       "basis": "The subrepresentation construction depends directly on QuiverRepresentation; its redundant Submodule.Basic import was removed in favor of the focused Submodule.LinearMap API."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The morphism and equivalence provider elaborates without warnings and passes all 16 declaration linters with no redundant imports."
     }
   },
   {
@@ -1803,7 +1880,7 @@
     "end_page": "21",
     "start_line": 10,
     "end_line": 10,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_note": "The recovered blob states the binary direct sum exactly; the construction uses the canonical product model of a finite direct sum.",
@@ -1841,6 +1918,13 @@
         "Chapter2/Definition2.8.3"
       ],
       "basis": "The binary direct-sum construction uses QuiverRepresentation together with Mathlib's product linear-map API."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The irreducibility definition provider elaborates without warnings and passes all 16 declaration linters with no redundant imports."
     }
   },
   {
@@ -1851,7 +1935,7 @@
     "end_page": "21",
     "start_line": 11,
     "end_line": 13,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -1901,6 +1985,13 @@
         "Chapter2/Definition2.8.9"
       ],
       "basis": "The irreducible predicate uses subrepresentations and indecomposability uses direct sums. Representation-equivalence infrastructure is housed in the following Definition 2.8.10 provider and is therefore not encoded as a forward dependency."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The irreducibility and indecomposability discussion provider elaborates without warnings and passes all 16 declaration linters with no redundant imports."
     }
   },
   {
@@ -1911,7 +2002,7 @@
     "end_page": "21",
     "start_line": 14,
     "end_line": 14,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -1950,6 +2041,13 @@
         "Chapter2/Definition2.8.3"
       ],
       "basis": "Representation homomorphisms and equivalences are defined directly over QuiverRepresentation with Mathlib's linear-equivalence definitions."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The direct-sum and indecomposability provider elaborates without warnings and passes all 16 declaration linters with no redundant imports."
     }
   },
   {
@@ -1960,7 +2058,7 @@
     "end_page": "22",
     "start_line": 15,
     "end_line": 11,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "coverage_note": "The locally finite positive grading and Hilbert-series definition are explicit. All four requested answers have exact graded-piece and generating-series proofs, including canonical supported-Finsupp bases identifying the free-algebra and path-algebra degree pieces with fixed-length words and paths.",
     "fidelity_decl": "theorem hilbertSeries_pathAlgebra, theorem inv_one_sub_smul_adjacencyPS",
@@ -2035,6 +2133,13 @@
         "Chapter2/Definition2.8.4"
       ],
       "basis": "The only project declaration used is PathAlgebra from Definition 2.8.4; the polynomial, exterior, power-series, cardinality, matrix, and basis arguments are Mathlib dependencies."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The Hilbert-series provider now has focused imports and a generalized adjacency-matrix API, elaborates without warnings, and passes all 16 declaration linters."
     }
   },
   {

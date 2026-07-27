@@ -1,7 +1,6 @@
 import EtingofRepresentationTheory.Chapter2.Definition2_8_4
 import EtingofRepresentationTheory.Chapter2.Definition2_8_10
 import Mathlib.Algebra.Algebra.RestrictScalars
-import Mathlib.Algebra.Module.NatInt
 import Mathlib.RingTheory.Idempotents
 import Mathlib.Algebra.DirectSum.Module
 
@@ -391,7 +390,7 @@ noncomputable def toEnd [Fintype Q] (R : Etingof.QuiverRepresentation k Qᵒᵖ)
 @[simp] theorem toEnd_apply [Fintype Q] (R : Etingof.QuiverRepresentation k Qᵒᵖ)
     (a : PathAlgebra k Q) : toEnd R a = toEndₗ R a := rfl
 
-@[simp] theorem toEnd_ofPath [Fintype Q] (R : Etingof.QuiverRepresentation k Qᵒᵖ)
+theorem toEnd_ofPath [Fintype Q] (R : Etingof.QuiverRepresentation k Qᵒᵖ)
     (x : Etingof.QuiverPathIndex Q) : toEnd R (ofPath x) = pathEnd R x := by
   rw [toEnd_apply, toEndₗ_ofPath]
 
@@ -862,10 +861,15 @@ variable (k : Type u) (Q : Type v) [Field k] [Quiver Q] [DecidableEq Q] [Fintype
 /-- A bundled left module over the path algebra, used as the carrier of the module-side
 isomorphism-class quotient. -/
 structure PathModule where
+  /-- The underlying type of the module. -/
   carrier : Type w
+  /-- The additive commutative group structure on the carrier. -/
   addCommGroup : AddCommGroup carrier
+  /-- The ground-field module structure on the carrier. -/
   moduleField : Module k carrier
+  /-- The path-algebra module structure on the carrier. -/
   modulePathAlgebra : Module (PathAlgebra k Q) carrier
+  /-- Compatibility of the ground-field and path-algebra scalar actions. -/
   scalarTower : IsScalarTower k (PathAlgebra k Q) carrier
 
 /-- Two bundled path-algebra modules are isomorphic when their carriers are related by a
@@ -1135,10 +1139,15 @@ variable (k : Type u) (Q : Type v) [Field k] [Quiver.{q} Q] [DecidableEq Q] [Fin
 
 /-- A bundled left module over the book-facing path algebra. -/
 structure PathModule where
+  /-- The underlying type of the module. -/
   carrier : Type w
+  /-- The additive commutative group structure on the carrier. -/
   addCommGroup : AddCommGroup carrier
+  /-- The ground-field module structure on the carrier. -/
   moduleField : Module k carrier
+  /-- The book-facing path-algebra module structure on the carrier. -/
   modulePathAlgebra : Module (BookPathAlgebra k Q) carrier
+  /-- Compatibility of the ground-field and path-algebra scalar actions. -/
   scalarTower : IsScalarTower k (BookPathAlgebra k Q) carrier
 
 /-- Isomorphism of bundled book-facing path-algebra modules. -/
@@ -1368,10 +1377,11 @@ noncomputable def toEnd (R : QuiverRepresentation k Q) :
     toEnd k Q R a = toEndₗ k Q R a :=
   rfl
 
-@[simp] theorem toEnd_ofPath (R : QuiverRepresentation k Q) (x : QuiverPathIndex Q) :
+theorem toEnd_ofPath (R : QuiverRepresentation k Q) (x : QuiverPathIndex Q) :
     toEnd k Q R (ofPath (k := k) x) = pathEnd k Q R x := by
   rw [toEnd_apply, toEndₗ_ofPath]
 
+/-- The left `BookPathAlgebra` module reconstructed from a quiver representation. -/
 @[reducible] noncomputable def reverseModule (R : QuiverRepresentation k Q) :
     Module (BookPathAlgebra k Q) (DirectSum Q R.obj) :=
   Module.compHom _ (toEnd k Q R).toRingHom
@@ -1572,7 +1582,10 @@ theorem coeLinearMap_pathEnd {V : Type*} [AddCommGroup V] [Module k V]
       have hzero : (vertexSpace (k := k) (V := V) j).subtype
           (pathMap k Q (forwardRep (k := k) (Q := Q) (V := V)) p
             (0 : vertexSpace (k := k) (V := V) i)) = 0 := by
-        rw [map_zero, map_zero]
+        change (((vertexSpace (k := k) (V := V) j).subtype.comp
+          (pathMap k Q (forwardRep (k := k) (Q := Q) (V := V)) p))
+            (0 : vertexSpace (k := k) (V := V) i)) = 0
+        exact LinearMap.map_zero _
       calc
         _ = 0 := hzero
         _ = (ofPath (k := k) (⟨i, j, p⟩ : QuiverPathIndex Q) : BookPathAlgebra k Q) •
@@ -1707,7 +1720,8 @@ noncomputable def reverseModuleEquiv {R S : QuiverRepresentation k Q}
     left_inv := ek.left_inv
     right_inv := ek.right_inv }
 
-local instance directSum_addCommGroup (R : QuiverRepresentation k Q) :
+/-- The additive group on a direct sum of vector spaces. -/
+local instance directSumAddCommGroup (R : QuiverRepresentation k Q) :
     AddCommGroup (DirectSum Q R.obj) :=
   Module.addCommMonoidToAddCommGroup k
 

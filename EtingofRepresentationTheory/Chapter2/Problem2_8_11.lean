@@ -3,11 +3,6 @@ import Mathlib.RingTheory.MvPolynomial.Basic
 import Mathlib.LinearAlgebra.ExteriorPower.Basis
 import Mathlib.RingTheory.PowerSeries.WellKnown
 import Mathlib.Algebra.Order.Antidiag.FinsuppEquiv
-import Mathlib.Data.Matrix.Mul
-import Mathlib.Algebra.FreeAlgebra
-import Mathlib.SetTheory.Cardinal.Finite
-import Mathlib.Data.Finite.Sigma
-import Mathlib.Algebra.DirectSum.Module
 import EtingofRepresentationTheory.Chapter2.Definition2_8_4
 
 /-!
@@ -221,7 +216,7 @@ noncomputable def pathAlgebraDegreePiece (k : Type*) [Field k] (Q : Type*) [Quiv
 
 /-- The adjacency matrix of a finite quiver `Q`: the `(i,j)`-entry is the number of arrows
 `i ⟶ j`. -/
-def adjacencyMatrix (Q : Type*) [Quiver Q] [Fintype Q] [∀ i j : Q, Fintype (i ⟶ j)] :
+def adjacencyMatrix (Q : Type*) [Quiver Q] [∀ i j : Q, Fintype (i ⟶ j)] :
     Matrix Q Q ℕ :=
   fun i j => Fintype.card (i ⟶ j)
 
@@ -355,7 +350,7 @@ is the matrix `t M_Q` appearing in the book's answer. -/
 noncomputable def adjacencyPS : Matrix Q Q (PowerSeries k) :=
   (adjacencyMatrix Q).map fun a => C (a : k)
 
-omit [DecidableEq Q] in
+omit [Fintype Q] [DecidableEq Q] in
 @[simp]
 theorem adjacencyPS_apply (i j : Q) :
     adjacencyPS k Q i j = C ((adjacencyMatrix Q i j : ℕ) : k) :=
@@ -450,3 +445,12 @@ theorem hilbertSeries_pathAlgebra_adjacencyMatrix :
 end HilbertSeries
 
 end Etingof.Problem2_8_11
+
+-- The leaf names follow Mathlib conventions; the underscore comes solely from the stable
+-- book-number namespace `Problem2_8_11`, which is part of this project's public API.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_8_11.LocallyFiniteNatGrading.piece
+  Etingof.Problem2_8_11.hilbertSeries Etingof.Problem2_8_11.freeAlgebraWordEquiv
+  Etingof.Problem2_8_11.freeAlgebraDegreePiece Etingof.Problem2_8_11.pathAlgebraDegreePiece
+  Etingof.Problem2_8_11.adjacencyMatrix Etingof.Problem2_8_11.pathSuccEquiv
+  Etingof.Problem2_8_11.adjacencyPS Etingof.Problem2_8_11.resolvent
