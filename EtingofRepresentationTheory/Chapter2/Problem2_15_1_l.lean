@@ -1,13 +1,4 @@
-import Mathlib.Algebra.Algebra.Equiv
-import Mathlib.Algebra.Lie.OfAssociative
-import Mathlib.Data.Nat.Factorial.Basic
-import Mathlib.LinearAlgebra.Pi
-import Mathlib.Algebra.Polynomial.Module.AEval
-import Mathlib.Algebra.Polynomial.Div
-import Mathlib.Algebra.Polynomial.RingDivision
 import Mathlib.Algebra.Module.PID
-import Mathlib.Algebra.DirectSum.Module
-import Mathlib.LinearAlgebra.Dimension.Constructions
 import EtingofRepresentationTheory.Chapter2.Sl2Irrep
 
 /-!

@@ -345,11 +345,10 @@
   "Chapter2/Problem2.14.3": [
     "Chapter2/Definition2.14.2"
   ],
-  "Chapter2/Discussion_2.15_heading": [
-    "Chapter2/Problem2.14.3"
-  ],
+  "Chapter2/Discussion_2.15_heading": [],
   "Chapter2/Problem2.15.1": [
-    "Chapter2/Discussion_2.15_heading"
+    "Chapter2/Theorem2.1.1",
+    "Chapter2/Discussion_concrete_Lie_examples"
   ],
   "Chapter2/Discussion_2.16_heading": [
     "Chapter2/Problem2.15.1"
