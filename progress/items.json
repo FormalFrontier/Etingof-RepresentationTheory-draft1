@@ -1419,7 +1419,92 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "non_formalizable"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Stage 3.2 reviewed all fourteen paragraph units in the page 26–30 historical narrative. They contain biography, history of mathematics, attributed quotations, and evaluative prose, but no book-facing theorem, definition, construction, or exercise requiring a Lean declaration.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.10",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Sophus Lie's education, early depression, tutoring, first publications, and decision at age twenty-six to pursue mathematics.",
+          "verdict": "non_formalizable",
+          "reason": "This is biographical narrative rather than a mathematical proposition or data construction."
+        },
+        {
+          "claim": "Lie's government fellowship, travel to Berlin, friendship with Felix Klein, and Freudenthal's comparison of their mathematical characters.",
+          "verdict": "non_formalizable",
+          "reason": "These are historical events and an attributed assessment, not a formal mathematical claim."
+        },
+        {
+          "claim": "Klein suggested an analogy between Lie's tetrahedral-complex research and Galois theory, motivating Lie's continuous analogue of Galois theory.",
+          "verdict": "non_formalizable",
+          "reason": "The passage describes intellectual history without stating a precise theorem or definition."
+        },
+        {
+          "claim": "Lie's Paris contact transformation, wartime arrest, dissertation, and extraordinary professorship in Christiania.",
+          "verdict": "non_formalizable",
+          "reason": "This is historical and biographical prose; the contact transformation is mentioned but not defined mathematically."
+        },
+        {
+          "claim": "Lie and Klein connected group theory with geometry; Klein's Erlangen Program and their transformation-group viewpoint framed a group-classification problem.",
+          "verdict": "non_formalizable",
+          "reason": "The paragraph is a historical overview and does not supply formal hypotheses, definitions, or a theorem statement."
+        },
+        {
+          "claim": "By the end of 1873, work on first-order differential equations enabled Lie to develop the theory of continuous transformation groups.",
+          "verdict": "non_formalizable",
+          "reason": "This is a historical account of research development rather than a formalizable mathematical assertion as stated."
+        },
+        {
+          "claim": "Lie's isolation, Norwegian publication strategy, priority concerns, and Klein's arrangement for Friedrich Engel to assist him.",
+          "verdict": "non_formalizable",
+          "reason": "These are documentary and biographical claims, outside the scope of Lean formalization."
+        },
+        {
+          "claim": "Lie dictated chapter outlines to Engel, revised Engel's notes, and thereby produced a book-length draft.",
+          "verdict": "non_formalizable",
+          "reason": "This is publication history, not a mathematical proposition."
+        },
+        {
+          "claim": "Lie took Klein's former Leipzig chair and continued with Engel on the three-volume Theorie der Transformationsgruppen.",
+          "verdict": "non_formalizable",
+          "reason": "This is institutional and publication history rather than formal mathematics."
+        },
+        {
+          "claim": "Lie's ideas were welcomed in Paris but criticized by Weierstrass and Frobenius in Germany.",
+          "verdict": "non_formalizable",
+          "reason": "The paragraph reports reception and attributed opinions, not a theorem or construction."
+        },
+        {
+          "claim": "Lie's Leipzig workload and homesickness contributed to deteriorating relations with Engel and Klein and to his public dispute with Klein.",
+          "verdict": "non_formalizable",
+          "reason": "This is biographical narrative and quotation-based historical interpretation."
+        },
+        {
+          "claim": "Lie suffered a nervous breakdown, received a diagnosis of neurasthenia, spent time in a clinic, and faced rumors about his mental illness.",
+          "verdict": "non_formalizable",
+          "reason": "This is biographical and medical history rather than mathematical content."
+        },
+        {
+          "claim": "Norway created a chair to bring Lie home; he returned in 1898 shortly before his death.",
+          "verdict": "non_formalizable",
+          "reason": "This is political and biographical history, not a formal mathematical claim."
+        },
+        {
+          "claim": "Lie favored conceptual originality and geometric reasoning over formal exposition, and Engel's work recorded much of his transformation-group research.",
+          "verdict": "non_formalizable",
+          "reason": "This is an attributed assessment of mathematical style and publication history, not a precise formal statement."
+        }
+      ]
     }
   },
   {
@@ -1433,7 +1518,27 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "non_formalizable"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Stage 3.2 reviewed the page 31 conclusion, which completes the historical paragraph split at the page boundary and contains no mathematical assertion requiring Lean.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.10",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Lie preferred citing his own papers, Hausdorff did not complete the intended exposition, and some of Lie's work on contact transformations and partial differential equations remained unwritten.",
+          "verdict": "non_formalizable",
+          "reason": "This conclusion is publication history and an evaluative observation, not a theorem, definition, or construction."
+        }
+      ]
     }
   },
   {
