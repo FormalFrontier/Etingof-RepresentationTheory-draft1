@@ -3790,7 +3790,7 @@
     "end_page": "37",
     "start_line": 9,
     "end_line": 9,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "fidelity": "verified",
     "claim_coverage": {
@@ -3816,6 +3816,13 @@
       "proof_integrity": "not_applicable",
       "declarations": []
     },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.14",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This organizational heading makes no mathematical assertion and depends on no earlier project item."
+    },
     "last_updated": "2026-07-27",
     "coverage_swept": {
       "wave": 1,
@@ -3830,7 +3837,7 @@
     "end_page": "37",
     "start_line": 10,
     "end_line": 14,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_decl": "Etingof.LieTensorProduct (abbrev) := TensorProduct k V W; Etingof.LieTensorProduct.lie_tmul",
@@ -3868,6 +3875,13 @@
         "Etingof.LieTensorProduct.lie_tmul"
       ]
     },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.14",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The tensor-product representation alias and action equation use only Mathlib's focused Lie tensor-product API and import no earlier project item."
+    },
     "last_updated": "2026-07-27"
   },
   {
@@ -3878,7 +3892,7 @@
     "end_page": "37",
     "start_line": 15,
     "end_line": 17,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_decl": "Etingof.LieDualRepresentation (abbrev) := Module.Dual k V, with contragredient LieRingModule/LieModule structure (Mathlib.Algebra.Lie.Basic) and characterizing lemma lieDualRepresentation_lie_apply : ⁅x,f⁆ v = -f ⁅x,v⁆",
@@ -3921,6 +3935,13 @@
         "Etingof.lieDualRepresentation_lie_apply"
       ]
     },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.14",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The dual representation alias and contragredient action equation use only focused Mathlib Lie and dual-space APIs and import no earlier project item."
+    },
     "last_updated": "2026-07-27"
   },
   {
@@ -3931,7 +3952,7 @@
     "end_page": "37",
     "start_line": 18,
     "end_line": 20,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "fidelity": "verified",
     "sorry_free": true,
@@ -3970,6 +3991,13 @@
         "Etingof.Problem2_14_3.tensorHomAdjunction",
         "Etingof.Problem2_14_3.exists_tensorHom_adjunction"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.14",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The tensor–Hom adjunction is constructed directly from focused Mathlib tensor-product, duality, and finite-dimensional APIs; its provider imports no earlier project item."
     },
     "last_updated": "2026-07-27"
   },

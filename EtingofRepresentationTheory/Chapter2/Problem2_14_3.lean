@@ -1,4 +1,9 @@
-import Mathlib
+import Mathlib.Algebra.Lie.TensorProduct
+import Mathlib.Algebra.Module.StablyFree.Basic
+import Mathlib.LinearAlgebra.Contraction
+import Mathlib.LinearAlgebra.FreeModule.PID
+import Mathlib.RingTheory.Flat.TorsionFree
+import Mathlib.RingTheory.SimpleRing.Principal
 
 /-!
 # Problem 2.14.3: The tensor-Hom adjunction for Lie algebra representations
