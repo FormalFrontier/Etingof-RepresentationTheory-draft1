@@ -671,6 +671,18 @@ theorem permModule_isotypic_isInternal (n : ℕ)
           from iSup_isotypicComponent_eq_top n mu,
         Submodule.restrictScalars_top]
 
+/-- The isotypic components form an internal direct sum as
+`SymGroupAlgebra n`-submodules.  This is the module-linear form of
+`permModule_isotypic_isInternal`; its canonical direct-sum equivalence is the
+first stage of Young's-rule decomposition. -/
+theorem permModule_isotypic_isInternal_module (n : ℕ)
+    (mu : Nat.Partition n) :
+    DirectSum.IsInternal (fun nu : Nat.Partition n =>
+      isotypicComponent (SymGroupAlgebra n) (PermutationModule n mu)
+        (SpechtModule n nu)) := by
+  rw [DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top]
+  exact ⟨iSupIndep_isotypicComponent n mu, iSup_isotypicComponent_eq_top n mu⟩
+
 /-- The permutation action `σ` on `U_μ` maps each isotypic component to itself.
 This is because `σ` acts as a `ℂ[S_n]`-module endomorphism (left multiplication
 by `of(σ)`), and isotypic components are fully invariant. -/
@@ -945,12 +957,14 @@ private lemma multiplicity_eq_spechtMultiplicity (n : ℕ) (mu nu : Nat.Partitio
   -- Combine: k = finrank ℂ (U →ₗ[R] V) = spechtMultiplicity
   unfold spechtMultiplicity; linarith
 
-/-- The isotypic component for `V_ν` in `U_μ` is isomorphic (as `ℂ`-vector space)
-to `Fin m → V_ν` where `m = spechtMultiplicity n mu nu`. This is the structural
-decomposition of the isotypic component as a direct sum of copies of the simple module. -/
-theorem isotypicComponent_linearEquiv_fun (n : ℕ) (mu nu : Nat.Partition n) :
-    Nonempty (↥(permModuleIsotypicComponent n mu nu) ≃ₗ[ℂ]
-      (Fin (spechtMultiplicity n mu nu) → ↥(SpechtModule n nu))) := by
+/-- The isotypic component for `V_ν` in `U_μ` is module-linearly isomorphic to
+`Fin m → V_ν`, where `m = spechtMultiplicity n mu nu`. -/
+theorem isotypicComponent_linearEquiv_fun_module
+    (n : ℕ) (mu nu : Nat.Partition n) :
+    Nonempty
+      (↥(isotypicComponent (SymGroupAlgebra n) (PermutationModule n mu)
+          (SpechtModule n nu)) ≃ₗ[SymGroupAlgebra n]
+        (Fin (spechtMultiplicity n mu nu) → ↥(SpechtModule n nu))) := by
   have hiso := isotypicComponent_isIsotypicOfType n mu nu
   haveI : Module.Finite ℂ
       (↥(isotypicComponent (SymGroupAlgebra n) (PermutationModule n mu) (SpechtModule n nu))) :=
@@ -960,6 +974,14 @@ theorem isotypicComponent_linearEquiv_fun (n : ℕ) (mu nu : Nat.Partition n) :
     Module.Finite.of_restrictScalars_finite ℂ _ _
   obtain ⟨k, ⟨e_R⟩⟩ := hiso.linearEquiv_fun
   rw [← multiplicity_eq_spechtMultiplicity n mu nu k e_R]
+  exact ⟨e_R⟩
+
+/-- The underlying complex-linear version of
+`isotypicComponent_linearEquiv_fun_module`. -/
+theorem isotypicComponent_linearEquiv_fun (n : ℕ) (mu nu : Nat.Partition n) :
+    Nonempty (↥(permModuleIsotypicComponent n mu nu) ≃ₗ[ℂ]
+      (Fin (spechtMultiplicity n mu nu) → ↥(SpechtModule n nu))) := by
+  obtain ⟨e_R⟩ := isotypicComponent_linearEquiv_fun_module n mu nu
   exact ⟨e_R.restrictScalars ℂ⟩
 
 /-- The trace of a "diagonal" endomorphism on a pi type `Fin m → V` that applies the same

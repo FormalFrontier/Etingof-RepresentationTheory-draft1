@@ -5698,12 +5698,12 @@
     "status": "sorry_free",
     "fidelity": "partial",
     "needs_statement": false,
-    "notes": "The vanishing and diagonal Hom-space claims are proved, but the stated global module decomposition is not exposed.",
+    "notes": "The vanishing and diagonal Hom-space claims and a public SymGroupAlgebra-linear global Young-rule decomposition are proved. The remaining gap is the identification of its Hom-space multiplicity with the semistandard-tableau cardinal KostkaNumber.",
     "sorry_free": true,
     "coverage": "covered_partial",
-    "fidelity_note": "No public SymGroupAlgebra-linear Youngs-rule direct-sum isomorphism is stated, and no theorem identifies the Hom-space multiplicity with the combinatorial KostkaNumber; follow-up #7457.",
+    "fidelity_note": "Etingof.youngRuleDecomposition gives the public SymGroupAlgebra-linear direct-sum isomorphism, with dominance support and diagonal multiplicity. No theorem yet identifies its Hom-space multiplicity with the combinatorial KostkaNumber; follow-up #7457.",
     "fidelity_issue": 7457,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Definition5.14.2",
@@ -5717,9 +5717,9 @@
     "fidelity": "partial",
     "sorry_free": true,
     "coverage": "covered_partial",
-    "fidelity_note": "The source names the multiplicities from Proposition 5.14.1 as Kostka numbers. Lean defines KostkaNumber by semistandard-tableau cardinality but does not identify it with the representation-theoretic multiplicity; follow-up #7457.",
+    "fidelity_note": "The source names the multiplicities from Proposition 5.14.1 as Kostka numbers. Lean now exposes the module decomposition with representation-theoretic multiplicity YoungRuleMultiplicity, while KostkaNumber remains the semistandard-tableau cardinal; identifying them is the remaining part of #7457.",
     "fidelity_issue": 7457,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Proposition5.14.1",
