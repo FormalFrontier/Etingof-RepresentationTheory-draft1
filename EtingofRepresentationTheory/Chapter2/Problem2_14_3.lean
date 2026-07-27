@@ -36,6 +36,9 @@ namespace Etingof.Problem2_14_3
 
 open scoped TensorProduct
 
+-- Definitions in this file retain the stable book-number namespace, so they are explicitly
+-- exempted from the naming linter that otherwise rejects underscores in declaration names.
+
 variable {k : Type*} [Field k]
 variable {L : Type*} [LieRing L] [LieAlgebra k L]
 variable {V W U : Type*}
@@ -47,6 +50,7 @@ variable {V W U : Type*}
 /-- The Lie-module equivalence `Hom_k(W, U) ≅ U ⊗ W*` sending `u ⊗ φ` (on the right) to the map
 `w ↦ φ(w) • u`. The underlying `k`-linear equivalence is Mathlib's `dualTensorHomEquiv` composed
 with `TensorProduct.comm`; the content here is that it is `𝔤`-equivariant. -/
+@[nolint defsWithUnderscore]
 noncomputable def dualHomEquiv :
     (W →ₗ[k] U) ≃ₗ⁅k,L⁆ TensorProduct k U (Module.Dual k W) :=
   LieModuleEquiv.symm
@@ -68,6 +72,7 @@ noncomputable def dualHomEquiv :
 
 /-- Postcomposition by a Lie-module equivalence `d : B ≃ₗ⁅k,L⁆ C` induces a `k`-linear equivalence
 `Hom_𝔤(V, B) ≅ Hom_𝔤(V, C)`. -/
+@[nolint defsWithUnderscore]
 def congrHomRight {B C : Type*}
     [AddCommGroup B] [Module k B] [LieRingModule L B] [LieModule k L B]
     [AddCommGroup C] [Module k C] [LieRingModule L C] [LieModule k L C]
@@ -81,6 +86,7 @@ def congrHomRight {B C : Type*}
 
 /-- **Problem 2.14.3.** The explicit linear equivalence
 `Hom_𝔤(V ⊗ W, U) ≅ Hom_𝔤(V, U ⊗ W*)` for finite-dimensional Lie representations. -/
+@[nolint defsWithUnderscore]
 noncomputable def tensorHomAdjunction :
     (TensorProduct k V W →ₗ⁅k,L⁆ U) ≃ₗ[k]
       (V →ₗ⁅k,L⁆ TensorProduct k U (Module.Dual k W)) :=

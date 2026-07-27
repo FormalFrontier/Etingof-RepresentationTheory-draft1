@@ -3790,7 +3790,7 @@
     "end_page": "37",
     "start_line": 9,
     "end_line": 9,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "fidelity": "verified",
     "claim_coverage": {
@@ -3823,6 +3823,13 @@
       "actual_internal_dependencies": [],
       "basis": "This organizational heading makes no mathematical assertion and depends on no earlier project item."
     },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.14",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "not_applicable",
+      "result": "The organizational heading has no Lean declaration to polish; all three section providers are warning-free, use irredundant focused imports, and pass all 17 declaration linters."
+    },
     "last_updated": "2026-07-27",
     "coverage_swept": {
       "wave": 1,
@@ -3837,7 +3844,7 @@
     "end_page": "37",
     "start_line": 10,
     "end_line": 14,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_decl": "Etingof.LieTensorProduct (abbrev) := TensorProduct k V W; Etingof.LieTensorProduct.lie_tmul",
@@ -3882,6 +3889,13 @@
       "actual_internal_dependencies": [],
       "basis": "The tensor-product representation alias and action equation use only Mathlib's focused Lie tensor-product API and import no earlier project item."
     },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.14",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "Both public declarations pass all 17 linters. The pedagogical carrier alias retains its representation parameters under a documented unused-argument exception, preserving the book-facing API."
+    },
     "last_updated": "2026-07-27"
   },
   {
@@ -3892,7 +3906,7 @@
     "end_page": "37",
     "start_line": 15,
     "end_line": 17,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_decl": "Etingof.LieDualRepresentation (abbrev) := Module.Dual k V, with contragredient LieRingModule/LieModule structure (Mathlib.Algebra.Lie.Basic) and characterizing lemma lieDualRepresentation_lie_apply : ⁅x,f⁆ v = -f ⁅x,v⁆",
@@ -3942,6 +3956,13 @@
       "actual_internal_dependencies": [],
       "basis": "The dual representation alias and contragredient action equation use only focused Mathlib Lie and dual-space APIs and import no earlier project item."
     },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.14",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "Both public declarations pass all 17 linters. The pedagogical dual carrier alias retains its representation parameters under a documented unused-argument exception, preserving the book-facing API."
+    },
     "last_updated": "2026-07-27"
   },
   {
@@ -3952,7 +3973,7 @@
     "end_page": "37",
     "start_line": 18,
     "end_line": 20,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "fidelity": "verified",
     "sorry_free": true,
@@ -3998,6 +4019,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "The tensor–Hom adjunction is constructed directly from focused Mathlib tensor-product, duality, and finite-dimensional APIs; its provider imports no earlier project item."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.14",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "All four named and 24 generated declarations pass all 17 linters. Stable book-number namespace exceptions are documented explicitly; the provider is warning-free, fully documented, and style-clean."
     },
     "last_updated": "2026-07-27"
   },
