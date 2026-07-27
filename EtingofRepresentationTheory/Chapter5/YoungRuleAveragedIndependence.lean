@@ -191,6 +191,181 @@ theorem KostkaTableau.rowSubgroup_inf_relColumnSubgroup_eq_bot
     subst p
     exact Subgroup.one_mem _
 
+/-! ### Row/column factor separation -/
+
+/-- Read a Kostka tableau on the canonical position set of its shape. -/
+noncomputable def KostkaTableau.positionEntry {n : ℕ}
+    {nu mu : Nat.Partition n} (T : KostkaTableau n nu mu) (x : Fin n) : ℕ :=
+  T.1 ((canonicalFilling n nu x).1.1) ((canonicalFilling n nu x).1.2)
+
+private theorem canonicalCell_mem_partitionDiagram {n : ℕ}
+    {nu : Nat.Partition n} (x : Fin n) :
+    (canonicalFilling n nu x).1 ∈ nu.toYoungDiagram := by
+  change (canonicalFilling n nu x).1 ∈
+    YoungDiagram.ofRowLens nu.sortedParts _
+  rw [YoungDiagram.mem_ofRowLens]
+  refine ⟨(canonicalFilling n nu x).2.1, ?_⟩
+  have hx := (canonicalFilling n nu x).2.2
+  rw [List.getD_eq_getElem _ _ (canonicalFilling n nu x).2.1] at hx
+  exact hx
+
+/-- **Least-moved-row separation.** Let `q` permute cells within columns and
+`r` permute cells within rows.  If the composite `q ∘ r` preserves every entry
+of a semistandard tableau, then `q` is the identity.
+
+Indeed, in the first row moved by `q`, no cell can move upward (all earlier
+rows are fixed and `q` is injective).  Column strictness makes every moved cell
+strictly increase its entry, while fixed cells keep it.  The row permutation
+`r` implies equality of the corresponding row sums, a contradiction. -/
+theorem KostkaTableau.column_eq_one_of_col_mul_row_preserves_positionEntry
+    {n : ℕ} {nu mu : Nat.Partition n} (T : KostkaTableau n nu mu)
+    (q r : Equiv.Perm (Fin n)) (hq : q ∈ ColumnSubgroup n nu)
+    (hr : r ∈ RowSubgroup n nu)
+    (hpres : ∀ x : Fin n, T.positionEntry (q (r x)) = T.positionEntry x) :
+    q = 1 := by
+  classical
+  by_contra hqOne
+  let moved := (Finset.univ : Finset (Fin n)).filter (fun x => q x ≠ x)
+  have hmoved : moved.Nonempty := by
+    by_contra hempty
+    rw [Finset.not_nonempty_iff_eq_empty] at hempty
+    apply hqOne
+    apply Equiv.ext
+    intro x
+    simp only [Equiv.Perm.one_apply]
+    by_contra hx
+    have hxMem : x ∈ moved :=
+      Finset.mem_filter.mpr ⟨Finset.mem_univ _, hx⟩
+    have hxEmpty : x ∈ (∅ : Finset (Fin n)) := hempty ▸ hxMem
+    simp at hxEmpty
+  let movedRows := moved.image (fun x => rowOfPos nu.sortedParts x.val)
+  have hmovedRows : movedRows.Nonempty := hmoved.image _
+  let a := movedRows.min' hmovedRows
+  have haMem : a ∈ movedRows := Finset.min'_mem movedRows hmovedRows
+  obtain ⟨x, hxMoved, hxRow⟩ := Finset.mem_image.mp haMem
+  have hxNe : q x ≠ x := (Finset.mem_filter.mp hxMoved).2
+  have hfixedEarlier : ∀ y : Fin n,
+      rowOfPos nu.sortedParts y.val < a → q y = y := by
+    intro y hy
+    by_contra hyMoved
+    have hyMem : y ∈ moved :=
+      Finset.mem_filter.mpr ⟨Finset.mem_univ _, hyMoved⟩
+    have hyRowMem : rowOfPos nu.sortedParts y.val ∈ movedRows :=
+      Finset.mem_image.mpr ⟨y, hyMem, rfl⟩
+    have hmin := Finset.min'_le movedRows _ hyRowMem
+    omega
+  have hqRowGe : ∀ y : Fin n, rowOfPos nu.sortedParts y.val = a →
+      a ≤ rowOfPos nu.sortedParts (q y).val := by
+    intro y hyRow
+    by_contra hnot
+    have hlt : rowOfPos nu.sortedParts (q y).val < a := Nat.lt_of_not_ge hnot
+    have hfix := hfixedEarlier (q y) hlt
+    have : q y = y := q.injective hfix
+    rw [this] at hlt
+    omega
+  have hentryLe : ∀ y ∈ (Finset.univ : Finset (Fin n)).filter
+      (fun z => rowOfPos nu.sortedParts z.val = a),
+      T.positionEntry y ≤ T.positionEntry (q y) := by
+    intro y hy
+    have hyRow := (Finset.mem_filter.mp hy).2
+    by_cases hyFix : q y = y
+    · rw [hyFix]
+    · apply Nat.le_of_lt
+      have hrowLt : rowOfPos nu.sortedParts y.val <
+          rowOfPos nu.sortedParts (q y).val := by
+        have hge := hqRowGe y hyRow
+        have hne : rowOfPos nu.sortedParts (q y).val ≠ a := by
+          intro heq
+          have hcol := hq y
+          have hsum : nu.sortedParts.sum = n := by
+            have hsort : (nu.sortedParts : Multiset ℕ) = nu.parts :=
+              nu.parts.sort_eq (· ≥ ·)
+            have : nu.sortedParts.sum = nu.parts.sum := by
+              rw [← Multiset.sum_coe, hsort]
+            rw [this, nu.parts_sum]
+          have hval := rowOfPos_colOfPos_injective nu.sortedParts
+            (q y).val y.val (by rw [hsum]; exact (q y).isLt)
+            (by rw [hsum]; exact y.isLt) (heq.trans hyRow.symm) hcol
+          exact hyFix (Fin.ext hval)
+        omega
+      have hcolCell : (canonicalFilling n nu y).1.2 =
+          (canonicalFilling n nu (q y)).1.2 := by
+        simpa only [canonicalFilling, canonicalFillingFun,
+          Equiv.ofBijective_apply] using (hq y).symm
+      have hrowCell : (canonicalFilling n nu y).1.1 <
+          (canonicalFilling n nu (q y)).1.1 := by
+        simpa only [canonicalFilling, canonicalFillingFun,
+          Equiv.ofBijective_apply] using hrowLt
+      change T.1 (canonicalFilling n nu y).1.1
+          (canonicalFilling n nu y).1.2 <
+        T.1 (canonicalFilling n nu (q y)).1.1
+          (canonicalFilling n nu (q y)).1.2
+      rw [hcolCell]
+      exact T.1.col_strict hrowCell
+        (canonicalCell_mem_partitionDiagram (nu := nu) (q y))
+  have hxStrict : T.positionEntry x < T.positionEntry (q x) := by
+    have hxInRow : x ∈ (Finset.univ : Finset (Fin n)).filter
+        (fun z => rowOfPos nu.sortedParts z.val = a) := by
+      rw [Finset.mem_filter]
+      exact ⟨Finset.mem_univ _, hxRow⟩
+    have hxLe := hentryLe x hxInRow
+    have hxRowGe := hqRowGe x hxRow
+    have hxRowNe : rowOfPos nu.sortedParts (q x).val ≠ a := by
+      intro heq
+      have hsum : nu.sortedParts.sum = n := by
+        have hsort : (nu.sortedParts : Multiset ℕ) = nu.parts :=
+          nu.parts.sort_eq (· ≥ ·)
+        have : nu.sortedParts.sum = nu.parts.sum := by
+          rw [← Multiset.sum_coe, hsort]
+        rw [this, nu.parts_sum]
+      have hval := rowOfPos_colOfPos_injective nu.sortedParts
+        (q x).val x.val (by rw [hsum]; exact (q x).isLt)
+        (by rw [hsum]; exact x.isLt) (heq.trans hxRow.symm) (hq x)
+      exact hxNe (Fin.ext hval)
+    have hrowLt : rowOfPos nu.sortedParts x.val <
+        rowOfPos nu.sortedParts (q x).val := by omega
+    have hcolCell : (canonicalFilling n nu x).1.2 =
+        (canonicalFilling n nu (q x)).1.2 := by
+      simpa only [canonicalFilling, canonicalFillingFun,
+        Equiv.ofBijective_apply] using (hq x).symm
+    have hrowCell : (canonicalFilling n nu x).1.1 <
+        (canonicalFilling n nu (q x)).1.1 := by
+      simpa only [canonicalFilling, canonicalFillingFun,
+        Equiv.ofBijective_apply] using hrowLt
+    change T.1 (canonicalFilling n nu x).1.1
+        (canonicalFilling n nu x).1.2 <
+      T.1 (canonicalFilling n nu (q x)).1.1
+        (canonicalFilling n nu (q x)).1.2
+    rw [hcolCell]
+    exact T.1.col_strict hrowCell
+      (canonicalCell_mem_partitionDiagram (nu := nu) (q x))
+  let rowSet := (Finset.univ : Finset (Fin n)).filter
+    (fun z => rowOfPos nu.sortedParts z.val = a)
+  have hsumReindex :
+      ∑ y ∈ rowSet, T.positionEntry (q (r y)) =
+        ∑ y ∈ rowSet, T.positionEntry (q y) := by
+    apply Finset.sum_equiv r
+    · intro y
+      simp only [rowSet, Finset.mem_filter, Finset.mem_univ, true_and]
+      exact ⟨fun hy => (hr y).trans hy, fun hy => (hr y).symm.trans hy⟩
+    · intro y hy
+      rfl
+  have hsumEq : (∑ y ∈ rowSet, T.positionEntry (q y)) =
+      ∑ y ∈ rowSet, T.positionEntry y := by
+    rw [← hsumReindex]
+    apply Finset.sum_congr rfl
+    intro y hy
+    exact hpres y
+  have hxInRow : x ∈ rowSet := by
+    rw [Finset.mem_filter]
+    exact ⟨Finset.mem_univ _, hxRow⟩
+  have hsumLt : (∑ y ∈ rowSet, T.positionEntry y) <
+      ∑ y ∈ rowSet, T.positionEntry (q y) :=
+    Finset.sum_lt_sum
+      (fun y hy => hentryLe y hy)
+      ⟨x, hxInRow, hxStrict⟩
+  omega
+
 end
 
 end Etingof
