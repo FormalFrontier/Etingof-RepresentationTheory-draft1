@@ -8,7 +8,8 @@ cohomological and homological long exact sequence data.  In particular, a single
 connecting family is used in every adjacent window.  The degree-zero endpoints are also made
 explicit: the first `Ext⁰` map is mono and the last `Tor₀` map is epi, after comparison with
 `Hom` and tensor product respectively.  The `Tor` connecting maps are the explicit left-derived
-maps from `LeftDerivedSequence.lean`, and are natural in the other module parameter.
+maps from `LeftDerivedSequence.lean`.  Both are natural in the other module parameter, and the
+varying-functor construction is also natural under morphisms of short exact sequences.
 -/
 
 namespace Etingof
@@ -182,6 +183,39 @@ theorem torSndδ_naturality
       (tensorRightNatTrans A S.f.hom) (tensorRightNatTrans A S.g.hom)
       (tensorRightNatTrans_comp_zero A)
       (fun Y _ => tensorLeftFunctor_map_shortExact A Y hS) f n (n + 1) rfl
+
+/-- Naturality of the second-argument connecting map under a morphism of short exact
+sequences. -/
+theorem torSndδ_naturality_shortComplex
+    (A : Type u) [Ring A] (M : ModuleCat.{u} Aᵐᵒᵖ)
+    {S T : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact) (hT : T.ShortExact)
+    (φ : S ⟶ T) (n : ℕ) :
+    torSndMap A φ.τ₃.hom (n + 1) M ≫ torSndδ A M hT n =
+      torSndδ A M hS n ≫ torSndMap A φ.τ₁.hom n M := by
+  have comm₁₂ :
+      tensorRightNatTrans A φ.τ₁.hom ≫ tensorRightNatTrans A T.f.hom =
+        tensorRightNatTrans A S.f.hom ≫ tensorRightNatTrans A φ.τ₂.hom := by
+    change (tensorRightBifunctor A).map φ.τ₁ ≫
+        (tensorRightBifunctor A).map T.f =
+      (tensorRightBifunctor A).map S.f ≫ (tensorRightBifunctor A).map φ.τ₂
+    rw [← Functor.map_comp, φ.comm₁₂, Functor.map_comp]
+  have comm₂₃ :
+      tensorRightNatTrans A φ.τ₂.hom ≫ tensorRightNatTrans A T.g.hom =
+        tensorRightNatTrans A S.g.hom ≫ tensorRightNatTrans A φ.τ₃.hom := by
+    change (tensorRightBifunctor A).map φ.τ₂ ≫
+        (tensorRightBifunctor A).map T.g =
+      (tensorRightBifunctor A).map S.g ≫ (tensorRightBifunctor A).map φ.τ₃
+    rw [← Functor.map_comp, φ.comm₂₃, Functor.map_comp]
+  simpa [torSndδ, torSndMap] using
+    NatTrans.leftDerivedδ_naturality_natTrans
+      (tensorRightNatTrans A S.f.hom) (tensorRightNatTrans A S.g.hom)
+      (tensorRightNatTrans_comp_zero A)
+      (fun Y _ => tensorLeftFunctor_map_shortExact A Y hS)
+      (tensorRightNatTrans A T.f.hom) (tensorRightNatTrans A T.g.hom)
+      (tensorRightNatTrans_comp_zero A)
+      (fun Y _ => tensorLeftFunctor_map_shortExact A Y hT)
+      (tensorRightNatTrans A φ.τ₁.hom) (tensorRightNatTrans A φ.τ₂.hom)
+      (tensorRightNatTrans A φ.τ₃.hom) comm₁₂ comm₂₃ M n (n + 1) rfl
 
 /-- A single globally indexed family of connecting maps for the second-argument `Tor` sequence. -/
 noncomputable def Problem_8_2_6_iii_torConnecting

@@ -326,6 +326,96 @@ theorem NatTrans.leftDerivedδ_naturality
     (fun k => (P.isoLeftDerivedObj F₃ n₁).hom ≫ k ≫
       (Q.isoLeftDerivedObj F₁ n₀).inv) hδ'
 
+/-- Naturality of the explicit connecting map under a morphism between short exact sequences of
+additive functors. -/
+theorem NatTrans.leftDerivedδ_naturality_natTrans
+    {F₁ F₂ F₃ G₁ G₂ G₃ : CategoryTheory.Functor C D}
+    [F₁.Additive] [F₂.Additive] [F₃.Additive]
+    [G₁.Additive] [G₂.Additive] [G₃.Additive]
+    (τ₁ : F₁ ⟶ F₂) (τ₂ : F₂ ⟶ F₃) (wF : τ₁ ≫ τ₂ = 0)
+    (hF : ∀ (Z : C) [Projective Z],
+      (ShortComplex.mk (τ₁.app Z) (τ₂.app Z)
+        (by rw [← NatTrans.comp_app, wF]; rfl)).ShortExact)
+    (σ₁ : G₁ ⟶ G₂) (σ₂ : G₂ ⟶ G₃) (wG : σ₁ ≫ σ₂ = 0)
+    (hG : ∀ (Z : C) [Projective Z],
+      (ShortComplex.mk (σ₁.app Z) (σ₂.app Z)
+        (by rw [← NatTrans.comp_app, wG]; rfl)).ShortExact)
+    (η₁ : F₁ ⟶ G₁) (η₂ : F₂ ⟶ G₂) (η₃ : F₃ ⟶ G₃)
+    (comm₁₂ : η₁ ≫ σ₁ = τ₁ ≫ η₂) (comm₂₃ : η₂ ≫ σ₂ = τ₂ ≫ η₃)
+    (X : C) (n₀ n₁ : ℕ) (h : n₀ + 1 = n₁) :
+    (NatTrans.leftDerived η₃ n₁).app X ≫
+        NatTrans.leftDerivedδ σ₁ σ₂ wG hG X n₀ n₁ h =
+      NatTrans.leftDerivedδ τ₁ τ₂ wF hF X n₀ n₁ h ≫
+        (NatTrans.leftDerived η₁ n₀).app X := by
+  let P : ProjectiveResolution X := projectiveResolution X
+  have wFP : (NatTrans.mapHomologicalComplex τ₁ (ComplexShape.down ℕ)).app P.complex ≫
+      (NatTrans.mapHomologicalComplex τ₂ (ComplexShape.down ℕ)).app P.complex = 0 := by
+    rw [← NatTrans.comp_app, ← NatTrans.mapHomologicalComplex_comp, wF]
+    ext i
+    simp [NatTrans.mapHomologicalComplex_app_f]
+  have wGP : (NatTrans.mapHomologicalComplex σ₁ (ComplexShape.down ℕ)).app P.complex ≫
+      (NatTrans.mapHomologicalComplex σ₂ (ComplexShape.down ℕ)).app P.complex = 0 := by
+    rw [← NatTrans.comp_app, ← NatTrans.mapHomologicalComplex_comp, wG]
+    ext i
+    simp [NatTrans.mapHomologicalComplex_app_f]
+  let SF : ShortComplex (ChainComplex D ℕ) := ShortComplex.mk
+    ((NatTrans.mapHomologicalComplex τ₁ (ComplexShape.down ℕ)).app P.complex)
+    ((NatTrans.mapHomologicalComplex τ₂ (ComplexShape.down ℕ)).app P.complex) wFP
+  let SG : ShortComplex (ChainComplex D ℕ) := ShortComplex.mk
+    ((NatTrans.mapHomologicalComplex σ₁ (ComplexShape.down ℕ)).app P.complex)
+    ((NatTrans.mapHomologicalComplex σ₂ (ComplexShape.down ℕ)).app P.complex) wGP
+  have hSF : SF.ShortExact := by
+    apply HomologicalComplex.shortExact_of_degreewise_shortExact
+    intro i
+    exact hF (P.complex.X i)
+  have hSG : SG.ShortExact := by
+    apply HomologicalComplex.shortExact_of_degreewise_shortExact
+    intro i
+    exact hG (P.complex.X i)
+  have comm₁₂P :
+      (NatTrans.mapHomologicalComplex η₁ (ComplexShape.down ℕ)).app P.complex ≫ SG.f =
+        SF.f ≫ (NatTrans.mapHomologicalComplex η₂
+          (ComplexShape.down ℕ)).app P.complex := by
+    rw [← NatTrans.comp_app, ← NatTrans.mapHomologicalComplex_comp, comm₁₂,
+      NatTrans.mapHomologicalComplex_comp, NatTrans.comp_app]
+  have comm₂₃P :
+      (NatTrans.mapHomologicalComplex η₂ (ComplexShape.down ℕ)).app P.complex ≫ SG.g =
+        SF.g ≫ (NatTrans.mapHomologicalComplex η₃
+          (ComplexShape.down ℕ)).app P.complex := by
+    rw [← NatTrans.comp_app, ← NatTrans.mapHomologicalComplex_comp, comm₂₃,
+      NatTrans.mapHomologicalComplex_comp, NatTrans.comp_app]
+  let Φ : SF ⟶ SG := ShortComplex.homMk
+    ((NatTrans.mapHomologicalComplex η₁ (ComplexShape.down ℕ)).app P.complex)
+    ((NatTrans.mapHomologicalComplex η₂ (ComplexShape.down ℕ)).app P.complex)
+    ((NatTrans.mapHomologicalComplex η₃ (ComplexShape.down ℕ)).app P.complex)
+    comm₁₂P comm₂₃P
+  have hij : (ComplexShape.down ℕ).Rel n₁ n₀ := by
+    simp only [ComplexShape.down_Rel]
+    omega
+  have hδ := HomologicalComplex.HomologySequence.δ_naturality Φ hSF hSG n₁ n₀ hij
+  have hδ' : hSF.δ n₁ n₀ hij ≫
+        (HomologicalComplex.homologyFunctor D (ComplexShape.down ℕ) n₀).map
+          ((NatTrans.mapHomologicalComplex η₁ (ComplexShape.down ℕ)).app P.complex) =
+      (HomologicalComplex.homologyFunctor D (ComplexShape.down ℕ) n₁).map
+          ((NatTrans.mapHomologicalComplex η₃ (ComplexShape.down ℕ)).app P.complex) ≫
+        hSG.δ n₁ n₀ hij := by
+    simpa [Φ] using hδ
+  rw [ProjectiveResolution.leftDerived_app_eq η₃ P n₁,
+    ProjectiveResolution.leftDerived_app_eq η₁ P n₀]
+  dsimp only [NatTrans.leftDerivedδ]
+  simp only [P, Category.assoc, Iso.inv_hom_id_assoc]
+  change (P.isoLeftDerivedObj F₃ n₁).hom ≫
+      (HomologicalComplex.homologyFunctor D (ComplexShape.down ℕ) n₁).map
+        ((NatTrans.mapHomologicalComplex η₃ (ComplexShape.down ℕ)).app P.complex) ≫
+      hSG.δ n₁ n₀ hij ≫ (P.isoLeftDerivedObj G₁ n₀).inv =
+    (P.isoLeftDerivedObj F₃ n₁).hom ≫ hSF.δ n₁ n₀ hij ≫
+      (HomologicalComplex.homologyFunctor D (ComplexShape.down ℕ) n₀).map
+        ((NatTrans.mapHomologicalComplex η₁ (ComplexShape.down ℕ)).app P.complex) ≫
+      (P.isoLeftDerivedObj G₁ n₀).inv
+  simpa only [Category.assoc] using congrArg
+    (fun k => (P.isoLeftDerivedObj F₃ n₁).hom ≫ k ≫
+      (P.isoLeftDerivedObj G₁ n₀).inv) hδ'.symm
+
 /-- **The six-term exact sequence for a short exact sequence of additive functors, in the varying
 functor.** This compatibility theorem now returns the explicit `NatTrans.leftDerivedδ`. -/
 theorem NatTrans.leftDerivedδ_sixTerm_exact
