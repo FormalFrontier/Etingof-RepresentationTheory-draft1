@@ -1,4 +1,5 @@
 import EtingofRepresentationTheory.Chapter5.SchurWeylBimoduleFull
+import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_ClassificationGeneral
 import EtingofRepresentationTheory.Infrastructure.SimpleModuleCount
 
 /-!
@@ -9,15 +10,11 @@ Schur-Weyl duality re-indexed: the abstract bimodule decomposition
 giving the book's statement `Theorem5_18_4_partition_decomposition` (Etingof
 Theorem 5.18.4(iii) / Corollary 5.19.2).
 
-The remaining piece is the Specht labelling: an injection
-`ι ↪ Nat.Partition n` of the abstract index set into partitions of `n`. It exists
-as soon as `Fintype.card ι ≤ Fintype.card (Nat.Partition n)`. Each simple summand
-`Sᵢ`, restricted along the surjection `k[Sₙ] ↠ symGroupImage`, is a simple
-`k[Sₙ]`-module, and over an algebraically closed field of characteristic `0` there
-are at most `|ConjClasses (Perm (Fin n))| ≤ p(n)` of those
-(`Etingof.card_le_card_conjClasses'` repackaging `Etingof.Corollary4_2_2`). Given the
-embedding, re-index the full bimodule decomposition (zero summands on partitions
-outside the image) to obtain the statement.
+The Specht labelling is produced by `spechtLabelEmbedding`: each simple summand
+`Sᵢ`, restricted along the surjection `k[Sₙ] ↠ symGroupImage`, is classified as
+an actual `SpechtModuleK k n λ`.  Distinctness of the `Sᵢ` makes the resulting
+label map injective.  Re-indexing along this genuine label (and inserting zero
+summands on partitions outside its image) gives the partition-indexed statement.
 -/
 
 open scoped TensorProduct DirectSum
@@ -192,15 +189,80 @@ theorem card_le_card_partition [IsAlgClosed k] [CharZero k]
         card_le_card_conjClasses' (k := k) (G := Equiv.Perm (Fin n)) S hdist'
     _ ≤ Fintype.card (Nat.Partition n) := card_conjClasses_le_card_partition n
 
+set_option maxHeartbeats 1600000 in
+-- Classification plus two scalar-restriction transports exceed the defaults.
+set_option synthInstance.maxHeartbeats 800000 in
+-- The same transports also trigger deep scalar-tower instance search.
+/-- A family of pairwise nonisomorphic simple `symGroupImage`-modules has a
+canonical-up-to-choice *genuine Specht* labelling.
+
+Unlike `Function.Embedding.nonempty_of_card_le`, this embedding is obtained by
+restricting each module along `k[Sₙ] ↠ symGroupImage` and applying the Specht
+classification theorem.  The returned linear equivalences explicitly
+intertwine the group-algebra action. -/
+theorem spechtLabelEmbedding [IsAlgClosed k] [CharZero k]
+    {ι : Type}
+    (S : ι → Type*) [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
+    [∀ i, Module.Finite k (S i)]
+    [∀ i, Module (symGroupImage k V n) (S i)]
+    [∀ i, IsScalarTower k (symGroupImage k V n) (S i)]
+    [∀ i, IsSimpleModule (symGroupImage k V n) (S i)]
+    (hdist : ∀ i j, Nonempty (S i ≃ₗ[symGroupImage k V n] S j) → i = j) :
+    ∃ (label : ι ↪ Nat.Partition n)
+      (specht : ∀ i, S i ≃ₗ[k] ↥(SpechtModuleK k n (label i))),
+      ∀ (i : ι) (a : MonoidAlgebra k (Equiv.Perm (Fin n))) (x : S i),
+        specht i ((symGroupAlgHomToImage k V n a) • x) = a • specht i x := by
+  classical
+  let q := symGroupAlgHomToImage k V n
+  have hq_surj : Function.Surjective q := symGroupAlgHomToImage_surjective k V n
+  letI restrictedModule : ∀ i,
+      Module (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i =>
+    Module.compHom (S i) q.toRingHom
+  have hsmul : ∀ (i) (a : MonoidAlgebra k (Equiv.Perm (Fin n))) (x : S i),
+      a • x = q a • x := fun _ _ _ => rfl
+  haveI restrictedTower : ∀ i,
+      IsScalarTower k (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i => by
+    refine ⟨fun c a x => ?_⟩
+    rw [hsmul, hsmul, map_smul, smul_assoc]
+  haveI : RingHomSurjective q.toRingHom := ⟨hq_surj⟩
+  haveI restrictedSimple : ∀ i,
+      IsSimpleModule (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i =>
+    isSimpleModule_of_surjective_ringHom
+      (R := MonoidAlgebra k (Equiv.Perm (Fin n)))
+      (S := symGroupImage k V n) (X := S i) q.toRingHom (hsmul i)
+  choose label hlabel using fun i => classification_general_u k n (S i)
+  let spechtIso : ∀ i, S i ≃ₗ[MonoidAlgebra k (Equiv.Perm (Fin n))]
+      ↥(SpechtModuleK k n (label i)) := fun i => Classical.choice (hlabel i)
+  have hlabel_injective : Function.Injective label := by
+    intro i j hij
+    have hmid : Nonempty
+        (↥(SpechtModuleK k n (label i)) ≃ₗ[MonoidAlgebra k (Equiv.Perm (Fin n))]
+          ↥(SpechtModuleK k n (label j))) := by
+      rw [hij]
+      exact ⟨LinearEquiv.refl _ _⟩
+    obtain ⟨mid⟩ := hmid
+    let f := (spechtIso i).trans (mid.trans (spechtIso j).symm)
+    apply hdist i j
+    refine ⟨{ f.toAddEquiv with map_smul' := fun a x => ?_ }⟩
+    obtain ⟨r, rfl⟩ := hq_surj a
+    change f (q r • x) = q r • f x
+    rw [← hsmul i, ← hsmul j, f.map_smul]
+  let labelEmbedding : ι ↪ Nat.Partition n := ⟨label, hlabel_injective⟩
+  let specht : ∀ i, S i ≃ₗ[k] ↥(SpechtModuleK k n (labelEmbedding i)) :=
+    fun i => LinearEquiv.restrictScalars k (spechtIso i)
+  refine ⟨labelEmbedding, specht, ?_⟩
+  intro i a x
+  dsimp only [specht, labelEmbedding]
+  rw [← hsmul i]
+  exact (spechtIso i).map_smul a x
+
 /-! ### The partition-indexed decomposition. -/
 
 /-- Schur-Weyl duality: partition-indexed decomposition of `V^⊗n`.
 
 This form is valid for every `n`; partitions whose simple modules do not occur
-are represented by zero summands.  The current reindexing only embeds the
-abstract simple summands into the set of partitions.  Identifying each nonzero
-first factor with the Specht module carrying that same partition label is the
-remaining strengthening needed for the literal form of Corollary 5.19.2. -/
+are represented by zero summands.  Its reindexing uses the genuine Specht label
+from `spechtLabelEmbedding`, rather than an arbitrary cardinality embedding. -/
 theorem Theorem5_18_4_partition_decomposition
     [IsAlgClosed k] [CharZero k] :
     ∃ (S : Nat.Partition n → Type (max u v))
@@ -233,10 +295,11 @@ theorem Theorem5_18_4_partition_decomposition
   letI := modkL
   letI := modBL
   haveI := simpL
-  -- the Specht labelling
-  have hcard : Fintype.card ι ≤ Fintype.card (Nat.Partition n) :=
-    card_le_card_partition k V n S distS
-  obtain ⟨e⟩ := Function.Embedding.nonempty_of_card_le hcard
+  -- The genuine Specht labelling, obtained from classification rather than an
+  -- arbitrary cardinality embedding.  The equivalences and action laws are
+  -- not needed by the zero-padding plumbing below, but certify that `e i` is
+  -- the actual Specht label of `S i`.
+  obtain ⟨e, _specht, _spechtAction⟩ := spechtLabelEmbedding k V n S distS
   -- the fibre over each partition: empty or a singleton
   set Fib : Nat.Partition n → Type := fun p => { i : ι // e i = p } with hFib
   haveI fibSub : ∀ p, Subsingleton (Fib p) := fun p =>
