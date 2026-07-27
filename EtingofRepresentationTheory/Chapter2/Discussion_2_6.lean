@@ -92,6 +92,16 @@ noncomputable def gen (x : X) : PresentedAlgebra k X R rel :=
 
 theorem gen_def (x : X) : gen rel x = mk rel (FreeAlgebra.ι k x) := rfl
 
+/-- The presented algebra is generated as a `k`-algebra by the images of its generators. -/
+theorem adjoin_range_gen : Algebra.adjoin k (Set.range (gen rel)) = ⊤ := by
+  rw [Algebra.adjoin_range_eq_range_freeAlgebra_lift]
+  have h : FreeAlgebra.lift k (gen rel) = mk rel := by
+    apply FreeAlgebra.hom_ext
+    funext x
+    simp [gen_def]
+  rw [h, AlgHom.range_eq_top]
+  exact mk_surjective rel
+
 /-- **The defining relations hold.** Each relator `rel r` becomes `0` in the presented algebra;
 this is the book's `f₁ = 0, …, f_m = 0`. -/
 @[simp] theorem mk_rel (r : R) : mk rel (rel r) = 0 := by
