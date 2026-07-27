@@ -33,8 +33,8 @@ theorem Etingof.isAlgClosed_iff_nonconstant_polynomial_has_root (k : Type*) [Fie
 /-- The complex numbers are the book's main example of an algebraically closed field. -/
 theorem Etingof.complex_isAlgClosed : IsAlgClosed ℂ := inferInstance
 
-/-- For prime `p`, `ZMod p` models the field `𝔽ₚ`. -/
-example (p : ℕ) [Fact p.Prime] : Field (ZMod p) := inferInstance
+/-- For prime `p`, `ZMod p` carries the field structure modeling `𝔽ₚ`. -/
+noncomputable abbrev Etingof.zmodField (p : ℕ) [Fact p.Prime] : Field (ZMod p) := inferInstance
 
 /-- The finite field `𝔽ₚ` has exactly `p` elements. -/
 theorem Etingof.card_zmod (p : ℕ) [Fact p.Prime] : Fintype.card (ZMod p) = p := ZMod.card p

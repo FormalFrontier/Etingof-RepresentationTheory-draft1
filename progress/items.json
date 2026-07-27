@@ -229,7 +229,7 @@
         {
           "claim": "For prime p, ZMod p models the field F_p and has p elements.",
           "verdict": "formalized",
-          "lean_decl": "example (p) [Fact p.Prime] : Field (ZMod p); Etingof.card_zmod"
+          "lean_decl": "Etingof.zmodField; Etingof.card_zmod"
         },
         {
           "claim": "The algebraic closure of F_p is algebraically closed and has characteristic p.",
@@ -400,37 +400,37 @@
         {
           "claim": "The base field k is an algebra over itself.",
           "verdict": "formalized",
-          "lean_decl": "example (k) [CommRing k] : Algebra k k"
+          "lean_decl": "Algebra.id"
         },
         {
           "claim": "The polynomial ring k[x_1, ..., x_n] is a k-algebra.",
           "verdict": "formalized",
-          "lean_decl": "example (k) (n : Nat) : Algebra k (MvPolynomial (Fin n) k)"
+          "lean_decl": "AddMonoidAlgebra.algebra (the canonical Algebra instance for MvPolynomial)"
         },
         {
           "claim": "End_k(V) is a k-algebra whose multiplication is composition.",
           "verdict": "formalized",
-          "lean_decl": "examples for Algebra k (Module.End k V) and f * g = f.comp g"
+          "lean_decl": "Module.End.instAlgebra; Module.End.mul_apply"
         },
         {
           "claim": "The free algebra k<x_1, ..., x_n> is a k-algebra with a basis indexed by words.",
           "verdict": "formalized",
-          "lean_decl": "example for Algebra k (FreeAlgebra k (Fin n)); FreeAlgebra.basisFreeMonoid"
+          "lean_decl": "FreeAlgebra.instAlgebra; FreeAlgebra.basisFreeMonoid"
         },
         {
           "claim": "Multiplication of free-algebra word-basis elements is concatenation.",
           "verdict": "formalized",
-          "lean_decl": "example using FreeAlgebra.equivMonoidAlgebraFreeMonoid and MonoidAlgebra.single_mul_single"
+          "lean_decl": "FreeAlgebra.equivMonoidAlgebraFreeMonoid; FreeAlgebra.basisFreeMonoid; MonoidAlgebra.single_mul_single"
         },
         {
           "claim": "The group algebra k[G] is a k-algebra with basis {a_g | g in G}.",
           "verdict": "formalized",
-          "lean_decl": "example for Algebra k (MonoidAlgebra k G); Finsupp.basisSingleOne"
+          "lean_decl": "MonoidAlgebra.algebra; Finsupp.basisSingleOne"
         },
         {
           "claim": "The group-algebra basis multiplication satisfies a_g a_h = a_(gh).",
           "verdict": "formalized",
-          "lean_decl": "example using MonoidAlgebra.single_mul_single"
+          "lean_decl": "MonoidAlgebra.single_mul_single"
         }
       ]
     },
