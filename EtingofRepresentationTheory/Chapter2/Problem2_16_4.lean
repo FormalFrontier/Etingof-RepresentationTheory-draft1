@@ -1,12 +1,5 @@
 import Mathlib.Algebra.Lie.Classical
-import Mathlib.Algebra.Lie.OfAssociative
 import Mathlib.Algebra.Lie.Semisimple.Basic
-import Mathlib.FieldTheory.IsAlgClosed.Basic
-import Mathlib.Algebra.CharP.Basic
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-import Mathlib.LinearAlgebra.StdBasis
-import Mathlib.LinearAlgebra.Dimension.Finrank
-import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
 
 /-!

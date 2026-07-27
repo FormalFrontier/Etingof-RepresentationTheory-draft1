@@ -1,6 +1,5 @@
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3
 import Mathlib.Algebra.Lie.BaseChange
-import Mathlib.Algebra.MonoidAlgebra.Module
 import Mathlib.Algebra.DirectSum.Decomposition
 
 /-!

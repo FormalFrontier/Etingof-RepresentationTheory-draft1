@@ -1,5 +1,4 @@
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Bidegree
-import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Center
 
 /-!
 # Problem 2.16.3(b): the kernel of the loop realization of `𝔤₄`

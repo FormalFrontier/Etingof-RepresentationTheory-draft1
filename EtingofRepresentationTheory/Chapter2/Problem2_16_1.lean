@@ -1,4 +1,5 @@
-import Mathlib
+import Mathlib.Algebra.Lie.LieTheorem
+import Mathlib.Analysis.Complex.Polynomial.Basic
 
 /-!
 # Problem 2.16.1: Lie's theorem

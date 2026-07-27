@@ -1,4 +1,5 @@
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3
+import Mathlib.Tactic.FieldSimp
 
 /-!
 # Problem 2.16.3(b): the adjoint calculus for the layers of `𝔤₄`

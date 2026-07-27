@@ -1,16 +1,9 @@
 import Mathlib.Algebra.Lie.Free
 import Mathlib.Algebra.Lie.Quotient
-import Mathlib.Algebra.Lie.IdealOperations
-import Mathlib.Algebra.Lie.OfAssociative
-import Mathlib.Data.Matrix.Basis
 import Mathlib.Algebra.Polynomial.AlgebraMap
-import Mathlib.LinearAlgebra.Basis.Basic
-import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.LinearAlgebra.Dimension.Finite
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Algebra.Polynomial.Basis
 import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.Algebra.Polynomial.Degree.Support
 import Mathlib.Tactic.IntervalCases
 import Mathlib.Tactic.LinearCombination
 

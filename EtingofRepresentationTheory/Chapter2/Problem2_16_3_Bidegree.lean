@@ -1,5 +1,4 @@
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Grading
-import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Layers
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Tower
 
 /-!
