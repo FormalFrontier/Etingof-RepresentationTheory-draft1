@@ -176,7 +176,9 @@ theorem card_le_card_partition [IsAlgClosed k] [CharZero k]
     rw [hsmul, hsmul, map_smul, smul_assoc]
   haveI : RingHomSurjective q.toRingHom := ⟨hq_surj⟩
   haveI simpS : ∀ i, IsSimpleModule (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i =>
-    isSimpleModule_of_surjective_ringHom q.toRingHom (hsmul i)
+    isSimpleModule_of_surjective_ringHom
+      (R := MonoidAlgebra k (Equiv.Perm (Fin n)))
+      (S := symGroupImage k V n) (X := S i) q.toRingHom (hsmul i)
   have hdist' : ∀ i j,
       Nonempty (S i ≃ₗ[MonoidAlgebra k (Equiv.Perm (Fin n))] S j) → i = j := by
     intro i j ⟨f⟩
@@ -192,10 +194,15 @@ theorem card_le_card_partition [IsAlgClosed k] [CharZero k]
 
 /-! ### The partition-indexed decomposition. -/
 
-/-- Schur-Weyl duality: partition-indexed decomposition of `V^⊗n`. -/
+/-- Schur-Weyl duality: partition-indexed decomposition of `V^⊗n`.
+
+This form is valid for every `n`; partitions whose simple modules do not occur
+are represented by zero summands.  The current reindexing only embeds the
+abstract simple summands into the set of partitions.  Identifying each nonzero
+first factor with the Specht module carrying that same partition label is the
+remaining strengthening needed for the literal form of Corollary 5.19.2. -/
 theorem Theorem5_18_4_partition_decomposition
-    [IsAlgClosed k] [CharZero k]
-    (hN : n ≤ Module.finrank k V) :
+    [IsAlgClosed k] [CharZero k] :
     ∃ (S : Nat.Partition n → Type (max u v))
       (_ : ∀ p, AddCommGroup (S p))
       (_ : ∀ p, Module k (S p))
