@@ -3073,6 +3073,36 @@
     "start_line": 23,
     "end_line": 27,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.2",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The Section 3.2 heading identifies the density theorem but makes no mathematical assertion.",
+          "verdict": "non_formalizable",
+          "reason": "This is an organizational heading only."
+        },
+        {
+          "claim": "Throughout Section 3.2, A is an algebra over an algebraically closed field k.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.irreducible_interpolation; Etingof.density_theorem_part1; Etingof.density_theorem_part2",
+          "note": "All three declarations carry explicit Field, IsAlgClosed, Ring, and Algebra hypotheses."
+        },
+        {
+          "claim": "The authors thank Bjorn Poonen for the preceding argument.",
+          "verdict": "non_formalizable",
+          "reason": "This is an attribution rather than a mathematical proposition."
+        }
+      ]
+    },
+    "last_updated": "2026-07-27",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -3088,11 +3118,35 @@
     "end_line": 4,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22",
+    "last_updated": "2026-07-27",
     "fidelity": "verified",
     "sorry_free": true,
+    "lean_decl": "Etingof.irreducible_interpolation",
+    "coverage_note": "The exact finite-dimensional irreducible interpolation statement is proved. Lean uses the separately proved density theorem rather than reproducing the book's contradiction through Proposition 3.1.4.",
     "fidelity_decl": "Etingof.irreducible_interpolation",
-    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified"
+    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.2",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For linearly independent v_i in a finite-dimensional irreducible A-representation V and arbitrary w_i, some a in A satisfies a v_i = w_i for every i.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.irreducible_interpolation"
+        },
+        {
+          "claim": "The book proves interpolation by applying Proposition 3.1.4 to the image of A in nV and deriving a nontrivial linear relation from a matrix with fewer rows than columns.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.subrepresentation_of_semisimple_matrix_pi; Etingof.density_theorem_part1",
+          "note": "The matrix classification used by the book is formalized in Proposition 3.1.4. This provider uses the equivalent shorter route through the independently proved density theorem, avoiding a logical gap while changing only proof organization."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Theorem3.2.2",
@@ -3107,7 +3161,60 @@
     "notes": "Both parts proved. Part (i) uses Jacobson density theorem for simple modules. Part (ii) applies density theorem to the product module via Schur's lemma decomposition.",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "lean_decl": "Etingof.density_theorem_part1; Etingof.density_theorem_part2",
+    "coverage_note": "Both density statements are proved exactly. For the finite family in part (ii), Lean models the finite direct sum of endomorphism spaces by the equivalent dependent function/product type.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.2",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "If V is a finite-dimensional irreducible representation of A, then the representation map A → End_k(V) is surjective.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.density_theorem_part1"
+        },
+        {
+          "claim": "The book derives part (i) from Corollary 3.2.1 by realizing the values of an arbitrary endomorphism on a basis.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.irreducible_interpolation; Etingof.density_theorem_part1",
+          "note": "Both endpoints are formalized. Lean proves part (i) directly from Mathlib's Jacobson density theorem and then derives the corollary, reversing the pedagogical order without weakening the result."
+        },
+        {
+          "claim": "For a finite family of pairwise nonisomorphic finite-dimensional irreducible representations V_i, the combined map A → ⊕_i End_k(V_i) is surjective.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.density_theorem_part2",
+          "note": "The codomain is represented as the dependent function type ∀ i, End_k(V_i); for a Fintype index this is the finite product/direct sum in the source."
+        },
+        {
+          "claim": "The book proves part (ii) by decomposing the image B into its component images B_i using semisimplicity and Proposition 3.1.4, then applying part (i) to each B_i.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.subrepresentation_of_semisimple_pi; Etingof.density_theorem_part1; Etingof.density_theorem_part2",
+          "note": "The source ingredients and endpoint are all formalized. The Lean proof packages the same separation of pairwise nonisomorphic simples into a direct Jacobson-density argument on their finite product."
+        },
+        {
+          "claim": "For finite families, direct sums and direct products agree, so the distinction is immaterial in part (ii).",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "DFinsupp.linearEquivFunOnFintype",
+          "note": "This equivalence is used explicitly when the proof transfers semisimplicity to the finite function-space model."
+        },
+        {
+          "claim": "In general it is preferable to use direct products rather than direct sums of algebras.",
+          "verdict": "non_formalizable",
+          "reason": "This is methodological guidance rather than a proposition."
+        },
+        {
+          "claim": "An arbitrary product of unital algebras is unital, whereas an infinite componentwise direct sum is not generally unital.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Pi.ring; DirectSum.GNonUnitalNonAssocSemiring",
+          "note": "Mathlib supplies the pointwise unital ring structure on products and models unrestricted componentwise direct-sum multiplication through explicitly nonunital graded structures; the finite equivalence used here is DFinsupp.linearEquivFunOnFintype."
+        }
+      ]
+    },
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter3/Introduction_to_3.3",
