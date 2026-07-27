@@ -119,8 +119,9 @@ noncomputable def kostkaTableauEquivFin
   exact (Fintype.equivFin (KostkaTableau n mu la)).trans
     (Equiv.cast (congrArg Fin hcard))
 
-/-- Count the cells whose entries are below `k` by summing the prescribed content. -/
-private theorem card_entries_lt {n : ℕ} {mu la : Nat.Partition n}
+/-- The content of a Kostka tableau determines the number of cells carrying an
+entry strictly below any cutoff. -/
+theorem KostkaTableau.card_entries_lt {n : ℕ} {mu la : Nat.Partition n}
     (T : KostkaTableau n mu la) (k : ℕ) :
     (mu.toYoungDiagram.cells.filter (fun c => T.1 c.1 c.2 < k)).card =
       (la.sortedParts.take k).sum := by
@@ -214,7 +215,7 @@ private theorem eq_highestWeight_of_diagonal_content
       simp only [entries, rows, Finset.mem_filter] at hc ⊢
       exact ⟨hc.1, (row_le_entry T.1 hc.1).trans_lt hc.2⟩
     have hcard : rows.card ≤ entries.card := by
-      rw [card_entries_lt T (i + 1), card_rows_lt n mu (i + 1)]
+      rw [T.card_entries_lt (i + 1), card_rows_lt n mu (i + 1)]
     have heq : entries = rows := Finset.eq_of_subset_of_card_le hsubset hcard
     have hrow : (i, j) ∈ rows := by simp [rows, hcell]
     have hlt : T.1 i j < i + 1 := by
