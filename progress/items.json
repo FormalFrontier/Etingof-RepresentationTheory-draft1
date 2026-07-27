@@ -376,6 +376,19 @@
           "lean_decl": "Etingof.Representation.mul_smul_apply / Etingof.Representation.right_smul_mul_apply"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Representation.mul_smul_apply / Etingof.Representation.right_smul_mul_apply",
+        "Etingof.Representation.ofAlgHom",
+        "Etingof.Representation.toAlgHom",
+        "Etingof.Representation.toAlgHom_ofAlgHom / Etingof.Representation.ofAlgHom_toAlgHom",
+        "Etingof.RightRepresentation / Etingof.Representation.rightToAlgHom"
+      ]
     }
   },
   {
@@ -419,6 +432,16 @@
           "reason": "This is a terminology convention, not a mathematical assertion requiring a Lean declaration."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.leftModuleOfRight / Etingof.leftModuleOfRight_smul",
+        "Etingof.rightModuleOfLeft / Etingof.rightModuleOfLeft_smul"
+      ]
     }
   },
   {
@@ -453,6 +476,13 @@
           "reason": "This is an organizational transition and introduces no mathematical claim."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": []
     }
   },
   {
@@ -510,6 +540,20 @@
           "lean_decl": "FreeAlgebra.lift_symm_apply / FreeAlgebra.lift_ι_apply"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Representation",
+        "Etingof.leftRegularRepresentationModule",
+        "Etingof.rightRegularRepresentationModule / Etingof.rightRegularRepresentation_apply",
+        "Etingof.zeroRepresentationModule",
+        "FreeAlgebra.lift",
+        "FreeAlgebra.lift_symm_apply / FreeAlgebra.lift_ι_apply"
+      ]
     }
   },
   {
@@ -546,6 +590,16 @@
           "lean_decl": "Etingof.zeroSubrepresentation / Etingof.fullSubrepresentation"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Subrepresentation",
+        "Etingof.zeroSubrepresentation / Etingof.fullSubrepresentation"
+      ]
     }
   },
   {
@@ -576,6 +630,15 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.IrreducibleRepresentation"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.IrreducibleRepresentation"
       ]
     }
   },
@@ -633,6 +696,18 @@
           "reason": "The first clause is a methodological convention and the second is a caution, not a universal uniqueness theorem."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.IsomorphicRepresentations",
+        "Etingof.RepresentationEquiv",
+        "Etingof.RepresentationHom",
+        "LinearEquiv.symm"
+      ]
     }
   },
   {
@@ -669,6 +744,16 @@
           "lean_decl": "Etingof.DirectSumRepresentation"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.DirectSumRepresentation",
+        "Etingof.DirectSumRepresentation / Etingof.DirectSumRepresentation_smul"
+      ]
     }
   },
   {
@@ -704,6 +789,16 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.isIndecomposable_iff_asDirectSum"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.IsIndecomposableAsDirectSum",
+        "Etingof.isIndecomposable_iff_asDirectSum"
       ]
     }
   },
@@ -754,6 +849,16 @@
           "reason": "This is qualitative and forward-looking prose, not a precise mathematical statement."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Example_2_3_14.exists_indecomposable_not_simple",
+        "Etingof.IsIndecomposable.of_isSimpleModule"
+      ]
     }
   },
   {
@@ -788,6 +893,13 @@
           "reason": "The sentence is organizational and evaluative; the actual theorem is the next catalog item."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": []
     }
   },
   {
@@ -834,6 +946,18 @@
           "lean_decl": "LinearMap.ker / LinearMap.range"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Proposition_2_3_9_bijective",
+        "Etingof.Proposition_2_3_9_injective",
+        "Etingof.Proposition_2_3_9_surjective",
+        "LinearMap.ker / LinearMap.range"
+      ]
     }
   },
   {
@@ -864,6 +988,15 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Corollary_2_3_10"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Corollary_2_3_10"
       ]
     }
   },
@@ -898,6 +1031,15 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Remark_2_3_11 / Etingof.Remark_2_3_11_witness"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Remark_2_3_11 / Etingof.Remark_2_3_11_witness"
       ]
     }
   },
@@ -938,6 +1080,16 @@
           "lean_decl": "Etingof.Corollary_2_3_10"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Corollary_2_3_10",
+        "IsAlgClosed.exists_root"
+      ]
     }
   },
   {
@@ -968,6 +1120,15 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Corollary_2_3_12"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Corollary_2_3_12"
       ]
     }
   },
@@ -1001,6 +1162,15 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Remark_2_3_13"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Remark_2_3_13"
       ]
     }
   },
@@ -1045,6 +1215,16 @@
           "verdict": "covered_elsewhere",
           "lean_decl": "Etingof.Corollary_2_3_12"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Corollary_2_3_10 / Etingof.Corollary_2_3_12",
+        "Etingof.Corollary_2_3_12"
       ]
     }
   },
@@ -1120,6 +1300,22 @@
           "lean_decl": "Etingof.Example_2_3_14.exists_indecomposable_not_simple"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Example_2_3_14.exists_equiv_pi_jordanRep",
+        "Etingof.Example_2_3_14.exists_indecomposable_not_simple",
+        "Etingof.Example_2_3_14.jordanBlock / Etingof.Example_2_3_14.jordanBlock_apply",
+        "Etingof.Example_2_3_14.jordanRep_equiv_iff",
+        "Etingof.Example_2_3_14.jordanRep_indecomposable / Etingof.Example_2_3_14.exists_equiv_jordanRep",
+        "Etingof.Example_2_3_14_field_indecomposable_unique",
+        "Etingof.Example_2_3_14_field_irreducible_unique",
+        "Etingof.Example_2_3_14_polynomial_reps / Etingof.Example_2_3_14.jordanRep"
+      ]
     }
   },
   {
@@ -1151,18 +1347,29 @@
         {
           "claim": "A representation of k[G] is equivalent to a representation of G.",
           "verdict": "formalized",
-            "lean_decl": "Etingof.Example_2_3_14_continued.repEquivAlgHom"
+          "lean_decl": "Etingof.Example_2_3_14_continued.repEquivAlgHom"
         },
         {
           "claim": "A representation of G is equivalently a group homomorphism G → GL(V).",
           "verdict": "formalized",
-            "lean_decl": "Etingof.Example_2_3_14_continued.repEquivGL"
+          "lean_decl": "Etingof.Example_2_3_14_continued.repEquivGL"
         },
         {
           "claim": "GL(V) is the group of invertible linear endomorphisms and the two encodings have the same action on vectors.",
           "verdict": "formalized",
-            "lean_decl": "Etingof.Example_2_3_14_continued.repEquivGL_apply / Etingof.Example_2_3_14_continued.repEquivGL_symm_apply"
+          "lean_decl": "Etingof.Example_2_3_14_continued.repEquivGL_apply / Etingof.Example_2_3_14_continued.repEquivGL_symm_apply"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Example_2_3_14_continued.repEquivAlgHom",
+        "Etingof.Example_2_3_14_continued.repEquivGL",
+        "Etingof.Example_2_3_14_continued.repEquivGL_apply / Etingof.Example_2_3_14_continued.repEquivGL_symm_apply"
       ]
     }
   },
@@ -1199,6 +1406,16 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.not_exists_isSimpleModule_polynomial"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.exists_isSimpleModule_of_finite",
+        "Etingof.not_exists_isSimpleModule_polynomial"
       ]
     }
   },
@@ -1261,6 +1478,21 @@
           "lean_decl": "Etingof.eps_smul_not_scalar"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.centralAction_sub_smul_isNilpotent / Etingof.indecEigenvalue_unique",
+        "Etingof.centralCharacter",
+        "Etingof.eps_smul_not_scalar",
+        "Etingof.exists_central_scalar / Etingof.centralCharacter_smul",
+        "Etingof.exists_irreducibleSubrepresentation_centralCharacter",
+        "Subalgebra.center",
+        "Subalgebra.center_eq_top"
+      ]
     }
   },
   {
@@ -1300,6 +1532,17 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.EndSelfEquivOp_apply / Etingof.EndSelfEquivOp_symm_op_apply"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.EndSelfEquivOp",
+        "Etingof.EndSelfEquivOp_apply / Etingof.EndSelfEquivOp_symm_op_apply",
+        "Module.End"
       ]
     }
   },
@@ -1348,6 +1591,15 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Problem_2_3_18"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem_2_3_18"
       ]
     }
   },
