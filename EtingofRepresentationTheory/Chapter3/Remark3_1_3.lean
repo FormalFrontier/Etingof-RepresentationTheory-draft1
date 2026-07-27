@@ -47,6 +47,7 @@ building block of the natural map `f` of Remark 3.1.3. -/
 noncomputable def evalTensor : (X →ₗ[A] V) ⊗[k] X →ₗ[k] V :=
   TensorProduct.lift (evalBilinear k A X V)
 
+/-- Evaluation on a pure tensor sends `g ⊗ x` to `g x`. -/
 @[simp]
 theorem evalTensor_tmul (g : X →ₗ[A] V) (x : X) :
     evalTensor k A X V (g ⊗ₜ[k] x) = g x := rfl
@@ -82,6 +83,7 @@ noncomputable def evalTensorEquivOfIsSimple :
         TensorProduct.mk_apply, LinearMap.id_coe, id_eq]
       rw [hc x, ← TensorProduct.smul_tmul, ← hg])
 
+/-- The irreducible evaluation equivalence sends a pure tensor `g ⊗ x` to `g x`. -/
 @[simp]
 theorem evalTensorEquivOfIsSimple_tmul (g : V →ₗ[A] V) (x : V) :
     evalTensorEquivOfIsSimple k A V (g ⊗ₜ[k] x) = g x := rfl
@@ -229,6 +231,9 @@ noncomputable def evalDirectSum :
     (⨁ i, (X i →ₗ[A] V) ⊗[k] X i) →ₗ[k] V :=
   DirectSum.toModule k ι V (fun i => evalTensor k A (X i) V)
 
+omit [IsAlgClosed k] [Fintype ι] [∀ i, IsSimpleModule A (X i)]
+  [∀ i, FiniteDimensional k (X i)] [FiniteDimensional k V] [IsSemisimpleModule A V] in
+/-- `evalDirectSum` evaluates a pure tensor inserted into the `i`-th summand. -/
 @[simp]
 theorem evalDirectSum_lof_tmul (i : ι) (g : X i →ₗ[A] V) (x : X i) :
     evalDirectSum k A X V (DirectSum.lof k ι (fun i => (X i →ₗ[A] V) ⊗[k] X i) i (g ⊗ₜ[k] x))
@@ -243,6 +248,8 @@ theorem linearMap_eq_zero_of_isEmpty_linearEquiv {Y Z : Type*}
   by_contra hf
   exact h.elim (LinearEquiv.ofBijective f (f.bijective_of_ne_zero hf))
 
+omit [IsAlgClosed k] [Fintype ι] [∀ i, IsSimpleModule A (X i)]
+  [∀ i, FiniteDimensional k (X i)] [FiniteDimensional k V] [IsSemisimpleModule A V] in
 /-- Every simple `A`-submodule of `V` is contained in the range of `evalDirectSum`: if `W ≃ X i`
 then the inclusion `W ↪ V` is `g(e w) = w` for `g = W.subtype ∘ e⁻¹ ∈ Hom_A(X i, V)`, so each
 `w ∈ W` is hit. -/
@@ -256,6 +263,8 @@ theorem simpleSubmodule_le_range_evalDirectSum
   rw [evalDirectSum_lof_tmul]
   simp
 
+omit [IsAlgClosed k] [Fintype ι] [∀ i, IsSimpleModule A (X i)]
+  [∀ i, FiniteDimensional k (X i)] [FiniteDimensional k V] in
 /-- `evalDirectSum` is surjective when `{X i}` is complete: `V` is the supremum of its simple
 `A`-submodules (semisimplicity), each of which lies in the range. -/
 theorem evalDirectSum_surjective
@@ -273,6 +282,8 @@ theorem evalDirectSum_surjective
     (fun _ _ => (LinearMap.range _).add_mem)
   exact simpleSubmodule_le_range_evalDirectSum k A X V hcomplete m.1 m.2 hy
 
+omit [IsAlgClosed k] [Fintype ι] [DecidableEq ι]
+  [∀ i, FiniteDimensional k (X i)] [FiniteDimensional k V] [IsSemisimpleModule A V] in
 /-- The range of the per-`X i` evaluation map lands in the `X i`-isotypic component of `V`: a
 nonzero `g : X i →ₗ[A] V` is injective (Schur), so `g (X i) ≅ X i` is a simple submodule
 isomorphic to `X i`, hence inside `isotypicComponent A V (X i)`. -/
@@ -293,7 +304,10 @@ theorem evalTensor_mem_isotypicComponent (i : ι) (t : (X i →ₗ[A] V) ⊗[k] 
         exact (le_sSup hmem) (LinearMap.mem_range_self g x)
   | add p q hp hq => rw [map_add]; exact add_mem hp hq
 
-include k in
+omit [Field k] [IsAlgClosed k] [Algebra k A] [Fintype ι] [DecidableEq ι]
+  [∀ i, Module k (X i)] [∀ i, IsScalarTower k A (X i)]
+  [∀ i, FiniteDimensional k (X i)] [Module k V] [IsScalarTower k A V]
+  [FiniteDimensional k V] [IsSemisimpleModule A V] in
 /-- If the `X i`-isotypic component of `V` is nonzero then it is one of the (nontrivial) isotypic
 components of `V`: a nonzero summand provides a simple submodule of `V` isomorphic to `X i`. -/
 theorem mem_isotypicComponents_of_ne_bot (i : ι)
@@ -307,7 +321,10 @@ theorem mem_isotypicComponents_of_ne_bot (i : ι)
   haveI : IsSimpleModule A W := IsSimpleModule.congr e
   exact ⟨W, inferInstance, (e.isotypicComponent_eq).symm⟩
 
-include k in
+omit [Field k] [IsAlgClosed k] [Algebra k A] [Fintype ι] [DecidableEq ι]
+  [∀ i, Module k (X i)] [∀ i, IsScalarTower k A (X i)]
+  [∀ i, FiniteDimensional k (X i)] [Module k V] [IsScalarTower k A V]
+  [FiniteDimensional k V] in
 /-- Distinct non-isomorphic irreducibles have distinct isotypic components (when nonzero). -/
 theorem isotypicComponent_ne_of_ne
     (hpair : ∀ i j, i ≠ j → IsEmpty (X i ≃ₗ[A] X j)) (i j : ι) (hij : i ≠ j)
@@ -326,7 +343,10 @@ theorem isotypicComponent_ne_of_ne
   obtain ⟨f⟩ := hiso ⊤
   exact (hpair i j hij).false (e.symm.trans (Submodule.topEquiv.symm.trans f))
 
-include k in
+omit [Field k] [IsAlgClosed k] [Algebra k A] [Fintype ι] [DecidableEq ι]
+  [∀ i, Module k (X i)] [∀ i, IsScalarTower k A (X i)]
+  [∀ i, FiniteDimensional k (X i)]
+  [Module k V] [IsScalarTower k A V] [FiniteDimensional k V] in
 /-- The `X i`-isotypic components of `V` form an independent family, indexed by the pairwise
 non-isomorphic irreducibles `{X i}`. -/
 theorem iSupIndep_isotypicComponent
@@ -338,13 +358,16 @@ theorem iSupIndep_isotypicComponent
   · rw [hi]; exact disjoint_bot_left
   · rw [← sSup_sdiff_singleton_bot]
     refine (sSupIndep_isotypicComponents A V).disjoint_sSup
-      (mem_isotypicComponents_of_ne_bot k A X V i hi) ?_ ?_
+      (mem_isotypicComponents_of_ne_bot A X V i hi) ?_ ?_
     · rintro c ⟨⟨j, -, rfl⟩, hcne⟩
-      exact mem_isotypicComponents_of_ne_bot k A X V j
+      exact mem_isotypicComponents_of_ne_bot A X V j
         (fun h => hcne (Set.mem_singleton_iff.mpr h))
     · rintro ⟨⟨j, hj, hji⟩, -⟩
-      exact isotypicComponent_ne_of_ne k A X V hpair i j (Ne.symm hj) hi hji.symm
+      exact isotypicComponent_ne_of_ne A X V hpair i j (Ne.symm hj) hi hji.symm
 
+/- Finiteness is used to expand a direct-sum element as a finite sum, although it does not occur
+in the proposition returned by `Function.Injective`. -/
+set_option linter.unusedFintypeInType false in
 /-- `evalDirectSum` is injective.
 
 Proof strategy (Schur, using `Etingof.Corollary_2_3_10` that `End_A(X i) = k·id`): if
@@ -360,7 +383,7 @@ theorem evalDirectSum_injective
     have hsub : evalDirectSum k A X V (ξ₁ - ξ₂) = 0 := by rw [map_sub, he, sub_self]
     exact sub_eq_zero.mp (h _ hsub)
   intro ξ hξ
-  have hindep := iSupIndep_isotypicComponent k A X V hpair
+  have hindep := iSupIndep_isotypicComponent A X V hpair
   -- evalDirectSum ξ expands to the sum of the per-component evaluations
   have hexpand : evalDirectSum k A X V ξ = ∑ i, evalTensor k A (X i) V (ξ i) := by
     conv_lhs => rw [← DirectSum.sum_univ_of ξ]

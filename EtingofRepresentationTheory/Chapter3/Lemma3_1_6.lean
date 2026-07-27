@@ -30,7 +30,7 @@ open LinearMap Submodule
 that maps isomorphically onto the target. Etingof Lemma 3.1.6 (weak, complement-only form). -/
 theorem surjective_map_splits (A : Type*) (V U : Type*)
     [Ring A] [AddCommGroup V] [Module A V] [AddCommGroup U] [Module A U]
-    [IsSemisimpleModule A V] (f : V →ₗ[A] U) (hf : Function.Surjective f) :
+    [IsSemisimpleModule A V] (f : V →ₗ[A] U) (_hf : Function.Surjective f) :
     ∃ (W : Submodule A V), Disjoint W (LinearMap.ker f) ∧ W ⊔ LinearMap.ker f = ⊤ := by
   obtain ⟨W, hW⟩ := exists_isCompl (LinearMap.ker f)
   exact ⟨W, hW.symm.disjoint, hW.symm.sup_eq_top⟩

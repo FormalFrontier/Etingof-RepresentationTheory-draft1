@@ -68,6 +68,10 @@ def postcompHom :
   map_add' f f' := by ext i g x; simp
   map_smul' c f := by ext i g x; simp
 
+omit [IsAlgClosed k] [Fintype ι] [DecidableEq ι] [∀ i, Module k (X i)]
+  [∀ i, IsScalarTower k A (X i)]
+  [∀ i, IsSimpleModule A (X i)] [∀ i, FiniteDimensional k (X i)] in
+/-- `postcompHom` sends `f` to post-composition by `f` in each component. -/
 @[simp]
 theorem postcompHom_apply (f : V →ₗ[A] U) (i : ι) (g : X i →ₗ[A] V) :
     postcompHom k A X V U f i g = f ∘ₗ g := rfl
@@ -146,10 +150,15 @@ theorem mem_ker_iff_components (f : V →ₗ[A] U) (v : V) :
       simpa using hcomponents i
     simp [hzero]
 
+omit [DecidableEq ι] in
+/- Finiteness is needed by the finite direct-sum factorization, although it does not occur in
+the proposition returned by `Function.Injective`. -/
+set_option linter.unusedFintypeInType false in
 /-- `postcompHom` is injective: `f` is recovered from `postcompHom f` via the block-diagonal
 factorization, so `postcompHom f = postcompHom f'` forces `f = f'`. -/
 theorem postcompHom_injective :
     Function.Injective (postcompHom k A X V U) := by
+  classical
   intro f f' h
   have hres : f.restrictScalars k = f'.restrictScalars k := by
     rw [restrictScalars_eq k A X V U hpair hcV hcU f,
@@ -157,12 +166,17 @@ theorem postcompHom_injective :
   ext v
   exact DFunLike.congr_fun hres v
 
+omit [DecidableEq ι] in
+/- Finiteness is needed by the finite direct-sum construction, although it does not occur in
+the proposition returned by `Function.Surjective`. -/
+set_option linter.unusedFintypeInType false in
 /-- `postcompHom` is surjective. Given a target family `φ`, transport the block-diagonal map
 `⨁_i (φ i ⊗ id)` through the Remark 3.1.3 isomorphisms to a `k`-linear map `fk`; it is
 `A`-linear because on the spanning set `{g x}` it equals `(φ i g) x`, and `φ i g`, `g` are
 `A`-linear. The resulting `A`-linear map maps to `φ` under `postcompHom`. -/
 theorem postcompHom_surjective :
     Function.Surjective (postcompHom k A X V U) := by
+  classical
   intro φ
   set eV := evalDirectSumEquiv k A X V hpair hcV with heVdef
   set eU := evalDirectSumEquiv k A X U hpair hcU with heUdef
@@ -223,17 +237,24 @@ noncomputable def homPiHomEquiv :
     ⟨postcompHom_injective k A X V U hpair hcV hcU,
       postcompHom_surjective k A X V U hpair hcV hcU⟩
 
+omit [DecidableEq ι] in
+/-- The Hom-space equivalence acts componentwise by post-composition. -/
 @[simp]
 theorem homPiHomEquiv_apply (f : V →ₗ[A] U) (i : ι) (g : X i →ₗ[A] V) :
     homPiHomEquiv k A X V U hpair hcV hcU f i g = f ∘ₗ g := rfl
 
 section Criteria
 
+omit [DecidableEq ι] in
+/- Finiteness is needed by the finite direct-sum criterion, although it does not occur in the
+resulting logical equivalence. -/
+set_option linter.unusedFintypeInType false in
 /-- Componentwise criterion for injectivity: an `A`-linear map `f : V → U` between semisimple
 finite-dimensional representations is injective iff every multiplicity-space component
 `postcompHom f i : Hom_A(X i, V) → Hom_A(X i, U)` is injective. -/
 theorem injective_iff (f : V →ₗ[A] U) :
     Function.Injective f ↔ ∀ i, Function.Injective (postcompHom k A X V U f i) := by
+  classical
   rw [show Function.Injective f ↔ Function.Injective ⇑(f.restrictScalars k) from Iff.rfl,
     restrictScalars_eq k A X V U hpair hcV hcU f]
   simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, EquivLike.comp_injective,
@@ -243,9 +264,14 @@ theorem injective_iff (f : V →ₗ[A] U) :
   rw [← LinearMap.lTensor_inj_iff_rTensor_inj,
     Module.FaithfullyFlat.lTensor_injective_iff_injective]
 
+omit [DecidableEq ι] in
+/- Finiteness is needed by the finite direct-sum criterion, although it does not occur in the
+resulting logical equivalence. -/
+set_option linter.unusedFintypeInType false in
 /-- Componentwise criterion for surjectivity. -/
 theorem surjective_iff (f : V →ₗ[A] U) :
     Function.Surjective f ↔ ∀ i, Function.Surjective (postcompHom k A X V U f i) := by
+  classical
   rw [show Function.Surjective f ↔ Function.Surjective ⇑(f.restrictScalars k) from Iff.rfl,
     restrictScalars_eq k A X V U hpair hcV hcU f]
   simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, EquivLike.comp_surjective,
@@ -255,9 +281,14 @@ theorem surjective_iff (f : V →ₗ[A] U) :
   rw [← LinearMap.lTensor_surj_iff_rTensor_surj,
     Module.FaithfullyFlat.lTensor_surjective_iff_surjective]
 
+omit [DecidableEq ι] in
+/- Finiteness is inherited from the injectivity and surjectivity criteria, although it does not
+occur in the resulting logical equivalence. -/
+set_option linter.unusedFintypeInType false in
 /-- Componentwise criterion for being an isomorphism. -/
 theorem bijective_iff (f : V →ₗ[A] U) :
     Function.Bijective f ↔ ∀ i, Function.Bijective (postcompHom k A X V U f i) := by
+  classical
   simp_rw [Function.Bijective, forall_and]
   rw [injective_iff k A X V U hpair hcV hcU f, surjective_iff k A X V U hpair hcV hcU f]
 
@@ -267,6 +298,9 @@ end Equiv
 
 section Naturality
 
+omit [IsAlgClosed k] [Fintype ι] [DecidableEq ι] [∀ i, Module k (X i)]
+  [∀ i, IsScalarTower k A (X i)]
+  [∀ i, IsSimpleModule A (X i)] [∀ i, FiniteDimensional k (X i)] in
 /-- Functoriality (naturality) of `postcompHom` in the identity. -/
 @[simp]
 theorem postcompHom_id :
@@ -276,6 +310,9 @@ theorem postcompHom_id :
 
 variable (W : Type*) [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W]
 
+omit [IsAlgClosed k] [Fintype ι] [DecidableEq ι] [∀ i, Module k (X i)]
+  [∀ i, IsScalarTower k A (X i)]
+  [∀ i, IsSimpleModule A (X i)] [∀ i, FiniteDimensional k (X i)] in
 /-- Functoriality (naturality) of `postcompHom` under composition: post-composition by
 `f' ∘ f` is the composite of post-composition by `f` and by `f'`, componentwise. This is the
 naturality of the Hom-space decomposition in the target multiplicity family. -/

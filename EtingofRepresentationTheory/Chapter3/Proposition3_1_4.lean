@@ -65,7 +65,7 @@ theorem isIsotypicOfType_fun {A : Type*} [Ring A] {S : Type*} [AddCommGroup S] [
   -- Some coordinate projection is nonzero on `p`, otherwise `p` is trivial.
   have hex : ∃ j, ((LinearMap.proj j) ∘ₗ p.subtype : ↥p →ₗ[A] S) ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     haveI : Nontrivial ↥p := IsSimpleModule.nontrivial A ↥p
     have : Subsingleton ↥p := by
       refine ⟨fun a b => ?_⟩
@@ -95,7 +95,7 @@ private theorem exists_iso_of_simple (n : ι → ℕ)
     ∃ i, Nonempty (↥s ≃ₗ[A] V i) := by
   have hex : ∃ i, ((LinearMap.proj i) ∘ₗ s.subtype : ↥s →ₗ[A] _) ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     haveI : Nontrivial ↥s := IsSimpleModule.nontrivial A ↥s
     have : Subsingleton ↥s := by
       refine ⟨fun a b => ?_⟩
@@ -135,7 +135,10 @@ private theorem coord_eq_zero_of_iso (n : ι → ℕ)
     have e2 := (isIsotypicOfType_fun (n j) (LinearMap.range f)).some
     exact hij (hd ⟨em.symm.trans ((LinearEquiv.ofInjective f hinj).trans e2)⟩)
 
-omit [∀ i, Module.Finite A (V i)] in
+omit [DecidableEq ι] [∀ i, Module.Finite A (V i)] in
+/- Finiteness of the indexing type is essential to the finite-product argument, although the
+result type only records the multiplicities pointwise. -/
+set_option linter.unusedFintypeInType false in
 /-- **Proposition 3.1.4** (`Pi` form of the ambient representation).
 Let the `V i` be simple, finite-dimensional, pairwise nonisomorphic `A`-modules. Any
 subrepresentation `W` of `⊕ᵢ nᵢ Vᵢ` is isomorphic to `⊕ᵢ rᵢ Vᵢ` with `r i ≤ n i`. -/
@@ -257,7 +260,10 @@ theorem subrepresentation_of_semisimple_pi (n : ι → ℕ)
             (Submodule.inclusion_injective hisoComp_le)
   exact_mod_cast hchain
 
-omit [∀ i, Module.Finite A (V i)] in
+omit [DecidableEq ι] [∀ i, Module.Finite A (V i)] in
+/- Finiteness of the indexing type is essential to identify the external direct sum with a
+finite product, although it does not occur in the proposition returned. -/
+set_option linter.unusedFintypeInType false in
 /-- **Proposition 3.1.4.**
 Let `V i` be simple (irreducible), finite-dimensional, pairwise nonisomorphic `A`-modules,
 and let `W` be a subrepresentation of `V = ⊕ᵢ nᵢ Vᵢ`. Then `W` is isomorphic to `⊕ᵢ rᵢ Vᵢ`
@@ -292,6 +298,10 @@ private theorem hom_eq_zero_of_ne
   by_contra h
   exact hij (hd ⟨LinearEquiv.ofBijective f (LinearMap.bijective_of_ne_zero h)⟩)
 
+omit [DecidableEq ι] in
+/- Finiteness is needed by the finite block-matrix construction, although it does not occur in
+the existential result type. -/
+set_option linter.unusedFintypeInType false in
 /-- **Proposition 3.1.4**, matrix form (`Pi` model of the ambient representation).
 
 On top of `subrepresentation_of_semisimple_pi` this exhibits the inclusion `W ↪ ⊕ᵢ nᵢVᵢ`
@@ -397,6 +407,10 @@ theorem subrepresentation_of_semisimple_matrix_pi (n : ι → ℕ)
     rw [hw]
     exact key (e w) i l
 
+omit [DecidableEq ι] in
+/- Finiteness is needed to pass between the external direct sum and its finite product model,
+although it does not occur in the existential result type. -/
+set_option linter.unusedFintypeInType false in
 /-- **Proposition 3.1.4**, matrix form. See `subrepresentation_of_semisimple_matrix_pi`;
 this is the same statement with the ambient representation written as an external direct
 sum. Etingof Proposition 3.1.4. -/

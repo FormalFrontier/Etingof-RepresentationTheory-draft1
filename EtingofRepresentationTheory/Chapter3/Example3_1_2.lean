@@ -46,10 +46,14 @@ noncomputable def evalMap (b : Module.Basis ι k V) :
   map_add' f g := by ext i; simp
   map_smul' (a : A) f := by ext i; simp [LinearMap.smul_apply]
 
+/-- Evaluating `evalMap b f` at `i` gives the value of `f` on the basis vector `b i`. -/
 @[simp] theorem evalMap_apply (b : Module.Basis ι k V) (f : Module.End k V) (i : ι) :
     evalMap (A := A) b f i = f (b i) := rfl
 
+/- Finiteness is a proof hypothesis for surjectivity, although it does not occur in the
+proposition returned by `Function.Bijective`. -/
 set_option linter.unusedFintypeInType false in
+/-- The evaluation map associated to a finite basis is bijective. -/
 theorem evalMap_bijective [Fintype ι] (b : Module.Basis ι k V) :
     Function.Bijective (evalMap (A := A) b) := by
   constructor
@@ -71,6 +75,7 @@ noncomputable def endEquivPiOfBasis [Fintype ι] (b : Module.Basis ι k V) :
     Module.End k V ≃ₗ[A] (ι → V) :=
   LinearEquiv.ofBijective (evalMap b) (evalMap_bijective b)
 
+/-- The equivalence `endEquivPiOfBasis` acts by evaluation on the chosen basis. -/
 @[simp] theorem endEquivPiOfBasis_apply [Fintype ι] (b : Module.Basis ι k V)
     (f : Module.End k V) (i : ι) : endEquivPiOfBasis (A := A) b f i = f (b i) := rfl
 
@@ -80,6 +85,7 @@ noncomputable def endEquivPi [FiniteDimensional k V] :
     Module.End k V ≃ₗ[A] (Fin (Module.finrank k V) → V) :=
   endEquivPiOfBasis (Module.finBasis k V)
 
+/-- The canonical equivalence `endEquivPi` acts by evaluation on the canonical finite basis. -/
 @[simp] theorem endEquivPi_apply [FiniteDimensional k V] (f : Module.End k V)
     (i : Fin (Module.finrank k V)) :
     endEquivPi (A := A) f i = f (Module.finBasis k V i) := rfl
