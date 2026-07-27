@@ -552,6 +552,57 @@ noncomputable def regularModuleEquiv :
 @[simp] theorem regularModuleEquiv_apply (a : Etingof.WeylAlgebra ℂ) :
     regularModuleEquiv a = firstRep a 1 := rfl
 
+/-! ### The remaining ring-theoretic obstruction -/
+
+/-- A regular module over a domain has no simple submodule as soon as the ring contains a
+nonzero element with no left inverse.  Indeed, if `I` were simple and `a ∈ I` nonzero, then
+`y • a` would also be nonzero and hence generate `I`; writing `a = r • (y • a)` and cancelling
+`a` would make `r * y = 1`. -/
+theorem noSimpleRegularSubmodule_of_noLeftInverse
+    (R : Type*) [Ring R] [Nontrivial R] [NoZeroDivisors R]
+    (y : R) (hy : y ≠ 0) (hyleft : ∀ r : R, r * y ≠ 1)
+    (I : Submodule R R) : ¬ IsSimpleModule R I := by
+  intro hI
+  letI : IsSimpleModule R I := hI
+  letI : Nontrivial I := IsSimpleModule.nontrivial R I
+  obtain ⟨a, ha⟩ := exists_ne (0 : I)
+  have hya : y • a ≠ 0 := by
+    intro h
+    apply ha
+    apply Subtype.ext
+    have hval : y * (a : R) = 0 := congrArg Subtype.val h
+    exact (mul_eq_zero.mp hval).resolve_left hy
+  obtain ⟨r, hr⟩ := IsSimpleModule.toSpanSingleton_surjective R hya a
+  simp only [LinearMap.toSpanSingleton_apply] at hr
+  have hmul : (r * y) * (a : R) = 1 * (a : R) := by
+    simpa [smul_smul] using congrArg Subtype.val hr
+  exact hyleft r (mul_right_cancel₀ (Subtype.coe_ne_coe.mpr ha) hmul)
+
+/-- The Weyl generator `y` has no left inverse.  The polynomial representation detects this by
+applying a hypothetical identity `r * y = 1` to the constant polynomial `1`: differentiation
+kills the left-hand side, while the identity fixes `1`. -/
+theorem weylY_noLeftInverse (r : Etingof.WeylAlgebra ℂ) :
+    r * Etingof.WeylAlgebra.y ℂ ≠ 1 := by
+  intro h
+  have hop := congrArg (fun f : Module.End ℂ (Polynomial ℂ) => f 1)
+    (congrArg (Etingof.polyRep ℂ) h)
+  simp [map_mul, Etingof.polyRep_y] at hop
+
+/-- Once the standard domain property of the characteristic-zero Weyl algebra is available,
+its regular module has no simple submodule.  This conditional endpoint isolates that domain
+property as the sole ring-theoretic input still needed by the counterexample. -/
+theorem regularWeyl_noSimpleSubmodule
+    [NoZeroDivisors (Etingof.WeylAlgebra ℂ)]
+    (I : Submodule (Etingof.WeylAlgebra ℂ) (Etingof.WeylAlgebra ℂ)) :
+    ¬ IsSimpleModule (Etingof.WeylAlgebra ℂ) I := by
+  have hy : Etingof.WeylAlgebra.y ℂ ≠ 0 := by
+    rw [show Etingof.WeylAlgebra.y ℂ = Etingof.WeylAlgebra.monomial ℂ 0 1 by
+      simp [Etingof.WeylAlgebra.monomial]]
+    exact (Etingof.Proposition_2_7_1 (k := ℂ)).1.ne_zero (0, 1)
+  letI : Nontrivial (Etingof.WeylAlgebra ℂ) := ⟨⟨Etingof.WeylAlgebra.y ℂ, 0, hy⟩⟩
+  exact noSimpleRegularSubmodule_of_noLeftInverse _ (Etingof.WeylAlgebra.y ℂ)
+    hy weylY_noLeftInverse I
+
 end
 
 end EtingofRepresentationTheory.Chapter3.Remark3_10_3
