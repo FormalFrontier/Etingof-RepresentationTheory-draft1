@@ -517,6 +517,41 @@ theorem regularLinearEquiv_eq_firstOrbit :
     exact Module.Basis.mk_apply _ _ _]
   simp [regularLinearEquiv_monomial, firstOrbit_monomial]
 
+/-- The module obtained by restricting the entangled representation to its first Weyl factor. -/
+@[reducible] noncomputable def firstRestrictionModule :
+    Module (Etingof.WeylAlgebra ℂ) WeylCounterexampleModule :=
+  Module.compHom WeylCounterexampleModule firstRep.toRingHom
+
+local instance : Module (Etingof.WeylAlgebra ℂ) WeylCounterexampleModule :=
+  firstRestrictionModule
+
+private noncomputable def firstOrbitLinear :
+    Etingof.WeylAlgebra ℂ →ₗ[Etingof.WeylAlgebra ℂ] WeylCounterexampleModule where
+  toFun a := firstRep a 1
+  map_add' a b := by simp
+  map_smul' a b := by
+    change firstRep (a * b) 1 = firstRep a (firstRep b 1)
+    rw [map_mul, Module.End.mul_apply]
+
+private theorem firstOrbitLinear_bijective : Function.Bijective firstOrbitLinear := by
+  have h : Function.Bijective firstOrbit := by
+    rw [← regularLinearEquiv_eq_firstOrbit]
+    exact regularLinearEquiv.bijective
+  constructor
+  · intro a b hab
+    exact h.1 hab
+  · intro p
+    exact h.2 p
+
+/-- Restriction of the entangled representation to the first Weyl factor is Weyl-linearly
+equivalent to the left regular Weyl module. -/
+noncomputable def regularModuleEquiv :
+    Etingof.WeylAlgebra ℂ ≃ₗ[Etingof.WeylAlgebra ℂ] WeylCounterexampleModule :=
+  LinearEquiv.ofBijective firstOrbitLinear firstOrbitLinear_bijective
+
+@[simp] theorem regularModuleEquiv_apply (a : Etingof.WeylAlgebra ℂ) :
+    regularModuleEquiv a = firstRep a 1 := rfl
+
 end
 
 end EtingofRepresentationTheory.Chapter3.Remark3_10_3
