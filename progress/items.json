@@ -1333,6 +1333,20 @@
           "lean_decl": "Etingof.repE_injective; Etingof.repE_injective_and_polyRep_not_injective"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.7",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.WeylAlgebra.polyRep_injective",
+        "Etingof.iterate_derivative_eq_zero_of_charP",
+        "Etingof.WeylAlgebra.polyRep_y_pow_eq_zero",
+        "Etingof.WeylAlgebra.polyRep_not_injective",
+        "Etingof.repE_injective",
+        "Etingof.repE_injective_and_polyRep_not_injective"
+      ]
     }
   },
   {
