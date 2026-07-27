@@ -9198,9 +9198,10 @@
     "start_line": 9,
     "end_line": 22,
     "status": "sorry_free",
-    "coverage_note": "Substantial local Tor/Ext results are proved. Part (ii) now exposes a named canonical Ext¹ AddEquiv, its factorization through bar-resolution cohomology, and representative-level tensor–hom computation theorems. The remaining gap is that parts (iii) and (v) expose only independent six-term windows rather than coherent natural long exact sequences and omit their zero-ended degree-zero assertions (#7421).",
+    "coverage_note": "The local Tor/Ext results and part (ii)'s named Ext¹ equivalence are proved. Problem8_2_6_LongExact.lean now packages both argument variants into globally indexed Ext/Tor connecting families, proves every adjacent window exact, proves the zero-ended Ext⁰ mono and Tor₀ epi endpoints, and identifies the degree-zero maps through Ext⁰ ≃ Hom and Tor₀ ≅ tensor. Full naturality of the chosen Tor connecting maps remains #7866, so coverage remains partial (#7421).",
     "coverage": "covered_partial",
-    "followup_issue": 7421,
+    "coverage_issue": 7421,
+    "followup_issue": 7866,
     "last_updated": "2026-07-27"
   },
   {
