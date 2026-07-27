@@ -30,12 +30,11 @@ We also keep the auxiliary notion `Etingof.MoritaEquivalent`, an equivalence of 
 algebras `ModuleCat A` is the ind-completion of `FGModuleCat A`, so the two notions
 agree; the forward implication `MoritaEquivalent → MoritaEquivalentFmod` is
 `Etingof.MoritaEquivalent.toFmod` (in `Infrastructure/MoritaFGRestriction.lean`), obtained
-by restricting a full-module equivalence to the finitely generated subcategories. The
-converse (recovering a full-module equivalence from an equivalence of finite-dimensional
-modules) is the Morita reconstruction theorem and is not yet formalized. The full-module
-notion is the one produced by the concrete constructions in this project (the corner
-functor `M ↦ eM` and `exists_basic_morita_equivalent`), and every book-level conclusion
-is exposed on the faithful `fmod` notion via the forward implication.
+by restricting a full-module equivalence to the finitely generated subcategories. The converse
+is the finite-progenerator Morita reconstruction theorem
+`Etingof.MoritaEquivalentFmod.toMoritaEquivalent`, proved in
+`Chapter9/Introduction_9_7_Morita.lean`; that file also exposes the resulting `iff` and its
+`k`-linear analogue for finite-dimensional algebras.
 -/
 
 /-- **Morita equivalence, Etingof Definition 9.7.1 (book-faithful form).**
@@ -51,8 +50,8 @@ def Etingof.MoritaEquivalentFmod (A : Type u) [Ring A] (B : Type u) [Ring B] : P
 
 Two algebras `A` and `B` are equivalent here if their categories of *all* modules are
 equivalent. For finite-dimensional algebras this agrees with the book-faithful
-`Etingof.MoritaEquivalentFmod` (the full module category is the ind-completion of the
-finite-dimensional one); the forward direction is `Etingof.MoritaEquivalent.toFmod`.
+`Etingof.MoritaEquivalentFmod`; the two implications and the combined `iff` are proved in
+`Infrastructure/MoritaFGRestriction.lean` and `Chapter9/Introduction_9_7_Morita.lean`.
 This full-module notion is what the concrete constructions in this project produce. -/
 def Etingof.MoritaEquivalent (A : Type u) [Ring A] (B : Type v) [Ring B] : Prop :=
   Nonempty (ModuleCat.{max u v} A ≌ ModuleCat.{max u v} B)
