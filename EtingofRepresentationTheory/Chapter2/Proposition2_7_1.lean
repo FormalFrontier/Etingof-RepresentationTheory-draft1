@@ -223,6 +223,7 @@ noncomputable def polyMulX : Module.End k (Polynomial k) where
     simp only [RingHom.id_apply]
     exact Algebra.mul_smul_comm c Polynomial.X p
 
+/-- Multiplication by `X` acts by left multiplication on a polynomial. -/
 lemma polyMulX_apply (p : Polynomial k) :
     polyMulX k p = Polynomial.X * p := rfl
 
@@ -260,11 +261,13 @@ noncomputable def polyRep :
     WeylAlgebra k →ₐ[k] Module.End k (Polynomial k) :=
   RingQuot.liftAlgHom k ⟨polyRepFree k, polyRep_rel k⟩
 
+/-- The polynomial representation sends the Weyl generator `x` to multiplication by `X`. -/
 lemma polyRep_x :
     polyRep k (WeylAlgebra.x k) = polyMulX k := by
   simp [polyRep, WeylAlgebra.x, WeylAlgebra.mk, RingQuot.liftAlgHom_mkAlgHom_apply,
     polyRepFree, FreeAlgebra.lift_ι_apply, polyRepGen]
 
+/-- The polynomial representation sends the Weyl generator `y` to differentiation. -/
 lemma polyRep_y :
     polyRep k (WeylAlgebra.y k) =
     (Polynomial.derivative : Module.End k (Polynomial k)) := by

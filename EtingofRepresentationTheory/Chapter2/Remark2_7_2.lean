@@ -79,6 +79,7 @@ noncomputable def WeylAlgebra.equivPolyDiffOp [CharZero k] [NoZeroDivisors k] :
   (AlgEquiv.ofInjective (polyRep k) (WeylAlgebra.polyRep_injective k)).trans
     (Subalgebra.equivOfEq _ _ (WeylAlgebra.polyRep_range_eq_polyDiffOp k))
 
+/-- The differential-operator equivalence is induced by the polynomial representation. -/
 @[simp] theorem WeylAlgebra.equivPolyDiffOp_apply [CharZero k] [NoZeroDivisors k]
     (w : WeylAlgebra k) :
     (WeylAlgebra.equivPolyDiffOp k w : Module.End k (Polynomial k)) = polyRep k w := rfl

@@ -67,6 +67,7 @@ variable (k : Type*) [Field k] (p : ℕ) [Fact (Nat.Prime p)] [CharP k p]
 
 private lemma p_pos : 0 < p := (Fact.out : p.Prime).pos
 
+/-- A prime characteristic parameter is nonzero. -/
 instance : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
 
 /-! ### The twisted cyclic shift `x` -/
@@ -83,6 +84,7 @@ def Xlin (α : k) : (Fin p → k) →ₗ[k] (Fin p → k) where
   map_smul' c f := by funext j; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; ring
 
 omit [CharP k p] in
+/-- The twisted shift at coordinate `j` uses the weight at `j` and the preceding coordinate. -/
 @[simp] theorem Xlin_apply (α : k) (f : Fin p → k) (j : Fin p) :
     Xlin k p α f j = wX k p α j * f (j - 1) := rfl
 
@@ -100,6 +102,7 @@ def Ylin (c : k) : (Fin p → k) →ₗ[k] (Fin p → k) where
   map_smul' a f := by funext j; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; ring
 
 omit [CharP k p] in
+/-- At coordinate `j`, `Ylin` is the sum of the scalar and cyclic lowering terms. -/
 @[simp] theorem Ylin_apply (c : k) (f : Fin p → k) (j : Fin p) :
     Ylin k p c f j = c * f j + wY k p j * f (j + 1) := rfl
 
@@ -175,10 +178,12 @@ private lemma famRep_rel (α c : k) :
 noncomputable def famRep (α c : k) : WeylAlgebra k →ₐ[k] Module.End k (Fin p → k) :=
   RingQuot.liftAlgHom k ⟨famRepFree k p α c, famRep_rel k p α c⟩
 
+/-- The family representation sends the Weyl generator `x` to the twisted shift. -/
 @[simp] theorem famRep_x (α c : k) : famRep k p α c (WeylAlgebra.x k) = Xlin k p α := by
   simp [famRep, WeylAlgebra.x, WeylAlgebra.mk, RingQuot.liftAlgHom_mkAlgHom_apply, famRepFree,
     FreeAlgebra.lift_ι_apply, famRepGen]
 
+/-- The family representation sends the Weyl generator `y` to the lowering operator. -/
 @[simp] theorem famRep_y (α c : k) : famRep k p α c (WeylAlgebra.y k) = Ylin k p c := by
   simp [famRep, WeylAlgebra.y, WeylAlgebra.mk, RingQuot.liftAlgHom_mkAlgHom_apply, famRepFree,
     FreeAlgebra.lift_ι_apply, famRepGen]
@@ -188,6 +193,7 @@ determined by `x ↦ Xlin α`, `y ↦ Ylin c`. -/
 @[reducible] noncomputable def famModule (α c : k) : Module (WeylAlgebra k) (Fin p → k) :=
   Module.compHom (Fin p → k) (famRep k p α c).toRingHom
 
+/-- Scalar action in the family module is evaluation of the family representation. -/
 theorem famModule_smul (α c : k) (a : WeylAlgebra k) (f : Fin p → k) :
     letI := famModule k p α c
     a • f = famRep k p α c a f := rfl

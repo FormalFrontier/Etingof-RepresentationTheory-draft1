@@ -7,7 +7,7 @@ Completed the Mathlib-quality pass for the exact seven-item reading-order interv
 ## Scope and result
 
 - Reviewed all 13 Lean provider modules attached to the seven catalog items.
-- Changed 11 providers; `Remark2_7_2.lean` and `Definition2_7_3.lean` were already clean.
+- Changed 12 providers; `Definition2_7_3.lean` was already clean.
 - Removed 29 unnecessary direct imports, replacing the one genuinely needed broad import with
   two focused Mathlib imports. A final per-file `#redundant_imports` pass reports no redundant
   import in any of the 13 modules.
@@ -21,8 +21,9 @@ Completed the Mathlib-quality pass for the exact seven-item reading-order interv
 
 ## Verification
 
-- Temporary per-file `#lint`: all 16 default declaration linters passed in every provider,
-  covering 200 named and 288 automatically generated declarations with zero findings.
+- Temporary per-file `#lint docBlameThm`: all 16 default declaration linters plus
+  `docBlameThm` passed in every provider (17 linters total), covering 200 named and 288
+  automatically generated declarations with zero findings.
 - Temporary per-file `#redundant_imports`: no transitively redundant imports remain.
 - Standalone `lake env lean` elaboration passed for every provider without warnings after the
   temporary diagnostic commands were removed.
