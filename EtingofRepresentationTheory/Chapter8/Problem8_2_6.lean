@@ -168,6 +168,31 @@ theorem Problem_8_2_6_iii_ext
   Abelian.Ext.covariantSequence_exact M hS n₀ n₁ h
 
 set_option backward.isDefEq.respectTransparency false in
+/-- The tensor natural transformations induced by the two arrows of a short complex compose to
+zero.  Exposing this relation lets the explicit varying-functor connecting map be reused without
+reconstructing its witness. -/
+lemma tensorRightNatTrans_comp_zero
+    (A : Type u) [Ring A] {S : ShortComplex (ModuleCat.{u} A)} :
+    tensorRightNatTrans A S.f.hom ≫ tensorRightNatTrans A S.g.hom = 0 := by
+  have hcomp : ∀ (n : S.X₁), S.g.hom (S.f.hom n) = 0 := by
+    intro n
+    have h0 : (S.f ≫ S.g).hom n = 0 := by rw [S.zero]; rfl
+    rwa [ModuleCat.hom_comp, LinearMap.comp_apply] at h0
+  ext Y x
+  obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
+  induction y with
+  | zero => simp
+  | tmul m n =>
+    change tensorSndMap A S.g.hom Y (tensorSndMap A S.f.hom Y
+      (QuotientAddGroup.mk (m ⊗ₜ[ℤ] n))) = 0
+    rw [tensorSndMap_mk, tensorSndMap_mk, hcomp n, tmul_zero]
+    rfl
+  | add a b ha hb =>
+    rw [show ((a + b : TensorProduct ℤ Y ↑S.X₁) : Etingof.tensorOver A ↑S.X₁ Y)
+          = (a : Etingof.tensorOver A ↑S.X₁ Y) + b from
+        map_add (QuotientAddGroup.mk' (Etingof.balancedSubgroup A ↑S.X₁ Y)) a b,
+      map_add, map_add, ha, hb]
+
 /-- **Problem 8.2.6(iii), `Tor`.** A short exact sequence `S : 0 → N₁ → N₂ → N₃ → 0` of left
 `A`-modules induces, for each right `A`-module `M` and each `n₀ + 1 = n₁`, a connecting
 homomorphism `δ : Torₙ₁(M, N₃) → Torₙ₀(M, N₁)` making the six-term homology window
@@ -185,31 +210,11 @@ theorem Problem_8_2_6_iii_tor
         (torSndMap A S.f.hom n₁ M) (torSndMap A S.g.hom n₁ M)
         δ
         (torSndMap A S.f.hom n₀ M) (torSndMap A S.g.hom n₀ M)).Exact := by
-  -- The composite `S.g.hom ∘ S.f.hom` vanishes since `S.f ≫ S.g = 0`.
-  have hcomp : ∀ (n : S.X₁), S.g.hom (S.f.hom n) = 0 := by
-    intro n
-    have h0 : (S.f ≫ S.g).hom n = 0 := by rw [S.zero]; rfl
-    rwa [ModuleCat.hom_comp, LinearMap.comp_apply] at h0
-  -- The induced natural transformations `- ⊗_A Nᵢ` compose to zero.
-  have w : tensorRightNatTrans A S.f.hom ≫ tensorRightNatTrans A S.g.hom = 0 := by
-    ext Y x
-    obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
-    induction y with
-    | zero => simp
-    | tmul m n =>
-      change tensorSndMap A S.g.hom Y (tensorSndMap A S.f.hom Y
-        (QuotientAddGroup.mk (m ⊗ₜ[ℤ] n))) = 0
-      rw [tensorSndMap_mk, tensorSndMap_mk, hcomp n, tmul_zero]
-      rfl
-    | add a b ha hb =>
-      rw [show ((a + b : TensorProduct ℤ Y ↑S.X₁) : Etingof.tensorOver A ↑S.X₁ Y)
-            = (a : Etingof.tensorOver A ↑S.X₁ Y) + b from
-          map_add (QuotientAddGroup.mk' (Etingof.balancedSubgroup A ↑S.X₁ Y)) a b,
-        map_add, map_add, ha, hb]
   -- Apply the varying-functor six-term exact sequence; on projective `Y` the tensor sequence
   -- `Y ⊗_A N₁ → Y ⊗_A N₂ → Y ⊗_A N₃` is short exact by flatness of projectives.
   exact NatTrans.leftDerived_sixTerm_exact
-    (tensorRightNatTrans A S.f.hom) (tensorRightNatTrans A S.g.hom) w
+    (tensorRightNatTrans A S.f.hom) (tensorRightNatTrans A S.g.hom)
+    (tensorRightNatTrans_comp_zero A)
     (fun Y _ => tensorLeftFunctor_map_shortExact A Y hS) M n₀ n₁ h
 
 /-! ### Part (iv): the balancing theorem -/
