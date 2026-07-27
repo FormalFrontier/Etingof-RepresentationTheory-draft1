@@ -1611,7 +1611,39 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "trivial"
+      "result": "covered_full"
+    },
+    "fidelity": "verified",
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Chapter2/Discussion_2_12_heading.lean now covers every mathematical claim in the introductory prose: T(V) is identified as an algebra with the direct sum of all tensor powers, homogeneous multiplication is the tensor-concatenation product, and a chosen basis identifies T(V) with the free algebra on its basis indices. The generator formulas and injectivity of the degree-one inclusion make these identifications nonvacuous.",
+    "fidelity_note": "Verified against book page 35, lines 27–33. The previous wave-1 label `trivial` was incorrect: this prose contains the definition of the tensor algebra and a basis-dependent free-algebra isomorphism. Both are now explicit, sorry-free declarations using Mathlib's canonical tensor-algebra equivalences.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.12",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The tensor algebra T(V) is the direct sum of the tensor powers V^{⊗n}, with pure n-fold tensors in the degree-n summand.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.tensorAlgebraEquivDirectSum"
+        },
+        {
+          "claim": "Multiplication of homogeneous elements of tensor degrees n and m is tensor concatenation into degree n+m.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.tensorAlgebra_mul_homogeneous"
+        },
+        {
+          "claim": "A choice of basis of V identifies T(V) with the free algebra on the basis indices, matching the named generators.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.tensorAlgebraEquivFreeAlgebra"
+        }
+      ]
     }
   },
   {
@@ -1626,8 +1658,60 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "fidelity_note": "The coordinate-free symmetric, exterior, and enveloping algebras are present, and the enveloping algebra is explicitly identified with Definition 2.9.9's basis presentation.",
-    "last_updated": "2026-07-26"
+    "coverage_note": "All three quotient constructions, all three basis identifications, and both direct-sum decompositions in Definition 2.12.1 are now represented by public declarations. The symmetric and exterior decompositions land in the exact quotient models S^n(V) and ∧^n(V) constructed in Problem 2.11.3, rather than merely unnamed homogeneous subspaces.",
+    "fidelity_note": "Verified against book page 36, lines 1–16. The coordinate-free symmetric, exterior, and enveloping algebras carry their exact generator relations. A chosen basis identifies the symmetric algebra with multivariable polynomials, the exterior algebra with the exterior algebra of the free coordinate module, and U(L) with Definition 2.9.9's basis presentation. Explicit linear equivalences prove S(V)=⊕n S^n(V) and ∧(V)=⊕n ∧^n(V). The Lean statements allow arbitrary basis index types, faithfully generalizing the finite displayed basis.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.12",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "S(V) is the quotient of T(V) imposing commutativity of degree-one generators.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.SymmetricAlgebraDef; Etingof.symmetricAlgebra_generators_commute"
+        },
+        {
+          "claim": "∧(V) is the quotient of T(V) imposing v·v=0 for every degree-one generator v.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.ExteriorAlgebraDef; Etingof.exteriorAlgebra_generator_sq_zero"
+        },
+        {
+          "claim": "U(L) is the quotient of T(L) imposing xy−yx=[x,y].",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.UniversalEnvelopingAlgebraCoordFree; Etingof.universalEnvelopingAlgebra_generator_relation"
+        },
+        {
+          "claim": "A chosen basis identifies S(V) with the polynomial algebra on the basis indices.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.symmetricAlgebraEquivPolynomial"
+        },
+        {
+          "claim": "A chosen basis identifies ∧(V) with the exterior algebra on the corresponding coordinate generators.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.exteriorAlgebraEquivBasisModule"
+        },
+        {
+          "claim": "A chosen basis identifies the coordinate-free U(L) with the basis-and-structure-constants presentation defined previously.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.ueaBasisAlgEquiv"
+        },
+        {
+          "claim": "The symmetric algebra decomposes as the direct sum of the symmetric powers S^n(V).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.symmetricAlgebraEquivDirectSumSymmetricPowers"
+        },
+        {
+          "claim": "The exterior algebra decomposes as the direct sum of the exterior powers ∧^n(V).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.exteriorAlgebraEquivDirectSumExteriorPowers"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_2.13_heading",

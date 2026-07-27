@@ -114,6 +114,7 @@ import EtingofRepresentationTheory.Chapter2.Problem2_11_6
 import EtingofRepresentationTheory.Chapter2.Exercise2_11_2
 import EtingofRepresentationTheory.Chapter2.Exercise2_11_5
 import EtingofRepresentationTheory.Chapter2.Exercise2_11_7
+import EtingofRepresentationTheory.Chapter2.Discussion_2_12_heading
 import EtingofRepresentationTheory.Chapter2.Definition2_12_1
 
 -- Section 2.13: The Dehn invariant
