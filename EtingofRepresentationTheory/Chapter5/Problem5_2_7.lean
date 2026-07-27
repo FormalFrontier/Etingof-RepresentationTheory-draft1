@@ -3,7 +3,7 @@ import EtingofRepresentationTheory.Chapter5.Remark5_2_8
 import EtingofRepresentationTheory.Chapter4.Discussion_4_4
 
 /-!
-# Problem 5.2.7(b): an irreducible representation of dimension `> 1` vanishes somewhere
+# Problem 5.2.7: fields of definition and a vanishing character value
 
 > **Problem 5.2.7(b).** Show that if `V` is an irreducible complex representation of a
 > finite group `G` of dimension `> 1`, then there exists `g ∈ G` such that `χ_V(g) = 0`.
@@ -13,7 +13,13 @@ import EtingofRepresentationTheory.Chapter4.Discussion_4_4
 > product `β` satisfies `0 < β < 1`. Show that all conjugates of `β` satisfy the same
 > inequalities and derive a contradiction.
 
-This file supplies the two pieces the book's argument still needs on top of the
+For part (a), this file makes the basis-level field-of-definition assertion precise and
+formalizes its field-theoretic half. If finitely many complex representations admit bases with
+algebraic matrix entries, all of those entries lie in one finite Galois extension of `ℚ` inside
+`ℂ`. Thus the remaining representation-theoretic core is exactly the construction of algebraic
+matrix bases for a finite set of representatives from which all representations are assembled.
+
+For part (b), this file supplies the two pieces the book's argument still needs on top of the
 Galois-conjugate rationality core already formalized in
 `EtingofRepresentationTheory.Chapter5.Remark5_2_8`:
 
@@ -30,15 +36,100 @@ Galois-conjugate rationality core already formalized in
    (`Etingof.Remark5_2_8.character_prod_rat`) algebraic integer, and step 1 gives
    `0 < β < 1`; `Etingof.Remark5_2_8.beta_rat_not_mem_Ioo` derives `False`.
 
-Part (a) of Problem 5.2.7 (existence of the finite Galois extension `K`) is a separate,
-larger gap tracked elsewhere and is not addressed here.
+The full simultaneous descent assertion in part (a) is tracked separately; the finite-Galois
+envelope proved here is reusable infrastructure for that remaining step.
 -/
 
 namespace Etingof.Problem5_2_7
 
 open Finset CategoryTheory
 
-variable {G : Type} [Group G] [Fintype G] [DecidableEq G]
+variable {G : Type} [Group G]
+
+/-! ## Part (a): finite Galois envelopes for algebraic matrix realizations -/
+
+/-- A representation is defined over the intermediate field `K ⊆ ℂ` if it has a complex basis
+in which every matrix entry of every group element belongs to `K`.
+
+The basis index is fixed to `Fin (finrank ℂ V)`, making this predicate convenient to use without
+carrying an additional finite index type. -/
+def MatrixDefinedOver (K : IntermediateField ℚ ℂ) (V : FDRep ℂ G) : Prop :=
+  ∃ b : Module.Basis (Fin (Module.finrank ℂ V)) ℂ V,
+    ∀ g i j, LinearMap.toMatrix b b (V.ρ g) i j ∈ K
+
+/-- The representation has a basis whose action matrices have algebraic entries. This is the
+precise representation-theoretic input needed before the finitely many entries can be enlarged
+to one finite Galois field. -/
+def HasAlgebraicMatrixBasis (V : FDRep ℂ G) : Prop :=
+  ∃ b : Module.Basis (Fin (Module.finrank ℂ V)) ℂ V,
+    ∀ g i j, IsAlgebraic ℚ (LinearMap.toMatrix b b (V.ρ g) i j)
+
+/-- Enlarging the coefficient field preserves a matrix realization. -/
+theorem MatrixDefinedOver.mono {K L : IntermediateField ℚ ℂ} (hKL : K ≤ L)
+    {V : FDRep ℂ G} (hV : MatrixDefinedOver K V) : MatrixDefinedOver L V := by
+  obtain ⟨b, hb⟩ := hV
+  exact ⟨b, fun g i j => hKL (hb g i j)⟩
+
+/-- Algebraic matrix entries are exactly matrix entries in the algebraic closure of `ℚ` inside
+`ℂ`. -/
+theorem hasAlgebraicMatrixBasis_iff (V : FDRep ℂ G) :
+    HasAlgebraicMatrixBasis V ↔ MatrixDefinedOver (algebraicClosure ℚ ℂ) V := by
+  constructor <;> rintro ⟨b, hb⟩ <;> refine ⟨b, fun g i j => ?_⟩
+  · exact mem_algebraicClosure_iff.mpr (hb g i j)
+  · exact mem_algebraicClosure_iff.mp (hb g i j)
+
+/-- **Finite Galois envelope, simultaneous form.** A finite family of complex representations
+with algebraic matrix bases is defined over one common finite Galois intermediate field of
+`ℚ ⊆ ℂ`.
+
+This proves the field-theoretic half of Problem 5.2.7(a), including its important quantifier
+order for any finite family. The remaining group-representation input is to reduce all
+representations to a finite family and construct algebraic matrix bases for that family. -/
+theorem exists_common_finite_galois_matrix_field [Fintype G] {I : Type} [Fintype I]
+    (V : I → FDRep ℂ G) (hV : ∀ i, HasAlgebraicMatrixBasis (V i)) :
+    ∃ K : IntermediateField ℚ ℂ,
+      FiniteDimensional ℚ K ∧ IsGalois ℚ K ∧ ∀ i, MatrixDefinedOver K (V i) := by
+  classical
+  letI : IsAlgClosure ℚ (algebraicClosure ℚ ℂ) :=
+    algebraicClosure.isAlgClosure ℚ ℂ
+  letI : IsGalois ℚ (algebraicClosure ℚ ℂ) :=
+    IsAlgClosure.isGalois ℚ (algebraicClosure ℚ ℂ)
+  let b (i : I) : Module.Basis (Fin (Module.finrank ℂ (V i))) ℂ (V i) := (hV i).choose
+  have hb (i : I) : ∀ g p q, IsAlgebraic ℚ
+      (LinearMap.toMatrix (b i) (b i) ((V i).ρ g) p q) := (hV i).choose_spec
+  let CoeffIndex := Σ i : I, G × Fin (Module.finrank ℂ (V i)) ×
+    Fin (Module.finrank ℂ (V i))
+  let coeff (x : CoeffIndex) : ℂ :=
+    LinearMap.toMatrix (b x.1) (b x.1) ((V x.1).ρ x.2.1) x.2.2.1 x.2.2.2
+  let coeffA (x : CoeffIndex) : algebraicClosure ℚ ℂ :=
+    ⟨coeff x, mem_algebraicClosure_iff.mpr (hb x.1 x.2.1 x.2.2.1 x.2.2.2)⟩
+  let s : Set (algebraicClosure ℚ ℂ) := Set.range coeffA
+  let L : FiniteGaloisIntermediateField ℚ (algebraicClosure ℚ ℂ) :=
+    FiniteGaloisIntermediateField.adjoin ℚ s
+  let K : IntermediateField ℚ ℂ :=
+    L.toIntermediateField.map (algebraicClosure ℚ ℂ).val
+  have hfin : FiniteDimensional ℚ K :=
+    LinearEquiv.finiteDimensional
+      (IntermediateField.equivMap L.toIntermediateField
+        (algebraicClosure ℚ ℂ).val).toLinearEquiv
+  have hgal : IsGalois ℚ K :=
+    IsGalois.of_algEquiv (IntermediateField.equivMap L.toIntermediateField
+      (algebraicClosure ℚ ℂ).val)
+  refine ⟨K, hfin, hgal, fun i => ⟨b i, fun g p q => ?_⟩⟩
+  change coeff ⟨i, g, p, q⟩ ∈
+    L.toIntermediateField.map (algebraicClosure ℚ ℂ).val
+  rw [IntermediateField.mem_map]
+  refine ⟨coeffA ⟨i, g, p, q⟩, ?_, rfl⟩
+  exact FiniteGaloisIntermediateField.subset_adjoin ℚ s ⟨_, rfl⟩
+
+/-- The one-representation specialization of `exists_common_finite_galois_matrix_field`. -/
+theorem exists_finite_galois_matrix_field (V : FDRep ℂ G)
+    [Fintype G] (hV : HasAlgebraicMatrixBasis V) :
+    ∃ K : IntermediateField ℚ ℂ,
+      FiniteDimensional ℚ K ∧ IsGalois ℚ K ∧ MatrixDefinedOver K V := by
+  simpa using exists_common_finite_galois_matrix_field (I := Fin 1) (fun _ => V) (fun _ => hV)
+
+variable [Fintype G] [DecidableEq G]
 
 /-- Each character factor is the squared modulus: `χ_V(g)·χ_V(g⁻¹) = |χ_V(g)|²`, using
 `χ_V(g⁻¹) = conj χ_V(g)` (`Etingof.char_inv_eq_conj`) and `z·conj z = |z|²`. -/
