@@ -62,6 +62,35 @@ theorem ado_of_finiteEnvelopingTarget {A : Type u} [Ring A] [Algebra k A]
   exact ado_of_finiteAssociativeEmbedding k L
     (q.toLieHom.comp (UniversalEnvelopingAlgebra.ι k)) hq
 
+/-- Conversely, a faithful finite-dimensional representation extends along the universal
+property to a finite-dimensional associative target of `U(L)` which still separates `L`. -/
+theorem finiteEnvelopingTarget_of_faithfulRepresentation
+    {V : Type u} [AddCommGroup V] [Module k V] [FiniteDimensional k V]
+    (ρ : L →ₗ⁅k⁆ Module.End k V) (hρ : Function.Injective ρ) :
+    ∃ (A : Type u) (_ : Ring A) (_ : Algebra k A) (_ : FiniteDimensional k A)
+      (q : UniversalEnvelopingAlgebra k L →ₐ[k] A),
+        Function.Injective (fun x : L ↦ q (UniversalEnvelopingAlgebra.ι k x)) := by
+  refine ⟨Module.End k V, inferInstance, inferInstance, inferInstance,
+    UniversalEnvelopingAlgebra.lift k ρ, ?_⟩
+  intro x y hxy
+  apply hρ
+  simpa using hxy
+
+/-- The constructive enveloping-algebra target is exactly equivalent to the representation sought
+in Ado's theorem. Thus all remaining content is the existence of the finite target, not the
+passage from that target to a faithful action. -/
+theorem faithfulRepresentation_iff_finiteEnvelopingTarget :
+    (∃ (V : Type u) (_ : AddCommGroup V) (_ : Module k V) (_ : FiniteDimensional k V)
+        (ρ : L →ₗ⁅k⁆ Module.End k V), Function.Injective ρ) ↔
+      ∃ (A : Type u) (_ : Ring A) (_ : Algebra k A) (_ : FiniteDimensional k A)
+        (q : UniversalEnvelopingAlgebra k L →ₐ[k] A),
+          Function.Injective (fun x : L ↦ q (UniversalEnvelopingAlgebra.ι k x)) := by
+  constructor
+  · rintro ⟨V, _, _, _, ρ, hρ⟩
+    exact finiteEnvelopingTarget_of_faithfulRepresentation k L ρ hρ
+  · rintro ⟨A, _, _, _, q, hq⟩
+    exact ado_of_finiteEnvelopingTarget k L q hq
+
 /-- **Ado's theorem** (Etingof, Remark 2.9.3): every finite-dimensional Lie algebra `L` over a
 field `k` embeds into `𝔤𝔩(V) = End(V)` for some finite-dimensional `k`-vector
 space `V`. Equivalently, `L` admits a faithful (injective) finite-dimensional representation

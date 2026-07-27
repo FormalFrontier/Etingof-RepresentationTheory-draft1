@@ -2871,7 +2871,7 @@
     "end_line": 3,
     "status": "proof_wanted",
     "fidelity": "verified",
-    "fidelity_note": "Ado–Iwasawa is asserted in Lean as Etingof.ado (Chapter2/Remark2_9_3.lean): for a finite-dimensional Lie algebra L over the chapter's arbitrary field k, there exists a finite-dimensional V and an injective LieHom L →ₗ⁅k⁆ Module.End k V (a faithful finite-dimensional representation). Statement faithful to the book claim. Recorded via `proof_wanted` (no `sorry` term, no axiom): the book states the theorem without proof and it is not available in Mathlib. Stage 3.3 proves two constructive reductions: a faithful embedding into a finite-dimensional associative algebra, or equivalently a finite-dimensional target of U(L) that remains injective on L, supplies the required representation by left multiplication. This is NOT a codebase sorry — status corrected from the misleading `sorry` in audit #7001.",
+    "fidelity_note": "Ado–Iwasawa is asserted in Lean as Etingof.ado (Chapter2/Remark2_9_3.lean): for a finite-dimensional Lie algebra L over the chapter's arbitrary field k, there exists a finite-dimensional V and an injective LieHom L →ₗ⁅k⁆ Module.End k V (a faithful finite-dimensional representation). Statement faithful to the book claim. Recorded via `proof_wanted` (no `sorry` term, no axiom): the book states the theorem without proof and it is not available in Mathlib. Stage 3.3 proves the constructive reduction and converse: a faithful embedding into a finite-dimensional associative algebra, equivalently a finite-dimensional target of U(L) that remains injective on L, supplies the required representation by left multiplication; every faithful representation extends to such a U(L) target. This is NOT a codebase sorry — status corrected from the misleading `sorry` in audit #7001.",
     "fidelity_decl": "Etingof.ado",
     "fidelity_issue": 5367,
     "claim_coverage": {
@@ -2901,7 +2901,9 @@
       "proof_integrity": "proof_wanted",
       "declarations": [
         "Etingof.ado_of_finiteAssociativeEmbedding",
-        "Etingof.ado_of_finiteEnvelopingTarget"
+        "Etingof.ado_of_finiteEnvelopingTarget",
+        "Etingof.finiteEnvelopingTarget_of_faithfulRepresentation",
+        "Etingof.faithfulRepresentation_iff_finiteEnvelopingTarget"
       ],
       "remaining_obligation": "Etingof.ado (arbitrary-field Ado–Iwasawa theorem): construct a finite-dimensional target of U(L) that is injective on the canonical copy of L. Mathlib currently lacks the general PBW/injectivity theorem and the characteristic-dependent finite-quotient or Iwasawa-splitting machinery needed for that construction."
     }
