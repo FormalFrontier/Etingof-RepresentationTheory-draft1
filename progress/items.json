@@ -4434,6 +4434,27 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.10",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Section 3.10 concerns representations of tensor products of algebras.",
+          "verdict": "non_formalizable",
+          "reason": "This is the organizational section heading rather than a mathematical proposition."
+        },
+        {
+          "claim": "For algebras A and B, A ⊗ B is an algebra and multiplication on pure tensors satisfies (a₁ ⊗ b₁)(a₂ ⊗ b₂) = a₁a₂ ⊗ b₁b₂.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Algebra.TensorProduct.tmul_mul_tmul"
+        }
+      ]
     }
   },
   {
@@ -4453,7 +4474,23 @@
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Exercise3_10_1.lean"
     ],
-    "lean_decl": "Etingof.matrix_tensorProduct_matrix"
+    "lean_decl": "Etingof.matrix_tensorProduct_matrix",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.10",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Mat_m(k) ⊗ Mat_n(k) is isomorphic as a k-algebra to Mat_{mn}(k).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.matrix_tensorProduct_matrix"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Discussion_before_Theorem3.10.2",
@@ -4467,6 +4504,22 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.10",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The following theorem describes finite-dimensional irreducible representations of A ⊗ B in terms of those of A and B.",
+          "verdict": "non_formalizable",
+          "reason": "This is an organizational preview of Theorem 3.10.2, whose individual mathematical assertions are inventoried on the theorem item."
+        }
+      ]
     }
   },
   {
@@ -4485,7 +4538,33 @@
     "fidelity_issue": 7391,
     "coverage": "covered_partial",
     "coverage_issue": 7520,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-22",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.10",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "If V and W are finite-dimensional irreducible representations of A and B, then V ⊗ W is irreducible for the tensor-product action.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.tensor_product_irreducible"
+        },
+        {
+          "claim": "Every finite-dimensional irreducible representation M of A ⊗ B is equivariantly equivalent to V ⊗ W for finite-dimensional irreducible representations V of A and W of B.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.tensor_product_irreducible_classification"
+        },
+        {
+          "claim": "The irreducible factors V and W are uniquely determined up to A-linear and B-linear isomorphism.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.tensor_product_irreducible_classification_unique"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Remark3.10.3",
@@ -4499,7 +4578,33 @@
     "coverage": "covered_full",
     "fidelity_note": "Both counterexamples are formalized: ratFunc_tensor_ratFunc_not_isField proves the rational-function failure of part (i), while tensorModule_isSimpleModule and tensorModule_not_equiv_tensorProduct_of_simple_left prove the Weyl-algebra failure of the infinite-dimensional analogue of Theorem 3.10.2(ii). The latter uses the characteristic-free PBW domain theorem Etingof.WeylAlgebra.mul_ne_zero to show that the regular first-factor restriction has no simple submodule.",
     "fidelity_decl": "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorModule_not_equiv_tensorProduct_of_simple_left",
-    "last_updated": "2026-07-27"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.10",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Part (ii) typically fails for infinite-dimensional representations.",
+          "verdict": "non_formalizable",
+          "reason": "The qualitative word 'typically' has no specified quantifier or parameter space; the concrete Weyl-algebra counterexample is inventoried separately."
+        },
+        {
+          "claim": "For the characteristic-zero Weyl algebra, the simple entangled module C[x,y]e^{xy} is not an external tensor product with a simple first factor.",
+          "verdict": "formalized",
+          "lean_decl": "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorModule_isSimpleModule; EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorModule_not_equiv_tensorProduct_of_simple_left"
+        },
+        {
+          "claim": "For A = B = V = W = C(x), the factor modules V and W are irreducible self-representations, while their tensor product is not irreducible because A ⊗ B is not a field.",
+          "verdict": "formalized",
+          "lean_decl": "EtingofRepresentationTheory.Chapter3.Remark3_10_3.ratFunc_tensor_ratFunc_not_isField; isSimpleModule_self_iff_isUnit"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Discussion_proof_of_Theorem3.10.2",
@@ -4520,7 +4625,73 @@
       "note": "The source proof's two structural claims are now formalized in EtingofRepresentationTheory/Chapter3/TensorProductRadical.lean: jacobson_tensorProduct_eq gives Rad(A⊗B) = Rad(A)⊗B + A⊗Rad(B) for finite-dimensional A, B over an algebraically closed field, and quotientJacobsonTensorEquiv gives the displayed identification (A⊗B)/Rad(A⊗B) ≅ (A/Rad A) ⊗ (B/Rad B). The book's two steps are separated by hypothesis: radTensorSum_le_jacobson (nilpotence; no hypothesis on k) and jacobson_le_radTensorSum (semisimplicity of the quotient), the latter discharged over an algebraically closed field by isSemisimpleRing_tensorProduct. jacobson_tensorProduct_range_eq states the formula for the image algebras A', B' ⊆ End M, matching the book's image-algebra reduction. Theorem 3.10.2 itself is still proved by the independent density/Artinian route in Theorem3_10_2.lean, which does not consume these results."
     },
     "last_updated": "2026-07-26",
-    "lean_ref": "EtingofRepresentationTheory/Chapter3/TensorProductRadical.lean :: Etingof.jacobson_tensorProduct_eq, Etingof.quotientJacobsonTensorEquiv, Etingof.quotientRadTensorSumEquiv, Etingof.radTensorSum_eq_ker, Etingof.radTensorSum_le_jacobson, Etingof.jacobson_le_radTensorSum, Etingof.isSemisimpleRing_tensorProduct, Etingof.jacobson_tensorProduct_range_eq"
+    "lean_ref": "EtingofRepresentationTheory/Chapter3/TensorProductRadical.lean :: Etingof.jacobson_tensorProduct_eq, Etingof.quotientJacobsonTensorEquiv, Etingof.quotientRadTensorSumEquiv, Etingof.radTensorSum_eq_ker, Etingof.radTensorSum_le_jacobson, Etingof.jacobson_le_radTensorSum, Etingof.isSemisimpleRing_tensorProduct, Etingof.jacobson_tensorProduct_range_eq",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.10",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For irreducible finite-dimensional V and W, density makes A → End(V) and B → End(W) surjective.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.density_theorem_part1"
+        },
+        {
+          "claim": "The resulting tensor-product action reaches enough endomorphisms of V ⊗ W to make V ⊗ W irreducible.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.tensor_product_irreducible"
+        },
+        {
+          "claim": "The image algebras A' and B' in End(M) are finite-dimensional, M carries their tensor-product action, and the radical calculation can be reduced to these image algebras.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.jacobson_tensorProduct_range_eq; Algebra.TensorProduct.lift"
+        },
+        {
+          "claim": "For finite-dimensional A and B over an algebraically closed field, Rad(A ⊗ B) = Rad(A) ⊗ B + A ⊗ Rad(B).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.jacobson_tensorProduct_eq"
+        },
+        {
+          "claim": "J = Rad(A) ⊗ B + A ⊗ Rad(B) is a nilpotent ideal and hence J ⊆ Rad(A ⊗ B).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.isNilpotent_radTensorSum; Etingof.radTensorSum_le_jacobson"
+        },
+        {
+          "claim": "The quotient (A ⊗ B)/J is isomorphic to (A/Rad(A)) ⊗ (B/Rad(B)).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.quotientRadTensorSumEquiv"
+        },
+        {
+          "claim": "The tensor product of the two finite-dimensional semisimple radical quotients is semisimple over an algebraically closed field.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.isSemisimpleRing_tensorProduct"
+        },
+        {
+          "claim": "Semisimplicity of the quotient gives Rad(A ⊗ B) ⊆ J, completing the radical equality.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.jacobson_le_radTensorSum; Etingof.jacobson_tensorProduct_eq"
+        },
+        {
+          "claim": "Consequently (A ⊗ B)/Rad(A ⊗ B) is isomorphic to (A/Rad(A)) ⊗ (B/Rad(B)).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.quotientJacobsonTensorEquiv"
+        },
+        {
+          "claim": "An irreducible M over the semisimple quotient has the form V ⊗ W with irreducible factor representations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.tensor_product_irreducible_classification"
+        },
+        {
+          "claim": "The factors V and W are uniquely determined by M.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.tensor_product_irreducible_classification_unique"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter4/Introduction",
