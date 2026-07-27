@@ -2961,6 +2961,14 @@
           "reason": "This item is only a section heading and contains no mathematical assertion beyond naming the following material."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": [],
+      "basis": "This item is only a section heading and has no Lean provider or proof obligation."
     }
   },
   {
@@ -3009,6 +3017,17 @@
           "note": "The exchange construction and sum-to-identity calculation occur in the proof body through the private helper krull_schmidt_find_iso_summand."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.krull_schmidt_existence",
+        "Etingof.krull_schmidt_uniqueness"
+      ],
+      "basis": "Both public endpoints are admission-free constants. The exhaustive module-origin audit also covers four private authored proof-route helpers and 37 compiler-generated proof, match, and simp constants."
     }
   },
   {
@@ -3061,6 +3080,17 @@
           "note": "This continuation is implemented in the private exchange helper krull_schmidt_find_iso_summand used by the public uniqueness theorem."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.endo_indecomposable_iso_or_nilpotent",
+        "Etingof.sum_nilpotent_endo_indecomposable"
+      ],
+      "basis": "Both authored lemma endpoints are admission-free constants and have no additional compiler-generated constants in their exact provider module."
     }
   },
   {
@@ -3108,6 +3138,16 @@
           "lean_decl": "Etingof.krull_schmidt_uniqueness"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.krull_schmidt_uniqueness"
+      ],
+      "basis": "The discussion's complete exchange-and-induction argument is implemented inside the shared uniqueness endpoint. Its private proof-route helpers and generated constants are exhaustively audited on the theorem item."
     }
   },
   {
@@ -3155,6 +3195,19 @@
           "note": "All four wrappers assume only Field k; the underlying proofs use Fitting decomposition instead of generalized eigenspaces."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_8_3.endo_iso_or_nilpotent",
+        "Etingof.Problem3_8_3.sum_nilpotent_endo",
+        "Etingof.Problem3_8_3.krull_schmidt_existence",
+        "Etingof.Problem3_8_3.krull_schmidt_uniqueness"
+      ],
+      "basis": "All four arbitrary-field wrapper endpoints are authored, admission-free constants; the exact provider emits no additional generated constants."
     }
   },
   {
@@ -3246,6 +3299,57 @@
           "lean_decl": "Etingof.Problem3_8_4.Descent.exists_fg_subalgebra_baseChange_directSummand; Etingof.Problem3_8_4.directSummand_of_baseChange_directSummand_finite; Etingof.Problem3_8_4.directSummand_pow_cancel"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_8_4.rep",
+        "Etingof.Problem3_8_4.repTensor",
+        "Etingof.Problem3_8_4.bcMod",
+        "Etingof.IsIndecomposable.of_linearEquiv",
+        "Etingof.Problem3_8_4.indecDecomp_map",
+        "Etingof.Problem3_8_4.iso_pow_cancel",
+        "Etingof.Problem3_8_4.directSummand_pow_cancel",
+        "Etingof.Problem3_8_4.Descent.exists_fg_subalgebra_baseChange_iso",
+        "Etingof.Problem3_8_4.Descent.exists_fg_subalgebra_baseChange_directSummand",
+        "Etingof.Problem3_8_4.bcRestrictScalars",
+        "Etingof.Problem3_8_4.bcRestrictScalars_apply",
+        "Etingof.Problem3_8_4.iso_of_baseChange_iso_finite",
+        "Etingof.Problem3_8_4.bcRestrictScalarsMap",
+        "Etingof.Problem3_8_4.bcRestrictScalarsMap_apply",
+        "Etingof.Problem3_8_4.directSummand_of_baseChange_directSummand_finite",
+        "Etingof.Problem3_8_4.Functoriality.rep",
+        "Etingof.Problem3_8_4.Functoriality.repTensor",
+        "Etingof.Problem3_8_4.Functoriality.bcMod",
+        "Etingof.Problem3_8_4.Functoriality.bcMod_smul",
+        "Etingof.Problem3_8_4.Functoriality.repTensor_one_tmul_apply",
+        "Etingof.Problem3_8_4.Functoriality.smul_one_tmul",
+        "Etingof.Problem3_8_4.Functoriality.smul_tmul_one",
+        "Etingof.Problem3_8_4.Functoriality.pushEquiv",
+        "Etingof.Problem3_8_4.Functoriality.nonempty_baseChange_iso",
+        "Etingof.Problem3_8_4.Functoriality.pushHom",
+        "Etingof.Problem3_8_4.Functoriality.pushHom_tmul",
+        "Etingof.Problem3_8_4.Functoriality.pushHom_cancelBaseChange",
+        "Etingof.Problem3_8_4.Functoriality.pushHom_comp",
+        "Etingof.Problem3_8_4.Functoriality.pushHom_id",
+        "Etingof.Problem3_8_4.Functoriality.nonempty_baseChange_directSummand",
+        "Etingof.Problem3_8_4.directSummand_of_baseChange_directSummand",
+        "Etingof.Problem3_8_4.iso_of_baseChange_iso",
+        "Etingof.Problem3_8_4.repTensor_one_tmul_apply",
+        "Etingof.Problem3_8_4.toPiLinearEquiv",
+        "Etingof.Problem3_8_4.toPiLinearEquiv_tmul",
+        "Etingof.Problem3_8_4.bcModRestrict",
+        "Etingof.Problem3_8_4.bcModRestrict_smul",
+        "Etingof.Problem3_8_4.bcMod_smul",
+        "Etingof.Problem3_8_4.bcModRestrict_smul_tmul",
+        "Etingof.Problem3_8_4.toPiAlinMap",
+        "Etingof.Problem3_8_4.toPiAlinEquiv",
+        "Etingof.Problem3_8_4.baseChange_alinEquiv_pow"
+      ],
+      "basis": "All 42 public declarations across the eight-provider base-change, cancellation, descent, finite, functoriality, power, and general endpoint chain are admission-free. The exhaustive audit additionally covers nine private authored helpers and 82 compiler-generated proof, match, simp, and equation constants."
     }
   },
   {
@@ -3335,6 +3439,44 @@
           "note": "Products encode binary direct sums; the equivalence is the explicit sine-cosine rotation with a proved inverse."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_8_5.periodicSubalg",
+        "Etingof.Problem3_8_5.antiperiodicSubmod",
+        "Etingof.Problem3_8_5.periodicSubalg_idempotent_eq_zero_or_one",
+        "Etingof.Problem3_8_5.periodic_isIndecomposable",
+        "Etingof.Problem3_8_5.cosπ",
+        "Etingof.Problem3_8_5.sinπ",
+        "Etingof.Problem3_8_5.cosπ_apply",
+        "Etingof.Problem3_8_5.sinπ_apply",
+        "Etingof.Problem3_8_5.cosπ_mem",
+        "Etingof.Problem3_8_5.sinπ_mem",
+        "Etingof.Problem3_8_5.cosπ_sq_add_sinπ_sq",
+        "Etingof.Problem3_8_5.cM",
+        "Etingof.Problem3_8_5.sM",
+        "Etingof.Problem3_8_5.cM_coe",
+        "Etingof.Problem3_8_5.sM_coe",
+        "Etingof.Problem3_8_5.antiMul",
+        "Etingof.Problem3_8_5.antiMul_coe_apply",
+        "Etingof.Problem3_8_5.smul_apply_coe",
+        "Etingof.Problem3_8_5.antiperiodic_frame_decomp",
+        "Etingof.Problem3_8_5.antiperiodic_isIndecomposable",
+        "Etingof.Problem3_8_5.periodic_not_linearEquiv_antiperiodic",
+        "Etingof.Problem3_8_5.antiMulL",
+        "Etingof.Problem3_8_5.rotInv",
+        "Etingof.Problem3_8_5.rotFwd",
+        "Etingof.Problem3_8_5.rotInv_apply",
+        "Etingof.Problem3_8_5.rotFwd_apply",
+        "Etingof.Problem3_8_5.rotInv_rotFwd",
+        "Etingof.Problem3_8_5.rotFwd_rotInv",
+        "Etingof.Problem3_8_5.periodic_sq_linearEquiv_antiperiodic_sq"
+      ],
+      "basis": "All 29 public declarations supporting the literal continuous-function counterexample are admission-free. The exhaustive audit also covers one private authored helper and 27 generated structure-proof and simplifier constants."
     }
   },
   {
@@ -3384,6 +3526,20 @@
           "lean_decl": "Etingof.krull_schmidt_uniqueness_finiteLength"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.isNilpotent_or_isUnit_of_finiteLength_indecomposable",
+        "Etingof.isLocalRing_end_of_finiteLength_indecomposable",
+        "Etingof.exists_indecomposable_decomposition",
+        "Etingof.isNilpotent_sum_of_finiteLength_indecomposable",
+        "Etingof.krull_schmidt_uniqueness_finiteLength"
+      ],
+      "basis": "All five public finite-length endpoints are admission-free. Four private authored induction/exchange helpers and 34 generated proof, match, and simp constants were also included in the exhaustive audit."
     }
   },
   {
