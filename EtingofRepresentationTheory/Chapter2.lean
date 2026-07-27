@@ -50,6 +50,7 @@ import EtingofRepresentationTheory.Chapter2.Example2_3_14
 import EtingofRepresentationTheory.Chapter2.Example2_3_14_continued
 
 -- Section 2.4: Ideals
+import EtingofRepresentationTheory.Chapter2.Discussion_2_4_heading
 import EtingofRepresentationTheory.Chapter2.Problem2_4_1
 
 -- Section 2.5: Cyclic representations
