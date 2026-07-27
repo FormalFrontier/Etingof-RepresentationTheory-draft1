@@ -70,10 +70,10 @@ private lemma youngSym_sq (n : ℕ) (la : Nat.Partition n) :
   obtain ⟨α, hα⟩ := Etingof.Lemma5_13_3 n la
   exact ⟨α, fun h => young_symmetrizer_sq_ne_zero n la (by rw [hα, h, zero_smul]), hα⟩
 
-/-- Dual to `youngSym_sq`: `(a_λ b_λ)² = β·(a_λ b_λ)` with `β ≠ 0`. The identity is the
-`x = b_λ a_λ` instance of the source-order Lemma 5.13.1; `β ≠ 0` because `β = 0` would give
-`(b_λ a_λ)³ = b_λ·(a_λ b_λ)²·a_λ = 0`, yet `(b_λ a_λ)³ = α²·(b_λ a_λ) ≠ 0`. -/
-private lemma rowCol_sq (n : ℕ) (la : Nat.Partition n) :
+/-- Dual to `youngSym_sq`: the unnormalized source-order product `(a_λ b_λ)` is idempotent
+up to a nonzero scalar. The identity is the `x = b_λ a_λ` instance of the source-order
+Lemma 5.13.1. -/
+theorem rowCol_sq_scalar (n : ℕ) (la : Nat.Partition n) :
     ∃ β : ℂ, β ≠ 0 ∧
       (RowSymmetrizer n la * ColumnAntisymmetrizer n la) *
         (RowSymmetrizer n la * ColumnAntisymmetrizer n la) =
@@ -190,7 +190,7 @@ noncomputable def spechtModule_linearEquiv_span (n : ℕ) (la : Nat.Partition n)
       _ = α⁻¹ • (α • z₂) := by rw [h2]
       _ = z₂ := by rw [smul_smul, inv_mul_cancel₀ hαne, one_smul]
   · -- surjective: `F ∘ G = β • id` with `β ≠ 0`
-    obtain ⟨β, hβne, hβ⟩ := rowCol_sq n la
+    obtain ⟨β, hβne, hβ⟩ := rowCol_sq_scalar n la
     intro w
     have hGF : ((rMul n (ColumnAntisymmetrizer n la)).restrict (fwd_maps n la))
         (((rMul n (RowSymmetrizer n la)).restrict (bwd_maps n la)) w) = β • w :=
