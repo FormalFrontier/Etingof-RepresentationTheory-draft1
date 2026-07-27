@@ -1,4 +1,3 @@
-import Mathlib.Algebra.Module.LinearMap.Basic
 import Mathlib.Algebra.Module.Equiv.Basic
 
 /-!

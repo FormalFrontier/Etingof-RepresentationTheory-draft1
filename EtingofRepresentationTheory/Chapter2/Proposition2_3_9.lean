@@ -1,5 +1,4 @@
 import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.LinearAlgebra.Span.Basic
 
 /-!
 # Proposition 2.3.9: Schur's Lemma

@@ -1,13 +1,7 @@
-import Mathlib.Algebra.Polynomial.Basic
-import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.RingTheory.SimpleModule.Rank
-import Mathlib.RingTheory.AdjoinRoot
 import Mathlib.FieldTheory.IsAlgClosed.Basic
-import Mathlib.RingTheory.PrincipalIdealDomain
 import Mathlib.Algebra.Polynomial.Module.AEval
-import Mathlib.RingTheory.Nilpotent.Lemmas
 import Mathlib.LinearAlgebra.Eigenspace.Minpoly
-import Mathlib.LinearAlgebra.Pi
 import Mathlib.Algebra.Module.PID
 import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 
@@ -105,6 +99,10 @@ open Polynomial
 
 namespace Etingof.Example_2_3_14
 
+/- The numbered namespace is part of the project's stable source-traceability API. The
+`defsWithUnderscore` linter otherwise blames every definition nested in it, even though each
+definition's own basename follows Mathlib's naming convention. -/
+
 variable {k : Type*} [Field k]
 
 /-- The nilpotent down-shift on `Fin n → k`: it sends the basis vector `eᵢ` to `eᵢ₋₁`
@@ -114,6 +112,7 @@ def shift (n : ℕ) : (Fin n → k) →ₗ[k] (Fin n → k) where
   map_add' u v := by funext i; dsimp; split <;> simp
   map_smul' c v := by funext i; dsimp; split <;> simp
 
+/-- The shift reads the next coordinate, or vanishes at the final coordinate. -/
 @[simp] lemma shift_apply (n : ℕ) (v : Fin n → k) (i : Fin n) :
     shift n v i = if h : (i : ℕ) + 1 < n then v ⟨i + 1, h⟩ else 0 := rfl
 
@@ -121,6 +120,7 @@ def shift (n : ℕ) : (Fin n → k) →ₗ[k] (Fin n → k) where
 def jordanBlock (lam : k) (n : ℕ) : (Fin n → k) →ₗ[k] (Fin n → k) :=
   lam • LinearMap.id + shift n
 
+/-- The coordinate formula for the Jordan block. -/
 @[simp] lemma jordanBlock_apply (lam : k) (n : ℕ) (v : Fin n → k) (i : Fin n) :
     jordanBlock lam n v i = lam * v i + (if h : (i : ℕ) + 1 < n then v ⟨i + 1, h⟩ else 0) := by
   simp [jordanBlock, shift]
@@ -146,6 +146,7 @@ lemma shift_pow_apply (n j : ℕ) (v : Fin n → k) (i : Fin n) :
         rw [dif_neg (show ¬ ((⟨(i : ℕ) + j, h1⟩ : Fin n) : ℕ) + 1 < n by omega)]
       · rw [dif_neg h1]
 
+/-- The shift on `kⁿ` is nilpotent. -/
 lemma shift_nilpotent (n : ℕ) : IsNilpotent (shift n : (Fin n → k) →ₗ[k] (Fin n → k)) := by
   refine ⟨n, ?_⟩
   apply LinearMap.ext; intro v; funext i
@@ -157,6 +158,7 @@ lemma shift_nilpotent (n : ℕ) : IsNilpotent (shift n : (Fin n → k) →ₗ[k]
 eigenspace of the Jordan block for the eigenvalue `λ`. -/
 def e0 (n : ℕ) [NeZero n] : Fin n → k := Pi.single 0 1
 
+/-- The vector `e₀` is nonzero in every positive dimension. -/
 lemma e0_ne_zero (n : ℕ) [NeZero n] : (e0 n : Fin n → k) ≠ 0 := by
   intro h
   have : (e0 n : Fin n → k) 0 = (0 : Fin n → k) 0 := by rw [h]
@@ -267,6 +269,7 @@ lemma e0_mem_of_invariant (lam : k) (n : ℕ) [NeZero n] {W : Submodule k (Fin n
 (Etingof Example 2.3.14(2)) -/
 abbrev jordanRep (lam : k) (n : ℕ) := Module.AEval' (jordanBlock lam n)
 
+/-- A positive-dimensional Jordan-block representation is nontrivial. -/
 instance jordanRep_nontrivial (lam : k) (n : ℕ) [NeZero n] :
     Nontrivial (jordanRep lam n) :=
   (Module.AEval'.of (jordanBlock lam n)).symm.toEquiv.nontrivial
@@ -410,11 +413,13 @@ noncomputable def cyclicMap (lam : k) (n : ℕ) [NeZero n] :
   LinearMap.toSpanSingleton (Polynomial k) (jordanRep lam n)
     (Module.AEval'.of (jordanBlock lam n) (eTop n))
 
+/-- The cyclic map evaluates a polynomial at the Jordan block and applies it to the top vector. -/
 lemma cyclicMap_apply (lam : k) (n : ℕ) [NeZero n] (q : Polynomial k) :
     cyclicMap lam n q
       = Module.AEval'.of (jordanBlock lam n) (Polynomial.aeval (jordanBlock lam n) q (eTop n)) :=
   rfl
 
+/-- The cyclic map sends `(X - λ)ʲ` to the `j`th shift of the top vector. -/
 lemma cyclicMap_X_sub_C_pow (lam : k) (n : ℕ) [NeZero n] (j : ℕ) :
     cyclicMap lam n ((X - C lam) ^ j)
       = Module.AEval'.of (jordanBlock lam n) (((shift n) ^ j) (eTop n)) := by
@@ -734,5 +739,8 @@ theorem jordanRep_equiv_iff (lam mu : k) (n m : ℕ) [NeZero n] [NeZero m] :
   rcases Nat.eq_zero_or_pos j with hj0 | hj0
   · rw [hj0, pow_zero] at hpow; exact one_ne_zero hpow
   · exact hne (by have := pow_eq_zero_iff (n := j) (by omega) |>.mp hpow; linear_combination -this)
+
+attribute [nolint defsWithUnderscore]
+  shift jordanBlock e0 jordanRep eTop cyclicMap jordanQuotEquiv
 
 end Etingof.Example_2_3_14

@@ -1,6 +1,5 @@
 import Mathlib.Algebra.Module.RingHom
 import Mathlib.Algebra.Module.Opposite
-import Mathlib.Algebra.Ring.Opposite
 
 /-!
 # Remark 2.3.2: left and right modules coincide over a commutative ring

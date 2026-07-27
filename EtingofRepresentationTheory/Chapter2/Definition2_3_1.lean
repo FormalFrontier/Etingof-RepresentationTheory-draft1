@@ -1,10 +1,4 @@
-import Mathlib.Algebra.Module.Basic
-import Mathlib.Algebra.Algebra.Basic
 import Mathlib.Algebra.Algebra.Tower
-import Mathlib.Algebra.Module.RingHom
-import Mathlib.Algebra.Module.LinearMap.End
-import Mathlib.Algebra.Module.Opposite
-import Mathlib.Algebra.Ring.Opposite
 import Mathlib.Algebra.Algebra.Opposite
 
 /-!
@@ -89,6 +83,7 @@ It is `Algebra.lsmul k k V`. -/
 def toAlgHom : A →ₐ[k] Module.End k V :=
   Algebra.lsmul k k V
 
+/-- The action homomorphism sends `a` to the endomorphism `v ↦ a • v`. -/
 @[simp]
 theorem toAlgHom_apply (a : A) (v : V) : toAlgHom k A V a v = a • v := rfl
 

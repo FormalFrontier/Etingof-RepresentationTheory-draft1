@@ -1,7 +1,4 @@
 import Mathlib.RepresentationTheory.AlgebraRepresentation.Basic
-import Mathlib.RingTheory.Artinian.Module
-import Mathlib.RingTheory.Noetherian.Basic
-import Mathlib.RingTheory.Nilpotent.Basic
 import Mathlib.Algebra.DualNumber
 import EtingofRepresentationTheory.Chapter2.Problem2_3_15
 import EtingofRepresentationTheory.Chapter2.Definition2_3_8
@@ -58,6 +55,7 @@ def centralAction (z : Subalgebra.center k A) : Module.End A V where
     rw [smul_smul, smul_smul, Subalgebra.mem_center_iff.mp z.2 a]
 
 omit [Module k V] [IsScalarTower k A V] in
+/-- Evaluating the central-action endomorphism is the original action by the central element. -/
 @[simp]
 theorem centralAction_apply (z : Subalgebra.center k A) (v : V) :
     centralAction z v = (z : A) • v := rfl
@@ -85,6 +83,7 @@ noncomputable def endScalarEquiv : k ≃ₐ[k] Module.End A V :=
   AlgEquiv.ofBijective (Algebra.ofId k (Module.End A V))
     (IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed k)
 
+/-- Schur's scalar equivalence is the canonical algebra map in the forward direction. -/
 @[simp]
 theorem endScalarEquiv_apply (c : k) :
     endScalarEquiv (A := A) (V := V) c = algebraMap k (Module.End A V) c := rfl
@@ -294,6 +293,7 @@ of `Z(k[ε])` (which is all of `k[ε]`, since the ring is commutative). -/
 def epsCenter : Subalgebra.center k (DualNumber k) :=
   ⟨ε, Subalgebra.mem_center_iff.mpr fun b => commute_eps_right b⟩
 
+/-- The underlying dual number of `epsCenter` is `ε`. -/
 @[simp] theorem epsCenter_coe : (epsCenter (k := k) : DualNumber k) = ε := rfl
 
 /-- **Problem 2.3.16(c).** On the regular representation of the dual numbers `k[ε]`, the central

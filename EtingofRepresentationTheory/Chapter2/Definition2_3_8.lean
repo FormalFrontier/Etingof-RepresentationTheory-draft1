@@ -1,4 +1,3 @@
-import Mathlib.Algebra.Module.Submodule.Lattice
 import Mathlib.LinearAlgebra.Projection
 
 /-!
@@ -31,14 +30,23 @@ literal formulation used in Definition 2.3.8; `IsIndecomposable` uses the equiva
 complement formulation because that is the useful API for subsequent proofs. -/
 structure Etingof.NontrivialDirectSumDecomposition
     (A : Type u) (V : Type v) [Ring A] [AddCommGroup V] [Module A V] where
+  /-- The first summand. -/
   V₁ : Type v
+  /-- The second summand. -/
   V₂ : Type v
+  /-- The additive group structure on the first summand. -/
   [addCommGroupV₁ : AddCommGroup V₁]
+  /-- The additive group structure on the second summand. -/
   [addCommGroupV₂ : AddCommGroup V₂]
+  /-- The representation structure on the first summand. -/
   [moduleV₁ : Module A V₁]
+  /-- The representation structure on the second summand. -/
   [moduleV₂ : Module A V₂]
+  /-- The first summand is nonzero. -/
   [nontrivialV₁ : Nontrivial V₁]
+  /-- The second summand is nonzero. -/
   [nontrivialV₂ : Nontrivial V₂]
+  /-- The representation is isomorphic to the product of the two summands. -/
   equiv : V ≃ₗ[A] V₁ × V₂
 
 /-- The book's direct formulation: `V` is nonzero and is not isomorphic to a direct sum of two

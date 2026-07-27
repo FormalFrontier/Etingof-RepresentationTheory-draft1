@@ -1,7 +1,4 @@
-import Mathlib.Algebra.Module.Basic
 import Mathlib.Algebra.FreeAlgebra
-import Mathlib.Algebra.Algebra.Bilinear
-import Mathlib.Algebra.Module.Opposite
 
 /-!
 # Example 2.3.3: Examples of Representations
