@@ -1,4 +1,5 @@
 import Mathlib.Algebra.Lie.OfAssociative
+import Mathlib.Algebra.Lie.UniversalEnveloping
 import Mathlib.LinearAlgebra.FiniteDimensional.Basic
 import Batteries.Util.ProofWanted
 import EtingofRepresentationTheory.Chapter2.Definition2_9_1
@@ -37,6 +38,29 @@ attribute [local instance 100] LieRing.ofAssociativeRing
 
 variable (k : Type u) [Field k]
 variable (L : Type u) [LieRing L] [LieAlgebra k L]
+
+/-- A finite-dimensional associative algebra containing `L` faithfully supplies the representation
+required by Ado: compose the given Lie embedding with the faithful left-regular representation. -/
+theorem ado_of_finiteAssociativeEmbedding {A : Type u} [Ring A] [Algebra k A]
+    [FiniteDimensional k A] (f : L →ₗ⁅k⁆ A) (hf : Function.Injective f) :
+    ∃ (V : Type u) (_ : AddCommGroup V) (_ : Module k V) (_ : FiniteDimensional k V)
+      (ρ : L →ₗ⁅k⁆ Module.End k V), Function.Injective ρ := by
+  refine ⟨A, inferInstance, inferInstance, inferInstance,
+    (Algebra.lmul k A).toLieHom.comp f, ?_⟩
+  exact Algebra.lmul_injective.comp hf
+
+/-- Finite-quotient form of the constructive route to Ado. It is enough to find a
+finite-dimensional quotient (or other finite-dimensional target) of `U(L)` whose quotient map is
+still injective on the canonical copy of `L`; left multiplication on that target then gives the
+faithful representation. -/
+theorem ado_of_finiteEnvelopingTarget {A : Type u} [Ring A] [Algebra k A]
+    [FiniteDimensional k A]
+    (q : UniversalEnvelopingAlgebra k L →ₐ[k] A)
+    (hq : Function.Injective (fun x : L ↦ q (UniversalEnvelopingAlgebra.ι k x))) :
+    ∃ (V : Type u) (_ : AddCommGroup V) (_ : Module k V) (_ : FiniteDimensional k V)
+      (ρ : L →ₗ⁅k⁆ Module.End k V), Function.Injective ρ := by
+  exact ado_of_finiteAssociativeEmbedding k L
+    (q.toLieHom.comp (UniversalEnvelopingAlgebra.ι k)) hq
 
 /-- **Ado's theorem** (Etingof, Remark 2.9.3): every finite-dimensional Lie algebra `L` over a
 field `k` embeds into `𝔤𝔩(V) = End(V)` for some finite-dimensional `k`-vector
