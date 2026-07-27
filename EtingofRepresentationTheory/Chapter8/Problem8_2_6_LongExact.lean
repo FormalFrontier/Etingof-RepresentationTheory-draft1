@@ -313,6 +313,18 @@ theorem torFstδ_naturality
   simpa [torFstδ, torSndMap] using
     Functor.leftDerivedδ_naturality_natTrans (tensorRightNatTrans A f) hS n (n + 1) rfl
 
+/-- Naturality of the first-argument connecting map under a morphism of short exact
+sequences. -/
+theorem torFstδ_naturality_shortComplex
+    (A : Type u) [Ring A] (N : Type u) [AddCommGroup N] [Module A N]
+    {S T : ShortComplex (ModuleCat.{u} Aᵐᵒᵖ)} (hS : S.ShortExact) (hT : T.ShortExact)
+    (φ : S ⟶ T) (n : ℕ) :
+    (TorFunctor A N (n + 1)).map φ.τ₃ ≫ torFstδ A N hT n =
+      torFstδ A N hS n ≫ (TorFunctor A N n).map φ.τ₁ := by
+  simpa [torFstδ, TorFunctor] using
+    Functor.leftDerivedδ_naturality_sequence
+      (tensorRightFunctor A N) hS hT φ n (n + 1) rfl
+
 /-- A single globally indexed family of connecting maps for the first-argument `Tor` sequence. -/
 noncomputable def Problem_8_2_6_v_torConnecting
     (A : Type u) [Ring A] (N : Type u) [AddCommGroup N] [Module A N]

@@ -1,4 +1,4 @@
-import EtingofRepresentationTheory.Chapter8.Horseshoe
+import EtingofRepresentationTheory.Chapter8.HorseshoeComparison
 import Mathlib.Algebra.Homology.HomologySequence
 import Mathlib.Algebra.Homology.HomologySequenceLemmas
 import Mathlib.CategoryTheory.Abelian.LeftDerived
@@ -130,6 +130,64 @@ theorem Functor.leftDerivedδ_naturality_natTrans
   simpa only [Category.assoc] using congrArg
     (fun k => (P₃.isoLeftDerivedObj F n₁).hom ≫ k ≫
       (P₁.isoLeftDerivedObj G n₀).inv) hδ'.symm
+
+/-- Naturality of the explicit connecting map under a morphism of short exact sequences. -/
+theorem Functor.leftDerivedδ_naturality_sequence
+    {S T : ShortComplex C} (hS : S.ShortExact) (hT : T.ShortExact) (φ : S ⟶ T)
+    (n₀ n₁ : ℕ) (h : n₀ + 1 = n₁) :
+    (F.leftDerived n₁).map φ.τ₃ ≫ Functor.leftDerivedδ F hT n₀ n₁ h =
+      Functor.leftDerivedδ F hS n₀ n₁ h ≫ (F.leftDerived n₀).map φ.τ₁ := by
+  let P₁ : ProjectiveResolution S.X₁ := projectiveResolution S.X₁
+  let P₃ : ProjectiveResolution S.X₃ := projectiveResolution S.X₃
+  let Q₁ : ProjectiveResolution T.X₁ := projectiveResolution T.X₁
+  let Q₃ : ProjectiveResolution T.X₃ := projectiveResolution T.X₃
+  let SC : ShortComplex (ChainComplex C ℕ) := horseshoeShortComplex hS P₁ P₃
+  let TC : ShortComplex (ChainComplex C ℕ) := horseshoeShortComplex hT Q₁ Q₃
+  let SF := SC.map (F.mapHomologicalComplex (ComplexShape.down ℕ))
+  let TF := TC.map (F.mapHomologicalComplex (ComplexShape.down ℕ))
+  have hSF : SF.ShortExact :=
+    shortExact_map_of_degreewise_projective F
+      (horseshoeShortComplex_shortExact hS P₁ P₃) (fun i => P₃.projective i)
+  have hTF : TF.ShortExact :=
+    shortExact_map_of_degreewise_projective F
+      (horseshoeShortComplex_shortExact hT Q₁ Q₃) (fun i => Q₃.projective i)
+  let ψ : SC ⟶ TC := horseshoeComparison hS hT φ P₁ P₃ Q₁ Q₃
+  let Ψ : SF ⟶ TF :=
+    (F.mapHomologicalComplex (ComplexShape.down ℕ)).mapShortComplex.map ψ
+  have hij : (ComplexShape.down ℕ).Rel n₁ n₀ := by
+    simp only [ComplexShape.down_Rel]
+    omega
+  have hδ := HomologicalComplex.HomologySequence.δ_naturality Ψ hSF hTF n₁ n₀ hij
+  have hδ' : hSF.δ n₁ n₀ hij ≫
+        (F.mapHomologicalComplex (ComplexShape.down ℕ) ⋙
+          HomologicalComplex.homologyFunctor D (ComplexShape.down ℕ) n₀).map
+            (horseshoeComparison₁ φ P₁ Q₁) =
+      (F.mapHomologicalComplex (ComplexShape.down ℕ) ⋙
+          HomologicalComplex.homologyFunctor D (ComplexShape.down ℕ) n₁).map
+            (horseshoeComparison₃ φ P₃ Q₃) ≫ hTF.δ n₁ n₀ hij := by
+    simpa [Ψ, ψ, SF, TF, SC, TC, horseshoeComparison] using hδ
+  have comm₁ : (horseshoeComparison₁ φ P₁ Q₁).f 0 ≫ Q₁.π.f 0 =
+      P₁.π.f 0 ≫ φ.τ₁ := ProjectiveResolution.lift_commutes_zero φ.τ₁ P₁ Q₁
+  have comm₃ : (horseshoeComparison₃ φ P₃ Q₃).f 0 ≫ Q₃.π.f 0 =
+      P₃.π.f 0 ≫ φ.τ₃ := ProjectiveResolution.lift_commutes_zero φ.τ₃ P₃ Q₃
+  dsimp only [Functor.leftDerivedδ]
+  simp only [Category.assoc]
+  rw [ProjectiveResolution.isoLeftDerivedObj_inv_naturality
+    φ.τ₁ P₁ Q₁ (horseshoeComparison₁ φ P₁ Q₁) comm₁ F n₀]
+  rw [ProjectiveResolution.isoLeftDerivedObj_hom_naturality_assoc
+    φ.τ₃ P₃ Q₃ (horseshoeComparison₃ φ P₃ Q₃) comm₃ F n₁]
+  change (P₃.isoLeftDerivedObj F n₁).hom ≫
+      (F.mapHomologicalComplex (ComplexShape.down ℕ) ⋙
+        HomologicalComplex.homologyFunctor D (ComplexShape.down ℕ) n₁).map
+          (horseshoeComparison₃ φ P₃ Q₃) ≫ hTF.δ n₁ n₀ hij ≫
+      (Q₁.isoLeftDerivedObj F n₀).inv =
+    (P₃.isoLeftDerivedObj F n₁).hom ≫ hSF.δ n₁ n₀ hij ≫
+      (F.mapHomologicalComplex (ComplexShape.down ℕ) ⋙
+        HomologicalComplex.homologyFunctor D (ComplexShape.down ℕ) n₀).map
+          (horseshoeComparison₁ φ P₁ Q₁) ≫ (Q₁.isoLeftDerivedObj F n₀).inv
+  simpa only [Category.assoc] using congrArg
+    (fun k => (P₃.isoLeftDerivedObj F n₁).hom ≫ k ≫
+      (Q₁.isoLeftDerivedObj F n₀).inv) hδ'.symm
 
 /-- Exactness of the six-term window formed with the explicit `Functor.leftDerivedδ`. -/
 theorem Functor.leftDerivedδ_sixTerm_exact
