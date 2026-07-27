@@ -5250,11 +5250,13 @@
     "end_page": "110",
     "start_line": 35,
     "end_line": 35,
-    "status": "partially_formalized",
-    "coverage_note": "There is no dedicated Problem5_10_2.lean and none of parts (a)-(f) is stated as a Lean endpoint. Theorem5_10_1 proves one downstream Frobenius-reciprocity conclusion directly through Mathlib, without the requested relative-tensor and bimodule constructions. Follow-up: #7356.",
-    "followup_issue": 7356,
-    "coverage": "covered_partial",
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "coverage_note": "Problem5_10_2.lean supplies the five previously missing concrete endpoints. Part (a) identifies the canonical coinvariant model of k[G] ⊗_{k[G]} V with restriction and proves that the inverse is v ↦ 1 ⊗ v. Part (c) identifies the equivariant-function/regular-Hom model with restriction by evaluation at 1. Part (d) gives the ind-coind isomorphism and a quotient-indexed coset formula whose Quotient.liftOn proof records independence of representatives. Part (e) is the natural adjunction Ind ⊣ Res plus its pointwise linear Hom equivalence. Part (f) is a genuine equivariant isomorphism Ind(V*) ≅ (Ind V)* for finite complex representations, proved from the Frobenius character formula. Part (b) is explicitly cross-referenced to the stronger direct natural isomorphism Theorem5_10_1.",
+    "coverage": "covered_full",
+    "fidelity": "faithful",
+    "needs_statement": false,
+    "sorry_free": true,
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Discussion_Problem5.10.2_parts",
@@ -5264,11 +5266,13 @@
     "end_page": "112",
     "start_line": 1,
     "end_line": 1,
-    "status": "partially_formalized",
-    "coverage_note": "Parts (a)-(f) are not stated as Lean endpoints. Related induction/restriction results do not construct the requested bimodules, relative tensor products, representative-independent isomorphisms, both adjunction directions, or induction-duality isomorphism. Follow-up: #7356.",
-    "followup_issue": 7356,
-    "coverage": "covered_partial",
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "coverage_note": "All parts (a)-(f) now have discoverable endpoints: Problem5_10_2_a and its concrete inverse formula; Theorem5_10_1 for (b); Problem5_10_2_c and its evaluation-at-one formula; Problem5_10_2_d with the canonical representative-independent coset sum; Problem5_10_2_e as the natural induction-restriction adjunction; and Problem5_10_2_f as an equivariant dual-induction isomorphism.",
+    "coverage": "covered_full",
+    "fidelity": "faithful",
+    "needs_statement": false,
+    "sorry_free": true,
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Introduction_5.11",
