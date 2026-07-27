@@ -17,9 +17,10 @@ theorem in this form, with `𝔤𝔩(V)` realised as `Module.End k V` carrying i
 
 ## Scope and proof status
 
-We state Ado's theorem over a field of characteristic zero, the setting in which it was
-originally proved; the extension to fields of positive characteristic is Iwasawa's theorem.
-Etingof states the result without proof, and it is deep; it is not available in
+We state the Ado–Iwasawa theorem over an arbitrary field, matching the unqualified field `k`
+in the chapter.  The characteristic-zero case is Ado's original theorem; the extension to
+positive characteristic is due to Iwasawa.  Etingof states the result without proof, and it is
+not available in
 Mathlib. Since the book explicitly disavows a proof, we record it with `proof_wanted`: the
 statement is elaborated and typechecked as a proposition, but no proof term, `sorry`, or
 axiom is introduced. The mathematical content captured here is the existence of a
@@ -34,11 +35,11 @@ universe u
 -- Mathlib, just as in Example 2.9.8.
 attribute [local instance 100] LieRing.ofAssociativeRing
 
-variable (k : Type u) [Field k] [CharZero k]
+variable (k : Type u) [Field k]
 variable (L : Type u) [LieRing L] [LieAlgebra k L]
 
 /-- **Ado's theorem** (Etingof, Remark 2.9.3): every finite-dimensional Lie algebra `L` over a
-field `k` of characteristic zero embeds into `𝔤𝔩(V) = End(V)` for some finite-dimensional `k`-vector
+field `k` embeds into `𝔤𝔩(V) = End(V)` for some finite-dimensional `k`-vector
 space `V`. Equivalently, `L` admits a faithful (injective) finite-dimensional representation
 `ρ : L →ₗ⁅k⁆ End(V)`.
 
