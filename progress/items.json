@@ -1193,7 +1193,23 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "Mathlib's Quiver records vertices and a type of directed edges for every ordered pair, including loops and multiple arrows.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-22",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A quiver is a directed graph permitting self-loops and multiple edges between the same two vertices.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.QuiverDef"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Example2.8.2",
@@ -1207,7 +1223,23 @@
     "coverage": "covered_full",
     "last_updated": "2026-07-22",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The displayed quiver has four vertices and exactly the three displayed arrows 0→1, 2→1, and 3→0.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example_2_8_2; Etingof.Example_2_8_2.edge01; Etingof.Example_2_8_2.edge21; Etingof.Example_2_8_2.edge30"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_quiver_notation",
@@ -1221,6 +1253,25 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The vertex set is denoted I, the total edge set E, and every edge h has a source h' and target h''.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.QuiverArrow; Etingof.QuiverArrow.src; Etingof.QuiverArrow.tgt; Etingof.QuiverArrow.hom"
+        }
+      ]
     }
   },
   {
@@ -1236,7 +1287,23 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "Etingof.QuiverRepresentation records a vector space at every vertex and a linear map for every arrow.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-22",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A quiver representation assigns a vector space V_i to every vertex and a linear map x_h : V_{h'} → V_{h''} to every edge.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.QuiverRepresentation"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_path_algebra_intro",
@@ -1246,10 +1313,39 @@
     "end_page": "20",
     "start_line": 1,
     "end_line": 1,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "sorry_free": false,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For each quiver Q there is a path algebra P_Q.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.BookPathAlgebra"
+        },
+        {
+          "claim": "Representations of Q are the same, up to isomorphism, as representations of P_Q.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.BookPathAlgebra.exists_isoClassEquiv_induced_by_book_assignments"
+        },
+        {
+          "claim": "The prose announces the order in which the following definition and justification will be presented.",
+          "verdict": "non_formalizable",
+          "reason": "This is organizational prose, not a mathematical proposition."
+        }
+      ]
     }
   },
   {
@@ -1264,8 +1360,34 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "coverage_note": "The PathAlgebra structure, its NonUnitalNonAssocRing/NonUnitalRing/Ring/Algebra instances, and the path-concatenation multiplication all build fresh and sorry-free; the def-vs-Finsupp transparency boundary is bridged with term-mode ring-law proofs and a PathAlgebra-native linearity induction (#7499).",
-    "last_updated": "2026-07-23"
+    "coverage_note": "BookPathAlgebra is the multiplicative opposite of the established source-to-target PathAlgebra implementation. It has the same free path basis and literally implements the book's product ab as first b, then a; composable and non-composable basis multiplication are machine-checked.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "P_Q has the oriented paths as a basis, including one trivial path p_i at every vertex.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.BookPathAlgebra; Etingof.BookPathAlgebra.ofPath; Etingof.BookPathAlgebra.trivialPath"
+        },
+        {
+          "claim": "The product ab first traces b and then a, producing their concatenation when composable.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.BookPathAlgebra.ofPath_mul_ofPath"
+        },
+        {
+          "claim": "Non-composable paths multiply to zero.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.BookPathAlgebra.ofPath_mul_ofPath_eq_zero"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Remark2.8.5",
@@ -1278,24 +1400,76 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "coverage": "covered_full",
-    "coverage_note": "PathAlgebra.sum_trivialPaths_eq_one and the finite-quiver Ring/Algebra instances build fresh and sorry-free; the unit ∑ᵢ pᵢ is proved a two-sided identity via Finset.sum_eq_single_of_mem over the ofPath-form unit (#7499).",
-    "last_updated": "2026-07-23",
-    "sorry_free": true
+    "coverage_note": "For a finite vertex type, BookPathAlgebra inherits a unital algebra structure from the opposite algebra and its trivial paths sum to one.",
+    "last_updated": "2026-07-27",
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "If the vertex set is finite, the sum of all trivial paths is 1, so P_Q is unital.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.BookPathAlgebra.sum_trivialPaths_eq_one"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Problem2.8.6",
-    "source_regression_note": "Clean rebuild imports the broken Definition2_8_4 path-algebra source (#7499).",
     "type": "exercise",
     "title": "Generators and relations for the path algebra",
     "start_page": "20",
     "end_page": "20",
     "start_line": 6,
     "end_line": 16,
-    "status": "partially_proved",
-    "coverage": "covered_partial",
-    "coverage_issue": 7499,
-    "last_updated": "2026-07-22",
-    "coverage_note": "EtingofRepresentationTheory/Chapter2/Problem2_8_6.lean (vertex idempotents + arrow generators; generation adjoin = top; four defining relations; universal property). All theorems proved sorry-free: relation (1) sum_vertexIdem, relations (2)-(4), generation adjoin_generators_eq_top (via path induction and ofPath_cons), and the universal property defining_relations_universal (constructed φ via evalPath/evalMap and AlgHom.ofLinearMap; uniqueness by path induction on generators)."
+    "status": "sorry_free",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-27",
+    "coverage_note": "The Book namespace states and proves generation, all four printed relations in their exact source/target order, both annihilation clauses, and the defining-relations universal property for BookPathAlgebra.",
+    "sorry_free": true,
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For finite Q, P_Q is generated by the p_i and one-arrow paths a_h.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_8_6.Book.adjoin_generators_eq_top"
+        },
+        {
+          "claim": "The vertex generators sum to 1 and are pairwise orthogonal idempotents.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_8_6.Book.sum_vertexIdem; Etingof.Problem2_8_6.Book.vertexIdem_sq; Etingof.Problem2_8_6.Book.vertexIdem_mul_of_ne"
+        },
+        {
+          "claim": "Exactly as printed, a_h p_{h'} = a_h and a_h p_j = 0 for j ≠ h'.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_8_6.Book.arrowGen_mul_source; Etingof.Problem2_8_6.Book.arrowGen_mul_vertexIdem_of_ne"
+        },
+        {
+          "claim": "Exactly as printed, p_{h''} a_h = a_h and p_i a_h = 0 for i ≠ h''.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_8_6.Book.target_mul_arrowGen; Etingof.Problem2_8_6.Book.vertexIdem_mul_arrowGen_of_ne"
+        },
+        {
+          "claim": "These relations are defining: any target elements satisfying them induce a unique algebra homomorphism from P_Q.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_8_6.Book.defining_relations_universal"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_quiver_rep_bijection",
@@ -1305,15 +1479,41 @@
     "end_page": "21",
     "start_line": 17,
     "end_line": 4,
-    "status": "proved",
+    "status": "partially_proved",
     "coverage": "covered_full",
-    "coverage_note": "The two constructions and module-side equivalence are source-present, but the representation-side round trip is only a QuiverRepresentationHom and no bijection on isomorphism classes is exposed. The backing file also currently fails a fresh source check at Finsupp/PathAlgebra carrier mismatches; reopened #5224 tracks both.",
-    "fidelity_issue": 5224,
-    "coverage_issue": 5224,
-    "last_updated": "2026-07-22",
+    "coverage_note": "The legacy PathAlgebra/Qᵒᵖ correspondence remains fully proved. The exact book-facing BookPathAlgebra/Q correspondence now has complete data and a faithful isomorphism-class equivalence statement specifying V↦(p_iV) and the direct-sum inverse; only that exact theorem proof remains for Stage 3.3.",
+    "last_updated": "2026-07-27",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
+    },
+    "fidelity": "verified",
+    "sorry_free": false,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A P_Q-module V determines the Q-representation with vertex spaces p_iV and arrows given by the restricted one-edge operators.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.BookPathAlgebra.vertexSpace; Etingof.BookPathAlgebra.arrowMap; Etingof.BookPathAlgebra.forwardRep"
+        },
+        {
+          "claim": "A Q-representation determines a P_Q-module on the direct sum of its vertex spaces, with a path acting by the composite arrow map and by zero on other summands.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.BookPathAlgebra.pathMap; Etingof.BookPathAlgebra.pathEnd; Etingof.BookPathAlgebra.IsDirectSumRealization"
+        },
+        {
+          "claim": "The two assignments are inverse and induce a bijection on isomorphism classes.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.BookPathAlgebra.exists_isoClassEquiv_induced_by_book_assignments"
+        }
+      ]
     }
   },
   {
@@ -1325,7 +1525,28 @@
     "start_line": 5,
     "end_line": 7,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "It is generally easier in practice to work with quiver representations in the vertex-and-arrow form of Definition 2.8.3.",
+          "verdict": "non_formalizable",
+          "reason": "This is an editorial judgment about practical convenience, not a truth-valued mathematical assertion."
+        },
+        {
+          "claim": "The prose announces that familiar representation-theoretic concepts will now be defined for quivers.",
+          "verdict": "non_formalizable",
+          "reason": "This is organizational prose; the promised definitions are inventoried in the following items."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Definition2.8.8",
@@ -1339,8 +1560,24 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "coverage_note": "QuiverSubrepresentation records vertexwise submodules stable under every arrow; the restricted arrow maps are canonically determined.",
-    "last_updated": "2026-07-22"
+    "coverage_note": "QuiverSubrepresentation records vertexwise submodules stable under every arrow, and toRepresentation explicitly constructs the subrepresentation's arrow maps as the required restrictions.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A subrepresentation consists of subspaces W_i⊆V_i preserved by every x_h, with arrow maps x'_h equal to the restrictions of x_h.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.QuiverSubrepresentation; Etingof.QuiverSubrepresentation.toRepresentation"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Definition2.8.9",
@@ -1353,7 +1590,24 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "construction sound; book blob is empty (transcription gap, see issue)"
+    "fidelity_note": "The recovered blob states the binary direct sum exactly; the construction uses the canonical product model of a finite direct sum.",
+    "coverage": "covered_full",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The direct sum of (V_i,x_h) and (W_i,y_h) has vertex spaces V_i⊕W_i and arrow maps x_h⊕y_h.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.QuiverRepresentation.directSum"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_quiver_irreducible_indecomposable",
@@ -1367,6 +1621,30 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A quiver representation is irreducible exactly when it is nonzero and its only subrepresentations are zero and full.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.QuiverRepresentation.BookIsZero; Etingof.QuiverRepresentation.BookIsNonzero; Etingof.QuiverRepresentation.BookIsIrreducible"
+        },
+        {
+          "claim": "A quiver representation is indecomposable exactly when it is nonzero and is not isomorphic to a direct sum of two nonzero representations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.QuiverRepresentation.BookIsIndecomposable"
+        }
+      ]
     }
   },
   {
@@ -1382,7 +1660,23 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "QuiverRepresentationHom records vertexwise linear maps satisfying the source's commutative-arrow squares.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-22",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A homomorphism of quiver representations is a vertexwise family of linear maps satisfying y_h∘φ_{h'}=φ_{h''}∘x_h for every edge.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.QuiverRepresentationHom"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Problem2.8.11",
@@ -1392,11 +1686,49 @@
     "end_page": "22",
     "start_line": 15,
     "end_line": 11,
-    "status": "sorry_free",
+    "status": "partially_proved",
     "coverage": "covered_full",
-    "coverage_note": "All four parts are public, each as a graded-dimension formula together with the closed generating function. Part (d)'s Hilbert-series identity is hilbertSeries_pathAlgebra: mk (fun n => #{paths of length n}) = 𝟙ᵀ (I - t M_Q)⁻¹ 𝟙 over k⟦t⟧, with inv_one_sub_smul_adjacencyPS certifying that (I - t M_Q)⁻¹ is a genuine (two-sided) inverse and not a Matrix.inv junk value.",
+    "coverage_note": "The locally finite positive grading and Hilbert-series definition are explicit. All four requested answers have exact graded-piece and generating-series declarations; two new bridge proofs tying the free/path algebra degree submodules to their combinatorial bases remain theorem-level Stage 3.3 obligations.",
     "fidelity_decl": "theorem hilbertSeries_pathAlgebra, theorem inv_one_sub_smul_adjacencyPS",
-    "last_updated": "2026-07-25"
+    "last_updated": "2026-07-27",
+    "sorry_free": false,
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For a locally finite ℕ-graded algebra A=⊕A[n] with A[n]A[m]⊆A[n+m], h_A(t)=∑dim(A[n])t^n.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_8_11.LocallyFiniteNatGrading; Etingof.Problem2_8_11.hilbertSeries; Etingof.Problem2_8_11.coeff_hilbertSeries"
+        },
+        {
+          "claim": "For k[x_1,…,x_m], dim A[n]=C(n+m-1,n) and h_A(t)=1/(1-t)^m.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_8_11.finrank_homogeneous_mvPolynomial; Etingof.Problem2_8_11.hilbertSeries_mvPolynomial"
+        },
+        {
+          "claim": "For k⟨x_1,…,x_m⟩, dim A[n]=m^n and h_A(t)=1/(1-mt).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_8_11.freeAlgebraWordEquiv; Etingof.Problem2_8_11.freeAlgebraDegreePiece; Etingof.Problem2_8_11.finrank_freeAlgebra_degreePiece; Etingof.Problem2_8_11.hilbertSeries_freeAlgebra"
+        },
+        {
+          "claim": "For the exterior algebra on m generators, dim A[n]=C(m,n) and h_A(t)=(1+t)^m.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_8_11.finrank_exteriorPower; Etingof.Problem2_8_11.hilbertSeries_exteriorAlgebra"
+        },
+        {
+          "claim": "For P_Q graded by path length, degree n has the length-n paths as basis and Hilbert series 1ᵀ(I-tM_Q)⁻¹1.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_8_11.pathAlgebraDegreePiece; Etingof.Problem2_8_11.finrank_pathAlgebra_degree; Etingof.Problem2_8_11.card_paths_length_eq_adjacencyMatrix_pow; Etingof.Problem2_8_11.hilbertSeries_pathAlgebra; Etingof.Problem2_8_11.inv_one_sub_smul_adjacencyPS"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_2.9_heading",
