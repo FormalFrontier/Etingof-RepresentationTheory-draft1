@@ -1,13 +1,5 @@
-import Mathlib.RingTheory.Jacobson.Radical
 import Mathlib.RingTheory.AdjoinRoot
-import Mathlib.RingTheory.LocalRing.MaximalIdeal.Basic
-import Mathlib.RingTheory.Nilpotent.Lemmas
 import Mathlib.RingTheory.KrullDimension.Basic
-import Mathlib.RingTheory.Polynomial.Ideal
-import Mathlib.LinearAlgebra.Matrix.Block
-import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.RingTheory.Ideal.Quotient.Operations
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.RingTheory.Jacobson.Semiprimary
 
 /-!

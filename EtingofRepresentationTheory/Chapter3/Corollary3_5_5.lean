@@ -1,10 +1,3 @@
-import Mathlib.RingTheory.Jacobson.Ideal
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.FieldTheory.IsAlgClosed.Basic
-import Mathlib.LinearAlgebra.FreeModule.Finite.Matrix
-import Mathlib.LinearAlgebra.Dimension.Constructions
 import EtingofRepresentationTheory.Chapter3.Theorem3_2_2
 
 /-!
