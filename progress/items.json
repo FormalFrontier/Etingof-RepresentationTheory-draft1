@@ -4533,7 +4533,27 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "non_formalizable"
+    },
+    "coverage": "covered_full",
+    "coverage_note": "Stage 3.2 reviewed the section heading; it introduces finite-dimensional algebras but makes no standalone mathematical assertion.",
+    "fidelity": "verified",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.5",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Section 3.5 is the organizational heading for finite-dimensional algebras.",
+          "verdict": "non_formalizable",
+          "reason": "This is a section heading rather than a mathematical proposition with a Lean proof obligation."
+        }
+      ]
     }
   },
   {
@@ -4546,9 +4566,25 @@
     "end_line": 16,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22",
+    "last_updated": "2026-07-27",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.5",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The radical of A is the set of elements acting by zero in every irreducible A-representation, denoted Rad(A).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Radical; Etingof.structure_mod_radical; IsSemisimpleModule.jacobson_le_annihilator"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Proposition3.5.2",
@@ -4560,9 +4596,25 @@
     "end_line": 20,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22",
+    "last_updated": "2026-07-27",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.5",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Rad(A) is a two-sided ideal.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.radical_is_ideal; Etingof.radical_isTwoSided"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Proposition3.5.3",
@@ -4574,9 +4626,35 @@
     "end_line": 4,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22",
+    "last_updated": "2026-07-27",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.5",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Every nilpotent two-sided ideal I of A is contained in Rad(A).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.nilpotent_ideal_le_radical"
+        },
+        {
+          "claim": "For a finite-dimensional algebra A, Rad(A) is nilpotent.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.radical_is_nilpotent"
+        },
+        {
+          "claim": "Consequently Rad(A) is the largest nilpotent two-sided ideal of A.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.radical_is_nilpotent; Etingof.nilpotent_ideal_le_radical; Etingof.radical_isTwoSided"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Theorem3.5.4",
@@ -4590,8 +4668,44 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "coverage_note": "Both clauses of the book statement are now proved. Theorem3_5_4.lean gives the radical-quotient isomorphism from a complete family, and Theorem3_5_4_CompleteFamily.lean constructs that family: Etingof.exists_finset_complete_family produces a finite set of maximal left ideals whose quotients are pairwise nonisomorphic, exhaustive, and at most finrank k A in number, and Etingof.exists_structure_mod_radical packages the isomorphism with the constructed family (#7127).",
-    "last_updated": "2026-07-26"
+    "coverage_note": "Both clauses of the book statement are proved. Theorem3_5_4_Finiteness.lean proves finite dimensionality and the cardinal bound; Theorem3_5_4_CompleteFamily.lean constructs a finite, exhaustive, pairwise-nonisomorphic family and packages the radical-quotient isomorphism. Stage 3.2 re-verified every statement and proof claim.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.5",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Every irreducible representation of a finite-dimensional algebra is cyclic and finite-dimensional.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.simple_finiteDimensional; Etingof.exists_isCoatom_quotient_equiv"
+        },
+        {
+          "claim": "There are only finitely many irreducible representations up to isomorphism, at most dim A, and a finite exhaustive pairwise-nonisomorphic family exists.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.card_irreducibles_le_finrank; Etingof.exists_finset_complete_family; Etingof.exists_complete_family_of_simples"
+        },
+        {
+          "claim": "For any finite pairwise-nonisomorphic family of irreducibles, the combined representation map A → ∏ᵢ End(Vᵢ) is surjective.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.density_theorem_part2"
+        },
+        {
+          "claim": "For a complete irreducible family, the kernel of the combined representation map is exactly Rad(A).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.structure_mod_radical"
+        },
+        {
+          "claim": "For a finite complete family (Vᵢ), A/Rad(A) is isomorphic as a k-algebra to ∏ᵢ End_k(Vᵢ).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.structure_mod_radical; Etingof.exists_structure_mod_radical"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Corollary3.5.5",
@@ -4605,7 +4719,28 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.5",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For a complete family of irreducibles Vᵢ, ∑ᵢ (dim Vᵢ)² ≤ dim A.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.sum_dim_sq_le_dim"
+        },
+        {
+          "claim": "The proof uses dim A = dim Rad(A) + ∑ᵢ dim End(Vᵢ), with dim End(Vᵢ) = (dim Vᵢ)².",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.structure_mod_radical; Submodule.finrank_quotient_add_finrank; Module.finrank_linearMap"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Example3.5.6",
@@ -4619,8 +4754,44 @@
     "coverage": "covered_full",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "Both Jacobson-radical equalities are proved, and both source representation classifications are now formalized: Etingof.TruncPolySimple (simple, one-dimensional, x acts by zero, and every simple k[x]/(x^n)-module is isomorphic to it) and Etingof.UpperTriangularSimple (the n diagonal characters V_i, each simple and one-dimensional, pairwise non-isomorphic, and exhaustive).",
-    "last_updated": "2026-07-26"
+    "fidelity_note": "Both Jacobson-radical equalities and both representation classifications are formalized. The source's final unspecific sentence that a similar result holds for block-triangular matrices has no fixed block data or precise theorem to translate and is recorded claim-by-claim as non-formalizable rather than as a coverage gap.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.5",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For A = k[x]/(xⁿ), the unique irreducible representation is one-dimensional and x acts by zero.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.TruncPolySimple; Etingof.isSimpleModule_truncPolySimple; Etingof.root_smul_truncPolySimple; Etingof.finrank_truncPolySimple; Etingof.nonempty_linearEquiv_truncPolySimple"
+        },
+        {
+          "claim": "The radical of k[x]/(xⁿ) is the ideal (x).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.radical_truncated_polynomial"
+        },
+        {
+          "claim": "The irreducible representations of upper-triangular n × n matrices are exactly the n pairwise-nonisomorphic one-dimensional diagonal characters Vᵢ, with x acting by xᵢᵢ.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.UpperTriangularSimple; Etingof.UpperTriangularSimple.smul_def; Etingof.finrank_upperTriangularSimple; Etingof.isSimpleModule_upperTriangularSimple; Etingof.not_nonempty_linearEquiv_upperTriangularSimple; Etingof.exists_linearEquiv_upperTriangularSimple"
+        },
+        {
+          "claim": "The radical of the upper-triangular matrix algebra is the ideal of strictly upper-triangular matrices.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.radical_upper_triangular"
+        },
+        {
+          "claim": "A similar result holds for block-triangular matrices.",
+          "verdict": "non_formalizable",
+          "reason": "The source gives no block decomposition, diagonal-block hypotheses, representation list, or exact radical formula, so this analogy does not determine a unique proposition. The scalar upper-triangular theorem is fully formalized."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Definition3.5.7",
@@ -4632,9 +4803,25 @@
     "end_line": 10,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22",
+    "last_updated": "2026-07-27",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.5",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A finite-dimensional algebra is semisimple exactly when Rad(A) = 0.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.IsSemisimpleAlgebra; IsArtinianRing.isSemisimpleRing_iff_jacobson; Ideal.jacobson_bot"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Proposition3.5.8",
@@ -4645,13 +4832,58 @@
     "start_line": 11,
     "end_line": 2,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
     "fidelity_decl": "Etingof.semisimple_algebra_equiv",
-    "fidelity_issue": 7468,
-    "fidelity_note": "The five main equivalent conditions were repaired in closed #5371. The source's zero-algebra footnote—semisimple but not simple, with only zero representations and an empty matrix-algebra sum—has no public endpoint; follow-up #7468.",
-    "coverage": "covered_partial",
-    "last_updated": "2026-07-22"
+    "fidelity_note": "The five main equivalent conditions were repaired in closed #5371. Closed #7468 / PR #7610 supplies every zero-algebra footnote endpoint: semisimple but not simple, all modules zero, no irreducible or indecomposable modules, and the empty matrix-algebra product.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.5",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For a finite-dimensional algebra over an algebraically closed field, semisimplicity, the dimension equality, a finite product of matrix algebras, complete reducibility of every finite-dimensional representation, and complete reducibility of the regular representation are equivalent.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.semisimple_algebra_equiv"
+        },
+        {
+          "claim": "The zero algebra is semisimple.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.subsingleton_isSemisimpleRing"
+        },
+        {
+          "claim": "The zero algebra is not simple.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.subsingleton_not_isSimpleRing"
+        },
+        {
+          "claim": "Every unital representation of the zero algebra is zero.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.subsingleton_module_of_subsingleton"
+        },
+        {
+          "claim": "The zero algebra has no irreducible representations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.subsingleton_not_isSimpleModule"
+        },
+        {
+          "claim": "The zero algebra has no indecomposable representations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.subsingleton_not_isIndecomposable"
+        },
+        {
+          "claim": "The zero algebra is the empty product/direct sum of matrix algebras, the n = 0 Wedderburn case.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.subsingleton_algEquiv_pi_matrix"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Introduction_to_3.6",
