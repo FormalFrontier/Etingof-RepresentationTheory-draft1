@@ -116,6 +116,132 @@ private lemma frobenius_char_reciprocity {G : Type} [Group G] [Fintype G]
   simp only [Equiv.inv_apply, Subgroup.coe_inv, inv_inv]
 
 open Classical in
+/-- The irreducible-character decomposition of an induced character.
+
+The coefficient of the irreducible `D.columnFDRep i` is the nonnegative integer
+`dim Hom_H(W, Res_H(D.columnFDRep i))`, as prescribed by Frobenius reciprocity.
+This public form supplies the decomposition columns used in Remark 5.26.2. -/
+theorem Etingof.inducedCharacter_eq_irrepDecomp_sum
+    {G : Type} [Group G] [Fintype G] [NeZero (Nat.card G : ℂ)]
+    (D : IrrepDecomp ℂ G) (H : Subgroup G) (W : FDRep ℂ ↥H) :
+    Etingof.inducedCharacter H W.character =
+      ∑ i : Fin D.n,
+        (Module.finrank ℂ
+          (W ⟶ FDRep.of ((D.columnFDRep i).ρ.comp H.subtype)) : ℤ) •
+          (D.columnFDRep i).character := by
+  haveI : Invertible (Fintype.card G : ℂ) :=
+    invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
+  haveI : NeZero (Nat.card G : ℂ) :=
+    ⟨by rw [Nat.card_eq_fintype_card]; exact Invertible.ne_zero _⟩
+  haveI : Invertible (Fintype.card ↥H : ℂ) :=
+    invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
+  haveI : NeZero (Nat.card ↥H : ℂ) :=
+    ⟨by rw [Nat.card_eq_fintype_card]; exact Invertible.ne_zero _⟩
+  let resH : Fin D.n → FDRep ℂ ↥H := fun i =>
+    FDRep.of ((D.columnFDRep i).ρ.comp H.subtype)
+  let m : Fin D.n → ℕ := fun i => Module.finrank ℂ (W ⟶ resH i)
+  have hdiff : Etingof.inducedCharacter H W.character -
+      ∑ i : Fin D.n, (m i : ℤ) • (D.columnFDRep i).character = 0 := by
+    apply Etingof.classFunction_eq_zero_of_orthogonal_simples
+    · intro g x
+      simp only [Pi.sub_apply, Finset.sum_apply, Pi.smul_apply]
+      congr 1
+      · show Etingof.inducedCharacter H W.character (x * g * x⁻¹) =
+             Etingof.inducedCharacter H W.character g
+        simp only [Etingof.inducedCharacter]
+        congr 1
+        let φ : G ≃ G :=
+          { toFun := fun y => x * y
+            invFun := fun z => x⁻¹ * z
+            left_inv := fun y => by group
+            right_inv := fun z => by group }
+        rw [← Equiv.sum_comp φ]
+        apply Finset.sum_congr rfl
+        intro y _
+        have dite_eq : ∀ (a b : G) (hab : a = b),
+            (if h : a ∈ H then W.character ⟨a, h⟩ else 0) =
+            (if h : b ∈ H then W.character ⟨b, h⟩ else 0) := by
+          rintro a b rfl
+          rfl
+        exact dite_eq _ _ (by
+          change (x * y)⁻¹ * (x * g * x⁻¹) * (x * y) = y⁻¹ * g * y
+          group)
+      · congr 1
+        ext i
+        congr 1
+        exact FDRep.char_conj (D.columnFDRep i) g x
+    · intro V' hV'
+      obtain ⟨j, ⟨iso_j⟩⟩ := D.columnFDRep_surjective V' hV'
+      rw [FDRep.char_iso iso_j]
+      simp only [Pi.sub_apply, Finset.sum_apply, Pi.smul_apply, sub_mul,
+        Finset.sum_sub_distrib]
+      rw [sub_eq_zero]
+      haveI (i : Fin D.n) : CategoryTheory.Simple (D.columnFDRep i) :=
+        D.columnFDRep_simple i
+      have horth_G : ∀ i : Fin D.n,
+          ∑ g : G, (D.columnFDRep i).character g * (D.columnFDRep j).character g⁻¹ =
+          if i = j then (Fintype.card G : ℂ) else 0 := by
+        intro i
+        have h := FDRep.char_orthonormal (D.columnFDRep i) (D.columnFDRep j)
+        rw [smul_eq_mul] at h
+        have hinv : ∀ (x y : ℂ), ⅟(Fintype.card G : ℂ) * x = y →
+            x = (Fintype.card G : ℂ) * y := fun x y hxy => by
+          rw [← hxy, ← mul_assoc, mul_invOf_self, one_mul]
+        by_cases hij : i = j
+        · subst hij
+          rw [if_pos rfl]
+          exact (hinv _ _ (by
+            rw [if_pos ⟨CategoryTheory.Iso.refl _⟩] at h
+            exact h)).trans (mul_one _)
+        · rw [if_neg hij]
+          exact (hinv _ _ (by
+            rw [if_neg (fun ⟨iso⟩ => hij
+              (D.columnFDRep_injective i j ⟨iso⟩))] at h
+            exact h)).trans (mul_zero _)
+      trans (↑(m j) * (Fintype.card G : ℂ))
+      · have lhs_sub : ∑ g : G,
+            Etingof.inducedCharacter H W.character g *
+              (D.columnFDRep j).character g⁻¹ =
+            ∑ g : G, (D.columnFDRep j).character g *
+              Etingof.inducedCharacter H W.character g⁻¹ := by
+          rw [← Equiv.sum_comp (Equiv.inv G)]
+          congr 1
+          ext g
+          simp [mul_comm]
+        have hfrob := frobenius_char_reciprocity H
+          (D.columnFDRep j).character W.character
+          (fun g x => FDRep.char_conj (D.columnFDRep j) g x)
+        rw [lhs_sub, hfrob]
+        have hlhs_rw :
+            ∑ h : ↥H, (D.columnFDRep j).character (↑h : G) * W.character h⁻¹ =
+              ∑ h : ↥H, (resH j).character h * W.character h⁻¹ :=
+          Finset.sum_congr rfl (fun h _ => rfl)
+        rw [hlhs_rw]
+        have hmult : ⅟(Fintype.card ↥H : ℂ) •
+            ∑ h : ↥H, (resH j).character h * W.character h⁻¹ = ↑(m j) := by
+          have h := FDRep.scalar_product_char_eq_finrank_equivariant W (resH j)
+          rw [smul_eq_mul] at h ⊢
+          convert h using 1
+        have hsum_H : ∑ h : ↥H, (resH j).character h * W.character h⁻¹ =
+            (Fintype.card ↥H : ℂ) * ↑(m j) := by
+          rw [smul_eq_mul] at hmult
+          calc
+            _ = (Fintype.card ↥H : ℂ) * (⅟(Fintype.card ↥H : ℂ) *
+                ∑ h : ↥H, (resH j).character h * W.character h⁻¹) := by
+              rw [← mul_assoc, mul_invOf_self, one_mul]
+            _ = _ := by rw [hmult]
+        rw [hsum_H]
+        have hH_ne : (Fintype.card ↥H : ℂ) ≠ 0 :=
+          Nat.cast_ne_zero.mpr Fintype.card_ne_zero
+        field_simp
+      · symm
+        simp only [zsmul_eq_mul, Finset.sum_mul]
+        rw [Finset.sum_comm]
+        simp_rw [mul_assoc, ← Finset.mul_sum, horth_G, mul_ite, mul_zero]
+        simp [Finset.sum_ite_eq', Finset.mem_univ]
+  exact sub_eq_zero.mp hdiff
+
+open Classical in
 /-- Character completeness on subgroups: if a class function f on G, when restricted to
 a subgroup H, is orthogonal to all irreducible characters of H, then f vanishes on H.
 
