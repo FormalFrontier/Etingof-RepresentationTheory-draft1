@@ -47,11 +47,10 @@ applies to the genuine quotient and yields: `A / Rad(A)` is commutative iff ever
 
 ## What is not proved here
 
-Etingof identifies the matrix sizes of `B_𝐧 / Rad(B_𝐧)` with the multiplicities `n_i`. That
-identification needs the projective covers `P_i ↠ S_i` and the Kronecker-delta property
-`dim_k Hom(P_i, S_j) = δ_{ij}` for a general finite abelian category, which is not available in
-the project; `Etingof.exists_matrix_structure_cartanAlgebra` produces the matrix sizes
-abstractly instead.
+The companion file `Chapter9/CartanMatrixSizes.lean` identifies the matrix sizes with the
+multiplicities `n_i` when a complete simple family `S_i` and the projective-cover formula
+`dim_k Hom(P_i, S_j) = δ_{ij}` are supplied. Deriving that data solely from a complete family
+of indecomposable projectives in a general finite abelian category remains #7957.
 -/
 
 open CategoryTheory CategoryTheory.Limits Module
@@ -184,9 +183,10 @@ space, computing `dim_k B_𝐧 = ∑ c_{ij} n_i n_j`. It is also a finite dimens
 the matrix form above applies to it: `B_𝐧 / Rad(B_𝐧)` is a genuine product of matrix algebras,
 and `B_𝐧` is basic exactly when all the matrix sizes are `1`.
 
-What is *not* proved here is Etingof's identification of those matrix sizes with the
-multiplicities `n_i`; that needs the projective covers `P_i ↠ S_i` and the Kronecker-delta
-property `dim_k Hom(P_i, S_j) = δ_{ij}` in a general finite abelian category. -/
+The companion file `Chapter9/CartanMatrixSizes.lean` proves Etingof's identification of those
+matrix sizes with the multiplicities `n_i` from a complete family of simples and the
+projective-cover delta-Hom formula. Constructing that data from bare indecomposable-projective
+hypotheses in a general finite abelian category remains #7957. -/
 
 variable {k : Type w} [Field k] [IsAlgClosed k]
 variable {C : Type u} [Category.{v} C] [IsFiniteAbelianCategory C] [Linear k C]
@@ -207,8 +207,9 @@ matrix sizes `d_j ≥ 1` with
 
 `B_𝐧 / Rad(B_𝐧) ≃ₐ[k] ∏_j Mat_{d_j}(k)`,
 
-and `B_𝐧` is basic (Definition 9.7.2) exactly when every `d_j = 1`. Etingof's discussion after
-Definition 9.7.1 identifies the `d_j` with the multiplicities `n_i`, which is not proved here. -/
+and `B_𝐧` is basic (Definition 9.7.2) exactly when every `d_j = 1`. The companion
+`CartanMatrixSizes.lean` identifies `d_j` with `n_j` under the projective-cover delta-Hom
+hypotheses. -/
 theorem exists_matrix_structure_cartanAlgebra (P : ι → C) (n : ι → ℕ) :
     ∃ (J : Type v) (_ : Fintype J) (d : J → ℕ), (∀ j, 1 ≤ d j) ∧
       Nonempty ((((End (multBiproduct P n))ᵐᵒᵖ) ⧸ Etingof.Radical ((End (multBiproduct P n))ᵐᵒᵖ))
