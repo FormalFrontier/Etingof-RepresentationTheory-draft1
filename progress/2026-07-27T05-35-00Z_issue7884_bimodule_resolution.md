@@ -11,6 +11,12 @@ left/right `SV ⊗ SV` action:
 - identified its target with the usual `SV` bimodule and packaged the result as
   `Etingof.koszulBimoduleResolution`.
 
-The remaining fidelity endpoint for #7884 is a public degreewise isomorphism from the external
-total-complex terms (whose second resolution is concentrated in degree zero) to the literal free
-modules `SV ⊗ ⋀ⁱ V ⊗ SV`, followed by the corresponding `Module.Free` theorem.
+The remaining fidelity endpoint is now complete:
+
+- `Etingof.koszulBimoduleResolutionTermIso` identifies every resolution term with the literal
+  module `(SV ⊗ ⋀ⁱ V) ⊗ SV`, equipped with the sheared enveloping-algebra action;
+- `Etingof.koszulBimoduleResolution_free` proves these terms are free over `SV ⊗ SV` by an
+  explicit reassociation and inverse-shear comparison with `(SV ⊗ SV) ⊗ ⋀ⁱ V`;
+- `Etingof.koszulBimoduleResolution_quasiIso` exposes the augmentation quasi-isomorphism; and
+- the `Etingof.Problem_8_2_10_iii*` wrappers collect the resolution, term identification,
+  freeness, and quasi-isomorphism as the public exercise endpoints.
