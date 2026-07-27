@@ -6611,9 +6611,8 @@
     "status": "partially_proved",
     "fidelity": "partial",
     "sorry_free": true,
-    "fidelity_note": "#7357 completed the SL_N restriction and determinant-shift infrastructure. #7807 proved the converse slIso_shiftEquiv, hence slIrrepClass_injective and the bijection slIrrepEquiv. The GL_N classification is now available. #7808 adds IsAlgebraicSLRepresentation, HasAlgebraicGLExtension, restriction of GL_N algebraicity, simplicity transfer, and exists_dominantWeight_slEquiv_of_hasAlgebraicGLExtension: every simple SL_N representation with an algebraic GL_N extension is a constructed restriction. The remaining gap is the genuinely SL_N-specific extension theorem from intrinsic algebraicity to an algebraic GL_N extension. The book-disavowed sl_N Lie-algebra assertions remain recorded in skipped-exercises.md.",
-    "coverage": "covered_partial",
-    "followup_issue": 7808,
+    "fidelity_note": "#7357 completed the SL_N restriction and determinant-shift infrastructure. #7807 proved the converse slIso_shiftEquiv, hence slIrrepClass_injective and the bijection slIrrepEquiv. #7808 defines intrinsic SL_N algebraicity, proves that every intrinsically algebraic simple SL_N representation has an algebraic GL_N extension, and proves unconditional exhaustiveness via exists_dominantWeight_slEquiv_of_isAlgebraic. The book-disavowed sl_N Lie-algebra assertions remain recorded in skipped-exercises.md.",
+    "coverage": "covered_full",
     "last_updated": "2026-07-27"
   },
   {
