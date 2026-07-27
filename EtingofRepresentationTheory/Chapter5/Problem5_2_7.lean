@@ -47,10 +47,42 @@ envelope proved here is reusable infrastructure for that remaining step.
 namespace Etingof.Problem5_2_7
 
 open Finset CategoryTheory
+open scoped TensorProduct
 
 variable {G : Type} [Group G]
 
 /-! ## Part (a): finite Galois envelopes for algebraic matrix realizations -/
+
+/-- Scalar extension commutes with a group algebra, without requiring the group to be
+commutative:
+`C ⊗[A] A[G] ≃ₐ[C] C[G]`.
+
+Mathlib's `MonoidAlgebra.scalarTensorEquiv` currently assumes `CommMonoid G`; the construction
+here uses the tensor-product and monoid-algebra universal properties directly, so it applies to
+the arbitrary finite groups needed for Problem 5.2.7(a). -/
+noncomputable def groupAlgebraScalarTensorEquiv
+    (A C G : Type) [Field A] [Field C] [Algebra A C] [Group G] :
+    C ⊗[A] MonoidAlgebra A G ≃ₐ[C] MonoidAlgebra C G := by
+  let f : C ⊗[A] MonoidAlgebra A G →ₐ[C] MonoidAlgebra C G :=
+    Algebra.TensorProduct.lift (Algebra.ofId C (MonoidAlgebra C G))
+      (MonoidAlgebra.mapAlgHom G (Algebra.ofId A C)) (fun c x => by
+        change Commute (algebraMap C (MonoidAlgebra C G) c) _
+        exact Algebra.commutes _ _)
+  let groupMap : G →* C ⊗[A] MonoidAlgebra A G :=
+    (Algebra.TensorProduct.includeRight.toMonoidHom).comp (MonoidAlgebra.of A G)
+  let g : MonoidAlgebra C G →ₐ[C] C ⊗[A] MonoidAlgebra A G :=
+    (MonoidAlgebra.lift C _ G) groupMap
+  refine AlgEquiv.ofAlgHom f g ?_ ?_
+  · apply AlgHom.toLinearMap_injective
+    ext x m
+    simp [f, g, groupMap]
+  · apply AlgHom.toLinearMap_injective
+    ext c
+    have hmap : (MonoidAlgebra.mapAlgHom G (Algebra.ofId A C))
+        (MonoidAlgebra.single c 1) = MonoidAlgebra.single c 1 := by
+      rw [MonoidAlgebra.mapAlgHom_single]
+      simp
+    simp [f, g, groupMap, hmap]
 
 /-- A representation is defined over the intermediate field `K ⊆ ℂ` if it has a complex basis
 in which every matrix entry of every group element belongs to `K`.
