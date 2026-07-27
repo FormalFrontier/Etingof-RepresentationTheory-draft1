@@ -77,6 +77,7 @@ import EtingofRepresentationTheory.Chapter5.Corollary5_12_4_Test
 import EtingofRepresentationTheory.Chapter5.Lemma5_13_1
 import EtingofRepresentationTheory.Chapter5.Lemma5_13_2
 import EtingofRepresentationTheory.Chapter5.Lemma5_13_3
+import EtingofRepresentationTheory.Chapter5.Lemma5_13_3_Exact
 import EtingofRepresentationTheory.Chapter5.Lemma5_13_4
 
 -- Section 5.14: Kostka Numbers
@@ -225,6 +226,7 @@ import EtingofRepresentationTheory.Chapter5.EllipticInduced
 import EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount
 import EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount_Test
 import EtingofRepresentationTheory.Chapter5.Lemma5_25_3
+import EtingofRepresentationTheory.Chapter5.GL2ComplementarySeries
 import EtingofRepresentationTheory.Chapter5.Discussion5_25_4
 import EtingofRepresentationTheory.Chapter5.Discussion5_25_4_Test
 import EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary

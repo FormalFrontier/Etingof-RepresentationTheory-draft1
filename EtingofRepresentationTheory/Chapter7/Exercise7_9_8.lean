@@ -289,17 +289,23 @@ arrow-compatibility and source-constraint fields are propositions. -/
 theorem Etingof.reversedArrow_ne_eq_revOut
     {Q : Type*} [DecidableEq Q] [Quiver Q] {i : Q} (hi : Etingof.IsSource Q i)
     (a : Etingof.ArrowsOutOf Q i) :
-    Etingof.reversedArrow_ne_eq (Etingof.arrowsOutOf_target_ne_source hi a)
+  Etingof.reversedArrow_ne_eq (Etingof.arrowsOutOf_target_ne_source hi a)
       (Etingof.revOut hi a) = a.snd := by
   obtain ⟨j, e⟩ := a
-  simp only [Etingof.revOut, Etingof.reversedArrow_ne_eq_is_cast, cast_cast, cast_eq]
+  unfold Etingof.revOut
+  rw [Etingof.reversedArrow_ne_eq_is_cast]
+  apply eq_of_heq
+  exact (cast_heq _ _).trans (cast_heq _ _)
 
 /-- `revOut` of the arrow `reversedArrow_ne_eq ha e` (built from `e : a ⟶_{Q̄ᵢ} i`) recovers `e`. -/
 theorem Etingof.revOut_reversedArrow_ne_eq
     {Q : Type*} [DecidableEq Q] [Quiver Q] {i a : Q} (hi : Etingof.IsSource Q i) (ha : a ≠ i)
     (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a i) :
     Etingof.revOut hi ⟨a, Etingof.reversedArrow_ne_eq ha e⟩ = e := by
-  simp only [Etingof.revOut, Etingof.reversedArrow_ne_eq_is_cast, cast_cast, cast_eq]
+  unfold Etingof.revOut
+  rw [Etingof.reversedArrow_ne_eq_is_cast]
+  apply eq_of_heq
+  exact (cast_heq _ _).trans (cast_heq _ _)
 
 open Classical in
 /-- The quotient map `reflFunctorMinus_mkQ` on the `a`-generator `lof a u` of the direct sum is
@@ -333,15 +339,14 @@ value on the cokernel `coker(sourceMap_V)` is determined by the family via `Subm
 with well-definedness being exactly the constraint (C). Naturality on the reversed arrows into
 `i` (`reflFunctorMinus_mapLinear_ne_eq`) recovers (C), and naturality away from `i`
 (`reflFunctorMinus_mapLinear_ne_ne`) recovers (A). -/
-theorem Etingof.homFMinusEquivReduced
+noncomputable def Etingof.homFMinusEquivReducedEquiv
     {k : Type*} [CommRing k] {Q : Type*} [DecidableEq Q] [Quiver Q]
     {i : Q} (hi : Etingof.IsSource Q i) [Fintype (Etingof.ArrowsOutOf Q i)]
     (V : Etingof.QuiverRepresentation k Q)
     (W : @Etingof.QuiverRepresentation k Q _ (Etingof.reversedAtVertex Q i)) :
-    Nonempty
-      ((@Etingof.QuiverRepresentationHom k Q _ (Etingof.reversedAtVertex Q i)
-          (Etingof.reflectionFunctorMinus Q i hi V) W)
-        ≃ Etingof.AdjReducedData hi V W) := by
+    (@Etingof.QuiverRepresentationHom k Q _ (Etingof.reversedAtVertex Q i)
+        (Etingof.reflectionFunctorMinus Q i hi V) W)
+      ≃ Etingof.AdjReducedData hi V W := by
   classical
   letI grp_ds : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => V.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
@@ -481,7 +486,7 @@ theorem Etingof.homFMinusEquivReduced
     exact ⟨w, by
       unfold Etingof.reflFunctorMinus_mkQ
       rw [LinearMap.comp_apply, LinearEquiv.coe_coe, hw, LinearEquiv.symm_apply_apply]⟩
-  refine ⟨⟨toFun, invFun, ?_, ?_⟩⟩
+  refine ⟨toFun, invFun, ?_, ?_⟩
   · -- left_inv: `invFun (toFun f) = f`
     intro f
     refine @Etingof.QuiverRepresentationHom.ext k Q _ (Etingof.reversedAtVertex Q i)
@@ -563,6 +568,19 @@ theorem Etingof.homFMinusEquivReduced
         (Etingof.reflFunctorMinus_equivAt_ne hi V v hv).symm.toLinearMap) x = r.h v hv x
     rw [LinearMap.comp_apply, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
       LinearEquiv.coe_toLinearMap, LinearEquiv.apply_symm_apply]
+
+/-- The historical `Nonempty Equiv` endpoint, now witnessed by
+`homFMinusEquivReducedEquiv`. -/
+theorem Etingof.homFMinusEquivReduced
+    {k : Type*} [CommRing k] {Q : Type*} [DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : Etingof.IsSource Q i) [Fintype (Etingof.ArrowsOutOf Q i)]
+    (V : Etingof.QuiverRepresentation k Q)
+    (W : @Etingof.QuiverRepresentation k Q _ (Etingof.reversedAtVertex Q i)) :
+    Nonempty
+      ((@Etingof.QuiverRepresentationHom k Q _ (Etingof.reversedAtVertex Q i)
+          (Etingof.reflectionFunctorMinus Q i hi V) W)
+        ≃ Etingof.AdjReducedData hi V W) :=
+  ⟨Etingof.homFMinusEquivReducedEquiv hi V W⟩
 
 set_option maxHeartbeats 1600000 in
 /-- The reverse-orientation double-reversal round trip: starting from an arrow `e` of `Q̄ᵢ`
@@ -705,17 +723,16 @@ constraint (C) (`Φ_comp_source_eq_zero`, after reindexing `ArrowsInto (Q̄ᵢ) 
 by `arrowReindexEquiv`). Naturality of a morphism on arrows out of `i` in `Q`
 (`reflFunctorPlus_mapLinear_eq_ne`, through `transportReversedTwice_mapLinear_heq`) recovers (C),
 and naturality away from `i` (`reflFunctorPlus_mapLinear_ne_ne`) recovers (A). -/
-theorem Etingof.homTransportPlusEquivReduced
+noncomputable def Etingof.homTransportPlusEquivReducedEquiv
     {k : Type*} [CommRing k] {Q : Type*} [DecidableEq Q] [Quiver Q]
     {i : Q} (hi : Etingof.IsSource Q i) [Fintype (Etingof.ArrowsOutOf Q i)]
     (V : Etingof.QuiverRepresentation k Q)
     (W : @Etingof.QuiverRepresentation k Q _ (Etingof.reversedAtVertex Q i)) :
-    Nonempty
-      (Etingof.QuiverRepresentationHom k Q V
-          (Etingof.QuiverRepresentation.transportReversedTwice
-            (@Etingof.reflectionFunctorPlus k _ Q _ (Etingof.reversedAtVertex Q i) i
-              (Etingof.isSource_reversedAtVertex_isSink hi) W))
-        ≃ Etingof.AdjReducedData hi V W) := by
+    Etingof.QuiverRepresentationHom k Q V
+        (Etingof.QuiverRepresentation.transportReversedTwice
+          (@Etingof.reflectionFunctorPlus k _ Q _ (Etingof.reversedAtVertex Q i) i
+            (Etingof.isSource_reversedAtVertex_isSink hi) W))
+      ≃ Etingof.AdjReducedData hi V W := by
   classical
   -- `i` is a sink of `Q̄ᵢ`; `Fplus` is the reflection of `W`, transported back to `Q` as `T`.
   set hi' := Etingof.isSource_reversedAtVertex_isSink hi with hi'_def
@@ -796,14 +813,14 @@ theorem Etingof.homTransportPlusEquivReduced
       rw [DirectSum.component.of, dif_neg]
       exact fun hbeq => hb ((Etingof.sourceArrowReindexEquiv hi).injective hbeq)
     · intro h; exact absurd (Finset.mem_univ a₀) h
-  refine ⟨{
+  refine {
     toFun := fun g => {
       h := fun v hv => (τ v hv).toLinearMap ∘ₗ g.app v
       compat := ?compat
       constraint := ?constraint }
     invFun := ?invFun
     left_inv := ?li
-    right_inv := ?ri }⟩
+    right_inv := ?ri }
   case compat =>
     intro a b ha hb e x
     -- `h v hv y = τ v hv (g.app v y)`; abbreviate the Q-arrow `e' := reversedArrow_ne_ne ha hb e`.
@@ -979,6 +996,21 @@ theorem Etingof.homTransportPlusEquivReduced
     ext v hv x
     simp only [dif_neg hv, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
       LinearEquiv.apply_symm_apply]
+
+/-- The historical `Nonempty Equiv` endpoint, now witnessed by
+`homTransportPlusEquivReducedEquiv`. -/
+theorem Etingof.homTransportPlusEquivReduced
+    {k : Type*} [CommRing k] {Q : Type*} [DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : Etingof.IsSource Q i) [Fintype (Etingof.ArrowsOutOf Q i)]
+    (V : Etingof.QuiverRepresentation k Q)
+    (W : @Etingof.QuiverRepresentation k Q _ (Etingof.reversedAtVertex Q i)) :
+    Nonempty
+      (Etingof.QuiverRepresentationHom k Q V
+          (Etingof.QuiverRepresentation.transportReversedTwice
+            (@Etingof.reflectionFunctorPlus k _ Q _ (Etingof.reversedAtVertex Q i) i
+              (Etingof.isSource_reversedAtVertex_isSink hi) W))
+        ≃ Etingof.AdjReducedData hi V W) :=
+  ⟨Etingof.homTransportPlusEquivReducedEquiv hi V W⟩
 
 /-- Exercise 7.9.8(a): for a source `i` of a quiver `Q`, a representation `V` of `Q`, and a
 representation `W` of the reversed quiver `Q̄ᵢ`, there is a natural isomorphism (here: a

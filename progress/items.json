@@ -3663,13 +3663,12 @@
     "start_line": 28,
     "end_line": 2,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "full",
     "sorry_free": true,
-    "fidelity_note": "All three character tables are realized by genuine simple, pairwise nonisomorphic representations with the tabulated characters. For A₅, the remaining source-construction gap is the missing theorem that repC3minus is the twist of repC3plus by the outer automorphism induced by conjugation with (12), including the corresponding swap of five-cycle classes.",
-    "fidelity_decl": "Etingof.Example4_8_1_Q8_simple, Etingof.Example4_8_1_Q8_character, Etingof.Example4_8_1_S4_simple, Etingof.Example4_8_1_S4_character, Etingof.Example4_8_1_S4_pairwise, Etingof.Example4_8_1_S4_conj_classes, Etingof.Example4_8_1_S4_card, Etingof.Example4_8_1.A5_orthonormal, Etingof.Example4_8_1_A5_conj_classes",
-    "coverage": "covered_partial",
-    "followup_issue": 5449,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "All three character tables are realized by genuine simple, pairwise nonisomorphic representations with the tabulated characters. For S₄, actHom_ker_eq_kleinFour identifies the concrete V₄ kernel, actHom_surjective and quotientKleinFourEquivS3 package S₄/V₄ ≃ S₃, and repC2_iso_s3StandardPullback identifies the two-dimensional row with the pullback of the named S₃ standard representation. For A₅, outerAutomorphism is conjugation by (12), outerAutomorphism_classIdx proves that it swaps the two five-cycle classes, outerAutomorphism_not_inner proves it is genuinely outer, and repC3plus_outerTwist_iso_repC3minus identifies the two golden-ratio representations by twisting.",
+    "fidelity_decl": "Etingof.Example4_8_1_Q8_simple, Etingof.Example4_8_1_Q8_character, Etingof.Example4_8_1_S4_simple, Etingof.Example4_8_1_S4_character, Etingof.Example4_8_1_S4_pairwise, Etingof.Example4_8_1_S4_conj_classes, Etingof.Example4_8_1_S4_card, Etingof.Example4_3_S4.actHom_ker_eq_kleinFour, Etingof.Example4_3_S4.actHom_surjective, Etingof.Example4_3_S4.quotientKleinFourEquivS3, Etingof.Example4_8_1.S4.repC2_iso_s3StandardPullback, Etingof.Example4_8_1.A5_orthonormal, Etingof.Example4_8_1_A5_conj_classes, Etingof.Example4_8_1.A5.outerAutomorphism_classIdx, Etingof.Example4_8_1.A5.outerAutomorphism_not_inner, Etingof.Example4_8_1.A5.repC3plus_outerTwist_iso_repC3minus",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter4/Introduction_4.9",
@@ -5620,13 +5619,12 @@
     "end_line": 12,
     "status": "sorry_free",
     "fidelity": "verified",
-    "fidelity_note": "The proportionality statement is faithful and proved, but it is only the first part of the source lemma; the exact scalar remains absent.",
+    "fidelity_note": "The early theorem proves proportionality for the unnormalized Young symmetrizer. Lemma5_13_3_exact gives the source-faithful exact formula for the normalized projector c_lambda = a_lambda b_lambda: c_lambda squared = n!/(|P_lambda||Q_lambda| dim V_lambda) times c_lambda.",
     "needs_statement": false,
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "Lemma5_13_3 proves only existence of a scalar alpha with c_lambda squared = alpha times c_lambda. The source gives the exact scalar n!/(|P_lambda||Q_lambda| dim V_lambda); that formula, and hence its nonzeroness at this endpoint, is absent.",
-    "fidelity_issue": 770,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "Fully proved. Lemma5_13_3_exact derives the exact scalar by combining the nonzero proportionality theorem with the trace of right multiplication, the source-order Young-projector realization of the Specht module, and the identity coefficient of the reversed Young symmetrizer.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Lemma5.13.4",
@@ -6846,8 +6844,8 @@
     },
     "fidelity": "partial",
     "coverage": "covered_partial",
-    "coverage_note": "The complementary-series construction and count are present, but Discussion5_25_4.lean fails a fresh source check in the ZMod cast arithmetic, so its public character/count/transversal endpoints cannot currently be rebuilt; regression #7508. The third term of the virtual character is no longer a bare formula: Chapter5/EllipticInduced.lean constructs Ind_K^G ℂ_ν as an FDRep with the Frobenius character formula and dimension q(q−1) (#7904).",
-    "fidelity_issue": 7508,
+    "coverage_note": "The virtual character is now realized by the honest simple FDRep Etingof.GL2.complementarySeriesRep, with its character identified and dimension q−1 proved in Chapter5/GL2ComplementarySeries.lean (#7906). Discussion5_25_4.lean rebuilds and proves the standalone additive ZMod orbit transversal/count q(q−1)/2. RESIDUAL: connect the actual elliptic-torus character group to that additive model and prove the iff isomorphism classification/pairwise non-isomorphic family (#7947).",
+    "fidelity_issue": 7947,
     "last_updated": "2026-07-26"
   },
   {
@@ -8904,10 +8902,9 @@
     "start_line": 27,
     "end_line": 29,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "A pointwise Hom-set equivalence is proved. The source requires an adjunction natural in both arguments and then left/right exactness; this is blocked on reflection-functor packaging #7383 and tracked by #7415.",
-    "fidelity_issue": 7415,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "Proved: Exercise7_9_8.lean exposes the two componentwise reduced-data equivalences; Exercise7_9_8_Adjunction.lean proves naturality in both variables, packages them as reflectionFunctorAdjunction : F_i^- ⊣ F_i^+ (with canonical double-reversal transport), and derives right exactness of F_i^- and left exactness of F_i^+ from preservation of colimits/limits.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter7/Introduction_7.10",
@@ -9206,11 +9203,10 @@
     "start_line": 9,
     "end_line": 22,
     "status": "sorry_free",
-    "coverage_note": "Substantial local Tor/Ext results are proved. Two API/fidelity gaps remain: part (ii) hides its canonical Ext¹ comparison inside Nonempty (#6298), while parts (iii) and (v) expose only independent six-term windows rather than coherent natural long exact sequences and omit their zero-ended degree-zero assertions (#7421).",
+    "coverage_note": "Substantial local Tor/Ext results are proved. Part (ii) now exposes a named canonical Ext¹ AddEquiv, its factorization through bar-resolution cohomology, and representative-level tensor–hom computation theorems. The remaining gap is that parts (iii) and (v) expose only independent six-term windows rather than coherent natural long exact sequences and omit their zero-ended degree-zero assertions (#7421).",
     "coverage": "covered_partial",
-    "fidelity_issue": 6298,
     "followup_issue": 7421,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter8/Problem8.2.7",

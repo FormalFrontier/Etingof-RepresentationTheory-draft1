@@ -59,7 +59,7 @@ higher `Tor` on projectives, and the naturality of the degree-`0` balancing isom
 
 namespace Etingof
 
-open CategoryTheory TensorProduct
+open CategoryTheory TensorProduct CochainComplex.HomComplex
 
 universe u
 
@@ -83,6 +83,66 @@ theorem Problem_8_2_6_i_ext
 
 /-! ### Part (ii) -/
 
+/-- The canonical additive equivalence from categorical `Ext¹_A(W, V)` to the explicit
+cocycle-modulo-coboundary model of Problem 3.9.1. -/
+noncomputable def extOneAddEquivProblem3Ext1
+    (k : Type u) (A : Type u) [Field k] [Ring A] [Algebra k A]
+    (V W : Type u) [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
+    [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W] :
+    Etingof.Ext (ModuleCat.of A W) (ModuleCat.of A V) 1
+      ≃+ Etingof.Problem3_9_1.Ext1 k A V W :=
+  ((Etingof.barResolution k A W).extAddEquivCohomologyClass
+      (Y := ModuleCat.of A V) (n := 1)).trans
+    (Etingof.cohomologyClassEquivExt1 k A W V)
+
+/-- The canonical comparison factors through degree-one cohomology of the bar resolution. -/
+@[simp]
+theorem extOneAddEquivProblem3Ext1_apply
+    (k : Type u) (A : Type u) [Field k] [Ring A] [Algebra k A]
+    (V W : Type u) [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
+    [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W]
+    (x : Etingof.Ext (ModuleCat.of A W) (ModuleCat.of A V) 1) :
+    extOneAddEquivProblem3Ext1 k A V W x =
+      cohomologyClassEquivExt1 k A W V
+        ((barResolution k A W).extAddEquivCohomologyClass x) :=
+  rfl
+
+/-- The bar cocycle represented by a degree-one chain map used in `ProjectiveResolution.extMk`. -/
+noncomputable def barExtCocycle
+    (k : Type u) (A : Type u) [Field k] [Ring A] [Algebra k A]
+    (V W : Type u) [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
+    [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W]
+    (f : (barResolution k A W).complex.X 1 ⟶ ModuleCat.of A V)
+    (hf : (barResolution k A W).complex.d 2 1 ≫ f = 0) :
+    Cocycle (barCochainComplex k A W) (singleV A V) 1 :=
+  Cocycle.toSingleMk
+    (((barResolution k A W).cochainComplexXIso (-(1 : ℕ)) 1 rfl).hom ≫ f) (by simp)
+    (-(2 : ℕ)) (by lia)
+    (by
+      rw [ProjectiveResolution.cochainComplex_d (barResolution k A W)
+        (-(2 : ℕ)) (-(1 : ℕ)) 2 1 (by norm_num) (by norm_num)]
+      simp [Category.assoc, hf])
+
+/-- On the standard `extMk` generators, the canonical comparison is the quotient class of the
+corresponding bar cocycle.  Together with `barCocycleEquivProblem3Cocycle_apply`, this computes
+the representative by the tensor–hom formula `z (1 ⊗ (a ⊗ w))`. -/
+@[simp]
+theorem extOneAddEquivProblem3Ext1_extMk
+    (k : Type u) (A : Type u) [Field k] [Ring A] [Algebra k A]
+    (V W : Type u) [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
+    [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W]
+    (f : (barResolution k A W).complex.X 1 ⟶ ModuleCat.of A V)
+    (hf : (barResolution k A W).complex.d 2 1 ≫ f = 0) :
+    extOneAddEquivProblem3Ext1 k A V W
+        ((barResolution k A W).extMk f 2 rfl hf) =
+      cohomologyClassEquivExt1 k A W V
+        (CohomologyClass.mk (barExtCocycle k A V W f hf)) := by
+  unfold extOneAddEquivProblem3Ext1
+  rw [AddEquiv.trans_apply,
+    ProjectiveResolution.extAddEquivCohomologyClass_apply,
+    ProjectiveResolution.extEquivCohomologyClass_extMk]
+  rfl
+
 /-- **Problem 8.2.6(ii).** For representations `V`, `W` of a `k`-algebra `A`, the group
 `Ext¹_A(W, V)` of Definition 8.2.4 is canonically isomorphic to the group `Ext¹(W, V)` of
 Problem 3.9.1, defined as 1-cocycles modulo coboundaries. (Both classify extensions
@@ -93,14 +153,7 @@ theorem Problem_8_2_6_ii
     [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W] :
     Nonempty (Etingof.Ext (ModuleCat.of A W) (ModuleCat.of A V) 1
       ≃+ Etingof.Problem3_9_1.Ext1 k A V W) :=
-  -- Step 1: the relative bar resolution `Etingof.barResolution` computes `Ext¹` as the degree-1
-  -- cohomology of the Hom-into-`V` cochain complex, via
-  -- `ProjectiveResolution.extAddEquivCohomologyClass`.
-  -- Step 2: identify that cohomology group with `Problem3_9_1.Ext1` via
-  -- `Etingof.cohomologyClassEquivExt1`.
-  ⟨((Etingof.barResolution k A W).extAddEquivCohomologyClass
-      (Y := ModuleCat.of A V) (n := 1)).trans
-    (Etingof.cohomologyClassEquivExt1 k A W V)⟩
+  ⟨extOneAddEquivProblem3Ext1 k A V W⟩
 
 /-! ### Part (iii): long exact sequence in the second argument (`Ext` half) -/
 
@@ -116,6 +169,7 @@ theorem Problem_8_2_6_iii_ext
     (Abelian.Ext.covariantSequence (X := M) hS n₀ n₁ h).Exact :=
   Abelian.Ext.covariantSequence_exact M hS n₀ n₁ h
 
+set_option backward.isDefEq.respectTransparency false in
 /-- **Problem 8.2.6(iii), `Tor`.** A short exact sequence `S : 0 → N₁ → N₂ → N₃ → 0` of left
 `A`-modules induces, for each right `A`-module `M` and each `n₀ + 1 = n₁`, a connecting
 homomorphism `δ : Torₙ₁(M, N₃) → Torₙ₀(M, N₁)` making the six-term homology window
@@ -178,6 +232,7 @@ noncomputable def balancingIsoZero
   ((tensorRightFunctor A N).leftDerivedZeroIsoSelf.app M) ≪≫
     ((tensorLeftFunctor A M).leftDerivedZeroIsoSelf.app (ModuleCat.of A N)).symm
 
+set_option backward.isDefEq.respectTransparency false in
 /-- **Balancing-side six-term window.** The mirror of `Problem_8_2_6_iii_tor` for the
 balancing-side derived functor: a short exact sequence `S : 0 → M₁ → M₂ → M₃ → 0` of *right*
 `A`-modules induces, for a fixed left module `N` and each `n₀ + 1 = n₁`, a connecting homomorphism
@@ -233,6 +288,8 @@ open CategoryTheory.Limits
 
 universe v₁ u₁
 
+set_option backward.defeqAttrib.useBackward true in
+set_option backward.isDefEq.respectTransparency false in
 /-- **Naturality of `fromLeftDerivedZero` in the functor variable.** For a natural transformation
 `α : F ⟶ G` of additive functors between abelian categories (`C` with enough projectives), the
 degree-`0` comparison maps `L₀F ⟶ F` and `L₀G ⟶ G` intertwine `NatTrans.leftDerived α 0` with `α`.
@@ -259,6 +316,7 @@ lemma fromLeftDerivedZero_natTrans_app
   simp only [NatTrans.mapHomologicalComplex_app_f]
   exact (α.naturality (P.π.f 0)).symm
 
+set_option backward.isDefEq.respectTransparency false in
 /-- In a six-term exact window with the two neighbours `obj 1` and `obj 4` of the central map
 `obj 2 ⟶ obj 3` both zero, that central map is an isomorphism, giving `obj 2 ≅ obj 3`. Used to
 collapse each six-term window `Tₙ(K) → Tₙ(P) → Tₙ(M) → Tₙ₋₁(K) → Tₙ₋₁(P) → Tₙ₋₁(M)` to
@@ -267,12 +325,14 @@ noncomputable def iso_of_sixTerm_exact
     {D : Type*} [Category D] [Abelian D] {W : ComposableArrows D 5}
     (hW : W.Exact) (h1 : IsZero (W.obj 1)) (h4 : IsZero (W.obj 4)) :
     W.obj 2 ≅ W.obj 3 := by
-  haveI : Mono (W.map' 2 3) := (hW.exact' 1 2 3).mono_g (h1.eq_of_src _ _)
-  haveI : Epi (W.map' 2 3) := (hW.exact' 2 3 4).epi_f (h4.eq_of_tgt _ _)
   let g : W.obj 2 ⟶ W.obj 3 := W.map' 2 3
+  haveI : Mono g := (hW.exact' 1 2 3).mono_g (h1.eq_of_src _ _)
+  haveI : Epi g := (hW.exact' 2 3 4).epi_f (h4.eq_of_tgt _ _)
   haveI : IsIso g := isIso_of_mono_of_epi _
   exact asIso g
 
+set_option backward.defeqAttrib.useBackward true in
+set_option backward.isDefEq.respectTransparency false in
 /-- **Naturality of the degree-0 balancing isomorphism** in the right module. For a map
 `f : M ⟶ M'` of right `A`-modules, the square relating `balancingIsoZero A N M` and
 `balancingIsoZero A N M'` commutes: the `Tor`-side functoriality `(TorFunctor A N 0).map f` and
