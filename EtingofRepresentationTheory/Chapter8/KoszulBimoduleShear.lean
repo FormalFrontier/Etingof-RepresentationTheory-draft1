@@ -391,7 +391,7 @@ noncomputable def regularResolutionZeroIso :
   HomologicalComplex.singleObjXIsoOfEq
     (ComplexShape.down ℕ) 0 (regularObj k V) 0 rfl
 
-noncomputable def externalRegularTermComponent
+noncomputable def bimoduleExternalRegularTermComponent
     {M : ModuleCat.{u} (S k V)} (P : ProjectiveResolution M) (n i₁ i₂ : ℕ)
     (h : (ComplexShape.down ℕ).π (ComplexShape.down ℕ) (ComplexShape.down ℕ)
       (i₁, i₂) = n) :
@@ -407,24 +407,24 @@ noncomputable def externalRegularTermComponent
   · exact 0
 
 @[simp]
-theorem externalRegularTermComponent_zero
+theorem bimoduleExternalRegularTermComponent_zero
     {M : ModuleCat.{u} (S k V)} (P : ProjectiveResolution M) (n : ℕ)
     (h : (ComplexShape.down ℕ).π (ComplexShape.down ℕ) (ComplexShape.down ℕ)
       (n, 0) = n) :
-    externalRegularTermComponent k V P n n 0 h =
+    bimoduleExternalRegularTermComponent k V P n n 0 h =
       ((extTensorFunctorLeft k (S k V) (S k V)).obj (P.complex.X n)).map
         (regularResolutionZeroIso k V).hom := by
-  simp [externalRegularTermComponent]
+  simp [bimoduleExternalRegularTermComponent]
 
 /-- Tensoring a complex with the degree-zero regular resolution introduces no extra terms:
 the degree-`n` total-complex object is its degree-`n` term externally tensored with `SV`. -/
-noncomputable def externalRegularTermIso
+noncomputable def bimoduleExternalRegularTermIso
     {M : ModuleCat.{u} (S k V)} (P : ProjectiveResolution M) (n : ℕ) :
     (extTensorComplexLeft (k := k) P (regularResolution k V)).X n ≅
       ((extTensorFunctorLeft k (S k V) (S k V)).obj (P.complex.X n)).obj
         (regularObj k V) where
   hom := HomologicalComplex.mapBifunctorDesc (j := n)
-    (externalRegularTermComponent k V P n)
+    (bimoduleExternalRegularTermComponent k V P n)
   inv := ((extTensorFunctorLeft k (S k V) (S k V)).obj (P.complex.X n)).map
       (regularResolutionZeroIso k V).inv ≫
     HomologicalComplex.ιMapBifunctor P.complex (regularResolution k V).complex
@@ -436,7 +436,7 @@ noncomputable def externalRegularTermIso
     · have hi : i₁ = n := by simpa using h
       subst i₁
       rw [← Category.assoc, HomologicalComplex.ι_mapBifunctorDesc,
-        externalRegularTermComponent_zero, ← Category.assoc, ← Functor.map_comp]
+        bimoduleExternalRegularTermComponent_zero, ← Category.assoc, ← Functor.map_comp]
       simp
     · have hz : IsZero ((regularResolution k V).complex.X (i₂ + 1)) := by
         change IsZero (((ChainComplex.single₀ (ModuleCat.{u} (S k V))).obj
@@ -447,7 +447,7 @@ noncomputable def externalRegularTermIso
         (P.complex.X i₁)).map_isZero hz).eq_of_src _ _
   inv_hom_id := by
     rw [Category.assoc, HomologicalComplex.ι_mapBifunctorDesc,
-      externalRegularTermComponent_zero, ← Functor.map_comp]
+      bimoduleExternalRegularTermComponent_zero, ← Functor.map_comp]
     simp
 
 /-! ## Literal terms of the bimodule resolution -/
@@ -846,7 +846,7 @@ noncomputable def koszulBimoduleResolutionTermIso
       @ModuleCat.of (E k V) _ (koszulBimoduleX k V i) _
         (koszulBimoduleTermModule k V i) :=
   (shearRestrictionFunctor k V).mapIso
-      (externalRegularTermIso k V (koszulResolution b) i) ≪≫
+      (bimoduleExternalRegularTermIso k V (koszulResolution b) i) ≪≫
     shearedKoszulTermIso k V i
 
 /-- **Freeness endpoint of Problem 8.2.10(iii).** Every term of the Koszul bimodule resolution is
