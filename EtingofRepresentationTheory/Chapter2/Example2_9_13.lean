@@ -5,7 +5,6 @@ import Mathlib.RingTheory.TwoSidedIdeal.Operations
 import Mathlib.RingTheory.TwoSidedIdeal.Kernel
 import Mathlib.RingTheory.Congruence.Basic
 import Mathlib.RingTheory.Congruence.Hom
-import Batteries.Util.ProofWanted
 import EtingofRepresentationTheory.Chapter2.Proposition2_7_1
 
 /-!
@@ -41,10 +40,9 @@ The content is:
 ## Mathlib correspondence
 
 Mathlib has `UniversalEnvelopingAlgebra` but the Heisenberg Lie algebra is not defined, so we build
-it here. The full universal property (that `x, y, c` generate `U(ℋ)` and that these relations are
-a complete presentation) is beyond current Mathlib infrastructure; we assert and prove the defining
-relations and construct the identification of `U(ℋ)/(c−1)` with the Weyl algebra directly from the
-universal property of `U(ℋ)` and of the free algebra.
+it here. We prove the complete presentation by constructing inverse maps between `U(ℋ)` and the
+free-algebra quotient. We also construct the identification of `U(ℋ)/(c−1)` with the Weyl algebra
+directly from the universal property of `U(ℋ)` and of the free algebra.
 -/
 
 namespace Etingof.Example2_9_13
@@ -145,9 +143,8 @@ theorem heisenberg_universal_relations (k : Type*) [CommRing k] :
 /-! ## The generators-and-relations presentation
 
 The displayed equations in the book are a presentation, not merely equations that happen to
-hold in `U(ℋ)`.  We therefore define the algebra with exactly those three relations and record
-the missing isomorphism to `U(ℋ)` as the theorem-level Stage 3.3 obligation
-`heisenbergPresentationEquiv`. -/
+hold in `U(ℋ)`. We therefore define the algebra with exactly those three relations and prove it
+is isomorphic to `U(ℋ)`, with the three generators matching. -/
 
 /-- The three defining relations for the free algebra on `x`, `y`, `c` (indices `0`, `1`, `2`). -/
 inductive HeisenbergPresRel (k : Type*) [CommRing k] :
@@ -181,15 +178,180 @@ def heisenbergPresMk (k : Type*) [CommRing k] :
 def heisenbergPresGen (k : Type*) [CommRing k] (i : Fin 3) : HeisenbergPresentation k :=
   heisenbergPresMk k (FreeAlgebra.ι k i)
 
-/-- The full presentation assertion implicit in Example 2.9.13.  Unlike the already-proved
-relations `heisenberg_universal_relations`, this says that there are no additional defining
-relations: the algebra presented by the displayed equations is `U(ℋ)`, with matching
-generators. -/
-proof_wanted heisenbergPresentationEquiv (k : Type*) [CommRing k] :
+theorem heisenbergPresRel_yx (k : Type*) [CommRing k] :
+    heisenbergPresGen k 1 * heisenbergPresGen k 0 -
+        heisenbergPresGen k 0 * heisenbergPresGen k 1 = heisenbergPresGen k 2 := by
+  change (RingQuot.mkAlgHom k (HeisenbergPresRel k)) (FreeAlgebra.ι k 1) *
+      (RingQuot.mkAlgHom k (HeisenbergPresRel k)) (FreeAlgebra.ι k 0) -
+      (RingQuot.mkAlgHom k (HeisenbergPresRel k)) (FreeAlgebra.ι k 0) *
+      (RingQuot.mkAlgHom k (HeisenbergPresRel k)) (FreeAlgebra.ι k 1) =
+      (RingQuot.mkAlgHom k (HeisenbergPresRel k)) (FreeAlgebra.ι k 2)
+  have hrel := RingQuot.mkAlgHom_rel (S := k) (HeisenbergPresRel.yx (k := k))
+  simpa only [map_sub, map_mul] using hrel
+
+theorem heisenbergPresRel_yc (k : Type*) [CommRing k] :
+    heisenbergPresGen k 1 * heisenbergPresGen k 2 -
+        heisenbergPresGen k 2 * heisenbergPresGen k 1 = 0 := by
+  change (RingQuot.mkAlgHom k (HeisenbergPresRel k)) (FreeAlgebra.ι k 1) *
+      (RingQuot.mkAlgHom k (HeisenbergPresRel k)) (FreeAlgebra.ι k 2) -
+      (RingQuot.mkAlgHom k (HeisenbergPresRel k)) (FreeAlgebra.ι k 2) *
+      (RingQuot.mkAlgHom k (HeisenbergPresRel k)) (FreeAlgebra.ι k 1) = 0
+  have hrel := RingQuot.mkAlgHom_rel (S := k) (HeisenbergPresRel.yc (k := k))
+  simpa only [map_sub, map_mul, map_zero] using hrel
+
+theorem heisenbergPresRel_xc (k : Type*) [CommRing k] :
+    heisenbergPresGen k 0 * heisenbergPresGen k 2 -
+        heisenbergPresGen k 2 * heisenbergPresGen k 0 = 0 := by
+  change (RingQuot.mkAlgHom k (HeisenbergPresRel k)) (FreeAlgebra.ι k 0) *
+      (RingQuot.mkAlgHom k (HeisenbergPresRel k)) (FreeAlgebra.ι k 2) -
+      (RingQuot.mkAlgHom k (HeisenbergPresRel k)) (FreeAlgebra.ι k 2) *
+      (RingQuot.mkAlgHom k (HeisenbergPresRel k)) (FreeAlgebra.ι k 0) = 0
+  have hrel := RingQuot.mkAlgHom_rel (S := k) (HeisenbergPresRel.xc (k := k))
+  simpa only [map_sub, map_mul, map_zero] using hrel
+
+section PresentationTriple
+
+variable {A : Type*} [Ring A] [Algebra k A]
+
+/-- A triple satisfying the Heisenberg relations determines a Lie algebra map out of `ℋ`. -/
+def heisenbergLiftTriple (X Y C : A) (hYX : Y * X - X * Y = C)
+    (hYC : Y * C - C * Y = 0) (hXC : X * C - C * X = 0) :
+    Heisenberg k →ₗ⁅k⁆ A where
+  toFun u := u.1 • X + u.2.1 • Y + u.2.2 • C
+  map_add' u v := by
+    simp only [add_fst, add_snd_fst, add_snd_snd, add_smul]
+    abel
+  map_smul' t u := by
+    simp only [smul_fst, smul_snd_fst, smul_snd_snd, smul_eq_mul, RingHom.id_apply,
+      smul_add, smul_smul]
+  map_lie' {u v} := by
+    obtain ⟨a₁, b₁, d₁⟩ := u
+    obtain ⟨a₂, b₂, d₂⟩ := v
+    have expand :
+        (a₁ • X + b₁ • Y + d₁ • C) * (a₂ • X + b₂ • Y + d₂ • C) -
+            (a₂ • X + b₂ • Y + d₂ • C) * (a₁ • X + b₁ • Y + d₁ • C) =
+          (b₁ * a₂ - b₂ * a₁) • (Y * X - X * Y) +
+            (b₁ * d₂ - b₂ * d₁) • (Y * C - C * Y) +
+            (a₁ * d₂ - a₂ * d₁) • (X * C - C * X) := by
+      simp only [add_mul, mul_add, smul_mul_smul_comm, smul_sub]
+      module
+    simp only [LieRing.of_associative_ring_bracket, bracket_def]
+    rw [expand, hYX, hYC, hXC]
+    module
+
+@[simp] theorem heisenbergLiftTriple_apply (X Y C : A) (hYX : Y * X - X * Y = C)
+    (hYC : Y * C - C * Y = 0) (hXC : X * C - C * X = 0) (u : Heisenberg k) :
+    heisenbergLiftTriple X Y C hYX hYC hXC u =
+      u.1 • X + u.2.1 • Y + u.2.2 • C := rfl
+
+@[simp] theorem heisenbergLiftTriple_x (X Y C : A) (hYX : Y * X - X * Y = C)
+    (hYC : Y * C - C * Y = 0) (hXC : X * C - C * X = 0) :
+    heisenbergLiftTriple X Y C hYX hYC hXC (x : Heisenberg k) = X := by simp [x]
+
+@[simp] theorem heisenbergLiftTriple_y (X Y C : A) (hYX : Y * X - X * Y = C)
+    (hYC : Y * C - C * Y = 0) (hXC : X * C - C * X = 0) :
+    heisenbergLiftTriple X Y C hYX hYC hXC (y : Heisenberg k) = Y := by simp [y]
+
+@[simp] theorem heisenbergLiftTriple_c (X Y C : A) (hYX : Y * X - X * Y = C)
+    (hYC : Y * C - C * Y = 0) (hXC : X * C - C * X = 0) :
+    heisenbergLiftTriple X Y C hYX hYC hXC (c : Heisenberg k) = C := by simp [c]
+
+end PresentationTriple
+
+/-- The Lie map from `ℋ` to its algebra presented by the three displayed relations. -/
+def heisenbergToPresLie (k : Type*) [CommRing k] :
+    Heisenberg k →ₗ⁅k⁆ HeisenbergPresentation k :=
+  heisenbergLiftTriple (heisenbergPresGen k 0) (heisenbergPresGen k 1)
+    (heisenbergPresGen k 2) (heisenbergPresRel_yx k) (heisenbergPresRel_yc k)
+    (heisenbergPresRel_xc k)
+
+/-- The map `U(ℋ) → HeisenbergPresentation k` induced by the presentation generators. -/
+def heisenbergUToPres (k : Type*) [CommRing k] :
+    UniversalEnvelopingAlgebra k (Heisenberg k) →ₐ[k] HeisenbergPresentation k :=
+  UniversalEnvelopingAlgebra.lift k (heisenbergToPresLie k)
+
+/-- The free-algebra map sending the presentation generators to `ι x`, `ι y`, `ι c`. -/
+def heisenbergPresToUFree (k : Type*) [CommRing k] :
+    FreeAlgebra k (Fin 3) →ₐ[k] UniversalEnvelopingAlgebra k (Heisenberg k) :=
+  FreeAlgebra.lift k ![ι k (x : Heisenberg k), ι k (y : Heisenberg k),
+    ι k (c : Heisenberg k)]
+
+@[simp] theorem heisenbergPresToUFree_ι (k : Type*) [CommRing k] (i : Fin 3) :
+    heisenbergPresToUFree k (FreeAlgebra.ι k i) =
+      ι k (![(x : Heisenberg k), y, c] i) := by
+  simp only [heisenbergPresToUFree, FreeAlgebra.lift_ι_apply]
+  fin_cases i <;> simp
+
+theorem heisenbergPresToUFree_rel (k : Type*) [CommRing k] :
+    ∀ ⦃a b : FreeAlgebra k (Fin 3)⦄, HeisenbergPresRel k a b →
+      heisenbergPresToUFree k a = heisenbergPresToUFree k b := by
+  rintro a b hab
+  obtain _ | _ | _ := hab
+  · simpa using (heisenberg_universal_relations k).1
+  · simpa using (heisenberg_universal_relations k).2.1
+  · simpa using (heisenberg_universal_relations k).2.2
+
+/-- The presentation map induced by `x ↦ ι x`, `y ↦ ι y`, and `c ↦ ι c`. -/
+def heisenbergPresToU (k : Type*) [CommRing k] :
+    HeisenbergPresentation k →ₐ[k] UniversalEnvelopingAlgebra k (Heisenberg k) :=
+  RingQuot.liftAlgHom k ⟨heisenbergPresToUFree k, heisenbergPresToUFree_rel k⟩
+
+@[simp] theorem heisenbergUToPres_ι (k : Type*) [CommRing k] (u : Heisenberg k) :
+    heisenbergUToPres k (ι k u) =
+      u.1 • heisenbergPresGen k 0 + u.2.1 • heisenbergPresGen k 1 +
+        u.2.2 • heisenbergPresGen k 2 :=
+  UniversalEnvelopingAlgebra.lift_ι_apply k (heisenbergToPresLie k) u
+
+@[simp] theorem heisenbergPresToU_presGen (k : Type*) [CommRing k] (i : Fin 3) :
+    heisenbergPresToU k (heisenbergPresGen k i) =
+      ι k (![(x : Heisenberg k), y, c] i) := by
+  change RingQuot.liftAlgHom k ⟨heisenbergPresToUFree k, heisenbergPresToUFree_rel k⟩
+      (RingQuot.mkAlgHom k (HeisenbergPresRel k) (FreeAlgebra.ι k i)) = _
+  rw [RingQuot.liftAlgHom_mkAlgHom_apply, heisenbergPresToUFree_ι]
+
+theorem heisenbergPresToU_comp_uToPres (k : Type*) [CommRing k] :
+    (heisenbergPresToU k).comp (heisenbergUToPres k) =
+      AlgHom.id k (UniversalEnvelopingAlgebra k (Heisenberg k)) := by
+  ext u
+  simp only [AlgHom.coe_comp, LieHom.coe_comp, Function.comp_apply, AlgHom.coe_toLieHom,
+    AlgHom.coe_id, id_eq, heisenbergUToPres_ι, map_add, map_smul,
+    heisenbergPresToU_presGen]
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_two,
+    Matrix.tail_cons]
+  rw [← map_smul, ← map_smul, ← map_smul, ← map_add, ← map_add]
+  apply congrArg (ι k)
+  apply Heisenberg.ext <;> simp [x, y, c]
+
+theorem heisenbergUToPres_comp_presToU (k : Type*) [CommRing k] :
+    (heisenbergUToPres k).comp (heisenbergPresToU k) =
+      AlgHom.id k (HeisenbergPresentation k) := by
+  apply RingQuot.ringQuot_ext'
+  ext i
+  fin_cases i
+  · change heisenbergUToPres k (heisenbergPresToU k (heisenbergPresGen k 0)) =
+      heisenbergPresGen k 0
+    simp [heisenbergUToPres, heisenbergToPresLie, x, y, c]
+  · change heisenbergUToPres k (heisenbergPresToU k (heisenbergPresGen k 1)) =
+      heisenbergPresGen k 1
+    simp [heisenbergUToPres, heisenbergToPresLie, x, y, c]
+  · change heisenbergUToPres k (heisenbergPresToU k (heisenbergPresGen k 2)) =
+      heisenbergPresGen k 2
+    simp [heisenbergUToPres, heisenbergToPresLie, x, y, c]
+
+/-- **Example 2.9.13.** The three displayed relations are a complete presentation of `U(ℋ)`. -/
+def heisenbergPresentationAlgEquiv (k : Type*) [CommRing k] :
+    HeisenbergPresentation k ≃ₐ[k] UniversalEnvelopingAlgebra k (Heisenberg k) :=
+  AlgEquiv.ofAlgHom (heisenbergPresToU k) (heisenbergUToPres k)
+    (heisenbergPresToU_comp_uToPres k) (heisenbergUToPres_comp_presToU k)
+
+/-- The full presentation assertion implicit in Example 2.9.13, including generator matching. -/
+theorem heisenbergPresentationEquiv (k : Type*) [CommRing k] :
     ∃ e : HeisenbergPresentation k ≃ₐ[k] UniversalEnvelopingAlgebra k (Heisenberg k),
       e (heisenbergPresGen k 0) = ι k (x : Heisenberg k) ∧
       e (heisenbergPresGen k 1) = ι k (y : Heisenberg k) ∧
-      e (heisenbergPresGen k 2) = ι k (c : Heisenberg k)
+      e (heisenbergPresGen k 2) = ι k (c : Heisenberg k) := by
+  refine ⟨heisenbergPresentationAlgEquiv k, ?_, ?_, ?_⟩ <;>
+    simp [heisenbergPresentationAlgEquiv]
 
 /-- The two-sided congruence on `U(ℋ)` generated by `C − 1`, defining the Weyl-algebra quotient. -/
 abbrev weylCon (k : Type*) [CommRing k] :

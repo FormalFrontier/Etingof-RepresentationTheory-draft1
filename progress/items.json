@@ -2696,7 +2696,21 @@
     "sorry_free": true,
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Discussion_2_9_heading.lean"
-    ]
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Discussion2_9.bracket_add_left",
+        "Etingof.Discussion2_9.bracket_add_right",
+        "Etingof.Discussion2_9.bracket_smul_left",
+        "Etingof.Discussion2_9.bracket_smul_right",
+        "Etingof.Discussion2_9.bracket_self",
+        "Etingof.Discussion2_9.bracket_skew"
+      ]
+    }
   },
   {
     "id": "Chapter2/Definition2.9.1",
@@ -2726,6 +2740,16 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.LieAlgebraDef; Etingof.jacobi_identity"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.LieAlgebraDef",
+        "Etingof.jacobi_identity"
       ]
     }
   },
@@ -2784,6 +2808,18 @@
           "lean_decl": "Etingof.Example2_9_2.Der; Der.bracket_apply; derivationLieEquiv"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Example2_9_2.Abelian",
+        "Etingof.Example2_9_2.IsLeibniz",
+        "Etingof.Example2_9_2.Der",
+        "Etingof.Example2_9_2.derivationLieEquiv"
+      ]
     }
   },
   {
@@ -2813,6 +2849,15 @@
           "verdict": "formalized",
           "lean_decl": "LieSubalgebra; EtingofRepresentationTheory.Chapter2.Example2_9_2_continued example"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "LieSubalgebra"
       ]
     }
   },
@@ -2848,7 +2893,15 @@
     },
     "last_updated": "2026-07-27",
     "coverage": "covered_full",
-    "sorry_free": true
+    "sorry_free": true,
+    "stage3_3": {
+      "status": "partial",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "proof_wanted",
+      "declarations": [],
+      "remaining_obligation": "Etingof.ado (arbitrary-field Ado–Iwasawa theorem)"
+    }
   },
   {
     "id": "Chapter2/Remark2.9.4",
@@ -2896,7 +2949,21 @@
       ]
     },
     "coverage": "covered_full",
-    "sorry_free": true
+    "sorry_free": true,
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Remark2_9_4.hasDerivAt_leibniz",
+        "Etingof.Remark2_9_4.expDeriv_map_mul",
+        "Etingof.Remark2_9_4.expDeriv_map_one",
+        "Etingof.Remark2_9_4.expDerivAut",
+        "Etingof.Remark2_9_4.expDeriv_zero",
+        "Etingof.Remark2_9_4.expDeriv_add"
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_concrete_Lie_examples",
@@ -2963,7 +3030,19 @@
     "sorry_free": true,
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Discussion_concrete_Lie_examples.lean"
-    ]
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.DiscussionConcreteLieExamples.heisenbergMatrixEquiv",
+        "Etingof.DiscussionConcreteLieExamples.heisenbergMatrixEquiv_x",
+        "Etingof.DiscussionConcreteLieExamples.heisenbergMatrixEquiv_y",
+        "Etingof.DiscussionConcreteLieExamples.heisenbergMatrixEquiv_c"
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_concrete_Lie_examples_continued",
@@ -3016,7 +3095,19 @@
     },
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Discussion_concrete_Lie_examples_continued.lean"
-    ]
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_16_2.g_eq_rowZero",
+        "Etingof.Problem2_16_2.basisXY",
+        "Etingof.Problem2_16_2.finrank_aff",
+        "Etingof.Problem2_16_2.bracket_X_Y"
+      ]
+    }
   },
   {
     "id": "Chapter2/Exercise2.9.5",
@@ -3047,7 +3138,17 @@
       ]
     },
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Exercise2_9_5.hatEquiv",
+        "Etingof.Exercise2_9_5.so3_lieEquiv_cross"
+      ]
+    }
   },
   {
     "id": "Chapter2/Definition2.9.6",
@@ -3077,6 +3178,16 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.LieAlgebraHom; LieHom"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.LieAlgebraHom",
+        "LieHom"
       ]
     }
   },
@@ -3108,6 +3219,16 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.LieAlgebraRepresentation; LieModule"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.LieAlgebraRepresentation",
+        "LieModule"
       ]
     }
   },
@@ -3161,6 +3282,16 @@
           "lean_decl": "Etingof.Exercise2_9_11.repEquiv"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "LieAlgebra.ad",
+        "Etingof.Exercise2_9_11.repEquiv"
+      ]
     }
   },
   {
@@ -3197,6 +3328,18 @@
           "lean_decl": "Etingof.UEABasisPresentation; ueaBasisAlgEquiv; UniversalEnvelopingAlgebraDef"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.ueaBasisRelator",
+        "Etingof.UEABasisPresentation",
+        "Etingof.ueaBasisAlgEquiv",
+        "Etingof.UniversalEnvelopingAlgebraDef"
+      ]
     }
   },
   {
@@ -3231,7 +3374,17 @@
     },
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Remark2_9_10.lean"
-    ]
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Remark2_9_10.basisPresentationEquiv",
+        "Etingof.ueaBasisAlgEquiv"
+      ]
+    }
   },
   {
     "id": "Chapter2/Exercise2.9.11",
@@ -3268,7 +3421,16 @@
       ]
     },
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Exercise2_9_11.repEquiv"
+      ]
+    }
   },
   {
     "id": "Chapter2/Example2.9.12",
@@ -3315,6 +3477,18 @@
           "lean_decl": "Etingof.Example2_9_12.ι_e_ne_zero; nontrivial_U; nontrivial_Presentation"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Example2_9_12.sl2_universal_relations",
+        "Etingof.Example2_9_12.presentationEquiv",
+        "Etingof.Example2_9_12.slEquiv",
+        "Etingof.Example2_9_12.ι_e_ne_zero"
+      ]
     }
   },
   {
@@ -3325,11 +3499,11 @@
     "end_page": "25",
     "start_line": 7,
     "end_line": 12,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "The Heisenberg algebra, enveloping relations, and c=1 quotient are genuine. The quotient U(ℋ)/(C-1) (HeisenbergWeylQuot) is now identified with the project's Etingof.WeylAlgebra (Proposition 2.7.1) via an explicit AlgEquiv heisenbergWeylEquiv, built from the universal properties of U(ℋ) and the free algebra and proved a two-sided inverse; the class of X maps to x and Y to y. The former locally-renamed WeylAlgebra abbrev is gone.",
+    "fidelity_note": "The Heisenberg algebra, its enveloping relations, and the c=1 quotient are genuine. The free algebra on x,y,c modulo exactly yx-xy=c, yc-cy=0, xc-cx=0 is now proved algebra-equivalent to U(ℋ): heisenbergPresentationAlgEquiv is built from the two universal properties, its maps are proved inverse, and heisenbergPresentationEquiv records the matching of all three generators. The quotient U(ℋ)/(C-1) is independently identified with the project's Etingof.WeylAlgebra via heisenbergWeylEquiv.",
     "fidelity_decl": "noncomputable def heisenbergWeylEquiv : HeisenbergWeylQuot k ≃ₐ[k] Etingof.WeylAlgebra k",
     "last_updated": "2026-07-27",
     "claim_coverage": {
@@ -3354,14 +3528,25 @@
         {
           "claim": "Those three relations are a complete presentation of U(H).",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example2_9_13.HeisenbergPresentation; heisenbergPresentationEquiv",
-          "proof_status": "stage3_3_gap"
+          "lean_decl": "Etingof.Example2_9_13.HeisenbergPresentation; heisenbergPresentationAlgEquiv; heisenbergPresentationEquiv"
         },
         {
           "claim": "Imposing c=1 yields the Weyl algebra.",
           "verdict": "formalized",
           "lean_decl": "Etingof.Example2_9_13.HeisenbergWeylQuot; weyl_c_eq_one; heisenbergWeylEquiv"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Example2_9_13.heisenberg_universal_relations",
+        "Etingof.Example2_9_13.heisenbergPresentationAlgEquiv",
+        "Etingof.Example2_9_13.heisenbergPresentationEquiv",
+        "Etingof.Example2_9_13.heisenbergWeylEquiv"
       ]
     }
   },
@@ -3409,7 +3594,14 @@
         }
       ]
     },
-    "coverage": "non_formalizable"
+    "coverage": "non_formalizable",
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": []
+    }
   },
   {
     "id": "Chapter2/Discussion_2.9_Lie_groups",
@@ -3452,7 +3644,14 @@
     },
     "last_updated": "2026-07-27",
     "coverage": "non_formalizable",
-    "fidelity": "verified"
+    "fidelity": "verified",
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": []
+    }
   },
   {
     "id": "Chapter2/Discussion_2.10_heading",
