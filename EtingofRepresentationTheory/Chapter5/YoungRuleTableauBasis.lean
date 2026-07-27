@@ -434,7 +434,9 @@ noncomputable def StandardYoungTableau.toKostkaTableauOfContentCollapseColumnStr
   rw [S.contentCollapse_of_mem mu (cell_mem_partitionDiagram c)]
   congr 1
 
-private theorem sytPerm_apply_tableauEntry {n : ℕ} {nu : Nat.Partition n}
+/-- The permutation of a standard tableau sends its entry at a cell to the
+canonical position of that cell. -/
+theorem sytPerm_apply_tableauEntry {n : ℕ} {nu : Nat.Partition n}
     (S : StandardYoungTableau n nu) (c : Cell n nu) :
     sytPerm n nu S (S.1 c) = (canonicalFilling n nu).symm c := by
   let e : Cell n nu ≃ Fin n := Equiv.ofBijective S.1 S.2.1
@@ -552,6 +554,14 @@ private theorem colOfPos_canonical_symm {n : ℕ} {nu : Nat.Partition n}
     colOfPos nu.sortedParts ((canonicalFilling n nu).symm c).val = c.1.2 := by
   have h := (canonicalFilling n nu).apply_symm_apply c
   have hval := congrArg (fun d : Cell n nu => d.1.2) h
+  simpa only [canonicalFilling, canonicalFillingFun, Equiv.ofBijective_apply] using hval
+
+/-- The row of the canonical position of a cell is its row coordinate. -/
+theorem rowOfPos_canonical_symm {n : ℕ} {nu : Nat.Partition n}
+    (c : Cell n nu) :
+    rowOfPos nu.sortedParts ((canonicalFilling n nu).symm c).val = c.1.1 := by
+  have h := (canonicalFilling n nu).apply_symm_apply c
+  have hval := congrArg (fun d : Cell n nu => d.1.1) h
   simpa only [canonicalFilling, canonicalFillingFun, Equiv.ofBijective_apply] using hval
 
 private theorem of_col_mul_youngSymmetrizer {n : ℕ} {nu : Nat.Partition n}

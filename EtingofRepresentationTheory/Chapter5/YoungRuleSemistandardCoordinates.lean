@@ -128,6 +128,103 @@ theorem youngRuleRowAverageRange_standardization_coeff_dominance {n : ℕ}
     (sytPerm n nu U.standardization * p.val) ?_⟩
   simpa only [sytToTabloid, tabloidRightMul_toTabloid] using hp.2
 
+/-! ### Block-cutoff cumulative profiles -/
+
+/-- Count labels in the first `a` content blocks whose cells lie in the first
+`i` rows of a tabloid represented by `σ`. -/
+noncomputable def youngRuleBlockCumulCount {n : ℕ} (mu nu : Nat.Partition n)
+    (σ : Equiv.Perm (Fin n)) (a i : ℕ) : ℕ :=
+  ((Finset.univ : Finset (Fin n)).filter fun e =>
+    rowOfPos mu.sortedParts e.val < a ∧
+      rowOfPos nu.sortedParts (σ e).val < i).card
+
+/-- The intrinsic cumulative profile of a Kostka tableau: cells in the first
+`i` shape rows carrying entries in the first `a` content blocks. -/
+noncomputable def KostkaTableau.cumulativeProfile {n : ℕ}
+    {nu mu : Nat.Partition n} (T : KostkaTableau n nu mu) (a i : ℕ) : ℕ :=
+  ((Finset.univ : Finset (Cell n nu)).filter fun c =>
+    T.1 c.1.1 c.1.2 < a ∧ c.1.1 < i).card
+
+/-- Right multiplication by a content-row permutation does not change any
+block-cutoff cumulative count. -/
+theorem youngRuleBlockCumulCount_mul_row {n : ℕ} (mu nu : Nat.Partition n)
+    (σ : Equiv.Perm (Fin n)) (p : Equiv.Perm (Fin n))
+    (hp : p ∈ RowSubgroup n mu) (a i : ℕ) :
+    youngRuleBlockCumulCount mu nu (σ * p) a i =
+      youngRuleBlockCumulCount mu nu σ a i := by
+  classical
+  let source := (Finset.univ : Finset (Fin n)).filter fun e =>
+    rowOfPos mu.sortedParts e.val < a ∧
+      rowOfPos nu.sortedParts ((σ * p) e).val < i
+  let target := (Finset.univ : Finset (Fin n)).filter fun e =>
+    rowOfPos mu.sortedParts e.val < a ∧
+      rowOfPos nu.sortedParts (σ e).val < i
+  change source.card = target.card
+  apply Finset.card_bij (fun e _ => p e)
+  · intro e he
+    rw [Finset.mem_filter] at he ⊢
+    refine ⟨Finset.mem_univ _, ?_, ?_⟩
+    · rw [hp e]
+      exact he.2.1
+    · simpa only [Equiv.Perm.coe_mul, Function.comp_apply] using he.2.2
+  · intro e₁ h₁ e₂ h₂ heq
+    exact p.injective heq
+  · intro e he
+    refine ⟨p⁻¹ e, ?_, p.apply_symm_apply e⟩
+    rw [Finset.mem_filter] at he ⊢
+    refine ⟨Finset.mem_univ _, ?_, ?_⟩
+    · have hpInv := (RowSubgroup n mu).inv_mem hp
+      rw [hpInv e]
+      exact he.2.1
+    · simp only [Equiv.Perm.coe_mul, Function.comp_apply]
+      have hpe : p (p⁻¹ e) = e := p.apply_symm_apply e
+      rw [hpe]
+      exact he.2.2
+
+/-- The canonical standardization realizes the intrinsic cumulative profile of
+the semistandard tableau at every content-block and shape-row cutoff. -/
+theorem youngRuleBlockCumulCount_standardization {n : ℕ}
+    {nu mu : Nat.Partition n} (T : KostkaTableau n nu mu) (a i : ℕ) :
+    youngRuleBlockCumulCount mu nu (sytPerm n nu T.standardization) a i =
+      T.cumulativeProfile a i := by
+  classical
+  let e : Cell n nu ≃ Fin n :=
+    Equiv.ofBijective T.standardization.1 T.standardization.2.1
+  let source := (Finset.univ : Finset (Fin n)).filter fun x =>
+    rowOfPos mu.sortedParts x.val < a ∧
+      rowOfPos nu.sortedParts (sytPerm n nu T.standardization x).val < i
+  let target := (Finset.univ : Finset (Cell n nu)).filter fun c =>
+    T.1 c.1.1 c.1.2 < a ∧ c.1.1 < i
+  change source.card = target.card
+  apply Finset.card_bij (fun x _ => e.symm x)
+  · intro x hx
+    rw [Finset.mem_filter] at hx ⊢
+    let c := e.symm x
+    have hentry : e c = x := e.apply_symm_apply x
+    have hentry' : T.standardization.1 c = x := by
+      change e c = x
+      exact hentry
+    refine ⟨Finset.mem_univ _, ?_, ?_⟩
+    · rw [← KostkaTableau.rowOfPos_standardization T c, hentry']
+      exact hx.2.1
+    · rw [← rowOfPos_canonical_symm c, ← sytPerm_apply_tableauEntry
+        T.standardization c, hentry']
+      exact hx.2.2
+  · intro x₁ hx₁ x₂ hx₂ heq
+    exact e.symm.injective heq
+  · intro c hc
+    refine ⟨e c, ?_, e.symm_apply_apply c⟩
+    rw [Finset.mem_filter] at hc ⊢
+    refine ⟨Finset.mem_univ _, ?_, ?_⟩
+    · change rowOfPos mu.sortedParts (T.standardization.1 c).val < a
+      rw [KostkaTableau.rowOfPos_standardization T c]
+      exact hc.2.1
+    · change rowOfPos nu.sortedParts
+        (sytPerm n nu T.standardization (T.standardization.1 c)).val < i
+      rw [sytPerm_apply_tableauEntry T.standardization c,
+        rowOfPos_canonical_symm c]
+      exact hc.2.2
+
 end
 
 end Etingof
