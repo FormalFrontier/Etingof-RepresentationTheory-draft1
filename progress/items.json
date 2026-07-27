@@ -966,6 +966,12 @@
     "start_line": 22,
     "end_line": 24,
     "status": "sorry_free",
+    "fidelity": "verified",
+    "sorry_free": true,
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter2/Proposition2_7_1.lean",
+      "EtingofRepresentationTheory/Chapter2/FaithfulWeylModule.lean"
+    ],
     "coverage_swept": {
       "wave": 1,
       "result": "gap"
@@ -973,7 +979,33 @@
     "coverage": "covered_full",
     "coverage_note": "All three contrasts of the discussion are now public theorems (#7442). Char-zero faithfulness of polyRep (WeylAlgebra.polyRep_injective) and char-free faithfulness of repE (repE_injective) were already proved. The char-p contrast is now formalized: Etingof.iterate_derivative_eq_zero_of_charP proves (d/dt)^p Q = 0 for every polynomial over a ring of prime characteristic p; WeylAlgebra.polyRep_y_pow_eq_zero derives polyRep(y^p) = 0; and WeylAlgebra.polyRep_not_injective proves k[t] is not faithful in characteristic p (witness y^p, nonzero because the Weyl monomials are a basis). The comparison theorem repE_injective_and_polyRep_not_injective packages faithful-E vs nonfaithful-k[t] in one statement.",
     "fidelity_decl": "Etingof.iterate_derivative_eq_zero_of_charP; Etingof.WeylAlgebra.polyRep_not_injective; Etingof.repE_injective_and_polyRep_not_injective",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.7",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "In characteristic zero, the polynomial representation k[t] of the Weyl algebra is faithful.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.WeylAlgebra.polyRep_injective"
+        },
+        {
+          "claim": "In characteristic p, the p-th derivative of every polynomial is zero, so k[t] is not a faithful Weyl-algebra representation.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.iterate_derivative_eq_zero_of_charP; Etingof.WeylAlgebra.polyRep_y_pow_eq_zero; Etingof.WeylAlgebra.polyRep_not_injective"
+        },
+        {
+          "claim": "The representation E = t^a k[a][t,t^{-1}] is faithful in every characteristic.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.repE_injective; Etingof.repE_injective_and_polyRep_not_injective"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Problem2.7.4",
