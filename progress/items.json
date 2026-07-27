@@ -803,6 +803,24 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.6",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.PresentedAlgebra.mk_surjective",
+        "Etingof.PresentedAlgebra.adjoin_range_gen",
+        "Etingof.PresentedAlgebra.mk_rel",
+        "Etingof.PresentedAlgebra.presentedCon_le_ker",
+        "Etingof.PresentedAlgebra.lift_mk",
+        "Etingof.PresentedAlgebra.lift_gen",
+        "Etingof.PresentedAlgebra.hom_ext",
+        "Etingof.PresentedAlgebra.existsUnique_lift",
+        "Etingof.PresentedAlgebra.lift_rel_eq_zero",
+        "Etingof.PresentedAlgebra.finPresentation_def"
+      ]
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
