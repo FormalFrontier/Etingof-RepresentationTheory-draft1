@@ -1,4 +1,5 @@
 import Mathlib
+import EtingofRepresentationTheory.Infrastructure.RegularCharacter
 
 /-!
 # Remark 4.5.3: Frobenius's definition of characters via the convolution algebra
@@ -209,6 +210,18 @@ theorem character_recovery (V : FDRep ℂ G) [Simple V] :
     rw [renormCharElt_apply]
     field_simp
 
+/-- The recovery scalar is exactly `|G| / dim(V)`.  This is the normalization hidden by
+the existential square-root formulation of `character_recovery`. -/
+theorem character_recovery_exact (V : FDRep ℂ G) [Simple V] (g : G) :
+    V.character g =
+      ((Fintype.card G : ℂ) / (Module.finrank ℂ V : ℂ)) * renormCharElt V g := by
+  have hd : (Module.finrank ℂ V : ℂ) ≠ 0 := by
+    exact_mod_cast (finrank_pos_of_simple V).ne'
+  have hG : (Fintype.card G : ℂ) ≠ 0 := by
+    exact_mod_cast (Fintype.card_pos (α := G)).ne'
+  rw [renormCharElt_apply, FDRep.char_one]
+  field_simp
+
 /-! ## Primitive idempotency of the renormalized character
 
 The renormalized character `χ̃_V` is a primitive idempotent of the class-function algebra.
@@ -298,7 +311,7 @@ private lemma renormCharElt_mul_classFunction (V : FDRep ℂ G) [Simple V]
           ← hSdef, hσ, mul_smul_comm, ← Module.End.one_eq_id, mul_one, map_smul, smul_eq_mul]
       rfl
     rw [hreindex, htrace]
-  rw [Finsupp.smul_apply, smul_eq_mul, renormCharElt_apply]
+  rw [MonoidAlgebra.smul_apply, smul_eq_mul, renormCharElt_apply]
   simp only [renormCharElt_apply]
   rw [show (∑ x : G, V.character 1 / (Fintype.card G : ℂ) * V.character x * z (x⁻¹ * w))
         = V.character 1 / (Fintype.card G : ℂ) * ∑ x : G, V.character x * z (x⁻¹ * w) from by
@@ -338,7 +351,7 @@ theorem renormChar_isPrimitiveIdempotent (V : FDRep ℂ G) [Simple V] :
   have hidem : renormCharElt V * renormCharElt V = renormCharElt V := by
     have hcoef : renormCharElt V 1 = σ0 * renormCharElt V 1 := by
       have h : (renormCharElt V * renormCharElt V) 1 = (σ0 • renormCharElt V) 1 := by rw [hσ0]
-      rw [hval1, Finsupp.smul_apply, smul_eq_mul] at h
+      rw [hval1, MonoidAlgebra.smul_apply, smul_eq_mul] at h
       exact h
     have hσ1 : σ0 = 1 :=
       mul_right_cancel₀ he1 (by rw [one_mul]; exact hcoef.symm)
@@ -354,7 +367,7 @@ theorem renormChar_isPrimitiveIdempotent (V : FDRep ℂ G) [Simple V] :
   have hsmul_cancel : ∀ s t : ℂ, s • renormChar V = t • renormChar V → s = t := by
     intro s t h
     have hv := congrArg (fun x : ↥(classFunctions G) => (x : ConvolutionAlgebra G) 1) h
-    simp only [SetLike.val_smul, Finsupp.smul_apply, smul_eq_mul] at hv
+    simp only [SetLike.val_smul, MonoidAlgebra.smul_apply, smul_eq_mul] at hv
     exact mul_right_cancel₀ he1 hv
   refine ⟨he_idem, he_ne, ?_⟩
   intro a b ha hb ha0 hb0 hEq
@@ -410,5 +423,157 @@ theorem renormChar_isPrimitiveIdempotent (V : FDRep ℂ G) [Simple V] :
   have h0 : renormChar V + (0 : ↥(classFunctions G)) = renormChar V + renormChar V := by
     rw [add_zero]; exact hEq
   exact ((add_right_inj _).mp h0).symm
+
+/-! ## Exhaustiveness of the primitive idempotents -/
+
+/-- Two primitive idempotents in a commutative ring are equal whenever their product is
+nonzero.  Indeed, `e = ec + e(1-c)` and `c = ec + (1-e)c`; primitivity forces both
+complementary terms to vanish. -/
+private lemma primitive_eq_of_mul_ne_zero {A : Type*} [CommRing A] {e c : A}
+    (he : IsPrimitiveIdempotent e) (hc : IsPrimitiveIdempotent c)
+    (hp0 : e * c ≠ 0) : e = c := by
+  rcases he with ⟨he_idem, he0, he_primitive⟩
+  rcases hc with ⟨hc_idem, hc0, hc_primitive⟩
+  have hp : IsIdempotentElem (e * c) := by
+    calc
+      (e * c) * (e * c) = (e * e) * (c * c) := by ring
+      _ = e * c := by rw [he_idem, hc_idem]
+  have hce : IsIdempotentElem (1 - c) := by
+    dsimp [IsIdempotentElem] at hc_idem ⊢
+    linear_combination hc_idem
+  have hq : IsIdempotentElem (e * (1 - c)) := by
+    calc
+      (e * (1 - c)) * (e * (1 - c)) = (e * e) * ((1 - c) * (1 - c)) := by ring
+      _ = e * (1 - c) := by rw [he_idem, hce]
+  have he_split : e = e * c + e * (1 - c) := by ring
+  have hq0 : e * (1 - c) = 0 := by
+    by_contra hq0
+    exact (he_primitive (e * c) (e * (1 - c)) hp hq hp0 hq0) he_split
+  have hep : e = e * c := by
+    calc
+      e = e * c + e * (1 - c) := he_split
+      _ = e * c := by rw [hq0, add_zero]
+  have hec : IsIdempotentElem (1 - e) := by
+    dsimp [IsIdempotentElem] at he_idem ⊢
+    linear_combination he_idem
+  have hr : IsIdempotentElem ((1 - e) * c) := by
+    calc
+      ((1 - e) * c) * ((1 - e) * c) = ((1 - e) * (1 - e)) * (c * c) := by ring
+      _ = (1 - e) * c := by rw [hec, hc_idem]
+  have hc_split : c = e * c + (1 - e) * c := by ring
+  have hr0 : (1 - e) * c = 0 := by
+    by_contra hr0
+    exact (hc_primitive (e * c) ((1 - e) * c) hp hr hp0 hr0) hc_split
+  have hcp : c = e * c := by
+    calc
+      c = e * c + (1 - e) * c := hc_split
+      _ = e * c := by rw [hr0, add_zero]
+  exact hep.trans hcp.symm
+
+section Classification
+
+-- `sum_dim_character_eq_zero` currently enumerates groups in the same universe as its
+-- coefficient field, so the classification theorem is stated for ordinary small types.
+variable {G₀ : Type} [Group G₀] [Fintype G₀]
+
+/-- The renormalized characters of a complete irreducible enumeration sum to the unit of
+the convolution algebra.  At the identity this is the sum-of-squares formula; away from
+the identity it is the regular-character identity. -/
+theorem sum_renormChar_eq_one [NeZero (Nat.card G₀ : ℂ)] (D : IrrepDecomp ℂ G₀) :
+    ∑ i : Fin D.n, renormChar (D.columnFDRep i) = 1 := by
+  have h : (∑ i : Fin D.n, renormCharElt (D.columnFDRep i)) =
+      (1 : MonoidAlgebra ℂ G₀) := by
+    ext g
+    have happly_finset : ∀ s : Finset (Fin D.n),
+        (∑ i ∈ s, renormCharElt (D.columnFDRep i)) g =
+          ∑ i ∈ s, renormCharElt (D.columnFDRep i) g := by
+      intro s
+      induction s using Finset.induction_on with
+      | empty => rfl
+      | insert a s ha ih =>
+          rw [Finset.sum_insert ha, Finset.sum_insert ha]
+          exact congrArg (renormCharElt (D.columnFDRep a) g + ·) ih
+    have happly := happly_finset Finset.univ
+    rw [happly, one_eq_deltaE, Finsupp.single_apply]
+    simp_rw [renormCharElt_apply]
+    by_cases hg : g = 1
+    · subst g
+      simp only [FDRep.char_one]
+      have hdim : ∀ i, Module.finrank ℂ (D.columnFDRep i) = D.d i :=
+        D.finrank_columnFDRep
+      simp_rw [hdim]
+      simp only [if_pos]
+      calc
+        ∑ i : Fin D.n, (D.d i : ℂ) / (Fintype.card G₀ : ℂ) * (D.d i : ℂ) =
+            ∑ i : Fin D.n, ((D.d i : ℂ) ^ 2) / (Fintype.card G₀ : ℂ) := by
+          apply Finset.sum_congr rfl
+          intro i _
+          ring
+        _ = (∑ i : Fin D.n, ((D.d i : ℂ) ^ 2)) / (Fintype.card G₀ : ℂ) := by
+          rw [Finset.sum_div]
+        _ = ((∑ i : Fin D.n, (D.d i) ^ 2 : ℕ) : ℂ) /
+            (Fintype.card G₀ : ℂ) := by push_cast; rfl
+        _ = 1 := by rw [D.sum_sq_eq_card]; simp
+    · rw [if_neg (fun h => hg h.symm)]
+      have hsum := sum_dim_character_eq_zero D D.columnFDRep
+        D.columnFDRep_simple D.columnFDRep_injective g hg
+      rw [show (∑ i : Fin D.n,
+          (D.columnFDRep i).character 1 / (Fintype.card G₀ : ℂ) *
+            (D.columnFDRep i).character g) =
+          (∑ i : Fin D.n,
+            (Module.finrank ℂ (D.columnFDRep i) : ℂ) *
+              (D.columnFDRep i).character g) / (Fintype.card G₀ : ℂ) from by
+        simp_rw [FDRep.char_one]
+        rw [Finset.sum_div]
+        apply Finset.sum_congr rfl
+        intro i _
+        ring,
+        hsum, zero_div]
+  apply Subtype.ext
+  have hcoe_finset : ∀ s : Finset (Fin D.n),
+      ↑(∑ i ∈ s, renormChar (D.columnFDRep i)) =
+        (∑ i ∈ s, renormCharElt (D.columnFDRep i) : MonoidAlgebra ℂ G₀) := by
+    intro s
+    induction s using Finset.induction_on with
+    | empty => rfl
+    | insert a s ha ih =>
+        rw [Finset.sum_insert ha, Finset.sum_insert ha]
+        exact congrArg (renormCharElt (D.columnFDRep a) + ·) ih
+  have hcoe := hcoe_finset Finset.univ
+  rw [hcoe]
+  exact h
+
+/-- **Frobenius classification.** The primitive idempotents of the class-function
+convolution algebra are exactly the renormalized characters of irreducible complex
+representations. -/
+theorem isPrimitiveIdempotent_iff_exists_simple_renormChar (e : classFunctions G₀) :
+    IsPrimitiveIdempotent e ↔
+      ∃ V : FDRep ℂ G₀, Simple V ∧ e = renormChar V := by
+  constructor
+  · intro he
+    letI : NeZero (Nat.card G₀ : ℂ) :=
+      ⟨Nat.cast_ne_zero.mpr (Nat.card_pos (α := G₀)).ne'⟩
+    let D : IrrepDecomp ℂ G₀ := IrrepDecomp.mk'
+    have hsum := sum_renormChar_eq_one D
+    have he_sum : e = ∑ i : Fin D.n, e * renormChar (D.columnFDRep i) := by
+      rw [← Finset.mul_sum, hsum, mul_one]
+    obtain ⟨i, hi⟩ : ∃ i : Fin D.n, e * renormChar (D.columnFDRep i) ≠ 0 := by
+      by_contra hnone
+      apply he.2.1
+      rw [he_sum]
+      apply Finset.sum_eq_zero
+      intro i _
+      by_contra hi
+      exact hnone ⟨i, hi⟩
+    let V := D.columnFDRep i
+    letI : Simple V := D.columnFDRep_simple i
+    refine ⟨V, inferInstance, primitive_eq_of_mul_ne_zero he
+      (renormChar_isPrimitiveIdempotent V) ?_⟩
+    exact hi
+  · rintro ⟨V, hV, rfl⟩
+    letI : Simple V := hV
+    exact renormChar_isPrimitiveIdempotent V
+
+end Classification
 
 end Etingof.Remark4_5_3
