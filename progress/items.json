@@ -8490,9 +8490,8 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The group-representation tensor-dual, Frobenius-reciprocity, universal-enveloping, group-algebra, tensor-algebra, and symmetric-algebra examples are genuine adjunctions with natural Hom equivalences. The Lie-representation clause now has a bundled finite-dimensional category, tensor functors, duality, and the expected objectwise Hom equivalence, but not yet the required natural biadjunction; follow-up #5644 remains open.",
-    "followup_issue": 5644,
+    "coverage": "covered",
+    "coverage_note": "All examples are genuine adjunctions. In particular, finite-dimensional Lie representations have natural tensor/dual adjunctions in both directions, with the reverse direction transported through the Lie-equivariant double-dual equivalence.",
     "last_updated": "2026-07-27"
   },
   {
