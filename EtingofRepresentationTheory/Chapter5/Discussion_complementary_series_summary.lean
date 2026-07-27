@@ -1,6 +1,8 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount
 import EtingofRepresentationTheory.Chapter5.IrrepCountConjClasses
+import EtingofRepresentationTheory.Chapter5.GL2PrincipalFamily
+import EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits
 import EtingofRepresentationTheory.Infrastructure.CompletenessByCounting
 
 /-!
@@ -265,6 +267,143 @@ theorem constructed_families_exhaust (hp2 : p ≠ 2) (hn : n ≠ 0) {N : ℕ}
     invertibleOfNonzero (by exact_mod_cast Fintype.card_ne_zero)
   exact Etingof.exhaustive_of_card_eq_card_conjClasses W hWsimple hWnoniso
     (hN.trans (constructedCount_eq_card_conjClasses p n hp2 hn))
+
+/-! ### The constructed families themselves are complete -/
+
+open CategoryTheory
+
+/-- The joint index type for all representations constructed in §5.25: the left summand
+contains the one-dimensional and principal-series representations, and the right summand
+contains one complementary-series representation for each Frobenius orbit. -/
+abbrev ConstructedComplementaryIndex (hn : n ≠ 0) :=
+  let _ : NeZero n := ⟨hn⟩
+  ComplementaryIndex p n
+
+abbrev ConstructedIndex (hn : n ≠ 0) :=
+  PrincipalIndex p n ⊕ ConstructedComplementaryIndex p n hn
+
+/-- The actual family of all representations constructed in §5.25. -/
+noncomputable def constructedFamily (hp2 : p ≠ 2) (hn : n ≠ 0)
+    (i : ConstructedIndex p n hn) :
+    FDRep ℂ (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) := by
+  classical
+  letI : NeZero n := ⟨hn⟩
+  letI : Fintype (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) :=
+    Fintype.ofFinite _
+  exact match i with
+    | .inl j => principalFamily p n j
+    | .inr j => complementaryFamily p n hp2 j
+
+/-- Every member of the combined constructed family is irreducible. -/
+theorem constructedFamily_simple (hp2 : p ≠ 2) (hn : n ≠ 0) :
+    ∀ i : ConstructedIndex p n hn, Simple (constructedFamily p n hp2 hn i) := by
+  classical
+  letI : NeZero n := ⟨hn⟩
+  letI : Fintype (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) :=
+    Fintype.ofFinite _
+  rintro (i | i)
+  · simpa [constructedFamily] using principalFamily_simple p n hn i
+  · simpa [constructedFamily] using complementaryFamily_simple p n hp2 i
+
+/-- No one-dimensional or principal-series representation is isomorphic to a complementary
+series representation. Their respective dimensions are `1`, `q`, or `q + 1`, and `q - 1`;
+odd characteristic and `n ≠ 0` give `q ≥ 3`. -/
+theorem principalFamily_not_iso_complementaryFamily
+    (hp2 : p ≠ 2) (hn : n ≠ 0)
+    (i : PrincipalIndex p n) (j : ConstructedComplementaryIndex p n hn) :
+    ¬ Nonempty (constructedFamily p n hp2 hn (.inl i) ≅
+      constructedFamily p n hp2 hn (.inr j)) := by
+  classical
+  letI : NeZero n := ⟨hn⟩
+  letI : Fintype (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) :=
+    Fintype.ofFinite _
+  rintro ⟨e⟩
+  have hdim := finrank_eq_of_iso e
+  rw [show constructedFamily p n hp2 hn (.inl i) = principalFamily p n i by
+      simp [constructedFamily],
+    show constructedFamily p n hp2 hn (.inr j) = complementaryFamily p n hp2 j by
+      simp [constructedFamily],
+    principalFamily_finrank p n hn i,
+    complementaryFamily_finrank p n hp2 j] at hdim
+  have hpprime : Nat.Prime p := Fact.out
+  have hp3 : 3 ≤ p := (hpprime.two_le.lt_or_eq.resolve_right hp2.symm).succ_le
+  have hq3 : 3 ≤ p ^ n := hp3.trans (Nat.le_pow (Nat.pos_of_ne_zero hn))
+  rcases i with i | i
+  · simp at hdim
+    omega
+  · rcases i with i | i
+    · simp at hdim
+      omega
+    · simp at hdim
+      omega
+
+/-- The combined constructed family has no repetitions up to isomorphism. -/
+theorem constructedFamily_injective (hp2 : p ≠ 2) (hn : n ≠ 0) :
+    ∀ i j : ConstructedIndex p n hn,
+      Nonempty (constructedFamily p n hp2 hn i ≅ constructedFamily p n hp2 hn j) →
+        i = j := by
+  classical
+  letI : NeZero n := ⟨hn⟩
+  letI : Fintype (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) :=
+    Fintype.ofFinite _
+  rintro (i | i) (j | j) h
+  · exact congrArg Sum.inl (principalFamily_injective p n hn i j h)
+  · exact absurd h (principalFamily_not_iso_complementaryFamily p n hp2 hn i j)
+  · exact absurd (Nonempty.map Iso.symm h)
+      (principalFamily_not_iso_complementaryFamily p n hp2 hn j i)
+  · apply congrArg Sum.inr
+    apply complementaryFamily_injective p n hp2 i j
+    simpa [constructedFamily] using h
+
+/-- The combined family has exactly the constructed total
+`(q - 1) + q(q - 1)/2 + q(q - 1)/2` members. -/
+theorem card_constructedIndex (hn : n ≠ 0) :
+    Nat.card (ConstructedIndex p n hn) =
+      (Fintype.card (GaloisField p n) - 1)
+        + Fintype.card (GaloisField p n) *
+            (Fintype.card (GaloisField p n) - 1) / 2
+        + Fintype.card (GaloisField p n) *
+            (Fintype.card (GaloisField p n) - 1) / 2 := by
+  letI : NeZero n := ⟨hn⟩
+  rw [Nat.card_sum, card_principalIndex p n hn,
+    card_complementaryIndex p n, ← Nat.card_eq_fintype_card,
+    GaloisField.card p n hn]
+
+/-- **The representations constructed in §5.25 are exactly all irreducibles.** Every simple
+finite-dimensional complex representation of `GL₂(𝔽_q)` is isomorphic to exactly one member
+of the combined one-dimensional, principal-series, and complementary-series family. -/
+theorem constructed_irreps_complete_final (hp2 : p ≠ 2) (hn : n ≠ 0) :
+    ∀ U : FDRep ℂ (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)), Simple U →
+      ∃! i : ConstructedIndex p n hn,
+        Nonempty (U ≅ constructedFamily p n hp2 hn i) := by
+  classical
+  letI : NeZero n := ⟨hn⟩
+  letI : Fintype (ConstructedIndex p n hn) := Fintype.ofFinite _
+  let e := Fintype.equivFin (ConstructedIndex p n hn)
+  let W : Fin (Fintype.card (ConstructedIndex p n hn)) →
+      FDRep ℂ (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) :=
+    fun j => constructedFamily p n hp2 hn (e.symm j)
+  have hWsimple : ∀ j, Simple (W j) := by
+    intro j
+    exact constructedFamily_simple p n hp2 hn (e.symm j)
+  have hWnoniso : ∀ i j, Nonempty (W i ≅ W j) → i = j := by
+    intro i j hij
+    apply e.symm.injective
+    exact constructedFamily_injective p n hp2 hn (e.symm i) (e.symm j) hij
+  have hcard : Fintype.card (ConstructedIndex p n hn) =
+      (Fintype.card (GaloisField p n) - 1)
+        + Fintype.card (GaloisField p n) *
+            (Fintype.card (GaloisField p n) - 1) / 2
+        + Fintype.card (GaloisField p n) *
+            (Fintype.card (GaloisField p n) - 1) / 2 := by
+    rw [← Nat.card_eq_fintype_card]
+    exact card_constructedIndex p n hn
+  intro U hU
+  obtain ⟨j, hj⟩ := constructed_families_exhaust p n hp2 hn W hWsimple hWnoniso hcard U hU
+  refine ⟨e.symm j, hj, ?_⟩
+  intro i hi
+  apply constructedFamily_injective p n hp2 hn i (e.symm j)
+  exact ⟨hi.some.symm ≪≫ hj.some⟩
 
 end GaloisField
 

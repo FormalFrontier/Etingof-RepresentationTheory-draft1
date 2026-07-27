@@ -6879,17 +6879,16 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "covered_partial",
-      "note": "The abstract number of irreducible isomorphism classes is proved to be q^2-1, but the constructed determinant, principal-series, and complementary-series families are not connected to that index type by an exhaustiveness theorem."
+      "result": "covered",
+      "note": "The named one-dimensional, principal-series, and complementary-series representations are assembled into one family of q^2-1 pairwise non-isomorphic simple FDRep objects, and every simple representation is isomorphic to exactly one member."
     },
-    "lean_ref": "EtingofRepresentationTheory/Chapter5/Discussion_complementary_series_summary.lean :: Etingof.GL2.constructedCount_eq_card_conjClasses, foundAllIrreducibles_galoisField, constructed_irreps_complete, constructed_irreps_complete_unconditional, card_irreps_eq_q_sq_sub_one, exists_complete_simples, constructed_families_exhaust",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Discussion_complementary_series_summary.lean :: Etingof.GL2.constructedCount_eq_card_conjClasses, foundAllIrreducibles_galoisField, constructed_irreps_complete, constructed_irreps_complete_unconditional, card_irreps_eq_q_sq_sub_one, exists_complete_simples, constructed_families_exhaust, constructedFamily, constructedFamily_simple, constructedFamily_injective, card_constructedIndex, constructed_irreps_complete_final",
     "coverage": {
-      "result": "covered_partial",
-      "lean_decl": "Etingof.GL2.constructed_families_exhaust",
-      "note": "Exhaustiveness is now stated and proved for honest FDRep ℂ (GL₂ 𝔽_q) objects, not only for an abstract Wedderburn index type: exists_complete_simples exhibits q²−1 pairwise non-isomorphic simples such that every simple is isomorphic to one of them, and constructed_families_exhaust shows that ANY family of (q−1)+q(q−1)/2+q(q−1)/2 pairwise non-isomorphic simples exhausts the irreducibles (the pigeonhole is Etingof.exhaustive_of_card_eq_card_conjClasses in Infrastructure/CompletenessByCounting.lean). RESIDUAL: the named families are still not fed into that reduction — the complementary series exists only as a virtual character (Lemma5_25_3_innerProduct/_dimension), not as a representation object, and cross-family non-isomorphism is unproved. Tracked by the sub-issues of #7252."
+      "result": "covered_full",
+      "lean_decl": "Etingof.GL2.constructed_irreps_complete_final",
+      "note": "The actual named families are now fed into the completeness-by-counting reduction. ConstructedIndex combines PrincipalIndex with the canonical complementary-series Frobenius transversal; constructedFamily_simple and constructedFamily_injective prove irreducibility and all same- and cross-family non-isomorphisms; card_constructedIndex proves the required total; and constructed_irreps_complete_final states that every simple FDRep ℂ (GL₂ 𝔽_q) object is isomorphic to exactly one constructed family member. No residual remains."
     },
-    "fidelity_issue": 7252,
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Introduction_5.26",
@@ -9912,11 +9911,10 @@
     "derived_from": "Chapter5/Discussion_complementary_series_summary",
     "source_span": "We have thus found q - 1 1-dimensional representations of G, \\frac{q(q-1)}{2} principal series representations, and \\frac{q(q-1)}{2} complementary series representations, for a total of q^2 - 1 representations, i.e., the number of conjugacy classes in G. This implies that we have in fact found all i",
     "claim": "The total count (q-1) + q(q-1)/2 + q(q-1)/2 = q²-1 equals the number of conjugacy classes, so the listed representations are all irreducible representations of GL₂(𝔽_q)",
-    "status": "accepted",
+    "status": "sorry_free",
     "coverage_issue": 5681,
-    "issue": 7252,
-    "lean_ref": "Chapter5/Discussion_complementary_series_summary.lean (Etingof.GL2.constructed_irrep_count — arithmetic total); Chapter5/GL2ConjugacyClassCount.lean (GL2.card_conjClasses_eq — #classes = q²−1, odd char)",
-    "note": "Stage 3.7 reconciliation (audit #7245), updated 2026-07-26. Sub-claim (a) arithmetic (q−1)+q(q−1)/2+q(q−1)/2=q²−1: proved (constructed_irrep_count). Sub-claim (b) q²−1=#conjugacy classes: proved (card_conjClasses_eq, odd char) and linked into the summary file (foundAllIrreducibles_galoisField, constructedCount_eq_card_conjClasses). Sub-claim (c) \"these are ALL the irreducibles\": now a formal proposition about representations, not just a count — exists_complete_simples (a complete list of q²−1 simple FDRep ℂ (GL₂ 𝔽_q) objects) and constructed_families_exhaust (any q²−1 pairwise non-isomorphic simples exhaust the irreducibles). RESIDUAL: the three named families are not yet packaged into such a list — the complementary series is still only a virtual character, and cross-family non-isomorphism is unproved → tracked by the sub-issues of #7252. Kept status accepted with issue #7252."
+    "lean_ref": "Chapter5/Discussion_complementary_series_summary.lean (Etingof.GL2.constructed_irrep_count, constructedFamily, constructedFamily_simple, constructedFamily_injective, card_constructedIndex, constructed_irreps_complete_final); Chapter5/GL2ConjugacyClassCount.lean (GL2.card_conjClasses_eq)",
+    "note": "Completed 2026-07-27. The arithmetic total and conjugacy-class count are proved, and the actual named determinant, principal-series, and complementary-series representations are packaged into ConstructedIndex/constructedFamily. They are simple and pairwise non-isomorphic, including the cross-family cases separated by dimensions 1, q, q+1 versus q−1. Their index cardinality is the required constructed total, and constructed_irreps_complete_final proves every simple FDRep ℂ (GL₂ 𝔽_q) is isomorphic to exactly one family member. The earlier residual is fully discharged."
   },
   {
     "type": "derived",
