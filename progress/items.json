@@ -4923,7 +4923,7 @@
     "end_page": "47",
     "start_line": 1,
     "end_line": 4,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -4970,6 +4970,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "The heading has no backward mathematical dependency. Its Stage 3.2 coverage uses declarations in the following theorem item, a forward implementation relation excluded from the acyclic book-order graph."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.3",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The shared Theorem 3.3.1 provider now elaborates without scoped warnings, has no redundant imports, documents every public declaration, and passes all 16 default declaration linters plus docBlameThm."
     }
   },
   {
@@ -4980,7 +4987,7 @@
     "end_page": "47",
     "start_line": 5,
     "end_line": 6,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_decl": "Etingof.irreducible_reps_of_matrix_algebra",
@@ -5046,6 +5053,13 @@
         "Chapter3/Proposition3.1.4"
       ],
       "basis": "The exact multiplicity decomposition invokes Etingof.subrepresentation_of_semisimple from Proposition 3.1.4. The provider retains that single focused project import; five redundant Mathlib imports were removed."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.3",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The proof API now documents every public declaration, removes deprecated tactics and unnecessary hypotheses, uses current style, and retains only narrow documented linter exceptions for intentional carrier notation. All 49 public and 54 generated declarations pass all 16 default declaration linters plus docBlameThm; elaboration is warning-free in scope and imports remain irredundant."
     }
   },
   {
@@ -5056,7 +5070,7 @@
     "end_page": "47",
     "start_line": 7,
     "end_line": 8,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -5094,6 +5108,16 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "This methodological transition has no provider or standalone mathematical dependency; its conservative reading-order edge was removed."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.3",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "not_applicable",
+      "source_review": "not_applicable",
+      "imports": "not_applicable",
+      "declaration_lints": "not_applicable",
+      "result": "This methodological transition has no dedicated Lean provider or standalone proof to polish."
     }
   },
   {
@@ -5104,7 +5128,7 @@
     "end_page": "47",
     "start_line": 9,
     "end_line": 12,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_note": "DualRepresentation takes the algebra A and its action on V as parameters and carries the explicit contragredient Aᵐᵒᵖ-module structure, with dualRepresentation_smul_apply proving (op a • f)(v) = f(a • v).",
@@ -5156,6 +5180,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "The contragredient module is constructed directly from Mathlib dual and algebra APIs and imports no project provider. Two redundant Mathlib imports were removed."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.3",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The dual-representation provider now carries only essential typeclass hypotheses and a documented exception for the intentionally retained algebra parameter. Its four public and seven generated declarations pass all 16 default declaration linters plus docBlameThm, with warning-free elaboration and no redundant imports."
     }
   },
   {
@@ -5166,7 +5197,7 @@
     "end_page": "47",
     "start_line": 13,
     "end_line": 21,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -5309,6 +5340,13 @@
         "Chapter3/Theorem3.3.1"
       ],
       "basis": "This proof discussion is the implementation of Theorem 3.3.1 and its final embedding-to-decomposition step uses Proposition 3.1.4. The Lean route constructs its twisted dual directly and does not import the separate Definition 3.3.2 provider."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.3",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The complete dual proof route was polished together with Theorem 3.3.1: deprecated and style-warning constructs were removed, reducibility was marked where the module-class synonym requires it, and all public API declarations are documented. The provider passes all 17 declaration linters and elaborates without scoped warnings."
     }
   },
   {
@@ -5319,7 +5357,7 @@
     "end_page": "48",
     "start_line": 1,
     "end_line": 14,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "sorry_free": true,
     "coverage_note": "Both parts fully covered. Part (b)'s matrix-algebra classification is proved. Part (a) now classifies the irreducibles of A = ⊕ᵢ Aᵢ genuinely in terms of the factor algebras: the summand 1ᵢV carries an honest Module (𝒜 i) structure (factorSummandModule), the inflation of a factor module is defined (Inflate) with the simplicity/isomorphism correspondence (isSimpleModule_iff, congr/ofCongr, index_eq_of_equiv), part (a) is restated over the factors (simpleModule_prod_iff_factor), and every simple product module is exhibited as the inflation of a simple factor module from a unique index (exists_isSimpleFactor, exists_inflate_of_isSimple). Closed #7564.",
     "fidelity": "full",
@@ -5521,6 +5559,13 @@
         "Chapter3/Theorem3.3.1"
       ],
       "basis": "Parts (a) and (b) compile from focused Mathlib imports alone; the former Theorem 3.3.1 provider import was documentation-only and was removed. Part (c)'s covered-elsewhere endpoint is the earlier Theorem 3.3.1 item, so that backward coverage edge remains."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.3",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The alternative-proof provider now uses current tactics, documents every public declaration, and records narrow linter exceptions for its stable numbered namespace and intentional inflation carrier synonym. All 36 public and 64 generated declarations pass all 16 default declaration linters plus docBlameThm, with warning-free elaboration and no redundant imports."
     }
   },
   {
@@ -5531,7 +5576,7 @@
     "end_page": "49",
     "start_line": 15,
     "end_line": 2,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "notes": "Remark3_3_4.lean constructs the uniquely characterized free cover Aⁿ → X, proves surjectivity, and identifies its quotient by the kernel with X. The regular/free decompositions and the exact final multiplicity decomposition are public in Theorem3_3_1.lean; Lean reaches the endpoint through Proposition 3.1.4 rather than the book's quotient invocation of Lemma 3.1.6.",
@@ -5611,6 +5656,13 @@
         "Chapter3/Theorem3.3.1"
       ],
       "basis": "The free-cover and quotient declarations use only Mathlib, while the regular/free decompositions and final multiplicity decomposition are covered by the earlier Theorem 3.3.1 item. Three redundant Mathlib imports were removed."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.3",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The free-cover API now documents its evaluation and uniqueness theorems while omitting unused ambient algebra assumptions from their signatures. All five public and two generated declarations pass all 16 default declaration linters plus docBlameThm, with warning-free elaboration and no redundant imports."
     }
   },
   {

@@ -31,10 +31,13 @@ noncomputable def freeCover (b : Basis ι k X) : (ι → A) →ₗ[A] X where
   map_smul' c a := by
     simp only [Pi.smul_apply, smul_eq_mul, mul_smul, RingHom.id_apply, Finset.smul_sum]
 
+omit [Algebra k A] [IsScalarTower k A X] in
+/-- The free-cover map evaluates as the coordinate-weighted sum of basis vectors. -/
 @[simp]
 theorem freeCover_apply (b : Basis ι k X) (a : ι → A) :
     freeCover A b a = ∑ i, (a i • b i : X) := rfl
 
+omit [Algebra k A] [IsScalarTower k A X] in
 /-- The formula in Remark 3.3.4 uniquely determines the free-cover homomorphism. -/
 theorem freeCover_unique (b : Basis ι k X) (f : (ι → A) →ₗ[A] X)
     (hf : ∀ a, f a = ∑ i, (a i • b i : X)) :

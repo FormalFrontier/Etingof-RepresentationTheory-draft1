@@ -198,6 +198,7 @@ variable {𝒜} {i : Fin r} {W W₁ W₂ : Type*}
 
 instance [AddCommGroup W] : AddCommGroup (Inflate 𝒜 i W) := inferInstanceAs (AddCommGroup W)
 
+/-- An inflation remains nontrivial when its underlying factor module is nontrivial. -/
 instance [AddCommGroup W] [Nontrivial W] : Nontrivial (Inflate 𝒜 i W) :=
   inferInstanceAs (Nontrivial W)
 
@@ -228,6 +229,7 @@ def toFactor [AddCommGroup W] [Module (𝒜 i) W] :
   map_add' _ _ := rfl
   map_smul' _ _ := rfl
 
+/-- The identity semilinear map from an inflation to its underlying factor module is bijective. -/
 theorem toFactor_bijective [AddCommGroup W] [Module (𝒜 i) W] :
     Function.Bijective (toFactor (𝒜 := 𝒜) (i := i) (W := W)) :=
   ⟨fun _ _ h => h, fun w => ⟨w, rfl⟩⟩
@@ -323,6 +325,7 @@ instance factorSummandModule (i : Fin r) :
     change (Pi.single i (0 : 𝒜 i) : ∀ j, 𝒜 j) • (x : V) = 0
     rw [Pi.single_zero, zero_smul])
 
+/-- Coercion to the ambient product module preserves the factor-summand action. -/
 @[simp] theorem factorSummandModule_smul_coe (i : Fin r) (a : 𝒜 i)
     (x : LinearMap.range (idemProj 𝒜 V i)) :
     ((a • x : LinearMap.range (idemProj 𝒜 V i)) : V) = (Pi.single i a : ∀ j, 𝒜 j) • (x : V) :=
@@ -530,7 +533,7 @@ theorem std_isSimpleModule :
     · refine Or.inr ?_
       obtain ⟨v, hv, hne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot h
       obtain ⟨i, hi⟩ : ∃ i, v i ≠ 0 := by
-        by_contra hc; push_neg at hc; exact hne (funext fun j => by simp [hc j])
+        by_contra hc; push Not at hc; exact hne (funext fun j => by simp [hc j])
       have basis_mem : ∀ j, (Pi.single j (1 : k) : Fin d → k) ∈ s := fun j => by
         have hmem := s.smul_mem (Matrix.single j i (v i)⁻¹) hv
         rwa [Matrix.Module.single_smul, smul_eq_mul, inv_mul_cancel₀ hi] at hmem
@@ -564,7 +567,7 @@ theorem simpleModule_iso_std (V : Type*) [AddCommGroup V] [Module k V]
   obtain ⟨w₀, hw₀⟩ := exists_ne (0 : V)
   -- Some diagonal idempotent does not kill `w₀`.
   obtain ⟨a, ha⟩ : ∃ a, (Matrix.single a a 1 : Matrix (Fin d) (Fin d) k) • w₀ ≠ 0 := by
-    by_contra hc; push_neg at hc
+    by_contra hc; push Not at hc
     refine hw₀ ?_
     rw [← sum_E_diag_smul (k := k) (d := d) w₀]
     exact Finset.sum_eq_zero fun a _ => hc a
@@ -700,3 +703,23 @@ representation is a direct sum of copies of them) is recorded and proved as
 `Etingof.irreducible_reps_of_matrix_algebra` in `Theorem3_3_1`. -/
 
 end Etingof.Problem3_3_3
+
+-- The enclosing namespace follows the book's numbered `Problem3_3_3` convention. These
+-- lowerCamelCase names themselves follow Mathlib naming style; only that stable namespace causes
+-- `defsWithUnderscore` to fire.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem3_3_3.idemProj
+  Etingof.Problem3_3_3.Inflate
+  Etingof.Problem3_3_3.Inflate.instAddCommGroup
+  Etingof.Problem3_3_3.Inflate.instModule
+  Etingof.Problem3_3_3.Inflate.instProdModule
+  Etingof.Problem3_3_3.Inflate.toFactor
+  Etingof.Problem3_3_3.Inflate.congr
+  Etingof.Problem3_3_3.Inflate.ofCongr
+  Etingof.Problem3_3_3.factorSummandModule
+  Etingof.Problem3_3_3.summandToFactor
+  Etingof.Problem3_3_3.summandEquivInflate
+
+-- The first two parameters record the product factor through which the unchanged carrier `W`
+-- is inflated; they are used by its instances rather than by the carrier synonym itself.
+attribute [nolint defsWithUnderscore unusedArguments] Etingof.Problem3_3_3.Inflate

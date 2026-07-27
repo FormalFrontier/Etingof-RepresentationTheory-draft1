@@ -45,7 +45,7 @@ private theorem isSimpleModule_matrix_vecModule (k : Type*) [Field k]
     · right
       obtain ⟨v, hv, hne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hs
       have ⟨i, hi⟩ : ∃ i, v i ≠ 0 := by
-        by_contra h; push_neg at h
+        by_contra h; push Not at h
         exact hne (funext fun j => by simpa using h j)
       have basis_mem : ∀ j, Pi.single j (1 : k) ∈ s := by
         intro j
@@ -98,7 +98,7 @@ We now treat `A = ⊕ᵢ Mat_{dᵢ}(k)`, modeled as the finite product ring
 `A`-module via the `j`-th projection `A → Mat_{dⱼ}(k)`. -/
 
 /-- The product ring `A = ⊕ᵢ Mat_{dᵢ}(k)`. -/
-abbrev MatProd (k : Type*) [Field k] {r : ℕ} (d : Fin r → ℕ) : Type _ :=
+abbrev MatProd (k : Type*) {r : ℕ} (d : Fin r → ℕ) : Type _ :=
   ∀ i, Matrix (Fin (d i)) (Fin (d i)) k
 
 section Product
@@ -110,15 +110,17 @@ acting through the `j`-th projection. -/
 local instance vModuleProd (j : Fin r) : Module (MatProd k d) (Fin (d j) → k) :=
   Module.compHom _ (Pi.evalRingHom (fun i => Matrix (Fin (d i)) (Fin (d i)) k) j)
 
+omit [∀ i, NeZero (d i)] in
 /-- Unfold the `A`-action on the standard representation `Vⱼ`: `a` acts as its `j`-th
 component matrix. -/
 theorem vModuleProd_smul (j : Fin r) (a : MatProd k d) (v : Fin (d j) → k) :
     a • v = a j • v := rfl
 
+/-- Scalar multiplication by `k` associates with the product-matrix action on `Vⱼ`. -/
 instance (j : Fin r) : IsScalarTower k (MatProd k d) (Fin (d j) → k) where
   smul_assoc c a v := by
     rw [vModuleProd_smul]
-    show (c • a) j • v = c • (a j • v)
+    change (c • a) j • v = c • (a j • v)
     rw [Pi.smul_apply, smul_assoc]
 
 /-- **Part 1.** Each standard representation `Vⱼ = k^{dⱼ}` is a simple `A`-module. -/
@@ -134,6 +136,7 @@ theorem isSimpleModule_vModuleProd (j : Fin r) :
     { AddMonoidHom.id _ with map_smul' := fun _ _ => rfl }
   exact (l.isSimpleModule_iff_of_bijective Function.bijective_id).mpr inferInstance
 
+omit [∀ i, NeZero (d i)] in
 /-- **Part 3.** Every `A`-module is semisimple, i.e. an (internal) direct sum of simple
 submodules. Combined with Part 2 below, every finite-dimensional representation of `A` is a
 direct sum of copies of the `Vⱼ`. -/
@@ -165,17 +168,18 @@ theorem exists_iso_vModuleProd (W : Type*) [AddCommGroup W] [Module (MatProd k d
     rw [← Finset.sum_smul, show (∑ i, (Pi.single i 1 : MatProd k d)) = 1 by
       simpa using Finset.univ_sum_single (1 : MatProd k d), one_smul]
   obtain ⟨i, hi⟩ : ∃ i, (Pi.single i 1 : MatProd k d) • w₀ ≠ 0 := by
-    by_contra h; push_neg at h
+    by_contra h; push Not at h
     exact hw₀ (by rw [← hsum, Finset.sum_eq_zero (fun i _ => h i)])
   -- `μ : w ↦ eᵢ • w` is an `A`-linear idempotent (as `eᵢ` is central).
   let μ : W →ₗ[MatProd k d] W :=
     { toFun := fun w => (Pi.single i 1 : MatProd k d) • w
       map_add' := fun w w' => smul_add _ _ _
       map_smul' := fun a w => by
-        show (Pi.single i 1 : MatProd k d) • (a • w) = a • ((Pi.single i 1 : MatProd k d) • w)
+        change (Pi.single i 1 : MatProd k d) • (a • w) =
+          a • ((Pi.single i 1 : MatProd k d) • w)
         rw [smul_smul, smul_smul, e_left, e_right] }
   have hμμ : ∀ w, μ (μ w) = μ w := fun w => by
-    show (Pi.single i 1 : MatProd k d) • ((Pi.single i 1 : MatProd k d) • w)
+    change (Pi.single i 1 : MatProd k d) • ((Pi.single i 1 : MatProd k d) • w)
         = (Pi.single i 1 : MatProd k d) • w
     rw [smul_smul, e_mul_self]
   -- Simplicity forces `range μ = ⊤`, so the idempotent `μ` is the identity: `eᵢ` acts as `1`.
@@ -198,21 +202,22 @@ theorem exists_iso_vModuleProd (W : Type*) [AddCommGroup W] [Module (MatProd k d
     { smul := fun b w => (Pi.single i b : MatProd k d) • w
       one_smul := fun w => hid w
       mul_smul := fun b b' w => by
-        show (Pi.single i (b * b') : MatProd k d) • w
+        change (Pi.single i (b * b') : MatProd k d) • w
             = (Pi.single i b : MatProd k d) • ((Pi.single i b' : MatProd k d) • w)
         rw [Pi.single_mul, smul_smul]
       smul_zero := fun b => smul_zero _
       smul_add := fun b w w' => smul_add _ _ _
       add_smul := fun b b' w => by
-        show (Pi.single i (b + b') : MatProd k d) • w
+        change (Pi.single i (b + b') : MatProd k d) • w
             = (Pi.single i b : MatProd k d) • w + (Pi.single i b' : MatProd k d) • w
         rw [Pi.single_add, add_smul]
       zero_smul := fun w => by
-        show (Pi.single i (0 : Matrix (Fin (d i)) (Fin (d i)) k) : MatProd k d) • w = 0
+        change (Pi.single i (0 : Matrix (Fin (d i)) (Fin (d i)) k) : MatProd k d) • w = 0
         rw [Pi.single_zero, zero_smul] }
   haveI : IsScalarTower k (Matrix (Fin (d i)) (Fin (d i)) k) W :=
     { smul_assoc := fun c b w => by
-        show (Pi.single i (c • b) : MatProd k d) • w = c • ((Pi.single i b : MatProd k d) • w)
+        change (Pi.single i (c • b) : MatProd k d) • w =
+          c • ((Pi.single i b : MatProd k d) • w)
         rw [Pi.single_smul, smul_assoc] }
   haveI : IsSimpleModule (Matrix (Fin (d i)) (Fin (d i)) k) W := by
     haveI : RingHomSurjective
@@ -225,7 +230,7 @@ theorem exists_iso_vModuleProd (W : Type*) [AddCommGroup W] [Module (MatProd k d
   obtain ⟨eW⟩ := matrix_simpleModule_iso_std k (d i) W
   exact ⟨i, ⟨{ eW.toAddEquiv with
     map_smul' := fun a w => by
-      show eW (a • w) = a • eW w
+      change eW (a • w) = a • eW w
       rw [key a w, vModuleProd_smul]
       exact eW.map_smul (a i) w }⟩⟩
 
@@ -311,6 +316,8 @@ noncomputable def regularDecomp :
     (DirectSum.linearEquivFunOnFintype (MatProd k d) (Fin r)
       (fun i => Fin (d i) → (Fin (d i) → k))).symm
 
+omit [∀ i, NeZero (d i)] in
+/-- The regular-module equivalence sends a matrix tuple to its factorwise columns. -/
 @[simp] theorem regularDecomp_apply (M : MatProd k d) (i : Fin r) (c j : Fin (d i)) :
     regularDecomp M i c j = M i j c := rfl
 
@@ -330,6 +337,8 @@ def freeColMap (n : ℕ) (i : Fin r) :
   LinearMap.pi fun m =>
     (colVec i (finProdFinEquiv.symm m).2).comp (LinearMap.proj (finProdFinEquiv.symm m).1)
 
+omit [∀ i, NeZero (d i)] in
+/-- The free-column map reads the matrix entry indexed by the corresponding copy and column. -/
 @[simp] theorem freeColMap_apply (n : ℕ) (i : Fin r) (M : Fin n → MatProd k d)
     (m : Fin (n * d i)) (j : Fin (d i)) :
     freeColMap n i M m j =
@@ -430,6 +439,7 @@ def lsmulHom (b : A) (X : Type*) [AddCommGroup X] [Module k X] [Module A X]
   map_add' := smul_add b
   map_smul' c x := (smul_comm c b x).symm
 
+/-- Left multiplication as a linear map evaluates to the original module action. -/
 @[simp] theorem lsmulHom_apply (b : A) (X : Type*) [AddCommGroup X] [Module k X] [Module A X]
     [IsScalarTower k A X] (x : X) : lsmulHom (k := k) b X x = b • x := rfl
 
@@ -437,6 +447,7 @@ variable (e : A ≃+* Aᵐᵒᵖ)
 
 /-- The transpose-twisted left `A`-module structure on the `k`-dual `X* = X →ₗ[k] k` of a
 left `A`-module `X`: `(a • f) x = f (τ a • x)` with `τ a = (e a).unop`. -/
+@[reducible]
 def twistedDualModule (X : Type*) [AddCommGroup X] [Module k X] [Module A X]
     [IsScalarTower k A X] : Module A (Module.Dual k X) where
   smul a f := f ∘ₗ lsmulHom (e a).unop X
@@ -459,6 +470,7 @@ def twistedDualModule (X : Type*) [AddCommGroup X] [Module k X] [Module A X]
     change f ((e 0).unop • x) = 0
     rw [map_zero, MulOpposite.unop_zero, zero_smul, map_zero]
 
+/-- The twisted dual action is precomposition by transpose-twisted multiplication. -/
 @[simp] theorem twistedDualModule_smul_apply (X : Type*) [AddCommGroup X] [Module k X]
     [Module A X] [IsScalarTower k A X] (a : A) (f : Module.Dual k X) (x : X) :
     letI : Module A (Module.Dual k X) := twistedDualModule e X
@@ -515,6 +527,7 @@ variable {X : Type*} [AddCommGroup X] [Module k X] [Module (MatProd k d) X]
 local instance instTwistedDual : Module (MatProd k d) (Module.Dual k X) :=
   twistedDualModule (matProdTransposeSelfDuality d) X
 
+/-- The transpose-twisted dual action is compatible with the base-field action. -/
 local instance instTwistedDualTower : IsScalarTower k (MatProd k d) (Module.Dual k X) := by
   refine ⟨fun c a f => ?_⟩
   refine LinearMap.ext fun x => ?_
@@ -531,6 +544,7 @@ def frobPairing (a : MatProd k d) : Module.Dual k (MatProd k d) where
     simp only [Pi.smul_apply, RingHom.id_apply, mul_smul_comm, Matrix.trace_smul,
       Finset.smul_sum]
 
+/-- The Frobenius pairing evaluates as the sum of factorwise matrix traces. -/
 @[simp] theorem frobPairing_apply (a x : MatProd k d) :
     frobPairing a x = ∑ i, Matrix.trace ((a i)ᵀ * x i) := rfl
 
@@ -549,9 +563,11 @@ def frobHom : MatProd k d →ₗ[MatProd k d] Module.Dual k (MatProd k d) where
     simp only [smul_eq_mul, Pi.mul_apply, matProdTransposeSelfDuality_unop]
     rw [Matrix.transpose_mul, Matrix.mul_assoc]
 
+/-- The regular-to-dual map evaluates through the Frobenius pairing. -/
 @[simp] theorem frobHom_apply (a x : MatProd k d) :
     frobHom a x = ∑ i, Matrix.trace ((a i)ᵀ * x i) := rfl
 
+/-- The Frobenius map from the regular module to its dual is injective. -/
 theorem frobHom_injective : Function.Injective (frobHom (k := k) (d := d)) := by
   rw [injective_iff_map_eq_zero]
   intro a ha
@@ -565,6 +581,7 @@ theorem frobHom_injective : Function.Injective (frobHom (k := k) (d := d)) := by
     rw [Pi.single_eq_of_ne hj, Matrix.mul_zero, Matrix.trace_zero]
   · intro h; exact absurd (Finset.mem_univ i) h
 
+/-- The Frobenius map is a bijection for a finite product of matrix algebras. -/
 theorem frobHom_bijective : Function.Bijective (frobHom (k := k) (d := d)) := by
   refine ⟨frobHom_injective, ?_⟩
   have hdim : Module.finrank k (MatProd k d)
@@ -590,6 +607,7 @@ noncomputable def toDualHom {n : ℕ} (yb : Module.Basis (Fin n) k (Module.Dual 
   map_smul' b a := by
     simp only [RingHom.id_apply, Pi.smul_apply, smul_eq_mul, mul_smul, Finset.smul_sum]
 
+/-- The free-to-dual map evaluates as the basis-weighted sum of its coordinates. -/
 @[simp] theorem toDualHom_apply {n : ℕ} (yb : Module.Basis (Fin n) k (Module.Dual k X))
     (a : Fin n → MatProd k d) : toDualHom yb a = ∑ l, a l • yb l := rfl
 
@@ -662,6 +680,7 @@ noncomputable def toDualEmbedding :
   (twistedDualMap (toDualHom (Module.finBasis k (Module.Dual k X)))).comp
     (twistedEvalEquiv X).toLinearMap
 
+/-- The canonical map into the dual of a finite free module is injective. -/
 theorem toDualEmbedding_injective : Function.Injective (toDualEmbedding (k := k) (d := d) X) := by
   rw [toDualEmbedding, LinearMap.coe_comp]
   exact (twistedDualMap_injective (toDualHom_surjective _)).comp (twistedEvalEquiv X).injective
@@ -686,18 +705,18 @@ noncomputable def dualPiEquiv (n : ℕ) :
   map_smul' a f := by
     funext l
     refine LinearMap.ext fun b => ?_
-    show f ((matProdTransposeSelfDuality d a).unop
+    change f ((matProdTransposeSelfDuality d a).unop
               • LinearMap.single k (fun _ : Fin n => MatProd k d) l b)
        = f (LinearMap.single k (fun _ : Fin n => MatProd k d) l
               ((matProdTransposeSelfDuality d a).unop • b))
     congr 1
     funext l'
     simp only [LinearMap.single_apply, Pi.single_apply, Pi.smul_apply]
-    by_cases h : l' = l <;> simp [h, smul_zero]
+    by_cases h : l' = l <;> simp [h]
   invFun g := ∑ l, (g l) ∘ₗ LinearMap.proj l
   left_inv f := by
     refine LinearMap.ext fun x => ?_
-    simp only [LinearMap.coeFn_sum, Finset.sum_apply, LinearMap.comp_apply, LinearMap.proj_apply,
+    simp only [LinearMap.coe_sum, Finset.sum_apply, LinearMap.comp_apply, LinearMap.proj_apply,
       LinearMap.single_apply]
     rw [← map_sum]
     congr 1
@@ -705,11 +724,11 @@ noncomputable def dualPiEquiv (n : ℕ) :
   right_inv g := by
     funext l
     refine LinearMap.ext fun b => ?_
-    simp only [LinearMap.comp_apply, LinearMap.single_apply, LinearMap.coeFn_sum,
+    simp only [LinearMap.comp_apply, LinearMap.single_apply, LinearMap.coe_sum,
       Finset.sum_apply, LinearMap.proj_apply]
     rw [Finset.sum_eq_single l]
-    · simp [Pi.single_apply]
-    · intro l' _ hl'; simp [Pi.single_apply, Ne.symm hl']
+    · simp
+    · intro l' _ hl'; simp [Ne.symm hl']
     · intro h; exact absurd (Finset.mem_univ l) h
 
 /-- **`(Aⁿ)* ≅ Aⁿ` as `A`-modules** — the step "`A^{n*} ≅ A^n` (check it!)" of the book's
