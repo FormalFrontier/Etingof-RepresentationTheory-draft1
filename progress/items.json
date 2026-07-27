@@ -4176,6 +4176,14 @@
     "id": "Chapter3/Introduction",
     "type": "introduction",
     "title": "Chapter 3: General results of representation theory — introduction and Section 3.1 heading",
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": [],
+      "basis": "The source material is a chapter/section heading and ambient parameter convention, not a proposition with a Lean proof obligation."
+    },
     "start_page": "43",
     "end_page": "43",
     "start_line": 1,
@@ -4210,6 +4218,15 @@
     "id": "Chapter3/Definition3.1.1",
     "type": "definition",
     "title": "Semisimple (completely reducible) representation",
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.IsSemisimpleRepresentation"
+      ]
+    },
     "start_page": "43",
     "end_page": "43",
     "start_line": 9,
@@ -4243,6 +4260,22 @@
     "id": "Chapter3/Example3.1.2",
     "type": "example",
     "title": "End(V) as a semisimple representation",
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.evalMap",
+        "Etingof.evalMap_apply",
+        "Etingof.evalMap_bijective",
+        "Etingof.endEquivPiOfBasis",
+        "Etingof.endEquivPiOfBasis_apply",
+        "Etingof.endEquivPi",
+        "Etingof.endEquivPi_apply",
+        "Etingof.endomorphism_semisimple"
+      ]
+    },
     "start_page": "43",
     "end_page": "43",
     "start_line": 11,
@@ -4279,6 +4312,31 @@
     "id": "Chapter3/Remark3.1.3",
     "type": "remark",
     "title": "Canonical decomposition of semisimple representations via Schur's lemma",
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.evalBilinear",
+        "Etingof.evalTensor",
+        "Etingof.evalTensor_tmul",
+        "Etingof.evalTensorEquivOfIsSimple",
+        "Etingof.evalTensorEquivOfIsSimple_tmul",
+        "Etingof.evalTensor_injective",
+        "Etingof.evalDirectSum",
+        "Etingof.evalDirectSum_lof_tmul",
+        "Etingof.linearMap_eq_zero_of_isEmpty_linearEquiv",
+        "Etingof.simpleSubmodule_le_range_evalDirectSum",
+        "Etingof.evalDirectSum_surjective",
+        "Etingof.evalTensor_mem_isotypicComponent",
+        "Etingof.mem_isotypicComponents_of_ne_bot",
+        "Etingof.isotypicComponent_ne_of_ne",
+        "Etingof.iSupIndep_isotypicComponent",
+        "Etingof.evalDirectSum_injective",
+        "Etingof.evalDirectSumEquiv"
+      ]
+    },
     "start_page": "43",
     "end_page": "43",
     "start_line": 13,
@@ -4320,6 +4378,14 @@
     "id": "Chapter3/Discussion_before_Proposition3.1.4",
     "type": "discussion",
     "title": "Transition to classification of subrepresentations",
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": [],
+      "basis": "The source sentence is an organizational transition announcing Proposition 3.1.4, not a standalone mathematical claim with a proof obligation."
+    },
     "start_page": "44",
     "end_page": "44",
     "start_line": 1,
@@ -4354,6 +4420,20 @@
     "id": "Chapter3/Proposition3.1.4",
     "type": "proposition",
     "title": "Classification of subrepresentations in semisimple representations",
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.isIsotypicOfType_fun",
+        "Etingof.subrepresentation_of_semisimple_pi",
+        "Etingof.subrepresentation_of_semisimple",
+        "Etingof.subrepresentation_of_semisimple_matrix_pi",
+        "Etingof.subrepresentation_of_semisimple_matrix"
+      ],
+      "basis": "All five public declarations and the three private helper proofs used by them were audited; the public callers transitively cover the private helpers."
+    },
     "start_page": "44",
     "end_page": "44",
     "start_line": 3,
@@ -4401,6 +4481,24 @@
     "id": "Chapter3/Remark3.1.5",
     "type": "remark",
     "title": "Generalization of Proposition 3.1.4 to non-algebraically-closed fields",
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Remark315.subrepresentation_general",
+        "Etingof.Remark315.homMatrixEquiv",
+        "Etingof.Remark315.homMatrixEquiv_apply",
+        "Etingof.Remark315.homMatrixEquiv_symm_apply",
+        "Etingof.Remark315.apply_eq_sum",
+        "Etingof.Remark315.injective_iff_comp_eq_zero",
+        "Etingof.Remark315.injective_iff_rows_linearIndependent",
+        "Etingof.Remark315.rows_linearIndependent_iff",
+        "Etingof.Remark315.subrepresentation_blocks",
+        "Etingof.Remark315.end_divisionRing"
+      ]
+    },
     "start_page": "44",
     "end_page": "45",
     "start_line": 9,
@@ -4443,6 +4541,28 @@
     "id": "Chapter3/Discussion_alternative_proof_of_Proposition3.1.4",
     "type": "discussion",
     "title": "Alternative proof of Proposition 3.1.4 using Hom decomposition",
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.postcompHom",
+        "Etingof.postcompHom_apply",
+        "Etingof.restrictScalars_eq",
+        "Etingof.mem_ker_iff_components",
+        "Etingof.postcompHom_injective",
+        "Etingof.postcompHom_surjective",
+        "Etingof.homPiHomEquiv",
+        "Etingof.homPiHomEquiv_apply",
+        "Etingof.injective_iff",
+        "Etingof.surjective_iff",
+        "Etingof.bijective_iff",
+        "Etingof.postcompHom_id",
+        "Etingof.postcompHom_comp"
+      ],
+      "basis": "The mathematical content is covered by the listed declarations; the source's attribution of the alternative argument to B. Poonen is bibliographic prose without a Lean proof obligation."
+    },
     "start_page": "45",
     "end_page": "45",
     "start_line": 3,
@@ -4505,6 +4625,20 @@
     "id": "Chapter3/Lemma3.1.6",
     "type": "lemma",
     "title": "Surjective map from direct sum of irreducibles splits",
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.surjective_map_splits",
+        "Etingof.disjoint_sup_of_disjoint",
+        "Etingof.exists_subfamily_isCompl_ker",
+        "Etingof.exists_subfamily_bijective",
+        "Etingof.exists_subfamily_linearEquiv",
+        "Etingof.exists_subfamily_linearEquiv_of_isInternal"
+      ]
+    },
     "start_page": "45",
     "end_page": "45",
     "start_line": 13,
@@ -4541,6 +4675,21 @@
     "id": "Chapter3/Discussion_after_Lemma3.1.6",
     "type": "discussion",
     "title": "Completion of alternative proof of Proposition 3.1.4",
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.exists_subfamily_linearEquiv_of_isInternal",
+        "Etingof.restrictScalars_eq",
+        "Etingof.postcompHom_apply",
+        "Etingof.mem_ker_iff_components",
+        "Etingof.Remark315.subrepresentation_blocks",
+        "Etingof.subrepresentation_of_semisimple_matrix"
+      ],
+      "basis": "This record has no dedicated provider. Its four Stage 3.2 claims are covered elsewhere by the listed declarations, all of which were included in the seven-provider audit."
+    },
     "start_page": "45",
     "end_page": "45",
     "start_line": 17,
