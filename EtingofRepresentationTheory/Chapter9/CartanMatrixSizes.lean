@@ -189,6 +189,7 @@ theorem isBasicAlgebra_cartanAlgebra_iff_of_hom_delta (P S : ι → C)
     hcomplete hdelta n hn
   exact isBasicAlgebra_iff_of_matrixForm k ((End (multBiproduct P n))ᵐᵒᵖ) n hn e
 
+omit [DecidableEq ι] in
 /-- **The indexed Wedderburn form of `B_n`, without a separately supplied simple family.**
 An irredundant family of indecomposable projectives whose biproduct is a progenerator determines
 its complete irredundant family of simple tops.  Consequently the matrix blocks of the genuine
@@ -202,11 +203,13 @@ theorem matrix_structure_cartanAlgebra (P : ι → C)
     Nonempty ((((End (multBiproduct P n))ᵐᵒᵖ) ⧸
         Etingof.Radical ((End (multBiproduct P n))ᵐᵒᵖ)) ≃ₐ[k]
       ∀ i, Matrix (Fin (n i)) (Fin (n i)) k) := by
+  classical
   obtain ⟨S, hsimple, hSdistinct, hcomplete, hdelta⟩ :=
     exists_simple_family_hom_delta (k := k) P hproj hindec hdistinct
   exact matrix_structure_cartanAlgebra_of_hom_delta P S hproj hsimple hSdistinct
     hcomplete hdelta n hn
 
+omit [DecidableEq ι] in
 /-- **Etingof's basic-algebra criterion for the Cartan family.** For an irredundant complete
 family of indecomposable projectives, `B_n` is basic exactly when every multiplicity is one.
 No simple family or delta-Hom formula is required as input: both are constructed by
@@ -217,6 +220,7 @@ theorem isBasicAlgebra_cartanAlgebra_iff (P : ι → C)
     (hdistinct : ∀ i j, Nonempty (P i ≅ P j) → i = j)
     [IsProgenerator (⨁ P)] (n : ι → ℕ) (hn : ∀ i, 1 ≤ n i) :
     IsBasicAlgebra k ((End (multBiproduct P n))ᵐᵒᵖ) ↔ ∀ i, n i = 1 := by
+  classical
   obtain ⟨e⟩ := matrix_structure_cartanAlgebra (k := k) P hproj hindec hdistinct n hn
   exact isBasicAlgebra_iff_of_matrixForm k ((End (multBiproduct P n))ᵐᵒᵖ) n hn e
 

@@ -326,7 +326,7 @@ end Uniqueness
 section FamilyCompleteness
 
 variable {C : Type u} [Category.{v} C] [IsFiniteAbelianCategory C]
-variable {ι : Type v} [Fintype ι]
+variable {ι : Type v} [Finite ι]
 
 /-- An indecomposable-projective family whose biproduct is a progenerator already exhausts all
 indecomposable projective objects.  A projective `R` is a retract of a finite biproduct of the
@@ -336,6 +336,7 @@ theorem indecomposable_projective_complete_of_biproduct_progenerator
     (R : C) (hRproj : Projective R) (hRindec : Indecomposable R) :
     ∃ i, Nonempty (R ≅ P i) := by
   classical
+  letI := Fintype.ofFinite ι
   haveI : Projective R := hRproj
   obtain ⟨m, hbp, π, hπ⟩ :=
     (inferInstance : IsProgenerator (⨁ P)).epiFromBiproduct R
@@ -436,7 +437,7 @@ section DeltaFamily
 variable {k : Type w} [Field k] [IsAlgClosed k]
 variable {C : Type u} [Category.{v} C] [IsFiniteAbelianCategory C] [Linear k C]
   [IsFiniteAbelianCategoryOverField k C]
-variable {ι : Type v} [Fintype ι] [DecidableEq ι]
+variable {ι : Type v} [Finite ι] [DecidableEq ι]
 
 /-- A complete irredundant family of indecomposable projectives whose biproduct is a
 progenerator canonically determines a complete irredundant family of simples, indexed in the
@@ -451,6 +452,7 @@ theorem exists_simple_family_hom_delta (P : ι → C)
       (∀ X : C, Simple X → ∃ i, Nonempty (X ≅ S i)) ∧
       (∀ i j, Module.finrank k (P i ⟶ S j) = if i = j then 1 else 0) := by
   classical
+  letI := Fintype.ofFinite ι
   let Q : C := ⨁ P
   let B := (End Q)ᵐᵒᵖ
   haveI : ∀ i, Projective (P i) := hproj
