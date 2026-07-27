@@ -55,6 +55,7 @@ import EtingofRepresentationTheory.Chapter5.Remark5_9_2
 
 -- Section 5.10: Frobenius Reciprocity
 import EtingofRepresentationTheory.Chapter5.Theorem5_10_1
+import EtingofRepresentationTheory.Chapter5.Problem5_10_2
 
 -- Section 5.11: Worked examples of induced representations (S₃)
 import EtingofRepresentationTheory.Chapter5.Discussion5_11_examples
