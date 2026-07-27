@@ -909,7 +909,7 @@
     "end_page": "15",
     "start_line": 2,
     "end_line": 14,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "fidelity": "verified",
     "lean_file": "EtingofRepresentationTheory/Chapter2/Discussion_2_4_heading.lean",
@@ -990,6 +990,13 @@
       ],
       "basis": "The section dictionary imports the subrepresentation definition for its regular-representation bridges; its remaining dependencies are Mathlib declarations."
     },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.4",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "No source rewrite was needed: the declarations use direct Mathlib aliases or single-purpose bridge theorems, have focused imports, and emit no Lean style or tactic linter warnings."
+    },
     "last_updated": "2026-07-27",
     "coverage_swept": {
       "wave": 1,
@@ -1004,7 +1011,7 @@
     "end_page": "15",
     "start_line": 15,
     "end_line": 15,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "fidelity": "verified",
     "last_updated": "2026-07-27",
@@ -1057,6 +1064,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "The three existence proofs import only Mathlib: the one-sided cases use Ideal.exists_maximal and the two-sided case is a self-contained Zorn argument."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.4",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "No source rewrite was needed: the one-sided proofs delegate directly to Mathlib, the two-sided Zorn proof is factored by chain-bound construction, simp sets are explicit, and both scoped files emit no Lean style or tactic linter warnings."
     }
   },
   {
