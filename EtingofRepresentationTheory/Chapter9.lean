@@ -1,3 +1,9 @@
+/-
+Copyright (c) 2026 Kim Morrison. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Kim Morrison
+-/
+
 import EtingofRepresentationTheory.Chapter9.Proposition9_1_1
 import EtingofRepresentationTheory.Chapter9.Definition9_1_2
 import EtingofRepresentationTheory.Chapter9.Corollary9_1_3
@@ -18,6 +24,7 @@ import EtingofRepresentationTheory.Chapter9.Introduction_9_6
 import EtingofRepresentationTheory.Chapter9.Definition9_6_2
 import EtingofRepresentationTheory.Chapter9.Definition9_6_2_Example
 import EtingofRepresentationTheory.Chapter9.Theorem9_6_4
+import EtingofRepresentationTheory.Chapter9.ProjectiveCoverDelta
 import EtingofRepresentationTheory.Chapter9.Definition9_6_2_Agreement
 import EtingofRepresentationTheory.Chapter9.Introduction_9_7
 import EtingofRepresentationTheory.Chapter9.Introduction_9_7_Morita
