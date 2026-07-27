@@ -1,6 +1,4 @@
 import Mathlib.LinearAlgebra.Dual.Defs
-import Mathlib.Algebra.Module.LinearMap.End
-import Mathlib.Algebra.Module.Opposite
 import Mathlib.Algebra.Algebra.Defs
 
 /-!

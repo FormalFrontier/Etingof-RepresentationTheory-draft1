@@ -1,10 +1,5 @@
 import Mathlib.RingTheory.SimpleModule.WedderburnArtin
-import Mathlib.RingTheory.SimpleRing.Matrix
-import Mathlib.RingTheory.Artinian.Module
-import Mathlib.LinearAlgebra.Matrix.ToLin
 import Mathlib.LinearAlgebra.Matrix.Module
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-import Mathlib.Algebra.DirectSum.Module
 import Mathlib.LinearAlgebra.Dual.Lemmas
 import Mathlib.LinearAlgebra.Matrix.Trace
 import EtingofRepresentationTheory.Chapter3.Proposition3_1_4

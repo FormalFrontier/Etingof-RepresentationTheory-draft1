@@ -4923,7 +4923,7 @@
     "end_page": "47",
     "start_line": 1,
     "end_line": 4,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -4963,6 +4963,13 @@
         "Etingof.irreducible_reps_of_matrix_algebra"
       ],
       "basis": "The heading itself is organizational, but its arbitrary-field finite-product setup is mathematical and is represented by the listed admission-free declarations."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The heading has no backward mathematical dependency. Its Stage 3.2 coverage uses declarations in the following theorem item, a forward implementation relation excluded from the acyclic book-order graph."
     }
   },
   {
@@ -4973,7 +4980,7 @@
     "end_page": "47",
     "start_line": 5,
     "end_line": 6,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_decl": "Etingof.irreducible_reps_of_matrix_algebra",
@@ -5030,6 +5037,15 @@
         "exists_iso_directSum_of_matrixProd"
       ],
       "basis": "The simplicity, exhaustiveness, pairwise nonisomorphism, semisimplicity, and exact finite-dimensional direct-sum endpoint all have complete proof terms."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Proposition3.1.4"
+      ],
+      "basis": "The exact multiplicity decomposition invokes Etingof.subrepresentation_of_semisimple from Proposition 3.1.4. The provider retains that single focused project import; five redundant Mathlib imports were removed."
     }
   },
   {
@@ -5040,7 +5056,7 @@
     "end_page": "47",
     "start_line": 7,
     "end_line": 8,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -5071,6 +5087,13 @@
       "proof_integrity": "not_applicable",
       "declarations": [],
       "basis": "This item is a methodological transition motivating the following definition, not a proposition with a Lean proof obligation."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This methodological transition has no provider or standalone mathematical dependency; its conservative reading-order edge was removed."
     }
   },
   {
@@ -5081,7 +5104,7 @@
     "end_page": "47",
     "start_line": 9,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_note": "DualRepresentation takes the algebra A and its action on V as parameters and carries the explicit contragredient Aᵐᵒᵖ-module structure, with dualRepresentation_smul_apply proving (op a • f)(v) = f(a • v).",
@@ -5126,6 +5149,13 @@
         "Etingof.instModuleMulOppositeDual"
       ],
       "basis": "The carrier, contragredient action, defining equation, and opposite-algebra module laws were all included in the exhaustive constant-level axiom audit."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The contragredient module is constructed directly from Mathlib dual and algebra APIs and imports no project provider. Two redundant Mathlib imports were removed."
     }
   },
   {
@@ -5136,7 +5166,7 @@
     "end_page": "47",
     "start_line": 13,
     "end_line": 21,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -5269,6 +5299,16 @@
         "exists_iso_directSum_of_matrixProd"
       ],
       "basis": "The complete dual route, including the free-to-dual surjection, dual injection, self-duality and regular/free decompositions, resolves to admission-free proof terms. Mathlib's finite-dual results and Proposition 3.1.4 were already compiled dependencies."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Proposition3.1.4",
+        "Chapter3/Theorem3.3.1"
+      ],
+      "basis": "This proof discussion is the implementation of Theorem 3.3.1 and its final embedding-to-decomposition step uses Proposition 3.1.4. The Lean route constructs its twisted dual directly and does not import the separate Definition 3.3.2 provider."
     }
   },
   {
@@ -5279,7 +5319,7 @@
     "end_page": "48",
     "start_line": 1,
     "end_line": 14,
-    "status": "proved",
+    "status": "dependency_trimmed",
     "sorry_free": true,
     "coverage_note": "Both parts fully covered. Part (b)'s matrix-algebra classification is proved. Part (a) now classifies the irreducibles of A = ⊕ᵢ Aᵢ genuinely in terms of the factor algebras: the summand 1ᵢV carries an honest Module (𝒜 i) structure (factorSummandModule), the inflation of a factor module is defined (Inflate) with the simplicity/isomorphism correspondence (isSimpleModule_iff, congr/ofCongr, index_eq_of_equiv), part (a) is restated over the factors (simpleModule_prod_iff_factor), and every simple product module is exhibited as the inflation of a simple factor module from a unique index (exists_isSimpleFactor, exists_inflate_of_isSimple). Closed #7564.",
     "fidelity": "full",
@@ -5472,6 +5512,15 @@
         "Etingof.Problem3_3_3.finite_iso_std_pow"
       ],
       "basis": "All 36 exported declarations, the seven private matrix-unit helpers, and their compiler-generated proof constants were included in the exhaustive module-origin audit. Part (c) is a pedagogical deduction whose already-proved endpoint is Theorem 3.3.1."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Theorem3.3.1"
+      ],
+      "basis": "Parts (a) and (b) compile from focused Mathlib imports alone; the former Theorem 3.3.1 provider import was documentation-only and was removed. Part (c)'s covered-elsewhere endpoint is the earlier Theorem 3.3.1 item, so that backward coverage edge remains."
     }
   },
   {
@@ -5482,7 +5531,7 @@
     "end_page": "49",
     "start_line": 15,
     "end_line": 2,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "notes": "Remark3_3_4.lean constructs the uniquely characterized free cover Aⁿ → X, proves surjectivity, and identifies its quotient by the kernel with X. The regular/free decompositions and the exact final multiplicity decomposition are public in Theorem3_3_1.lean; Lean reaches the endpoint through Proposition 3.1.4 rather than the book's quotient invocation of Lemma 3.1.6.",
@@ -5553,6 +5602,15 @@
         "Etingof.quotientEquivOfFreeCover"
       ],
       "basis": "The free-cover construction, formula, uniqueness, surjectivity, and quotient equivalence are all admission-free; the alternative final decomposition endpoint is the already-audited Theorem 3.3.1 declaration."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Theorem3.3.1"
+      ],
+      "basis": "The free-cover and quotient declarations use only Mathlib, while the regular/free decompositions and final multiplicity decomposition are covered by the earlier Theorem 3.3.1 item. Three redundant Mathlib imports were removed."
     }
   },
   {

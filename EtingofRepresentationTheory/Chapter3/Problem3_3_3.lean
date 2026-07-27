@@ -1,11 +1,6 @@
 import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.LinearAlgebra.Matrix.Module
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-import Mathlib.LinearAlgebra.Dimension.Free
-import Mathlib.LinearAlgebra.Basis.Basic
-import Mathlib.Algebra.Ring.Pi
-import Mathlib.Algebra.Module.RingHom
-import EtingofRepresentationTheory.Chapter3.Theorem3_3_1
 
 /-!
 # Problem 3.3.3: An alternative proof of Theorem 3.3.1

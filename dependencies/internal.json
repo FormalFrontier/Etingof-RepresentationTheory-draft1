@@ -408,26 +408,21 @@
   "Chapter3/Theorem3.2.2": [
     "Chapter3/Corollary3.2.1"
   ],
-  "Chapter3/Introduction_to_3.3": [
-    "Chapter3/Theorem3.2.2"
-  ],
+  "Chapter3/Introduction_to_3.3": [],
   "Chapter3/Theorem3.3.1": [
-    "Chapter3/Introduction_to_3.3"
+    "Chapter3/Proposition3.1.4"
   ],
-  "Chapter3/Discussion_before_Definition3.3.2": [
+  "Chapter3/Discussion_before_Definition3.3.2": [],
+  "Chapter3/Definition3.3.2": [],
+  "Chapter3/Discussion_proof_of_Theorem3.3.1": [
+    "Chapter3/Proposition3.1.4",
     "Chapter3/Theorem3.3.1"
   ],
-  "Chapter3/Definition3.3.2": [
-    "Chapter3/Discussion_before_Definition3.3.2"
-  ],
-  "Chapter3/Discussion_proof_of_Theorem3.3.1": [
-    "Chapter3/Definition3.3.2"
-  ],
   "Chapter3/Problem3.3.3": [
-    "Chapter3/Discussion_proof_of_Theorem3.3.1"
+    "Chapter3/Theorem3.3.1"
   ],
   "Chapter3/Remark3.3.4": [
-    "Chapter3/Problem3.3.3"
+    "Chapter3/Theorem3.3.1"
   ],
   "Chapter3/Introduction_to_3.4": [
     "Chapter3/Remark3.3.4"

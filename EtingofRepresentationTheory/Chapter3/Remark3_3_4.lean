@@ -1,7 +1,4 @@
-import Mathlib.LinearAlgebra.Basis.Defs
-import Mathlib.LinearAlgebra.Quotient.Basic
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-import Mathlib.Algebra.Algebra.Tower
 
 /-!
 # Remark 3.3.4: A finite dimensional representation is a quotient of a free module
