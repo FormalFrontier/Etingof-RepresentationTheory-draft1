@@ -6926,11 +6926,12 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "Theorem5_26_1 proves the rational-span conclusion, and a private proof discusses the integral-rank argument. The remark's public Q-span iff C-span theorem and its equivalent decomposition-matrix row-independence criterion are absent; follow-up #7489.",
-    "fidelity_issue": 7489,
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Remark5_26_2.lean defines the book-oriented integral decomposition matrix (irreducibles index rows and chosen induced representations index columns), proves its columns are the actual Frobenius-reciprocity multiplicities, and proves that rational character span, complex character span, and row linear independence are equivalent.",
+    "fidelity_decl": "Etingof.inducedCharacter_eq_irrepDecomp_sum, Etingof.Remark5262.decompositionMatrix, Etingof.Remark5_26_2",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.26.1",
