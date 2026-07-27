@@ -2,6 +2,7 @@ import Mathlib.Algebra.Lie.Classical
 import Mathlib.Algebra.Lie.Semisimple.Basic
 import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
 
+
 /-!
 # Problem 2.16.4: Irreducible representations of `𝔰𝔩(2)` in characteristic `p > 2`
 
@@ -63,10 +64,11 @@ theorem sl2_traceless (X : sl2 k) : X.val 1 1 = -X.val 0 0 := by
   have h2 : X.val 0 0 + X.val 1 1 = 0 := by
     have h3 : Matrix.trace X.val = 0 := X.property
     have h4 : Matrix.trace X.val = X.val 0 0 + X.val 1 1 := by
-      show ∑ i : Fin 2, X.val i i = _; rw [Fin.sum_univ_two]
+      change ∑ i : Fin 2, X.val i i = _
+      rw [Fin.sum_univ_two]
     rw [h4] at h3; exact h3
   have : X.val 1 1 = 0 - X.val 0 0 := by rw [← h2]; ring
-  simp at this; exact this
+  simpa only [zero_sub] using this
 
 /-! ## The `d`-dimensional representation
 
@@ -133,31 +135,23 @@ theorem lie_rhoE_rhoF (d : ℕ) :
   by_cases he : (k' : ℕ) + 1 < d <;> by_cases hf : 0 < (k' : ℕ)
   · -- Interior: k+1 < d, k > 0
     simp only [he, hf, k'.isLt, dite_true,
-      show (⟨(k' : ℕ) - 1, by omega⟩ : Fin d).val = (k' : ℕ) - 1 from rfl,
       show 0 < (k' : ℕ) + 1 from by omega,
       show (k' : ℕ) + 1 - 1 = (k' : ℕ) from by omega,
-      show (k' : ℕ) - 1 + 1 < d from by omega,
       show (k' : ℕ) - 1 + 1 = (k' : ℕ) from by omega,
-      show (k' : ℕ) < d from k'.isLt, dite_true,
-      hfin_k k'.isLt]
+      dite_true, hfin_k k'.isLt]
     simp only [Nat.cast_sub (show 1 ≤ (k' : ℕ) from by omega)]
     push_cast; ring
   · -- k+1 < d, k = 0
     have hk0 : (k' : ℕ) = 0 := by omega
-    simp only [he, hf, k'.isLt, dite_true, dite_false, mul_zero, sub_zero,
-      show (⟨(k' : ℕ) + 1, he⟩ : Fin d).val = (k' : ℕ) + 1 from rfl,
+    simp only [he, hf, dite_true, dite_false, mul_zero, sub_zero,
       show 0 < (k' : ℕ) + 1 from by omega,
       show (k' : ℕ) + 1 - 1 = (k' : ℕ) from by omega,
-      show (k' : ℕ) < d from k'.isLt, dite_true,
-      hfin_k k'.isLt]
+      dite_true, hfin_k k'.isLt]
     simp [hk0]
   · -- k+1 ≥ d (k = d-1), k > 0
     simp only [he, hf, k'.isLt, dite_true, dite_false, mul_zero, zero_sub,
-      show (⟨(k' : ℕ) - 1, by omega⟩ : Fin d).val = (k' : ℕ) - 1 from rfl,
-      show (k' : ℕ) - 1 + 1 < d from by omega,
       show (k' : ℕ) - 1 + 1 = (k' : ℕ) from by omega,
-      show (k' : ℕ) < d from k'.isLt, dite_true,
-      hfin_k k'.isLt]
+      dite_true, hfin_k k'.isLt]
     simp only [Nat.cast_sub (show 1 ≤ (k' : ℕ) from by omega)]
     have hkd1 : (k' : ℕ) + 1 = d := by omega
     push_cast [Nat.cast_sub (show 1 ≤ d from by omega), ← hkd1]; ring
@@ -165,7 +159,7 @@ theorem lie_rhoE_rhoF (d : ℕ) :
     have hk0 : (k' : ℕ) = 0 := by omega
     have hd1 : d = 1 := by omega
     simp only [he, hf, dite_false, mul_zero, zero_sub, neg_zero]
-    subst hd1; simp [hk0]
+    subst hd1; simp
 
 private theorem sl2_val_add (X Y : sl2 k) (i j : Fin 2) :
     (X + Y).val i j = X.val i j + Y.val i j := rfl
@@ -274,6 +268,7 @@ private lemma rhoLieHom_sl2_f_eq (d : ℕ) : rhoLieHom k d (sl2_f k) = rhoF k d 
 /-- Standard basis vector `e_k` in `Fin d → k`. -/
 def e_basis (d : ℕ) (k' : Fin d) : Fin d → k := Pi.single k' 1
 
+/-- Evaluation of the standard basis vector. -/
 theorem e_basis_apply (d : ℕ) (k' j : Fin d) :
     e_basis k d k' j = if j = k' then 1 else 0 := by
   simp [e_basis, Pi.single_apply]
@@ -318,7 +313,7 @@ theorem irrep_isIrreducible (p : ℕ) [CharP k p] (hp2 : 2 < p) (d : ℕ) [NeZer
   apply LieModule.IsIrreducible.mk
   intro N hN
   rw [ne_eq, LieSubmodule.eq_bot_iff] at hN
-  push_neg at hN
+  push Not at hN
   obtain ⟨w, hw_mem, hw_ne⟩ := hN
   -- Key connection: ⁅sl2_h, v⁆ k = (d-1-2k) * v k
   have lie_h_comp : ∀ (v : Fin d → k) (k' : Fin d),
@@ -384,7 +379,7 @@ theorem irrep_isIrreducible (p : ℕ) [CharP k p] (hp2 : 2 < p) (d : ℕ) [NeZer
         rw [hw_eq] at hw_mem
         exact smul_extract _ _ hk.2 hw_mem
       · -- Multiple nonzero components: reduce using h-eigenvalue
-        push_neg at hn1
+        push Not at hn1
         obtain ⟨j₁, hj₁_mem, j₂, hj₂_mem, hne⟩ :=
           Finset.one_lt_card.mp hn1
         have hj₁ := (Finset.mem_filter.mp hj₁_mem).2
@@ -478,7 +473,7 @@ theorem irrep_isIrreducible (p : ℕ) [CharP k p] (hp2 : 2 < p) (d : ℕ) [NeZer
         · have : (k' : ℕ) - 1 ≠ m := by omega
           simp [Fin.ext_iff, this, hkm]
       · simp only [hk, dite_false, mul_zero]
-        push_neg at hk
+        push Not at hk
         simp [Fin.ext_iff, show (k' : ℕ) ≠ m + 1 from by omega]
     rw [lie_eq] at lie_in_N
     have hc : ((d : k) - ↑(m + 1)) ≠ 0 := by
@@ -538,8 +533,7 @@ theorem lie_sl2_h_e : ⁅sl2_h k, sl2_e k⁆ = (2 : k) • sl2_e k := by
     LieAlgebra.SpecialLinear.val_single]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply,
-      Fin.sum_univ_two] <;> ring
+    simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] ; ring
 
 /-- `[h, f] = -2f` in `𝔰𝔩(2, k)`. -/
 theorem lie_sl2_h_f : ⁅sl2_h k, sl2_f k⁆ = -((2 : k) • sl2_f k) := by
@@ -550,8 +544,7 @@ theorem lie_sl2_h_f : ⁅sl2_h k, sl2_f k⁆ = -((2 : k) • sl2_f k) := by
     LieAlgebra.SpecialLinear.val_single]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.neg_apply,
-      Matrix.single_apply, Fin.sum_univ_two] <;> ring
+    simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.neg_apply, Matrix.single_apply] ; ring
 
 /-- `[e, f] = h` in `𝔰𝔩(2, k)`. -/
 theorem lie_sl2_e_f : ⁅sl2_e k, sl2_f k⁆ = sl2_h k := by
@@ -561,7 +554,7 @@ theorem lie_sl2_e_f : ⁅sl2_e k, sl2_f k⁆ = sl2_h k := by
     LieAlgebra.SpecialLinear.val_single]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.single_apply, Fin.sum_univ_two]
+    simp [Matrix.sub_apply]
 
 /-- Every element of `𝔰𝔩(2, k)` is the combination `x₀₁·e + x₁₀·f + x₀₀·h` of the standard basis
 (using tracelessness for the `(1,1)`-entry). -/
@@ -580,7 +573,7 @@ theorem sl2_decomp (x : sl2 k) :
     LieAlgebra.SpecialLinear.val_singleSubSingle]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.add_apply, Matrix.smul_apply, Matrix.sub_apply, Matrix.single_apply, htr]
+    simp [Matrix.add_apply, Matrix.smul_apply, Matrix.sub_apply, htr]
 
 /-! ### Schur's lemma for the Lie module `M` -/
 
@@ -589,6 +582,7 @@ section SchurHelpers
 variable {M : Type*} [AddCommGroup M] [Module k M] [LieRingModule (sl2 k) M]
   [LieModule k (sl2 k) M]
 
+omit [LieModule k (sl2 k) M] in
 /-- A `k`-linear submodule of `M` that is closed under the `𝔰𝔩(2)`-action and contains a nonzero
 vector is everything, when `M` is irreducible. -/
 theorem eq_top_of_lie_closed [LieModule.IsIrreducible k (sl2 k) M]
@@ -598,7 +592,7 @@ theorem eq_top_of_lie_closed [LieModule.IsIrreducible k (sl2 k) M]
     { toSubmodule := W, lie_mem := fun {x m} h => hlie x m h }
   have hNbot : N ≠ ⊥ := by
     rw [ne_eq, LieSubmodule.eq_bot_iff]
-    push_neg
+    push Not
     obtain ⟨v, hvW, hv0⟩ := hne
     exact ⟨v, hvW, hv0⟩
   have hNtop : N = ⊤ := (IsSimpleOrder.eq_bot_or_eq_top N).resolve_left hNbot
@@ -646,6 +640,7 @@ theorem lie_schur [IsAlgClosed k] [FiniteDimensional k M]
   have hm : m ∈ φ.eigenspace μ := by rw [htop]; trivial
   rwa [Module.End.mem_eigenspace_iff] at hm
 
+omit [LieRingModule (sl2 k) M] [LieModule k (sl2 k) M] in
 /-- If a linear operator maps the generators of a span into the span, it maps the whole span into
 itself. -/
 theorem span_closed_of_gens (T : Module.End k M) (S : Set M)
@@ -657,6 +652,7 @@ theorem span_closed_of_gens (T : Module.End k M) (S : Set M)
   | add x y _ _ hx hy => rw [map_add]; exact Submodule.add_mem _ hx hy
   | smul a x _ hx => rw [map_smul]; exact Submodule.smul_mem _ _ hx
 
+omit [LieRingModule (sl2 k) M] [LieModule k (sl2 k) M] in
 /-- Dimension bound from a cyclic spanning set: if the span of `{g 0, …, g (p-1)}` is everything,
 then `finrank M ≤ p`. -/
 theorem finrank_le_of_orbit_top (p : ℕ) (g : ℕ → M)
@@ -1106,3 +1102,16 @@ theorem exists_irreducible_dim_char [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Ch
   exact absurd hlt (lt_irrefl p)
 
 end Etingof.Problem2_16_4
+
+-- The source-numbered exercise namespace and established API contain intentional underscores.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_16_4.sl2
+  Etingof.Problem2_16_4.sl2_e
+  Etingof.Problem2_16_4.sl2_f
+  Etingof.Problem2_16_4.sl2_h
+  Etingof.Problem2_16_4.rhoH
+  Etingof.Problem2_16_4.rhoE
+  Etingof.Problem2_16_4.rhoF
+  Etingof.Problem2_16_4.rhoLieHom
+  Etingof.Problem2_16_4.irrepLieRingModule
+  Etingof.Problem2_16_4.e_basis

@@ -1,6 +1,7 @@
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3
 import Mathlib.Tactic.FieldSimp
 
+
 /-!
 # Problem 2.16.3(b): the adjoint calculus for the layers of `𝔤₄`
 
@@ -115,23 +116,31 @@ variable (k : Type*) [CommRing k]
 /-- `dY k j = ad(ȳ)ʲ`, as a function on `𝔤₄`; `aElt k 4 j = dY k j (x̄)`. -/
 noncomputable def dY (j : ℕ) (u : g k 4) : g k 4 := (fun v => ⁅yb k 4, v⁆)^[j] u
 
+/-- The adjoint-y iteration formula for `dY_zero_index`. -/
 @[simp] theorem dY_zero_index (u : g k 4) : dY k 0 u = u := rfl
 
+/-- The adjoint-y iteration formula for `dY_one`. -/
 theorem dY_one (u : g k 4) : dY k 1 u = ⁅yb k 4, u⁆ := rfl
 
+/-- The adjoint-y iteration formula for `dY_two_eq`. -/
 theorem dY_two_eq (u : g k 4) : dY k 2 u = ⁅yb k 4, ⁅yb k 4, u⁆⁆ := rfl
 
+/-- The adjoint-y iteration formula for `dY_three_eq`. -/
 theorem dY_three_eq (u : g k 4) : dY k 3 u = ⁅yb k 4, ⁅yb k 4, ⁅yb k 4, u⁆⁆⁆ := rfl
 
+/-- The adjoint-y iteration formula for `dY_four_eq`. -/
 theorem dY_four_eq (u : g k 4) :
     dY k 4 u = ⁅yb k 4, ⁅yb k 4, ⁅yb k 4, ⁅yb k 4, u⁆⁆⁆⁆ := rfl
 
+/-- The adjoint-y iteration formula for `dY_five_eq`. -/
 theorem dY_five_eq (u : g k 4) :
     dY k 5 u = ⁅yb k 4, ⁅yb k 4, ⁅yb k 4, ⁅yb k 4, ⁅yb k 4, u⁆⁆⁆⁆⁆ := rfl
 
+/-- The adjoint-y iteration formula for `dY_succ`. -/
 theorem dY_succ (j : ℕ) (u : g k 4) : dY k (j + 1) u = ⁅yb k 4, dY k j u⁆ :=
   Function.iterate_succ_apply' _ _ _
 
+/-- The adjoint-y iteration formula for `dY_succ'`. -/
 theorem dY_succ' (j : ℕ) (u : g k 4) : dY k (j + 1) u = dY k j ⁅yb k 4, u⁆ := rfl
 
 /-- `Dⁱ (Dʲ u) = Dⁱ⁺ʲ u`. -/
@@ -146,29 +155,35 @@ theorem dY_one_dY (j : ℕ) (u : g k 4) : dY k 1 (dY k j u) = dY k (j + 1) u := 
 theorem dY_dY_one (j : ℕ) (u : g k 4) : dY k j (dY k 1 u) = dY k (j + 1) u := by
   rw [dY_one, dY_succ']
 
+/-- The adjoint-y iteration formula for `dY_add_elt`. -/
 @[simp] theorem dY_add_elt (j : ℕ) (u v : g k 4) : dY k j (u + v) = dY k j u + dY k j v := by
   induction j with
   | zero => rfl
   | succ j ih => rw [dY_succ, dY_succ, dY_succ, ih, lie_add]
 
+/-- The adjoint-y iteration formula for `dY_zero_elt`. -/
 @[simp] theorem dY_zero_elt (j : ℕ) : dY k j (0 : g k 4) = 0 := by
   induction j with
   | zero => rfl
   | succ j ih => rw [dY_succ, ih, lie_zero]
 
+/-- The adjoint-y iteration formula for `dY_neg_elt`. -/
 @[simp] theorem dY_neg_elt (j : ℕ) (u : g k 4) : dY k j (-u) = -dY k j u := by
   induction j with
   | zero => rfl
   | succ j ih => rw [dY_succ, dY_succ, ih, lie_neg]
 
+/-- The adjoint-y iteration formula for `dY_sub_elt`. -/
 @[simp] theorem dY_sub_elt (j : ℕ) (u v : g k 4) : dY k j (u - v) = dY k j u - dY k j v := by
   rw [sub_eq_add_neg, dY_add_elt, dY_neg_elt, sub_eq_add_neg]
 
+/-- The adjoint-y iteration formula for `dY_smul_elt`. -/
 @[simp] theorem dY_smul_elt (j : ℕ) (a : k) (u : g k 4) : dY k j (a • u) = a • dY k j u := by
   induction j with
   | zero => rfl
   | succ j ih => rw [dY_succ, dY_succ, ih, lie_smul]
 
+/-- The adjoint-y iteration formula for `dY_xb`. -/
 theorem dY_xb (j : ℕ) : dY k j (xb k 4) = aElt k 4 j := rfl
 
 /-! ## The Leibniz expansions -/
@@ -181,10 +196,12 @@ theorem lie_aElt_lie_yb (i : ℕ) (u : g k 4) :
   rw [← aElt_succ] at h
   rw [h]; abel
 
+/-- The iterated adjoint-bracket expansion for `lie_aElt_dY_one`. -/
 theorem lie_aElt_dY_one (i : ℕ) (u : g k 4) :
     ⁅aElt k 4 i, dY k 1 u⁆ = dY k 1 ⁅aElt k 4 i, u⁆ - ⁅aElt k 4 (i + 1), u⁆ := by
   simp only [dY_one]; exact lie_aElt_lie_yb k i u
 
+/-- The iterated adjoint-bracket expansion for `lie_aElt_dY_two`. -/
 theorem lie_aElt_dY_two (i : ℕ) (u : g k 4) :
     ⁅aElt k 4 i, dY k 2 u⁆
       = dY k 2 ⁅aElt k 4 i, u⁆ - (2 : k) • dY k 1 ⁅aElt k 4 (i + 1), u⁆
@@ -192,6 +209,7 @@ theorem lie_aElt_dY_two (i : ℕ) (u : g k 4) :
   simp only [dY_two_eq, dY_one, lie_aElt_lie_yb, lie_sub, Nat.add_assoc, Nat.reduceAdd]
   module
 
+/-- The iterated adjoint-bracket expansion for `lie_aElt_dY_three`. -/
 theorem lie_aElt_dY_three (i : ℕ) (u : g k 4) :
     ⁅aElt k 4 i, dY k 3 u⁆
       = dY k 3 ⁅aElt k 4 i, u⁆ - (3 : k) • dY k 2 ⁅aElt k 4 (i + 1), u⁆
@@ -200,6 +218,7 @@ theorem lie_aElt_dY_three (i : ℕ) (u : g k 4) :
     Nat.reduceAdd]
   module
 
+/-- The iterated adjoint-bracket expansion for `lie_aElt_dY_four`. -/
 theorem lie_aElt_dY_four (i : ℕ) (u : g k 4) :
     ⁅aElt k 4 i, dY k 4 u⁆
       = dY k 4 ⁅aElt k 4 i, u⁆ - (4 : k) • dY k 3 ⁅aElt k 4 (i + 1), u⁆
@@ -209,6 +228,7 @@ theorem lie_aElt_dY_four (i : ℕ) (u : g k 4) :
     Nat.add_assoc, Nat.reduceAdd]
   module
 
+/-- The iterated adjoint-bracket expansion for `lie_aElt_dY_five`. -/
 theorem lie_aElt_dY_five (i : ℕ) (u : g k 4) :
     ⁅aElt k 4 i, dY k 5 u⁆
       = dY k 5 ⁅aElt k 4 i, u⁆ - (5 : k) • dY k 4 ⁅aElt k 4 (i + 1), u⁆
@@ -424,11 +444,14 @@ noncomputable def oddTop (c : g k 4) : g k 4 := -⁅aElt k 4 1, c⁆
 /-- The top of the even layer produced from the top `b` of an odd layer. -/
 noncomputable def evenTop (b : g k 4) : g k 4 := ⁅aElt k 4 3, b⁆
 
+/-- The bracket identity for `lie_one_eq_neg_oddTop`. -/
 theorem lie_one_eq_neg_oddTop (c : g k 4) : ⁅aElt k 4 1, c⁆ = -oddTop c := by
   rw [oddTop, neg_neg]
 
+/-- Degree or layer formula for `oddTop_eq`. -/
 theorem oddTop_eq (c : g k 4) : oddTop c = -⁅aElt k 4 1, c⁆ := rfl
 
+/-- Degree or layer formula for `evenTop_eq`. -/
 theorem evenTop_eq (b : g k 4) : evenTop b = ⁅aElt k 4 3, b⁆ := rfl
 
 end Step
@@ -930,9 +953,11 @@ noncomputable def evenTower (K : Type*) [CommRing K] : ℕ → g K 4
   | 0 => -⁅aElt K 4 0, aElt K 4 3⁆
   | m + 1 => evenTop (oddTop (evenTower K m))
 
+/-- The even-layer tower formula for `evenTower_zero`. -/
 @[simp] theorem evenTower_zero (K : Type*) [CommRing K] :
     evenTower K 0 = -⁅aElt K 4 0, aElt K 4 3⁆ := rfl
 
+/-- The even-layer tower formula for `evenTower_succ`. -/
 @[simp] theorem evenTower_succ (K : Type*) [CommRing K] (m : ℕ) :
     evenTower K (m + 1) = evenTop (oddTop (evenTower K m)) := rfl
 
@@ -1025,8 +1050,10 @@ noncomputable def topOdd (K : Type*) [CommRing K] : ℕ → g K 4
   | 0 => xb K 4
   | m + 1 => oddTop (evenTower K m)
 
+/-- The odd-layer top formula for `topOdd_zero`. -/
 @[simp] theorem topOdd_zero (K : Type*) [CommRing K] : topOdd K 0 = xb K 4 := rfl
 
+/-- The odd-layer top formula for `topOdd_succ`. -/
 @[simp] theorem topOdd_succ (K : Type*) [CommRing K] (m : ℕ) :
     topOdd K (m + 1) = oddTop (evenTower K m) := rfl
 
@@ -1036,12 +1063,14 @@ central; whether it vanishes in general is the triviality of the centre of `𝔤
 noncomputable def topDefect (K : Type*) [CommRing K] (m : ℕ) : g K 4 :=
   ⁅aElt K 4 4, topOdd K m⁆ - (2 : K) • dY K 1 (evenTower K m)
 
+/-- The top-defect formula for `topDefect_succ`. -/
 theorem topDefect_succ (m : ℕ) : topDefect k (m + 1) = EvenLayer.defect (evenTower k m) := rfl
 
 /-- The defect vanishes at the bottom: `⁅a₄, x̄⁆ = 2⁅a₁, a₃⁆ = 2 D (evenTower 0)`. -/
 @[simp] theorem topDefect_zero_eq : topDefect k 0 = 0 := by
   rw [topDefect, topOdd_zero, ← aElt_zero k 4, lie_a4_a0, dY_one_evenTower_zero, sub_self]
 
+/-- The top-defect formula for `topDefect_one`. -/
 theorem topDefect_one (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) :
     topDefect k 1 = 0 :=
   defect_evenTower_zero h2 h3 h5
@@ -1072,11 +1101,14 @@ noncomputable def loopFam₄ (K : Type*) [CommRing K] : LoopIdx → g K 4
   | .odd m i => dY K i (topOdd K m)
   | .even m i => dY K i (evenTower K m)
 
+/-- The rank-four loop-family formula for `loopFam₄_base`. -/
 @[simp] theorem loopFam₄_base (K : Type*) [CommRing K] : loopFam₄ K .base = yb K 4 := rfl
 
+/-- The rank-four loop-family formula for `loopFam₄_odd`. -/
 @[simp] theorem loopFam₄_odd (K : Type*) [CommRing K] (m : ℕ) (i : Fin 5) :
     loopFam₄ K (.odd m i) = dY K i (topOdd K m) := rfl
 
+/-- The rank-four loop-family formula for `loopFam₄_even`. -/
 @[simp] theorem loopFam₄_even (K : Type*) [CommRing K] (m : ℕ) (i : Fin 3) :
     loopFam₄ K (.even m i) = dY K i (evenTower K m) := rfl
 
@@ -1084,33 +1116,40 @@ noncomputable def loopFam₄ (K : Type*) [CommRing K] : LoopIdx → g K 4
 noncomputable def loopSet (K : Type*) [CommRing K] : Set (g K 4) :=
   Set.range (loopFam₄ K) ∪ Set.range (topDefect K)
 
+/-- The rank-four loop-family formula for `loopFam₄_mem_loopSet`. -/
 theorem loopFam₄_mem_loopSet (I : LoopIdx) : loopFam₄ k I ∈ loopSet k := Or.inl ⟨I, rfl⟩
 
+/-- The top-defect formula for `topDefect_mem_loopSet`. -/
 theorem topDefect_mem_loopSet (m : ℕ) : topDefect k m ∈ loopSet k := Or.inr ⟨m, rfl⟩
 
+/-- The loop set consists exactly of the distinguished loop-family vectors. -/
 theorem mem_loopSet {v : g k 4} (h : v ∈ loopSet k) :
     (∃ I, loopFam₄ k I = v) ∨ ∃ m, topDefect k m = v := h
 
 /-! ### The `ad(ȳ)`-strings have the right lengths -/
 
+/-- The adjoint-y iteration formula for `dY_five_topOdd`. -/
 theorem dY_five_topOdd (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) (m : ℕ) :
     dY k 5 (topOdd k m) = 0 := by
   cases m with
   | zero => rw [topOdd_zero, dY_xb, aElt_five_eq_zero]
   | succ m => exact (evenLayer_evenTower h2 h3 h5 m).dY_five_oddTop h2 h3
 
+/-- The adjoint-y iteration formula for `dY_three_evenTower`. -/
 theorem dY_three_evenTower (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) (m : ℕ) :
     dY k 3 (evenTower k m) = 0 :=
   (evenLayer_evenTower h2 h3 h5 m).dY_top
 
 /-! ### The `ad(x̄)` table along the strings -/
 
+/-- The bracket identity for `lie_zero_topOdd`. -/
 theorem lie_zero_topOdd (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) (m : ℕ) :
     ⁅aElt k 4 0, topOdd k m⁆ = 0 := by
   cases m with
   | zero => rw [topOdd_zero, ← aElt_zero k 4, lie_self]
   | succ m => exact (evenLayer_evenTower h2 h3 h5 m).lie_zero_oddTop
 
+/-- The bracket identity for `lie_zero_dY_one_topOdd`. -/
 theorem lie_zero_dY_one_topOdd (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) (m : ℕ) :
     ⁅aElt k 4 0, dY k 1 (topOdd k m)⁆ = 0 := by
   cases m with
@@ -1119,6 +1158,7 @@ theorem lie_zero_dY_one_topOdd (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (
       have h := evenLayer_evenTower h2 h3 h5 m
       rw [topOdd_succ, h.lie_zero_dY_one_oddTop, h.lie_one_oddTop h3, neg_zero]
 
+/-- The bracket identity for `lie_zero_dY_two_topOdd`. -/
 theorem lie_zero_dY_two_topOdd (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) (m : ℕ) :
     ⁅aElt k 4 0, dY k 2 (topOdd k m)⁆ = 0 := by
   cases m with
@@ -1154,6 +1194,7 @@ theorem lie_zero_dY_four_topOdd (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : 
   rw [key, topDefect]
   module
 
+/-- The bracket identity for `lie_zero_evenTower`. -/
 theorem lie_zero_evenTower (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) (m : ℕ) :
     ⁅aElt k 4 0, evenTower k m⁆ = 0 :=
   (evenLayer_evenTower h2 h3 h5 m).lie_zero
@@ -1163,6 +1204,7 @@ theorem lie_zero_dY_one_evenTower (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 
     (m : ℕ) : ⁅aElt k 4 0, dY k 1 (evenTower k m)⁆ = topOdd k (m + 1) :=
   (evenLayer_evenTower h2 h3 h5 m).lie_zero_dY_one
 
+/-- The even-tower bracket identity after two adjoint-y steps. -/
 theorem two_smul_lie_zero_dY_two_evenTower (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
     (m : ℕ) : (2 : k) • ⁅aElt k 4 0, dY k 2 (evenTower k m)⁆ = dY k 1 (topOdd k (m + 1)) :=
   (evenLayer_evenTower h2 h3 h5 m).two_smul_lie_zero_dY_two
@@ -1339,3 +1381,15 @@ theorem card_loopIdx_deg_even (m : ℕ) : Nat.card {I : LoopIdx // I.deg = 2 * m
 end Spanning
 
 end Etingof.Problem2_16_3
+
+-- The source-numbered exercise namespace and established API contain intentional underscores.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_16_3.dY
+  Etingof.Problem2_16_3.oddTop
+  Etingof.Problem2_16_3.evenTop
+  Etingof.Problem2_16_3.EvenLayer.defect
+  Etingof.Problem2_16_3.evenTower
+  Etingof.Problem2_16_3.topOdd
+  Etingof.Problem2_16_3.topDefect
+  Etingof.Problem2_16_3.loopFam₄
+  Etingof.Problem2_16_3.loopSet

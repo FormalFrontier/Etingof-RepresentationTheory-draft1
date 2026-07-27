@@ -1,5 +1,6 @@
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Bidegree
 
+
 /-!
 # Problem 2.16.3(b): the kernel of the loop realization of `𝔤₄`
 
@@ -58,6 +59,7 @@ theorem disjoint_span_loopFam₄_ker_gbar (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠
     Disjoint (Submodule.span k (Set.range (loopFam₄ k))) (LinearMap.ker (gbar k)) :=
   Submodule.range_ker_disjoint (linearIndependent_gbar_comp_loopFam₄ h2 h3)
 
+/-- A vector in the loop-family span and the realization kernel is zero. -/
 theorem eq_zero_of_mem_span_loopFam₄_of_mem_ker (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0)
     {u : g k 4} (hspan : u ∈ Submodule.span k (Set.range (loopFam₄ k)))
     (hker : u ∈ LinearMap.ker (gbar k)) : u = 0 :=

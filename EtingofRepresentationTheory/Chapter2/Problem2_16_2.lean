@@ -10,6 +10,7 @@ import Mathlib.RingTheory.PicardGroup
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
 
+
 /-!
 # Problem 2.16.2: Irreducible representations of the 2-dimensional Lie algebra `[X, Y] = Y`
 
@@ -158,9 +159,9 @@ theorem eq_smul_X_add_smul_Y (Z : g k) :
       + (Z : Matrix (Fin 2) (Fin 2) k) 0 1 • Y k := by
   obtain ⟨a, b, hab⟩ := Submodule.mem_span_pair.mp (coe_mem_span k Z)
   have h00 : (Z : Matrix (Fin 2) (Fin 2) k) 0 0 = a := by
-    rw [← hab]; simp [e11, e12, Matrix.single_apply]
+    rw [← hab]; simp [e11, e12]
   have h01 : (Z : Matrix (Fin 2) (Fin 2) k) 0 1 = b := by
-    rw [← hab]; simp [e11, e12, Matrix.single_apply]
+    rw [← hab]; simp [e11, e12]
   rw [h00, h01]
   apply Subtype.ext
   rw [AddMemClass.coe_add, SetLike.val_smul, SetLike.val_smul]
@@ -185,6 +186,7 @@ def ofInvariantXY (M : Type*) [AddCommGroup M] [Module k M] [LieRingModule (g k)
     rw [lie_eq_smul_lie_X_add_smul_lie_Y k M Z m]
     exact N.add_mem (N.smul_mem _ (hX m hm')) (N.smul_mem _ (hY m hm'))
 
+/-- A subspace invariant under X and Y defines a Lie submodule. -/
 @[simp] theorem ofInvariantXY_toSubmodule (M : Type*) [AddCommGroup M] [Module k M]
     [LieRingModule (g k) M] [LieModule k (g k) M] (N : Submodule k M)
     (hX : ∀ m ∈ N, ⁅X k, m⁆ ∈ N) (hY : ∀ m ∈ N, ⁅Y k, m⁆ ∈ N) :
@@ -209,14 +211,14 @@ def lieEquivOfIntertwines {M N : Type*} [AddCommGroup M] [Module k M] [LieRingMo
     (hY : ∀ m : M, e ⁅Y k, m⁆ = ⁅Y k, e m⁆) : M ≃ₗ⁅k, g k⁆ N where
   __ := e
   map_lie' {Z m} := by
-    show e ⁅Z, m⁆ = ⁅Z, e m⁆
+    change e ⁅Z, m⁆ = ⁅Z, e m⁆
     rw [lie_eq_smul_lie_X_add_smul_lie_Y k M Z m, map_add, map_smul, map_smul, hX, hY,
       lie_eq_smul_lie_X_add_smul_lie_Y k N Z (e m)]
 
 /-- An isomorphism of `𝔤`-modules commutes with the iterated action of any element. -/
 theorem lieEquiv_toEnd_pow {M N : Type*} [AddCommGroup M] [Module k M] [LieRingModule (g k) M]
     [LieModule k (g k) M] [AddCommGroup N] [Module k N] [LieRingModule (g k) N]
-    [LieModule k (g k) N] (φ : M ≃ₗ⁅k, g k⁆ N) (Z : g k) (n : ℕ) (m : M) :
+    [LieModule k (g k) N] (φ : M ≃ₗ⁅k,g k⁆ N) (Z : g k) (n : ℕ) (m : M) :
     φ (((LieModule.toEnd k (g k) M Z) ^ n) m)
       = ((LieModule.toEnd k (g k) N Z) ^ n) (φ m) := by
   induction n generalizing m with
@@ -325,11 +327,13 @@ private theorem bracket_coe_00 (A B : g k) :
 /-- Underlying space of the `1`-dimensional representation `X ↦ μ, Y ↦ 0`: a copy of `k`. The
 scalar `μ` is carried as a type index so that different `μ` give distinct module structures
 (the `𝔤`-action below is opaque to typeclass resolution). -/
-def oneDimModule (μ : k) : Type _ := k
+def oneDimModule (_μ : k) : Type _ := k
 
 instance (μ : k) : AddCommGroup (oneDimModule k μ) := inferInstanceAs (AddCommGroup k)
 instance (μ : k) : Module k (oneDimModule k μ) := inferInstanceAs (Module k k)
+/-- The one-dimensional model is finite-dimensional. -/
 instance (μ : k) : FiniteDimensional k (oneDimModule k μ) := inferInstanceAs (FiniteDimensional k k)
+/-- The one-dimensional model is nontrivial. -/
 instance (μ : k) : Nontrivial (oneDimModule k μ) := inferInstanceAs (Nontrivial k)
 
 /-- The `1`-dimensional representation `ρ_μ : 𝔤 → End k (oneDimModule μ)` with `X ↦ μ`, `Y ↦ 0`.
@@ -339,23 +343,24 @@ On a matrix `A ∈ 𝔤` it acts as `(A₀₀ · μ) • id`. The bracket relati
 noncomputable def oneDimRep (μ : k) : g k →ₗ⁅k⁆ Module.End k (oneDimModule k μ) where
   toFun A := ((A : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id
   map_add' A B := by
-    show (((A + B : g k) : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id
+    change (((A + B : g k) : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id
         = ((A : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id
           + ((B : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id
     rw [AddMemClass.coe_add, Matrix.add_apply, add_mul, add_smul]
   map_smul' c A := by
-    show (((c • A : g k) : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id
+    change (((c • A : g k) : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id
         = (RingHom.id k) c • ((A : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id
     rw [SetLike.val_smul, Matrix.smul_apply, smul_eq_mul, RingHom.id_apply, smul_smul, mul_assoc]
   map_lie' := by
     intro A B
     have h00 : (↑⁅A, B⁆ : Matrix (Fin 2) (Fin 2) k) 0 0 = 0 := bracket_coe_00 k A B
-    show ((↑⁅A, B⁆ : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id
+    change ((↑⁅A, B⁆ : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id
         = ⁅((↑A : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id,
             ((↑B : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id⁆
     rw [h00, zero_mul, zero_smul]
     simp only [smul_lie, lie_smul, lie_self, smul_zero]
 
+/-- Evaluation formula for `oneDimRep`. -/
 @[simp] theorem oneDimRep_apply (μ : k) (A : g k) :
     oneDimRep k μ A = ((A : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id := rfl
 
@@ -385,7 +390,7 @@ submodules are `⊥` and `⊤`). -/
 theorem oneDim_irreducible (μ : k) : LieModule.IsIrreducible k (g k) (oneDimModule k μ) := by
   refine LieModule.IsIrreducible.mk fun N hN => ?_
   rw [ne_eq, LieSubmodule.eq_bot_iff] at hN
-  push_neg at hN
+  push Not at hN
   obtain ⟨v, hvN, hv0⟩ := hN
   rw [← LieSubmodule.toSubmodule_eq_top]
   have hle : Submodule.span k {v} ≤ (N : Submodule k (oneDimModule k μ)) :=
@@ -487,7 +492,7 @@ theorem nonempty_equiv_oneDim (M : Type*) [AddCommGroup M] [Module k M] [LieRing
     (LinearEquiv.ofBijective _ ⟨hinj, hsurj⟩).symm.trans (oneDimEquivSelf k μ)
   refine ⟨{ e with map_lie' := ?_ }⟩
   intro Z m
-  show e ⁅Z, m⁆ = ⁅Z, e m⁆
+  change e ⁅Z, m⁆ = ⁅Z, e m⁆
   rw [hlie, map_smul, oneDim_lie]
 
 /-- **The characteristic-`0` classification.** Over an algebraically closed field of characteristic
@@ -525,20 +530,24 @@ section CharP
 
 variable (k : Type*) [Field k] (p : ℕ) [Fact p.Prime] [CharP k p]
 
+/-- A prime characteristic is nonzero. -/
 instance instNeZeroOfFactPrime : NeZero p := ⟨(Fact.out : p.Prime).pos.ne'⟩
 
 /-- The prime-field embedding `ℤ/p ↪ k`, whose values `0, 1, …, p-1` are the `p` distinct
 eigenvalue offsets of the diagonal operator. -/
 noncomputable def lam : ZMod p →+* k := ZMod.castHom (dvd_refl p) k
 
+/-- `lam` is injective. -/
 theorem lam_injective : Function.Injective (lam k p) := by
-  show Function.Injective ⇑(ZMod.castHom (dvd_refl p) k)
+  change Function.Injective ⇑(ZMod.castHom (dvd_refl p) k)
   exact ZMod.castHom_injective k
 
 variable {k p}
 
-@[simp] theorem lam_natCast (n : ℕ) : lam k p (n : ZMod p) = (n : k) := map_natCast _ n
+/-- Structural formula for `lam_natCast`. -/
+theorem lam_natCast (n : ℕ) : lam k p (n : ZMod p) = (n : k) := map_natCast _ n
 
+/-- Structural formula for `lam_val`. -/
 theorem lam_val (i : ZMod p) : lam k p i = (i.val : k) := by
   have h : ((i.val : ℕ) : ZMod p) = i := ZMod.natCast_zmod_val i
   calc lam k p i = lam k p ((i.val : ℕ) : ZMod p) := by rw [h]
@@ -562,14 +571,20 @@ noncomputable def famShift (γ : kˣ) : Module.End k (ZMod p → k) := (γ : k) 
 
 variable {k p}
 
+/-- Evaluation formula for `famDiag`. -/
 @[simp] theorem famDiag_apply (a : k) (v : ZMod p → k) (i : ZMod p) :
     famDiag k p a v i = (a + lam k p i) * v i := rfl
 
+omit [CharP k p] in
+/-- Evaluation formula for `shiftOp`. -/
 @[simp] theorem shiftOp_apply (v : ZMod p → k) (i : ZMod p) : shiftOp k p v i = v (i - 1) := rfl
 
+omit [CharP k p] in
+/-- Evaluation formula for `famShift`. -/
 @[simp] theorem famShift_apply (γ : kˣ) (v : ZMod p → k) (i : ZMod p) :
     famShift k p γ v i = (γ : k) * v (i - 1) := rfl
 
+omit [CharP k p] in
 /-- The cyclic shift moves a coordinate line one step forward. -/
 theorem shift_single (j : ZMod p) (c : k) :
     shiftOp k p (Pi.single j c) = Pi.single (j + 1) c := by
@@ -578,6 +593,7 @@ theorem shift_single (j : ZMod p) (c : k) :
   congr 1
   simp [sub_eq_iff_eq_add]
 
+omit [CharP k p] in
 /-- The scaled shift moves a coordinate line one step forward and rescales it by `γ`. -/
 theorem famShift_single (γ : kˣ) (j : ZMod p) (c : k) :
     famShift k p γ (Pi.single j c) = Pi.single (j + 1) ((γ : k) * c) := by
@@ -624,8 +640,8 @@ theorem mem_g_row (A : g k) :
     intro x hx
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
     rcases hx with rfl | rfl
-    · exact ⟨by simp [Matrix.single_apply], by simp [Matrix.single_apply]⟩
-    · exact ⟨by simp [Matrix.single_apply], by simp [Matrix.single_apply]⟩
+    · exact ⟨by simp, by simp⟩
+    · exact ⟨by simp, by simp⟩
   exact hle A.2
 
 /-- The representation `𝔤 → End k (k^{ℤ/p})` underlying `V(γ, a)`: it sends `X ↦ famDiag a` and
@@ -644,6 +660,12 @@ noncomputable def famRep (γ : kˣ) (a : k) : g k →ₗ⁅k⁆ Module.End k (ZM
     obtain ⟨hB0, hB1⟩ := mem_g_row k B
     have hds : ⁅famShift k p γ, famDiag k p a⁆ = -famShift k p γ := by
       rw [← lie_skew, bracket_famDiag_famShift]
+    -- The generic scalar-bracket lemmas do not match this `Module.End` instance reliably under
+    -- `simp only`, so state them with the exact type used below.
+    have smul_lie' : ∀ (c : k) (u v : Module.End k (ZMod p → k)),
+        ⁅c • u, v⁆ = c • ⁅u, v⁆ := fun c u v => smul_lie c u v
+    have lie_smul' : ∀ (c : k) (u v : Module.End k (ZMod p → k)),
+        ⁅u, c • v⁆ = c • ⁅u, v⁆ := fun c u v => lie_smul c u v
     have hbr : (↑⁅A, B⁆ : Matrix (Fin 2) (Fin 2) k)
         = (↑A : Matrix (Fin 2) (Fin 2) k) * (↑B : Matrix (Fin 2) (Fin 2) k)
           - (↑B : Matrix (Fin 2) (Fin 2) k) * (↑A : Matrix (Fin 2) (Fin 2) k) := by
@@ -666,7 +688,7 @@ noncomputable def famRep (γ : kˣ) (a : k) : g k →ₗ⁅k⁆ Module.End k (ZM
         (↑B : Matrix (Fin 2) (Fin 2) k) 0 0 • famDiag k p a
           + (↑B : Matrix (Fin 2) (Fin 2) k) 0 1 • famShift k p γ⁆
     rw [e00, e01]
-    simp only [add_lie, lie_add, smul_lie, lie_smul, lie_self, smul_zero, add_zero, zero_add,
+    simp only [add_lie, lie_add, smul_lie', lie_smul', lie_self, smul_zero, add_zero, zero_add,
       bracket_famDiag_famShift, hds, smul_neg, zero_smul]
     module
 
@@ -681,9 +703,9 @@ variable {k p}
 /-- Under `famRep γ a`, the generator `X` acts as the diagonal operator. -/
 @[simp] theorem famRep_X (γ : kˣ) (a : k) : famRep k p γ a (X k) = famDiag k p a := by
   have h0 : (Matrix.single 0 0 (1 : k) : Matrix (Fin 2) (Fin 2) k) 0 0 = 1 := by
-    simp [Matrix.single_apply]
+    simp
   have h1 : (Matrix.single 0 0 (1 : k) : Matrix (Fin 2) (Fin 2) k) 0 1 = 0 := by
-    simp [Matrix.single_apply]
+    simp
   change (↑(X k) : Matrix (Fin 2) (Fin 2) k) 0 0 • famDiag k p a
       + (↑(X k) : Matrix (Fin 2) (Fin 2) k) 0 1 • famShift k p γ = famDiag k p a
   rw [coe_X, h0, h1, one_smul, zero_smul, add_zero]
@@ -691,9 +713,9 @@ variable {k p}
 /-- Under `famRep γ a`, the generator `Y` acts as the scaled cyclic shift. -/
 @[simp] theorem famRep_Y (γ : kˣ) (a : k) : famRep k p γ a (Y k) = famShift k p γ := by
   have h0 : (Matrix.single 0 1 (1 : k) : Matrix (Fin 2) (Fin 2) k) 0 0 = 0 := by
-    simp [Matrix.single_apply]
+    simp
   have h1 : (Matrix.single 0 1 (1 : k) : Matrix (Fin 2) (Fin 2) k) 0 1 = 1 := by
-    simp [Matrix.single_apply]
+    simp
   change (↑(Y k) : Matrix (Fin 2) (Fin 2) k) 0 0 • famDiag k p a
       + (↑(Y k) : Matrix (Fin 2) (Fin 2) k) 0 1 • famShift k p γ = famShift k p γ
   rw [coe_Y, h0, h1, zero_smul, one_smul, zero_add]
@@ -714,9 +736,11 @@ instance (γ : kˣ) (a : k) : AddCommGroup (Fam k p γ a) :=
 
 instance (γ : kˣ) (a : k) : Module k (Fam k p γ a) := inferInstanceAs (Module k (ZMod p → k))
 
+/-- The characteristic-p family is finite-dimensional. -/
 instance (γ : kˣ) (a : k) : FiniteDimensional k (Fam k p γ a) :=
   inferInstanceAs (FiniteDimensional k (ZMod p → k))
 
+/-- The characteristic-p family is nontrivial. -/
 instance (γ : kˣ) (a : k) : Nontrivial (Fam k p γ a) := inferInstanceAs (Nontrivial (ZMod p → k))
 
 /-- `famRep γ a` read as landing in the endomorphisms of the carrier `V(γ, a)`. Retyping it this
@@ -727,8 +751,10 @@ noncomputable def famRep' (γ : kˣ) (a : k) : g k →ₗ⁅k⁆ Module.End k (F
 
 variable {k p}
 
+/-- Structural formula for `famRep'_X`. -/
 theorem famRep'_X (γ : kˣ) (a : k) : famRep' k p γ a (X k) = famDiag k p a := famRep_X γ a
 
+/-- Structural formula for `famRep'_Y`. -/
 theorem famRep'_Y (γ : kˣ) (a : k) : famRep' k p γ a (Y k) = famShift k p γ := famRep_Y γ a
 
 variable (k p)
@@ -770,9 +796,12 @@ open scoped Classical in
 noncomputable def vsupp (v : ZMod p → k) : Finset (ZMod p) :=
   Finset.univ.filter fun i => v i ≠ 0
 
+omit [CharP k p] in
+/-- Structural formula for `mem_vsupp`. -/
 theorem mem_vsupp {v : ZMod p → k} {i : ZMod p} : i ∈ vsupp v ↔ v i ≠ 0 := by
   simp [vsupp]
 
+omit [Fact (Nat.Prime p)] [CharP k p] in
 /-- Rescaling a coordinate line. -/
 private theorem smul_single (m : ZMod p) (c d : k) :
     c • (Pi.single m d : ZMod p → k) = Pi.single m (c * d) := by
@@ -906,6 +935,7 @@ Two invariants separate the members of the family. The `p`-th power of the `Y`-a
 `X`-action are `a + i` for `i` in the prime field, which pins down `a` modulo the prime field.
 Conversely, translating the index by `n` is an isomorphism `V(γ, a) ≅ V(γ, a + n)`. -/
 
+omit [CharP k p] in
 /-- Iterating the cyclic shift `n` times moves a coordinate `n` steps back. -/
 theorem shiftOp_pow_apply (n : ℕ) : ∀ (v : ZMod p → k) (i : ZMod p),
     ((shiftOp k p ^ n) v) i = v (i - n) := by
@@ -918,11 +948,13 @@ theorem shiftOp_pow_apply (n : ℕ) : ∀ (v : ZMod p → k) (i : ZMod p),
     push_cast
     ring
 
+omit [CharP k p] in
 /-- The cyclic shift has order dividing `p`. -/
 theorem shiftOp_pow_char : shiftOp k p ^ p = 1 := by
   refine LinearMap.ext fun v => funext fun i => ?_
   rw [shiftOp_pow_apply, ZMod.natCast_self, sub_zero, Module.End.one_apply]
 
+omit [CharP k p] in
 /-- The `p`-th power of the `Y`-operator of `V(γ, a)` is the scalar `γᵖ`. -/
 theorem famShift_pow_char (γ : kˣ) :
     famShift k p γ ^ p = ((γ : k) ^ p) • (1 : Module.End k (ZMod p → k)) := by
@@ -943,11 +975,16 @@ theorem toEnd_Y_pow_apply (γ : kˣ) (a : k) (n : ℕ) : ∀ v : Fam k p γ a,
 `γᵖ`. -/
 theorem toEnd_Y_pow_char (γ : kˣ) (a : k) (v : Fam k p γ a) :
     ((LieModule.toEnd k (g k) (Fam k p γ a) (Y k)) ^ p) v = ((γ : k) ^ p) • v := by
-  rw [toEnd_Y_pow_apply, famShift_pow_char, LinearMap.smul_apply, Module.End.one_apply]
+  have hpow : (famShift k p γ ^ p) v =
+      (((γ : k) ^ p) • (1 : Module.End k (ZMod p → k))) v :=
+    congrArg (fun f : Module.End k (ZMod p → k) => f v) (famShift_pow_char γ)
+  exact (toEnd_Y_pow_apply γ a p v).trans (hpow.trans (by rfl))
 
 /-- The first standard basis vector of `V(γ, a)`. -/
 def famUnit (γ : kˣ) (a : k) : Fam k p γ a := (Pi.single (0 : ZMod p) (1 : k) : ZMod p → k)
 
+omit [CharP k p] in
+/-- `famUnit` is nonzero. -/
 theorem famUnit_ne_zero (γ : kˣ) (a : k) : famUnit γ a ≠ (0 : Fam k p γ a) := by
   intro h
   have h0 : (Pi.single (0 : ZMod p) (1 : k) : ZMod p → k) = 0 := h
@@ -982,6 +1019,8 @@ def reindexEquiv (n : ZMod p) : (ZMod p → k) ≃ₗ[k] (ZMod p → k) where
   left_inv v := by funext i; simp
   right_inv w := by funext i; simp
 
+omit [CharP k p] in
+/-- Evaluation formula for `reindexEquiv`. -/
 @[simp] theorem reindexEquiv_apply (n : ZMod p) (v : ZMod p → k) (i : ZMod p) :
     reindexEquiv n v i = v (i + n) := rfl
 
@@ -992,6 +1031,7 @@ theorem reindexEquiv_famDiag (a : k) (n : ZMod p) (v : ZMod p → k) :
   simp only [reindexEquiv_apply, famDiag_apply, map_add]
   ring
 
+omit [CharP k p] in
 /-- Reindexing commutes with the shift. -/
 theorem reindexEquiv_famShift (γ : kˣ) (n : ZMod p) (v : ZMod p → k) :
     reindexEquiv n (famShift k p γ v) = famShift k p γ (reindexEquiv n v) := by
@@ -1033,7 +1073,8 @@ theorem fam_nonempty_equiv_iff (γ γ' : kˣ) (a a' : k) :
         rw [frobenius_def, frobenius_def]
         exact sub_eq_zero.mp h
       · exact absurd h hu
-    · -- the eigenvalue `a` of `X` transports to an eigenvalue of the diagonal operator of `V(γ', a')`
+    · -- The eigenvalue `a` of `X` transports to an eigenvalue of the diagonal operator of
+      -- `V(γ', a')`.
       have hXu : (⁅X k, famUnit γ a⁆ : Fam k p γ a) = a • famUnit γ a := by
         rw [fam_lie_X]; exact famDiag_single_zero a
       have h1 : famDiag k p a' (φ (famUnit γ a)) = a • φ (famUnit γ a) := by
@@ -1380,3 +1421,37 @@ theorem lie_theorem_fails_charP (k : Type) [Field k] [IsAlgClosed k]
 end CharP
 
 end Etingof.Problem2_16_2
+
+-- The source-numbered exercise namespace and established API contain intentional underscores.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_16_2.g
+  Etingof.Problem2_16_2.X
+  Etingof.Problem2_16_2.Y
+  Etingof.Problem2_16_2.ofInvariantXY
+  Etingof.Problem2_16_2.lieEquivOfIntertwines
+  Etingof.Problem2_16_2.oneDimModule
+  Etingof.Problem2_16_2.instAddCommGroupOneDimModule
+  Etingof.Problem2_16_2.instModuleOneDimModule
+  Etingof.Problem2_16_2.oneDimRep
+  Etingof.Problem2_16_2.instLieRingModuleSubtypeMatrixFinOfNatNatMemLieSubalgebraGOneDimModule
+  Etingof.Problem2_16_2.oneDimEquivSelf
+  Etingof.Problem2_16_2.lam
+  Etingof.Problem2_16_2.famDiag
+  Etingof.Problem2_16_2.shiftOp
+  Etingof.Problem2_16_2.famShift
+  Etingof.Problem2_16_2.rowZero
+  Etingof.Problem2_16_2.famRep
+  Etingof.Problem2_16_2.Fam
+  Etingof.Problem2_16_2.instAddCommGroupFam
+  Etingof.Problem2_16_2.instModuleFam
+  Etingof.Problem2_16_2.famRep'
+  Etingof.Problem2_16_2.famLieRingModule
+  Etingof.Problem2_16_2.vsupp
+  Etingof.Problem2_16_2.famUnit
+  Etingof.Problem2_16_2.reindexEquiv
+  Etingof.Problem2_16_2.famTranslateEquiv
+
+-- These indices intentionally select distinct module structures on the same carrier types.
+attribute [nolint defsWithUnderscore unusedArguments]
+  Etingof.Problem2_16_2.oneDimModule
+  Etingof.Problem2_16_2.Fam

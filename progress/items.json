@@ -1753,7 +1753,7 @@
     "end_page": "39",
     "start_line": 17,
     "end_line": 17,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage_swept": {
       "wave": 1,
       "result": "non_formalizable"
@@ -1792,6 +1792,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "This organizational heading makes no mathematical assertion and depends on no earlier project item."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.16",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "not_applicable",
+      "result": "The organizational heading has no Lean declaration to polish; all sixteen exercise providers are warning-free, use irredundant focused imports, and pass all 17 declaration linters."
     }
   },
   {
@@ -1802,7 +1809,7 @@
     "end_page": "40",
     "start_line": 18,
     "end_line": 4,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "last_updated": "2026-07-27",
     "coverage_note": "The book's commutant and solvability definitions are exactly Mathlib's first derived ideal and derived-series solvability, and Lie's theorem is proved over the literal field ℂ via LieModule.exists_nontrivial_weightSpace_of_isSolvable. The detailed induction/trace paragraph is a proof-strategy hint rather than an additional conclusion; the provider uses Mathlib's stronger common-weight theorem and then proves that the invariant line is all of V.",
@@ -1861,6 +1868,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "The theorem is proved directly from Mathlib's Lie-theorem API over ℂ. Its provider has focused external imports and uses no earlier project item."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.16",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The provider's one named declaration passes all 17 linters, is documented, warning-free, style-clean, imported irredundantly, and axiom-clean."
     }
   },
   {
@@ -1871,7 +1885,7 @@
     "end_page": "40",
     "start_line": 5,
     "end_line": 6,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "coverage_note": "Both characteristics are classified. Characteristic zero: charZero_exists_unique_iso_oneDim identifies every finite-dimensional irreducible with a unique member of the one-dimensional family oneDimModule. Characteristic p: the p-dimensional family Fam (X diagonal with eigenvalues a + i, Y the cyclic shift scaled by a unit) is constructed and proved irreducible, fam_nonempty_equiv_iff is the isomorphism criterion, and charP_exists_iso / charP_exists_unique_iso give exhaustiveness and uniqueness. lie_theorem_fails_charP is the resulting failure of Lie's theorem.",
     "fidelity": "verified",
@@ -1947,6 +1961,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "The two-dimensional Lie algebra, both representation families, and both classifications are constructed in the provider from focused Mathlib APIs; no earlier project item is imported or reused."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.16",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "All 93 named and 118 generated declarations pass all 17 linters. Missing documentation, deprecated and fragile tactics, unused simp and section arguments, a non-normal simp attribute, naming exceptions, and source-style issues were repaired without changing the API or mathematical meaning; the provider is warning-free, import-irredundant, and axiom-clean."
     }
   },
   {
@@ -1957,7 +1978,7 @@
     "end_page": "40",
     "start_line": 7,
     "end_line": 12,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "coverage_note": "All requested dimension statements are proved, including not_finiteDimensional_g_four. In characteristic zero, Problem2_16_3_CocycleVanishing.lean proves every imaginary-weight scalar 2-cocycle on loopPos is a coboundary (twoCocycle_isTwoCoboundary), hence all layer defects vanish (topDefect_eq_zero), the loop realization is injective (gbar_injective), and the explicit LoopIdx-indexed family is the public basis gFourBasis of g_4. Its degree fibers have cardinalities 1, 5, 3, 5, 3, ... by card_loopIdx_deg_zero/card_loopIdx_deg_odd/card_loopIdx_deg_even, and gbarLieEquiv identifies g_4 with the positive twisted A_2^(2) loop algebra. The characteristic-zero scope is essential: the stronger h2/h3/h5-only cocycle claim is false in positive characteristic.",
     "lean_file": [
@@ -2052,6 +2073,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "All project imports in the twelve-file development connect providers assigned to this same item. The construction starts from focused Mathlib free-Lie, quotient, grading, polynomial, and linear-algebra APIs and uses no earlier project item."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.16",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "All 640 named and 468 generated declarations across the twelve providers pass all 17 linters. Missing documentation, non-normal simp attributes, fragile tactic sequencing, linter suppressions, naming exceptions, and source-style issues were repaired without changing the API or mathematics; all providers are warning-free, import-irredundant, and axiom-clean."
     }
   },
   {
@@ -2062,7 +2090,7 @@
     "end_page": "40",
     "start_line": 13,
     "end_line": 13,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_partial",
     "fidelity": "verified",
     "lean_decl": [
@@ -2133,6 +2161,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "The provider defines its own characteristic-p sl(2) model and standard modules from focused Mathlib Lie and eigenspace APIs; it imports no earlier project item. Dependency trimming does not alter the three deferred classification omissions."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.16",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "All 29 named and 86 generated declarations in the existing partial treatment pass all 17 linters. Documentation, deprecated and fragile tactics, unused simp and section arguments, and source-style issues were repaired; the provider is warning-free, import-irredundant, and axiom-clean. The three deferred classification units remain intentional omissions and are not represented by placeholders."
     }
   },
   {
@@ -2143,7 +2178,7 @@
     "end_page": "41",
     "start_line": 14,
     "end_line": 1,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_partial",
     "lean_decl": [
       "Etingof.Problem2_16_5.highest_weight_eigenvalue_of_not_isOfFinOrder",
@@ -2246,6 +2281,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "The quantum presentation and representation-theoretic constraints are constructed from focused Mathlib algebra, quotient, centralizer, and eigenspace APIs; the provider imports no earlier project item. Dependency trimming does not alter either permanent classification omission."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.16",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "All 102 named and 48 generated declarations in the structural treatment pass all 17 linters. Missing documentation, goal-changing tactics, line-length issues, and naming exceptions were repaired; the provider is warning-free, import-irredundant, and axiom-clean. Both permanent exhaustive-classification omissions remain unchanged and are not represented by placeholders."
     }
   },
   {

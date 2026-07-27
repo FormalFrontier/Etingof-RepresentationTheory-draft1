@@ -1,5 +1,6 @@
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Bidegree
 
+
 /-!
 # The commutation table of the tower of `𝔤₄`, forced by the bidegree grading
 
@@ -88,6 +89,7 @@ section Bot
 
 variable {k : Type*} [Field k]
 
+/-- An element of a trivial homogeneous component is zero. -/
 theorem eq_zero_of_gDeg_eq_bot {p : ℕ × ℕ} {u : g k 4} (h : gDeg k 4 p = ⊥)
     (hu : u ∈ gDeg k 4 p) : u = 0 := by
   rw [h] at hu

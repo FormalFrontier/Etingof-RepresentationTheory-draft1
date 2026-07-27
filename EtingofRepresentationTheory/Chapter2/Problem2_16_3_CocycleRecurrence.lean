@@ -1,5 +1,6 @@
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3_CocycleCombinatorics
 
+
 /-!
 # Problem 2.16.3(b): the scalar Jacobi recurrence
 
@@ -162,3 +163,9 @@ theorem IsTwoCocycle.imaginary_deviation_recurrence
 end Coefficients
 
 end Etingof.Problem2_16_3
+
+-- The source-numbered exercise namespace and established API contain intentional underscores.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_16_3.imaginaryBaseValue
+  Etingof.Problem2_16_3.oddImaginaryDeviation
+  Etingof.Problem2_16_3.evenImaginaryDeviation
