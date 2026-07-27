@@ -8,6 +8,8 @@ import Mathlib.Algebra.Polynomial.Bivariate
 import Mathlib.RingTheory.Derivation.Lie
 import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.RingTheory.MvPolynomial
+import Mathlib.LinearAlgebra.Basis.Basic
+import Mathlib.Algebra.BigOperators.Finsupp.Fin
 import EtingofRepresentationTheory.Chapter2.WeylAlgebraUniversal
 
 /-!
@@ -445,6 +447,75 @@ theorem tensorRep_not_factors_finiteDimensional
   have hfinrank : Module.finrank ℂ WeylCounterexampleModule = 0 :=
     MvPolynomial.finrank_eq_zero
   exact one_ne_zero (finrank_zero_iff_forall_zero.mp hfinrank 1)
+
+/-! ### The one-factor restriction is the regular Weyl module -/
+
+/-- The PBW basis of the characteristic-zero Weyl algebra. -/
+private noncomputable def weylBasis :
+    Module.Basis (ℕ × ℕ) ℂ (Etingof.WeylAlgebra ℂ) :=
+  Module.Basis.mk (Etingof.Proposition_2_7_1 (k := ℂ)).1
+    (Etingof.Proposition_2_7_1 (k := ℂ)).2
+
+/-- The bivariate monomial basis, indexed compatibly with the Weyl PBW basis. -/
+private noncomputable def bivariateBasis :
+    Module.Basis (ℕ × ℕ) ℂ WeylCounterexampleModule :=
+  (MvPolynomial.basisMonomials (Fin 2) ℂ).reindex
+    (finTwoArrowEquiv' ℕ)
+
+private theorem bivariateBasis_apply (i j : ℕ) :
+    bivariateBasis (i, j) = X 0 ^ i * X 1 ^ j := by
+  rw [bivariateBasis, Module.Basis.reindex_apply, MvPolynomial.coe_basisMonomials]
+  simp [finTwoArrowEquiv', MvPolynomial.monomial_eq]
+
+/-- The PBW linear equivalence between the Weyl algebra and the polynomial carrier. -/
+noncomputable def regularLinearEquiv :
+    Etingof.WeylAlgebra ℂ ≃ₗ[ℂ] WeylCounterexampleModule :=
+  weylBasis.equiv bivariateBasis (Equiv.refl (ℕ × ℕ))
+
+@[simp] theorem regularLinearEquiv_monomial (i j : ℕ) :
+    regularLinearEquiv (Etingof.WeylAlgebra.monomial ℂ i j) = X 0 ^ i * X 1 ^ j := by
+  rw [← show weylBasis (i, j) = Etingof.WeylAlgebra.monomial ℂ i j by
+    exact Module.Basis.mk_apply _ _ _]
+  rw [regularLinearEquiv, Module.Basis.equiv_apply, bivariateBasis_apply]
+  rfl
+
+/-- The orbit of the cyclic vector `1` under the first Weyl factor. -/
+noncomputable def firstOrbit :
+    Etingof.WeylAlgebra ℂ →ₗ[ℂ] WeylCounterexampleModule where
+  toFun a := firstRep a 1
+  map_add' a b := by simp
+  map_smul' c a := by simp
+
+private lemma firstY_pow_one (j : ℕ) :
+    (firstY ^ j) (1 : WeylCounterexampleModule) = X 1 ^ j := by
+  induction j with
+  | zero => simp
+  | succ j ih =>
+      rw [pow_succ', Module.End.mul_apply, ih]
+      simp [firstY, pderivEnd, mulVar]
+      rw [mul_comm, pow_succ]
+
+@[simp] theorem firstOrbit_monomial (i j : ℕ) :
+    firstOrbit (Etingof.WeylAlgebra.monomial ℂ i j) = X 0 ^ i * X 1 ^ j := by
+  change firstRep (Etingof.WeylAlgebra.monomial ℂ i j) 1 = _
+  rw [Etingof.WeylAlgebra.monomial, map_mul, map_pow, map_pow,
+    Module.End.mul_apply, firstRep_x, firstRep_y, firstY_pow_one]
+  induction i with
+  | zero => simp
+  | succ i ih =>
+      rw [pow_succ', Module.End.mul_apply, ih]
+      simp [firstX, mulVar]
+      ring
+
+/-- The PBW equivalence is exactly the orbit map `a ↦ a · 1`. In particular, restricting the
+entangled module to its first Weyl factor gives the left regular Weyl module. -/
+theorem regularLinearEquiv_eq_firstOrbit :
+    regularLinearEquiv.toLinearMap = firstOrbit := by
+  apply weylBasis.ext
+  intro p
+  rw [show weylBasis p = Etingof.WeylAlgebra.monomial ℂ p.1 p.2 by
+    exact Module.Basis.mk_apply _ _ _]
+  simp [regularLinearEquiv_monomial, firstOrbit_monomial]
 
 end
 
