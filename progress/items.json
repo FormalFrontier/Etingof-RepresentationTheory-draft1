@@ -2028,6 +2028,22 @@
           "lean_decl": "Etingof.tensorAlgebraEquivFreeAlgebra"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.12",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.TensorAlgebraDef",
+        "Etingof.tensorAlgebraEquivDirectSum",
+        "Etingof.tensorAlgebraEquivDirectSum_tprod",
+        "Etingof.tensorAlgebra_mul_homogeneous",
+        "Etingof.tensorAlgebraEquivFreeAlgebra",
+        "Etingof.tensorAlgebraEquivFreeAlgebra_ι",
+        "Etingof.tensorAlgebra_ι_injective"
+      ],
+      "basis": "All seven public declarations in the scoped provider resolve and are admission-free. The three source claims are witnessed by explicit algebra equivalences and homogeneous/generator formulas; injectivity of the degree-one inclusion rules out a vacuous model."
     }
   },
   {
@@ -2095,6 +2111,40 @@
           "lean_decl": "Etingof.exteriorAlgebraEquivDirectSumExteriorPowers"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.12",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.SymmetricAlgebraDef",
+        "Etingof.ExteriorAlgebraDef",
+        "Etingof.UniversalEnvelopingAlgebraCoordFree",
+        "Etingof.symmetricAlgebra_generators_commute",
+        "Etingof.exteriorAlgebra_generator_sq_zero",
+        "Etingof.universalEnvelopingAlgebra_generator_relation",
+        "Etingof.symmetricAlgebraEquivPolynomial",
+        "Etingof.symmetricAlgebraEquivPolynomial_ι",
+        "Etingof.exteriorAlgebraEquivBasisModule",
+        "Etingof.exteriorAlgebraEquivBasisModule_ι",
+        "Etingof.symmetricMonomialDegreeEquiv",
+        "Etingof.symmetricAlgebraEquivDirectSumSymmetricPowers",
+        "Etingof.exteriorAlgebraEquivDirectSumExteriorPowers",
+        "Etingof.ueaBasisRelator",
+        "Etingof.UEABasisPresentation",
+        "Etingof.ueaBasisToCoordFree",
+        "Etingof.basisGenLinear",
+        "Etingof.basisGenLinear_apply_basis",
+        "Etingof.basisGenLie",
+        "Etingof.coordFreeToUeaBasis",
+        "Etingof.ueaBasisToCoordFree_gen",
+        "Etingof.coordFreeToUeaBasis_ι",
+        "Etingof.ueaBasisAlgEquiv",
+        "Etingof.ueaBasisToCoordFree_unique",
+        "Etingof.coordFreeToUeaBasis_unique"
+      ],
+      "basis": "All twenty-five public declarations in the scoped provider resolve and are admission-free. The quotient relations, basis identifications, homogeneous decompositions, and the two-sided universal-enveloping algebra equivalence are supported by explicit proofs or Mathlib constructions; there are no intentional omissions in this item."
     }
   },
   {
