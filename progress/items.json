@@ -334,7 +334,7 @@
     "end_page": "10",
     "start_line": 1,
     "end_line": 8,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -389,6 +389,13 @@
         "Etingof.Representation.toAlgHom_ofAlgHom / Etingof.Representation.ofAlgHom_toAlgHom",
         "Etingof.RightRepresentation / Etingof.Representation.rightToAlgHom"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Definition2_3_1.lean imports only Mathlib and defines the representation/action dictionary directly."
     }
   },
   {
@@ -399,7 +406,7 @@
     "end_page": "10",
     "start_line": 9,
     "end_line": 10,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "fidelity_note": "[coverage] No Lean declaration exists for this remark. The book states a formalizable mathematical fact: for a commutative ring A, a left A-module M becomes a right A-module via ma := am, and vice ver",
     "fidelity_decl": "Etingof.rightModuleOfLeft, Etingof.leftModuleOfRight",
@@ -442,6 +449,13 @@
         "Etingof.leftModuleOfRight / Etingof.leftModuleOfRight_smul",
         "Etingof.rightModuleOfLeft / Etingof.rightModuleOfLeft_smul"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Remark2_3_2.lean imports only Mathlib; the left/right module conversions are proved from opposite-ring APIs."
     }
   },
   {
@@ -452,7 +466,7 @@
     "end_page": "10",
     "start_line": 11,
     "end_line": 11,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -483,6 +497,13 @@
       "verified_on": "2026-07-27",
       "proof_integrity": "not_applicable",
       "declarations": []
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This item is organizational prose with no formal proof term or internal declaration dependency."
     }
   },
   {
@@ -493,7 +514,7 @@
     "end_page": "10",
     "start_line": 12,
     "end_line": 20,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_decl": "four anonymous examples (PUnit, Module A A, Module k V, free-algebra rep bijection)",
@@ -554,6 +575,13 @@
         "FreeAlgebra.lift",
         "FreeAlgebra.lift_symm_apply / FreeAlgebra.lift_ι_apply"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Example2_3_3.lean imports only Mathlib; all four module examples and the free-algebra correspondence are constructed there."
     }
   },
   {
@@ -564,7 +592,7 @@
     "end_page": "10",
     "start_line": 21,
     "end_line": 23,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -600,6 +628,13 @@
         "Etingof.Subrepresentation",
         "Etingof.zeroSubrepresentation / Etingof.fullSubrepresentation"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Definition2_3_4.lean imports only Mathlib and aliases subrepresentations directly to submodules."
     }
   },
   {
@@ -610,7 +645,7 @@
     "end_page": "11",
     "start_line": 1,
     "end_line": 1,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -640,6 +675,13 @@
       "declarations": [
         "Etingof.IrreducibleRepresentation"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Definition2_3_5.lean imports only Mathlib and aliases irreducibility directly to IsSimpleModule."
     }
   },
   {
@@ -650,7 +692,7 @@
     "end_page": "11",
     "start_line": 2,
     "end_line": 8,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -708,6 +750,13 @@
         "Etingof.RepresentationHom",
         "LinearEquiv.symm"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Definition2_3_6.lean imports only Mathlib and defines representation morphisms/equivalences from linear maps."
     }
   },
   {
@@ -718,7 +767,7 @@
     "end_page": "11",
     "start_line": 9,
     "end_line": 9,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -754,6 +803,13 @@
         "Etingof.DirectSumRepresentation",
         "Etingof.DirectSumRepresentation / Etingof.DirectSumRepresentation_smul"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Definition2_3_7.lean imports only Mathlib and uses the standard product module action."
     }
   },
   {
@@ -764,7 +820,7 @@
     "end_page": "11",
     "start_line": 10,
     "end_line": 11,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -800,6 +856,13 @@
         "Etingof.IsIndecomposableAsDirectSum",
         "Etingof.isIndecomposable_iff_asDirectSum"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Definition2_3_8.lean imports only Mathlib; both indecomposability formulations and their equivalence are self-contained."
     }
   },
   {
@@ -810,7 +873,7 @@
     "end_page": "11",
     "start_line": 12,
     "end_line": 15,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -859,6 +922,15 @@
         "Etingof.Example_2_3_14.exists_indecomposable_not_simple",
         "Etingof.IsIndecomposable.of_isSimpleModule"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.3.8"
+      ],
+      "basis": "Both formalized assertions use the project indecomposability predicate from Definition 2.3.8; simplicity and the concrete Jordan witness otherwise use Mathlib/local declarations."
     }
   },
   {
@@ -869,7 +941,7 @@
     "end_page": "12",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -900,6 +972,13 @@
       "verified_on": "2026-07-27",
       "proof_integrity": "not_applicable",
       "declarations": []
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This item is organizational prose introducing Schur lemma, with no formal proof term or internal declaration dependency."
     }
   },
   {
@@ -910,7 +989,7 @@
     "end_page": "12",
     "start_line": 3,
     "end_line": 13,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -958,6 +1037,13 @@
         "Etingof.Proposition_2_3_9_surjective",
         "LinearMap.ker / LinearMap.range"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Proposition2_3_9.lean imports only Mathlib and proves the kernel/range alternatives directly from simple-module APIs."
     }
   },
   {
@@ -968,7 +1054,7 @@
     "end_page": "12",
     "start_line": 14,
     "end_line": 16,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -998,6 +1084,13 @@
       "declarations": [
         "Etingof.Corollary_2_3_10"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Corollary2_3_10.lean imports only Mathlib and invokes the algebraically-closed Schur API directly."
     }
   },
   {
@@ -1008,7 +1101,7 @@
     "end_page": "12",
     "start_line": 17,
     "end_line": 17,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_note": "[resolved #5651] Wave-2 audit finding was stale. The counterexample was formalized after the audit ran (PR #5601, issue #5589): Etingof.Remark_2_3_11_witness exhibits multiplication by i as a ℂ-linear (hence A-linear for A = ℂ) endomorphism of the irreducible ℝ-representation V = ℂ that is not a real scalar operator, and Etingof.Remark_2_3_11 states that the conclusion of Corollary 2.3.10 fails over ℝ. Sorry-free; builds cleanly; imported by Chapter2.lean.",
@@ -1041,6 +1134,15 @@
       "declarations": [
         "Etingof.Remark_2_3_11 / Etingof.Remark_2_3_11_witness"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Corollary2.3.10"
+      ],
+      "basis": "Remark2_3_11.lean directly imports Corollary2_3_10 and formalizes the advertised failure of that result over the reals."
     }
   },
   {
@@ -1051,7 +1153,7 @@
     "end_page": "12",
     "start_line": 18,
     "end_line": 20,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -1090,6 +1192,15 @@
         "Etingof.Corollary_2_3_10",
         "IsAlgClosed.exists_root"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Corollary2.3.10"
+      ],
+      "basis": "The discussion records the proof of the project corollary; root existence and finite-dimensionality are Mathlib dependencies."
     }
   },
   {
@@ -1100,7 +1211,7 @@
     "end_page": "12",
     "start_line": 21,
     "end_line": 21,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -1130,6 +1241,13 @@
       "declarations": [
         "Etingof.Corollary_2_3_12"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Corollary2_3_12.lean imports only Mathlib and proves linear independence of distinct intertwining maps directly."
     }
   },
   {
@@ -1140,7 +1258,7 @@
     "end_page": "12",
     "start_line": 22,
     "end_line": 23,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "fidelity_note": "The wave-2 coverage finding ('No Lean declaration exists') is a false negative: the formalization landed in PR #5604 (issue #5590) as EtingofRepresentationTheory/Chapter2/Remark2_3_13.lean and is imported into Chapter2.lean. Etingof.Remark_2_3_13 states exactly the book's claim: for a representation V of an algebra A over a field k (AddCommGroup V, Module k V, Module A V, IsScalarTower k A V), Module.finrank k V = 1 implies IsSimpleModule A V. Proof: 1-dimensionality gives IsSimpleModule k V (isSimpleModule_iff_finrank_eq_one), then simplicity transports along restriction of scalars since every A-submodule restricts to a k-submodule with the same carrier. sorry-free; builds cleanly.",
     "fidelity_decl": "Etingof.Remark_2_3_13",
@@ -1172,6 +1290,13 @@
       "declarations": [
         "Etingof.Remark_2_3_13"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Remark2_3_13.lean imports only Mathlib and transports rank-one simplicity along restriction of scalars."
     }
   },
   {
@@ -1182,7 +1307,7 @@
     "end_page": "13",
     "start_line": 1,
     "end_line": 8,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -1226,6 +1351,16 @@
         "Etingof.Corollary_2_3_10 / Etingof.Corollary_2_3_12",
         "Etingof.Corollary_2_3_12"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Corollary2.3.10",
+        "Chapter2/Corollary2.3.12"
+      ],
+      "basis": "The discussion explicitly combines the project Schur corollary with Corollary 2.3.12; the remaining linear-algebra facts are external."
     }
   },
   {
@@ -1236,7 +1371,7 @@
     "end_page": "13",
     "start_line": 9,
     "end_line": 15,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
@@ -1316,6 +1451,15 @@
         "Etingof.Example_2_3_14_field_irreducible_unique",
         "Etingof.Example_2_3_14_polynomial_reps / Etingof.Example_2_3_14.jordanRep"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.3.8"
+      ],
+      "basis": "Example2_3_14.lean directly imports Definition2_3_8 and uses its indecomposability predicate throughout the Jordan-block classification."
     }
   },
   {
@@ -1326,7 +1470,7 @@
     "end_page": "14",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "last_updated": "2026-07-27",
     "fidelity": "verified",
@@ -1371,6 +1515,13 @@
         "Etingof.Example_2_3_14_continued.repEquivGL",
         "Etingof.Example_2_3_14_continued.repEquivGL_apply / Etingof.Example_2_3_14_continued.repEquivGL_symm_apply"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Example2_3_14_continued.lean imports only Mathlib and constructs the representation/GL bijections independently."
     }
   },
   {
@@ -1381,7 +1532,7 @@
     "end_page": "14",
     "start_line": 3,
     "end_line": 3,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "last_updated": "2026-07-27",
     "fidelity": "verified",
@@ -1417,6 +1568,13 @@
         "Etingof.exists_isSimpleModule_of_finite",
         "Etingof.not_exists_isSimpleModule_polynomial"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Problem2_3_15.lean imports only Mathlib; simple-submodule extraction and the polynomial counterexample are proved directly."
     }
   },
   {
@@ -1427,7 +1585,7 @@
     "end_page": "14",
     "start_line": 4,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "last_updated": "2026-07-27",
     "coverage_note": "Stage 3.2 verified all clauses and proved an explicit theorem tying the indecomposable central character to an irreducible subrepresentation.",
@@ -1493,6 +1651,16 @@
         "Subalgebra.center",
         "Subalgebra.center_eq_top"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.3.8",
+        "Chapter2/Problem2.3.15"
+      ],
+      "basis": "Problem2_3_16.lean directly imports and uses the project indecomposability predicate and Problem 2.3.15 simple-submodule extraction; Schur and Fitting inputs come from Mathlib."
     }
   },
   {
@@ -1503,7 +1671,7 @@
     "end_page": "14",
     "start_line": 13,
     "end_line": 13,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "last_updated": "2026-07-27",
     "fidelity": "verified",
@@ -1544,6 +1712,13 @@
         "Etingof.EndSelfEquivOp_apply / Etingof.EndSelfEquivOp_symm_op_apply",
         "Module.End"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Problem2_3_17.lean imports only Mathlib and builds the opposite-ring equivalence of endomorphisms directly."
     }
   },
   {
@@ -1554,7 +1729,7 @@
     "end_page": "15",
     "start_line": 14,
     "end_line": 1,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "coverage": "covered_full",
     "lean_decl": "Etingof.Problem_2_3_18",
@@ -1601,6 +1776,13 @@
       "declarations": [
         "Etingof.Problem_2_3_18"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Problem2_3_18.lean imports only Mathlib and proves Dixmier lemma from cardinality, polynomial, and linear-algebra APIs."
     }
   },
   {
