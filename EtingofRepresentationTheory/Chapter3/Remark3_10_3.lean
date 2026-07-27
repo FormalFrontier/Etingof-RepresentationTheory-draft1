@@ -11,6 +11,8 @@ import Mathlib.RingTheory.MvPolynomial
 import Mathlib.LinearAlgebra.Basis.Basic
 import Mathlib.Algebra.BigOperators.Finsupp.Fin
 import EtingofRepresentationTheory.Chapter2.WeylAlgebraUniversal
+import EtingofRepresentationTheory.Chapter2.WeylAlgebraDomain
+import Mathlib.LinearAlgebra.Dual.Lemmas
 
 /-!
 # Remark 3.10.3: Failure of Theorem 3.10.2 for infinite dimensional representations
@@ -25,11 +27,14 @@ over itself (a field has no nontrivial submodules), but part (i) fails because
 `ℂ(x) ⊗_ℂ ℂ(x)` is not a field, so `V ⊗ W = ℂ(x) ⊗ ℂ(x)`, viewed as a module over
 `A ⊗ B = ℂ(x) ⊗ ℂ(x)` itself, is not simple.
 
-This file formalizes the core obstruction: `RatFunc ℂ ⊗[ℂ] RatFunc ℂ` is not a field. It also
-constructs the operator-level Weyl-algebra example behind part (ii): on `ℂ[x,y]e^{xy}`, the two
-Weyl algebras act by the pairs `(x, ∂x + y)` and `(y, ∂y + x)`. The four operators satisfy the
-two Weyl relations and commute across the two factors, so they define a concrete representation
-of `WeylAlgebra ℂ ⊗[ℂ] WeylAlgebra ℂ`.
+This file formalizes both counterexamples in the remark.  For part (i), it proves the core
+obstruction that `RatFunc ℂ ⊗[ℂ] RatFunc ℂ` is not a field.  For part (ii), it constructs
+the simple module `ℂ[x,y]e^{xy}`: the two Weyl algebras act by `(x, ∂x + y)` and
+`(y, ∂y + x)`.  The four operators satisfy the two Weyl relations and commute across the
+factors.  The restriction to the first factor is the regular Weyl module, which has no simple
+submodule because the Weyl algebra is a domain.  Hence this simple tensor-product-algebra module
+cannot be an external tensor product with a simple first factor, giving the claimed failure of
+the infinite-dimensional analogue of Theorem 3.10.2(ii).
 
 ## Proof strategy
 
@@ -552,7 +557,7 @@ noncomputable def regularModuleEquiv :
 @[simp] theorem regularModuleEquiv_apply (a : Etingof.WeylAlgebra ℂ) :
     regularModuleEquiv a = firstRep a 1 := rfl
 
-/-! ### The remaining ring-theoretic obstruction -/
+/-! ### The regular-module obstruction and non-factorization -/
 
 /-- A regular module over a domain has no simple submodule as soon as the ring contains a
 nonzero element with no left inverse.  Indeed, if `I` were simple and `a ∈ I` nonzero, then
@@ -588,11 +593,9 @@ theorem weylY_noLeftInverse (r : Etingof.WeylAlgebra ℂ) :
     (congrArg (Etingof.polyRep ℂ) h)
   simp [map_mul, Etingof.polyRep_y] at hop
 
-/-- Once the standard domain property of the characteristic-zero Weyl algebra is available,
-its regular module has no simple submodule.  This conditional endpoint isolates that domain
-property as the sole ring-theoretic input still needed by the counterexample. -/
+/-- The regular module of the characteristic-zero Weyl algebra has no simple submodule.  The
+domain input is the characteristic-free PBW theorem `Etingof.WeylAlgebra.mul_ne_zero`. -/
 theorem regularWeyl_noSimpleSubmodule
-    [NoZeroDivisors (Etingof.WeylAlgebra ℂ)]
     (I : Submodule (Etingof.WeylAlgebra ℂ) (Etingof.WeylAlgebra ℂ)) :
     ¬ IsSimpleModule (Etingof.WeylAlgebra ℂ) I := by
   have hy : Etingof.WeylAlgebra.y ℂ ≠ 0 := by
@@ -602,6 +605,56 @@ theorem regularWeyl_noSimpleSubmodule
   letI : Nontrivial (Etingof.WeylAlgebra ℂ) := ⟨⟨Etingof.WeylAlgebra.y ℂ, 0, hy⟩⟩
   exact noSimpleRegularSubmodule_of_noLeftInverse _ (Etingof.WeylAlgebra.y ℂ)
     hy weylY_noLeftInverse I
+
+/-- **Remark 3.10.3, counterexample to the infinite-dimensional analogue of Theorem
+3.10.2(ii).** The simple entangled module `ℂ[x,y]e^{xy}` is not an external tensor product of
+Weyl modules.  More strongly, if `V` is any simple module for the first Weyl algebra and `W` is
+any nonzero module for the second, no linear equivalence `V ⊗ W ≃ ℂ[x,y]e^{xy}` can intertwine
+the two factor actions.
+
+Indeed, choose `0 ≠ w ∈ W`.  The map `v ↦ e(v ⊗ w)` embeds `V` as a simple submodule of the
+first-factor restriction.  Transport through `regularModuleEquiv` would then give a simple
+submodule of the regular Weyl module, contradicting `regularWeyl_noSimpleSubmodule`. -/
+theorem tensorModule_not_equiv_tensorProduct_of_simple_left
+    (V W : Type*)
+    [AddCommGroup V] [Module ℂ V]
+    [Module (Etingof.WeylAlgebra ℂ) V]
+    [IsScalarTower ℂ (Etingof.WeylAlgebra ℂ) V]
+    [AddCommGroup W] [Module ℂ W]
+    [Module (Etingof.WeylAlgebra ℂ) W]
+    [IsScalarTower ℂ (Etingof.WeylAlgebra ℂ) W]
+    [IsSimpleModule (Etingof.WeylAlgebra ℂ) V] [Nontrivial W]
+    (e : V ⊗[ℂ] W ≃ₗ[ℂ] WeylCounterexampleModule)
+    (hequiv : ∀ (a b : Etingof.WeylAlgebra ℂ) (t : V ⊗[ℂ] W),
+      e (TensorProduct.map
+          ((Algebra.lsmul ℂ ℂ V : Etingof.WeylAlgebra ℂ →ₐ[ℂ] Module.End ℂ V) a)
+          ((Algebra.lsmul ℂ ℂ W : Etingof.WeylAlgebra ℂ →ₐ[ℂ] Module.End ℂ W) b) t) =
+        tensorRep (a ⊗ₜ[ℂ] b) (e t)) : False := by
+  classical
+  let R := Etingof.WeylAlgebra ℂ
+  obtain ⟨w, hw⟩ := exists_ne (0 : W)
+  obtain ⟨ψ, hψ⟩ := Module.Projective.exists_dual_eq_one ℂ hw
+  let f : V →ₗ[R] WeylCounterexampleModule :=
+    { toFun := fun v => e (v ⊗ₜ[ℂ] w)
+      map_add' := fun v v' => by
+        rw [TensorProduct.add_tmul, map_add]
+      map_smul' := fun a v => by
+        change e ((a • v) ⊗ₜ[ℂ] w) = firstRep a (e (v ⊗ₜ[ℂ] w))
+        have h := hequiv a 1 (v ⊗ₜ[ℂ] w)
+        simpa [TensorProduct.map_tmul, Algebra.lsmul_coe, Module.End.mul_apply] using h }
+  have hf : Function.Injective f := by
+    intro v v' hv
+    have ht : v ⊗ₜ[ℂ] w = v' ⊗ₜ[ℂ] w := e.injective hv
+    have hmap := congrArg
+      (fun z : V ⊗[ℂ] W =>
+        (TensorProduct.rid ℂ V) (TensorProduct.map LinearMap.id ψ z)) ht
+    simpa [TensorProduct.map_tmul, TensorProduct.rid_tmul, hψ] using hmap
+  let g : V →ₗ[R] R := regularModuleEquiv.symm.toLinearMap.comp f
+  have hg : Function.Injective g := regularModuleEquiv.symm.injective.comp hf
+  let I : Submodule R R := LinearMap.range g
+  letI : IsSimpleModule R I :=
+    (LinearEquiv.isSimpleModule_iff (LinearEquiv.ofInjective g hg)).mp inferInstance
+  exact regularWeyl_noSimpleSubmodule I inferInstance
 
 end
 
