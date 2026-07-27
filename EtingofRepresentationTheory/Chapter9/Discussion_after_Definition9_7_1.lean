@@ -62,6 +62,11 @@ This file also formalizes these two "minimal basic algebra" claims:
   `E_{ba}` fail to commute once there are two indices). We model the quotient by its
   Wedderburn form `∀ i, Matrix (Fin (n i)) (Fin (n i)) k` and prove the criterion directly
   (`Etingof.semisimpleQuotient_comm_iff`).
+
+  `Chapter9/CartanMatrixSizes.lean` connects this model to the genuine radical quotient and
+  proves that its matrix sizes are exactly `n_i`, assuming the standard projective-cover
+  delta-Hom formula. Deriving that formula from bare indecomposable-projective data remains
+  #7957.
 -/
 
 open CategoryTheory CategoryTheory.Limits Module
