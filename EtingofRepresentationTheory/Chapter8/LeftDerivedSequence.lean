@@ -1,4 +1,4 @@
-import EtingofRepresentationTheory.Chapter8.Horseshoe
+import EtingofRepresentationTheory.Chapter8.HorseshoeComparison
 import Mathlib.Algebra.Homology.HomologySequence
 import Mathlib.Algebra.Homology.HomologySequenceLemmas
 import Mathlib.CategoryTheory.Abelian.LeftDerived
