@@ -1727,6 +1727,25 @@
     "start_line": 21,
     "end_line": 24,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "coverage_note": "Stage 3.2 reviewed the section heading and its organizational prose. It introduces the exercise sequence but makes no mathematical claim requiring a Lean declaration.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.15",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Section 2.15 is an organizational heading explaining that the representation theory of sl(2) will be studied through the following exercise sequence.",
+          "verdict": "non_formalizable",
+          "reason": "This is expository organization and motivation, not a mathematical proposition."
+        }
+      ]
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -1741,9 +1760,105 @@
     "start_line": 25,
     "end_line": 16,
     "status": "sorry_free",
-    "coverage": "covered_full",
-    "coverage_note": "All parts (a)-(n) are source-present. Problem2_15_1_a_e.lean exposes the full maximal-generalized-weight-space argument: E vanishes, the E^k F^k polynomial identity, finite-dimensional F-termination, collapse of the maximal generalized eigenspace to the eigenspace via a squarefree annihilator, and the least-exponent weight formula. Parts (f)-(n), including the restored Clebsch-Gordan module source, are covered by the remaining Chapter 2 files.",
-    "last_updated": "2026-07-27"
+    "coverage": "covered_partial",
+    "coverage_note": "Stage 3.2 audited all twelve attached providers against every source part. Parts (a)-(h), the complete-reducibility conclusion behind (i)-(k), and parts (l)-(n) are formalized with honest definitions and concrete standard modules. This pass added the converse operator-triple constructor and the exact part-(h) Casimir eigenvalue. The source's particular minimal-counterexample intermediates in (i)-(k) are intentionally not duplicated because stronger complete-reducibility and semisimple-decomposition theorems establish their intended conclusion; the analytic Tr(exp(xH)) hint in (m) is likewise replaced by an algebraic character-polynomial identity and an explicit module isomorphism.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.15",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "An sl(2)-representation is equivalently an operator triple E, F, H satisfying [H,E]=2E, [H,F]=-2F, and [E,F]=H.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Sl2Irrep.sl2LieHomOfOperators; Etingof.Sl2Irrep.sl2LieHomOfOperators_e; Etingof.Sl2Irrep.sl2LieHomOfOperators_f; Etingof.Sl2Irrep.sl2LieHomOfOperators_h; Etingof.Sl2Irrep.sl2_eq_smul_h_add_smul_e_add_smul_f",
+          "note": "The public constructor is the converse direction; the standard generators, relations, and spanning formula make the equivalence explicit."
+        },
+        {
+          "claim": "Part (a): E vanishes on the generalized H-eigenspace whose eigenvalue has maximal real part.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Sl2Irrep.lie_e_eq_zero_on_maxGenEigenspace",
+          "note": "The theorem uses the equivalent no-(lambda+2)-generalized-eigenspace hypothesis supplied by maximal real part."
+        },
+        {
+          "claim": "Part (b): for a highest-weight vector w, E^k F^k w is a degree-k polynomial in H applied to w.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Sl2Irrep.highestWeightPolynomial; Etingof.Sl2Irrep.highestWeightPolynomial_natDegree; Etingof.Sl2Irrep.eIter_fIter_eq_aeval_highestWeightPolynomial"
+        },
+        {
+          "claim": "Part (c): every vector in the selected generalized highest-weight space is killed by a positive power of F.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Sl2Irrep.exists_pos_fIter_eq_zero_of_mem_maxGenEigenspace"
+        },
+        {
+          "claim": "Part (d): H is diagonalizable on the selected generalized eigenspace.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Sl2Irrep.maxGenEigenspace_eq_eigenspace_of_no_higher_weight; Etingof.Sl2Irrep.highestWeightPolynomial_squarefree"
+        },
+        {
+          "claim": "Part (e): if N_v is the least positive exponent with F^N_v v=0, then lambda=N_v-1.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Sl2Irrep.highestWeight_eq_nat_of_minimal_fIter_zero_of_mem_maxGenEigenspace"
+        },
+        {
+          "claim": "Part (f): for every positive N there is a unique N-dimensional irreducible sl(2)-module, with explicit E, F, H matrices in a standard basis.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Sl2Irrep.irrep_isIrreducible; Etingof.Sl2Irrep.irrep_finrank; Etingof.Problem_2_15_1_f; Etingof.Sl2Irrep.lie_sl2_h_e_basis; Etingof.Sl2Irrep.lie_sl2_e_e_basis; Etingof.Sl2Irrep.lie_sl2_f_e_basis; Etingof.Sl2Irrep.lie_sl2_f_e_basis_top"
+        },
+        {
+          "claim": "Part (g): the Casimir C=EF+FE+H^2/2 is central and acts on V_lambda by lambda(lambda+2)/2.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Sl2Irrep.casimir_central; Etingof.Sl2Irrep.casimir_eq_scalar_lambda"
+        },
+        {
+          "claim": "Part (h): on the chosen indecomposable counterexample the Casimir has only the eigenvalue lambda(lambda+2)/2 for some lambda in the nonnegative integers.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Sl2Irrep.casimirGenEigenspace_isInternal; Etingof.Sl2Irrep.indecomposable_casimir_eigenvalue"
+        },
+        {
+          "claim": "Part (i): the minimal counterexample contains W isomorphic to V_lambda with quotient isomorphic to n copies of V_lambda.",
+          "verdict": "intentional_omission",
+          "reason": "The repository proves the stronger complete-reducibility and semisimple-decomposition conclusions directly, so this proof-route-specific subquotient intermediate is not duplicated.",
+          "note": "Covered elsewhere by Etingof.Sl2Irrep.complete_reducibility and Etingof.Sl2Irrep.sl2Module_decomposition at the level of the intended conclusion."
+        },
+        {
+          "claim": "Part (j): the lambda eigenspace has dimension n+1 and the indicated F-ladders form a basis, using the lowest-weight Casimir calculation.",
+          "verdict": "intentional_omission",
+          "reason": "The exact minimal-counterexample dimension and ladder-basis scaffolding is not separately bundled because the stronger global decomposition is formalized.",
+          "note": "The requested lowest-weight Casimir sublemma itself is formalized as Etingof.Sl2Irrep.casimir_lowest_weight."
+        },
+        {
+          "claim": "Part (k): the ladder spans W_i are subrepresentations and decompose V, contradicting minimality.",
+          "verdict": "intentional_omission",
+          "reason": "This proof-route-specific contradiction is superseded by direct complete reducibility and a full standard-irrep decomposition.",
+          "note": "Conclusion covered by Etingof.Sl2Irrep.complete_reducibility and Etingof.Sl2Irrep.sl2Module_decomposition."
+        },
+        {
+          "claim": "Part (l): a nilpotent operator A is the raising operator of an sl(2)-representation, unique up to module isomorphism.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Sl2Irrep.jacobsonMorozov_sl2"
+        },
+        {
+          "claim": "Part (m), hint route: analytic characters Tr(exp(xH)) are additive on direct sums and multiplicative on tensor products.",
+          "verdict": "intentional_omission",
+          "reason": "The analytic exponential-and-trace route is replaced by an algebraic character polynomial identity and explicit intertwiners, avoiding unnecessary analysis infrastructure."
+        },
+        {
+          "claim": "Part (m): V_lambda tensor V_mu decomposes as the direct sum of V_(lambda+mu-2k), for 0<=k<=min(lambda,mu).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Sl2Irrep.clebsch_gordan_charPoly; Etingof.Sl2Irrep.clebsch_gordan_module_iso"
+        },
+        {
+          "claim": "Part (n): the tensor-sum nilpotent has Jordan blocks of sizes M+N-1-2k.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Sl2Irrep.jordan_normal_form_tensor"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_2.16_heading",

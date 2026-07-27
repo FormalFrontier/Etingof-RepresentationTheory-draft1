@@ -136,6 +136,87 @@ theorem sl2_traceless (X : sl2) : X.val 1 1 = -X.val 0 0 := by
   have : X.val 1 1 = 0 - X.val 0 0 := by rw [← h2]; ring
   simp at this; exact this
 
+private theorem sl2_val_add (X Y : sl2) (i j : Fin 2) :
+    (X + Y).val i j = X.val i j + Y.val i j := rfl
+
+private theorem sl2_val_smul (r : ℂ) (X : sl2) (i j : Fin 2) :
+    (r • X).val i j = r * X.val i j := rfl
+
+/-- Every element of `sl(2)` is the linear combination
+`X₀₀ H + X₀₁ E + X₁₀ F` of the standard generators. -/
+theorem sl2_eq_smul_h_add_smul_e_add_smul_f (X : sl2) :
+    X = X.val 0 0 • sl2_h + X.val 0 1 • sl2_e + X.val 1 0 • sl2_f := by
+  apply Subtype.ext
+  push_cast
+  simp only [sl2_h, sl2_e, sl2_f,
+    LieAlgebra.SpecialLinear.val_singleSubSingle, LieAlgebra.SpecialLinear.val_single]
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [Matrix.add_apply, Matrix.single, sl2_traceless X]
+
+/-- The Lie representation of `sl(2)` determined by endomorphisms `E`, `F`, and `H`
+satisfying the three defining commutator relations. This is the converse direction of the
+book's identification of an `sl(2)`-representation with such an operator triple. -/
+noncomputable def sl2LieHomOfOperators {V : Type*} [AddCommGroup V] [Module ℂ V]
+    (E F H : Module.End ℂ V)
+    (hEF : ⁅E, F⁆ = H) (hHE : ⁅H, E⁆ = (2 : ℂ) • E)
+    (hHF : ⁅H, F⁆ = -((2 : ℂ) • F)) :
+    sl2 →ₗ⁅ℂ⁆ Module.End ℂ V where
+  toFun X := X.val 0 0 • H + X.val 0 1 • E + X.val 1 0 • F
+  map_add' X Y := by
+    simp only [sl2_val_add, add_smul]
+    abel
+  map_smul' r X := by
+    simp only [sl2_val_smul, mul_smul, RingHom.id_apply, smul_add]
+  map_lie' {X Y} := by
+    have htX : X.val 1 1 = -X.val 0 0 := sl2_traceless X
+    have htY : Y.val 1 1 = -Y.val 0 0 := sl2_traceless Y
+    have hEH : ⁅E, H⁆ = -((2 : ℂ) • E) := by rw [← lie_skew, hHE]
+    have hFH : ⁅F, H⁆ = (2 : ℂ) • F := by rw [← lie_skew, hHF, neg_neg]
+    have hFE : ⁅F, E⁆ = -H := by rw [← lie_skew, hEF]
+    have hbr00 : ⁅X, Y⁆.val 0 0 =
+        X.val 0 1 * Y.val 1 0 - Y.val 0 1 * X.val 1 0 := by
+      simp [show ⁅X, Y⁆.val = X.val * Y.val - Y.val * X.val from rfl,
+        Matrix.sub_apply, Matrix.mul_apply, Fin.sum_univ_two]
+      ring
+    have hbr01 : ⁅X, Y⁆.val 0 1 =
+        2 * X.val 0 0 * Y.val 0 1 - 2 * Y.val 0 0 * X.val 0 1 := by
+      simp [show ⁅X, Y⁆.val = X.val * Y.val - Y.val * X.val from rfl,
+        Matrix.sub_apply, Matrix.mul_apply, Fin.sum_univ_two, htX, htY]
+      ring
+    have hbr10 : ⁅X, Y⁆.val 1 0 =
+        2 * X.val 1 0 * Y.val 0 0 - 2 * Y.val 1 0 * X.val 0 0 := by
+      simp [show ⁅X, Y⁆.val = X.val * Y.val - Y.val * X.val from rfl,
+        Matrix.sub_apply, Matrix.mul_apply, Fin.sum_univ_two, htX, htY]
+      ring
+    have smul_lie' : ∀ (c : ℂ) (a b : Module.End ℂ V), ⁅c • a, b⁆ = c • ⁅a, b⁆ :=
+      fun c a b => smul_lie c a b
+    have lie_smul' : ∀ (c : ℂ) (a b : Module.End ℂ V), ⁅a, c • b⁆ = c • ⁅a, b⁆ :=
+      fun c a b => lie_smul c a b
+    simp only [add_lie, lie_add, smul_lie', lie_smul', lie_self, smul_zero,
+      add_zero, zero_add, hHE, hHF, hEF, hEH, hFH, hFE, smul_neg, smul_smul,
+      hbr00, hbr01, hbr10]
+    module
+
+@[simp] theorem sl2LieHomOfOperators_e {V : Type*} [AddCommGroup V] [Module ℂ V]
+    (E F H : Module.End ℂ V) (hEF : ⁅E, F⁆ = H) (hHE : ⁅H, E⁆ = (2 : ℂ) • E)
+    (hHF : ⁅H, F⁆ = -((2 : ℂ) • F)) :
+    sl2LieHomOfOperators E F H hEF hHE hHF sl2_e = E := by
+  simp [sl2LieHomOfOperators, sl2_e, LieAlgebra.SpecialLinear.val_single, Matrix.single]
+
+@[simp] theorem sl2LieHomOfOperators_f {V : Type*} [AddCommGroup V] [Module ℂ V]
+    (E F H : Module.End ℂ V) (hEF : ⁅E, F⁆ = H) (hHE : ⁅H, E⁆ = (2 : ℂ) • E)
+    (hHF : ⁅H, F⁆ = -((2 : ℂ) • F)) :
+    sl2LieHomOfOperators E F H hEF hHE hHF sl2_f = F := by
+  simp [sl2LieHomOfOperators, sl2_f, LieAlgebra.SpecialLinear.val_single, Matrix.single]
+
+@[simp] theorem sl2LieHomOfOperators_h {V : Type*} [AddCommGroup V] [Module ℂ V]
+    (E F H : Module.End ℂ V) (hEF : ⁅E, F⁆ = H) (hHE : ⁅H, E⁆ = (2 : ℂ) • E)
+    (hHF : ⁅H, F⁆ = -((2 : ℂ) • F)) :
+    sl2LieHomOfOperators E F H hEF hHE hHF sl2_h = H := by
+  simp [sl2LieHomOfOperators, sl2_h,
+    LieAlgebra.SpecialLinear.val_singleSubSingle, Matrix.single]
+
 /-! ## The d-dimensional irreducible representation
 
 We define ρ : sl(2) → End(V_d) as a Lie algebra homomorphism, then use
@@ -241,12 +322,6 @@ private theorem lie_rhoE_rhoF (d : ℕ) :
     subst hd1; simp [hk0]
 
 /-- The representation map ρ : sl(2) → End(V_d) as a Lie hom. -/
-private theorem sl2_val_add (X Y : sl2) (i j : Fin 2) :
-    (X + Y).val i j = X.val i j + Y.val i j := rfl
-
-private theorem sl2_val_smul (r : ℂ) (X : sl2) (i j : Fin 2) :
-    (r • X).val i j = r * X.val i j := rfl
-
 noncomputable def rhoLieHom (d : ℕ) :
     sl2 →ₗ⁅ℂ⁆ Module.End ℂ (Fin d → ℂ) where
   toFun X := X.val 0 0 • rhoH d + X.val 0 1 • rhoE d + X.val 1 0 • rhoF d
