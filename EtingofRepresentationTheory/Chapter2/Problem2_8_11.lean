@@ -13,6 +13,7 @@ import Mathlib.Data.Finite.Sigma
 import Mathlib.Data.Finite.Prod
 import Mathlib.Algebra.DirectSum.Module
 import Mathlib.LinearAlgebra.Finsupp.Supported
+import Mathlib.LinearAlgebra.Finsupp.VectorSpace
 import EtingofRepresentationTheory.Chapter2.Definition2_8_4
 
 /-!
@@ -165,7 +166,16 @@ theorem card_words_length (m n : ℕ) :
 `k⟨x₁,…,x_m⟩` is `freeAlgebraDegreePiece`, and its dimension is `mⁿ`. -/
 theorem finrank_freeAlgebra_degreePiece (k : Type*) [Field k] (m n : ℕ) :
     Module.finrank k (freeAlgebraDegreePiece k m n) = m ^ n := by
-  sorry
+  let b : Module.Basis {w : FreeMonoid (Fin m) // w.length = n} k
+      (freeAlgebraDegreePiece k m n) :=
+    Finsupp.basisSingleOne.map
+      (Finsupp.supportedEquivFinsupp (R := k)
+        {w : FreeMonoid (Fin m) | w.length = n}).symm
+  calc
+    Module.finrank k (freeAlgebraDegreePiece k m n) =
+        Nat.card {w : FreeMonoid (Fin m) // w.length = n} :=
+      Module.finrank_eq_nat_card_basis b
+    _ = m ^ n := card_words_length m n
 
 /-- **(b)**, generating-function form: the Hilbert series of `k⟨x₁,…,x_m⟩` is `1/(1-mt)`,
 expressed as the power-series identity `(1 - m·t) · h_A = 1`. -/
@@ -301,10 +311,30 @@ theorem dim_pathAlgebra_degree (Q : Type*) [Quiver Q] [Fintype Q] [DecidableEq Q
 length-`n` oriented paths, so its dimension is their total number. -/
 theorem finrank_pathAlgebra_degree (k : Type*) [Field k]
     (Q : Type*) [Quiver Q] [Fintype Q] [DecidableEq Q]
-    [∀ i j : Q, Fintype (i ⟶ j)] (n : ℕ) :
+    [∀ i j : Q, Finite (i ⟶ j)] (n : ℕ) :
     Module.finrank k (pathAlgebraDegreePiece k Q n) =
       ∑ i : Q, ∑ j : Q, Nat.card {p : Quiver.Path i j // p.length = n} := by
-  sorry
+  let T := Σ i : Q, Σ j : Q, {p : Quiver.Path i j // p.length = n}
+  let e : {p : QuiverPathIndex Q // p.2.2.length = n} ≃ T := {
+    toFun p := ⟨p.1.1, p.1.2.1, ⟨p.1.2.2, p.2⟩⟩
+    invFun p := ⟨⟨p.1, p.2.1, p.2.2.1⟩, p.2.2.2⟩
+    left_inv p := by rcases p with ⟨⟨i, j, p⟩, hp⟩; rfl
+    right_inv p := by rcases p with ⟨i, j, p, hp⟩; rfl }
+  let b : Module.Basis {p : QuiverPathIndex Q // p.2.2.length = n} k
+      (pathAlgebraDegreePiece k Q n) :=
+    Finsupp.basisSingleOne.map
+      (Finsupp.supportedEquivFinsupp (R := k)
+        {p : QuiverPathIndex Q | p.2.2.length = n}).symm
+  calc
+    Module.finrank k (pathAlgebraDegreePiece k Q n) =
+        Nat.card {p : QuiverPathIndex Q // p.2.2.length = n} :=
+      Module.finrank_eq_nat_card_basis b
+    _ = Nat.card T := Nat.card_congr e
+    _ = ∑ i : Q, ∑ j : Q, Nat.card {p : Quiver.Path i j // p.length = n} := by
+      rw [Nat.card_sigma]
+      apply Finset.sum_congr rfl
+      intro i _
+      rw [Nat.card_sigma]
 
 /-! ### (d), generating-function form
 

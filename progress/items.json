@@ -1209,6 +1209,15 @@
           "lean_decl": "Etingof.QuiverDef"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.QuiverDef"
+      ]
     }
   },
   {
@@ -1238,6 +1247,18 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Example_2_8_2; Etingof.Example_2_8_2.edge01; Etingof.Example_2_8_2.edge21; Etingof.Example_2_8_2.edge30"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Example_2_8_2",
+        "Etingof.Example_2_8_2.edge01",
+        "Etingof.Example_2_8_2.edge21",
+        "Etingof.Example_2_8_2.edge30"
       ]
     }
   },
@@ -1272,6 +1293,18 @@
           "lean_decl": "Etingof.QuiverArrow; Etingof.QuiverArrow.src; Etingof.QuiverArrow.tgt; Etingof.QuiverArrow.hom"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.QuiverArrow",
+        "Etingof.QuiverArrow.src",
+        "Etingof.QuiverArrow.tgt",
+        "Etingof.QuiverArrow.hom"
+      ]
     }
   },
   {
@@ -1303,6 +1336,15 @@
           "lean_decl": "Etingof.QuiverRepresentation"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.QuiverRepresentation"
+      ]
     }
   },
   {
@@ -1313,14 +1355,16 @@
     "end_page": "20",
     "start_line": 1,
     "end_line": 1,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
     },
     "coverage": "covered_full",
+    "coverage_note": "BookPathAlgebra realizes the book's path-multiplication convention, and the explicit module/vertex-space and direct-sum assignments are proved inverse on isomorphism classes.",
     "fidelity": "verified",
-    "sorry_free": false,
+    "sorry_free": true,
+    "last_updated": "2026-07-27",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -1345,6 +1389,16 @@
           "verdict": "non_formalizable",
           "reason": "This is organizational prose, not a mathematical proposition."
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.BookPathAlgebra",
+        "Etingof.BookPathAlgebra.exists_isoClassEquiv_induced_by_book_assignments"
       ]
     }
   },
@@ -1387,6 +1441,19 @@
           "lean_decl": "Etingof.BookPathAlgebra.ofPath_mul_ofPath_eq_zero"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.BookPathAlgebra",
+        "Etingof.BookPathAlgebra.ofPath",
+        "Etingof.BookPathAlgebra.trivialPath",
+        "Etingof.BookPathAlgebra.ofPath_mul_ofPath",
+        "Etingof.BookPathAlgebra.ofPath_mul_ofPath_eq_zero"
+      ]
     }
   },
   {
@@ -1417,6 +1484,15 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.BookPathAlgebra.sum_trivialPaths_eq_one"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.BookPathAlgebra.sum_trivialPaths_eq_one"
       ]
     }
   },
@@ -1469,6 +1545,23 @@
           "lean_decl": "Etingof.Problem2_8_6.Book.defining_relations_universal"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_8_6.Book.adjoin_generators_eq_top",
+        "Etingof.Problem2_8_6.Book.sum_vertexIdem",
+        "Etingof.Problem2_8_6.Book.vertexIdem_sq",
+        "Etingof.Problem2_8_6.Book.vertexIdem_mul_of_ne",
+        "Etingof.Problem2_8_6.Book.arrowGen_mul_source",
+        "Etingof.Problem2_8_6.Book.arrowGen_mul_vertexIdem_of_ne",
+        "Etingof.Problem2_8_6.Book.target_mul_arrowGen",
+        "Etingof.Problem2_8_6.Book.vertexIdem_mul_arrowGen_of_ne",
+        "Etingof.Problem2_8_6.Book.defining_relations_universal"
+      ]
     }
   },
   {
@@ -1479,16 +1572,16 @@
     "end_page": "21",
     "start_line": 17,
     "end_line": 4,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage": "covered_full",
-    "coverage_note": "The legacy PathAlgebra/Qᵒᵖ correspondence remains fully proved. The exact book-facing BookPathAlgebra/Q correspondence now has complete data and a faithful isomorphism-class equivalence statement specifying V↦(p_iV) and the direct-sum inverse; only that exact theorem proof remains for Stage 3.3.",
+    "coverage_note": "The legacy PathAlgebra/Qᵒᵖ correspondence remains fully proved. The exact book-facing BookPathAlgebra/Q correspondence now constructs both assignments, proves their module and representation round trips, and packages the specified V↦(p_iV) and direct-sum inverse as an equivalence on isomorphism classes.",
     "last_updated": "2026-07-27",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
     },
     "fidelity": "verified",
-    "sorry_free": false,
+    "sorry_free": true,
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -1513,6 +1606,24 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.BookPathAlgebra.exists_isoClassEquiv_induced_by_book_assignments"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.BookPathAlgebra.vertexSpace",
+        "Etingof.BookPathAlgebra.arrowMap",
+        "Etingof.BookPathAlgebra.forwardRep",
+        "Etingof.BookPathAlgebra.pathMap",
+        "Etingof.BookPathAlgebra.pathEnd",
+        "Etingof.BookPathAlgebra.moduleRoundTrip",
+        "Etingof.BookPathAlgebra.repRoundTrip",
+        "Etingof.BookPathAlgebra.isoClassEquiv",
+        "Etingof.BookPathAlgebra.IsDirectSumRealization",
+        "Etingof.BookPathAlgebra.exists_isoClassEquiv_induced_by_book_assignments"
       ]
     }
   },
@@ -1546,6 +1657,13 @@
           "reason": "This is organizational prose; the promised definitions are inventoried in the following items."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": []
     }
   },
   {
@@ -1577,6 +1695,16 @@
           "lean_decl": "Etingof.QuiverSubrepresentation; Etingof.QuiverSubrepresentation.toRepresentation"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.QuiverSubrepresentation",
+        "Etingof.QuiverSubrepresentation.toRepresentation"
+      ]
     }
   },
   {
@@ -1606,6 +1734,15 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.QuiverRepresentation.directSum"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.QuiverRepresentation.directSum"
       ]
     }
   },
@@ -1645,6 +1782,18 @@
           "lean_decl": "Etingof.QuiverRepresentation.BookIsIndecomposable"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.QuiverRepresentation.BookIsZero",
+        "Etingof.QuiverRepresentation.BookIsNonzero",
+        "Etingof.QuiverRepresentation.BookIsIrreducible",
+        "Etingof.QuiverRepresentation.BookIsIndecomposable"
+      ]
     }
   },
   {
@@ -1676,6 +1825,15 @@
           "lean_decl": "Etingof.QuiverRepresentationHom"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.QuiverRepresentationHom"
+      ]
     }
   },
   {
@@ -1686,12 +1844,12 @@
     "end_page": "22",
     "start_line": 15,
     "end_line": 11,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage": "covered_full",
-    "coverage_note": "The locally finite positive grading and Hilbert-series definition are explicit. All four requested answers have exact graded-piece and generating-series declarations; two new bridge proofs tying the free/path algebra degree submodules to their combinatorial bases remain theorem-level Stage 3.3 obligations.",
+    "coverage_note": "The locally finite positive grading and Hilbert-series definition are explicit. All four requested answers have exact graded-piece and generating-series proofs, including canonical supported-Finsupp bases identifying the free-algebra and path-algebra degree pieces with fixed-length words and paths.",
     "fidelity_decl": "theorem hilbertSeries_pathAlgebra, theorem inv_one_sub_smul_adjacencyPS",
     "last_updated": "2026-07-27",
-    "sorry_free": false,
+    "sorry_free": true,
     "fidelity": "verified",
     "claim_coverage": {
       "stage": "3.2",
@@ -1727,6 +1885,30 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Problem2_8_11.pathAlgebraDegreePiece; Etingof.Problem2_8_11.finrank_pathAlgebra_degree; Etingof.Problem2_8_11.card_paths_length_eq_adjacencyMatrix_pow; Etingof.Problem2_8_11.hilbertSeries_pathAlgebra; Etingof.Problem2_8_11.inv_one_sub_smul_adjacencyPS"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_8_11.LocallyFiniteNatGrading",
+        "Etingof.Problem2_8_11.hilbertSeries",
+        "Etingof.Problem2_8_11.coeff_hilbertSeries",
+        "Etingof.Problem2_8_11.finrank_homogeneous_mvPolynomial",
+        "Etingof.Problem2_8_11.hilbertSeries_mvPolynomial",
+        "Etingof.Problem2_8_11.freeAlgebraWordEquiv",
+        "Etingof.Problem2_8_11.freeAlgebraDegreePiece",
+        "Etingof.Problem2_8_11.finrank_freeAlgebra_degreePiece",
+        "Etingof.Problem2_8_11.hilbertSeries_freeAlgebra",
+        "Etingof.Problem2_8_11.finrank_exteriorPower",
+        "Etingof.Problem2_8_11.hilbertSeries_exteriorAlgebra",
+        "Etingof.Problem2_8_11.pathAlgebraDegreePiece",
+        "Etingof.Problem2_8_11.finrank_pathAlgebra_degree",
+        "Etingof.Problem2_8_11.card_paths_length_eq_adjacencyMatrix_pow",
+        "Etingof.Problem2_8_11.hilbertSeries_pathAlgebra",
+        "Etingof.Problem2_8_11.inv_one_sub_smul_adjacencyPS"
       ]
     }
   },
