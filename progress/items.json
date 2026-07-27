@@ -3686,7 +3686,7 @@
     "end_page": "36",
     "start_line": 17,
     "end_line": 17,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "fidelity": "verified",
     "claim_coverage": {
@@ -3719,6 +3719,13 @@
       "actual_internal_dependencies": [],
       "basis": "This organizational heading makes no mathematical assertion and depends on no earlier project item."
     },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.13",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The organizational heading has no Lean declaration to polish; its paired section provider is warning-free, uses irredundant focused imports, and passes all 17 declaration linters."
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -3732,7 +3739,7 @@
     "end_page": "37",
     "start_line": 18,
     "end_line": 8,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_partial",
     "fidelity": "verified",
     "lean_decl": "Etingof.Problem2_13_1.irrational_arccos_third_div_pi",
@@ -3810,6 +3817,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "The formalized irrationality proof uses only focused Mathlib inverse-trigonometric and irrational-number modules; it imports no earlier project item. The five intentional geometric omissions introduce no dependency edges."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.13",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The proof provider now uses descriptive private names, structured tactic blocks, lines within the Mathlib style limit, warning-free standalone elaboration, irredundant focused imports, and a clean 17-linter declaration audit."
     },
     "last_updated": "2026-07-27"
   },
