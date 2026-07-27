@@ -6842,11 +6842,11 @@
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The virtual character is now realized by the honest simple FDRep Etingof.GL2.complementarySeriesRep, with its character identified and dimension q−1 proved in Chapter5/GL2ComplementarySeries.lean (#7906). Discussion5_25_4.lean rebuilds and proves the standalone additive ZMod orbit transversal/count q(q−1)/2. RESIDUAL: connect the actual elliptic-torus character group to that additive model and prove the iff isomorphism classification/pairwise non-isomorphic family (#7947).",
-    "fidelity_issue": 7947,
-    "last_updated": "2026-07-26"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The virtual character is realized by the honest simple FDRep Etingof.GL2.complementarySeriesRep, with character and dimension q−1. GL2ComplementarySeriesOrbits.lean identifies actual elliptic-torus characters with ZMod (q²−1), transports Frobenius to multiplication by q, constructs the Frobenius isomorphism, proves the converse isomorphism classification, and packages the canonical q(q−1)/2-element transversal as pairwise non-isomorphic simple FDReps (#7947).",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/GL2ComplementarySeries.lean :: Etingof.GL2.complementarySeriesRep, complementarySeriesRep_simple, complementarySeriesRep_character, finrank_complementarySeriesRep; EtingofRepresentationTheory/Chapter5/GL2ComplementarySeriesOrbits.lean :: Etingof.GL2.complementaryCharParamEquiv, complementarySeriesRepFrobeniusIso, complementarySeriesRep_iso_iff, complementaryFamily, complementaryFamily_simple, complementaryFamily_injective, card_complementaryIndex, exists_complementary_family",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Lemma5.25.3",
