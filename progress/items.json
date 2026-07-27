@@ -909,7 +909,7 @@
     "end_page": "15",
     "start_line": 2,
     "end_line": 14,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "fidelity": "verified",
     "lean_file": "EtingofRepresentationTheory/Chapter2/Discussion_2_4_heading.lean",
@@ -981,6 +981,15 @@
         "Etingof.Discussion2_4.mem_ker_iff"
       ]
     },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.4",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.3.4"
+      ],
+      "basis": "The section dictionary imports the subrepresentation definition for its regular-representation bridges; its remaining dependencies are Mathlib declarations."
+    },
     "last_updated": "2026-07-27",
     "coverage_swept": {
       "wave": 1,
@@ -995,7 +1004,7 @@
     "end_page": "15",
     "start_line": 15,
     "end_line": 15,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "fidelity": "verified",
     "last_updated": "2026-07-27",
@@ -1041,6 +1050,13 @@
         "Etingof.Problem2_4_1.exists_maximal_right_ideal",
         "Etingof.Problem2_4_1.exists_maximal_twoSided_ideal"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.4",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The three existence proofs import only Mathlib: the one-sided cases use Ideal.exists_maximal and the two-sided case is a self-contained Zorn argument."
     }
   },
   {
