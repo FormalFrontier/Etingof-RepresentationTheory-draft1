@@ -4649,6 +4649,42 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "4.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Chapter 4 is titled 'Representations of finite groups: Basic results'.",
+          "verdict": "non_formalizable",
+          "reason": "This is an organizational chapter title rather than a mathematical proposition."
+        },
+        {
+          "claim": "A representation of a group G over k is a k-vector space V equipped with a group homomorphism G → GL(V).",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Representation"
+        },
+        {
+          "claim": "A representation of G over k is equivalently a module over the group algebra k[G].",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Rep.equivalenceModuleMonoidAlgebra; Representation.asModule; Representation.ofModule"
+        },
+        {
+          "claim": "The chapter begins a systematic development of representation theory for finite groups.",
+          "verdict": "non_formalizable",
+          "reason": "This is a roadmap for the chapter, not a standalone mathematical assertion."
+        },
+        {
+          "claim": "Section 4.1 is headed 'Maschke's theorem'.",
+          "verdict": "non_formalizable",
+          "reason": "This is an organizational section heading rather than a mathematical proposition."
+        }
+      ]
     }
   },
   {
@@ -4665,7 +4701,98 @@
     "fidelity_note": "[coverage] Book part (ii) asserts three things: (1) an explicit algebra isomorphism ψ: k[G] → ⊕_i End(V_i); (2) that ψ is also an isomorphism of representations (G acts by left multiplication on both ",
     "fidelity_issue": 5656,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-22",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "4.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The hypotheses are a finite group G and a field k whose characteristic does not divide |G|.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem4_1_1_semisimple; Etingof.Theorem4_1_1_algebra_iso"
+        },
+        {
+          "claim": "The group algebra k[G] is semisimple.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem4_1_1_semisimple"
+        },
+        {
+          "claim": "The V_i form a finite, pairwise non-isomorphic, exhaustive family of irreducible representations of G.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem4_1_1_algebra_iso"
+        },
+        {
+          "claim": "There is a k-algebra isomorphism ψ : k[G] → ⊕_i End(V_i).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem4_1_1_algebra_iso; IrrepDecomp.endIso"
+        },
+        {
+          "claim": "On a group element g, the i-th component of ψ(g) is the action of g on V_i.",
+          "verdict": "formalized",
+          "lean_decl": "IrrepDecomp.endIso_of_apply"
+        },
+        {
+          "claim": "The algebra isomorphism ψ is also an isomorphism of G-representations when both sides carry left multiplication.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem4_1_1_regularRep_iso; IrrepDecomp.regularIso"
+        },
+        {
+          "claim": "The regular representation decomposes as the direct sum of dim(V_i) copies of each irreducible V_i.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem4_1_1_regularRep_isotypic; IrrepDecomp.regularColumnMultIso"
+        },
+        {
+          "claim": "The dimensions of the irreducible representations satisfy |G| = ∑_i dim(V_i)^2.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem4_1_1_sum_of_squares; Etingof.Theorem4_1_1_algebra_iso"
+        },
+        {
+          "claim": "The semisimple-algebra structure theorem derives the algebra decomposition and dimension consequences from semisimplicity.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.semisimple_algebra_equiv; IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed"
+        },
+        {
+          "claim": "To prove semisimplicity, it suffices to give every subrepresentation an invariant complementary subrepresentation.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "isSemisimpleModule_iff; MonoidAlgebra.Submodule.exists_isCompl"
+        },
+        {
+          "claim": "Every vector subspace W of V admits a vector-space complement and hence a projection P onto W along that complement.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Submodule.exists_isCompl; Submodule.projection"
+        },
+        {
+          "claim": "The projection P is the identity on W, vanishes on the chosen complement, and has that complement as its kernel.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Submodule.projection_apply_left; Submodule.projection_apply_right; Submodule.ker_projection"
+        },
+        {
+          "claim": "Averaging the conjugates of P over G and dividing by |G| produces the operator P̄ used in Maschke's proof.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "LinearMap.conjugate; LinearMap.sumOfConjugates; LinearMap.equivariantProjection"
+        },
+        {
+          "claim": "The averaged operator restricts to the identity on W and has image contained in W, so it is a projection.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "LinearMap.equivariantProjection_condition; MonoidAlgebra.exists_leftInverse_of_injective"
+        },
+        {
+          "claim": "Reindexing the group sum proves that the averaged projection is G-equivariant.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "LinearMap.sumOfConjugatesEquivariant"
+        },
+        {
+          "claim": "The kernel W' of the averaged projection is an invariant complement, yielding V = W ⊕ W' as representations.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "MonoidAlgebra.Submodule.exists_isCompl; LinearMap.isCompl_of_proj"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter4/Discussion_before_Proposition4.1.2",
@@ -4681,7 +4808,23 @@
       "result": "covered"
     },
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-22",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "4.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The converse of Maschke's semisimplicity implication also holds.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Proposition4_1_2"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter4/Proposition4.1.2",
@@ -4695,7 +4838,55 @@
     "coverage": "covered_full",
     "last_updated": "2026-07-22",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "4.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "If k[G] is semisimple, then the characteristic of k does not divide |G|.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Proposition4_1_2"
+        },
+        {
+          "claim": "A semisimple group algebra decomposes into endomorphism blocks for a complete family of irreducible representations, including the trivial representation.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Theorem4_1_1_algebra_iso"
+        },
+        {
+          "claim": "As a regular representation, k[G] decomposes into the trivial summand and the remaining irreducibles with multiplicities dim(V_i).",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Theorem4_1_1_regularRep_isotypic"
+        },
+        {
+          "claim": "The invariant inclusion Λ : k → k[G] and augmentation ε : k[G] → k span the corresponding Hom spaces up to scalar.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Proposition4_1_2",
+          "note": "The provider internalizes the invariant Λ calculation in an equivalent central-idempotent proof rather than exporting the two Hom-space computations as standalone declarations."
+        },
+        {
+          "claim": "One may take ε(g) = 1 and Λ(1) = ∑_g g, giving ε ∘ Λ(1) = |G|.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Proposition4_1_2",
+          "note": "The provider defines the same nonzero sum Λ and proves its left- and right-invariance internally."
+        },
+        {
+          "claim": "If |G| is zero in k, every scalar multiple of ε composed with Λ is zero, so Λ cannot have a left inverse.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Proposition4_1_2"
+        },
+        {
+          "claim": "Semisimplicity forces the trivial summand inclusion to split, contradicting the failure of a left inverse when |G| = 0.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "isSemisimpleModule_iff; Etingof.Proposition4_1_2"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter4/Example4.1.3",
@@ -4712,7 +4903,44 @@
     "fidelity_issue": 5374,
     "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-22",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "4.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Over a field of characteristic p, every irreducible representation of Z/pZ is trivial.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example4_1_3"
+        },
+        {
+          "claim": "Consequently, the group algebra k[Z/pZ] is not semisimple in characteristic p.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Proposition4_1_2; Etingof.Example4_1_3"
+        },
+        {
+          "claim": "An irreducible representation is one-dimensional and its generator acts by a p-th root of unity.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example4_1_3",
+          "note": "The provider proves the stronger endpoint that every group element acts as the identity; together with genuine representation irreducibility this forces the representation to be the one-dimensional trivial simple module."
+        },
+        {
+          "claim": "Every p-th root of unity in a field of characteristic p equals 1.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Example4_1_3; sub_pow_char_of_commute"
+        },
+        {
+          "claim": "In characteristic p, x^p - 1 = (x - 1)^p.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "sub_pow_char_of_commute"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter4/Problem4.1.4",
@@ -4722,15 +4950,32 @@
     "end_page": "63",
     "start_line": 15,
     "end_line": 16,
-    "status": "partially_proved",
-    "coverage_note": "The exact trivial-action endpoint is source-present, but Problem4_1_4.lean currently leaves unsolved goals in the characteristic-p fixed-vector proof; regression #7536.",
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "coverage_note": "Regression #7536 was repaired by PR #7593: both the characteristic-p fixed-vector theorem and the exact trivial-action endpoint rebuild without admissions, and the downstream signature-lock test passes.",
+    "fidelity": "verified",
     "fidelity_decl": "theorem Etingof.Problem4_1_4 {p n : ℕ} [Fact p.Prime] {k} [Field k] [CharP k p] {G} [Group G] [Fintype G] (hG : Fintype.card G = p^n) {V} [AddCommGroup V] [Module k V] (ρ : Representation k G V) (hV : IsSimpleModule (MonoidAlgebra k G) ρ.asModule) : ∀ g, ρ g = LinearMap.id",
     "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_1_4.lean",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "coverage_issue": 7536,
     "fidelity_note": "[fidelity #7270] VERIFIED. Hypotheses [Fact p.Prime], [CharP k p], Fintype.card G = p^n (n universally quantified, n=0 boundary admitted+harmless) faithfully encode 'G of order p^n over a field of characteristic p'; IsSimpleModule (MonoidAlgebra k G) ρ.asModule is the genuine irreducibility hypothesis (submodules = subrepresentations). Key check: conclusion ∀ g, ρ g = LinearMap.id is exactly 'the rep is trivial' (every element acts as identity) — the strongest faithful reading, NOT merely a fixed vector (that is the aux exists_fixed_vector) nor a scalar action; with hV it is equivalent to '1-dim trivial irrep'. Non-vacuous (C₂ over 𝔽₂ trivial rep satisfies all hyps; V forced Nontrivial by IsSimpleModule). Axiom-clean [propext, Classical.choice, Quot.sound], builds 8580/8580. covered_full.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27",
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "4.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "If G has order p^n and k has characteristic p, then every irreducible k-representation of G is trivial.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem4_1_4"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter4/Introduction_4.2",
