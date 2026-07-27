@@ -8906,10 +8906,9 @@
     "start_line": 27,
     "end_line": 29,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "A pointwise Hom-set equivalence is proved. The source requires an adjunction natural in both arguments and then left/right exactness; this is blocked on reflection-functor packaging #7383 and tracked by #7415.",
-    "fidelity_issue": 7415,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "Proved: Exercise7_9_8.lean exposes the two componentwise reduced-data equivalences; Exercise7_9_8_Adjunction.lean proves naturality in both variables, packages them as reflectionFunctorAdjunction : F_i^- ⊣ F_i^+ (with canonical double-reversal transport), and derives right exactness of F_i^- and left exactness of F_i^+ from preservation of colimits/limits.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter7/Introduction_7.10",
