@@ -1,7 +1,6 @@
 import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.LinearAlgebra.Matrix.ToLin
-import Mathlib.LinearAlgebra.Basis.VectorSpace
 
 /-!
 # Example 3.1.2: End(V) as a Semisimple Representation

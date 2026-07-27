@@ -1,6 +1,3 @@
-import Mathlib.LinearAlgebra.TensorProduct.Basic
-import Mathlib.LinearAlgebra.Dimension.Free
-import Mathlib.LinearAlgebra.LinearIndependent.Lemmas
 import Mathlib.RingTheory.SimpleModule.Isotypic
 import EtingofRepresentationTheory.Chapter2.Corollary2_3_10
 

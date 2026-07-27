@@ -1,7 +1,4 @@
 import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.Order.Zorn
-import Mathlib.Order.Minimal
-import Mathlib.Algebra.DirectSum.Module
 
 /-!
 # Lemma 3.1.6: Surjective Map from Direct Sum of Irreducibles Splits

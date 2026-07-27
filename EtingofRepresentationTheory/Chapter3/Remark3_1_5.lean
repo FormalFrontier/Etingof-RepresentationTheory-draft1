@@ -1,5 +1,3 @@
-import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.LinearAlgebra.Matrix.ToLin
 import EtingofRepresentationTheory.Chapter3.Proposition3_1_4
 
 /-!

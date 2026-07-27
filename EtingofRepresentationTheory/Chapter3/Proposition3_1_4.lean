@@ -1,9 +1,5 @@
 import Mathlib.RingTheory.SimpleModule.Isotypic
 import Mathlib.RingTheory.Length
-import Mathlib.Algebra.DirectSum.Module
-import Mathlib.Algebra.Module.Opposite
-import Mathlib.Data.Matrix.Basic
-import Mathlib.LinearAlgebra.LinearIndependent.Defs
 
 /-!
 # Proposition 3.1.4: Classification of Subrepresentations in Semisimple Representations
