@@ -1,4 +1,5 @@
 import EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow
+import Mathlib.Data.Sym.Card
 
 /-!
 # Problem 2.11.3(d), symmetric case: universal property, basis and dimension of `S^n V`

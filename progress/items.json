@@ -2837,7 +2837,7 @@
     "end_page": "31",
     "start_line": 3,
     "end_line": 6,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
       "result": "non_formalizable"
@@ -2869,6 +2869,13 @@
       "proof_integrity": "not_applicable",
       "declarations": [],
       "basis": "The sole Stage 3.2 claim is organizational prose with verdict non_formalizable, so there is no mathematical proof obligation or Lean declaration to certify."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This organizational heading has no Lean provider, declaration, or mathematical dependency; its conservative incoming edge from the §2.10 continuation was reading order only."
     }
   },
   {
@@ -2879,7 +2886,7 @@
     "end_page": "31",
     "start_line": 7,
     "end_line": 22,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -2914,6 +2921,13 @@
         "TensorProduct.smul_tmul",
         "TensorProduct.tmul_smul"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "TensorProductDef and the displayed relations are supplied directly by a Mathlib-only provider importing LinearAlgebra.TensorProduct.Basic; no earlier project declaration is used."
     }
   },
   {
@@ -2924,7 +2938,7 @@
     "end_page": "31",
     "start_line": 23,
     "end_line": 37,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "fidelity": "verified",
     "coverage_note": "Stage 3.2 closes follow-up #5972: the free-abelian-group quotient has the transported k-module structure and a named linear equivalence with Mathlib's tensor product, sending each quotient generator to the corresponding pure tensor.",
@@ -2963,6 +2977,13 @@
         "Etingof.Exercise2_11_2.linearEquivTensorProduct",
         "Etingof.Exercise2_11_2.linearEquivTensorProduct_mk"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The generators-and-relations quotient and its linear equivalence are constructed directly from Mathlib's free-abelian-group and tensor-product APIs; the provider does not import Definition 2.11.1 or any other project module."
     }
   },
   {
@@ -2973,7 +2994,7 @@
     "end_page": "32",
     "start_line": 38,
     "end_line": 3,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -3037,6 +3058,13 @@
         "Etingof.TensorTypes.TensorType"
       ],
       "basis": "The five mathematical declarations covering the formalized or covered-elsewhere claims are sorry-free; the two remaining claims are terminology or informal low-type identifications with no proof obligation."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The provider constructs the non-pure witness and mixed tensor type directly from Mathlib. Redundant direct imports of TensorProduct.Basic, LinearAlgebra.Pi, and Algebra.Algebra.Bilinear were removed, leaving three transitively irredundant focused imports."
     }
   },
   {
@@ -3047,7 +3075,7 @@
     "end_page": "32",
     "start_line": 4,
     "end_line": 19,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
       "result": "covered_full"
@@ -3103,6 +3131,15 @@
         "Module.Basis.sum_repr"
       ],
       "basis": "The basis construction and standard unique-coordinate expansion API are sorry-free; the other three inherited claims are an open-ended derivation prompt and index conventions, so they introduce no proof obligations."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Discussion_pure_tensors"
+      ],
+      "basis": "The mixed tensor basis is Etingof.TensorTypes.tensorTypeBasis from the immediately preceding discussion's provider; coordinate expansion otherwise uses Mathlib's Basis API."
     }
   },
   {
@@ -3113,7 +3150,7 @@
     "end_page": "33",
     "start_line": 20,
     "end_line": 1,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
       "result": "covered_full"
@@ -3153,6 +3190,13 @@
         "TensorProduct.map_tmul"
       ],
       "basis": "Mathlib's induced map and its pure-tensor formula are sorry-free; the second claim is only an organizational transition."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Both mathematical declarations are Mathlib's TensorProduct.map and map_tmul; this discussion has no project provider or internal declaration dependency."
     }
   },
   {
@@ -3163,7 +3207,7 @@
     "end_page": "33",
     "start_line": 2,
     "end_line": 15,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_note": "Parts (a)-(g) formalized. Parts (a)-(c) are in Problem2_11_3.lean. Problem2_11_3_SymExtPow.lean constructs the book's quotient models S^n V and ∧^n V of V^{⊗n}, the induced operators S^n A and ∧^n A with their functoriality, the exterior half of part (d) (basis and dimension m.choose n) via an isomorphism with Mathlib's exterior power valid in every characteristic, and part (g): extPowMap_top proves ∧^N A = det(A) • Id in the top degree N = dim V on the book's own ∧^N V, and det_comp_of_extPowMap derives det(A ∘ B) = det(A) det(B) from it by functoriality, the book's one-line argument. Problem2_11_3_SymPowBasis.lean has the symmetric half of part (d): symPowBasis indexes a basis of S^n V by multisets, with dimension (m+n-1).choose n. Problem2_11_3_SymExtSubspace.lean has all of part (e): the symmetrizer and antisymmetrizer on V^{⊗n}, the computation of their ranges and kernels, and the resulting isomorphisms S^n V ≃ symTensorSubmodule and ∧^n V ≃ altTensorSubmodule, valid whenever n! is invertible in k. Problem2_11_3_Trace.lean has part (f): trace_extPowMap gives Tr(∧^n A) as the elementary symmetric function e_n of the eigenvalues and trace_symPowMap gives Tr(S^n A) as the complete homogeneous symmetric function h_n, for an operator triangularized by a basis with diagonal lam; IsTriangularizedBy.charpoly certifies that lam is exactly the eigenvalue list with multiplicity. The triangularizing-basis hypothesis of part (f) is no longer needed: Infrastructure/Triangularization.lean supplies the triangularization theorem Mathlib lacks, and trace_extPowMap_of_charpoly and trace_symPowMap_of_charpoly state both formulas under the book's own hypothesis charpoly A = prod_i (X - C (lam i)), with no basis mentioned.",
     "coverage": "covered_full",
     "lean_file": [
@@ -3300,6 +3344,13 @@
         "Etingof.Problem2_11_3.extPowMap_top",
         "Etingof.Problem2_11_3.det_comp_of_extPowMap"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The five providers use focused Mathlib imports, same-item sibling providers, and the non-catalog Infrastructure.Triangularization module, but no declaration from another catalog item. The two broad Mathlib imports were replaced by five focused imports, and SymPowBasis now directly imports Data.Sym.Card instead of inheriting it from the umbrella; all resulting direct imports are transitively irredundant."
     }
   },
   {
@@ -3310,7 +3361,7 @@
     "end_page": "34",
     "start_line": 16,
     "end_line": 11,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "fidelity_note": "Formalized in Chapter2/Remark2_11_4.lean: Etingof.TensorProductOverRing A V W constructs V ⊗_A W for an arbitrary ring A (right A-module V, left A-module W) as the quotient of FreeAbelianGroup (V × W) by the bilinearity and balancing relations (tensorRelations). The three book relations are discharged as add_tmul, tmul_add, smul_tmul. Not in Mathlib: TensorProduct requires CommSemiring.",
     "fidelity_decl": "Etingof.TensorProductOverRing",
@@ -3346,6 +3397,13 @@
         "Etingof.TensorProductOverRing.tmul_add",
         "Etingof.TensorProductOverRing.smul_tmul"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The arbitrary-ring balanced tensor product is constructed in a Mathlib-only provider from FreeAbelianGroup, quotient-group, opposite-module, and Abel-tactic APIs; all four direct imports are transitively irredundant."
     }
   },
   {
@@ -3356,7 +3414,7 @@
     "end_page": "34",
     "start_line": 12,
     "end_line": 14,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "fidelity": "verified",
     "coverage_note": "The right-factor base-change algebra structure on A ⊗_K L and the natural (A ⊗_K L)-module structure on V ⊗_K L are constructed, including their pure-tensor formulas.",
@@ -3392,6 +3450,13 @@
         "Etingof.Exercise2_11_5.algebraMap_right_apply",
         "Etingof.Exercise2_11_5.exists_module_baseChange"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Base change is constructed directly from Mathlib.RingTheory.TensorProduct.Basic; its single direct import is irredundant and no project declaration is used."
     }
   },
   {
@@ -3402,7 +3467,7 @@
     "end_page": "35",
     "start_line": 15,
     "end_line": 24,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "note": "Intentional omission recorded in skipped-exercises.md. The standalone bimodule associativity and tensor-Hom adjunction are not formalized; the book's only downstream use, Frobenius reciprocity (Theorem 5.10.1), is proved directly with Mathlib's representation induction/restriction adjunction. Chapter2/Problem2_11_6.lean documents the source statements and replacement route without placeholder declarations.",
     "coverage": "covered_partial",
@@ -3472,6 +3537,15 @@
         "the displayed Hom bimodule",
         "the noncommutative tensor-Hom adjunction"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Remark2.11.4"
+      ],
+      "basis": "Of the two non-omitted claims, the balanced tensor product is exactly Etingof.TensorProductOverRing from Remark 2.11.4; the commuting-action encoding is Mathlib. The five intentional omissions remain omissions and introduce no claimed proof dependency or placeholder edge."
     }
   },
   {
@@ -3482,7 +3556,7 @@
     "end_page": "35",
     "start_line": 25,
     "end_line": 26,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "fidelity": "verified",
     "last_updated": "2026-07-27",
@@ -3513,6 +3587,13 @@
         "TensorProduct.smul_tmul'",
         "TensorProduct.tmul_smul"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The natural module structure and scalar-action formulas are direct Mathlib tensor-product declarations; the provider's sole direct import is transitively irredundant and no project item is used."
     }
   },
   {

@@ -1,9 +1,6 @@
-import Mathlib.LinearAlgebra.TensorProduct.Basic
 import Mathlib.LinearAlgebra.TensorProduct.Basis
-import Mathlib.LinearAlgebra.Pi
 import Mathlib.LinearAlgebra.PiTensorProduct.Basis
 import Mathlib.LinearAlgebra.Dual.Basis
-import Mathlib.Algebra.Algebra.Bilinear
 
 /-!
 # Discussion (pure tensors): not every tensor is pure

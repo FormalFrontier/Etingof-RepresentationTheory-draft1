@@ -1,4 +1,6 @@
-import Mathlib
+import Mathlib.LinearAlgebra.Determinant
+import Mathlib.LinearAlgebra.ExteriorPower.Basis
+import Mathlib.LinearAlgebra.PiTensorProduct.Basis
 
 /-!
 # Problem 2.11.3(d)–(g): symmetric and exterior powers
@@ -530,7 +532,7 @@ theorem det_comp_of_extPowMap [FiniteDimensional k V] {N : ℕ}
   have hrank : Module.finrank k (ExtPow k V N) = 1 := by
     rw [finrank_extPow N, hN, Nat.choose_self]
   haveI : Nontrivial (ExtPow k V N) :=
-    Module.nontrivial_of_finrank_pos (R := k) (by rw [hrank]; norm_num)
+    Module.nontrivial_of_finrank_pos (R := k) (by rw [hrank]; exact Nat.zero_lt_succ 0)
   obtain ⟨x, hx⟩ := exists_ne (0 : ExtPow k V N)
   have h := extPowMap_comp A B N
   rw [extPowMap_top hN (A ∘ₗ B), extPowMap_top hN A, extPowMap_top hN B] at h
