@@ -1051,7 +1051,7 @@
     "end_page": "15",
     "start_line": 16,
     "end_line": 19,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "fidelity": "verified",
     "lean_file": "EtingofRepresentationTheory/Chapter2/Discussion_2_5_well_defined.lean",
@@ -1106,6 +1106,13 @@
       "actual_internal_dependencies": [],
       "basis": "The quotient type, canonical map, additive-coset bridge, and multiplication formula use only Mathlib quotient and two-sided-ideal infrastructure."
     },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.5",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "Imports were minimized to the exact Mathlib quotient and two-sided-ideal modules, and the redundant simp attribute on the named multiplication bridge was removed after simpNF review. The scoped file is warning-free with the flexible-tactic linter enabled and passes all applicable declaration linters."
+    },
     "last_updated": "2026-07-27"
   },
   {
@@ -1116,7 +1123,7 @@
     "end_page": "16",
     "start_line": 1,
     "end_line": 18,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "fidelity": "verified",
     "lean_file": "EtingofRepresentationTheory/Chapter2/Discussion_2_5_well_defined.lean",
@@ -1191,6 +1198,13 @@
       ],
       "basis": "The representative-independence proofs reuse the quotient map and coset-equality bridge formalized by the preceding item in the same Lean file; the quotient-module declarations otherwise use Mathlib."
     },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.5",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The shared discussion file now uses its exact minimal Mathlib imports and exposes a small documented quotient API without redundant simp declarations. It is warning-free with the flexible-tactic linter enabled and passes all applicable declaration linters."
+    },
     "last_updated": "2026-07-27"
   },
   {
@@ -1201,7 +1215,7 @@
     "end_page": "16",
     "start_line": 19,
     "end_line": 19,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "fidelity": "verified",
     "lean_file": "EtingofRepresentationTheory/Chapter2/Problem2_5_1.lean",
@@ -1245,6 +1259,13 @@
         "Chapter2/Definition2.3.8"
       ],
       "basis": "The proof imports the project's definition of module indecomposability and otherwise uses Mathlib's multivariable-polynomial, quotient-ring, local-ring, and submodule APIs."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.5",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The umbrella Mathlib import was replaced by the exact minimal dependency set. The theorem remains a single documented public result with a structured local-ring and complementary-submodule proof, and the file is warning-free under the flexible-tactic linter and all applicable declaration linters."
     }
   },
   {
@@ -1255,7 +1276,7 @@
     "end_page": "16",
     "start_line": 20,
     "end_line": 29,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "fidelity": "verified",
     "lean_file": "EtingofRepresentationTheory/Chapter2/Problem2_5_2.lean",
@@ -1347,6 +1368,13 @@
         "Chapter2/Definition2.3.8"
       ],
       "basis": "The final coregular example uses the project's definition of module indecomposability; the cyclicity results and all supporting algebra constructions are self-contained over Mathlib."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.5",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The umbrella Mathlib import was replaced by the exact minimal dependency set, and both non-terminal broad simp calls in the basis proof were replaced by stable simp-only lists, eliminating all three flexible-tactic warnings. The documented public API and proof decomposition pass all applicable declaration linters."
     },
     "last_updated": "2026-07-27"
   },
