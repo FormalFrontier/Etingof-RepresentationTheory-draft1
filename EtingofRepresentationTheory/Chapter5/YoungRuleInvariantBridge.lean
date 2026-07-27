@@ -1,4 +1,5 @@
 import EtingofRepresentationTheory.Chapter5.YoungRuleKostkaBridge
+import EtingofRepresentationTheory.Chapter5.SpechtModuleBasis
 
 /-!
 # Frobenius reciprocity bridge for Young's rule
@@ -204,6 +205,94 @@ theorem youngRuleMultiplicity_eq_finrank_rowInvariants (n : ℕ)
   change Module.finrank ℂ
       (PermutationModule n mu →ₗ[SymGroupAlgebra n] ↥(SpechtModule n nu)) = _
   exact (youngRuleHomEquivRowInvariants n mu nu).finrank_eq
+
+/-! ### Reynolds projection and the spanning family -/
+
+/-- Averaging over the row subgroup attached to `mu`.  This is the Reynolds projection
+from the Specht module onto its `RowSubgroup n mu`-fixed subspace. -/
+noncomputable def youngRuleRowAverage (n : ℕ) (mu nu : Nat.Partition n) :
+    SpechtModule n nu →ₗ[ℂ] SpechtModule n nu where
+  toFun v := (Nat.card (↥(RowSubgroup n mu)) : ℂ)⁻¹ •
+    (RowSymmetrizer n mu : SymGroupAlgebra n) • v
+  map_add' v w := by simp only [smul_add]
+  map_smul' c v := by
+    apply Subtype.ext
+    change (Nat.card (↥(RowSubgroup n mu)) : ℂ)⁻¹ •
+        (RowSymmetrizer n mu * (c • (v : SymGroupAlgebra n))) =
+      c • ((Nat.card (↥(RowSubgroup n mu)) : ℂ)⁻¹ •
+        (RowSymmetrizer n mu * (v : SymGroupAlgebra n)))
+    rw [Algebra.mul_smul_comm]
+    simp only [smul_smul]
+    rw [mul_comm c]
+
+/-- Every row average is row-invariant. -/
+theorem youngRuleRowAverage_mem (n : ℕ) (mu nu : Nat.Partition n)
+    (v : SpechtModule n nu) :
+    youngRuleRowAverage n mu nu v ∈ YoungRuleRowInvariants n mu nu := by
+  intro p hp
+  change MonoidAlgebra.of ℂ (G n) p *
+      ((Nat.card (↥(RowSubgroup n mu)) : ℂ)⁻¹ •
+        (RowSymmetrizer n mu * (v : SymGroupAlgebra n))) =
+    (Nat.card (↥(RowSubgroup n mu)) : ℂ)⁻¹ •
+      (RowSymmetrizer n mu * (v : SymGroupAlgebra n))
+  rw [Algebra.mul_smul_comm, ← mul_assoc, of_row_mul_RowSymmetrizer p hp]
+
+/-- The Reynolds projection fixes every row-invariant vector. -/
+@[simp] theorem youngRuleRowAverage_eq_self (n : ℕ) (mu nu : Nat.Partition n)
+    (v : YoungRuleRowInvariants n mu nu) :
+    youngRuleRowAverage n mu nu v.1 = v.1 := by
+  classical
+  apply Subtype.ext
+  change (Nat.card (↥(RowSubgroup n mu)) : ℂ)⁻¹ •
+      (RowSymmetrizer n mu * (v.1 : SymGroupAlgebra n)) = (v.1 : SymGroupAlgebra n)
+  have hsum : RowSymmetrizer n mu * (v.1 : SymGroupAlgebra n) =
+      (Nat.card (↥(RowSubgroup n mu)) : ℂ) • (v.1 : SymGroupAlgebra n) := by
+    simp only [RowSymmetrizer, Finset.sum_mul]
+    rw [Finset.sum_congr rfl (fun p _ => v.2 p.val p.prop), Finset.sum_const,
+      Finset.card_univ, ← Nat.card_eq_fintype_card, ← Nat.cast_smul_eq_nsmul ℂ]
+  rw [hsum, smul_smul, inv_mul_cancel₀, one_smul]
+  exact Nat.cast_ne_zero.mpr (Nat.card_pos (α := ↥(RowSubgroup n mu))).ne'
+
+/-- The row average with its invariant-subspace codomain bundled. -/
+noncomputable def youngRuleRowAverageRange (n : ℕ) (mu nu : Nat.Partition n) :
+    SpechtModule n nu →ₗ[ℂ] YoungRuleRowInvariants n mu nu where
+  toFun v := ⟨youngRuleRowAverage n mu nu v, youngRuleRowAverage_mem n mu nu v⟩
+  map_add' v w := Subtype.ext ((youngRuleRowAverage n mu nu).map_add v w)
+  map_smul' c v := Subtype.ext ((youngRuleRowAverage n mu nu).map_smul c v)
+
+/-- The bundled row average fixes the invariant subspace pointwise. -/
+@[simp] theorem youngRuleRowAverageRange_eq_self (n : ℕ)
+    (mu nu : Nat.Partition n) (v : YoungRuleRowInvariants n mu nu) :
+    youngRuleRowAverageRange n mu nu v.1 = v := by
+  apply Subtype.ext
+  exact youngRuleRowAverage_eq_self n mu nu v
+
+/-- The standard-polytabloid spanning family after row averaging. -/
+noncomputable def youngRuleAveragedPolytabloid (n : ℕ)
+    (mu nu : Nat.Partition n) (T : StandardYoungTableau n nu) :
+    YoungRuleRowInvariants n mu nu :=
+  youngRuleRowAverageRange n mu nu (spechtPolytabloid T)
+
+/-- Row-averaged standard polytabloids span the full invariant subspace.  The remaining
+Young-rule straightening step will replace this redundant standard-tableau family by the
+semistandard tableaux of content `mu`. -/
+theorem span_youngRuleAveragedPolytabloid (n : ℕ)
+    (mu nu : Nat.Partition n) :
+    Submodule.span ℂ (Set.range (youngRuleAveragedPolytabloid n mu nu)) = ⊤ := by
+  rw [eq_top_iff]
+  intro v _
+  have hv : youngRuleRowAverageRange n mu nu v.1 = v :=
+    youngRuleRowAverageRange_eq_self n mu nu v
+  let b := spechtPolytabloidBasis (n := n) (la := nu)
+  have hrepr := b.sum_repr v.1
+  rw [← hv, ← hrepr, map_sum]
+  apply Submodule.sum_mem
+  intro T hT
+  rw [map_smul]
+  apply Submodule.smul_mem
+  apply Submodule.subset_span
+  refine ⟨T, ?_⟩
+  simp only [youngRuleAveragedPolytabloid, b, spechtPolytabloidBasis_apply]
 
 /-- The exact remaining datum in Young's rule: a basis of row invariants indexed by the
 semistandard tableaux of shape `nu` and content `mu`. -/
