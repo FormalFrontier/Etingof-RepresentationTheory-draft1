@@ -27,16 +27,19 @@ representation of `k[x]/(xⁿ)` in Etingof Example 3.5.6(1). -/
 noncomputable def truncPolyResidue (hn : 0 < n) : AdjoinRoot (X ^ n : k[X]) →ₐ[k] k :=
   AdjoinRoot.liftAlgHom _ (AlgHom.id k k) 0 (by simp [eval₂_pow, zero_pow hn.ne'])
 
+/-- The residue character sends the adjoined root to zero. -/
 @[simp]
 theorem truncPolyResidue_root (hn : 0 < n) :
     truncPolyResidue k n hn (AdjoinRoot.root (X ^ n : k[X])) = 0 :=
   AdjoinRoot.liftAlgHom_root _ _ _ _
 
+/-- On polynomial representatives, the residue character is evaluation at zero. -/
 @[simp]
 theorem truncPolyResidue_mk (hn : 0 < n) (p : k[X]) :
     truncPolyResidue k n hn (AdjoinRoot.mk (X ^ n : k[X]) p) = p.eval 0 := by
   simp [truncPolyResidue, eval₂_eq_eval_map]
 
+/-- The residue character onto `k` is surjective. -/
 theorem truncPolyResidue_surjective (hn : 0 < n) :
     Function.Surjective (truncPolyResidue k n hn) := fun c =>
   ⟨AdjoinRoot.of _ c, by simp [truncPolyResidue]⟩
@@ -150,18 +153,15 @@ def Etingof.upperTriangularSubalgebra (k : Type*) [Field k] (n : ℕ) :
     intro l _
     by_cases hlj : l < i
     · simp [ha i l hlj]
-    · push_neg at hlj
+    · push Not at hlj
       simp [hb l j (lt_of_lt_of_le hij hlj)]
   one_mem' i j hij := by
-    simp [Matrix.one_apply]
-    intro h
-    exact absurd (h ▸ hij) (lt_irrefl _)
+    rw [Matrix.one_apply, if_neg (ne_of_gt hij)]
   add_mem' {a b} ha hb i j hij := by simp [ha i j hij, hb i j hij]
   zero_mem' _ _ _ := by simp
   algebraMap_mem' r i j hij := by
-    simp [Algebra.algebraMap_eq_smul_one, Matrix.one_apply]
-    intro h
-    exact absurd (h ▸ hij) (lt_irrefl _)
+    rw [Algebra.algebraMap_eq_smul_one, Matrix.smul_apply, Matrix.one_apply,
+      if_neg (ne_of_gt hij), smul_zero]
 
 /-- The ideal of strictly upper triangular matrices within the upper triangular subalgebra. -/
 def Etingof.strictlyUpperTriangularIdeal (k : Type*) [Field k] (n : ℕ) :
@@ -176,9 +176,10 @@ def Etingof.strictlyUpperTriangularIdeal (k : Type*) [Field k] (n : ℕ) :
     intro l _
     by_cases hli : i ≤ l
     · simp [hx l j (le_trans hij hli)]
-    · push_neg at hli
+    · push Not at hli
       simp [c.2 i l hli]
 
+/-- The strictly upper triangular ideal is closed under multiplication on both sides. -/
 instance Etingof.strictlyUpperTriangularIdeal.isTwoSided (k : Type*) [Field k] (n : ℕ) :
     (Etingof.strictlyUpperTriangularIdeal k n).IsTwoSided where
   mul_mem_of_left b ha i j hij := by
@@ -191,7 +192,7 @@ instance Etingof.strictlyUpperTriangularIdeal.isTwoSided (k : Type*) [Field k] (
     intro l _
     by_cases hli : l ≤ i
     · simp [ha i l hli]
-    · push_neg at hli
+    · push Not at hli
       simp [b.2 l j (lt_of_le_of_lt hij hli)]
 
 /-- The `i`-th diagonal character of the algebra of upper triangular matrices: `x ↦ xᵢᵢ`.
@@ -216,14 +217,16 @@ def Etingof.diagonalHom (k : Type*) [Field k] (n : ℕ) (i : Fin n) :
     change (algebraMap k (Matrix (Fin n) (Fin n) k) c) i i = c
     simp [Matrix.algebraMap_matrix_apply]
 
+/-- The diagonal character evaluates a matrix at its `i`-th diagonal entry. -/
 @[simp]
 theorem Etingof.diagonalHom_apply (k : Type*) [Field k] (n : ℕ) (i : Fin n)
     (M : Etingof.upperTriangularSubalgebra k n) :
     Etingof.diagonalHom k n i M = M.val i i := rfl
 
+/-- Every diagonal character is surjective. -/
 theorem Etingof.diagonalHom_surjective (k : Type*) [Field k] (n : ℕ) (i : Fin n) :
     Function.Surjective (Etingof.diagonalHom k n i) := fun c =>
-  ⟨algebraMap k _ c, by simpa using (Etingof.diagonalHom k n i).commutes c⟩
+  ⟨algebraMap k _ c, (Etingof.diagonalHom k n i).commutes c⟩
 
 /-- The radical of the algebra of upper triangular n × n matrices is the ideal of strictly
 upper triangular matrices. Etingof Example 3.5.6(2). -/
@@ -235,7 +238,7 @@ theorem Etingof.radical_upper_triangular (k : Type*) [Field k] (n : ℕ) :
   apply le_antisymm
   · -- ≤: jacobson ≤ I (via diagonal extraction homomorphisms)
     intro x hx
-    show ∀ i j : Fin n, j ≤ i → (x : Matrix (Fin n) (Fin n) k) i j = 0
+    change ∀ i j : Fin n, j ≤ i → (x : Matrix (Fin n) (Fin n) k) i j = 0
     intro i j hij
     rcases hij.eq_or_lt with rfl | hlt
     · -- j = i: show x.val j j = 0 via the diagonal character `S →ₐ[k] k`
@@ -250,7 +253,7 @@ theorem Etingof.radical_upper_triangular (k : Type*) [Field k] (n : ℕ) :
     have nil_of_mem : ∀ z : ↥S, z ∈ I → IsNilpotent z := by
       intro z hz
       refine ⟨n, Subtype.ext ?_⟩
-      show ((z ^ n : ↥S) : Matrix (Fin n) (Fin n) k) = 0
+      change ((z ^ n : ↥S) : Matrix (Fin n) (Fin n) k) = 0
       ext p q; simp only [Matrix.zero_apply]
       suffices ∀ (m : ℕ) (p q : Fin n), (q : ℕ) < (p : ℕ) + m →
           ((z ^ m : ↥S) : Matrix (Fin n) (Fin n) k) p q = 0 by
@@ -258,19 +261,19 @@ theorem Etingof.radical_upper_triangular (k : Type*) [Field k] (n : ℕ) :
       intro m; induction m with
       | zero =>
         intro p q h; simp only [pow_zero]
-        show (1 : Matrix (Fin n) (Fin n) k) p q = 0
+        change (1 : Matrix (Fin n) (Fin n) k) p q = 0
         rw [Matrix.one_apply, if_neg (Fin.ne_of_val_ne (by omega))]
       | succ m ih =>
         intro p q h
         have : ((z ^ (m + 1) : ↥S) : Matrix _ _ k) p q =
             ∑ l, ((z ^ m : ↥S) : Matrix _ _ k) p l * z.val l q := by
-          show ((z ^ m).val * z.val) p q = _
+          change ((z ^ m).val * z.val) p q = _
           rw [Matrix.mul_apply]
         rw [this]
         apply Finset.sum_eq_zero; intro l _
         by_cases hl : (l : ℕ) < (p : ℕ) + m
         · simp [ih p l hl]
-        · push_neg at hl; simp [hz l q (show (q : ℕ) ≤ (l : ℕ) by omega)]
+        · push Not at hl; simp [hz l q (show (q : ℕ) ≤ (l : ℕ) by omega)]
     -- x ∈ I → x ∈ every maximal ideal → x ∈ jacobson
     rw [Ring.jacobson_eq_sInf_isMaximal]
     intro x hx
@@ -304,6 +307,7 @@ variable (k : Type*) [Field k] (n : ℕ)
 /-- The `i`-th irreducible representation `Vᵢ` of the algebra of upper triangular matrices:
 the one-dimensional space `k` on which a matrix `x` acts by the scalar `xᵢᵢ`.
 Etingof Example 3.5.6(2). -/
+@[nolint unusedArguments]
 def UpperTriangularSimple (_i : Fin n) : Type _ := k
 
 namespace UpperTriangularSimple
@@ -313,6 +317,7 @@ variable {k n}
 instance (i : Fin n) : AddCommGroup (UpperTriangularSimple k n i) :=
   inferInstanceAs (AddCommGroup k)
 
+/-- Each diagonal-character representation has a nonzero vector. -/
 instance (i : Fin n) : Nontrivial (UpperTriangularSimple k n i) :=
   inferInstanceAs (Nontrivial k)
 
@@ -342,7 +347,7 @@ theorem isSimpleModule_upperTriangularSimple (i : Fin n) :
   have hx' : (show k from x) ≠ 0 := hx
   obtain ⟨s, hs⟩ := diagonalHom_surjective k n i ((show k from z) * (show k from x)⁻¹)
   refine ⟨s, ?_⟩
-  show s • x = z
+  change s • x = z
   rw [UpperTriangularSimple.smul_def]
   change s.val i i * (show k from x) = (show k from z)
   rw [show s.val i i = diagonalHom k n i s from rfl, hs]
@@ -355,11 +360,12 @@ def diagIdem (i : Fin n) : upperTriangularSubalgebra k n :=
     rintro ⟨rfl, rfl⟩
     exact absurd hpq (lt_irrefl _)⟩
 
+/-- The value of a diagonal idempotent in the ambient matrix algebra. -/
 @[simp]
 theorem diagIdem_val (i : Fin n) :
     (diagIdem k n i).val = Matrix.single i i (1 : k) := rfl
 
-@[simp]
+/-- Evaluating a diagonal character on a diagonal idempotent gives a Kronecker delta. -/
 theorem diagonalHom_diagIdem (i j : Fin n) :
     diagonalHom k n j (diagIdem k n i) = if j = i then 1 else 0 := by
   rcases eq_or_ne j i with rfl | h
@@ -474,7 +480,7 @@ theorem exists_linearEquiv_upperTriangularSimple :
     rw [← Finset.sum_smul, sum_diagIdem, one_smul]
   obtain ⟨i, -, hi⟩ : ∃ i ∈ Finset.univ, diagIdem k n i • m₀ ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hm₀ (by rw [← hsum, Finset.sum_eq_zero h])
   refine ⟨i, ?_⟩
   -- `Eᵢᵢ` acts as an idempotent module endomorphism, hence (being nonzero) as the identity
@@ -495,7 +501,7 @@ theorem exists_linearEquiv_upperTriangularSimple :
     · exact absurd (LinearMap.mem_ker.mp (h ▸ Submodule.mem_top : m₀ ∈ LinearMap.ker φ)) hi
   have hφid : ∀ m : M, diagIdem k n i • m = m := fun m =>
     LinearMap.ker_eq_bot.mp hker (show φ (φ m) = φ m by
-      show diagIdem k n i • diagIdem k n i • m = diagIdem k n i • m
+      change diagIdem k n i • diagIdem k n i • m = diagIdem k n i • m
       rw [← mul_smul, hidem])
   -- consequently every matrix acts through its `i`-th diagonal entry
   have hact : ∀ (s : upperTriangularSubalgebra k n) (m : M),
@@ -508,16 +514,16 @@ theorem exists_linearEquiv_upperTriangularSimple :
   let g : UpperTriangularSimple k n i →ₗ[upperTriangularSubalgebra k n] M :=
     { toFun := fun c => (algebraMap k (upperTriangularSubalgebra k n) (show k from c)) • m₀
       map_add' := fun a b => by
-        show (algebraMap k _ ((show k from a) + (show k from b))) • m₀ = _
+        change (algebraMap k _ ((show k from a) + (show k from b))) • m₀ = _
         rw [map_add, add_smul]
       map_smul' := fun s c => by
-        show (algebraMap k _ (show k from s • c)) • m₀ =
+        change (algebraMap k _ (show k from s • c)) • m₀ =
           s • ((algebraMap k _ (show k from c)) • m₀)
         rw [UpperTriangularSimple.smul_def, map_mul, mul_smul]
         exact (hact s _).symm }
   let one' : UpperTriangularSimple k n i := (1 : k)
   have hg1 : g one' = m₀ := by
-    show (algebraMap k (upperTriangularSubalgebra k n) (1 : k)) • m₀ = m₀
+    change (algebraMap k (upperTriangularSubalgebra k n) (1 : k)) • m₀ = m₀
     rw [map_one, one_smul]
   haveI := isSimpleModule_upperTriangularSimple k n i
   have hinj : Function.Injective g := by

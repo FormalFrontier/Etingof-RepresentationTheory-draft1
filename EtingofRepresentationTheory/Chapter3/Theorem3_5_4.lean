@@ -55,7 +55,7 @@ theorem Etingof.structure_mod_radical (k : Type*) (A : Type u)
     -- If a ∈ ker φ, then a annihilates V_j, hence annihilates A/J, so a ∈ J.
     -- Thus a ∈ ⋂ maximal ideals = Rad A.
     intro a ha
-    show a ∈ Etingof.Radical A
+    change a ∈ Etingof.Radical A
     unfold Etingof.Radical
     rw [Ideal.jacobson_bot, Ring.jacobson_eq_sInf_isMaximal]
     simp only [Ideal.mem_sInf, Set.mem_setOf_eq]

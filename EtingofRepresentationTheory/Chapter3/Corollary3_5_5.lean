@@ -12,8 +12,8 @@ the result follows.
 
 open Finset Module in
 /-- The sum of squares of dimensions of irreducible representations is at most dim A.
-Given a complete set of pairwise nonisomorphic irreducible representations Vᵢ of a
-finite dimensional algebra A over an algebraically closed field,
+Given pairwise nonisomorphic irreducible representations Vᵢ of a finite dimensional
+algebra A over an algebraically closed field,
 ∑ᵢ (dim Vᵢ)² ≤ dim A. Etingof Corollary 3.5.5. -/
 theorem Etingof.sum_dim_sq_le_dim (k : Type*) (A : Type*)
     [Field k] [IsAlgClosed k] [Ring A] [Algebra k A] [FiniteDimensional k A]
@@ -21,10 +21,7 @@ theorem Etingof.sum_dim_sq_le_dim (k : Type*) (A : Type*)
     (V : ι → Type*) [∀ i, AddCommGroup (V i)] [∀ i, Module k (V i)]
     [∀ i, Module A (V i)] [∀ i, IsScalarTower k A (V i)]
     [∀ i, FiniteDimensional k (V i)] [∀ i, IsSimpleModule A (V i)]
-    (h_noniso : ∀ i j, i ≠ j → IsEmpty (V i ≃ₗ[A] V j))
-    (h_complete : ∀ (W : Type*) [AddCommGroup W] [Module k W] [Module A W]
-      [IsScalarTower k A W] [FiniteDimensional k W] [IsSimpleModule A W],
-      ∃ i, Nonempty (W ≃ₗ[A] V i)) :
+    (h_noniso : ∀ i j, i ≠ j → IsEmpty (V i ≃ₗ[A] V j)) :
     ∑ i : ι, (finrank k (V i)) ^ 2 ≤ finrank k A := by
   -- The combined map A → ∏ᵢ End_k(Vᵢ) is surjective by the density theorem
   have hsurj := Etingof.density_theorem_part2 k A ι V h_noniso
