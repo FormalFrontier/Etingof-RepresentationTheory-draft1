@@ -75,6 +75,73 @@ noncomputable def spechtPolytabloidBasis :
     spechtPolytabloidBasis T = spechtPolytabloid T := by
   rw [spechtPolytabloidBasis, Module.Basis.mk_apply]
 
+/-- The tabloid projection restricted to the Specht module. -/
+noncomputable def tabloidProjectionSpecht :
+    SpechtModule n la →ₗ[ℂ] TabloidRepresentation n la :=
+  (tabloidProjection (n := n) (la := la)).comp
+    ((SpechtModule n la).restrictScalars ℂ).subtype
+
+@[simp] theorem tabloidProjectionSpecht_spechtPolytabloid
+    (T : StandardYoungTableau n la) :
+    tabloidProjectionSpecht (spechtPolytabloid T) = polytabloidTab T :=
+  tabloidProjection_spechtPolytabloid T
+
+/-- The image of the Specht module in the tabloid representation is exactly the span
+of standard polytabloids.  This is the straightening endpoint needed downstream; its
+proof uses the standard-polytabloid basis rather than a recursive Garnir termination
+argument. -/
+theorem range_tabloidProjectionSpecht_eq_span_polytabloidTab :
+    LinearMap.range (tabloidProjectionSpecht (n := n) (la := la)) =
+      Submodule.span ℂ (Set.range (polytabloidTab :
+        StandardYoungTableau n la → TabloidRepresentation n la)) := by
+  apply le_antisymm
+  · rintro _ ⟨v, rfl⟩
+    let b := spechtPolytabloidBasis (n := n) (la := la)
+    have hrepr := b.sum_repr v
+    rw [← hrepr, map_sum]
+    apply Submodule.sum_mem
+    intro T hT
+    rw [map_smul]
+    apply Submodule.smul_mem
+    apply Submodule.subset_span
+    refine ⟨T, ?_⟩
+    simp only [b, spechtPolytabloidBasis_apply,
+      tabloidProjectionSpecht_spechtPolytabloid]
+  · apply Submodule.span_le.mpr
+    rintro _ ⟨T, rfl⟩
+    exact ⟨spechtPolytabloid T, tabloidProjectionSpecht_spechtPolytabloid T⟩
+
+/-- Every generalized polytabloid is in the image of the Specht module under the
+tabloid projection. -/
+theorem generalizedPolytabloidTab_mem_range_tabloidProjectionSpecht
+    (σ : Equiv.Perm (Fin n)) :
+    generalizedPolytabloidTab (n := n) (la := la) σ ∈
+      LinearMap.range (tabloidProjectionSpecht (n := n) (la := la)) := by
+  let c : ℂ := Nat.card ↥(RowSubgroup n la)
+  have hc : c ≠ 0 :=
+    Nat.cast_ne_zero.mpr (Nat.card_pos (α := ↥(RowSubgroup n la))).ne'
+  let v : SpechtModule n la :=
+    ⟨c⁻¹ • MonoidAlgebra.of ℂ _ σ⁻¹ * YoungSymmetrizer n la, by
+      rw [SpechtModule, Submodule.mem_span_singleton]
+      exact ⟨c⁻¹ • MonoidAlgebra.of ℂ _ σ⁻¹, rfl⟩⟩
+  refine ⟨v, ?_⟩
+  change tabloidProjection
+      (c⁻¹ • MonoidAlgebra.of ℂ _ σ⁻¹ * YoungSymmetrizer n la) =
+    generalizedPolytabloidTab σ
+  simp only [map_smul, smul_mul_assoc,
+    tabloidProjection_of_mul_youngSymmetrizer]
+  rw [smul_smul, inv_mul_cancel₀ hc, one_smul, inv_inv]
+
+/-- **Generalized-polytabloid straightening.** Every generalized polytabloid is a
+linear combination of standard polytabloids. -/
+theorem generalizedPolytabloidTab_mem_span_polytabloidTab
+    (σ : Equiv.Perm (Fin n)) :
+    generalizedPolytabloidTab (n := n) (la := la) σ ∈
+      Submodule.span ℂ (Set.range (polytabloidTab :
+        StandardYoungTableau n la → TabloidRepresentation n la)) := by
+  rw [← range_tabloidProjectionSpecht_eq_span_polytabloidTab]
+  exact generalizedPolytabloidTab_mem_range_tabloidProjectionSpecht σ
+
 end
 
 end Etingof
