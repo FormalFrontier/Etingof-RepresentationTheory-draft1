@@ -1638,6 +1638,24 @@
     "start_line": 17,
     "end_line": 17,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.13",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The Section 2.13 heading identifies Hilbert's third problem but makes no mathematical assertion.",
+          "verdict": "non_formalizable",
+          "reason": "This is an organizational heading only."
+        }
+      ]
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -1651,10 +1669,69 @@
     "end_page": "37",
     "start_line": 18,
     "end_line": 8,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage": "covered_partial",
+    "fidelity": "verified",
     "lean_decl": "Etingof.Problem2_13_1.irrational_arccos_third_div_pi",
-    "coverage_note": "Part (b) — irrationality of arccos(1/3)/π — is proved without placeholders in EtingofRepresentationTheory/Chapter2/Problem2_13_1.lean. Parts (a) and (c), requiring the geometric Dehn-invariant and scissors-congruence infrastructure, are intentionally omitted by the project-wide scope decision documented in skipped-exercises.md; they are not deferred proof obligations."
+    "coverage_note": "Part (b) — irrationality of arccos(1/3)/π — is proved without placeholders in EtingofRepresentationTheory/Chapter2/Problem2_13_1.lean. Parts (a) and (c), requiring the geometric Dehn-invariant and scissors-congruence infrastructure, are intentionally omitted by the project-wide scope decision documented in skipped-exercises.md; they are not deferred proof obligations.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.13",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Any two polygons of the same area are scissors-congruent by finitely many straight cuts.",
+          "verdict": "intentional_omission",
+          "reason": "The project scope decision in skipped-exercises.md omits the geometric dissection and scissors-congruence infrastructure surrounding Problem 2.13.1."
+        },
+        {
+          "claim": "Hilbert asked in 1900 whether the analogous scissors-congruence statement holds for three-dimensional polyhedra, in particular for an equal-volume cube and regular tetrahedron.",
+          "verdict": "non_formalizable",
+          "reason": "This is historical attribution together with the statement of a question, not a new construction or asserted theorem."
+        },
+        {
+          "claim": "The answer to Hilbert's three-dimensional scissors-congruence question is negative.",
+          "verdict": "intentional_omission",
+          "reason": "This is the conclusion of part (c), explicitly omitted in skipped-exercises.md because its proof requires the geometric Dehn-invariant theory."
+        },
+        {
+          "claim": "Dehn found the negative answer in 1901.",
+          "verdict": "non_formalizable",
+          "reason": "This is a historical attribution rather than a mathematical proposition represented by the Lean development."
+        },
+        {
+          "claim": "For a polyhedron A, the Dehn invariant is D(A) = Σ_a l(a) ⊗ (β(a)/π) in ℝ ⊗_ℚ (ℝ/ℚ), summed over its edges.",
+          "verdict": "intentional_omission",
+          "reason": "The polyhedron, dihedral-angle, quotient-space, and Dehn-invariant definitions are part of the explicitly omitted geometric infrastructure recorded in skipped-exercises.md."
+        },
+        {
+          "claim": "If a straight cut decomposes A into B and C, then D(A) = D(B) + D(C).",
+          "verdict": "intentional_omission",
+          "reason": "This is part (a), explicitly omitted in skipped-exercises.md."
+        },
+        {
+          "claim": "The number arccos(1/3)/π is irrational.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_13_1.irrational_arccos_third_div_pi"
+        },
+        {
+          "claim": "The book's hint derives the irrationality contradiction from the recurrence for x^k+x^(-k) when x+x^(-1)=2/3.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_13_1.irrational_arccos_third_div_pi",
+          "note": "The Lean proof uses the equivalent integral Chebyshev recurrence b_k = 3^k cos(kθ), whose residues modulo 3 give the same denominator contradiction."
+        },
+        {
+          "claim": "The Dehn invariants of an equal-volume regular tetrahedron and cube differ, so the two are not scissors-congruent.",
+          "verdict": "intentional_omission",
+          "reason": "This is part (c), explicitly omitted in skipped-exercises.md."
+        }
+      ]
+    },
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Discussion_2.14_heading",
