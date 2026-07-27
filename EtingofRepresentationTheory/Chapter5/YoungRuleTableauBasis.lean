@@ -737,6 +737,25 @@ theorem KostkaTableau.toKostkaTableau_standardization {n : ℕ}
   · rw [(T.standardization.toKostkaTableauOfContentCollapseColumnStrict
       T.standardization_contentCollapseColumnStrict).1.zeros hcell, T.1.zeros hcell]
 
+/-- Canonical standardization remembers the semistandard tableau because its
+content-block collapse is a left inverse. -/
+theorem KostkaTableau.standardization_injective {n : ℕ}
+    {nu mu : Nat.Partition n} :
+    Function.Injective (KostkaTableau.standardization :
+      KostkaTableau n nu mu → StandardYoungTableau n nu) := by
+  intro T U h
+  have hfun : T.standardization.1 = U.standardization.1 :=
+    congrArg Subtype.val h
+  apply Subtype.ext
+  apply SemistandardYoungTableau.ext
+  intro i j
+  by_cases hcell : (i, j) ∈ nu.toYoungDiagram
+  · let c := partitionCellOfMem (i, j) hcell
+    change T.1 c.1.1 c.1.2 = U.1 c.1.1 c.1.2
+    rw [← KostkaTableau.rowOfPos_standardization T c,
+      ← KostkaTableau.rowOfPos_standardization U c, hfun]
+  · rw [T.1.zeros hcell, U.1.zeros hcell]
+
 end
 
 end Etingof
