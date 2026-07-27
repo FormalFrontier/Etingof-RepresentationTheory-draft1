@@ -2421,6 +2421,31 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.4",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The Section 3.4 heading identifies filtrations as the subject of the section.",
+          "verdict": "non_formalizable",
+          "reason": "This is an organizational heading rather than a mathematical proposition."
+        },
+        {
+          "claim": "A is an algebra and V is a representation of A.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.exists_filtration_with_irreducible_quotients",
+          "note": "The theorem's Field k, Ring A, Algebra k A, and Module A V assumptions give the exact algebra-and-representation setup."
+        }
+      ]
     }
   },
   {
@@ -2433,11 +2458,50 @@
     "end_line": 8,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22",
+    "last_updated": "2026-07-27",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_note": "[fidelity, resolved #5619] Etingof.Filtration is now a structure bundling the ascending chain (RelSeries) with the two boundary conditions head_eq_bot (V₀ = ⊥) and last_eq_top (Vₙ = ⊤), matching the book's 0 = V₀ ⊂ ⋯ ⊂ Vₙ = V.",
-    "fidelity_issue": 5619
+    "fidelity_issue": 5619,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.4",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A filtration is a finite sequence indexed from 0 through n.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Filtration.chain",
+          "note": "RelSeries has a natural-number length and terms indexed by Fin (length + 1)."
+        },
+        {
+          "claim": "Every term of the filtration is a subrepresentation of V.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Filtration.chain",
+          "note": "For a module representation, subrepresentations are modeled by Submodule A V."
+        },
+        {
+          "claim": "The first term V₀ is the zero subrepresentation.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Filtration.head_eq_bot"
+        },
+        {
+          "claim": "Adjacent terms are strictly included: Vᵢ ⊂ Vᵢ₊₁.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Filtration.chain",
+          "note": "The chain relation is strict order on Submodule A V, not non-strict inclusion."
+        },
+        {
+          "claim": "The last term Vₙ is the whole representation V.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Filtration.last_eq_top"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Lemma3.4.2",
@@ -2449,9 +2513,66 @@
     "end_line": 12,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22",
+    "last_updated": "2026-07-27",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.4",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Every finite-dimensional representation V of an algebra A admits a finite filtration from 0 to V whose successive quotients are irreducible.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.exists_filtration_with_irreducible_quotients",
+          "note": "The conclusion uses Etingof.Filtration itself and states IsSimpleModule A for every adjacent quotient."
+        },
+        {
+          "claim": "The lemma may be proved by induction on dim(V).",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.exists_composition_series",
+          "note": "Lean uses the equivalent finite-length route: finite dimensionality supplies Noetherian and Artinian module instances, and Mathlib constructs a composition series."
+        },
+        {
+          "claim": "The induction base is immediate and only the induction step requires construction.",
+          "verdict": "non_formalizable",
+          "reason": "This is commentary about the presentation of the proof, not a separate mathematical conclusion."
+        },
+        {
+          "claim": "In the positive-dimensional induction step one can choose an irreducible subrepresentation V₁ of V.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "exists_compositionSeries_of_isNoetherian_isArtinian",
+          "note": "Mathlib's finite-length construction supplies the same maximal adjacent submodule step without exposing the book's particular choice as a separate project declaration."
+        },
+        {
+          "claim": "The quotient U = V/V₁ is again a representation of A.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Submodule.Quotient",
+          "note": "Mathlib's submodule quotient carries the induced A-module structure used in the successive-quotient statement."
+        },
+        {
+          "claim": "The induction hypothesis gives U a filtration with irreducible successive quotients.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "exists_compositionSeries_of_isNoetherian_isArtinian",
+          "note": "The library composition-series theorem packages this recursive finite-length construction."
+        },
+        {
+          "claim": "The later Vᵢ are obtained as preimages of the Uᵢ₋₁ under the quotient projection V → V/V₁.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Submodule.comap",
+          "note": "Submodule preimages under linear maps are Mathlib's comap construction; the project proof reaches the same chain through the composition-series API."
+        },
+        {
+          "claim": "The resulting chain is a filtration of V with irreducible successive quotients.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.exists_filtration_with_irreducible_quotients"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Introduction_to_3.5",
