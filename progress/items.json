@@ -1324,7 +1324,7 @@
     "end_page": "17",
     "start_line": 1,
     "end_line": 4,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -1374,6 +1374,13 @@
         "Etingof.PresentedAlgebra.lift_rel_eq_zero",
         "Etingof.PresentedAlgebra.finPresentation_def"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.6",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The section file imports Mathlib only and defines its free-algebra quotient, generator map, relation theorem, and universal property without using any project declaration."
     },
     "coverage_swept": {
       "wave": 1,
