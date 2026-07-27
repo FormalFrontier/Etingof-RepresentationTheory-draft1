@@ -5622,13 +5622,12 @@
     "end_line": 12,
     "status": "sorry_free",
     "fidelity": "verified",
-    "fidelity_note": "The proportionality statement is faithful and proved, but it is only the first part of the source lemma; the exact scalar remains absent.",
+    "fidelity_note": "The early theorem proves proportionality for the unnormalized Young symmetrizer. Lemma5_13_3_exact gives the source-faithful exact formula for the normalized projector c_lambda = a_lambda b_lambda: c_lambda squared = n!/(|P_lambda||Q_lambda| dim V_lambda) times c_lambda.",
     "needs_statement": false,
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "Lemma5_13_3 proves only existence of a scalar alpha with c_lambda squared = alpha times c_lambda. The source gives the exact scalar n!/(|P_lambda||Q_lambda| dim V_lambda); that formula, and hence its nonzeroness at this endpoint, is absent.",
-    "fidelity_issue": 770,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "Fully proved. Lemma5_13_3_exact derives the exact scalar by combining the nonzero proportionality theorem with the trace of right multiplication, the source-order Young-projector realization of the Specht module, and the identity coefficient of the reversed Young symmetrizer.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Lemma5.13.4",
