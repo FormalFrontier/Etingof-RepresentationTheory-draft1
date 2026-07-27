@@ -3,6 +3,9 @@ import Mathlib.Algebra.Algebra.Basic
 import Mathlib.Algebra.Algebra.Tower
 import Mathlib.Algebra.Module.RingHom
 import Mathlib.Algebra.Module.LinearMap.End
+import Mathlib.Algebra.Module.Opposite
+import Mathlib.Algebra.Ring.Opposite
+import Mathlib.Algebra.Algebra.Opposite
 
 /-!
 # Definition 2.3.1: Representation of an Algebra (Left A-module)
@@ -33,8 +36,10 @@ makes the round trip precise for compatible data
 * The two constructions are mutually inverse: `ofAlgHom_toAlgHom` recovers the original module
   structure, and `toAlgHom_ofAlgHom` recovers the original `ρ`.
 
-The **right-module** counterpart of the definition (the antihomomorphism convention `v a := ρ(a)v`)
-is the `Module Aᵐᵒᵖ V` encoding developed in `Remark2_3_2.lean`; we do not duplicate it here.
+For right modules, the antihomomorphism `A → End(V)` is equivalently a homomorphism
+`Aᵐᵒᵖ → End(V)`, so the Mathlib encoding is `Module Aᵐᵒᵖ V`. The declarations below record
+this convention and both associativity formulas from the source. The additional equivalence between
+left and right modules when `A` is commutative belongs to Remark 2.3.2.
 -/
 
 /-- A representation of an algebra A, in the sense of Etingof Definition 2.3.1.
@@ -42,7 +47,30 @@ This is `Module A V` in Mathlib. -/
 abbrev Etingof.Representation (A : Type*) (V : Type*) [Ring A] [AddCommGroup V] :=
   Module A V
 
+/-- A right representation of `A` is a left module over the opposite ring `Aᵐᵒᵖ`. Equivalently,
+its action map is an antihomomorphism `A → End(V)`. -/
+abbrev Etingof.RightRepresentation (A : Type*) (V : Type*) [Ring A] [AddCommGroup V] :=
+  Module Aᵐᵒᵖ V
+
 namespace Etingof.Representation
+
+section Associativity
+
+variable {A V : Type*} [Ring A] [AddCommGroup V]
+
+/-- The abbreviated left action satisfies the source's formula `(ab)v = a(bv)`. -/
+theorem mul_smul_apply [Module A V] (a b : A) (v : V) :
+    (a * b) • v = a • (b • v) :=
+  mul_smul a b v
+
+/-- Under the convention `v a := op(a) • v`, a right action satisfies `(va)b = v(ab)`.
+The reversal in `Aᵐᵒᵖ` is exactly the antihomomorphism law from Definition 2.3.1. -/
+theorem right_smul_mul_apply [Module Aᵐᵒᵖ V] (a b : A) (v : V) :
+    MulOpposite.op (a * b) • v = MulOpposite.op b • (MulOpposite.op a • v) := by
+  change (MulOpposite.op b * MulOpposite.op a) • v = _
+  exact mul_smul _ _ _
+
+end Associativity
 
 /-! ### The algebra-hom presentation (forward direction)
 
@@ -124,5 +152,25 @@ theorem ofAlgHom_toAlgHom :
     ofAlgHom k A V (toAlgHom k A V) = (inferInstance : Module A V) := rfl
 
 end RoundTrip
+
+/-! ### The right-module antihomomorphism presentation -/
+
+section RightToAlgHom
+
+variable (k A V : Type*) [CommRing k] [Ring A] [Algebra k A]
+  [AddCommGroup V] [Module k V] [Module Aᵐᵒᵖ V] [IsScalarTower k Aᵐᵒᵖ V]
+
+/-- The algebra homomorphism `Aᵐᵒᵖ →ₐ[k] Endₖ(V)` corresponding to the book's
+antihomomorphism `A → End(V)` for a right representation. -/
+def rightToAlgHom : Aᵐᵒᵖ →ₐ[k] Module.End k V :=
+  toAlgHom k Aᵐᵒᵖ V
+
+/-- The right-action homomorphism evaluates as the abbreviated right action `v a`. -/
+@[simp]
+theorem rightToAlgHom_apply (a : A) (v : V) :
+    rightToAlgHom k A V (MulOpposite.op a) v = MulOpposite.op a • v :=
+  rfl
+
+end RightToAlgHom
 
 end Etingof.Representation

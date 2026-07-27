@@ -1,4 +1,5 @@
 import Mathlib.Algebra.Module.LinearMap.Basic
+import Mathlib.Algebra.Module.Equiv.Basic
 
 /-!
 # Definition 2.3.6: Homomorphism (Intertwining Operator) of Representations
@@ -20,3 +21,14 @@ This is `V₁ →ₗ[A] V₂` in Mathlib. -/
 abbrev Etingof.RepresentationHom (A : Type*) (V₁ V₂ : Type*) [Ring A]
     [AddCommGroup V₁] [AddCommGroup V₂] [Module A V₁] [Module A V₂] :=
   V₁ →ₗ[A] V₂
+
+/-- An isomorphism of representations is an invertible `A`-linear map. Its inverse is again
+`A`-linear, as witnessed by `LinearEquiv.symm`. -/
+abbrev Etingof.RepresentationEquiv (A : Type*) (V₁ V₂ : Type*) [Ring A]
+    [AddCommGroup V₁] [AddCommGroup V₂] [Module A V₁] [Module A V₂] :=
+  V₁ ≃ₗ[A] V₂
+
+/-- Two representations are isomorphic when there exists an isomorphism between them. -/
+abbrev Etingof.IsomorphicRepresentations (A : Type*) (V₁ V₂ : Type*) [Ring A]
+    [AddCommGroup V₁] [AddCommGroup V₂] [Module A V₁] [Module A V₂] : Prop :=
+  Nonempty (Etingof.RepresentationEquiv A V₁ V₂)

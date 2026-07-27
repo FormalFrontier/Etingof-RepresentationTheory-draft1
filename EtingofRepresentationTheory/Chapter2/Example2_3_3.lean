@@ -1,6 +1,7 @@
 import Mathlib.Algebra.Module.Basic
 import Mathlib.Algebra.FreeAlgebra
 import Mathlib.Algebra.Algebra.Bilinear
+import Mathlib.Algebra.Module.Opposite
 
 /-!
 # Example 2.3.3: Examples of Representations
@@ -16,10 +17,22 @@ Exact match. The regular representation is the canonical `Module A A` instance.
 -/
 
 /-- The zero module is a representation of any algebra. (Etingof Example 2.3.3(1)) -/
-example (A : Type*) [Ring A] : Module A PUnit := inferInstance
+abbrev Etingof.zeroRepresentationModule (A : Type*) [Ring A] : Module A PUnit :=
+  inferInstance
 
 /-- The regular representation: A is a left module over itself. (Etingof Example 2.3.3(2)) -/
-example (A : Type*) [Ring A] : Module A A := inferInstance
+abbrev Etingof.leftRegularRepresentationModule (A : Type*) [Ring A] : Module A A :=
+  inferInstance
+
+/-- The right regular representation of `A`, encoded as a module over `Aᵐᵒᵖ`. -/
+abbrev Etingof.rightRegularRepresentationModule (A : Type*) [Ring A] : Module Aᵐᵒᵖ A :=
+  inferInstance
+
+/-- The right regular representation has action `b a = ba`, encoded as the action of `op(a)`
+on `b`. (Etingof Example 2.3.3(2)) -/
+theorem Etingof.rightRegularRepresentation_apply (A : Type*) [Ring A] (a b : A) :
+    MulOpposite.op a • b = b * a :=
+  rfl
 
 /-- A representation of k is simply a vector space over k. (Etingof Example 2.3.3(3)) -/
 example (k : Type*) [Field k] (V : Type*) [AddCommGroup V] [Module k V] :

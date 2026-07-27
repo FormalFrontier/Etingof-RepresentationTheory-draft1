@@ -239,6 +239,21 @@ theorem exists_centralCharacter_isNilpotent (hV : IsIndecomposable A V) :
     simpa [hχ] using h2
   exact centralAction_sub_smul_isNilpotent hV z hv₀ heig
 
+/-- **Problem 2.3.16(b), including the irreducible-subrepresentation clause.** There is an
+irreducible subrepresentation `S ⊆ V` and a central character `χ_V : Z(A) → k` such that
+every central action on `V` has the single generalized eigenvalue `χ_V(z)`, while its
+restriction to `S` is literally the scalar action by `χ_V(z)`. This records the conjunct in
+the source that is not visible in `exists_centralCharacter_isNilpotent`'s conclusion. -/
+theorem exists_irreducibleSubrepresentation_centralCharacter
+    (hV : IsIndecomposable A V) :
+    ∃ S : Submodule A V, IsSimpleModule A S ∧
+      ∃ χ_V : Subalgebra.center k A →ₐ[k] k,
+        (∀ z : Subalgebra.center k A,
+          IsNilpotent (centralAction (V := V) z - (χ_V z) • (1 : Module.End A V))) ∧
+        ∀ (z : Subalgebra.center k A) (s : S),
+          (z : A) • (s : V) = (χ_V z) • (s : V) := by
+  sorry
+
 end Indecomposable
 
 /-!

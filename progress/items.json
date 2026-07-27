@@ -335,12 +335,48 @@
     "start_line": 1,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The generic unital Module A V convention is valid, and right modules are exposed via Module Aᵐᵒᵖ V in Remark2_3_2; the withdrawn non-unitality claim #7465 was false. However, the source's k-algebra hom A → End_k(V), its scalar compatibility, and the round-trip bridge with modules are not public; follow-up #7482.",
+    "coverage": "covered_full",
+    "coverage_note": "Stage 3.2 verified both left- and right-module presentations, their algebra-(anti)homomorphism encodings, round trips, and action laws.",
     "fidelity_issue": 7482,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A left representation is a vector space with a unital algebra homomorphism A → End(V).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Representation.toAlgHom"
+        },
+        {
+          "claim": "An algebra homomorphism A → End(V) reconstructs the corresponding left module action.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Representation.ofAlgHom"
+        },
+        {
+          "claim": "The algebra-homomorphism and module presentations are mutually inverse.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Representation.toAlgHom_ofAlgHom / Etingof.Representation.ofAlgHom_toAlgHom"
+        },
+        {
+          "claim": "A right representation is equivalently a module over Aᵐᵒᵖ, hence an antihomomorphism A → End(V).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.RightRepresentation / Etingof.Representation.rightToAlgHom"
+        },
+        {
+          "claim": "The abbreviated left and right actions satisfy (ab)v = a(bv) and (va)b = v(ab).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Representation.mul_smul_apply / Etingof.Representation.right_smul_mul_apply"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Remark2.3.2",
@@ -355,7 +391,35 @@
     "fidelity_note": "[coverage] No Lean declaration exists for this remark. The book states a formalizable mathematical fact: for a commutative ring A, a left A-module M becomes a right A-module via ma := am, and vice ver",
     "fidelity_decl": "Etingof.rightModuleOfLeft, Etingof.leftModuleOfRight",
     "fidelity_issue": 5650,
-    "last_updated": "2026-06-29"
+    "last_updated": "2026-07-27",
+    "coverage": "covered_full",
+    "coverage_note": "Stage 3.2 verified the constructions in both directions and their action formulas.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A left module over a commutative ring becomes a right module via ma := am.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.rightModuleOfLeft / Etingof.rightModuleOfLeft_smul"
+        },
+        {
+          "claim": "A right module over a commutative ring becomes a left module via am := ma.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.leftModuleOfRight / Etingof.leftModuleOfRight_smul"
+        },
+        {
+          "claim": "Consequently the text uses the unqualified term A-module in the commutative case.",
+          "verdict": "non_formalizable",
+          "reason": "This is a terminology convention, not a mathematical assertion requiring a Lean declaration."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_examples_intro",
@@ -369,6 +433,26 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Stage 3.2 found no mathematical assertion in this transition sentence.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The following text will list examples of representations.",
+          "verdict": "non_formalizable",
+          "reason": "This is an organizational transition and introduces no mathematical claim."
+        }
+      ]
     }
   },
   {
@@ -384,8 +468,49 @@
     "sorry_free": true,
     "fidelity_decl": "four anonymous examples (PUnit, Module A A, Module k V, free-algebra rep bijection)",
     "coverage": "covered_full",
-    "coverage_note": "The zero, left/right regular, vector-space, and free-algebra representation models are standard public module/opposite-algebra/FreeAlgebra constructions. Independent Opus review rejected additional named wrappers as packaging rather than missing mathematical content.",
-    "last_updated": "2026-07-22"
+    "coverage_note": "Stage 3.2 verified all four examples, including the previously implicit right regular action.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The zero vector space carries a representation of every algebra.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.zeroRepresentationModule"
+        },
+        {
+          "claim": "A acts on itself by left multiplication (the regular representation).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.leftRegularRepresentationModule"
+        },
+        {
+          "claim": "A acts on itself on the right by ba, encoded as an Aᵐᵒᵖ-module.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.rightRegularRepresentationModule / Etingof.rightRegularRepresentation_apply"
+        },
+        {
+          "claim": "A representation of the ground field k is simply a k-vector space.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Representation"
+        },
+        {
+          "claim": "Representations of the free algebra on n generators are equivalent to n arbitrary linear endomorphisms.",
+          "verdict": "formalized",
+          "lean_decl": "FreeAlgebra.lift"
+        },
+        {
+          "claim": "Under this equivalence, the action on each free generator is the chosen endomorphism.",
+          "verdict": "formalized",
+          "lean_decl": "FreeAlgebra.lift_symm_apply / FreeAlgebra.lift_ι_apply"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Definition2.3.4",
@@ -399,8 +524,29 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "coverage_note": "The public Submodule A V abbreviation exactly records an A-stable subspace/subrepresentation.",
-    "last_updated": "2026-07-22"
+    "coverage_note": "Stage 3.2 verified the Submodule representation and both canonical subrepresentations.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A subrepresentation is a subspace invariant under the action of every a ∈ A.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Subrepresentation"
+        },
+        {
+          "claim": "The zero subspace and the whole space are always subrepresentations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.zeroSubrepresentation / Etingof.fullSubrepresentation"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Definition2.3.5",
@@ -414,8 +560,24 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "coverage_note": "IsSimpleModule A V records the source's nonzero representation with no proper nonzero subrepresentation.",
-    "last_updated": "2026-07-22"
+    "coverage_note": "Stage 3.2 verified that IsSimpleModule includes nonzeroness and exactly the two trivial subrepresentations.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A nonzero representation is irreducible (simple) exactly when its only subrepresentations are 0 and V.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.IrreducibleRepresentation"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Definition2.3.6",
@@ -429,8 +591,49 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "coverage_note": "A-linear maps are exactly the intertwining operators in the source; the standard LinearEquiv API supplies inverses for isomorphisms.",
-    "last_updated": "2026-07-22"
+    "coverage_note": "Stage 3.2 added explicit project declarations for representation isomorphisms and isomorphism existence.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A homomorphism/intertwiner is a linear map commuting with the A-action.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.RepresentationHom"
+        },
+        {
+          "claim": "Hom_A(V₁,V₂) is the space of all representation homomorphisms.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.RepresentationHom"
+        },
+        {
+          "claim": "An isomorphism of representations is an invertible linear intertwiner.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.RepresentationEquiv"
+        },
+        {
+          "claim": "The inverse of an isomorphism of representations is again an isomorphism.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "LinearEquiv.symm"
+        },
+        {
+          "claim": "Two representations are isomorphic when an isomorphism between them exists.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.IsomorphicRepresentations"
+        },
+        {
+          "claim": "Isomorphic representations may be treated as the same although their isomorphism need not be unique.",
+          "verdict": "non_formalizable",
+          "reason": "The first clause is a methodological convention and the second is a caution, not a universal uniqueness theorem."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Definition2.3.7",
@@ -444,8 +647,29 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "coverage_note": "The product module V₁ × V₂ gives the finite direct sum with the source's componentwise action.",
-    "last_updated": "2026-07-22"
+    "coverage_note": "Stage 3.2 verified both the binary direct-sum carrier and its componentwise action.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "V₁ ⊕ V₂ carries the componentwise A-action.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.DirectSumRepresentation / Etingof.DirectSumRepresentation_smul"
+        },
+        {
+          "claim": "This representation is called the direct sum of V₁ and V₂.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.DirectSumRepresentation"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Definition2.3.8",
@@ -455,12 +679,33 @@
     "end_page": "11",
     "start_line": 10,
     "end_line": 11,
-    "status": "sorry_free",
+    "status": "definition_verified",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "coverage_note": "The public rightModuleOfLeft and leftModuleOfRight constructions identify right modules (Module Aᵐᵒᵖ M) with left modules over a commutative ring and prove the stated action formulas.",
-    "last_updated": "2026-07-22"
+    "coverage_note": "Stage 3.2 added the explicit bridge between internal complements and the book's abstract direct-sum-isomorphism wording; its proof is Stage 3.3 work.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "An indecomposable representation is nonzero and is not isomorphic to a direct sum of two nonzero representations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.IsIndecomposableAsDirectSum"
+        },
+        {
+          "claim": "The project's internal complementary-submodule formulation is equivalent to the book's direct-sum-isomorphism formulation.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.isIndecomposable_iff_asDirectSum"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_irreducible_vs_indecomposable",
@@ -474,6 +719,41 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Stage 3.2 mapped both mathematical assertions and classified the remaining prose as programmatic discussion.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Every irreducible representation is indecomposable.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.IsIndecomposable.of_isSimpleModule"
+        },
+        {
+          "claim": "The converse is false in general.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Example_2_3_14.exists_indecomposable_not_simple"
+        },
+        {
+          "claim": "Classifying irreducible and indecomposable representations up to isomorphism is a main problem of representation theory.",
+          "verdict": "non_formalizable",
+          "reason": "This is a description of the subject's research program rather than a proposition."
+        },
+        {
+          "claim": "The classification problem is often hard or only partially solvable, with examples to follow.",
+          "verdict": "non_formalizable",
+          "reason": "This is qualitative and forward-looking prose, not a precise mathematical statement."
+        }
+      ]
     }
   },
   {
@@ -488,6 +768,26 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Stage 3.2 found only motivational and organizational prose.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The next result is Schur's lemma and is fundamental in representation theory.",
+          "verdict": "non_formalizable",
+          "reason": "The sentence is organizational and evaluative; the actual theorem is the next catalog item."
+        }
+      ]
     }
   },
   {
@@ -502,7 +802,39 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27",
+    "coverage_note": "Stage 3.2 verified both numbered clauses, the final isomorphism clause, and the kernel/image subrepresentation facts used in the proof.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A nonzero homomorphism from an irreducible representation is injective.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Proposition_2_3_9_injective"
+        },
+        {
+          "claim": "A nonzero homomorphism to an irreducible representation is surjective.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Proposition_2_3_9_surjective"
+        },
+        {
+          "claim": "A nonzero homomorphism between irreducible representations is an isomorphism.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Proposition_2_3_9_bijective"
+        },
+        {
+          "claim": "The kernel and image of a representation homomorphism are subrepresentations.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "LinearMap.ker / LinearMap.range"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Corollary2.3.10",
@@ -516,7 +848,24 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27",
+    "coverage_note": "Stage 3.2 verified every hypothesis and the scalar-operator conclusion.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Over an algebraically closed field, every endomorphism of a finite-dimensional irreducible representation is scalar.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Corollary_2_3_10"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Remark2.3.11",
@@ -532,7 +881,25 @@
     "fidelity_note": "[resolved #5651] Wave-2 audit finding was stale. The counterexample was formalized after the audit ran (PR #5601, issue #5589): Etingof.Remark_2_3_11_witness exhibits multiplication by i as a ℂ-linear (hence A-linear for A = ℂ) endomorphism of the irreducible ℝ-representation V = ℂ that is not a real scalar operator, and Etingof.Remark_2_3_11 states that the conclusion of Corollary 2.3.10 fails over ℝ. Sorry-free; builds cleanly; imported by Chapter2.lean.",
     "fidelity_decl": "Etingof.Remark_2_3_11, Etingof.Remark_2_3_11_witness",
     "fidelity_issue": 5651,
-    "last_updated": "2026-07-02"
+    "last_updated": "2026-07-27",
+    "coverage": "covered_full",
+    "coverage_note": "Stage 3.2 verified the real counterexample with A = V = ℂ and multiplication by i.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The preceding scalar-endomorphism corollary is false over ℝ; A = ℂ and V = A give a counterexample.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Remark_2_3_11 / Etingof.Remark_2_3_11_witness"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_proof_Corollary2.3.10",
@@ -546,6 +913,31 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Stage 3.2 verified that the proof paragraph proves precisely Corollary 2.3.10; its eigenvalue argument is represented by the theorem declaration and Mathlib's algebraically-closed Schur API.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A finite-dimensional endomorphism over an algebraically closed field has an eigenvalue.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "IsAlgClosed.exists_root"
+        },
+        {
+          "claim": "Applying Schur's lemma to φ - λ Id for such an eigenvalue forces φ to be scalar.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Corollary_2_3_10"
+        }
+      ]
     }
   },
   {
@@ -560,7 +952,24 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27",
+    "coverage_note": "Stage 3.2 verified commutativity, irreducibility, finite-dimensionality, the standing algebraic-closedness convention, and dimension exactly one.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Every finite-dimensional irreducible representation of a commutative algebra over the standing algebraically closed field is one-dimensional.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Corollary_2_3_12"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Remark2.3.13",
@@ -575,7 +984,25 @@
     "fidelity_note": "The wave-2 coverage finding ('No Lean declaration exists') is a false negative: the formalization landed in PR #5604 (issue #5590) as EtingofRepresentationTheory/Chapter2/Remark2_3_13.lean and is imported into Chapter2.lean. Etingof.Remark_2_3_13 states exactly the book's claim: for a representation V of an algebra A over a field k (AddCommGroup V, Module k V, Module A V, IsScalarTower k A V), Module.finrank k V = 1 implies IsSimpleModule A V. Proof: 1-dimensionality gives IsSimpleModule k V (isSimpleModule_iff_finrank_eq_one), then simplicity transports along restriction of scalars since every A-submodule restricts to a k-submodule with the same carrier. sorry-free; builds cleanly.",
     "fidelity_decl": "Etingof.Remark_2_3_13",
     "fidelity_issue": 5649,
-    "last_updated": "2026-07-01"
+    "last_updated": "2026-07-27",
+    "coverage": "covered_full",
+    "coverage_note": "Stage 3.2 verified that one-dimensionality implies irreducibility for an arbitrary algebra.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A one-dimensional representation of any algebra is irreducible.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Remark_2_3_13"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_proof_Corollary2.3.12",
@@ -589,6 +1016,36 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Stage 3.2 mapped each proof step to the corollary and its Schur input.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For commutative A, every action operator ρ(a) is an intertwiner.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Corollary_2_3_12"
+        },
+        {
+          "claim": "Schur's lemma makes every ρ(a) scalar, so every subspace is a subrepresentation.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Corollary_2_3_10 / Etingof.Corollary_2_3_12"
+        },
+        {
+          "claim": "Irreducibility and nonzeroness then force dim(V) = 1.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Corollary_2_3_12"
+        }
+      ]
     }
   },
   {
@@ -599,15 +1056,71 @@
     "end_page": "13",
     "start_line": 9,
     "end_line": 15,
-    "status": "sorry_free",
+    "status": "definition_verified",
     "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
     "fidelity_note": "Part (1): k is the only simple/indecomposable k-module (IsSimpleModule k k). Part (2): the 1-dim irreducibles are classified (Example_2_3_14_polynomial_reps: simple k[x]-modules are 1-dimensional). The Jordan-block reps V_{λ,n} are built as genuine k[X]-modules (jordanRep = Module.AEval' of jordanBlock), proved indecomposable (jordanRep_indecomposable, via: every nonzero J-invariant subspace contains the eigenvector e₀) and proved not simple for n>=2 (jordanRep_not_isSimpleModule), giving the book's conclusion 'indecomposable need not be irreducible' (exists_indecomposable_not_simple, witness V_{0,2}). The completeness half is now formalized too: exists_equiv_jordanRep shows every finite-dimensional indecomposable k[X]-module over an algebraically closed field is isomorphic to some V_{λ,n} with n ≥ 1, and jordanRep_equiv_iff shows the blocks are pairwise nonisomorphic (V_{λ,n} ≅ V_{μ,m} forces λ = μ and n = m). The route is the Mathlib structure theorem for finitely generated modules over the PID k[X] (Module.equiv_directSum_of_isTorsion) plus the cyclic model jordanQuotEquiv : k[X]/((X-λ)ⁿ) ≅ V_{λ,n}.",
     "fidelity_decl": "Etingof.Example_2_3_14.jordanRep_indecomposable; Etingof.Example_2_3_14.jordanRep_not_isSimpleModule; Etingof.Example_2_3_14.exists_indecomposable_not_simple; Etingof.Example_2_3_14.exists_equiv_jordanRep; Etingof.Example_2_3_14.jordanRep_equiv_iff",
     "coverage": "covered_full",
-    "coverage_note": "The Jordan-block modules are constructed, proved indecomposable, proved to exhaust the finite-dimensional indecomposable k[X]-modules over an algebraically closed field (exists_equiv_jordanRep), and proved pairwise nonisomorphic (jordanRep_equiv_iff). Both halves of the book's classification are formalized.",
-    "last_updated": "2026-07-26"
+    "coverage_note": "Stage 3.2 added precise scaffolding for the omitted uniqueness-over-k and full Jordan-decomposition claims, and unified all indecomposability statements with Definition 2.3.8; the new theorem proofs are Stage 3.3 work.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For A = k, representations are vector spaces and k is the unique irreducible representation up to isomorphism.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example_2_3_14_field_irreducible_unique"
+        },
+        {
+          "claim": "For A = k, k is the unique indecomposable representation up to isomorphism.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example_2_3_14_field_indecomposable_unique"
+        },
+        {
+          "claim": "Finite-dimensional irreducible k[x]-representations are one-dimensional and parameterized by the scalar action of x.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example_2_3_14_polynomial_reps / Etingof.Example_2_3_14.jordanRep"
+        },
+        {
+          "claim": "The representations V_λ are pairwise nonisomorphic.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example_2_3_14.jordanRep_equiv_iff"
+        },
+        {
+          "claim": "The Jordan block J_{λ,n} has the displayed standard-basis action.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example_2_3_14.jordanBlock / Etingof.Example_2_3_14.jordanBlock_apply"
+        },
+        {
+          "claim": "Every finite-dimensional linear operator, equivalently every finite-dimensional k[x]-module, decomposes as a finite direct sum of Jordan blocks.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example_2_3_14.exists_equiv_pi_jordanRep"
+        },
+        {
+          "claim": "The finite-dimensional indecomposable k[x]-representations are exactly the Jordan-block representations V_{λ,n}.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example_2_3_14.jordanRep_indecomposable / Etingof.Example_2_3_14.exists_equiv_jordanRep"
+        },
+        {
+          "claim": "The Jordan-block representations V_{λ,n} are pairwise nonisomorphic, with both λ and n determined.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example_2_3_14.jordanRep_equiv_iff"
+        },
+        {
+          "claim": "An indecomposable representation need not be irreducible.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example_2_3_14.exists_indecomposable_not_simple"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Example2.3.14_continued",
@@ -619,12 +1132,39 @@
     "end_line": 2,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22",
+    "last_updated": "2026-07-27",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_note": "The book claims a representation of the group algebra A = k[G] is \"the same thing\" as a representation of G, i.e. a vector space V with a group homomorphism rho : G -> GL(V). Formalized as two genuine bijections (Equiv), replacing the prior vacuous tautology Module k[G] V -> Module k[G] V. repEquivAlgHom: Representation k G V is equiv to (k[G] -> _a[k] Module.End k V), i.e. a representation of G is the same data as an algebra homomorphism out of k[G] (= a k-compatible k[G]-module structure on V). repEquivGL: Representation k G V is equiv to (G ->* (V ~=_l[k] V)), i.e. the same data as a group homomorphism rho : G -> GL(V) into the general linear group of invertible linear maps; invertibility is automatic because G is a group. Characterizing simp/rfl lemmas (repEquivAlgHom_apply_single, repEquivGL_apply, repEquivGL_symm_apply) pin down that the bijections are the intended maps (rho g acts as rho g), not arbitrary relabellings.",
     "fidelity_decl": "Etingof.Example_2_3_14_continued.repEquivAlgHom; Etingof.Example_2_3_14_continued.repEquivGL",
-    "fidelity_issue": 5359
+    "fidelity_issue": 5359,
+    "coverage_note": "Stage 3.2 verified both equivalences: group-algebra representations with group representations, and group homomorphisms into endomorphisms with homomorphisms into GL(V).",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A representation of k[G] is equivalent to a representation of G.",
+          "verdict": "formalized",
+            "lean_decl": "Etingof.Example_2_3_14_continued.repEquivAlgHom"
+        },
+        {
+          "claim": "A representation of G is equivalently a group homomorphism G → GL(V).",
+          "verdict": "formalized",
+            "lean_decl": "Etingof.Example_2_3_14_continued.repEquivGL"
+        },
+        {
+          "claim": "GL(V) is the group of invertible linear endomorphisms and the two encodings have the same action on vectors.",
+          "verdict": "formalized",
+            "lean_decl": "Etingof.Example_2_3_14_continued.repEquivGL_apply / Etingof.Example_2_3_14_continued.repEquivGL_symm_apply"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Problem2.3.15",
@@ -636,9 +1176,31 @@
     "end_line": 3,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22",
+    "last_updated": "2026-07-27",
     "fidelity": "verified",
-    "note": "Formalized (completeness audit #5724, epic #5338) in Chapter2/Problem2_3_15.lean. Part (a): Etingof.exists_isSimpleModule_of_finite — a nonzero finite dimensional representation of a k-algebra A (an A-module finite over k, IsScalarTower k A V) has a simple A-submodule, via Artinian-over-k ⇒ Artinian-over-A (isArtinian_of_tower) ⇒ atomic submodule lattice ⇒ atom = simple submodule. Part (b): Etingof.not_exists_isSimpleModule_polynomial — the regular representation of k[x] on itself has no simple submodule (no minimal nonzero ideal, since (x·s) is strictly smaller and nonzero). Audit finding: Proposition 3.1.4 (Etingof.subrepresentation_of_semisimple) does NOT silently assume this problem; its Lean proof gets simple submodules from IsSemisimpleModule.eq_bot_or_exists_simple_le because the ambient ⊕ᵢ nᵢ Vᵢ is a finite sum of simples, hence semisimple. The group-representation form already existed as Etingof.exists_isSimpleModule_le (Chapter5/SimpleSubrepExtraction.lean)."
+    "note": "Formalized (completeness audit #5724, epic #5338) in Chapter2/Problem2_3_15.lean. Part (a): Etingof.exists_isSimpleModule_of_finite — a nonzero finite dimensional representation of a k-algebra A (an A-module finite over k, IsScalarTower k A V) has a simple A-submodule, via Artinian-over-k ⇒ Artinian-over-A (isArtinian_of_tower) ⇒ atomic submodule lattice ⇒ atom = simple submodule. Part (b): Etingof.not_exists_isSimpleModule_polynomial — the regular representation of k[x] on itself has no simple submodule (no minimal nonzero ideal, since (x·s) is strictly smaller and nonzero). Audit finding: Proposition 3.1.4 (Etingof.subrepresentation_of_semisimple) does NOT silently assume this problem; its Lean proof gets simple submodules from IsSemisimpleModule.eq_bot_or_exists_simple_le because the ambient ⊕ᵢ nᵢ Vᵢ is a finite sum of simples, hence semisimple. The group-representation form already existed as Etingof.exists_isSimpleModule_le (Chapter5/SimpleSubrepExtraction.lean).",
+    "coverage_note": "Stage 3.2 verified the nonzero and finite-dimensional hypotheses and the explicit infinite-dimensional counterexample.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Every nonzero finite-dimensional representation has an irreducible subrepresentation.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.exists_isSimpleModule_of_finite"
+        },
+        {
+          "claim": "The assertion fails in infinite dimension.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.not_exists_isSimpleModule_polynomial"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Problem2.3.16",
@@ -648,10 +1210,57 @@
     "end_page": "14",
     "start_line": 4,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "definition_verified",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22",
-    "coverage_note": "All three parts formalized in Chapter2/Problem2_3_16.lean, sorry-free (#print axioms on Etingof.exists_centralCharacter_isNilpotent and Etingof.centralCharacter: propext/Classical.choice/Quot.sound only, no sorryAx; audit #7001). Part (a) (#5883): Etingof.centralAction, Etingof.centralCharacter : Subalgebra.center k A →ₐ[k] k (via Schur's Corollary 2.3.10 / IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed), Etingof.centralCharacter_smul, Etingof.exists_central_scalar. Part (b) (#5887): Etingof.IsIndecomposable predicate; Etingof.centralAction_sub_smul_isNilpotent (single generalized eigenvalue via the Fitting decomposition LinearMap.isCompl_iSup_ker_pow_iInf_range_pow + indecomposability); Etingof.indecEigenvalue_unique (uniqueness of the eigenvalue); Etingof.exists_centralCharacter_isNilpotent (the central character is the AlgHom χ_S of an irreducible subrep S from Problem 2.3.15, and z acts with single eigenvalue χ_S(z)). Part (c) (#5887): Etingof.eps_smul_not_scalar — on the regular representation of the dual numbers k[ε], the central element ε acts non-scalarly (Etingof.epsCenter records ε ∈ Z(k[ε]))."
+    "last_updated": "2026-07-27",
+    "coverage_note": "Stage 3.2 verified all clauses and added an explicit statement tying the indecomposable central character to an irreducible subrepresentation; that new proof is Stage 3.3 work.",
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The center Z(A) consists of elements commuting with every element of A.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Subalgebra.center"
+        },
+        {
+          "claim": "If A is commutative, then Z(A) = A.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Subalgebra.center_eq_top"
+        },
+        {
+          "claim": "On an irreducible finite-dimensional representation, every central element acts by a scalar.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.exists_central_scalar / Etingof.centralCharacter_smul"
+        },
+        {
+          "claim": "These scalars form an algebra homomorphism χ_V : Z(A) → k, the central character.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.centralCharacter"
+        },
+        {
+          "claim": "On an indecomposable finite-dimensional representation, every central action has a unique eigenvalue χ_V(z).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.centralAction_sub_smul_isNilpotent / Etingof.indecEigenvalue_unique"
+        },
+        {
+          "claim": "That eigenvalue is the scalar by which z acts on some irreducible subrepresentation, and the resulting χ_V is a homomorphism.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.exists_irreducibleSubrepresentation_centralCharacter"
+        },
+        {
+          "claim": "In the indecomposable case the central action need not be a scalar operator.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.eps_smul_not_scalar"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Problem2.3.17",
@@ -663,7 +1272,35 @@
     "end_line": 13,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27",
+    "fidelity": "verified",
+    "coverage_note": "Stage 3.2 verified the algebra structure, the opposite multiplication, and the concrete evaluation formulas.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "End_A(V) is the algebra of A-linear endomorphisms of V.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Module.End"
+        },
+        {
+          "claim": "For the regular representation, End_A(A) is isomorphic as a ring to Aᵐᵒᵖ.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.EndSelfEquivOp"
+        },
+        {
+          "claim": "The isomorphism sends f to op(f(1)), and its inverse sends op(a) to right multiplication by a.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.EndSelfEquivOp_apply / Etingof.EndSelfEquivOp_symm_op_apply"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Problem2.3.18",
@@ -679,8 +1316,39 @@
     "lean_decl": "Etingof.Problem_2_3_18",
     "lean_file": "EtingofRepresentationTheory/Chapter2/Problem2_3_18.lean",
     "fidelity_note": "[fidelity] Verified faithful (#7243). Countability hypothesis is genuine (hcard : Module.rank ℂ V ≤ Cardinal.aleph0), NOT FiniteDimensional — the statement is strictly more general than finite Schur and non-vacuous. Irreducibility is [IsSimpleModule A V]. Conclusion asserts a genuine scalar operator (∃ c : ℂ, ∀ v, φ v = c • v) for φ : V →ₗ[A] V (A-linear homomorphism of representations), not merely commutation nor a weak existential. Ground field is ℂ literally: the transcendence/uncountability argument (Cardinal.mk_complex, aleph0_lt_continuum) is load-bearing. Axiom-clean: [propext, Classical.choice, Quot.sound], no sorryAx.",
-    "last_updated": "2026-07-22",
-    "coverage_note": "Formalized (#5884) in Chapter2/Problem2_3_18.lean as Etingof.Problem_2_3_18: for a ℂ-algebra A and an irreducible A-module V with Module.rank ℂ V ≤ ℵ₀, every φ : V →ₗ[A] V is scalar (∃ c, ∀ v, φ v = c • v). Proof follows Etingof's hint: D = Module.End A V is a division ring (Module.End.instDivisionRing / Schur); D is countably dimensional via injective ℂ-linear evaluation D → V at a nonzero vector; a non-scalar φ is transcendental over ℂ (else minpoly has degree 1 since ℂ is algebraically closed and D is a domain); the field ℂ(φ) is realized as the double centralizer Subalgebra.centralizer ℂ (Set.centralizer {φ}) (a commutative division subring, hence IsField.toField), inside which Transcendental.linearIndependent_sub_inv gives the uncountable ℂ-linearly independent family {(φ-a)⁻¹}, transported to D along the injective inclusion; then 𝔠 = #ℂ ≤ rank ℂ D ≤ ℵ₀ contradicts ℵ₀ < 𝔠. #print axioms: propext, Classical.choice, Quot.sound only."
+    "last_updated": "2026-07-27",
+    "coverage_note": "Stage 3.2 verified the exact countable-rank Dixmier statement and every mathematical step requested by the hint.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For an irreducible complex representation with at most countable basis, every representation endomorphism is scalar.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem_2_3_18"
+        },
+        {
+          "claim": "D = End_A(V) is a division algebra and is at most countably dimensional over ℂ.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem_2_3_18"
+        },
+        {
+          "claim": "A non-scalar φ would be transcendental over ℂ.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem_2_3_18"
+        },
+        {
+          "claim": "The resulting field ℂ(φ) has an uncountable linearly independent family and hence uncountable dimension, contradicting countability.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem_2_3_18"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_2.4_heading",

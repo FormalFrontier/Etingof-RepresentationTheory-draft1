@@ -8,6 +8,7 @@ import Mathlib.RingTheory.Nilpotent.Lemmas
 import Mathlib.LinearAlgebra.Eigenspace.Minpoly
 import Mathlib.LinearAlgebra.Pi
 import Mathlib.Algebra.Module.PID
+import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 
 /-!
 # Example 2.3.14: Irreducible and Indecomposable Representations of k and k[x]
@@ -29,6 +30,20 @@ The classification is exhaustive in both directions: `jordanRep_indecomposable` 
 /-- For A = k, the unique irreducible representation is k itself (1-dimensional).
 (Etingof Example 2.3.14(1)) -/
 example (k : Type*) [Field k] : IsSimpleModule k k := inferInstance
+
+/-- **Example 2.3.14(1), uniqueness of the irreducible representation.** Every irreducible
+representation of the field `k` is isomorphic to the regular one-dimensional representation `k`. -/
+theorem Etingof.Example_2_3_14_field_irreducible_unique
+    (k : Type*) [Field k] (V : Type*) [AddCommGroup V] [Module k V]
+    [IsSimpleModule k V] : Nonempty (V ≃ₗ[k] k) := by
+  sorry
+
+/-- **Example 2.3.14(1), uniqueness of the indecomposable representation.** Every indecomposable
+representation of the field `k` is isomorphic to the regular one-dimensional representation `k`. -/
+theorem Etingof.Example_2_3_14_field_indecomposable_unique
+    (k : Type*) [Field k] (V : Type*) [AddCommGroup V] [Module k V]
+    (hV : Etingof.IsIndecomposable k V) : Nonempty (V ≃ₗ[k] k) := by
+  sorry
 
 /-- Over an algebraically closed field k, every simple k[x]-module is 1-dimensional.
 Equivalently, every maximal ideal of k[x] has quotient of k-dimension 1.
@@ -234,15 +249,21 @@ lemma e0_mem_of_invariant (lam : k) (n : ℕ) [NeZero n] {W : Submodule k (Fin n
   rw [this]
   exact W.smul_mem c⁻¹ u.2
 
-/-- A module is *indecomposable* if it is nontrivial and is not the internal direct sum of two
-proper submodules: any pair of complementary submodules has one of them trivial. -/
-def IsIndecomposable (R M : Type*) [Semiring R] [AddCommMonoid M] [Module R M] : Prop :=
-  Nontrivial M ∧ ∀ N P : Submodule R M, IsCompl N P → N = ⊥ ∨ P = ⊥
-
 /-- The Jordan-block representation `V_{λ,n} = (kⁿ, ρ(x) = J_{λ,n})`, realized as a
 `k[X]`-module via `Module.AEval'`: the action of `X` is the Jordan block `J_{λ,n}`.
 (Etingof Example 2.3.14(2)) -/
 abbrev jordanRep (lam : k) (n : ℕ) := Module.AEval' (jordanBlock lam n)
+
+/-- **Jordan normal form, in representation-theoretic form.** Every finite-dimensional
+`k[X]`-representation over an algebraically closed field is a finite direct sum of Jordan-block
+representations. A finite product is Mathlib's model for this finite direct sum. -/
+theorem exists_equiv_pi_jordanRep
+    (M : Type*) [AddCommGroup M] [Module k M] [Module (Polynomial k) M]
+    [IsScalarTower k (Polynomial k) M] [IsAlgClosed k] [FiniteDimensional k M] :
+    ∃ (m : ℕ) (lam : Fin m → k) (n : Fin m → ℕ),
+      (∀ i, 0 < n i) ∧
+        Nonempty (M ≃ₗ[Polynomial k] ∀ i : Fin m, jordanRep (lam i) (n i)) := by
+  sorry
 
 instance jordanRep_nontrivial (lam : k) (n : ℕ) [NeZero n] :
     Nontrivial (jordanRep lam n) :=

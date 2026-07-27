@@ -18,3 +18,12 @@ In Mathlib, the binary direct sum is `V₁ × V₂` with the product module stru
 abbrev Etingof.DirectSumRepresentation (A : Type*) (V₁ V₂ : Type*) [Ring A]
     [AddCommGroup V₁] [AddCommGroup V₂] [Module A V₁] [Module A V₂] :=
   V₁ × V₂
+
+/-- The action on a binary direct sum is componentwise, as in Definition 2.3.7. -/
+theorem Etingof.DirectSumRepresentation_smul
+    (A : Type*) (V₁ V₂ : Type*) [Ring A]
+    [AddCommGroup V₁] [AddCommGroup V₂] [Module A V₁] [Module A V₂]
+    (a : A) (v₁ : V₁) (v₂ : V₂) :
+    a • ((v₁, v₂) : Etingof.DirectSumRepresentation A V₁ V₂) =
+      (a • v₁, a • v₂) :=
+  rfl

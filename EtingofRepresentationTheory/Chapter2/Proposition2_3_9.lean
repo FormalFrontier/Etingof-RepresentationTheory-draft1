@@ -35,3 +35,13 @@ theorem Etingof.Proposition_2_3_9_surjective
     {V₂ : Type*} [AddCommGroup V₂] [Module R V₂] [IsSimpleModule R V₂]
     (φ : V₁ →ₗ[R] V₂) (hφ : φ ≠ 0) : Function.Surjective φ :=
   LinearMap.surjective_of_ne_zero hφ
+
+/-- Schur's lemma, concluding clause: if both representations are irreducible, the nonzero
+intertwiner is an isomorphism (equivalently, its underlying function is bijective). -/
+theorem Etingof.Proposition_2_3_9_bijective
+    {R : Type*} [Ring R]
+    {V₁ : Type*} [AddCommGroup V₁] [Module R V₁] [IsSimpleModule R V₁]
+    {V₂ : Type*} [AddCommGroup V₂] [Module R V₂] [IsSimpleModule R V₂]
+    (φ : V₁ →ₗ[R] V₂) (hφ : φ ≠ 0) : Function.Bijective φ :=
+  ⟨Etingof.Proposition_2_3_9_injective φ hφ,
+    Etingof.Proposition_2_3_9_surjective φ hφ⟩

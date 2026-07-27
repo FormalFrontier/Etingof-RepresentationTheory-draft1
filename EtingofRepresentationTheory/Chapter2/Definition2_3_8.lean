@@ -1,4 +1,5 @@
 import Mathlib.Algebra.Module.Submodule.Lattice
+import Mathlib.LinearAlgebra.Projection
 
 /-!
 # Definition 2.3.8: Indecomposable Representation
@@ -22,6 +23,36 @@ def Etingof.IsIndecomposable (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
     [Module A V] : Prop :=
   Nontrivial V ∧ ∀ (W₁ W₂ : Submodule A V),
     IsCompl W₁ W₂ → W₁ = ⊥ ∨ W₂ = ⊥
+
+universe u v
+
+/-- Data exhibiting a representation as a direct sum of two nonzero representations. This is the
+literal formulation used in Definition 2.3.8; `IsIndecomposable` uses the equivalent internal
+complement formulation because that is the useful API for subsequent proofs. -/
+structure Etingof.NontrivialDirectSumDecomposition
+    (A : Type u) (V : Type v) [Ring A] [AddCommGroup V] [Module A V] where
+  V₁ : Type v
+  V₂ : Type v
+  [addCommGroupV₁ : AddCommGroup V₁]
+  [addCommGroupV₂ : AddCommGroup V₂]
+  [moduleV₁ : Module A V₁]
+  [moduleV₂ : Module A V₂]
+  [nontrivialV₁ : Nontrivial V₁]
+  [nontrivialV₂ : Nontrivial V₂]
+  equiv : V ≃ₗ[A] V₁ × V₂
+
+/-- The book's direct formulation: `V` is nonzero and is not isomorphic to a direct sum of two
+nonzero representations. -/
+def Etingof.IsIndecomposableAsDirectSum
+    (A : Type u) (V : Type v) [Ring A] [AddCommGroup V] [Module A V] : Prop :=
+  Nontrivial V ∧ IsEmpty (Etingof.NontrivialDirectSumDecomposition A V)
+
+/-- The internal-complement definition used by the project is equivalent to the source's literal
+"not isomorphic to a direct sum of two nonzero representations" definition. -/
+theorem Etingof.isIndecomposable_iff_asDirectSum
+    (A : Type u) (V : Type v) [Ring A] [AddCommGroup V] [Module A V] :
+    Etingof.IsIndecomposable A V ↔ Etingof.IsIndecomposableAsDirectSum A V := by
+  sorry
 
 /-- An indecomposable module has no nontrivial direct sum decomposition (negation form).
 Useful for proofs that proceed by contradiction on a decomposition. -/
