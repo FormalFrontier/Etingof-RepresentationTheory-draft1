@@ -1,5 +1,3 @@
-import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.RepresentationTheory.AlgebraRepresentation.Basic
 
 /-!

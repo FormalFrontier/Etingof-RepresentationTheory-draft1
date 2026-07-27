@@ -399,15 +399,9 @@
   "Chapter3/Discussion_after_Lemma3.1.6": [
     "Chapter3/Lemma3.1.6"
   ],
-  "Chapter3/Introduction_to_3.2": [
-    "Chapter3/Discussion_after_Lemma3.1.6"
-  ],
-  "Chapter3/Corollary3.2.1": [
-    "Chapter3/Introduction_to_3.2"
-  ],
-  "Chapter3/Theorem3.2.2": [
-    "Chapter3/Corollary3.2.1"
-  ],
+  "Chapter3/Introduction_to_3.2": [],
+  "Chapter3/Corollary3.2.1": [],
+  "Chapter3/Theorem3.2.2": [],
   "Chapter3/Introduction_to_3.3": [
     "Chapter3/Theorem3.2.2"
   ],
