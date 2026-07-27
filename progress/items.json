@@ -3095,6 +3095,14 @@
           "reason": "This is a section heading rather than a mathematical proposition with a Lean proof obligation."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.5",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": [],
+      "basis": "Organizational heading with no Lean provider or proof obligation."
     }
   },
   {
@@ -3125,6 +3133,15 @@
           "lean_decl": "Etingof.Radical; Etingof.structure_mod_radical; IsSemisimpleModule.jacobson_le_annihilator"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.5",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Radical"
+      ]
     }
   },
   {
@@ -3154,6 +3171,16 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.radical_is_ideal; Etingof.radical_isTwoSided"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.5",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.radical_isTwoSided",
+        "Etingof.radical_is_ideal"
       ]
     }
   },
@@ -3194,6 +3221,16 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.radical_is_nilpotent; Etingof.nilpotent_ideal_le_radical; Etingof.radical_isTwoSided"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.5",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.nilpotent_ideal_le_radical",
+        "Etingof.radical_is_nilpotent"
       ]
     }
   },
@@ -3246,6 +3283,22 @@
           "lean_decl": "Etingof.structure_mod_radical; Etingof.exists_structure_mod_radical"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.5",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.card_irreducibles_le_finrank",
+        "Etingof.exists_complete_family_of_simples",
+        "Etingof.exists_finset_complete_family",
+        "Etingof.exists_isCoatom_quotient_equiv",
+        "Etingof.exists_structure_mod_radical",
+        "Etingof.finiteDimensional_quotient",
+        "Etingof.simple_finiteDimensional",
+        "Etingof.structure_mod_radical"
+      ]
     }
   },
   {
@@ -3280,6 +3333,15 @@
           "verdict": "covered_elsewhere",
           "lean_decl": "Etingof.structure_mod_radical; Submodule.finrank_quotient_add_finrank; Module.finrank_linearMap"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.5",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.sum_dim_sq_le_dim"
       ]
     }
   },
@@ -3332,6 +3394,55 @@
           "reason": "The source gives no block decomposition, diagonal-block hypotheses, representation list, or exact radical formula, so this analogy does not determine a unique proposition. The scalar upper-triangular theorem is fully formalized."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.5",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.TruncPolySimple",
+        "Etingof.UpperTriangularSimple",
+        "Etingof.UpperTriangularSimple.instAddCommGroup",
+        "Etingof.UpperTriangularSimple.instModule",
+        "Etingof.UpperTriangularSimple.instModuleSubtypeMatrixFinMemSubalgebraUpperTriangularSubalgebra",
+        "Etingof.UpperTriangularSimple.instNontrivial",
+        "Etingof.UpperTriangularSimple.smul_def",
+        "Etingof.diagIdem",
+        "Etingof.diagIdem_commutator_mem",
+        "Etingof.diagIdem_val",
+        "Etingof.diagonalHom",
+        "Etingof.diagonalHom_apply",
+        "Etingof.diagonalHom_diagIdem",
+        "Etingof.diagonalHom_surjective",
+        "Etingof.exists_linearEquiv_upperTriangularSimple",
+        "Etingof.finrank_truncPolySimple",
+        "Etingof.finrank_upperTriangularSimple",
+        "Etingof.isMaximal_span_root",
+        "Etingof.isSimpleModule_truncPolySimple",
+        "Etingof.isSimpleModule_upperTriangularSimple",
+        "Etingof.ker_truncPolyResidue",
+        "Etingof.mul_single_diag_apply",
+        "Etingof.nonempty_linearEquiv_truncPolySimple",
+        "Etingof.not_nonempty_linearEquiv_upperTriangularSimple",
+        "Etingof.radical_truncated_polynomial",
+        "Etingof.radical_upper_triangular",
+        "Etingof.root_smul_truncPolySimple",
+        "Etingof.single_diag_mul_apply",
+        "Etingof.strictlyUpperTriangularIdeal",
+        "Etingof.strictlyUpperTriangularIdeal.isTwoSided",
+        "Etingof.strictlyUpperTriangular_smul_eq_zero",
+        "Etingof.sub_algebraMap_mul_diagIdem_mem",
+        "Etingof.sum_diagIdem",
+        "Etingof.truncPolyResidue",
+        "Etingof.truncPolyResidue.congr_simp",
+        "Etingof.truncPolyResidue.eq_1",
+        "Etingof.truncPolyResidue_mk",
+        "Etingof.truncPolyResidue_root",
+        "Etingof.truncPolyResidue_surjective",
+        "Etingof.truncPolySimpleEquiv",
+        "Etingof.upperTriangularSubalgebra"
+      ]
     }
   },
   {
@@ -3361,6 +3472,15 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.IsSemisimpleAlgebra; IsArtinianRing.isSemisimpleRing_iff_jacobson; Ideal.jacobson_bot"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.5",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.IsSemisimpleAlgebra"
       ]
     }
   },
@@ -3423,6 +3543,22 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.subsingleton_algEquiv_pi_matrix"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.5",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Radical.eq_1",
+        "Etingof.semisimple_algebra_equiv",
+        "Etingof.subsingleton_algEquiv_pi_matrix",
+        "Etingof.subsingleton_isSemisimpleRing",
+        "Etingof.subsingleton_module_of_subsingleton",
+        "Etingof.subsingleton_not_isIndecomposable",
+        "Etingof.subsingleton_not_isSimpleModule",
+        "Etingof.subsingleton_not_isSimpleRing"
       ]
     }
   },
