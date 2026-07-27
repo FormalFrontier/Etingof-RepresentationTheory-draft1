@@ -4,6 +4,7 @@ import EtingofRepresentationTheory.Chapter8.KoszulAugmentation
 import EtingofRepresentationTheory.Chapter8.KoszulBasis
 import EtingofRepresentationTheory.Chapter8.KoszulResolution
 import EtingofRepresentationTheory.Chapter8.KoszulDirectSumResolution
+import EtingofRepresentationTheory.Chapter8.KoszulExtTor
 
 /-!
 # Problem 8.2.10: Koszul resolution and the Hilbert syzygies theorem
@@ -134,8 +135,15 @@ The exercise itself is being formalized bottom-up. Landed so far:
   term with the literal module `S(U × W) ⊗[k] ⋀ⁱ U`, and
   `Etingof.koszulComplementResolution_free` proves that every term is free.
 
-Still to come: the bimodule resolution (iii), Hilbert syzygies (iv), and the `Ext`/`Tor`
-computation (v). See the child issues linked from
+* `Chapter8/KoszulExtTor.lean` — **part (v), complete**. Applying `Hom_{SV}(-, k)` and
+   `- ⊗_{SV} k` to the Koszul resolution gives complexes with zero differential, because every
+   Koszul differential summand contains a symmetric generator and those generators act by zero
+   on the augmentation module. The resulting genuine `ModuleCat k` isomorphisms are
+   `Etingof.koszulExtIso : Extⁱ_{SV}(k,k) ≅ (⋀ⁱV)∗` and
+   `Etingof.koszulTorIso : Torᵢ^{SV}(k,k) ≅ ⋀ⁱV`.
+
+Still to come: the bimodule resolution (iii) and Hilbert syzygies (iv).
+ See the child issues linked from
 <https://github.com/FormalFrontier/Etingof-RepresentationTheory-draft1/issues/5723>.
 -/
 
@@ -213,5 +221,28 @@ theorem Problem_8_2_10_ii_quasiIso :
   koszulComplementResolution_quasiIso k U W
 
 end
+
+section PartV
+
+variable {k V κ : Type u} [Field k] [AddCommGroup V] [Module k V]
+variable [LinearOrder κ] [Fintype κ] (b : Module.Basis κ k V)
+
+/-- **Problem 8.2.10(v), `Ext` endpoint.** -/
+noncomputable def Problem_8_2_10_v_ext (i : ℕ) :
+    Extₖ k (SymmetricAlgebra k V)
+        (ModuleCat.of (SymmetricAlgebra k V) (KoszulAugModule k V))
+        (ModuleCat.of (SymmetricAlgebra k V) (KoszulAugModule k V)) i ≅
+      ModuleCat.of k (Module.Dual k (⋀[k]^i V)) :=
+  koszulExtIso k V b i
+
+/-- **Problem 8.2.10(v), `Tor` endpoint.** -/
+noncomputable def Problem_8_2_10_v_tor (i : ℕ) :
+    Torₖ k (SymmetricAlgebra k V) (KoszulAugModule k V)
+        ((mopFunctor (SymmetricAlgebra k V)).obj
+          (ModuleCat.of (SymmetricAlgebra k V) (KoszulAugModule k V))) i ≅
+      ModuleCat.of k (⋀[k]^i V) :=
+  koszulTorIso k V b i
+
+end PartV
 
 end Etingof

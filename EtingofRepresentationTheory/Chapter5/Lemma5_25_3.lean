@@ -9,7 +9,7 @@ private abbrev GL2 := Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)
 
 /-- Character orthogonality for finite groups: the sum of a nontrivial
 character over all group elements is zero. Applied to ν^{q-1} on F_{q²}×. -/
-private lemma Etingof.sum_nontrivial_char_eq_zero
+lemma Etingof.sum_nontrivial_char_eq_zero
     {G : Type*} [CommGroup G] [Fintype G]
     (χ : G →* ℂˣ) (hχ : χ ≠ 1) :
     ∑ g : G, (χ g : ℂ) = 0 := by
@@ -59,7 +59,7 @@ private lemma Etingof.complementarySeriesChar_elliptic_eq
 
 /-- The elliptic subgroup K = 𝔽_{q²}× is commutative, since it is
 the image of the multiplicative group of a field under a group homomorphism. -/
-private noncomputable instance Etingof.ellipticSubgroup_commGroup :
+noncomputable instance Etingof.ellipticSubgroup_commGroup :
     CommGroup ↥(Etingof.GL2.ellipticSubgroup p n) :=
   { (inferInstance : Group ↥(Etingof.GL2.ellipticSubgroup p n)) with
     mul_comm := by
@@ -70,7 +70,7 @@ private noncomputable instance Etingof.ellipticSubgroup_commGroup :
       simp only [Subgroup.coe_mul, ← map_mul, mul_comm a' b'] }
 
 /-- The (q-1)-power character k ↦ ν(k)^{q-1} on K = 𝔽_{q²}×. -/
-private noncomputable def Etingof.qm1_char
+noncomputable def Etingof.qm1_char
     [Fintype (GaloisField p n)]
     (nu : ↥(Etingof.GL2.ellipticSubgroup p n) →* ℂˣ) :
     ↥(Etingof.GL2.ellipticSubgroup p n) →* ℂˣ :=
@@ -95,7 +95,7 @@ private lemma Etingof.qm1_char_nontrivial
     from by omega, pow_succ, this, one_mul]
 
 /-- On scalar elements of K (i.e., F_q× ⊂ K), ν^{q-1} = 1. -/
-private lemma Etingof.qm1_char_on_scalar
+lemma Etingof.qm1_char_on_scalar
     [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
     (nu : ↥(Etingof.GL2.ellipticSubgroup p n) →* ℂˣ)
     (hn : n ≠ 0)
@@ -121,7 +121,7 @@ private lemma Etingof.qm1_char_on_scalar
 In char ≠ 2, elements of K = 𝔽_{q²}× have disc = 0 (scalar) or non-square disc (elliptic).
 So ¬IsElliptic forces disc = 0, which combined with K not containing parabolic elements
 (by `parabolic_conj_not_in_ellipticSubgroup`) gives IsScalar. -/
-private lemma Etingof.ellipticSubgroup_not_elliptic_isScalar
+lemma Etingof.ellipticSubgroup_not_elliptic_isScalar
     (hp2 : p ≠ 2) (hn : n ≠ 0)
     (k : GL2 p n) (hk : k ∈ Etingof.GL2.ellipticSubgroup p n)
     (hne : ¬GL2.IsElliptic (p := p) (n := n) k) :
@@ -349,7 +349,7 @@ private lemma Etingof.nonscalar_char_sum
 -- Proof: {z : z⁻¹kz ∈ K} = N(K) = K ∪ σK. On K: ν(k)·conj(ν(k)) = 1 (norm).
 -- On σK: ν(k)·conj(ν(k^q)) = conj(ψ(k)). Rest contributes 0.
 open Classical in
-private lemma Etingof.normalizer_char_eval
+lemma Etingof.normalizer_char_eval
     [Fintype (GL2 p n)] [Fintype (GaloisField p n)]
     [DecidableEq (GaloisField p n)]
     (hp2 : p ≠ 2)
