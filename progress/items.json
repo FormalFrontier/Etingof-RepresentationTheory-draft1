@@ -3514,6 +3514,22 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Section 3.9 is the organizational heading for the chapter's problems.",
+          "verdict": "non_formalizable",
+          "reason": "This is a section heading rather than a mathematical proposition or construction."
+        }
+      ]
     }
   },
   {
@@ -3618,7 +3634,81 @@
         ],
         "reason": "irreducible_ext_iso_iff_proportional (307) is a genuine iff: (exists phi, IntertwinesExt f f' phi) iff (exists c != 0, f - c.f' in B1) - the faithful P-form of the book's projective-space classification (a nonzero ratio = a line in P Ext1; f in B1 = the split/trivial class). [IsAlgClosed k] is the mathematically correct hypothesis, not an artificial narrowing: the P_k Ext1 parametrization needs End_A(V)=End_A(W)=k, which Schur (Corollary_2_3_10, used in the forward proof) supplies only over an algebraically closed field; the docstring records that over a non-closed field the classes are Ext1 mod D_V^x x D_W^x. Forward => block-decomposes an arbitrary phi; <= reuses ext_iso_of_sub_smul_mem_coboundaries. Clean axioms. #7418 restates this for actual modules: nonempty_equiv_iff_proportional is the same iff with the left-hand side replaced by Nonempty (U_f =_A U_f'), and nonempty_equiv_prod_iff_mem_coboundaries gives the source's final clause, U_f = V (+) W iff f is a coboundary (so every extension is trivial iff Ext1(W,V)=0)."
       }
-    ]
+    ],
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "An extension of W by V may be represented on V × W by block-triangular operators with off-diagonal block f, and the zero block gives V ⊕ W.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.blockOp; Etingof.Problem3_9_1.ExtMod; Etingof.Problem3_9_1.ExtMod.zeroEquivProd",
+          "note": "ExtMod carries the genuine A-module action, rather than only a family of block matrices."
+        },
+        {
+          "claim": "The canonical maps V → U_f → W form a short exact sequence, and U_f/V is isomorphic to W.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.ExtMod.exact_inclusion_projection; Etingof.Problem3_9_1.ExtMod.quotEquiv"
+        },
+        {
+          "claim": "The block assignment is multiplicative if and only if f satisfies f(ab)=ρ_V(a)f(b)+f(a)ρ_W(b).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.blockOp_mul_iff_isCocycle"
+        },
+        {
+          "claim": "The 1-cocycles form the vector space Z¹(W,V).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.IsCocycle; Etingof.Problem3_9_1.cocycles"
+        },
+        {
+          "claim": "For X:W→V, dX(a)=ρ_V(a)X-Xρ_W(a) is a 1-cocycle.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.coboundaryOf; Etingof.Problem3_9_1.coboundaryOf_isCocycle"
+        },
+        {
+          "claim": "The coboundary dX vanishes if and only if X is a homomorphism of representations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.coboundaryOf_eq_zero_iff"
+        },
+        {
+          "claim": "Coboundaries form B¹(W,V)⊆Z¹(W,V), canonically isomorphic to Hom_k(W,V)/Hom_A(W,V).",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Problem3_9_1.coboundaryLinear; Etingof.Problem3_9_1.coboundaries_eq_range; Etingof.Problem3_9_1.coboundaryOf_eq_zero_iff; LinearMap.quotKerEquivRange",
+          "note": "The project identifies the range and kernel of the coboundary map; Mathlib's first-isomorphism equivalence supplies the displayed quotient-to-range isomorphism."
+        },
+        {
+          "claim": "Ext¹(W,V) is the quotient Z¹(W,V)/B¹(W,V).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.Ext1"
+        },
+        {
+          "claim": "If f-f' is a coboundary, then the corresponding extensions U_f and U_f' are isomorphic.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.iso_of_sub_mem_coboundaries; Etingof.Problem3_9_1.ExtMod.nonempty_equiv_of_sub_mem_coboundaries"
+        },
+        {
+          "claim": "A unitriangular extension isomorphism U_f≅U_f' implies f-f' is a coboundary.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.converse_sub_mem_coboundaries_of_unitriangular_intertwines; Etingof.Problem3_9_1.ExtMod.sub_mem_coboundaries_of_unitriangular_equiv"
+        },
+        {
+          "claim": "For finite-dimensional irreducible V,W over the algebraically closed base field, U_f≅U_f' exactly when their Ext¹ classes are proportional.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.irreducible_ext_iso_iff_proportional; Etingof.Problem3_9_1.ExtMod.nonempty_equiv_iff_proportional",
+          "note": "The theorem uses a nonzero scalar and equality modulo B¹, which is precisely equality of projective Ext¹ classes."
+        },
+        {
+          "claim": "Nontrivial extensions are parametrized by ℙExt¹(W,V), and every extension splits if and only if Ext¹(W,V)=0.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.ExtMod.nonempty_equiv_iff_proportional; Etingof.Problem3_9_1.ExtMod.nonempty_equiv_prod_iff_mem_coboundaries"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Problem3.9.2",
@@ -3676,7 +3766,66 @@
         ],
         "reason": "infinitely_many_indecomposables (677): for 1<n there is a family M:ℕ→Type of B=zeroMulAlg n modules, each Etingof.IsIndecomposable, pairwise non-isomorphic (Nonempty(Mₖ≃ₗMₗ)→k=l). Built on the 2-dim modules Cyc n k where two generators act as N and k·N. zeroMulAlg (563)=RingQuot(BRel n) genuinely constructed. Axiom-clean."
       }
-    ]
+    ],
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For A=ℂ[x₁,…,xₙ], Vₐ is the one-dimensional representation on which xᵢ acts by aᵢ.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_2.polyAlg; Etingof.Problem3_9_2.Vrep; Etingof.Problem3_9_2.Vrep_smul_eq"
+        },
+        {
+          "claim": "Ext¹(Vₐ,Vₐ) is isomorphic to ℂⁿ.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_2.ext1_self"
+        },
+        {
+          "claim": "Ext¹(V_b,Vₐ) vanishes when a≠b.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_2.ext1_subsingleton_of_ne"
+        },
+        {
+          "claim": "Every two-dimensional A-representation is either a split sum of two distinct weights or a dual-number normal form Jrep(a,c).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_2.two_dim_normal_form",
+          "note": "This strengthens the earlier extension-only endpoint two_dim_is_extension to an explicit exhaustive normal form."
+        },
+        {
+          "claim": "Jrep(a,c)≅Jrep(a',c') exactly when a=a' and c,c' are related by a nonzero scalar.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_2.jrep_iso_iff",
+          "note": "Thus nonzero self-extension classes are parametrized by projective ℂⁿ, while c=0 is the split self-extension."
+        },
+        {
+          "claim": "Split sums V_b⊕Vₐ are isomorphic exactly when their two weights agree as an unordered pair.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_2.split_iso_iff"
+        },
+        {
+          "claim": "A split module with distinct weights is not isomorphic to any Jrep normal form.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_2.split_not_iso_jrep"
+        },
+        {
+          "claim": "The algebra B is generated by x₁,…,xₙ with every product xᵢxⱼ equal to zero.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_2.zeroMulAlg"
+        },
+        {
+          "claim": "For n>1, B has infinitely many pairwise nonisomorphic indecomposable representations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_2.infinitely_many_indecomposables",
+          "note": "The theorem constructs an ℕ-indexed family of honest B-modules, proves each indecomposable, and proves isomorphism forces equality of indices."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Problem3.9.3",
@@ -3710,7 +3859,54 @@
     ],
     "last_updated": "2026-07-26",
     "coverage_note": "All three parts are covered. The irreducible classification and exact Ext^1 dimension formula are in Problem3_9_3.lean (#7376). The two-dimensional classification is in Problem3_9_3_TwoDim.lean (#7420): the normal form `twoRep i j c`, exhaustiveness as an actual isomorphism (`two_dim_normalForm`), the indecomposability dichotomy, and the support / scalar isomorphism criteria (the latter records the effect of parallel arrows). The old necessary-condition disjunction is re-derived from the normal form as `two_dim_classification_of_normalForm`.",
-    "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_3.lean"
+    "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_3.lean",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For a finite acyclic quiver Q, the vertex representation Sᵢ is irreducible.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_3.simpleRep_isIrreducible"
+        },
+        {
+          "claim": "Every finite-dimensional irreducible representation of the path algebra is isomorphic to Sᵢ for some vertex i.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_3.irreducible_isSimpleRep"
+        },
+        {
+          "claim": "Ext¹(Sᵢ,Sⱼ) has dimension equal to the number of arrows i→j, and in particular vanishes exactly when there is no such arrow.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_3.finrank_ext1_simpleRep; Etingof.Problem3_9_3.ext1_simpleRep_vanishes_iff"
+        },
+        {
+          "claim": "Every two-dimensional representation has an explicit normal form twoRep(i,j,c) supported at two vertices, including the same-vertex case.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_3.twoRep; Etingof.Problem3_9_3.sum_dimVec_twoRep; Etingof.Problem3_9_3.two_dim_normalForm"
+        },
+        {
+          "claim": "The zero-coefficient normal form splits as Sᵢ⊕Sⱼ, while a nonzero arrow coefficient between distinct vertices makes the normal form indecomposable.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_3.twoRepZeroEquivDirectSum; Etingof.Problem3_9_3.twoRep_isIndecomposable; Etingof.Problem3_9_3.twoRep_zero_not_isIndecomposable"
+        },
+        {
+          "claim": "Rescaling all coefficients by a nonzero scalar preserves the normal form's isomorphism class, and an isomorphism of fixed-support normal forms forces such a scalar relation.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_3.twoRepEquivSmul; Etingof.Problem3_9_3.exists_smul_of_equiv_twoRep"
+        },
+        {
+          "claim": "Isomorphism of two normal forms preserves their supported vertices, giving the complete two-dimensional classification including parallel-arrow parameters.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_3.vertices_eq_of_equiv_twoRep; Etingof.Problem3_9_3.two_dim_classification_of_normalForm",
+          "note": "The coefficient family c retains the full space of parallel arrows rather than collapsing it to a single-arrow special case."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Problem3.9.4",
@@ -3758,7 +3954,45 @@
         ],
         "reason": "The book poses (b) as an OPEN-ENDED QUESTION, not a claim to prove. The converse is faithfully STATED as the proposition ConverseHolds (335) = (for all D, IsTrivial D) -> Subsingleton (Ext1 ...), specialized to the dual numbers in Problem3_9_4b (342) per the book's hint. It is neither proved nor refuted (matching the book leaving it open), so the truth-value is not established => covered_partial, not covered_full. No follow-up issue: the book makes no assertion here, so the Lean statement is not weaker than a book claim; resolving the question would be new mathematics beyond formalization scope."
       }
-    ]
+    ],
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A formal deformation is a sequence ρₙ of linear maps with ρ₀=ρ whose coefficients satisfy the Cauchy-product multiplicativity equations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_4.FormalDeformation"
+        },
+        {
+          "claim": "The original representation defines the constant formal deformation.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_4.constDeformation"
+        },
+        {
+          "claim": "Two deformations are isomorphic when a series b(t)=1+b₁t+⋯ intertwines their coefficient series; a deformation is trivial when isomorphic to the constant one.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_4.IsIsomorphic; Etingof.Problem3_9_4.IsTrivial",
+          "note": "The coefficient equations encode bρ̃=ρ̃'b; b₀=id makes b formally invertible."
+        },
+        {
+          "claim": "If Ext¹(V,V)=0, then every formal deformation of ρ is trivial.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_4.isTrivial_of_ext1_subsingleton",
+          "note": "The proof constructs the trivializing series recursively and kills each obstruction cocycle using the Ext¹ hypothesis."
+        },
+        {
+          "claim": "Part (b) asks whether the converse holds, suggesting the dual numbers k[x]/x² as a test case.",
+          "verdict": "non_formalizable",
+          "reason": "The source poses an open-ended question rather than asserting a truth value. Lean faithfully records the proposition and its dual-number specialization as ConverseHolds and Problem3_9_4b, but does not assert either."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Problem3.9.5",
@@ -3814,7 +4048,72 @@
         ],
         "reason": "isSemisimpleRing_iff_nondegenerate (1476): IsSemisimpleRing (Cl(V)) ↔ B.Nondegenerate (forward = not_isSemisimpleRing_of_degenerate contrapositive; reverse = part (i)). radicalQuotient_isClifford_of_degenerate (1742): B degenerate ⇒ ∃ nondegenerate symmetric B' on W with a surjective algebra map Cl(V)→Cl(W,B') whose kernel is Ring.jacobson (Cl(V)), i.e. Cl(V)/Rad ≅ Cl(V/rad B, induced form). Axiom-clean."
       }
-    ]
+    ],
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Cl(V) is the tensor algebra modulo v⊗v-(v,v)1, equivalently the Clifford algebra of Q(v)=B(v,v).",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "CliffordAlgebra; Etingof.Problem3_9_5.quadForm; Etingof.Problem3_9_5.CliffAlg",
+          "note": "The project specializes Mathlib's universal CliffordAlgebra construction to the quadratic form induced by B."
+        },
+        {
+          "claim": "The generators satisfy xᵢxⱼ+xⱼxᵢ=2aᵢⱼ and xᵢ²=aᵢᵢ.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "CliffordAlgebra.ι_mul_ι_add_swap; CliffordAlgebra.ι_sq_scalar"
+        },
+        {
+          "claim": "For the zero bilinear form, Cl(V) is the exterior algebra ΛV.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_5.cliffordAlgebra_zero_eq_exterior"
+        },
+        {
+          "claim": "Ordered Clifford monomials indexed by subsets span and form a 2^dim(V)-element basis, so dim Cl(V)=2^dim(V).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_5.span_e_eq_top; Etingof.Problem3_9_5.cliffBasis; Etingof.Problem3_9_5.finrank_cliffAlg"
+        },
+        {
+          "claim": "If B is nondegenerate, then Cl(V) is semisimple.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_5.isSemisimpleRing_of_nondegenerate"
+        },
+        {
+          "claim": "If dim V=2n and B is nondegenerate, Cl(V) is a full matrix algebra End(S) with dim S=2^n, hence has one irreducible representation of that dimension.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_5.even_isMatrixAlgebra",
+          "note": "The full matrix-algebra equivalence is stronger than the stated irreducible-count conclusion."
+        },
+        {
+          "claim": "If dim V=2n+1 and B is nondegenerate, Cl(V) is End(S)×End(S) with dim S=2^n, hence has exactly two irreducible representations of that dimension.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_5.odd_isSumMatrixAlgebra",
+          "note": "The product-of-matrix-algebras equivalence includes nonisomorphism and exhaustiveness of the two simple factors."
+        },
+        {
+          "claim": "The requested proof constructs S=Λ(a₁,…,aₙ), lets bᵢ act by contraction, proves this concrete action irreducible, and in odd dimension constructs the two parity actions S₊ and S₋.",
+          "verdict": "intentional_omission",
+          "reason": "The abstract matrix-algebra classification is proved, but this explicit exterior-algebra spinor construction and its hyperbolic-basis, contraction, irreducibility, parity-action, and nonisomorphism steps are not formalized; follow-up #6607 tracks the requested construction."
+        },
+        {
+          "claim": "Cl(V) is semisimple if and only if B is nondegenerate.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_5.isSemisimpleRing_iff_nondegenerate"
+        },
+        {
+          "claim": "For degenerate B, Cl(V)/Rad(Cl(V)) is the Clifford algebra of the induced nondegenerate form on V/rad(B).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_5.radicalQuotient_isClifford_of_degenerate",
+          "note": "The theorem constructs the quotient form and a surjective algebra map whose kernel is the Jacobson radical."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Introduction_to_3.10",
