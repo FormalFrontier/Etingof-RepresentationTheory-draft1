@@ -7189,11 +7189,12 @@
     "end_page": "149",
     "start_line": 7,
     "end_line": 13,
-    "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "The density/comorphism/dimension argument is proved for quiver representation spaces under their base-change groups, with reusable conditional field-embedding lemmas. The source theorem for an arbitrary algebraic GL_m-representation with finitely many orbits, and its product-GL generalization, are absent. Follow-up #7428.",
-    "followup_issue": 7428,
-    "last_updated": "2026-07-22"
+    "status": "proved",
+    "fidelity": "verified",
+    "needs_statement": false,
+    "coverage": "covered_full",
+    "coverage_note": "Problem6_1_2 proves the book-facing arbitrary algebraic GL_n result and the finite-product GL result. It constructs an algebraically dense orbit, an injective orbit-map comorphism into the determinant-localized coordinate ring, and derives the exact n^2 / sum_i m_i^2 bounds via Problem 6.1.1.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter6/Problem6.1.3",
@@ -8061,12 +8062,13 @@
     "end_page": "178",
     "start_line": 15,
     "end_line": 24,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "coverage_note": "The E8 lattice basis, chosen-vector Gram matrix, coordinate-equality sublattices, and E6/E7/E8 root counts are proved. The root-system axioms and the actual E8/E7/E6 type-identification theorems required by parts (b) and (c) are absent (#7557).",
-    "coverage": "covered_partial",
-    "coverage_issue": 7557,
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "full",
+    "sorry_free": true,
+    "coverage_note": "The lattice basis, coordinate descriptions, and root counts are joined to a faithful finite reduced simply-laced crystallographic root-system predicate. The E8, E7, and E6 root sets are proved finite, norm-two, reduced, integral, closed under negation, and closed under root reflections. Explicit compatible simple-root families are exhibited and their Gram graphs are proved to be the standard E8, E7, and E6 Dynkin diagrams, packaged by rootsOf_E8_type_E8, rootsOf_E7_type_E7, and rootsOf_E6_type_E6. All declarations are sorryAx-free; #7557 resolved.",
+    "coverage": "covered",
+    "lean_file": "EtingofRepresentationTheory/Chapter6/Problem6_9_2.lean;EtingofRepresentationTheory/Chapter6/Problem6_9_2_RootSystem.lean",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter6/Problem6.9.3",
@@ -9285,9 +9287,9 @@
     "end_line": 1,
     "status": "partially_formalized",
     "coverage": "covered_partial",
-    "note": "Part (i) is complete (#7912): KoszulContraction/KoszulDifferential build the complex Cᵢ = SV ⊗ ⋀ⁱ V with d ∘ d = 0, KoszulAugmentation adds the augmentation, freeness of the terms and basis-independence of d, KoszulBasis writes d out on the monomial/subset k-basis, KoszulHomotopy (#7911) constructs the k-linear contracting homotopy, and KoszulResolution turns it into exactness (koszulD_range_eq_ker, koszulD_zero_range_eq_ker_koszulAug) and the packaged CategoryTheory.ProjectiveResolution Etingof.koszulResolution, recorded as Etingof.Problem_8_2_10_i. Parts (ii)-(v) are still open: see issues #7883, #7884, #7885, #7886.",
+    "note": "Parts (i) and (v) are complete. For (i) (#7912), KoszulContraction/KoszulDifferential build Cᵢ = SV ⊗ ⋀ⁱ V, KoszulAugmentation adds the augmentation and freeness, KoszulBasis and KoszulHomotopy establish exactness, and KoszulResolution packages Etingof.koszulResolution / Etingof.Problem_8_2_10_i. For (v) (#7886), KoszulExtTor proves the Hom and tensor complexes have zero differential and gives genuine k-linear categorical isomorphisms Etingof.koszulExtIso : Extⁱ_{SV}(k,k) ≅ (⋀ⁱV)∗ and Etingof.koszulTorIso : Torᵢ^{SV}(k,k) ≅ ⋀ⁱV for every i. Parts (ii)-(iv) remain open: see issues #7883, #7884, #7885.",
     "fidelity_issue": 5723,
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter9/Introduction",
