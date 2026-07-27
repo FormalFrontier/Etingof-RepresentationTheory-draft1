@@ -172,8 +172,8 @@ lemma homEquivDeg_δ_one (z : Cochain (barCochainComplex k A W) (singleV A V) 1)
     Cochain.toSingleEquiv_toSingleMk, Cochain.toSingleEquiv_toSingleMk,
     ProjectiveResolution.cochainComplex_d (Etingof.barResolution k A W)
       (-((2 : ℕ) : ℤ)) (-((1 : ℕ) : ℤ)) 2 1 (by norm_num) (by norm_num), hd21]
-  simp only [Category.assoc, Iso.inv_hom_id_assoc, ModuleCat.hom_comp, ModuleCat.hom_ofHom,
-    LinearMap.comp_assoc]
+  simp only [Category.assoc, Iso.inv_hom_id_assoc, ModuleCat.hom_comp]
+  rfl
 
 /-- Under `homEquivDeg`, the coboundary `δ 0 1 β` becomes `-(barDiff 0)` precomposed:
 `homEquivDeg 1 (δ 0 1 β) = -((homEquivDeg 0 β) ∘ₗ barDiff 0)`. -/
@@ -189,7 +189,8 @@ lemma homEquivDeg_δ_zero (β : Cochain (barCochainComplex k A W) (singleV A V) 
     ProjectiveResolution.cochainComplex_d (Etingof.barResolution k A W)
       (-((1 : ℕ) : ℤ)) (-((0 : ℕ) : ℤ)) 1 0 (by norm_num) (by norm_num), hd10]
   simp only [Preadditive.comp_neg, Category.assoc, Iso.inv_hom_id_assoc, ModuleCat.hom_neg,
-    ModuleCat.hom_comp, ModuleCat.hom_ofHom, LinearMap.comp_assoc]
+    ModuleCat.hom_comp]
+  rfl
 
 /-! ### Cocycle correspondence -/
 
@@ -276,7 +277,7 @@ lemma Ψ1_δ_zero_eq (β : Cochain (barCochainComplex k A W) (singleV A V) 0) :
       show a ⊗ₜ[k] (barCoeffZeroEquiv k A W).symm w
           = a • ((1 : A) ⊗ₜ[k] (barCoeffZeroEquiv k A W).symm w) by
         rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one],
-      map_smul, ← hΨ0 w, ← hΨ0 (a • w)]
+      g0.map_smul, ← hΨ0 w, ← hΨ0 (a • w)]
     abel
   have hΨ1 : Ψ1 k A W V (δ 0 1 β)
       = coeffEquiv1 k A W V (-(g0.comp (barDiff k A W 0))) := by
@@ -297,59 +298,117 @@ lemma Ψ1_δ_zero_mem_coboundaries
 
 /-! ### The isomorphism -/
 
-/-- **Problem 8.2.6(ii).** The degree-`1` cohomology of `Hom(barResolution, V)` is
-canonically isomorphic to `Ext¹` in the cocycle/coboundary presentation of Problem 3.9.1. -/
-noncomputable def cohomologyClassEquivExt1 :
-    CohomologyClass (barCochainComplex k A W) (singleV A V) 1
-      ≃+ Problem3_9_1.Ext1 k A V W := by
-  -- `Ψ1` carries cocycle cochains bijectively onto `Problem3_9_1`-cocycles.
+/-- The degree-`1` bar cocycles are additively equivalent to the cocycles of
+Problem 3.9.1.  On underlying cochains this is exactly the tensor–hom chart `Ψ1`. -/
+noncomputable def barCocycleEquivProblem3Cocycle :
+    Cocycle (barCochainComplex k A W) (singleV A V) 1 ≃+
+      ↥(Problem3_9_1.cocycles k A V W) := by
   have hcocy : (cocycle (barCochainComplex k A W) (singleV A V) 1).map
         ((Ψ1 k A W V).toAddMonoidHom)
       = (Problem3_9_1.cocycles k A V W).toAddSubgroup := by
     ext F
-    simp only [AddSubgroup.mem_map, AddEquiv.coe_toAddMonoidHom, Submodule.mem_toAddSubgroup]
+    simp only [AddSubgroup.mem_map, AddEquiv.coe_toAddMonoidHom,
+      Submodule.mem_toAddSubgroup]
     constructor
     · rintro ⟨z, hz, rfl⟩
-      exact (isCocycle_Ψ1_iff k A W V z).mpr ((Cocycle.mem_iff 1 2 (by norm_num) z).mp hz)
+      exact (isCocycle_Ψ1_iff k A W V z).mpr
+        ((Cocycle.mem_iff 1 2 (by norm_num) z).mp hz)
     · intro hF
-      refine ⟨(Ψ1 k A W V).symm F, (Cocycle.mem_iff 1 2 (by norm_num) _).mpr ?_, by simp⟩
-      rw [← isCocycle_Ψ1_iff, AddEquiv.apply_symm_apply]; exact hF
-  set e : Cocycle (barCochainComplex k A W) (singleV A V) 1 ≃+
+      refine ⟨(Ψ1 k A W V).symm F,
+        (Cocycle.mem_iff 1 2 (by norm_num) _).mpr ?_, by simp⟩
+      rw [← isCocycle_Ψ1_iff, AddEquiv.apply_symm_apply]
+      exact hF
+  exact
+    ((Ψ1 k A W V).addSubgroupMap
+      (cocycle (barCochainComplex k A W) (singleV A V) 1)).trans
+      (AddEquiv.addSubgroupCongr hcocy)
+
+@[simp]
+theorem barCocycleEquivProblem3Cocycle_coe
+    (z : Cocycle (barCochainComplex k A W) (singleV A V) 1) :
+    ((barCocycleEquivProblem3Cocycle k A W V z :
+        ↥(Problem3_9_1.cocycles k A V W)) : A →ₗ[k] W →ₗ[k] V) =
+      Ψ1 k A W V (z : Cochain (barCochainComplex k A W) (singleV A V) 1) :=
+  rfl
+
+/-- On elements, the cocycle comparison is the tensor–hom chart: evaluate the bar cochain on
+`1 ⊗ (a ⊗ w)`. -/
+@[simp]
+theorem barCocycleEquivProblem3Cocycle_apply
+    (z : Cocycle (barCochainComplex k A W) (singleV A V) 1) (a : A) (w : W) :
+    (barCocycleEquivProblem3Cocycle k A W V z :
+        ↥(Problem3_9_1.cocycles k A V W)).1 a w =
+      homEquivDeg k A W V 1
+        (z : Cochain (barCochainComplex k A W) (singleV A V) 1)
+        ((1 : A) ⊗ₜ[k] ((tprod k ![a]) ⊗ₜ[k] w)) := by
+  rw [barCocycleEquivProblem3Cocycle_coe]
+  exact coeffEquiv1_apply k A W V _ a w
+
+/-- The Problem-3.9.1 coboundaries, regarded as an additive subgroup of its cocycles. -/
+abbrev problem3CoboundariesInCocycles (k A V W : Type u)
+    [Field k] [Ring A] [Algebra k A]
+    [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
+    [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W] :
+    AddSubgroup ↥(Problem3_9_1.cocycles k A V W) :=
+  ((Problem3_9_1.coboundaries k A V W).submoduleOf
+    (Problem3_9_1.cocycles k A V W)).toAddSubgroup
+
+/-- The bar-coboundary subgroup is carried exactly onto the Problem-3.9.1
+coboundary subgroup by `barCocycleEquivProblem3Cocycle`. -/
+theorem barCocycleEquivProblem3Cocycle_map_coboundaries :
+    (coboundaries (barCochainComplex k A W) (singleV A V) 1).map
+        (barCocycleEquivProblem3Cocycle k A W V).toAddMonoidHom =
+      problem3CoboundariesInCocycles k A V W := by
+  let e : Cocycle (barCochainComplex k A W) (singleV A V) 1 ≃+
       ↥(Problem3_9_1.cocycles k A V W) :=
-    ((Ψ1 k A W V).addSubgroupMap (cocycle (barCochainComplex k A W) (singleV A V) 1)).trans
-      (AddEquiv.addSubgroupCongr hcocy) with he_def
-  -- The coercion of `e` is `Ψ1` on the underlying cochain.
-  have he_coe : ∀ x : Cocycle (barCochainComplex k A W) (singleV A V) 1,
-      ((e x : ↥(Problem3_9_1.cocycles k A V W)) : A →ₗ[k] W →ₗ[k] V)
-        = Ψ1 k A W V (x : Cochain (barCochainComplex k A W) (singleV A V) 1) :=
-    fun _ => rfl
+    barCocycleEquivProblem3Cocycle k A W V
   have hmem : ∀ c : ↥(Problem3_9_1.cocycles k A V W),
       c ∈ (Problem3_9_1.coboundaries k A V W).submoduleOf (Problem3_9_1.cocycles k A V W)
         ↔ (↑c : A →ₗ[k] W →ₗ[k] V) ∈ Problem3_9_1.coboundaries k A V W :=
     fun _ => Submodule.mem_comap
-  have he : (coboundaries (barCochainComplex k A W) (singleV A V) 1).map (e.toAddMonoidHom)
-      = ((Problem3_9_1.coboundaries k A V W).submoduleOf
-          (Problem3_9_1.cocycles k A V W)).toAddSubgroup := by
-    ext c
-    simp only [AddSubgroup.mem_map, AddEquiv.coe_toAddMonoidHom, Submodule.mem_toAddSubgroup, hmem]
-    constructor
-    · rintro ⟨x, hx, rfl⟩
-      obtain ⟨β, hβ⟩ := (mem_coboundaries_iff x 0 (by norm_num)).mp hx
-      rw [he_coe, ← hβ, Ψ1_δ_zero_eq]
-      exact Submodule.subset_span (Set.mem_range_self _)
-    · intro hc
-      obtain ⟨X, hX⟩ := (Problem3_9_1.mem_coboundaries_iff k A V W _).mp hc
-      refine ⟨e.symm c, ?_, by simp⟩
-      rw [mem_coboundaries_iff _ 0 (by norm_num)]
-      refine ⟨(Ψ0 k A W V).symm (-X), ?_⟩
-      apply (Ψ1 k A W V).injective
-      have h1 : Ψ1 k A W V (↑(e.symm c)) = (↑c : A →ₗ[k] W →ₗ[k] V) := by
-        rw [← he_coe (e.symm c), AddEquiv.apply_symm_apply]
-      have hcoe : (↑(e.symm c) : Cochain (barCochainComplex k A W) (singleV A V) 1)
-          = (Ψ1 k A W V).symm (↑c : A →ₗ[k] W →ₗ[k] V) :=
-        (AddEquiv.eq_symm_apply (Ψ1 k A W V)).mpr h1
-      rw [Ψ1_δ_zero_eq, AddEquiv.apply_symm_apply, neg_neg, hcoe, AddEquiv.apply_symm_apply, hX]
-  exact QuotientAddGroup.congr _ _ e he
+  ext c
+  simp only [AddSubgroup.mem_map, AddEquiv.coe_toAddMonoidHom,
+    Submodule.mem_toAddSubgroup, hmem]
+  constructor
+  · rintro ⟨x, hx, rfl⟩
+    obtain ⟨β, hβ⟩ := (mem_coboundaries_iff x 0 (by norm_num)).mp hx
+    rw [barCocycleEquivProblem3Cocycle_coe, ← hβ, Ψ1_δ_zero_eq]
+    exact Submodule.subset_span (Set.mem_range_self _)
+  · intro hc
+    obtain ⟨X, hX⟩ := (Problem3_9_1.mem_coboundaries_iff k A V W _).mp hc
+    refine ⟨e.symm c, ?_, by simp [e]⟩
+    rw [mem_coboundaries_iff _ 0 (by norm_num)]
+    refine ⟨(Ψ0 k A W V).symm (-X), ?_⟩
+    apply (Ψ1 k A W V).injective
+    have h1 : Ψ1 k A W V (↑(e.symm c)) = (↑c : A →ₗ[k] W →ₗ[k] V) := by
+      rw [← barCocycleEquivProblem3Cocycle_coe k A W V (e.symm c)]
+      simp [e]
+    have hcoe : (↑(e.symm c) : Cochain (barCochainComplex k A W) (singleV A V) 1)
+        = (Ψ1 k A W V).symm (↑c : A →ₗ[k] W →ₗ[k] V) :=
+      (AddEquiv.eq_symm_apply (Ψ1 k A W V)).mpr h1
+    rw [Ψ1_δ_zero_eq, AddEquiv.apply_symm_apply, neg_neg, hcoe,
+      AddEquiv.apply_symm_apply, hX]
+
+/-- **Problem 8.2.6(ii).** The degree-`1` cohomology of `Hom(barResolution, V)` is
+canonically isomorphic to `Ext¹` in the cocycle/coboundary presentation of Problem 3.9.1. -/
+noncomputable def cohomologyClassEquivExt1 :
+    CohomologyClass (barCochainComplex k A W) (singleV A V) 1
+      ≃+ Problem3_9_1.Ext1 k A V W :=
+  QuotientAddGroup.congr _ _ (barCocycleEquivProblem3Cocycle k A W V)
+    (barCocycleEquivProblem3Cocycle_map_coboundaries k A W V)
+
+set_option maxHeartbeats 1000000 in
+-- Unfolding the quotient congruence is expensive because its source is a nested
+-- cocycle/coboundary subtype quotient, so give this representative formula local headroom.
+/-- The canonical cohomology comparison sends a represented bar-cohomology class to the
+class of the corresponding Problem-3.9.1 cocycle. -/
+@[simp]
+theorem cohomologyClassEquivExt1_mk
+    (z : Cocycle (barCochainComplex k A W) (singleV A V) 1) :
+    cohomologyClassEquivExt1 k A W V (CohomologyClass.mk z) =
+      QuotientAddGroup.mk'
+        (problem3CoboundariesInCocycles k A V W)
+        (barCocycleEquivProblem3Cocycle k A W V z) :=
+  rfl
 
 end Etingof
-
