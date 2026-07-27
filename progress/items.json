@@ -805,10 +805,42 @@
     "start_line": 16,
     "end_line": 19,
     "status": "sorry_free",
-    "coverage_swept": {
-      "wave": 1,
-      "result": "none"
-    }
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "lean_file": "EtingofRepresentationTheory/Chapter2/Discussion_2_5_well_defined.lean",
+    "coverage_note": "Stage 3.2 audit: the additive-coset quotient, canonical quotient map, and prescribed multiplication are named explicitly, including the bridge from ring-congruence equality to difference membership in the two-sided ideal.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.5",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For a two-sided ideal I of A, the quotient A/I is the quotient by additive-coset equality.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.QuotientAlgebra"
+        },
+        {
+          "claim": "Two elements have the same image in A/I exactly when their difference lies in I.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.quotientAlgHom_eq_iff_sub_mem"
+        },
+        {
+          "claim": "There is a canonical quotient map pi : A → A/I.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.quotientAlgHom"
+        },
+        {
+          "claim": "Multiplication is prescribed by pi(a) * pi(b) = pi(ab).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.quotientAlgHom_mul"
+        }
+      ]
+    },
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Discussion_2.5_well_defined",
@@ -820,8 +852,56 @@
     "end_line": 18,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "coverage_note": "Public quotient infrastructure supplies the quotient algebra and canonical algebra map, the quotient representation V/W, and the regular quotient A/I exactly as stated.",
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "lean_file": "EtingofRepresentationTheory/Chapter2/Discussion_2_5_well_defined.lean",
+    "coverage_note": "Stage 3.2 audit: named declarations expose both representative-independence calculations, the quotient algebra structure, quotient-module structure and action formula, the definitional left-ideal/subrepresentation identification, and the regular quotient representation.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.5",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Right-ideal absorption makes the quotient product independent of the representative chosen for its left factor.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.quotientAlgHom_mul_eq_of_sub_mem_left"
+        },
+        {
+          "claim": "Left-ideal absorption makes the quotient product independent of the representative chosen for its right factor.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.quotientAlgHom_mul_eq_of_sub_mem_right"
+        },
+        {
+          "claim": "The two-sided-ideal quotient multiplication is well defined and makes A/I an algebra.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.quotientAlgebraStructure"
+        },
+        {
+          "claim": "If W is an A-subrepresentation of V, then V/W is an A-representation.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.quotientRepresentation"
+        },
+        {
+          "claim": "The quotient action is rho_(V/W)(a)(pi(x)) = pi(rho_V(a)(x)).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.quotientMk_smul"
+        },
+        {
+          "claim": "Left ideals of A are the A-submodules of its regular representation.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.RegularLeftIdeal"
+        },
+        {
+          "claim": "For a left ideal I, the regular quotient A/I is an A-representation.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.regularQuotientRepresentation"
+        }
+      ]
+    },
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Problem2.5.1",
@@ -833,8 +913,31 @@
     "end_line": 19,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22",
-    "coverage_note": "Proved 2026-07-08 (#5966): A/I is local (higher-degree part nilpotent via homogeneous components), so no nontrivial idempotents; submodules of the cyclic module are ideals, giving the decomposition-to-idempotent argument."
+    "fidelity": "verified",
+    "lean_file": "EtingofRepresentationTheory/Chapter2/Problem2_5_1.lean",
+    "last_updated": "2026-07-27",
+    "coverage_note": "Proved 2026-07-08 (#5966). Stage 3.2 re-audit 2026-07-27: A is literally MvPolynomial (Fin n) k; hIne records I != A; hI quantifies over every homogeneous p of every d >= N; the conclusion is the nontrivial, no-complement definition of indecomposability.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.5",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A is k[x_1,...,x_n], I is proper, and I contains every homogeneous polynomial of every degree d >= N.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_5_1.quotient_isIndecomposable"
+        },
+        {
+          "claim": "The quotient representation A/I is indecomposable (in particular, nonzero and admitting no decomposition into two nonzero subrepresentations).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_5_1.quotient_isIndecomposable"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Problem2.5.2",
@@ -846,8 +949,71 @@
     "end_line": 29,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "coverage_note": "All three parts are proved. (a) `irreducible_iff_forall_cyclic`, (b) `cyclic_iff_isoQuotient`, (c) the textbook hint in full: `PartC.A` is `ℂ[x, y]/I₂` (as a trivial square-zero extension, identified with the literal quotient by `PartC.algEquiv`, with basis `1, x, y` given by `PartC.basis`), and its coregular module `PartC.V = Etingof.Coregular ℂ PartC.A` is indecomposable (`PartC.isIndecomposable`) but not cyclic (`PartC.not_cyclic`), packaged as `PartC.indecomposable_not_cyclic`.",
-    "last_updated": "2026-07-25"
+    "fidelity": "verified",
+    "lean_file": "EtingofRepresentationTheory/Chapter2/Problem2_5_2.lean",
+    "coverage_note": "Stage 3.2 re-audit: cyclic vector and cyclic representation are named definitions; (a), (b), and (c) retain every hypothesis and conclusion. The hint is implemented literally, with a new bridge proving the quadratic-generator ideal equals the ideal spanned by all homogeneous polynomials of degree >= 2.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.5",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A vector v is cyclic exactly when Av = V.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_5_2.IsCyclicVector"
+        },
+        {
+          "claim": "A representation is cyclic exactly when it admits a cyclic vector.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_5_2.IsCyclic"
+        },
+        {
+          "claim": "For a nonzero representation V, irreducibility is equivalent to every nonzero vector being cyclic.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_5_2.irreducible_iff_forall_cyclic"
+        },
+        {
+          "claim": "For a nonzero representation V, cyclicity is equivalent to A-linear isomorphism with A/I for some left ideal I.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_5_2.cyclic_iff_isoQuotient"
+        },
+        {
+          "claim": "The hint's ideal I_2 is the ideal spanned by all homogeneous polynomials of degree at least two.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_5_2.PartC.I₂_eq_span_homogeneous_ge_two"
+        },
+        {
+          "claim": "The algebra in the hint is ℂ[x,y]/I_2.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_5_2.PartC.algEquiv"
+        },
+        {
+          "claim": "The algebra ℂ[x,y]/I_2 has basis 1, x, y.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_5_2.PartC.basis"
+        },
+        {
+          "claim": "The coregular representation has underlying vector space A*.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Coregular"
+        },
+        {
+          "claim": "The coregular action is (rho(a)f)(b) = f(ba).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Coregular.toDual_smul"
+        },
+        {
+          "claim": "The hinted coregular representation of ℂ[x,y]/I_2 is indecomposable but not cyclic.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_5_2.PartC.indecomposable_not_cyclic"
+        }
+      ]
+    },
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Discussion_2.6",
