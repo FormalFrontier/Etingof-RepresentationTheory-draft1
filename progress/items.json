@@ -2952,6 +2952,25 @@
     "start_line": 9,
     "end_line": 9,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.14",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The Section 2.14 heading identifies tensor products and duals of Lie algebra representations but makes no mathematical assertion.",
+          "verdict": "non_formalizable",
+          "reason": "This is an organizational heading only."
+        }
+      ]
+    },
+    "last_updated": "2026-07-27",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -2972,7 +2991,28 @@
     "fidelity_issue": 5355,
     "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.14",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The tensor product of Lie algebra representations V and W has underlying space V ⊗ W.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.LieTensorProduct"
+        },
+        {
+          "claim": "Its action is ρ_{V⊗W}(x) = ρ_V(x) ⊗ Id + Id ⊗ ρ_W(x).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.LieTensorProduct.lie_tmul"
+        }
+      ]
+    },
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Definition2.14.2",
@@ -2989,7 +3029,33 @@
     "fidelity_issue": 5356,
     "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.14",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The dual representation V* has the underlying dual space of V.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.LieDualRepresentation"
+        },
+        {
+          "claim": "Its action is the contragredient action ρ_{V*}(x) = -ρ_V(x)*.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.lieDualRepresentation_lie_apply"
+        },
+        {
+          "claim": "The tensor-product and dual constructions are genuine Lie algebra representations.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "TensorProduct.LieModule.lieRingModule; TensorProduct.LieModule.lieModule; Module.Dual.instLieRingModule; Module.Dual.instLieModule"
+        }
+      ]
+    },
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Problem2.14.3",
@@ -3000,10 +3066,34 @@
     "start_line": 18,
     "end_line": 20,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "The exact Lie-module tensor-Hom linear equivalence is constructed sorry-free, but the public theorem immediately hides it inside Nonempty. A named usable adjunction and application API remain #6217.",
-    "followup_issue": 6217,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "sorry_free": true,
+    "lean_decl": "Etingof.Problem2_14_3.tensorHomAdjunction",
+    "coverage_note": "The exact Lie-equivariant tensor-Hom linear equivalence is exposed as the named, directly usable definition Etingof.Problem2_14_3.tensorHomAdjunction; the original existence theorem is retained as a compatibility wrapper.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.14",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For finite-dimensional Lie algebra representations V, W, and U, Hom_𝔤(V ⊗ W, U) is isomorphic to Hom_𝔤(V, U ⊗ W*).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_14_3.tensorHomAdjunction"
+        },
+        {
+          "claim": "Hom_𝔤 denotes the morphisms of representations, equivalently the homomorphisms of modules over the universal enveloping algebra U(𝔤).",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Exercise2_9_11.repEquiv",
+          "note": "The earlier exercise formalizes the universal-property equivalence between Lie representations and U(𝔤)-representations; Problem 2.14.3 uses Mathlib's equivalent LieModuleHom model for the morphism spaces."
+        }
+      ]
+    },
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Discussion_2.15_heading",

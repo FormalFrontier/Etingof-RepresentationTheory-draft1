@@ -74,11 +74,19 @@ def congrHomRight {B C : Type*}
   left_inv f := by ext v; simp [LieModuleHom.comp_apply]
   right_inv g := by ext v; simp [LieModuleHom.comp_apply]
 
-/-- **Problem 2.14.3.** For finite dimensional representations `V, W, U` of a Lie algebra `𝔤`,
-`Hom_𝔤(V ⊗ W, U) ≅ Hom_𝔤(V, U ⊗ W*)`. -/
+/-- **Problem 2.14.3.** The explicit linear equivalence
+`Hom_𝔤(V ⊗ W, U) ≅ Hom_𝔤(V, U ⊗ W*)` for finite-dimensional Lie representations. -/
+noncomputable def tensorHomAdjunction :
+    (TensorProduct k V W →ₗ⁅k,L⁆ U) ≃ₗ[k]
+      (V →ₗ⁅k,L⁆ TensorProduct k U (Module.Dual k W)) :=
+  (TensorProduct.LieModule.liftLie k L V W U).symm.trans (congrHomRight dualHomEquiv)
+
+omit [FiniteDimensional k V] [FiniteDimensional k U] in
+/-- The existence form of `tensorHomAdjunction`, retained for compatibility with the original
+statement-level formalization. -/
 theorem exists_tensorHom_adjunction :
     Nonempty ((TensorProduct k V W →ₗ⁅k,L⁆ U) ≃ₗ[k]
       (V →ₗ⁅k,L⁆ TensorProduct k U (Module.Dual k W))) :=
-  ⟨(TensorProduct.LieModule.liftLie k L V W U).symm.trans (congrHomRight dualHomEquiv)⟩
+  ⟨tensorHomAdjunction⟩
 
 end Etingof.Problem2_14_3
