@@ -55,6 +55,7 @@ import EtingofRepresentationTheory.Chapter5.Remark5_9_2
 
 -- Section 5.10: Frobenius Reciprocity
 import EtingofRepresentationTheory.Chapter5.Theorem5_10_1
+import EtingofRepresentationTheory.Chapter5.Problem5_10_2
 
 -- Section 5.11: Worked examples of induced representations (S₃)
 import EtingofRepresentationTheory.Chapter5.Discussion5_11_examples
@@ -89,6 +90,7 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_14_3_Centralizer
 
 -- Section 5.15: Frobenius Character Formula
 import EtingofRepresentationTheory.Chapter5.Theorem5_15_1
+import EtingofRepresentationTheory.Chapter5.Theorem5_15_1_General
 import EtingofRepresentationTheory.Chapter5.YoungRuleDecomposition
 import EtingofRepresentationTheory.Chapter5.Theorem5_15_1_Test
 import EtingofRepresentationTheory.Chapter5.Remark5_15_2
@@ -236,6 +238,7 @@ import EtingofRepresentationTheory.Chapter5.GroupAlgebraCenter
 -- Section 5.26: Artin's Theorem
 import EtingofRepresentationTheory.Chapter5.Theorem5_26_1
 import EtingofRepresentationTheory.Chapter5.Theorem5_26_1_Test
+import EtingofRepresentationTheory.Chapter5.Remark5_26_2
 import EtingofRepresentationTheory.Chapter5.Corollary5_26_3
 
 import EtingofRepresentationTheory.Chapter5.QuotDetDegreeAlgebraic

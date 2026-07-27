@@ -104,10 +104,73 @@ def rep : Representation ℂ G (submodule H lam) where
 lemma rep_apply_coe (a : G) (f : ↥(submodule H lam)) (g : G) :
     ((rep H lam a f : ↥(submodule H lam)) : G → ℂ) g = (f : G → ℂ) (g * a) := rfl
 
+/-! ### Conjugating the inducing character -/
+
+/-- Conjugate a character of `H` by an element of its normalizer. -/
+def conjugateCharacter (s : G) (hs : s ∈ Subgroup.normalizer H) : ↥H →* ℂˣ where
+  toFun h := lam ⟨s * h * s⁻¹, (Subgroup.mem_normalizer_iff.mp hs h).mp h.2⟩
+  map_one' := by
+    rw [← map_one lam]
+    apply congrArg lam
+    ext
+    simp
+  map_mul' a b := by
+    rw [← map_mul]
+    apply congrArg lam
+    ext
+    simp only [Subgroup.coe_mul]
+    group
+
+/-- Left translation by a normalizing element identifies the two covariance spaces. -/
+def conjugateLinearEquiv (s : G) (hs : s ∈ Subgroup.normalizer H) :
+    submodule H lam ≃ₗ[ℂ] submodule H (conjugateCharacter H lam s hs) where
+  toFun f := ⟨fun g => f.val (s * g), by
+    intro h g
+    change f.val (s * (h * g)) =
+      (lam ⟨s * h * s⁻¹, (Subgroup.mem_normalizer_iff.mp hs h).mp h.2⟩ : ℂ) * f.val (s * g)
+    have hf := f.2 ⟨s * h * s⁻¹, (Subgroup.mem_normalizer_iff.mp hs h).mp h.2⟩ (s * g)
+    convert hf using 1; group⟩
+  invFun f := ⟨fun g => f.val (s⁻¹ * g), by
+    intro h g
+    have hs_inv : s⁻¹ ∈ Subgroup.normalizer H := inv_mem hs
+    have hmem : s⁻¹ * (h : G) * s ∈ H :=
+      by simpa only [inv_inv] using (Subgroup.mem_normalizer_iff.mp hs_inv h).mp h.2
+    let h' : H := ⟨s⁻¹ * (h : G) * s, hmem⟩
+    change f.val (s⁻¹ * ((h : G) * g)) =
+      (lam h : ℂ) * f.val (s⁻¹ * g)
+    have hf := f.2 h' (s⁻¹ * g)
+    change f.val ((h' : G) * (s⁻¹ * g)) =
+      (lam ⟨s * (h' : G) * s⁻¹,
+        (Subgroup.mem_normalizer_iff.mp hs h').mp h'.2⟩ : ℂ) * f.val (s⁻¹ * g) at hf
+    simpa [h', mul_assoc] using hf⟩
+  left_inv f := by ext g; simp
+  right_inv f := by ext g; simp
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+
+@[simp]
+lemma conjugateLinearEquiv_apply (s : G) (hs : s ∈ Subgroup.normalizer H)
+    (f : submodule H lam) (g : G) :
+    ((conjugateLinearEquiv H lam s hs f : submodule H
+      (conjugateCharacter H lam s hs)) : G → ℂ) g = f.val (s * g) := rfl
+
 variable [Fintype G] [DecidablePred (· ∈ H)]
 
 /-- The induced representation `Ind_H^G ℂ_lam` as a finite-dimensional representation. -/
 def ind : FDRep ℂ G := FDRep.of (rep H lam)
+
+/-- Induction is unchanged when the inducing character is conjugated by an element of
+the subgroup normalizer. -/
+def indConjugateIso (s : G) (hs : s ∈ Subgroup.normalizer H) :
+    ind H lam ≅ ind H (conjugateCharacter H lam s hs) :=
+  Action.mkIso (conjugateLinearEquiv H lam s hs).toFGModuleCatIso (fun a => by
+    ext f
+    change conjugateLinearEquiv H lam s hs (rep H lam a f) =
+      rep H (conjugateCharacter H lam s hs) a (conjugateLinearEquiv H lam s hs f)
+    apply Subtype.ext
+    funext g
+    rw [conjugateLinearEquiv_apply, rep_apply_coe, rep_apply_coe,
+      conjugateLinearEquiv_apply, mul_assoc])
 
 /-! ### The averaging projection onto the covariance submodule -/
 
