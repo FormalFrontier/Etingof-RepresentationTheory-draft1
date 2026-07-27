@@ -19,6 +19,9 @@ The section was checked against the Stage 3.5 criteria:
   applying Zorn, and uses explicit simp sets rather than broad cleanup tactics.
 - There are no redundant local helper declarations, unused simp arguments, deprecated tactics,
   flexible `simp at`, or style warnings in either scoped file.
+- The two public ideal-membership bridge theorems have declaration documentation, and the
+  redundant simp registration on `mem_toLeft_iff` has been removed so that the scoped API passes
+  `simpNF`.
 
 No source rewrite was justified: shortening the explicit Zorn construction would hide the missing
 two-sided Mathlib API rather than improve readability. Both items therefore advance from
@@ -28,6 +31,9 @@ two-sided Mathlib API rather than improve readability. Both items therefore adva
 
 - `lake env lean EtingofRepresentationTheory/Chapter2/Discussion_2_4_heading.lean`
 - `lake env lean EtingofRepresentationTheory/Chapter2/Problem2_4_1.lean`
+- temporary scoped declaration-linter passes, including `docBlameThm` and `simpNF`; the
+  `defsWithUnderscore` naming check is inapplicable because it mechanically flags the established
+  source-aligned namespace `Discussion2_4`
 - `lake build EtingofRepresentationTheory.Chapter2`
 - `jq empty progress/items.json`
 - `git diff --check`
