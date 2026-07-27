@@ -4743,7 +4743,7 @@
     "end_page": "45",
     "start_line": 23,
     "end_line": 27,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "fidelity": "verified",
     "claim_coverage": {
@@ -4787,6 +4787,13 @@
       "actual_internal_dependencies": [],
       "basis": "The section heading is organizational and has no Lean provider or actual internal dependency."
     },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.2",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The organizational heading has no declaration to polish; its scoped providers are fully reviewed and style-clean."
+    },
     "last_updated": "2026-07-27",
     "coverage_swept": {
       "wave": 1,
@@ -4801,7 +4808,7 @@
     "end_page": "46",
     "start_line": 1,
     "end_line": 4,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "last_updated": "2026-07-27",
     "fidelity": "verified",
@@ -4848,6 +4855,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "The provider imports the later Theorem 3.2.2 implementation, not an earlier book item. That forward proof-order import is excluded from the backward pedagogical graph and is recorded explicitly in the Stage 3.4 audit note."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.2",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The public interpolation theorem is documented, warning-free, import-minimal, axiom-clean, and passes all 17 declaration linters."
     }
   },
   {
@@ -4858,7 +4872,7 @@
     "end_page": "46",
     "start_line": 5,
     "end_line": 13,
-    "status": "dependency_trimmed",
+    "status": "proof_polished",
     "fidelity": "verified",
     "notes": "Both parts proved. Part (i) uses Jacobson density theorem for simple modules. Part (ii) applies density theorem to the product module via Schur's lemma decomposition.",
     "sorry_free": true,
@@ -4933,6 +4947,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "Both density proofs use only Mathlib APIs. Their provider has one focused Mathlib import and no project import."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.2",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "Both public density theorems pass all 17 linters. Part (ii) now exposes proposition-valued Finite and constructs Fintype data only locally in the proof, eliminating the unused-Fintype API warning."
     },
     "last_updated": "2026-07-27"
   },
