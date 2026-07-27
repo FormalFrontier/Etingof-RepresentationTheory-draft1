@@ -3,6 +3,7 @@ import EtingofRepresentationTheory.Chapter8.KoszulDifferential
 import EtingofRepresentationTheory.Chapter8.KoszulAugmentation
 import EtingofRepresentationTheory.Chapter8.KoszulBasis
 import EtingofRepresentationTheory.Chapter8.KoszulResolution
+import EtingofRepresentationTheory.Chapter8.KoszulDirectSumResolution
 
 /-!
 # Problem 8.2.10: Koszul resolution and the Hilbert syzygies theorem
@@ -121,8 +122,19 @@ The exercise itself is being formalized bottom-up. Landed so far:
   (`Etingof.koszulPi_quasiIso`), giving `Etingof.koszulResolution` — see `Etingof.Problem_8_2_10_i`
   below.
 
-Still to come: the `SW` resolution (ii), the bimodule resolution (iii), Hilbert syzygies (iv), and
-the `Ext`/`Tor` computation (v). See the child issues linked from
+* `Chapter8/SymmetricAlgebraDirectSum.lean` and
+  `Chapter8/KoszulDirectSumResolution.lean` — **part (ii), exact resolution package**. The first
+  file proves the missing canonical algebra equivalence
+  `S(U × W) ≃ₐ[k] S(U) ⊗[k] S(W)`. The second externally tensors the Koszul resolution of the
+  trivial `S(U)`-module with the degree-zero resolution of the regular `S(W)`-module, then
+  transports it along that equivalence. The public endpoint
+  `Etingof.koszulComplementResolution` is a projective resolution of the resulting
+  `S(U × W)`-module, and `Etingof.koszulComplementResolution_quasiIso` records exactness. The
+  remaining part-(ii) presentation gap is a degreewise identification of this categorical total
+  complex with the literal free modules `S(U × W) ⊗[k] ⋀ⁱ U`.
+
+Still to come: the literal free-term presentation in (ii), the bimodule resolution (iii), Hilbert
+syzygies (iv), and the `Ext`/`Tor` computation (v). See the child issues linked from
 <https://github.com/FormalFrontier/Etingof-RepresentationTheory-draft1/issues/5723>.
 -/
 
