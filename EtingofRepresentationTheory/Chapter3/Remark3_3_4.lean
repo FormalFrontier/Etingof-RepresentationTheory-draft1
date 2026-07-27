@@ -38,6 +38,13 @@ noncomputable def freeCover (b : Basis ι k X) : (ι → A) →ₗ[A] X where
 theorem freeCover_apply (b : Basis ι k X) (a : ι → A) :
     freeCover A b a = ∑ i, (a i • b i : X) := rfl
 
+/-- The formula in Remark 3.3.4 uniquely determines the free-cover homomorphism. -/
+theorem freeCover_unique (b : Basis ι k X) (f : (ι → A) →ₗ[A] X)
+    (hf : ∀ a, f a = ∑ i, (a i • b i : X)) :
+    f = freeCover A b := by
+  ext a
+  rw [hf, freeCover_apply]
+
 /-- The map `ψ : Aⁿ → X` is surjective. Etingof Remark 3.3.4. -/
 theorem freeCover_surjective (b : Basis ι k X) :
     Function.Surjective (freeCover A b) := by

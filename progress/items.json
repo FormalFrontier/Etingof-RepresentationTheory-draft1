@@ -3911,6 +3911,31 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The Section 3.3 heading identifies representations of direct sums of matrix algebras.",
+          "verdict": "non_formalizable",
+          "reason": "This is an organizational heading rather than a mathematical proposition."
+        },
+        {
+          "claim": "The section studies representations of finite direct sums of matrix algebras over an arbitrary field k.",
+          "verdict": "formalized",
+          "lean_decl": "MatProd; Etingof.irreducible_reps_of_matrix_algebra",
+          "note": "Lean models the finite direct sum by the equivalent finite product indexed by Fin r and assumes only Field k."
+        }
+      ]
     }
   },
   {
@@ -3928,7 +3953,40 @@
     "fidelity_issue": 5373,
     "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Each standard representation V_i = k^{d_i} is irreducible over A = ⊕_i Mat_{d_i}(k).",
+          "verdict": "formalized",
+          "lean_decl": "isSimpleModule_vModuleProd"
+        },
+        {
+          "claim": "Every finite-dimensional irreducible A-representation is isomorphic to one of the V_i.",
+          "verdict": "formalized",
+          "lean_decl": "exists_iso_vModuleProd"
+        },
+        {
+          "claim": "The listed standard representations have distinct isomorphism classes.",
+          "verdict": "formalized",
+          "lean_decl": "vModuleProd_iso_imp_eq",
+          "note": "An A-linear equivalence forces equality of the factor indices."
+        },
+        {
+          "claim": "Every finite-dimensional A-representation is a direct sum of copies of the standard V_i.",
+          "verdict": "formalized",
+          "lean_decl": "exists_iso_directSum_of_matrixProd",
+          "note": "The explicit multiplicity function m and A-linear direct-sum equivalence give the exact book conclusion; Etingof.irreducible_reps_of_matrix_algebra also packages simplicity, exhaustiveness, and semisimplicity."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Discussion_before_Definition3.3.2",
@@ -3942,6 +4000,25 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The proof of Theorem 3.3.1 motivates introducing the dual representation.",
+          "verdict": "non_formalizable",
+          "reason": "This is a methodological transition rather than an independent mathematical assertion."
+        }
+      ]
     }
   },
   {
@@ -3958,7 +4035,33 @@
     "fidelity_note": "DualRepresentation takes the algebra A and its action on V as parameters and carries the explicit contragredient Aᵐᵒᵖ-module structure, with dualRepresentation_smul_apply proving (op a • f)(v) = f(a • v).",
     "fidelity_decl": "Etingof.DualRepresentation (k A V) := Module.Dual k V, with Module A^mop instance (op a . f)(v) = f(a.v)",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The underlying space of the dual representation V* is the k-linear dual Hom_k(V,k).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.DualRepresentation"
+        },
+        {
+          "claim": "V* is a representation of A^op, equivalently a right A-module.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.instSMulMulOppositeDual; Etingof.instModuleMulOppositeDual"
+        },
+        {
+          "claim": "The contragredient action satisfies (f · a)(v) = f(a v).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.dualRepresentation_smul_apply"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Discussion_proof_of_Theorem3.3.1",
@@ -3973,11 +4076,87 @@
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The final classification theorem is public, but the book's advertised proof route through the transpose equivalence A^{n*} ≃ A^n and dualizing a surjection to an injection is not exposed; follow-up #7517.",
-    "fidelity_issue": 7517,
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The complete advertised dual route is public: the transpose equivalence, twisted dual action, free-to-dual surjection, dual injection, regular and free-module decompositions, and final direct-sum classification are all formalized end to end.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Each standard V_i is irreducible; a matrix element can send any chosen nonzero vector to any target vector.",
+          "verdict": "formalized",
+          "lean_decl": "isSimpleModule_vModuleProd",
+          "note": "The proof reduces to the single-factor matrix-vector calculation."
+        },
+        {
+          "claim": "For finite-dimensional X, the dual X* is finite-dimensional of the same dimension.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Subspace.dual_finrank_eq; Subspace.instModuleDualFiniteDimensional"
+        },
+        {
+          "claim": "Matrix transpose identifies Mat_d(k) with its opposite algebra because (BC)^T = C^T B^T.",
+          "verdict": "formalized",
+          "lean_decl": "matrixTransposeSelfDuality"
+        },
+        {
+          "claim": "Applying transpose factorwise identifies A = ⊕_i Mat_{d_i}(k) with A^op.",
+          "verdict": "formalized",
+          "lean_decl": "piMulOppositeRingEquiv; matProdTransposeSelfDuality"
+        },
+        {
+          "claim": "Using the transpose anti-automorphism, X* is again an A-representation.",
+          "verdict": "formalized",
+          "lean_decl": "twistedDualModule; twistedDual_isScalarTower"
+        },
+        {
+          "claim": "A basis y_l of X* defines the A-linear map φ : A^n → X* by φ(a) = ∑_l a_l y_l.",
+          "verdict": "formalized",
+          "lean_decl": "toDualHom; toDualHom_apply"
+        },
+        {
+          "claim": "The map φ is surjective because scalar coefficients embed from k into A.",
+          "verdict": "formalized",
+          "lean_decl": "toDualHom_surjective"
+        },
+        {
+          "claim": "Dualizing φ gives an injective A-linear map X → (A^n)*.",
+          "verdict": "formalized",
+          "lean_decl": "twistedDualMap; twistedDualMap_injective; twistedEvalEquiv; toDualEmbedding; toDualEmbedding_injective"
+        },
+        {
+          "claim": "The dual of A^n is A-linearly isomorphic to A^n.",
+          "verdict": "formalized",
+          "lean_decl": "dualPiEquiv; matProdSelfDual; dualPowSelfDual"
+        },
+        {
+          "claim": "The regular representation decomposes as A ≃ ⊕_i d_i V_i.",
+          "verdict": "formalized",
+          "lean_decl": "regularDecomp"
+        },
+        {
+          "claim": "The free representation A^n decomposes as ⊕_i (n d_i) V_i.",
+          "verdict": "formalized",
+          "lean_decl": "freeModuleDecomp"
+        },
+        {
+          "claim": "The image of X in A^n is a subrepresentation to which Proposition 3.1.4 applies.",
+          "verdict": "formalized",
+          "lean_decl": "toDualEmbedding; Etingof.subrepresentation_of_semisimple; exists_iso_directSum_of_matrixProd"
+        },
+        {
+          "claim": "Consequently X is A-linearly isomorphic to ⊕_i m_i V_i for suitable multiplicities m_i.",
+          "verdict": "formalized",
+          "lean_decl": "exists_iso_directSum_of_matrixProd"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Problem3.3.3",
@@ -4031,7 +4210,111 @@
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_3_3.lean"
     ],
-    "last_updated": "2026-07-23"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The problem presents an alternative proof of Theorem 3.3.1 independent of earlier Chapter 3 results.",
+          "verdict": "non_formalizable",
+          "reason": "Independence from an earlier exposition is a methodological property of the proof organization, not a separate proposition."
+        },
+        {
+          "claim": "A finite direct sum A_1 ⊕ ⋯ ⊕ A_n of unital algebras is modeled by the finite product algebra ∀ i, A_i.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_3_3.idemProj",
+          "note": "For a finite index, the product is the componentwise unital direct-sum model used throughout the provider."
+        },
+        {
+          "claim": "The coordinate units satisfy 1_i 1_j = δ_ij 1_i.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_3_3.single_mul_single_eq"
+        },
+        {
+          "claim": "The unit of A is the sum ∑_i 1_i.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_3_3.sum_single_one"
+        },
+        {
+          "claim": "For an A-representation V, the summand 1_i V is a representation of the factor A_i.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_3_3.factorSummandModule"
+        },
+        {
+          "claim": "Conversely, a family of A_i-representations carries the canonical componentwise representation of A.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Pi.module'",
+          "note": "Mathlib supplies the componentwise module on the dependent finite product; finite product and direct sum agree here."
+        },
+        {
+          "claim": "An A-representation V is irreducible exactly when 1_i V is irreducible over A_i for exactly one i and every other 1_j V vanishes.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_3_3.simpleModule_prod_iff_factor"
+        },
+        {
+          "claim": "Irreducible A-representations are precisely inflations of irreducible factor representations, with the factor index and factor isomorphism class uniquely determined.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_3_3.exists_inflate_of_isSimple; Etingof.Problem3_3_3.Inflate.isSimpleModule_iff; Etingof.Problem3_3_3.Inflate.index_eq_of_equiv; Etingof.Problem3_3_3.Inflate.congr; Etingof.Problem3_3_3.Inflate.ofCongr"
+        },
+        {
+          "claim": "The standard representation k^d is irreducible over Mat_d(k).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_3_3.std_isSimpleModule"
+        },
+        {
+          "claim": "Every finite-dimensional irreducible Mat_d(k)-representation is isomorphic to k^d.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_3_3.simpleModule_iso_std"
+        },
+        {
+          "claim": "Every finite-dimensional Mat_d(k)-representation is a direct sum of copies of k^d.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_3_3.finite_iso_std_pow"
+        },
+        {
+          "claim": "The matrix units E_ij have the standard single-entry definition and multiplication action.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Matrix.single; Etingof.Problem3_3_3.std_isSimpleModule",
+          "note": "The provider's elementary proof uses Mathlib's Matrix.single and verifies the matrix-unit identities internally."
+        },
+        {
+          "claim": "The diagonal matrix-unit images decompose V as E_11 V ⊕ ⋯ ⊕ E_dd V.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Problem3_3_3.finite_iso_std_pow",
+          "note": "The proof establishes the diagonal identity ∑ E_ii • v = v and uses orthogonal matrix units to construct the final direct-sum equivalence."
+        },
+        {
+          "claim": "For every i, multiplication by E_i1 identifies E_11 V with E_ii V.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Problem3_3_3.finite_iso_std_pow",
+          "note": "The matrix-unit identities E_ij E_lm = δ_jl E_im are proved internally and drive the explicit isomorphism Ψ."
+        },
+        {
+          "claim": "For v in E_11 V, the span S(v) is a subrepresentation isomorphic to k^d and contains v.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Problem3_3_3.simpleModule_iso_std; Etingof.Problem3_3_3.finite_iso_std_pow",
+          "note": "The private A-linear map ψ_v has image S(v); its injectivity, nonzero image, and reconstruction properties are proved inside the two public endpoints."
+        },
+        {
+          "claim": "A basis of E_11 V yields a direct-sum decomposition V = S(v_1) ⊕ ⋯ ⊕ S(v_k).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_3_3.finite_iso_std_pow",
+          "note": "The theorem constructs the corresponding Mat_d(k)-linear equivalence explicitly."
+        },
+        {
+          "claim": "Parts (a) and (b) imply Theorem 3.3.1.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.irreducible_reps_of_matrix_algebra; exists_iso_directSum_of_matrixProd",
+          "note": "The instruction has no additional endpoint beyond the fully proved classification theorem."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Remark3.3.4",
@@ -4044,10 +4327,61 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "notes": "Remark3_3_4.lean publicly constructs the free cover Aⁿ → X, proves surjectivity, and identifies its quotient by the kernel with X. The source's final derivation of the irreducible decomposition uses the stronger given-subfamily form of Lemma 3.1.6, still tracked by #7409.",
-    "coverage": "covered_partial",
-    "fidelity_issue": 7409,
-    "last_updated": "2026-07-22"
+    "notes": "Remark3_3_4.lean constructs the uniquely characterized free cover Aⁿ → X, proves surjectivity, and identifies its quotient by the kernel with X. The regular/free decompositions and the exact final multiplicity decomposition are public in Theorem3_3_1.lean; Lean reaches the endpoint through Proposition 3.1.4 rather than the book's quotient invocation of Lemma 3.1.6.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.3",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The remark gives another proof of Theorem 3.3.1 using Lemma 3.1.6.",
+          "verdict": "non_formalizable",
+          "reason": "This sentence labels the proof route; its mathematical steps and endpoint are audited separately."
+        },
+        {
+          "claim": "For a basis x_i of X there is an A-linear map ψ : A^n → X with ψ(a) = ∑_i a_i x_i.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.freeCover; Etingof.freeCover_apply"
+        },
+        {
+          "claim": "The displayed formula uniquely determines ψ.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.freeCover_unique"
+        },
+        {
+          "claim": "The free-cover map ψ is surjective.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.freeCover_surjective"
+        },
+        {
+          "claim": "Consequently X is the quotient of A^n by the kernel of ψ.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.quotientEquivOfFreeCover"
+        },
+        {
+          "claim": "The regular representation decomposes as A ≃ ⊕_i d_i V_i.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "regularDecomp"
+        },
+        {
+          "claim": "The free representation decomposes as A^n ≃ ⊕_i (n d_i) V_i.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "freeModuleDecomp"
+        },
+        {
+          "claim": "The quotient X therefore has a decomposition X ≃ ⊕_i m_i V_i.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "exists_iso_directSum_of_matrixProd",
+          "note": "The exact endpoint is fully proved; Lean obtains it from an embedding and Proposition 3.1.4 rather than the book's quotient-form application of Lemma 3.1.6."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Introduction_to_3.4",
