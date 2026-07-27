@@ -497,7 +497,10 @@ private lemma firstY_pow_one (j : ℕ) :
   | zero => simp
   | succ j ih =>
       rw [pow_succ', Module.End.mul_apply, ih]
-      simp [firstY, pderivEnd, mulVar]
+      simp only [firstY, pderivEnd, Fin.isValue, mulVar, LinearMap.add_apply,
+        Derivation.coeFn_coe, Derivation.leibniz_pow, pderiv_X, ne_eq, one_ne_zero,
+        not_false_eq_true, Pi.single_eq_of_ne, smul_eq_mul, mul_zero, nsmul_zero,
+        LinearMap.coe_mk, AddHom.coe_mk, zero_add]
       rw [mul_comm, pow_succ]
 
 @[simp] theorem firstOrbit_monomial (i j : ℕ) :
