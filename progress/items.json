@@ -3062,12 +3062,10 @@
     "start_line": 17,
     "end_line": 18,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "fidelity_note": "The rational-function counterexample to part (i) is proved by ratFunc_tensor_ratFunc_not_isField (#5663). The remark's separate characteristic-zero Weyl-algebra counterexample to the infinite-dimensional analogue of Theorem 3.10.2(ii) is absent; follow-up #7430.",
-    "fidelity_decl": "EtingofRepresentationTheory.Chapter3.Remark3_10_3.ratFunc_tensor_ratFunc_not_isField",
-    "last_updated": "2026-07-22",
-    "fidelity_issue": 7430,
-    "followup_issue": 7430
+    "coverage": "covered_full",
+    "fidelity_note": "Both counterexamples are formalized: ratFunc_tensor_ratFunc_not_isField proves the rational-function failure of part (i), while tensorModule_isSimpleModule and tensorModule_not_equiv_tensorProduct_of_simple_left prove the Weyl-algebra failure of the infinite-dimensional analogue of Theorem 3.10.2(ii). The latter uses the characteristic-free PBW domain theorem Etingof.WeylAlgebra.mul_ne_zero to show that the regular first-factor restriction has no simple submodule.",
+    "fidelity_decl": "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorModule_not_equiv_tensorProduct_of_simple_left",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter3/Discussion_proof_of_Theorem3.10.2",
