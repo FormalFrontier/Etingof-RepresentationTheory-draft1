@@ -9608,10 +9608,9 @@
     "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "Parts (ii) and (iii), and the singleton-simple consequence of part (i), are proved. The source's stronger part-(i) claim that each entire semisimple block category is equivalent to vector spaces remains unformalized; follow-up #5648.",
-    "coverage": "covered_partial",
-    "followup_issue": 5648,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "All three parts are proved. For part (i), Etingof.Problem953.semisimpleBlockEquivalence identifies the entire block category with ModuleCat k under the book's finite-dimensional semisimple algebra / algebraically closed field hypotheses, and semisimpleBlockEquivalenceFin gives the book-faithful finite-dimensional restriction. Parts (ii) and (iii) prove the local Artinian and Problem 9.3.2 single-block claims.",
+    "coverage": "covered",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter9/Problem9.5.3",

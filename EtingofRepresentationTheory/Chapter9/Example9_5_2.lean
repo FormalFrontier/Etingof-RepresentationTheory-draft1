@@ -18,7 +18,7 @@ is only one simple module, the residue field).
 
 (iii) The algebra from Problem 9.3.2 has one block.
 
-## Scope of this file
+## Formalized statements
 
 Part (i) is captured through the project's `Etingof.AreLinked` relation, which, faithful to
 Definition 9.5.1, links simple modules via chains of simple modules connected by
@@ -27,13 +27,12 @@ on simples collapses to isomorphism. We prove `Etingof.semisimple_areLinked_iff_
 simple `X, Y`, `AreLinked X Y ↔ X ≅ Y`, i.e. each block contains a single isomorphism class of
 simple objects. `Etingof.semisimple_blocks_singleton` is the forward direction.
 
-Note the relationship to the book's phrasing "each block is equivalent to the category of
-vector spaces". Etingof's block attached to a simple `S` is the full subcategory of modules
-whose Jordan–Hölder factors are all in `S`'s linking class (the predicate `Etingof.InBlock`);
-over a semisimple ring that subcategory is the isotypic component `{S^{⊕n}}`, equivalent to
-vector spaces. The statement formalized here is the consequence "one simple object
-per block". Promoting the Etingof "≃ Vec" subcategory equivalence would require an
-isotypic-subcategory equivalence beyond the scope of Definition 9.5.1.
+The full categorical clause is formalized in `Example9_5_2_BlockEquivalence.lean`. Under the
+book's hypotheses (a finite-dimensional semisimple algebra over an algebraically closed field),
+`Etingof.Problem953.semisimpleBlockEquivalence` identifies the entire block category
+`Etingof.Problem953.BlockCat R S` with `ModuleCat k`, while
+`Etingof.Problem953.semisimpleBlockEquivalenceFin` gives the book-faithful restriction to
+finite-dimensional objects.
 
 Part (iii), "the algebra of Problem 9.3.2 has one block": the
 generators-and-relations algebra `A = ℂ⟨g, x⟩ / (gx + xg, x², g² - 1)` is constructed in
