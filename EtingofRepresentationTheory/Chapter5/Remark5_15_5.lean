@@ -47,9 +47,10 @@ the restriction `μ ≽ λ` on the book's displayed sum.
 ## Note on `Etingof.KostkaNumber`
 
 `Etingof.kostkaMatrix` uses `Etingof.spechtMultiplicity`, the Young's-rule multiplicity of
-`V_μ` in `U_λ`, which is the form Theorem 5.15.1 and its proof supply. Reconciling that
-with the semistandard-tableau count `Etingof.KostkaNumber` of Definition 5.14.2 is
-separate work (issue #7457) and is not needed for anything in this file.
+`V_μ` in `U_λ`, which is the form Theorem 5.15.1 and its proof supply. The
+semistandard-tableau basis of row invariants proves downstream that this equals
+the tableau cardinal `Etingof.KostkaNumber` of Definition 5.14.2. Thus the matrix
+used here is the classical Kostka matrix under that identification.
 -/
 
 namespace Etingof
