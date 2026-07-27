@@ -1741,11 +1741,9 @@
     "start_line": 25,
     "end_line": 16,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "Parts (f)-(n) are source-present, while the maximal-generalized-eigenspace conclusions in (a)-(e) remain #7427. The Clebsch–Gordan module source now also fails a fresh check at repeated Lie-action rewrites; regression #7529.",
-    "followup_issue": 7427,
-    "coverage_issue": 7529,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "All parts (a)-(n) are source-present. Problem2_15_1_a_e.lean exposes the full maximal-generalized-weight-space argument: E vanishes, the E^k F^k polynomial identity, finite-dimensional F-termination, collapse of the maximal generalized eigenspace to the eigenspace via a squarefree annihilator, and the least-exponent weight formula. Parts (f)-(n), including the restored Clebsch-Gordan module source, are covered by the remaining Chapter 2 files.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Discussion_2.16_heading",
