@@ -1746,6 +1746,13 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.15",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": []
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -1858,6 +1865,46 @@
           "lean_decl": "Etingof.Sl2Irrep.jordan_normal_form_tensor"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.15",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Sl2Irrep.sl2_eq_smul_h_add_smul_e_add_smul_f",
+        "Etingof.Sl2Irrep.sl2LieHomOfOperators",
+        "Etingof.Sl2Irrep.sl2LieHomOfOperators_e",
+        "Etingof.Sl2Irrep.sl2LieHomOfOperators_f",
+        "Etingof.Sl2Irrep.sl2LieHomOfOperators_h",
+        "Etingof.Sl2Irrep.lie_e_eq_zero_on_maxGenEigenspace",
+        "Etingof.Sl2Irrep.highestWeightPolynomial",
+        "Etingof.Sl2Irrep.highestWeightPolynomial_natDegree",
+        "Etingof.Sl2Irrep.eIter_fIter_eq_aeval_highestWeightPolynomial",
+        "Etingof.Sl2Irrep.exists_pos_fIter_eq_zero_of_mem_maxGenEigenspace",
+        "Etingof.Sl2Irrep.maxGenEigenspace_eq_eigenspace_of_no_higher_weight",
+        "Etingof.Sl2Irrep.highestWeightPolynomial_squarefree",
+        "Etingof.Sl2Irrep.highestWeight_eq_nat_of_minimal_fIter_zero_of_mem_maxGenEigenspace",
+        "Etingof.Sl2Irrep.irrep_isIrreducible",
+        "Etingof.Sl2Irrep.irrep_finrank",
+        "Etingof.Problem_2_15_1_f",
+        "Etingof.Sl2Irrep.lie_sl2_h_e_basis",
+        "Etingof.Sl2Irrep.lie_sl2_e_e_basis",
+        "Etingof.Sl2Irrep.lie_sl2_f_e_basis",
+        "Etingof.Sl2Irrep.lie_sl2_f_e_basis_top",
+        "Etingof.Sl2Irrep.casimir_central",
+        "Etingof.Sl2Irrep.casimir_eq_scalar_lambda",
+        "Etingof.Sl2Irrep.casimirGenEigenspace_isInternal",
+        "Etingof.Sl2Irrep.indecomposable_casimir_eigenvalue",
+        "Etingof.Sl2Irrep.complete_reducibility",
+        "Etingof.Sl2Irrep.sl2Module_decomposition",
+        "Etingof.Sl2Irrep.casimir_lowest_weight",
+        "Etingof.Sl2Irrep.jacobsonMorozov_sl2",
+        "Etingof.Sl2Irrep.clebsch_gordan_charPoly",
+        "Etingof.Sl2Irrep.clebsch_gordan_module_iso",
+        "Etingof.Sl2Irrep.jordan_normal_form_tensor"
+      ],
+      "scope_note": "The declaration list records the source-facing proof endpoints. The audit programmatically checked all 268 exported constants and all 710 constants attributed to the twelve scoped provider modules, including support declarations, private helpers, instances, and generated equations. Parts (i)-(k) and the analytic character hint in (m) remain the intentional proof-route omissions classified at Stage 3.2; no unproved declaration represents them."
     }
   },
   {
