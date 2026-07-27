@@ -1,10 +1,3 @@
-import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-import Mathlib.RingTheory.TensorProduct.Basic
-import Mathlib.Algebra.Algebra.Tower
-import Mathlib.LinearAlgebra.TensorProduct.Basis
-import Mathlib.RingTheory.Artinian.Module
-import Mathlib.Algebra.Polynomial.AlgebraMap
 import EtingofRepresentationTheory.Chapter3.Theorem3_2_2
 
 /-!

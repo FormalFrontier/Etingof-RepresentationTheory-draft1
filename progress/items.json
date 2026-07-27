@@ -4430,7 +4430,7 @@
     "end_page": "59",
     "start_line": 5,
     "end_line": 8,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -4465,6 +4465,13 @@
         "Algebra.TensorProduct.tmul_mul_tmul"
       ],
       "basis": "The organizational heading is nonformalizable, while the stated pure-tensor multiplication law is supplied by this external Mathlib declaration; that declaration was resolved and its complete axiom closure was audited."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The heading is organizational and its only mathematical setup law is supplied externally by Mathlib, so it uses no earlier project item."
     }
   },
   {
@@ -4475,7 +4482,7 @@
     "end_page": "59",
     "start_line": 9,
     "end_line": 10,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "sorry_free": true,
     "coverage_note": "Coverage-arm audit (Stage 3.7, #7371): covered_full. Chapter3/Exercise3_10_1.lean (sorry-free on origin/main, 0 sorries) proves matrix_tensorProduct_matrix: Nonempty ((Mat_m(k) ⊗[k] Mat_n(k)) ≃ₐ[k] Mat_{mn}(k)), a genuine k-ALGEBRA isomorphism (≃ₐ[k], not merely k-linear or ring), built from Matrix.kroneckerTMulAlgEquiv, Algebra.TensorProduct.rid and Matrix.reindexAlgEquiv along finProdFinEquiv (Fin m × Fin n ≃ Fin (m*n)). Faithful to the book's Mat_m(k) ⊗ Mat_n(k) ≅ Mat_{mn}(k); in fact strengthened from the book's field k to an arbitrary CommRing k.",
     "fidelity": "verified",
@@ -4510,6 +4517,13 @@
         "Etingof.matrix_tensorProduct_matrix"
       ],
       "basis": "The sole exact-provider constant is this durable authored theorem. It is admission-free and its complete axiom closure contains only Lean's accepted foundational axioms."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The matrix-algebra tensor-product equivalence is constructed directly from focused Mathlib matrix and tensor-product APIs; its provider imports no project module."
     }
   },
   {
@@ -4520,7 +4534,7 @@
     "end_page": "59",
     "start_line": 11,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -4548,6 +4562,13 @@
       "proof_integrity": "not_applicable",
       "declarations": [],
       "basis": "This item is only an organizational preview of Theorem 3.10.2 and contains no independently auditable proof declaration."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This is an organizational preview rather than a mathematical assertion, so it has no declaration-backed project dependency."
     }
   },
   {
@@ -4558,7 +4579,7 @@
     "end_page": "59",
     "start_line": 13,
     "end_line": 16,
-    "status": "partially_proved",
+    "status": "dependency_trimmed",
     "fidelity": "partial",
     "notes": "All sorries resolved. Uniqueness of V, W (Theorem 3.10.2(ii)'s '**unique** V and W') added as companion theorem Etingof.tensor_product_irreducible_classification_unique (#5614). Algebra-finiteness assumptions [FiniteDimensional k A]/[FiniteDimensional k B] removed as unfaithful (#7391): the book assumes only the representations V/W/M are finite-dimensional.",
     "sorry_free": true,
@@ -4607,6 +4628,15 @@
         "Etingof.tensor_product_irreducible_classification_unique"
       ],
       "basis": "These are all six durable authored declarations in the exact provider. The exhaustive environment audit also checked all 30 provider-attributed constants (28 proofs), including local regression instances and generated/private helpers; every proof is admission-free and depends only on accepted foundational axioms."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Theorem3.2.2"
+      ],
+      "basis": "The irreducibility and classification proofs invoke Etingof.density_theorem_part1 from Theorem 3.2.2. All seven former direct Mathlib imports were proven redundant against that required project provider and removed."
     }
   },
   {
@@ -4617,7 +4647,7 @@
     "end_page": "59",
     "start_line": 17,
     "end_line": 18,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "fidelity_note": "Both counterexamples are formalized: ratFunc_tensor_ratFunc_not_isField proves the rational-function failure of part (i), while tensorModule_isSimpleModule and tensorModule_not_equiv_tensorProduct_of_simple_left prove the Weyl-algebra failure of the infinite-dimensional analogue of Theorem 3.10.2(ii). The latter uses the characteristic-free PBW domain theorem Etingof.WeylAlgebra.mul_ne_zero to show that the regular first-factor restriction has no simple submodule.",
     "fidelity_decl": "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorModule_not_equiv_tensorProduct_of_simple_left",
@@ -4696,6 +4726,17 @@
         "isSimpleModule_self_iff_isUnit"
       ],
       "basis": "The list contains all 39 durable authored exact-provider declarations and the external self-module simplicity bridge used by the rational-function counterexample. The exhaustive audit covered all 88 provider-attributed constants (67 proofs), including generated/private helpers, and found no admissions or non-foundational axioms."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Discussion_2.7_intro",
+        "Chapter2/Proposition2.7.1",
+        "Chapter2/Remark2.7.2"
+      ],
+      "basis": "The Weyl counterexample directly uses the Weyl-algebra presentation and relations, the PBW basis/domain infrastructure, and the polynomial differential-operator representation from these three Chapter 2 items. Eight redundant Mathlib imports were removed; the two required Weyl support providers remain."
     }
   },
   {
@@ -4706,7 +4747,7 @@
     "end_page": "60",
     "start_line": 19,
     "end_line": 7,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
       "result": "gap"
@@ -4821,6 +4862,16 @@
         "Etingof.tensor_product_irreducible_classification_unique"
       ],
       "basis": "The first 24 entries are every durable authored declaration in the exact radical provider; the remaining entries are the audited density, tensor-action, classification, uniqueness, and tensor-lift endpoints used by the proof discussion. All 33 exact-provider constants and all external endpoints were checked for complete axiom closure, with no admissions or non-foundational axioms."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Theorem3.2.2",
+        "Chapter3/Theorem3.10.2"
+      ],
+      "basis": "The proof discussion explicitly reuses the earlier density theorem and the irreducibility, classification, and uniqueness endpoints of Theorem 3.10.2. Its radical provider itself uses only focused external imports."
     }
   },
   {
