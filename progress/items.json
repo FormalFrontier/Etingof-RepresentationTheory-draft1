@@ -8706,13 +8706,13 @@
     "end_page": "193",
     "start_line": 9,
     "end_line": 20,
-    "status": "partially_proved",
-    "coverage": "covered_partial",
-    "coverage_issue": 7556,
-    "last_updated": "2026-07-22",
-    "coverage_note": "The abstract short-exact connecting morphism and its three exactness windows are proved. The source's quotient-subcomplex representative/lift construction, choice-independence proof, and comparison with the categorical connecting morphism are missing (#7556).",
-    "fidelity": "partial",
-    "fidelity_note": "The existing ShortExact.δ theorem faithfully supplies the abstract long-exact-sequence result, but it does not formalize part (i)'s prescribed concrete construction or prove that construction agrees with δ."
+    "status": "proved",
+    "coverage": "covered_full",
+    "sorry_free": true,
+    "last_updated": "2026-07-27",
+    "coverage_note": "Problem7_8_5_Subcomplex models a literal degreewise subcomplex and quotient D/C, proves the canonical sequence short exact, and exposes the quotient-cocycle class, lifted differential, representative formula, and choice-independence theorems. concreteConnecting_eq_categorical identifies the construction with ShortExact.δ, and Problem7_8_5_quotient supplies the resulting exactness windows. The reusable abstract ShortExact theorem remains available.",
+    "fidelity": "full",
+    "fidelity_note": "The public API now follows the source's quotient-representative/lift/differential construction, proves independence both for equal input homology classes and for two lifts of the same quotient cocycle, and bridges the concrete map to the categorical snake-lemma connecting morphism. Closes #7556."
   },
   {
     "id": "Chapter7/Definition7.8.6",
