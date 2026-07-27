@@ -5407,7 +5407,7 @@
     "end_page": "49",
     "start_line": 3,
     "end_line": 6,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -5446,6 +5446,13 @@
         "Etingof.exists_filtration_with_irreducible_quotients"
       ],
       "basis": "The heading is organizational, while its algebra-and-representation setup is realized by the listed admission-free theorem with arbitrary algebra and module parameters."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.4",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This item is an organizational heading and setup paragraph with no provider of its own, so it has no actual backward internal dependency."
     }
   },
   {
@@ -5456,7 +5463,7 @@
     "end_page": "49",
     "start_line": 7,
     "end_line": 8,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "last_updated": "2026-07-27",
     "fidelity": "verified",
@@ -5514,6 +5521,13 @@
         "Etingof.Filtration.last_eq_top"
       ],
       "basis": "The structure and all three fields are admission-free. The exhaustive module-origin audit also covers its 14 generated constructors, recursors, injectivity proofs, no-confusion principles, and sizeOf constants."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.4",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Definition3_4_1.lean imports only Mathlib modules and uses no earlier project declaration."
     }
   },
   {
@@ -5524,7 +5538,7 @@
     "end_page": "49",
     "start_line": 9,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "last_updated": "2026-07-27",
     "fidelity": "verified",
@@ -5596,6 +5610,15 @@
         "Etingof.exists_filtration_with_irreducible_quotients"
       ],
       "basis": "Both theorem constants have complete proof terms. The exact endpoint returns Etingof.Filtration and proves IsSimpleModule A for every adjacent quotient; the composition-series theorem records the equivalent finite-length proof route."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.4",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Definition3.4.1"
+      ],
+      "basis": "Lemma3_4_2.lean imports Definition3_4_1.lean and its exact theorem explicitly constructs Etingof.Filtration; the helper theorem is defined in the same tracked item."
     }
   },
   {
