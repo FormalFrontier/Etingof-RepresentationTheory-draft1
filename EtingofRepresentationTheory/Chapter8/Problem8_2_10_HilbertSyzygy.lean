@@ -19,10 +19,10 @@ The finite-rank symmetric algebra is identified with a multivariate polynomial r
 chosen basis.  The resulting homological-dimension bound is therefore exactly the existing
 Chapter 9 Hilbert-syzygy theorem, not an unrelated duplicate.
 
-The book derives this bound by tensoring its Koszul bimodule resolution with an arbitrary module.
-That construction belongs to Problem 8.2.10(iii); the endpoints here are deliberately factored so
-that the eventual bimodule proof can replace the current Chapter 9 witness without changing their
-public statements.
+The companion module `Problem8_2_10_HilbertSyzygyResolution` carries out the book's construction:
+it tensors the literal Koszul bimodule resolution with an arbitrary module and proves that the
+resulting free projective resolution stops above `dim V`.  The endpoints here remain factored
+through the Chapter 9 characterization, making their agreement with the later treatment explicit.
 -/
 
 universe u v
