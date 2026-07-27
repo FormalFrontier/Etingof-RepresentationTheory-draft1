@@ -9207,11 +9207,10 @@
     "start_line": 9,
     "end_line": 22,
     "status": "sorry_free",
-    "coverage_note": "Substantial local Tor/Ext results are proved. Two API/fidelity gaps remain: part (ii) hides its canonical Ext¹ comparison inside Nonempty (#6298), while parts (iii) and (v) expose only independent six-term windows rather than coherent natural long exact sequences and omit their zero-ended degree-zero assertions (#7421).",
+    "coverage_note": "Substantial local Tor/Ext results are proved. Part (ii) now exposes a named canonical Ext¹ AddEquiv, its factorization through bar-resolution cohomology, and representative-level tensor–hom computation theorems. The remaining gap is that parts (iii) and (v) expose only independent six-term windows rather than coherent natural long exact sequences and omit their zero-ended degree-zero assertions (#7421).",
     "coverage": "covered_partial",
-    "fidelity_issue": 6298,
     "followup_issue": 7421,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter8/Problem8.2.7",
