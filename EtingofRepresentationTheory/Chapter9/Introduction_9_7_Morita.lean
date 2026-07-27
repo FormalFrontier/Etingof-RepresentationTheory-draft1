@@ -3,6 +3,7 @@ import EtingofRepresentationTheory.Chapter9.Theorem9_6_4
 import EtingofRepresentationTheory.Chapter9.Definition9_7_1
 import EtingofRepresentationTheory.Chapter2.Problem2_3_17
 import EtingofRepresentationTheory.Infrastructure.FGModuleCatEnoughProjectives
+import EtingofRepresentationTheory.Infrastructure.MoritaFiniteProgenerator
 import EtingofRepresentationTheory.Infrastructure.MoritaFGRestriction
 import EtingofRepresentationTheory.Infrastructure.MoritaFmodProgenerator
 import Mathlib.Algebra.Category.FGModuleCat.Colimits
@@ -160,12 +161,33 @@ noncomputable def fgModuleCatRegularEndRingEquiv (A : Type u) [Ring A] :
   map_mul' _ _ := rfl
   map_add' _ _ := rfl
 
+/-- The endomorphism-ring identification for the regular object respects the scalar action
+of the ground field. -/
+noncomputable def fgModuleCatRegularEndAlgEquiv
+    (k : Type w) (A : Type u) [Field k] [Ring A] [Algebra k A] :
+    End (fgModuleCatRegular A) ≃ₐ[k] Module.End A A :=
+  AlgEquiv.ofRingEquiv (f := fgModuleCatRegularEndRingEquiv A) (fun c => by
+    apply LinearMap.ext
+    intro x
+    simp only [fgModuleCatRegularEndRingEquiv, Algebra.algebraMap_eq_smul_one]
+    change algebraMap k A c * x = c • x
+    rw [Algebra.smul_def])
+
 /-- The opposite endomorphism ring of the regular object of `FGModuleCat A` recovers `A`.
 This is the categorical form of `End_A(A) = Aᵒᵖ`. -/
 noncomputable def ringEquiv_fgModuleCatRegularEndOp (A : Type u) [Ring A] :
     A ≃+* (End (fgModuleCatRegular A))ᵐᵒᵖ :=
   (((RingEquiv.op ((fgModuleCatRegularEndRingEquiv A).trans (EndSelfEquivOp A))).trans
     (RingEquiv.opOp A).symm)).symm
+
+/-- The opposite endomorphism algebra of the regular object of `FGModuleCat A` recovers `A`
+as a `k`-algebra. -/
+noncomputable def algEquiv_fgModuleCatRegularEndOp
+    (k : Type w) (A : Type u) [Field k] [Ring A] [Algebra k A] :
+    A ≃ₐ[k] (End (fgModuleCatRegular A))ᵐᵒᵖ :=
+  (AlgEquiv.opOp k A).trans <|
+    (AlgEquiv.op (AlgEquiv.moduleEndSelf k (A := A))).trans <|
+      AlgEquiv.op (fgModuleCatRegularEndAlgEquiv k A).symm
 
 /-- A categorical equivalence between preadditive categories induces a ring isomorphism between
 the endomorphism rings of an object and its image. -/
@@ -178,6 +200,20 @@ noncomputable def equivalenceEndRingEquiv
     Functor.additive_of_preserves_binary_products E.functor
   exact { E.fullyFaithfulFunctor.mulEquivEnd X with
     map_add' := fun _ _ => E.functor.map_add }
+
+/-- A `k`-linear categorical equivalence induces a `k`-algebra isomorphism between the
+endomorphism algebras of an object and its image. -/
+noncomputable def equivalenceEndAlgEquiv
+    {k : Type w} [Field k]
+    {C : Type u} [Category.{v} C] [Preadditive C] [CategoryTheory.Linear k C]
+    [HasFiniteBiproducts C]
+    {D : Type u'} [Category.{v} D] [Preadditive D] [CategoryTheory.Linear k D]
+    [HasFiniteBiproducts D]
+    (E : C ≌ D) [E.functor.Linear k] (X : C) : End X ≃ₐ[k] End (E.functor.obj X) :=
+  { equivalenceEndRingEquiv E X with
+    commutes' := fun r => by
+      change E.functor.map (r • 𝟙 X) = r • 𝟙 (E.functor.obj X)
+      rw [Functor.Linear.map_smul, E.functor.map_id] }
 
 /-! ## The finite Morita reconstruction package -/
 
@@ -206,6 +242,28 @@ theorem fmodEquiv_exists_progenerator_endRingEquiv {A B : Type u}
   let ringEquiv : A ≃+* (End P)ᵐᵒᵖ :=
     (ringEquiv_fgModuleCatRegularEndOp A).trans (RingEquiv.op endEquiv)
   exact ⟨P, hP, ⟨ringEquiv⟩⟩
+
+/-- A `k`-linear equivalence of finitely generated module categories reconstructs a finite
+progenerator on the target together with a `k`-algebra identification of its opposite
+endomorphism algebra with the source algebra. -/
+theorem fmodLinearEquiv_exists_progenerator_endAlgEquiv
+    {k : Type w} [Field k] {A B : Type u}
+    [Ring A] [Algebra k A] [Ring B] [Algebra k B]
+    (E : FGModuleCat.{u} A ≌ FGModuleCat.{u} B) [E.functor.Linear k] :
+    ∃ P : FGModuleCat.{u} B,
+      IsProgenerator P ∧ Nonempty (A ≃ₐ[k] (End P)ᵐᵒᵖ) := by
+  letI : HasFiniteBiproducts (FGModuleCat.{u} A) :=
+    HasFiniteBiproducts.of_hasFiniteCoproducts
+  letI : HasFiniteBiproducts (FGModuleCat.{u} B) :=
+    HasFiniteBiproducts.of_hasFiniteCoproducts
+  let R := fgModuleCatRegular A
+  let P := E.functor.obj R
+  have hR : IsProgenerator R := fgModuleCatRegular_isProgenerator A
+  have hP : IsProgenerator P := hR.map_equivalence E
+  let endEquiv : End R ≃ₐ[k] End P := equivalenceEndAlgEquiv E R
+  let algEquiv : A ≃ₐ[k] (End P)ᵐᵒᵖ :=
+    (algEquiv_fgModuleCatRegularEndOp k A).trans (AlgEquiv.op endEquiv)
+  exact ⟨P, hP, ⟨algEquiv⟩⟩
 
 /-- The strengthened reconstruction statement for the exact regular-image object introduced in
 `Infrastructure.MoritaFmodProgenerator`.  Over a left-Noetherian source, it simultaneously
@@ -239,6 +297,18 @@ theorem MoritaEquivalentFmod.exists_progenerator_endRingEquiv {A B : Type u}
   obtain ⟨E⟩ := h
   exact fmodEquiv_exists_progenerator_endRingEquiv E
 
+/-- Predicate-level `k`-linear reconstruction of a finite progenerator and its opposite
+endomorphism algebra. -/
+theorem KLinearMoritaEquivalentFmod.exists_progenerator_endAlgEquiv
+    {k : Type w} [Field k] {A B : Type u}
+    [Ring A] [Algebra k A] [Ring B] [Algebra k B]
+    (h : KLinearMoritaEquivalentFmod k A B) :
+    ∃ P : FGModuleCat.{u} B,
+      IsProgenerator P ∧ Nonempty (A ≃ₐ[k] (End P)ᵐᵒᵖ) := by
+  obtain ⟨E, hlin⟩ := h
+  letI := hlin
+  exact fmodLinearEquiv_exists_progenerator_endAlgEquiv E
+
 /-- The exact remaining bridge in the converse from finite-module Morita equivalence to
 full-module Morita equivalence.
 
@@ -259,6 +329,46 @@ theorem MoritaEquivalentFmod.toMoritaEquivalent_of_progenerator_equivalence
   let changeRings : ModuleCat.{u} A ≌ ModuleCat.{u} (End P)ᵐᵒᵖ :=
     (ModuleCat.restrictScalarsEquivalenceOfRingEquiv e).symm
   exact ⟨changeRings.trans EP.symm⟩
+
+/-- An equivalence of finitely generated module categories of `k`-algebras extends to an
+equivalence of their full module categories. -/
+theorem MoritaEquivalentFmod.toMoritaEquivalent
+    {k A B : Type u} [Field k]
+    [Ring A] [Algebra k A] [Ring B] [Algebra k B]
+    (h : MoritaEquivalentFmod A B) : MoritaEquivalent A B :=
+  h.toMoritaEquivalent_of_progenerator_equivalence
+    (fun P hP => hP.moduleCatEquivEndOp (k := k) P)
+
+/-- A `k`-linear equivalence of finitely generated module categories of finite-dimensional
+`k`-algebras extends to a `k`-linear equivalence of their full module categories. -/
+theorem KLinearMoritaEquivalentFmod.toKLinearMoritaEquivalent
+    {k A B : Type u} [Field k]
+    [Ring A] [Algebra k A] [Ring B] [Algebra k B]
+    [Module.Finite k A] [Module.Finite k B]
+    (h : KLinearMoritaEquivalentFmod k A B) : KLinearMoritaEquivalent k A B := by
+  obtain ⟨P, hP, ⟨e⟩⟩ := h.exists_progenerator_endAlgEquiv
+  let change := MoritaEquivalence.ofAlgEquiv e
+  have hChange : KLinearMoritaEquivalent k A (End P)ᵐᵒᵖ :=
+    ⟨change.eqv, change.linear⟩
+  exact hChange.trans' (hP.kLinearMoritaEquivalentEndOp (k := k) P).symm'
+
+/-- For `k`-algebras, equivalence on finitely generated modules and equivalence on all modules
+are equivalent notions of Morita equivalence. -/
+theorem moritaEquivalent_iff_moritaEquivalentFmod
+    {k A B : Type u} [Field k]
+    [Ring A] [Algebra k A] [Ring B] [Algebra k B] :
+    MoritaEquivalent A B ↔ MoritaEquivalentFmod A B :=
+  ⟨MoritaEquivalent.toFmod, MoritaEquivalentFmod.toMoritaEquivalent (k := k)⟩
+
+/-- For finite-dimensional `k`-algebras, `k`-linear Morita equivalence on all modules is
+equivalent to its book-faithful formulation on finitely generated modules. -/
+theorem kLinearMoritaEquivalent_iff_kLinearMoritaEquivalentFmod
+    {k A B : Type u} [Field k]
+    [Ring A] [Algebra k A] [Ring B] [Algebra k B]
+    [Module.Finite k A] [Module.Finite k B] :
+    KLinearMoritaEquivalent k A B ↔ KLinearMoritaEquivalentFmod k A B :=
+  ⟨KLinearMoritaEquivalent.toFmod,
+    KLinearMoritaEquivalentFmod.toKLinearMoritaEquivalent (k := k)⟩
 
 /-- **`B_𝐧(𝒞) = End(P_𝐧)ᵒᵖ`** (Etingof §9.7): the (opposite of the) endomorphism ring of
 the multiplicity biproduct `P_𝐧 = ⊕ᵢ nᵢ Pᵢ`. The opposite matches the convention of
