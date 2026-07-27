@@ -107,6 +107,45 @@ theorem restrictScalars_eq (f : V →ₗ[A] U) :
       DirectSum.lmap_lof, LinearMap.rTensor_tmul, postcompHom_apply, heV, heU]
   rw [← LinearMap.comp_assoc, LinearEquiv.eq_comp_toLinearMap_symm, H]
 
+/-- The kernel calculation used at the end of the book's alternative proof.  Under the
+canonical multiplicity-space decomposition of Remark 3.1.3, a vector belongs to `ker f`
+exactly when every tensor component is killed by the corresponding map
+`postcompHom f i ⊗ id_{X i}`.  This is the componentwise content of
+`ker f = ⨁_i ker (f_i) ⊗ X_i` in the displayed calculation following Lemma 3.1.6. -/
+theorem mem_ker_iff_components (f : V →ₗ[A] U) (v : V) :
+    v ∈ LinearMap.ker f ↔
+      ∀ i, LinearMap.rTensor (X i) (postcompHom k A X V U f i)
+        ((evalDirectSumEquiv k A X V hpair hcV).symm v i) = 0 := by
+  rw [LinearMap.mem_ker]
+  have hfacv :
+      f v =
+        (evalDirectSumEquiv k A X U hpair hcU)
+          (DirectSum.lmap
+            (fun i => LinearMap.rTensor (X i) (postcompHom k A X V U f i))
+            ((evalDirectSumEquiv k A X V hpair hcV).symm v)) := by
+    have h := LinearMap.congr_fun (restrictScalars_eq k A X V U hpair hcV hcU f) v
+    simpa only [LinearMap.comp_apply, LinearMap.coe_restrictScalars,
+      LinearEquiv.coe_coe] using h
+  rw [hfacv]
+  constructor
+  · intro hzero i
+    have hcomponents :
+        DirectSum.lmap
+            (fun i => LinearMap.rTensor (X i) (postcompHom k A X V U f i))
+            ((evalDirectSumEquiv k A X V hpair hcV).symm v) = 0 := by
+      apply (evalDirectSumEquiv k A X U hpair hcU).injective
+      simpa using hzero
+    have hi := congrArg (fun z => z i) hcomponents
+    simpa using hi
+  · intro hcomponents
+    have hzero :
+        DirectSum.lmap
+            (fun i => LinearMap.rTensor (X i) (postcompHom k A X V U f i))
+            ((evalDirectSumEquiv k A X V hpair hcV).symm v) = 0 := by
+      ext i
+      simpa using hcomponents i
+    simp [hzero]
+
 /-- `postcompHom` is injective: `f` is recovered from `postcompHom f` via the block-diagonal
 factorization, so `postcompHom f = postcompHom f'` forces `f = f'`. -/
 theorem postcompHom_injective :

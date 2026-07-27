@@ -2920,7 +2920,27 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "non_formalizable"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Stage 3.2 reviewed the chapter and section headings plus the ambient convention that A is an algebra over an algebraically closed field k; these are setup rather than a mathematical proposition.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Chapter 3 begins the general results of representation theory, and §3.1 fixes an algebra A over an algebraically closed field k for the discussion of subrepresentations in semisimple representations.",
+          "verdict": "non_formalizable",
+          "reason": "This is a chapter/section heading and an ambient parameter convention, not a proposition with a proof obligation. The scoped declarations instantiate the convention where algebraic closedness is needed and prove stronger arbitrary-ring forms where it is not."
+        }
+      ]
     }
   },
   {
@@ -2933,12 +2953,28 @@
     "end_line": 10,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22",
+    "last_updated": "2026-07-27",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_decl": "Etingof.IsSemisimpleRepresentation",
     "fidelity_issue": 5369,
-    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified"
+    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A representation of A is semisimple (completely reducible) exactly when it is a direct sum of irreducible A-representations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.IsSemisimpleRepresentation; IsSemisimpleModule.exists_linearEquiv_dfinsupp; isSemisimpleModule_iff_exists_linearEquiv_dfinsupp"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Example3.1.2",
@@ -2953,7 +2989,28 @@
     "last_updated": "2026-07-22",
     "fidelity": "verified",
     "sorry_free": true,
-    "notes": "Both conclusions of the example are now public. Etingof.endEquivPiOfBasis (and its finite-basis form Etingof.endEquivPi) is the explicit A-linear equivalence End_k(V) ≃ₗ[A] (ι → V), f ↦ (f(b i))ᵢ, with evaluation simp lemmas endEquivPiOfBasis_apply / endEquivPi_apply. Etingof.endomorphism_semisimple is now derived from endEquivPi rather than an inline bijection."
+    "notes": "Both conclusions of the example are now public. Etingof.endEquivPiOfBasis (and its finite-basis form Etingof.endEquivPi) is the explicit A-linear equivalence End_k(V) ≃ₗ[A] (ι → V), f ↦ (f(b i))ᵢ, with evaluation simp lemmas endEquivPiOfBasis_apply / endEquivPi_apply. Etingof.endomorphism_semisimple is now derived from endEquivPi rather than an inline bijection.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For a finite basis (v_i) of V, evaluation x ↦ (x v_i)_i is an A-linear isomorphism End_k(V) ≅ V^ι, hence End(V) ≅ nV when dim V = n.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.endEquivPiOfBasis; Etingof.endEquivPiOfBasis_apply; Etingof.endEquivPi; Etingof.endEquivPi_apply"
+        },
+        {
+          "claim": "If V is irreducible and finite-dimensional, End_k(V), with A acting by left multiplication, is a semisimple A-representation.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.endomorphism_semisimple"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Remark3.1.3",
@@ -2968,7 +3025,33 @@
     "notes": "The file constructs the correct evaluation map and canonical-equivalence API; evalDirectSum_injective, evalDirectSum_surjective, and the public evalDirectSumEquiv all elaborate and import cleanly (regression #7502 fixed).",
     "fidelity": "verified",
     "coverage": "covered_full",
-    "last_updated": "2026-07-23"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "There is a canonical evaluation map ⨁_X Hom_A(X,V) ⊗ X → V whose value on a pure tensor g ⊗ x is g(x).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.evalTensor; Etingof.evalTensor_tmul; Etingof.evalDirectSum; Etingof.evalDirectSum_lof_tmul"
+        },
+        {
+          "claim": "For an irreducible finite-dimensional V over an algebraically closed field, Hom_A(V,V) ⊗ V → V by evaluation is an isomorphism, the irreducible base case singled out in the source proof.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.evalTensorEquivOfIsSimple; Etingof.evalTensorEquivOfIsSimple_tmul"
+        },
+        {
+          "claim": "For finite-dimensional semisimple V and a complete pairwise-nonisomorphic finite family of its irreducible types, the assembled evaluation map is an isomorphism; this realizes the source's reduction from direct sums to the irreducible case.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.evalDirectSum_injective; Etingof.evalDirectSum_surjective; Etingof.evalDirectSumEquiv"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Discussion_before_Proposition3.1.4",
@@ -2981,7 +3064,27 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "non_formalizable"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Stage 3.2 reviewed the transition sentence; it only announces the next classification result and introduces no separate mathematical claim.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Schur's lemma will now be used to classify subrepresentations of finite-dimensional semisimple representations.",
+          "verdict": "non_formalizable",
+          "reason": "This is an organizational transition to Proposition 3.1.4, not a standalone proposition; the announced classification is audited on the proposition record."
+        }
+      ]
     }
   },
   {
@@ -2998,7 +3101,38 @@
     "fidelity_decl": "Etingof.subrepresentation_of_semisimple, Etingof.subrepresentation_of_semisimple_matrix, Etingof.Remark315.subrepresentation_blocks",
     "fidelity_note": "Fully formalized in Chapter3/Proposition3_1_4.lean. subrepresentation_of_semisimple gives the multiplicity-bounded decomposition W = (+)_i r_i V_i with r_i <= n_i; subrepresentation_of_semisimple_matrix (and its Pi form _matrix_pi) adds the source's remaining structural conclusion: the inclusion is block diagonal and block i is right multiplication by a matrix X i over End_A (V i) whose rows are linearly independent (independence over the opposite ring, matching the book's row-vector-times-matrix convention). Etingof.Remark315.subrepresentation_blocks packages the same data as injective block maps phi_i with X i = homMatrixEquiv (phi i), assembling the single-isotypic matrix lemmas of Remark3_1_5.lean. Over the book's algebraically closed base End_A (V i) = k, so the entries are the book's scalars. No sorry; axioms propext/Classical.choice/Quot.sound only.",
     "coverage": "covered_full",
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "If W ≤ ⨁_i n_i V_i for finitely many finite-dimensional pairwise nonisomorphic irreducibles V_i, then W ≅ ⨁_i r_i V_i for multiplicities r_i ≤ n_i.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.subrepresentation_of_semisimple_pi; Etingof.subrepresentation_of_semisimple"
+        },
+        {
+          "claim": "Under this decomposition, the inclusion W → ⨁_i n_i V_i is block diagonal and its i-th block is right multiplication by an r_i × n_i matrix with linearly independent rows (scalar-valued over the source's algebraically closed field).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.subrepresentation_of_semisimple_matrix_pi; Etingof.subrepresentation_of_semisimple_matrix; Etingof.Remark315.subrepresentation_blocks"
+        },
+        {
+          "claim": "The source proof may choose an irreducible subrepresentation P of a nonzero finite-dimensional W, as cited from Problem 2.3.15.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.exists_isSimpleModule_of_finite"
+        },
+        {
+          "claim": "The footnote's stronger argument does not need finite-dimensionality: a nonzero submodule of a finite direct sum of simple modules contains a simple submodule, enabling the indicated induction on the number of summands.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "IsSemisimpleModule.eq_bot_or_exists_simple_le; Etingof.isIsotypicOfType_fun"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Remark3.1.5",
@@ -3009,11 +3143,38 @@
     "start_line": 9,
     "end_line": 2,
     "status": "sorry_free",
+    "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-26",
+    "last_updated": "2026-07-27",
     "fidelity": "verified",
     "fidelity_note": "Formalized in Chapter3/Remark3_1_5.lean. The classification (Prop 3.1.4) is already proved over an arbitrary ring with arbitrary simple modules (no algebraic closure, no finite-dimensionality): re-exported as subrepresentation_general. The new content - matrix entries in D_i = End_A(V_i) - is homMatrixEquiv: Hom_A(Fin r -> V, Fin n -> V) = Matrix over End_A(V). D_i is a division ring by Schur (end_divisionRing). \"Linearly independent rows\" = injectivity is injective_iff_rows_linearIndependent, and rows_linearIndependent_iff identifies that condition with LinearIndependent over the opposite ring. subrepresentation_blocks assembles these into the block form of the inclusion for the full pairwise-nonisomorphic family.",
-    "fidelity_decl": "Etingof.Remark315.subrepresentation_general, Etingof.Remark315.homMatrixEquiv, Etingof.Remark315.injective_iff_rows_linearIndependent, Etingof.Remark315.rows_linearIndependent_iff, Etingof.Remark315.subrepresentation_blocks"
+    "fidelity_decl": "Etingof.Remark315.subrepresentation_general, Etingof.Remark315.homMatrixEquiv, Etingof.Remark315.injective_iff_rows_linearIndependent, Etingof.Remark315.rows_linearIndependent_iff, Etingof.Remark315.subrepresentation_blocks",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Proposition 3.1.4 remains valid without assuming that k is algebraically closed or that the simple modules are finite-dimensional.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Remark315.subrepresentation_general; Etingof.Remark315.subrepresentation_blocks"
+        },
+        {
+          "claim": "In this generality the matrix entries lie in D_i = End_A(V_i), and Schur's lemma makes D_i a division ring.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Remark315.homMatrixEquiv; Etingof.Remark315.homMatrixEquiv_apply; Etingof.Remark315.end_divisionRing"
+        },
+        {
+          "claim": "The same block-matrix proof ('check it!') gives injective block maps whose rows are linearly independent over the appropriate opposite endomorphism division ring.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Remark315.injective_iff_rows_linearIndependent; Etingof.Remark315.rows_linearIndependent_iff; Etingof.Remark315.subrepresentation_blocks"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Discussion_alternative_proof_of_Proposition3.1.4",
@@ -3024,11 +3185,58 @@
     "start_line": 3,
     "end_line": 12,
     "status": "sorry_free",
+    "sorry_free": true,
     "coverage": "covered_full",
-    "coverage_note": "Formalized (issue #7452) in Chapter3/Discussion_alternative_proof_of_Proposition3_1_4.lean. The displayed natural Hom-space decomposition Hom_A(V,U) ≅ ∏_X Hom_k(V_X,U_X) (with canonical multiplicity spaces V_X = Hom_A(X,V)) is Etingof.homPiHomEquiv, the post-composition equivalence f ↦ (i ↦ (g ↦ f∘g)); naturality/functoriality is postcompHom_id and postcompHom_comp. The componentwise injective/surjective/isomorphism criteria are injective_iff, surjective_iff, bijective_iff, proved via the block-diagonal factorization restrictScalars_eq through Remark 3.1.3's evalDirectSumEquiv and faithful flatness of each simple X i over k. No sorry/axioms.",
-    "last_updated": "2026-07-23",
+    "coverage_note": "Formalized in Chapter3/Discussion_alternative_proof_of_Proposition3_1_4.lean, now imported by the Chapter3 umbrella. The displayed natural Hom-space decomposition is homPiHomEquiv with its exact post-composition formula and naturality. injective_iff, surjective_iff, and bijective_iff give every componentwise criterion. restrictScalars_eq is the block-diagonal factorization, and mem_ker_iff_components records the kernel calculation used after Lemma 3.1.6. No sorry or project axioms.",
+    "last_updated": "2026-07-27",
     "fidelity": "verified",
-    "fidelity_decl": "Etingof.homPiHomEquiv"
+    "fidelity_decl": "Etingof.homPiHomEquiv",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For canonical multiplicity spaces V_X = Hom_A(X,V) and U_X = Hom_A(X,U), there is a natural linear isomorphism Hom_A(V,U) ≅ ∏_X Hom_k(V_X,U_X).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.homPiHomEquiv"
+        },
+        {
+          "claim": "The isomorphism sends f to the component maps f_X given by post-composition, g ↦ f ∘ g.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.postcompHom; Etingof.postcompHom_apply; Etingof.homPiHomEquiv_apply"
+        },
+        {
+          "claim": "An A-linear map f is injective if and only if every multiplicity-space component f_X is injective.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.injective_iff"
+        },
+        {
+          "claim": "An A-linear map f is surjective if and only if every multiplicity-space component f_X is surjective.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.surjective_iff"
+        },
+        {
+          "claim": "An A-linear map f is an isomorphism if and only if every multiplicity-space component f_X is an isomorphism.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.bijective_iff"
+        },
+        {
+          "claim": "The Hom-space identification is natural: identity and composition become identity and componentwise composition.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.postcompHom_id; Etingof.postcompHom_comp"
+        },
+        {
+          "claim": "The alternative argument is credited to B. Poonen.",
+          "verdict": "non_formalizable",
+          "reason": "This is a bibliographic attribution in footnote 2, not a mathematical proposition."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Lemma3.1.6",
@@ -3043,7 +3251,28 @@
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_note": "Lemma3_1_6.lean now proves the source form: exists_subfamily_isCompl_ker selects a subset J of the given simple family whose sub-sum ⨆ i ∈ J, p i complements ker f, and exists_subfamily_bijective / exists_subfamily_linearEquiv (and its DirectSum.IsInternal form) package the restriction of f as an isomorphism onto U. The weaker surjective_map_splits is kept.",
-    "last_updated": "2026-07-23"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "If f : ⨁_{i∈I} V_i → U is surjective and every V_i is irreducible, then some subset J ⊆ I has the property that f restricts to an isomorphism ⨁_{i∈J} V_i ≅ U.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.exists_subfamily_bijective; Etingof.exists_subfamily_linearEquiv; Etingof.exists_subfamily_linearEquiv_of_isInternal"
+        },
+        {
+          "claim": "The maximal-injective-subfamily proof selects a concrete sub-sum complementary to ker f; any omitted simple summand not contained in its image-plus-kernel would enlarge it, contradicting maximality.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.exists_subfamily_isCompl_ker; Etingof.disjoint_sup_of_disjoint"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Discussion_after_Lemma3.1.6",
@@ -3056,13 +3285,43 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "covered"
+      "result": "covered_full"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The alternative proof can use an arbitrary kernel complement, but the book's conclusion selects a sub-sum from the given irreducible family. That structured Lemma 3.1.6 endpoint remains #7409.",
-    "fidelity_issue": 7409,
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The previous partial marker was stale: closed issue #7409 supplied the exact given-subfamily form of Lemma 3.1.6. The quotient step is covered by exists_subfamily_linearEquiv_of_isInternal; restrictScalars_eq and mem_ker_iff_components give the displayed componentwise kernel calculation; and subrepresentation_blocks packages the resulting W = ⨁_X W_X ⊗ X classification with each multiplicity space embedded in V_X.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Applying Lemma 3.1.6 to the quotient map V → V/W expresses V/W as a direct sum of a selected subfamily of the irreducible summands, equivalently as ⨁_X U_X ⊗ X.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.exists_subfamily_linearEquiv_of_isInternal"
+        },
+        {
+          "claim": "Under the canonical multiplicity-space decompositions, the quotient map V → V/W is the direct sum of the component maps V_X → U_X tensored with the identity on X.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.restrictScalars_eq; Etingof.postcompHom_apply"
+        },
+        {
+          "claim": "The displayed kernel computation is componentwise: W = ker(V → V/W) corresponds to the direct sum of the kernels of V_X → U_X tensored with X.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.mem_ker_iff_components"
+        },
+        {
+          "claim": "Consequently every submodule W ≤ ⨁_X V_X ⊗ X has the form ⨁_X W_X ⊗ X for subspaces W_X ≤ V_X, as required for Proposition 3.1.4.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Remark315.subrepresentation_blocks; Etingof.subrepresentation_of_semisimple_matrix"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Introduction_to_3.2",
