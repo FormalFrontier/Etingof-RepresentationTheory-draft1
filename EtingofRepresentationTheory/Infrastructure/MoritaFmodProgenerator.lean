@@ -7,15 +7,16 @@ import Mathlib.RingTheory.Noetherian.Basic
 /-!
 # The progenerator extracted from an equivalence of finitely generated module categories
 
-The missing converse in Definition 9.7.1 must extend an equivalence
+The converse in Definition 9.7.1 extends an equivalence
 `FGModuleCat A ≌ FGModuleCat B` to all modules. The algebraic starting point of every such
 reconstruction is the image of the regular `A`-module: it is a finitely generated projective
 generator on the `B` side.
 
 This file packages and proves that starting point. It does not assume an extension to
 `ModuleCat`, so it is genuine infrastructure on the book-faithful `fmod` equivalence itself.
-The remaining Morita reconstruction theorem is the passage from this finite progenerator to
-the tensor equivalence on arbitrary modules.
+The successor passage from this finite progenerator to an equivalence on arbitrary modules is
+proved in `Infrastructure/MoritaFiniteProgenerator.lean` and assembled in
+`Chapter9/Introduction_9_7_Morita.lean`.
 -/
 
 universe u
@@ -79,8 +80,8 @@ theorem regular_isFmodProgenerator (R : Type u) [Ring R] [IsNoetherianRing R] :
 under any equivalence of finitely generated module categories is a finitely generated
 projective generator.
 
-This is the first algebraic half of the converse Morita bridge: the unresolved successor step
-is to use this object as a bimodule and extend the finite equivalence to arbitrary modules. -/
+This is the first algebraic half of the converse Morita bridge; its full-module successor is
+`IsProgenerator.moduleCatEquivEndOp`. -/
 theorem fmodEquiv_regular_isFmodProgenerator {A B : Type u}
     [Ring A] [IsNoetherianRing A] [Ring B]
     (E : FGModuleCat.{u} A ≌ FGModuleCat.{u} B) :

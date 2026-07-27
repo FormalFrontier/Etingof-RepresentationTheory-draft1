@@ -241,9 +241,8 @@ book-faithful Morita equivalence on finitely generated modules (Etingof Definiti
 
 For finite-dimensional algebras `FGModuleCat` is the book's category `A`-fmod, so this says
 the full-module notion `Etingof.MoritaEquivalent` refines to the literal book definition
-`Etingof.MoritaEquivalentFmod`. The converse (reconstructing a full-module equivalence from
-an equivalence of finite-dimensional modules) is the Morita reconstruction theorem and is
-not yet formalized. -/
+`Etingof.MoritaEquivalentFmod`. The converse and combined `iff` are proved by finite-progenerator
+reconstruction in `Chapter9/Introduction_9_7_Morita.lean`. -/
 theorem MoritaEquivalent.toFmod {A B : Type u} [Ring A] [Ring B]
     (h : Etingof.MoritaEquivalent A B) : Etingof.MoritaEquivalentFmod A B :=
   MoritaEquivalent.fgModuleCatEquiv h
