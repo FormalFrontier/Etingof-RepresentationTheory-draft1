@@ -1,8 +1,3 @@
-import Mathlib.Data.Finsupp.Multiset
-import Mathlib.LinearAlgebra.SymmetricAlgebra.Basis
-import Mathlib.LinearAlgebra.ExteriorAlgebra.Basis
-import Mathlib.Algebra.Lie.UniversalEnveloping
-import Mathlib.LinearAlgebra.Basis.Defs
 import EtingofRepresentationTheory.Chapter2.Definition2_9_9
 import EtingofRepresentationTheory.Chapter2.Discussion_2_6
 import EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymPowBasis

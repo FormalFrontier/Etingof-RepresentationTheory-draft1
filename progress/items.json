@@ -3523,7 +3523,7 @@
     "end_page": "35",
     "start_line": 27,
     "end_line": 33,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
       "result": "covered_full"
@@ -3575,6 +3575,13 @@
         "Etingof.tensorAlgebra_ι_injective"
       ],
       "basis": "All seven public declarations in the scoped provider resolve and are admission-free. The three source claims are witnessed by explicit algebra equivalences and homogeneous/generator formulas; injectivity of the degree-one inclusion rules out a vacuous model."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.12",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The provider uses only Mathlib's TensorAlgebra basis and tensor-power APIs and imports no project module. Lean's redundant-import and minImports diagnostics confirm that its two direct Mathlib imports are both transitively irredundant; the incoming Exercise 2.11.7 edge was reading order only."
     }
   },
   {
@@ -3585,7 +3592,7 @@
     "end_page": "36",
     "start_line": 1,
     "end_line": 16,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -3676,6 +3683,17 @@
         "Etingof.coordFreeToUeaBasis_unique"
       ],
       "basis": "All twenty-five public declarations in the scoped provider resolve and are admission-free. The quotient relations, basis identifications, homogeneous decompositions, and the two-sided universal-enveloping algebra equivalence are supported by explicit proofs or Mathlib constructions; there are no intentional omissions in this item."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.12",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Discussion_2.6",
+        "Chapter2/Definition2.9.9",
+        "Chapter2/Problem2.11.3"
+      ],
+      "basis": "PresentedAlgebra and its universal property come from Discussion 2.6; the earlier UEA alias bridged by ueaBasisAlgEquiv comes from Definition 2.9.9; and the exact SymPow/ExtPow quotient models, bases, and exterior-power equivalence come from Problem 2.11.3. minImports identified exactly these three project imports. Five direct Mathlib imports were transitively redundant and have been removed."
     }
   },
   {
