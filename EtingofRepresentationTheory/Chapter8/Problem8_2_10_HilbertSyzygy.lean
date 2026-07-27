@@ -1,5 +1,6 @@
 import EtingofRepresentationTheory.Chapter8.Problem8_2_10
 import EtingofRepresentationTheory.Chapter8.Problem8_2_6
+import EtingofRepresentationTheory.Chapter8.PIDDecomposition
 import EtingofRepresentationTheory.Chapter8.TensorRightFunctorK
 import EtingofRepresentationTheory.Chapter9.Example9_4_4
 import EtingofRepresentationTheory.Chapter9.Problem9_4_2
@@ -111,6 +112,28 @@ theorem Problem_8_2_10_iv_tor (b : Module.Basis (Fin n) k V)
   exact isZero_leftDerived_of_hasProjectiveDimensionLE
     (tensorRightFunctorₖ k SV N) M n i (hRight M) hi
 
+/-- **Problem 8.2.10(iv), `Tor`, in the book's left-module convention.** Since `SV` is
+commutative, an ordinary left `SV`-module is canonically a right `SV`-module.  Thus the Tor
+vanishing theorem may be stated for two ordinary `SV`-modules, exactly as in the book. -/
+theorem Problem_8_2_10_iv_tor_left_modules (b : Module.Basis (Fin n) k V)
+    (M N : ModuleCat.{u} SV) (i : ℕ) (hi : n < i) :
+    IsZero (Torₖ k SV N ((mopFunctor SV).obj M) i) :=
+  Problem_8_2_10_iv_tor k V b ((mopFunctor SV).obj M) N i hi
+
+/-- **Hilbert syzygies, arbitrary-module endpoint.** Every `SV`-module has projective
+dimension at most `dim V = n`; consequently both `Ext` and `Tor` vanish in every degree above
+`n`, uniformly for arbitrary ordinary left `SV`-modules.  The Tor input is converted to a right
+module using commutativity of `SV`. -/
+theorem Problem_8_2_10_iv_hilbert_syzygy (b : Module.Basis (Fin n) k V) :
+    (∀ M : ModuleCat.{u} SV, HasProjectiveDimensionLE M n) ∧
+      (∀ (M N : ModuleCat.{u} SV) (i : ℕ), n < i →
+        Subsingleton (Abelian.Ext M N i)) ∧
+      (∀ (M N : ModuleCat.{u} SV) (i : ℕ), n < i →
+        IsZero (Torₖ k SV N ((mopFunctor SV).obj M) i)) := by
+  refine ⟨symmetricAlgebra_hasHomologicalDimensionLE k V b, ?_, ?_⟩
+  · exact fun M N i hi => Problem_8_2_10_iv_ext k V b M N i hi
+  · exact fun M N i hi => Problem_8_2_10_iv_tor_left_modules k V b M N i hi
+
 /-- Basis-free finite-dimensional form of the `Ext` vanishing endpoint, with the bound written
 exactly as `dim V`. -/
 theorem Problem_8_2_10_iv_ext_finrank [FiniteDimensional k V]
@@ -125,6 +148,24 @@ theorem Problem_8_2_10_iv_tor_finrank [FiniteDimensional k V]
     (i : ℕ) (hi : Module.finrank k V < i) :
     IsZero (Torₖ k SV N M i) :=
   Problem_8_2_10_iv_tor k V (Module.finBasis k V) M N i hi
+
+/-- Basis-free finite-dimensional form of the `Tor` endpoint for two ordinary left
+`SV`-modules. -/
+theorem Problem_8_2_10_iv_tor_left_modules_finrank [FiniteDimensional k V]
+    (M N : ModuleCat.{u} SV) (i : ℕ) (hi : Module.finrank k V < i) :
+    IsZero (Torₖ k SV N ((mopFunctor SV).obj M) i) :=
+  Problem_8_2_10_iv_tor_left_modules k V (Module.finBasis k V) M N i hi
+
+/-- Basis-free finite-dimensional form of the simultaneous arbitrary-module Hilbert-syzygy
+theorem, with the bound written exactly as `dim V`. -/
+theorem Problem_8_2_10_iv_hilbert_syzygy_finrank [FiniteDimensional k V] :
+    (∀ M : ModuleCat.{u} SV,
+        HasProjectiveDimensionLE M (Module.finrank k V)) ∧
+      (∀ (M N : ModuleCat.{u} SV) (i : ℕ), Module.finrank k V < i →
+        Subsingleton (Abelian.Ext M N i)) ∧
+      (∀ (M N : ModuleCat.{u} SV) (i : ℕ), Module.finrank k V < i →
+        IsZero (Torₖ k SV N ((mopFunctor SV).obj M) i)) :=
+  Problem_8_2_10_iv_hilbert_syzygy k V (Module.finBasis k V)
 
 /-- The symmetric-algebra homological-dimension statement used above is literally the Chapter 9
 multivariate-polynomial statement transported along the basis isomorphism. -/
