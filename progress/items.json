@@ -8205,12 +8205,12 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "Mathlib has the enriched-category and enriched-composition infrastructure, but Chapter 7 exposes no source-shaped public endpoint; combined follow-up #7473.",
+    "coverage": "covered_full",
+    "coverage_note": "EnrichedRepresentability.lean exposes Mathlib's EnrichedCategory and eComp through source-facing declarations EnrichedCategory and enrichedComposition.",
     "fidelity_issue": 7473,
-    "last_updated": "2026-07-22",
+    "last_updated": "2026-07-26",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -8411,12 +8411,12 @@
     "start_line": 5,
     "end_line": 6,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The project exposes no definition of representability for a functor from an enriched category into its enriching category, despite Mathlib's eCoyoneda infrastructure; combined follow-up #7473.",
+    "coverage": "covered_full",
+    "coverage_note": "EnrichedRepresentability.lean defines EnrichedRepresentable by a natural isomorphism to eCoyoneda and proves every eCoyoneda functor has its canonical representing witness.",
     "fidelity_issue": 7473,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter7/Example7.5.3",
@@ -8742,8 +8742,8 @@
     "status": "sorry_free",
     "sorry_free": true,
     "coverage": "covered_full",
-    "coverage_note": "Parts (i)–(iv) are proved. Part (iv) now meets the source's demand for a *natural* isomorphism: Etingof.kunnethNatIso (Chapter7/KunnethIso.lean) is a natural isomorphism of bifunctors (C,D) ↦ ∐_{j+m=i} Hʲ(C) ⊗ Hᵐ(D) ≅ (C,D) ↦ Hⁱ(C ⊗ D), with Etingof.kunnethIso its objectwise form; the underlying map is the choice-free cross product Etingof.kunnethMap. Problem7_8_7_iv_nonempty is retained only as a compatibility corollary. The ℕ-reindexed variants kunnethChainComplexNatIso / kunnethCochainComplexNatIso are objectwise isomorphisms only: three of their four steps have formalized naturality squares, but the tensor/extend comparison TensorExtend.tensorObjExtendIso is natural without its naturality being formalized, so they are deliberately not claimed as natural isomorphisms.",
-    "last_updated": "2026-07-25"
+    "coverage_note": "Parts (i)–(iv) are proved. Etingof.kunnethNatIso is the natural ℤ-indexed Künneth isomorphism with choice-free cross-product map. The ℕ-reindexed chain and cochain variants are now natural isomorphisms of bifunctors as Etingof.kunnethChainComplexNatNatIso and Etingof.kunnethCochainComplexNatNatIso; their components are definitionally the existing objectwise isomorphisms. All four reindexing steps have formalized naturality, including tensor/extend compatibility and removal of vanishing off-image summands.",
+    "last_updated": "2026-07-26"
   },
   {
     "id": "Chapter7/Introduction_7.9",

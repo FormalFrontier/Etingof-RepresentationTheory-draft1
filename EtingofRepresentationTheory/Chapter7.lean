@@ -22,6 +22,7 @@ import EtingofRepresentationTheory.Chapter7.Introduction_7_4
 import EtingofRepresentationTheory.Chapter7.Example7_1_3
 import EtingofRepresentationTheory.Chapter7.Example7_1_5
 import EtingofRepresentationTheory.Chapter7.Example7_1_6
+import EtingofRepresentationTheory.Chapter7.EnrichedRepresentability
 import EtingofRepresentationTheory.Chapter7.SymmetricPowerFunctor
 import EtingofRepresentationTheory.Chapter7.SchurFunctor
 import EtingofRepresentationTheory.Chapter7.Example7_2_2
@@ -45,6 +46,7 @@ import EtingofRepresentationTheory.Chapter7.TensorComplexBiprod
 import EtingofRepresentationTheory.Chapter7.Problem7_8_7
 import EtingofRepresentationTheory.Chapter7.KunnethChainComplexNat
 import EtingofRepresentationTheory.Chapter7.KunnethCochainComplexNat
+import EtingofRepresentationTheory.Chapter7.KunnethNatBifunctor
 import EtingofRepresentationTheory.Chapter7.KunnethNatural
 import EtingofRepresentationTheory.Chapter7.KunnethIso
 
