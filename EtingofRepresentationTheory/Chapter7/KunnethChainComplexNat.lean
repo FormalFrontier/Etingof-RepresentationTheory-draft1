@@ -62,10 +62,9 @@ inverse to the natural cross product `Etingof.kunnethMap`. The reindex of the co
 bare index bijection: the `ℤ`-side sum `⨁_{a+b=-i}` ranges over all of `ℤ × ℤ`, and the extra
 summands vanish only via `homology_extend_isZero`.
 
-The main deliverable is `kunnethChainComplexNatIso`, an actual `Iso`; `kunnethChainComplexNat` is
-the `Nonempty` corollary kept for compatibility. Nothing in this file extracts an isomorphism from
-a `Nonempty` via `Classical.choice`. See `kunnethChainComplexNatIso`'s docstring for a step-by-step
-account of which naturality squares are formalized.
+The objectwise deliverable is `kunnethChainComplexNatIso`; `kunnethChainComplexNat` is its
+`Nonempty` compatibility corollary. `KunnethNatBifunctor.lean` packages these same components as
+the natural isomorphism `kunnethChainComplexNatNatIso`.
 -/
 
 open CategoryTheory Limits MonoidalCategory HomologicalComplex
@@ -771,14 +770,12 @@ currently *formalized*:
   `extendHomologyIso_hom_naturality`).
 * `α₃` (Chapter 7 Künneth): naturality is proved, as `Etingof.kunnethNatIso` — the underlying
   map is the choice-free cross product `Etingof.kunnethMap`.
-* `α₂` (the tensor/extend compatibility `TensorExtend.tensorObjExtendIso`): natural in `(C, D)`,
-  since it is assembled degreewise from `mapBifunctorDesc` over the `ιTensorObj` injections,
-  but **the naturality square is not formalized here**. Stating it needs the bifunctor form of
-  `extend` on `ℕ`-indexed complexes, which this file does not set up. This is the one gap
-  between "natural" and "proved natural"; it is not a claim that the step is non-natural.
-  Tracked as issue #7837.
+* `α₂` (the tensor/extend compatibility): naturality is proved by
+  `TensorExtend.tensorObjExtendIso_hom_naturality` and packaged by
+  `TensorExtend.tensorObjExtendNatIso`.
 
-Consequently this file exposes the isomorphism, not a natural isomorphism of bifunctors. -/
+`KunnethNatBifunctor.lean` composes these four squares into
+`kunnethChainComplexNatNatIso`; its component theorem recovers this isomorphism. -/
 noncomputable def kunnethChainComplexNatIso (C D : ChainComplex (ModuleCat.{u} k) ℕ) (i : ℕ) :
     (HomologicalComplex.tensorObj C D).homology i ≅
       ∐ fun (p : {p : ℕ × ℕ // p.1 + p.2 = i}) =>
