@@ -1051,7 +1051,7 @@
     "end_page": "15",
     "start_line": 16,
     "end_line": 19,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "fidelity": "verified",
     "lean_file": "EtingofRepresentationTheory/Chapter2/Discussion_2_5_well_defined.lean",
@@ -1099,6 +1099,13 @@
         "Etingof.quotientAlgHom_mul"
       ]
     },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.5",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The quotient type, canonical map, additive-coset bridge, and multiplication formula use only Mathlib quotient and two-sided-ideal infrastructure."
+    },
     "last_updated": "2026-07-27"
   },
   {
@@ -1109,7 +1116,7 @@
     "end_page": "16",
     "start_line": 1,
     "end_line": 18,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "fidelity": "verified",
     "lean_file": "EtingofRepresentationTheory/Chapter2/Discussion_2_5_well_defined.lean",
@@ -1175,6 +1182,15 @@
         "Etingof.regularQuotientRepresentation"
       ]
     },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.5",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Discussion_2.5_heading"
+      ],
+      "basis": "The representative-independence proofs reuse the quotient map and coset-equality bridge formalized by the preceding item in the same Lean file; the quotient-module declarations otherwise use Mathlib."
+    },
     "last_updated": "2026-07-27"
   },
   {
@@ -1185,7 +1201,7 @@
     "end_page": "16",
     "start_line": 19,
     "end_line": 19,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "fidelity": "verified",
     "lean_file": "EtingofRepresentationTheory/Chapter2/Problem2_5_1.lean",
@@ -1220,6 +1236,15 @@
       "declarations": [
         "Etingof.Problem2_5_1.quotient_isIndecomposable"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.5",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.3.8"
+      ],
+      "basis": "The proof imports the project's definition of module indecomposability and otherwise uses Mathlib's multivariable-polynomial, quotient-ring, local-ring, and submodule APIs."
     }
   },
   {
@@ -1230,7 +1255,7 @@
     "end_page": "16",
     "start_line": 20,
     "end_line": 29,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "fidelity": "verified",
     "lean_file": "EtingofRepresentationTheory/Chapter2/Problem2_5_2.lean",
@@ -1313,6 +1338,15 @@
         "Etingof.Coregular.toDual_smul",
         "Etingof.Problem2_5_2.PartC.indecomposable_not_cyclic"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.5",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.3.8"
+      ],
+      "basis": "The final coregular example uses the project's definition of module indecomposability; the cyclicity results and all supporting algebra constructions are self-contained over Mathlib."
     },
     "last_updated": "2026-07-27"
   },
