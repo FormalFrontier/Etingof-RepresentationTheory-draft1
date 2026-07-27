@@ -1741,11 +1741,9 @@
     "start_line": 25,
     "end_line": 16,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "Parts (f)-(n) are source-present, while the maximal-generalized-eigenspace conclusions in (a)-(e) remain #7427. The Clebsch–Gordan module source now also fails a fresh check at repeated Lie-action rewrites; regression #7529.",
-    "followup_issue": 7427,
-    "coverage_issue": 7529,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "All parts (a)-(n) are source-present. Problem2_15_1_a_e.lean exposes the full maximal-generalized-weight-space argument: E vanishes, the E^k F^k polynomial identity, finite-dimensional F-termination, collapse of the maximal generalized eigenspace to the eigenspace via a squarefree annihilator, and the least-exponent weight formula. Parts (f)-(n), including the restored Clebsch-Gordan module source, are covered by the remaining Chapter 2 files.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Discussion_2.16_heading",
@@ -5250,11 +5248,13 @@
     "end_page": "110",
     "start_line": 35,
     "end_line": 35,
-    "status": "partially_formalized",
-    "coverage_note": "There is no dedicated Problem5_10_2.lean and none of parts (a)-(f) is stated as a Lean endpoint. Theorem5_10_1 proves one downstream Frobenius-reciprocity conclusion directly through Mathlib, without the requested relative-tensor and bimodule constructions. Follow-up: #7356.",
-    "followup_issue": 7356,
-    "coverage": "covered_partial",
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "coverage_note": "Problem5_10_2.lean supplies the five previously missing concrete endpoints. Part (a) identifies the canonical coinvariant model of k[G] ⊗_{k[G]} V with restriction and proves that the inverse is v ↦ 1 ⊗ v. Part (c) identifies the equivariant-function/regular-Hom model with restriction by evaluation at 1. Part (d) gives the ind-coind isomorphism and a quotient-indexed coset formula whose Quotient.liftOn proof records independence of representatives. Part (e) is the natural adjunction Ind ⊣ Res plus its pointwise linear Hom equivalence. Part (f) is a genuine equivariant isomorphism Ind(V*) ≅ (Ind V)* for finite complex representations, proved from the Frobenius character formula. Part (b) is explicitly cross-referenced to the stronger direct natural isomorphism Theorem5_10_1.",
+    "coverage": "covered_full",
+    "fidelity": "faithful",
+    "needs_statement": false,
+    "sorry_free": true,
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Discussion_Problem5.10.2_parts",
@@ -5264,11 +5264,13 @@
     "end_page": "112",
     "start_line": 1,
     "end_line": 1,
-    "status": "partially_formalized",
-    "coverage_note": "Parts (a)-(f) are not stated as Lean endpoints. Related induction/restriction results do not construct the requested bimodules, relative tensor products, representative-independent isomorphisms, both adjunction directions, or induction-duality isomorphism. Follow-up: #7356.",
-    "followup_issue": 7356,
-    "coverage": "covered_partial",
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "coverage_note": "All parts (a)-(f) now have discoverable endpoints: Problem5_10_2_a and its concrete inverse formula; Theorem5_10_1 for (b); Problem5_10_2_c and its evaluation-at-one formula; Problem5_10_2_d with the canonical representative-independent coset sum; Problem5_10_2_e as the natural induction-restriction adjunction; and Problem5_10_2_f as an equivariant dual-induction isomorphism.",
+    "coverage": "covered_full",
+    "fidelity": "faithful",
+    "needs_statement": false,
+    "sorry_free": true,
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Introduction_5.11",
@@ -5790,14 +5792,12 @@
     "end_page": "118",
     "start_line": 15,
     "end_line": 18,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "needs_statement": true,
-    "coverage": "covered_partial",
-    "fidelity_note": "The character-theoretic content is designed to be complete at the always-admissible specialization N=n. The remaining semantic gap is the independent N-family (#7456), while the current source additionally fails fresh elaboration in semisimplicity, freeness, and scalar-tower arguments (#7512).",
-    "fidelity_issue": 7456,
-    "coverage_issue": 7512,
-    "last_updated": "2026-07-22"
+    "status": "proved",
+    "fidelity": "verified",
+    "needs_statement": false,
+    "coverage": "covered_full",
+    "fidelity_note": "Theorem5_15_1_General proves the book's full independent-variable statement: for every N at least the number of rows of lambda, the Specht character is the x^(lambda+rho_N) coefficient of the N-variable Vandermonde times the cycle-type power-sum product. The proof establishes stability under adjoining a zero row/variable and recovers the existing N=n theorem as the anchor specialization.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Remark5.15.2",
@@ -6602,7 +6602,6 @@
   },
   {
     "id": "Chapter5/Remark5.23.3",
-    "source_regression_note": "Clean rebuild imports the broken Proposition5_22_2 determinant-shift source (#7547).",
     "type": "remark",
     "title": "Extension to sl(V) and SL(V); recovery of sl(2) representation theory",
     "start_page": "134",
@@ -6612,11 +6611,10 @@
     "status": "partially_proved",
     "fidelity": "partial",
     "sorry_free": true,
-    "fidelity_note": "#7357 completed the SL_N half. slRestrict restricts a GL_N representation along Matrix.SpecialLinearGroup.toGL; detChar_toGL and slRestrict_charTwistRep_detChar_zpow show every determinant twist is invisible on SL_N; algIrrepGL_slEquiv_constShift is the SL_N-equivariant isomorphism L_{lam + c*1^N} = L_lam as a Representation.Equiv (algIrrepGL_finrank_constShift is its dimension shadow); slIsoSetoid, shiftEquiv_slIso, slIrrepClass and slIrrepClass_surjective make the parametrization by SLWeightParam N well defined and surjective onto the isomorphism classes of the L_lam|_SL. #7807 added the converse, slIso_shiftEquiv: isomorphic SL_N restrictions force a constant shift, so slIrrepClass_injective and slIrrepEquiv give the bijection SLWeightParam n = Quotient (slIsoSetoid n k). Its route is the scalar torus: scalarGL acts on L_lam by s^total (algIrrepGLRepro_scalarGL), the N-th roots of unity inside SL_N force N | (total mu - total lam) (natCast_dvd_total_sub_of_slIso), and GL_N = scalars * SL_N over an algebraically closed field (specialLinearFactor) promotes the SL_N map to a GL_N map once the totals agree, at which point algIrrepGLRepro_iso_iff_eq applies. The book-disavowed sl_N complete-reducibility and highest-weight assertions are now recorded in skipped-exercises.md under 'Remark 5.23.3' rather than as proof_wanted. Still open: exhaustiveness of the L_lam|_SL among the irreducibles (#7808, blocked on the GL_N classification #7400).",
+    "fidelity_note": "#7357 completed the SL_N restriction and determinant-shift infrastructure. #7807 proved the converse slIso_shiftEquiv, hence slIrrepClass_injective and the bijection slIrrepEquiv. The GL_N classification is now available. #7808 adds IsAlgebraicSLRepresentation, HasAlgebraicGLExtension, restriction of GL_N algebraicity, simplicity transfer, and exists_dominantWeight_slEquiv_of_hasAlgebraicGLExtension: every simple SL_N representation with an algebraic GL_N extension is a constructed restriction. The remaining gap is the genuinely SL_N-specific extension theorem from intrinsic algebraicity to an algebraic GL_N extension. The book-disavowed sl_N Lie-algebra assertions remain recorded in skipped-exercises.md.",
     "coverage": "covered_partial",
-    "coverage_issue": 7547,
     "followup_issue": 7808,
-    "last_updated": "2026-07-25"
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Introduction_5.24",
@@ -6842,11 +6840,11 @@
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The virtual character is now realized by the honest simple FDRep Etingof.GL2.complementarySeriesRep, with its character identified and dimension q−1 proved in Chapter5/GL2ComplementarySeries.lean (#7906). Discussion5_25_4.lean rebuilds and proves the standalone additive ZMod orbit transversal/count q(q−1)/2. RESIDUAL: connect the actual elliptic-torus character group to that additive model and prove the iff isomorphism classification/pairwise non-isomorphic family (#7947).",
-    "fidelity_issue": 7947,
-    "last_updated": "2026-07-26"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The virtual character is realized by the honest simple FDRep Etingof.GL2.complementarySeriesRep, with character and dimension q−1. GL2ComplementarySeriesOrbits.lean identifies actual elliptic-torus characters with ZMod (q²−1), transports Frobenius to multiplication by q, constructs the Frobenius isomorphism, proves the converse isomorphism classification, and packages the canonical q(q−1)/2-element transversal as pairwise non-isomorphic simple FDReps (#7947).",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/GL2ComplementarySeries.lean :: Etingof.GL2.complementarySeriesRep, complementarySeriesRep_simple, complementarySeriesRep_character, finrank_complementarySeriesRep; EtingofRepresentationTheory/Chapter5/GL2ComplementarySeriesOrbits.lean :: Etingof.GL2.complementaryCharParamEquiv, complementarySeriesRepFrobeniusIso, complementarySeriesRep_iso_iff, complementaryFamily, complementaryFamily_simple, complementaryFamily_injective, card_complementaryIndex, exists_complementary_family",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Lemma5.25.3",
@@ -6877,17 +6875,16 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "covered_partial",
-      "note": "The abstract number of irreducible isomorphism classes is proved to be q^2-1, but the constructed determinant, principal-series, and complementary-series families are not connected to that index type by an exhaustiveness theorem."
+      "result": "covered",
+      "note": "The named one-dimensional, principal-series, and complementary-series representations are assembled into one family of q^2-1 pairwise non-isomorphic simple FDRep objects, and every simple representation is isomorphic to exactly one member."
     },
-    "lean_ref": "EtingofRepresentationTheory/Chapter5/Discussion_complementary_series_summary.lean :: Etingof.GL2.constructedCount_eq_card_conjClasses, foundAllIrreducibles_galoisField, constructed_irreps_complete, constructed_irreps_complete_unconditional, card_irreps_eq_q_sq_sub_one, exists_complete_simples, constructed_families_exhaust",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Discussion_complementary_series_summary.lean :: Etingof.GL2.constructedCount_eq_card_conjClasses, foundAllIrreducibles_galoisField, constructed_irreps_complete, constructed_irreps_complete_unconditional, card_irreps_eq_q_sq_sub_one, exists_complete_simples, constructed_families_exhaust, constructedFamily, constructedFamily_simple, constructedFamily_injective, card_constructedIndex, constructed_irreps_complete_final",
     "coverage": {
-      "result": "covered_partial",
-      "lean_decl": "Etingof.GL2.constructed_families_exhaust",
-      "note": "Exhaustiveness is now stated and proved for honest FDRep ℂ (GL₂ 𝔽_q) objects, not only for an abstract Wedderburn index type: exists_complete_simples exhibits q²−1 pairwise non-isomorphic simples such that every simple is isomorphic to one of them, and constructed_families_exhaust shows that ANY family of (q−1)+q(q−1)/2+q(q−1)/2 pairwise non-isomorphic simples exhausts the irreducibles (the pigeonhole is Etingof.exhaustive_of_card_eq_card_conjClasses in Infrastructure/CompletenessByCounting.lean). RESIDUAL: the named families are still not fed into that reduction — the complementary series exists only as a virtual character (Lemma5_25_3_innerProduct/_dimension), not as a representation object, and cross-family non-isomorphism is unproved. Tracked by the sub-issues of #7252."
+      "result": "covered_full",
+      "lean_decl": "Etingof.GL2.constructed_irreps_complete_final",
+      "note": "The actual named families are now fed into the completeness-by-counting reduction. ConstructedIndex combines PrincipalIndex with the canonical complementary-series Frobenius transversal; constructedFamily_simple and constructedFamily_injective prove irreducibility and all same- and cross-family non-isomorphisms; card_constructedIndex proves the required total; and constructed_irreps_complete_final states that every simple FDRep ℂ (GL₂ 𝔽_q) object is isomorphic to exactly one constructed family member. No residual remains."
     },
-    "fidelity_issue": 7252,
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Introduction_5.26",
@@ -6926,11 +6923,12 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "Theorem5_26_1 proves the rational-span conclusion, and a private proof discusses the integral-rank argument. The remark's public Q-span iff C-span theorem and its equivalent decomposition-matrix row-independence criterion are absent; follow-up #7489.",
-    "fidelity_issue": 7489,
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Remark5_26_2.lean defines the book-oriented integral decomposition matrix (irreducibles index rows and chosen induced representations index columns), proves its columns are the actual Frobenius-reciprocity multiplicities, and proves that rational character span, complex character span, and row linear independence are equivalent.",
+    "fidelity_decl": "Etingof.inducedCharacter_eq_irrepDecomp_sum, Etingof.Remark5262.decompositionMatrix, Etingof.Remark5_26_2",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.26.1",
@@ -7187,11 +7185,12 @@
     "end_page": "149",
     "start_line": 7,
     "end_line": 13,
-    "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "The density/comorphism/dimension argument is proved for quiver representation spaces under their base-change groups, with reusable conditional field-embedding lemmas. The source theorem for an arbitrary algebraic GL_m-representation with finitely many orbits, and its product-GL generalization, are absent. Follow-up #7428.",
-    "followup_issue": 7428,
-    "last_updated": "2026-07-22"
+    "status": "proved",
+    "fidelity": "verified",
+    "needs_statement": false,
+    "coverage": "covered_full",
+    "coverage_note": "Problem6_1_2 proves the book-facing arbitrary algebraic GL_n result and the finite-product GL result. It constructs an algebraically dense orbit, an injective orbit-map comorphism into the determinant-localized coordinate ring, and derives the exact n^2 / sum_i m_i^2 bounds via Problem 6.1.1.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter6/Problem6.1.3",
@@ -8059,12 +8058,13 @@
     "end_page": "178",
     "start_line": 15,
     "end_line": 24,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "coverage_note": "The E8 lattice basis, chosen-vector Gram matrix, coordinate-equality sublattices, and E6/E7/E8 root counts are proved. The root-system axioms and the actual E8/E7/E6 type-identification theorems required by parts (b) and (c) are absent (#7557).",
-    "coverage": "covered_partial",
-    "coverage_issue": 7557,
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "full",
+    "sorry_free": true,
+    "coverage_note": "The lattice basis, coordinate descriptions, and root counts are joined to a faithful finite reduced simply-laced crystallographic root-system predicate. The E8, E7, and E6 root sets are proved finite, norm-two, reduced, integral, closed under negation, and closed under root reflections. Explicit compatible simple-root families are exhibited and their Gram graphs are proved to be the standard E8, E7, and E6 Dynkin diagrams, packaged by rootsOf_E8_type_E8, rootsOf_E7_type_E7, and rootsOf_E6_type_E6. All declarations are sorryAx-free; #7557 resolved.",
+    "coverage": "covered",
+    "lean_file": "EtingofRepresentationTheory/Chapter6/Problem6_9_2.lean;EtingofRepresentationTheory/Chapter6/Problem6_9_2_RootSystem.lean",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter6/Problem6.9.3",
@@ -8490,9 +8490,8 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The group-representation tensor-dual, Frobenius-reciprocity, universal-enveloping, group-algebra, tensor-algebra, and symmetric-algebra examples are genuine adjunctions with natural Hom equivalences. The Lie-representation clause now has a bundled finite-dimensional category, tensor functors, duality, and the expected objectwise Hom equivalence, but not yet the required natural biadjunction; follow-up #5644 remains open.",
-    "followup_issue": 5644,
+    "coverage": "covered",
+    "coverage_note": "All examples are genuine adjunctions. In particular, finite-dimensional Lie representations have natural tensor/dual adjunctions in both directions, with the reverse direction transported through the Lie-equivariant double-dual equivalence.",
     "last_updated": "2026-07-27"
   },
   {
@@ -9199,9 +9198,10 @@
     "start_line": 9,
     "end_line": 22,
     "status": "sorry_free",
-    "coverage_note": "Substantial local Tor/Ext results are proved. Part (ii) now exposes a named canonical Ext¹ AddEquiv, its factorization through bar-resolution cohomology, and representative-level tensor–hom computation theorems. The remaining gap is that parts (iii) and (v) expose only independent six-term windows rather than coherent natural long exact sequences and omit their zero-ended degree-zero assertions (#7421).",
+    "coverage_note": "The local Tor/Ext results and part (ii)'s named Ext¹ equivalence are proved. Problem8_2_6_LongExact.lean packages both argument variants into globally indexed Ext/Tor connecting families, proves every adjacent window exact and the zero-ended Ext⁰ mono/Tor₀ epi endpoints, and identifies the degree-zero maps through Ext⁰ ≃ Hom and Tor₀ ≅ tensor. The Tor maps are explicit rather than existential, are natural in the left/right module parameters, and the second-argument map is natural under morphisms of short exact sequences. The analogous first-argument horseshoe comparison remains #7866, so coverage remains partial (#7421).",
     "coverage": "covered_partial",
-    "followup_issue": 7421,
+    "coverage_issue": 7421,
+    "followup_issue": 7866,
     "last_updated": "2026-07-27"
   },
   {
@@ -9282,9 +9282,9 @@
     "end_line": 1,
     "status": "partially_formalized",
     "coverage": "covered_partial",
-    "note": "Part (i) is complete (#7912): KoszulContraction/KoszulDifferential build the complex Cᵢ = SV ⊗ ⋀ⁱ V with d ∘ d = 0, KoszulAugmentation adds the augmentation, freeness of the terms and basis-independence of d, KoszulBasis writes d out on the monomial/subset k-basis, KoszulHomotopy (#7911) constructs the k-linear contracting homotopy, and KoszulResolution turns it into exactness (koszulD_range_eq_ker, koszulD_zero_range_eq_ker_koszulAug) and the packaged CategoryTheory.ProjectiveResolution Etingof.koszulResolution, recorded as Etingof.Problem_8_2_10_i. Parts (ii)-(v) are still open: see issues #7883, #7884, #7885, #7886.",
+    "note": "Parts (i) and (v) are complete. For (i) (#7912), KoszulContraction/KoszulDifferential build Cᵢ = SV ⊗ ⋀ⁱ V, KoszulAugmentation adds the augmentation and freeness, KoszulBasis and KoszulHomotopy establish exactness, and KoszulResolution packages Etingof.koszulResolution / Etingof.Problem_8_2_10_i. For (v) (#7886), KoszulExtTor proves the Hom and tensor complexes have zero differential and gives genuine k-linear categorical isomorphisms Etingof.koszulExtIso : Extⁱ_{SV}(k,k) ≅ (⋀ⁱV)∗ and Etingof.koszulTorIso : Torᵢ^{SV}(k,k) ≅ ⋀ⁱV for every i. Parts (ii)-(iv) remain open: see issues #7883, #7884, #7885.",
     "fidelity_issue": 5723,
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter9/Introduction",
@@ -9908,11 +9908,10 @@
     "derived_from": "Chapter5/Discussion_complementary_series_summary",
     "source_span": "We have thus found q - 1 1-dimensional representations of G, \\frac{q(q-1)}{2} principal series representations, and \\frac{q(q-1)}{2} complementary series representations, for a total of q^2 - 1 representations, i.e., the number of conjugacy classes in G. This implies that we have in fact found all i",
     "claim": "The total count (q-1) + q(q-1)/2 + q(q-1)/2 = q²-1 equals the number of conjugacy classes, so the listed representations are all irreducible representations of GL₂(𝔽_q)",
-    "status": "accepted",
+    "status": "sorry_free",
     "coverage_issue": 5681,
-    "issue": 7252,
-    "lean_ref": "Chapter5/Discussion_complementary_series_summary.lean (Etingof.GL2.constructed_irrep_count — arithmetic total); Chapter5/GL2ConjugacyClassCount.lean (GL2.card_conjClasses_eq — #classes = q²−1, odd char)",
-    "note": "Stage 3.7 reconciliation (audit #7245), updated 2026-07-26. Sub-claim (a) arithmetic (q−1)+q(q−1)/2+q(q−1)/2=q²−1: proved (constructed_irrep_count). Sub-claim (b) q²−1=#conjugacy classes: proved (card_conjClasses_eq, odd char) and linked into the summary file (foundAllIrreducibles_galoisField, constructedCount_eq_card_conjClasses). Sub-claim (c) \"these are ALL the irreducibles\": now a formal proposition about representations, not just a count — exists_complete_simples (a complete list of q²−1 simple FDRep ℂ (GL₂ 𝔽_q) objects) and constructed_families_exhaust (any q²−1 pairwise non-isomorphic simples exhaust the irreducibles). RESIDUAL: the three named families are not yet packaged into such a list — the complementary series is still only a virtual character, and cross-family non-isomorphism is unproved → tracked by the sub-issues of #7252. Kept status accepted with issue #7252."
+    "lean_ref": "Chapter5/Discussion_complementary_series_summary.lean (Etingof.GL2.constructed_irrep_count, constructedFamily, constructedFamily_simple, constructedFamily_injective, card_constructedIndex, constructed_irreps_complete_final); Chapter5/GL2ConjugacyClassCount.lean (GL2.card_conjClasses_eq)",
+    "note": "Completed 2026-07-27. The arithmetic total and conjugacy-class count are proved, and the actual named determinant, principal-series, and complementary-series representations are packaged into ConstructedIndex/constructedFamily. They are simple and pairwise non-isomorphic, including the cross-family cases separated by dimensions 1, q, q+1 versus q−1. Their index cardinality is the required constructed total, and constructed_irreps_complete_final proves every simple FDRep ℂ (GL₂ 𝔽_q) is isomorphic to exactly one family member. The earlier residual is fully discharged."
   },
   {
     "type": "derived",

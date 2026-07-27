@@ -1,3 +1,9 @@
+/-
+Copyright (c) 2026 Kim Morrison. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Kim Morrison
+-/
+
 import EtingofRepresentationTheory.Chapter8.Theorem8_1_1
 import EtingofRepresentationTheory.Chapter8.Definition8_1_2
 import EtingofRepresentationTheory.Chapter8.Theorem8_1_5
@@ -25,6 +31,7 @@ import EtingofRepresentationTheory.Chapter8.Exercise8_2_2
 import EtingofRepresentationTheory.Chapter8.Problem8_2_5
 import EtingofRepresentationTheory.Chapter8.Problem8_2_6_Core
 import EtingofRepresentationTheory.Chapter8.Problem8_2_6
+import EtingofRepresentationTheory.Chapter8.Problem8_2_6_LongExact
 import EtingofRepresentationTheory.Chapter8.TensorProjectiveExact
 import EtingofRepresentationTheory.Chapter8.TensorRightProjectiveExact
 import EtingofRepresentationTheory.Chapter8.Additivity

@@ -445,7 +445,8 @@ noncomputable def bimoduleFreeTermRightEquiv (i : ℕ) :
               rw [add_tmul, bimoduleFreeTermRightAction_add, map_add, hp, hq, map_add, smul_add]
           | tmul s t =>
               rw [bimoduleFreeTermRightAction_tmul_tmul]
-              simp [eₖ]
+              simp only [Algebra.TensorProduct.comm_toLinearEquiv, LinearEquiv.trans_apply,
+                congr_tmul, comm_tmul, LinearEquiv.refl_apply, assoc_tmul, eₖ]
               rw [TensorProduct.smul_tmul', smul_eq_mul]
   }
 

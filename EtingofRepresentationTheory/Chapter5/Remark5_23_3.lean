@@ -70,9 +70,11 @@ representation theory of `𝔰𝔩(2)` from Problem 2.15.1.
   agree the `SL_N`-map is already `GL_N`-equivariant and
   `Etingof.algIrrepGLRepρ_iso_iff_eq` applies.
 
-  What is *not* claimed here is that the `L_λ|_{SL_N}` exhaust the irreducible
-  `SL_N`-representations; that rests on the `GL_N` highest-weight classification, which this
-  development does not yet prove.
+  The `GL_N` highest-weight classification is now available in `AlgIrrepGLExhaustive.lean`.
+  `SLIrrepExhaustive.lean` uses it to classify every simple `SL_N` representation equipped
+  with an algebraic `GL_N` extension.  Unconditional exhaustiveness is not claimed: the
+  remaining input is that every intrinsically algebraic simple `SL_N` representation admits
+  such an extension.
 
 **What is intentionally omitted.** Etingof states, and explicitly declines to prove ("we will not
 do this here"), that every finite-dimensional `𝔰𝔩(V)`-representation is completely reducible and

@@ -43,11 +43,10 @@ import EtingofRepresentationTheory.Chapter2.Problem2_14_3
   package the tensor- and symmetric-algebra adjunctions. Their categorical Hom
   equivalences are natural in both variables by construction.
 
-For Lie-algebra representations, Mathlib has the necessary unbundled tensor, dual,
-and tensor–Hom equivalences but no bundled rigid representation category. This file
-therefore supplies `Etingof.FDLieRep`, its tensoring functors, and the finite-dimensional
-Lie-equivariant Hom equivalence `Etingof.tensorLieRightHomEquiv`. Packaging this last
-equivalence as a biadjunction still requires a natural rigid structure for that category.
+For Lie-algebra representations, this file supplies `Etingof.FDLieRep`, its tensoring
+functors, the natural adjunction `Etingof.tensorLieRightAdjunction`, and the reverse
+adjunction `Etingof.tensorLieLeftAdjunction` transported through double duality. Thus
+tensoring with `V` and tensoring with `V⁺` are genuinely biadjoint.
 -/
 
 open CategoryTheory MonoidalCategory
@@ -86,9 +85,9 @@ noncomputable def Etingof.tensor_dual_adjunction_right
 Mathlib currently treats Lie modules through typeclasses rather than a bundled
 representation category. The following category and functorial constructions make the
 finite-dimensional part of Example 7.6.3(1) precise. The final Hom equivalence is the
-expected right-adjoint equivalence on objects; unlike the group case above, it is not yet
-promoted to a `CategoryTheory.Adjunction`, because Mathlib does not currently package this
-category as rigid or provide the needed naturality API for its basis-dependent duality map.
+expected right-adjoint equivalence on objects. The evaluation identities proved below make
+it natural in both variables and promote it to both directions of the tensor/dual
+biadjunction.
 -/
 
 namespace Etingof
@@ -169,6 +168,23 @@ noncomputable def lieTensorComm (V W : FDLieRep k L) :
             rw [lie_add]
           _ = ⁅x, (TensorProduct.comm k V W) (a + b)⁆ := by rw [map_add] }
 
+@[simp]
+theorem lieTensorComm_tmul (V W : FDLieRep k L) (v : V) (w : W) :
+    lieTensorComm V W (v ⊗ₜ[k] w) = w ⊗ₜ[k] v := rfl
+
+@[simp]
+theorem lieTensorComm_symm_tmul (V W : FDLieRep k L) (w : W) (v : V) :
+    (lieTensorComm V W).symm (w ⊗ₜ[k] v) = v ⊗ₜ[k] w := rfl
+
+@[simp]
+theorem tensorProductLieMap_tmul {A B C D : Type u}
+    [AddCommGroup A] [Module k A] [LieRingModule L A] [LieModule k L A]
+    [AddCommGroup B] [Module k B] [LieRingModule L B] [LieModule k L B]
+    [AddCommGroup C] [Module k C] [LieRingModule L C] [LieModule k L C]
+    [AddCommGroup D] [Module k D] [LieRingModule L D] [LieModule k L D]
+    (f : LieModuleHom k L A C) (g : LieModuleHom k L B D) (a : A) (b : B) :
+    TensorProduct.LieModule.map f g (a ⊗ₜ[k] b) = f a ⊗ₜ[k] g b := rfl
+
 /-- A finite-dimensional Lie module is Lie-equivariantly isomorphic to its double dual. -/
 noncomputable def lieDoubleDualEquiv (V : FDLieRep k L) :
     V ≃ₗ⁅k,L⁆ Module.Dual k (Module.Dual k V) :=
@@ -242,6 +258,135 @@ noncomputable def tensorLieRightHomEquiv (V W U : FDLieRep k L) :
   right_inv g := by
     apply FDLieRep.hom_ext
     exact (tensorLieRightHomLinearEquiv V W U).apply_symm_apply g.hom
+
+/-- Evaluation formula for the inverse tensor-dual Hom equivalence. -/
+theorem tensorLieRightHomLinearEquiv_symm_apply_tmul (V W U : FDLieRep k L)
+    (g : LieModuleHom k L W (TensorProduct k (Module.Dual k V) U))
+    (v : V) (w : W) :
+    (tensorLieRightHomLinearEquiv V W U).symm g (v ⊗ₜ[k] w) =
+      dualTensorHom k V U (g w) v := by
+  simp only [tensorLieRightHomLinearEquiv, lieCongrHomLeft,
+    Problem2_14_3.congrHomRight, Problem2_14_3.dualHomEquiv,
+    dualTensorHomEquiv, LinearEquiv.invFun_eq_symm, LinearEquiv.trans_symm,
+    TensorProduct.comm_symm, LieModuleEquiv.symm_symm, LinearEquiv.symm_mk,
+    LinearMap.coe_mk, AddHom.coe_mk, LinearEquiv.symm_symm,
+    LinearEquiv.trans_apply, LinearEquiv.coe_mk, LieModuleHom.comp_apply,
+    LieModuleEquiv.coe_coe, lieTensorComm_tmul,
+    TensorProduct.LieModule.liftLie_apply, LieModuleHom.coe_mk,
+    LinearEquiv.coe_coe, dualTensorHomEquivOfBasis_apply]
+  congr 2
+  exact (lieTensorComm (FDLieRep.of k L U) (lieDual V)).apply_symm_apply (g w)
+
+/-- The forward tensor-dual Hom equivalence is characterized by evaluation. -/
+theorem dualTensorHom_tensorLieRightHomLinearEquiv_apply (V W U : FDLieRep k L)
+    (f : LieModuleHom k L (TensorProduct k V W) U) (w : W) (v : V) :
+    dualTensorHom k V U ((tensorLieRightHomLinearEquiv V W U f) w) v =
+      f (v ⊗ₜ[k] w) := by
+  rw [← tensorLieRightHomLinearEquiv_symm_apply_tmul V W U
+      (tensorLieRightHomLinearEquiv V W U f) v w,
+    LinearEquiv.symm_apply_apply]
+
+/-- Postcomposition commutes with the canonical evaluation map
+`V⁺ ⊗ A → Hom(V,A)`. -/
+theorem dualTensorHom_map_right {A B : Type u} [AddCommGroup A] [Module k A]
+    [AddCommGroup B] [Module k B] (V : FDLieRep k L)
+    (g : A →ₗ[k] B) (t : TensorProduct k (Module.Dual k V) A) (v : V) :
+    dualTensorHom k V B (TensorProduct.map LinearMap.id g t) v =
+      g (dualTensorHom k V A t v) := by
+  induction t using TensorProduct.induction_on with
+  | zero => simp
+  | add a b ha hb => simp only [map_add, LinearMap.add_apply, ha, hb]
+  | tmul f a => simp [dualTensorHom_apply]
+
+/-- Tensoring by Lie-isomorphic left factors gives naturally isomorphic functors. -/
+noncomputable def tensorLieLeftFunctorIso {V V' : FDLieRep k L}
+    (e : LieModuleEquiv k L V V') : tensorLieLeftFunctor V ≅ tensorLieLeftFunctor V' :=
+  NatIso.ofComponents
+    (fun W =>
+      { hom := FDLieRep.ofHom k L (TensorProduct.LieModule.map e.toLieModuleHom LieModuleHom.id)
+        inv := FDLieRep.ofHom k L
+          (TensorProduct.LieModule.map e.symm.toLieModuleHom LieModuleHom.id)
+        hom_inv_id := by
+          apply FDLieRep.hom_ext
+          apply LieModuleHom.ext
+          intro t
+          change TensorProduct.LieModule.map e.symm.toLieModuleHom LieModuleHom.id
+              (TensorProduct.LieModule.map e.toLieModuleHom LieModuleHom.id t) = t
+          induction t using TensorProduct.induction_on with
+          | zero => simp
+          | add a b ha hb => simpa only [map_add] using congrArg₂ (fun p q ↦ p + q) ha hb
+          | tmul v w => simp
+        inv_hom_id := by
+          apply FDLieRep.hom_ext
+          apply LieModuleHom.ext
+          intro t
+          change TensorProduct.LieModule.map e.toLieModuleHom LieModuleHom.id
+              (TensorProduct.LieModule.map e.symm.toLieModuleHom LieModuleHom.id t) = t
+          induction t using TensorProduct.induction_on with
+          | zero => simp
+          | add a b ha hb => simpa only [map_add] using congrArg₂ (fun p q ↦ p + q) ha hb
+          | tmul v w => simp })
+    (fun f => by
+      apply FDLieRep.hom_ext
+      apply LieModuleHom.ext
+      intro t
+      change TensorProduct.LieModule.map e.toLieModuleHom LieModuleHom.id
+          (TensorProduct.LieModule.map LieModuleHom.id f.hom t) =
+        TensorProduct.LieModule.map LieModuleHom.id f.hom
+          (TensorProduct.LieModule.map e.toLieModuleHom LieModuleHom.id t)
+      induction t using TensorProduct.induction_on with
+      | zero => simp
+      | add a b ha hb => simpa only [map_add] using congrArg₂ (fun p q ↦ p + q) ha hb
+      | tmul v w => simp)
+
+/-- The genuine finite-dimensional Lie-representation adjunction
+`V ⊗ - ⊣ V⁺ ⊗ -`, natural in both module variables. -/
+noncomputable def tensorLieRightAdjunction (V : FDLieRep k L) :
+    tensorLieLeftFunctor V ⊣ tensorLieLeftFunctor (lieDual V) :=
+  Adjunction.mkOfHomEquiv {
+    homEquiv := tensorLieRightHomEquiv V
+    homEquiv_naturality_left_symm := by
+      intro W' W U f g
+      apply FDLieRep.hom_ext
+      apply LieModuleHom.ext
+      intro t
+      change ((tensorLieRightHomLinearEquiv V W' U).symm (g.hom.comp f.hom)) t =
+        ((tensorLieRightHomLinearEquiv V W U).symm g.hom)
+          (TensorProduct.LieModule.map LieModuleHom.id f.hom t)
+      induction t using TensorProduct.induction_on with
+      | zero => simp
+      | add a b ha hb => simpa only [map_add] using congrArg₂ (fun p q ↦ p + q) ha hb
+      | tmul v w =>
+        simp [tensorLieRightHomLinearEquiv_symm_apply_tmul]
+        rfl
+    homEquiv_naturality_right := by
+      intro W U U' f g
+      apply FDLieRep.hom_ext
+      apply LieModuleHom.ext
+      intro w
+      change tensorLieRightHomLinearEquiv V W U' (g.hom.comp f.hom) w =
+        TensorProduct.LieModule.map LieModuleHom.id g.hom
+          (tensorLieRightHomLinearEquiv V W U f.hom w)
+      apply (dualTensorHomEquiv k V U').injective
+      apply LinearMap.ext
+      intro v
+      simp only [dualTensorHomEquiv, dualTensorHomEquivOfBasis_apply]
+      rw [dualTensorHom_tensorLieRightHomLinearEquiv_apply]
+      change g.hom (f.hom (v ⊗ₜ[k] w)) =
+        dualTensorHom k V U'
+          (TensorProduct.map LinearMap.id g.hom.toLinearMap
+            (tensorLieRightHomLinearEquiv V W U f.hom w)) v
+      rw [dualTensorHom_map_right, dualTensorHom_tensorLieRightHomLinearEquiv_apply]
+      rfl
+  }
+
+/-- The reverse adjunction `V⁺ ⊗ - ⊣ V ⊗ -`, obtained from the preceding
+adjunction for `V⁺` and the Lie-equivariant double-dual equivalence. Together with
+`tensorLieRightAdjunction`, this is the finite-dimensional Lie tensor/dual biadjunction. -/
+noncomputable def tensorLieLeftAdjunction (V : FDLieRep k L) :
+    tensorLieLeftFunctor (lieDual V) ⊣ tensorLieLeftFunctor V :=
+  (tensorLieRightAdjunction (lieDual V)).ofNatIsoRight
+    (tensorLieLeftFunctorIso (lieDoubleDualEquiv V).symm)
 
 end Etingof
 
