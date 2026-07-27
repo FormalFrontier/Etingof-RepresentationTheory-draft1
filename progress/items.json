@@ -5790,14 +5790,12 @@
     "end_page": "118",
     "start_line": 15,
     "end_line": 18,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "needs_statement": true,
-    "coverage": "covered_partial",
-    "fidelity_note": "The character-theoretic content is designed to be complete at the always-admissible specialization N=n. The remaining semantic gap is the independent N-family (#7456), while the current source additionally fails fresh elaboration in semisimplicity, freeness, and scalar-tower arguments (#7512).",
-    "fidelity_issue": 7456,
-    "coverage_issue": 7512,
-    "last_updated": "2026-07-22"
+    "status": "proved",
+    "fidelity": "verified",
+    "needs_statement": false,
+    "coverage": "covered_full",
+    "fidelity_note": "Theorem5_15_1_General proves the book's full independent-variable statement: for every N at least the number of rows of lambda, the Specht character is the x^(lambda+rho_N) coefficient of the N-variable Vandermonde times the cycle-type power-sum product. The proof establishes stability under adjoining a zero row/variable and recovers the existing N=n theorem as the anchor specialization.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Remark5.15.2",
