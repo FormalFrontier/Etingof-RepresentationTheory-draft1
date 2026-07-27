@@ -1100,6 +1100,20 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.7",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.WeylAlgebra.yx_eq",
+        "Etingof.qMono_relation_yx",
+        "Etingof.qMono_x_mul_inv",
+        "Etingof.qMono_inv_mul_x",
+        "Etingof.qMono_y_mul_inv",
+        "Etingof.qMono_inv_mul_y"
+      ]
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -1166,6 +1180,21 @@
           "lean_decl": "Etingof.qMono_mul"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.7",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.WeylAlgebra.monomials_span",
+        "Etingof.repE_x",
+        "Etingof.repE_y",
+        "Etingof.repE_injective",
+        "Etingof.Proposition_2_7_1_charFree",
+        "Etingof.qMono_mul",
+        "Etingof.Proposition_2_7_1_ii"
+      ]
     }
   },
   {
@@ -1203,6 +1232,17 @@
           "lean_decl": "Etingof.FaithfulRepresentation"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.7",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.WeylAlgebra.adjoin_x_y_eq_top",
+        "Etingof.WeylAlgebra.polyRep_range_eq_polyDiffOp",
+        "Etingof.WeylAlgebra.equivPolyDiffOp"
+      ]
     }
   },
   {
@@ -1233,6 +1273,15 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.FaithfulRepresentation"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.7",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.FaithfulRepresentation"
       ]
     }
   },
@@ -1349,6 +1398,25 @@
           "lean_decl": "Etingof.Problem2_7_4.famEquiv_nonempty_iff; Etingof.Problem2_7_4.existsUnique_toFamEquiv"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.7",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_7_4.finrank_eq_zero_of_charZero",
+        "Etingof.Problem2_7_4.isSimpleRing_charZero",
+        "Etingof.Problem2_7_4.x_pow_char_mem_center",
+        "Etingof.Problem2_7_4.y_pow_char_mem_center",
+        "Etingof.Problem2_7_4.center_charP",
+        "Etingof.Problem2_7_4.exists_normalForm",
+        "Etingof.Problem2_7_4.famModule_finrank",
+        "Etingof.Problem2_7_4.famModule_isSimpleModule",
+        "Etingof.Problem2_7_4.exists_toFamEquiv",
+        "Etingof.Problem2_7_4.famEquiv_nonempty_iff",
+        "Etingof.Problem2_7_4.existsUnique_toFamEquiv"
+      ]
     }
   },
   {
@@ -1417,6 +1485,26 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Problem2_7_5.finrank_irreducible_eq_orderOf; Etingof.Problem2_7_5.finrank_eq_orderOf_of_fam_linearEquiv"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.7",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_7_5.center_eq_bot_of_not_isOfFinOrder",
+        "Etingof.Problem2_7_5.isSimpleRing_of_not_isOfFinOrder",
+        "Etingof.Problem2_7_5.center_of_isOfFinOrder",
+        "Etingof.Problem2_7_5.q_pow_finrank_eq_one",
+        "Etingof.Problem2_7_5.isOfFinOrder_iff_exists_nontrivial_finrep",
+        "Etingof.Problem2_7_5.famModule_finrank",
+        "Etingof.Problem2_7_5.famModule_isSimpleModule",
+        "Etingof.Problem2_7_5.exists_fam_linearEquiv",
+        "Etingof.Problem2_7_5.fam_nonempty_linearEquiv_iff",
+        "Etingof.Problem2_7_5.exists_unique_fam_linearEquiv",
+        "Etingof.Problem2_7_5.finrank_irreducible_eq_orderOf",
+        "Etingof.Problem2_7_5.finrank_eq_orderOf_of_fam_linearEquiv"
       ]
     }
   },
