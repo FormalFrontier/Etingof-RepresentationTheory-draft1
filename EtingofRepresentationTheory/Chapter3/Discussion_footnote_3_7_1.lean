@@ -1,6 +1,4 @@
 import EtingofRepresentationTheory.Chapter3.Theorem3_6_2
-import Mathlib.LinearAlgebra.Pi
-import Mathlib.Algebra.CharP.Defs
 
 /-!
 # Footnote 5 to Theorem 3.7.1: the character of `pV` vanishes in characteristic `p`

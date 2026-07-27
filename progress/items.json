@@ -2589,6 +2589,13 @@
       "proof_integrity": "not_applicable",
       "declarations": [],
       "basis": "The item consists only of a section heading and organizational roadmap, has no exact Lean provider, and introduces no proof obligation."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.7",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This item is an organizational heading and roadmap with no Lean provider of its own, so it has no actual internal dependency."
     }
   },
   {
@@ -2744,6 +2751,15 @@
         "Etingof.character_pcopies_eq_zero"
       ],
       "basis": "The four Jordan-Holder declarations and five characteristic-p footnote declarations are authored, admission-free constants. The exhaustive module-origin audit also covers the generated equation theorem Etingof.diagPi.eq_1 and internal proof constant Etingof.diagPi._proof_1."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.7",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Introduction_to_3.6"
+      ],
+      "basis": "The Jordan-Holder provider uses only Mathlib. The theorem item's footnote provider uses Etingof.character, the declaration tracked by the Section 3.6 introduction, through its sole retained project import of Theorem3_6_2."
     }
   },
   {
@@ -2803,6 +2819,13 @@
         "Etingof.jordanHolder_length_isGreatest_strict"
       ],
       "basis": "The authored theorem is an admission-free constant whose transitive axiom set contains only the standard Lean/Mathlib axioms."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.7",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The discussion provider imports only Mathlib.RingTheory.Length and uses no declaration from another tracked book item."
     }
   },
   {
