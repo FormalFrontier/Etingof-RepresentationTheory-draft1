@@ -77,11 +77,9 @@ independently as `Etingof.Sl2Irrep.complete_reducibility` (Problem 2.15.1).
 The group-level parametrization is now injective as well as surjective onto the
 constructed restrictions.  In addition, `SLIrrepExhaustive.lean` defines intrinsic
 algebraicity for `SL_N`, proves that algebraic `GL_N` representations remain
-algebraic on restriction, and proves that every simple `SL_N` representation
-equipped with an algebraic `GL_N` extension is one of the `L_λ|_{SL_N}`.
-Unconditional exhaustiveness remains an ordinary work item: its exact missing
-input is an extension theorem saying that every intrinsically algebraic simple
-`SL_N` representation admits an algebraic `GL_N` extension.
+algebraic on restriction, constructs an algebraic `GL_N` extension of every
+intrinsically algebraic simple `SL_N` representation, and concludes that every such
+representation is one of the `L_λ|_{SL_N}`.
 
 ### Problem 6.1.6 — residual McKay-correspondence classification
 

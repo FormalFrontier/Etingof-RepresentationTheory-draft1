@@ -71,10 +71,9 @@ representation theory of `𝔰𝔩(2)` from Problem 2.15.1.
   `Etingof.algIrrepGLRepρ_iso_iff_eq` applies.
 
   The `GL_N` highest-weight classification is now available in `AlgIrrepGLExhaustive.lean`.
-  `SLIrrepExhaustive.lean` uses it to classify every simple `SL_N` representation equipped
-  with an algebraic `GL_N` extension.  Unconditional exhaustiveness is not claimed: the
-  remaining input is that every intrinsically algebraic simple `SL_N` representation admits
-  such an extension.
+  `SLIrrepExhaustive.lean` proves that every intrinsically algebraic simple `SL_N`
+  representation has an algebraic `GL_N` extension and is therefore isomorphic to one of the
+  constructed restrictions.
 
 **What is intentionally omitted.** Etingof states, and explicitly declines to prove ("we will not
 do this here"), that every finite-dimensional `𝔰𝔩(V)`-representation is completely reducible and
