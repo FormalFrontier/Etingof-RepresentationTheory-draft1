@@ -8009,7 +8009,6 @@
   },
   {
     "id": "Chapter6/Example6.8.5",
-    "source_regression_note": "Clean rebuild imports the broken Definition6_6_4 reflection source (#7524).",
     "type": "example",
     "title": "Example 6.8.5: Reflection functors on D4",
     "start_page": "177",
@@ -8018,13 +8017,12 @@
     "end_line": 28,
     "status": "partially_proved",
     "coverage": "covered_partial",
-    "coverage_issue": 7524,
     "fidelity": "partial",
     "needs_statement": true,
     "sorry_free": true,
-    "fidelity_note": "The root-lattice reflection arithmetic and target dimension vectors are proved. The source applies actual reflection functors to named D4 representations and identifies the explicit three-lines-in-a-plane endpoint; those representation isomorphisms remain reopened #5639.",
+    "fidelity_note": "The simple representation is passed through four actual F-minus reflection functors with the evolving D4 orientations, and the intermediate and final actual representations are proved indecomposable with dimensions (1,1,1,1) and (1,1,1,2). An explicit representation isomorphism to the three-lines-in-a-plane model remains to finish #5639.",
     "fidelity_issue": 5639,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter6/Section6.9_heading",
