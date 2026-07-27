@@ -4773,6 +4773,13 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": []
+    },
     "last_updated": "2026-07-27",
     "coverage_swept": {
       "wave": 1,
@@ -4817,6 +4824,16 @@
           "note": "The matrix classification used by the book is formalized in Proposition 3.1.4. This provider uses the equivalent shorter route through the independently proved density theorem, avoiding a logical gap while changing only proof organization."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.irreducible_interpolation"
+      ],
+      "scope_note": "The exact corollary is fully proved. Its Lean proof uses the independently verified density theorem rather than reproducing the book's matrix contradiction."
     }
   },
   {
@@ -4884,6 +4901,17 @@
           "note": "Mathlib supplies the pointwise unital ring structure on products and models unrestricted componentwise direct-sum multiplication through explicitly nonunital graded structures; the finite equivalence used here is DFinsupp.linearEquivFunOnFintype."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.density_theorem_part1",
+        "Etingof.density_theorem_part2"
+      ],
+      "scope_note": "Both exact density endpoints are fully proved through Mathlib's Jacobson-density and simple-module APIs; the alternate proof organization recorded at Stage 3.2 introduces no deferred proof obligation."
     },
     "last_updated": "2026-07-27"
   },
