@@ -1,5 +1,6 @@
-import Mathlib
 import EtingofRepresentationTheory.Chapter2.Problem2_7_4
+import Mathlib.Algebra.CharP.Algebra
+import Mathlib.Data.Nat.Factorial.BigOperators
 
 /-!
 # Problem 2.7.4(c): classification of the irreducible Weyl-algebra modules in characteristic `p`
@@ -732,3 +733,12 @@ theorem finrank_eq_of_classification [IsAlgClosed k] (V : Type*) [AddCommGroup V
 end Family
 
 end Etingof.Problem2_7_4
+
+-- The leaf names follow Mathlib conventions; the underscores come solely from the
+-- book-number namespace `Problem2_7_4`, which is part of this project's public API.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_7_4.wX Etingof.Problem2_7_4.Xlin
+  Etingof.Problem2_7_4.wY Etingof.Problem2_7_4.Ylin
+  Etingof.Problem2_7_4.famRep Etingof.Problem2_7_4.famModule
+  Etingof.Problem2_7_4.FamEquiv Etingof.Problem2_7_4.ToFamEquiv
+  Etingof.Problem2_7_4.toFamEquivToLinearEquiv

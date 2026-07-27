@@ -1,8 +1,5 @@
 import EtingofRepresentationTheory.Chapter2.Proposition2_7_1
-import Mathlib.Algebra.Polynomial.Monic
 import Mathlib.Algebra.Polynomial.BigOperators
-import Mathlib.LinearAlgebra.Finsupp.LinearCombination
-import Mathlib.Data.Finsupp.Basic
 
 /-!
 # Faithful Weyl-algebra module `E = tᵃ k[a][t, t⁻¹]` in arbitrary characteristic
@@ -213,7 +210,7 @@ theorem evalImage_linearIndependent :
   -- All coefficients on the fiber vanish, by a maximal-degree argument.
   have hall : ∀ p ∈ t, g p = 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨q, hqt, hq0⟩ := hcon
     set B : Finset (ℕ × ℕ) := t.filter (fun p => g p ≠ 0) with hB
     have hqB : q ∈ B := Finset.mem_filter.mpr ⟨hqt, hq0⟩

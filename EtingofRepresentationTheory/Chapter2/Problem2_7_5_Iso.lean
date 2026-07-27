@@ -1,4 +1,3 @@
-import Mathlib
 import EtingofRepresentationTheory.Chapter2.Problem2_7_5_Family
 
 /-!
@@ -356,3 +355,14 @@ theorem fam_nonempty_linearEquiv_iff :
 end Classification
 
 end Etingof.Problem2_7_5
+
+-- The leaf names follow Mathlib conventions; the underscores come solely from the
+-- book-number namespace `Problem2_7_5`, which is part of this project's public API.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_7_5.instAddCommGroupFam
+  Etingof.Problem2_7_5.instModuleComplexFam Etingof.Problem2_7_5.famQWeylModule
+  Etingof.Problem2_7_5.shiftUnit Etingof.Problem2_7_5.famEquivOfPow
+
+-- `Fam q α β` is deliberately parameter-indexed although its carrier is constant: the
+-- parameters select different module instances used by the classification.
+attribute [nolint defsWithUnderscore unusedArguments] Etingof.Problem2_7_5.Fam

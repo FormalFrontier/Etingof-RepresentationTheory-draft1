@@ -1,6 +1,4 @@
-import Mathlib
 import EtingofRepresentationTheory.Chapter2.Problem2_7_5
-import EtingofRepresentationTheory.Chapter2.QWeylAlgebraUniversal
 
 /-!
 # Problem 2.7.5(c): the explicit family of irreducible `q`-Weyl modules
@@ -125,6 +123,7 @@ noncomputable def Yunit : (Module.End ℂ (Fin N → ℂ))ˣ where
   val_inv := Ylin_Yinv q β N
   inv_val := Yinv_Ylin q β N
 
+omit [NeZero N] in
 @[simp] theorem Yunit_val : (Yunit q β N : Module.End ℂ (Fin N → ℂ)) = Ylin q β N := rfl
 
 /-! ### The generator actions on the standard basis -/
@@ -362,3 +361,12 @@ theorem famModule_y_pow_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
 end Family
 
 end Etingof.Problem2_7_5
+
+-- The leaf names follow Mathlib conventions; the underscores come solely from the
+-- book-number namespace `Problem2_7_5`, which is part of this project's public API.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_7_5.wX Etingof.Problem2_7_5.Xlin
+  Etingof.Problem2_7_5.Xinv Etingof.Problem2_7_5.Xunit
+  Etingof.Problem2_7_5.wY Etingof.Problem2_7_5.Ylin
+  Etingof.Problem2_7_5.Yinv Etingof.Problem2_7_5.Yunit
+  Etingof.Problem2_7_5.famModule

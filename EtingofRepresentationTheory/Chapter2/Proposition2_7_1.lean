@@ -1,12 +1,9 @@
 import Mathlib.Algebra.FreeAlgebra
 import Mathlib.Algebra.RingQuot
 import Mathlib.LinearAlgebra.Basis.VectorSpace
-import Mathlib.Algebra.Algebra.Subalgebra.Lattice
 import Mathlib.Algebra.Polynomial.Derivative
 import Mathlib.Algebra.Polynomial.AlgebraMap
-import Mathlib.LinearAlgebra.Finsupp.LinearCombination
 import Mathlib.Algebra.CharP.Basic
-import Mathlib.Data.Nat.Choose.Basic
 
 /-!
 # Proposition 2.7.1: Basis for the Weyl Algebra
@@ -339,7 +336,7 @@ private lemma polyImage_linearIndep [CharZero k] [NoZeroDivisors k] :
     have hc : (∑ r ∈ s, g r •
         (polyRep k (WeylAlgebra.monomial k r.1 r.2) (Polynomial.X ^ n))).coeff m = 0 :=
       congr_arg (Polynomial.coeff · m) h1
-    rw [Polynomial.finset_sum_coeff] at hc
+    rw [Polynomial.finsetSum_coeff] at hc
     simp only [Polynomial.coeff_smul, smul_eq_mul] at hc
     exact hc
   -- Key claim by strong induction on j
@@ -358,7 +355,7 @@ private lemma polyImage_linearIndep [CharZero k] [NoZeroDivisors k] :
       intro ⟨ri, rj⟩ hr hne
       by_cases hjrj : j < rj
       · rw [polyRep_monomial_high_deriv k ri rj j hjrj, Polynomial.coeff_zero, mul_zero]
-      · push_neg at hjrj
+      · push Not at hjrj
         by_cases heq : rj = j
         · subst heq
           have hri : ri ≠ i := fun h => hne (Prod.ext h rfl)
