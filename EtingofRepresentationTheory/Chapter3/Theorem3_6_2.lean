@@ -1,10 +1,4 @@
-import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.LinearAlgebra.Trace
-import Mathlib.LinearAlgebra.LinearIndependent.Defs
-import Mathlib.LinearAlgebra.LinearIndependent.Lemmas
-import Mathlib.FieldTheory.IsAlgClosed.Basic
-import Mathlib.LinearAlgebra.TensorProduct.Basic
 import EtingofRepresentationTheory.Chapter3.Theorem3_2_2
 
 /-!

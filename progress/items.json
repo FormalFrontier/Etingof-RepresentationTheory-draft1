@@ -2567,6 +2567,13 @@
         "Etingof.characterQuotient_mk"
       ],
       "basis": "The complete character construction, cyclicity proof, commutator-span vanishing, and quotient factorization use closed Lean terms. An exhaustive module-origin audit also covered every generated and internal declaration emitted by the provider."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.6",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The apparent import of Theorem3_6_2 supplies the character declaration tracked by this same introduction item; its six transitive Mathlib imports are removed from that provider, and the introduction has no actual backward book-item dependency."
     }
   },
   {
@@ -2616,6 +2623,15 @@
         "Etingof.character_eq_character_add_character_quotient"
       ],
       "basis": "Both finite-dimensionality instances and the character-additivity theorem for an arbitrary subrepresentation and its genuine quotient are closed Lean terms. The exhaustive module-origin audit included all internal declarations emitted by the provider."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.6",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Introduction_to_3.6"
+      ],
+      "basis": "The exercise uses Etingof.character from the section introduction. Its sole project import is already irredundant, and it does not use a declaration from Theorem 3.6.2 beyond the character declaration cataloged under the introduction."
     }
   },
   {
@@ -2730,6 +2746,16 @@
         "Etingof.commutatorSubmodule_matrix_fin_eq_ker_trace"
       ],
       "basis": "Linear independence, semisimple spanning and basis, and the general and Fin-indexed matrix commutator/traceless equalities are closed Lean terms. Private helpers and generated declarations were included in the exhaustive module-origin audit."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.6",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Theorem3.2.2",
+        "Chapter3/Introduction_to_3.6"
+      ],
+      "basis": "The linear-independence proof directly uses density_theorem_part2 from Theorem 3.2.2, while the matrix provider directly uses commutatorSubmodule from the section introduction. Eight transitive Mathlib imports were removed across the theorem providers; the remaining direct imports are redundancy-clean."
     }
   },
   {
