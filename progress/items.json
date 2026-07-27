@@ -8048,9 +8048,9 @@
     "status": "sorry_free",
     "sorry_count": 0,
     "coverage": "covered_partial",
-    "coverage_note": "The file proves substantial dimension and decomposition infrastructure, including indecomposability for part of the E-family, but the public Problem6_9_1 theorem concludes only that the two vertex dimensions differ by at most one. It does not state that every indecomposable is isomorphic to one of E_{n,lambda}, E_{n,infinity}, H_n, or K_n, nor the required pairwise-nonisomorphism classification. Reopened follow-up: #1066.",
+    "coverage_note": "The file now defines representation isomorphisms and all four concrete normal-form families E_{n,lambda}, E_{n,infinity}, H_n, and K_n; proves every named family indecomposable; proves finite-eigenvalue parameter uniqueness and pairwise nonisomorphism/unique family indices; and exposes IsClassified as the actual isomorphism-level exhaustiveness proposition. The public Problem6_9_1 theorem still proves only the dimension-vector constraint, so the remaining gap is the existence proof that every indecomposable satisfies IsClassified. Follow-up: #1066.",
     "followup_issue": 1066,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter6/Problem6.9.2",
