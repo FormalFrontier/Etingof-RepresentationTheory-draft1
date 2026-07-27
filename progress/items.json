@@ -3809,6 +3809,13 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.14",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": []
+    },
     "last_updated": "2026-07-27",
     "coverage_swept": {
       "wave": 1,
@@ -3849,6 +3856,16 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.LieTensorProduct.lie_tmul"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.14",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.LieTensorProduct",
+        "Etingof.LieTensorProduct.lie_tmul"
       ]
     },
     "last_updated": "2026-07-27"
@@ -3894,6 +3911,16 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.14",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.LieDualRepresentation",
+        "Etingof.lieDualRepresentation_lie_apply"
+      ]
+    },
     "last_updated": "2026-07-27"
   },
   {
@@ -3930,6 +3957,18 @@
           "lean_decl": "Etingof.Exercise2_9_11.repEquiv",
           "note": "The earlier exercise formalizes the universal-property equivalence between Lie representations and U(𝔤)-representations; Problem 2.14.3 uses Mathlib's equivalent LieModuleHom model for the morphism spaces."
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.14",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_14_3.dualHomEquiv",
+        "Etingof.Problem2_14_3.congrHomRight",
+        "Etingof.Problem2_14_3.tensorHomAdjunction",
+        "Etingof.Problem2_14_3.exists_tensorHom_adjunction"
       ]
     },
     "last_updated": "2026-07-27"
