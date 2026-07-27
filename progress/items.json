@@ -4631,11 +4631,12 @@
     "end_page": "98",
     "start_line": 3,
     "end_line": 10,
-    "status": "partially_formalized",
-    "coverage_note": "PATH: part (b) now has a dedicated Chapter5/Problem5_2_7.lean with the honest top-level theorem Etingof.Problem5_2_7.exists_character_eq_zero: for an irreducible complex V of a finite group G with dim V > 1, ∃ g, χ_V(g) = 0 (axiom-clean [propext, Classical.choice, Quot.sound]). Its 0<β<1 bound is beta_lt_one (orthonormality FDRep.char_orthonormal gives ∑_g|χ_V(g)|²=|G|, so ∑_{g≠1}|χ_V(g)|²=|G|-(dim V)²<|G|-1; AM-GM Real.geom_mean_le_arith_mean forces β<1); the Galois-conjugate rationality/integrality core it discharges (character_prod_rat + beta_rat_not_mem_Ioo) lives in Chapter5/Remark5_2_8.lean (sorry-free). Part (b) is covered_full (see the part-(b) derived entry, #7353). Part (a) (existence of a finite Galois extension K⊂ℂ carrying all matrix entries) is still NOT formalized — the item stays covered_partial for that reason. Path/status corrected in audit #7001.",
-    "followup_issue": 7355,
-    "coverage": "covered_partial",
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "sorry_free": true,
+    "coverage_note": "PATH: both parts are formalized in Chapter5/Problem5_2_7.lean. For part (a), Etingof.Problem5_2_7.exists_finite_galois_field_of_definition constructs one finite Galois intermediate field K/ℚ over which every finite-dimensional complex representation of a finite group has action matrices; the proof transports a Wedderburn decomposition from ℚ̄ to ℂ, proves its standard column bases algebraic, encloses the finite simple family in one Galois field, and preserves that same K through isotypic assembly. For part (b), Etingof.Problem5_2_7.exists_character_eq_zero proves that every irreducible complex representation of dimension > 1 has a vanishing character value, using beta_lt_one and the rationality/integrality core in Chapter5/Remark5_2_8.lean. The file is sorry-free and axiom-clean up to the standard axioms [propext, Classical.choice, Quot.sound].",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Remark5.2.8",
