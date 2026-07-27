@@ -3538,6 +3538,13 @@
       "proof_integrity": "not_applicable",
       "declarations": [],
       "basis": "The item is the Section 3.9 heading and has no exact Lean provider or proof obligation."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.9",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This organizational heading has no Lean provider or mathematical dependency; its conservative incoming edge from Remark 3.8.6 was reading order only."
     }
   },
   {
@@ -3795,6 +3802,15 @@
         "Etingof.Problem3_9_1.ExtMod.nonempty_equiv_prod_iff_mem_coboundaries"
       ],
       "basis": "All 70 named authored public declarations are closed Lean terms. The exhaustive module-origin audit also covered all 163 constants emitted by the provider, including private, anonymous-instance, generated, and internal declarations."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.9",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Corollary2.3.10"
+      ],
+      "basis": "The extension classification directly uses the Schur lemma from Corollary 2.3.10. Seven transitive Mathlib imports were removed, leaving that project provider as the sole individually required direct import."
     }
   },
   {
@@ -4016,6 +4032,16 @@
         "Etingof.Problem3_9_2.split_not_iso_jrep"
       ],
       "basis": "All 95 named authored public declarations across the core and classification providers are closed Lean terms. The exhaustive module-origin audit also covered all 275 constants emitted by the two providers, including private, anonymous-instance, inductive-generated, equation, and internal declarations."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.9",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.3.8",
+        "Chapter3/Problem3.9.1"
+      ],
+      "basis": "The core provider directly uses Ext1/cocycle infrastructure from Problem 3.9.1 and IsIndecomposable from Definition 2.3.8; the classification provider is a same-item continuation. Twelve transitive imports were removed across the two providers, and all eight survivors are individually required."
     }
   },
   {
@@ -4173,6 +4199,15 @@
         "Etingof.Problem3_9_3.two_dim_classification_of_normalForm"
       ],
       "basis": "All 67 named authored public declarations across the Ext and two-dimensional classification providers are closed Lean terms. The exhaustive module-origin audit also covered all 130 emitted constants, including private, generated, and internal declarations."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.9",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Theorem2.1.2"
+      ],
+      "basis": "The providers directly use the quiver-representation equivalence API from Theorem 2.1.2. The core provider also reuses simpleRep, dimVec, and Ext infrastructure housed in Problem6_9_3 to implement this same Problem 3.9.3; that implementation-provider reuse is not a forward book-item edge, which would make the reading-order dependency graph cyclic. Three unused/transitive project imports were removed, leaving the core provider two required imports and the same-item continuation import."
     }
   },
   {
@@ -4303,6 +4338,15 @@
         "Etingof.Problem3_9_4.Problem3_9_4b"
       ],
       "basis": "All 35 named authored public declarations are closed Lean terms. The exhaustive module-origin audit also covered all 95 constants emitted by the deformation provider, including private, structure-generated, equation, and internal declarations."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.9",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Problem3.9.1"
+      ],
+      "basis": "The rigidity proof directly uses the Ext1 and coboundary framework from Problem 3.9.1. Two transitive Mathlib imports were removed; the remaining project and three Mathlib imports are individually required."
     }
   },
   {
@@ -4488,6 +4532,13 @@
         "Etingof.Problem3_9_5.radicalQuotient_isClifford_of_degenerate"
       ],
       "basis": "All 55 named authored public declarations are closed Lean terms. The exhaustive module-origin audit also covered all 100 constants emitted by the Clifford provider, including the anonymous finite-dimensionality instance and generated/internal declarations."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.9",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The Clifford-algebra development uses only Mathlib. Seventeen redundant direct-import lines and no source content were removed; all eleven surviving imports are individually required."
     }
   },
   {

@@ -1,5 +1,4 @@
 import EtingofRepresentationTheory.Chapter6.Problem6_9_3
-import EtingofRepresentationTheory.Chapter6.Proposition6_6_5
 import EtingofRepresentationTheory.Chapter2.Theorem2_1_2
 
 /-!

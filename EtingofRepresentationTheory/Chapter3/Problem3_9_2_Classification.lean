@@ -1,8 +1,5 @@
 import EtingofRepresentationTheory.Chapter3.Problem3_9_2
 import Mathlib.Algebra.DualNumber
-import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
-import Mathlib.LinearAlgebra.Projection
-import Mathlib.Tactic.Module
 
 /-!
 # Two-dimensional representations of `ℂ[x₁, …, xₙ]` up to isomorphism
