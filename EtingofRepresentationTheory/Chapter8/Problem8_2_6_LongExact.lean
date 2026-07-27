@@ -207,7 +207,7 @@ theorem torSndδ_naturality_shortComplex
       (tensorRightBifunctor A).map S.g ≫ (tensorRightBifunctor A).map φ.τ₃
     rw [← Functor.map_comp, φ.comm₂₃, Functor.map_comp]
   simpa [torSndδ, torSndMap] using
-    NatTrans.leftDerivedδ_naturality_natTrans
+    NatTrans.leftDerivedδ_naturality_sequence
       (tensorRightNatTrans A S.f.hom) (tensorRightNatTrans A S.g.hom)
       (tensorRightNatTrans_comp_zero A)
       (fun Y _ => tensorLeftFunctor_map_shortExact A Y hS)

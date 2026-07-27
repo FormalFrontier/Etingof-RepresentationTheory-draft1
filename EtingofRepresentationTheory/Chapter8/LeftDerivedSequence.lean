@@ -328,7 +328,7 @@ theorem NatTrans.leftDerivedδ_naturality
 
 /-- Naturality of the explicit connecting map under a morphism between short exact sequences of
 additive functors. -/
-theorem NatTrans.leftDerivedδ_naturality_natTrans
+theorem NatTrans.leftDerivedδ_naturality_sequence
     {F₁ F₂ F₃ G₁ G₂ G₃ : CategoryTheory.Functor C D}
     [F₁.Additive] [F₂.Additive] [F₃.Additive]
     [G₁.Additive] [G₂.Additive] [G₃.Additive]
