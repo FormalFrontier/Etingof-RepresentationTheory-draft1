@@ -7187,11 +7187,12 @@
     "end_page": "149",
     "start_line": 7,
     "end_line": 13,
-    "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "The density/comorphism/dimension argument is proved for quiver representation spaces under their base-change groups, with reusable conditional field-embedding lemmas. The source theorem for an arbitrary algebraic GL_m-representation with finitely many orbits, and its product-GL generalization, are absent. Follow-up #7428.",
-    "followup_issue": 7428,
-    "last_updated": "2026-07-22"
+    "status": "proved",
+    "fidelity": "verified",
+    "needs_statement": false,
+    "coverage": "covered_full",
+    "coverage_note": "Problem6_1_2 proves the book-facing arbitrary algebraic GL_n result and the finite-product GL result. It constructs an algebraically dense orbit, an injective orbit-map comorphism into the determinant-localized coordinate ring, and derives the exact n^2 / sum_i m_i^2 bounds via Problem 6.1.1.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter6/Problem6.1.3",
