@@ -2552,6 +2552,21 @@
           "note": "characterQuotient is the quotient lift, and characterQuotient_mk proves that its composite with the projection is the original character."
         }
       ]
+    },
+    "stage3_3": {
+      "stage": "3.3",
+      "status": "complete",
+      "reviewed_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.character",
+        "Etingof.character_mul_comm",
+        "Etingof.commutatorSubmodule",
+        "Etingof.commutatorSubmodule_le_ker_character",
+        "Etingof.characterQuotient",
+        "Etingof.characterQuotient_mk"
+      ],
+      "basis": "The complete character construction, cyclicity proof, commutator-span vanishing, and quotient factorization use closed Lean terms. An exhaustive module-origin audit also covered every generated and internal declaration emitted by the provider."
     }
   },
   {
@@ -2589,6 +2604,18 @@
           "note": "W is an arbitrary A-submodule, and the third term is the character of the genuine quotient representation V ⨸ W."
         }
       ]
+    },
+    "stage3_3": {
+      "stage": "3.3",
+      "status": "complete",
+      "reviewed_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.instFiniteSubtypeMemSubmodule_etingofRepresentationTheory",
+        "Etingof.instFiniteQuotientSubmodule_etingofRepresentationTheory",
+        "Etingof.character_eq_character_add_character_quotient"
+      ],
+      "basis": "Both finite-dimensionality instances and the character-additivity theorem for an arbitrary subrepresentation and its genuine quotient are closed Lean terms. The exhaustive module-origin audit included all internal declarations emitted by the provider."
     }
   },
   {
@@ -2690,6 +2717,19 @@
           "lean_decl": "Etingof.characters_linearly_independent; Etingof.characters_basis_semisimple"
         }
       ]
+    },
+    "stage3_3": {
+      "stage": "3.3",
+      "status": "complete",
+      "reviewed_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.characters_linearly_independent",
+        "Etingof.characters_basis_semisimple",
+        "Etingof.commutatorSubmodule_matrix_eq_ker_trace",
+        "Etingof.commutatorSubmodule_matrix_fin_eq_ker_trace"
+      ],
+      "basis": "Linear independence, semisimple spanning and basis, and the general and Fin-indexed matrix commutator/traceless equalities are closed Lean terms. Private helpers and generated declarations were included in the exhaustive module-origin audit."
     }
   },
   {
