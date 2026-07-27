@@ -2945,6 +2945,22 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Section 3.8 is headed 'The Krull-Schmidt theorem'.",
+          "verdict": "non_formalizable",
+          "reason": "This item is only a section heading and contains no mathematical assertion beyond naming the following material."
+        }
+      ]
     }
   },
   {
@@ -2960,7 +2976,40 @@
     "fidelity": "verified",
     "note": "Existence and uniqueness are proved sorry-free, including the inductive uniqueness step. Importability regression (finrank ⊤ ≤ finrank V step) fixed 2026-07-23 via finrank_top.",
     "sorry_free": true,
-    "last_updated": "2026-07-23"
+    "last_updated": "2026-07-23",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Every finite-dimensional representation is a direct sum of indecomposable representations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.krull_schmidt_existence"
+        },
+        {
+          "claim": "Two decompositions into indecomposables have the same number of summands and agree, after a permutation, up to isomorphism of corresponding summands.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.krull_schmidt_uniqueness"
+        },
+        {
+          "claim": "The existence proof proceeds by induction on dimension, splitting a decomposable representation into two proper summands and joining their inductive decompositions.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.krull_schmidt_existence",
+          "note": "The proof body implements the dimension induction through the private helper krull_schmidt_existence_aux."
+        },
+        {
+          "claim": "For two indecomposable decompositions, the natural inclusions and projections define endomorphisms theta_s of the first summand whose sum is the identity.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.krull_schmidt_uniqueness",
+          "note": "The exchange construction and sum-to-identity calculation occur in the proof body through the private helper krull_schmidt_find_iso_summand."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Lemma3.8.2",
@@ -2974,7 +3023,45 @@
     "coverage": "covered_full",
     "last_updated": "2026-07-22",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Every endomorphism of a finite-dimensional indecomposable representation is either invertible or nilpotent.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.endo_indecomposable_iso_or_nilpotent"
+        },
+        {
+          "claim": "The dichotomy follows from an invariant direct-sum decomposition into a nilpotent part and an invertible part.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "LinearMap.isCompl_iSup_ker_pow_iInf_range_pow; Etingof.endo_indecomposable_iso_or_nilpotent",
+          "note": "Lean uses the stronger arbitrary-field Fitting decomposition rather than the source's algebraically-closed generalized-eigenspace proof."
+        },
+        {
+          "claim": "A finite sum of nilpotent endomorphisms of an indecomposable representation is nilpotent.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.sum_nilpotent_endo_indecomposable"
+        },
+        {
+          "claim": "The sum result is proved inductively using the unit-or-nilpotent dichotomy and the fact that one minus a nilpotent endomorphism is invertible.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.sum_nilpotent_endo_indecomposable; IsNilpotent.isUnit_one_sub"
+        },
+        {
+          "claim": "Since the theta_s sum to the identity, one theta_s is invertible; this yields an isomorphism between the first indecomposable summand and a summand of the other decomposition, with the remaining summands forming a common complement.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.krull_schmidt_uniqueness",
+          "note": "This continuation is implemented in the private exchange helper krull_schmidt_find_iso_summand used by the public uniqueness theorem."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Discussion_proof_of_Theorem3.8.1",
@@ -2993,7 +3080,35 @@
     "coverage": "covered_partial",
     "coverage_note": "The intended Krull–Schmidt proof is source-present, but Theorem3_8_1.lean currently fails fresh elaboration, so this proof discussion cannot rebuild; regression #7495.",
     "coverage_issue": 7495,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-22",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "After matching one summand, the sums of the remaining summands in the two decompositions are isomorphic.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.krull_schmidt_uniqueness",
+          "note": "The proof constructs complements of the matched summand and identifies them using the quotient by that summand."
+        },
+        {
+          "claim": "The comparison map between the remaining sums is injective because a vector in its kernel lies in the matched summand and is killed by an isomorphism.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.krull_schmidt_uniqueness",
+          "note": "Lean packages the source's kernel argument as the common-complement exchange step in the uniqueness proof."
+        },
+        {
+          "claim": "Induction on the remaining representation proves equality of the numbers of summands and a permutation matching all summands up to isomorphism.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.krull_schmidt_uniqueness"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Problem3.8.3",
@@ -3023,7 +3138,24 @@
       "EtingofRepresentationTheory/Chapter3/Lemma3_8_2.lean"
     ],
     "last_updated": "2026-07-22",
-    "coverage_note": "Coverage-arm audit (Stage 3.7, #7373): covered_full, single-claim. Problem3_8_3.lean (sorry-free, axiom-clean) names the general-field citation targets: endo_iso_or_nilpotent (line 43), sum_nilpotent_endo (54), krull_schmidt_existence (66), krull_schmidt_uniqueness (80). All four assume only [Field k] (no IsAlgClosed k), citing the Lemma3_8_2/Theorem3_8_1 proofs which replace the book's generalized-eigenspace argument with the Fitting decomposition (isCompl_iSup_ker_pow_iInf_range_pow, valid for any Noetherian+Artinian module). This is exactly the book's claim that Lemma 3.8.2 and hence the Krull-Schmidt theorem hold without algebraic closure. krull_schmidt_uniqueness is the referent of Problem 3.8.4's citation 'the Krull-Schmidt theorem, valid over any field by Problem 3.8.3'."
+    "coverage_note": "Coverage-arm audit (Stage 3.7, #7373): covered_full, single-claim. Problem3_8_3.lean (sorry-free, axiom-clean) names the general-field citation targets: endo_iso_or_nilpotent (line 43), sum_nilpotent_endo (54), krull_schmidt_existence (66), krull_schmidt_uniqueness (80). All four assume only [Field k] (no IsAlgClosed k), citing the Lemma3_8_2/Theorem3_8_1 proofs which replace the book's generalized-eigenspace argument with the Fitting decomposition (isCompl_iSup_ker_pow_iInf_range_pow, valid for any Noetherian+Artinian module). This is exactly the book's claim that Lemma 3.8.2 and hence the Krull-Schmidt theorem hold without algebraic closure. krull_schmidt_uniqueness is the referent of Problem 3.8.4's citation 'the Krull-Schmidt theorem, valid over any field by Problem 3.8.3'.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Lemma 3.8.2 and the Krull-Schmidt theorem remain valid over an arbitrary field, without assuming algebraic closure.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_3.endo_iso_or_nilpotent; Etingof.Problem3_8_3.sum_nilpotent_endo; Etingof.Problem3_8_3.krull_schmidt_existence; Etingof.Problem3_8_3.krull_schmidt_uniqueness",
+          "note": "All four wrappers assume only Field k; the underlying proofs use Fitting decomposition instead of generalized eigenspaces."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Problem3.8.4",
@@ -3072,7 +3204,49 @@
         ],
         "reason": "directSummand_of_baseChange_directSummand (Problem3_8_4_General.lean:47) is the genuine general-L Noether-Deuring theorem: 'direct summand' is encoded as a split injection p∘i=id over L ⊗[K] A and concluded as a split injection over A. Hypotheses only [Field L] [Algebra K L] (no finiteness on L) plus FiniteDimensional K V/W. Same Zariski-specialization descent applied to split injections. Axiom-clean."
       }
-    ]
+    ],
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "If two finite-dimensional A-modules become isomorphic after scalar extension along an arbitrary field extension L/K, then they were already isomorphic over A.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_4.iso_of_baseChange_iso"
+        },
+        {
+          "claim": "The isomorphism descends to a finitely generated K-subalgebra generated by the matrix entries of the map and its inverse.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_4.Descent.exists_fg_subalgebra_baseChange_iso"
+        },
+        {
+          "claim": "Specialization at a maximal ideal reduces the descended isomorphism to a finite field extension, by Zariski's lemma.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Problem3_8_4.iso_of_baseChange_iso",
+          "note": "The general endpoint's proof chooses a maximal ideal of the finitely generated subalgebra, forms its residue field, and obtains finite dimensionality over K before invoking the finite case."
+        },
+        {
+          "claim": "For a finite extension of degree n, restriction of scalars identifies the base changes with n-fold powers and Krull-Schmidt cancellation yields V isomorphic to W.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_4.baseChange_alinEquiv_pow; Etingof.Problem3_8_4.iso_pow_cancel; Etingof.Problem3_8_4.iso_of_baseChange_iso_finite"
+        },
+        {
+          "claim": "If the base change of V is a direct summand of the base change of W along an arbitrary field extension, then V is a direct summand of W.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_4.directSummand_of_baseChange_directSummand"
+        },
+        {
+          "claim": "The direct-summand result descends the split injection to a finitely generated subalgebra, specializes to a finite extension, and applies power cancellation.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Problem3_8_4.Descent.exists_fg_subalgebra_baseChange_directSummand; Etingof.Problem3_8_4.directSummand_of_baseChange_directSummand_finite; Etingof.Problem3_8_4.directSummand_pow_cancel"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Problem3.8.5",
@@ -3124,7 +3298,44 @@
         "reason": "periodic_not_linearEquiv_antiperiodic (line 331) is IsEmpty (periodicSubalg ≃ₗ[periodicSubalg] antiperiodicSubmod) — a GENUINE non-isomorphism of A-modules (any generator of M is a continuous antiperiodic function, so it vanishes somewhere by the IVT, whence every element of M vanishes there, contradicting a nonvanishing antiperiodic section). periodic_sq_linearEquiv_antiperiodic_sq (line 485) is Nonempty ((periodicSubalg × periodicSubalg) ≃ₗ[periodicSubalg] (antiperiodicSubmod × antiperiodicSubmod)) — a GENUINE A-linear iso via the rotation (f,g)↦(cos·f−sin·g, sin·f+cos·g) with transpose inverse (cos²+sin²=1). Axiom-clean."
       }
     ],
-    "coverage_note": "All four headline constructions remain source-present, but Problem3_8_5.lean currently fails a fresh check at an application type mismatch, so the counterexample cannot be rebuilt; regression #7533."
+    "coverage_note": "All four headline constructions remain source-present, but Problem3_8_5.lean currently fails a fresh check at an application type mismatch, so the counterexample cannot be rebuilt; regression #7533.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A is the algebra of continuous real-valued period-one functions and M is its module of continuous antiperiodic functions f(x+1) = -f(x).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_5.periodicSubalg; Etingof.Problem3_8_5.antiperiodicSubmod"
+        },
+        {
+          "claim": "A is indecomposable as an A-module.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_5.periodic_isIndecomposable"
+        },
+        {
+          "claim": "M is indecomposable as an A-module.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_5.antiperiodic_isIndecomposable"
+        },
+        {
+          "claim": "A and M are not isomorphic as A-modules.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_5.periodic_not_linearEquiv_antiperiodic"
+        },
+        {
+          "claim": "A direct-summed with itself is isomorphic to M direct-summed with itself as an A-module.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_5.periodic_sq_linearEquiv_antiperiodic_sq",
+          "note": "Products encode binary direct sums; the equivalence is the explicit sine-cosine rotation with a proved inverse."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Remark3.8.6",
@@ -3140,7 +3351,40 @@
     "fidelity_note": "#7185: uniqueness half now proved. Existence + Fitting's lemma (nilpotent-or-unit) + local endomorphism ring (over an arbitrary ring, no algebraically closed field) plus the Krull-Schmidt-Azumaya exchange uniqueness (Etingof.krull_schmidt_uniqueness_finiteLength): any two indecomposable decompositions of a finite-length module agree up to a reindexing bijection and isomorphism of matched summands. Ported from the finite-dimensional Theorem 3.8.1 with Module.length as the induction measure. Axiom-clean (no sorryAx).",
     "fidelity_decl": "Etingof.isNilpotent_or_isUnit_of_finiteLength_indecomposable, Etingof.isLocalRing_end_of_finiteLength_indecomposable, Etingof.exists_indecomposable_decomposition, Etingof.isNilpotent_sum_of_finiteLength_indecomposable, Etingof.krull_schmidt_uniqueness_finiteLength",
     "last_updated": "2026-07-21",
-    "fidelity_issue": 7185
+    "fidelity_issue": 7185,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Krull-Schmidt can fail for infinite-dimensional modules.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_5.periodic_isIndecomposable; Etingof.Problem3_8_5.antiperiodic_isIndecomposable; Etingof.Problem3_8_5.periodic_not_linearEquiv_antiperiodic; Etingof.Problem3_8_5.periodic_sq_linearEquiv_antiperiodic_sq",
+          "note": "Problem 3.8.5 supplies two inequivalent indecomposable decompositions of the same module."
+        },
+        {
+          "claim": "A finite-length module has a uniform finite bound on the lengths of its strict submodule filtrations.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "isFiniteLength_iff_isNoetherian_isArtinian; Module.length; Order.LTSeries.length_le_krullDim",
+          "note": "The provider uses the equivalent Artinian-and-Noetherian typeclass formulation and Module.length as the bound."
+        },
+        {
+          "claim": "Every finite-length module is a direct sum of indecomposable submodules.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.exists_indecomposable_decomposition"
+        },
+        {
+          "claim": "The indecomposable decomposition of a finite-length module is unique up to permutation and isomorphism of corresponding summands.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.krull_schmidt_uniqueness_finiteLength"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Introduction_to_3.9",
