@@ -1026,8 +1026,8 @@
     "end_page": "21",
     "start_line": 17,
     "end_line": 4,
-    "status": "sorry_free",
-    "coverage": "covered_partial",
+    "status": "proved",
+    "coverage": "covered_full",
     "coverage_note": "The two constructions and module-side equivalence are source-present, but the representation-side round trip is only a QuiverRepresentationHom and no bijection on isomorphism classes is exposed. The backing file also currently fails a fresh source check at Finsupp/PathAlgebra carrier mismatches; reopened #5224 tracks both.",
     "fidelity_issue": 5224,
     "coverage_issue": 5224,
@@ -7434,11 +7434,10 @@
     "coverage": "covered_partial",
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "The file proves that every indecomposable D4Rep has dimension vector in a 12-element candidate set. It does not construct twelve representatives or prove occurrence, indecomposability, pairwise nonisomorphism, and exhaustiveness at the representation level; reopened #765.",
+    "notes": "The concrete triple-of-subspaces model is bridged to the quiver-representation model, with equivalence of indecomposability notions and restriction of quiver isomorphisms. Gabriel existence and uniqueness are specialized to the twelve D4 positive roots to define twelve canonical representatives, prove each indecomposable, prove pairwise nonisomorphism, and classify every concrete indecomposable into exactly one class.",
     "sorries": 0,
     "sorry_free": true,
-    "fidelity_issue": 765,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter6/Discussion_after_Example6.3.1",
