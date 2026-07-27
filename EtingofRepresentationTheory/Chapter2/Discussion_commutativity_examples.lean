@@ -96,18 +96,18 @@ section GeneralEndomorphism
 variable {k : Type*} [Field k] {V : Type*} [AddCommGroup V] [Module k V]
 
 /-- **Case 3, general form.** The endomorphism algebra `End_k V` of any vector space with
-`2 ≤ dim V` is noncommutative: choosing a basis, the two "matrix unit" endomorphisms `E₀₁`
-(sending the second basis vector to the first, all others to `0`) and `E₁₀` (sending the first
-to the second, all others to `0`) fail to commute. This is the source claim of the discussion
-after Example 2.2.4; the concrete `V = k²` case above is the special case `dim V = 2`. -/
-theorem End_noncommutative_of_two_le_finrank [Module.Finite k V]
-    (h : 2 ≤ Module.finrank k V) :
+`2 ≤ dim V` is noncommutative, including when `V` is infinite-dimensional: choosing a basis,
+the two "matrix unit" endomorphisms `E₀₁` (sending the second basis vector to the first, all
+others to `0`) and `E₁₀` (sending the first to the second, all others to `0`) fail to commute.
+This is the source claim of the discussion after Example 2.2.4; the concrete `V = k²` case above
+is the special case `dim V = 2`. -/
+theorem End_noncommutative_of_two_le_rank
+    (h : (2 : Cardinal) ≤ Module.rank k V) :
     ∃ f g : Module.End k V, f * g ≠ g * f := by
-  set n := Module.finrank k V with hn
-  let b := Module.finBasis k V
-  let i0 : Fin n := ⟨0, by omega⟩
-  let i1 : Fin n := ⟨1, by omega⟩
-  have hne : i0 ≠ i1 := by simp [i0, i1, Fin.ext_iff]
+  let b := Module.Free.chooseBasis k V
+  have hcard : (2 : Cardinal) ≤ Cardinal.mk (Module.Free.ChooseBasisIndex k V) := by
+    rwa [← Module.Free.rank_eq_card_chooseBasisIndex]
+  obtain ⟨i0, i1, hne⟩ := Cardinal.two_le_iff.mp hcard
   -- `f = E₀₁` (sends `b i1 ↦ b i0`, others to `0`), `g = E₁₀` (sends `b i0 ↦ b i1`).
   let f : Module.End k V := b.constr k (fun i => if i = i1 then b i0 else 0)
   let g : Module.End k V := b.constr k (fun i => if i = i0 then b i1 else 0)
