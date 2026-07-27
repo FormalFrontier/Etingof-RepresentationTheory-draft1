@@ -30,7 +30,7 @@ local instance Q₂_subsingleton (a b : Fin 4) :
     Subsingleton (@Quiver.Hom (Fin 4) Q₂ a b) :=
   @Etingof.subsingleton_hom_reversedAtVertex 4 _ Q₁ (fun x y => Q₁_subsingleton x y) 1 a b
 
-local instance Q₃_subsingleton (a b : Fin 4) :
+instance Q₃_subsingleton (a b : Fin 4) :
     Subsingleton (@Quiver.Hom (Fin 4) Q₃ a b) :=
   @Etingof.subsingleton_hom_reversedAtVertex 4 _ Q₂ (fun x y => Q₂_subsingleton x y) 2 a b
 
@@ -103,7 +103,7 @@ private theorem source₂ : @Etingof.IsSource (Fin 4) Q₂ 2 := by
       rcases e with ⟨⟨_, hlt⟩⟩
       omega
 
-private theorem source₃ : @Etingof.IsSource (Fin 4) Q₃ 3 := by
+theorem source₃ : @Etingof.IsSource (Fin 4) Q₃ 3 := by
   intro j
   constructor
   intro e
@@ -239,7 +239,7 @@ noncomputable local instance V₂_finite (v : Fin 4) : Module.Finite ℂ
   · exact @reflected_finite_ne (Fin 4) _ Q₁ 1 source₁ V₁
       (fun w => V₁_finite w) arrowsOut₁ v hv
 
-noncomputable local instance V₃_free (v : Fin 4) : Module.Free ℂ
+noncomputable instance V₃_free (v : Fin 4) : Module.Free ℂ
     (@Etingof.QuiverRepresentation.obj ℂ (Fin 4) _ Q₃ V₃ v) := by
   by_cases hv : v = 2
   · subst v
@@ -248,7 +248,7 @@ noncomputable local instance V₃_free (v : Fin 4) : Module.Free ℂ
   · exact @reflected_free_ne (Fin 4) _ Q₂ 2 source₂ V₂
       (fun w => V₂_free w) arrowsOut₂ v hv
 
-noncomputable local instance V₃_finite (v : Fin 4) : Module.Finite ℂ
+noncomputable instance V₃_finite (v : Fin 4) : Module.Finite ℂ
     (@Etingof.QuiverRepresentation.obj ℂ (Fin 4) _ Q₃ V₃ v) := by
   by_cases hv : v = 2
   · subst v
@@ -366,7 +366,7 @@ private theorem orient₁ : Etingof.IsOrientationOf Q₁ Etingof.D₄_adj :=
 private theorem orient₂ : Etingof.IsOrientationOf Q₂ Etingof.D₄_adj :=
   Etingof.reversedAtVertex_isOrientationOf adj_symm adj_diag orient₁ 1
 
-private theorem orient₃ : Etingof.IsOrientationOf Q₃ Etingof.D₄_adj :=
+theorem orient₃ : Etingof.IsOrientationOf Q₃ Etingof.D₄_adj :=
   Etingof.reversedAtVertex_isOrientationOf adj_symm adj_diag orient₂ 2
 
 private theorem sourceMap₀_injective : Function.Injective
@@ -675,6 +675,14 @@ private theorem transport_indecomposable
 /-- The final reflected representation, transported back to the original D₄ orientation. -/
 noncomputable abbrev finalRepresentation :
     @Etingof.QuiverRepresentation ℂ (Fin 4) _ Q₀ := Q₄_eq_Q₀ ▸ V₄
+
+noncomputable instance finalRepresentation_free (v : Fin 4) : Module.Free ℂ
+    (@Etingof.QuiverRepresentation.obj ℂ (Fin 4) _ Q₀ finalRepresentation v) :=
+  transport_free Q₄_eq_Q₀ V₄ (fun w => V₄_free w) v
+
+noncomputable instance finalRepresentation_finite (v : Fin 4) : Module.Finite ℂ
+    (@Etingof.QuiverRepresentation.obj ℂ (Fin 4) _ Q₀ finalRepresentation v) :=
+  transport_finite Q₄_eq_Q₀ V₄ (fun w => V₄_finite w) v
 
 /-- The transported final representation has one-dimensional arms and a two-dimensional
 central space. -/

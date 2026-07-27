@@ -70,6 +70,8 @@ import EtingofRepresentationTheory.Chapter6.CoxeterInfrastructure_Test
 import EtingofRepresentationTheory.Chapter6.Theorem6_5_2_Test
 import EtingofRepresentationTheory.Chapter6.Example6_8_5
 import EtingofRepresentationTheory.Chapter6.Example6_8_5_Actual
+import EtingofRepresentationTheory.Chapter6.Example6_8_5_Intermediate
+import EtingofRepresentationTheory.Chapter6.Example6_8_5_Geometry
 
 -- Section 6.9: Problems
 import EtingofRepresentationTheory.Chapter6.Problem6_9_1
