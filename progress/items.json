@@ -2511,6 +2511,47 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.6",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Section 3.6 is the organizational heading for characters of representations.",
+          "verdict": "non_formalizable",
+          "reason": "This is a section heading rather than a mathematical proposition with a Lean proof obligation."
+        },
+        {
+          "claim": "For a finite-dimensional representation V with action ρ, its character is the k-linear functional χ_V(a) = Tr(ρ(a)).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.character",
+          "note": "The definition is the composition of the action algebra homomorphism with LinearMap.trace and returns an element of Dual k A."
+        },
+        {
+          "claim": "The commutator space [A,A] is the k-span of all elements xy - yx.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.commutatorSubmodule"
+        },
+        {
+          "claim": "Every character vanishes on [A,A], so [A,A] is contained in its kernel.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.character_mul_comm; Etingof.commutatorSubmodule_le_ker_character"
+        },
+        {
+          "claim": "The character therefore descends to a linear functional A/[A,A] → k.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.characterQuotient; Etingof.characterQuotient_mk",
+          "note": "characterQuotient is the quotient lift, and characterQuotient_mk proves that its composite with the projection is the original character."
+        }
+      ]
     }
   },
   {
@@ -2530,7 +2571,25 @@
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Exercise3_6_1.lean"
     ],
-    "lean_decl": "Etingof.character_eq_character_add_character_quotient"
+    "lean_decl": "Etingof.character_eq_character_add_character_quotient",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.6",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For every finite-dimensional subrepresentation W of V, the character satisfies χ_V = χ_W + χ_{V/W}.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.character_eq_character_add_character_quotient",
+          "note": "W is an arbitrary A-submodule, and the third term is the character of the genuine quotient representation V ⨸ W."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Theorem3.6.2",
@@ -2546,7 +2605,92 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "The two headline character results are proved, and the proof's explicit standalone identity [Mat_d(k),Mat_d(k)] = sl_d(k) is now exposed publicly as commutatorSubmodule_matrix_eq_ker_trace via the matrix-unit commutator spanning argument (off-diagonal units E_{ij}=[E_{ii},E_{ij}], diagonal differences E_{ii}-E_{jj}=[E_{ij},E_{ji}]), including the d=0 and d=1 edge cases.",
-    "last_updated": "2026-07-23"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.6",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Characters of a finite family of pairwise nonisomorphic finite-dimensional irreducible A-representations are linearly independent.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.characters_linearly_independent"
+        },
+        {
+          "claim": "For pairwise nonisomorphic irreducibles V_i, the combined representation map A → ∏_i End_k(V_i) is surjective.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.density_theorem_part2",
+          "note": "This is exactly the density theorem invoked by the proof of part (i)."
+        },
+        {
+          "claim": "Independent variation of the component traces forces every coefficient in a linear relation among the irreducible characters to vanish.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.characters_linearly_independent",
+          "note": "The proof constructs a rank-one target in one endomorphism factor, lifts it through density, and obtains the selected coefficient from trace one."
+        },
+        {
+          "claim": "For a finite-dimensional semisimple algebra, the characters of a complete set of irreducibles form a basis of (A/[A,A])*.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.characters_linearly_independent; Etingof.characters_basis_semisimple; Etingof.characterQuotient",
+          "note": "Lean models the quotient dual canonically as tracial functionals on A: characters_linearly_independent proves independence and characters_basis_semisimple proves spanning of that space."
+        },
+        {
+          "claim": "For a full matrix algebra, [Mat_d(k),Mat_d(k)] is exactly sl_d(k), the traceless matrices.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.commutatorSubmodule_matrix_eq_ker_trace; Etingof.commutatorSubmodule_matrix_fin_eq_ker_trace"
+        },
+        {
+          "claim": "Every matrix commutator is traceless.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.commutatorSubmodule_matrix_eq_ker_trace",
+          "note": "The forward inclusion is proved from Matrix.trace_mul_comm."
+        },
+        {
+          "claim": "For matrix units, [E_ij,E_jm] = E_im whenever i ≠ m.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Matrix.single_mul_single_same; Matrix.single_mul_single_of_ne",
+          "note": "Mathlib's matrix-unit multiplication lemmas give the displayed commutator identity directly."
+        },
+        {
+          "claim": "Diagonal matrix-unit differences E_ii - E_jj are commutators [E_ij,E_ji].",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.commutatorSubmodule_matrix_eq_ker_trace",
+          "note": "The public proof establishes the stronger formula with an arbitrary fixed reference index."
+        },
+        {
+          "claim": "Off-diagonal matrix units together with diagonal differences span, and over a field form a basis of, the traceless matrices.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Matrix.stdBasis; Etingof.commutatorSubmodule_matrix_eq_ker_trace",
+          "note": "Mathlib supplies the matrix-unit basis, while the public commutator theorem explicitly decomposes every traceless matrix into off-diagonal units and diagonal corrections."
+        },
+        {
+          "claim": "A finite-dimensional semisimple algebra over the algebraically closed base field is a finite product of full matrix algebras.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed"
+        },
+        {
+          "claim": "Under that matrix-product decomposition, [A,A] is the product of the traceless factors and A/[A,A] is isomorphic to k^r.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed; Etingof.commutatorSubmodule_matrix_fin_eq_ker_trace; Etingof.characters_basis_semisimple",
+          "note": "The matrix-factor identities and Wedderburn–Artin decomposition give the book's quotient computation; the formal theorem uses the equivalent tracial-functional model of its dual."
+        },
+        {
+          "claim": "For A = ⊕_i Mat_{d_i}(k), there are exactly r irreducible representations, represented by the standard k^{d_i}.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.irreducible_reps_of_matrix_algebra",
+          "note": "This is the classification established in Theorem 3.3.1 and invoked by the source proof."
+        },
+        {
+          "claim": "The r independent irreducible characters on the r-dimensional quotient-dual space form a basis.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.characters_linearly_independent; Etingof.characters_basis_semisimple"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter3/Introduction_to_3.7",
