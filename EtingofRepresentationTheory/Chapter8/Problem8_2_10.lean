@@ -3,6 +3,7 @@ import EtingofRepresentationTheory.Chapter8.KoszulDifferential
 import EtingofRepresentationTheory.Chapter8.KoszulAugmentation
 import EtingofRepresentationTheory.Chapter8.KoszulBasis
 import EtingofRepresentationTheory.Chapter8.KoszulResolution
+import EtingofRepresentationTheory.Chapter8.KoszulDirectSumResolution
 import EtingofRepresentationTheory.Chapter8.KoszulExtTor
 
 /-!
@@ -122,15 +123,27 @@ The exercise itself is being formalized bottom-up. Landed so far:
   (`Etingof.koszulPi_quasiIso`), giving `Etingof.koszulResolution` — see `Etingof.Problem_8_2_10_i`
   below.
 
-* `Chapter8/KoszulExtTor.lean` — **part (v), complete**. Applying `Hom_{SV}(-, k)` and
-  `- ⊗_{SV} k` to the Koszul resolution gives complexes with zero differential, because every
-  Koszul differential summand contains a symmetric generator and those generators act by zero
-  on the augmentation module. The resulting genuine `ModuleCat k` isomorphisms are
-  `Etingof.koszulExtIso : Extⁱ_{SV}(k,k) ≅ (⋀ⁱV)∗` and
-  `Etingof.koszulTorIso : Torᵢ^{SV}(k,k) ≅ ⋀ⁱV`.
+* `Chapter8/SymmetricAlgebraDirectSum.lean` and
+  `Chapter8/KoszulDirectSumResolution.lean` — **part (ii), complete**. The first
+  file proves the missing canonical algebra equivalence
+  `S(U × W) ≃ₐ[k] S(U) ⊗[k] S(W)`. The second externally tensors the Koszul resolution of the
+  trivial `S(U)`-module with the degree-zero resolution of the regular `S(W)`-module, then
+  transports it along that equivalence. The public endpoint
+  `Etingof.koszulComplementResolution` is a projective resolution of the resulting
+  `S(U × W)`-module, and `Etingof.koszulComplementResolution_quasiIso` records exactness.
+  Finally, `Etingof.koszulComplementResolutionTermIso` identifies each categorical total-complex
+  term with the literal module `S(U × W) ⊗[k] ⋀ⁱ U`, and
+  `Etingof.koszulComplementResolution_free` proves that every term is free.
 
-Still to come: the `SW` resolution (ii), the bimodule resolution (iii), and Hilbert syzygies (iv).
-See the child issues linked from
+* `Chapter8/KoszulExtTor.lean` — **part (v), complete**. Applying `Hom_{SV}(-, k)` and
+   `- ⊗_{SV} k` to the Koszul resolution gives complexes with zero differential, because every
+   Koszul differential summand contains a symmetric generator and those generators act by zero
+   on the augmentation module. The resulting genuine `ModuleCat k` isomorphisms are
+   `Etingof.koszulExtIso : Extⁱ_{SV}(k,k) ≅ (⋀ⁱV)∗` and
+   `Etingof.koszulTorIso : Torᵢ^{SV}(k,k) ≅ ⋀ⁱV`.
+
+Still to come: the bimodule resolution (iii) and Hilbert syzygies (iv).
+ See the child issues linked from
 <https://github.com/FormalFrontier/Etingof-RepresentationTheory-draft1/issues/5723>.
 -/
 
@@ -173,6 +186,39 @@ theorem Problem_8_2_10_i_free (i : ℕ) :
 /-- The map resolving `k` is the augmentation `ε : C₀ = SV ⊗ ⋀⁰ V → k`, the counit of `SV`. -/
 theorem Problem_8_2_10_i_π : (Problem_8_2_10_i b).π.f 0 = ModuleCat.ofHom (koszulAug k V) :=
   koszulPi_f_zero b
+
+end
+
+section
+
+variable (k U W : Type u) [Field k]
+  [AddCommGroup U] [Module k U] [FiniteDimensional k U]
+  [AddCommGroup W] [Module k W]
+
+/-- **Problem 8.2.10(ii).** The complementary Koszul resolution of `S(W)` over `S(U ⊕ W)`,
+where `U` acts through the augmentation (hence by zero) and `W` acts regularly. -/
+noncomputable def Problem_8_2_10_ii :
+    CategoryTheory.ProjectiveResolution (koszulComplementModule k U W) :=
+  koszulComplementResolution k U W
+
+/-- Degree `i` of the resolution in part (ii) is the literal module
+`S(U ⊕ W) ⊗[k] ⋀ⁱ U`. -/
+noncomputable def Problem_8_2_10_ii_termIso (i : ℕ) :
+    (Problem_8_2_10_ii k U W).complex.X i ≅
+      ModuleCat.of (SymmetricAlgebra k (U × W)) (koszulComplementX k U W i) :=
+  koszulComplementResolutionTermIso k U W i
+
+/-- The displayed terms in part (ii) are free over `S(U ⊕ W)`. -/
+theorem Problem_8_2_10_ii_free (i : ℕ) :
+    Module.Free (SymmetricAlgebra k (U × W))
+      ((Problem_8_2_10_ii k U W).complex.X i) :=
+  koszulComplementResolution_free k U W i
+
+/-- The augmentation in part (ii) is a quasi-isomorphism, so the displayed free complex is a
+resolution of the complementary symmetric-algebra module. -/
+theorem Problem_8_2_10_ii_quasiIso :
+    QuasiIso (Problem_8_2_10_ii k U W).π :=
+  koszulComplementResolution_quasiIso k U W
 
 end
 

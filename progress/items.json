@@ -9282,7 +9282,7 @@
     "end_line": 1,
     "status": "partially_formalized",
     "coverage": "covered_partial",
-    "note": "Parts (i) and (v) are complete. For (i) (#7912), KoszulContraction/KoszulDifferential build Cᵢ = SV ⊗ ⋀ⁱ V, KoszulAugmentation adds the augmentation and freeness, KoszulBasis and KoszulHomotopy establish exactness, and KoszulResolution packages Etingof.koszulResolution / Etingof.Problem_8_2_10_i. For (v) (#7886), KoszulExtTor proves the Hom and tensor complexes have zero differential and gives genuine k-linear categorical isomorphisms Etingof.koszulExtIso : Extⁱ_{SV}(k,k) ≅ (⋀ⁱV)∗ and Etingof.koszulTorIso : Torᵢ^{SV}(k,k) ≅ ⋀ⁱV for every i. Parts (ii)-(iv) remain open: see issues #7883, #7884, #7885.",
+    "note": "Parts (i), (ii), and (v) are complete. For (i) (#7912), KoszulContraction/KoszulDifferential build Cᵢ = SV ⊗ ⋀ⁱ V, KoszulAugmentation adds the augmentation and freeness, KoszulBasis and KoszulHomotopy establish exactness, and KoszulResolution packages Etingof.koszulResolution / Etingof.Problem_8_2_10_i. For (ii) (#7883), SymmetricAlgebraDirectSum proves S(U⊕W) ≃ S(U)⊗S(W), KoszulDirectSumResolution constructs the exact transported resolution Etingof.Problem_8_2_10_ii, Etingof.Problem_8_2_10_ii_termIso identifies its degree-i term with the literal S(U⊕W)⊗⋀ⁱU, and Etingof.Problem_8_2_10_ii_free proves those terms free. For (v) (#7886), KoszulExtTor proves the Hom and tensor complexes have zero differential and gives genuine k-linear categorical isomorphisms Etingof.koszulExtIso : Extⁱ_{SV}(k,k) ≅ (⋀ⁱV)∗ and Etingof.koszulTorIso : Torᵢ^{SV}(k,k) ≅ ⋀ⁱV for every i. Parts (iii)-(iv) remain open: see issues #7884 and #7885.",
     "fidelity_issue": 5723,
     "last_updated": "2026-07-27"
   },
