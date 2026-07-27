@@ -1,5 +1,8 @@
 import Mathlib.LinearAlgebra.TensorProduct.Basic
+import Mathlib.LinearAlgebra.TensorProduct.Basis
 import Mathlib.LinearAlgebra.Pi
+import Mathlib.LinearAlgebra.PiTensorProduct.Basis
+import Mathlib.LinearAlgebra.Dual.Basis
 import Mathlib.Algebra.Algebra.Bilinear
 
 /-!
@@ -20,6 +23,10 @@ is not pure: `t ≠ v ⊗ₜ w` for every `v, w`. Conceptually `t` corresponds t
 identity matrix, which has rank `2`, while a pure tensor `v ⊗ w` corresponds to the rank `≤ 1`
 outer product `(v i · w j)`. We make this elementary by extracting the four coordinate entries
 `c i j` of a tensor and deriving a direct numerical contradiction.
+
+The continuation of the discussion defines tensors of type `(m,n)` and displays their basis in
+terms of a finite basis of `V` and its dual basis. The declarations `TensorTypes.TensorType` and
+`TensorTypes.tensorTypeBasis` record that definition and basis directly.
 -/
 
 open scoped TensorProduct
@@ -81,5 +88,26 @@ theorem t_not_pure (v w : V) : t ≠ v ⊗ₜ[ℚ] w := by
   exact one_ne_zero h11.symm
 
 end PureTensors
+
+namespace TensorTypes
+
+open scoped TensorProduct
+
+/-- The book's space of tensors of type `(m,n)` on `V`:
+`V^{⊗ n} ⊗ (V*)^{⊗ m}`. -/
+abbrev TensorType (k V : Type*) [CommRing k] [AddCommGroup V] [Module k V]
+    (m n : ℕ) : Type _ :=
+  (⨂[k] (_ : Fin n), V) ⊗[k] (⨂[k] (_ : Fin m), Module.Dual k V)
+
+/-- If `b = (eᵢ)` is a finite basis of `V`, the tensors
+`e_{i₁} ⊗ ⋯ ⊗ e_{iₙ} ⊗ e^{j₁} ⊗ ⋯ ⊗ e^{jₘ}` form a basis of the tensors of type `(m,n)`. -/
+noncomputable def tensorTypeBasis {k V ι : Type*} [Field k] [AddCommGroup V] [Module k V]
+    [Finite ι] (b : Module.Basis ι k V) (m n : ℕ) :
+    Module.Basis ((Fin n → ι) × (Fin m → ι)) k (TensorType k V m n) := by
+  classical
+  exact (Basis.piTensorProduct (fun _ : Fin n => b)).tensorProduct
+    (Basis.piTensorProduct (fun _ : Fin m => b.dualBasis))
+
+end TensorTypes
 
 end Etingof

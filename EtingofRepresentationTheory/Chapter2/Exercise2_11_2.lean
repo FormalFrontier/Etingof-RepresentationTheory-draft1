@@ -125,14 +125,49 @@ theorem ofTensor_toTensor (q : tensorQuot k V W) : ofTensor k V W (toTensor k V 
     | neg p ih => simp only [map_neg]; rw [ih]
     | add x y hx hy => simp only [map_add]; rw [hx, hy]
 
-/-- **Exercise 2.11.2.** The generators-and-relations construction of the tensor product agrees
-with Mathlib's `V ⊗[k] W`: they are isomorphic as abelian groups. -/
+/-- The canonical additive equivalence from the generators-and-relations quotient to Mathlib's
+tensor product. -/
+noncomputable def addEquivTensorProduct : tensorQuot k V W ≃+ (V ⊗[k] W) where
+  toFun := toTensor k V W
+  invFun := ofTensor k V W
+  left_inv := ofTensor_toTensor k V W
+  right_inv := toTensor_ofTensor k V W
+  map_add' := (toTensor k V W).map_add
+
+/-- The scalar action on the generators-and-relations quotient, transported through its canonical
+additive equivalence with `V ⊗[k] W`. -/
+noncomputable instance instSMul : SMul k (tensorQuot k V W) where
+  smul a q := (addEquivTensorProduct k V W).symm (a • addEquivTensorProduct k V W q)
+
+@[simp]
+theorem addEquivTensorProduct_smul (a : k) (q : tensorQuot k V W) :
+    addEquivTensorProduct k V W (a • q) = a • addEquivTensorProduct k V W q :=
+  (addEquivTensorProduct k V W).apply_symm_apply _
+
+/-- The quotient of the free abelian group by the three relation families is naturally a
+`k`-module, hence a vector space when `k` is a field. -/
+noncomputable instance instModule : Module k (tensorQuot k V W) :=
+  Function.Injective.module k (addEquivTensorProduct k V W).toAddMonoidHom
+    (addEquivTensorProduct k V W).injective (addEquivTensorProduct_smul k V W)
+
+/-- **Exercise 2.11.2.** The generators-and-relations construction is linearly equivalent to the
+usual tensor product, so it is genuinely an equivalent definition as a vector space rather than
+only as an abelian group. -/
+noncomputable def linearEquivTensorProduct : tensorQuot k V W ≃ₗ[k] (V ⊗[k] W) where
+  toAddEquiv := addEquivTensorProduct k V W
+  map_smul' := addEquivTensorProduct_smul k V W
+
+@[simp]
+theorem linearEquivTensorProduct_mk (v : V) (w : W) :
+    linearEquivTensorProduct k V W
+        (QuotientAddGroup.mk' (relSubgroup k V W) (FreeAbelianGroup.of (v, w))) =
+      v ⊗ₜ[k] w := by
+  rfl
+
+/-- The additive shadow of `linearEquivTensorProduct`, retained for callers that only need the
+abelian-group statement. -/
 theorem nonempty_addEquiv_tensorProduct :
     Nonempty (tensorQuot k V W ≃+ (V ⊗[k] W)) :=
-  ⟨{ toFun := toTensor k V W
-     invFun := ofTensor k V W
-     left_inv := ofTensor_toTensor k V W
-     right_inv := toTensor_ofTensor k V W
-     map_add' := (toTensor k V W).map_add }⟩
+  ⟨(linearEquivTensorProduct k V W).toAddEquiv⟩
 
 end Etingof.Exercise2_11_2
