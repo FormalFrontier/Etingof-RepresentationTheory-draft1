@@ -74,11 +74,14 @@ simultaneous constant shift) onto the isomorphism classes of the
 that the remark points at, complete reducibility for `𝔰𝔩(2)`, is proved
 independently as `Etingof.Sl2Irrep.complete_reducibility` (Problem 2.15.1).
 
-Two parts of the `SL_N` picture are unfinished rather than omitted, and are
-tracked as ordinary work items: that weights in different shift classes give
-non-isomorphic `SL_N`-representations, and that the `L_λ|_{SL_N}` exhaust the
-irreducibles. The latter rests on the `GL_N` highest-weight classification, which
-is itself still open.
+The group-level parametrization is now injective as well as surjective onto the
+constructed restrictions.  In addition, `SLIrrepExhaustive.lean` defines intrinsic
+algebraicity for `SL_N`, proves that algebraic `GL_N` representations remain
+algebraic on restriction, and proves that every simple `SL_N` representation
+equipped with an algebraic `GL_N` extension is one of the `L_λ|_{SL_N}`.
+Unconditional exhaustiveness remains an ordinary work item: its exact missing
+input is an extension theorem saying that every intrinsically algebraic simple
+`SL_N` representation admits an algebraic `GL_N` extension.
 
 ### Problem 6.1.6 — residual McKay-correspondence classification
 

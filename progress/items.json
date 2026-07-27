@@ -6602,7 +6602,6 @@
   },
   {
     "id": "Chapter5/Remark5.23.3",
-    "source_regression_note": "Clean rebuild imports the broken Proposition5_22_2 determinant-shift source (#7547).",
     "type": "remark",
     "title": "Extension to sl(V) and SL(V); recovery of sl(2) representation theory",
     "start_page": "134",
@@ -6612,11 +6611,10 @@
     "status": "partially_proved",
     "fidelity": "partial",
     "sorry_free": true,
-    "fidelity_note": "#7357 completed the SL_N half. slRestrict restricts a GL_N representation along Matrix.SpecialLinearGroup.toGL; detChar_toGL and slRestrict_charTwistRep_detChar_zpow show every determinant twist is invisible on SL_N; algIrrepGL_slEquiv_constShift is the SL_N-equivariant isomorphism L_{lam + c*1^N} = L_lam as a Representation.Equiv (algIrrepGL_finrank_constShift is its dimension shadow); slIsoSetoid, shiftEquiv_slIso, slIrrepClass and slIrrepClass_surjective make the parametrization by SLWeightParam N well defined and surjective onto the isomorphism classes of the L_lam|_SL. #7807 added the converse, slIso_shiftEquiv: isomorphic SL_N restrictions force a constant shift, so slIrrepClass_injective and slIrrepEquiv give the bijection SLWeightParam n = Quotient (slIsoSetoid n k). Its route is the scalar torus: scalarGL acts on L_lam by s^total (algIrrepGLRepro_scalarGL), the N-th roots of unity inside SL_N force N | (total mu - total lam) (natCast_dvd_total_sub_of_slIso), and GL_N = scalars * SL_N over an algebraically closed field (specialLinearFactor) promotes the SL_N map to a GL_N map once the totals agree, at which point algIrrepGLRepro_iso_iff_eq applies. The book-disavowed sl_N complete-reducibility and highest-weight assertions are now recorded in skipped-exercises.md under 'Remark 5.23.3' rather than as proof_wanted. Still open: exhaustiveness of the L_lam|_SL among the irreducibles (#7808, blocked on the GL_N classification #7400).",
+    "fidelity_note": "#7357 completed the SL_N restriction and determinant-shift infrastructure. #7807 proved the converse slIso_shiftEquiv, hence slIrrepClass_injective and the bijection slIrrepEquiv. The GL_N classification is now available. #7808 adds IsAlgebraicSLRepresentation, HasAlgebraicGLExtension, restriction of GL_N algebraicity, simplicity transfer, and exists_dominantWeight_slEquiv_of_hasAlgebraicGLExtension: every simple SL_N representation with an algebraic GL_N extension is a constructed restriction. The remaining gap is the genuinely SL_N-specific extension theorem from intrinsic algebraicity to an algebraic GL_N extension. The book-disavowed sl_N Lie-algebra assertions remain recorded in skipped-exercises.md.",
     "coverage": "covered_partial",
-    "coverage_issue": 7547,
     "followup_issue": 7808,
-    "last_updated": "2026-07-25"
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter5/Introduction_5.24",
