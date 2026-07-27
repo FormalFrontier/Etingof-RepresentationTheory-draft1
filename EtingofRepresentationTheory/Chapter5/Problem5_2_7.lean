@@ -1,6 +1,8 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Remark5_2_8
 import EtingofRepresentationTheory.Chapter4.Discussion_4_4
+import EtingofRepresentationTheory.Infrastructure.FDRepDirectSum
+import EtingofRepresentationTheory.Infrastructure.FDRepIsotypic
 
 /-!
 # Problem 5.2.7: fields of definition and a vanishing character value
@@ -16,8 +18,10 @@ import EtingofRepresentationTheory.Chapter4.Discussion_4_4
 For part (a), this file makes the basis-level field-of-definition assertion precise and
 formalizes its field-theoretic half. If finitely many complex representations admit bases with
 algebraic matrix entries, all of those entries lie in one finite Galois extension of `ℚ` inside
-`ℂ`. Thus the remaining representation-theoretic core is exactly the construction of algebraic
-matrix bases for a finite set of representatives from which all representations are assembled.
+`ℂ`. It also proves that algebraic matrix bases are preserved by representation isomorphisms and
+finite direct sums, and uses isotypic decomposition to assemble every representation from a finite
+complete simple family. Thus the remaining representation-theoretic core is exactly the
+construction of algebraic matrix bases for one such family of simple representations.
 
 For part (b), this file supplies the two pieces the book's argument still needs on top of the
 Galois-conjugate rationality core already formalized in
@@ -63,6 +67,146 @@ to one finite Galois field. -/
 def HasAlgebraicMatrixBasis (V : FDRep ℂ G) : Prop :=
   ∃ b : Module.Basis (Fin (Module.finrank ℂ V)) ℂ V,
     ∀ g i j, IsAlgebraic ℚ (LinearMap.toMatrix b b (V.ρ g) i j)
+
+/-- The matrices of `V` in an arbitrarily indexed finite basis have algebraic entries.
+
+This auxiliary predicate lets us construct natural bases (for instance, the sigma-indexed
+basis of a finite direct sum) before reindexing them by `Fin (finrank ℂ V)`. -/
+def BasisHasAlgebraicMatrices {I : Type} [Fintype I] [DecidableEq I] (V : FDRep ℂ G)
+    (b : Module.Basis I ℂ V) : Prop :=
+  ∀ g i j, IsAlgebraic ℚ (LinearMap.toMatrix b b (V.ρ g) i j)
+
+/-- Reindexing a basis preserves algebraicity of all action-matrix entries. -/
+theorem BasisHasAlgebraicMatrices.reindex {I J : Type} [Fintype I] [Fintype J]
+    [DecidableEq I] [DecidableEq J]
+    {V : FDRep ℂ G} {b : Module.Basis I ℂ V} (h : BasisHasAlgebraicMatrices V b)
+    (e : I ≃ J) : BasisHasAlgebraicMatrices V (b.reindex e) := by
+  classical
+  intro g i j
+  simpa [LinearMap.toMatrix_apply, Module.Basis.reindex_apply,
+    Module.Basis.repr_reindex_apply] using h g (e.symm i) (e.symm j)
+
+/-- An algebraic action matrix in any finite basis yields an algebraic matrix basis indexed by
+`Fin (finrank ℂ V)`. -/
+theorem hasAlgebraicMatrixBasis_of_basis {I : Type} [Fintype I] [DecidableEq I]
+    {V : FDRep ℂ G}
+    (b : Module.Basis I ℂ V) (h : BasisHasAlgebraicMatrices V b) :
+    HasAlgebraicMatrixBasis V := by
+  let e : I ≃ Fin (Module.finrank ℂ V) :=
+    (Fintype.equivFin I).trans (finCongr (Module.finrank_eq_card_basis b).symm)
+  refine ⟨b.reindex e, ?_⟩
+  exact h.reindex e
+
+/-- Having an algebraic matrix basis is invariant under isomorphism of representations. -/
+theorem HasAlgebraicMatrixBasis.of_iso {V W : FDRep ℂ G} (e : V ≅ W)
+    (hV : HasAlgebraicMatrixBasis V) : HasAlgebraicMatrixBasis W := by
+  obtain ⟨b, hb⟩ := hV
+  let φ : V ≃ₗ[ℂ] W := FDRep.isoToLinearEquiv e
+  let bW : Module.Basis (Fin (Module.finrank ℂ V)) ℂ W := b.map φ
+  have hbW : BasisHasAlgebraicMatrices W bW := by
+    intro g i j
+    have hinter : W.ρ g (φ (b j)) = φ (V.ρ g (b j)) := by
+      rw [FDRep.Iso.conj_ρ e g, LinearEquiv.conj_apply]
+      simp [φ]
+    simpa [bW, φ, LinearMap.toMatrix_apply, Module.Basis.map_apply, hinter,
+      Module.Basis.map] using hb g i j
+  exact hasAlgebraicMatrixBasis_of_basis bW hbW
+
+/-- A finite direct sum of representations with algebraic matrix bases again has one. -/
+theorem hasAlgebraicMatrixBasis_pi {I : Type} [Fintype I] (V : I → FDRep ℂ G)
+    (hV : ∀ i, HasAlgebraicMatrixBasis (V i)) :
+    HasAlgebraicMatrixBasis (Etingof.FDRep.pi V) := by
+  classical
+  let b (i : I) : Module.Basis (Fin (Module.finrank ℂ (V i))) ℂ (V i) := (hV i).choose
+  have hb (i : I) : BasisHasAlgebraicMatrices (V i) (b i) := by
+    simpa [BasisHasAlgebraicMatrices, b] using (hV i).choose_spec
+  let coord : (Etingof.FDRep.pi V : Type) ≃ₗ[ℂ]
+      ((p : Σ i, Fin (Module.finrank ℂ (V i))) → ℂ) := {
+    toFun := fun x p => (b p.1).repr (x p.1) p.2
+    invFun := fun c i => (b i).equivFun.symm (fun j => c ⟨i, j⟩)
+    left_inv := fun x => by
+      funext i
+      exact (b i).equivFun.symm_apply_apply (x i)
+    right_inv := fun c => by
+      funext ⟨i, j⟩
+      exact congrFun ((b i).equivFun.apply_symm_apply (fun q => c ⟨i, q⟩)) j
+    map_add' := fun x y => by
+      funext ⟨i, j⟩
+      exact congrArg (fun z => z j) (map_add ((b i).repr) (x i) (y i))
+    map_smul' := fun c x => by
+      funext ⟨i, j⟩
+      exact congrArg (fun z => z j) (map_smul ((b i).repr) c (x i)) }
+  let bπ : Module.Basis (Σ i, Fin (Module.finrank ℂ (V i))) ℂ
+      (Etingof.FDRep.pi V) := Module.Basis.ofEquivFun coord
+  have hbπ : BasisHasAlgebraicMatrices (Etingof.FDRep.pi V) bπ := by
+    rintro g ⟨i, p⟩ ⟨j, q⟩
+    change IsAlgebraic ℚ (LinearMap.toMatrix bπ bπ ((Etingof.FDRep.pi V).ρ g)
+      ⟨i, p⟩ ⟨j, q⟩)
+    by_cases hij : i = j
+    · subst j
+      have heq : LinearMap.toMatrix bπ bπ ((Etingof.FDRep.pi V).ρ g)
+          ⟨i, p⟩ ⟨i, q⟩ = LinearMap.toMatrix (b i) (b i) ((V i).ρ g) p q := by
+        rw [LinearMap.toMatrix_apply, LinearMap.toMatrix_apply]
+        simp only [bπ, Module.Basis.ofEquivFun_repr_apply,
+          Module.Basis.coe_ofEquivFun]
+        change (b i).repr ((V i).ρ g ((coord.symm (Pi.single ⟨i, q⟩ 1)) i)) p = _
+        change (b i).repr ((V i).ρ g
+          ((b i).equivFun.symm (fun j =>
+            (Pi.single ⟨i, q⟩ (1 : ℂ) :
+              (Σ k, Fin (Module.finrank ℂ (V k))) → ℂ) ⟨i, j⟩))) p = _
+        congr 3
+        apply (b i).equivFun.injective
+        rw [(b i).equivFun.apply_symm_apply]
+        ext j
+        simp [Module.Basis.equivFun_self, Pi.single_apply, eq_comm]
+      rw [heq]
+      exact hb i g p q
+    · have hz : LinearMap.toMatrix bπ bπ ((Etingof.FDRep.pi V).ρ g)
+          ⟨i, p⟩ ⟨j, q⟩ = 0 := by
+        rw [LinearMap.toMatrix_apply]
+        simp only [bπ, Module.Basis.ofEquivFun_repr_apply,
+          Module.Basis.coe_ofEquivFun]
+        change (b i).repr ((V i).ρ g ((coord.symm (Pi.single ⟨j, q⟩ 1)) i)) p = 0
+        change (b i).repr ((V i).ρ g
+          ((b i).equivFun.symm (fun r =>
+            (Pi.single ⟨j, q⟩ (1 : ℂ) :
+              (Σ k, Fin (Module.finrank ℂ (V k))) → ℂ) ⟨i, r⟩))) p = 0
+        have hfun : (fun r =>
+            (Pi.single ⟨j, q⟩ (1 : ℂ) :
+              (Σ k, Fin (Module.finrank ℂ (V k))) → ℂ) ⟨i, r⟩) = 0 := by
+          funext r
+          have hne : (⟨j, q⟩ : Σ k, Fin (Module.finrank ℂ (V k))) ≠ ⟨i, r⟩ := by
+            intro h
+            exact hij (Sigma.mk.inj_iff.mp h).1.symm
+          simp [hne]
+        rw [hfun, map_zero, map_zero]
+        simp
+      rw [hz]
+      exact isAlgebraic_zero
+  exact hasAlgebraicMatrixBasis_of_basis bπ hbπ
+
+/-- **Assembly from a complete simple family.** If a finite complete family of pairwise
+non-isomorphic simple representations has algebraic matrix bases, then every representation does.
+
+Thus the remaining descent problem in 5.2.7(a) is reduced to constructing algebraic bases for
+one finite complete family of simple representations. -/
+theorem hasAlgebraicMatrixBasis_of_complete_simple_family [Fintype G]
+    {I : Type} [Fintype I] (T : I → FDRep ℂ G)
+    (hsimple : ∀ i, Simple (T i))
+    (hinj : ∀ i j, Nonempty (T i ≅ T j) → i = j)
+    (hcomplete : ∀ S : FDRep ℂ G, Simple S → ∃ i, Nonempty (S ≅ T i))
+    (hAlg : ∀ i, HasAlgebraicMatrixBasis (T i)) (V : FDRep ℂ G) :
+    HasAlgebraicMatrixBasis V := by
+  classical
+  let n := Etingof.FDRep.multiplicity T V
+  let U : (Σ i, Fin (n i)) → FDRep ℂ G := fun p => T p.1
+  have hpi : HasAlgebraicMatrixBasis (Etingof.FDRep.pi U) :=
+    hasAlgebraicMatrixBasis_pi U (fun p => hAlg p.1)
+  let eV : V ≅ Etingof.FDRep.isotypicSum T n :=
+    (Etingof.FDRep.nonempty_iso_isotypicSum T hsimple hinj hcomplete V).some
+  let eπ : Etingof.FDRep.pi U ≅ Etingof.FDRep.isotypicSum T n :=
+    Etingof.FDRep.piIsoBiproduct U
+  exact hpi.of_iso ((eV.trans eπ.symm).symm)
 
 /-- Enlarging the coefficient field preserves a matrix realization. -/
 theorem MatrixDefinedOver.mono {K L : IntermediateField ℚ ℂ} (hKL : K ≤ L)
