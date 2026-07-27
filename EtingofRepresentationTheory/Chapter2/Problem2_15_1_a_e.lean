@@ -1,3 +1,4 @@
+import Mathlib.LinearAlgebra.Eigenspace.Semisimple
 import EtingofRepresentationTheory.Chapter2.Problem2_15_1_m_Module
 
 /-!
@@ -6,7 +7,7 @@ import EtingofRepresentationTheory.Chapter2.Problem2_15_1_m_Module
 This file supplies the generalized-weight-space beginning of Etingof's elementary proof of
 complete reducibility for finite-dimensional `sl(2)`-modules.
 
-The first two parts are formalized here at their source generality:
+The five parts are formalized here at their source generality:
 
 * `lie_e_eq_zero_on_maxGenEigenspace` proves part (a), in the intrinsic form that if
   `lambda + 2` is not an eigenvalue of `H`, then `E` vanishes on the entire generalized
@@ -15,14 +16,17 @@ The first two parts are formalized here at their source generality:
 * `eIter_fIter_eq_aeval_highestWeightPolynomial` proves part (b) for an arbitrary vector
   killed by `E` (with no eigenvector assumption).  The polynomial is defined recursively by
   `P_0 = 1` and `P_{k+1}(X) = (k+1) P_k(X) (X-k)`, and has degree exactly `k`.
-
-Parts (c)--(e), which use finite-dimensionality to prove termination of every lowering ladder,
-diagonalize `H` on the maximal generalized weight space, and identify the least termination
-index, build on these endpoints and remain separate follow-up work.
+* `exists_pos_fIter_eq_zero_of_mem_maxGenEigenspace` proves part (c): every lowering ladder
+  starting in a generalized weight space terminates in finite dimension.
+* `maxGenEigenspace_eq_eigenspace_of_no_higher_weight` proves part (d): on the maximal
+  generalized weight space, `H` is diagonal and acts by the scalar `lambda`.
+* `highestWeight_eq_nat_of_minimal_fIter_zero_of_mem_maxGenEigenspace` proves part (e): the
+  maximal weight is the least lowering termination index minus one.
 -/
 
 open Etingof Etingof.Sl2Irrep
 open LieModule Module Polynomial
+open Set
 
 namespace Etingof.Sl2Irrep
 
@@ -118,6 +122,34 @@ theorem highestWeightPolynomial_ne_zero (k : ℕ) : highestWeightPolynomial k �
       rw [highestWeightPolynomial_succ]
       exact mul_ne_zero (mul_ne_zero (C_ne_zero.mpr (by exact_mod_cast Nat.succ_ne_zero k)) ih)
         (X_sub_C_ne_zero (k : ℂ))
+
+/-- Closed product form of the polynomial in part (b). -/
+theorem highestWeightPolynomial_eq_prod (k : ℕ) :
+    highestWeightPolynomial k =
+      C (k.factorial : ℂ) * ∏ i ∈ Finset.range k, (X - C (i : ℂ)) := by
+  induction k with
+  | zero => simp
+  | succ k ih =>
+      rw [highestWeightPolynomial_succ, ih, Finset.prod_range_succ, Nat.factorial_succ]
+      push_cast
+      simp only [map_add, map_mul, map_one]
+      ring
+
+/-- The annihilating polynomial from part (b) is squarefree: up to a nonzero scalar its roots
+are the distinct integers `0, ..., k - 1`. -/
+theorem highestWeightPolynomial_squarefree (k : ℕ) :
+    Squarefree (highestWeightPolynomial k) := by
+  rw [highestWeightPolynomial_eq_prod, squarefree_mul_iff]
+  have hscalar : IsUnit (C (k.factorial : ℂ)) :=
+    isUnit_C.mpr (isUnit_iff_ne_zero.mpr (by exact_mod_cast Nat.factorial_ne_zero k))
+  refine ⟨hscalar.isRelPrime_left, hscalar.squarefree,
+    Finset.squarefree_prod_of_pairwise_isCoprime ?_ ?_⟩
+  · intro i hi j hj hij
+    have hijc : (i : ℂ) ≠ (j : ℂ) := by exact_mod_cast hij
+    exact (isCoprime_X_sub_C_of_isUnit_sub
+      ((sub_ne_zero.mpr hijc).isUnit)).isRelPrime
+  · intro i hi
+    exact (prime_X_sub_C (i : ℂ)).squarefree
 
 /-- The polynomial `P_k` in part (b) has degree exactly `k`. -/
 theorem highestWeightPolynomial_natDegree (k : ℕ) :
@@ -219,6 +251,40 @@ theorem exists_pos_fIter_eq_zero_of_mem_maxGenEigenspace [FiniteDimensional ℂ 
   exact Module.Finite.not_linearIndependent_of_infinite
     (fun n : ℕ => fIter n v) hli
 
+/-- On one finite-dimensional generalized weight space, a single power of `F` kills every
+vector.  This is the uniform finite-basis form of part (c), used to obtain one annihilating
+polynomial for the restriction of `H`. -/
+private theorem exists_uniform_fIter_eq_zero_on_maxGenEigenspace [FiniteDimensional ℂ M]
+    (lambda : ℂ) :
+    ∃ N : ℕ, ∀ v : M,
+      v ∈ (LieModule.toEnd ℂ sl2 M sl2_h).maxGenEigenspace lambda → fIter N v = 0 := by
+  classical
+  let W := (LieModule.toEnd ℂ sl2 M sl2_h).maxGenEigenspace lambda
+  let b := Module.finBasis ℂ W
+  choose n hnpos hnzero using fun i =>
+    exists_pos_fIter_eq_zero_of_mem_maxGenEigenspace (M := M) lambda
+      (v := ((b i : W) : M)) (b i).property
+  let N := Finset.univ.sup n
+  have hnle (i : Fin (Module.finrank ℂ W)) : n i ≤ N :=
+    Finset.le_sup (f := n) (Finset.mem_univ i)
+  have hbzero (i : Fin (Module.finrank ℂ W)) : fIter N ((b i : W) : M) = 0 := by
+    have hni := hnle i
+    rw [fIter_eq_toEnd_pow, show N = (N - n i) + n i by omega, pow_add,
+      Module.End.mul_apply,
+      ← fIter_eq_toEnd_pow (M := M) (n i) (((b i : W) : M)), hnzero i, map_zero]
+  let T : W →ₗ[ℂ] M :=
+    ((LieModule.toEnd ℂ sl2 M sl2_f) ^ N).comp W.subtype
+  have hT : T = 0 := by
+    apply b.ext
+    intro i
+    change ((LieModule.toEnd ℂ sl2 M sl2_f) ^ N) (((b i : W) : M)) = 0
+    rw [← fIter_eq_toEnd_pow]
+    exact hbzero i
+  refine ⟨N, fun v hv => ?_⟩
+  have := LinearMap.congr_fun hT (⟨v, hv⟩ : W)
+  change ((LieModule.toEnd ℂ sl2 M sl2_f) ^ N) v = 0 at this
+  rwa [← fIter_eq_toEnd_pow] at this
+
 /-- The general commutation identity
 `E F^(k+1) w = F^(k+1) E w + (k+1) F^k (H-k) w`.
 
@@ -287,6 +353,81 @@ theorem eIter_fIter_eq_aeval_highestWeightPolynomial (k : ℕ) (w : M)
           simp
         simpa using hEHw
 
+/-- **Problem 2.15.1(d).** If `lambda + 2` is not an `H`-eigenvalue, then the maximal
+generalized `lambda`-eigenspace is already the ordinary `lambda`-eigenspace.
+
+Indeed, part (a) kills `E` on this space and the uniform form of part (c) supplies an `N`
+for which `F^N` kills the whole space.  Part (b) therefore makes the squarefree polynomial
+`P_N` annihilate the restriction of `H`.  That restriction is semisimple; since its difference
+from the scalar `lambda` is also nilpotent by definition of the generalized eigenspace, the
+difference is zero. -/
+theorem maxGenEigenspace_eq_eigenspace_of_no_higher_weight [FiniteDimensional ℂ M]
+    (lambda : ℂ)
+    (hmax : ¬ (LieModule.toEnd ℂ sl2 M sl2_h).HasEigenvalue (lambda + 2)) :
+    (LieModule.toEnd ℂ sl2 M sl2_h).maxGenEigenspace lambda =
+      (LieModule.toEnd ℂ sl2 M sl2_h).eigenspace lambda := by
+  let H : Module.End ℂ M := LieModule.toEnd ℂ sl2 M sl2_h
+  let W := H.maxGenEigenspace lambda
+  let hH : MapsTo H W W := Module.End.mapsTo_maxGenEigenspace_of_comm rfl lambda
+  let HW : Module.End ℂ W := LinearMap.restrict H hH
+  obtain ⟨N, hN⟩ := exists_uniform_fIter_eq_zero_on_maxGenEigenspace (M := M) lambda
+  have hP (v : M) (hv : v ∈ W) :
+      Polynomial.aeval H (highestWeightPolynomial N) v = 0 := by
+    have hident := eIter_fIter_eq_aeval_highestWeightPolynomial (M := M) N v
+      (lie_e_eq_zero_on_maxGenEigenspace (M := M) lambda hmax hv)
+    rw [hN v hv] at hident
+    simpa [eIter] using hident.symm
+  have hpow (n : ℕ) (w : W) : (((HW ^ n) w : W) : M) = (H ^ n) (w : M) := by
+    induction n with
+    | zero => simp
+    | succ n ih =>
+        rw [pow_succ', pow_succ', Module.End.mul_apply, Module.End.mul_apply]
+        change H (((HW ^ n) w : W) : M) = H ((H ^ n) (w : M))
+        rw [ih]
+  have haeval_restrict (p : Polynomial ℂ) (w : W) :
+      ((Polynomial.aeval HW p w : W) : M) = Polynomial.aeval H p (w : M) := by
+    induction p using Polynomial.induction_on' with
+    | add p q hp hq =>
+        simp only [map_add, LinearMap.add_apply, Submodule.coe_add]
+        rw [hp, hq]
+    | monomial n a =>
+        rw [Polynomial.aeval_monomial, Polynomial.aeval_monomial,
+          Module.End.mul_apply, Module.End.mul_apply]
+        change a • (((HW ^ n) w : W) : M) = a • (H ^ n) (w : M)
+        rw [hpow]
+  have haeval : Polynomial.aeval HW (highestWeightPolynomial N) = 0 := by
+    ext w
+    change ((Polynomial.aeval HW (highestWeightPolynomial N) w : W) : M) = 0
+    rw [haeval_restrict]
+    exact hP (w : M) w.property
+  have hsemisimple : HW.IsSemisimple :=
+    Module.End.isSemisimple_of_squarefree_aeval_eq_zero
+      (highestWeightPolynomial_squarefree N) haeval
+  have hnil : IsNilpotent (HW - algebraMap ℂ (Module.End ℂ W) lambda) := by
+    let hsub : MapsTo (H - algebraMap ℂ (Module.End ℂ M) lambda) W W :=
+      Module.End.mapsTo_maxGenEigenspace_of_comm
+        (Algebra.mul_sub_algebraMap_commutes H lambda) lambda
+    have h := Module.End.isNilpotent_restrict_maxGenEigenspace_sub_algebraMap H lambda hsub
+    have heq : LinearMap.restrict (H - algebraMap ℂ (Module.End ℂ M) lambda) hsub =
+        HW - algebraMap ℂ (Module.End ℂ W) lambda := by
+      ext w
+      rfl
+    rw [← heq]
+    exact h
+  have hzero : HW - algebraMap ℂ (Module.End ℂ W) lambda = 0 :=
+    Module.End.eq_zero_of_isNilpotent_isSemisimple hnil
+      (Module.End.isSemisimple_sub_algebraMap_iff.mpr hsemisimple)
+  apply le_antisymm
+  · intro v hv
+    rw [Module.End.mem_eigenspace_iff]
+    change H v = lambda • v
+    have hz := LinearMap.congr_fun hzero (⟨v, hv⟩ : W)
+    have hz' : HW (⟨v, hv⟩ : W) = lambda • (⟨v, hv⟩ : W) := by
+      simpa only [LinearMap.sub_apply, Module.algebraMap_end_apply,
+        LinearMap.zero_apply, sub_eq_zero] using hz
+    exact congrArg Subtype.val hz'
+  · exact Module.End.eigenspace_le_maxGenEigenspace
+
 /-- **Problem 2.15.1(e), least-exponent calculation.**
 Let `v` be a nonzero highest-weight vector of weight `lambda`, and let `N > 0` be the first
 positive exponent for which `F^N v = 0`. Then `lambda = N-1`.
@@ -309,6 +450,23 @@ theorem highestWeight_eq_nat_of_minimal_fIter_zero (lambda : ℂ) (v : M) (N : �
     (mul_eq_zero.mp hscalar).resolve_left hfirst
   have : lambda = (n : ℂ) := sub_eq_zero.mp hlambda
   simpa using this
+
+/-- **Problem 2.15.1(e), generalized-weight-space form.** A nonzero vector in the maximal
+generalized `lambda`-eigenspace is, by part (d), an actual highest-weight vector.  Consequently,
+if `N` is the least positive exponent with `F^N v = 0`, then `lambda = N - 1`. -/
+theorem highestWeight_eq_nat_of_minimal_fIter_zero_of_mem_maxGenEigenspace
+    [FiniteDimensional ℂ M] (lambda : ℂ) (v : M) (N : ℕ)
+    (hmax : ¬ (LieModule.toEnd ℂ sl2 M sl2_h).HasEigenvalue (lambda + 2))
+    (hvweight : v ∈ (LieModule.toEnd ℂ sl2 M sl2_h).maxGenEigenspace lambda)
+    (hv : v ≠ 0) (hNpos : 0 < N) (hN : fIter N v = 0)
+    (hmin : ∀ m : ℕ, m < N → fIter m v ≠ 0) :
+    lambda = (N - 1 : ℕ) := by
+  have heigen : v ∈ (LieModule.toEnd ℂ sl2 M sl2_h).eigenspace lambda := by
+    rw [← maxGenEigenspace_eq_eigenspace_of_no_higher_weight (M := M) lambda hmax]
+    exact hvweight
+  exact highestWeight_eq_nat_of_minimal_fIter_zero lambda v N hv
+    (lie_e_eq_zero_on_maxGenEigenspace lambda hmax hvweight)
+    (Module.End.mem_eigenspace_iff.mp heigen) hNpos hN hmin
 
 end HighestWeightPolynomial
 
