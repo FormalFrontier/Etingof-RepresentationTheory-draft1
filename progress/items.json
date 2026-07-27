@@ -1831,7 +1831,27 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "non_formalizable"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Stage 3.2 reviewed the section heading and organizational introduction; it states no mathematical result beyond announcing that tensor products will be recalled and used later.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.11",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Section 2.11 recalls tensor products of vector spaces for extensive later use.",
+          "verdict": "non_formalizable",
+          "reason": "This is an organizational description of the subsection and the book's later usage, not a mathematical proposition."
+        }
+      ]
     }
   },
   {
@@ -1846,8 +1866,24 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "coverage_note": "TensorProduct k V W supplies the source quotient construction through its universal property and canonical pure-tensor map.",
-    "last_updated": "2026-07-22"
+    "coverage_note": "TensorProduct k V W supplies the source quotient construction, canonical pure-tensor map, and all four displayed additivity/scalar relations; TensorProductDef records the book-facing type.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.11",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "V ⊗ W is the quotient of the free vector space on symbols v ⊗ w by additivity in both variables and the two scalar-moving relations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.TensorProductDef; TensorProduct.tmul; TensorProduct.add_tmul; TensorProduct.tmul_add; TensorProduct.smul_tmul; TensorProduct.tmul_smul"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Exercise2.11.2",
@@ -1858,10 +1894,31 @@
     "start_line": 23,
     "end_line": 37,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "The generators-and-relations quotient and an additive equivalence with Mathlib's tensor product are proved. The quotient has no k-module structure, named linear equivalence, or packaged bilinear universal property, so it does not yet serve as the source's equivalent vector-space definition. Follow-up #5972.",
-    "followup_issue": 5972,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Stage 3.2 closes follow-up #5972: the free-abelian-group quotient has the transported k-module structure and a named linear equivalence with Mathlib's tensor product, sending each quotient generator to the corresponding pure tensor.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.11",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The alternative construction is the quotient of FreeAbelianGroup (V × W) by the two additivity relation families and the balancing relation av ⊗ w = v ⊗ aw.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Exercise2_11_2.relSet; Etingof.Exercise2_11_2.relSubgroup; Etingof.Exercise2_11_2.tensorQuot"
+        },
+        {
+          "claim": "This quotient is naturally a k-vector space linearly equivalent to V ⊗[k] W, with each generator class mapping to v ⊗ₜ w.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Exercise2_11_2.instModule; Etingof.Exercise2_11_2.linearEquivTensorProduct; Etingof.Exercise2_11_2.linearEquivTensorProduct_mk"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_pure_tensors",
@@ -1872,14 +1929,55 @@
     "start_line": 38,
     "end_line": 3,
     "status": "sorry_free",
-    "fidelity": "full",
+    "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "coverage_note": "Non-pure tensors witnessed explicitly: `t = e 0 ⊗ e 0 + e 1 ⊗ e 1` over ℚ with V = W = Fin 2 → ℚ is proved not to be any pure tensor v ⊗ w (Discussion_pure_tensors.t_not_pure, axiom-clean).",
-    "last_updated": "2026-07-23",
+    "coverage_note": "Stage 3.2 preserves the explicit non-pure witness and adds the book's mixed tensor-type definition and finite-basis construction; n-fold products and associativity use the project TensorPow and Mathlib associator APIs.",
+    "last_updated": "2026-07-27",
     "coverage_swept": {
       "wave": 1,
       "result": "covered_full"
+    },
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.11",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Elements v ⊗ w are called pure tensors.",
+          "verdict": "non_formalizable",
+          "reason": "This is terminology for the already-formalized TensorProduct.tmul constructor rather than an additional proposition."
+        },
+        {
+          "claim": "In general a tensor product contains tensors that are not pure.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.PureTensors.t_not_pure"
+        },
+        {
+          "claim": "Finite n-fold tensor products V₁ ⊗ ⋯ ⊗ Vₙ, and in particular V^{⊗ n}, are defined.",
+          "verdict": "formalized",
+          "lean_decl": "PiTensorProduct; Etingof.Problem2_11_3.TensorPow"
+        },
+        {
+          "claim": "Tensor products are naturally associative: (V₁ ⊗ V₂) ⊗ V₃ is naturally identified with V₁ ⊗ (V₂ ⊗ V₃).",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "TensorProduct.assoc"
+        },
+        {
+          "claim": "The space of tensors of type (m,n) on V is V^{⊗ n} ⊗ (V*)^{⊗ m}.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.TensorTypes.TensorType"
+        },
+        {
+          "claim": "The prose identifies low tensor types informally with vectors, covectors, operators, bilinear forms, and algebra structures.",
+          "verdict": "non_formalizable",
+          "reason": "As written these are informal identifications without the finite-dimensional hypotheses and explicit equivalences needed for literal theorem statements; the precise finite-dimensional dual-tensor/Hom equivalence appears in Problem 2.11.3(c)."
+        }
+      ]
     }
   },
   {
@@ -1893,7 +1991,47 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "covered_full"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "The displayed basis is Etingof.TensorTypes.tensorTypeBasis, built from the given basis, its dual basis, finite indexed tensor-product bases, and their tensor-product basis; coefficient expansion is the standard Basis.repr/sum_repr theorem. The remaining basis-change and index paragraphs are instructional or notational prose.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.11",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For a finite basis eᵢ of V and dual basis eⁱ, the displayed elementary mixed tensors form a basis of the type-(m,n) tensor space.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.TensorTypes.tensorTypeBasis"
+        },
+        {
+          "claim": "Every type-(m,n) tensor has a unique coordinate expansion in that basis, with coefficients forming a multidimensional table.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Module.Basis.repr; Module.Basis.sum_repr"
+        },
+        {
+          "claim": "The reader is asked to derive the change-of-basis rule for physicists' coordinate tables.",
+          "verdict": "non_formalizable",
+          "reason": "The text poses an open-ended derivation prompt but does not state the transformation formula that a Lean theorem could faithfully match."
+        },
+        {
+          "claim": "Upper and lower indices distinguish the vector and covector factors.",
+          "verdict": "non_formalizable",
+          "reason": "This is an index-placement convention for the displayed coordinates, not a mathematical proposition."
+        },
+        {
+          "claim": "Einstein summation suppresses sums over an index occurring once upstairs and once downstairs, with the stated restrictions on free and repeated indices.",
+          "verdict": "non_formalizable",
+          "reason": "This is an editorial notation convention rather than a theorem or construction."
+        }
+      ]
     }
   },
   {
@@ -1907,7 +2045,32 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "trivial"
+      "result": "covered_full"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Mathlib's TensorProduct.map is the well-defined linear map A ⊗ B and TensorProduct.map_tmul is exactly the displayed pure-tensor formula; the transition to Problem 2.11.3 is organizational prose.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.11",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Linear maps A : V → V' and B : W → W' induce a well-defined linear map A ⊗ B with (A ⊗ B)(v ⊗ w) = Av ⊗ Bw.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "TensorProduct.map; TensorProduct.map_tmul"
+        },
+        {
+          "claim": "The next problem summarizes the most important tensor-product properties.",
+          "verdict": "non_formalizable",
+          "reason": "This is an organizational transition rather than a mathematical assertion."
+        }
+      ]
     }
   },
   {
@@ -1928,7 +2091,99 @@
       "EtingofRepresentationTheory/Chapter2/Problem2_11_3_SymExtSubspace.lean",
       "EtingofRepresentationTheory/Chapter2/Problem2_11_3_Trace.lean"
     ],
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-27",
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.11",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "(a) Bilinear maps V × W → U are naturally equivalent to linear maps V ⊗ W → U.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_11_3.exists_bilinear_equiv_linear"
+        },
+        {
+          "claim": "(b) Tensor products of basis vectors form a basis of V ⊗ W.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_11_3.exists_basis_tensorProduct"
+        },
+        {
+          "claim": "(c) For finite-dimensional V, V* ⊗ W is naturally isomorphic to Hom(V,W).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_11_3.exists_dualTensor_equiv_hom"
+        },
+        {
+          "claim": "(d) SⁿV is the quotient of V^{⊗n} by permutation relations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_11_3.symRelSubmodule; Etingof.Problem2_11_3.SymPow"
+        },
+        {
+          "claim": "(d) ∧ⁿV is the quotient of V^{⊗n} by the alternating swap relations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_11_3.extRelSubmodule; Etingof.Problem2_11_3.ExtPow"
+        },
+        {
+          "claim": "(d) Ordered symmetric monomials in a basis of V form a basis of SⁿV.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_11_3.symPowBasis"
+        },
+        {
+          "claim": "(d) If dim V = m, then dim SⁿV = binomial(m+n-1,n).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_11_3.finrank_symPow; Etingof.Problem2_11_3.finrank_symPow_eq_multichoose"
+        },
+        {
+          "claim": "(d) Strictly increasing exterior monomials in a basis of V form a basis of ∧ⁿV.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_11_3.extPowBasis"
+        },
+        {
+          "claim": "(d) If dim V = m, then dim ∧ⁿV = binomial(m,n).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_11_3.finrank_extPow"
+        },
+        {
+          "claim": "(e) When n! is invertible, SⁿV identifies with the subspace of symmetric tensors.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_11_3.symPowEquivSymTensor; Etingof.Problem2_11_3.symPowEquivSymTensorOfCharZero"
+        },
+        {
+          "claim": "(e) When n! is invertible, ∧ⁿV identifies with the subspace of antisymmetric tensors.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_11_3.extPowEquivAltTensor; Etingof.Problem2_11_3.extPowEquivAltTensorOfCharZero"
+        },
+        {
+          "claim": "(f) A linear map A induces A^{⊗n}, SⁿA, and ∧ⁿA, functorially under composition.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_11_3.tensorPowMap; Etingof.Problem2_11_3.symPowMap; Etingof.Problem2_11_3.extPowMap; Etingof.Problem2_11_3.symPowMap_comp; Etingof.Problem2_11_3.extPowMap_comp"
+        },
+        {
+          "claim": "(f) Tr(SⁿA) is the complete homogeneous symmetric polynomial hₙ in the eigenvalues of A.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_11_3.trace_symPowMap; Etingof.Problem2_11_3.trace_symPowMap_of_charpoly"
+        },
+        {
+          "claim": "(f) Tr(∧ⁿA) is the elementary symmetric polynomial eₙ in the eigenvalues of A.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_11_3.trace_extPowMap; Etingof.Problem2_11_3.trace_extPowMap_of_charpoly"
+        },
+        {
+          "claim": "(g) On the top exterior power, ∧^dim(V) A acts by multiplication by det(A).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_11_3.extPowMap_top"
+        },
+        {
+          "claim": "(g) Functoriality of the top exterior power yields det(A ∘ B) = det(A) det(B).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_11_3.det_comp_of_extPowMap"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Remark2.11.4",
@@ -1942,7 +2197,26 @@
     "fidelity": "verified",
     "fidelity_note": "Formalized in Chapter2/Remark2_11_4.lean: Etingof.TensorProductOverRing A V W constructs V ⊗_A W for an arbitrary ring A (right A-module V, left A-module W) as the quotient of FreeAbelianGroup (V × W) by the bilinearity and balancing relations (tensorRelations). The three book relations are discharged as add_tmul, tmul_add, smul_tmul. Not in Mathlib: TensorProduct requires CommSemiring.",
     "fidelity_decl": "Etingof.TensorProductOverRing",
-    "fidelity_issue": 5366
+    "fidelity_issue": 5366,
+    "coverage": "covered_full",
+    "coverage_note": "The arbitrary-ring balanced tensor product is constructed as the stated free-abelian-group quotient, and its pure-tensor additivity and balancing relations are proved.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.11",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For an arbitrary ring A, a right A-module V, and a left A-module W, V ⊗_A W is the free abelian group on V × W modulo additivity and the balancing relation (va) ⊗ w = v ⊗ (aw).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.TensorProductOverRing; Etingof.TensorProductOverRing.tmul; Etingof.TensorProductOverRing.add_tmul; Etingof.TensorProductOverRing.tmul_add; Etingof.TensorProductOverRing.smul_tmul"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Exercise2.11.5",
@@ -1954,7 +2228,30 @@
     "end_line": 14,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "coverage_note": "The right-factor base-change algebra structure on A ⊗_K L and the natural (A ⊗_K L)-module structure on V ⊗_K L are constructed, including their pure-tensor formulas.",
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.11",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "If L/K is a field extension and A is a K-algebra, then A ⊗_K L is naturally an L-algebra.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Exercise2_11_5.instRightAlgebra; Etingof.Exercise2_11_5.algebraMap_right_apply"
+        },
+        {
+          "claim": "If V is an A-module, then V ⊗_K L is naturally an (A ⊗_K L)-module with the displayed pure-tensor action.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Exercise2_11_5.exists_module_baseChange"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Problem2.11.6",
@@ -1969,7 +2266,53 @@
     "note": "Intentional omission recorded in skipped-exercises.md. The standalone bimodule associativity and tensor-Hom adjunction are not formalized; the book's only downstream use, Frobenius reciprocity (Theorem 5.10.1), is proved directly with Mathlib's representation induction/restriction adjunction. Chapter2/Problem2_11_6.lean documents the source statements and replacement route without placeholder declarations.",
     "coverage": "covered_partial",
     "coverage_note": "Intentional omission per skipped-exercises.md: the standalone bimodule associativity and tensor-Hom adjunction are not rebuilt. Their only downstream use is replaced by the direct Mathlib induction/restriction adjunction proof of Theorem 5.10.1; no placeholder represents the omitted material.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.11",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "An (A,B)-bimodule is a vector space with commuting left A- and right B-module structures; left and right modules are the special cases (A,k) and (k,B).",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Module; Module.compHom; SMulCommClass"
+        },
+        {
+          "claim": "For a right B-module V and left B-module W, V ⊗_B W is the balanced tensor product from Remark 2.11.4.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.TensorProductOverRing"
+        },
+        {
+          "claim": "If V is an (A,B)-bimodule, then V ⊗_B W inherits the left A-action a(v ⊗ w) = (av) ⊗ w.",
+          "verdict": "intentional_omission",
+          "reason": "The project deliberately does not build the standalone noncommutative bimodule tensor-product API; this scope decision is recorded in skipped-exercises.md."
+        },
+        {
+          "claim": "If W is a (B,C)-bimodule, then V ⊗_B W inherits the right C-action (v ⊗ w)c = v ⊗ (wc), commuting with the left action when both are present.",
+          "verdict": "intentional_omission",
+          "reason": "The project deliberately does not build the standalone noncommutative bimodule tensor-product API; this scope decision is recorded in skipped-exercises.md."
+        },
+        {
+          "claim": "(a) The balanced tensor product of bimodules is associative via (v ⊗ w) ⊗ x ↦ v ⊗ (w ⊗ x).",
+          "verdict": "intentional_omission",
+          "reason": "Standalone bimodule tensor associativity is explicitly omitted by the policy in skipped-exercises.md and is not needed elsewhere in the formalized development."
+        },
+        {
+          "claim": "(b) Hom_A(V,W) has the displayed (B,C)-bimodule structure by precomposition on the left and postcomposition on the right.",
+          "verdict": "intentional_omission",
+          "reason": "The Hom-bimodule construction belongs to the deliberately omitted standalone bimodule API recorded in skipped-exercises.md."
+        },
+        {
+          "claim": "(b) There is the displayed (A,D)-bimodule tensor-Hom adjunction Hom_B(V, Hom_C(W,X)) ≅ Hom_C(W ⊗_B V, X).",
+          "verdict": "intentional_omission",
+          "reason": "This standalone adjunction is explicitly omitted in skipped-exercises.md; its only downstream application, Frobenius reciprocity, is formalized directly as Etingof.Theorem5_10_1."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Exercise2.11.7",
@@ -1981,8 +2324,25 @@
     "end_line": 26,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22",
-    "coverage_note": "Chapter2/Exercise2_11_7.lean shows that M ⊗[A] N is an A-module for a commutative ring A (TensorProduct.instModule via inferInstance), with the action lemmas a•(m⊗ₜn) = (a•m)⊗ₜn = m⊗ₜ(a•n). The corrected blob now contains this source statement."
+    "fidelity": "verified",
+    "last_updated": "2026-07-27",
+    "coverage_note": "Chapter2/Exercise2_11_7.lean shows that M ⊗[A] N is an A-module for a commutative ring A (TensorProduct.instModule via inferInstance), with the action lemmas a•(m⊗ₜn) = (a•m)⊗ₜn = m⊗ₜ(a•n). The corrected blob now contains this source statement.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.11",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For modules M and N over a commutative ring A, M ⊗_A N is naturally an A-module, with scalar multiplication acting equivalently on either factor.",
+          "verdict": "formalized",
+          "lean_decl": "TensorProduct.instModule; TensorProduct.smul_tmul'; TensorProduct.tmul_smul"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_2.12_heading",
