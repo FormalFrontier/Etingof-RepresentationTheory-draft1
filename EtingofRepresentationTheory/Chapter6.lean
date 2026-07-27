@@ -78,6 +78,7 @@ import EtingofRepresentationTheory.Chapter6.Example6_8_5_Geometry
 -- Section 6.9: Problems
 import EtingofRepresentationTheory.Chapter6.Problem6_9_1
 import EtingofRepresentationTheory.Chapter6.Problem6_9_2
+import EtingofRepresentationTheory.Chapter6.Problem6_9_2_RootSystem
 import EtingofRepresentationTheory.Chapter6.Problem6_9_3
 import EtingofRepresentationTheory.Chapter6.Problem6_9_3_JordanHolder
 

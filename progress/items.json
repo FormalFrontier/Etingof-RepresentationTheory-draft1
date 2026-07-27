@@ -8062,12 +8062,13 @@
     "end_page": "178",
     "start_line": 15,
     "end_line": 24,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "coverage_note": "The E8 lattice basis, chosen-vector Gram matrix, coordinate-equality sublattices, and E6/E7/E8 root counts are proved. The root-system axioms and the actual E8/E7/E6 type-identification theorems required by parts (b) and (c) are absent (#7557).",
-    "coverage": "covered_partial",
-    "coverage_issue": 7557,
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "full",
+    "sorry_free": true,
+    "coverage_note": "The lattice basis, coordinate descriptions, and root counts are joined to a faithful finite reduced simply-laced crystallographic root-system predicate. The E8, E7, and E6 root sets are proved finite, norm-two, reduced, integral, closed under negation, and closed under root reflections. Explicit compatible simple-root families are exhibited and their Gram graphs are proved to be the standard E8, E7, and E6 Dynkin diagrams, packaged by rootsOf_E8_type_E8, rootsOf_E7_type_E7, and rootsOf_E6_type_E6. All declarations are sorryAx-free; #7557 resolved.",
+    "coverage": "covered",
+    "lean_file": "EtingofRepresentationTheory/Chapter6/Problem6_9_2.lean;EtingofRepresentationTheory/Chapter6/Problem6_9_2_RootSystem.lean",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter6/Problem6.9.3",

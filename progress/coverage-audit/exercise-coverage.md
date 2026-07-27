@@ -108,7 +108,7 @@ Clebsch-Gordan, Jacobson-Morozov open.
 - [ ] `Chapter6/Problem6.1.5_parts`
 - [ ] `Chapter6/Problem6.1.6`
 - [x] `Chapter6/Problem6.9.1` -> Problem6_9_1
-- [ ] `Chapter6/Problem6.9.2`
+- [x] `Chapter6/Problem6.9.2` -> Problem6_9_2;Problem6_9_2_RootSystem
 - [ ] `Chapter6/Problem6.9.3`
 - [ ] `Chapter7/Problem7.7.3`
 - [ ] `Chapter7/Exercise7.8.4`
