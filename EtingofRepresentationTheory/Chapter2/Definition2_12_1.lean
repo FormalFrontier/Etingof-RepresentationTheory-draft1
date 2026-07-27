@@ -243,7 +243,7 @@ noncomputable def coordFreeToUeaBasis :
   simp [ueaBasisToCoordFree]
 
 /-- Formula for the inverse map on the canonical image of a Lie algebra element. -/
-@[simp] theorem coordFreeToUeaBasis_ι (x : L) :
+theorem coordFreeToUeaBasis_ι (x : L) :
     coordFreeToUeaBasis k L b (UniversalEnvelopingAlgebra.ι k x) =
       basisGenLinear k L b x := by
   rw [coordFreeToUeaBasis, UniversalEnvelopingAlgebra.lift_ι_apply]

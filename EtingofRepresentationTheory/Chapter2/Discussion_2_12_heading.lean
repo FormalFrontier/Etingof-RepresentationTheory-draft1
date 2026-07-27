@@ -34,7 +34,7 @@ noncomputable def tensorAlgebraEquivDirectSum :
 
 /-- Under the direct-sum description, a pure `n`-fold tensor lies in exactly the degree-`n`
 summand. -/
-@[simp] theorem tensorAlgebraEquivDirectSum_tprod {n : ℕ} (x : Fin n → V) :
+theorem tensorAlgebraEquivDirectSum_tprod {n : ℕ} (x : Fin n → V) :
     tensorAlgebraEquivDirectSum k V (TensorAlgebra.tprod k V n x) =
       DirectSum.of (fun n : ℕ => ⨂[k]^n V) n (PiTensorProduct.tprod k x) :=
   TensorAlgebra.toDirectSum_tensorPower_tprod x
