@@ -179,8 +179,6 @@ These exercises were removed from the original skip list after substantial
 formalization, but a later fidelity audit found a remaining source-level endpoint.
 They are active work, not intentional omissions:
 
-- Problem 2.16.3 — the dimension and non-finiteness results are proved, but the
-  requested explicit basis of `g_4` remains #7394;
 - Problem 4.12.8 — the finite-subgroup classification of `SO(3)` and much of the
   `SU(2)` double-cover analysis are proved, but the `-1 ∉ H` branch currently gives
   only `H ≃ h(H)` rather than the required cyclic conclusion. The exact `SU(2)`
