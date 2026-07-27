@@ -238,6 +238,20 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.isAlgClosed_iff_nonconstant_polynomial_has_root",
+        "Etingof.complex_isAlgClosed",
+        "Etingof.zmodField",
+        "Etingof.card_zmod",
+        "Etingof.algebraicClosure_zmod_isAlgClosed",
+        "Etingof.algebraicClosure_zmod_charP"
+      ]
+    },
     "coverage_note": "All mathematical claims in the introductory paragraph are explicit: the root/splitting bridge, the complex example, and the positive-characteristic algebraic-closure example.",
     "last_updated": "2026-07-27",
     "coverage_swept": {
@@ -273,6 +287,15 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.AssociativeAlgebra"
+      ]
+    },
     "fidelity_note": "The custom class is genuinely non-unital and records multiplication, associativity, additivity, and scalar compatibility in both arguments. No class data or definition body is sorried; closed issue #5616 describes the superseded unital encoding.",
     "coverage_note": "The carrier assumptions and every bilinearity/associativity component of the source definition are fields or parameters of Etingof.AssociativeAlgebra.",
     "last_updated": "2026-07-27"
@@ -303,6 +326,15 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.AssociativeAlgebra.IsUnit"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.AssociativeAlgebra.IsUnit"
       ]
     },
     "fidelity_note": "IsUnit is a predicate on an arbitrary element of the non-unital structure and quantifies both identity laws over every algebra element. It does not presuppose a Ring or canonical one; closed issue #5617 describes the superseded vacuous theorem.",
@@ -338,6 +370,15 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Proposition_2_2_3"
+      ]
+    },
     "coverage_note": "The item-local theorem now compares two arbitrary elements satisfying Definition 2.2.2 and reuses the exact non-unital uniqueness proof AssociativeAlgebra.isUnit_unique.",
     "last_updated": "2026-07-27"
   },
@@ -368,6 +409,14 @@
           "reason": "This is an editorial notation convention rather than a mathematical assertion; later declarations implement it with Mathlib's unital Algebra typeclass."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": [],
+      "basis": "The item is an editorial convention and has no mathematical proof obligation."
     },
     "coverage_note": "The sole sentence is an editorial convention, and its implementation is checked in the subsequent unital algebra items.",
     "last_updated": "2026-07-27",
@@ -434,6 +483,14 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [],
+      "basis": "All seven claims are elaborated anonymous examples using Mathlib's canonical algebra, basis, and multiplication APIs."
+    },
     "coverage_note": "All five examples and the stated multiplication/basis descriptions are machine checked. In particular, the polynomial example now uses Fin n variables rather than only one variable.",
     "last_updated": "2026-07-27"
   },
@@ -463,6 +520,15 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.CommutativeAlgebra (via CommRing.mul_comm)"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.CommutativeAlgebra"
       ]
     },
     "coverage_note": "Under the immediately preceding unital convention, CommRing together with Algebra records exactly the universal multiplication-commutativity condition; no nontrivial representation bridge is needed.",
@@ -512,6 +578,17 @@
           "lean_decl": "Etingof.monoidAlgebra_mul_comm_iff"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.monoidAlgebra_mul_comm_iff",
+        "Etingof.End_noncommutative_of_two_le_rank",
+        "Etingof.freeAlgebra_noncommutative_of_one_lt"
+      ]
     }
   },
   {
@@ -540,6 +617,15 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.AlgebraHom (Mathlib AlgHom)"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.AlgebraHom"
       ]
     },
     "coverage_note": "AlgHom records every source component: k-linearity, f(xy) = f(x)f(y), and f(1) = 1. The representations are definitionally the same under the active unital convention.",
