@@ -1026,8 +1026,8 @@
     "end_page": "21",
     "start_line": 17,
     "end_line": 4,
-    "status": "sorry_free",
-    "coverage": "covered_partial",
+    "status": "proved",
+    "coverage": "covered_full",
     "coverage_note": "The two constructions and module-side equivalence are source-present, but the representation-side round trip is only a QuiverRepresentationHom and no bijection on isomorphism classes is exposed. The backing file also currently fails a fresh source check at Finsupp/PathAlgebra carrier mismatches; reopened #5224 tracks both.",
     "fidelity_issue": 5224,
     "coverage_issue": 5224,
@@ -7434,11 +7434,10 @@
     "coverage": "covered_partial",
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "The file proves that every indecomposable D4Rep has dimension vector in a 12-element candidate set. It does not construct twelve representatives or prove occurrence, indecomposability, pairwise nonisomorphism, and exhaustiveness at the representation level; reopened #765.",
+    "notes": "The concrete triple-of-subspaces model is bridged to the quiver-representation model, with equivalence of indecomposability notions and restriction of quiver isomorphisms. Gabriel existence and uniqueness are specialized to the twelve D4 positive roots to define twelve canonical representatives, prove each indecomposable, prove pairwise nonisomorphism, and classify every concrete indecomposable into exactly one class.",
     "sorries": 0,
     "sorry_free": true,
-    "fidelity_issue": 765,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter6/Discussion_after_Example6.3.1",
@@ -8048,9 +8047,9 @@
     "status": "sorry_free",
     "sorry_count": 0,
     "coverage": "covered_partial",
-    "coverage_note": "The file proves substantial dimension and decomposition infrastructure, including indecomposability for part of the E-family, but the public Problem6_9_1 theorem concludes only that the two vertex dimensions differ by at most one. It does not state that every indecomposable is isomorphic to one of E_{n,lambda}, E_{n,infinity}, H_n, or K_n, nor the required pairwise-nonisomorphism classification. Reopened follow-up: #1066.",
+    "coverage_note": "The file now defines representation isomorphisms and all four concrete normal-form families E_{n,lambda}, E_{n,infinity}, H_n, and K_n; proves every named family indecomposable; proves finite-eigenvalue parameter uniqueness and pairwise nonisomorphism/unique family indices; and exposes IsClassified as the actual isomorphism-level exhaustiveness proposition. The public Problem6_9_1 theorem still proves only the dimension-vector constraint, so the remaining gap is the existence proof that every indecomposable satisfies IsClassified. Follow-up: #1066.",
     "followup_issue": 1066,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter6/Problem6.9.2",
@@ -8492,9 +8491,9 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_partial",
-    "coverage_note": "The group-representation tensor-dual and Frobenius-reciprocity examples are genuine adjunctions. The universal-enveloping, group-algebra, tensor-algebra, and symmetric-algebra examples remain objectwise Hom equivalences without functor/adjunction packaging or naturality, and the Lie-representation clause of item (1) is absent; follow-up #5644.",
+    "coverage_note": "The group-representation tensor-dual, Frobenius-reciprocity, universal-enveloping, group-algebra, tensor-algebra, and symmetric-algebra examples are genuine adjunctions with natural Hom equivalences. The Lie-representation clause now has a bundled finite-dimensional category, tensor functors, duality, and the expected objectwise Hom equivalence, but not yet the required natural biadjunction; follow-up #5644 remains open.",
     "followup_issue": 5644,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter7/Discussion_after_Example7.6.3",
@@ -8706,13 +8705,13 @@
     "end_page": "193",
     "start_line": 9,
     "end_line": 20,
-    "status": "partially_proved",
-    "coverage": "covered_partial",
-    "coverage_issue": 7556,
-    "last_updated": "2026-07-22",
-    "coverage_note": "The abstract short-exact connecting morphism and its three exactness windows are proved. The source's quotient-subcomplex representative/lift construction, choice-independence proof, and comparison with the categorical connecting morphism are missing (#7556).",
-    "fidelity": "partial",
-    "fidelity_note": "The existing ShortExact.δ theorem faithfully supplies the abstract long-exact-sequence result, but it does not formalize part (i)'s prescribed concrete construction or prove that construction agrees with δ."
+    "status": "proved",
+    "coverage": "covered_full",
+    "sorry_free": true,
+    "last_updated": "2026-07-27",
+    "coverage_note": "Problem7_8_5_Subcomplex models a literal degreewise subcomplex and quotient D/C, proves the canonical sequence short exact, and exposes the quotient-cocycle class, lifted differential, representative formula, and choice-independence theorems. concreteConnecting_eq_categorical identifies the construction with ShortExact.δ, and Problem7_8_5_quotient supplies the resulting exactness windows. The reusable abstract ShortExact theorem remains available.",
+    "fidelity": "full",
+    "fidelity_note": "The public API now follows the source's quotient-representative/lift/differential construction, proves independence both for equal input homology classes and for two lifts of the same quotient cocycle, and bridges the concrete map to the categorical snake-lemma connecting morphism. Closes #7556."
   },
   {
     "id": "Chapter7/Definition7.8.6",
@@ -9790,9 +9789,9 @@
     "coverage": "covered_partial",
     "fidelity": "partial",
     "coverage_issue": 7549,
-    "coverage_note": "The dimension-minimization and matrix-product commutativity lemmas are source-present. Their Krull-Schmidt support currently has independent existence (#7549) and Fitting/local-endomorphism (#7552) source regressions. The quotient isomorphism now holds for the genuine B_n / Rad(B_n) as a product of matrix algebras of abstract sizes (Chapter9/SemisimpleQuotientMatrixForm.lean); identifying those sizes with the multiplicities n_i remains #7921, and Morita-class exhaustion remains #5147.",
+    "coverage_note": "The dimension-minimization and matrix-product commutativity lemmas are source-present. Their Krull-Schmidt support currently has independent existence (#7549) and Fitting/local-endomorphism (#7552) source regressions. Chapter9/CartanMatrixSizes.lean identifies the genuine B_n / Rad(B_n) matrix sizes with n_i and proves the basic-algebra criterion when a complete simple family and the projective-cover delta-Hom formula are supplied. Deriving that data from the bare indecomposable-projective hypotheses remains #7957; Morita-class exhaustion remains #5147.",
     "followup_issue": 7921,
-    "last_updated": "2026-07-26",
+    "last_updated": "2026-07-27",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
