@@ -1,10 +1,3 @@
-import Mathlib.Algebra.Lie.OfAssociative
-import Mathlib.Algebra.Lie.Submodule
-import Mathlib.LinearAlgebra.Dimension.Finite
-import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
-import Mathlib.Algebra.DirectSum.Module
-import Mathlib.Analysis.Complex.Polynomial.Basic
-import EtingofRepresentationTheory.Chapter2.Sl2Irrep
 import EtingofRepresentationTheory.Chapter2.Theorem2_1_1
 
 /-!

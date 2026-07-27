@@ -1,11 +1,5 @@
-import Mathlib.Algebra.Lie.Classical
 import Mathlib.Algebra.Lie.Semisimple.Defs
 import Mathlib.Algebra.Lie.Sl2
-import Mathlib.Algebra.Lie.OfAssociative
-import Mathlib.Data.Complex.Basic
-import Mathlib.LinearAlgebra.Dimension.Finrank
-import Mathlib.LinearAlgebra.Dimension.Finite
-import Mathlib.LinearAlgebra.StdBasis
 import EtingofRepresentationTheory.Chapter2.Sl2Defs
 
 /-!

@@ -1,7 +1,3 @@
-import Mathlib.Algebra.Ring.GeomSum
-import Mathlib.Algebra.Polynomial.Eval.Defs
-import Mathlib.Algebra.Polynomial.Monic
-import Mathlib.RingTheory.Polynomial.Basic
 import EtingofRepresentationTheory.Chapter2.Sl2Irrep
 
 /-!

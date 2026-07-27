@@ -1,9 +1,4 @@
-import Mathlib.Algebra.Lie.TensorProduct
 import Mathlib.Algebra.Lie.DirectSum
-import Mathlib.Data.Nat.Choose.Basic
-import Mathlib.LinearAlgebra.Basis.Basic
-import Mathlib.LinearAlgebra.Dimension.Constructions
-import EtingofRepresentationTheory.Chapter2.Sl2Irrep
 import EtingofRepresentationTheory.Chapter2.Problem2_15_1_m
 import EtingofRepresentationTheory.Chapter2.Problem2_15_1_complete_reducibility
 

@@ -4319,7 +4319,7 @@
     "end_page": "37",
     "start_line": 21,
     "end_line": 24,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "coverage_note": "Stage 3.2 reviewed the section heading and its organizational prose. It introduces the exercise sequence but makes no mathematical claim requiring a Lean declaration.",
     "last_updated": "2026-07-27",
@@ -4346,6 +4346,13 @@
       "proof_integrity": "not_applicable",
       "declarations": []
     },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.15",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This organizational heading makes no mathematical assertion and depends on no earlier project item."
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -4359,7 +4366,7 @@
     "end_page": "39",
     "start_line": 25,
     "end_line": 16,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_partial",
     "coverage_note": "Stage 3.2 audited all twelve attached providers against every source part. Parts (a)-(h), the complete-reducibility conclusion behind (i)-(k), and parts (l)-(n) are formalized with honest definitions and concrete standard modules. This pass added the converse operator-triple constructor and the exact part-(h) Casimir eigenvalue. The source's particular minimal-counterexample intermediates in (i)-(k) are intentionally not duplicated because stronger complete-reducibility and semisimple-decomposition theorems establish their intended conclusion; the analytic Tr(exp(xH)) hint in (m) is likewise replaced by an algebraic character-polynomial identity and an explicit module isomorphism.",
     "last_updated": "2026-07-27",
@@ -4498,6 +4505,16 @@
         "Etingof.Sl2Irrep.jordan_normal_form_tensor"
       ],
       "scope_note": "The declaration list records the source-facing proof endpoints. The audit programmatically checked all 268 exported constants and all 710 constants attributed to the twelve scoped provider modules, including support declarations, private helpers, instances, and generated equations. Parts (i)-(k) and the analytic character hint in (m) remain the intentional proof-route omissions classified at Stage 3.2; no unproved declaration represents them."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.15",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Theorem2.1.1",
+        "Chapter2/Discussion_concrete_Lie_examples"
+      ],
+      "basis": "The proof providers use the classification and complete-reducibility results from Theorem 2.1.1 and the concrete sl(2) definition and relations introduced in the earlier Lie-algebra examples. All remaining project imports connect providers for this same exercise; transitively redundant Mathlib and project imports were removed from eight of the twelve providers."
     }
   },
   {

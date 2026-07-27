@@ -1,13 +1,4 @@
-import Mathlib.Algebra.Lie.Quotient
-import Mathlib.Algebra.Lie.Semisimple.Defs
-import Mathlib.Algebra.Lie.Sl2
 import Mathlib.Analysis.Complex.Polynomial.Basic
-import Mathlib.Data.Complex.Basic
-import Mathlib.LinearAlgebra.Dimension.Finrank
-import Mathlib.LinearAlgebra.Dimension.Finite
-import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
-import Mathlib.Tactic.NoncommRing
-import EtingofRepresentationTheory.Chapter2.Sl2Defs
 import EtingofRepresentationTheory.Chapter2.Sl2Irrep
 
 /-!

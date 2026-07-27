@@ -1,4 +1,3 @@
-import EtingofRepresentationTheory.Chapter2.Problem2_15_1_l
 import EtingofRepresentationTheory.Chapter2.Sl2JordanTypeIso
 
 /-!
