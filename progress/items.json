@@ -2505,7 +2505,7 @@
     "end_page": "52",
     "start_line": 3,
     "end_line": 10,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "sorry_free": true,
     "notes": "Introduction3_6.lean: character_mul_comm (χ_V(xy)=χ_V(yx) via LinearMap.trace_mul_comm); commutatorSubmodule [A,A]; commutatorSubmodule_le_ker_character ([A,A] ⊆ ker χ_V); characterQuotient (χ_V factors through A/[A,A]).",
     "coverage_swept": {
@@ -2574,6 +2574,13 @@
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [],
       "basis": "The apparent import of Theorem3_6_2 supplies the character declaration tracked by this same introduction item; its six transitive Mathlib imports are removed from that provider, and the introduction has no actual backward book-item dependency."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.6",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The character, cyclicity, commutator-span, kernel, and quotient declarations are fully documented, warning-free, import-irredundant, axiom-clean, and clean under all 16 default declaration linters plus docBlameThm. The trace construction has a documented narrow unusedArguments exemption for the freeness and finiteness instances required only by its body."
     }
   },
   {
@@ -2584,7 +2591,7 @@
     "end_page": "52",
     "start_line": 11,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "sorry_free": true,
     "coverage_note": "Coverage-arm audit (Stage 3.7, #7371): covered_full. Chapter3/Exercise3_6_1.lean (sorry-free on origin/main, 0 sorries) proves character_eq_character_add_character_quotient: for a finite dimensional representation V of an algebra A (Field k, Ring A, Algebra k A, IsScalarTower k A V, FiniteDimensional k V) and an ARBITRARY subrepresentation W : Submodule A V, Etingof.character k A V = Etingof.character k A W + Etingof.character k A (V ⧸ W) as elements of Dual k A. This is the book's χ_V = χ_W + χ_{V/W} for arbitrary W ⊂ V, proved by additivity of trace along the split short exact sequence 0 → W → V → V/W → 0. W is genuinely universally quantified (not a fixed hand-picked submodule); the quotient character uses the honest V ⧸ W representation.",
     "fidelity": "verified",
@@ -2632,6 +2639,13 @@
         "Chapter3/Introduction_to_3.6"
       ],
       "basis": "The exercise uses Etingof.character from the section introduction. Its sole project import is already irredundant, and it does not use a declaration from Theorem 3.6.2 beyond the character declaration cataloged under the introduction."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.6",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The arbitrary-subrepresentation character-additivity theorem and both supporting finite-dimensionality instances are documented, warning-free, import-irredundant, axiom-clean, and clean under all 16 default declaration linters plus docBlameThm. Two goal-changing show tactics were replaced by explicit change steps."
     }
   },
   {
@@ -2642,7 +2656,7 @@
     "end_page": "53",
     "start_line": 13,
     "end_line": 2,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "fidelity": "verified",
     "notes": "All parts proved sorry-free: (i) linear independence of characters, (ii) characters span tracial functionals for semisimple algebras. Helper lemmas tracial_of_end_eq_scalar_trace and rep_map_injective_of_semisimple also proved. The proof's standalone identity [Mat_d(k),Mat_d(k)] = sl_d(k) is now a public endpoint, commutatorSubmodule_matrix_eq_ker_trace (and its Fin d specialization commutatorSubmodule_matrix_fin_eq_ker_trace) in CommutatorMatrixTraceless.lean.",
     "sorry_free": true,
@@ -2756,6 +2770,13 @@
         "Chapter3/Introduction_to_3.6"
       ],
       "basis": "The linear-independence proof directly uses density_theorem_part2 from Theorem 3.2.2, while the matrix provider directly uses commutatorSubmodule from the section introduction. Eight transitive Mathlib imports were removed across the theorem providers; the remaining direct imports are redundancy-clean."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.6",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The public index assumptions were generalized from Fintype to Finite, the private injectivity helper dropped an unused finiteness assumption, and deprecated, goal-changing, and unused simp syntax was removed. Both theorem providers are documented, warning-free, import-irredundant, axiom-clean, and clean under all 16 default declaration linters plus docBlameThm."
     }
   },
   {
