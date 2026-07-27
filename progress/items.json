@@ -253,7 +253,7 @@
         {
           "claim": "Finding N-dimensional representations of this presentation amounts to solving the displayed relations in N by N matrices.",
           "verdict": "covered_elsewhere",
-          "lean_decl": "Etingof.Example2_9_12.presentationEquiv; Etingof.Representation.toAlgHom; Module.End.instAlgebra"
+          "lean_decl": "Etingof.Example2_9_12.presentationEquiv; Etingof.Representation.toAlgHom; Etingof.PresentedAlgebra.lift; Etingof.PresentedAlgebra.hom_ext; LinearMap.toMatrixAlgEquiv'"
         },
         {
           "claim": "It is striking that representation theory can solve such apparently complicated systems completely.",
@@ -388,7 +388,7 @@
     "coverage": "covered_full",
     "fidelity": "verified",
     "needs_statement": false,
-    "fidelity_note": "The algebraically closed case is proved by Theorem_2_1_2_general, including loops, parallel arrows, and opposite arrows. Stage 3.2 added Theorem_2_1_2_general_arbitrary_field for the footnote's stronger arbitrary-field assertion; its statement is faithful and nonvacuous but its proof remains for Stage 3.3. Theorem_Dynkin_classification supplies the explicit A/D/E list rather than relying only on the predicate name IsDynkinDiagram.",
+    "fidelity_note": "The algebraically closed case is proved by Theorem_2_1_2_general, including loops, parallel arrows, and opposite arrows. Stage 3.2 added Theorem_2_1_2_general_arbitrary_field for the footnote's stronger arbitrary-field assertion; its statement is faithful and nonvacuous but its proof remains for Stage 3.3. For nonempty graphs (1 ≤ n), Theorem_Dynkin_classification supplies the explicit A/D/E list rather than relying only on the predicate name IsDynkinDiagram; the scope excludes the vacuous zero-vertex bookkeeping case.",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -409,7 +409,7 @@
           "lean_decl": "Etingof.Theorem_2_1_2_general_arbitrary_field"
         },
         {
-          "claim": "The connected Dynkin graphs are precisely A_n, D_n, E6, E7, and E8.",
+          "claim": "The nonempty connected Dynkin graphs are precisely A_n, D_n, E6, E7, and E8.",
           "verdict": "covered_elsewhere",
           "lean_decl": "Etingof.DynkinType; Etingof.Theorem_Dynkin_classification"
         },
