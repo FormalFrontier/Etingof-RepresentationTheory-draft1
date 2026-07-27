@@ -16,6 +16,7 @@ import EtingofRepresentationTheory.Chapter2.Theorem2_1_2
 import EtingofRepresentationTheory.Chapter2.Theorem2_1_2_General
 
 -- Section 2.2: Algebras
+import EtingofRepresentationTheory.Chapter2.Discussion_2_2_intro
 import EtingofRepresentationTheory.Chapter2.Definition2_2_1
 import EtingofRepresentationTheory.Chapter2.Definition2_2_2
 import EtingofRepresentationTheory.Chapter2.Definition2_2_5
