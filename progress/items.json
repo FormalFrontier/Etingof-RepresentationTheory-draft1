@@ -8150,16 +8150,21 @@
     "start_line": 13,
     "end_line": 13,
     "status": "proof_polished",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "fidelity": "verified",
     "lean_decl": [
       "Etingof.Problem2_16_4.finrank_irreducible_le_char",
-      "Etingof.Problem2_16_4.exists_irreducible_dim_char"
+      "Etingof.Problem2_16_4.exists_irreducible_dim_char",
+      "Etingof.Problem2_16_4.Reprise.Parameter",
+      "Etingof.Problem2_16_4.Reprise.parameter_isIrreducible",
+      "Etingof.Problem2_16_4.Reprise.parameter_isomorphic_iff",
+      "Etingof.Problem2_16_4.Reprise.exists_parameter_equiv",
+      "Etingof.Problem2_16_4.Reprise.classificationEquiv"
     ],
-    "lean_file": "EtingofRepresentationTheory/Chapter2/Problem2_16_4.lean",
-    "notes": "The dimension bound and standard examples are the early partial treatment. Parameterization, isomorphism criteria, and exhaustiveness remain assigned to the later reprise in deferred-reprises.md. Regression #7531 restored fresh elaboration of the existing partial endpoints without changing that deferral decision.",
-    "coverage_note": "The provider builds the standard modules of dimensions 1 through p and proves their irreducibility, proves dim V ≤ p for every finite-dimensional irreducible, and proves sharpness. All these endpoints now pass a fresh build. The explicit parameter family, isomorphism criteria, and exhaustiveness required for a full classification remain a documented unfinished reprise; no placeholder declaration represents them.",
-    "last_updated": "2026-07-27",
+    "lean_file": "EtingofRepresentationTheory/Reprises/Problem2_16_4.lean",
+    "notes": "The Chapter 2 endpoints remain available. The later treatment completes the ordinary unrestricted characteristic-p classification with restricted, highest-weight, and cyclic presentations, irreducibility, isomorphism classes, and exhaustiveness.",
+    "coverage_note": "The standard modules and dimension bound are in Chapter 2. The complete parameter family, genuine Lie actions, irreducibility theorem, isomorphism API, exhaustive normal-form theorem, and public quotient classification equivalence are in Reprises/Problem2_16_4.lean.",
+    "last_updated": "2026-07-28",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -8181,38 +8186,38 @@
         },
         {
           "claim": "The characteristic-p irreducibles are described by an explicit complete parameter family.",
-          "verdict": "intentional_omission",
-          "reason": "This is unfinished work assigned to the later reprise in deferred-reprises.md, not a permanent scope exclusion; no placeholder theorem is introduced at the Chapter 2 location."
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_4.Reprise.Parameter; Etingof.Problem2_16_4.Reprise.parameterLieHom"
         },
         {
           "claim": "The classification determines exactly when two parameterized modules are isomorphic.",
-          "verdict": "intentional_omission",
-          "reason": "The isomorphism criterion is an explicit acceptance requirement of the documented later reprise and is not claimed by the partial Chapter 2 endpoints."
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_4.Reprise.parameter_isomorphic_iff; Etingof.Problem2_16_4.Reprise.classificationEquiv"
         },
         {
           "claim": "Every finite-dimensional irreducible sl(2,k)-module occurs in the parameter family.",
-          "verdict": "intentional_omission",
-          "reason": "Exhaustiveness is an explicit acceptance requirement of the documented later reprise and is not represented by a weakened or assumed wrapper."
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_4.Reprise.exists_parameter_equiv"
         }
       ]
     },
     "stage3_3": {
       "status": "complete",
       "section": "2.16",
-      "verified_on": "2026-07-27",
+      "verified_on": "2026-07-28",
       "proof_integrity": "sorry_free",
       "declarations": [
         "Etingof.Problem2_16_4.irrep_finrank",
         "Etingof.Problem2_16_4.irrep_isIrreducible",
         "Etingof.Problem2_16_4.finrank_irreducible_le_char",
-        "Etingof.Problem2_16_4.exists_irreducible_dim_char"
+        "Etingof.Problem2_16_4.exists_irreducible_dim_char",
+        "Etingof.Problem2_16_4.Reprise.parameter_isIrreducible",
+        "Etingof.Problem2_16_4.Reprise.parameter_isomorphic_iff",
+        "Etingof.Problem2_16_4.Reprise.exists_parameter_equiv",
+        "Etingof.Problem2_16_4.Reprise.classificationEquiv"
       ],
-      "basis": "All 119 constants attributed to the provider, including all 109 module-attributed proof constants, were axiom-audited. This certifies only the four existing partial-treatment endpoints, not the three deferred classification units.",
-      "intentional_omissions": [
-        "explicit complete parameter family for characteristic-p irreducibles (unfinished later reprise)",
-        "isomorphism criterion for the parameterized modules (unfinished later reprise)",
-        "exhaustiveness of the parameter family (unfinished later reprise)"
-      ]
+      "basis": "The Chapter 2 endpoints and the later complete classification declarations are source-present and placeholder-free.",
+      "intentional_omissions": []
     },
     "stage3_4": {
       "status": "complete",

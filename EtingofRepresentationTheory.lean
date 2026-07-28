@@ -25,3 +25,4 @@ import EtingofRepresentationTheory.Chapter6
 import EtingofRepresentationTheory.Chapter7
 import EtingofRepresentationTheory.Chapter8
 import EtingofRepresentationTheory.Chapter9
+import EtingofRepresentationTheory.Reprises
