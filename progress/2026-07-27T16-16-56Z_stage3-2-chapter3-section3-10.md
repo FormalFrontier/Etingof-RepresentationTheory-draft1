@@ -11,26 +11,30 @@ also closes Chapter 3. The six source blobs are served by four Lean providers:
 
 ## Claim audit
 
-All six blobs and all four providers were read in full. The durable inventory has 21 claim units:
+All six blobs and all four providers were read in full. The corrected durable inventory has 22
+claim units:
 
 - 16 `formalized`;
 - 2 `covered_elsewhere` by precise Mathlib or project declarations;
 - 3 `non_formalizable` organizational or qualitative units;
+- 1 `intentional_omission`;
 - zero accidental or unclassified gaps.
 
 The theorem provider covers part (i), the existence statement in part (ii), and uniqueness up to
 factor isomorphism. Its public APIs assume finite-dimensionality only of the representations, not
 of the algebras, and regression examples instantiate both parts with the infinite-dimensional
-algebra `k[X]`. The exact scoped build now succeeds, so tracker regression #7520 is stale on the
-audited `main` commit.
+algebra `k[X]`. The exact scoped build succeeds.
 
-The source proof is also represented independently. `TensorProductRadical.lean` formalizes the
-image-algebra reduction, the nilpotent easy inclusion, the semisimple-quotient hard inclusion, the
-radical equality, and both quotient identifications. The theorem file itself uses a separate
-density/Artinian proof, so the source route and the theorem endpoint do not depend on each other.
-Both infinite-dimensional failures in Remark 3.10.3 are covered: the rational-function tensor
-algebra is not a field, and the simple entangled Weyl module cannot be an external tensor product
-with a simple first factor.
+The radical calculation in the source proof is also represented independently.
+`TensorProductRadical.lean` formalizes the radical equality on the finite-dimensional image
+algebras, the nilpotent easy inclusion, the semisimple-quotient hard inclusion, and both quotient
+identifications. It does not package the preceding module descent that makes `M` an
+`A' ⊗ B'`-representation and justifies replacing `A`, `B` by their images without loss of
+generality; that reduction is the inventory's one intentional omission. The theorem file itself
+uses a separate density/Artinian proof, so all theorem endpoints remain fully formalized. Both
+infinite-dimensional failures in Remark 3.10.3 are covered: the rational-function tensor algebra
+is not a field, and the simple entangled Weyl module cannot be an external tensor product with a
+simple first factor.
 
 ## Declaration and trust audit
 
@@ -46,7 +50,7 @@ constant found only `propext`, `Classical.choice`, and `Quot.sound`.
 - all four scoped providers build successfully together; the warnings are pre-existing
   linter/deprecation warnings and the theorem provider's existing style warnings;
 - the full `EtingofRepresentationTheory.Chapter3` build succeeds;
-- JSON syntax, the exact six-item/21-claim verdict aggregation, the four schema/dependency/coverage
+- JSON syntax, the exact six-item/22-claim verdict aggregation, the four schema/dependency/coverage
   validators, and normalized out-of-scope tracker invariance pass;
 - `scripts/verify_blobs.py` retains its pre-existing `KeyError: 'id'` because it does not skip the
   ten derived overlay records keyed by `derived_from`; no blob or page file changed in this audit;

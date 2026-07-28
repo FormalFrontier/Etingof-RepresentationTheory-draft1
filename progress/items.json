@@ -4433,7 +4433,7 @@
     "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "covered_full"
     },
     "claim_coverage": {
       "stage": "3.2",
@@ -4487,6 +4487,10 @@
     "coverage_note": "Coverage-arm audit (Stage 3.7, #7371): covered_full. Chapter3/Exercise3_10_1.lean (sorry-free on origin/main, 0 sorries) proves matrix_tensorProduct_matrix: Nonempty ((Mat_m(k) ⊗[k] Mat_n(k)) ≃ₐ[k] Mat_{mn}(k)), a genuine k-ALGEBRA isomorphism (≃ₐ[k], not merely k-linear or ring), built from Matrix.kroneckerTMulAlgEquiv, Algebra.TensorProduct.rid and Matrix.reindexAlgEquiv along finProdFinEquiv (Fin m × Fin n ≃ Fin (m*n)). Faithful to the book's Mat_m(k) ⊗ Mat_n(k) ≅ Mat_{mn}(k); in fact strengthened from the book's field k to an arbitrary CommRing k.",
     "fidelity": "verified",
     "coverage": "covered_full",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered_full"
+    },
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Exercise3_10_1.lean"
@@ -4537,7 +4541,7 @@
     "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "non_formalizable"
     },
     "claim_coverage": {
       "stage": "3.2",
@@ -4580,14 +4584,16 @@
     "start_line": 13,
     "end_line": 16,
     "status": "dependency_trimmed",
-    "fidelity": "partial",
-    "notes": "All sorries resolved. Uniqueness of V, W (Theorem 3.10.2(ii)'s '**unique** V and W') added as companion theorem Etingof.tensor_product_irreducible_classification_unique (#5614). Algebra-finiteness assumptions [FiniteDimensional k A]/[FiniteDimensional k B] removed as unfaithful (#7391): the book assumes only the representations V/W/M are finite-dimensional.",
+    "fidelity": "verified",
+    "notes": "All proofs are sorry-free. Theorem 3.10.2(ii)'s uniqueness of V and W is exposed by the companion theorem Etingof.tensor_product_irreducible_classification_unique. The public statements assume finite-dimensionality only of the representations V, W, and M, matching the source rather than imposing finite-dimensionality on A or B.",
     "sorry_free": true,
-    "fidelity_note": "The intended public parts no longer assume finite-dimensional A or B (#7391), and existence/uniqueness are source-present. However, Theorem3_10_2.lean now fails a fresh check in scalar-tower, endomorphism-algebra, and submodule module instances; regression #7520. The independent textbook proof-route gap remains #7453.",
-    "fidelity_issue": 7391,
-    "coverage": "covered_partial",
-    "coverage_issue": 7520,
-    "last_updated": "2026-07-22",
+    "fidelity_note": "Verified and source-faithful. Etingof.tensor_product_irreducible proves part (i), Etingof.tensor_product_irreducible_classification proves existence in part (ii), and Etingof.tensor_product_irreducible_classification_unique proves uniqueness of both factors up to the stated module isomorphisms. The APIs require finite-dimensionality only of V, W, and M, not of A or B, and the exact provider builds successfully.",
+    "coverage": "covered_full",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered_full"
+    },
+    "last_updated": "2026-07-28",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -4649,6 +4655,10 @@
     "end_line": 18,
     "status": "dependency_trimmed",
     "coverage": "covered_full",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered_full"
+    },
     "fidelity_note": "Both counterexamples are formalized: ratFunc_tensor_ratFunc_not_isField proves the rational-function failure of part (i), while tensorModule_isSimpleModule and tensorModule_not_equiv_tensorProduct_of_simple_left prove the Weyl-algebra failure of the infinite-dimensional analogue of Theorem 3.10.2(ii). The latter uses the characteristic-free PBW domain theorem Etingof.WeylAlgebra.mul_ne_zero to show that the regular first-factor restriction has no simple submodule.",
     "fidelity_decl": "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorModule_not_equiv_tensorProduct_of_simple_left",
     "last_updated": "2026-07-27",
@@ -4750,14 +4760,15 @@
     "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
-      "result": "gap"
+      "result": "gap",
+      "note": "The radical calculation on the finite-dimensional image algebras is formalized, but the preceding module-theoretic reduction that justifies replacing A and B by those images without loss of generality is an intentional omission."
     },
     "coverage": {
-      "result": "covered",
+      "result": "covered_partial",
       "lean_decl": "Etingof.jacobson_tensorProduct_eq",
-      "note": "The source proof's two structural claims are now formalized in EtingofRepresentationTheory/Chapter3/TensorProductRadical.lean: jacobson_tensorProduct_eq gives Rad(A⊗B) = Rad(A)⊗B + A⊗Rad(B) for finite-dimensional A, B over an algebraically closed field, and quotientJacobsonTensorEquiv gives the displayed identification (A⊗B)/Rad(A⊗B) ≅ (A/Rad A) ⊗ (B/Rad B). The book's two steps are separated by hypothesis: radTensorSum_le_jacobson (nilpotence; no hypothesis on k) and jacobson_le_radTensorSum (semisimplicity of the quotient), the latter discharged over an algebraically closed field by isSemisimpleRing_tensorProduct. jacobson_tensorProduct_range_eq states the formula for the image algebras A', B' ⊆ End M, matching the book's image-algebra reduction. Theorem 3.10.2 itself is still proved by the independent density/Artinian route in Theorem3_10_2.lean, which does not consume these results."
+      "note": "The radical part of the source proof is formalized in EtingofRepresentationTheory/Chapter3/TensorProductRadical.lean: jacobson_tensorProduct_eq gives Rad(A⊗B) = Rad(A)⊗B + A⊗Rad(B) for finite-dimensional A, B over an algebraically closed field, quotientJacobsonTensorEquiv gives the displayed quotient identification, and jacobson_tensorProduct_range_eq specializes the radical formula to the finite-dimensional image algebras A', B' ⊆ End M. The separate assertion that M descends to an A'⊗B'-representation so that A and B may be replaced by A' and B' without loss of generality is not packaged as a public Lean result and is recorded as an intentional omission. The theorem endpoints are nevertheless fully formalized by the independent density/Artinian route in Theorem3_10_2.lean."
     },
-    "last_updated": "2026-07-26",
+    "last_updated": "2026-07-28",
     "lean_ref": "EtingofRepresentationTheory/Chapter3/TensorProductRadical.lean :: Etingof.jacobson_tensorProduct_eq, Etingof.quotientJacobsonTensorEquiv, Etingof.quotientRadTensorSumEquiv, Etingof.radTensorSum_eq_ker, Etingof.radTensorSum_le_jacobson, Etingof.jacobson_le_radTensorSum, Etingof.isSemisimpleRing_tensorProduct, Etingof.jacobson_tensorProduct_range_eq",
     "claim_coverage": {
       "stage": "3.2",
@@ -4779,9 +4790,14 @@
           "lean_decl": "Etingof.tensor_product_irreducible"
         },
         {
-          "claim": "The image algebras A' and B' in End(M) are finite-dimensional, M carries their tensor-product action, and the radical calculation can be reduced to these image algebras.",
+          "claim": "For the finite-dimensional image algebras A' and B' in End(M), Rad(A' ⊗ B') = Rad(A') ⊗ B' + A' ⊗ Rad(B').",
           "verdict": "formalized",
-          "lean_decl": "Etingof.jacobson_tensorProduct_range_eq; Algebra.TensorProduct.lift"
+          "lean_decl": "Etingof.jacobson_tensorProduct_range_eq"
+        },
+        {
+          "claim": "M carries the induced A' ⊗ B' action, so replacing A and B by their image algebras loses no information and one may assume without loss of generality that A and B are finite dimensional.",
+          "verdict": "intentional_omission",
+          "reason": "The project does not package the module descent and equivalence needed for this without-loss-of-generality reduction as a public theorem. The radical formula is proved on the image algebras, and Theorem 3.10.2 itself is proved independently by the density/Artinian route."
         },
         {
           "claim": "For finite-dimensional A and B over an algebraically closed field, Rad(A ⊗ B) = Rad(A) ⊗ B + A ⊗ Rad(B).",
@@ -4857,11 +4873,10 @@
         "Etingof.jacobson_tensorProduct_range_eq",
         "Etingof.density_theorem_part1",
         "Etingof.tensor_product_irreducible",
-        "Algebra.TensorProduct.lift",
         "Etingof.tensor_product_irreducible_classification",
         "Etingof.tensor_product_irreducible_classification_unique"
       ],
-      "basis": "The first 24 entries are every durable authored declaration in the exact radical provider; the remaining entries are the audited density, tensor-action, classification, uniqueness, and tensor-lift endpoints used by the proof discussion. All 33 exact-provider constants and all external endpoints were checked for complete axiom closure, with no admissions or non-foundational axioms."
+      "basis": "The first 24 entries are every durable authored declaration in the exact radical provider; the remaining entries are the audited density, tensor-action, classification, and uniqueness endpoints used by the proof discussion. The without-loss-of-generality module reduction is intentionally omitted rather than attributed to Algebra.TensorProduct.lift. All 33 exact-provider constants and all listed external endpoints were checked for complete axiom closure, with no admissions or non-foundational axioms."
     },
     "stage3_4": {
       "status": "complete",

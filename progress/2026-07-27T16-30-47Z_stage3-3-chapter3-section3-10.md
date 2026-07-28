@@ -2,16 +2,18 @@
 
 ## Scope and result
 
-This pass preserves the exact six-item, four-provider §3.10 scope established by Stage 3.2 at
-commit `a98ea72b8a85ac7bf678b4aa32b7d4c9ba366813`. That audit inventoried 21 claims: 16
-formalized, 2 covered elsewhere, 3 nonformalizable organizational or qualitative statements,
-and no gaps. Stage 3.3 does not change those verdicts, declaration providers, or source files.
+This pass preserves the exact six-item, four-provider §3.10 scope established by Stage 3.2. The
+corrected durable inventory contains 22 claims: 16 formalized, 2 covered elsewhere, 3
+nonformalizable organizational or qualitative statements, and 1 intentional omission for the
+unpackaged without-loss-of-generality module reduction. There are no accidental or unclassified
+gaps, and no declaration provider or source file changes.
 
 Five items are proof-bearing and verified `sorry_free`; the pre-theorem organizational preview
-is `not_applicable`. The durable tracker arrays contain 77 declaration references, representing
-74 unique declarations: all 70 durable authored declarations in the exact providers and four
-external declarations used by the section. Repeated theorem endpoints in the proof discussion
-remain explicit so that each item's proof basis is independently reviewable.
+is `not_applicable`. The durable tracker arrays contain 76 declaration references, representing
+73 unique declarations: all 70 durable authored declarations in the exact providers and three
+external declarations used by the section. `Algebra.TensorProduct.lift` is no longer
+misattributed as proving the omitted module reduction. Repeated theorem endpoints in the proof
+discussion remain explicit so that each item's proof basis is independently reviewable.
 
 No Lean proof repair, import edit, or source change was required.
 
@@ -38,11 +40,10 @@ The provider totals are:
 
 Every attributed constant was passed to `Lean.collectAxioms`, the engine used by
 `#print axioms`. The audit fails on a direct project axiom or any dependency outside `propext`,
-`Classical.choice`, and `Quot.sound`; it passed. The four external declarations
+`Classical.choice`, and `Quot.sound`; it passed. The three external declarations
 `Algebra.TensorProduct.tmul_mul_tmul`, `isSimpleModule_self_iff_isUnit`,
-`Etingof.density_theorem_part1`, and `Algebra.TensorProduct.lift` were separately resolved and
-audited with the same rule. Thus no scoped endpoint or provider-attributed constant contains
-`sorryAx` or a project axiom.
+and `Etingof.density_theorem_part1` were separately resolved and audited with the same rule. Thus
+no scoped endpoint or provider-attributed constant contains `sorryAx` or a project axiom.
 
 The source-level scan likewise found no `sorry`, `admit`, `proof_wanted`, `sorryAx`,
 `native_decide`, project `axiom`, or `opaque` declaration in the four providers.
@@ -59,7 +60,7 @@ from the Stage 3.2 base.
 - exact four-provider build: success (8,588 jobs);
 - full `EtingofRepresentationTheory.Chapter3` build: success;
 - exhaustive attributed-constant and external-declaration axiom audit: success;
-- exact six-item Stage 3.3 tracker audit and JSON parse: success;
+- exact six-item, 22-claim Stage 3.3 tracker audit and JSON parse: success;
 - `scripts/validate_items.py`, `scripts/validate_dependencies.py`,
   `scripts/validate_external_deps.py`, and `scripts/validate_mathlib_coverage.py`: success;
 - `scripts/verify_blobs.py` remains inapplicable to the repository's derived overlay records: it
