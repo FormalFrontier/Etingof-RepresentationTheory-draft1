@@ -1,4 +1,3 @@
-import Mathlib
 import EtingofRepresentationTheory.Chapter3.Problem3_8_4_Power
 import EtingofRepresentationTheory.Chapter3.Problem3_8_4_Cancellation
 

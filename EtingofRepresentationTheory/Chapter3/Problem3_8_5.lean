@@ -1,8 +1,6 @@
 import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 import Mathlib.Topology.ContinuousMap.Algebra
-import Mathlib.Topology.Instances.Real.Lemmas
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
-import Mathlib.LinearAlgebra.Projection
 
 /-!
 # Problem 3.8.5: periodic and antiperiodic functions

@@ -2941,7 +2941,8 @@
     "end_page": "54",
     "start_line": 9,
     "end_line": 10,
-    "status": "sorry_free",
+    "status": "non_formalizable",
+    "reason": "This item is only the section heading “The Krull-Schmidt theorem” and contains no mathematical assertion beyond naming the following material.",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -2986,7 +2987,7 @@
     "end_page": "54",
     "start_line": 11,
     "end_line": 14,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "fidelity": "verified",
     "note": "Existence and uniqueness are proved sorry-free, including the inductive uniqueness step. Importability regression (finrank ⊤ ≤ finrank V step) fixed 2026-07-23 via finrank_top.",
@@ -3043,7 +3044,7 @@
       "actual_internal_dependencies": [
         "Chapter2/Definition2.3.8"
       ],
-      "basis": "The provider retains Definition2_3_8 for the indecomposability predicate. Its direct import of the later Lemma 3.8.2 provider is a forward proof-order edge, excluded from the acyclic backward pedagogical graph and recorded in the Stage 3.4 audit note."
+      "basis": "The theorem semantically uses the indecomposability predicate from Definition 2.3.8, supplied transitively by its direct import of the later Lemma 3.8.2 provider. That direct import is a forward proof-order edge, excluded from the acyclic backward pedagogical graph and recorded in the Stage 3.4 audit note."
     }
   },
   {
@@ -3054,7 +3055,7 @@
     "end_page": "55",
     "start_line": 15,
     "end_line": 6,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "last_updated": "2026-07-22",
     "fidelity": "verified",
@@ -3125,17 +3126,16 @@
     "start_page": "55",
     "end_page": "55",
     "start_line": 7,
-    "end_line": 12,
-    "status": "sorry_free",
+    "end_line": 10,
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The intended Krull–Schmidt proof is source-present, but Theorem3_8_1.lean currently fails fresh elaboration, so this proof discussion cannot rebuild; regression #7495.",
-    "coverage_issue": 7495,
-    "last_updated": "2026-07-22",
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The shared Etingof.krull_schmidt_uniqueness endpoint implements the remaining common-complement, injectivity, and induction argument, and its complete provider now builds admission-free.",
+    "last_updated": "2026-07-28",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -3184,19 +3184,17 @@
   },
   {
     "id": "Chapter3/Problem3.8.3",
-    "source_regression_note": "Its named general-field Krull–Schmidt citations come from the broken Theorem3_8_1 source (#7495).",
     "type": "exercise",
     "title": "Krull-Schmidt theorem without algebraic closure",
     "start_page": "55",
     "end_page": "55",
-    "start_line": 13,
-    "end_line": 14,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "start_line": 11,
+    "end_line": 12,
+    "status": "dependency_trimmed",
+    "fidelity": "verified",
     "note": "Covered-inline: Lemma3_8_2 and Theorem3_8_1 are formalized over an arbitrary [Field k] (no IsAlgClosed), using the Fitting decomposition in place of the book's generalized-eigenspace argument. Chapter3/Problem3_8_3.lean names the general-field citation targets (endo_iso_or_nilpotent, sum_nilpotent_endo, krull_schmidt_existence/uniqueness).",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_issue": 7495,
+    "coverage": "covered_full",
     "coverage_arm": "audited",
     "lean_decl": [
       "Etingof.Problem3_8_3.endo_iso_or_nilpotent",
@@ -3209,7 +3207,7 @@
       "EtingofRepresentationTheory/Chapter3/Theorem3_8_1.lean",
       "EtingofRepresentationTheory/Chapter3/Lemma3_8_2.lean"
     ],
-    "last_updated": "2026-07-22",
+    "last_updated": "2026-07-28",
     "coverage_note": "Coverage-arm audit (Stage 3.7, #7373): covered_full, single-claim. Problem3_8_3.lean (sorry-free, axiom-clean) names the general-field citation targets: endo_iso_or_nilpotent (line 43), sum_nilpotent_endo (54), krull_schmidt_existence (66), krull_schmidt_uniqueness (80). All four assume only [Field k] (no IsAlgClosed k), citing the Lemma3_8_2/Theorem3_8_1 proofs which replace the book's generalized-eigenspace argument with the Fitting decomposition (isCompl_iSup_ker_pow_iInf_range_pow, valid for any Noetherian+Artinian module). This is exactly the book's claim that Lemma 3.8.2 and hence the Krull-Schmidt theorem hold without algebraic closure. krull_schmidt_uniqueness is the referent of Problem 3.8.4's citation 'the Krull-Schmidt theorem, valid over any field by Problem 3.8.3'.",
     "claim_coverage": {
       "stage": "3.2",
@@ -3249,7 +3247,7 @@
         "Chapter3/Theorem3.8.1",
         "Chapter3/Lemma3.8.2"
       ],
-      "basis": "The wrapper provider directly retains both exact theorem and lemma providers; all four arbitrary-field wrappers cite their declarations."
+      "basis": "The wrapper provider directly retains Theorem3_8_1, which transitively supplies Lemma3_8_2. Its four arbitrary-field wrappers cite declarations from both providers, so both remain semantic item dependencies."
     }
   },
   {
@@ -3258,31 +3256,30 @@
     "title": "Scalar extension and the Noether-Deuring theorem",
     "start_page": "55",
     "end_page": "56",
-    "start_line": 15,
+    "start_line": 13,
     "end_line": 4,
-    "status": "partially_proved",
+    "status": "dependency_trimmed",
     "sorry_free": true,
-    "fidelity": "partial",
+    "fidelity": "verified",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_8_4_Main.lean",
       "EtingofRepresentationTheory/Chapter3/Problem3_8_4_General.lean"
     ],
-    "coverage_note": "Both general-L endpoints remain mathematically source-present with arbitrary field-extension hypotheses, but Problem3_8_4_Descent.lean currently fails a fresh check at three simplification steps, blocking a clean rebuild of the descent chain; regression #7532.",
-    "coverage": "covered_partial",
-    "coverage_issue": 7532,
+    "coverage_note": "Both arbitrary-extension endpoints build admission-free: isomorphisms and split injections descend through a finitely generated subalgebra, specialize to a finite residue extension, and conclude via power cancellation and arbitrary-field Krull-Schmidt.",
+    "coverage": "covered_full",
     "coverage_arm": "audited",
     "lean_decl": [
       "Etingof.Problem3_8_4.iso_of_baseChange_iso",
       "Etingof.Problem3_8_4.directSummand_of_baseChange_directSummand"
     ],
-    "last_updated": "2026-07-22",
+    "last_updated": "2026-07-28",
     "derived": [
       {
         "part": "(i) scalar extension descends isomorphism",
         "claim": "If V ⊗_K L ≅ W ⊗_K L as A ⊗_K L-modules for a field extension L/K, then V ≅ W as A-modules.",
         "description": "Descent of a module isomorphism along an arbitrary base-field extension.",
-        "source_span": "blobs/Chapter3/Problem3.8.3.md (blob-offset: holds the 3.8.4(i) statement); hint in blobs/Chapter3/Problem3.8.4.md",
-        "coverage": "covered_partial",
+        "source_span": "blobs/Chapter3/Problem3.8.4.md (i)",
+        "coverage": "covered_full",
         "lean_decl": [
           "Etingof.Problem3_8_4.iso_of_baseChange_iso"
         ],
@@ -3293,7 +3290,7 @@
         "claim": "In the setting of (i), if V ⊗_K L is a direct summand of W ⊗_K L then V is a direct summand of W as A-modules.",
         "description": "Noether-Deuring: the direct-summand relation descends along a base-field extension.",
         "source_span": "blobs/Chapter3/Problem3.8.4.md (ii)",
-        "coverage": "covered_partial",
+        "coverage": "covered_full",
         "lean_decl": [
           "Etingof.Problem3_8_4.directSummand_of_baseChange_directSummand"
         ],
@@ -3411,14 +3408,13 @@
     "end_page": "56",
     "start_line": 5,
     "end_line": 10,
-    "status": "partially_proved",
+    "status": "dependency_trimmed",
     "sorry_free": true,
-    "fidelity": "partial",
+    "fidelity": "verified",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_8_5.lean"
     ],
-    "coverage": "covered_partial",
-    "coverage_issue": 7533,
+    "coverage": "covered_full",
     "coverage_arm": "audited",
     "lean_decl": [
       "Etingof.Problem3_8_5.periodic_isIndecomposable",
@@ -3426,14 +3422,14 @@
       "Etingof.Problem3_8_5.periodic_not_linearEquiv_antiperiodic",
       "Etingof.Problem3_8_5.periodic_sq_linearEquiv_antiperiodic_sq"
     ],
-    "last_updated": "2026-07-22",
+    "last_updated": "2026-07-28",
     "derived": [
       {
         "part": "(i) A and M are indecomposable",
         "claim": "A (continuous period-1 functions ℝ→ℝ) and M (continuous antiperiodic functions f(x+1)=-f(x)) are indecomposable A-modules.",
         "description": "Neither the regular module A nor M admits a nontrivial direct-sum decomposition.",
         "source_span": "blobs/Chapter3/Problem3.8.5.md (i)",
-        "coverage": "covered_partial",
+        "coverage": "covered_full",
         "lean_decl": [
           "Etingof.Problem3_8_5.periodic_isIndecomposable",
           "Etingof.Problem3_8_5.antiperiodic_isIndecomposable"
@@ -3445,7 +3441,7 @@
         "claim": "A is not isomorphic to M as A-modules, yet A ⊕ A ≅ M ⊕ M.",
         "description": "M is a nontrivial order-2 element of Pic(A) (the Möbius line bundle on the circle): not free of rank 1, but M ⊕ M ≅ A ⊕ A.",
         "source_span": "blobs/Chapter3/Problem3.8.5.md (ii)",
-        "coverage": "covered_partial",
+        "coverage": "covered_full",
         "lean_decl": [
           "Etingof.Problem3_8_5.periodic_not_linearEquiv_antiperiodic",
           "Etingof.Problem3_8_5.periodic_sq_linearEquiv_antiperiodic_sq"
@@ -3453,7 +3449,7 @@
         "reason": "periodic_not_linearEquiv_antiperiodic (line 331) is IsEmpty (periodicSubalg ≃ₗ[periodicSubalg] antiperiodicSubmod) — a GENUINE non-isomorphism of A-modules (any generator of M is a continuous antiperiodic function, so it vanishes somewhere by the IVT, whence every element of M vanishes there, contradicting a nonvanishing antiperiodic section). periodic_sq_linearEquiv_antiperiodic_sq (line 485) is Nonempty ((periodicSubalg × periodicSubalg) ≃ₗ[periodicSubalg] (antiperiodicSubmod × antiperiodicSubmod)) — a GENUINE A-linear iso via the rotation (f,g)↦(cos·f−sin·g, sin·f+cos·g) with transpose inverse (cos²+sin²=1). Axiom-clean."
       }
     ],
-    "coverage_note": "All four headline constructions remain source-present, but Problem3_8_5.lean currently fails a fresh check at an application type mismatch, so the counterexample cannot be rebuilt; regression #7533.",
+    "coverage_note": "The literal periodic algebra and antiperiodic module build admission-free. Both modules are indecomposable, they are not isomorphic, and the explicit sine-cosine rotation gives an A-linear equivalence A ⊕ A ≃ M ⊕ M.",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -3547,13 +3543,12 @@
     "end_page": "56",
     "start_line": 11,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "fidelity": "verified",
     "fidelity_note": "#7185: uniqueness half now proved. Existence + Fitting's lemma (nilpotent-or-unit) + local endomorphism ring (over an arbitrary ring, no algebraically closed field) plus the Krull-Schmidt-Azumaya exchange uniqueness (Etingof.krull_schmidt_uniqueness_finiteLength): any two indecomposable decompositions of a finite-length module agree up to a reindexing bijection and isomorphism of matched summands. Ported from the finite-dimensional Theorem 3.8.1 with Module.length as the induction measure. Axiom-clean (no sorryAx).",
     "fidelity_decl": "Etingof.isNilpotent_or_isUnit_of_finiteLength_indecomposable, Etingof.isLocalRing_end_of_finiteLength_indecomposable, Etingof.exists_indecomposable_decomposition, Etingof.isNilpotent_sum_of_finiteLength_indecomposable, Etingof.krull_schmidt_uniqueness_finiteLength",
-    "last_updated": "2026-07-21",
-    "fidelity_issue": 7185,
+    "last_updated": "2026-07-28",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -3606,9 +3601,10 @@
       "section": "3.8",
       "verified_on": "2026-07-27",
       "actual_internal_dependencies": [
-        "Chapter2/Definition2.3.8"
+        "Chapter2/Definition2.3.8",
+        "Chapter3/Problem3.8.5"
       ],
-      "basis": "The finite-length provider's sole project import is Definition2_3_8, which supplies the shared indecomposability predicate. It has no direct provider edge to the separate Problem 3.8.5 counterexample."
+      "basis": "The finite-length provider directly imports Definition2_3_8 for the shared indecomposability predicate. The remark also semantically depends on Problem 3.8.5, whose explicit counterexample proves its opening claim that Krull-Schmidt can fail for infinite-dimensional modules."
     }
   },
   {

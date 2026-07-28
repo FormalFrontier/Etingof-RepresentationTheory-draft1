@@ -17,9 +17,11 @@ chain, `Problem3_8_5`, and `Remark3_8_6`.
 
 ## Durable declaration inventory
 
-The section heading is `not_applicable`; the other seven records are
-`sorry_free`. Their durable `stage3_3.declarations` arrays contain 84 distinct
-public authored declarations. The proof discussion intentionally repeats
+The section heading has proof integrity `not_applicable`; the other seven
+records are `sorry_free` at the Stage 3.3 gate and have terminal workflow
+status `dependency_trimmed`. The heading itself is terminal
+`non_formalizable`. Their durable `stage3_3.declarations` arrays contain 84
+distinct public authored declarations. The proof discussion intentionally repeats
 `Etingof.krull_schmidt_uniqueness`, because its source claims are implemented
 inside that shared theorem endpoint. The distinct union still has exactly 84
 names.
@@ -93,14 +95,16 @@ minimization belong to Stage 3.4.
   constants clean;
 - exact public-declaration completeness comparison: 84/84 distinct names;
 - exact-provider admission/placeholder and direct-import scans: clean;
-- exact eight-item aggregation: seven `sorry_free`, one `not_applicable`;
+- exact proof-integrity aggregation: seven `sorry_free`, one `not_applicable`;
 - all four repository validators pass;
 - `lake build EtingofRepresentationTheory.Chapter3`: success (8,692 jobs;
   pre-existing linter warnings only);
 - removing only `stage3_3` from the eight scoped records reproduces the exact
   Stage 3.2 base;
-- inherited claim coverage, every non-scope tracker field, all dependency maps,
-  and all thirteen provider files are unchanged;
+- the corrected terminal stack preserves the 29-claim inventory and proof
+  integrity while synchronizing exact spans, fidelity/coverage, resolved issue
+  fields, dependencies, and workflow statuses;
 - `jq empty progress/items.json` and `git diff --check`: pass.
 
-This PR is limited to Chapter 3 §3.8 and Stage 3.3.
+This note records the Stage 3.3 proof-integrity result within the corrected
+Chapter 3 §3.8 terminal stack.

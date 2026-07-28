@@ -1,6 +1,4 @@
-import Mathlib
 import EtingofRepresentationTheory.Chapter3.Problem3_8_4_Finite
-import EtingofRepresentationTheory.Chapter3.Problem3_8_4_Functoriality
 import EtingofRepresentationTheory.Chapter3.Problem3_8_4_Descent
 
 /-!

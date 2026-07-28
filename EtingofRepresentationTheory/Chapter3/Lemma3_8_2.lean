@@ -1,11 +1,6 @@
-import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-import Mathlib.RingTheory.Nilpotent.Defs
 import Mathlib.RingTheory.Nilpotent.Basic
-import Mathlib.RingTheory.Noetherian.Basic
 import Mathlib.RingTheory.Artinian.Module
 import Mathlib.LinearAlgebra.FiniteDimensional.Basic
-import Mathlib.Algebra.Module.Equiv.Basic
 import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 
 /-!
