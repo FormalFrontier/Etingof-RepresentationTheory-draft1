@@ -102,7 +102,9 @@ theorem expDeriv_apply_apply (s t : ℝ) (a : A) :
     have h2 : HasDerivAt (fun r : ℝ => r + t) 1 r := (hasDerivAt_id r).add_const t
     have hchain := (hasDerivAt_exp_smul_const' D (r + t)).scomp r h2
     simpa [Function.comp, mul_apply_eq_comp] using hchain.clm_apply (hasDerivAt_const r a)
-  have hinit : exp ((0 : ℝ) • D) c = exp ((0 + t) • D) a := by simp [hc]
+  have hinit : exp ((0 : ℝ) • D) c = exp ((0 + t) • D) a := by
+    rw [expDeriv_zero D]
+    simp [hc]
   have huniq : (fun r => exp (r • D) c) = fun r => exp ((r + t) • D) a :=
     ODE_solution_unique_univ (t₀ := (0 : ℝ)) (K := ‖D‖₊) (s := fun _ => Set.univ)
       (fun _ => (D.lipschitz).lipschitzOnWith)
@@ -139,7 +141,10 @@ theorem expDeriv_map_mul (t : ℝ) (a b : A) :
       hD (exp (s • D) a) (exp (s • D) b)
     rw [hvs]
     exact hmul
-  have hinit : u 0 = v 0 := by simp [u, v]
+  have hinit : u 0 = v 0 := by
+    simp only [u, v]
+    rw [expDeriv_zero D]
+    rfl
   have huniq : u = v :=
     ODE_solution_unique_univ (t₀ := (0 : ℝ)) (K := ‖D‖₊) (s := fun _ => Set.univ)
       (fun _ => (D.lipschitz).lipschitzOnWith)
@@ -168,7 +173,10 @@ theorem expDeriv_map_one (t : ℝ) : exp (t • D) 1 = 1 := by
   have hc : ∀ s, HasDerivAt (fun _ : ℝ => (1 : A)) (D ((fun _ : ℝ => (1 : A)) s)) s := by
     intro s
     simpa [map_one_eq_zero D hD] using hasDerivAt_const s (1 : A)
-  have hinit : u 0 = (fun _ : ℝ => (1 : A)) 0 := by simp [u]
+  have hinit : u 0 = (fun _ : ℝ => (1 : A)) 0 := by
+    simp only [u]
+    rw [expDeriv_zero D]
+    rfl
   have huniq : u = fun _ : ℝ => (1 : A) :=
     ODE_solution_unique_univ (t₀ := (0 : ℝ)) (K := ‖D‖₊) (s := fun _ => Set.univ)
       (fun _ => (D.lipschitz).lipschitzOnWith)

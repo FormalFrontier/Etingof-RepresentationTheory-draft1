@@ -149,7 +149,7 @@ variable (k : Type) [Field k] {n : ℕ} [Quiver.{0} (Fin n)]
 /-- The representation supported on `S`: a one-dimensional space at each vertex of `S`, the
 zero space elsewhere, and the arrow `e : a ⟶ b` acting by the scalar `c a b e` through the
 canonical identifications (automatically zero unless both `a` and `b` lie in `S`). -/
-def suppRep (S : Fin n → Prop) [DecidablePred S] (c : ∀ a b : Fin n, (a ⟶ b) → k) :
+abbrev suppRep (S : Fin n → Prop) [DecidablePred S] (c : ∀ a b : Fin n, (a ⟶ b) → k) :
     FinQuiverRep k n where
   obj j := Fin (if S j then 1 else 0) → k
   mapLinear {a b} e := c a b e • truncMap k (if S a then 1 else 0) (if S b then 1 else 0)
@@ -558,5 +558,37 @@ theorem Theorem_2_1_2_general_orientation (hconn : QuiverUndirectedConnected n) 
   tauto
 
 end General
+
+/-! ## The field-independent statement
+
+The main proof above follows the route announced in the book and assumes that the field is
+algebraically closed.  The footnote attached to Theorem 2.1.2 also asserts that the finite-type
+classification itself is valid over an arbitrary field.  That stronger statement must remain
+visible as scaffolding even though its proof is separate. -/
+
+section ArbitraryField
+
+variable (k : Type) [Field k] (n : ℕ) [Quiver.{0} (Fin n)]
+  [∀ a b : Fin n, Decidable (Nonempty (a ⟶ b))]
+
+/-- **Gabriel's finite-type classification over an arbitrary field**, as asserted in the
+footnote to Etingof Theorem 2.1.2.  A connected finite quiver has finite representation type iff
+it has no loops, two-way edges, or parallel arrows and its underlying graph is Dynkin. -/
+theorem Theorem_2_1_2_general_arbitrary_field (hconn : QuiverUndirectedConnected n) :
+    HasFiniteRepresentationType k n ↔
+      ((∀ v : Fin n, IsEmpty (v ⟶ v)) ∧
+        (∀ v w : Fin n, Nonempty (v ⟶ w) → Nonempty (w ⟶ v) → False) ∧
+        (∀ a b : Fin n, Subsingleton (a ⟶ b)) ∧
+        IsDynkinDiagram n (quiverUndirectedAdj n)) := by
+  constructor
+  · -- The converse requires the field-independent negative half of Gabriel's theorem.
+    sorry
+  · rintro ⟨hloop, hbi, hsub, hDynkin⟩
+    letI : ∀ a b : Fin n, Subsingleton (a ⟶ b) := hsub
+    have hOrient : IsOrientationOf ‹Quiver (Fin n)› (quiverUndirectedAdj n) :=
+      (isOrientationOf_quiverUndirectedAdj_iff n).mpr ⟨hloop, hbi⟩
+    exact hasFiniteRepresentationType_of_isDynkinDiagram k n hOrient hconn hDynkin
+
+end ArbitraryField
 
 end Etingof

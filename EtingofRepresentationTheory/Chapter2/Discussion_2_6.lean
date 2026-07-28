@@ -83,6 +83,7 @@ variable {k : Type*} [CommRing k] {X R : Type*} (rel : R → FreeAlgebra k X)
 noncomputable def mk : FreeAlgebra k X →ₐ[k] PresentedAlgebra k X R rel :=
   (presentedCon k X R rel).mkₐ k
 
+/-- The canonical map from the free algebra onto the presented algebra is surjective. -/
 theorem mk_surjective : Function.Surjective (mk rel) :=
   (presentedCon k X R rel).mkₐ_surjective (α := k)
 
@@ -90,7 +91,18 @@ theorem mk_surjective : Function.Surjective (mk rel) :=
 noncomputable def gen (x : X) : PresentedAlgebra k X R rel :=
   mk rel (FreeAlgebra.ι k x)
 
+/-- The image of a generator is its image under the canonical quotient map. -/
 theorem gen_def (x : X) : gen rel x = mk rel (FreeAlgebra.ι k x) := rfl
+
+/-- The presented algebra is generated as a `k`-algebra by the images of its generators. -/
+theorem adjoin_range_gen : Algebra.adjoin k (Set.range (gen rel)) = ⊤ := by
+  rw [Algebra.adjoin_range_eq_range_freeAlgebra_lift]
+  have h : FreeAlgebra.lift k (gen rel) = mk rel := by
+    apply FreeAlgebra.hom_ext
+    funext x
+    simp [gen_def]
+  rw [h, AlgHom.range_eq_top]
+  exact mk_surjective rel
 
 /-- **The defining relations hold.** Each relator `rel r` becomes `0` in the presented algebra;
 this is the book's `f₁ = 0, …, f_m = 0`. -/
@@ -129,9 +141,11 @@ noncomputable def lift (a : X → A) (ha : ∀ r, FreeAlgebra.lift k a (rel r) =
     PresentedAlgebra k X R rel →ₐ[k] A :=
   (presentedCon k X R rel).liftₐ (FreeAlgebra.lift k a) (presentedCon_le_ker rel a ha)
 
+/-- The lift agrees with the corresponding free-algebra homomorphism after the quotient map. -/
 @[simp] theorem lift_mk (a : X → A) (ha : ∀ r, FreeAlgebra.lift k a (rel r) = 0)
     (p : FreeAlgebra k X) : lift rel a ha (mk rel p) = FreeAlgebra.lift k a p := rfl
 
+/-- The lift sends each presented generator to the element assigned to it. -/
 @[simp] theorem lift_gen (a : X → A) (ha : ∀ r, FreeAlgebra.lift k a (rel r) = 0) (x : X) :
     lift rel a ha (gen rel x) = a x := by
   rw [gen_def, lift_mk, FreeAlgebra.lift_ι_apply]

@@ -1,4 +1,5 @@
 import Mathlib.Algebra.Lie.OfAssociative
+import Mathlib.Algebra.Lie.UniversalEnveloping
 import Mathlib.LinearAlgebra.FiniteDimensional.Basic
 import Batteries.Util.ProofWanted
 import EtingofRepresentationTheory.Chapter2.Definition2_9_1
@@ -17,9 +18,10 @@ theorem in this form, with `𝔤𝔩(V)` realised as `Module.End k V` carrying i
 
 ## Scope and proof status
 
-We state Ado's theorem over a field of characteristic zero, the setting in which it was
-originally proved; the extension to fields of positive characteristic is Iwasawa's theorem.
-Etingof states the result without proof, and it is deep; it is not available in
+We state the Ado–Iwasawa theorem over an arbitrary field, matching the unqualified field `k`
+in the chapter.  The characteristic-zero case is Ado's original theorem; the extension to
+positive characteristic is due to Iwasawa.  Etingof states the result without proof, and it is
+not available in
 Mathlib. Since the book explicitly disavows a proof, we record it with `proof_wanted`: the
 statement is elaborated and typechecked as a proposition, but no proof term, `sorry`, or
 axiom is introduced. The mathematical content captured here is the existence of a
@@ -34,11 +36,63 @@ universe u
 -- Mathlib, just as in Example 2.9.8.
 attribute [local instance 100] LieRing.ofAssociativeRing
 
-variable (k : Type u) [Field k] [CharZero k]
+variable (k : Type u) [Field k]
 variable (L : Type u) [LieRing L] [LieAlgebra k L]
 
+/-- A finite-dimensional associative algebra containing `L` faithfully supplies the representation
+required by Ado: compose the given Lie embedding with the faithful left-regular representation. -/
+theorem ado_of_finiteAssociativeEmbedding {A : Type u} [Ring A] [Algebra k A]
+    [FiniteDimensional k A] (f : L →ₗ⁅k⁆ A) (hf : Function.Injective f) :
+    ∃ (V : Type u) (_ : AddCommGroup V) (_ : Module k V) (_ : FiniteDimensional k V)
+      (ρ : L →ₗ⁅k⁆ Module.End k V), Function.Injective ρ := by
+  refine ⟨A, inferInstance, inferInstance, inferInstance,
+    (Algebra.lmul k A).toLieHom.comp f, ?_⟩
+  exact Algebra.lmul_injective.comp hf
+
+/-- Finite-quotient form of the constructive route to Ado. It is enough to find a
+finite-dimensional quotient (or other finite-dimensional target) of `U(L)` whose quotient map is
+still injective on the canonical copy of `L`; left multiplication on that target then gives the
+faithful representation. -/
+theorem ado_of_finiteEnvelopingTarget {A : Type u} [Ring A] [Algebra k A]
+    [FiniteDimensional k A]
+    (q : UniversalEnvelopingAlgebra k L →ₐ[k] A)
+    (hq : Function.Injective (fun x : L ↦ q (UniversalEnvelopingAlgebra.ι k x))) :
+    ∃ (V : Type u) (_ : AddCommGroup V) (_ : Module k V) (_ : FiniteDimensional k V)
+      (ρ : L →ₗ⁅k⁆ Module.End k V), Function.Injective ρ := by
+  exact ado_of_finiteAssociativeEmbedding k L
+    (q.toLieHom.comp (UniversalEnvelopingAlgebra.ι k)) hq
+
+/-- Conversely, a faithful finite-dimensional representation extends along the universal
+property to a finite-dimensional associative target of `U(L)` which still separates `L`. -/
+theorem finiteEnvelopingTarget_of_faithfulRepresentation
+    {V : Type u} [AddCommGroup V] [Module k V] [FiniteDimensional k V]
+    (ρ : L →ₗ⁅k⁆ Module.End k V) (hρ : Function.Injective ρ) :
+    ∃ (A : Type u) (_ : Ring A) (_ : Algebra k A) (_ : FiniteDimensional k A)
+      (q : UniversalEnvelopingAlgebra k L →ₐ[k] A),
+        Function.Injective (fun x : L ↦ q (UniversalEnvelopingAlgebra.ι k x)) := by
+  refine ⟨Module.End k V, inferInstance, inferInstance, inferInstance,
+    UniversalEnvelopingAlgebra.lift k ρ, ?_⟩
+  intro x y hxy
+  apply hρ
+  simpa using hxy
+
+/-- The constructive enveloping-algebra target is exactly equivalent to the representation sought
+in Ado's theorem. Thus all remaining content is the existence of the finite target, not the
+passage from that target to a faithful action. -/
+theorem faithfulRepresentation_iff_finiteEnvelopingTarget :
+    (∃ (V : Type u) (_ : AddCommGroup V) (_ : Module k V) (_ : FiniteDimensional k V)
+        (ρ : L →ₗ⁅k⁆ Module.End k V), Function.Injective ρ) ↔
+      ∃ (A : Type u) (_ : Ring A) (_ : Algebra k A) (_ : FiniteDimensional k A)
+        (q : UniversalEnvelopingAlgebra k L →ₐ[k] A),
+          Function.Injective (fun x : L ↦ q (UniversalEnvelopingAlgebra.ι k x)) := by
+  constructor
+  · rintro ⟨V, _, _, _, ρ, hρ⟩
+    exact finiteEnvelopingTarget_of_faithfulRepresentation k L ρ hρ
+  · rintro ⟨A, _, _, _, q, hq⟩
+    exact ado_of_finiteEnvelopingTarget k L q hq
+
 /-- **Ado's theorem** (Etingof, Remark 2.9.3): every finite-dimensional Lie algebra `L` over a
-field `k` of characteristic zero embeds into `𝔤𝔩(V) = End(V)` for some finite-dimensional `k`-vector
+field `k` embeds into `𝔤𝔩(V) = End(V)` for some finite-dimensional `k`-vector
 space `V`. Equivalently, `L` admits a faithful (injective) finite-dimensional representation
 `ρ : L →ₗ⁅k⁆ End(V)`.
 

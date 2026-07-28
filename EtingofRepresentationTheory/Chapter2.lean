@@ -16,6 +16,7 @@ import EtingofRepresentationTheory.Chapter2.Theorem2_1_2
 import EtingofRepresentationTheory.Chapter2.Theorem2_1_2_General
 
 -- Section 2.2: Algebras
+import EtingofRepresentationTheory.Chapter2.Discussion_2_2_intro
 import EtingofRepresentationTheory.Chapter2.Definition2_2_1
 import EtingofRepresentationTheory.Chapter2.Definition2_2_2
 import EtingofRepresentationTheory.Chapter2.Definition2_2_5
@@ -50,6 +51,7 @@ import EtingofRepresentationTheory.Chapter2.Example2_3_14
 import EtingofRepresentationTheory.Chapter2.Example2_3_14_continued
 
 -- Section 2.4: Ideals
+import EtingofRepresentationTheory.Chapter2.Discussion_2_4_heading
 import EtingofRepresentationTheory.Chapter2.Problem2_4_1
 
 -- Section 2.5: Cyclic representations
@@ -76,10 +78,12 @@ import EtingofRepresentationTheory.Chapter2.Problem2_7_5_Iso
 
 -- Section 2.8: Quivers
 import EtingofRepresentationTheory.Chapter2.Definition2_8_1
+import EtingofRepresentationTheory.Chapter2.Discussion_quiver_notation
 import EtingofRepresentationTheory.Chapter2.Definition2_8_3
 import EtingofRepresentationTheory.Chapter2.Definition2_8_4
 import EtingofRepresentationTheory.Chapter2.Definition2_8_8
 import EtingofRepresentationTheory.Chapter2.Definition2_8_9
+import EtingofRepresentationTheory.Chapter2.Discussion_quiver_irreducible_indecomposable
 import EtingofRepresentationTheory.Chapter2.Definition2_8_10
 import EtingofRepresentationTheory.Chapter2.QuiverRepresentationCategory
 import EtingofRepresentationTheory.Chapter2.Discussion_quiver_rep_bijection
@@ -88,6 +92,7 @@ import EtingofRepresentationTheory.Chapter2.Problem2_8_11
 import EtingofRepresentationTheory.Chapter2.Problem2_8_6
 
 -- Section 2.9: Lie Algebras
+import EtingofRepresentationTheory.Chapter2.Discussion_2_9_heading
 import EtingofRepresentationTheory.Chapter2.Definition2_9_1
 import EtingofRepresentationTheory.Chapter2.Definition2_9_6
 import EtingofRepresentationTheory.Chapter2.Definition2_9_7
@@ -96,11 +101,13 @@ import EtingofRepresentationTheory.Chapter2.Example2_9_2
 import EtingofRepresentationTheory.Chapter2.Example2_9_2_continued
 import EtingofRepresentationTheory.Chapter2.Remark2_9_3
 import EtingofRepresentationTheory.Chapter2.Remark2_9_4
+import EtingofRepresentationTheory.Chapter2.Discussion_concrete_Lie_examples
 import EtingofRepresentationTheory.Chapter2.Example2_9_8
 import EtingofRepresentationTheory.Chapter2.Example2_9_12
 import EtingofRepresentationTheory.Chapter2.Example2_9_13
 import EtingofRepresentationTheory.Chapter2.Exercise2_9_5
 import EtingofRepresentationTheory.Chapter2.Exercise2_9_11
+import EtingofRepresentationTheory.Chapter2.Remark2_9_10
 
 -- Section 2.11-2.12: Tensor Products, Symmetric/Exterior Algebras
 import EtingofRepresentationTheory.Chapter2.Definition2_11_1
@@ -114,6 +121,7 @@ import EtingofRepresentationTheory.Chapter2.Problem2_11_6
 import EtingofRepresentationTheory.Chapter2.Exercise2_11_2
 import EtingofRepresentationTheory.Chapter2.Exercise2_11_5
 import EtingofRepresentationTheory.Chapter2.Exercise2_11_7
+import EtingofRepresentationTheory.Chapter2.Discussion_2_12_heading
 import EtingofRepresentationTheory.Chapter2.Definition2_12_1
 
 -- Section 2.13: The Dehn invariant

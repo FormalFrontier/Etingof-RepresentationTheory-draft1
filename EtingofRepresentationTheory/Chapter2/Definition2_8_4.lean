@@ -1,4 +1,5 @@
 import Mathlib.Algebra.Algebra.Basic
+import Mathlib.Algebra.Algebra.Opposite
 import Mathlib.Combinatorics.Quiver.Path
 import Mathlib.Data.Finsupp.Defs
 import Mathlib.Algebra.Group.Finsupp
@@ -8,28 +9,29 @@ import Mathlib.LinearAlgebra.Finsupp.LSum
 # Definition 2.8.4: Path Algebra of a Quiver
 
 The **path algebra** P_Q of a quiver Q is the algebra whose basis is formed by oriented
-paths in Q, including the trivial paths pᵢ, i ∈ I, corresponding to the vertices of Q,
-and multiplication is the concatenation of paths.
+paths in Q, including the trivial paths pᵢ, i ∈ I, corresponding to the vertices of Q.
+The book reads `a * b` as "first `b`, then `a`".
 
 ## Construction
 
-Mathlib has `Quiver.Path` (composable sequences of arrows) but no path *algebra*. We build
-it here as the free `k`-module on the type of all oriented paths (a source, a target, and a
-`Quiver.Path` between them), equipped with the concatenation multiplication: two basis paths
-multiply to their concatenation when composable, and to `0` otherwise.
+Mathlib has `Quiver.Path` (composable sequences of arrows) but no path *algebra*. The established
+implementation `PathAlgebra` below is the free `k`-module on all oriented paths, with the
+source-to-target multiplication naturally induced by `Quiver.Path.comp`. The public book-facing
+type `BookPathAlgebra`, defined at the end of the file, is its multiplicative opposite. Thus it has
+the same path basis while its multiplication agrees literally with the book's reading order.
 
-The multiplication is constructed as a `k`-bilinear map (via `Finsupp.lsum`), which makes the
-distributive laws hold by construction (they are `map_add`/`map_zero` of a linear map). The
-associativity of concatenation and the unit law (Remark 2.8.5) are recorded as the remaining
+The internal multiplication is constructed as a `k`-bilinear map (via `Finsupp.lsum`), which
+makes the distributive laws hold by construction (they are `map_add`/`map_zero` of a linear map).
+The associativity of concatenation and the unit law (Remark 2.8.5) are recorded as the remaining
 proof obligations.
 
 ## Convention
 
-Following the footnote to Definition 2.8.4, two oriented paths `a : x ⟶* y` and `b : z ⟶* w`
-concatenate to `a · b : x ⟶* w` precisely when the target `y` of `a` equals the source `z` of
-`b`, and the product is `0` otherwise. (The book's body text uses the opposite reading order
-`ab = "first b then a"`; the two conventions produce mutually opposite algebras, both equally
-valid path algebras. We use the source-to-target reading aligned with Mathlib's `Quiver.Path.comp`.)
+In `PathAlgebra`, paths `p : x ⟶* y` and `q : y ⟶* z` multiply as `p * q = p.comp q`, matching
+Mathlib's source-to-target `Quiver.Path.comp`. In `BookPathAlgebra`, the displayed product is
+reversed: `ofPath q * ofPath p = ofPath (p.comp q)`. Hence its product `a * b` is defined exactly
+when the path `b` ends where `a` begins and is the path obtained by first tracing `b`, then `a`,
+exactly as Definition 2.8.4 states.
 -/
 
 namespace Etingof
@@ -62,7 +64,7 @@ theorem comp_eq_none {a b c d : Q} (p : Quiver.Path a b) (q : Quiver.Path c d) (
 
 end QuiverPathIndex
 
-/-- The path algebra of a quiver `Q` over a field `k`, in the sense of Etingof Definition 2.8.4.
+/-- The source-to-target implementation underlying the book-facing path algebra of a quiver `Q`.
 The basis consists of oriented paths in `Q`, with multiplication given by path concatenation
 (zero if the paths are not composable).
 
@@ -395,5 +397,77 @@ theorem sum_trivialPaths_eq_one [Fintype Q] :
   one_eq_ofPath_sum.symm
 
 end PathAlgebra
+
+/-! ## The book-facing multiplication order
+
+`PathAlgebra k Q` is retained as the established source-to-target implementation used by later
+chapters. Etingof's Definition 2.8.4 uses the opposite convention: a displayed product `a * b`
+means first traverse `b`, then traverse `a`. The multiplicative opposite below is therefore not a
+mere explanatory equivalence: it is the public construction whose multiplication is literally the
+one printed in the book.
+-/
+
+/-- The path algebra with Etingof's exact multiplication convention: `a * b` means first trace
+`b`, then trace `a`. It has the same additive path basis as `PathAlgebra k Q` and the opposite
+multiplication. -/
+abbrev BookPathAlgebra (k : Type*) (Q : Type*) [Field k] [Quiver Q]
+    [DecidableEq Q] : Type _ :=
+  (PathAlgebra k Q)ᵐᵒᵖ
+
+namespace BookPathAlgebra
+
+variable {k : Type*} {Q : Type*} [Field k] [Quiver Q] [DecidableEq Q]
+
+/-- The book-facing basis vector indexed by an oriented path. -/
+noncomputable def ofPath (x : QuiverPathIndex Q) : BookPathAlgebra k Q :=
+  MulOpposite.op (PathAlgebra.ofPath (k := k) x)
+
+@[simp]
+theorem unop_ofPath (x : QuiverPathIndex Q) :
+    MulOpposite.unop (ofPath (k := k) x) = PathAlgebra.ofPath (k := k) x :=
+  rfl
+
+/-- Etingof's exact multiplication rule on composable basis paths. If `p : a ⟶* b` is traversed
+first and `q : b ⟶* c` second, their book-ordered product is `q * p = p.comp q`. -/
+theorem ofPath_mul_ofPath {a b c : Q} (p : Quiver.Path a b) (q : Quiver.Path b c) :
+    ofPath (k := k) (⟨b, c, q⟩ : QuiverPathIndex Q) *
+        ofPath (k := k) (⟨a, b, p⟩ : QuiverPathIndex Q) =
+      ofPath (k := k) (⟨a, c, p.comp q⟩ : QuiverPathIndex Q) := by
+  apply MulOpposite.unop_injective
+  rw [MulOpposite.unop_mul]
+  simp only [unop_ofPath]
+  unfold PathAlgebra.ofPath
+  rw [PathAlgebra.single_mul_single, one_mul, one_smul, PathAlgebra.compSingle_eq]
+
+/-- Non-composable basis paths multiply to zero in the book-facing path algebra. The right-hand
+path is traversed first, so composability requires its target to equal the left-hand path's
+source. -/
+theorem ofPath_mul_ofPath_eq_zero {a b c d : Q} (p : Quiver.Path a b)
+    (q : Quiver.Path c d) (h : b ≠ c) :
+    ofPath (k := k) (⟨c, d, q⟩ : QuiverPathIndex Q) *
+        ofPath (k := k) (⟨a, b, p⟩ : QuiverPathIndex Q) = 0 := by
+  apply MulOpposite.unop_injective
+  rw [MulOpposite.unop_mul]
+  simp only [unop_ofPath, MulOpposite.unop_zero]
+  unfold PathAlgebra.ofPath
+  rw [PathAlgebra.single_mul_single, PathAlgebra.compSingle_eq_zero _ _ h, smul_zero]
+
+/-- The trivial path at vertex `i`, in the book-facing path algebra. -/
+noncomputable def trivialPath (i : Q) : BookPathAlgebra k Q :=
+  ofPath (k := k) ⟨i, i, Quiver.Path.nil⟩
+
+/-- **Remark 2.8.5.** For finitely many vertices, the sum of the trivial paths is the unit in the
+book-facing path algebra. -/
+theorem sum_trivialPaths_eq_one [Fintype Q] :
+    (∑ i, trivialPath (k := k) (Q := Q) i : BookPathAlgebra k Q) = 1 := by
+  apply MulOpposite.unop_injective
+  rw [show MulOpposite.unop
+      (∑ i, trivialPath (k := k) (Q := Q) i : BookPathAlgebra k Q) =
+        ∑ i, MulOpposite.unop (trivialPath (k := k) (Q := Q) i) from
+      map_sum MulOpposite.opAddEquiv.symm _ Finset.univ]
+  simp only [trivialPath, unop_ofPath, MulOpposite.unop_one]
+  exact PathAlgebra.sum_trivialPaths_eq_one k Q
+
+end BookPathAlgebra
 
 end Etingof
