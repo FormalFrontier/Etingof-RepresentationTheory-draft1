@@ -22,6 +22,9 @@ Etingof Definition 2.14.1. With `Mathlib.Algebra.Lie.TensorProduct` imported, th
 `LieRingModule`/`LieModule` instances on `V ⊗ W` are in scope, so this abbrev carries
 the Lie action `x · (v ⊗ w) = (x · v) ⊗ w + v ⊗ (x · w)` (the Leibniz rule), not merely
 the underlying `k`-module. See `Etingof.LieTensorProduct.lie_tmul`. -/
+-- The representation hypotheses are intentionally retained in this pedagogical alias even
+-- though its reducible carrier is just `TensorProduct k V W`.
+@[nolint unusedArguments]
 abbrev Etingof.LieTensorProduct (k : Type*) (L : Type*) (V : Type*) (W : Type*)
     [CommRing k] [LieRing L] [LieAlgebra k L]
     [AddCommGroup V] [Module k V] [LieRingModule L V] [LieModule k L V]
