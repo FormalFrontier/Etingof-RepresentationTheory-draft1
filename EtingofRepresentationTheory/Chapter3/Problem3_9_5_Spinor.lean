@@ -70,6 +70,15 @@ theorem contraction_creation_add (n : ℕ)
   rw [CliffordAlgebra.contractLeft_ι_mul]
   module
 
+/-- The mixed CAR as an identity of endomorphisms. -/
+theorem contraction_mul_creation_add (n : ℕ)
+    (f : Module.Dual ℂ (Fin n → ℂ)) (u : Fin n → ℂ) :
+    contraction n f * creation n u + creation n u * contraction n f =
+      f u • (1 : Module.End ℂ (Spinor n)) := by
+  apply LinearMap.ext
+  intro x
+  exact contraction_creation_add n f u x
+
 /-- The combined contraction/creation action of the hyperbolic space. -/
 noncomputable def hyperbolicAction (n : ℕ) :
     HyperbolicSpace n →ₗ[ℂ] Module.End ℂ (Spinor n) :=
