@@ -1,13 +1,4 @@
-import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-import Mathlib.LinearAlgebra.FiniteDimensional.Basic
 import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
-import Mathlib.LinearAlgebra.Dimension.Finite
-import Mathlib.Order.SupIndep
-import Mathlib.Order.ModularLattice
-import Mathlib.Algebra.DirectSum.Module
-import Mathlib.Algebra.DirectSum.Decomposition
-import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 import EtingofRepresentationTheory.Chapter3.Lemma3_8_2
 
 /-!
