@@ -1,5 +1,3 @@
-import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.LinearAlgebra.Basis.VectorSpace
 import EtingofRepresentationTheory.Chapter3.Theorem3_2_2
 
 /-!

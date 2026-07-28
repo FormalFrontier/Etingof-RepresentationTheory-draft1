@@ -92,6 +92,7 @@ import EtingofRepresentationTheory.Chapter2.Problem2_8_11
 import EtingofRepresentationTheory.Chapter2.Problem2_8_6
 
 -- Section 2.9: Lie Algebras
+import EtingofRepresentationTheory.Chapter2.Discussion_2_9_heading
 import EtingofRepresentationTheory.Chapter2.Definition2_9_1
 import EtingofRepresentationTheory.Chapter2.Definition2_9_6
 import EtingofRepresentationTheory.Chapter2.Definition2_9_7
@@ -100,11 +101,13 @@ import EtingofRepresentationTheory.Chapter2.Example2_9_2
 import EtingofRepresentationTheory.Chapter2.Example2_9_2_continued
 import EtingofRepresentationTheory.Chapter2.Remark2_9_3
 import EtingofRepresentationTheory.Chapter2.Remark2_9_4
+import EtingofRepresentationTheory.Chapter2.Discussion_concrete_Lie_examples
 import EtingofRepresentationTheory.Chapter2.Example2_9_8
 import EtingofRepresentationTheory.Chapter2.Example2_9_12
 import EtingofRepresentationTheory.Chapter2.Example2_9_13
 import EtingofRepresentationTheory.Chapter2.Exercise2_9_5
 import EtingofRepresentationTheory.Chapter2.Exercise2_9_11
+import EtingofRepresentationTheory.Chapter2.Remark2_9_10
 
 -- Section 2.11-2.12: Tensor Products, Symmetric/Exterior Algebras
 import EtingofRepresentationTheory.Chapter2.Definition2_11_1

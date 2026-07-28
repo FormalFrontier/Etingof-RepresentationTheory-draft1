@@ -1,4 +1,6 @@
-import Mathlib
+import Mathlib.Order.Zorn
+import Mathlib.RingTheory.Ideal.Maximal
+import Mathlib.RingTheory.TwoSidedIdeal.Lattice
 
 /-!
 # Problem 2.4.1: Existence of maximal ideals
