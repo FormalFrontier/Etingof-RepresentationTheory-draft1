@@ -2,6 +2,16 @@
 
 Progress is recorded here as stages from PLAN.md are completed.
 
+## Completion policy
+
+Completion requires zero blocking proof placeholders: no `sorry`, `admit`, or
+project axiom declarations. A `proof_wanted` is non-blocking only when its item
+has `scope_approved_proof_wanted` status in `progress/items.json` and is
+individually justified in `skipped-exercises.md`. Remark 2.9.3's Ado–Iwasawa
+marker is the sole current approval and is outside the project's proof
+obligation; it must not be counted as active mathematical work. New approvals
+require an explicit scope entry, matching metadata, and review.
+
 ## Stage 1.1: Page Extraction
 - **Status:** Complete
 - **Date:** 2026-03-14
@@ -75,5 +85,5 @@ Progress is recorded here as stages from PLAN.md are completed.
 ## Stage 3.2: Proof Filling
 - **Status:** In progress (project tail)
 - **Date started:** 2026-03-16
-- **Latest update:** 2026-07-18 (sorry-landscape refresh #6976, HEAD `7337d8e3`)
-- **Notes:** 559/592 items `sorry_free` in `progress/items.json`. Comment-stripped scan of `EtingofRepresentationTheory/**/*.lean` finds only **4 genuine `sorry` proof terms across 3 files**, all covered by claimed or in-flight work: `Chapter2/Problem2_16_3.lean` `finrank_g_three` (G₂ positive part, #6340, claimed); `Chapter4/Problem4_12_8.lean` `so3_octahedral_of_poleData` and `so3_icosahedral_of_poleData` (the two hardest SO(3) polyhedral cruxes, #6972/#6971 with reduction PRs #6973/#6974/#6977); `Chapter8/Problem8_2_8.lean` `Problem_8_2_8_ext` (Ext Künneth final assembly, #6898, claimed). No `axiom`/`admit`; 2 book-disavowed `proof_wanted` (`Remark2_9_3` `ado`, `Remark5_23_3` `sl_finiteDimensional_completely_reducible`). Chapters 1,3,5,6,7,9 are source-sorry-free. See `progress/2026-07-18T16-29-26Z-sorry-landscape.md` for the full per-file/per-chapter analysis and the status-reconciliation audit (5 items reclassified to `sorry_free`; 5 sorry-free-source items confirmed as genuine deliberate holds).
+- **Latest update:** 2026-07-28 (scope-policy and placeholder-classification refresh, #8110)
+- **Notes:** The automated comment/string-aware scan reports one blocking `sorry` (`Chapter2/Theorem2_1_2_General.lean`) and no `admit` or project axiom declarations. It separately reports one approved, non-blocking `proof_wanted`: `Chapter2/Remark2_9_3.lean` `ado`. The Ado–Iwasawa marker is scope-complete rather than part of the active proof frontier. Run `scripts/check_proof_placeholders.py` for the current classification and add `--enforce-completion` for the release gate.

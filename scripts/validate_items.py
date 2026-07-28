@@ -39,6 +39,23 @@ VALID_EXERCISE_COVERAGE = {
     "non_formalizable",
 }
 
+# A `proof_wanted` is non-blocking only when an item carries this terminal
+# status and a complete, reviewable approval record.  The source-level checker
+# additionally verifies that this metadata matches the exact marker in Lean and
+# an entry in skipped-exercises.md.
+APPROVED_PROOF_WANTED_STATUS = "scope_approved_proof_wanted"
+APPROVED_PROOF_WANTED_CLASSIFICATION = "approved_nonblocking"
+PROOF_WANTED_APPROVAL_FIELD = "proof_wanted_approval"
+PROOF_WANTED_APPROVAL_REQUIRED_FIELDS = {
+    "classification",
+    "declaration",
+    "source",
+    "scope_document",
+    "scope_heading",
+    "reason",
+    "approved_by_issue",
+}
+
 # Files in pages/ that are not actual page content
 EXCLUDED_FILES = {"CONVENTIONS.md"}
 
@@ -247,6 +264,41 @@ def validate(items_path):
                     f"{prefix}: exercise coverage must be one of "
                     f"{sorted(VALID_EXERCISE_COVERAGE)}, got {exercise_coverage!r}"
                 )
+
+        # Scope-approved `proof_wanted` is deliberately a narrow exception,
+        # not a general synonym for unfinished work.
+        approval = item.get(PROOF_WANTED_APPROVAL_FIELD)
+        if item.get("status") == APPROVED_PROOF_WANTED_STATUS:
+            if not isinstance(approval, dict):
+                errors.append(
+                    f"{prefix}: status {APPROVED_PROOF_WANTED_STATUS!r} requires "
+                    f"an object field {PROOF_WANTED_APPROVAL_FIELD!r}"
+                )
+            else:
+                missing_approval = PROOF_WANTED_APPROVAL_REQUIRED_FIELDS - set(approval)
+                if missing_approval:
+                    errors.append(
+                        f"{prefix}: {PROOF_WANTED_APPROVAL_FIELD} is missing fields: "
+                        f"{sorted(missing_approval)}"
+                    )
+                if approval.get("classification") != APPROVED_PROOF_WANTED_CLASSIFICATION:
+                    errors.append(
+                        f"{prefix}: approval classification must be "
+                        f"{APPROVED_PROOF_WANTED_CLASSIFICATION!r}"
+                    )
+                if item.get("coverage") != "covered_full":
+                    errors.append(
+                        f"{prefix}: approved proof_wanted must retain coverage 'covered_full'"
+                    )
+                if item.get("sorry_free") is not True:
+                    errors.append(
+                        f"{prefix}: approved proof_wanted must record sorry_free: true"
+                    )
+        elif approval is not None:
+            errors.append(
+                f"{prefix}: {PROOF_WANTED_APPROVAL_FIELD!r} is only valid with status "
+                f"{APPROVED_PROOF_WANTED_STATUS!r}"
+            )
 
         # Line number types
         if not isinstance(item["start_line"], int):

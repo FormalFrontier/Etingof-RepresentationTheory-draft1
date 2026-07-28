@@ -10,6 +10,14 @@ the scope of a particular issue. Exercises deferred to a later import point, wit
 partial results recorded now, are tracked separately in
 [Deferred reprises](deferred-reprises.md).
 
+Project completion requires zero accidental `sorry` or `admit` terms and zero
+project axioms. Every `proof_wanted` must instead be individually enumerated and
+justified in the scope document, with matching machine-readable approval metadata
+in `progress/items.json`. The currently approved Ado–Iwasawa marker in Remark
+2.9.3 is non-blocking; no future marker inherits that exception automatically.
+Run `scripts/check_proof_placeholders.py --enforce-completion` to check these
+release criteria.
+
 ## GitHub configuration
 
 To set up your new GitHub repository, follow these steps:

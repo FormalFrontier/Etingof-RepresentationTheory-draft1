@@ -29,6 +29,10 @@ jobs:
         with:
           size: 8G
       - uses: actions/checkout@v5
+      - name: Classify proof placeholders
+        run: |
+          python3 scripts/test_check_proof_placeholders.py
+          scripts/check_proof_placeholders.py
       - name: Forbid native_decide (trust-hole guard)
         run: |
           # native_decide compiles the goal to native code and trusts the Lean

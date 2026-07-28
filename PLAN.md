@@ -307,6 +307,24 @@ These files are read by formalization agents when they work on the corresponding
 
 Phase 3 is where the bulk of the project happens: every formalizable item needs a Lean file with correct definitions and eventually a complete proof. Each stage is parallelized **per item** via GitHub issues and PRs — one issue per item, one agent per item. Stages can overlap: an item can progress through scaffolding, review, and proof work while other items are still in earlier stages.
 
+#### Phase 3 completion criteria
+
+The book formalization may be declared complete only when all of the following
+hold:
+
+1. The Lean sources contain no accidental `sorry` or `admit` terms and no
+   project `axiom` declarations.
+2. Every `proof_wanted` is individually enumerated and justified in
+   `skipped-exercises.md`, with matching `scope_approved_proof_wanted` metadata
+   in `progress/items.json` that names the exact source and declaration.
+3. `scripts/check_proof_placeholders.py --enforce-completion` succeeds.
+
+An approved `proof_wanted` is a reviewed project-scope decision, not an active
+proof gap. The Ado–Iwasawa statement `Etingof.ado` in Remark 2.9.3 is currently
+the sole such marker and is non-blocking. This exception does not generalize:
+adding another non-blocking marker requires an explicit scope-document entry,
+matching metadata, and review.
+
 #### PR lifecycle
 
 PRs must be merged to `main` without human intervention to avoid blocking downstream agents. Every PR should have auto-merge enabled at creation time:
@@ -799,6 +817,7 @@ Special statuses (set during review):
 - `needs_definition` — the item has a definition-level sorry or coverage gap that must be resolved before downstream theorems are meaningful
 - `attention_needed` — requires specialized agent attention (e.g., wrong statement, repeated failures)
 - `non_formalizable` — discussion blob assessed as containing no formalizable claims (must include enumerated claims and exclusion reasons; subject to Stage 3.2 review; terminal status if review confirms)
+- `scope_approved_proof_wanted` — terminal, non-blocking scope exception for an individually enumerated book-stated external result; requires a complete `proof_wanted_approval` record and explicit review
 
 ```json
 {

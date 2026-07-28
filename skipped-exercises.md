@@ -10,6 +10,41 @@ describe what is and is not formalized, link to this document, and contain no
 `sorry`, `admit`, axiom, or proof-placeholder declaration for the omitted material.
 Progress metadata should record partial coverage and the scope decision explicitly.
 
+## Book-stated external results intentionally left as `proof_wanted`
+
+This section is a narrow exception to the omission policy above. A
+`proof_wanted` records and typechecks a proposition but creates no proof term,
+`sorryAx`, or project axiom. Such a marker is non-blocking only when it is
+individually enumerated here and has matching `scope_approved_proof_wanted`
+metadata in `progress/items.json`. Adding another exception requires a new entry
+in both places and explicit review; unapproved `proof_wanted` markers remain
+blocking proof gaps. `scripts/check_proof_placeholders.py` enforces that
+correspondence.
+
+### Remark 2.9.3 — Ado–Iwasawa theorem
+
+The book states Ado's theorem—that every finite-dimensional Lie algebra has a
+faithful finite-dimensional representation—but supplies no proof. Because the
+chapter works over an arbitrary field, the faithful Lean statement
+`Etingof.ado` records the arbitrary-characteristic Ado–Iwasawa theorem, not only
+the characteristic-zero case.
+
+The project intentionally does not undertake the Ado–Iwasawa proof. Its
+arbitrary-characteristic proof requires substantial Lie-theoretic machinery
+beyond the representation-theory development selected for this book, including
+the characteristic-dependent construction of a finite-dimensional quotient of
+the universal enveloping algebra that remains faithful on the Lie algebra.
+Building that theory solely to prove a result the book invokes without proof is
+outside this formalization's boundary.
+
+Accordingly, the sole `proof_wanted ado` in
+`EtingofRepresentationTheory/Chapter2/Remark2_9_3.lean`, tracked by
+`Chapter2/Remark2.9.3`, is an approved non-blocking marker. The file still proves
+the useful constructive reductions between a faithful finite-dimensional
+representation and a finite-dimensional enveloping-algebra target. Its
+`proof_wanted` records that the theorem itself has no project proof; it is not
+active mathematical work and does not prevent completion.
+
 ## Current intentional omissions
 
 ### Problem 2.11.6 — standalone bimodule tensor calculus
