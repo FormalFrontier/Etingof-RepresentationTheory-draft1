@@ -1,5 +1,4 @@
 import Mathlib
-import EtingofRepresentationTheory.Chapter3.Problem3_8_3
 
 /-!
 # Problem 3.8.4: scalar extension and the Noether-Deuring theorem

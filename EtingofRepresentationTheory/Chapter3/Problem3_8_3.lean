@@ -1,4 +1,3 @@
-import EtingofRepresentationTheory.Chapter3.Lemma3_8_2
 import EtingofRepresentationTheory.Chapter3.Theorem3_8_1
 
 /-!

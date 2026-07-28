@@ -1,18 +1,10 @@
-import Mathlib.RingTheory.TensorProduct.Maps
 import Mathlib.FieldTheory.RatFunc.AsPolynomial
-import Mathlib.FieldTheory.RatFunc.Basic
-import Mathlib.RingTheory.Algebraic.Basic
 import Mathlib.Data.Complex.Basic
-import Mathlib.Algebra.MvPolynomial.PDeriv
 import Mathlib.Algebra.Polynomial.Bivariate
 import Mathlib.RingTheory.Derivation.Lie
-import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.RingTheory.MvPolynomial
-import Mathlib.LinearAlgebra.Basis.Basic
-import Mathlib.Algebra.BigOperators.Finsupp.Fin
 import EtingofRepresentationTheory.Chapter2.WeylAlgebraUniversal
 import EtingofRepresentationTheory.Chapter2.WeylAlgebraDomain
-import Mathlib.LinearAlgebra.Dual.Lemmas
 
 /-!
 # Remark 3.10.3: Failure of Theorem 3.10.2 for infinite dimensional representations

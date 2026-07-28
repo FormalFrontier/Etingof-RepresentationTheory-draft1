@@ -1,14 +1,6 @@
-import Mathlib.RingTheory.FiniteLength
 import Mathlib.RingTheory.Length
-import Mathlib.RingTheory.Artinian.Module
-import Mathlib.Algebra.Module.Equiv.Basic
 import Mathlib.RingTheory.LocalRing.Basic
 import Mathlib.RingTheory.Nilpotent.Basic
-import Mathlib.Order.SupIndep
-import Mathlib.Order.ModularLattice
-import Mathlib.Algebra.DirectSum.Module
-import Mathlib.Algebra.DirectSum.Decomposition
-import Mathlib.LinearAlgebra.Projection
 import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 
 /-!

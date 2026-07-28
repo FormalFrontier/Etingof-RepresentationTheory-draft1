@@ -11515,10 +11515,42 @@
     "end_page": "54",
     "start_line": 9,
     "end_line": 10,
-    "status": "sorry_free",
+    "status": "non_formalizable",
+    "reason": "This item is only the section heading “The Krull-Schmidt theorem” and contains no mathematical assertion beyond naming the following material.",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Section 3.8 is headed 'The Krull-Schmidt theorem'.",
+          "verdict": "non_formalizable",
+          "reason": "This item is only a section heading and contains no mathematical assertion beyond naming the following material."
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": [],
+      "basis": "This item is only a section heading and has no Lean provider or proof obligation."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This item is an organizational heading with no Lean provider, so it has no actual internal dependency."
     }
   },
   {
@@ -11529,12 +11561,65 @@
     "end_page": "54",
     "start_line": 11,
     "end_line": 14,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "fidelity": "verified",
     "note": "Existence and uniqueness are proved sorry-free, including the inductive uniqueness step. Importability regression (finrank ⊤ ≤ finrank V step) fixed 2026-07-23 via finrank_top.",
     "sorry_free": true,
-    "last_updated": "2026-07-23"
+    "last_updated": "2026-07-23",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Every finite-dimensional representation is a direct sum of indecomposable representations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.krull_schmidt_existence"
+        },
+        {
+          "claim": "Two decompositions into indecomposables have the same number of summands and agree, after a permutation, up to isomorphism of corresponding summands.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.krull_schmidt_uniqueness"
+        },
+        {
+          "claim": "The existence proof proceeds by induction on dimension, splitting a decomposable representation into two proper summands and joining their inductive decompositions.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.krull_schmidt_existence",
+          "note": "The proof body implements the dimension induction through the private helper krull_schmidt_existence_aux."
+        },
+        {
+          "claim": "For two indecomposable decompositions, the natural inclusions and projections define endomorphisms theta_s of the first summand whose sum is the identity.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.krull_schmidt_uniqueness",
+          "note": "The exchange construction and sum-to-identity calculation occur in the proof body through the private helper krull_schmidt_find_iso_summand."
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.krull_schmidt_existence",
+        "Etingof.krull_schmidt_uniqueness"
+      ],
+      "basis": "Both public endpoints are admission-free constants. The exhaustive module-origin audit also covers four private authored proof-route helpers and 37 compiler-generated proof, match, and simp constants."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.3.8"
+      ],
+      "basis": "The theorem semantically uses the indecomposability predicate from Definition 2.3.8, supplied transitively by its direct import of the later Lemma 3.8.2 provider. That direct import is a forward proof-order edge, excluded from the acyclic backward pedagogical graph and recorded in the Stage 3.4 audit note."
+    }
   },
   {
     "id": "Chapter3/Lemma3.8.2",
@@ -11544,11 +11629,69 @@
     "end_page": "55",
     "start_line": 15,
     "end_line": 6,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "last_updated": "2026-07-22",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Every endomorphism of a finite-dimensional indecomposable representation is either invertible or nilpotent.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.endo_indecomposable_iso_or_nilpotent"
+        },
+        {
+          "claim": "The dichotomy follows from an invariant direct-sum decomposition into a nilpotent part and an invertible part.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "LinearMap.isCompl_iSup_ker_pow_iInf_range_pow; Etingof.endo_indecomposable_iso_or_nilpotent",
+          "note": "Lean uses the stronger arbitrary-field Fitting decomposition rather than the source's algebraically-closed generalized-eigenspace proof."
+        },
+        {
+          "claim": "A finite sum of nilpotent endomorphisms of an indecomposable representation is nilpotent.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.sum_nilpotent_endo_indecomposable"
+        },
+        {
+          "claim": "The sum result is proved inductively using the unit-or-nilpotent dichotomy and the fact that one minus a nilpotent endomorphism is invertible.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.sum_nilpotent_endo_indecomposable; IsNilpotent.isUnit_one_sub"
+        },
+        {
+          "claim": "Since the theta_s sum to the identity, one theta_s is invertible; this yields an isomorphism between the first indecomposable summand and a summand of the other decomposition, with the remaining summands forming a common complement.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.krull_schmidt_uniqueness",
+          "note": "This continuation is implemented in the private exchange helper krull_schmidt_find_iso_summand used by the public uniqueness theorem."
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.endo_indecomposable_iso_or_nilpotent",
+        "Etingof.sum_nilpotent_endo_indecomposable"
+      ],
+      "basis": "Both authored lemma endpoints are admission-free constants and have no additional compiler-generated constants in their exact provider module."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.3.8"
+      ],
+      "basis": "The provider's only project import is Definition2_3_8, which supplies the indecomposability predicate used by both lemma endpoints."
+    }
   },
   {
     "id": "Chapter3/Discussion_proof_of_Theorem3.8.1",
@@ -11557,33 +11700,75 @@
     "start_page": "55",
     "end_page": "55",
     "start_line": 7,
-    "end_line": 12,
-    "status": "sorry_free",
+    "end_line": 10,
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The intended Krull–Schmidt proof is source-present, but Theorem3_8_1.lean currently fails fresh elaboration, so this proof discussion cannot rebuild; regression #7495.",
-    "coverage_issue": 7495,
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The shared Etingof.krull_schmidt_uniqueness endpoint implements the remaining common-complement, injectivity, and induction argument, and its complete provider now builds admission-free.",
+    "last_updated": "2026-07-28",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "After matching one summand, the sums of the remaining summands in the two decompositions are isomorphic.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.krull_schmidt_uniqueness",
+          "note": "The proof constructs complements of the matched summand and identifies them using the quotient by that summand."
+        },
+        {
+          "claim": "The comparison map between the remaining sums is injective because a vector in its kernel lies in the matched summand and is killed by an isomorphism.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.krull_schmidt_uniqueness",
+          "note": "Lean packages the source's kernel argument as the common-complement exchange step in the uniqueness proof."
+        },
+        {
+          "claim": "Induction on the remaining representation proves equality of the numbers of summands and a permutation matching all summands up to isomorphism.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.krull_schmidt_uniqueness"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.krull_schmidt_uniqueness"
+      ],
+      "basis": "The discussion's complete exchange-and-induction argument is implemented inside the shared uniqueness endpoint. Its private proof-route helpers and generated constants are exhaustively audited on the theorem item."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This discussion has no provider of its own; its proof is contained in the shared Theorem 3.8.1 endpoint, so it introduces no direct provider dependency edge."
+    }
   },
   {
     "id": "Chapter3/Problem3.8.3",
-    "source_regression_note": "Its named general-field Krull–Schmidt citations come from the broken Theorem3_8_1 source (#7495).",
     "type": "exercise",
     "title": "Krull-Schmidt theorem without algebraic closure",
     "start_page": "55",
     "end_page": "55",
-    "start_line": 13,
-    "end_line": 14,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "start_line": 11,
+    "end_line": 12,
+    "status": "dependency_trimmed",
+    "fidelity": "verified",
     "note": "Covered-inline: Lemma3_8_2 and Theorem3_8_1 are formalized over an arbitrary [Field k] (no IsAlgClosed), using the Fitting decomposition in place of the book's generalized-eigenspace argument. Chapter3/Problem3_8_3.lean names the general-field citation targets (endo_iso_or_nilpotent, sum_nilpotent_endo, krull_schmidt_existence/uniqueness).",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_issue": 7495,
+    "coverage": "covered_full",
     "coverage_arm": "audited",
     "lean_decl": [
       "Etingof.Problem3_8_3.endo_iso_or_nilpotent",
@@ -11596,8 +11781,48 @@
       "EtingofRepresentationTheory/Chapter3/Theorem3_8_1.lean",
       "EtingofRepresentationTheory/Chapter3/Lemma3_8_2.lean"
     ],
-    "last_updated": "2026-07-22",
-    "coverage_note": "Coverage-arm audit (Stage 3.7, #7373): covered_full, single-claim. Problem3_8_3.lean (sorry-free, axiom-clean) names the general-field citation targets: endo_iso_or_nilpotent (line 43), sum_nilpotent_endo (54), krull_schmidt_existence (66), krull_schmidt_uniqueness (80). All four assume only [Field k] (no IsAlgClosed k), citing the Lemma3_8_2/Theorem3_8_1 proofs which replace the book's generalized-eigenspace argument with the Fitting decomposition (isCompl_iSup_ker_pow_iInf_range_pow, valid for any Noetherian+Artinian module). This is exactly the book's claim that Lemma 3.8.2 and hence the Krull-Schmidt theorem hold without algebraic closure. krull_schmidt_uniqueness is the referent of Problem 3.8.4's citation 'the Krull-Schmidt theorem, valid over any field by Problem 3.8.3'."
+    "last_updated": "2026-07-28",
+    "coverage_note": "Coverage-arm audit (Stage 3.7, #7373): covered_full, single-claim. Problem3_8_3.lean (sorry-free, axiom-clean) names the general-field citation targets: endo_iso_or_nilpotent (line 43), sum_nilpotent_endo (54), krull_schmidt_existence (66), krull_schmidt_uniqueness (80). All four assume only [Field k] (no IsAlgClosed k), citing the Lemma3_8_2/Theorem3_8_1 proofs which replace the book's generalized-eigenspace argument with the Fitting decomposition (isCompl_iSup_ker_pow_iInf_range_pow, valid for any Noetherian+Artinian module). This is exactly the book's claim that Lemma 3.8.2 and hence the Krull-Schmidt theorem hold without algebraic closure. krull_schmidt_uniqueness is the referent of Problem 3.8.4's citation 'the Krull-Schmidt theorem, valid over any field by Problem 3.8.3'.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Lemma 3.8.2 and the Krull-Schmidt theorem remain valid over an arbitrary field, without assuming algebraic closure.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_3.endo_iso_or_nilpotent; Etingof.Problem3_8_3.sum_nilpotent_endo; Etingof.Problem3_8_3.krull_schmidt_existence; Etingof.Problem3_8_3.krull_schmidt_uniqueness",
+          "note": "All four wrappers assume only Field k; the underlying proofs use Fitting decomposition instead of generalized eigenspaces."
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_8_3.endo_iso_or_nilpotent",
+        "Etingof.Problem3_8_3.sum_nilpotent_endo",
+        "Etingof.Problem3_8_3.krull_schmidt_existence",
+        "Etingof.Problem3_8_3.krull_schmidt_uniqueness"
+      ],
+      "basis": "All four arbitrary-field wrapper endpoints are authored, admission-free constants; the exact provider emits no additional generated constants."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Theorem3.8.1",
+        "Chapter3/Lemma3.8.2"
+      ],
+      "basis": "The wrapper provider directly retains Theorem3_8_1, which transitively supplies Lemma3_8_2. Its four arbitrary-field wrappers cite declarations from both providers, so both remain semantic item dependencies."
+    }
   },
   {
     "id": "Chapter3/Problem3.8.4",
@@ -11605,31 +11830,30 @@
     "title": "Scalar extension and the Noether-Deuring theorem",
     "start_page": "55",
     "end_page": "56",
-    "start_line": 15,
+    "start_line": 13,
     "end_line": 4,
-    "status": "partially_proved",
+    "status": "dependency_trimmed",
     "sorry_free": true,
-    "fidelity": "partial",
+    "fidelity": "verified",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_8_4_Main.lean",
       "EtingofRepresentationTheory/Chapter3/Problem3_8_4_General.lean"
     ],
-    "coverage_note": "Both general-L endpoints remain mathematically source-present with arbitrary field-extension hypotheses, but Problem3_8_4_Descent.lean currently fails a fresh check at three simplification steps, blocking a clean rebuild of the descent chain; regression #7532.",
-    "coverage": "covered_partial",
-    "coverage_issue": 7532,
+    "coverage_note": "Both arbitrary-extension endpoints build admission-free: isomorphisms and split injections descend through a finitely generated subalgebra, specialize to a finite residue extension, and conclude via power cancellation and arbitrary-field Krull-Schmidt.",
+    "coverage": "covered_full",
     "coverage_arm": "audited",
     "lean_decl": [
       "Etingof.Problem3_8_4.iso_of_baseChange_iso",
       "Etingof.Problem3_8_4.directSummand_of_baseChange_directSummand"
     ],
-    "last_updated": "2026-07-22",
+    "last_updated": "2026-07-28",
     "derived": [
       {
         "part": "(i) scalar extension descends isomorphism",
         "claim": "If V ⊗_K L ≅ W ⊗_K L as A ⊗_K L-modules for a field extension L/K, then V ≅ W as A-modules.",
         "description": "Descent of a module isomorphism along an arbitrary base-field extension.",
-        "source_span": "blobs/Chapter3/Problem3.8.3.md (blob-offset: holds the 3.8.4(i) statement); hint in blobs/Chapter3/Problem3.8.4.md",
-        "coverage": "covered_partial",
+        "source_span": "blobs/Chapter3/Problem3.8.4.md (i)",
+        "coverage": "covered_full",
         "lean_decl": [
           "Etingof.Problem3_8_4.iso_of_baseChange_iso"
         ],
@@ -11640,13 +11864,115 @@
         "claim": "In the setting of (i), if V ⊗_K L is a direct summand of W ⊗_K L then V is a direct summand of W as A-modules.",
         "description": "Noether-Deuring: the direct-summand relation descends along a base-field extension.",
         "source_span": "blobs/Chapter3/Problem3.8.4.md (ii)",
-        "coverage": "covered_partial",
+        "coverage": "covered_full",
         "lean_decl": [
           "Etingof.Problem3_8_4.directSummand_of_baseChange_directSummand"
         ],
         "reason": "directSummand_of_baseChange_directSummand (Problem3_8_4_General.lean:47) is the genuine general-L Noether-Deuring theorem: 'direct summand' is encoded as a split injection p∘i=id over L ⊗[K] A and concluded as a split injection over A. Hypotheses only [Field L] [Algebra K L] (no finiteness on L) plus FiniteDimensional K V/W. Same Zariski-specialization descent applied to split injections. Axiom-clean."
       }
-    ]
+    ],
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "If two finite-dimensional A-modules become isomorphic after scalar extension along an arbitrary field extension L/K, then they were already isomorphic over A.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_4.iso_of_baseChange_iso"
+        },
+        {
+          "claim": "The isomorphism descends to a finitely generated K-subalgebra generated by the matrix entries of the map and its inverse.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_4.Descent.exists_fg_subalgebra_baseChange_iso"
+        },
+        {
+          "claim": "Specialization at a maximal ideal reduces the descended isomorphism to a finite field extension, by Zariski's lemma.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Problem3_8_4.iso_of_baseChange_iso",
+          "note": "The general endpoint's proof chooses a maximal ideal of the finitely generated subalgebra, forms its residue field, and obtains finite dimensionality over K before invoking the finite case."
+        },
+        {
+          "claim": "For a finite extension of degree n, restriction of scalars identifies the base changes with n-fold powers and Krull-Schmidt cancellation yields V isomorphic to W.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_4.baseChange_alinEquiv_pow; Etingof.Problem3_8_4.iso_pow_cancel; Etingof.Problem3_8_4.iso_of_baseChange_iso_finite"
+        },
+        {
+          "claim": "If the base change of V is a direct summand of the base change of W along an arbitrary field extension, then V is a direct summand of W.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_4.directSummand_of_baseChange_directSummand"
+        },
+        {
+          "claim": "The direct-summand result descends the split injection to a finitely generated subalgebra, specializes to a finite extension, and applies power cancellation.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Problem3_8_4.Descent.exists_fg_subalgebra_baseChange_directSummand; Etingof.Problem3_8_4.directSummand_of_baseChange_directSummand_finite; Etingof.Problem3_8_4.directSummand_pow_cancel"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_8_4.rep",
+        "Etingof.Problem3_8_4.repTensor",
+        "Etingof.Problem3_8_4.bcMod",
+        "Etingof.IsIndecomposable.of_linearEquiv",
+        "Etingof.Problem3_8_4.indecDecomp_map",
+        "Etingof.Problem3_8_4.iso_pow_cancel",
+        "Etingof.Problem3_8_4.directSummand_pow_cancel",
+        "Etingof.Problem3_8_4.Descent.exists_fg_subalgebra_baseChange_iso",
+        "Etingof.Problem3_8_4.Descent.exists_fg_subalgebra_baseChange_directSummand",
+        "Etingof.Problem3_8_4.bcRestrictScalars",
+        "Etingof.Problem3_8_4.bcRestrictScalars_apply",
+        "Etingof.Problem3_8_4.iso_of_baseChange_iso_finite",
+        "Etingof.Problem3_8_4.bcRestrictScalarsMap",
+        "Etingof.Problem3_8_4.bcRestrictScalarsMap_apply",
+        "Etingof.Problem3_8_4.directSummand_of_baseChange_directSummand_finite",
+        "Etingof.Problem3_8_4.Functoriality.rep",
+        "Etingof.Problem3_8_4.Functoriality.repTensor",
+        "Etingof.Problem3_8_4.Functoriality.bcMod",
+        "Etingof.Problem3_8_4.Functoriality.bcMod_smul",
+        "Etingof.Problem3_8_4.Functoriality.repTensor_one_tmul_apply",
+        "Etingof.Problem3_8_4.Functoriality.smul_one_tmul",
+        "Etingof.Problem3_8_4.Functoriality.smul_tmul_one",
+        "Etingof.Problem3_8_4.Functoriality.pushEquiv",
+        "Etingof.Problem3_8_4.Functoriality.nonempty_baseChange_iso",
+        "Etingof.Problem3_8_4.Functoriality.pushHom",
+        "Etingof.Problem3_8_4.Functoriality.pushHom_tmul",
+        "Etingof.Problem3_8_4.Functoriality.pushHom_cancelBaseChange",
+        "Etingof.Problem3_8_4.Functoriality.pushHom_comp",
+        "Etingof.Problem3_8_4.Functoriality.pushHom_id",
+        "Etingof.Problem3_8_4.Functoriality.nonempty_baseChange_directSummand",
+        "Etingof.Problem3_8_4.directSummand_of_baseChange_directSummand",
+        "Etingof.Problem3_8_4.iso_of_baseChange_iso",
+        "Etingof.Problem3_8_4.repTensor_one_tmul_apply",
+        "Etingof.Problem3_8_4.toPiLinearEquiv",
+        "Etingof.Problem3_8_4.toPiLinearEquiv_tmul",
+        "Etingof.Problem3_8_4.bcModRestrict",
+        "Etingof.Problem3_8_4.bcModRestrict_smul",
+        "Etingof.Problem3_8_4.bcMod_smul",
+        "Etingof.Problem3_8_4.bcModRestrict_smul_tmul",
+        "Etingof.Problem3_8_4.toPiAlinMap",
+        "Etingof.Problem3_8_4.toPiAlinEquiv",
+        "Etingof.Problem3_8_4.baseChange_alinEquiv_pow"
+      ],
+      "basis": "All 42 public declarations across the eight-provider base-change, cancellation, descent, finite, functoriality, power, and general endpoint chain are admission-free. The exhaustive audit additionally covers nine private authored helpers and 82 compiler-generated proof, match, simp, and equation constants."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Problem3.8.3"
+      ],
+      "basis": "The cancellation provider retains Problem3_8_3 for arbitrary-field Krull-Schmidt. All other project imports in the eight-provider chain are intra-item edges; the unused Problem3_8_3 import in the base setup provider was removed after an isolated omission test."
+    }
   },
   {
     "id": "Chapter3/Problem3.8.5",
@@ -11656,14 +11982,13 @@
     "end_page": "56",
     "start_line": 5,
     "end_line": 10,
-    "status": "partially_proved",
+    "status": "dependency_trimmed",
     "sorry_free": true,
-    "fidelity": "partial",
+    "fidelity": "verified",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_8_5.lean"
     ],
-    "coverage": "covered_partial",
-    "coverage_issue": 7533,
+    "coverage": "covered_full",
     "coverage_arm": "audited",
     "lean_decl": [
       "Etingof.Problem3_8_5.periodic_isIndecomposable",
@@ -11671,14 +11996,14 @@
       "Etingof.Problem3_8_5.periodic_not_linearEquiv_antiperiodic",
       "Etingof.Problem3_8_5.periodic_sq_linearEquiv_antiperiodic_sq"
     ],
-    "last_updated": "2026-07-22",
+    "last_updated": "2026-07-28",
     "derived": [
       {
         "part": "(i) A and M are indecomposable",
         "claim": "A (continuous period-1 functions ℝ→ℝ) and M (continuous antiperiodic functions f(x+1)=-f(x)) are indecomposable A-modules.",
         "description": "Neither the regular module A nor M admits a nontrivial direct-sum decomposition.",
         "source_span": "blobs/Chapter3/Problem3.8.5.md (i)",
-        "coverage": "covered_partial",
+        "coverage": "covered_full",
         "lean_decl": [
           "Etingof.Problem3_8_5.periodic_isIndecomposable",
           "Etingof.Problem3_8_5.antiperiodic_isIndecomposable"
@@ -11690,7 +12015,7 @@
         "claim": "A is not isomorphic to M as A-modules, yet A ⊕ A ≅ M ⊕ M.",
         "description": "M is a nontrivial order-2 element of Pic(A) (the Möbius line bundle on the circle): not free of rank 1, but M ⊕ M ≅ A ⊕ A.",
         "source_span": "blobs/Chapter3/Problem3.8.5.md (ii)",
-        "coverage": "covered_partial",
+        "coverage": "covered_full",
         "lean_decl": [
           "Etingof.Problem3_8_5.periodic_not_linearEquiv_antiperiodic",
           "Etingof.Problem3_8_5.periodic_sq_linearEquiv_antiperiodic_sq"
@@ -11698,7 +12023,91 @@
         "reason": "periodic_not_linearEquiv_antiperiodic (line 331) is IsEmpty (periodicSubalg ≃ₗ[periodicSubalg] antiperiodicSubmod) — a GENUINE non-isomorphism of A-modules (any generator of M is a continuous antiperiodic function, so it vanishes somewhere by the IVT, whence every element of M vanishes there, contradicting a nonvanishing antiperiodic section). periodic_sq_linearEquiv_antiperiodic_sq (line 485) is Nonempty ((periodicSubalg × periodicSubalg) ≃ₗ[periodicSubalg] (antiperiodicSubmod × antiperiodicSubmod)) — a GENUINE A-linear iso via the rotation (f,g)↦(cos·f−sin·g, sin·f+cos·g) with transpose inverse (cos²+sin²=1). Axiom-clean."
       }
     ],
-    "coverage_note": "All four headline constructions remain source-present, but Problem3_8_5.lean currently fails a fresh check at an application type mismatch, so the counterexample cannot be rebuilt; regression #7533."
+    "coverage_note": "The literal periodic algebra and antiperiodic module build admission-free. Both modules are indecomposable, they are not isomorphic, and the explicit sine-cosine rotation gives an A-linear equivalence A ⊕ A ≃ M ⊕ M.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A is the algebra of continuous real-valued period-one functions and M is its module of continuous antiperiodic functions f(x+1) = -f(x).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_5.periodicSubalg; Etingof.Problem3_8_5.antiperiodicSubmod"
+        },
+        {
+          "claim": "A is indecomposable as an A-module.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_5.periodic_isIndecomposable"
+        },
+        {
+          "claim": "M is indecomposable as an A-module.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_5.antiperiodic_isIndecomposable"
+        },
+        {
+          "claim": "A and M are not isomorphic as A-modules.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_5.periodic_not_linearEquiv_antiperiodic"
+        },
+        {
+          "claim": "A direct-summed with itself is isomorphic to M direct-summed with itself as an A-module.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_5.periodic_sq_linearEquiv_antiperiodic_sq",
+          "note": "Products encode binary direct sums; the equivalence is the explicit sine-cosine rotation with a proved inverse."
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_8_5.periodicSubalg",
+        "Etingof.Problem3_8_5.antiperiodicSubmod",
+        "Etingof.Problem3_8_5.periodicSubalg_idempotent_eq_zero_or_one",
+        "Etingof.Problem3_8_5.periodic_isIndecomposable",
+        "Etingof.Problem3_8_5.cosπ",
+        "Etingof.Problem3_8_5.sinπ",
+        "Etingof.Problem3_8_5.cosπ_apply",
+        "Etingof.Problem3_8_5.sinπ_apply",
+        "Etingof.Problem3_8_5.cosπ_mem",
+        "Etingof.Problem3_8_5.sinπ_mem",
+        "Etingof.Problem3_8_5.cosπ_sq_add_sinπ_sq",
+        "Etingof.Problem3_8_5.cM",
+        "Etingof.Problem3_8_5.sM",
+        "Etingof.Problem3_8_5.cM_coe",
+        "Etingof.Problem3_8_5.sM_coe",
+        "Etingof.Problem3_8_5.antiMul",
+        "Etingof.Problem3_8_5.antiMul_coe_apply",
+        "Etingof.Problem3_8_5.smul_apply_coe",
+        "Etingof.Problem3_8_5.antiperiodic_frame_decomp",
+        "Etingof.Problem3_8_5.antiperiodic_isIndecomposable",
+        "Etingof.Problem3_8_5.periodic_not_linearEquiv_antiperiodic",
+        "Etingof.Problem3_8_5.antiMulL",
+        "Etingof.Problem3_8_5.rotInv",
+        "Etingof.Problem3_8_5.rotFwd",
+        "Etingof.Problem3_8_5.rotInv_apply",
+        "Etingof.Problem3_8_5.rotFwd_apply",
+        "Etingof.Problem3_8_5.rotInv_rotFwd",
+        "Etingof.Problem3_8_5.rotFwd_rotInv",
+        "Etingof.Problem3_8_5.periodic_sq_linearEquiv_antiperiodic_sq"
+      ],
+      "basis": "All 29 public declarations supporting the literal continuous-function counterexample are admission-free. The exhaustive audit also covers one private authored helper and 27 generated structure-proof and simplifier constants."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.3.8"
+      ],
+      "basis": "The counterexample provider's sole project import is Definition2_3_8, which supplies the indecomposability predicate used by both module endpoints."
+    }
   },
   {
     "id": "Chapter3/Remark3.8.6",
@@ -11708,13 +12117,69 @@
     "end_page": "56",
     "start_line": 11,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
     "fidelity": "verified",
     "fidelity_note": "#7185: uniqueness half now proved. Existence + Fitting's lemma (nilpotent-or-unit) + local endomorphism ring (over an arbitrary ring, no algebraically closed field) plus the Krull-Schmidt-Azumaya exchange uniqueness (Etingof.krull_schmidt_uniqueness_finiteLength): any two indecomposable decompositions of a finite-length module agree up to a reindexing bijection and isomorphism of matched summands. Ported from the finite-dimensional Theorem 3.8.1 with Module.length as the induction measure. Axiom-clean (no sorryAx).",
     "fidelity_decl": "Etingof.isNilpotent_or_isUnit_of_finiteLength_indecomposable, Etingof.isLocalRing_end_of_finiteLength_indecomposable, Etingof.exists_indecomposable_decomposition, Etingof.isNilpotent_sum_of_finiteLength_indecomposable, Etingof.krull_schmidt_uniqueness_finiteLength",
-    "last_updated": "2026-07-21",
-    "fidelity_issue": 7185
+    "last_updated": "2026-07-28",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.8",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Krull-Schmidt can fail for infinite-dimensional modules.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_8_5.periodic_isIndecomposable; Etingof.Problem3_8_5.antiperiodic_isIndecomposable; Etingof.Problem3_8_5.periodic_not_linearEquiv_antiperiodic; Etingof.Problem3_8_5.periodic_sq_linearEquiv_antiperiodic_sq",
+          "note": "Problem 3.8.5 supplies two inequivalent indecomposable decompositions of the same module."
+        },
+        {
+          "claim": "A finite-length module has a uniform finite bound on the lengths of its strict submodule filtrations.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "isFiniteLength_iff_isNoetherian_isArtinian; Module.length; Order.LTSeries.length_le_krullDim",
+          "note": "The provider uses the equivalent Artinian-and-Noetherian typeclass formulation and Module.length as the bound."
+        },
+        {
+          "claim": "Every finite-length module is a direct sum of indecomposable submodules.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.exists_indecomposable_decomposition"
+        },
+        {
+          "claim": "The indecomposable decomposition of a finite-length module is unique up to permutation and isomorphism of corresponding summands.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.krull_schmidt_uniqueness_finiteLength"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.isNilpotent_or_isUnit_of_finiteLength_indecomposable",
+        "Etingof.isLocalRing_end_of_finiteLength_indecomposable",
+        "Etingof.exists_indecomposable_decomposition",
+        "Etingof.isNilpotent_sum_of_finiteLength_indecomposable",
+        "Etingof.krull_schmidt_uniqueness_finiteLength"
+      ],
+      "basis": "All five public finite-length endpoints are admission-free. Four private authored induction/exchange helpers and 34 generated proof, match, and simp constants were also included in the exhaustive audit."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.3.8",
+        "Chapter3/Problem3.8.5"
+      ],
+      "basis": "The finite-length provider directly imports Definition2_3_8 for the shared indecomposability predicate. The remark also semantically depends on Problem 3.8.5, whose explicit counterexample proves its opening claim that Krull-Schmidt can fail for infinite-dimensional modules."
+    }
   },
   {
     "id": "Chapter3/Introduction_to_3.9",
@@ -12066,10 +12531,48 @@
     "end_page": "59",
     "start_line": 5,
     "end_line": 8,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "covered_full"
+    },
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.10",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Section 3.10 concerns representations of tensor products of algebras.",
+          "verdict": "non_formalizable",
+          "reason": "This is the organizational section heading rather than a mathematical proposition."
+        },
+        {
+          "claim": "For algebras A and B, A ⊗ B is an algebra and multiplication on pure tensors satisfies (a₁ ⊗ b₁)(a₂ ⊗ b₂) = a₁a₂ ⊗ b₁b₂.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Algebra.TensorProduct.tmul_mul_tmul"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Algebra.TensorProduct.tmul_mul_tmul"
+      ],
+      "basis": "The organizational heading is nonformalizable, while the stated pure-tensor multiplication law is supplied by this external Mathlib declaration; that declaration was resolved and its complete axiom closure was audited."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The heading is organizational and its only mathematical setup law is supplied externally by Mathlib, so it uses no earlier project item."
     }
   },
   {
@@ -12080,16 +12583,53 @@
     "end_page": "59",
     "start_line": 9,
     "end_line": 10,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "sorry_free": true,
     "coverage_note": "Coverage-arm audit (Stage 3.7, #7371): covered_full. Chapter3/Exercise3_10_1.lean (sorry-free on origin/main, 0 sorries) proves matrix_tensorProduct_matrix: Nonempty ((Mat_m(k) ⊗[k] Mat_n(k)) ≃ₐ[k] Mat_{mn}(k)), a genuine k-ALGEBRA isomorphism (≃ₐ[k], not merely k-linear or ring), built from Matrix.kroneckerTMulAlgEquiv, Algebra.TensorProduct.rid and Matrix.reindexAlgEquiv along finProdFinEquiv (Fin m × Fin n ≃ Fin (m*n)). Faithful to the book's Mat_m(k) ⊗ Mat_n(k) ≅ Mat_{mn}(k); in fact strengthened from the book's field k to an arbitrary CommRing k.",
     "fidelity": "verified",
     "coverage": "covered_full",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered_full"
+    },
     "coverage_arm": "audited",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Exercise3_10_1.lean"
     ],
-    "lean_decl": "Etingof.matrix_tensorProduct_matrix"
+    "lean_decl": "Etingof.matrix_tensorProduct_matrix",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.10",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Mat_m(k) ⊗ Mat_n(k) is isomorphic as a k-algebra to Mat_{mn}(k).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.matrix_tensorProduct_matrix"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.matrix_tensorProduct_matrix"
+      ],
+      "basis": "The sole exact-provider constant is this durable authored theorem. It is admission-free and its complete axiom closure contains only Lean's accepted foundational axioms."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The matrix-algebra tensor-product equivalence is constructed directly from focused Mathlib matrix and tensor-product APIs; its provider imports no project module."
+    }
   },
   {
     "id": "Chapter3/Discussion_before_Theorem3.10.2",
@@ -12099,10 +12639,41 @@
     "end_page": "59",
     "start_line": 11,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "non_formalizable"
+    },
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.10",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The following theorem describes finite-dimensional irreducible representations of A ⊗ B in terms of those of A and B.",
+          "verdict": "non_formalizable",
+          "reason": "This is an organizational preview of Theorem 3.10.2, whose individual mathematical assertions are inventoried on the theorem item."
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": [],
+      "basis": "This item is only an organizational preview of Theorem 3.10.2 and contains no independently auditable proof declaration."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This is an organizational preview rather than a mathematical assertion, so it has no declaration-backed project dependency."
     }
   },
   {
@@ -12113,15 +12684,67 @@
     "end_page": "59",
     "start_line": 13,
     "end_line": 16,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "notes": "All sorries resolved. Uniqueness of V, W (Theorem 3.10.2(ii)'s '**unique** V and W') added as companion theorem Etingof.tensor_product_irreducible_classification_unique (#5614). Algebra-finiteness assumptions [FiniteDimensional k A]/[FiniteDimensional k B] removed as unfaithful (#7391): the book assumes only the representations V/W/M are finite-dimensional.",
+    "status": "dependency_trimmed",
+    "fidelity": "verified",
+    "notes": "All proofs are sorry-free. Theorem 3.10.2(ii)'s uniqueness of V and W is exposed by the companion theorem Etingof.tensor_product_irreducible_classification_unique. The public statements assume finite-dimensionality only of the representations V, W, and M, matching the source rather than imposing finite-dimensionality on A or B.",
     "sorry_free": true,
-    "fidelity_note": "The intended public parts no longer assume finite-dimensional A or B (#7391), and existence/uniqueness are source-present. However, Theorem3_10_2.lean now fails a fresh check in scalar-tower, endomorphism-algebra, and submodule module instances; regression #7520. The independent textbook proof-route gap remains #7453.",
-    "fidelity_issue": 7391,
-    "coverage": "covered_partial",
-    "coverage_issue": 7520,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "Verified and source-faithful. Etingof.tensor_product_irreducible proves part (i), Etingof.tensor_product_irreducible_classification proves existence in part (ii), and Etingof.tensor_product_irreducible_classification_unique proves uniqueness of both factors up to the stated module isomorphisms. The APIs require finite-dimensionality only of V, W, and M, not of A or B, and the exact provider builds successfully.",
+    "coverage": "covered_full",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered_full"
+    },
+    "last_updated": "2026-07-28",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.10",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "If V and W are finite-dimensional irreducible representations of A and B, then V ⊗ W is irreducible for the tensor-product action.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.tensor_product_irreducible"
+        },
+        {
+          "claim": "Every finite-dimensional irreducible representation M of A ⊗ B is equivariantly equivalent to V ⊗ W for finite-dimensional irreducible representations V of A and W of B.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.tensor_product_irreducible_classification"
+        },
+        {
+          "claim": "The irreducible factors V and W are uniquely determined up to A-linear and B-linear isomorphism.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.tensor_product_irreducible_classification_unique"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.tensor_product_irreducible",
+        "evalMap",
+        "evalMap_tmul",
+        "Etingof.tensor_product_irreducible_classification",
+        "Etingof.tensor_left_factor_unique",
+        "Etingof.tensor_product_irreducible_classification_unique"
+      ],
+      "basis": "These are all six durable authored declarations in the exact provider. The exhaustive environment audit also checked all 30 provider-attributed constants (28 proofs), including local regression instances and generated/private helpers; every proof is admission-free and depends only on accepted foundational axioms."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Theorem3.2.2"
+      ],
+      "basis": "The irreducibility and classification proofs invoke Etingof.density_theorem_part1 from Theorem 3.2.2. All seven former direct Mathlib imports were proven redundant against that required project provider and removed."
+    }
   },
   {
     "id": "Chapter3/Remark3.10.3",
@@ -12131,11 +12754,101 @@
     "end_page": "59",
     "start_line": 17,
     "end_line": 18,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage": "covered_full",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered_full"
+    },
     "fidelity_note": "Both counterexamples are formalized: ratFunc_tensor_ratFunc_not_isField proves the rational-function failure of part (i), while tensorModule_isSimpleModule and tensorModule_not_equiv_tensorProduct_of_simple_left prove the Weyl-algebra failure of the infinite-dimensional analogue of Theorem 3.10.2(ii). The latter uses the characteristic-free PBW domain theorem Etingof.WeylAlgebra.mul_ne_zero to show that the regular first-factor restriction has no simple submodule.",
     "fidelity_decl": "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorModule_not_equiv_tensorProduct_of_simple_left",
-    "last_updated": "2026-07-27"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.10",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Part (ii) typically fails for infinite-dimensional representations.",
+          "verdict": "non_formalizable",
+          "reason": "The qualitative word 'typically' has no specified quantifier or parameter space; the concrete Weyl-algebra counterexample is inventoried separately."
+        },
+        {
+          "claim": "For the characteristic-zero Weyl algebra, the simple entangled module C[x,y]e^{xy} is not an external tensor product with a simple first factor.",
+          "verdict": "formalized",
+          "lean_decl": "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorModule_isSimpleModule; EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorModule_not_equiv_tensorProduct_of_simple_left"
+        },
+        {
+          "claim": "For A = B = V = W = C(x), the factor modules V and W are irreducible self-representations, while their tensor product is not irreducible because A ⊗ B is not a field.",
+          "verdict": "formalized",
+          "lean_decl": "EtingofRepresentationTheory.Chapter3.Remark3_10_3.ratFunc_tensor_ratFunc_not_isField; isSimpleModule_self_iff_isUnit"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.ratFunc_tensor_ratFunc_not_isField",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.WeylCounterexampleModule",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.mulVar",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.pderivEnd",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstX",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstY",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.secondX",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.secondY",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.first_weyl_relation",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.second_weyl_relation",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstX_secondX_commute",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstX_secondY_commute",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstY_secondX_commute",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstY_secondY_commute",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstRep",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.secondRep",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstRep_secondRep_commute",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorRep",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorModule",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorRep_tmul",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstRep_x",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstRep_y",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.secondRep_x",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.secondRep_y",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.entangled_generator_relations",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorModule_isSimpleModule",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorRep_not_factors_finiteDimensional",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.regularLinearEquiv",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.regularLinearEquiv_monomial",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstOrbit",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstOrbit_monomial",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.regularLinearEquiv_eq_firstOrbit",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.firstRestrictionModule",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.regularModuleEquiv",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.regularModuleEquiv_apply",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.noSimpleRegularSubmodule_of_noLeftInverse",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.weylY_noLeftInverse",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.regularWeyl_noSimpleSubmodule",
+        "EtingofRepresentationTheory.Chapter3.Remark3_10_3.tensorModule_not_equiv_tensorProduct_of_simple_left",
+        "isSimpleModule_self_iff_isUnit"
+      ],
+      "basis": "The list contains all 39 durable authored exact-provider declarations and the external self-module simplicity bridge used by the rational-function counterexample. The exhaustive audit covered all 88 provider-attributed constants (67 proofs), including generated/private helpers, and found no admissions or non-foundational axioms."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Discussion_2.7_intro",
+        "Chapter2/Proposition2.7.1",
+        "Chapter2/Remark2.7.2"
+      ],
+      "basis": "The Weyl counterexample directly uses the Weyl-algebra presentation and relations, the PBW basis/domain infrastructure, and the polynomial differential-operator representation from these three Chapter 2 items. Eight redundant Mathlib imports were removed; the two required Weyl support providers remain."
+    }
   },
   {
     "id": "Chapter3/Discussion_proof_of_Theorem3.10.2",
@@ -12145,18 +12858,137 @@
     "end_page": "60",
     "start_line": 19,
     "end_line": 7,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "coverage_swept": {
       "wave": 1,
-      "result": "gap"
+      "result": "gap",
+      "note": "The radical calculation on the finite-dimensional image algebras is formalized, but the preceding module-theoretic reduction that justifies replacing A and B by those images without loss of generality is an intentional omission."
     },
     "coverage": {
-      "result": "covered",
+      "result": "covered_partial",
       "lean_decl": "Etingof.jacobson_tensorProduct_eq",
-      "note": "The source proof's two structural claims are now formalized in EtingofRepresentationTheory/Chapter3/TensorProductRadical.lean: jacobson_tensorProduct_eq gives Rad(A⊗B) = Rad(A)⊗B + A⊗Rad(B) for finite-dimensional A, B over an algebraically closed field, and quotientJacobsonTensorEquiv gives the displayed identification (A⊗B)/Rad(A⊗B) ≅ (A/Rad A) ⊗ (B/Rad B). The book's two steps are separated by hypothesis: radTensorSum_le_jacobson (nilpotence; no hypothesis on k) and jacobson_le_radTensorSum (semisimplicity of the quotient), the latter discharged over an algebraically closed field by isSemisimpleRing_tensorProduct. jacobson_tensorProduct_range_eq states the formula for the image algebras A', B' ⊆ End M, matching the book's image-algebra reduction. Theorem 3.10.2 itself is still proved by the independent density/Artinian route in Theorem3_10_2.lean, which does not consume these results."
+      "note": "The radical part of the source proof is formalized in EtingofRepresentationTheory/Chapter3/TensorProductRadical.lean: jacobson_tensorProduct_eq gives Rad(A⊗B) = Rad(A)⊗B + A⊗Rad(B) for finite-dimensional A, B over an algebraically closed field, quotientJacobsonTensorEquiv gives the displayed quotient identification, and jacobson_tensorProduct_range_eq specializes the radical formula to the finite-dimensional image algebras A', B' ⊆ End M. The separate assertion that M descends to an A'⊗B'-representation so that A and B may be replaced by A' and B' without loss of generality is not packaged as a public Lean result and is recorded as an intentional omission. The theorem endpoints are nevertheless fully formalized by the independent density/Artinian route in Theorem3_10_2.lean."
     },
-    "last_updated": "2026-07-26",
-    "lean_ref": "EtingofRepresentationTheory/Chapter3/TensorProductRadical.lean :: Etingof.jacobson_tensorProduct_eq, Etingof.quotientJacobsonTensorEquiv, Etingof.quotientRadTensorSumEquiv, Etingof.radTensorSum_eq_ker, Etingof.radTensorSum_le_jacobson, Etingof.jacobson_le_radTensorSum, Etingof.isSemisimpleRing_tensorProduct, Etingof.jacobson_tensorProduct_range_eq"
+    "last_updated": "2026-07-28",
+    "lean_ref": "EtingofRepresentationTheory/Chapter3/TensorProductRadical.lean :: Etingof.jacobson_tensorProduct_eq, Etingof.quotientJacobsonTensorEquiv, Etingof.quotientRadTensorSumEquiv, Etingof.radTensorSum_eq_ker, Etingof.radTensorSum_le_jacobson, Etingof.jacobson_le_radTensorSum, Etingof.isSemisimpleRing_tensorProduct, Etingof.jacobson_tensorProduct_range_eq",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.10",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For irreducible finite-dimensional V and W, density makes A → End(V) and B → End(W) surjective.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.density_theorem_part1"
+        },
+        {
+          "claim": "The resulting tensor-product action reaches enough endomorphisms of V ⊗ W to make V ⊗ W irreducible.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.tensor_product_irreducible"
+        },
+        {
+          "claim": "For the finite-dimensional image algebras A' and B' in End(M), Rad(A' ⊗ B') = Rad(A') ⊗ B' + A' ⊗ Rad(B').",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.jacobson_tensorProduct_range_eq"
+        },
+        {
+          "claim": "M carries the induced A' ⊗ B' action, so replacing A and B by their image algebras loses no information and one may assume without loss of generality that A and B are finite dimensional.",
+          "verdict": "intentional_omission",
+          "reason": "The project does not package the module descent and equivalence needed for this without-loss-of-generality reduction as a public theorem. The radical formula is proved on the image algebras, and Theorem 3.10.2 itself is proved independently by the density/Artinian route."
+        },
+        {
+          "claim": "For finite-dimensional A and B over an algebraically closed field, Rad(A ⊗ B) = Rad(A) ⊗ B + A ⊗ Rad(B).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.jacobson_tensorProduct_eq"
+        },
+        {
+          "claim": "J = Rad(A) ⊗ B + A ⊗ Rad(B) is a nilpotent ideal and hence J ⊆ Rad(A ⊗ B).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.isNilpotent_radTensorSum; Etingof.radTensorSum_le_jacobson"
+        },
+        {
+          "claim": "The quotient (A ⊗ B)/J is isomorphic to (A/Rad(A)) ⊗ (B/Rad(B)).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.quotientRadTensorSumEquiv"
+        },
+        {
+          "claim": "The tensor product of the two finite-dimensional semisimple radical quotients is semisimple over an algebraically closed field.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.isSemisimpleRing_tensorProduct"
+        },
+        {
+          "claim": "Semisimplicity of the quotient gives Rad(A ⊗ B) ⊆ J, completing the radical equality.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.jacobson_le_radTensorSum; Etingof.jacobson_tensorProduct_eq"
+        },
+        {
+          "claim": "Consequently (A ⊗ B)/Rad(A ⊗ B) is isomorphic to (A/Rad(A)) ⊗ (B/Rad(B)).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.quotientJacobsonTensorEquiv"
+        },
+        {
+          "claim": "An irreducible M over the semisimple quotient has the form V ⊗ W with irreducible factor representations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.tensor_product_irreducible_classification"
+        },
+        {
+          "claim": "The factors V and W are uniquely determined by M.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.tensor_product_irreducible_classification_unique"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.tensorRadQuot",
+        "Etingof.radTensorLeft",
+        "Etingof.radTensorRight",
+        "Etingof.radTensorSum",
+        "Etingof.tensorRadQuot_tmul",
+        "Etingof.tensorRadQuot_surjective",
+        "Etingof.radTensorSum_eq_ker",
+        "Etingof.instIsTwoSidedTensorProductRadTensorSum",
+        "Etingof.quotientRadTensorSumEquiv",
+        "Etingof.le_jacobson_of_isNilpotent",
+        "Etingof.map_includeLeft_mul_le",
+        "Etingof.map_includeLeft_pow_le",
+        "Etingof.isNilpotent_radTensorLeft",
+        "Etingof.map_includeRight_mul_le",
+        "Etingof.map_includeRight_pow_le",
+        "Etingof.isNilpotent_radTensorRight",
+        "Etingof.radTensorSum_le_jacobson",
+        "Etingof.isNilpotent_radTensorSum",
+        "Etingof.jacobson_le_radTensorSum",
+        "Etingof.exists_algEquiv_pi_matrix",
+        "Etingof.isSemisimpleRing_tensorProduct",
+        "Etingof.jacobson_tensorProduct_eq",
+        "Etingof.quotientJacobsonTensorEquiv",
+        "Etingof.jacobson_tensorProduct_range_eq",
+        "Etingof.density_theorem_part1",
+        "Etingof.tensor_product_irreducible",
+        "Etingof.tensor_product_irreducible_classification",
+        "Etingof.tensor_product_irreducible_classification_unique"
+      ],
+      "basis": "The first 24 entries are every durable authored declaration in the exact radical provider; the remaining entries are the audited density, tensor-action, classification, and uniqueness endpoints used by the proof discussion. The without-loss-of-generality module reduction is intentionally omitted rather than attributed to Algebra.TensorProduct.lift. All 33 exact-provider constants and all listed external endpoints were checked for complete axiom closure, with no admissions or non-foundational axioms."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Theorem3.2.2",
+        "Chapter3/Theorem3.10.2"
+      ],
+      "basis": "The proof discussion explicitly reuses the earlier density theorem and the irreducibility, classification, and uniqueness endpoints of Theorem 3.10.2. Its radical provider itself uses only focused external imports."
+    }
   },
   {
     "id": "Chapter4/Introduction",
@@ -12170,6 +13002,42 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "4.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Chapter 4 is titled 'Representations of finite groups: Basic results'.",
+          "verdict": "non_formalizable",
+          "reason": "This is an organizational chapter title rather than a mathematical proposition."
+        },
+        {
+          "claim": "A representation of a group G over k is a k-vector space V equipped with a group homomorphism G → GL(V).",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Representation"
+        },
+        {
+          "claim": "A representation of G over k is equivalently a module over the group algebra k[G].",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Rep.equivalenceModuleMonoidAlgebra; Representation.asModule; Representation.ofModule"
+        },
+        {
+          "claim": "The chapter begins a systematic development of representation theory for finite groups.",
+          "verdict": "non_formalizable",
+          "reason": "This is a roadmap for the chapter, not a standalone mathematical assertion."
+        },
+        {
+          "claim": "Section 4.1 is headed 'Maschke's theorem'.",
+          "verdict": "non_formalizable",
+          "reason": "This is an organizational section heading rather than a mathematical proposition."
+        }
+      ]
     }
   },
   {
@@ -12183,10 +13051,100 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[coverage] Book part (ii) asserts three things: (1) an explicit algebra isomorphism ψ: k[G] → ⊕_i End(V_i); (2) that ψ is also an isomorphism of representations (G acts by left multiplication on both ",
-    "fidelity_issue": 5656,
+    "fidelity_note": "[fidelity #5656] VERIFIED. Book part (ii)'s explicit algebra isomorphism, its compatibility with the left regular G-actions, the isotypic regular-representation decomposition, and the sum-of-squares formula are exposed respectively by Etingof.Theorem4_1_1_algebra_iso, Etingof.Theorem4_1_1_regularRep_iso, Etingof.Theorem4_1_1_regularRep_isotypic, and Etingof.Theorem4_1_1_sum_of_squares.",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-22",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "4.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The hypotheses are a finite group G and a field k whose characteristic does not divide |G|.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem4_1_1_semisimple; Etingof.Theorem4_1_1_algebra_iso"
+        },
+        {
+          "claim": "The group algebra k[G] is semisimple.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem4_1_1_semisimple"
+        },
+        {
+          "claim": "The V_i form a finite, pairwise non-isomorphic, exhaustive family of irreducible representations of G.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem4_1_1_algebra_iso"
+        },
+        {
+          "claim": "There is a k-algebra isomorphism ψ : k[G] → ⊕_i End(V_i).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem4_1_1_algebra_iso; IrrepDecomp.endIso"
+        },
+        {
+          "claim": "On a group element g, the i-th component of ψ(g) is the action of g on V_i.",
+          "verdict": "formalized",
+          "lean_decl": "IrrepDecomp.endIso_of_apply"
+        },
+        {
+          "claim": "The algebra isomorphism ψ is also an isomorphism of G-representations when both sides carry left multiplication.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem4_1_1_regularRep_iso; IrrepDecomp.regularIso"
+        },
+        {
+          "claim": "The regular representation decomposes as the direct sum of dim(V_i) copies of each irreducible V_i.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem4_1_1_regularRep_isotypic; IrrepDecomp.regularColumnMultIso"
+        },
+        {
+          "claim": "The dimensions of the irreducible representations satisfy |G| = ∑_i dim(V_i)^2.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem4_1_1_sum_of_squares; Etingof.Theorem4_1_1_algebra_iso"
+        },
+        {
+          "claim": "The semisimple-algebra structure theorem derives the algebra decomposition and dimension consequences from semisimplicity.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.semisimple_algebra_equiv; IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed"
+        },
+        {
+          "claim": "To prove semisimplicity, it suffices to give every subrepresentation an invariant complementary subrepresentation.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "isSemisimpleModule_iff; MonoidAlgebra.Submodule.exists_isCompl"
+        },
+        {
+          "claim": "Every vector subspace W of V admits a vector-space complement and hence a projection P onto W along that complement.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Submodule.exists_isCompl; Submodule.projection"
+        },
+        {
+          "claim": "The projection P is the identity on W, vanishes on the chosen complement, and has that complement as its kernel.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Submodule.projection_apply_left; Submodule.projection_apply_right; Submodule.ker_projection"
+        },
+        {
+          "claim": "Averaging the conjugates of P over G and dividing by |G| produces the operator P̄ used in Maschke's proof.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "LinearMap.conjugate; LinearMap.sumOfConjugates; LinearMap.equivariantProjection"
+        },
+        {
+          "claim": "The averaged operator restricts to the identity on W and has image contained in W, so it is a projection.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "LinearMap.equivariantProjection_condition; MonoidAlgebra.exists_leftInverse_of_injective"
+        },
+        {
+          "claim": "Reindexing the group sum proves that the averaged projection is G-equivariant.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "LinearMap.sumOfConjugatesEquivariant"
+        },
+        {
+          "claim": "The kernel W' of the averaged projection is an invariant complement, yielding V = W ⊕ W' as representations.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "MonoidAlgebra.Submodule.exists_isCompl; LinearMap.isCompl_of_proj"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter4/Discussion_before_Proposition4.1.2",
@@ -12202,7 +13160,23 @@
       "result": "covered"
     },
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-22",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "4.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The converse of Maschke's semisimplicity implication also holds.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Proposition4_1_2"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter4/Proposition4.1.2",
@@ -12216,7 +13190,53 @@
     "coverage": "covered_full",
     "last_updated": "2026-07-22",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "4.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "If k[G] is semisimple, then the characteristic of k does not divide |G|.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Proposition4_1_2"
+        },
+        {
+          "claim": "A semisimple group algebra decomposes into endomorphism blocks for a complete family of irreducible representations, including the trivial representation.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Theorem4_1_1_algebra_iso"
+        },
+        {
+          "claim": "As a regular representation, k[G] decomposes into the trivial summand and the remaining irreducibles with multiplicities dim(V_i).",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Theorem4_1_1_regularRep_isotypic"
+        },
+        {
+          "claim": "Schur's lemma gives Hom_{k[G]}(k, k[G]) = kΛ for a nonzero invariant inclusion Λ, unique up to scaling.",
+          "verdict": "intentional_omission",
+          "reason": "The provider constructs the invariant group sum internally but does not define this representation homomorphism or formalize the Hom-space classification."
+        },
+        {
+          "claim": "Schur's lemma gives Hom_{k[G]}(k[G], k) = kε for a nonzero augmentation ε, unique up to scaling.",
+          "verdict": "intentional_omission",
+          "reason": "The provider's alternative ideal-theoretic proof does not define ε or formalize this Hom-space classification."
+        },
+        {
+          "claim": "One may normalize ε(g) = 1 and Λ(1) = ∑_g g, which gives ε ∘ Λ(1) = |G|.",
+          "verdict": "intentional_omission",
+          "reason": "The provider constructs the same group sum and proves its central square identity, but it does not formalize ε or this source composition calculation."
+        },
+        {
+          "claim": "If |G| = 0, every possible left inverse aε of Λ has zero composite with Λ, contradicting the splitting forced by semisimplicity.",
+          "verdict": "intentional_omission",
+          "reason": "The endpoint is proved by an equivalent ideal-theoretic argument; the source's splitting and no-left-inverse route is not formalized."
+        }
+      ]
+    }
   },
   {
     "id": "Chapter4/Example4.1.3",
@@ -12230,10 +13250,45 @@
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_decl": "Etingof.Example4_1_3",
-    "fidelity_issue": 5374,
     "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-22",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "4.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Over a field of characteristic p, every irreducible representation of Z/pZ is trivial.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example4_1_3"
+        },
+        {
+          "claim": "Consequently, the group algebra k[Z/pZ] is not semisimple in characteristic p.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Proposition4_1_2; Etingof.Example4_1_3"
+        },
+        {
+          "claim": "An irreducible representation is one-dimensional and its generator acts by a p-th root of unity.",
+          "verdict": "intentional_omission",
+          "reason": "The provider proves the stronger trivial-action endpoint directly via a nilpotent self-intertwiner, without formalizing this preliminary one-dimensional scalar-action route."
+        },
+        {
+          "claim": "Every p-th root of unity in a field of characteristic p equals 1.",
+          "verdict": "intentional_omission",
+          "reason": "The scalar-root argument is not packaged as a Lean declaration; the provider instead proves the representation endpoint by operator nilpotence and Schur's lemma."
+        },
+        {
+          "claim": "In characteristic p, x^p - 1 = (x - 1)^p.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "sub_pow_char_of_commute"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter4/Problem4.1.4",
@@ -12243,15 +13298,31 @@
     "end_page": "63",
     "start_line": 15,
     "end_line": 16,
-    "status": "partially_proved",
-    "coverage_note": "The exact trivial-action endpoint is source-present, but Problem4_1_4.lean currently leaves unsolved goals in the characteristic-p fixed-vector proof; regression #7536.",
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "coverage_note": "Regression #7536 was repaired by PR #7593: both the characteristic-p fixed-vector theorem and the exact trivial-action endpoint rebuild without admissions, and the downstream signature-lock test passes.",
+    "fidelity": "verified",
     "fidelity_decl": "theorem Etingof.Problem4_1_4 {p n : ℕ} [Fact p.Prime] {k} [Field k] [CharP k p] {G} [Group G] [Fintype G] (hG : Fintype.card G = p^n) {V} [AddCommGroup V] [Module k V] (ρ : Representation k G V) (hV : IsSimpleModule (MonoidAlgebra k G) ρ.asModule) : ∀ g, ρ g = LinearMap.id",
     "lean_file": "EtingofRepresentationTheory/Chapter4/Problem4_1_4.lean",
-    "coverage": "covered_partial",
-    "coverage_issue": 7536,
+    "coverage": "covered_full",
     "fidelity_note": "[fidelity #7270] VERIFIED. Hypotheses [Fact p.Prime], [CharP k p], Fintype.card G = p^n (n universally quantified, n=0 boundary admitted+harmless) faithfully encode 'G of order p^n over a field of characteristic p'; IsSimpleModule (MonoidAlgebra k G) ρ.asModule is the genuine irreducibility hypothesis (submodules = subrepresentations). Key check: conclusion ∀ g, ρ g = LinearMap.id is exactly 'the rep is trivial' (every element acts as identity) — the strongest faithful reading, NOT merely a fixed vector (that is the aux exists_fixed_vector) nor a scalar action; with hV it is equivalent to '1-dim trivial irrep'. Non-vacuous (C₂ over 𝔽₂ trivial rep satisfies all hyps; V forced Nontrivial by IsSimpleModule). Axiom-clean [propext, Classical.choice, Quot.sound], builds 8580/8580. covered_full.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27",
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "4.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "If G has order p^n and k has characteristic p, then every irreducible k-representation of G is trivial.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem4_1_4"
+        }
+      ]
+    }
   },
   {
     "id": "Chapter4/Introduction_4.2",
