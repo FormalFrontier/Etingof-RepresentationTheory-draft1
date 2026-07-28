@@ -14,7 +14,6 @@ EtingofRepresentationTheory/Chapter2/Problem2_16_2.lean
 EtingofRepresentationTheory/Chapter2/Problem2_16_3.lean
 EtingofRepresentationTheory/Chapter2/Problem2_16_4.lean
 EtingofRepresentationTheory/Chapter2/Problem2_16_5.lean
-EtingofRepresentationTheory/Chapter2/Problem2_5_2.lean
 EtingofRepresentationTheory/Chapter2/Problem2_7_4.lean
 EtingofRepresentationTheory/Chapter2/Problem2_7_5.lean
 EtingofRepresentationTheory/Chapter2/Problem2_7_5_Family.lean

@@ -239,10 +239,14 @@ theorem linearIndependent_one_x_y : LinearIndependent ℂ ![(1 : A), x, y] := by
     Matrix.tail_cons, x, y] at hg
   rw [TrivSqZeroExt.ext_iff] at hg
   obtain ⟨h1, h2⟩ := hg
-  simp at h1
+  simp only [Fin.isValue, fst_add, fst_smul, fst_one, smul_eq_mul, mul_one, fst_inr,
+    mul_zero, add_zero, fst_zero] at h1
   have e0 := congrFun h2 0
   have e1 := congrFun h2 1
-  simp at e0 e1
+  simp only [Fin.isValue, snd_add, snd_smul, snd_one, smul_zero, snd_inr, zero_add,
+    Pi.add_apply, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one, ne_eq, zero_ne_one,
+    not_false_eq_true, Pi.single_eq_of_ne, mul_zero, add_zero, snd_zero, Pi.zero_apply,
+    one_ne_zero] at e0 e1
   fin_cases i
   · exact h1
   · exact e0

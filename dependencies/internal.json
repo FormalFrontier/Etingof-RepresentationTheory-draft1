@@ -128,17 +128,15 @@
     "Chapter2/Definition2.3.4"
   ],
   "Chapter2/Problem2.4.1": [],
-  "Chapter2/Discussion_2.5_heading": [
-    "Chapter2/Problem2.4.1"
-  ],
+  "Chapter2/Discussion_2.5_heading": [],
   "Chapter2/Discussion_2.5_well_defined": [
     "Chapter2/Discussion_2.5_heading"
   ],
   "Chapter2/Problem2.5.1": [
-    "Chapter2/Discussion_2.5_well_defined"
+    "Chapter2/Definition2.3.8"
   ],
   "Chapter2/Problem2.5.2": [
-    "Chapter2/Problem2.5.1"
+    "Chapter2/Definition2.3.8"
   ],
   "Chapter2/Discussion_2.6": [],
   "Chapter2/Discussion_2.7_intro": [

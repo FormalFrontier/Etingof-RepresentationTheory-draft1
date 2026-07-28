@@ -1,6 +1,5 @@
+import Mathlib.LinearAlgebra.Quotient.Defs
 import Mathlib.RingTheory.TwoSidedIdeal.Basic
-import Mathlib.RingTheory.Congruence.Basic
-import Mathlib.LinearAlgebra.Quotient.Basic
 
 /-!
 # Discussion 2.5: Well-definedness of quotient algebras and quotient representations
@@ -54,7 +53,6 @@ theorem quotientAlgHom_eq_iff_sub_mem (I : TwoSidedIdeal A) (a b : A) :
 
 /-- Multiplication on the quotient is the operation prescribed in the book:
 `π(a) * π(b) = π(ab)`. -/
-@[simp]
 theorem quotientAlgHom_mul (I : TwoSidedIdeal A) (a b : A) :
     quotientAlgHom k A I a * quotientAlgHom k A I b = quotientAlgHom k A I (a * b) := by
   exact (quotientAlgHom k A I).map_mul a b
