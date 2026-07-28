@@ -98,10 +98,36 @@
     "start_line": 1,
     "end_line": 4,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The chapter title and the Section 2.1 title identify the subject and section but assert no mathematical proposition.",
+          "verdict": "non_formalizable",
+          "reason": "These are organizational headings only; there is no definition, construction, or truth-valued assertion to encode in Lean."
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": []
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Discussion_2.1_overview",
@@ -112,10 +138,71 @@
     "start_line": 5,
     "end_line": 11,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Representation theory studies representations of associative algebras.",
+          "verdict": "non_formalizable",
+          "reason": "This is a description of the subject's scope, not a mathematical proposition with a specified truth condition."
+        },
+        {
+          "claim": "A unital associative algebra over a field is a vector space with associative bilinear multiplication and a two-sided identity.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.AssociativeAlgebra; Etingof.AssociativeAlgebra.IsUnit"
+        },
+        {
+          "claim": "The endomorphisms of a vector space form an associative algebra.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Module.End.instAlgebra"
+        },
+        {
+          "claim": "Algebras given by generators and relations, group algebras, and universal enveloping algebras are associative-algebra constructions.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "PresentedAlgebra; MonoidAlgebra; UniversalEnvelopingAlgebra"
+        },
+        {
+          "claim": "A representation of A is a vector space V with a unital algebra homomorphism A → End(V), equivalently a left A-module.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Representation; Etingof.Representation.toAlgHom; Etingof.Representation.ofAlgHom; Etingof.Representation.toAlgHom_ofAlgHom; Etingof.Representation.ofAlgHom_toAlgHom"
+        },
+        {
+          "claim": "A subrepresentation is a linear subspace invariant under every operator in the representation.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Subrepresentation"
+        },
+        {
+          "claim": "The direct sum of two representations carries the componentwise representation structure.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.DirectSumRepresentation"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.AssociativeAlgebra / Etingof.AssociativeAlgebra.IsUnit",
+        "Etingof.Representation.toAlgHom / Etingof.Representation.ofAlgHom",
+        "Etingof.Subrepresentation",
+        "Etingof.DirectSumRepresentation"
+      ]
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Discussion_2.1_irreducible_indecomposable",
@@ -133,24 +220,151 @@
     "fidelity": "verified",
     "coverage": "covered_full",
     "coverage_note": "The irreducible/indecomposable distinction and implication are public through Etingof.IsIndecomposable and Etingof.IsIndecomposable.of_isSimpleModule; concrete non-converse examples are also public.",
-    "last_updated": "2026-07-22"
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A nonzero representation is irreducible when its only subrepresentations are zero and itself.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.IrreducibleRepresentation"
+        },
+        {
+          "claim": "A nonzero representation is indecomposable when it is not a direct sum of two nonzero subrepresentations.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.IsIndecomposable; Etingof.IsIndecomposable.not_exists_nontrivial_compl"
+        },
+        {
+          "claim": "Every irreducible representation is indecomposable.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.IsIndecomposable.of_isSimpleModule"
+        },
+        {
+          "claim": "The converse is false: an indecomposable representation need not be irreducible.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Example_2_3_14.exists_indecomposable_not_simple"
+        },
+        {
+          "claim": "Classify all irreducible representations of a given algebra.",
+          "verdict": "non_formalizable",
+          "reason": "This is an open-ended research program, not a proposition for an unspecified algebra A."
+        },
+        {
+          "claim": "Classify all indecomposable representations of a given algebra.",
+          "verdict": "non_formalizable",
+          "reason": "This is an open-ended research program, not a proposition for an unspecified algebra A."
+        },
+        {
+          "claim": "Classify finite-dimensional irreducible and indecomposable representations.",
+          "verdict": "non_formalizable",
+          "reason": "This is an open-ended research program, not a proposition for an unspecified algebra A."
+        },
+        {
+          "claim": "U(sl(2)) is generated by h, e, f with he-eh=2e, hf-fh=-2f, and ef-fe=h.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Example2_9_12.presentationEquiv; Etingof.Example2_9_12.presentationEquiv_gen_zero; Etingof.Example2_9_12.presentationEquiv_gen_one; Etingof.Example2_9_12.presentationEquiv_gen_two"
+        },
+        {
+          "claim": "Finding N-dimensional representations of this presentation amounts to solving the displayed relations in N by N matrices.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Example2_9_12.presentationEquiv; Etingof.Representation.toAlgHom; Etingof.PresentedAlgebra.lift; Etingof.PresentedAlgebra.hom_ext; LinearMap.toMatrixAlgEquiv'"
+        },
+        {
+          "claim": "It is striking that representation theory can solve such apparently complicated systems completely.",
+          "verdict": "non_formalizable",
+          "reason": "This is motivational evaluation rather than a precise mathematical assertion; the concrete classification that follows is audited under Theorem 2.1.1."
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.IsIndecomposable.of_isSimpleModule",
+        "Etingof.IsIndecomposable.not_exists_nontrivial_compl",
+        "Etingof.Example_2_3_14.exists_indecomposable_not_simple",
+        "Etingof.Example2_9_12.presentationEquiv"
+      ]
+    },
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Theorem2.1.1",
-    "source_regression_note": "Clean rebuild imports the broken Sl2Irrep source used for its irreducible witnesses (#7531).",
     "type": "theorem",
     "title": "Classification of irreducible representations of U(sl(2))",
     "start_page": "6",
     "end_page": "6",
     "start_line": 18,
     "end_line": 25,
-    "status": "partially_proved",
-    "coverage": "covered_partial",
-    "coverage_issue": 7531,
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
     "needs_statement": false,
-    "notes": "Complete: both parts (i) and (ii) proved. PR #1611 completed sl(2) complete reducibility.",
-    "last_updated": "2026-07-22"
+    "notes": "The classification, complemented-lattice, U(sl(2))/Lie-action preservation bridges, homogeneous-polynomial realization, and indecomposable-implies-irreducible proofs are complete.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Representations of U(sl(2)) may be presented equivalently as Lie action maps of sl(2).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.sl2LieActionEquivUEAAction; Etingof.sl2InvariantSubspace_iff_ueaInvariantSubspace; Etingof.sl2Intertwiner_iff_ueaIntertwiner"
+        },
+        {
+          "claim": "For every positive dimension d there exists an irreducible complex sl(2)-representation of dimension d.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem_2_1_1_i (existence conjunct)"
+        },
+        {
+          "claim": "Any two irreducible complex sl(2)-representations of the same positive dimension d are equivalent.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem_2_1_1_i (uniqueness conjunct)"
+        },
+        {
+          "claim": "The d-dimensional irreducible is realized by homogeneous polynomials of degree d-1 in x,y with h=x∂x-y∂y, e=x∂y, and f=y∂x.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem_2_1_1_i_polynomial_model; Etingof.Sl2Irrep.irrep_isIrreducible"
+        },
+        {
+          "claim": "Every finite-dimensional complex sl(2)-representation is completely reducible (a direct sum of irreducibles).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem_2_1_1_ii"
+        },
+        {
+          "claim": "Every finite-dimensional indecomposable complex sl(2)-representation is irreducible.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem_2_1_1_ii_indecomposable"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.sl2InvariantSubspace_iff_ueaInvariantSubspace",
+        "Etingof.sl2Intertwiner_iff_ueaIntertwiner",
+        "Etingof.Theorem_2_1_1_i",
+        "Etingof.Theorem_2_1_1_i_polynomial_model",
+        "Etingof.Theorem_2_1_1_ii",
+        "Etingof.Theorem_2_1_1_ii_indecomposable"
+      ]
+    },
+    "fidelity_note": "All quantifiers, positivity of d, existence, uniqueness up to Lie-module equivalence, the explicit polynomial model and three operator formulas, complete reducibility, and the indecomposable formulation are now present in theorem types. The existential witnesses have fixed positive finrank and irreducibility, the polynomial claim requires an actual linear equivalence intertwining all three actions, and indecomposability includes Nontrivial V, so none of the claims is vacuous.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Discussion_after_Theorem2.1.1",
@@ -161,10 +375,60 @@
     "start_line": 26,
     "end_line": 4,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A finite quiver is a finite oriented graph, with loops and multiple edges allowed.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.QuiverDef; Etingof.FinQuiverRep"
+        },
+        {
+          "claim": "A representation of a quiver assigns a vector space to each vertex and a linear map to each directed edge.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.QuiverRepresentation"
+        },
+        {
+          "claim": "Representations of Q are the same as modules over its path algebra, up to the explicit opposite-quiver convention used by the project.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.PathAlgebra.forwardRep; Etingof.PathAlgebra.reverseModule; Etingof.PathAlgebra.moduleRoundTrip; Etingof.PathAlgebra.repRoundTrip; Etingof.PathAlgebra.isoClassEquiv"
+        },
+        {
+          "claim": "A quiver is of finite type when it has only finitely many isomorphism classes of finite-dimensional indecomposable representations.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.HasFiniteRepresentationType"
+        },
+        {
+          "claim": "Determine the indecomposable finite-dimensional representations of Q.",
+          "verdict": "non_formalizable",
+          "reason": "This is a classification question for an unspecified quiver, not a truth-valued mathematical assertion; Theorem 2.1.2 formalizes the finite-type classification that follows."
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.QuiverRepresentation",
+        "Etingof.PathAlgebra.isoClassEquiv",
+        "Etingof.HasFiniteRepresentationType"
+      ]
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Theorem2.1.2",
@@ -174,12 +438,66 @@
     "end_page": "8",
     "start_line": 5,
     "end_line": 7,
-    "status": "sorry_free",
+    "status": "proof_wanted",
     "coverage": "covered_full",
-    "fidelity": "full",
+    "fidelity": "verified",
     "needs_statement": false,
-    "fidelity_note": "Theorem_2_1_2 proves the ADE iff for orientations of loopless simple graphs; Theorem_2_1_2_general (Theorem2_1_2_General.lean) removes the typeclass restrictions and classifies every connected finite quiver allowed by the book's definition, with loops, parallel arrows and two-way edges handled by proved infinite-type branches (not_hasFiniteRepresentationType_of_loop / _of_parallel / _of_opposite).",
-    "last_updated": "2026-07-26"
+    "fidelity_note": "The algebraically closed case is proved by Theorem_2_1_2_general, including loops, parallel arrows, and opposite arrows. The arbitrary-field Dynkin-to-finite-type direction is now proved, but the arbitrary-field finite-type-to-Dynkin direction still needs a field-independent negative theorem. For nonempty graphs (1 ≤ n), Theorem_Dynkin_classification supplies the explicit A/D/E list rather than relying only on the predicate name IsDynkinDiagram; the scope excludes the vacuous zero-vertex bookkeeping case.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For connected finite quivers, finite representation type is independent of the orientation and occurs exactly when the underlying graph is Dynkin.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem_2_1_2_general; Etingof.Theorem_2_1_2_general_orientation"
+        },
+        {
+          "claim": "The finite-type classification is valid over an arbitrary field, not only an algebraically closed one.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem_2_1_2_general_arbitrary_field"
+        },
+        {
+          "claim": "The nonempty connected Dynkin graphs are precisely A_n, D_n, E6, E7, and E8.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.DynkinType; Etingof.Theorem_Dynkin_classification"
+        },
+        {
+          "claim": "The listed graphs are called simply laced Dynkin diagrams.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.DynkinType; Etingof.IsDynkinDiagram"
+        },
+        {
+          "claim": "Dynkin diagrams arise in classifications of simple Lie algebras, singularities, Platonic solids, and reflection groups.",
+          "verdict": "non_formalizable",
+          "reason": "This historical overview does not specify the relevant categories or a precise correspondence theorem for any of the four subjects; the exact quiver and graph classification claims are formalized separately."
+        },
+        {
+          "claim": "Showing Dynkin diagrams to an alien civilization would demonstrate sophistication.",
+          "verdict": "non_formalizable",
+          "reason": "This is a humorous motivational remark with no mathematical truth condition."
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "partial",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "proof_wanted",
+      "declarations": [
+        "Etingof.Theorem_2_1_2_general",
+        "Etingof.Theorem_2_1_2_general_orientation",
+        "Etingof.hasFiniteRepresentationType_of_isDynkinDiagram",
+        "Etingof.Theorem_Dynkin_classification"
+      ],
+      "remaining_obligation": "Etingof.Theorem_2_1_2_general_arbitrary_field, forward direction: finite representation type over an arbitrary (possibly finite) field must exclude loops, parallel/opposite arrows, and non-Dynkin underlying graphs. The existing parameter-family and orbit arguments require an infinite/algebraically closed field; a field-independent descent/base-change theorem or explicit unbounded indecomposable families is still required."
+    },
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Discussion_after_Theorem2.1.2",
@@ -190,10 +508,67 @@
     "start_line": 8,
     "end_line": 10,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The complex group algebra of a finite group has basis elements a_g and multiplication a_g a_h = a_(gh).",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "MonoidAlgebra; MonoidAlgebra.single_mul_single"
+        },
+        {
+          "claim": "Every finite-dimensional complex representation of a finite group is a direct sum of irreducible representations (Maschke's theorem).",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Theorem4_1_1_semisimple; IsSemisimpleRing.isSemisimpleModule"
+        },
+        {
+          "claim": "For complex representations of a finite group, irreducible and indecomposable are equivalent notions.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.IsIndecomposable.of_isSimpleModule; Etingof.IsSimpleModule.of_isIndecomposable_of_isSemisimpleModule"
+        },
+        {
+          "claim": "The dimension of every irreducible complex representation of a finite group divides the order of the group.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "finrank_dvd_card_of_irreducible"
+        },
+        {
+          "claim": "Every finite group of order p^a q^b, for primes p and q, is solvable.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Theorem5_4_3"
+        },
+        {
+          "claim": "Finite-group representation theory is fascinating, and a representation-free proof of Burnside's theorem is much more difficult.",
+          "verdict": "non_formalizable",
+          "reason": "These are historical and evaluative comments, not precise mathematical propositions."
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Theorem4_1_1_semisimple",
+        "Etingof.IsSimpleModule.of_isIndecomposable_of_isSemisimpleModule",
+        "finrank_dvd_card_of_irreducible",
+        "Etingof.Theorem5_4_3"
+      ]
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "notes": "Stage 3.2 added the exact semisimple-module bridge from indecomposable to simple; that theorem remains for Stage 3.3.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Discussion_2.2_intro",
@@ -203,7 +578,7 @@
     "end_page": "8",
     "start_line": 11,
     "end_line": 15,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "fidelity": "verified",
     "sorry_free": true,
@@ -238,6 +613,34 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.isAlgClosed_iff_nonconstant_polynomial_has_root",
+        "Etingof.complex_isAlgClosed",
+        "Etingof.zmodField",
+        "Etingof.card_zmod",
+        "Etingof.algebraicClosure_zmod_isAlgClosed",
+        "Etingof.algebraicClosure_zmod_charP"
+      ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The introduction imports Mathlib only; all algebraic-closedness and finite-field facts are proved directly from Mathlib APIs."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.2",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "Focused imports, documented public theorems, direct instance proofs, and a clean 16-linter pass; no rewrite was justified."
+    },
     "coverage_note": "All mathematical claims in the introductory paragraph are explicit: the root/splitting bridge, the complex example, and the positive-characteristic algebraic-closure example.",
     "last_updated": "2026-07-27",
     "coverage_swept": {
@@ -253,7 +656,7 @@
     "end_page": "9",
     "start_line": 1,
     "end_line": 1,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -273,6 +676,29 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.AssociativeAlgebra"
+      ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The non-unital associative-algebra class imports Mathlib only and is self-contained."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.2",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The class has a complete docstring, minimal fields, a canonical instance for unital algebras, and a clean 16-linter pass; no rewrite was justified."
+    },
     "fidelity_note": "The custom class is genuinely non-unital and records multiplication, associativity, additivity, and scalar compatibility in both arguments. No class data or definition body is sorried; closed issue #5616 describes the superseded unital encoding.",
     "coverage_note": "The carrier assumptions and every bilinearity/associativity component of the source definition are fields or parameters of Etingof.AssociativeAlgebra.",
     "last_updated": "2026-07-27"
@@ -285,7 +711,7 @@
     "end_page": "9",
     "start_line": 2,
     "end_line": 4,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -305,6 +731,31 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.AssociativeAlgebra.IsUnit"
+      ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.2.1"
+      ],
+      "basis": "The unit predicate is defined on the section's non-unital AssociativeAlgebra class."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.2",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The predicate and uniqueness theorem are small, documented, and linter-clean; no rewrite was justified."
+    },
     "fidelity_note": "IsUnit is a predicate on an arbitrary element of the non-unital structure and quantifies both identity laws over every algebra element. It does not presuppose a Ring or canonical one; closed issue #5617 describes the superseded vacuous theorem.",
     "fidelity_decl": "Etingof.AssociativeAlgebra.IsUnit",
     "coverage_note": "The definition records both source conjuncts e*a = a and a*e = a for every a.",
@@ -318,7 +769,7 @@
     "end_page": "9",
     "start_line": 5,
     "end_line": 8,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -338,6 +789,31 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Proposition_2_2_3"
+      ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.2.2"
+      ],
+      "basis": "The uniqueness theorem imports and uses the section's unit predicate."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.2",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The proposition is a documented one-line reuse of the canonical section theorem and passes all 16 linters."
+    },
     "coverage_note": "The item-local theorem now compares two arbitrary elements satisfying Definition 2.2.2 and reuses the exact non-unital uniqueness proof AssociativeAlgebra.isUnit_unique.",
     "last_updated": "2026-07-27"
   },
@@ -349,7 +825,7 @@
     "end_page": "9",
     "start_line": 9,
     "end_line": 10,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage": "non_formalizable",
     "fidelity": "verified",
     "sorry_free": true,
@@ -369,6 +845,28 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": [],
+      "basis": "The item is an editorial convention and has no mathematical proof obligation."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The editorial convention has no Lean companion or formal dependency."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.2",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "not_applicable",
+      "result": "This is an editorial notation convention with no Lean declaration to polish."
+    },
     "coverage_note": "The sole sentence is an editorial convention, and its implementation is checked in the subsequent unital algebra items.",
     "last_updated": "2026-07-27",
     "coverage_swept": {
@@ -384,7 +882,7 @@
     "end_page": "9",
     "start_line": 11,
     "end_line": 22,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -434,6 +932,28 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [],
+      "basis": "All seven claims are elaborated anonymous examples using Mathlib's canonical algebra, basis, and multiplication APIs."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The examples file imports Mathlib only and uses canonical polynomial, endomorphism, free-algebra, and monoid-algebra APIs."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.2",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The anonymous examples use canonical Mathlib bases and multiplication lemmas, have focused imports, and pass all 16 linters."
+    },
     "coverage_note": "All five examples and the stated multiplication/basis descriptions are machine checked. In particular, the polynomial example now uses Fin n variables rather than only one variable.",
     "last_updated": "2026-07-27"
   },
@@ -445,7 +965,7 @@
     "end_page": "9",
     "start_line": 23,
     "end_line": 23,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -465,6 +985,29 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.CommutativeAlgebra"
+      ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The commutative-algebra abbreviation imports Mathlib only."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.2",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The declaration is a documented direct abbreviation of Mathlib's structures and passes all 16 linters."
+    },
     "coverage_note": "Under the immediately preceding unital convention, CommRing together with Algebra records exactly the universal multiplication-commutativity condition; no nontrivial representation bridge is needed.",
     "last_updated": "2026-07-27"
   },
@@ -476,7 +1019,7 @@
     "end_page": "9",
     "start_line": 24,
     "end_line": 26,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "fidelity": "verified",
     "coverage_note": "The group-algebra iff, the free-algebra claim, and the source's quantified End_k(V) noncommutativity theorem for every vector space of cardinal rank at least 2 (End_noncommutative_of_two_le_rank), including infinite-dimensional V, are all public. The concrete V = k² matrix-unit witness remains as the dim V = 2 special case.",
@@ -512,6 +1055,31 @@
           "lean_decl": "Etingof.monoidAlgebra_mul_comm_iff"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.monoidAlgebra_mul_comm_iff",
+        "Etingof.End_noncommutative_of_two_le_rank",
+        "Etingof.freeAlgebra_noncommutative_of_one_lt"
+      ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "All commutativity witnesses are constructed directly from Mathlib matrix, free-algebra, and monoid-algebra APIs."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.2",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The quantified witnesses use focused Mathlib APIs, explicit local constructions, documented theorems, and pass all 16 linters."
     }
   },
   {
@@ -522,7 +1090,7 @@
     "end_page": "9",
     "start_line": 27,
     "end_line": 27,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -541,6 +1109,29 @@
           "lean_decl": "Etingof.AlgebraHom (Mathlib AlgHom)"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.AlgebraHom"
+      ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.2",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The algebra-homomorphism abbreviation imports Mathlib only."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.2",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The declaration is a documented direct abbreviation of Mathlib's AlgHom and passes all 16 linters."
     },
     "coverage_note": "AlgHom records every source component: k-linearity, f(xy) = f(x)f(y), and f(1) = 1. The representations are definitionally the same under the active unital convention.",
     "last_updated": "2026-07-27"
@@ -909,7 +1500,7 @@
     "end_page": "15",
     "start_line": 2,
     "end_line": 14,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "fidelity": "verified",
     "lean_file": "EtingofRepresentationTheory/Chapter2/Discussion_2_4_heading.lean",
@@ -981,6 +1572,22 @@
         "Etingof.Discussion2_4.mem_ker_iff"
       ]
     },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.4",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.3.4"
+      ],
+      "basis": "The section dictionary imports the subrepresentation definition for its regular-representation bridges; its remaining dependencies are Mathlib declarations."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.4",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "No source rewrite was needed: the declarations use direct Mathlib aliases or single-purpose bridge theorems, have focused imports, and emit no Lean style or tactic linter warnings."
+    },
     "last_updated": "2026-07-27",
     "coverage_swept": {
       "wave": 1,
@@ -995,7 +1602,7 @@
     "end_page": "15",
     "start_line": 15,
     "end_line": 15,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "fidelity": "verified",
     "last_updated": "2026-07-27",
@@ -1041,6 +1648,20 @@
         "Etingof.Problem2_4_1.exists_maximal_right_ideal",
         "Etingof.Problem2_4_1.exists_maximal_twoSided_ideal"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.4",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The three existence proofs import only Mathlib: the one-sided cases use Ideal.exists_maximal and the two-sided case is a self-contained Zorn argument."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.4",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "No source rewrite was needed: the one-sided proofs delegate directly to Mathlib, the two-sided Zorn proof is factored by chain-bound construction, simp sets are explicit, and both scoped files emit no Lean style or tactic linter warnings."
     }
   },
   {
@@ -1324,7 +1945,7 @@
     "end_page": "17",
     "start_line": 1,
     "end_line": 4,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -1374,6 +1995,20 @@
         "Etingof.PresentedAlgebra.lift_rel_eq_zero",
         "Etingof.PresentedAlgebra.finPresentation_def"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.6",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The section file imports Mathlib only and defines its free-algebra quotient, generator map, relation theorem, and universal property without using any project declaration."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.6",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The file uses focused Mathlib imports and the canonical FreeAlgebra, TwoSidedIdeal, and RingCon APIs; the Stage 3.5 pass completed docstrings for every public helper theorem and verified clean standalone elaboration."
     },
     "coverage_swept": {
       "wave": 1,
@@ -2403,6 +3038,53 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The bracket is bilinear over the ground field.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Discussion2_9.bracket_add_left; bracket_add_right; bracket_smul_left; bracket_smul_right"
+        },
+        {
+          "claim": "The bracket is alternating: [a,a] = 0.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Discussion2_9.bracket_self"
+        },
+        {
+          "claim": "Alternation gives skew-symmetry: [a,b] = -[b,a].",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Discussion2_9.bracket_skew"
+        }
+      ]
+    },
+    "last_updated": "2026-07-27",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "sorry_free": true,
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter2/Discussion_2_9_heading.lean"
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Discussion2_9.bracket_add_left",
+        "Etingof.Discussion2_9.bracket_add_right",
+        "Etingof.Discussion2_9.bracket_smul_left",
+        "Etingof.Discussion2_9.bracket_smul_right",
+        "Etingof.Discussion2_9.bracket_self",
+        "Etingof.Discussion2_9.bracket_skew"
+      ]
     }
   },
   {
@@ -2418,7 +3100,33 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "The public LieRing and LieAlgebra structures record the skew-symmetric bilinear bracket and Jacobi identity in the definition.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A Lie algebra is a bilinear alternating bracket satisfying the cyclic Jacobi identity (2.9.1).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.LieAlgebraDef; Etingof.jacobi_identity"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.LieAlgebraDef",
+        "Etingof.jacobi_identity"
+      ]
+    }
   },
   {
     "id": "Chapter2/Example2.9.2",
@@ -2434,7 +3142,60 @@
     "fidelity": "verified",
     "fidelity_note": "All four examples are formalized at the source's generality. (4) is now Etingof.Example2_9_2.Der k A, the Leibniz-rule endomorphisms of an *arbitrary associative* k-algebra A, packaged as a LieSubalgebra k (Module.End k A); Mathlib's Derivation k A A requires [CommSemiring A] and so cannot state (4) as the book does. derivationLieEquiv identifies the two in the commutative case, and Der.inner exhibits the inner derivations as a non-vacuity witness.",
     "fidelity_decl": "Abelian k V (abelian); LieRing A / LieAlgebra k (End k V) (associative); LieSubalgebra k A; Der k A with LieAlgebra k (Der k A) for arbitrary associative A, plus derivationLieEquiv : Derivation k A A ≃ₗ⁅k⁆ Der k A",
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Every vector space with zero bracket is an abelian Lie algebra.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example2_9_2.Abelian; Abelian.instLieRing; Abelian.instLieAlgebra; Abelian.instIsLieAbelian"
+        },
+        {
+          "claim": "Every associative algebra is a Lie algebra under the commutator bracket.",
+          "verdict": "formalized",
+          "lean_decl": "LieRing.ofAssociativeRing; Etingof.Example2_9_2 example at lines 75-76"
+        },
+        {
+          "claim": "End(V), denoted gl(V), is the principal associative-commutator example.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example2_9_2 example at lines 79-80"
+        },
+        {
+          "claim": "A subspace of an associative algebra closed under commutators is a Lie algebra.",
+          "verdict": "formalized",
+          "lean_decl": "LieSubalgebra; Etingof.Example2_9_2 example at lines 87-88"
+        },
+        {
+          "claim": "Der(A) consists of linear endomorphisms satisfying D(ab)=D(a)b+aD(b), for arbitrary associative A.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example2_9_2.IsLeibniz; Der; mem_Der; Der.leibniz"
+        },
+        {
+          "claim": "Der(A) is closed under commutators and hence is a Lie algebra.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example2_9_2.Der; Der.bracket_apply; derivationLieEquiv"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Example2_9_2.Abelian",
+        "Etingof.Example2_9_2.IsLeibniz",
+        "Etingof.Example2_9_2.Der",
+        "Etingof.Example2_9_2.derivationLieEquiv"
+      ]
+    }
   },
   {
     "id": "Chapter2/Example2.9.2_continued",
@@ -2446,9 +3207,34 @@
     "end_line": 1,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22",
+    "last_updated": "2026-07-27",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A subspace of a Lie algebra closed under the bracket is a Lie subalgebra and inherits a Lie-algebra structure.",
+          "verdict": "formalized",
+          "lean_decl": "LieSubalgebra; EtingofRepresentationTheory.Chapter2.Example2_9_2_continued example"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "LieSubalgebra"
+      ]
+    }
   },
   {
     "id": "Chapter2/Remark2.9.3",
@@ -2460,9 +3246,42 @@
     "end_line": 3,
     "status": "proof_wanted",
     "fidelity": "verified",
-    "fidelity_note": "Ado's theorem now asserted in Lean as Etingof.ado (Chapter2/Remark2_9_3.lean): for a finite-dimensional Lie algebra L over a characteristic-zero field, there exists a finite-dimensional V and an injective LieHom L →ₗ⁅k⁆ Module.End k V (a faithful finite-dimensional representation). Statement faithful to the book claim. Recorded via `proof_wanted` (no `sorry` term, no axiom): the book states Ado's theorem without proof and it is not available in Mathlib. This is NOT a codebase sorry — status corrected from the misleading `sorry` in audit #7001.",
+    "fidelity_note": "Ado–Iwasawa is asserted in Lean as Etingof.ado (Chapter2/Remark2_9_3.lean): for a finite-dimensional Lie algebra L over the chapter's arbitrary field k, there exists a finite-dimensional V and an injective LieHom L →ₗ⁅k⁆ Module.End k V (a faithful finite-dimensional representation). Statement faithful to the book claim. Recorded via `proof_wanted` (no `sorry` term, no axiom): the book states the theorem without proof and it is not available in Mathlib. Stage 3.3 proves the constructive reduction and converse: a faithful embedding into a finite-dimensional associative algebra, equivalently a finite-dimensional target of U(L) that remains injective on L, supplies the required representation by left multiplication; every faithful representation extends to such a U(L) target. This is NOT a codebase sorry — status corrected from the misleading `sorry` in audit #7001.",
     "fidelity_decl": "Etingof.ado",
-    "fidelity_issue": 5367
+    "fidelity_issue": 5367,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Every finite-dimensional Lie algebra over the chapter's field admits an injective finite-dimensional representation into gl(V) (Ado-Iwasawa).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.ado",
+          "proof_status": "stage3_3_gap"
+        }
+      ]
+    },
+    "last_updated": "2026-07-27",
+    "coverage": "covered_full",
+    "sorry_free": true,
+    "stage3_3": {
+      "status": "partial",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "proof_wanted",
+      "declarations": [
+        "Etingof.ado_of_finiteAssociativeEmbedding",
+        "Etingof.ado_of_finiteEnvelopingTarget",
+        "Etingof.finiteEnvelopingTarget_of_faithfulRepresentation",
+        "Etingof.faithfulRepresentation_iff_finiteEnvelopingTarget"
+      ],
+      "remaining_obligation": "Etingof.ado (arbitrary-field Ado–Iwasawa theorem): construct a finite-dimensional target of U(L) that is injective on the canonical copy of L. Mathlib currently lacks the general PBW/injectivity theorem and the characteristic-dependent finite-quotient or Iwasawa-splitting machinery needed for that construction."
+    }
   },
   {
     "id": "Chapter2/Remark2.9.4",
@@ -2476,8 +3295,55 @@
     "fidelity": "verified",
     "fidelity_note": "wave-3 resolved (#5661): both 'check it'/'give a proof' claims formalized in EtingofRepresentationTheory/Chapter2/Remark2_9_4.lean — g'(0) is a derivation (hasDerivAt_leibniz), exp(tD) is a one-parameter family of algebra automorphisms (expDeriv_map_mul, expDeriv_map_one, expDeriv_add, expDerivAut). Sorry-free, standard axioms only.",
     "fidelity_decl": "Etingof.Remark2_9_4.hasDerivAt_leibniz, expDeriv_map_mul, expDerivAut",
-    "last_updated": "2026-07-02",
-    "fidelity_issue": 5661
+    "last_updated": "2026-07-27",
+    "fidelity_issue": 5661,
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The derivative at zero of a differentiable multiplicative family through the identity satisfies the Leibniz rule.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Remark2_9_4.hasDerivAt_leibniz"
+        },
+        {
+          "claim": "For a derivation D, exp(tD) is multiplicative and unital.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Remark2_9_4.expDeriv_map_mul; expDeriv_map_one"
+        },
+        {
+          "claim": "The maps exp(tD) are algebra automorphisms forming a one-parameter group.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Remark2_9_4.expDerivAut; expDeriv_zero; expDeriv_add"
+        },
+        {
+          "claim": "Lie algebras broadly arise as infinitesimal automorphisms of many algebraic structures.",
+          "verdict": "non_formalizable",
+          "reason": "Motivational generalization over an open-ended class of linear algebraic structures, with no single mathematical proposition."
+        }
+      ]
+    },
+    "coverage": "covered_full",
+    "sorry_free": true,
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Remark2_9_4.hasDerivAt_leibniz",
+        "Etingof.Remark2_9_4.expDeriv_map_mul",
+        "Etingof.Remark2_9_4.expDeriv_map_one",
+        "Etingof.Remark2_9_4.expDerivAut",
+        "Etingof.Remark2_9_4.expDeriv_zero",
+        "Etingof.Remark2_9_4.expDeriv_add"
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_concrete_Lie_examples",
@@ -2491,6 +3357,71 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "R^3 with the cross product is a Lie algebra.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Exercise2_9_5.bracket_eq_cross; Exercise2_9_5.crossLieAlgebra"
+        },
+        {
+          "claim": "sl(n) is the Lie algebra of trace-zero n by n matrices.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "LieAlgebra.SpecialLinear.sl; LieAlgebra.SpecialLinear.sl_bracket"
+        },
+        {
+          "claim": "For sl(2), e, f, h are the displayed matrix basis.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Example2_9_12.slEquiv; slEquiv_e; slEquiv_f; slEquiv_h"
+        },
+        {
+          "claim": "The sl(2) basis satisfies [h,e]=2e, [h,f]=-2f, [e,f]=h.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Example2_9_12.bracket_h_e; bracket_h_f; bracket_e_f"
+        },
+        {
+          "claim": "The Heisenberg Lie algebra is the displayed strictly upper-triangular 3 by 3 matrix algebra.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.DiscussionConcreteLieExamples.heisenbergMatrices; heisenbergMatrixEquiv"
+        },
+        {
+          "claim": "Its basis x=E12, y=E01, c=E02 is the displayed matrix basis.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.DiscussionConcreteLieExamples.heisenbergMatrixEquiv_x; heisenbergMatrixEquiv_y; heisenbergMatrixEquiv_c"
+        },
+        {
+          "claim": "The Heisenberg relations are [y,x]=c and [y,c]=[x,c]=0.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Example2_9_13.bracket_y_x; bracket_y_c; bracket_x_c"
+        }
+      ]
+    },
+    "last_updated": "2026-07-27",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "sorry_free": true,
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter2/Discussion_concrete_Lie_examples.lean"
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.DiscussionConcreteLieExamples.heisenbergMatrixEquiv",
+        "Etingof.DiscussionConcreteLieExamples.heisenbergMatrixEquiv_x",
+        "Etingof.DiscussionConcreteLieExamples.heisenbergMatrixEquiv_y",
+        "Etingof.DiscussionConcreteLieExamples.heisenbergMatrixEquiv_c"
+      ]
     }
   },
   {
@@ -2502,14 +3433,60 @@
     "start_line": 1,
     "end_line": 5,
     "status": "sorry_free",
-    "fidelity": "full",
+    "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "The orthogonal Lie algebra so(n) is available through Mathlib. Chapter2/Discussion_concrete_Lie_examples_continued.lean identifies Problem2_16_2's two-dimensional matrix Lie algebra as the source-facing aff(1): the alias `aff k = g k`, the coordinate lemma `coe_eq_smul_add`, linear independence `linearIndependent_XY` and spanning `span_XY` of X=E₀₀, Y=E₀₁ assembled into the basis `basisXY : Basis (Fin 2) k (g k)` with `finrank_aff : finrank k (g k) = 2`, and `g_eq_rowZero : g k = rowZero k` identifying aff(1) with the Lie subalgebra of matrices whose bottom row vanishes. Reuses Problem2_16_2's g, X, Y, bracket_X_Y; #print axioms shows no sorryAx.",
-    "last_updated": "2026-07-23",
+    "last_updated": "2026-07-27",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "aff(1) is the Lie algebra of 2 by 2 matrices with bottom row zero.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_2.aff; g_eq_rowZero"
+        },
+        {
+          "claim": "X=E00 and Y=E01 form a basis of aff(1).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem2_16_2.basisXY; linearIndependent_XY; span_XY; finrank_aff"
+        },
+        {
+          "claim": "The aff(1) basis satisfies [X,Y]=Y.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Problem2_16_2.bracket_X_Y"
+        },
+        {
+          "claim": "so(n) is the Lie algebra of skew-symmetric matrices under commutator.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "LieAlgebra.Orthogonal.so; LieAlgebra.Orthogonal.mem_so"
+        }
+      ]
+    },
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter2/Discussion_concrete_Lie_examples_continued.lean"
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_16_2.g_eq_rowZero",
+        "Etingof.Problem2_16_2.basisXY",
+        "Etingof.Problem2_16_2.finrank_aff",
+        "Etingof.Problem2_16_2.bracket_X_Y"
+      ]
     }
   },
   {
@@ -2522,8 +3499,36 @@
     "end_line": 6,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22",
-    "coverage_note": "Chapter2/Exercise2_9_5.lean: proves so(3) ≅ (ℝ³, ×) as Nonempty (Orthogonal.so (Fin 3) ℝ ≃ₗ⁅ℝ⁆ (Fin 3 → ℝ)) (Cross.lieRing local instance + constructed LieAlgebra ℝ), with the concrete example (1)/(5) facts (bracket = cross product; mem_so ↔ skew-symmetric) proved. The hat-map LieEquiv `hatEquiv` is fully constructed: hatFun sends (a,b,c) to the skew matrix, hatFun_mem gives membership in so(3), hatFun_cross proves hat(u×v)=[hat u,hat v] (Lie hom), and left_inv/right_inv read entries back off skew matrices (using the local LieRing.ofAssociativeRing instance on matrices, priority below Cross.lieRing). #print axioms shows no sorryAx. Exercise refers to the concrete Lie-algebra list (Discussion_concrete_Lie_examples), not Example 2.9.2."
+    "last_updated": "2026-07-27",
+    "coverage_note": "Chapter2/Exercise2_9_5.lean: proves so(3) ≅ (ℝ³, ×) as Nonempty (Orthogonal.so (Fin 3) ℝ ≃ₗ⁅ℝ⁆ (Fin 3 → ℝ)) (Cross.lieRing local instance + constructed LieAlgebra ℝ), with the concrete example (1)/(5) facts (bracket = cross product; mem_so ↔ skew-symmetric) proved. The hat-map LieEquiv `hatEquiv` is fully constructed: hatFun sends (a,b,c) to the skew matrix, hatFun_mem gives membership in so(3), hatFun_cross proves hat(u×v)=[hat u,hat v] (Lie hom), and left_inv/right_inv read entries back off skew matrices (using the local LieRing.ofAssociativeRing instance on matrices, priority below Cross.lieRing). #print axioms shows no sorryAx. Exercise refers to the concrete Lie-algebra list (Discussion_concrete_Lie_examples), not Example 2.9.2.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The cross-product Lie algebra R^3 is Lie-isomorphic to so(3).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Exercise2_9_5.hatEquiv; so3_lieEquiv_cross"
+        }
+      ]
+    },
+    "fidelity": "verified",
+    "sorry_free": true,
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Exercise2_9_5.hatEquiv",
+        "Etingof.Exercise2_9_5.so3_lieEquiv_cross"
+      ]
+    }
   },
   {
     "id": "Chapter2/Definition2.9.6",
@@ -2538,7 +3543,33 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "LieHom is the source's linear bracket-preserving homomorphism of Lie algebras.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A Lie-algebra homomorphism is a linear map preserving brackets.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.LieAlgebraHom; LieHom"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.LieAlgebraHom",
+        "LieHom"
+      ]
+    }
   },
   {
     "id": "Chapter2/Definition2.9.7",
@@ -2553,7 +3584,33 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "LieModule k L V is the standard action-map formulation of a representation of the Lie algebra L.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A representation of g on V is a Lie-algebra homomorphism g to End(V), equivalently a LieModule structure.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.LieAlgebraRepresentation; LieModule"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.LieAlgebraRepresentation",
+        "LieModule"
+      ]
+    }
   },
   {
     "id": "Chapter2/Example2.9.8",
@@ -2568,8 +3625,54 @@
     "fidelity": "verified",
     "sorry_free": true,
     "notes": "Fidelity gap #5364 fixed: all three representations formalized — (1) zero rep on PUnit, (2) trivial rep (TrivialLieModule, rho=0) on arbitrary V, (3) adjoint rep via LieAlgebra.ad with rho(a)(b)=[a,b] and bracket-preservation (Jacobi identity).",
-    "last_updated": "2026-06-26",
-    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified"
+    "last_updated": "2026-07-27",
+    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The zero vector space is a representation.",
+          "verdict": "formalized",
+          "lean_decl": "Example2_9_8 zero-representation examples at lines 41-44"
+        },
+        {
+          "claim": "Every vector space carries the trivial representation rho=0.",
+          "verdict": "formalized",
+          "lean_decl": "Example2_9_8 trivial-representation examples at lines 55-58"
+        },
+        {
+          "claim": "The adjoint representation has rho(a)(b)=[a,b].",
+          "verdict": "formalized",
+          "lean_decl": "LieAlgebra.ad; Example2_9_8 adjoint examples at lines 68-75"
+        },
+        {
+          "claim": "The Jacobi identity makes the adjoint action a Lie-algebra homomorphism.",
+          "verdict": "formalized",
+          "lean_decl": "LieHom.map_lie (LieAlgebra.ad k L); Example2_9_8 line 79"
+        },
+        {
+          "claim": "Representations of a Lie algebra are the same as representations of its enveloping algebra.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Exercise2_9_11.repEquiv"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "LieAlgebra.ad",
+        "Etingof.Exercise2_9_11.repEquiv"
+      ]
+    }
   },
   {
     "id": "Chapter2/Definition2.9.9",
@@ -2584,7 +3687,40 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "fidelity_note": "The chosen-basis presentation is defined using finitely supported structure constants and is explicitly algebra-equivalent to the coordinate-free enveloping algebra.",
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For a chosen basis, the defining relator is XiXj-XjXi-sum_k c^k_ij Xk.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.ueaBasisRelator"
+        },
+        {
+          "claim": "U(g) is the associative algebra generated by the basis elements subject to exactly those relations.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.UEABasisPresentation; ueaBasisAlgEquiv; UniversalEnvelopingAlgebraDef"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.ueaBasisRelator",
+        "Etingof.UEABasisPresentation",
+        "Etingof.ueaBasisAlgEquiv",
+        "Etingof.UniversalEnvelopingAlgebraDef"
+      ]
+    }
   },
   {
     "id": "Chapter2/Remark2.9.10",
@@ -2599,7 +3735,36 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "The promised equivalence is `Etingof.ueaBasisAlgEquiv`; its forward and inverse maps have generator formulas and uniqueness characterizations.",
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The chosen-basis presentation is equivalent to the later basis-independent definition.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Remark2_9_10.basisPresentationEquiv; Etingof.ueaBasisAlgEquiv"
+        }
+      ]
+    },
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter2/Remark2_9_10.lean"
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Remark2_9_10.basisPresentationEquiv",
+        "Etingof.ueaBasisAlgEquiv"
+      ]
+    }
   },
   {
     "id": "Chapter2/Exercise2.9.11",
@@ -2618,7 +3783,34 @@
     "fidelity_decl": [
       "Etingof.Exercise2_9_11.repEquiv"
     ],
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Lie representations L to End(V) are naturally equivalent to algebra representations U(L) to End(V).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Exercise2_9_11.repEquiv"
+        }
+      ]
+    },
+    "fidelity": "verified",
+    "sorry_free": true,
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Exercise2_9_11.repEquiv"
+      ]
+    }
   },
   {
     "id": "Chapter2/Example2.9.12",
@@ -2633,8 +3825,51 @@
     "sorry_free": true,
     "fidelity_note": "FULL. The book's claim -- U(sl(2)) IS the algebra generated by e, f, h subject to he-eh=2e, hf-fh=-2f, ef-fe=h -- is now formalized in both halves. Generation: adjoin_ι_e_f_h proves Algebra.adjoin k {ι e, ι f, ι h} = ⊤ (via adjoin_range_ι, that ι's image generates any universal enveloping algebra). Completeness of the presentation: Presentation k, the free k-algebra on Fin 3 modulo exactly the three relations (PresRel), is exhibited as k-algebra isomorphic to U(sl2 k) by presentationEquiv, with presentationEquiv_gen_zero/one/two matching the three presented generators to ι e, ι f, ι h. The earlier gap 'coordinate model not connected to the canonical traceless-matrix sl₂' is closed by slEquiv, a LieEquiv onto Mathlib's LieAlgebra.SpecialLinear.sl (Fin 2) k sending e, f, h to E₀₁, E₁₀, E₀₀-E₁₁, with isSl2Triple_slEquiv recording that these form an IsSl2Triple. Non-vacuity: stdRep (the standard 2-dimensional representation) gives ι_e_ne_zero and hence Nontrivial instances for U(sl2 k) and Presentation k over nontrivial k, so the presented algebra is not the zero ring. All declarations depend only on propext/Classical.choice/Quot.sound. Closes #5361.",
     "fidelity_decl": "def presentationEquiv : Presentation k ≃ₐ[k] UniversalEnvelopingAlgebra k (sl2 k); theorem adjoin_ι_e_f_h : Algebra.adjoin k {ι e, ι f, ι h} = ⊤; def slEquiv : sl2 k ≃ₗ⁅k⁆ LieAlgebra.SpecialLinear.sl (Fin 2) k",
-    "last_updated": "2026-07-25",
-    "fidelity": "verified"
+    "last_updated": "2026-07-27",
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The generators e,f,h satisfy he-eh=2e, hf-fh=-2f, ef-fe=h in U(sl2).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example2_9_12.sl2_universal_relations"
+        },
+        {
+          "claim": "These three relations are a complete presentation of U(sl2).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example2_9_12.Presentation; presentationEquiv; presentationEquiv_gen_zero; presentationEquiv_gen_one; presentationEquiv_gen_two"
+        },
+        {
+          "claim": "The coordinate sl2 used in the presentation is the canonical traceless 2 by 2 matrix algebra with the displayed basis.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example2_9_12.slEquiv; slEquiv_e; slEquiv_f; slEquiv_h"
+        },
+        {
+          "claim": "The presentation is nontrivial.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example2_9_12.ι_e_ne_zero; nontrivial_U; nontrivial_Presentation"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Example2_9_12.sl2_universal_relations",
+        "Etingof.Example2_9_12.presentationEquiv",
+        "Etingof.Example2_9_12.slEquiv",
+        "Etingof.Example2_9_12.ι_e_ne_zero"
+      ]
+    }
   },
   {
     "id": "Chapter2/Example2.9.13",
@@ -2646,11 +3881,54 @@
     "end_line": 12,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "fidelity": "full",
+    "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "The Heisenberg algebra, enveloping relations, and c=1 quotient are genuine. The quotient U(ℋ)/(C-1) (HeisenbergWeylQuot) is now identified with the project's Etingof.WeylAlgebra (Proposition 2.7.1) via an explicit AlgEquiv heisenbergWeylEquiv, built from the universal properties of U(ℋ) and the free algebra and proved a two-sided inverse; the class of X maps to x and Y to y. The former locally-renamed WeylAlgebra abbrev is gone.",
+    "fidelity_note": "The Heisenberg algebra, its enveloping relations, and the c=1 quotient are genuine. The free algebra on x,y,c modulo exactly yx-xy=c, yc-cy=0, xc-cx=0 is now proved algebra-equivalent to U(ℋ): heisenbergPresentationAlgEquiv is built from the two universal properties, its maps are proved inverse, and heisenbergPresentationEquiv records the matching of all three generators. The quotient U(ℋ)/(C-1) is independently identified with the project's Etingof.WeylAlgebra via heisenbergWeylEquiv.",
     "fidelity_decl": "noncomputable def heisenbergWeylEquiv : HeisenbergWeylQuot k ≃ₐ[k] Etingof.WeylAlgebra k",
-    "last_updated": "2026-07-24"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The Heisenberg algebra has basis x,y,c with [y,x]=c and c central.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example2_9_13.Heisenberg; x; y; c; bracket_y_x; bracket_y_c; bracket_x_c"
+        },
+        {
+          "claim": "The displayed relations hold for the generators in U(H).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example2_9_13.heisenberg_universal_relations"
+        },
+        {
+          "claim": "Those three relations are a complete presentation of U(H).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example2_9_13.HeisenbergPresentation; heisenbergPresentationAlgEquiv; heisenbergPresentationEquiv"
+        },
+        {
+          "claim": "Imposing c=1 yields the Weyl algebra.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Example2_9_13.HeisenbergWeylQuot; weyl_c_eq_one; heisenbergWeylEquiv"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Example2_9_13.heisenberg_universal_relations",
+        "Etingof.Example2_9_13.heisenbergPresentationAlgEquiv",
+        "Etingof.Example2_9_13.heisenbergPresentationEquiv",
+        "Etingof.Example2_9_13.heisenbergWeylEquiv"
+      ]
+    }
   },
   {
     "id": "Chapter2/Remark2.9.14",
@@ -2664,7 +3942,46 @@
     "fidelity": "verified",
     "fidelity_note": "prose remark, not formalizable (e.g. Lie group / differential geometry); was wrongly sorry_free",
     "fidelity_decl": "(none — narrative)",
-    "last_updated": "2026-06-28"
+    "last_updated": "2026-07-27",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A Lie group is a compatible group and differentiable-manifold structure, and Lie(G) is its invariant-derivation algebra.",
+          "verdict": "non_formalizable",
+          "reason": "Requires a developed bridge among smooth manifolds, smooth function algebras, invariant derivations, and the project's algebraic Lie structures; no such bridge is in scope."
+        },
+        {
+          "claim": "Lie(G) identifies with the tangent space at the identity.",
+          "verdict": "non_formalizable",
+          "reason": "Differential-geometric identification not developed in this repository."
+        },
+        {
+          "claim": "Simply connected real Lie groups correspond to finite-dimensional real Lie algebras.",
+          "verdict": "non_formalizable",
+          "reason": "Lie's third theorem and classification-level Lie-group infrastructure are outside the repository's formalized scope."
+        },
+        {
+          "claim": "Finite-dimensional Lie-group representations differentiate and Lie-algebra representations exponentiate, with extensions to some infinite-dimensional classes.",
+          "verdict": "non_formalizable",
+          "reason": "Requires smooth representation and integration theory; the final infinite-dimensional class is intentionally unspecified narrative."
+        }
+      ]
+    },
+    "coverage": "non_formalizable",
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": []
+    }
   },
   {
     "id": "Chapter2/Discussion_2.9_Lie_groups",
@@ -2674,10 +3991,46 @@
     "end_page": "26",
     "start_line": 1,
     "end_line": 6,
-    "status": "sorry_free",
+    "status": "non_formalizable",
     "coverage_swept": {
       "wave": 1,
       "result": "non_formalizable"
+    },
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Linear algebraic groups are algebraically defined subgroups of GL_n(R), with O_n(R) as an example.",
+          "verdict": "non_formalizable",
+          "reason": "The repository does not develop real algebraic groups together with their manifold/Lie-group structures."
+        },
+        {
+          "claim": "For g contained in gl_n(R), the subgroup generated by exp(X) is a connected Lie group with Lie algebra g, though not necessarily closed.",
+          "verdict": "non_formalizable",
+          "reason": "Requires matrix Lie-group topology, immersed subgroup theory, and identification of the tangent Lie algebra."
+        },
+        {
+          "claim": "The universal cover of that group is the simply connected Lie group corresponding to g.",
+          "verdict": "non_formalizable",
+          "reason": "Requires universal covering groups and Lie's correspondence, outside the repository's current foundations."
+        }
+      ]
+    },
+    "last_updated": "2026-07-27",
+    "coverage": "non_formalizable",
+    "fidelity": "verified",
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": []
     }
   },
   {
@@ -2688,7 +4041,7 @@
     "end_page": "30",
     "start_line": 7,
     "end_line": 7,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage_swept": {
       "wave": 1,
       "result": "non_formalizable"
@@ -2785,6 +4138,23 @@
       "proof_integrity": "not_applicable",
       "declarations": [],
       "basis": "All fourteen Stage 3.2 claim units in this item have verdict non_formalizable: they are biographical, historical, attributed, or evaluative prose and state no mathematical proof obligation. Consequently there is no Lean proof term, axiom dependency, or placeholder to audit."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.10",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Dependency analysis is not applicable to all fourteen non-formalizable historical claim units: this item has no Lean provider, declaration, or proof term. Its conservative link to the preceding §2.9 item was only a reading-order edge, not an actual internal dependency."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.10",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "not_applicable",
+      "source_review": "not_applicable",
+      "imports": "not_applicable",
+      "declaration_lints": "not_applicable",
+      "result": "All fourteen claims are non-formalizable historical, biographical, attributed, or evaluative prose, and the item has no Lean provider or declaration. There is therefore no API, import surface, documentation, naming, proof style, or declaration lint target to polish; adding one would invent mathematical content absent from the book."
     }
   },
   {
@@ -2795,7 +4165,7 @@
     "end_page": "31",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage_swept": {
       "wave": 1,
       "result": "non_formalizable"
@@ -2827,6 +4197,23 @@
       "proof_integrity": "not_applicable",
       "declarations": [],
       "basis": "The one Stage 3.2 claim unit in this continuation has verdict non_formalizable because it is publication history and evaluative prose. Together with the preceding item's fourteen units, all fifteen scoped claims have no mathematical proof obligation, so there is no Lean proof term, axiom dependency, or placeholder to audit."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.10",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Dependency analysis is not applicable to this final non-formalizable claim unit; together with the heading's fourteen units, all fifteen scoped claims have no Lean provider, declaration, or proof term. The page-continuation link is textual reading order, not an actual internal dependency."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.10",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "not_applicable",
+      "source_review": "not_applicable",
+      "imports": "not_applicable",
+      "declaration_lints": "not_applicable",
+      "result": "This final claim is non-formalizable publication history and evaluative prose; together with the heading's fourteen claims, all fifteen scoped claims have no Lean provider or declaration. Consequently there is no source or declaration quality target to polish, and inventing code would be unfaithful to the book."
     }
   },
   {
@@ -3523,7 +4910,7 @@
     "end_page": "35",
     "start_line": 27,
     "end_line": 33,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage_swept": {
       "wave": 1,
       "result": "covered_full"
@@ -3575,6 +4962,23 @@
         "Etingof.tensorAlgebra_ι_injective"
       ],
       "basis": "All seven public declarations in the scoped provider resolve and are admission-free. The three source claims are witnessed by explicit algebra equivalences and homogeneous/generator formulas; injectivity of the degree-one inclusion rules out a vacuous model."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.12",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The provider uses only Mathlib's TensorAlgebra basis and tensor-power APIs and imports no project module. Lean's redundant-import and minImports diagnostics confirm that its two direct Mathlib imports are both transitively irredundant; the incoming Exercise 2.11.7 edge was reading order only."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.12",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "source_review": "complete",
+      "imports": "no_transitively_redundant_imports",
+      "declaration_lints": "passed_17",
+      "result": "All seven public declarations are documented, warning-free, within the 100-character limit, and pass the 16 default declaration linters plus docBlameThm. The non-normal tensor-power formula remains as a readable theorem but is no longer registered as a simp lemma, resolving the sole simpNF finding without changing its statement."
     }
   },
   {
@@ -3585,7 +4989,7 @@
     "end_page": "36",
     "start_line": 1,
     "end_line": 16,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -3676,6 +5080,27 @@
         "Etingof.coordFreeToUeaBasis_unique"
       ],
       "basis": "All twenty-five public declarations in the scoped provider resolve and are admission-free. The quotient relations, basis identifications, homogeneous decompositions, and the two-sided universal-enveloping algebra equivalence are supported by explicit proofs or Mathlib constructions; there are no intentional omissions in this item."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.12",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Discussion_2.6",
+        "Chapter2/Definition2.9.9",
+        "Chapter2/Problem2.11.3"
+      ],
+      "basis": "PresentedAlgebra and its universal property come from Discussion 2.6; the earlier UEA alias bridged by ueaBasisAlgEquiv comes from Definition 2.9.9; and the exact SymPow/ExtPow quotient models, bases, and exterior-power equivalence come from Problem 2.11.3. minImports identified exactly these three project imports. Five direct Mathlib imports were transitively redundant and have been removed."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.12",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "source_review": "complete",
+      "imports": "no_transitively_redundant_imports",
+      "declaration_lints": "passed_17",
+      "result": "All twenty-five public declarations are documented, warning-free, within the 100-character limit, and pass the 16 default declaration linters plus docBlameThm. The readable UEA generator formula remains public but is no longer registered as a non-normal simp lemma; all other names, statements, proofs, and API attributes were already robust."
     }
   },
   {
@@ -3686,7 +5111,7 @@
     "end_page": "36",
     "start_line": 17,
     "end_line": 17,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "fidelity": "verified",
     "claim_coverage": {
@@ -3705,6 +5130,27 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.13",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": []
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.13",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This organizational heading makes no mathematical assertion and depends on no earlier project item."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.13",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The organizational heading has no Lean declaration to polish; its paired section provider is warning-free, uses irredundant focused imports, and passes all 17 declaration linters."
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -3718,7 +5164,7 @@
     "end_page": "37",
     "start_line": 18,
     "end_line": 8,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage": "covered_partial",
     "fidelity": "verified",
     "lean_decl": "Etingof.Problem2_13_1.irrational_arccos_third_div_pi",
@@ -3780,6 +5226,30 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.13",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_13_1.irrational_arccos_third_div_pi"
+      ],
+      "scope_note": "Proof integrity applies to the two formalized proof units. The five Dehn-invariant/scissors-congruence units remain explicit intentional omissions under skipped-exercises.md and are not represented by declarations."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.13",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The formalized irrationality proof uses only focused Mathlib inverse-trigonometric and irrational-number modules; it imports no earlier project item. The five intentional geometric omissions introduce no dependency edges."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.13",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The proof provider now uses descriptive private names, structured tactic blocks, lines within the Mathlib style limit, warning-free standalone elaboration, irredundant focused imports, and a clean 17-linter declaration audit."
+    },
     "last_updated": "2026-07-27"
   },
   {
@@ -3808,6 +5278,13 @@
           "reason": "This is an organizational heading only."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.14",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": []
     },
     "last_updated": "2026-07-27",
     "coverage_swept": {
@@ -3849,6 +5326,16 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.LieTensorProduct.lie_tmul"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.14",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.LieTensorProduct",
+        "Etingof.LieTensorProduct.lie_tmul"
       ]
     },
     "last_updated": "2026-07-27"
@@ -3894,6 +5381,16 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.14",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.LieDualRepresentation",
+        "Etingof.lieDualRepresentation_lie_apply"
+      ]
+    },
     "last_updated": "2026-07-27"
   },
   {
@@ -3930,6 +5427,18 @@
           "lean_decl": "Etingof.Exercise2_9_11.repEquiv",
           "note": "The earlier exercise formalizes the universal-property equivalence between Lie representations and U(𝔤)-representations; Problem 2.14.3 uses Mathlib's equivalent LieModuleHom model for the morphism spaces."
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.14",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_14_3.dualHomEquiv",
+        "Etingof.Problem2_14_3.congrHomRight",
+        "Etingof.Problem2_14_3.tensorHomAdjunction",
+        "Etingof.Problem2_14_3.exists_tensorHom_adjunction"
       ]
     },
     "last_updated": "2026-07-27"
@@ -4743,7 +6252,7 @@
     "end_page": "45",
     "start_line": 23,
     "end_line": 27,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "fidelity": "verified",
     "claim_coverage": {
@@ -4780,6 +6289,20 @@
       "proof_integrity": "not_applicable",
       "declarations": []
     },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.2",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The section heading is organizational and has no Lean provider or actual internal dependency."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.2",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The organizational heading has no declaration to polish; its scoped providers are fully reviewed and style-clean."
+    },
     "last_updated": "2026-07-27",
     "coverage_swept": {
       "wave": 1,
@@ -4794,7 +6317,7 @@
     "end_page": "46",
     "start_line": 1,
     "end_line": 4,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "last_updated": "2026-07-27",
     "fidelity": "verified",
@@ -4834,6 +6357,20 @@
         "Etingof.irreducible_interpolation"
       ],
       "scope_note": "The exact corollary is fully proved. Its Lean proof uses the independently verified density theorem rather than reproducing the book's matrix contradiction."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.2",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The provider imports the later Theorem 3.2.2 implementation, not an earlier book item. That forward proof-order import is excluded from the backward pedagogical graph and is recorded explicitly in the Stage 3.4 audit note."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.2",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The public interpolation theorem is documented, warning-free, import-minimal, axiom-clean, and passes all 17 declaration linters."
     }
   },
   {
@@ -4844,7 +6381,7 @@
     "end_page": "46",
     "start_line": 5,
     "end_line": 13,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "fidelity": "verified",
     "notes": "Both parts proved. Part (i) uses Jacobson density theorem for simple modules. Part (ii) applies density theorem to the product module via Schur's lemma decomposition.",
     "sorry_free": true,
@@ -4912,6 +6449,20 @@
         "Etingof.density_theorem_part2"
       ],
       "scope_note": "Both exact density endpoints are fully proved through Mathlib's Jacobson-density and simple-module APIs; the alternate proof organization recorded at Stage 3.2 introduces no deferred proof obligation."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.2",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Both density proofs use only Mathlib APIs. Their provider has one focused Mathlib import and no project import."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.2",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "Both public density theorems pass all 17 linters. Part (ii) now exposes proposition-valued Finite and constructs Fintype data only locally in the proof, eliminating the unused-Fintype API warning."
     },
     "last_updated": "2026-07-27"
   },
@@ -5673,7 +7224,7 @@
     "end_page": "49",
     "start_line": 3,
     "end_line": 6,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -5702,6 +7253,30 @@
           "note": "The theorem's Field k, Ring A, Algebra k A, and Module A V assumptions give the exact algebra-and-representation setup."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.4",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.exists_filtration_with_irreducible_quotients"
+      ],
+      "basis": "The heading is organizational, while its algebra-and-representation setup is realized by the listed admission-free theorem with arbitrary algebra and module parameters."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.4",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This item is an organizational heading and setup paragraph with no provider of its own, so it has no actual backward internal dependency."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.4",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The organizational heading has no declaration of its own; the exact filtration theorem carrying its algebra-and-representation setup was included in the warning-free, documented, lint-clean, and import-irredundant scoped provider audit."
     }
   },
   {
@@ -5712,7 +7287,7 @@
     "end_page": "49",
     "start_line": 7,
     "end_line": 8,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "last_updated": "2026-07-27",
     "fidelity": "verified",
@@ -5757,6 +7332,33 @@
           "lean_decl": "Etingof.Filtration.last_eq_top"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.4",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Filtration",
+        "Etingof.Filtration.chain",
+        "Etingof.Filtration.head_eq_bot",
+        "Etingof.Filtration.last_eq_top"
+      ],
+      "basis": "The structure and all three fields are admission-free. The exhaustive module-origin audit also covers its 14 generated constructors, recursors, injectivity proofs, no-confusion principles, and sizeOf constants."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.4",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Definition3_4_1.lean imports only Mathlib modules and uses no earlier project declaration."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.4",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The filtration structure and every field are documented and use focused Mathlib abstractions. All six lint-visible and 12 automatically generated declarations pass all 16 default declaration linters plus docBlameThm; the provider elaborates without warnings and its imports remain irredundant."
     }
   },
   {
@@ -5767,7 +7369,7 @@
     "end_page": "49",
     "start_line": 9,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "last_updated": "2026-07-27",
     "fidelity": "verified",
@@ -5828,6 +7430,33 @@
           "lean_decl": "Etingof.exists_filtration_with_irreducible_quotients"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.4",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.exists_composition_series",
+        "Etingof.exists_filtration_with_irreducible_quotients"
+      ],
+      "basis": "Both theorem constants have complete proof terms. The exact endpoint returns Etingof.Filtration and proves IsSimpleModule A for every adjacent quotient; the composition-series theorem records the equivalent finite-length proof route."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.4",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Definition3.4.1"
+      ],
+      "basis": "Lemma3_4_2.lean imports Definition3_4_1.lean and its exact theorem explicitly constructs Etingof.Filtration; the helper theorem is defined in the same tracked item."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.4",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "Both public theorems are documented, expose only the hypotheses required by the finite-length construction, and use the focused composition-series and simple-quotient APIs. They pass all 16 default declaration linters plus docBlameThm; the provider elaborates without warnings and its imports remain irredundant."
     }
   },
   {

@@ -1,8 +1,5 @@
-import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-import Mathlib.Order.JordanHolder
 import Mathlib.RingTheory.FiniteLength
-import Mathlib.RingTheory.Artinian.Module
 import EtingofRepresentationTheory.Chapter3.Definition3_4_1
 
 /-!

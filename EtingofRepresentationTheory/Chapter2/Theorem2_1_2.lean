@@ -183,7 +183,7 @@ private lemma not_posdef_not_HasFiniteRepresentationType
   exact hx_not_pd (hDynkin.2.2.2.2 x hx_ne)
 
 /-- Backward direction: `IsDynkinDiagram` implies `HasFiniteRepresentationType`
-for any algebraically closed field and the given quiver.
+over any field and for the given quiver.
 
 This requires:
 1. Showing the quiver is an orientation of its undirected adjacency (needs Subsingleton
@@ -194,7 +194,7 @@ This requires:
 4. Every indecomposable has dim vector = positive root (indecomposable_bilinearForm_eq_two)
 5. Packaging into HasFiniteRepresentationType with the right universe and iso type -/
 private lemma isDynkinDiagram_HasFiniteRepresentationType
-    (k : Type) [Field k] [IsAlgClosed k]
+    (k : Type) [Field k]
     (n : ℕ) [Quiver.{0} (Fin n)] [∀ a b : Fin n, Decidable (Nonempty (a ⟶ b))]
     [∀ a b : Fin n, Subsingleton (a ⟶ b)]
     (hOrient : IsOrientationOf ‹Quiver (Fin n)› (quiverUndirectedAdj n))
@@ -264,6 +264,18 @@ private lemma isDynkinDiagram_HasFiniteRepresentationType
   -- Convert to QuiverRepresentationEquiv, adjusting for the rootEnum roundtrip
   exact ⟨by change QuiverRepresentationEquiv k (Fin n) ρ (rep (rootEnum.symm (rootEnum root)))
             rw [hrw]; exact iso.toEquiv⟩
+
+/-- Every orientation of a Dynkin diagram has finite representation type over an arbitrary
+field. This is the field-independent direction of Gabriel's theorem. -/
+theorem hasFiniteRepresentationType_of_isDynkinDiagram
+    (k : Type) [Field k]
+    (n : ℕ) [Quiver.{0} (Fin n)] [∀ a b : Fin n, Decidable (Nonempty (a ⟶ b))]
+    [∀ a b : Fin n, Subsingleton (a ⟶ b)]
+    (hOrient : IsOrientationOf ‹Quiver (Fin n)› (quiverUndirectedAdj n))
+    (hconn : QuiverUndirectedConnected n)
+    (hDynkin : IsDynkinDiagram n (quiverUndirectedAdj n)) :
+    HasFiniteRepresentationType k n :=
+  isDynkinDiagram_HasFiniteRepresentationType k n hOrient hconn hDynkin
 
 /-! ## Gabriel's Theorem -/
 
