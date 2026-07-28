@@ -93,10 +93,12 @@ only; out of scope for a report-only fidelity audit — not touched here.
 `FormalDeformation` (coefficient sequence + `base_eq` + Cauchy-product `isMul`),
 `constDeformation`, and `IsIsomorphic`/`IsTrivial` are genuinely constructed. Part (a)
 `isTrivial_of_ext1_subsingleton` is fully proved via an order-by-order intertwiner
-construction (`star`, `bSeq`). Part (b) is the book's open-ended "is the converse true?",
-recorded honestly as a `Prop`-valued definition `Problem3_9_4b` / `ConverseHolds` rather than
-asserted as a theorem — appropriate, not vacuous. **Docstring corrected** (module docstring and
-the `constDeformation` docstring both claimed `sorry`; the `isMul` field is in fact proved).
+construction (`star`, `bSeq`). Part (b), the book's open-ended "is the converse true?", is
+answered negatively by `not_problem3_9_4b_dualNumber`: for the augmentation representation of
+the dual numbers on `k`, every formal deformation is constant, but the second-coordinate cocycle
+gives a nonzero self-extension. The original `Problem3_9_4b` / `ConverseHolds` proposition remains
+the interface refuted by the theorem. **Docstring corrected** (module docstring and the
+`constDeformation` docstring both claimed `sorry`; the `isMul` field is in fact proved).
 
 ### Problem 3.9.5 — The Clifford algebra (SOUND)
 

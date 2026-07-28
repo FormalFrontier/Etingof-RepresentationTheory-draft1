@@ -2,6 +2,7 @@ import EtingofRepresentationTheory.Chapter3.Problem3_9_1
 import Mathlib.Algebra.DualNumber
 import Mathlib.Algebra.BigOperators.NatAntidiagonal
 import Mathlib.RingTheory.PowerSeries.Basic
+import Mathlib.RingTheory.PowerSeries.NoZeroDivisors
 import Mathlib.Algebra.Algebra.Bilinear
 import Mathlib.Tactic.NoncommRing
 
@@ -26,8 +27,9 @@ representation is `ρ₀ = ρ`, the bundled action `A →ₗ[k] End_k V`.
 `Ext¹(V, V) = 0` reuses `Etingof.Problem3_9_1.Ext1`, phrased as `Subsingleton (Ext1 …)`.
 
 The deformation data (`FormalDeformation`, the constant deformation, the
-isomorphism relation) is constructed and part (a) is proved; part (b)
-is recorded as an open proposition (`Problem3_9_4b`), matching the book's open-ended question.
+isomorphism relation) is constructed and part (a) is proved. Part (b) has a negative answer:
+for the augmentation representation of the dual numbers on a one-dimensional space, every
+formal deformation is constant, while its self-`Ext¹` is nonzero.
 -/
 
 namespace Etingof.Problem3_9_4
@@ -93,6 +95,37 @@ def IsIsomorphic (D D' : FormalDeformation k A V) : Prop :=
 /-- A deformation is **trivial** if it is isomorphic to the constant deformation `ρ`. -/
 def IsTrivial (D : FormalDeformation k A V) : Prop :=
   IsIsomorphic k A V D (constDeformation k A V)
+
+/-- Every formal deformation is isomorphic to itself, using the constant identity
+intertwiner. -/
+theorem isIsomorphic_refl (D : FormalDeformation k A V) :
+    IsIsomorphic k A V D D := by
+  let b : ℕ → Module.End k V := fun n => if n = 0 then LinearMap.id else 0
+  refine ⟨b, by simp [b], ?_⟩
+  intro a n
+  have hleft :
+      ∑ p ∈ Finset.antidiagonal n, (b p.1).comp (D.coeff p.2 a) = D.coeff n a := by
+    rw [Finset.sum_eq_single_of_mem (0, n) (by simp [Finset.mem_antidiagonal])]
+    · simp [b]
+    · rintro ⟨i, j⟩ hmem hne
+      have hi : i ≠ 0 := by
+        rintro rfl
+        rw [Finset.mem_antidiagonal] at hmem
+        apply hne
+        simp_all
+      simp [b, hi]
+  have hright :
+      ∑ p ∈ Finset.antidiagonal n, (D.coeff p.1 a).comp (b p.2) = D.coeff n a := by
+    rw [Finset.sum_eq_single_of_mem (n, 0) (by simp [Finset.mem_antidiagonal])]
+    · simp [b]
+    · rintro ⟨i, j⟩ hmem hne
+      have hj : j ≠ 0 := by
+        rintro rfl
+        rw [Finset.mem_antidiagonal] at hmem
+        apply hne
+        simp_all
+      simp [b, hj]
+  rw [hleft, hright]
 
 /-! ## Construction of the trivialising intertwiner
 
@@ -343,5 +376,230 @@ def Problem3_9_4b (V : Type*)
     [AddCommGroup V] [Module k V] [Module (DualNumber k) V]
     [IsScalarTower k (DualNumber k) V] : Prop :=
   ConverseHolds k (DualNumber k) V
+
+/-! ## Part (b): the dual-numbers counterexample
+
+The dual numbers act on the one-dimensional space `k` through the augmentation
+`a ↦ a.fst`; equivalently, `DualNumber.eps` acts by zero. A deformation sends `eps` to a
+square-zero power series in `Endₖ(k)`. Evaluation at `1` identifies `Endₖ(k)` with `k`, so this
+series vanishes because `k⟦X⟧` is a domain. The image of `1` is similarly an idempotent power
+series with constant coefficient `1`, hence is `1`. Thus every positive deformation coefficient
+vanishes.
+
+On the other hand, the second coordinate `a ↦ a.snd` is a nonzero self-extension cocycle. Every
+coboundary is zero because endomorphisms of a one-dimensional scalar representation commute with
+the action. Therefore `Ext¹(k,k)` is nontrivial although all formal deformations are trivial. -/
+
+section DualNumberCounterexample
+
+variable (K : Type*) [Field K]
+
+/-- The augmentation algebra structure of the dual numbers on their base field:
+`a • x = a.fst * x`, so the nilpotent generator acts by zero.
+
+This is deliberately a named definition rather than a global instance, since a field may carry
+other algebra structures over a trivial square-zero extension. The counterexample section installs
+it only locally. -/
+@[reducible] noncomputable def dualNumberAugmentationAlgebra : Algebra (DualNumber K) K :=
+  TrivSqZeroExt.algebraBase K K
+
+local instance : Algebra (DualNumber K) K :=
+  TrivSqZeroExt.algebraBase K K
+
+/-- Evaluate a one-dimensional endomorphism at `1`, as an algebra map. -/
+noncomputable def endScalar : Module.End K K →ₐ[K] K where
+  toFun f := f 1
+  map_one' := rfl
+  map_mul' f g := by
+    change f (g 1) = f 1 * g 1
+    calc
+      f (g 1) = f ((g 1) • (1 : K)) := by simp
+      _ = (g 1) • f 1 := by rw [map_smul]
+      _ = f 1 * g 1 := by simp [mul_comm]
+  map_zero' := rfl
+  map_add' _ _ := rfl
+  commutes' c := by simp
+
+lemma endScalar_injective : Function.Injective (endScalar K) := by
+  intro f g h
+  change f 1 = g 1 at h
+  apply LinearMap.ext
+  intro x
+  calc
+    f x = f (x • (1 : K)) := by simp
+    _ = x • f 1 := by rw [map_smul]
+    _ = x • g 1 := by rw [h]
+    _ = g (x • (1 : K)) := by rw [map_smul]
+    _ = g x := by simp
+
+/-- The scalar-valued power series obtained by evaluating every endomorphism coefficient at
+`1`. -/
+noncomputable def scalarSeries (D : FormalDeformation K (DualNumber K) K)
+    (a : DualNumber K) : PowerSeries K :=
+  PowerSeries.map (endScalar K).toRingHom (defSeries D a)
+
+@[simp] lemma scalarSeries_coeff (D : FormalDeformation K (DualNumber K) K)
+    (a : DualNumber K) (n : ℕ) :
+    PowerSeries.coeff n (scalarSeries K D a) = endScalar K (D.coeff n a) := by
+  simp [scalarSeries, defSeries_coeff]
+
+/-- The deformed action of the nilpotent generator is zero: its scalar power series is
+square-zero in the domain `K⟦X⟧`. -/
+lemma scalarSeries_eps_zero (D : FormalDeformation K (DualNumber K) K) :
+    scalarSeries K D DualNumber.eps = 0 := by
+  have hsq : defSeries D DualNumber.eps * defSeries D DualNumber.eps = 0 := by
+    rw [← defSeries_mul]
+    simp only [DualNumber.eps_mul_eps]
+    ext n
+    simp [defSeries]
+  have hsq' := congrArg (PowerSeries.map (endScalar K).toRingHom) hsq
+  simp only [map_mul, map_zero] at hsq'
+  exact eq_zero_of_mul_self_eq_zero hsq'
+
+lemma scalarSeries_one_coeff_zero (D : FormalDeformation K (DualNumber K) K) :
+    PowerSeries.coeff 0 (scalarSeries K D 1) = 1 := by
+  rw [scalarSeries_coeff, D.base_eq]
+  simp [endScalar, baseRho]
+
+/-- The deformed action of `1` is the constant power series `1`. Although
+`FormalDeformation` has no separate unitality field, multiplicativity makes this series
+idempotent, and its constant coefficient rules out the zero idempotent. -/
+lemma scalarSeries_one (D : FormalDeformation K (DualNumber K) K) :
+    scalarSeries K D 1 = 1 := by
+  let U := scalarSeries K D 1
+  have hidem : U * U = U := by
+    change scalarSeries K D 1 * scalarSeries K D 1 = scalarSeries K D 1
+    simp only [scalarSeries, ← map_mul, ← defSeries_mul, one_mul]
+  have hfac : U * (U - 1) = 0 := by rw [mul_sub, hidem, mul_one, sub_self]
+  rcases eq_zero_or_eq_zero_of_mul_eq_zero hfac with hU | hU
+  · have hcoeff := congrArg (PowerSeries.coeff 0) hU
+    rw [scalarSeries_one_coeff_zero] at hcoeff
+    simp at hcoeff
+  · exact sub_eq_zero.mp hU
+
+lemma coeff_eps_zero (D : FormalDeformation K (DualNumber K) K) (n : ℕ) :
+    D.coeff n DualNumber.eps = 0 := by
+  apply endScalar_injective K
+  change endScalar K (D.coeff n DualNumber.eps) = endScalar K 0
+  rw [← scalarSeries_coeff]
+  simp [scalarSeries_eps_zero]
+
+lemma coeff_one_succ_zero (D : FormalDeformation K (DualNumber K) K) (n : ℕ) :
+    D.coeff (n + 1) 1 = 0 := by
+  apply endScalar_injective K
+  change endScalar K (D.coeff (n + 1) 1) = endScalar K 0
+  rw [← scalarSeries_coeff]
+  simp [scalarSeries_one]
+
+/-- Every positive coefficient of a deformation of the augmentation representation vanishes. -/
+theorem dualNumber_coeff_succ_eq_zero
+    (D : FormalDeformation K (DualNumber K) K) (n : ℕ) :
+    D.coeff (n + 1) = 0 := by
+  apply LinearMap.ext
+  intro a
+  rw [← a.inl_fst_add_inr_snd_eq, map_add]
+  have hinl : TrivSqZeroExt.inl a.fst = a.fst • (1 : DualNumber K) := by
+    ext <;> simp
+  rw [hinl, DualNumber.inr_eq_smul_eps, map_smul, map_smul,
+    coeff_one_succ_zero, coeff_eps_zero, smul_zero, smul_zero, add_zero]
+  simp
+
+/-- Every deformation of the augmentation representation is literally the constant deformation,
+not merely isomorphic to it. -/
+theorem dualNumber_deformation_eq_const
+    (D : FormalDeformation K (DualNumber K) K) :
+    D = constDeformation K (DualNumber K) K := by
+  cases D with
+  | mk coeff base_eq isMul =>
+      rw [FormalDeformation.mk.injEq]
+      funext n
+      cases n with
+      | zero =>
+          rw [base_eq]
+          simp [constDeformation]
+      | succ n =>
+          exact dualNumber_coeff_succ_eq_zero K
+            ({ coeff := coeff, base_eq := base_eq, isMul := isMul } :
+              FormalDeformation K (DualNumber K) K) n
+
+/-- Every formal deformation of the one-dimensional augmentation representation is trivial. -/
+theorem dualNumber_all_deformations_trivial :
+    ∀ D : FormalDeformation K (DualNumber K) K,
+      IsTrivial K (DualNumber K) K D := by
+  intro D
+  rw [dualNumber_deformation_eq_const K D]
+  exact isIsomorphic_refl K (DualNumber K) K _
+
+/-- The second-coordinate derivation `a ↦ a.snd`, regarded as an endomorphism-valued
+one-cocycle of the augmentation representation. -/
+noncomputable def epsCocycle :
+    DualNumber K →ₗ[K] Module.End K K :=
+  (Algebra.lsmul K K K).toLinearMap.comp (TrivSqZeroExt.sndHom K K)
+
+lemma epsCocycle_isCocycle :
+    Etingof.Problem3_9_1.IsCocycle K (DualNumber K) K K (epsCocycle K) := by
+  intro a b
+  apply LinearMap.ext
+  intro x
+  simp only [epsCocycle, LinearMap.add_apply, LinearMap.coe_comp, Function.comp_apply]
+  have hlsmul (c y : K) :
+      ((Algebra.lsmul K K K).toLinearMap c) y = c * y := rfl
+  have hsnd (c : DualNumber K) :
+      (TrivSqZeroExt.sndHom K K) c = c.snd := rfl
+  have hrho (c : DualNumber K) (y : K) :
+      Etingof.Problem3_9_1.rho K (DualNumber K) K c y = c.fst * y := rfl
+  rw [hlsmul, hsnd, hrho, hlsmul, hsnd, hrho, hlsmul, hsnd, DualNumber.snd_mul]
+  ring
+
+lemma coboundary_eq_zero (X : Module.End K K) :
+    Etingof.Problem3_9_1.coboundaryOf K (DualNumber K) K K X = 0 := by
+  apply LinearMap.ext
+  intro a
+  apply LinearMap.ext
+  intro x
+  rw [Etingof.Problem3_9_1.coboundaryOf_apply]
+  change a.fst * X x - X (a.fst * x) = 0
+  rw [show a.fst * x = a.fst • x by rfl, map_smul]
+  simp
+
+lemma epsCocycle_ne_zero : epsCocycle K ≠ 0 := by
+  intro h
+  have h' := LinearMap.congr_fun (LinearMap.congr_fun h DualNumber.eps) 1
+  simp [epsCocycle] at h'
+
+lemma epsCocycle_not_mem_coboundaries :
+    epsCocycle K ∉
+      Etingof.Problem3_9_1.coboundaries K (DualNumber K) K K := by
+  intro hmem
+  rw [Etingof.Problem3_9_1.mem_coboundaries_iff] at hmem
+  obtain ⟨X, hX⟩ := hmem
+  apply epsCocycle_ne_zero K
+  exact hX.symm.trans (coboundary_eq_zero K X)
+
+/-- The augmentation representation has a nonzero self-extension, represented by
+`epsCocycle`. -/
+theorem dualNumber_ext1_not_subsingleton :
+    ¬ Subsingleton (Ext1 K (DualNumber K) K K) := by
+  letI : AddCommGroup (Etingof.Problem3_9_1.cocycles K (DualNumber K) K K) :=
+    @Submodule.addCommGroup K
+      (DualNumber K →ₗ[K] Module.End K K) _ _ _
+      (Etingof.Problem3_9_1.cocycles K (DualNumber K) K K)
+  intro h
+  rw [Etingof.Problem3_9_1.Ext1, Submodule.Quotient.subsingleton_iff,
+    Submodule.eq_top_iff'] at h
+  have hmem := h
+    (⟨epsCocycle K, epsCocycle_isCocycle K⟩ :
+      Etingof.Problem3_9_1.cocycles K (DualNumber K) K K)
+  exact epsCocycle_not_mem_coboundaries K ((Submodule.mem_comap).mp hmem)
+
+/-- **Problem 3.9.4(b), negative answer.** For the augmentation representation of the dual
+numbers on `K`, every formal deformation is trivial, but `Ext¹(K,K)` is nonzero. Hence the
+converse to part (a) is false. -/
+theorem not_problem3_9_4b_dualNumber :
+    ¬ Problem3_9_4b K K := by
+  intro h
+  exact dualNumber_ext1_not_subsingleton K (h (dualNumber_all_deformations_trivial K))
+
+end DualNumberCounterexample
 
 end Etingof.Problem3_9_4
