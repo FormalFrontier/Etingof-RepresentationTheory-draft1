@@ -185,9 +185,9 @@ noncomputable def blockCastLie {a b : ℕ} (h : a = b) :
 an isomorphism of products. -/
 noncomputable def piCongrRightLie {M N : ι → Type*}
     [∀ i, AddCommGroup (M i)] [∀ i, Module ℂ (M i)]
-    [∀ i, LieRingModule sl2 (M i)] [∀ i, LieModule ℂ sl2 (M i)]
+    [∀ i, LieRingModule sl2 (M i)]
     [∀ i, AddCommGroup (N i)] [∀ i, Module ℂ (N i)]
-    [∀ i, LieRingModule sl2 (N i)] [∀ i, LieModule ℂ sl2 (N i)]
+    [∀ i, LieRingModule sl2 (N i)]
     (e : ∀ i, M i ≃ₗ⁅ℂ,sl2⁆ N i) : (∀ i, M i) ≃ₗ⁅ℂ,sl2⁆ (∀ i, N i) where
   toFun v i := e i (v i)
   invFun w i := (e i).symm (w i)
@@ -203,7 +203,7 @@ noncomputable def piCongrRightLie {M N : ι → Type*}
 (cast-free) direction is the pullback `w ↦ w ∘ σ`. -/
 noncomputable def reindexPiLie (σ : ι ≃ κ) (N : κ → Type*)
     [∀ j, AddCommGroup (N j)] [∀ j, Module ℂ (N j)]
-    [∀ j, LieRingModule sl2 (N j)] [∀ j, LieModule ℂ sl2 (N j)] :
+    [∀ j, LieRingModule sl2 (N j)] :
     (∀ j, N j) ≃ₗ⁅ℂ,sl2⁆ (∀ i, N (σ.symm.symm i)) :=
   { LinearEquiv.piCongrLeft' ℂ N σ.symm with
     map_lie' := by intro x v; funext i; rfl }
@@ -248,11 +248,13 @@ theorem exists_reindex {ι κ : Type*} [Fintype ι] [Fintype κ] (f : ι → ℕ
 def blockMultiset {ι : Type*} [Fintype ι] (n : ι → ℕ) : Multiset ℕ :=
   Multiset.map (fun i => n i + 1) Finset.univ.val
 
+/-- The nullity function of a multiset of standard block sizes. -/
 theorem nullity_blockMultiset {ι : Type*} [Fintype ι] (n : ι → ℕ) (k : ℕ) :
     NullitySeq.nullity (blockMultiset n) k = ∑ i, min k (n i + 1) := by
   simp only [NullitySeq.nullity, blockMultiset, Multiset.map_map, Function.comp]
   rfl
 
+/-- Standard block multisets contain no zero-sized block. -/
 theorem zero_notMem_blockMultiset {ι : Type*} [Fintype ι] (n : ι → ℕ) :
     (0 : ℕ) ∉ blockMultiset n := by
   simp only [blockMultiset, Multiset.mem_map]

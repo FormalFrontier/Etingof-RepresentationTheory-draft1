@@ -1,10 +1,3 @@
-import Mathlib.Algebra.Lie.OfAssociative
-import Mathlib.Algebra.Lie.Submodule
-import Mathlib.LinearAlgebra.Dimension.Finite
-import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
-import Mathlib.Algebra.DirectSum.Module
-import Mathlib.Analysis.Complex.Polynomial.Basic
-import EtingofRepresentationTheory.Chapter2.Sl2Irrep
 import EtingofRepresentationTheory.Chapter2.Theorem2_1_1
 
 /-!
@@ -274,6 +267,7 @@ noncomputable def casimirGenEigenspace (a : ℂ) : LieSubmodule ℂ sl2 M where
     rw [show ⁅x, m⁆ = LieModule.toEnd ℂ sl2 M x m from (LieModule.toEnd_apply_apply ..).symm]
     exact hmap hm
 
+/-- The underlying submodule of a Casimir generalized eigenspace. -/
 @[simp] theorem casimirGenEigenspace_toSubmodule (a : ℂ) :
     (casimirGenEigenspace (M := M) a : Submodule ℂ M) = (casimir M).maxGenEigenspace a :=
   rfl
@@ -320,7 +314,7 @@ hypothesis under which the book's part (h) shows the Casimir operator has a sing
 eigenvalue, and the building block of the (h)–(k) reduction (an indecomposable
 finite-dimensional `sl(2)`-module is irreducible). -/
 def Indecomposable (M : Type*) [AddCommGroup M] [Module ℂ M]
-    [LieRingModule sl2 M] [LieModule ℂ sl2 M] : Prop :=
+    [LieRingModule sl2 M] : Prop :=
   Nontrivial M ∧ ∀ N N' : LieSubmodule ℂ sl2 M, IsCompl N N' → N = ⊥ ∨ N' = ⊥
 
 variable [FiniteDimensional ℂ M]
@@ -338,7 +332,7 @@ theorem casimir_eq_single_genEigenspace (hM : Indecomposable M) :
   -- Some generalized eigenspace is nonzero, otherwise their supremum (`= ⊤`) would be `⊥`.
   have hexists : ∃ a, casimirGenEigenspace (M := M) a ≠ ⊥ := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hbot : (⨆ a, casimirGenEigenspace (M := M) a) = ⊥ := by simp only [h, iSup_bot]
     rw [casimirGenEigenspace_iSup_eq_top] at hbot
     exact bot_ne_top hbot.symm
