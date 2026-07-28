@@ -1,6 +1,8 @@
 import Mathlib.LinearAlgebra.Determinant
+import Mathlib.LinearAlgebra.ExteriorAlgebra.Basis
 import Mathlib.LinearAlgebra.ExteriorPower.Basis
 import Mathlib.LinearAlgebra.PiTensorProduct.Basis
+import Mathlib.LinearAlgebra.SymmetricAlgebra.Basis
 
 /-!
 # Problem 2.11.3(d)–(g): symmetric and exterior powers
