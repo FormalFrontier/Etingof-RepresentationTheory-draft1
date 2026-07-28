@@ -5213,7 +5213,8 @@
         "Etingof.finiteEnvelopingTarget_of_faithfulRepresentation",
         "Etingof.faithfulRepresentation_iff_finiteEnvelopingTarget"
       ],
-      "scope_decision": "Etingof.ado itself has no project proof. Its reviewed `proof_wanted` records the book-stated external Ado–Iwasawa theorem and is non-blocking; the proved declarations above retain the constructive reduction API."
+      "scope_decision": "Etingof.ado itself has no project proof. Its reviewed `proof_wanted` records the book-stated external Ado–Iwasawa theorem and is non-blocking; the proved declarations above retain the constructive reduction API.",
+      "unproved_theorem_note": "If the project boundary were ever reconsidered, proving arbitrary-field Ado–Iwasawa would require a finite-dimensional target of U(L) that remains injective on the canonical copy of L, including characteristic-dependent finite-quotient or Iwasawa-splitting machinery currently absent from Mathlib. This is context, not a current project obligation."
     }
   },
   {

@@ -199,7 +199,12 @@ Phase 3 work must respect the dependency DAG — you can't formalize an item unt
 **Finding ready work:**
 1. Query `progress/items.json` for items with status `statement_formalized`
 2. Check each item's dependencies in `dependencies/internal.json`
-3. An item is "ready" when all its direct dependencies have status `sorry_free`
+3. An item is "ready" when all its direct dependencies have status `sorry_free`,
+   except that the individually reviewed terminal status
+   `scope_approved_proof_wanted` is also ready. That exception is valid only
+   when `scripts/check_proof_placeholders.py` confirms the exact marker's scope
+   entry and approval metadata; do not treat a bare `proof_wanted` status as
+   ready.
 4. Prefer items with many dependents (unblocks more downstream work)
 
 **Planners should:**
