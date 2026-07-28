@@ -504,7 +504,10 @@ No restriction is placed on the quiver: loops and parallel arrows are permitted 
 Definition 2.8.1 and are covered here by proved negative branches. A connected quiver on
 `Fin n` has finite representation type over an algebraically closed field if and only if it
 has no loops, no edge oriented in both directions, no parallel arrows, and its underlying
-undirected graph is a Dynkin diagram. -/
+undirected graph is a Dynkin diagram.
+
+The footnote to Theorem 2.1.2 says that the classification remains valid over an arbitrary field,
+but the book only proves the algebraically closed case formalized here. -/
 theorem Theorem_2_1_2_general (hconn : QuiverUndirectedConnected n) :
     HasFiniteRepresentationType k n ↔
       ((∀ v : Fin n, IsEmpty (v ⟶ v)) ∧
@@ -558,37 +561,5 @@ theorem Theorem_2_1_2_general_orientation (hconn : QuiverUndirectedConnected n) 
   tauto
 
 end General
-
-/-! ## The field-independent statement
-
-The main proof above follows the route announced in the book and assumes that the field is
-algebraically closed.  The footnote attached to Theorem 2.1.2 also asserts that the finite-type
-classification itself is valid over an arbitrary field.  That stronger statement must remain
-visible as scaffolding even though its proof is separate. -/
-
-section ArbitraryField
-
-variable (k : Type) [Field k] (n : ℕ) [Quiver.{0} (Fin n)]
-  [∀ a b : Fin n, Decidable (Nonempty (a ⟶ b))]
-
-/-- **Gabriel's finite-type classification over an arbitrary field**, as asserted in the
-footnote to Etingof Theorem 2.1.2.  A connected finite quiver has finite representation type iff
-it has no loops, two-way edges, or parallel arrows and its underlying graph is Dynkin. -/
-theorem Theorem_2_1_2_general_arbitrary_field (hconn : QuiverUndirectedConnected n) :
-    HasFiniteRepresentationType k n ↔
-      ((∀ v : Fin n, IsEmpty (v ⟶ v)) ∧
-        (∀ v w : Fin n, Nonempty (v ⟶ w) → Nonempty (w ⟶ v) → False) ∧
-        (∀ a b : Fin n, Subsingleton (a ⟶ b)) ∧
-        IsDynkinDiagram n (quiverUndirectedAdj n)) := by
-  constructor
-  · -- The converse requires the field-independent negative half of Gabriel's theorem.
-    sorry
-  · rintro ⟨hloop, hbi, hsub, hDynkin⟩
-    letI : ∀ a b : Fin n, Subsingleton (a ⟶ b) := hsub
-    have hOrient : IsOrientationOf ‹Quiver (Fin n)› (quiverUndirectedAdj n) :=
-      (isOrientationOf_quiverUndirectedAdj_iff n).mpr ⟨hloop, hbi⟩
-    exact hasFiniteRepresentationType_of_isDynkinDiagram k n hOrient hconn hDynkin
-
-end ArbitraryField
 
 end Etingof

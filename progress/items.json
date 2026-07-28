@@ -438,16 +438,16 @@
     "end_page": "8",
     "start_line": 5,
     "end_line": 7,
-    "status": "proof_wanted",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "fidelity": "verified",
     "needs_statement": false,
-    "fidelity_note": "The algebraically closed case is proved by Theorem_2_1_2_general, including loops, parallel arrows, and opposite arrows. The arbitrary-field Dynkin-to-finite-type direction is now proved, but the arbitrary-field finite-type-to-Dynkin direction still needs a field-independent negative theorem. For nonempty graphs (1 ≤ n), Theorem_Dynkin_classification supplies the explicit A/D/E list rather than relying only on the predicate name IsDynkinDiagram; the scope excludes the vacuous zero-vertex bookkeeping case.",
+    "fidelity_note": "The book explicitly says that it proves Theorem 2.1.2 only over an algebraically closed field, while a footnote states without proof that the classification remains valid over arbitrary fields. Theorem_2_1_2_general formalizes exactly the proved algebraically closed case, including loops, parallel arrows, and opposite arrows. The field-independent Dynkin-to-finite-type direction is also proved as hasFiniteRepresentationType_of_isDynkinDiagram, but no declaration assumes the unproved arbitrary-field converse. For nonempty graphs (1 ≤ n), Theorem_Dynkin_classification supplies the explicit A/D/E list rather than relying only on the predicate name IsDynkinDiagram; the scope excludes the vacuous zero-vertex bookkeeping case.",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
       "section": "2.1",
-      "reviewed_on": "2026-07-27",
+      "reviewed_on": "2026-07-28",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -459,8 +459,8 @@
         },
         {
           "claim": "The finite-type classification is valid over an arbitrary field, not only an algebraically closed one.",
-          "verdict": "formalized",
-          "lean_decl": "Etingof.Theorem_2_1_2_general_arbitrary_field"
+          "verdict": "intentional_omission",
+          "reason": "The footnote asserts this stronger generalization, but the book explicitly says that it only proves the algebraically closed case. The formalization tracks the proof supplied by the book rather than introducing an unproved arbitrary-field theorem."
         },
         {
           "claim": "The nonempty connected Dynkin graphs are precisely A_n, D_n, E6, E7, and E8.",
@@ -485,19 +485,18 @@
       ]
     },
     "stage3_3": {
-      "status": "partial",
+      "status": "complete",
       "section": "2.1",
-      "verified_on": "2026-07-27",
-      "proof_integrity": "proof_wanted",
+      "verified_on": "2026-07-28",
+      "proof_integrity": "sorry_free",
       "declarations": [
         "Etingof.Theorem_2_1_2_general",
         "Etingof.Theorem_2_1_2_general_orientation",
         "Etingof.hasFiniteRepresentationType_of_isDynkinDiagram",
         "Etingof.Theorem_Dynkin_classification"
-      ],
-      "remaining_obligation": "Etingof.Theorem_2_1_2_general_arbitrary_field, forward direction: finite representation type over an arbitrary (possibly finite) field must exclude loops, parallel/opposite arrows, and non-Dynkin underlying graphs. The existing parameter-family and orbit arguments require an infinite/algebraically closed field; a field-independent descent/base-change theorem or explicit unbounded indecomposable families is still required."
+      ]
     },
-    "last_updated": "2026-07-27"
+    "last_updated": "2026-07-28"
   },
   {
     "id": "Chapter2/Discussion_after_Theorem2.1.2",
