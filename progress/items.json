@@ -98,10 +98,36 @@
     "start_line": 1,
     "end_line": 4,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The chapter title and the Section 2.1 title identify the subject and section but assert no mathematical proposition.",
+          "verdict": "non_formalizable",
+          "reason": "These are organizational headings only; there is no definition, construction, or truth-valued assertion to encode in Lean."
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": []
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Discussion_2.1_overview",
@@ -112,10 +138,71 @@
     "start_line": 5,
     "end_line": 11,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Representation theory studies representations of associative algebras.",
+          "verdict": "non_formalizable",
+          "reason": "This is a description of the subject's scope, not a mathematical proposition with a specified truth condition."
+        },
+        {
+          "claim": "A unital associative algebra over a field is a vector space with associative bilinear multiplication and a two-sided identity.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.AssociativeAlgebra; Etingof.AssociativeAlgebra.IsUnit"
+        },
+        {
+          "claim": "The endomorphisms of a vector space form an associative algebra.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Module.End.instAlgebra"
+        },
+        {
+          "claim": "Algebras given by generators and relations, group algebras, and universal enveloping algebras are associative-algebra constructions.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "PresentedAlgebra; MonoidAlgebra; UniversalEnvelopingAlgebra"
+        },
+        {
+          "claim": "A representation of A is a vector space V with a unital algebra homomorphism A → End(V), equivalently a left A-module.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Representation; Etingof.Representation.toAlgHom; Etingof.Representation.ofAlgHom; Etingof.Representation.toAlgHom_ofAlgHom; Etingof.Representation.ofAlgHom_toAlgHom"
+        },
+        {
+          "claim": "A subrepresentation is a linear subspace invariant under every operator in the representation.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Subrepresentation"
+        },
+        {
+          "claim": "The direct sum of two representations carries the componentwise representation structure.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.DirectSumRepresentation"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.AssociativeAlgebra / Etingof.AssociativeAlgebra.IsUnit",
+        "Etingof.Representation.toAlgHom / Etingof.Representation.ofAlgHom",
+        "Etingof.Subrepresentation",
+        "Etingof.DirectSumRepresentation"
+      ]
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Discussion_2.1_irreducible_indecomposable",
@@ -133,24 +220,151 @@
     "fidelity": "verified",
     "coverage": "covered_full",
     "coverage_note": "The irreducible/indecomposable distinction and implication are public through Etingof.IsIndecomposable and Etingof.IsIndecomposable.of_isSimpleModule; concrete non-converse examples are also public.",
-    "last_updated": "2026-07-22"
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A nonzero representation is irreducible when its only subrepresentations are zero and itself.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.IrreducibleRepresentation"
+        },
+        {
+          "claim": "A nonzero representation is indecomposable when it is not a direct sum of two nonzero subrepresentations.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.IsIndecomposable; Etingof.IsIndecomposable.not_exists_nontrivial_compl"
+        },
+        {
+          "claim": "Every irreducible representation is indecomposable.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.IsIndecomposable.of_isSimpleModule"
+        },
+        {
+          "claim": "The converse is false: an indecomposable representation need not be irreducible.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Example_2_3_14.exists_indecomposable_not_simple"
+        },
+        {
+          "claim": "Classify all irreducible representations of a given algebra.",
+          "verdict": "non_formalizable",
+          "reason": "This is an open-ended research program, not a proposition for an unspecified algebra A."
+        },
+        {
+          "claim": "Classify all indecomposable representations of a given algebra.",
+          "verdict": "non_formalizable",
+          "reason": "This is an open-ended research program, not a proposition for an unspecified algebra A."
+        },
+        {
+          "claim": "Classify finite-dimensional irreducible and indecomposable representations.",
+          "verdict": "non_formalizable",
+          "reason": "This is an open-ended research program, not a proposition for an unspecified algebra A."
+        },
+        {
+          "claim": "U(sl(2)) is generated by h, e, f with he-eh=2e, hf-fh=-2f, and ef-fe=h.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Example2_9_12.presentationEquiv; Etingof.Example2_9_12.presentationEquiv_gen_zero; Etingof.Example2_9_12.presentationEquiv_gen_one; Etingof.Example2_9_12.presentationEquiv_gen_two"
+        },
+        {
+          "claim": "Finding N-dimensional representations of this presentation amounts to solving the displayed relations in N by N matrices.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Example2_9_12.presentationEquiv; Etingof.Representation.toAlgHom; Etingof.PresentedAlgebra.lift; Etingof.PresentedAlgebra.hom_ext; LinearMap.toMatrixAlgEquiv'"
+        },
+        {
+          "claim": "It is striking that representation theory can solve such apparently complicated systems completely.",
+          "verdict": "non_formalizable",
+          "reason": "This is motivational evaluation rather than a precise mathematical assertion; the concrete classification that follows is audited under Theorem 2.1.1."
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.IsIndecomposable.of_isSimpleModule",
+        "Etingof.IsIndecomposable.not_exists_nontrivial_compl",
+        "Etingof.Example_2_3_14.exists_indecomposable_not_simple",
+        "Etingof.Example2_9_12.presentationEquiv"
+      ]
+    },
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Theorem2.1.1",
-    "source_regression_note": "Clean rebuild imports the broken Sl2Irrep source used for its irreducible witnesses (#7531).",
     "type": "theorem",
     "title": "Classification of irreducible representations of U(sl(2))",
     "start_page": "6",
     "end_page": "6",
     "start_line": 18,
     "end_line": 25,
-    "status": "partially_proved",
-    "coverage": "covered_partial",
-    "coverage_issue": 7531,
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
     "needs_statement": false,
-    "notes": "Complete: both parts (i) and (ii) proved. PR #1611 completed sl(2) complete reducibility.",
-    "last_updated": "2026-07-22"
+    "notes": "The classification, complemented-lattice, U(sl(2))/Lie-action preservation bridges, homogeneous-polynomial realization, and indecomposable-implies-irreducible proofs are complete.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Representations of U(sl(2)) may be presented equivalently as Lie action maps of sl(2).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.sl2LieActionEquivUEAAction; Etingof.sl2InvariantSubspace_iff_ueaInvariantSubspace; Etingof.sl2Intertwiner_iff_ueaIntertwiner"
+        },
+        {
+          "claim": "For every positive dimension d there exists an irreducible complex sl(2)-representation of dimension d.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem_2_1_1_i (existence conjunct)"
+        },
+        {
+          "claim": "Any two irreducible complex sl(2)-representations of the same positive dimension d are equivalent.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem_2_1_1_i (uniqueness conjunct)"
+        },
+        {
+          "claim": "The d-dimensional irreducible is realized by homogeneous polynomials of degree d-1 in x,y with h=x∂x-y∂y, e=x∂y, and f=y∂x.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem_2_1_1_i_polynomial_model; Etingof.Sl2Irrep.irrep_isIrreducible"
+        },
+        {
+          "claim": "Every finite-dimensional complex sl(2)-representation is completely reducible (a direct sum of irreducibles).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem_2_1_1_ii"
+        },
+        {
+          "claim": "Every finite-dimensional indecomposable complex sl(2)-representation is irreducible.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem_2_1_1_ii_indecomposable"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.sl2InvariantSubspace_iff_ueaInvariantSubspace",
+        "Etingof.sl2Intertwiner_iff_ueaIntertwiner",
+        "Etingof.Theorem_2_1_1_i",
+        "Etingof.Theorem_2_1_1_i_polynomial_model",
+        "Etingof.Theorem_2_1_1_ii",
+        "Etingof.Theorem_2_1_1_ii_indecomposable"
+      ]
+    },
+    "fidelity_note": "All quantifiers, positivity of d, existence, uniqueness up to Lie-module equivalence, the explicit polynomial model and three operator formulas, complete reducibility, and the indecomposable formulation are now present in theorem types. The existential witnesses have fixed positive finrank and irreducibility, the polynomial claim requires an actual linear equivalence intertwining all three actions, and indecomposability includes Nontrivial V, so none of the claims is vacuous.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Discussion_after_Theorem2.1.1",
@@ -161,10 +375,60 @@
     "start_line": 26,
     "end_line": 4,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A finite quiver is a finite oriented graph, with loops and multiple edges allowed.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.QuiverDef; Etingof.FinQuiverRep"
+        },
+        {
+          "claim": "A representation of a quiver assigns a vector space to each vertex and a linear map to each directed edge.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.QuiverRepresentation"
+        },
+        {
+          "claim": "Representations of Q are the same as modules over its path algebra, up to the explicit opposite-quiver convention used by the project.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.PathAlgebra.forwardRep; Etingof.PathAlgebra.reverseModule; Etingof.PathAlgebra.moduleRoundTrip; Etingof.PathAlgebra.repRoundTrip; Etingof.PathAlgebra.isoClassEquiv"
+        },
+        {
+          "claim": "A quiver is of finite type when it has only finitely many isomorphism classes of finite-dimensional indecomposable representations.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.HasFiniteRepresentationType"
+        },
+        {
+          "claim": "Determine the indecomposable finite-dimensional representations of Q.",
+          "verdict": "non_formalizable",
+          "reason": "This is a classification question for an unspecified quiver, not a truth-valued mathematical assertion; Theorem 2.1.2 formalizes the finite-type classification that follows."
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.QuiverRepresentation",
+        "Etingof.PathAlgebra.isoClassEquiv",
+        "Etingof.HasFiniteRepresentationType"
+      ]
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Theorem2.1.2",
@@ -174,12 +438,66 @@
     "end_page": "8",
     "start_line": 5,
     "end_line": 7,
-    "status": "sorry_free",
+    "status": "proof_wanted",
     "coverage": "covered_full",
-    "fidelity": "full",
+    "fidelity": "verified",
     "needs_statement": false,
-    "fidelity_note": "Theorem_2_1_2 proves the ADE iff for orientations of loopless simple graphs; Theorem_2_1_2_general (Theorem2_1_2_General.lean) removes the typeclass restrictions and classifies every connected finite quiver allowed by the book's definition, with loops, parallel arrows and two-way edges handled by proved infinite-type branches (not_hasFiniteRepresentationType_of_loop / _of_parallel / _of_opposite).",
-    "last_updated": "2026-07-26"
+    "fidelity_note": "The algebraically closed case is proved by Theorem_2_1_2_general, including loops, parallel arrows, and opposite arrows. The arbitrary-field Dynkin-to-finite-type direction is now proved, but the arbitrary-field finite-type-to-Dynkin direction still needs a field-independent negative theorem. For nonempty graphs (1 ≤ n), Theorem_Dynkin_classification supplies the explicit A/D/E list rather than relying only on the predicate name IsDynkinDiagram; the scope excludes the vacuous zero-vertex bookkeeping case.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For connected finite quivers, finite representation type is independent of the orientation and occurs exactly when the underlying graph is Dynkin.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem_2_1_2_general; Etingof.Theorem_2_1_2_general_orientation"
+        },
+        {
+          "claim": "The finite-type classification is valid over an arbitrary field, not only an algebraically closed one.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Theorem_2_1_2_general_arbitrary_field"
+        },
+        {
+          "claim": "The nonempty connected Dynkin graphs are precisely A_n, D_n, E6, E7, and E8.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.DynkinType; Etingof.Theorem_Dynkin_classification"
+        },
+        {
+          "claim": "The listed graphs are called simply laced Dynkin diagrams.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.DynkinType; Etingof.IsDynkinDiagram"
+        },
+        {
+          "claim": "Dynkin diagrams arise in classifications of simple Lie algebras, singularities, Platonic solids, and reflection groups.",
+          "verdict": "non_formalizable",
+          "reason": "This historical overview does not specify the relevant categories or a precise correspondence theorem for any of the four subjects; the exact quiver and graph classification claims are formalized separately."
+        },
+        {
+          "claim": "Showing Dynkin diagrams to an alien civilization would demonstrate sophistication.",
+          "verdict": "non_formalizable",
+          "reason": "This is a humorous motivational remark with no mathematical truth condition."
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "partial",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "proof_wanted",
+      "declarations": [
+        "Etingof.Theorem_2_1_2_general",
+        "Etingof.Theorem_2_1_2_general_orientation",
+        "Etingof.hasFiniteRepresentationType_of_isDynkinDiagram",
+        "Etingof.Theorem_Dynkin_classification"
+      ],
+      "remaining_obligation": "Etingof.Theorem_2_1_2_general_arbitrary_field, forward direction: finite representation type over an arbitrary (possibly finite) field must exclude loops, parallel/opposite arrows, and non-Dynkin underlying graphs. The existing parameter-family and orbit arguments require an infinite/algebraically closed field; a field-independent descent/base-change theorem or explicit unbounded indecomposable families is still required."
+    },
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Discussion_after_Theorem2.1.2",
@@ -190,10 +508,67 @@
     "start_line": 8,
     "end_line": 10,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "2.1",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The complex group algebra of a finite group has basis elements a_g and multiplication a_g a_h = a_(gh).",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "MonoidAlgebra; MonoidAlgebra.single_mul_single"
+        },
+        {
+          "claim": "Every finite-dimensional complex representation of a finite group is a direct sum of irreducible representations (Maschke's theorem).",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Theorem4_1_1_semisimple; IsSemisimpleRing.isSemisimpleModule"
+        },
+        {
+          "claim": "For complex representations of a finite group, irreducible and indecomposable are equivalent notions.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.IsIndecomposable.of_isSimpleModule; Etingof.IsSimpleModule.of_isIndecomposable_of_isSemisimpleModule"
+        },
+        {
+          "claim": "The dimension of every irreducible complex representation of a finite group divides the order of the group.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "finrank_dvd_card_of_irreducible"
+        },
+        {
+          "claim": "Every finite group of order p^a q^b, for primes p and q, is solvable.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Theorem5_4_3"
+        },
+        {
+          "claim": "Finite-group representation theory is fascinating, and a representation-free proof of Burnside's theorem is much more difficult.",
+          "verdict": "non_formalizable",
+          "reason": "These are historical and evaluative comments, not precise mathematical propositions."
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.1",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Theorem4_1_1_semisimple",
+        "Etingof.IsSimpleModule.of_isIndecomposable_of_isSemisimpleModule",
+        "finrank_dvd_card_of_irreducible",
+        "Etingof.Theorem5_4_3"
+      ]
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "notes": "Stage 3.2 added the exact semisimple-module bridge from indecomposable to simple; that theorem remains for Stage 3.3.",
+    "last_updated": "2026-07-27"
   },
   {
     "id": "Chapter2/Discussion_2.2_intro",
