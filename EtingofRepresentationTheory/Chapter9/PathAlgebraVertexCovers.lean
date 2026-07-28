@@ -5,6 +5,8 @@ import EtingofRepresentationTheory.Chapter9.Definition9_2_2
 import Mathlib.LinearAlgebra.Projection
 import Mathlib.LinearAlgebra.Finsupp.Pi
 import Mathlib.RingTheory.SimpleModule.Basic
+import Mathlib.LinearAlgebra.FiniteDimensional.Basic
+import Mathlib.Tactic.LinearCombination
 
 /-!
 # The vertex simple modules and their projective covers
