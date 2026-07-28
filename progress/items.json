@@ -6217,10 +6217,53 @@
     "end_page": "53",
     "start_line": 3,
     "end_line": 6,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.7",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Section 3.7 is headed 'The Jordan-Holder theorem'.",
+          "verdict": "non_formalizable",
+          "reason": "This is a section heading rather than a mathematical proposition or construction."
+        },
+        {
+          "claim": "The text will next state and prove the Jordan-Holder and Krull-Schmidt theorems for representations of finite-dimensional algebras.",
+          "verdict": "non_formalizable",
+          "reason": "This is an organizational roadmap for the following sections, not a standalone mathematical assertion."
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.7",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": [],
+      "basis": "The item consists only of a section heading and organizational roadmap, has no exact Lean provider, and introduces no proof obligation."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.7",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This item is an organizational heading and roadmap with no Lean provider of its own, so it has no actual internal dependency."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.7",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "This organizational heading has no declaration of its own; every exact Section 3.7 provider was included in the documented, lint-clean, axiom-clean, warning-free, and import-irredundant quality audit."
     }
   },
   {
@@ -6231,13 +6274,168 @@
     "end_page": "54",
     "start_line": 7,
     "end_line": 4,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "fidelity": "partial",
     "sorry_free": true,
     "notes": "Full theorem now exposed (#5328): jordan_holder_equivalent gives s₁.Equivalent s₂; jordan_holder_factors gives the permutation σ with Wᵢ ≅ W'_{σ i} via Etingof.compositionFactor; jordan_holder retains the n = m length half. Characteristic-p footnote formalized (#7469) in Discussion_footnote_3_7_1.lean: character_fin_pi gives χ_{nV} = n • χ_V for the diagonal representation on Fin n → V (via trace_diagPi_fin, direct-sum additivity of the trace), and character_pcopies_eq_zero gives χ_{pV} = 0 under [CharP k p].",
     "coverage": "covered",
     "fidelity_note": "The Jordan–Hölder theorem itself is complete. The characteristic-p footnote's concrete explanation—that the character of the p-fold sum pV vanishes for every V—is now formalized as Etingof.character_pcopies_eq_zero (with the general χ_{nV} = n • χ_V identity Etingof.character_fin_pi).",
-    "last_updated": "2026-07-23"
+    "last_updated": "2026-07-23",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.7",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A finite-dimensional representation V equipped with two filtrations from 0 to V whose successive quotients are irreducible is faithfully encoded by two endpoint composition series.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.jordan_holder_equivalent; CompositionSeries; covBy_iff_quot_is_simple"
+        },
+        {
+          "claim": "Each W_i is the genuine successive quotient V_i/V_(i-1), and similarly for the primed series.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.compositionFactor"
+        },
+        {
+          "claim": "The two filtrations have equal lengths n = m.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.jordan_holder"
+        },
+        {
+          "claim": "There is a permutation of the factor indices under which corresponding irreducible successive quotients are isomorphic.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.jordan_holder_factors; Etingof.jordan_holder_equivalent"
+        },
+        {
+          "claim": "The first proof is specifically a characteristic-zero proof.",
+          "verdict": "non_formalizable",
+          "reason": "This labels and scopes one proof method; it is not an additional mathematical conclusion beyond the hypotheses used by that argument."
+        },
+        {
+          "claim": "The character of V is the sum of the characters of the successive quotients for either filtration.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.character_eq_character_add_character_quotient; Etingof.character_fin_pi"
+        },
+        {
+          "claim": "The characters of irreducible representations are linearly independent in characteristic zero.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.characters_linearly_independent"
+        },
+        {
+          "claim": "Consequently, every irreducible representation has the same multiplicity among the factors of the two filtrations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.jordan_holder_factors"
+        },
+        {
+          "claim": "In characteristic p the character argument determines factor multiplicities only modulo p, which is insufficient.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.character_fin_pi; Etingof.character_pcopies_eq_zero; CharP.cast_eq_zero"
+        },
+        {
+          "claim": "For every representation V in characteristic p, the character of its p-fold direct sum pV is zero.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.character_pcopies_eq_zero"
+        },
+        {
+          "claim": "A general proof of Jordan-Holder proceeds by induction on dim V.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "CompositionSeries.jordan_holder"
+        },
+        {
+          "claim": "The base case of the induction is clear.",
+          "verdict": "non_formalizable",
+          "reason": "This is commentary on the proof's difficulty, not a separately specified proposition."
+        },
+        {
+          "claim": "If the first simple submodules W_1 and W'_1 coincide, the comparison reduces to the quotient V/W_1.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "CompositionSeries.jordan_holder; Submodule.Quotient.module"
+        },
+        {
+          "claim": "If the distinct submodules W_1 and W'_1 are irreducible, then W_1 intersect W'_1 = 0.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "eq_bot_or_eq_top"
+        },
+        {
+          "claim": "The zero intersection gives an embedding W_1 direct-sum W'_1 into V.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "LinearMap.ker_coprod_of_disjoint_range"
+        },
+        {
+          "claim": "The quotient U = V/(W_1 direct-sum W'_1) is again an A-representation.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Submodule.Quotient.module"
+        },
+        {
+          "claim": "The quotient U admits a filtration with simple successive quotients Z_i.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.exists_composition_series"
+        },
+        {
+          "claim": "V/W_1 has a filtration with factors W'_1, Z_1, ..., Z_p.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "CompositionSeries.jordan_holder; Submodule.map; Submodule.comap"
+        },
+        {
+          "claim": "V/W_1 also has the induced filtration with factors W_2, ..., W_n.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "CompositionSeries.jordan_holder; Submodule.map; Submodule.comap"
+        },
+        {
+          "claim": "V/W'_1 has a filtration with factors W_1, Z_1, ..., Z_p.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "CompositionSeries.jordan_holder; Submodule.map; Submodule.comap"
+        },
+        {
+          "claim": "V/W'_1 also has the induced filtration with factors W'_2, ..., W'_m.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "CompositionSeries.jordan_holder; Submodule.map; Submodule.comap"
+        },
+        {
+          "claim": "Applying the induction hypothesis identifies the combined multiset W_1, W'_1, Z_1, ..., Z_p with each original multiset of composition factors.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.jordan_holder_factors; Etingof.jordan_holder_equivalent"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.7",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.compositionFactor",
+        "Etingof.jordan_holder_equivalent",
+        "Etingof.jordan_holder_factors",
+        "Etingof.jordan_holder",
+        "Etingof.diagPi",
+        "Etingof.diagPi_apply",
+        "Etingof.trace_diagPi_fin",
+        "Etingof.character_fin_pi",
+        "Etingof.character_pcopies_eq_zero"
+      ],
+      "basis": "The four Jordan-Holder declarations and five characteristic-p footnote declarations are authored, admission-free constants. The exhaustive module-origin audit also covers the generated equation theorem Etingof.diagPi.eq_1 and internal proof constant Etingof.diagPi._proof_1."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.7",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Introduction_to_3.6"
+      ],
+      "basis": "The Jordan-Holder provider uses only Mathlib. The theorem item's footnote provider uses Etingof.character, the declaration tracked by the Section 3.6 introduction, through its sole retained project import of Theorem3_6_2."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.7",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "All theorem and footnote declarations are documented, lint-clean, axiom-clean, warning-free, and import-irredundant. The diagonal endomorphism API now works for arbitrary index types rather than needlessly requiring Fintype, and its simp theorem has its own documentation."
+    }
   },
   {
     "id": "Chapter3/Discussion_after_Theorem3.7.1",
@@ -6247,7 +6445,7 @@
     "end_page": "54",
     "start_line": 5,
     "end_line": 8,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "sorry_free": true,
     "notes": "Discussion_after_Theorem3_7_1.lean: jordanHolder_length_isGreatest_strict — the composition-series length n is IsGreatest among lengths of strictly-increasing submodule filtrations (LTSeries), via Module.length_compositionSeries and Order.LTSeries.length_le_krullDim.",
     "coverage_swept": {
@@ -6255,7 +6453,62 @@
       "result": "covered"
     },
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-22",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.7",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The number of factors in a composition filtration is independent of the filtration and depends only on V.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.jordan_holder; Module.length_compositionSeries"
+        },
+        {
+          "claim": "This common number is called the length of V.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Module.length"
+        },
+        {
+          "claim": "The composition length is the maximal length of any filtration of V in which every inclusion is strict.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.jordanHolder_length_isGreatest_strict"
+        },
+        {
+          "claim": "The ordered sequence of irreducible successive quotients of a composition filtration is called a Jordan-Holder series of V.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "CompositionSeries"
+        }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.7",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.jordanHolder_length_isGreatest_strict"
+      ],
+      "basis": "The authored theorem is an admission-free constant whose transitive axiom set contains only the standard Lean/Mathlib axioms."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.7",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The discussion provider imports only Mathlib.RingTheory.Length and uses no declaration from another tracked book item."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.7",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The length-maximality theorem and its provider are documented, lint-clean, axiom-clean, warning-free, and import-irredundant; the focused Mathlib proof already required no source change."
+    }
   },
   {
     "id": "Chapter3/Introduction_to_3.8",
