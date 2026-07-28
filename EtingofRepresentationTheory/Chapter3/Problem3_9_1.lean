@@ -1,10 +1,3 @@
-import Mathlib.Algebra.Algebra.Bilinear
-import Mathlib.Algebra.Exact.Basic
-import Mathlib.LinearAlgebra.Prod
-import Mathlib.LinearAlgebra.BilinearMap
-import Mathlib.LinearAlgebra.Isomorphisms
-import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import EtingofRepresentationTheory.Chapter2.Corollary2_3_10
 
 /-!

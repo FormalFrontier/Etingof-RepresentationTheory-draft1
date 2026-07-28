@@ -351,23 +351,22 @@
     "Chapter2/Definition2.3.8",
     "Chapter3/Problem3.8.5"
   ],
-  "Chapter3/Introduction_to_3.9": [
-    "Chapter3/Remark3.8.6"
-  ],
+  "Chapter3/Introduction_to_3.9": [],
   "Chapter3/Problem3.9.1": [
-    "Chapter3/Introduction_to_3.9"
+    "Chapter2/Corollary2.3.10"
   ],
   "Chapter3/Problem3.9.2": [
+    "Chapter2/Definition2.3.8",
     "Chapter3/Problem3.9.1"
   ],
   "Chapter3/Problem3.9.3": [
-    "Chapter3/Problem3.9.2"
+    "Chapter2/Theorem2.1.2"
   ],
   "Chapter3/Problem3.9.4": [
-    "Chapter3/Problem3.9.3"
+    "Chapter3/Problem3.9.1"
   ],
   "Chapter3/Problem3.9.5": [
-    "Chapter3/Problem3.9.4"
+    "Chapter3/Theorem3.3.1"
   ],
   "Chapter3/Introduction_to_3.10": [],
   "Chapter3/Exercise3.10.1": [],

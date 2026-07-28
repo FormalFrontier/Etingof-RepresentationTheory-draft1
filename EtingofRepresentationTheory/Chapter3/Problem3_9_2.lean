@@ -1,16 +1,7 @@
 import EtingofRepresentationTheory.Chapter3.Problem3_9_1
 import EtingofRepresentationTheory.Chapter2.Definition2_3_8
-import Mathlib.Data.Complex.Basic
-import Mathlib.RingTheory.MvPolynomial.Basic
-import Mathlib.RingTheory.Ideal.Quotient.Operations
-import Mathlib.Algebra.FreeAlgebra
 import Mathlib.Algebra.RingQuot
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-import Mathlib.LinearAlgebra.Pi
-import Mathlib.Algebra.Algebra.Bilinear
-import Mathlib.Algebra.Module.Submodule.Lattice
 import Mathlib.Algebra.MvPolynomial.Derivation
-import Mathlib.LinearAlgebra.Eigenspace.Basic
 import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
 import Mathlib.Analysis.Complex.Polynomial.Basic
 

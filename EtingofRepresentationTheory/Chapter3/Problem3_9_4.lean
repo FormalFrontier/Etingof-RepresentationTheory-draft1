@@ -1,9 +1,6 @@
 import EtingofRepresentationTheory.Chapter3.Problem3_9_1
 import Mathlib.Algebra.DualNumber
-import Mathlib.Algebra.BigOperators.NatAntidiagonal
-import Mathlib.RingTheory.PowerSeries.Basic
 import Mathlib.RingTheory.PowerSeries.NoZeroDivisors
-import Mathlib.Algebra.Algebra.Bilinear
 import Mathlib.Tactic.NoncommRing
 
 /-!

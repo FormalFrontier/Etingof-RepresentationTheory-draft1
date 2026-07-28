@@ -1,7 +1,5 @@
 import EtingofRepresentationTheory.Chapter3.Problem3_9_5
 import Mathlib.LinearAlgebra.QuadraticForm.Dual
-import Mathlib.RingTheory.SimpleRing.Congr
-import Mathlib.RingTheory.SimpleRing.Matrix
 
 /-!
 # Problem 3.9.5: the explicit hyperbolic spinor module

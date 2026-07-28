@@ -1,6 +1,5 @@
 import EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor
 import Mathlib.LinearAlgebra.QuadraticForm.AlgClosed
-import Mathlib.RingTheory.SimpleModule.WedderburnArtin
 
 /-!
 # Problem 3.9.5: transport of the explicit even spinor module
