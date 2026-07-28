@@ -5508,7 +5508,7 @@
     "end_page": "49",
     "start_line": 3,
     "end_line": 6,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -5537,6 +5537,30 @@
           "note": "The theorem's Field k, Ring A, Algebra k A, and Module A V assumptions give the exact algebra-and-representation setup."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.4",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.exists_filtration_with_irreducible_quotients"
+      ],
+      "basis": "The heading is organizational, while its algebra-and-representation setup is realized by the listed admission-free theorem with arbitrary algebra and module parameters."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.4",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This item is an organizational heading and setup paragraph with no provider of its own, so it has no actual backward internal dependency."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.4",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The organizational heading has no declaration of its own; the exact filtration theorem carrying its algebra-and-representation setup was included in the warning-free, documented, lint-clean, and import-irredundant scoped provider audit."
     }
   },
   {
@@ -5547,7 +5571,7 @@
     "end_page": "49",
     "start_line": 7,
     "end_line": 8,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "last_updated": "2026-07-27",
     "fidelity": "verified",
@@ -5592,6 +5616,33 @@
           "lean_decl": "Etingof.Filtration.last_eq_top"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.4",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Filtration",
+        "Etingof.Filtration.chain",
+        "Etingof.Filtration.head_eq_bot",
+        "Etingof.Filtration.last_eq_top"
+      ],
+      "basis": "The structure and all three fields are admission-free. The exhaustive module-origin audit also covers its 14 generated constructors, recursors, injectivity proofs, no-confusion principles, and sizeOf constants."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.4",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Definition3_4_1.lean imports only Mathlib modules and uses no earlier project declaration."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.4",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The filtration structure and every field are documented and use focused Mathlib abstractions. All six lint-visible and 12 automatically generated declarations pass all 16 default declaration linters plus docBlameThm; the provider elaborates without warnings and its imports remain irredundant."
     }
   },
   {
@@ -5602,7 +5653,7 @@
     "end_page": "49",
     "start_line": 9,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "last_updated": "2026-07-27",
     "fidelity": "verified",
@@ -5663,6 +5714,33 @@
           "lean_decl": "Etingof.exists_filtration_with_irreducible_quotients"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.4",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.exists_composition_series",
+        "Etingof.exists_filtration_with_irreducible_quotients"
+      ],
+      "basis": "Both theorem constants have complete proof terms. The exact endpoint returns Etingof.Filtration and proves IsSimpleModule A for every adjacent quotient; the composition-series theorem records the equivalent finite-length proof route."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.4",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Definition3.4.1"
+      ],
+      "basis": "Lemma3_4_2.lean imports Definition3_4_1.lean and its exact theorem explicitly constructs Etingof.Filtration; the helper theorem is defined in the same tracked item."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.4",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "Both public theorems are documented, expose only the hypotheses required by the finite-length construction, and use the focused composition-series and simple-quotient APIs. They pass all 16 default declaration linters plus docBlameThm; the provider elaborates without warnings and its imports remain irredundant."
     }
   },
   {

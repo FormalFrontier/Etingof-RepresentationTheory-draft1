@@ -417,12 +417,8 @@
   "Chapter3/Remark3.3.4": [
     "Chapter3/Problem3.3.3"
   ],
-  "Chapter3/Introduction_to_3.4": [
-    "Chapter3/Remark3.3.4"
-  ],
-  "Chapter3/Definition3.4.1": [
-    "Chapter3/Introduction_to_3.4"
-  ],
+  "Chapter3/Introduction_to_3.4": [],
+  "Chapter3/Definition3.4.1": [],
   "Chapter3/Lemma3.4.2": [
     "Chapter3/Definition3.4.1"
   ],
