@@ -1,8 +1,4 @@
-import Mathlib.LinearAlgebra.Finsupp.LinearCombination
-import Mathlib.LinearAlgebra.Basis.Basic
-import Mathlib.LinearAlgebra.Finsupp.Defs
 import Mathlib.LinearAlgebra.Finsupp.VectorSpace
-import Mathlib.Algebra.Algebra.Subalgebra.Basic
 import Mathlib.RingTheory.Adjoin.Basic
 
 /-!

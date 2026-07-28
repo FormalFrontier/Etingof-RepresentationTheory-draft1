@@ -2085,7 +2085,7 @@
     "end_page": "17",
     "start_line": 5,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -2130,6 +2130,20 @@
         "Etingof.qMono_inv_mul_y"
       ]
     },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.7",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The Weyl and q-Weyl constructions are defined in Mathlib-only modules and use no earlier project item."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.7",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The section's Weyl and q-Weyl foundations now use irredundant focused imports, elaborate without warnings, and pass all 16 declaration linters."
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -2143,7 +2157,7 @@
     "end_page": "18",
     "start_line": 13,
     "end_line": 16,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "last_updated": "2026-07-27",
     "fidelity": "verified",
@@ -2211,6 +2225,22 @@
         "Etingof.qMono_mul",
         "Etingof.Proposition_2_7_1_ii"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.7",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Discussion_2.7_intro"
+      ],
+      "basis": "The basis theorems are proved for the Weyl and q-Weyl algebras introduced by the section discussion in the same two modules."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.7",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The three basis-provider modules were polished for current Mathlib syntax and irredundant imports; standalone elaboration and all 16 declaration linters pass with no findings."
     }
   },
   {
@@ -2221,7 +2251,7 @@
     "end_page": "18",
     "start_line": 17,
     "end_line": 20,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_note": "verified (wave-3); was stale unsure, fixed by PR #5607",
@@ -2259,6 +2289,22 @@
         "Etingof.WeylAlgebra.polyRep_range_eq_polyDiffOp",
         "Etingof.WeylAlgebra.equivPolyDiffOp"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.7",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Proposition2.7.1"
+      ],
+      "basis": "The differential-operator equivalence imports the Weyl-algebra basis module and uses its presentation and spanning theorem."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.7",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The differential-operator equivalence uses an irredundant project import and passes standalone elaboration and all 16 declaration linters without findings."
     }
   },
   {
@@ -2269,7 +2315,7 @@
     "end_page": "18",
     "start_line": 21,
     "end_line": 21,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -2299,6 +2345,20 @@
       "declarations": [
         "Etingof.FaithfulRepresentation"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.7",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The faithful-representation abbreviation imports Mathlib's action API only."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.7",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The definition is a documented canonical abbreviation to Mathlib's FaithfulSMul API, with a focused irredundant import and clean declaration lint."
     }
   },
   {
@@ -2309,7 +2369,7 @@
     "end_page": "18",
     "start_line": 22,
     "end_line": 24,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "lean_file": [
@@ -2363,6 +2423,22 @@
         "Etingof.repE_injective",
         "Etingof.repE_injective_and_polyRep_not_injective"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.7",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Proposition2.7.1"
+      ],
+      "basis": "The characteristic comparison uses the section's Weyl presentation and monomial-basis development."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.7",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The characteristic-comparison proofs were updated to current tactic/library names, imports were minimized, and both provider modules pass standalone elaboration and all declaration linters."
     }
   },
   {
@@ -2373,7 +2449,7 @@
     "end_page": "19",
     "start_line": 25,
     "end_line": 8,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage_note": "All three parts are source-present. (a) characteristic zero: no nonzero finite-dimensional representation, and the Weyl algebra is simple. (b) characteristic p: x^p and y^p are central and the center is k[x^p, y^p]. (c) characteristic p over an algebraically closed field is a full classification, not just the dimension: Problem2_7_4.exists_normalForm puts an arbitrary finite-dimensional simple module in the book's normal form, Problem2_7_4_Family.lean constructs the family V(alpha,c) with the central-scalar actions x^p = alpha and y^p = c^p, proves each member irreducible (famModule_isSimpleModule) and the isomorphism criterion V(alpha,c) = V(alpha',c') iff alpha = alpha' and c = c' (famEquiv_nonempty_iff), and exists_toFamEquiv proves the family exhausts every finite-dimensional irreducible. The public endpoint existsUnique_toFamEquiv returns explicit family parameters together with an isomorphism, unique as a pair; finrank_eq_of_classification recovers dim V = p from it, and Problem2_7_4.finrank_irreducible_charP is retained.",
@@ -2447,6 +2523,22 @@
         "Etingof.Problem2_7_4.famEquiv_nonempty_iff",
         "Etingof.Problem2_7_4.existsUnique_toFamEquiv"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.7",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Proposition2.7.1"
+      ],
+      "basis": "The Weyl representation and ideal arguments use the Weyl basis/presentation modules; no other book item is used directly."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.7",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "Both classification modules now use irredundant imports and warning-free proofs; stable source-number namespace exceptions are narrowly documented, and all 16 declaration linters pass."
     }
   },
   {
@@ -2457,7 +2549,7 @@
     "end_page": "19",
     "start_line": 9,
     "end_line": 20,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
@@ -2536,6 +2628,22 @@
         "Etingof.Problem2_7_5.finrank_irreducible_eq_orderOf",
         "Etingof.Problem2_7_5.finrank_eq_orderOf_of_fam_linearEquiv"
       ]
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.7",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Proposition2.7.1"
+      ],
+      "basis": "The q-Weyl center, simplicity, and classification modules use the q-Weyl algebra and ordered basis from Proposition 2.7.1, independently of Problem 2.7.4."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.7",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "All six classification providers now elaborate standalone without warnings, use irredundant imports, avoid ambiguous typeclass inference in the hard simplicity/exhaustiveness proofs, and pass all 16 declaration linters."
     }
   },
   {

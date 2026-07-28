@@ -1,4 +1,3 @@
-import Mathlib
 import EtingofRepresentationTheory.Chapter2.Problem2_7_5_Exhaustive
 
 /-!

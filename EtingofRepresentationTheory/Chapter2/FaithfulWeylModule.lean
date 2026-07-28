@@ -1,8 +1,5 @@
 import EtingofRepresentationTheory.Chapter2.Proposition2_7_1
-import Mathlib.Algebra.Polynomial.Monic
 import Mathlib.Algebra.Polynomial.BigOperators
-import Mathlib.LinearAlgebra.Finsupp.LinearCombination
-import Mathlib.Data.Finsupp.Basic
 
 /-!
 # Faithful Weyl-algebra module `E = tᵃ k[a][t, t⁻¹]` in arbitrary characteristic
@@ -55,10 +52,12 @@ noncomputable def weylD : Module.End k (WeylE k) :=
   Finsupp.lsum k (fun n => (Finsupp.lsingle (n - 1)).comp
     (LinearMap.mulLeft k (Polynomial.X + (n : Polynomial k))))
 
+/-- Multiplication by `t` shifts a basis exponent up by one. -/
 @[simp] lemma mulX_single (n : ℤ) (c : Polynomial k) :
     mulX k (Finsupp.single n c) = Finsupp.single (n + 1) c := by
   simp only [mulX, Finsupp.lsum_apply, Finsupp.sum_single_index, map_zero, Finsupp.lsingle_apply]
 
+/-- The twisted derivative lowers the exponent and multiplies by `X + n`. -/
 @[simp] lemma weylD_single (n : ℤ) (c : Polynomial k) :
     weylD k (Finsupp.single n c) =
       Finsupp.single (n - 1) ((Polynomial.X + (n : Polynomial k)) * c) := by
@@ -100,10 +99,12 @@ noncomputable def repE :
     WeylAlgebra k →ₐ[k] Module.End k (WeylE k) :=
   RingQuot.liftAlgHom k ⟨weylRepFree k, weylRep_rel k⟩
 
+/-- The faithful representation sends `x` to multiplication by `t`. -/
 @[simp] lemma repE_x : repE k (WeylAlgebra.x k) = mulX k := by
   simp [repE, WeylAlgebra.x, WeylAlgebra.mk, RingQuot.liftAlgHom_mkAlgHom_apply,
     weylRepFree, FreeAlgebra.lift_ι_apply, weylRepGen]
 
+/-- The faithful representation sends `y` to the twisted derivative. -/
 @[simp] lemma repE_y : repE k (WeylAlgebra.y k) = weylD k := by
   simp [repE, WeylAlgebra.y, WeylAlgebra.mk, RingQuot.liftAlgHom_mkAlgHom_apply,
     weylRepFree, FreeAlgebra.lift_ι_apply, weylRepGen]
@@ -116,13 +117,16 @@ hence nonzero in any characteristic, the key to char-free faithfulness. -/
 noncomputable def descPoly (j : ℕ) : Polynomial k :=
   ∏ l ∈ Finset.range j, (Polynomial.X - Polynomial.C (l : k))
 
+/-- The zeroth falling-factorial polynomial is one. -/
 @[simp] lemma descPoly_zero : descPoly k 0 = 1 := by
   simp [descPoly]
 
+/-- The next falling-factorial polynomial appends the factor `X - j`. -/
 lemma descPoly_succ (j : ℕ) :
     descPoly k (j + 1) = descPoly k j * (Polynomial.X - Polynomial.C (j : k)) := by
   simp [descPoly, Finset.prod_range_succ]
 
+/-- Every falling-factorial polynomial is monic. -/
 lemma descPoly_monic (j : ℕ) : (descPoly k j).Monic := by
   apply Polynomial.monic_prod_of_monic
   intro l _
@@ -130,11 +134,13 @@ lemma descPoly_monic (j : ℕ) : (descPoly k j).Monic := by
 
 variable [Nontrivial k]
 
+/-- The falling-factorial polynomial indexed by `j` has degree `j`. -/
 lemma descPoly_natDegree (j : ℕ) : (descPoly k j).natDegree = j := by
   rw [descPoly, Polynomial.natDegree_prod_of_monic _ _ (fun l _ => Polynomial.monic_X_sub_C _)]
   simp only [Polynomial.natDegree_X_sub_C, Finset.sum_const, Finset.card_range, smul_eq_mul,
     mul_one]
 
+/-- The leading coefficient of the falling-factorial polynomial is one. -/
 lemma descPoly_coeff_self (j : ℕ) : (descPoly k j).coeff j = 1 := by
   have h := (descPoly_monic k j).coeff_natDegree
   rwa [descPoly_natDegree] at h
@@ -142,6 +148,7 @@ lemma descPoly_coeff_self (j : ℕ) : (descPoly k j).coeff j = 1 := by
 -- === Powers of the generators and the key evaluation at `tᵃ` ===
 
 omit [Nontrivial k] in
+/-- Iterated multiplication by `t` shifts a basis exponent by the iteration count. -/
 lemma mulX_pow_single (i : ℕ) (n : ℤ) (c : Polynomial k) :
     (mulX k ^ i) (Finsupp.single n c) = Finsupp.single (n + i) c := by
   induction i with
@@ -213,7 +220,7 @@ theorem evalImage_linearIndependent :
   -- All coefficients on the fiber vanish, by a maximal-degree argument.
   have hall : ∀ p ∈ t, g p = 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨q, hqt, hq0⟩ := hcon
     set B : Finset (ℕ × ℕ) := t.filter (fun p => g p ≠ 0) with hB
     have hqB : q ∈ B := Finset.mem_filter.mpr ⟨hqt, hq0⟩

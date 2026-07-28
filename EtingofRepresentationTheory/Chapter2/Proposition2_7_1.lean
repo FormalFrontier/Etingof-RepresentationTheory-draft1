@@ -1,12 +1,9 @@
 import Mathlib.Algebra.FreeAlgebra
 import Mathlib.Algebra.RingQuot
 import Mathlib.LinearAlgebra.Basis.VectorSpace
-import Mathlib.Algebra.Algebra.Subalgebra.Lattice
 import Mathlib.Algebra.Polynomial.Derivative
 import Mathlib.Algebra.Polynomial.AlgebraMap
-import Mathlib.LinearAlgebra.Finsupp.LinearCombination
 import Mathlib.Algebra.CharP.Basic
-import Mathlib.Data.Nat.Choose.Basic
 
 /-!
 # Proposition 2.7.1: Basis for the Weyl Algebra
@@ -226,6 +223,7 @@ noncomputable def polyMulX : Module.End k (Polynomial k) where
     simp only [RingHom.id_apply]
     exact Algebra.mul_smul_comm c Polynomial.X p
 
+/-- Multiplication by `X` acts by left multiplication on a polynomial. -/
 lemma polyMulX_apply (p : Polynomial k) :
     polyMulX k p = Polynomial.X * p := rfl
 
@@ -263,11 +261,13 @@ noncomputable def polyRep :
     WeylAlgebra k →ₐ[k] Module.End k (Polynomial k) :=
   RingQuot.liftAlgHom k ⟨polyRepFree k, polyRep_rel k⟩
 
+/-- The polynomial representation sends the Weyl generator `x` to multiplication by `X`. -/
 lemma polyRep_x :
     polyRep k (WeylAlgebra.x k) = polyMulX k := by
   simp [polyRep, WeylAlgebra.x, WeylAlgebra.mk, RingQuot.liftAlgHom_mkAlgHom_apply,
     polyRepFree, FreeAlgebra.lift_ι_apply, polyRepGen]
 
+/-- The polynomial representation sends the Weyl generator `y` to differentiation. -/
 lemma polyRep_y :
     polyRep k (WeylAlgebra.y k) =
     (Polynomial.derivative : Module.End k (Polynomial k)) := by
@@ -339,7 +339,7 @@ private lemma polyImage_linearIndep [CharZero k] [NoZeroDivisors k] :
     have hc : (∑ r ∈ s, g r •
         (polyRep k (WeylAlgebra.monomial k r.1 r.2) (Polynomial.X ^ n))).coeff m = 0 :=
       congr_arg (Polynomial.coeff · m) h1
-    rw [Polynomial.finset_sum_coeff] at hc
+    rw [Polynomial.finsetSum_coeff] at hc
     simp only [Polynomial.coeff_smul, smul_eq_mul] at hc
     exact hc
   -- Key claim by strong induction on j
@@ -358,7 +358,7 @@ private lemma polyImage_linearIndep [CharZero k] [NoZeroDivisors k] :
       intro ⟨ri, rj⟩ hr hne
       by_cases hjrj : j < rj
       · rw [polyRep_monomial_high_deriv k ri rj j hjrj, Polynomial.coeff_zero, mul_zero]
-      · push_neg at hjrj
+      · push Not at hjrj
         by_cases heq : rj = j
         · subst heq
           have hri : ri ≠ i := fun h => hne (Prod.ext h rfl)
