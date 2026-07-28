@@ -1,8 +1,8 @@
 # Stage 3.3 proof-integrity audit — Chapter 3 §3.5
 
-**Date:** 2026-07-27  
-**Scope:** `Chapter3/Introduction_to_3.5` through `Chapter3/Proposition3.5.8`  
-**Stacked base:** Stage 3.2 PR #8069, commit `60a816c86a55a8ba437f84f4baf39edf7f719024`  
+**Date:** 2026-07-27
+**Scope:** `Chapter3/Introduction_to_3.5` through `Chapter3/Proposition3.5.8`
+**Stacked base:** Stage 3.2 PR #8069, commit `60a816c86a55a8ba437f84f4baf39edf7f719024`
 **Result:** complete — eight mathematical items are verified sorry-free; the section heading has no proof obligation.
 
 ## Scope and outcome

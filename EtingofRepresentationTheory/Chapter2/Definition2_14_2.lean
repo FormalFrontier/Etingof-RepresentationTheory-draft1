@@ -22,6 +22,9 @@ representation structure (not merely the dual vector space).
 The Lie action on `V*` is the contragredient one: `(x · f)(v) = -f(x · v)`.
 It is the dual space `Module.Dual k V` equipped with the contragredient
 `LieRingModule`/`LieModule` structure from `Mathlib.Algebra.Lie.Basic`. -/
+-- The representation hypotheses are intentionally retained in this pedagogical alias even
+-- though its reducible carrier is just `Module.Dual k V`.
+@[nolint unusedArguments]
 abbrev Etingof.LieDualRepresentation (k : Type*) (L : Type*) (V : Type*)
     [CommRing k] [LieRing L] [LieAlgebra k L]
     [AddCommGroup V] [Module k V] [LieRingModule L V] [LieModule k L V] :=

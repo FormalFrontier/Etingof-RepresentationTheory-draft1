@@ -50,8 +50,11 @@ module (`casimirGenEigenspace_isInternal`). The book's **part (h)** then follows
   operator has a single eigenvalue (some `casimirGenEigenspace a` is the whole module),
   with `casimirGenEigenspace_top_unique` giving uniqueness of that eigenvalue.
 
-Pinning the single eigenvalue to the book's `λ(λ+2)/2` with `λ ∈ ℕ`, and the (i)–(k)
-reduction (an indecomposable finite-dimensional module is `≅ V_λ`), remain follow-up work.
+The theorem `indecomposable_casimir_eigenvalue` below pins the single eigenvalue to the book's
+`λ(λ+2)/2` with `λ ∈ ℕ`. The project proves the stronger complete-reducibility and explicit
+semisimple-decomposition conclusions, but does not duplicate the source's minimal-counterexample
+scaffolding in (i)–(k) (the particular quotient multiplicity, ladder basis, and intermediate
+subspaces used only to derive that conclusion).
 
 The final complete-reducibility statement `complete_reducibility` is recorded here
 in its cleanest equivalent form, that every `sl(2)`-submodule of a finite-dimensional
@@ -412,6 +415,61 @@ theorem complete_reducibility (N : LieSubmodule ℂ sl2 M) :
     ∃ N' : LieSubmodule ℂ sl2 M, IsCompl N N' :=
   haveI : ComplementedLattice (LieSubmodule ℂ sl2 M) := Theorem_2_1_1_ii M
   exists_isCompl N
+
+/-- A finite-dimensional indecomposable `sl(2)`-module is irreducible. This is the conclusion
+of the contradiction argument in parts (i)–(k), obtained here directly from complete reducibility:
+every submodule has a complement, and indecomposability forces one side to vanish. -/
+theorem indecomposable_isIrreducible (hM : Indecomposable M) :
+    LieModule.IsIrreducible ℂ sl2 M := by
+  letI : Nontrivial M := hM.1
+  apply LieModule.IsIrreducible.mk
+  intro N hN
+  obtain ⟨N', hcompl⟩ := complete_reducibility N
+  rcases hM.2 N N' hcompl with h | h
+  · exact (hN h).elim
+  · simpa [h] using hcompl.sup_eq_top
+
+/-- **Problem 2.15.1(h), including the specified eigenvalue.** On a finite-dimensional
+indecomposable `sl(2)`-module, the unique Casimir generalized eigenspace which is the whole
+module has eigenvalue `λ(λ+2)/2` for some `λ : ℕ`.
+
+Complete reducibility makes the module irreducible (`indecomposable_isIrreducible`), so the
+classification identifies it with the standard `V_λ`; transporting the explicit Casimir
+calculation on `V_λ` gives the claimed eigenvalue. -/
+theorem indecomposable_casimir_eigenvalue (hM : Indecomposable M) :
+    ∃ lam : ℕ, casimirGenEigenspace (M := M)
+      (((lam : ℂ) * ((lam : ℂ) + 2)) / 2) = ⊤ := by
+  letI : Nontrivial M := hM.1
+  have hirr : LieModule.IsIrreducible ℂ sl2 M := indecomposable_isIrreducible hM
+  let lam := Module.finrank ℂ M - 1
+  have hdim : Module.finrank ℂ M = lam + 1 := by
+    dsimp [lam]
+    have := Module.finrank_pos (R := ℂ) (M := M)
+    omega
+  obtain ⟨Phi⟩ := Etingof.Problem_2_15_1_f lam hdim hirr
+  let c : ℂ := ((lam : ℂ) * ((lam : ℂ) + 2)) / 2
+  have hmap (x : sl2) (m : M) : Phi ⁅x, m⁆ = ⁅x, Phi m⁆ :=
+    Phi.toLieModuleHom.map_lie x m
+  have hcasimir_map (m : M) :
+      Phi (casimir M m) = casimir (Fin (lam + 1) → ℂ) (Phi m) := by
+    simp only [casimir_apply, map_add, map_smul]
+    simp_rw [hmap]
+  have hstandard (w : Fin (lam + 1) → ℂ) :
+      casimir (Fin (lam + 1) → ℂ) w = c • w := by
+    have h := LinearMap.congr_fun (casimir_eq_scalar_lambda lam) w
+    simpa only [casimir_apply, lie_eq_rhoLieHom, LinearMap.add_apply,
+      Module.End.mul_apply, LinearMap.smul_apply, Module.End.one_apply, c] using h
+  have hscalar (m : M) : casimir M m = c • m := by
+    apply Phi.injective
+    rw [hcasimir_map, hstandard, map_smul]
+  refine ⟨lam, ?_⟩
+  apply top_unique
+  intro m _
+  change m ∈ (casimir M).maxGenEigenspace c
+  rw [Module.End.mem_maxGenEigenspace]
+  refine ⟨1, ?_⟩
+  simp only [pow_one, LinearMap.sub_apply, hscalar, LinearMap.smul_apply,
+    Module.End.one_apply, c, sub_self]
 
 end CompleteReducibility
 

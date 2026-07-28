@@ -1,10 +1,4 @@
-import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.LinearAlgebra.Trace
-import Mathlib.LinearAlgebra.LinearIndependent.Defs
-import Mathlib.LinearAlgebra.LinearIndependent.Lemmas
-import Mathlib.FieldTheory.IsAlgClosed.Basic
-import Mathlib.LinearAlgebra.TensorProduct.Basic
 import EtingofRepresentationTheory.Chapter3.Theorem3_2_2
 
 /-!
@@ -26,7 +20,9 @@ characters on an r-dimensional space form a basis.
 
 open Module in
 /-- The character of a finite-dimensional module V over a k-algebra A, defined as
-the trace of the action map: χ_V(a) = tr(ρ_V(a)). -/
+the trace of the action map: χ_V(a) = tr(ρ_V(a)). The freeness and finiteness instances
+are needed to construct the trace, although they do not occur in the result type. -/
+@[nolint unusedArguments]
 noncomputable def Etingof.character (k : Type*) (A : Type*) (V : Type*)
     [CommRing k] [Ring A] [Algebra k A]
     [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
@@ -39,12 +35,14 @@ open Module in
 Etingof Theorem 3.6.2(i). -/
 theorem Etingof.characters_linearly_independent (k : Type*) (A : Type*)
     [Field k] [IsAlgClosed k] [Ring A] [Algebra k A]
-    {ι : Type*} [Fintype ι]
+    {ι : Type*} [Finite ι]
     (V : ι → Type*) [∀ i, AddCommGroup (V i)] [∀ i, Module k (V i)]
     [∀ i, Module A (V i)] [∀ i, IsScalarTower k A (V i)]
     [∀ i, FiniteDimensional k (V i)] [∀ i, IsSimpleModule A (V i)]
     (h_noniso : ∀ i j, i ≠ j → IsEmpty (V i ≃ₗ[A] V j)) :
     LinearIndependent k (fun i => Etingof.character k A (V i)) := by
+  classical
+  letI := Fintype.ofFinite ι
   rw [Fintype.linearIndependent_iff]
   intro g hg i
   have hga : ∀ a : A, ∑ j, g j * Etingof.character k A (V j) a = 0 := by
@@ -53,7 +51,6 @@ theorem Etingof.characters_linearly_independent (k : Type*) (A : Type*)
     simp only [LinearMap.sum_apply, LinearMap.smul_apply, smul_eq_mul, LinearMap.zero_apply] at this
     exact this
   have hsurj := Etingof.density_theorem_part2 k A ι V h_noniso
-  classical
   haveI : Nontrivial (V i) := IsSimpleModule.nontrivial A (V i)
   let b := Module.Free.chooseBasis k (V i)
   have hne_idx : Nonempty (Module.Free.ChooseBasisIndex k (V i)) := by
@@ -112,7 +109,7 @@ private lemma tracial_of_end_eq_scalar_trace {k V : Type*}
       if j = p then b.end (i, q) else 0 := by
     intro i j p q
     apply b.ext; intro m
-    show b.end (i, j) (b.end (p, q) (b m)) = _
+    change b.end (i, j) (b.end (p, q) (b m)) = _
     simp only [Basis.end_apply_apply]
     split_ifs <;> simp_all [Basis.end_apply_apply]
   -- Helper: trace of basis endomorphisms
@@ -162,7 +159,7 @@ submodule of the semisimple left regular representation, hence is zero. -/
 private lemma rep_map_injective_of_semisimple.{v} {k : Type*} {A : Type v}
     [Field k] [Ring A] [Algebra k A] [FiniteDimensional k A]
     [IsSemisimpleRing A]
-    {ι : Type*} [Fintype ι]
+    {ι : Type*}
     (V : ι → Type*) [∀ i, AddCommGroup (V i)] [∀ i, Module k (V i)]
     [∀ i, Module A (V i)] [∀ i, IsScalarTower k A (V i)]
     [∀ i, FiniteDimensional k (V i)] [∀ i, IsSimpleModule A (V i)]
@@ -181,7 +178,7 @@ private lemma rep_map_injective_of_semisimple.{v} {k : Type*} {A : Type v}
     intro i v
     have hi := congr_fun h i  -- ρᵢ(a₁) = ρᵢ(a₂)
     have hv := LinearMap.congr_fun hi v  -- a₁ • v = a₂ • v
-    show (a₁ - a₂) • v = 0
+    change (a₁ - a₂) • v = 0
     rw [sub_smul]
     exact sub_eq_zero.mpr hv
   -- b is in every maximal left ideal (coatom), hence in Ring.jacobson A = ⊥
@@ -218,7 +215,7 @@ Etingof Theorem 3.6.2(ii). -/
 theorem Etingof.characters_basis_semisimple.{v} (k : Type*) (A : Type v)
     [Field k] [IsAlgClosed k] [Ring A] [Algebra k A] [FiniteDimensional k A]
     [IsSemisimpleRing A]
-    {ι : Type*} [Fintype ι]
+    {ι : Type*} [Finite ι]
     (V : ι → Type*) [∀ i, AddCommGroup (V i)] [∀ i, Module k (V i)]
     [∀ i, Module A (V i)] [∀ i, IsScalarTower k A (V i)]
     [∀ i, FiniteDimensional k (V i)] [∀ i, IsSimpleModule A (V i)]
@@ -230,6 +227,7 @@ theorem Etingof.characters_basis_semisimple.{v} (k : Type*) (A : Type v)
       f ∈ Submodule.span k (Set.range (fun i => Etingof.character k A (V i))) := by
   intro f hf
   classical
+  letI := Fintype.ofFinite ι
   -- The representation map ρ : A → ∏ End(Vᵢ) is bijective
   have hρ_surj := Etingof.density_theorem_part2 k A ι V h_noniso
   have hρ_inj := rep_map_injective_of_semisimple V h_complete
@@ -248,16 +246,15 @@ theorem Etingof.characters_basis_semisimple.{v} (k : Type*) (A : Type v)
     intro x y
     apply ρ_equiv.injective
     rw [LinearEquiv.apply_symm_apply]
-    show x * y = ρ_equiv (ρ_equiv.symm x * ρ_equiv.symm y)
+    change x * y = ρ_equiv (ρ_equiv.symm x * ρ_equiv.symm y)
     change x * y = ρ (ρ_equiv.symm x * ρ_equiv.symm y)
     rw [hρ_mul]
-    show x * y = ρ (ρ_equiv.symm x) * ρ (ρ_equiv.symm y)
     change x * y = ρ_equiv (ρ_equiv.symm x) * ρ_equiv (ρ_equiv.symm y)
     simp [LinearEquiv.apply_symm_apply]
   -- g is tracial
   have hg_tracial : ∀ (x y : ∀ i, Module.End k (V i)), g (x * y) = g (y * x) := by
     intro x y
-    show f (ρ_equiv.symm (x * y)) = f (ρ_equiv.symm (y * x))
+    change f (ρ_equiv.symm (x * y)) = f (ρ_equiv.symm (y * x))
     rw [hρ_symm_mul, hρ_symm_mul, hf]
   -- Per-component functionals gᵢ
   let g_comp : ∀ i, Module.End k (V i) →ₗ[k] k := fun i =>
@@ -266,14 +263,14 @@ theorem Etingof.characters_basis_semisimple.{v} (k : Type*) (A : Type v)
   have hg_comp_tr : ∀ i (x y : Module.End k (V i)),
       g_comp i (x * y) = g_comp i (y * x) := by
     intro i x y
-    show g (Pi.single i (x * y)) = g (Pi.single i (y * x))
+    change g (Pi.single i (x * y)) = g (Pi.single i (y * x))
     have hpi_mul : ∀ (a b : Module.End k (V i)),
         (Pi.single i a : ∀ j, Module.End k (V j)) * Pi.single i b = Pi.single i (a * b) := by
       intro a b; ext j
-      simp only [Pi.mul_apply, Pi.single_apply]
+      simp only [Pi.mul_apply]
       by_cases hj : j = i
       · subst hj; simp
-      · simp [hj, zero_mul]
+      · simp [hj]
     rw [← hpi_mul, ← hpi_mul, hg_tracial]
   -- By the matrix unit argument, each gᵢ = cᵢ • trace
   choose c hc using fun i => tracial_of_end_eq_scalar_trace (g_comp i) (hg_comp_tr i)
@@ -283,13 +280,14 @@ theorem Etingof.characters_basis_semisimple.{v} (k : Type*) (A : Type v)
   ext a
   -- f(a) = g(ρ(a)) since g = f ∘ ρ⁻¹
   have hfa : f a = g (ρ a) := by
-    show f a = f (ρ_equiv.symm (ρ_equiv a))
+    change f a = f (ρ_equiv.symm (ρ_equiv a))
     simp
   -- g(e) = ∑ gᵢ(eᵢ) by decomposing e into Pi.single components
   have hg_sum : ∀ (e : ∀ i, Module.End k (V i)), g e = ∑ i, g_comp i (e i) := by
     intro e
     have : e = ∑ i : ι, Pi.single i (e i) := by
-      ext j; simp [Finset.sum_apply, Pi.single_apply, Finset.sum_ite_eq']
+      ext j
+      simp [Finset.sum_apply]
     conv_lhs => rw [this]
     simp [map_sum, g_comp]
   -- Combine: f(a) = ∑ cᵢ tr(ρᵢ(a)) = ∑ cᵢ χᵢ(a)
@@ -297,7 +295,7 @@ theorem Etingof.characters_basis_semisimple.{v} (k : Type*) (A : Type v)
   -- RHS: ∑ i, (c i • character k A (V i)) a = ∑ i, c i * character(a)
   rw [hfa, hg_sum]
   -- Goal: (∑ i, c i • character k A (V i)) a = ∑ i, g_comp i (ρ a i)
-  simp only [LinearMap.coeFn_sum, Finset.sum_apply, LinearMap.smul_apply, smul_eq_mul]
+  simp only [LinearMap.coe_sum, Finset.sum_apply, LinearMap.smul_apply, smul_eq_mul]
   apply Finset.sum_congr rfl
   intro i _
   simp only [Etingof.character, LinearMap.comp_apply, AlgHom.toLinearMap_apply]

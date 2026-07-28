@@ -68,10 +68,11 @@ definitionally the same objects. -/
 theorem rightIdeal_eq_op_regularSubrepresentation :
     RightIdeal A = Etingof.Subrepresentation Aᵐᵒᵖ Aᵐᵒᵖ := rfl
 
-@[simp]
+/-- Membership in a two-sided ideal agrees with membership after viewing it as a left ideal. -/
 theorem mem_toLeft_iff {I : Ideal A} {x : A} : x ∈ I.toLeft ↔ x ∈ I :=
   TwoSidedIdeal.mem_asIdeal
 
+/-- Membership in a two-sided ideal agrees with membership after viewing it as a right ideal. -/
 @[simp]
 theorem mem_toRight_iff {I : Ideal A} {x : Aᵐᵒᵖ} : x ∈ I.toRight ↔ x.unop ∈ I :=
   TwoSidedIdeal.mem_asIdealOpposite

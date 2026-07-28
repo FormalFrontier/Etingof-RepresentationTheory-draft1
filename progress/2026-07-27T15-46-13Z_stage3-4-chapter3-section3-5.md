@@ -1,8 +1,8 @@
 # Stage 3.4 dependency trimming — Chapter 3 §3.5
 
-**Date:** 2026-07-27  
-**Scope:** `Chapter3/Introduction_to_3.5` through `Chapter3/Proposition3.5.8`  
-**Stacked base:** Stage 3.3 PR #8073, commit `0df4dd87146bb729be6946bc42479888be740133`  
+**Date:** 2026-07-27
+**Scope:** `Chapter3/Introduction_to_3.5` through `Chapter3/Proposition3.5.8`
+**Stacked base:** Stage 3.3 PR #8073, commit `0df4dd87146bb729be6946bc42479888be740133`
 **Result:** complete — nine items moved to `dependency_trimmed`, with five actual item-level edges and 18 individually required direct imports.
 
 ## Exact scope

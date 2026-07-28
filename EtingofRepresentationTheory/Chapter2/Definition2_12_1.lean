@@ -1,8 +1,3 @@
-import Mathlib.Data.Finsupp.Multiset
-import Mathlib.LinearAlgebra.SymmetricAlgebra.Basis
-import Mathlib.LinearAlgebra.ExteriorAlgebra.Basis
-import Mathlib.Algebra.Lie.UniversalEnveloping
-import Mathlib.LinearAlgebra.Basis.Defs
 import EtingofRepresentationTheory.Chapter2.Definition2_9_9
 import EtingofRepresentationTheory.Chapter2.Discussion_2_6
 import EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymPowBasis
@@ -248,7 +243,7 @@ noncomputable def coordFreeToUeaBasis :
   simp [ueaBasisToCoordFree]
 
 /-- Formula for the inverse map on the canonical image of a Lie algebra element. -/
-@[simp] theorem coordFreeToUeaBasis_ι (x : L) :
+theorem coordFreeToUeaBasis_ι (x : L) :
     coordFreeToUeaBasis k L b (UniversalEnvelopingAlgebra.ι k x) =
       basisGenLinear k L b x := by
   rw [coordFreeToUeaBasis, UniversalEnvelopingAlgebra.lift_ι_apply]
