@@ -14,7 +14,7 @@ reconciles the (previously absent) coverage notes.
 ```
 lake build EtingofRepresentationTheory.Chapter3.Problem3_9_1
            EtingofRepresentationTheory.Chapter3.Problem3_9_4
-→ Build completed successfully (1962 jobs)
+→ Build completed successfully (1959 jobs)
   (only two unusedVariables linter warnings on Problem3_9_1.lean:204 — the
    documented `_hf`/`_hf'` placeholder hypotheses of iso_of_sub_mem_coboundaries;
    no errors, no sorries)
@@ -32,9 +32,6 @@ lake build EtingofRepresentationTheory.Chapter3.Problem3_9_1
 | `ext_iso_of_sub_smul_mem_coboundaries` | propext, Classical.choice, Quot.sound |
 | `irreducible_ext_iso_iff_proportional` | propext, Classical.choice, Quot.sound |
 | `isTrivial_of_ext1_subsingleton` | propext, Classical.choice, Quot.sound |
-| `dualNumber_deformation_eq_const` | propext, Classical.choice, Quot.sound |
-| `dualNumber_ext1_not_subsingleton` | propext, Classical.choice, Quot.sound |
-| `not_problem3_9_4b_dualNumber` | propext, Classical.choice, Quot.sound |
 
 ## Problem 3.9.1 — `covered_partial`
 
@@ -56,34 +53,30 @@ handles an arbitrary `φ`, but only under `[IsAlgClosed k]` + finite-dimensional
 the elementary general-`A` unitriangular converse. This is a genuine strictly-
 weaker-than-book sub-part → `covered_partial`, follow-up **#7362** opened.
 
-## Problem 3.9.4 — `covered_full`
+## Problem 3.9.4 — `covered_partial`
 
 | Part | Coverage | Headline decl | Notes |
 |------|----------|---------------|-------|
 | (a) Ext¹(V,V)=0 ⇒ deformations trivial | covered_full | `isTrivial_of_ext1_subsingleton` | genuine; `FormalDeformation`, `constDeformation`, `IsIsomorphic`, `IsTrivial` all honestly constructed; `Ext1` = the in-book Z¹/B¹, not Mathlib `Ext` |
-| (b) converse (open question) | **covered_full** | `not_problem3_9_4b_dualNumber` | answered negatively in the suggested dual-number case: the augmentation representation has only trivial formal deformations but nonzero self-`Ext¹` |
+| (b) converse (open question) | **covered_partial** | `ConverseHolds`, `Problem3_9_4b` | book poses an **open-ended question**; the converse is faithfully *stated* (specialised to dual numbers `k[x]/x²`) but left unresolved — matching the book. No follow-up: the book makes no claim to formalize as a theorem |
 
 ### The (b) classification (deliverable-1 honesty check)
 
-`ConverseHolds` / `Problem3_9_4b` remain the interface for the converse
-proposition. Issue #8097 resolves its truth value at the book's suggested
-example. The dual numbers act on `k` through the augmentation, so `eps` acts by
-zero. Mapping a deformation into `k⟦X⟧` shows that the image of `eps` is a
-square-zero series and hence zero, while the image of `1` is the unique
-idempotent series with constant coefficient `1`; consequently every deformation
-is literally constant. The second-coordinate map is then exhibited as a nonzero
-self-extension cocycle, and every coboundary is proved zero. Thus
-`not_problem3_9_4b_dualNumber` refutes the converse and the sub-part is
-`covered_full`.
+`ConverseHolds` / `Problem3_9_4b` are `def … : Prop` statements that record the
+converse proposition without asserting its truth. Since the book itself poses
+(b) as an open question rather than a claim, the honest classification is
+`covered_partial` (statement captured, truth-value not established), **not**
+`covered_full`. No follow-up feature issue is warranted: there is no book
+*claim* here that the Lean is weaker than; resolving the question would be new
+mathematics, outside formalization scope.
 
 ## Outcome
 
-- `progress/items.json`: Problem 3.9.1 remains `covered_partial`, while Problem
-  3.9.4 is now `covered_full`;
+- `progress/items.json`: both items now carry `coverage` (`covered_partial`),
   `coverage_arm: audited`, a reconciled `coverage_note`, `last_updated`,
   `lean_file` (list form), and a `derived` array covering every book sub-part
   ((a)–(d) for 3.9.1, (a)–(b) for 3.9.4). File parses.
 - One follow-up `feature` issue opened: **#7362** (3.9.1(c) converse). No
-  further follow-up for 3.9.4(b): issue #8097 resolves it negatively.
+  follow-up for 3.9.4(b) (book poses an open question, not a claim).
 - Prior `fidelity: verified` reviews stand and are reused; no full fidelity
   sweep redone.

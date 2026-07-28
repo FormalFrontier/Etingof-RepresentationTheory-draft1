@@ -8728,10 +8728,10 @@
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_9_4.lean"
     ],
-    "coverage": "covered_full",
+    "coverage": "covered_partial",
     "coverage_arm": "audited",
-    "coverage_note": "Coverage-arm update (#8097): covered_full. Problem3_9_4.lean proves (a) `isTrivial_of_ext1_subsingleton` and answers the open question (b) negatively with the requested dual-numbers augmentation representation. `dualNumber_deformation_eq_const` proves every formal deformation is literally constant by mapping its values on 1 and eps into the power-series domain K[[X]]. `dualNumber_ext1_not_subsingleton` exhibits the nonzero snd/eps cocycle and proves every coboundary vanishes. `not_problem3_9_4b_dualNumber` combines these results to refute the converse at the existing interface. All definitions are genuine and the headline theorem is sorry-free and axiom-clean.",
-    "last_updated": "2026-07-28",
+    "coverage_note": "Coverage-arm audit (Stage 3.7, #7361): covered_partial. Problem3_9_4.lean (347 lines, sorry-free, axiom-clean [propext, Classical.choice, Quot.sound]). (a) isTrivial_of_ext1_subsingleton: genuine Ext1(V,V)=0 => every formal deformation is trivial (isomorphic to rho), with FormalDeformation / constDeformation / IsIsomorphic / IsTrivial all honestly constructed and Ext1 = the in-book Z1/B1. (b) is an open-ended book QUESTION (is the converse true? consider dual numbers k[x]/x^2), faithfully recorded as the proposition ConverseHolds / Problem3_9_4b but left unresolved, matching the book => covered_partial; no follow-up issue (the book asserts nothing to formalize as a theorem). Prior fidelity: verified.",
+    "last_updated": "2026-07-22",
     "derived": [
       {
         "part": "(a) Ext1(V,V)=0 => deformations trivial",
@@ -8753,17 +8753,12 @@
         "claim": "Is the converse to (a) true (all deformations trivial => Ext1(V,V)=0)? Suggested test case: the dual numbers A=k[x]/x^2.",
         "description": "Open-ended question in the book asking whether rigidity characterizes vanishing self-extensions.",
         "source_span": "blobs/Chapter3/Problem3.9.4.md (b)",
-        "coverage": "covered_full",
+        "coverage": "covered_partial",
         "lean_decl": [
           "Etingof.Problem3_9_4.ConverseHolds",
-          "Etingof.Problem3_9_4.Problem3_9_4b",
-          "Etingof.Problem3_9_4.dualNumberAugmentationAlgebra",
-          "Etingof.Problem3_9_4.dualNumber_deformation_eq_const",
-          "Etingof.Problem3_9_4.dualNumber_all_deformations_trivial",
-          "Etingof.Problem3_9_4.dualNumber_ext1_not_subsingleton",
-          "Etingof.Problem3_9_4.not_problem3_9_4b_dualNumber"
+          "Etingof.Problem3_9_4.Problem3_9_4b"
         ],
-        "reason": "The question is resolved at the book's suggested test case. The named augmentation algebra structure makes eps act by zero on K. Every formal deformation is proved equal to the constant deformation: the eps-series is square-zero in the domain K[[X]], while the 1-series is an idempotent with constant coefficient 1. The snd-coordinate cocycle is nonzero and all coboundaries vanish, so Ext1 is not subsingleton. Thus the existing converse proposition Problem3_9_4b K K is explicitly refuted."
+        "reason": "The book poses (b) as an OPEN-ENDED QUESTION, not a claim to prove. The converse is faithfully STATED as the proposition ConverseHolds (335) = (for all D, IsTrivial D) -> Subsingleton (Ext1 ...), specialized to the dual numbers in Problem3_9_4b (342) per the book's hint. It is neither proved nor refuted (matching the book leaving it open), so the truth-value is not established => covered_partial, not covered_full. No follow-up issue: the book makes no assertion here, so the Lean statement is not weaker than a book claim; resolving the question would be new mathematics beyond formalization scope."
       }
     ]
   },
