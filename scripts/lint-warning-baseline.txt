@@ -6,10 +6,6 @@
 #
 # Regenerate after a deliberate change with:
 #   scripts/check_lint_clean.py --log <build.log> --update
-EtingofRepresentationTheory/Chapter2/Problem2_16_2.lean
-EtingofRepresentationTheory/Chapter2/Problem2_16_3.lean
-EtingofRepresentationTheory/Chapter2/Problem2_16_4.lean
-EtingofRepresentationTheory/Chapter2/Problem2_16_5.lean
 EtingofRepresentationTheory/Chapter2/Theorem2_1_1.lean
 EtingofRepresentationTheory/Chapter3/Problem3_8_4_Main.lean
 EtingofRepresentationTheory/Chapter3/Problem3_9_1.lean
