@@ -1,6 +1,4 @@
 import EtingofRepresentationTheory.Chapter3.Theorem3_6_2
-import Mathlib.LinearAlgebra.Pi
-import Mathlib.Algebra.CharP.Defs
 
 /-!
 # Footnote 5 to Theorem 3.7.1: the character of `pV` vanishes in characteristic `p`
@@ -39,11 +37,12 @@ variable (k : Type*) (V : Type*)
 /-- The coordinatewise ("diagonal") endomorphism of `ι → V` induced by `f : V →ₗ[k] V`:
 it sends `g` to `fun i => f (g i)`. For the action endomorphism `f = a • ·` this is exactly the
 `A`-action on the direct sum `ι → V`. -/
-def diagPi {ι : Type*} [Fintype ι] (f : V →ₗ[k] V) : (ι → V) →ₗ[k] (ι → V) :=
+def diagPi {ι : Type*} (f : V →ₗ[k] V) : (ι → V) →ₗ[k] (ι → V) :=
   LinearMap.pi fun i => f ∘ₗ LinearMap.proj i
 
+/-- Applying the diagonal endomorphism acts by `f` in every coordinate. -/
 @[simp]
-lemma diagPi_apply {ι : Type*} [Fintype ι] (f : V →ₗ[k] V) (g : ι → V) (i : ι) :
+lemma diagPi_apply {ι : Type*} (f : V →ₗ[k] V) (g : ι → V) (i : ι) :
     diagPi k V f g i = f (g i) := rfl
 
 variable [Module.Free k V] [Module.Finite k V]

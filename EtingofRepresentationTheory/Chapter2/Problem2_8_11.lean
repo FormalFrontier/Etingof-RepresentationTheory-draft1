@@ -11,6 +11,9 @@ import Mathlib.Algebra.FreeAlgebra
 import Mathlib.SetTheory.Cardinal.Finite
 import Mathlib.Data.Finite.Sigma
 import Mathlib.Data.Finite.Prod
+import Mathlib.Algebra.DirectSum.Module
+import Mathlib.LinearAlgebra.Finsupp.Supported
+import EtingofRepresentationTheory.Chapter2.Definition2_8_4
 
 /-!
 # Problem 2.8.11: Hilbert series of graded algebras
@@ -37,6 +40,36 @@ The four answers (Etingof Problem 2.8.11):
 namespace Etingof.Problem2_8_11
 
 open scoped ExteriorAlgebra
+
+/-! ## Locally finite positive gradings and their Hilbert series -/
+
+/-- The data in the first paragraph of Problem 2.8.11: an internal `ℕ`-grading
+`A = ⨁ₙ A[n]`, closed under multiplication, whose pieces are finite-dimensional. -/
+structure LocallyFiniteNatGrading (k A : Type*) [Field k] [Ring A] [Algebra k A] where
+  /-- The degree-`n` component `A[n]`. -/
+  piece : ℕ → Submodule k A
+  /-- The components form an internal direct sum equal to all of `A`. -/
+  decomposition : DirectSum.IsInternal piece
+  /-- Multiplication adds degrees: `A[n] A[m] ⊆ A[n+m]`. -/
+  mul_mem : ∀ {n m : ℕ} {x y : A}, x ∈ piece n → y ∈ piece m → x * y ∈ piece (n + m)
+  /-- Every homogeneous component is finite-dimensional. -/
+  finite : ∀ n, Module.Finite k (piece n)
+
+/-- The Hilbert series `h_A(t) = ∑ₙ dim(A[n])tⁿ` of a locally finite positive grading.
+Its coefficients lie in `ℤ`, so the dimension data is not reduced modulo the characteristic of
+the ground field. -/
+noncomputable def hilbertSeries {k A : Type*} [Field k] [Ring A] [Algebra k A]
+    (G : LocallyFiniteNatGrading k A) : PowerSeries ℤ :=
+  PowerSeries.mk fun n =>
+    letI : Module.Finite k (G.piece n) := G.finite n
+    (Module.finrank k (G.piece n) : ℤ)
+
+@[simp] theorem coeff_hilbertSeries {k A : Type*} [Field k] [Ring A] [Algebra k A]
+    (G : LocallyFiniteNatGrading k A) (n : ℕ) :
+    PowerSeries.coeff n (hilbertSeries G) =
+      letI : Module.Finite k (G.piece n) := G.finite n
+      (Module.finrank k (G.piece n) : ℤ) :=
+  PowerSeries.coeff_mk _ _
 
 /-! ## (a) Polynomial algebra `k[x₁,…,x_m]` -/
 
@@ -104,6 +137,18 @@ theorem hilbertSeries_mvPolynomial (k : Type*) [Field k] (m : ℕ) :
 
 /-! ## (b) Free algebra `k⟨x₁,…,x_m⟩` -/
 
+/-- The canonical word-basis realization of the free algebra: `k⟨x₁,…,x_m⟩` is the monoid
+algebra on words in `m` letters. -/
+noncomputable def freeAlgebraWordEquiv (k : Type*) [Field k] (m : ℕ) :
+    FreeAlgebra k (Fin m) ≃ₐ[k] MonoidAlgebra k (FreeMonoid (Fin m)) :=
+  FreeAlgebra.equivMonoidAlgebraFreeMonoid (R := k) (X := Fin m)
+
+/-- The word-length-`n` homogeneous component in the canonical word-basis realization of the
+free algebra. -/
+def freeAlgebraDegreePiece (k : Type*) [Field k] (m n : ℕ) :
+    Submodule k (MonoidAlgebra k (FreeMonoid (Fin m))) :=
+  Finsupp.supported k k {w | w.length = n}
+
 /-- **(b)** The number of words of length `n` in `m` letters is `mⁿ`; this is the dimension of the
 length-`n` graded piece of the free algebra `k⟨x₁,…,x_m⟩` (whose basis is the set of words).
 Equivalently the Hilbert series is `1/(1-mt)`. -/
@@ -115,6 +160,12 @@ theorem card_words_length (m n : ℕ) :
     Equiv.vectorEquivFin (Fin m) n
   rw [Nat.card_congr e, Nat.card_eq_fintype_card, Fintype.card_fun,
     Fintype.card_fin, Fintype.card_fin]
+
+/-- **(b), actual graded-piece dimension.** Via `freeAlgebraWordEquiv`, the degree-`n` piece of
+`k⟨x₁,…,x_m⟩` is `freeAlgebraDegreePiece`, and its dimension is `mⁿ`. -/
+theorem finrank_freeAlgebra_degreePiece (k : Type*) [Field k] (m n : ℕ) :
+    Module.finrank k (freeAlgebraDegreePiece k m n) = m ^ n := by
+  sorry
 
 /-- **(b)**, generating-function form: the Hilbert series of `k⟨x₁,…,x_m⟩` is `1/(1-mt)`,
 expressed as the power-series identity `(1 - m·t) · h_A = 1`. -/
@@ -157,6 +208,12 @@ theorem hilbertSeries_exteriorAlgebra (k : Type*) [Field k] (m : ℕ) :
   rw [PowerSeries.coeff_mk, Polynomial.coeff_coe, Polynomial.coeff_one_add_X_pow]
 
 /-! ## (d) Path algebra `P_Q` -/
+
+/-- The degree-`n` component of the path algebra: the subspace supported on basis paths of length
+`n`. The book-facing opposite algebra has the same underlying graded vector space. -/
+noncomputable def pathAlgebraDegreePiece (k : Type*) [Field k] (Q : Type*) [Quiver Q]
+    [DecidableEq Q] (n : ℕ) : Submodule k (Etingof.PathAlgebra k Q) :=
+  Finsupp.supported k k {p : Etingof.QuiverPathIndex Q | p.2.2.length = n}
 
 /-- The adjacency matrix of a finite quiver `Q`: the `(i,j)`-entry is the number of arrows
 `i ⟶ j`. -/
@@ -239,6 +296,15 @@ theorem dim_pathAlgebra_degree (Q : Type*) [Quiver Q] [Fintype Q] [DecidableEq Q
       = ∑ i : Q, ∑ j : Q, (adjacencyMatrix Q ^ n) i j := by
   refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
   exact card_paths_length_eq_adjacencyMatrix_pow Q i j n
+
+/-- **(d), actual graded-piece dimension.** The degree-`n` component of `P_Q` has as basis all
+length-`n` oriented paths, so its dimension is their total number. -/
+theorem finrank_pathAlgebra_degree (k : Type*) [Field k]
+    (Q : Type*) [Quiver Q] [Fintype Q] [DecidableEq Q]
+    [∀ i j : Q, Fintype (i ⟶ j)] (n : ℕ) :
+    Module.finrank k (pathAlgebraDegreePiece k Q n) =
+      ∑ i : Q, ∑ j : Q, Nat.card {p : Quiver.Path i j // p.length = n} := by
+  sorry
 
 /-! ### (d), generating-function form
 

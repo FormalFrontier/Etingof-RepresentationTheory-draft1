@@ -71,18 +71,23 @@ example : ∃ f g : Module.End k (Fin 2 → k), f * g ≠ g * f := by
   rw [← map_mul, ← map_mul] at h
   exact single_not_commute k ((Matrix.toLinAlgEquiv' (R := k)).injective h)
 
-/-- **Case 4.** `FreeAlgebra k (Fin n)` is not commutative when `n > 1`: already for `n = 2`
-the two generators `ι 0` and `ι 1` do not commute, since the algebra map sending them to the
-non-commuting matrix units `E₀₁`, `E₁₀` would otherwise force those to commute. -/
-example : ∃ a b : FreeAlgebra k (Fin 2), a * b ≠ b * a := by
-  refine ⟨FreeAlgebra.ι k 0, FreeAlgebra.ι k 1, ?_⟩
-  intro h
+/-- **Case 4.** `FreeAlgebra k (Fin n)` is not commutative when `n > 1`: the first two
+generators do not commute, since the algebra map sending them to the non-commuting matrix units
+`E₀₁`, `E₁₀` would otherwise force those matrix units to commute. -/
+theorem freeAlgebra_noncommutative_of_one_lt (n : ℕ) (hn : 1 < n) :
+    ∃ a b : FreeAlgebra k (Fin n), a * b ≠ b * a := by
+  let i0 : Fin n := ⟨0, by omega⟩
+  let i1 : Fin n := ⟨1, by omega⟩
+  have hne : i0 ≠ i1 := by simp [i0, i1, Fin.ext_iff]
+  let images : Fin n → Matrix (Fin 2) (Fin 2) k := fun i =>
+    if i = i0 then Matrix.single 0 1 1
+    else if i = i1 then Matrix.single 1 0 1
+    else 0
+  refine ⟨FreeAlgebra.ι k i0, FreeAlgebra.ι k i1, fun hcomm => ?_⟩
   apply single_not_commute k
   have := congrArg
-    (FreeAlgebra.lift k ![(Matrix.single 0 1 1 : Matrix (Fin 2) (Fin 2) k),
-      Matrix.single 1 0 1]) h
-  simpa only [map_mul, FreeAlgebra.lift_ι_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.head_cons] using this
+    (FreeAlgebra.lift k images) hcomm
+  simpa only [map_mul, FreeAlgebra.lift_ι_apply, images, if_pos, if_neg hne.symm, hne] using this
 
 end Noncommutative
 
@@ -91,18 +96,18 @@ section GeneralEndomorphism
 variable {k : Type*} [Field k] {V : Type*} [AddCommGroup V] [Module k V]
 
 /-- **Case 3, general form.** The endomorphism algebra `End_k V` of any vector space with
-`2 ≤ dim V` is noncommutative: choosing a basis, the two "matrix unit" endomorphisms `E₀₁`
-(sending the second basis vector to the first, all others to `0`) and `E₁₀` (sending the first
-to the second, all others to `0`) fail to commute. This is the source claim of the discussion
-after Example 2.2.4; the concrete `V = k²` case above is the special case `dim V = 2`. -/
-theorem End_noncommutative_of_two_le_finrank [Module.Finite k V]
-    (h : 2 ≤ Module.finrank k V) :
+`2 ≤ dim V` is noncommutative, including when `V` is infinite-dimensional: choosing a basis,
+the two "matrix unit" endomorphisms `E₀₁` (sending the second basis vector to the first, all
+others to `0`) and `E₁₀` (sending the first to the second, all others to `0`) fail to commute.
+This is the source claim of the discussion after Example 2.2.4; the concrete `V = k²` case above
+is the special case `dim V = 2`. -/
+theorem End_noncommutative_of_two_le_rank
+    (h : (2 : Cardinal) ≤ Module.rank k V) :
     ∃ f g : Module.End k V, f * g ≠ g * f := by
-  set n := Module.finrank k V with hn
-  let b := Module.finBasis k V
-  let i0 : Fin n := ⟨0, by omega⟩
-  let i1 : Fin n := ⟨1, by omega⟩
-  have hne : i0 ≠ i1 := by simp [i0, i1, Fin.ext_iff]
+  let b := Module.Free.chooseBasis k V
+  have hcard : (2 : Cardinal) ≤ Cardinal.mk (Module.Free.ChooseBasisIndex k V) := by
+    rwa [← Module.Free.rank_eq_card_chooseBasisIndex]
+  obtain ⟨i0, i1, hne⟩ := Cardinal.two_le_iff.mp hcard
   -- `f = E₀₁` (sends `b i1 ↦ b i0`, others to `0`), `g = E₁₀` (sends `b i0 ↦ b i1`).
   let f : Module.End k V := b.constr k (fun i => if i = i1 then b i0 else 0)
   let g : Module.End k V := b.constr k (fun i => if i = i0 then b i1 else 0)

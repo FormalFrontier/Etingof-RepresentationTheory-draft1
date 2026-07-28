@@ -74,3 +74,7 @@ theorem exists_module_baseChange [AddCommGroup V] [Module K V] [Module A V]
   rw [TensorProduct.Algebra.smul_def, smul_tmul_L, TensorProduct.smul_tmul']
 
 end Etingof.Exercise2_11_5
+
+-- The leaf name follows Mathlib conventions; the underscore comes solely from the stable
+-- book-number namespace Exercise2_11_5, which is part of this project's public API.
+attribute [nolint defsWithUnderscore] Etingof.Exercise2_11_5.instRightAlgebra

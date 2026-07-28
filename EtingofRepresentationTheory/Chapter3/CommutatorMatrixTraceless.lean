@@ -1,6 +1,4 @@
 import EtingofRepresentationTheory.Chapter3.Introduction3_6
-import Mathlib.Data.Matrix.Basis
-import Mathlib.LinearAlgebra.Matrix.Trace
 
 /-!
 # The commutator span of a matrix algebra is the traceless matrices

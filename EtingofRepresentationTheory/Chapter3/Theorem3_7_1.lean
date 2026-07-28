@@ -1,4 +1,3 @@
-import Mathlib.Order.JordanHolder
 import Mathlib.RingTheory.SimpleModule.Basic
 
 /-!
