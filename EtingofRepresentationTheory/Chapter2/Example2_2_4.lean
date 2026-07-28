@@ -1,4 +1,3 @@
-import Mathlib.Algebra.Polynomial.AlgebraMap
 import Mathlib.Algebra.MvPolynomial.Basic
 import Mathlib.Algebra.MonoidAlgebra.Basic
 import Mathlib.LinearAlgebra.FreeAlgebra
