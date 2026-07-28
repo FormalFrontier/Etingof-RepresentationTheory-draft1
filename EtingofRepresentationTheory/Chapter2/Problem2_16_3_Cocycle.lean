@@ -1,6 +1,7 @@
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Kernel
 import Mathlib.LinearAlgebra.Dual.Lemmas
 
+
 /-!
 # Problem 2.16.3(b): Gabber–Kac for `𝔤₄` as a 2-cocycle computation on the loop model
 
@@ -81,11 +82,17 @@ variable (k : Type*) {L M N : Type*} [CommRing k] [LieRing L] [LieAlgebra k L]
 `k`-bilinear alternating form satisfying the Chevalley–Eilenberg cocycle identity in its cyclic
 shape. -/
 structure IsTwoCocycle (c : L → L → M) : Prop where
+  /-- The cocycle is additive in its first argument. -/
   add_left : ∀ a b d : L, c (a + b) d = c a d + c b d
+  /-- The cocycle respects scalar multiplication in its first argument. -/
   smul_left : ∀ (r : k) (a b : L), c (r • a) b = r • c a b
+  /-- The cocycle is additive in its second argument. -/
   add_right : ∀ a b d : L, c a (b + d) = c a b + c a d
+  /-- The cocycle respects scalar multiplication in its second argument. -/
   smul_right : ∀ (r : k) (a b : L), c a (r • b) = r • c a b
+  /-- The cocycle vanishes on the diagonal. -/
   self : ∀ a : L, c a a = 0
+  /-- The cocycle satisfies the cyclic cocycle identity. -/
   jacobi : ∀ a b d : L, c ⁅a, b⁆ d + c ⁅b, d⁆ a + c ⁅d, a⁆ b = 0
 
 /-- A **2-coboundary** on the Lie algebra `L` with coefficients in the trivial module `M`: the
@@ -134,14 +141,18 @@ Note this is *not* `LoopIdx.bideg`: the `ad(ȳ)`-string enumerates each graded p
 the order opposite to `gone`/`gzero`, so the two differ by the involution `loopRev`. -/
 def LoopIdx.lbideg (J : LoopIdx) : ℕ × ℕ := (loopRev J).bideg
 
+/-- The loop bidegree formula for `lbideg_base`. -/
 @[simp] theorem lbideg_base : LoopIdx.base.lbideg = (0, 1) := rfl
 
+/-- The loop bidegree formula for `lbideg_odd`. -/
 @[simp] theorem lbideg_odd (m : ℕ) (i : Fin 5) :
     (LoopIdx.odd m i).lbideg = (2 * m + 1, 4 * m + (i.rev : ℕ)) := rfl
 
+/-- The loop bidegree formula for `lbideg_even`. -/
 @[simp] theorem lbideg_even (m : ℕ) (i : Fin 3) :
     (LoopIdx.even m i).lbideg = (2 * m + 2, 4 * m + 3 + (i.rev : ℕ)) := rfl
 
+/-- The loop bidegree formula for `lbideg_loopRev`. -/
 theorem lbideg_loopRev (I : LoopIdx) : (loopRev I).lbideg = I.bideg := by
   rw [LoopIdx.lbideg, loopRev_involutive I]
 
@@ -155,6 +166,7 @@ one-dimensional. -/
 noncomputable def lDeg (k : Type*) [Field k] (p : ℕ × ℕ) : Submodule k (loopPos k) :=
   Submodule.span k {v | ∃ J : LoopIdx, J.lbideg = p ∧ loopFam k J = v}
 
+/-- A loop-family vector belongs to its degree filtration. -/
 theorem loopFam_mem_lDeg (J : LoopIdx) : loopFam k J ∈ lDeg k J.lbideg :=
   Submodule.subset_span ⟨J, rfl, rfl⟩
 
@@ -172,6 +184,7 @@ spanning family of `𝔤₄`, which `gbar_loopFam₄` returns to `loopVec k J`. 
 noncomputable def loopSect (h2 : (2 : k) ≠ 0) : loopPos k →ₗ[k] g k 4 :=
   (loopBasis k h2).constr k fun J => (loopCoef k (loopRev J))⁻¹ • loopFam₄ k (loopRev J)
 
+/-- The loop section sends a loop-family vector to its chosen lift. -/
 theorem loopSect_loopFam (h2 : (2 : k) ≠ 0) (J : LoopIdx) :
     loopSect h2 (loopFam k J) = (loopCoef k (loopRev J))⁻¹ • loopFam₄ k (loopRev J) := by
   rw [loopSect, ← loopBasis_apply k h2 J, Module.Basis.constr_basis]
@@ -183,6 +196,7 @@ theorem loopSect_mem_gDeg (h2 : (2 : k) ≠ 0) (J : LoopIdx) :
   rw [loopSect_loopFam]
   exact Submodule.smul_mem _ _ (loopFam₄_mem_gDeg k (loopRev J))
 
+/-- The loop section respects the degree filtration. -/
 theorem loopSect_lDeg_le (h2 : (2 : k) ≠ 0) (p : ℕ × ℕ) {v : loopPos k} (hv : v ∈ lDeg k p) :
     loopSect h2 v ∈ gDeg k 4 p := by
   have key : ∀ w ∈ lDeg k p, loopSect h2 w ∈ gDeg k 4 p := by
@@ -212,16 +226,20 @@ noncomputable def gbarL (k : Type*) [Field k] : g k 4 →ₗ[k] loopPos k where
   map_add' u v := Subtype.ext (map_add (gbar k) u v)
   map_smul' r u := Subtype.ext (map_smul (gbar k) r u)
 
+/-- The linear realization agrees pointwise with the Lie realization. -/
 @[simp] theorem coe_gbarL (u : g k 4) :
     (gbarL k u : Matrix (Fin 3) (Fin 3) (Polynomial k)) = gbar k u := rfl
 
+/-- The linear realization sends brackets to brackets modulo the defect. -/
 theorem gbarL_lie (u v : g k 4) : gbarL k ⁅u, v⁆ = ⁅gbarL k u, gbarL k v⁆ :=
   Subtype.ext <| by rw [coe_gbarL, LieSubalgebra.coe_bracket, coe_gbarL, coe_gbarL, gbar_lie]
 
+/-- The linear realization is a left inverse to the loop section. -/
 theorem gbarL_loopSect (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (v : loopPos k) :
     gbarL k (loopSect h2 v) = v :=
   Subtype.ext (gbar_loopSect h2 h3 v)
 
+/-- The linear realization annihilates every top defect. -/
 theorem gbarL_topDefect (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0) (m : ℕ) :
     gbarL k (topDefect k m) = 0 :=
   Subtype.ext <| by rw [coe_gbarL, gbar_topDefect_eq_zero h2 h3 h5]; rfl
@@ -279,6 +297,7 @@ homomorphism. -/
 noncomputable def loopCocycle (h2 : (2 : k) ≠ 0) (a b : loopPos k) : g k 4 :=
   ⁅loopSect h2 a, loopSect h2 b⁆ - loopSect h2 ⁅a, b⁆
 
+/-- The section defect of a bracket is the top defect. -/
 theorem lie_loopSect (h2 : (2 : k) ≠ 0) (a b : loopPos k) :
     ⁅loopSect h2 a, loopSect h2 b⁆ = loopSect h2 ⁅a, b⁆ + loopCocycle h2 a b := by
   rw [loopCocycle]; abel
@@ -378,6 +397,7 @@ theorem eq_zero_of_hasImaginaryWeight_base_odd {c : loopPos k → loopPos k → 
   rw [hrev] at h
   omega
 
+/-- Imaginary weight is preserved by precomposition with the realization. -/
 theorem hasImaginaryWeight_comp (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
     (φ : g k 4 →ₗ[k] k) : HasImaginaryWeight fun a b => φ (loopCocycle h2 a b) := by
   intro I J hIJ
@@ -468,3 +488,13 @@ theorem span_range_loopFam₄_eq_top_of_twoCocycle (h2 : (2 : k) ≠ 0) (h3 : (3
 end Reduction
 
 end Etingof.Problem2_16_3
+
+-- The source-numbered exercise namespace and established API contain intentional underscores.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_16_3.IsTwoCoboundary
+  Etingof.Problem2_16_3.LoopIdx.lbideg
+  Etingof.Problem2_16_3.lDeg
+  Etingof.Problem2_16_3.loopSect
+  Etingof.Problem2_16_3.gbarL
+  Etingof.Problem2_16_3.loopCocycle
+  Etingof.Problem2_16_3.HasImaginaryWeight

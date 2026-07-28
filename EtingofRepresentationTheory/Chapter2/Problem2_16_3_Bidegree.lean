@@ -1,6 +1,6 @@
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Grading
-import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Layers
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Tower
+
 
 /-!
 # Bidegrees of the Chapter 2 vocabulary for `𝔤₄`
@@ -119,11 +119,14 @@ def LoopIdx.bideg : LoopIdx → ℕ × ℕ
   | .odd m i => (2 * m + 1, 4 * m + i)
   | .even m i => (2 * m + 2, 4 * m + 3 + i)
 
+/-- The bidegree formula for `bideg_base`. -/
 @[simp] theorem bideg_base : LoopIdx.base.bideg = (0, 1) := rfl
 
+/-- The bidegree formula for `bideg_odd`. -/
 @[simp] theorem bideg_odd (m : ℕ) (i : Fin 5) :
     (LoopIdx.odd m i).bideg = (2 * m + 1, 4 * m + i) := rfl
 
+/-- The bidegree formula for `bideg_even`. -/
 @[simp] theorem bideg_even (m : ℕ) (i : Fin 3) :
     (LoopIdx.even m i).bideg = (2 * m + 2, 4 * m + 3 + i) := rfl
 
@@ -287,3 +290,7 @@ theorem topDefect_eq_zero_of_gDeg_le (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (
 end Imaginary
 
 end Etingof.Problem2_16_3
+
+-- The source-numbered exercise namespace and established API contain intentional underscores.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_16_3.LoopIdx.bideg

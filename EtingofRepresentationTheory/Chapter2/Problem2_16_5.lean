@@ -1,4 +1,15 @@
-import Mathlib
+import Mathlib.Algebra.Algebra.Subalgebra.Centralizer
+import Mathlib.Algebra.Order.Ring.Star
+import Mathlib.Algebra.RingQuot
+import Mathlib.AlgebraicTopology.SimplexCategory.Basic
+import Mathlib.Analysis.CStarAlgebra.Classes
+import Mathlib.Analysis.Complex.Polynomial.Basic
+import Mathlib.LinearAlgebra.Eigenspace.Semisimple
+import Mathlib.Order.CompletePartialOrder
+import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
+import Mathlib.RingTheory.Flat.TorsionFree
+import Mathlib.RingTheory.SimpleRing.Principal
+
 
 /-!
 # Problem 2.16.5: Irreducible representations of the quantum group `U_q(sl₂)`
@@ -22,7 +33,7 @@ denominators so they are well-typed for every `q` (the coefficient `q - q⁻¹` 
   `K L = 1`,  `L K = 1`,  `K e = q²·(e K)`,  `K f = q⁻²·(f K)`,
   `(q - q⁻¹)·(e f - f e) = K - L`.
 
-The main classification results for both cases are established below:
+The following structural constraints in the two cases are established below:
 
 * **`q` not a root of unity**: every nontrivial finite dimensional representation has a highest
   weight vector (`exists_highest_weight_vector`), and on a simple such module the highest weight
@@ -35,10 +46,10 @@ The main classification results for both cases are established below:
   `finrank_le_of_epow_orderOf_eq_zero`, `finrank_le_of_fpow_orderOf_eq_zero`, and
   `finrank_le_of_cyclic`).
 
-These are the core structural results of the classification. The exhaustive enumeration of
-irreducibles up to isomorphism is intentionally omitted by the project-wide scope decision in
-`skipped-exercises.md`. The omission is documentation-only: this file does not introduce an
-unproved classification declaration.
+These are inputs to a classification, not an enumeration up to isomorphism. The exhaustive
+enumeration of irreducibles up to isomorphism is intentionally omitted by the project-wide scope
+decision in `skipped-exercises.md`. The omission is documentation-only: this file does not
+introduce an unproved classification declaration.
 -/
 
 namespace Etingof.Problem2_16_5
@@ -80,9 +91,11 @@ noncomputable def L (q : ℂˣ) : Uqsl2 q := mk q fL
 
 /-! ## The defining relations hold in `U_q(sl₂)` -/
 
+/-- The generators K and L are mutual inverses in the quantum quotient. -/
 @[simp] lemma KL_rel (q : ℂˣ) : K q * L q = 1 := by
   have h := RingQuot.mkAlgHom_rel ℂ (Rel.KL (q := q)); simp only [map_mul, map_one] at h; exact h
 
+/-- The generators L and K are mutual inverses in the quantum quotient. -/
 @[simp] lemma LK_rel (q : ℂˣ) : L q * K q = 1 := by
   have h := RingQuot.mkAlgHom_rel ℂ (Rel.LK (q := q)); simp only [map_mul, map_one] at h; exact h
 
@@ -100,6 +113,39 @@ noncomputable def L (q : ℂˣ) : Uqsl2 q := mk q fL
     ((q : ℂ) - (q : ℂ)⁻¹) • (e q * f q - f q * e q) = K q - L q := by
   have h := RingQuot.mkAlgHom_rel ℂ (Rel.ef (q := q))
   simp only [map_smul, map_sub, map_mul] at h; exact h
+
+/-! ## A nontrivial one-dimensional quotient
+
+Sending `e` and `f` to `0` and both `K` and `L` to `1` respects every defining relation. The
+resulting surjection `U_q(sl₂) →ₐ[ℂ] ℂ` proves in Lean that the presented algebra is nontrivial;
+in particular, the representation-theoretic statements below are not about a collapsed quotient.
+-/
+
+/-- Values of the four generators in the one-dimensional quotient. -/
+private noncomputable def augmentationGen : Gen → ℂ := ![0, 0, 1, 1]
+
+/-- The free-algebra map underlying the one-dimensional quotient. -/
+private noncomputable def augmentationFree : FreeAlgebra ℂ Gen →ₐ[ℂ] ℂ :=
+  FreeAlgebra.lift ℂ augmentationGen
+
+private theorem augmentationFree_rel (q : ℂˣ) :
+    ∀ ⦃a b⦄, Rel q a b → augmentationFree a = augmentationFree b := by
+  rintro _ _ h
+  cases h <;> simp [augmentationFree, augmentationGen]
+
+/-- The one-dimensional quotient `U_q(sl₂) →ₐ[ℂ] ℂ`, with `e,f ↦ 0` and `K,L ↦ 1`. -/
+noncomputable def augmentation (q : ℂˣ) : Uqsl2 q →ₐ[ℂ] ℂ :=
+  RingQuot.liftAlgHom ℂ ⟨augmentationFree, augmentationFree_rel q⟩
+
+/-- The one-dimensional quotient is onto. -/
+theorem augmentation_surjective (q : ℂˣ) : Function.Surjective (augmentation q) := by
+  intro z
+  refine ⟨algebraMap ℂ (Uqsl2 q) z, ?_⟩
+  exact (augmentation q).commutes z
+
+/-- The presentation of `U_q(sl₂)` does not collapse to the zero ring. -/
+noncomputable instance instNontrivialUqsl2 (q : ℂˣ) : Nontrivial (Uqsl2 q) :=
+  (augmentation_surjective q).nontrivial
 
 /-! ## Classification of irreducible representations (spec) -/
 
@@ -130,6 +176,7 @@ noncomputable def Kop : Module.End ℂ V where
   map_smul' := by intro c v; exact smul_comm (K q) c v
 
 omit [FiniteDimensional ℂ V] in
+/-- Evaluation formula for `Kop`. -/
 @[simp] lemma Kop_apply (v : V) : Kop q V v = K q • v := rfl
 
 omit [FiniteDimensional ℂ V] in
@@ -251,14 +298,18 @@ noncomputable def ladder (v : V) (i : ℕ) : V := (f q) ^ i • v
 noncomputable def mu (lam : ℂ) (i : ℕ) : ℂ := lam * (((q : ℂ) ^ 2)⁻¹) ^ i
 
 omit [Module ℂ V] [IsScalarTower ℂ (Uqsl2 q) V] in
+/-- The zero case of `ladder`. -/
 @[simp] lemma ladder_zero (v : V) : ladder q V v 0 = v := by simp [ladder]
 
 omit [Module ℂ V] [IsScalarTower ℂ (Uqsl2 q) V] in
+/-- The successor-step formula for `ladder`. -/
 lemma ladder_succ (v : V) (i : ℕ) : ladder q V v (i + 1) = f q • ladder q V v i := by
   simp only [ladder, pow_succ', mul_smul]
 
+/-- The zero case of `mu`. -/
 @[simp] lemma mu_zero (lam : ℂ) : mu q lam 0 = lam := by simp [mu]
 
+/-- The raising coefficient is nonzero away from the top of the ladder. -/
 lemma mu_ne_zero (lam : ℂ) (hlam : lam ≠ 0) (i : ℕ) : mu q lam i ≠ 0 := by
   apply mul_ne_zero hlam
   exact pow_ne_zero _ (inv_ne_zero (pow_ne_zero _ q.ne_zero))
@@ -439,10 +490,12 @@ lemma smul_mem_of_generators (q : ℂˣ) (V : Type*) [AddCommGroup V] [Module �
     rw [map_add, add_smul]
     exact W.add_mem (ha y hy) (hb y hy)
 
-/-- **Non-root-of-unity case.** When `q` is not a root of unity, every finite dimensional
-irreducible representation is determined up to isomorphism by its dimension together with a
-sign `ε ∈ {±1}`: on a highest weight vector `v` of an `(n+1)`-dimensional irreducible, `K`
-acts by `ε qⁿ`. We record the eigenvalue constraint on the highest weight. -/
+/-- **Non-root-of-unity necessary constraint.** On a highest weight vector `v` of an
+`(n+1)`-dimensional irreducible, `K` acts by `ε qⁿ` for some `ε` with `ε² = 1`.
+
+This theorem records only the eigenvalue constraint. It does not assert that dimension and sign
+determine the representation up to isomorphism; that enumeration is part of the intentionally
+omitted classification. -/
 theorem highest_weight_eigenvalue_of_not_isOfFinOrder (q : ℂˣ) (hq : ¬ IsOfFinOrder q)
     (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (Uqsl2 q) V]
     [IsScalarTower ℂ (Uqsl2 q) V] [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V] :
@@ -760,8 +813,8 @@ At a root of unity with `q ≠ ±1` (equivalently `q² ≠ 1`) the elements `e ^
 `K ^ orderOf q`, these are the three central "closed-string" scalars of the De Concini–Kac small
 quantum group; on a finite dimensional simple module each acts as a scalar (Schur). The nontrivial
 commutation is `[e ^ orderOf q, f] = 0`: the iterated commutator `[eⁿ, f]` has a coefficient that is
-a geometric sum in `q²`, and at `n = orderOf q` that sum vanishes precisely because `(q²)^{orderOf q}
-= 1` while `q² ≠ 1`.
+a geometric sum in `q²`, and at `n = orderOf q` that sum vanishes precisely because
+`(q²)^{orderOf q} = 1` while `q² ≠ 1`.
 
 The hypothesis `q² ≠ 1` is essential and cannot be dropped: at `q = ±1` the defining relation
 `(q - q⁻¹)·(ef - fe) = K - L` degenerates (its left side vanishes), `e` and `f` become free, and
@@ -1070,6 +1123,7 @@ noncomputable def smulEnd (x : Uqsl2 q) : Module.End ℂ V where
   map_add' := by intro a b; rw [smul_add]
   map_smul' := by intro c v; exact smul_comm x c v
 
+/-- Evaluation formula for `smulEnd`. -/
 @[simp] lemma smulEnd_apply (x : Uqsl2 q) (v : V) : smulEnd q V x v = x • v := rfl
 
 /-- **Schur's lemma for central elements.** A central element `x` of `U_q(sl₂)` acts as a scalar on
@@ -1142,14 +1196,18 @@ noncomputable def eladder (w : V) (i : ℕ) : V := (e q) ^ i • w
 noncomputable def nu (lam : ℂ) (i : ℕ) : ℂ := lam * ((q : ℂ) ^ 2) ^ i
 
 omit [Module ℂ V] [IsScalarTower ℂ (Uqsl2 q) V] in
+/-- The zero case of `eladder`. -/
 @[simp] lemma eladder_zero (w : V) : eladder q V w 0 = w := by simp [eladder]
 
 omit [Module ℂ V] [IsScalarTower ℂ (Uqsl2 q) V] in
+/-- The successor-step formula for `eladder`. -/
 lemma eladder_succ (w : V) (i : ℕ) : eladder q V w (i + 1) = e q • eladder q V w i := by
   simp only [eladder, pow_succ', mul_smul]
 
+/-- The zero case of `nu`. -/
 @[simp] lemma nu_zero (lam : ℂ) : nu q lam 0 = lam := by simp [nu]
 
+/-- The lowering coefficient is nonzero away from the bottom of the ladder. -/
 lemma nu_ne_zero (lam : ℂ) (hlam : lam ≠ 0) (i : ℕ) : nu q lam i ≠ 0 := by
   apply mul_ne_zero hlam
   exact pow_ne_zero _ (pow_ne_zero _ q.ne_zero)
@@ -1294,7 +1352,7 @@ theorem finrank_le_of_epow_orderOf_eq_zero (q : ℂˣ) (hq : IsOfFinOrder q) (hq
   -- Generator closures on the spanning family.
   have heW : ∀ i : Fin (orderOf q), e q • b i ∈ W := by
     intro i
-    show e q • ladder q V v ↑i ∈ W
+    change e q • ladder q V v ↑i ∈ W
     rcases Nat.eq_zero_or_pos (↑i : ℕ) with hi0 | hipos
     · rw [hi0, ladder_zero, he]; exact W.zero_mem
     · obtain ⟨j, hj⟩ : ∃ j, (↑i : ℕ) = j + 1 := ⟨↑i - 1, by omega⟩
@@ -1303,19 +1361,19 @@ theorem finrank_le_of_epow_orderOf_eq_zero (q : ℂˣ) (hq : IsOfFinOrder q) (hq
       exact W.smul_mem _ (hb_mem j (by omega))
   have hfW : ∀ i : Fin (orderOf q), f q • b i ∈ W := by
     intro i
-    show f q • ladder q V v ↑i ∈ W
+    change f q • ladder q V v ↑i ∈ W
     rw [← ladder_succ q V v ↑i]
     rcases eq_or_lt_of_le (show (↑i : ℕ) + 1 ≤ orderOf q from i.isLt) with heq | hlt
     · rw [heq, hladder_ℓ]; exact W.smul_mem _ hvW
     · exact hb_mem (↑i + 1) hlt
   have hKW : ∀ i : Fin (orderOf q), K q • b i ∈ W := by
     intro i
-    show K q • ladder q V v ↑i ∈ W
+    change K q • ladder q V v ↑i ∈ W
     rw [K_ladder q V v lam hKv ↑i]
     exact W.smul_mem _ (hb_mem ↑i i.isLt)
   have hLW : ∀ i : Fin (orderOf q), L q • b i ∈ W := by
     intro i
-    show L q • ladder q V v ↑i ∈ W
+    change L q • ladder q V v ↑i ∈ W
     rw [L_ladder q V v lam hlam hKv ↑i]
     exact W.smul_mem _ (hb_mem ↑i i.isLt)
   have clOf : ∀ (a : Uqsl2 q), (∀ i : Fin (orderOf q), a • b i ∈ W) → ∀ x ∈ W, a • x ∈ W := by
@@ -1419,7 +1477,7 @@ theorem finrank_le_of_fpow_orderOf_eq_zero (q : ℂˣ) (hq : IsOfFinOrder q) (hq
   -- Generator closures on the spanning family.
   have hfW : ∀ i : Fin (orderOf q), f q • b i ∈ W := by
     intro i
-    show f q • eladder q V w ↑i ∈ W
+    change f q • eladder q V w ↑i ∈ W
     rcases Nat.eq_zero_or_pos (↑i : ℕ) with hi0 | hipos
     · rw [hi0, eladder_zero, hf]; exact W.zero_mem
     · obtain ⟨j, hj⟩ : ∃ j, (↑i : ℕ) = j + 1 := ⟨↑i - 1, by omega⟩
@@ -1428,19 +1486,19 @@ theorem finrank_le_of_fpow_orderOf_eq_zero (q : ℂˣ) (hq : IsOfFinOrder q) (hq
       exact W.smul_mem _ (hb_mem j (by omega))
   have heW : ∀ i : Fin (orderOf q), e q • b i ∈ W := by
     intro i
-    show e q • eladder q V w ↑i ∈ W
+    change e q • eladder q V w ↑i ∈ W
     rw [← eladder_succ q V w ↑i]
     rcases eq_or_lt_of_le (show (↑i : ℕ) + 1 ≤ orderOf q from i.isLt) with heq | hlt
     · rw [heq, heladder_ℓ]; exact W.smul_mem _ hwW
     · exact hb_mem (↑i + 1) hlt
   have hKW : ∀ i : Fin (orderOf q), K q • b i ∈ W := by
     intro i
-    show K q • eladder q V w ↑i ∈ W
+    change K q • eladder q V w ↑i ∈ W
     rw [K_eladder q V w lam hKw ↑i]
     exact W.smul_mem _ (hb_mem ↑i i.isLt)
   have hLW : ∀ i : Fin (orderOf q), L q • b i ∈ W := by
     intro i
-    show L q • eladder q V w ↑i ∈ W
+    change L q • eladder q V w ↑i ∈ W
     rw [L_eladder q V w lam hlam hKw ↑i]
     exact W.smul_mem _ (hb_mem ↑i i.isLt)
   have clOf : ∀ (a : Uqsl2 q), (∀ i : Fin (orderOf q), a • b i ∈ W) → ∀ x ∈ W, a • x ∈ W := by
@@ -1495,7 +1553,8 @@ theorem finrank_le_of_cyclic (q : ℂˣ) (hq : IsOfFinOrder q) (hq2 : (q : ℂ) 
   -- Pick a `K`-eigenvalue `μ₀ ≠ 0`.
   obtain ⟨μ₀, hμ₀⟩ := Module.End.exists_eigenvalue (Kop q V)
   have hμ₀0 : μ₀ ≠ 0 := eigenvalue_ne_zero q V μ₀ hμ₀
-  -- `f ∘ e` maps the `μ₀`-eigenspace into itself (`e` raises the eigenvalue by `q²`, `f` lowers it).
+  -- `f ∘ e` maps the `μ₀`-eigenspace into itself: `e` raises the eigenvalue by `q²`,
+  -- and `f` lowers it again.
   have hmaps : ∀ w ∈ Module.End.eigenspace (Kop q V) μ₀,
       smulEnd q V (f q * e q) w ∈ Module.End.eigenspace (Kop q V) μ₀ := by
     intro w hw
@@ -1545,7 +1604,7 @@ theorem finrank_le_of_cyclic (q : ℂˣ) (hq : IsOfFinOrder q) (hq2 : (q : ℂ) 
   -- `f`-closure on the spanning family (the ladder closes up after `orderOf q` steps).
   have hfW : ∀ i : Fin (orderOf q), f q • bv i ∈ W := by
     intro i
-    show f q • ladder q V v ↑i ∈ W
+    change f q • ladder q V v ↑i ∈ W
     rw [← ladder_succ q V v ↑i]
     rcases eq_or_lt_of_le (show (↑i : ℕ) + 1 ≤ orderOf q from i.isLt) with heq | hlt
     · rw [heq, hladder_ℓ]; exact W.smul_mem _ hvW
@@ -1582,12 +1641,12 @@ theorem finrank_le_of_cyclic (q : ℂˣ) (hq : IsOfFinOrder q) (hq2 : (q : ℂ) 
   have heW : ∀ i : Fin (orderOf q), e q • bv i ∈ W := fun i => heW_all ↑i
   have hKW : ∀ i : Fin (orderOf q), K q • bv i ∈ W := by
     intro i
-    show K q • ladder q V v ↑i ∈ W
+    change K q • ladder q V v ↑i ∈ W
     rw [K_ladder q V v μ₀ hKv ↑i]
     exact W.smul_mem _ (hb_mem ↑i i.isLt)
   have hLW : ∀ i : Fin (orderOf q), L q • bv i ∈ W := by
     intro i
-    show L q • ladder q V v ↑i ∈ W
+    change L q • ladder q V v ↑i ∈ W
     rw [L_ladder q V v μ₀ hμ₀0 hKv ↑i]
     exact W.smul_mem _ (hb_mem ↑i i.isLt)
   -- `W` is a `U_q`-submodule; by simplicity it is everything.
@@ -1641,3 +1700,26 @@ theorem finrank_irreducible_le_of_isOfFinOrder (q : ℂˣ) (hq : IsOfFinOrder q)
     · exact finrank_le_of_cyclic q hq hq2 V a ha ha0 b hb hb0
 
 end Etingof.Problem2_16_5
+
+-- The source-numbered exercise namespace and established API contain intentional underscores.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_16_5.Gen
+  Etingof.Problem2_16_5.fe
+  Etingof.Problem2_16_5.ff
+  Etingof.Problem2_16_5.fK
+  Etingof.Problem2_16_5.fL
+  Etingof.Problem2_16_5.Uqsl2
+  Etingof.Problem2_16_5.mk
+  Etingof.Problem2_16_5.e
+  Etingof.Problem2_16_5.f
+  Etingof.Problem2_16_5.K
+  Etingof.Problem2_16_5.L
+  Etingof.Problem2_16_5.augmentation
+  Etingof.Problem2_16_5.Kop
+  Etingof.Problem2_16_5.ladder
+  Etingof.Problem2_16_5.mu
+  Etingof.Problem2_16_5.dcoef
+  Etingof.Problem2_16_5.smulEnd
+  Etingof.Problem2_16_5.eladder
+  Etingof.Problem2_16_5.nu
+  Etingof.Problem2_16_5.fcoef
