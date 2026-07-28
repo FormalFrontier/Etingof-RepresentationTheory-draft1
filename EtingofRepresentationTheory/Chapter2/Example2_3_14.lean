@@ -1,13 +1,9 @@
-import Mathlib.Algebra.Polynomial.Basic
-import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.RingTheory.AdjoinRoot
+import Mathlib.RingTheory.SimpleModule.Rank
 import Mathlib.FieldTheory.IsAlgClosed.Basic
-import Mathlib.RingTheory.PrincipalIdealDomain
 import Mathlib.Algebra.Polynomial.Module.AEval
-import Mathlib.RingTheory.Nilpotent.Lemmas
 import Mathlib.LinearAlgebra.Eigenspace.Minpoly
-import Mathlib.LinearAlgebra.Pi
 import Mathlib.Algebra.Module.PID
+import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 
 /-!
 # Example 2.3.14: Irreducible and Indecomposable Representations of k and k[x]
@@ -29,6 +25,32 @@ The classification is exhaustive in both directions: `jordanRep_indecomposable` 
 /-- For A = k, the unique irreducible representation is k itself (1-dimensional).
 (Etingof Example 2.3.14(1)) -/
 example (k : Type*) [Field k] : IsSimpleModule k k := inferInstance
+
+/-- **Example 2.3.14(1), uniqueness of the irreducible representation.** Every irreducible
+representation of the field `k` is isomorphic to the regular one-dimensional representation `k`. -/
+theorem Etingof.Example_2_3_14_field_irreducible_unique
+    (k : Type*) [Field k] (V : Type*) [AddCommGroup V] [Module k V]
+    [IsSimpleModule k V] : Nonempty (V ≃ₗ[k] k) := by
+  exact (Module.nonempty_linearEquiv_of_finrank_eq_one
+    (isSimpleModule_iff_finrank_eq_one.mp (inferInstance : IsSimpleModule k V))).map
+      LinearEquiv.symm
+
+/-- **Example 2.3.14(1), uniqueness of the indecomposable representation.** Every indecomposable
+representation of the field `k` is isomorphic to the regular one-dimensional representation `k`. -/
+theorem Etingof.Example_2_3_14_field_indecomposable_unique
+    (k : Type*) [Field k] (V : Type*) [AddCommGroup V] [Module k V]
+    (hV : Etingof.IsIndecomposable k V) : Nonempty (V ≃ₗ[k] k) := by
+  letI : Nontrivial V := hV.1
+  haveI : IsSimpleModule k V := (isSimpleModule_iff k V).2 {
+    eq_bot_or_eq_top := by
+      intro W
+      obtain ⟨P, hP⟩ := ComplementedLattice.exists_isCompl W
+      rcases hV.2 W P hP with hW | hPbot
+      · exact Or.inl hW
+      · right
+        have hsup : W ⊔ P = ⊤ := codisjoint_iff.mp hP.codisjoint
+        simpa [hPbot] using hsup }
+  exact Etingof.Example_2_3_14_field_irreducible_unique k V
 
 /-- Over an algebraically closed field k, every simple k[x]-module is 1-dimensional.
 Equivalently, every maximal ideal of k[x] has quotient of k-dimension 1.
@@ -77,6 +99,10 @@ open Polynomial
 
 namespace Etingof.Example_2_3_14
 
+/- The numbered namespace is part of the project's stable source-traceability API. The
+`defsWithUnderscore` linter otherwise blames every definition nested in it, even though each
+definition's own basename follows Mathlib's naming convention. -/
+
 variable {k : Type*} [Field k]
 
 /-- The nilpotent down-shift on `Fin n → k`: it sends the basis vector `eᵢ` to `eᵢ₋₁`
@@ -86,6 +112,7 @@ def shift (n : ℕ) : (Fin n → k) →ₗ[k] (Fin n → k) where
   map_add' u v := by funext i; dsimp; split <;> simp
   map_smul' c v := by funext i; dsimp; split <;> simp
 
+/-- The shift reads the next coordinate, or vanishes at the final coordinate. -/
 @[simp] lemma shift_apply (n : ℕ) (v : Fin n → k) (i : Fin n) :
     shift n v i = if h : (i : ℕ) + 1 < n then v ⟨i + 1, h⟩ else 0 := rfl
 
@@ -93,6 +120,7 @@ def shift (n : ℕ) : (Fin n → k) →ₗ[k] (Fin n → k) where
 def jordanBlock (lam : k) (n : ℕ) : (Fin n → k) →ₗ[k] (Fin n → k) :=
   lam • LinearMap.id + shift n
 
+/-- The coordinate formula for the Jordan block. -/
 @[simp] lemma jordanBlock_apply (lam : k) (n : ℕ) (v : Fin n → k) (i : Fin n) :
     jordanBlock lam n v i = lam * v i + (if h : (i : ℕ) + 1 < n then v ⟨i + 1, h⟩ else 0) := by
   simp [jordanBlock, shift]
@@ -118,6 +146,7 @@ lemma shift_pow_apply (n j : ℕ) (v : Fin n → k) (i : Fin n) :
         rw [dif_neg (show ¬ ((⟨(i : ℕ) + j, h1⟩ : Fin n) : ℕ) + 1 < n by omega)]
       · rw [dif_neg h1]
 
+/-- The shift on `kⁿ` is nilpotent. -/
 lemma shift_nilpotent (n : ℕ) : IsNilpotent (shift n : (Fin n → k) →ₗ[k] (Fin n → k)) := by
   refine ⟨n, ?_⟩
   apply LinearMap.ext; intro v; funext i
@@ -129,6 +158,7 @@ lemma shift_nilpotent (n : ℕ) : IsNilpotent (shift n : (Fin n → k) →ₗ[k]
 eigenspace of the Jordan block for the eigenvalue `λ`. -/
 def e0 (n : ℕ) [NeZero n] : Fin n → k := Pi.single 0 1
 
+/-- The vector `e₀` is nonzero in every positive dimension. -/
 lemma e0_ne_zero (n : ℕ) [NeZero n] : (e0 n : Fin n → k) ≠ 0 := by
   intro h
   have : (e0 n : Fin n → k) 0 = (0 : Fin n → k) 0 := by rw [h]
@@ -234,16 +264,12 @@ lemma e0_mem_of_invariant (lam : k) (n : ℕ) [NeZero n] {W : Submodule k (Fin n
   rw [this]
   exact W.smul_mem c⁻¹ u.2
 
-/-- A module is *indecomposable* if it is nontrivial and is not the internal direct sum of two
-proper submodules: any pair of complementary submodules has one of them trivial. -/
-def IsIndecomposable (R M : Type*) [Semiring R] [AddCommMonoid M] [Module R M] : Prop :=
-  Nontrivial M ∧ ∀ N P : Submodule R M, IsCompl N P → N = ⊥ ∨ P = ⊥
-
 /-- The Jordan-block representation `V_{λ,n} = (kⁿ, ρ(x) = J_{λ,n})`, realized as a
 `k[X]`-module via `Module.AEval'`: the action of `X` is the Jordan block `J_{λ,n}`.
 (Etingof Example 2.3.14(2)) -/
 abbrev jordanRep (lam : k) (n : ℕ) := Module.AEval' (jordanBlock lam n)
 
+/-- A positive-dimensional Jordan-block representation is nontrivial. -/
 instance jordanRep_nontrivial (lam : k) (n : ℕ) [NeZero n] :
     Nontrivial (jordanRep lam n) :=
   (Module.AEval'.of (jordanBlock lam n)).symm.toEquiv.nontrivial
@@ -387,11 +413,13 @@ noncomputable def cyclicMap (lam : k) (n : ℕ) [NeZero n] :
   LinearMap.toSpanSingleton (Polynomial k) (jordanRep lam n)
     (Module.AEval'.of (jordanBlock lam n) (eTop n))
 
+/-- The cyclic map evaluates a polynomial at the Jordan block and applies it to the top vector. -/
 lemma cyclicMap_apply (lam : k) (n : ℕ) [NeZero n] (q : Polynomial k) :
     cyclicMap lam n q
       = Module.AEval'.of (jordanBlock lam n) (Polynomial.aeval (jordanBlock lam n) q (eTop n)) :=
   rfl
 
+/-- The cyclic map sends `(X - λ)ʲ` to the `j`th shift of the top vector. -/
 lemma cyclicMap_X_sub_C_pow (lam : k) (n : ℕ) [NeZero n] (j : ℕ) :
     cyclicMap lam n ((X - C lam) ^ j)
       = Module.AEval'.of (jordanBlock lam n) (((shift n) ^ j) (eTop n)) := by
@@ -543,6 +571,64 @@ lemma isTorsion_of_finiteDimensional [FiniteDimensional k M] :
   obtain ⟨q, hq, hqne⟩ := (Submodule.ne_bot_iff _).mp hnotinj
   exact ⟨⟨q, mem_nonZeroDivisors_of_ne_zero hqne⟩, LinearMap.mem_ker.mp hq⟩
 
+/-- **Jordan normal form, in representation-theoretic form.** Every finite-dimensional
+`k[X]`-representation over an algebraically closed field is a finite direct sum of Jordan-block
+representations. A finite product is Mathlib's model for this finite direct sum. -/
+theorem exists_equiv_pi_jordanRep [IsAlgClosed k] [FiniteDimensional k M] :
+    ∃ (m : ℕ) (lam : Fin m → k) (n : Fin m → ℕ),
+      (∀ i, 0 < n i) ∧
+        Nonempty (M ≃ₗ[Polynomial k] ∀ i : Fin m, jordanRep (lam i) (n i)) := by
+  classical
+  let R := Polynomial k
+  haveI : Module.Finite R M := Module.Finite.of_restrictScalars_finite k R M
+  obtain ⟨ι, instι, p, hp, expo, ⟨estr⟩⟩ :=
+    Module.equiv_directSum_of_isTorsion (isTorsion_of_finiteDimensional (k := k) M)
+  letI : Fintype ι := instι
+  let I := {i : ι // 0 < expo i}
+  let Q : ι → Type _ := fun i => R ⧸ (R ∙ p i ^ expo i)
+  -- Discard the zero summands arising from exponent zero.
+  let dropZero : (∀ i : ι, Q i) ≃ₗ[R] ∀ i : I, Q i := {
+    toFun := fun f i => f i
+    invFun := fun f i => if hi : 0 < expo i then f ⟨i, hi⟩ else 0
+    left_inv := by
+      intro f
+      funext i
+      by_cases hi : 0 < expo i
+      · simp [hi]
+      · have hzero : expo i = 0 := Nat.eq_zero_of_not_pos hi
+        haveI : Subsingleton (Q i) := by
+          dsimp [Q]
+          rw [hzero, pow_zero, Ideal.submodule_span_eq, Ideal.span_singleton_one]
+          infer_instance
+        exact Subsingleton.elim _ _
+    right_inv := by
+      intro f
+      funext i
+      change (if hi : 0 < expo (i : ι) then f ⟨i, hi⟩ else 0) = f i
+      rw [dif_pos i.property]
+    map_add' := by intro f g; rfl
+    map_smul' := by intro c f; rfl }
+  -- Every irreducible polynomial over an algebraically closed field is associated to `X - λ`.
+  have hassoc : ∀ i : I, ∃ lam : k, Associated (X - C lam) (p i) := by
+    intro i
+    have hdeg : (p i).degree ≠ 0 := fun hd =>
+      (hp i).not_isUnit (Polynomial.isUnit_iff_degree_eq_zero.mpr hd)
+    obtain ⟨lam, hlam⟩ := IsAlgClosed.exists_root (p i) hdeg
+    exact ⟨lam, (Polynomial.irreducible_X_sub_C lam).associated_of_dvd (hp i)
+      (Polynomial.dvd_iff_isRoot.mpr hlam)⟩
+  choose lam hlam using hassoc
+  let blockEquiv : ∀ i : I, Q i ≃ₗ[R] jordanRep (lam i) (expo i) := fun i => by
+    letI : NeZero (expo i) := ⟨Nat.ne_of_gt i.property⟩
+    refine (Submodule.quotEquivOfEq _ _ ?_).trans (jordanQuotEquiv (lam i) (expo i))
+    rw [Ideal.submodule_span_eq]
+    exact Ideal.span_singleton_eq_span_singleton.mpr
+      ((hlam i).pow_pow (n := expo i)).symm
+  let e : Fin (Fintype.card I) ≃ I := (Fintype.equivFin I).symm
+  refine ⟨Fintype.card I, lam ∘ e, fun i => expo (e i), fun i => (e i).property, ?_⟩
+  exact ⟨estr.trans (DirectSum.linearEquivFunOnFintype R ι Q) |>.trans dropZero |>.trans
+    (LinearEquiv.piCongrRight blockEquiv) |>.trans
+    (LinearEquiv.piCongrLeft R (fun i : I => jordanRep (lam i) (expo i)) e).symm⟩
+
 /-- **Etingof Example 2.3.14(2), the classification.** Over an algebraically closed field,
 every finite-dimensional indecomposable `k[X]`-representation is isomorphic to a Jordan block
 `V_{λ,n} = (kⁿ, ρ(x) = J_{λ,n})` with `n ≥ 1`.
@@ -653,5 +739,8 @@ theorem jordanRep_equiv_iff (lam mu : k) (n m : ℕ) [NeZero n] [NeZero m] :
   rcases Nat.eq_zero_or_pos j with hj0 | hj0
   · rw [hj0, pow_zero] at hpow; exact one_ne_zero hpow
   · exact hne (by have := pow_eq_zero_iff (n := j) (by omega) |>.mp hpow; linear_combination -this)
+
+attribute [nolint defsWithUnderscore]
+  shift jordanBlock e0 jordanRep eTop cyclicMap jordanQuotEquiv
 
 end Etingof.Example_2_3_14

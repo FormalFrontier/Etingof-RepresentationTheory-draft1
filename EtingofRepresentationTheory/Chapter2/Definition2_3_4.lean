@@ -18,3 +18,13 @@ This is `Submodule A V` in Mathlib. -/
 abbrev Etingof.Subrepresentation (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
     [Module A V] :=
   Submodule A V
+
+/-- The zero subspace is always a subrepresentation. -/
+abbrev Etingof.zeroSubrepresentation (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
+    [Module A V] : Etingof.Subrepresentation A V :=
+  ⊥
+
+/-- The whole representation is always a subrepresentation. -/
+abbrev Etingof.fullSubrepresentation (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
+    [Module A V] : Etingof.Subrepresentation A V :=
+  ⊤

@@ -52,78 +52,44 @@
   "Chapter2/Definition2.2.5": [],
   "Chapter2/Discussion_commutativity_examples": [],
   "Chapter2/Definition2.2.6": [],
-  "Chapter2/Definition2.3.1": [
-    "Chapter2/Definition2.2.6"
-  ],
-  "Chapter2/Remark2.3.2": [
-    "Chapter2/Definition2.3.1"
-  ],
-  "Chapter2/Discussion_examples_intro": [
-    "Chapter2/Remark2.3.2"
-  ],
-  "Chapter2/Example2.3.3": [
-    "Chapter2/Discussion_examples_intro"
-  ],
-  "Chapter2/Definition2.3.4": [
-    "Chapter2/Example2.3.3"
-  ],
-  "Chapter2/Definition2.3.5": [
-    "Chapter2/Definition2.3.4"
-  ],
-  "Chapter2/Definition2.3.6": [
-    "Chapter2/Definition2.3.5"
-  ],
-  "Chapter2/Definition2.3.7": [
-    "Chapter2/Definition2.3.6"
-  ],
-  "Chapter2/Definition2.3.8": [
-    "Chapter2/Definition2.3.7"
-  ],
+  "Chapter2/Definition2.3.1": [],
+  "Chapter2/Remark2.3.2": [],
+  "Chapter2/Discussion_examples_intro": [],
+  "Chapter2/Example2.3.3": [],
+  "Chapter2/Definition2.3.4": [],
+  "Chapter2/Definition2.3.5": [],
+  "Chapter2/Definition2.3.6": [],
+  "Chapter2/Definition2.3.7": [],
+  "Chapter2/Definition2.3.8": [],
   "Chapter2/Discussion_irreducible_vs_indecomposable": [
     "Chapter2/Definition2.3.8"
   ],
-  "Chapter2/Discussion_Schur_intro": [
-    "Chapter2/Discussion_irreducible_vs_indecomposable"
-  ],
-  "Chapter2/Proposition2.3.9": [
-    "Chapter2/Discussion_Schur_intro"
-  ],
-  "Chapter2/Corollary2.3.10": [
-    "Chapter2/Proposition2.3.9"
-  ],
+  "Chapter2/Discussion_Schur_intro": [],
+  "Chapter2/Proposition2.3.9": [],
+  "Chapter2/Corollary2.3.10": [],
   "Chapter2/Remark2.3.11": [
     "Chapter2/Corollary2.3.10"
   ],
   "Chapter2/Discussion_proof_Corollary2.3.10": [
-    "Chapter2/Remark2.3.11"
+    "Chapter2/Corollary2.3.10"
   ],
-  "Chapter2/Corollary2.3.12": [
-    "Chapter2/Discussion_proof_Corollary2.3.10"
-  ],
-  "Chapter2/Remark2.3.13": [
+  "Chapter2/Corollary2.3.12": [],
+  "Chapter2/Remark2.3.13": [],
+  "Chapter2/Discussion_proof_Corollary2.3.12": [
+    "Chapter2/Corollary2.3.10",
     "Chapter2/Corollary2.3.12"
   ],
-  "Chapter2/Discussion_proof_Corollary2.3.12": [
-    "Chapter2/Remark2.3.13"
-  ],
   "Chapter2/Example2.3.14": [
-    "Chapter2/Discussion_proof_Corollary2.3.12"
+    "Chapter2/Definition2.3.8"
   ],
-  "Chapter2/Example2.3.14_continued": [
-    "Chapter2/Example2.3.14"
-  ],
-  "Chapter2/Problem2.3.15": [
-    "Chapter2/Example2.3.14_continued"
-  ],
+  "Chapter2/Example2.3.14_continued": [],
+  "Chapter2/Problem2.3.15": [],
   "Chapter2/Problem2.3.16": [
+    "Chapter2/Definition2.3.8",
     "Chapter2/Problem2.3.15"
   ],
-  "Chapter2/Problem2.3.17": [
-    "Chapter2/Problem2.3.16"
-  ],
-  "Chapter2/Problem2.3.18": [
-    "Chapter2/Problem2.3.17"
-  ],
+  "Chapter2/Problem2.3.17": [],
+  "Chapter2/Problem2.3.18": [],
   "Chapter2/Discussion_2.4_heading": [
     "Chapter2/Definition2.3.4"
   ],

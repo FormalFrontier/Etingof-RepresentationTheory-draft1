@@ -1,7 +1,4 @@
 import Mathlib.RepresentationTheory.AlgebraRepresentation.Basic
-import Mathlib.RingTheory.Artinian.Module
-import Mathlib.RingTheory.Noetherian.Basic
-import Mathlib.RingTheory.Nilpotent.Basic
 import Mathlib.Algebra.DualNumber
 import EtingofRepresentationTheory.Chapter2.Problem2_3_15
 import EtingofRepresentationTheory.Chapter2.Definition2_3_8
@@ -58,6 +55,7 @@ def centralAction (z : Subalgebra.center k A) : Module.End A V where
     rw [smul_smul, smul_smul, Subalgebra.mem_center_iff.mp z.2 a]
 
 omit [Module k V] [IsScalarTower k A V] in
+/-- Evaluating the central-action endomorphism is the original action by the central element. -/
 @[simp]
 theorem centralAction_apply (z : Subalgebra.center k A) (v : V) :
     centralAction z v = (z : A) • v := rfl
@@ -85,6 +83,7 @@ noncomputable def endScalarEquiv : k ≃ₐ[k] Module.End A V :=
   AlgEquiv.ofBijective (Algebra.ofId k (Module.End A V))
     (IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed k)
 
+/-- Schur's scalar equivalence is the canonical algebra map in the forward direction. -/
 @[simp]
 theorem endScalarEquiv_apply (c : k) :
     endScalarEquiv (A := A) (V := V) c = algebraMap k (Module.End A V) c := rfl
@@ -239,6 +238,38 @@ theorem exists_centralCharacter_isNilpotent (hV : IsIndecomposable A V) :
     simpa [hχ] using h2
   exact centralAction_sub_smul_isNilpotent hV z hv₀ heig
 
+/-- **Problem 2.3.16(b), including the irreducible-subrepresentation clause.** There is an
+irreducible subrepresentation `S ⊆ V` and a central character `χ_V : Z(A) → k` such that
+every central action on `V` has the single generalized eigenvalue `χ_V(z)`, while its
+restriction to `S` is literally the scalar action by `χ_V(z)`. This records the conjunct in
+the source that is not visible in `exists_centralCharacter_isNilpotent`'s conclusion. -/
+theorem exists_irreducibleSubrepresentation_centralCharacter
+    (hV : IsIndecomposable A V) :
+    ∃ S : Submodule A V, IsSimpleModule A S ∧
+      ∃ χ_V : Subalgebra.center k A →ₐ[k] k,
+        (∀ z : Subalgebra.center k A,
+          IsNilpotent (centralAction (V := V) z - (χ_V z) • (1 : Module.End A V))) ∧
+        ∀ (z : Subalgebra.center k A) (s : S),
+          (z : A) • (s : V) = (χ_V z) • (s : V) := by
+  haveI : Nontrivial V := hV.1
+  obtain ⟨S, hS⟩ := exists_isSimpleModule_of_finite (k := k) (A := A) (V := V)
+  haveI : IsSimpleModule A S := hS
+  haveI : Nontrivial S := IsSimpleModule.nontrivial A S
+  haveI : FiniteDimensional k S :=
+    (inferInstance : FiniteDimensional k (S.restrictScalars k))
+  let χ_V := centralCharacter (k := k) (A := A) (V := S)
+  refine ⟨S, hS, χ_V, ?_, ?_⟩
+  · intro z
+    obtain ⟨s₀, hs₀⟩ := exists_ne (0 : S)
+    have hv₀ : (s₀ : V) ≠ 0 := by simpa using hs₀
+    have heig : (z : A) • (s₀ : V) = (χ_V z) • (s₀ : V) := by
+      have h := centralCharacter_smul (k := k) (A := A) (V := S) z s₀
+      exact congrArg (fun s : S => (s : V)) h
+    exact centralAction_sub_smul_isNilpotent hV z hv₀ heig
+  · intro z s
+    have h := centralCharacter_smul (k := k) (A := A) (V := S) z s
+    exact congrArg (fun t : S => (t : V)) h
+
 end Indecomposable
 
 /-!
@@ -262,6 +293,7 @@ of `Z(k[ε])` (which is all of `k[ε]`, since the ring is commutative). -/
 def epsCenter : Subalgebra.center k (DualNumber k) :=
   ⟨ε, Subalgebra.mem_center_iff.mpr fun b => commute_eps_right b⟩
 
+/-- The underlying dual number of `epsCenter` is `ε`. -/
 @[simp] theorem epsCenter_coe : (epsCenter (k := k) : DualNumber k) = ε := rfl
 
 /-- **Problem 2.3.16(c).** On the regular representation of the dual numbers `k[ε]`, the central

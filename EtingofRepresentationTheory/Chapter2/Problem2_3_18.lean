@@ -1,10 +1,7 @@
 import Mathlib.RepresentationTheory.AlgebraRepresentation.Basic
 import Mathlib.RingTheory.Algebraic.LinearIndependent
-import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.Analysis.Complex.Cardinality
 import Mathlib.Analysis.Complex.Polynomial.Basic
 import Mathlib.Algebra.Algebra.Subalgebra.Centralizer
-import Mathlib.LinearAlgebra.Dimension.Basic
 
 /-!
 # Problem 2.3.18: The infinite dimensional Schur lemma (Dixmier)

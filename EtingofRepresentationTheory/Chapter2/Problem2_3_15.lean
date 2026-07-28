@@ -1,7 +1,5 @@
 import Mathlib.RingTheory.Artinian.Module
-import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.Algebra.Polynomial.Degree.Operations
-import Mathlib.LinearAlgebra.Span.Defs
 
 /-!
 # Problem 2.3.15: Irreducible subrepresentations
