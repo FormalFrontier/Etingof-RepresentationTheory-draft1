@@ -6072,6 +6072,23 @@
     "id": "Chapter3/Introduction",
     "type": "introduction",
     "title": "Chapter 3: General results of representation theory — introduction and Section 3.1 heading",
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "not_applicable",
+      "source_review": "not_applicable",
+      "imports": "not_applicable",
+      "declaration_lints": "not_applicable",
+      "result": "This chapter and section heading has no Lean provider or proof to polish."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This chapter/section heading and ambient convention have no Lean provider or mathematical dependency; the conservative incoming edge from Chapter 2 was reading order only."
+    },
     "stage3_3": {
       "status": "complete",
       "section": "3.1",
@@ -6084,7 +6101,7 @@
     "end_page": "43",
     "start_line": 1,
     "end_line": 8,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage_swept": {
       "wave": 1,
       "result": "non_formalizable"
@@ -6114,6 +6131,20 @@
     "id": "Chapter3/Definition3.1.1",
     "type": "definition",
     "title": "Semisimple (completely reducible) representation",
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The focused abbreviation provider elaborates without warnings, has no redundant imports, and its public declaration passes all 16 default declaration linters plus docBlameThm."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The definition is a direct abbreviation of Mathlib's IsSemisimpleModule and imports only Mathlib.RingTheory.SimpleModule.Basic; it uses no earlier project declaration."
+    },
     "stage3_3": {
       "status": "complete",
       "section": "3.1",
@@ -6127,7 +6158,7 @@
     "end_page": "43",
     "start_line": 9,
     "end_line": 10,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "last_updated": "2026-07-27",
     "fidelity": "verified",
@@ -6156,6 +6187,20 @@
     "id": "Chapter3/Example3.1.2",
     "type": "example",
     "title": "End(V) as a semisimple representation",
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "All eight public declarations now have declaration documentation; the finite-basis bijectivity theorem retains a narrow documented unused-Fintype exception. The provider elaborates without warnings, has no redundant imports, and passes all 16 default declaration linters plus docBlameThm."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The evaluation equivalences and semisimplicity proof use only Mathlib APIs. The provider imports no project module, and one transitively redundant basis import was removed."
+    },
     "stage3_3": {
       "status": "complete",
       "section": "3.1",
@@ -6176,7 +6221,7 @@
     "end_page": "43",
     "start_line": 11,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "last_updated": "2026-07-22",
     "fidelity": "verified",
@@ -6208,6 +6253,22 @@
     "id": "Chapter3/Remark3.1.3",
     "type": "remark",
     "title": "Canonical decomposition of semisimple representations via Schur's lemma",
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The evaluation API now documents every public declaration and omits unnecessary section assumptions from theorem signatures; the finite direct-sum injectivity result retains one narrow documented unused-Fintype exception. All 17 public and 16 generated declarations pass all 16 default declaration linters plus docBlameThm, with warning-free elaboration and no redundant imports."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Corollary2.3.10"
+      ],
+      "basis": "The irreducible evaluation equivalence invokes Etingof.Corollary_2_3_10 from the earlier Schur corollary; all other dependencies are Mathlib. Three transitively redundant Mathlib imports were removed."
+    },
     "stage3_3": {
       "status": "complete",
       "section": "3.1",
@@ -6237,7 +6298,7 @@
     "end_page": "43",
     "start_line": 13,
     "end_line": 13,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "sorry_free": true,
     "notes": "The file constructs the correct evaluation map and canonical-equivalence API; evalDirectSum_injective, evalDirectSum_surjective, and the public evalDirectSumEquiv all elaborate and import cleanly (regression #7502 fixed).",
     "fidelity": "verified",
@@ -6274,6 +6335,23 @@
     "id": "Chapter3/Discussion_before_Proposition3.1.4",
     "type": "discussion",
     "title": "Transition to classification of subrepresentations",
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "not_applicable",
+      "source_review": "not_applicable",
+      "imports": "not_applicable",
+      "declaration_lints": "not_applicable",
+      "result": "This organizational transition has no Lean provider or standalone proof to polish."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This organizational transition has no Lean provider or standalone mathematical dependency; its conservative incoming edge was reading order only."
+    },
     "stage3_3": {
       "status": "complete",
       "section": "3.1",
@@ -6286,7 +6364,7 @@
     "end_page": "44",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage_swept": {
       "wave": 1,
       "result": "non_formalizable"
@@ -6316,6 +6394,20 @@
     "id": "Chapter3/Proposition3.1.4",
     "type": "proposition",
     "title": "Classification of subrepresentations in semisimple representations",
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The five public declarations and three private proof helpers were reviewed: deprecated push_neg calls were replaced, unnecessary decidability assumptions were omitted, and four mathematically essential finite-family hypotheses retain narrow documented linter exceptions. All public and generated declarations pass all 16 default declaration linters plus docBlameThm, with warning-free elaboration and no redundant imports."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The classification and block-matrix theorems use only Mathlib isotypic-component and module-length APIs. The provider imports no project module, and four transitively redundant Mathlib imports were removed."
+    },
     "stage3_3": {
       "status": "complete",
       "section": "3.1",
@@ -6334,7 +6426,7 @@
     "end_page": "44",
     "start_line": 3,
     "end_line": 8,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_decl": "Etingof.subrepresentation_of_semisimple, Etingof.subrepresentation_of_semisimple_matrix, Etingof.Remark315.subrepresentation_blocks",
@@ -6377,6 +6469,22 @@
     "id": "Chapter3/Remark3.1.5",
     "type": "remark",
     "title": "Generalization of Proposition 3.1.4 to non-algebraically-closed fields",
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The matrix API now documents every public declaration and omits unnecessary simplicity and decidability assumptions; two finite-family classification results retain narrow documented linter exceptions. All 10 public and 15 generated declarations pass all 16 default declaration linters plus docBlameThm, with warning-free elaboration and no redundant imports."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Proposition3.1.4"
+      ],
+      "basis": "The generalization imports and uses the Proposition 3.1.4 provider. Two transitively redundant Mathlib imports were removed, leaving that single focused project import."
+    },
     "stage3_3": {
       "status": "complete",
       "section": "3.1",
@@ -6399,7 +6507,7 @@
     "end_page": "45",
     "start_line": 9,
     "end_line": 2,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "sorry_free": true,
     "coverage": "covered_full",
     "last_updated": "2026-07-27",
@@ -6437,6 +6545,22 @@
     "id": "Chapter3/Discussion_alternative_proof_of_Proposition3.1.4",
     "type": "discussion",
     "title": "Alternative proof of Proposition 3.1.4 using Hom decomposition",
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The Hom-space API now documents every public declaration and omits unnecessary section and decidability assumptions; five componentwise finite-family results retain narrow documented linter exceptions. All 13 public and 22 generated declarations pass all 16 default declaration linters plus docBlameThm, with warning-free elaboration and no redundant imports."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Remark3.1.3"
+      ],
+      "basis": "The natural Hom decomposition is built from Remark 3.1.3's canonical evaluation equivalence; the other direct import is focused Mathlib faithfully-flat infrastructure. Both imports are transitively irredundant."
+    },
     "stage3_3": {
       "status": "complete",
       "section": "3.1",
@@ -6463,7 +6587,7 @@
     "end_page": "45",
     "start_line": 3,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "Formalized in Chapter3/Discussion_alternative_proof_of_Proposition3_1_4.lean, now imported by the Chapter3 umbrella. The displayed natural Hom-space decomposition is homPiHomEquiv with its exact post-composition formula and naturality. injective_iff, surjective_iff, and bijective_iff give every componentwise criterion. restrictScalars_eq is the block-diagonal factorization, and mem_ker_iff_components records the kernel calculation used after Lemma 3.1.6. No sorry or project axioms.",
@@ -6521,6 +6645,20 @@
     "id": "Chapter3/Lemma3.1.6",
     "type": "lemma",
     "title": "Surjective map from direct sum of irreducibles splits",
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "verified",
+      "result": "The intentionally proof-implicit surjectivity hypothesis is named accordingly, eliminating the final provider warning. All six public and five generated declarations pass all 16 default declaration linters plus docBlameThm, with warning-free elaboration and no redundant imports."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "The maximal independent-subfamily and splitting argument uses only Mathlib's simple-module API. Three transitively redundant Mathlib imports were removed, leaving one focused import."
+    },
     "stage3_3": {
       "status": "complete",
       "section": "3.1",
@@ -6539,7 +6677,7 @@
     "end_page": "45",
     "start_line": 13,
     "end_line": 16,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage": "covered_full",
     "fidelity": "verified",
     "sorry_free": true,
@@ -6571,6 +6709,28 @@
     "id": "Chapter3/Discussion_after_Lemma3.1.6",
     "type": "discussion",
     "title": "Completion of alternative proof of Proposition 3.1.4",
+    "stage3_5": {
+      "status": "complete",
+      "section": "3.1",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "not_applicable",
+      "source_review": "not_applicable",
+      "imports": "not_applicable",
+      "declaration_lints": "not_applicable",
+      "result": "This covered-elsewhere discussion has no dedicated Lean provider; every cited declaration was included in the seven-provider Mathlib-quality audit."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.1",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Proposition3.1.4",
+        "Chapter3/Remark3.1.5",
+        "Chapter3/Discussion_alternative_proof_of_Proposition3.1.4",
+        "Chapter3/Lemma3.1.6"
+      ],
+      "basis": "This completion has no dedicated provider; its four covered-elsewhere claims use the audited Proposition 3.1.4, Remark 3.1.5, alternative-proof, and Lemma 3.1.6 declarations exactly."
+    },
     "stage3_3": {
       "status": "complete",
       "section": "3.1",
@@ -6590,7 +6750,7 @@
     "end_page": "45",
     "start_line": 17,
     "end_line": 22,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage_swept": {
       "wave": 1,
       "result": "covered_full"
