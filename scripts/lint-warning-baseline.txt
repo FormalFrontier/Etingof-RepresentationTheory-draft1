@@ -39,7 +39,6 @@ EtingofRepresentationTheory/Chapter3/Remark3_1_5.lean
 EtingofRepresentationTheory/Chapter3/Remark3_3_4.lean
 EtingofRepresentationTheory/Chapter3/Remark3_8_6.lean
 EtingofRepresentationTheory/Chapter3/Theorem3_10_2.lean
-EtingofRepresentationTheory/Chapter3/Theorem3_2_2.lean
 EtingofRepresentationTheory/Chapter3/Theorem3_3_1.lean
 EtingofRepresentationTheory/Chapter3/Theorem3_5_4.lean
 EtingofRepresentationTheory/Chapter3/Theorem3_8_1.lean
