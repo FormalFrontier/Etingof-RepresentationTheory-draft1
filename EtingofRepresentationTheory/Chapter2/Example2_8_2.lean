@@ -49,3 +49,8 @@ def edge30 : (3 : Fin 4) ⟶ (0 : Fin 4) := by
   simpa using Unit.unit
 
 end Etingof.Example_2_8_2
+
+-- The leaf names follow Mathlib conventions; the underscore comes solely from the stable
+-- book-number namespace `Example_2_8_2`, which is part of this project's public API.
+attribute [nolint defsWithUnderscore]
+  Etingof.Example_2_8_2.edge01 Etingof.Example_2_8_2.edge21 Etingof.Example_2_8_2.edge30

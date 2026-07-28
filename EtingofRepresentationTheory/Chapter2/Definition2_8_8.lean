@@ -1,5 +1,4 @@
 import EtingofRepresentationTheory.Chapter2.Definition2_8_3
-import Mathlib.Algebra.Module.Submodule.Basic
 import Mathlib.Algebra.Module.Submodule.LinearMap
 
 /-!
