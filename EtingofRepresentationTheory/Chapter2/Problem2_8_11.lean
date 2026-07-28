@@ -1,18 +1,8 @@
 import Mathlib.RingTheory.MvPolynomial.Homogeneous
 import Mathlib.RingTheory.MvPolynomial.Basic
-import Mathlib.LinearAlgebra.ExteriorPower.Basic
 import Mathlib.LinearAlgebra.ExteriorPower.Basis
-import Mathlib.RingTheory.PowerSeries.Basic
 import Mathlib.RingTheory.PowerSeries.WellKnown
 import Mathlib.Algebra.Order.Antidiag.FinsuppEquiv
-import Mathlib.Combinatorics.Quiver.Path
-import Mathlib.Data.Matrix.Mul
-import Mathlib.Algebra.FreeAlgebra
-import Mathlib.SetTheory.Cardinal.Finite
-import Mathlib.Data.Finite.Sigma
-import Mathlib.Data.Finite.Prod
-import Mathlib.Algebra.DirectSum.Module
-import Mathlib.LinearAlgebra.Finsupp.Supported
 import EtingofRepresentationTheory.Chapter2.Definition2_8_4
 
 /-!
@@ -165,7 +155,16 @@ theorem card_words_length (m n : ℕ) :
 `k⟨x₁,…,x_m⟩` is `freeAlgebraDegreePiece`, and its dimension is `mⁿ`. -/
 theorem finrank_freeAlgebra_degreePiece (k : Type*) [Field k] (m n : ℕ) :
     Module.finrank k (freeAlgebraDegreePiece k m n) = m ^ n := by
-  sorry
+  let b : Module.Basis {w : FreeMonoid (Fin m) // w.length = n} k
+      (freeAlgebraDegreePiece k m n) :=
+    Finsupp.basisSingleOne.map
+      (Finsupp.supportedEquivFinsupp (R := k)
+        {w : FreeMonoid (Fin m) | w.length = n}).symm
+  calc
+    Module.finrank k (freeAlgebraDegreePiece k m n) =
+        Nat.card {w : FreeMonoid (Fin m) // w.length = n} :=
+      Module.finrank_eq_nat_card_basis b
+    _ = m ^ n := card_words_length m n
 
 /-- **(b)**, generating-function form: the Hilbert series of `k⟨x₁,…,x_m⟩` is `1/(1-mt)`,
 expressed as the power-series identity `(1 - m·t) · h_A = 1`. -/
@@ -217,7 +216,7 @@ noncomputable def pathAlgebraDegreePiece (k : Type*) [Field k] (Q : Type*) [Quiv
 
 /-- The adjacency matrix of a finite quiver `Q`: the `(i,j)`-entry is the number of arrows
 `i ⟶ j`. -/
-def adjacencyMatrix (Q : Type*) [Quiver Q] [Fintype Q] [∀ i j : Q, Fintype (i ⟶ j)] :
+def adjacencyMatrix (Q : Type*) [Quiver Q] [∀ i j : Q, Fintype (i ⟶ j)] :
     Matrix Q Q ℕ :=
   fun i j => Fintype.card (i ⟶ j)
 
@@ -301,10 +300,30 @@ theorem dim_pathAlgebra_degree (Q : Type*) [Quiver Q] [Fintype Q] [DecidableEq Q
 length-`n` oriented paths, so its dimension is their total number. -/
 theorem finrank_pathAlgebra_degree (k : Type*) [Field k]
     (Q : Type*) [Quiver Q] [Fintype Q] [DecidableEq Q]
-    [∀ i j : Q, Fintype (i ⟶ j)] (n : ℕ) :
+    [∀ i j : Q, Finite (i ⟶ j)] (n : ℕ) :
     Module.finrank k (pathAlgebraDegreePiece k Q n) =
       ∑ i : Q, ∑ j : Q, Nat.card {p : Quiver.Path i j // p.length = n} := by
-  sorry
+  let T := Σ i : Q, Σ j : Q, {p : Quiver.Path i j // p.length = n}
+  let e : {p : QuiverPathIndex Q // p.2.2.length = n} ≃ T := {
+    toFun p := ⟨p.1.1, p.1.2.1, ⟨p.1.2.2, p.2⟩⟩
+    invFun p := ⟨⟨p.1, p.2.1, p.2.2.1⟩, p.2.2.2⟩
+    left_inv p := by rcases p with ⟨⟨i, j, p⟩, hp⟩; rfl
+    right_inv p := by rcases p with ⟨i, j, p, hp⟩; rfl }
+  let b : Module.Basis {p : QuiverPathIndex Q // p.2.2.length = n} k
+      (pathAlgebraDegreePiece k Q n) :=
+    Finsupp.basisSingleOne.map
+      (Finsupp.supportedEquivFinsupp (R := k)
+        {p : QuiverPathIndex Q | p.2.2.length = n}).symm
+  calc
+    Module.finrank k (pathAlgebraDegreePiece k Q n) =
+        Nat.card {p : QuiverPathIndex Q // p.2.2.length = n} :=
+      Module.finrank_eq_nat_card_basis b
+    _ = Nat.card T := Nat.card_congr e
+    _ = ∑ i : Q, ∑ j : Q, Nat.card {p : Quiver.Path i j // p.length = n} := by
+      rw [Nat.card_sigma]
+      apply Finset.sum_congr rfl
+      intro i _
+      rw [Nat.card_sigma]
 
 /-! ### (d), generating-function form
 
@@ -331,7 +350,7 @@ is the matrix `t M_Q` appearing in the book's answer. -/
 noncomputable def adjacencyPS : Matrix Q Q (PowerSeries k) :=
   (adjacencyMatrix Q).map fun a => C (a : k)
 
-omit [DecidableEq Q] in
+omit [Fintype Q] [DecidableEq Q] in
 @[simp]
 theorem adjacencyPS_apply (i j : Q) :
     adjacencyPS k Q i j = C ((adjacencyMatrix Q i j : ℕ) : k) :=
@@ -426,3 +445,12 @@ theorem hilbertSeries_pathAlgebra_adjacencyMatrix :
 end HilbertSeries
 
 end Etingof.Problem2_8_11
+
+-- The leaf names follow Mathlib conventions; the underscore comes solely from the stable
+-- book-number namespace `Problem2_8_11`, which is part of this project's public API.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_8_11.LocallyFiniteNatGrading.piece
+  Etingof.Problem2_8_11.hilbertSeries Etingof.Problem2_8_11.freeAlgebraWordEquiv
+  Etingof.Problem2_8_11.freeAlgebraDegreePiece Etingof.Problem2_8_11.pathAlgebraDegreePiece
+  Etingof.Problem2_8_11.adjacencyMatrix Etingof.Problem2_8_11.pathSuccEquiv
+  Etingof.Problem2_8_11.adjacencyPS Etingof.Problem2_8_11.resolvent

@@ -1,5 +1,6 @@
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Center
 
+
 /-!
 # The loop realization of the layer tower of `𝔤₄`
 
@@ -65,7 +66,6 @@ of the tower recursion. -/
 theorem lie_gone1_gone4 : ⁅gone k 1, gone k 4⁆ = (1 : k) • gzero k 2 := by
   rw [← lie_skew, lie_gone4_gone1, ← neg_smul, neg_neg]
 
-set_option linter.unnecessarySeqFocus false in
 /-- `⁅E₁₀-E₂₁, E₁₀+E₂₁⁆ = -2E₂₀`: bracketing the top `𝔤₀`-vector against `gone 3` lands back on
 the top `𝔤₁`-vector, with a factor `2`. This is the `oddTop` step of the tower recursion, and the
 source of one half of the `6`. -/
@@ -73,7 +73,7 @@ theorem lie_gzero2_gone3 : ⁅gzero k 2, gone k 3⁆ = (-2 : k) • gone k 4 := 
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
-      Matrix.sub_apply, Matrix.smul_apply] <;> ring
+      Matrix.sub_apply, Matrix.smul_apply] ; ring
 
 /-- `lie_gzero2_gone3` with the arguments in the order the `oddTop` step produces them. -/
 theorem lie_gone3_gzero2 : ⁅gone k 3, gzero k 2⁆ = (2 : k) • gone k 4 := by
@@ -245,8 +245,10 @@ theorem emb_eq_zero_iff (n : ℕ) (A : Matrix (Fin 3) (Fin 3) k) :
   ext a b
   simpa using hz a b
 
+/-- The degree-one matrix generator is nonzero. -/
 theorem gone_ne_zero (i : Fin 5) : gone k i ≠ 0 := (linearIndependent_gone k).ne_zero i
 
+/-- The degree-zero matrix generator is nonzero. -/
 theorem gzero_ne_zero (i : Fin 3) : gzero k i ≠ 0 := (linearIndependent_gzero k).ne_zero i
 
 /-- `6 ≠ 0` in a field where `2 ≠ 0` and `3 ≠ 0`. -/
@@ -352,16 +354,21 @@ def loopRev : LoopIdx → LoopIdx
   | .odd m i => .odd m i.rev
   | .even m i => .even m i.rev
 
+/-- The loop-index reversal formula for `loopRev_base`. -/
 @[simp] theorem loopRev_base : loopRev .base = .base := rfl
 
+/-- The loop-index reversal formula for `loopRev_odd`. -/
 @[simp] theorem loopRev_odd (m : ℕ) (i : Fin 5) : loopRev (.odd m i) = .odd m i.rev := rfl
 
+/-- The loop-index reversal formula for `loopRev_even`. -/
 @[simp] theorem loopRev_even (m : ℕ) (i : Fin 3) : loopRev (.even m i) = .even m i.rev := rfl
 
+/-- The loop-index reversal map is involutive. -/
 theorem loopRev_involutive : Function.Involutive loopRev := by
   intro I
   cases I <;> simp
 
+/-- The loop-index reversal map is injective. -/
 theorem loopRev_injective : Function.Injective loopRev := loopRev_involutive.injective
 
 /-- The scalar by which `gbar` scales the `I`-th member of `loopFam₄` against the graded basis
@@ -430,3 +437,8 @@ theorem linearIndependent_loopFam₄ (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) :
 end Fidelity
 
 end Etingof.Problem2_16_3
+
+-- The source-numbered exercise namespace and established API contain intentional underscores.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_16_3.loopRev
+  Etingof.Problem2_16_3.loopCoef

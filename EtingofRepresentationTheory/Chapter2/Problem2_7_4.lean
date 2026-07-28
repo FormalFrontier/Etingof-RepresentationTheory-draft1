@@ -1,17 +1,7 @@
-import EtingofRepresentationTheory.Chapter2.Proposition2_7_1
 import EtingofRepresentationTheory.Chapter2.FaithfulWeylModule
-import Mathlib.RingTheory.SimpleRing.Basic
 import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.RingTheory.TwoSidedIdeal.Lattice
-import Mathlib.Algebra.Algebra.Subalgebra.Basic
-import Mathlib.Algebra.CharP.Basic
-import Mathlib.LinearAlgebra.Basis.Basic
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-import Mathlib.FieldTheory.IsAlgClosed.Basic
 import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
 import Mathlib.Data.Nat.Prime.Factorial
-import Mathlib.LinearAlgebra.Dimension.Finrank
-import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.LinearAlgebra.Trace
 
 /-!
@@ -254,7 +244,7 @@ private lemma repr_adx_apply (a : WeylAlgebra k) (i j : ℕ) :
     cases j' with
     | zero =>
       rw [adx_monomial_zero, map_zero]
-      simp [Finsupp.single_apply, Prod.ext_iff]
+      simp [Prod.ext_iff]
     | succ n =>
       rw [adx_monomial_succ, map_smul, repr_monomial, Finsupp.smul_apply,
         Finsupp.single_apply, Finsupp.single_apply, smul_eq_mul]
@@ -285,7 +275,7 @@ private lemma repr_ady_apply (a : WeylAlgebra k) (i j : ℕ) :
     cases i' with
     | zero =>
       rw [ady_monomial_zero, map_zero]
-      simp [Finsupp.single_apply, Prod.ext_iff]
+      simp [Prod.ext_iff]
     | succ m =>
       rw [ady_monomial_succ, map_smul, repr_monomial, Finsupp.smul_apply,
         Finsupp.single_apply, Finsupp.single_apply, smul_eq_mul]
@@ -547,7 +537,7 @@ private lemma repr_adx_applyP (a : WeylAlgebra k) (i j : ℕ) :
     cases j' with
     | zero =>
       rw [adx_monomial_zero, map_zero]
-      simp [Finsupp.single_apply, Prod.ext_iff]
+      simp [Prod.ext_iff]
     | succ n =>
       rw [adx_monomial_succ, map_smul, repr_monomialP, Finsupp.smul_apply,
         Finsupp.single_apply, Finsupp.single_apply, smul_eq_mul]
@@ -578,7 +568,7 @@ private lemma repr_ady_applyP (a : WeylAlgebra k) (i j : ℕ) :
     cases i' with
     | zero =>
       rw [ady_monomial_zero, map_zero]
-      simp [Finsupp.single_apply, Prod.ext_iff]
+      simp [Prod.ext_iff]
     | succ m =>
       rw [ady_monomial_succ, map_smul, repr_monomialP, Finsupp.smul_apply,
         Finsupp.single_apply, Finsupp.single_apply, smul_eq_mul]
@@ -874,7 +864,7 @@ theorem exists_normalForm (k : Type*) [Field k] [IsAlgClosed k] (p : ℕ)
     induction hz using Submodule.span_induction with
     | mem u hu =>
         obtain ⟨i, rfl⟩ := hu
-        show WeylAlgebra.x k • w (i : ℕ) ∈ Wk
+        change WeylAlgebra.x k • w (i : ℕ) ∈ Wk
         rw [hwv, ← mul_smul, ← pow_succ', ← hwv]
         exact hall_mem ((i : ℕ) + 1)
     | zero => rw [smul_zero]; exact Wk.zero_mem
@@ -886,7 +876,7 @@ theorem exists_normalForm (k : Type*) [Field k] [IsAlgClosed k] (p : ℕ)
     induction hz using Submodule.span_induction with
     | mem u hu =>
         obtain ⟨i, rfl⟩ := hu
-        show WeylAlgebra.y k • w (i : ℕ) ∈ Wk
+        change WeylAlgebra.y k • w (i : ℕ) ∈ Wk
         have hNexp : N (w (i : ℕ)) = WeylAlgebra.y k • w (i : ℕ) - lam • w (i : ℕ) := by
           rw [hN, LinearMap.sub_apply, LinearMap.smul_apply, Module.End.one_apply,
             Algebra.lsmul_apply]

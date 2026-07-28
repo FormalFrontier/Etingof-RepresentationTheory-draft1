@@ -19,9 +19,9 @@ The Chapter 2 file proves:
 - the bound is sharp, by constructing irreducible modules of dimension `p` (and,
   more generally, the standard modules of dimensions `1` through `p`).
 
-These results are source-present, but the current files do not pass a fresh source
-check; regression #7531 tracks restoring the existing partial endpoints. That
-compiler regression is separate from the missing classification below.
+These results are source-present and pass a fresh source check; regression #7531 restored the
+existing partial endpoints. That completed compiler repair is separate from the missing
+classification below.
 
 It does not classify all irreducible modules up to isomorphism, as the exercise asks.
 The source is `blobs/Chapter2/Problem2.16.4.md`; no later source item in the current

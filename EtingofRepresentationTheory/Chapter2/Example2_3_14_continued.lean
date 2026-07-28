@@ -1,5 +1,4 @@
 import Mathlib.RepresentationTheory.Basic
-import Mathlib.LinearAlgebra.GeneralLinearGroup.Basic
 
 /-!
 # Example 2.3.14 (continued): Group Algebra Representations
@@ -37,6 +36,9 @@ that `G` is a group) with `LinearMap.GeneralLinearGroup.generalLinearEquiv`.
 
 namespace Etingof.Example_2_3_14_continued
 
+/- The numbered namespace is part of the project's stable source-traceability API. The
+`defsWithUnderscore` linter otherwise blames definitions whose own basenames are conventional. -/
+
 open scoped MonoidAlgebra
 
 variable (k : Type*) [CommRing k] (G : Type*) [Group G]
@@ -50,6 +52,8 @@ noncomputable def repEquivAlgHom :
     Representation k G V ≃ (k[G] →ₐ[k] Module.End k V) :=
   MonoidAlgebra.lift k (Module.End k V) G
 
+/-- Under `repEquivAlgHom`, the group element `g` acts as the image of its basis element in
+the group algebra. -/
 @[simp]
 theorem repEquivAlgHom_apply_single (ρ : Representation k G V) (g : G) :
     repEquivAlgHom k G V ρ (MonoidAlgebra.single g 1) = ρ g := by
@@ -73,6 +77,8 @@ def repEquivGL :
     (MulEquiv.monoidHomCongrRightEquiv
       (LinearMap.GeneralLinearGroup.generalLinearEquiv k V))
 
+/-- The linear automorphism supplied by `repEquivGL` has the same action as the original
+representation. -/
 @[simp]
 theorem repEquivGL_apply (ρ : Representation k G V) (g : G) (v : V) :
     repEquivGL k G V ρ g v = ρ g v := rfl
@@ -81,5 +87,7 @@ theorem repEquivGL_apply (ρ : Representation k G V) (g : G) (v : V) :
 `ρ` itself: the data really is "the same thing", not an arbitrary relabelling. -/
 theorem repEquivGL_symm_apply (f : G →* (V ≃ₗ[k] V)) (g : G) (v : V) :
     (repEquivGL k G V).symm f g v = f g v := rfl
+
+attribute [nolint defsWithUnderscore] repEquivAlgHom homUnitsEquiv repEquivGL
 
 end Etingof.Example_2_3_14_continued

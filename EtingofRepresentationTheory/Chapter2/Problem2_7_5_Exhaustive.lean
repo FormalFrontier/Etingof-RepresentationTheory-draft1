@@ -1,4 +1,3 @@
-import Mathlib
 import EtingofRepresentationTheory.Chapter2.Problem2_7_5_Iso
 import EtingofRepresentationTheory.Chapter2.Problem2_7_5_FamilySimple
 
@@ -93,14 +92,16 @@ theorem nonempty_linearEquiv_of_intertwines_generators
       rw [QWeyl.qWeylMono_mul]; norm_num [QWeyl.qWeylMono_zero]
     have h2 : QWeyl.qWeylMono q (-1, 0) * QWeyl.qWeylMono q (1, 0) = 1 := by
       rw [QWeyl.qWeylMono_mul]; norm_num [QWeyl.qWeylMono_zero]
-    exact fun f => smul_inv_of_smul E _ _ h1 h2 hx f
+    exact fun f =>
+      smul_inv_of_smul (A := qWeylAlgebra ℂ q) (W := W) (V := V) E _ _ h1 h2 hx f
   have hyinv : ∀ f : W,
       E (QWeyl.qWeylMono q (0, -1) • f) = QWeyl.qWeylMono q (0, -1) • E f := by
     have h1 : QWeyl.qWeylMono q (0, 1) * QWeyl.qWeylMono q (0, -1) = 1 := by
       rw [QWeyl.qWeylMono_mul]; norm_num [QWeyl.qWeylMono_zero]
     have h2 : QWeyl.qWeylMono q (0, -1) * QWeyl.qWeylMono q (0, 1) = 1 := by
       rw [QWeyl.qWeylMono_mul]; norm_num [QWeyl.qWeylMono_zero]
-    exact fun f => smul_inv_of_smul E _ _ h1 h2 hy f
+    exact fun f =>
+      smul_inv_of_smul (A := qWeylAlgebra ℂ q) (W := W) (V := V) E _ _ h1 h2 hy f
   -- The four generators of the concrete subalgebra `qWeylAlgebra ℂ q`, read inside the
   -- subalgebra itself, generate it over `ℂ`.
   have hpre : (((↑) : qWeylAlgebra ℂ q → Module.End ℂ (QWeylModule ℂ)) ⁻¹'
@@ -258,4 +259,3 @@ theorem exists_unique_fam_linearEquiv
 end Exhaustive
 
 end Etingof.Problem2_7_5
-

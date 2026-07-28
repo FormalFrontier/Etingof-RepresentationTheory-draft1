@@ -1,5 +1,6 @@
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Layers
 
+
 /-!
 # Problem 2.16.3(b): the centre of `𝔤₄` versus the twisted loop realization
 
@@ -129,11 +130,14 @@ section Gbar
 
 variable {k : Type*} [Field k]
 
-@[simp] theorem gbar_proj (a : FreeLieAlgebra k (Fin 2)) :
+/-- The loop realization composed with the quotient projection is the free realization. -/
+theorem gbar_proj (a : FreeLieAlgebra k (Fin 2)) :
     gbar k (proj k 4 a) = matHom₄ k a := rfl
 
+/-- The loop realization sends x̄ to the degree-one loop generator. -/
 @[simp] theorem gbar_xb : gbar k (xb k 4) = NX k := matHom₄_x k
 
+/-- The loop realization sends ȳ to the degree-zero loop generator. -/
 @[simp] theorem gbar_yb : gbar k (yb k 4) = NY k := matHom₄_y k
 
 /-- `gbar` is a Lie algebra map, not merely `k`-linear: brackets are computed on representatives,
@@ -143,6 +147,7 @@ theorem gbar_lie (u v : g k 4) : gbar k ⁅u, v⁆ = ⁅gbar k u, gbar k v⁆ :=
   obtain ⟨b, rfl⟩ := proj_surjective k 4 v
   rw [← LieHom.map_lie, gbar_proj, gbar_proj, gbar_proj, LieHom.map_lie]
 
+/-- Membership statement for `gbar_mem_loopPos`. -/
 theorem gbar_mem_loopPos (u : g k 4) : gbar k u ∈ loopPos k := by
   obtain ⟨a, rfl⟩ := proj_surjective k 4 u
   exact range_matHom₄_le_loopPos k ⟨a, rfl⟩

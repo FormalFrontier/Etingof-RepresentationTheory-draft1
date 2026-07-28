@@ -1,7 +1,7 @@
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3
 import Mathlib.Algebra.Lie.BaseChange
-import Mathlib.Algebra.MonoidAlgebra.Module
 import Mathlib.Algebra.DirectSum.Decomposition
+
 
 /-!
 # The `ℕ²`-bidegree grading on the free Lie algebra `FreeLieAlgebra k (Fin 2)`
@@ -60,13 +60,16 @@ abbrev degAlg : Type _ := AddMonoidAlgebra k (ℕ × ℕ)
 /-- The monomial `s^p.1 t^p.2` of `degAlg k = k[ℕ × ℕ]`. -/
 noncomputable def degMon (p : ℕ × ℕ) : degAlg k := AddMonoidAlgebra.single p 1
 
+/-- Coefficient or grading formula for `degMon_mul`. -/
 theorem degMon_mul (p q : ℕ × ℕ) : degMon k p * degMon k q = degMon k (p + q) := by
   simp [degMon, AddMonoidAlgebra.single_mul_single]
 
 /-- The bidegree of the `i`-th generator: `x` has bidegree `(1, 0)` and `y` has `(0, 1)`. -/
 def genDeg : Fin 2 → ℕ × ℕ := ![(1, 0), (0, 1)]
 
+/-- The zero case of `genDeg`. -/
 @[simp] theorem genDeg_zero : genDeg 0 = (1, 0) := rfl
+/-- The value of `genDeg` at one. -/
 @[simp] theorem genDeg_one : genDeg 1 = (0, 1) := rfl
 
 /-- The scaling homomorphism `u ↦ s^(deg_x u) t^(deg_y u) ⊗ u`, obtained from the universal
@@ -75,6 +78,7 @@ noncomputable def scaleHom :
     FreeLieAlgebra k (Fin 2) →ₗ⁅k⁆ degAlg k ⊗[k] FreeLieAlgebra k (Fin 2) :=
   FreeLieAlgebra.lift k fun i => degMon k (genDeg i) ⊗ₜ[k] FreeLieAlgebra.of k i
 
+/-- The scaling homomorphism formula for `scaleHom_of`. -/
 @[simp] theorem scaleHom_of (i : Fin 2) :
     scaleHom k (FreeLieAlgebra.of k i) = degMon k (genDeg i) ⊗ₜ[k] FreeLieAlgebra.of k i :=
   FreeLieAlgebra.lift_of_apply _ _
@@ -85,6 +89,7 @@ noncomputable def scaleHom :
 noncomputable def coeffAt (p : ℕ × ℕ) : degAlg k →ₗ[k] k :=
   Finsupp.lapply p ∘ₗ (AddMonoidAlgebra.coeffLinearEquiv k).toLinearMap
 
+/-- Coefficient or grading formula for `coeffAt_degMon`. -/
 theorem coeffAt_degMon (p q : ℕ × ℕ) :
     coeffAt k p (degMon k q) = if q = p then 1 else 0 := by
   classical
@@ -97,6 +102,7 @@ noncomputable def tCoeff (p : ℕ × ℕ) :
   (TensorProduct.lid k (FreeLieAlgebra k (Fin 2))).toLinearMap ∘ₗ
     TensorProduct.map (coeffAt k p) LinearMap.id
 
+/-- Coefficient or grading formula for `tCoeff_tmul`. -/
 @[simp] theorem tCoeff_tmul (p : ℕ × ℕ) (a : degAlg k) (u : FreeLieAlgebra k (Fin 2)) :
     tCoeff k p (a ⊗ₜ[k] u) = coeffAt k p a • u := rfl
 
@@ -105,6 +111,7 @@ noncomputable def homogProj (p : ℕ × ℕ) :
     FreeLieAlgebra k (Fin 2) →ₗ[k] FreeLieAlgebra k (Fin 2) :=
   tCoeff k p ∘ₗ (scaleHom k).toLinearMap
 
+/-- The homogeneous projection formula for `homogProj_apply`. -/
 theorem homogProj_apply (p : ℕ × ℕ) (u : FreeLieAlgebra k (Fin 2)) :
     homogProj k p u = tCoeff k p (scaleHom k u) := rfl
 
@@ -122,16 +129,20 @@ bracket monomials with `p.1` copies of `x` and `p.2` copies of `y`. -/
 noncomputable def freeDeg (p : ℕ × ℕ) : Submodule k (FreeLieAlgebra k (Fin 2)) :=
   Submodule.span k {u | IsBracketWord k p u}
 
+/-- A bracket word belongs to its indicated free homogeneous component. -/
 theorem subset_freeDeg {p : ℕ × ℕ} {u : FreeLieAlgebra k (Fin 2)} (h : IsBracketWord k p u) :
     u ∈ freeDeg k p :=
   Submodule.subset_span h
 
+/-- Membership statement for `of_mem_freeDeg`. -/
 theorem of_mem_freeDeg (i : Fin 2) :
     FreeLieAlgebra.of k i ∈ freeDeg k (genDeg i) :=
   subset_freeDeg k (.of i)
 
+/-- The corresponding generator belongs to its indicated homogeneous component. -/
 theorem x_mem_freeDeg : x k ∈ freeDeg k (1, 0) := of_mem_freeDeg k 0
 
+/-- The corresponding generator belongs to its indicated homogeneous component. -/
 theorem y_mem_freeDeg : y k ∈ freeDeg k (0, 1) := of_mem_freeDeg k 1
 
 /-- Bracket additivity of the bidegree. -/
@@ -150,6 +161,7 @@ theorem lie_mem_freeDeg {p q : ℕ × ℕ} {u v : FreeLieAlgebra k (Fin 2)}
 
 /-! ## `scaleHom` on homogeneous elements -/
 
+/-- The scaling homomorphism formula for `scaleHom_of_isBracketWord`. -/
 theorem scaleHom_of_isBracketWord {p : ℕ × ℕ} {u : FreeLieAlgebra k (Fin 2)}
     (h : IsBracketWord k p u) : scaleHom k u = degMon k p ⊗ₜ[k] u := by
   induction h with
@@ -157,6 +169,7 @@ theorem scaleHom_of_isBracketWord {p : ℕ × ℕ} {u : FreeLieAlgebra k (Fin 2)
   | @lie p q u v _ _ hu hv =>
       rw [LieHom.map_lie, hu, hv, LieAlgebra.ExtendScalars.bracket_tmul, degMon_mul]
 
+/-- The scaling homomorphism formula for `scaleHom_of_mem`. -/
 theorem scaleHom_of_mem {p : ℕ × ℕ} {u : FreeLieAlgebra k (Fin 2)} (h : u ∈ freeDeg k p) :
     scaleHom k u = degMon k p ⊗ₜ[k] u := by
   induction h using Submodule.span_induction with
@@ -173,10 +186,12 @@ theorem homogProj_of_mem {p q : ℕ × ℕ} {u : FreeLieAlgebra k (Fin 2)} (h : 
   rw [homogProj_apply, scaleHom_of_mem k h, tCoeff_tmul, coeffAt_degMon]
   split <;> simp
 
+/-- The homogeneous projection formula for `homogProj_self_of_mem`. -/
 theorem homogProj_self_of_mem {p : ℕ × ℕ} {u : FreeLieAlgebra k (Fin 2)}
     (h : u ∈ freeDeg k p) : homogProj k p u = u := by
   simp [homogProj_of_mem k h]
 
+/-- The homogeneous projection formula for `homogProj_eq_zero_of_mem`. -/
 theorem homogProj_eq_zero_of_mem {p q : ℕ × ℕ} {u : FreeLieAlgebra k (Fin 2)}
     (h : u ∈ freeDeg k p) (hpq : p ≠ q) : homogProj k q u = 0 := by
   simp [homogProj_of_mem k h, hpq]
@@ -212,6 +227,7 @@ theorem iSup_freeDeg : ⨆ p : ℕ × ℕ, freeDeg k p = ⊤ := by
   intro u _
   exact this (LieSubalgebra.mem_top u)
 
+/-- The homogeneous projection formula for `homogProj_mem`. -/
 theorem homogProj_mem (p : ℕ × ℕ) (u : FreeLieAlgebra k (Fin 2)) :
     homogProj k p u ∈ freeDeg k p := by
   have hu : u ∈ ⨆ q : ℕ × ℕ, freeDeg k q := by rw [iSup_freeDeg]; trivial
@@ -259,6 +275,7 @@ theorem homogProj_eq_zero_of_mem_iSup_ne {p : ℕ × ℕ} {u : FreeLieAlgebra k 
   | zero => simp
   | add v w _ _ hv hw => simp [hv, hw]
 
+/-- Direct-sum identity for `iSupIndep_freeDeg`. -/
 theorem iSupIndep_freeDeg : iSupIndep (freeDeg k) := by
   intro p
   rw [Submodule.disjoint_def]
@@ -280,11 +297,13 @@ Both defining relators are bihomogeneous — `⁅x, ⁅x, y⁆⁆` has bidegree 
 `ad(y)ⁿ⁺¹ x` has bidegree `(1, n + 1)` — and the Lie ideal generated by homogeneous elements
 is homogeneous. -/
 
+/-- The defining relator belongs to the indicated homogeneous component. -/
 theorem relator1_mem_freeDeg : ⁅x k, ⁅x k, y k⁆⁆ ∈ freeDeg k (2, 1) := by
   have hdeg : ((1, 0) + ((1, 0) + (0, 1)) : ℕ × ℕ) = (2, 1) := rfl
   exact hdeg ▸
     lie_mem_freeDeg k (x_mem_freeDeg k) (lie_mem_freeDeg k (x_mem_freeDeg k) (y_mem_freeDeg k))
 
+/-- The defining relator belongs to the indicated homogeneous component. -/
 theorem relator2_mem_freeDeg (n : ℕ) :
     (fun z => ⁅y k, z⁆)^[n + 1] (x k) ∈ freeDeg k (1, n + 1) := by
   induction n with
@@ -340,15 +359,19 @@ theorem homogProj_mem_relIdeal {n : ℕ} {u : FreeLieAlgebra k (Fin 2)} (hu : u 
 noncomputable def gDeg (n : ℕ) (p : ℕ × ℕ) : Submodule k (g k n) :=
   (freeDeg k p).map (proj k n).toLinearMap
 
+/-- Membership statement for `proj_mem_gDeg`. -/
 theorem proj_mem_gDeg {n : ℕ} {p : ℕ × ℕ} {u : FreeLieAlgebra k (Fin 2)} (hu : u ∈ freeDeg k p) :
     proj k n u ∈ gDeg k n p :=
   ⟨u, hu, rfl⟩
 
+/-- Membership in a quotient homogeneous component is characterized by a homogeneous lift. -/
 theorem mem_gDeg_iff {n : ℕ} {p : ℕ × ℕ} {a : g k n} :
     a ∈ gDeg k n p ↔ ∃ u ∈ freeDeg k p, proj k n u = a := Iff.rfl
 
+/-- The corresponding generator belongs to its indicated homogeneous component. -/
 theorem xb_mem_gDeg (n : ℕ) : xb k n ∈ gDeg k n (1, 0) := proj_mem_gDeg k (x_mem_freeDeg k)
 
+/-- The corresponding generator belongs to its indicated homogeneous component. -/
 theorem yb_mem_gDeg (n : ℕ) : yb k n ∈ gDeg k n (0, 1) := proj_mem_gDeg k (y_mem_freeDeg k)
 
 /-- Bracket additivity of the bidegree on `𝔤ₙ`. -/
@@ -367,19 +390,25 @@ noncomputable def gProj (n : ℕ) (p : ℕ × ℕ) : g k n →ₗ[k] g k n :=
       have : homogProj k p a ∈ relIdeal k n := homogProj_mem_relIdeal k ha p
       simpa using ((proj_eq_zero_iff k n _).2 this))
 
-@[simp] theorem gProj_proj (n : ℕ) (p : ℕ × ℕ) (u : FreeLieAlgebra k (Fin 2)) :
+/-- The graded projection formula for `gProj_proj`. -/
+theorem gProj_proj (n : ℕ) (p : ℕ × ℕ) (u : FreeLieAlgebra k (Fin 2)) :
     gProj k n p (proj k n u) = proj k n (homogProj k p u) := rfl
 
+/-- The graded projection formula for `gProj_of_mem`. -/
 theorem gProj_of_mem {n : ℕ} {p q : ℕ × ℕ} {a : g k n} (ha : a ∈ gDeg k n p) :
     gProj k n q a = if p = q then a else 0 := by
   obtain ⟨u, hu, rfl⟩ := ha
   change gProj k n q (proj k n u) = if p = q then proj k n u else 0
   rw [gProj_proj, homogProj_of_mem k hu]
-  split <;> simp
+  split
+  · simp
+  · rfl
 
+/-- The graded projection formula for `gProj_self_of_mem`. -/
 theorem gProj_self_of_mem {n : ℕ} {p : ℕ × ℕ} {a : g k n} (ha : a ∈ gDeg k n p) :
     gProj k n p a = a := by simp [gProj_of_mem k ha]
 
+/-- The graded projection formula for `gProj_mem`. -/
 theorem gProj_mem (n : ℕ) (p : ℕ × ℕ) (a : g k n) : gProj k n p a ∈ gDeg k n p := by
   obtain ⟨u, rfl⟩ := proj_surjective k n a
   rw [gProj_proj]
@@ -397,9 +426,11 @@ theorem gDeg_eq_span_image {n : ℕ} (p : ℕ × ℕ) {S : Set (g k n)} (hS : Su
     gDeg k n p = Submodule.span k (gProj k n p '' S) := by
   rw [← range_gProj k n p, ← Submodule.map_top, ← hS, Submodule.map_span]
 
+/-- The graded projection formula for `gProj_eq_zero_of_mem`. -/
 theorem gProj_eq_zero_of_mem {n : ℕ} {p q : ℕ × ℕ} {a : g k n} (ha : a ∈ gDeg k n p)
     (hpq : p ≠ q) : gProj k n q a = 0 := by simp [gProj_of_mem k ha, hpq]
 
+/-- Direct-sum identity for `iSup_gDeg`. -/
 theorem iSup_gDeg (n : ℕ) : ⨆ p : ℕ × ℕ, gDeg k n p = ⊤ := by
   have hmap : ⨆ p : ℕ × ℕ, gDeg k n p
       = (⨆ p : ℕ × ℕ, freeDeg k p).map (proj k n).toLinearMap :=
@@ -407,6 +438,7 @@ theorem iSup_gDeg (n : ℕ) : ⨆ p : ℕ × ℕ, gDeg k n p = ⊤ := by
   have hsurj : Function.Surjective ⇑(proj k n).toLinearMap := proj_surjective k n
   rw [hmap, iSup_freeDeg, Submodule.map_top, LinearMap.range_eq_top.2 hsurj]
 
+/-- The graded projection formula for `gProj_eq_zero_of_mem_iSup_ne`. -/
 theorem gProj_eq_zero_of_mem_iSup_ne {n : ℕ} {p : ℕ × ℕ} {a : g k n}
     (ha : a ∈ ⨆ q, ⨆ (_ : q ≠ p), gDeg k n q) : gProj k n p a = 0 := by
   induction ha using Submodule.iSup_induction' with
@@ -420,6 +452,7 @@ theorem gProj_eq_zero_of_mem_iSup_ne {n : ℕ} {p : ℕ × ℕ} {a : g k n}
   | zero => simp
   | add b c _ _ hb hc => simp [hb, hc]
 
+/-- Direct-sum identity for `iSupIndep_gDeg`. -/
 theorem iSupIndep_gDeg (n : ℕ) : iSupIndep (gDeg k n) := by
   intro p
   rw [Submodule.disjoint_def]
@@ -446,3 +479,19 @@ theorem aElt_mem_gDeg (n i : ℕ) : aElt k n i ∈ gDeg k n (1, i) := by
       simpa [Prod.ext_iff, add_comm] using lie_mem_gDeg k (yb_mem_gDeg k n) ih
 
 end Etingof.Problem2_16_3
+
+-- The source-numbered exercise namespace and established API contain intentional underscores.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_16_3.degAlg
+  Etingof.Problem2_16_3.degMon
+  Etingof.Problem2_16_3.genDeg
+  Etingof.Problem2_16_3.scaleHom
+  Etingof.Problem2_16_3.coeffAt
+  Etingof.Problem2_16_3.tCoeff
+  Etingof.Problem2_16_3.homogProj
+  Etingof.Problem2_16_3.freeDeg
+  Etingof.Problem2_16_3.freeDegDecomposition
+  Etingof.Problem2_16_3.relIdealHomog
+  Etingof.Problem2_16_3.gDeg
+  Etingof.Problem2_16_3.gProj
+  Etingof.Problem2_16_3.gDegDecomposition

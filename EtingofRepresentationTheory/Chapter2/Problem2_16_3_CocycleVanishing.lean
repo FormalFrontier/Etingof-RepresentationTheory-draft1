@@ -1,5 +1,6 @@
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3_CocycleRecurrence
 
+
 /-!
 # Problem 2.16.3(b): imaginary cocycles vanish in characteristic zero
 
@@ -468,6 +469,7 @@ noncomputable def gFourBasis : Module.Basis LoopIdx k (g k 4) :=
   Module.Basis.mk (linearIndependent_loopFam₄ (by norm_num) (by norm_num))
     span_range_loopFam₄_eq_top_charZero.ge
 
+/-- The basis vector is the corresponding lifted loop-family element. -/
 @[simp] theorem gFourBasis_apply (I : LoopIdx) : gFourBasis (k := k) I = loopFam₄ k I :=
   Module.Basis.mk_apply _ _ _
 
@@ -491,6 +493,7 @@ noncomputable def gbarLieEquiv : g k 4 ≃ₗ⁅k⁆ loopPos k where
     rw [gbar_loopSect (by norm_num) (by norm_num), coe_gbarL]
   right_inv := gbarL_loopSect (by norm_num) (by norm_num)
 
+/-- The Lie equivalence agrees pointwise with the loop realization. -/
 @[simp] theorem gbarLieEquiv_apply (u : g k 4) :
     gbarLieEquiv (k := k) u = gbarL k u := by
   change gbarL k u = gbarL k u
@@ -499,3 +502,8 @@ noncomputable def gbarLieEquiv : g k 4 ≃ₗ⁅k⁆ loopPos k where
 end Assembly
 
 end Etingof.Problem2_16_3
+
+-- The source-numbered exercise namespace and established API contain intentional underscores.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_16_3.gFourBasis
+  Etingof.Problem2_16_3.gbarLieEquiv

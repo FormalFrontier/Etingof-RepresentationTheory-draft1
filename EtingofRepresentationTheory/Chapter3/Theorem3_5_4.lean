@@ -1,14 +1,5 @@
-import Mathlib.RingTheory.Jacobson.Ideal
-import Mathlib.RingTheory.Jacobson.Semiprimary
-import Mathlib.RingTheory.Artinian.Module
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.RingTheory.Ideal.Quotient.Operations
-import Mathlib.FieldTheory.IsAlgClosed.Basic
-import Mathlib.Algebra.Algebra.Pi
 import EtingofRepresentationTheory.Chapter3.Definition3_5_1
 import EtingofRepresentationTheory.Chapter3.Theorem3_2_2
-import EtingofRepresentationTheory.Chapter3.Proposition3_5_3
 
 /-!
 # Theorem 3.5.4: Structure of Finite Dimensional Algebras Modulo Radical
@@ -64,7 +55,7 @@ theorem Etingof.structure_mod_radical (k : Type*) (A : Type u)
     -- If a ∈ ker φ, then a annihilates V_j, hence annihilates A/J, so a ∈ J.
     -- Thus a ∈ ⋂ maximal ideals = Rad A.
     intro a ha
-    show a ∈ Etingof.Radical A
+    change a ∈ Etingof.Radical A
     unfold Etingof.Radical
     rw [Ideal.jacobson_bot, Ring.jacobson_eq_sInf_isMaximal]
     simp only [Ideal.mem_sInf, Set.mem_setOf_eq]

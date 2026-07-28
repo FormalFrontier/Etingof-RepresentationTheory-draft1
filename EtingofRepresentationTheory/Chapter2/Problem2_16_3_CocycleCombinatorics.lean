@@ -1,5 +1,6 @@
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3_Cocycle
 
+
 /-!
 # Problem 2.16.3(b): combinatorics of imaginary-weight cocycles
 
@@ -102,6 +103,7 @@ private theorem lie_gone1_gone3_imaginary {k : Type*} [CommRing k] :
     simp [gone, gzero, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
       Matrix.sub_apply]
 
+/-- The bracket with the reversed degree-one generator. -/
 theorem lie_gone_rev {k : Type*} [CommRing k] (i : Fin 5) :
     ⁅gone k i, gone k i.rev⁆ = oddImaginaryCoeff k i • gzero k 1 := by
   fin_cases i
@@ -127,6 +129,7 @@ private theorem lie_gzero0_gzero2_imaginary {k : Type*} [CommRing k] :
     simp [gzero, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
       Matrix.sub_apply]
 
+/-- The bracket with the reversed degree-zero generator. -/
 theorem lie_gzero_rev {k : Type*} [CommRing k] (i : Fin 3) :
     ⁅gzero k i, gzero k i.rev⁆ = evenImaginaryCoeff k i • gzero k 1 := by
   fin_cases i
@@ -221,6 +224,7 @@ noncomputable def imaginaryFunctional
     loopPos k →ₗ[k] k :=
   (loopBasis k h2).constr k (imaginaryBasisValue s)
 
+/-- The imaginary functional on a loop-family vector. -/
 @[simp] theorem imaginaryFunctional_loopFam
     {k : Type*} [Field k] (h2 : (2 : k) ≠ 0) (s : ℕ → k) (I : LoopIdx) :
     imaginaryFunctional h2 s (loopFam k I) = imaginaryBasisValue s I := by
@@ -232,6 +236,7 @@ noncomputable def imaginaryCoboundary
     loopPos k → loopPos k → k :=
   fun a b => imaginaryFunctional h2 s ⁅a, b⁆
 
+/-- The imaginary coboundary is a two-coboundary. -/
 theorem isTwoCoboundary_imaginaryCoboundary
     {k : Type*} [Field k] (h2 : (2 : k) ≠ 0) (s : ℕ → k) :
     IsTwoCoboundary k (imaginaryCoboundary h2 s) :=
@@ -309,3 +314,12 @@ theorem HasImaginaryWeight.eq_zero_of_not_isImaginaryPair
   hc I J ((not_isImaginaryPair_iff I J).2 hIJ)
 
 end Etingof.Problem2_16_3
+
+-- The source-numbered exercise namespace and established API contain intentional underscores.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_16_3.IsImaginaryPair
+  Etingof.Problem2_16_3.oddImaginaryCoeff
+  Etingof.Problem2_16_3.evenImaginaryCoeff
+  Etingof.Problem2_16_3.imaginaryBasisValue
+  Etingof.Problem2_16_3.imaginaryFunctional
+  Etingof.Problem2_16_3.imaginaryCoboundary

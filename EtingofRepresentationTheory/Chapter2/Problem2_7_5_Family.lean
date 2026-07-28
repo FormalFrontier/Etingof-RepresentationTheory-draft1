@@ -1,6 +1,4 @@
-import Mathlib
 import EtingofRepresentationTheory.Chapter2.Problem2_7_5
-import EtingofRepresentationTheory.Chapter2.QWeylAlgebraUniversal
 
 /-!
 # Problem 2.7.5(c): the explicit family of irreducible `q`-Weyl modules
@@ -46,6 +44,7 @@ variable (q α β : ℂˣ) (N : ℕ) [NeZero N]
 (`k = 0`), otherwise `1`. -/
 noncomputable def wX (k : Fin N) : ℂ := if k = 0 then (α : ℂ) else 1
 
+/-- Every twisted-shift weight is nonzero because `α` is a unit. -/
 theorem wX_ne (k : Fin N) : wX α N k ≠ 0 := by
   unfold wX; split_ifs with h
   · exact α.ne_zero
@@ -64,12 +63,14 @@ noncomputable def Xinv : (Fin N → ℂ) →ₗ[ℂ] (Fin N → ℂ) where
   map_add' f g := by funext k; simp only [Pi.add_apply, smul_eq_mul]; ring
   map_smul' c f := by funext k; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; ring
 
+/-- The reverse twisted shift is a left inverse to the forward shift. -/
 theorem Xinv_Xlin : (Xinv α N).comp (Xlin α N) = LinearMap.id := by
   ext f k
   simp only [LinearMap.comp_apply, Xinv, Xlin, LinearMap.coe_mk, AddHom.coe_mk, LinearMap.id_coe,
     id]
   rw [add_sub_cancel_right k 1, smul_smul, inv_mul_cancel₀ (wX_ne α N (k + 1)), one_smul]
 
+/-- The forward twisted shift is a left inverse to the reverse shift. -/
 theorem Xlin_Xinv : (Xlin α N).comp (Xinv α N) = LinearMap.id := by
   ext f k
   simp only [LinearMap.comp_apply, Xinv, Xlin, LinearMap.coe_mk, AddHom.coe_mk, LinearMap.id_coe,
@@ -83,12 +84,14 @@ noncomputable def Xunit : (Module.End ℂ (Fin N → ℂ))ˣ where
   val_inv := Xlin_Xinv α N
   inv_val := Xinv_Xlin α N
 
+/-- The endomorphism underlying `Xunit` is the twisted shift `Xlin`. -/
 @[simp] theorem Xunit_val : (Xunit α N : Module.End ℂ (Fin N → ℂ)) = Xlin α N := rfl
 
 /-- The diagonal weight of `y` at index `k`: `β·qᵏ`. -/
 noncomputable def wY (k : Fin N) : ℂ := (β : ℂ) * (q : ℂ) ^ (k : ℕ)
 
 omit [NeZero N] in
+/-- Every diagonal `y`-weight is nonzero because both `q` and `β` are units. -/
 theorem wY_ne (k : Fin N) : wY q β N k ≠ 0 :=
   mul_ne_zero β.ne_zero (pow_ne_zero _ q.ne_zero)
 
@@ -105,6 +108,7 @@ noncomputable def Yinv : (Fin N → ℂ) →ₗ[ℂ] (Fin N → ℂ) where
   map_smul' c f := by funext k; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; ring
 
 omit [NeZero N] in
+/-- The inverse diagonal operator is a left inverse to `Ylin`. -/
 theorem Yinv_Ylin : (Yinv q β N).comp (Ylin q β N) = LinearMap.id := by
   ext f k
   simp only [LinearMap.comp_apply, Yinv, Ylin, LinearMap.coe_mk, AddHom.coe_mk, LinearMap.id_coe,
@@ -112,6 +116,7 @@ theorem Yinv_Ylin : (Yinv q β N).comp (Ylin q β N) = LinearMap.id := by
   rw [smul_smul, inv_mul_cancel₀ (wY_ne q β N k), one_smul]
 
 omit [NeZero N] in
+/-- The diagonal operator `Ylin` is a left inverse to its inverse operator. -/
 theorem Ylin_Yinv : (Ylin q β N).comp (Yinv q β N) = LinearMap.id := by
   ext f k
   simp only [LinearMap.comp_apply, Yinv, Ylin, LinearMap.coe_mk, AddHom.coe_mk, LinearMap.id_coe,
@@ -125,6 +130,8 @@ noncomputable def Yunit : (Module.End ℂ (Fin N → ℂ))ˣ where
   val_inv := Ylin_Yinv q β N
   inv_val := Yinv_Ylin q β N
 
+omit [NeZero N] in
+/-- The endomorphism underlying `Yunit` is the diagonal operator `Ylin`. -/
 @[simp] theorem Yunit_val : (Yunit q β N : Module.End ℂ (Fin N → ℂ)) = Ylin q β N := rfl
 
 /-! ### The generator actions on the standard basis -/
@@ -362,3 +369,12 @@ theorem famModule_y_pow_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
 end Family
 
 end Etingof.Problem2_7_5
+
+-- The leaf names follow Mathlib conventions; the underscores come solely from the
+-- book-number namespace `Problem2_7_5`, which is part of this project's public API.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_7_5.wX Etingof.Problem2_7_5.Xlin
+  Etingof.Problem2_7_5.Xinv Etingof.Problem2_7_5.Xunit
+  Etingof.Problem2_7_5.wY Etingof.Problem2_7_5.Ylin
+  Etingof.Problem2_7_5.Yinv Etingof.Problem2_7_5.Yunit
+  Etingof.Problem2_7_5.famModule

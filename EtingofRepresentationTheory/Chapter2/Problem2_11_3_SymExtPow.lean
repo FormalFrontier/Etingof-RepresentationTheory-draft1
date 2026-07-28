@@ -1,4 +1,8 @@
-import Mathlib
+import Mathlib.LinearAlgebra.Determinant
+import Mathlib.LinearAlgebra.ExteriorAlgebra.Basis
+import Mathlib.LinearAlgebra.ExteriorPower.Basis
+import Mathlib.LinearAlgebra.PiTensorProduct.Basis
+import Mathlib.LinearAlgebra.SymmetricAlgebra.Basis
 
 /-!
 # Problem 2.11.3(d)–(g): symmetric and exterior powers
@@ -74,6 +78,7 @@ variable {k V}
 def permAct {n : ℕ} (σ : Equiv.Perm (Fin n)) : TensorPow k V n ≃ₗ[k] TensorPow k V n :=
   PiTensorProduct.reindex k (fun _ : Fin n => V) σ
 
+/-- Permuting a pure tensor reindexes its factors by the inverse permutation. -/
 @[simp]
 lemma permAct_tprod {n : ℕ} (σ : Equiv.Perm (Fin n)) (f : Fin n → V) :
     permAct σ (PiTensorProduct.tprod k f) = PiTensorProduct.tprod k fun i => f (σ.symm i) :=
@@ -105,6 +110,7 @@ abbrev ExtPow (n : ℕ) : Type _ := TensorPow k V n ⧸ extRelSubmodule k V n
 def symTprod (n : ℕ) : MultilinearMap k (fun _ : Fin n => V) (SymPow k V n) :=
   (symRelSubmodule k V n).mkQ.compMultilinearMap (PiTensorProduct.tprod k)
 
+/-- The canonical symmetric tensor map is the quotient map applied to a pure tensor. -/
 @[simp]
 lemma symTprod_apply {n : ℕ} (f : Fin n → V) :
     symTprod k V n f = (symRelSubmodule k V n).mkQ (PiTensorProduct.tprod k f) := rfl
@@ -116,12 +122,14 @@ section Basic
 variable {k : Type*} [CommRing k] {V W : Type*}
   [AddCommGroup V] [Module k V] [AddCommGroup W] [Module k W]
 
+/-- The identity permutation fixes every tensor. -/
 @[simp]
 lemma permAct_one {n : ℕ} (T : TensorPow k V n) : permAct (1 : Equiv.Perm (Fin n)) T = T := by
   rw [permAct, show (1 : Equiv.Perm (Fin n)) = Equiv.refl (Fin n) from rfl,
     PiTensorProduct.reindex_refl]
   rfl
 
+/-- The permutation action respects multiplication of permutations. -/
 lemma permAct_mul {n : ℕ} (σ τ : Equiv.Perm (Fin n)) (T : TensorPow k V n) :
     permAct (σ * τ) T = permAct σ (permAct τ T) := by
   rw [permAct, permAct, permAct, Equiv.Perm.mul_def, ← PiTensorProduct.reindex_reindex]
@@ -147,6 +155,7 @@ def extTprod (k : Type*) [CommRing k] (V : Type*) [AddCommGroup V] [Module k V] 
   map_eq_zero_of_eq' f i j hf hij := by
     simpa using (Submodule.Quotient.mk_eq_zero _).2 (tprod_mem_extRelSubmodule f hij hf)
 
+/-- The canonical alternating tensor map is the quotient map applied to a pure tensor. -/
 @[simp]
 lemma extTprod_apply {n : ℕ} (f : Fin n → V) :
     extTprod k V n f = (extRelSubmodule k V n).mkQ (PiTensorProduct.tprod k f) := rfl
@@ -183,11 +192,13 @@ variable {k : Type*} [CommRing k] {V W U : Type*}
 def tensorPowMap (A : V →ₗ[k] W) (n : ℕ) : TensorPow k V n →ₗ[k] TensorPow k W n :=
   PiTensorProduct.map fun _ : Fin n => A
 
+/-- A tensor-power map acts componentwise on pure tensors. -/
 @[simp]
 lemma tensorPowMap_tprod (A : V →ₗ[k] W) {n : ℕ} (f : Fin n → V) :
     tensorPowMap A n (PiTensorProduct.tprod k f) = PiTensorProduct.tprod k fun i => A (f i) :=
   PiTensorProduct.map_tprod _ _
 
+/-- Tensor-power maps commute with permutation of the tensor factors. -/
 lemma tensorPowMap_permAct (A : V →ₗ[k] W) {n : ℕ} (σ : Equiv.Perm (Fin n))
     (T : TensorPow k V n) :
     tensorPowMap A n (permAct σ T) = permAct σ (tensorPowMap A n T) := by
@@ -195,6 +206,7 @@ lemma tensorPowMap_permAct (A : V →ₗ[k] W) {n : ℕ} (σ : Equiv.Perm (Fin n
   | smul_tprod r f => simp
   | add x y hx hy => simp [hx, hy]
 
+/-- A tensor-power map sends symmetric-power relations to symmetric-power relations. -/
 lemma symRelSubmodule_le_comap (A : V →ₗ[k] W) (n : ℕ) :
     symRelSubmodule k V n ≤ (symRelSubmodule k W n).comap (tensorPowMap A n) := by
   rw [symRelSubmodule, Submodule.span_le]
@@ -202,6 +214,7 @@ lemma symRelSubmodule_le_comap (A : V →ₗ[k] W) (n : ℕ) :
   refine Submodule.subset_span ⟨tensorPowMap A n T, i, j, hij, ?_⟩
   rw [map_sub, tensorPowMap_permAct]
 
+/-- A tensor-power map sends exterior-power relations to exterior-power relations. -/
 lemma extRelSubmodule_le_comap (A : V →ₗ[k] W) (n : ℕ) :
     extRelSubmodule k V n ≤ (extRelSubmodule k W n).comap (tensorPowMap A n) := by
   rw [extRelSubmodule, Submodule.span_le]
@@ -217,16 +230,17 @@ def symPowMap (A : V →ₗ[k] W) (n : ℕ) : SymPow k V n →ₗ[k] SymPow k W 
 def extPowMap (A : V →ₗ[k] W) (n : ℕ) : ExtPow k V n →ₗ[k] ExtPow k W n :=
   Submodule.mapQ _ _ (tensorPowMap A n) (extRelSubmodule_le_comap A n)
 
-@[simp]
+/-- The induced symmetric-power map acts componentwise on pure symmetric tensors. -/
 lemma symPowMap_symTprod (A : V →ₗ[k] W) {n : ℕ} (f : Fin n → V) :
     symPowMap A n (symTprod k V n f) = symTprod k W n fun i => A (f i) := by
   simp [symPowMap, symTprod, Submodule.mapQ_apply]
 
-@[simp]
+/-- The induced exterior-power map acts componentwise on pure alternating tensors. -/
 lemma extPowMap_extTprod (A : V →ₗ[k] W) {n : ℕ} (f : Fin n → V) :
     extPowMap A n (extTprod k V n f) = extTprod k W n fun i => A (f i) := by
   simp [extPowMap, extTprod, Submodule.mapQ_apply]
 
+/-- The symmetric-power map induced by the identity is the identity. -/
 @[simp]
 lemma symPowMap_id (n : ℕ) : symPowMap (LinearMap.id : V →ₗ[k] V) n = LinearMap.id := by
   refine LinearMap.ext fun x => ?_
@@ -235,6 +249,7 @@ lemma symPowMap_id (n : ℕ) : symPowMap (LinearMap.id : V →ₗ[k] V) n = Line
   | smul_tprod r f => simpa using congrArg (r • ·) (symPowMap_symTprod LinearMap.id f)
   | add a b ha hb => simp only [map_add, ha, hb]
 
+/-- The exterior-power map induced by the identity is the identity. -/
 @[simp]
 lemma extPowMap_id (n : ℕ) : extPowMap (LinearMap.id : V →ₗ[k] V) n = LinearMap.id := by
   refine LinearMap.ext fun x => ?_
@@ -243,6 +258,7 @@ lemma extPowMap_id (n : ℕ) : extPowMap (LinearMap.id : V →ₗ[k] V) n = Line
   | smul_tprod r f => simpa using congrArg (r • ·) (extPowMap_extTprod LinearMap.id f)
   | add a b ha hb => simp only [map_add, ha, hb]
 
+/-- Symmetric-power maps preserve composition. -/
 lemma symPowMap_comp (A : W →ₗ[k] U) (B : V →ₗ[k] W) (n : ℕ) :
     symPowMap (A ∘ₗ B) n = symPowMap A n ∘ₗ symPowMap B n := by
   refine LinearMap.ext fun x => ?_
@@ -258,6 +274,7 @@ lemma symPowMap_comp (A : W →ₗ[k] U) (B : V →ₗ[k] W) (n : ℕ) :
       rw [h1, h3, h2]
   | add a b ha hb => simp only [map_add, ha, hb, LinearMap.comp_apply]
 
+/-- Exterior-power maps preserve composition. -/
 lemma extPowMap_comp (A : W →ₗ[k] U) (B : V →ₗ[k] W) (n : ℕ) :
     extPowMap (A ∘ₗ B) n = extPowMap A n ∘ₗ extPowMap B n := by
   refine LinearMap.ext fun x => ?_
@@ -286,6 +303,7 @@ sending `v₁ ∧ ⋯ ∧ vₙ` to the class of `v₁ ⊗ ⋯ ⊗ vₙ`. -/
 noncomputable def extPowOfExteriorPower (n : ℕ) : (⋀[k]^n V) →ₗ[k] ExtPow k V n :=
   exteriorPower.alternatingMapLinearEquiv (extTprod k V n)
 
+/-- The map from Mathlib's exterior power sends a wedge to its quotient-model class. -/
 @[simp]
 lemma extPowOfExteriorPower_ιMulti {n : ℕ} (f : Fin n → V) :
     extPowOfExteriorPower k V n (exteriorPower.ιMulti k n f) = extTprod k V n f :=
@@ -309,6 +327,7 @@ variable (k V) in
 noncomputable def tensorPowToExteriorPower (n : ℕ) : TensorPow k V n →ₗ[k] ⋀[k]^n V :=
   PiTensorProduct.lift (exteriorPower.ιMulti k n).toMultilinearMap
 
+/-- The canonical map to Mathlib's exterior power sends pure tensors to wedges. -/
 @[simp]
 lemma tensorPowToExteriorPower_tprod {n : ℕ} (f : Fin n → V) :
     tensorPowToExteriorPower k V n (PiTensorProduct.tprod k f) = exteriorPower.ιMulti k n f :=
@@ -437,6 +456,7 @@ noncomputable def exteriorPowerEquiv (n : ℕ) :
     rintro _ ⟨f, rfl⟩
     simp
 
+/-- The comparison equivalence sends a wedge to its class in the quotient model. -/
 @[simp]
 lemma exteriorPowerEquiv_ιMulti {n : ℕ} (f : Fin n → V) :
     exteriorPowerEquiv (V := V) n (exteriorPower.ιMulti k n f) = extTprod k V n f :=
@@ -530,7 +550,7 @@ theorem det_comp_of_extPowMap [FiniteDimensional k V] {N : ℕ}
   have hrank : Module.finrank k (ExtPow k V N) = 1 := by
     rw [finrank_extPow N, hN, Nat.choose_self]
   haveI : Nontrivial (ExtPow k V N) :=
-    Module.nontrivial_of_finrank_pos (R := k) (by rw [hrank]; norm_num)
+    Module.nontrivial_of_finrank_pos (R := k) (by rw [hrank]; exact Nat.zero_lt_succ 0)
   obtain ⟨x, hx⟩ := exists_ne (0 : ExtPow k V N)
   have h := extPowMap_comp A B N
   rw [extPowMap_top hN (A ∘ₗ B), extPowMap_top hN A, extPowMap_top hN B] at h
@@ -541,3 +561,15 @@ theorem det_comp_of_extPowMap [FiniteDimensional k V] {N : ℕ}
 end TopDegree
 
 end Etingof.Problem2_11_3
+
+-- The leaf names follow Mathlib conventions; the underscore comes solely from the stable
+-- book-number namespace Problem2_11_3, which is part of this project's public API.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_11_3.TensorPow Etingof.Problem2_11_3.permAct
+  Etingof.Problem2_11_3.symRelSubmodule Etingof.Problem2_11_3.extRelSubmodule
+  Etingof.Problem2_11_3.SymPow Etingof.Problem2_11_3.ExtPow
+  Etingof.Problem2_11_3.symTprod Etingof.Problem2_11_3.extTprod
+  Etingof.Problem2_11_3.tensorPowMap Etingof.Problem2_11_3.symPowMap
+  Etingof.Problem2_11_3.extPowMap Etingof.Problem2_11_3.extPowOfExteriorPower
+  Etingof.Problem2_11_3.tensorPowToExteriorPower Etingof.Problem2_11_3.exteriorPowerEquiv
+  Etingof.Problem2_11_3.extPowBasis

@@ -1,7 +1,3 @@
-import Mathlib.Data.Fin.Tuple.Basic
-import Mathlib.LinearAlgebra.Projection
-import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
-import EtingofRepresentationTheory.Chapter2.Theorem2_1_1
 import EtingofRepresentationTheory.Chapter2.Problem2_15_1_complete_reducibility
 
 /-!
@@ -52,12 +48,14 @@ instance instPiLieRingModule : LieRingModule L (∀ i, M i) where
   lie_add x u v := by funext i; exact lie_add x (u i) (v i)
   leibniz_lie x y v := by funext i; exact leibniz_lie x y (v i)
 
+/-- Evaluation of the componentwise Lie action on a product. -/
 @[simp] theorem pi_bracket_apply (x : L) (v : ∀ i, M i) (i : ι) :
     ⁅x, v⁆ i = ⁅x, v i⁆ := rfl
 
 variable {R : Type*} [CommRing R] [LieAlgebra R L]
   [∀ i, Module R (M i)] [∀ i, LieModule R L (M i)]
 
+/-- Scalar compatibility for the componentwise Lie action on a product. -/
 instance instPiLieModule : LieModule R L (∀ i, M i) where
   smul_lie t x v := by funext i; exact smul_lie t x (v i)
   lie_smul t x v := by funext i; exact lie_smul t x (v i)
@@ -76,12 +74,15 @@ instance instProdLieRingModule : LieRingModule L (M × N) where
   lie_add x p q := by ext <;> exact lie_add x _ _
   leibniz_lie x y p := by ext <;> exact leibniz_lie x y _
 
+/-- The first component of the Lie action on a product. -/
 @[simp] theorem prod_bracket_fst (x : L) (p : M × N) : (⁅x, p⁆ : M × N).1 = ⁅x, p.1⁆ := rfl
+/-- The second component of the Lie action on a product. -/
 @[simp] theorem prod_bracket_snd (x : L) (p : M × N) : (⁅x, p⁆ : M × N).2 = ⁅x, p.2⁆ := rfl
 
 variable {R : Type*} [CommRing R] [LieAlgebra R L]
   [Module R M] [Module R N] [LieModule R L M] [LieModule R L N]
 
+/-- Scalar compatibility for the componentwise Lie action on a binary product. -/
 instance instProdLieModule : LieModule R L (M × N) where
   smul_lie t x p := by ext <;> exact smul_lie t x _
   lie_smul t x p := by ext <;> exact lie_smul t x _

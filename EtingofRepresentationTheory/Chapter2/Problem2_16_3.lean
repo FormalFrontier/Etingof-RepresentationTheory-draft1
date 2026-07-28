@@ -1,18 +1,12 @@
 import Mathlib.Algebra.Lie.Free
 import Mathlib.Algebra.Lie.Quotient
-import Mathlib.Algebra.Lie.IdealOperations
-import Mathlib.Algebra.Lie.OfAssociative
-import Mathlib.Data.Matrix.Basis
 import Mathlib.Algebra.Polynomial.AlgebraMap
-import Mathlib.LinearAlgebra.Basis.Basic
-import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.LinearAlgebra.Dimension.Finite
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Algebra.Polynomial.Basis
 import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.Algebra.Polynomial.Degree.Support
 import Mathlib.Tactic.IntervalCases
 import Mathlib.Tactic.LinearCombination
+
 
 /-!
 # Problem 2.16.3: The Lie algebras `𝔤ₙ = ⟨x, y | ad(x)²y = ad(y)ⁿ⁺¹x = 0⟩`
@@ -36,7 +30,9 @@ number of positive roots:
 * `n = 3`: type `G₂`,  `dim 𝔤₃ = 6`;
 * `n = 4`: the Cartan matrix has determinant `0` (affine type), so `𝔤₄` is infinite dimensional.
 
-Statement-only (proofs deferred).
+The finite-dimensional cases and the infinite-dimensionality of `𝔤₄` are proved in this file.
+The companion `Problem2_16_3_*` files construct the requested explicit characteristic-zero basis
+of `𝔤₄` and identify it with the positive twisted loop algebra of type `A₂⁽²⁾`.
 -/
 
 namespace Etingof.Problem2_16_3
@@ -102,9 +98,11 @@ noncomputable def proj (n : ℕ) : FreeLieAlgebra k (Fin 2) →ₗ⁅k⁆ g k n 
   { (LieSubmodule.Quotient.mk' (relIdeal k n)).toLinearMap with
     map_lie' := fun {_ _} => rfl }
 
+/-- Evaluation formula for `proj`. -/
 @[simp] theorem proj_apply (n : ℕ) (a : FreeLieAlgebra k (Fin 2)) :
     proj k n a = LieSubmodule.Quotient.mk' (relIdeal k n) a := rfl
 
+/-- The quotient projection is surjective. -/
 theorem proj_surjective (n : ℕ) : Function.Surjective (proj k n) :=
   LieSubmodule.Quotient.surjective_mk' _
 
@@ -115,6 +113,7 @@ noncomputable def yb (n : ℕ) : g k n := proj k n (y k)
 /-- Image of `[x, y]` in `𝔤ₙ`. -/
 noncomputable def zb (n : ℕ) : g k n := ⁅xb k n, yb k n⁆
 
+/-- The distinguished central element is the stated bracket. -/
 theorem zb_eq (n : ℕ) : zb k n = proj k n ⁅x k, y k⁆ := by
   simp only [zb, xb, yb, LieHom.map_lie]
 
@@ -200,6 +199,7 @@ theorem span_eq_top_of_closed_under_ad (n : ℕ) (S : Set (g k n))
     | add a b _ _ ha hb => rw [lie_add]; exact Submodule.add_mem _ ha hb
     | smul c a _ ha => rw [lie_smul]; exact Submodule.smul_mem _ c ha
 
+/-- The quotient projection vanishes exactly on the relation ideal. -/
 theorem proj_eq_zero_iff (n : ℕ) (a : FreeLieAlgebra k (Fin 2)) :
     proj k n a = 0 ↔ a ∈ relIdeal k n := by
   rw [proj_apply]; exact LieSubmodule.Quotient.mk_eq_zero _
@@ -242,9 +242,11 @@ private noncomputable def E02 : Matrix (Fin 3) (Fin 3) k := Matrix.single 0 2 1
 noncomputable def matHom : FreeLieAlgebra k (Fin 2) →ₗ⁅k⁆ Matrix (Fin 3) (Fin 3) k :=
   FreeLieAlgebra.lift k ![E01 k, E12 k]
 
+/-- The matrix-realization formula for `matHom_x`. -/
 @[simp] theorem matHom_x : matHom k (x k) = E01 k := by
   simp only [matHom, x, FreeLieAlgebra.lift_of_apply]; rfl
 
+/-- The matrix-realization formula for `matHom_y`. -/
 @[simp] theorem matHom_y : matHom k (y k) = E12 k := by
   simp only [matHom, y, FreeLieAlgebra.lift_of_apply]; rfl
 
@@ -253,11 +255,13 @@ theorem bracket_E01_E12 : ⁅E01 k, E12 k⁆ = E02 k := by
   simp only [E01, E12, E02, LieRing.of_associative_ring_bracket]
   simp [Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne]
 
+/-- The matrix realization annihilates the first defining relator. -/
 theorem matHom_relator1 : matHom k ⁅x k, ⁅x k, y k⁆⁆ = 0 := by
   rw [LieHom.map_lie, LieHom.map_lie, matHom_x, matHom_y, bracket_E01_E12]
   simp only [E01, E02, LieRing.of_associative_ring_bracket]
   simp [Matrix.single_mul_single_of_ne]
 
+/-- For n = 1, the matrix realization annihilates the second defining relator. -/
 theorem matHom_relator2_one : matHom k ((fun z => ⁅y k, z⁆)^[1 + 1] (x k)) = 0 := by
   change matHom k ⁅y k, ⁅y k, x k⁆⁆ = 0
   rw [LieHom.map_lie, LieHom.map_lie, matHom_x, matHom_y]
@@ -268,6 +272,7 @@ theorem matHom_relator2_one : matHom k ((fun z => ⁅y k, z⁆)^[1 + 1] (x k)) =
   simp only [E12, E02, LieRing.of_associative_ring_bracket]
   simp [Matrix.single_mul_single_of_ne, mul_neg, neg_mul]
 
+/-- The relation ideal lies in the kernel of the matrix realization. -/
 theorem relIdeal_le_ker_matHom : relIdeal k 1 ≤ (matHom k).ker := by
   rw [relIdeal, LieSubmodule.lieSpan_le]
   intro w hw
@@ -388,9 +393,11 @@ private noncomputable def MW : Matrix (Fin 5) (Fin 5) k :=
 noncomputable def matHom₂ : FreeLieAlgebra k (Fin 2) →ₗ⁅k⁆ Matrix (Fin 5) (Fin 5) k :=
   FreeLieAlgebra.lift k ![MX k, MY k]
 
+/-- The matrix-realization formula for `matHom₂_x`. -/
 @[simp] theorem matHom₂_x : matHom₂ k (x k) = MX k := by
   simp only [matHom₂, x, FreeLieAlgebra.lift_of_apply]; rfl
 
+/-- The matrix-realization formula for `matHom₂_y`. -/
 @[simp] theorem matHom₂_y : matHom₂ k (y k) = MY k := by
   simp only [matHom₂, y, FreeLieAlgebra.lift_of_apply]; rfl
 
@@ -415,15 +422,18 @@ theorem bracket_MY_MW : ⁅MY k, MW k⁆ = 0 := by
   simp only [MY, MW, LieRing.of_associative_ring_bracket, sub_mul, mul_sub]
   simp [Matrix.single_mul_single_of_ne]
 
+/-- The two-dimensional realization satisfies the first defining relator. -/
 theorem matHom₂_relator1 : matHom₂ k ⁅x k, ⁅x k, y k⁆⁆ = 0 := by
   rw [LieHom.map_lie, LieHom.map_lie, matHom₂_x, matHom₂_y, bracket_MX_MY, bracket_MX_MZ]
 
+/-- The two-dimensional realization satisfies the second defining relator. -/
 theorem matHom₂_relator2 : matHom₂ k ((fun z => ⁅y k, z⁆)^[2 + 1] (x k)) = 0 := by
   change matHom₂ k ⁅y k, ⁅y k, ⁅y k, x k⁆⁆⁆ = 0
   rw [LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, matHom₂_x, matHom₂_y]
   have h1 : ⁅MY k, MX k⁆ = -MZ k := by rw [← lie_skew, bracket_MX_MY]
   rw [h1, lie_neg, bracket_MY_MZ, lie_neg, bracket_MY_MW, neg_zero]
 
+/-- The relation ideal lies in the kernel of the two-dimensional realization. -/
 theorem relIdeal_le_ker_matHom₂ : relIdeal k 2 ≤ (matHom₂ k).ker := by
   rw [relIdeal, LieSubmodule.lieSpan_le]
   intro w hw
@@ -536,9 +546,11 @@ noncomputable def matHom₄ :
     FreeLieAlgebra k (Fin 2) →ₗ⁅k⁆ Matrix (Fin 3) (Fin 3) (Polynomial k) :=
   FreeLieAlgebra.lift k ![NX k, NY k]
 
+/-- The matrix-realization formula for `matHom₄_x`. -/
 @[simp] theorem matHom₄_x : matHom₄ k (x k) = NX k := by
   simp only [matHom₄, x, FreeLieAlgebra.lift_of_apply]; rfl
 
+/-- The matrix-realization formula for `matHom₄_y`. -/
 @[simp] theorem matHom₄_y : matHom₄ k (y k) = NY k := by
   simp only [matHom₄, y, FreeLieAlgebra.lift_of_apply]; rfl
 
@@ -647,9 +659,11 @@ noncomputable def matHom₄c :
     FreeLieAlgebra k (Fin 2) →ₗ⁅k⁆ Matrix (Fin 4) (Fin 4) (Polynomial k) :=
   FreeLieAlgebra.lift k ![NXc k, NYc k]
 
+/-- The matrix-realization formula for `matHom₄c_x`. -/
 @[simp] theorem matHom₄c_x : matHom₄c k (x k) = NXc k := by
   simp only [matHom₄c, x, FreeLieAlgebra.lift_of_apply]; rfl
 
+/-- The matrix-realization formula for `matHom₄c_y`. -/
 @[simp] theorem matHom₄c_y : matHom₄c k (y k) = NYc k := by
   simp only [matHom₄c, y, FreeLieAlgebra.lift_of_apply]; rfl
 
@@ -657,6 +671,7 @@ noncomputable def matHom₄c :
 theorem three_eq_zero_poly (h3 : (3 : k) = 0) : (3 : Polynomial k) = 0 := by
   rw [← map_ofNat (Polynomial.C : k →+* Polynomial k) 3, h3, map_zero]
 
+/-- The four-dimensional candidate satisfies the first defining relator. -/
 theorem matHom₄c_relator1 (h3 : (3 : k) = 0) : matHom₄c k ⁅x k, ⁅x k, y k⁆⁆ = 0 := by
   have h3p := three_eq_zero_poly k h3
   rw [LieHom.map_lie, LieHom.map_lie, matHom₄c_x, matHom₄c_y]
@@ -745,7 +760,7 @@ theorem matHom₄c_base (h3 : (3 : k) = 0) :
       not_false_eq_true]
     apply Matrix.ext; intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.add_apply, Matrix.sub_apply] <;> ring
+      simp [Matrix.add_apply, Matrix.sub_apply] ; ring
   have e2 : ⁅NYc k, ⁅NYc k, NXc k⁆⁆
       = Matrix.single (0 : Fin 4) (2 : Fin 4) (2 * Polynomial.X)
         + Matrix.single (2 : Fin 4) (3 : Fin 4) (-6 * Polynomial.X) := by
@@ -755,7 +770,7 @@ theorem matHom₄c_base (h3 : (3 : k) = 0) :
       not_false_eq_true]
     apply Matrix.ext; intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.add_apply, Matrix.sub_apply] <;> ring
+      simp [Matrix.add_apply, Matrix.sub_apply] ; ring
   have e3 : ⁅NYc k, ⁅NYc k, ⁅NYc k, NXc k⁆⁆⁆
       = Matrix.single (0 : Fin 4) (3 : Fin 4) (-10 * Polynomial.X)
         + Matrix.single (2 : Fin 4) (1 : Fin 4) (6 * Polynomial.X) := by
@@ -765,7 +780,7 @@ theorem matHom₄c_base (h3 : (3 : k) = 0) :
       not_false_eq_true]
     apply Matrix.ext; intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.add_apply, Matrix.sub_apply] <;> ring
+      simp [Matrix.add_apply, Matrix.sub_apply] ; ring
   -- `⁅x, ad(y)³ x⁆ = t²·E₀₂ + 3·(junk)`; the `3·(junk)` term vanishes when `3 = 0`.
   have key : ⁅NXc k, ⁅NYc k, ⁅NYc k, ⁅NYc k, NXc k⁆⁆⁆⁆
       = (Polynomial.X : Polynomial k) ^ 2 • E02c k
@@ -807,9 +822,11 @@ noncomputable def towerFunctional (h3 : (3 : k) = 0) : g k 4 →ₗ[k] Polynomia
       simp only [LinearMap.mem_ker, LinearMap.comp_apply, LieHom.coe_toLinearMap, hm,
         Matrix.entryLinearMap_apply, Matrix.zero_apply])
 
-@[simp] theorem towerFunctional_proj (h3 : (3 : k) = 0) (a : FreeLieAlgebra k (Fin 2)) :
+/-- The tower functional descends through the quotient projection. -/
+theorem towerFunctional_proj (h3 : (3 : k) = 0) (a : FreeLieAlgebra k (Fin 2)) :
     towerFunctional k h3 (proj k 4 a) = (matHom₄c k a) 0 2 := rfl
 
+/-- The tower functional evaluates to one on the distinguished tower element. -/
 theorem towerFunctional_towerElt (h3 : (3 : k) = 0) (n : ℕ) :
     towerFunctional k h3 (proj k 4 (towerElt k n)) = (Polynomial.X : Polynomial k) ^ (n + 2) := by
   rw [towerFunctional_proj, matHom₄c_towerElt k h3 n]
@@ -880,7 +897,7 @@ theorem bracket_NY_NY_NX (k : Type*) [CommRing k] :
   refine Matrix.ext fun i j => ?_
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.add_apply, Matrix.neg_apply,
-      Matrix.single_apply] <;> ring
+      Matrix.single_apply] ; ring
 
 /-- `⁅NY, ⁅NY, ⁅NY, NX⁆⁆⁆ = G₃ = 3(E₀₁ + E₁₂)·t` (the vector `s₃·t`). -/
 theorem bracket_NY_NY_NY_NX (k : Type*) [CommRing k] :
@@ -929,12 +946,14 @@ def cscal (k : Type*) [CommRing k] : ℕ → k := fun n => 3 * (-9) ^ n
 noncomputable def pcoef (k : Type*) [CommRing k] : ℕ → Polynomial k :=
   fun n => 3 * (-9) ^ n * X ^ (2 * n + 2)
 
+/-- The polynomial coefficients satisfy the successor recurrence. -/
 theorem pcoef_succ (k : Type*) [CommRing k] (n : ℕ) :
     pcoef k (n + 1) = -9 * (X ^ 2 * pcoef k n) := by
   simp only [pcoef]
   rw [show 2 * (n + 1) + 2 = (2 * n + 2) + 2 from by ring, pow_add, pow_succ]
   ring
 
+/-- The polynomial coefficient is the corresponding scalar multiple. -/
 theorem pcoef_eq_smul (k : Type*) [CommRing k] (n : ℕ) :
     pcoef k n = cscal k n • (X : Polynomial k) ^ (2 * n + 2) := by
   simp only [pcoef, cscal, Polynomial.smul_eq_C_mul, map_mul, map_pow, map_neg, map_ofNat]
@@ -1183,55 +1202,66 @@ realises the `6`-dimensional `G₂` positive nilpotent, faithfully in every char
 noncomputable def matHom₃ : FreeLieAlgebra k (Fin 2) →ₗ⁅k⁆ Matrix (Fin 7) (Fin 7) k :=
   FreeLieAlgebra.lift k ![GX k, GY k]
 
+/-- The matrix-realization formula for `matHom₃_x`. -/
 @[simp] theorem matHom₃_x : matHom₃ k (x k) = GX k := by
   simp only [matHom₃, x, FreeLieAlgebra.lift_of_apply]; rfl
 
+/-- The matrix-realization formula for `matHom₃_y`. -/
 @[simp] theorem matHom₃_y : matHom₃ k (y k) = GY k := by
   simp only [matHom₃, y, FreeLieAlgebra.lift_of_apply]; rfl
 
+/-- The matrix-bracket computation for `bracket_GX_GY`. -/
 theorem bracket_GX_GY : ⁅GX k, GY k⁆ = GZ k := by
   simp only [GX, GY, GZ, LieRing.of_associative_ring_bracket, add_mul, mul_add,
     Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, ne_eq, Fin.reduceEq,
     not_false_eq_true, mul_one]
   abel
 
+/-- The matrix-bracket computation for `bracket_GY_GZ`. -/
 theorem bracket_GY_GZ : ⁅GY k, GZ k⁆ = GW k := by
   simp only [GY, GZ, GW, LieRing.of_associative_ring_bracket, add_mul, mul_add, sub_mul, mul_sub,
     Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, ne_eq, Fin.reduceEq,
     not_false_eq_true, mul_one]
   abel
 
+/-- The matrix-bracket computation for `bracket_GY_GW`. -/
 theorem bracket_GY_GW : ⁅GY k, GW k⁆ = GV k := by
   simp only [GY, GW, GV, LieRing.of_associative_ring_bracket, add_mul, mul_add, sub_mul, mul_sub,
     Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, ne_eq, Fin.reduceEq,
     not_false_eq_true, mul_one]
   abel
 
+/-- The matrix-bracket computation for `bracket_GX_GV`. -/
 theorem bracket_GX_GV : ⁅GX k, GV k⁆ = GU k := by
   simp only [GX, GV, GU, LieRing.of_associative_ring_bracket, add_mul, mul_add,
     Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, ne_eq, Fin.reduceEq,
     not_false_eq_true, mul_one]
   abel
 
+/-- The matrix-bracket computation for `bracket_GX_GZ`. -/
 theorem bracket_GX_GZ : ⁅GX k, GZ k⁆ = 0 := by
   simp only [GX, GZ, LieRing.of_associative_ring_bracket, add_mul, mul_add, sub_mul, mul_sub,
     Matrix.single_mul_single_of_ne, ne_eq, Fin.reduceEq, not_false_eq_true]
   abel
 
+/-- The matrix-bracket computation for `bracket_GY_GV`. -/
 theorem bracket_GY_GV : ⁅GY k, GV k⁆ = 0 := by
   simp only [GY, GV, LieRing.of_associative_ring_bracket, add_mul, mul_add,
     Matrix.single_mul_single_of_ne, ne_eq, Fin.reduceEq, not_false_eq_true]
   abel
 
+/-- The three-dimensional realization satisfies the first defining relator. -/
 theorem matHom₃_relator1 : matHom₃ k ⁅x k, ⁅x k, y k⁆⁆ = 0 := by
   rw [LieHom.map_lie, LieHom.map_lie, matHom₃_x, matHom₃_y, bracket_GX_GY, bracket_GX_GZ]
 
+/-- The three-dimensional realization satisfies the second defining relator. -/
 theorem matHom₃_relator2 : matHom₃ k ((fun z => ⁅y k, z⁆)^[3 + 1] (x k)) = 0 := by
   change matHom₃ k ⁅y k, ⁅y k, ⁅y k, ⁅y k, x k⁆⁆⁆⁆ = 0
   rw [LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, matHom₃_x, matHom₃_y]
   have h1 : ⁅GY k, GX k⁆ = -GZ k := by rw [← lie_skew, bracket_GX_GY]
   rw [h1, lie_neg, bracket_GY_GZ, lie_neg, bracket_GY_GW, lie_neg, bracket_GY_GV, neg_zero]
 
+/-- The relation ideal lies in the kernel of the three-dimensional realization. -/
 theorem relIdeal_le_ker_matHom₃ : relIdeal k 3 ≤ (matHom₃ k).ker := by
   rw [relIdeal, LieSubmodule.lieSpan_le]
   intro w hw
@@ -1370,26 +1400,33 @@ Entrywise `σ(A)ᵢⱼ = -A_{rev j, rev i}`, with `rev` the order-reversing invo
 def sigInv (A : Matrix (Fin 3) (Fin 3) R) : Matrix (Fin 3) (Fin 3) R :=
   Matrix.of fun i j => -(A j.rev i.rev)
 
+/-- The signature involution formula for `sigInv_apply`. -/
 @[simp] theorem sigInv_apply (A : Matrix (Fin 3) (Fin 3) R) (i j : Fin 3) :
     sigInv A i j = -(A j.rev i.rev) := rfl
 
+/-- The signature involution formula for `sigInv_sigInv`. -/
 @[simp] theorem sigInv_sigInv (A : Matrix (Fin 3) (Fin 3) R) : sigInv (sigInv A) = A := by
   ext i j; simp [Fin.rev_rev]
 
+/-- The signature involution formula for `sigInv_zero`. -/
 @[simp] theorem sigInv_zero : sigInv (0 : Matrix (Fin 3) (Fin 3) R) = 0 := by
   ext i j; simp
 
+/-- The signature involution formula for `sigInv_add`. -/
 @[simp] theorem sigInv_add (A B : Matrix (Fin 3) (Fin 3) R) :
     sigInv (A + B) = sigInv A + sigInv B := by
   ext i j; simp only [sigInv_apply, Matrix.add_apply]; ring
 
+/-- The signature involution formula for `sigInv_sub`. -/
 @[simp] theorem sigInv_sub (A B : Matrix (Fin 3) (Fin 3) R) :
     sigInv (A - B) = sigInv A - sigInv B := by
   ext i j; simp only [sigInv_apply, Matrix.sub_apply]; ring
 
+/-- The signature involution formula for `sigInv_neg`. -/
 @[simp] theorem sigInv_neg (A : Matrix (Fin 3) (Fin 3) R) : sigInv (-A) = -sigInv A := by
   ext i j; simp only [sigInv_apply, Matrix.neg_apply]
 
+/-- The signature involution formula for `sigInv_smul`. -/
 @[simp] theorem sigInv_smul {S : Type*} [Monoid S] [DistribMulAction S R] (c : S)
     (A : Matrix (Fin 3) (Fin 3) R) : sigInv (c • A) = c • sigInv A := by
   ext i j; simp [Matrix.smul_apply]
@@ -1407,7 +1444,7 @@ def sigInv (A : Matrix (Fin 3) (Fin 3) R) : Matrix (Fin 3) (Fin 3) R :=
     rintro ⟨h1, h2⟩
     exact h ⟨by rw [h2, Fin.rev_rev], by rw [h1, Fin.rev_rev]⟩
 
-@[simp] private theorem rev_zero_three : (0 : Fin 3).rev = 2 := by decide
+private theorem rev_zero_three : (0 : Fin 3).rev = 2 := by decide
 @[simp] private theorem rev_one_three : (1 : Fin 3).rev = 1 := by decide
 @[simp] private theorem rev_two_three : (2 : Fin 3).rev = 0 := by decide
 
@@ -1447,23 +1484,24 @@ noncomputable def gone : Fin 5 → Matrix (Fin 3) (Fin 3) k :=
     Matrix.single 1 0 1 + Matrix.single 2 1 1,
     Matrix.single 2 0 1]
 
-set_option linter.unnecessarySeqFocus false in
+/-- The signature involution formula for `sigInv_gzero`. -/
 @[simp] theorem sigInv_gzero (i : Fin 3) : sigInv (gzero k i) = gzero k i := by
   fin_cases i <;> simp [gzero] <;> abel
 
-set_option linter.unnecessarySeqFocus false in
+/-- The signature involution formula for `sigInv_gone`. -/
 @[simp] theorem sigInv_gone (i : Fin 5) : sigInv (gone k i) = -gone k i := by
-  fin_cases i <;> simp [gone] <;> abel
+  fin_cases i <;> simp [gone] ; abel
 
+/-- The trace computation for `trace_gzero`. -/
 @[simp] theorem trace_gzero (i : Fin 3) : Matrix.trace (gzero k i) = 0 := by
   fin_cases i <;>
     simp [gzero, Matrix.trace, Matrix.diag, Fin.sum_univ_three, Matrix.sub_apply]
 
-set_option linter.unnecessarySeqFocus false in
+/-- The trace computation for `trace_gone`. -/
 @[simp] theorem trace_gone (i : Fin 5) : Matrix.trace (gone k i) = 0 := by
   fin_cases i <;>
     simp [gone, Matrix.trace, Matrix.diag, Fin.sum_univ_three, Matrix.add_apply,
-      Matrix.sub_apply] <;> ring
+      Matrix.sub_apply] ; ring
 
 /-- The three matrices of `gzero` have pairwise disjoint supports, so reading off the entries
 `(0,1)`, `(0,0)`, `(1,0)` proves independence over any commutative base ring. -/
@@ -1503,6 +1541,7 @@ theorem linearIndependent_gone : LinearIndependent k (gone k) := by
 noncomputable def twPoly : Polynomial k →ₐ[k] Polynomial k :=
   Polynomial.aeval (-Polynomial.X : Polynomial k)
 
+/-- The coefficient of a twisted-loop polynomial has the required parity. -/
 theorem twPoly_coeff (p : Polynomial k) (n : ℕ) :
     (twPoly k p).coeff n = (-1 : k) ^ n * p.coeff n := by
   induction p using Polynomial.induction_on' with
@@ -1574,9 +1613,11 @@ noncomputable def loopPos : LieSubalgebra k (Matrix (Fin 3) (Fin 3) (Polynomial 
 noncomputable def coeffMat (n : ℕ) (P : Matrix (Fin 3) (Fin 3) (Polynomial k)) :
     Matrix (Fin 3) (Fin 3) k := P.map (fun p => p.coeff n)
 
+/-- Evaluation formula for `coeffMat`. -/
 @[simp] theorem coeffMat_apply (n : ℕ) (P : Matrix (Fin 3) (Fin 3) (Polynomial k))
     (a b : Fin 3) : coeffMat k n P a b = (P a b).coeff n := rfl
 
+/-- A constant matrix equals its degree-zero coefficient matrix. -/
 theorem constMat_eq_coeffMat_zero (P : Matrix (Fin 3) (Fin 3) (Polynomial k)) :
     constMat k P = coeffMat k 0 P := by
   ext a b
@@ -1599,6 +1640,7 @@ theorem sigInv_eq_twMat_iff (P : Matrix (Fin 3) (Fin 3) (Polynomial k)) :
     have hab := congrFun (congrFun (h n) a) b
     simpa [twMat, AlgHom.mapMatrix_apply, twPoly_coeff, Matrix.smul_apply] using hab
 
+/-- The stated loop matrix belongs to the positive loop algebra. -/
 theorem mem_loopPos {P : Matrix (Fin 3) (Fin 3) (Polynomial k)} :
     P ∈ loopPos k ↔ Matrix.trace P = 0 ∧ sigInv P = twMat k P ∧
       constMat k P ∈ Submodule.span k {gzero k 0} := Iff.rfl
@@ -1668,7 +1710,6 @@ theorem mem_span_gzero_of_sigInv_eq (k : Type*) [Field k] (h2 : (2 : k) ≠ 0)
   refine Submodule.add_mem _ (Submodule.add_mem _ ?_ ?_) ?_ <;>
     exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨_, rfl⟩)
 
-set_option linter.unnecessarySeqFocus false in
 /-- The traceless part of the `-1`-eigenspace of `σ` on `𝔤𝔩₃` is exactly the span of `gone`.
 No hypothesis on the characteristic is needed. -/
 theorem mem_span_gone_of_sigInv_eq_neg {A : Matrix (Fin 3) (Fin 3) k}
@@ -1689,7 +1730,7 @@ theorem mem_span_gone_of_sigInv_eq_neg {A : Matrix (Fin 3) (Fin 3) k}
       + A 1 0 • gone k 3 + A 2 0 • gone k 4 := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [gone, Matrix.single, Matrix.add_apply, h22, h12, h21, h11] <;> ring
+      simp [gone, Matrix.single, Matrix.add_apply, h22, h12, h21, h11] ; ring
   rw [key]
   refine Submodule.add_mem _ (Submodule.add_mem _ (Submodule.add_mem _
     (Submodule.add_mem _ ?_ ?_) ?_) ?_) ?_ <;>
@@ -1706,6 +1747,7 @@ noncomputable def emb (n : ℕ) :
   map_smul' c A := Matrix.ext fun a b => by
     simp [Matrix.map_apply, Matrix.smul_apply, Polynomial.smul_monomial]
 
+/-- Evaluation formula for `emb`. -/
 @[simp] theorem emb_apply (n : ℕ) (A : Matrix (Fin 3) (Fin 3) k) (a b : Fin 3) :
     emb k n A a b = Polynomial.monomial n (A a b) := rfl
 
@@ -1786,6 +1828,7 @@ noncomputable def LoopIdx.mat (k : Type*) [CommRing k] : LoopIdx → Matrix (Fin
 noncomputable def loopVec (I : LoopIdx) : Matrix (Fin 3) (Fin 3) (Polynomial k) :=
   emb k I.deg (I.mat k)
 
+/-- Each loop vector belongs to the positive loop algebra. -/
 theorem loopVec_mem (I : LoopIdx) : loopVec k I ∈ loopPos k := by
   change emb k I.deg (I.mat k) ∈ loopPos k
   refine emb_mem_loopPos k I.deg (I.mat k) ?_ ?_ ?_
@@ -1828,6 +1871,7 @@ noncomputable def loopCoord (I : LoopIdx) :
   map_add' P Q := by simp [Matrix.add_apply]
   map_smul' c P := by simp [Matrix.smul_apply, Polynomial.coeff_smul]
 
+/-- The loop coordinate map recovers the coefficient of a loop vector. -/
 theorem loopCoord_loopVec (I J : LoopIdx) :
     loopCoord k I (loopVec k J) = if I = J then 1 else 0 := by
   have hL : loopCoord k I (loopVec k J)
@@ -1880,6 +1924,7 @@ theorem loopCoord_loopVec (I J : LoopIdx) :
                   | simp [LoopIdx.mat, LoopIdx.pos, gzero, Matrix.single]
     · rw [if_neg hd]
 
+/-- The ambient loop vectors are linearly independent. -/
 theorem linearIndependent_loopVec (k : Type*) [Field k] : LinearIndependent k (loopVec k) := by
   rw [linearIndependent_iff']
   intro s g hg I hI
@@ -1890,6 +1935,7 @@ theorem linearIndependent_loopVec (k : Type*) [Field k] : LinearIndependent k (l
   · intro J _ hne
     simp [loopCoord_loopVec, Ne.symm hne]
 
+/-- The loop family is linearly independent. -/
 theorem linearIndependent_loopFam (k : Type*) [Field k] : LinearIndependent k (loopFam k) := by
   have h : LinearIndependent k ((loopPos k).incl.toLinearMap ∘ loopFam k) :=
     linearIndependent_loopVec k
@@ -1938,6 +1984,7 @@ theorem mem_span_loopVec (k : Type*) [Field k] (h2 : (2 : k) ≠ 0)
       rintro _ ⟨i, rfl⟩
       exact ⟨LoopIdx.odd m i, by simp [loopVec, LoopIdx.deg, LoopIdx.mat, hm]⟩
 
+/-- The loop family spans the positive loop algebra. -/
 theorem span_loopFam_eq_top (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) :
     Submodule.span k (Set.range (loopFam k)) = ⊤ := by
   rw [eq_top_iff]
@@ -1959,6 +2006,7 @@ noncomputable def loopBasis (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) :
     Module.Basis LoopIdx k (loopPos k) :=
   Module.Basis.mk (linearIndependent_loopFam k) (span_loopFam_eq_top k h2).ge
 
+/-- Evaluation formula for `loopBasis`. -/
 @[simp] theorem loopBasis_apply (k : Type*) [Field k] (h2 : (2 : k) ≠ 0) (I : LoopIdx) :
     loopBasis k h2 I = loopFam k I := Module.Basis.mk_apply _ _ _
 
@@ -2034,14 +2082,13 @@ theorem lie_gzero0_gone4 : ⁅gzero k 0, gone k 4⁆ = (-1 : k) • gone k 3 := 
     simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
       Matrix.sub_apply, Matrix.smul_apply]
 
-set_option linter.unnecessarySeqFocus false in
 /-- `⁅E₀₁-E₁₂, E₁₀+E₂₁⁆ = E₀₀-2E₁₁+E₂₂`: the second step of the `ad(NY)`-string. Also the ladder
 that reaches the middle `𝔤₁`-vector in every odd `t`-degree. -/
 theorem lie_gzero0_gone3 : ⁅gzero k 0, gone k 3⁆ = (1 : k) • gone k 2 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
-      Matrix.sub_apply, Matrix.smul_apply] <;> ring
+      Matrix.sub_apply, Matrix.smul_apply] ; ring
 
 /-- `⁅E₀₁-E₁₂, E₀₀-2E₁₁+E₂₂⁆ = -3(E₀₁+E₁₂)`: the third step of the `ad(NY)`-string. The scalar
 `-3` is why characteristic `3` must be excluded. -/
@@ -2051,21 +2098,19 @@ theorem lie_gzero0_gone2 : ⁅gzero k 0, gone k 2⁆ = (-3 : k) • gone k 1 := 
     simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
       Matrix.sub_apply, Matrix.smul_apply] <;> ring
 
-set_option linter.unnecessarySeqFocus false in
 /-- `⁅E₀₁-E₁₂, E₀₁+E₁₂⁆ = 2E₀₂`: the fourth (and last nonzero) step of the `ad(NY)`-string. -/
 theorem lie_gzero0_gone1 : ⁅gzero k 0, gone k 1⁆ = (2 : k) • gone k 0 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
-      Matrix.sub_apply, Matrix.smul_apply] <;> ring
+      Matrix.sub_apply, Matrix.smul_apply] ; ring
 
-set_option linter.unnecessarySeqFocus false in
 /-- `ad(E₀₀-E₂₂)` has eigenvalue `2` on `E₀₂`. -/
 theorem lie_gzero1_gone0 : ⁅gzero k 1, gone k 0⁆ = (2 : k) • gone k 0 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
-      Matrix.sub_apply, Matrix.smul_apply] <;> ring
+      Matrix.sub_apply, Matrix.smul_apply] ; ring
 
 /-- `ad(E₀₀-E₂₂)` has eigenvalue `1` on `E₀₁+E₁₂`. -/
 theorem lie_gzero1_gone1 : ⁅gzero k 1, gone k 1⁆ = (1 : k) • gone k 1 := by
@@ -2081,13 +2126,12 @@ theorem lie_gzero1_gone3 : ⁅gzero k 1, gone k 3⁆ = (-1 : k) • gone k 3 := 
     simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
       Matrix.sub_apply, Matrix.smul_apply]
 
-set_option linter.unnecessarySeqFocus false in
 /-- `ad(E₀₀-E₂₂)` has eigenvalue `-2` on `E₂₀`. -/
 theorem lie_gzero1_gone4 : ⁅gzero k 1, gone k 4⁆ = (-2 : k) • gone k 4 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [gzero, gone, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
-      Matrix.sub_apply, Matrix.smul_apply] <;> ring
+      Matrix.sub_apply, Matrix.smul_apply] ; ring
 
 /-- `⁅E₂₀, E₀₂⁆ = -(E₀₀-E₂₂)`: an even-layer ladder. -/
 theorem lie_gone4_gone0 : ⁅gone k 4, gone k 0⁆ = (-1 : k) • gzero k 1 := by
@@ -2291,11 +2335,14 @@ section Layers
 /-- The degree-`1` layer generators of `𝔤ₙ`: `aElt n i = ad(ȳ)ⁱ(x̄)`. -/
 noncomputable def aElt (n i : ℕ) : g k n := (fun u => ⁅yb k n, u⁆)^[i] (xb k n)
 
+/-- The zero case of `aElt`. -/
 @[simp] theorem aElt_zero (n : ℕ) : aElt k n 0 = xb k n := rfl
 
+/-- The successor-step formula for `aElt`. -/
 theorem aElt_succ (n i : ℕ) : aElt k n (i + 1) = ⁅yb k n, aElt k n i⁆ :=
   Function.iterate_succ_apply' _ _ _
 
+/-- The value of `aElt` at one. -/
 theorem aElt_one (n : ℕ) : aElt k n 1 = -zb k n := by
   rw [aElt_succ, aElt_zero, zb, ← lie_skew]
 
@@ -2484,3 +2531,58 @@ theorem lie_aElt_mem_layerTwo (h2 : (2 : k) ≠ 0) (h5 : (5 : k) ≠ 0)
 end LayersField
 
 end Etingof.Problem2_16_3
+
+-- The source-numbered exercise namespace and established API contain intentional underscores.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_16_3.x
+  Etingof.Problem2_16_3.y
+  Etingof.Problem2_16_3.relIdeal
+  Etingof.Problem2_16_3.g
+  Etingof.Problem2_16_3.instLieRingG
+  Etingof.Problem2_16_3.instLieAlgebraG
+  Etingof.Problem2_16_3.proj
+  Etingof.Problem2_16_3.xb
+  Etingof.Problem2_16_3.yb
+  Etingof.Problem2_16_3.zb
+  Etingof.Problem2_16_3.matHom
+  Etingof.Problem2_16_3.wb
+  Etingof.Problem2_16_3.matHom₂
+  Etingof.Problem2_16_3.NX
+  Etingof.Problem2_16_3.NY
+  Etingof.Problem2_16_3.matHom₄
+  Etingof.Problem2_16_3.gbar
+  Etingof.Problem2_16_3.NXc
+  Etingof.Problem2_16_3.NYc
+  Etingof.Problem2_16_3.matHom₄c
+  Etingof.Problem2_16_3.Ucon
+  Etingof.Problem2_16_3.E02c
+  Etingof.Problem2_16_3.towerElt
+  Etingof.Problem2_16_3.towerFunctional
+  Etingof.Problem2_16_3.G3mat
+  Etingof.Problem2_16_3.G1mat
+  Etingof.Problem2_16_3.cscal
+  Etingof.Problem2_16_3.pcoef
+  Etingof.Problem2_16_3.wSeq
+  Etingof.Problem2_16_3.entry21
+  Etingof.Problem2_16_3.vb
+  Etingof.Problem2_16_3.ub
+  Etingof.Problem2_16_3.matHom₃
+  Etingof.Problem2_16_3.sigInv
+  Etingof.Problem2_16_3.gzero
+  Etingof.Problem2_16_3.gone
+  Etingof.Problem2_16_3.twPoly
+  Etingof.Problem2_16_3.twMat
+  Etingof.Problem2_16_3.constMat
+  Etingof.Problem2_16_3.loopPos
+  Etingof.Problem2_16_3.coeffMat
+  Etingof.Problem2_16_3.emb
+  Etingof.Problem2_16_3.instDecidableEqLoopIdx.decEq
+  Etingof.Problem2_16_3.instDecidableEqLoopIdx
+  Etingof.Problem2_16_3.LoopIdx.deg
+  Etingof.Problem2_16_3.LoopIdx.mat
+  Etingof.Problem2_16_3.loopVec
+  Etingof.Problem2_16_3.loopFam
+  Etingof.Problem2_16_3.LoopIdx.pos
+  Etingof.Problem2_16_3.loopCoord
+  Etingof.Problem2_16_3.loopBasis
+  Etingof.Problem2_16_3.aElt

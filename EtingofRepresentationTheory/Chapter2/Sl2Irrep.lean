@@ -1,11 +1,5 @@
-import Mathlib.Algebra.Lie.Classical
 import Mathlib.Algebra.Lie.Semisimple.Defs
 import Mathlib.Algebra.Lie.Sl2
-import Mathlib.Algebra.Lie.OfAssociative
-import Mathlib.Data.Complex.Basic
-import Mathlib.LinearAlgebra.Dimension.Finrank
-import Mathlib.LinearAlgebra.Dimension.Finite
-import Mathlib.LinearAlgebra.StdBasis
 import EtingofRepresentationTheory.Chapter2.Sl2Defs
 
 /-!
@@ -39,11 +33,12 @@ Our model `V_d = Fin d → ℂ` *is* this space under the monomial-basis identif
 where `e_k = e_basis d k = Pi.single k 1`. The component operators `rhoH/rhoE/rhoF`
 reproduce the differential operators exactly in this basis:
 
-| Book operator          | Action on `x^{d-1-k} y^k`                       | Lean operator (components)          |
-| ---------------------- | ----------------------------------------------- | ----------------------------------- |
-| `ρ(h) = x∂ₓ − y∂_y`    | eigenvalue `d-1-2k`                             | `rhoH`: `(ρ(h)v)_k = (d-1-2k)·v_k`  |
-| `ρ(e) = x∂_y`          | `x^{d-1-k} y^k ↦ k · x^{d-k} y^{k-1}` (index `k-1`) | `rhoE`: `(ρ(e)v)_k = (k+1)·v_{k+1}` |
-| `ρ(f) = y∂ₓ`           | `x^{d-1-k} y^k ↦ (d-1-k) · x^{d-2-k} y^{k+1}` (index `k+1`) | `rhoF`: `(ρ(f)v)_k = (d-k)·v_{k-1}` |
+* `ρ(h) = x∂ₓ − y∂_y` has eigenvalue `d - 1 - 2k`; this is the component formula
+  `(rhoH v)_k = (d - 1 - 2k) * v_k`.
+* `ρ(e) = x∂_y` sends the monomial to `k * x^{d-k} y^{k-1}` (index `k - 1`);
+  this is `(rhoE v)_k = (k + 1) * v_{k+1}`.
+* `ρ(f) = y∂ₓ` sends it to `(d - 1 - k) * x^{d-2-k} y^{k+1}` (index `k + 1`);
+  this is `(rhoF v)_k = (d - k) * v_{k-1}`.
 
 Reading the middle column on the basis: `ρ(e) e_k = k · e_{k-1}` and
 `ρ(f) e_k = (d-1-k) · e_{k+1}` (see `lie_sl2_e_e_basis`, `lie_sl2_f_e_basis`), which is
@@ -71,15 +66,22 @@ namespace Etingof.Sl2Irrep
 
 /-! ## The standard sl(2) triple -/
 
+-- These generator names, and `e_basis` below, retain the established cross-provider API and
+-- mirror the book's standard `e`, `f`, `h` notation, so their narrow naming exceptions are
+-- intentional.
+
 /-- The standard basis element e₁₂ of sl(2). -/
+@[nolint defsWithUnderscore]
 noncomputable def sl2_e : sl2 :=
   LieAlgebra.SpecialLinear.single 0 1 (by omega) 1
 
 /-- The standard basis element e₂₁ of sl(2). -/
+@[nolint defsWithUnderscore]
 noncomputable def sl2_f : sl2 :=
   LieAlgebra.SpecialLinear.single 1 0 (by omega) 1
 
 /-- The standard diagonal element h = e₁₁ - e₂₂ of sl(2). -/
+@[nolint defsWithUnderscore]
 noncomputable def sl2_h : sl2 :=
   LieAlgebra.SpecialLinear.singleSubSingle 0 1 1
 
@@ -131,10 +133,11 @@ theorem sl2_traceless (X : sl2) : X.val 1 1 = -X.val 0 0 := by
   have h2 : X.val 0 0 + X.val 1 1 = 0 := by
     have h3 : Matrix.trace X.val = 0 := X.property
     have h4 : Matrix.trace X.val = X.val 0 0 + X.val 1 1 := by
-      show ∑ i : Fin 2, X.val i i = _; rw [Fin.sum_univ_two]
+      change ∑ i : Fin 2, X.val i i = _
+      rw [Fin.sum_univ_two]
     rw [h4] at h3; exact h3
   have : X.val 1 1 = 0 - X.val 0 0 := by rw [← h2]; ring
-  simp at this; exact this
+  simpa only [zero_sub] using this
 
 private theorem sl2_val_add (X Y : sl2) (i j : Fin 2) :
     (X + Y).val i j = X.val i j + Y.val i j := rfl
@@ -198,18 +201,21 @@ noncomputable def sl2LieHomOfOperators {V : Type*} [AddCommGroup V] [Module ℂ 
       hbr00, hbr01, hbr10]
     module
 
+/-- The operator-triple representation sends the standard raising generator to `E`. -/
 @[simp] theorem sl2LieHomOfOperators_e {V : Type*} [AddCommGroup V] [Module ℂ V]
     (E F H : Module.End ℂ V) (hEF : ⁅E, F⁆ = H) (hHE : ⁅H, E⁆ = (2 : ℂ) • E)
     (hHF : ⁅H, F⁆ = -((2 : ℂ) • F)) :
     sl2LieHomOfOperators E F H hEF hHE hHF sl2_e = E := by
   simp [sl2LieHomOfOperators, sl2_e, LieAlgebra.SpecialLinear.val_single, Matrix.single]
 
+/-- The operator-triple representation sends the standard lowering generator to `F`. -/
 @[simp] theorem sl2LieHomOfOperators_f {V : Type*} [AddCommGroup V] [Module ℂ V]
     (E F H : Module.End ℂ V) (hEF : ⁅E, F⁆ = H) (hHE : ⁅H, E⁆ = (2 : ℂ) • E)
     (hHF : ⁅H, F⁆ = -((2 : ℂ) • F)) :
     sl2LieHomOfOperators E F H hEF hHE hHF sl2_f = F := by
   simp [sl2LieHomOfOperators, sl2_f, LieAlgebra.SpecialLinear.val_single, Matrix.single]
 
+/-- The operator-triple representation sends the standard Cartan generator to `H`. -/
 @[simp] theorem sl2LieHomOfOperators_h {V : Type*} [AddCommGroup V] [Module ℂ V]
     (E F H : Module.End ℂ V) (hEF : ⁅E, F⁆ = H) (hHE : ⁅H, E⁆ = (2 : ℂ) • E)
     (hHF : ⁅H, F⁆ = -((2 : ℂ) • F)) :
@@ -287,31 +293,23 @@ private theorem lie_rhoE_rhoF (d : ℕ) :
   by_cases he : (k : ℕ) + 1 < d <;> by_cases hf : 0 < (k : ℕ)
   · -- Interior: k+1 < d, k > 0
     simp only [he, hf, k.isLt, dite_true,
-      show (⟨(k : ℕ) - 1, by omega⟩ : Fin d).val = (k : ℕ) - 1 from rfl,
       show 0 < (k : ℕ) + 1 from by omega,
       show (k : ℕ) + 1 - 1 = (k : ℕ) from by omega,
-      show (k : ℕ) - 1 + 1 < d from by omega,
       show (k : ℕ) - 1 + 1 = (k : ℕ) from by omega,
-      show (k : ℕ) < d from k.isLt, dite_true,
-      hfin_k k.isLt]
+      dite_true, hfin_k k.isLt]
     simp only [Nat.cast_sub (show 1 ≤ (k : ℕ) from by omega)]
     push_cast; ring
   · -- k+1 < d, k = 0
     have hk0 : (k : ℕ) = 0 := by omega
-    simp only [he, hf, k.isLt, dite_true, dite_false, mul_zero, sub_zero,
-      show (⟨(k : ℕ) + 1, he⟩ : Fin d).val = (k : ℕ) + 1 from rfl,
+    simp only [he, hf, dite_true, dite_false, mul_zero, sub_zero,
       show 0 < (k : ℕ) + 1 from by omega,
       show (k : ℕ) + 1 - 1 = (k : ℕ) from by omega,
-      show (k : ℕ) < d from k.isLt, dite_true,
-      hfin_k k.isLt]
+      dite_true, hfin_k k.isLt]
     simp [hk0]
   · -- k+1 ≥ d (k = d-1), k > 0
     simp only [he, hf, k.isLt, dite_true, dite_false, mul_zero, zero_sub,
-      show (⟨(k : ℕ) - 1, by omega⟩ : Fin d).val = (k : ℕ) - 1 from rfl,
-      show (k : ℕ) - 1 + 1 < d from by omega,
       show (k : ℕ) - 1 + 1 = (k : ℕ) from by omega,
-      show (k : ℕ) < d from k.isLt, dite_true,
-      hfin_k k.isLt]
+      dite_true, hfin_k k.isLt]
     simp only [Nat.cast_sub (show 1 ≤ (k : ℕ) from by omega)]
     have hkd1 : (k : ℕ) + 1 = d := by omega
     push_cast [Nat.cast_sub (show 1 ≤ d from by omega), ← hkd1]; ring
@@ -319,7 +317,8 @@ private theorem lie_rhoE_rhoF (d : ℕ) :
     have hk0 : (k : ℕ) = 0 := by omega
     have hd1 : d = 1 := by omega
     simp only [he, hf, dite_false, mul_zero, zero_sub, neg_zero]
-    subst hd1; simp [hk0]
+    subst hd1
+    simp
 
 /-- The representation map ρ : sl(2) → End(V_d) as a Lie hom. -/
 noncomputable def rhoLieHom (d : ℕ) :
@@ -420,8 +419,10 @@ private lemma rhoLieHom_sl2_f_eq (d : ℕ) : rhoLieHom d sl2_f = rhoF d := by
   rw [key, h00, h01, h10]; simp
 
 /-- Standard basis vector e_k in Fin d → ℂ. -/
+@[nolint defsWithUnderscore]
 def e_basis (d : ℕ) (k : Fin d) : Fin d → ℂ := Pi.single k 1
 
+/-- Evaluation of the standard basis vector at a coordinate. -/
 theorem e_basis_apply (d : ℕ) (k j : Fin d) :
     e_basis d k j = if j = k then 1 else 0 := by
   simp [e_basis, Pi.single_apply]
@@ -455,7 +456,7 @@ theorem lie_sl2_e_e_basis (d : ℕ) (i : ℕ) (hi : i < d) :
   ext k
   have hkd : (k : ℕ) < d := k.isLt
   simp only [rhoE, LinearMap.coe_mk, AddHom.coe_mk, Pi.smul_apply, smul_eq_mul,
-    e_basis_apply, Fin.ext_iff, Fin.mk.injEq]
+    e_basis_apply, Fin.ext_iff]
   by_cases hk : (k : ℕ) + 1 < d
   · simp only [hk, dite_true]
     rcases Nat.eq_zero_or_pos i with hi0 | hipos
@@ -477,7 +478,7 @@ theorem lie_sl2_f_e_basis (d : ℕ) (i : ℕ) (hi : i + 1 < d) :
   ext k
   have hkd : (k : ℕ) < d := k.isLt
   simp only [rhoF, LinearMap.coe_mk, AddHom.coe_mk, Pi.smul_apply, smul_eq_mul,
-    e_basis_apply, Fin.ext_iff, Fin.mk.injEq]
+    e_basis_apply, Fin.ext_iff]
   by_cases hk : 0 < (k : ℕ)
   · simp only [hk, dite_true]
     by_cases hki : (k : ℕ) - 1 = i
@@ -485,7 +486,8 @@ theorem lie_sl2_f_e_basis (d : ℕ) (i : ℕ) (hi : i + 1 < d) :
       have hkc : ((k : ℕ) : ℂ) = (i : ℂ) + 1 := by
         have : (k : ℕ) = i + 1 := by omega
         rw [this]; push_cast; ring
-      rw [hkc]; push_cast; ring
+      rw [hkc]
+      ring
     · rw [if_neg hki, if_neg (by omega : ¬ (k : ℕ) = i + 1)]; ring
   · simp only [dif_neg hk, mul_zero]
     rw [if_neg (by omega : ¬ (k : ℕ) = i + 1)]; ring
@@ -496,8 +498,8 @@ theorem lie_sl2_f_e_basis_top (d : ℕ) (i : ℕ) (hi : i < d) (htop : i + 1 = d
   rw [lie_eq_rhoLieHom, rhoLieHom_sl2_f_eq]
   ext k
   have hkd : (k : ℕ) < d := k.isLt
-  simp only [rhoF, LinearMap.coe_mk, AddHom.coe_mk, Pi.smul_apply, smul_eq_mul,
-    e_basis_apply, Pi.zero_apply, Fin.ext_iff, Fin.mk.injEq]
+  simp only [rhoF, LinearMap.coe_mk, AddHom.coe_mk, e_basis_apply, Pi.zero_apply,
+    Fin.ext_iff]
   by_cases hk : 0 < (k : ℕ)
   · simp only [hk, dite_true]
     rw [if_neg (by omega : ¬ (k : ℕ) - 1 = i)]; ring
@@ -513,7 +515,7 @@ theorem irrep_isIrreducible (d : ℕ) [NeZero d] :
   apply LieModule.IsIrreducible.mk
   intro N hN
   rw [ne_eq, LieSubmodule.eq_bot_iff] at hN
-  push_neg at hN
+  push Not at hN
   obtain ⟨w, hw_mem, hw_ne⟩ := hN
   -- Key connection: ⁅sl2_h, v⁆ k = (d-1-2k) * v k
   have lie_h_comp : ∀ (v : Fin d → ℂ) (k : Fin d),
@@ -562,7 +564,7 @@ theorem irrep_isIrreducible (d : ℕ) [NeZero d] :
           by_contra hk
           have : k ∈ (∅ : Finset (Fin d)) :=
             hempty ▸ Finset.mem_filter.mpr ⟨Finset.mem_univ k, hk⟩
-          simp at this
+          simp only [Finset.notMem_empty] at this
         obtain ⟨k, hk_mem⟩ := hne
         have hk : k ∈ Finset.univ ∧ w k ≠ 0 := Finset.mem_filter.mp hk_mem
         refine ⟨k, ?_⟩
@@ -579,7 +581,7 @@ theorem irrep_isIrreducible (d : ℕ) [NeZero d] :
         rw [hw_eq] at hw_mem
         exact smul_extract _ _ hk.2 hw_mem
       · -- Multiple nonzero components: reduce using h-eigenvalue
-        push_neg at hn1
+        push Not at hn1
         obtain ⟨j₁, hj₁_mem, j₂, hj₂_mem, hne⟩ :=
           Finset.one_lt_card.mp hn1
         have hj₁ := (Finset.mem_filter.mp hj₁_mem).2
@@ -597,7 +599,7 @@ theorem irrep_isIrreducible (d : ℕ) [NeZero d] :
           intro h
           have := congr_fun h j₂
           rw [hw'_val] at this
-          simp at this
+          simp only [Pi.zero_apply, mul_eq_zero, OfNat.ofNat_ne_zero, false_or] at this
           rcases this with h1 | h2
           · have : (j₁ : ℕ) = (j₂ : ℕ) := by exact_mod_cast sub_eq_zero.mp h1
             exact hne (Fin.ext this)
@@ -671,7 +673,7 @@ theorem irrep_isIrreducible (d : ℕ) [NeZero d] :
         · have : (k : ℕ) - 1 ≠ m := by omega
           simp [Fin.ext_iff, this, hkm]
       · simp only [hk, dite_false, mul_zero]
-        push_neg at hk
+        push Not at hk
         simp [Fin.ext_iff, show (k : ℕ) ≠ m + 1 from by omega]
     rw [lie_eq] at lie_in_N
     have hc : ((d : ℂ) - ↑(m + 1)) ≠ 0 := by

@@ -1,5 +1,3 @@
-import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.LinearAlgebra.Matrix.ToLin
 import EtingofRepresentationTheory.Chapter3.Proposition3_1_4
 
 /-!
@@ -44,6 +42,10 @@ variable {A : Type*} [Ring A]
   {V : ι → Type*} [∀ i, AddCommGroup (V i)] [∀ i, Module A (V i)]
   [∀ i, IsSimpleModule A (V i)]
 
+omit [DecidableEq ι] in
+/- Finiteness is inherited from Proposition 3.1.4's finite direct-sum statement, although it
+does not occur in the existential result type. -/
+set_option linter.unusedFintypeInType false in
 /-- **Remark 3.1.5**, generalization clause. Proposition 3.1.4 holds over an arbitrary ring
 `A` with arbitrary simple modules `V i`: no hypothesis that the base is algebraically closed,
 and no finite-dimensionality of the `V i`. Any subrepresentation `W` of `⊕ᵢ nᵢ Vᵢ` is
@@ -91,10 +93,12 @@ def homMatrixEquiv (r n : ℕ) :
     · intro h; exact absurd (Finset.mem_univ i) h
   map_add' f g := by ext i j x; simp
 
+/-- The matrix associated to `f` acts on the `i`-th coordinate injection by definition. -/
 @[simp] theorem homMatrixEquiv_apply (r n : ℕ) (f : (Fin r → V) →ₗ[A] (Fin n → V))
     (i : Fin r) (j : Fin n) (x : V) :
     homMatrixEquiv r n f i j x = f (Pi.single i x) j := rfl
 
+/-- The inverse matrix equivalence applies a matrix by the row-vector formula. -/
 @[simp] theorem homMatrixEquiv_symm_apply (r n : ℕ)
     (X : Matrix (Fin r) (Fin n) (Module.End A V)) (v : Fin r → V) (j : Fin n) :
     (homMatrixEquiv r n).symm X v j = ∑ i, X i j (v i) := rfl
@@ -186,6 +190,7 @@ theorem injective_iff_rows_linearIndependent (r n : ℕ)
     have h2 := LinearMap.congr_fun this v
     simpa [hc, LinearMap.proj_apply] using h2
 
+omit [IsSimpleModule A V] in
 /-- The explicit right-`D`-linear-relation condition of `injective_iff_rows_linearIndependent`
 is `LinearIndependent Dᵐᵒᵖ` for the rows, the form in which
 `Etingof.subrepresentation_of_semisimple_matrix` states it. -/
@@ -217,6 +222,10 @@ variable {A : Type*} [Ring A]
   {V : ι → Type*} [∀ i, AddCommGroup (V i)] [∀ i, Module A (V i)]
   [∀ i, IsSimpleModule A (V i)]
 
+omit [DecidableEq ι] in
+/- Finiteness is inherited from the finite block decomposition, although it does not occur in
+the existential result type. -/
+set_option linter.unusedFintypeInType false in
 /-- **Proposition 3.1.4 / Remark 3.1.5**, block form. Assembling
 `Etingof.subrepresentation_of_semisimple_matrix` with the single-isotypic matrix API above:
 the inclusion `W ↪ ⊕ᵢ nᵢVᵢ` is the direct sum of block maps `φ i : rᵢVᵢ → nᵢVᵢ`, each of

@@ -95,8 +95,10 @@ variable {M : Type*} [AddCommGroup M] [Module ℂ M]
 noncomputable def eIter (n : ℕ) (w : M) : M :=
   ((LieModule.toEnd ℂ sl2 M sl2_e) ^ n) w
 
+/-- Zero iterations of the raising operator leave a vector unchanged. -/
 @[simp] theorem eIter_zero (w : M) : eIter 0 w = w := by simp [eIter]
 
+/-- One further raising iteration applies `sl2_e` before the preceding iterations. -/
 theorem eIter_succ (n : ℕ) (w : M) :
     eIter (n + 1) w = eIter n ⁅sl2_e, w⁆ := by
   simp only [eIter, pow_succ, Module.End.mul_apply, LieModule.toEnd_apply_apply]
@@ -109,12 +111,15 @@ noncomputable def highestWeightPolynomial : ℕ → Polynomial ℂ
   | 0 => 1
   | k + 1 => C (k + 1 : ℂ) * highestWeightPolynomial k * (X - C (k : ℂ))
 
+/-- The zeroth highest-weight polynomial is one. -/
 @[simp] theorem highestWeightPolynomial_zero : highestWeightPolynomial 0 = 1 := rfl
 
+/-- Recurrence for the highest-weight polynomials. -/
 theorem highestWeightPolynomial_succ (k : ℕ) :
     highestWeightPolynomial (k + 1) =
       C (k + 1 : ℂ) * highestWeightPolynomial k * (X - C (k : ℂ)) := rfl
 
+/-- Every highest-weight polynomial is nonzero. -/
 theorem highestWeightPolynomial_ne_zero (k : ℕ) : highestWeightPolynomial k ≠ 0 := by
   induction k with
   | zero => simp

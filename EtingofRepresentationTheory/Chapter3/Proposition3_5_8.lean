@@ -1,10 +1,4 @@
-import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.RingTheory.SimpleModule.IsAlgClosed
-import Mathlib.RingTheory.Artinian.Module
-import Mathlib.LinearAlgebra.Dimension.Finite
-import Mathlib.LinearAlgebra.Quotient.Basic
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-import Mathlib.Data.List.TFAE
 import EtingofRepresentationTheory.Chapter3.Theorem3_5_4
 import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 

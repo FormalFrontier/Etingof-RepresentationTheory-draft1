@@ -1,4 +1,4 @@
-import EtingofRepresentationTheory.Chapter2.Definition2_8_1
+import Mathlib.Combinatorics.Quiver.Basic
 
 /-!
 # Quiver vertex and edge notation

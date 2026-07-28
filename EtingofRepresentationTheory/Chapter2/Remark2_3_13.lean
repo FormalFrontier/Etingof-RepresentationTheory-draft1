@@ -1,5 +1,4 @@
 import Mathlib.RingTheory.SimpleModule.Rank
-import Mathlib.Algebra.Module.Submodule.RestrictScalars
 
 /-!
 # Remark 2.3.13: 1-dimensional representations are automatically irreducible

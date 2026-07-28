@@ -1,4 +1,3 @@
-import Mathlib
 import EtingofRepresentationTheory.Chapter2.Problem2_7_5_Family
 
 /-!
@@ -104,7 +103,10 @@ theorem famModule_isSimpleModule (hqorder : orderOf q = N) :
         Pi.smul_apply, smul_eq_mul]
       ring
     rw [hfun]
-    exact W.sub_mem (hYmem _ ih) (hsmulC _ _ ih)
+    have hscaled : wY q β N a •
+        (fun i => (∏ j ∈ s, (wY q β N i - wY q β N j)) * w i) ∈ W :=
+      hsmulC _ _ ih
+    exact Submodule.sub_mem (R := qWeylAlgebra ℂ q) W (hYmem _ ih) hscaled
   -- Pick a coordinate where `w` does not vanish.
   obtain ⟨k, hk⟩ : ∃ k, w k ≠ 0 := by
     by_contra hcon

@@ -1,8 +1,5 @@
-import Mathlib.Algebra.Algebra.Basic
 import Mathlib.Algebra.Algebra.Opposite
 import Mathlib.Combinatorics.Quiver.Path
-import Mathlib.Data.Finsupp.Defs
-import Mathlib.Algebra.Group.Finsupp
 import Mathlib.LinearAlgebra.Finsupp.LSum
 
 /-!
@@ -77,7 +74,8 @@ unfolds only reducible definitions) no longer sees the `Finsupp` instances, so t
 structure is the unique `Mul`. The `Finsupp` module-level structure is re-exposed explicitly via
 `inferInstanceAs` in the instances immediately following; elaboration still unfolds the `def` at
 default transparency, so `Finsupp.single`/`Finsupp.lsum`/etc. continue to typecheck at type
-`PathAlgebra k Q`. -/
+`PathAlgebra k Q`. The `DecidableEq Q` parameter is intentionally retained on the carrier because
+it selects the path-composition multiplication API defined below. -/
 def PathAlgebra (k : Type*) (Q : Type*) [Field k] [Quiver Q]
     [DecidableEq Q] : Type _ :=
   QuiverPathIndex Q →₀ k
@@ -471,3 +469,7 @@ theorem sum_trivialPaths_eq_one [Fintype Q] :
 end BookPathAlgebra
 
 end Etingof
+
+-- Although the carrier does not inspect this instance, it deliberately indexes the multiplication
+-- API and keeps all `PathAlgebra` operations under one consistent set of assumptions.
+attribute [nolint unusedArguments] Etingof.PathAlgebra

@@ -1,4 +1,3 @@
-import Mathlib
 import EtingofRepresentationTheory.Chapter2.Problem2_7_5_Family
 
 /-!
@@ -212,12 +211,14 @@ instance : Module ℂ (Fam q α β) := inferInstanceAs (Module ℂ (Fin (orderOf
 
 variable [NeZero (orderOf q)]
 
+/-- The family carrier is nontrivial because the nonzero order of `q` gives an index. -/
 instance : Nontrivial (Fam q α β) := inferInstanceAs (Nontrivial (Fin (orderOf q) → ℂ))
 
 /-- The `qWeylAlgebra ℂ q`-action on `V(α,β)`, transported from `famModule`. -/
 noncomputable instance famQWeylModule : Module (qWeylAlgebra ℂ q) (Fam q α β) :=
   famModule q α β (orderOf q) rfl
 
+/-- The complex and q-Weyl scalar actions on the family form a scalar tower. -/
 instance : IsScalarTower ℂ (qWeylAlgebra ℂ q) (Fam q α β) :=
   famModule_isScalarTower q α β (orderOf q) rfl
 
@@ -264,6 +265,7 @@ variable (q α β β' : ℂˣ) [NeZero (orderOf q)]
 noncomputable def shiftUnit (m : ℕ) : (Module.End ℂ (Fin (orderOf q) → ℂ))ˣ :=
   Xunit α (orderOf q) ^ m
 
+/-- Applying the inverse shift after the forward shift fixes every vector. -/
 theorem shiftUnit_inv_apply (m : ℕ) (g : Fin (orderOf q) → ℂ) :
     (((shiftUnit q α m)⁻¹ : (Module.End ℂ (Fin (orderOf q) → ℂ))ˣ) :
         Module.End ℂ (Fin (orderOf q) → ℂ))
@@ -272,6 +274,7 @@ theorem shiftUnit_inv_apply (m : ℕ) (g : Fin (orderOf q) → ℂ) :
   rw [← Module.End.mul_apply, ← Units.val_mul, inv_mul_cancel, Units.val_one]
   rfl
 
+/-- Applying the forward shift after the inverse shift fixes every vector. -/
 theorem shiftUnit_apply_inv (m : ℕ) (g : Fin (orderOf q) → ℂ) :
     ((shiftUnit q α m : (Module.End ℂ (Fin (orderOf q) → ℂ))ˣ) :
         Module.End ℂ (Fin (orderOf q) → ℂ))
@@ -356,3 +359,14 @@ theorem fam_nonempty_linearEquiv_iff :
 end Classification
 
 end Etingof.Problem2_7_5
+
+-- The leaf names follow Mathlib conventions; the underscores come solely from the
+-- book-number namespace `Problem2_7_5`, which is part of this project's public API.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_7_5.instAddCommGroupFam
+  Etingof.Problem2_7_5.instModuleComplexFam Etingof.Problem2_7_5.famQWeylModule
+  Etingof.Problem2_7_5.shiftUnit Etingof.Problem2_7_5.famEquivOfPow
+
+-- `Fam q α β` is deliberately parameter-indexed although its carrier is constant: the
+-- parameters select different module instances used by the classification.
+attribute [nolint defsWithUnderscore unusedArguments] Etingof.Problem2_7_5.Fam

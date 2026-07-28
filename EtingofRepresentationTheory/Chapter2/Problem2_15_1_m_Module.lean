@@ -1,9 +1,4 @@
-import Mathlib.Algebra.Lie.TensorProduct
 import Mathlib.Algebra.Lie.DirectSum
-import Mathlib.Data.Nat.Choose.Basic
-import Mathlib.LinearAlgebra.Basis.Basic
-import Mathlib.LinearAlgebra.Dimension.Constructions
-import EtingofRepresentationTheory.Chapter2.Sl2Irrep
 import EtingofRepresentationTheory.Chapter2.Problem2_15_1_m
 import EtingofRepresentationTheory.Chapter2.Problem2_15_1_complete_reducibility
 
@@ -65,9 +60,11 @@ variable {M : Type*} [AddCommGroup M] [Module ℂ M]
 noncomputable def fIter (n : ℕ) (w : M) : M := (fun v => ⁅sl2_f, v⁆)^[n] w
 
 omit [Module ℂ M] [LieModule ℂ sl2 M] in
+/-- Zero iterations of the lowering operator leave a vector unchanged. -/
 @[simp] theorem fIter_zero (w : M) : fIter 0 w = w := rfl
 
 omit [Module ℂ M] [LieModule ℂ sl2 M] in
+/-- One further lowering iteration applies `sl2_f` after the preceding iterations. -/
 theorem fIter_succ (n : ℕ) (w : M) : fIter (n + 1) w = ⁅sl2_f, fIter n w⁆ :=
   Function.iterate_succ_apply' _ _ _
 
@@ -139,6 +136,7 @@ def lieHomOfGens (φ : V →ₗ[ℂ] W)
     V →ₗ⁅ℂ,sl2⁆ W :=
   { φ with map_lie' := fun {x v} => map_lie_of_gens φ hh he hf x v }
 
+/-- Evaluation of the Lie-module homomorphism assembled from generator relations. -/
 @[simp] theorem lieHomOfGens_apply (φ : V →ₗ[ℂ] W) (hh he hf) (v : V) :
     lieHomOfGens φ hh he hf v = φ v := rfl
 
@@ -430,10 +428,12 @@ noncomputable def cgMap (k : ℕ) (hk : k ≤ min lam mu) :
     fun n => ((Nat.descFactorial (lam + mu - 2 * k) (n : ℕ) : ℂ)⁻¹) •
       fIter (n : ℕ) (cgHW lam mu k hk)
 
+/-- The Clebsch–Gordan map on a standard basis vector. -/
 theorem cgMap_apply_e_basis (k : ℕ) (hk : k ≤ min lam mu)
     (n : Fin (lam + mu - 2 * k + 1)) :
     cgMap lam mu k hk (e_basis (lam + mu - 2 * k + 1) n)
-      = (Nat.descFactorial (lam + mu - 2 * k) (n : ℕ) : ℂ)⁻¹ • fIter (n : ℕ) (cgHW lam mu k hk) := by
+      = (Nat.descFactorial (lam + mu - 2 * k) (n : ℕ) : ℂ)⁻¹ •
+        fIter (n : ℕ) (cgHW lam mu k hk) := by
   rw [← basisFun_eq_e_basis, cgMap]
   exact (Pi.basisFun ℂ (Fin (lam + mu - 2 * k + 1))).constr_basis ℂ _ n
 
@@ -537,6 +537,7 @@ noncomputable def cgLieHom (k : ℕ) (hk : k ≤ min lam mu) :
   lieHomOfGens (cgMap lam mu k hk) (cgMap_lie_h lam mu k hk) (cgMap_lie_e lam mu k hk)
     (cgMap_lie_f lam mu k hk)
 
+/-- The bundled Clebsch–Gordan homomorphism evaluates as its underlying linear map. -/
 @[simp] theorem cgLieHom_apply (k : ℕ) (hk : k ≤ min lam mu)
     (v : Fin (lam + mu - 2 * k + 1) → ℂ) : cgLieHom lam mu k hk v = cgMap lam mu k hk v := rfl
 
@@ -641,7 +642,6 @@ theorem cgN_le_casimirGenEigenspace (k : Fin (min lam mu + 1)) :
   simp only [cgN, LieSubmodule.mem_map] at hw
   obtain ⟨v, -, rfl⟩ := hw
   -- `casimir M (cgLieHom v) = cgLieHom (casimir V_ν v) = cgLieHom (s_k • v) = s_k • cgLieHom v`
-
   have heig : casimir _ (cgLieHom lam mu (k : ℕ) hk v)
       = cgCasimirScalar lam mu (k : ℕ) • cgLieHom lam mu (k : ℕ) hk v := by
     rw [casimir_comp_lieHom, casimir_irrep, LinearMap.smul_apply, Module.End.one_apply,
@@ -754,7 +754,9 @@ noncomputable def cgBigMap :
   DirectSum.toModule ℂ _ _
     (fun k => (cgLieHom lam mu (k : ℕ) (Nat.lt_succ_iff.mp k.isLt)).toLinearMap)
 
-theorem cgBigMap_lof (k : Fin (min lam mu + 1)) (w : Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ) :
+/-- The total Clebsch–Gordan map on one direct-sum summand. -/
+theorem cgBigMap_lof (k : Fin (min lam mu + 1))
+    (w : Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ) :
     cgBigMap lam mu (DirectSum.lof ℂ _ _ k w)
       = cgLieHom lam mu (k : ℕ) (Nat.lt_succ_iff.mp k.isLt) w := by
   rw [cgBigMap, DirectSum.toModule_lof]
