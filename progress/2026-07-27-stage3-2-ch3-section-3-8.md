@@ -60,9 +60,10 @@ The terminal correction regenerates the three shifted source blobs from their
 exact source spans: the proof discussion is page 55 lines 7–10, Problem 3.8.3
 is page 55 lines 11–12, and Problem 3.8.4 runs from page 55 line 13 through page
 56 line 4. The synchronized tracker records now mark those blobs verified and
-fully covered. Stale regression references #7495, #7532, #7533, and the resolved
-Remark 3.8.6 fidelity reference #7185 are removed because the exact providers
-build cleanly. The seven mathematical records are promoted to
+fully covered. Stale structured regression fields for #7495, #7532, #7533, and
+the resolved Remark 3.8.6 fidelity issue #7185 are removed because the exact
+providers build cleanly; the historical #7185 fidelity note remains as provenance.
+The seven mathematical records are promoted to
 `dependency_trimmed`; the organizational heading is terminal
 `non_formalizable`, as required by `PLAN.md`.
 
