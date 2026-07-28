@@ -6,9 +6,7 @@ import Mathlib.LinearAlgebra.TensorProduct.Map
 /-!
 # Problem 9.6.5: the explicit balanced tensor quasi-inverse
 
-This file constructs the functor which is only described abstractly by the inverse of the
-equivalence in Theorem 9.6.4.  For a progenerator `P` and
-`B = (End P)ᵐᵒᵖ`, it defines
+For a progenerator `P` and `B = (End P)ᵐᵒᵖ`, this file defines
 
 * the basis-independent finite copower `P ⊗ₖ V`, characterized by
   `Hom(P ⊗ₖ V, Y) ≃ (V →ₗ[k] Hom(P,Y))`;
@@ -29,6 +27,8 @@ open CategoryTheory CategoryTheory.Limits
 
 namespace Etingof.Problem965
 
+-- The finite copowers below unfold through chosen biproducts, while the module structures
+-- on restricted `B`-modules follow a separate reducibility path from the native hom modules.
 set_option backward.isDefEq.respectTransparency false
 
 /-! ## Finite copowers in a finite linear abelian category -/
@@ -201,27 +201,28 @@ variable {C : Type u} [Category.{v} C] [Etingof.IsFiniteAbelianCategory C] [Line
 /-- The algebra used in Morita reconstruction. -/
 abbrev endOp (P : C) := (End P)ᵐᵒᵖ
 
-noncomputable instance endFiniteDimensional (P : C) : FiniteDimensional k (End P) :=
+noncomputable local instance endFiniteDimensional (P : C) : FiniteDimensional k (End P) :=
   Etingof.IsFiniteAbelianCategoryOverField.finiteDimensional_hom P P
 
-noncomputable instance fgModuleModule (P : C) (X : FGModuleCat.{v} (endOp P)) :
+noncomputable local instance fgModuleModule (P : C) (X : FGModuleCat.{v} (endOp P)) :
     Module k X :=
   Module.compHom X (algebraMap k (endOp P))
 
-instance fgModuleTower (P : C) (X : FGModuleCat.{v} (endOp P)) :
+local instance fgModuleTower (P : C) (X : FGModuleCat.{v} (endOp P)) :
     IsScalarTower k (endOp P) X where
   smul_assoc a b x := by
     rw [Algebra.smul_def]
     exact mul_smul _ _ _
 
-instance fgModuleComm (P : C) (X : FGModuleCat.{v} (endOp P)) :
+local instance fgModuleComm (P : C) (X : FGModuleCat.{v} (endOp P)) :
     SMulCommClass (endOp P) k X where
   smul_comm b a x := by
     change b • ((algebraMap k (endOp P) a) • x) =
       (algebraMap k (endOp P) a) • (b • x)
     rw [← mul_smul, ← mul_smul, Algebra.commutes]
 
-noncomputable instance fgModuleFiniteDimensional (P : C) (X : FGModuleCat.{v} (endOp P)) :
+noncomputable local instance fgModuleFiniteDimensional
+    (P : C) (X : FGModuleCat.{v} (endOp P)) :
     FiniteDimensional k X :=
   Module.Finite.trans (endOp P) X
 
@@ -426,7 +427,7 @@ theorem balancedTensorπ_map (P : C) {X Y : FGModuleCat.{v} (endOp P)} (f : X �
         balancedTensorπ (k := k) P Y :=
   cokernel.π_desc _ _ _
 
-/-- The genuine balanced tensor functor `P ⊗_B -`. -/
+/-- The balanced tensor functor `P ⊗_B -`. -/
 noncomputable def balancedTensorFunctor (P : C) : FGModuleCat.{v} (endOp P) ⥤ C where
   obj X := balancedTensor (k := k) P X
   map f := balancedTensorMap (k := k) P f
@@ -441,6 +442,11 @@ noncomputable def balancedTensorFunctor (P : C) : FGModuleCat.{v} (endOp P) ⥤ 
     exact Category.assoc _ _ _
 
 end BalancedTensor
+
+-- Keep the restriction-of-scalars instances available for the remaining construction while
+-- preventing them from participating in instance search for downstream importers.
+attribute [local instance] endFiniteDimensional fgModuleModule fgModuleTower fgModuleComm
+  fgModuleFiniteDimensional
 
 /-! ## Part (i): `Hom(P, P ⊗_B X) ≅ X` -/
 
@@ -755,8 +761,13 @@ noncomputable instance unitApp_isIso (X : FGModuleCat.{v} (endOp P)) :
     IsIso (unitApp (k := k) (P := P) X) :=
   (unitIsoApp (k := k) (P := P) X).isIso_hom
 
+@[simp]
+theorem unitIsoApp_hom (X : FGModuleCat.{v} (endOp P)) :
+    (unitIsoApp (k := k) (P := P) X).hom = unitApp (k := k) (P := P) X := rfl
+
 /-- **Problem 9.6.5(i).**  The explicit map `x ↦ 1_P ⊗ x` is a natural
-isomorphism `X ≅ Hom(P, P ⊗_B X)`. -/
+isomorphism `X ≅ Hom(P, P ⊗_B X)`.  Only projectivity is used to prove its
+components bijective; the progenerator hypothesis ensures the codomain is finitely generated. -/
 noncomputable def partI :
     balancedTensorFunctor (k := k) P ⋙ hp.preadditiveCoyonedaObjFG ≅
       𝟭 (FGModuleCat.{v} (endOp P)) :=
@@ -829,11 +840,11 @@ theorem balancedTensorπ_evaluationApp (Y : C) :
   cokernel.π_desc _ _ _
 
 @[simp, reassoc]
-theorem evaluationApp_on_tmul (Y : C) (f : P ⟶ Y) :
-    (finiteCopowerι (k := k) P (hp.preadditiveCoyonedaObjFG.obj Y) f ≫
-      balancedTensorπ (k := k) P (hp.preadditiveCoyonedaObjFG.obj Y)) ≫
-        evaluationApp (k := k) (P := P) Y = f := by
-  rw [Category.assoc, balancedTensorπ_evaluationApp, finiteCopowerι_evaluationRaw]
+theorem evaluationApp_on_tmul (Y : C) (f : hp.preadditiveCoyonedaObjFG.obj Y) :
+    finiteCopowerι (k := k) P (hp.preadditiveCoyonedaObjFG.obj Y) f ≫
+      (balancedTensorπ (k := k) P (hp.preadditiveCoyonedaObjFG.obj Y) ≫
+        evaluationApp (k := k) (P := P) Y) = f := by
+  rw [balancedTensorπ_evaluationApp, finiteCopowerι_evaluationRaw]
 
 theorem evaluationRaw_naturality {Y Z : C} (f : Y ⟶ Z) :
     finiteCopowerMap (k := k) P
@@ -894,7 +905,7 @@ theorem unit_evaluation_triangle (Y : C) :
   change (finiteCopowerι (k := k) P (hp.preadditiveCoyonedaObjFG.obj Y) f ≫
       balancedTensorπ (k := k) P (hp.preadditiveCoyonedaObjFG.obj Y)) ≫
         evaluationApp (k := k) (P := P) Y = f
-  exact evaluationApp_on_tmul (k := k) (P := P) Y f
+  simpa only [Category.assoc] using evaluationApp_on_tmul (k := k) (P := P) Y f
 
 noncomputable instance coyonedaMap_evaluationApp_isIso (Y : C) :
     IsIso (hp.preadditiveCoyonedaObjFG.map
@@ -968,13 +979,13 @@ noncomputable def partIIIso :
   letI := partIII (k := k) (P := P)
   exact asIso (ξ (k := k) (P := P))
 
-/-- The explicitly constructed `balancedTensorFunctor P`, rather than an abstract
-choice of `Equivalence.inverse`, is a two-sided quasi-inverse to `Hom(P,-)`. -/
-theorem explicit_balancedTensor_quasiInverse :
-    Nonempty (balancedTensorFunctor (k := k) P ⋙ hp.preadditiveCoyonedaObjFG ≅
-      𝟭 (FGModuleCat.{v} (endOp P))) ∧
-    Nonempty (hp.preadditiveCoyonedaObjFG ⋙ balancedTensorFunctor (k := k) P ≅ 𝟭 C) :=
-  ⟨⟨partI (k := k) (P := P)⟩, ⟨partIIIso (k := k) (P := P)⟩⟩
+/-- The Morita equivalence whose inverse functor is the explicitly constructed
+`balancedTensorFunctor P`. -/
+noncomputable def explicit_balancedTensor_quasiInverse :
+    C ≌ FGModuleCat.{v} (endOp P) :=
+  CategoryTheory.Equivalence.mk hp.preadditiveCoyonedaObjFG
+    (balancedTensorFunctor (k := k) P)
+    (partIIIso (k := k) (P := P)).symm (partI (k := k) (P := P))
 
 end Evaluation
 
