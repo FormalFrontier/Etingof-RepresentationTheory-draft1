@@ -13051,7 +13051,7 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[coverage] Book part (ii) asserts three things: (1) an explicit algebra isomorphism ψ: k[G] → ⊕_i End(V_i); (2) that ψ is also an isomorphism of representations (G acts by left multiplication on both ",
+    "fidelity_note": "[fidelity #5656] VERIFIED. Book part (ii)'s explicit algebra isomorphism, its compatibility with the left regular G-actions, the isotypic regular-representation decomposition, and the sum-of-squares formula are exposed respectively by Etingof.Theorem4_1_1_algebra_iso, Etingof.Theorem4_1_1_regularRep_iso, Etingof.Theorem4_1_1_regularRep_isotypic, and Etingof.Theorem4_1_1_sum_of_squares.",
     "coverage": "covered_full",
     "last_updated": "2026-07-22",
     "claim_coverage": {
