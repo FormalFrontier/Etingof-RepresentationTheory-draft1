@@ -183,5 +183,5 @@ Theorem 4.6.3 cannot admit a unitary structure. -/
 theorem Etingof.Remark4_6_4 :
     Infinite (Multiplicative ℤ) ∧
       ∃ ρ : Representation ℂ (Multiplicative ℤ) (Fin 2 → ℂ),
-        IsIndecomposable ρ ∧ ¬ Representation.IsIrreducible ρ :=
+        Etingof.Remark4_6_4.IsIndecomposable ρ ∧ ¬ Representation.IsIrreducible ρ :=
   ⟨inferInstance, repZ, repZ_indecomposable, repZ_not_irreducible⟩
