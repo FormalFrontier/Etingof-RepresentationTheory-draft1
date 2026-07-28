@@ -32,4 +32,21 @@ theorem IsIndecomposable.of_isSimpleModule (A V : Type*) [Ring A] [AddCommGroup 
     subst hW₁
     exact top_disjoint.mp hC.disjoint
 
+/-- In a semisimple module, indecomposable implies irreducible.  Combined with
+`IsIndecomposable.of_isSimpleModule`, this is the precise bridge used in the final paragraph of
+§2.1: Maschke semisimplicity makes irreducibility and indecomposability coincide for complex
+representations of a finite group. -/
+theorem IsSimpleModule.of_isIndecomposable_of_isSemisimpleModule
+    (A V : Type*) [Ring A] [AddCommGroup V] [Module A V] [IsSemisimpleModule A V]
+    (h : Etingof.IsIndecomposable A V) : IsSimpleModule A V := by
+  letI : Nontrivial V := h.1
+  refine (isSimpleModule_iff A V).2 { eq_bot_or_eq_top := ?_ }
+  intro W
+  obtain ⟨P, hP⟩ := ComplementedLattice.exists_isCompl W
+  rcases h.2 W P hP with hW | hPbot
+  · exact Or.inl hW
+  · right
+    have hsup : W ⊔ P = ⊤ := codisjoint_iff.mp hP.codisjoint
+    simpa [hPbot] using hsup
+
 end Etingof
