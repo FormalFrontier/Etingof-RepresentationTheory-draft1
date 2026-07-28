@@ -1,6 +1,5 @@
 import EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Transport
 import EtingofRepresentationTheory.Chapter3.Theorem3_3_1
-import Mathlib.LinearAlgebra.QuadraticForm.Prod
 
 /-!
 # Problem 3.9.5: explicit odd spinor modules

@@ -12189,10 +12189,42 @@
     "end_page": "56",
     "start_line": 13,
     "end_line": 14,
-    "status": "sorry_free",
+    "status": "non_formalizable",
+    "reason": "This item is only the Section 3.9 heading “Problems” and contains no mathematical assertion or construction.",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
+    },
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Section 3.9 is the organizational heading for the chapter's problems.",
+          "verdict": "non_formalizable",
+          "reason": "This is a section heading rather than a mathematical proposition or construction."
+        }
+      ]
+    },
+    "stage3_3": {
+      "stage": "3.3",
+      "status": "complete",
+      "reviewed_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": [],
+      "basis": "The item is the Section 3.9 heading and has no exact Lean provider or proof obligation."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.9",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "This organizational heading has no Lean provider or mathematical dependency; its conservative incoming edge from Remark 3.8.6 was reading order only."
     }
   },
   {
@@ -12203,7 +12235,7 @@
     "end_page": "57",
     "start_line": 15,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "sorry_free": true,
     "fidelity": "verified",
     "lean_file": [
@@ -12297,7 +12329,169 @@
         ],
         "reason": "irreducible_ext_iso_iff_proportional (307) is a genuine iff: (exists phi, IntertwinesExt f f' phi) iff (exists c != 0, f - c.f' in B1) - the faithful P-form of the book's projective-space classification (a nonzero ratio = a line in P Ext1; f in B1 = the split/trivial class). [IsAlgClosed k] is the mathematically correct hypothesis, not an artificial narrowing: the P_k Ext1 parametrization needs End_A(V)=End_A(W)=k, which Schur (Corollary_2_3_10, used in the forward proof) supplies only over an algebraically closed field; the docstring records that over a non-closed field the classes are Ext1 mod D_V^x x D_W^x. Forward => block-decomposes an arbitrary phi; <= reuses ext_iso_of_sub_smul_mem_coboundaries. Clean axioms. #7418 restates this for actual modules: nonempty_equiv_iff_proportional is the same iff with the left-hand side replaced by Nonempty (U_f =_A U_f'), and nonempty_equiv_prod_iff_mem_coboundaries gives the source's final clause, U_f = V (+) W iff f is a coboundary (so every extension is trivial iff Ext1(W,V)=0)."
       }
-    ]
+    ],
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "An extension of W by V may be represented on V × W by block-triangular operators with off-diagonal block f, and the zero block gives V ⊕ W.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.blockOp; Etingof.Problem3_9_1.ExtMod; Etingof.Problem3_9_1.ExtMod.zeroEquivProd",
+          "note": "ExtMod carries the genuine A-module action, rather than only a family of block matrices."
+        },
+        {
+          "claim": "The canonical maps V → U_f → W form a short exact sequence, and U_f/V is isomorphic to W.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.ExtMod.exact_inclusion_projection; Etingof.Problem3_9_1.ExtMod.quotEquiv"
+        },
+        {
+          "claim": "The block assignment is multiplicative if and only if f satisfies f(ab)=ρ_V(a)f(b)+f(a)ρ_W(b).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.blockOp_mul_iff_isCocycle"
+        },
+        {
+          "claim": "The 1-cocycles form the vector space Z¹(W,V).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.IsCocycle; Etingof.Problem3_9_1.cocycles"
+        },
+        {
+          "claim": "For X:W→V, dX(a)=ρ_V(a)X-Xρ_W(a) is a 1-cocycle.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.coboundaryOf; Etingof.Problem3_9_1.coboundaryOf_isCocycle"
+        },
+        {
+          "claim": "The coboundary dX vanishes if and only if X is a homomorphism of representations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.coboundaryOf_eq_zero_iff"
+        },
+        {
+          "claim": "Coboundaries form B¹(W,V)⊆Z¹(W,V), canonically isomorphic to Hom_k(W,V)/Hom_A(W,V).",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Etingof.Problem3_9_1.coboundaryLinear; Etingof.Problem3_9_1.coboundaries_eq_range; Etingof.Problem3_9_1.coboundaryOf_eq_zero_iff; LinearMap.quotKerEquivRange",
+          "note": "The project identifies the range and kernel of the coboundary map; Mathlib's first-isomorphism equivalence supplies the displayed quotient-to-range isomorphism."
+        },
+        {
+          "claim": "Ext¹(W,V) is the quotient Z¹(W,V)/B¹(W,V).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.Ext1"
+        },
+        {
+          "claim": "If f-f' is a coboundary, then the corresponding extensions U_f and U_f' are isomorphic.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.iso_of_sub_mem_coboundaries; Etingof.Problem3_9_1.ExtMod.nonempty_equiv_of_sub_mem_coboundaries"
+        },
+        {
+          "claim": "A unitriangular extension isomorphism U_f≅U_f' implies f-f' is a coboundary.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.converse_sub_mem_coboundaries_of_unitriangular_intertwines; Etingof.Problem3_9_1.ExtMod.sub_mem_coboundaries_of_unitriangular_equiv"
+        },
+        {
+          "claim": "For finite-dimensional irreducible V,W over the algebraically closed base field, U_f≅U_f' exactly when their Ext¹ classes are proportional.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.irreducible_ext_iso_iff_proportional; Etingof.Problem3_9_1.ExtMod.nonempty_equiv_iff_proportional",
+          "note": "The theorem uses a nonzero scalar and equality modulo B¹, which is precisely equality of projective Ext¹ classes."
+        },
+        {
+          "claim": "Nontrivial extensions are parametrized by ℙExt¹(W,V), and every extension splits if and only if Ext¹(W,V)=0.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_1.ExtMod.nonempty_equiv_iff_proportional; Etingof.Problem3_9_1.ExtMod.nonempty_equiv_prod_iff_mem_coboundaries"
+        }
+      ]
+    },
+    "stage3_3": {
+      "stage": "3.3",
+      "status": "complete",
+      "reviewed_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_9_1.rho",
+        "Etingof.Problem3_9_1.IsCocycle",
+        "Etingof.Problem3_9_1.blockOp",
+        "Etingof.Problem3_9_1.blockOp_apply",
+        "Etingof.Problem3_9_1.blockOp_mul_iff_isCocycle",
+        "Etingof.Problem3_9_1.cocycles",
+        "Etingof.Problem3_9_1.coboundaryOf",
+        "Etingof.Problem3_9_1.coboundaryOf_apply",
+        "Etingof.Problem3_9_1.coboundaryOf_isCocycle",
+        "Etingof.Problem3_9_1.coboundaryOf_eq_zero_iff",
+        "Etingof.Problem3_9_1.coboundaries",
+        "Etingof.Problem3_9_1.coboundaryLinear",
+        "Etingof.Problem3_9_1.coboundaryLinear_apply",
+        "Etingof.Problem3_9_1.coboundaries_eq_range",
+        "Etingof.Problem3_9_1.mem_coboundaries_iff",
+        "Etingof.Problem3_9_1.coboundaries_le_cocycles",
+        "Etingof.Problem3_9_1.Ext1",
+        "Etingof.Problem3_9_1.IntertwinesExt",
+        "Etingof.Problem3_9_1.iso_of_sub_mem_coboundaries",
+        "Etingof.Problem3_9_1.converse_sub_mem_coboundaries_of_unitriangular_intertwines",
+        "Etingof.Problem3_9_1.ext_iso_of_sub_smul_mem_coboundaries",
+        "Etingof.Problem3_9_1.irreducible_ext_iso_iff_proportional",
+        "Etingof.Problem3_9_1.blockOp_apply_prod",
+        "Etingof.Problem3_9_1.IsCocycle.apply_one",
+        "Etingof.Problem3_9_1.isCocycle_zero",
+        "Etingof.Problem3_9_1.ExtMod",
+        "Etingof.Problem3_9_1.ExtMod.instAddCommGroup",
+        "Etingof.Problem3_9_1.ExtMod.instModuleK",
+        "Etingof.Problem3_9_1.ExtMod.val",
+        "Etingof.Problem3_9_1.ExtMod.ofProd",
+        "Etingof.Problem3_9_1.ExtMod.mk",
+        "Etingof.Problem3_9_1.ExtMod.ext",
+        "Etingof.Problem3_9_1.ExtMod.val_ofProd",
+        "Etingof.Problem3_9_1.ExtMod.ofProd_val",
+        "Etingof.Problem3_9_1.ExtMod.val_mk",
+        "Etingof.Problem3_9_1.ExtMod.val_zero",
+        "Etingof.Problem3_9_1.ExtMod.val_add",
+        "Etingof.Problem3_9_1.ExtMod.val_smulK",
+        "Etingof.Problem3_9_1.ExtMod.instSMul",
+        "Etingof.Problem3_9_1.ExtMod.val_smul",
+        "Etingof.Problem3_9_1.ExtMod.val_smul_eq_blockOp",
+        "Etingof.Problem3_9_1.ExtMod.smul_mk",
+        "Etingof.Problem3_9_1.ExtMod.instMulAction",
+        "Etingof.Problem3_9_1.ExtMod.instDistribMulAction",
+        "Etingof.Problem3_9_1.ExtMod.instModuleA",
+        "Etingof.Problem3_9_1.ExtMod.instIsScalarTower",
+        "Etingof.Problem3_9_1.ExtMod.valEquiv",
+        "Etingof.Problem3_9_1.ExtMod.valEquiv_apply",
+        "Etingof.Problem3_9_1.ExtMod.valEquiv_symm_apply",
+        "Etingof.Problem3_9_1.ExtMod.inclusion",
+        "Etingof.Problem3_9_1.ExtMod.inclusion_apply",
+        "Etingof.Problem3_9_1.ExtMod.projection",
+        "Etingof.Problem3_9_1.ExtMod.projection_apply",
+        "Etingof.Problem3_9_1.ExtMod.inclusion_injective",
+        "Etingof.Problem3_9_1.ExtMod.projection_surjective",
+        "Etingof.Problem3_9_1.ExtMod.projection_comp_inclusion",
+        "Etingof.Problem3_9_1.ExtMod.range_inclusion_eq_ker_projection",
+        "Etingof.Problem3_9_1.ExtMod.exact_inclusion_projection",
+        "Etingof.Problem3_9_1.ExtMod.quotEquiv",
+        "Etingof.Problem3_9_1.ExtMod.zeroEquivProd",
+        "Etingof.Problem3_9_1.ExtMod.equivOfIntertwines",
+        "Etingof.Problem3_9_1.ExtMod.equivOfIntertwines_apply",
+        "Etingof.Problem3_9_1.ExtMod.intertwinerOfEquiv",
+        "Etingof.Problem3_9_1.ExtMod.intertwinerOfEquiv_apply",
+        "Etingof.Problem3_9_1.ExtMod.intertwinesExt_intertwinerOfEquiv",
+        "Etingof.Problem3_9_1.ExtMod.nonempty_equiv_iff_intertwines",
+        "Etingof.Problem3_9_1.ExtMod.nonempty_equiv_of_sub_mem_coboundaries",
+        "Etingof.Problem3_9_1.ExtMod.sub_mem_coboundaries_of_unitriangular_equiv",
+        "Etingof.Problem3_9_1.ExtMod.nonempty_equiv_iff_proportional",
+        "Etingof.Problem3_9_1.ExtMod.nonempty_equiv_prod_iff_mem_coboundaries"
+      ],
+      "basis": "All 70 named authored public declarations are closed Lean terms. The exhaustive module-origin audit also covered all 163 constants emitted by the provider, including private, anonymous-instance, generated, and internal declarations."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.9",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Corollary2.3.10"
+      ],
+      "basis": "The extension classification directly uses the Schur lemma from Corollary 2.3.10. Seven transitive Mathlib imports were removed, leaving that project provider as the sole individually required direct import."
+    }
   },
   {
     "id": "Chapter3/Problem3.9.2",
@@ -12307,7 +12501,7 @@
     "end_page": "57",
     "start_line": 13,
     "end_line": 16,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "sorry_free": true,
     "fidelity": "verified",
     "lean_file": [
@@ -12334,14 +12528,17 @@
         "claim": "For A=ℂ[x₁..xₙ] with 1-dim reps Vₐ,V_b (xᵢ acts by aᵢ,bᵢ): Ext¹(Vₐ,Vₐ)≅ℂⁿ and Ext¹(Vₐ,V_b)=0 for a≠b; every 2-dim rep is an extension of two 1-dim reps.",
         "description": "Full Ext¹ computation (ℂⁿ for equal weights, 0 for distinct) plus classification of 2-dim representations as extensions of 1-dim ones.",
         "source_span": "blobs/Chapter3/Problem3.9.2.md (a)",
-        "coverage": "covered_partial",
-        "lean_decl": [
-          "Etingof.Problem3_9_2.ext1_self",
-          "Etingof.Problem3_9_2.ext1_subsingleton_of_ne",
-          "Etingof.Problem3_9_2.two_dim_is_extension"
-        ],
-        "reason": "The Ext¹ spaces are computed and every 2D module is shown to be an extension. The file does not turn this into an up-to-isomorphism classification: no explicit normal forms, split/distinct-weight theorem, projective parameter for nonzero self-extensions, or iff isomorphism criterion is exposed.",
-        "followup_issue": 6276
+      "coverage": "covered_full",
+      "lean_decl": [
+        "Etingof.Problem3_9_2.ext1_self",
+        "Etingof.Problem3_9_2.ext1_subsingleton_of_ne",
+        "Etingof.Problem3_9_2.two_dim_is_extension",
+        "Etingof.Problem3_9_2.two_dim_normal_form",
+        "Etingof.Problem3_9_2.jrep_iso_iff",
+        "Etingof.Problem3_9_2.split_iso_iff",
+        "Etingof.Problem3_9_2.split_not_iso_jrep"
+      ],
+        "reason": "The Ext¹ spaces are computed, every two-dimensional module is an extension, and the classification continuation gives explicit split and Jordan normal forms with exhaustive isomorphism criteria. The former classification gap is resolved; no live follow-up field remains."
       },
       {
         "part": "(b) infinitely many indecomposables of the zero-mult algebra",
@@ -12355,7 +12552,180 @@
         ],
         "reason": "infinitely_many_indecomposables (677): for 1<n there is a family M:ℕ→Type of B=zeroMulAlg n modules, each Etingof.IsIndecomposable, pairwise non-isomorphic (Nonempty(Mₖ≃ₗMₗ)→k=l). Built on the 2-dim modules Cyc n k where two generators act as N and k·N. zeroMulAlg (563)=RingQuot(BRel n) genuinely constructed. Axiom-clean."
       }
-    ]
+    ],
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For A=ℂ[x₁,…,xₙ], Vₐ is the one-dimensional representation on which xᵢ acts by aᵢ.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_2.polyAlg; Etingof.Problem3_9_2.Vrep; Etingof.Problem3_9_2.Vrep_smul_eq"
+        },
+        {
+          "claim": "Ext¹(Vₐ,Vₐ) is isomorphic to ℂⁿ.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_2.ext1_self"
+        },
+        {
+          "claim": "Ext¹(V_b,Vₐ) vanishes when a≠b.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_2.ext1_subsingleton_of_ne"
+        },
+        {
+          "claim": "Every two-dimensional A-representation is either a split sum of two distinct weights or a dual-number normal form Jrep(a,c).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_2.two_dim_normal_form",
+          "note": "This strengthens the earlier extension-only endpoint two_dim_is_extension to an explicit exhaustive normal form."
+        },
+        {
+          "claim": "Jrep(a,c)≅Jrep(a',c') exactly when a=a' and c,c' are related by a nonzero scalar.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_2.jrep_iso_iff",
+          "note": "Thus nonzero self-extension classes are parametrized by projective ℂⁿ, while c=0 is the split self-extension."
+        },
+        {
+          "claim": "Split sums V_b⊕Vₐ are isomorphic exactly when their two weights agree as an unordered pair.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_2.split_iso_iff"
+        },
+        {
+          "claim": "A split module with distinct weights is not isomorphic to any Jrep normal form.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_2.split_not_iso_jrep"
+        },
+        {
+          "claim": "The algebra B is generated by x₁,…,xₙ with every product xᵢxⱼ equal to zero.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_2.zeroMulAlg"
+        },
+        {
+          "claim": "For n>1, B has infinitely many pairwise nonisomorphic indecomposable representations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_2.infinitely_many_indecomposables",
+          "note": "The theorem constructs an ℕ-indexed family of honest B-modules, proves each indecomposable, and proves isomorphism forces equality of indices."
+        }
+      ]
+    },
+    "stage3_3": {
+      "stage": "3.3",
+      "status": "complete",
+      "reviewed_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_9_2.polyAlg",
+        "Etingof.Problem3_9_2.maxIdeal",
+        "Etingof.Problem3_9_2.Vrep",
+        "Etingof.Problem3_9_2.Vrep_smul_eq",
+        "Etingof.Problem3_9_2.quot_mk_one_ne_zero",
+        "Etingof.Problem3_9_2.ext1_self",
+        "Etingof.Problem3_9_2.ext1_subsingleton_of_ne",
+        "Etingof.Problem3_9_2.eigen_smul_eq",
+        "Etingof.Problem3_9_2.oneDim_iso_Vrep",
+        "Etingof.Problem3_9_2.exists_common_eigenvector",
+        "Etingof.Problem3_9_2.two_dim_is_extension",
+        "Etingof.Problem3_9_2.BRel",
+        "Etingof.Problem3_9_2.zeroMulAlg",
+        "Etingof.Problem3_9_2.socleVecR",
+        "Etingof.Problem3_9_2.cycVecR",
+        "Etingof.Problem3_9_2.nilOpR",
+        "Etingof.Problem3_9_2.nilOpR_apply",
+        "Etingof.Problem3_9_2.nilOpR_sq",
+        "Etingof.Problem3_9_2.Cyc",
+        "Etingof.Problem3_9_2.socleVec",
+        "Etingof.Problem3_9_2.cycVec",
+        "Etingof.Problem3_9_2.nilOp",
+        "Etingof.Problem3_9_2.nilOp_apply",
+        "Etingof.Problem3_9_2.nilOp_sq",
+        "Etingof.Problem3_9_2.socleVec_ne_zero",
+        "Etingof.Problem3_9_2.wt",
+        "Etingof.Problem3_9_2.wt_zero",
+        "Etingof.Problem3_9_2.wt_one",
+        "Etingof.Problem3_9_2.genImg",
+        "Etingof.Problem3_9_2.genImg_mul",
+        "Etingof.Problem3_9_2.freeRep",
+        "Etingof.Problem3_9_2.freeRep_rel",
+        "Etingof.Problem3_9_2.rep",
+        "Etingof.Problem3_9_2.gen",
+        "Etingof.Problem3_9_2.rep_gen",
+        "Etingof.Problem3_9_2.instModuleCyc",
+        "Etingof.Problem3_9_2.rep_algebraMap_smul",
+        "Etingof.Problem3_9_2.infinitely_many_indecomposables",
+        "Etingof.Problem3_9_2.smulCommClass_polyAlg",
+        "Etingof.Problem3_9_2.genEnd",
+        "Etingof.Problem3_9_2.genEnd_apply",
+        "Etingof.Problem3_9_2.nonempty_linearEquiv_of_comm_X",
+        "Etingof.Problem3_9_2.nonempty_linearEquiv_of_comm_X_basis",
+        "Etingof.Problem3_9_2.Jrep",
+        "Etingof.Problem3_9_2.Jrep.eps",
+        "Etingof.Problem3_9_2.Jrep.eps_mul_eps",
+        "Etingof.Problem3_9_2.Jrep.fst",
+        "Etingof.Problem3_9_2.Jrep.snd",
+        "Etingof.Problem3_9_2.Jrep.fst_zero",
+        "Etingof.Problem3_9_2.Jrep.snd_zero",
+        "Etingof.Problem3_9_2.Jrep.fst_one",
+        "Etingof.Problem3_9_2.Jrep.snd_one",
+        "Etingof.Problem3_9_2.Jrep.fst_eps",
+        "Etingof.Problem3_9_2.Jrep.snd_eps",
+        "Etingof.Problem3_9_2.Jrep.fst_add",
+        "Etingof.Problem3_9_2.Jrep.snd_add",
+        "Etingof.Problem3_9_2.Jrep.fst_smul",
+        "Etingof.Problem3_9_2.Jrep.snd_smul",
+        "Etingof.Problem3_9_2.Jrep.ext",
+        "Etingof.Problem3_9_2.Jrep.eq_smul_one_add_smul_eps",
+        "Etingof.Problem3_9_2.Jrep.eps_mul",
+        "Etingof.Problem3_9_2.jHom",
+        "Etingof.Problem3_9_2.jHom_X",
+        "Etingof.Problem3_9_2.jrepModule",
+        "Etingof.Problem3_9_2.jrep_smul_def",
+        "Etingof.Problem3_9_2.jrep_finrank",
+        "Etingof.Problem3_9_2.jrep_X_smul",
+        "Etingof.Problem3_9_2.jrep_X_smul_one",
+        "Etingof.Problem3_9_2.jrep_X_smul_eps",
+        "Etingof.Problem3_9_2.jrep_eps_ne_zero",
+        "Etingof.Problem3_9_2.jrepBasis",
+        "Etingof.Problem3_9_2.jrepBasis_apply",
+        "Etingof.Problem3_9_2.jrepBasis_zero_eq",
+        "Etingof.Problem3_9_2.jrepBasis_one_eq",
+        "Etingof.Problem3_9_2.weightLine_restrictScalars",
+        "Etingof.Problem3_9_2.weightLine_iso",
+        "Etingof.Problem3_9_2.smul_mem_of_tower",
+        "Etingof.Problem3_9_2.two_dim_normal_form",
+        "Etingof.Problem3_9_2.map_smul_complex",
+        "Etingof.Problem3_9_2.jrep_sub_smul",
+        "Etingof.Problem3_9_2.jrep_smul_eps_eq_zero_iff",
+        "Etingof.Problem3_9_2.jrep_nilpotent",
+        "Etingof.Problem3_9_2.jrep_weight_eq",
+        "Etingof.Problem3_9_2.jrep_class_eq_zero_of_scalar",
+        "Etingof.Problem3_9_2.jrep_class_eq_zero_of_target",
+        "Etingof.Problem3_9_2.jrep_exists_scalar",
+        "Etingof.Problem3_9_2.jrep_iso_of_scalar",
+        "Etingof.Problem3_9_2.jrep_iso_iff",
+        "Etingof.Problem3_9_2.Weights",
+        "Etingof.Problem3_9_2.weights_subset_of_linearEquiv",
+        "Etingof.Problem3_9_2.weights_eq_of_linearEquiv",
+        "Etingof.Problem3_9_2.weights_jrep",
+        "Etingof.Problem3_9_2.weights_vrep_prod",
+        "Etingof.Problem3_9_2.split_iso_iff",
+        "Etingof.Problem3_9_2.split_not_iso_jrep"
+      ],
+      "basis": "All 95 named authored public declarations across the core and classification providers are closed Lean terms. The exhaustive module-origin audit also covered all 275 constants emitted by the two providers, including private, anonymous-instance, inductive-generated, equation, and internal declarations."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.9",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.3.8",
+        "Chapter3/Problem3.9.1"
+      ],
+      "basis": "The core provider directly uses Ext1/cocycle infrastructure from Problem 3.9.1 and IsIndecomposable from Definition 2.3.8; the classification provider is a same-item continuation. Twelve transitive imports were removed across the two providers, and all eight survivors are individually required."
+    }
   },
   {
     "id": "Chapter3/Problem3.9.3",
@@ -12365,9 +12735,9 @@
     "end_page": "57",
     "start_line": 17,
     "end_line": 17,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "sorry_free": true,
-    "fidelity": "full",
+    "fidelity": "verified",
     "coverage": "covered_full",
     "coverage_arm": "audited",
     "lean_decl": [
@@ -12389,7 +12759,142 @@
     ],
     "last_updated": "2026-07-26",
     "coverage_note": "All three parts are covered. The irreducible classification and exact Ext^1 dimension formula are in Problem3_9_3.lean (#7376). The two-dimensional classification is in Problem3_9_3_TwoDim.lean (#7420): the normal form `twoRep i j c`, exhaustiveness as an actual isomorphism (`two_dim_normalForm`), the indecomposability dichotomy, and the support / scalar isomorphism criteria (the latter records the effect of parallel arrows). The old necessary-condition disjunction is re-derived from the normal form as `two_dim_classification_of_normalForm`.",
-    "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_3.lean"
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter3/Problem3_9_3.lean",
+      "EtingofRepresentationTheory/Chapter3/Problem3_9_3_TwoDim.lean"
+    ],
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "For a finite acyclic quiver Q, the vertex representation Sᵢ is irreducible.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_3.simpleRep_isIrreducible"
+        },
+        {
+          "claim": "Every finite-dimensional irreducible representation of the path algebra is isomorphic to Sᵢ for some vertex i.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_3.irreducible_isSimpleRep"
+        },
+        {
+          "claim": "Ext¹(Sᵢ,Sⱼ) has dimension equal to the number of arrows i→j, and in particular vanishes exactly when there is no such arrow.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_3.finrank_ext1_simpleRep; Etingof.Problem3_9_3.ext1_simpleRep_vanishes_iff"
+        },
+        {
+          "claim": "Every two-dimensional representation has an explicit normal form twoRep(i,j,c) supported at two vertices, including the same-vertex case.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_3.twoRep; Etingof.Problem3_9_3.sum_dimVec_twoRep; Etingof.Problem3_9_3.two_dim_normalForm"
+        },
+        {
+          "claim": "The zero-coefficient normal form splits as Sᵢ⊕Sⱼ, while a nonzero arrow coefficient between distinct vertices makes the normal form indecomposable.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_3.twoRepZeroEquivDirectSum; Etingof.Problem3_9_3.twoRep_isIndecomposable; Etingof.Problem3_9_3.twoRep_zero_not_isIndecomposable"
+        },
+        {
+          "claim": "Rescaling all coefficients by a nonzero scalar preserves the normal form's isomorphism class, and an isomorphism of fixed-support normal forms forces such a scalar relation.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_3.twoRepEquivSmul; Etingof.Problem3_9_3.exists_smul_of_equiv_twoRep"
+        },
+        {
+          "claim": "Isomorphism of two normal forms preserves their supported vertices, giving the complete two-dimensional classification including parallel-arrow parameters.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_3.vertices_eq_of_equiv_twoRep; Etingof.Problem3_9_3.two_dim_classification_of_normalForm",
+          "note": "The coefficient family c retains the full space of parallel arrows rather than collapsing it to a single-arrow special case."
+        }
+      ]
+    },
+    "stage3_3": {
+      "stage": "3.3",
+      "status": "complete",
+      "reviewed_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_9_3.NoOrientedCycles",
+        "Etingof.Problem3_9_3.IsIrreducible",
+        "Etingof.Problem3_9_3.simpleRep_isIrreducible",
+        "Etingof.Problem3_9_3.irreducible_isSimpleRep",
+        "Etingof.Problem3_9_3.ext1_simpleRep_vanishes_iff",
+        "Etingof.Problem3_9_3.extDiffₗ",
+        "Etingof.Problem3_9_3.simpleRep_obj_addCommGroup",
+        "Etingof.Problem3_9_3.Ext1Simple",
+        "Etingof.Problem3_9_3.extDiffₗ_simpleRep_eq_zero",
+        "Etingof.Problem3_9_3.finrank_ext1_simpleRep",
+        "Etingof.Problem3_9_3.two_dim_classification",
+        "Etingof.QuiverRepresentationEquiv.refl",
+        "Etingof.QuiverRepresentationEquiv.dimVec_eq",
+        "Etingof.Problem3_9_3.truncMap",
+        "Etingof.Problem3_9_3.truncMap_apply",
+        "Etingof.Problem3_9_3.truncMap_eq_zero_of_source",
+        "Etingof.Problem3_9_3.truncMap_eq_zero_of_target",
+        "Etingof.Problem3_9_3.finPiEquivOfEqOne",
+        "Etingof.Problem3_9_3.finPiEquivOfEqOne_symm_apply",
+        "Etingof.Problem3_9_3.finPiEquivOfEqOne_truncMap",
+        "Etingof.Problem3_9_3.finPi_subsingleton",
+        "Etingof.Problem3_9_3.prodTrivRight",
+        "Etingof.Problem3_9_3.prodTrivLeft",
+        "Etingof.Problem3_9_3.prodTrivRight_symm_apply",
+        "Etingof.Problem3_9_3.prodTrivLeft_symm_apply",
+        "Etingof.Problem3_9_3.subsingletonEquiv",
+        "Etingof.Problem3_9_3.twoRep",
+        "Etingof.Problem3_9_3.twoRep_mapLinear_apply",
+        "Etingof.Problem3_9_3.twoRep_mapLinear_apply_fst",
+        "Etingof.Problem3_9_3.twoRep_mapLinear_apply_snd",
+        "Etingof.Problem3_9_3.twoRep_obj_subsingleton",
+        "Etingof.Problem3_9_3.twoRep_free",
+        "Etingof.Problem3_9_3.twoRep_finite",
+        "Etingof.Problem3_9_3.twoRep_addCommGroup",
+        "Etingof.Problem3_9_3.dimVec_twoRep",
+        "Etingof.Problem3_9_3.sum_dimVec_twoRep",
+        "Etingof.Problem3_9_3.twoRep_zero_mapLinear",
+        "Etingof.Problem3_9_3.twoRepZeroEquivDirectSum",
+        "Etingof.Problem3_9_3.genFst",
+        "Etingof.Problem3_9_3.genSnd",
+        "Etingof.Problem3_9_3.twoRep_mapLinear_genFst",
+        "Etingof.Problem3_9_3.genSnd_ne_zero",
+        "Etingof.Problem3_9_3.genFst_ne_zero",
+        "Etingof.Problem3_9_3.eq_bot_of_ne",
+        "Etingof.Problem3_9_3.finrank_twoRep_fst",
+        "Etingof.Problem3_9_3.finrank_twoRep_snd",
+        "Etingof.Problem3_9_3.twoRep_isIndecomposable",
+        "Etingof.Problem3_9_3.twoRep_zero_not_isIndecomposable",
+        "Etingof.Problem3_9_3.transportEquivAt",
+        "Etingof.Problem3_9_3.transportEquivAt_rfl",
+        "Etingof.Problem3_9_3.coeffOf",
+        "Etingof.Problem3_9_3.coeffOf_apply",
+        "Etingof.Problem3_9_3.normalFormEquivAt",
+        "Etingof.Problem3_9_3.normalFormEquivAt_fst",
+        "Etingof.Problem3_9_3.normalFormEquivAt_snd",
+        "Etingof.Problem3_9_3.nonempty_equiv_twoRep",
+        "Etingof.Problem3_9_3.nonempty_equiv_of_mapLinear_eq_zero",
+        "Etingof.Problem3_9_3.subsingleton_of_dimVec_eq_zero",
+        "Etingof.Problem3_9_3.nonempty_linearEquiv_of_dimVec_eq_one",
+        "Etingof.Problem3_9_3.support_of_sum_eq_two",
+        "Etingof.Problem3_9_3.two_dim_normalForm",
+        "Etingof.Problem3_9_3.twoRepEquivSmul",
+        "Etingof.Problem3_9_3.exists_smul_of_equiv_twoRep",
+        "Etingof.Problem3_9_3.vertices_eq_of_equiv_twoRep",
+        "Etingof.Problem3_9_3.isIndecomposable_of_equiv",
+        "Etingof.Problem3_9_3.twoRep_mapLinear_bijective",
+        "Etingof.Problem3_9_3.two_dim_classification_of_normalForm"
+      ],
+      "basis": "All 67 named authored public declarations across the Ext and two-dimensional classification providers are closed Lean terms. The exhaustive module-origin audit also covered all 130 emitted constants, including private, generated, and internal declarations."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.9",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter2/Theorem2.1.2"
+      ],
+      "basis": "The providers directly use the quiver-representation equivalence API from Theorem 2.1.2. The core provider also reuses simpleRep, dimVec, and Ext infrastructure housed in Problem6_9_3 to implement this same Problem 3.9.3; that implementation-provider reuse is not a forward book-item edge, which would make the reading-order dependency graph cyclic. Three unused/transitive project imports were removed, leaving the core provider two required imports and the same-item continuation import."
+    }
   },
   {
     "id": "Chapter3/Problem3.9.4",
@@ -12399,16 +12904,16 @@
     "end_page": "58",
     "start_line": 1,
     "end_line": 12,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "sorry_free": true,
     "fidelity": "verified",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_9_4.lean"
     ],
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "coverage_arm": "audited",
-    "coverage_note": "Coverage-arm audit (Stage 3.7, #7361): covered_partial. Problem3_9_4.lean (347 lines, sorry-free, axiom-clean [propext, Classical.choice, Quot.sound]). (a) isTrivial_of_ext1_subsingleton: genuine Ext1(V,V)=0 => every formal deformation is trivial (isomorphic to rho), with FormalDeformation / constDeformation / IsIsomorphic / IsTrivial all honestly constructed and Ext1 = the in-book Z1/B1. (b) is an open-ended book QUESTION (is the converse true? consider dual numbers k[x]/x^2), faithfully recorded as the proposition ConverseHolds / Problem3_9_4b but left unresolved, matching the book => covered_partial; no follow-up issue (the book asserts nothing to formalize as a theorem). Prior fidelity: verified.",
-    "last_updated": "2026-07-22",
+    "coverage_note": "Coverage-arm audit updated after #8101: covered_full. Problem3_9_4.lean (602 lines, sorry-free, axiom-clean [propext, Classical.choice, Quot.sound]). (a) isTrivial_of_ext1_subsingleton proves genuine Ext1(V,V)=0 => every formal deformation is trivial, with the deformation and isomorphism data honestly constructed and Ext1 equal to the in-book Z1/B1. (b) remains an open-ended QUESTION in the source inventory, but the provider now proves its negative answer in the suggested dual-number test case: dualNumber_all_deformations_trivial and dualNumber_ext1_not_subsingleton are combined by not_problem3_9_4b_dualNumber. The source question remains non-formalizable as a source claim; the proved answer is recorded as derived coverage. Prior fidelity: verified.",
+    "last_updated": "2026-07-28",
     "derived": [
       {
         "part": "(a) Ext1(V,V)=0 => deformations trivial",
@@ -12426,18 +12931,134 @@
         "reason": "isTrivial_of_ext1_subsingleton (309): Subsingleton (Ext1 k A V V) -> for all D, IsTrivial D, i.e. Ext1(V,V)=0 => every formal deformation is isomorphic to the constant deformation. All data genuinely constructed: FormalDeformation (Cauchy-product multiplicativity rho_n(ab)=sum_{i+j=n} rho_i(a).rho_j(b)), constDeformation (real body: rho_0=rho, rho_n=0 for n>=1, obligation proved), IsIsomorphic (power series b(t)=1+b_1 t+... with b_0=id intertwining), IsTrivial. Ext1 reuses the in-book Problem3_9_1.Ext1 (Z1/B1), not Mathlib Ext. Trivialiser built order by order; the order-n obstruction is shown to be a 1-cocycle and killed by Ext1=0. Clean axioms."
       },
       {
-        "part": "(b) converse (open question)",
+      "part": "(b) converse (book question; negative answer)",
         "claim": "Is the converse to (a) true (all deformations trivial => Ext1(V,V)=0)? Suggested test case: the dual numbers A=k[x]/x^2.",
         "description": "Open-ended question in the book asking whether rigidity characterizes vanishing self-extensions.",
         "source_span": "blobs/Chapter3/Problem3.9.4.md (b)",
-        "coverage": "covered_partial",
-        "lean_decl": [
-          "Etingof.Problem3_9_4.ConverseHolds",
-          "Etingof.Problem3_9_4.Problem3_9_4b"
-        ],
-        "reason": "The book poses (b) as an OPEN-ENDED QUESTION, not a claim to prove. The converse is faithfully STATED as the proposition ConverseHolds (335) = (for all D, IsTrivial D) -> Subsingleton (Ext1 ...), specialized to the dual numbers in Problem3_9_4b (342) per the book's hint. It is neither proved nor refuted (matching the book leaving it open), so the truth-value is not established => covered_partial, not covered_full. No follow-up issue: the book makes no assertion here, so the Lean statement is not weaker than a book claim; resolving the question would be new mathematics beyond formalization scope."
+      "coverage": "covered_full",
+      "lean_decl": [
+        "Etingof.Problem3_9_4.ConverseHolds",
+        "Etingof.Problem3_9_4.Problem3_9_4b",
+        "Etingof.Problem3_9_4.dualNumberAugmentationAlgebra",
+        "Etingof.Problem3_9_4.dualNumber_all_deformations_trivial",
+        "Etingof.Problem3_9_4.dualNumber_ext1_not_subsingleton",
+        "Etingof.Problem3_9_4.not_problem3_9_4b_dualNumber"
+      ],
+      "reason": "The book poses (b) as an open-ended question and suggests the dual numbers. ConverseHolds states the converse and Problem3_9_4b specializes it to the augmentation representation of the dual numbers. The provider answers the question negatively: every deformation of that representation is literally constant, while epsCocycle gives a nonzero self-Ext¹ class; not_problem3_9_4b_dualNumber combines the two results. This derived negative answer does not change the Stage 3.2 source-claim inventory: the interrogative source sentence remains non_formalizable rather than being replaced by provider-authored mathematics."
       }
-    ]
+    ],
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "A formal deformation is a sequence ρₙ of linear maps with ρ₀=ρ whose coefficients satisfy the Cauchy-product multiplicativity equations.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_4.FormalDeformation"
+        },
+        {
+          "claim": "The original representation defines the constant formal deformation.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_4.constDeformation"
+        },
+        {
+          "claim": "Two deformations are isomorphic when a series b(t)=1+b₁t+⋯ intertwines their coefficient series; a deformation is trivial when isomorphic to the constant one.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_4.IsIsomorphic; Etingof.Problem3_9_4.IsTrivial",
+          "note": "The coefficient equations encode bρ̃=ρ̃'b; b₀=id makes b formally invertible."
+        },
+        {
+          "claim": "If Ext¹(V,V)=0, then every formal deformation of ρ is trivial.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_4.isTrivial_of_ext1_subsingleton",
+          "note": "The proof constructs the trivializing series recursively and kills each obstruction cocycle using the Ext¹ hypothesis."
+        },
+        {
+          "claim": "Part (b) asks whether the converse holds, suggesting the dual numbers k[x]/x² as a test case.",
+          "verdict": "non_formalizable",
+        "reason": "The source poses an open-ended question rather than asserting a truth value, so this source claim unit remains non_formalizable. Lean records the proposition and its dual-number specialization as ConverseHolds and Problem3_9_4b; #8101 additionally proves the derived negative answer in not_problem3_9_4b_dualNumber, which is tracked in derived coverage rather than substituted for a source claim."
+        }
+      ]
+    },
+    "stage3_3": {
+      "stage": "3.3",
+      "status": "complete",
+      "reviewed_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_9_4.baseRho",
+        "Etingof.Problem3_9_4.FormalDeformation",
+        "Etingof.Problem3_9_4.constDeformation",
+      "Etingof.Problem3_9_4.IsIsomorphic",
+      "Etingof.Problem3_9_4.IsTrivial",
+      "Etingof.Problem3_9_4.isIsomorphic_refl",
+      "Etingof.Problem3_9_4.baseRho_mul",
+        "Etingof.Problem3_9_4.coboundaryOf_apply",
+        "Etingof.Problem3_9_4.coboundaryOf_add",
+        "Etingof.Problem3_9_4.coboundaryOf_smul",
+        "Etingof.Problem3_9_4.coboundaryOf_zero",
+        "Etingof.Problem3_9_4.exists_of_mem_coboundaries",
+        "Etingof.Problem3_9_4.exists_coboundary_of_cocycle",
+        "Etingof.Problem3_9_4.defSeries",
+        "Etingof.Problem3_9_4.defSeries_coeff",
+        "Etingof.Problem3_9_4.defSeries_mul",
+        "Etingof.Problem3_9_4.obstr",
+        "Etingof.Problem3_9_4.obstr_apply",
+        "Etingof.Problem3_9_4.nextCoeff",
+        "Etingof.Problem3_9_4.bVec",
+        "Etingof.Problem3_9_4.bSeq",
+        "Etingof.Problem3_9_4.bSeq_zero",
+        "Etingof.Problem3_9_4.bSeq_succ",
+        "Etingof.Problem3_9_4.bVec_eq_bSeq",
+        "Etingof.Problem3_9_4.coboundaryOf_bSeq_succ",
+        "Etingof.Problem3_9_4.Cc",
+        "Etingof.Problem3_9_4.gv",
+        "Etingof.Problem3_9_4.Cc_eq_coeff",
+        "Etingof.Problem3_9_4.Cc_mul",
+        "Etingof.Problem3_9_4.Cc_eq_gv_add",
+        "Etingof.Problem3_9_4.obstr_bVec_apply",
+        "Etingof.Problem3_9_4.gv_cocycle",
+        "Etingof.Problem3_9_4.star",
+      "Etingof.Problem3_9_4.isTrivial_of_ext1_subsingleton",
+      "Etingof.Problem3_9_4.ConverseHolds",
+      "Etingof.Problem3_9_4.Problem3_9_4b",
+      "Etingof.Problem3_9_4.dualNumberAugmentationAlgebra",
+      "Etingof.Problem3_9_4.endScalar",
+      "Etingof.Problem3_9_4.endScalar_injective",
+      "Etingof.Problem3_9_4.scalarSeries",
+      "Etingof.Problem3_9_4.scalarSeries_coeff",
+      "Etingof.Problem3_9_4.scalarSeries_eps_zero",
+      "Etingof.Problem3_9_4.scalarSeries_one_coeff_zero",
+      "Etingof.Problem3_9_4.scalarSeries_one",
+      "Etingof.Problem3_9_4.coeff_eps_zero",
+      "Etingof.Problem3_9_4.coeff_one_succ_zero",
+      "Etingof.Problem3_9_4.dualNumber_coeff_succ_eq_zero",
+      "Etingof.Problem3_9_4.dualNumber_deformation_eq_const",
+      "Etingof.Problem3_9_4.dualNumber_all_deformations_trivial",
+      "Etingof.Problem3_9_4.epsCocycle",
+      "Etingof.Problem3_9_4.epsCocycle_isCocycle",
+      "Etingof.Problem3_9_4.coboundary_eq_zero",
+      "Etingof.Problem3_9_4.epsCocycle_ne_zero",
+      "Etingof.Problem3_9_4.epsCocycle_not_mem_coboundaries",
+      "Etingof.Problem3_9_4.dualNumber_ext1_not_subsingleton",
+      "Etingof.Problem3_9_4.not_problem3_9_4b_dualNumber"
+    ],
+    "basis": "All 56 named authored public declarations are closed Lean terms (35 inherited plus 21 added by #8101). The exhaustive source/environment reconciliation includes the two public low-level coefficient helpers coeff_eps_zero and coeff_one_succ_zero as well as the dual-number augmentation, scalar-series and cocycle construction, and not_problem3_9_4b_dualNumber. Module-origin enumeration covers 143 emitted constants (137 public, 6 private), including structure-generated, equation, compiler-auxiliary, and internal declarations."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.9",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Problem3.9.1"
+      ],
+    "basis": "The rigidity proof and dual-number counterexample directly use the Ext1 and coboundary framework from Problem 3.9.1. After #8101, three unused/transitive imports were removed from this provider and the four survivors are individually required: Problem3_9_1, Mathlib.Algebra.DualNumber, Mathlib.RingTheory.PowerSeries.NoZeroDivisors, and Mathlib.Tactic.NoncommRing."
+    }
   },
   {
     "id": "Chapter3/Problem3.9.5",
@@ -12447,7 +13068,7 @@
     "end_page": "59",
     "start_line": 13,
     "end_line": 4,
-    "status": "sorry_free",
+    "status": "dependency_trimmed",
     "sorry_free": true,
     "fidelity": "verified",
     "lean_file": [
@@ -12521,7 +13142,245 @@
         ],
         "reason": "isSemisimpleRing_iff_nondegenerate (1476): IsSemisimpleRing (Cl(V)) ↔ B.Nondegenerate (forward = not_isSemisimpleRing_of_degenerate contrapositive; reverse = part (i)). radicalQuotient_isClifford_of_degenerate (1742): B degenerate ⇒ ∃ nondegenerate symmetric B' on W with a surjective algebra map Cl(V)→Cl(W,B') whose kernel is Ring.jacobson (Cl(V)), i.e. Cl(V)/Rad ≅ Cl(V/rad B, induced form). Axiom-clean."
       }
-    ]
+    ],
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "3.9",
+      "reviewed_on": "2026-07-27",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Cl(V) is the tensor algebra modulo v⊗v-(v,v)1, equivalently the Clifford algebra of Q(v)=B(v,v).",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "CliffordAlgebra; Etingof.Problem3_9_5.quadForm; Etingof.Problem3_9_5.CliffAlg",
+          "note": "The project specializes Mathlib's universal CliffordAlgebra construction to the quadratic form induced by B."
+        },
+        {
+          "claim": "The generators satisfy xᵢxⱼ+xⱼxᵢ=2aᵢⱼ and xᵢ²=aᵢᵢ.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "CliffordAlgebra.ι_mul_ι_add_swap; CliffordAlgebra.ι_sq_scalar"
+        },
+        {
+          "claim": "For the zero bilinear form, Cl(V) is the exterior algebra ΛV.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_5.cliffordAlgebra_zero_eq_exterior"
+        },
+        {
+          "claim": "Ordered Clifford monomials indexed by subsets span and form a 2^dim(V)-element basis, so dim Cl(V)=2^dim(V).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_5.span_e_eq_top; Etingof.Problem3_9_5.cliffBasis; Etingof.Problem3_9_5.finrank_cliffAlg"
+        },
+        {
+          "claim": "If B is nondegenerate, then Cl(V) is semisimple.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_5.isSemisimpleRing_of_nondegenerate"
+        },
+        {
+          "claim": "If dim V=2n and B is nondegenerate, Cl(V) is a full matrix algebra End(S) with dim S=2^n, hence has one irreducible representation of that dimension.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_5.even_isMatrixAlgebra",
+          "note": "The full matrix-algebra equivalence is stronger than the stated irreducible-count conclusion."
+        },
+        {
+          "claim": "If dim V=2n+1 and B is nondegenerate, Cl(V) is End(S)×End(S) with dim S=2^n, hence has exactly two irreducible representations of that dimension.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_5.odd_isSumMatrixAlgebra",
+          "note": "The product-of-matrix-algebras equivalence includes nonisomorphism and exhaustiveness of the two simple factors."
+        },
+      {
+        "claim": "The requested proof constructs S=Λ(a₁,…,aₙ), lets bᵢ act by contraction, proves this concrete action irreducible, and in odd dimension constructs the two parity actions S₊ and S₋.",
+        "verdict": "formalized",
+        "lean_decl": "Etingof.Problem3_9_5.creation; Etingof.Problem3_9_5.contraction; Etingof.Problem3_9_5.hyperbolicSpinRep; Etingof.Problem3_9_5.hyperbolicSpinor_irreducible; Etingof.Problem3_9_5.evenSpinRep; Etingof.Problem3_9_5.evenSpinor_irreducible; Etingof.Problem3_9_5.oddSpinRepPlus; Etingof.Problem3_9_5.oddSpinRepMinus; Etingof.Problem3_9_5.oddSpinorPlus_irreducible; Etingof.Problem3_9_5.oddSpinorMinus_irreducible; Etingof.Problem3_9_5.oddSpinors_nonisomorphic; Etingof.Problem3_9_5.odd_every_irreducible_iso",
+        "note": "The three spinor continuation providers added by #8104 implement the requested exterior-algebra model, transport an arbitrary nondegenerate even form to the hyperbolic model, and construct and classify the two odd parity actions."
+        },
+        {
+          "claim": "Cl(V) is semisimple if and only if B is nondegenerate.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_5.isSemisimpleRing_iff_nondegenerate"
+        },
+        {
+          "claim": "For degenerate B, Cl(V)/Rad(Cl(V)) is the Clifford algebra of the induced nondegenerate form on V/rad(B).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Problem3_9_5.radicalQuotient_isClifford_of_degenerate",
+          "note": "The theorem constructs the quotient form and a surjective algebra map whose kernel is the Jacobson radical."
+        }
+      ]
+    },
+    "stage3_3": {
+      "stage": "3.3",
+      "status": "complete",
+      "reviewed_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_9_5.quadForm",
+        "Etingof.Problem3_9_5.CliffAlg",
+        "Etingof.Problem3_9_5.cliffordAlgebra_zero_eq_exterior",
+        "Etingof.Problem3_9_5.isSemisimpleRing_of_traceForm_nondegenerate",
+        "Etingof.Problem3_9_5.gen",
+        "Etingof.Problem3_9_5.e",
+        "Etingof.Problem3_9_5.e_empty",
+        "Etingof.Problem3_9_5.e_singleton",
+        "Etingof.Problem3_9_5.e_insert_of_lt",
+        "Etingof.Problem3_9_5.e_minPeel",
+        "Etingof.Problem3_9_5.gen_sq",
+        "Etingof.Problem3_9_5.gen_anticomm",
+        "Etingof.Problem3_9_5.diag_ne_zero",
+        "Etingof.Problem3_9_5.isUnit_gen",
+        "Etingof.Problem3_9_5.isUnit_e",
+        "Etingof.Problem3_9_5.gen_mul_mem",
+        "Etingof.Problem3_9_5.e_mul_mem",
+        "Etingof.Problem3_9_5.span_e_eq_top",
+        "Etingof.Problem3_9_5.finrank_cliffAlg",
+        "Etingof.Problem3_9_5.cliffBasis",
+        "Etingof.Problem3_9_5.cliffBasis_apply",
+        "Etingof.Problem3_9_5.mulLeft_smul",
+        "Etingof.Problem3_9_5.tr_mulLeft_e",
+        "Etingof.Problem3_9_5.tr_mulLeft_e_mul_of_ne",
+        "Etingof.Problem3_9_5.tr_mulLeft_e_mul_self_ne_zero",
+        "Etingof.Problem3_9_5.isSemisimpleRing_of_nondegenerate",
+        "Etingof.Problem3_9_5.gen_comm_notMem",
+        "Etingof.Problem3_9_5.gen_conj",
+        "Etingof.Problem3_9_5.central_of_commutes_gen",
+        "Etingof.Problem3_9_5.center_le_bot",
+        "Etingof.Problem3_9_5.eUniv_mem_center",
+        "Etingof.Problem3_9_5.center_le_span_eUniv",
+        "Etingof.Problem3_9_5.finrank_center_odd",
+        "Etingof.Problem3_9_5.involute_e",
+        "Etingof.Problem3_9_5.exists_eUniv_sq",
+        "Etingof.Problem3_9_5.even_isMatrixAlgebra",
+        "Etingof.Problem3_9_5.odd_exists_pi_matrix",
+        "Etingof.Problem3_9_5.odd_isSumMatrixAlgebra",
+        "Etingof.Problem3_9_5.not_isSemisimpleRing_of_degenerate",
+        "Etingof.Problem3_9_5.isSemisimpleRing_iff_nondegenerate",
+        "Etingof.Problem3_9_5.radSubmodule",
+        "Etingof.Problem3_9_5.mem_radSubmodule",
+        "Etingof.Problem3_9_5.radQuotForm",
+        "Etingof.Problem3_9_5.radQuotForm_mk_mk",
+        "Etingof.Problem3_9_5.radQuotForm_isSymm",
+        "Etingof.Problem3_9_5.radQuotForm_nondegenerate",
+        "Etingof.Problem3_9_5.ι_rad_mul",
+        "Etingof.Problem3_9_5.radQuotIsometry",
+        "Etingof.Problem3_9_5.radIdeal",
+        "Etingof.Problem3_9_5.ι_mem_radIdeal",
+        "Etingof.Problem3_9_5.radIdeal_isTwoSided",
+        "Etingof.Problem3_9_5.ker_map_radQuotIsometry",
+        "Etingof.Problem3_9_5.ι_mem_jacobson",
+        "Etingof.Problem3_9_5.radIdeal_eq_jacobson",
+      "Etingof.Problem3_9_5.radicalQuotient_isClifford_of_degenerate",
+      "Etingof.Problem3_9_5.Spinor",
+      "Etingof.Problem3_9_5.HyperbolicSpace",
+      "Etingof.Problem3_9_5.hyperbolicQ",
+      "Etingof.Problem3_9_5.creation",
+      "Etingof.Problem3_9_5.contraction",
+      "Etingof.Problem3_9_5.creation_sq_zero",
+      "Etingof.Problem3_9_5.contraction_sq_zero",
+      "Etingof.Problem3_9_5.contraction_creation_add",
+      "Etingof.Problem3_9_5.contraction_mul_creation_add",
+      "Etingof.Problem3_9_5.hyperbolicAction",
+      "Etingof.Problem3_9_5.hyperbolicAction_sq",
+      "Etingof.Problem3_9_5.hyperbolicSpinRep",
+      "Etingof.Problem3_9_5.hyperbolicSpinRep_ι_fst",
+      "Etingof.Problem3_9_5.hyperbolicSpinRep_ι_snd",
+      "Etingof.Problem3_9_5.finrank_spinor",
+      "Etingof.Problem3_9_5.spinorParity",
+      "Etingof.Problem3_9_5.spinorParity_sq",
+      "Etingof.Problem3_9_5.contraction_involute",
+      "Etingof.Problem3_9_5.spinorParity_creation_anticomm",
+      "Etingof.Problem3_9_5.spinorParity_contraction_anticomm",
+      "Etingof.Problem3_9_5.spinorParity_hyperbolicAction_anticomm",
+      "Etingof.Problem3_9_5.hyperbolicClifford_isSimpleRing",
+      "Etingof.Problem3_9_5.hyperbolicSpinRep_bijective",
+      "Etingof.Problem3_9_5.hyperbolicSpinor_irreducible",
+      "Etingof.Problem3_9_5.OddStandardSpace",
+      "Etingof.Problem3_9_5.oddStandardQ",
+      "Etingof.Problem3_9_5.parityLine",
+      "Etingof.Problem3_9_5.oddStandardAction",
+      "Etingof.Problem3_9_5.oddStandardAction_sq",
+      "Etingof.Problem3_9_5.oddHyperbolicSpinRepPlus",
+      "Etingof.Problem3_9_5.oddHyperbolicSpinRepMinus",
+      "Etingof.Problem3_9_5.oddHyperbolicSpinRepPlus_ι_hyperbolic",
+      "Etingof.Problem3_9_5.oddHyperbolicSpinRepMinus_ι_hyperbolic",
+      "Etingof.Problem3_9_5.oddHyperbolicSpinRepPlus_ι_extra",
+      "Etingof.Problem3_9_5.oddHyperbolicSpinRepMinus_ι_extra",
+      "Etingof.Problem3_9_5.evenToOddClifford",
+      "Etingof.Problem3_9_5.evenToOddClifford_ι",
+      "Etingof.Problem3_9_5.oddHyperbolicSpinRepPlus_comp_evenToOdd",
+      "Etingof.Problem3_9_5.oddHyperbolicSpinRepMinus_comp_evenToOdd",
+      "Etingof.Problem3_9_5.oddHyperbolicSpinRepPlus_surjective",
+      "Etingof.Problem3_9_5.oddHyperbolicSpinRepMinus_surjective",
+      "Etingof.Problem3_9_5.oddStandardQ_separatingLeft",
+      "Etingof.Problem3_9_5.oddSpinIsometry",
+      "Etingof.Problem3_9_5.oddSpinRepPlus",
+      "Etingof.Problem3_9_5.oddSpinRepMinus",
+      "Etingof.Problem3_9_5.oddSpinRepPlus_ι",
+      "Etingof.Problem3_9_5.oddSpinRepMinus_ι",
+      "Etingof.Problem3_9_5.oddSpinExtra",
+      "Etingof.Problem3_9_5.oddSpinRepPlus_ι_extra",
+      "Etingof.Problem3_9_5.oddSpinRepMinus_ι_extra",
+      "Etingof.Problem3_9_5.oddSpinRepPlus_surjective",
+      "Etingof.Problem3_9_5.oddSpinRepMinus_surjective",
+      "Etingof.Problem3_9_5.oddSpinorPlus_irreducible",
+      "Etingof.Problem3_9_5.oddSpinorMinus_irreducible",
+      "Etingof.Problem3_9_5.SpinorPlus",
+      "Etingof.Problem3_9_5.SpinorMinus",
+      "Etingof.Problem3_9_5.spinorPlusAddCommGroup",
+      "Etingof.Problem3_9_5.spinorPlusComplexModule",
+      "Etingof.Problem3_9_5.spinorMinusAddCommGroup",
+      "Etingof.Problem3_9_5.spinorMinusComplexModule",
+      "Etingof.Problem3_9_5.spinorEquivPlus",
+      "Etingof.Problem3_9_5.spinorEquivMinus",
+      "Etingof.Problem3_9_5.oddSpinorRepresentationPlus",
+      "Etingof.Problem3_9_5.oddSpinorRepresentationMinus",
+      "Etingof.Problem3_9_5.spinorPlusCliffordModule",
+      "Etingof.Problem3_9_5.spinorMinusCliffordModule",
+      "Etingof.Problem3_9_5.spinorPlus_isSimpleModule",
+      "Etingof.Problem3_9_5.spinorMinus_isSimpleModule",
+      "Etingof.Problem3_9_5.oddSpinEvenElement",
+      "Etingof.Problem3_9_5.oddSpinRepPlus_evenElement",
+      "Etingof.Problem3_9_5.oddSpinRepMinus_evenElement",
+      "Etingof.Problem3_9_5.oddSpinors_nonisomorphic",
+      "Etingof.Problem3_9_5.odd_every_finiteDimensional_irreducible_iso",
+      "Etingof.Problem3_9_5.odd_every_irreducible_iso",
+      "Etingof.Problem3_9_5.hyperbolicQ_separatingLeft",
+      "Etingof.Problem3_9_5.evenSpinIsometry",
+      "Etingof.Problem3_9_5.evenSpinStandardVector",
+      "Etingof.Problem3_9_5.evenSpinStandardCovector",
+      "Etingof.Problem3_9_5.evenSpinA",
+      "Etingof.Problem3_9_5.evenSpinB",
+      "Etingof.Problem3_9_5.evenSpinIsometry_pairing",
+      "Etingof.Problem3_9_5.evenSpinA_pair",
+      "Etingof.Problem3_9_5.evenSpinB_pair",
+      "Etingof.Problem3_9_5.evenSpinA_pair_evenSpinB",
+      "Etingof.Problem3_9_5.evenSpinRep",
+      "Etingof.Problem3_9_5.evenSpinRep_ι",
+      "Etingof.Problem3_9_5.evenSpinRep_ι_evenSpinA",
+      "Etingof.Problem3_9_5.evenSpinRep_ι_evenSpinB",
+      "Etingof.Problem3_9_5.evenSpinRep_bijective",
+      "Etingof.Problem3_9_5.evenSpinAlgEquiv",
+      "Etingof.Problem3_9_5.evenSpinor_irreducible",
+      "Etingof.Problem3_9_5.EvenSpinor",
+      "Etingof.Problem3_9_5.evenSpinorAddCommGroup",
+      "Etingof.Problem3_9_5.evenSpinorComplexModule",
+      "Etingof.Problem3_9_5.spinorEquivEvenSpinor",
+      "Etingof.Problem3_9_5.evenSpinorRepresentation",
+      "Etingof.Problem3_9_5.evenSpinorCliffordModule",
+      "Etingof.Problem3_9_5.evenSpinor_isSimpleModule",
+      "Etingof.Problem3_9_5.even_every_irreducible_iso_spinor"
+    ],
+    "basis": "All 154 named authored public declarations across the core and three spinor providers are closed Lean terms. The approved 20-entry top-level lean_decl list remains the representative coverage endpoint inventory; this Stage 3.3 list is the exhaustive durable authored API. Exhaustive module-origin enumeration, including compiler auxiliaries, covers 415 emitted constants across the four providers (408 public, 7 private), including the core anonymous finite-dimensionality instance plus generated, equation, and internal declarations."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "3.9",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [
+        "Chapter3/Theorem3.3.1"
+      ],
+      "basis": "The four Clifford/spinor providers use Mathlib plus same-item provider imports, and the odd-dimensional continuation directly uses Theorem 3.3.1. The core provider retains eleven imports after seventeen removals; the three #8104 continuation providers retain six after four additional verified removals. All 17 final imports were individually deletion-tested in the integrated four-provider state."
+    }
   },
   {
     "id": "Chapter3/Introduction_to_3.10",

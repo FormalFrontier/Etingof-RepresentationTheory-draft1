@@ -2,9 +2,12 @@
 
 **Issue:** #7375 (Stage 3.7 exercise-coverage ratchet)
 **Date:** 2026-07-22
-**Scope:** assign honest `coverage` fields + `lean_decl` targets to the three §3.9
-items already `sorry_free` / `fidelity: verified` but lacking `coverage`. No
-re-proving. Siblings 3.9.1 / 3.9.4 were classified earlier (#7363).
+**Scope:** the original audit assigned `coverage` fields and `lean_decl` targets
+to Problems 3.9.2, 3.9.3, and 3.9.5. This permanent report is reconciled with
+the current eight providers for those items:
+`Problem3_9_2`, `Problem3_9_2_Classification`, `Problem3_9_3`,
+`Problem3_9_3_TwoDim`, `Problem3_9_5`, `Problem3_9_5_Spinor`,
+`Problem3_9_5_Spinor_Transport`, and `Problem3_9_5_Spinor_Odd`.
 
 ## Method
 
@@ -41,26 +44,35 @@ were `lake build`-ed first, so no transitive olean is missing.)
   **covered_full.**
 - Roll-up **covered_full**. `Ext1` = in-book Problem3_9_1 `Z¹/B¹`.
 
-### Problem 3.9.3 — `covered_partial`  → follow-up #7376
+### Problem 3.9.3 — `covered_full`
 
 Single item, three book sub-questions:
 
 - **Irreducibles** (full): `simpleRep_isIrreducible` (50) each `S_i` irreducible;
   `irreducible_isSimpleRep` (124) every irreducible of a *finite acyclic* quiver
   is `≅ S_i`.
-- **2-dim classification** (full): `two_dim_classification` (332) decomposable
-  `S_i⊕S_j` or indecomposable supported on a single arrow `i→j` (`i≠j`) acting as
-  an isomorphism.
-- **Ext¹** (partial — reason for `covered_partial`): `ext1_simpleRep_vanishes_iff`
-  (265) proves only the **vanishing** characterization
-  `Ext1Vanishes(S_i,S_j) ↔ IsEmpty (i⟶j)`. The book asks to *compute* Ext¹, whose
-  full answer `dim Ext¹(S_i,S_j) = card (i⟶j)` is only stated parenthetically in
-  the docstring, not proved. Strictly weaker than the book claim.
+- **Ext¹** (full): `ext1_simpleRep_vanishes_iff` gives the vanishing
+  characterization and `finrank_ext1_simpleRep` proves the exact formula
+  `dim Ext¹(S_i,S_j) = card (i⟶j)`. The latter closed #7376.
+- **2-dim classification** (full): the core provider gives
+  `two_dim_classification`; `Problem3_9_3_TwoDim` strengthens this to the
+  explicit family `twoRep i j c`, the exhaustive module isomorphism
+  `two_dim_normalForm`, the decomposable/indecomposable dichotomy, and exact
+  support and scalar-isomorphism criteria, including parallel arrows. This
+  completed the classification in #7420.
 
-Follow-up **feature #7376** tracks the missing dimension formula; landing it lifts
-the item to `covered_full`.
+All three book requests are therefore `covered_full`; #7376 is closed and is
+not an outstanding follow-up.
 
 ### Problem 3.9.5 (The Clifford algebra) — `covered_full`
+
+Coverage is supplied by four current providers. `Problem3_9_5` proves the
+abstract semisimplicity, matrix-algebra, dimension, and radical-quotient
+results. `Problem3_9_5_Spinor` constructs wedge, contraction, the hyperbolic
+spin representation, and its parity operator.
+`Problem3_9_5_Spinor_Transport` transports arbitrary nondegenerate even forms
+to the hyperbolic model. `Problem3_9_5_Spinor_Odd` constructs the two odd
+spinors and proves irreducibility, nonisomorphism, and exhaustiveness.
 
 - **(i)** nondegenerate ⇒ semisimple with even/odd classification:
   `isSemisimpleRing_of_nondegenerate` (475); `even_isMatrixAlgebra` (899)
@@ -78,14 +90,15 @@ the item to `covered_full`.
 
 ## Reconciliations
 
-- Fixed stale `sorry_free: false` (with `status: sorry_free`) → `true` on all
-  three items (verified sorry-free).
-- Normalized `lean_file` from a bare string to a one-element list, matching the
-  audited siblings 3.9.1 / 3.9.4.
+- The original audit fixed stale `sorry_free: false` booleans; those booleans
+  remain `true`. After the completed Stage 3.4 audit, the canonical top-level
+  status of all three items is `dependency_trimmed`.
+- Current `lean_file` arrays enumerate both Problem 3.9.2 providers, both
+  Problem 3.9.3 providers, and all four Problem 3.9.5 providers.
 - `progress/items.json` parses (`jq empty`).
 
 ## Follow-up
 
-- **#7376** — formalize `dim Ext¹(S_i,S_j) = number of arrows i→j` for path-algebra
-  simples (lifts 3.9.3 to `covered_full`). No other follow-ups: 3.9.2 and 3.9.5 are
-  fully covered.
+- **#7376 is closed** by `finrank_ext1_simpleRep`.
+- The current Problems 3.9.2, 3.9.3, and 3.9.5 are all `covered_full`; no
+  coverage follow-up remains for this audit.

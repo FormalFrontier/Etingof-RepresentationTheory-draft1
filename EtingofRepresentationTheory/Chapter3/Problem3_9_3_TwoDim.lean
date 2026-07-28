@@ -1,6 +1,4 @@
 import EtingofRepresentationTheory.Chapter3.Problem3_9_3
-import EtingofRepresentationTheory.Chapter2.Definition2_8_9
-import EtingofRepresentationTheory.Chapter2.Theorem2_1_2_General
 
 /-!
 # Problem 3.9.3: the isomorphism classification of two-dimensional representations
