@@ -6503,6 +6503,17 @@
           "note": "Lean models the finite direct sum by the equivalent finite product indexed by Fin r and assumes only Field k."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "MatProd",
+        "Etingof.irreducible_reps_of_matrix_algebra"
+      ],
+      "basis": "The heading itself is organizational, but its arbitrary-field finite-product setup is mathematical and is represented by the listed admission-free declarations."
     }
   },
   {
@@ -6553,6 +6564,23 @@
           "note": "The explicit multiplicity function m and A-linear direct-sum equivalence give the exact book conclusion; Etingof.irreducible_reps_of_matrix_algebra also packages simplicity, exhaustiveness, and semisimplicity."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "isSimpleModule_vModuleProd",
+        "exists_iso_vModuleProd",
+        "vModuleProd_iso_imp_eq",
+        "isSemisimpleModule_of_matrixProd",
+        "Etingof.irreducible_reps_of_matrix_algebra",
+        "regularDecomp",
+        "freeModuleDecomp",
+        "exists_iso_directSum_of_matrixProd"
+      ],
+      "basis": "The simplicity, exhaustiveness, pairwise nonisomorphism, semisimplicity, and exact finite-dimensional direct-sum endpoint all have complete proof terms."
     }
   },
   {
@@ -6586,6 +6614,14 @@
           "reason": "This is a methodological transition rather than an independent mathematical assertion."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "not_applicable",
+      "declarations": [],
+      "basis": "This item is a methodological transition motivating the following definition, not a proposition with a Lean proof obligation."
     }
   },
   {
@@ -6628,6 +6664,19 @@
           "lean_decl": "Etingof.dualRepresentation_smul_apply"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.DualRepresentation",
+        "Etingof.instSMulMulOppositeDual",
+        "Etingof.dualRepresentation_smul_apply",
+        "Etingof.instModuleMulOppositeDual"
+      ],
+      "basis": "The carrier, contragredient action, defining equation, and opposite-algebra module laws were all included in the exhaustive constant-level axiom audit."
     }
   },
   {
@@ -6723,6 +6772,54 @@
           "lean_decl": "exists_iso_directSum_of_matrixProd"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "isSimpleModule_vModuleProd",
+        "matrixTransposeSelfDuality",
+        "piMulOppositeRingEquiv",
+        "matProdTransposeSelfDuality",
+        "dualMap_injective_of_surjective",
+        "lsmulHom",
+        "lsmulHom_apply",
+        "twistedDualModule",
+        "twistedDualModule_smul_apply",
+        "twistedDual_isScalarTower",
+        "matProdTransposeSelfDuality_unop",
+        "matProdTransposeSelfDuality_unop_smul",
+        "frobPairing",
+        "frobPairing_apply",
+        "frobHom",
+        "frobHom_apply",
+        "frobHom_injective",
+        "frobHom_bijective",
+        "matProdSelfDual",
+        "toDualHom",
+        "toDualHom_apply",
+        "toDualHom_surjective",
+        "matProdTransposeSelfDuality_unop_unop",
+        "twistedDualMap",
+        "twistedDualMap_injective",
+        "twistedEvalEquiv",
+        "toDualEmbedding",
+        "toDualEmbedding_injective",
+        "dualPiEquiv",
+        "dualPowSelfDual",
+        "colVec",
+        "colMap",
+        "regularDecomp",
+        "regularDecomp_apply",
+        "freeColMap",
+        "freeColMap_apply",
+        "freeModuleDecomp",
+        "Etingof.subrepresentation_of_semisimple",
+        "exists_iso_directSum_of_matrixProd"
+      ],
+      "basis": "The complete dual route, including the free-to-dual surjection, dual injection, self-duality and regular/free decompositions, resolves to admission-free proof terms. Mathlib's finite-dual results and Proposition 3.1.4 were already compiled dependencies."
     }
   },
   {
@@ -6881,6 +6978,51 @@
           "note": "The instruction has no additional endpoint beyond the fully proved classification theorem."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_3_3.single_one_central",
+        "Etingof.Problem3_3_3.idemProj",
+        "Etingof.Problem3_3_3.single_mul_single_eq",
+        "Etingof.Problem3_3_3.sum_single_one",
+        "Etingof.Problem3_3_3.single_smul_single_smul",
+        "Etingof.Problem3_3_3.sum_single_smul",
+        "Etingof.Problem3_3_3.mem_range_idemProj",
+        "Etingof.Problem3_3_3.range_eq_top_iff",
+        "Etingof.Problem3_3_3.range_eq_bot_iff",
+        "Etingof.Problem3_3_3.simpleModule_prod_iff",
+        "Etingof.Problem3_3_3.Inflate",
+        "Etingof.Problem3_3_3.Inflate.instAddCommGroup",
+        "Etingof.Problem3_3_3.Inflate.instNontrivialOfAddCommGroup",
+        "Etingof.Problem3_3_3.Inflate.instModule",
+        "Etingof.Problem3_3_3.Inflate.instProdModule",
+        "Etingof.Problem3_3_3.Inflate.prod_smul_def",
+        "Etingof.Problem3_3_3.Inflate.single_smul",
+        "Etingof.Problem3_3_3.Inflate.toFactor",
+        "Etingof.Problem3_3_3.Inflate.toFactor_bijective",
+        "Etingof.Problem3_3_3.Inflate.isSimpleModule_iff",
+        "Etingof.Problem3_3_3.Inflate.congr",
+        "Etingof.Problem3_3_3.Inflate.ofCongr",
+        "Etingof.Problem3_3_3.Inflate.index_eq_of_equiv",
+        "Etingof.Problem3_3_3.single_mul_single",
+        "Etingof.Problem3_3_3.factorSummandModule",
+        "Etingof.Problem3_3_3.factorSummandModule_smul_coe",
+        "Etingof.Problem3_3_3.prod_smul_summand_eq",
+        "Etingof.Problem3_3_3.summandToFactor",
+        "Etingof.Problem3_3_3.isSimpleModule_summand_iff",
+        "Etingof.Problem3_3_3.simpleModule_prod_iff_factor",
+        "Etingof.Problem3_3_3.summandEquivInflate",
+        "Etingof.Problem3_3_3.exists_isSimpleFactor",
+        "Etingof.Problem3_3_3.exists_inflate_of_isSimple",
+        "Etingof.Problem3_3_3.std_isSimpleModule",
+        "Etingof.Problem3_3_3.simpleModule_iso_std",
+        "Etingof.Problem3_3_3.finite_iso_std_pow"
+      ],
+      "basis": "All 36 exported declarations, the seven private matrix-unit helpers, and their compiler-generated proof constants were included in the exhaustive module-origin audit. Part (c) is a pedagogical deduction whose already-proved endpoint is Theorem 3.3.1."
     }
   },
   {
@@ -6948,6 +7090,20 @@
           "note": "The exact endpoint is fully proved; Lean obtains it from an embedding and Proposition 3.1.4 rather than the book's quotient-form application of Lemma 3.1.6."
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.freeCover",
+        "Etingof.freeCover_apply",
+        "Etingof.freeCover_unique",
+        "Etingof.freeCover_surjective",
+        "Etingof.quotientEquivOfFreeCover"
+      ],
+      "basis": "The free-cover construction, formula, uniqueness, surjectivity, and quotient equivalence are all admission-free; the alternative final decomposition endpoint is the already-audited Theorem 3.3.1 declaration."
     }
   },
   {
