@@ -1,4 +1,7 @@
-import Mathlib
+import Mathlib.Tactic.NoncommRing
+import Mathlib.FieldTheory.PurelyInseparable.Basic
+import Mathlib.RingTheory.SimpleModule.WedderburnArtin
+import Mathlib.RingTheory.TensorProduct.Pi
 
 /-!
 # The Jacobson radical of a tensor product of algebras
