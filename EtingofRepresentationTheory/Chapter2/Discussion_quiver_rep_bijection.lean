@@ -1061,3 +1061,205 @@ noncomputable def isoClassEquiv :
 end IsoClasses
 
 end Etingof.PathAlgebra
+
+/-! ## Exact book-facing correspondence
+
+The development above predates `BookPathAlgebra` and faithfully describes modules over the
+source-to-target implementation `PathAlgebra k Q`; those correspond to representations of
+`Qᵒᵖ`. The following declarations state the book's actual claim using the multiplicative-opposite
+façade from Definition 2.8.4. For this algebra, left multiplication by an arrow `i ⟶ j` maps
+`p_iV` to `p_jV`, so no opposite quiver appears.
+-/
+
+namespace Etingof.BookPathAlgebra
+
+universe u v w
+
+section Forward
+
+variable {k : Type u} {Q : Type v} [Field k] [Quiver Q] [DecidableEq Q] [Fintype Q]
+variable {V : Type w} [AddCommGroup V] [Module k V]
+  [Module (BookPathAlgebra k Q) V] [IsScalarTower k (BookPathAlgebra k Q) V]
+
+/-- The one-edge basis vector in the book-facing path algebra. -/
+noncomputable def ofArrow {i j : Q} (e : i ⟶ j) : BookPathAlgebra k Q :=
+  ofPath (k := k) ⟨i, j, e.toPath⟩
+
+/-- The book-facing path-algebra action as a `k`-algebra homomorphism to endomorphisms. -/
+noncomputable def moduleEnd : BookPathAlgebra k Q →ₐ[k] Module.End k V :=
+  Algebra.lsmul k k V
+
+/-- The projection onto the vertex space `p_iV`. -/
+noncomputable def vertexProj (i : Q) : Module.End k V :=
+  moduleEnd (k := k) (V := V) (trivialPath (k := k) (Q := Q) i)
+
+/-- The `i`-th vertex space `V_i = p_iV`. -/
+noncomputable def vertexSpace (i : Q) : Submodule k V :=
+  LinearMap.range (vertexProj (k := k) (V := V) i)
+
+@[simp] theorem vertexProj_apply (i : Q) (x : V) :
+    vertexProj (k := k) (V := V) i x =
+      (trivialPath (k := k) (Q := Q) i : BookPathAlgebra k Q) • x :=
+  rfl
+
+/-- An arrow `e : i ⟶ j` sends every vector, hence in particular every vector of `p_iV`, into
+`p_jV`. This is relation `p_j a_e = a_e` from Problem 2.8.6. -/
+theorem ofArrow_smul_mem {i j : Q} (e : i ⟶ j) (x : V) :
+    (ofArrow (k := k) e : BookPathAlgebra k Q) • x ∈
+      vertexSpace (k := k) (V := V) j := by
+  refine ⟨(ofArrow (k := k) e : BookPathAlgebra k Q) • x, ?_⟩
+  rw [vertexProj_apply, ← mul_smul]
+  change (ofPath (k := k) ⟨j, j, Quiver.Path.nil⟩ *
+      ofPath (k := k) ⟨i, j, e.toPath⟩) • x = _
+  rw [ofPath_mul_ofPath, Quiver.Path.comp_nil]
+  rfl
+
+/-- The arrow map `x_h : V_i → V_j`, obtained by restricting the action of `a_h` to `p_iV`. -/
+noncomputable def arrowMap {i j : Q} (e : i ⟶ j) :
+    vertexSpace (k := k) (V := V) i →ₗ[k] vertexSpace (k := k) (V := V) j :=
+  LinearMap.restrict (moduleEnd (k := k) (V := V) (ofArrow (k := k) e))
+    (fun x _ => ofArrow_smul_mem (k := k) e x)
+
+/-- The exact forward assignment from the book: a left `P_Q`-module `V` yields the quiver
+representation with vertex spaces `p_iV` and arrow maps given by the one-edge paths. -/
+noncomputable def forwardRep : QuiverRepresentation k Q where
+  obj i := vertexSpace (k := k) (V := V) i
+  mapLinear e := arrowMap (k := k) (V := V) e
+
+end Forward
+
+section IsoClasses
+
+variable (k : Type u) (Q : Type v) [Field k] [Quiver Q] [DecidableEq Q] [Fintype Q]
+
+/-- A bundled left module over the book-facing path algebra. -/
+structure PathModule where
+  carrier : Type w
+  addCommGroup : AddCommGroup carrier
+  moduleField : Module k carrier
+  modulePathAlgebra : Module (BookPathAlgebra k Q) carrier
+  scalarTower : IsScalarTower k (BookPathAlgebra k Q) carrier
+
+/-- Isomorphism of bundled book-facing path-algebra modules. -/
+def PathModule.Isomorphic (M N : PathModule k Q) : Prop :=
+  letI := M.addCommGroup
+  letI := M.moduleField
+  letI := M.modulePathAlgebra
+  letI := M.scalarTower
+  letI := N.addCommGroup
+  letI := N.moduleField
+  letI := N.modulePathAlgebra
+  letI := N.scalarTower
+  Nonempty (M.carrier ≃ₗ[BookPathAlgebra k Q] N.carrier)
+
+/-- Isomorphism of book-facing path modules as a setoid relation. -/
+def pathModuleIsoSetoid : Setoid (PathModule k Q) where
+  r := PathModule.Isomorphic k Q
+  iseqv := {
+    refl := fun M => by
+      letI := M.addCommGroup
+      letI := M.moduleField
+      letI := M.modulePathAlgebra
+      letI := M.scalarTower
+      exact ⟨LinearEquiv.refl (BookPathAlgebra k Q) M.carrier⟩
+    symm := fun {M N} h => by
+      letI := M.addCommGroup
+      letI := M.moduleField
+      letI := M.modulePathAlgebra
+      letI := M.scalarTower
+      letI := N.addCommGroup
+      letI := N.moduleField
+      letI := N.modulePathAlgebra
+      letI := N.scalarTower
+      exact ⟨h.some.symm⟩
+    trans := fun {M N R} hMN hNR => by
+      letI := M.addCommGroup
+      letI := M.moduleField
+      letI := M.modulePathAlgebra
+      letI := M.scalarTower
+      letI := N.addCommGroup
+      letI := N.moduleField
+      letI := N.modulePathAlgebra
+      letI := N.scalarTower
+      letI := R.addCommGroup
+      letI := R.moduleField
+      letI := R.modulePathAlgebra
+      letI := R.scalarTower
+      exact ⟨hMN.some.trans hNR.some⟩ }
+
+/-- Isomorphism of representations of `Q` as a setoid relation. -/
+def quiverRepresentationIsoSetoid : Setoid (QuiverRepresentation k Q) where
+  r R S := Nonempty (QuiverRepresentationEquiv k Q R S)
+  iseqv := {
+    refl := fun R => ⟨{
+      equivAt := fun i => LinearEquiv.refl k (R.obj i)
+      commutes := fun _ _ => rfl }⟩
+    symm := fun {R S} h => ⟨{
+      equivAt := fun i => (h.some.equivAt i).symm
+      commutes := fun f x => by
+        rw [LinearEquiv.symm_apply_eq, h.some.commutes f, LinearEquiv.apply_symm_apply] }⟩
+    trans := fun hRS hST => ⟨{
+      equivAt := fun i => (hRS.some.equivAt i).trans (hST.some.equivAt i)
+      commutes := fun {i j} f x => by
+        simp only [LinearEquiv.trans_apply]
+        rw [hRS.some.commutes f, hST.some.commutes f] }⟩ }
+
+/-- Isomorphism classes of modules over the book-facing path algebra. -/
+abbrev PathModuleIsoClass := Quotient (pathModuleIsoSetoid k Q)
+
+/-- Isomorphism classes of representations of the original quiver `Q`. -/
+abbrev QuiverRepresentationIsoClass := Quotient (quiverRepresentationIsoSetoid k Q)
+
+/-- The exact forward construction `V ↦ (p_iV)` on a bundled module. -/
+noncomputable def PathModule.toQuiverRepresentation (M : PathModule k Q) :
+    QuiverRepresentation k Q := by
+  letI := M.addCommGroup
+  letI := M.moduleField
+  letI := M.modulePathAlgebra
+  letI := M.scalarTower
+  exact forwardRep (k := k) (Q := Q) (V := M.carrier)
+
+/-- The covariant composite of the arrow maps along a path `p : i ⟶* j`. -/
+noncomputable def pathMap (R : QuiverRepresentation k Q) {i j : Q}
+    (p : Quiver.Path i j) : R.obj i →ₗ[k] R.obj j :=
+  Quiver.Path.rec (motive := fun j _ => R.obj i →ₗ[k] R.obj j)
+    LinearMap.id (fun _ e ih => R.mapLinear e ∘ₗ ih) p
+
+/-- The action a basis path must have on `⊕_i V_i`: project to its source, apply the composite
+arrow map, and include at its target. -/
+noncomputable def pathEnd (R : QuiverRepresentation k Q) :
+    QuiverPathIndex Q → Module.End k (DirectSum Q R.obj)
+  | ⟨i, j, p⟩ => DirectSum.lof k Q R.obj j ∘ₗ pathMap k Q R p ∘ₗ
+      DirectSum.component k Q R.obj i
+
+/-- A bundled module realizes the book's reverse assignment when its carrier is linearly
+equivalent to `⊕_i V_i` and every basis path acts by the corresponding composite arrow map. -/
+def IsDirectSumRealization (R : QuiverRepresentation k Q) (M : PathModule k Q) : Prop :=
+  letI := M.addCommGroup
+  letI := M.moduleField
+  letI := M.modulePathAlgebra
+  letI := M.scalarTower
+  ∃ e : M.carrier ≃ₗ[k] DirectSum Q R.obj,
+    ∀ (i j : Q) (p : Quiver.Path i j) (x : M.carrier),
+      e ((ofPath (k := k) (⟨i, j, p⟩ : QuiverPathIndex Q) : BookPathAlgebra k Q) • x) =
+        pathEnd k Q R ⟨i, j, p⟩ (e x)
+
+/-- **The exact book claim, with both assignments specified.** There is a bijection between
+isomorphism classes of left modules over `BookPathAlgebra k Q` and representations of `Q`; its
+forward map is exactly `V ↦ (p_iV)`, and its inverse is represented by `⊕_i V_i` with path action
+given by composition of the arrow maps.
+
+The statement and all data definitions are complete. Its proof is the sole theorem-level Stage
+3.3 obligation exposed by the Stage 3.2 fidelity audit. -/
+theorem exists_isoClassEquiv_induced_by_book_assignments :
+    ∃ e : PathModuleIsoClass k Q ≃ QuiverRepresentationIsoClass k Q,
+      (∀ M : PathModule k Q,
+        e (Quotient.mk _ M) = Quotient.mk _ (M.toQuiverRepresentation k Q)) ∧
+      (∀ R : QuiverRepresentation k Q, ∃ M : PathModule k Q,
+        IsDirectSumRealization k Q R M ∧
+          e.symm (Quotient.mk _ R) = Quotient.mk _ M) := by
+  sorry
+
+end IsoClasses
+
+end Etingof.BookPathAlgebra

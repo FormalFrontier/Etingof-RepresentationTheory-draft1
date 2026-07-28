@@ -1,5 +1,3 @@
-import Mathlib.RingTheory.SimpleModule.Basic
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.RepresentationTheory.AlgebraRepresentation.Basic
 
 /-!
@@ -47,7 +45,7 @@ theorem Etingof.density_theorem_part1 (k : Type*) (A : Type*) (V : Type*)
 representations, the combined representation map is surjective.
 Etingof Theorem 3.2.2(ii). -/
 theorem Etingof.density_theorem_part2 (k : Type*) (A : Type*) (ι : Type*)
-    [Field k] [IsAlgClosed k] [Ring A] [Algebra k A] [Fintype ι]
+    [Field k] [IsAlgClosed k] [Ring A] [Algebra k A] [Finite ι]
     (V : ι → Type*) [∀ i, AddCommGroup (V i)] [∀ i, Module k (V i)]
     [∀ i, Module A (V i)] [∀ i, IsScalarTower k A (V i)]
     [∀ i, FiniteDimensional k (V i)] [∀ i, IsSimpleModule A (V i)]
@@ -56,6 +54,9 @@ theorem Etingof.density_theorem_part2 (k : Type*) (A : Type*) (ι : Type*)
       (fun a i => (Algebra.lsmul k k (V i) : A →ₐ[k] Module.End k (V i)) a :
         A → ∀ i, Module.End k (V i)) := by
   classical
+  -- Choose enumeration data only inside the proof; the statement needs proposition-valued
+  -- finiteness.
+  letI := Fintype.ofFinite ι
   intro f
   -- The product module ∏ V_i is semisimple (each V_i is simple, hence semisimple)
   haveI : IsSemisimpleModule A (∀ i, V i) :=

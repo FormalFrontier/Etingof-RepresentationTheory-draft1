@@ -1,4 +1,5 @@
-import Mathlib
+import Mathlib.LinearAlgebra.Contraction
+import Mathlib.LinearAlgebra.Determinant
 
 /-!
 # Problem 2.11.3: The universal property of the tensor product and its consequences

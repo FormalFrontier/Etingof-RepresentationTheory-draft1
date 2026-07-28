@@ -1,5 +1,5 @@
 import Mathlib.Order.RelSeries
-import Mathlib.LinearAlgebra.Span.Basic
+import Mathlib.Algebra.Module.Submodule.Lattice
 
 /-!
 # Definition 3.4.1: Filtration of a Representation

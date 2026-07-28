@@ -66,10 +66,12 @@ def altTensorSubmodule (n : ℕ) : Submodule k (TensorPow k V n) where
 
 variable {k V}
 
+/-- Membership in the symmetric-tensor subspace is invariance under every transposition. -/
 lemma mem_symTensorSubmodule_iff {n : ℕ} {T : TensorPow k V n} :
     T ∈ symTensorSubmodule k V n ↔ ∀ i j : Fin n, i ≠ j → permAct (Equiv.swap i j) T = T :=
   Iff.rfl
 
+/-- Membership in the alternating-tensor subspace is negation under every transposition. -/
 lemma mem_altTensorSubmodule_iff {n : ℕ} {T : TensorPow k V n} :
     T ∈ altTensorSubmodule k V n ↔ ∀ i j : Fin n, i ≠ j → permAct (Equiv.swap i j) T = -T :=
   Iff.rfl
@@ -131,6 +133,7 @@ lemma two_ne_zero_of_factorial_cast_ne_zero {n : ℕ} (hfac : (n.factorial : k) 
   push_cast
   rw [h2, zero_mul]
 
+/-- The symmetric group on Fin n has cardinality n factorial. -/
 lemma card_perm_fin (n : ℕ) : Fintype.card (Equiv.Perm (Fin n)) = n.factorial := by
   simp [Fintype.card_perm]
 
@@ -143,16 +146,19 @@ lemma two_le_of_ne {n : ℕ} {i j : Fin n} (hij : i ≠ j) : 2 ≤ n := by
   have : (i : ℕ) ≠ (j : ℕ) := fun h => hij (Fin.ext h)
   omega
 
+/-- Evaluation of the symmetrizer is the average over all permutations. -/
 lemma symmetrizer_apply {n : ℕ} (T : TensorPow k V n) :
     symmetrizer k V n T = (n.factorial : k)⁻¹ • ∑ σ : Equiv.Perm (Fin n), permAct σ T := by
   simp [symmetrizer, LinearMap.sum_apply]
 
+/-- Evaluation of the antisymmetrizer is the signed average over all permutations. -/
 lemma antisymmetrizer_apply {n : ℕ} (T : TensorPow k V n) :
     antisymmetrizer k V n T
       = (n.factorial : k)⁻¹ • ∑ σ : Equiv.Perm (Fin n),
           ((Equiv.Perm.sign σ : ℤ) : k) • permAct σ T := by
   simp [antisymmetrizer, LinearMap.sum_apply]
 
+/-- Summing a constant tensor over all permutations scales it by n factorial. -/
 lemma sum_const_perm {n : ℕ} (T : TensorPow k V n) :
     (∑ _σ : Equiv.Perm (Fin n), T) = (n.factorial : k) • T := by
   rw [Finset.sum_const, Finset.card_univ, card_perm_fin, Nat.cast_smul_eq_nsmul]
@@ -173,6 +179,7 @@ lemma permAct_symmetrizer {n : ℕ} (τ : Equiv.Perm (Fin n)) (T : TensorPow k V
   refine Fintype.sum_equiv (Equiv.mulLeft τ) _ _ fun σ => ?_
   rw [Equiv.coe_mulLeft, permAct_mul]
 
+/-- The symmetrizer of a tensor belongs to the symmetric-tensor subspace. -/
 lemma symmetrizer_mem_symTensorSubmodule {n : ℕ} (T : TensorPow k V n) :
     symmetrizer k V n T ∈ symTensorSubmodule k V n :=
   fun _ _ _ => permAct_symmetrizer _ T
@@ -195,6 +202,7 @@ lemma permAct_antisymmetrizer {n : ℕ} (τ : Equiv.Perm (Fin n)) (T : TensorPow
   rw [antisymmetrizer_apply, map_smul, map_sum, key, ← Finset.smul_sum]
   exact smul_comm _ _ _
 
+/-- The antisymmetrizer of a tensor belongs to the alternating-tensor subspace. -/
 lemma antisymmetrizer_mem_altTensorSubmodule {n : ℕ} (T : TensorPow k V n) :
     antisymmetrizer k V n T ∈ altTensorSubmodule k V n := by
   intro i j hij
@@ -404,7 +412,6 @@ noncomputable def extPowEquivAltTensor {n : ℕ} (hfac : (n.factorial : k) ≠ 0
 
 /-- **The identification of part (e) is the symmetrizer**: composing `S^n V ≃ symmetric tensors`
 with the quotient map `V^{⊗ n} → S^n V` recovers `T ↦ (n !)⁻¹ ∑_σ σ T`. -/
-@[simp]
 theorem symPowEquivSymTensor_mkQ {n : ℕ} (hfac : (n.factorial : k) ≠ 0) (T : TensorPow k V n) :
     (symPowEquivSymTensor (V := V) hfac ((symRelSubmodule k V n).mkQ T) : TensorPow k V n)
       = symmetrizer k V n T := rfl
@@ -412,7 +419,6 @@ theorem symPowEquivSymTensor_mkQ {n : ℕ} (hfac : (n.factorial : k) ≠ 0) (T :
 /-- **The identification of part (e) is the antisymmetrizer**: composing
 `⋀^n V ≃ antisymmetric tensors` with the quotient map `V^{⊗ n} → ⋀^n V` recovers
 `T ↦ (n !)⁻¹ ∑_σ sgn(σ) σ T`. -/
-@[simp]
 theorem extPowEquivAltTensor_mkQ {n : ℕ} (hfac : (n.factorial : k) ≠ 0) (T : TensorPow k V n) :
     (extPowEquivAltTensor (V := V) hfac ((extRelSubmodule k V n).mkQ T) : TensorPow k V n)
       = antisymmetrizer k V n T := rfl
@@ -446,3 +452,12 @@ noncomputable def extPowEquivAltTensorOfCharZero [CharZero k] (n : ℕ) :
 end Identification
 
 end Etingof.Problem2_11_3
+
+-- The leaf names follow Mathlib conventions; the underscore comes solely from the stable
+-- book-number namespace Problem2_11_3, which is part of this project's public API.
+attribute [nolint defsWithUnderscore]
+  Etingof.Problem2_11_3.symTensorSubmodule Etingof.Problem2_11_3.altTensorSubmodule
+  Etingof.Problem2_11_3.symmetrizer Etingof.Problem2_11_3.antisymmetrizer
+  Etingof.Problem2_11_3.symPowEquivSymTensor Etingof.Problem2_11_3.extPowEquivAltTensor
+  Etingof.Problem2_11_3.symPowEquivSymTensorOfCharZero
+  Etingof.Problem2_11_3.extPowEquivAltTensorOfCharZero

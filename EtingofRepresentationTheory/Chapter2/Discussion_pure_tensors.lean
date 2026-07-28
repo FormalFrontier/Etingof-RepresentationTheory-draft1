@@ -1,9 +1,6 @@
-import Mathlib.LinearAlgebra.TensorProduct.Basic
 import Mathlib.LinearAlgebra.TensorProduct.Basis
-import Mathlib.LinearAlgebra.Pi
 import Mathlib.LinearAlgebra.PiTensorProduct.Basis
 import Mathlib.LinearAlgebra.Dual.Basis
-import Mathlib.Algebra.Algebra.Bilinear
 
 /-!
 # Discussion (pure tensors): not every tensor is pure
@@ -46,6 +43,7 @@ Under the identification of `V ⊗ V` with `2 × 2` matrices this reads off the 
 noncomputable def coeff (i j : Fin 2) : (V ⊗[ℚ] V) →ₗ[ℚ] ℚ :=
   TensorProduct.lift (((LinearMap.mul ℚ ℚ).comp (LinearMap.proj i)).compl₂ (LinearMap.proj j))
 
+/-- Evaluating the coordinate functional on a pure tensor gives the product of coordinates. -/
 @[simp]
 lemma coeff_tmul (i j : Fin 2) (v w : V) : coeff i j (v ⊗ₜ[ℚ] w) = v i * w j := by
   simp [coeff]

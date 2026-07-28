@@ -1,6 +1,4 @@
 import Mathlib.LinearAlgebra.Dual.Defs
-import Mathlib.Algebra.Module.LinearMap.End
-import Mathlib.Algebra.Module.Opposite
 import Mathlib.Algebra.Algebra.Defs
 
 /-!
@@ -41,9 +39,8 @@ Given a representation `V` of the algebra `A` (an `A`-module `V` over the base r
 with commuting actions), its dual representation `V*` has carrier the `k`-linear dual
 `Module.Dual k V`, equipped with the contragredient `Aᵐᵒᵖ`-action `(op a • f)(v) = f(a • v)`
 constructed in `Etingof.instModuleMulOppositeDual` below. -/
-abbrev DualRepresentation (k A V : Type*)
-    [CommRing k] [Ring A] [Algebra k A]
-    [AddCommGroup V] [Module k V] [Module A V] [SMulCommClass A k V] : Type _ :=
+abbrev DualRepresentation (k _A V : Type*)
+    [CommRing k] [AddCommGroup V] [Module k V] : Type _ :=
   Module.Dual k V
 
 /-- The contragredient action of `Aᵐᵒᵖ` on the dual space: `MulOpposite.op a` sends a
@@ -82,3 +79,7 @@ example : Module Aᵐᵒᵖ (DualRepresentation k A V) := inferInstance
 end DualRepresentation
 
 end Etingof
+
+-- `A` is intentionally retained in the public notation: it records which algebra acts on the
+-- representation even though the underlying carrier of its dual depends only on `k` and `V`.
+attribute [nolint unusedArguments] Etingof.DualRepresentation
