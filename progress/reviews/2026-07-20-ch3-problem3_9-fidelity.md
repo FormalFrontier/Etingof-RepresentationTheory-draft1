@@ -93,10 +93,15 @@ only; out of scope for a report-only fidelity audit — not touched here.
 `FormalDeformation` (coefficient sequence + `base_eq` + Cauchy-product `isMul`),
 `constDeformation`, and `IsIsomorphic`/`IsTrivial` are genuinely constructed. Part (a)
 `isTrivial_of_ext1_subsingleton` is fully proved via an order-by-order intertwiner
-construction (`star`, `bSeq`). Part (b) is the book's open-ended "is the converse true?",
-recorded honestly as a `Prop`-valued definition `Problem3_9_4b` / `ConverseHolds` rather than
-asserted as a theorem — appropriate, not vacuous. **Docstring corrected** (module docstring and
-the `constDeformation` docstring both claimed `sorry`; the `isMul` field is in fact proved).
+construction (`star`, `bSeq`). Part (b) is the book's open-ended "is the converse true?".
+The interrogative source unit remains classified as `non_formalizable`, while the integrated
+provider now goes beyond merely recording the proposition: `Problem3_9_4b` /
+`ConverseHolds` state it, `dualNumber_all_deformations_trivial` and
+`dualNumber_ext1_not_subsingleton` establish the suggested dual-number counterexample, and
+`not_problem3_9_4b_dualNumber` proves the answer is negative. This provider-authored answer is
+tracked as derived coverage without turning the source question into a source assertion.
+**Docstring corrected** (module docstring and the `constDeformation` docstring both claimed
+`sorry`; the `isMul` field is in fact proved).
 
 ### Problem 3.9.5 — The Clifford algebra (SOUND)
 
@@ -116,7 +121,10 @@ monomial basis `cliffBasis` are genuinely constructed. Faithful coverage of both
   radical). Faithful to "what is `Cl(V)/Rad(Cl(V))`?".
 
 Non-vacuous throughout. **Docstring corrected** (was "Statement pass: … proofs are left as
-`sorry`").
+`sorry`"). The current integrated development also supplies the explicit construction through
+`Problem3_9_5_Spinor`, `Problem3_9_5_Spinor_Transport`, and
+`Problem3_9_5_Spinor_Odd`: the exterior spin representation, transport from arbitrary
+nondegenerate even forms, and the two irreducible, nonisomorphic, exhaustive odd spinors.
 
 ## Source changes in this PR
 

@@ -1,8 +1,10 @@
 # Stage 3.2 claim audit: Chapter 3, Section 3.9
 
-Reviewed on 2026-07-27 against the coverage, definition-integrity, anti-vacuity,
-and statement-fidelity gates in `PLAN.md`, from exact base
-`8c9904371093ccbe36d0ca0691e4f6095ca73f4d`.
+The original Stage 3.2 audit was performed on 2026-07-27 against the coverage,
+definition-integrity, anti-vacuity, and statement-fidelity gates in `PLAN.md`,
+from commit `8c9904371093ccbe36d0ca0691e4f6095ca73f4d`. This permanent report was
+subsequently reconciled with #8101/#8104 and the integrated §3.9 merge
+`2725e8a886b888938503b93a064ab2fd82ad184d`.
 
 ## Scope
 
@@ -32,6 +34,10 @@ dispositions:
 - 2 `non_formalizable`
 - 0 `intentional_omission`
 - 0 `gap`
+
+The organizational heading has canonical top-level status
+`non_formalizable`; after the completed dependency audit, all five problem
+items have canonical top-level status `dependency_trimmed`.
 
 In particular:
 
@@ -80,10 +86,14 @@ A token-aware source scan of all ten providers found no `sorry`, `admit`,
 
 ## Validation
 
-- Exact provider build: `lake build` on all ten scoped modules succeeds
-  (pre-existing linter warnings only).
-- Full chapter build: `lake build EtingofRepresentationTheory.Chapter3`
-  succeeds (8,692 jobs; pre-existing linter warnings only).
+- Focused `lake build` on all ten scoped providers succeeds (8,642 jobs), and
+  the focused warning gate reports no new warnings.
+- `lake build EtingofRepresentationTheory.Chapter3` succeeds (8,695 jobs;
+  pre-existing warnings only).
+- The CI-equivalent build of 818 target modules succeeds (9,400 jobs), and its
+  warning gate reports no new warnings.
+- All four repository validators pass (583 tracker items and 512 dependency
+  edges), as do `jq empty` and `git diff --check`.
 
 The original Stage 3.2 source inventory remains exactly 44 units with the
 dispositions above. This integration audit additionally refreshes derived

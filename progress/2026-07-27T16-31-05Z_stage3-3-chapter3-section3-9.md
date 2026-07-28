@@ -2,11 +2,14 @@
 
 ## Scope and inherited coverage
 
-This stacked review is based exactly on Stage 3.2 draft PR #8087 at commit
-`ab3fb9ca94988b7093e1b02c9d8bd49710515eda`. Reading order gives the six §3.9
-catalog items at indices 170–175, from `Chapter3/Introduction_to_3.9` through
-`Chapter3/Problem3.9.5`. The strict predecessor is `Chapter3/Remark3.8.6`; the
-strict successor is `Chapter3/Introduction_to_3.10`.
+The original Stage 3.3 review was stacked on the Stage 3.2 draft provenance
+from PR #8087 at commit `ab3fb9ca94988b7093e1b02c9d8bd49710515eda`.
+This permanent report was later reconciled with #8101/#8104 and the integrated
+§3.9 merge `2725e8a886b888938503b93a064ab2fd82ad184d`. Reading order gives the
+six §3.9 catalog items at indices 170–175, from
+`Chapter3/Introduction_to_3.9` through `Chapter3/Problem3.9.5`. The strict
+predecessor is `Chapter3/Remark3.8.6`; the strict successor is
+`Chapter3/Introduction_to_3.10`.
 
 The inherited 44-claim inventory has the same source boundaries: 39 claims are
 `formalized`, three are `covered_elsewhere`, two are `non_formalizable`, there
@@ -24,9 +27,10 @@ providers are:
 - `EtingofRepresentationTheory/Chapter3/Problem3_9_5_Spinor_Transport.lean`;
 - `EtingofRepresentationTheory/Chapter3/Problem3_9_5_Spinor_Odd.lean`.
 
-The introduction is an organizational heading with no provider or proof
-obligation. Its proof integrity is therefore `not_applicable`; all five problem
-items are `sorry_free`.
+The introduction is an organizational heading with canonical top-level status
+`non_formalizable` and no provider or proof obligation, so its proof integrity
+is `not_applicable`. All five problem provider sets are `sorry_free`; their
+canonical post-Stage-3.4 top-level status is `dependency_trimmed`.
 
 ## Exhaustive proof-integrity audit
 
@@ -44,22 +48,11 @@ durable name was independently matched to a constant
 attributed to its exact provider module.
 
 The environment-origin audit was deliberately broader than the durable public
-API. `Lean.collectAxioms` checked all 1,304 module-attributed constants emitted
-by the ten exact
-providers:
-
-- `Problem3_9_1`: 202 constants;
-- `Problem3_9_2`: 191 constants;
-- `Problem3_9_2_Classification`: 180 constants;
-- `Problem3_9_3`: 30 constants;
-- `Problem3_9_3_TwoDim`: 143 constants;
-- `Problem3_9_4`: 143 constants;
-- `Problem3_9_5`: 100 constants;
-- `Problem3_9_5_Spinor`: 46 constants;
-- `Problem3_9_5_Spinor_Transport`: 106 constants;
-- `Problem3_9_5_Spinor_Odd`: 163 constants.
-
-This exhaustive set includes 1,244 public and 60 private constants, as well as all
+API. `Lean.collectAxioms` checked the invariant all-ten aggregate of 1,304
+module-attributed constants emitted by the exact providers. Per-provider
+subtotals are intentionally not treated as invariant because compiler
+attribution can vary with the import environment. The exhaustive aggregate
+includes 1,244 public and 60 private constants, as well as all
 anonymous instances, constructors and projections, generated equation theorems,
 compiler auxiliaries, and internal proof declarations. The count is taken from
 the final post-trimming module-origin map, not merely the ordinary constant
@@ -93,10 +86,14 @@ deliberately reserved for Stage 3.4.
 - exact-provider admission/placeholder and direct-import scans: clean;
 - exact six-item aggregation: five `sorry_free`, one `not_applicable`, and 442
   distinct durable declarations;
-- `lake build EtingofRepresentationTheory.Chapter3` succeeds (8,692 jobs;
+- focused build of all ten exact providers succeeds (8,642 jobs), with no new
+  warnings at the warning gate;
+- `lake build EtingofRepresentationTheory.Chapter3` succeeds (8,695 jobs;
   pre-existing warnings only);
+- the CI-equivalent build of 818 target modules succeeds (9,400 jobs), with no
+  new warnings at its warning gate;
 - all four repository validators pass;
 - strict tracker/provider/dependency invariance, `jq empty progress/items.json`,
   and `git diff --check` pass.
 
-This PR is limited to Chapter 3 §3.9 and Stage 3.3.
+This reconciled audit is limited to Chapter 3 §3.9 and Stage 3.3.

@@ -2,10 +2,12 @@
 
 ## Scope
 
-This review is stacked exactly on Stage 3.3 draft PR #8091 at commit
-`26a894f7482c0489a7a8b6cb41c80fd6474a4e96`. It covers the same six catalog
-items at indices 170–175 and all ten current exact providers. The immediate
-predecessor is `Chapter3/Remark3.8.6`; the strict successor is
+The original Stage 3.4 review was stacked on the Stage 3.3 draft provenance
+from PR #8091 at commit `26a894f7482c0489a7a8b6cb41c80fd6474a4e96`.
+This permanent report was later reconciled with #8101/#8104 and the integrated
+§3.9 merge `2725e8a886b888938503b93a064ab2fd82ad184d`. It covers the same six
+catalog items at indices 170–175 and all ten current exact providers. The
+immediate predecessor is `Chapter3/Remark3.8.6`; the strict successor is
 `Chapter3/Introduction_to_3.10`.
 
 No definition, theorem statement, or proof body changes. This integration pass
@@ -57,7 +59,7 @@ identical, so no mathematical content changed.
 
 ## Actual internal dependency graph
 
-The six conservative reading-order edges are replaced by five declaration-backed
+The six conservative reading-order edges are replaced by six declaration-backed
 backward edges:
 
 | Item | Actual internal dependencies |
@@ -97,10 +99,17 @@ edges point strictly backward.
   clean after the 46 verified removals;
 - single-import deletion tests: all 33 final imports required;
 - direct-import count: 79 → 33 (`-46`); scoped graph edges: 6 → 6 (`0`);
-- full `lake build EtingofRepresentationTheory.Chapter3`: success (8,691 jobs;
+- focused build of all ten exact providers: success (8,642 jobs), with no new
+  warnings at the warning gate;
+- full `lake build EtingofRepresentationTheory.Chapter3`: success (8,695 jobs;
   pre-existing warnings only);
+- CI-equivalent build of 818 target modules: success (9,400 jobs), with no new
+  warnings at its warning gate;
 - all four repository validators: pass (583 items and 512 dependency edges);
 - strict graph/tracker/provider-body/nonscope invariance, represented-edge
   backwardness, JSON validation, and `git diff --check`: pass.
 
-This PR is limited to Chapter 3 §3.9 and Stage 3.4.
+The organizational heading now has canonical top-level status
+`non_formalizable`; all five problem items have canonical top-level status
+`dependency_trimmed`. This reconciled audit is limited to Chapter 3 §3.9 and
+Stage 3.4.
