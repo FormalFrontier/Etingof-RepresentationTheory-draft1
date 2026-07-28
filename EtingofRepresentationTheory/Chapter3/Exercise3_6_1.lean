@@ -57,7 +57,7 @@ theorem character_eq_character_add_character_quotient :
   set fQ : Module.End k (V ⧸ W) :=
     (Algebra.lsmul k k (V ⧸ W) : A →ₐ[k] Module.End k (V ⧸ W)) a with hfQ
   -- Unfold the characters to the corresponding traces.
-  show LinearMap.trace k V fV
+  change LinearMap.trace k V fV
       = LinearMap.trace k (W : Type _) fW + LinearMap.trace k (V ⧸ W) fQ
   -- Inclusion `W ↪ V` and quotient map `V ↠ V/W`, as `k`-linear maps.
   set i : (W : Type _) →ₗ[k] V := (W.subtype).restrictScalars k with hi_def
@@ -88,7 +88,7 @@ theorem character_eq_character_add_character_quotient :
   have hri : r ∘ₗ i = LinearMap.id := by
     ext w
     have hqiw : q (i w) = 0 := (Submodule.Quotient.mk_eq_zero W).mpr w.2
-    show (pW (i w) : V) = (w : V)
+    change (pW (i w) : V) = (w : V)
     have hpi : pW (i w) = i w := by
       rw [hpW_def]
       simp only [LinearMap.sub_apply, LinearMap.id_coe, id_eq, LinearMap.comp_apply, hqiw,

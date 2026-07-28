@@ -26,7 +26,6 @@ EtingofRepresentationTheory/Chapter2/Theorem2_1_1.lean
 EtingofRepresentationTheory/Chapter3/Corollary3_5_5.lean
 EtingofRepresentationTheory/Chapter3/Discussion_alternative_proof_of_Proposition3_1_4.lean
 EtingofRepresentationTheory/Chapter3/Example3_5_6.lean
-EtingofRepresentationTheory/Chapter3/Exercise3_6_1.lean
 EtingofRepresentationTheory/Chapter3/Lemma3_1_6.lean
 EtingofRepresentationTheory/Chapter3/Problem3_3_3.lean
 EtingofRepresentationTheory/Chapter3/Problem3_8_4_Main.lean
@@ -43,7 +42,6 @@ EtingofRepresentationTheory/Chapter3/Theorem3_10_2.lean
 EtingofRepresentationTheory/Chapter3/Theorem3_2_2.lean
 EtingofRepresentationTheory/Chapter3/Theorem3_3_1.lean
 EtingofRepresentationTheory/Chapter3/Theorem3_5_4.lean
-EtingofRepresentationTheory/Chapter3/Theorem3_6_2.lean
 EtingofRepresentationTheory/Chapter3/Theorem3_8_1.lean
 EtingofRepresentationTheory/Chapter4/Corollary4_2_2.lean
 EtingofRepresentationTheory/Chapter4/Corollary4_2_4.lean
