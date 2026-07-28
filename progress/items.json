@@ -2732,7 +2732,7 @@
     "end_page": "30",
     "start_line": 7,
     "end_line": 7,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage_swept": {
       "wave": 1,
       "result": "non_formalizable"
@@ -2829,6 +2829,23 @@
       "proof_integrity": "not_applicable",
       "declarations": [],
       "basis": "All fourteen Stage 3.2 claim units in this item have verdict non_formalizable: they are biographical, historical, attributed, or evaluative prose and state no mathematical proof obligation. Consequently there is no Lean proof term, axiom dependency, or placeholder to audit."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.10",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Dependency analysis is not applicable to all fourteen non-formalizable historical claim units: this item has no Lean provider, declaration, or proof term. Its conservative link to the preceding §2.9 item was only a reading-order edge, not an actual internal dependency."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.10",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "not_applicable",
+      "source_review": "not_applicable",
+      "imports": "not_applicable",
+      "declaration_lints": "not_applicable",
+      "result": "All fourteen claims are non-formalizable historical, biographical, attributed, or evaluative prose, and the item has no Lean provider or declaration. There is therefore no API, import surface, documentation, naming, proof style, or declaration lint target to polish; adding one would invent mathematical content absent from the book."
     }
   },
   {
@@ -2839,7 +2856,7 @@
     "end_page": "31",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free",
+    "status": "proof_polished",
     "coverage_swept": {
       "wave": 1,
       "result": "non_formalizable"
@@ -2871,6 +2888,23 @@
       "proof_integrity": "not_applicable",
       "declarations": [],
       "basis": "The one Stage 3.2 claim unit in this continuation has verdict non_formalizable because it is publication history and evaluative prose. Together with the preceding item's fourteen units, all fifteen scoped claims have no mathematical proof obligation, so there is no Lean proof term, axiom dependency, or placeholder to audit."
+    },
+    "stage3_4": {
+      "status": "complete",
+      "section": "2.10",
+      "verified_on": "2026-07-27",
+      "actual_internal_dependencies": [],
+      "basis": "Dependency analysis is not applicable to this final non-formalizable claim unit; together with the heading's fourteen units, all fifteen scoped claims have no Lean provider, declaration, or proof term. The page-continuation link is textual reading order, not an actual internal dependency."
+    },
+    "stage3_5": {
+      "status": "complete",
+      "section": "2.10",
+      "reviewed_on": "2026-07-27",
+      "mathlib_quality": "not_applicable",
+      "source_review": "not_applicable",
+      "imports": "not_applicable",
+      "declaration_lints": "not_applicable",
+      "result": "This final claim is non-formalizable publication history and evaluative prose; together with the heading's fourteen claims, all fifteen scoped claims have no Lean provider or declaration. Consequently there is no source or declaration quality target to polish, and inventing code would be unfaithful to the book."
     }
   },
   {
