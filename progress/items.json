@@ -11986,35 +11986,63 @@
     "sorry_free": true,
     "fidelity": "verified",
     "lean_file": [
-      "EtingofRepresentationTheory/Chapter3/Problem3_9_5.lean"
+      "EtingofRepresentationTheory/Chapter3/Problem3_9_5.lean",
+      "EtingofRepresentationTheory/Chapter3/Problem3_9_5_Spinor.lean",
+      "EtingofRepresentationTheory/Chapter3/Problem3_9_5_Spinor_Transport.lean",
+      "EtingofRepresentationTheory/Chapter3/Problem3_9_5_Spinor_Odd.lean"
     ],
-    "coverage": "covered_partial",
-    "followup_issue": 6607,
+    "coverage": "covered_full",
     "coverage_arm": "audited",
     "lean_decl": [
       "Etingof.Problem3_9_5.isSemisimpleRing_of_nondegenerate",
       "Etingof.Problem3_9_5.even_isMatrixAlgebra",
       "Etingof.Problem3_9_5.odd_isSumMatrixAlgebra",
       "Etingof.Problem3_9_5.isSemisimpleRing_iff_nondegenerate",
-      "Etingof.Problem3_9_5.radicalQuotient_isClifford_of_degenerate"
+      "Etingof.Problem3_9_5.radicalQuotient_isClifford_of_degenerate",
+      "Etingof.Problem3_9_5.creation",
+      "Etingof.Problem3_9_5.contraction",
+      "Etingof.Problem3_9_5.hyperbolicSpinRep",
+      "Etingof.Problem3_9_5.hyperbolicSpinRep_bijective",
+      "Etingof.Problem3_9_5.hyperbolicSpinor_irreducible",
+      "Etingof.Problem3_9_5.evenSpinRep",
+      "Etingof.Problem3_9_5.evenSpinRep_bijective",
+      "Etingof.Problem3_9_5.evenSpinor_irreducible",
+      "Etingof.Problem3_9_5.even_every_irreducible_iso_spinor",
+      "Etingof.Problem3_9_5.oddSpinRepPlus",
+      "Etingof.Problem3_9_5.oddSpinRepMinus",
+      "Etingof.Problem3_9_5.oddSpinorPlus_irreducible",
+      "Etingof.Problem3_9_5.oddSpinorMinus_irreducible",
+      "Etingof.Problem3_9_5.oddSpinors_nonisomorphic",
+      "Etingof.Problem3_9_5.odd_every_irreducible_iso"
     ],
-    "last_updated": "2026-07-22",
-    "coverage_note": "The abstract semisimplicity, even/odd matrix-algebra classification, dimension, and radical-quotient results are proved sorry-free. Part (i) remains partial as a formalization of the exercise's requested construction: there is no exterior-algebra spinor module, wedge/contraction Clifford action, irreducibility proof for that concrete action, or odd S+/S- construction. Follow-up #6607.",
+    "last_updated": "2026-07-28",
+    "coverage_note": "The abstract semisimplicity, matrix-algebra classification, dimension, and radical-quotient results are proved sorry-free. The explicit construction is also complete: wedge and contraction define the standard exterior spinor representation and its parity operator; an arbitrary nondegenerate even form is transported to the hyperbolic model; the two odd spinors are constructed with opposite extra-generator actions; and irreducibility, nonisomorphism, and exhaustiveness are proved.",
     "derived": [
       {
         "part": "(i) nondegenerate case: semisimple, even/odd irreducible classification",
         "claim": "If (·,·) is nondegenerate then Cl(V) is semisimple: one irreducible of dim 2ⁿ (a matrix algebra) if dim V=2n, two of dim 2ⁿ (a sum of two matrix algebras) if dim V=2n+1, and no others.",
         "description": "Semisimplicity and the even/odd irreducible-count-and-dimension classification, phrased via matrix-algebra isomorphisms.",
         "source_span": "blobs/Chapter3/Problem3.9.5.md (i)",
-        "coverage": "covered_partial",
-        "lean_decl": [
-          "Etingof.Problem3_9_5.isSemisimpleRing_of_nondegenerate",
-          "Etingof.Problem3_9_5.even_isMatrixAlgebra",
-          "Etingof.Problem3_9_5.odd_isSumMatrixAlgebra",
-          "Etingof.Problem3_9_5.finrank_cliffAlg"
-        ],
-        "reason": "The abstract structure and enumeration conclusions are proved, but the source's explicit spinor construction is absent: S is only existential, not Λ(a_i), and no wedge/contraction action or odd parity actions S+/S- are defined.",
-        "followup_issue": 6607
+      "coverage": "covered_full",
+      "lean_decl": [
+        "Etingof.Problem3_9_5.isSemisimpleRing_of_nondegenerate",
+        "Etingof.Problem3_9_5.even_isMatrixAlgebra",
+        "Etingof.Problem3_9_5.odd_isSumMatrixAlgebra",
+        "Etingof.Problem3_9_5.finrank_cliffAlg",
+        "Etingof.Problem3_9_5.hyperbolicSpinRep",
+        "Etingof.Problem3_9_5.hyperbolicSpinRep_bijective",
+        "Etingof.Problem3_9_5.hyperbolicSpinor_irreducible",
+        "Etingof.Problem3_9_5.evenSpinRep",
+        "Etingof.Problem3_9_5.evenSpinRep_bijective",
+        "Etingof.Problem3_9_5.evenSpinor_irreducible",
+        "Etingof.Problem3_9_5.even_every_irreducible_iso_spinor",
+        "Etingof.Problem3_9_5.oddSpinRepPlus",
+        "Etingof.Problem3_9_5.oddSpinRepMinus",
+        "Etingof.Problem3_9_5.oddSpinorPlus_irreducible",
+        "Etingof.Problem3_9_5.oddSpinorMinus_irreducible",
+        "Etingof.Problem3_9_5.oddSpinors_nonisomorphic",
+        "Etingof.Problem3_9_5.odd_every_irreducible_iso"
+      ]
       },
       {
         "part": "(ii) semisimple ⟺ nondegenerate; the degenerate quotient",
