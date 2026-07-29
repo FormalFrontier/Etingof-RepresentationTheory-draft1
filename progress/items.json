@@ -21762,6 +21762,11 @@
     "start_line": 15,
     "end_line": 22,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Covariant and contravariant representability are captured by corepresentable and representable functors, and uniqueness is supplied by the following Yoneda endpoint.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.5", "reviewed_on": "2026-07-29", "claims": [{"claim": "A Set-valued functor is representable when naturally isomorphic to a Hom functor, with the dual notion for C-op.", "verdict": "formalized", "lean_decl": "CategoryTheory.Functor.IsRepresentable; CategoryTheory.Functor.IsCorepresentable"}]},
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -21780,7 +21785,8 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "The public Yoneda endpoint gives the source uniqueness-up-to-unique-isomorphism conclusion for representing objects.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.5", "reviewed_on": "2026-07-29", "claims": [{"claim": "A natural isomorphism between represented Hom functors is induced by a unique isomorphism of representing objects.", "verdict": "formalized", "lean_decl": "Etingof.yoneda_lemma"}]}
   },
   {
     "id": "Chapter7/Remark7.5.2",
@@ -21796,7 +21802,8 @@
     "coverage": "covered_full",
     "coverage_note": "EnrichedRepresentability.lean defines EnrichedRepresentable by a natural isomorphism to eCoyoneda and proves every eCoyoneda functor has its canonical representing witness.",
     "fidelity_issue": 7473,
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.5", "reviewed_on": "2026-07-29", "claims": [{"claim": "Representability extends to enriched categories via the enriched co-Yoneda functor.", "verdict": "formalized", "lean_decl": "Etingof.EnrichedRepresentable; Etingof.eCoyoneda_enrichedRepresentable"}]}
   },
   {
     "id": "Chapter7/Example7.5.3",
@@ -21808,11 +21815,15 @@
     "end_line": 8,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "fidelity": "faithful",
+    "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
     "fidelity_note": "Both source claims are public and sorry-free. The positive all-modules claim is now the natural isomorphism Etingof.Example753.forgetNatIso : coyoneda.obj (op (ModuleCat.of R R)) ≅ forget (ModuleCat R), with the Functor.CorepresentableBy witness forgetCorepresentableBy, the IsCorepresentable instance, and the two mutually inverse natural transformations evalOne (evaluation at 1) and smulOne (m ↦ (r ↦ r • m)); forgetCorepresentableBy_homEquiv_eq records that the components are the earlier objectwise equivalence Etingof.forgetful_representable (#7403). The negative finite-dimensional claim is forgetful_not_representable and its Hom-dimension obstruction. The enriched (vector-space-valued) refinement of representability is Remark 7.5.2, tracked in #7473.",
-    "last_updated": "2026-07-25"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.5", "reviewed_on": "2026-07-29", "claims": [
+      {"claim": "The forgetful functor on all modules is represented by the regular module.", "verdict": "formalized", "lean_decl": "Etingof.Example753.forgetNatIso; Etingof.Example753.forgetCorepresentableBy"},
+      {"claim": "For the stated infinite-dimensional example, the finite-dimensional forgetful functor is not representable.", "verdict": "formalized", "lean_decl": "Etingof.Example753.forgetful_not_representable"}
+    ]}
   },
   {
     "id": "Chapter7/Introduction_7.6",
