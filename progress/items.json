@@ -17163,8 +17163,10 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
-    }
+      "result": "covered"
+    },
+    "coverage": "covered_full", "fidelity": "verified", "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.10", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "Frobenius reciprocity connects induction and restriction.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_10_1_adjunction; Etingof.Theorem5_10_1"}]}
   },
   {
     "id": "Chapter5/Theorem5.10.1",
@@ -17176,11 +17178,16 @@
     "end_line": 34,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "fidelity": "faithful",
+    "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
     "fidelity_note": "The Hom-space equivalence is in the book's orientation and axiom-clean, resolving #7187. The source's 'naturally isomorphic' is now formalized as such (#647): Etingof.Theorem5_10_1 is a natural isomorphism of the ModuleCat k-valued Hom bifunctors Hom_G(-, Ind_H^G -) ≅ Hom_H(Res_H^G -, -) on (Rep k G)ᵒᵖ × Rep k H, natural in V and in W, and Theorem5_10_1_adjunction gives Res_H^G ⊣ Ind_H^G. Theorem5_10_1_hom_app_app_apply identifies its components with the pointwise equivalence Rep.resCoindHomEquiv.symm, and Theorem5_10_1_apply pins them to the book's own formula F(α)v = (αv)(e). The earlier Nonempty-of-a-pointwise-equivalence statement is retained as Theorem5_10_1_nonempty. All axiom-clean.",
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.10", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "Hom_G(V,Ind_H^G W) is naturally isomorphic to Hom_H(Res_H^G V,W).", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_10_1; Etingof.Theorem5_10_1_homEquiv"},
+      {"claim": "The natural isomorphism is the adjunction Res_H^G ⊣ Ind_H^G.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_10_1_adjunction"},
+      {"claim": "The forward map is evaluation at the identity, F(alpha)(v)=(alpha v)(e), and its inverse has the book's formula.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_10_1_apply; Etingof.Theorem5_10_1_hom_app_app_apply"}
+    ]}
   },
   {
     "id": "Chapter5/Problem5.10.2",
