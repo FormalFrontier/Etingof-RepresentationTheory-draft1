@@ -17348,8 +17348,10 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
-    }
+      "result": "covered"
+    },
+    "coverage": "covered_full", "fidelity": "verified", "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.11", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The section gives explicit decompositions of induced representations using the preceding character tables.", "verdict": "formalized", "lean_decl": "Etingof.Discussion5_11.indZ2_trivPlus_decomp; Etingof.Discussion5_11.indZ3_trivPlus_decomp; Etingof.Example4_3_S4.indH_triv_decomp"}]}
   },
   {
     "id": "Chapter5/Discussion_5.11_examples",
@@ -17362,11 +17364,17 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "gap"
+      "result": "covered"
     },
     "coverage": "covered_full",
     "coverage_note": "The Z₂→S₃, trivial-Z₃→S₃, ε→S₃, ε²→S₃, and all three S₃→S₄ decompositions are public FDRep isomorphisms. The ε² character `epsSqHom`/`epsSqRep` is now defined, and `indZ3_epsSq_decomp` proves Ind_{Z₃}^{S₃} ℂ_{ε²} ≅ ℂ² as an instance of the generic `indZ3_primitive_decomp` (induction of any character sending the generator to a primitive cube root of unity — equivalently any nontrivial character — gives the standard representation). Closes #7449.",
-    "last_updated": "2026-07-23"
+    "last_updated": "2026-07-29",
+    "fidelity": "verified",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.11", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "For Z2≤S3, inducing the trivial and sign characters gives std⊕triv and std⊕sign.", "verdict": "formalized", "lean_decl": "Etingof.Discussion5_11.indZ2_trivPlus_decomp; Etingof.Discussion5_11.indZ2_signMinus_decomp"},
+      {"claim": "For Z3≤S3, inducing the trivial character gives triv⊕sign and either primitive character gives the standard representation.", "verdict": "formalized", "lean_decl": "Etingof.Discussion5_11.indZ3_trivPlus_decomp; Etingof.Discussion5_11.indZ3_eps_decomp; Etingof.Discussion5_11.indZ3_epsSq_decomp"},
+      {"claim": "For S3≤S4, the induced trivial, sign, and standard representations have the three displayed decompositions.", "verdict": "formalized", "lean_decl": "Etingof.Example4_3_S4.indH_triv_decomp; Etingof.Example4_3_S4.indH_sign_decomp; Etingof.Example4_3_S4.indH_twoDim_decomp"}
+    ]}
   },
   {
     "id": "Chapter5/Problem5.11.1",
@@ -17376,7 +17384,7 @@
     "end_page": "112",
     "start_line": 13,
     "end_line": 24,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "coverage": "covered_full",
     "lean_file": [
