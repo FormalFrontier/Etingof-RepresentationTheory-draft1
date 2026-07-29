@@ -20983,11 +20983,11 @@
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The public admissible-ordering setup exists, but CoxeterInfrastructure.lean fails a fresh source check in reflection-kernel module instances, finite sums, and finrank arguments; source regression #7509. The separate missing representation-level reflection sequence remains tracked by #7436.",
-    "fidelity_issue": 7509,
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The admissible-ordering setup, categorical reflection sequence, and terminal simple-root representation are public and fresh-buildable. The former #7509 and #7436 gaps are closed.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.8", "reviewed_on": "2026-07-29", "claims": [{"claim": "Every Dynkin orientation admits the repeated admissible sink ordering used in the reflection-functor proof.", "verdict": "formalized", "lean_decl": "Etingof.admissibleOrdering_exists; Etingof.admissible_sinks_replicated"}]}
   },
   {
     "id": "Chapter6/Theorem6.8.1",
@@ -20998,11 +20998,15 @@
     "start_line": 1,
     "end_line": 28,
     "status": "sorry_free",
-    "coverage": "covered",
+    "coverage": "covered_full",
     "coverage_note": "Two endpoints now exist. The numerical Etingof.Theorem6_8_1 (Theorem6_8_1.lean) reflects a nonnegative root to a simple root. The source-faithful categorical Etingof.Theorem6_8_1_representation (CoxeterInfrastructure.lean) quantifies over an arbitrary finite-dimensional indecomposable representation V of an orientation Q of the Dynkin diagram and produces the terminal representation V^(m): an orientation Q_end of the diagram together with an indecomposable finite-dimensional representation W on Q_end whose dimension vector equals a simple root, plus the numerical reflection sequence as its first conjunct. Built by threading the reflection functors (Prop 6.6.5/6.6.7/6.6.8, Lemma 6.7.2) through the admissible-ordering walk; the numerical endpoint is a consequence, not a replacement. Resolved #7436.",
-    "last_updated": "2026-07-23",
+    "last_updated": "2026-07-29",
     "needs_statement": false,
-    "sorry_free": true
+    "sorry_free": true,
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.8", "reviewed_on": "2026-07-29", "claims": [
+      {"claim": "A nonnegative root can be reflected along an admissible sequence to a simple root.", "verdict": "formalized", "lean_decl": "Etingof.Theorem6_8_1"},
+      {"claim": "For an indecomposable representation, the corresponding categorical reflection sequence terminates in an indecomposable representation with simple-root dimension vector.", "verdict": "formalized", "lean_decl": "Etingof.Theorem6_8_1_representation"}
+    ]}
   },
   {
     "id": "Chapter6/Discussion_after_Theorem6.8.1",
@@ -21013,6 +21017,10 @@
     "start_line": 29,
     "end_line": 30,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.8", "reviewed_on": "2026-07-29", "result": "proof_transition"},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -21032,57 +21040,56 @@
     "sorry_free": true,
     "fidelity_note": "verified (wave-6, Opus): now quantifies over an arbitrary indecomposable rep and concludes IsPositiveRoot(d(V)), reflection chain produced via Thm 6.8.1 not assumed; prior gap #5624 resolved (merged)",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.8", "reviewed_on": "2026-07-29", "claims": [{"claim": "The dimension vector of every indecomposable representation of a Dynkin quiver is a positive root.", "verdict": "formalized", "lean_decl": "Etingof.Corollary6_8_2"}]}
   },
   {
     "id": "Chapter6/Corollary6.8.3",
-    "source_regression_note": "Clean rebuild is blocked by Proposition6.6.6 and Coxeter/Gabriel infrastructure (#7490, #7509).",
     "type": "corollary",
     "title": "Corollary 6.8.3: Uniqueness of indecomposable with given dimension vector",
     "start_page": "175",
     "end_page": "176",
     "start_line": 47,
     "end_line": 30,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "needs_statement": true,
-    "coverage": "covered_partial",
-    "coverage_issue": 7509,
-    "coverage_note": "The public theorem proves uniqueness up to representation isomorphism for indecomposables with the same dimension vector.",
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "needs_statement": false,
+    "coverage": "covered_full",
+    "coverage_note": "The public theorem proves uniqueness up to representation isomorphism for indecomposables with the same dimension vector and passes a fresh source check.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.8", "reviewed_on": "2026-07-29", "claims": [{"claim": "Two indecomposable Dynkin-quiver representations with the same dimension vector are isomorphic.", "verdict": "formalized", "lean_decl": "Etingof.Corollary6_8_3"}]}
   },
   {
     "id": "Chapter6/Discussion_after_Corollary6.8.3",
-    "source_regression_note": "The summary depends on preceding corollaries whose clean rebuild is blocked by #7490 and #7509.",
     "type": "discussion",
     "title": "Summary: finitely many indecomposables, last part of Gabriel's theorem",
     "start_page": "176",
     "end_page": "176",
     "start_line": 31,
     "end_line": 32,
-    "status": "partially_proved",
-    "coverage": "covered_partial",
-    "coverage_issue": 7509,
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "coverage": "covered_full",
     "coverage_note": "The summary claim is exactly the finite-indecomposable half of the public Gabriel classification established by the preceding theorem and corollaries.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.8", "reviewed_on": "2026-07-29", "result": "theorem_summary"}
   },
   {
     "id": "Chapter6/Corollary6.8.4",
-    "source_regression_note": "Clean rebuild imports the broken Coxeter/Gabriel infrastructure (#7509).",
     "type": "corollary",
     "title": "Corollary 6.8.4: Existence of indecomposable for every positive root",
     "start_page": "176",
     "end_page": "177",
     "start_line": 33,
     "end_line": 14,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "needs_statement": true,
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "needs_statement": false,
     "attention_needed": "statement fixed: added IsOrientationOf hypothesis and pinned universe (#1094)",
-    "coverage": "covered_partial",
-    "coverage_issue": 7509,
+    "coverage": "covered_full",
     "coverage_note": "The public theorem realizes every positive root by an indecomposable representation for the chosen orientation.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.8", "reviewed_on": "2026-07-29", "claims": [{"claim": "Every positive root of a chosen Dynkin orientation is realized by an indecomposable representation.", "verdict": "formalized", "lean_decl": "Etingof.Corollary6_8_4"}]}
   },
   {
     "id": "Chapter6/Example6.8.5",
@@ -21092,13 +21099,17 @@
     "end_page": "177",
     "start_line": 15,
     "end_line": 28,
-    "status": "proved",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
     "fidelity_note": "The simple representation is passed through four actual F-minus reflection functors with the evolving D4 orientations. The actual (1,1,1,1) intermediate is isomorphic to the canonical outward representation with identity arrows, while the actual indecomposable (2,1,1,1) endpoint is isomorphic to a representation whose arrows are literal inclusions of three one-dimensional image subspaces spanning its two-dimensional centre.",
-    "last_updated": "2026-07-27"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.8", "reviewed_on": "2026-07-29", "claims": [
+      {"claim": "The displayed D₄ reflection sequence is computed by actual reflection functors through the evolving orientations.", "verdict": "formalized", "lean_decl": "Etingof.Example6_8_5_part1; Etingof.Example6_8_5_part2"},
+      {"claim": "The maximal-root endpoint has dimension vector (2,1,1,1) and the stated three-line geometry in a two-dimensional center.", "verdict": "formalized", "lean_decl": "Etingof.Example6_8_5_maximal_indecomposable"}
+    ]}
   },
   {
     "id": "Chapter6/Section6.9_heading",
