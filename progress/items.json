@@ -15694,7 +15694,11 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.1", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The section fixes a finite group and an irreducible complex representation and introduces the Frobenius–Schur indicator.", "verdict": "formalized", "lean_decl": "Etingof.IsComplexType; Etingof.IsRealType; Etingof.IsQuaternionicType; Etingof.frobeniusSchurIndicator"}]}
   },
   {
     "id": "Chapter5/Definition5.1.1",
@@ -15708,7 +15712,10 @@
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_issue": 5389,
-    "fidelity_note": "Fixed (#5389): added `Etingof.IsComplexType` (V ≇ V*, i.e. no G-equivariant iso to the dual rep `ρ.dual`), completing the third case of Def 5.1.1. Coherence proved: `not_isComplexType_of_isRealType` and `not_isComplexType_of_isQuaternionicType` via `exists_equivariant_dual_equiv_of_invariant_nondegenerate` (a nondegenerate G-invariant form gives V ≅ V*). All three types now formalized."
+    "fidelity_note": "Fixed (#5389): added `Etingof.IsComplexType` (V ≇ V*, i.e. no G-equivariant iso to the dual rep `ρ.dual`), completing the third case of Def 5.1.1. Coherence proved: `not_isComplexType_of_isRealType` and `not_isComplexType_of_isQuaternionicType` via `exists_equivariant_dual_equiv_of_invariant_nondegenerate` (a nondegenerate G-invariant form gives V ≅ V*). All three types now formalized.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.1", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "Complex type means nonisomorphism with the dual representation.", "verdict": "formalized", "lean_decl": "Etingof.IsComplexType"}, {"claim": "Real type means existence of a nondegenerate invariant symmetric bilinear form.", "verdict": "formalized", "lean_decl": "Etingof.IsRealType"}, {"claim": "Quaternionic type means existence of a nondegenerate invariant skew bilinear form.", "verdict": "formalized", "lean_decl": "Etingof.IsQuaternionicType"}]}
   },
   {
     "id": "Chapter5/Discussion_after_Definition5.1.1",
@@ -15719,11 +15726,12 @@
     "start_line": 12,
     "end_line": 14,
     "status": "sorry_free",
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "Public theorem Etingof.even_finrank_of_isQuaternionicType is source-present, but FrobeniusSchurRealType.lean fails a fresh check at missing freeness instances and a finrank proof; regression #7527.",
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "Etingof.even_finrank_of_isQuaternionicType rebuilds on the current toolchain; the former #7527 regression is repaired.",
     "coverage_issue": 7527,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.1", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "Every quaternionic representation has even complex dimension.", "verdict": "formalized", "lean_decl": "Etingof.even_finrank_of_isQuaternionicType"}]}
   },
   {
     "id": "Chapter5/Problem5.1.2",
@@ -15733,7 +15741,7 @@
     "end_page": "94",
     "start_line": 15,
     "end_line": 4,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "coverage": "covered_full",
@@ -15814,14 +15822,15 @@
     "end_page": "94",
     "start_line": 5,
     "end_line": 6,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "sorry_free": true,
-    "fidelity": "partial",
-    "coverage": "covered_partial",
+    "fidelity": "verified",
+    "coverage": "covered_full",
     "coverage_issue": 7527,
-    "coverage_note": "The S3, S4, and A5 real-type assertions and a quaternionic two-dimensional Q8 representation are proved. The Q8 one-dimensional real-type (Example5_1_3_Q8_oneDim_isRealType) and the uniqueness of the 2-dimensional irreducible (Example5_1_3_Q8_twoDim_unique: any 2-dim simple C[Q8]-module is isomorphic to the constructed Q8.rho, via the Artin-Wedderburn dimension count) are now proved. The cyclic-group declaration is still only a one-way non-realness test and does not classify all irreducibles or establish the trivial/sign cases. Residual work is tracked by #5124.",
+    "coverage_note": "All five group examples are complete. The cyclic case classifies every simple as a character and proves that the real-type characters are exactly the trivial and (for even n) sign characters, with all others complex. The S3, S4, and A5 families are real type. Every Q8 one-dimensional representation is real type and its unique two-dimensional irreducible is quaternionic.",
     "followup_issue": 5124,
-    "last_updated": "2026-07-23"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.1", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "For Z/n, all irreducibles are characters; exactly the trivial and, for even n, sign characters are real type, while every other character is complex type.", "verdict": "formalized", "lean_decl": "Etingof.Example5_1_3_ZMod_classification; Etingof.Example5_1_3_ZMod_isRealType_iff; Etingof.Example5_1_3_ZMod_isComplexType_iff"}, {"claim": "All irreducible representations of S₃, S₄, and A₅ are of real type.", "verdict": "formalized", "lean_decl": "Etingof.Example5_1_3_S3; Etingof.Example5_1_3_S4; Etingof.Example5_1_3_A5"}, {"claim": "The one-dimensional Q₈ irreducibles are real type and its unique two-dimensional irreducible is quaternionic type.", "verdict": "formalized", "lean_decl": "Etingof.Example5_1_3_Q8_oneDim_isRealType; Etingof.Example5_1_3_Q8; Etingof.Example5_1_3_Q8_twoDim_unique"}]}
   },
   {
     "id": "Chapter5/Definition5.1.4",
@@ -15837,7 +15846,8 @@
     "sorry_free": true,
     "fidelity_note": "The definition constructs the genuine FS indicator via (1/|G|) sum_g chi_V(g^2), and the full source trichotomy is now proved for simple complex representations in FrobeniusSchurTrichotomy.lean: IsRealType ↔ FS=1, IsQuaternionicType ↔ FS=-1, IsComplexType ↔ FS=0, exhaustiveness (isComplexType_or_isRealType_or_isQuaternionicType), pairwise exclusivity, and FS ∈ {0,1,-1} (frobeniusSchurIndicator_eq_zero_or_one_or_neg_one).",
     "fidelity_decl": "Etingof.frobeniusSchurIndicator",
-    "last_updated": "2026-07-24"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.1", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The Frobenius–Schur indicator is 0, 1, or -1 exactly for complex, real, or quaternionic type, respectively.", "verdict": "formalized", "lean_decl": "Etingof.frobeniusSchurIndicator; Etingof.isComplexType_iff_frobeniusSchurIndicator_eq_zero; Etingof.isRealType_iff_frobeniusSchurIndicator_eq_one; Etingof.isQuaternionicType_iff_frobeniusSchurIndicator_eq_neg_one"}]}
   },
   {
     "id": "Chapter5/Theorem5.1.5",
@@ -15851,7 +15861,8 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.1", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The number of elements g with g²=1 equals the sum over irreducibles of dim(V)FS(V).", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_1_5; Etingof.frobeniusSchur_involution_count"}, {"claim": "The indicator trichotomy rewrites this as the real-type dimension sum minus the quaternionic-type dimension sum.", "verdict": "covered_elsewhere", "lean_decl": "Etingof.isRealType_iff_frobeniusSchurIndicator_eq_one; Etingof.isQuaternionicType_iff_frobeniusSchurIndicator_eq_neg_one; Etingof.isComplexType_iff_frobeniusSchurIndicator_eq_zero"}, {"claim": "The tensor-swap trace computation gives the ±1/0 indicator alternatives used in the source proof.", "verdict": "formalized", "lean_decl": "Etingof.frobeniusSchurIndicator_eq_pm_one_of_self_dual_simple; Etingof.frobeniusSchurIndicator_eq_zero_of_not_self_dual_simple"}]}
   },
   {
     "id": "Chapter5/Corollary5.1.6",
@@ -15866,7 +15877,8 @@
     "has_true_hypothesis": true,
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.1", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "If every irreducible complex representation is defined over the reals, its dimension sum equals the number of involutions.", "verdict": "formalized", "lean_decl": "Etingof.Corollary5_1_6_realType"}]}
   },
   {
     "id": "Chapter5/Exercise5.1.7",
@@ -15876,7 +15888,7 @@
     "end_page": "95",
     "start_line": 23,
     "end_line": 24,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "coverage": "covered_full",
