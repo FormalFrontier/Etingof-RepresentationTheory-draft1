@@ -102,6 +102,7 @@ noncomputable def vermaF (β : k) : Module.End k (Fin d → k) where
     simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]
     split <;> ring
 
+omit [NeZero d] in
 theorem verma_lie_h_e (lam : k) :
     ⁅vermaH (d := d) k lam, vermaE (d := d) k lam⁆ =
       (2 : k) • vermaE (d := d) k lam := by
@@ -168,7 +169,7 @@ theorem verma_lie_e_f (lam β : k) (boundary : (d : k) * (lam - (d - 1 : ℕ)) =
     simp only [htop, hzero, dite_true, dite_false,
       show 0 < (i : ℕ) + 1 by omega,
       show (i : ℕ) + 1 - 1 = (i : ℕ) by omega,
-      i.isLt, hfin i.isLt, hnlast]
+      hfin i.isLt, hnlast]
     simp [hi0]
   · have hitop : (i : ℕ) + 1 = d := by omega
     simp only [htop, hzero, dite_false, dite_true, mul_zero, zero_sub,
@@ -188,7 +189,8 @@ theorem verma_lie_e_f (lam β : k) (boundary : (d : k) * (lam - (d - 1 : ℕ)) =
     have hd1 : d = 1 := by omega
     subst d
     fin_cases i
-    simp [vermaE, vermaF, vermaH] at boundary ⊢
+    simp only [Nat.cast_zero, Nat.cast_one, zero_add, sub_zero, one_mul, lt_self_iff_false,
+      dite_false, mul_zero, tsub_self, sub_self, Fin.zero_eta, zero_eq_mul] at boundary ⊢
     exact Or.inl boundary
 
 end Verma
@@ -247,7 +249,7 @@ theorem cyclic_lie_h_e (α lam : k) :
     push_cast [Nat.cast_sub (show 1 ≤ p by exact NeZero.pos p)]
     have hp0 : (p : k) = 0 := by exact_mod_cast CharP.cast_eq_zero k p
     rw [hp0]
-    simp only [hi0, Nat.cast_zero, mul_zero, zero_add]
+    simp only [hi0, Nat.cast_zero, mul_zero]
     ring
 
 theorem cyclic_lie_h_f (α lam q : k) :
@@ -296,7 +298,7 @@ theorem cyclic_lie_e_f (α lam q : k) (hp : 2 < p) :
     simp only [htop, hzero, dite_true, dite_false,
       show 0 < (i : ℕ) + 1 by omega,
       show (i : ℕ) + 1 - 1 = (i : ℕ) by omega,
-      i.isLt, hfin i.isLt, hnlast]
+      hfin i.isLt, hnlast]
     rw [hieq]
     ring
   · have hitop : (i : ℕ) + 1 = p := by omega
@@ -448,31 +450,40 @@ noncomputable def parameterLieHom (a : Parameter k p) :
     Problem2_16_4.sl2 k →ₗ⁅k⁆ Module.End k (Carrier k a) :=
   Triple.toLieHom k (parameterTriple k a)
 
+omit [Fact p.Prime] in
 @[simp]
 theorem parameterLieHom_e (a : Parameter k p) :
     parameterLieHom k a (Problem2_16_4.sl2_e k) = (parameterTriple k a).E :=
   Triple.toLieHom_e k (parameterTriple k a)
 
+omit [Fact p.Prime] in
 @[simp]
 theorem parameterLieHom_f (a : Parameter k p) :
     parameterLieHom k a (Problem2_16_4.sl2_f k) = (parameterTriple k a).F :=
   Triple.toLieHom_f k (parameterTriple k a)
 
+omit [Fact p.Prime] in
 @[simp]
 theorem parameterLieHom_h (a : Parameter k p) :
     parameterLieHom k a (Problem2_16_4.sl2_h k) = (parameterTriple k a).H :=
   Triple.toLieHom_h k (parameterTriple k a)
 
-/-- The family member is genuine `LieRingModule` data. -/
+/-- The Lie-ring-module structure of a family member. -/
 noncomputable instance parameterLieRingModule (a : Parameter k p) :
     LieRingModule (Problem2_16_4.sl2 k) (Carrier k a) :=
   LieRingModule.compLieHom (Carrier k a) (parameterLieHom k a)
 
-/-- The family member is genuine `LieModule` data over `k`. -/
+/-- The `k`-linear Lie-module structure of a family member. -/
 noncomputable instance parameterLieModule (a : Parameter k p) :
     @LieModule k (Problem2_16_4.sl2 k) (Carrier k a) _ _ _ _ _
       (parameterLieRingModule k a) :=
   LieModule.compLieHom (Carrier k a) (parameterLieHom k a)
+
+/-- A module equivalence between two family members, with both actions supplied explicitly.
+This avoids relying on typeclass search to distinguish normal forms of the same dimension. -/
+abbrev FamilyEquiv (a b : Parameter k p) :=
+  @LieModuleEquiv k (Problem2_16_4.sl2 k) (Carrier k a) (Carrier k b)
+    _ _ _ _ _ _ (parameterLieRingModule k a) (parameterLieRingModule k b)
 
 end Family
 
@@ -490,6 +501,32 @@ theorem basis_apply (d : ℕ) (i j : Fin d) :
     basis k d i j = if j = i then 1 else 0 := by
   simp [basis, Pi.single_apply]
 
+private theorem basis_ne_zero {d : ℕ} [NeZero d] (i : Fin d) : basis k d i ≠ 0 := by
+  intro h
+  have hi := congrFun h i
+  rw [basis_apply, if_pos rfl, Pi.zero_apply] at hi
+  exact one_ne_zero hi
+
+private theorem vermaH_basis {d : ℕ} [NeZero d] (lam : k) (i : Fin d) :
+    vermaH (d := d) k lam (basis k d i) =
+      (lam - 2 * (i : ℕ)) • basis k d i := by
+  ext j
+  by_cases hji : j = i
+  · subst j
+    simp [vermaH, basis_apply, mul_comm]
+  · simp [vermaH, basis_apply, hji]
+
+omit [Fact p.Prime] [CharP k p] [Fact (2 < p)] in
+private theorem cyclicH_basis (lam : k) (i : Fin p) :
+    cyclicH (p := p) k lam (basis k p i) =
+      (lam + 2 * (i : ℕ)) • basis k p i := by
+  ext j
+  by_cases hji : j = i
+  · subst j
+    simp [cyclicH, basis_apply, mul_comm]
+  · simp [cyclicH, basis_apply, hji]
+
+omit [Fact p.Prime] [Fact (2 < p)] in
 private theorem natCastInjLt {a b : ℕ} (ha : a < p) (hb : b < p)
     (h : (a : k) = (b : k)) : a = b := by
   rcases le_total a b with hab | hab
@@ -502,6 +539,7 @@ private theorem natCastInjLt {a b : ℕ} (ha : a < p) (hb : b < p)
     have := Nat.eq_zero_of_dvd_of_lt hz (by omega)
     omega
 
+omit [Fact p.Prime] [Fact (2 < p)] in
 private theorem natCastNeZeroLt {n : ℕ} (h0 : 0 < n) (hn : n < p) :
     (n : k) ≠ 0 := by
   rw [Ne, CharP.cast_eq_zero_iff k p]
@@ -509,14 +547,15 @@ private theorem natCastNeZeroLt {n : ℕ} (h0 : 0 < n) (hn : n < p) :
   have := Nat.eq_zero_of_dvd_of_lt hdvd hn
   omega
 
+omit [Fact p.Prime] [Fact (2 < p)] in
 private theorem twoNeZero (hp : 2 < p) : (2 : k) ≠ 0 := by
   exact natCastNeZeroLt k (p := p) (by norm_num) hp
 
+omit [Fact p.Prime] in
 private theorem subWeightsPairwise {d : ℕ} (hd : d ≤ p) (lam : k) :
     Pairwise fun i j : Fin d => lam - 2 * (i : ℕ) ≠ lam - 2 * (j : ℕ) := by
   intro i j hij heq
   have hmul : (2 : k) * ((i : ℕ) - (j : ℕ)) = 0 := by
-    push_cast
     linear_combination -heq
   have hsub : ((i : ℕ) : k) - (j : ℕ) = 0 :=
     (mul_eq_zero.mp hmul).resolve_left (twoNeZero k Fact.out)
@@ -525,11 +564,11 @@ private theorem subWeightsPairwise {d : ℕ} (hd : d ≤ p) (lam : k) :
   exact natCastInjLt k (p := p) (i.isLt.trans_le hd) (j.isLt.trans_le hd)
     (sub_eq_zero.mp hsub)
 
+omit [Fact p.Prime] in
 private theorem addWeightsPairwise (lam : k) :
     Pairwise fun i j : Fin p => lam + 2 * (i : ℕ) ≠ lam + 2 * (j : ℕ) := by
   intro i j hij heq
   have hmul : (2 : k) * ((i : ℕ) - (j : ℕ)) = 0 := by
-    push_cast
     linear_combination heq
   have hsub : ((i : ℕ) : k) - (j : ℕ) = 0 :=
     (mul_eq_zero.mp hmul).resolve_left (twoNeZero k Fact.out)
@@ -643,16 +682,14 @@ theorem vermaF_basis_succ {d : ℕ} [NeZero d] (β : k) (i : ℕ) (hi : i + 1 < 
   simp only [vermaF, LinearMap.coe_mk, AddHom.coe_mk, basis_apply]
   by_cases hj : 0 < (j : ℕ)
   · simp only [hj, dite_true]
-    simp only [Fin.ext_iff, Fin.val_mk]
+    simp only [Fin.ext_iff]
     by_cases hji : (j : ℕ) = i + 1
-    · have hpred : (j : ℕ) - 1 = i := by omega
-      simp [hji, hpred]
+    · simp [hji]
     · have hpred : (j : ℕ) - 1 ≠ i := by omega
       simp [hji, hpred]
   · have hj0 : (j : ℕ) = 0 := by omega
     have hlast : d - 1 ≠ i := by omega
-    have htarget : (j : ℕ) ≠ i + 1 := by omega
-    simp [hj, Fin.ext_iff, hj0, hlast, htarget]
+    simp [Fin.ext_iff, hj0, hlast]
 
 theorem vermaF_basis_last {d : ℕ} [NeZero d] (β : k) :
     vermaF (d := d) k β (basis k d ⟨d - 1, by have := NeZero.pos d; omega⟩) =
@@ -667,7 +704,7 @@ theorem vermaF_basis_last {d : ℕ} [NeZero d] (β : k) :
     have hj0 : (j : ℕ) ≠ 0 := by omega
     simp [Fin.ext_iff, hjne, hj0]
   · have hj0 : (j : ℕ) = 0 := by omega
-    simp [hj, Fin.ext_iff, hj0]
+    simp [Fin.ext_iff, hj0]
 
 theorem vermaE_basis_pred {d : ℕ} [NeZero d] (lam : k) (i : ℕ)
     (hi0 : 0 < i) (hid : i < d) :
@@ -679,7 +716,7 @@ theorem vermaE_basis_pred {d : ℕ} [NeZero d] (lam : k) (i : ℕ)
     Pi.smul_apply, smul_eq_mul]
   by_cases hj : (j : ℕ) + 1 < d
   · simp only [hj, dite_true]
-    simp only [Fin.ext_iff, Fin.val_mk]
+    simp only [Fin.ext_iff]
     by_cases hji : (j : ℕ) + 1 = i
     · have hjpred : (j : ℕ) = i - 1 := by omega
       have hisub : i - 1 + 1 = i := by omega
@@ -694,6 +731,7 @@ theorem vermaE_basis_pred {d : ℕ} [NeZero d] (lam : k) (i : ℕ)
   · have hjpred : (j : ℕ) ≠ i - 1 := by omega
     simp [hj, Fin.ext_iff, hjpred]
 
+omit [CharP k p] [Fact (2 < p)] in
 theorem cyclicE_basis_succ (α : k) (i : ℕ) (hi : i + 1 < p) :
     cyclicE (p := p) k α (basis k p ⟨i, by omega⟩) =
       basis k p ⟨i + 1, hi⟩ := by
@@ -702,17 +740,16 @@ theorem cyclicE_basis_succ (α : k) (i : ℕ) (hi : i + 1 < p) :
   simp only [cyclicE, LinearMap.coe_mk, AddHom.coe_mk, basis_apply]
   by_cases hj : 0 < (j : ℕ)
   · simp only [hj, dite_true]
-    simp only [Fin.ext_iff, Fin.val_mk]
+    simp only [Fin.ext_iff]
     by_cases hji : (j : ℕ) = i + 1
-    · have hpred : (j : ℕ) - 1 = i := by omega
-      simp [hji, hpred]
+    · simp [hji]
     · have hpred : (j : ℕ) - 1 ≠ i := by omega
       simp [hji, hpred]
   · have hj0 : (j : ℕ) = 0 := by omega
     have hlast : p - 1 ≠ i := by omega
-    have htarget : (j : ℕ) ≠ i + 1 := by omega
-    simp [hj, Fin.ext_iff, hj0, hlast, htarget]
+    simp [Fin.ext_iff, hj0, hlast]
 
+omit [CharP k p] [Fact (2 < p)] in
 theorem cyclicE_basis_last (α : k) (hp : 2 < p) :
     cyclicE (p := p) k α (basis k p ⟨p - 1, by omega⟩) =
       α • basis k p ⟨0, by omega⟩ := by
@@ -726,8 +763,9 @@ theorem cyclicE_basis_last (α : k) (hp : 2 < p) :
     have hj0 : (j : ℕ) ≠ 0 := by omega
     simp [Fin.ext_iff, hjne, hj0]
   · have hj0 : (j : ℕ) = 0 := by omega
-    simp [hj, Fin.ext_iff, hj0]
+    simp [Fin.ext_iff, hj0]
 
+omit [CharP k p] [Fact (2 < p)] in
 theorem cyclicF_basis_pred (α lam q : k) (i : ℕ) (hi0 : 0 < i) (hip : i < p) :
     cyclicF (p := p) k α lam q (basis k p ⟨i, hip⟩) =
       cyclicCoeff k α lam q i • basis k p ⟨i - 1, by omega⟩ := by
@@ -739,16 +777,17 @@ theorem cyclicF_basis_pred (α lam q : k) (i : ℕ) (hi0 : 0 < i) (hip : i < p) 
   · simp only [hj, dite_true]
     by_cases hji : (j : ℕ) + 1 = i
     · have hjpred : (j : ℕ) = i - 1 := by omega
-      simp only [Fin.ext_iff, Fin.val_mk, hji, if_pos rfl, hjpred]
+      simp only [Fin.ext_iff, hjpred]
       rw [show i - 1 + 1 = i by omega]
       simp
     · have hjpred : (j : ℕ) ≠ i - 1 := by omega
       simp [Fin.ext_iff, hji, hjpred]
   · have hjpred : (j : ℕ) ≠ i - 1 := by omega
-    simp only [hj, dite_false, Fin.ext_iff, Fin.val_mk]
+    simp only [hj, dite_false, Fin.ext_iff]
     rw [if_neg (by omega : (0 : ℕ) ≠ i), if_neg hjpred]
     ring
 
+omit [CharP k p] [Fact (2 < p)] in
 theorem cyclicF_basis_zero (α lam q : k) :
     cyclicF (p := p) k α lam q (basis k p ⟨0, NeZero.pos p⟩) =
       q • basis k p ⟨p - 1, by have := NeZero.pos p; omega⟩ := by
@@ -759,11 +798,11 @@ theorem cyclicF_basis_zero (α lam q : k) :
   by_cases hj : (j : ℕ) + 1 < p
   · simp only [hj, dite_true]
     have hjlast : (j : ℕ) ≠ p - 1 := by omega
-    simp only [Fin.ext_iff, Fin.val_mk]
+    simp only [Fin.ext_iff]
     rw [if_neg (by omega : (j : ℕ) + 1 ≠ 0), if_neg hjlast]
     ring
   · have hjlast : (j : ℕ) = p - 1 := by omega
-    simp only [hj, dite_false, Fin.ext_iff, Fin.val_mk]
+    simp only [hj, dite_false, Fin.ext_iff]
     simp only [if_true, if_pos hjlast]
 
 private theorem smulExtract {d : ℕ} (N : Submodule k (Fin d → k))
@@ -830,6 +869,7 @@ private theorem zeroBasisOfCyclicVermaF {d : ℕ} [NeZero d] (β : k) (hβ : β 
   rw [vermaF_basis_last k β] at himage
   exact smulExtract k N _ _ hβ himage
 
+omit [CharP k p] in
 private theorem zeroBasisOfCyclicE (α : k) (hα : α ≠ 0)
     (N : Submodule k (Fin p → k))
     (hE : ∀ v ∈ N, cyclicE (p := p) k α v ∈ N)
@@ -1507,14 +1547,16 @@ private noncomputable def coordinateMap {d : ℕ} (v : Fin d → M) :
   map_add' c c' := by
     simp only [Pi.add_apply, add_smul, Finset.sum_add_distrib]
   map_smul' a c := by
-    simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply, mul_smul, map_smul,
+    simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply, mul_smul,
       Finset.smul_sum]
 
+omit [IsAlgClosed k] in
 @[simp]
 private theorem coordinateMap_basis {d : ℕ} (v : Fin d → M) (i : Fin d) :
     coordinateMap k v (basis k d i) = v i := by
   simp [coordinateMap, basis_apply]
 
+omit [IsAlgClosed k] in
 private theorem coordinateMap_surjective {d : ℕ} (v : Fin d → M)
     (htop : Submodule.span k (Set.range v) = ⊤) :
     Function.Surjective (coordinateMap k v) := by
@@ -1525,7 +1567,8 @@ private theorem coordinateMap_surjective {d : ℕ} (v : Fin d → M)
   rintro _ ⟨i, rfl⟩
   exact ⟨basis k d i, coordinateMap_basis k v i⟩
 
-private theorem h_f_pow (E F H : Module.End k M)
+omit [IsAlgClosed k] in
+private theorem h_f_pow (_E F H : Module.End k M)
     (hHF : H * F = F * H - (2 : k) • F) (lam : k) (v : M)
     (hv : H v = lam • v) : ∀ n : ℕ,
     H ((F ^ n) v) = (lam - 2 * (n : ℕ)) • (F ^ n) v := by
@@ -1538,6 +1581,7 @@ private theorem h_f_pow (E F H : Module.End k M)
       push_cast
       module
 
+omit [IsAlgClosed k] in
 private theorem e_f_pow_succ (E F H : Module.End k M)
     (hEF : E * F - F * E = H) (hHF : H * F = F * H - (2 : k) • F)
     (lam : k) (v : M) (hEv : E v = 0) (hHv : H v = lam • v) : ∀ n : ℕ,
@@ -1559,7 +1603,8 @@ private theorem e_f_pow_succ (E F H : Module.End k M)
       rw [← Module.End.mul_apply, ← pow_succ']
       module
 
-private theorem h_e_pow (E F H : Module.End k M)
+omit [IsAlgClosed k] in
+private theorem h_e_pow (E _F H : Module.End k M)
     (hHE : H * E = E * H + (2 : k) • E) (lam : k) (v : M)
     (hv : H v = lam • v) : ∀ n : ℕ,
     H ((E ^ n) v) = (lam + 2 * (n : ℕ)) • (E ^ n) v := by
@@ -1572,6 +1617,7 @@ private theorem h_e_pow (E F H : Module.End k M)
       push_cast
       module
 
+omit [IsAlgClosed k] in
 private theorem f_e_pow_succ (E F H : Module.End k M) (p : ℕ)
     (hFE : F * E = E * F - H) (hHE : H * E = E * H + (2 : k) • E)
     (alpha lam q : k) (v : M) (hEp : E ^ p = alpha • 1)
@@ -1628,11 +1674,12 @@ private noncomputable def lieHomOfEFH (a : Parameter k p)
     rw [hE, hF, hH]
     rfl
 
+omit [IsAlgClosed k] [LieModule k (Problem2_16_4.sl2 k) M] in
 private theorem lieHom_injective_of_ne_zero
     {V : Type*} [AddCommGroup V] [Module k V]
     [LieRingModule (Problem2_16_4.sl2 k) V]
     [LieModule.IsIrreducible k (Problem2_16_4.sl2 k) V]
-    (φ : V →ₗ⁅k, Problem2_16_4.sl2 k⁆ M) {v : V} (hv : φ v ≠ 0) :
+    (φ : V →ₗ⁅k,Problem2_16_4.sl2 k⁆ M) {v : V} (hv : φ v ≠ 0) :
     Function.Injective φ := by
   rw [← LieModuleHom.ker_eq_bot]
   rcases IsSimpleOrder.eq_bot_or_eq_top φ.ker with hbot | htop
@@ -1646,11 +1693,12 @@ private theorem lieHom_injective_of_ne_zero
 private noncomputable def lieEquivOfBijective
     {V : Type*} [AddCommGroup V] [Module k V]
     [LieRingModule (Problem2_16_4.sl2 k) V]
-    (φ : V →ₗ⁅k, Problem2_16_4.sl2 k⁆ M) (hφ : Function.Bijective φ) :
-    V ≃ₗ⁅k, Problem2_16_4.sl2 k⁆ M := by
+    (φ : V →ₗ⁅k,Problem2_16_4.sl2 k⁆ M) (hφ : Function.Bijective φ) :
+    V ≃ₗ⁅k,Problem2_16_4.sl2 k⁆ M := by
   let e := LinearEquiv.ofBijective φ.toLinearMap hφ
   exact LieModuleEquiv.mk φ e.symm e.left_inv e.right_inv
 
+omit [IsAlgClosed k] in
 private theorem target_relations :
     let E := LieModule.toEnd k (Problem2_16_4.sl2 k) M (Problem2_16_4.sl2_e k)
     let F := LieModule.toEnd k (Problem2_16_4.sl2 k) M (Problem2_16_4.sl2_f k)
@@ -1691,6 +1739,7 @@ private theorem target_relations :
         Problem2_16_4.lie_sl2_e_f]
     rwa [LieRing.of_associative_ring_bracket] at h1
 
+omit [IsAlgClosed k] in
 private theorem highestNormalForm_equiv
     (data : HighestNormalForm k
       (LieModule.toEnd k (Problem2_16_4.sl2 k) M (Problem2_16_4.sl2_e k))
@@ -1814,6 +1863,7 @@ private theorem highestNormalForm_equiv
     exact coordinateMap_surjective k orbit (by simpa [orbit] using data.orbit_top)
   exact ⟨lieEquivOfBijective k ψ ⟨hinj, hsurj⟩⟩
 
+omit [IsAlgClosed k] in
 private theorem cyclicNormalForm_equiv
     (data : CyclicNormalForm k
       (LieModule.toEnd k (Problem2_16_4.sl2 k) M (Problem2_16_4.sl2_e k))
@@ -1919,6 +1969,7 @@ private theorem cyclicNormalForm_equiv
     exact coordinateMap_surjective k orbit (by simpa [orbit] using data.orbit_top)
   exact ⟨lieEquivOfBijective k ψ ⟨hinj, hsurj⟩⟩
 
+omit [Fact p.Prime] [IsAlgClosed k] in
 private theorem restricted_tail_zero
     [FiniteDimensional k M] [LieModule.IsIrreducible k (Problem2_16_4.sl2 k) M]
     (data : HighestNormalForm k
@@ -2050,6 +2101,7 @@ private theorem restricted_tail_zero
   have htop := Problem2_16_4.eq_top_of_lie_closed W hlie ⟨w, hwW, hw⟩
   exact hWproper htop
 
+omit [IsAlgClosed k] in
 private theorem restrictedNormalForm_equiv
     [FiniteDimensional k M] [LieModule.IsIrreducible k (Problem2_16_4.sl2 k) M]
     (data : HighestNormalForm k
@@ -2211,7 +2263,7 @@ theorem exists_parameter_equiv [IsAlgClosed k]
       by_cases hsimple : data.beta ≠ 0 ∨ data.lam ^ p ≠ data.lam
       · exact ⟨.highest data.beta data.lam hsimple,
           highestNormalForm_equiv k data hsimple⟩
-      · push_neg at hsimple
+      · push Not at hsimple
         have hmem : data.lam ∈ (⊥ : Subfield k) :=
           (Subfield.mem_bot_iff_pow_eq_self k p).mpr hsimple.2
         obtain ⟨m, hm⟩ := (mem_bot_iff_intCast p k).mp hmem
@@ -2246,23 +2298,25 @@ def fScalar {p : ℕ} : Parameter k p → k
   | .highest beta _ _ => beta
   | .cyclic _ _ _ _ => 0
 
-/-- Scalar by which `h^p-h` acts. -/
-def hCharacter {p : ℕ} : Parameter k p → k
-  | .restricted _ => 0
-  | .highest _ lam _ | .cyclic _ lam _ _ => lam ^ p - lam
+/-- The explicit equivalence relation on normal-form parameters.
 
-/-- Scalar of the Casimir `ef + fe + h²/2`. -/
-def casimir {p : ℕ} : Parameter k p → k
-  | .restricted n => (n : k) ^ 2 / 2 + (n : k)
-  | .highest _ lam _ => lam ^ 2 / 2 + lam
-  | .cyclic alpha lam q _ => 2 * alpha * q - lam + lam ^ 2 / 2
-
-/-- The explicit complete invariant used by the classification. -/
-def invariant {p : ℕ} (a : Parameter k p) : ℕ × k × k × k × k :=
-  (a.dimension, a.eScalar, a.fScalar, a.hCharacter, a.casimir)
-
-/-- Equality of the displayed dimension, p-character, and Casimir invariants. -/
-def SameInvariant {p : ℕ} (a b : Parameter k p) : Prop := a.invariant = b.invariant
+For highest-weight forms, `j` says that the source highest vector is the `j`th weight
+vector in the target; the last equation says that vector is killed by `e`.  For cyclic
+forms it says that the source cyclic vector is the target's `j`th weight vector, with the
+last equation comparing the wrap coefficient for `f`.  This formulation records the
+finite-prime-field weight shifts directly and avoids choosing orbit representatives. -/
+def SameInvariant {p : ℕ} : Parameter k p → Parameter k p → Prop
+  | .restricted n, .restricted m => n = m
+  | .highest beta lam _, .highest beta' mu _ =>
+      beta = beta' ∧ ∃ j : Fin p,
+        lam = mu - 2 * (j : ℕ) ∧
+          (j : k) * (mu - (j : k) + 1) = 0
+  | .cyclic alpha lam q _, .cyclic alpha' mu q' _ =>
+      alpha = alpha' ∧ ∃ j : Fin p,
+        lam = mu + 2 * (j : ℕ) ∧
+          if (j : ℕ) = 0 then q = q'
+          else cyclicCoeff k alpha mu q' (j : ℕ) = alpha * q
+  | _, _ => False
 
 end Parameter
 
@@ -2314,7 +2368,7 @@ private theorem vermaF_pow_dimension {d : ℕ} [NeZero d] (beta : k) :
       have hlast : (⟨(i : ℕ) + (d - (i : ℕ) - 1), by omega⟩ : Fin d) =
           ⟨d - 1, by omega⟩ := by
         apply Fin.ext
-        simp only [Fin.val_mk]
+        change (i : ℕ) + (d - (i : ℕ) - 1) = d - 1
         omega
       rw [hlast, vermaF_basis_last k beta]
     have hpow : F ^ d = F ^ (i : ℕ) * F ^ (d - (i : ℕ)) := by
@@ -2327,6 +2381,7 @@ private theorem vermaF_pow_dimension {d : ℕ} [NeZero d] (beta : k) :
     apply Fin.ext
     simp
 
+omit [CharP k p] in
 private theorem cyclicE_pow_char (alpha : k) :
     cyclicE (p := p) k alpha ^ p = alpha • 1 := by
   classical
@@ -2373,7 +2428,7 @@ private theorem cyclicE_pow_char (alpha : k) :
       have hlast : (⟨(i : ℕ) + (p - (i : ℕ) - 1), by omega⟩ : Fin p) =
           ⟨p - 1, by omega⟩ := by
         apply Fin.ext
-        simp only [Fin.val_mk]
+        change (i : ℕ) + (p - (i : ℕ) - 1) = p - 1
         omega
       rw [hlast, cyclicE_basis_last k alpha Fact.out]
     have hpow : E ^ p = E ^ (i : ℕ) * E ^ (p - (i : ℕ)) := by
@@ -2429,34 +2484,788 @@ private theorem vermaE_pow_dimension_zero {d : ℕ} [NeZero d] (lam : k) :
   rw [show vermaE (d := d) k lam = E from rfl, hpow, Module.End.mul_apply,
     hv (i : ℕ) i.isLt, map_zero]
 
+private theorem parameter_e_pow (a : Parameter k p) :
+    (parameterTriple k a).E ^ p = a.eScalar • 1 := by
+  cases a with
+  | restricted n =>
+      have hd : (n : ℕ) + 1 ≤ p := by omega
+      haveI : NeZero ((n : ℕ) + 1) := ⟨by omega⟩
+      have hzero := vermaE_pow_dimension_zero (d := (n : ℕ) + 1) k (n : k)
+      calc
+        (parameterTriple k (.restricted n)).E ^ p =
+            (parameterTriple k (.restricted n)).E ^ ((n : ℕ) + 1) *
+              (parameterTriple k (.restricted n)).E ^ (p - ((n : ℕ) + 1)) := by
+                rw [← pow_add]
+                congr 1
+                omega
+        _ = 0 := by
+          change vermaE (d := (n : ℕ) + 1) k (n : k) ^ ((n : ℕ) + 1) * _ = 0
+          rw [hzero, zero_mul]
+        _ = (Parameter.restricted n : Parameter k p).eScalar • 1 := by
+          simp [Parameter.eScalar]
+  | highest beta lam simple =>
+      haveI : NeZero p := ⟨by have hp : 2 < p := Fact.out; omega⟩
+      change vermaE (d := p) k lam ^ p = (0 : k) • 1
+      rw [vermaE_pow_dimension_zero, zero_smul]
+  | cyclic alpha lam q alpha_ne =>
+      change cyclicE (p := p) k alpha ^ p = alpha • 1
+      exact cyclicE_pow_char k alpha
+
+omit [Fact p.Prime] in
+private theorem parameter_f_pow_of_eScalar_eq_zero (a : Parameter k p)
+    (ha : a.eScalar = 0) :
+    (parameterTriple k a).F ^ p = a.fScalar • 1 := by
+  cases a with
+  | restricted n =>
+      haveI : NeZero ((n : ℕ) + 1) := ⟨by omega⟩
+      have hzero := vermaF_pow_dimension (d := (n : ℕ) + 1) k 0
+      calc
+        (parameterTriple k (.restricted n)).F ^ p =
+            (parameterTriple k (.restricted n)).F ^ ((n : ℕ) + 1) *
+              (parameterTriple k (.restricted n)).F ^ (p - ((n : ℕ) + 1)) := by
+                rw [← pow_add]
+                congr 1
+                omega
+        _ = 0 := by
+          change vermaF (d := (n : ℕ) + 1) k 0 ^ ((n : ℕ) + 1) * _ = 0
+          rw [hzero, zero_smul, zero_mul]
+        _ = (Parameter.restricted n : Parameter k p).fScalar • 1 := by
+          simp [Parameter.fScalar]
+  | highest beta lam simple =>
+      haveI : NeZero p := ⟨by have hp : 2 < p := Fact.out; omega⟩
+      change vermaF (d := p) k beta ^ p = beta • 1
+      exact vermaF_pow_dimension k beta
+  | cyclic alpha lam q alpha_ne =>
+      exact (alpha_ne ha).elim
+
+omit [CharP k p] in
+private theorem vermaF_orbit_top (beta : k) (j : Fin p)
+    (hwrap : (j : ℕ) = 0 ∨ beta ≠ 0) :
+    Submodule.span k (Set.range fun i : Fin p =>
+      (vermaF (d := p) k beta ^ (i : ℕ)) (basis k p j)) = ⊤ := by
+  classical
+  haveI : NeZero p := ⟨by have hp : 2 < p := Fact.out; omega⟩
+  let F := vermaF (d := p) k beta
+  let orbit : Fin p → (Fin p → k) := fun i => (F ^ (i : ℕ)) (basis k p j)
+  let N := Submodule.span k (Set.range orbit)
+  have hj : basis k p j ∈ N := by
+    have h := Submodule.subset_span (R := k) (s := Set.range orbit)
+      (show orbit ⟨0, by have hp : 2 < p := Fact.out; omega⟩ ∈ Set.range orbit from
+        ⟨⟨0, by have hp : 2 < p := Fact.out; omega⟩, rfl⟩)
+    simpa [orbit] using h
+  have hF : ∀ v ∈ N, F v ∈ N := by
+    refine fun v hv => Problem2_16_4.span_closed_of_gens F _ ?_ hv
+    rintro _ ⟨i, rfl⟩
+    by_cases hi : (i : ℕ) + 1 < p
+    · apply Submodule.subset_span
+      refine ⟨⟨(i : ℕ) + 1, hi⟩, ?_⟩
+      simp only [orbit]
+      rw [pow_succ', Module.End.mul_apply]
+    · have hip : (i : ℕ) + 1 = p := by omega
+      change F ((F ^ (i : ℕ)) (basis k p j)) ∈ N
+      rw [← Module.End.mul_apply, ← pow_succ', hip,
+        show F = vermaF (d := p) k beta from rfl, vermaF_pow_dimension,
+        LinearMap.smul_apply, Module.End.one_apply]
+      exact N.smul_mem beta hj
+  have h0 : basis k p ⟨0, by have hp : 2 < p := Fact.out; omega⟩ ∈ N := by
+    rcases hwrap with hj0 | hbeta
+    · have : j = ⟨0, by have hp : 2 < p := Fact.out; omega⟩ := Fin.ext hj0
+      simpa [this] using hj
+    · exact zeroBasisOfCyclicVermaF k beta hbeta N hF hj
+  exact eqTopOfAllBasis k N (allBasisOfVermaF k beta N hF h0)
+
+omit [CharP k p] in
+private theorem cyclicE_orbit_top (alpha : k) (halpha : alpha ≠ 0) (j : Fin p) :
+    Submodule.span k (Set.range fun i : Fin p =>
+      (cyclicE (p := p) k alpha ^ (i : ℕ)) (basis k p j)) = ⊤ := by
+  classical
+  haveI : NeZero p := ⟨by have hp : 2 < p := Fact.out; omega⟩
+  let E := cyclicE (p := p) k alpha
+  let orbit : Fin p → (Fin p → k) := fun i => (E ^ (i : ℕ)) (basis k p j)
+  let N := Submodule.span k (Set.range orbit)
+  have hj : basis k p j ∈ N := by
+    have h := Submodule.subset_span (R := k) (s := Set.range orbit)
+      (show orbit ⟨0, by have hp : 2 < p := Fact.out; omega⟩ ∈ Set.range orbit from
+        ⟨⟨0, by have hp : 2 < p := Fact.out; omega⟩, rfl⟩)
+    simpa [orbit] using h
+  have hE : ∀ v ∈ N, E v ∈ N := by
+    refine fun v hv => Problem2_16_4.span_closed_of_gens E _ ?_ hv
+    rintro _ ⟨i, rfl⟩
+    by_cases hi : (i : ℕ) + 1 < p
+    · apply Submodule.subset_span
+      refine ⟨⟨(i : ℕ) + 1, hi⟩, ?_⟩
+      simp only [orbit]
+      rw [pow_succ', Module.End.mul_apply]
+    · have hip : (i : ℕ) + 1 = p := by omega
+      change E ((E ^ (i : ℕ)) (basis k p j)) ∈ N
+      rw [← Module.End.mul_apply, ← pow_succ', hip,
+        show E = cyclicE (p := p) k alpha from rfl, cyclicE_pow_char,
+        LinearMap.smul_apply, Module.End.one_apply]
+      exact N.smul_mem alpha hj
+  have h0 := zeroBasisOfCyclicE k alpha halpha N hE hj
+  have hall : ∀ i, basis k p i ∈ N := by
+    intro i
+    suffices ∀ (m : ℕ) (hm : m < p), basis k p ⟨m, hm⟩ ∈ N from this i i.isLt
+    intro m hm
+    induction m with
+    | zero => exact h0
+    | succ m ih =>
+        have himage := hE _ (ih (by omega))
+        rwa [show E = cyclicE (p := p) k alpha from rfl,
+          cyclicE_basis_succ k alpha m hm] at himage
+  exact eqTopOfAllBasis k N hall
+
+omit [CharP k p] in
+private theorem cyclicE_pow_pred_basis (alpha : k) (j : Fin p) :
+    (cyclicE (p := p) k alpha ^ (p - 1)) (basis k p j) =
+      if (j : ℕ) = 0 then basis k p ⟨p - 1, by have hp : 2 < p := Fact.out; omega⟩
+      else alpha • basis k p ⟨(j : ℕ) - 1, by omega⟩ := by
+  classical
+  have hp : 2 < p := Fact.out
+  haveI : NeZero p := ⟨by omega⟩
+  let E := cyclicE (p := p) k alpha
+  have hpath : ∀ (i r : ℕ) (h : i + r < p),
+      (E ^ r) (basis k p ⟨i, by omega⟩) = basis k p ⟨i + r, h⟩ := by
+    intro i r h
+    induction r with
+    | zero => simp
+    | succ r ih =>
+        rw [pow_succ', Module.End.mul_apply, ih (by omega)]
+        exact cyclicE_basis_succ k alpha (i + r) (by omega)
+  split
+  · rename_i hj0
+    have hj : j = ⟨0, by omega⟩ := Fin.ext hj0
+    rw [hj]
+    simpa using hpath 0 (p - 1) (by omega)
+  · rename_i hj0
+    have hjpos : 0 < (j : ℕ) := Nat.pos_of_ne_zero hj0
+    have hwrap : (E ^ (p - (j : ℕ))) (basis k p j) =
+        alpha • basis k p ⟨0, by omega⟩ := by
+      have hpow : E ^ (p - (j : ℕ)) = E * E ^ (p - (j : ℕ) - 1) := by
+        rw [← pow_succ']
+        congr 1
+        omega
+      rw [hpow, Module.End.mul_apply,
+        hpath (j : ℕ) (p - (j : ℕ) - 1) (by omega)]
+      have hlast : (⟨(j : ℕ) + (p - (j : ℕ) - 1), by omega⟩ : Fin p) =
+          ⟨p - 1, by omega⟩ := by
+        apply Fin.ext
+        change (j : ℕ) + (p - (j : ℕ) - 1) = p - 1
+        omega
+      rw [hlast, show E = cyclicE (p := p) k alpha from rfl,
+        cyclicE_basis_last k alpha hp]
+    have hpow : E ^ (p - 1) = E ^ ((j : ℕ) - 1) * E ^ (p - (j : ℕ)) := by
+      rw [← pow_add]
+      congr 1
+      omega
+    rw [show cyclicE (p := p) k alpha = E from rfl, hpow,
+      Module.End.mul_apply, hwrap, map_smul,
+      hpath 0 ((j : ℕ) - 1) (by omega)]
+    congr 2
+    apply Fin.ext
+    simp
+
 end OperatorInvariants
 
 section ClassificationAPI
 
 variable {p : ℕ} [Fact p.Prime] [CharP k p] [Fact (2 < p)] [IsAlgClosed k]
 
+omit [Fact p.Prime] [IsAlgClosed k] in
+private theorem familyEquiv_map_E {a b : Parameter k p} (e : FamilyEquiv k a b)
+    (v : Carrier k a) :
+    e ((parameterTriple k a).E v) = (parameterTriple k b).E (e v) := by
+  have h := e.toLieModuleHom.map_lie (Problem2_16_4.sl2_e k) v
+  change e (parameterLieHom k a (Problem2_16_4.sl2_e k) v) =
+    parameterLieHom k b (Problem2_16_4.sl2_e k) (e v) at h
+  simpa only [parameterLieHom_e] using h
+
+omit [Fact p.Prime] [IsAlgClosed k] in
+private theorem familyEquiv_map_F {a b : Parameter k p} (e : FamilyEquiv k a b)
+    (v : Carrier k a) :
+    e ((parameterTriple k a).F v) = (parameterTriple k b).F (e v) := by
+  have h := e.toLieModuleHom.map_lie (Problem2_16_4.sl2_f k) v
+  change e (parameterLieHom k a (Problem2_16_4.sl2_f k) v) =
+    parameterLieHom k b (Problem2_16_4.sl2_f k) (e v) at h
+  simpa only [parameterLieHom_f] using h
+
+omit [Fact p.Prime] [IsAlgClosed k] in
+private theorem familyEquiv_map_H {a b : Parameter k p} (e : FamilyEquiv k a b)
+    (v : Carrier k a) :
+    e ((parameterTriple k a).H v) = (parameterTriple k b).H (e v) := by
+  have h := e.toLieModuleHom.map_lie (Problem2_16_4.sl2_h k) v
+  change e (parameterLieHom k a (Problem2_16_4.sl2_h k) v) =
+    parameterLieHom k b (Problem2_16_4.sl2_h k) (e v) at h
+  simpa only [parameterLieHom_h] using h
+
+omit [Fact p.Prime] [IsAlgClosed k] in
+private theorem familyEquiv_map_E_pow {a b : Parameter k p} (e : FamilyEquiv k a b) :
+    ∀ (r : ℕ) (v : Carrier k a),
+      e (((parameterTriple k a).E ^ r) v) = ((parameterTriple k b).E ^ r) (e v) := by
+  intro r v
+  induction r with
+  | zero => simp
+  | succ r ih =>
+      simp only [pow_succ', Module.End.mul_apply]
+      rw [familyEquiv_map_E k e, ih]
+
+omit [Fact p.Prime] [IsAlgClosed k] in
+private theorem familyEquiv_map_F_pow {a b : Parameter k p} (e : FamilyEquiv k a b) :
+    ∀ (r : ℕ) (v : Carrier k a),
+      e (((parameterTriple k a).F ^ r) v) = ((parameterTriple k b).F ^ r) (e v) := by
+  intro r v
+  induction r with
+  | zero => simp
+  | succ r ih =>
+      simp only [pow_succ', Module.End.mul_apply]
+      rw [familyEquiv_map_F k e, ih]
+
+omit [Fact p.Prime] [IsAlgClosed k] in
+private theorem familyEquiv_dimension_eq {a b : Parameter k p} (e : FamilyEquiv k a b) :
+    a.dimension = b.dimension := by
+  simpa only [finrank_carrier] using e.toLinearEquiv.finrank_eq
+
+omit [IsAlgClosed k] in
+private theorem familyEquiv_eScalar_eq {a b : Parameter k p} (e : FamilyEquiv k a b) :
+    a.eScalar = b.eScalar := by
+  have hp : 2 < p := Fact.out
+  have hpos : 0 < a.dimension := by cases a <;> simp [Parameter.dimension] <;> omega
+  let z : Fin a.dimension := ⟨0, hpos⟩
+  let v := basis k a.dimension z
+  have hv : v ≠ 0 := by
+    intro hz
+    have := congrFun hz z
+    simp [v, basis_apply] at this
+  have h := familyEquiv_map_E_pow k e p v
+  rw [parameter_e_pow k a, parameter_e_pow k b,
+    LinearMap.smul_apply, Module.End.one_apply, LinearMap.smul_apply,
+    Module.End.one_apply, map_smul] at h
+  have hev : e v ≠ 0 := by simpa using e.injective.ne hv
+  exact smul_left_injective k hev h
+
+omit [Fact p.Prime] [IsAlgClosed k] in
+private theorem familyEquiv_fScalar_eq_of_eScalar_eq_zero
+    {a b : Parameter k p} (e : FamilyEquiv k a b)
+    (ha : a.eScalar = 0) (hb : b.eScalar = 0) : a.fScalar = b.fScalar := by
+  have hp : 2 < p := Fact.out
+  have hpos : 0 < a.dimension := by cases a <;> simp [Parameter.dimension] <;> omega
+  let z : Fin a.dimension := ⟨0, hpos⟩
+  let v := basis k a.dimension z
+  have hv : v ≠ 0 := by
+    intro hz
+    have := congrFun hz z
+    simp [v, basis_apply] at this
+  have h := familyEquiv_map_F_pow k e p v
+  rw [parameter_f_pow_of_eScalar_eq_zero k a ha,
+    parameter_f_pow_of_eScalar_eq_zero k b hb,
+    LinearMap.smul_apply, Module.End.one_apply, LinearMap.smul_apply,
+    Module.End.one_apply, map_smul] at h
+  have hev : e v ≠ 0 := by simpa using e.injective.ne hv
+  exact smul_left_injective k hev h
+
+omit [IsAlgClosed k] in
+private theorem diagonal_eigenvector_eq_smul_basis {d : ℕ}
+    (weight : Fin d → k) (hweight : Pairwise fun i j => weight i ≠ weight j)
+    (H : Module.End k (Fin d → k))
+    (hdiag : ∀ v i, H v i = weight i * v i)
+    {lam : k} {w : Fin d → k} (hw : w ≠ 0) (heigen : H w = lam • w) :
+    ∃ i : Fin d, lam = weight i ∧ w = w i • basis k d i ∧ w i ≠ 0 := by
+  classical
+  have hex : ∃ i, w i ≠ 0 := by
+    by_contra h
+    push Not at h
+    apply hw
+    funext i
+    exact h i
+  obtain ⟨i, hwi⟩ := hex
+  have hi := congrFun heigen i
+  rw [hdiag] at hi
+  simp only [Pi.smul_apply, smul_eq_mul] at hi
+  have hlam : lam = weight i := by
+    symm
+    exact mul_right_cancel₀ hwi hi
+  refine ⟨i, hlam, ?_, hwi⟩
+  ext j
+  simp only [Pi.smul_apply, basis_apply, smul_eq_mul]
+  by_cases hji : j = i
+  · subst j
+    simp
+  · have hj := congrFun heigen j
+    rw [hdiag] at hj
+    simp only [Pi.smul_apply, smul_eq_mul] at hj
+    have hwj : w j = 0 := by
+      by_contra hwj
+      have hjweight : weight j = lam := mul_right_cancel₀ hwj hj
+      exact hweight hji (hjweight.trans hlam)
+    simp [hji, hwj]
+
+omit [Fact p.Prime] [IsAlgClosed k] in
+private theorem verma_highest_eigenvector_index (mu lam : k) (w : Fin p → k)
+    (hw : w ≠ 0) (heigen : vermaH (d := p) k mu w = lam • w)
+    (hkilled : vermaE (d := p) k mu w = 0) :
+    ∃ j : Fin p, lam = mu - 2 * (j : ℕ) ∧
+      (j : k) * (mu - (j : k) + 1) = 0 := by
+  classical
+  haveI : NeZero p := ⟨by have hp : 2 < p := Fact.out; omega⟩
+  obtain ⟨j, hlam, hshape, hwj⟩ := diagonal_eigenvector_eq_smul_basis k
+    (fun i : Fin p => mu - 2 * (i : ℕ)) (subWeightsPairwise k le_rfl mu)
+    (vermaH (d := p) k mu) (by intro v i; rfl) hw heigen
+  refine ⟨j, hlam, ?_⟩
+  by_cases hj0 : (j : ℕ) = 0
+  · simp [hj0]
+  · rw [hshape, map_smul,
+      vermaE_basis_pred k mu (j : ℕ) (Nat.pos_of_ne_zero hj0) j.isLt,
+      smul_smul] at hkilled
+    have hcoord := congrFun hkilled ⟨(j : ℕ) - 1, by omega⟩
+    simp only [Pi.smul_apply, basis_apply, if_true, Pi.zero_apply, smul_eq_mul,
+      mul_one] at hcoord
+    have hproduct : w j * ((j : k) * (mu - (j : k) + 1)) = 0 := by
+      simpa only [mul_assoc] using hcoord
+    exact (mul_eq_zero.mp hproduct).resolve_left hwj
+
+omit [Fact p.Prime] [IsAlgClosed k] in
+private theorem cyclic_eigenvector_index (mu lam : k) (w : Fin p → k)
+    (hw : w ≠ 0) (heigen : cyclicH (p := p) k mu w = lam • w) :
+    ∃ j : Fin p, lam = mu + 2 * (j : ℕ) ∧
+      w = w j • basis k p j ∧ w j ≠ 0 := by
+  exact diagonal_eigenvector_eq_smul_basis k
+    (fun i : Fin p => mu + 2 * (i : ℕ)) (addWeightsPairwise k mu)
+    (cyclicH (p := p) k mu) (by intro v i; rfl) hw heigen
+
+omit [IsAlgClosed k] in
+private theorem sameInvariant_equiv (a b : Parameter k p)
+    (h : Parameter.SameInvariant k a b) : Nonempty (FamilyEquiv k a b) := by
+  classical
+  have hp : 2 < p := Fact.out
+  cases a with
+  | restricted n =>
+      cases b with
+      | restricted m =>
+          change n = m at h
+          subst m
+          exact ⟨LieModuleEquiv.refl⟩
+      | highest beta mu simple => exact h.elim
+      | cyclic alpha mu q halpha => exact h.elim
+  | highest beta lam simple =>
+      cases b with
+      | restricted m => exact h.elim
+      | highest beta' mu simple' =>
+          change beta = beta' ∧ ∃ j : Fin p,
+            lam = mu - 2 * (j : ℕ) ∧
+              (j : k) * (mu - (j : k) + 1) = 0 at h
+          obtain ⟨hbeta, j, hlam, hkill⟩ := h
+          subst beta'
+          haveI : NeZero p := ⟨by omega⟩
+          let target : Parameter k p := .highest beta mu simple'
+          letI : LieRingModule (Problem2_16_4.sl2 k) (Carrier k target) :=
+            parameterLieRingModule k target
+          letI : LieModule k (Problem2_16_4.sl2 k) (Carrier k target) :=
+            parameterLieModule k target
+          let E := LieModule.toEnd k (Problem2_16_4.sl2 k) (Carrier k target)
+            (Problem2_16_4.sl2_e k)
+          let F := LieModule.toEnd k (Problem2_16_4.sl2 k) (Carrier k target)
+            (Problem2_16_4.sl2_f k)
+          let H := LieModule.toEnd k (Problem2_16_4.sl2 k) (Carrier k target)
+            (Problem2_16_4.sl2_h k)
+          have hEdef : E = vermaE (d := p) k mu := by
+            change parameterLieHom k target (Problem2_16_4.sl2_e k) = _
+            rw [parameterLieHom_e]
+            rfl
+          have hFdef : F = vermaF (d := p) k beta := by
+            change parameterLieHom k target (Problem2_16_4.sl2_f k) = _
+            rw [parameterLieHom_f]
+            rfl
+          have hHdef : H = vermaH (d := p) k mu := by
+            change parameterLieHom k target (Problem2_16_4.sl2_h k) = _
+            rw [parameterLieHom_h]
+            rfl
+          have hv0 : basis k p j ≠ 0 := by
+            intro hz
+            have := congrFun hz j
+            simp [basis_apply] at this
+          have he : E (basis k p j) = 0 := by
+            rw [hEdef]
+            change vermaE (d := p) k mu (basis k p j) = 0
+            by_cases hj0 : (j : ℕ) = 0
+            · have hj : j = ⟨0, by omega⟩ := Fin.ext hj0
+              rw [hj]
+              ext i
+              simp [vermaE, basis_apply]
+            · rw [vermaE_basis_pred k mu (j : ℕ) (Nat.pos_of_ne_zero hj0) j.isLt,
+                hkill, zero_smul]
+          have hh : H (basis k p j) = lam • basis k p j := by
+            rw [hHdef]
+            change vermaH (d := p) k mu (basis k p j) = lam • basis k p j
+            ext i
+            by_cases hij : i = j
+            · subst i
+              simp [vermaH, basis_apply, hlam]
+            · simp [vermaH, basis_apply, hij]
+          have hf : F ^ p = beta • 1 := by
+            rw [hFdef]
+            change vermaF (d := p) k beta ^ p = beta • 1
+            exact vermaF_pow_dimension k beta
+          have hwrap : (j : ℕ) = 0 ∨ beta ≠ 0 := by
+            by_cases hj0 : (j : ℕ) = 0
+            · exact Or.inl hj0
+            · right
+              rcases simple' with hbeta | hmu
+              · exact hbeta
+              · exfalso
+                apply hmu
+                have hjcast : (j : k) ≠ 0 :=
+                  natCastNeZeroLt k (Nat.pos_of_ne_zero hj0) j.isLt
+                have hroot : mu - (j : k) + 1 = 0 :=
+                  (mul_eq_zero.mp hkill).resolve_left hjcast
+                have hmucast : mu = ((j : ℕ) - 1 : ℕ) := by
+                  rw [Nat.cast_sub (by omega : 1 ≤ (j : ℕ))]
+                  push_cast
+                  linear_combination hroot
+                rw [hmucast]
+                exact (Subfield.mem_bot_iff_pow_eq_self k p).mp (natCast_mem _ _)
+          have horbit : Submodule.span k (Set.range fun i : Fin p =>
+              (F ^ (i : ℕ)) (basis k p j)) = ⊤ := by
+            rw [hFdef]
+            change Submodule.span k (Set.range fun i : Fin p =>
+              (vermaF (d := p) k beta ^ (i : ℕ)) (basis k p j)) = ⊤
+            exact vermaF_orbit_top k beta j hwrap
+          let data : HighestNormalForm k E F H p :=
+            { beta := beta
+              lam := lam
+              v0 := basis k p j
+              v0_ne := hv0
+              e_v0 := he
+              h_v0 := hh
+              f_pow := hf
+              orbit_top := horbit }
+          simpa [target, data] using highestNormalForm_equiv k data simple
+      | cyclic alpha mu q halpha => exact h.elim
+  | cyclic alpha lam q halpha =>
+      cases b with
+      | restricted m => exact h.elim
+      | highest beta mu simple => exact h.elim
+      | cyclic alpha' mu q' halpha' =>
+          change alpha = alpha' ∧ ∃ j : Fin p,
+            lam = mu + 2 * (j : ℕ) ∧
+              (if (j : ℕ) = 0 then q = q'
+              else cyclicCoeff k alpha mu q' (j : ℕ) = alpha * q) at h
+          obtain ⟨halphaeq, j, hlam, hq⟩ := h
+          subst alpha'
+          haveI : NeZero p := ⟨by omega⟩
+          let target : Parameter k p := .cyclic alpha mu q' halpha'
+          letI : LieRingModule (Problem2_16_4.sl2 k) (Carrier k target) :=
+            parameterLieRingModule k target
+          letI : LieModule k (Problem2_16_4.sl2 k) (Carrier k target) :=
+            parameterLieModule k target
+          let E := LieModule.toEnd k (Problem2_16_4.sl2 k) (Carrier k target)
+            (Problem2_16_4.sl2_e k)
+          let F := LieModule.toEnd k (Problem2_16_4.sl2 k) (Carrier k target)
+            (Problem2_16_4.sl2_f k)
+          let H := LieModule.toEnd k (Problem2_16_4.sl2 k) (Carrier k target)
+            (Problem2_16_4.sl2_h k)
+          have hEdef : E = cyclicE (p := p) k alpha := by
+            change parameterLieHom k target (Problem2_16_4.sl2_e k) = _
+            rw [parameterLieHom_e]
+            rfl
+          have hFdef : F = cyclicF (p := p) k alpha mu q' := by
+            change parameterLieHom k target (Problem2_16_4.sl2_f k) = _
+            rw [parameterLieHom_f]
+            rfl
+          have hHdef : H = cyclicH (p := p) k mu := by
+            change parameterLieHom k target (Problem2_16_4.sl2_h k) = _
+            rw [parameterLieHom_h]
+            rfl
+          have hv0 : basis k p j ≠ 0 := by
+            intro hz
+            have := congrFun hz j
+            simp [basis_apply] at this
+          have hep : E ^ p = alpha • 1 := by
+            rw [hEdef]
+            change cyclicE (p := p) k alpha ^ p = alpha • 1
+            exact cyclicE_pow_char k alpha
+          have hh : H (basis k p j) = lam • basis k p j := by
+            rw [hHdef]
+            change cyclicH (p := p) k mu (basis k p j) = lam • basis k p j
+            ext i
+            by_cases hij : i = j
+            · subst i
+              simp [cyclicH, basis_apply, hlam]
+            · simp [cyclicH, basis_apply, hij]
+          have hf : F (basis k p j) = q • (E ^ (p - 1)) (basis k p j) := by
+            rw [hFdef, hEdef]
+            change cyclicF (p := p) k alpha mu q' (basis k p j) =
+              q • (cyclicE (p := p) k alpha ^ (p - 1)) (basis k p j)
+            by_cases hj0 : (j : ℕ) = 0
+            · have hj : j = ⟨0, by omega⟩ := Fin.ext hj0
+              rw [hj] at hq ⊢
+              simp only [if_pos] at hq
+              rw [cyclicF_basis_zero k alpha mu q', cyclicE_pow_pred_basis]
+              simp only [if_pos, hq]
+            · rw [if_neg hj0] at hq
+              rw [cyclicF_basis_pred k alpha mu q' (j : ℕ)
+                (Nat.pos_of_ne_zero hj0) j.isLt, cyclicE_pow_pred_basis,
+                if_neg hj0, hq, smul_smul]
+              congr 1
+              ring
+          have horbit : Submodule.span k (Set.range fun i : Fin p =>
+              (E ^ (i : ℕ)) (basis k p j)) = ⊤ := by
+            rw [hEdef]
+            change Submodule.span k (Set.range fun i : Fin p =>
+              (cyclicE (p := p) k alpha ^ (i : ℕ)) (basis k p j)) = ⊤
+            exact cyclicE_orbit_top k alpha halpha j
+          let data : CyclicNormalForm k E F H p :=
+            { alpha := alpha
+              alpha_ne := halpha
+              lam := lam
+              q := q
+              v0 := basis k p j
+              v0_ne := hv0
+              e_pow := hep
+              h_v0 := hh
+              f_v0 := hf
+              orbit_top := horbit }
+          simpa [target, data] using cyclicNormalForm_equiv k data
+
+omit [IsAlgClosed k] in
+private theorem restricted_highest_not_equiv (n : Fin p) (beta mu : k)
+    (simple : beta ≠ 0 ∨ mu ^ p ≠ mu)
+    (e : FamilyEquiv k (.restricted n) (.highest beta mu simple)) : False := by
+  classical
+  have hp : 2 < p := Fact.out
+  haveI : NeZero ((n : ℕ) + 1) := ⟨by omega⟩
+  haveI : NeZero p := ⟨by omega⟩
+  have hbeta := familyEquiv_fScalar_eq_of_eScalar_eq_zero k e (by rfl) (by rfl)
+  change (0 : k) = beta at hbeta
+  let z : Fin ((n : ℕ) + 1) := ⟨0, by omega⟩
+  let v : Carrier k (.restricted n) := basis k ((n : ℕ) + 1) z
+  have hv : v ≠ 0 := by
+    change basis k ((n : ℕ) + 1) z ≠ 0
+    exact basis_ne_zero k z
+  have hvE : (parameterTriple k (.restricted n)).E v = 0 := by
+    change vermaE (d := (n : ℕ) + 1) k (n : k) v = 0
+    ext i
+    simp [vermaE, v, z, basis_apply]
+  have hvH : (parameterTriple k (.restricted n)).H v = (n : k) • v := by
+    change vermaH (d := (n : ℕ) + 1) k (n : k)
+      (basis k ((n : ℕ) + 1) z) = (n : k) • basis k ((n : ℕ) + 1) z
+    simpa [z] using vermaH_basis k (d := (n : ℕ) + 1) (n : k) z
+  have hw : e v ≠ 0 := by
+    intro h
+    have ez : e (0 : Carrier k (.restricted n)) = 0 := e.map_zero
+    exact hv (e.injective (h.trans ez.symm))
+  have hwE : vermaE (d := p) k mu (e v) = 0 := by
+    calc
+      _ = e ((parameterTriple k (.restricted n)).E v) :=
+        (familyEquiv_map_E k e v).symm
+      _ = e (0 : Carrier k (.restricted n)) := congrArg e hvE
+      _ = 0 := map_zero e
+  have hwH : vermaH (d := p) k mu (e v) = (n : k) • e v := by
+    calc
+      _ = e ((parameterTriple k (.restricted n)).H v) :=
+        (familyEquiv_map_H k e v).symm
+      _ = e ((n : k) • v) := congrArg e hvH
+      _ = (n : k) • e v := map_smul e (n : k) v
+  obtain ⟨j, hlam, _⟩ := verma_highest_eigenvector_index k (p := p)
+    mu (n : k) (e v) hw hwH hwE
+  rcases simple with hbeta_ne | hmu
+  · exact hbeta_ne hbeta.symm
+  · apply hmu
+    apply (Subfield.mem_bot_iff_pow_eq_self k p).mp
+    have hmueq : mu = (n : k) + 2 * (j : ℕ) := by
+      calc
+        mu = (mu - 2 * (j : ℕ)) + 2 * (j : ℕ) := by ring
+        _ = (n : k) + 2 * (j : ℕ) := by rw [← hlam]
+    rw [hmueq]
+    exact add_mem (natCast_mem _ _) (mul_mem (natCast_mem _ _) (natCast_mem _ _))
+
+omit [IsAlgClosed k] in
+private theorem familyEquiv_sameInvariant {a b : Parameter k p}
+    (e : FamilyEquiv k a b) : Parameter.SameInvariant k a b := by
+  classical
+  have hp : 2 < p := Fact.out
+  cases a with
+  | restricted n =>
+      cases b with
+      | restricted m =>
+          change n = m
+          apply Fin.ext
+          have hdim := familyEquiv_dimension_eq k e
+          simp [Parameter.dimension] at hdim
+          omega
+      | highest beta mu simple =>
+          exact (restricted_highest_not_equiv k n beta mu simple e).elim
+      | cyclic alpha mu q halpha =>
+          have h := familyEquiv_eScalar_eq k e
+          change (0 : k) = alpha at h
+          exact (halpha h.symm).elim
+  | highest beta lam simple =>
+      cases b with
+      | restricted m =>
+          exact (restricted_highest_not_equiv k m beta lam simple e.symm).elim
+      | highest beta' mu simple' =>
+          change beta = beta' ∧ ∃ j : Fin p,
+            lam = mu - 2 * (j : ℕ) ∧
+              (j : k) * (mu - (j : k) + 1) = 0
+          have hbeta := familyEquiv_fScalar_eq_of_eScalar_eq_zero k e (by rfl) (by rfl)
+          change beta = beta' at hbeta
+          refine ⟨hbeta, ?_⟩
+          haveI : NeZero p := ⟨by omega⟩
+          let z : Fin p := ⟨0, by omega⟩
+          let v : Carrier k (.highest beta lam simple) := basis k p z
+          have hv : v ≠ 0 := by
+            change basis k p z ≠ 0
+            exact basis_ne_zero k z
+          have hvE : (parameterTriple k (.highest beta lam simple)).E v = 0 := by
+            change vermaE (d := p) k lam v = 0
+            ext i
+            simp [vermaE, v, z, basis_apply]
+          have hvH : (parameterTriple k (.highest beta lam simple)).H v = lam • v := by
+            change vermaH (d := p) k lam (basis k p z) = lam • basis k p z
+            simpa [z] using vermaH_basis k (d := p) lam z
+          have hw : e v ≠ 0 := by
+            intro h
+            have ez : e (0 : Carrier k (.highest beta lam simple)) = 0 := e.map_zero
+            exact hv (e.injective (h.trans ez.symm))
+          have hwE : vermaE (d := p) k mu (e v) = 0 := by
+            calc
+              _ = e ((parameterTriple k (.highest beta lam simple)).E v) :=
+                (familyEquiv_map_E k e v).symm
+              _ = e (0 : Carrier k (.highest beta lam simple)) := congrArg e hvE
+              _ = 0 := map_zero e
+          have hwH : vermaH (d := p) k mu (e v) = lam • e v := by
+            calc
+              _ = e ((parameterTriple k (.highest beta lam simple)).H v) :=
+                (familyEquiv_map_H k e v).symm
+              _ = e (lam • v) := congrArg e hvH
+              _ = lam • e v := map_smul e lam v
+          exact verma_highest_eigenvector_index k (p := p) mu lam (e v) hw hwH hwE
+      | cyclic alpha mu q halpha =>
+          have h := familyEquiv_eScalar_eq k e
+          change (0 : k) = alpha at h
+          exact (halpha h.symm).elim
+  | cyclic alpha lam q halpha =>
+      cases b with
+      | restricted m =>
+          have h := familyEquiv_eScalar_eq k e
+          change alpha = (0 : k) at h
+          exact (halpha h).elim
+      | highest beta mu simple =>
+          have h := familyEquiv_eScalar_eq k e
+          change alpha = (0 : k) at h
+          exact (halpha h).elim
+      | cyclic alpha' mu q' halpha' =>
+          change alpha = alpha' ∧ ∃ j : Fin p,
+            lam = mu + 2 * (j : ℕ) ∧
+              (if (j : ℕ) = 0 then q = q'
+              else cyclicCoeff k alpha mu q' (j : ℕ) = alpha * q)
+          have halphaeq := familyEquiv_eScalar_eq k e
+          change alpha = alpha' at halphaeq
+          refine ⟨halphaeq, ?_⟩
+          haveI : NeZero p := ⟨by omega⟩
+          let z : Fin p := ⟨0, by omega⟩
+          let v : Carrier k (.cyclic alpha lam q halpha) := basis k p z
+          have hv : v ≠ 0 := by
+            change basis k p z ≠ 0
+            exact basis_ne_zero k z
+          have hvH : (parameterTriple k (.cyclic alpha lam q halpha)).H v = lam • v := by
+            change cyclicH (p := p) k lam (basis k p z) = lam • basis k p z
+            simpa [z] using cyclicH_basis k (p := p) lam z
+          have hvF : (parameterTriple k (.cyclic alpha lam q halpha)).F v =
+              q • ((parameterTriple k (.cyclic alpha lam q halpha)).E ^ (p - 1)) v := by
+            change cyclicF (p := p) k alpha lam q v =
+              q • (cyclicE (p := p) k alpha ^ (p - 1)) v
+            rw [show v = basis k p z from rfl, cyclicF_basis_zero,
+              cyclicE_pow_pred_basis]
+            simp [z]
+          let w : Fin p → k := e v
+          have hw : w ≠ 0 := by
+            change e v ≠ 0
+            intro h
+            have ez : e (0 : Carrier k (.cyclic alpha lam q halpha)) = 0 := e.map_zero
+            exact hv (e.injective (h.trans ez.symm))
+          have hwH : cyclicH (p := p) k mu w = lam • w := by
+            change cyclicH (p := p) k mu (e v) = lam • e v
+            calc
+              _ = e ((parameterTriple k (.cyclic alpha lam q halpha)).H v) :=
+                (familyEquiv_map_H k e v).symm
+              _ = e (lam • v) := congrArg e hvH
+              _ = lam • e v := map_smul e lam v
+          obtain ⟨j, hlam, hshape, hwj⟩ :=
+            cyclic_eigenvector_index k (p := p) mu lam w hw hwH
+          refine ⟨j, hlam, ?_⟩
+          have hmapF := (familyEquiv_map_F k e v).symm
+          change cyclicF (p := p) k alpha' mu q' (e v) =
+            e ((parameterTriple k (.cyclic alpha lam q halpha)).F v) at hmapF
+          have hmapE := familyEquiv_map_E_pow k e (p - 1) v
+          change e (((parameterTriple k (.cyclic alpha lam q halpha)).E ^
+              (p - 1)) v) =
+            (cyclicE (p := p) k alpha' ^ (p - 1)) (e v) at hmapE
+          have hlast : e (q • ((parameterTriple k (.cyclic alpha lam q halpha)).E ^
+                (p - 1)) v) =
+              q • (cyclicE (p := p) k alpha' ^ (p - 1)) (e v) := by
+            rw [map_smul]
+            exact congrArg (fun x : Fin p → k => q • x) hmapE
+          have hvFmap :
+              (e ((parameterTriple k (.cyclic alpha lam q halpha)).F v) : Fin p → k) =
+                (e (q • ((parameterTriple k (.cyclic alpha lam q halpha)).E ^
+                  (p - 1)) v) : Fin p → k) := congrArg e hvF
+          have hrel : cyclicF (p := p) k alpha' mu q' w =
+              q • (cyclicE (p := p) k alpha' ^ (p - 1)) w := by
+            change cyclicF (p := p) k alpha' mu q' (e v) =
+              q • (cyclicE (p := p) k alpha' ^ (p - 1)) (e v)
+            exact hmapF.trans (hvFmap.trans hlast)
+          have hcancel : cyclicF (p := p) k alpha' mu q' (basis k p j) =
+              q • (cyclicE (p := p) k alpha' ^ (p - 1)) (basis k p j) := by
+            have hscaled := hrel
+            rw [hshape, map_smul, map_smul] at hscaled
+            exact smul_right_injective (Fin p → k) hwj <| by
+              simpa only [smul_smul, mul_comm q] using hscaled
+          by_cases hj0 : (j : ℕ) = 0
+          · simp only [hj0, if_pos]
+            have hj : j = z := Fin.ext hj0
+            rw [hj, cyclicF_basis_zero, cyclicE_pow_pred_basis] at hcancel
+            have hcoord := congrFun hcancel ⟨p - 1, by omega⟩
+            simpa [z, basis_apply] using hcoord.symm
+          · simp only [hj0, if_false]
+            rw [cyclicF_basis_pred k alpha' mu q' (j : ℕ)
+              (Nat.pos_of_ne_zero hj0) j.isLt, cyclicE_pow_pred_basis,
+              if_neg hj0] at hcancel
+            have hcoord := congrFun hcancel ⟨(j : ℕ) - 1, by omega⟩
+            simpa [halphaeq, basis_apply, smul_smul, mul_comm] using hcoord
+
 /-- The exact isomorphism relation on the explicit parameters. -/
 def Parameter.Isomorphic (a b : Parameter k p) : Prop :=
-  Nonempty (Carrier k a ≃ₗ⁅k, Problem2_16_4.sl2 k⁆ Carrier k b)
+  Parameter.SameInvariant k a b
 
+omit [IsAlgClosed k] in
+/-- Two family members are isomorphic exactly when their parameters satisfy the explicit
+finite-shift criterion in `Parameter.SameInvariant`. -/
 theorem parameter_isomorphic_iff (a b : Parameter k p) :
-    Nonempty (Carrier k a ≃ₗ⁅k, Problem2_16_4.sl2 k⁆ Carrier k b) ↔
-      Parameter.Isomorphic k a b := Iff.rfl
+    Nonempty (FamilyEquiv k a b) ↔
+      Parameter.SameInvariant k a b :=
+  ⟨fun ⟨e⟩ => familyEquiv_sameInvariant k e,
+    sameInvariant_equiv k a b⟩
 
+omit [IsAlgClosed k] in
 private theorem parameterIsomorphic_refl (a : Parameter k p) :
     Parameter.Isomorphic k a a :=
-  ⟨LieModuleEquiv.refl⟩
+  familyEquiv_sameInvariant k LieModuleEquiv.refl
 
+omit [IsAlgClosed k] in
 private theorem parameterIsomorphic_symm {a b : Parameter k p} :
     Parameter.Isomorphic k a b → Parameter.Isomorphic k b a := by
-  rintro ⟨e⟩
-  exact ⟨e.symm⟩
+  intro h
+  obtain ⟨e⟩ := sameInvariant_equiv k a b h
+  exact familyEquiv_sameInvariant k e.symm
 
+omit [IsAlgClosed k] in
 private theorem parameterIsomorphic_trans {a b c : Parameter k p} :
     Parameter.Isomorphic k a b → Parameter.Isomorphic k b c →
       Parameter.Isomorphic k a c := by
-  rintro ⟨e⟩ ⟨f⟩
-  exact ⟨e.trans f⟩
+  intro hab hbc
+  obtain ⟨e⟩ := sameInvariant_equiv k a b hab
+  obtain ⟨f⟩ := sameInvariant_equiv k b c hbc
+  exact familyEquiv_sameInvariant k (e.trans f)
 
 noncomputable instance parameterSetoid : Setoid (Parameter k p) where
   r := Parameter.Isomorphic k
@@ -2481,14 +3290,17 @@ attribute [instance] addCommGroup module lieRingModule lieModule finiteDimension
 def Isomorphic (S T : FiniteIrreducible k) : Prop :=
   Nonempty (S.carrier ≃ₗ⁅k, Problem2_16_4.sl2 k⁆ T.carrier)
 
+omit [IsAlgClosed k] in
 private theorem isomorphic_refl (S : FiniteIrreducible k) : Isomorphic k S S :=
   ⟨LieModuleEquiv.refl⟩
 
+omit [IsAlgClosed k] in
 private theorem isomorphic_symm {S T : FiniteIrreducible k} :
     Isomorphic k S T → Isomorphic k T S := by
   rintro ⟨e⟩
   exact ⟨e.symm⟩
 
+omit [IsAlgClosed k] in
 private theorem isomorphic_trans {S T U : FiniteIrreducible k} :
     Isomorphic k S T → Isomorphic k T U → Isomorphic k S U := by
   rintro ⟨e⟩ ⟨f⟩
@@ -2510,8 +3322,11 @@ noncomputable def familyBundle (a : Parameter k p) : FiniteIrreducible k where
   finiteDimensional := parameter_finiteDimensional k a
   isIrreducible := parameter_isIrreducible k a
 
+omit [IsAlgClosed k] in
 private theorem familyBundle_respects {a b : Parameter k p} (h : a ≈ b) :
-    familyBundle k a ≈ familyBundle k b := h
+    familyBundle k a ≈ familyBundle k b := by
+  obtain ⟨e⟩ := sameInvariant_equiv k a b h
+  exact ⟨e⟩
 
 /-- The map from explicit parameters modulo module isomorphism to isomorphism classes of
 finite-dimensional irreducible modules. -/
@@ -2532,7 +3347,7 @@ private theorem classificationMap_bijective :
         change (⟦familyBundle k a⟧ :
           Quotient (FiniteIrreducible.setoid (k := k))) = ⟦familyBundle k b⟧ at hAB
         obtain ⟨e⟩ := Quotient.exact hAB
-        exact ⟨e⟩
+        exact familyEquiv_sameInvariant k e
   · intro S
     induction S using Quotient.inductionOn with
     | _ S =>
@@ -2556,5 +3371,10 @@ noncomputable def classificationEquiv :
     (classificationMap_bijective (k := k) (p := p))
 
 end ClassificationAPI
+
+-- Keep the concrete family actions out of downstream global instance search.  Their carriers are
+-- function types which can also support the Chapter 2 restricted action; public bundles above
+-- store the intended structures explicitly.
+attribute [-instance] parameterLieRingModule parameterLieModule
 
 end Etingof.Problem2_16_4.Reprise
