@@ -17645,8 +17645,10 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
-    }
+      "result": "covered"
+    },
+    "coverage": "covered_full", "fidelity": "verified", "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.13", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "This section supplies the Young-symmetrizer lemmas used in the proof of Theorem 5.12.2.", "verdict": "formalized", "lean_decl": "Etingof.Lemma5_13_1_source; Etingof.Lemma5_13_2; Etingof.Lemma5_13_3_exact; Etingof.Lemma5_13_4"}]}
   },
   {
     "id": "Chapter5/Lemma5.13.1",
@@ -17662,7 +17664,12 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "followup_issue": 7612,
-    "last_updated": "2026-07-23"
+    "last_updated": "2026-07-29",
+    "fidelity": "verified",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.13", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "For every x in C[S_n], a_lambda x b_lambda is a scalar multiple l_lambda(x)c_lambda for a linear functional l_lambda.", "verdict": "formalized", "lean_decl": "Etingof.Lemma5_13_1_source"},
+      {"claim": "The row/column transposition dichotomy supplies the vanishing outside P_lambda Q_lambda.", "verdict": "formalized", "lean_decl": "Etingof.pigeonhole_rowCol_dichotomy; Etingof.Lemma5_13_1_dual"}
+    ]}
   },
   {
     "id": "Chapter5/Discussion_end_of_Lemma5.13.1_proof",
@@ -17675,8 +17682,10 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
-    }
+      "result": "covered"
+    },
+    "coverage": "covered_full", "fidelity": "verified", "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.13", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "If no row/column collision exists, successive row matching constructs the P_lambda Q_lambda factorization.", "verdict": "formalized", "lean_decl": "Etingof.pigeonhole_rowCol_dichotomy"}]}
   },
   {
     "id": "Chapter5/Discussion_lexicographic_ordering",
@@ -17706,7 +17715,8 @@
     "notes": "Fully proved. pigeonhole_transposition proved via column fiber decomposition + double counting identity.",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.13", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "If lambda strictly dominates mu, then a_lambda C[S_n] b_mu=0.", "verdict": "formalized", "lean_decl": "Etingof.Lemma5_13_2; Etingof.pigeonhole_transposition; Etingof.basis_vanishing"}]}
   },
   {
     "id": "Chapter5/Lemma5.13.3",
@@ -17723,7 +17733,8 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "Fully proved. Lemma5_13_3_exact derives the exact scalar by combining the nonzero proportionality theorem with the trace of right multiplication, the source-order Young-projector realization of the Specht module, and the identity coefficient of the reversed Young symmetrizer.",
-    "last_updated": "2026-07-27"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.13", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The normalized Young projector satisfies c_lambda^2 = n!/(|P_lambda||Q_lambda|dim V_lambda) c_lambda.", "verdict": "formalized", "lean_decl": "Etingof.Lemma5_13_3_exact"}]}
   },
   {
     "id": "Chapter5/Lemma5.13.4",
@@ -17738,7 +17749,8 @@
     "needs_statement": false,
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.13", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "For an idempotent e, evaluation at e gives Hom_A(Ae,M)≃eM, with inverse x↦(a↦a·x).", "verdict": "formalized", "lean_decl": "Etingof.Lemma5_13_4"}]}
   },
   {
     "id": "Chapter5/Discussion_proof_of_Lemma5.13.4",
@@ -17752,7 +17764,9 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "coverage": "covered_full", "fidelity": "verified", "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.13", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The idempotent splitting identifies the Hom summand with the e-fixed part of M.", "verdict": "formalized", "lean_decl": "Etingof.Lemma5_13_4"}]}
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.12.2",

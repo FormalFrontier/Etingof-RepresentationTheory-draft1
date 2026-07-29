@@ -39,7 +39,7 @@ lemma rowOfPos_colOfPos_canonical (parts : List ℕ) (r c : ℕ)
   | cons a rest ih =>
     cases r with
     | zero =>
-      simp only [List.take_zero, List.sum_nil, Nat.zero_add, List.getElem_cons_zero] at hc
+      simp only [List.getElem_cons_zero] at hc
       constructor
       · simp [Etingof.rowOfPos]; omega
       · simp [Etingof.colOfPos]; omega
@@ -60,8 +60,8 @@ lemma canonical_pos_lt_sum (parts : List ℕ) (r c : ℕ)
     (hr : r < parts.length) (hc : c < parts[r]) :
     (parts.take r).sum + c < parts.sum := by
   have h1 : (parts.take r).sum + parts[r] ≤ (parts.take (r + 1)).sum := by
-    rw [List.take_succ_eq_append_getElem hr, List.sum_append, List.sum_cons, List.sum_nil] <;>
-      omega
+    rw [List.take_succ_eq_append_getElem hr, List.sum_append, List.sum_cons, List.sum_nil]
+    omega
   have h2 : (parts.take (r + 1)).sum ≤ parts.sum :=
     List.Sublist.sum_le_sum (List.take_sublist (r + 1) parts) (fun _ _ => Nat.zero_le _)
   omega
@@ -86,7 +86,7 @@ private theorem sortedParts_sum {n : ℕ} (la : Nat.Partition n) :
   omega
 
 theorem sortedParts_pos (la : Nat.Partition n) :
-    ∀ x ∈ la.sortedParts, 0 < x := fun x hx =>
+    ∀ x ∈ la.sortedParts, 0 < x := fun _ hx =>
   la.parts_pos ((Multiset.mem_sort _).mp hx)
 
 theorem sortedParts_sorted (la : Nat.Partition n) :
@@ -406,7 +406,7 @@ theorem pigeonhole_transposition (n : ℕ) (la mu : Nat.Partition n)
     exact ⟨Equiv.swap i j, swap_mem_RowSubgroup hrow,
       conj_swap_eq σ i j ▸ swap_mem_ColumnSubgroup hcol, Equiv.Perm.sign_swap hij⟩
   by_contra h_no
-  push_neg at h_no
+  push Not at h_no
   exact hdom.2 (partition_eq_of_partial_sums la mu (fun k =>
     le_antisymm ((counting_gives_dominates n la mu σ h_no) k) (hdom.1 k)))
 
@@ -492,7 +492,7 @@ theorem pigeonhole_transposition_general (n : ℕ) (la mu : Nat.Partition n)
     exact ⟨Equiv.swap i j, swap_mem_RowSubgroup hrow,
       conj_swap_eq σ i j ▸ swap_mem_ColumnSubgroup hcol, Equiv.Perm.sign_swap hij⟩
   by_contra h_no
-  push_neg at h_no
+  push Not at h_no
   exact h (counting_gives_dominates n la mu σ h_no)
 
 /-- Generalized basis vanishing: if μ does NOT dominate λ, then
