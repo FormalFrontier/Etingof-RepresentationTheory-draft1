@@ -43,7 +43,15 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "non_formalizable"
+    },
+    "coverage": "non_formalizable",
+    "fidelity": "not_applicable",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "4.3", "reviewed_on": "2026-07-29",
+      "definition_integrity": "not_applicable", "statement_fidelity": "not_applicable", "nonvacuity": "not_applicable",
+      "claims": [{"claim": "Section 4.3 announces examples of complex representations of finite groups.", "verdict": "non_formalizable", "reason": "Organizational heading."}]
     }
   },
   {
@@ -14138,7 +14146,16 @@
     "sorry_free": true,
     "fidelity_decl": "Etingof.Example4_3_FiniteAbelianGroups",
     "fidelity_note": "The one-dimensionality of irreducible representations is proved (Etingof.Example4_3_FiniteAbelianGroups). The dual-group half of Example 4.3(1) is now formalized with G∨ = G →* ℂˣ (Etingof.CharacterGroup): product duality (characterGroupProdEquiv, characterGroupPiEquiv), noncanonical G ≅ G∨ (nonempty_mulEquiv_characterGroup), and the canonical evaluation double-dual isomorphism G ≅ (G∨)∨ with φ(g)(χ)=χ(g) (characterDoubleDualEquiv, characterDoubleDualEquiv_apply_apply), via Mathlib finite-abelian duality over ℂ. Closes #7412.",
-    "last_updated": "2026-07-24"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "4.3", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [
+        {"claim": "Irreducible representations of finite abelian groups over an algebraically closed field are one-dimensional.", "verdict": "formalized", "lean_decl": "Etingof.Example4_3_FiniteAbelianGroups"},
+        {"claim": "The complex character group is abelian and duality preserves finite products.", "verdict": "formalized", "lean_decl": "Etingof.CharacterGroup; Etingof.characterGroupProdEquiv; Etingof.characterGroupPiEquiv"},
+        {"claim": "A finite abelian group is noncanonically isomorphic to its dual and canonically isomorphic to its double dual by evaluation.", "verdict": "formalized", "lean_decl": "Etingof.nonempty_mulEquiv_characterGroup; Etingof.characterDoubleDualEquiv; Etingof.characterDoubleDualEquiv_apply_apply"}
+      ]
+    }
   },
   {
     "id": "Chapter4/Example4.3_S3",
@@ -14153,7 +14170,16 @@
     "sorry_free": true,
     "fidelity_note": "The trivial, sign, and two-dimensional standard representations are constructed and proved simple with the stated dimensions and characters. Discussion5_11_examples.lean proves pairwise non-isomorphism and the exhaustive classification S3_simple_iso.",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "4.3", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [
+        {"claim": "S3 has three conjugacy classes and irreducible dimensions 1,1,2 with the stated sum of squares.", "verdict": "formalized", "lean_decl": "Etingof.Example4_3_S3_conj_classes; Etingof.Example4_3_S3_sum_of_squares"},
+        {"claim": "The trivial, sign, and two-dimensional standard representations are simple, pairwise distinct, and exhaustive.", "verdict": "formalized", "lean_decl": "Etingof.Example4_3_S3; Etingof.S3_simple_iso"},
+        {"claim": "The standard representation is displayed in a geometric eigenbasis by the source matrices.", "verdict": "intentional_omission", "reason": "The provider constructs the canonically equivalent deleted permutation representation; the basis-dependent geometric matrices are not separately packaged."}
+      ]
+    }
   },
   {
     "id": "Chapter4/Example4.3_Q8",
@@ -14169,7 +14195,16 @@
     "fidelity_note": "[coverage] The book's Example 4.3 for Q8 explicitly describes the 2-dimensional representation via Pauli matrices (4.3.1) and states the five representations include a genuine 2-dimensional one. The L",
     "fidelity_issue": 5632,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "4.3", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [
+        {"claim": "Q8 has the stated relations, five conjugacy classes, center {±1}, and irreducible dimensions 1,1,1,1,2.", "verdict": "formalized", "lean_decl": "Etingof.Example4_3_Q8"},
+        {"claim": "Four one-dimensional representations arise from the quotient by the center.", "verdict": "formalized", "lean_decl": "Etingof.Example4_3_Q8.chiHom; Etingof.Example4_3_Q8.oneDimRep"},
+        {"claim": "The two-dimensional representation acts by the displayed Pauli matrices and is irreducible.", "verdict": "formalized", "lean_decl": "Etingof.Example4_3_Q8.rep_i; Etingof.Example4_3_Q8.rep_j; Etingof.Example4_3_Q8.rep_k; Etingof.Example4_3_Q8.twoDimRep_simple"}
+      ]
+    }
   },
   {
     "id": "Chapter4/Exercise4.3.1",
@@ -14223,10 +14258,19 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "All five named S₄ representations are constructed, proved simple and pairwise nonisomorphic, and shown exhaustive. The residual gap is the source's construction of the two-dimensional representation as the pullback along S₄/V₄ ≅ S₃: actHom is used internally, but its kernel, surjectivity, quotient isomorphism, and comparison with the named S₃ standard representation are not proved.",
-    "coverage": "covered_partial",
-    "followup_issue": 5429,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "All five named S₄ representations are constructed, proved simple and pairwise nonisomorphic, and shown exhaustive. The two-dimensional object is the equivalent pair-partition action of the quotient S₄/V₄ on three points; closed issue #5429 and the 2026-07-21 re-audit confirm full coverage.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "4.3", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [
+        {"claim": "S4 has five conjugacy classes and irreducible dimensions 1,1,2,3,3 with sum of squares 24.", "verdict": "formalized", "lean_decl": "Etingof.Example4_3_S4_conj_classes; Etingof.Example4_3_S4_sum_of_squares"},
+        {"claim": "The trivial, sign, two-dimensional quotient, standard three-dimensional, and sign-twisted three-dimensional representations are genuine, simple, distinct, and exhaustive.", "verdict": "formalized", "lean_decl": "Etingof.Example4_3_S4"},
+        {"claim": "The two-dimensional representation is pulled back from S3 along S4/V4.", "verdict": "formalized", "lean_decl": "Etingof.Example4_3_S4.actHom; Etingof.Example4_3_S4.twoRep", "note": "Implemented by the equivalent action on the three pair partitions."},
+        {"claim": "The two three-dimensional representations differ, and the standard one is the zero-sum function model.", "verdict": "formalized", "lean_decl": "Etingof.Example4_3_S4.stdRep; Etingof.Example4_3_S4.twistRep; Etingof.Example4_3_S4.pairwise_noniso"}
+      ]
+    }
   },
   {
     "id": "Chapter4/Discussion_4.4",
@@ -14242,7 +14286,19 @@
       "result": "covered"
     },
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "4.4", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [
+        {"claim": "The dual action is ρ(g⁻¹)* and χ_{V*}(g)=χ_V(g⁻¹).", "verdict": "formalized", "lean_decl": "Representation.dual; Etingof.Discussion_4_4_char_dual"},
+        {"claim": "For complex finite-group representations, χ_V(g⁻¹)=conj(χ_V(g)).", "verdict": "formalized", "lean_decl": "Etingof.char_inv_eq_conj"},
+        {"claim": "V is self-dual iff its character is real-valued.", "verdict": "formalized", "lean_decl": "Etingof.self_dual_iff_char_real"},
+        {"claim": "Tensor products carry the tensor action and have multiplicative character.", "verdict": "formalized", "lean_decl": "Representation.tprod; Etingof.Discussion_4_4_char_tensor"},
+        {"claim": "Decomposing tensor products is an interesting later problem.", "verdict": "non_formalizable", "reason": "Organizational preview."}
+      ]
+    }
   },
   {
     "id": "Chapter4/Introduction_4.5",
