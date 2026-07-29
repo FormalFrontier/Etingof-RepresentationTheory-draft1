@@ -18960,6 +18960,10 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.24", "reviewed_on": "2026-07-29", "result": "section_heading"},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -18973,14 +18977,14 @@
     "end_page": "135",
     "start_line": 3,
     "end_line": 14,
-    "status": "proved",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "coverage": "covered_full",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Problem5_24_1.lean",
       "EtingofRepresentationTheory/Chapter5/Problem5_24_1_b.lean"
     ],
-    "last_updated": "2026-07-28",
+    "last_updated": "2026-07-29",
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
@@ -19077,7 +19081,7 @@
         }
       ]
     },
-    "last_updated": "2026-07-28",
+    "last_updated": "2026-07-29",
     "fidelity": "verified"
   },
   {

@@ -111,7 +111,7 @@ noncomputable def signTwistHom (n : ℕ) :
     Equiv.Perm (Fin n) →* SymGroupAlgebra n where
   toFun g := ((Equiv.Perm.sign g : ℤ) : ℂ) • MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g
   map_one' := by
-    simp only [Equiv.Perm.sign_one, Units.val_one, Int.cast_one, one_smul, map_one]
+    simp only [Units.val_one, Int.cast_one, one_smul, map_one]
   map_mul' g h := by
     simp only [map_mul, Units.val_mul, Int.cast_mul, smul_mul_smul_comm]
 
@@ -586,7 +586,7 @@ private noncomputable def rightMulSpanEquiv {n : ℕ}
       rw [hvw]
     rwa [smul_eq_mul]⟩
   map_add' y y' := by apply Subtype.ext; simp [add_mul]
-  map_smul' c y := by apply Subtype.ext; simp [smul_mul_assoc]
+  map_smul' c y := by apply Subtype.ext; simp
   invFun z := ⟨z.val * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ, by
     rw [hp]
     obtain ⟨s, hs⟩ := Submodule.mem_span_singleton.mp (by rw [← hq]; exact z.prop)
