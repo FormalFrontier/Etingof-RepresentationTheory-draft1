@@ -121,12 +121,11 @@ representation is one of the `L_λ|_{SL_N}`.
 The project has formalized the tautological representation, symmetry and
 connectivity of the McKay graph, the affine-Cartan positivity argument for graphs
 with at least three vertices, and the kernel equation for the dimension vector.
-Problem 4.12.8 supplies the `SO(3)` classification and substantial double-cover
-infrastructure, while its exact `SU(2)` list still has the active residual #7281.
-Independently of that residual, the project retains its original decision not to
-build the additional concrete group-family-to-diagram identifications. Thus the
-part (d) decision below is a deliberate scope boundary, not a temporary dependency
-on completion of Problem 4.12.8.
+Problem 4.12.8 supplies the complete `SO(3)` and `SU(2)` finite-subgroup
+classifications together with the double-cover infrastructure. The project
+nevertheless retains its original decision not to build the additional concrete
+group-family-to-diagram identifications. Thus the part (d) decision below is a
+deliberate scope boundary, not a temporary dependency on Problem 4.12.8.
 The following residual parts are intentionally omitted:
 
 - the two-vertex double-edge `Ã₁` case, which is outside the simple-edge affine

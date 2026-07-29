@@ -354,6 +354,13 @@ DECL_OVERRIDES = {
         "Etingof.Problem6_9_1c_exists_compatibleChainBasis"
     ),
     ("Chapter6/Problem6.9.1", "part_c_exhaustive"): "Etingof.Problem6_9_1",
+    ("Chapter8/Problem8.2.8", "tor"): "Etingof.Problem_8_2_8_tor",
+    ("Chapter8/Problem8.2.8", "ext_literal"): (
+        "TensorProduct.dualDistrib_not_surjective"
+    ),
+    ("Chapter8/Problem8.2.8", "ext_corrected"): (
+        "Etingof.Problem_8_2_8_extₖ; Etingof.Problem_8_2_8_ext"
+    ),
     ("Chapter9/Problem9.6.5", "construction"): (
         "Etingof.Problem965.balancedRelation; Etingof.Problem965.balancedTensor; "
         "Etingof.Problem965.balancedTensorFunctor"
