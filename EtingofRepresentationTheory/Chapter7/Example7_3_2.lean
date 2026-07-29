@@ -9,6 +9,8 @@ import Mathlib.CategoryTheory.Core
 import Mathlib.CategoryTheory.Endomorphism
 import Mathlib.CategoryTheory.Preadditive.FunctorCategory
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Example 7.3.2: Examples of Natural Transformations
 

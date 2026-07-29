@@ -21644,6 +21644,11 @@
     "start_line": 1,
     "end_line": 4,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Natural transformations provide the stated morphisms and Mathlib's functor category packages functors as objects of a category.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.3", "reviewed_on": "2026-07-29", "claims": [{"claim": "Functors between fixed categories form a category with natural transformations as morphisms.", "verdict": "formalized", "lean_decl": "CategoryTheory.Functor.category"}]},
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -21659,7 +21664,11 @@
     "end_line": 8,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Components, naturality, composition, identities, and natural isomorphisms are represented by the standard NatTrans API.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.3", "reviewed_on": "2026-07-29", "claims": [{"claim": "A natural transformation is a natural family of component morphisms; invertible ones are natural isomorphisms.", "verdict": "formalized", "lean_decl": "Etingof.NatTrans; CategoryTheory.NatIso"}]}
   },
   {
     "id": "Chapter7/Example7.3.2",
@@ -21675,7 +21684,12 @@
     "needs_statement": false,
     "sorry_free": true,
     "fidelity_note": "All four sub-items are now complete. (1) doubleDualNatIso plus linearEquiv_dualDual_iff_finiteDimensional. (2) not_natIso_id_contragredientFunctor holds over an arbitrary field: the scalar obstruction (which excluded F2/F3) is replaced by a transvection argument at the three-dimensional object, dual_gl_natural_eq_zero_of_three_le_finrank. (3)-(4) the determination lemmas are completed to genuine ring equivalences forgetfulEndRingEquiv : End F ~=+* A and idFunctorEndRingEquiv : End 1 ~=+* Subring.center A, on Mathlib's categorical End. Closes #7103.",
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.3", "reviewed_on": "2026-07-29", "claims": [
+      {"claim": "Finite-dimensional vector spaces are naturally isomorphic to their double dual, while finite dimensionality characterizes the underlying double-dual equivalence.", "verdict": "formalized", "lean_decl": "Etingof.doubleDualNatIso; Etingof.linearEquiv_dualDual_iff_finiteDimensional"},
+      {"claim": "The contragredient functor on the isomorphism-only category is objectwise isomorphic but not naturally isomorphic to the identity.", "verdict": "formalized", "lean_decl": "Etingof.not_natIso_id_contragredientFunctor"},
+      {"claim": "Endomorphisms of the module forgetful functor form A, and endomorphisms of the identity functor form the center of A.", "verdict": "formalized", "lean_decl": "Etingof.forgetfulEndRingEquiv; Etingof.idFunctorEndRingEquiv"}
+    ]}
   },
   {
     "id": "Chapter7/Introduction_7.4",
