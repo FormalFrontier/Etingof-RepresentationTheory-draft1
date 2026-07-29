@@ -14024,7 +14024,11 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.10", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "For a finite group, introduce one polynomial variable indexed by each group element.", "verdict": "formalized", "lean_decl": "MvPolynomial G k; Etingof.FrobeniusDeterminant"}]}
   },
   {
     "id": "Chapter4/Theorem4.2.1",
@@ -14750,7 +14754,10 @@
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_note": "Fixed in #5620: the Lean definition now uses `Matrix.of fun (g h : G) => MvPolynomial.X (g * h)`, matching the book's entries a_{ij} = x_{g_i g_j}. Theorem 4.10.2's proof tracks the inversion-permutation sign that relates X_G to the regular-representation operator matrix and absorbs it into the irreducible factors.",
-    "fidelity_issue": 5620
+    "fidelity_issue": 5620,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.10", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The Frobenius determinant is det(XG), where XG has entries x_(g_i g_j).", "verdict": "formalized", "lean_decl": "Etingof.FrobeniusDeterminant"}]}
   },
   {
     "id": "Chapter4/Discussion_before_Theorem4.10.2",
@@ -14764,7 +14771,11 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "coverage": "non_formalizable",
+    "fidelity": "not_applicable",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.10", "reviewed_on": "2026-07-29", "definition_integrity": "not_applicable", "statement_fidelity": "not_applicable", "nonvacuity": "not_applicable", "claims": [{"claim": "Dedekind and Frobenius supplied the historical origin of the theorem and representation theory.", "verdict": "non_formalizable", "reason": "Historical narrative."}]}
   },
   {
     "id": "Chapter4/Theorem4.10.2",
@@ -14779,7 +14790,8 @@
     "notes": "All sorries resolved: blockPoly_irreducible proved via retraction argument. Repaired hLHS_eq (#7494): the group-algebra coefficient evaluation now pushes pointwise application through the finite sum via `map_sum (Finsupp.applyAddHom _)` instead of the deprecated `Finsupp.finset_sum_apply`, which no longer matched the `MonoidAlgebra`/`Finsupp` coercion.",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-23"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.10", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The group determinant factors into pairwise nonproportional irreducible polynomials, each raised to its degree, with one factor per conjugacy class.", "verdict": "formalized", "lean_decl": "Etingof.Theorem4_10_2"}]}
   },
   {
     "id": "Chapter4/Discussion_before_Lemma4.10.3",
@@ -14793,7 +14805,11 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "coverage": "non_formalizable",
+    "fidelity": "not_applicable",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.10", "reviewed_on": "2026-07-29", "definition_integrity": "not_applicable", "statement_fidelity": "not_applicable", "nonvacuity": "not_applicable", "claims": [{"claim": "The text introduces the lemma needed for the proof.", "verdict": "non_formalizable", "reason": "Organizational transition."}]}
   },
   {
     "id": "Chapter4/Lemma4.10.3",
@@ -14807,7 +14823,8 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.10", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The determinant of a generic positive-size square matrix is an irreducible polynomial in its entries.", "verdict": "formalized", "lean_decl": "Etingof.Lemma4_10_3"}, {"claim": "The cyclic specialization and homogeneous-factor argument establish irreducibility.", "verdict": "formalized", "lean_decl": "Etingof.Lemma4_10_3"}]}
   },
   {
     "id": "Chapter4/Discussion_proof_Theorem4.10.2",
@@ -14822,11 +14839,12 @@
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The Frobenius-determinant proof chain is source-present, but Theorem4_10_2.lean currently fails fresh elaboration; regression #7494.",
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The complete Frobenius-determinant proof chain rebuilds on the current toolchain; the former #7494 regression is repaired.",
     "coverage_issue": 7494,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.10", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The regular-representation operator matrix agrees with XG up to the inversion column permutation and its determinant sign.", "verdict": "formalized", "lean_decl": "IrrepDecomp.frobeniusDet_eq_signSmul_prod"}, {"claim": "Artin–Wedderburn decomposes the determinant into representation-block determinants with exponents dim Vi.", "verdict": "formalized", "lean_decl": "IrrepDecomp.frobeniusDet_eq_signSmul_prod; IrrepDecomp.blockPoly_totalDegree"}, {"claim": "Each block determinant is irreducible and different blocks yield nonproportional factors.", "verdict": "formalized", "lean_decl": "IrrepDecomp.blockPoly_irreducible; IrrepDecomp.blockPoly_not_associated"}, {"claim": "The inversion sign is absorbed into an irreducible factor and the number of factors equals the conjugacy-class count.", "verdict": "formalized", "lean_decl": "Etingof.Theorem4_10_2"}]}
   },
   {
     "id": "Chapter4/Discussion_4.11",
