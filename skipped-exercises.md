@@ -182,6 +182,4 @@ They are active work, not intentional omissions:
 - Problem 4.12.8 — the finite-subgroup classification of `SO(3)` and much of the
   `SU(2)` double-cover analysis are proved, but the `-1 ∉ H` branch currently gives
   only `H ≃ h(H)` rather than the required cyclic conclusion. The exact `SU(2)`
-  list therefore remains #7281;
-- Problem 9.6.5 — an abstract quasi-inverse is proved, but the book's named balanced
-  tensor/cokernel functor and its comparison maps remain to be constructed; see #6567.
+  list therefore remains #7281.

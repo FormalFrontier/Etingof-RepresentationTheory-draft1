@@ -20740,10 +20740,29 @@
     "start_line": 11,
     "end_line": 29,
     "status": "proved",
-    "coverage_note": "The current theorem is sorry-free but proves only that an abstract quasi-inverse exists, by choosing F.asEquivalence.inverse from the already-proved Theorem 9.6.4. It does not construct the textbook's named balanced tensor/cokernel functor P tensor_B -, its evaluation natural transformation, or the source's surjectivity and kernel argument. Reopened follow-up: #6567.",
-    "followup_issue": 6567,
-    "coverage": "covered_partial",
-    "last_updated": "2026-07-22"
+    "coverage_note": "Book-faithful explicit construction completed in Etingof.Problem965: finiteCopowerHomEquiv gives the basis-independent finite copower; rightAction, leftAction, balancedRelation, balancedTensor, and balancedTensorFunctor define P tensor_B - as the cokernel of psi; ξ is the natural evaluation transformation. partI proves G ⋙ F ≅ 𝟭, partII proves every ξ.app is epi, evaluationApp_kernel_isZero and partIII implement the book's kernel argument and prove IsIso ξ, and explicit_balancedTensor_quasiInverse exposes the constructed functor as a two-sided quasi-inverse. No use of F.asEquivalence.inverse remains.",
+    "lean_file": [
+      "EtingofRepresentationTheory/Chapter9/Problem9_6_5.lean"
+    ],
+    "lean_decl": [
+      "Etingof.Problem965.finiteCopowerHomEquiv",
+      "Etingof.Problem965.rightAction",
+      "Etingof.Problem965.leftAction",
+      "Etingof.Problem965.balancedRelation",
+      "Etingof.Problem965.balancedTensor",
+      "Etingof.Problem965.balancedTensorFunctor",
+      "Etingof.Problem965.ξ",
+      "Etingof.Problem965.partI",
+      "Etingof.Problem965.partII",
+      "Etingof.Problem965.evaluationApp_kernel_isZero",
+      "Etingof.Problem965.partIII",
+      "Etingof.Problem965.explicit_balancedTensor_quasiInverse"
+    ],
+    "followup_issue": null,
+    "coverage": "covered_full",
+    "fidelity": "full",
+    "sorry_free": true,
+    "last_updated": "2026-07-28"
   },
   {
     "id": "Chapter9/Introduction_9.7",
