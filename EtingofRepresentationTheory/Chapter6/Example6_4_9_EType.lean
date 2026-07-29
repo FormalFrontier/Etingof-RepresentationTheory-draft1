@@ -11,6 +11,8 @@ for E₇ (5⁷) and E₈ (7⁸) via a branch-decomposition convolution that dele
 central degree-3 vertex and counts the two independent components separately.
 -/
 
+set_option backward.isDefEq.respectTransparency false
+
 section ETypeRootCounts
 
 open Matrix Finset

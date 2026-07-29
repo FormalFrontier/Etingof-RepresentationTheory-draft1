@@ -20474,6 +20474,10 @@
     "start_line": 3,
     "end_line": 6,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.4", "reviewed_on": "2026-07-29", "result": "section_heading_and_setup"},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -20489,7 +20493,10 @@
     "end_line": 20,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.4", "reviewed_on": "2026-07-29", "claims": [{"claim": "The Cartan matrix is 2I minus the adjacency matrix.", "verdict": "formalized", "lean_decl": "Etingof.cartanMatrix"}]}
   },
   {
     "id": "Chapter6/Lemma6.4.2",
@@ -20505,7 +20512,8 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "Both positive definiteness and even-valuedness of the form are public endpoints.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.4", "reviewed_on": "2026-07-29", "claims": [{"claim": "The Cartan form is positive definite and even-valued.", "verdict": "formalized", "lean_decl": "Etingof.Lemma_6_4_2_pos_def; Etingof.Lemma_6_4_2_even"}]}
   },
   {
     "id": "Chapter6/Definition6.4.3",
@@ -20517,7 +20525,10 @@
     "end_line": 46,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.4", "reviewed_on": "2026-07-29", "claims": [{"claim": "A root is an integral vector of Cartan norm two.", "verdict": "formalized", "lean_decl": "Etingof.IsRoot"}]}
   },
   {
     "id": "Chapter6/Remark6.4.4",
@@ -20531,8 +20542,9 @@
     "fidelity": "verified",
     "coverage": "covered_full",
     "coverage_note": "The full root set is now proved finite by Etingof.Remark_6_4_4_roots_finite (Chapter6/Remark6_4_4.lean): the root set embeds in the union of the finite positive-root set (Theorem_6_5_2a_finiteness) with its image under negation, via Lemma_6_4_6 (positive-or-negative dichotomy) and IsRoot.neg (negation symmetry). Axiom-clean.",
-    "last_updated": "2026-07-23",
-    "fidelity_decl": "Etingof.Remark_6_4_4_roots_finite, Etingof.IsRoot.neg"
+    "last_updated": "2026-07-29",
+    "fidelity_decl": "Etingof.Remark_6_4_4_roots_finite, Etingof.IsRoot.neg",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.4", "reviewed_on": "2026-07-29", "claims": [{"claim": "A Dynkin diagram has finitely many roots.", "verdict": "formalized", "lean_decl": "Etingof.Remark_6_4_4_roots_finite"}]}
   },
   {
     "id": "Chapter6/Definition6.4.5",
@@ -20544,7 +20556,10 @@
     "end_line": 10,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.4", "reviewed_on": "2026-07-29", "claims": [{"claim": "The simple roots are the standard coordinate vectors.", "verdict": "formalized", "lean_decl": "Etingof.simpleRoot"}]}
   },
   {
     "id": "Chapter6/Lemma6.4.6",
@@ -20559,7 +20574,8 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "The public lemma proves the exact all-nonnegative or all-nonpositive coordinate dichotomy.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.4", "reviewed_on": "2026-07-29", "claims": [{"claim": "Every root has either all nonnegative or all nonpositive coordinates.", "verdict": "formalized", "lean_decl": "Etingof.Lemma_6_4_6"}]}
   },
   {
     "id": "Chapter6/Definition6.4.7",
@@ -20571,7 +20587,10 @@
     "end_line": 16,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.4", "reviewed_on": "2026-07-29", "claims": [{"claim": "Positive and negative roots are defined by their coordinate signs.", "verdict": "formalized", "lean_decl": "Etingof.IsPositiveRoot; Etingof.IsNegativeRoot"}]}
   },
   {
     "id": "Chapter6/Remark6.4.8",
@@ -20584,7 +20603,8 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.4", "reviewed_on": "2026-07-29", "claims": [{"claim": "Every root is positive or negative.", "verdict": "formalized", "lean_decl": "Etingof.Lemma_6_4_6"}]}
   },
   {
     "id": "Chapter6/Example6.4.9",
@@ -20597,13 +20617,17 @@
     "status": "sorry_free",
     "coverage": "covered_full",
     "coverage_note": "The A/D/E positive-root counts are proved. The source's explicit A_{N-1} model is now formalized in Example6_4_9_An_Lattice: the sum-zero lattice Etingof.An.sumZeroLattice in ℤ^N, its consecutive-difference basis Etingof.An.basis (basis i = e_i - e_{i+1}), the isometry Etingof.An.dotProduct_toLat identifying the restricted standard inner product with the Cartan form, the public classification Etingof.An.mem_latticeRoots_iff of all roots as exactly ±(e_i-e_j), and the reconnected positive-root count Etingof.An.ncard_positiveLatticeRoots = n(n+1)/2 (#7432).",
-    "last_updated": "2026-07-24",
+    "last_updated": "2026-07-29",
     "needs_statement": false,
     "aristotle_projects": {
       "Dn_bound": "9f0c4ab7-5906-4bd0-b188-410df0f4e548",
       "Dn_count": "8ddbbbcd-d0a3-4e56-b203-af216ca628c4"
     },
-    "sorry_free": true
+    "sorry_free": true,
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.4", "reviewed_on": "2026-07-29", "claims": [
+      {"claim": "The A_n roots have the explicit sum-zero-lattice model and the stated positive-root count.", "verdict": "formalized", "lean_decl": "Etingof.An.mem_latticeRoots_iff; Etingof.An.ncard_positiveLatticeRoots"},
+      {"claim": "The D_n, E₆, E₇, and E₈ positive-root counts are the standard ones.", "verdict": "formalized", "lean_decl": "Etingof.Example_6_4_9"}
+    ]}
   },
   {
     "id": "Chapter6/Definition6.4.10",
@@ -20615,7 +20639,10 @@
     "end_line": 29,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.4", "reviewed_on": "2026-07-29", "claims": [{"claim": "Root reflections and simple reflections are defined by the Cartan pairing formula.", "verdict": "formalized", "lean_decl": "Etingof.rootReflection; Etingof.simpleReflection"}]}
   },
   {
     "id": "Chapter6/Remark6.4.11",
@@ -20628,9 +20655,13 @@
     "status": "sorry_free",
     "coverage": "covered_full",
     "coverage_note": "Fully formalized in Chapter6/Remark6_4_11.lean. The two displayed reflection identities are Etingof.rootReflection_apply_of_orthogonal (s_alpha fixes the orthogonal hyperplane) and Etingof.rootReflection_apply_self (s_alpha(alpha) = -alpha); Etingof.rootReflection_dotProduct is the 'fixes B' claim. Etingof.rootReflectionEquiv packages s_alpha as a linear automorphism of the root lattice, Etingof.cartanOrthogonalGroup is the orthogonal group of (Z^n, B) (the lattice counterpart of the book's O(R^n)), and Etingof.weylGroup is the subgroup generated by the simple reflections, with Etingof.weylGroup_le_cartanOrthogonalGroup for W <= O. Etingof.IsRoot.weyl and Etingof.weyl_simpleRoot_isRoot give stability of the root set, and Etingof.weylRootPerm is the permutation action of W on the root set, proved faithful by Etingof.weylRootPerm_injective; Etingof.Remark_6_4_11_weylGroup_finite then proves W finite by the book's argument (W embeds in the permutations of the root set, which is finite by Remark_6_4_4_roots_finite). Axiom-clean.",
-    "last_updated": "2026-07-25",
+    "last_updated": "2026-07-29",
     "fidelity": "verified",
-    "fidelity_decl": "Etingof.rootReflection_apply_of_orthogonal, Etingof.rootReflection_apply_self, Etingof.rootReflection_dotProduct, Etingof.weylGroup, Etingof.weylGroup_le_cartanOrthogonalGroup, Etingof.weyl_simpleRoot_isRoot, Etingof.weylRootPerm, Etingof.weylRootPerm_injective, Etingof.Remark_6_4_11_weylGroup_finite"
+    "fidelity_decl": "Etingof.rootReflection_apply_of_orthogonal, Etingof.rootReflection_apply_self, Etingof.rootReflection_dotProduct, Etingof.weylGroup, Etingof.weylGroup_le_cartanOrthogonalGroup, Etingof.weyl_simpleRoot_isRoot, Etingof.weylRootPerm, Etingof.weylRootPerm_injective, Etingof.Remark_6_4_11_weylGroup_finite",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.4", "reviewed_on": "2026-07-29", "claims": [
+      {"claim": "Root reflections preserve the Cartan form, negate their root, and fix its orthogonal hyperplane.", "verdict": "formalized", "lean_decl": "Etingof.rootReflection_dotProduct; Etingof.rootReflection_apply_self; Etingof.rootReflection_apply_of_orthogonal"},
+      {"claim": "The Weyl group generated by simple reflections is finite and acts faithfully on the finite root set.", "verdict": "formalized", "lean_decl": "Etingof.weylRootPerm_injective; Etingof.Remark_6_4_11_weylGroup_finite"}
+    ]}
   },
   {
     "id": "Chapter6/Section6.5_heading",
