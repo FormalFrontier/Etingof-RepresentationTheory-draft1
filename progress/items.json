@@ -20928,6 +20928,10 @@
     "start_line": 13,
     "end_line": 14,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.7", "reviewed_on": "2026-07-29", "result": "section_heading"},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -20944,7 +20948,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "verified (wave-6, Opus): coxeterElement now folds the genuine root-lattice simpleReflections of the Cartan matrix (c=s_1…s_n); prior gap #5625 resolved (merged)"
+    "fidelity_note": "verified (wave-6, Opus): coxeterElement now folds the genuine root-lattice simpleReflections of the Cartan matrix (c=s_1…s_n); prior gap #5625 resolved (merged)",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.7", "reviewed_on": "2026-07-29", "claims": [{"claim": "The Coxeter element is the ordered product of the simple reflections.", "verdict": "formalized", "lean_decl": "Etingof.coxeterElement"}]}
   },
   {
     "id": "Chapter6/Lemma6.7.2",
@@ -20960,7 +20967,8 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "The public theorem gives the exact eventual negative-coordinate existential conclusion.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.7", "reviewed_on": "2026-07-29", "claims": [{"claim": "Every nonzero nonnegative root eventually acquires a negative coefficient under iteration of the Coxeter element.", "verdict": "formalized", "lean_decl": "Etingof.Lemma6_7_2"}]}
   },
   {
     "id": "Chapter6/Section6.8_heading",
