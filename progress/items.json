@@ -14695,16 +14695,17 @@
     "start_line": 3,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "complete",
+    "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "Introduction_4_9.lean states both source claims generically: Etingof.tensorMultiplicity X Y S = finrank ℂ (S ⟶ X ⊗ Y) with Etingof.tensorMultiplicity_eq_inner giving N = ⅟|G| • Σ_g χ_X(g) χ_Y(g) χ_S(g⁻¹) (FDRep.char_tensor into Etingof.Theorem4_5_1_i), and Etingof.tensorDecomposition giving the representation isomorphism X ⊗ Y ≅ ⨁ₖ (Vₖ)^(Nᵏ) for any complete family of pairwise non-isomorphic irreducibles, with Etingof.exists_tensorDecomposition supplying such a family unconditionally from IrrepDecomp. The decomposition comes from semisimplicity (Maschke) and Schur, not from character equality alone; the general machinery is Infrastructure/FDRepIsotypic.lean (#7479).",
-    "last_updated": "2026-07-25",
+    "last_updated": "2026-07-29",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "covered"
     },
-    "fidelity_decl": "Etingof.tensorMultiplicity, Etingof.tensorMultiplicity_eq_inner, Etingof.tensorDecompositionTarget, Etingof.tensorDecomposition, Etingof.finrank_hom_eq_sum_tensorMultiplicity, Etingof.exists_tensorDecomposition"
+    "fidelity_decl": "Etingof.tensorMultiplicity, Etingof.tensorMultiplicity_eq_inner, Etingof.tensorDecompositionTarget, Etingof.tensorDecomposition, Etingof.finrank_hom_eq_sum_tensorMultiplicity, Etingof.exists_tensorDecomposition",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.9", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The multiplicity of Vk in Vi⊗Vj is the character pairing (χiχj,χk).", "verdict": "formalized", "lean_decl": "Etingof.tensorMultiplicity; Etingof.tensorMultiplicity_eq_inner"}, {"claim": "The tensor product is isomorphic to the direct sum of irreducibles with those multiplicities.", "verdict": "formalized", "lean_decl": "Etingof.tensorDecomposition; Etingof.exists_tensorDecomposition"}]}
   },
   {
     "id": "Chapter4/Example4.9.1",
@@ -14715,12 +14716,13 @@
     "start_line": 9,
     "end_line": 31,
     "status": "sorry_free",
-    "coverage": "covered",
+    "coverage": "covered_full",
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_decl": "Etingof.Example4_9_1.S3_tensor_iso, Etingof.Example4_9_1.S4_tensor_iso, Etingof.Example4_9_1.A5_tensor_iso, Etingof.Example4_9_1.S3_tensor_iso_biproduct, Etingof.Example4_9_1.S4_tensor_iso_biproduct, Etingof.Example4_9_1.A5_tensor_iso_biproduct, Etingof.Example4_9_1.stdRep_tensor_stdRep_iso, Etingof.Example4_9_1.S3_tensor_character, Etingof.Example4_9_1.S3_tensor_product_character, Etingof.Example4_9_1.A5_tensor_character, Etingof.Example4_9_1.A5_tensor_product_character, Etingof.Example4_9_1.S4_tensor_character, Etingof.Example4_9_1.S4_tensor_product_character",
     "fidelity_note": "All three book tables (S3, S4, A5) are formalized at the level the source asserts: `*_tensor_iso` gives `V_i ⊗ V_j ≅ ⊕_k n_ij^k V_k` in FDRep ℂ G for every table entry (quantified over i, j, so every entry of all three tables, including the multiplicity-2 constituents of ℂ⁴⊗ℂ⁵ and ℂ⁵⊗ℂ⁵ for A5), with `*_biproduct` variants using the categorical ⨁ and `stdRep_tensor_stdRep_iso` spelling out ℂ²⊗ℂ² ≅ ℂ₊⊕ℂ₋⊕ℂ² for S3. The right-hand sides are the genuine FDRep objects `multSum` (Etingof.FDRep.pi with multiplicities); the isomorphisms come from the character identities `*_tensor_character` / `*_tensor_product_character` via Etingof.charEq_iso, and are non-canonical, hence stated as `Nonempty (· ≅ ·)`.",
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.9", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "Every entry of the displayed S₃ tensor-product table is an actual representation decomposition.", "verdict": "formalized", "lean_decl": "Etingof.Example4_9_1.S3_tensor_iso; Etingof.Example4_9_1.S3_tensor_iso_biproduct"}, {"claim": "Every entry of the displayed S₄ tensor-product table is an actual representation decomposition.", "verdict": "formalized", "lean_decl": "Etingof.Example4_9_1.S4_tensor_iso; Etingof.Example4_9_1.S4_tensor_iso_biproduct"}, {"claim": "Every entry of the displayed A₅ tensor-product table, including multiplicity-two constituents, is an actual representation decomposition.", "verdict": "formalized", "lean_decl": "Etingof.Example4_9_1.A5_tensor_iso; Etingof.Example4_9_1.A5_tensor_iso_biproduct"}, {"claim": "For S₃, ℂ²⊗ℂ² decomposes as ℂ₊⊕ℂ₋⊕ℂ².", "verdict": "formalized", "lean_decl": "Etingof.Example4_9_1.stdRep_tensor_stdRep_iso"}]}
   },
   {
     "id": "Chapter4/Introduction_4.10",
