@@ -21834,6 +21834,11 @@
     "start_line": 9,
     "end_line": 12,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "The introductory claim is realized by the adjunction definition immediately following it.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.6", "reviewed_on": "2026-07-29", "claims": [{"claim": "Adjoint functors are a fundamental categorical construction.", "verdict": "non_formalizable"}]},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -21849,7 +21854,11 @@
     "end_line": 14,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The natural Hom-set equivalence is exactly Mathlib's Adjunction structure.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.6", "reviewed_on": "2026-07-29", "claims": [{"claim": "F is left adjoint to G when Hom(FX,Y) and Hom(X,GY) are naturally equivalent in both variables.", "verdict": "formalized", "lean_decl": "Etingof.Adjunction"}]}
   },
   {
     "id": "Chapter7/Discussion_after_Definition7.6.1",
@@ -21860,6 +21869,15 @@
     "start_line": 15,
     "end_line": 21,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Adjoint uniqueness is supplied by the categorical adjunction API, and both representability consequences are explicit source-facing declarations. The displayed dictionary is explanatory analogy.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.6", "reviewed_on": "2026-07-29", "claims": [
+      {"claim": "Left and right adjoints, when they exist, are unique up to canonical isomorphism.", "verdict": "formalized", "lean_decl": "CategoryTheory.Adjunction.leftAdjointUniq; CategoryTheory.Adjunction.rightAdjointUniq"},
+      {"claim": "An adjunction makes FX and GY representing objects for the two associated Hom functors.", "verdict": "formalized", "lean_decl": "Etingof.adjunction_corepresents; Etingof.adjunction_represents"},
+      {"claim": "The category-theory/linear-algebra table is an explanatory analogy.", "verdict": "non_formalizable"}
+    ]},
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -21874,7 +21892,11 @@
     "start_line": 22,
     "end_line": 22,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The remark only explains terminology by analogy; its mathematical adjunction content is covered by the surrounding declarations.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.6", "reviewed_on": "2026-07-29", "claims": [{"claim": "The terminology is motivated by analogy with adjoint operators.", "verdict": "non_formalizable"}]}
   },
   {
     "id": "Chapter7/Example7.6.3",
@@ -21887,9 +21909,14 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered",
+    "coverage": "covered_full",
     "coverage_note": "All examples are genuine adjunctions. In particular, finite-dimensional Lie representations have natural tensor/dual adjunctions in both directions, with the reverse direction transported through the Lie-equivariant double-dual equivalence.",
-    "last_updated": "2026-07-27"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.6", "reviewed_on": "2026-07-29", "claims": [
+      {"claim": "Tensoring by a finite-dimensional representation has tensoring by its dual as both adjoints.", "verdict": "formalized", "lean_decl": "Etingof.tensor_dual_adjunction_left; Etingof.tensor_dual_adjunction_right; Etingof.tensorLieLeftAdjunction; Etingof.tensorLieRightAdjunction"},
+      {"claim": "Restriction and induction satisfy Frobenius reciprocity.", "verdict": "formalized", "lean_decl": "Etingof.frobenius_reciprocity; Etingof.frobenius_reciprocity_res_ind"},
+      {"claim": "Universal enveloping, group, tensor, and symmetric algebras give the stated left adjoints.", "verdict": "formalized", "lean_decl": "Etingof.universalEnvelopingAdjunction; Etingof.groupAlgebraAdjunction; Etingof.tensorAlgebraAdjunction; Etingof.symmetricAlgebraAdjunction"}
+    ]}
   },
   {
     "id": "Chapter7/Discussion_after_Example7.6.3",
@@ -21900,6 +21927,11 @@
     "start_line": 11,
     "end_line": 12,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "This is a concluding expository observation supported by the five preceding families of adjunctions.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.6", "reviewed_on": "2026-07-29", "claims": [{"claim": "Adjoint functors are ubiquitous in mathematics.", "verdict": "non_formalizable"}]},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
