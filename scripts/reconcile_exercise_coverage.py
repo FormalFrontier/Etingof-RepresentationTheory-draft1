@@ -304,6 +304,10 @@ INTENTIONAL_OMISSIONS = {
 SOURCE_CORRECTIONS = {("Chapter8/Problem8.2.8", "ext_literal")}
 
 PROVIDER_OVERRIDES = {
+    "Chapter2/Problem2.16.4": [
+        "EtingofRepresentationTheory/Chapter2/Problem2_16_4.lean",
+        "EtingofRepresentationTheory/Reprises/Problem2_16_4.lean",
+    ],
     "Chapter6/Problem6.9.1": [
         "EtingofRepresentationTheory/Chapter6/Problem6_9_1.lean",
         "EtingofRepresentationTheory/Chapter6/Problem6_9_1_Classification.lean",
@@ -325,6 +329,14 @@ PROVIDER_OVERRIDES = {
         "EtingofRepresentationTheory/Chapter5/Exercise5_27_2_Heisenberg.lean",
         "EtingofRepresentationTheory/Chapter5/Exercise5_27_2_Affine.lean",
     ],
+    "Chapter6/Problem6.1.5_parts": [
+        "EtingofRepresentationTheory/Chapter6/Problem6_1_5_OrbitFiniteness.lean",
+        "EtingofRepresentationTheory/Chapter6/Problem6_1_5_DenseOrbit.lean",
+        "EtingofRepresentationTheory/Chapter6/Problem6_1_5_DimBound.lean",
+        "EtingofRepresentationTheory/Chapter6/Problem6_1_5_PosDef.lean",
+        "EtingofRepresentationTheory/Chapter6/Problem6_1_5_TitsBridge.lean",
+        "EtingofRepresentationTheory/Chapter6/Problem6_1_5_theorem.lean",
+    ],
 }
 
 # The final gaps closed by this umbrella get declaration-level evidence instead
@@ -341,6 +353,18 @@ DECL_OVERRIDES = {
         "Etingof.Problem6_9_1c_exists_compatibleChainBasis"
     ),
     ("Chapter6/Problem6.9.1", "part_c_exhaustive"): "Etingof.Problem6_9_1",
+    ("Chapter9/Problem9.6.5", "construction"): (
+        "Etingof.Problem965.balancedRelation; Etingof.Problem965.balancedTensor; "
+        "Etingof.Problem965.balancedTensorFunctor"
+    ),
+    ("Chapter9/Problem9.6.5", "part_i"): "Etingof.Problem965.partI",
+    ("Chapter9/Problem9.6.5", "part_ii"): (
+        "Etingof.Problem965.ξ; Etingof.Problem965.partII"
+    ),
+    ("Chapter9/Problem9.6.5", "part_iii"): (
+        "Etingof.Problem965.evaluationApp_kernel_isZero; Etingof.Problem965.partIII; "
+        "Etingof.Problem965.explicit_balancedTensor_quasiInverse"
+    ),
 }
 
 
@@ -418,7 +442,21 @@ def normalize_existing_claims(item: dict[str, object]) -> None:
                 claim.pop("reason", None)
             elif item_id == "Chapter2/Problem2.16.4":
                 claim["verdict"] = "formalized"
-                claim["lean_decl"] = "Etingof.Problem2_16_4.Reprise.exists_parameter_equiv"
+                text = str(claim.get("claim", ""))
+                if "when two" in text:
+                    claim["lean_decl"] = (
+                        "Etingof.Problem2_16_4.Reprise.parameter_isomorphic_iff; "
+                        "Etingof.Problem2_16_4.Reprise.classificationEquiv"
+                    )
+                elif "parameter family" in text and "occurs" not in text:
+                    claim["lean_decl"] = (
+                        "Etingof.Problem2_16_4.Reprise.Parameter; "
+                        "Etingof.Problem2_16_4.Reprise.parameterLieHom"
+                    )
+                else:
+                    claim["lean_decl"] = (
+                        "Etingof.Problem2_16_4.Reprise.exists_parameter_equiv"
+                    )
                 claim["lean_file"] = (
                     "EtingofRepresentationTheory/Reprises/Problem2_16_4.lean"
                 )

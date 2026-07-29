@@ -44,6 +44,13 @@ def as_list(value: object) -> list[object]:
     return [value]
 
 
+def file_paths(value: object) -> list[str]:
+    result: list[str] = []
+    for entry in as_list(value):
+        result.extend(part.strip() for part in str(entry).split(";") if part.strip())
+    return result
+
+
 def main() -> int:
     items = json.loads(ITEMS_PATH.read_text())
     exercises = [item for item in items if item.get("type") == "exercise"]
@@ -68,6 +75,13 @@ def main() -> int:
         coverage = item.get("coverage")
         if coverage not in {"covered_full", "covered_partial"}:
             errors.append(f"{item_id}: terminal ledger has invalid coverage {coverage!r}")
+        if item.get("status") != "proof_polished":
+            errors.append(f"{item_id}: terminal ledger status is not proof_polished")
+        if item.get("fidelity") != "verified":
+            errors.append(f"{item_id}: terminal ledger fidelity is not verified")
+        for lean_file in file_paths(item.get("lean_file")):
+            if not (REPO_ROOT / lean_file).is_file():
+                errors.append(f"{item_id}: provider file does not exist: {lean_file}")
 
         claim_coverage = item.get("claim_coverage")
         if not isinstance(claim_coverage, dict):
@@ -119,6 +133,9 @@ def main() -> int:
                 claim_evidence = as_list(claim.get("lean_decl")) + as_list(claim.get("lean_file"))
                 if not claim_evidence and not item_evidence:
                     errors.append(f"{where}: {verdict} unit has no Lean declaration/file evidence")
+                for lean_file in file_paths(claim.get("lean_file")):
+                    if not (REPO_ROOT / lean_file).is_file():
+                        errors.append(f"{where}: provider file does not exist: {lean_file}")
 
             if verdict in EXCEPTION_VERDICTS:
                 has_exception = True
