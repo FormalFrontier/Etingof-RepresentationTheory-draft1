@@ -20672,6 +20672,10 @@
     "start_line": 38,
     "end_line": 39,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.5", "reviewed_on": "2026-07-29", "result": "section_heading"},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -20688,7 +20692,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "verified (wave-6, Opus): def genuinely constructs d(V)=finrank of vertex spaces; the prior [structural] gap (no fidelity_issue) reflected only input-type packaging, not a real defect"
+    "fidelity_note": "verified (wave-6, Opus): def genuinely constructs d(V)=finrank of vertex spaces; the prior [structural] gap (no fidelity_issue) reflected only input-type packaging, not a real defect",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.5", "reviewed_on": "2026-07-29", "claims": [{"claim": "The dimension vector records the finite dimension of the representation at each vertex.", "verdict": "formalized", "lean_decl": "Etingof.dimensionVector"}]}
   },
   {
     "id": "Chapter6/Discussion_before_Theorem6.5.2",
@@ -20703,11 +20710,11 @@
       "wave": 1,
       "result": "none"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The root-formulation is represented by the public Gabriel-theorem API, but Theorem6_5_2.lean fails a fresh source check in finite-module and zero-dimension arguments; regression #7518.",
-    "fidelity_issue": 7518,
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The root formulation and all three Gabriel clauses have a public, fresh-buildable API. The former #7518 regression is closed.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.5", "reviewed_on": "2026-07-29", "result": "theorem_preamble"}
   },
   {
     "id": "Chapter6/Theorem6.5.2",
@@ -20717,14 +20724,19 @@
     "end_page": "168",
     "start_line": 1,
     "end_line": 2,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "needs_statement": true,
-    "notes": "All three intended clauses are source-present, but the current file fails direct elaboration; regression #7518.",
-    "fidelity_note": "The combined theorem is designed to state finite type, positive-root classification, and existence-uniqueness, resolving the former #5670 gap. It is not currently fresh-buildable because of module-instance regressions.",
-    "coverage": "covered_partial",
-    "coverage_issue": 7518,
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "needs_statement": false,
+    "notes": "All three intended clauses are public and pass direct elaboration; the former #7518 regression is closed.",
+    "fidelity_note": "The combined theorem states finite type, positive-root classification, and existence-uniqueness, resolving the former #5670 gap.",
+    "coverage": "covered_full",
+    "lean_ref": "EtingofRepresentationTheory/Chapter6/Theorem6_5_2.lean :: Etingof.Theorem_6_5_2a_finiteness, Etingof.Theorem_6_5_2b_dimvec_is_positive_root, Etingof.Theorem_6_5_2c_bijection, Etingof.Theorem_6_5_2_Gabriels_theorem",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.5", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "A quiver has finitely many indecomposables exactly when its underlying graph is Dynkin.", "verdict": "formalized", "lean_decl": "Etingof.Theorem_6_5_2a_finiteness"},
+      {"claim": "The dimension vector of every indecomposable is a positive root.", "verdict": "formalized", "lean_decl": "Etingof.Theorem_6_5_2b_dimvec_is_positive_root"},
+      {"claim": "Every positive root occurs as the dimension vector of a unique indecomposable isomorphism class.", "verdict": "formalized", "lean_decl": "Etingof.Theorem_6_5_2c_bijection; Etingof.Theorem_6_5_2_Gabriels_theorem"}
+    ]}
   },
   {
     "id": "Chapter6/Section6.6_heading",
