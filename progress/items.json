@@ -22403,6 +22403,11 @@
     "start_line": 19,
     "end_line": 20,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Section heading for the fully audited exact-functor development.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.9", "reviewed_on": "2026-07-29", "claims": [{"claim": "The section develops additive, linear, left exact, right exact, and exact functors.", "verdict": "formalized", "lean_decl": "Etingof.AdditiveFunctor; Etingof.LinearFunctor; Etingof.ExactFunctor"}]},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -22418,7 +22423,11 @@
     "end_line": 22,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The standard Additive and Linear functor predicates match the two source definitions.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.9", "reviewed_on": "2026-07-29", "claims": [{"claim": "An additive functor is additive on Hom groups, and a k-linear functor is linear on Hom spaces.", "verdict": "formalized", "lean_decl": "Etingof.AdditiveFunctor; Etingof.LinearFunctor"}]}
   },
   {
     "id": "Chapter7/Discussion_after_Definition7.9.1",
@@ -22436,7 +22445,8 @@
     "fidelity": "verified",
     "coverage": "covered_full",
     "coverage_note": "Public fresh-building theorem Etingof.AdditiveFunctor.mapBiprod gives the required isomorphism F(X ⊞ Y) ≅ F(X) ⊞ F(Y).",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.9", "reviewed_on": "2026-07-29", "claims": [{"claim": "An additive functor canonically preserves binary biproducts.", "verdict": "formalized", "lean_decl": "Etingof.AdditiveFunctor.mapBiprod"}]}
   },
   {
     "id": "Chapter7/Example7.9.2",
@@ -22446,12 +22456,13 @@
     "end_page": "194",
     "start_line": 25,
     "end_line": 26,
-    "status": "proved",
-    "fidelity": "full",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "Ind, Res, and Hom additive/k-linear endpoints all fresh-check; left_adjoint_linear reproved in the style of Adjunction.left_adjoint_additive, with a downstream import/#check regression test Example7_9_2_Test.lean (#7526).",
-    "last_updated": "2026-07-23"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.9", "reviewed_on": "2026-07-29", "claims": [{"claim": "Induction, restriction, and the representation Hom functor are additive and k-linear.", "verdict": "formalized", "lean_decl": "Etingof.indFunctor_additive; Etingof.indFunctor_linear; Etingof.resFunctor_additive; Etingof.resFunctor_linear; Etingof.homGFunctor_additive; Etingof.homGFunctor_linear"}]}
   },
   {
     "id": "Chapter7/Definition7.9.3",
@@ -22466,7 +22477,8 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "LeftExactFunctor, RightExactFunctor, and ExactFunctor (their conjunction, with exactFunctor_iff and projection/constructor lemmas) are all public.",
-    "last_updated": "2026-07-23"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.9", "reviewed_on": "2026-07-29", "claims": [{"claim": "Left exact, right exact, and exact functors preserve the corresponding ends of exact sequences.", "verdict": "formalized", "lean_decl": "Etingof.LeftExactFunctor; Etingof.RightExactFunctor; Etingof.ExactFunctor; Etingof.exactFunctor_iff"}]}
   },
   {
     "id": "Chapter7/Definition7.9.4",
@@ -22478,7 +22490,11 @@
     "end_line": 8,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "Semisimplicity is defined by splitting every short exact sequence, exactly as in the source.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.9", "reviewed_on": "2026-07-29", "claims": [{"claim": "An abelian category is semisimple when every short exact sequence splits.", "verdict": "formalized", "lean_decl": "Etingof.IsSemisimpleCategory"}]}
   },
   {
     "id": "Chapter7/Example7.9.5",
@@ -22494,7 +22510,8 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "The categorical Maschke theorem publicly establishes semisimplicity of finite-group representations under the source characteristic hypothesis.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.9", "reviewed_on": "2026-07-29", "claims": [{"claim": "Finite-group representations are semisimple when the characteristic does not divide the group order.", "verdict": "formalized", "lean_decl": "Etingof.maschke_isSemisimpleCategory"}]}
   },
   {
     "id": "Chapter7/Discussion_after_Example7.9.5",
@@ -22512,7 +22529,8 @@
     "fidelity": "verified",
     "coverage": "covered_full",
     "coverage_note": "Public fresh-building theorem Etingof.additiveFunctor_shortExact_of_isSemisimpleCategory proves that additive functors from a semisimple category preserve short exact sequences.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.9", "reviewed_on": "2026-07-29", "claims": [{"claim": "Every additive functor out of a semisimple abelian category is exact.", "verdict": "formalized", "lean_decl": "Etingof.additiveFunctor_shortExact_of_isSemisimpleCategory"}]}
   },
   {
     "id": "Chapter7/Example7.9.6",
@@ -22529,7 +22547,12 @@
     "notes": "hom_left_exact via inferInstance (coyoneda); tensor_right_exact via inferInstance (MonoidalClosed left adjoint); resFunctor_exact / indFunctor_exact for the actual Rep.resFunctor / Rep.indFunctor via the ind/res and res/ind adjunctions; BalancedTensor + balancedLTensor_exact for the arbitrary-ring tensor statement",
     "sorry_free": true,
     "fidelity_note": "All four parts are represented. Part (i) is stated for the actual representation functors Rep.resFunctor / Rep.indFunctor (Res exact for any group homomorphism, Ind exact for a finite-index subgroup), with no externally supplied flatness hypothesis. Part (iii) is stated over an arbitrary, possibly noncommutative, ring via the balanced tensor product Etingof.BalancedTensor, and both counterexamples remain connected to the positive statements.",
-    "last_updated": "2026-07-25"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.9", "reviewed_on": "2026-07-29", "claims": [
+      {"claim": "Restriction and finite-index induction are exact.", "verdict": "formalized", "lean_decl": "Etingof.resFunctor_exact; Etingof.indFunctor_exact"},
+      {"claim": "Hom(X,-) is left exact but need not be right exact, with the stated Z/2 counterexample.", "verdict": "formalized", "lean_decl": "Etingof.hom_not_right_exact"},
+      {"claim": "Balanced tensor by a right module is right exact but need not be left exact, with the stated Z/2 counterexample.", "verdict": "formalized", "lean_decl": "Etingof.balancedLTensor_exact; Etingof.balancedLTensor_not_left_exact"}
+    ]}
   },
   {
     "id": "Chapter7/Exercise7.9.7",
@@ -22541,15 +22564,15 @@
     "end_line": 26,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-28",
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
+    "last_updated": "2026-07-29",
+    "coverage_note": "Final source-subpart audit complete. Both adjoint exactness statements are formalized by the declaration recorded in claim_coverage; the provider passes a fresh source check.",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter7/Exercise7_9_7.lean"
     ],
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-07-28",
+    "reviewed_on": "2026-07-29",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -22594,8 +22617,8 @@
     "end_line": 29,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
-    "last_updated": "2026-07-28",
+  "coverage_note": "Final source-subpart audit complete. The reflection-functor adjunction and both exactness consequences are formalized; both providers pass fresh source checks.",
+  "last_updated": "2026-07-29",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter7/Exercise7_9_8.lean",
       "EtingofRepresentationTheory/Chapter7/Exercise7_9_8_Adjunction.lean"
@@ -22603,7 +22626,7 @@
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-07-28",
+    "reviewed_on": "2026-07-29",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
