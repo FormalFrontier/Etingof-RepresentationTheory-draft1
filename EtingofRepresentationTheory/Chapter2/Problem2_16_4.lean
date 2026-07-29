@@ -12,12 +12,9 @@ dimensional representations of `𝔰𝔩(2, k)` are constrained very differently
 
 This file proves a central constraint on the characteristic-`p` classification: every
 irreducible representation of `𝔰𝔩(2, k)` has dimension at most `p`, and this bound is
-achieved. It does **not** give the exhaustive classification requested by the problem.
-That classification requires highest-weight and characteristic-`p` central-character
-infrastructure and is assigned to the later reprise recorded in the repository's
-`deferred-reprises.md`. The reprise must construct the parameter family, determine its
-isomorphisms, and prove exhaustiveness; the results below should therefore be read as
-partial coverage of Problem 2.16.4.
+achieved. The exhaustive parameterization is built on these results in
+`Reprises/Problem2_16_4.lean`; the results below remain the Chapter 2 dimension-bound and
+restricted-family endpoints.
 
 We realize `𝔰𝔩(2, k)` as Mathlib's `LieAlgebra.SpecialLinear.sl (Fin 2) k`.
 
