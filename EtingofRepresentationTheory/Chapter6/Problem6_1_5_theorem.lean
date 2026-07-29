@@ -25,10 +25,11 @@ Gabriel's theorem is not in Mathlib. Quiver representations have basic support
 ## Formalization note
 
 The statement uses `IsDynkinDiagram` (Definition 6.1.4) for the combinatorial
-condition. `IsFiniteTypeQuiver` is defined in `FiniteTypeDefs.lean` as "finitely
-many isomorphism classes of finite-dimensional indecomposable representations"
-(the book's literal definition), quantified over all orientations and
-algebraically closed fields.
+condition. `IsFiniteTypeQuiver` is defined in `FiniteTypeDefs.lean` as an
+orientable graph with finitely many isomorphism classes of finite-dimensional
+indecomposable representations, quantified over all orientations and
+algebraically closed fields.  Its orientation witness rules out the vacuous
+self-loop case required by part (c).
 
 ## The two directions
 
@@ -55,7 +56,6 @@ if and only if its underlying unoriented graph is a Dynkin diagram.
 (Etingof Problem 6.1.5 / Theorem 6.5.2) -/
 theorem Etingof.Theorem_6_1_5 (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
     (hsymm : adj.IsSymm)
-    (hdiag : ∀ i, adj i i = 0)
     (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
     (hconn : ∀ i j : Fin n, ∃ path : List (Fin n),
       path.head? = some i ∧ path.getLast? = some j ∧
@@ -65,6 +65,7 @@ theorem Etingof.Theorem_6_1_5 (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
   constructor
   · -- Forward: finite type → Dynkin diagram, via the orbit-counting chain.
     intro hft
+    have hdiag : ∀ i, adj i i = 0 := hft.no_self_loops h01
     -- Fix the standard orientation `Q` of the graph and the field `ℂ`.
     letI Q : Quiver.{0} (Fin n) := Etingof.standardOrientation adj
     haveI hfin : ∀ a b : Fin n, Fintype (@Quiver.Hom (Fin n) Q a b) := by
@@ -85,7 +86,10 @@ theorem Etingof.Theorem_6_1_5 (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
       (fun m hm =>
         Etingof.Problem6_1_5.repSpace_finrank_lt_repGroup_ambient_finrank (k := ℂ) m hm)
   · -- Backward: Dynkin diagram → finite type.
-    intro hDynkin k _inst_field _inst_algclosed Q _inst_ss hOrient
+    intro hDynkin
+    refine ⟨⟨Etingof.standardOrientation adj, fun _ _ => inferInstance,
+      Etingof.standardOrientation_isOrientationOf adj hDynkin.1 hDynkin.2.1⟩, ?_⟩
+    intro k _inst_field _inst_algclosed Q _inst_ss hOrient
     classical
     -- The set of positive roots is finite (Theorem 6.5.2a).
     have hPR_fin : Set.Finite {α : Fin n → ℤ | Etingof.IsPositiveRoot n adj α} :=
@@ -139,11 +143,42 @@ theorem Etingof.Theorem_6_1_5 (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
       obtain ⟨iso⟩ := huniq
       exact ⟨iso.equivAt, fun {a b} f => by ext x; simpa using iso.naturality f x⟩
 
+/-- **Problem 6.1.5(a).** Finite representation type forces the
+Cartan/Tits form to be positive on every nonzero rational vector. -/
+theorem Etingof.titsForm_pos_on_nonzero_of_finite_type {n : ℕ}
+    (adj : Matrix (Fin n) (Fin n) ℤ) (hsymm : adj.IsSymm)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (hconn : ∀ i j : Fin n, ∃ path : List (Fin n),
+      path.head? = some i ∧ path.getLast? = some j ∧
+      ∀ k, (h : k + 1 < path.length) →
+        adj (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1)
+    (hft : Etingof.IsFiniteTypeQuiver n adj) :
+    ∀ x : Fin n → ℚ, x ≠ 0 →
+      0 < dotProduct x
+        (((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).map
+          (Int.castRingHom ℚ)).mulVec x) := by
+  apply Etingof.titsForm_rat_pos_of_int_pos adj
+  exact ((Etingof.Theorem_6_1_5 n adj hsymm h01 hconn).mp hft).2.2.2.2
+
+/-- **Problem 6.1.5(b).** The real Cartan/Tits form of a finite-type
+connected graph is positive definite. -/
+theorem Etingof.titsForm_real_posDef_of_finite_type {n : ℕ}
+    (adj : Matrix (Fin n) (Fin n) ℤ) (hsymm : adj.IsSymm)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (hconn : ∀ i j : Fin n, ∃ path : List (Fin n),
+      path.head? = some i ∧ path.getLast? = some j ∧
+      ∀ k, (h : k + 1 < path.length) →
+        adj (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1)
+    (hft : Etingof.IsFiniteTypeQuiver n adj) :
+    ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).map
+      (Int.castRingHom ℝ)).PosDef :=
+  Etingof.titsForm_real_posDef_of_rat_pos adj hsymm
+    (Etingof.titsForm_pos_on_nonzero_of_finite_type adj hsymm h01 hconn hft)
+
 /-- Corollary: A connected simple graph that is not a Dynkin diagram has infinite
 representation type. (Non-circular version, proved as corollary of Theorem_6_1_5.) -/
 theorem Etingof.non_Dynkin_not_finite_type {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hsymm : adj.IsSymm)
-    (hdiag : ∀ i, adj i i = 0)
     (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
     (hconn : ∀ i j : Fin n, ∃ path : List (Fin n),
       path.head? = some i ∧ path.getLast? = some j ∧
@@ -152,14 +187,13 @@ theorem Etingof.non_Dynkin_not_finite_type {n : ℕ} (adj : Matrix (Fin n) (Fin 
     (h_not_dynkin : ¬ Etingof.IsDynkinDiagram n adj) :
     ¬ Etingof.IsFiniteTypeQuiver n adj := by
   intro hft
-  exact h_not_dynkin ((Etingof.Theorem_6_1_5 n adj hsymm hdiag h01 hconn).mp hft)
+  exact h_not_dynkin ((Etingof.Theorem_6_1_5 n adj hsymm h01 hconn).mp hft)
 
 /-- Corollary: A connected simple graph on n ≥ 1 vertices not isomorphic to any ADE type
 has infinite representation type. -/
 theorem Etingof.non_ADE_not_finite_type {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n)
     (hsymm : adj.IsSymm)
-    (hdiag : ∀ i, adj i i = 0)
     (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
     (hconn : ∀ i j : Fin n, ∃ path : List (Fin n),
       path.head? = some i ∧ path.getLast? = some j ∧
@@ -168,6 +202,6 @@ theorem Etingof.non_ADE_not_finite_type {n : ℕ} (adj : Matrix (Fin n) (Fin n) 
     (h_not_ade : ¬ ∃ t : Etingof.DynkinType, ∃ σ : Fin t.rank ≃ Fin n,
       ∀ i j, adj (σ i) (σ j) = t.adj i j) :
     ¬ Etingof.IsFiniteTypeQuiver n adj := by
-  apply Etingof.non_Dynkin_not_finite_type adj hsymm hdiag h01 hconn
+  apply Etingof.non_Dynkin_not_finite_type adj hsymm h01 hconn
   intro hD
   exact h_not_ade ((Etingof.Theorem_Dynkin_classification n adj hn).mp hD)

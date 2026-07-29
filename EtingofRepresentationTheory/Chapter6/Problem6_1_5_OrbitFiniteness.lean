@@ -315,7 +315,7 @@ theorem orbitRel_quotient_finite_of_isFiniteType [IsAlgClosed k]
     (hQ : Etingof.IsOrientationOf ‹Quiver.{0} (Fin n)› adj)
     (hFT : Etingof.IsFiniteTypeQuiver n adj) (m : Fin n → ℕ) :
     Finite (orbitRel.Quotient (repGroup k m) (repSpace (k := k) m)) := by
-  obtain ⟨reps, hfin, _, hcov⟩ := hFT k _ hQ
+  obtain ⟨reps, hfin, _, hcov⟩ := hFT.2 k _ hQ
   exact orbitRel_quotient_finite_of_finite_reps m reps hfin hcov
 
 end Etingof

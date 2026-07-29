@@ -121,12 +121,11 @@ representation is one of the `L_λ|_{SL_N}`.
 The project has formalized the tautological representation, symmetry and
 connectivity of the McKay graph, the affine-Cartan positivity argument for graphs
 with at least three vertices, and the kernel equation for the dimension vector.
-Problem 4.12.8 supplies the `SO(3)` classification and substantial double-cover
-infrastructure, while its exact `SU(2)` list still has the active residual #7281.
-Independently of that residual, the project retains its original decision not to
-build the additional concrete group-family-to-diagram identifications. Thus the
-part (d) decision below is a deliberate scope boundary, not a temporary dependency
-on completion of Problem 4.12.8.
+Problem 4.12.8 supplies the complete `SO(3)` and `SU(2)` finite-subgroup
+classifications together with the double-cover infrastructure. The project
+nevertheless retains its original decision not to build the additional concrete
+group-family-to-diagram identifications. Thus the part (d) decision below is a
+deliberate scope boundary, not a temporary dependency on Problem 4.12.8.
 The following residual parts are intentionally omitted:
 
 - the two-vertex double-edge `Ã₁` case, which is outside the simple-edge affine
@@ -140,18 +139,35 @@ These omissions are documented in
 `EtingofRepresentationTheory/Chapter6/Problem6_1_6.lean`; no unproved headline
 declaration stands in for them.
 
-The endpoints that are in scope remain source-present, but the file currently
-fails a fresh source check. Regression #7550 tracks restoring those implemented
-symmetry, connectivity, affine-Cartan, and dimension-vector results without
-expanding the intentional-omission boundary above.
+### Problem 6.9.1(d) — Kronecker-quiver classification
+
+Part (d) asks for the preceding cyclic-`Q₂` classification to be generalized to
+the Kronecker quiver.  This is a genuine formalizable classification problem,
+not an informal prompt: a faithful solution would introduce representations by
+two parallel maps, construct the preprojective, preinjective, and regular
+matrix-pencil families, and prove existence and uniqueness of those normal
+forms.  The project deliberately does not add that separate matrix-pencil
+classification, which is not used by any later result in the book.
+
+Parts (a)--(c), including isomorphism-level exhaustiveness and uniqueness for
+the four cyclic-`Q₂` families, are fully formalized in
+`EtingofRepresentationTheory/Chapter6/Problem6_9_1.lean` and
+`EtingofRepresentationTheory/Chapter6/Problem6_9_1_Classification.lean`.
+Part (e) remains recorded in the claim ledger as an open-ended prompt: unlike
+part (d), it asks whether one can generalize to all longer cyclic quivers and
+arbitrary orientations without specifying a single classification theorem.
 
 ## Completed former exclusions
 
 The following exercises appeared in the original hard-problem/skip list but were
 subsequently formalized. The former scope decision is therefore superseded:
 
+- Problem 4.12.8 — the complete finite-subgroup classifications of `SO(3)` and
+  `SU(2)`, including the cyclic `-1 ∉ H` branch;
 - Problem 5.24.2 — invariants of matrix tuples;
 - Problem 6.1.3 — finite and affine Dynkin diagrams;
+- Problem 9.6.5 — the explicit balanced-tensor functor, its comparison maps,
+  and the resulting quasi-inverse equivalence;
 - Problem 8.2.8 — a corrected finite-dimensional Künneth theorem for Tor and Ext is
   formalized. The literal source statement for Ext omits necessary finiteness
   hypotheses and is false already in degree zero; the formalization deliberately
@@ -207,14 +223,3 @@ obtained by feeding in the (finitely generated projective) bar resolution.
 - Coverage is recorded as `covered_partial` (not `covered_full`) in
   `progress/items.json`, with the scope correction noted there. Naturality/API
   packaging of the corrected theorem is separately tracked by #7397.
-
-## Reopened former exclusions
-
-These exercises were removed from the original skip list after substantial
-formalization, but a later fidelity audit found a remaining source-level endpoint.
-They are active work, not intentional omissions:
-
-- Problem 4.12.8 — the finite-subgroup classification of `SO(3)` and much of the
-  `SU(2)` double-cover analysis are proved, but the `-1 ∉ H` branch currently gives
-  only `H ≃ h(H)` rather than the required cyclic conclusion. The exact `SU(2)`
-  list therefore remains #7281.

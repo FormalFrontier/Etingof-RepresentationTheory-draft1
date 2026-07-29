@@ -459,7 +459,8 @@ theorem spechtModule_noniso (n : ℕ) (nu₁ nu₂ : Nat.Partition n) (hne : nu�
     IsEmpty (↥(SpechtModule n nu₁) ≃ₗ[SymGroupAlgebra n] ↥(SpechtModule n nu₂)) :=
   Theorem5_12_2_distinct n nu₁ nu₂ hne
 
-private theorem spechtModuleFDRep_iso_iff_eq (n : ℕ) (ν₁ ν₂ : Nat.Partition n) :
+/-- Two complex Specht representations are isomorphic exactly when their partitions agree. -/
+theorem spechtModuleFDRep_iso_iff_eq (n : ℕ) (ν₁ ν₂ : Nat.Partition n) :
     Nonempty (spechtModuleFDRep n ν₁ ≅ spechtModuleFDRep n ν₂) ↔ ν₁ = ν₂ := by
   constructor
   · rintro ⟨f⟩

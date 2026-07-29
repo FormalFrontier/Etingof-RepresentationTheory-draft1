@@ -54,6 +54,16 @@ jobs:
             exit 1
           fi
           echo "OK: no native_decide in EtingofRepresentationTheory."
+      - name: Validate source and exercise ledgers
+        run: |
+          # Keep the source partition, durable claim ledger, and human summary
+          # mechanically synchronized. These checks are intentionally ahead of
+          # the expensive Lean build so metadata drift fails fast.
+          python3 scripts/validate_items.py
+          python3 scripts/verify_blobs.py
+          python3 scripts/reconcile_exercise_coverage.py --check
+          python3 scripts/validate_exercise_coverage.py
+          python3 scripts/test_exercise_coverage.py
       - uses: leanprover/lean-action@v1
         with:
           use-github-cache: false
@@ -61,6 +71,11 @@ jobs:
       - name: Build all modules
         run: |
           set -o pipefail
+          # This generated module imports only the ledger's provider modules
+          # and asks Lean to resolve every declaration pointer. In particular,
+          # it does not re-import the root aggregate and thereby defeat the
+          # runner-memory exclusions in the per-file sweep below.
+          lake build EtingofRepresentationTheory.ExerciseCoverageDeclarations
           # Build individual modules, excluding:
           # - Chapter/root aggregation files (mindepth 2 skips these)
           # - Modules that import full Mathlib + large chapter environments,

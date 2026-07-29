@@ -79,7 +79,9 @@ def main():
 
     count = 0
     empty = 0
-    for item in items:
+    partition_items = [item for item in items if item.get("type") != "derived"]
+
+    for item in partition_items:
         item_id = item["id"]
         blob_text = extract_blob(item, page_order)
 
@@ -94,6 +96,7 @@ def main():
             empty += 1
 
     print(f"Extracted {count} blobs to {BLOBS_DIR}/")
+    print(f"  ({len(items) - len(partition_items)} derived overlays skipped)")
     if empty:
         print(f"  ({empty} empty blobs — blank pages)")
     return 0
