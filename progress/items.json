@@ -20328,7 +20328,9 @@
     "status": "sorry_free",
     "coverage": "covered_full",
     "coverage_note": "Heading and introductory roadmap only; the ensuing dimension-diagram notation and finite-type examples have public endpoints in the corresponding section files.",
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.2", "reviewed_on": "2026-07-29", "result": "section_heading_and_roadmap"}
   },
   {
     "id": "Chapter6/Remark6.2.1",
@@ -20341,7 +20343,8 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.2", "reviewed_on": "2026-07-29", "result": "notation"}
   },
   {
     "id": "Chapter6/Example6.2.2",
@@ -20357,7 +20360,10 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "Public theorem Etingof.Example_6_2_2 exactly characterizes finite-dimensional A1 representations as indecomposable iff their finrank is one.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.2", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "A finite-dimensional representation of A₁ is indecomposable exactly when its dimension is one.", "verdict": "formalized", "lean_decl": "Etingof.Example_6_2_2"}
+    ]}
   },
   {
     "id": "Chapter6/Example6.2.3",
@@ -20368,13 +20374,17 @@
     "start_line": 15,
     "end_line": 20,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "fidelity": "verified",
-    "needs_statement": true,
+    "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "The current theorem gives necessary dimension-vector conditions for an indecomposable A2Rep. It does not construct the three representatives or prove indecomposability, exhaustiveness, and uniqueness up to isomorphism; follow-up #7404.",
-    "fidelity_issue": 7404,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "The three representatives are constructed and proved indecomposable; every indecomposable A₂ representation is isomorphic to a unique one. The former #7404 is closed.",
+    "lean_ref": "EtingofRepresentationTheory/Chapter6/Example6_2_3.lean :: Etingof.Example_6_2_3, Etingof.A₂Rep.rep, Etingof.A₂Rep.rep_indecomposable, Etingof.A₂Rep.exists_unique_iso_rep",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.2", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The three A₂ dimension vectors (1,0), (0,1), and (1,1) have explicit indecomposable representatives.", "verdict": "formalized", "lean_decl": "Etingof.A₂Rep.rep; Etingof.A₂Rep.rep_indecomposable"},
+      {"claim": "Every indecomposable A₂ representation is isomorphic to exactly one of those representatives.", "verdict": "formalized", "lean_decl": "Etingof.A₂Rep.exists_unique_iso_rep"}
+    ]}
   },
   {
     "id": "Chapter6/Example6.2.4",
@@ -20390,7 +20400,11 @@
     "needs_statement": false,
     "sorry_free": true,
     "coverage_note": "Both orientations are covered at the representation level. Chapter6/Example6_2_4.lean gives the dimension-vector classification for V1 → V2 → V3 and Chapter6/Example6_2_4_Source.lean upgrades it to A₃Rep.exists_unique_iso_rep; Chapter6/Example6_2_4_Sink.lean does the same for the pair-of-subspaces orientation V1 → V2 ← V3, via Etingof.Example_6_2_4_sink and A₃SinkRep.exists_unique_iso_rep. Each of the six representatives per orientation is constructed and proved indecomposable.",
-    "last_updated": "2026-07-25"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.2", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "For each of the two A₃ orientations, the six positive-root dimension vectors have explicit indecomposable representatives.", "verdict": "formalized", "lean_decl": "Etingof.A₃Rep.rep_indecomposable; Etingof.A₃SinkRep.rep_indecomposable"},
+      {"claim": "Every indecomposable representation in either orientation is isomorphic to a unique representative.", "verdict": "formalized", "lean_decl": "Etingof.A₃Rep.exists_unique_iso_rep; Etingof.A₃SinkRep.exists_unique_iso_rep"}
+    ]}
   },
   {
     "id": "Chapter6/Section6.3_heading",
