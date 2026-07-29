@@ -16802,25 +16802,43 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "covered"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "5.6", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [{"claim": "The section classifies irreducible representations of direct products.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_6_1"}]
     }
   },
   {
     "id": "Chapter5/Theorem5.6.1",
-    "source_regression_note": "Clean rebuild imports the broken Theorem3_10_2 tensor-product source (#7520).",
+    "source_regression_note": "Resolved #7520 on 2026-07-29: fresh source elaboration now succeeds after restoring the representation-as-module transparency compatibility setting.",
     "type": "theorem",
     "title": "Irreducible representations of G x H are tensor products V_i ⊗ W_j",
     "start_page": "107",
     "end_page": "107",
     "start_line": 3,
     "end_line": 6,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "sorry_free": true,
     "fidelity_note": "Both directions and the combined Theorem5_6_1 wrapper are proved. The IsAlgClosed k hypothesis follows the standing Chapter 3 assumption used by the cited Theorem 3.10.2; 'any characteristic' is respected by imposing no characteristic-zero or coprimality hypothesis. The unrestricted arbitrary-field reading is false.",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "coverage_issue": 7520,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "5.6", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [
+        {"claim": "The external tensor product of irreducible representations of G and H is irreducible over an algebraically closed field of arbitrary characteristic.", "verdict": "formalized", "lean_decl": "Etingof.extTprod_isIrreducibleRep"},
+        {"claim": "Every irreducible representation of G×H is equivariantly isomorphic to an external tensor product of irreducibles of the factors.", "verdict": "formalized", "lean_decl": "Etingof.exists_extTprod_of_isIrreducibleRep"},
+        {"claim": "Together these two directions classify all irreducible representations of G×H.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_6_1"},
+        {"claim": "The proof is the group-algebra specialization of Theorem 3.10.2.", "verdict": "formalized", "lean_decl": "Etingof.tensor_product_irreducible; Etingof.tensor_product_irreducible_classification"}
+      ]
+    }
   },
   {
     "id": "Chapter5/Introduction_5.7",
