@@ -11321,7 +11321,7 @@
     "fidelity": "verified",
     "sorry_free": true,
     "notes": "Full theorem now exposed (#5328): jordan_holder_equivalent gives s₁.Equivalent s₂; jordan_holder_factors gives the permutation σ with Wᵢ ≅ W'_{σ i} via Etingof.compositionFactor; jordan_holder retains the n = m length half. Characteristic-p footnote formalized (#7469) in Discussion_footnote_3_7_1.lean: character_fin_pi gives χ_{nV} = n • χ_V for the diagonal representation on Fin n → V (via trace_diagPi_fin, direct-sum additivity of the trace), and character_pcopies_eq_zero gives χ_{pV} = 0 under [CharP k p].",
-    "coverage": "covered",
+    "coverage": "covered_full",
     "fidelity_note": "The Jordan–Hölder theorem itself is complete. The characteristic-p footnote's concrete explanation—that the character of the p-fold sum pV vanishes for every V—is now formalized as Etingof.character_pcopies_eq_zero (with the general χ_{nV} = n • χ_V identity Etingof.character_fin_pi).",
     "last_updated": "2026-07-23",
     "claim_coverage": {
@@ -14662,11 +14662,12 @@
     "coverage": "covered",
     "coverage_note": "The A4 character table is realized in Chapter4/Introduction_4_8.lean by four genuine simple, pairwise nonisomorphic representations with the tabulated characters (1,1,1,1), (1,eps,eps^2,1), (1,eps^2,eps,1), (3,0,0,-1) at the class representatives Id, (012), (021), (01)(23), with eps = exp(2*pi*i/3) a primitive cube root of unity. The three one-dimensional characters are pulled back along a surjection A4 -> Z/3 whose kernel is exactly Mathlib's alternatingGroup.kleinFour (Fin 4), realizing the source's A4/(Z/2 + Z/2) = Z/3; the three-dimensional one is the deleted natural permutation representation. Class sizes 1,4,4,3 and the count of four conjugacy classes are proved by honest decide (no native_decide), completeness via Corollary 4.2.2. The optional tetrahedron realization of C^3 is not formalized.",
     "fidelity_decl": "Etingof.Introduction_4_8_A4_card, Etingof.Introduction_4_8_A4_conj_classes, Etingof.Introduction_4_8_A4_class_sizes, Etingof.Introduction_4_8_A4_class_reps, Etingof.Introduction_4_8_A4_quotient, Etingof.Introduction_4_8_A4_eps, Etingof.Introduction_4_8_A4_sum_sq_dim, Etingof.Introduction_4_8_A4_simple, Etingof.Introduction_4_8_A4_character, Etingof.Introduction_4_8_A4_pairwise, Etingof.Introduction_4_8_A4_complete",
-    "last_updated": "2026-07-25",
+    "last_updated": "2026-07-29",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
-    }
+      "result": "covered"
+    },
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.8", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "Character tables list conjugacy-class representatives and sizes and irreducible character values; their rows and columns obey the character orthogonality relations.", "verdict": "covered_elsewhere", "lean_decl": "Etingof.Theorem4_5_1_i; Etingof.Theorem4_5_4"}, {"claim": "The displayed S₃ table is obtained from the genuine irreducible representations.", "verdict": "covered_elsewhere", "lean_decl": "Etingof.Example4_3_S3.irrep; Etingof.Example4_3_S3.irrep_character"}, {"claim": "A₄ has the displayed four classes and four complete irreducible rows, including the quotient A₄/V₄ ≃ Z/3 and the deleted natural three-dimensional representation.", "verdict": "formalized", "lean_decl": "Etingof.Introduction_4_8_A4_class_sizes; Etingof.Introduction_4_8_A4_quotient; Etingof.Introduction_4_8_A4_character; Etingof.Introduction_4_8_A4_simple; Etingof.Introduction_4_8_A4_pairwise; Etingof.Introduction_4_8_A4_complete"}, {"claim": "The tetrahedral rotation description provides another computation of the A₄ three-dimensional row.", "verdict": "proof_route", "reason": "The same row is proved using the genuine deleted natural representation; the geometric narrative states no additional endpoint."}]}
   },
   {
     "id": "Chapter4/Example4.8.1",
@@ -14677,12 +14678,13 @@
     "start_line": 28,
     "end_line": 2,
     "status": "sorry_free",
-    "fidelity": "full",
+    "fidelity": "verified",
     "sorry_free": true,
     "fidelity_note": "All three character tables are realized by genuine simple, pairwise nonisomorphic representations with the tabulated characters. For S₄, actHom_ker_eq_kleinFour identifies the concrete V₄ kernel, actHom_surjective and quotientKleinFourEquivS3 package S₄/V₄ ≃ S₃, and repC2_iso_s3StandardPullback identifies the two-dimensional row with the pullback of the named S₃ standard representation. For A₅, outerAutomorphism is conjugation by (12), outerAutomorphism_classIdx proves that it swaps the two five-cycle classes, outerAutomorphism_not_inner proves it is genuinely outer, and repC3plus_outerTwist_iso_repC3minus identifies the two golden-ratio representations by twisting.",
     "fidelity_decl": "Etingof.Example4_8_1_Q8_simple, Etingof.Example4_8_1_Q8_character, Etingof.Example4_8_1_S4_simple, Etingof.Example4_8_1_S4_character, Etingof.Example4_8_1_S4_pairwise, Etingof.Example4_8_1_S4_conj_classes, Etingof.Example4_8_1_S4_card, Etingof.Example4_3_S4.actHom_ker_eq_kleinFour, Etingof.Example4_3_S4.actHom_surjective, Etingof.Example4_3_S4.quotientKleinFourEquivS3, Etingof.Example4_8_1.S4.repC2_iso_s3StandardPullback, Etingof.Example4_8_1.A5_orthonormal, Etingof.Example4_8_1_A5_conj_classes, Etingof.Example4_8_1.A5.outerAutomorphism_classIdx, Etingof.Example4_8_1.A5.outerAutomorphism_not_inner, Etingof.Example4_8_1.A5.repC3plus_outerTwist_iso_repC3minus",
     "coverage": "covered_full",
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.8", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The Q₈ table consists of five genuine simple, pairwise nonisomorphic representations with exactly the displayed values and is complete.", "verdict": "formalized", "lean_decl": "Etingof.Example4_8_1_Q8_irrep; Etingof.Example4_8_1_Q8_simple; Etingof.Example4_8_1_Q8_character; Etingof.Example4_8_1_Q8_pairwise; Etingof.Example4_8_1_Q8_conj_classes"}, {"claim": "The S₄ table consists of five genuine simple, pairwise nonisomorphic representations with exactly the displayed values and is complete.", "verdict": "formalized", "lean_decl": "Etingof.Example4_8_1_S4_irrep; Etingof.Example4_8_1_S4_simple; Etingof.Example4_8_1_S4_character; Etingof.Example4_8_1_S4_pairwise; Etingof.Example4_8_1_S4_conj_classes"}, {"claim": "The S₄ two-dimensional row is pulled back from S₃ through S₄/V₄ ≃ S₃, and the second three-dimensional row is the sign twist of the first.", "verdict": "formalized", "lean_decl": "Etingof.Example4_3_S4.quotientKleinFourEquivS3; Etingof.Example4_8_1.S4.repC2_iso_s3StandardPullback; Etingof.Example4_8_1.S4.repC3minus"}, {"claim": "The A₅ table consists of five genuine simple, pairwise nonisomorphic representations with the displayed values and is complete.", "verdict": "formalized", "lean_decl": "Etingof.Example4_8_1_A5_irrep; Etingof.Example4_8_1.A5.irrepA5_simple; Etingof.Example4_8_1.A5.irrepA5_character_book; Etingof.Example4_8_1.A5.irrepA5_pairwise; Etingof.Example4_8_1_A5_conj_classes"}, {"claim": "The A₅ four- and five-dimensional rows are deleted permutation representations; the two three-dimensional rows are exchanged by the stated outer automorphism.", "verdict": "formalized", "lean_decl": "Etingof.Example4_8_1.A5.repC4; Etingof.Example4_8_1.A5.repC5; Etingof.Example4_8_1.A5.outerAutomorphism_classIdx; Etingof.Example4_8_1.A5.outerAutomorphism_not_inner; Etingof.Example4_8_1.A5.repC3plus_outerTwist_iso_repC3minus"}, {"claim": "The cube and icosahedron rotation descriptions provide geometric trace computations.", "verdict": "proof_route", "reason": "The same representations and character values are proved through explicit algebraic models; the geometric narrative adds no separate endpoint."}]}
   },
   {
     "id": "Chapter4/Introduction_4.9",
