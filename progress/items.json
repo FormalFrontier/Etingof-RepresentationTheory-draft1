@@ -10,26 +10,7 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "covered"
-    },
-    "coverage": "covered_full",
-    "fidelity": "verified",
-    "last_updated": "2026-07-29",
-    "claim_coverage": {
-      "stage": "3.2",
-      "status": "complete",
-      "section": "4.2",
-      "reviewed_on": "2026-07-29",
-      "definition_integrity": "verified",
-      "statement_fidelity": "verified",
-      "nonvacuity": "verified",
-      "claims": [
-        {"claim": "The character is the trace function g ↦ Tr(ρ(g)).", "verdict": "formalized", "lean_decl": "FDRep.character"},
-        {"claim": "The group character is the restriction of the associated k[G]-module character.", "verdict": "formalized", "lean_decl": "Etingof.FDRep.character_eq_algebraCharacter"},
-        {"claim": "Characters are constant on conjugacy classes.", "verdict": "formalized", "lean_decl": "Etingof.FDRep.character_mem_classFunctionSubmodule; FDRep.char_conj"},
-        {"claim": "F(G,k) is the space of k-valued functions on G.", "verdict": "formalized", "lean_decl": "Etingof.FunctionSpace"},
-        {"claim": "F_c(G,k) is the subspace of class functions.", "verdict": "formalized", "lean_decl": "Etingof.classFunctionSubmodule; Etingof.mem_classFunctionSubmodule_iff"}
-      ]
+      "result": "none"
     }
   },
   {
@@ -43,15 +24,7 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "non_formalizable"
-    },
-    "coverage": "non_formalizable",
-    "fidelity": "not_applicable",
-    "last_updated": "2026-07-29",
-    "claim_coverage": {
-      "stage": "3.2", "status": "complete", "section": "4.3", "reviewed_on": "2026-07-29",
-      "definition_integrity": "not_applicable", "statement_fidelity": "not_applicable", "nonvacuity": "not_applicable",
-      "claims": [{"claim": "Section 4.3 announces examples of complex representations of finite groups.", "verdict": "non_formalizable", "reason": "Organizational heading."}]
+      "result": "none"
     }
   },
   {
@@ -75,16 +48,7 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "covered"
-    },
-    "coverage": "covered_full", "fidelity": "verified", "last_updated": "2026-07-29",
-    "claim_coverage": {
-      "stage": "3.2", "status": "complete", "section": "4.5", "reviewed_on": "2026-07-29",
-      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
-      "claims": [
-        {"claim": "The normalized Hermitian pairing on complex class functions is the displayed finite sum.", "verdict": "formalized", "lean_decl": "Etingof.Theorem4_5_1_i"},
-        {"claim": "Irreducible characters form an orthonormal basis.", "verdict": "covered_elsewhere", "lean_decl": "Etingof.Theorem4_2_1_span_eq_classFunctionSubmodule; Etingof.Theorem4_5_1_ii"}
-      ]
+      "result": "none"
     }
   },
   {
@@ -99,11 +63,7 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    },
-    "coverage": "non_formalizable",
-    "fidelity": "not_applicable",
-    "last_updated": "2026-07-29",
-    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.6", "reviewed_on": "2026-07-29", "definition_integrity": "not_applicable", "statement_fidelity": "not_applicable", "nonvacuity": "not_applicable", "claims": [{"claim": "The heading announces unitary representations and another proof of complex Maschke.", "verdict": "non_formalizable", "reason": "Organizational heading."}]}
+    }
   },
   {
     "id": "Chapter1/Discussion_BookOrganization",
@@ -117,11 +77,7 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    },
-    "coverage": "covered_full",
-    "fidelity": "verified",
-    "last_updated": "2026-07-29",
-    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.7", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "For an irreducible unitary representation, its matrix elements are the coefficient functions of the representation in an orthonormal basis.", "verdict": "formalized", "lean_decl": "LinearMap.toMatrix; Etingof.Proposition4_7_1_i; Etingof.Proposition4_7_1_ii"}]}
+    }
   },
   {
     "id": "Chapter1/Acknowledgments",
@@ -14028,7 +13984,17 @@
     "coverage": "covered_full",
     "fidelity": "verified",
     "last_updated": "2026-07-29",
-    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.10", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "For a finite group, introduce one polynomial variable indexed by each group element.", "verdict": "formalized", "lean_decl": "MvPolynomial G k; Etingof.FrobeniusDeterminant"}]}
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "4.2", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [
+        {"claim": "The character is the trace function g ↦ Tr(ρ(g)).", "verdict": "formalized", "lean_decl": "FDRep.character"},
+        {"claim": "The group character is the restriction of the associated k[G]-module character.", "verdict": "formalized", "lean_decl": "Etingof.FDRep.character_eq_algebraCharacter"},
+        {"claim": "Characters are constant on conjugacy classes.", "verdict": "formalized", "lean_decl": "Etingof.FDRep.character_mem_classFunctionSubmodule; FDRep.char_conj"},
+        {"claim": "F(G,k) is the space of k-valued functions on G.", "verdict": "formalized", "lean_decl": "Etingof.FunctionSpace"},
+        {"claim": "F_c(G,k) is the subspace of class functions.", "verdict": "formalized", "lean_decl": "Etingof.classFunctionSubmodule; Etingof.mem_classFunctionSubmodule_iff"}
+      ]
+    }
   },
   {
     "id": "Chapter4/Theorem4.2.1",
@@ -14151,7 +14117,11 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "coverage": "non_formalizable",
+    "fidelity": "not_applicable",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.3", "reviewed_on": "2026-07-29", "definition_integrity": "not_applicable", "statement_fidelity": "not_applicable", "nonvacuity": "not_applicable", "claims": [{"claim": "Section 4.3 announces examples of complex representations of finite groups.", "verdict": "non_formalizable", "reason": "Organizational heading."}]}
   },
   {
     "id": "Chapter4/Example4.3_FiniteAbelianGroups",
@@ -14333,7 +14303,11 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.5", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The normalized Hermitian pairing on complex class functions is the displayed finite sum.", "verdict": "formalized", "lean_decl": "Etingof.Theorem4_5_1_i"}, {"claim": "Irreducible characters form an orthonormal basis.", "verdict": "covered_elsewhere", "lean_decl": "Etingof.Theorem4_2_1_span_eq_classFunctionSubmodule; Etingof.Theorem4_5_1_ii"}]}
   },
   {
     "id": "Chapter4/Theorem4.5.1",
@@ -14519,7 +14493,11 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "coverage": "non_formalizable",
+    "fidelity": "not_applicable",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.6", "reviewed_on": "2026-07-29", "definition_integrity": "not_applicable", "statement_fidelity": "not_applicable", "nonvacuity": "not_applicable", "claims": [{"claim": "The heading announces unitary representations and another proof of complex Maschke.", "verdict": "non_formalizable", "reason": "Organizational heading."}]}
   },
   {
     "id": "Chapter4/Definition4.6.1",
@@ -14530,7 +14508,7 @@
     "start_line": 3,
     "end_line": 4,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
     "last_updated": "2026-07-29",
@@ -14633,7 +14611,11 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.7", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "For an irreducible unitary representation, its matrix elements are the coefficient functions of the representation in an orthonormal basis.", "verdict": "formalized", "lean_decl": "LinearMap.toMatrix; Etingof.Proposition4_7_1_i; Etingof.Proposition4_7_1_ii"}]}
   },
   {
     "id": "Chapter4/Proposition4.7.1",
@@ -14740,7 +14722,11 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.10", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "For a finite group, introduce one polynomial variable indexed by each group element.", "verdict": "formalized", "lean_decl": "MvPolynomial G k; Etingof.FrobeniusDeterminant"}]}
   },
   {
     "id": "Chapter4/Definition4.10.1",

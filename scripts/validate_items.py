@@ -8,6 +8,7 @@ are keyed by `derived_from` instead of `id`, carry no line span, and are
 skipped by the contiguity check."""
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -88,6 +89,25 @@ def page_line_count(page_name):
     if not p.exists():
         return None
     return sum(1 for _ in open(p))
+
+
+def section_from_item_id(item_id):
+    """Infer a numbered section such as ``4.10`` from a Chapter item ID.
+
+    Both source-style dots (``Theorem4.10.2``) and filename-style underscores
+    (``Example4_3_S4``) occur in the ledger. Items without a section number,
+    such as ``Chapter4/Introduction``, return ``None``.
+    """
+    chapter_match = re.match(r"^Chapter(\d+)/(.*)$", item_id)
+    if chapter_match is None:
+        return None
+    chapter, tail = chapter_match.groups()
+    section_match = re.search(
+        rf"(?<!\d){re.escape(chapter)}[._](\d+)(?:[._]|$)", tail
+    )
+    if section_match is None:
+        return None
+    return f"{chapter}.{section_match.group(1)}"
 
 
 def expand_item_lines(item, page_order):
@@ -253,6 +273,20 @@ def validate(items_path):
         # Scope-approved wanted theorems use the same narrow metadata policy as
         # the source scanner. A bare legacy `proof_wanted` status is rejected.
         errors.extend(validate_item_approval(item))
+
+        # Stage 3.2 claim records must stay attached to the source section named
+        # by their item ID. This catches a syntactically valid but dangerous
+        # failure mode where a broad JSON patch lands on an earlier item with
+        # the same generic fields.
+        claim_coverage = item.get("claim_coverage")
+        expected_section = section_from_item_id(item_id)
+        if isinstance(claim_coverage, dict) and expected_section is not None:
+            actual_section = claim_coverage.get("section")
+            if actual_section is not None and str(actual_section) != expected_section:
+                errors.append(
+                    f"{prefix}: claim_coverage.section is {actual_section!r}, "
+                    f"expected {expected_section!r} from the item id"
+                )
 
         # Line number types
         if not isinstance(item["start_line"], int):
