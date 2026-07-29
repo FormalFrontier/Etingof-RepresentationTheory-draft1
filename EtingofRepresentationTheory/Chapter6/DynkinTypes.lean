@@ -71,6 +71,8 @@ def Etingof.DynkinType.adj : (t : Etingof.DynkinType) → Matrix (Fin t.rank) (F
          ((i.val = 2 ∧ j.val = 7) ∨ (j.val = 2 ∧ i.val = 7))
       then 1 else 0
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Etingof
 
 open Matrix Finset
@@ -212,7 +214,7 @@ private lemma cartan_Dn_succ' (k : ℕ) (i j : Fin (k + 4)) :
       DynkinType.adj (.D (k + 4) (by omega))) i j := by
   simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, DynkinType.adj,
     Fin.val_succ, Fin.ext_iff]
-  split_ifs <;> simp_all <;> omega
+  simp_all <;> omega
 
 /-- The D_{k+5} dot product recurrence: peel off vertex 0. -/
 private lemma Dn_dotProduct_recurrence' (k : ℕ) (x : Fin (k + 5) → ℤ) :
@@ -236,16 +238,18 @@ private lemma Dn_dotProduct_recurrence' (k : ℕ) (x : Fin (k + 5) → ℤ) :
     rw [Fin.sum_univ_succ (f := fun j : Fin (k + 4) => C 0 (Fin.succ j) * x (Fin.succ j))]
     have hC00 : C 0 0 = 2 := by
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
-        DynkinType.adj, Fin.val_zero, Fin.ext_iff]; split_ifs <;> simp_all <;> omega
+        DynkinType.adj, Fin.val_zero, Fin.ext_iff]
+      simp_all <;> omega
     have hC01 : C 0 (Fin.succ (0 : Fin (k + 4))) = -1 := by
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
-        DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]; split_ifs <;> simp_all <;> omega
+        DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
+      simp_all <;> omega
     have hrest : ∑ i : Fin (k + 3), C 0 (Fin.succ (Fin.succ i)) * x (Fin.succ (Fin.succ i)) = 0 :=
       Finset.sum_eq_zero fun j _ => by
         have : C 0 (Fin.succ (Fin.succ j)) = 0 := by
           simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
             DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
-          split_ifs <;> simp_all <;> omega
+          simp_all <;> omega
         rw [this, zero_mul]
     rw [hC00, hC01, hrest]
     have : x (Fin.succ (0 : Fin (k + 4))) = x ⟨1, by omega⟩ := by congr 1
@@ -268,13 +272,13 @@ private lemma Dn_dotProduct_recurrence' (k : ℕ) (x : Fin (k + 5) → ℤ) :
     have hC10 : C (Fin.succ (0 : Fin (k + 4))) 0 = -1 := by
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
         DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
-      split_ifs <;> simp_all <;> omega
+      simp_all <;> omega
     rw [hC10]
     have hrest : ∀ j : Fin (k + 3), C (Fin.succ (Fin.succ j)) 0 = 0 := by
       intro j
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
         DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
-      split_ifs <;> simp_all <;> omega
+      simp_all <;> omega
     have : ∑ j : Fin (k + 3), x (Fin.succ (Fin.succ j)) *
         (C (Fin.succ (Fin.succ j)) 0 * x 0) = 0 :=
       Finset.sum_eq_zero (fun j _ => by rw [hrest]; ring)
@@ -400,7 +404,7 @@ private lemma cartan_An_succ (k : ℕ) (i j : Fin (k + 1)) :
       DynkinType.adj (.A (k + 1) (by omega))) i j := by
   simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, DynkinType.adj,
     Fin.val_succ, Fin.ext_iff]
-  split_ifs <;> omega
+  simp_all <;> omega
 
 /-- Cartan matrix entry C(0, succ(succ j)) = 0 for A_{k+2}. -/
 private lemma cartan_An_zero_ge2 (k : ℕ) (j : Fin k) :
@@ -408,15 +412,15 @@ private lemma cartan_An_zero_ge2 (k : ℕ) (j : Fin k) :
       DynkinType.adj (.A (k + 2) (by omega))) 0 (Fin.succ (Fin.succ j)) = 0 := by
   simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, DynkinType.adj,
     Fin.val_zero, Fin.val_succ, Fin.ext_iff]
-  split_ifs <;> simp_all <;> omega
+  simp_all <;> omega
 
 /-- Cartan matrix entry C(succ i, 0) for A_{k+2}. -/
 private lemma cartan_An_succ_zero (k : ℕ) (i : Fin (k + 1)) :
     (2 • (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) ℤ) -
       DynkinType.adj (.A (k + 2) (by omega))) (Fin.succ i) 0 =
     if (i : ℕ) = 0 then -1 else 0 := by
-  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, DynkinType.adj,
-    Fin.val_zero, Fin.val_succ, Fin.ext_iff]
+  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
+    DynkinType.adj, Fin.val_zero, Fin.val_succ, Fin.ext_iff]
   split_ifs <;> simp_all <;> omega
 
 /-- The A_n quadratic form satisfies a recurrence: peeling off vertex 0. -/
@@ -442,14 +446,14 @@ private lemma An_dotProduct_recurrence (k : ℕ) (x : Fin (k + 2) → ℤ) :
     have hC00 : C 0 0 = 2 := by
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
         DynkinType.adj, Fin.val_zero, Fin.ext_iff]
-      split_ifs <;> simp_all <;> omega
+      simp_all <;> omega
     -- Remaining sum: split off j=0 in Fin (k+1)
     rw [Fin.sum_univ_succ (f := fun j : Fin (k + 1) => C 0 (Fin.succ j) * x (Fin.succ j))]
     -- Second term: C 0 (succ 0) = C 0 1 = -1
     have hC01 : C 0 (Fin.succ (0 : Fin (k + 1))) = -1 := by
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
         DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
-      split_ifs <;> simp_all <;> omega
+      simp_all <;> omega
     -- Remaining sum: C 0 (succ (succ j)) = 0 for all j
     have hrest : ∑ i : Fin k, C 0 (Fin.succ (Fin.succ i)) * x (Fin.succ (Fin.succ i)) = 0 := by
       apply Finset.sum_eq_zero; intro j _; rw [show C 0 (Fin.succ (Fin.succ j)) = 0 from cartan_An_zero_ge2 k j, zero_mul]
@@ -483,14 +487,14 @@ private lemma An_dotProduct_recurrence (k : ℕ) (x : Fin (k + 2) → ℤ) :
     have hC10 : C (Fin.succ (0 : Fin (k + 1))) 0 = -1 := by
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
         DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
-      split_ifs <;> simp_all <;> omega
+      simp_all <;> omega
     rw [hC10]
     -- Remaining terms: C(succ(succ j), 0) = 0 for all j
     have hrest : ∀ j : Fin k, C (Fin.succ (Fin.succ j)) 0 = 0 := by
       intro j
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
         DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
-      split_ifs <;> simp_all <;> omega
+      simp_all <;> omega
     have : ∑ j : Fin k, x (Fin.succ (Fin.succ j)) *
         (C (Fin.succ (Fin.succ j)) 0 * x 0) = 0 := by
       apply Finset.sum_eq_zero; intro j _; rw [hrest]; ring
@@ -519,8 +523,8 @@ private lemma pathQF_eq_dotProduct (n : ℕ) (hn : 1 ≤ n) (x : Fin n → ℤ) 
     simp only [show Finset.univ (α := Fin (0 + 1)) = {0} from rfl, Finset.sum_singleton]
     have hmat : (2 • (1 : Matrix (Fin (0 + 1)) (Fin (0 + 1)) ℤ) -
         DynkinType.adj (.A (0 + 1) (by omega))) 0 0 = 2 := by
-      simp [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, Matrix.ofNat_apply,
-        smul_eq_mul, DynkinType.adj, Fin.ext_iff, Fin.val_zero]
+      change (2 : ℤ) = 2
+      rfl
     rw [hmat]; simp [Fin.ext_iff]; ring
   | succ k ih =>
     -- n = k + 2
@@ -847,7 +851,7 @@ private lemma E6_isDynkin : IsDynkinDiagram 6 (DynkinType.adj .E6) := by
     set a := x 0; set b := x 1; set c := x 2; set d := x 3; set e := x 4; set f := x 5
     -- It suffices to show 60 * q(x) > 0 (since 60 > 0)
     suffices h60 : 0 < 60 * dotProduct x
-        ((2 • (1 : Matrix (Fin 6) (Fin 6) ℤ) - DynkinType.adj .E6).mulVec x) by linarith
+        ((2 • (1 : Matrix (Fin 6) (Fin 6) ℤ) - DynkinType.adj .E6).mulVec x) by nlinarith
     -- Step 1: Expand the quadratic form to a polynomial in a,b,c,d,e,f
     have expand : dotProduct x ((2 • (1 : Matrix (Fin 6) (Fin 6) ℤ) -
         DynkinType.adj .E6).mulVec x) =
@@ -954,7 +958,7 @@ private lemma E7_isDynkin : IsDynkinDiagram 7 (DynkinType.adj .E7) := by
     set a := x 0; set b := x 1; set c := x 2; set d := x 3
     set e := x 4; set f := x 5; set g := x 6
     suffices h420 : 0 < 420 * dotProduct x
-        ((2 • (1 : Matrix (Fin 7) (Fin 7) ℤ) - DynkinType.adj .E7).mulVec x) by linarith
+        ((2 • (1 : Matrix (Fin 7) (Fin 7) ℤ) - DynkinType.adj .E7).mulVec x) by nlinarith
     have expand : dotProduct x ((2 • (1 : Matrix (Fin 7) (Fin 7) ℤ) -
         DynkinType.adj .E7).mulVec x) =
         2*a^2 + 2*b^2 + 2*c^2 + 2*d^2 + 2*e^2 + 2*f^2 + 2*g^2 -
@@ -1064,7 +1068,7 @@ private lemma E8_isDynkin : IsDynkinDiagram 8 (DynkinType.adj .E8) := by
     set a := x 0; set b := x 1; set c := x 2; set d := x 3
     set e := x 4; set f := x 5; set g := x 6; set h := x 7
     suffices h840 : 0 < 840 * dotProduct x
-        ((2 • (1 : Matrix (Fin 8) (Fin 8) ℤ) - DynkinType.adj .E8).mulVec x) by linarith
+        ((2 • (1 : Matrix (Fin 8) (Fin 8) ℤ) - DynkinType.adj .E8).mulVec x) by nlinarith
     have expand : dotProduct x ((2 • (1 : Matrix (Fin 8) (Fin 8) ℤ) -
         DynkinType.adj .E8).mulVec x) =
         2*a^2 + 2*b^2 + 2*c^2 + 2*d^2 + 2*e^2 + 2*f^2 + 2*g^2 + 2*h^2 -

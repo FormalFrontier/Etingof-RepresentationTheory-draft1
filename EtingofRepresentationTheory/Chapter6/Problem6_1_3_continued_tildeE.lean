@@ -25,6 +25,8 @@ The marks are the standard positive integers making each `A = 2·Id - R` have a
 positive null vector, so `A` is positive semidefinite but degenerate.
 -/
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Etingof.Problem6_1_3_tildeE
 
 open Matrix Finset

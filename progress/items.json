@@ -19644,6 +19644,10 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.1", "reviewed_on": "2026-07-29", "result": "chapter_heading"},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -19658,6 +19662,10 @@
     "start_line": 3,
     "end_line": 4,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.1", "reviewed_on": "2026-07-29", "result": "section_heading"},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -19722,7 +19730,7 @@
     "end_page": "149",
     "start_line": 7,
     "end_line": 13,
-    "status": "proved",
+    "status": "sorry_free",
     "fidelity": "verified",
     "coverage": "covered_full",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
@@ -19831,7 +19839,12 @@
     "end_line": 4,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.1", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "A Dynkin diagram is a connected simply-laced graph whose Cartan form 2I−R is positive definite.", "verdict": "formalized", "lean_decl": "Etingof.IsDynkinDiagram"}
+    ]}
   },
   {
     "id": "Chapter6/Discussion_after_Definition6.1.4",
@@ -19844,7 +19857,8 @@
     "status": "sorry_free",
     "coverage": "covered_full",
     "coverage_note": "Section-transition prose introducing the Dynkin classification; the substantive classification theorem and its finite/affine cases are publicly formalized in the immediately following Chapter 6 files.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.1", "reviewed_on": "2026-07-29", "result": "transition_prose"}
   },
   {
     "id": "Chapter6/Theorem_Dynkin_classification",
@@ -19859,7 +19873,10 @@
     "needs_statement": false,
     "coverage": "covered_full",
     "coverage_note": "The exact finite ADE Dynkin-diagram classification is public in Theorem_Dynkin_classification.lean.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.1", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "Every connected simply-laced positive-definite diagram is of type A, D, E6, E7, or E8, and conversely each listed type is Dynkin.", "verdict": "formalized", "lean_decl": "Etingof.Theorem_Dynkin_classification"}
+    ]}
   },
   {
     "id": "Chapter6/Problem6.1.3_continued_E7_E8",
@@ -20083,12 +20100,15 @@
     "start_line": 1,
     "end_line": 4,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "needs_statement": false,
-    "coverage": "covered_partial",
-    "coverage_note": "The intended finite-type iff Dynkin theorem is source-present, but a clean rebuild is blocked by the decomposition dependency (#7525) and the Gabriel-theorem source regression (#7518).",
-    "coverage_issue": 7525,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "The finite-representation-type iff Dynkin theorem and its decomposition/Gabriel dependencies pass fresh source checks. The former #7525 and #7518 blockers are closed.",
+    "lean_ref": "EtingofRepresentationTheory/Chapter6/Problem6_1_5_theorem.lean :: Etingof.Theorem_6_1_5",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.1", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "A connected quiver has finite representation type exactly when its underlying graph is Dynkin.", "verdict": "formalized", "lean_decl": "Etingof.Theorem_6_1_5"}
+    ]}
   },
   {
     "id": "Chapter6/Problem6.1.5_parts",
@@ -20098,7 +20118,7 @@
     "end_page": "153",
     "start_line": 5,
     "end_line": 20,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "fidelity": "verified",
     "coverage": "covered_full",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
@@ -20182,16 +20202,16 @@
     "end_page": "154",
     "start_line": 21,
     "end_line": 6,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "fidelity": "verified",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "lean_decl": [
       "Etingof.Problem6_1_6.mult_symm",
       "Etingof.Problem6_1_6.mckay_connected",
       "Etingof.Problem6_1_6.mckay_isAffineDynkin",
       "Etingof.Problem6_1_6.mckay_dims_are_marks"
     ],
-    "coverage_note": "Final source-subpart audit complete. Every implemented unit is recorded in claim_coverage; the only departed source units link exactly to skipped-exercises.md#problem-616--residual-mckay-correspondence-classification. The current providers compile in the repository-wide build.",
+    "coverage_note": "Final source-subpart audit complete. Every in-scope unit is formalized; the only departed source units link exactly to skipped-exercises.md#problem-616--residual-mckay-correspondence-classification. The provider passes a fresh source check.",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter6/Problem6_1_6.lean"
     ],
@@ -20295,7 +20315,7 @@
         }
       ]
     },
-    "last_updated": "2026-07-28"
+    "last_updated": "2026-07-29"
   },
   {
     "id": "Chapter6/Section6.2_heading",

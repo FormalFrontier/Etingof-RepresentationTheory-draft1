@@ -34,6 +34,8 @@ Krull–Schmidt / uniqueness of the decomposition is deliberately not used: we o
 need a surjection from a finite index, not a well-defined invariant.
 -/
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Etingof
 
 open Etingof.QuiverRepresentation MulAction

@@ -32,6 +32,8 @@ definite". The determinant values are the standard connection indices:
 We reuse the standard adjacency matrices `Etingof.DynkinType.adj`.
 -/
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Etingof.Problem6_1_3_E7E8
 
 open Matrix Finset
