@@ -10,6 +10,7 @@ normalizes terminal metadata after a successful source/build audit.
 
 from __future__ import annotations
 
+import argparse
 import json
 from collections import Counter
 from pathlib import Path
@@ -464,9 +465,19 @@ def normalize_existing_claims(item: dict[str, object]) -> None:
             elif item_id in PARTIAL_SCOPE_REFS:
                 claim["scope_ref"] = PARTIAL_SCOPE_REFS[item_id]
 
+    if item_id == "Chapter2/Problem2.15.1":
+        item["stage3_3"]["scope_note"] = (
+            "The declaration list records the source-facing proof endpoints. The audit "
+            "programmatically checked all exported and provider-attributed constants. "
+            "The proof-route intermediates in parts (i)--(k) are accepted derived units "
+            "because complete_reducibility and sl2Module_decomposition prove their intended "
+            "global conclusion; the analytic hint in part (m) is covered by the algebraic "
+            "character-polynomial identity and explicit module isomorphism."
+        )
 
-def write_summary(exercises: list[dict[str, object]]) -> None:
-    """Write the human-readable projection of the machine ledger."""
+
+def render_summary(exercises: list[dict[str, object]]) -> str:
+    """Render the human-readable projection of the machine ledger."""
     verdicts: Counter[str] = Counter()
     rows: list[str] = []
     for item in exercises:
@@ -518,10 +529,18 @@ def write_summary(exercises: list[dict[str, object]]) -> None:
         *rows,
         "",
     ]
-    SUMMARY.write_text("\n".join(lines))
+    return "\n".join(lines)
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="fail if the checked-in ledger or summary is not already normalized",
+    )
+    args = parser.parse_args(argv)
+
     items = json.loads(ITEMS.read_text())
     exercises = [item for item in items if item.get("type") == "exercise"]
     missing = {item["id"] for item in exercises if item.get("claim_coverage") is None}
@@ -574,9 +593,25 @@ def main() -> None:
         ):
             item.pop(stale_key, None)
 
-    ITEMS.write_text(json.dumps(items, indent=2, ensure_ascii=False) + "\n")
-    write_summary(exercises)
-    print(f"Normalized {len(exercises)} exercise/problem records")
+    rendered_items = json.dumps(items, indent=2, ensure_ascii=False) + "\n"
+    rendered_summary = render_summary(exercises)
+    if args.check:
+        stale: list[str] = []
+        if ITEMS.read_text() != rendered_items:
+            stale.append(str(ITEMS.relative_to(ROOT)))
+        if not SUMMARY.is_file() or SUMMARY.read_text() != rendered_summary:
+            stale.append(str(SUMMARY.relative_to(ROOT)))
+        if stale:
+            raise SystemExit(
+                "exercise coverage artifacts are stale; run "
+                "python3 scripts/reconcile_exercise_coverage.py:\n  "
+                + "\n  ".join(stale)
+            )
+        print(f"Exercise coverage artifacts are normalized ({len(exercises)} items)")
+    else:
+        ITEMS.write_text(rendered_items)
+        SUMMARY.write_text(rendered_summary)
+        print(f"Normalized {len(exercises)} exercise/problem records")
 
 
 if __name__ == "__main__":
