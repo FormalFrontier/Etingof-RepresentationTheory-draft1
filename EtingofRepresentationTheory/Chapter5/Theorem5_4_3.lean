@@ -39,13 +39,13 @@ theorem Etingof.Theorem5_4_3
   by_cases hn : n ≤ 1
   · have : Subsingleton H := by rwa [← Fintype.card_le_one_iff_subsingleton, hcard]
     exact @isSolvable_of_subsingleton H _ this
-  push_neg at hn
+  push Not at hn
   haveI : Nontrivial H := by
     rw [← Fintype.one_lt_card_iff_nontrivial]; omega
   -- Abelian → solvable
   by_cases hcomm : ∀ x y : H, x * y = y * x
   · exact isSolvable_of_comm hcomm
-  push_neg at hcomm
+  push Not at hcomm
   -- Non-abelian: find proper nontrivial normal subgroup
   -- Center is not all of H
   have hcenter_ne_top : Subgroup.center H ≠ ⊤ := by
@@ -121,7 +121,7 @@ theorem Etingof.Theorem5_4_3
     set cl := Fintype.card { h : H // IsConj g h }
     -- cl > 1 (g ∉ center since center is trivial)
     have hcl_gt : 1 < cl := by
-      by_contra h; push_neg at h
+      by_contra h; push Not at h
       have hcl_pos : 0 < cl := @Fintype.card_pos _ _ ⟨⟨g, IsConj.refl g⟩⟩
       have hcl_one : cl = 1 := by omega
       -- If conjugacy class has size 1, g is in the center
@@ -131,7 +131,7 @@ theorem Etingof.Theorem5_4_3
           intro h hc
           have := Fintype.card_le_one_iff_subsingleton.mp (by omega : cl ≤ 1)
           exact Subtype.ext_iff.mp (this.allEq ⟨h, hc⟩ ⟨g, IsConj.refl g⟩)
-        by_contra hne; push_neg at hne
+        by_contra hne; push Not at hne
         have hconj : IsConj g (y * g * y⁻¹) :=
           ⟨⟨y, y⁻¹, mul_inv_cancel y, inv_mul_cancel y⟩, by
             show y * g = y * g * y⁻¹ * y; group⟩
@@ -232,7 +232,7 @@ theorem Etingof.Theorem5_4_3
       huniq d hd hd_dvd
     set k := cl.primeFactorsList.length
     have hk_pos : 0 < k := by
-      by_contra h; push_neg at h
+      by_contra h; push Not at h
       have hk0 : k = 0 := by omega
       rw [hcl_eq, hk0, pow_zero] at hcl_gt
       omega

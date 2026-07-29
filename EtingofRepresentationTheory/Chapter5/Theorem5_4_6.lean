@@ -22,6 +22,7 @@ section Helpers
 
 variable (G : Type) [Group G] [Fintype G] [DecidableEq G]
 
+omit [DecidableEq G] in
 /-- Character values of representations of finite groups are algebraic integers. -/
 private lemma character_isIntegral (V : FDRep ℂ G) (g : G) :
     IsIntegral ℤ (V.character g) := by
@@ -48,7 +49,7 @@ private lemma character_isIntegral (V : FDRep ℂ G) (g : G) :
     by_contra h
     rw [not_nonempty_iff] at h
     have : M.charpoly = 1 := by simp [Matrix.charpoly, Matrix.det_isEmpty]
-    simp [this] at hr
+    simp at hr
   -- r^n = 1 via spectrum
   have h_spec : r ∈ spectrum ℂ M :=
     Matrix.mem_spectrum_iff_isRoot_charpoly.mpr hr_root
@@ -59,15 +60,17 @@ private lemma character_isIntegral (V : FDRep ℂ G) (g : G) :
   -- r is integral: root of the monic polynomial X^n - 1 over ℤ
   refine ⟨Polynomial.X ^ n - 1,
     Polynomial.monic_X_pow_sub_C 1 Fintype.card_pos.ne', ?_⟩
-  simp only [Polynomial.aeval_def, Polynomial.eval₂_sub, Polynomial.eval₂_pow,
+  simp only [Polynomial.eval₂_sub, Polynomial.eval₂_pow,
     Polynomial.eval₂_X, Polynomial.eval₂_one, hrn, sub_self]
 
+omit [Fintype G] [DecidableEq G] in
 /-- The trivial representation character at any g is 1. -/
 private lemma trivial_character_eq_one (g : G) :
     (FDRep.of (Representation.trivial ℂ G ℂ)).character g = 1 := by
   change LinearMap.trace ℂ ℂ ((Representation.trivial ℂ G ℂ) g) = 1
   simp [Representation.trivial]
 
+omit [DecidableEq G] in
 /-- The trivial FDRep is simple. -/
 private lemma trivialFDRep_simple :
     Simple (FDRep.of (Representation.trivial ℂ G ℂ)) := by
@@ -88,6 +91,7 @@ private lemma trivialFDRep_simple :
     rw [(Representation.trivial ℂ G ℂ).asModuleEquiv.finrank_eq, Module.finrank_self]
   infer_instance
 
+omit [Fintype G] [DecidableEq G] in
 /-- If all elements of G act as scalars on an irreducible representation V, then finrank V = 1. -/
 private lemma finrank_eq_one_of_all_scalar
     (V : FDRep ℂ G) [Representation.IsIrreducible V.ρ]
@@ -123,6 +127,7 @@ private lemma finrank_eq_one_of_all_scalar
   exact (finrank_eq_one_iff_of_nonzero v hv).mpr
     (congr_arg Subrepresentation.toSubmodule htop)
 
+omit [Fintype G] [DecidableEq G] in
 /-- Scalar action on dim ≥ 2 irrep contradicts simplicity of G. -/
 private lemma scalar_contradicts_simplicity [IsSimpleGroup G]
     (V : FDRep ℂ G) [Representation.IsIrreducible V.ρ]
@@ -135,7 +140,7 @@ private lemma scalar_contradicts_simplicity [IsSimpleGroup G]
     -- ρ(g) = c•id commutes with all ρ(h), so g is central
     have hg_center : g ∈ Subgroup.center G := by
       rw [Subgroup.mem_center_iff]; intro h; apply hinj
-      simp only [map_mul, hsc]; ext; simp [smul_smul, mul_comm]
+      simp only [map_mul, hsc]; ext; simp
     -- Z(G) ≠ ⊥ since g ∈ Z(G) and g ≠ 1
     have hcenter_ne_bot : Subgroup.center G ≠ ⊥ := by
       intro h; exact hg (Subgroup.mem_bot.mp (h ▸ hg_center))
@@ -173,12 +178,12 @@ private lemma fdRep_iso_trivial_of_ker_top
 
 omit [Fintype G] [DecidableEq G] in
 /-- Nontrivial irreps of a non-abelian simple group have dim ≥ 2. -/
-private lemma nontrivial_irrep_dim_ge_two [IsSimpleGroup G] [Nontrivial G]
+private lemma nontrivial_irrep_dim_ge_two [IsSimpleGroup G]
     (V : FDRep ℂ G) [Representation.IsIrreducible V.ρ]
     (hntv : ¬Nonempty (V ≅ FDRep.of (Representation.trivial ℂ G ℂ)))
     (hnoncomm : ¬IsMulCommutative G) :
     2 ≤ Module.finrank ℂ V := by
-  by_contra h; push_neg at h
+  by_contra h; push Not at h
   -- finrank V ≥ 1 since V is nontrivial (from IsIrreducible)
   have hnt : Nontrivial V := by
     by_contra hnt; rw [not_nontrivial_iff_subsingleton] at hnt
@@ -358,7 +363,7 @@ theorem Etingof.Theorem5_4_6
     rw [card_conjClass_one] at hconj
     have : 2 ≤ p ^ k := le_trans hp.two_le (Nat.le_self_pow hk.ne' p)
     omega
-  by_contra habs; push_neg at habs
+  by_contra habs; push Not at habs
   haveI : Nontrivial G := ⟨⟨g, 1, hg_ne⟩⟩
   haveI : IsSimpleGroup G :=
     { eq_bot_or_eq_top_of_normal := fun H hH => by

@@ -16473,7 +16473,15 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "covered"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "5.4", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [{"claim": "The section develops Burnside's p^a q^b solvability theorem.", "verdict": "context_only", "lean_decl": "Etingof.Theorem5_4_3"}]
     }
   },
   {
@@ -16489,7 +16497,12 @@
     "sorry_free": true,
     "fidelity_note": "The standard public Mathlib predicate IsSolvable is exactly the source derived-series definition.",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "5.4", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [{"claim": "A solvable group is one admitting a finite normal series with abelian successive quotients, equivalently one whose derived series terminates.", "verdict": "covered_elsewhere", "lean_decl": "IsSolvable"}]
+    }
   },
   {
     "id": "Chapter5/Remark5.4.2",
@@ -16500,23 +16513,35 @@
     "start_line": 13,
     "end_line": 14,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "5.4", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [{"claim": "The term solvable comes from Galois groups of equations solvable by radicals.", "verdict": "historical_context"}]
+    }
   },
   {
     "id": "Chapter5/Theorem5.4.3",
-    "source_regression_note": "Clean rebuild imports the broken Theorem5_4_6 source (#7515).",
+    "source_regression_note": "Resolved: the complete dependency chain through Theorem 5.4.6 passes fresh source checks and the repository build.",
     "type": "theorem",
     "title": "Burnside's theorem: groups of order p^a q^b are solvable",
     "start_page": "100",
     "end_page": "100",
     "start_line": 15,
     "end_line": 16,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "coverage_issue": 7515,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "5.4", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [{"claim": "Every finite group of order p^a q^b, for primes p and q, is solvable.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_4_3"}]
+    }
   },
   {
     "id": "Chapter5/Discussion_after_Theorem5.4.3",
@@ -16529,7 +16554,15 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "covered"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "5.4", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [{"claim": "This is Burnside's representation-theoretic theorem and the section first proves independent supporting results.", "verdict": "historical_context"}]
     }
   },
   {
@@ -16540,13 +16573,18 @@
     "end_page": "100",
     "start_line": 21,
     "end_line": 22,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "The intended theorem is present, but Theorem5_4_4.lean fails a fresh source check because a required scalar-tower instance cannot be synthesized; regression #7514.",
+    "coverage": "covered_full",
+    "coverage_note": "Resolved regression #7514: the exact dichotomy now passes a fresh source check and the repository-wide build.",
     "coverage_issue": 7514,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "5.4", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [{"claim": "If gcd(|C(g)|,dim V)=1 for an irreducible V, then chi_V(g)=0 or rho_V(g) is scalar.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_4_4"}]
+    }
   },
   {
     "id": "Chapter5/Discussion_before_Lemma5.4.5",
@@ -16559,7 +16597,15 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "covered"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "5.4", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [{"claim": "Lemma 5.4.5 supplies the roots-of-unity input for Theorem 5.4.4.", "verdict": "formalized", "lean_decl": "Etingof.Lemma5_4_5; Etingof.Theorem5_4_4"}]
     }
   },
   {
@@ -16574,7 +16620,12 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "5.4", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [{"claim": "If roots of unity have algebraic-integer average, then they are all equal or their sum is zero.", "verdict": "formalized", "lean_decl": "Etingof.Lemma5_4_5"}]
+    }
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.4.4",
@@ -16589,11 +16640,19 @@
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The character-integrality proof is source-present, but Theorem5_4_4.lean currently fails a fresh check at a scalar-tower instance; regression #7514.",
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "Resolved regression #7514: the character-integrality, Bezout, roots-of-unity, and scalar-action proof now passes fresh checks.",
     "coverage_issue": 7514,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "5.4", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [
+        {"claim": "Bezout combines integrality of chi(g) and |C|chi(g)/dim(V) to make the eigenvalue average integral.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_4_4"},
+        {"claim": "Lemma 5.4.5 forces zero trace or equal eigenvalues; finite-order semisimplicity turns equal eigenvalues into scalar action.", "verdict": "formalized", "lean_decl": "Etingof.Lemma5_4_5; Etingof.Theorem5_4_4"}
+      ]
+    }
   },
   {
     "id": "Chapter5/Theorem5.4.6",
@@ -16603,13 +16662,21 @@
     "end_page": "101",
     "start_line": 9,
     "end_line": 22,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "notes": "The helper lemmas are source-present, but the current file does not elaborate because the trivial-representation module lacks a required scalar-tower instance; regression #7515.",
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "notes": "Resolved regression #7515: all helper lemmas and the public nonsimplicity theorem elaborate and pass the repository build.",
     "sorry_free": true,
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "coverage_issue": 7515,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "5.4", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [
+        {"claim": "A finite group with a conjugacy class of size p^k for prime p and k>0 has a proper nontrivial normal subgroup.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_4_6"},
+        {"claim": "The proof uses column orthogonality, the p-divisible/non-p-divisible partition, Theorem 5.4.4, and algebraic integrality to rule out simplicity.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_4_6"}
+      ]
+    }
   },
   {
     "id": "Chapter5/Lemma5.4.7",
@@ -16623,7 +16690,12 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "5.4", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [{"claim": "There is a nontrivial irreducible V with p not dividing dim(V) and chi_V(g) nonzero.", "verdict": "formalized", "lean_decl": "Etingof.Lemma5_4_7"}]
+    }
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.4.6",
@@ -16638,11 +16710,19 @@
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The nonsimplicity proof is source-present, but Theorem5_4_6.lean currently fails a fresh check at the trivial-representation scalar tower; regression #7515.",
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "Resolved regression #7515: the completed proof rules out simplicity and returns a proper nontrivial normal subgroup.",
     "coverage_issue": 7515,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "5.4", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [
+        {"claim": "Theorem 5.4.4 applied to the representation from Lemma 5.4.7 produces scalar action and hence nonsimplicity.", "verdict": "formalized", "lean_decl": "Etingof.Lemma5_4_7; Etingof.Theorem5_4_4; Etingof.Theorem5_4_6"},
+        {"claim": "The book's particular subgroup generated by ab⁻¹ for a,b in C is proper, nontrivial, and normal.", "verdict": "intentional_omission", "reason": "The provider proves the stronger required endpoint by contradiction from simplicity; the particular witness subgroup is a proof-route artifact and is not separately packaged."}
+      ]
+    }
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.4.3",
@@ -16655,7 +16735,17 @@
     "status": "sorry_free",
     "coverage": "covered_full",
     "coverage_note": "The Burnside p^a q^b solvability conclusion is exposed publicly as Etingof.Theorem5_4_3 with the section proof formalized in its dependency chain.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "5.4", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [
+        {"claim": "A minimal nonsolvable p^a q^b group would be simple, since solvability is preserved under extensions.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_4_3"},
+        {"claim": "Sylow theory produces a noncentral conjugacy class of prime-power size unless the center itself supplies a proper nontrivial normal subgroup.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_4_3; Etingof.Theorem5_4_6"},
+        {"claim": "The resulting proper normal subgroup and quotient are smaller p^a q^b groups, so induction proves solvability.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_4_3"}
+      ]
+    }
   },
   {
     "id": "Chapter5/Introduction_5.5",

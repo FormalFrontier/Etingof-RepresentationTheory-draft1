@@ -150,7 +150,7 @@ theorem Etingof.Lemma5_4_5
       obtain ⟨m, hm, hpow⟩ := hε i
       exact Complex.norm_eq_one_of_pow_eq_one hpow (Nat.pos_iff_ne_zero.mp hm)
     by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨i, j, hij⟩ := h
     have hnn : (n : ℝ) ≠ 0 := Nat.cast_ne_zero.mpr (Nat.pos_iff_ne_zero.mp hn)
     have hlt : ‖(∑ i, ε i) / (n : ℂ)‖ < 1 := by
