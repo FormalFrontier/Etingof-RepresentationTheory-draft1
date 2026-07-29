@@ -21399,6 +21399,11 @@
     "start_line": 1,
     "end_line": 4,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "The chapter title and scope are represented by the Chapter7 umbrella module.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.1", "reviewed_on": "2026-07-29", "claims": [{"claim": "Chapter 7 introduces categories.", "verdict": "formalized", "lean_decl": "EtingofRepresentationTheory.Chapter7"}]},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -21413,6 +21418,11 @@
     "start_line": 5,
     "end_line": 12,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "The historical and motivational prose makes no mathematical claim requiring a Lean declaration; the section's category-theoretic content is covered by the following items.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.1", "reviewed_on": "2026-07-29", "claims": [{"claim": "Historical and motivational introduction to category theory.", "verdict": "non_formalizable"}]},
     "coverage_swept": {
       "wave": 1,
       "result": "non_formalizable"
@@ -21428,7 +21438,11 @@
     "end_line": 14,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The source data and axioms are exactly Mathlib's universe-polymorphic Category typeclass.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.1", "reviewed_on": "2026-07-29", "claims": [{"claim": "A category consists of objects, morphisms, associative composition, and identity morphisms.", "verdict": "formalized", "lean_decl": "Etingof.Category"}]}
   },
   {
     "id": "Chapter7/Remark7.1.2",
@@ -21439,7 +21453,11 @@
     "start_line": 15,
     "end_line": 16,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "This is a prose notation convention rather than a proposition; Lean represents objects directly as terms of the category's object type.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.1", "reviewed_on": "2026-07-29", "claims": [{"claim": "Write X in C for an object of C.", "verdict": "non_formalizable"}]}
   },
   {
     "id": "Chapter7/Example7.1.3",
@@ -21454,7 +21472,8 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "All six category examples are publicly represented, including HomotopyTopCat as the quotient of TopCat by homotopy of continuous maps.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.1", "reviewed_on": "2026-07-29", "claims": [{"claim": "Sets, groups, rings, vector spaces, modules, topological spaces, and the homotopy quotient are categories.", "verdict": "formalized", "lean_decl": "homotopyRel; HomotopyTopCat"}]}
   },
   {
     "id": "Chapter7/Discussion_after_Example7.1.3",
@@ -21465,6 +21484,11 @@
     "start_line": 29,
     "end_line": 2,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Lean's universe-polymorphic locally small categories implement the set/class distinction described in the prose.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.1", "reviewed_on": "2026-07-29", "claims": [{"claim": "Categories may have a proper class of objects while each hom collection is small.", "verdict": "formalized", "lean_decl": "CategoryTheory.Category"}]},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -21480,7 +21504,11 @@
     "end_line": 4,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "A predicate on objects with inherited homs is exactly Mathlib's full subcategory construction.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.1", "reviewed_on": "2026-07-29", "claims": [{"claim": "A full subcategory inherits every ambient morphism between its objects.", "verdict": "formalized", "lean_decl": "Etingof.FullSubcategory"}]}
   },
   {
     "id": "Chapter7/Example7.1.5",
@@ -21496,7 +21524,9 @@
     "fidelity_decl": "example : (forget₂ CommGrpCat GrpCat).FullyFaithful",
     "fidelity_issue": 5594,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "coverage_note": "The forgetful functor from commutative groups to groups is proved fully faithful.",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.1", "reviewed_on": "2026-07-29", "claims": [{"claim": "Abelian groups form a full subcategory of groups.", "verdict": "formalized", "lean_decl": "CategoryTheory.Functor.FullyFaithful.ofFullyFaithful"}]}
   },
   {
     "id": "Chapter7/Discussion_after_Example7.1.5",
@@ -21512,7 +21542,8 @@
     "coverage": "covered_full",
     "coverage_note": "EnrichedRepresentability.lean exposes Mathlib's EnrichedCategory and eComp through source-facing declarations EnrichedCategory and enrichedComposition.",
     "fidelity_issue": 7473,
-    "last_updated": "2026-07-26",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.1", "reviewed_on": "2026-07-29", "claims": [{"claim": "An enriched category has hom-objects and composition morphisms in a monoidal category.", "verdict": "formalized", "lean_decl": "Etingof.EnrichedCategory; Etingof.enrichedComposition"}]},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -21531,7 +21562,8 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "The public Linear k (ModuleCat A) enrichment supplies the source Hom-space vector-space structure and bilinear composition.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.1", "reviewed_on": "2026-07-29", "claims": [{"claim": "Representations of a k-algebra are enriched over k-vector spaces.", "verdict": "formalized", "lean_decl": "CategoryTheory.Linear"}]}
   },
   {
     "id": "Chapter7/Introduction_7.2",
