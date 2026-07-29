@@ -1,5 +1,7 @@
 import EtingofRepresentationTheory.Chapter6.Problem6_9_1
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Problem 6.9.1: isomorphism-level exhaustiveness
 

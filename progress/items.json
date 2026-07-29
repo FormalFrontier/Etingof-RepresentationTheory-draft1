@@ -21120,6 +21120,13 @@
     "start_line": 29,
     "end_line": 30,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "needs_statement": false,
+    "sorry_free": true,
+    "coverage_note": "Section heading for the fully audited problem set; every in-scope formalizable unit is covered, with the exact intentional omission recorded in skipped-exercises.md.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.9", "reviewed_on": "2026-07-29", "claims": [{"claim": "The section's three problems have complete final exercise audits and fresh source checks.", "verdict": "formalized", "lean_decl": "Etingof.Problem6_9_1; Etingof.Problem6_9_2.rootsOf_E8_type_E8; Etingof.Problem6_9_3.exists_jordanHolderSeries"}]},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -21134,9 +21141,9 @@
     "start_line": 31,
     "end_line": 14,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "coverage_note": "Final source-subpart audit complete. Every implemented unit is recorded in claim_coverage; the only departed source units link exactly to skipped-exercises.md#problem-691d--kronecker-quiver-classification. The current providers compile in the repository-wide build.",
-    "last_updated": "2026-07-28",
+    "coverage": "covered_full",
+    "coverage_note": "Final source-subpart audit complete. Every in-scope formalizable unit is recorded in claim_coverage; the only intentional omission links exactly to skipped-exercises.md#problem-691d--kronecker-quiver-classification, and the open-ended generalization is recorded as non-formalizable. Both providers pass fresh source checks.",
+    "last_updated": "2026-07-29",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter6/Problem6_9_1.lean",
       "EtingofRepresentationTheory/Chapter6/Problem6_9_1_Classification.lean"
@@ -21144,7 +21151,7 @@
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-07-28",
+      "reviewed_on": "2026-07-29",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -21234,17 +21241,17 @@
     "end_line": 24,
     "status": "sorry_free",
     "fidelity": "verified",
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
+    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; both providers pass fresh source checks.",
     "coverage": "covered_full",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter6/Problem6_9_2.lean",
       "EtingofRepresentationTheory/Chapter6/Problem6_9_2_RootSystem.lean"
     ],
-    "last_updated": "2026-07-28",
+    "last_updated": "2026-07-29",
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-07-28",
+      "reviewed_on": "2026-07-29",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -21322,8 +21329,8 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "coverage": "covered_full",
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
-    "last_updated": "2026-07-28",
+    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; both providers pass fresh source checks.",
+    "last_updated": "2026-07-29",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter6/Problem6_9_3.lean",
       "EtingofRepresentationTheory/Chapter6/Problem6_9_3_JordanHolder.lean"
@@ -21331,7 +21338,7 @@
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-07-28",
+      "reviewed_on": "2026-07-29",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
