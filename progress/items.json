@@ -18733,6 +18733,10 @@
     "start_line": 15,
     "end_line": 16,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.22", "reviewed_on": "2026-07-29", "result": "section_heading"},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -18747,6 +18751,13 @@
     "start_line": 17,
     "end_line": 32,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.22", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The tensor-permutation trace polynomial is the product of the power sums prescribed by the cycle type.", "verdict": "formalized", "lean_decl": "Etingof.permTracePoly_eq_powerSumCycleProduct"},
+      {"claim": "Schur-Weyl decomposition and character comparison identify the Schur-module formal character.", "verdict": "formalized", "lean_decl": "Etingof.formalCharacter_schurModule_eq_schurPoly"}
+    ]},
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -18761,11 +18772,17 @@
     "start_line": 33,
     "end_line": 37,
     "status": "sorry_free",
-    "coverage": "covered",
+    "coverage": "covered_full",
     "fidelity": "full",
     "fidelity_note": "All three branches of the source statement are formalized. SchurModuleVanishing.lean lifts the Schur module off the truncating index type: SchurModuleP k N la takes an arbitrary la : Nat.Partition n with no bound tying its parts to N, and is rfl-equal to Theorem5_22_1.lean's SchurModule at weightToPartition. The first branch is SchurModuleP_eq_bot_iff : SchurModulePSubmodule k N la = ⊥ ↔ N < Multiset.card la.parts (equivalently finrank_SchurModuleP_eq_zero_iff); the character and dimension branches are recovered on la.parts.card ≤ N as formalCharacter_SchurModuleP and finrank_SchurModuleP, and Theorem5_22_1_full bundles all three. Both sides of the criterion are witnessed non-vacuously by SchurModuleP_onePlusOne_dim_one / SchurModuleP_onePlusOne_dim_two.",
     "lean_ref": "EtingofRepresentationTheory/Chapter5/SchurModuleVanishing.lean :: Etingof.Theorem5_22_1_full, SchurModuleP_eq_bot_iff, SchurModuleP_ne_bot_iff, finrank_SchurModuleP_eq_zero_iff, formalCharacter_SchurModuleP, finrank_SchurModuleP; EtingofRepresentationTheory/Chapter5/Theorem5_22_1.lean :: Etingof.Theorem5_22_1, Theorem5_22_1_dim",
-    "last_updated": "2026-07-25"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.22", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "For an arbitrary partition, the Schur module vanishes exactly when its number of parts exceeds N.", "verdict": "formalized", "lean_decl": "Etingof.SchurModuleP_eq_bot_iff"},
+      {"claim": "On the nonvanishing branch its formal character is the Schur polynomial.", "verdict": "formalized", "lean_decl": "Etingof.formalCharacter_SchurModuleP"},
+      {"claim": "Its dimension is the Weyl product formula.", "verdict": "formalized", "lean_decl": "Etingof.finrank_SchurModuleP"},
+      {"claim": "Both vanishing and nonvanishing branches have concrete regression witnesses.", "verdict": "formalized", "lean_decl": "Etingof.SchurModuleP_onePlusOne_dim_one; Etingof.SchurModuleP_onePlusOne_dim_two"}
+    ]}
   },
   {
     "id": "Chapter5/Discussion_after_Theorem5.22.1",
@@ -18776,6 +18793,12 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.22", "reviewed_on": "2026-07-29", "claims": [
+      {"claim": "The polynomial irreducibles occurring in tensor powers are indexed by Young diagrams with at most N rows.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_18_4_partition_bimodule_decomposition_equivariant; Etingof.Theorem5_22_1_full"}
+    ]},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -18789,14 +18812,19 @@
     "end_page": "133",
     "start_line": 3,
     "end_line": 6,
-    "status": "partially_proved",
-    "attention_note": "The determinant-shift statement and top-exterior-power bridge are source-present, but Proposition5_22_2.lean currently fails a fresh source check (#7547).",
-    "notes": "The earlier transitive-sorry blocker was resolved; the current problem is a direct source-elaboration regression tracked by #7547.",
+    "status": "sorry_free",
+    "attention_note": "Resolved: the determinant-shift statement and honest top-exterior-power bridge pass a fresh source check; #7547 is closed.",
+    "notes": "The earlier transitive-sorry blocker and the later source-elaboration regression #7547 are both resolved.",
     "fidelity_note": "Completeness fix #7380 (2026-07-22): the public Proposition5_22_2 now concludes with the honest top exterior power `SchurModule k N lam ⊗ topExteriorPowerRep k N`, where topExteriorPowerRep = FDRep.of topExtPowerRep is the standard GL_N action on ⋀[k]^N (Fin N → k). Previously the theorem substituted the one-dimensional determinant-character model detRep for the ∧^N V of the text and merely asserted (in a docstring, with no declaration) that the two agree. That identification is now proved: topExtPowerRep_eq_det_smul (∧^N g = det g • id) and the equivariant iso topExteriorPowerRep_iso_detRep (∧^N V ≅ detRep), via the determinant top form topFormEquiv. The determinant-character version is retained as the implementation lemma Proposition5_22_2_detRep.",
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_issue": 7547,
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "sorry_free": true,
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.22", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "L_(lambda+1^N) is equivariantly isomorphic to L_lambda tensor the determinant representation.", "verdict": "formalized", "lean_decl": "Etingof.Proposition5_22_2_detRep"},
+      {"claim": "The top exterior power carries the determinant action and is equivariantly isomorphic to the determinant representation.", "verdict": "formalized", "lean_decl": "Etingof.topExtPowerRep_eq_det_smul; Etingof.topExteriorPowerRep_iso_detRep"},
+      {"claim": "L_(lambda+1^N) is equivariantly isomorphic to L_lambda tensor the honest top exterior power.", "verdict": "formalized", "lean_decl": "Etingof.Proposition5_22_2"}
+    ]}
   },
   {
     "id": "Chapter5/Introduction_5.23",

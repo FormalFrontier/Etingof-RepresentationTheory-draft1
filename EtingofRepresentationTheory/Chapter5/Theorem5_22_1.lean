@@ -22,7 +22,14 @@ open scoped TensorProduct
 
 noncomputable section
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Etingof
+
+noncomputable local instance (priority := high) theorem5221SymGroupImageRing
+    {k : Type*} [Field k] {V : Type*} [AddCommGroup V] [Module k V]
+    [Module.Finite k V] (n : ℕ) :
+    Ring (symGroupImage k V n) := (symGroupImage k V n).toRing
 
 /-! ### Weight to partition conversion -/
 
@@ -283,6 +290,12 @@ def SchurModuleSubmodule (k : Type*) [Field k] (N : ℕ) (lam : Fin N → ℕ) :
     Submodule k (TensorPower k (Fin N → k) (∑ i, lam i)) :=
   LinearMap.range (youngSymEndomorphism k N lam)
 
+noncomputable local instance (priority := high) schurModuleSubmoduleAddCommGroup
+    (k : Type*) [Field k] (N : ℕ) (lam : Fin N → ℕ) :
+    AddCommGroup (SchurModuleSubmodule k N lam) :=
+  { Module.addCommMonoidToAddCommGroup k with
+    toAddCommMonoid := (SchurModuleSubmodule k N lam).addCommMonoid }
+
 /-- The GL_N(k) representation restricted to the Schur module submodule.
 The representation sends `g` to the restriction of `g^{⊗n}` to the image
 of the Young symmetrizer, which is stable because GL_N commutes with S_n. -/
@@ -318,9 +331,12 @@ Constructed as the image of the Young symmetrizer `c_λ` acting on the tensor
 power `(k^N)^{⊗n}` where `n = ∑ λᵢ`. The `GL_N(k)`-action is the restriction
 of the diagonal action `g ↦ g^{⊗n}`, which commutes with the `S_n`-action
 (and hence with `c_λ`), making the image `GL_N`-stable. -/
-def SchurModule (k : Type*) [Field k] [IsAlgClosed k] (N : ℕ) (lam : Fin N → ℕ) :
+@[reducible] def SchurModule (k : Type*) [Field k] [IsAlgClosed k]
+    (N : ℕ) (lam : Fin N → ℕ) :
     FDRep k (Matrix.GeneralLinearGroup (Fin N) k) :=
-  FDRep.of (schurModuleRep k N lam)
+  @FDRep.of k (Matrix.GeneralLinearGroup (Fin N) k) inferInstance inferInstance
+    (SchurModuleSubmodule k N lam) inferInstance inferInstance inferInstance
+    (schurModuleRep k N lam)
 
 /-! ### Diagonal torus and weight spaces -/
 
@@ -939,7 +955,7 @@ set_option synthInstance.maxHeartbeats 200000 in
 /-- The `SymGroupAlgebra n`-module structure on `↥(S.restrictScalars ℂ)`
 induced from the `symGroupImage`-module structure on `↥S` via
 `symGroupAlgHomToImage`. -/
-private noncomputable def submoduleAsSymGroupAlgebraModule
+@[reducible] private noncomputable def submoduleAsSymGroupAlgebraModule
     (S : Submodule (symGroupImage ℂ (Fin N → ℂ) n)
       (TensorPower ℂ (Fin N → ℂ) n)) :
     Module (SymGroupAlgebra n) ↥(S.restrictScalars ℂ) :=
@@ -1096,7 +1112,14 @@ private theorem trace_restrictedSymGroupAction_eq_of_spechtIso
       (spechtModuleAction n la' σ) ∘ₗ eℂ.toLinearMap =
         eℂ.symm.conj (spechtModuleAction n la' σ) := by
     rfl
-  rw [h_conj, LinearMap.trace_conj']
+  rw [h_conj]
+  have ht := @LinearMap.trace_conj' ℂ inferInstance
+    (↥(SpechtModule n la')) (SpechtModule n la').addCommGroup
+    (SpechtModule n la').module'
+    (↥(S.restrictScalars ℂ)) (S.restrictScalars ℂ).addCommGroup
+    (S.restrictScalars ℂ).module
+    (spechtModuleAction n la' σ) eℂ.symm
+  rw [ht]
   rfl
 
 set_option maxHeartbeats 400000 in
@@ -1278,8 +1301,15 @@ private theorem trace_normalized_youngSym_eq_finrank
       YoungSymmetrizerK ℚ (∑ i, lam i) (weightToPartition N lam) =
       α • YoungSymmetrizerK ℚ (∑ i, lam i) (weightToPartition N lam)) :
     LinearMap.trace ℚ _ (α⁻¹ • youngSymEndomorphism ℚ N lam) =
-      (Module.finrank ℚ (SchurModuleSubmodule ℚ N lam) : ℚ) :=
-  (youngSymEndomorphism_normalized_isProj ℚ N lam α hα hα_sq).trace
+      (Module.finrank ℚ (SchurModuleSubmodule ℚ N lam) : ℚ) := by
+  letI : Module.Free ℚ (SchurModuleSubmodule ℚ N lam) :=
+    Module.Free.of_divisionRing ℚ _
+  letI : AddCommGroup (LinearMap.ker (α⁻¹ • youngSymEndomorphism ℚ N lam)) :=
+    { Module.addCommMonoidToAddCommGroup ℚ with
+      toAddCommMonoid := (LinearMap.ker (α⁻¹ • youngSymEndomorphism ℚ N lam)).addCommMonoid }
+  letI : Module.Free ℚ (LinearMap.ker (α⁻¹ • youngSymEndomorphism ℚ N lam)) :=
+    Module.Free.of_divisionRing ℚ _
+  exact (youngSymEndomorphism_normalized_isProj ℚ N lam α hα hα_sq).trace
 
 /-! #### Tensor weight infrastructure for the coefficient identity -/
 
@@ -1871,6 +1901,14 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
     rw [← h_ℚ, hαβ]; field_simp [hα]
   -- Prove integer equation via trace over k
   -- trace(Φ) = (finrank : k)
+  letI : AddCommGroup (LinearMap.range Φ) :=
+    { Module.addCommMonoidToAddCommGroup k with
+      toAddCommMonoid := (LinearMap.range Φ).addCommMonoid }
+  letI : Module.Free k (LinearMap.range Φ) := Module.Free.of_divisionRing k _
+  letI : AddCommGroup (LinearMap.ker Φ) :=
+    { Module.addCommMonoidToAddCommGroup k with
+      toAddCommMonoid := (LinearMap.ker Φ).addCommMonoid }
+  letI : Module.Free k (LinearMap.ker Φ) := Module.Free.of_divisionRing k _
   have h_fr_eq : Module.finrank k (LinearMap.range Φ) =
       Module.finrank k (glWeightSpace k N (SchurModule k N lam) fun i => (μ i : ℕ)) := by
     rw [← h_map]; exact Submodule.finrank_map_subtype_eq _ _
@@ -2378,7 +2416,9 @@ theorem youngSym_action_vanishes_off_block
     change LinearMap.trace ℂ _ ((α : ℂ)⁻¹ • f) = 0
     rw [LinearMap.map_smul, h_trace_zero, smul_zero]
   -- A trace-zero idempotent over a characteristic-zero field is the zero map.
-  have hg_zero : g = 0 := isIdempotentElem_eq_zero_of_trace_eq_zero hg_idem hg_tr_zero
+  have hg_zero : g = 0 :=
+    isIdempotentElem_eq_zero_of_trace_eq_zero
+      (K := ℂ) (V := ↥(S.restrictScalars ℂ)) (e := g) hg_idem hg_tr_zero
   -- Therefore f = α • g = 0.
   have hf_eq_smul_g : f = (α : ℂ) • g := by
     change f = (α : ℂ) • ((α : ℂ)⁻¹ • f)
@@ -2497,8 +2537,19 @@ theorem youngSym_action_on_special_block_rank_one_scaled_proj
   have hπ_trace : LinearMap.trace ℂ _ π = 1 := by
     rw [hπ_def, LinearMap.map_smul, h_trace_eq_alpha, smul_eq_mul, inv_mul_cancel₀ hα_ℂ_ne]
   -- finrank(range π) = trace(π) = 1.
+  letI : AddCommGroup (LinearMap.range π) :=
+    { Module.addCommMonoidToAddCommGroup ℂ with
+      toAddCommMonoid := (LinearMap.range π).addCommMonoid }
+  letI : AddCommGroup π.ker :=
+    { Module.addCommMonoidToAddCommGroup ℂ with
+      toAddCommMonoid := π.ker.addCommMonoid }
+  letI : Module.Free ℂ (LinearMap.range π) := Module.Free.of_divisionRing ℂ _
+  letI : Module.Free ℂ π.ker := Module.Free.of_divisionRing ℂ _
   have hπ_rank : Module.finrank ℂ (LinearMap.range π) = 1 := by
-    have h := hπ_proj.trace
+    have h := @LinearMap.IsProj.trace ℂ inferInstance
+      (↥(S.restrictScalars ℂ)) (S.restrictScalars ℂ).addCommGroup
+      (S.restrictScalars ℂ).module (LinearMap.range π) π hπ_proj
+      inferInstance inferInstance inferInstance inferInstance
     rw [hπ_trace] at h
     exact_mod_cast h.symm
   -- f = α • π.
@@ -3757,6 +3808,8 @@ theorem schurModule_rho_diagUnit_isSemisimple (N : ℕ) (lam : Fin N → ℕ) (i
   have hss := (glTensorRep_diagUnit_isSemisimple k N (∑ i, lam i) i t).restrict hinvt
   exact hss
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- Simultaneous generalized eigenspaces require deep scalar-tower and freeness synthesis.
 /-- The total dimension of the Schur module equals its formal character evaluated
 at the all-ones point: `dim L_λ = ch(L_λ)(1, …, 1)`.
 
@@ -3795,7 +3848,9 @@ theorem finrank_schurModule_eq_eval_one (N : ℕ) (lam : Fin N → ℕ)
   -- Independence of the weight spaces (from independence of joint gen. eigenspaces).
   have h_mapsTo : ∀ (q₁ q₂ : Fin N × kˣ) (φ : k),
       Set.MapsTo (f q₁) ((f q₂).maxGenEigenspace φ) ((f q₂).maxGenEigenspace φ) :=
-    fun q₁ q₂ φ => Module.End.mapsTo_maxGenEigenspace_of_comm (hcomm q₂ q₁) φ
+    fun q₁ q₂ φ =>
+      @Module.End.mapsTo_maxGenEigenspace_of_comm k _ inferInstance inferInstance
+        inferInstance (f q₂) (f q₁) (hcomm q₂ q₁) φ
   have h_indep0 := Module.End.independent_iInf_maxGenEigenspace_of_forall_mapsTo f h_mapsTo
   have h_inj : Function.Injective χ := by
     intro μ₁ μ₂ heq
