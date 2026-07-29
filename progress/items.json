@@ -14287,6 +14287,10 @@
     "start_line": 3,
     "end_line": 24,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.26", "reviewed_on": "2026-07-29", "result": "section_heading"},
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -19338,11 +19342,15 @@
     "end_page": "144",
     "start_line": 25,
     "end_line": 29,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The Artin-theorem endpoint is source-present and Theorem5_26_1.lean passes a fresh source check again (#7513 fixed: the trivial representation's `IsSimpleModule` proof now pins the ℂ-module structure via `asModuleEquiv.finrank_eq` so the required scalar tower resolves). A downstream import/`#check` test (Theorem5_26_1_Test.lean) pins the public equivalence. Remaining `covered_partial` scope is Remark 5.26.2's missing Q-span iff C-span endpoints, tracked separately in #7489.",
-    "last_updated": "2026-07-23"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The public equivalence proves both directions of Artin's theorem. The former source regression #7513 and the separately tracked rational/complex span gap #7489 are closed.",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Theorem5_26_1.lean :: Etingof.Theorem5_26_1",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.26", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "A conjugation-invariant family of subgroups covers G iff its induced characters rationally span every irreducible character.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_26_1"}
+    ]}
   },
   {
     "id": "Chapter5/Remark5.26.2",
@@ -19358,7 +19366,11 @@
     "coverage": "covered_full",
     "coverage_note": "Remark5_26_2.lean defines the book-oriented integral decomposition matrix (irreducibles index rows and chosen induced representations index columns), proves its columns are the actual Frobenius-reciprocity multiplicities, and proves that rational character span, complex character span, and row linear independence are equivalent.",
     "fidelity_decl": "Etingof.inducedCharacter_eq_irrepDecomp_sum, Etingof.Remark5262.decompositionMatrix, Etingof.Remark5_26_2",
-    "last_updated": "2026-07-27"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.26", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "For the integral decomposition matrix of induced characters, rational spanning and complex spanning are equivalent.", "verdict": "formalized", "lean_decl": "Etingof.Remark5_26_2"},
+      {"claim": "Both span conditions are equivalent to linear independence of the corresponding matrix rows.", "verdict": "formalized", "lean_decl": "Etingof.Remark5_26_2"}
+    ]}
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.26.1",
@@ -19373,10 +19385,14 @@
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The two-direction Artin proof is source-present and Theorem5_26_1.lean passes a fresh check again (#7513 fixed).",
-    "last_updated": "2026-07-23"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The forward direction is proved using induced-character spanning and the rational/complex comparison; the reverse direction uses the trivial character to contradict vanishing outside the union of the subgroups.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.26", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "Coverage implies rational spanning by induced characters.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_26_1"},
+      {"claim": "Rational spanning implies coverage, since all induced characters vanish at an uncovered element while the trivial character does not.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_26_1"}
+    ]}
   },
   {
     "id": "Chapter5/Corollary5.26.3",
@@ -19386,11 +19402,15 @@
     "end_page": "145",
     "start_line": 7,
     "end_line": 8,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "last_updated": "2026-07-23"
+    "coverage": "covered_full",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Corollary5_26_3.lean :: Etingof.Corollary5_26_3",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.26", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "Every irreducible character is a rational linear combination of characters induced from cyclic subgroups.", "verdict": "formalized", "lean_decl": "Etingof.Corollary5_26_3"}
+    ]}
   },
   {
     "id": "Chapter5/Introduction_5.27",
