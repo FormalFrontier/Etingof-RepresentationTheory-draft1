@@ -14858,7 +14858,11 @@
     "coverage_swept": {
       "wave": 1,
       "result": "non_formalizable"
-    }
+    },
+    "coverage": "non_formalizable",
+    "fidelity": "not_applicable",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.11", "reviewed_on": "2026-07-29", "definition_integrity": "not_applicable", "statement_fidelity": "not_applicable", "nonvacuity": "not_applicable", "claims": [{"claim": "The interlude recounts the history of Frobenius, Dedekind, the group determinant, and early representation theory.", "verdict": "non_formalizable", "reason": "Historical and biographical narrative; referenced mathematical results are covered in §§4.1 and 4.10."}]}
   },
   {
     "id": "Chapter4/Introduction_4.12",
@@ -14872,7 +14876,11 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "coverage": "non_formalizable",
+    "fidelity": "not_applicable",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.12", "reviewed_on": "2026-07-29", "definition_integrity": "not_applicable", "statement_fidelity": "not_applicable", "nonvacuity": "not_applicable", "claims": [{"claim": "The heading introduces the chapter's problem set.", "verdict": "non_formalizable", "reason": "Organizational heading; each problem has a complete final-exercise audit."}]}
   },
   {
     "id": "Chapter4/Problem4.12.1",
@@ -14882,7 +14890,7 @@
     "end_page": "83",
     "start_line": 9,
     "end_line": 14,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "coverage": "covered_full",
@@ -14952,7 +14960,7 @@
     "end_page": "84",
     "start_line": 15,
     "end_line": 12,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "coverage": "covered_full",
@@ -15213,7 +15221,7 @@
     "end_page": "85",
     "start_line": 5,
     "end_line": 8,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "lean_file": [
@@ -15279,7 +15287,7 @@
     "end_page": "86",
     "start_line": 9,
     "end_line": 4,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "coverage": "covered_full",
@@ -15402,7 +15410,7 @@
     "end_page": "87",
     "start_line": 5,
     "end_line": 2,
-    "status": "proved",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "lean_file": [
@@ -15453,7 +15461,7 @@
     "end_page": "87",
     "start_line": 3,
     "end_line": 4,
-    "status": "proved",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "lean_file": [
@@ -15510,7 +15518,7 @@
     "end_page": "87",
     "start_line": 5,
     "end_line": 8,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "lean_file": [
@@ -15682,7 +15690,11 @@
     "coverage_swept": {
       "wave": 1,
       "result": "non_formalizable"
-    }
+    },
+    "coverage": "non_formalizable",
+    "fidelity": "not_applicable",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.13", "reviewed_on": "2026-07-29", "definition_integrity": "not_applicable", "statement_fidelity": "not_applicable", "nonvacuity": "not_applicable", "claims": [{"claim": "The interlude recounts Hamilton's life and the historical development of quaternions.", "verdict": "non_formalizable", "reason": "Historical and biographical narrative; the quaternion multiplication table is already formalized in Problem 4.12.7."}]}
   },
   {
     "id": "Chapter5/Introduction",
