@@ -75,7 +75,16 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "covered"
+    },
+    "coverage": "covered_full", "fidelity": "verified", "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "4.5", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [
+        {"claim": "The normalized Hermitian pairing on complex class functions is the displayed finite sum.", "verdict": "formalized", "lean_decl": "Etingof.Theorem4_5_1_i"},
+        {"claim": "Irreducible characters form an orthonormal basis.", "verdict": "covered_elsewhere", "lean_decl": "Etingof.Theorem4_2_1_span_eq_classFunctionSubmodule; Etingof.Theorem4_5_1_ii"}
+      ]
     }
   },
   {
@@ -14326,7 +14335,16 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "4.5", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [
+        {"claim": "For arbitrary V,W, the character pairing equals dim Hom_G(W,V).", "verdict": "formalized", "lean_decl": "Etingof.Theorem4_5_1_i"},
+        {"claim": "For irreducible V,W the pairing is one iff they are isomorphic and zero otherwise.", "verdict": "formalized", "lean_decl": "Etingof.Theorem4_5_1_ii"},
+        {"claim": "The averaging element acts as the projector onto invariants and identifies the trace with the equivariant-Hom dimension.", "verdict": "covered_elsewhere", "lean_decl": "FDRep.scalar_product_char_eq_finrank_equivariant"}
+      ]
+    }
   },
   {
     "id": "Chapter4/Discussion_after_Theorem4.5.1",
@@ -14342,7 +14360,12 @@
       "result": "covered"
     },
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "fidelity": "verified", "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "4.5", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [{"claim": "A complex finite-group representation is irreducible iff its character has norm one.", "verdict": "formalized", "lean_decl": "Etingof.Discussion_after_Theorem4_5_1"}]
+    }
   },
   {
     "id": "Chapter4/Problem4.5.2",
@@ -14408,11 +14431,20 @@
     "start_line": 11,
     "end_line": 19,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "fidelity": "verified",
-    "fidelity_note": "Renormalized irreducible characters are proved primitive idempotents, but the converse classification of all primitive idempotents is absent. Character recovery is weakened to existence of a square-root scalar instead of the source's definite normalization; reopened #5183.",
-    "fidelity_issue": 5183,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "PR #7941 completed exact character recovery and the converse classification of primitive convolution idempotents; #5183 is closed.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "4.5", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [
+        {"claim": "Convolution makes F(G,C) an associative unital algebra and class functions a commutative subalgebra.", "verdict": "formalized", "lean_decl": "Etingof.Remark4_5_3.convolution_apply; Etingof.Remark4_5_3.classFunctions"},
+        {"claim": "Renormalized irreducible characters are exactly the primitive idempotents.", "verdict": "formalized", "lean_decl": "Etingof.Remark4_5_3.isPrimitiveIdempotent_iff_exists_simple_renormChar"},
+        {"claim": "Characters are recovered with the source's definite normalization.", "verdict": "formalized", "lean_decl": "Etingof.Remark4_5_3.character_recovery_exact"},
+        {"claim": "Historical remarks about Frobenius and terminology.", "verdict": "non_formalizable", "reason": "Historical narrative."}
+      ]
+    }
   },
   {
     "id": "Chapter4/Discussion_before_Theorem4.5.4",
@@ -14425,8 +14457,10 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
-    }
+      "result": "non_formalizable"
+    },
+    "coverage": "non_formalizable", "fidelity": "not_applicable", "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.5", "reviewed_on": "2026-07-29", "definition_integrity": "not_applicable", "statement_fidelity": "not_applicable", "nonvacuity": "not_applicable", "claims": [{"claim": "The text introduces the second orthogonality formula.", "verdict": "non_formalizable", "reason": "Organizational transition."}]}
   },
   {
     "id": "Chapter4/Theorem4.5.4",
@@ -14440,7 +14474,8 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.5", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The sum over irreducible characters is the centralizer order for conjugate elements and zero otherwise.", "verdict": "formalized", "lean_decl": "Etingof.Theorem4_5_4"}, {"claim": "The formula is obtained as the trace of x ↦ gxh⁻¹ on the group algebra.", "verdict": "formalized", "lean_decl": "Etingof.Theorem4_5_4"}]}
   },
   {
     "id": "Chapter4/Remark4.5.5",
@@ -14451,14 +14486,14 @@
     "end_page": "70",
     "start_line": 15,
     "end_line": 17,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "fidelity_note": "Formalized in Chapter4/Remark4_5_5.lean. The character matrix U (rows = irreducibles indexed by ConjClasses G to encode squareness from Thm 4.5.2, columns = conjugacy classes, entries chi_V(g_c)/sqrt|Z_{g_c}|) is built explicitly. character_matrix_mul_conjTranspose proves rows orthonormal (U Uᴴ = 1) by reindexing the first orthogonality relation (FDRep.char_orthonormal, Thm 4.5.1) over conjugacy classes via |c.carrier|*|Z|=|G|; character_matrix_conjTranspose_mul derives unitarity (Uᴴ U = 1) from squareness; column_orthogonality reads off the second orthogonality relation. Sorry-free.",
     "fidelity_decl": "Etingof.Remark4_5_5.column_orthogonality",
     "fidelity_issue": 5378,
-    "coverage": "covered_partial",
-    "coverage_issue": 7527,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.5", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The normalized character matrix has orthonormal rows and hence orthonormal columns, yielding column orthogonality.", "verdict": "formalized", "lean_decl": "Etingof.Remark4_5_5.character_matrix_mul_conjTranspose; Etingof.Remark4_5_5.character_matrix_conjTranspose_mul; Etingof.Remark4_5_5.column_orthogonality"}]}
   },
   {
     "id": "Chapter4/Introduction_4.6",
