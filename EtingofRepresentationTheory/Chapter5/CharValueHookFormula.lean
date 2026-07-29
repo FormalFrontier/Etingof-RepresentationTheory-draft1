@@ -107,7 +107,7 @@ private theorem weightToPartition_sortedParts_getD (N : ℕ) (f : Fin N → ℕ)
         have hgs : Antitone (g ∘ Fin.succ) :=
           fun a b hab => hg (show Fin.succ a ≤ Fin.succ b from Fin.succ_le_succ_iff.mpr hab)
         exact ih (g ∘ Fin.succ) hgs j'
-    · push_neg at hg0
+    · push Not at hg0
       have hg0' : g 0 = 0 := Nat.le_zero.mp hg0
       simp only [List.filter_cons, show decide (0 < g 0) = false from
         decide_eq_false (not_lt.mpr hg0), Bool.false_eq_true, ↓reduceIte]
@@ -143,7 +143,7 @@ theorem weightToPartition_colLen (N : ℕ) {n : ℕ} (lam : BoundedPartition N n
       YoungDiagram.mem_iff_lt_colLen.mpr hx
     have hxN : x < N := by
       by_contra h
-      push_neg at h
+      push Not at h
       rw [YoungDiagram.mem_iff_lt_rowLen, weightToPartition_rowLen_eq_zero N lam.parts h] at hmem
       exact absurd hmem (Nat.not_lt_zero c)
     refine ⟨⟨x, hxN⟩, ?_, rfl⟩
@@ -210,7 +210,7 @@ theorem hookLengthProduct_eq_prod_rows (N : ℕ) {n : ℕ} (lam : BoundedPartiti
     intro p hp
     rw [YoungDiagram.mem_cells, YoungDiagram.mem_iff_lt_rowLen] at hp
     by_contra h
-    push_neg at h
+    push Not at h
     rw [weightToPartition_rowLen_eq_zero N lam.parts h] at hp
     exact absurd hp (Nat.not_lt_zero p.2)
   unfold YoungDiagram.hookLengthProduct
@@ -427,7 +427,9 @@ private theorem charValue_trivialCycleType_eq_descPochhammer_det
     simp [Matrix.map_apply, descPochhammer_eval_eq_descFactorial, Equiv.symm_apply_apply]
   rw [hD, Finset.sum_mul, MvPolynomial.coeff_sum, hdet, Finset.mul_sum]
   refine Finset.sum_congr rfl (fun σ _ => ?_)
-  rw [smul_mul_assoc, MvPolynomial.coeff_smul, MvPolynomial.coeff_monomial_mul', one_mul,
+  rw [smul_mul_assoc]
+  change MvPolynomial.coeff _ ((Equiv.Perm.sign σ : ℚ) • _) = _
+  rw [MvPolynomial.coeff_smul, MvPolynomial.coeff_monomial_mul', one_mul,
       mul_smul_comm]
   congr 1
   by_cases H : ∀ i, e (σ.symm i) ≤ β i
@@ -453,7 +455,7 @@ private theorem charValue_trivialCycleType_eq_descPochhammer_det
   · have hnle : ¬ (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm))
         ≤ Finsupp.equivFunOnFinite.symm β := by
       rw [Finsupp.le_iff' _ _ (Finset.subset_univ _)]
-      push_neg
+      push Not
       obtain ⟨i, hi⟩ := not_forall.mp H
       exact ⟨i, Finset.mem_univ i, by
         have := not_le.mp hi; simpa [Finsupp.equivFunOnFinite] using this⟩
@@ -588,7 +590,7 @@ private theorem row_hook_gap_prod_eq_factorial (N : ℕ) {n : ℕ} (lam : Bounde
         obtain ⟨_, hs2⟩ := hs
         rw [Finset.mem_Ioi]
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         have hmono := lam.decreasing hcon
         omega
       simp only [hgdef] at heq
@@ -776,12 +778,12 @@ private lemma sum_getD_eq_sum (l : List ℕ) (n : ℕ) (hlen : l.length ≤ n) :
   | succ n ih =>
     rw [Fin.sum_univ_succ]
     cases l with
-    | nil => simp [ih [] (Nat.zero_le _)]
+    | nil => simp
     | cons a t =>
       simp only [List.getD_cons_zero, List.sum_cons, Fin.val_zero]
       congr 1
       have hstep : ∀ i : Fin n, (a :: t).getD i.succ.val 0 = t.getD i.val 0 := by
-        intro ⟨i, _⟩; simp [List.getD_cons_succ]
+        intro ⟨i, _⟩; simp
       simp_rw [hstep]
       exact ih t (by simpa using hlen)
 

@@ -13641,6 +13641,13 @@
     "start_line": 1,
     "end_line": 10,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "coverage_note": "The section's hook-length derivation and theorem are fully formalized in CharValueHookFormula.lean and Theorem5_17_1.lean.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.17", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The Frobenius determinant computation at the trivial cycle type reduces to the hook product through the descending-factorial determinant and Vandermonde cancellation.", "verdict": "formalized", "lean_decl": "Etingof.charValue_trivialCycleType_eq_frobeniusDetForm; Etingof.hookLengthProduct_mul_vandermonde_eq_prod_factorial; Etingof.charValue_trivialCycleType_eq_hookFormula"},
+      {"claim": "The dimension of a Specht module is the number of standard tableaux and hence satisfies the hook-length formula.", "verdict": "formalized", "lean_decl": "Etingof.finrank_spechtModule_eq_card_standardYoungTableau; Etingof.Theorem5_17_1"}
+    ]},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -14308,6 +14315,13 @@
     "start_line": 25,
     "end_line": 2,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "coverage_note": "The book's Frobenius/Vandermonde derivation, Young-diagram hook bookkeeping, determinant evaluation, and cancellation are formalized in CharValueHookFormula.lean.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.17", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "Hook lengths are related to shifted row exponents and their product cancels against the Vandermonde factor to give the factorial product.", "verdict": "formalized", "lean_decl": "Etingof.hookLength_eq_arm_add_leg; Etingof.hookLengthProduct_eq_prod_rows; Etingof.hookLengthProduct_mul_vandermonde_eq_prod_factorial"},
+      {"claim": "The trivial-cycle Frobenius character value is the hook-length quotient and equals the standard-tableau count.", "verdict": "formalized", "lean_decl": "Etingof.charValue_trivialCycleType_eq_hookFormula; Etingof.charValue_trivialCycleType_eq_card_syt"}
+    ]},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -16975,7 +16989,11 @@
     "status": "sorry_free",
     "coverage": "covered_full",
     "coverage_note": "Etingof.Definition5_8_1 is the public induced representation, and Mathlib's finite-group indCoindIso bridges its induction construction with the book's function model.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.17", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The Specht-module dimension equals the number of standard Young tableaux of the same shape.", "verdict": "formalized", "lean_decl": "Etingof.finrank_spechtModule_eq_card_standardYoungTableau"},
+      {"claim": "The Specht-module dimension is n! divided by the product of all hook lengths.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_17_1"}
+    ]}
   },
   {
     "id": "Chapter5/Remark5.8.3",
