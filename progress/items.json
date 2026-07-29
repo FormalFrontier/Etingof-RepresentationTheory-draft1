@@ -15921,7 +15921,7 @@
     "last_updated": "2026-07-28"
   },
   {
-    "id": "Chapter5/Introduction_5.2",
+  "id": "Chapter5/Introduction_5.2",
     "type": "introduction",
     "title": "Section 5.2: Algebraic numbers and algebraic integers",
     "start_page": "95",
@@ -15929,13 +15929,32 @@
     "start_line": 25,
     "end_line": 28,
     "status": "sorry_free",
-    "coverage_swept": {
-      "wave": 1,
-      "result": "none"
-    }
+  "coverage_swept": {
+    "wave": 1,
+    "result": "covered"
+  },
+  "coverage": "covered_full",
+  "fidelity": "verified",
+  "last_updated": "2026-07-29",
+  "claim_coverage": {
+    "stage": "3.2",
+    "status": "complete",
+    "section": "5.2",
+    "reviewed_on": "2026-07-29",
+    "definition_integrity": "verified",
+    "statement_fidelity": "verified",
+    "nonvacuity": "verified",
+    "claims": [
+      {
+        "claim": "The section introduces the algebraic-number prerequisites used in the subsequent finite-group results.",
+        "verdict": "context_only",
+        "lean_decl": "Etingof.Definition5_2_1_algebraic_number; Etingof.Definition5_2_1_algebraic_integer"
+      }
+    ]
+  }
   },
   {
-    "id": "Chapter5/Definition5.2.1",
+  "id": "Chapter5/Definition5.2.1",
     "type": "definition",
     "title": "Algebraic number and algebraic integer via monic polynomials",
     "start_page": "95",
@@ -15947,10 +15966,31 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "Public predicates characterize algebraic numbers and algebraic integers as IsAlgebraic ℚ and IsIntegral ℤ; over ℚ the nonzero-polynomial and monic presentations are equivalent by rescaling.",
-    "last_updated": "2026-07-22"
+  "last_updated": "2026-07-29",
+  "claim_coverage": {
+    "stage": "3.2",
+    "status": "complete",
+    "section": "5.2",
+    "reviewed_on": "2026-07-29",
+    "definition_integrity": "verified",
+    "statement_fidelity": "verified",
+    "nonvacuity": "verified",
+    "claims": [
+      {
+        "claim": "A complex number is algebraic exactly when it is a root of a monic polynomial over Q.",
+        "verdict": "formalized",
+        "lean_decl": "Etingof.Definition5_2_1_algebraic_number"
+      },
+      {
+        "claim": "A complex number is an algebraic integer exactly when it is a root of a monic polynomial over Z.",
+        "verdict": "formalized",
+        "lean_decl": "Etingof.Definition5_2_1_algebraic_integer"
+      }
+    ]
+  }
   },
   {
-    "id": "Chapter5/Definition5.2.2",
+  "id": "Chapter5/Definition5.2.2",
     "type": "definition",
     "title": "Algebraic number and algebraic integer via eigenvalues of matrices",
     "start_page": "96",
@@ -15962,10 +16002,31 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "The public iff theorems give the exact rational/integer matrix-eigenvalue characterizations in the source.",
-    "last_updated": "2026-07-22"
+  "last_updated": "2026-07-29",
+  "claim_coverage": {
+    "stage": "3.2",
+    "status": "complete",
+    "section": "5.2",
+    "reviewed_on": "2026-07-29",
+    "definition_integrity": "verified",
+    "statement_fidelity": "verified",
+    "nonvacuity": "verified",
+    "claims": [
+      {
+        "claim": "A complex number is algebraic exactly when it is an eigenvalue of a finite matrix over Q.",
+        "verdict": "formalized",
+        "lean_decl": "Etingof.Definition5_2_2_algebraic"
+      },
+      {
+        "claim": "A complex number is an algebraic integer exactly when it is an eigenvalue of a finite matrix over Z.",
+        "verdict": "formalized",
+        "lean_decl": "Etingof.Definition5_2_2_integer"
+      }
+    ]
+  }
   },
   {
-    "id": "Chapter5/Proposition5.2.3",
+  "id": "Chapter5/Proposition5.2.3",
     "type": "proposition",
     "title": "Equivalence of Definitions 5.2.1 and 5.2.2",
     "start_page": "96",
@@ -15977,10 +16038,36 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "The final equivalence of the two definitions is proved via power-basis left-multiplication matrices (Etingof.Proposition5_2_3_algebraic / _integer). The source's displayed companion-matrix construction is now formalized separately: Etingof.Proposition5_2_3.companionMatrix with charpoly(companion p) = p (charpoly_companionMatrix), and the root-to-eigenvalue step (charpoly_map_companionMatrix_isRoot, plus the _companion_algebraic/_integer corollaries).",
-    "last_updated": "2026-07-23"
+  "last_updated": "2026-07-29",
+  "claim_coverage": {
+    "stage": "3.2",
+    "status": "complete",
+    "section": "5.2",
+    "reviewed_on": "2026-07-29",
+    "definition_integrity": "verified",
+    "statement_fidelity": "verified",
+    "nonvacuity": "verified",
+    "claims": [
+      {
+        "claim": "The monic-polynomial and rational-matrix definitions of algebraic number are equivalent.",
+        "verdict": "formalized",
+        "lean_decl": "Etingof.Proposition5_2_3_algebraic"
+      },
+      {
+        "claim": "The monic-polynomial and integer-matrix definitions of algebraic integer are equivalent.",
+        "verdict": "formalized",
+        "lean_decl": "Etingof.Proposition5_2_3_integer"
+      },
+      {
+        "claim": "The displayed companion construction has characteristic polynomial p and turns each root of p into an eigenvalue.",
+        "verdict": "formalized",
+        "lean_decl": "Etingof.Proposition5_2_3.companionMatrix; Etingof.Proposition5_2_3.charpoly_companionMatrix; Etingof.Proposition5_2_3.charpoly_map_companionMatrix_isRoot; Etingof.Proposition5_2_3_companion_algebraic; Etingof.Proposition5_2_3_companion_integer"
+      }
+    ]
+  }
   },
   {
-    "id": "Chapter5/Discussion_after_Proposition5.2.3",
+  "id": "Chapter5/Discussion_after_Proposition5.2.3",
     "type": "discussion",
     "title": "Notation for algebraic numbers and algebraic integers",
     "start_page": "96",
@@ -15988,13 +16075,32 @@
     "start_line": 15,
     "end_line": 16,
     "status": "sorry_free",
-    "coverage_swept": {
-      "wave": 1,
-      "result": "none"
-    }
+  "coverage_swept": {
+    "wave": 1,
+    "result": "covered"
+  },
+  "coverage": "covered_full",
+  "fidelity": "verified",
+  "last_updated": "2026-07-29",
+  "claim_coverage": {
+    "stage": "3.2",
+    "status": "complete",
+    "section": "5.2",
+    "reviewed_on": "2026-07-29",
+    "definition_integrity": "verified",
+    "statement_fidelity": "verified",
+    "nonvacuity": "verified",
+    "claims": [
+      {
+        "claim": "The algebraic integers and algebraic numbers are represented by the bundled objects Z-bar and Q-bar.",
+        "verdict": "formalized",
+        "lean_decl": "Etingof.algebraicIntegers; Etingof.algebraicNumbers; Etingof.mem_algebraicIntegers; Etingof.mem_algebraicNumbers"
+      }
+    ]
+  }
   },
   {
-    "id": "Chapter5/Proposition5.2.4",
+  "id": "Chapter5/Proposition5.2.4",
     "type": "proposition",
     "title": "Algebraic integers form a ring; algebraic numbers form a field",
     "start_page": "96",
@@ -16006,10 +16112,31 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "fidelity_note": "The algebraic integers are bundled as `Etingof.algebraicIntegers = integralClosure ℤ ℂ` and the algebraic numbers as the subfield `Etingof.algebraicNumbers = algebraicClosure ℚ ℂ` (IntermediateField ℚ ℂ), with membership characterizations. `Etingof.Proposition5_2_4_isAlgClosure : IsAlgClosure ℚ algebraicNumbers` records the proposition's headline claim that ℚ̄ is an algebraic closure of ℚ (algebraically closed and algebraic over ℚ). The operation-closure lemmas are retained as corollaries (#7439).",
-    "last_updated": "2026-07-23"
+  "last_updated": "2026-07-29",
+  "claim_coverage": {
+    "stage": "3.2",
+    "status": "complete",
+    "section": "5.2",
+    "reviewed_on": "2026-07-29",
+    "definition_integrity": "verified",
+    "statement_fidelity": "verified",
+    "nonvacuity": "verified",
+    "claims": [
+      {
+        "claim": "The algebraic integers form a ring.",
+        "verdict": "formalized",
+        "lean_decl": "Etingof.algebraicIntegers; Etingof.Proposition5_2_4_ring"
+      },
+      {
+        "claim": "The algebraic numbers form a field and an algebraic closure of Q.",
+        "verdict": "formalized",
+        "lean_decl": "Etingof.algebraicNumbers; Etingof.Proposition5_2_4_field; Etingof.Proposition5_2_4_isAlgClosure; Etingof.Proposition5_2_4_isAlgebraic; Etingof.Proposition5_2_4_isAlgClosed"
+      }
+    ]
+  }
   },
   {
-    "id": "Chapter5/Proposition5.2.5",
+  "id": "Chapter5/Proposition5.2.5",
     "type": "proposition",
     "title": "Algebraic integers intersect rationals in the integers",
     "start_page": "97",
@@ -16020,10 +16147,26 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+  "last_updated": "2026-07-29",
+  "claim_coverage": {
+    "stage": "3.2",
+    "status": "complete",
+    "section": "5.2",
+    "reviewed_on": "2026-07-29",
+    "definition_integrity": "verified",
+    "statement_fidelity": "verified",
+    "nonvacuity": "verified",
+    "claims": [
+      {
+        "claim": "A rational complex number is an algebraic integer exactly when it comes from an integer.",
+        "verdict": "formalized",
+        "lean_decl": "Etingof.Proposition5_2_5"
+      }
+    ]
+  }
   },
   {
-    "id": "Chapter5/Discussion_after_Proposition5.2.5",
+  "id": "Chapter5/Discussion_after_Proposition5.2.5",
     "type": "discussion",
     "title": "Minimal polynomial, algebraic conjugates, and Vieta's theorem",
     "start_page": "97",
@@ -16031,13 +16174,42 @@
     "start_line": 23,
     "end_line": 28,
     "status": "sorry_free",
-    "coverage_swept": {
-      "wave": 1,
-      "result": "none"
-    }
+  "coverage_swept": {
+    "wave": 1,
+    "result": "covered"
+  },
+  "coverage": "covered_full",
+  "fidelity": "verified",
+  "last_updated": "2026-07-29",
+  "claim_coverage": {
+    "stage": "3.2",
+    "status": "complete",
+    "section": "5.2",
+    "reviewed_on": "2026-07-29",
+    "definition_integrity": "verified",
+    "statement_fidelity": "verified",
+    "nonvacuity": "verified",
+    "claims": [
+      {
+        "claim": "The minimal polynomial is monic, annihilates the element, has least degree, and divides every rational polynomial annihilating it.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "minpoly; minpoly.monic; minpoly.aeval; minpoly.min; minpoly.dvd"
+      },
+      {
+        "claim": "Algebraic conjugates are the roots sharing the same minimal polynomial and hence roots of every rational polynomial annihilating the original element.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "IsConjRoot; IsConjRoot.aeval_eq_zero; minpoly.dvd"
+      },
+      {
+        "claim": "Every algebraic conjugate of an algebraic integer is integral, and its rational minimal polynomial comes from a monic integer polynomial.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "IsConjRoot.isIntegral; minpoly.isIntegrallyClosed_eq_field_fractions'"
+      }
+    ]
+  }
   },
   {
-    "id": "Chapter5/Lemma5.2.6",
+  "id": "Chapter5/Lemma5.2.6",
     "type": "lemma",
     "title": "Algebraic conjugates of sums are sums of algebraic conjugates",
     "start_page": "97",
@@ -16048,7 +16220,23 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+  "last_updated": "2026-07-29",
+  "claim_coverage": {
+    "stage": "3.2",
+    "status": "complete",
+    "section": "5.2",
+    "reviewed_on": "2026-07-29",
+    "definition_integrity": "verified",
+    "statement_fidelity": "verified",
+    "nonvacuity": "verified",
+    "claims": [
+      {
+        "claim": "Every algebraic conjugate of a finite sum of algebraic numbers is a sum of chosen conjugates of the summands.",
+        "verdict": "formalized",
+        "lean_decl": "Etingof.Lemma5_2_6"
+      }
+    ]
+  }
   },
   {
     "id": "Chapter5/Problem5.2.7",
@@ -16103,7 +16291,7 @@
     "sorry_free": true
   },
   {
-    "id": "Chapter5/Remark5.2.8",
+  "id": "Chapter5/Remark5.2.8",
     "type": "remark",
     "title": "Modification of vanishing argument without part (a)",
     "start_page": "98",
@@ -16115,7 +16303,33 @@
     "last_updated": "2026-07-22",
     "fidelity": "verified",
     "note": "Formalized (issue #5654, epic #5338) in Chapter5/Remark5_2_8.lean, replacing the earlier doc-only false closure. The remark is an alternative proof of the vanishing statement of Problem 5.2.7(b), decomposing into five steps. Three are formalized as real sorry-free theorems: Step 1 (pow_coprime_bijective) g ↦ gʲ is a bijection G → G for gcd(|G|,j)=1; Step 2 (prod_ne_one_pow) reindexing the product over G∖{1} along that bijection gives ∏_{g≠1} f(gʲ) = ∏_{g≠1} f(g), i.e. ∏_{g≠1}|χ_V(gʲ)|² = β; Step 5 + contradiction (not_isIntegral_rat_mem_Ioo) no rational algebraic integer lies in (0,1), built on Etingof.Proposition5_2_5. Also formalized sorry-free: the algebraic-integer half (isIntegral_prod_normSq_character, β is a product of algebraic integers) and the root-of-unity content of Step 3 (character_eq_sum_rootsOfUnity: each χ_V(g) is a sum of N-th roots of unity, N=|G|, since the eigenvalues of ρ(g) are roots of its charpoly and ρ(g) has order dividing N — placing β in ℚ(ζ_N)). Step 4 (representation-theoretic core) is now formalized sorry-free (#5772): character_ringHom_pow proves σ(χ_V(g)) = χ_V(gʲ) for any ring endomorphism σ of ℂ raising every N-th root of unity to its j-th power, via the trace-power-sum trace_pow_eq_sum_eigenvalues (ρ(g) is semisimple as its minpoly divides squarefree X^N-1, so V splits into eigenspaces and trace(ρ(g)ᵏ)=∑_μ (dim Eμ)·μᵏ); combined with Step 2, ringHom_prod_char_inv gives σ(β)=β for β=∏_{g≠1} χ_V(g)·χ_V(g⁻¹). The field-theoretic half of Step 4 together with Step 3 (β∈ℚ) is now formalized sorry-free (#5772): character_prod_rat realizes the cyclotomic field K=ℚ(ζ_N) as the intermediate field ℚ⟮ζ⟯⊆ℂ for a primitive N-th root ζ, lifts β to β_K∈K (each character value is a ℤ-combination of N-th roots of unity, all lying in K), shows β_K is fixed by the whole Galois group Gal(K/ℚ) (each automorphism raises roots of unity to a fixed power ζ↦ζʲ via IsPrimitiveRoot.autToPow_spec, so φ(χ_V(g))=χ_V(gʲ) after transporting the eigenvalue decomposition into K, and reindexing along g↦gʲ restores the product), and concludes β_K∈ℚ from IsGalois.mem_range_algebraMap_iff_fixed (fixed field of the full Galois group is the base field). All five steps are composed into the capstone beta_rat_not_mem_Ioo (Remark 5.2.8, assembled): given the rational q with algebraMap ℚ ℂ q = β from character_prod_rat, and the bound 0<q<1, it derives False — β is a product of algebraic integers (FDRep.character_isIntegral), hence a rational algebraic integer, so not_isIntegral_rat_mem_Ioo applies. The one hypothesis not established in this file is 0<β<1, the main argument of Problem 5.2.7(b) (a separate item), taken as a hypothesis by the capstone. The remark's own content is thus fully formalized sorry-free; status stays proof_partial only because the self-contained contradiction relies on that external 5.2.7(b) bound.",
-    "fidelity_issue": 5654
+  "fidelity_issue": 5654,
+  "claim_coverage": {
+    "stage": "3.2",
+    "status": "complete",
+    "section": "5.2",
+    "reviewed_on": "2026-07-29",
+    "definition_integrity": "verified",
+    "statement_fidelity": "verified",
+    "nonvacuity": "verified",
+    "claims": [
+      {
+        "claim": "For gcd(j,|G|)=1, the power map g ↦ g^j is bijective and preserves the product defining beta after reindexing.",
+        "verdict": "formalized",
+        "lean_decl": "Etingof.Remark5_2_8.pow_coprime_bijective; Etingof.Remark5_2_8.prod_ne_one_pow"
+      },
+      {
+        "claim": "Character values lie in the cyclotomic field, and the Galois action sends chi(g) to chi(g^j) while fixing beta.",
+        "verdict": "formalized",
+        "lean_decl": "Etingof.Remark5_2_8.character_eq_sum_rootsOfUnity; Etingof.Remark5_2_8.character_ringHom_pow; Etingof.Remark5_2_8.ringHom_prod_char_inv"
+      },
+      {
+        "claim": "Beta is rational and integral, hence an integer; the bound 0 < beta < 1 supplied by Problem 5.2.7(b) yields the contradiction.",
+        "verdict": "formalized",
+        "lean_decl": "Etingof.Remark5_2_8.isIntegral_prod_normSq_character; Etingof.Remark5_2_8.character_prod_rat; Etingof.Remark5_2_8.not_isIntegral_rat_mem_Ioo; Etingof.Remark5_2_8.beta_rat_not_mem_Ioo"
+      }
+    ]
+  }
   },
   {
     "id": "Chapter5/Introduction_5.3",
