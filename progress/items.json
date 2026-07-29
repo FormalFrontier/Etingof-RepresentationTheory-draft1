@@ -16342,7 +16342,17 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "covered"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "5.3", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [
+        {"claim": "The section is devoted to Frobenius divisibility for irreducible complex representations.", "verdict": "context_only", "lean_decl": "Etingof.Theorem5_3_1"}
+      ]
     }
   },
   {
@@ -16357,7 +16367,15 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "5.3", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [
+        {"claim": "The dimension of every irreducible complex representation of a finite group divides the group order.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_3_1"},
+        {"claim": "The proof introduces the class-sum scalars lambda_C = |C| chi(g_C) / dim(V).", "verdict": "formalized", "lean_decl": "Etingof.Proposition5_3_2"}
+      ]
+    }
   },
   {
     "id": "Chapter5/Proposition5.3.2",
@@ -16371,7 +16389,15 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "5.3", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [
+        {"claim": "For every conjugacy class, |C| chi(g_C) / dim(V) is an algebraic integer.", "verdict": "formalized", "lean_decl": "Etingof.Proposition5_3_2"},
+        {"claim": "The proof realizes the class sum in Z[G], applies Schur's lemma, and identifies its scalar by taking traces.", "verdict": "formalized", "lean_decl": "Etingof.Proposition5_3_2"}
+      ]
+    }
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.3.1",
@@ -16384,7 +16410,17 @@
     "status": "sorry_free",
     "coverage": "covered_full",
     "coverage_note": "The public Frobenius-divisibility theorem and its algebraic-integer and character-orthogonality ingredients cover the proof discussion.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "fidelity": "verified",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "5.3", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [
+        {"claim": "Character values and the class-sum scalars are algebraic integers, so their finite sum is integral.", "verdict": "formalized", "lean_decl": "FDRep.character_isIntegral; Etingof.Proposition5_3_2; Etingof.Theorem5_3_1"},
+        {"claim": "Character orthogonality identifies that integral sum with |G|/dim(V).", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_3_1; FDRep.char_orthonormal"},
+        {"claim": "A rational algebraic integer is an integer, yielding the divisibility conclusion.", "verdict": "formalized", "lean_decl": "Etingof.Proposition5_2_5; Etingof.Theorem5_3_1"}
+      ]
+    }
   },
   {
     "id": "Chapter5/Exercise5.3.3",
@@ -16394,7 +16430,7 @@
     "end_page": "100",
     "start_line": 3,
     "end_line": 4,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "coverage": "covered_full",
