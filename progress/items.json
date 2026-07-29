@@ -16851,8 +16851,10 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
-    }
+      "result": "covered"
+    },
+    "coverage": "covered_full", "fidelity": "verified", "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.7", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The section introduces virtual representations.", "verdict": "formalized", "lean_decl": "Etingof.VirtualRepresentation"}]}
   },
   {
     "id": "Chapter5/Definition5.7.1",
@@ -16868,7 +16870,11 @@
     "coverage": "covered_full",
     "fidelity_note": "Coefficients are indexed by Etingof.IrrepClasses ℂ G (irreducibles up to isomorphism), so isomorphic models are the same summand (VirtualRepresentation.coeff_congr_iso, ofSingle_add_ofSingle_neg_of_iso). The virtual character is an additive homomorphism with the book's formula (VirtualRepresentation.character_apply) and χ_V(1) = Σ nᵢ dim Vᵢ (character_one_eq_dim). Definition5_7_1_Bridge feeds the class-indexed representative family to the general Lemma 5.7.2 and derives the book's conclusion V = ofSingle W hW 1 (eq_ofSingle_of_norm_one). Fixed by #7483.",
     "fidelity_decl": "Etingof.VirtualRepresentation",
-    "last_updated": "2026-07-25"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.7", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "A virtual representation is a finite integer linear combination of irreducible isomorphism classes.", "verdict": "formalized", "lean_decl": "Etingof.VirtualRepresentation"},
+      {"claim": "Its character is the corresponding integer linear combination of irreducible characters.", "verdict": "formalized", "lean_decl": "Etingof.VirtualRepresentation.character; Etingof.VirtualRepresentation.character_apply; Etingof.VirtualRepresentation.character_single"}
+    ]}
   },
   {
     "id": "Chapter5/Discussion_before_Lemma5.7.2",
@@ -16881,8 +16887,10 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
-    }
+      "result": "covered"
+    },
+    "coverage": "covered_full", "fidelity": "verified", "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.7", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The following criterion is the reusable result of the section.", "verdict": "context_only", "lean_decl": "Etingof.Lemma5_7_2"}]}
   },
   {
     "id": "Chapter5/Lemma5.7.2",
@@ -16896,7 +16904,8 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.7", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "A virtual character of squared norm one and positive value at the identity is the character of an irreducible representation.", "verdict": "formalized", "lean_decl": "Etingof.Lemma5_7_2"}]}
   },
   {
     "id": "Chapter5/Introduction_5.8",
