@@ -53,13 +53,11 @@ universe u v w
 namespace Etingof
 
 set_option backward.isDefEq.respectTransparency false
-set_option maxHeartbeats 3200000
-set_option synthInstance.maxHeartbeats 1600000
 
 variable (k : Type u) [Field k]
   (E : Type v) [AddCommGroup E] [Module k E] [Module.Finite k E]
 
-noncomputable local instance (priority := high) centralizerModuleHomSubmodule
+noncomputable local instance (priority := high) centralizerModuleHomSubmoduleBijection
     (A : Subalgebra k (Module.End k E)) (W : Submodule A E) :
     Module (↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
       (↥W →ₗ[A] E) := centralizerModuleHom k E (A := A) (V := ↥W)
@@ -93,6 +91,7 @@ noncomputable def homACongrLeftCentralizer
     change (centralizerToEndA k E A b) (f (e v)) = (centralizerToEndA k E A b) (f (e v))
     rfl
 
+omit [Module.Finite k E] in
 /-- **Simplicity of `Hom_A(V, E)` for an abstract simple `A`-module.**
 
 `isSimpleModule_homA_centralizer` proves `Hom_A(V, E)` is a simple `B`-module

@@ -83,7 +83,17 @@ require an explicit scope entry, matching metadata, and review.
 - **Notes:** All 8 chapters (2–9) scaffolded: 231 Lean files, ~249 sorry placeholders. Module structure established (#535). Chapter 2 reviewed (#539). Remaining chapter reviews pending (#531, #541, #542, #543). Three scaffolding patterns: Mathlib alias, custom definition, sorry'd statement.
 
 ## Stage 3.2: Proof Filling
-- **Status:** In progress (project tail)
+- **Status:** Complete
 - **Date started:** 2026-03-16
-- **Latest update:** 2026-07-28 (scope-policy and placeholder-classification refresh, #8110)
-- **Notes:** The automated comment/string-aware scan reports one blocking `sorry` (`Chapter2/Theorem2_1_2_General.lean`) and no `admit` or project axiom declarations. It separately reports one approved, non-blocking `proof_wanted`: `Chapter2/Remark2_9_3.lean` `ado`. The Ado–Iwasawa marker is scope-complete rather than part of the active proof frontier. Run `scripts/check_proof_placeholders.py` for the current classification and add `--enforce-completion` for the release gate.
+- **Completion date:** 2026-07-29
+- **Notes:** The release scan reports zero blocking `sorry`, `admit`, wanted-definition/instance, or project-axiom declarations. The sole wanted theorem is the individually approved, non-blocking `Etingof.ado` marker, whose deliberate omission is documented in `skipped-exercises.md` and machine-readable metadata. Exercise reconciliation reports 96 fully covered exercises, six documented scope/correction partials, and zero untracked gaps. All chapter aggregates build.
+
+## Stage 3.4: Dependency Trimming
+- **Status:** In progress (post-formalization quality workflow)
+- **Latest update:** 2026-07-29
+- **Notes:** The validated 583-entry dependency graph has been reduced from the 169,653-edge conservative baseline to 512 recorded direct edges. Detailed per-item Stage 3.4 records are complete for 147 items that have reached `dependency_trimmed` or `proof_polished`; remaining items retain a conservative direct predecessor until reviewed.
+
+## Stage 3.5: Proof Polishing
+- **Status:** In progress (post-formalization quality workflow)
+- **Latest update:** 2026-07-29
+- **Notes:** 129 items have reached `proof_polished`. CI enforces a ratcheting warning baseline, and mathematical completion is independently protected by the proof-placeholder and exercise-coverage release gates.

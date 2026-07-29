@@ -18,6 +18,12 @@ in `progress/items.json`. The currently approved Ado–Iwasawa marker in Remark
 Run `scripts/check_proof_placeholders.py --enforce-completion` to check these
 release criteria.
 
+The mathematical formalization reached this completion gate on 2026-07-29:
+the scanner reports zero blocking placeholders, the exercise ledger reports no
+untracked gaps, and the sole wanted theorem is the explicitly approved Ado–Iwasawa
+scope marker. The post-formalization dependency-trimming and style-polishing
+workflow remains tracked separately and does not change this scope decision.
+
 ## GitHub configuration
 
 To set up your new GitHub repository, follow these steps:

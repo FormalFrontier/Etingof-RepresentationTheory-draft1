@@ -47,7 +47,7 @@ variable (k : Type u) [Field k]
   (V : Type v) [AddCommGroup V] [Module k V] [Module.Finite k V]
   (n : ℕ)
 
-noncomputable local instance (priority := high) symGroupImageRing :
+noncomputable local instance (priority := high) symGroupImageRingBimoduleFull :
     Ring (symGroupImage k V n) := (symGroupImage k V n).toRing
 
 -- Heartbeat bumps match `Theorem5_18_4_bimodule_decomposition`: the deep

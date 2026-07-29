@@ -33,7 +33,7 @@ jobs:
         run: |
           set -o pipefail
           python3 scripts/test_check_proof_placeholders.py
-          scripts/check_proof_placeholders.py
+          scripts/check_proof_placeholders.py --enforce-completion
           python3 scripts/validate_items.py | tail -4
       - name: Forbid native_decide (trust-hole guard)
         run: |

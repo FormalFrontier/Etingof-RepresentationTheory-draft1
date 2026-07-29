@@ -49,6 +49,11 @@ def charRep (ξ : G →* ℂˣ) : Representation ℂ G ℂ where
     change ((ξ (a * b) : ℂˣ) : ℂ) * x = ((ξ a : ℂˣ) : ℂ) * (((ξ b : ℂˣ) : ℂ) * x)
     rw [map_mul, Units.val_mul, mul_assoc]
 
+@[simp] lemma charRep_apply (ξ : G →* ℂˣ) (g : G) (z : ℂ) :
+    charRep ξ g z = (ξ g : ℂ) * z := by
+  change (((ξ g : ℂˣ) : ℂ) • LinearMap.id) z = _
+  simp
+
 /-- The one-dimensional `FDRep ℂ G` attached to a character `ξ : G →* ℂˣ`. -/
 def charFDRep (ξ : G →* ℂˣ) : FDRep ℂ G := FDRep.of (charRep ξ)
 

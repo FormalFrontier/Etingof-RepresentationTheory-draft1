@@ -301,9 +301,9 @@ theorem Etingof.Example5_1_3_ZMod_isRealType_iff
     apply Etingof.oneDim_not_isRealType_of_character_not_pm_one
       (Etingof.AbelianFDRep.charRep ξ) ?_ hreal
     refine ⟨g, ?_, ?_⟩
-    · change ((ξ g : ℂˣ) : ℂ) ≠ 1
+    · rw [Etingof.AbelianFDRep.charRep_apply, mul_one]
       exact fun h => h1 (Units.ext h)
-    · change ((ξ g : ℂˣ) : ℂ) ≠ -1
+    · rw [Etingof.AbelianFDRep.charRep_apply, mul_one]
       exact fun h => hm1 (Units.ext h)
   · rintro (rfl | ⟨hn, rfl⟩)
     · exact Etingof.Example5_1_3_ZMod_trivial_isRealType
@@ -329,13 +329,12 @@ theorem Etingof.Example5_1_3_ZMod_isComplexType_iff
     apply Etingof.oneDim_isComplexType_of_character_not_pm_one
     by_contra hnone
     push Not at hnone
+    simp only [Etingof.AbelianFDRep.charRep_apply, mul_one] at hnone
     have hpm : ∀ g, ξ g = 1 ∨ ξ g = -1 := by
       intro g
       by_cases h1 : ξ g = 1
       · exact Or.inl h1
-      by_cases hm1 : ξ g = -1
-      · exact Or.inr hm1
-      exact False.elim (hnone g (fun h => h1 (Units.ext h)) (fun h => hm1 (Units.ext h)))
+      · exact Or.inr (Units.ext (hnone g (fun h => h1 (Units.ext h))))
     rcases Etingof.ZMod_character_eq_one_or_sign_of_forall_eq_one_or_neg_one ξ hpm with h | ⟨hn, h⟩
     · exact hneOne h
     · exact hneSign hn h

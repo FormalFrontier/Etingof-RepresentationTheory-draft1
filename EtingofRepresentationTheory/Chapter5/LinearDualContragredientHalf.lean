@@ -109,6 +109,9 @@ theorem isAlgebraic_charTwist_detChar_natPow {Y : Type} [AddCommGroup Y] [Module
 
 /-! ## The linear-dual half -/
 
+set_option synthInstance.maxHeartbeats 80000 in
+-- The weight-space finrank step synthesizes the inherited torsion-free submodule instance.
+
 /-- **The linear-dual half of the contragredient identity.** With `λ' := λ.toNatWeight`
 and `m := s + λ.shift`, under the largeness hypothesis `hs : ∀ i, λ' i ≤ m`, the
 `det^s`-twist of the linear-dual contragredient `(algIrrepGLRepρ n λ k).dual` is

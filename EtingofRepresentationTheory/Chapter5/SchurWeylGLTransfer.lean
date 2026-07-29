@@ -490,7 +490,7 @@ theorem submodule_smul_mem_diagonalActionImage_of_unit_smul_mem
         (⟨b₂, h₂_mem⟩ : diagonalActionImage k V n) from rfl, mul_smul]
     exact hy₁
 
-noncomputable local instance (priority := high) symGroupImageRing
+noncomputable local instance (priority := high) symGroupImageRingGLTransfer
     {V : Type*} [AddCommGroup V] [Module k V] [Module.Finite k V] (n : ℕ) :
     Ring (symGroupImage k V n) := (symGroupImage k V n).toRing
 

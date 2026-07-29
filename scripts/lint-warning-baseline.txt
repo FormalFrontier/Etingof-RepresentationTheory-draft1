@@ -15,9 +15,6 @@ EtingofRepresentationTheory/Chapter3/Problem3_9_5.lean
 EtingofRepresentationTheory/Chapter3/Remark3_8_6.lean
 EtingofRepresentationTheory/Chapter3/Theorem3_10_2.lean
 EtingofRepresentationTheory/Chapter3/Theorem3_8_1.lean
-EtingofRepresentationTheory/Chapter4/Corollary4_2_2.lean
-EtingofRepresentationTheory/Chapter4/Corollary4_2_4.lean
-EtingofRepresentationTheory/Chapter4/Discussion_4_4.lean
 EtingofRepresentationTheory/Chapter4/Example4_3_S4.lean
 EtingofRepresentationTheory/Chapter4/Example4_8_1/A5Classes.lean
 EtingofRepresentationTheory/Chapter4/Example4_8_1/A5Golden.lean
@@ -25,7 +22,6 @@ EtingofRepresentationTheory/Chapter4/Example4_8_1/A5Lambda2.lean
 EtingofRepresentationTheory/Chapter4/Example4_8_1/Q8.lean
 EtingofRepresentationTheory/Chapter4/Example4_8_1/S4.lean
 EtingofRepresentationTheory/Chapter4/Example4_9_1.lean
-EtingofRepresentationTheory/Chapter4/Exercise4_2_3.lean
 EtingofRepresentationTheory/Chapter4/Exercise4_2_3_Cocenter.lean
 EtingofRepresentationTheory/Chapter4/Exercise4_2_3_FieldGeneral.lean
 EtingofRepresentationTheory/Chapter4/Exercise4_2_3_SplitSimples.lean
@@ -39,11 +35,9 @@ EtingofRepresentationTheory/Chapter4/Problem4_12_7.lean
 EtingofRepresentationTheory/Chapter4/Problem4_12_8.lean
 EtingofRepresentationTheory/Chapter4/Problem4_5_2.lean
 EtingofRepresentationTheory/Chapter4/Proposition4_1_2.lean
-EtingofRepresentationTheory/Chapter4/Proposition4_7_1.lean
 EtingofRepresentationTheory/Chapter4/Remark4_5_3.lean
 EtingofRepresentationTheory/Chapter4/Remark4_5_5.lean
 EtingofRepresentationTheory/Chapter4/Theorem4_10_2.lean
-EtingofRepresentationTheory/Chapter4/Theorem4_2_1.lean
 EtingofRepresentationTheory/Chapter4/Theorem4_5_4.lean
 EtingofRepresentationTheory/Chapter5/AlgIrrepGLNonIso.lean
 EtingofRepresentationTheory/Chapter5/CauchyDetQuotientDegree.lean
@@ -111,7 +105,6 @@ EtingofRepresentationTheory/Chapter5/Problem5_24_2.lean
 EtingofRepresentationTheory/Chapter5/Problem5_24_2_Bridge.lean
 EtingofRepresentationTheory/Chapter5/Problem5_24_2_Core.lean
 EtingofRepresentationTheory/Chapter5/Problem5_2_7.lean
-EtingofRepresentationTheory/Chapter5/Proposition5_19_1.lean
 EtingofRepresentationTheory/Chapter5/Proposition5_21_1.lean
 EtingofRepresentationTheory/Chapter5/Proposition5_21_2.lean
 EtingofRepresentationTheory/Chapter5/Proposition5_22_2.lean
@@ -138,8 +131,6 @@ EtingofRepresentationTheory/Chapter5/Theorem5_12_2_Irreducible.lean
 EtingofRepresentationTheory/Chapter5/Theorem5_14_3.lean
 EtingofRepresentationTheory/Chapter5/Theorem5_15_1.lean
 EtingofRepresentationTheory/Chapter5/Theorem5_18_1.lean
-EtingofRepresentationTheory/Chapter5/Theorem5_18_2.lean
-EtingofRepresentationTheory/Chapter5/Theorem5_18_2_helpers.lean
 EtingofRepresentationTheory/Chapter5/Theorem5_18_4.lean
 EtingofRepresentationTheory/Chapter5/Theorem5_22_1.lean
 EtingofRepresentationTheory/Chapter5/Theorem5_23_2.lean
