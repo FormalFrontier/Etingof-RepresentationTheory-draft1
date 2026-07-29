@@ -18587,6 +18587,16 @@
     "start_line": 5,
     "end_line": 6,
     "status": "sorry_free",
+    "coverage": "not_applicable",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "5.20",
+      "reviewed_on": "2026-07-29",
+      "result": "no_formalizable_claims"
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -18601,6 +18611,17 @@
     "start_line": 7,
     "end_line": 5,
     "status": "sorry_free",
+    "coverage": "not_applicable",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "5.20",
+      "reviewed_on": "2026-07-29",
+      "result": "no_formalizable_claims",
+      "note": "This section is a historical and biographical interlude; it contains no mathematical assertion intended for formalization."
+    },
     "coverage_swept": {
       "wave": 1,
       "result": "none"
