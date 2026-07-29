@@ -17094,8 +17094,10 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
-    }
+      "result": "covered"
+    },
+    "coverage": "covered_full", "fidelity": "verified", "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.9", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "For finite index H≤G, the section computes the induced character using chosen right-coset representatives.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_9_1_coset"}]}
   },
   {
     "id": "Chapter5/Theorem5.9.1",
@@ -17105,12 +17107,16 @@
     "end_page": "109",
     "start_line": 5,
     "end_line": 10,
-    "status": "proved",
+    "status": "sorry_free",
     "sorry_free": true,
-    "fidelity": "full",
-    "coverage": "covered",
+    "fidelity": "verified",
+    "coverage": "covered_full",
     "coverage_note": "[resolved #7559] EtingofRepresentationTheory/Chapter5/Theorem5_9_1_Coset.lean now provides Etingof.Theorem5_9_1_coset, stating the Frobenius formula in the source's sum-over-right-cosets form χ(g) = Σ_{σ ∈ H\\G : x_σ g x_σ⁻¹ ∈ H} χ_V(x_σ g x_σ⁻¹) (representatives x_σ = σ.out), and proves it equal to the averaged form Etingof.Theorem5_9_1 via the coset-counting bridge Etingof.frobenius_coset_bridge. Representative-independence is proved: Etingof.frobeniusSummand_smul_left (the summand is H-left-invariant) and Etingof.frobeniusSummand_congr (the summand depends only on the right H-coset). sorry-free.",
-    "last_updated": "2026-07-24"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.9", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The induced character equals the source's sum over fixed right cosets of chi_V(x_sigma g x_sigma⁻¹).", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_9_1_coset"},
+      {"claim": "The summand is independent of the representative chosen for a right coset.", "verdict": "formalized", "lean_decl": "Etingof.frobeniusSummand_smul_left; Etingof.frobeniusSummand_congr"}
+    ]}
   },
   {
     "id": "Chapter5/Remark5.9.2",
@@ -17124,7 +17130,8 @@
     "coverage": "covered_full",
     "last_updated": "2026-07-22",
     "fidelity": "verified",
-    "fidelity_note": "[resolved #5653] Coverage gap closed by PR for #5653: EtingofRepresentationTheory/Chapter5/Remark5_9_2.lean now provides Etingof.Remark_5_9_2, stating the averaged Frobenius character formula χ(g) = (1/|H|) · Σ_{x∈G : xgx⁻¹∈H} χ_V(xgx⁻¹). The wave-2 finding was correct that no declaration named Remark5_9_2 existed, but the remark's mathematical content was already fully formalized: Etingof.Theorem5_9_1 was proved directly in the averaged form (choosing a transversal of H\\G is awkward to formalize, so the averaged phrasing is the primary statement — see Theorem5_9_1.lean's module docstring). Remark_5_9_2 records that averaged formula under the book item's name, deriving it from Theorem5_9_1 over k = ℂ (characteristic 0, so the 'char coprime to |H|' hypothesis holds automatically). sorry-free; axioms [propext, Classical.choice, Quot.sound]; imported into Chapter5.lean."
+    "fidelity_note": "[resolved #5653] Coverage gap closed by PR for #5653: EtingofRepresentationTheory/Chapter5/Remark5_9_2.lean now provides Etingof.Remark_5_9_2, stating the averaged Frobenius character formula χ(g) = (1/|H|) · Σ_{x∈G : xgx⁻¹∈H} χ_V(xgx⁻¹). The wave-2 finding was correct that no declaration named Remark5_9_2 existed, but the remark's mathematical content was already fully formalized: Etingof.Theorem5_9_1 was proved directly in the averaged form (choosing a transversal of H\\G is awkward to formalize, so the averaged phrasing is the primary statement — see Theorem5_9_1.lean's module docstring). Remark_5_9_2 records that averaged formula under the book item's name, deriving it from Theorem5_9_1 over k = ℂ (characteristic 0, so the 'char coprime to |H|' hypothesis holds automatically). sorry-free; axioms [propext, Classical.choice, Quot.sound]; imported into Chapter5.lean.",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.9", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "When |H| is invertible, the coset formula equals the averaged sum over all x∈G divided by |H|.", "verdict": "formalized", "lean_decl": "Etingof.Remark_5_9_2; Etingof.Theorem5_9_1; Etingof.frobenius_coset_bridge"}]}
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.9.1",
@@ -17134,12 +17141,16 @@
     "end_page": "110",
     "start_line": 15,
     "end_line": 2,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "coverage": "covered_partial",
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "coverage": "covered_full",
     "coverage_issue": 7559,
-    "coverage_note": "The averaged trace computation is proved, but the asserted coset-counting/conjugacy bridge to the source's representative formula exists only in prose (#7559).",
-    "last_updated": "2026-07-22"
+    "coverage_note": "Resolved #7559: the trace computation, representative independence, and coset-counting bridge are all formalized and pass fresh source checks.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.9", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The trace of the induced action is computed by decomposing contributions according to cosets; non-fixed cosets contribute zero and fixed cosets contribute the trace of the conjugated H-action.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_9_1; Etingof.Theorem5_9_1_coset"},
+      {"claim": "Counting |H| representatives per right coset converts the averaged trace formula to the source formula.", "verdict": "formalized", "lean_decl": "Etingof.frobenius_coset_bridge"}
+    ]}
   },
   {
     "id": "Chapter5/Introduction_5.10",
