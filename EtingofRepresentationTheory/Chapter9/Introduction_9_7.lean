@@ -6,6 +6,8 @@ import EtingofRepresentationTheory.Chapter9.KrullSchmidt.Exchange
 import Mathlib.CategoryTheory.Limits.Shapes.Biproducts
 import Mathlib.CategoryTheory.Preadditive.Projective.Basic
 
+set_option backward.isDefEq.respectTransparency false
+
 universe u v w
 
 /-!

@@ -4,6 +4,8 @@ import Mathlib.Algebra.Polynomial.Module.TensorProduct
 import Mathlib.LinearAlgebra.Finsupp.VectorSpace
 import Mathlib.Algebra.Polynomial.Inductions
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Koszul SES helper lemmas
 

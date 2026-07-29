@@ -4,6 +4,8 @@ import Mathlib.LinearAlgebra.Span.Basic
 import Mathlib.Algebra.Module.LinearMap.Defs
 import Mathlib.Data.Finsupp.Basic
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Projective covers of the path algebra and the Hom-space identification
 

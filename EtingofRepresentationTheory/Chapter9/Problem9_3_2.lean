@@ -6,6 +6,7 @@ import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.RingTheory.SimpleModule.Rank
 import Mathlib.Algebra.Module.Submodule.RestrictScalars
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+
 import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 import Mathlib.Algebra.Homology.DerivedCategory.Ext.ExactSequences
 import Mathlib.Algebra.Homology.DerivedCategory.Ext.ExtClass
@@ -16,6 +17,8 @@ import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 import EtingofRepresentationTheory.Chapter9.Definition9_3_1
 import EtingofRepresentationTheory.Chapter9.Definition9_5_1
 import EtingofRepresentationTheory.Chapter9.Theorem9_2_1
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Problem 9.3.2: a four-dimensional algebra with a single block
@@ -514,15 +517,20 @@ lemma x_mul_eplus : x * eplus = xeplus := by
   rw [hxg, ← sub_eq_add_neg]
 
 lemma g_mul_xeplus : g * xeplus = -xeplus := by
-  rw [xeplus, mul_smul_comm, ← smul_neg]
-  congr 1
-  rw [mul_sub, ← mul_assoc, gsq_rel, one_mul, neg_sub]
+  rw [xeplus, mul_smul_comm]
+  have hinner : g * (x - g * x) = -(x - g * x) := by
+    rw [mul_sub, ← mul_assoc, gsq_rel, one_mul, neg_sub]
+  exact (congrArg ((2⁻¹ : ℂ) • ·) hinner).trans (smul_neg _ _)
 
 lemma x_mul_xeplus : x * xeplus = 0 := by
   have h : x * (x - g * x) = 0 := by
-    rw [mul_sub, xsq_rel, ← mul_assoc]
     have hxg : x * g = -(g * x) := by rw [eq_neg_iff_add_eq_zero, add_comm]; exact anticomm_rel
-    rw [hxg, neg_mul, mul_assoc, xsq_rel, mul_zero, neg_zero, sub_zero]
+    calc
+      x * (x - g * x) = x * x - x * (g * x) := mul_sub _ _ _
+      _ = x * x - (x * g) * x := by rw [← mul_assoc]
+      _ = 0 - (-(g * x)) * x := by rw [xsq_rel, hxg]
+      _ = 0 - -((g * x) * x) := congrArg (0 - ·) (neg_mul (g * x) x)
+      _ = 0 := by rw [mul_assoc, xsq_rel, mul_zero, neg_zero, sub_zero]
   rw [xeplus, mul_smul_comm, h, smul_zero]
 
 lemma eplus_smul_e0 : eplus • Pplus.e0 = Pplus.e0 := by
@@ -557,7 +565,8 @@ noncomputable def iPlus : Pplus →ₗ[A] A :=
         rw [← Pplus.smul_def, Pplus.g_smul]
         simp only [φiPlus_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
           Algebra.coe_lmul_eq_mul, LinearMap.mul_apply', neg_smul]
-        rw [mul_add, mul_smul_comm, mul_smul_comm, g_mul_eplus, g_mul_xeplus, smul_neg])
+        rw [mul_add, mul_smul_comm, mul_smul_comm, g_mul_eplus, g_mul_xeplus]
+        module)
     (by intro v
         rw [← Pplus.smul_def, Pplus.x_smul]
         simp only [φiPlus_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
@@ -840,9 +849,10 @@ noncomputable def eminus : A := (2⁻¹ : ℂ) • (1 - g)
 noncomputable def xeminus : A := (2⁻¹ : ℂ) • (x + g * x)
 
 lemma g_mul_eminus : g * eminus = -eminus := by
-  rw [eminus, mul_smul_comm, ← smul_neg]
-  congr 1
-  rw [mul_sub, mul_one, gsq_rel, neg_sub]
+  rw [eminus, mul_smul_comm]
+  have hinner : g * (1 - g) = -(1 - g) := by
+    rw [mul_sub, mul_one, gsq_rel, neg_sub]
+  exact (congrArg ((2⁻¹ : ℂ) • ·) hinner).trans (smul_neg _ _)
 
 lemma x_mul_eminus : x * eminus = xeminus := by
   rw [eminus, xeminus, mul_smul_comm]
@@ -858,9 +868,13 @@ lemma g_mul_xeminus : g * xeminus = xeminus := by
 
 lemma x_mul_xeminus : x * xeminus = 0 := by
   have h : x * (x + g * x) = 0 := by
-    rw [mul_add, xsq_rel, ← mul_assoc]
     have hxg : x * g = -(g * x) := by rw [eq_neg_iff_add_eq_zero, add_comm]; exact anticomm_rel
-    rw [hxg, neg_mul, mul_assoc, xsq_rel, mul_zero, neg_zero, add_zero]
+    calc
+      x * (x + g * x) = x * x + x * (g * x) := mul_add _ _ _
+      _ = x * x + (x * g) * x := by rw [← mul_assoc]
+      _ = 0 + (-(g * x)) * x := by rw [xsq_rel, hxg]
+      _ = 0 + -((g * x) * x) := congrArg (0 + ·) (neg_mul (g * x) x)
+      _ = 0 := by rw [mul_assoc, xsq_rel, mul_zero, neg_zero, add_zero]
   rw [xeminus, mul_smul_comm, h, smul_zero]
 
 lemma eminus_smul_e0 : eminus • Pminus.e0 = Pminus.e0 := by
@@ -895,7 +909,8 @@ noncomputable def iMinus : Pminus →ₗ[A] A :=
         rw [← Pminus.smul_def, Pminus.g_smul]
         simp only [φiMinus_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
           Algebra.coe_lmul_eq_mul, LinearMap.mul_apply', neg_smul]
-        rw [mul_add, mul_smul_comm, mul_smul_comm, g_mul_eminus, g_mul_xeminus, smul_neg])
+        rw [mul_add, mul_smul_comm, mul_smul_comm, g_mul_eminus, g_mul_xeminus]
+        module)
     (by intro v
         rw [← Pminus.smul_def, Pminus.x_smul]
         simp only [φiMinus_apply, Matrix.cons_val_zero, Matrix.cons_val_one,

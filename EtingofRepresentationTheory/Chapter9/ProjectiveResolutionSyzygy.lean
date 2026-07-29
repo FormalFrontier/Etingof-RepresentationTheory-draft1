@@ -3,6 +3,8 @@ import Mathlib.Algebra.Homology.ShortComplex.ShortExact
 import Mathlib.Algebra.Homology.ShortComplex.Exact
 import Mathlib.CategoryTheory.Abelian.Basic
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Syzygies of a projective resolution
 

@@ -5,6 +5,8 @@ import Mathlib.Algebra.Category.ModuleCat.Projective
 import Mathlib.CategoryTheory.Preadditive.Projective.Preserves
 import Mathlib.RingTheory.SimpleModule.InjectiveProjective
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The noncommutative induction functor `A ⊗_S -` for a path algebra
 

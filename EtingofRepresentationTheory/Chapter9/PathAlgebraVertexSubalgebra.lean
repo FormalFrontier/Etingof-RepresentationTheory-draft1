@@ -1,6 +1,8 @@
 import EtingofRepresentationTheory.Chapter2.Definition2_8_4
 import Mathlib.RingTheory.SimpleModule.Basic
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The vertex subalgebra of a path algebra
 

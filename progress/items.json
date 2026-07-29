@@ -23744,6 +23744,10 @@
     "start_line": 1,
     "end_line": 4,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "coverage_note": "Chapter scope and the finite-dimensional-algebra setting are represented by the audited Chapter 9 development.",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -23758,6 +23762,10 @@
     "start_line": 5,
     "end_line": 8,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "coverage_note": "The section setup is realized by the complete idempotent-lifting declarations that follow.",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -23816,6 +23824,10 @@
     "start_line": 11,
     "end_line": 16,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "coverage_note": "The projective-cover setup and classification context are realized by the audited section providers.",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -23878,6 +23890,10 @@
     "start_line": 1,
     "end_line": 4,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "coverage_note": "The Cartan-matrix setup is represented by the intrinsic Hom-dimension construction and its audited computations.",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -23976,6 +23992,10 @@
     "start_line": 11,
     "end_line": 14,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "coverage_note": "The homological-dimension setup is represented by the normalized projective-dimension and left/right homological-dimension APIs.",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -24113,13 +24133,13 @@
     "end_page": "217",
     "start_line": 5,
     "end_line": 6,
-    "status": "proved",
-    "fidelity": "full",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "needs_statement": false,
     "attention_needed": false,
     "notes": "The file has the exact Hilbert-syzygy endpoint `Etingof.Example_9_4_4` and checks cleanly (sorry-free) under `lake build` (2454 jobs). Regression #7491 was reproduced only via bare `lake env lean`, which does not apply the lakefile's global `weak.backward.isDefEq.respectTransparency = false`; under that stricter elaborator the change-of-scalars morphism proofs fail as `rw`/`simp` no longer match defeq `F.obj (G.obj M)` vs `(G ⋙ F).obj M`. Pinned `backward.isDefEq.respectTransparency false` at the three affected declarations so the file also passes bare `lake env lean` (mirroring Mathlib's own usage on ExtendRestrictScalarsAdj.counit). CI was never broken.",
     "coverage": "covered_full",
-    "last_updated": "2026-07-24"
+    "last_updated": "2026-07-29"
   },
   {
     "id": "Chapter9/Problem9.4.5",
@@ -24129,7 +24149,7 @@
     "end_page": "217",
     "start_line": 7,
     "end_line": 10,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
@@ -24258,6 +24278,10 @@
     "start_line": 15,
     "end_line": 18,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "coverage_note": "The block-decomposition setup is represented by the audited block relation, examples, and classification exercise.",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -24276,7 +24300,8 @@
     "needs_statement": false,
     "sorry_free": true,
     "fidelity_note": "[fidelity wave 9 → fixed #5850] Linking now gated on simple modules: the base relation Etingof.ExtOrIsoSimple carries IsSimpleModule side conditions on both endpoints, so every chain step connects two simples (the coarser all-modules chain that linked X, Y across a product A₁ × A₂ via N = N₁ ⊕ N₂ no longer exists). Blocks are the JH-factor subcategories: Etingof.IsCompositionFactor (simple subquotient), Etingof.InBlock S M (all JH factors of M linked to S), and Etingof.Block = quotient of the simple objects by linking (the index set B).",
-    "fidelity_issue": 5850
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29"
   },
   {
     "id": "Chapter9/Example9.5.2",
@@ -24291,8 +24316,8 @@
     "needs_statement": false,
     "sorry_free": true,
     "fidelity_note": "All three parts are proved. For part (i), Etingof.Problem953.semisimpleBlockEquivalence identifies the entire block category with ModuleCat k under the book's finite-dimensional semisimple algebra / algebraically closed field hypotheses, and semisimpleBlockEquivalenceFin gives the book-faithful finite-dimensional restriction. Parts (ii) and (iii) prove the local Artinian and Problem 9.3.2 single-block claims.",
-    "coverage": "covered",
-    "last_updated": "2026-07-27"
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29"
   },
   {
     "id": "Chapter9/Problem9.5.3",
@@ -24445,11 +24470,10 @@
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The intended finite-dimensional-Hom theorem is present, but Introduction_9_6.lean fails a fresh source check in exact_leftComp, preventing IsFiniteAbelianCategoryOverField.finiteDimensional_hom from rebuilding; regression #7511.",
-    "fidelity_issue": 7511,
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The finite-length and scalar-endomorphism hypotheses are formalized, and IsFiniteAbelianCategoryOverField.finiteDimensional_hom now rebuilds from clean source.",
+    "last_updated": "2026-07-29"
   },
   {
     "id": "Chapter9/Definition9.6.1",
@@ -24477,7 +24501,7 @@
     "start_line": 21,
     "end_line": 2,
     "status": "sorry_free",
-    "fidelity": "faithful",
+    "fidelity": "verified",
     "needs_statement": false,
     "notes": "Two notions are now exposed. Etingof.IsProjectiveGenerator (= Projective and IsSeparator) is the faithful general Definition 9.6.2: IsProjectiveGenerator.epi_coproduct shows it means every object is a quotient of an arbitrary (possibly infinite) coproduct of copies of P. The regular-module example is formalized sorry-free in Definition9_6_2_Example.lean (moduleCat_regular_isProjectiveGenerator: ModuleCat.of R R is a general projective generator over an arbitrary ring). Etingof.IsProgenerator is retained as the documented finite/finitely-generated variant used downstream; IsProgenerator.isProjectiveGenerator (Theorem9_6_4.lean) proves finite => general, justifying the finite consumers. The reverse agreement (general => finite) is now proved sorry-free in Definition9_6_2_Agreement.lean (IsProjectiveGenerator.isProgenerator): in an IsFiniteAbelianCategory (finite-length objects), a projective separator is a finite progenerator, via a Noetherian maximal-image argument (isNoetherianObject_of_finiteDimensionalOrder_subobject). Both notions therefore agree in the Theorem 9.6.4 setting.",
     "sorry_free": true,
@@ -24548,8 +24572,8 @@
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "full",
-    "coverage": "covered",
+    "fidelity": "verified",
+    "coverage": "covered_full",
     "coverage_note": "The equivalence functor setup is source-present and Theorem9_6_4.lean now elaborates cleanly under both fresh `lake env lean` and its `lake build` target, so the setup rebuilds into the required equivalence; regression #7505 resolved.",
     "last_updated": "2026-07-23"
   },
@@ -24561,16 +24585,16 @@
     "end_page": "219",
     "start_line": 7,
     "end_line": 10,
-    "status": "proved",
-    "fidelity": "full",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "needs_statement": false,
     "notes": "Theorem_9_6_4 has the book-faithful finitely generated-module target and a faithful/full/essentially-surjective proof, all importable. The over-a-field corollaries derive the Noetherian hypothesis and the finite-dimensional module category.",
     "attention_needed": false,
     "sorries": 0,
     "sorry_free": true,
     "fidelity_note": "The coyoneda coercion and finite-biproduct additive proofs were repaired for current Mathlib (ConcreteCategory.hom coercion and End/Hom transparency), so the source-facing equivalence imports cleanly; regression #7505 resolved.",
-    "coverage": "covered",
-    "last_updated": "2026-07-23"
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29"
   },
   {
     "id": "Chapter9/Problem9.6.5",
@@ -24580,7 +24604,7 @@
     "end_page": "219",
     "start_line": 11,
     "end_line": 29,
-    "status": "proved",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter9/Problem9_6_5.lean"
@@ -24601,7 +24625,7 @@
     ],
     "coverage": "covered_full",
     "fidelity": "verified",
-    "last_updated": "2026-07-28",
+    "last_updated": "2026-07-29",
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
@@ -24675,14 +24699,12 @@
     "end_page": "220",
     "start_line": 1,
     "end_line": 6,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "sorry_free": true,
-    "note": "The projective-generator and B_n declarations are source-present, but the categorical Krull-Schmidt existence chain currently fails from source (#7549), and its separate Fitting/local-endomorphism dependency also fails (#7552). The residual Morita-class exhaustion gap remains #5147.",
-    "coverage": "covered_partial",
-    "fidelity": "partial",
-    "coverage_issue": 7549,
-    "followup_issue": 5147,
-    "last_updated": "2026-07-22",
+    "note": "The Krull-Schmidt chain rebuilds from source; projective generators are exactly the positive finite biproducts of the complete indecomposable-projective family, and the B_n family exhausts the corresponding finite-module Morita class.",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -24711,13 +24733,11 @@
     "end_page": "220",
     "start_line": 9,
     "end_line": 12,
-    "status": "partially_proved",
-    "coverage": "covered_partial",
-    "fidelity": "partial",
-    "coverage_issue": 7549,
-    "coverage_note": "The dimension-minimization and matrix-product commutativity lemmas are source-present. Their Krull-Schmidt support currently has independent existence (#7549) and Fitting/local-endomorphism (#7552) source regressions. Chapter9/CartanMatrixSizes.lean identifies the genuine B_n / Rad(B_n) matrix sizes with n_i and proves the basic-algebra criterion when a complete simple family and the projective-cover delta-Hom formula are supplied. Deriving that data from the bare indecomposable-projective hypotheses remains #7957; Morita-class exhaustion remains #5147.",
-    "followup_issue": 7921,
-    "last_updated": "2026-07-27",
+    "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "The B_n family exhausts the finite-module Morita class; its dimension is the Cartan quadratic form, minimized at multiplicity one, and its semisimple quotient is commutative exactly in that basic case.",
+    "last_updated": "2026-07-29",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -24748,15 +24768,13 @@
     "start_line": 17,
     "end_line": 19,
     "status": "sorry_free",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "needs_statement": false,
-    "notes": "The categorical form is sorry-free and no longer asks the caller for a progenerator (#7367): Corollary_9_7_3_i_categorical, _fgModule and _strong quantify only over the category and obtain P internally from Exercise963.exists_progenerator; the chosen-P forms remain as _of_progenerator variants. Remaining gap: uniqueness is stated relative to (End P)ᵐᵒᵖ rather than to the category itself, pending the fmod-to-full-module Morita converse bridge. Follow-up: #7689.",
+    "notes": "The categorical forms choose a progenerator internally, construct the basic algebra and finite-module equivalence, and prove uniqueness against every basic algebra presenting the category. The algebra form bundles existence, Morita equivalence, uniqueness, and the dimension bound.",
     "attention_needed": false,
-    "fidelity_note": "The FGModuleCat equivalence, uniqueness, and dimension-bound conclusions are proved. The public-API incoherence is closed (#7423): Corollary_9_7_3_i_strong and the bundled Corollary_9_7_3 return IsBasicAlgebraSplit + IsBasicAlgebra + KLinearMoritaEquivalent, so the constructed B satisfies the hypotheses of Corollary_9_7_3_i_unique and Corollary_9_7_3_ii, and BasicAlgebraSplitBridge proves the two basicness predicates agree over an algebraically closed field. The chosen-progenerator wiring gap is closed (#7367): the categorical corollaries now produce the progenerator from Exercise963.exists_progenerator. One gap remains: the book phrases part (i)'s uniqueness relative to the category, which needs the converse of MoritaEquivalent.fgModuleCatEquiv (#7689); uniqueness is therefore stated relative to the endomorphism algebra (End P)ᵐᵒᵖ of the progenerator.",
-    "coverage": "covered_partial",
-    "fidelity_issue": 7689,
-    "followup_issue": 7689,
-    "last_updated": "2026-07-25"
+    "fidelity_note": "The fmod-to-full-module Morita converse and the B_n exhaustion theorem are now available. Corollary_9_7_3_i_categorical_strong proves category-relative uniqueness, while the bundled algebra theorem proves existence, uniqueness, and the dimension bound in one coherent API.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29"
   },
   {
     "id": "Backmatter/ReferencesHistorical",

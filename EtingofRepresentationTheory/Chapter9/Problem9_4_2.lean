@@ -6,9 +6,12 @@ import Mathlib.Algebra.Homology.ShortComplex.ShortExact
 import Mathlib.RingTheory.Noetherian.Basic
 import Mathlib.RingTheory.Finiteness.Basic
 import EtingofRepresentationTheory.Chapter7.Example7_7_2
+
 import EtingofRepresentationTheory.Chapter9.Definition9_4_1
 import EtingofRepresentationTheory.Chapter9.FiniteProjectiveResolution
 import EtingofRepresentationTheory.Chapter9.ProjectiveResolutionSyzygy
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Problem 9.4.2: Projective dimension via Ext, and dimension shifting

@@ -1,6 +1,8 @@
 import EtingofRepresentationTheory.Chapter9.PathAlgebraVertexSubalgebra
 import Mathlib.LinearAlgebra.Finsupp.LinearCombination
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The arrow `S`-bimodule of a path algebra
 

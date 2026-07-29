@@ -1,6 +1,8 @@
 import EtingofRepresentationTheory.Chapter9.PathAlgebraArrowBimodule
 import EtingofRepresentationTheory.Chapter9.PathAlgebraInduction
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The standard short complex of a path-algebra module
 

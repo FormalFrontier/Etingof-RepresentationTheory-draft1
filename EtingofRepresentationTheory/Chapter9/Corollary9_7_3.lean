@@ -6,8 +6,11 @@ import EtingofRepresentationTheory.Infrastructure.BasicAlgebraExistence
 import Mathlib.Algebra.Category.ModuleCat.Basic
 import Mathlib.CategoryTheory.Equivalence
 import Mathlib.LinearAlgebra.Dimension.Finrank
+
 import Mathlib.LinearAlgebra.FiniteDimensional.Basic
 import Mathlib.RingTheory.SimpleModule.Rank
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u v
 

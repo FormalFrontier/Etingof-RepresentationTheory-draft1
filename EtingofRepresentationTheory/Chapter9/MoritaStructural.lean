@@ -6,6 +6,7 @@ import EtingofRepresentationTheory.Infrastructure.BasicAlgebraExistence
 import EtingofRepresentationTheory.Chapter9.EquivFinite
 import Mathlib.Algebra.Category.ModuleCat.Basic
 import Mathlib.Algebra.Algebra.Opposite
+
 import Mathlib.CategoryTheory.Equivalence
 import Mathlib.CategoryTheory.Endomorphism
 import Mathlib.CategoryTheory.Conj
@@ -28,6 +29,8 @@ import Mathlib.RingTheory.SimpleModule.Isotypic
 import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
 import Mathlib.CategoryTheory.Preadditive.Schur
 import Mathlib.CategoryTheory.Adjunction.Additive
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u v
 

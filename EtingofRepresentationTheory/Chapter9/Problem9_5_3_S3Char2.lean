@@ -2,6 +2,8 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter9.Definition9_5_1
 import EtingofRepresentationTheory.Chapter9.Problem9_5_3
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Problem 9.5.3 (iii): the blocks of `k[S₃]` in characteristic `2`
 
@@ -227,7 +229,9 @@ theorem stdMod_isSimpleModule : IsSimpleModule (MonoidAlgebra k S3) (stdRepr k).
     -- `μ = 1` in characteristic `2`
     have hmuw : (μ * μ) • w = w := e1.symm
     have hmm : μ * μ = 1 := by
-      have hz : ((μ * μ) - 1) • w = 0 := by rw [sub_smul, one_smul, hmuw, sub_self]
+      have hz : ((μ * μ) - 1) • w = 0 :=
+        (sub_smul (μ * μ) 1 w).trans ((congrArg₂ (· - ·) hmuw (one_smul k w)).trans
+          (sub_self w))
       rcases smul_eq_zero.mp hz with h | h
       · exact sub_eq_zero.mp h
       · exact absurd h hw_ne
@@ -690,7 +694,8 @@ theorem simple_iff_triv_or_std (S : ModuleCat.{0} (MonoidAlgebra k S3))
       simp only [Matrix.cons_val_zero, Matrix.cons_val_two, Matrix.tail_cons, Matrix.head_cons,
         one_smul, zero_smul, add_zero] at hval
       exact hval
-    have hiso := nonempty_iso_of_genEquivariant k f₀ hne hc ht
+    have hiso := nonempty_iso_of_genEquivariant (V := (stdRepr k).asModule)
+      (S := S) k f₀ hne hc ht
     exact ⟨hiso.some⟩
 
 /-- **`k[S₃]` has exactly two blocks** in characteristic `2`: the linkage classes of simple

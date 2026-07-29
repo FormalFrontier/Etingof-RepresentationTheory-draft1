@@ -1,5 +1,7 @@
 import EtingofRepresentationTheory.Chapter9.PathAlgebraLengthGrading
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Cons-splitting of the path algebra `A = PathAlgebra k Q`
 

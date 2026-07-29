@@ -6,7 +6,10 @@ import Mathlib.LinearAlgebra.Projection
 import Mathlib.LinearAlgebra.Finsupp.Pi
 import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.LinearAlgebra.FiniteDimensional.Basic
+
 import Mathlib.Tactic.LinearCombination
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # The vertex simple modules and their projective covers
@@ -183,7 +186,9 @@ theorem pathAlgebraProj_isIndecomposable
   have hcc : c * c = c := by
     have h0 : (c * c - c) • (LinearMap.id :
         pathAlgebraProj k Q i →ₗ[PathAlgebra k Q] pathAlgebraProj k Q i) = 0 := by
-      rw [sub_smul, hc2, sub_self]
+      exact (sub_smul (c * c) c (LinearMap.id :
+        pathAlgebraProj k Q i →ₗ[PathAlgebra k Q] pathAlgebraProj k Q i)).trans
+          (sub_eq_zero.mpr hc2)
     rcases smul_eq_zero.mp h0 with h | h
     · exact sub_eq_zero.mp h
     · exact absurd h (id_ne_zero i)

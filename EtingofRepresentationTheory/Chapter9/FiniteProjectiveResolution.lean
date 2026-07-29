@@ -5,6 +5,8 @@ import Mathlib.Algebra.Category.ModuleCat.EpiMono
 import Mathlib.RingTheory.Finiteness.Cardinality
 import Mathlib.RingTheory.Noetherian.Basic
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Existence of a finitely generated projective resolution
 
