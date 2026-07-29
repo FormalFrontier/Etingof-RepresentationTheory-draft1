@@ -14780,6 +14780,10 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.27", "reviewed_on": "2026-07-29", "result": "section_heading"},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -19439,11 +19443,15 @@
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The semidirect-product construction is implemented, but its backing Theorem5_27_1 source fails a fresh check and the base-point-independence API needs stable public parameter types; regression #7507.",
-    "fidelity_issue": 7507,
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The dual action, stabilizers, induced representation, transport along an orbit, and base-point independence are implemented with stable public endpoints. The former regression #7507 is closed.",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Theorem5_27_1.lean :: Etingof.Theorem5_27_1, Etingof.inducedRepV_basepoint_independent",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.27", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "For A abelian, orbit data (χ,U) define an induced representation V(χ,U) of A⋊G.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_27_1"},
+      {"claim": "Changing the base character within its G-orbit and transporting U gives an isomorphic induced representation.", "verdict": "formalized", "lean_decl": "Etingof.inducedRepV_basepoint_independent"}
+    ]}
   },
   {
     "id": "Chapter5/Theorem5.27.1",
@@ -19453,12 +19461,18 @@
     "end_page": "147",
     "start_line": 11,
     "end_line": 14,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "fidelity_note": "The source contains the full intended orbit-method classification, but Theorem5_27_1.lean currently fails a fresh check at multiple carrier, scalar-action, transport, and linearity proofs. Its public classification and base-point-independence endpoints are therefore not presently rebuildable; regression #7507.",
-    "coverage": "covered_partial",
-    "fidelity_issue": 7507,
-    "last_updated": "2026-07-22"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "fidelity_note": "The public theorem constructs the dual action, stabilizers, induced family, and transport, and proves irreducibility, exact isomorphism classification, exhaustiveness, the character and dimension formulas, base-point independence, and transport properties. All source checks pass; #7507 is closed.",
+    "coverage": "covered_full",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Theorem5_27_1.lean :: Etingof.Theorem5_27_1, Etingof.inducedRepV_basepoint_independent",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.27", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "V(χ,U) is irreducible whenever U is irreducible.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_27_1"},
+      {"claim": "Two V(χ,U) are isomorphic exactly only along the expected character orbit and transported stabilizer representation.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_27_1"},
+      {"claim": "Every irreducible representation of A⋊G arises from the little-group construction.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_27_1"},
+      {"claim": "The induced character and dimension have the formulas stated in the theorem.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_27_1"}
+    ]}
   },
   {
     "id": "Chapter5/Exercise5.27.2",
@@ -19468,8 +19482,8 @@
     "end_page": "147",
     "start_line": 15,
     "end_line": 16,
-    "status": "proved",
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
+    "status": "sorry_free",
+    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized by the declaration recorded in claim_coverage; all providers pass fresh source checks.",
     "coverage": "covered_full",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Exercise5_27_2_Dihedral.lean",
@@ -19485,7 +19499,7 @@
       "Etingof.Exercise5_27_2.affine_classification'",
       "Etingof.Exercise5_27_2.affine_classification_two'"
     ],
-    "last_updated": "2026-07-28",
+    "last_updated": "2026-07-29",
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
@@ -19563,13 +19577,13 @@
     "end_page": "147",
     "start_line": 17,
     "end_line": 17,
-    "status": "partially_proved",
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
+    "status": "sorry_free",
+    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized by the accepted shared declaration recorded in claim_coverage; the provider passes a fresh source check.",
     "coverage": "covered_full",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Exercise5_27_3.lean"
     ],
-    "last_updated": "2026-07-28",
+    "last_updated": "2026-07-29",
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",

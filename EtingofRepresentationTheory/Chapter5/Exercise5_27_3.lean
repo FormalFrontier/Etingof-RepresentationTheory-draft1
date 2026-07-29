@@ -56,6 +56,8 @@ forces exhaustiveness (`FDRep.complete_of_sum_finrank_sq_eq_card`), so every sim
 
 noncomputable section
 
+set_option backward.isDefEq.respectTransparency false
+
 open CategoryTheory
 
 namespace Etingof
@@ -82,6 +84,20 @@ private lemma sum_monoidHom_units_cast_eq {A : Type} [CommGroup A] [Fintype A]
     have := sum_hom_units_eq_zero ((Units.coeHom ℂ).comp ψ) hne
     rw [← this]
     rfl
+
+/-- Pointwise cancellation for multiplicative characters, stated with the precise
+`MonoidHom` group structure used in this file. -/
+private lemma monoidHom_mul_inv_eq_one {A : Type} [Monoid A] (α β : A →* ℂˣ) :
+    α * β⁻¹ = 1 ↔ α = β := by
+  constructor
+  · intro h
+    ext a
+    have ha := DFunLike.congr_fun h a
+    change α a * (β a)⁻¹ = 1 at ha
+    exact congrArg Units.val ((mul_inv_eq_one (a := α a) (b := β a)).mp ha)
+  · rintro rfl
+    ext a
+    simp
 
 open Classical in
 /-- Exercise 5.27.3. Given the semidirect-product setup of Theorem 5.27.1 (the dual `G`-action
@@ -215,7 +231,7 @@ theorem Exercise5_27_3
       rw [hsum_eq, sum_monoidHom_units_cast_eq ψ]
       -- Identify `ψ = 1 ↔ h * g * h'⁻¹ ∈ stab χ`.
       have hiff : ψ = 1 ↔ h * g * h'⁻¹ ∈ stab χ := by
-        rw [hψ_def, mul_inv_eq_one]
+        rw [hψ_def]
         have e1 : (χ.comp (φ h : MulAut A).toMonoidHom) = dualSmul h⁻¹ χ := by
           refine MonoidHom.ext fun a => ?_
           simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom]
@@ -226,7 +242,7 @@ theorem Exercise5_27_3
           rw [hcomp_eq (h' * g⁻¹) a]
           congr 2
           group
-        rw [e1, e2, _hstab]
+        rw [e1, e2, monoidHom_mul_inv_eq_one, _hstab]
         constructor
         · intro H
           have hkey := congrArg (dualSmul h) H
@@ -490,7 +506,7 @@ theorem Exercise5_27_3
         apply Finset.sum_congr rfl; intro a _; rw [hψ_val a]
       rw [hsum_eq, sum_monoidHom_units_cast_eq ψ]
       have hiff : ψ = 1 ↔ dualSmul h⁻¹ ξ₁ = dualSmul (g * h'⁻¹) ξ₂ := by
-        rw [hψ_def, mul_inv_eq_one]
+        rw [hψ_def]
         have e1 : (ξ₁.comp (φ h : MulAut A).toMonoidHom) = dualSmul h⁻¹ ξ₁ := by
           refine MonoidHom.ext fun a => ?_
           simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom]
@@ -501,7 +517,7 @@ theorem Exercise5_27_3
           rw [hcomp_eq ξ₂ (h' * g⁻¹) a]
           congr 2
           group
-        rw [e1, e2]
+        rw [e1, e2, monoidHom_mul_inv_eq_one]
       by_cases hc : dualSmul h⁻¹ ξ₁ = dualSmul (g * h'⁻¹) ξ₂
       · rw [if_pos hc, if_pos (hiff.mpr hc)]
       · rw [if_neg hc, if_neg (fun hcc => hc (hiff.mp hcc))]
