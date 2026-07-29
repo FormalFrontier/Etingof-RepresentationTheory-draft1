@@ -62,6 +62,10 @@ Understand what the project currently claims to have achieved.
 - List source files and read their module-level docstrings
 - Read key top-level declarations/signatures (not full implementations)
 - Record current quality metrics as described in the project's CLAUDE.md
+- Run `scripts/check_proof_placeholders.py`. Report its blocking placeholders
+  separately from approved non-blocking wanted-theorem markers. An item with
+  `scope_approved_proof_wanted` is not active mathematical work; every other
+  wanted marker or ambiguous bare `proof_wanted` status is blocking.
 
 ### Step 5: Produce an updated progress document
 

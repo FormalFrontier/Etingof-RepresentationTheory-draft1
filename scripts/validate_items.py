@@ -11,6 +11,8 @@ import json
 import sys
 from pathlib import Path
 
+from proof_wanted_policy import validate_item_approval
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 PAGES_DIR = REPO_ROOT / "pages"
 ITEMS_PATH = REPO_ROOT / "progress" / "items.json"
@@ -247,6 +249,10 @@ def validate(items_path):
                     f"{prefix}: exercise coverage must be one of "
                     f"{sorted(VALID_EXERCISE_COVERAGE)}, got {exercise_coverage!r}"
                 )
+
+        # Scope-approved wanted theorems use the same narrow metadata policy as
+        # the source scanner. A bare legacy `proof_wanted` status is rejected.
+        errors.extend(validate_item_approval(item))
 
         # Line number types
         if not isinstance(item["start_line"], int):

@@ -22,10 +22,12 @@ We state the Ado–Iwasawa theorem over an arbitrary field, matching the unquali
 in the chapter.  The characteristic-zero case is Ado's original theorem; the extension to
 positive characteristic is due to Iwasawa.  Etingof states the result without proof, and it is
 not available in
-Mathlib. Since the book explicitly disavows a proof, we record it with `proof_wanted`: the
-statement is elaborated and typechecked as a proposition, but no proof term, `sorry`, or
-axiom is introduced. The mathematical content captured here is the existence of a
-finite-dimensional faithful representation of an arbitrary finite-dimensional Lie algebra.
+Mathlib. This project deliberately leaves that external result outside its proof boundary and
+records it with `proof_wanted`: the statement is elaborated and typechecked as a proposition,
+but no proof term, `sorry`, or axiom is introduced. This reviewed scope exception is documented in
+`skipped-exercises.md`; it is non-blocking for project completion. The mathematical content
+captured here is the existence of a finite-dimensional faithful representation of an arbitrary
+finite-dimensional Lie algebra.
 -/
 
 namespace Etingof

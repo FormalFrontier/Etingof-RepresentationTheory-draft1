@@ -5168,11 +5168,20 @@
     "end_page": "23",
     "start_line": 2,
     "end_line": 3,
-    "status": "proof_wanted",
+    "status": "scope_approved_proof_wanted",
     "fidelity": "verified",
-    "fidelity_note": "Ado–Iwasawa is asserted in Lean as Etingof.ado (Chapter2/Remark2_9_3.lean): for a finite-dimensional Lie algebra L over the chapter's arbitrary field k, there exists a finite-dimensional V and an injective LieHom L →ₗ⁅k⁆ Module.End k V (a faithful finite-dimensional representation). Statement faithful to the book claim. Recorded via `proof_wanted` (no `sorry` term, no axiom): the book states the theorem without proof and it is not available in Mathlib. Stage 3.3 proves the constructive reduction and converse: a faithful embedding into a finite-dimensional associative algebra, equivalently a finite-dimensional target of U(L) that remains injective on L, supplies the required representation by left multiplication; every faithful representation extends to such a U(L) target. This is NOT a codebase sorry — status corrected from the misleading `sorry` in audit #7001.",
+    "fidelity_note": "Ado–Iwasawa is asserted in Lean as Etingof.ado (Chapter2/Remark2_9_3.lean): for a finite-dimensional Lie algebra L over the chapter's arbitrary field k, there exists a finite-dimensional V and an injective LieHom L →ₗ⁅k⁆ Module.End k V (a faithful finite-dimensional representation). The statement is faithful to the book claim. The book states the theorem without proof; this project intentionally excludes the arbitrary-characteristic Ado–Iwasawa proof from its proof obligation and records the proposition via an approved, non-blocking `proof_wanted` (no `sorry` term or project axiom). Stage 3.3 proves the constructive reduction and converse: a faithful embedding into a finite-dimensional associative algebra, equivalently a finite-dimensional target of U(L) that remains injective on L, supplies the required representation by left multiplication; every faithful representation extends to such a U(L) target.",
     "fidelity_decl": "Etingof.ado",
     "fidelity_issue": 5367,
+    "proof_wanted_approval": {
+      "classification": "approved_nonblocking",
+      "declaration": "Etingof.ado",
+      "source": "EtingofRepresentationTheory/Chapter2/Remark2_9_3.lean",
+      "scope_document": "skipped-exercises.md",
+      "scope_heading": "Book-stated external results intentionally left as `proof_wanted`",
+      "reason": "The book states Ado's theorem without proof, and the arbitrary-characteristic Ado–Iwasawa proof requires substantial characteristic-dependent Lie-theoretic and universal-enveloping-algebra machinery outside this project's chosen representation-theory boundary.",
+      "approved_by_issue": 8110
+    },
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -5186,25 +5195,26 @@
           "claim": "Every finite-dimensional Lie algebra over the chapter's field admits an injective finite-dimensional representation into gl(V) (Ado-Iwasawa).",
           "verdict": "formalized",
           "lean_decl": "Etingof.ado",
-          "proof_status": "stage3_3_gap"
+          "proof_status": "scope_approved_nonblocking"
         }
       ]
     },
-    "last_updated": "2026-07-27",
+    "last_updated": "2026-07-28",
     "coverage": "covered_full",
     "sorry_free": true,
     "stage3_3": {
-      "status": "partial",
+      "status": "scope_complete",
       "section": "2.9",
-      "verified_on": "2026-07-27",
-      "proof_integrity": "proof_wanted",
+      "verified_on": "2026-07-28",
+      "proof_integrity": "scope_approved_proof_wanted",
       "declarations": [
         "Etingof.ado_of_finiteAssociativeEmbedding",
         "Etingof.ado_of_finiteEnvelopingTarget",
         "Etingof.finiteEnvelopingTarget_of_faithfulRepresentation",
         "Etingof.faithfulRepresentation_iff_finiteEnvelopingTarget"
       ],
-      "remaining_obligation": "Etingof.ado (arbitrary-field Ado–Iwasawa theorem): construct a finite-dimensional target of U(L) that is injective on the canonical copy of L. Mathlib currently lacks the general PBW/injectivity theorem and the characteristic-dependent finite-quotient or Iwasawa-splitting machinery needed for that construction."
+      "scope_decision": "Etingof.ado itself has no project proof. Its reviewed `proof_wanted` records the book-stated external Ado–Iwasawa theorem and is non-blocking; the proved declarations above retain the constructive reduction API.",
+      "unproved_theorem_note": "If the project boundary were ever reconsidered, proving arbitrary-field Ado–Iwasawa would require a finite-dimensional target of U(L) that remains injective on the canonical copy of L, including characteristic-dependent finite-quotient or Iwasawa-splitting machinery currently absent from Mathlib. This is context, not a current project obligation."
     }
   },
   {

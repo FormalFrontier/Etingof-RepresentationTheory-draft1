@@ -5175,14 +5175,33 @@ example : reflectionResult₁ = expected₁ := by decide
 
 **"An order-`n` subgroup `H ≤ A₅` is conjugate to a concrete point stabilizer" — use the orbit/fixed-point route, not the Sylow-normalizer route, when `H` is a point stabilizer of `natHom` (Problem 5.11.1 (d), `exists_conj_H12`, PR #6671).** The issue sketched a Sylow-`2`-normalizer argument for order-`12` `H`; a much shorter route proves `H` **fixes a point** of the natural `5`-point action and hence equals `stabSub natHom i`, then conjugates `stab i` to `stab 0 = A4std` by transitivity (`natHom_trans`, one `fin_cases i <;> fin_cases j <;> decide`) + `Subgroup.eq_of_le_of_card_ge` (with `card_stab_i : Nat.card (stabSub natHom i) = 12`). The fixed-point lemma `H12_fixes_point`: put `MulAction A5 (Fin 5)` via `MulAction.compHom (Fin 5) natHom` (subgroups act automatically, `Subgroup.instMulAction`), take the `H`-orbit `O` of `0`, get `|O| ∣ |H|` from the **existing** `Problem4_12_5.orbit_fiber_card` fiber-count + `Finset.card_eq_sum_card_fiberwise` (all fibers = stabilizer size), then case on `|O|` (`∣ 12`, `1 ≤ |O| ≤ 5`): size `5` impossible; size `4` ⟹ singleton complement is fixed; size `2`/`3` ⟹ all of `H` sits in the setwise stabilizer of `O`, which has **≤ 6 even permutations** — the parity obstruction to a `2 + 3` split, a `decide` `∀ O : Finset (Fin 5), 2 ≤ O.card → O.card ≤ 3 → (univ.filter (fun g : A5 => ∀ i ∈ O, natHom g i ∈ O)).card ≤ 6` (`revert`-then-`decide`, ~30 s). Burnside/character sums **cannot** separate `1+4` from `2+3` (both give the same orbit count and the same `∑ᵢ |Stab_H(i)|`) — the evenness `decide` is essential. **`decide` gotcha:** for `(univ.filter (· ∈ stabSub natHom i)).card = 12`, do NOT hand `decide` a local `haveI : DecidablePred (· ∈ stabSub natHom i) := decidable_of_iff …` instance — the kernel can't reduce it and errors "Expected type must not contain free variables". Instead `Finset.filter_congr` to the concrete predicate `fun a => natHom a i = i` (whose `Fin.decEq` decidability the kernel *can* reduce), then `fin_cases i <;> decide`.
 
-## FORBIDDEN: `sorry` for theorems the book states without proof — use `proof_wanted`
+## Book-stated external results require an explicit scope decision
 
-**When the book explicitly cites a deep theorem without proving it (Ado's theorem in Remark 2.9.3, and any "this is a famous result, we omit the proof" remark), do NOT formalize it as a `theorem … := by sorry`.** A `sorry` is a broken proof obligation that pollutes the project's sorry count and reads as "we tried and failed", when the truth is "the book deliberately does not prove this". State it instead with one of:
+**When the book cites or states a deep theorem without proving it, do not
+automatically turn it into either `sorry` or `proof_wanted`.** A `sorry` creates
+a blocking proof obligation, while a wanted-theorem marker is non-blocking only
+after a reviewed project-scope decision.
 
-- **`proof_wanted name (binders) : statement`** (from `import Batteries.Util.ProofWanted`) — elaborates and typechecks the statement as a genuine `Prop`, but introduces **no proof term, no `sorry`, no axiom**. This is the idiomatic Mathlib marker for "this theorem is wanted but unproved". Put any extra hypothesis in a `variable` so the `proof_wanted` signature is just `name : statement` (its pre-colon binder handling is fussier than `theorem`'s). Mirror `Chapter2/Remark2_9_3.lean` (Ado): pre-declare `k`/`L` + instances via `variable`, then `proof_wanted ado [FiniteDimensional k L] : ∃ V …`.
-- **`def StatementOfFooTheorem : Prop := …`** — names the proposition as data (no proof needed, no `sorry`), when you want a referenceable handle rather than a wanted-marker.
+- The currently approved example is `proof_wanted ado` in Remark 2.9.3. It
+  elaborates and typechecks the Ado–Iwasawa proposition but introduces no proof
+  term, `sorry`, or project axiom.
+- Adding `proof_wanted` or its Batteries synonym `theorem_wanted` requires, in
+  the same PR, an individual entry under the wanted-theorem section of
+  `skipped-exercises.md`, `scope_approved_proof_wanted` metadata in
+  `progress/items.json`, and an explicit entry in the checker's reviewed
+  allowlist. Run `scripts/check_proof_placeholders.py`; an unapproved marker is
+  a CI failure.
+- `def_wanted` and `instance_wanted` are forbidden: definitions and instances
+  must contain constructed data, not wanted placeholders.
+- Without a reviewed exception, either prove the theorem as part of the project
+  or record only its proposition as data (`def StatementOfFooTheorem : Prop :=
+  …`) while the scope decision is reviewed. Do not mint a new exception by
+  analogy with Ado.
 
-The distinction matters: **proof sorries** (claims the book *proves*, which we discharge) must go to zero; **citation sorries must never exist at all** — they become `proof_wanted`. A reviewer scanning for `sorry` should find only genuine in-progress proof work, never a deliberately-unproved book citation. The forbidden-`native_decide` discipline and this one share a root: the sorry/axiom/native_decide count is the project's trust ledger, and nothing should sit in it that isn't a real, in-progress obligation.
+The distinction matters: proof sorries for in-scope claims must go to zero, and
+the sole non-blocking wanted marker must remain a narrow, machine-checked scope
+exception. A reviewer scanning the trust ledger should see ordinary proof gaps
+and approved external-result markers reported separately.
 
 ## FORBIDDEN: vacuous "certificate" statements for tables / classifications
 
