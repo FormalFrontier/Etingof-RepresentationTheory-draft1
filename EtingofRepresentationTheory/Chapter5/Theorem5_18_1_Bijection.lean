@@ -52,8 +52,17 @@ universe u v w
 
 namespace Etingof
 
+set_option backward.isDefEq.respectTransparency false
+set_option maxHeartbeats 3200000
+set_option synthInstance.maxHeartbeats 1600000
+
 variable (k : Type u) [Field k]
   (E : Type v) [AddCommGroup E] [Module k E] [Module.Finite k E]
+
+noncomputable local instance (priority := high) centralizerModuleHomSubmodule
+    (A : Subalgebra k (Module.End k E)) (W : Submodule A E) :
+    Module (↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
+      (↥W →ₗ[A] E) := centralizerModuleHom k E (A := A) (V := ↥W)
 
 /-- **Well-definedness of `V ↦ Hom_A(V, E)` on iso-classes.**
 
@@ -100,9 +109,12 @@ theorem isSimpleModule_homA_centralizer'
   haveI : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
   obtain ⟨W, hWsimple, ⟨eVW⟩⟩ := exists_simpleSubmodule_iso_of_faithful k E A V
   haveI := hWsimple
+  letI : Module (↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
+      (V →ₗ[A] E) := centralizerModuleHom k E (A := A) (V := V)
   -- `Hom_A(V, E) ≃ₗ[B] Hom_A(W, E)` and the latter is simple.
   have e : (V →ₗ[A] E) ≃ₗ[↥(Subalgebra.centralizer k (A : Set (Module.End k E)))]
-      (↥W →ₗ[A] E) := homACongrLeftCentralizer k E A eVW.symm
+      (↥W →ₗ[A] E) := homACongrLeftCentralizer k E A
+        (M := ↥W) (N := V) eVW.symm
   haveI : IsSimpleModule (↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
       (↥W →ₗ[A] E) := isSimpleModule_homA_centralizer k E A W
   exact IsSimpleModule.congr e
@@ -133,9 +145,9 @@ theorem homA_iso_of_homA_congr
   haveI := hTsimple
   -- `Hom_A(S, E) ≃ₗ[B] Hom_A(V, E) ≃ₗ[B] Hom_A(W, E) ≃ₗ[B] Hom_A(T, E)`.
   have eS : (↥S →ₗ[A] E) ≃ₗ[↥(Subalgebra.centralizer k (A : Set (Module.End k E)))]
-      (V →ₗ[A] E) := homACongrLeftCentralizer k E A eVS
+      (V →ₗ[A] E) := homACongrLeftCentralizer k E A (M := V) (N := ↥S) eVS
   have eT : (↥T →ₗ[A] E) ≃ₗ[↥(Subalgebra.centralizer k (A : Set (Module.End k E)))]
-      (W →ₗ[A] E) := homACongrLeftCentralizer k E A eWT
+      (W →ₗ[A] E) := homACongrLeftCentralizer k E A (M := W) (N := ↥T) eWT
   have hST : Nonempty ((↥S →ₗ[A] E) ≃ₗ[↥(Subalgebra.centralizer k (A : Set (Module.End k E)))]
       (↥T →ₗ[A] E)) := ⟨eS.trans (h.trans eT.symm)⟩
   obtain ⟨eST⟩ := multiplicitySpace_biduality_Aiso k E A S T hST

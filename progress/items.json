@@ -14843,6 +14843,14 @@
     "start_line": 23,
     "end_line": 20,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "coverage_note": "Section 5.18 is fully formalized, including the double-centralizer classification and structured A/centralizer(A)-equivariant decomposition, the enveloping-algebra centralizer identity, both parts of Lemma 5.18.3, and partition-indexed Schur--Weyl duality.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.18", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The Double Centralizer Theorem includes double centralization, semisimplicity, exhaustive simple classifications, the multiplicity-space bijection, and a decomposition equivariant for both commuting actions.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_18_1_double_centralizer; Etingof.Theorem5_18_1_commutant_semisimple; Etingof.homRealizationComponentEquiv; Etingof.Theorem5_18_1_bimodule_decomposition_equivariant"},
+      {"claim": "The symmetric-group centralizer on a tensor power is the enveloping-algebra image, using the two polarization statements of Lemma 5.18.3.", "verdict": "formalized", "lean_decl": "Etingof.centralizer_eq_universalEnvelopingImage; Etingof.Lemma5_18_3.span_diagonalTensors; Etingof.Lemma5_18_3.tensorDiagonalSubalgebra_eq_fullDiagonal"},
+      {"claim": "Schur--Weyl duality gives mutually centralizing semisimple actions and a partition-indexed decomposition equivariant for both sides, with simple distinct multiplicity spaces.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_18_4_centralizers; Etingof.Theorem5_18_4_semisimple; Etingof.Theorem5_18_4_partition_bimodule_decomposition_equivariant; Etingof.Theorem5_18_4_bimodule_decomposition_full"}
+    ]},
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -18359,14 +18367,18 @@
     "start_line": 21,
     "end_line": 2,
     "status": "sorry_free",
-    "coverage": "covered_partial",
-    "fidelity": "partial",
+    "coverage": "covered_full",
+    "fidelity": "verified",
     "needs_statement": false,
-    "notes": "All current declarations are sorry-free. Exhaustiveness of both simple families is proven (Theorem5_18_1_Exhaustive.lean). The explicit V ↦ Hom_A(V,E) bijection is now packaged (Theorem5_18_1_Bijection.lean: homACongrLeftCentralizer well-definedness, isSimpleModule_homA_centralizer' simplicity, homA_iso_of_homA_congr injectivity, homRealizationComponent_bijective / homRealizationComponentEquiv the index-set bijection, exists_simple_A_submodule_homA_iso surjectivity), closing #7659. Remaining: A⊗B-equivariance of the decomposition (#2489).",
+    "notes": "Complete: double centralization, commutant semisimplicity, exhaustive classification of both simple families, the explicit V ↦ Hom_A(V,E) bijection, and the structured A/centralizer(A)-equivariant direct-sum decomposition are all proved without placeholders.",
     "sorry_free": true,
-    "fidelity_note": "The double-centralizer/semisimplicity core, the exhaustive classification of both simple families, and the explicit V ↦ Hom_A(V,E) simple-class bijection are genuine; the A⊗B-equivariant decomposition remains partial (#2489).",
-    "fidelity_issue": 2489,
-    "last_updated": "2026-07-24"
+    "fidelity_note": "The decomposition is packaged by BimoduleDecompositionEquiv with all-vector equivariance for both A and centralizer(A); the simple-class correspondence is an explicit equivalence on isotypic-component indices.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.18", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "For a semisimple subalgebra A acting faithfully on E, its commutant is semisimple and its double commutant is A.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_18_1_double_centralizer; Etingof.Theorem5_18_1_commutant_semisimple"},
+      {"claim": "Simple A-modules and simple centralizer(A)-modules correspond by V ↦ Hom_A(V,E), bijectively up to isomorphism.", "verdict": "formalized", "lean_decl": "Etingof.homACongrLeftCentralizer; Etingof.homA_iso_of_homA_congr; Etingof.homRealizationComponentEquiv; Etingof.exists_simple_A_submodule_homA_iso"},
+      {"claim": "E decomposes as the direct sum of V_i tensor Hom_A(V_i,E), equivariantly for both A and its centralizer.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_18_1_bimodule_decomposition_explicit; Etingof.BimoduleDecompositionEquiv.ofEvaluation; Etingof.Theorem5_18_1_bimodule_decomposition_equivariant"}
+    ]}
   },
   {
     "id": "Chapter5/Discussion_before_Theorem5.18.2",
@@ -18377,6 +18389,9 @@
     "start_line": 3,
     "end_line": 4,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "coverage_note": "The tensor-power specialization and the two commuting action subalgebras are defined in Theorem5_18_4.lean and used by Theorem 5.18.2.",
+    "last_updated": "2026-07-29",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -18396,7 +18411,10 @@
     "notes": "The centralizer equality is stated and proved in both directions without placeholders: the centralizer of the symmetric-group image on V^⊗n equals the image of the universal enveloping algebra under the diagonal action.",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.18", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The centralizer of the symmetric-group action on V tensor n is exactly the image of the universal enveloping algebra under the diagonal Lie action.", "verdict": "formalized", "lean_decl": "Etingof.centralizer_eq_universalEnvelopingImage"}
+    ]}
   },
   {
     "id": "Chapter5/Lemma5.18.3",
@@ -18410,9 +18428,13 @@
     "fidelity": "faithful",
     "needs_statement": false,
     "sorry_free": true,
-    "coverage": "covered",
+    "coverage": "covered_full",
     "coverage_note": "Part (i) is proved in full (span_diagonalTensors). Part (ii) is proved for an arbitrary k-algebra A in tensorDiagonalSubalgebra_eq_fullDiagonal, inside the honest tensor-power algebra ⨂[k] (Fin n) A: the subalgebra generated by the additive diagonals Δ_n(a) equals the one generated by the multiplicative diagonals a^{⊗n} (= S^n A by part (i)). The concrete A = End_k(V) statement diagonalSubalgebra_eq_fullDiagonal is retained as the representation-theoretic specialization.",
-    "last_updated": "2026-07-23"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.18", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The symmetric power is spanned by diagonal pure tensors u tensor ... tensor u.", "verdict": "formalized", "lean_decl": "Etingof.Lemma5_18_3.span_diagonalTensors"},
+      {"claim": "For an arbitrary algebra A, the tensor-power subalgebra generated by additive diagonals equals that generated by multiplicative diagonal tensors.", "verdict": "formalized", "lean_decl": "Etingof.Lemma5_18_3.tensorDiagonalSubalgebra_eq_fullDiagonal"}
+    ]}
   },
   {
     "id": "Chapter5/Discussion_Theorem5.18.2_proof_end",
@@ -18423,6 +18445,9 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "coverage_note": "The proof completion is formalized by centralizer_eq_universalEnvelopingImage using Lemma5_18_3 and the averaging/polarization helpers.",
+    "last_updated": "2026-07-29",
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -18437,6 +18462,9 @@
     "start_line": 3,
     "end_line": 4,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "coverage_note": "Maschke semisimplicity and the double-centralizer input are instantiated for the symmetric-group and diagonal tensor-power actions in Theorem5_18_4.lean.",
+    "last_updated": "2026-07-29",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -18453,10 +18481,16 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "Triage 2026-03-18: parts (i) (centralizers) and (ii) (semisimple) faithful and sorry-free. Part (iii) (partition-indexed decomposition) completed #5405: Theorem5_18_4_partition_decomposition is sorry-free, indexing the bimodule decomposition by Nat.Partition n via the Specht-labelling embedding ι ↪ p(n).",
-    "fidelity_note": "All three parts are now faithful and sorry-free. Part (iii) is Theorem5_18_4_partition_decomposition (in SchurWeylPartition.lean): V^⊗n ≅ ⊕_{λ⊢n} S_λ ⊗ L_λ with S_λ simple-or-zero over symGroupImage, L_λ simple-or-zero over diagonalActionImage, distinct nonzero L_λ. The Specht labelling uses card_le_card_partition (card ι ≤ p(n)) via card_le_card_conjClasses' / Corollary 4.2.2.",
-    "fidelity_decl": "Theorem5_18_4_centralizers, _semisimple, _decomposition, _bimodule_decomposition, _bimodule_decomposition_full, _partition_decomposition",
-    "fidelity_issue": 5405
+    "notes": "All three parts are faithful and sorry-free, including the structured partition-indexed bimodule equivalence and full simplicity/distinctness of the multiplicity spaces.",
+    "fidelity_note": "The partition-indexed provider intertwines both the symmetric-group-image and diagonal-action-image actions on all vectors; the underlying decomposition, centralizer identities, semisimplicity, and simple-factor properties are all explicit.",
+    "fidelity_decl": "Theorem5_18_4_centralizers, _semisimple, _decomposition, _bimodule_decomposition_equivariant, _bimodule_decomposition_full, _partition_bimodule_decomposition_equivariant, _partition_decomposition",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.18", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The symmetric-group and diagonal action images are mutual centralizers, and the tensor power is semisimple for both.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_18_4_centralizers; Etingof.Theorem5_18_4_semisimple"},
+      {"claim": "The tensor power has a decomposition into simple, pairwise distinct left factors and simple, pairwise distinct multiplicity factors, equivariant for both actions.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_18_4_bimodule_decomposition_equivariant; Etingof.Theorem5_18_4_bimodule_decomposition_full"},
+      {"claim": "The decomposition is reindexed by partitions of n while preserving the structured bimodule equivariance.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_18_4_partition_bimodule_decomposition_equivariant; Etingof.Theorem5_18_4_partition_decomposition"}
+    ]}
   },
   {
     "id": "Chapter5/Introduction_5.19",

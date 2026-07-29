@@ -140,6 +140,7 @@ private lemma alternating_superset_sum
     rw [Finset.sum_congr rfl factor, ← Finset.mul_sum]
     rw [sum_powerset_neg_one_pow_card_eq_zero (k := k) hC, mul_zero]
 
+omit [Module.Finite k U] in
 /-- The polarization identity for symmetric tensors.
 
 n! • tprod(f) = ∑_{S ⊆ Fin n} (-1)^{n-|S|} • (∑_{i∈S} f i)^⊗n
@@ -225,6 +226,7 @@ private lemma polarization_eq [CharZero k] (f : Fin n → U) :
       exact ⟨fun _ => trivial, Finset.image_univ_of_surjective σ.surjective⟩
   rw [hmap, Finset.card_map, Finset.card_univ, Fintype.card_perm, Fintype.card_fin]
 
+omit [Module.Finite k U] in
 /-- S^n U is spanned by n-fold tensor powers u^⊗n for u ∈ U, assuming characteristic zero.
 
 Unlike the general spanning result `SymmetricPower.span_tprod_eq_top` (which says
@@ -430,7 +432,7 @@ private lemma diag_le_fullDiag [CharZero k] :
   -- Handle n = 0: empty sum is 0, trivially in any subalgebra
   by_cases hn : n = 0
   · subst hn; simp [Finset.sum_empty]
-  · push_neg at hn; have hn' : 0 < n := Nat.pos_of_ne_zero hn
+  · push Not at hn; have hn' : 0 < n := Nat.pos_of_ne_zero hn
     -- Use the multilinear map
     let mm := PiTensorProduct.mapMultilinear k (fun _ : Fin n => V) (fun _ => V)
     -- Define coefficients grouped by subset cardinality
@@ -503,7 +505,7 @@ private lemma fullDiag_le_diag [CharZero k] :
     simp only [B, ← PiTensorProduct.map_mul]
     congr 1; ext x
     -- v4.31: standalone `dsimp only [Pi.mul_apply]` makes no progress; fold it into simp_all.
-    by_cases hi : x = i <;> by_cases hj : x = j <;> simp_all [Pi.mul_apply]
+    by_cases hi : x = i <;> by_cases hj : x = j <;> simp_all
   -- B_i^m = map(fun j => if j = i then f^m else id) (position operator of f^m)
   have hpow : ∀ i m, B i ^ m = PiTensorProduct.map
       (fun j => if j = i then f ^ m else LinearMap.id) := by
@@ -572,7 +574,7 @@ private lemma fullDiag_le_diag [CharZero k] :
               (ψ (MvPolynomial.esymm (Fin n) k j) : Module.End k _) = e j := by
             intro j
             simp only [MvPolynomial.esymm, map_sum, map_prod, MvPolynomial.aeval_X, hψ_def, e]
-            rw [AddSubmonoidClass.coe_finset_sum]
+            rw [AddSubmonoidClass.coe_finsetSum]
             exact Finset.sum_congr rfl (fun T _ => prod_val T)
           -- ψ maps psum to power sum
           have psum_val : ∀ d,
@@ -580,7 +582,7 @@ private lemma fullDiag_le_diag [CharZero k] :
                 ∑ i : Fin n, B i ^ d := by
             intro d
             simp only [MvPolynomial.psum, map_sum, map_pow, MvPolynomial.aeval_X, hψ_def]
-            simp only [AddSubmonoidClass.coe_finset_sum, SubmonoidClass.coe_pow, B']
+            simp only [AddSubmonoidClass.coe_finsetSum, SubmonoidClass.coe_pow, B']
           -- Composite evaluation: MvPolynomial → A → End
           set Φ : MvPolynomial (Fin n) k →ₐ[k] Module.End k (⨂[k] (_ : Fin n), V) :=
             A.val.comp ψ
