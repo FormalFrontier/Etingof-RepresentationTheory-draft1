@@ -18835,6 +18835,10 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.23", "reviewed_on": "2026-07-29", "result": "section_heading"},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -18854,7 +18858,11 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "fidelity_note": "Etingof.IsAlgebraicRepresentation now takes a bundled Representation k (GL_N k) Y, so the identity/multiplicativity action laws are part of the data; it asserts algebraicity of the underlying coefficient family. The raw coefficient-regularity predicate is retained under the honest name IsAlgebraicCoefficientFamily for the reusable transport lemmas, with a definitional bridge (isAlgebraicRepresentation_iff), a compatibility wrapper (IsAlgebraicCoefficientFamily.toRepresentation), and a regression witness (exists_algebraicCoefficientFamily_not_representation) showing the constant-zero family is an algebraic coefficient family but not a representation. Genuine book representations glTensorRep and (SchurModule …).ρ are exposed as algebraic representations. Fixed #7461.",
-    "last_updated": "2026-07-23"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.23", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "An algebraic GL_N representation is a bundled representation whose matrix coefficients are regular in g_ij and det(g)^(-1).", "verdict": "formalized", "lean_decl": "Etingof.IsAlgebraicRepresentation; Etingof.isAlgebraicRepresentation_iff"},
+      {"claim": "Coefficient regularity alone is distinguished from the representation laws.", "verdict": "formalized", "lean_decl": "Etingof.IsAlgebraicCoefficientFamily; Etingof.exists_algebraicCoefficientFamily_not_representation"}
+    ]}
   },
   {
     "id": "Chapter5/Discussion_after_Definition5.23.1",
@@ -18864,17 +18872,20 @@
     "end_page": "133",
     "start_line": 11,
     "end_line": 12,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The dominant-weight/determinant-twist construction, simplicity, and nonisomorphism APIs are source-present, but AlgIrrepGLRep.lean, AlgIrrepGLNonIso.lean, and the Peter–Weyl source currently fail fresh checks (#7534). The full classification/decomposition completeness requirement remains #7400.",
-    "fidelity_issue": 7400,
-    "coverage_issue": 7534,
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The dominant-weight/determinant-twist construction, simplicity, pairwise nonisomorphism, and exhaustive classification APIs all pass fresh checks. The former #7534 and #7400 gaps are closed.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.23", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "Every dominant integer weight defines an algebraic irreducible by shifting to a natural Schur weight and twisting by a determinant power.", "verdict": "formalized", "lean_decl": "Etingof.DominantWeight; Etingof.AlgIrrepGLRep"},
+      {"claim": "These representations are simple and two are isomorphic exactly when their dominant weights agree.", "verdict": "formalized", "lean_decl": "Etingof.algIrrepGLRepro_isSimpleModule; Etingof.algIrrepGLRepro_iso_iff_eq"},
+      {"claim": "Every simple algebraic GL_N representation has a unique dominant highest weight.", "verdict": "formalized", "lean_decl": "Etingof.existsUnique_dominantWeight_asModuleEquiv_of_isSimpleModule"}
+    ]}
   },
   {
     "id": "Chapter5/Theorem5.23.2",
@@ -18884,15 +18895,18 @@
     "end_page": "133",
     "start_line": 13,
     "end_line": 21,
-    "status": "proved",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "fidelity": "faithful",
     "needs_statement": false,
     "fidelity_note": "Part (i) now carries the book's named-constituent classification, not just semisimplicity: exists_directSum_algIrrepGL_of_isAlgebraic decomposes any finite-dimensional algebraic GL_n(k)-representation GL_n-equivariantly as a finite direct sum of the named irreducibles L_lambda = algIrrepGLRepro, and existsUnique_dominantWeight_asModuleEquiv_of_isSimpleModule classifies the simple algebraic representations by DominantWeight n (existence via the matrix-coefficient embedding into k[g_ij][1/det] plus the Peter-Weyl realization core, uniqueness via algIrrepGLRepro_iso_iff_eq). Simplicity of each L_lambda is algIrrepGLRepro_isSimpleModule and pairwise non-isomorphism is algIrrepGLRepro_noniso. Part (ii)'s equivariant Peter-Weyl endpoint is Theorem5_23_2_ii_equivariant. All sorry-free (#print axioms = propext/Classical.choice/Quot.sound). Closes #7400.",
     "fidelity_decl": "Theorem5_23_2_i, exists_directSum_algIrrepGL_of_isAlgebraic, existsUnique_dominantWeight_asModuleEquiv_of_isSimpleModule, Theorem5_23_2_ii_equivariant",
-    "fidelity_issue": 5384,
-    "followup_issue": 7400,
-    "last_updated": "2026-07-25"
+    "last_updated": "2026-07-29",
+    "sorry_free": true,
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.23", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "Every finite-dimensional algebraic GL_N representation is completely reducible into named pairwise nonisomorphic L_lambda summands.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_23_2_i; Etingof.exists_directSum_algIrrepGL_of_isAlgebraic"},
+      {"claim": "The coordinate ring decomposes GL_N x GL_N-equivariantly as the direct sum of L_lambda^* tensor L_lambda.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_23_2_ii_equivariant"}
+    ]}
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.23.2",
@@ -18907,12 +18921,14 @@
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The complete-reducibility/highest-weight proof chain is source-present, but its AlgIrrepGL/Peter–Weyl sources currently fail fresh checks (#7534); full classification remains #7400.",
-    "fidelity_issue": 7400,
-    "coverage_issue": 7534,
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The matrix-coefficient embedding, realization/classification chain, direct-sum independence, spanning, and equivariant Peter–Weyl endpoint are source-present and pass fresh checks. The former #7534 and #7400 gaps are closed.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.23", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "Matrix coefficients realize simple algebraic representations inside the coordinate-ring decomposition.", "verdict": "formalized", "lean_decl": "Etingof.exists_dominantWeight_equivariant_realization; Etingof.simpleSubrep_localRightRep_le_iSup_range"},
+      {"claim": "The Peter-Weyl matrix-coefficient map is injective, surjective, and equivariant.", "verdict": "formalized", "lean_decl": "Etingof.peterWeylMap_bijective; Etingof.peterWeylMap_equivariant"}
+    ]}
   },
   {
     "id": "Chapter5/Remark5.23.3",
@@ -18922,12 +18938,18 @@
     "end_page": "134",
     "start_line": 5,
     "end_line": 7,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "sorry_free": true,
     "fidelity_note": "#7357 completed the SL_N restriction and determinant-shift infrastructure. #7807 proved the converse slIso_shiftEquiv, hence slIrrepClass_injective and the bijection slIrrepEquiv. #7808 defines intrinsic SL_N algebraicity, proves that every intrinsically algebraic simple SL_N representation has an algebraic GL_N extension, and proves unconditional exhaustiveness via exists_dominantWeight_slEquiv_of_isAlgebraic. The book-disavowed sl_N Lie-algebra assertions remain recorded in skipped-exercises.md.",
     "coverage": "covered_full",
-    "last_updated": "2026-07-27"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.23", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "Restricting from GL_N to SL_N identifies determinant-shifted highest weights.", "verdict": "formalized", "lean_decl": "Etingof.algIrrepGL_slEquiv_constShift"},
+      {"claim": "Conversely, isomorphic SL_N restrictions imply the weights differ by a constant shift.", "verdict": "formalized", "lean_decl": "Etingof.slIso_shiftEquiv"},
+      {"claim": "Algebraic simple SL_N representations are exhausted and uniquely parametrized by dominant weights modulo constant shift.", "verdict": "formalized", "lean_decl": "Etingof.exists_dominantWeight_slEquiv_of_isAlgebraic; Etingof.slIrrepEquiv"},
+      {"claim": "The explicitly deferred sl_N Lie-algebra classification is outside project scope.", "verdict": "skipped_by_source", "source_ref": "skipped-exercises.md"}
+    ]}
   },
   {
     "id": "Chapter5/Introduction_5.24",
