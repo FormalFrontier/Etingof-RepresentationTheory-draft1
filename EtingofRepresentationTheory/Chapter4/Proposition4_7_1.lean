@@ -105,7 +105,7 @@ private theorem sum_eq_averagedLinHom_entry
   symm
   simp only [averagedLinHom, LinearMap.smul_apply, LinearMap.sum_apply,
     LinearMap.comp_apply, map_smul, map_sum, Finsupp.smul_apply,
-    Finsupp.finset_sum_apply]
+    Finsupp.finsetSum_apply]
 
 end SchurAverage
 

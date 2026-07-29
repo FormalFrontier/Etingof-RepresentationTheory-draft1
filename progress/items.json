@@ -117,7 +117,11 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.7", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "For an irreducible unitary representation, its matrix elements are the coefficient functions of the representation in an orthonormal basis.", "verdict": "formalized", "lean_decl": "LinearMap.toMatrix; Etingof.Proposition4_7_1_i; Etingof.Proposition4_7_1_ii"}]}
   },
   {
     "id": "Chapter1/Acknowledgments",
@@ -14641,7 +14645,8 @@
     "sorry_free": true,
     "lean_decl": "Etingof.Proposition4_7_1_i, Etingof.Proposition4_7_1_ii, Etingof.Proposition4_7_1_orthogonal_basis, Etingof.Proposition4_7_1_exists_orthogonal_basis",
     "fidelity_note": "All three sentences are formalized. Parts (i) and (ii) are the two matrix-coefficient orthogonality formulas. The concluding sentence -- that the irreducible matrix coefficients form an orthogonal basis of F(G, ℂ) -- is `Etingof.MatrixCoefficients.basis` (the `Module.Basis` itself), packaged as `Etingof.Proposition4_7_1_orthogonal_basis` and, unconditionally for algebraically closed characteristic-zero k, as `Etingof.Proposition4_7_1_exists_orthogonal_basis`; spanning comes from the Artin-Wedderburn sum-of-squares count as the source indicates. Orthogonality is stated for the bilinear convolution pairing |G|^-1 sum_g f(g) h(g^-1) rather than the source's Hermitian form, since parts (i) and (ii) hold over any algebraically closed k; the two agree on matrix coefficients over the complex numbers in a unitary basis.",
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.7", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "Matrix coefficients of nonisomorphic irreducible representations are orthogonal.", "verdict": "formalized", "lean_decl": "Etingof.Proposition4_7_1_i"}, {"claim": "Coefficients of one irreducible representation have pairing δii'δjj'/dim V.", "verdict": "formalized", "lean_decl": "Etingof.Proposition4_7_1_ii"}, {"claim": "All irreducible matrix coefficients form an orthogonal basis of the full function space.", "verdict": "formalized", "lean_decl": "Etingof.MatrixCoefficients.basis; Etingof.Proposition4_7_1_orthogonal_basis; Etingof.Proposition4_7_1_exists_orthogonal_basis"}, {"claim": "The averaging projector and sum-of-squares formula prove orthogonality and spanning.", "verdict": "formalized", "lean_decl": "averagedLinHom; averagedLinHom_mem_invariants; Etingof.MatrixCoefficients.basis"}]}
   },
   {
     "id": "Chapter4/Introduction_4.8",
