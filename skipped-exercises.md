@@ -139,6 +139,24 @@ These omissions are documented in
 `EtingofRepresentationTheory/Chapter6/Problem6_1_6.lean`; no unproved headline
 declaration stands in for them.
 
+### Problem 6.9.1(d) — Kronecker-quiver classification
+
+Part (d) asks for the preceding cyclic-`Q₂` classification to be generalized to
+the Kronecker quiver.  This is a genuine formalizable classification problem,
+not an informal prompt: a faithful solution would introduce representations by
+two parallel maps, construct the preprojective, preinjective, and regular
+matrix-pencil families, and prove existence and uniqueness of those normal
+forms.  The project deliberately does not add that separate matrix-pencil
+classification, which is not used by any later result in the book.
+
+Parts (a)--(c), including isomorphism-level exhaustiveness and uniqueness for
+the four cyclic-`Q₂` families, are fully formalized in
+`EtingofRepresentationTheory/Chapter6/Problem6_9_1.lean` and
+`EtingofRepresentationTheory/Chapter6/Problem6_9_1_Classification.lean`.
+Part (e) remains recorded in the claim ledger as an open-ended prompt: unlike
+part (d), it asks whether one can generalize to all longer cyclic quivers and
+arbitrary orientations without specifying a single classification theorem.
+
 ## Completed former exclusions
 
 The following exercises appeared in the original hard-problem/skip list but were

@@ -9,11 +9,11 @@ This file is the human-readable projection of the per-item/per-subpart ledger in
 
 ## Final totals
 
-- Exercise/problem items: **102** (97 `covered_full`, 5 `covered_partial`).
+- Exercise/problem items: **102** (96 `covered_full`, 6 `covered_partial`).
 - Audited source claim units: **407**.
 - Formalized or accepted derived units: **382**.
-- Scope/correction-justified units: **16** (15 intentional omissions, 1 documented source correction).
-- Non-formalizable source prompts: **9**.
+- Scope/correction-justified units: **17** (16 intentional omissions, 1 documented source correction).
+- Non-formalizable source prompts: **8**.
 - Untracked gaps: **0**.
 
 A `covered_partial` verdict is permitted only for the exact units linked to a current
@@ -101,7 +101,7 @@ silently dropped, but do not count as formal proof obligations.
 | `Chapter6/Problem6.1.5` | `covered_full` | 1 | 1 formalized |
 | `Chapter6/Problem6.1.5_parts` | `covered_full` | 3 | 3 formalized |
 | `Chapter6/Problem6.1.6` | `covered_partial` | 7 | 4 formalized, 3 intentional_omission |
-| `Chapter6/Problem6.9.1` | `covered_full` | 6 | 4 formalized, 2 non_formalizable |
+| `Chapter6/Problem6.9.1` | `covered_partial` | 6 | 4 formalized, 1 intentional_omission, 1 non_formalizable |
 | `Chapter6/Problem6.9.2` | `covered_full` | 4 | 4 formalized |
 | `Chapter6/Problem6.9.3` | `covered_full` | 3 | 3 formalized |
 | `Chapter7/Problem7.7.3` | `covered_full` | 1 | 1 formalized |

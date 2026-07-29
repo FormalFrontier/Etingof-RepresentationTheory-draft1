@@ -51,6 +51,12 @@ exactly one of four families:
 
 Not in Mathlib. The classification relies on the Jordan normal form theorem and
 a chain decomposition argument for nilpotent operators.
+
+Parts (a)--(c) are formalized completely, including uniqueness and exhaustive
+isomorphism-level classification.  The separate Kronecker-quiver matrix-pencil
+classification requested by part (d) is an explicit project scope exclusion in
+`skipped-exercises.md`; the open-ended longer-quiver prompt in part (e) does not
+specify a unique formal proposition.
 -/
 
 /-- A representation of the cyclic quiver Q₂: a pair of vector spaces V, W with

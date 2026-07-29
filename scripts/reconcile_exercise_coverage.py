@@ -289,12 +289,12 @@ PARTIAL_SCOPE_REFS = {
     "Chapter2/Problem2.13.1": "skipped-exercises.md#problem-2131--the-dehn-invariant-and-hilberts-third-problem",
     "Chapter2/Problem2.16.5": "skipped-exercises.md#problem-2165--full-quantum-sl-classification",
     "Chapter6/Problem6.1.6": "skipped-exercises.md#problem-616--residual-mckay-correspondence-classification",
+    "Chapter6/Problem6.9.1": "skipped-exercises.md#problem-691d--kronecker-quiver-classification",
     "Chapter8/Problem8.2.8": "skipped-exercises.md#problem-828--the-ext-k%C3%BCnneth-formula-needs-finite-dimensional-source-modules",
 }
 
 NON_FORMALIZABLE = {
     ("Chapter5/Problem5.10.2", "exercise_scope"),
-    ("Chapter6/Problem6.9.1", "part_d"),
     ("Chapter6/Problem6.9.1", "part_e"),
 }
 
@@ -302,11 +302,112 @@ INTENTIONAL_OMISSIONS = {
     ("Chapter6/Problem6.1.6", "part_c_double_edge"),
     ("Chapter6/Problem6.1.6", "part_d"),
     ("Chapter6/Problem6.1.6", "part_e_marks"),
+    ("Chapter6/Problem6.9.1", "part_d"),
 }
 
 SOURCE_CORRECTIONS = {("Chapter8/Problem8.2.8", "ext_literal")}
 
+# Explicit verdict migrations for historical claim ledgers.  These are keyed
+# by durable unit id: coverage must never depend on matching prose fragments.
+VERDICT_OVERRIDES = {
+    ("Chapter2/Problem2.15.1", "claim-10"): {
+        "verdict": "covered_elsewhere",
+        "lean_decl": (
+            "Etingof.Sl2Irrep.complete_reducibility; "
+            "Etingof.Sl2Irrep.sl2Module_decomposition"
+        ),
+        "reason": (
+            "The source unit is an intermediate in the book's contradiction route; "
+            "the recorded declarations prove the stronger direct-sum decomposition."
+        ),
+    },
+    ("Chapter2/Problem2.15.1", "claim-11"): {
+        "verdict": "covered_elsewhere",
+        "lean_decl": (
+            "Etingof.Sl2Irrep.complete_reducibility; "
+            "Etingof.Sl2Irrep.sl2Module_decomposition"
+        ),
+        "reason": (
+            "The source unit is an intermediate in the book's contradiction route; "
+            "the recorded declarations prove the stronger direct-sum decomposition."
+        ),
+    },
+    ("Chapter2/Problem2.15.1", "claim-12"): {
+        "verdict": "covered_elsewhere",
+        "lean_decl": (
+            "Etingof.Sl2Irrep.complete_reducibility; "
+            "Etingof.Sl2Irrep.sl2Module_decomposition"
+        ),
+        "reason": (
+            "The source unit is an intermediate in the book's contradiction route; "
+            "the recorded declarations prove the stronger direct-sum decomposition."
+        ),
+    },
+    ("Chapter2/Problem2.15.1", "claim-14"): {
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Sl2Irrep.clebsch_gordan_charPoly",
+        "reason": (
+            "The character-polynomial identity supplies the analytic-character hint "
+            "route used to derive the adjacent representation-level decomposition."
+        ),
+    },
+    ("Chapter2/Problem2.16.4", "claim-03"): {
+        "verdict": "formalized",
+        "lean_decl": (
+            "Etingof.Problem2_16_4.Reprise.Parameter; "
+            "Etingof.Problem2_16_4.Reprise.parameterLieHom"
+        ),
+        "lean_file": "EtingofRepresentationTheory/Reprises/Problem2_16_4.lean",
+    },
+    ("Chapter2/Problem2.16.4", "claim-04"): {
+        "verdict": "formalized",
+        "lean_decl": (
+            "Etingof.Problem2_16_4.Reprise.parameter_isomorphic_iff; "
+            "Etingof.Problem2_16_4.Reprise.classificationEquiv"
+        ),
+        "lean_file": "EtingofRepresentationTheory/Reprises/Problem2_16_4.lean",
+    },
+    ("Chapter2/Problem2.16.4", "claim-05"): {
+        "verdict": "formalized",
+        "lean_decl": "Etingof.Problem2_16_4.Reprise.exists_parameter_equiv",
+        "lean_file": "EtingofRepresentationTheory/Reprises/Problem2_16_4.lean",
+    },
+}
+
+# Some public declarations intentionally package several adjacent source units.
+# Recording this opt-in keeps sibling pointer reuse reviewable instead of silent.
+SHARED_DECL_UNITS = {
+    ("Chapter2/Problem2.3.18", f"claim-{index:02d}") for index in range(1, 5)
+} | {
+    ("Chapter2/Problem2.5.1", "claim-01"),
+    ("Chapter2/Problem2.5.1", "claim-02"),
+    ("Chapter2/Problem2.13.1", "claim-07"),
+    ("Chapter2/Problem2.13.1", "claim-08"),
+    ("Chapter2/Problem2.15.1", "claim-10"),
+    ("Chapter2/Problem2.15.1", "claim-11"),
+    ("Chapter2/Problem2.15.1", "claim-12"),
+    ("Chapter3/Problem3.3.3", "claim-11"),
+    ("Chapter3/Problem3.3.3", "claim-13"),
+    ("Chapter3/Problem3.3.3", "claim-14"),
+    ("Chapter3/Problem3.3.3", "claim-16"),
+    ("Chapter3/Problem3.8.4", "claim-01"),
+    ("Chapter3/Problem3.8.4", "claim-03"),
+    ("Chapter5/Exercise5.27.3", "part_i"),
+    ("Chapter5/Exercise5.27.3", "part_ii"),
+    ("Chapter5/Exercise5.27.3", "part_iii"),
+    ("Chapter7/Exercise7.9.7", "left_adjoint"),
+    ("Chapter7/Exercise7.9.7", "right_adjoint"),
+    ("Chapter8/Problem8.1.3", "part_iii_flat"),
+    ("Chapter8/Problem8.1.3", "part_iii_not_projective"),
+    ("Chapter8/Problem8.2.5", "part_i"),
+    ("Chapter8/Problem8.2.5", "part_ii"),
+}
+
 PROVIDER_OVERRIDES = {
+    "Chapter2/Problem2.11.6": [
+        "EtingofRepresentationTheory/Chapter2/Problem2_11_6.lean",
+        "EtingofRepresentationTheory/Chapter2/Remark2_11_4.lean",
+    ],
     "Chapter4/Exercise4.2.3": [
         "EtingofRepresentationTheory/Chapter4/Exercise4_2_3.lean",
         "EtingofRepresentationTheory/Chapter4/Exercise4_2_3_Assembly.lean",
@@ -407,6 +508,116 @@ DECL_OVERRIDES = {
     ),
     ("Chapter4/Problem4.5.2", "part_ii"): (
         "Etingof.psi; Etingof.psi_idempotent; Etingof.psi_orthogonal"
+    ),
+    ("Chapter4/Problem4.12.3", "symmetric_power"): (
+        "Etingof.symmetricPower_eq_bot_or_top; "
+        "Etingof.Example5_19_3_symmetric_irreducible"
+    ),
+    ("Chapter4/Problem4.12.3", "exterior_power"): (
+        "Etingof.exteriorPower_eq_bot_or_top; "
+        "Etingof.Example5_19_3_exterior_irreducible"
+    ),
+    ("Chapter4/Problem4.12.5", "part_a"): (
+        "Etingof.Problem4_12_5.vertices_decomposition_icosahedral; "
+        "Etingof.Problem4_12_5.verticesAct_unique"
+    ),
+    ("Chapter4/Problem4.12.5", "part_b_faces"): (
+        "Etingof.Problem4_12_5.faces_decomposition_icosahedral; "
+        "Etingof.Problem4_12_5.facesAct_unique"
+    ),
+    ("Chapter4/Problem4.12.5", "part_b_edges"): (
+        "Etingof.Problem4_12_5.edges_decomposition_icosahedral; "
+        "Etingof.Problem4_12_5.edgesAct_unique"
+    ),
+    ("Chapter4/Problem4.12.6", "classification"): (
+        "Etingof.Problem4_12_6.one_dim_reps_card; "
+        "Etingof.Problem4_12_6.zeroSum_irreducible; "
+        "Etingof.Problem4_12_6.irreducible_dim"
+    ),
+    ("Chapter4/Problem4.12.6", "characters"): (
+        "Etingof.Problem4_12_6.Vrep_character"
+    ),
+    ("Chapter4/Problem4.12.6", "tensor_products"): (
+        "Etingof.Problem4_12_6.charRep_tprod_Vrep_equiv_Vrep; "
+        "Etingof.Problem4_12_6.Vrep_tprod_Vrep_equiv_rhsRep"
+    ),
+    ("Chapter4/Problem4.12.8", "part_a"): (
+        "Etingof.Problem4_12_8.so3_finite_subgroup_classification"
+    ),
+    ("Chapter4/Problem4.12.8", "part_b"): (
+        "Etingof.Problem4_12_8.su2_finite_subgroup_binary_classification"
+    ),
+    ("Chapter4/Problem4.12.9", "characters"): (
+        "Etingof.Problem4_12_9.character_Rz"
+    ),
+    ("Chapter4/Problem4.12.9", "tensor_products"): (
+        "Etingof.Problem4_12_9.tensor_iso_Rz_mul; "
+        "Etingof.Problem4_12_9.tensor_iso_oneDimSum; "
+        "Etingof.Problem4_12_9.tensor_iso_char_char; "
+        "Etingof.Problem4_12_9.tensor_iso_char_Rz; "
+        "Etingof.Problem4_12_9.tensor_iso_Rz_mul_biproduct; "
+        "Etingof.Problem4_12_9.tensor_iso_oneDimSum_biproduct; "
+        "Etingof.Problem4_12_9.tensorIsoCharChar"
+    ),
+    ("Chapter4/Problem4.12.10", "orbit_evaluation"): (
+        "Etingof.orbitEval; Etingof.exists_orbitEval_surjection"
+    ),
+    ("Chapter4/Problem4.12.10", "symmetric_power"): (
+        "Etingof.Problem4_12_10_symmetric"
+    ),
+    ("Chapter4/Problem4.12.10", "tensor_power"): "Etingof.Problem4_12_10",
+    ("Chapter4/Problem4.12.11", "part_a_end"): (
+        "Etingof.Problem4_12_11.endV_isInternal; "
+        "Etingof.Problem4_12_11.scalarSub_finrank; "
+        "Etingof.Problem4_12_11.skewSub_finrank; "
+        "Etingof.Problem4_12_11.tracelessSymSub_finrank"
+    ),
+    ("Chapter4/Problem4.12.11", "part_a_sym"): (
+        "Etingof.Problem4_12_11.symSub_eq_scalar_sup_tracelessSym; "
+        "Etingof.Problem4_12_11.scalarSub_finrank; "
+        "Etingof.Problem4_12_11.tracelessSymSub_finrank"
+    ),
+    ("Chapter4/Problem4.12.11", "part_b_real"): (
+        "Etingof.Problem4_12_11.skewSub_irreducible; "
+        "Etingof.Problem4_12_11.tracelessSymSub_irreducible"
+    ),
+    ("Chapter4/Problem4.12.11", "part_b_complex"): (
+        "Etingof.Problem4_12_11.skewSub_irreducible_complexified; "
+        "Etingof.Problem4_12_11.tracelessSymSub_irreducible_complexified"
+    ),
+    ("Chapter4/Problem4.12.11", "part_b_hooke"): (
+        "Etingof.Problem4_12_11.hooke_law_symSub; "
+        "Etingof.Problem4_12_11.hooke_law_symSub_add; "
+        "Etingof.Problem4_12_11.hooke_law_symSub_two_moduli"
+    ),
+    ("Chapter5/Exercise5.8.5", "normalized_idempotent"): (
+        "Etingof.chiRep; Etingof.idempotentOfChar"
+    ),
+    ("Chapter5/Exercise5.8.5", "natural_iso"): (
+        "Etingof.charLeftIdeal; Etingof.ind_chiRep_iso_charLeftIdeal"
+    ),
+    ("Chapter5/Problem5.16.3", "part_b_iff"): (
+        "Etingof.sumTranspositionsWith1_acts_scalar_iff_rectangular; "
+        "Etingof.sumTranspositionsStab_acts_scalar_iff_content_const; "
+        "Etingof.content_const_removeSquare_iff_rectangular"
+    ),
+    ("Chapter5/Problem5.16.3", "part_b_scalar"): (
+        "Etingof.sumTranspositionsWith1_scalar_on_rectangular"
+    ),
+    ("Chapter5/Problem5.24.1", "part_b_twist"): (
+        "Etingof.signTwist; Etingof.signTwist_of; Etingof.signTwist_bijective; "
+        "Etingof.signTwist_smul_of; Etingof.signTwist_map_leftIdeal"
+    ),
+    ("Chapter5/Problem5.24.1", "part_b_conjugate"): (
+        "Etingof.conjugatePartition; Etingof.spechtModule_signTwist_iso_conjugate"
+    ),
+    ("Chapter6/Problem6.1.6", "part_a"): "Etingof.Problem6_1_6.mult_symm",
+    ("Chapter6/Problem6.1.6", "part_b"): "Etingof.Problem6_1_6.mckay_connected",
+    ("Chapter6/Problem6.1.6", "part_c_affine"): (
+        "Etingof.Problem6_1_6.mckay_isAffineDynkin"
+    ),
+    ("Chapter6/Problem6.1.6", "part_e_kernel"): (
+        "Etingof.Problem6_1_6.mckay_dims_are_marks"
     ),
     ("Chapter4/Problem4.12.2", "part_a"): (
         "Etingof.Problem4_12_2.exists_unique_rep; Etingof.Problem4_12_2.rhoHom; "
@@ -845,6 +1056,8 @@ def generic_claims(item: dict[str, object]) -> list[dict[str, object]]:
             claim["verdict"] = "source_correction"
             claim["scope_ref"] = PARTIAL_SCOPE_REFS[item_id]
             claim["reason"] = "The literal source statement is false; the linked scope entry records the counterexample and corrected theorem."
+        if (item_id, unit) in SHARED_DECL_UNITS:
+            claim["shared_decl"] = True
         result.append(claim)
     return result
 
@@ -855,44 +1068,21 @@ def normalize_existing_claims(item: dict[str, object]) -> None:
     for index, claim in enumerate(claims, 1):
         claim.setdefault("unit", f"claim-{index:02d}")
         claim.setdefault("source_ref", f"blobs/{item_id}.md")
-        override = declaration_list(DECL_OVERRIDES.get((item_id, str(claim["unit"]))))
+        key = (item_id, str(claim["unit"]))
+        override = declaration_list(DECL_OVERRIDES.get(key))
         if override:
             claim["lean_decl"] = override
-        if claim.get("verdict") == "intentional_omission":
-            if item_id == "Chapter2/Problem2.15.1":
-                claim["verdict"] = "covered_elsewhere"
-                text = str(claim.get("claim", ""))
-                if "analytic characters" in text:
-                    claim["lean_decl"] = "Etingof.Sl2Irrep.clebsch_gordan_charPoly"
-                else:
-                    claim["lean_decl"] = (
-                        claim.get("lean_decl")
-                        or "Etingof.Sl2Irrep.complete_reducibility; Etingof.Sl2Irrep.sl2Module_decomposition"
-                    )
-                claim.pop("reason", None)
-            elif item_id == "Chapter2/Problem2.16.4":
-                claim["verdict"] = "formalized"
-                text = str(claim.get("claim", ""))
-                if "when two" in text:
-                    claim["lean_decl"] = (
-                        "Etingof.Problem2_16_4.Reprise.parameter_isomorphic_iff; "
-                        "Etingof.Problem2_16_4.Reprise.classificationEquiv"
-                    )
-                elif "parameter family" in text and "occurs" not in text:
-                    claim["lean_decl"] = (
-                        "Etingof.Problem2_16_4.Reprise.Parameter; "
-                        "Etingof.Problem2_16_4.Reprise.parameterLieHom"
-                    )
-                else:
-                    claim["lean_decl"] = (
-                        "Etingof.Problem2_16_4.Reprise.exists_parameter_equiv"
-                    )
-                claim["lean_file"] = (
-                    "EtingofRepresentationTheory/Reprises/Problem2_16_4.lean"
-                )
-                claim.pop("reason", None)
-            elif item_id in PARTIAL_SCOPE_REFS:
-                claim["scope_ref"] = PARTIAL_SCOPE_REFS[item_id]
+        verdict_override = VERDICT_OVERRIDES.get(key)
+        if verdict_override is not None:
+            claim.update(verdict_override)
+            if claim["verdict"] not in {"intentional_omission", "source_correction"}:
+                claim.pop("scope_ref", None)
+        elif claim.get("verdict") == "intentional_omission" and item_id in PARTIAL_SCOPE_REFS:
+            claim["scope_ref"] = PARTIAL_SCOPE_REFS[item_id]
+        if key in SHARED_DECL_UNITS:
+            claim["shared_decl"] = True
+        else:
+            claim.pop("shared_decl", None)
 
 def render_summary(exercises: list[dict[str, object]]) -> str:
     """Render the human-readable projection of the machine ledger."""
@@ -959,6 +1149,7 @@ def render_declaration_checker(exercises: list[dict[str, object]]) -> str:
     CI builds it explicitly after the metadata ratchet.
     """
     declarations: dict[str, list[str]] = {}
+    imports = {"Mathlib"}
     for item in exercises:
         item_id = str(item["id"])
         claims = item["claim_coverage"]["claims"]
@@ -968,9 +1159,14 @@ def render_declaration_checker(exercises: list[dict[str, object]]) -> str:
             label = f"{item_id}::{claim['unit']}"
             for declaration in declaration_list(claim.get("lean_decl")):
                 declarations.setdefault(declaration, []).append(label)
+            provider_files = as_paths(claim.get("lean_file")) or as_paths(item.get("lean_file"))
+            for provider_file in provider_files:
+                if not provider_file.endswith(".lean"):
+                    raise ValueError(f"provider is not a Lean source file: {provider_file}")
+                imports.add(provider_file.removesuffix(".lean").replace("/", "."))
 
     lines = [
-        "import EtingofRepresentationTheory",
+        *[f"import {module}" for module in sorted(imports)],
         "",
         "/-!",
         "# Mechanically checked exercise-coverage declaration pointers",
@@ -983,7 +1179,7 @@ def render_declaration_checker(exercises: list[dict[str, object]]) -> str:
     ]
     for declaration, labels in sorted(declarations.items()):
         lines.append(f"-- {', '.join(labels)}")
-        lines.append(f"#check {declaration}")
+        lines.append(f"#check @{declaration}")
     lines.append("")
     return "\n".join(lines)
 
@@ -1027,8 +1223,6 @@ def main(argv: list[str] | None = None) -> None:
             normalize_existing_claims(item)
 
         item["coverage"] = "covered_partial" if item_id in PARTIAL_SCOPE_REFS else "covered_full"
-        item["status"] = "proof_polished"
-        item["fidelity"] = "verified"
         item["last_updated"] = TODAY
         if item_id in PARTIAL_SCOPE_REFS:
             item["coverage_note"] = (
@@ -1045,14 +1239,13 @@ def main(argv: list[str] | None = None) -> None:
 
         for stale_key in (
             "notes", "note", "source_regression_note", "coverage_issue", "followup_issue",
-            "fidelity_issue", "attention_needed", "needs_statement", "sorries", "sorry_free",
+            "fidelity_issue", "attention_needed", "needs_statement", "sorries",
             # Superseded audit projections.  Their useful declaration pointers
             # have been copied into claim_coverage above; retaining their old
             # partial/regression prose would make the terminal ledger disagree
             # with itself.
             "derived", "fidelity_note", "fidelity_decl", "coverage_arm",
-            "coverage_arm_note", "coverage_swept", "stage3_3", "stage3_4",
-            "stage3_5", "sorry_count",
+            "coverage_arm_note", "coverage_swept", "stage3_4", "stage3_5",
         ):
             item.pop(stale_key, None)
 

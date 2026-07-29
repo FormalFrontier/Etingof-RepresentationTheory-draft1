@@ -4,8 +4,8 @@
 Unlike ``validate_items.py``, which checks the page partition, this validator
 checks the semantic coverage ratchet required by issue #8111.  In particular,
 ``covered_partial`` is not a generic work-in-progress state: it is permitted
-only for the four project-wide scope decisions and the documented correction
-to the false literal Ext statement in Problem 8.2.8.
+only for the exact project-wide scope decisions and documented source
+corrections listed in ``skipped-exercises.md``.
 """
 
 from __future__ import annotations
@@ -14,12 +14,16 @@ import json
 import re
 import sys
 from pathlib import Path
+from urllib.parse import unquote
+
+from reconcile_exercise_coverage import PARTIAL_SCOPE_REFS
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ITEMS_PATH = REPO_ROOT / "progress" / "items.json"
 
 EXERCISE_COUNT = 102
+CLAIM_COUNT = 407
 ALLOWED_VERDICTS = {
     "formalized",
     "covered_elsewhere",
@@ -28,13 +32,7 @@ ALLOWED_VERDICTS = {
     "source_correction",
 }
 EXCEPTION_VERDICTS = {"intentional_omission", "source_correction"}
-ALLOWED_PARTIALS = {
-    "Chapter2/Problem2.11.6": "skipped-exercises.md#problem-2116--standalone-bimodule-tensor-calculus",
-    "Chapter2/Problem2.13.1": "skipped-exercises.md#problem-2131--the-dehn-invariant-and-hilberts-third-problem",
-    "Chapter2/Problem2.16.5": "skipped-exercises.md#problem-2165--full-quantum-sl-classification",
-    "Chapter6/Problem6.1.6": "skipped-exercises.md#problem-616--residual-mckay-correspondence-classification",
-    "Chapter8/Problem8.2.8": "skipped-exercises.md#problem-828--the-ext-k%C3%BCnneth-formula-needs-finite-dimensional-source-modules",
-}
+ALLOWED_PARTIALS = PARTIAL_SCOPE_REFS
 
 
 def as_list(value: object) -> list[object]:
@@ -62,10 +60,37 @@ def declaration_names(value: object) -> list[str]:
     return result
 
 
+def github_heading_slug(heading: str) -> str:
+    """Compute the subset of GitHub's heading slug rules used by this file."""
+    spaces_replaced = re.sub(r"\s", "-", heading.lower().strip())
+    return "".join(
+        char
+        for char in spaces_replaced
+        if char.isalpha() or "0" <= char <= "9" or char == "-"
+    )
+
+
+def validate_scope_anchors(errors: list[str]) -> None:
+    for item_id, scope_ref in ALLOWED_PARTIALS.items():
+        path_text, separator, fragment = scope_ref.partition("#")
+        scope_path = REPO_ROOT / path_text
+        if not separator or not scope_path.is_file():
+            errors.append(f"{item_id}: invalid scope document reference {scope_ref!r}")
+            continue
+        slugs = {
+            github_heading_slug(line.lstrip("#").strip())
+            for line in scope_path.read_text().splitlines()
+            if line.startswith("#")
+        }
+        if unquote(fragment) not in slugs:
+            errors.append(f"{item_id}: scope anchor does not resolve: {scope_ref!r}")
+
+
 def main() -> int:
     items = json.loads(ITEMS_PATH.read_text())
     exercises = [item for item in items if item.get("type") == "exercise"]
     errors: list[str] = []
+    validate_scope_anchors(errors)
 
     if len(exercises) != EXERCISE_COUNT:
         errors.append(f"expected {EXERCISE_COUNT} exercise/problem items, found {len(exercises)}")
@@ -86,10 +111,8 @@ def main() -> int:
         coverage = item.get("coverage")
         if coverage not in {"covered_full", "covered_partial"}:
             errors.append(f"{item_id}: terminal ledger has invalid coverage {coverage!r}")
-        if item.get("status") != "proof_polished":
-            errors.append(f"{item_id}: terminal ledger status is not proof_polished")
         if item.get("fidelity") != "verified":
-            errors.append(f"{item_id}: terminal ledger fidelity is not verified")
+            errors.append(f"{item_id}: final source-claim audit is not projected to fidelity")
         for lean_file in file_paths(item.get("lean_file")):
             if not (REPO_ROOT / lean_file).is_file():
                 errors.append(f"{item_id}: provider file does not exist: {lean_file}")
@@ -110,6 +133,7 @@ def main() -> int:
 
         units: set[str] = set()
         has_exception = False
+        declaration_usage: dict[tuple[str, ...], list[tuple[str, bool]]] = {}
         for index, claim in enumerate(claims, 1):
             where = f"{item_id} claim {index}"
             if not isinstance(claim, dict):
@@ -149,6 +173,10 @@ def main() -> int:
                             f"{where}: Lean declaration pointer is not an exact name: "
                             f"{declaration!r}"
                         )
+                if declarations:
+                    declaration_usage.setdefault(tuple(sorted(declarations)), []).append(
+                        (str(unit), claim.get("shared_decl") is True)
+                    )
                 for lean_file in file_paths(claim.get("lean_file")):
                     if not (REPO_ROOT / lean_file).is_file():
                         errors.append(f"{where}: provider file does not exist: {lean_file}")
@@ -163,10 +191,28 @@ def main() -> int:
                         f"{where}: scope_ref must be the exact documented entry {expected_ref!r}"
                     )
 
+            if verdict == "non_formalizable":
+                reason = claim.get("reason")
+                if not isinstance(reason, str) or not reason.strip():
+                    errors.append(f"{where}: non_formalizable unit has no explicit reason")
+
+        for declarations, uses in declaration_usage.items():
+            if len(uses) < 2:
+                continue
+            missing_opt_in = [unit for unit, shared in uses if not shared]
+            if missing_opt_in:
+                errors.append(
+                    f"{item_id}: sibling units reuse the same declaration set without "
+                    f"shared_decl opt-in: {missing_opt_in}; declarations={list(declarations)}"
+                )
+
         if coverage == "covered_full" and has_exception:
             errors.append(f"{item_id}: covered_full item contains an exception verdict")
         if coverage == "covered_partial" and not has_exception:
             errors.append(f"{item_id}: covered_partial item has no scope/correction-justified unit")
+
+    if total_claims != CLAIM_COUNT:
+        errors.append(f"expected {CLAIM_COUNT} audited claim units, found {total_claims}")
 
     if errors:
         print("EXERCISE COVERAGE VALIDATION FAILED", file=sys.stderr)

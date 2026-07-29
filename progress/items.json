@@ -2573,7 +2573,17 @@
     },
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_3_15.lean"
-    ]
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.exists_isSimpleModule_of_finite",
+        "Etingof.not_exists_isSimpleModule_polynomial"
+      ]
+    }
   },
   {
     "id": "Chapter2/Problem2.3.16",
@@ -2656,7 +2666,23 @@
     },
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_3_16.lean"
-    ]
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.centralAction_sub_smul_isNilpotent / Etingof.indecEigenvalue_unique",
+        "Etingof.centralCharacter",
+        "Etingof.eps_smul_not_scalar",
+        "Etingof.exists_central_scalar / Etingof.centralCharacter_smul",
+        "Etingof.exists_irreducibleSubrepresentation_centralCharacter",
+        "Subalgebra.center",
+        "Subalgebra.center_eq_top"
+      ]
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter2/Problem2.3.17",
@@ -2708,7 +2734,18 @@
     },
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_3_17.lean"
-    ]
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.EndSelfEquivOp",
+        "Etingof.EndSelfEquivOp_apply / Etingof.EndSelfEquivOp_symm_op_apply",
+        "Module.End"
+      ]
+    }
   },
   {
     "id": "Chapter2/Problem2.3.18",
@@ -2741,29 +2778,42 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Problem_2_3_18",
           "unit": "claim-01",
-          "source_ref": "blobs/Chapter2/Problem2.3.18.md"
+          "source_ref": "blobs/Chapter2/Problem2.3.18.md",
+          "shared_decl": true
         },
         {
           "claim": "D = End_A(V) is a division algebra and is at most countably dimensional over ℂ.",
           "verdict": "formalized",
           "lean_decl": "Etingof.Problem_2_3_18",
           "unit": "claim-02",
-          "source_ref": "blobs/Chapter2/Problem2.3.18.md"
+          "source_ref": "blobs/Chapter2/Problem2.3.18.md",
+          "shared_decl": true
         },
         {
           "claim": "A non-scalar φ would be transcendental over ℂ.",
           "verdict": "formalized",
           "lean_decl": "Etingof.Problem_2_3_18",
           "unit": "claim-03",
-          "source_ref": "blobs/Chapter2/Problem2.3.18.md"
+          "source_ref": "blobs/Chapter2/Problem2.3.18.md",
+          "shared_decl": true
         },
         {
           "claim": "The resulting field ℂ(φ) has an uncountable linearly independent family and hence uncountable dimension, contradicting countability.",
           "verdict": "formalized",
           "lean_decl": "Etingof.Problem_2_3_18",
           "unit": "claim-04",
-          "source_ref": "blobs/Chapter2/Problem2.3.18.md"
+          "source_ref": "blobs/Chapter2/Problem2.3.18.md",
+          "shared_decl": true
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem_2_3_18"
       ]
     }
   },
@@ -2923,7 +2973,18 @@
     },
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_4_1.lean"
-    ]
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.4",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_4_1.exists_maximal_left_ideal",
+        "Etingof.Problem2_4_1.exists_maximal_right_ideal",
+        "Etingof.Problem2_4_1.exists_maximal_twoSided_ideal"
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_2.5_heading",
@@ -3119,15 +3180,26 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Problem2_5_1.quotient_isIndecomposable",
           "unit": "claim-01",
-          "source_ref": "blobs/Chapter2/Problem2.5.1.md"
+          "source_ref": "blobs/Chapter2/Problem2.5.1.md",
+          "shared_decl": true
         },
         {
           "claim": "The quotient representation A/I is indecomposable (in particular, nonzero and admitting no decomposition into two nonzero subrepresentations).",
           "verdict": "formalized",
           "lean_decl": "Etingof.Problem2_5_1.quotient_isIndecomposable",
           "unit": "claim-02",
-          "source_ref": "blobs/Chapter2/Problem2.5.1.md"
+          "source_ref": "blobs/Chapter2/Problem2.5.1.md",
+          "shared_decl": true
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.5",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_5_1.quotient_isIndecomposable"
       ]
     }
   },
@@ -3227,7 +3299,25 @@
         }
       ]
     },
-    "last_updated": "2026-07-28"
+    "last_updated": "2026-07-28",
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.5",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_5_2.IsCyclicVector",
+        "Etingof.Problem2_5_2.IsCyclic",
+        "Etingof.Problem2_5_2.irreducible_iff_forall_cyclic",
+        "Etingof.Problem2_5_2.cyclic_iff_isoQuotient",
+        "Etingof.Problem2_5_2.PartC.I₂_eq_span_homogeneous_ge_two",
+        "Etingof.Problem2_5_2.PartC.algEquiv",
+        "Etingof.Problem2_5_2.PartC.basis",
+        "Etingof.Coregular",
+        "Etingof.Coregular.toDual_smul",
+        "Etingof.Problem2_5_2.PartC.indecomposable_not_cyclic"
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_2.6",
@@ -3747,7 +3837,27 @@
           "source_ref": "blobs/Chapter2/Problem2.7.4.md"
         }
       ]
-    }
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.7",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_7_4.finrank_eq_zero_of_charZero",
+        "Etingof.Problem2_7_4.isSimpleRing_charZero",
+        "Etingof.Problem2_7_4.x_pow_char_mem_center",
+        "Etingof.Problem2_7_4.y_pow_char_mem_center",
+        "Etingof.Problem2_7_4.center_charP",
+        "Etingof.Problem2_7_4.exists_normalForm",
+        "Etingof.Problem2_7_4.famModule_finrank",
+        "Etingof.Problem2_7_4.famModule_isSimpleModule",
+        "Etingof.Problem2_7_4.exists_toFamEquiv",
+        "Etingof.Problem2_7_4.famEquiv_nonempty_iff",
+        "Etingof.Problem2_7_4.existsUnique_toFamEquiv"
+      ]
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter2/Problem2.7.5",
@@ -3829,7 +3939,28 @@
           "source_ref": "blobs/Chapter2/Problem2.7.5.md"
         }
       ]
-    }
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.7",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_7_5.center_eq_bot_of_not_isOfFinOrder",
+        "Etingof.Problem2_7_5.isSimpleRing_of_not_isOfFinOrder",
+        "Etingof.Problem2_7_5.center_of_isOfFinOrder",
+        "Etingof.Problem2_7_5.q_pow_finrank_eq_one",
+        "Etingof.Problem2_7_5.isOfFinOrder_iff_exists_nontrivial_finrep",
+        "Etingof.Problem2_7_5.famModule_finrank",
+        "Etingof.Problem2_7_5.famModule_isSimpleModule",
+        "Etingof.Problem2_7_5.exists_fam_linearEquiv",
+        "Etingof.Problem2_7_5.fam_nonempty_linearEquiv_iff",
+        "Etingof.Problem2_7_5.exists_unique_fam_linearEquiv",
+        "Etingof.Problem2_7_5.finrank_irreducible_eq_orderOf",
+        "Etingof.Problem2_7_5.finrank_eq_orderOf_of_fam_linearEquiv"
+      ]
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter2/Definition2.8.1",
@@ -4310,7 +4441,25 @@
     },
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_8_6.lean"
-    ]
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_8_6.Book.adjoin_generators_eq_top",
+        "Etingof.Problem2_8_6.Book.sum_vertexIdem",
+        "Etingof.Problem2_8_6.Book.vertexIdem_sq",
+        "Etingof.Problem2_8_6.Book.vertexIdem_mul_of_ne",
+        "Etingof.Problem2_8_6.Book.arrowGen_mul_source",
+        "Etingof.Problem2_8_6.Book.arrowGen_mul_vertexIdem_of_ne",
+        "Etingof.Problem2_8_6.Book.target_mul_arrowGen",
+        "Etingof.Problem2_8_6.Book.vertexIdem_mul_arrowGen_of_ne",
+        "Etingof.Problem2_8_6.Book.defining_relations_universal"
+      ]
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter2/Discussion_quiver_rep_bijection",
@@ -4741,7 +4890,32 @@
     },
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_8_11.lean"
-    ]
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_8_11.LocallyFiniteNatGrading",
+        "Etingof.Problem2_8_11.hilbertSeries",
+        "Etingof.Problem2_8_11.coeff_hilbertSeries",
+        "Etingof.Problem2_8_11.finrank_homogeneous_mvPolynomial",
+        "Etingof.Problem2_8_11.hilbertSeries_mvPolynomial",
+        "Etingof.Problem2_8_11.freeAlgebraWordEquiv",
+        "Etingof.Problem2_8_11.freeAlgebraDegreePiece",
+        "Etingof.Problem2_8_11.finrank_freeAlgebra_degreePiece",
+        "Etingof.Problem2_8_11.hilbertSeries_freeAlgebra",
+        "Etingof.Problem2_8_11.finrank_exteriorPower",
+        "Etingof.Problem2_8_11.hilbertSeries_exteriorAlgebra",
+        "Etingof.Problem2_8_11.pathAlgebraDegreePiece",
+        "Etingof.Problem2_8_11.finrank_pathAlgebra_degree",
+        "Etingof.Problem2_8_11.card_paths_length_eq_adjacencyMatrix_pow",
+        "Etingof.Problem2_8_11.hilbertSeries_pathAlgebra",
+        "Etingof.Problem2_8_11.inv_one_sub_smul_adjacencyPS"
+      ]
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter2/Discussion_2.9_heading",
@@ -5224,7 +5398,7 @@
     "end_page": "24",
     "start_line": 6,
     "end_line": 6,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
@@ -5252,7 +5426,18 @@
     "fidelity": "verified",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Exercise2_9_5.lean"
-    ]
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Exercise2_9_5.hatEquiv",
+        "Etingof.Exercise2_9_5.so3_lieEquiv_cross"
+      ]
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter2/Definition2.9.6",
@@ -5498,7 +5683,7 @@
     "end_page": "25",
     "start_line": 1,
     "end_line": 2,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "coverage": "covered_full",
     "lean_file": [
@@ -5523,7 +5708,17 @@
         }
       ]
     },
-    "fidelity": "verified"
+    "fidelity": "verified",
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.9",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Exercise2_9_11.repEquiv"
+      ]
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter2/Example2.9.12",
@@ -6087,7 +6282,21 @@
     },
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Exercise2_11_2.lean"
-    ]
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Exercise2_11_2.relSet",
+        "Etingof.Exercise2_11_2.relSubgroup",
+        "Etingof.Exercise2_11_2.tensorQuot",
+        "Etingof.Exercise2_11_2.instModule",
+        "Etingof.Exercise2_11_2.linearEquivTensorProduct",
+        "Etingof.Exercise2_11_2.linearEquivTensorProduct_mk"
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_pure_tensors",
@@ -6465,6 +6674,41 @@
           "source_ref": "blobs/Chapter2/Problem2.11.3.md"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_11_3.exists_bilinear_equiv_linear",
+        "Etingof.Problem2_11_3.exists_basis_tensorProduct",
+        "Etingof.Problem2_11_3.exists_dualTensor_equiv_hom",
+        "Etingof.Problem2_11_3.symRelSubmodule",
+        "Etingof.Problem2_11_3.SymPow",
+        "Etingof.Problem2_11_3.extRelSubmodule",
+        "Etingof.Problem2_11_3.ExtPow",
+        "Etingof.Problem2_11_3.symPowBasis",
+        "Etingof.Problem2_11_3.finrank_symPow",
+        "Etingof.Problem2_11_3.finrank_symPow_eq_multichoose",
+        "Etingof.Problem2_11_3.extPowBasis",
+        "Etingof.Problem2_11_3.finrank_extPow",
+        "Etingof.Problem2_11_3.symPowEquivSymTensor",
+        "Etingof.Problem2_11_3.symPowEquivSymTensorOfCharZero",
+        "Etingof.Problem2_11_3.extPowEquivAltTensor",
+        "Etingof.Problem2_11_3.extPowEquivAltTensorOfCharZero",
+        "Etingof.Problem2_11_3.tensorPowMap",
+        "Etingof.Problem2_11_3.symPowMap",
+        "Etingof.Problem2_11_3.extPowMap",
+        "Etingof.Problem2_11_3.symPowMap_comp",
+        "Etingof.Problem2_11_3.extPowMap_comp",
+        "Etingof.Problem2_11_3.trace_symPowMap",
+        "Etingof.Problem2_11_3.trace_symPowMap_of_charpoly",
+        "Etingof.Problem2_11_3.trace_extPowMap",
+        "Etingof.Problem2_11_3.trace_extPowMap_of_charpoly",
+        "Etingof.Problem2_11_3.extPowMap_top",
+        "Etingof.Problem2_11_3.det_comp_of_extPowMap"
+      ]
     }
   },
   {
@@ -6567,7 +6811,18 @@
     },
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Exercise2_11_5.lean"
-    ]
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Exercise2_11_5.instRightAlgebra",
+        "Etingof.Exercise2_11_5.algebraMap_right_apply",
+        "Etingof.Exercise2_11_5.exists_module_baseChange"
+      ]
+    }
   },
   {
     "id": "Chapter2/Problem2.11.6",
@@ -6648,8 +6903,28 @@
       ]
     },
     "lean_file": [
-      "EtingofRepresentationTheory/Chapter2/Problem2_11_6.lean"
-    ]
+      "EtingofRepresentationTheory/Chapter2/Problem2_11_6.lean",
+      "EtingofRepresentationTheory/Chapter2/Remark2_11_4.lean"
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Module",
+        "SMulCommClass",
+        "Etingof.TensorProductOverRing"
+      ],
+      "basis": "Proof integrity is certified only for the two non-omitted claim units: the standard commuting-action encoding of a bimodule and the balanced tensor product from Remark 2.11.4. The five inherited intentional_omission claims are not represented as proved declarations and are not certified by this result.",
+      "intentional_omissions": [
+        "induced left action on a balanced tensor product",
+        "induced right action and combined bimodule structure",
+        "balanced-tensor associativity",
+        "the displayed Hom bimodule",
+        "the noncommutative tensor-Hom adjunction"
+      ]
+    }
   },
   {
     "id": "Chapter2/Exercise2.11.7",
@@ -6684,7 +6959,18 @@
     },
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Exercise2_11_7.lean"
-    ]
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.11",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "TensorProduct.instModule",
+        "TensorProduct.smul_tmul'",
+        "TensorProduct.tmul_smul"
+      ]
+    }
   },
   {
     "id": "Chapter2/Discussion_2.12_heading",
@@ -7013,7 +7299,8 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Problem2_13_1.irrational_arccos_third_div_pi",
           "unit": "claim-07",
-          "source_ref": "blobs/Chapter2/Problem2.13.1.md"
+          "source_ref": "blobs/Chapter2/Problem2.13.1.md",
+          "shared_decl": true
         },
         {
           "claim": "The book's hint derives the irrationality contradiction from the recurrence for x^k+x^(-k) when x+x^(-1)=2/3.",
@@ -7021,7 +7308,8 @@
           "lean_decl": "Etingof.Problem2_13_1.irrational_arccos_third_div_pi",
           "note": "The Lean proof uses the equivalent integral Chebyshev recurrence b_k = 3^k cos(kθ), whose residues modulo 3 give the same denominator contradiction.",
           "unit": "claim-08",
-          "source_ref": "blobs/Chapter2/Problem2.13.1.md"
+          "source_ref": "blobs/Chapter2/Problem2.13.1.md",
+          "shared_decl": true
         },
         {
           "claim": "The Dehn invariants of an equal-volume regular tetrahedron and cube differ, so the two are not scissors-congruent.",
@@ -7036,7 +7324,17 @@
     "last_updated": "2026-07-28",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_13_1.lean"
-    ]
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.13",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_13_1.irrational_arccos_third_div_pi"
+      ],
+      "scope_note": "Proof integrity applies to the two formalized proof units. The five Dehn-invariant/scissors-congruence units remain explicit intentional omissions under skipped-exercises.md and are not represented by declarations."
+    }
   },
   {
     "id": "Chapter2/Discussion_2.14_heading",
@@ -7263,7 +7561,20 @@
     "last_updated": "2026-07-28",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter2/Problem2_14_3.lean"
-    ]
+    ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.14",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_14_3.dualHomEquiv",
+        "Etingof.Problem2_14_3.congrHomRight",
+        "Etingof.Problem2_14_3.tensorHomAdjunction",
+        "Etingof.Problem2_14_3.exists_tensorHom_adjunction"
+      ]
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter2/Discussion_2.15_heading",
@@ -7411,7 +7722,9 @@
           "note": "Covered elsewhere by Etingof.Sl2Irrep.complete_reducibility and Etingof.Sl2Irrep.sl2Module_decomposition at the level of the intended conclusion.",
           "unit": "claim-10",
           "source_ref": "blobs/Chapter2/Problem2.15.1.md",
-          "lean_decl": "Etingof.Sl2Irrep.complete_reducibility; Etingof.Sl2Irrep.sl2Module_decomposition"
+          "lean_decl": "Etingof.Sl2Irrep.complete_reducibility; Etingof.Sl2Irrep.sl2Module_decomposition",
+          "reason": "The source unit is an intermediate in the book's contradiction route; the recorded declarations prove the stronger direct-sum decomposition.",
+          "shared_decl": true
         },
         {
           "claim": "Part (j): the lambda eigenspace has dimension n+1 and the indicated F-ladders form a basis, using the lowest-weight Casimir calculation.",
@@ -7419,7 +7732,9 @@
           "note": "The requested lowest-weight Casimir sublemma itself is formalized as Etingof.Sl2Irrep.casimir_lowest_weight.",
           "unit": "claim-11",
           "source_ref": "blobs/Chapter2/Problem2.15.1.md",
-          "lean_decl": "Etingof.Sl2Irrep.complete_reducibility; Etingof.Sl2Irrep.sl2Module_decomposition"
+          "lean_decl": "Etingof.Sl2Irrep.complete_reducibility; Etingof.Sl2Irrep.sl2Module_decomposition",
+          "reason": "The source unit is an intermediate in the book's contradiction route; the recorded declarations prove the stronger direct-sum decomposition.",
+          "shared_decl": true
         },
         {
           "claim": "Part (k): the ladder spans W_i are subrepresentations and decompose V, contradicting minimality.",
@@ -7427,7 +7742,9 @@
           "note": "Conclusion covered by Etingof.Sl2Irrep.complete_reducibility and Etingof.Sl2Irrep.sl2Module_decomposition.",
           "unit": "claim-12",
           "source_ref": "blobs/Chapter2/Problem2.15.1.md",
-          "lean_decl": "Etingof.Sl2Irrep.complete_reducibility; Etingof.Sl2Irrep.sl2Module_decomposition"
+          "lean_decl": "Etingof.Sl2Irrep.complete_reducibility; Etingof.Sl2Irrep.sl2Module_decomposition",
+          "reason": "The source unit is an intermediate in the book's contradiction route; the recorded declarations prove the stronger direct-sum decomposition.",
+          "shared_decl": true
         },
         {
           "claim": "Part (l): a nilpotent operator A is the raising operator of an sl(2)-representation, unique up to module isomorphism.",
@@ -7441,7 +7758,8 @@
           "verdict": "covered_elsewhere",
           "unit": "claim-14",
           "source_ref": "blobs/Chapter2/Problem2.15.1.md",
-          "lean_decl": "Etingof.Sl2Irrep.clebsch_gordan_charPoly"
+          "lean_decl": "Etingof.Sl2Irrep.clebsch_gordan_charPoly",
+          "reason": "The character-polynomial identity supplies the analytic-character hint route used to derive the adjacent representation-level decomposition."
         },
         {
           "claim": "Part (m): V_lambda tensor V_mu decomposes as the direct sum of V_(lambda+mu-2k), for 0<=k<=min(lambda,mu).",
@@ -7468,6 +7786,46 @@
       "EtingofRepresentationTheory/Chapter2/Problem2_15_1_m_Module.lean",
       "EtingofRepresentationTheory/Chapter2/Problem2_15_1_n.lean"
     ],
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.15",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Sl2Irrep.sl2_eq_smul_h_add_smul_e_add_smul_f",
+        "Etingof.Sl2Irrep.sl2LieHomOfOperators",
+        "Etingof.Sl2Irrep.sl2LieHomOfOperators_e",
+        "Etingof.Sl2Irrep.sl2LieHomOfOperators_f",
+        "Etingof.Sl2Irrep.sl2LieHomOfOperators_h",
+        "Etingof.Sl2Irrep.lie_e_eq_zero_on_maxGenEigenspace",
+        "Etingof.Sl2Irrep.highestWeightPolynomial",
+        "Etingof.Sl2Irrep.highestWeightPolynomial_natDegree",
+        "Etingof.Sl2Irrep.eIter_fIter_eq_aeval_highestWeightPolynomial",
+        "Etingof.Sl2Irrep.exists_pos_fIter_eq_zero_of_mem_maxGenEigenspace",
+        "Etingof.Sl2Irrep.maxGenEigenspace_eq_eigenspace_of_no_higher_weight",
+        "Etingof.Sl2Irrep.highestWeightPolynomial_squarefree",
+        "Etingof.Sl2Irrep.highestWeight_eq_nat_of_minimal_fIter_zero_of_mem_maxGenEigenspace",
+        "Etingof.Sl2Irrep.irrep_isIrreducible",
+        "Etingof.Sl2Irrep.irrep_finrank",
+        "Etingof.Problem_2_15_1_f",
+        "Etingof.Sl2Irrep.lie_sl2_h_e_basis",
+        "Etingof.Sl2Irrep.lie_sl2_e_e_basis",
+        "Etingof.Sl2Irrep.lie_sl2_f_e_basis",
+        "Etingof.Sl2Irrep.lie_sl2_f_e_basis_top",
+        "Etingof.Sl2Irrep.casimir_central",
+        "Etingof.Sl2Irrep.casimir_eq_scalar_lambda",
+        "Etingof.Sl2Irrep.casimirGenEigenspace_isInternal",
+        "Etingof.Sl2Irrep.indecomposable_casimir_eigenvalue",
+        "Etingof.Sl2Irrep.complete_reducibility",
+        "Etingof.Sl2Irrep.sl2Module_decomposition",
+        "Etingof.Sl2Irrep.casimir_lowest_weight",
+        "Etingof.Sl2Irrep.jacobsonMorozov_sl2",
+        "Etingof.Sl2Irrep.clebsch_gordan_charPoly",
+        "Etingof.Sl2Irrep.clebsch_gordan_module_iso",
+        "Etingof.Sl2Irrep.jordan_normal_form_tensor"
+      ],
+      "scope_note": "The declaration list records the source-facing proof endpoints. The audit programmatically checked all 268 exported constants and all 710 constants attributed to the twelve scoped provider modules, including support declarations, private helpers, instances, and generated equations. Parts (i)-(k) and the analytic character hint in (m) remain the intentional proof-route omissions classified at Stage 3.2; no unproved declaration represents them."
+    },
     "fidelity": "verified"
   },
   {
@@ -7581,6 +7939,20 @@
           "source_ref": "blobs/Chapter2/Problem2.16.1.md"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.16",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "LieAlgebra.derivedSeries",
+        "LieAlgebra.coe_derivedSeries_one_eq",
+        "LieAlgebra.IsSolvable",
+        "LieAlgebra.isSolvable_iff",
+        "Etingof.Problem2_16_1.finrank_eq_one_of_isSolvable"
+      ],
+      "basis": "The provider's sole module-attributed constant is a proof constant and is axiom-clean. The four Mathlib declarations covering the source definitions were separately checked with the same axiom collector."
     }
   },
   {
@@ -7651,6 +8023,28 @@
           "source_ref": "blobs/Chapter2/Problem2.16.2.md"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.16",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_16_2.g",
+        "Etingof.Problem2_16_2.bracket_X_Y",
+        "Etingof.Problem2_16_2.instIsSolvable",
+        "Etingof.Problem2_16_2.oneDimModule",
+        "Etingof.Problem2_16_2.charZero_exists_unique_iso_oneDim",
+        "Etingof.Problem2_16_2.Fam",
+        "Etingof.Problem2_16_2.fam_finrank",
+        "Etingof.Problem2_16_2.fam_irreducible",
+        "Etingof.Problem2_16_2.fam_nonempty_equiv_iff",
+        "Etingof.Problem2_16_2.oneDim_not_equiv_fam",
+        "Etingof.Problem2_16_2.charP_exists_iso",
+        "Etingof.Problem2_16_2.charP_exists_unique_iso",
+        "Etingof.Problem2_16_2.lie_theorem_fails_charP"
+      ],
+      "basis": "All 211 constants attributed to the provider, including all 168 module-attributed proof constants, were axiom-audited; none uses sorryAx or a project axiom."
     }
   },
   {
@@ -7740,6 +8134,29 @@
           "source_ref": "blobs/Chapter2/Problem2.16.3.md"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.16",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_16_3.relIdeal",
+        "Etingof.Problem2_16_3.g",
+        "Etingof.Problem2_16_3.proj",
+        "Etingof.Problem2_16_3.lieSpan_gens_eq_top",
+        "Etingof.Problem2_16_3.finrank_g_one",
+        "Etingof.Problem2_16_3.finrank_g_two",
+        "Etingof.Problem2_16_3.finrank_g_three",
+        "Etingof.Problem2_16_3.not_finiteDimensional_g_four",
+        "Etingof.Problem2_16_3.LoopIdx",
+        "Etingof.Problem2_16_3.loopFam₄",
+        "Etingof.Problem2_16_3.gFourBasis",
+        "Etingof.Problem2_16_3.card_loopIdx_deg_zero",
+        "Etingof.Problem2_16_3.card_loopIdx_deg_odd",
+        "Etingof.Problem2_16_3.card_loopIdx_deg_even"
+      ],
+      "basis": "Across the twelve direct providers, all 1108 module-attributed constants, including all 925 proof constants, were axiom-audited; none uses sorryAx or a project axiom."
     }
   },
   {
@@ -7796,23 +8213,44 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Problem2_16_4.Reprise.Parameter; Etingof.Problem2_16_4.Reprise.parameterLieHom",
           "unit": "claim-03",
-          "source_ref": "blobs/Chapter2/Problem2.16.4.md"
+          "source_ref": "blobs/Chapter2/Problem2.16.4.md",
+          "lean_file": "EtingofRepresentationTheory/Reprises/Problem2_16_4.lean"
         },
         {
           "claim": "The classification determines exactly when two parameterized modules are isomorphic.",
           "verdict": "formalized",
           "lean_decl": "Etingof.Problem2_16_4.Reprise.parameter_isomorphic_iff; Etingof.Problem2_16_4.Reprise.classificationEquiv",
           "unit": "claim-04",
-          "source_ref": "blobs/Chapter2/Problem2.16.4.md"
+          "source_ref": "blobs/Chapter2/Problem2.16.4.md",
+          "lean_file": "EtingofRepresentationTheory/Reprises/Problem2_16_4.lean"
         },
         {
           "claim": "Every finite-dimensional irreducible sl(2,k)-module occurs in the parameter family.",
           "verdict": "formalized",
           "lean_decl": "Etingof.Problem2_16_4.Reprise.exists_parameter_equiv",
           "unit": "claim-05",
-          "source_ref": "blobs/Chapter2/Problem2.16.4.md"
+          "source_ref": "blobs/Chapter2/Problem2.16.4.md",
+          "lean_file": "EtingofRepresentationTheory/Reprises/Problem2_16_4.lean"
         }
       ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.16",
+      "verified_on": "2026-07-28",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_16_4.irrep_finrank",
+        "Etingof.Problem2_16_4.irrep_isIrreducible",
+        "Etingof.Problem2_16_4.finrank_irreducible_le_char",
+        "Etingof.Problem2_16_4.exists_irreducible_dim_char",
+        "Etingof.Problem2_16_4.Reprise.parameter_isIrreducible",
+        "Etingof.Problem2_16_4.Reprise.parameter_isomorphic_iff",
+        "Etingof.Problem2_16_4.Reprise.exists_parameter_equiv",
+        "Etingof.Problem2_16_4.Reprise.classificationEquiv"
+      ],
+      "basis": "The Chapter 2 endpoints and the later complete classification declarations are source-present and placeholder-free.",
+      "intentional_omissions": []
     }
   },
   {
@@ -7910,6 +8348,36 @@
           "source_ref": "blobs/Chapter2/Problem2.16.5.md",
           "scope_ref": "skipped-exercises.md#problem-2165--full-quantum-sl-classification"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "2.16",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem2_16_5.Uqsl2",
+        "IsOfFinOrder",
+        "Etingof.Problem2_16_5.Rel",
+        "Etingof.Problem2_16_5.KL_rel",
+        "Etingof.Problem2_16_5.LK_rel",
+        "Etingof.Problem2_16_5.Ke_rel",
+        "Etingof.Problem2_16_5.Kf_rel",
+        "Etingof.Problem2_16_5.ef_rel",
+        "Etingof.Problem2_16_5.augmentation_surjective",
+        "Etingof.Problem2_16_5.instNontrivialUqsl2",
+        "Etingof.Problem2_16_5.exists_highest_weight_vector",
+        "Etingof.Problem2_16_5.highest_weight_eigenvalue_of_not_isOfFinOrder",
+        "Etingof.Problem2_16_5.Kpow_orderOf_isScalar",
+        "Etingof.Problem2_16_5.Kop_isSemisimple_and_eigenvalues",
+        "Etingof.Problem2_16_5.epow_orderOf_isScalar",
+        "Etingof.Problem2_16_5.fpow_orderOf_isScalar",
+        "Etingof.Problem2_16_5.finrank_irreducible_le_of_isOfFinOrder"
+      ],
+      "basis": "All 150 constants attributed to the provider, including all 119 module-attributed proof constants, were axiom-audited. This certifies the presentation and structural constraints only, not either omitted exhaustive classification.",
+      "intentional_omissions": [
+        "exhaustive classification up to isomorphism when q is not a root of unity (project-wide permanent omission)",
+        "exhaustive classification up to isomorphism when q is a root of unity (project-wide permanent omission)"
       ]
     }
   },
@@ -9394,7 +9862,8 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Problem3_3_3.finite_iso_std_pow",
           "unit": "claim-11",
-          "source_ref": "blobs/Chapter3/Problem3.3.3.md"
+          "source_ref": "blobs/Chapter3/Problem3.3.3.md",
+          "shared_decl": true
         },
         {
           "claim": "The matrix units E_ij have the standard single-entry definition and multiplication action.",
@@ -9410,7 +9879,8 @@
           "lean_decl": "Etingof.Problem3_3_3.finite_iso_std_pow",
           "note": "The proof establishes the diagonal identity ∑ E_ii • v = v and uses orthogonal matrix units to construct the final direct-sum equivalence.",
           "unit": "claim-13",
-          "source_ref": "blobs/Chapter3/Problem3.3.3.md"
+          "source_ref": "blobs/Chapter3/Problem3.3.3.md",
+          "shared_decl": true
         },
         {
           "claim": "For every i, multiplication by E_i1 identifies E_11 V with E_ii V.",
@@ -9418,7 +9888,8 @@
           "lean_decl": "Etingof.Problem3_3_3.finite_iso_std_pow",
           "note": "The matrix-unit identities E_ij E_lm = δ_jl E_im are proved internally and drive the explicit isomorphism Ψ.",
           "unit": "claim-14",
-          "source_ref": "blobs/Chapter3/Problem3.3.3.md"
+          "source_ref": "blobs/Chapter3/Problem3.3.3.md",
+          "shared_decl": true
         },
         {
           "claim": "For v in E_11 V, the span S(v) is a subrepresentation isomorphic to k^d and contains v.",
@@ -9434,7 +9905,8 @@
           "lean_decl": "Etingof.Problem3_3_3.finite_iso_std_pow",
           "note": "The theorem constructs the corresponding Mat_d(k)-linear equivalence explicitly.",
           "unit": "claim-16",
-          "source_ref": "blobs/Chapter3/Problem3.3.3.md"
+          "source_ref": "blobs/Chapter3/Problem3.3.3.md",
+          "shared_decl": true
         },
         {
           "claim": "Parts (a) and (b) imply Theorem 3.3.1.",
@@ -9445,7 +9917,53 @@
           "source_ref": "blobs/Chapter3/Problem3.3.3.md"
         }
       ]
-    }
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.3",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_3_3.single_one_central",
+        "Etingof.Problem3_3_3.idemProj",
+        "Etingof.Problem3_3_3.single_mul_single_eq",
+        "Etingof.Problem3_3_3.sum_single_one",
+        "Etingof.Problem3_3_3.single_smul_single_smul",
+        "Etingof.Problem3_3_3.sum_single_smul",
+        "Etingof.Problem3_3_3.mem_range_idemProj",
+        "Etingof.Problem3_3_3.range_eq_top_iff",
+        "Etingof.Problem3_3_3.range_eq_bot_iff",
+        "Etingof.Problem3_3_3.simpleModule_prod_iff",
+        "Etingof.Problem3_3_3.Inflate",
+        "Etingof.Problem3_3_3.Inflate.instAddCommGroup",
+        "Etingof.Problem3_3_3.Inflate.instNontrivialOfAddCommGroup",
+        "Etingof.Problem3_3_3.Inflate.instModule",
+        "Etingof.Problem3_3_3.Inflate.instProdModule",
+        "Etingof.Problem3_3_3.Inflate.prod_smul_def",
+        "Etingof.Problem3_3_3.Inflate.single_smul",
+        "Etingof.Problem3_3_3.Inflate.toFactor",
+        "Etingof.Problem3_3_3.Inflate.toFactor_bijective",
+        "Etingof.Problem3_3_3.Inflate.isSimpleModule_iff",
+        "Etingof.Problem3_3_3.Inflate.congr",
+        "Etingof.Problem3_3_3.Inflate.ofCongr",
+        "Etingof.Problem3_3_3.Inflate.index_eq_of_equiv",
+        "Etingof.Problem3_3_3.single_mul_single",
+        "Etingof.Problem3_3_3.factorSummandModule",
+        "Etingof.Problem3_3_3.factorSummandModule_smul_coe",
+        "Etingof.Problem3_3_3.prod_smul_summand_eq",
+        "Etingof.Problem3_3_3.summandToFactor",
+        "Etingof.Problem3_3_3.isSimpleModule_summand_iff",
+        "Etingof.Problem3_3_3.simpleModule_prod_iff_factor",
+        "Etingof.Problem3_3_3.summandEquivInflate",
+        "Etingof.Problem3_3_3.exists_isSimpleFactor",
+        "Etingof.Problem3_3_3.exists_inflate_of_isSimple",
+        "Etingof.Problem3_3_3.std_isSimpleModule",
+        "Etingof.Problem3_3_3.simpleModule_iso_std",
+        "Etingof.Problem3_3_3.finite_iso_std_pow"
+      ],
+      "basis": "All 36 exported declarations, the seven private matrix-unit helpers, and their compiler-generated proof constants were included in the exhaustive module-origin audit. Part (c) is a pedagogical deduction whose already-proved endpoint is Theorem 3.3.1."
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter3/Remark3.3.4",
@@ -10544,7 +11062,20 @@
           "source_ref": "blobs/Chapter3/Exercise3.6.1.md"
         }
       ]
-    }
+    },
+    "stage3_3": {
+      "stage": "3.3",
+      "status": "complete",
+      "reviewed_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.instFiniteSubtypeMemSubmodule_etingofRepresentationTheory",
+        "Etingof.instFiniteQuotientSubmodule_etingofRepresentationTheory",
+        "Etingof.character_eq_character_add_character_quotient"
+      ],
+      "basis": "Both finite-dimensionality instances and the character-additivity theorem for an arbitrary subrepresentation and its genuine quotient are closed Lean terms. The exhaustive module-origin audit included all internal declarations emitted by the provider."
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter3/Theorem3.6.2",
@@ -11235,7 +11766,7 @@
     "end_page": "55",
     "start_line": 11,
     "end_line": 12,
-    "status": "proof_polished",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "coverage": "covered_full",
     "lean_decl": [
@@ -11269,7 +11800,21 @@
           "source_ref": "blobs/Chapter3/Problem3.8.3.md"
         }
       ]
-    }
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_8_3.endo_iso_or_nilpotent",
+        "Etingof.Problem3_8_3.sum_nilpotent_endo",
+        "Etingof.Problem3_8_3.krull_schmidt_existence",
+        "Etingof.Problem3_8_3.krull_schmidt_uniqueness"
+      ],
+      "basis": "All four arbitrary-field wrapper endpoints are authored, admission-free constants; the exact provider emits no additional generated constants."
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter3/Problem3.8.4",
@@ -11279,7 +11824,7 @@
     "end_page": "56",
     "start_line": 13,
     "end_line": 4,
-    "status": "proof_polished",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_8_4_Main.lean",
@@ -11306,7 +11851,8 @@
           "verdict": "formalized",
           "lean_decl": "Etingof.Problem3_8_4.iso_of_baseChange_iso",
           "unit": "claim-01",
-          "source_ref": "blobs/Chapter3/Problem3.8.4.md"
+          "source_ref": "blobs/Chapter3/Problem3.8.4.md",
+          "shared_decl": true
         },
         {
           "claim": "The isomorphism descends to a finitely generated K-subalgebra generated by the matrix entries of the map and its inverse.",
@@ -11321,7 +11867,8 @@
           "lean_decl": "Etingof.Problem3_8_4.iso_of_baseChange_iso",
           "note": "The general endpoint's proof chooses a maximal ideal of the finitely generated subalgebra, forms its residue field, and obtains finite dimensionality over K before invoking the finite case.",
           "unit": "claim-03",
-          "source_ref": "blobs/Chapter3/Problem3.8.4.md"
+          "source_ref": "blobs/Chapter3/Problem3.8.4.md",
+          "shared_decl": true
         },
         {
           "claim": "For a finite extension of degree n, restriction of scalars identifies the base changes with n-fold powers and Krull-Schmidt cancellation yields V isomorphic to W.",
@@ -11345,7 +11892,59 @@
           "source_ref": "blobs/Chapter3/Problem3.8.4.md"
         }
       ]
-    }
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_8_4.rep",
+        "Etingof.Problem3_8_4.repTensor",
+        "Etingof.Problem3_8_4.bcMod",
+        "Etingof.IsIndecomposable.of_linearEquiv",
+        "Etingof.Problem3_8_4.indecDecomp_map",
+        "Etingof.Problem3_8_4.iso_pow_cancel",
+        "Etingof.Problem3_8_4.directSummand_pow_cancel",
+        "Etingof.Problem3_8_4.Descent.exists_fg_subalgebra_baseChange_iso",
+        "Etingof.Problem3_8_4.Descent.exists_fg_subalgebra_baseChange_directSummand",
+        "Etingof.Problem3_8_4.bcRestrictScalars",
+        "Etingof.Problem3_8_4.bcRestrictScalars_apply",
+        "Etingof.Problem3_8_4.iso_of_baseChange_iso_finite",
+        "Etingof.Problem3_8_4.bcRestrictScalarsMap",
+        "Etingof.Problem3_8_4.bcRestrictScalarsMap_apply",
+        "Etingof.Problem3_8_4.directSummand_of_baseChange_directSummand_finite",
+        "Etingof.Problem3_8_4.Functoriality.rep",
+        "Etingof.Problem3_8_4.Functoriality.repTensor",
+        "Etingof.Problem3_8_4.Functoriality.bcMod",
+        "Etingof.Problem3_8_4.Functoriality.bcMod_smul",
+        "Etingof.Problem3_8_4.Functoriality.repTensor_one_tmul_apply",
+        "Etingof.Problem3_8_4.Functoriality.smul_one_tmul",
+        "Etingof.Problem3_8_4.Functoriality.smul_tmul_one",
+        "Etingof.Problem3_8_4.Functoriality.pushEquiv",
+        "Etingof.Problem3_8_4.Functoriality.nonempty_baseChange_iso",
+        "Etingof.Problem3_8_4.Functoriality.pushHom",
+        "Etingof.Problem3_8_4.Functoriality.pushHom_tmul",
+        "Etingof.Problem3_8_4.Functoriality.pushHom_cancelBaseChange",
+        "Etingof.Problem3_8_4.Functoriality.pushHom_comp",
+        "Etingof.Problem3_8_4.Functoriality.pushHom_id",
+        "Etingof.Problem3_8_4.Functoriality.nonempty_baseChange_directSummand",
+        "Etingof.Problem3_8_4.directSummand_of_baseChange_directSummand",
+        "Etingof.Problem3_8_4.iso_of_baseChange_iso",
+        "Etingof.Problem3_8_4.repTensor_one_tmul_apply",
+        "Etingof.Problem3_8_4.toPiLinearEquiv",
+        "Etingof.Problem3_8_4.toPiLinearEquiv_tmul",
+        "Etingof.Problem3_8_4.bcModRestrict",
+        "Etingof.Problem3_8_4.bcModRestrict_smul",
+        "Etingof.Problem3_8_4.bcMod_smul",
+        "Etingof.Problem3_8_4.bcModRestrict_smul_tmul",
+        "Etingof.Problem3_8_4.toPiAlinMap",
+        "Etingof.Problem3_8_4.toPiAlinEquiv",
+        "Etingof.Problem3_8_4.baseChange_alinEquiv_pow"
+      ],
+      "basis": "All 42 public declarations across the eight-provider base-change, cancellation, descent, finite, functoriality, power, and general endpoint chain are admission-free. The exhaustive audit additionally covers nine private authored helpers and 82 compiler-generated proof, match, simp, and equation constants."
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter3/Problem3.8.5",
@@ -11355,7 +11954,7 @@
     "end_page": "56",
     "start_line": 5,
     "end_line": 10,
-    "status": "proof_polished",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_8_5.lean"
@@ -11415,7 +12014,46 @@
           "source_ref": "blobs/Chapter3/Problem3.8.5.md"
         }
       ]
-    }
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.8",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_8_5.periodicSubalg",
+        "Etingof.Problem3_8_5.antiperiodicSubmod",
+        "Etingof.Problem3_8_5.periodicSubalg_idempotent_eq_zero_or_one",
+        "Etingof.Problem3_8_5.periodic_isIndecomposable",
+        "Etingof.Problem3_8_5.cosπ",
+        "Etingof.Problem3_8_5.sinπ",
+        "Etingof.Problem3_8_5.cosπ_apply",
+        "Etingof.Problem3_8_5.sinπ_apply",
+        "Etingof.Problem3_8_5.cosπ_mem",
+        "Etingof.Problem3_8_5.sinπ_mem",
+        "Etingof.Problem3_8_5.cosπ_sq_add_sinπ_sq",
+        "Etingof.Problem3_8_5.cM",
+        "Etingof.Problem3_8_5.sM",
+        "Etingof.Problem3_8_5.cM_coe",
+        "Etingof.Problem3_8_5.sM_coe",
+        "Etingof.Problem3_8_5.antiMul",
+        "Etingof.Problem3_8_5.antiMul_coe_apply",
+        "Etingof.Problem3_8_5.smul_apply_coe",
+        "Etingof.Problem3_8_5.antiperiodic_frame_decomp",
+        "Etingof.Problem3_8_5.antiperiodic_isIndecomposable",
+        "Etingof.Problem3_8_5.periodic_not_linearEquiv_antiperiodic",
+        "Etingof.Problem3_8_5.antiMulL",
+        "Etingof.Problem3_8_5.rotInv",
+        "Etingof.Problem3_8_5.rotFwd",
+        "Etingof.Problem3_8_5.rotInv_apply",
+        "Etingof.Problem3_8_5.rotFwd_apply",
+        "Etingof.Problem3_8_5.rotInv_rotFwd",
+        "Etingof.Problem3_8_5.rotFwd_rotInv",
+        "Etingof.Problem3_8_5.periodic_sq_linearEquiv_antiperiodic_sq"
+      ],
+      "basis": "All 29 public declarations supporting the literal continuous-function counterexample are admission-free. The exhaustive audit also covers one private authored helper and 27 generated structure-proof and simplifier constants."
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter3/Remark3.8.6",
@@ -11543,7 +12181,7 @@
     "end_page": "57",
     "start_line": 15,
     "end_line": 12,
-    "status": "proof_polished",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_9_1.lean"
@@ -11648,7 +12286,87 @@
           "source_ref": "blobs/Chapter3/Problem3.9.1.md"
         }
       ]
-    }
+    },
+    "stage3_3": {
+      "stage": "3.3",
+      "status": "complete",
+      "reviewed_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_9_1.rho",
+        "Etingof.Problem3_9_1.IsCocycle",
+        "Etingof.Problem3_9_1.blockOp",
+        "Etingof.Problem3_9_1.blockOp_apply",
+        "Etingof.Problem3_9_1.blockOp_mul_iff_isCocycle",
+        "Etingof.Problem3_9_1.cocycles",
+        "Etingof.Problem3_9_1.coboundaryOf",
+        "Etingof.Problem3_9_1.coboundaryOf_apply",
+        "Etingof.Problem3_9_1.coboundaryOf_isCocycle",
+        "Etingof.Problem3_9_1.coboundaryOf_eq_zero_iff",
+        "Etingof.Problem3_9_1.coboundaries",
+        "Etingof.Problem3_9_1.coboundaryLinear",
+        "Etingof.Problem3_9_1.coboundaryLinear_apply",
+        "Etingof.Problem3_9_1.coboundaries_eq_range",
+        "Etingof.Problem3_9_1.mem_coboundaries_iff",
+        "Etingof.Problem3_9_1.coboundaries_le_cocycles",
+        "Etingof.Problem3_9_1.Ext1",
+        "Etingof.Problem3_9_1.IntertwinesExt",
+        "Etingof.Problem3_9_1.iso_of_sub_mem_coboundaries",
+        "Etingof.Problem3_9_1.converse_sub_mem_coboundaries_of_unitriangular_intertwines",
+        "Etingof.Problem3_9_1.ext_iso_of_sub_smul_mem_coboundaries",
+        "Etingof.Problem3_9_1.irreducible_ext_iso_iff_proportional",
+        "Etingof.Problem3_9_1.blockOp_apply_prod",
+        "Etingof.Problem3_9_1.IsCocycle.apply_one",
+        "Etingof.Problem3_9_1.isCocycle_zero",
+        "Etingof.Problem3_9_1.ExtMod",
+        "Etingof.Problem3_9_1.ExtMod.instAddCommGroup",
+        "Etingof.Problem3_9_1.ExtMod.instModuleK",
+        "Etingof.Problem3_9_1.ExtMod.val",
+        "Etingof.Problem3_9_1.ExtMod.ofProd",
+        "Etingof.Problem3_9_1.ExtMod.mk",
+        "Etingof.Problem3_9_1.ExtMod.ext",
+        "Etingof.Problem3_9_1.ExtMod.val_ofProd",
+        "Etingof.Problem3_9_1.ExtMod.ofProd_val",
+        "Etingof.Problem3_9_1.ExtMod.val_mk",
+        "Etingof.Problem3_9_1.ExtMod.val_zero",
+        "Etingof.Problem3_9_1.ExtMod.val_add",
+        "Etingof.Problem3_9_1.ExtMod.val_smulK",
+        "Etingof.Problem3_9_1.ExtMod.instSMul",
+        "Etingof.Problem3_9_1.ExtMod.val_smul",
+        "Etingof.Problem3_9_1.ExtMod.val_smul_eq_blockOp",
+        "Etingof.Problem3_9_1.ExtMod.smul_mk",
+        "Etingof.Problem3_9_1.ExtMod.instMulAction",
+        "Etingof.Problem3_9_1.ExtMod.instDistribMulAction",
+        "Etingof.Problem3_9_1.ExtMod.instModuleA",
+        "Etingof.Problem3_9_1.ExtMod.instIsScalarTower",
+        "Etingof.Problem3_9_1.ExtMod.valEquiv",
+        "Etingof.Problem3_9_1.ExtMod.valEquiv_apply",
+        "Etingof.Problem3_9_1.ExtMod.valEquiv_symm_apply",
+        "Etingof.Problem3_9_1.ExtMod.inclusion",
+        "Etingof.Problem3_9_1.ExtMod.inclusion_apply",
+        "Etingof.Problem3_9_1.ExtMod.projection",
+        "Etingof.Problem3_9_1.ExtMod.projection_apply",
+        "Etingof.Problem3_9_1.ExtMod.inclusion_injective",
+        "Etingof.Problem3_9_1.ExtMod.projection_surjective",
+        "Etingof.Problem3_9_1.ExtMod.projection_comp_inclusion",
+        "Etingof.Problem3_9_1.ExtMod.range_inclusion_eq_ker_projection",
+        "Etingof.Problem3_9_1.ExtMod.exact_inclusion_projection",
+        "Etingof.Problem3_9_1.ExtMod.quotEquiv",
+        "Etingof.Problem3_9_1.ExtMod.zeroEquivProd",
+        "Etingof.Problem3_9_1.ExtMod.equivOfIntertwines",
+        "Etingof.Problem3_9_1.ExtMod.equivOfIntertwines_apply",
+        "Etingof.Problem3_9_1.ExtMod.intertwinerOfEquiv",
+        "Etingof.Problem3_9_1.ExtMod.intertwinerOfEquiv_apply",
+        "Etingof.Problem3_9_1.ExtMod.intertwinesExt_intertwinerOfEquiv",
+        "Etingof.Problem3_9_1.ExtMod.nonempty_equiv_iff_intertwines",
+        "Etingof.Problem3_9_1.ExtMod.nonempty_equiv_of_sub_mem_coboundaries",
+        "Etingof.Problem3_9_1.ExtMod.sub_mem_coboundaries_of_unitriangular_equiv",
+        "Etingof.Problem3_9_1.ExtMod.nonempty_equiv_iff_proportional",
+        "Etingof.Problem3_9_1.ExtMod.nonempty_equiv_prod_iff_mem_coboundaries"
+      ],
+      "basis": "All 70 named authored public declarations are closed Lean terms. The exhaustive module-origin audit also covered all 163 constants emitted by the provider, including private, anonymous-instance, generated, and internal declarations."
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter3/Problem3.9.2",
@@ -11658,7 +12376,7 @@
     "end_page": "57",
     "start_line": 13,
     "end_line": 16,
-    "status": "proof_polished",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_9_2.lean",
@@ -11753,7 +12471,112 @@
           "source_ref": "blobs/Chapter3/Problem3.9.2.md"
         }
       ]
-    }
+    },
+    "stage3_3": {
+      "stage": "3.3",
+      "status": "complete",
+      "reviewed_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_9_2.polyAlg",
+        "Etingof.Problem3_9_2.maxIdeal",
+        "Etingof.Problem3_9_2.Vrep",
+        "Etingof.Problem3_9_2.Vrep_smul_eq",
+        "Etingof.Problem3_9_2.quot_mk_one_ne_zero",
+        "Etingof.Problem3_9_2.ext1_self",
+        "Etingof.Problem3_9_2.ext1_subsingleton_of_ne",
+        "Etingof.Problem3_9_2.eigen_smul_eq",
+        "Etingof.Problem3_9_2.oneDim_iso_Vrep",
+        "Etingof.Problem3_9_2.exists_common_eigenvector",
+        "Etingof.Problem3_9_2.two_dim_is_extension",
+        "Etingof.Problem3_9_2.BRel",
+        "Etingof.Problem3_9_2.zeroMulAlg",
+        "Etingof.Problem3_9_2.socleVecR",
+        "Etingof.Problem3_9_2.cycVecR",
+        "Etingof.Problem3_9_2.nilOpR",
+        "Etingof.Problem3_9_2.nilOpR_apply",
+        "Etingof.Problem3_9_2.nilOpR_sq",
+        "Etingof.Problem3_9_2.Cyc",
+        "Etingof.Problem3_9_2.socleVec",
+        "Etingof.Problem3_9_2.cycVec",
+        "Etingof.Problem3_9_2.nilOp",
+        "Etingof.Problem3_9_2.nilOp_apply",
+        "Etingof.Problem3_9_2.nilOp_sq",
+        "Etingof.Problem3_9_2.socleVec_ne_zero",
+        "Etingof.Problem3_9_2.wt",
+        "Etingof.Problem3_9_2.wt_zero",
+        "Etingof.Problem3_9_2.wt_one",
+        "Etingof.Problem3_9_2.genImg",
+        "Etingof.Problem3_9_2.genImg_mul",
+        "Etingof.Problem3_9_2.freeRep",
+        "Etingof.Problem3_9_2.freeRep_rel",
+        "Etingof.Problem3_9_2.rep",
+        "Etingof.Problem3_9_2.gen",
+        "Etingof.Problem3_9_2.rep_gen",
+        "Etingof.Problem3_9_2.instModuleCyc",
+        "Etingof.Problem3_9_2.rep_algebraMap_smul",
+        "Etingof.Problem3_9_2.infinitely_many_indecomposables",
+        "Etingof.Problem3_9_2.smulCommClass_polyAlg",
+        "Etingof.Problem3_9_2.genEnd",
+        "Etingof.Problem3_9_2.genEnd_apply",
+        "Etingof.Problem3_9_2.nonempty_linearEquiv_of_comm_X",
+        "Etingof.Problem3_9_2.nonempty_linearEquiv_of_comm_X_basis",
+        "Etingof.Problem3_9_2.Jrep",
+        "Etingof.Problem3_9_2.Jrep.eps",
+        "Etingof.Problem3_9_2.Jrep.eps_mul_eps",
+        "Etingof.Problem3_9_2.Jrep.fst",
+        "Etingof.Problem3_9_2.Jrep.snd",
+        "Etingof.Problem3_9_2.Jrep.fst_zero",
+        "Etingof.Problem3_9_2.Jrep.snd_zero",
+        "Etingof.Problem3_9_2.Jrep.fst_one",
+        "Etingof.Problem3_9_2.Jrep.snd_one",
+        "Etingof.Problem3_9_2.Jrep.fst_eps",
+        "Etingof.Problem3_9_2.Jrep.snd_eps",
+        "Etingof.Problem3_9_2.Jrep.fst_add",
+        "Etingof.Problem3_9_2.Jrep.snd_add",
+        "Etingof.Problem3_9_2.Jrep.fst_smul",
+        "Etingof.Problem3_9_2.Jrep.snd_smul",
+        "Etingof.Problem3_9_2.Jrep.ext",
+        "Etingof.Problem3_9_2.Jrep.eq_smul_one_add_smul_eps",
+        "Etingof.Problem3_9_2.Jrep.eps_mul",
+        "Etingof.Problem3_9_2.jHom",
+        "Etingof.Problem3_9_2.jHom_X",
+        "Etingof.Problem3_9_2.jrepModule",
+        "Etingof.Problem3_9_2.jrep_smul_def",
+        "Etingof.Problem3_9_2.jrep_finrank",
+        "Etingof.Problem3_9_2.jrep_X_smul",
+        "Etingof.Problem3_9_2.jrep_X_smul_one",
+        "Etingof.Problem3_9_2.jrep_X_smul_eps",
+        "Etingof.Problem3_9_2.jrep_eps_ne_zero",
+        "Etingof.Problem3_9_2.jrepBasis",
+        "Etingof.Problem3_9_2.jrepBasis_apply",
+        "Etingof.Problem3_9_2.jrepBasis_zero_eq",
+        "Etingof.Problem3_9_2.jrepBasis_one_eq",
+        "Etingof.Problem3_9_2.weightLine_restrictScalars",
+        "Etingof.Problem3_9_2.weightLine_iso",
+        "Etingof.Problem3_9_2.smul_mem_of_tower",
+        "Etingof.Problem3_9_2.two_dim_normal_form",
+        "Etingof.Problem3_9_2.map_smul_complex",
+        "Etingof.Problem3_9_2.jrep_sub_smul",
+        "Etingof.Problem3_9_2.jrep_smul_eps_eq_zero_iff",
+        "Etingof.Problem3_9_2.jrep_nilpotent",
+        "Etingof.Problem3_9_2.jrep_weight_eq",
+        "Etingof.Problem3_9_2.jrep_class_eq_zero_of_scalar",
+        "Etingof.Problem3_9_2.jrep_class_eq_zero_of_target",
+        "Etingof.Problem3_9_2.jrep_exists_scalar",
+        "Etingof.Problem3_9_2.jrep_iso_of_scalar",
+        "Etingof.Problem3_9_2.jrep_iso_iff",
+        "Etingof.Problem3_9_2.Weights",
+        "Etingof.Problem3_9_2.weights_subset_of_linearEquiv",
+        "Etingof.Problem3_9_2.weights_eq_of_linearEquiv",
+        "Etingof.Problem3_9_2.weights_jrep",
+        "Etingof.Problem3_9_2.weights_vrep_prod",
+        "Etingof.Problem3_9_2.split_iso_iff",
+        "Etingof.Problem3_9_2.split_not_iso_jrep"
+      ],
+      "basis": "All 95 named authored public declarations across the core and classification providers are closed Lean terms. The exhaustive module-origin audit also covered all 275 constants emitted by the two providers, including private, anonymous-instance, inductive-generated, equation, and internal declarations."
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter3/Problem3.9.3",
@@ -11763,7 +12586,7 @@
     "end_page": "57",
     "start_line": 17,
     "end_line": 17,
-    "status": "proof_polished",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "coverage": "covered_full",
     "lean_decl": [
@@ -11849,7 +12672,84 @@
           "source_ref": "blobs/Chapter3/Problem3.9.3.md"
         }
       ]
-    }
+    },
+    "stage3_3": {
+      "stage": "3.3",
+      "status": "complete",
+      "reviewed_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_9_3.NoOrientedCycles",
+        "Etingof.Problem3_9_3.IsIrreducible",
+        "Etingof.Problem3_9_3.simpleRep_isIrreducible",
+        "Etingof.Problem3_9_3.irreducible_isSimpleRep",
+        "Etingof.Problem3_9_3.ext1_simpleRep_vanishes_iff",
+        "Etingof.Problem3_9_3.extDiffₗ",
+        "Etingof.Problem3_9_3.simpleRep_obj_addCommGroup",
+        "Etingof.Problem3_9_3.Ext1Simple",
+        "Etingof.Problem3_9_3.extDiffₗ_simpleRep_eq_zero",
+        "Etingof.Problem3_9_3.finrank_ext1_simpleRep",
+        "Etingof.Problem3_9_3.two_dim_classification",
+        "Etingof.QuiverRepresentationEquiv.refl",
+        "Etingof.QuiverRepresentationEquiv.dimVec_eq",
+        "Etingof.Problem3_9_3.truncMap",
+        "Etingof.Problem3_9_3.truncMap_apply",
+        "Etingof.Problem3_9_3.truncMap_eq_zero_of_source",
+        "Etingof.Problem3_9_3.truncMap_eq_zero_of_target",
+        "Etingof.Problem3_9_3.finPiEquivOfEqOne",
+        "Etingof.Problem3_9_3.finPiEquivOfEqOne_symm_apply",
+        "Etingof.Problem3_9_3.finPiEquivOfEqOne_truncMap",
+        "Etingof.Problem3_9_3.finPi_subsingleton",
+        "Etingof.Problem3_9_3.prodTrivRight",
+        "Etingof.Problem3_9_3.prodTrivLeft",
+        "Etingof.Problem3_9_3.prodTrivRight_symm_apply",
+        "Etingof.Problem3_9_3.prodTrivLeft_symm_apply",
+        "Etingof.Problem3_9_3.subsingletonEquiv",
+        "Etingof.Problem3_9_3.twoRep",
+        "Etingof.Problem3_9_3.twoRep_mapLinear_apply",
+        "Etingof.Problem3_9_3.twoRep_mapLinear_apply_fst",
+        "Etingof.Problem3_9_3.twoRep_mapLinear_apply_snd",
+        "Etingof.Problem3_9_3.twoRep_obj_subsingleton",
+        "Etingof.Problem3_9_3.twoRep_free",
+        "Etingof.Problem3_9_3.twoRep_finite",
+        "Etingof.Problem3_9_3.twoRep_addCommGroup",
+        "Etingof.Problem3_9_3.dimVec_twoRep",
+        "Etingof.Problem3_9_3.sum_dimVec_twoRep",
+        "Etingof.Problem3_9_3.twoRep_zero_mapLinear",
+        "Etingof.Problem3_9_3.twoRepZeroEquivDirectSum",
+        "Etingof.Problem3_9_3.genFst",
+        "Etingof.Problem3_9_3.genSnd",
+        "Etingof.Problem3_9_3.twoRep_mapLinear_genFst",
+        "Etingof.Problem3_9_3.genSnd_ne_zero",
+        "Etingof.Problem3_9_3.genFst_ne_zero",
+        "Etingof.Problem3_9_3.eq_bot_of_ne",
+        "Etingof.Problem3_9_3.finrank_twoRep_fst",
+        "Etingof.Problem3_9_3.finrank_twoRep_snd",
+        "Etingof.Problem3_9_3.twoRep_isIndecomposable",
+        "Etingof.Problem3_9_3.twoRep_zero_not_isIndecomposable",
+        "Etingof.Problem3_9_3.transportEquivAt",
+        "Etingof.Problem3_9_3.transportEquivAt_rfl",
+        "Etingof.Problem3_9_3.coeffOf",
+        "Etingof.Problem3_9_3.coeffOf_apply",
+        "Etingof.Problem3_9_3.normalFormEquivAt",
+        "Etingof.Problem3_9_3.normalFormEquivAt_fst",
+        "Etingof.Problem3_9_3.normalFormEquivAt_snd",
+        "Etingof.Problem3_9_3.nonempty_equiv_twoRep",
+        "Etingof.Problem3_9_3.nonempty_equiv_of_mapLinear_eq_zero",
+        "Etingof.Problem3_9_3.subsingleton_of_dimVec_eq_zero",
+        "Etingof.Problem3_9_3.nonempty_linearEquiv_of_dimVec_eq_one",
+        "Etingof.Problem3_9_3.support_of_sum_eq_two",
+        "Etingof.Problem3_9_3.two_dim_normalForm",
+        "Etingof.Problem3_9_3.twoRepEquivSmul",
+        "Etingof.Problem3_9_3.exists_smul_of_equiv_twoRep",
+        "Etingof.Problem3_9_3.vertices_eq_of_equiv_twoRep",
+        "Etingof.Problem3_9_3.isIndecomposable_of_equiv",
+        "Etingof.Problem3_9_3.twoRep_mapLinear_bijective",
+        "Etingof.Problem3_9_3.two_dim_classification_of_normalForm"
+      ],
+      "basis": "All 67 named authored public declarations across the Ext and two-dimensional classification providers are closed Lean terms. The exhaustive module-origin audit also covered all 130 emitted constants, including private, generated, and internal declarations."
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter3/Problem3.9.4",
@@ -11859,7 +12759,7 @@
     "end_page": "58",
     "start_line": 1,
     "end_line": 12,
-    "status": "proof_polished",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_9_4.lean"
@@ -11914,7 +12814,73 @@
           "source_ref": "blobs/Chapter3/Problem3.9.4.md"
         }
       ]
-    }
+    },
+    "stage3_3": {
+      "stage": "3.3",
+      "status": "complete",
+      "reviewed_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_9_4.baseRho",
+        "Etingof.Problem3_9_4.FormalDeformation",
+        "Etingof.Problem3_9_4.constDeformation",
+        "Etingof.Problem3_9_4.IsIsomorphic",
+        "Etingof.Problem3_9_4.IsTrivial",
+        "Etingof.Problem3_9_4.isIsomorphic_refl",
+        "Etingof.Problem3_9_4.baseRho_mul",
+        "Etingof.Problem3_9_4.coboundaryOf_apply",
+        "Etingof.Problem3_9_4.coboundaryOf_add",
+        "Etingof.Problem3_9_4.coboundaryOf_smul",
+        "Etingof.Problem3_9_4.coboundaryOf_zero",
+        "Etingof.Problem3_9_4.exists_of_mem_coboundaries",
+        "Etingof.Problem3_9_4.exists_coboundary_of_cocycle",
+        "Etingof.Problem3_9_4.defSeries",
+        "Etingof.Problem3_9_4.defSeries_coeff",
+        "Etingof.Problem3_9_4.defSeries_mul",
+        "Etingof.Problem3_9_4.obstr",
+        "Etingof.Problem3_9_4.obstr_apply",
+        "Etingof.Problem3_9_4.nextCoeff",
+        "Etingof.Problem3_9_4.bVec",
+        "Etingof.Problem3_9_4.bSeq",
+        "Etingof.Problem3_9_4.bSeq_zero",
+        "Etingof.Problem3_9_4.bSeq_succ",
+        "Etingof.Problem3_9_4.bVec_eq_bSeq",
+        "Etingof.Problem3_9_4.coboundaryOf_bSeq_succ",
+        "Etingof.Problem3_9_4.Cc",
+        "Etingof.Problem3_9_4.gv",
+        "Etingof.Problem3_9_4.Cc_eq_coeff",
+        "Etingof.Problem3_9_4.Cc_mul",
+        "Etingof.Problem3_9_4.Cc_eq_gv_add",
+        "Etingof.Problem3_9_4.obstr_bVec_apply",
+        "Etingof.Problem3_9_4.gv_cocycle",
+        "Etingof.Problem3_9_4.star",
+        "Etingof.Problem3_9_4.isTrivial_of_ext1_subsingleton",
+        "Etingof.Problem3_9_4.ConverseHolds",
+        "Etingof.Problem3_9_4.Problem3_9_4b",
+        "Etingof.Problem3_9_4.dualNumberAugmentationAlgebra",
+        "Etingof.Problem3_9_4.endScalar",
+        "Etingof.Problem3_9_4.endScalar_injective",
+        "Etingof.Problem3_9_4.scalarSeries",
+        "Etingof.Problem3_9_4.scalarSeries_coeff",
+        "Etingof.Problem3_9_4.scalarSeries_eps_zero",
+        "Etingof.Problem3_9_4.scalarSeries_one_coeff_zero",
+        "Etingof.Problem3_9_4.scalarSeries_one",
+        "Etingof.Problem3_9_4.coeff_eps_zero",
+        "Etingof.Problem3_9_4.coeff_one_succ_zero",
+        "Etingof.Problem3_9_4.dualNumber_coeff_succ_eq_zero",
+        "Etingof.Problem3_9_4.dualNumber_deformation_eq_const",
+        "Etingof.Problem3_9_4.dualNumber_all_deformations_trivial",
+        "Etingof.Problem3_9_4.epsCocycle",
+        "Etingof.Problem3_9_4.epsCocycle_isCocycle",
+        "Etingof.Problem3_9_4.coboundary_eq_zero",
+        "Etingof.Problem3_9_4.epsCocycle_ne_zero",
+        "Etingof.Problem3_9_4.epsCocycle_not_mem_coboundaries",
+        "Etingof.Problem3_9_4.dualNumber_ext1_not_subsingleton",
+        "Etingof.Problem3_9_4.not_problem3_9_4b_dualNumber"
+      ],
+      "basis": "All 56 named authored public declarations are closed Lean terms (35 inherited plus 21 added by #8101). The exhaustive source/environment reconciliation includes the two public low-level coefficient helpers coeff_eps_zero and coeff_one_succ_zero as well as the dual-number augmentation, scalar-series and cocycle construction, and not_problem3_9_4b_dualNumber. Module-origin enumeration covers 143 emitted constants (137 public, 6 private), including structure-generated, equation, compiler-auxiliary, and internal declarations."
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter3/Problem3.9.5",
@@ -11924,7 +12890,7 @@
     "end_page": "59",
     "start_line": 13,
     "end_line": 4,
-    "status": "proof_polished",
+    "status": "dependency_trimmed",
     "fidelity": "verified",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter3/Problem3_9_5.lean",
@@ -12042,7 +13008,171 @@
           "source_ref": "blobs/Chapter3/Problem3.9.5.md"
         }
       ]
-    }
+    },
+    "stage3_3": {
+      "stage": "3.3",
+      "status": "complete",
+      "reviewed_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.Problem3_9_5.quadForm",
+        "Etingof.Problem3_9_5.CliffAlg",
+        "Etingof.Problem3_9_5.cliffordAlgebra_zero_eq_exterior",
+        "Etingof.Problem3_9_5.isSemisimpleRing_of_traceForm_nondegenerate",
+        "Etingof.Problem3_9_5.gen",
+        "Etingof.Problem3_9_5.e",
+        "Etingof.Problem3_9_5.e_empty",
+        "Etingof.Problem3_9_5.e_singleton",
+        "Etingof.Problem3_9_5.e_insert_of_lt",
+        "Etingof.Problem3_9_5.e_minPeel",
+        "Etingof.Problem3_9_5.gen_sq",
+        "Etingof.Problem3_9_5.gen_anticomm",
+        "Etingof.Problem3_9_5.diag_ne_zero",
+        "Etingof.Problem3_9_5.isUnit_gen",
+        "Etingof.Problem3_9_5.isUnit_e",
+        "Etingof.Problem3_9_5.gen_mul_mem",
+        "Etingof.Problem3_9_5.e_mul_mem",
+        "Etingof.Problem3_9_5.span_e_eq_top",
+        "Etingof.Problem3_9_5.finrank_cliffAlg",
+        "Etingof.Problem3_9_5.cliffBasis",
+        "Etingof.Problem3_9_5.cliffBasis_apply",
+        "Etingof.Problem3_9_5.mulLeft_smul",
+        "Etingof.Problem3_9_5.tr_mulLeft_e",
+        "Etingof.Problem3_9_5.tr_mulLeft_e_mul_of_ne",
+        "Etingof.Problem3_9_5.tr_mulLeft_e_mul_self_ne_zero",
+        "Etingof.Problem3_9_5.isSemisimpleRing_of_nondegenerate",
+        "Etingof.Problem3_9_5.gen_comm_notMem",
+        "Etingof.Problem3_9_5.gen_conj",
+        "Etingof.Problem3_9_5.central_of_commutes_gen",
+        "Etingof.Problem3_9_5.center_le_bot",
+        "Etingof.Problem3_9_5.eUniv_mem_center",
+        "Etingof.Problem3_9_5.center_le_span_eUniv",
+        "Etingof.Problem3_9_5.finrank_center_odd",
+        "Etingof.Problem3_9_5.involute_e",
+        "Etingof.Problem3_9_5.exists_eUniv_sq",
+        "Etingof.Problem3_9_5.even_isMatrixAlgebra",
+        "Etingof.Problem3_9_5.odd_exists_pi_matrix",
+        "Etingof.Problem3_9_5.odd_isSumMatrixAlgebra",
+        "Etingof.Problem3_9_5.not_isSemisimpleRing_of_degenerate",
+        "Etingof.Problem3_9_5.isSemisimpleRing_iff_nondegenerate",
+        "Etingof.Problem3_9_5.radSubmodule",
+        "Etingof.Problem3_9_5.mem_radSubmodule",
+        "Etingof.Problem3_9_5.radQuotForm",
+        "Etingof.Problem3_9_5.radQuotForm_mk_mk",
+        "Etingof.Problem3_9_5.radQuotForm_isSymm",
+        "Etingof.Problem3_9_5.radQuotForm_nondegenerate",
+        "Etingof.Problem3_9_5.ι_rad_mul",
+        "Etingof.Problem3_9_5.radQuotIsometry",
+        "Etingof.Problem3_9_5.radIdeal",
+        "Etingof.Problem3_9_5.ι_mem_radIdeal",
+        "Etingof.Problem3_9_5.radIdeal_isTwoSided",
+        "Etingof.Problem3_9_5.ker_map_radQuotIsometry",
+        "Etingof.Problem3_9_5.ι_mem_jacobson",
+        "Etingof.Problem3_9_5.radIdeal_eq_jacobson",
+        "Etingof.Problem3_9_5.radicalQuotient_isClifford_of_degenerate",
+        "Etingof.Problem3_9_5.Spinor",
+        "Etingof.Problem3_9_5.HyperbolicSpace",
+        "Etingof.Problem3_9_5.hyperbolicQ",
+        "Etingof.Problem3_9_5.creation",
+        "Etingof.Problem3_9_5.contraction",
+        "Etingof.Problem3_9_5.creation_sq_zero",
+        "Etingof.Problem3_9_5.contraction_sq_zero",
+        "Etingof.Problem3_9_5.contraction_creation_add",
+        "Etingof.Problem3_9_5.contraction_mul_creation_add",
+        "Etingof.Problem3_9_5.hyperbolicAction",
+        "Etingof.Problem3_9_5.hyperbolicAction_sq",
+        "Etingof.Problem3_9_5.hyperbolicSpinRep",
+        "Etingof.Problem3_9_5.hyperbolicSpinRep_ι_fst",
+        "Etingof.Problem3_9_5.hyperbolicSpinRep_ι_snd",
+        "Etingof.Problem3_9_5.finrank_spinor",
+        "Etingof.Problem3_9_5.spinorParity",
+        "Etingof.Problem3_9_5.spinorParity_sq",
+        "Etingof.Problem3_9_5.contraction_involute",
+        "Etingof.Problem3_9_5.spinorParity_creation_anticomm",
+        "Etingof.Problem3_9_5.spinorParity_contraction_anticomm",
+        "Etingof.Problem3_9_5.spinorParity_hyperbolicAction_anticomm",
+        "Etingof.Problem3_9_5.hyperbolicClifford_isSimpleRing",
+        "Etingof.Problem3_9_5.hyperbolicSpinRep_bijective",
+        "Etingof.Problem3_9_5.hyperbolicSpinor_irreducible",
+        "Etingof.Problem3_9_5.OddStandardSpace",
+        "Etingof.Problem3_9_5.oddStandardQ",
+        "Etingof.Problem3_9_5.parityLine",
+        "Etingof.Problem3_9_5.oddStandardAction",
+        "Etingof.Problem3_9_5.oddStandardAction_sq",
+        "Etingof.Problem3_9_5.oddHyperbolicSpinRepPlus",
+        "Etingof.Problem3_9_5.oddHyperbolicSpinRepMinus",
+        "Etingof.Problem3_9_5.oddHyperbolicSpinRepPlus_ι_hyperbolic",
+        "Etingof.Problem3_9_5.oddHyperbolicSpinRepMinus_ι_hyperbolic",
+        "Etingof.Problem3_9_5.oddHyperbolicSpinRepPlus_ι_extra",
+        "Etingof.Problem3_9_5.oddHyperbolicSpinRepMinus_ι_extra",
+        "Etingof.Problem3_9_5.evenToOddClifford",
+        "Etingof.Problem3_9_5.evenToOddClifford_ι",
+        "Etingof.Problem3_9_5.oddHyperbolicSpinRepPlus_comp_evenToOdd",
+        "Etingof.Problem3_9_5.oddHyperbolicSpinRepMinus_comp_evenToOdd",
+        "Etingof.Problem3_9_5.oddHyperbolicSpinRepPlus_surjective",
+        "Etingof.Problem3_9_5.oddHyperbolicSpinRepMinus_surjective",
+        "Etingof.Problem3_9_5.oddStandardQ_separatingLeft",
+        "Etingof.Problem3_9_5.oddSpinIsometry",
+        "Etingof.Problem3_9_5.oddSpinRepPlus",
+        "Etingof.Problem3_9_5.oddSpinRepMinus",
+        "Etingof.Problem3_9_5.oddSpinRepPlus_ι",
+        "Etingof.Problem3_9_5.oddSpinRepMinus_ι",
+        "Etingof.Problem3_9_5.oddSpinExtra",
+        "Etingof.Problem3_9_5.oddSpinRepPlus_ι_extra",
+        "Etingof.Problem3_9_5.oddSpinRepMinus_ι_extra",
+        "Etingof.Problem3_9_5.oddSpinRepPlus_surjective",
+        "Etingof.Problem3_9_5.oddSpinRepMinus_surjective",
+        "Etingof.Problem3_9_5.oddSpinorPlus_irreducible",
+        "Etingof.Problem3_9_5.oddSpinorMinus_irreducible",
+        "Etingof.Problem3_9_5.SpinorPlus",
+        "Etingof.Problem3_9_5.SpinorMinus",
+        "Etingof.Problem3_9_5.spinorPlusAddCommGroup",
+        "Etingof.Problem3_9_5.spinorPlusComplexModule",
+        "Etingof.Problem3_9_5.spinorMinusAddCommGroup",
+        "Etingof.Problem3_9_5.spinorMinusComplexModule",
+        "Etingof.Problem3_9_5.spinorEquivPlus",
+        "Etingof.Problem3_9_5.spinorEquivMinus",
+        "Etingof.Problem3_9_5.oddSpinorRepresentationPlus",
+        "Etingof.Problem3_9_5.oddSpinorRepresentationMinus",
+        "Etingof.Problem3_9_5.spinorPlusCliffordModule",
+        "Etingof.Problem3_9_5.spinorMinusCliffordModule",
+        "Etingof.Problem3_9_5.spinorPlus_isSimpleModule",
+        "Etingof.Problem3_9_5.spinorMinus_isSimpleModule",
+        "Etingof.Problem3_9_5.oddSpinEvenElement",
+        "Etingof.Problem3_9_5.oddSpinRepPlus_evenElement",
+        "Etingof.Problem3_9_5.oddSpinRepMinus_evenElement",
+        "Etingof.Problem3_9_5.oddSpinors_nonisomorphic",
+        "Etingof.Problem3_9_5.odd_every_finiteDimensional_irreducible_iso",
+        "Etingof.Problem3_9_5.odd_every_irreducible_iso",
+        "Etingof.Problem3_9_5.hyperbolicQ_separatingLeft",
+        "Etingof.Problem3_9_5.evenSpinIsometry",
+        "Etingof.Problem3_9_5.evenSpinStandardVector",
+        "Etingof.Problem3_9_5.evenSpinStandardCovector",
+        "Etingof.Problem3_9_5.evenSpinA",
+        "Etingof.Problem3_9_5.evenSpinB",
+        "Etingof.Problem3_9_5.evenSpinIsometry_pairing",
+        "Etingof.Problem3_9_5.evenSpinA_pair",
+        "Etingof.Problem3_9_5.evenSpinB_pair",
+        "Etingof.Problem3_9_5.evenSpinA_pair_evenSpinB",
+        "Etingof.Problem3_9_5.evenSpinRep",
+        "Etingof.Problem3_9_5.evenSpinRep_ι",
+        "Etingof.Problem3_9_5.evenSpinRep_ι_evenSpinA",
+        "Etingof.Problem3_9_5.evenSpinRep_ι_evenSpinB",
+        "Etingof.Problem3_9_5.evenSpinRep_bijective",
+        "Etingof.Problem3_9_5.evenSpinAlgEquiv",
+        "Etingof.Problem3_9_5.evenSpinor_irreducible",
+        "Etingof.Problem3_9_5.EvenSpinor",
+        "Etingof.Problem3_9_5.evenSpinorAddCommGroup",
+        "Etingof.Problem3_9_5.evenSpinorComplexModule",
+        "Etingof.Problem3_9_5.spinorEquivEvenSpinor",
+        "Etingof.Problem3_9_5.evenSpinorRepresentation",
+        "Etingof.Problem3_9_5.evenSpinorCliffordModule",
+        "Etingof.Problem3_9_5.evenSpinor_isSimpleModule",
+        "Etingof.Problem3_9_5.even_every_irreducible_iso_spinor"
+      ],
+      "basis": "All 154 named authored public declarations across the core and three spinor providers are closed Lean terms. The approved 20-entry top-level lean_decl list remains the representative coverage endpoint inventory; this Stage 3.3 list is the exhaustive durable authored API. Exhaustive module-origin enumeration, including compiler auxiliaries, covers 415 emitted constants across the four providers (408 public, 7 private), including the core anonymous finite-dimensionality instance plus generated, equation, and internal declarations."
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter3/Introduction_to_3.10",
@@ -12104,7 +13234,7 @@
     "end_page": "59",
     "start_line": 9,
     "end_line": 10,
-    "status": "proof_polished",
+    "status": "dependency_trimmed",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "coverage": "covered_full",
@@ -12130,7 +13260,18 @@
         }
       ]
     },
-    "last_updated": "2026-07-28"
+    "last_updated": "2026-07-28",
+    "stage3_3": {
+      "status": "complete",
+      "section": "3.10",
+      "verified_on": "2026-07-27",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.matrix_tensorProduct_matrix"
+      ],
+      "basis": "The sole exact-provider constant is this durable authored theorem. It is admission-free and its complete axiom closure contains only Lean's accepted foundational axioms."
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter3/Discussion_before_Theorem3.10.2",
@@ -12799,7 +13940,7 @@
     "end_page": "63",
     "start_line": 15,
     "end_line": 16,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "lean_file": [
@@ -12824,7 +13965,8 @@
           "source_ref": "blobs/Chapter4/Problem4.1.4.md"
         }
       ]
-    }
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter4/Introduction_4.2",
@@ -12882,7 +14024,7 @@
     "end_page": "64",
     "start_line": 11,
     "end_line": 14,
-    "status": "proof_polished",
+    "status": "partially_proved",
     "fidelity": "verified",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
@@ -12999,7 +14141,7 @@
     "end_page": "66",
     "start_line": 9,
     "end_line": 10,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "lean_file": [
@@ -13116,7 +14258,7 @@
     "end_page": "69",
     "start_line": 33,
     "end_line": 10,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "fidelity": "verified",
     "coverage": "covered_full",
     "lean_file": [
@@ -13572,7 +14714,7 @@
     "end_page": "83",
     "start_line": 9,
     "end_line": 14,
-    "status": "proof_polished",
+    "status": "partially_proved",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "coverage": "covered_full",
@@ -13642,7 +14784,7 @@
     "end_page": "84",
     "start_line": 15,
     "end_line": 12,
-    "status": "proof_polished",
+    "status": "partially_proved",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "coverage": "covered_full",
@@ -13738,7 +14880,7 @@
     "end_page": "84",
     "start_line": 13,
     "end_line": 16,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "fidelity": "verified",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/SymmetricIrreducible.lean",
@@ -13765,9 +14907,7 @@
           ],
           "lean_decl": [
             "Etingof.symmetricPower_eq_bot_or_top",
-            "Etingof.Example5_19_3_symmetric_irreducible",
-            "Etingof.exteriorPower_eq_bot_or_top",
-            "Etingof.Example5_19_3_exterior_irreducible"
+            "Etingof.Example5_19_3_symmetric_irreducible"
           ]
         },
         {
@@ -13780,8 +14920,6 @@
             "EtingofRepresentationTheory/Chapter5/ExteriorIrreducible.lean"
           ],
           "lean_decl": [
-            "Etingof.symmetricPower_eq_bot_or_top",
-            "Etingof.Example5_19_3_symmetric_irreducible",
             "Etingof.exteriorPower_eq_bot_or_top",
             "Etingof.Example5_19_3_exterior_irreducible"
           ]
@@ -13798,7 +14936,7 @@
     "end_page": "84",
     "start_line": 17,
     "end_line": 18,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "lean_file": [
@@ -13837,7 +14975,7 @@
     "end_page": "85",
     "start_line": 19,
     "end_line": 4,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "lean_file": [
@@ -13865,11 +15003,7 @@
           ],
           "lean_decl": [
             "Etingof.Problem4_12_5.vertices_decomposition_icosahedral",
-            "Etingof.Problem4_12_5.faces_decomposition_icosahedral",
-            "Etingof.Problem4_12_5.edges_decomposition_icosahedral",
-            "Etingof.Problem4_12_5.verticesAct_unique",
-            "Etingof.Problem4_12_5.facesAct_unique",
-            "Etingof.Problem4_12_5.edgesAct_unique"
+            "Etingof.Problem4_12_5.verticesAct_unique"
           ]
         },
         {
@@ -13882,12 +15016,8 @@
             "EtingofRepresentationTheory/Chapter4/Problem4_12_5_CosetModels.lean"
           ],
           "lean_decl": [
-            "Etingof.Problem4_12_5.vertices_decomposition_icosahedral",
             "Etingof.Problem4_12_5.faces_decomposition_icosahedral",
-            "Etingof.Problem4_12_5.edges_decomposition_icosahedral",
-            "Etingof.Problem4_12_5.verticesAct_unique",
-            "Etingof.Problem4_12_5.facesAct_unique",
-            "Etingof.Problem4_12_5.edgesAct_unique"
+            "Etingof.Problem4_12_5.facesAct_unique"
           ]
         },
         {
@@ -13900,11 +15030,7 @@
             "EtingofRepresentationTheory/Chapter4/Problem4_12_5_CosetModels.lean"
           ],
           "lean_decl": [
-            "Etingof.Problem4_12_5.vertices_decomposition_icosahedral",
-            "Etingof.Problem4_12_5.faces_decomposition_icosahedral",
             "Etingof.Problem4_12_5.edges_decomposition_icosahedral",
-            "Etingof.Problem4_12_5.verticesAct_unique",
-            "Etingof.Problem4_12_5.facesAct_unique",
             "Etingof.Problem4_12_5.edgesAct_unique"
           ]
         }
@@ -13919,7 +15045,7 @@
     "end_page": "85",
     "start_line": 5,
     "end_line": 8,
-    "status": "proof_polished",
+    "status": "partially_proved",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "lean_file": [
@@ -13946,10 +15072,7 @@
           "lean_decl": [
             "Etingof.Problem4_12_6.one_dim_reps_card",
             "Etingof.Problem4_12_6.zeroSum_irreducible",
-            "Etingof.Problem4_12_6.irreducible_dim",
-            "Etingof.Problem4_12_6.Vrep_character",
-            "Etingof.Problem4_12_6.charRep_tprod_Vrep_equiv_Vrep",
-            "Etingof.Problem4_12_6.Vrep_tprod_Vrep_equiv_rhsRep"
+            "Etingof.Problem4_12_6.irreducible_dim"
           ]
         },
         {
@@ -13961,12 +15084,7 @@
             "EtingofRepresentationTheory/Chapter4/Problem4_12_6.lean"
           ],
           "lean_decl": [
-            "Etingof.Problem4_12_6.one_dim_reps_card",
-            "Etingof.Problem4_12_6.zeroSum_irreducible",
-            "Etingof.Problem4_12_6.irreducible_dim",
-            "Etingof.Problem4_12_6.Vrep_character",
-            "Etingof.Problem4_12_6.charRep_tprod_Vrep_equiv_Vrep",
-            "Etingof.Problem4_12_6.Vrep_tprod_Vrep_equiv_rhsRep"
+            "Etingof.Problem4_12_6.Vrep_character"
           ]
         },
         {
@@ -13978,10 +15096,6 @@
             "EtingofRepresentationTheory/Chapter4/Problem4_12_6.lean"
           ],
           "lean_decl": [
-            "Etingof.Problem4_12_6.one_dim_reps_card",
-            "Etingof.Problem4_12_6.zeroSum_irreducible",
-            "Etingof.Problem4_12_6.irreducible_dim",
-            "Etingof.Problem4_12_6.Vrep_character",
             "Etingof.Problem4_12_6.charRep_tprod_Vrep_equiv_Vrep",
             "Etingof.Problem4_12_6.Vrep_tprod_Vrep_equiv_rhsRep"
           ]
@@ -13997,7 +15111,7 @@
     "end_page": "86",
     "start_line": 9,
     "end_line": 4,
-    "status": "proof_polished",
+    "status": "partially_proved",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "coverage": "covered_full",
@@ -14120,7 +15234,7 @@
     "end_page": "87",
     "start_line": 5,
     "end_line": 2,
-    "status": "proof_polished",
+    "status": "proved",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "lean_file": [
@@ -14145,8 +15259,7 @@
             "EtingofRepresentationTheory/Chapter4/Problem4_12_8.lean"
           ],
           "lean_decl": [
-            "Etingof.Problem4_12_8.so3_finite_subgroup_classification",
-            "Etingof.Problem4_12_8.su2_finite_subgroup_binary_classification"
+            "Etingof.Problem4_12_8.so3_finite_subgroup_classification"
           ]
         },
         {
@@ -14158,7 +15271,6 @@
             "EtingofRepresentationTheory/Chapter4/Problem4_12_8.lean"
           ],
           "lean_decl": [
-            "Etingof.Problem4_12_8.so3_finite_subgroup_classification",
             "Etingof.Problem4_12_8.su2_finite_subgroup_binary_classification"
           ]
         }
@@ -14173,7 +15285,7 @@
     "end_page": "87",
     "start_line": 3,
     "end_line": 4,
-    "status": "proof_polished",
+    "status": "proved",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "lean_file": [
@@ -14198,14 +15310,7 @@
             "EtingofRepresentationTheory/Chapter4/Problem4_12_9.lean"
           ],
           "lean_decl": [
-            "Etingof.Problem4_12_9.character_Rz",
-            "Etingof.Problem4_12_9.tensor_iso_Rz_mul",
-            "Etingof.Problem4_12_9.tensor_iso_oneDimSum",
-            "Etingof.Problem4_12_9.tensor_iso_char_char",
-            "Etingof.Problem4_12_9.tensor_iso_char_Rz",
-            "Etingof.Problem4_12_9.tensor_iso_Rz_mul_biproduct",
-            "Etingof.Problem4_12_9.tensor_iso_oneDimSum_biproduct",
-            "Etingof.Problem4_12_9.tensorIsoCharChar"
+            "Etingof.Problem4_12_9.character_Rz"
           ]
         },
         {
@@ -14217,7 +15322,6 @@
             "EtingofRepresentationTheory/Chapter4/Problem4_12_9.lean"
           ],
           "lean_decl": [
-            "Etingof.Problem4_12_9.character_Rz",
             "Etingof.Problem4_12_9.tensor_iso_Rz_mul",
             "Etingof.Problem4_12_9.tensor_iso_oneDimSum",
             "Etingof.Problem4_12_9.tensor_iso_char_char",
@@ -14238,7 +15342,7 @@
     "end_page": "87",
     "start_line": 5,
     "end_line": 8,
-    "status": "proof_polished",
+    "status": "partially_proved",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "lean_file": [
@@ -14267,8 +15371,8 @@
             "EtingofRepresentationTheory/Chapter4/Problem4_12_10_OrbitEval.lean"
           ],
           "lean_decl": [
-            "Etingof.Problem4_12_10",
-            "Etingof.Problem4_12_10_symmetric"
+            "Etingof.orbitEval",
+            "Etingof.exists_orbitEval_surjection"
           ]
         },
         {
@@ -14282,7 +15386,6 @@
             "EtingofRepresentationTheory/Chapter4/Problem4_12_10_OrbitEval.lean"
           ],
           "lean_decl": [
-            "Etingof.Problem4_12_10",
             "Etingof.Problem4_12_10_symmetric"
           ]
         },
@@ -14297,8 +15400,7 @@
             "EtingofRepresentationTheory/Chapter4/Problem4_12_10_OrbitEval.lean"
           ],
           "lean_decl": [
-            "Etingof.Problem4_12_10",
-            "Etingof.Problem4_12_10_symmetric"
+            "Etingof.Problem4_12_10"
           ]
         }
       ]
@@ -14312,7 +15414,7 @@
     "end_page": "88",
     "start_line": 9,
     "end_line": 12,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "lean_file": [
@@ -14338,24 +15440,9 @@
           ],
           "lean_decl": [
             "Etingof.Problem4_12_11.endV_isInternal",
-            "Etingof.Problem4_12_11.symSub_eq_scalar_sup_tracelessSym",
             "Etingof.Problem4_12_11.scalarSub_finrank",
             "Etingof.Problem4_12_11.skewSub_finrank",
-            "Etingof.Problem4_12_11.tracelessSymSub_finrank",
-            "Etingof.Problem4_12_11.skewSub_irreducible",
-            "Etingof.Problem4_12_11.tracelessSymSub_irreducible",
-            "Etingof.Problem4_12_11.skewSub_irreducible_complexified",
-            "Etingof.Problem4_12_11.tracelessSymSub_irreducible_complexified",
-            "Etingof.Problem4_12_11.hooke_law",
-            "Etingof.Problem4_12_11.hooke_law_add",
-            "Etingof.Problem4_12_11.symRep",
-            "Etingof.Problem4_12_11.symProj_equivariant",
-            "Etingof.Problem4_12_11.symExtend_equivariant",
-            "Etingof.Problem4_12_11.hooke_law_symSub",
-            "Etingof.Problem4_12_11.hooke_law_symSub_add",
-            "Etingof.Problem4_12_11.hooke_law_symSub_two_moduli",
-            "Etingof.Problem4_12_11.hatEquiv_equivariant",
-            "Etingof.Problem4_12_11.hatMap_mulVec"
+            "Etingof.Problem4_12_11.tracelessSymSub_finrank"
           ]
         },
         {
@@ -14367,25 +15454,9 @@
             "EtingofRepresentationTheory/Chapter4/Problem4_12_11.lean"
           ],
           "lean_decl": [
-            "Etingof.Problem4_12_11.endV_isInternal",
             "Etingof.Problem4_12_11.symSub_eq_scalar_sup_tracelessSym",
             "Etingof.Problem4_12_11.scalarSub_finrank",
-            "Etingof.Problem4_12_11.skewSub_finrank",
-            "Etingof.Problem4_12_11.tracelessSymSub_finrank",
-            "Etingof.Problem4_12_11.skewSub_irreducible",
-            "Etingof.Problem4_12_11.tracelessSymSub_irreducible",
-            "Etingof.Problem4_12_11.skewSub_irreducible_complexified",
-            "Etingof.Problem4_12_11.tracelessSymSub_irreducible_complexified",
-            "Etingof.Problem4_12_11.hooke_law",
-            "Etingof.Problem4_12_11.hooke_law_add",
-            "Etingof.Problem4_12_11.symRep",
-            "Etingof.Problem4_12_11.symProj_equivariant",
-            "Etingof.Problem4_12_11.symExtend_equivariant",
-            "Etingof.Problem4_12_11.hooke_law_symSub",
-            "Etingof.Problem4_12_11.hooke_law_symSub_add",
-            "Etingof.Problem4_12_11.hooke_law_symSub_two_moduli",
-            "Etingof.Problem4_12_11.hatEquiv_equivariant",
-            "Etingof.Problem4_12_11.hatMap_mulVec"
+            "Etingof.Problem4_12_11.tracelessSymSub_finrank"
           ]
         },
         {
@@ -14397,25 +15468,8 @@
             "EtingofRepresentationTheory/Chapter4/Problem4_12_11.lean"
           ],
           "lean_decl": [
-            "Etingof.Problem4_12_11.endV_isInternal",
-            "Etingof.Problem4_12_11.symSub_eq_scalar_sup_tracelessSym",
-            "Etingof.Problem4_12_11.scalarSub_finrank",
-            "Etingof.Problem4_12_11.skewSub_finrank",
-            "Etingof.Problem4_12_11.tracelessSymSub_finrank",
             "Etingof.Problem4_12_11.skewSub_irreducible",
-            "Etingof.Problem4_12_11.tracelessSymSub_irreducible",
-            "Etingof.Problem4_12_11.skewSub_irreducible_complexified",
-            "Etingof.Problem4_12_11.tracelessSymSub_irreducible_complexified",
-            "Etingof.Problem4_12_11.hooke_law",
-            "Etingof.Problem4_12_11.hooke_law_add",
-            "Etingof.Problem4_12_11.symRep",
-            "Etingof.Problem4_12_11.symProj_equivariant",
-            "Etingof.Problem4_12_11.symExtend_equivariant",
-            "Etingof.Problem4_12_11.hooke_law_symSub",
-            "Etingof.Problem4_12_11.hooke_law_symSub_add",
-            "Etingof.Problem4_12_11.hooke_law_symSub_two_moduli",
-            "Etingof.Problem4_12_11.hatEquiv_equivariant",
-            "Etingof.Problem4_12_11.hatMap_mulVec"
+            "Etingof.Problem4_12_11.tracelessSymSub_irreducible"
           ]
         },
         {
@@ -14427,25 +15481,8 @@
             "EtingofRepresentationTheory/Chapter4/Problem4_12_11.lean"
           ],
           "lean_decl": [
-            "Etingof.Problem4_12_11.endV_isInternal",
-            "Etingof.Problem4_12_11.symSub_eq_scalar_sup_tracelessSym",
-            "Etingof.Problem4_12_11.scalarSub_finrank",
-            "Etingof.Problem4_12_11.skewSub_finrank",
-            "Etingof.Problem4_12_11.tracelessSymSub_finrank",
-            "Etingof.Problem4_12_11.skewSub_irreducible",
-            "Etingof.Problem4_12_11.tracelessSymSub_irreducible",
             "Etingof.Problem4_12_11.skewSub_irreducible_complexified",
-            "Etingof.Problem4_12_11.tracelessSymSub_irreducible_complexified",
-            "Etingof.Problem4_12_11.hooke_law",
-            "Etingof.Problem4_12_11.hooke_law_add",
-            "Etingof.Problem4_12_11.symRep",
-            "Etingof.Problem4_12_11.symProj_equivariant",
-            "Etingof.Problem4_12_11.symExtend_equivariant",
-            "Etingof.Problem4_12_11.hooke_law_symSub",
-            "Etingof.Problem4_12_11.hooke_law_symSub_add",
-            "Etingof.Problem4_12_11.hooke_law_symSub_two_moduli",
-            "Etingof.Problem4_12_11.hatEquiv_equivariant",
-            "Etingof.Problem4_12_11.hatMap_mulVec"
+            "Etingof.Problem4_12_11.tracelessSymSub_irreducible_complexified"
           ]
         },
         {
@@ -14457,25 +15494,9 @@
             "EtingofRepresentationTheory/Chapter4/Problem4_12_11.lean"
           ],
           "lean_decl": [
-            "Etingof.Problem4_12_11.endV_isInternal",
-            "Etingof.Problem4_12_11.symSub_eq_scalar_sup_tracelessSym",
-            "Etingof.Problem4_12_11.scalarSub_finrank",
-            "Etingof.Problem4_12_11.skewSub_finrank",
-            "Etingof.Problem4_12_11.tracelessSymSub_finrank",
-            "Etingof.Problem4_12_11.skewSub_irreducible",
-            "Etingof.Problem4_12_11.tracelessSymSub_irreducible",
-            "Etingof.Problem4_12_11.skewSub_irreducible_complexified",
-            "Etingof.Problem4_12_11.tracelessSymSub_irreducible_complexified",
-            "Etingof.Problem4_12_11.hooke_law",
-            "Etingof.Problem4_12_11.hooke_law_add",
-            "Etingof.Problem4_12_11.symRep",
-            "Etingof.Problem4_12_11.symProj_equivariant",
-            "Etingof.Problem4_12_11.symExtend_equivariant",
             "Etingof.Problem4_12_11.hooke_law_symSub",
             "Etingof.Problem4_12_11.hooke_law_symSub_add",
-            "Etingof.Problem4_12_11.hooke_law_symSub_two_moduli",
-            "Etingof.Problem4_12_11.hatEquiv_equivariant",
-            "Etingof.Problem4_12_11.hatMap_mulVec"
+            "Etingof.Problem4_12_11.hooke_law_symSub_two_moduli"
           ]
         }
       ]
@@ -14546,7 +15567,7 @@
     "end_page": "94",
     "start_line": 15,
     "end_line": 4,
-    "status": "proof_polished",
+    "status": "partially_proved",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "coverage": "covered_full",
@@ -14689,7 +15710,7 @@
     "end_page": "95",
     "start_line": 23,
     "end_line": 24,
-    "status": "proof_polished",
+    "status": "partially_proved",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "coverage": "covered_full",
@@ -14859,7 +15880,7 @@
     "end_page": "98",
     "start_line": 3,
     "end_line": 10,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "fidelity": "verified",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "coverage": "covered_full",
@@ -14900,7 +15921,8 @@
           ]
         }
       ]
-    }
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter5/Remark5.2.8",
@@ -14980,7 +16002,7 @@
     "end_page": "100",
     "start_line": 3,
     "end_line": 4,
-    "status": "proof_polished",
+    "status": "partially_proved",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "coverage": "covered_full",
@@ -15402,7 +16424,7 @@
     "end_page": "108",
     "start_line": 27,
     "end_line": 28,
-    "status": "proof_polished",
+    "status": "partially_proved",
     "coverage": "covered_full",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Problem5_8_4.lean"
@@ -15442,7 +16464,7 @@
     "end_page": "108",
     "start_line": 29,
     "end_line": 33,
-    "status": "proof_polished",
+    "status": "partially_proved",
     "coverage": "covered_full",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Exercise5_8_5.lean"
@@ -15469,9 +16491,7 @@
           ],
           "lean_decl": [
             "Etingof.chiRep",
-            "Etingof.idempotentOfChar",
-            "Etingof.charLeftIdeal",
-            "Etingof.ind_chiRep_iso_charLeftIdeal"
+            "Etingof.idempotentOfChar"
           ]
         },
         {
@@ -15483,8 +16503,6 @@
             "EtingofRepresentationTheory/Chapter5/Exercise5_8_5.lean"
           ],
           "lean_decl": [
-            "Etingof.chiRep",
-            "Etingof.idempotentOfChar",
             "Etingof.charLeftIdeal",
             "Etingof.ind_chiRep_iso_charLeftIdeal"
           ]
@@ -15588,7 +16606,7 @@
     "end_page": "110",
     "start_line": 35,
     "end_line": 35,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "coverage": "covered_full",
     "fidelity": "verified",
@@ -15613,7 +16631,8 @@
           "reason": "The source asks an open-ended or introductory question without fixing a unique formal proposition."
         }
       ]
-    }
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter5/Discussion_Problem5.10.2_parts",
@@ -15623,7 +16642,7 @@
     "end_page": "112",
     "start_line": 1,
     "end_line": 1,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "coverage": "covered_full",
     "fidelity": "verified",
@@ -15724,7 +16743,8 @@
           ]
         }
       ]
-    }
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter5/Introduction_5.11",
@@ -15765,7 +16785,7 @@
     "end_page": "112",
     "start_line": 13,
     "end_line": 24,
-    "status": "proof_polished",
+    "status": "partially_proved",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "coverage": "covered_full",
     "lean_file": [
@@ -15965,7 +16985,7 @@
     "end_page": "114",
     "start_line": 9,
     "end_line": 12,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "lean_decl": "Etingof.sum_finrank_irreducible_eq_card_sq_eq_one",
     "lean_file": [
@@ -16419,7 +17439,7 @@
     "end_page": "120",
     "start_line": 21,
     "end_line": 25,
-    "status": "proof_polished",
+    "status": "partially_proved",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "coverage": "covered_full",
@@ -16473,7 +17493,7 @@
     "end_page": "121",
     "start_line": 1,
     "end_line": 2,
-    "status": "proof_polished",
+    "status": "partially_proved",
     "fidelity": "verified",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "coverage": "covered_full",
@@ -16506,7 +17526,8 @@
           ]
         }
       ]
-    }
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter5/Problem5.16.3",
@@ -16516,7 +17537,7 @@
     "end_page": "121",
     "start_line": 3,
     "end_line": 8,
-    "status": "proof_polished",
+    "status": "partially_proved",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "coverage": "covered_full",
@@ -16557,8 +17578,6 @@
           ],
           "lean_decl": [
             "Etingof.sumTranspositionsWith1_acts_scalar_iff_rectangular",
-            "Etingof.sumTranspositionsWith1_scalar_on_rectangular",
-            "Etingof.IsRectangular",
             "Etingof.sumTranspositionsStab_acts_scalar_iff_content_const",
             "Etingof.content_const_removeSquare_iff_rectangular"
           ]
@@ -16572,11 +17591,7 @@
             "EtingofRepresentationTheory/Chapter5/Problem5_16_3.lean"
           ],
           "lean_decl": [
-            "Etingof.sumTranspositionsWith1_acts_scalar_iff_rectangular",
-            "Etingof.sumTranspositionsWith1_scalar_on_rectangular",
-            "Etingof.IsRectangular",
-            "Etingof.sumTranspositionsStab_acts_scalar_iff_content_const",
-            "Etingof.content_const_removeSquare_iff_rectangular"
+            "Etingof.sumTranspositionsWith1_scalar_on_rectangular"
           ]
         }
       ]
@@ -17118,7 +18133,7 @@
     "end_page": "135",
     "start_line": 3,
     "end_line": 14,
-    "status": "proof_polished",
+    "status": "proved",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "coverage": "covered_full",
     "lean_file": [
@@ -17162,9 +18177,7 @@
             "Etingof.signTwist_of",
             "Etingof.signTwist_bijective",
             "Etingof.signTwist_smul_of",
-            "Etingof.signTwist_map_leftIdeal",
-            "Etingof.conjugatePartition",
-            "Etingof.spechtModule_signTwist_iso_conjugate"
+            "Etingof.signTwist_map_leftIdeal"
           ]
         },
         {
@@ -17177,11 +18190,6 @@
             "EtingofRepresentationTheory/Chapter5/Problem5_24_1_b.lean"
           ],
           "lean_decl": [
-            "Etingof.signTwist",
-            "Etingof.signTwist_of",
-            "Etingof.signTwist_bijective",
-            "Etingof.signTwist_smul_of",
-            "Etingof.signTwist_map_leftIdeal",
             "Etingof.conjugatePartition",
             "Etingof.spechtModule_signTwist_iso_conjugate"
           ]
@@ -17198,7 +18206,7 @@
     "end_page": "135",
     "start_line": 15,
     "end_line": 18,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "coverage": "covered_full",
     "lean_file": [
@@ -17229,8 +18237,8 @@
         }
       ]
     },
-    "fidelity": "verified",
-    "last_updated": "2026-07-28"
+    "last_updated": "2026-07-28",
+    "fidelity": "verified"
   },
   {
     "id": "Chapter5/Introduction_5.25",
@@ -17549,7 +18557,7 @@
     "end_page": "147",
     "start_line": 15,
     "end_line": 16,
-    "status": "proof_polished",
+    "status": "proved",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "coverage": "covered_full",
     "lean_file": [
@@ -17644,7 +18652,7 @@
     "end_page": "147",
     "start_line": 17,
     "end_line": 17,
-    "status": "proof_polished",
+    "status": "partially_proved",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "coverage": "covered_full",
     "lean_file": [
@@ -17669,7 +18677,8 @@
           ],
           "lean_decl": [
             "Etingof.Exercise5_27_3"
-          ]
+          ],
+          "shared_decl": true
         },
         {
           "unit": "part_ii",
@@ -17681,7 +18690,8 @@
           ],
           "lean_decl": [
             "Etingof.Exercise5_27_3"
-          ]
+          ],
+          "shared_decl": true
         },
         {
           "unit": "part_iii",
@@ -17693,7 +18703,8 @@
           ],
           "lean_decl": [
             "Etingof.Exercise5_27_3"
-          ]
+          ],
+          "shared_decl": true
         }
       ]
     },
@@ -17735,7 +18746,7 @@
     "end_page": "149",
     "start_line": 5,
     "end_line": 6,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
     "lean_file": [
@@ -17775,8 +18786,8 @@
         }
       ]
     },
-    "fidelity": "verified",
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build."
+    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
+    "fidelity": "verified"
   },
   {
     "id": "Chapter6/Problem6.1.2",
@@ -17786,7 +18797,7 @@
     "end_page": "149",
     "start_line": 7,
     "end_line": 13,
-    "status": "proof_polished",
+    "status": "proved",
     "fidelity": "verified",
     "coverage": "covered_full",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
@@ -17850,7 +18861,7 @@
     "end_page": "150",
     "start_line": 1,
     "end_line": 2,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
@@ -17933,7 +18944,7 @@
     "end_page": "151",
     "start_line": 1,
     "end_line": 43,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
@@ -18035,7 +19046,7 @@
     "end_page": "152",
     "start_line": 1,
     "end_line": 34,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
@@ -18100,7 +19111,7 @@
     "end_page": "152",
     "start_line": 35,
     "end_line": 37,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter6/FiniteTypeDefs.lean",
@@ -18162,7 +19173,7 @@
     "end_page": "153",
     "start_line": 5,
     "end_line": 20,
-    "status": "proof_polished",
+    "status": "partially_proved",
     "fidelity": "verified",
     "coverage": "covered_full",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
@@ -18246,7 +19257,7 @@
     "end_page": "154",
     "start_line": 21,
     "end_line": 6,
-    "status": "proof_polished",
+    "status": "partially_proved",
     "fidelity": "verified",
     "coverage": "covered_partial",
     "lean_decl": [
@@ -18276,10 +19287,7 @@
             "EtingofRepresentationTheory/Chapter6/Problem6_1_6.lean"
           ],
           "lean_decl": [
-            "Etingof.Problem6_1_6.mult_symm",
-            "Etingof.Problem6_1_6.mckay_connected",
-            "Etingof.Problem6_1_6.mckay_isAffineDynkin",
-            "Etingof.Problem6_1_6.mckay_dims_are_marks"
+            "Etingof.Problem6_1_6.mult_symm"
           ]
         },
         {
@@ -18291,10 +19299,7 @@
             "EtingofRepresentationTheory/Chapter6/Problem6_1_6.lean"
           ],
           "lean_decl": [
-            "Etingof.Problem6_1_6.mult_symm",
-            "Etingof.Problem6_1_6.mckay_connected",
-            "Etingof.Problem6_1_6.mckay_isAffineDynkin",
-            "Etingof.Problem6_1_6.mckay_dims_are_marks"
+            "Etingof.Problem6_1_6.mckay_connected"
           ]
         },
         {
@@ -18306,10 +19311,7 @@
             "EtingofRepresentationTheory/Chapter6/Problem6_1_6.lean"
           ],
           "lean_decl": [
-            "Etingof.Problem6_1_6.mult_symm",
-            "Etingof.Problem6_1_6.mckay_connected",
-            "Etingof.Problem6_1_6.mckay_isAffineDynkin",
-            "Etingof.Problem6_1_6.mckay_dims_are_marks"
+            "Etingof.Problem6_1_6.mckay_isAffineDynkin"
           ]
         },
         {
@@ -18349,9 +19351,6 @@
             "EtingofRepresentationTheory/Chapter6/Problem6_1_6.lean"
           ],
           "lean_decl": [
-            "Etingof.Problem6_1_6.mult_symm",
-            "Etingof.Problem6_1_6.mckay_connected",
-            "Etingof.Problem6_1_6.mckay_isAffineDynkin",
             "Etingof.Problem6_1_6.mckay_dims_are_marks"
           ]
         },
@@ -19084,9 +20083,9 @@
     "end_page": "178",
     "start_line": 31,
     "end_line": 14,
-    "status": "proof_polished",
-    "coverage": "covered_full",
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
+    "status": "sorry_free",
+    "coverage": "covered_partial",
+    "coverage_note": "Final source-subpart audit complete. Every implemented unit is recorded in claim_coverage; the only departed source units link exactly to skipped-exercises.md#problem-691d--kronecker-quiver-classification. The current providers compile in the repository-wide build.",
     "last_updated": "2026-07-28",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter6/Problem6_9_1.lean",
@@ -19158,9 +20157,10 @@
         {
           "unit": "part_d",
           "claim": "Part (d) is an open-ended request to generalize the answer to the Kronecker quiver, without fixing a particular normal-form theorem.",
-          "verdict": "non_formalizable",
+          "verdict": "intentional_omission",
           "source_ref": "blobs/Chapter6/Problem6.9.1.md",
-          "reason": "The source asks an open-ended or introductory question without fixing a unique formal proposition."
+          "scope_ref": "skipped-exercises.md#problem-691d--kronecker-quiver-classification",
+          "reason": "This exact source unit is an explicit current intentional omission."
         },
         {
           "unit": "part_e",
@@ -19171,6 +20171,7 @@
         }
       ]
     },
+    "sorry_count": 0,
     "fidelity": "verified"
   },
   {
@@ -19181,7 +20182,7 @@
     "end_page": "178",
     "start_line": 15,
     "end_line": 24,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "fidelity": "verified",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "coverage": "covered_full",
@@ -19257,7 +20258,8 @@
           ]
         }
       ]
-    }
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter6/Problem6.9.3",
@@ -19267,7 +20269,7 @@
     "end_page": "179",
     "start_line": 25,
     "end_line": 5,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "fidelity": "verified",
     "coverage": "covered_full",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
@@ -19328,7 +20330,8 @@
           ]
         }
       ]
-    }
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter7/Introduction",
@@ -19808,7 +20811,7 @@
     "end_page": "191",
     "start_line": 3,
     "end_line": 6,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
@@ -19965,7 +20968,7 @@
     "end_page": "193",
     "start_line": 1,
     "end_line": 8,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
@@ -20028,7 +21031,7 @@
     "end_page": "193",
     "start_line": 9,
     "end_line": 20,
-    "status": "proof_polished",
+    "status": "proved",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
@@ -20073,7 +21076,8 @@
           ]
         }
       ]
-    }
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter7/Definition7.8.6",
@@ -20095,7 +21099,7 @@
     "end_page": "194",
     "start_line": 23,
     "end_line": 18,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "last_updated": "2026-07-28",
@@ -20166,6 +21170,7 @@
         }
       ]
     },
+    "sorry_free": true,
     "fidelity": "verified"
   },
   {
@@ -20313,7 +21318,7 @@
     "end_page": "195",
     "start_line": 25,
     "end_line": 26,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
@@ -20338,7 +21343,8 @@
           ],
           "lean_decl": [
             "Etingof.Exercise7_9_7"
-          ]
+          ],
+          "shared_decl": true
         },
         {
           "unit": "right_adjoint",
@@ -20350,7 +21356,8 @@
           ],
           "lean_decl": [
             "Etingof.Exercise7_9_7"
-          ]
+          ],
+          "shared_decl": true
         }
       ]
     },
@@ -20364,7 +21371,7 @@
     "end_page": "195",
     "start_line": 27,
     "end_line": 29,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "last_updated": "2026-07-28",
@@ -20504,7 +21511,7 @@
     "end_page": "206",
     "start_line": 9,
     "end_line": 16,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
@@ -20553,7 +21560,8 @@
           ],
           "lean_decl": [
             "Etingof.Problem_8_1_3_iii"
-          ]
+          ],
+          "shared_decl": true
         },
         {
           "unit": "part_iii_not_projective",
@@ -20565,7 +21573,8 @@
           ],
           "lean_decl": [
             "Etingof.Problem_8_1_3_iii"
-          ]
+          ],
+          "shared_decl": true
         }
       ]
     },
@@ -20579,7 +21588,7 @@
     "end_page": "206",
     "start_line": 17,
     "end_line": 18,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
@@ -20736,7 +21745,7 @@
     "end_page": "208",
     "start_line": 9,
     "end_line": 10,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "fidelity": "verified",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
@@ -20778,7 +21787,8 @@
           ]
         }
       ]
-    }
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter8/Definition8.2.3",
@@ -20819,7 +21829,7 @@
     "end_page": "209",
     "start_line": 23,
     "end_line": 8,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
@@ -20844,7 +21854,8 @@
           ],
           "lean_decl": [
             "Etingof.Problem_8_2_5_morphism_of_resolutions"
-          ]
+          ],
+          "shared_decl": true
         },
         {
           "unit": "part_ii",
@@ -20856,7 +21867,8 @@
           ],
           "lean_decl": [
             "Etingof.Problem_8_2_5_morphism_of_resolutions"
-          ]
+          ],
+          "shared_decl": true
         },
         {
           "unit": "part_iii",
@@ -20914,7 +21926,7 @@
     "end_page": "210",
     "start_line": 9,
     "end_line": 22,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
@@ -21046,7 +22058,7 @@
     "end_page": "210",
     "start_line": 23,
     "end_line": 26,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "coverage": "covered_full",
     "lean_file": [
@@ -21161,7 +22173,7 @@
     "end_page": "210",
     "start_line": 27,
     "end_line": 40,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage": "covered_partial",
     "last_updated": "2026-07-28",
     "coverage_note": "Final source-subpart audit complete. Every implemented unit is recorded in claim_coverage; the only departed source units link exactly to skipped-exercises.md#problem-828--the-ext-k%C3%BCnneth-formula-needs-finite-dimensional-source-modules. The current providers compile in the repository-wide build.",
@@ -21245,7 +22257,7 @@
     "end_page": "211",
     "start_line": 1,
     "end_line": 4,
-    "status": "proof_polished",
+    "status": "proved",
     "fidelity": "verified",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
@@ -21308,7 +22320,7 @@
     "end_page": "212",
     "start_line": 5,
     "end_line": 1,
-    "status": "proof_polished",
+    "status": "partially_formalized",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
     "lean_file": [
@@ -21426,8 +22438,8 @@
         }
       ]
     },
-    "fidelity": "verified",
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build."
+    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
+    "fidelity": "verified"
   },
   {
     "id": "Chapter9/Introduction",
@@ -21601,7 +22613,7 @@
     "end_page": "216",
     "start_line": 9,
     "end_line": 10,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "last_updated": "2026-07-28",
@@ -21698,7 +22710,7 @@
     "end_page": "217",
     "start_line": 19,
     "end_line": 2,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "last_updated": "2026-07-28",
@@ -21823,7 +22835,7 @@
     "end_page": "217",
     "start_line": 7,
     "end_line": 10,
-    "status": "proof_polished",
+    "status": "partially_proved",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
@@ -21886,7 +22898,7 @@
     "end_page": "217",
     "start_line": 11,
     "end_line": 14,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
@@ -21996,7 +23008,7 @@
     "end_page": "218",
     "start_line": 7,
     "end_line": 12,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "last_updated": "2026-07-28",
@@ -22186,7 +23198,7 @@
     "end_page": "219",
     "start_line": 3,
     "end_line": 4,
-    "status": "proof_polished",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "last_updated": "2026-07-28",
@@ -22274,7 +23286,7 @@
     "end_page": "219",
     "start_line": 11,
     "end_line": 29,
-    "status": "proof_polished",
+    "status": "proved",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter9/Problem9_6_5.lean"
@@ -22358,7 +23370,8 @@
           ]
         }
       ]
-    }
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter9/Introduction_9.7",
