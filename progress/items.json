@@ -16918,8 +16918,13 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
-    }
+      "result": "covered"
+    },
+    "coverage": "covered_full", "fidelity": "verified", "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.8", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "Restriction keeps the representation space and restricts the action along H ↪ G.", "verdict": "covered_elsewhere", "lean_decl": "Rep.res"},
+      {"claim": "Induction constructs a G-representation from an H-representation.", "verdict": "formalized", "lean_decl": "Etingof.Definition5_8_1"}
+    ]}
   },
   {
     "id": "Chapter5/Definition5.8.1",
@@ -16933,7 +16938,8 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.8", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "Ind_H^G V is the equivariant-function representation f(hx)=h·f(x), with G acting by right translation.", "verdict": "formalized", "lean_decl": "Etingof.Definition5_8_1; Representation.coindV"}]}
   },
   {
     "id": "Chapter5/Remark5.8.2",
@@ -16947,7 +16953,8 @@
     "coverage": "covered_full",
     "fidelity": "verified",
     "fidelity_note": "Both the objectwise isomorphism (Remark5_8_2) and the source's naturality are formalized: Remark5_8_2NatIso : Rep.indFunctor k H.subtype ≅ Rep.coindFunctor' k H.subtype is a NatIso built from Mathlib's Rep.indCoindNatIso and Rep.coindFunctorIso, and Remark5_8_2NatIso_app shows its component at each A is defeq to Remark5_8_2 H A. Axiom-clean [propext, Classical.choice, Quot.sound]. Closes #7417.",
-    "last_updated": "2026-07-24"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.8", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "Ind_H^G is naturally isomorphic to Hom_H(k[G],V).", "verdict": "formalized", "lean_decl": "Etingof.Remark5_8_2; Etingof.Remark5_8_2NatIso; Etingof.Remark5_8_2NatIso_app"}]}
   },
   {
     "id": "Chapter5/Discussion_verification_of_Ind",
@@ -16975,7 +16982,12 @@
     "last_updated": "2026-07-22",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "Fixed in #5652: added EtingofRepresentationTheory/Chapter5/Remark5_8_3.lean. `Etingof.Remark5_8_3` proves `finrank ℂ (IndV H.subtype ρ) = finrank ℂ V * H.index` for a finite index subgroup and finite-dimensional V. The proof follows the book: `Etingof.coindVEquivPi` is the ℂ-linear equivalence coindV ≅ (right cosets → V) given by evaluation at chosen coset representatives (Etingof's observation that f is determined by {f(x_σ)}), and `Etingof.indVLinearEquivCoindV` transfers this to the tensor model IndV via Mathlib's finite-index Ind ≅ Coind isomorphism."
+    "fidelity_note": "Fixed in #5652: added EtingofRepresentationTheory/Chapter5/Remark5_8_3.lean. `Etingof.Remark5_8_3` proves `finrank ℂ (IndV H.subtype ρ) = finrank ℂ V * H.index` for a finite index subgroup and finite-dimensional V. The proof follows the book: `Etingof.coindVEquivPi` is the ℂ-linear equivalence coindV ≅ (right cosets → V) given by evaluation at chosen coset representatives (Etingof's observation that f is determined by {f(x_σ)}), and `Etingof.indVLinearEquivCoindV` transfers this to the tensor model IndV via Mathlib's finite-index Ind ≅ Coind isomorphism.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.8", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "An induced function is uniquely determined by its values on right-coset representatives.", "verdict": "formalized", "lean_decl": "Etingof.coindVEquivPi"},
+      {"claim": "dim Ind_H^G V = dim(V)·(G:H).", "verdict": "formalized", "lean_decl": "Etingof.Remark5_8_3"}
+    ]}
   },
   {
     "id": "Chapter5/Problem5.8.4",
@@ -16985,7 +16997,7 @@
     "end_page": "108",
     "start_line": 27,
     "end_line": 28,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Problem5_8_4.lean"
@@ -17025,7 +17037,7 @@
     "end_page": "108",
     "start_line": 29,
     "end_line": 33,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage": "covered_full",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Exercise5_8_5.lean"
