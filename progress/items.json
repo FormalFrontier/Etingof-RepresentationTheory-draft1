@@ -10,7 +10,26 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
+      "result": "covered"
+    },
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "4.2",
+      "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {"claim": "The character is the trace function g ↦ Tr(ρ(g)).", "verdict": "formalized", "lean_decl": "FDRep.character"},
+        {"claim": "The group character is the restriction of the associated k[G]-module character.", "verdict": "formalized", "lean_decl": "Etingof.FDRep.character_eq_algebraCharacter"},
+        {"claim": "Characters are constant on conjugacy classes.", "verdict": "formalized", "lean_decl": "Etingof.FDRep.character_mem_classFunctionSubmodule; FDRep.char_conj"},
+        {"claim": "F(G,k) is the space of k-valued functions on G.", "verdict": "formalized", "lean_decl": "Etingof.FunctionSpace"},
+        {"claim": "F_c(G,k) is the subspace of class functions.", "verdict": "formalized", "lean_decl": "Etingof.classFunctionSubmodule; Etingof.mem_classFunctionSubmodule_iff"}
+      ]
     }
   },
   {
@@ -13990,16 +14009,24 @@
     "end_page": "64",
     "start_line": 23,
     "end_line": 8,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "notes": "The spanning and linear-independence endpoints are source-present, but Theorem4_2_1.lean currently fails a fresh check in trace_toGroupAlgebra_action; regression #7519.",
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "notes": "The spanning, linear-independence, and named class-function-submodule endpoints rebuild successfully.",
     "sorry_free": true,
     "fidelity_decl": "Etingof.Theorem4_2_1 + Etingof.Theorem4_2_1_linearIndependent",
     "fidelity_issue": 5380,
-    "fidelity_note": "The former semantic gap was repaired, but the current source cannot rebuild the public basis theorem because a zero-function evaluation goal is unsolved.",
-    "coverage": "covered_partial",
-    "coverage_issue": 7519,
-    "last_updated": "2026-07-22"
+    "fidelity_note": "Spanning plus linear independence proves the basis claim; Theorem4_2_1_span_eq_classFunctionSubmodule now packages the ambient subspace equality explicitly. Regression #7519 is closed.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "4.2", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [
+        {"claim": "In nonmodular characteristic, the irreducible characters form a basis of F_c(G,k).", "verdict": "formalized", "lean_decl": "Etingof.Theorem4_2_1; Etingof.Theorem4_2_1_linearIndependent; Etingof.Theorem4_2_1_span_eq_classFunctionSubmodule"},
+        {"claim": "Maschke and the semisimple-algebra character theorem supply the book's algebraic proof inputs.", "verdict": "covered_elsewhere", "lean_decl": "Etingof.Theorem4_1_1_semisimple; Etingof.characters_basis_semisimple"},
+        {"claim": "The proof identifies (k[G]/[k[G],k[G]])* with class functions.", "verdict": "intentional_omission", "reason": "The provider proves the same endpoint directly by the center/Wedderburn and character-orthogonality argument, so this proof-route isomorphism is not separately packaged."}
+      ]
+    }
   },
   {
     "id": "Chapter4/Corollary4.2.2",
@@ -14014,7 +14041,12 @@
     "last_updated": "2026-07-22",
     "fidelity": "verified",
     "notes": "All sorries resolved.",
-    "sorry_free": true
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "4.2", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [{"claim": "The number of irreducible isomorphism classes equals the number of conjugacy classes.", "verdict": "formalized", "lean_decl": "Etingof.Corollary4_2_2"}]
+    }
   },
   {
     "id": "Chapter4/Exercise4.2.3",
@@ -14024,7 +14056,7 @@
     "end_page": "64",
     "start_line": 11,
     "end_line": 14,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "fidelity": "verified",
     "coverage": "covered_full",
     "last_updated": "2026-07-28",
@@ -14067,10 +14099,16 @@
     "start_line": 15,
     "end_line": 16,
     "status": "sorry_free",
-    "coverage": "covered",
+    "coverage": "covered_full",
+    "fidelity": "verified",
     "coverage_note": "Etingof.Corollary4_2_4 now proves the character-determines-representation theorem for FDRep k G over an arbitrary algebraically closed characteristic-zero field k ([Field k] [IsAlgClosed k] [CharZero k]), matching the book-wide convention and the source hypotheses. Etingof.Corollary4_2_4_complex records the classical k=ℂ special case. sorry-free (#print axioms = [propext, Classical.choice, Quot.sound]).",
     "last_updated": "2026-07-24",
-    "sorry_free": true
+    "sorry_free": true,
+    "claim_coverage": {
+      "stage": "3.2", "status": "complete", "section": "4.2", "reviewed_on": "2026-07-29",
+      "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified",
+      "claims": [{"claim": "Over characteristic zero, equal characters imply isomorphic finite-dimensional representations.", "verdict": "formalized", "lean_decl": "Etingof.Corollary4_2_4; Etingof.Corollary4_2_4_complex"}]
+    }
   },
   {
     "id": "Chapter4/Introduction_4.3",
