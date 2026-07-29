@@ -159,8 +159,7 @@ private theorem X_sub_X_dvd {N : ℕ} {i j : Fin N} (hij : i ≠ j)
       MvPolynomial (Fin (n + 1)) ℚ →ₐ[ℚ] _) =
     (MvPolynomial.rename σ).comp (substMap (n + 1) i j) := by
     ext m : 1
-    simp only [AlgHom.comp_apply, AlgHom.coe_coe, substMap, MvPolynomial.aeval_X,
-      MvPolynomial.rename_X, map_pow]
+    simp only [AlgHom.comp_apply, substMap, MvPolynomial.aeval_X, MvPolynomial.rename_X]
     simp only [σ, Equiv.swap_apply_def]
     split_ifs with h1 h2 h3 <;> simp_all [Equiv.swap_apply_of_ne_of_ne]
   -- Therefore substMap 0 (σ j) (rename σ p) = rename σ (substMap i j p) = rename σ 0 = 0
@@ -497,18 +496,21 @@ theorem alternant_coeff_kronecker {N : ℕ}
     have hmono : StrictMono (⇑σ.symm : Fin N → Fin N) := by
       intro a b hab
       have hgt := (congr_fun h a) ▸ (congr_fun h b) ▸ he' hab
-      by_contra h_not_lt; push_neg at h_not_lt
+      by_contra h_not_lt; push Not at h_not_lt
       rcases h_not_lt.eq_or_lt with heq | hlt
       · exact absurd hgt (not_lt.mpr (le_of_eq (congr_arg e heq.symm)))
       · exact absurd hgt (not_lt.mpr (le_of_lt (he hlt)))
     exact ⟨by rw [← h]; simp [show σ.symm = 1 from perm_eq_one_of_strictMono hmono],
            -- v4.30: the rewrite chain already closes `σ = 1`, so no trailing `simp`.
-           by rw [← σ.symm_symm, perm_eq_one_of_strictMono hmono, Equiv.Perm.one_symm]⟩
+           by rw [← σ.symm_symm, perm_eq_one_of_strictMono hmono]; rfl⟩
   split_ifs with heq
   · rw [Finset.sum_eq_single 1]
     · -- v4.30: simp normal form changed; reduce `σ = 1` summand to `1 • 1 = 1` explicitly.
       subst heq
-      simp [Equiv.Perm.one_symm]
+      have hident : Finsupp.equivFunOnFinite.symm (e ∘ ⇑(1 : Equiv.Perm (Fin N)).symm) =
+          Finsupp.equivFunOnFinite.symm e := (key 1).2 (by rfl)
+      rw [if_pos hident]
+      simp
     · intro σ _ hne; simp only [key]; split_ifs with h
       · exact absurd (unique σ h).2 hne
       · exact smul_zero _
@@ -539,7 +541,7 @@ theorem antisym_eq_zero {N : ℕ} (p : MvPolynomial (Fin N) ℚ)
           (Equiv.Perm.sign σ.symm • p) = 0 from by
       rcases Int.units_eq_one_or (Equiv.Perm.sign σ.symm) with h | h <;> simp [h, hc _ hσ]] at h1
     exact h1.symm
-  · simp only [Function.Injective] at hinj; push_neg at hinj
+  · simp only [Function.Injective] at hinj; push Not at hinj
     obtain ⟨i, j, hij_val, hij_ne⟩ := hinj
     exact coeff_zero_of_antisym_repeated p hp d hij_ne hij_val
 
@@ -747,7 +749,7 @@ theorem degLex_alternant_monomial_le {N : ℕ} {e : Fin N → ℕ} (he : StrictA
     rw [hab]
   · apply le_of_lt
     have hne : (Finset.univ.filter (fun i => π i ≠ i)).Nonempty := by
-      push_neg at hid; obtain ⟨i, hi⟩ := hid
+      push Not at hid; obtain ⟨i, hi⟩ := hid
       exact ⟨i, by simp only [Finset.mem_filter, Finset.mem_univ, true_and]; exact hi⟩
     set i₀ := (Finset.univ.filter (fun i => π i ≠ i)).min' hne with hi0
     have hi0mem : i₀ ∈ Finset.univ.filter (fun i => π i ≠ i) := Finset.min'_mem _ hne

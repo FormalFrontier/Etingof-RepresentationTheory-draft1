@@ -18636,6 +18636,10 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.21", "reviewed_on": "2026-07-29", "result": "section_heading"},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -18649,11 +18653,15 @@
     "end_page": "131",
     "start_line": 3,
     "end_line": 16,
-    "status": "partially_proved",
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_issue": 7546,
-    "coverage_note": "The determinant-quotient definition and Schur-polynomial discussion depend on Proposition 5.21.1, whose source currently fails to elaborate (#7546).",
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The alternant matrix, Vandermonde and shifted exponent sequences, Schur polynomial quotient, and its defining multiplication identity are all formalized; the stale build gap #7546 is closed and the provider passes a fresh source check.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.21", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The alternants D_lambda and D_0 are represented by determinant polynomials with the book's exponent sequences.", "verdict": "formalized", "lean_decl": "Etingof.alternantMatrix; Etingof.vandermondeExps; Etingof.shiftedExps"},
+      {"claim": "D_0 divides D_lambda and the resulting Schur polynomial satisfies S_lambda D_0 = D_lambda.", "verdict": "formalized", "lean_decl": "Etingof.schurPoly; Etingof.schurPoly_mul_vandermonde"}
+    ]},
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -18667,13 +18675,15 @@
     "end_page": "131",
     "start_line": 17,
     "end_line": 32,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "sorry_free": true,
-    "notes": "The faithful all-bounded-partitions statement remains source-present, but Proposition5_21_1.lean currently fails a fresh source check (#7546).",
-    "coverage": "covered_partial",
-    "coverage_issue": 7546,
-    "last_updated": "2026-07-22"
+    "notes": "The canonical theorem is the faithful all-bounded-partitions Frobenius character expansion. The former source-check gap #7546 is closed.",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.21", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "Every power-sum cycle-type polynomial expands over all partitions with at most N parts, with the symmetric-group character values as Schur coefficients.", "verdict": "formalized", "lean_decl": "Etingof.Proposition5_21_1"}
+    ]}
   },
   {
     "id": "Chapter5/Discussion_before_Proposition5.21.2",
@@ -18684,6 +18694,10 @@
     "start_line": 33,
     "end_line": 33,
     "status": "sorry_free",
+    "coverage": "not_applicable",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.21", "reviewed_on": "2026-07-29", "result": "transitional_prose"},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -18702,9 +18716,13 @@
     "needs_statement": false,
     "notes": "Both Proposition5_21_2_geometric and Proposition5_21_2_dimension proved (PR #1161). The geometric formula generalized to arbitrary characteristic-zero fields, with the source's complex-variable and negative-integer-exponent forms exposed (#7458).",
     "sorry_free": true,
-    "coverage": "covered",
+    "coverage": "covered_full",
     "fidelity_note": "Both source formulas are exact. The geometric specialization is stated over any characteristic-zero field (Proposition5_21_2_geometric_field), with a hypothesis-free cross-multiplied form (Proposition5_21_2_geometric_mul), the complex-variable corollaries (Proposition5_21_2_geometric_complex, Proposition5_21_2_geometric_complex_zpow, the latter in the book's own exponents z^{lambda_i - i} / z^{-i}), and the rational case retained as a corollary. The dimension formula is exact.",
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.21", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The Schur polynomial at (1,z,...,z^(N-1)) equals the book's product quotient, including its complex and integer-exponent forms.", "verdict": "formalized", "lean_decl": "Etingof.Proposition5_21_2_geometric_field; Etingof.Proposition5_21_2_geometric_complex_zpow"},
+      {"claim": "At the all-ones point the Schur polynomial equals the Weyl dimension product.", "verdict": "formalized", "lean_decl": "Etingof.Proposition5_21_2_dimension"}
+    ]}
   },
   {
     "id": "Chapter5/Introduction_5.22",
