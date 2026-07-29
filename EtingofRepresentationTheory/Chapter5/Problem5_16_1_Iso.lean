@@ -20,6 +20,7 @@ open CategoryTheory Module
 
 namespace Etingof
 
+set_option backward.isDefEq.respectTransparency false in
 private theorem spechtModule_asModule_smul (n : ℕ) (la : Nat.Partition n)
     (a : SymGroupAlgebra n) (v : (spechtModuleRep n la).asModule) :
     a • v = (show ↥(SpechtModule n la) from a •

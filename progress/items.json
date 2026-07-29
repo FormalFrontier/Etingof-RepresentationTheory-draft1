@@ -14114,6 +14114,14 @@
     "start_line": 17,
     "end_line": 20,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "coverage_note": "Section 5.16 is fully formalized by the three problem records below: module-level restriction and induction branching rules, the content action of the transposition sum, and the Jucys--Murphy eigenvalue and rectangularity results.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.16", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The restriction and induction branching rules are realized by actual direct-sum representation isomorphisms.", "verdict": "formalized", "lean_decl": "Etingof.restriction_spechtModule_iso_removeSquareSum; Etingof.induction_spechtModule_iso_addSquareSum"},
+      {"claim": "The sum of all transpositions acts on a Specht module by its diagram content.", "verdict": "formalized", "lean_decl": "Etingof.sumTranspositions_mul_eq_content_smul"},
+      {"claim": "The first Jucys--Murphy element has the asserted integral bounded spectrum, and acts scalarly exactly on rectangular Specht modules with the computed scalar.", "verdict": "formalized", "lean_decl": "Etingof.sumTranspositionsWith1_diagonalizable_integer_eigenvalues; Etingof.sumTranspositionsWith1_acts_scalar_iff_rectangular; Etingof.sumTranspositionsWith1_scalar_on_rectangular"}
+    ]},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -18106,7 +18114,7 @@
     "end_page": "120",
     "start_line": 21,
     "end_line": 25,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "coverage": "covered_full",
@@ -18117,7 +18125,7 @@
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-07-28",
+      "reviewed_on": "2026-07-29",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -18150,7 +18158,8 @@
         }
       ]
     },
-    "last_updated": "2026-07-28"
+    "last_updated": "2026-07-29",
+    "sorry_free": true
   },
   {
     "id": "Chapter5/Problem5.16.2",
@@ -18160,18 +18169,18 @@
     "end_page": "121",
     "start_line": 1,
     "end_line": 2,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "fidelity": "verified",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "coverage": "covered_full",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Problem5_16_2.lean"
     ],
-    "last_updated": "2026-07-28",
+    "last_updated": "2026-07-29",
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-07-28",
+      "reviewed_on": "2026-07-29",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -18204,18 +18213,18 @@
     "end_page": "121",
     "start_line": 3,
     "end_line": 8,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
     "fidelity": "verified",
     "coverage": "covered_full",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Problem5_16_3.lean"
     ],
-    "last_updated": "2026-07-28",
+    "last_updated": "2026-07-29",
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-07-28",
+      "reviewed_on": "2026-07-29",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -18262,7 +18271,8 @@
           ]
         }
       ]
-    }
+    },
+    "sorry_free": true
   },
   {
     "id": "Chapter5/Introduction_5.17",
