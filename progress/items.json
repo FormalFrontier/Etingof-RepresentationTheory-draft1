@@ -16794,6 +16794,10 @@
     "start_line": 19,
     "end_line": 20,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.25", "reviewed_on": "2026-07-29", "result": "section_heading"},
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -19111,11 +19115,16 @@
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The discriminant partition, per-type number of conjugacy classes, and total q²−1 count are public. The table's normal-form classification, type-specific centralizer descriptions/orders, and individual class sizes are private proof data or absent; follow-up #7500.",
-    "fidelity_issue": 7500,
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The four conjugacy types form an exhaustive disjoint partition. Public declarations give the four population counts, class counts, centralizer orders, class sizes, and existence of the corresponding normal forms. The total number of conjugacy classes is q²−1; #7500 is closed.",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClasses.lean :: Etingof.GL2.conjugacyClass_partition, card_isScalar, card_isParabolic, card_isSplitSemisimple, card_isElliptic; EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean :: Etingof.numScalarClasses_eq, numParabolicClasses_eq, numSplitSemisimpleClasses_eq, numEllipticClasses_eq, card_conjClasses_eq, centralizerCard_isScalar, centralizerCard_isParabolic, centralizerCard_isSplitSemisimple, centralizerCard_isElliptic, classCard_isScalar, classCard_isParabolic, classCard_isSplitSemisimple, classCard_isElliptic, exists_conj_isScalar, exists_conj_isParabolic, exists_conj_isSplitSemisimple, exists_conj_isElliptic",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.25", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "Every element of GL₂(F_q) belongs to exactly one of the scalar, parabolic, split-semisimple, or elliptic types.", "verdict": "formalized", "lean_decl": "Etingof.GL2.conjugacyClass_partition"},
+      {"claim": "The table's type counts, centralizer orders, conjugacy-class sizes, and normal forms have public theorems.", "verdict": "formalized", "lean_decl": "Etingof.numScalarClasses_eq; Etingof.numParabolicClasses_eq; Etingof.numSplitSemisimpleClasses_eq; Etingof.numEllipticClasses_eq; Etingof.centralizerCard_isScalar; Etingof.centralizerCard_isParabolic; Etingof.centralizerCard_isSplitSemisimple; Etingof.centralizerCard_isElliptic; Etingof.classCard_isScalar; Etingof.classCard_isParabolic; Etingof.classCard_isSplitSemisimple; Etingof.classCard_isElliptic; Etingof.exists_conj_isScalar; Etingof.exists_conj_isParabolic; Etingof.exists_conj_isSplitSemisimple; Etingof.exists_conj_isElliptic"},
+      {"claim": "GL₂(F_q) has q²−1 conjugacy classes.", "verdict": "formalized", "lean_decl": "Etingof.card_conjClasses_eq"}
+    ]}
   },
   {
     "id": "Chapter5/Discussion_5.25.2",
@@ -19126,6 +19135,10 @@
     "start_line": 35,
     "end_line": 36,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.25", "reviewed_on": "2026-07-29", "result": "subsection_heading"},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -19144,7 +19157,10 @@
     "needs_statement": false,
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.25", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The commutator subgroup of GL₂(F_q) is SL₂(F_q).", "verdict": "formalized", "lean_decl": "Etingof.Proposition5_25_1"}
+    ]}
   },
   {
     "id": "Chapter5/Discussion_1dim_reps",
@@ -19155,6 +19171,12 @@
     "start_line": 21,
     "end_line": 40,
     "status": "sorry_free",
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.25", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "Every one-dimensional representation of GL₂(F_q) is uniquely a multiplicative character composed with determinant, and there are q−1 of them.", "verdict": "formalized", "lean_decl": "Etingof.Discussion_1dim_reps.characterCompDetEquiv; Etingof.Discussion_1dim_reps.card_oneDimRep"}
+    ]},
     "coverage_swept": {
       "wave": 1,
       "result": "formalized",
@@ -19177,7 +19199,11 @@
     "fidelity": "full",
     "coverage": "covered_full",
     "coverage_note": "The principal-series representation and its dimension are both public: Etingof.GL2.principalSeries_finrank states dim V(chi1,chi2) = q+1 = p^n+1, with a downstream #check in Theorem5_25_2_Test.lean confirming client access without private namespaces (#7563). Chapter5/GL2CharacterIdentification.lean now also identifies the characters with the bare formulas of GL2CharacterValues.lean: Etingof.GL2.character_principalSeries ((principalSeries p n alpha 1).character = charValpha1 p n alpha, via the coset form of the character, the bijection G = B x P^1, and |B| = (q-1)^2 q) and Etingof.GL2.character_complementW ((complementW p n 1).character = charW1 p n) (#7905).",
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.25", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The principal series is induced from a character of the upper-triangular Borel and has dimension q+1.", "verdict": "formalized", "lean_decl": "Etingof.GL2.principalSeries; Etingof.GL2.principalSeries_finrank"},
+      {"claim": "Its character agrees with the conjugacy-class formula used in the book.", "verdict": "formalized", "lean_decl": "Etingof.GL2.character_principalSeries; Etingof.GL2.character_complementW"}
+    ]}
   },
   {
     "id": "Chapter5/Theorem5.25.2",
@@ -19187,14 +19213,18 @@
     "end_page": "141",
     "start_line": 15,
     "end_line": 34,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "needs_statement": false,
-    "coverage": "covered_partial",
-    "coverage_note": "Theorem5_25_2.lean builds clean (#7516 is stale: the scalar-tower instance is fixed and the full project build is green). Parts 1, 2, 3a, 3b are public. Chapter5/GL2PrincipalFamily.lean (#7893) adds the endpoints that were missing for the one-dimensional summand (detChar_simple made public, detChar_finrank, detChar_character, detChar_iso_iff), the three cross-kind non-isomorphisms by dimension count, and packages all of it as principalFamily over PrincipalIndex = Chars + Chars + {s : Sym2 Chars // not s.IsDiag}, with card_principalIndex = (q-1) + q(q-1)/2.",
-    "coverage_issue": 7516,
-    "last_updated": "2026-07-26",
-    "lean_ref": "EtingofRepresentationTheory/Chapter5/Theorem5_25_2.lean :: Etingof.Theorem5_25_2_part1, part2, part3a, part3b, Etingof.GL2.detChar_simple, Etingof.GL2.principalSeries_finrank; EtingofRepresentationTheory/Chapter5/GL2PrincipalFamily.lean :: Etingof.GL2.principalFamily, principalFamily_simple, principalFamily_injective, card_principalIndex, exists_principal_family"
+    "coverage": "covered_full",
+    "coverage_note": "Parts 1, 2, 3a, and 3b are public and fresh-compile. The one-dimensional summand endpoints, all cross-kind nonisomorphisms, and a single simple pairwise-nonisomorphic principal family of the required cardinality are public. The former #7516 is closed.",
+    "last_updated": "2026-07-29",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Theorem5_25_2.lean :: Etingof.Theorem5_25_2_part1, part2, part3a, part3b, Etingof.GL2.detChar_simple, Etingof.GL2.principalSeries_finrank; EtingofRepresentationTheory/Chapter5/GL2PrincipalFamily.lean :: Etingof.GL2.detChar_finrank, detChar_character, detChar_iso_iff, principalFamily, principalFamily_simple, principalFamily_injective, card_principalIndex, exists_principal_family",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.25", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "V(μ,μ) splits as the determinant character plus a simple q-dimensional complement W_μ.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_25_2_part1; Etingof.Theorem5_25_2_part2"},
+      {"claim": "For distinct characters, V(χ₁,χ₂) is simple and its isomorphism class depends exactly on the unordered pair.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_25_2_part3a; Etingof.Theorem5_25_2_part3b"},
+      {"claim": "The one-dimensional and principal-series representations form a simple pairwise-nonisomorphic family of size (q−1)+q(q−1)/2.", "verdict": "formalized", "lean_decl": "Etingof.GL2.principalFamily_simple; Etingof.GL2.principalFamily_injective; Etingof.GL2.card_principalIndex; Etingof.GL2.exists_principal_family"}
+    ]}
   },
   {
     "id": "Chapter5/Discussion_principal_series_name",
@@ -19205,6 +19235,10 @@
     "start_line": 35,
     "end_line": 36,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.25", "reviewed_on": "2026-07-29", "result": "terminology"},
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -19227,7 +19261,11 @@
     "coverage": "covered_full",
     "coverage_note": "The virtual character is realized by the honest simple FDRep Etingof.GL2.complementarySeriesRep, with character and dimension q−1. GL2ComplementarySeriesOrbits.lean identifies actual elliptic-torus characters with ZMod (q²−1), transports Frobenius to multiplication by q, constructs the Frobenius isomorphism, proves the converse isomorphism classification, and packages the canonical q(q−1)/2-element transversal as pairwise non-isomorphic simple FDReps (#7947).",
     "lean_ref": "EtingofRepresentationTheory/Chapter5/GL2ComplementarySeries.lean :: Etingof.GL2.complementarySeriesRep, complementarySeriesRep_simple, complementarySeriesRep_character, finrank_complementarySeriesRep; EtingofRepresentationTheory/Chapter5/GL2ComplementarySeriesOrbits.lean :: Etingof.GL2.complementaryCharParamEquiv, complementarySeriesRepFrobeniusIso, complementarySeriesRep_iso_iff, complementaryFamily, complementaryFamily_simple, complementaryFamily_injective, card_complementaryIndex, exists_complementary_family",
-    "last_updated": "2026-07-27"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.25", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The complementary virtual character is the character of an honest simple representation of dimension q−1.", "verdict": "formalized", "lean_decl": "Etingof.GL2.complementarySeriesRep; Etingof.GL2.complementarySeriesRep_simple; Etingof.GL2.complementarySeriesRep_character; Etingof.GL2.finrank_complementarySeriesRep"},
+      {"claim": "Complementary-series isomorphism classes are Frobenius orbits, with a canonical pairwise-nonisomorphic family of q(q−1)/2 representatives.", "verdict": "formalized", "lean_decl": "Etingof.GL2.complementarySeriesRep_iso_iff; Etingof.GL2.complementaryFamily_simple; Etingof.GL2.complementaryFamily_injective; Etingof.GL2.card_complementaryIndex; Etingof.GL2.exists_complementary_family"}
+    ]}
   },
   {
     "id": "Chapter5/Lemma5.25.3",
@@ -19245,7 +19283,11 @@
       "dimension": "bac04687-4c34-403d-a286-e4ff06f529e3"
     },
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.25", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The complementary-series virtual character has inner product one with itself.", "verdict": "formalized", "lean_decl": "Etingof.Lemma5_25_3_innerProduct"},
+      {"claim": "Its value at the identity is q−1 and hence positive.", "verdict": "formalized", "lean_decl": "Etingof.Lemma5_25_3_dimension"}
+    ]}
   },
   {
     "id": "Chapter5/Discussion_complementary_series_summary",
@@ -19262,12 +19304,17 @@
       "note": "The named one-dimensional, principal-series, and complementary-series representations are assembled into one family of q^2-1 pairwise non-isomorphic simple FDRep objects, and every simple representation is isomorphic to exactly one member."
     },
     "lean_ref": "EtingofRepresentationTheory/Chapter5/Discussion_complementary_series_summary.lean :: Etingof.GL2.constructedCount_eq_card_conjClasses, foundAllIrreducibles_galoisField, constructed_irreps_complete, constructed_irreps_complete_unconditional, card_irreps_eq_q_sq_sub_one, exists_complete_simples, constructed_families_exhaust, constructedFamily, constructedFamily_simple, constructedFamily_injective, card_constructedIndex, constructed_irreps_complete_final",
+    "fidelity": "verified",
     "coverage": {
       "result": "covered_full",
       "lean_decl": "Etingof.GL2.constructed_irreps_complete_final",
       "note": "The actual named families are now fed into the completeness-by-counting reduction. ConstructedIndex combines PrincipalIndex with the canonical complementary-series Frobenius transversal; constructedFamily_simple and constructedFamily_injective prove irreducibility and all same- and cross-family non-isomorphisms; card_constructedIndex proves the required total; and constructed_irreps_complete_final states that every simple FDRep ℂ (GL₂ 𝔽_q) object is isomorphic to exactly one constructed family member. No residual remains."
     },
-    "last_updated": "2026-07-27"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.25", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The constructed one-dimensional, principal-series, and complementary-series families contain q²−1 pairwise nonisomorphic simple representations.", "verdict": "formalized", "lean_decl": "Etingof.GL2.constructedFamily_simple; Etingof.GL2.constructedFamily_injective; Etingof.GL2.card_constructedIndex"},
+      {"claim": "Every simple complex representation of GL₂(F_q) is isomorphic to exactly one constructed family member.", "verdict": "formalized", "lean_decl": "Etingof.GL2.constructed_irreps_complete_final"}
+    ]}
   },
   {
     "id": "Chapter5/Introduction_5.26",

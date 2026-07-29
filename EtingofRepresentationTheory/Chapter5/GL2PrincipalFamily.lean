@@ -79,6 +79,7 @@ theorem detChar_finrank (mu : Chars p n) :
     Module.finrank ℂ (detChar p n mu).V = 1 :=
   Module.finrank_self ℂ
 
+set_option backward.isDefEq.respectTransparency false in
 /-- **The character of `ℂ_μ`.** On a one-dimensional representation the character is the
 scalar itself: `χ_{ℂ_μ}(g) = μ(det g)`. -/
 theorem detChar_character (mu : Chars p n) (g : Grp p n) :
