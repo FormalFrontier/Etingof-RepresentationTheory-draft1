@@ -1,5 +1,3 @@
-**Definition 2.8.10.** Let $(V_i, x_h)$ and $(W_i, y_h)$ be representations of the quiver $Q$. A **homomorphism** $\varphi : (V_i) \longrightarrow (W_i)$ of quiver representations is a collection of maps $\varphi_i : V_i \longrightarrow W_i$ such that $y_h \circ \varphi_{h'} = \varphi_{h''} \circ x_h$ for all $h \in E$.
-
 **Problem 2.8.11.** Let $A$ be a $\mathbb{Z}_+$-graded algebra, i.e., $A = \bigoplus_{n \geq 0} A[n]$, and $A[n] \cdot A[m] \subset A[n+m]$. If $A[n]$ is finite dimensional, it is useful to consider the Hilbert series $h_A(t) = \sum \dim A[n] t^n$ (the generating function of dimensions of $A[n]$). Often this series converges to a rational function, and the answer is written in the form of such a function. For example, if $A = k[x]$ and $\deg(x^n) = n$, then
 
 $$

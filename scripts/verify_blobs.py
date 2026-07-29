@@ -40,8 +40,13 @@ def main():
     with open(ITEMS_PATH) as f:
         items = json.load(f)
 
+    # `derived` items are metadata overlays on an existing source blob.  They
+    # deliberately have `derived_from` rather than `id` and must not be added a
+    # second time to the source partition (see validate_items.py).
+    partition_items = [item for item in items if item.get("type") != "derived"]
+
     actual_parts = []
-    for item in items:
+    for item in partition_items:
         blob_path = BLOBS_DIR / f"{item['id']}.md"
         if not blob_path.exists():
             print(f"ERROR: missing blob file: {blob_path}", file=sys.stderr)
@@ -52,7 +57,8 @@ def main():
 
     if expected == actual:
         print(f"VERIFICATION PASSED: blob concatenation matches page text")
-        print(f"  {len(items)} blobs, {len(expected)} characters total")
+        print(f"  {len(partition_items)} blobs, {len(expected)} characters total")
+        print(f"  {len(items) - len(partition_items)} derived overlays skipped")
         return 0
     else:
         # Find first difference

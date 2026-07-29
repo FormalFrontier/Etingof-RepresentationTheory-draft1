@@ -1,4 +1,5 @@
 import Mathlib
+import EtingofRepresentationTheory.Chapter2.Example2_3_14
 
 open Matrix in
 /-- The k-th power of the shift matrix has entry 1 at position (i, j) iff i = j + k. -/
@@ -246,7 +247,7 @@ private lemma Q₂Rep.ker_BA_pow_directed (ρ : Q₂Rep ℂ) :
     rw [show n = (n - m) + m from by omega, pow_add, Module.End.mul_apply, hx, map_zero]
 
 /-- A maps the generalized kernel of BA into the generalized kernel of AB -/
-private lemma Q₂Rep.fitting_A_ker_to_ker (ρ : Q₂Rep ℂ) (x : ρ.V)
+lemma Q₂Rep.fitting_A_ker_to_ker (ρ : Q₂Rep ℂ) (x : ρ.V)
     (hx : x ∈ ⨆ n, LinearMap.ker ((ρ.B.comp ρ.A) ^ n)) :
     ρ.A x ∈ ⨆ n, LinearMap.ker ((ρ.A.comp ρ.B) ^ n) := by
   rw [Submodule.mem_iSup_of_directed _ ρ.ker_BA_pow_directed] at hx
@@ -255,7 +256,7 @@ private lemma Q₂Rep.fitting_A_ker_to_ker (ρ : Q₂Rep ℂ) (x : ρ.V)
   exact ⟨n, by rw [LinearMap.mem_ker] at hn ⊢; rw [ρ.intertwine_AB_A, hn, map_zero]⟩
 
 /-- A maps the eventual range of BA into the eventual range of AB -/
-private lemma Q₂Rep.fitting_A_range_to_range (ρ : Q₂Rep ℂ) (x : ρ.V)
+lemma Q₂Rep.fitting_A_range_to_range (ρ : Q₂Rep ℂ) (x : ρ.V)
     (hx : x ∈ ⨅ n, LinearMap.range ((ρ.B.comp ρ.A) ^ n)) :
     ρ.A x ∈ ⨅ n, LinearMap.range ((ρ.A.comp ρ.B) ^ n) := by
   rw [Submodule.mem_iInf] at hx ⊢; intro n
@@ -263,7 +264,7 @@ private lemma Q₂Rep.fitting_A_range_to_range (ρ : Q₂Rep ℂ) (x : ρ.V)
   exact LinearMap.mem_range.mpr ⟨ρ.A y, by rw [← hy, ρ.intertwine_AB_A]⟩
 
 /-- B maps the generalized kernel of AB into the generalized kernel of BA -/
-private lemma Q₂Rep.fitting_B_ker_to_ker (ρ : Q₂Rep ℂ) (w : ρ.W)
+lemma Q₂Rep.fitting_B_ker_to_ker (ρ : Q₂Rep ℂ) (w : ρ.W)
     (hw : w ∈ ⨆ n, LinearMap.ker ((ρ.A.comp ρ.B) ^ n)) :
     ρ.B w ∈ ⨆ n, LinearMap.ker ((ρ.B.comp ρ.A) ^ n) := by
   rw [Submodule.mem_iSup_of_directed _ ρ.ker_AB_pow_directed] at hw
@@ -272,7 +273,7 @@ private lemma Q₂Rep.fitting_B_ker_to_ker (ρ : Q₂Rep ℂ) (w : ρ.W)
   exact ⟨n, by rw [LinearMap.mem_ker] at hn ⊢; rw [ρ.intertwine_BA_B, hn, map_zero]⟩
 
 /-- B maps the eventual range of AB into the eventual range of BA -/
-private lemma Q₂Rep.fitting_B_range_to_range (ρ : Q₂Rep ℂ) (w : ρ.W)
+lemma Q₂Rep.fitting_B_range_to_range (ρ : Q₂Rep ℂ) (w : ρ.W)
     (hw : w ∈ ⨅ n, LinearMap.range ((ρ.A.comp ρ.B) ^ n)) :
     ρ.B w ∈ ⨅ n, LinearMap.range ((ρ.B.comp ρ.A) ^ n) := by
   rw [Submodule.mem_iInf] at hw ⊢; intro n
@@ -280,7 +281,7 @@ private lemma Q₂Rep.fitting_B_range_to_range (ρ : Q₂Rep ℂ) (w : ρ.W)
   exact LinearMap.mem_range.mpr ⟨ρ.B y, by rw [← hy, ρ.intertwine_BA_B]⟩
 
 /-- A is injective on the eventual range of BA (modulo the Fitting decomposition) -/
-private lemma Q₂Rep.fitting_A_injective_on_range (ρ : Q₂Rep ℂ) {v₁ v₂ : ρ.V}
+lemma Q₂Rep.fitting_A_injective_on_range (ρ : Q₂Rep ℂ) {v₁ v₂ : ρ.V}
     (hv₁ : v₁ ∈ ⨅ n, LinearMap.range ((ρ.B.comp ρ.A) ^ n))
     (hv₂ : v₂ ∈ ⨅ n, LinearMap.range ((ρ.B.comp ρ.A) ^ n))
     (h : ρ.A v₁ = ρ.A v₂) : v₁ = v₂ := by
@@ -295,7 +296,7 @@ private lemma Q₂Rep.fitting_A_injective_on_range (ρ : Q₂Rep ℂ) {v₁ v₂
   exact sub_eq_zero.mp h_bot
 
 /-- B is injective on the eventual range of AB (modulo the Fitting decomposition) -/
-private lemma Q₂Rep.fitting_B_injective_on_range (ρ : Q₂Rep ℂ) {w₁ w₂ : ρ.W}
+lemma Q₂Rep.fitting_B_injective_on_range (ρ : Q₂Rep ℂ) {w₁ w₂ : ρ.W}
     (hw₁ : w₁ ∈ ⨅ n, LinearMap.range ((ρ.A.comp ρ.B) ^ n))
     (hw₂ : w₂ ∈ ⨅ n, LinearMap.range ((ρ.A.comp ρ.B) ^ n))
     (h : ρ.B w₁ = ρ.B w₂) : w₁ = w₂ := by
@@ -881,10 +882,10 @@ theorem Etingof.Q₂Family.eq_of_rep_iso {c d : Etingof.Q₂Family} (e : c.rep.I
       cases Subtype.ext hnm
       rfl
 
-/-- **Problem 6.9.1(b) (Etingof)**: If AB : W → W is not nilpotent in a Q₂-representation,
-then the representation decomposes as E' ⊕ E_{n,λ} for some λ ≠ 0.
-
-This reduces the classification to the case where AB is nilpotent. -/
+/-- The Fitting-decomposition precursor for Problem 6.9.1(b): the nilpotent
+and eventual-range pieces are complementary subrepresentations, and the two
+vertices of the eventual-range summand have equal dimension.  The actual
+`E_{n,λ}` split summand is constructed by `Problem6_9_1b_directSummand`. -/
 theorem Etingof.Problem6_9_1b (ρ : Q₂Rep ℂ)
     (hAB : ¬IsNilpotent (ρ.A.comp ρ.B)) :
     ∃ (pV qV : Submodule ℂ ρ.V) (pW qW : Submodule ℂ ρ.W),
@@ -1031,7 +1032,8 @@ The chain compatibility claim (generators can be chosen in V or W) uses the off-
 structure of X. The single-chain deduction uses: if X had ≥ 2 chains, the V and W
 components of each chain form sub-representations, giving a nontrivial decomposition.
 
-This requires the structure theorem for modules over k[X]/(X^N), not yet in Mathlib. -/
+The compatible-chain construction and the ensuing normal-form isomorphisms
+are completed in `Problem6_9_1_Classification.lean`. -/
 private lemma ker_sum_ge_one (ρ : Q₂Rep ℂ)
     (hAB : IsNilpotent (ρ.A.comp ρ.B))
     (hV_pos : 0 < Module.finrank ℂ ρ.V)
@@ -1689,6 +1691,133 @@ private lemma swapOp_nilpotent
     rw [show 2 * (k + 1) = 2 * k + 2 from by omega, pow_add, ih, hsq,
       LinearMap.prodMap_mul, pow_succ, pow_succ]
 
+/-- The operator used in Problem 6.9.1(c): `X(v,w) = (Bw,Av)` on the vertexwise
+direct sum.  This public wrapper makes the source construction available without
+exposing the generic implementation helper `swapOp`. -/
+noncomputable def Q₂Rep.chainOperator (ρ : Q₂Rep ℂ) :
+    (ρ.V × ρ.W) →ₗ[ℂ] (ρ.V × ρ.W) :=
+  swapOp ρ.A ρ.B
+
+@[simp]
+theorem Q₂Rep.chainOperator_apply (ρ : Q₂Rep ℂ) (v : ρ.V) (w : ρ.W) :
+    ρ.chainOperator (v, w) = (ρ.B w, ρ.A v) := by
+  exact swapOp_apply ρ.A ρ.B v w
+
+/-- A vector whose final coordinate is nonzero is cyclic for the nilpotent Jordan shift.
+Equivalently, its first `n` iterates form a basis-sized linearly independent family. -/
+lemma Etingof.shift_powers_linearIndependent_of_last_ne (n : ℕ) (hn : 0 < n)
+    (q : Fin n → ℂ) (hq : q ⟨n - 1, by omega⟩ ≠ 0) :
+    LinearIndependent ℂ (fun i : Fin n =>
+      (Etingof.Example_2_3_14.shift n ^ (i : ℕ)) q) := by
+  rw [Fintype.linearIndependent_iff]
+  intro c hc i
+  suffices hall : ∀ j (hj : j < n), c ⟨j, hj⟩ = 0 by
+    exact hall i i.isLt
+  intro j
+  induction j using Nat.strong_induction_on with
+  | h j ih =>
+      intro hj
+      let row : Fin n := ⟨n - 1 - j, by omega⟩
+      have heval := congrFun hc row
+      simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Pi.zero_apply,
+        Etingof.Example_2_3_14.shift_pow_apply] at heval
+      rw [Finset.sum_eq_single ⟨j, hj⟩] at heval
+      · simp only [row] at heval
+        rw [dif_pos (by omega)] at heval
+        have hindex : (⟨n - 1 - j + j, by omega⟩ : Fin n) = ⟨n - 1, by omega⟩ :=
+          Fin.ext (by simp; omega)
+        rw [hindex] at heval
+        exact (mul_eq_zero.mp heval).resolve_right hq
+      · intro a _ hne
+        by_cases haj : (a : ℕ) < j
+        · rw [ih (a : ℕ) haj a.isLt, zero_mul]
+        · have hja : j < (a : ℕ) := by
+            have : (a : ℕ) ≠ j := fun h => hne (Fin.ext h)
+            omega
+          rw [dif_neg (show ¬ ((row : ℕ) + (a : ℕ) < n) by
+            dsimp [row]
+            omega), mul_zero]
+      · intro hnot
+        exact (hnot (Finset.mem_univ _)).elim
+
+/-- A finite-dimensional nilpotent operator with one-dimensional kernel is one
+Jordan block, expressed here as indecomposability of its `ℂ[X]`-module. -/
+lemma Etingof.nilpotent_aeval_indecomposable_of_ker_finrank_eq_one
+    {M : Type*} [AddCommGroup M] [Module ℂ M] [FiniteDimensional ℂ M]
+    (T : Module.End ℂ M) (hT : IsNilpotent T)
+    (hker : Module.finrank ℂ (LinearMap.ker T) = 1) :
+    Etingof.IsIndecomposable (Polynomial ℂ) (Module.AEval' T) := by
+  let of := Module.AEval'.of (R := ℂ) T
+  have hMpos : 0 < Module.finrank ℂ M := by
+    have := Submodule.finrank_le (LinearMap.ker T)
+    omega
+  letI : Nontrivial M := Module.finrank_pos_iff.mp hMpos
+  letI : Nontrivial (Module.AEval' T) := of.symm.toEquiv.nontrivial
+  refine ⟨inferInstance, ?_⟩
+  intro P Q hPQ
+  by_contra hboth
+  push Not at hboth
+  obtain ⟨hP, hQ⟩ := hboth
+  let scalarPart (N : Submodule (Polynomial ℂ) (Module.AEval' T)) : Submodule ℂ M :=
+    (N.restrictScalars ℂ).comap of.toLinearMap
+  have scalarPart_ne (N : Submodule (Polynomial ℂ) (Module.AEval' T)) (hN : N ≠ ⊥) :
+      scalarPart N ≠ ⊥ := by
+    rw [Submodule.ne_bot_iff] at hN ⊢
+    obtain ⟨x, hx, hx0⟩ := hN
+    refine ⟨of.symm x, ?_, ?_⟩
+    · exact hx
+    · exact (map_ne_zero_iff of.symm of.symm.injective).mpr hx0
+  have scalarPart_invariant (N : Submodule (Polynomial ℂ) (Module.AEval' T)) :
+      Set.MapsTo T (scalarPart N : Set M) (scalarPart N : Set M) := by
+    intro x hx
+    change of (T x) ∈ N
+    rw [← Module.AEval'.X_smul_of]
+    exact N.smul_mem Polynomial.X hx
+  have kernelVector (N : Submodule (Polynomial ℂ) (Module.AEval' T)) (hN : N ≠ ⊥) :
+      ∃ x : M, x ≠ 0 ∧ T x = 0 ∧ of x ∈ N := by
+    let S := scalarPart N
+    let TS : Module.End ℂ S := T.restrict (scalarPart_invariant N)
+    have hTS : IsNilpotent TS := Module.End.isNilpotent.restrict _ hT
+    letI : Nontrivial S := Submodule.nontrivial_iff_ne_bot.mpr (scalarPart_ne N hN)
+    obtain ⟨x, hx0, hxker⟩ :=
+      Etingof.Example_2_3_14.exists_mem_ker_of_isNilpotent TS hTS
+    refine ⟨x, ?_, ?_, x.2⟩
+    · exact fun hx => hx0 (Subtype.ext hx)
+    · exact congrArg Subtype.val hxker
+  obtain ⟨u, hu0, huT, huP⟩ := kernelVector P hP
+  obtain ⟨v, hv0, hvT, hvQ⟩ := kernelVector Q hQ
+  have huv : LinearIndependent ℂ ![u, v] := by
+    rw [LinearIndependent.pair_iff]
+    intro a b hab
+    have hauP : of (a • u) ∈ P := by
+      rw [map_smul, ← IsScalarTower.algebraMap_smul (Polynomial ℂ) a (of u)]
+      exact P.smul_mem (algebraMap ℂ (Polynomial ℂ) a) huP
+    have hbvQ : of (b • v) ∈ Q := by
+      rw [map_smul, ← IsScalarTower.algebraMap_smul (Polynomial ℂ) b (of v)]
+      exact Q.smul_mem (algebraMap ℂ (Polynomial ℂ) b) hvQ
+    have hsum : of (a • u) + of (b • v) = 0 := by simpa using congrArg of hab
+    have hneg : of (a • u) = -(of (b • v)) := eq_neg_of_add_eq_zero_left hsum
+    have hinter : of (a • u) ∈ P ⊓ Q :=
+      Submodule.mem_inf.mpr ⟨hauP, hneg.symm ▸ Q.neg_mem hbvQ⟩
+    rw [hPQ.disjoint.eq_bot, Submodule.mem_bot] at hinter
+    have hau0 : a • u = 0 := of.injective (by simpa using hinter)
+    have hbv0 : b • v = 0 := by
+      rw [hau0, zero_add] at hab
+      exact hab
+    exact ⟨(smul_eq_zero.mp hau0).resolve_right hu0,
+      (smul_eq_zero.mp hbv0).resolve_right hv0⟩
+  let uvKer : Fin 2 → LinearMap.ker T := fun i =>
+    Fin.cases ⟨u, LinearMap.mem_ker.mpr huT⟩
+      (fun _ => ⟨v, LinearMap.mem_ker.mpr hvT⟩) i
+  have huvKer : LinearIndependent ℂ uvKer := by
+    apply LinearIndependent.of_comp (LinearMap.ker T).subtype
+    convert huv using 1
+    funext i
+    fin_cases i <;> rfl
+  have htwo := huvKer.fintype_card_le_finrank
+  simp only [Fintype.card_fin] at htwo
+  omega
+
 /-- Even powers of swapOp decompose as a product map: X^{2m} = (BA)^m × (AB)^m. -/
 private lemma swapOp_pow_even
     {V : Type*} [AddCommGroup V] [Module ℂ V]
@@ -1806,6 +1935,12 @@ private lemma swapOp_ker_finrank
       map_add' := fun _ _ => rfl
       map_smul' := fun _ _ => rfl }
   rw [LinearEquiv.finrank_eq e, Module.finrank_prod]
+
+/-- The kernel of the chain operator is the product of the two arrow kernels. -/
+theorem Q₂Rep.chainOperator_ker_finrank (ρ : Q₂Rep ℂ) :
+    Module.finrank ℂ (LinearMap.ker ρ.chainOperator) =
+      Module.finrank ℂ (LinearMap.ker ρ.A) + Module.finrank ℂ (LinearMap.ker ρ.B) := by
+  simpa [Q₂Rep.chainOperator] using swapOp_ker_finrank ρ.A ρ.B
 
 set_option maxHeartbeats 1600000 in
 /-- If V × W = M ⊕ C where M = V' × W' is a product subspace and both M, C are
@@ -2696,7 +2831,7 @@ private lemma compatible_product_decomp
   have htop : V'.prod W' = ⊤ := by rw [hV', hW']; ext ⟨v, w⟩; simp [Submodule.mem_prod]
   have := hcompl.inf_eq_bot; rw [htop, top_inf_eq] at this; exact this
 
-private lemma off_diagonal_nilpotent_product_decomp
+lemma off_diagonal_nilpotent_product_decomp
     {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
     (A : V →ₗ[ℂ] W) (B : W →ₗ[ℂ] V)
@@ -2944,7 +3079,7 @@ Specifically, every indecomposable representation of Q₂ is isomorphic to exact
 
 This extends the Jordan normal form classification from Q₁ (single vertex with a loop)
 to Q₂ (two vertices with a cycle). -/
-theorem Etingof.Problem6_9_1 (ρ : Q₂Rep ℂ) (hρ : ρ.Indecomposable) :
+theorem Etingof.Problem6_9_1_dimension_vectors (ρ : Q₂Rep ℂ) (hρ : ρ.Indecomposable) :
     -- The representation belongs to one of the four families (existential form):
     -- Either dim V = dim W (E_{n,λ} or E_{n,∞} family)
     -- or |dim V - dim W| = 1 (H_n or K_n family)
@@ -3087,23 +3222,15 @@ theorem Etingof.Problem6_9_1 (ρ : Q₂Rep ℂ) (hρ : ρ.Indecomposable) :
     · -- qW = ⊥: contradiction with AB not nilpotent
       exact absurd hqW hqW_ne
 
-/-- **Problem 6.9.1(c) (Etingof)**: When AB is nilpotent, the operator X on V ⊕ W
-defined by X(v,w) = (Bw, Av) is also nilpotent and admits a basis of chains
-compatible with the V ⊕ W decomposition.
-
-This reduces to showing X has a Jordan chain basis where each chain starts in either
-V or W. The chain structure directly gives the H_n and K_n families. -/
+/-- **Problem 6.9.1(c), nilpotence (Etingof).** When `AB` is nilpotent, the
+actual off-diagonal operator `X(v,w) = (Bw,Av)` on `V × W` is nilpotent. -/
 theorem Etingof.Problem6_9_1c (ρ : Q₂Rep ℂ)
     (hAB : IsNilpotent (ρ.A.comp ρ.B)) :
-    -- The operator X = (0, B; A, 0) on V × W is nilpotent
-    IsNilpotent ((ρ.B.comp ρ.A).prodMap (ρ.A.comp ρ.B) : (ρ.V × ρ.W) →ₗ[ℂ] (ρ.V × ρ.W)) := by
-  -- Step 1: AB nilpotent implies BA nilpotent
-  -- If (AB)^n = 0, then (BA)^(n+1) = B(AB)^n A = 0
+    IsNilpotent ρ.chainOperator := by
+  have hAB' := hAB
   obtain ⟨n, hn⟩ := hAB
   have hBA : IsNilpotent (ρ.B.comp ρ.A) := by
     refine ⟨n + 1, ?_⟩
-    -- (BA)^(n+1) v = B((AB)^n(Av)) = B(0) = 0
-    -- Key shift lemma: ((BA)^m)(Bw) = B((AB)^m w)
     have key : ∀ (m : ℕ) (w : ρ.W),
         ((ρ.B.comp ρ.A) ^ m) (ρ.B w) = ρ.B (((ρ.A.comp ρ.B) ^ m) w) := by
       intro m; induction m with
@@ -3118,20 +3245,13 @@ theorem Etingof.Problem6_9_1c (ρ : Q₂Rep ℂ)
     have := LinearMap.congr_fun hn (ρ.A v)
     simp only [LinearMap.zero_apply] at this
     rw [this, map_zero]
-  -- Step 2: prodMap of nilpotent endomorphisms is nilpotent
-  -- (f.prodMap g)^k = (f^k).prodMap (g^k) via prodMap_mul
-  obtain ⟨m, hm⟩ := hBA
-  refine ⟨max n m, ?_⟩
-  have h1 : (ρ.A.comp ρ.B) ^ max n m = 0 := by
-    rw [← Nat.sub_add_cancel (Nat.le_max_left n m), pow_add, hn, mul_zero]
-  have h2 : (ρ.B.comp ρ.A) ^ max n m = 0 := by
-    rw [← Nat.sub_add_cancel (Nat.le_max_right n m), pow_add, hm, mul_zero]
-  -- Show (f.prodMap g)^k = (f^k).prodMap (g^k) by induction
-  have pow_prodMap : ∀ (k : ℕ) (f : ρ.V →ₗ[ℂ] ρ.V) (g : ρ.W →ₗ[ℂ] ρ.W),
-      (f.prodMap g) ^ k = (f ^ k).prodMap (g ^ k) := by
-    intro k; induction k with
-    | zero => intro f g; simp [LinearMap.prodMap_one]
-    | succ k ih =>
-      intro f g
-      rw [pow_succ, ih f g, LinearMap.prodMap_mul, pow_succ, pow_succ]
-  rw [pow_prodMap, h1, h2, LinearMap.prodMap_zero]
+  simpa [Q₂Rep.chainOperator] using swapOp_nilpotent ρ.A ρ.B hAB' hBA
+
+/-- In the nondegenerate indecomposable nilpotent case, the compatible chain
+operator has one-dimensional kernel, hence a single Jordan chain. -/
+theorem Etingof.Problem6_9_1c_chainOperator_ker_finrank (ρ : Q₂Rep ℂ)
+    (hρ : ρ.Indecomposable) (hAB : IsNilpotent (ρ.A.comp ρ.B))
+    (hV : 0 < Module.finrank ℂ ρ.V) (hW : 0 < Module.finrank ℂ ρ.W) :
+    Module.finrank ℂ (LinearMap.ker ρ.chainOperator) = 1 := by
+  rw [ρ.chainOperator_ker_finrank]
+  exact ker_sum_eq_one ρ hρ hAB hV hW
