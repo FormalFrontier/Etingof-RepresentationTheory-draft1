@@ -4,6 +4,7 @@ import EtingofRepresentationTheory.Chapter4.Proposition4_1_2
 import EtingofRepresentationTheory.Chapter4.Example4_1_3
 
 -- Section 4.2: Characters
+import EtingofRepresentationTheory.Chapter4.Introduction_4_2
 import EtingofRepresentationTheory.Chapter4.Theorem4_2_1
 import EtingofRepresentationTheory.Chapter4.Theorem4_2_1_Test
 import EtingofRepresentationTheory.Chapter4.Corollary4_2_2

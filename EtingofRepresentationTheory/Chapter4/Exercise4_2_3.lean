@@ -78,9 +78,9 @@ omit [Group G] in
   have happly : (groupSum k G) x = ∑ g : G, (MonoidAlgebra.single g (1 : k)) x :=
     Finsupp.finsetSum_apply Finset.univ (fun g => MonoidAlgebra.single g (1 : k)) x
   rw [happly, Finset.sum_eq_single x
-    (fun b _ hb => by simp [MonoidAlgebra.single_apply, hb])
+    (fun b _ hb => by simp [hb])
     (fun hx => absurd (Finset.mem_univ x) hx)]
-  simp [MonoidAlgebra.single_apply]
+  simp
 
 /-- Left-multiplying `P` by a group element fixes it: `g · P = P`. -/
 lemma single_mul_groupSum (g : G) :

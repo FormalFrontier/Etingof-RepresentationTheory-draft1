@@ -1,4 +1,5 @@
 import Mathlib
+import EtingofRepresentationTheory.Chapter4.Introduction_4_2
 import EtingofRepresentationTheory.Infrastructure.ColumnRepSimple
 import EtingofRepresentationTheory.Infrastructure.RegularCharacter
 
@@ -43,6 +44,7 @@ variable {k G : Type u} [Field k] [IsAlgClosed k] [Group G] [Fintype G] [Decidab
 noncomputable def toGroupAlgebra (f : G → k) : MonoidAlgebra k G :=
   ∑ g : G, MonoidAlgebra.single g⁻¹ (f g)
 
+omit [IsAlgClosed k] [DecidableEq G] [Invertible (Fintype.card G : k)] in
 /-- The trace of the representation action of `toGroupAlgebra f` on V equals
   `∑ g, f g * V.character g⁻¹`. -/
 private lemma trace_toGroupAlgebra_action (f : G → k) (V : FDRep k G) :
@@ -52,15 +54,17 @@ private lemma trace_toGroupAlgebra_action (f : G → k) (V : FDRep k G) :
   congr 1; ext g
   rw [LinearMap.map_smul, smul_eq_mul, FDRep.character]
 
+omit [IsAlgClosed k] [DecidableEq G] [Invertible (Fintype.card G : k)] in
 /-- `toGroupAlgebra` is injective: if `toGroupAlgebra f = 0` then `f = 0`. -/
 private lemma toGroupAlgebra_injective (f : G → k) (h : toGroupAlgebra f = 0) : f = 0 := by
+  classical
   ext g
   simp only [Pi.zero_apply]
   have heval : (toGroupAlgebra f) g⁻¹ = 0 := by rw [h]; rfl
   simp only [toGroupAlgebra] at heval
   rw [show (∑ x : G, MonoidAlgebra.single x⁻¹ (f x)) g⁻¹ =
     ∑ x : G, (MonoidAlgebra.single x⁻¹ (f x) : G →₀ k) g⁻¹ from
-    Finsupp.finset_sum_apply _ _ _] at heval
+    Finsupp.finsetSum_apply _ _ _] at heval
   rw [Finset.sum_eq_single g] at heval
   · simpa [Finsupp.single_apply] using heval
   · intro b _ hb
@@ -69,6 +73,7 @@ private lemma toGroupAlgebra_injective (f : G → k) (h : toGroupAlgebra f = 0) 
 
 /-! ### Step 2: Centrality of toGroupAlgebra for class functions -/
 
+omit [IsAlgClosed k] [DecidableEq G] [Invertible (Fintype.card G : k)] in
 /-- `toGroupAlgebra f` commutes with all group elements when f is a class function. -/
 private lemma toGroupAlgebra_comm_of (f : G → k)
     (hf : ∀ g h : G, f (h * g * h⁻¹) = f g) (h : G) :
@@ -80,6 +85,7 @@ private lemma toGroupAlgebra_comm_of (f : G → k)
   simp only [MulEquiv.toEquiv_eq_coe, EquivLike.coe_coe, MulAut.conj_apply]
   rw [show (h * g * h⁻¹)⁻¹ * h = h * g⁻¹ from by group, hf g h]
 
+omit [IsAlgClosed k] [DecidableEq G] [Invertible (Fintype.card G : k)] in
 /-- `toGroupAlgebra f` is central in k[G] when f is a class function. -/
 private lemma toGroupAlgebra_central (f : G → k)
     (hf : ∀ g h : G, f (h * g * h⁻¹) = f g) :
@@ -92,6 +98,7 @@ private lemma toGroupAlgebra_central (f : G → k)
 
 /-! ### Step 3: Matrix center and completeness -/
 
+omit [IsAlgClosed k] in
 /-- An element of Mat(n,k) that commutes with all matrices is a scalar matrix. -/
 private lemma matrix_central_eq_scalar {n : ℕ} [NeZero n]
     (M : Matrix (Fin n) (Fin n) k)
@@ -125,16 +132,18 @@ omit [DecidableEq G] [Invertible (Fintype.card G : k)] in
 private lemma projRingHom_smul' [NeZero (Nat.card G : k)] (D : IrrepDecomp k G) (i : Fin D.n)
     (r : k) (α : MonoidAlgebra k G) :
     D.projRingHom i (r • α) = r • D.projRingHom i α := by
-  show (Pi.evalRingHom _ i) (D.iso (r • α)) = r • (Pi.evalRingHom _ i) (D.iso α)
+  change (Pi.evalRingHom _ i) (D.iso (r • α)) = r • (Pi.evalRingHom _ i) (D.iso α)
   rw [show D.iso (r • α) = r • D.iso α from map_smul D.iso r α]
   simp [Pi.evalRingHom_apply, Pi.smul_apply]
 
+omit [DecidableEq G] in
 /-- **Character completeness**: A class function orthogonal to all irreducible
 characters is zero. -/
 private lemma classFunction_eq_zero_of_orthogonal_simples
     (f : G → k) (hf_class : ∀ g h : G, f (h * g * h⁻¹) = f g)
     (hf_orth : ∀ (V : FDRep k G) [Simple V], ∑ g : G, f g * V.character g⁻¹ = 0) :
     f = 0 := by
+  classical
   apply toGroupAlgebra_injective
   set α := toGroupAlgebra f
   haveI : NeZero (Nat.card G : k) :=
@@ -142,7 +151,7 @@ private lemma classFunction_eq_zero_of_orthogonal_simples
   let D := IrrepDecomp.mk' (k := k) (G := G)
   suffices h : D.iso α = 0 by exact D.iso.injective (h ▸ (map_zero D.iso).symm ▸ rfl)
   funext i
-  show D.projRingHom i α = 0
+  change D.projRingHom i α = 0
   haveI := D.d_pos i
   have hcentral : ∀ N, N * D.projRingHom i α = D.projRingHom i α * N := by
     intro N
@@ -226,8 +235,7 @@ theorem Etingof.Theorem4_2_1
     · congr 1; ext i; congr 1
       exact FDRep.char_conj (D.columnFDRep i) g h
   · -- f - f' is orthogonal to all simple characters
-    intro V
-    intro
+    intro V _
     obtain ⟨j, ⟨iso_j⟩⟩ := D.columnFDRep_surjective V ‹Simple V›
     -- Replace χ_V with χ_{columnFDRep j} via the isomorphism
     rw [FDRep.char_iso iso_j]
@@ -274,7 +282,7 @@ theorem Etingof.Theorem4_2_1
     -- c j = ⅟|G| * ∑ g, f g * χ_j g⁻¹, so c j * |G| = ∑ g, f g * χ_j g⁻¹
     -- c j * |G| = (⅟|G| * S) * |G| = S
     set S := ∑ g, f g * (D.columnFDRep j).character g⁻¹
-    show S = (⅟(Fintype.card G : k) * S) * (Fintype.card G : k)
+    change S = (⅟(Fintype.card G : k) * S) * (Fintype.card G : k)
     rw [mul_comm (⅟_ * S) _, ← mul_assoc, mul_invOf_self, one_mul]
 
 open Etingof.Theorem4_2_1_aux in
@@ -335,3 +343,18 @@ theorem Etingof.Theorem4_2_1_linearIndependent
   have hfin : g i₀ * (Fintype.card G : k) = 0 := by
     rw [← hdiag, ← hexpand]; exact happly
   exact (mul_eq_zero.mp hfin).resolve_right (Invertible.ne_zero _)
+
+/-- The span of the irreducible characters is exactly the class-function subspace. Together
+with `Theorem4_2_1_linearIndependent`, this packages the book's basis statement directly in
+terms of `F_c(G, k)`. -/
+theorem Etingof.Theorem4_2_1_span_eq_classFunctionSubmodule
+    {k G : Type u} [Field k] [IsAlgClosed k] [Group G] [Fintype G]
+    [Invertible (Fintype.card G : k)] :
+    Submodule.span k (FDRep.character '' {V : FDRep k G | Simple V}) =
+      Etingof.classFunctionSubmodule k G := by
+  apply le_antisymm
+  · rw [Submodule.span_le]
+    rintro _ ⟨V, _, rfl⟩
+    exact Etingof.FDRep.character_mem_classFunctionSubmodule k G V
+  · intro f hf
+    exact Etingof.Theorem4_2_1 f hf

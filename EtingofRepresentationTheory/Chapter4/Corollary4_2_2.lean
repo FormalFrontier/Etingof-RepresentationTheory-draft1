@@ -28,6 +28,7 @@ variable {k : Type u} {G : Type v} [Field k] [IsAlgClosed k] [Group G] [Fintype 
 
 /-! #### Helper: characterize center of MonoidAlgebra -/
 
+omit [IsAlgClosed k] [Fintype G] [DecidableEq G] [NeZero (Nat.card G : k)] in
 /-- Central elements of `MonoidAlgebra k G` have conjugation-invariant coefficients. -/
 private lemma center_coeff_conj_invariant
     {a : MonoidAlgebra k G} (ha : a ∈ Subalgebra.center k (MonoidAlgebra k G))
@@ -39,6 +40,7 @@ private lemma center_coeff_conj_invariant
     one_mul, mul_one, inv_mul_cancel_left] at key
   exact key.symm
 
+omit [IsAlgClosed k] [Fintype G] [DecidableEq G] [NeZero (Nat.card G : k)] in
 /-- Elements with conjugation-invariant coefficients are central in `MonoidAlgebra k G`. -/
 private lemma mem_center_of_conj_invariant (a : MonoidAlgebra k G)
     (ha : ∀ g h : G, a (g * h * g⁻¹) = a h) :
@@ -63,6 +65,7 @@ private lemma mem_center_of_conj_invariant (a : MonoidAlgebra k G)
 
 /-! #### Dimension of center(MonoidAlgebra k G) = |ConjClasses G| -/
 
+omit [IsAlgClosed k] [NeZero (Nat.card G : k)] in
 /-- The center of `MonoidAlgebra k G` has `finrank` equal to `card (ConjClasses G)`. -/
 private lemma finrank_center_monoidAlgebra :
     Module.finrank k ↥(Subalgebra.center k (MonoidAlgebra k G)) =
@@ -111,6 +114,7 @@ private lemma finrank_center_monoidAlgebra :
 
 /-! #### Dimension of center(∏ Mat(d_i, k)) = n -/
 
+omit [DecidableEq G] in
 /-- The center of a product of matrix algebras has finrank equal to the number of factors. -/
 private lemma finrank_center_pi_matrix (D : IrrepDecomp k G) :
     Module.finrank k ↥(Subalgebra.center k
