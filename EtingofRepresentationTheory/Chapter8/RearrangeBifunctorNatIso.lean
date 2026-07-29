@@ -3,6 +3,8 @@ import EtingofRepresentationTheory.Chapter8.TensorRightFunctorK
 import EtingofRepresentationTheory.Chapter8.ExternalTensorFunctor
 import Mathlib.Algebra.Category.ModuleCat.Monoidal.Basic
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The bifunctor natural isomorphism for the `Tor` Künneth rearrangement
 

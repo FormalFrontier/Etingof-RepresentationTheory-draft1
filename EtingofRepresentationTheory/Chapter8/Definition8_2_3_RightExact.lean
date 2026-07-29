@@ -1,6 +1,8 @@
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import Mathlib.CategoryTheory.Adjunction.Limits
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Right-exactness of `- ⊗_A N`
 

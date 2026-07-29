@@ -1,6 +1,8 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter3.Theorem3_10_2
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Theorem 5.6.1: Irreducible Representations of Product Groups
 
@@ -102,7 +104,8 @@ theorem isSimpleModule_asModule_of_isIrreducibleRep
     refine eq_bot_iff.mpr fun w hw => ?_
     have hmem : w ∈ τ.toSubmodule := (Subrepresentation.mem_ofSubmodule'_iff).mpr hw
     rw [hbot, Submodule.mem_bot] at hmem
-    simpa [hmem] using N.zero_mem
+    rw [Submodule.mem_bot]
+    exact hmem
   · right
     refine eq_top_iff.mpr fun w _ => ?_
     have hmem : w ∈ τ.toSubmodule := by rw [htop]; trivial
@@ -117,6 +120,8 @@ variable {G H : Type*} [Group G] [Group H] [Fintype G] [Fintype H]
 variable {V W : Type*} [AddCommGroup V] [Module k V] [FiniteDimensional k V]
   [AddCommGroup W] [Module k W] [FiniteDimensional k W]
 
+omit [IsAlgClosed k] [Fintype G] [Fintype H]
+    [FiniteDimensional k V] [FiniteDimensional k W] in
 /-- Helper: a `k`-submodule of `V ⊗ W` stable under all of the `G × H`-actions
 `ρ g ⊗ σ h` is also stable under `Algebra.lsmul a ⊗ Algebra.lsmul b` for arbitrary
 `a ∈ k[G]`, `b ∈ k[H]` (the hypothesis required by `Etingof.tensor_product_irreducible`). -/
@@ -161,6 +166,7 @@ private theorem map_lsmul_mem_of_extTprod_stable
       refine N.smul_mem c (N.smul_mem d ?_)
       exact hN (g, h) x hx
 
+omit [Fintype G] [Fintype H] in
 /-- **Theorem 5.6.1(i).** The external tensor product of an irreducible representation of `G`
 and an irreducible representation of `H` is an irreducible representation of `G × H`. -/
 theorem extTprod_isIrreducibleRep
@@ -242,7 +248,7 @@ theorem isIrreducibleRep_ofGroupAlgebraModule
       zero_mem' := N.zero_mem
       smul_mem' := fun a v hv => by
         induction a using MonoidAlgebra.induction_linear with
-        | zero => simpa using N.zero_mem
+        | zero => simp
         | add a₁ a₂ h₁ h₂ => rw [add_smul]; exact N.add_mem h₁ h₂
         | single g c =>
           have hsm : (MonoidAlgebra.single g c) • v = c • ((MonoidAlgebra.single g (1 : k)) • v) := by
@@ -274,6 +280,7 @@ variable {k : Type*} [Field k] [IsAlgClosed k]
 variable {G H : Type*} [Group G] [Group H] [Fintype G] [Fintype H]
 variable {M : Type u} [AddCommGroup M] [Module k M] [FiniteDimensional k M]
 
+omit [Fintype G] [Fintype H] in
 /-- **Theorem 5.6.1(ii).** Every irreducible representation `τ` of `G × H` over an
 algebraically closed field is isomorphic, as a representation, to an external tensor product
 `V ⊗ W` of an irreducible representation `V` of `G` and an irreducible representation `W` of
@@ -313,7 +320,7 @@ theorem exists_extTprod_of_isIrreducibleRep
     intro g h x
     rw [hHsmul, one_smul, hGsmul, one_smul, ← Module.End.mul_apply, ← map_mul]
     congr 2
-    simp [Prod.ext_iff]
+    simp
   -- The two actions commute.
   haveI iComm : SMulCommClass (MonoidAlgebra k G) (MonoidAlgebra k H) M := by
     refine ⟨fun a b m => ?_⟩
@@ -326,7 +333,7 @@ theorem exists_extTprod_of_isIrreducibleRep
       | add b₁ b₂ hb₁ hb₂ => rw [add_smul, smul_add, add_smul, hb₁, hb₂]
       | single h d =>
         have hcomm : τ (g, 1) (τ (1, h) m) = τ (1, h) (τ (g, 1) m) := by
-          have hprod : ((g, 1) : G × H) * (1, h) = (1, h) * (g, 1) := by simp [Prod.ext_iff]
+          have hprod : ((g, 1) : G × H) * (1, h) = (1, h) * (g, 1) := by simp
           rw [← Module.End.mul_apply, ← map_mul, hprod, map_mul, Module.End.mul_apply]
         simp only [hGsmul, hHsmul, map_smul]
         rw [hcomm, smul_comm (c : k) (d : k)]
@@ -372,6 +379,7 @@ universe u
 variable {k : Type*} [Field k] [IsAlgClosed k]
 variable {G H : Type*} [Group G] [Group H] [Fintype G] [Fintype H]
 
+omit [Fintype G] [Fintype H] in
 /-- **Theorem 5.6.1.** Let `G`, `H` be finite groups and `k` an algebraically closed field
 (see the module docstring on the field hypothesis). Then the irreducible representations of
 `G × H` over `k` are exactly the external tensor products `V ⊗ W` of an irreducible

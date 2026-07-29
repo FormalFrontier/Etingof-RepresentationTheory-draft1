@@ -1,5 +1,7 @@
 import EtingofRepresentationTheory.Chapter9.PathAlgebraConsSplittingIso
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The retraction of `Φ` and injectivity of the cons-splitting
 

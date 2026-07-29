@@ -14,6 +14,8 @@ then specializes it to the decomposition matrix of induced characters.
 
 noncomputable section
 
+set_option backward.isDefEq.respectTransparency false
+
 open scoped Matrix
 
 namespace Etingof.Remark5262

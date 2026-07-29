@@ -45,7 +45,7 @@ theorem Discussion_4_4_char_dual (V : FDRep k G) (g : G) :
 
 section Complex
 
-variable [Fintype G]
+variable [Finite G]
 
 /-- Complex-conjugate character identity (Etingof §4.4): for a finite-dimensional
 complex representation `V` of a finite group `G`, the eigenvalues of `ρ_V(g)` are
@@ -62,6 +62,7 @@ finite-dimensional inner product space (`LinearMap.toMatrix_adjoint` together wi
 theorem char_inv_eq_conj (V : FDRep ℂ G) (g : G) :
     V.character g⁻¹ = (starRingEnd ℂ) (V.character g) := by
   classical
+  letI := Fintype.ofFinite G
   haveI : Nonempty G := ⟨1⟩
   -- Work with the matrix of `ρ_V` in a chosen basis.
   let b := Module.finBasis ℂ V
@@ -112,7 +113,7 @@ theorem char_inv_eq_conj (V : FDRep ℂ G) (g : G) :
 /-- Self-dual ⟺ real character (Etingof §4.4): a finite-dimensional complex
 representation `V` of a finite group is isomorphic to its dual `V*` (as
 representations) if and only if its character is real-valued. -/
-theorem self_dual_iff_char_real {G : Type} [Group G] [Fintype G] (V : FDRep ℂ G) :
+theorem self_dual_iff_char_real {G : Type} [Group G] [Finite G] (V : FDRep ℂ G) :
     Nonempty (of (dual V.ρ) ≅ V) ↔
       ∀ g : G, (starRingEnd ℂ) (V.character g) = V.character g := by
   constructor

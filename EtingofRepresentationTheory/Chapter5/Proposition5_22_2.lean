@@ -25,9 +25,16 @@ open CategoryTheory MonoidalCategory
 
 noncomputable section
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Etingof
 
 variable (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
+
+noncomputable local instance (priority := high) proposition522SchurModuleAddCommGroup
+    (N : ℕ) (lam : Fin N → ℕ) : AddCommGroup (SchurModuleSubmodule k N lam) :=
+  { Module.addCommMonoidToAddCommGroup k with
+    toAddCommMonoid := (SchurModuleSubmodule k N lam).addCommMonoid }
 
 /-- The determinant representation of `GL_N(k)`: the one-dimensional representation
 given by `g ↦ det(g)`. It is equivariantly isomorphic to the top exterior power

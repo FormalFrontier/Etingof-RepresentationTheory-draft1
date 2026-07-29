@@ -1,5 +1,7 @@
 import EtingofRepresentationTheory.Chapter8.RearrangeHomComplexX
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The complex-level rearrangement isomorphism for the `Ext` Künneth formula
 

@@ -153,7 +153,7 @@ lemma asAlgebraHom_sumTranspositionsStab (m : ℕ) {V : Type*} [AddCommGroup V] 
           ((Fin.succEmb m).prodMap (Fin.succEmb m)) := by
     ext q
     simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_map,
-      Function.Embedding.coe_prodMap, Fin.coe_succEmb, Prod.exists, Function.comp_apply,
+      Function.Embedding.coe_prodMap, Fin.coe_succEmb, Prod.exists,
       Prod.map_apply]
     constructor
     · rintro ⟨h0, hlt⟩
@@ -165,7 +165,7 @@ lemma asAlgebraHom_sumTranspositionsStab (m : ℕ) {V : Type*} [AddCommGroup V] 
       exact ⟨Fin.succ_pos a, Fin.succ_lt_succ_iff.mpr hab⟩
   rw [hset, Finset.sum_map]
   refine Finset.sum_congr rfl (fun p _ => ?_)
-  simp only [Function.Embedding.coe_prodMap, Fin.coe_succEmb, Function.comp_apply, Prod.map_apply]
+  simp only [Function.Embedding.coe_prodMap, Fin.coe_succEmb]
   rw [Representation.asAlgebraHom_of, Representation.asAlgebraHom_of]
   show ρ (Equiv.swap p.1.succ p.2.succ) = ρ (permEmbZero m (Equiv.swap p.1 p.2))
   rw [permEmbZero_swap]
@@ -537,7 +537,8 @@ lemma sumTranspositionsStab_acts_scalar_iff_content_const_of (m : ℕ)
       intro h
       have hz : (YoungSymmetrizer m ν : SymGroupAlgebra m) = 0 := congrArg Subtype.val h
       have h1 := youngSymmetrizer_identity_coeff m ν
-      rw [hz] at h1; simp at h1
+      rw [hz] at h1
+      exact zero_ne_one h1
     set w : ρW.asModule := f y₀ with hw
     have hwne : w ≠ 0 := by
       rw [hw]; intro h; exact hy0ne (hf_inj (h.trans (map_zero f).symm))
@@ -562,11 +563,7 @@ lemma sumTranspositionsStab_acts_scalar_iff_content_const_of (m : ℕ)
         _ = c • (ρW.asModuleEquiv w) := hB' _
     have hwne' : ρW.asModuleEquiv w ≠ 0 :=
       fun h => hwne (ρW.asModuleEquiv.injective (by rw [h, map_zero]))
-    have hsub : ((content ν : ℂ) - c) • (ρW.asModuleEquiv w) = 0 := by
-      rw [sub_smul, key, sub_self]
-    rcases smul_eq_zero.mp hsub with h | h
-    · exact sub_eq_zero.mp h
-    · exact absurd h hwne'
+    exact smul_left_injective ℂ hwne' key
   · -- (⟸) every removable content `= c` ⟹ `B` scalar.
     intro hQ
     set q : SymGroupAlgebra m := sumTranspositions m - algebraMap ℂ (SymGroupAlgebra m) c with hq
@@ -582,26 +579,47 @@ lemma sumTranspositionsStab_acts_scalar_iff_content_const_of (m : ℕ)
     have hker : LinearMap.ker L = ⊤ := by
       rw [← top_le_iff, ← IsSemisimpleModule.sSup_simples_eq_top (SymGroupAlgebra m) ρW.asModule]
       refine sSup_le ?_
-      rintro W (hWsimple : IsSimpleModule (SymGroupAlgebra m) W)
-      haveI := hWsimple
-      obtain ⟨ν, ⟨e⟩⟩ := gen_spechtModules_exhaust_simples m ρW.asModule W
+      rintro W hWsimple
+      obtain ⟨ν, ⟨e⟩⟩ :=
+        @gen_spechtModules_exhaust_simples m ρW.asModule inferInstance
+          (Representation.instModuleMonoidAlgebraAsModule ρW) W hWsimple
       have hνmem : ν ∈ removeSquare la := by
+        letI rhoWModule : Module (SymGroupAlgebra m) ρW.asModule :=
+          Representation.instModuleMonoidAlgebraAsModule ρW
+        letI wModule : Module (SymGroupAlgebra m) W :=
+          @Submodule.module (SymGroupAlgebra m) ρW.asModule inferInstance inferInstance
+            rhoWModule W
+        letI : Module.Finite ℂ ρW.asModule := inferInstance
+        letI : IsNoetherian ℂ ρW.asModule :=
+          ⟨fun s ↦ Submodule.fg_of_fg_map_injective ρW.asModuleEquiv.toLinearMap
+            ρW.asModuleEquiv.injective
+            ((Submodule.fg_iff_finiteDimensional
+              (s.map ρW.asModuleEquiv.toLinearMap)).2 inferInstance)⟩
         by_contra hνnot
         have hmult0 : repIsotypicMult m ρW ν = 0 := by
           rw [hρW, repIsotypicMult_restrictRep_spechtModule, if_neg hνnot]
         have hcompbot :
             isotypicComponent (SymGroupAlgebra m) ρW.asModule (SpechtModule m ν) = ⊥ := by
           rw [← Submodule.restrictScalars_eq_bot_iff (S := ℂ)]
+          letI : Module.Finite ℂ (isotypicComp m ρW.asModule ν) := by
+            exact Module.Finite.of_injective (isotypicComp m ρW.asModule ν).subtype
+              (Submodule.injective_subtype _)
           have hfrz : isotypicComp m ρW.asModule ν = ⊥ := by
             rw [← Submodule.finrank_eq_zero (R := ℂ) (M := ρW.asModule), isotypicComp_finrank,
               show isotypicMult m ρW.asModule ν = repIsotypicMult m ρW ν from rfl, hmult0, zero_mul]
           exact hfrz
         have hWle :
             W ≤ isotypicComponent (SymGroupAlgebra m) ρW.asModule (SpechtModule m ν) :=
-          (Submodule.le_isotypicComponent W).trans_eq e.isotypicComponent_eq
+          (@Submodule.le_isotypicComponent (SymGroupAlgebra m) ρW.asModule inferInstance
+            inferInstance rhoWModule W).trans_eq
+              (@LinearEquiv.isotypicComponent_eq (SymGroupAlgebra m) ρW.asModule W
+                (SpechtModule m ν) inferInstance inferInstance inferInstance inferInstance
+                rhoWModule wModule inferInstance e)
         rw [hcompbot, le_bot_iff] at hWle
-        exact absurd hWle
-          (Submodule.nontrivial_iff_ne_bot.mp (IsSimpleModule.nontrivial (SymGroupAlgebra m) _))
+        haveI : Nontrivial (SpechtModule m ν) :=
+          (Theorem5_12_2_irreducible m ν).nontrivial
+        letI : Nontrivial W := e.toEquiv.nontrivial
+        exact absurd hWle (Submodule.nontrivial_iff_ne_bot.mp inferInstance)
       have hcν : (content ν : ℂ) = c := hQ ν hνmem
       intro w hw
       rw [LinearMap.mem_ker]
@@ -612,7 +630,14 @@ lemma sumTranspositionsStab_acts_scalar_iff_content_const_of (m : ℕ)
         rw [Submodule.coe_smul, Submodule.coe_smul_of_tower, smul_eq_mul]
         exact sumTranspositions_mul_eq_content_smul m ν _ (e wW).2
       have hq_eWW : q • (e wW) = 0 := by
-        rw [hq, sub_smul, hact_Vnu, algebraMap_smul, hcν, sub_self]
+        rw [hq]
+        calc
+          (sumTranspositions m - algebraMap ℂ (SymGroupAlgebra m) c) • e wW =
+              sumTranspositions m • e wW -
+                algebraMap ℂ (SymGroupAlgebra m) c • e wW :=
+            @sub_smul (SymGroupAlgebra m) (SpechtModule m ν) inferInstance inferInstance
+              inferInstance _ _ _
+          _ = 0 := by rw [hact_Vnu, algebraMap_smul, hcν, sub_self]
       have hq_wW : q • wW = 0 := by
         apply e.injective
         rw [map_smul, map_zero, hq_eWW]
@@ -625,8 +650,20 @@ lemma sumTranspositionsStab_acts_scalar_iff_content_const_of (m : ℕ)
       have hqz : q • z = 0 := by
         have h : L z = 0 := by rw [hLzero, LinearMap.zero_apply]
         exact h
-      rw [hq, sub_smul, algebraMap_smul] at hqz
-      exact sub_eq_zero.mp hqz
+      rw [hq] at hqz
+      have hsub :
+          (sumTranspositions m - algebraMap ℂ (SymGroupAlgebra m) c) • z =
+            sumTranspositions m • z - algebraMap ℂ (SymGroupAlgebra m) c • z :=
+        @sub_smul (SymGroupAlgebra m) ρW.asModule inferInstance inferInstance
+          (Representation.instModuleMonoidAlgebraAsModule ρW) _ _ _
+      have halg : algebraMap ℂ (SymGroupAlgebra m) c • z = c • z :=
+        @algebraMap_smul ℂ inferInstance (SymGroupAlgebra m) inferInstance inferInstance
+          ρW.asModule inferInstance (Representation.instModuleMonoidAlgebraAsModule ρW)
+          inferInstance inferInstance c z
+      have hqz' : sumTranspositions m • z - c • z = 0 := by
+        rw [← halg, ← hsub]
+        exact hqz
+      exact sub_eq_zero.mp hqz'
     intro y
     have hgy := hgoal (ρW.asModuleEquiv.symm y)
     have e1 : ρW.asModuleEquiv (sumTranspositions m • ρW.asModuleEquiv.symm y) = B y := by
@@ -742,7 +779,7 @@ lemma content_const_removeSquare_iff_rectangular (m : ℕ) (la : Nat.Partition (
   have hrpos : 0 < r := by
     rw [hr]
     by_contra h
-    push_neg at h
+    push Not at h
     have hnil : la.sortedParts = [] := List.length_eq_zero_iff.mp (Nat.le_zero.mp h)
     rw [hnil, List.sum_nil] at hsum
     exact absurd hsum (by omega)
@@ -777,7 +814,7 @@ lemma content_const_removeSquare_iff_rectangular (m : ℕ) (la : Nat.Partition (
     -- some interior strict descent exists
     have hdescent : ∃ i, i + 1 < r ∧ la.sortedParts.getD (i + 1) 0 < la.sortedParts.getD i 0 := by
       by_contra hno
-      push_neg at hno
+      push Not at hno
       apply hnrect
       have hconst : ∀ k, k < r → la.sortedParts.getD k 0 = la.sortedParts.getD 0 0 := by
         intro k
@@ -845,7 +882,7 @@ lemma content_const_removeSquare_iff_rectangular (m : ℕ) (la : Nat.Partition (
     obtain ⟨hd1, hd2⟩ := hd_corner
     have hd1r : d.1 < r := by
       by_contra h
-      push_neg at h
+      push Not at h
       rw [hzero d.1 h] at hd1
       omega
     have hd1eq : d.1 = r - 1 := by
@@ -939,7 +976,7 @@ theorem sumTranspositionsWith1_scalar_on_rectangular
     -- Row `d.1` is nonempty, so `d.1 < r` and its length is `c`.
     have hpos1 : 0 < la.sortedParts.getD d.1 0 := lt_of_le_of_lt (Nat.zero_le _) hd2
     have hd1r : d.1 < r := by
-      by_contra h; push_neg at h; rw [hz d.1 h] at hpos1; omega
+      by_contra h; push Not at h; rw [hz d.1 h] at hpos1; omega
     have hvald1 : la.sortedParts.getD d.1 0 = c := hval d.1 hd1r
     -- Row `d.1 + 1` is strictly shorter, forcing `d.1 + 1 ≥ r`, hence `d.1 = r − 1`.
     have hd1eq : d.1 = r - 1 := by

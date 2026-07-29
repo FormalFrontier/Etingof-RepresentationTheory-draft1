@@ -100,7 +100,6 @@ private lemma character_eigenvalue_decomposition
     exact Multiset.mem_toList.mp (List.getElem_mem (hlt i))
   -- Part 2: character g = ∑ ε_i
   · -- V.character g = trace(f) = sum of charpoly roots
-    change V.character g = _
     show LinearMap.trace ℂ V f = _
     -- Use matrix trace = sum of charpoly roots
     set b := Module.finBasis ℂ V
@@ -345,7 +344,7 @@ private lemma character_div_dim_isIntegral
   -- V has positive dimension (it's simple)
   have hn : 0 < Module.finrank ℂ V := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h0 : Module.finrank ℂ V = 0 := by omega
     haveI : Subsingleton V.V.obj := Module.finrank_zero_iff.1 h0
     apply id_nonzero V
@@ -407,7 +406,7 @@ theorem Etingof.Theorem5_4_4
   -- V is a simple FDRep, so it has positive dimension
   have hn : 0 < Module.finrank ℂ V := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h0 : Module.finrank ℂ V = 0 := by omega
     haveI : Subsingleton V.V.obj := Module.finrank_zero_iff.1 h0
     apply id_nonzero V

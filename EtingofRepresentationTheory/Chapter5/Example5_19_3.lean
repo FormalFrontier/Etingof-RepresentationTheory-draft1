@@ -78,7 +78,7 @@ private lemma symGroupAction_comp (σ τ : Equiv.Perm (Fin n)) (x : TensorPower 
       (symGroupAction k V n σ).toLinearMap) =
     (symGroupAction k V n (σ.trans τ)).toLinearMap := by
     ext f
-    simp [symGroupAction, PiTensorProduct.reindex_tprod]
+    simp [symGroupAction]
   exact LinearMap.congr_fun h x
 
 private lemma symSum_symGroupAction (e : Equiv.Perm (Fin n)) (x : TensorPower k V n) :
@@ -187,7 +187,7 @@ private lemma sign_sq (σ : Equiv.Perm (Fin n)) :
 private lemma sign_symm_eq_sign (σ : Equiv.Perm (Fin n)) :
     ((Equiv.Perm.sign σ.symm : ℤ) : k) = ((Equiv.Perm.sign σ : ℤ) : k) := by
   rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with h | h <;>
-    simp [h, Equiv.Perm.sign_symm, Equiv.Perm.sign_inv]
+    simp [h, Equiv.Perm.sign_symm]
 
 private lemma sign_inv_mul (τ ρ : Equiv.Perm (Fin n)) :
     ((Equiv.Perm.sign (τ⁻¹ * ρ) : ℤ) : k) =
@@ -278,7 +278,7 @@ private lemma π_comp_toTensorPower :
     (Fintype.card (Equiv.Perm (Fin n)) : k) • LinearMap.id := by
   rw [Submodule.linearMap_eq_iff_of_span_eq_top _ _ (exteriorPower.ιMulti_span k n V)]
   intro ⟨_, v, rfl⟩
-  simp only [Set.mem_range, LinearMap.comp_apply, exteriorPower.toTensorPower_apply_ιMulti,
+  simp only [LinearMap.comp_apply, exteriorPower.toTensorPower_apply_ιMulti,
     LinearMap.smul_apply, LinearMap.id_apply]
   rw [map_sum]
   -- Convert ℤˣ-smul to k-smul inside the sum

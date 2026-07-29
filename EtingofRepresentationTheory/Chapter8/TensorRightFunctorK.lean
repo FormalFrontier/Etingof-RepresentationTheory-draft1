@@ -2,6 +2,8 @@ import EtingofRepresentationTheory.Chapter8.TensorOverModule
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import Mathlib.Algebra.Category.ModuleCat.Abelian
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The `k`-linear tensor-right functor `M ↦ M ⊗_A N`
 

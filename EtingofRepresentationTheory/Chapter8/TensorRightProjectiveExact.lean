@@ -1,5 +1,7 @@
 import EtingofRepresentationTheory.Chapter8.TensorProjectiveExact
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Tensoring with a projective left module is exact (flatness of projectives, first argument)
 

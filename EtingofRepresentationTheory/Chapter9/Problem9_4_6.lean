@@ -6,6 +6,7 @@ import Mathlib.Data.Finite.Sigma
 import Mathlib.LinearAlgebra.Dimension.Constructions
 import EtingofRepresentationTheory.Chapter2.Definition2_8_4
 import EtingofRepresentationTheory.Chapter2.Problem2_8_6
+
 import EtingofRepresentationTheory.Chapter9.Definition9_3_1
 import EtingofRepresentationTheory.Chapter9.Definition9_4_3
 import EtingofRepresentationTheory.Chapter9.PathAlgebraStandardResolution
@@ -14,6 +15,8 @@ import EtingofRepresentationTheory.Chapter9.HomologicalDimensionReduction
 import EtingofRepresentationTheory.Chapter9.HomologicalDimensionRingEquiv
 import EtingofRepresentationTheory.Chapter9.HomologicalDimensionUlift
 import EtingofRepresentationTheory.Chapter9.PathAlgebraProjectiveCover
+
+set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Problem 9.4.6: Homological dimension and Cartan matrix of path algebras

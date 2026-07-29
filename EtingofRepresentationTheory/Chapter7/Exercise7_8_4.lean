@@ -1,5 +1,7 @@
 import Mathlib
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Exercise 7.8.4: Exact sequences of vector spaces split
 

@@ -866,7 +866,7 @@ theorem simpleRep_iso_schurModule_of_formalCharacter_eq (N : ℕ)
     (h : formalCharacter k N L = schurPoly N lam) :
     Nonempty (L ≅ SchurModule k N lam) := by
   by_contra hno
-  set S := SchurModule k N lam with hSdef
+  let S := SchurModule k N lam
   -- `S = L_λ` is a simple polynomial representation with the same formal character as `L`.
   have hSchar : formalCharacter k N S = schurPoly N lam :=
     formalCharacter_schurModule_eq_schurPoly k N lam hlam
@@ -885,7 +885,7 @@ theorem simpleRep_iso_schurModule_of_formalCharacter_eq (N : ℕ)
   -- Both members of the family are algebraic: `L` by hypothesis, `S = L_λ` by
   -- `schurModule_isAlgebraic`. This is the input to character independence.
   have hSalg : Etingof.IsAlgebraicCoefficientFamily N S.ρ := by
-    rw [hSdef]; exact schurModule_isAlgebraic N lam
+    exact schurModule_isAlgebraic N lam
   have halg : ∀ i, Etingof.IsAlgebraicCoefficientFamily N (![L, S] i).ρ := by
     rw [Fin.forall_fin_two]; exact ⟨by simpa using hLalg, by simpa using hSalg⟩
   have hdist : Pairwise (fun i j => ¬ Nonempty ((![L, S] i) ≅ (![L, S] j))) := by

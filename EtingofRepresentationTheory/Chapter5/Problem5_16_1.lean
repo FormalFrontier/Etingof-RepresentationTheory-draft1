@@ -287,7 +287,7 @@ def bpDecr {n : ℕ} (a : Fin (n + 1) → ℕ) (hant : Antitone a) (hsum : ∑ j
 /-- The `shiftedExps` of a weight over `Fin (n+1)` is `f j + (n - j)`. -/
 lemma shiftedExps_val {n : ℕ} (f : Fin (n + 1) → ℕ) (j : Fin (n + 1)) :
     shiftedExps (n + 1) f j = f j + (n - j.val) := by
-  simp [shiftedExps, vandermondeExps]
+  simp [shiftedExps]
 
 /-- **Core coefficient identity (Pieri rule for `p₁`).** Extracting the `(μ+ρ)`-coefficient of
 `Δ · (∑ⱼ Xⱼ) · p_ν` sums the `charValue`s over all box removals of `μ`. Here `Δ` is the
@@ -373,10 +373,10 @@ lemma res_charValue_sum (n : ℕ) (bpμ : BoundedPartition (n + 1) (n + 1)) (ν 
         by_contra hge
         have hie : i.val = n := by omega
         exact hnleg ⟨by rw [hie] at hsi; omega, fun j hj => by
-          exact absurd hj (by rw [Fin.lt_iff_val_lt_val]; omega)⟩
+          exact absurd hj (by rw [Fin.lt_def]; omega)⟩
       set j0 : Fin (n + 1) := ⟨i.val + 1, by omega⟩ with hj0
       have hj0v : j0.val = i.val + 1 := by rw [hj0]
-      have hij0lt : i < j0 := by rw [Fin.lt_iff_val_lt_val]; omega
+      have hij0lt : i < j0 := by rw [Fin.lt_def]; omega
       have haj0le : bpμ.parts j0 ≤ bpμ.parts i := bpμ.decreasing (le_of_lt hij0lt)
       have haieq : bpμ.parts i = bpμ.parts j0 := by
         rcases eq_or_lt_of_le haj0le with h | h
@@ -384,7 +384,7 @@ lemma res_charValue_sum (n : ℕ) (bpμ : BoundedPartition (n + 1) (n + 1)) (ν 
         · exfalso; apply hnleg
           refine ⟨by omega, fun j hj => ?_⟩
           have hjj0 : j0 ≤ j := by
-            rw [Fin.le_iff_val_le_val]; rw [Fin.lt_iff_val_lt_val] at hj; omega
+            rw [Fin.le_iff_val_le_val]; rw [Fin.lt_def] at hj; omega
           have := bpμ.decreasing hjj0; omega
       have hij0 : i ≠ j0 := by rw [Ne, Fin.ext_iff]; omega
       have hdeq : (D - Finsupp.single i (1 : ℕ)) i = (D - Finsupp.single i (1 : ℕ)) j0 := by
@@ -443,7 +443,7 @@ lemma res_charValue_sum (n : ℕ) (bpμ : BoundedPartition (n + 1) (n + 1)) (ν 
       rw [Finset.sum_add_distrib, h1, bpμ.sum_eq] at h3
       omega
     obtain ⟨i, hi1⟩ : ∃ i : Fin (n + 1), bpμ.parts i - la.toYoungDiagram.rowLen i.val = 1 := by
-      by_contra hcon; push_neg at hcon
+      by_contra hcon; push Not at hcon
       have hz : ∀ k, bpμ.parts k - la.toYoungDiagram.rowLen k.val = 0 := by
         intro k; by_contra hk0
         have hge : 2 ≤ bpμ.parts k - la.toYoungDiagram.rowLen k.val := by have := hcon k; omega
@@ -468,7 +468,7 @@ lemma res_charValue_sum (n : ℕ) (bpμ : BoundedPartition (n + 1) (n + 1)) (ν 
       have h1 : bpμ.parts j - la.toYoungDiagram.rowLen j.val = 0 := hother j hji
       have h1' : la.toYoungDiagram.rowLen j.val ≤ bpμ.parts j := htermle j
       have h2 : la.toYoungDiagram.rowLen j.val ≤ la.toYoungDiagram.rowLen i.val :=
-        la.toYoungDiagram.rowLen_anti i.val j.val (le_of_lt (by rwa [Fin.lt_iff_val_lt_val] at hj))
+        la.toYoungDiagram.rowLen_anti i.val j.val (le_of_lt (by rwa [Fin.lt_def] at hj))
       omega
     refine ⟨i, Finset.mem_filter.mpr ⟨Finset.mem_univ _, hleg⟩, ?_⟩
     -- `partOf i hleg = la`

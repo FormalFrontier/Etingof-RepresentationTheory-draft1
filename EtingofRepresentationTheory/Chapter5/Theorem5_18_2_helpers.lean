@@ -37,6 +37,7 @@ section Spanning
 
 variable [Module.Free k V] [Module.Finite k V]
 
+omit [Module.Free k V] [Module.Finite k V] in
 /-- map applied to End-basis elements produces the End-basis of V^⊗n. -/
 lemma map_endBasis_eq
     {ι : Type*} [Fintype ι] [DecidableEq ι] (bV : Module.Basis ι k V)
@@ -92,6 +93,7 @@ section MainProof
 
 variable [Module.Free k V] [Module.Finite k V] [CharZero k]
 
+omit [CharZero k] in
 /-- Alternating sum of (-1)^|S| over subsets of a nonempty finset is zero (in any field). -/
 private lemma sum_powerset_neg_one_pow_card_eq_zero
     {α : Type*} {x : Finset α} (hx : x.Nonempty) :
@@ -102,6 +104,7 @@ private lemma sum_powerset_neg_one_pow_card_eq_zero
     rw [Int.cast_sum]; congr 1; ext m; simp [Int.cast_pow]
   rw [this, hZ, Int.cast_zero]
 
+omit [CharZero k] in
 /-- Coefficient evaluation: alternating sum over supersets.
 ∑_{S ⊇ T, S ⊆ univ} (-1)^{n-|S|} = 1 if T = univ, 0 otherwise. -/
 private lemma alternating_superset_sum (T : Finset (Fin n)) :
@@ -174,6 +177,7 @@ private lemma alternating_superset_sum (T : Finset (Fin n)) :
     rw [Finset.sum_congr rfl this, ← Finset.mul_sum]
     rw [sum_powerset_neg_one_pow_card_eq_zero (k := k) hC, mul_zero]
 
+omit [Module.Free k V] [Module.Finite k V] [CharZero k] in
 /-- Multilinear polarization: ∑_σ map(f ∘ σ) = ∑_S (-1)^{n-|S|} · map(fun _ => ∑_{i∈S} f i).
 This is the general polarization identity for the multilinear map PiTensorProduct.map. -/
 private lemma multilinear_polarization (f : Fin n → Module.End k V) :
@@ -237,6 +241,7 @@ private lemma multilinear_polarization (f : Fin n → Module.End k V) :
       exact ⟨fun _ => trivial, Finset.image_univ_of_surjective σ.surjective⟩
   rw [hmap, Finset.sum_map]; rfl
 
+omit [Module.Free k V] [Module.Finite k V] [CharZero k] in
 /-- A symmetrized pure tensor ∑_σ map(f ∘ σ⁻¹) lies in the fullDiagonalSubalgebra.
 This follows from the multilinear polarization identity. -/
 lemma symmetrized_map_mem_fullDiag (f : Fin n → Module.End k V) :
@@ -258,6 +263,7 @@ lemma symmetrized_map_mem_fullDiag (f : Fin n → Module.End k V) :
   apply Submodule.smul_mem
   exact Algebra.subset_adjoin ⟨∑ i ∈ S, f i, rfl⟩
 
+omit [Module.Free k V] [Module.Finite k V] [CharZero k] in
 /-- The averaging map ψ ↦ ∑_σ conj_σ(ψ) sends span{map(f)} into fullDiag.
 This is the key step for centralizer ⊆ fullDiag, factored out to avoid
 circular imports with Theorem5_18_2. -/

@@ -1,6 +1,5 @@
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import EtingofRepresentationTheory.Chapter8.ExtCohomologyHomK
-
 /-!
 # Problem 8.2.5: `Tor` and `Ext` are independent of the projective resolution
 

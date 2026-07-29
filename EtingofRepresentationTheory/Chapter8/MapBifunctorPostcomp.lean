@@ -5,6 +5,8 @@ import Mathlib.Algebra.Homology.Additive
 import Mathlib.CategoryTheory.Preadditive.AdditiveFunctor
 import Mathlib.CategoryTheory.Limits.Preserves.Shapes.Products
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # An additive functor commutes with the total complex `mapBifunctor`
 

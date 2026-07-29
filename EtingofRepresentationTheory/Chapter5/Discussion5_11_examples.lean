@@ -452,7 +452,7 @@ lemma trivRep_finrank : finrank ℂ (trivRep : Type) = 1 := by
 lemma signRep_finrank : finrank ℂ (signRep : Type) = 1 := by
   have h := FDRep.char_one signRep
   rw [signRep_character, signHom] at h
-  simp only [MonoidHom.coe_comp, Function.comp_apply, map_one, Units.val_one] at h
+  simp only [map_one, Units.val_one] at h
   exact_mod_cast h.symm
 
 lemma stdRep_finrank : finrank ℂ (stdRep : Type) = 2 := by
@@ -514,7 +514,7 @@ theorem S3_simple_iso (S : FDRep ℂ S3) [Simple S] :
   -- s is one of a, b, c
   have hs : s = a ∨ s = b ∨ s = c := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨hsa, hsb, hsc⟩ := hcon
     -- {a,b,c,s} are four distinct indices; their squared dims sum to ≥ 7 > 6
     have hsub : ({a, b, c, s} : Finset (Fin n)) ⊆ Finset.univ := Finset.subset_univ _
@@ -647,7 +647,7 @@ lemma Z3_card : Fintype.card ↥Z3 = 3 := by decide
 /-- The sign character is `+1` on the even 3-cycle. -/
 lemma signHom_cycle : (signHom (finRotate 3) : ℂ) = 1 := by
   rw [signHom]
-  simp only [MonoidHom.coe_comp, Function.comp_apply, Units.coe_map, MonoidHom.coe_coe]
+  simp only [MonoidHom.coe_comp, Function.comp_apply, Units.coe_map]
   rw [show Equiv.Perm.sign (finRotate 3) = 1 from by decide]
   simp
 
@@ -665,7 +665,7 @@ lemma signRep_char_cycle : signRep.character (finRotate 3) = 1 := by
 
 lemma signRep_char_cycle_sq : signRep.character ((finRotate 3) ^ 2) = 1 := by
   rw [signRep_character, signHom]
-  simp only [MonoidHom.coe_comp, Function.comp_apply, Units.coe_map, map_pow]
+  simp only [MonoidHom.coe_comp, Function.comp_apply, map_pow]
   rw [show Equiv.Perm.sign (finRotate 3) = 1 from by decide]
   simp
 
@@ -754,7 +754,7 @@ theorem indZ2_trivPlus_decomp :
       = ⅟(Fintype.card ↥Z2 : ℂ) • (S.character 1 + S.character (Equiv.swap 0 1)) := by
     rw [ind_finrank_eq_scalar, sum_cyclic gen2_orderOf gen2_zpowers, Fin.sum_univ_two]
     congr 1
-    simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, Subgroup.coe_pow, gen2_val,
+    simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, gen2_val,
       charRep_character, MonoidHom.one_apply, Units.val_one, mul_one, inv_one, OneMemClass.coe_one]
   rcases S3_simple_iso S with h | h | h
   · -- S ≅ trivRep : multiplicity 1 = 0 + 1
@@ -810,7 +810,7 @@ theorem indZ2_signMinus_decomp :
         (charRep (signHom.comp Z2.subtype)))) : ℂ) = 0 := by
       rw [indZ2_finrank_eq]
       simp only [hc, trivRep_character, MonoidHom.comp_apply, map_one, Subgroup.coe_subtype,
-        gen2_val, Units.val_inv_eq_inv_val, Units.val_one, signHom_swap]
+        gen2_val, Units.val_one, signHom_swap]
       rw [invOf_smul_eq_iff, Z2_card, smul_eq_mul]; norm_num
     have hR : finrank ℂ (S ⟶ stdRep ⊞ signRep) = 0 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S stdRep,
@@ -825,7 +825,7 @@ theorem indZ2_signMinus_decomp :
         (charRep (signHom.comp Z2.subtype)))) : ℂ) = 1 := by
       rw [indZ2_finrank_eq]
       simp only [hc, signRep_char_one, signRep_char_swap, MonoidHom.comp_apply, map_one,
-        Subgroup.coe_subtype, gen2_val, Units.val_inv_eq_inv_val, Units.val_one, signHom_swap]
+        Subgroup.coe_subtype, gen2_val, Units.val_one, signHom_swap]
       rw [invOf_smul_eq_iff, Z2_card, smul_eq_mul]; norm_num
     have hR : finrank ℂ (S ⟶ stdRep ⊞ signRep) = 1 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S stdRep,
@@ -839,7 +839,7 @@ theorem indZ2_signMinus_decomp :
         (charRep (signHom.comp Z2.subtype)))) : ℂ) = 1 := by
       rw [indZ2_finrank_eq]
       simp only [hc, stdRep_char_one, stdRep_char_swap, MonoidHom.comp_apply, map_one,
-        Subgroup.coe_subtype, gen2_val, Units.val_inv_eq_inv_val, Units.val_one, signHom_swap]
+        Subgroup.coe_subtype, gen2_val, Units.val_one, signHom_swap]
       rw [invOf_smul_eq_iff, Z2_card, smul_eq_mul]; norm_num
     have hR : finrank ℂ (S ⟶ stdRep ⊞ signRep) = 1 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S stdRep,
@@ -910,7 +910,7 @@ theorem indZ3_eps_decomp :
         = 0 := by
       rw [indZ3_finrank_eq]
       simp only [hc, trivRep_character, epsHom_gen3, map_one, map_pow,
-        Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val, Units.val_one]
+        Units.val_pow_eq_pow_val, Units.val_one]
       rw [zeta3_inv, zeta3_sq_inv, invOf_smul_eq_iff, Z3_card, smul_eq_mul]
       push_cast; linear_combination zeta3_sum
     have hR : finrank ℂ (S ⟶ stdRep) = 0 := by
@@ -924,7 +924,7 @@ theorem indZ3_eps_decomp :
         = 0 := by
       rw [indZ3_finrank_eq]
       simp only [hc, signRep_char_one, signRep_char_cycle, signRep_char_cycle_sq, epsHom_gen3,
-        map_one, map_pow, Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val, Units.val_one]
+        map_one, map_pow, Units.val_pow_eq_pow_val, Units.val_one]
       rw [zeta3_inv, zeta3_sq_inv, invOf_smul_eq_iff, Z3_card, smul_eq_mul]
       push_cast; linear_combination zeta3_sum
     have hR : finrank ℂ (S ⟶ stdRep) = 0 := by
@@ -938,7 +938,7 @@ theorem indZ3_eps_decomp :
         = 1 := by
       rw [indZ3_finrank_eq]
       simp only [hc, stdRep_char_one, stdRep_char_cycle, stdRep_char_cycle_sq, epsHom_gen3,
-        map_one, map_pow, Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val, Units.val_one]
+        map_one, map_pow, Units.val_pow_eq_pow_val, Units.val_one]
       rw [zeta3_inv, zeta3_sq_inv, invOf_smul_eq_iff, Z3_card, smul_eq_mul]
       push_cast; linear_combination -zeta3_sum
     have hR : finrank ℂ (S ⟶ stdRep) = 1 := by

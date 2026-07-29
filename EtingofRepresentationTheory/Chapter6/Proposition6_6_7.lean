@@ -3,6 +3,8 @@ import EtingofRepresentationTheory.Chapter6.Definition6_6_4
 import EtingofRepresentationTheory.Chapter6.Proposition6_6_5
 import EtingofRepresentationTheory.Chapter6.ReflectionFunctorInfrastructure
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Proposition 6.6.7: Reflection Preserves Indecomposability
 

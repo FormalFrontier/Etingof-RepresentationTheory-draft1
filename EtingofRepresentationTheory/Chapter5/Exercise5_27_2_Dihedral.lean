@@ -49,6 +49,8 @@ Both `semidirect_classification` (the semidirect-product model) and `dihedral_cl
 
 noncomputable section
 
+set_option backward.isDefEq.respectTransparency false
+
 open CategoryTheory Module
 
 namespace Etingof.Exercise5_27_2
@@ -235,13 +237,16 @@ theorem semidirect_classification :
   let key : (Multiplicative (ZMod N) →* ℂˣ) → ℕ := fun χ => (Fintype.equivFin _ χ).val
   have key_inj : Function.Injective key := fun a b h =>
     (Fintype.equivFin (Multiplicative (ZMod N) →* ℂˣ)).injective (Fin.val_injective h)
+  have hinv_inv (χ : Multiplicative (ZMod N) →* ℂˣ) : χ⁻¹⁻¹ = χ := by
+    ext a
+    simp
   -- **The free-orbit transversal**: one representative per pair `{χ, χ⁻¹}` with `χ ≠ χ⁻¹`.
   let T := {χ : Multiplicative (ZMod N) →* ℂˣ // χ ≠ χ⁻¹ ∧ key χ < key χ⁻¹}
   haveI : Fintype T := Fintype.ofFinite _
   -- The map `T ⊕ T → {χ // χ ≠ χ⁻¹}` sending the two copies to `t` and `t⁻¹`.
   let toFree : T ⊕ T → {χ : Multiplicative (ZMod N) →* ℂˣ // χ ≠ χ⁻¹} :=
     Sum.elim (fun t => ⟨t.1, t.2.1⟩)
-      (fun t => ⟨t.1⁻¹, by rw [inv_inv]; exact fun e => t.2.1 e.symm⟩)
+      (fun t => ⟨t.1⁻¹, by rw [hinv_inv]; exact t.2.1.symm⟩)
   have htoFree_inj : Function.Injective toFree := by
     rintro (⟨χ, hχ, hk⟩ | ⟨χ, hχ, hk⟩) (⟨χ', hχ', hk'⟩ | ⟨χ', hχ', hk'⟩) hxy <;>
       simp only [toFree, Sum.elim_inl, Sum.elim_inr, Subtype.mk.injEq] at hxy
@@ -250,11 +255,15 @@ theorem semidirect_classification :
       -- χ = χ'⁻¹ contradicts the key inequalities
       have e1 : key χ < key χ⁻¹ := hk
       have e2 : key χ' < key χ'⁻¹ := hk'
-      rw [hxy] at e1; rw [inv_inv] at e1; omega
+      rw [hxy] at e1
+      rw [hinv_inv] at e1
+      omega
     · exfalso
       have e1 : key χ < key χ⁻¹ := hk
       have e2 : key χ' < key χ'⁻¹ := hk'
-      rw [← hxy] at e2; rw [inv_inv] at e2; omega
+      rw [← hxy] at e2
+      rw [hinv_inv] at e2
+      omega
     · refine congrArg Sum.inr (Subtype.ext ?_)
       exact inv_injective hxy
   have htoFree_surj : Function.Surjective toFree := by
@@ -262,8 +271,8 @@ theorem semidirect_classification :
     rcases lt_or_gt_of_ne (fun h => hχ (key_inj h)) with h | h
     · exact ⟨Sum.inl ⟨χ, hχ, h⟩, rfl⟩
     · refine ⟨Sum.inr ⟨χ⁻¹, ?_, ?_⟩, Subtype.ext (inv_inv χ)⟩
-      · rw [inv_inv]; exact fun e => hχ e.symm
-      · rw [inv_inv]; exact h
+      · rw [hinv_inv]; exact hχ.symm
+      · rw [hinv_inv]; exact h
   -- The transversal has `(N - gcd(2,N))/2` elements, one per free orbit pair.
   have hTfree : Nat.card {χ : Multiplicative (ZMod N) →* ℂˣ // χ ≠ χ⁻¹} = 2 * Nat.card T := by
     rw [← Nat.card_congr (Equiv.ofBijective toFree ⟨htoFree_inj, htoFree_surj⟩),
@@ -278,7 +287,8 @@ theorem semidirect_classification :
     intro χ hχ
     rcases lt_or_gt_of_ne (fun h => hχ (key_inj h)) with h | h
     · exact ⟨⟨χ, hχ, h⟩, Or.inl rfl⟩
-    · exact ⟨⟨χ⁻¹, by rw [inv_inv]; exact fun e => hχ e.symm, by rw [inv_inv]; exact h⟩, Or.inr rfl⟩
+    · exact ⟨⟨χ⁻¹, by rw [hinv_inv]; exact hχ.symm,
+        by rw [hinv_inv]; exact h⟩, Or.inr rfl⟩
   -- **The index type and family.**
   let ι := ({χ : Multiplicative (ZMod N) →* ℂˣ // χ = χ⁻¹} × (Multiplicative (ZMod 2) →* ℂˣ)) ⊕ T
   let F : ι → FDRep ℂ (DihedralSemidirect N) :=
@@ -354,7 +364,9 @@ theorem semidirect_classification :
         · exfalso
           have e1 : key χ < key χ⁻¹ := hk
           have e2 : key χ' < key χ'⁻¹ := hk'
-          rw [h] at e2; rw [inv_inv] at e2; omega
+          rw [h] at e2
+          rw [hinv_inv] at e2
+          omega
       subst hχχ'
       rfl
   -- **Completeness.**

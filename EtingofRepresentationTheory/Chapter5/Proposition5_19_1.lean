@@ -174,7 +174,7 @@ private lemma lagrange_eval_zero_pow
   have heval := congr_arg (Polynomial.eval (0 : k)) heq
   rw [Polynomial.eval_pow, Polynomial.eval_X] at heval
   -- heval : 0 ^ m = (interpolate univ v (fun i => (v i) ^ m)).eval 0
-  rw [heval, Lagrange.interpolate_apply, Polynomial.eval_finset_sum]
+  rw [heval, Lagrange.interpolate_apply, Polynomial.eval_finsetSum]
   congr 1; ext i
   simp [Polynomial.eval_mul, Polynomial.eval_C, Polynomial.eval_pow, Polynomial.eval_X, mul_comm]
 

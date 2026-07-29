@@ -27,6 +27,8 @@ open MvPolynomial Matrix Finset
 
 variable {k G : Type u} [Field k] [IsAlgClosed k] [Group G] [Fintype G] [DecidableEq G]
 
+set_option linter.unusedSectionVars false
+
 /-! ### Block polynomial definition -/
 
 /-- The block polynomial for the i-th Wedderburn component: the determinant of
@@ -139,8 +141,7 @@ private lemma leftMulMatrix_monoidAlgebra_entry
     (a : MonoidAlgebra k G) (g h : G) :
     Algebra.leftMulMatrix (Finsupp.basisSingleOne (R := k)) a g h =
       a (g * h⁻¹) := by
-  simp only [Algebra.leftMulMatrix_eq_repr_mul, Finsupp.basisSingleOne_repr,
-    Finsupp.coe_basisSingleOne]
+  simp only [Algebra.leftMulMatrix_eq_repr_mul, Finsupp.basisSingleOne_repr]
   exact (a.mul_single_apply_aux
     (fun m' _ => eq_mul_inv_iff_mul_eq.symm)).trans (mul_one _)
 
@@ -458,10 +459,10 @@ private lemma genDet_irreducible (k' : Type*) [Field k'] (n : ℕ) (hn : 0 < n) 
               hM_def, mvPolynomialX_apply, MvPolynomial.eval_X, Fin.succAbove_zero]
             simp only [g₂, g₁, Function.update_apply, Prod.mk.injEq]
             by_cases hj : j = 0
-            · subst hj; simp [hM_def]
+            · subst hj; simp
             · have hjs1 : ¬(j.succ : Fin (n + 2)) = (1 : Fin (n + 2)) := by
                 intro h; exact hj (Fin.succ_injective _ h)
-              simp [Fin.succ_ne_zero, hjs1, show (Fin.succ (0 : Fin (n + 1)) : Fin (n + 2)) =
+              simp [hjs1, show (Fin.succ (0 : Fin (n + 1)) : Fin (n + 2)) =
                 (1 : Fin (n + 2)) from rfl, Ne.symm (show ¬j.succ = (1 : Fin (n + 2)) from hjs1)]
           exact absurd (hev1.symm.trans (heq.trans hev0)) one_ne_zero
         have hnotmem : ((1 : Fin (n + 2)), (1 : Fin (n + 2))) ∉
@@ -499,7 +500,7 @@ private lemma IrrepDecomp.blockPoly_totalDegree [NeZero (Nat.card G : k)]
       ∑ g : G, C (D.projRingHom i (MonoidAlgebra.of k G g) a b) * X g
     show (det M).totalDegree ≤ D.d i
     rw [det_apply]
-    apply (totalDegree_finset_sum _ _).trans
+    apply (totalDegree_finsetSum _ _).trans
     apply Finset.sup_le
     intro σ _
     have hsmul : (Equiv.Perm.sign σ • ∏ a, M (σ a) a).totalDegree =
@@ -509,12 +510,12 @@ private lemma IrrepDecomp.blockPoly_totalDegree [NeZero (Nat.card G : k)]
       · simp [h, totalDegree_neg]
     rw [hsmul]
     calc (∏ a, M (σ a) a).totalDegree
-        ≤ ∑ a, (M (σ a) a).totalDegree := totalDegree_finset_prod _ _
+        ≤ ∑ a, (M (σ a) a).totalDegree := totalDegree_finsetProd _ _
       _ ≤ ∑ _a : Fin (D.d i), 1 := by
           apply Finset.sum_le_sum; intro a _
           show (∑ g : G, C (D.projRingHom i (MonoidAlgebra.of k G g) (σ a) a) *
             X g).totalDegree ≤ 1
-          apply (totalDegree_finset_sum _ _).trans
+          apply (totalDegree_finsetSum _ _).trans
           apply Finset.sup_le; intro g _
           calc MvPolynomial.totalDegree (C _ * X g)
               ≤ MvPolynomial.totalDegree (C _) +
@@ -585,7 +586,7 @@ private lemma totalDegree_aeval_le_of_deg_le_one
   -- Decompose p into sum of monomial terms
   conv_lhs => rw [← MvPolynomial.support_sum_monomial_coeff p]
   rw [map_sum]
-  apply (MvPolynomial.totalDegree_finset_sum _ _).trans
+  apply (MvPolynomial.totalDegree_finsetSum _ _).trans
   apply Finset.sup_le; intro d hd
   -- Each term: aeval f (monomial d (coeff d p)) = algebraMap (coeff d p) * ∏ s, f(s)^d(s)
   rw [MvPolynomial.aeval_monomial]
@@ -600,7 +601,7 @@ private lemma totalDegree_aeval_le_of_deg_le_one
     _ = (d.prod fun i k => f i ^ k).totalDegree := by ring
     _ = (∏ s ∈ d.support, f s ^ d s).totalDegree := by rfl
     _ ≤ ∑ s ∈ d.support, (f s ^ d s).totalDegree :=
-          MvPolynomial.totalDegree_finset_prod _ _
+          MvPolynomial.totalDegree_finsetProd _ _
     _ ≤ ∑ s ∈ d.support, d s := by
           apply Finset.sum_le_sum; intro s _
           calc (f s ^ d s).totalDegree
@@ -640,9 +641,9 @@ private lemma IrrepDecomp.blockPoly_irreducible [NeZero (Nat.card G : k)]
   -- Each ψ(g) has totalDegree ≤ 1
   have hψ_deg : ∀ g : G, (ψ g).totalDegree ≤ 1 := by
     intro g
-    apply (MvPolynomial.totalDegree_finset_sum _ _).trans
+    apply (MvPolynomial.totalDegree_finsetSum _ _).trans
     apply Finset.sup_le; intro a _
-    apply (MvPolynomial.totalDegree_finset_sum _ _).trans
+    apply (MvPolynomial.totalDegree_finsetSum _ _).trans
     apply Finset.sup_le; intro b _
     calc (C ((sect a b : MonoidAlgebra k G) g) * X (a, b)).totalDegree
         ≤ (C _).totalDegree + (X (a, b)).totalDegree := MvPolynomial.totalDegree_mul _ _
@@ -662,7 +663,7 @@ private lemma IrrepDecomp.blockPoly_irreducible [NeZero (Nat.card G : k)]
       have hsrc : sect r c = ∑ g : G, (sect r c) g • MonoidAlgebra.of k G g := by
         have : ∀ g, (sect r c) g • MonoidAlgebra.of k G g =
             Finsupp.single g ((sect r c) g) := by
-          intro g; simp [MonoidAlgebra.of_apply, Finsupp.smul_single', mul_one]
+          intro g; simp [MonoidAlgebra.of_apply, mul_one]
         simp_rw [this]; exact (Finsupp.univ_sum_single _).symm
       conv_rhs => rw [hsrc]
       rw [map_sum]; simp_rw [D.projRingHom_smul' i]
@@ -679,7 +680,7 @@ private lemma IrrepDecomp.blockPoly_irreducible [NeZero (Nat.card G : k)]
     simp_rw [hcoeff, hsect, Matrix.single_apply]
     rw [Finset.sum_eq_single a _ (fun h => absurd (Finset.mem_univ _) h),
       Finset.sum_eq_single b _ (fun h => absurd (Finset.mem_univ _) h)]
-    · simp [if_pos rfl]
+    · simp
     · intro c _ hc; simp [hc]
     · intro r _ hr
       apply Finset.sum_eq_zero; intro c _
@@ -698,7 +699,7 @@ private lemma IrrepDecomp.blockPoly_irreducible [NeZero (Nat.card G : k)]
   -- Each φ(a,b) also has totalDegree ≤ 1
   have hφ_deg : ∀ v : Fin di × Fin di, (φ v).totalDegree ≤ 1 := by
     intro ⟨a, b⟩
-    apply (MvPolynomial.totalDegree_finset_sum _ _).trans
+    apply (MvPolynomial.totalDegree_finsetSum _ _).trans
     apply Finset.sup_le; intro g _
     calc (C (D.projRingHom i (MonoidAlgebra.of k G g) a b) * X g).totalDegree
         ≤ (C _).totalDegree + (X g).totalDegree := MvPolynomial.totalDegree_mul _ _
@@ -789,7 +790,7 @@ private lemma IrrepDecomp.blockPoly_not_associated [NeZero (Nat.card G : k)]
   have ha_eq : ∑ g : G, σ g • MonoidAlgebra.of k G g = e := by
     conv_rhs => rw [← Finsupp.univ_sum_single e]
     congr 1; ext g
-    simp [hσ_def, MonoidAlgebra.of_apply, Finsupp.smul_single', mul_one]
+    simp [hσ_def, MonoidAlgebra.of_apply, mul_one]
   -- Evaluate blockPoly at σ: eval σ (blockPoly l) = det(projRingHom l (e))
   have heval_eq : ∀ l : Fin D.n, MvPolynomial.eval σ (D.blockPoly l) =
       (D.projRingHom l e).det := by

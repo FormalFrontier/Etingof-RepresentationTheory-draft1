@@ -1,6 +1,8 @@
 import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
 import EtingofRepresentationTheory.Chapter5.Lemma5_13_2
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Theorem 5.22.1, vanishing branch: `L_λ = 0 ↔ N < p`
 
@@ -280,14 +282,19 @@ theorem colAntiEnd_eq_zero (N : ℕ) {n : ℕ} (la : Nat.Partition n)
       change Equiv.Perm.sign ((g : Equiv.Perm (Fin n)) * τ) = _
       rw [map_mul, hτdef, Equiv.Perm.sign_swap hij]
       exact mul_neg_one _
-    simp only [Equiv.coe_mulRight, hcomp, hsign, Int.cast_neg, Units.val_neg,
-      neg_smul]
+    simp only [Equiv.coe_mulRight, hcomp, hsign, Int.cast_neg, Units.val_neg]
+    exact @neg_smul k (TensorPower k (Fin N → k) n) inferInstance inferInstance
+      inferInstance (((Equiv.Perm.sign (g : Equiv.Perm (Fin n)) : ℤ) : k))
+      (tensorStdBasis k N n (f ∘ (g : Equiv.Perm (Fin n)).symm))
   have : (2 : k) • S = 0 := by
     rw [two_smul]
     nth_rewrite 2 [hneg]
     exact add_neg_cancel S
   have h2 : (2 : k) ≠ 0 := two_ne_zero
-  exact (smul_eq_zero.mp this).resolve_left h2
+  calc
+    S = (2 : k)⁻¹ • ((2 : k) • S) := by
+      rw [smul_smul, inv_mul_cancel₀ h2, one_smul]
+    _ = 0 := by rw [this, smul_zero]
 
 /-- **The Schur module vanishes when `N < p`.** The Young symmetrizer factors as
 `c_λ = b_λ · a_λ`, and `b_λ` already acts by zero. -/
@@ -339,6 +346,12 @@ def SchurModulePSubmodule (N : ℕ) {n : ℕ} (la : Nat.Partition n) :
     Submodule k (TensorPower k (Fin N → k) n) :=
   LinearMap.range (partYoungSymEnd k N la)
 
+noncomputable local instance (priority := high) schurModulePSubmoduleAddCommGroup
+    (N : ℕ) {n : ℕ} (la : Nat.Partition n) :
+    AddCommGroup (SchurModulePSubmodule k N la) :=
+  { Module.addCommMonoidToAddCommGroup k with
+    toAddCommMonoid := (SchurModulePSubmodule k N la).addCommMonoid }
+
 /-- The `GL_N(k)`-action on the partition-indexed Schur module. -/
 def schurModulePRep (N : ℕ) {n : ℕ} (la : Nat.Partition n) :
     Representation k (Matrix.GeneralLinearGroup (Fin N) k) (SchurModulePSubmodule k N la) where
@@ -363,9 +376,12 @@ instance schurModulePSubmodule_finite (N : ℕ) {n : ℕ} (la : Nat.Partition n)
 `GL_N(k)`-representation. For `la` with at most `N` parts this is the module of
 `Theorem5_22_1.lean` (`SchurModuleP_weightToPartition`); for `la` with more than `N`
 parts it is zero (`SchurModuleP_eq_bot_iff`). -/
-def SchurModuleP (k : Type*) [Field k] [IsAlgClosed k] (N : ℕ) {n : ℕ} (la : Nat.Partition n) :
+@[reducible] def SchurModuleP (k : Type*) [Field k] [IsAlgClosed k]
+    (N : ℕ) {n : ℕ} (la : Nat.Partition n) :
     FDRep k (Matrix.GeneralLinearGroup (Fin N) k) :=
-  FDRep.of (schurModulePRep k N la)
+  @FDRep.of k (Matrix.GeneralLinearGroup (Fin N) k) inferInstance inferInstance
+    (SchurModulePSubmodule k N la) inferInstance inferInstance inferInstance
+    (schurModulePRep k N la)
 
 /-- The partition-indexed Schur module agrees on the nose with the weight-indexed one. -/
 theorem SchurModulePSubmodule_weightToPartition (N : ℕ) (lam : Fin N → ℕ) :
@@ -464,7 +480,9 @@ theorem finrank_SchurModuleP_of_weight [IsAlgClosed k] (N : ℕ) {n : ℕ}
   subst hsum
   have hla : weightToPartition N lam = la := Nat.Partition.ext hparts
   subst hla
-  rw [SchurModuleP_weightToPartition]
+  change (Module.finrank k
+    (SchurModulePSubmodule k N (weightToPartition N lam)) : ℚ) = _
+  rw [SchurModulePSubmodule_weightToPartition]
   exact Theorem5_22_1_dim k N lam hanti
 
 /-- Character formula in terms of the canonical zero-padded weight of `la`. -/

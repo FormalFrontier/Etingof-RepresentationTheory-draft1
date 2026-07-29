@@ -29,6 +29,8 @@ open scoped TensorProduct
 
 namespace Etingof
 
+set_option backward.isDefEq.respectTransparency false
+
 universe u v
 
 variable (k : Type u) [Field k]
@@ -72,6 +74,7 @@ noncomputable def diagonalActionImage :
   Algebra.adjoin k (Set.range fun (f : Module.End k V) =>
     PiTensorProduct.map (fun _ => f))
 
+omit [Module.Finite k V] in
 /-- Permutation and diagonal operators commute:
 (reindex σ) ∘ (map f) = (map f) ∘ (reindex σ). -/
 theorem symGroupAction_comm_diagonalAction (σ : Equiv.Perm (Fin n)) (f : Module.End k V) :
@@ -84,6 +87,7 @@ theorem symGroupAction_comm_diagonalAction (σ : Equiv.Perm (Fin n)) (f : Module
     PiTensorProduct.map (fun _ => f) ((PiTensorProduct.reindex k (fun _ => V) σ) x)
   exact (PiTensorProduct.map_reindex (fun (_ : Fin n) => f) σ x).symm
 
+omit [Module.Finite k V] in
 /-- Permutation operators commute with diagonal operators:
 for σ ∈ Sₙ and f ∈ End(V), σ ∘ f⊗ⁿ = f⊗ⁿ ∘ σ on V⊗ⁿ.
 This gives symGroupImage ⊆ centralizer(diagonalActionImage). -/
@@ -104,6 +108,7 @@ theorem symGroupImage_le_centralizer_diagonalActionImage :
     exact symGroupAction_comm_diagonalAction k V n σ f
   exact (Algebra.commute_of_mem_adjoin_of_forall_mem_commute hy hcomm).symm.eq
 
+omit [Module.Finite k V] in
 /-- Diagonal operators commute with permutation operators:
 diagonalActionImage ⊆ centralizer(symGroupImage). -/
 theorem diagonalActionImage_le_centralizer_symGroupImage :
@@ -139,6 +144,7 @@ noncomputable def symGroupAlgHom :
   MonoidAlgebra.lift k (Module.End k (TensorPower k V n)) (Equiv.Perm (Fin n))
     (symGroupMonoidHom k V n)
 
+omit [Module.Finite k V] in
 /-- The range of the algebra homomorphism from `k[Sₙ]` equals `symGroupImage`. -/
 theorem symGroupAlgHom_range :
     (symGroupAlgHom k V n).range = symGroupImage k V n := by
@@ -173,6 +179,7 @@ instance symGroupImage_isSemisimpleRing
   exact (symGroupAlgHom k V n).toRingHom.rangeRestrict.isSemisimpleRing_of_surjective
     (symGroupAlgHom k V n).toRingHom.rangeRestrict_surjective
 
+omit [Module.Finite k V] in
 /-- V⊗ⁿ is a faithful module over symGroupImage when n ≤ dim V.
 Distinct permutations produce distinct operators on V⊗ⁿ when
 there are enough linearly independent vectors. -/
@@ -413,6 +420,9 @@ theorem Theorem5_18_4_bimodule_decomposition
     hS'_fin, L', hL'_acg, hL'_mod, fun i => h_eq ▸ hL'_Bmod i, ⟨e⟩⟩
 
 -- Heartbeat bumps match `Theorem5_18_1_bimodule_decomposition_explicit`.
+noncomputable local instance (priority := high) symGroupImageRing :
+    Ring (symGroupImage k V n) := (symGroupImage k V n).toRing
+
 set_option maxHeartbeats 3200000 in
 set_option synthInstance.maxHeartbeats 1200000 in
 /-- Schur-Weyl duality, part (iii), bimodule form with explicit evaluation.
@@ -651,10 +661,19 @@ theorem Theorem5_18_4_GL_rep_decomposition_explicit
       haveI : Module.Finite k
           ((↥(S' i) : Type u) →ₗ[k] TensorPower k V n) :=
         Module.Finite.linearMap k k (↥(S' i)) (TensorPower k V n)
-      exact Module.Finite.of_injective
-        (LinearMap.restrictScalarsₗ k (symGroupImage k V n) (↥(S' i))
-          (TensorPower k V n) k)
-        (LinearMap.restrictScalars_injective _)
+      letI : AddCommGroup
+          ((↥(S' i) : Type u) →ₗ[symGroupImage k V n] TensorPower k V n) :=
+        LinearMap.addCommGroup
+      letI : AddCommGroup ((↥(S' i) : Type u) →ₗ[k] TensorPower k V n) :=
+        LinearMap.addCommGroup
+      let f : ((↥(S' i) : Type u) →ₗ[symGroupImage k V n] TensorPower k V n) →ₗ[k]
+          ((↥(S' i) : Type u) →ₗ[k] TensorPower k V n) :=
+        LinearMap.restrictScalarsₗ k (symGroupImage k V n) (↥(S' i))
+          (TensorPower k V n) k
+      refine @FiniteDimensional.of_injective k _ inferInstance inferInstance inferInstance _
+        inferInstance inferInstance f ?_ inferInstance
+      intro x y h
+      exact LinearMap.ext fun v ↦ LinearMap.congr_fun h v
   -- For each i, build the GL_N representation on `↥(S' i) →ₗ[A] E` as the
   -- composite `GL_N →* centralizer(symGroupImage) →* End_k (↥(S' i) →ₗ[A] E)`,
   -- where the second map is `postCompCentralizerMonoidHom` (post-composition

@@ -1,5 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_1_5
+import EtingofRepresentationTheory.Chapter5.FrobeniusSchurRealType
+import EtingofRepresentationTheory.Chapter4.Exercise4_2_3
 
 /-!
 # Corollary 5.1.6: Real Representations and Involutions
@@ -38,3 +40,22 @@ theorem Etingof.Corollary5_1_6
   rw [Etingof.Theorem5_1_5 D V hV hinj]
   refine Finset.sum_congr rfl (fun i _ => ?_)
   rw [h_all_real i, mul_one]
+
+/-- Source-faithful complex form of Corollary 5.1.6. If every irreducible in the
+complete family is genuinely of real type (equivalently, admits a real form), then
+the sum of their dimensions equals the number of involutions. -/
+theorem Etingof.Corollary5_1_6_realType
+    {G : Type} [Group G] [Fintype G] [DecidableEq G]
+    [NeZero (Nat.card G : ℂ)] [Invertible (Fintype.card G : ℂ)]
+    (D : IrrepDecomp ℂ G)
+    (V : Fin D.n → FDRep ℂ G)
+    (hV : ∀ i, Simple (V i))
+    (hinj : ∀ i j, Nonempty ((V i) ≅ (V j)) → i = j)
+    (h_all_real : ∀ i, Etingof.IsRealType (V i).ρ) :
+    ((Finset.univ.filter (fun g : G => g * g = 1)).card : ℂ) =
+      ∑ i : Fin D.n, (Module.finrank ℂ (V i) : ℂ) := by
+  exact_mod_cast Etingof.Corollary5_1_6 D V hV hinj (fun i => by
+    rw [← Etingof.frobeniusSchurIndicator_ρ_eq]
+    letI := hV i
+    exact Etingof.frobeniusSchurIndicator_eq_one_of_isRealType
+      (V i).ρ (Etingof.isSimpleModule_asModule_of_simple (V i)) (h_all_real i))

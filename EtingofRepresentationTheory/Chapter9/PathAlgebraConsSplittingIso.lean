@@ -1,6 +1,8 @@
 import EtingofRepresentationTheory.Chapter9.PathAlgebraConsSplitting
 import EtingofRepresentationTheory.Chapter9.PathAlgebraInducedGrading
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The cons-splitting degree shift for `A = PathAlgebra k Q`
 

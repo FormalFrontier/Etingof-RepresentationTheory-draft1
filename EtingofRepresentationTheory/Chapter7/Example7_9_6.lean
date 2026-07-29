@@ -9,6 +9,8 @@ import Mathlib.Data.ZMod.Basic
 import Mathlib.RepresentationTheory.FiniteIndex
 import Mathlib.RepresentationTheory.Rep.Res
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Example 7.9.6: Exactness Properties of Standard Functors
 

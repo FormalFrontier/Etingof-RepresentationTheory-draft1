@@ -1,6 +1,5 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter2.Example2_3_14
-
 open Matrix in
 /-- The k-th power of the shift matrix has entry 1 at position (i, j) iff i = j + k. -/
 private lemma shift_matrix_pow_entry {n : ℕ} (S : Matrix (Fin n) (Fin n) ℂ)

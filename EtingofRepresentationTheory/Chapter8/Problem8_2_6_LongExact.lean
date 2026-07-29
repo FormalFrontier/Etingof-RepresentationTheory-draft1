@@ -1,5 +1,7 @@
 import EtingofRepresentationTheory.Chapter8.Problem8_2_6
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Coherent long exact sequences for Problem 8.2.6
 

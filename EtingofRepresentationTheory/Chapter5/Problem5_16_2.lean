@@ -177,7 +177,7 @@ lemma youngSymmetrizer_swap_coeff (n : ℕ) (la : Nat.Partition n) {i j : Fin n}
         -- hence `p i ∈ {i, j}`
         have hpi : p i = i ∨ p i = j := by
           by_contra hcon
-          push_neg at hcon
+          push Not at hcon
           obtain ⟨hpi_i, hpi_j⟩ := hcon
           exact hpi_i (p.injective (hpfix (p i) hpi_i hpi_j))
         rcases hpi with h | h
@@ -241,7 +241,7 @@ private lemma card_before_sameRow (n : ℕ) (la : Nat.Partition n) (j : Fin n) :
     · rintro ⟨hij, hri⟩
       refine ⟨?_, hij⟩
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have : rowOfPos la.sortedParts i.val < r :=
         (rowOfPos_lt_iff la.sortedParts i.val r hib).mpr hlt
       omega
@@ -293,7 +293,7 @@ private lemma card_before_sameCol (n : ℕ) (la : Nat.Partition n) (j : Fin n) :
       rw [hcoli] at h; exact h
     rw [Finset.mem_range]
     by_contra hle
-    push_neg at hle
+    push Not at hle
     have : (la.sortedParts.take r).sum ≤ (la.sortedParts.take (rowOfPos la.sortedParts i.val)).sum :=
       hmono r _ hle
     omega
@@ -413,17 +413,19 @@ private lemma youngSymmetrizer_transposition_sum_eq_content (n : ℕ) (la : Nat.
     rw [h2]; push_cast; rw [Finset.sum_sub_distrib]
   rw [hcast]
 
+set_option backward.isDefEq.respectTransparency false in
 /-- The coefficient of the identity permutation in `C · c_λ` equals the content `c(λ)`.
 Expanding `C = ∑_{i<j} (ij)` and using `((ij) · c_λ)(e) = c_λ((ij))` reduces this to the
 combinatorial identity `youngSymmetrizer_transposition_sum_eq_content`. -/
 private lemma sumTranspositions_youngSymmetrizer_coeff_one (n : ℕ) (la : Nat.Partition n) :
     (sumTranspositions n * YoungSymmetrizer n la : SymGroupAlgebra n) 1 = (content la : ℂ) := by
   rw [← youngSymmetrizer_transposition_sum_eq_content n la, sumTranspositions, Finset.sum_mul,
-    Finsupp.finset_sum_apply]
+    Finsupp.finsetSum_apply]
   refine Finset.sum_congr rfl (fun p _ => ?_)
   rw [MonoidAlgebra.of_apply, MonoidAlgebra.single_mul_apply]
   simp [Equiv.swap_inv]
 
+set_option backward.isDefEq.respectTransparency false in
 /-- `C · c_λ = c(λ) • c_λ`: left multiplication by the central element `C` acts on the simple
 module `V_λ` as the scalar `c(λ)`. Existence of *some* scalar is Schur's lemma; its value is
 pinned down by the coefficient of the identity, using `c_λ(e) = 1`. -/
@@ -452,7 +454,7 @@ lemma sumTranspositions_mul_youngSymmetrizer (n : ℕ) (la : Nat.Partition n) :
   -- Evaluate on `c_λ ∈ V`.
   have hcl : YoungSymmetrizer n la ∈ V := Submodule.subset_span rfl
   have hLc : (L ⟨YoungSymmetrizer n la, hcl⟩ : A) = sumTranspositions n * YoungSymmetrizer n la :=
-    LinearMap.restrict_coe_apply LC hmaps _
+    LinearMap.coe_restrict_apply hmaps _
   have hscal : (L ⟨YoungSymmetrizer n la, hcl⟩ : A) = μ • (YoungSymmetrizer n la : A) := by
     rw [← hμ]
     simp [Module.algebraMap_end_apply]

@@ -6,6 +6,8 @@ import Mathlib.Algebra.Homology.HomologySequenceLemmas
 import Mathlib.Algebra.Homology.SingleHomology
 import Mathlib.CategoryTheory.Abelian.DiagramLemmas.Four
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The horseshoe lemma
 

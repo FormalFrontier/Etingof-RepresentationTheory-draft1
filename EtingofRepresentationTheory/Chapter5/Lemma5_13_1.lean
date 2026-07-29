@@ -154,7 +154,7 @@ theorem pigeonhole_rowCol_dichotomy {n : ℕ} {la : Nat.Partition n}
     exact ⟨Equiv.swap i j, ⟨i, j, hij, rfl⟩, swap_mem_rowSubgroup hrow,
       by rw [conj_swap_eq]; exact swap_mem_colSubgroup hcol⟩
   · -- Case 2: No such pair exists, so derive σ ∈ P_λ · Q_λ, contradicting hσ
-    push_neg at h_exists
+    push Not at h_exists
     -- h_exists : ∀ i j, i ≠ j → row i = row j → col (σ⁻¹ i) ≠ col (σ⁻¹ j)
     -- Rephrase: same column → different rows under σ
     have h_col_inj : ∀ a b : Fin n, a ≠ b → col a = col b →
@@ -184,7 +184,7 @@ theorem pigeonhole_rowCol_dichotomy {n : ℕ} {la : Nat.Partition n}
     -- Helper: rowOfPos is bounded by list length
     have row_valid_gen : ∀ (l : List ℕ) (k : ℕ), k < l.sum → rowOfPos l k < l.length := by
       intro l k hk
-      by_contra h; push_neg at h
+      by_contra h; push Not at h
       have hcol := colOfPos_lt_getD l k hk
       have hgetD : l.getD (rowOfPos l k) 0 = 0 := by
         apply List.getD_eq_default; omega
@@ -204,7 +204,7 @@ theorem pigeonhole_rowCol_dichotomy {n : ℕ} {la : Nat.Partition n}
             parts.getD (rowOfPos parts (σ k₁).val) 0 ≤ colOfPos parts k₁.val ∧
             colOfPos parts k₁.val > c₀ by
         -- Derive contradiction from ascending chain
-        by_contra h_bad; push_neg at h_bad; obtain ⟨k₀, hk₀⟩ := h_bad
+        by_contra h_bad; push Not at h_bad; obtain ⟨k₀, hk₀⟩ := h_bad
         have chain : ∀ m : ℕ, ∃ k' : Fin n,
             parts.getD (rowOfPos parts (σ k').val) 0 ≤ colOfPos parts k'.val ∧
             colOfPos parts k'.val ≥ colOfPos parts k₀.val + m := by
@@ -261,7 +261,7 @@ theorem pigeonhole_rowCol_dichotomy {n : ℕ} {la : Nat.Partition n}
         exact h_col_inj k₁ k₂ hne hcol_eq heq
       -- Some r* ∈ R_c \ σ_img
       have ⟨r_star, hr_star_Rc, hr_star_not_img⟩ : ∃ r ∈ R_c, r ∉ σ_img := by
-        by_contra h_all; push_neg at h_all
+        by_contra h_all; push Not at h_all
         have h_union := Finset.card_le_card
           (Finset.union_subset h_all (Finset.singleton_subset_iff.mpr hr₀_img))
         rw [Finset.card_union_of_disjoint
@@ -318,7 +318,7 @@ theorem pigeonhole_rowCol_dichotomy {n : ℕ} {la : Nat.Partition n}
           exact Fin.ext this
       -- ci has ≥ parts[r*] elements, all ≠ c₀; can't all fit in {0,...,parts[r*]-1}\{c₀}
       have ⟨c', hc'_mem, hc'_large⟩ : ∃ c' ∈ ci, parts.getD r_star 0 ≤ c' := by
-        by_contra h_all; push_neg at h_all
+        by_contra h_all; push Not at h_all
         have hsub : ci ⊆ Finset.range (parts.getD r_star 0) \ {c₀} := by
           intro x hx
           refine Finset.mem_sdiff.mpr ⟨Finset.mem_range.mpr (h_all x hx), ?_⟩
@@ -550,7 +550,7 @@ private lemma sign_cast_sq {n : ℕ} (g : Equiv.Perm (Fin n)) :
   have hmul : (Equiv.Perm.sign g : ℤˣ) * (Equiv.Perm.sign g : ℤˣ) = 1 := Int.units_mul_self _
   have h : ((Equiv.Perm.sign g : ℤˣ) : ℤ) * ((Equiv.Perm.sign g : ℤˣ) : ℤ) = 1 := by
     have := congrArg Units.val hmul
-    simpa using this
+    exact this
   exact_mod_cast h
 
 /-- The unnormalized row sum is idempotent up to the scalar `|P_λ|`:

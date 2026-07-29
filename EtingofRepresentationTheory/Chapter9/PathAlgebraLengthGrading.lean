@@ -1,6 +1,8 @@
 import EtingofRepresentationTheory.Chapter9.PathAlgebraArrowBimodule
 import EtingofRepresentationTheory.Chapter9.KoszulHelpers
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Path-length grading of the path algebra `A = PathAlgebra k Q`
 

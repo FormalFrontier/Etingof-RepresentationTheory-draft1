@@ -9,6 +9,8 @@ contiguous block [a, b] and 0 elsewhere, for 0 ≤ a ≤ b < n. There are n(n+1)
 such intervals.
 -/
 
+set_option backward.isDefEq.respectTransparency false
+
 section AnRootCount
 
 open Matrix Finset

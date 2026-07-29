@@ -7,6 +7,8 @@ import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import EtingofRepresentationTheory.Chapter8.Definition8_2_4
 import EtingofRepresentationTheory.Chapter8.Problem8_2_6_Core
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Additivity of `Tor` and `Ext`
 

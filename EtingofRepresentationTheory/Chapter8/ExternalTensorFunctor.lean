@@ -1,6 +1,8 @@
 import EtingofRepresentationTheory.Chapter8.ExternalTensorModule
 import Mathlib.Algebra.Category.ModuleCat.Basic
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The external tensor product bifunctor
 

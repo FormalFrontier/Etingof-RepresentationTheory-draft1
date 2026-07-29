@@ -2,6 +2,8 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter7.Exercise7_8_4
 import EtingofRepresentationTheory.Chapter7.TensorComplexBiprod
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Problem 7.8.7: The tensor product of complexes and the Künneth formula
 

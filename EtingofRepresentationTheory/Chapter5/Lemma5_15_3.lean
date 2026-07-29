@@ -41,23 +41,23 @@ theorem Etingof.Lemma5_15_3
             refine' ⟨ Matrix.of ( fun i j => if i = 0 then if j = 0 then 1 else 0 else if j = 0 then - ( z i - y 0 ) ⁻¹ * ( z 0 - y 0 ) else if i = j then 1 else 0 ), _, _ ⟩ <;> simp +decide [ Matrix.det_succ_row_zero ];
             · erw [ Matrix.det_of_upperTriangular ] <;> norm_num [ Matrix.submatrix ];
               intro i j hij; aesop;
-            · ext i j; simp +decide [ Matrix.mul_apply ] ; split_ifs <;> simp_all +decide [ sub_eq_iff_eq_add ] ; ring;
-              · simp +decide [ Finset.sum_ite, Finset.filter_eq', Finset.filter_ne', * ] ; ring;
-              · simp +decide [ Finset.sum_ite, Finset.filter_eq', Finset.filter_ne', * ] ; ring;
+            · ext i j; simp +decide [ Matrix.mul_apply ] ; split_ifs <;> simp_all +decide [ sub_eq_iff_eq_add ] ; ring_nf;
+              · simp +decide [ Finset.sum_ite, Finset.filter_eq', Finset.filter_ne', * ] ; ring_nf;
+              · simp +decide [ Finset.sum_ite, Finset.filter_eq', Finset.filter_ne', * ] ; ring_nf;
           obtain ⟨ P, hP₁, hP₂ ⟩ := h_row_ops; rw [ ← hP₂, Matrix.det_mul, hP₁, one_mul ] ;
         rw [ h_factor, Matrix.det_succ_column_zero ];
-        simp +decide [ Fin.sum_univ_succ, Matrix.submatrix ];
+        simp +decide [ Matrix.submatrix ];
       have h_simplify : Matrix.det (Matrix.of (fun i j => (z (Fin.succ i) - y (Fin.succ j))⁻¹ - (z (Fin.succ i) - y 0)⁻¹ * (z 0 - y (Fin.succ j))⁻¹ * (z 0 - y 0))) = Matrix.det (Matrix.of (fun i j => (z (Fin.succ i) - y (Fin.succ j))⁻¹ * ((z (Fin.succ i) - z 0) * (y 0 - y (Fin.succ j))) / ((z (Fin.succ i) - y 0) * (z 0 - y (Fin.succ j))))) := by
         refine' congr_arg Matrix.det ( funext fun i => funext fun j => _ );
-        simp +decide [ sub_eq_iff_eq_add, hzy ];
+        simp +decide [ sub_eq_iff_eq_add ];
         field_simp;
-        rw [ div_add', div_div, div_eq_div_iff ] <;> simp +decide [ sub_eq_iff_eq_add, hzy ] ; ring;
+        rw [ div_add', div_div, div_eq_div_iff ] <;> simp +decide [ sub_eq_iff_eq_add, hzy ] ; ring_nf;
       have h_ind : Matrix.det (Matrix.of (fun i j => (z (Fin.succ i) - y (Fin.succ j))⁻¹ * ((z (Fin.succ i) - z 0) * (y 0 - y (Fin.succ j))) / ((z (Fin.succ i) - y 0) * (z 0 - y (Fin.succ j))))) = (∏ i : Fin N, (z (Fin.succ i) - z 0)) * (∏ i : Fin N, (y 0 - y (Fin.succ i))) / ((∏ i : Fin N, (z (Fin.succ i) - y 0)) * (∏ i : Fin N, (z 0 - y (Fin.succ i)))) * Matrix.det (Matrix.of (fun i j => (z (Fin.succ i) - y (Fin.succ j))⁻¹)) := by
         have h_ind : Matrix.det (Matrix.of (fun i j => (z (Fin.succ i) - y (Fin.succ j))⁻¹ * ((z (Fin.succ i) - z 0) * (y 0 - y (Fin.succ j))) / ((z (Fin.succ i) - y 0) * (z 0 - y (Fin.succ j))))) = Matrix.det (Matrix.diagonal (fun i => (z (Fin.succ i) - z 0) / (z (Fin.succ i) - y 0)) * Matrix.of (fun i j => (z (Fin.succ i) - y (Fin.succ j))⁻¹) * Matrix.diagonal (fun j => (y 0 - y (Fin.succ j)) / (z 0 - y (Fin.succ j)))) := by
           congr with i j ; simp +decide [ div_eq_mul_inv, mul_assoc, mul_comm, mul_left_comm ];
         rw [ h_ind, Matrix.det_mul, Matrix.det_mul ] ; norm_num [ Finset.prod_mul_distrib, Finset.prod_div_distrib ] ; ring;
       rw [ h_factor, h_simplify, h_ind ];
-      rw [ ih ( fun i => z i.succ ) ( fun i => y i.succ ) ( fun i j => hzy _ _ ) ] ; ring;
+      rw [ ih ( fun i => z i.succ ) ( fun i => y i.succ ) ( fun i j => hzy _ _ ) ] ; ring_nf;
       grind;
     exact h_cauchy_det N z y hzy;
   simp +zetaDelta at *;

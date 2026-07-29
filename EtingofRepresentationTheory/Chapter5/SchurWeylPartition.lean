@@ -80,7 +80,7 @@ noncomputable def directSumTensorSubsingleton {k : Type*} [CommRing k]
   let g : F × F ≃ F :=
     { toFun := Prod.fst
       invFun := fun f => (f, f)
-      left_inv := fun p => Prod.ext rfl (Subsingleton.elim _ _)
+      left_inv := fun _ => Prod.ext rfl (Subsingleton.elim _ _)
       right_inv := fun _ => rfl }
   (TensorProduct.directSum k k A B) ≪≫ₗ DirectSum.lequivCongrLeft k g
 

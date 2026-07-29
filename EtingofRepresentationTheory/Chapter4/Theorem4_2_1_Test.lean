@@ -16,9 +16,10 @@ open CategoryTheory FDRep
 
 universe u
 
--- The three public endpoints must remain importable under these names.
+-- The four public endpoints must remain importable under these names.
 #check @Etingof.Theorem4_2_1
 #check @Etingof.Theorem4_2_1_linearIndependent
+#check @Etingof.Theorem4_2_1_span_eq_classFunctionSubmodule
 #check @Etingof.classFunction_eq_zero_of_orthogonal_simples
 
 -- Signature locks: each `example` fails to elaborate if the corresponding statement drifts.
@@ -36,6 +37,13 @@ example {k G : Type u} [Field k] [IsAlgClosed k] [Group G] [Fintype G]
     LinearIndependent k
       (Subtype.val : ↥(FDRep.character '' { V : FDRep k G | Simple V }) → (G → k)) :=
   Etingof.Theorem4_2_1_linearIndependent
+
+/-- The span is the named class-function submodule. -/
+example {k G : Type u} [Field k] [IsAlgClosed k] [Group G] [Fintype G]
+    [Invertible (Fintype.card G : k)] :
+    Submodule.span k (FDRep.character '' {V : FDRep k G | Simple V}) =
+      Etingof.classFunctionSubmodule k G :=
+  Etingof.Theorem4_2_1_span_eq_classFunctionSubmodule
 
 /-- Completeness: a class function orthogonal to every irreducible character is zero. -/
 example {k G : Type u} [Field k] [IsAlgClosed k] [Group G] [Fintype G]

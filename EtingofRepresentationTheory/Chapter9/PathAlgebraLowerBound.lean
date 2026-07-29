@@ -5,6 +5,8 @@ import Mathlib.Algebra.Category.ModuleCat.Projective
 import Mathlib.Algebra.Module.ULift
 import Mathlib.LinearAlgebra.Span.Basic
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Problem 9.4.6 (i), lower bound: the path algebra of a quiver with an edge is not semisimple
 

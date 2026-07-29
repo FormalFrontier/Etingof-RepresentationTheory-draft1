@@ -184,6 +184,7 @@ lemma Nat.Partition.toFinsuppN_self {n : ℕ} (la : Nat.Partition n) :
 lemma cycleTypePsumProductN_self (n : ℕ) (σ : Equiv.Perm (Fin n)) :
     cycleTypePsumProductN n n σ = cycleTypePsumProduct n σ := rfl
 
+set_option backward.isDefEq.respectTransparency false in
 /-- The existing `n`-variable Frobenius formula, rewritten in the stable reverse-variable
 orientation.  In this orientation the Vandermonde sign disappears. -/
 theorem frobeniusCoefficientRev_self (n : ℕ) (la : Nat.Partition n)
@@ -258,6 +259,7 @@ theorem frobeniusCoefficientRev_general {n N : ℕ} (la : Nat.Partition n)
   rw [Nat.add_sub_of_le hLn] at hn
   exact hN.trans (hn.symm.trans (frobeniusCoefficientRev_self n la σ))
 
+set_option backward.isDefEq.respectTransparency false in
 /-- **Theorem 5.15.1, stable form.** Let `λ` partition `n`, and choose any independent
 number `N` of polynomial variables containing all rows of `λ`.  The Specht character is
 the coefficient of `x^(λ+ρ_N)` in the `N`-variable Vandermonde times the cycle-type

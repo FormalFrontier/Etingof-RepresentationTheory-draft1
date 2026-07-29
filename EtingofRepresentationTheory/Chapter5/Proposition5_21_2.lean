@@ -424,12 +424,12 @@ theorem Proposition5_21_2_dimension
     have hD_eval : D.eval z = ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
         (z ^ (N - 1 - (j : ℕ)) * ∑ k ∈ Finset.range ((j : ℕ) - (i : ℕ)), z ^ k) := by
       simp only [D, Polynomial.eval_prod, Polynomial.eval_mul, Polynomial.eval_pow,
-        Polynomial.eval_X, Polynomial.eval_finset_sum]
+        Polynomial.eval_X, Polynomial.eval_finsetSum]
     have hNum_eval : Num.eval z = ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
         (z ^ shiftedExps N lam j *
           ∑ k ∈ Finset.range (shiftedExps N lam i - shiftedExps N lam j), z ^ k) := by
       simp only [Num, Polynomial.eval_prod, Polynomial.eval_mul, Polynomial.eval_pow,
-        Polynomial.eval_X, Polynomial.eval_finset_sum]
+        Polynomial.eval_X, Polynomial.eval_finsetSum]
     rw [← hD_eval, ← hNum_eval] at h_factored
     -- h_factored : eval z (φ schurPoly) * ((1-z)^M * D.eval z) = (1-z)^M * Num.eval z
     have h_cancel' : (φ (schurPoly N lam)).eval z * D.eval z = Num.eval z := by
@@ -446,7 +446,7 @@ theorem Proposition5_21_2_dimension
   have hD1 : D.eval 1 = ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
       ((j : ℕ) - (i : ℕ) : ℚ) := by
     simp only [D, Polynomial.eval_prod, Polynomial.eval_mul, Polynomial.eval_pow,
-      Polynomial.eval_X, one_pow, one_mul, Polynomial.eval_finset_sum]
+      Polynomial.eval_X, one_pow, one_mul, Polynomial.eval_finsetSum]
     apply Finset.prod_congr rfl; intro i _
     apply Finset.prod_congr rfl; intro j hj
     have hij : (i : ℕ) ≤ (j : ℕ) := (Finset.mem_Ioi.mp hj).le
@@ -454,7 +454,7 @@ theorem Proposition5_21_2_dimension
   have hNum1 : Num.eval 1 = ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
       (shiftedExps N lam i - shiftedExps N lam j : ℚ) := by
     simp only [Num, Polynomial.eval_prod, Polynomial.eval_mul, Polynomial.eval_pow,
-      Polynomial.eval_X, one_pow, one_mul, Polynomial.eval_finset_sum]
+      Polynomial.eval_X, one_pow, one_mul, Polynomial.eval_finsetSum]
     apply Finset.prod_congr rfl; intro i _
     apply Finset.prod_congr rfl; intro j hj
     rw [Finset.sum_const, Finset.card_range, nsmul_eq_mul, mul_one]

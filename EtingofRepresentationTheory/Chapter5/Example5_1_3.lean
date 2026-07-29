@@ -229,6 +229,116 @@ theorem Etingof.Example5_1_3_ZMod_sign_isRealType {n : ℕ} [NeZero n] (hn : 2 �
   · left; rw [he.neg_one_pow]
   · right; rw [ho.neg_one_pow]
 
+/-- Every element of the cyclic group `Multiplicative (ZMod n)` is the corresponding
+power of the class of `1`. -/
+private theorem zmod_eq_generator_pow_val {n : ℕ} [NeZero n]
+    (g : Multiplicative (ZMod n)) :
+    g = Multiplicative.ofAdd (1 : ZMod n) ^ ZMod.val (Multiplicative.toAdd g) := by
+  apply Multiplicative.toAdd.injective
+  change Multiplicative.toAdd g = ZMod.val (Multiplicative.toAdd g) • (1 : ZMod n)
+  rw [nsmul_eq_mul, mul_one]
+  exact (ZMod.natCast_rightInverse _).symm
+
+/-- Two characters of `Multiplicative (ZMod n)` which agree on the class of `1`
+agree everywhere. -/
+private theorem zmodCharacter_ext {n : ℕ} [NeZero n]
+    {ξ ψ : Multiplicative (ZMod n) →* ℂˣ}
+    (h : ξ (Multiplicative.ofAdd (1 : ZMod n)) =
+      ψ (Multiplicative.ofAdd (1 : ZMod n))) :
+    ξ = ψ := by
+  apply MonoidHom.ext
+  intro g
+  rw [zmod_eq_generator_pow_val g, map_pow, map_pow, h]
+
+/-- A complex character of `ZMod n` taking only the values `±1` is either trivial,
+or `n` is even and it is the sign character. This is the missing exhaustiveness
+statement in the cyclic-group part of Example 5.1.3. -/
+theorem Etingof.ZMod_character_eq_one_or_sign_of_forall_eq_one_or_neg_one
+    {n : ℕ} [NeZero n]
+    (ξ : Multiplicative (ZMod n) →* ℂˣ)
+    (h : ∀ g, ξ g = 1 ∨ ξ g = -1) :
+    ξ = 1 ∨ ∃ hn : 2 ∣ n, ξ = Etingof.ZModSignChar hn := by
+  let gen := Multiplicative.ofAdd (1 : ZMod n)
+  rcases h gen with hgen | hgen
+  · exact Or.inl (zmodCharacter_ext hgen)
+  · right
+    have hn : 2 ∣ n := by
+      have hpow : gen ^ n = 1 := by
+        apply Multiplicative.toAdd.injective
+        change n • (1 : ZMod n) = 0
+        rw [nsmul_eq_mul, mul_one, ZMod.natCast_self]
+      have hneg : (-1 : ℂˣ) ^ n = 1 := by
+        rw [← hgen, ← map_pow, hpow, map_one]
+      apply even_iff_two_dvd.mp
+      rcases Nat.even_or_odd n with hn | hn
+      · exact hn
+      · rw [hn.neg_one_pow] at hneg
+        have := congrArg Units.val hneg
+        norm_num at this
+    refine ⟨hn, zmodCharacter_ext ?_⟩
+    rw [hgen]
+    symm
+    have hn2 : 2 ≤ n := Nat.le_of_dvd (Nat.pos_of_ne_zero (NeZero.ne n)) hn
+    letI : Fact (1 < n) := ⟨by omega⟩
+    change (-1 : ℂˣ) ^ (1 : ZMod n).val = -1
+    rw [ZMod.val_one, pow_one]
+
+/-- The real-type characters of `ZMod n` are exactly the trivial character and,
+when `n` is even, the sign character. -/
+theorem Etingof.Example5_1_3_ZMod_isRealType_iff
+    {n : ℕ} [NeZero n] (ξ : Multiplicative (ZMod n) →* ℂˣ) :
+    Etingof.IsRealType (Etingof.AbelianFDRep.charRep ξ) ↔
+      ξ = 1 ∨ ∃ hn : 2 ∣ n, ξ = Etingof.ZModSignChar hn := by
+  constructor
+  · intro hreal
+    apply Etingof.ZMod_character_eq_one_or_sign_of_forall_eq_one_or_neg_one ξ
+    intro g
+    by_cases h1 : ξ g = 1
+    · exact Or.inl h1
+    by_cases hm1 : ξ g = -1
+    · exact Or.inr hm1
+    exfalso
+    apply Etingof.oneDim_not_isRealType_of_character_not_pm_one
+      (Etingof.AbelianFDRep.charRep ξ) ?_ hreal
+    refine ⟨g, ?_, ?_⟩
+    · rw [Etingof.AbelianFDRep.charRep_apply, mul_one]
+      exact fun h => h1 (Units.ext h)
+    · rw [Etingof.AbelianFDRep.charRep_apply, mul_one]
+      exact fun h => hm1 (Units.ext h)
+  · rintro (rfl | ⟨hn, rfl⟩)
+    · exact Etingof.Example5_1_3_ZMod_trivial_isRealType
+    · exact Etingof.Example5_1_3_ZMod_sign_isRealType hn
+
+/-- Equivalently, every other character of `ZMod n` is of complex type. -/
+theorem Etingof.Example5_1_3_ZMod_isComplexType_iff
+    {n : ℕ} [NeZero n] (ξ : Multiplicative (ZMod n) →* ℂˣ) :
+    Etingof.IsComplexType (Etingof.AbelianFDRep.charRep ξ) ↔
+      ξ ≠ 1 ∧ ∀ hn : 2 ∣ n, ξ ≠ Etingof.ZModSignChar hn := by
+  constructor
+  · intro hcomplex
+    constructor
+    · intro hξ
+      subst ξ
+      exact Etingof.not_isComplexType_of_isRealType
+        Etingof.Example5_1_3_ZMod_trivial_isRealType hcomplex
+    · intro hn hξ
+      subst ξ
+      exact Etingof.not_isComplexType_of_isRealType
+        (Etingof.Example5_1_3_ZMod_sign_isRealType hn) hcomplex
+  · rintro ⟨hneOne, hneSign⟩
+    apply Etingof.oneDim_isComplexType_of_character_not_pm_one
+    by_contra hnone
+    push Not at hnone
+    simp only [Etingof.AbelianFDRep.charRep_apply, mul_one] at hnone
+    have hpm : ∀ g, ξ g = 1 ∨ ξ g = -1 := by
+      intro g
+      by_cases h1 : ξ g = 1
+      · exact Or.inl h1
+      · exact Or.inr (Units.ext (hnone g (fun h => h1 (Units.ext h))))
+    rcases Etingof.ZMod_character_eq_one_or_sign_of_forall_eq_one_or_neg_one ξ hpm with h | ⟨hn, h⟩
+    · exact hneOne h
+    · exact hneSign hn h
+
 end ZModTypeClassification
 
 namespace Etingof.S3

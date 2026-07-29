@@ -527,6 +527,7 @@ noncomputable def postCompCentralizerMonoidHom
     change (centralizerToEndA k E A (b₁ * b₂)) (l v) = _
     rw [map_mul]; rfl
 
+omit [Module.Finite k E] in
 /-- Underlying-map identity for `postCompCentralizerMonoidHom`: applying it to
 `b` and then evaluating at a hom `l` yields the post-composition
 `(centralizerToEndA b).comp l`. Useful for unfolding inside proofs. -/
@@ -539,8 +540,17 @@ theorem postCompCentralizerMonoidHom_apply_apply
     (l : V →ₗ[A] E) (v : V) :
     postCompCentralizerMonoidHom k E A V b l v = b.val (l v) := rfl
 
+noncomputable local instance (priority := high) endSubalgebraRing
+    (A : Subalgebra k (Module.End k E)) : Ring A := A.toRing
+
+noncomputable local instance (priority := high) centralizerModuleHomSubmodule
+    (A : Subalgebra k (Module.End k E)) (V : Submodule A E) :
+    Module (↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
+      (↥V →ₗ[A] E) := centralizerModuleHom k E (A := A) (V := ↥V)
+
 set_option maxHeartbeats 400000 in -- whnf in the isotypic-component calc overruns the default 200000
 set_option synthInstance.maxHeartbeats 400000 in
+omit [Module.Finite k E] in
 /-- Every `A`-linear map from a simple submodule `V ≤ E` into `E` lands in the
 isotypic component `isotypicComponent A E V`. -/
 theorem range_le_isotypicComponent_of_simple
@@ -599,6 +609,7 @@ set_option maxHeartbeats 800000 in
 -- `Submodule (↥centralizer) (V →ₗ[A] E)` (involving Subalgebra → Ring → Module.End
 -- and the non-trivial centralizerModuleHom instance) that overruns 200000.
 set_option synthInstance.maxHeartbeats 800000 in
+omit [Module.Finite k E] in
 /-- Schur's lemma on the multiplicity space: for a simple `A`-submodule
 `V ≤ E` of a semisimple `A`-module `E`, the hom-space `V →ₗ[A] E` is a
 **simple** module over the centralizer `B := centralizer(A)` (acting by

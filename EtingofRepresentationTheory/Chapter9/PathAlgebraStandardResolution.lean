@@ -2,6 +2,8 @@ import EtingofRepresentationTheory.Chapter9.PathAlgebraConsSplittingIso
 import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 import Mathlib.Algebra.Homology.ShortComplex.ShortExact
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The standard resolution short exact sequence
 

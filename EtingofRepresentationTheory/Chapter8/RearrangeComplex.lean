@@ -2,6 +2,8 @@ import EtingofRepresentationTheory.Chapter8.RearrangeBifunctorNatIso
 import EtingofRepresentationTheory.Chapter8.MapBifunctorPostcomp
 import Mathlib.Algebra.Homology.Monoidal
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The complex-level rearrangement isomorphism for the `Tor` Künneth formula
 

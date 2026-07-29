@@ -11,6 +11,8 @@ import EtingofRepresentationTheory.Chapter6.Proposition6_6_8
 import EtingofRepresentationTheory.Chapter6.Theorem6_8_1
 import EtingofRepresentationTheory.Chapter6.Lemma6_7_2
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Corollary 6.8.4: Every Positive Root Is Realized
 

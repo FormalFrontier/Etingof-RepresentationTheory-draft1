@@ -1,6 +1,8 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter7.Definition7_8_6
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Problem 7.8.5: Long exact sequence of cohomology from a subcomplex
 

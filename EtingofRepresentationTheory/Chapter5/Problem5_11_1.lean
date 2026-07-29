@@ -729,7 +729,8 @@ lemma indZ3_nontriv_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat
     Finset.sum_boole, hone, oneCount,
     conjCount_shift (classRepA5 j) (classRepA5 1) a hconj_a,
     conjCount_shift (classRepA5 j) (classRepA5 1) a2 hconj_a2, twisted_eq_cr1, hcardℂ]
-  fin_cases j <;> norm_num <;> linear_combination hz_sum
+  fin_cases j <;> norm_num
+  all_goals linear_combination hz_sum
 
 /-- Arbitrary-`g` nontrivial-character values, via the class-function property. -/
 lemma indZ3_nontriv_char_all (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 3)
@@ -1163,7 +1164,7 @@ lemma indZ5_nontriv_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat
       conjCount_shift (classRepA5 j) (classRepA5 4) (a ^ 2) hca2,
       conjCount_shift (classRepA5 j) (classRepA5 4) (a ^ 3) hca3,
       conjCount_shift (classRepA5 j) (classRepA5 3) (a ^ 4) hca4, cr3Count, cr4Count]
-    fin_cases j <;> norm_num <;> ring
+    fin_cases j <;> norm_num <;> ring_nf
   · -- `a ∈ 5b`: `A = z² + z³`, `B = z + z⁴`.
     refine ⟨z ^ 2 + z ^ 3, z + z ^ 4, by linear_combination hz_sum4,
       by linear_combination (z + 2) * hz5 + hz_sum4, ?_⟩
@@ -1183,7 +1184,7 @@ lemma indZ5_nontriv_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat
     fin_cases j <;> norm_num <;> ring
 
 /-- Arbitrary-`g` nontrivial-character values, from a class-rep value vector. -/
-lemma indZ5_nontriv_char_all (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 5)
+lemma indZ5_nontriv_char_all (H : Subgroup A5) [DecidablePred (· ∈ H)] (_hH : Nat.card H = 5)
     (σ : FDRep ℂ ↥H) [Simple σ] {A B : ℂ}
     (hval : ∀ j, (ind σ).character (classRepA5 j) = ![12, 0, 0, A, B] j) (g : A5) :
     (ind σ).character g = ![12, 0, 0, A, B] (classIdxA5 g) := by
@@ -1507,7 +1508,7 @@ lemma indA4_triv_target_char_all (g : A5) :
 /-- **(d) trivial character.** `Ind_{A₄}^{A₅} 1 ≅ 1 ⊕ 4` (dimension `5`), the permutation
 representation on the `5` cosets. -/
 theorem indA4_triv (H : Subgroup A5) (hH : Nat.card H = 12)
-    (σ : FDRep ℂ ↥H) [Simple σ] (hdim : Module.finrank ℂ σ = 1)
+    (σ : FDRep ℂ ↥H) [Simple σ] (_hdim : Module.finrank ℂ σ = 1)
     (htriv : ∀ h : ↥H, σ.character h = 1) :
     Nonempty (ind σ ≅ repTriv ⊞ repC4) := by
   classical
@@ -1853,8 +1854,7 @@ lemma indA4_nontriv_linear_target_value (j : Fin 5) :
     repC5.character (classRepA5 j) = ![5, -1, 1, 0, 0] j := by
   rw [repC5_character]
   fin_cases j <;>
-    simp only [tblA5, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons] <;>
+    simp only [tblA5, Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons] <;>
     norm_num
 
 /-- Arbitrary-`g` target character values, via the class-function property. -/
@@ -1963,10 +1963,11 @@ section SchurScalar
 
 variable {G : Type*} [Group G] [Fintype G]
 
+omit [Fintype G] in
 /-- Simple `FDRep` objects have positive finrank. (Local copy of `Etingof.finrank_pos_of_simple`.) -/
 private lemma finrank_pos_of_simple' (V : FDRep ℂ G) [Simple V] : 0 < Module.finrank ℂ V := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have h0 : Module.finrank ℂ V = 0 := Nat.eq_zero_of_le_zero hcon
   have hsub : Subsingleton (V : Type _) := Module.finrank_zero_iff.mp h0
   have hsub2 : Subsingleton (V ⟶ V) := by
@@ -1977,11 +1978,13 @@ private lemma finrank_pos_of_simple' (V : FDRep ℂ G) [Simple V] : 0 < Module.f
   have hzero : Module.finrank ℂ (V ⟶ V) = 0 := Module.finrank_zero_of_subsingleton
   omega
 
+omit [Fintype G] in
 private lemma finrank_ne_zero_cx' (V : FDRep ℂ G) [Simple V] :
     (Module.finrank ℂ V : ℂ) ≠ 0 := by
   have := finrank_pos_of_simple' V
   exact_mod_cast this.ne'
 
+omit [Fintype G] in
 /-- **Schur (scalar form).** A linear endomorphism of a simple `V : FDRep ℂ G` commuting with the
 action is a scalar multiple of the identity, the scalar being `trace T / dim V`. (Local copy of the
 private `Etingof.endo_scalar` from `Chapter4/Problem4_5_2.lean`.) -/
@@ -2556,7 +2559,11 @@ lemma indV4_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H 
   set B : ℂ := (![0, 0, 4, 0, 0] : Fin 5 → ℂ) j with hB
   have hsplit : ∀ h : ↥H, σ.character h * (if h = 1 then A else B)
       = σ.character h * B + σ.character h * (if h = 1 then (A - B) else 0) := by
-    intro h; by_cases hh : h = 1 <;> simp [hh] <;> ring
+    intro h
+    by_cases hh : h = 1
+    · simp [hh]
+      ring
+    · simp [hh]
   have hsecond : (∑ h : ↥H, σ.character h * (if h = 1 then (A - B) else 0))
       = σ.character 1 * (A - B) := by
     rw [Finset.sum_eq_single (1 : ↥H)]

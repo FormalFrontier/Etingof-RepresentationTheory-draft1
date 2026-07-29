@@ -13,6 +13,8 @@ in Fin n. There are two families:
 Total: 2 · C(n,2) = n(n-1).
 -/
 
+set_option backward.isDefEq.respectTransparency false
+
 section DnRootCount
 
 open Matrix Finset

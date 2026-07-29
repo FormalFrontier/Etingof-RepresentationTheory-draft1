@@ -138,6 +138,7 @@ private lemma reflect_simple_of_full_faithful {C D : Type*}
         (fun h => hne (F.map_injective (by rwa [F.map_zero])))
       exact isIso_of_fully_faithful F f
 
+set_option backward.isDefEq.respectTransparency false in
 noncomputable instance spechtModuleFDRep_simple (n : ℕ) (la : Nat.Partition n) :
     Simple (spechtModuleFDRep n la) := by
   haveI hsimple := Theorem5_12_2_irreducible n la
@@ -1288,7 +1289,7 @@ private lemma card_filter_getD_eq_count (l : List ℕ) (n : ℕ) (hn : l.length 
       rw [Multiset.count_cons, ih m htlen]
       by_cases h : c = a
       · subst h; simp [List.count_cons_self]
-      · rw [if_neg h, List.count_cons_of_ne (Ne.symm h)] <;> omega
+      · rw [if_neg h, List.count_cons_of_ne (Ne.symm h)]; omega
 
 /-- For a symmetric polynomial P, the coefficient at any vector v equals the
 coefficient at `(finsuppToPartition v hsum).toFinsupp`. This follows from the
@@ -1330,7 +1331,7 @@ theorem coeff_symmetric_eq_coeff_partition {n : ℕ}
   -- Now prove: count c M = count c Mw
   -- p.parts = M.filter(· ≠ 0) (definition of finsuppToPartition/ofSums)
   have hparts : p.parts = M.filter (· ≠ 0) := by
-    simp [p, finsuppToPartition, Nat.Partition.ofSums, M, hM_def]
+    simp [p, finsuppToPartition, Nat.Partition.ofSums, M]
   -- sortedParts = parts as multisets
   have hsorted_eq : (p.sortedParts : Multiset ℕ) = p.parts :=
     Multiset.sort_eq p.parts (· ≥ ·)
@@ -1363,15 +1364,15 @@ theorem coeff_symmetric_eq_coeff_partition {n : ℕ}
             _ = n := p.parts_sum
       exact card_filter_getD_eq_count p.sortedParts n hlen c' hc'
     · -- c' = 0 (i.e., ¬(c' ≠ 0)): LHS = 0, RHS = List.count 0 sortedParts = 0
-      push_neg at hc'
+      push Not at hc'
       subst hc'
       symm; rw [List.count_eq_zero]
       exact fun h => Nat.lt_irrefl 0 (p.parts_pos (hsorted_eq ▸ Multiset.mem_coe.mpr h))
   by_cases hc : c = 0
   · -- c = 0: both multisets have card n, and same non-zero filter, so same zero count
     subst hc
-    have hcardM : M.card = n := by simp [M, hM_def]
-    have hcardMw : Mw.card = n := by simp [Mw, hMw_def]
+    have hcardM : M.card = n := by simp [M]
+    have hcardMw : Mw.card = n := by simp [Mw]
     -- count 0 s = s.card - (s.filter (· ≠ 0)).card
     have h_count_zero : ∀ s : Multiset ℕ,
         Multiset.count 0 s = s.card - (s.filter (· ≠ 0)).card := by
@@ -1469,10 +1470,10 @@ private theorem finsuppToPartition_toFinsupp {n : ℕ} (la : Nat.Partition n)
     · simp [List.length_finRange]; omega
     · intro i h1 h2
       simp only [List.getElem_map, List.getElem_finRange]
-      simp only [List.getElem_finRange, Fin.val_cast, List.getD]
+      simp only [Fin.val_cast, List.getD]
       by_cases hlt : i < sp.length
       · rw [List.getElem_append_left hlt, sp.getElem?_eq_getElem hlt, Option.getD_some]
-      · push_neg at hlt
+      · push Not at hlt
         rw [List.getElem_append_right (by omega), List.getElem_replicate,
             sp.getElem?_eq_none (by omega), Option.getD_none]
   rw [show Finset.univ.val = ↑(List.finRange n) from rfl,
@@ -1699,7 +1700,7 @@ private theorem shifted_partition_strict_mono {n : ℕ} (la : Nat.Partition n) :
   -- Sum of weakly decreasing + strictly decreasing = strictly decreasing
   have hla_mono : (Nat.Partition.toFinsupp la j : ℤ) ≤ (Nat.Partition.toFinsupp la i : ℤ) := by
     simp only [Nat.Partition.toFinsupp, Finsupp.coe_equivFunOnFinite_symm]
-    push_cast; apply Int.ofNat_le.mpr
+    apply Int.ofNat_le.mpr
     set sp := la.sortedParts
     have hsorted : sp.Pairwise (· ≥ ·) := Multiset.pairwise_sort la.parts (· ≥ ·)
     by_cases hj : j.val < sp.length
@@ -1708,7 +1709,7 @@ private theorem shifted_partition_strict_mono {n : ℕ} (la : Nat.Partition n) :
       simp only [List.getD] at hsorted' ⊢
       rw [sp.getElem?_eq_getElem hi, sp.getElem?_eq_getElem hj, Option.getD_some, Option.getD_some]
       exact hsorted'
-    · push_neg at hj
+    · push Not at hj
       simp only [List.getD, sp.getElem?_eq_none (by omega), Option.getD_none]
       exact Nat.zero_le _
   have hρ_strict : (rhoShift n j : ℤ) < (rhoShift n i : ℤ) := by
@@ -1725,7 +1726,7 @@ private theorem rev_of_permExponent_eq_rhoShift {n : ℕ} (π : Equiv.Perm (Fin 
     ext i
     have hi := congr_fun (congr_arg DFunLike.coe h) i
     simp [permExponent, rhoShift, Finsupp.equivFunOnFinite] at hi
-    simp [Fin.ext_iff, Fin.revPerm]
+    simp [Fin.revPerm]
     omega
   have : Fin.revPerm⁻¹ = (Fin.revPerm : Equiv.Perm (Fin n)) := by
     ext i; simp [Fin.revPerm]
@@ -1765,7 +1766,7 @@ private theorem sum_fin_subset_le_sum_top (n : ℕ) (S : Finset (Fin n))
     have : ∑ i ∈ Finset.range k, ((n - 1 - i : ℕ) : ℤ) =
         ∑ i ∈ Finset.range k, ((n : ℤ) - 1 - i) := by
       apply Finset.sum_congr rfl; intro i hi
-      simp at hi; push_cast; omega
+      simp at hi; omega
     rw [this]
     rw [Finset.sum_sub_distrib]
     simp only [Finset.sum_const, Finset.card_range, nsmul_eq_mul]
@@ -1882,7 +1883,7 @@ private theorem rhoShift_partial_sum_ge {n : ℕ}
         right_inv := fun ⟨i, hm⟩ => by simp
       }
     · exact Finset.card_range k
-  · push_neg at hk
+  · push Not at hk
     rw [min_eq_right (le_of_lt hk)]
     -- F = univ, F.map π⁻¹ = univ
     have hF_univ : F = Finset.univ := by ext ⟨i, hi⟩; simp [F]; omega
@@ -1900,7 +1901,7 @@ private theorem rhoShift_partial_sum_ge {n : ℕ}
       (fun i _ => Finset.mem_univ _)
       (fun i j _ _ h => Fin.rev_injective h)
       (fun j _ => ⟨Fin.rev j, Finset.mem_univ _, Fin.rev_rev j⟩)
-      (fun ⟨i, hi⟩ _ => by simp [Fin.rev]; push_cast; omega)
+      (fun ⟨i, hi⟩ _ => by simp [Fin.rev]; omega)
 
 /-- For any partition p of n, the sum of the first k sorted parts equals the
 sum of the first k entries of toFinsupp, viewed as ∑_{i : Fin n | i.val < k}. -/
@@ -1966,7 +1967,7 @@ private lemma finsuppToPartition_sort_perm {n : ℕ}
   set M := Finset.univ.val.map (⇑v) with hM_def
   set Mw := Finset.univ.val.map (⇑w) with hMw_def
   have hparts : p.parts = M.filter (· ≠ 0) := by
-    simp [p, finsuppToPartition, Nat.Partition.ofSums, M, hM_def]
+    simp [p, finsuppToPartition, Nat.Partition.ofSums, M]
   have hsorted_eq : (p.sortedParts : Multiset ℕ) = p.parts :=
     Multiset.sort_eq p.parts (· ≥ ·)
   have hparts_w : Mw.filter (· ≠ 0) = p.parts := by
@@ -1992,15 +1993,15 @@ private lemma finsuppToPartition_sort_perm {n : ℕ}
                 omega
             _ = n := p.parts_sum
       exact card_filter_getD_eq_count p.sortedParts n hlen c' hc'
-    · push_neg at hc'; subst hc'
+    · push Not at hc'; subst hc'
       symm; rw [List.count_eq_zero]
       exact fun h => Nat.lt_irrefl 0 (p.parts_pos (hsorted_eq ▸ Multiset.mem_coe.mpr h))
   intro c
   rw [hcard_eq_count v c, hcard_eq_count w c]
   by_cases hc : c = 0
   · subst hc
-    have hcardM : M.card = n := by simp [M, hM_def]
-    have hcardMw : Mw.card = n := by simp [Mw, hMw_def]
+    have hcardM : M.card = n := by simp [M]
+    have hcardMw : Mw.card = n := by simp [Mw]
     have h_count_zero : ∀ s : Multiset ℕ,
         Multiset.count 0 s = s.card - (s.filter (· ≠ 0)).card := by
       intro s
@@ -2139,7 +2140,7 @@ private theorem sorted_shifted_strict_dominates {n : ℕ}
         _ ≤ ∑ i : Fin n, (if i.val < k then (Nat.Partition.toFinsupp mu i : ℤ) else 0) := by
           -- v4.31: `convert ... using 2` now also exposes an instance-equality goal that `simp`
           -- can't touch; close instance goals by `Subsingleton.elim`, cast goals by `simp`.
-          convert hrearr using 2 <;> first | rfl | simp | exact Subsingleton.elim _ _
+          convert hrearr using 2 <;> rfl
         _ = (F k).sum (fun i => (Nat.Partition.toFinsupp mu i : ℤ)) := hRHS
     linarith
   · -- Inequality: finsuppToPartition(la + ρ - e_π) ≠ la
@@ -2169,7 +2170,7 @@ private theorem sorted_shifted_strict_dominates {n : ℕ}
       intro i j hlt
       -- hlt : g i < g j. g is strictly anti, so g i < g j → j < i.
       have hji : j < i := by
-        by_contra h; push_neg at h
+        by_contra h; push Not at h
         rcases h.eq_or_lt with rfl | hlt2
         · exact lt_irrefl _ hlt
         · exact not_lt.mpr (le_of_lt (hg_anti hlt2)) hlt
@@ -2194,7 +2195,7 @@ private theorem sorted_shifted_strict_dominates {n : ℕ}
     -- Step 3d: From Monovary f (g∘σ) + StrictAnti f → Antitone (g∘σ)
     have hanti : Antitone (g ∘ σ) := by
       intro i j hij
-      by_contra h; push_neg at h
+      by_contra h; push Not at h
       -- h : (g ∘ σ) j < (g ∘ σ) i, i.e., (g∘σ) increases from j to i
       -- Wait, we need (g∘σ)(j) < (g∘σ)(i) to apply hm
       -- From hm: (g∘σ)(j) < (g∘σ)(i) → f(j) ≤ f(i)
@@ -2535,12 +2536,12 @@ private theorem alternatingKostka_norm_sq_eq_one {n : ℕ} (la : Nat.Partition n
       simp only [mul_zero]
       exact Finset.sum_eq_zero fun σ _ => by ring
     · -- hπ fails, hτ holds
-      simp only [dif_neg hπ, dif_pos hτ, zsmul_eq_mul, zero_mul]
+      simp only [dif_neg hπ, dif_pos hτ, zsmul_eq_mul]
       rw [if_neg (fun h => hπ ((hcond π).mpr h.1))]
       simp only [mul_zero]
       exact Finset.sum_eq_zero fun σ _ => by ring
     · -- Both fail
-      simp only [dif_neg hπ, dif_neg hτ, zsmul_eq_mul, mul_zero, zero_mul]
+      simp only [dif_neg hπ, dif_neg hτ, zsmul_eq_mul, mul_zero]
       rw [if_neg (fun h => hπ ((hcond π).mpr h.1))]
       simp only [mul_zero]
       exact Finset.sum_eq_zero fun σ _ => by ring
@@ -2587,7 +2588,7 @@ vanishes by cancellation, not term-by-term vanishing.
 private theorem alternating_kostka_eq_zero_of_strict_dom {n : ℕ}
     (la nu : Nat.Partition n)
     (hne : la ≠ nu)
-    (hdom : Nat.Partition.Dominates nu la) :
+    (_hdom : Nat.Partition.Dominates nu la) :
     (∑ π : Equiv.Perm (Fin n),
       (Equiv.Perm.sign π : ℤ) •
         (if h : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n

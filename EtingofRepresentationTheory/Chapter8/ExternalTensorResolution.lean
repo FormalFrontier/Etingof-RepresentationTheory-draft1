@@ -4,6 +4,8 @@ import EtingofRepresentationTheory.Chapter8.ExternalTensorRestriction
 import EtingofRepresentationTheory.Chapter7.KunnethChainComplexNat
 import Mathlib.Algebra.Category.ModuleCat.ChangeOfRingsExact
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The external tensor product of two projective resolutions is a projective resolution
 

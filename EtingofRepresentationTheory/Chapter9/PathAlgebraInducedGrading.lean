@@ -2,6 +2,8 @@ import EtingofRepresentationTheory.Chapter9.PathAlgebraLengthGrading
 import EtingofRepresentationTheory.Chapter9.PathAlgebraStandardComplex
 import Mathlib.LinearAlgebra.DirectSum.Finsupp
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The length grading of the induced module `A ⊗_S M`
 

@@ -248,8 +248,7 @@ theorem centralizer_eq_universalEnvelopingImage [CharZero k] :
         universalEnvelopingToEnd k V n := by
       apply UniversalEnvelopingAlgebra.hom_ext; ext1 b
       simp only [LieHom.comp_apply, AlgHom.toLieHom_apply,
-        AlgHom.comp_apply, AlgEquiv.toAlgHom_eq_coe,
-        AlgHom.coe_coe, LinearEquiv.conjAlgEquiv_apply,
+        AlgHom.comp_apply,
         universalEnvelopingToEnd,
         UniversalEnvelopingAlgebra.lift_ι_apply]
       -- Goal: e ∘ₗ diag b ∘ₗ e.symm = diag b
@@ -268,8 +267,7 @@ theorem centralizer_eq_universalEnvelopingImage [CharZero k] :
     -- Extract: conjAlgEquiv e (universalEnvelopingToEnd y) =
     --   universalEnvelopingToEnd y
     have key := AlgHom.congr_fun hext y
-    simp only [AlgHom.comp_apply, AlgEquiv.toAlgHom_eq_coe,
-      AlgHom.coe_coe, LinearEquiv.conjAlgEquiv_apply] at key
+    simp only [AlgHom.comp_apply] at key
     -- key : ↑e * universalEnvelopingToEnd y * ↑e.symm =
     --        universalEnvelopingToEnd y
     -- Derive commutation: ↑e * f = f * ↑e

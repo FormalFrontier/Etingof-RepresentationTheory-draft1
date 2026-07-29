@@ -226,6 +226,7 @@ theorem rho_monomial_mul_frobeniusLaurentFactor (n : ℕ) :
 
 /-! ## The two coefficient extractions agree -/
 
+set_option backward.isDefEq.respectTransparency false in
 /-- **Remark 5.15.2, equivalence with Theorem 5.15.1.** For any polynomial factor `P`,
 the coefficient of `x^e` in `∏_{i<j}(1 - x_j/x_i) · P` equals `sign(rev)` times the
 coefficient of `x^{e+ρ}` in `Δ(x) · P`, where `Δ = Etingof.vandermondePoly`.

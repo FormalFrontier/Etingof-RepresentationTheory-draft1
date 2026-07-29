@@ -1,5 +1,7 @@
 import EtingofRepresentationTheory.Chapter8.RearrangeBidegree
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Naturality of the single-bidegree rearrangement isomorphism
 

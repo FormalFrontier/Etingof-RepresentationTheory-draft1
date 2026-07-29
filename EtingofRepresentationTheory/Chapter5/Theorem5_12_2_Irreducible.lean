@@ -37,7 +37,7 @@ private lemma monoidAlgebra_fintype_sum_apply {ι R G : Type*} [Fintype ι] [Sem
     (f : ι → MonoidAlgebra R G) (a : G) :
     (∑ i, f i) a = ∑ i, f i a := by
   classical
-  exact Finsupp.finset_sum_apply Finset.univ f a
+  exact Finsupp.finsetSum_apply Finset.univ f a
 
 instance neZero_card_perm (n : ℕ) : NeZero (Nat.card (G' n) : ℂ) :=
   ⟨by exact_mod_cast Nat.card_pos.ne'⟩
@@ -89,7 +89,7 @@ private lemma sortedParts_sum (n : ℕ) (la : Nat.Partition n) :
 
 /-- A permutation that preserves both rows and columns must be the identity.
 This follows from the injectivity of (rowOfPos, colOfPos) on valid positions. -/
-private lemma row_col_inter_trivial (n : ℕ) (la : Nat.Partition n)
+theorem row_col_inter_trivial (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) (hrow : σ ∈ RowSubgroup n la) (hcol : σ ∈ ColumnSubgroup n la) :
     σ = 1 := by
   ext k

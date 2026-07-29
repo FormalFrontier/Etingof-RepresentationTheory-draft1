@@ -68,6 +68,7 @@ Lean to fully reduce the tensor-product representation, blowing the `whnf` heart
 private noncomputable abbrev indRep :=
   Representation.tprod ((leftRegular ℂ G).comp K.subtype) (chiRep K χ)
 
+omit [Fintype G] in
 private lemma chiRep_apply (k : K) (z : ℂ) : chiRep K χ k z = ((χ k : ℂˣ) : ℂ) • z := rfl
 
 /-- Key relation: left multiplication of the idempotent `e_χ` by `of k` (for `k ∈ K`)
@@ -179,17 +180,20 @@ private lemma fwd_mem (x : Representation.IndV K.subtype (chiRep K χ)) :
   rw [hfx, charLeftIdeal]
   exact Submodule.mem_span_singleton.2 ⟨_, smul_eq_mul _ _⟩
 
+omit [Fintype G] in
 /-- The backward map `ℂ[G] → Ind_K^G ℂ_χ`, `single g c ↦ c • ⟦single g⁻¹ 1 ⊗ 1⟧`. -/
 private noncomputable def bwd :
     MonoidAlgebra ℂ G →ₗ[ℂ] Representation.IndV K.subtype (chiRep K χ) :=
   Finsupp.linearCombination ℂ (fun g : G => Representation.IndV.mk K.subtype (chiRep K χ) g⁻¹ 1)
 
+omit [Fintype G] in
 private lemma bwd_of (x : G) :
     bwd K χ (MonoidAlgebra.of ℂ G x) = Representation.IndV.mk K.subtype (chiRep K χ) x⁻¹ 1 := by
   change Finsupp.linearCombination ℂ
       (fun g : G => Representation.IndV.mk K.subtype (chiRep K χ) g⁻¹ 1) (Finsupp.single x 1) = _
   rw [Finsupp.linearCombination_single, one_smul]
 
+omit [Fintype G] in
 /-- The coinvariant relation: `⟦single (κ·x) 1 ⊗ χ(κ)·w⟧ = ⟦single x 1 ⊗ w⟧`. -/
 private lemma indV_mk_smul (κ : K) (x : G) (w : ℂ) :
     Representation.IndV.mk K.subtype (chiRep K χ) ((κ : G) * x) (((χ κ : ℂˣ) : ℂ) • w)

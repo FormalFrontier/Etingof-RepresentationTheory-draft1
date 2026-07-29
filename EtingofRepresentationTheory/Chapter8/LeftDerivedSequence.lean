@@ -4,6 +4,8 @@ import Mathlib.Algebra.Homology.HomologySequenceLemmas
 import Mathlib.CategoryTheory.Abelian.LeftDerived
 import Mathlib.Algebra.Homology.ExactSequence
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The six-term exact sequence of a left derived functor
 

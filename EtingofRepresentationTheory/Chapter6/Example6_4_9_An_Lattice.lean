@@ -25,6 +25,8 @@ Here the ambient dimension is `N = n + 1`, so `n` is the number of simple roots 
 Dynkin type is `A_n` (the book's `A_{N-1}`).
 -/
 
+set_option backward.isDefEq.respectTransparency false
+
 namespace Etingof.An
 
 open Matrix Finset Module

@@ -2,6 +2,8 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter7.Problem7_8_7
 import EtingofRepresentationTheory.Chapter7.KunnethIso
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Künneth for `ℕ`-indexed chain complexes via `ℕ`/`ℤ` reindexing
 
