@@ -382,8 +382,39 @@ PROVIDER_OVERRIDES = {
 # of merely inheriting their provider files.  Older, already-reviewed units keep
 # the declaration pointers recorded by their original audit when available.
 DECL_OVERRIDES = {
+    ("Chapter2/Problem2.3.16", "claim-03"): (
+        "Etingof.exists_central_scalar; Etingof.centralCharacter_smul"
+    ),
+    ("Chapter2/Problem2.3.16", "claim-05"): (
+        "Etingof.centralAction_sub_smul_isNilpotent; Etingof.indecEigenvalue_unique"
+    ),
+    ("Chapter2/Problem2.3.17", "claim-03"): (
+        "Etingof.EndSelfEquivOp_apply; Etingof.EndSelfEquivOp_symm_op_apply"
+    ),
+    ("Chapter2/Exercise2.9.5", "claim-01"): (
+        "Etingof.Exercise2_9_5.hatEquiv; Etingof.Exercise2_9_5.so3_lieEquiv_cross"
+    ),
     ("Chapter4/Exercise4.2.3", "strict_modular_count"): (
         "Etingof.Exercise4_2_3; Etingof.natCard_irrepClasses_lt_conjClasses_of_isAlgClosed"
+    ),
+    ("Chapter4/Exercise4.3.1", "covariant_model"): (
+        "Etingof.Exercise4_3_1.covariantSubspace_invariant; "
+        "Etingof.Exercise4_3_1.covariantSubspace_finrank; "
+        "Etingof.Exercise4_3_1.covariantSubspace_irreducible"
+    ),
+    ("Chapter4/Problem4.5.2", "part_i"): (
+        "Etingof.psi; Etingof.psi_acts_self; Etingof.psi_acts_other"
+    ),
+    ("Chapter4/Problem4.5.2", "part_ii"): (
+        "Etingof.psi; Etingof.psi_idempotent; Etingof.psi_orthogonal"
+    ),
+    ("Chapter4/Problem4.12.2", "part_a"): (
+        "Etingof.Problem4_12_2.exists_unique_rep; Etingof.Problem4_12_2.rhoHom; "
+        "Etingof.Problem4_12_2.rhoLin_apply; Etingof.Problem4_12_2.rhoHom_xGen; "
+        "Etingof.Problem4_12_2.rhoHom_yGen; "
+        "Etingof.Problem4_12_2.Heisenberg.card_eq; "
+        "Etingof.Problem4_12_2.Heisenberg.eq_gen_prod; "
+        "Etingof.Problem4_12_2.Heisenberg.closure_gens_eq_top"
     ),
     ("Chapter5/Problem5.2.7", "part_a"): (
         "Etingof.Problem5_2_7.exists_finite_galois_field_of_definition"
@@ -407,6 +438,9 @@ DECL_OVERRIDES = {
         "Etingof.Problem5_10_2_e; Etingof.Problem5_10_2_e_homEquiv"
     ),
     ("Chapter5/Discussion_Problem5.10.2_parts", "part_f"): "Etingof.Problem5_10_2_f",
+    ("Chapter5/Exercise5.27.3", "part_i"): "Etingof.Exercise5_27_3",
+    ("Chapter5/Exercise5.27.3", "part_ii"): "Etingof.Exercise5_27_3",
+    ("Chapter5/Exercise5.27.3", "part_iii"): "Etingof.Exercise5_27_3",
     ("Chapter5/Problem5.16.1", "part_a"): (
         "Etingof.restriction_spechtModule_iso_removeSquareSum"
     ),
@@ -429,33 +463,39 @@ DECL_OVERRIDES = {
     ),
     ("Chapter6/Problem6.1.3", "setup"): "Etingof.Problem6_1_3.cartanMatrix",
     ("Chapter6/Problem6.1.3_continued_E7_E8", "part_a"): (
-        "Etingof.det_cartan_A; Etingof.det_cartan_D; "
-        "Etingof.isDynkinDiagram_A; Etingof.isDynkinDiagram_D"
+        "Etingof.Problem6_1_3_E7E8.det_cartan_A; "
+        "Etingof.Problem6_1_3_E7E8.det_cartan_D; "
+        "Etingof.Problem6_1_3_E7E8.isDynkinDiagram_A; "
+        "Etingof.Problem6_1_3_E7E8.isDynkinDiagram_D"
     ),
     ("Chapter6/Problem6.1.3_continued_E7_E8", "part_b"): (
-        "Etingof.det_cartan_E6; Etingof.det_cartan_E7; Etingof.det_cartan_E8; "
-        "Etingof.isDynkinDiagram_E"
+        "Etingof.Problem6_1_3_E7E8.det_cartan_E6; "
+        "Etingof.Problem6_1_3_E7E8.det_cartan_E7; "
+        "Etingof.Problem6_1_3_E7E8.det_cartan_E8; "
+        "Etingof.Problem6_1_3_E7E8.isDynkinDiagram_E"
     ),
     ("Chapter6/Problem6.1.3_continued_E7_E8", "part_c"): (
-        "Etingof.cycle_cartan_det_zero; Etingof.isDynkinDiagram_isTree"
+        "Etingof.Problem6_1_3_E7E8.cycle_cartan_det_zero; "
+        "Etingof.Problem6_1_3_E7E8.isDynkinDiagram_isTree"
     ),
     ("Chapter6/Problem6.1.3_continued_E7_E8", "part_d"): (
-        "Etingof.isDynkinDiagram_degree_le_three; "
-        "Etingof.isDynkinDiagram_unique_degree_three"
+        "Etingof.Problem6_1_3_E7E8.isDynkinDiagram_degree_le_three; "
+        "Etingof.Problem6_1_3_E7E8.isDynkinDiagram_unique_degree_three"
     ),
     ("Chapter6/Problem6.1.3_continued_E7_E8", "part_e"): (
-        "Etingof.AffineType.cartan_mulVec_marks_eq_zero; "
-        "Etingof.AffineType.cartan_det_zero"
+        "Etingof.Problem6_1_3_tildeE.cartan_mulVec_marks_eq_zero; "
+        "Etingof.Problem6_1_3_tildeE.cartan_det_zero"
     ),
     ("Chapter6/Problem6.1.3_continued_tildeE", "forbidden_affine_diagrams"): (
-        "Etingof.AffineType.cartan_mulVec_marks_eq_zero; "
-        "Etingof.AffineType.cartan_det_zero; Etingof.isAffineDynkinDiagram_of_type"
+        "Etingof.Problem6_1_3_tildeE.cartan_mulVec_marks_eq_zero; "
+        "Etingof.Problem6_1_3_tildeE.cartan_det_zero; "
+        "Etingof.Problem6_1_3_tildeE.isAffineDynkinDiagram_of_type"
     ),
     ("Chapter6/Problem6.1.3_continued_tildeE", "part_f"): (
-        "Etingof.dynkin_classification"
+        "Etingof.Problem6_1_3_tildeE.dynkin_classification"
     ),
     ("Chapter6/Problem6.1.3_continued_tildeE", "part_g"): (
-        "Etingof.affine_dynkin_classification"
+        "Etingof.Problem6_1_3_tildeE.affine_dynkin_classification"
     ),
     ("Chapter6/Problem6.1.5_parts", "part_a"): (
         "Etingof.titsForm_pos_on_nonzero_of_finite_type"
@@ -478,6 +518,14 @@ DECL_OVERRIDES = {
     ("Chapter6/Problem6.9.2", "part_d"): (
         "Etingof.Problem6_9_2.E6_root_count; Etingof.Problem6_9_2.E7_root_count; "
         "Etingof.Problem6_9_2.E8_root_count"
+    ),
+    ("Chapter6/Problem6.9.3", "part_a_source"): "Etingof.Problem6_9_3.ext1_source",
+    ("Chapter6/Problem6.9.3", "part_a_sink"): "Etingof.Problem6_9_3.ext1_sink",
+    ("Chapter6/Problem6.9.3", "part_b"): (
+        "Etingof.Problem6_9_3.exists_jordanHolderSeries; "
+        "Etingof.Problem6_9_3.exists_compositionSeries_of_positiveRoot; "
+        "Etingof.QuiverRepCompositionSeries; Etingof.IsSimpleStep; "
+        "Etingof.exists_compositionSeries"
     ),
     ("Chapter7/Problem7.7.3", "abelian_fg_modules"): "Etingof.Problem7_7_3",
     ("Chapter7/Exercise7.8.4", "disk_decomposition"): "Etingof.Exercise7_8_4_directSum",
@@ -611,6 +659,10 @@ DECL_OVERRIDES = {
         "Etingof.Exercise963.isProgenerator_iff_hom_simple_ne_zero"
     ),
     ("Chapter9/Exercise9.6.3", "existence"): "Etingof.Exercise963.exists_progenerator",
+    ("Chapter5/Problem5.24.2", "trace_generators"): (
+        "Etingof.invariantSubalgebra; Etingof.traceWord; "
+        "Etingof.invariantSubalgebra_eq_adjoin_traceWord"
+    ),
     ("Chapter6/Problem6.9.1", "part_a_families"): (
         "Etingof.Q₂Family.rep_indecomposable; "
         "Etingof.Q₂Family.eq_of_rep_iso; Etingof.Problem6_9_1_unique"
@@ -803,6 +855,9 @@ def normalize_existing_claims(item: dict[str, object]) -> None:
     for index, claim in enumerate(claims, 1):
         claim.setdefault("unit", f"claim-{index:02d}")
         claim.setdefault("source_ref", f"blobs/{item_id}.md")
+        override = declaration_list(DECL_OVERRIDES.get((item_id, str(claim["unit"]))))
+        if override:
+            claim["lean_decl"] = override
         if claim.get("verdict") == "intentional_omission":
             if item_id == "Chapter2/Problem2.15.1":
                 claim["verdict"] = "covered_elsewhere"

@@ -14,10 +14,6 @@ or source-correction claim units in `progress/items.json`.
 #check CliffordAlgebra.ι_mul_ι_add_swap
 -- Chapter3/Problem3.9.5::claim-02
 #check CliffordAlgebra.ι_sq_scalar
--- Chapter6/Problem6.1.3_continued_E7_E8::part_e, Chapter6/Problem6.1.3_continued_tildeE::forbidden_affine_diagrams
-#check Etingof.AffineType.cartan_det_zero
--- Chapter6/Problem6.1.3_continued_E7_E8::part_e, Chapter6/Problem6.1.3_continued_tildeE::forbidden_affine_diagrams
-#check Etingof.AffineType.cartan_mulVec_marks_eq_zero
 -- Chapter2/Problem2.5.2::claim-08
 #check Etingof.Coregular
 -- Chapter2/Problem2.5.2::claim-09
@@ -25,7 +21,9 @@ or source-correction claim units in `progress/items.json`.
 -- Chapter2/Problem2.3.17::claim-02
 #check Etingof.EndSelfEquivOp
 -- Chapter2/Problem2.3.17::claim-03
-#check Etingof.EndSelfEquivOp_apply / Etingof.EndSelfEquivOp_symm_op_apply
+#check Etingof.EndSelfEquivOp_apply
+-- Chapter2/Problem2.3.17::claim-03
+#check Etingof.EndSelfEquivOp_symm_op_apply
 -- Chapter4/Problem4.12.3::symmetric_power, Chapter4/Problem4.12.3::exterior_power
 #check Etingof.Example5_19_3_exterior_irreducible
 -- Chapter4/Problem4.12.3::symmetric_power, Chapter4/Problem4.12.3::exterior_power
@@ -52,8 +50,16 @@ or source-correction claim units in `progress/items.json`.
 #check Etingof.Exercise2_9_11.repEquiv
 -- Chapter2/Exercise2.9.5::claim-01
 #check Etingof.Exercise2_9_5.hatEquiv
+-- Chapter2/Exercise2.9.5::claim-01
+#check Etingof.Exercise2_9_5.so3_lieEquiv_cross
 -- Chapter4/Exercise4.2.3::strict_modular_count
 #check Etingof.Exercise4_2_3
+-- Chapter4/Exercise4.3.1::covariant_model
+#check Etingof.Exercise4_3_1.covariantSubspace_finrank
+-- Chapter4/Exercise4.3.1::covariant_model
+#check Etingof.Exercise4_3_1.covariantSubspace_invariant
+-- Chapter4/Exercise4.3.1::covariant_model
+#check Etingof.Exercise4_3_1.covariantSubspace_irreducible
 -- Chapter5/Exercise5.27.2::affine_reprise
 #check Etingof.Exercise5_27_2.AffineGroup
 -- Chapter5/Exercise5.27.2::dihedral_reprise
@@ -90,12 +96,8 @@ or source-correction claim units in `progress/items.json`.
 #check Etingof.Exercise5_27_2.semidirect_classification
 -- Chapter5/Exercise5.27.2::affine_reprise
 #check Etingof.Exercise5_27_2.zeroSumFDRep
--- Chapter5/Exercise5.27.3::part_i
-#check Etingof.Exercise5_27_3 (conjunct 1: ∀ χ U, Simple U → Simple (V χ U))
--- Chapter5/Exercise5.27.3::part_ii
-#check Etingof.Exercise5_27_3 (conjunct 2: Nonempty (V χ₁ U₁ ≅ V χ₂ U₂) → ∃ g (hg : dualSmul g χ₁ = χ₂), Nonempty (U₂ ≅ transport g χ₁ χ₂ hg U₁))
--- Chapter5/Exercise5.27.3::part_iii
-#check Etingof.Exercise5_27_3 (conjunct 3: ∀ W, Simple W → ∃ χ U, Simple U ∧ Nonempty (W ≅ V χ U))
+-- Chapter5/Exercise5.27.3::part_i, Chapter5/Exercise5.27.3::part_ii, Chapter5/Exercise5.27.3::part_iii
+#check Etingof.Exercise5_27_3
 -- Chapter7/Exercise7.8.4::disk_decomposition
 #check Etingof.Exercise7_8_4_directSum
 -- Chapter7/Exercise7.8.4::abelian_group_counterexample
@@ -132,6 +134,8 @@ or source-correction claim units in `progress/items.json`.
 #check Etingof.IsFiniteTypeQuiver.no_self_loops
 -- Chapter5/Problem5.16.3::part_b_iff, Chapter5/Problem5.16.3::part_b_scalar
 #check Etingof.IsRectangular
+-- Chapter6/Problem6.9.3::part_b
+#check Etingof.IsSimpleStep
 -- Chapter2/Problem2.11.3::claim-05
 #check Etingof.Problem2_11_3.ExtPow
 -- Chapter2/Problem2.11.3::claim-04
@@ -710,6 +714,12 @@ or source-correction claim units in `progress/items.json`.
 #check Etingof.Problem4_12_11.tracelessSymSub_irreducible
 -- Chapter4/Problem4.12.11::part_a_end, Chapter4/Problem4.12.11::part_a_sym, Chapter4/Problem4.12.11::part_b_real, Chapter4/Problem4.12.11::part_b_complex, Chapter4/Problem4.12.11::part_b_hooke
 #check Etingof.Problem4_12_11.tracelessSymSub_irreducible_complexified
+-- Chapter4/Problem4.12.2::part_a
+#check Etingof.Problem4_12_2.Heisenberg.card_eq
+-- Chapter4/Problem4.12.2::part_a
+#check Etingof.Problem4_12_2.Heisenberg.closure_gens_eq_top
+-- Chapter4/Problem4.12.2::part_a
+#check Etingof.Problem4_12_2.Heisenberg.eq_gen_prod
 -- Chapter4/Problem4.12.2::part_c
 #check Etingof.Problem4_12_2.R1_decomposes
 -- Chapter4/Problem4.12.2::part_c
@@ -718,8 +728,6 @@ or source-correction claim units in `progress/items.json`.
 #check Etingof.Problem4_12_2.abHom_ker_le_ker
 -- Chapter4/Problem4.12.2::part_c
 #check Etingof.Problem4_12_2.abHom_surjective
--- Chapter4/Problem4.12.2::part_a
-#check Etingof.Problem4_12_2.card_eq
 -- Chapter4/Problem4.12.2::part_d
 #check Etingof.Problem4_12_2.card_irreducibles
 -- Chapter4/Problem4.12.2::part_d
@@ -728,10 +736,6 @@ or source-correction claim units in `progress/items.json`.
 #check Etingof.Problem4_12_2.charRep_iso_iff
 -- Chapter4/Problem4.12.2::part_d
 #check Etingof.Problem4_12_2.charRep_not_iso_rhoHom
--- Chapter4/Problem4.12.2::part_a
-#check Etingof.Problem4_12_2.closure_gens_eq_top
--- Chapter4/Problem4.12.2::part_a
-#check Etingof.Problem4_12_2.eq_gen_prod
 -- Chapter4/Problem4.12.2::part_a
 #check Etingof.Problem4_12_2.exists_unique_rep
 -- Chapter4/Problem4.12.2::part_d
@@ -754,8 +758,6 @@ or source-correction claim units in `progress/items.json`.
 #check Etingof.Problem4_12_2.rhoHom_xGen
 -- Chapter4/Problem4.12.2::part_a
 #check Etingof.Problem4_12_2.rhoHom_yGen
--- Chapter4/Problem4.12.2::part_a
-#check Etingof.Problem4_12_2.rhoLin
 -- Chapter4/Problem4.12.2::part_a
 #check Etingof.Problem4_12_2.rhoLin_apply
 -- Chapter4/Problem4.12.2::part_d
@@ -924,6 +926,40 @@ or source-correction claim units in `progress/items.json`.
 #check Etingof.Problem6_1_2.finrank_le_sum_sq_of_finite_orbits
 -- Chapter6/Problem6.1.3::setup
 #check Etingof.Problem6_1_3.cartanMatrix
+-- Chapter6/Problem6.1.3_continued_E7_E8::part_c
+#check Etingof.Problem6_1_3_E7E8.cycle_cartan_det_zero
+-- Chapter6/Problem6.1.3_continued_E7_E8::part_a
+#check Etingof.Problem6_1_3_E7E8.det_cartan_A
+-- Chapter6/Problem6.1.3_continued_E7_E8::part_a
+#check Etingof.Problem6_1_3_E7E8.det_cartan_D
+-- Chapter6/Problem6.1.3_continued_E7_E8::part_b
+#check Etingof.Problem6_1_3_E7E8.det_cartan_E6
+-- Chapter6/Problem6.1.3_continued_E7_E8::part_b
+#check Etingof.Problem6_1_3_E7E8.det_cartan_E7
+-- Chapter6/Problem6.1.3_continued_E7_E8::part_b
+#check Etingof.Problem6_1_3_E7E8.det_cartan_E8
+-- Chapter6/Problem6.1.3_continued_E7_E8::part_a
+#check Etingof.Problem6_1_3_E7E8.isDynkinDiagram_A
+-- Chapter6/Problem6.1.3_continued_E7_E8::part_a
+#check Etingof.Problem6_1_3_E7E8.isDynkinDiagram_D
+-- Chapter6/Problem6.1.3_continued_E7_E8::part_b
+#check Etingof.Problem6_1_3_E7E8.isDynkinDiagram_E
+-- Chapter6/Problem6.1.3_continued_E7_E8::part_d
+#check Etingof.Problem6_1_3_E7E8.isDynkinDiagram_degree_le_three
+-- Chapter6/Problem6.1.3_continued_E7_E8::part_c
+#check Etingof.Problem6_1_3_E7E8.isDynkinDiagram_isTree
+-- Chapter6/Problem6.1.3_continued_E7_E8::part_d
+#check Etingof.Problem6_1_3_E7E8.isDynkinDiagram_unique_degree_three
+-- Chapter6/Problem6.1.3_continued_tildeE::part_g
+#check Etingof.Problem6_1_3_tildeE.affine_dynkin_classification
+-- Chapter6/Problem6.1.3_continued_E7_E8::part_e, Chapter6/Problem6.1.3_continued_tildeE::forbidden_affine_diagrams
+#check Etingof.Problem6_1_3_tildeE.cartan_det_zero
+-- Chapter6/Problem6.1.3_continued_E7_E8::part_e, Chapter6/Problem6.1.3_continued_tildeE::forbidden_affine_diagrams
+#check Etingof.Problem6_1_3_tildeE.cartan_mulVec_marks_eq_zero
+-- Chapter6/Problem6.1.3_continued_tildeE::part_f
+#check Etingof.Problem6_1_3_tildeE.dynkin_classification
+-- Chapter6/Problem6.1.3_continued_tildeE::forbidden_affine_diagrams
+#check Etingof.Problem6_1_3_tildeE.isAffineDynkinDiagram_of_type
 -- Chapter6/Problem6.1.6::part_a, Chapter6/Problem6.1.6::part_b, Chapter6/Problem6.1.6::part_c_affine, Chapter6/Problem6.1.6::part_e_kernel
 #check Etingof.Problem6_1_6.mckay_connected
 -- Chapter6/Problem6.1.6::part_a, Chapter6/Problem6.1.6::part_b, Chapter6/Problem6.1.6::part_c_affine, Chapter6/Problem6.1.6::part_e_kernel
@@ -962,6 +998,14 @@ or source-correction claim units in `progress/items.json`.
 #check Etingof.Problem6_9_2.rootsOf_E8_type_E8
 -- Chapter6/Problem6.9.2::part_a
 #check Etingof.Problem6_9_2.α_isBasis
+-- Chapter6/Problem6.9.3::part_b
+#check Etingof.Problem6_9_3.exists_compositionSeries_of_positiveRoot
+-- Chapter6/Problem6.9.3::part_b
+#check Etingof.Problem6_9_3.exists_jordanHolderSeries
+-- Chapter6/Problem6.9.3::part_a_sink
+#check Etingof.Problem6_9_3.ext1_sink
+-- Chapter6/Problem6.9.3::part_a_source
+#check Etingof.Problem6_9_3.ext1_source
 -- Chapter7/Problem7.7.3::abelian_fg_modules
 #check Etingof.Problem7_7_3
 -- Chapter7/Problem7.8.5::part_ii
@@ -1154,6 +1198,8 @@ or source-correction claim units in `progress/items.json`.
 #check Etingof.Problem_8_2_8_extₖ
 -- Chapter8/Problem8.2.8::tor
 #check Etingof.Problem_8_2_8_tor
+-- Chapter6/Problem6.9.3::part_b
+#check Etingof.QuiverRepCompositionSeries
 -- Chapter6/Problem6.9.1::part_a_families
 #check Etingof.Q₂Family.eq_of_rep_iso
 -- Chapter6/Problem6.9.1::part_a_families
@@ -1224,12 +1270,12 @@ or source-correction claim units in `progress/items.json`.
 #check Etingof.Theorem5_10_1_homEquiv
 -- Chapter6/Problem6.1.5::finite_type_theorem, Chapter6/Problem6.1.5_parts::part_c
 #check Etingof.Theorem_6_1_5
--- Chapter6/Problem6.1.3_continued_tildeE::part_g
-#check Etingof.affine_dynkin_classification
 -- Chapter2/Problem2.3.16::claim-05
-#check Etingof.centralAction_sub_smul_isNilpotent / Etingof.indecEigenvalue_unique
+#check Etingof.centralAction_sub_smul_isNilpotent
 -- Chapter2/Problem2.3.16::claim-04
 #check Etingof.centralCharacter
+-- Chapter2/Problem2.3.16::claim-03
+#check Etingof.centralCharacter_smul
 -- Chapter5/Exercise5.8.5::normalized_idempotent, Chapter5/Exercise5.8.5::natural_iso
 #check Etingof.charLeftIdeal
 -- Chapter3/Exercise3.6.1::claim-01
@@ -1242,24 +1288,12 @@ or source-correction claim units in `progress/items.json`.
 #check Etingof.content
 -- Chapter5/Problem5.16.3::part_b_iff, Chapter5/Problem5.16.3::part_b_scalar
 #check Etingof.content_const_removeSquare_iff_rectangular
--- Chapter6/Problem6.1.3_continued_E7_E8::part_c
-#check Etingof.cycle_cartan_det_zero
--- Chapter6/Problem6.1.3_continued_E7_E8::part_a
-#check Etingof.det_cartan_A
--- Chapter6/Problem6.1.3_continued_E7_E8::part_a
-#check Etingof.det_cartan_D
--- Chapter6/Problem6.1.3_continued_E7_E8::part_b
-#check Etingof.det_cartan_E6
--- Chapter6/Problem6.1.3_continued_E7_E8::part_b
-#check Etingof.det_cartan_E7
--- Chapter6/Problem6.1.3_continued_E7_E8::part_b
-#check Etingof.det_cartan_E8
--- Chapter6/Problem6.1.3_continued_tildeE::part_f
-#check Etingof.dynkin_classification
 -- Chapter2/Problem2.3.16::claim-07
 #check Etingof.eps_smul_not_scalar
 -- Chapter2/Problem2.3.16::claim-03
-#check Etingof.exists_central_scalar / Etingof.centralCharacter_smul
+#check Etingof.exists_central_scalar
+-- Chapter6/Problem6.9.3::part_b
+#check Etingof.exists_compositionSeries
 -- Chapter2/Problem2.3.16::claim-06
 #check Etingof.exists_irreducibleSubrepresentation_centralCharacter
 -- Chapter5/Exercise5.1.7::odd_order_nonreal
@@ -1282,26 +1316,18 @@ or source-correction claim units in `progress/items.json`.
 #check Etingof.ind_chiRep_iso_charLeftIdeal
 -- Chapter5/Problem5.8.4::induction_in_stages
 #check Etingof.ind_ind_iso_ind
+-- Chapter2/Problem2.3.16::claim-05
+#check Etingof.indecEigenvalue_unique
 -- Chapter5/Problem5.16.1::part_b
 #check Etingof.induction_spechtModule_iso_addSquareSum
+-- Chapter5/Problem5.24.2::trace_generators
+#check Etingof.invariantSubalgebra
+-- Chapter5/Problem5.24.2::trace_generators
+#check Etingof.invariantSubalgebra_eq_adjoin_traceWord
 -- Chapter3/Problem3.3.3::claim-17
 #check Etingof.irreducible_reps_of_matrix_algebra
--- Chapter6/Problem6.1.3_continued_tildeE::forbidden_affine_diagrams
-#check Etingof.isAffineDynkinDiagram_of_type
 -- Chapter5/Exercise5.3.3::odd_order_complex_type
 #check Etingof.isComplexType_of_odd_order_of_nontrivial_irreducible
--- Chapter6/Problem6.1.3_continued_E7_E8::part_a
-#check Etingof.isDynkinDiagram_A
--- Chapter6/Problem6.1.3_continued_E7_E8::part_a
-#check Etingof.isDynkinDiagram_D
--- Chapter6/Problem6.1.3_continued_E7_E8::part_b
-#check Etingof.isDynkinDiagram_E
--- Chapter6/Problem6.1.3_continued_E7_E8::part_d
-#check Etingof.isDynkinDiagram_degree_le_three
--- Chapter6/Problem6.1.3_continued_E7_E8::part_c
-#check Etingof.isDynkinDiagram_isTree
--- Chapter6/Problem6.1.3_continued_E7_E8::part_d
-#check Etingof.isDynkinDiagram_unique_degree_three
 -- Chapter5/Problem5.1.2::part_b
 #check Etingof.isRealType_iff_exists_real_form
 -- Chapter5/Problem5.1.2::part_b
@@ -1319,7 +1345,15 @@ or source-correction claim units in `progress/items.json`.
 -- Chapter2/Problem2.3.15::claim-02
 #check Etingof.not_exists_isSimpleModule_polynomial
 -- Chapter4/Problem4.5.2::part_i, Chapter4/Problem4.5.2::part_ii
-#check Etingof.psi (def)
+#check Etingof.psi
+-- Chapter4/Problem4.5.2::part_i
+#check Etingof.psi_acts_other
+-- Chapter4/Problem4.5.2::part_i
+#check Etingof.psi_acts_self
+-- Chapter4/Problem4.5.2::part_ii
+#check Etingof.psi_idempotent
+-- Chapter4/Problem4.5.2::part_ii
+#check Etingof.psi_orthogonal
 -- Chapter5/Problem5.1.2::part_a_complex, Chapter5/Problem5.1.2::part_a_real, Chapter5/Problem5.1.2::part_a_quaternionic
 #check Etingof.realGEndAlgebra
 -- Chapter5/Problem5.1.2::part_a_complex
@@ -1382,14 +1416,14 @@ or source-correction claim units in `progress/items.json`.
 #check Etingof.titsForm_pos_on_nonzero_of_finite_type
 -- Chapter6/Problem6.1.5_parts::part_b
 #check Etingof.titsForm_real_posDef_of_finite_type
+-- Chapter5/Problem5.24.2::trace_generators
+#check Etingof.traceWord
 -- Chapter2/Problem2.4.1::claim-01
 #check IsCoatom
 -- Chapter2/Problem2.4.1::claim-01
 #check IsCoatom.lt_iff
 -- Chapter2/Problem2.16.5::claim-01
 #check IsOfFinOrder
--- Chapter6/Problem6.9.3::part_a_source, Chapter6/Problem6.9.3::part_a_sink, Chapter6/Problem6.9.3::part_b
-#check IsSimpleStep
 -- Chapter2/Problem2.16.1::claim-02
 #check LieAlgebra.IsSolvable
 -- Chapter2/Problem2.16.1::claim-01
@@ -1410,10 +1444,6 @@ or source-correction claim units in `progress/items.json`.
 #check Module.compHom
 -- Chapter3/Problem3.3.3::claim-06
 #check Pi.module'
--- Chapter6/Problem6.9.3::part_a_source, Chapter6/Problem6.9.3::part_a_sink, Chapter6/Problem6.9.3::part_b
-#check Problem6_9_3.exists_jordanHolderSeries and Problem6_9_3.exists_compositionSeries_of_positiveRoot (part b)
--- Chapter6/Problem6.9.3::part_a_source, Chapter6/Problem6.9.3::part_a_sink, Chapter6/Problem6.9.3::part_b
-#check Problem6_9_3.ext1_source
 -- Chapter2/Problem2.11.6::claim-01
 #check SMulCommClass
 -- Chapter2/Problem2.3.16::claim-01
@@ -1428,33 +1458,5 @@ or source-correction claim units in `progress/items.json`.
 #check TensorProduct.smul_tmul'
 -- Chapter2/Exercise2.11.7::claim-01
 #check TensorProduct.tmul_smul
--- Chapter6/Problem6.9.3::part_a_source, Chapter6/Problem6.9.3::part_a_sink, Chapter6/Problem6.9.3::part_b
-#check exists_compositionSeries)
 -- Chapter3/Problem3.3.3::claim-17
 #check exists_iso_directSum_of_matrixProd
--- Chapter6/Problem6.9.3::part_a_source, Chapter6/Problem6.9.3::part_a_sink, Chapter6/Problem6.9.3::part_b
-#check ext1_sink (part a)
--- Chapter5/Problem5.24.2::trace_generators
-#check invariantSubalgebra
--- Chapter5/Problem5.24.2::trace_generators
-#check invariantSubalgebra_eq_adjoin_traceWord
--- Chapter6/Problem6.9.3::part_a_source, Chapter6/Problem6.9.3::part_a_sink, Chapter6/Problem6.9.3::part_b
-#check on Infrastructure/QuiverCompositionSeries.lean (QuiverRepCompositionSeries
--- Chapter4/Problem4.5.2::part_i, Chapter4/Problem4.5.2::part_ii
-#check psi_acts_other
--- Chapter4/Problem4.5.2::part_i, Chapter4/Problem4.5.2::part_ii
-#check psi_acts_self
--- Chapter4/Problem4.5.2::part_i, Chapter4/Problem4.5.2::part_ii
-#check psi_idempotent
--- Chapter4/Problem4.5.2::part_i, Chapter4/Problem4.5.2::part_ii
-#check psi_orthogonal
--- Chapter2/Exercise2.9.5::claim-01
-#check so3_lieEquiv_cross
--- Chapter4/Exercise4.3.1::covariant_model
-#check theorem Etingof.Exercise4_3_1.covariantSubspace_finrank : Module.finrank ℂ covariantSubspace = 2
--- Chapter4/Exercise4.3.1::covariant_model
-#check theorem Etingof.Exercise4_3_1.covariantSubspace_invariant (g : QuaternionGroup 2) (f : QuaternionGroup 2 → ℂ) (hf : f ∈ covariantSubspace) : rightRegular g f ∈ covariantSubspace
--- Chapter4/Exercise4.3.1::covariant_model
-#check theorem Etingof.Exercise4_3_1.covariantSubspace_irreducible (U : Submodule ℂ (QuaternionGroup 2 → ℂ)) (hUle : U ≤ covariantSubspace) (hUinv : ∀ g, ∀ f ∈ U, rightRegular g f ∈ U) : U = ⊥ ∨ U = covariantSubspace
--- Chapter5/Problem5.24.2::trace_generators
-#check traceWord

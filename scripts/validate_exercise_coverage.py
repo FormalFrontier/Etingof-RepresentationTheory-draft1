@@ -54,6 +54,14 @@ def file_paths(value: object) -> list[str]:
     return result
 
 
+def declaration_names(value: object) -> list[str]:
+    """Expand the legacy semicolon-separated form into exact Lean names."""
+    result: list[str] = []
+    for entry in as_list(value):
+        result.extend(part.strip() for part in str(entry).split(";") if part.strip())
+    return result
+
+
 def main() -> int:
     items = json.loads(ITEMS_PATH.read_text())
     exercises = [item for item in items if item.get("type") == "exercise"]
@@ -132,8 +140,15 @@ def main() -> int:
             total_claims += 1
 
             if verdict in {"formalized", "covered_elsewhere", "source_correction"}:
-                if not as_list(claim.get("lean_decl")):
+                declarations = declaration_names(claim.get("lean_decl"))
+                if not declarations:
                     errors.append(f"{where}: {verdict} unit has no exact Lean declaration pointer")
+                for declaration in declarations:
+                    if not re.fullmatch(r"[^\s,()/]+", declaration):
+                        errors.append(
+                            f"{where}: Lean declaration pointer is not an exact name: "
+                            f"{declaration!r}"
+                        )
                 for lean_file in file_paths(claim.get("lean_file")):
                     if not (REPO_ROOT / lean_file).is_file():
                         errors.append(f"{where}: provider file does not exist: {lean_file}")

@@ -2614,7 +2614,10 @@
         {
           "claim": "On an irreducible finite-dimensional representation, every central element acts by a scalar.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.exists_central_scalar / Etingof.centralCharacter_smul",
+          "lean_decl": [
+            "Etingof.exists_central_scalar",
+            "Etingof.centralCharacter_smul"
+          ],
           "unit": "claim-03",
           "source_ref": "blobs/Chapter2/Problem2.3.16.md"
         },
@@ -2628,7 +2631,10 @@
         {
           "claim": "On an indecomposable finite-dimensional representation, every central action has a unique eigenvalue χ_V(z).",
           "verdict": "formalized",
-          "lean_decl": "Etingof.centralAction_sub_smul_isNilpotent / Etingof.indecEigenvalue_unique",
+          "lean_decl": [
+            "Etingof.centralAction_sub_smul_isNilpotent",
+            "Etingof.indecEigenvalue_unique"
+          ],
           "unit": "claim-05",
           "source_ref": "blobs/Chapter2/Problem2.3.16.md"
         },
@@ -2691,7 +2697,10 @@
         {
           "claim": "The isomorphism sends f to op(f(1)), and its inverse sends op(a) to right multiplication by a.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.EndSelfEquivOp_apply / Etingof.EndSelfEquivOp_symm_op_apply",
+          "lean_decl": [
+            "Etingof.EndSelfEquivOp_apply",
+            "Etingof.EndSelfEquivOp_symm_op_apply"
+          ],
           "unit": "claim-03",
           "source_ref": "blobs/Chapter2/Problem2.3.17.md"
         }
@@ -5231,7 +5240,10 @@
         {
           "claim": "The cross-product Lie algebra R^3 is Lie-isomorphic to so(3).",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Exercise2_9_5.hatEquiv; so3_lieEquiv_cross",
+          "lean_decl": [
+            "Etingof.Exercise2_9_5.hatEquiv",
+            "Etingof.Exercise2_9_5.so3_lieEquiv_cross"
+          ],
           "unit": "claim-01",
           "source_ref": "blobs/Chapter2/Exercise2.9.5.md"
         }
@@ -13012,9 +13024,9 @@
             "EtingofRepresentationTheory/Chapter4/Exercise4_3_1.lean"
           ],
           "lean_decl": [
-            "theorem Etingof.Exercise4_3_1.covariantSubspace_invariant (g : QuaternionGroup 2) (f : QuaternionGroup 2 → ℂ) (hf : f ∈ covariantSubspace) : rightRegular g f ∈ covariantSubspace",
-            "theorem Etingof.Exercise4_3_1.covariantSubspace_finrank : Module.finrank ℂ covariantSubspace = 2",
-            "theorem Etingof.Exercise4_3_1.covariantSubspace_irreducible (U : Submodule ℂ (QuaternionGroup 2 → ℂ)) (hUle : U ≤ covariantSubspace) (hUinv : ∀ g, ∀ f ∈ U, rightRegular g f ∈ U) : U = ⊥ ∨ U = covariantSubspace"
+            "Etingof.Exercise4_3_1.covariantSubspace_invariant",
+            "Etingof.Exercise4_3_1.covariantSubspace_finrank",
+            "Etingof.Exercise4_3_1.covariantSubspace_irreducible"
           ]
         }
       ]
@@ -13128,11 +13140,9 @@
             "EtingofRepresentationTheory/Chapter4/Problem4_5_2.lean"
           ],
           "lean_decl": [
-            "Etingof.psi (def)",
-            "psi_acts_self",
-            "psi_acts_other",
-            "psi_idempotent",
-            "psi_orthogonal"
+            "Etingof.psi",
+            "Etingof.psi_acts_self",
+            "Etingof.psi_acts_other"
           ]
         },
         {
@@ -13144,11 +13154,9 @@
             "EtingofRepresentationTheory/Chapter4/Problem4_5_2.lean"
           ],
           "lean_decl": [
-            "Etingof.psi (def)",
-            "psi_acts_self",
-            "psi_acts_other",
-            "psi_idempotent",
-            "psi_orthogonal"
+            "Etingof.psi",
+            "Etingof.psi_idempotent",
+            "Etingof.psi_orthogonal"
           ]
         }
       ]
@@ -13661,13 +13669,12 @@
           "lean_decl": [
             "Etingof.Problem4_12_2.exists_unique_rep",
             "Etingof.Problem4_12_2.rhoHom",
-            "Etingof.Problem4_12_2.rhoLin",
             "Etingof.Problem4_12_2.rhoLin_apply",
             "Etingof.Problem4_12_2.rhoHom_xGen",
             "Etingof.Problem4_12_2.rhoHom_yGen",
-            "Etingof.Problem4_12_2.card_eq",
-            "Etingof.Problem4_12_2.eq_gen_prod",
-            "Etingof.Problem4_12_2.closure_gens_eq_top"
+            "Etingof.Problem4_12_2.Heisenberg.card_eq",
+            "Etingof.Problem4_12_2.Heisenberg.eq_gen_prod",
+            "Etingof.Problem4_12_2.Heisenberg.closure_gens_eq_top"
           ]
         },
         {
@@ -17215,9 +17222,9 @@
             "EtingofRepresentationTheory/Chapter5/Problem5_24_2.lean"
           ],
           "lean_decl": [
-            "invariantSubalgebra",
-            "traceWord",
-            "invariantSubalgebra_eq_adjoin_traceWord"
+            "Etingof.invariantSubalgebra",
+            "Etingof.traceWord",
+            "Etingof.invariantSubalgebra_eq_adjoin_traceWord"
           ]
         }
       ]
@@ -17661,7 +17668,7 @@
             "EtingofRepresentationTheory/Chapter5/Exercise5_27_3.lean"
           ],
           "lean_decl": [
-            "Etingof.Exercise5_27_3 (conjunct 1: ∀ χ U, Simple U → Simple (V χ U))"
+            "Etingof.Exercise5_27_3"
           ]
         },
         {
@@ -17673,7 +17680,7 @@
             "EtingofRepresentationTheory/Chapter5/Exercise5_27_3.lean"
           ],
           "lean_decl": [
-            "Etingof.Exercise5_27_3 (conjunct 2: Nonempty (V χ₁ U₁ ≅ V χ₂ U₂) → ∃ g (hg : dualSmul g χ₁ = χ₂), Nonempty (U₂ ≅ transport g χ₁ χ₂ hg U₁))"
+            "Etingof.Exercise5_27_3"
           ]
         },
         {
@@ -17685,7 +17692,7 @@
             "EtingofRepresentationTheory/Chapter5/Exercise5_27_3.lean"
           ],
           "lean_decl": [
-            "Etingof.Exercise5_27_3 (conjunct 3: ∀ W, Simple W → ∃ χ U, Simple U ∧ Nonempty (W ≅ V χ U))"
+            "Etingof.Exercise5_27_3"
           ]
         }
       ]
@@ -17952,10 +17959,10 @@
             "EtingofRepresentationTheory/Chapter6/Problem6_1_3_continued_tildeE.lean"
           ],
           "lean_decl": [
-            "Etingof.det_cartan_A",
-            "Etingof.det_cartan_D",
-            "Etingof.isDynkinDiagram_A",
-            "Etingof.isDynkinDiagram_D"
+            "Etingof.Problem6_1_3_E7E8.det_cartan_A",
+            "Etingof.Problem6_1_3_E7E8.det_cartan_D",
+            "Etingof.Problem6_1_3_E7E8.isDynkinDiagram_A",
+            "Etingof.Problem6_1_3_E7E8.isDynkinDiagram_D"
           ]
         },
         {
@@ -17968,10 +17975,10 @@
             "EtingofRepresentationTheory/Chapter6/Problem6_1_3_continued_tildeE.lean"
           ],
           "lean_decl": [
-            "Etingof.det_cartan_E6",
-            "Etingof.det_cartan_E7",
-            "Etingof.det_cartan_E8",
-            "Etingof.isDynkinDiagram_E"
+            "Etingof.Problem6_1_3_E7E8.det_cartan_E6",
+            "Etingof.Problem6_1_3_E7E8.det_cartan_E7",
+            "Etingof.Problem6_1_3_E7E8.det_cartan_E8",
+            "Etingof.Problem6_1_3_E7E8.isDynkinDiagram_E"
           ]
         },
         {
@@ -17984,8 +17991,8 @@
             "EtingofRepresentationTheory/Chapter6/Problem6_1_3_continued_tildeE.lean"
           ],
           "lean_decl": [
-            "Etingof.cycle_cartan_det_zero",
-            "Etingof.isDynkinDiagram_isTree"
+            "Etingof.Problem6_1_3_E7E8.cycle_cartan_det_zero",
+            "Etingof.Problem6_1_3_E7E8.isDynkinDiagram_isTree"
           ]
         },
         {
@@ -17998,8 +18005,8 @@
             "EtingofRepresentationTheory/Chapter6/Problem6_1_3_continued_tildeE.lean"
           ],
           "lean_decl": [
-            "Etingof.isDynkinDiagram_degree_le_three",
-            "Etingof.isDynkinDiagram_unique_degree_three"
+            "Etingof.Problem6_1_3_E7E8.isDynkinDiagram_degree_le_three",
+            "Etingof.Problem6_1_3_E7E8.isDynkinDiagram_unique_degree_three"
           ]
         },
         {
@@ -18012,8 +18019,8 @@
             "EtingofRepresentationTheory/Chapter6/Problem6_1_3_continued_tildeE.lean"
           ],
           "lean_decl": [
-            "Etingof.AffineType.cartan_mulVec_marks_eq_zero",
-            "Etingof.AffineType.cartan_det_zero"
+            "Etingof.Problem6_1_3_tildeE.cartan_mulVec_marks_eq_zero",
+            "Etingof.Problem6_1_3_tildeE.cartan_det_zero"
           ]
         }
       ]
@@ -18052,9 +18059,9 @@
             "EtingofRepresentationTheory/Chapter6/Problem6_1_3_continued_tildeE.lean"
           ],
           "lean_decl": [
-            "Etingof.AffineType.cartan_mulVec_marks_eq_zero",
-            "Etingof.AffineType.cartan_det_zero",
-            "Etingof.isAffineDynkinDiagram_of_type"
+            "Etingof.Problem6_1_3_tildeE.cartan_mulVec_marks_eq_zero",
+            "Etingof.Problem6_1_3_tildeE.cartan_det_zero",
+            "Etingof.Problem6_1_3_tildeE.isAffineDynkinDiagram_of_type"
           ]
         },
         {
@@ -18066,7 +18073,7 @@
             "EtingofRepresentationTheory/Chapter6/Problem6_1_3_continued_tildeE.lean"
           ],
           "lean_decl": [
-            "Etingof.dynkin_classification"
+            "Etingof.Problem6_1_3_tildeE.dynkin_classification"
           ]
         },
         {
@@ -18078,7 +18085,7 @@
             "EtingofRepresentationTheory/Chapter6/Problem6_1_3_continued_tildeE.lean"
           ],
           "lean_decl": [
-            "Etingof.affine_dynkin_classification"
+            "Etingof.Problem6_1_3_tildeE.affine_dynkin_classification"
           ]
         }
       ]
@@ -19287,12 +19294,7 @@
             "EtingofRepresentationTheory/Chapter6/Problem6_9_3_JordanHolder.lean"
           ],
           "lean_decl": [
-            "Problem6_9_3.ext1_source",
-            "ext1_sink (part a)",
-            "Problem6_9_3.exists_jordanHolderSeries and Problem6_9_3.exists_compositionSeries_of_positiveRoot (part b)",
-            "on Infrastructure/QuiverCompositionSeries.lean (QuiverRepCompositionSeries",
-            "IsSimpleStep",
-            "exists_compositionSeries)"
+            "Etingof.Problem6_9_3.ext1_source"
           ]
         },
         {
@@ -19305,12 +19307,7 @@
             "EtingofRepresentationTheory/Chapter6/Problem6_9_3_JordanHolder.lean"
           ],
           "lean_decl": [
-            "Problem6_9_3.ext1_source",
-            "ext1_sink (part a)",
-            "Problem6_9_3.exists_jordanHolderSeries and Problem6_9_3.exists_compositionSeries_of_positiveRoot (part b)",
-            "on Infrastructure/QuiverCompositionSeries.lean (QuiverRepCompositionSeries",
-            "IsSimpleStep",
-            "exists_compositionSeries)"
+            "Etingof.Problem6_9_3.ext1_sink"
           ]
         },
         {
@@ -19323,12 +19320,11 @@
             "EtingofRepresentationTheory/Chapter6/Problem6_9_3_JordanHolder.lean"
           ],
           "lean_decl": [
-            "Problem6_9_3.ext1_source",
-            "ext1_sink (part a)",
-            "Problem6_9_3.exists_jordanHolderSeries and Problem6_9_3.exists_compositionSeries_of_positiveRoot (part b)",
-            "on Infrastructure/QuiverCompositionSeries.lean (QuiverRepCompositionSeries",
-            "IsSimpleStep",
-            "exists_compositionSeries)"
+            "Etingof.Problem6_9_3.exists_jordanHolderSeries",
+            "Etingof.Problem6_9_3.exists_compositionSeries_of_positiveRoot",
+            "Etingof.QuiverRepCompositionSeries",
+            "Etingof.IsSimpleStep",
+            "Etingof.exists_compositionSeries"
           ]
         }
       ]
