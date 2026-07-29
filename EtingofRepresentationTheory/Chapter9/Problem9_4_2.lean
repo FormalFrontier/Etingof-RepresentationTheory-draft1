@@ -1,10 +1,13 @@
 import Mathlib.Algebra.Category.ModuleCat.Ext.HasExt
 import Mathlib.Algebra.Category.ModuleCat.EpiMono
+import Mathlib.Algebra.Category.ModuleCat.Algebra
 import Mathlib.CategoryTheory.Abelian.Projective.Dimension
 import Mathlib.Algebra.Homology.ShortComplex.ShortExact
 import Mathlib.RingTheory.Noetherian.Basic
 import Mathlib.RingTheory.Finiteness.Basic
+import EtingofRepresentationTheory.Chapter7.Example7_7_2
 import EtingofRepresentationTheory.Chapter9.Definition9_4_1
+import EtingofRepresentationTheory.Chapter9.FiniteProjectiveResolution
 import EtingofRepresentationTheory.Chapter9.ProjectiveResolutionSyzygy
 
 /-!
@@ -39,6 +42,7 @@ splitting type. All three parts are proved by reduction to the Mathlib
 universe u
 
 open CategoryTheory
+open scoped ModuleCat
 
 namespace Etingof.Problem942
 
@@ -249,5 +253,37 @@ theorem finite_of_finiteDimensional_algebra {k : Type*} [CommRing k] [Algebra k 
     [Module.Finite k R] (N : Type*) [AddCommGroup N] [Module R N] [Module k N]
     [IsScalarTower k R N] [Module.Finite R N] : Module.Finite k N :=
   Module.Finite.trans R N
+
+/-- **Problem 9.4.2(iii), finite-dimensional conclusion.** If `R` is a finite-dimensional
+algebra over a field `k`, `M` is finite dimensional over `k`, and `pd(M) ≤ d`, then one can
+choose a projective resolution with finite-dimensional terms and truncate it at degree `d`.
+
+The returned data are the source's finite resolution: the finite-dimensional projective terms
+`P₀, …, P_{d-1}`, the finite-dimensional projective top syzygy `Ω^d M`, and the short exact
+syzygy sequences that splice them into a length-`d` resolution of `M`. -/
+theorem exists_finiteDimensional_truncated_projective_resolution
+    {k : Type u} [Field k] [Algebra k R] [Module.Finite k R]
+    (M : ModuleCat.{u} R) [Module k M] [IsScalarTower k R M] [Module.Finite k M]
+    (d : ℕ) (hd : HasProjectiveDimensionLE M d) :
+    ∃ P : ProjectiveResolution M,
+      (∀ n, Module.Finite k ↥(P.complex.X n)) ∧
+      Projective (Etingof.ProjectiveResolution.syzygy P d) ∧
+      Module.Finite k ↥(Etingof.ProjectiveResolution.syzygy P d) ∧
+      Etingof.ProjectiveResolution.syzygy P 0 = M ∧
+      ∀ n, (Etingof.ProjectiveResolution.syzygySES P n).ShortExact := by
+  letI : IsNoetherianRing R := isNoetherianRing_of_finiteDimensional k R
+  letI : Module.Finite R M := Module.Finite.of_restrictScalars_finite k R M
+  obtain ⟨P, hP⟩ :=
+    Etingof.FiniteProjectiveResolution.exists_finite_projectiveResolution M
+  have hPk : ∀ n, Module.Finite k ↥(P.complex.X n) := by
+    intro n
+    exact Module.Finite.trans R (P.complex.X n)
+  obtain ⟨hproj, hsyzygy, hzero, hses⟩ :=
+    finite_truncated_projective_resolution R M P inferInstance hP d hd
+  have htop : Module.Finite k ↥(Etingof.ProjectiveResolution.syzygy P d) := by
+    letI : Module.Finite R ↥(Etingof.ProjectiveResolution.syzygy P d) := hsyzygy d
+    exact Module.Finite.trans R
+      ↥(Etingof.ProjectiveResolution.syzygy (C := ModuleCat R) P d)
+  exact ⟨P, hPk, hproj, htop, hzero, hses⟩
 
 end Etingof.Problem942

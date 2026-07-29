@@ -11,6 +11,7 @@ to the false literal Ext statement in Problem 8.2.8.
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -47,7 +48,9 @@ def as_list(value: object) -> list[object]:
 def file_paths(value: object) -> list[str]:
     result: list[str] = []
     for entry in as_list(value):
-        result.extend(part.strip() for part in str(entry).split(";") if part.strip())
+        result.extend(
+            part.strip() for part in re.split(r"[;,]", str(entry)) if part.strip()
+        )
     return result
 
 
@@ -99,7 +102,6 @@ def main() -> int:
 
         units: set[str] = set()
         has_exception = False
-        item_evidence = as_list(item.get("lean_decl")) + as_list(item.get("lean_file"))
         for index, claim in enumerate(claims, 1):
             where = f"{item_id} claim {index}"
             if not isinstance(claim, dict):
@@ -129,10 +131,9 @@ def main() -> int:
             verdict_counts[verdict] += 1
             total_claims += 1
 
-            if verdict in {"formalized", "covered_elsewhere"}:
-                claim_evidence = as_list(claim.get("lean_decl")) + as_list(claim.get("lean_file"))
-                if not claim_evidence and not item_evidence:
-                    errors.append(f"{where}: {verdict} unit has no Lean declaration/file evidence")
+            if verdict in {"formalized", "covered_elsewhere", "source_correction"}:
+                if not as_list(claim.get("lean_decl")):
+                    errors.append(f"{where}: {verdict} unit has no exact Lean declaration pointer")
                 for lean_file in file_paths(claim.get("lean_file")):
                     if not (REPO_ROOT / lean_file).is_file():
                         errors.append(f"{where}: provider file does not exist: {lean_file}")

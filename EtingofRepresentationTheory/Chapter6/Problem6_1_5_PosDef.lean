@@ -148,4 +148,143 @@ theorem isDynkinDiagram_of_cone (adj : Matrix (Fin n) (Fin n) ℤ)
     rcases h01 i j with h | h <;> omega
   exact ⟨hsymm, hloop, h01, hconn, titsForm_posDef_of_cone adj hnonneg hcone⟩
 
+/-- **Problem 6.1.5(a), denominator-clearing step.** Positivity of the integral
+Cartan/Tits form implies positivity of its scalar extension to every nonzero
+rational vector.  This is the source hint "it suffices to check the result for
+integers," made explicit. -/
+theorem titsForm_rat_pos_of_int_pos (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hInt : ∀ y : Fin n → ℤ, y ≠ 0 →
+      0 < dotProduct y ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec y)) :
+    ∀ x : Fin n → ℚ, x ≠ 0 →
+      0 < dotProduct x
+        (((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).map
+          (Int.castRingHom ℚ)).mulVec x) := by
+  intro x hx
+  let d : ℕ := ∏ i, (x i).den
+  let y : Fin n → ℤ := fun i => (x i).num * (d / (x i).den : ℕ)
+  have hd : 0 < d := Finset.prod_pos fun i _ => (x i).den_pos
+  have hscale : ∀ i, (d : ℚ) * x i = y i := by
+    intro i
+    have hdiv : (x i).den ∣ d := by
+      exact Finset.dvd_prod_of_mem (fun j => (x j).den) (Finset.mem_univ i)
+    have hden : ((x i).den : ℚ) ≠ 0 := by exact_mod_cast (x i).den_nz
+    rw [← (x i).num_div_den]
+    simp only [y, Int.cast_mul, Int.cast_natCast]
+    rw [show ((d / (x i).den : ℕ) : ℚ) = (d : ℚ) / ((x i).den : ℚ) from
+      Nat.cast_div hdiv hden]
+    field_simp
+  have hy : y ≠ 0 := by
+    intro hy
+    apply hx
+    funext i
+    have hi := hscale i
+    rw [hy] at hi
+    simp only [Pi.zero_apply, Int.cast_zero] at hi
+    exact (mul_eq_zero.mp hi).resolve_left (by exact_mod_cast hd.ne')
+  have hpos := hInt y hy
+  have hcast :
+      ((dotProduct y
+          ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec y) : ℤ) : ℚ) =
+        dotProduct (fun i => (y i : ℚ))
+          (((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).map (Int.castRingHom ℚ)).mulVec
+            (fun i => (y i : ℚ))) := by
+    simp [dotProduct, Matrix.mulVec]
+  have hscaled :
+      dotProduct (fun i => (y i : ℚ))
+          (((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).map (Int.castRingHom ℚ)).mulVec
+            (fun i => (y i : ℚ))) =
+        (d : ℚ) ^ 2 * dotProduct x
+          (((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).map
+            (Int.castRingHom ℚ)).mulVec x) := by
+    have hfun : (fun i => (y i : ℚ)) = (d : ℚ) • x := by
+      funext i
+      simpa [Pi.smul_apply, smul_eq_mul] using (hscale i).symm
+    rw [hfun]
+    simp [Matrix.mulVec_smul, smul_dotProduct, dotProduct_smul, pow_two]
+    ring
+  have hposQ : 0 <
+      dotProduct (fun i => (y i : ℚ))
+        (((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).map (Int.castRingHom ℚ)).mulVec
+          (fun i => (y i : ℚ))) := by
+    rw [← hcast]
+    exact_mod_cast hpos
+  rw [hscaled] at hposQ
+  have hdQ : (0 : ℚ) < d := by exact_mod_cast hd
+  nlinarith [sq_pos_of_pos hdQ]
+
+/-- **Problem 6.1.5(b).** A symmetric integral Cartan/Tits matrix that is
+positive on nonzero rational vectors is positive definite over `ℝ`.
+
+Density first gives positive semidefiniteness over `ℝ`.  Rational strict
+positivity makes the determinant nonzero, and hence upgrades the real matrix to
+positive definite. -/
+theorem titsForm_real_posDef_of_rat_pos (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hsymm : adj.IsSymm)
+    (hRat : ∀ x : Fin n → ℚ, x ≠ 0 →
+      0 < dotProduct x
+        (((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).map
+          (Int.castRingHom ℚ)).mulVec x)) :
+    ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).map
+      (Int.castRingHom ℝ)).PosDef := by
+  let MZ : Matrix (Fin n) (Fin n) ℤ := 2 • 1 - adj
+  let MQ : Matrix (Fin n) (Fin n) ℚ := MZ.map (Int.castRingHom ℚ)
+  let MR : Matrix (Fin n) (Fin n) ℝ := MZ.map (Int.castRingHom ℝ)
+  have hMZsymm : MZ.IsSymm := (Matrix.isSymm_one.smul 2).sub hsymm
+  have hMQherm : MQ.IsHermitian := by
+    apply Matrix.IsHermitian.ext
+    intro i j
+    have hij := congr_fun (congr_fun hMZsymm i) j
+    simpa [MQ, Matrix.transpose_apply] using hij
+  have hMRherm : MR.IsHermitian := by
+    apply Matrix.IsHermitian.ext
+    intro i j
+    have hij := congr_fun (congr_fun hMZsymm i) j
+    simpa [MR, Matrix.transpose_apply] using hij
+  have hMQpos : MQ.PosDef := Matrix.PosDef.of_dotProduct_mulVec_pos hMQherm <| by
+    intro x hx
+    exact hRat x hx
+  have hdetQ : MQ.det ≠ 0 := by
+    exact ((Matrix.isUnit_iff_isUnit_det MQ).mp hMQpos.isUnit).ne_zero
+  have hdetZ : MZ.det ≠ 0 := by
+    intro hz
+    apply hdetQ
+    change (MZ.map (Int.castRingHom ℚ)).det = 0
+    have hmap : ((MZ.det : ℤ) : ℚ) = (MZ.map (Int.castRingHom ℚ)).det := by
+      simpa using (Int.castRingHom ℚ).map_det MZ
+    rw [← hmap]
+    simp [hz]
+  have hdetR : MR.det ≠ 0 := by
+    change (MZ.map (Int.castRingHom ℝ)).det ≠ 0
+    have hmap : ((MZ.det : ℤ) : ℝ) = (MZ.map (Int.castRingHom ℝ)).det := by
+      simpa using (Int.castRingHom ℝ).map_det MZ
+    rw [← hmap]
+    exact_mod_cast hdetZ
+  have hMRsem : MR.PosSemidef := Matrix.PosSemidef.of_dotProduct_mulVec_nonneg hMRherm <| by
+    intro x
+    let q : (Fin n → ℝ) → ℝ := fun z => dotProduct z (MR.mulVec z)
+    have hq : Continuous q := by
+      dsimp [q]
+      fun_prop
+    refine (DenseRange.piMap (fun _ : Fin n => Rat.denseRange_cast)).induction_on x
+      (isClosed_Ici.preimage hq) ?_
+    intro z
+    change 0 ≤ q (Pi.map (fun _ : Fin n => Rat.cast) z)
+    by_cases hz : z = 0
+    · subst z
+      have hzero : Pi.map (fun _ : Fin n => Rat.cast) (0 : Fin n → ℚ) =
+          (0 : Fin n → ℝ) := by
+        ext i
+        simp [Pi.map_apply]
+      rw [hzero]
+      simp [q]
+    · have hp := (hRat z hz).le
+      have hpR : (0 : ℝ) ≤
+          ((dotProduct z (MQ.mulVec z) : ℚ) : ℝ) := by
+        exact_mod_cast hp
+      rw [show q (Pi.map (fun _ : Fin n => Rat.cast) z) =
+          ((dotProduct z (MQ.mulVec z) : ℚ) : ℝ) by
+        simp [q, MR, MQ, MZ, dotProduct, Matrix.mulVec, Pi.map_apply]]
+      exact hpR
+  exact hMRsem.posDef_iff_det_ne_zero.mpr hdetR
+
 end Etingof

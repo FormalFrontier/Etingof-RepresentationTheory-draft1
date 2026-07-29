@@ -139,18 +139,17 @@ These omissions are documented in
 `EtingofRepresentationTheory/Chapter6/Problem6_1_6.lean`; no unproved headline
 declaration stands in for them.
 
-The endpoints that are in scope remain source-present, but the file currently
-fails a fresh source check. Regression #7550 tracks restoring those implemented
-symmetry, connectivity, affine-Cartan, and dimension-vector results without
-expanding the intentional-omission boundary above.
-
 ## Completed former exclusions
 
 The following exercises appeared in the original hard-problem/skip list but were
 subsequently formalized. The former scope decision is therefore superseded:
 
+- Problem 4.12.8 — the complete finite-subgroup classifications of `SO(3)` and
+  `SU(2)`, including the cyclic `-1 ∉ H` branch;
 - Problem 5.24.2 — invariants of matrix tuples;
 - Problem 6.1.3 — finite and affine Dynkin diagrams;
+- Problem 9.6.5 — the explicit balanced-tensor functor, its comparison maps,
+  and the resulting quasi-inverse equivalence;
 - Problem 8.2.8 — a corrected finite-dimensional Künneth theorem for Tor and Ext is
   formalized. The literal source statement for Ext omits necessary finiteness
   hypotheses and is false already in degree zero; the formalization deliberately
@@ -206,14 +205,3 @@ obtained by feeding in the (finitely generated projective) bar resolution.
 - Coverage is recorded as `covered_partial` (not `covered_full`) in
   `progress/items.json`, with the scope correction noted there. Naturality/API
   packaging of the corrected theorem is separately tracked by #7397.
-
-## Reopened former exclusions
-
-These exercises were removed from the original skip list after substantial
-formalization, but a later fidelity audit found a remaining source-level endpoint.
-They are active work, not intentional omissions:
-
-- Problem 4.12.8 — the finite-subgroup classification of `SO(3)` and much of the
-  `SU(2)` double-cover analysis are proved, but the `-1 ∉ H` branch currently gives
-  only `H ≃ h(H)` rather than the required cyclic conclusion. The exact `SU(2)`
-  list therefore remains #7281.

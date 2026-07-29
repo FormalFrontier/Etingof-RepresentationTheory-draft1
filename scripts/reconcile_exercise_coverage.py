@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from collections import Counter
 from pathlib import Path
 
@@ -19,6 +20,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 ITEMS = ROOT / "progress" / "items.json"
 SUMMARY = ROOT / "progress" / "coverage-audit" / "exercise-coverage.md"
+DECLARATION_CHECKER = ROOT / "EtingofRepresentationTheory" / "ExerciseCoverageDeclarations.lean"
 TODAY = "2026-07-28"
 
 
@@ -305,6 +307,10 @@ INTENTIONAL_OMISSIONS = {
 SOURCE_CORRECTIONS = {("Chapter8/Problem8.2.8", "ext_literal")}
 
 PROVIDER_OVERRIDES = {
+    "Chapter4/Exercise4.2.3": [
+        "EtingofRepresentationTheory/Chapter4/Exercise4_2_3.lean",
+        "EtingofRepresentationTheory/Chapter4/Exercise4_2_3_Assembly.lean",
+    ],
     "Chapter2/Problem2.16.4": [
         "EtingofRepresentationTheory/Chapter2/Problem2_16_4.lean",
         "EtingofRepresentationTheory/Reprises/Problem2_16_4.lean",
@@ -312,6 +318,13 @@ PROVIDER_OVERRIDES = {
     "Chapter6/Problem6.9.1": [
         "EtingofRepresentationTheory/Chapter6/Problem6_9_1.lean",
         "EtingofRepresentationTheory/Chapter6/Problem6_9_1_Classification.lean",
+    ],
+    "Chapter8/Problem8.2.5": [
+        "EtingofRepresentationTheory/Chapter8/Problem8_2_5.lean",
+    ],
+    "Chapter9/Problem9.4.2": [
+        "EtingofRepresentationTheory/Chapter9/Problem9_4_2.lean",
+        "EtingofRepresentationTheory/Chapter9/FiniteProjectiveResolution.lean",
     ],
     "Chapter4/Problem4.12.3": [
         "EtingofRepresentationTheory/Chapter5/SymmetricIrreducible.lean",
@@ -324,6 +337,10 @@ PROVIDER_OVERRIDES = {
     "Chapter5/Problem5.10.2": [
         "EtingofRepresentationTheory/Chapter5/Problem5_10_2.lean",
         "EtingofRepresentationTheory/Chapter5/Theorem5_10_1.lean",
+    ],
+    "Chapter5/Problem5.16.1": [
+        "EtingofRepresentationTheory/Chapter5/Problem5_16_1.lean",
+        "EtingofRepresentationTheory/Chapter5/Problem5_16_1_Iso.lean",
     ],
     "Chapter5/Exercise5.27.2": [
         "EtingofRepresentationTheory/Chapter5/Exercise5_27_2_Dihedral.lean",
@@ -338,12 +355,262 @@ PROVIDER_OVERRIDES = {
         "EtingofRepresentationTheory/Chapter6/Problem6_1_5_TitsBridge.lean",
         "EtingofRepresentationTheory/Chapter6/Problem6_1_5_theorem.lean",
     ],
+    "Chapter6/Problem6.1.3_continued_E7_E8": [
+        "EtingofRepresentationTheory/Chapter6/Problem6_1_3_continued_E7_E8.lean",
+        "EtingofRepresentationTheory/Chapter6/Problem6_1_3_continued_tildeE.lean",
+    ],
+    "Chapter7/Problem7.8.7": [
+        "EtingofRepresentationTheory/Chapter7/Problem7_8_7.lean",
+        "EtingofRepresentationTheory/Chapter7/KunnethIso.lean",
+    ],
+    "Chapter8/Problem8.2.6": [
+        "EtingofRepresentationTheory/Chapter8/Problem8_2_6.lean",
+        "EtingofRepresentationTheory/Chapter8/Problem8_2_6_Core.lean",
+        "EtingofRepresentationTheory/Chapter8/Problem8_2_6_LongExact.lean",
+        "EtingofRepresentationTheory/Chapter8/Problem8_2_6_ii_Crux.lean",
+        "EtingofRepresentationTheory/Chapter8/Horseshoe.lean",
+    ],
+    "Chapter8/Problem8.2.10": [
+        "EtingofRepresentationTheory/Chapter8/Problem8_2_10.lean",
+        "EtingofRepresentationTheory/Chapter8/KoszulBimoduleShear.lean",
+        "EtingofRepresentationTheory/Chapter8/Problem8_2_10_HilbertSyzygy.lean",
+        "EtingofRepresentationTheory/Chapter8/Problem8_2_10_HilbertSyzygyResolution.lean",
+    ],
 }
 
 # The final gaps closed by this umbrella get declaration-level evidence instead
 # of merely inheriting their provider files.  Older, already-reviewed units keep
 # the declaration pointers recorded by their original audit when available.
 DECL_OVERRIDES = {
+    ("Chapter4/Exercise4.2.3", "strict_modular_count"): (
+        "Etingof.Exercise4_2_3; Etingof.natCard_irrepClasses_lt_conjClasses_of_isAlgClosed"
+    ),
+    ("Chapter5/Problem5.2.7", "part_a"): (
+        "Etingof.Problem5_2_7.exists_finite_galois_field_of_definition"
+    ),
+    ("Chapter5/Problem5.2.7", "part_b"): (
+        "Etingof.Problem5_2_7.exists_character_eq_zero"
+    ),
+    ("Chapter5/Discussion_Problem5.10.2_parts", "part_a"): (
+        "Etingof.Problem5_10_2_a; Etingof.Problem5_10_2_a_inv_apply"
+    ),
+    ("Chapter5/Discussion_Problem5.10.2_parts", "part_b"): (
+        "Etingof.Theorem5_10_1; Etingof.Theorem5_10_1_homEquiv"
+    ),
+    ("Chapter5/Discussion_Problem5.10.2_parts", "part_c"): (
+        "Etingof.Problem5_10_2_c; Etingof.Problem5_10_2_c_hom_apply"
+    ),
+    ("Chapter5/Discussion_Problem5.10.2_parts", "part_d"): (
+        "Etingof.Problem5_10_2_d; Etingof.Problem5_10_2_d_formula"
+    ),
+    ("Chapter5/Discussion_Problem5.10.2_parts", "part_e"): (
+        "Etingof.Problem5_10_2_e; Etingof.Problem5_10_2_e_homEquiv"
+    ),
+    ("Chapter5/Discussion_Problem5.10.2_parts", "part_f"): "Etingof.Problem5_10_2_f",
+    ("Chapter5/Problem5.16.1", "part_a"): (
+        "Etingof.restriction_spechtModule_iso_removeSquareSum"
+    ),
+    ("Chapter5/Problem5.16.1", "part_b"): (
+        "Etingof.induction_spechtModule_iso_addSquareSum"
+    ),
+    ("Chapter6/Problem6.1.1", "polynomial_embedding"): (
+        "Etingof.n_le_m_of_injective_to_rationalFunctions"
+    ),
+    ("Chapter6/Problem6.1.1", "field_embedding"): "Etingof.n_le_m_of_field_embedding",
+    ("Chapter6/Problem6.1.2", "part_a"): (
+        "Etingof.Problem6_1_2.exists_isAlgDense_orbit"
+    ),
+    ("Chapter6/Problem6.1.2", "part_b"): (
+        "Etingof.Problem6_1_2.exists_injective_glOrbitComorphism; "
+        "Etingof.Problem6_1_2.finrank_le_sq_of_finite_orbits"
+    ),
+    ("Chapter6/Problem6.1.2", "part_c"): (
+        "Etingof.Problem6_1_2.finrank_le_sum_sq_of_finite_orbits"
+    ),
+    ("Chapter6/Problem6.1.3", "setup"): "Etingof.Problem6_1_3.cartanMatrix",
+    ("Chapter6/Problem6.1.3_continued_E7_E8", "part_a"): (
+        "Etingof.det_cartan_A; Etingof.det_cartan_D; "
+        "Etingof.isDynkinDiagram_A; Etingof.isDynkinDiagram_D"
+    ),
+    ("Chapter6/Problem6.1.3_continued_E7_E8", "part_b"): (
+        "Etingof.det_cartan_E6; Etingof.det_cartan_E7; Etingof.det_cartan_E8; "
+        "Etingof.isDynkinDiagram_E"
+    ),
+    ("Chapter6/Problem6.1.3_continued_E7_E8", "part_c"): (
+        "Etingof.cycle_cartan_det_zero; Etingof.isDynkinDiagram_isTree"
+    ),
+    ("Chapter6/Problem6.1.3_continued_E7_E8", "part_d"): (
+        "Etingof.isDynkinDiagram_degree_le_three; "
+        "Etingof.isDynkinDiagram_unique_degree_three"
+    ),
+    ("Chapter6/Problem6.1.3_continued_E7_E8", "part_e"): (
+        "Etingof.AffineType.cartan_mulVec_marks_eq_zero; "
+        "Etingof.AffineType.cartan_det_zero"
+    ),
+    ("Chapter6/Problem6.1.3_continued_tildeE", "forbidden_affine_diagrams"): (
+        "Etingof.AffineType.cartan_mulVec_marks_eq_zero; "
+        "Etingof.AffineType.cartan_det_zero; Etingof.isAffineDynkinDiagram_of_type"
+    ),
+    ("Chapter6/Problem6.1.3_continued_tildeE", "part_f"): (
+        "Etingof.dynkin_classification"
+    ),
+    ("Chapter6/Problem6.1.3_continued_tildeE", "part_g"): (
+        "Etingof.affine_dynkin_classification"
+    ),
+    ("Chapter6/Problem6.1.5_parts", "part_a"): (
+        "Etingof.titsForm_pos_on_nonzero_of_finite_type"
+    ),
+    ("Chapter6/Problem6.1.5_parts", "part_b"): (
+        "Etingof.titsForm_real_posDef_of_finite_type"
+    ),
+    ("Chapter6/Problem6.1.5_parts", "part_c"): (
+        "Etingof.IsFiniteTypeQuiver.no_self_loops; Etingof.Theorem_6_1_5"
+    ),
+    ("Chapter6/Problem6.9.2", "part_a"): "Etingof.Problem6_9_2.α_isBasis",
+    ("Chapter6/Problem6.9.2", "part_b"): (
+        "Etingof.Problem6_9_2.rootsOf_E8_isRootSystem; "
+        "Etingof.Problem6_9_2.rootsOf_E8_type_E8"
+    ),
+    ("Chapter6/Problem6.9.2", "part_c"): (
+        "Etingof.Problem6_9_2.E7Lattice; Etingof.Problem6_9_2.E6Lattice; "
+        "Etingof.Problem6_9_2.E7Simple_gram_type; Etingof.Problem6_9_2.E6Simple_gram_type"
+    ),
+    ("Chapter6/Problem6.9.2", "part_d"): (
+        "Etingof.Problem6_9_2.E6_root_count; Etingof.Problem6_9_2.E7_root_count; "
+        "Etingof.Problem6_9_2.E8_root_count"
+    ),
+    ("Chapter7/Problem7.7.3", "abelian_fg_modules"): "Etingof.Problem7_7_3",
+    ("Chapter7/Exercise7.8.4", "disk_decomposition"): "Etingof.Exercise7_8_4_directSum",
+    ("Chapter7/Exercise7.8.4", "short_exact_split"): "Etingof.Exercise7_8_4_split",
+    ("Chapter7/Exercise7.8.4", "abelian_group_counterexample"): (
+        "Etingof.Exercise7_8_4_not_abelianGroups"
+    ),
+    ("Chapter7/Problem7.8.5", "part_i"): (
+        "Etingof.Problem7_8_5_Subcomplex.concreteConnecting; "
+        "Etingof.Problem7_8_5_Subcomplex.connecting_wellDefined; "
+        "Etingof.Problem7_8_5_Subcomplex.connecting_lift_independent; "
+        "Etingof.Problem7_8_5_Subcomplex.concreteConnecting_eq_categorical"
+    ),
+    ("Chapter7/Problem7.8.5", "part_ii"): (
+        "Etingof.Problem7_8_5; Etingof.Problem7_8_5_quotient"
+    ),
+    ("Chapter7/Problem7.8.7", "part_i"): "Etingof.Problem7_8_7_i",
+    ("Chapter7/Problem7.8.7", "part_ii"): "Etingof.Problem7_8_7_ii",
+    ("Chapter7/Problem7.8.7", "part_iii"): "Etingof.Problem7_8_7_iii",
+    ("Chapter7/Problem7.8.7", "part_iv"): (
+        "Etingof.Problem7_8_7_iv; Etingof.kunnethNatIso"
+    ),
+    ("Chapter7/Exercise7.9.7", "left_adjoint"): "Etingof.Exercise7_9_7",
+    ("Chapter7/Exercise7.9.7", "right_adjoint"): "Etingof.Exercise7_9_7",
+    ("Chapter7/Exercise7.9.8", "part_a"): "Etingof.reflectionFunctorAdjunction",
+    ("Chapter7/Exercise7.9.8", "part_b"): (
+        "Etingof.reflectionFunctorMinus_rightExact; "
+        "Etingof.reflectionFunctorPlus_leftExact; Etingof.Exercise7_9_8_exactness"
+    ),
+    ("Chapter8/Problem8.1.3", "part_i"): "Etingof.Problem_8_1_3_i",
+    ("Chapter8/Problem8.1.3", "part_ii"): "Etingof.Problem_8_1_3_ii",
+    ("Chapter8/Problem8.1.3", "part_iii_flat"): "Etingof.Problem_8_1_3_iii",
+    ("Chapter8/Problem8.1.3", "part_iii_not_projective"): "Etingof.Problem_8_1_3_iii",
+    ("Chapter8/Exercise8.1.4", "horseshoe_lift"): "Etingof.Exercise_8_1_4",
+    ("Chapter8/Exercise8.2.2", "projective_resolution"): "Etingof.Exercise_8_2_2",
+    ("Chapter8/Exercise8.2.2", "free_resolution"): (
+        "Etingof.Exercise_8_2_2_free; Etingof.FreeResolution.resolution"
+    ),
+    ("Chapter8/Problem8.2.6", "part_i"): (
+        "Etingof.Problem_8_2_6_i_tor; Etingof.Problem_8_2_6_i_ext"
+    ),
+    ("Chapter8/Problem8.2.6", "part_ii"): (
+        "Etingof.Problem_8_2_6_ii; Etingof.extOneAddEquivProblem3Ext1"
+    ),
+    ("Chapter8/Problem8.2.6", "part_iii"): (
+        "Etingof.Problem_8_2_6_iii_ext; Etingof.Problem_8_2_6_iii_tor"
+    ),
+    ("Chapter8/Problem8.2.6", "part_iv"): "Etingof.Problem_8_2_6_iv",
+    ("Chapter8/Problem8.2.6", "part_v_resolution"): (
+        "Etingof.horseshoeResolution; Etingof.horseshoeShortComplex_shortExact"
+    ),
+    ("Chapter8/Problem8.2.6", "part_v_sequences"): (
+        "Etingof.Problem_8_2_6_v_ext; Etingof.Problem_8_2_6_v_tor"
+    ),
+    ("Chapter8/Problem8.2.7", "part_i_tor"): "Etingof.Problem_8_2_7_i_tor_fg",
+    ("Chapter8/Problem8.2.7", "part_i_ext"): "Etingof.Problem_8_2_7_i_ext_fg",
+    ("Chapter8/Problem8.2.7", "part_ii_tor"): "Etingof.Problem_8_2_7_ii_tor_fg",
+    ("Chapter8/Problem8.2.7", "part_ii_ext"): "Etingof.Problem_8_2_7_ii_ext_fg",
+    ("Chapter8/Exercise8.2.9", "part_i_finite"): "Etingof.Exercise_8_2_9_i_finAb",
+    ("Chapter8/Exercise8.2.9", "part_i_polynomial"): (
+        "Etingof.Exercise_8_2_9_i_polynomial"
+    ),
+    ("Chapter8/Exercise8.2.9", "part_ii"): "Etingof.Exercise_8_2_9_ii",
+    ("Chapter8/Problem8.2.10", "part_i"): (
+        "Etingof.Problem_8_2_10_i; Etingof.Problem_8_2_10_i_free"
+    ),
+    ("Chapter8/Problem8.2.10", "part_ii"): (
+        "Etingof.Problem_8_2_10_ii; Etingof.Problem_8_2_10_ii_termIso; "
+        "Etingof.Problem_8_2_10_ii_quasiIso"
+    ),
+    ("Chapter8/Problem8.2.10", "part_iii"): (
+        "Etingof.Problem_8_2_10_iii; Etingof.Problem_8_2_10_iii_termIso; "
+        "Etingof.Problem_8_2_10_iii_quasiIso"
+    ),
+    ("Chapter8/Problem8.2.10", "part_iv_resolution"): (
+        "Etingof.Problem_8_2_10_iv_resolution; Etingof.Problem_8_2_10_iv_resolution_isZero"
+    ),
+    ("Chapter8/Problem8.2.10", "part_iv_vanishing"): (
+        "Etingof.Problem_8_2_10_iv_ext; Etingof.Problem_8_2_10_iv_tor; "
+        "Etingof.Problem_8_2_10_iv_hilbert_syzygy"
+    ),
+    ("Chapter8/Problem8.2.10", "part_v"): (
+        "Etingof.Problem_8_2_10_v_ext; Etingof.Problem_8_2_10_v_tor"
+    ),
+    ("Chapter9/Problem9.3.2", "simples"): (
+        "Etingof.Problem932.simple_module_classification; "
+        "Etingof.Problem932.nonempty_linearEquiv_splus_or_sminus; "
+        "Etingof.Problem932.not_linearEquiv_splus_and_sminus"
+    ),
+    ("Chapter9/Problem9.3.2", "projectives"): (
+        "Etingof.Problem932.indecomposable_projective_classification; "
+        "Etingof.Problem932.isProjectiveCover_Pplus; Etingof.Problem932.isProjectiveCover_Pminus; "
+        "Etingof.Problem932.existsUnique_index_of_indecomposable_projective"
+    ),
+    ("Chapter9/Problem9.3.2", "cartan"): "Etingof.Problem932.algebraCartanMatrix_Pfam",
+    ("Chapter9/Problem9.4.5", "part_i"): "Etingof.Problem945.cartan_det_eq_pm_one",
+    ("Chapter9/Problem9.4.5", "part_ii_truncated"): (
+        "Etingof.Problem945.homologicalDimension_polynomial_quotient_eq_top"
+    ),
+    ("Chapter9/Problem9.4.5", "part_ii_problem932"): (
+        "Etingof.Problem945.homologicalDimension_problem932_eq_top"
+    ),
+    ("Chapter9/Problem9.4.6", "part_i_path"): (
+        "Etingof.Problem946.hasHomologicalDimensionLE_pathAlgebra_one; "
+        "Etingof.Problem946.homologicalDimension_pathAlgebra_eq_one"
+    ),
+    ("Chapter9/Problem9.4.6", "part_i_free"): (
+        "Etingof.Problem946.freePathEquiv; Etingof.Problem946.homologicalDimension_freeAlgebra_eq_one"
+    ),
+    ("Chapter9/Problem9.4.6", "part_ii"): (
+        "Etingof.Problem946.cartanMatrix_pathAlgebra_eq_pathCount"
+    ),
+    ("Chapter9/Problem9.5.3", "part_i_bijection"): (
+        "Etingof.Problem953.blocks_equiv_indecomposableCentralIdempotents"
+    ),
+    ("Chapter9/Problem9.5.3", "part_i_category"): (
+        "Etingof.Problem953.blockEquivalence; Etingof.Problem953.blockEquivalenceFin"
+    ),
+    ("Chapter9/Problem9.5.3", "part_ii_objects"): (
+        "Etingof.Problem953.exists_block_of_indecomposable"
+    ),
+    ("Chapter9/Problem9.5.3", "part_ii_hom"): (
+        "Etingof.Problem953.hom_subsingleton_of_not_linked"
+    ),
+    ("Chapter9/Problem9.5.3", "part_iii"): (
+        "Etingof.Problem953.S3Char2.simple_iff_triv_or_std; "
+        "Etingof.Problem953.S3Char2.block_card_eq_two; "
+        "Etingof.Problem953.S3Char2.algebra_decomposition"
+    ),
+    ("Chapter9/Exercise9.6.3", "characterization"): (
+        "Etingof.Exercise963.isProgenerator_iff_hom_simple_ne_zero"
+    ),
+    ("Chapter9/Exercise9.6.3", "existence"): "Etingof.Exercise963.exists_progenerator",
     ("Chapter6/Problem6.9.1", "part_a_families"): (
         "Etingof.Q₂Family.rep_indecomposable; "
         "Etingof.Q₂Family.eq_of_rep_iso; Etingof.Problem6_9_1_unique"
@@ -354,12 +621,46 @@ DECL_OVERRIDES = {
         "Etingof.Problem6_9_1c_exists_compatibleChainBasis"
     ),
     ("Chapter6/Problem6.9.1", "part_c_exhaustive"): "Etingof.Problem6_9_1",
+    ("Chapter8/Problem8.2.5", "part_i"): (
+        "Etingof.Problem_8_2_5_morphism_of_resolutions"
+    ),
+    ("Chapter8/Problem8.2.5", "part_ii"): (
+        "Etingof.Problem_8_2_5_morphism_of_resolutions"
+    ),
+    ("Chapter8/Problem8.2.5", "part_iii"): (
+        "Etingof.Problem825.torLiftMap; Etingof.Problem825.torLiftMap_independent"
+    ),
+    ("Chapter8/Problem8.2.5", "part_iv"): (
+        "Etingof.Problem825.torComparison; Etingof.Problem825.torLiftMap_eq_comparison; "
+        "Etingof.Problem825.torComparison_refl; Etingof.Problem825.torComparison_trans"
+    ),
+    ("Chapter8/Problem8.2.5", "part_v"): (
+        "Etingof.Problem825.extCochainMap; Etingof.Problem825.extLiftMap; "
+        "Etingof.Problem825.extLiftMap_independent; Etingof.Problem825.extComparison; "
+        "Etingof.Problem825.extLiftMap_eq_comparison"
+    ),
     ("Chapter8/Problem8.2.8", "tor"): "Etingof.Problem_8_2_8_tor",
     ("Chapter8/Problem8.2.8", "ext_literal"): (
         "TensorProduct.dualDistrib_not_surjective"
     ),
     ("Chapter8/Problem8.2.8", "ext_corrected"): (
         "Etingof.Problem_8_2_8_extₖ; Etingof.Problem_8_2_8_ext"
+    ),
+    ("Chapter9/Problem9.4.2", "part_i"): (
+        "Etingof.Problem942.hasProjectiveDimensionLE_iff_ext_vanishing"
+    ),
+    ("Chapter9/Problem9.4.2", "part_ii"): (
+        "Etingof.Problem942.projectiveDimension_succ_of_nonsplit"
+    ),
+    ("Chapter9/Problem9.4.2", "part_iii_syzygy"): (
+        "Etingof.Problem942.projective_syzygy_of_hasProjectiveDimensionLE"
+    ),
+    ("Chapter9/Problem9.4.2", "part_iii_truncation"): (
+        "Etingof.Problem942.truncated_projective_resolution"
+    ),
+    ("Chapter9/Problem9.4.2", "part_iii_finite"): (
+        "Etingof.Problem942.exists_finiteDimensional_truncated_projective_resolution; "
+        "Etingof.FiniteProjectiveResolution.exists_finite_projectiveResolution"
     ),
     ("Chapter9/Problem9.6.5", "construction"): (
         "Etingof.Problem965.balancedRelation; Etingof.Problem965.balancedTensor; "
@@ -378,9 +679,16 @@ DECL_OVERRIDES = {
 
 def as_paths(value: object) -> list[str]:
     if isinstance(value, str):
-        return [part.strip() for part in value.split(";") if part.strip()]
+        # Older tracker entries used either commas or semicolons between
+        # provider files.  Normalize both spellings to a real JSON array.
+        return [part.strip() for part in re.split(r"[;,]", value) if part.strip()]
     if isinstance(value, list):
-        return [str(part) for part in value]
+        return [
+            piece.strip()
+            for part in value
+            for piece in re.split(r"[;,]", str(part))
+            if piece.strip()
+        ]
     return []
 
 
@@ -397,11 +705,65 @@ def providers(item: dict[str, object]) -> list[str]:
     return [str(path.relative_to(ROOT)) for path in matches]
 
 
+def declaration_list(value: object) -> list[str]:
+    """Normalize the tracker spellings used for declaration pointers."""
+    if isinstance(value, str):
+        # Semicolons are used inside current claim ledgers.  Historical
+        # fidelity_decl strings also used commas for declaration lists.
+        return [part.strip() for part in re.split(r"[;,]", value) if part.strip()]
+    if isinstance(value, list):
+        return [str(part).strip() for part in value if str(part).strip()]
+    return []
+
+
+def legacy_claim_declarations(
+    item: dict[str, object], unit: str, index: int, unit_count: int
+) -> list[str]:
+    """Recover exact declaration pointers from the pre-#8111 subpart audit.
+
+    Chapter 4 and 5 used a legacy ``derived`` array.  Preserve its useful
+    declaration evidence while discarding its stale coverage/status prose.
+    """
+    derived = item.get("derived")
+    if isinstance(derived, list) and derived:
+        if len(derived) == unit_count:
+            entry = derived[index]
+            if isinstance(entry, dict):
+                return declaration_list(entry.get("lean_decl"))
+
+        match = re.match(r"part_([a-z])", unit)
+        if match:
+            prefix = f"({match.group(1)})"
+            result: list[str] = []
+            for entry in derived:
+                if isinstance(entry, dict) and str(entry.get("part", "")).startswith(prefix):
+                    result.extend(declaration_list(entry.get("lean_decl")))
+            if result:
+                return result
+
+        if len(derived) == 1 and isinstance(derived[0], dict):
+            return declaration_list(derived[0].get("lean_decl"))
+
+    return declaration_list(item.get("fidelity_decl") or item.get("lean_decl"))
+
+
 def generic_claims(item: dict[str, object]) -> list[dict[str, object]]:
     item_id = str(item["id"])
     provider_files = providers(item)
+    old_claims = item.get("claim_coverage", {})
+    if not isinstance(old_claims, dict):
+        old_claims = {}
+    old_claim_list = old_claims.get("claims", [])
+    if not isinstance(old_claim_list, list):
+        old_claim_list = []
+    old_declarations = {
+        str(old_claim.get("unit")): declaration_list(old_claim.get("lean_decl"))
+        for old_claim in old_claim_list
+        if isinstance(old_claim, dict) and old_claim.get("unit")
+    }
     result: list[dict[str, object]] = []
-    for unit, text in CLAIM_UNITS[item_id].items():
+    item_units = CLAIM_UNITS[item_id]
+    for index, (unit, text) in enumerate(item_units.items()):
         verdict = "formalized"
         claim: dict[str, object] = {
             "unit": unit,
@@ -411,8 +773,13 @@ def generic_claims(item: dict[str, object]) -> list[dict[str, object]]:
         }
         if provider_files:
             claim["lean_file"] = provider_files
-        if declaration := DECL_OVERRIDES.get((item_id, unit)):
-            claim["lean_decl"] = declaration
+        declarations = declaration_list(DECL_OVERRIDES.get((item_id, unit)))
+        if not declarations:
+            declarations = old_declarations.get(unit, [])
+        if not declarations:
+            declarations = legacy_claim_declarations(item, unit, index, len(item_units))
+        if declarations:
+            claim["lean_decl"] = declarations
         if (item_id, unit) in NON_FORMALIZABLE:
             claim["verdict"] = "non_formalizable"
             claim.pop("lean_file", None)
@@ -472,17 +839,6 @@ def normalize_existing_claims(item: dict[str, object]) -> None:
             elif item_id in PARTIAL_SCOPE_REFS:
                 claim["scope_ref"] = PARTIAL_SCOPE_REFS[item_id]
 
-    if item_id == "Chapter2/Problem2.15.1":
-        item["stage3_3"]["scope_note"] = (
-            "The declaration list records the source-facing proof endpoints. The audit "
-            "programmatically checked all exported and provider-attributed constants. "
-            "The proof-route intermediates in parts (i)--(k) are accepted derived units "
-            "because complete_reducibility and sl2Module_decomposition prove their intended "
-            "global conclusion; the analytic hint in part (m) is covered by the algebraic "
-            "character-polynomial identity and explicit module isomorphism."
-        )
-
-
 def render_summary(exercises: list[dict[str, object]]) -> str:
     """Render the human-readable projection of the machine ledger."""
     verdicts: Counter[str] = Counter()
@@ -536,6 +892,44 @@ def render_summary(exercises: list[dict[str, object]]) -> str:
         *rows,
         "",
     ]
+    return "\n".join(lines)
+
+
+def render_declaration_checker(exercises: list[dict[str, object]]) -> str:
+    """Render Lean `#check`s for every implemented/corrected claim pointer.
+
+    JSON/file validation can establish that a provider exists, but only Lean can
+    establish that a declaration pointer resolves in the current environment.
+    Keeping this generated module out of the root import avoids an import cycle;
+    CI builds it explicitly after the metadata ratchet.
+    """
+    declarations: dict[str, list[str]] = {}
+    for item in exercises:
+        item_id = str(item["id"])
+        claims = item["claim_coverage"]["claims"]
+        for claim in claims:
+            if claim["verdict"] not in {"formalized", "covered_elsewhere", "source_correction"}:
+                continue
+            label = f"{item_id}::{claim['unit']}"
+            for declaration in declaration_list(claim.get("lean_decl")):
+                declarations.setdefault(declaration, []).append(label)
+
+    lines = [
+        "import EtingofRepresentationTheory",
+        "",
+        "/-!",
+        "# Mechanically checked exercise-coverage declaration pointers",
+        "",
+        "This file is generated by `scripts/reconcile_exercise_coverage.py`.",
+        "Each `#check` below is evidence used by one or more formalized, derived,",
+        "or source-correction claim units in `progress/items.json`.",
+        "-/",
+        "",
+    ]
+    for declaration, labels in sorted(declarations.items()):
+        lines.append(f"-- {', '.join(labels)}")
+        lines.append(f"#check {declaration}")
+    lines.append("")
     return "\n".join(lines)
 
 
@@ -597,17 +991,27 @@ def main(argv: list[str] | None = None) -> None:
         for stale_key in (
             "notes", "note", "source_regression_note", "coverage_issue", "followup_issue",
             "fidelity_issue", "attention_needed", "needs_statement", "sorries", "sorry_free",
+            # Superseded audit projections.  Their useful declaration pointers
+            # have been copied into claim_coverage above; retaining their old
+            # partial/regression prose would make the terminal ledger disagree
+            # with itself.
+            "derived", "fidelity_note", "fidelity_decl", "coverage_arm",
+            "coverage_arm_note", "coverage_swept", "stage3_3", "stage3_4",
+            "stage3_5", "sorry_count",
         ):
             item.pop(stale_key, None)
 
     rendered_items = json.dumps(items, indent=2, ensure_ascii=False) + "\n"
     rendered_summary = render_summary(exercises)
+    rendered_checker = render_declaration_checker(exercises)
     if args.check:
         stale: list[str] = []
         if ITEMS.read_text() != rendered_items:
             stale.append(str(ITEMS.relative_to(ROOT)))
         if not SUMMARY.is_file() or SUMMARY.read_text() != rendered_summary:
             stale.append(str(SUMMARY.relative_to(ROOT)))
+        if not DECLARATION_CHECKER.is_file() or DECLARATION_CHECKER.read_text() != rendered_checker:
+            stale.append(str(DECLARATION_CHECKER.relative_to(ROOT)))
         if stale:
             raise SystemExit(
                 "exercise coverage artifacts are stale; run "
@@ -618,6 +1022,7 @@ def main(argv: list[str] | None = None) -> None:
     else:
         ITEMS.write_text(rendered_items)
         SUMMARY.write_text(rendered_summary)
+        DECLARATION_CHECKER.write_text(rendered_checker)
         print(f"Normalized {len(exercises)} exercise/problem records")
 
 
