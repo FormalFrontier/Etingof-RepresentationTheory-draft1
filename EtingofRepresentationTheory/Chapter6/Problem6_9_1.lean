@@ -1,8 +1,5 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter2.Example2_3_14
-
-set_option backward.isDefEq.respectTransparency false
-
 open Matrix in
 /-- The k-th power of the shift matrix has entry 1 at position (i, j) iff i = j + k. -/
 private lemma shift_matrix_pow_entry {n : ℕ} (S : Matrix (Fin n) (Fin n) ℂ)
@@ -1143,9 +1140,7 @@ private lemma quotient_X_pow_isUnit_of_maxOrder (n : ℕ) (hn : 0 < n)
   -- X ∤ pa (otherwise X^n | X^{n-1} * pa, contradicting ha)
   have hXndvd : ¬ ((X : ℂ[X]) ∣ pa) := by
     intro ⟨q, hq⟩; apply ha
-    change (Ideal.Quotient.mk _ ((X : ℂ[X]) ^ (n - 1))) *
-      Ideal.Quotient.mk _ pa = 0
-    rw [← map_mul,
+    rw [Algebra.smul_def, Ideal.Quotient.algebraMap_eq, ← map_mul,
       Ideal.Quotient.eq_zero_iff_mem, Ideal.mem_span_singleton]
     exact ⟨q, by rw [hq, ← mul_assoc, ← pow_succ, show n - 1 + 1 = n from by omega]⟩
   -- pa and X^n are coprime (X is irreducible and doesn't divide pa)
@@ -1170,8 +1165,7 @@ private lemma quotient_X_torsion_mem_span (n : ℕ)
   -- X • mk(pa) = 0 means mk(X * pa) = 0, i.e., X^n ∣ X * pa
   have hmem : (X : ℂ[X]) ^ n ∣ X * pa := by
     rw [← Ideal.mem_span_singleton, ← Ideal.Quotient.eq_zero_iff_mem]
-    change (Ideal.Quotient.mk _ (X : ℂ[X])) * Ideal.Quotient.mk _ pa = 0 at ha
-    rwa [← map_mul] at ha
+    rwa [Algebra.smul_def, Ideal.Quotient.algebraMap_eq, ← map_mul] at ha
   cases n with
   | zero =>
     suffices h : (Ideal.Quotient.mk (Ideal.span {(X : ℂ[X]) ^ 0})) pa = 0 by
@@ -1187,23 +1181,14 @@ private lemma quotient_X_torsion_mem_span (n : ℕ)
     -- mk(X^m * q) ∈ span{mk(X^m)}, witnessed by c = q.coeff 0
     rw [Submodule.mem_span_singleton, show m + 1 - 1 = m from rfl]
     refine ⟨q.coeff 0, ?_⟩
-    calc
-      q.coeff 0 • Ideal.Quotient.mk (Ideal.span {(X : ℂ[X]) ^ (m + 1)}) (X ^ m) =
-          (Ideal.Quotient.mkₐ (R₁ := ℂ) (Ideal.span {(X : ℂ[X]) ^ (m + 1)}))
-            (q.coeff 0 • X ^ m) :=
-        ((Ideal.Quotient.mkₐ (R₁ := ℂ)
-          (Ideal.span {(X : ℂ[X]) ^ (m + 1)})).toLinearMap.map_smul
-          (q.coeff 0) (X ^ m)).symm
-      _ = Ideal.Quotient.mk (Ideal.span {(X : ℂ[X]) ^ (m + 1)})
-          (C (q.coeff 0) * X ^ m) := by
-        rw [Polynomial.smul_eq_C_mul]
-        rfl
-      _ = Ideal.Quotient.mk (Ideal.span {(X : ℂ[X]) ^ (m + 1)}) (X ^ m * q) := by
-        apply Ideal.Quotient.eq.mpr
-        rw [mul_comm (C _) _, ← mul_sub, Ideal.mem_span_singleton, pow_succ]
-        apply mul_dvd_mul_left
-        rw [show (X : ℂ[X]) = X - C 0 by simp, Polynomial.dvd_iff_isRoot]
-        simp [Polynomial.IsRoot, Polynomial.coeff_zero_eq_eval_zero]
+    -- q.coeff 0 • mk(X^m) = mk(C(q.coeff 0) * X^m)
+    rw [Algebra.smul_def, IsScalarTower.algebraMap_apply ℂ ℂ[X] _,
+      Ideal.Quotient.algebraMap_eq, Polynomial.algebraMap_eq, ← map_mul]
+    apply Ideal.Quotient.eq.mpr
+    rw [mul_comm (C _) _, ← mul_sub, Ideal.mem_span_singleton, pow_succ]
+    apply mul_dvd_mul_left
+    rw [show (X : ℂ[X]) = X - C 0 by simp, Polynomial.dvd_iff_isRoot]
+    simp [Polynomial.IsRoot, Polynomial.coeff_zero_eq_eval_zero]
 
 set_option maxHeartbeats 800000 in
 -- PID structure theorem and direct sum manipulation require extra heartbeats
@@ -2516,9 +2501,8 @@ private lemma exists_invariant_product_complement
       rw [codisjoint_iff, eq_top_iff]; intro q _
       obtain ⟨g, hg⟩ := Ideal.Quotient.mk_surjective (φ q * ↑u⁻¹ : N j₀)
       have hker : q - (Polynomial.aeval X g) p ∈ LinearMap.ker φ := by
-        rw [LinearMap.mem_ker, map_sub, hφ_aeval]
-        change φ q - Ideal.Quotient.mk _ g * φ p = 0
-        rw [hg, ← hu, mul_assoc,
+        rw [LinearMap.mem_ker, map_sub, hφ_aeval, Algebra.smul_def,
+          Ideal.Quotient.algebraMap_eq, hg, ← hu, mul_assoc,
           Units.inv_mul, mul_one, sub_self]
       have hq_decomp : q = (Polynomial.aeval X g) p + (q - (Polynomial.aeval X g) p) := by
         abel
@@ -2762,9 +2746,8 @@ private lemma exists_invariant_product_complement
       rw [codisjoint_iff, eq_top_iff]; intro q _
       obtain ⟨g, hg⟩ := Ideal.Quotient.mk_surjective (φ q * ↑u⁻¹ : N j₀)
       have hker : q - (Polynomial.aeval X g) p ∈ LinearMap.ker φ := by
-        rw [LinearMap.mem_ker, map_sub, hφ_aeval]
-        change φ q - Ideal.Quotient.mk _ g * φ p = 0
-        rw [hg, ← hu, mul_assoc,
+        rw [LinearMap.mem_ker, map_sub, hφ_aeval, Algebra.smul_def,
+          Ideal.Quotient.algebraMap_eq, hg, ← hu, mul_assoc,
           Units.inv_mul, mul_one, sub_self]
       have hq_decomp : q = (Polynomial.aeval X g) p + (q - (Polynomial.aeval X g) p) := by
         abel
