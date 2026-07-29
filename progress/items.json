@@ -17480,8 +17480,10 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "none"
-    }
+      "result": "covered"
+    },
+    "coverage": "covered_full", "fidelity": "verified", "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.12", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The section describes all irreducible representations of S_n via Specht modules.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_12_2_irreducible; Etingof.Theorem5_12_2_distinct; Etingof.Theorem5_12_2_classification"}]}
   },
   {
     "id": "Chapter5/Definition5.12.1",
@@ -17496,7 +17498,12 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "fidelity_note": "Lean now exposes both the ordinary bijective YoungTableau of the source and its refinement StandardYoungTableau, connected by the forgetful bridge StandardYoungTableau.toYoungTableau, and constructs the canonical increasing tableau T_lambda (canonicalYoungTableau / canonicalStandardYoungTableau) as both notions. Resolved by #7460.",
-    "last_updated": "2026-07-23"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.12", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "Partitions of n and their Young diagrams/tableaux are represented, including the canonical increasing tableau.", "verdict": "formalized", "lean_decl": "Nat.Partition; Etingof.YoungTableau; Etingof.canonicalYoungTableau; Etingof.canonicalStandardYoungTableau"},
+      {"claim": "The row and column subgroups preserve rows and columns of the canonical tableau.", "verdict": "formalized", "lean_decl": "Etingof.RowSubgroup; Etingof.ColumnSubgroup"},
+      {"claim": "The row and column subgroups intersect trivially.", "verdict": "formalized", "lean_decl": "Etingof.row_col_inter_trivial"}
+    ]}
   },
   {
     "id": "Chapter5/Discussion_Young_projectors",
@@ -17530,7 +17537,12 @@
     "notes": "Theorem 5.12.2 is fully formalized without placeholders: Theorem5_12_2_irreducible proves every Specht module V_λ is simple, Theorem5_12_2_distinct proves distinct partitions give nonisomorphic modules, and Theorem5_12_2_classification proves every simple ℂ[S_n]-module is isomorphic to some V_λ.",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.12", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The left ideal C[S_n]c_lambda is an irreducible Specht module.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_12_2_irreducible"},
+      {"claim": "Specht modules for distinct partitions are nonisomorphic.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_12_2_distinct"},
+      {"claim": "Every irreducible complex S_n-module is isomorphic to the Specht module of a unique partition.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_12_2_classification; Etingof.Theorem5_12_2_distinct"}
+    ]}
   },
   {
     "id": "Chapter5/Example5.12.3",
@@ -17544,8 +17556,8 @@
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_note": "All four book claims are now at representation level. The (n) and (1^n) extremes are the trivial and sign representations (Example5_12_3_trivial_rep, Example5_12_3_sign_rep). The n=3 lambda=(2,1) and n=4 lambda=(2,2) cases are dimension-only, which is faithful because each symmetric group has a unique 2-dimensional irreducible. The two 3-dimensional n=4 cases are oriented against the named S4 models of Chapter4/Example4_3_S4: Example5_12_3_specht_31_iso_stdRep gives V_(3,1) iso stdRep = C^3_-, and Example5_12_3_specht_211_iso_rotRep gives V_(2,1,1) iso rotRep = C^3_+. The orientation argument uses the row-invariant generator a_lambda c_lambda of V_(3,1), which C^3_+ cannot carry, plus the S4 irreducible catalogue Etingof.Example4_3_S4.S4_simple_iso. Closes the gap tracked by issue 7188.",
-    "coverage": "covered",
-    "last_updated": "2026-07-26",
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
     "fidelity_decl": [
       "Etingof.Example5_12_3.Example5_12_3_trivial_rep",
       "Etingof.Example5_12_3.Example5_12_3_sign_rep",
@@ -17556,7 +17568,12 @@
       "Etingof.Example5_12_3.Example5_12_3_sign_twist_31_211",
       "Etingof.Example5_12_3.Example5_12_3_specht_31_211_noniso"
     ],
-    "lean_file": "EtingofRepresentationTheory/Chapter5/Example5_12_3.lean"
+  "lean_file": "EtingofRepresentationTheory/Chapter5/Example5_12_3.lean",
+  "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.12", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+    {"claim": "The one-row and one-column Specht modules are the trivial and sign representations.", "verdict": "formalized", "lean_decl": "Etingof.Example5_12_3.Example5_12_3_trivial_rep; Etingof.Example5_12_3.Example5_12_3_sign_rep"},
+    {"claim": "For n=3, V_(2,1) has dimension 2; for n=4, V_(2,2) has dimension 2.", "verdict": "formalized", "lean_decl": "Etingof.Example5_12_3.Example5_12_3_dim_21; Etingof.Example5_12_3.Example5_12_3_dim_22"},
+    {"claim": "For n=4, V_(3,1)=C^3_- and V_(2,1,1)=C^3_+ in the book's named orientation.", "verdict": "formalized", "lean_decl": "Etingof.Example5_12_3.Example5_12_3_specht_31_iso_stdRep; Etingof.Example5_12_3.Example5_12_3_specht_211_iso_rotRep"}
+  ]}
   },
   {
     "id": "Chapter5/Corollary5.12.4",
@@ -17566,15 +17583,16 @@
     "end_page": "114",
     "start_line": 7,
     "end_line": 8,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
     "fidelity_decl": "Etingof.Corollary5_12_4",
-    "fidelity_note": "The intended rational-form theorem is source-present, but Corollary5_12_4.lean fails a fresh check at a tensor/Finsupp carrier mismatch; regression #7522.",
-    "coverage": "covered_partial",
+    "fidelity_note": "Resolved #7522: the theorem passes fresh source elaboration and constructs a simple Q-form whose complexification is equivariantly the given Specht module.",
+    "coverage": "covered_full",
     "coverage_issue": 7522,
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.12", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "Every irreducible complex S_n-representation admits a rational form, hence matrices with rational entries in a suitable basis.", "verdict": "formalized", "lean_decl": "Etingof.Corollary5_12_4; Etingof.SpechtModule_complexification"}]}
   },
   {
     "id": "Chapter5/Problem5.12.5",
@@ -17748,7 +17766,12 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "coverage": "covered_full", "fidelity": "verified", "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.12", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The Young-symmetrizer sandwich and Hom-space computations imply irreducibility and pairwise nonisomorphism.", "verdict": "formalized", "lean_decl": "Etingof.rowCol_sq_scalar; Etingof.youngProjectorLeftIdeal_isSimpleModule; Etingof.Theorem5_12_2_irreducible; Etingof.Theorem5_12_2_distinct"},
+      {"claim": "The partition/conjugacy-class count exhausts the irreducibles.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_12_2_classification"}
+    ]}
   },
   {
     "id": "Chapter5/Introduction_5.14",

@@ -5,6 +5,8 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Distinct
 import EtingofRepresentationTheory.Chapter5.Problem5_24_1_b
 import EtingofRepresentationTheory.Chapter5.Discussion5_11_S4S3
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Example 5.12.3: Concrete Examples of Specht Modules
 
