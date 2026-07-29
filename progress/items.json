@@ -20415,6 +20415,10 @@
     "start_line": 11,
     "end_line": 14,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.3", "reviewed_on": "2026-07-29", "result": "section_heading_and_introduction"},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -20429,13 +20433,20 @@
     "start_line": 15,
     "end_line": 74,
     "status": "sorry_free",
-    "coverage": "covered_partial",
+    "coverage": "covered_full",
     "fidelity": "verified",
     "needs_statement": false,
     "notes": "The concrete triple-of-subspaces model is bridged to the quiver-representation model, with equivalence of indecomposability notions and restriction of quiver isomorphisms. Gabriel existence and uniqueness are specialized to the twelve D4 positive roots to define twelve canonical representatives, prove each indecomposable, prove pairwise nonisomorphism, and classify every concrete indecomposable into exactly one class.",
     "sorries": 0,
     "sorry_free": true,
-    "last_updated": "2026-07-27"
+    "coverage_note": "The concrete triple-of-subspaces model is equivalent to the inward D₄ quiver model for indecomposability and isomorphism. Twelve canonical representatives are constructed, proved indecomposable and pairwise nonisomorphic, and every concrete indecomposable belongs to exactly one class.",
+    "lean_ref": "EtingofRepresentationTheory/Chapter6/Example6_3_1.lean :: Etingof.Example_6_3_1; EtingofRepresentationTheory/Chapter6/Example6_3_1_Classification.lean :: D₄Rep.canonicalRepresentation, D₄Rep.canonicalRepresentation_indecomposable, D₄Rep.canonical_pairwise_nonisomorphic, D₄Rep.classification, D₄Rep.classIndex_card",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.3", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The indecomposable D₄ dimension vectors are exactly the twelve positive roots listed in the example.", "verdict": "formalized", "lean_decl": "Etingof.Example_6_3_1; D₄Rep.classIndex_card"},
+      {"claim": "Each class has an explicit canonical indecomposable representative, and distinct classes are nonisomorphic.", "verdict": "formalized", "lean_decl": "D₄Rep.canonicalRepresentation_indecomposable; D₄Rep.canonical_pairwise_nonisomorphic"},
+      {"claim": "Every concrete indecomposable D₄ representation is isomorphic to exactly one canonical representative.", "verdict": "formalized", "lean_decl": "D₄Rep.classification"}
+    ]}
   },
   {
     "id": "Chapter6/Discussion_after_Example6.3.1",
@@ -20448,7 +20459,11 @@
     "status": "sorry_free",
     "coverage": "covered_full",
     "coverage_note": "The orientation-independence observation follows publicly from the orientation-independent root classification endpoints established around Example 6.3.1 and Gabriel's theorem.",
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.3", "reviewed_on": "2026-07-29", "claims": [
+      {"claim": "The number and dimension vectors of indecomposable classes depend only on the underlying Dynkin diagram, not its orientation.", "verdict": "formalized", "lean_decl": "Etingof.Theorem6_5_2; D₄Rep.classification"}
+    ]}
   },
   {
     "id": "Chapter6/Section6.4_heading",
