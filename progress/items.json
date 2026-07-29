@@ -17912,7 +17912,9 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "coverage": "covered_full", "fidelity": "verified", "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.15", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The Vandermonde polynomial and staircase rho used in the Frobenius formula are defined with the source's independent variable count.", "verdict": "formalized", "lean_decl": "Etingof.vandermondePoly; Etingof.rhoShift; Etingof.Nat.Partition.toFinsuppN"}]}
   },
   {
     "id": "Chapter5/Theorem5.15.1",
@@ -17922,12 +17924,14 @@
     "end_page": "118",
     "start_line": 15,
     "end_line": 18,
-    "status": "proved",
+    "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
     "coverage": "covered_full",
     "fidelity_note": "Theorem5_15_1_General proves the book's full independent-variable statement: for every N at least the number of rows of lambda, the Specht character is the x^(lambda+rho_N) coefficient of the N-variable Vandermonde times the cycle-type power-sum product. The proof establishes stability under adjoining a zero row/variable and recovers the existing N=n theorem as the anchor specialization.",
-    "last_updated": "2026-07-27"
+    "sorry_free": true,
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.15", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "For every N at least the number of rows of lambda, the Specht character is the x^(lambda+rho_N) coefficient of the N-variable Vandermonde times the cycle-type power-sum product.", "verdict": "formalized", "lean_decl": "Etingof.Theorem5_15_1_general; Etingof.Theorem5_15_1"}]}
   },
   {
     "id": "Chapter5/Remark5.15.2",
@@ -17949,7 +17953,8 @@
       "Etingof.rho_monomial_mul_frobeniusLaurentFactor",
       "Etingof.frobeniusLaurentFactor"
     ],
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.15", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The Frobenius character is equivalently the x^lambda coefficient of the displayed Laurent product, without an extra sign.", "verdict": "formalized", "lean_decl": "Etingof.Remark5_15_2; Etingof.Remark5_15_2_equiv_Theorem5_15_1; Etingof.rho_monomial_mul_frobeniusLaurentFactor"}]}
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.15.1",
@@ -17964,12 +17969,11 @@
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The intended proof is source-present but Theorem5_15_1.lean currently fails fresh elaboration (#7512); the independent-N semantic gap remains #7456.",
-    "fidelity_issue": 7456,
-    "coverage_issue": 7512,
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The alternating Young-rule expansion, triangularity, and diagonal coefficient in the source proof are formalized; the former elaboration regression #7512 and independent-N gap #7456 are resolved.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.15", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The Frobenius coefficient class function has a triangular expansion in irreducible Specht characters with diagonal coefficient one.", "verdict": "formalized", "lean_decl": "Etingof.spechtCharacter_eq_alternating_sum_permCharacter; Etingof.alternating_kostka_eq_delta; Etingof.youngsRule_character"}]}
   },
   {
     "id": "Chapter5/Discussion_proof_of_Frobenius_character_formula",
@@ -17984,12 +17988,14 @@
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "The lexicographic step is public in Footnote_5_15 and the intended character/norm proof chain is source-present, but Theorem5_15_1.lean currently fails fresh elaboration (#7512); its independent-N semantic gap remains #7456.",
-    "fidelity_issue": 7456,
-    "coverage_issue": 7512,
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The lexicographic step, character orthogonality/norm calculation, Cauchy determinant reduction, and independent-N conclusion all pass fresh source checks; #7512 and #7456 are resolved.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.15", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The shifted-permutation terms are above lambda, with equality only for the identity permutation in the source convention.", "verdict": "formalized", "lean_decl": "Etingof.rhoVec_comp_perm_le; Etingof.rhoVec_comp_perm_eq_iff; Etingof.laVec_eq_shifted_sub_perm_iff"},
+      {"claim": "Character orthogonality and the Cauchy coefficient computation force the triangular class function to equal chi_lambda.", "verdict": "formalized", "lean_decl": "Etingof.specht_char_inner; Etingof.alternating_kostka_eq_delta; Etingof.Theorem5_15_1_general"}
+    ]}
   },
   {
     "id": "Chapter5/Lemma5.15.3",
@@ -18005,27 +18011,28 @@
     "notes": "Cauchy determinant identity by induction with row operations.",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.15", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The Cauchy determinant identity holds after clearing the nonzero denominators.", "verdict": "formalized", "lean_decl": "Etingof.Lemma5_15_3"}]}
   },
   {
     "id": "Chapter5/Discussion_footnote_5.15",
-    "source_regression_note": "Clean rebuild imports the broken Theorem5_15_1 source (#7512).",
     "type": "discussion",
     "title": "Footnote on lexicographic ordering of sigma(rho)",
     "start_page": "119",
     "end_page": "119",
     "start_line": 27,
     "end_line": 29,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_issue": 7512,
-    "coverage_note": "Fresh-building public Footnote_5_15 theorems prove the lexicographic inequality and both equality cases for the permuted staircase and shifted partition.",
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "coverage": "covered_full",
+    "coverage_note": "The public Footnote_5_15 theorems prove the lexicographic inequality and both equality cases for the permuted staircase and shifted partition; the imported source regression #7512 is resolved.",
+    "sorry_free": true,
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.15", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "sigma(rho) is lexicographically at most rho, with equality iff sigma is the identity; subtracting yields the corresponding shifted-partition statement.", "verdict": "formalized", "lean_decl": "Etingof.rhoVec_comp_perm_le; Etingof.rhoVec_comp_perm_eq_iff; Etingof.laVec_le_shifted_sub_perm; Etingof.laVec_eq_shifted_sub_perm_iff"}]}
   },
   {
     "id": "Chapter5/Discussion_proof_of_Lemma5.15.3",
@@ -18039,7 +18046,9 @@
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
-    }
+    },
+    "coverage": "covered_full", "fidelity": "verified", "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.15", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "After clearing denominators, alternation, degree, and the inductive specialization determine the Cauchy determinant with proportionality constant one.", "verdict": "formalized", "lean_decl": "Etingof.Lemma5_15_3"}]}
   },
   {
     "id": "Chapter5/Corollary5.15.4",
@@ -18054,7 +18063,8 @@
     "needs_statement": false,
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.15", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The Cauchy kernel equals the determinant/permutation sum, and the x^(lambda+rho)y^(lambda+rho) coefficient is one.", "verdict": "formalized", "lean_decl": "Etingof.Corollary5_15_4"}]}
   },
   {
     "id": "Chapter5/Remark5.15.5",
@@ -18067,7 +18077,12 @@
     "status": "sorry_free",
     "coverage": "covered_full",
     "coverage_note": "All four claims of the remark are formalized in EtingofRepresentationTheory/Chapter5/Remark5_15_5.lean: the positive-root order (Nat.Partition.RootLe) with its partial-order laws, its equivalence with the dominance order (Nat.Partition.rootLe_iff_dominates), the inverse-Kostka character expansion (Etingof.spechtCharacter_eq_sum_inverseKostka_rootLe), and the root-order vanishing of Kostka numbers (Etingof.spechtMultiplicity_vanishing_rootOrder). Etingof.youngRuleMultiplicity_eq_kostkaNumber identifies this Young-rule multiplicity with the semistandard-tableau count Etingof.KostkaNumber.",
-    "last_updated": "2026-07-27"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "5.15", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [
+      {"claim": "The positive-root relation is a partial order and is equivalent to dominance for partitions.", "verdict": "formalized", "lean_decl": "Etingof.rootLe_isPartialOrder; Nat.Partition.rootLe_iff_dominates"},
+      {"claim": "Specht characters expand through the inverse Kostka matrix only over the root-order upper set.", "verdict": "formalized", "lean_decl": "Etingof.spechtCharacter_eq_sum_inverseKostka_rootLe; Etingof.inverseKostkaMatrix_eq_zero_of_not_rootLe"},
+      {"claim": "Kostka numbers vanish outside the positive-root order.", "verdict": "formalized", "lean_decl": "Etingof.spechtMultiplicity_vanishing_rootOrder; Etingof.youngRuleMultiplicity_eq_kostkaNumber"}
+    ]}
   },
   {
     "id": "Chapter5/Introduction_5.16",
