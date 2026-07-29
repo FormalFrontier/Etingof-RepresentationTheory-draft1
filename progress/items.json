@@ -22096,6 +22096,11 @@
     "start_line": 13,
     "end_line": 14,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Section heading for the fully audited complexes-and-cohomology development.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.8", "reviewed_on": "2026-07-29", "claims": [{"claim": "The section develops complexes, cohomology, exact sequences, and the Künneth formula.", "verdict": "formalized", "lean_decl": "Etingof.CochainComplex'; Etingof.cohomology; Etingof.kunnethNatIso"}]},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -22115,7 +22120,9 @@
     "sorry_free": true,
     "fidelity_note": "Definition 7.8.1 is covered by explicit public aliases for cochain complexes, differentials, cohomology, exactness at a degree, and acyclicity, all using Mathlib's homological-complex API.",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+  "last_updated": "2026-07-29",
+  "coverage_note": "Public aliases expose cochain complexes, differentials, cohomology, exactness at a degree, and acyclicity using Mathlib's homological-complex API.",
+  "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.8", "reviewed_on": "2026-07-29", "claims": [{"claim": "A complex has square-zero differentials; cohomology is kernel modulo image, and exactness is vanishing cohomology.", "verdict": "formalized", "lean_decl": "Etingof.CochainComplex'; Etingof.differential; Etingof.cohomology; Etingof.ExactAt; Etingof.IsExactSequence"}]}
   },
   {
     "id": "Chapter7/Discussion_after_Definition7.8.1",
@@ -22126,6 +22133,11 @@
     "start_line": 3,
     "end_line": 12,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Morphisms and the category of complexes, cycles/boundaries/homology, acyclicity, and boundedness are all standard parts of the homological-complex API.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.8", "reviewed_on": "2026-07-29", "claims": [{"claim": "Complex morphisms commute with differentials and compose; cycles, boundaries, cohomology classes, acyclicity, and bounded complexes have the stated meanings.", "verdict": "formalized", "lean_decl": "CategoryTheory.HomologicalComplex; CategoryTheory.HomologicalComplex.Hom; CategoryTheory.HomologicalComplex.homology"}]},
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -22145,7 +22157,9 @@
     "sorry_free": true,
     "fidelity_note": "Definition 7.8.2 is represented by Etingof.ShortExactSequence, the subtype of short complexes carrying a ShortComplex.ShortExact proof, so exactness is part of the bundled object.",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+  "last_updated": "2026-07-29",
+  "coverage_note": "Short exact sequences are bundled short complexes carrying a ShortExact proof, including the mono/epi and image-kernel characterization.",
+  "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.8", "reviewed_on": "2026-07-29", "claims": [{"claim": "A short exact sequence is a four-term exact sequence 0 to X to Y to Z to 0, equivalently an extension of Z by X.", "verdict": "formalized", "lean_decl": "Etingof.ShortExactSequence; CategoryTheory.ShortComplex.ShortExact"}]}
   },
   {
     "id": "Chapter7/Example7.8.3",
@@ -22155,12 +22169,13 @@
     "end_page": "192",
     "start_line": 21,
     "end_line": 21,
-    "status": "proved",
-    "fidelity": "full",
+  "status": "sorry_free",
+  "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "The public API now exposes the canonical ShortComplex.Splitting witness (split_exact_sequence_splitting) with named retraction/section identities (split_exact_sequence_f_r, split_exact_sequence_s_g), the split mono/epi (split_exact_sequence_splitMono/splitEpi), and short exactness (split_exact_sequence) as a consequence of the splitting. A downstream import/#check regression test (Example7_8_3_Test.lean) pins the signatures. Closes #7562.",
-    "last_updated": "2026-07-23"
+  "last_updated": "2026-07-29",
+  "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.8", "reviewed_on": "2026-07-29", "claims": [{"claim": "The canonical sequence 0 to X to X plus Z to Z to 0 is split and short exact.", "verdict": "formalized", "lean_decl": "Etingof.split_exact_sequence_splitting; Etingof.split_exact_sequence"}]}
   },
   {
     "id": "Chapter7/Exercise7.8.4",
@@ -22172,15 +22187,15 @@
     "end_line": 8,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-28",
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
+  "last_updated": "2026-07-29",
+  "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized by the declarations recorded in claim_coverage; the provider passes a fresh source check.",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter7/Exercise7_8_4.lean"
     ],
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-07-28",
+    "reviewed_on": "2026-07-29",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -22233,10 +22248,10 @@
     "end_page": "193",
     "start_line": 9,
     "end_line": 20,
-    "status": "proved",
+  "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-28",
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
+  "last_updated": "2026-07-29",
+  "coverage_note": "Final source-subpart audit complete. Both the representative-level connecting map and the exact long cohomology sequence are formalized; the provider passes a fresh source check.",
     "fidelity": "verified",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter7/Problem7_8_5.lean"
@@ -22244,7 +22259,7 @@
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-07-28",
+    "reviewed_on": "2026-07-29",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -22291,7 +22306,11 @@
     "end_line": 22,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The categorical connecting morphism and all three repeating exactness positions of the long cohomology sequence are exposed publicly.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.8", "reviewed_on": "2026-07-29", "claims": [{"claim": "The boundary map is the connecting homomorphism and the induced cohomology sequence is long exact.", "verdict": "formalized", "lean_decl": "Etingof.connectingHomomorphism; Etingof.long_exact_seq_exact₁; Etingof.long_exact_seq_exact₂; Etingof.long_exact_seq_exact₃"}]}
   },
   {
     "id": "Chapter7/Problem7.8.7",
@@ -22303,8 +22322,8 @@
     "end_line": 18,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
-    "last_updated": "2026-07-28",
+    "coverage_note": "Final source-subpart audit complete. All four parts, including the natural Künneth isomorphism, are formalized by the declarations recorded in claim_coverage; every provider and support module passes a fresh source check.",
+    "last_updated": "2026-07-29",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter7/Problem7_8_7.lean",
       "EtingofRepresentationTheory/Chapter7/KunnethIso.lean"
@@ -22312,7 +22331,7 @@
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-07-28",
+      "reviewed_on": "2026-07-29",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
