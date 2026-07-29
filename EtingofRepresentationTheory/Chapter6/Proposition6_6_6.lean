@@ -1,5 +1,7 @@
 import EtingofRepresentationTheory.Chapter6.ReflectionFunctorInfrastructure
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Proposition 6.6.6 (Sink Case): F⁻ᵢ F⁺ᵢ V ≅ V
 

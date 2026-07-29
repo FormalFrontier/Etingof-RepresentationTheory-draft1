@@ -20747,6 +20747,10 @@
     "start_line": 3,
     "end_line": 4,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.6", "reviewed_on": "2026-07-29", "result": "section_heading"},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -20762,7 +20766,10 @@
     "end_line": 16,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.6", "reviewed_on": "2026-07-29", "claims": [{"claim": "Sinks and sources are vertices with no outgoing and no incoming arrows, respectively.", "verdict": "formalized", "lean_decl": "Etingof.IsSink; Etingof.IsSource"}]}
   },
   {
     "id": "Chapter6/Definition6.6.2",
@@ -20774,7 +20781,10 @@
     "end_line": 18,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.6", "reviewed_on": "2026-07-29", "claims": [{"claim": "Reversing at a vertex reverses precisely the incident arrows.", "verdict": "formalized", "lean_decl": "Etingof.ReversedAtVertexHom"}]}
   },
   {
     "id": "Chapter6/Discussion_before_Definition6.6.3",
@@ -20785,6 +20795,10 @@
     "start_line": 19,
     "end_line": 20,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.6", "reviewed_on": "2026-07-29", "result": "construction_preamble"},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -20801,9 +20815,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered",
+    "coverage": "covered_full",
     "coverage_note": "The object assignment (Definition6_6_3.lean) is now packaged as an actual CategoryTheory.Functor Rep Q ⥤ Rep Q̄ᵢ by Etingof.reflectionFunctorPlusFunctor (Definition6_6_3_Functor.lean), with the action on representation morphisms, the identity/composition laws, and lemmas identifying the object action with the componentwise construction (#7383).",
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.6", "reviewed_on": "2026-07-29", "claims": [{"claim": "The sink reflection construction is an actual functor, with the reflected vertex given by the incoming-map kernel.", "verdict": "formalized", "lean_decl": "Etingof.reflectionFunctorPlusFunctor"}]}
   },
   {
     "id": "Chapter6/Definition6.6.3_maps",
@@ -20815,9 +20830,10 @@
     "end_line": 2,
     "status": "sorry_free",
     "fidelity": "verified",
-    "coverage": "covered",
+    "coverage": "covered_full",
     "coverage_note": "The reflected representation's internal arrow maps are defined, and the categorical action of F⁺ᵢ on representation morphisms plus the functor laws are supplied by Definition6_6_3_Functor.lean (#7383).",
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.6", "reviewed_on": "2026-07-29", "claims": [{"claim": "The internal arrow maps and morphism action of F_i^+ satisfy the functor laws.", "verdict": "formalized", "lean_decl": "Etingof.reflectionFunctorPlusMap; Etingof.reflectionFunctorPlusFunctor"}]}
   },
   {
     "id": "Chapter6/Definition6.6.4",
@@ -20830,27 +20846,27 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered",
+    "coverage": "covered_full",
     "coverage_note": "The F⁻ object construction and computation theorems are source-present, and the object assignment is now packaged as an actual CategoryTheory.Functor Rep Q ⥤ Rep Q̄ᵢ by Etingof.reflectionFunctorMinusFunctor (Definition6_6_4_Functor.lean), with the action on representation morphisms and the functor laws (#7383).",
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.6", "reviewed_on": "2026-07-29", "claims": [{"claim": "The source reflection construction is an actual functor, with the reflected vertex given by the outgoing-map cokernel.", "verdict": "formalized", "lean_decl": "Etingof.reflectionFunctorMinusFunctor"}]}
   },
   {
     "id": "Chapter6/Proposition6.6.5",
-    "source_regression_note": "Clean rebuild imports the broken Definition6_6_4 reflection source (#7524).",
     "type": "proposition",
     "title": "Proposition 6.6.5: Indecomposable reps are surjective at sinks / injective at sources",
     "start_page": "169",
     "end_page": "170",
     "start_line": 27,
     "end_line": 18,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_issue": 7524,
-    "coverage_note": "Public endpoints prove both the sink-surjectivity and source-injectivity clauses.",
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "Public endpoints prove both the sink-surjectivity and source-injectivity clauses and pass fresh source checks; #7524 is closed.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.6", "reviewed_on": "2026-07-29", "claims": [{"claim": "A nonsimple indecomposable is surjective at a sink and injective at a source.", "verdict": "formalized", "lean_decl": "Etingof.Proposition6_6_5_sink; Etingof.Proposition6_6_5_source"}]}
   },
   {
     "id": "Chapter6/Proposition6.6.6",
@@ -20860,50 +20876,48 @@
     "end_page": "171",
     "start_line": 19,
     "end_line": 32,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_note": "Public theorem signatures exist for both reflection-functor round trips, but neither implementation file passes a fresh Lean check (#7490). The files contain no literal sorry/admit; Lean's error-recovery diagnostics must not be counted as source placeholders.",
-    "coverage_issue": 7490,
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "Both sink and source reflection-functor round trips are public and pass fresh source checks; #7490 is closed.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.6", "reviewed_on": "2026-07-29", "claims": [{"claim": "Under the surjectivity/injectivity hypothesis, applying the opposite reflection recovers the original representation up to isomorphism.", "verdict": "formalized", "lean_decl": "Etingof.Proposition6_6_6_sink; Etingof.Proposition6_6_6_source"}]}
   },
   {
     "id": "Chapter6/Proposition6.6.7",
-    "source_regression_note": "Clean rebuild imports the broken Definition6_6_4 reflection source (#7524).",
     "type": "proposition",
     "title": "Proposition 6.6.7: Reflection of indecomposable is indecomposable or 0",
     "start_page": "171",
     "end_page": "172",
     "start_line": 33,
     "end_line": 26,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "notes": "Proved in PR #1800 (Decidable.casesOn workarounds for source case).",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_issue": 7524,
-    "coverage_note": "Both sink and source reflection clauses publicly conclude indecomposable or zero.",
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "Both sink and source reflection clauses publicly conclude indecomposable or zero and pass fresh checks; #7524 is closed.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.6", "reviewed_on": "2026-07-29", "claims": [{"claim": "Reflection sends an indecomposable representation to an indecomposable representation or zero.", "verdict": "formalized", "lean_decl": "Etingof.Proposition6_6_7_sink; Etingof.Proposition6_6_7_source"}]}
   },
   {
     "id": "Chapter6/Proposition6.6.8",
-    "source_regression_note": "Clean rebuild imports the broken Definition6_6_4 reflection source (#7524).",
     "type": "proposition",
     "title": "Proposition 6.6.8: Dimension vector under reflection is s_i(d(V))",
     "start_page": "172",
     "end_page": "173",
     "start_line": 27,
     "end_line": 12,
-    "status": "partially_proved",
-    "fidelity": "partial",
+    "status": "sorry_free",
+    "fidelity": "verified",
     "needs_statement": false,
     "notes": "Both cases are proved sorry-free in Chapter6/Proposition6_6_8.lean: Proposition6_6_8_sink handles a sink via rank-nullity, and Proposition6_6_8_source handles a source using the completed reflectionFunctorMinus construction.",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_issue": 7524,
-    "coverage_note": "The sink and source dimension-vector reflection formulas are both public and exact.",
-    "last_updated": "2026-07-22"
+    "coverage": "covered_full",
+    "coverage_note": "The sink and source dimension-vector reflection formulas are both public, exact, and fresh-buildable; #7524 is closed.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "6.6", "reviewed_on": "2026-07-29", "claims": [{"claim": "The dimension vector of a reflected representation is the corresponding simple reflection of the original dimension vector.", "verdict": "formalized", "lean_decl": "Etingof.Proposition6_6_8_sink; Etingof.Proposition6_6_8_source"}]}
   },
   {
     "id": "Chapter6/Section6.7_heading",
