@@ -21574,6 +21574,11 @@
     "start_line": 11,
     "end_line": 14,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "The introductory sentence is realized by the functor definition immediately following it.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.2", "reviewed_on": "2026-07-29", "claims": [{"claim": "Functors are arrows between categories.", "verdict": "formalized", "lean_decl": "Etingof.Functor"}]},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -21589,7 +21594,11 @@
     "end_line": 2,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The object map, morphism map, and preservation laws are exactly Mathlib's Functor structure.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.2", "reviewed_on": "2026-07-29", "claims": [{"claim": "A functor maps objects and morphisms and preserves identities and composition.", "verdict": "formalized", "lean_decl": "Etingof.Functor"}]}
   },
   {
     "id": "Chapter7/Discussion_after_Definition7.2.1",
@@ -21600,6 +21609,11 @@
     "start_line": 3,
     "end_line": 4,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Functor composition and the identity functor are provided by the standard category-theory API.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.2", "reviewed_on": "2026-07-29", "claims": [{"claim": "Functors compose and every category has an identity functor.", "verdict": "formalized", "lean_decl": "CategoryTheory.Functor.comp; CategoryTheory.Functor.id"}]},
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -21616,9 +21630,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered",
+    "coverage": "covered_full",
     "coverage_note": "All nine items are formalized, including the symmetric-power functor (ModuleCat.symmetricPower, built on a new SymmetricPower.map since Mathlib has none), the Schur functors (Etingof.schurFunctor), and item (9), the BGP reflection functors Etingof.reflectionFunctorPlusFunctor / reflectionFunctorMinusFunctor (#7383).",
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.2", "reviewed_on": "2026-07-29", "claims": [{"claim": "All nine listed constructions define functors, including symmetric powers, Schur functors, and reflection functors.", "verdict": "formalized", "lean_decl": "Etingof.schurFunctor; ModuleCat.symmetricPower; Etingof.reflectionFunctorPlusFunctor; Etingof.reflectionFunctorMinusFunctor"}]}
   },
   {
     "id": "Chapter7/Introduction_7.3",
