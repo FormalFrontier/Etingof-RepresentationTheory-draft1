@@ -1,6 +1,8 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Proposition5_14_1
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Theorem 5.14.3: Character Formula via Power Sums
 
@@ -144,12 +146,12 @@ private lemma finsupp_sum_single_iff (n : ℕ) (la : Nat.Partition n) (σ : Equi
   constructor
   · intro heq j
     have hj := DFunLike.congr_fun heq j
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.single_apply,
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.single_apply,
       Nat.Partition.toFinsupp, Finsupp.coe_equivFunOnFinite_symm] at hj
     rw [← hj, Finset.sum_filter]
   · intro hall
     ext j
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.single_apply,
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.single_apply,
       Nat.Partition.toFinsupp, Finsupp.coe_equivFunOnFinite_symm]
     rw [← Finset.sum_filter]
     exact hall j
@@ -227,7 +229,7 @@ private lemma rowOfPos_lt_length (parts : List ℕ) (k : ℕ) (hk : k < parts.su
     simp only [rowOfPos]; split
     · simp
     · next h =>
-      push_neg at h
+      push Not at h
       have := ih (k - p) (by simp [List.sum_cons] at hk; omega)
       simp; omega
 
@@ -357,7 +359,7 @@ private lemma invColor_val_lt {n : ℕ} {la : Nat.Partition n} {σ : Equiv.Perm 
       (∀ j : Fin n, (univ.filter (fun k => c k = j.val)).card =
         la.sortedParts.getD j.val 0) })
     (k : Fin n) : c.val k < n := by
-  by_contra h; push_neg at h
+  by_contra h; push Not at h
   have hdisj : ∀ i j : Fin n, i ≠ j →
       Disjoint (univ.filter (fun k => c.val k = i.val))
                (univ.filter (fun k => c.val k = j.val)) := by
@@ -530,7 +532,10 @@ private lemma exists_perm_matching {m : ℕ} (f g : Fin m → ℕ)
     intro h'
     rw [Multiset.count_map]
     show (univ.filter (fun i => h' i = v)).card = (univ.val.filter (fun a => v = h' a)).card
-    congr 1; rw [← Finset.filter_val]; congr 1; ext i; simp [eq_comm]
+    rw [← Finset.filter_val]
+    congr 1
+    ext i
+    simp [eq_comm]
   -- Use the existing fiberMatchEquiv' which builds a fiber-matching bijection
   exact ⟨fiberMatchEquiv' g f hcount, fun i => fiberMatchEquiv'_spec g f hcount i⟩
 
@@ -622,7 +627,7 @@ private lemma orbitSizes_eq_fullCycleType (σ : Equiv.Perm (Fin n)) :
   -- (univ \ σ.support).val.map (fun _ => 1) = replicate (n - σ.support.card) 1
   rw [Multiset.map_const']
   congr 1
-  simp [Finset.card_sdiff_of_subset (Finset.subset_univ _), Fintype.card_fin]
+  simp [Fintype.card_fin]
 
 /-- The number of orbits equals the length of fullCycleType.toList. -/
 private lemma orbitSet_card (σ : Equiv.Perm (Fin n)) :

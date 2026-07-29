@@ -2,6 +2,8 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter5.Definition5_8_1
 import EtingofRepresentationTheory.Chapter5.Definition5_12_1
 
+set_option maxHeartbeats 800000
+
 /-!
 # Introduction 5.14: `U_λ = Ind_{P_λ}^{S_n} ℂ ≅ ℂ[S_n] · a_λ`
 
@@ -53,9 +55,7 @@ noncomputable abbrev trivRep : Representation ℂ (↥(RowSubgroup n la)) ℂ :=
 
 /-- The representation of `P_λ` on `ℂ[S_n] ⊗ ℂ` whose coinvariants give the underlying module of
 `Ind_{P_λ}^{S_n} ℂ`. -/
-noncomputable abbrev tensRep :
-    Representation ℂ (↥(RowSubgroup n la))
-      (TensorProduct ℂ (Equiv.Perm (Fin n) →₀ ℂ) ℂ) :=
+noncomputable abbrev tensRep :=
   Representation.tprod ((leftRegular ℂ (Equiv.Perm (Fin n))).comp (RowSubgroup n la).subtype)
     (trivRep n la)
 
@@ -82,6 +82,7 @@ theorem of_mul_rowSymmetrizer {q : Equiv.Perm (Fin n)} (hq : q ∈ RowSubgroup n
 
 /-! ## The left regular representation is left multiplication -/
 
+set_option backward.isDefEq.respectTransparency false in
 theorem leftRegular_eq_mul (g : Equiv.Perm (Fin n))
     (x : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) :
     leftRegular ℂ (Equiv.Perm (Fin n)) g x = MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g * x := by
@@ -100,6 +101,7 @@ noncomputable def invMap :
   Finsupp.lsum ℂ fun h =>
     LinearMap.smulRight (LinearMap.id : ℂ →ₗ[ℂ] ℂ) (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) h⁻¹)
 
+set_option backward.isDefEq.respectTransparency false in
 @[simp] lemma invMap_single (h : Equiv.Perm (Fin n)) (r : ℂ) :
     invMap n (Finsupp.single h r) = Finsupp.single h⁻¹ r := by
   rw [invMap, Finsupp.lsum_single, LinearMap.smulRight_apply, LinearMap.id_apply,
@@ -114,6 +116,7 @@ noncomputable def g0 :
     g0 n la (Finsupp.single h r) = MonoidAlgebra.single h⁻¹ r * RowSymmetrizer n la := by
   rw [g0, LinearMap.comp_apply, invMap_single, LinearMap.mulRight_apply]
 
+set_option backward.isDefEq.respectTransparency false in
 /-- Left-multiplying by a row-subgroup element before applying `g0` does nothing. -/
 lemma g0_of_mul (p : ↥(RowSubgroup n la)) (x : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) :
     g0 n la (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (p : Equiv.Perm (Fin n)) * x) = g0 n la x := by
@@ -231,6 +234,7 @@ lemma IndVmk_rowSubgroup_smul (p : ↥(RowSubgroup n la)) (h : Equiv.Perm (Fin n
 
 /-! ## `Ffull` is a bijection onto the ideal -/
 
+set_option backward.isDefEq.respectTransparency false in
 /-- `Ffull (sMap z) = z · a_λ`, so `Ffull` hits every element of the left ideal. -/
 lemma Ffull_sMap (z : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) :
     Ffull n la (sMap n la z) = z * RowSymmetrizer n la := by
@@ -241,6 +245,7 @@ lemma Ffull_sMap (z : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) :
       rw [sMap_single, map_smul, Ffull_IndVmk, one_smul, inv_inv, MonoidAlgebra.of_apply,
         ← smul_mul_assoc, Finsupp.smul_single_one]
 
+set_option backward.isDefEq.respectTransparency false in
 /-- `Gfull ∘ Ffull = id`, so `Ffull` is injective. -/
 lemma Gfull_comp_Ffull : (Gfull n la) ∘ₗ (Ffull n la) = LinearMap.id := by
   haveI : Nonempty (↥(RowSubgroup n la)) := ⟨1⟩
