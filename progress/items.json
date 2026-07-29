@@ -21946,6 +21946,11 @@
     "start_line": 13,
     "end_line": 16,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "The intrinsic abelian-category notion and its Freyd–Mitchell module realization are both supplied by Definition 7.7.1's provider.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.7", "reviewed_on": "2026-07-29", "claims": [{"claim": "The chapter uses the Freyd–Mitchell module realization to present abelian categories.", "verdict": "formalized", "lean_decl": "Etingof.exists_equiv_moduleCat_fullSubcategory"}]},
     "coverage_swept": {
       "wave": 1,
       "result": "none"
@@ -21964,7 +21969,8 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "Etingof.Abelian is the intrinsic Mathlib class. The source's description is now proved equivalent to it: Etingof.exists_equiv_moduleCat_fullSubcategory realizes an abelian category as the essential image of the Freyd-Mitchell embedding into a module category, a full subcategory closed under finite direct sums, kernels, cokernels and images, and Etingof.abelianOfClosedFullSubcategory is the converse.",
-    "last_updated": "2026-07-26"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.7", "reviewed_on": "2026-07-29", "claims": [{"claim": "The intrinsic abelian axiom is equivalent to realization as a full module subcategory closed under finite sums, kernels, cokernels, and images.", "verdict": "formalized", "lean_decl": "Etingof.exists_equiv_moduleCat_fullSubcategory; Etingof.abelianOfClosedFullSubcategory"}]}
   },
   {
     "id": "Chapter7/Example7.7.2",
@@ -21975,11 +21981,15 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
-    "coverage": "covered",
+    "coverage": "covered_full",
     "coverage_note": "The all-modules half is exact (Abelian (ModuleCat A)). The finite-dimensional-module half is now source-faithful: `module_finite_iff_finiteDimensional` proves the finite-dimensional-k-algebra bridge (an A-module is finitely generated over A iff finite dimensional over the base field k), and `abelian_fgModuleCat_of_finiteDimensional` states Abelian (FGModuleCat A) under the book's hypotheses ([Field k] [Algebra k A] [FiniteDimensional k A]), deriving IsNoetherianRing A internally via `isNoetherianRing_of_finiteDimensional` rather than assuming it. Resolves #7429.",
-    "last_updated": "2026-07-24",
+    "last_updated": "2026-07-29",
     "fidelity_note": "Both halves faithful: `ModuleCat A` for all modules, and `FGModuleCat A` identified with the finite-dimensional-over-k module category via the proved bridge `module_finite_iff_finiteDimensional`, with the Noetherian hypothesis derived from A being a finite dimensional k-algebra.",
-    "sorry_free": true
+    "sorry_free": true,
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.7", "reviewed_on": "2026-07-29", "claims": [
+      {"claim": "All modules over a ring form an abelian category.", "verdict": "formalized", "lean_decl": "CategoryTheory.Abelian (ModuleCat A)"},
+      {"claim": "Finite-dimensional modules over a finite-dimensional k-algebra form an abelian category.", "verdict": "formalized", "lean_decl": "abelian_fgModuleCat_of_finiteDimensional; module_finite_iff_finiteDimensional"}
+    ]}
   },
   {
     "id": "Chapter7/Problem7.7.3",
@@ -21991,15 +22001,15 @@
     "end_line": 6,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-28",
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
+  "last_updated": "2026-07-29",
+  "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized by the declaration recorded in claim_coverage; the provider passes a fresh source check.",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter7/Problem7_7_3.lean"
     ],
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-07-28",
+    "reviewed_on": "2026-07-29",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -22029,6 +22039,11 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "The intrinsic Abelian typeclass provides preadditivity, a zero object, kernels, cokernels, images, monomorphisms, and epimorphisms as stated.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.7", "reviewed_on": "2026-07-29", "claims": [{"claim": "Abelian categories have additive homs, a zero object, and kernels, cokernels, and images, with mono/epi notions.", "verdict": "formalized", "lean_decl": "CategoryTheory.Abelian"}]},
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -22045,9 +22060,13 @@
     "status": "sorry_free",
     "fidelity": "full",
     "sorry_free": true,
-    "coverage": "covered",
+    "coverage": "covered_full",
     "coverage_note": "Chapter7/Remark7_7_4.lean gives the concrete Morita counterexample: ℚ and Matrix (Fin 2) (Fin 2) ℚ have equivalent module categories (ModuleCat.matrixEquivalence) yet no ring isomorphism (Etingof.exists_matrix_not_comm_of_ne transports commutativity), packaged as Etingof.morita_equivalent_not_ringEquiv. The prose claim that many abelian categories admit no natural ring remains philosophical.",
-    "last_updated": "2026-07-24"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.7", "reviewed_on": "2026-07-29", "claims": [
+      {"claim": "Different rings can have equivalent module categories without being isomorphic.", "verdict": "formalized", "lean_decl": "Etingof.morita_equivalent_not_ringEquiv"},
+      {"claim": "The discussion of natural or manageable choices of realizing rings is expository motivation.", "verdict": "non_formalizable"}
+    ]}
   },
   {
     "id": "Chapter7/Discussion_after_Remark7.7.4",
@@ -22058,6 +22077,11 @@
     "start_line": 11,
     "end_line": 12,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Mathlib's Linear structure gives vector-space homs and bilinear composition for module categories over a k-algebra.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "7.7", "reviewed_on": "2026-07-29", "claims": [{"claim": "Module categories over a k-algebra are k-linear abelian categories.", "verdict": "formalized", "lean_decl": "CategoryTheory.Linear; CategoryTheory.Abelian"}]},
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
