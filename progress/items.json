@@ -99,7 +99,11 @@
     "coverage_swept": {
       "wave": 1,
       "result": "none"
-    }
+    },
+    "coverage": "non_formalizable",
+    "fidelity": "not_applicable",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.6", "reviewed_on": "2026-07-29", "definition_integrity": "not_applicable", "statement_fidelity": "not_applicable", "nonvacuity": "not_applicable", "claims": [{"claim": "The heading announces unitary representations and another proof of complex Maschke.", "verdict": "non_formalizable", "reason": "Organizational heading."}]}
   },
   {
     "id": "Chapter1/Discussion_BookOrganization",
@@ -11310,7 +11314,7 @@
     "start_line": 7,
     "end_line": 4,
     "status": "proof_polished",
-    "fidelity": "partial",
+    "fidelity": "verified",
     "sorry_free": true,
     "notes": "Full theorem now exposed (#5328): jordan_holder_equivalent gives s₁.Equivalent s₂; jordan_holder_factors gives the permutation σ with Wᵢ ≅ W'_{σ i} via Etingof.compositionFactor; jordan_holder retains the n = m length half. Characteristic-p footnote formalized (#7469) in Discussion_footnote_3_7_1.lean: character_fin_pi gives χ_{nV} = n • χ_V for the diagonal representation on Fin n → V (via trace_diagPi_fin, direct-sum additivity of the trace), and character_pcopies_eq_zero gives χ_{pV} = 0 under [CharP k p].",
     "coverage": "covered",
@@ -14521,8 +14525,9 @@
     "fidelity": "partial",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-23",
-    "notes": "UnitaryRepresentation now requires [FiniteDimensional ℂ V], matching the book's finite-dimensional definition; previously it admitted infinite-dimensional carriers. Regression example checks a finite-dimensional witness typechecks."
+    "last_updated": "2026-07-29",
+    "notes": "UnitaryRepresentation requires [FiniteDimensional ℂ V], matching the book's finite-dimensional definition; the regression example checks a finite-dimensional witness typechecks.",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.6", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "A unitary representation is a finite-dimensional complex representation equipped with a positive-definite Hermitian form preserved by the group action.", "verdict": "formalized", "lean_decl": "Etingof.UnitaryRepresentation"}]}
   },
   {
     "id": "Chapter4/Theorem4.6.2",
@@ -14532,11 +14537,12 @@
     "end_page": "71",
     "start_line": 5,
     "end_line": 14,
-    "status": "proof_complete",
+    "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.6", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "Every finite-dimensional complex representation of a finite group admits an invariant positive-definite Hermitian form, obtained by averaging.", "verdict": "formalized", "lean_decl": "Etingof.Theorem4_6_2_existence"}, {"claim": "For an irreducible representation, any two such forms differ by a positive real scalar.", "verdict": "formalized", "lean_decl": "Etingof.Theorem4_6_2_uniqueness"}]}
   },
   {
     "id": "Chapter4/Discussion_after_Theorem4.6.2",
@@ -14546,14 +14552,16 @@
     "end_page": "72",
     "start_line": 15,
     "end_line": 2,
-    "status": "proof_complete",
+    "status": "sorry_free",
     "sorry_free": true,
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
     },
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.6", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "The conjugate complex vector space and conjugate representation carry the conjugated scalar action and original group action.", "verdict": "formalized", "lean_decl": "Etingof.Conjugate; Etingof.conjugateRep"}, {"claim": "An invariant unitary form gives a G-equivariant linear isomorphism from the conjugate representation to the dual.", "verdict": "formalized", "lean_decl": "Etingof.conjEquivDual; Etingof.conjEquivDual_intertwines; Etingof.conjugate_iso_dual"}, {"claim": "The general map/sesquilinear-form correspondence explains the construction.", "verdict": "proof_route", "reason": "The construction is implemented directly; the source does not state a separate classification endpoint."}]}
   },
   {
     "id": "Chapter4/Theorem4.6.3",
@@ -14565,9 +14573,10 @@
     "end_line": 6,
     "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-22",
+    "last_updated": "2026-07-29",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.6", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "Every invariant subspace of a finite-dimensional unitary representation has an invariant orthogonal complement, hence the representation is completely reducible.", "verdict": "formalized", "lean_decl": "Etingof.Theorem4_6_3"}]}
   },
   {
     "id": "Chapter4/Discussion_after_Theorem4.6.3",
@@ -14583,7 +14592,9 @@
       "result": "covered"
     },
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "fidelity": "verified",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.6", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "Theorems 4.6.2 and 4.6.3 give an alternative proof of Maschke's theorem over ℂ.", "verdict": "covered_elsewhere", "lean_decl": "Etingof.Theorem4_1_1", "reason": "This paragraph supplies a new proof route to the already formalized theorem."}]}
   },
   {
     "id": "Chapter4/Remark4.6.4",
@@ -14599,7 +14610,8 @@
     "fidelity_decl": "Etingof.Remark4_6_4",
     "fidelity_issue": 5379,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "4.6", "reviewed_on": "2026-07-29", "definition_integrity": "verified", "statement_fidelity": "verified", "nonvacuity": "verified", "claims": [{"claim": "An infinite group can have a finite-dimensional representation that is indecomposable but not irreducible and hence cannot be unitary.", "verdict": "formalized", "lean_decl": "Etingof.Remark4_6_4.repZ; Etingof.Remark4_6_4.repZ_indecomposable; Etingof.Remark4_6_4.repZ_not_irreducible; Etingof.Remark4_6_4"}]}
   },
   {
     "id": "Chapter4/Introduction_4.7",
