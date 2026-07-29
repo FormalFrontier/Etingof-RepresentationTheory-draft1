@@ -5,6 +5,8 @@ import Mathlib.Algebra.Homology.ComplexShapeSigns
 import Mathlib.Algebra.Category.ModuleCat.Abelian
 import Mathlib.CategoryTheory.Preadditive.Projective.Resolution
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The external tensor complex of two projective resolutions (left modules)
 

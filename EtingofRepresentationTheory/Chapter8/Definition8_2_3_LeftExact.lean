@@ -2,6 +2,8 @@ import EtingofRepresentationTheory.Chapter8.Problem8_2_6_Core
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3_RightExact
 import Mathlib.CategoryTheory.Adjunction.Limits
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Right-exactness of `M ⊗_A -`
 

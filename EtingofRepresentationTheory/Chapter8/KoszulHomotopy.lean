@@ -1,6 +1,8 @@
 import EtingofRepresentationTheory.Chapter8.KoszulBasis
 import Mathlib.Data.Finsupp.Order
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The contracting homotopy of the augmented Koszul complex
 
@@ -328,7 +330,16 @@ theorem koszulD_koszulH_add_koszulH_koszulD_koszulKBasis (b : Module.Basis κ k 
       have herase : eraseElem (insertElem s hp.notMem) ⟨p, hpt⟩ = s :=
         Subtype.ext (Finset.erase_insert hp.notMem)
       rw [koszulDTerm, dif_pos hpt, hpos, sub_single_add_single hp.one_le, herase]
-      simp
+      rw [koszulKBasis_apply, pow_one]
+      change (((-1 : k) • b.symmetricAlgebra α) ⊗ₜ[k]
+          (Module.Basis.exteriorPower (i + 1) b) s :
+          SymmetricAlgebra k V ⊗[k] (⋀[k]^(i + 1) V)) =
+        (-b.symmetricAlgebra α) ⊗ₜ[k] (Module.Basis.exteriorPower (i + 1) b) s
+      set_option backward.isDefEq.respectTransparency true in
+        simpa only [TensorProduct.neg_tmul] using
+          congrArg (fun z : SymmetricAlgebra k V =>
+            z ⊗ₜ[k] (Module.Basis.exteriorPower (i + 1) b) s)
+            (neg_one_smul k (b.symmetricAlgebra α))
     have h2 : ∀ a ∈ (s : Finset κ), koszulH b i (koszulDTerm b i α s a) =
         koszulDTerm b (i + 1) (α - Finsupp.single p 1) (insertElem s hp.notMem) a := by
       intro a ha
@@ -471,7 +482,20 @@ theorem koszulD_koszulH_add_eta_aug_koszulKBasis (b : Module.Basis κ k V) (α :
         (insertElem s hp.notMem),
       hins, Finset.sum_singleton, koszulDTerm, dif_pos hpt, hpos,
       sub_single_add_single hp.one_le, herase, haug, map_zero, add_zero]
-    simp
+    rw [koszulKBasis_apply, pow_one]
+    change -((((-1 : k) • b.symmetricAlgebra α) ⊗ₜ[k]
+        (Module.Basis.exteriorPower 0 b) s :
+        SymmetricAlgebra k V ⊗[k] (⋀[k]^0 V))) =
+      b.symmetricAlgebra α ⊗ₜ[k] (Module.Basis.exteriorPower 0 b) s
+    have hsign :
+        ((-1 : k) • b.symmetricAlgebra α) ⊗ₜ[k] (Module.Basis.exteriorPower 0 b) s =
+          -(b.symmetricAlgebra α ⊗ₜ[k] (Module.Basis.exteriorPower 0 b) s) := by
+      simpa only [TensorProduct.neg_tmul] using
+        congrArg (fun z : SymmetricAlgebra k V =>
+          z ⊗ₜ[k] (Module.Basis.exteriorPower 0 b) s)
+          (neg_one_smul k (b.symmetricAlgebra α))
+    set_option backward.isDefEq.respectTransparency true in
+      exact (congrArg Neg.neg hsign).trans (neg_neg _)
 
 /-- **The degree-zero homotopy identity**, `d ∘ h + η ∘ ε = id` on `C₀`. -/
 theorem koszulD_koszulH_add_eta_aug (b : Module.Basis κ k V) (x : koszulX k V 0) :

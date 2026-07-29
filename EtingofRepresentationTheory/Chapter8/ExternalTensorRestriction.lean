@@ -3,6 +3,8 @@ import EtingofRepresentationTheory.Chapter8.ExternalTensorProjective
 import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
 import Mathlib.Algebra.Homology.Monoidal
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Restriction of scalars commutes with the external tensor complex
 

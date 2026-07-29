@@ -7,6 +7,8 @@ import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 import Mathlib.Algebra.Homology.ShortComplex.PreservesHomology
 import Mathlib.Algebra.Category.Grp.Zero
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Identifying the two `Hⁿ Hom(P•, N)` presentations
 

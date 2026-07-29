@@ -10,6 +10,8 @@ import Mathlib.CategoryTheory.Abelian.LeftDerived
 import Mathlib.LinearAlgebra.Finsupp.LSum
 import Mathlib.Algebra.BigOperators.Finsupp.Basic
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Tensoring with a projective right module is exact (flatness of projectives)
 

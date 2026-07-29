@@ -1,6 +1,8 @@
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3_RightExact
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Second-argument functoriality of `⊗_A` and `Tor` (core for Problem 8.2.6)
 

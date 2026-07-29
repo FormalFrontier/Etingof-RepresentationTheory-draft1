@@ -18,6 +18,8 @@ import EtingofRepresentationTheory.Chapter8.Definition8_2_4
 import EtingofRepresentationTheory.Chapter8.LeftDerivedSequence
 import EtingofRepresentationTheory.Chapter8.Problem8_2_6
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Problem 8.2.7: Tor and Ext for `ℤ` and `k[x]`
 

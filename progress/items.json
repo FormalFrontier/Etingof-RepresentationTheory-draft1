@@ -23003,11 +23003,11 @@
       "wave": 1,
       "result": "covered"
     },
-    "fidelity": "partial",
-    "coverage": "covered_partial",
-    "coverage_note": "Ext infrastructure is importable, but Definition8_2_3.lean fails a fresh source check in the Additive instance for tensorRightFunctor, so the general-ring Tor definition cannot currently be rebuilt; regression #7510.",
-    "fidelity_issue": 7510,
-    "last_updated": "2026-07-22"
+  "fidelity": "verified",
+  "coverage": "covered_full",
+  "coverage_note": "The general-ring tensor and Hom functors and their Tor and Ext derived functors are fully represented; all defining providers pass fresh source checks.",
+  "last_updated": "2026-07-29",
+  "claim_coverage": {"stage": "3.2", "status": "complete", "section": "8.2", "reviewed_on": "2026-07-29", "claims": [{"claim": "Tor and Ext quantify the failure of tensor and Hom to be exact through their derived functors.", "verdict": "formalized", "lean_decl": "Etingof.TorFunctor; Etingof.Ext"}]}
   },
   {
     "id": "Chapter8/Definition8.2.1",
@@ -23021,7 +23021,9 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "coverage_note": "The bundled projective resolution contains a projective chain complex and an augmentation resolving the object.",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "8.2", "reviewed_on": "2026-07-29", "claims": [{"claim": "A projective resolution is an exact augmented chain complex with projective terms.", "verdict": "formalized", "lean_decl": "Etingof.ProjectiveResolution"}]}
   },
   {
     "id": "Chapter8/Exercise8.2.2",
@@ -23034,15 +23036,15 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "coverage": "covered_full",
-    "last_updated": "2026-07-28",
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
+    "last_updated": "2026-07-29",
+    "coverage_note": "Final source-subpart audit complete. Every module has both a projective resolution and an explicit free resolution; the provider passes a fresh source check.",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter8/Exercise8_2_2.lean"
     ],
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-07-28",
+    "reviewed_on": "2026-07-29",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -23084,13 +23086,13 @@
     "end_page": "208",
     "start_line": 11,
     "end_line": 16,
-    "status": "partially_proved",
-    "fidelity": "partial",
+  "status": "sorry_free",
+  "fidelity": "verified",
     "sorry_free": true,
-    "coverage": "covered_partial",
-    "coverage_issue": 7510,
-    "coverage_note": "The additive tensor/Tor construction is source-present, but Definition8_2_3.lean fails a fresh source check in tensorRightFunctor.map_add and related tensor-map equalities (#7510).",
-    "last_updated": "2026-07-22"
+  "coverage": "covered_full",
+  "coverage_note": "The general-ring balanced tensor functor is additive, Tor is its left derived functor, and the public comparison identifies Tor with homology of a chosen projective resolution tensored with N. All providers fresh-build.",
+  "last_updated": "2026-07-29",
+  "claim_coverage": {"stage": "3.2", "status": "complete", "section": "8.2", "reviewed_on": "2026-07-29", "claims": [{"claim": "Tor_i^A(M,N) is the homology of a projective resolution of M tensored over A with N.", "verdict": "formalized", "lean_decl": "Etingof.tensorRightFunctor; Etingof.TorFunctor; Etingof.Tor; Etingof.torIsoHomologyTensorRight"}]}
   },
   {
     "id": "Chapter8/Definition8.2.4",
@@ -23105,7 +23107,8 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "Ext is exposed as Abelian.Ext, and ExtAbelianComparison.lean identifies it with cohomology of Hom_A(P•,N) from a chosen projective resolution, matching the source definition.",
-    "last_updated": "2026-07-22"
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "8.2", "reviewed_on": "2026-07-29", "claims": [{"claim": "Ext^i_A(M,N) is the cohomology of Hom_A(P_i,N) for a projective resolution P of M.", "verdict": "formalized", "lean_decl": "Etingof.Ext; Etingof.extIsoCohomologyHom"}]}
   },
   {
     "id": "Chapter8/Problem8.2.5",
@@ -23116,16 +23119,16 @@
     "start_line": 23,
     "end_line": 8,
     "status": "sorry_free",
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
+    "coverage_note": "Final source-subpart audit complete. Resolution lifts, their choice independence, and coherent Tor and Ext comparison isomorphisms are formalized; the provider passes a fresh source check.",
     "coverage": "covered_full",
-    "last_updated": "2026-07-28",
+    "last_updated": "2026-07-29",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter8/Problem8_2_5.lean"
     ],
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-07-28",
+    "reviewed_on": "2026-07-29",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -23213,9 +23216,9 @@
     "start_line": 9,
     "end_line": 22,
     "status": "sorry_free",
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
+    "coverage_note": "Final source-subpart audit complete. All five parts, including both pairs of long exact sequences and the horseshoe resolution, are formalized; every provider passes a fresh source check.",
     "coverage": "covered_full",
-    "last_updated": "2026-07-28",
+    "last_updated": "2026-07-29",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter8/Problem8_2_6.lean",
       "EtingofRepresentationTheory/Chapter8/Problem8_2_6_Core.lean",
@@ -23226,7 +23229,7 @@
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-07-28",
+    "reviewed_on": "2026-07-29",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -23345,7 +23348,7 @@
     "start_line": 23,
     "end_line": 26,
     "status": "sorry_free",
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
+    "coverage_note": "Final source-subpart audit complete. Tor and Ext are computed for all finitely generated abelian groups and finitely generated k[x]-modules; every provider passes a fresh source check.",
     "coverage": "covered_full",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter8/Problem8_2_7.lean",
@@ -23358,11 +23361,11 @@
       "EtingofRepresentationTheory/Chapter8/Problem8_2_7_TorInt.lean",
       "EtingofRepresentationTheory/Chapter8/Problem8_2_7_TorPoly.lean"
     ],
-    "last_updated": "2026-07-28",
+    "last_updated": "2026-07-29",
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-07-28",
+    "reviewed_on": "2026-07-29",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -23461,8 +23464,8 @@
     "end_line": 40,
     "status": "sorry_free",
     "coverage": "covered_partial",
-    "last_updated": "2026-07-28",
-    "coverage_note": "Final source-subpart audit complete. Every implemented unit is recorded in claim_coverage; the only departed source units link exactly to skipped-exercises.md#problem-828--the-ext-k%C3%BCnneth-formula-needs-finite-dimensional-source-modules. The current providers compile in the repository-wide build.",
+  "last_updated": "2026-07-29",
+  "coverage_note": "Final source-subpart audit complete. The Tor formula holds literally, the book's literal Ext scope is refuted by a formal counterexample, and the strongest sound corrected Ext theorem is proved. This documented source correction links exactly to skipped-exercises.md#problem-828--the-ext-k%C3%BCnneth-formula-needs-finite-dimensional-source-modules; all providers pass fresh source checks.",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter8/Problem8_2_8.lean",
       "EtingofRepresentationTheory/Chapter8/Problem8_2_8Counterexample.lean"
@@ -23470,7 +23473,7 @@
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-07-28",
+    "reviewed_on": "2026-07-29",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -23530,6 +23533,11 @@
     "start_line": 41,
     "end_line": 41,
     "status": "sorry_free",
+    "coverage": "covered_full",
+    "fidelity": "verified",
+    "coverage_note": "Mathlib's EnoughProjectives predicate and projective-resolution API realize the stated extension of Tor and Ext to abelian categories.",
+    "last_updated": "2026-07-29",
+    "claim_coverage": {"stage": "3.2", "status": "complete", "section": "8.2", "reviewed_on": "2026-07-29", "claims": [{"claim": "Tor and Ext can be defined in any abelian category with enough projectives because every object then has a projective resolution.", "verdict": "formalized", "lean_decl": "CategoryTheory.EnoughProjectives; CategoryTheory.ProjectiveResolution"}]},
     "coverage_swept": {
       "wave": 1,
       "result": "trivial"
@@ -23543,18 +23551,18 @@
     "end_page": "211",
     "start_line": 1,
     "end_line": 4,
-    "status": "proved",
+    "status": "sorry_free",
     "fidelity": "verified",
     "coverage": "covered_full",
-    "last_updated": "2026-07-28",
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
+    "last_updated": "2026-07-29",
+    "coverage_note": "Final source-subpart audit complete. Both no-nonzero-projective examples and enough projectives for finitely generated modules are formalized; the provider passes a fresh source check.",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter8/Exercise8_2_9.lean"
     ],
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-07-28",
+    "reviewed_on": "2026-07-29",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -23606,9 +23614,9 @@
     "end_page": "212",
     "start_line": 5,
     "end_line": 1,
-    "status": "partially_formalized",
+    "status": "sorry_free",
     "coverage": "covered_full",
-    "last_updated": "2026-07-28",
+    "last_updated": "2026-07-29",
     "lean_file": [
       "EtingofRepresentationTheory/Chapter8/Problem8_2_10.lean",
       "EtingofRepresentationTheory/Chapter8/KoszulBimoduleShear.lean",
@@ -23618,7 +23626,7 @@
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-07-28",
+    "reviewed_on": "2026-07-29",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -23724,7 +23732,7 @@
         }
       ]
     },
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
+  "coverage_note": "Final source-subpart audit complete. All five parts, including the literal free resolutions, Hilbert syzygy vanishing, and Tor/Ext computation, are formalized; every provider passes a fresh source check.",
     "fidelity": "verified"
   },
   {

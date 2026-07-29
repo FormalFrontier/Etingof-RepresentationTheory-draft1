@@ -6,6 +6,8 @@ import Mathlib.LinearAlgebra.DirectSum.Finsupp
 import Mathlib.LinearAlgebra.FreeModule.Basic
 import Mathlib.LinearAlgebra.TensorProduct.Opposite
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Projectivity of the external tensor product of projectives
 

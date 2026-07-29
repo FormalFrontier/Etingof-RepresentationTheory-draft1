@@ -1,5 +1,7 @@
 import Mathlib
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The relative bar resolution of a representation of a `k`-algebra
 
@@ -917,8 +919,8 @@ theorem barDiff_zero_comp_barContraction_add :
     rw [barContractionBase_apply]
     congr 1
     exact barCoeffZeroEquiv_symm_tmul k A W v (a₀ • w)
-  rw [hbase, neg_one_smul]
-  abel
+  rw [hbase]
+  module
 
 omit [Module A W] [IsScalarTower k A W] in
 /-- `(-1)^(m+1) • y = -((-1)^m • y)`: shifting the exponent by one flips the sign. -/
@@ -957,8 +959,29 @@ theorem barDiff_barContraction_gen (n : ℕ) (a₀ : A) (v : Fin (n + 1) → A) 
   rw [hinit, Fin.sum_univ_succ]
   simp only [Fin.castSucc_zero, contractNth_zero_cons, Fin.val_zero, Fin.val_succ,
     ← Fin.succ_castSucc, contractNth_succ_cons]
-  rw [sum_neg_one_pow_succ_smul k, neg_one_pow_succ_smul k (n + 1) _,
-    neg_one_pow_succ_smul k 0 _, pow_zero, one_smul]
+  have hsign (m : ℕ) (z : barModule k A W (n + 1)) :
+      (-1 : k) ^ (m + 1) • z = -((-1 : k) ^ m • z) :=
+    neg_one_pow_succ_smul k m z
+  let zfirst : barModule k A W (n + 1) :=
+    (1 : A) ⊗ₜ[k] (tprod k (Fin.cons (a₀ * v 0) (Fin.tail v)) ⊗ₜ[k] w)
+  let zmid (x : Fin n) : barModule k A W (n + 1) :=
+    (1 : A) ⊗ₜ[k] (PiTensorProduct.tprod k
+      (Fin.cons (α := fun _ : Fin (n + 1) => A) a₀
+        (x.castSucc.contractNth (fun x₁ x₂ => x₁ * x₂) v)) ⊗ₜ[k] w)
+  let zlast : barModule k A W (n + 1) :=
+    (1 : A) ⊗ₜ[k] (PiTensorProduct.tprod k (Fin.cons a₀ (Fin.init v)) ⊗ₜ[k]
+      (v (Fin.last n) • w))
+  have hfirst : (-1 : k) ^ (0 + 1) • zfirst = -zfirst := by
+    simpa only [pow_zero, one_smul] using hsign 0 zfirst
+  have hmiddle :
+      (∑ x : Fin n, (-1 : k) ^ ((x : ℕ) + 1 + 1) • zmid x) =
+        -(∑ x : Fin n, (-1 : k) ^ ((x : ℕ) + 1) • zmid x) := by
+    rw [← Finset.sum_neg_distrib]
+    exact Finset.sum_congr rfl fun x _ => hsign ((x : ℕ) + 1) (zmid x)
+  have hlast : (-1 : k) ^ (n + 1 + 1) • zlast =
+      -((-1 : k) ^ (n + 1) • zlast) := hsign (n + 1) zlast
+  dsimp [zfirst, zmid, zlast] at hfirst hmiddle hlast
+  rw [hfirst, hmiddle, hlast]
   abel
 
 /-- **Homotopy identity (degree n+1).** `d_{n+1} (s_{n+1} x) + s_n (d_n x) = x` for every

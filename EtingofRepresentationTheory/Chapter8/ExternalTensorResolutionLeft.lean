@@ -5,6 +5,8 @@ import EtingofRepresentationTheory.Chapter8.ExternalTensorResolution
 import EtingofRepresentationTheory.Chapter7.KunnethChainComplexNat
 import Mathlib.Algebra.Category.ModuleCat.ChangeOfRingsExact
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # The external tensor of two projective resolutions is a projective resolution (left modules)
 

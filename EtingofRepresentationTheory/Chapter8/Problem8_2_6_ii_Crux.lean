@@ -5,6 +5,8 @@ import Mathlib.CategoryTheory.Abelian.Projective.Ext
 import Mathlib.Algebra.Homology.HomotopyCategory.HomComplexSingle
 import Mathlib.Algebra.Homology.HomotopyCategory.HomComplexCohomology
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Problem 8.2.6(ii): `CohomologyClass (barResolution) 1 ≃+ Problem3_9_1.Ext1`
 
@@ -272,7 +274,8 @@ lemma Ψ1_δ_zero_eq (β : Cochain (barCochainComplex k A W) (singleV A V) 0) :
     have hlast0 : (![a] : Fin 1 → A) (Fin.last 0) = a := rfl
     rw [barDiff_tmul_tprod]
     simp only [Fin.sum_univ_zero, add_zero, Matrix.cons_val_zero, one_mul, pow_one,
-      zero_add, neg_smul, one_smul, map_add, map_neg]
+      zero_add, neg_smul, neg_one_smul, one_smul, map_add, map_neg,
+      LinearMap.map_smul_of_tower]
     rw [hlast0, ← hbc (Fin.tail ![a]) w, ← hbc (Fin.init ![a]) (a • w),
       show a ⊗ₜ[k] (barCoeffZeroEquiv k A W).symm w
           = a • ((1 : A) ⊗ₜ[k] (barCoeffZeroEquiv k A W).symm w) by

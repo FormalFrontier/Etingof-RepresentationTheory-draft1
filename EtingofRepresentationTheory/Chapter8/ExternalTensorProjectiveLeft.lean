@@ -4,6 +4,8 @@ import Mathlib.Algebra.Category.ModuleCat.Projective
 import Mathlib.LinearAlgebra.DirectSum.Finsupp
 import Mathlib.LinearAlgebra.FreeModule.Basic
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Projectivity of the external tensor product of projectives (left modules)
 

@@ -2,6 +2,8 @@ import EtingofRepresentationTheory.Chapter8.TensorOverModule
 import Mathlib.LinearAlgebra.TensorProduct.Associator
 import Mathlib.RingTheory.TensorProduct.Basic
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # Single-bidegree rearrangement isomorphism for the `Tor` Künneth formula
 
