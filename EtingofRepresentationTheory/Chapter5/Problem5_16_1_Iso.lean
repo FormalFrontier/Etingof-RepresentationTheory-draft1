@@ -20,15 +20,14 @@ open CategoryTheory Module
 
 namespace Etingof
 
-open scoped Classical
-
 private theorem spechtModule_asModule_smul (n : ℕ) (la : Nat.Partition n)
     (a : SymGroupAlgebra n) (v : (spechtModuleRep n la).asModule) :
     a • v = (show ↥(SpechtModule n la) from a •
       (show ↥(SpechtModule n la) from v)) := by
+  classical
   induction a using MonoidAlgebra.induction_on with
   | hM g =>
-      show MonoidAlgebra.single g 1 • v = _
+      change MonoidAlgebra.single g 1 • v = _
       rw [Representation.single_smul]
       simp only [one_smul, Representation.asModuleEquiv]
       simp [spechtModuleRep, spechtModuleAction]
@@ -139,16 +138,16 @@ private theorem finrank_hom_symm' {G : Type} [Group G] [Finite G]
     congr 1
     rw [← Equiv.sum_comp (Equiv.inv G) (fun g => V.character g * W.character g⁻¹)]
     refine Finset.sum_congr rfl (fun g _ => ?_)
-    show W.character g * V.character g⁻¹ = V.character g⁻¹ * W.character g⁻¹⁻¹
+    change W.character g * V.character g⁻¹ = V.character g⁻¹ * W.character g⁻¹⁻¹
     rw [inv_inv, mul_comm]
   exact_mod_cast hcast
 
+open Classical in
 private theorem specht_restriction_finrank (n : ℕ) (μ : Nat.Partition n)
     (la : Nat.Partition (n + 1)) :
     finrank ℂ (spechtModuleFDRep n μ ⟶
         restrictFDRep n (spechtModuleFDRep (n + 1) la)) =
       if μ.toYoungDiagram ≤ la.toYoungDiagram then 1 else 0 := by
-  classical
   haveI : Invertible (Fintype.card (Equiv.Perm (Fin n)) : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   have hscalar := FDRep.scalar_product_char_eq_finrank_equivariant
@@ -220,7 +219,8 @@ theorem induction_spechtModule_iso_addSquareSum (n : ℕ) (μ : Nat.Partition n)
       rw [FDRep.finrank_hom_simple_simple, if_neg]
       intro hSp
       apply hmem
-      simpa [(hiso p).mp hSp] using p.2
+      rw [(hiso p).mp hSp]
+      exact p.2
   rw [hleft, hright]
 
 end Etingof
