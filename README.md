@@ -19,12 +19,12 @@ Run `scripts/check_proof_placeholders.py --enforce-completion` to check these
 release criteria.
 
 The mathematical formalization reached this completion gate on 2026-07-29. The
-Lean import-DAG and bounded completeness passes closed on 2026-08-01, along with
-a repository-wide diagnostic style pass. The scanner reports zero blocking
+Lean proof-term dependency review, source-bound proof screening review, and bounded
+completeness passes closed on 2026-08-01. The scanner reports zero blocking
 placeholders, the exercise ledger reports no untracked gaps, and the sole wanted
-theorem is the explicitly approved Ado–Iwasawa scope marker. The proof-term
-dependency review required by Stage 3.4 and proof-by-proof quality review
-required by Stage 3.5 remain separate release tasks.
+theorem is the explicitly approved Ado–Iwasawa scope marker. Source-bound review
+certificates under `progress/reviews/` record the full kernel dependency inventory
+and every retained, individually dispositioned nonblocking linter diagnostic.
 
 ## Verification
 

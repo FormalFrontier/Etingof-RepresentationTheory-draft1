@@ -778,7 +778,6 @@ private lemma Etingof.GL2.principalSeries_construct_delta_none
       · -- f'(rep(none)) ≠ 0
         -- f'(rep(none)) = ρ(w)(ρ(τ_{t₀})f)(rep(none)) = ρ(τ_{t₀})f(rep(some 0))
         --   = f(rep(some(0 + t₀))) = f(rep(some t₀)) ≠ 0
-        change f'.val (Etingof.GL2.cosetRep p n none) ≠ 0
         rw [show f'.val = (Etingof.GL2.principalSeriesRep p n chi1 chi2
           (Etingof.GL2.cosetRep p n (some 0))
           (Etingof.GL2.principalSeriesRep p n chi1 chi2

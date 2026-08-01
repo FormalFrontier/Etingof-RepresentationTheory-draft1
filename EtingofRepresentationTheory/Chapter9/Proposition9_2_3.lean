@@ -157,8 +157,10 @@ theorem Etingof.compositionFactorMultiplicity_eraseLast
   -- Proof by induction on composition series length
   unfold Etingof.compositionFactorMultiplicity;
   rw [ Finset.card_filter, Finset.card_filter ];
-  rcases s with ⟨ ⟨ l, hl ⟩ ⟩ ; aesop;
-  erw [ Fin.sum_univ_castSucc ] ; aesop;
+  rcases s with ⟨ ⟨ l, hl ⟩ ⟩
+  · aesop
+  · erw [Fin.sum_univ_castSucc]
+    aesop
 
 /-- The dimension of Hom from a module into `↥(⊤ : Submodule R N)` equals the dimension
 of Hom into `N` itself, via the canonical equivalence `↥⊤ ≃ N`. -/

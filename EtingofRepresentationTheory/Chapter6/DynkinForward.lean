@@ -201,7 +201,7 @@ lemma dynkin_degree_le_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     rw [show ∑ b, 2 * (1 : Matrix (Fin n) (Fin n) ℤ) a b * x b =
         ∑ b, if a = b then 2 * x b else 0 from
       Finset.sum_congr rfl (fun b _ => by
-        simp only [Matrix.one_apply]; split_ifs <;> simp <;> ring)]
+        simp only [Matrix.one_apply]; split_ifs <;> simp)]
     simp
   -- B(x,x) = Σ_a x(a) * ((2I-adj)x)(a), show each term ≤ 0
   apply Finset.sum_nonpos; intro a _
@@ -408,7 +408,7 @@ lemma dynkin_edge_count {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
       rw [show ∑ b, 2 * (1 : Matrix (Fin n) (Fin n) ℤ) a b * x b =
           ∑ b, if a = b then 2 * x b else 0 from
         Finset.sum_congr rfl (fun b _ => by
-          simp only [Matrix.one_apply]; split_ifs <;> simp <;> ring)]
+          simp only [Matrix.one_apply]; split_ifs <;> simp)]
       simp
     -- B(1,...,1) = ∑_a (2 - deg(a))
     have hBpos := hpos x hx_ne
@@ -470,7 +470,7 @@ lemma dynkin_has_endpoint {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     rw [show ∑ b, 2 * (1 : Matrix (Fin n) (Fin n) ℤ) a b * x b =
         ∑ b, if a = b then 2 * x b else 0 from
       Finset.sum_congr rfl (fun b _ => by
-        simp only [Matrix.one_apply]; split_ifs <;> simp <;> ring)]
+        simp only [Matrix.one_apply]; split_ifs <;> simp)]
     simp
   have hB_le : dotProduct x ((2 • (1 : Matrix _ _ ℤ) - adj).mulVec x) ≤ 0 := by
     apply Finset.sum_nonpos; intro a _

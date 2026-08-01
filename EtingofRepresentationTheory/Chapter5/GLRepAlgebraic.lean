@@ -118,7 +118,7 @@ theorem IsAlgebraicCoefficientFamily.restrict {k : Type*} [Field k] {N : ℕ}
   obtain ⟨W', hWW'⟩ := W.exists_isCompl
   let π : Y →ₗ[k] W := W.projectionOnto W' hWW'
   have hπincl : ∀ w : W, π (W.subtype w) = w := fun w =>
-    W.linearProjOfIsCompl_apply_left hWW' w
+    W.projectionOnto_apply_left hWW' w
   refine ⟨Module.finrank k W, b',
     fun a c => ∑ d, ∑ e,
       MvPolynomial.C (B.repr (W.subtype (b' c)) d) * P e d

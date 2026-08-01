@@ -146,7 +146,7 @@ private theorem colOfPos_lt_headD (parts : List ℕ) (j : ℕ) (hj : j < parts.s
         cases ps with
         | nil => simp [List.headD]
         | cons q qs =>
-          simp [List.headD]
+          simp only [List.headD_eq_head?_getD, List.head?_cons, Option.getD_some]
           exact (List.pairwise_cons.mp hSorted).1 q (by simp)
 
 /-- Column height: number of rows with width > c. -/
@@ -217,7 +217,7 @@ private theorem sum_min_colHeight (parts : List ℕ) (k : ℕ)
         cases ps with
         | nil => simp [List.headD]
         | cons q qs =>
-          simp [List.headD]; exact (List.pairwise_cons.mp hSorted).1 q (by simp)
+          simp only [List.headD_eq_head?_getD, List.head?_cons, Option.getD_some]; exact (List.pairwise_cons.mp hSorted).1 q (by simp)
       rw [← Finset.sum_sdiff (Finset.range_mono hle)]
       suffices h : ∑ c ∈ Finset.range p \ Finset.range (ps.headD 0),
           min k (colHeight ps c) = 0 by omega

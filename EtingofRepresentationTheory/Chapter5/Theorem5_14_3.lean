@@ -552,7 +552,7 @@ private lemma orbOf_eq_iff (σ : Equiv.Perm (Fin n)) (k₁ k₂ : Fin n) :
   · intro h
     have : k₂ ∈ orbOf σ k₂ := by simp [orbOf, Equiv.Perm.SameCycle.refl]
     rw [← h] at this; simp [orbOf] at this; exact this
-  · intro h; ext x; simp [orbOf]
+  · intro h; ext x; simp only [mem_filter, mem_univ, true_and]
     exact ⟨fun hx => h.symm.trans hx, fun hx => h.trans hx⟩
 
 /-- The distinct orbits as a Finset of orbit-Finsets. -/

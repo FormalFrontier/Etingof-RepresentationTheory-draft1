@@ -900,7 +900,6 @@ lemma leftIdeal_projective (e : A) (he : IsIdempotentElem e) :
   have h_split : retr.comp S.subtype = LinearMap.id := by
     ext ⟨x, hx⟩
     simp only [LinearMap.comp_apply, LinearMap.id_apply, Submodule.subtype_apply, retr]
-    congr 1
     rw [Submodule.mem_span_singleton] at hx
     obtain ⟨a, rfl⟩ := hx
     simp [mul_assoc, IsIdempotentElem.eq he]

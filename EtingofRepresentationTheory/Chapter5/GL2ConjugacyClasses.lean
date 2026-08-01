@@ -701,7 +701,9 @@ private lemma two_mul_card_nonsquare (hp2 : p ≠ 2) (hn : n ≠ 0)
   have hunion : NZSq ∪ NSq = Finset.univ.filter (fun a : GaloisField p n => a ≠ 0) := by
     ext a; simp only [NZSq, NSq, Finset.mem_union, Finset.mem_filter, Finset.mem_univ, true_and]
     constructor
-    · rintro (⟨ha, _⟩ | hna); exact ha; exact fun h => hna (h ▸ ⟨0, by ring⟩)
+    · rintro (⟨ha, _⟩ | hna)
+      · exact ha
+      · exact fun h => hna (h ▸ ⟨0, by ring⟩)
     · intro ha; by_cases hsq : IsSquare a
       · exact Or.inl ⟨ha, hsq⟩
       · exact Or.inr hsq
@@ -905,7 +907,7 @@ theorem GL2.card_isElliptic [Fintype (GaloisField p n)]
           _ = (a + b) ^ 2 := by ring
       rw [this]; exact ⟨a + b, by ring⟩
     have hdet' : Matrix.det !![a, c; d, b] ≠ 0 := by
-      simp [Matrix.det_fin_two]; exact hdet
+      simp only [Matrix.det_fin_two_of, ne_eq]; exact hdet
     set g := Matrix.GeneralLinearGroup.mkOfDetNeZero !![a, c; d, b] hdet'
     -- Helper: extract matrix entries of g
     have hg00 : g.val 0 0 = a := by simp [g, Matrix.cons_val_zero]

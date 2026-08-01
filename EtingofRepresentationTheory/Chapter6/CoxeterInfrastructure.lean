@@ -581,7 +581,7 @@ theorem exists_topoSort
         exact List.getElem_append_right h₁
       apply ih (remaining.erase v) (Finset.erase_ssubset hv_mem) (acc ++ [v])
       · exact hnodup.append (List.nodup_singleton v)
-          (by simp [List.disjoint_singleton]; exact hv_not_acc)
+          (by simp only [List.disjoint_singleton]; exact hv_not_acc)
       · -- (acc ++ [v]).toFinset = Finset.univ \ remaining.erase v
         rw [List.toFinset_append, hacc_set]
         ext w

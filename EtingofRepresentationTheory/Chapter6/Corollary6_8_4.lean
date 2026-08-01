@@ -478,7 +478,7 @@ private lemma exists_prefix_to_simpleRoot
         (A.mulVec (Etingof.iteratedSimpleReflection n A (fullList.take k) α)) = 2 := by
     intro k hk hall
     induction k with
-    | zero => simp [Etingof.iteratedSimpleReflection]; exact ⟨hα_nonneg, hα_B⟩
+    | zero => simp only [List.take_zero]; exact ⟨hα_nonneg, hα_B⟩
     | succ k ih =>
       have hk' : k ≤ fullList.length := by omega
       obtain ⟨ih_nn, ih_B⟩ := ih hk' (fun j hj => hall j (by omega))

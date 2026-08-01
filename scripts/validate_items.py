@@ -33,7 +33,7 @@ DERIVED_TYPE = "derived"
 DERIVED_REQUIRED_FIELDS = {"type", "derived_from", "source_span", "claim", "status"}
 DERIVED_OPTIONAL_FIELDS = {
     "coverage", "coverage_issue", "last_updated", "lean_file", "lean_ref",
-    "note", "stage3_5",
+    "note", "stage3_4", "stage3_5",
 }
 
 # Audit and implementation metadata accumulated after the original Stage 1

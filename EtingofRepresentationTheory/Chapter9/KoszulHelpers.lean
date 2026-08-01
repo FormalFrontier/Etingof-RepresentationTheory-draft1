@@ -92,7 +92,8 @@ noncomputable def coordMapCH
     { toFun := fun (p : Polynomial R) =>
         { toFun := fun (m : N) => p.toFinsupp.mapRange (· • m) (by simp)
           map_add' := fun m₁ m₂ => by ext k; simp [smul_add]
-          map_smul' := fun r m => by ext k; simp; exact smul_comm _ _ _ }
+          map_smul' := fun r m => by ext k; simp only [Finsupp.mapRange_apply, PolynomialModule.funLike_eq, RingHom.id_apply, Finsupp.coe_smul,
+                                              Pi.smul_apply]; exact smul_comm _ _ _ }
       map_add' := fun p q => by ext m k; simp [add_smul, Polynomial.toFinsupp_add]
       map_smul' := fun r p => by
         ext m k

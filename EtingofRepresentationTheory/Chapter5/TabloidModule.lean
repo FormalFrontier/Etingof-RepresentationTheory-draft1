@@ -1553,7 +1553,6 @@ theorem polytabloidTab_mem_tabloidProjection_spechtModule
   refine ⟨(Nat.card (↥(RowSubgroup n la)) : ℂ)⁻¹ •
     MonoidAlgebra.of ℂ _ (sytPerm n la T)⁻¹ * YoungSymmetrizer n la, ?_, ?_⟩
   · -- This element is in V_λ (it's a scalar multiple of of(σ_T⁻¹) * c_λ)
-    change _ ∈ (SpechtModule n la).restrictScalars ℂ
     rw [Submodule.restrictScalars_mem, SpechtModule, Submodule.mem_span_singleton]
     exact ⟨_, rfl⟩
   · -- Compute tabloidProjection of this element
