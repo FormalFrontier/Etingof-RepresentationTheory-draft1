@@ -859,7 +859,7 @@ theorem exists_eUniv_sq (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) :
     ∃ μ : ℂ, μ ≠ 0 ∧ e B v Finset.univ * e B v Finset.univ = μ • (1 : CliffAlg B) := by
   have hmem := e_mul_mem B v hv Finset.univ Finset.univ
   have hset : (Finset.univ : Finset (Fin N)) ∆ Finset.univ = ∅ := by
-    ext a; simp [Finset.mem_symmDiff]
+    ext a; simp
   rw [hset, e_empty] at hmem
   obtain ⟨μ, hμ⟩ := Submodule.mem_span_singleton.mp hmem
   refine ⟨μ, ?_, hμ.symm⟩
@@ -1369,11 +1369,11 @@ theorem not_isSemisimpleRing_of_degenerate
     rw [LinearMap.BilinForm.Nondegenerate, LinearMap.Nondegenerate, not_and_or] at hdeg
     rcases hdeg with h | h
     · rw [LinearMap.SeparatingLeft] at h
-      push_neg at h
+      push Not at h
       obtain ⟨v, hv, hne⟩ := h
       exact ⟨v, hv, hne⟩
     · rw [LinearMap.SeparatingRight] at h
-      push_neg at h
+      push Not at h
       obtain ⟨v, hv, hne⟩ := h
       exact ⟨v, fun w => (hsymm v w).trans (hv w), hne⟩
   set Q := quadForm B with hQ

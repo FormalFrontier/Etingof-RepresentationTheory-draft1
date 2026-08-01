@@ -451,7 +451,7 @@ lemma isCompl_of_finrank_one_ne {k : Type*} [Field k]
     (Submodule.finrank_mono (inf_le_left (a := p) (b := q))).trans hp.le
   -- If finrank(p ⊓ q) = 1, then p ⊓ q = p = q, contradiction
   have hpq_zero : Module.finrank k (p ⊓ q : Submodule k V) = 0 := by
-    by_contra h; push_neg at h
+    by_contra h; push Not at h
     have hpq_eq : Module.finrank k (p ⊓ q : Submodule k V) = 1 := by omega
     have h1 : (p ⊓ q : Submodule k V) = p :=
       Submodule.eq_of_le_of_finrank_le (inf_le_left (a := p) (b := q)) (by omega)

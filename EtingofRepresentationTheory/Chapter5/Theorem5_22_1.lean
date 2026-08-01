@@ -47,7 +47,7 @@ def weightToPartition (N : ℕ) (lam : Fin N → ℕ) :
         simp only [Multiset.filter_cons]
         split
         · simp [Multiset.sum_cons, ih]
-        · rename_i h; push_neg at h; simp [Nat.le_zero.mp h, ih]
+        · rename_i h; push Not at h; simp [Nat.le_zero.mp h, ih]
     rw [h_filt]
     simp [Finset.sum]
 
@@ -307,7 +307,7 @@ def schurModuleRep (k : Type*) [Field k] (N : ℕ) (lam : Fin N → ℕ) :
     (fun v hv => glTensorRep_mem_range k N lam g v hv)
   map_one' := by
     ext ⟨v, hv⟩
-    simp only [LinearMap.restrict_coe_apply]
+    simp only [LinearMap.coe_restrict_apply]
     exact LinearMap.ext_iff.mp (map_one (glTensorRep k N _)) v
   map_mul' g₁ g₂ := by
     ext ⟨v, hv⟩
@@ -316,7 +316,7 @@ def schurModuleRep (k : Type*) [Field k] (N : ℕ) (lam : Fin N → ℕ) :
     -- h_mul : (glTensorRep (g₁ * g₂)) v = (glTensorRep g₁ * glTensorRep g₂) v
     --       = (glTensorRep g₁) ((glTensorRep g₂) v)
     -- Goal: coercion of restrict(g₁*g₂) = coercion of (restrict(g₁) * restrict(g₂))
-    simp only [LinearMap.restrict_coe_apply, Module.End.mul_apply] at h_mul ⊢
+    simp only [LinearMap.coe_restrict_apply, Module.End.mul_apply] at h_mul ⊢
     exact h_mul
 
 /-- The Schur module submodule is finite-dimensional. -/
@@ -419,7 +419,7 @@ theorem glWeightSpace_le_maxGenEigenspace (k : Type*) [Field k] [IsAlgClosed k] 
 a unit t such that t^n ≠ 1. -/
 theorem exists_unit_pow_ne_one (k : Type*) [Field k] [IsAlgClosed k] (n : ℕ) (hn : n ≥ 1) :
     ∃ t : kˣ, (t : k) ^ n ≠ 1 := by
-  by_contra h; push_neg at h
+  by_contra h; push Not at h
   -- Every nonzero element of k is a root of X^n - C 1
   have hp_ne : (Polynomial.X ^ n - Polynomial.C (1 : k)) ≠ 0 :=
     Polynomial.X_pow_sub_C_ne_zero (by omega) 1
@@ -671,7 +671,7 @@ theorem youngSymEndomorphism_apply_on_range (k : Type*) [Field k] (N : ℕ) (lam
     (hv : v ∈ SchurModuleSubmodule k N lam) :
     youngSymEndomorphism k N lam v = α • v := by
   obtain ⟨w, rfl⟩ := hv
-  show (youngSymEndomorphism k N lam * youngSymEndomorphism k N lam) w = α • youngSymEndomorphism k N lam w
+  change (youngSymEndomorphism k N lam * youngSymEndomorphism k N lam) w = α • youngSymEndomorphism k N lam w
   rw [youngSymEndomorphism_sq_scalar k N lam α hα_sq]
   rfl
 
@@ -1191,7 +1191,7 @@ private noncomputable def transferToSymGroupImageEquiv
             = a • (⟨x.val, x.property⟩ : ↥(S.restrictScalars ℂ)) := by
         apply Subtype.ext
         rw [submoduleAsSymGroupAlgebraModule_smul_def, symGroupAlgHomToImage_smul_val]
-      show (g ⟨((symGroupAlgHomToImage (N := N) (n := n) a) • x).val,
+      change (g ⟨((symGroupAlgHomToImage (N := N) (n := n) a) • x).val,
             ((symGroupAlgHomToImage (N := N) (n := n) a) • x).property⟩).val = _
       rw [hxeq, map_smul, submoduleAsSymGroupAlgebraModule_smul_def,
           RingHom.id_apply, symGroupAlgHomToImage_smul_val] }
@@ -1398,7 +1398,7 @@ private lemma youngSym_diagonal_entry (k' : Type*) [Field k'] (N : ℕ) (lam : F
   rw [LinearMap.sum_apply]
   simp only [LinearMap.smul_apply, LinearEquiv.coe_toLinearMap, map_sum, map_smul,
     Finsupp.coe_smul, Pi.smul_apply,
-    Finsupp.coe_finset_sum, Finset.sum_apply]
+    Finsupp.coe_finsetSum, Finset.sum_apply]
   -- Apply symGroupAction_tensorStdBasis via conv
   conv_lhs =>
     arg 2; ext x
@@ -1407,7 +1407,7 @@ private lemma youngSym_diagonal_entry (k' : Type*) [Field k'] (N : ℕ) (lam : F
   -- repr(b_{f∘σ⁻¹})(f) = if (f ∘ σ⁻¹ = f) then 1 else 0
   simp only [Module.Basis.repr_self, Finsupp.single_apply]
   -- ∑_{σ ∈ support} c(σ) • (if f ∘ σ⁻¹ = f then 1 else 0) = ∑_{σ : f ∘ σ = f} c(σ)
-  simp only [smul_ite, smul_eq_mul, mul_one, mul_zero, Finset.sum_filter]
+  simp only [smul_eq_mul, Finset.sum_filter]
   -- Extend from c.support to Finset.univ
   rw [← Finset.sum_subset (Finset.subset_univ c.support)]
   · congr 1; ext σ
@@ -1441,11 +1441,11 @@ private lemma diagUnit_mulVecLin_basisFun (N : ℕ) (i : Fin N) (t : kˣ)
       (Function.update (1 : Fin N → k) i (t : k)) m • Pi.basisFun k (Fin N) m := by
   simp only [diagUnit, Matrix.mulVecLin_apply, Pi.basisFun_apply]
   rw [Matrix.mulVec_single (M := (Matrix.diagonal (Function.update (1 : Fin N → k) i (t : k))))]
-  simp only [mul_one, Pi.smul_apply, smul_eq_mul, Matrix.diagonal_apply,
-    Function.update_apply, Pi.single_apply, Pi.one_apply]
+  simp only [
+    Function.update_apply, Pi.one_apply]
   ext x
   simp only [Pi.smul_apply, smul_eq_mul]
-  by_cases hm : m = i <;> by_cases hx : x = m <;> simp_all [Pi.single_apply]
+  by_cases hm : m = i <;> by_cases hx : x = m <;> simp_all
 
 omit [CharZero k] in
 lemma glTensorRep_diagUnit_basis (N n : ℕ) (i : Fin N) (t : kˣ)
@@ -1454,7 +1454,7 @@ lemma glTensorRep_diagUnit_basis (N n : ℕ) (i : Fin N) (t : kˣ)
       ((t : k) ^ (Finset.univ.filter (fun j => f j = i)).card) •
         tensorStdBasis k N n f := by
   -- Unfold glTensorRep on tprod basis
-  show PiTensorProduct.map (fun _ => Matrix.mulVecLin (diagUnit k N i t).val)
+  change PiTensorProduct.map (fun _ => Matrix.mulVecLin (diagUnit k N i t).val)
       (tensorStdBasis k N n f) =
     ((t : k) ^ (Finset.univ.filter (fun j => f j = i)).card) •
       tensorStdBasis k N n f
@@ -1599,7 +1599,7 @@ private lemma youngSym_repr_zero_of_ne_weight (k' : Type*) [Field k'] (N : ℕ) 
         TensorPower k' (Fin N → k') (∑ i, lam i))) := by
     unfold youngSymEndomorphism symGroupAlgHom
     rw [MonoidAlgebra.lift_apply]; rfl
-  rw [hE, Finsupp.sum, LinearMap.sum_apply, map_sum, Finsupp.finset_sum_apply]
+  rw [hE, Finsupp.sum, LinearMap.sum_apply, map_sum, Finsupp.finsetSum_apply]
   apply Finset.sum_eq_zero; intro σ _
   simp only [LinearMap.smul_apply, map_smul, Finsupp.smul_apply, smul_eq_mul]
   -- After simp, need: c σ * B.repr(σ·(B f))(g) = 0
@@ -1649,7 +1649,7 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
       MonoidAlgebra.smul_apply, smul_eq_mul, mul_comm α] at h2
     -- h2 : (Int.castRingHom ℚ) ((cZ * cZ) 1) = (Int.castRingHom ℚ) (cZ 1) * α
     -- Goal: α = ↑β where β = (cZ * cZ) 1
-    show α = ((cZ * cZ) 1 : ℤ)
+    change α = ((cZ * cZ) 1 : ℤ)
     have h3 : (cZ 1 : ℚ) = 1 := by simp [cZ, YoungSymmetrizerZ_apply_one]
     change (↑((cZ * cZ) 1) : ℚ) = (↑(cZ 1) : ℚ) * α at h2
     rw [h3, one_mul] at h2; linarith
@@ -1690,7 +1690,7 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
     -- Goal: ∑ f ∈ wt_μ, (B.coord f)(B g) • B f = if ...
     -- (B.coord f)(B g) = (B.repr (B g)) f = δ_{f,g}
     have hcoord : ∀ f, (B.coord f) (B g) = if g = f then 1 else 0 := by
-      intro f; show (B.repr (B g)) f = _; rw [B.repr_self, Finsupp.single_apply]
+      intro f; change (B.repr (B g)) f = _; rw [B.repr_self, Finsupp.single_apply]
     split_ifs with hg
     · rw [Finset.sum_eq_single g]
       · rw [hcoord, if_pos rfl, one_smul]
@@ -1702,14 +1702,14 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
   -- I_μ is idempotent
   have hI_idem : I_μ * I_μ = I_μ := by
     apply B.ext; intro g
-    show I_μ (I_μ (B g)) = I_μ (B g)
+    change I_μ (I_μ (B g)) = I_μ (B g)
     rw [hI_basis]; split_ifs with h <;> simp [hI_basis, h]
   -- I_μ(E_k(B g)) = if wt(g)=μ then E_k(B g) else 0
   have hI_Ek : ∀ g, I_μ (E_k (B g)) = if tensorWeight N g = μ then E_k (B g) else 0 := by
     intro g
     -- E_k(B g) = ∑ h, c_h • B h
     conv_lhs => rw [(B.sum_repr (E_k (B g))).symm]
-    simp only [Finsupp.sum, map_sum, map_smul, hI_basis]
+    simp only [map_sum, map_smul, hI_basis]
     -- For h with c_h ≠ 0, wt(h) = wt(g) (by youngSym_repr_zero_of_ne_weight)
     split_ifs with hg
     · -- wt(g)=μ: all nonzero terms have wt(h)=wt(g)=μ, so if_pos
@@ -1730,7 +1730,7 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
   -- E_k and I_μ commute
   have hcomm : E_k * I_μ = I_μ * E_k := by
     apply B.ext; intro g
-    show E_k (I_μ (B g)) = I_μ (E_k (B g))
+    change E_k (I_μ (B g)) = I_μ (E_k (B g))
     rw [hI_basis, hI_Ek]
     split_ifs with h <;> simp
   -- Composed idempotent
@@ -1745,7 +1745,7 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
       exact LinearMap.ext_iff.mp hE_sq (I_μ v)
     rw [IsIdempotentElem]; show Φ * Φ = Φ; rw [hΦ_def]
     apply LinearMap.ext; intro w
-    show (β : k)⁻¹ • E_k (I_μ ((β : k)⁻¹ • E_k (I_μ w))) = (β : k)⁻¹ • E_k (I_μ w)
+    change (β : k)⁻¹ • E_k (I_μ ((β : k)⁻¹ • E_k (I_μ w))) = (β : k)⁻¹ • E_k (I_μ w)
     rw [map_smul, map_smul, h1, smul_smul, smul_smul]
     congr 1; field_simp
   -- === Step 3: Weight space characterization ===
@@ -1755,7 +1755,7 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
       B.repr (v : TensorPower k (Fin N → k) n) g = 0 := by
     intro ⟨v, hv_im⟩ hv_wt g hg
     obtain ⟨i, hi⟩ : ∃ i : Fin N, tensorWeight N g i ≠ μ i := by
-      by_contra h; push_neg at h; exact hg (DFunLike.ext _ _ h)
+      by_contra h; push Not at h; exact hg (DFunLike.ext _ _ h)
     obtain ⟨t, ht⟩ := exists_unit_pow_ne k hi
     -- v ∈ glWeightSpace means ρ(diag(i,t))(v) = t^(μ i) • v
     have h1 : glWeightSpace k N (SchurModule k N lam) (fun i => (μ i : ℕ)) ≤
@@ -1793,7 +1793,7 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
     intro v hsupp
     conv_lhs => rw [(B.sum_repr v).symm]
     conv_rhs => rw [(B.sum_repr v).symm]
-    simp only [Finsupp.sum, map_sum, map_smul, hI_basis]
+    simp only [map_sum, map_smul, hI_basis]
     apply Finset.sum_congr rfl; intro g _
     split_ifs with hg
     · rfl
@@ -1807,17 +1807,17 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
       have hIw : I_μ w = w := hI_fix w (hweight_supp ⟨w, hw_im⟩ hw_wt)
       have hEw := youngSymEndomorphism_apply_on_range k N lam (β : k) hcK_sq w hw_im
       refine ⟨w, ?_⟩
-      show (β : k)⁻¹ • E_k (I_μ w) = w
+      change (β : k)⁻¹ • E_k (I_μ w) = w
       rw [hIw, hEw, smul_smul, inv_mul_cancel₀ hβ_k_ne, one_smul]
     · -- range(Φ) → glWeightSpace
       rintro ⟨w, rfl⟩
       -- Φ(w) ∈ im(E_k)
       have hv_im : Φ w ∈ SchurModuleSubmodule k N lam := by
-        show (β : k)⁻¹ • E_k (I_μ w) ∈ LinearMap.range E_k
+        change (β : k)⁻¹ • E_k (I_μ w) ∈ LinearMap.range E_k
         exact ⟨(β : k)⁻¹ • I_μ w, by rw [map_smul]⟩
       -- I_μ(Φ(w)) = Φ(w)
       have hIΦ : I_μ (Φ w) = Φ w := by
-        show I_μ ((β : k)⁻¹ • E_k (I_μ w)) = (β : k)⁻¹ • E_k (I_μ w)
+        change I_μ ((β : k)⁻¹ • E_k (I_μ w)) = (β : k)⁻¹ • E_k (I_μ w)
         rw [map_smul]; congr 1
         -- I_μ(E_k(I_μ w)) = E_k(I_μ(I_μ w)) = E_k(I_μ w)
         have hc := LinearMap.ext_iff.mp hcomm (I_μ w)
@@ -1831,7 +1831,7 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
         intro i t
         conv_lhs => rw [← B.sum_repr (Φ w)]
         conv_rhs => rw [← B.sum_repr (Φ w)]
-        simp only [Finsupp.sum, map_sum, map_smul, Finset.smul_sum]
+        simp only [map_sum, map_smul, Finset.smul_sum]
         apply Finset.sum_congr rfl; intro g _
         by_cases hg : tensorWeight N g = μ
         · have hB : glTensorRep k N n (diagUnit k N i t) (B g) =
@@ -1845,7 +1845,7 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
         · have h0 : B.repr (Φ w) g = 0 := by
             have key : B.repr (I_μ (Φ w)) g = 0 := by
               simp only [I_μ, LinearMap.sum_apply, LinearMap.smulRight_apply]
-              rw [map_sum, Finsupp.finset_sum_apply]
+              rw [map_sum, Finsupp.finsetSum_apply]
               apply Finset.sum_eq_zero; intro f hf
               rw [map_smul, Finsupp.smul_apply, smul_eq_mul,
                 B.repr_self, Finsupp.single_apply]
@@ -1862,7 +1862,7 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
         have h := hval i t
         simp only [LinearMap.sub_apply, sub_eq_zero, LinearMap.smul_apply, LinearMap.id_apply]
         apply Subtype.ext
-        simp only [SchurModule, FDRep.of_ρ', LinearMap.restrict_coe_apply,
+        simp only [SchurModule, FDRep.of_ρ',
           Submodule.coe_smul_of_tower]
         exact h
       exact ⟨⟨Φ w, hv_im⟩, hv_wt, rfl⟩
@@ -2175,7 +2175,7 @@ private lemma mulLeft_youngSym_zero_of_ne' (n : ℕ) (la la' : Nat.Partition n) 
   by_contra hT
   obtain ⟨w₀, hw₀⟩ : ∃ w₀ : SpechtModule n la',
       mulLeftOnSpecht' n (YoungSymmetrizer n la) la' w₀ ≠ 0 := by
-    by_contra hall; push_neg at hall; exact hT (LinearMap.ext hall)
+    by_contra hall; push Not at hall; exact hT (LinearMap.ext hall)
   set φ : SpechtModule n la →ₗ[SymGroupAlgebra n] SpechtModule n la' :=
     { toFun := fun v => ⟨(v : SymGroupAlgebra n) * (w₀ : SymGroupAlgebra n),
         (SpechtModule n la').smul_mem (v : SymGroupAlgebra n) w₀.prop⟩
@@ -2626,7 +2626,7 @@ private lemma sortedParts_getD_eq_of_antitone
           fun a b hab => hg (show Fin.succ a ≤ Fin.succ b from Fin.succ_le_succ_iff.mpr hab)
         exact ih (g ∘ Fin.succ) hgs j'
     · -- g 0 = 0
-      push_neg at hg0
+      push Not at hg0
       have hg0' : g 0 = 0 := Nat.le_zero.mp hg0
       simp only [List.filter_cons, show decide (0 < g 0) = false from
         decide_eq_false (not_lt.mpr hg0), Bool.false_eq_true, ↓reduceIte]
@@ -2728,7 +2728,7 @@ private lemma charValue_eq_spechtModuleCharacter_of_eq
       MvPolynomial.coeff e (MvPolynomial.map (algebraMap ℚ ℂ)
         ((alternantMatrix n (vandermondeExps n)).det *
           MvPolynomial.psumPart (Fin n) ℚ μ)) := by
-    show (algebraMap ℚ ℂ) (charValue n bp μ) = _
+    change (algebraMap ℚ ℂ) (charValue n bp μ) = _
     rw [charValue, MvPolynomial.coeff_map]
   rw [hcast]
   -- Step 2: Rewrite alternant as sign(rev) * vandermonde product
@@ -2749,7 +2749,7 @@ private lemma charValue_eq_spechtModuleCharacter_of_eq
   -- Step 5: Factor out the integer constant from coeff
   -- Int cast in MvPolynomial factors through C
   have hint : (s : MvPolynomial (Fin n) ℂ) = MvPolynomial.C (s : ℂ) := by
-    simp only [MvPolynomial.C_apply, Finsupp.single_zero]
+    simp only [MvPolynomial.C_apply]
     rfl
   rw [hint, MvPolynomial.C_mul', MvPolynomial.coeff_smul, smul_eq_mul]
   -- Step 6: Match the exponent vectors
@@ -2765,7 +2765,7 @@ private lemma charValue_eq_spechtModuleCharacter_of_eq
     have h1 := Int.units_mul_self (Equiv.Perm.sign (@Fin.revPerm n))
     -- h1 : sign * sign = 1 as ℤˣ, need to cast to ℂ
     have h2 : (s : ℤ) * (s : ℤ) = 1 := by
-      show (↑(Equiv.Perm.sign Fin.revPerm) : ℤ) * ↑(Equiv.Perm.sign Fin.revPerm) = ↑(1 : ℤˣ)
+      change (↑(Equiv.Perm.sign Fin.revPerm) : ℤ) * ↑(Equiv.Perm.sign Fin.revPerm) = ↑(1 : ℤˣ)
       rw [← Units.val_mul, h1]
     exact_mod_cast h2
   rw [hs, one_mul]
@@ -2782,12 +2782,12 @@ private lemma sum_getD_eq_sum (l : List ℕ) (n : ℕ) (hlen : l.length ≤ n) :
   | succ n ih =>
     rw [Fin.sum_univ_succ]
     cases l with
-    | nil => simp [ih [] (Nat.zero_le _)]
+    | nil => simp
     | cons a t =>
       simp only [List.getD_cons_zero, List.sum_cons, Fin.val_zero]
       congr 1
       have hstep : ∀ i : Fin n, (a :: t).getD i.succ.val 0 = t.getD i.val 0 := by
-        intro ⟨i, _⟩; simp [List.getD_cons_succ]
+        intro ⟨i, _⟩; simp
       simp_rw [hstep]
       exact ih t (by simpa using hlen)
 
@@ -2795,7 +2795,7 @@ private lemma sum_getD_eq_sum (l : List ℕ) (n : ℕ) (hlen : l.length ≤ n) :
 private lemma getD_antitone_of_pairwise (l : List ℕ) (h : l.Pairwise (· ≥ ·)) :
     Antitone (fun i : Fin n => l.getD i.val 0) := by
   intro i j hij
-  show l.getD j.val 0 ≤ l.getD i.val 0
+  change l.getD j.val 0 ≤ l.getD i.val 0
   rcases eq_or_lt_of_le hij with rfl | hlt
   · exact le_refl _
   · by_cases hj : j.val < l.length
@@ -2868,7 +2868,7 @@ private lemma canonicalBP_weightToPartition (N n : ℕ) (bp : BoundedPartition N
     rw [h_lhs]; rw [show la.parts = (weightToPartition N bp.parts).parts from
       (hrec _ _ bp.sum_eq (weightToPartition N bp.parts)).symm ▸ rfl]
   -- Unfold to multiset operations
-  show (Finset.univ.val.map (fun i : Fin n => l.getD i.val 0)).filter (0 < ·) = la.parts
+  change (Finset.univ.val.map (fun i : Fin n => l.getD i.val 0)).filter (0 < ·) = la.parts
   rw [Fin.univ_val_map, Multiset.filter_coe]
   -- Show filter(>0) ofFn(getD) = l as lists (↑ gives la.parts by sort_eq)
   suffices h : (List.ofFn (fun i : Fin n => l.getD i.val 0)).filter (fun x => decide (0 < x)) = l by
@@ -2895,7 +2895,7 @@ private lemma canonicalBP_weightToPartition (N n : ℕ) (bp : BoundedPartition N
       congr 1
       -- The remaining terms: filter on ofFn(fun i => (a::t).getD i.succ 0)
       -- = filter on ofFn(fun i => t.getD i 0) by List.getD_cons_succ
-      show (List.ofFn (fun i : Fin m => t.getD i.val 0)).filter (fun x => decide (0 < x)) = t
+      change (List.ofFn (fun i : Fin m => t.getD i.val 0)).filter (fun x => decide (0 < x)) = t
       exact ih t (fun x hx => hll x (by simp [hx]))
         (by simp only [List.length_cons] at hlen; omega)
 
@@ -2946,7 +2946,7 @@ private lemma BoundedPartition.extend_dropLast {N n : ℕ}
       a.parts = b.parts → a = b := by
     intro ⟨_, _, _⟩ ⟨_, _, _⟩ h; simp_all
   apply this; funext i
-  show (if h : (Fin.castSucc i : ℕ) < N then
+  change (if h : (Fin.castSucc i : ℕ) < N then
     bp.parts ⟨↑(Fin.castSucc i), h⟩ else 0) = bp.parts i
   simp [Fin.val_castSucc, i.isLt]
 
@@ -3021,7 +3021,7 @@ private lemma coeff_restrictLastVar (N : ℕ) (p : MvPolynomial (Fin (N + 1)) �
       rw [dif_neg hi, mul_zero, MvPolynomial.coeff_zero]
       simp only [MvPolynomial.coeff_mul_X', Finsupp.mem_support_iff]
       have : ¬(ext_e g i ≠ 0) := by
-        push_neg
+        push Not
         have hi_eq : i = Fin.last N := by
           ext; simp only [Fin.val_last]; omega
         rw [hi_eq]; exact hext_last g
@@ -3181,11 +3181,11 @@ private lemma charValue_remove_trailing_zero (N n : ℕ)
       if h : (i : ℕ) < N then (e_small + ones) ⟨i.val, h⟩ else 0)) =
       Finsupp.equivFunOnFinite.symm (shiftedExps (N + 1) bp.parts) := by
     apply Finsupp.ext; intro i
-    show (if h : (i : ℕ) < N then (e_small + ones) ⟨i.val, h⟩ else 0) =
+    change (if h : (i : ℕ) < N then (e_small + ones) ⟨i.val, h⟩ else 0) =
       shiftedExps (N + 1) bp.parts i
     by_cases h : (i : ℕ) < N
     · simp only [dif_pos h, Finsupp.coe_add, Pi.add_apply]
-      show shiftedExps N (BoundedPartition.dropLast N n bp h0).parts ⟨i.val, h⟩ + 1 =
+      change shiftedExps N (BoundedPartition.dropLast N n bp h0).parts ⟨i.val, h⟩ + 1 =
         shiftedExps (N + 1) bp.parts i
       simp only [shiftedExps, BoundedPartition.dropLast]
       have : bp.parts (Fin.castSucc ⟨i.val, h⟩) = bp.parts i := by
@@ -3261,7 +3261,7 @@ private lemma antitone_eq_of_filter_pos_eq'
     by_cases ha : 0 < a
     · have := congr_arg (Multiset.count a) h
       rwa [Multiset.count_filter_of_pos ha, Multiset.count_filter_of_pos ha] at this
-    · push_neg at ha; obtain rfl := Nat.le_zero.mp ha
+    · push Not at ha; obtain rfl := Nat.le_zero.mp ha
       have hc : (Finset.univ.val.map lam).card = (Finset.univ.val.map lam').card := by simp
       have hfc := congr_arg Multiset.card h
       have key : ∀ (m : Multiset ℕ), Multiset.count 0 m = m.card - (m.filter (0 < ·)).card := by
@@ -3427,7 +3427,7 @@ private lemma antitone_eq_of_filter_pos_eq
     by_cases ha : 0 < a
     · have := congr_arg (Multiset.count a) h
       rwa [Multiset.count_filter_of_pos ha, Multiset.count_filter_of_pos ha] at this
-    · push_neg at ha; obtain rfl := Nat.le_zero.mp ha
+    · push Not at ha; obtain rfl := Nat.le_zero.mp ha
       have hc : (Finset.univ.val.map lam).card = (Finset.univ.val.map lam').card := by simp
       have hfc := congr_arg Multiset.card h
       have key : ∀ (m : Multiset ℕ), Multiset.count 0 m = m.card - (m.filter (0 < ·)).card := by
@@ -3895,7 +3895,7 @@ theorem finrank_schurModule_eq_eval_one (N : ℕ) (lam : Fin N → ℕ)
       have hcoe_ne : ι v ≠ 0 := fun h => hv_ne (hι_inj (by rw [h, map_zero]))
       obtain ⟨g₀, hg₀⟩ : ∃ g₀, (tensorStdBasis k N n).repr (ι v) g₀ ≠ 0 := by
         by_contra h
-        push_neg at h
+        push Not at h
         exact hcoe_ne ((tensorStdBasis k N n).repr.map_eq_zero_iff.mp (Finsupp.ext h))
       -- Determine the character `c` from the weight of `g₀`.
       have hc_eq : c = χ (tensorWeight N g₀) := by
@@ -3910,7 +3910,7 @@ theorem finrank_schurModule_eq_eval_one (N : ℕ) (lam : Fin N → ℕ)
           smul_eq_mul] at hrepr
         -- hrepr : t^{#i in g₀} * repr v g₀ = c (i,t) * repr v g₀
         have hcancel := mul_right_cancel₀ hg₀ hrepr
-        show c (i, t) = (t : k) ^ ((tensorWeight N g₀) i)
+        change c (i, t) = (t : k) ^ ((tensorWeight N g₀) i)
         rw [← hcancel]
         rfl
       rw [hc_eq, ← hkey (tensorWeight N g₀)]

@@ -113,12 +113,12 @@ private lemma matrix_single_generates_ideal (k : Type u) [Field k]
       ext i j
       simp only [Matrix.sum_apply]
       rw [Finset.sum_eq_single i
-        (fun b _ hb => by simp [Matrix.single_apply, hb])
+        (fun b _ hb => by simp [hb])
         (by simp)]
       rw [Finset.sum_eq_single j
-        (fun b _ hb => by simp [Matrix.single_apply, hb])
+        (fun b _ hb => by simp [hb])
         (by simp)]
-      simp [Matrix.single_apply]
+      simp
     rw [hx]
     exact Ideal.sum_mem _ fun r _ => Ideal.sum_mem _ fun s _ => h r s _
   intro r s c
@@ -160,16 +160,16 @@ private lemma pi_matrix_single_generates_ideal (k : Type u) [Field k]
   have single_add : ∀ (a b : Matrix (Fin (d i)) (Fin (d i)) k),
       Pi.single i (a + b) = (Pi.single i a : R) + Pi.single i b := by
     intro a b; ext t r s
-    simp only [Pi.add_apply, Pi.single, Function.update, dite_apply, Pi.zero_apply,
-      Matrix.zero_apply, Matrix.add_apply]
+    simp only [Pi.add_apply, Pi.single, Function.update, Pi.zero_apply,
+      Matrix.add_apply]
     split
     · next h => subst h; rfl
     · simp
   have single_mul : ∀ (a b : Matrix (Fin (d i)) (Fin (d i)) k),
       Pi.single i (a * b) = (Pi.single i a : R) * Pi.single i b := by
     intro a b; ext t r s
-    simp only [Pi.mul_apply, Pi.single, Function.update, dite_apply, Pi.zero_apply,
-      Matrix.zero_apply, Matrix.mul_apply]
+    simp only [Pi.mul_apply, Pi.single, Function.update, Pi.zero_apply,
+      Matrix.mul_apply]
     split
     · next h => subst h; rfl
     · simp
@@ -183,15 +183,15 @@ private lemma pi_matrix_single_generates_ideal (k : Type u) [Field k]
       rw [Finset.sum_eq_single i]
       · -- single_mul for three factors
         ext t r s
-        simp only [Pi.mul_apply, Pi.single, Function.update, dite_apply, Pi.zero_apply,
-          Matrix.zero_apply, Matrix.mul_apply]
+        simp only [Pi.mul_apply, Pi.single, Function.update, Pi.zero_apply,
+          Matrix.mul_apply]
         split
         · next h => subst h; rfl
         · simp
       · intro j _ hj
         have : (Pi.single i a : R) * (Pi.single j (Matrix.single 0 0 (1 : k)) : R) = 0 := by
           ext t r s
-          simp only [Pi.mul_apply, Pi.zero_apply, Pi.single, Function.update, dite_apply,
+          simp only [Pi.mul_apply, Pi.zero_apply, Pi.single, Function.update,
             Matrix.zero_apply, Matrix.mul_apply]
           split
           · next h => subst h; simp [dif_neg (Ne.symm hj)]
@@ -354,7 +354,7 @@ lemma exists_full_idempotent_basic_corner
           obtain ⟨a, b, rfl⟩ := hz
           rw [map_mul, map_mul, hē_sum_eq]
           exact Ideal.subset_span ⟨φ.symm a, φ.symm b, rfl⟩
-        | zero => simp [Ideal.zero_mem]
+        | zero => simp
         | add a b _ _ iha ihb => rw [map_add]; exact Ideal.add_mem _ iha ihb
         | smul r a _ iha =>
           change φ.symm (r * a) ∈ _
@@ -425,16 +425,16 @@ lemma exists_full_idempotent_basic_corner
       conv_lhs => rw [hq, map_mul, map_mul, hφqe]
       conv_rhs => rw [hq, map_mul, map_mul, hφqe]
       simp only [Pi.mul_apply, Matrix.single_mul_mul_single, one_mul, mul_one,
-        Matrix.single_apply, ↓reduceIte, and_self, ite_true]
+        Matrix.single_apply, ↓reduceIte, and_self]
     -- === Part C: Ring hom π : eAe → Fin numBlocks → k ===
     let π : CornerRing (k := k) e →+* (Fin numBlocks → k) :=
     { toFun := fun x i => (φ (Ideal.Quotient.mk J (x : A))) i 0 0
       map_one' := by
         ext i; change (φ (Ideal.Quotient.mk J e)) i 0 0 = 1
-        rw [hφqe]; simp [Matrix.single_apply]
+        rw [hφqe]; simp
       map_mul' := fun x y => by
         ext i; simp only [Pi.mul_apply]
-        show (φ (Ideal.Quotient.mk J ((x : A) * (y : A)))) i 0 0 =
+        change (φ (Ideal.Quotient.mk J ((x : A) * (y : A)))) i 0 0 =
           (φ (Ideal.Quotient.mk J (x : A))) i 0 0 *
           (φ (Ideal.Quotient.mk J (y : A))) i 0 0
         have h1 : Ideal.Quotient.mk J ((x : A) * (y : A)) =
@@ -443,7 +443,7 @@ lemma exists_full_idempotent_basic_corner
             φ (Ideal.Quotient.mk J (x : A)) * φ (Ideal.Quotient.mk J (y : A)) := map_mul _ _ _
         rw [h1, h2, Pi.mul_apply, corner_scalar x i, corner_scalar y i,
           Matrix.single_mul_single_same, Matrix.single_apply, Matrix.single_apply]
-        simp [Matrix.single_apply]
+        simp
       map_zero' := by ext i; simp [map_zero, Matrix.zero_apply]
       map_add' := fun x y => by ext i; simp [map_add, Matrix.add_apply] }
     -- === Part D: ker π ⊆ J (elements mapping to 0 in A/J) ===
@@ -475,7 +475,7 @@ lemma exists_full_idempotent_basic_corner
         | succ m ih =>
           have step : (x ^ (m + 2) : CornerRing (k := k) e).val =
               (x ^ (m + 1) : CornerRing (k := k) e).val * (x : A) := by
-            show (x ^ (m + 1) * x : CornerRing (k := k) e).val = _; rfl
+            change (x ^ (m + 1) * x : CornerRing (k := k) e).val = _; rfl
           rw [step, ih, ← pow_succ]
       have hval : (x ^ (n + 1) : CornerRing (k := k) e).val = (0 : A) :=
         (corner_pow n).trans (by rw [pow_succ, hxn, zero_mul])
@@ -583,7 +583,7 @@ lemma exists_full_idempotent_basic_corner
       obtain ⟨c, hc⟩ := hschur.2 φ_r
       exact ⟨c, fun m => by
         have := LinearMap.ext_iff.mp hc m
-        simp [Algebra.linearMap_apply, Module.algebraMap_end_apply] at this
+        simp [Module.algebraMap_end_apply] at this
         exact this.symm⟩
     -- Step G.4: Every m is c • m₀, so finrank k M = 1.
     have hone_dim : ∀ m : M, ∃ c : k, m = c • m₀ := by
@@ -808,7 +808,7 @@ private lemma cornerFunctor_full {e : A} (he : IsFullIdempotent e) :
     ∑ p ∈ σ.support, (σ p * p.1) • (φ (toECorner he.1 (p.2 • m)) : eCorner he.1 N).val
   have lift_add : ∀ m₁ m₂ : M, liftFun (m₁ + m₂) = liftFun m₁ + liftFun m₂ := by
     intro m₁ m₂
-    show (∑ p ∈ σ.support, (σ p * p.1) •
+    change (∑ p ∈ σ.support, (σ p * p.1) •
         (φ (toECorner he.1 (p.2 • (m₁ + m₂))) : eCorner he.1 N).val) =
       (∑ p ∈ σ.support, (σ p * p.1) • (φ (toECorner he.1 (p.2 • m₁)) : eCorner he.1 N).val) +
       (∑ p ∈ σ.support, (σ p * p.1) • (φ (toECorner he.1 (p.2 • m₂)) : eCorner he.1 N).val)
@@ -846,7 +846,7 @@ private lemma cornerFunctor_full {e : A} (he : IsFullIdempotent e) :
   have lift_eCorner : ∀ (n : M),
       liftFun (e • n) = (φ (toECorner he.1 n) : eCorner he.1 N).val := by
     intro n
-    show ∑ p ∈ σ.support, (σ p * p.1) •
+    change ∑ p ∈ σ.support, (σ p * p.1) •
         (φ (toECorner he.1 (p.2 • (e • n))) : eCorner he.1 N).val =
       (φ (toECorner he.1 n) : eCorner he.1 N).val
     -- toECorner(p.2 • (e • n)) = ⟨e * p.2 * e • (e • n), ...⟩ = (e*p.2*e) •_{eAe} toECorner(n)
@@ -855,7 +855,7 @@ private lemma cornerFunctor_full {e : A} (he : IsFullIdempotent e) :
     have h1 : ∀ p : A × A, toECorner he.1 (p.2 • (e • n)) =
         (⟨e * p.2 * e, ⟨p.2, rfl⟩⟩ : CornerRing (k := k) e) • toECorner he.1 n := by
       intro p; apply Subtype.ext
-      show e • (p.2 • (e • n)) = (e * p.2 * e) • (e • n)
+      change e • (p.2 • (e • n)) = (e * p.2 * e) • (e • n)
       rw [mul_smul, mul_smul, eCorner_smul_of_idem he.1 n]
     rw [show ∑ p ∈ σ.support, (σ p * p.1) •
         (φ (toECorner he.1 (p.2 • (e • n))) : eCorner he.1 N).val =
@@ -884,7 +884,7 @@ private lemma cornerFunctor_full {e : A} (he : IsFullIdempotent e) :
       rw [← mul_smul, lift_eCorner]
       -- Goal: liftFun((r * e) • n) = r • φ(toECorner n).val
       -- Expand liftFun from definition
-      show ∑ p ∈ σ.support, (σ p * p.1) •
+      change ∑ p ∈ σ.support, (σ p * p.1) •
           (φ (toECorner he.1 (p.2 • ((r * e) • n))) : eCorner he.1 N).val =
         r • (φ (toECorner he.1 n) : eCorner he.1 N).val
       simp_rw [← mul_smul (α := A)]
@@ -894,7 +894,7 @@ private lemma cornerFunctor_full {e : A} (he : IsFullIdempotent e) :
             (⟨e * (p.2 * r) * e, ⟨p.2 * r, rfl⟩⟩ : CornerRing (k := k) e) •
               toECorner he.1 n := by
         intro p; apply Subtype.ext
-        show e • ((p.2 * (r * e)) • n) = (e * (p.2 * r) * e) • (e • n)
+        change e • ((p.2 * (r * e)) • n) = (e * (p.2 * r) * e) • (e • n)
         rw [← mul_smul, ← mul_smul]
         congr 1
         simp only [mul_assoc]
@@ -937,14 +937,14 @@ private lemma cornerFunctor_full {e : A} (he : IsFullIdempotent e) :
   ext ⟨m, hm⟩
   -- hm : e smul m = m. Show f(m) = phi(m,hm) in eN.
   apply Subtype.ext
-  show ∑ p ∈ σ.support, (σ p * p.1) •
+  change ∑ p ∈ σ.support, (σ p * p.1) •
       ((φ (toECorner he.1 (p.2 • m))) : eCorner he.1 N).val =
     (φ ⟨m, hm⟩ : eCorner he.1 N).val
   -- For m in eM: toECorner(b smul m) = (ebe) smul_{eAe} (m, hm)
   have htoE : ∀ p : A × A, toECorner he.1 (p.2 • m) =
       (⟨e * p.2 * e, ⟨p.2, rfl⟩⟩ : CornerRing (k := k) e) • ⟨m, hm⟩ := by
     intro p; apply Subtype.ext
-    show e • (p.2 • m) = (e * p.2 * e) • m
+    change e • (p.2 • m) = (e * p.2 * e) • m
     rw [mul_smul, mul_smul, hm]
   rw [show ∑ p ∈ σ.support, (σ p * p.1) •
       (φ (toECorner he.1 (p.2 • m)) : eCorner he.1 N).val =
@@ -1051,7 +1051,7 @@ private lemma cornerFunctor_essSurj {e : A} (he : IsFullIdempotent e) :
       change cr (a * b * (r : A)) • n - cr (a * b) • (r • n) = 0
       have hcr_mul : cr (a * b * (r : A)) = cr (a * b) * r := by
         apply Subtype.ext
-        show e * (a * b * (r : A)) * e = (e * (a * b) * e) * (r : A)
+        change e * (a * b * (r : A)) * e = (e * (a * b) * e) * (r : A)
         have := cornerSubmodule_left_mul (k := k) he.1 r.prop
         -- this : e * ↑r = ↑r
         calc e * (a * b * (r : A)) * e
@@ -1093,21 +1093,21 @@ private lemma cornerFunctor_essSurj {e : A} (he : IsFullIdempotent e) :
     intro n
     change q (e • (e ⊗ₜ[k] n)) = q (e ⊗ₜ[k] n)
     congr 1
-    show (e * e) ⊗ₜ[k] n = e ⊗ₜ[k] n
+    change (e * e) ⊗ₜ[k] n = e ⊗ₜ[k] n
     rw [he.1.eq]
   let inv_fun : Nty → eCorner he.1 (TensorProduct k A Nty ⧸ S) :=
     fun n => ⟨q (e ⊗ₜ[k] n), inv_mem n⟩
   have inv_add : ∀ n₁ n₂ : Nty, inv_fun (n₁ + n₂) = inv_fun n₁ + inv_fun n₂ := by
     intro n₁ n₂; apply Subtype.ext
-    show q (e ⊗ₜ[k] (n₁ + n₂)) = (q (e ⊗ₜ[k] n₁) : TensorProduct k A Nty ⧸ S) + q (e ⊗ₜ[k] n₂)
+    change q (e ⊗ₜ[k] (n₁ + n₂)) = (q (e ⊗ₜ[k] n₁) : TensorProduct k A Nty ⧸ S) + q (e ⊗ₜ[k] n₂)
     rw [TensorProduct.tmul_add, map_add]
   -- Forward-inverse: fwd(inv(n)) = n
   have fwd_inv : ∀ n : Nty, fwd_q_add (inv_fun n).val = n := by
     intro n
     -- fwd_q_add(q(e ⊗ n)) = fwd_tensor(e ⊗ n) = cr(e) • n = 1 • n = n
-    show fwd_tensor (e ⊗ₜ[k] n) = n
+    change fwd_tensor (e ⊗ₜ[k] n) = n
     change cr e • n = n
-    have : cr e = 1 := Subtype.ext (by show e * e * e = e; rw [he.1.eq, he.1.eq])
+    have : cr e = 1 := Subtype.ext (by change e * e * e = e; rw [he.1.eq, he.1.eq])
     rw [this, one_smul]
   -- Helper: ↑(1 : CornerRing e) = e
   have coe_one : ((1 : CornerRing (k := k) e) : A) = e := rfl
@@ -1134,7 +1134,7 @@ private lemma cornerFunctor_essSurj {e : A} (he : IsFullIdempotent e) :
     induction t using TensorProduct.induction_on with
     | zero => simp [inv_fun, map_zero, smul_zero]
     | tmul a n =>
-      show q (e ⊗ₜ[k] (cr a • n)) = e • q (a ⊗ₜ[k] n)
+      change q (e ⊗ₜ[k] (cr a • n)) = e • q (a ⊗ₜ[k] n)
       -- q(e ⊗ cr(a)•n) = q(e*cr(a) ⊗ n) = q(eae ⊗ n) = q(ea ⊗ n) = e • q(a ⊗ n)
       rw [q_bal_eq (cr a) n, cornerSubmodule_left_mul (k := k) he.1 (eae_mem a), q_eae_eq_ea]
       exact (q.map_smul e (a ⊗ₜ[k] n)).symm
@@ -1159,7 +1159,7 @@ private lemma cornerFunctor_essSurj {e : A} (he : IsFullIdempotent e) :
   have inv_smul : ∀ (r : CornerRing (k := k) e) (n : Nty),
       inv_fun (r • n) = r • inv_fun n := by
     intro r n; apply Subtype.ext
-    show q (e ⊗ₜ[k] (r • n)) = (r : A) • q (e ⊗ₜ[k] n)
+    change q (e ⊗ₜ[k] (r • n)) = (r : A) • q (e ⊗ₜ[k] n)
     rw [q_bal_eq r n, ← q.map_smul]
     -- q(e*r ⊗ n) = q((r:A) • (e ⊗ n)) = q((r:A)*e ⊗ n)
     -- e*r = r by left_mul, (r:A)*e = r by right_mul

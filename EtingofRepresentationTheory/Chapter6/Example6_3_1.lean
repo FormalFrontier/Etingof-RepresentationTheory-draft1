@@ -331,7 +331,7 @@ private lemma decomp_dim_ge_three {k : Type*} [Field k] (ρ : D₄Rep k)
       (Or.inl (Submodule.span_le.mpr (Set.singleton_subset_iff.mpr hw_mem.1.1)))
       (Or.inl (Submodule.span_le.mpr (Set.singleton_subset_iff.mpr hw_mem.1.2)))
       (Or.inl (Submodule.span_le.mpr (Set.singleton_subset_iff.mpr hw_mem.2)))
-  · push_neg at h_triple
+  · push Not at h_triple
     -- Case 2: Some Rᵢ ⊓ Rⱼ ≠ ⊥ (with triple intersection = ⊥)
     by_cases h₁₂ : R₁ ⊓ R₂ ≠ ⊥
     · obtain ⟨w, hw_mem, hw_ne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot h₁₂
@@ -343,7 +343,7 @@ private lemma decomp_dim_ge_three {k : Type*} [Field k] (ρ : D₄Rep k)
         exact le_bot_iff.mp (le_trans (inf_le_inf_right R₃ (le_inf hp1 hp2)) h_triple.le)
       obtain ⟨q, hpq, h3q⟩ := exists_isCompl_containing _ R₃ hdisj
       exact span_absurd w hw_ne q hpq (Or.inl hp1) (Or.inl hp2) (Or.inr h3q)
-    · push_neg at h₁₂
+    · push Not at h₁₂
       by_cases h₁₃ : R₁ ⊓ R₃ ≠ ⊥
       · obtain ⟨w, hw_mem, hw_ne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot h₁₃
         rw [Submodule.mem_inf] at hw_mem
@@ -356,7 +356,7 @@ private lemma decomp_dim_ge_three {k : Type*} [Field k] (ρ : D₄Rep k)
           exact le_bot_iff.mp (le_trans (inf_le_inf_right R₂ (le_inf hp1 hp3)) h132.le)
         obtain ⟨q, hpq, h2q⟩ := exists_isCompl_containing _ R₂ hdisj
         exact span_absurd w hw_ne q hpq (Or.inl hp1) (Or.inr h2q) (Or.inl hp3)
-      · push_neg at h₁₃
+      · push Not at h₁₃
         by_cases h₂₃ : R₂ ⊓ R₃ ≠ ⊥
         · obtain ⟨w, hw_mem, hw_ne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot h₂₃
           rw [Submodule.mem_inf] at hw_mem
@@ -369,7 +369,7 @@ private lemma decomp_dim_ge_three {k : Type*} [Field k] (ρ : D₄Rep k)
             exact le_bot_iff.mp (le_trans (inf_le_inf_right R₁ (le_inf hp2 hp3)) h231.le)
           obtain ⟨q, hpq, h1q⟩ := exists_isCompl_containing _ R₁ hdisj
           exact span_absurd w hw_ne q hpq (Or.inr h1q) (Or.inl hp2) (Or.inl hp3)
-        · push_neg at h₂₃
+        · push Not at h₂₃
           -- Case 3: All pairwise = ⊥. Try one-vs-two splits.
           -- Helper: given Disjoint Rᵢ (Rⱼ ⊔ Rₖ) with Rᵢ ⊔ Rⱼ ⊔ Rₖ = ⊤,
           -- derive False by finding nontrivial IsCompl.
@@ -464,7 +464,7 @@ private lemma decomp_dim_ge_three {k : Type*} [Field k] (ρ : D₄Rep k)
                       False := by
                   intro Ra Rb Rc hle absurd_fn
                   have ⟨w, hw_in, hw_not⟩ : ∃ w, w ∈ Ra ∧ w ∉ (Rb ⊔ Rc : Submodule k ρ.V) := by
-                    by_contra h; push_neg at h; exact hle h
+                    by_contra h; push Not at h; exact hle h
                   have hw_ne : w ≠ 0 := fun h => hw_not (h ▸ (Rb ⊔ Rc).zero_mem)
                   have hdisj : Disjoint (Rb ⊔ Rc) (Submodule.span k {w}) :=
                     (Submodule.disjoint_span_singleton' hw_ne).mpr hw_not
@@ -545,7 +545,7 @@ private lemma classification_injective_dim_bound {k : Type*} [Field k] (ρ : D�
   have hle₃ := LinearMap.finrank_le_finrank_of_injective hinj₃
   -- dim V ≤ 2 (dim V ≥ 3 is impossible for indecomposable reps)
   have hV_le : Module.finrank k ρ.V ≤ 2 := by
-    by_contra h; push_neg at h
+    by_contra h; push Not at h
     exact decomp_dim_ge_three ρ hind hA₁ hA₂ hA₃ hR (by omega)
   have hV_eq : Module.finrank k ρ.V = 2 := by omega
   -- Arm-specific range = ⊤ / range = ⊥ lemmas
@@ -837,7 +837,7 @@ private lemma classification_injective {k : Type*} [Field k] (ρ : D₄Rep k)
       rw [hd, hd₁, hd₂, hd₃]
       simp [Finset.mem_insert]
     · -- dim V = 1: all dᵢ ∈ {0, 1}, membership is trivial
-      push_neg at hV2
+      push Not at hV2
       have hV1 : Module.finrank k ρ.V = 1 := by omega
       have h₁ : Module.finrank k ρ.V₁ ≤ 1 := by omega
       have h₂ : Module.finrank k ρ.V₂ ≤ 1 := by omega

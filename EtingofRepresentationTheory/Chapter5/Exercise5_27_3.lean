@@ -314,7 +314,7 @@ theorem Exercise5_27_3
       rw [← Fintype.sum_prod_type', ← Fintype.sum_prod_type']
       refine Fintype.sum_equiv Φ _ _ ?_
       rintro ⟨g, h'⟩
-      show (if h * g * h'⁻¹ ∈ stab χ then (1 : ℂ) else 0) * Uc (h * g * h⁻¹)
+      change (if h * g * h'⁻¹ ∈ stab χ then (1 : ℂ) else 0) * Uc (h * g * h⁻¹)
             * Uc (h' * g⁻¹ * h'⁻¹)
           = (if h * g * h⁻¹ * (h * h'⁻¹) ∈ stab χ then (1 : ℂ) else 0) * Uc (h * g * h⁻¹)
             * Uc ((h * h'⁻¹)⁻¹ * (h * g * h⁻¹)⁻¹ * (h * h'⁻¹))
@@ -620,9 +620,9 @@ theorem Exercise5_27_3
         invFun := fun t => ⟨g * (t : G) * g⁻¹, by
           rw [hconj_mem]; convert t.2 using 2; group⟩
         left_inv := by
-          intro s; apply Subtype.ext; show g * (g⁻¹ * (s : G) * g) * g⁻¹ = (s : G); group
+          intro s; apply Subtype.ext; change g * (g⁻¹ * (s : G) * g) * g⁻¹ = (s : G); group
         right_inv := by
-          intro t; apply Subtype.ext; show g⁻¹ * (g * (t : G) * g⁻¹) * g = (t : G); group }
+          intro t; apply Subtype.ext; change g⁻¹ * (g * (t : G) * g⁻¹) * g = (t : G); group }
     have hcj_coe : ∀ s : ↥(stab χ₂), (cj s : G) = g⁻¹ * (s : G) * g := fun _ => rfl
     have hcj_inv : ∀ s : ↥(stab χ₂), cj (s⁻¹) = (cj s)⁻¹ := fun s => by
       apply Subtype.ext
@@ -653,7 +653,7 @@ theorem Exercise5_27_3
       rw [← Equiv.sum_comp (Equiv.mulLeft g)
         (fun h => (χ₂ ((φ h : MulAut A) a) : ℂ) * Uc χ₂ W (h * g' * h⁻¹))]
       refine Finset.sum_congr rfl fun h _ => ?_
-      show (χ₂ ((φ (g * h) : MulAut A) a) : ℂ) * Uc χ₂ W ((g * h) * g' * (g * h)⁻¹)
+      change (χ₂ ((φ (g * h) : MulAut A) a) : ℂ) * Uc χ₂ W ((g * h) * g' * (g * h)⁻¹)
           = (χ₁ ((φ h : MulAut A) a) : ℂ) * Uc χ₁ U₁ (h * g' * h⁻¹)
       -- Character factor: `χ₂((φ(g h))a) = χ₁((φ h)a)` since `dualSmul (g h)⁻¹ χ₂ = dualSmul h⁻¹ χ₁`.
       have hchi : (χ₂ ((φ (g * h) : MulAut A) a) : ℂ) = (χ₁ ((φ h : MulAut A) a) : ℂ) := by
@@ -674,7 +674,7 @@ theorem Exercise5_27_3
           congr 1
           apply Subtype.ext
           rw [hcj_coe]
-          show g⁻¹ * (g * (h * g' * h⁻¹) * g⁻¹) * g = (h * g' * h⁻¹)
+          change g⁻¹ * (g * (h * g' * h⁻¹) * g⁻¹) * g = (h * g' * h⁻¹)
           group
         · have hgz : g * (h * g' * h⁻¹) * g⁻¹ ∉ stab χ₂ := by
             rw [hconj_mem, hconjeq]; exact hz
@@ -741,7 +741,7 @@ theorem Exercise5_27_3
         rw [← Fintype.sum_prod_type', ← Fintype.sum_prod_type']
         refine Fintype.sum_equiv Φ _ _ ?_
         rintro ⟨g₀, h'⟩
-        show (if h * g₀ * h'⁻¹ ∈ stab ξ then (1 : ℂ) else 0) * f₁ (h * g₀ * h⁻¹)
+        change (if h * g₀ * h'⁻¹ ∈ stab ξ then (1 : ℂ) else 0) * f₁ (h * g₀ * h⁻¹)
               * f₂ (h' * g₀⁻¹ * h'⁻¹)
             = (if h * g₀ * h⁻¹ * (h * h'⁻¹) ∈ stab ξ then (1 : ℂ) else 0) * f₁ (h * g₀ * h⁻¹)
               * f₂ ((h * h'⁻¹)⁻¹ * (h * g₀ * h⁻¹)⁻¹ * (h * h'⁻¹))

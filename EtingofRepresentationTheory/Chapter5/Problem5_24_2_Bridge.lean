@@ -755,7 +755,7 @@ private theorem reynolds_block_symmetric (slot : Fin n → Fin k)
     rw [blockPerms, Finset.mem_filter] at hσ ⊢
     refine ⟨Finset.mem_univ _, ?_⟩
     funext j
-    show slot (ρ (σ j)) = slot j
+    change slot (ρ (σ j)) = slot j
     have h1 : slot (ρ (σ j)) = slot (σ j) := congrFun hslotρ (σ j)
     have h2 : slot (σ j) = slot j := congrFun hσ.2 j
     rw [h1, h2]
@@ -771,7 +771,7 @@ private theorem reynolds_block_symmetric (slot : Fin n → Fin k)
     rw [blockPerms, Finset.mem_filter] at hσ ⊢
     refine ⟨Finset.mem_univ _, ?_⟩
     funext j
-    show slot (ρ⁻¹ (σ j)) = slot j
+    change slot (ρ⁻¹ (σ j)) = slot j
     have h1 : slot (ρ⁻¹ (σ j)) = slot (σ j) := congrFun hslotρinv (σ j)
     have h2 : slot (σ j) = slot j := congrFun hσ.2 j
     rw [h1, h2]
@@ -871,14 +871,14 @@ private noncomputable def matchingPerm {α : Type*} [DecidableEq α] :
         funext i
         induction i using Fin.cases with
         | zero =>
-          show g 0 = f (σ_fn 0)
+          change g 0 = f (σ_fn 0)
           change g 0 = f l₀
           exact hl₀.symm
         | succ j =>
-          show g (Fin.succ j) = f (σ_fn (Fin.succ j))
+          change g (Fin.succ j) = f (σ_fn (Fin.succ j))
           change g (Fin.succ j) = f (l₀.succAbove (σ' j))
           have := congrFun hσ' j
-          show g' j = f' (σ' j)
+          change g' j = f' (σ' j)
           exact this⟩
 
 /-- For any sequence `g : Fin n → α`, the multiset of values equals
@@ -919,7 +919,7 @@ private theorem exists_blockPerm_of_sum_single_eq (slot : Fin n → Fin k)
     funext j
     have hj := congrFun hσ j
     simp only [Function.comp_apply, Prod.mk.injEq] at hj
-    show slot (σ j) = slot j
+    change slot (σ j) = slot j
     exact hj.1.symm
   · funext j
     have hj := congrFun hσ j

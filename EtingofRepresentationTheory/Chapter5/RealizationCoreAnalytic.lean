@@ -138,7 +138,7 @@ theorem detTwist_clearing
     rintro _ ⟨i, rfl⟩
     rw [SetLike.mem_coe, LinearMap.mem_range]
     refine ⟨⟨P i, ?_⟩, ?_⟩
-    · show P i ∈ (boundedSubrep k n d).toSubmodule
+    · change P i ∈ (boundedSubrep k n d).toSubmodule
       exact (MvPolynomial.mem_restrictTotalDegree _ _ _).mpr
         (Finset.le_sup (f := fun i => (P i).totalDegree) (Finset.mem_univ i))
     · rw [hι_apply]; exact (hP i).symm
@@ -159,14 +159,13 @@ theorem detTwist_clearing
   have he_coe : ∀ y : U,
       (e y : Localization.Away (detPoly k n)) = ι (y : (boundedSubrep k n d).toSubmodule) := by
     intro y
-    show ((LinearEquiv.ofEq _ _ hmap) (Submodule.equivMapOfInjective ι hι_inj U y) :
+    change ((LinearEquiv.ofEq _ _ hmap) (Submodule.equivMapOfInjective ι hι_inj U y) :
         Localization.Away (detPoly k n)) = _
     rw [LinearEquiv.coe_ofEq_apply, Submodule.coe_equivMapOfInjective_apply]
   have hS_coe : ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (z : S.toSubmodule),
       ((S.toRepresentation g z : Localization.Away (detPoly k n)))
         = localRightRep k n g (z : Localization.Away (detPoly k n)) :=
-    fun g z => LinearMap.restrict_coe_apply (localRightRep k n g)
-      (S.apply_mem_toSubmodule g) z
+    fun g z => LinearMap.coe_restrict_apply (S.apply_mem_toSubmodule g) z
   -- `e` intertwines the restricted bounded action with the `det^r`-twisted `S`-action.
   have hcomm : ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (y : U),
       e (((boundedSubrep k n d).toRepresentation g).restrict (hU_inv g) y)
@@ -176,7 +175,7 @@ theorem detTwist_clearing
     have hL : (↑(e (((boundedSubrep k n d).toRepresentation g).restrict (hU_inv g) y)) :
         Localization.Away (detPoly k n))
         = charTwistRep (detChar k n ^ r) (localRightRep k n) g (ι (y : _)) := by
-      rw [he_coe, LinearMap.restrict_coe_apply, hinter]
+      rw [he_coe, LinearMap.coe_restrict_apply, hinter]
     have hR : (↑(charTwistRep (detChar k n ^ r) S.toRepresentation g (e y)) :
         Localization.Away (detPoly k n))
         = charTwistRep (detChar k n ^ r) (localRightRep k n) g (ι (y : _)) := by
@@ -194,7 +193,7 @@ theorem detTwist_clearing
       ((Submodule.injective_subtype U).comp e.symm.injective)
   · -- equivariance
     intro g v
-    show (boundedSubrep k n d).toSubmodule.subtype (U.subtype (e.symm
+    change (boundedSubrep k n d).toSubmodule.subtype (U.subtype (e.symm
         (charTwistRep (detChar k n ^ r) S.toRepresentation g v)))
       = polyRightRep k n g ((boundedSubrep k n d).toSubmodule.subtype (U.subtype (e.symm v)))
     have hsymm : e.symm (charTwistRep (detChar k n ^ r) S.toRepresentation g v)
@@ -204,7 +203,7 @@ theorem detTwist_clearing
     rw [hsymm,
       show U.subtype ((((boundedSubrep k n d).toRepresentation g).restrict (hU_inv g)) (e.symm v))
           = (boundedSubrep k n d).toRepresentation g (U.subtype (e.symm v)) from
-        LinearMap.restrict_coe_apply _ (hU_inv g) (e.symm v)]
+        LinearMap.coe_restrict_apply (hU_inv g) (e.symm v)]
     exact boundedSubrep_toRepresentation_coe d g (U.subtype (e.symm v))
 
 /-- **Det-clearing into a polynomial representation (step 1).** A finite-dimensional
@@ -303,8 +302,8 @@ theorem exists_polyRightDegree_embedding_of_simple
       (z : polyRightDegreeFDRep k N d),
       (polyRightHomogeneousSubrep k N d).toSubmodule.subtype ((polyRightDegreeFDRep k N d).ρ g z)
         = polyRightRep k N g ((polyRightHomogeneousSubrep k N d).toSubmodule.subtype z) :=
-    fun d g z => LinearMap.restrict_coe_apply (polyRightRep k N g)
-      ((polyRightHomogeneousSubrep k N d).apply_mem_toSubmodule g) z
+    fun d g z =>
+      LinearMap.coe_restrict_apply ((polyRightHomogeneousSubrep k N d).apply_mem_toSubmodule g) z
   -- equivariance of `ψ d`
   have hψ_equiv : ∀ d (g : Matrix.GeneralLinearGroup (Fin N) k) (v : L),
       ψ d (L.ρ g v) = (polyRightDegreeFDRep k N d).ρ g (ψ d v) := by
@@ -332,7 +331,7 @@ theorem exists_polyRightDegree_embedding_of_simple
   obtain ⟨v, hv0⟩ := exists_ne (0 : L)
   have hexists : ∃ d, Function.Injective (ψ d) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hzero : ∀ d, ψ d = 0 := fun d => (hschur d).resolve_left (hcon d)
     -- `φ v = ∑_d homogeneousComponent d (φ v)`, but every component vanishes
     have hdecomp : (∑ d ∈ Finset.range ((φ v).totalDegree + 1),

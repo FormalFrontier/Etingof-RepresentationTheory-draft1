@@ -47,7 +47,7 @@ theorem Theorem5_12_2_distinct
   -- For la ≠ mu, either ¬ mu.Dominates la or ¬ la.Dominates mu
   have hdom_or : ¬ mu.Dominates la ∨ ¬ la.Dominates mu := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact h (hall.1.antisymm hall.2).symm
   constructor
   intro φ

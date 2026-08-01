@@ -715,7 +715,7 @@ lemma coordForm_self_ne_zero_of_real (c : MonoidAlgebra ℂ G)
       (Finset.mem_univ g)
     exact pow_eq_zero_iff (by norm_num : 2 ≠ 0) |>.mp h
   ext g
-  show c g = 0
+  change c g = 0
   exact Complex.ext (by simpa using hzero g) (by simpa using hreal g)
 
 /-- **Group-algebra real-form criterion.** A simple representation `ρ` admitting a
@@ -1182,28 +1182,28 @@ noncomputable def Mfun : QuaternionGroup 2 → Matrix (Fin 2) (Fin 2) ℂ
 noncomputable def Mhom : QuaternionGroup 2 →* Matrix (Fin 2) (Fin 2) ℂ where
   toFun := Mfun
   map_one' := by
-    show Mfun 1 = 1
+    change Mfun 1 = 1
     rw [QuaternionGroup.one_def]; simp [Mfun]
   map_mul' := by
     rintro (i | i) (j | j)
-    · show Mfun (a i * a j) = Mfun (a i) * Mfun (a j)
+    · change Mfun (a i * a j) = Mfun (a i) * Mfun (a j)
       rw [QuaternionGroup.a_mul_a]
       simp only [Mfun]
       rw [← pow_add]
       exact A_pow_congr (by push_cast [ZMod.natCast_val, ZMod.cast_id]; ring)
-    · show Mfun (a i * xa j) = Mfun (a i) * Mfun (xa j)
+    · change Mfun (a i * xa j) = Mfun (a i) * Mfun (xa j)
       rw [QuaternionGroup.a_mul_xa]
       simp only [Mfun]
       rw [← mul_assoc, A_pow_mul_X, mul_assoc, ← pow_add]
       congr 1
       exact A_pow_congr (by push_cast [ZMod.natCast_val, ZMod.cast_id]; revert i j; decide)
-    · show Mfun (xa i * a j) = Mfun (xa i) * Mfun (a j)
+    · change Mfun (xa i * a j) = Mfun (xa i) * Mfun (a j)
       rw [QuaternionGroup.xa_mul_a]
       simp only [Mfun]
       rw [mul_assoc, ← pow_add]
       congr 1
       exact A_pow_congr (by push_cast [ZMod.natCast_val, ZMod.cast_id]; ring)
-    · show Mfun (xa i * xa j) = Mfun (xa i) * Mfun (xa j)
+    · change Mfun (xa i * xa j) = Mfun (xa i) * Mfun (xa j)
       rw [QuaternionGroup.xa_mul_xa]
       simp only [Mfun]
       rw [← mul_assoc (X * A ^ i.val) X (A ^ j.val), X_mul_A_pow_mul_X, ← pow_add]
@@ -1217,7 +1217,7 @@ noncomputable def rho : Representation ℂ (QuaternionGroup 2) (Fin 2 → ℂ) w
 
 lemma rho_apply (g : QuaternionGroup 2) (v : Fin 2 → ℂ) :
     rho g v = (Mhom g).mulVec v := by
-  simp [rho, Matrix.toLinAlgEquiv'_apply, Matrix.toLin'_apply]
+  simp [rho, Matrix.toLinAlgEquiv'_apply]
 
 end Etingof.Q8
 
@@ -1232,7 +1232,7 @@ theorem Etingof.Q8.rho_isSimpleModule :
         = ![Complex.I * v 0, -Complex.I * v 1] := by
       intro v
       rw [Etingof.Q8.rho_apply]
-      show (Etingof.Q8.Mfun (QuaternionGroup.a 1)).mulVec v = _
+      change (Etingof.Q8.Mfun (QuaternionGroup.a 1)).mulVec v = _
       simp only [Etingof.Q8.Mfun, show (1 : ZMod (2 * 2)).val = 1 from by decide, pow_one]
       funext i; fin_cases i <;>
         simp [Etingof.Q8.A, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
@@ -1240,7 +1240,7 @@ theorem Etingof.Q8.rho_isSimpleModule :
         = ![v 1, -v 0] := by
       intro v
       rw [Etingof.Q8.rho_apply]
-      show (Etingof.Q8.Mfun (QuaternionGroup.xa 0)).mulVec v = _
+      change (Etingof.Q8.Mfun (QuaternionGroup.xa 0)).mulVec v = _
       simp only [Etingof.Q8.Mfun, show (0 : ZMod (2 * 2)).val = 0 from by decide, pow_zero,
         mul_one]
       funext i; fin_cases i <;>
@@ -1275,7 +1275,7 @@ theorem Etingof.Q8.rho_isSimpleModule :
             have : (v 0)⁻¹ • v = (![1, 0] : Fin 2 → ℂ) := by
               funext i; fin_cases i
               · simpa using inv_mul_cancel₀ hv0'
-              · simpa [hv1]
+              · simp [hv1]
             rw [← this]; exact (a : Submodule ℂ (Fin 2 → ℂ)).smul_mem _ hv
           have he1 : (![0, 1] : Fin 2 → ℂ) ∈ (a : Submodule ℂ (Fin 2 → ℂ)) := by
             have hx := hinv (QuaternionGroup.xa 0) _ he0
@@ -1292,7 +1292,7 @@ theorem Etingof.Q8.rho_isSimpleModule :
               ((a : Submodule ℂ (Fin 2 → ℂ)).smul_mem _ hv) (hinv _ _ hv)
           have heq : Complex.I • v - Etingof.Q8.rho (QuaternionGroup.a 1) v
               = ![0, 2 * Complex.I * v 1] := by
-            rw [hAv]; funext i; fin_cases i <;> simp [Pi.smul_apply] <;> ring
+            rw [hAv]; funext i; fin_cases i <;> simp [Pi.smul_apply] ; ring
           rw [heq] at hmem
           have hc : (2 : ℂ) * Complex.I * v 1 ≠ 0 := by
             simp [hv1, Complex.I_ne_zero]
@@ -1362,9 +1362,9 @@ theorem Etingof.Example5_1_3_Q8 :
       rw [Etingof.Q8.rho_apply, Etingof.Q8.rho_apply, key]
       have hdet : (Etingof.Q8.Mhom g).det = 1 := by
         rcases g with k | k
-        · show (Etingof.Q8.Mfun (QuaternionGroup.a k)).det = 1
+        · change (Etingof.Q8.Mfun (QuaternionGroup.a k)).det = 1
           simp [Etingof.Q8.Mfun, Matrix.det_pow]
-        · show (Etingof.Q8.Mfun (QuaternionGroup.xa k)).det = 1
+        · change (Etingof.Q8.Mfun (QuaternionGroup.xa k)).det = 1
           simp [Etingof.Q8.Mfun, Matrix.det_mul, Matrix.det_pow]
       rw [hdet, one_mul]
 
@@ -1452,7 +1452,7 @@ theorem Etingof.Example5_1_3_Q8_twoDim_unique
     rw [← (FDRep.isoToLinearEquiv eσ).finrank_eq]; exact hdim
   have hfj : Module.finrank ℂ (W j) = 2 := by
     rw [← (FDRep.isoToLinearEquiv eρ).finrank_eq]
-    show Module.finrank ℂ (Fin 2 → ℂ) = 2
+    change Module.finrank ℂ (Fin 2 → ℂ) = 2
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_fin]
   have hfl : Module.finrank ℂ (W l) = 1 := by
     rw [← (FDRep.isoToLinearEquiv etriv).finrank_eq]; exact Module.finrank_self ℂ

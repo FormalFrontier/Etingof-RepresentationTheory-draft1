@@ -651,7 +651,7 @@ theorem exists_dominantWeight_equivariant_realization
   -- Step 7: postcompose with the inclusion `S.toSubmodule ↪ R`.
   refine ⟨lam, S.toSubmodule.subtype ∘ₗ fe.toLinearMap, ?_, ?_⟩
   · intro g v
-    show ((fe (algIrrepGLRepρ n lam k g v) : S.toSubmodule) : Localization.Away (detPoly k n))
+    change ((fe (algIrrepGLRepρ n lam k g v) : S.toSubmodule) : Localization.Away (detPoly k n))
         = localRightRep k n g ((fe v : S.toSubmodule) : Localization.Away (detPoly k n))
     rw [hfe_equiv]
     exact LinearMap.coe_restrict_apply (S.apply_mem_toSubmodule g) (fe v)
@@ -729,8 +729,7 @@ theorem rightHull_le_iSup_range_peterWeylSummandMap
   have hsub : ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (x : H.toSubmodule),
       H.toSubmodule.subtype (H.toRepresentation g x)
         = localRightRep k n g (H.toSubmodule.subtype x) :=
-    fun g x => LinearMap.restrict_coe_apply (localRightRep k n g)
-      (H.apply_mem_toSubmodule g) x
+    fun g x => LinearMap.coe_restrict_apply (H.apply_mem_toSubmodule g) x
   set incl :
       Representation.asModule H.toRepresentation →ₗ[MonoidAlgebra k
         (Matrix.GeneralLinearGroup (Fin n) k)] Representation.asModule (localRightRep k n) :=

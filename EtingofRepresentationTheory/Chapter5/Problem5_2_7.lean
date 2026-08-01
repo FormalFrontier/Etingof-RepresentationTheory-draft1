@@ -712,7 +712,7 @@ theorem beta_lt_one (V : FDRep ℂ G) [Simple V] (h : 1 < Module.finrank ℂ V)
   have hβt : (∏ g ∈ s, Complex.normSq (V.character g)) ^ ((s.card : ℝ)⁻¹) < 1 :=
     lt_of_le_of_lt hgm hrhs
   by_contra hge
-  push_neg at hge
+  push Not at hge
   have : 1 ≤ (∏ g ∈ s, Complex.normSq (V.character g)) ^ ((s.card : ℝ)⁻¹) :=
     Real.one_le_rpow hge (by positivity)
   linarith
@@ -727,7 +727,7 @@ also an algebraic integer, `Etingof.Remark5_2_8.beta_rat_not_mem_Ioo` yields `Fa
 theorem exists_character_eq_zero (V : FDRep ℂ G) [Simple V]
     (h : 1 < Module.finrank ℂ V) : ∃ g : G, V.character g = 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hβpos, hβlt⟩ := beta_lt_one V h hcon
   set s : Finset G := univ.filter (· ≠ 1) with hs_def
   obtain ⟨q, hq⟩ := Etingof.Remark5_2_8.character_prod_rat V

@@ -54,7 +54,7 @@ private lemma card_ne_zero_cx : (Fintype.card G : ℂ) ≠ 0 := by
 /-- Simple `FDRep` objects have positive finrank. -/
 private lemma finrank_pos_of_simple (V : FDRep ℂ G) [Simple V] : 0 < Module.finrank ℂ V := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have h0 : Module.finrank ℂ V = 0 := Nat.eq_zero_of_le_zero hcon
   have hsub : Subsingleton (V : Type _) := Module.finrank_zero_iff.mp h0
   have hsub2 : Subsingleton (V ⟶ V) := by

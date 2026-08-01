@@ -250,7 +250,7 @@ theorem exists_degree_embedding_of_simple
   obtain ⟨v, hv0⟩ := exists_ne (0 : L)
   have hexists : ∃ d, Function.Injective (ψ d) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hzero : ∀ d, ψ d = 0 := fun d => (hschur d).resolve_left (hcon d)
     obtain ⟨p, hp⟩ := Submodule.Quotient.mk_surjective (detSubmodule k N) (φ v)
     -- `φ v = ∑_d quotDetProj d (φ v)`

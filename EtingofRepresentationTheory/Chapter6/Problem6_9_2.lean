@@ -240,7 +240,7 @@ theorem α_gram_is_E8 :
     ⟨![7, 6, 4, 3, 2, 1, 0, 5], ![6, 5, 4, 3, 2, 7, 1, 0], by decide, by decide⟩
   have hiso : ∀ i j, gramAdj (σ i) (σ j) = DynkinType.E8.adj i j := by
     intro i j
-    show gramAdj (σ.toFun i) (σ.toFun j) = _
+    change gramAdj (σ.toFun i) (σ.toFun j) = _
     rw [gramAdj_eq]
     fin_cases i <;> fin_cases j <;> rfl
   exact ⟨isDynkinDiagram_of_graph_iso σ hiso (isDynkinDiagram_of_type .E8), σ, hiso⟩

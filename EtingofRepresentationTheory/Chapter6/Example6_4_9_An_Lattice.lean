@@ -268,7 +268,7 @@ lemma dotProduct_simpleRoot (hn : 1 ≤ n) (i j : Fin n) :
   simp only [simpleRoot_apply, Fin.val_castSucc, Fin.val_succ,
     Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
     Etingof.DynkinType.adj]
-  split_ifs <;> simp_all [Fin.ext_iff] <;> omega
+  split_ifs <;> simp_all [Fin.ext_iff] ; omega
 
 /-- Isometry: the standard inner product on `ℤ^{n+1}`, restricted to the sum-zero lattice
 and read in the simple-root coordinates, is the `A_n` Cartan form `xᵀ(2·1 - adj)y`. -/
@@ -304,11 +304,11 @@ theorem mem_latticeRoots_iff (x : Fin (n + 1) → ℤ) :
       intro k
       have hb := hb2 k
       have hlo : -1 ≤ x k := by
-        by_contra h; push_neg at h
+        by_contra h; push Not at h
         have hle : x k ≤ -2 := by omega
         nlinarith [hb, sq_nonneg (x k + 2)]
       have hhi : x k ≤ 1 := by
-        by_contra h; push_neg at h
+        by_contra h; push Not at h
         have hge : 2 ≤ x k := by omega
         nlinarith [hb, sq_nonneg (x k - 2)]
       interval_cases (x k) <;> tauto

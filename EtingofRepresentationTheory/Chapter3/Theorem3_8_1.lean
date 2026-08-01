@@ -40,7 +40,7 @@ private lemma krull_schmidt_existence_aux (k : Type*) (A : Type*) (V : Type*)
         exact ⟨0, Fin.elim0, nofun, nofun, by simp, iSupIndep_subsingleton _⟩
       have hS_nt : Nontrivial ↥S := Submodule.nontrivial_iff_ne_bot.mpr hS_triv
       unfold Etingof.IsIndecomposable at hIndec
-      push_neg at hIndec
+      push Not at hIndec
       obtain ⟨M', N', hCompl, hM'ne, hN'ne⟩ := hIndec hS_nt
       have hSup' : M' ⊔ N' = ⊤ := codisjoint_iff.mp hCompl.codisjoint
       have hInf' : M' ⊓ N' = ⊥ := disjoint_iff.mp hCompl.disjoint
@@ -306,7 +306,7 @@ private lemma krull_schmidt_find_iso_summand (k : Type*) (A : Type*) (V : Type*)
     rw [hf_sum] at this
     exact hid_not_nilp this
   -- So there exists j₀ with f j₀ not nilpotent
-  push_neg at hf_not_all_nilp
+  push Not at hf_not_all_nilp
   obtain ⟨j₀, hj₀⟩ := hf_not_all_nilp
   -- By Lemma 3.8.2(i), f j₀ is bijective
   have hj₀_bij : Function.Bijective (f j₀) := by
@@ -375,7 +375,7 @@ private lemma krull_schmidt_find_iso_summand (k : Type*) (A : Type*) (V : Type*)
   set g : V →ₗ[A] ↥(W' j₀) := αe.symm.toLinearMap.comp π₀
   have hg_proj : ∀ x : ↥(W' j₀), g ((W' j₀).subtype x) = x := by
     intro x
-    show αe.symm (π₀ ↑x) = x
+    change αe.symm (π₀ ↑x) = x
     have : π₀ ↑x = αe x := rfl
     rw [this, αe.symm_apply_apply]
   -- By isCompl_of_proj, IsCompl (W' j₀) (ker g)
@@ -418,7 +418,7 @@ private lemma krull_schmidt_find_iso_summand (k : Type*) (A : Type*) (V : Type*)
       apply iSup₂_le
       intro i hi v hv
       rw [LinearMap.mem_ker]
-      show (DirectSum.component A (Fin n) (fun i => ↥(W i)) i₀) (eW.symm ((W i).subtype ⟨v, hv⟩)) = 0
+      change (DirectSum.component A (Fin n) (fun i => ↥(W i)) i₀) (eW.symm ((W i).subtype ⟨v, hv⟩)) = 0
       have heq : eW.symm ((W i).subtype ⟨v, hv⟩) = DirectSum.lof A (Fin n) (fun i => ↥(W i)) i ⟨v, hv⟩ := by
         apply eW.injective
         simp only [eW_def, LinearEquiv.ofBijective_apply, LinearEquiv.apply_symm_apply,
@@ -506,7 +506,7 @@ private lemma krull_schmidt_uniqueness_aux (k : Type*) (A : Type*) [Field k] [Ri
       have hn_pos : 0 < n := Nat.pos_of_ne_zero hn
       have hm_pos : 0 < m := by
         by_contra h_neg
-        push_neg at h_neg
+        push Not at h_neg
         interval_cases m
         have hV0 : (⊤ : Submodule A V) = ⊥ := by rw [← hW'_sup]; simp
         have h_le : W ⟨0, hn_pos⟩ ≤ ⊤ := le_top
@@ -624,7 +624,7 @@ private lemma krull_schmidt_uniqueness_aux (k : Type*) (A : Type*) [Field k] [Ri
         have hSup := codisjoint_iff.mp hPQ.codisjoint
         have hInf := disjoint_iff.mp hPQ.disjoint
         by_contra hne
-        push_neg at hne
+        push Not at hne
         obtain ⟨hP, hQ⟩ := hne
         exact (hW_indec (succMap i)).not_exists_nontrivial_compl
           ⟨P.map e.toLinearMap, Q.map e.toLinearMap,
@@ -679,7 +679,7 @@ private lemma krull_schmidt_uniqueness_aux (k : Type*) (A : Type*) [Field k] [Ri
         have hSup := codisjoint_iff.mp hPQ.codisjoint
         have hInf := disjoint_iff.mp hPQ.disjoint
         by_contra hne
-        push_neg at hne
+        push Not at hne
         obtain ⟨hP, hQ⟩ := hne
         exact (hW'_indec (skipJ₀ i)).not_exists_nontrivial_compl
           ⟨P.map e.toLinearMap, Q.map e.toLinearMap,
@@ -735,7 +735,7 @@ private lemma krull_schmidt_uniqueness_aux (k : Type*) (A : Type*) [Field k] [Ri
         have hSup := codisjoint_iff.mp hPQ.codisjoint
         have hInf := disjoint_iff.mp hPQ.disjoint
         by_contra hne
-        push_neg at hne
+        push Not at hne
         obtain ⟨hP, hQ⟩ := hne
         exact (hW'D_indec i).not_exists_nontrivial_compl
           ⟨P.map e.toLinearMap, Q.map e.toLinearMap,
@@ -792,7 +792,7 @@ private lemma krull_schmidt_uniqueness_aux (k : Type*) (A : Type*) [Field k] [Ri
       -- v4.31: `simp only [Equiv.ofBijective_apply]` no longer fires here; the
       -- application `Equiv.ofBijective σ_fun _ i` is defeq to `σ_fun i`, so use `show`
       -- to expose `σ_fun i` for the `rw [hσ_eq]` steps below.
-      show Nonempty (↥(W i) ≃ₗ[A] ↥(W' (σ_fun i)))
+      change Nonempty (↥(W i) ≃ₗ[A] ↥(W' (σ_fun i)))
       by_cases h : (i : ℕ) = 0
       · have hσ_eq : σ_fun i = j₀ := dif_pos h
         rw [hσ_eq]

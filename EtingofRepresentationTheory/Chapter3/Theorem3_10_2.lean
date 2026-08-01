@@ -105,7 +105,7 @@ private theorem pure_tensors_mem_of_stable
     have hu_decomp : u = (TensorProduct.equivFinsuppOfBasisLeft bV).symm coeffs :=
       ((TensorProduct.equivFinsuppOfBasisLeft bV).symm_apply_apply u).symm
     -- c is defined as lid (map φ ψ u); compute by rewriting u
-    show TensorProduct.lid k k (TensorProduct.map (bV.coord i₀) (bW.coord j₀) u) = _
+    change TensorProduct.lid k k (TensorProduct.map (bV.coord i₀) (bW.coord j₀) u) = _
     rw [hu_decomp, TensorProduct.equivFinsuppOfBasisLeft_symm_apply]
     -- Distribute linear maps over the Finsupp sum
     rw [Finsupp.sum]
@@ -218,7 +218,7 @@ noncomputable def evalMap : V₀ ⊗[k] (V₀ →ₗ[A] M) →ₗ[k] M :=
       map_add' := fun v₁ v₂ => by ext f; exact f.map_add v₁ v₂
       map_smul' := fun c v => by
         ext f; simp only [LinearMap.coe_mk, AddHom.coe_mk, LinearMap.smul_apply, RingHom.id_apply]
-        show f (c • v) = c • f v
+        change f (c • v) = c • f v
         -- f is A-linear; c acts via algebraMap k A
         have h1 : f ((algebraMap k A c) • v) = (algebraMap k A c) • f v := f.map_smul _ _
         rwa [algebraMap_smul, algebraMap_smul] at h1 }
@@ -341,7 +341,7 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
     simp only [Finsupp.zero_apply] at hj
     -- wⱼ ≠ 0, so ∃ v with wⱼ(v) ≠ 0
     obtain ⟨v, hv⟩ : ∃ v, (TensorProduct.equivFinsuppOfBasisLeft bV t) j v ≠ 0 := by
-      by_contra h; push_neg at h
+      by_contra h; push Not at h
       exact hj (LinearMap.ext fun v => by simpa using h v)
     -- Build φ : V₀ → V₀ with φ(bV i) = δᵢⱼ v using Basis.constr
     let φ : Module.End k V₀ := bV.constr k (fun i => if i = j then v else 0)
@@ -399,7 +399,7 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
       { toFun := fun f => f.restrictScalars k
         map_add' := fun _ _ => rfl
         map_smul' := fun c f => by
-          ext v; show (c • f) v = c • f v; rfl }
+          ext v; change (c • f) v = c • f v; rfl }
     exact Module.Finite.of_injective ι (fun f g h => by
       ext v; exact LinearMap.congr_fun h v)
   -- W₀ is simple as B-module
@@ -409,13 +409,13 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
     have hsimple : ∀ S : Submodule B (V₀ →ₗ[A] M), S = ⊥ ∨ S = ⊤ := by
       intro S
       by_contra hS
-      push_neg at hS
+      push Not at hS
       obtain ⟨hS_ne_bot, hS_ne_top⟩ := hS
       -- S ≠ ⊥: ∃ nonzero f ∈ S
       obtain ⟨f, hf_mem, hf_ne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hS_ne_bot
       -- f ≠ 0: ∃ v with f(v) ≠ 0
       obtain ⟨v, hv⟩ : ∃ v, (f : (V₀ →ₗ[A] M)) v ≠ 0 := by
-        by_contra h; push_neg at h
+        by_contra h; push Not at h
         exact hf_ne (LinearMap.ext fun v => by simpa using h v)
       -- Image of ev|_{V₀ ⊗ S} is A-B-invariant and nonzero → = M
       -- Build restricted eval: V₀ ⊗ S → M
@@ -647,7 +647,7 @@ theorem Etingof.tensor_left_factor_unique
   -- Some `ψ` makes `T ψ` nonzero.
   have hex : ∃ ψ : W' →ₗ[k] k, T ψ ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨v₁, hv₁⟩ := exists_ne (0 : V)
     have ht : e (v₁ ⊗ₜ[k] w₀) ≠ 0 :=
       fun hz => tmul_ne_zero hv₁ hw₀ (e.injective (hz.trans (map_zero e).symm))

@@ -383,11 +383,11 @@ theorem semidirect_classification :
       refine ⟨Sum.inl (⟨χ, hχ⟩, ξ.comp eStab.symm.toMonoidHom), ?_⟩
       have hρξ : (ξ.comp eStab.symm.toMonoidHom).comp (stab χ).subtype = ξ := by
         refine MonoidHom.ext fun s => ?_
-        show ξ (eStab.symm ((stab χ).subtype s)) = ξ s
+        change ξ (eStab.symm ((stab χ).subtype s)) = ξ s
         rw [← heStab s, MulEquiv.symm_apply_apply]
       have hFeq : F (Sum.inl (⟨χ, hχ⟩, ξ.comp eStab.symm.toMonoidHom))
           = V χ (Etingof.AbelianFDRep.charFDRep ξ) := by
-        show V χ (Etingof.AbelianFDRep.charFDRep
+        change V χ (Etingof.AbelianFDRep.charFDRep
             ((ξ.comp eStab.symm.toMonoidHom).comp (stab χ).subtype))
           = V χ (Etingof.AbelianFDRep.charFDRep ξ)
         rw [hρξ]

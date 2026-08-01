@@ -257,7 +257,7 @@ private lemma glTensorRep_diagUnit_tBasis (N n : ℕ) (i : Fin N) (t : kˣ)
     (glTensorRep k N n (diagUnit k N i t)) (tBasis (k := k) N n f) =
       ((t : k) ^ (Finset.univ.filter (fun j => f j = i)).card) •
         tBasis (k := k) N n f := by
-  show PiTensorProduct.map (fun _ => Matrix.mulVecLin (diagUnit k N i t).val)
+  change PiTensorProduct.map (fun _ => Matrix.mulVecLin (diagUnit k N i t).val)
       (tBasis (k := k) N n f) =
     ((t : k) ^ (Finset.univ.filter (fun j => f j = i)).card) •
       tBasis (k := k) N n f
@@ -271,9 +271,9 @@ private lemma glTensorRep_diagUnit_tBasis (N n : ℕ) (i : Fin N) (t : kˣ)
     simp only [diagUnit, Matrix.mulVecLin_apply, Pi.basisFun_apply]
     rw [Matrix.mulVec_single]
     ext x
-    simp only [mul_one, Pi.smul_apply, smul_eq_mul, Matrix.diagonal_apply,
+    simp only [Pi.smul_apply, smul_eq_mul,
       Function.update_apply, Pi.single_apply, Pi.one_apply]
-    by_cases hm : f m = i <;> by_cases hx : x = f m <;> simp_all [Pi.single_apply]
+    by_cases hm : f m = i <;> by_cases hx : x = f m <;> simp_all
   simp_rw [haction]
   rw [(PiTensorProduct.tprod k).map_smul_univ
     (fun j => (Function.update (1 : Fin N → k) i (t : k)) (f j))

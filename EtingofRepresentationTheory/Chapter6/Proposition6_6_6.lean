@@ -237,7 +237,7 @@ private noncomputable def Etingof.equivAt_eq_sink
                   (@Etingof.QuiverRepresentation.mapLinear k Q _ instR ρ' i b.fst b.snd) := rfl
             rw [hψ_rfl, LinearMap.sum_apply]
             simp only [LinearMap.comp_apply]
-            rw [DFinsupp.finset_sum_apply,
+            rw [DFinsupp.finsetSum_apply,
               Finset.sum_eq_single a
                 (fun b _ hb => DFinsupp.single_eq_of_ne (Ne.symm hb))
                 (fun h => absurd (Finset.mem_univ a) h)]

@@ -298,12 +298,12 @@ theorem affine_classification (hq : 2 < Fintype.card K) :
   -- Dimensions of the two kinds of family members.
   have hdim_inl : ∀ ρ : Kˣ →* ℂˣ, finrank ℂ (F (Sum.inl ρ) : Type) = 1 := by
     intro ρ
-    show finrank ℂ (V (1 : Multiplicative K →* ℂˣ)
+    change finrank ℂ (V (1 : Multiplicative K →* ℂˣ)
       (Etingof.AbelianFDRep.charFDRep
         (ρ.comp (stab (1 : Multiplicative K →* ℂˣ)).subtype)) : Type) = 1
     rw [hv, Etingof.AbelianFDRep.charFDRep_finrank, mul_one, hstab_triv, Subgroup.index_top]
   have hdim_inr : finrank ℂ (F (Sum.inr () : (Kˣ →* ℂˣ) ⊕ Unit) : Type) = Fintype.card K - 1 := by
-    show finrank ℂ (V χ₀ (Etingof.AbelianFDRep.charFDRep
+    change finrank ℂ (V χ₀ (Etingof.AbelianFDRep.charFDRep
       (1 : ↥(stab χ₀) →* ℂˣ)) : Type) = Fintype.card K - 1
     rw [hv, Etingof.AbelianFDRep.charFDRep_finrank, mul_one, hstab_ntriv hχ₀,
       Subgroup.index_bot, Nat.card_eq_fintype_card, Fintype.card_units]
@@ -357,11 +357,11 @@ theorem affine_classification (hq : 2 < Fintype.card K) :
       have hρξ : (ξ.comp eStab.symm.toMonoidHom).comp
           (stab (1 : Multiplicative K →* ℂˣ)).subtype = ξ := by
         refine MonoidHom.ext fun s => ?_
-        show ξ (eStab.symm ((stab (1 : Multiplicative K →* ℂˣ)).subtype s)) = ξ s
+        change ξ (eStab.symm ((stab (1 : Multiplicative K →* ℂˣ)).subtype s)) = ξ s
         rw [← heStab s, MulEquiv.symm_apply_apply]
       have hFeq : F (Sum.inl (ξ.comp eStab.symm.toMonoidHom))
           = V (1 : Multiplicative K →* ℂˣ) (Etingof.AbelianFDRep.charFDRep ξ) := by
-        show V (1 : Multiplicative K →* ℂˣ) (Etingof.AbelianFDRep.charFDRep
+        change V (1 : Multiplicative K →* ℂˣ) (Etingof.AbelianFDRep.charFDRep
             ((ξ.comp eStab.symm.toMonoidHom).comp (stab (1 : Multiplicative K →* ℂˣ)).subtype))
           = V (1 : Multiplicative K →* ℂˣ) (Etingof.AbelianFDRep.charFDRep ξ)
         rw [hρξ]
@@ -401,7 +401,7 @@ theorem affine_classification (hq : 2 < Fintype.card K) :
       have step3 : Nonempty (V χ (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ) →* ℂˣ))
           ≅ V χ U) :=
         hvi χ _ _ ⟨hξ.some.symm⟩
-      show Nonempty (S ≅ V χ₀ (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ₀) →* ℂˣ)))
+      change Nonempty (S ≅ V χ₀ (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ₀) →* ℂˣ)))
       exact ⟨hSU.some ≪≫ step3.some.symm ≪≫ step2.some.symm ≪≫ step1.some.symm⟩
   -- Assemble into a `Fin n`-indexed family.
   set e := Fintype.equivFin ((Kˣ →* ℂˣ) ⊕ Unit) with he
@@ -568,7 +568,7 @@ theorem affine_classification_two (hq : Fintype.card K = 2) :
       intro h
       rw [dif_pos (by rw [hh1 h]; exact one_mem _),
         show (⟨h * 1 * h⁻¹, by rw [hh1 h]; exact one_mem _⟩ : ↥(stab χ₀)) = 1 from
-          Subtype.ext (by simp [hh1 h]),
+          Subtype.ext (by simp ),
         Etingof.AbelianFDRep.charFDRep_character, MonoidHom.one_apply, Units.val_one, mul_one,
         Subsingleton.elim h 1, map_one]
       rfl
@@ -578,12 +578,12 @@ theorem affine_classification_two (hq : Fintype.card K = 2) :
   -- Both kinds of family member are one-dimensional (`q - 1 = 1` for the free orbit).
   have hdim_inl : ∀ ρ : Kˣ →* ℂˣ, finrank ℂ (F (Sum.inl ρ) : Type) = 1 := by
     intro ρ
-    show finrank ℂ (V (1 : Multiplicative K →* ℂˣ)
+    change finrank ℂ (V (1 : Multiplicative K →* ℂˣ)
       (Etingof.AbelianFDRep.charFDRep
         (ρ.comp (stab (1 : Multiplicative K →* ℂˣ)).subtype)) : Type) = 1
     rw [hv, Etingof.AbelianFDRep.charFDRep_finrank, mul_one, hstab_triv, Subgroup.index_top]
   have hdim_inr : finrank ℂ (F (Sum.inr () : (Kˣ →* ℂˣ) ⊕ Unit) : Type) = 1 := by
-    show finrank ℂ (V χ₀ (Etingof.AbelianFDRep.charFDRep
+    change finrank ℂ (V χ₀ (Etingof.AbelianFDRep.charFDRep
       (1 : ↥(stab χ₀) →* ℂˣ)) : Type) = 1
     rw [hv, Etingof.AbelianFDRep.charFDRep_finrank, mul_one, hstab_ntriv hχ₀,
       Subgroup.index_bot, Nat.card_eq_fintype_card, hcardUnits]
@@ -652,11 +652,11 @@ theorem affine_classification_two (hq : Fintype.card K = 2) :
       have hρξ : (ξ.comp eStab.symm.toMonoidHom).comp
           (stab (1 : Multiplicative K →* ℂˣ)).subtype = ξ := by
         refine MonoidHom.ext fun s => ?_
-        show ξ (eStab.symm ((stab (1 : Multiplicative K →* ℂˣ)).subtype s)) = ξ s
+        change ξ (eStab.symm ((stab (1 : Multiplicative K →* ℂˣ)).subtype s)) = ξ s
         rw [← heStab s, MulEquiv.symm_apply_apply]
       have hFeq : F (Sum.inl (ξ.comp eStab.symm.toMonoidHom))
           = V (1 : Multiplicative K →* ℂˣ) (Etingof.AbelianFDRep.charFDRep ξ) := by
-        show V (1 : Multiplicative K →* ℂˣ) (Etingof.AbelianFDRep.charFDRep
+        change V (1 : Multiplicative K →* ℂˣ) (Etingof.AbelianFDRep.charFDRep
             ((ξ.comp eStab.symm.toMonoidHom).comp (stab (1 : Multiplicative K →* ℂˣ)).subtype))
           = V (1 : Multiplicative K →* ℂˣ) (Etingof.AbelianFDRep.charFDRep ξ)
         rw [hρξ]
@@ -693,7 +693,7 @@ theorem affine_classification_two (hq : Fintype.card K = 2) :
       have step3 : Nonempty (V χ (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ) →* ℂˣ))
           ≅ V χ U) :=
         hvi χ _ _ ⟨hξ.some.symm⟩
-      show Nonempty (S ≅ V χ₀ (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ₀) →* ℂˣ)))
+      change Nonempty (S ≅ V χ₀ (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ₀) →* ℂˣ)))
       exact ⟨hSU.some ≪≫ step3.some.symm ≪≫ step2.some.symm ≪≫ step1.some.symm⟩
   -- Assemble into a `Fin n`-indexed family.
   set e := Fintype.equivFin ((Kˣ →* ℂˣ) ⊕ Unit) with he

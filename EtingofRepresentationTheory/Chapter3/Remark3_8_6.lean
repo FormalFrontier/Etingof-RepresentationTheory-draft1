@@ -494,7 +494,7 @@ private lemma krull_schmidt_find_iso_summand_finiteLength
   set g : V →ₗ[A] ↥(W' j₀) := αe.symm.toLinearMap.comp π₀
   have hg_proj : ∀ x : ↥(W' j₀), g ((W' j₀).subtype x) = x := by
     intro x
-    show αe.symm (π₀ ↑x) = x
+    change αe.symm (π₀ ↑x) = x
     have : π₀ ↑x = αe x := rfl
     rw [this, αe.symm_apply_apply]
   have hIsCompl_g : IsCompl (W' j₀) (LinearMap.ker g) :=
@@ -513,7 +513,7 @@ private lemma krull_schmidt_find_iso_summand_finiteLength
       apply iSup₂_le
       intro i hi v hv
       rw [LinearMap.mem_ker]
-      show (DirectSum.component A (Fin n) (fun i => ↥(W i)) i₀)
+      change (DirectSum.component A (Fin n) (fun i => ↥(W i)) i₀)
         (eW.symm ((W i).subtype ⟨v, hv⟩)) = 0
       have heq : eW.symm ((W i).subtype ⟨v, hv⟩) =
           DirectSum.lof A (Fin n) (fun i => ↥(W i)) i ⟨v, hv⟩ := by
@@ -826,7 +826,7 @@ private lemma krull_schmidt_uniqueness_aux_finiteLength
           rw [show (⟨k.val, by omega⟩ : Fin (n - 1)) = k
             from Fin.ext rfl, hk, hi]
       refine ⟨Equiv.ofBijective σ_fun ⟨σ_inj, σ_surj⟩, fun i => ?_⟩
-      show Nonempty (↥(W i) ≃ₗ[A] ↥(W' (σ_fun i)))
+      change Nonempty (↥(W i) ≃ₗ[A] ↥(W' (σ_fun i)))
       by_cases h : (i : ℕ) = 0
       · have hσ_eq : σ_fun i = j₀ := dif_pos h
         rw [hσ_eq]

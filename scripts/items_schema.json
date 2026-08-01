@@ -49,7 +49,39 @@
           "type": "integer",
           "minimum": 1,
           "description": "1-based line number within end_page (inclusive)"
-        }
+        },
+        "status": {"type": "string"},
+        "last_updated": {"type": "string"},
+        "coverage": {"type": ["string", "object"]},
+        "coverage_note": {"type": "string"},
+        "coverage_issue": {"type": "integer"},
+        "coverage_swept": {"type": "object"},
+        "claim_coverage": {"type": "object"},
+        "fidelity": {"type": "string"},
+        "fidelity_note": {"type": "string"},
+        "fidelity_decl": {"type": ["string", "array"]},
+        "fidelity_issue": {"type": "integer"},
+        "lean_file": {"type": ["string", "array"]},
+        "lean_ref": {"type": "string"},
+        "lean_decl": {"type": ["string", "array"]},
+        "sorry_free": {"type": "boolean"},
+        "sorries": {"type": "integer"},
+        "sorry_count": {"type": "integer"},
+        "stage3_3": {"type": "object"},
+        "stage3_4": {"type": "object"},
+        "stage3_5": {"type": "object"},
+        "needs_statement": {"type": "boolean"},
+        "notes": {"type": "string"},
+        "note": {"type": "string"},
+        "reason": {"type": "string"},
+        "attention_needed": {"type": ["boolean", "string"]},
+        "attention_note": {"type": "string"},
+        "followup_issue": {"type": "integer"},
+        "proof_wanted_approval": {"type": "object"},
+        "source_regression_note": {"type": "string"},
+        "has_true_hypothesis": {"type": "boolean"},
+        "aristotle_project_id": {"type": "string"},
+        "aristotle_projects": {"type": "object"}
       },
       "additionalProperties": false
     },
@@ -76,7 +108,14 @@
         "status": {
           "type": "string",
           "description": "Triage/formalization status, e.g. accepted, sorry_free, rejected_duplicate, rejected_trivial, rejected_nonformal, rejected_already_covered"
-        }
+        },
+        "coverage": {"type": ["string", "object"]},
+        "coverage_issue": {"type": "integer"},
+        "last_updated": {"type": "string"},
+        "lean_file": {"type": ["string", "array"]},
+        "lean_ref": {"type": "string"},
+        "note": {"type": "string"},
+        "stage3_5": {"type": "object"}
       },
       "additionalProperties": false
     }

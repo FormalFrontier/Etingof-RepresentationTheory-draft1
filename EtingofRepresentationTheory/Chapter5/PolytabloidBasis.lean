@@ -450,7 +450,7 @@ private theorem orderEmbOfFin_lt_of_injective_lt [LinearOrder α]
     (hlt : ∀ i, f i < B.orderEmbOfFin hB i) (c : Fin m) :
     A.orderEmbOfFin hA c < B.orderEmbOfFin hB c := by
   by_contra hge
-  push_neg at hge
+  push Not at hge
   -- hge : B.orderEmbOfFin hB c ≤ A.orderEmbOfFin hA c
   set β := B.orderEmbOfFin hB c
   -- Step 1: For j with f(j) ≥ β, we must have j > c
@@ -739,7 +739,7 @@ theorem column_standard_coset_has_syt' (n : ℕ) (la : Nat.Partition n)
     -- Proof: orderEmbOfFin(col₁) ≤ max of the first col₁+1 sorted elements = orderEmbOfFin(col₁)
     -- So we need: if |{a ∈ A | a < v}| ≥ col₁+1, then A.orderEmbOfFin(col₁) < v
     -- This is a counting argument about orderEmbOfFin.
-    by_contra hge; push_neg at hge
+    by_contra hge; push Not at hge
     -- hge : β ≤ T_fun(r₁, col₁) = (rowEntries r₁).orderEmbOfFin(col₁)
     have hge' : β ≤ (rowEntries r₁).orderEmbOfFin (rowEnt_card r₁ hr₁) ⟨col₁, by omega⟩ := hge
     -- Elements of rowEntries r₁ below β are below orderEmbOfFin(col₁),
@@ -929,7 +929,7 @@ private theorem garnirSet_has_row_pair (n : ℕ) (la : Nat.Partition n)
     · rw [show (⟨k₀, hk₀_sum⟩ : Fin n).val = k₀ from rfl,
           show (⟨k₁, hk₁_sum⟩ : Fin n).val = k₁ from rfl, hk₀_row, hk₁_row]
   · -- Case j = 0: row r₁ has width ≥ 2, positions at cols 0 and 1, both ≥ j = 0
-    push_neg at hj_pos
+    push Not at hj_pos
     have hj_eq : j = 0 := Nat.le_zero.mp hj_pos
     -- Get position at (r₁, 0)
     have h0_lt : 0 < parts.getD r₁ 0 := by omega
@@ -1209,12 +1209,12 @@ private theorem lt_of_lt_rowOfPos (parts : List ℕ) (a b : ℕ)
     (hb : b < parts.sum)
     (hrow : rowOfPos parts a < rowOfPos parts b) : a < b := by
   by_contra h
-  push_neg at h
+  push Not at h
   -- a ≥ b. Two cases: a < parts.sum or a ≥ parts.sum
   by_cases ha : a < parts.sum
   · have := rowOfPos_mono parts b a ha h
     omega
-  · push_neg at ha
+  · push Not at ha
     have := rowOfPos_eq_length parts a ha
     have := rowOfPos_lt_length parts b hb
     omega
@@ -1226,7 +1226,7 @@ private theorem columnInvCount'_one (n : ℕ) (la : Nat.Partition n) :
   apply Finset.card_eq_zero.mpr
   apply Finset.filter_eq_empty_iff.mpr
   intro ⟨a, b⟩ _
-  simp only [Equiv.Perm.one_symm, Equiv.Perm.one_apply, not_and]
+  simp only [not_and]
   intro _ hrow
   have hsum : la.sortedParts.sum = n := sortedParts_sum n la
   have hb : b.val < la.sortedParts.sum := by omega

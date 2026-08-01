@@ -115,7 +115,7 @@ instance : (tensorRightFunctor A N).Additive where
   map_add {M M' f g} := by
     ext x
     obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
-    show tensorRightMap A N (f + g) (y : tensorOver A N M)
+    change tensorRightMap A N (f + g) (y : tensorOver A N M)
         = tensorRightMap A N f (y : tensorOver A N M)
           + tensorRightMap A N g (y : tensorOver A N M)
     induction y with

@@ -176,7 +176,7 @@ theorem Theorem5_12_2_distinct_general (k : Type*) [Field k] [CharZero k]
     IsEmpty ((SpechtModuleK k n la) ≃ₗ[MonoidAlgebra k (G' n)] (SpechtModuleK k n mu)) := by
   have hdom_or : ¬ mu.Dominates la ∨ ¬ la.Dominates mu := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact h (hall.1.antisymm hall.2).symm
   constructor
   intro φ

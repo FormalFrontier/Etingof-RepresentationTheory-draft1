@@ -280,7 +280,7 @@ theorem glWeightSpaceℤ_quotDetTwist (k : Type*) [Field k] (N : ℕ) (r : ℕ)
   set c : k := ((t ^ (-(r : ℤ)) : kˣ) : k) with hc
   have hcne : c ≠ 0 := Units.ne_zero _
   have htwist : quotDetTwistRep k N r g = c • quotDetRep k N g := by
-    show ((detChar k N ^ (-(r : ℤ))) g : k) • quotDetRep k N g = _
+    change ((detChar k N ^ (-(r : ℤ))) g : k) • quotDetRep k N g = _
     rw [MonoidHom.zpow_apply, hdet]
   -- The two diagonal-action eigenscalars are related by `c`: `c · t^{μ i + r} = t^{μ i}`.
   have hscal : c * ((t ^ (μ i + (r : ℤ)) : kˣ) : k) = ((t ^ μ i : kˣ) : k) := by

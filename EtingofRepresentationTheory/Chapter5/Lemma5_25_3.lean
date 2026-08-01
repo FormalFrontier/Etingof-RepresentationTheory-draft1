@@ -16,7 +16,7 @@ lemma Etingof.sum_nontrivial_char_eq_zero
   -- Standard character orthogonality: ∑_g χ(g) = 0 for nontrivial χ
   -- Choose g₀ with χ(g₀) ≠ 1
   have ⟨g₀, hg₀⟩ : ∃ g₀, χ g₀ ≠ 1 := by
-    by_contra h; push_neg at h; exact absurd (MonoidHom.ext h) hχ
+    by_contra h; push Not at h; exact absurd (MonoidHom.ext h) hχ
   -- χ(g₀) * ∑ g, χ(g) = ∑ g, χ(g₀ * g) = ∑ g, χ(g) (by reindexing)
   have hne : (χ g₀ : ℂ) ≠ 1 := by
     intro h; apply hg₀; exact Units.val_injective h
@@ -224,7 +224,7 @@ private lemma Etingof.nonscalar_char_sum
       exact Etingof.scalar_eq_fieldExtEmbed p n hn (k : GL2 p n) hscalar hk00_ne
     -- ψ(k) = ψ(scalarToElliptic(a)) = conj(qm1_char(scalarToElliptic(a)))
     -- = conj(1) = 1
-    show ψ k = 1
+    change ψ k = 1
     have hqm1 : (Etingof.qm1_char p n nu (Etingof.GL2.scalarToElliptic p n a) : ℂˣ) =
       (1 : ℂˣ) := Etingof.qm1_char_on_scalar p n nu hn a
     simp only [hψ_def, hk_eq, hqm1, Units.val_one, map_one]
@@ -262,7 +262,7 @@ private lemma Etingof.nonscalar_char_sum
       intro a i j
       unfold GL2.scalarToElliptic GL2.fieldExtEmbed
       simp only [dif_neg hn, MonoidHom.comp_apply, MonoidHom.codRestrict_apply]
-      show (Algebra.leftMulMatrix b
+      change (Algebra.leftMulMatrix b
         ((algebraMap (GaloisField p n) (GaloisField p (2 * n))) (a : GaloisField p n))) i j = _
       rw [Algebra.leftMulMatrix_eq_repr_mul, Algebra.algebraMap_eq_smul_one,
           smul_mul_assoc, one_mul, map_smul, Finsupp.smul_apply, smul_eq_mul,
@@ -382,7 +382,7 @@ lemma Etingof.normalizer_char_eval
     else 0 with hF_def
   -- Step 1: Terms outside N(K) vanish
   have h_vanish : ∀ z : GL2 p n, ¬Etingof.GL2.isInNormalizer p n z → F z = 0 := by
-    intro z hz; simp only [F, hF_def]
+    intro z hz; simp only [F]
     rw [dif_neg]; intro h
     exact hz (Etingof.GL2.conj_mem_implies_normalizer p n hn hp2
       (k : GL2 p n) k.2 hk_ns z h)
@@ -463,8 +463,8 @@ lemma Etingof.normalizer_char_eval
     set kq_units : (GaloisField p (2 * n))ˣ :=
       ⟨(γ : GaloisField p (2 * n)) ^ Fintype.card (GaloisField p n),
        (γ⁻¹ : GaloisField p (2 * n)) ^ Fintype.card (GaloisField p n),
-       by rw [← mul_pow]; simp [Units.val_inv_eq_inv_val, mul_inv_cancel₀ γ.ne_zero],
-       by rw [← mul_pow]; simp [Units.val_inv_eq_inv_val, inv_mul_cancel₀ γ.ne_zero]⟩
+       by rw [← mul_pow]; simp ,
+       by rw [← mul_pow]; simp ⟩
     have hkq_mem : Etingof.GL2.fieldExtEmbed p n kq_units ∈
         Etingof.GL2.ellipticSubgroup p n := ⟨kq_units, rfl⟩
     -- σ⁻¹·k·σ = fieldExtEmbed(kq_units) (by frobeniusMatrix_conj)
@@ -505,7 +505,7 @@ lemma Etingof.normalizer_char_eval
       have : ⟨Etingof.GL2.fieldExtEmbed p n kq_units, hkq_mem⟩ =
           k ^ Fintype.card (GaloisField p n) := by
         apply Subtype.ext
-        show Etingof.GL2.fieldExtEmbed p n kq_units =
+        change Etingof.GL2.fieldExtEmbed p n kq_units =
           (k : GL2 p n) ^ Fintype.card (GaloisField p n)
         rw [show (k : GL2 p n) = Etingof.GL2.fieldExtEmbed p n γ from hγ.symm,
           ← map_pow]
@@ -728,7 +728,7 @@ private lemma Etingof.elliptic_sum_algebraic_core
       -- does the real work directly.
       split_ifs with hell
       · apply Finset.sum_eq_zero; intro z _
-        simp only [dif_neg hk', zero_mul]
+        simp only [zero_mul]
       · rfl
   -- Step B: Evaluate the normalizer sum for each non-scalar k ∈ K.
   -- For non-scalar k: {z : z⁻¹kz ∈ K} = N(K) = K ∪ σK (disjoint).

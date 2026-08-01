@@ -603,7 +603,7 @@ private lemma orbitSizes_eq_fullCycleType (σ : Equiv.Perm (Fin n)) :
     have := (Equiv.Perm.mem_cycleFactorsFinset_iff.mp hc).1.two_le_card_support
     rw [← hx_eq] at this; simp at this
   -- Compute orbitSizes via the decomposition
-  show (univ.image (orbOf σ)).val.map Finset.card = fullCycleType n σ
+  change (univ.image (orbOf σ)).val.map Finset.card = fullCycleType n σ
   rw [horbit_eq, Finset.union_val,
     ← Multiset.add_eq_union_iff_disjoint.mpr (Finset.disjoint_val.mpr hdisj),
     Multiset.map_add]

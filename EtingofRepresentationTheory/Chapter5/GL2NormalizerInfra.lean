@@ -67,7 +67,7 @@ lemma Etingof.GL2.frobeniusMatrix_sq_eq_one (hn : n ≠ 0) :
   simp only [Units.val_mul, Units.val_one, hval, ← LinearMap.toMatrix_mul]
   have hσ2 : σ.toLinearMap * σ.toLinearMap = LinearMap.id := by
     ext x
-    show σ (σ x) = x
+    change σ (σ x) = x
     -- σ(x) = x^q where q = card(F_q), so σ(σ(x)) = x^{q²} = x since |F_{q²}| = q²
     let σ_alg := FiniteField.frobeniusAlgEquivOfAlgebraic
       (GaloisField p n) (GaloisField p (2 * n))
@@ -103,8 +103,8 @@ lemma Etingof.GL2.frobeniusMatrix_conj [Fintype (GaloisField p n)] (hn : n ≠ 0
     Etingof.GL2.fieldExtEmbed p n
       ⟨(α : GaloisField p (2 * n)) ^ Fintype.card (GaloisField p n),
        (α⁻¹ : GaloisField p (2 * n)) ^ Fintype.card (GaloisField p n),
-       by rw [← mul_pow]; simp [Units.val_inv_eq_inv_val, mul_inv_cancel₀ α.ne_zero],
-       by rw [← mul_pow]; simp [Units.val_inv_eq_inv_val, inv_mul_cancel₀ α.ne_zero]⟩ := by
+       by rw [← mul_pow]; simp ,
+       by rw [← mul_pow]; simp ⟩ := by
   letI := Etingof.algebraGaloisFieldExt p n
   letI := Etingof.scalarTowerGaloisField p n
   haveI := Etingof.finiteDimensionalGaloisFieldExt p n
@@ -137,11 +137,11 @@ lemma Etingof.GL2.frobeniusMatrix_conj [Fintype (GaloisField p n)] (hn : n ≠ 0
   ext x
   -- Goal: (σ * Lα * σ)(x) = L_{α^q}(x)
   -- Unfold * on End to composition
-  show σ ((Algebra.lmul (GaloisField p n) (GaloisField p (2 * n)) (↑α)) (σ x)) =
+  change σ ((Algebra.lmul (GaloisField p n) (GaloisField p (2 * n)) (↑α)) (σ x)) =
     (Algebra.lmul (GaloisField p n) (GaloisField p (2 * n))
       ((↑α : GaloisField p (2 * n)) ^ Fintype.card (GaloisField p n))) x
   -- lmul a x = a * x
-  show σ ((↑α : GaloisField p (2 * n)) * σ x) =
+  change σ ((↑α : GaloisField p (2 * n)) * σ x) =
     (↑α : GaloisField p (2 * n)) ^ Fintype.card (GaloisField p n) * x
   -- σ is the Frobenius ring hom: σ(a * b) = σ(a) * σ(b)
   change σ_alg ((↑α : GaloisField p (2 * n)) * σ_alg x) =
@@ -222,7 +222,7 @@ lemma Etingof.centralizer_nonscalar_elliptic (hn : n ≠ 0)
       -- leftMulMatrix b x = toMatrix b b (lmul x) by definition
       -- toLinAlgEquiv b = toLin b b (definitionally)
       -- toLin b b (toMatrix b b f) = f by Matrix.toLin_toMatrix
-      show Matrix.toLin b b (LinearMap.toMatrix b b ((Algebra.lmul _ _) ↑α)) y = _
+      change Matrix.toLin b b (LinearMap.toMatrix b b ((Algebra.lmul _ _) ↑α)) y = _
       rw [Matrix.toLin_toMatrix]; rfl
     -- From hcomm_mat, apply toLinAlgEquiv (an AlgEquiv, so preserves *) to both sides
     have heq := congr_arg (Matrix.toLinAlgEquiv b) hcomm_mat
@@ -522,7 +522,7 @@ private lemma Etingof.GL2.exists_nonscalar_elliptic (hn : n ≠ 0) :
   -- If all units had scalar embedding, then all of F_{q²} would be in range(algebraMap),
   -- making finrank = 1, contradicting finrank = 2
   by_contra h
-  push_neg at h -- h : ∀ α, GL2.IsScalar (embed α)
+  push Not at h -- h : ∀ α, GL2.IsScalar (embed α)
   set b := Module.finBasisOfFinrankEq (R := GaloisField p n)
     (M := GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn)
   have hembed : ∀ (u : (GaloisField p (2 * n))ˣ),
@@ -653,7 +653,7 @@ private lemma Etingof.GL2.root_dichotomy_of_deg_two
     have hprod_deg : ((Polynomial.X - Polynomial.C a) *
         (Polynomial.X - Polynomial.C b) : Polynomial F).natDegree = 2 := by
       rw [Polynomial.natDegree_mul (Polynomial.X_sub_C_ne_zero a) (Polynomial.X_sub_C_ne_zero b)]
-      simp [Polynomial.natDegree_X_sub_C]
+      simp
     by_contra h
     have : Q.natDegree ≥ 3 := by
       rw [hr, Polynomial.natDegree_mul hprod_ne hr_ne, hprod_deg]; omega
@@ -817,8 +817,8 @@ lemma Etingof.GL2.normalizer_mem_dichotomy (hn : n ≠ 0) (hp2 : p ≠ 2)
     set α₀q_unit : (GaloisField p (2 * n))ˣ :=
       ⟨(↑α₀ : GaloisField p (2 * n)) ^ q,
        (↑α₀⁻¹ : GaloisField p (2 * n)) ^ q,
-       by rw [← mul_pow]; simp [Units.val_inv_eq_inv_val, mul_inv_cancel₀ α₀.ne_zero],
-       by rw [← mul_pow]; simp [Units.val_inv_eq_inv_val, inv_mul_cancel₀ α₀.ne_zero]⟩
+       by rw [← mul_pow]; simp [Units.val_inv_eq_inv_val],
+       by rw [← mul_pow]; simp [Units.val_inv_eq_inv_val]⟩
     have hβ_eq_αq_unit : β = α₀q_unit := Units.val_injective hβ_eq_αq
     -- embed(α₀^q) = σ⁻¹ embed(α₀) σ (by frobeniusMatrix_conj)
     have hfrob_conj := Etingof.GL2.frobeniusMatrix_conj p n hn α₀
@@ -864,8 +864,8 @@ lemma Etingof.GL2.normalizer_mem_dichotomy (hn : n ≠ 0) (hp2 : p ≠ 2)
     set γq_unit : (GaloisField p (2 * n))ˣ :=
       ⟨(↑γ : GaloisField p (2 * n)) ^ q,
        (↑γ⁻¹ : GaloisField p (2 * n)) ^ q,
-       by rw [← mul_pow]; simp [Units.val_inv_eq_inv_val, mul_inv_cancel₀ γ.ne_zero],
-       by rw [← mul_pow]; simp [Units.val_inv_eq_inv_val, inv_mul_cancel₀ γ.ne_zero]⟩
+       by rw [← mul_pow]; simp [Units.val_inv_eq_inv_val],
+       by rw [← mul_pow]; simp [Units.val_inv_eq_inv_val]⟩
     refine ⟨γq_unit, ?_⟩
     rw [hg_eq]
     -- embed(γ) * σ = σ * embed(γ^q)

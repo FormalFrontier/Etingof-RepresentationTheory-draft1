@@ -628,12 +628,12 @@ theorem Etingof.reversedArrow_arrowOut_eq
       (show a.1 ≠ i from fun heq => by obtain ⟨j, e⟩ := a; exact (hi i).false (heq ▸ e))
       (Etingof.arrowOutToReversed hi a) = a.2 := by
   obtain ⟨j, e⟩ := a
-  show Etingof.reversedArrow_ne_eq _ (Etingof.arrowOutToReversed hi ⟨j, e⟩) = e
+  change Etingof.reversedArrow_ne_eq _ (Etingof.arrowOutToReversed hi ⟨j, e⟩) = e
   have ha : j ≠ i := fun heq => (hi i).false (heq ▸ e)
   -- reversedArrow_ne_eq is a cast (by reversedArrow_ne_eq_is_cast), and
   -- arrowOutToReversed is cast of the inverse equality. Their composition is identity.
   rw [Etingof.reversedArrow_ne_eq_is_cast]
-  show cast (Etingof.ReversedAtVertexHom_ne_eq ha rfl)
+  change cast (Etingof.ReversedAtVertexHom_ne_eq ha rfl)
     (Etingof.arrowOutToReversed hi ⟨j, e⟩) = e
   unfold Etingof.arrowOutToReversed
   simp only [cast_cast, cast_eq]
@@ -902,7 +902,7 @@ theorem Etingof.Proposition6_6_7_source
             -- Step 3: mkQ(z₁) + mkQ(z₂) = 0, proved directly via the sourceMap lemma
             have hmkQ_sum : mkQ z₁ + mkQ z₂ = 0 := by
               rw [← map_add]
-              show mkQ (∑ a, lof a (y₁ a) + ∑ a, lof a (y₂ a)) = 0
+              change mkQ (∑ a, lof a (y₁ a) + ∑ a, lof a (y₂ a)) = 0
               rw [← Finset.sum_add_distrib]
               simp_rw [show ∀ a, lof a (y₁ a) + lof a (y₂ a) =
                 lof a (y₁ a + y₂ a) from fun a => (map_add (lof a) _ _).symm,
@@ -979,7 +979,7 @@ theorem Etingof.Proposition6_6_7_source
               -- ψ x₁ = ∑ b, lof b (mapLinear b.2 x₁) and z₁ = ∑ b, lof b (y₁ b)
               -- By DirectSum injectivity: mapLinear a.2 x₁ = y₁ a
               have hψ_eq : ψ x₁ = ∑ b, lof b (ρ.mapLinear b.2 x₁) := by
-                show (ρ.sourceMap v) x₁ = _
+                change (ρ.sourceMap v) x₁ = _
                 unfold Etingof.QuiverRepresentation.sourceMap
                 simp only [LinearMap.sum_apply, LinearMap.comp_apply,
                   DirectSum.lof_eq_of]
@@ -996,7 +996,7 @@ theorem Etingof.Proposition6_6_7_source
                 -- h_apply : (∑ c, lof c (mapLinear c.2 x₁)) b = (∑ c, lof c (y₁ c)) b
                 -- Unfold the sums at index b
                 change (∑ c, lof c (ρ.mapLinear c.2 x₁)) b = (∑ c, lof c (y₁ c)) b at h_apply
-                rw [DFinsupp.finset_sum_apply, DFinsupp.finset_sum_apply] at h_apply
+                rw [DFinsupp.finsetSum_apply, DFinsupp.finsetSum_apply] at h_apply
                 -- (lof a (f a)) b unfolds to (DFinsupp.single a (f a)) b
                 simp_rw [show ∀ (a : Etingof.ArrowsOutOf Q v) (x : ρ.obj a.1),
                     (lof a x : DS) b = (DFinsupp.single a x : DS) b from

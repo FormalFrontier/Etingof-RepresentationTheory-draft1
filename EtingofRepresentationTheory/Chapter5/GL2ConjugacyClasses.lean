@@ -252,7 +252,7 @@ theorem GL2.card_isScalar [Fintype (GaloisField p n)]
     simp only [Finset.mem_image, Finset.mem_univ, true_and, Finset.mem_filter]
     constructor
     · rintro ⟨x, rfl⟩
-      refine ⟨?_, ?_, ?_⟩ <;> simp [GL2.IsScalar, GL2.mat, scalarMat, Matrix.diagonal]
+      refine ⟨?_, ?_, ?_⟩ <;> simp [GL2.mat, scalarMat, Matrix.diagonal]
     · intro hg
       obtain ⟨h01, h10, h00⟩ := hg
       -- g₀₀ is nonzero (since g ∈ GL₂ and det = g₀₀²)
@@ -268,7 +268,7 @@ theorem GL2.card_isScalar [Fintype (GaloisField p n)]
         rw [hdet, zero_mul] at hdet1; exact one_ne_zero hdet1.symm
       refine ⟨Units.mk0 (g.val 0 0) h00_ne, Units.ext (Matrix.ext fun i j => ?_)⟩
       fin_cases i <;> fin_cases j <;>
-        simp [scalarMat, Matrix.diagonal_apply, h01, h10, h00]
+        simp [scalarMat, h01, h10, h00]
   -- Compute the cardinality
   rw [← scalarMat_image, Finset.card_image_of_injective _ scalarMat_inj,
       Finset.card_univ, Fintype.card_units]
@@ -511,10 +511,10 @@ private lemma GL2.card_disc_zero_g01_ne (hp2 : p ≠ 2) (hn : n ≠ 0)
     set s := Units.mk0 s_val hs_ne
     -- Show g₀₀ = s_val + d_val, g₁₁ = s_val - d_val
     have h00 : g.val 0 0 = s_val + d_val := by
-      show g.val 0 0 = (g.val 0 0 + g.val 1 1) / 2 + (g.val 0 0 - g.val 1 1) / 2
+      change g.val 0 0 = (g.val 0 0 + g.val 1 1) / 2 + (g.val 0 0 - g.val 1 1) / 2
       field_simp; ring
     have h11 : g.val 1 1 = s_val - d_val := by
-      show g.val 1 1 = (g.val 0 0 + g.val 1 1) / 2 - (g.val 0 0 - g.val 1 1) / 2
+      change g.val 1 1 = (g.val 0 0 + g.val 1 1) / 2 - (g.val 0 0 - g.val 1 1) / 2
       field_simp; ring
     -- Show g₁₀ = -(d_val^2 * g₀₁⁻¹)
     have h10 : g.val 1 0 = -(d_val ^ 2 * (g.val 0 1)⁻¹) := by
@@ -779,7 +779,7 @@ private lemma card_elliptic_fiber (hp2 : p ≠ 2) (hn : n ≠ 0)
   have hφ_surj : Function.Surjective φ := by
     intro y
     refine ⟨(y - (a - b) ^ 2) / (4 * c), ?_⟩
-    show (a - b) ^ 2 + 4 * c * ((y - (a - b) ^ 2) / (4 * c)) = y
+    change (a - b) ^ 2 + 4 * c * ((y - (a - b) ^ 2) / (4 * c)) = y
     rw [mul_div_cancel₀ _ h4c, add_sub_cancel]
   -- The excluded d (det = 0): d₀ = a*b/c
   set d₀ := a * b / c
@@ -908,11 +908,11 @@ theorem GL2.card_isElliptic [Fintype (GaloisField p n)]
       simp [Matrix.det_fin_two]; exact hdet
     set g := Matrix.GeneralLinearGroup.mkOfDetNeZero !![a, c; d, b] hdet'
     -- Helper: extract matrix entries of g
-    have hg00 : g.val 0 0 = a := by simp [g, Matrix.cons_val_zero, Matrix.vecHead]
-    have hg11 : g.val 1 1 = b := by simp [g, Matrix.cons_val_one, Matrix.vecTail, Matrix.vecHead]
+    have hg00 : g.val 0 0 = a := by simp [g, Matrix.cons_val_zero]
+    have hg11 : g.val 1 1 = b := by simp [g, Matrix.cons_val_one]
     have hg01 : g.val 0 1 = c := by simp [g, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.vecHead, Matrix.vecTail]
-    have hg10 : g.val 1 0 = d := by simp [g, Matrix.cons_val_one, Matrix.vecTail, Matrix.vecHead]
+      Matrix.vecHead]
+    have hg10 : g.val 1 0 = d := by simp [g, Matrix.cons_val_one]
     have hdisc_g : GL2.disc g = x := by
       change (g.val 0 0 - g.val 1 1) ^ 2 + 4 * g.val 0 1 * g.val 1 0 = x
       rw [hg00, hg11, hg01, hg10]; exact hdisc

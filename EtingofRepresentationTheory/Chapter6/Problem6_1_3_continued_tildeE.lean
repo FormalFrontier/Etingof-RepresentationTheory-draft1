@@ -2102,14 +2102,14 @@ lemma affine_degree_balance {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1
     rw [show ∑ b, (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) a b * w b =
         ∑ b, (2 * (1 : Matrix _ _ ℤ) a b * w b - adj a b * w b) from
       Finset.sum_congr rfl (fun b _ => by
-        simp only [Matrix.sub_apply, Matrix.smul_apply, smul_eq_mul]; ring)]
+        simp only [Matrix.sub_apply, Matrix.smul_apply]; ring)]
     rw [Finset.sum_sub_distrib]
     congr 1
     rw [show ∑ b, 2 * (1 : Matrix (Fin n) (Fin n) ℤ) a b * w b =
         ∑ b, if a = b then 2 * w b else 0 from
       Finset.sum_congr rfl (fun b _ => by
         simp only [Matrix.one_apply]; split_ifs <;> simp <;> ring)]
-    simp [Finset.sum_ite_eq']
+    simp
   have hrow0 : ∀ a, 2 * w a - ∑ b, adj a b * w b = 0 := by
     intro a; rw [← mulVec_eq a]; simpa using congrFun hMw a
   have hsum : ∑ a, (2 * w a - ∑ b, adj a b * w b) = 0 :=
@@ -2243,7 +2243,7 @@ lemma affine_tree_exists_branch {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn
   have h01 := hD.2.2.1
   obtain ⟨w, hw_pos, hbal⟩ := affine_degree_balance adj hn hD
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hle2 : ∀ v, Etingof.vertexDegree adj v ≤ 2 := fun v => by
     have h1 := hdeg3 v; have h2 := hno v; omega
   have hterm_nonpos : ∀ v, ((Etingof.vertexDegree adj v : ℤ) - 2) * w v ≤ 0 := by
@@ -2563,7 +2563,7 @@ lemma affine_two_branch_has_leaf {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
   -- Conclude: the leaf `u` is adjacent to `v` or `w`.
   refine ⟨u, hu_deg, ?_⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hnv, hnw⟩ := hcon
   have hnv' : ¬ adj u v = 1 := by rw [hsymm' u v]; exact hnv
   have hnw' : ¬ adj u w = 1 := by rw [hsymm' u w]; exact hnw
@@ -2583,7 +2583,7 @@ private lemma dtilde_shift_adj' {k : ℕ} (hk : 4 ≤ k)
     (x y : Fin (AffineType.Dtilde k hk).rank) (a b : Fin (DynkinType.D k hk).rank)
     (hxa : x.val = a.val + 1) (hyb : y.val = b.val + 1) :
     (DynkinType.D k hk).adj a b = (AffineType.Dtilde k hk).adj x y := by
-  show (if ((a.val + 1 = b.val ∧ b.val ≤ k - 2) ∨ (b.val + 1 = a.val ∧ a.val ≤ k - 2)) ∨
+  change (if ((a.val + 1 = b.val ∧ b.val ≤ k - 2) ∨ (b.val + 1 = a.val ∧ a.val ≤ k - 2)) ∨
            ((a.val = k - 3 ∧ b.val = k - 1) ∨ (b.val = k - 3 ∧ a.val = k - 1)) then (1 : ℤ) else 0)
      = (if (min x.val y.val = 0 ∧ max x.val y.val = 2) ∨
            (min x.val y.val = 1 ∧ max x.val y.val = 2) ∨
@@ -2663,7 +2663,7 @@ lemma affine_two_fork_reindex {k : ℕ} (hk : 4 ≤ k)
     rw [Matrix.submatrix_apply] at hsub
     rw [hsub]
     exact dtilde_shift_adj' hk p q ⟨p.val - 1, hidx p⟩ ⟨q.val - 1, hidx q⟩
-      (by show p.val = p.val - 1 + 1; omega) (by show q.val = q.val - 1 + 1; omega)
+      (by change p.val = p.val - 1 + 1; omega) (by change q.val = q.val - 1 + 1; omega)
   · -- `p` survivor, `q = 0` (the reattached leaf).
     rw [dif_pos hp, dif_neg hq]
     have hq0 : q.val = 0 := by omega
@@ -2671,7 +2671,7 @@ lemma affine_two_fork_reindex {k : ℕ} (hk : 4 ≤ k)
       by_cases hp2 : p.val = 2
       · rw [if_pos hp2]
         have hidxp : (⟨p.val - 1, hidx p⟩ : Fin (DynkinType.D k hk).rank) = σ'.symm v' := by
-          rw [hv'pos]; apply Fin.ext; show p.val - 1 = 1; omega
+          rw [hv'pos]; apply Fin.ext; change p.val - 1 = 1; omega
         rw [hidxp, σ'.apply_symm_apply, hsymm' (u.succAbove v') u, hu_adj]
       · rw [if_neg hp2]
         have hne : σ' ⟨p.val - 1, hidx p⟩ ≠ v' := by
@@ -2693,7 +2693,7 @@ lemma affine_two_fork_reindex {k : ℕ} (hk : 4 ≤ k)
       by_cases hq2 : q.val = 2
       · rw [if_pos hq2]
         have hidxq : (⟨q.val - 1, hidx q⟩ : Fin (DynkinType.D k hk).rank) = σ'.symm v' := by
-          rw [hv'pos]; apply Fin.ext; show q.val - 1 = 1; omega
+          rw [hv'pos]; apply Fin.ext; change q.val - 1 = 1; omega
         rw [hidxq, σ'.apply_symm_apply, hu_adj]
       · rw [if_neg hq2]
         have hne : σ' ⟨q.val - 1, hidx q⟩ ≠ v' := by
@@ -3009,7 +3009,7 @@ lemma affine_arm_walk' {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
   have hpath : ∀ i : Fin m, Etingof.vertexDegree Nsub i ≤ 2 := by
     intro i
     have hdle : Etingof.vertexDegree Nsub i ≤ Etingof.vertexDegree adj (e i) := by
-      show (univ.filter (fun j => Nsub i j = 1)).card
+      change (univ.filter (fun j => Nsub i j = 1)).card
         ≤ (univ.filter (fun c => adj (e i) c = 1)).card
       apply Finset.card_le_card_of_injOn (fun j => e j)
       · intro j hj
@@ -3029,7 +3029,7 @@ lemma affine_arm_walk' {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     -- Neighbours of `nb` inside the arm inject into `N(nb) \ {v}`.
     have hdle : Etingof.vertexDegree Nsub i₀ ≤
         ((univ.filter (fun c => adj nb c = 1)).erase v).card := by
-      show (univ.filter (fun j => Nsub i₀ j = 1)).card ≤ _
+      change (univ.filter (fun j => Nsub i₀ j = 1)).card ≤ _
       apply Finset.card_le_card_of_injOn (fun j => e j)
       · intro j hj
         simp only [Finset.mem_coe, Finset.mem_filter, Finset.mem_univ, true_and] at hj
@@ -4361,7 +4361,7 @@ lemma affine_one_branch_three_arms {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     intro c hc
     have hcmem : c ∈ G.neighborFinset v := (SimpleGraph.mem_neighborFinset _ _ _).mpr hc
     refine ⟨iso3.symm ⟨c, hcmem⟩, ?_⟩
-    show (iso3 (iso3.symm ⟨c, hcmem⟩) : Fin n) = c
+    change (iso3 (iso3.symm ⟨c, hcmem⟩) : Fin n) = c
     rw [iso3.apply_symm_apply]
   -- The `v`-avoiding component sets.
   let S : Fin 3 → Finset (Fin n) :=
@@ -4369,7 +4369,7 @@ lemma affine_one_branch_three_arms {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
   have hSmem : ∀ (t : Fin 3) (w : Fin n),
       w ∈ S t ↔ ∃ p : G.Walk (nb t) w, v ∉ p.support := by
     intro t w
-    show w ∈ Finset.univ.filter (fun w => ∃ p : G.Walk (nb t) w, v ∉ p.support) ↔ _
+    change w ∈ Finset.univ.filter (fun w => ∃ p : G.Walk (nb t) w, v ∉ p.support) ↔ _
     rw [Finset.mem_filter]; simp only [Finset.mem_univ, true_and]
   -- `nb t` lies in its own component.
   have hnbS : ∀ t, nb t ∈ S t := by

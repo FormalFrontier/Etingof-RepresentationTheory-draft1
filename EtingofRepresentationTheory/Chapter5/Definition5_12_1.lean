@@ -204,7 +204,7 @@ theorem colOfPos_lt_getD (parts : List ℕ) (k : ℕ) (hk : k < parts.sum) :
     split_ifs with hlt
     · rw [List.getD_cons_zero]; omega
     · have hk' : k - p < ps.sum := by simp [List.sum_cons] at hk; omega
-      show colOfPos ps (k - p) < (p :: ps).getD (1 + rowOfPos ps (k - p)) 0
+      change colOfPos ps (k - p) < (p :: ps).getD (1 + rowOfPos ps (k - p)) 0
       rw [show 1 + rowOfPos ps (k - p) = rowOfPos ps (k - p) + 1 from by omega,
           List.getD_cons_succ]
       exact ih (k - p) hk'

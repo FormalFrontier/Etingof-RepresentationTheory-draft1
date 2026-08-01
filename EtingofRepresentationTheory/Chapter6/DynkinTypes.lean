@@ -119,7 +119,7 @@ lemma isDynkinDiagram_of_graph_iso {n m : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ
       intro k hk
       have hk' : k + 1 < path.length := by rwa [List.length_map] at hk
       -- Convert List.get to getElem notation, then use getElem_map
-      show adj' (path.map σ)[k] (path.map σ)[k + 1] = 1
+      change adj' (path.map σ)[k] (path.map σ)[k + 1] = 1
       rw [List.getElem_map, List.getElem_map, hiso]
       exact hedges k hk'
   · -- Positive definiteness: quadratic form is invariant under graph isomorphism
@@ -132,7 +132,7 @@ lemma isDynkinDiagram_of_graph_iso {n m : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ
     suffices heq : dotProduct x ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) - adj').mulVec x) =
         dotProduct (x ∘ σ) ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec (x ∘ σ)) by
       linarith
-    simp only [dotProduct, mulVec, Finset.sum_apply, Matrix.sub_apply, Matrix.smul_apply,
+    simp only [dotProduct, mulVec, Matrix.sub_apply, Matrix.smul_apply,
       Matrix.one_apply, Function.comp]
     symm
     apply Fintype.sum_equiv σ; intro i; congr 1
@@ -212,7 +212,7 @@ private lemma cartan_Dn_succ' (k : ℕ) (i j : Fin (k + 4)) :
       DynkinType.adj (.D (k + 5) (by omega))) (Fin.succ i) (Fin.succ j) =
     (2 • (1 : Matrix (Fin (k + 4)) (Fin (k + 4)) ℤ) -
       DynkinType.adj (.D (k + 4) (by omega))) i j := by
-  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, DynkinType.adj,
+  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, DynkinType.adj,
     Fin.val_succ, Fin.ext_iff]
   simp_all <;> omega
 
@@ -237,17 +237,17 @@ private lemma Dn_dotProduct_recurrence' (k : ℕ) (x : Fin (k + 5) → ℤ) :
     rw [Fin.sum_univ_succ]
     rw [Fin.sum_univ_succ (f := fun j : Fin (k + 4) => C 0 (Fin.succ j) * x (Fin.succ j))]
     have hC00 : C 0 0 = 2 := by
-      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
-        DynkinType.adj, Fin.val_zero, Fin.ext_iff]
+      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
+        DynkinType.adj, Fin.val_zero]
       simp_all <;> omega
     have hC01 : C 0 (Fin.succ (0 : Fin (k + 4))) = -1 := by
-      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
+      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
         DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
       simp_all <;> omega
     have hrest : ∑ i : Fin (k + 3), C 0 (Fin.succ (Fin.succ i)) * x (Fin.succ (Fin.succ i)) = 0 :=
       Finset.sum_eq_zero fun j _ => by
         have : C 0 (Fin.succ (Fin.succ j)) = 0 := by
-          simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
+          simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
             DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
           simp_all <;> omega
         rw [this, zero_mul]
@@ -270,13 +270,13 @@ private lemma Dn_dotProduct_recurrence' (k : ℕ) (x : Fin (k + 5) → ℤ) :
       -(x ⟨1, by omega⟩ * x 0) := by
     rw [Fin.sum_univ_succ]
     have hC10 : C (Fin.succ (0 : Fin (k + 4))) 0 = -1 := by
-      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
+      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
         DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
       simp_all <;> omega
     rw [hC10]
     have hrest : ∀ j : Fin (k + 3), C (Fin.succ (Fin.succ j)) 0 = 0 := by
       intro j
-      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
+      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
         DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
       simp_all <;> omega
     have : ∑ j : Fin (k + 3), x (Fin.succ (Fin.succ j)) *
@@ -304,8 +304,8 @@ private lemma DnQF_eq_dotProduct : ∀ (m : ℕ) (x : Fin (m + 4) → ℤ),
     have hC : C = !![2,-1,0,0; -1,2,-1,-1; 0,-1,2,0; 0,-1,0,2] := by
       ext i j; fin_cases i <;> fin_cases j <;> decide
     rw [hC]
-    simp [dotProduct, mulVec, Fin.sum_univ_succ, Fin.sum_univ_zero, Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.cons_val, vecHead]
+    simp [dotProduct, mulVec, Fin.sum_univ_succ, Matrix.cons_val_zero,
+      Matrix.cons_val_one]
     ring
   | succ k ih =>
     intro x
@@ -336,7 +336,7 @@ private lemma Dn_posDef (n : ℕ) (hn : 4 ≤ n) :
   intro x hx
   rw [← DnQF_eq_dotProduct m x]
   by_contra h
-  push_neg at h
+  push Not at h
   have hzero := DnQF_le_zero_imp m
     (fun i => if hi : i < m + 4 then x ⟨i, hi⟩ else 0) h
   apply hx; ext ⟨i, hi⟩
@@ -402,7 +402,7 @@ private lemma cartan_An_succ (k : ℕ) (i j : Fin (k + 1)) :
       DynkinType.adj (.A (k + 2) (by omega))) (Fin.succ i) (Fin.succ j) =
     (2 • (1 : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ) -
       DynkinType.adj (.A (k + 1) (by omega))) i j := by
-  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, DynkinType.adj,
+  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, DynkinType.adj,
     Fin.val_succ, Fin.ext_iff]
   simp_all <;> omega
 
@@ -410,7 +410,7 @@ private lemma cartan_An_succ (k : ℕ) (i j : Fin (k + 1)) :
 private lemma cartan_An_zero_ge2 (k : ℕ) (j : Fin k) :
     (2 • (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) ℤ) -
       DynkinType.adj (.A (k + 2) (by omega))) 0 (Fin.succ (Fin.succ j)) = 0 := by
-  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, DynkinType.adj,
+  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, DynkinType.adj,
     Fin.val_zero, Fin.val_succ, Fin.ext_iff]
   simp_all <;> omega
 
@@ -419,7 +419,7 @@ private lemma cartan_An_succ_zero (k : ℕ) (i : Fin (k + 1)) :
     (2 • (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) ℤ) -
       DynkinType.adj (.A (k + 2) (by omega))) (Fin.succ i) 0 =
     if (i : ℕ) = 0 then -1 else 0 := by
-  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
+  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
     DynkinType.adj, Fin.val_zero, Fin.val_succ, Fin.ext_iff]
   split_ifs <;> simp_all <;> omega
 
@@ -444,14 +444,14 @@ private lemma An_dotProduct_recurrence (k : ℕ) (x : Fin (k + 2) → ℤ) :
     rw [Fin.sum_univ_succ]
     -- First term is C 0 0 * x 0 = 2 * x 0
     have hC00 : C 0 0 = 2 := by
-      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
-        DynkinType.adj, Fin.val_zero, Fin.ext_iff]
+      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
+        DynkinType.adj, Fin.val_zero]
       simp_all <;> omega
     -- Remaining sum: split off j=0 in Fin (k+1)
     rw [Fin.sum_univ_succ (f := fun j : Fin (k + 1) => C 0 (Fin.succ j) * x (Fin.succ j))]
     -- Second term: C 0 (succ 0) = C 0 1 = -1
     have hC01 : C 0 (Fin.succ (0 : Fin (k + 1))) = -1 := by
-      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
+      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
         DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
       simp_all <;> omega
     -- Remaining sum: C 0 (succ (succ j)) = 0 for all j
@@ -485,14 +485,14 @@ private lemma An_dotProduct_recurrence (k : ℕ) (x : Fin (k + 2) → ℤ) :
     rw [Fin.sum_univ_succ]
     -- i = 0 term: C(succ 0, 0) = C(1, 0) = -1
     have hC10 : C (Fin.succ (0 : Fin (k + 1))) 0 = -1 := by
-      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
+      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
         DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
       simp_all <;> omega
     rw [hC10]
     -- Remaining terms: C(succ(succ j), 0) = 0 for all j
     have hrest : ∀ j : Fin k, C (Fin.succ (Fin.succ j)) 0 = 0 := by
       intro j
-      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
+      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
         DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
       simp_all <;> omega
     have : ∑ j : Fin k, x (Fin.succ (Fin.succ j)) *
@@ -525,11 +525,11 @@ private lemma pathQF_eq_dotProduct (n : ℕ) (hn : 1 ≤ n) (x : Fin n → ℤ) 
         DynkinType.adj (.A (0 + 1) (by omega))) 0 0 = 2 := by
       change (2 : ℤ) = 2
       rfl
-    rw [hmat]; simp [Fin.ext_iff]; ring
+    rw [hmat]; simp ; ring
   | succ k ih =>
     -- n = k + 2
     set ext_x : ℕ → ℤ := fun i => if h : i < k + 2 then x ⟨i, h⟩ else 0
-    show pathQF (k + 2) ext_x = _
+    change pathQF (k + 2) ext_x = _
     simp only [pathQF]
     -- ext_x 0 = x 0, ext_x 1 = x ⟨1, _⟩
     have hx0 : ext_x 0 = x 0 := by simp [ext_x]
@@ -560,7 +560,7 @@ private lemma An_posDef (n : ℕ) (hn : 1 ≤ n) :
   intro x hx
   rw [← pathQF_eq_dotProduct (m + 1) (by omega) x]
   by_contra h
-  push_neg at h
+  push Not at h
   have hzero := pathQF_le_zero_imp m
     (fun i => if hi : i < m + 1 then x ⟨i, hi⟩ else 0) h
   apply hx; ext ⟨i, hi⟩
@@ -577,7 +577,7 @@ private lemma An_isDynkin (n : ℕ) (hn : 1 ≤ n) :
       simp only [DynkinType.adj]; congr 1; exact propext or_comm)
   · -- Zero diagonal
     intro i; simp only [DynkinType.adj]; split_ifs with h
-    · exact absurd h (by push_neg; constructor <;> omega)
+    · exact absurd h (by push Not; constructor <;> omega)
     · rfl
   · -- 0-1 entries
     intro i j; simp only [DynkinType.adj]; split_ifs <;> simp
@@ -598,7 +598,7 @@ private lemma An_isDynkin (n : ℕ) (hn : 1 ≤ n) :
         simp only [List.get_eq_getElem, List.getElem_ofFn, DynkinType.adj, Fin.val_mk]
         rw [if_pos (Or.inl (by omega))]
     · -- Descending path [i, i-1, ..., j]
-      push_neg at hij
+      push Not at hij
       refine ⟨List.ofFn (fun (k : Fin (i.val - j.val + 1)) =>
         (⟨i.val - k.val, by omega⟩ : Fin n)), ?_, ?_, ?_⟩
       · -- head?
@@ -640,7 +640,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
         (⟨a.val + k.val, by omega⟩ : Fin n)), ?_, ?_, ?_⟩
       · rw [List.ofFn_succ, List.head?_cons]; simp
       · rw [List.ofFn_succ', List.concat_eq_append, List.getLast?_concat]
-        congr 1; simp only [Fin.ext_iff, Fin.val_mk, Fin.val_last]; omega
+        congr 1; simp only [Fin.ext_iff, Fin.val_last]; omega
       · intro k hk
         simp only [List.length_ofFn] at hk
         simp only [List.get_eq_getElem, List.getElem_ofFn, DynkinType.adj, Fin.val_mk]
@@ -655,7 +655,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
         (⟨a.val - k.val, by omega⟩ : Fin n)), ?_, ?_, ?_⟩
       · rw [List.ofFn_succ, List.head?_cons]; simp
       · rw [List.ofFn_succ', List.concat_eq_append, List.getLast?_concat]
-        congr 1; simp only [Fin.ext_iff, Fin.val_mk, Fin.val_last]; omega
+        congr 1; simp only [Fin.ext_iff, Fin.val_last]; omega
       · intro k hk
         simp only [List.length_ofFn] at hk
         simp only [List.get_eq_getElem, List.getElem_ofFn, DynkinType.adj, Fin.val_mk]
@@ -765,7 +765,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
                   simp [hk_eq]
                 simp only [List.get_eq_getElem]
                 -- Now just compute the adjacency
-                show (DynkinType.adj (.D n hn))
+                change (DynkinType.adj (.D n hn))
                   ((path ++ [⟨n - 1, by omega⟩])[k]'(by simp; omega))
                   ((path ++ [⟨n - 1, by omega⟩])[k + 1]'(by simp; omega)) = 1
                 rw [List.getElem_append_left (by omega), hpath_k, hsucc]
@@ -863,8 +863,8 @@ private lemma E6_isDynkin : IsDynkinDiagram 6 (DynkinType.adj .E6) := by
                         0,0,-1,2,-1,0; 0,0,0,-1,2,0; 0,0,-1,0,0,2] := by
         ext i j; fin_cases i <;> fin_cases j <;> decide
       rw [hC]
-      simp [dotProduct, mulVec, Fin.sum_univ_succ, Fin.sum_univ_zero, Matrix.cons_val_zero,
-        Matrix.cons_val_one, Matrix.cons_val, vecHead]
+      simp [dotProduct, mulVec, Fin.sum_univ_succ, Matrix.cons_val_zero,
+        Matrix.cons_val_one]
       ring
     -- Step 2: Rewrite as SOS
     rw [expand]
@@ -875,7 +875,7 @@ private lemma E6_isDynkin : IsDynkinDiagram 6 (DynkinType.adj .E6) := by
     rw [sos]
     -- Step 3: SOS > 0 when x ≠ 0. Proof by contradiction.
     by_contra h_le
-    push_neg at h_le
+    push Not at h_le
     have s1 := sq_nonneg (2*a-b)
     have s2 := sq_nonneg (3*b-2*c)
     have s3 := sq_nonneg (4*c-3*d-3*f)
@@ -969,8 +969,8 @@ private lemma E7_isDynkin : IsDynkinDiagram 7 (DynkinType.adj .E7) := by
                         0,0,-1,0,0,0,2] := by
         ext i j; fin_cases i <;> fin_cases j <;> decide
       rw [hC]
-      simp [dotProduct, mulVec, Fin.sum_univ_succ, Fin.sum_univ_zero, Matrix.cons_val_zero,
-        Matrix.cons_val_one, Matrix.cons_val]
+      simp [dotProduct, mulVec, Fin.sum_univ_succ, Matrix.cons_val_zero,
+        Matrix.cons_val_one]
       ring
     rw [expand]
     have sos : 420 * (2*a^2 + 2*b^2 + 2*c^2 + 2*d^2 + 2*e^2 + 2*f^2 + 2*g^2 -
@@ -979,7 +979,7 @@ private lemma E7_isDynkin : IsDynkinDiagram 7 (DynkinType.adj .E7) := by
         14*(6*e-5*f-3*g)^2 + 10*(7*f-3*g)^2 + 120*g^2 := by ring
     rw [sos]
     by_contra h_le
-    push_neg at h_le
+    push Not at h_le
     have s1 := sq_nonneg (2*a-b)
     have s2 := sq_nonneg (3*b-2*c)
     have s3 := sq_nonneg (4*c-3*d-3*g)
@@ -1079,8 +1079,8 @@ private lemma E8_isDynkin : IsDynkinDiagram 8 (DynkinType.adj .E8) := by
                         0,0,0,0,0,-1,2,0; 0,0,-1,0,0,0,0,2] := by
         ext i j; fin_cases i <;> fin_cases j <;> decide
       rw [hC]
-      simp [dotProduct, mulVec, Fin.sum_univ_succ, Fin.sum_univ_zero, Matrix.cons_val_zero,
-        Matrix.cons_val_one, Matrix.cons_val]
+      simp [dotProduct, mulVec, Fin.sum_univ_succ, Matrix.cons_val_zero,
+        Matrix.cons_val_one]
       ring
     rw [expand]
     have sos : 840 * (2*a^2 + 2*b^2 + 2*c^2 + 2*d^2 + 2*e^2 + 2*f^2 + 2*g^2 + 2*h^2 -
@@ -1089,7 +1089,7 @@ private lemma E8_isDynkin : IsDynkinDiagram 8 (DynkinType.adj .E8) := by
         28*(6*e-5*f-3*h)^2 + 20*(7*f-6*g-3*h)^2 + 15*(8*g-3*h)^2 + 105*h^2 := by ring
     rw [sos]
     by_contra h_le
-    push_neg at h_le
+    push Not at h_le
     have s1 := sq_nonneg (2*a-b)
     have s2 := sq_nonneg (3*b-2*c)
     have s3 := sq_nonneg (4*c-3*d-3*h)

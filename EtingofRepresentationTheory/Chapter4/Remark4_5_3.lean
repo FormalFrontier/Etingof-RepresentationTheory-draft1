@@ -177,7 +177,7 @@ noncomputable def renormChar (V : FDRep ℂ G) : classFunctions G :=
 the trivial module). -/
 private lemma finrank_pos_of_simple (V : FDRep ℂ G) [Simple V] : 0 < Module.finrank ℂ V := by
   by_contra h
-  push_neg at h
+  push Not at h
   have h0 : Module.finrank ℂ V = 0 := Nat.le_zero.mp h
   have hsub : Subsingleton V := Module.finrank_zero_iff.mp h0
   have hsub2 : Subsingleton (V ⟶ V) := by

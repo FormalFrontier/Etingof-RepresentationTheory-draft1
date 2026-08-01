@@ -168,7 +168,7 @@ theorem pigeonhole_rowCol_dichotomy {n : ℕ} {la : Nat.Partition n}
     -- We show σ ∈ P_λ · Q_λ by constructing q ∈ Q_λ and p = σ * q⁻¹ ∈ P_λ
     -- Key auxiliary: parts.sum = n
     have hps : parts.sum = n := by
-      show (la.parts.sort (· ≥ ·)).sum = n
+      change (la.parts.sort (· ≥ ·)).sum = n
       have h1 : (↑(la.parts.sort (· ≥ ·)) : Multiset ℕ) = la.parts := Multiset.sort_eq _ _
       have h2 : (↑(la.parts.sort (· ≥ ·)) : Multiset ℕ).sum =
           (la.parts.sort (· ≥ ·)).sum := Multiset.sum_coe _
@@ -256,7 +256,7 @@ theorem pigeonhole_rowCol_dichotomy {n : ℕ} {la : Nat.Partition n}
         have hk₂_col := (Finset.mem_filter.mp (Finset.mem_coe.mp hk₂)).2
         by_contra hne
         have hcol_eq : col k₁ = col k₂ := by
-          show colOfPos parts k₁.val = colOfPos parts k₂.val
+          change colOfPos parts k₁.val = colOfPos parts k₂.val
           rw [hk₁_col, hk₂_col]
         exact h_col_inj k₁ k₂ hne hcol_eq heq
       -- Some r* ∈ R_c \ σ_img
@@ -279,7 +279,7 @@ theorem pigeonhole_rowCol_dichotomy {n : ℕ} {la : Nat.Partition n}
         have hj' := (Finset.mem_filter.mp (Finset.mem_coe.mp hj)).2
         by_contra hne
         have hrow_eq : row i = row j := by
-          show rowOfPos parts i.val = rowOfPos parts j.val
+          change rowOfPos parts i.val = rowOfPos parts j.val
           rw [hi', hj']
         exact h_exists i j hne hrow_eq heq
       -- None of σ⁻¹-columns is c₀
@@ -288,7 +288,7 @@ theorem pigeonhole_rowCol_dichotomy {n : ℕ} {la : Nat.Partition n}
         have hi_row := (Finset.mem_filter.mp hi).2
         apply hr_star_not_img
         refine Finset.mem_image.mpr ⟨σ⁻¹ i, Finset.mem_filter.mpr ⟨Finset.mem_univ _, habs⟩, ?_⟩
-        have happ : σ (σ⁻¹ i) = i := by show (σ * σ⁻¹) i = i; simp
+        have happ : σ (σ⁻¹ i) = i := by change (σ * σ⁻¹) i = i; simp
         rw [show rowOfPos parts (σ (σ⁻¹ i)).val = rowOfPos parts i.val from by
           congr 1; exact congrArg Fin.val happ]
         exact hi_row
@@ -338,11 +338,11 @@ theorem pigeonhole_rowCol_dichotomy {n : ℕ} {la : Nat.Partition n}
       · -- k₁ is bad
         show parts.getD (rowOfPos parts (σ (σ⁻¹ i)).val) 0 ≤ colOfPos parts (σ⁻¹ i).val
         have happ : σ (σ⁻¹ i) = i := by
-          show (σ * σ⁻¹) i = i; simp
+          change (σ * σ⁻¹) i = i; simp
         rw [show (σ (σ⁻¹ i)).val = i.val from congrArg Fin.val happ, hi_row]
         linarith
       · -- col(k₁) > c₀
-        show c₀ < colOfPos parts (σ⁻¹ i).val
+        change c₀ < colOfPos parts (σ⁻¹ i).val
         linarith
     -- Construct q: q(k) is the unique position with row = row(σ(k)), col = col(k)
     have q_spec : ∀ k : Fin n, ∃ k' : Fin n,
@@ -360,10 +360,10 @@ theorem pigeonhole_rowCol_dichotomy {n : ℕ} {la : Nat.Partition n}
       have hσne : σ k₁ ≠ σ k₂ := fun h => hne (σ.injective h)
       have hval : (q_fun k₁).val = (q_fun k₂).val := congrArg Fin.val heq
       have hrow_σ : row (σ k₁) = row (σ k₂) := by
-        show rowOfPos parts (σ k₁).val = rowOfPos parts (σ k₂).val
+        change rowOfPos parts (σ k₁).val = rowOfPos parts (σ k₂).val
         rw [← hq_row k₁, ← hq_row k₂, hval]
       have hcol_k : col k₁ = col k₂ := by
-        show colOfPos parts k₁.val = colOfPos parts k₂.val
+        change colOfPos parts k₁.val = colOfPos parts k₂.val
         rw [← hq_col k₁, ← hq_col k₂, hval]
       have h_absurd := h_exists (σ k₁) (σ k₂) hσne hrow_σ
       have hcol_ne : col k₁ ≠ col k₂ := by simpa using h_absurd
@@ -375,7 +375,7 @@ theorem pigeonhole_rowCol_dichotomy {n : ℕ} {la : Nat.Partition n}
     -- q preserves columns
     have hq_col_sub : q_perm ∈ ColumnSubgroup n la := by
       intro k
-      show colOfPos parts (q_fun k).val = colOfPos parts k.val
+      change colOfPos parts (q_fun k).val = colOfPos parts k.val
       exact hq_col k
     -- p = σ * q⁻¹ preserves rows
     have hp_row : σ * q_perm⁻¹ ∈ RowSubgroup n la := by
@@ -383,7 +383,7 @@ theorem pigeonhole_rowCol_dichotomy {n : ℕ} {la : Nat.Partition n}
       simp only [Equiv.Perm.coe_mul, Function.comp_apply]
       have h := hq_row (q_perm⁻¹ k)
       have hqq : q_fun (q_perm⁻¹ k) = k := by
-        show q_perm (q_perm⁻¹ k) = k; exact q_perm.apply_symm_apply k
+        change q_perm (q_perm⁻¹ k) = k; exact q_perm.apply_symm_apply k
       rw [hqq] at h; exact h.symm
     -- σ = p * q ∈ P * Q
     refine Set.mem_mul.mpr ⟨σ * q_perm⁻¹, hp_row, q_perm, hq_col_sub, ?_⟩
@@ -437,7 +437,7 @@ private theorem sandwich_not_mem {n : ℕ} {la : Nat.Partition n}
     have hsign_t : Equiv.Perm.sign t = -1 := by
       obtain ⟨x, z, hxz, ht_eq⟩ := ht_swap; rw [ht_eq]; exact Equiv.Perm.sign_swap hxz
     have : Equiv.Perm.sign u = -1 := by
-      show Equiv.Perm.sign (σ * t * σ⁻¹) = -1
+      change Equiv.Perm.sign (σ * t * σ⁻¹) = -1
       rw [map_mul, map_mul, hsign_t, Equiv.Perm.sign_inv]
       simp [mul_comm, Int.units_mul_self]
     simp [this]
@@ -510,7 +510,7 @@ private theorem dual_sandwich_not_mem {n : ℕ} {la : Nat.Partition n}
     have hsign_t : Equiv.Perm.sign t = -1 := by
       obtain ⟨x, z, hxz, ht_eq⟩ := ht_swap; rw [ht_eq]; exact Equiv.Perm.sign_swap hxz
     have : Equiv.Perm.sign u = -1 := by
-      show Equiv.Perm.sign (σ⁻¹ * t * σ) = -1
+      change Equiv.Perm.sign (σ⁻¹ * t * σ) = -1
       rw [map_mul, map_mul, hsign_t, Equiv.Perm.sign_inv]
       simp [mul_comm, Int.units_mul_self]
     simp [this]

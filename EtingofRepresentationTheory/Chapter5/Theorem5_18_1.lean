@@ -479,7 +479,7 @@ instance centralizerModuleHom_smulCommClass
   smul_comm b c f := by
     refine LinearMap.ext fun v => ?_
     -- (b • (c • f)) v = b.val (c • f v) = c • b.val (f v) = c • (b • f) v
-    show b.val ((c • f) v) = c • b.val (f v)
+    change b.val ((c • f) v) = c • b.val (f v)
     rw [LinearMap.smul_apply, map_smul]
 
 -- Heartbeats bumped: `LinearMap.ext` on the centralizer-wrapped subtype

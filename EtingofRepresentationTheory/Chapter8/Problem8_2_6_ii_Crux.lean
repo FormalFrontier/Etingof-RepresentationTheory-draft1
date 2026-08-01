@@ -117,7 +117,7 @@ noncomputable def coeffHomEquiv (X : Type u) [AddCommGroup X] [Module k X] :
   right_inv g := by
     ext x
     simp only [AlgebraTensorModule.lift_tmul, LinearMap.toSpanSingleton_apply,
-      LinearMap.smul_apply, LinearMap.coe_comp, LinearMap.coe_restrictScalars,
+      LinearMap.coe_comp, LinearMap.coe_restrictScalars,
       Function.comp_apply, TensorProduct.mk_apply, one_smul]
   map_add' f f' := by
     ext x
@@ -137,7 +137,7 @@ noncomputable def coeffEquiv1 : (barModule k A W 1 →ₗ[A] V) ≃+ (A →ₗ[k
 
 lemma coeffEquiv1_apply (f : barModule k A W 1 →ₗ[A] V) (a : A) (w : W) :
     coeffEquiv1 k A W V f a w = f ((1 : A) ⊗ₜ[k] ((tprod k ![a]) ⊗ₜ[k] w)) := by
-  show f ((1 : A) ⊗ₜ[k] (barCoeffOneEquiv k A W).symm (a ⊗ₜ[k] w)) = _
+  change f ((1 : A) ⊗ₜ[k] (barCoeffOneEquiv k A W).symm (a ⊗ₜ[k] w)) = _
   rw [barCoeffOneEquiv_symm_tmul]
 
 /-- An `A`-linear map `barModule 0 →ₗ[A] V` is the same data as a `k`-linear map `W →ₗ[k] V`. -/
@@ -220,7 +220,7 @@ lemma isCocycle_Ψ1_iff (z : Cochain (barCochainComplex k A W) (singleV A V) 1) 
     have hlast : (![a, b] : Fin 2 → A) (Fin.last 1) = b := rfl
     rw [barDiff_tmul_tprod]
     simp only [Fin.sum_univ_one, htail, hinit, hcon, hlast, Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.head_cons, Fin.val_zero, one_mul, zero_add, pow_one, pow_succ,
+      Fin.val_zero, one_mul, pow_succ,
       pow_zero, mul_neg, neg_neg, mul_one, neg_smul, one_smul, map_add, map_neg,
       LinearMap.map_smul_of_tower]
     rw [show a ⊗ₜ[k] (tprod k ![b] ⊗ₜ[k] w)
@@ -274,7 +274,7 @@ lemma Ψ1_δ_zero_eq (β : Cochain (barCochainComplex k A W) (singleV A V) 0) :
     have hlast0 : (![a] : Fin 1 → A) (Fin.last 0) = a := rfl
     rw [barDiff_tmul_tprod]
     simp only [Fin.sum_univ_zero, add_zero, Matrix.cons_val_zero, one_mul, pow_one,
-      zero_add, neg_smul, neg_one_smul, one_smul, map_add, map_neg,
+      zero_add, neg_smul, one_smul, map_add, map_neg,
       LinearMap.map_smul_of_tower]
     rw [hlast0, ← hbc (Fin.tail ![a]) w, ← hbc (Fin.init ![a]) (a • w),
       show a ⊗ₜ[k] (barCoeffZeroEquiv k A W).symm w
@@ -284,7 +284,7 @@ lemma Ψ1_δ_zero_eq (β : Cochain (barCochainComplex k A W) (singleV A V) 0) :
     abel
   have hΨ1 : Ψ1 k A W V (δ 0 1 β)
       = coeffEquiv1 k A W V (-(g0.comp (barDiff k A W 0))) := by
-    show coeffEquiv1 k A W V (homEquivDeg k A W V 1 (δ 0 1 β)) = _
+    change coeffEquiv1 k A W V (homEquivDeg k A W V 1 (δ 0 1 β)) = _
     rw [homEquivDeg_δ_zero]
   ext a w
   rw [Problem3_9_1.coboundaryOf_apply, hΨ1, coeffEquiv1_apply]

@@ -101,7 +101,7 @@ theorem finrank_hom_additive_of_projective
     intro g
     obtain ⟨h, hh⟩ := Module.projective_lifting_property N'.mkQ g N'.mkQ_surjective
     exact ⟨h, LinearMap.ext fun p => by
-      show N'.mkQ (h p) = g p
+      change N'.mkQ (h p) = g p
       exact congr_fun (congr_arg DFunLike.coe hh) p⟩
   -- Pre-composition with subtype gives ι : Hom(P,N') →ₗ[F] Hom(P,N)
   let ι : (P →ₗ[R] N') →ₗ[F] (P →ₗ[R] N) :=
@@ -115,7 +115,7 @@ theorem finrank_hom_additive_of_projective
     constructor
     · rintro ⟨g, rfl⟩
       ext p
-      show N'.mkQ (N'.subtype (g p)) = 0
+      change N'.mkQ (N'.subtype (g p)) = 0
       simp [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero, (g p).2]
     · intro hf
       refine ⟨{ toFun := fun p => ⟨f p, ?_⟩, map_add' := ?_, map_smul' := ?_ }, ?_⟩

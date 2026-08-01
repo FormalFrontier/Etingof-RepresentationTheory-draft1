@@ -269,7 +269,7 @@ theorem isCyclic_of_common_fixed_vector
           = (ρ g).toLinearMap := by
       refine LinearMap.ext fun y => ?_
       apply Subtype.ext
-      rw [LinearMap.restrict_coe_apply]
+      rw [LinearMap.coe_restrict_apply]
       exact (coeρ g y).symm
     -- the induced map on the 1-dimensional quotient is the identity
     have hquot : W.mapQ W (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ)).toLinearMap hmaps
@@ -493,7 +493,7 @@ private lemma euclidean_fixed_mem_axis
         (euclideanIso g).toLinearMap.restrict hmaps = ρ.toLinearMap := by
       refine LinearMap.ext fun y => ?_
       apply Subtype.ext
-      rw [LinearMap.restrict_coe_apply]
+      rw [LinearMap.coe_restrict_apply]
       exact (coeρ y).symm
     have hquot : W.mapQ W (euclideanIso g).toLinearMap hmaps = LinearMap.id := by
       have hu₀W : u₀ ∉ W := by
@@ -894,11 +894,11 @@ instance poleSetMulAction (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) :
     isPole_smul x.2 P.2⟩
   one_smul P := by
     apply Subtype.ext
-    show (((1 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ P.1 = P.1
+    change (((1 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ P.1 = P.1
     simp
   mul_smul x y P := by
     apply Subtype.ext
-    show (((x * y : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ P.1
+    change (((x * y : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ P.1
         = ((x : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ
           (((y : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ P.1)
     rw [show ((x * y : ↥G) : specialOrthogonalGroup (Fin 3) ℝ)
@@ -958,12 +958,12 @@ theorem pole_order_data (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Fin
   -- Each stabilizer order is at least `2`: the orbit representative is a pole.
   have hm2 : ∀ ω : Ω, 2 ≤ mω ω := by
     intro ω
-    show 2 ≤ Fintype.card ↥(stabilizer ↥G ω.out)
+    change 2 ≤ Fintype.card ↥(stabilizer ↥G ω.out)
     obtain ⟨_, h, hhG, hhne, hhfix⟩ := ω.out.2
     have hstab : (⟨h, hhG⟩ : ↥G) ∈ stabilizer ↥G ω.out := by
       rw [mem_stabilizer_iff]
       apply Subtype.ext
-      show (h : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ (ω.out : ↥(poleSet G)).1 = (ω.out : ↥(poleSet G)).1
+      change (h : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ (ω.out : ↥(poleSet G)).1 = (ω.out : ↥(poleSet G)).1
       exact hhfix
     have hne : (⟨⟨h, hhG⟩, hstab⟩ : stabilizer ↥G ω.out) ≠ (1 : stabilizer ↥G ω.out) := by
       intro hcon
@@ -1009,7 +1009,7 @@ theorem pole_order_data (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Fin
         refine ⟨⟨⟨y, hypole⟩, ?_⟩, rfl⟩
         rw [mem_fixedBy]
         apply Subtype.ext
-        show (g : specialOrthogonalGroup (Fin 3) ℝ).1 *ᵥ y = y
+        change (g : specialOrthogonalGroup (Fin 3) ℝ).1 *ᵥ y = y
         exact hyfix
     have e := Equiv.ofInjective f hfinj
     rw [hrange, hset] at e
@@ -1154,13 +1154,13 @@ theorem mulEquiv_dihedralGroup_of_conj_inv
   set ρz : ZMod k → G := fun i => ρ ^ i.val with hρz
   have hρz_add : ∀ i j : ZMod k, ρz (i + j) = ρz i * ρz j := by
     intro i j
-    show ρ ^ (i + j).val = ρ ^ i.val * ρ ^ j.val
+    change ρ ^ (i + j).val = ρ ^ i.val * ρ ^ j.val
     rw [← pow_add]
     apply pow_eq_pow_iff_modEq.mpr
     rw [hρ, ZMod.val_add]
     exact Nat.mod_modEq _ _
   have hρz_zero : ρz 0 = 1 := by
-    show ρ ^ (0 : ZMod k).val = 1
+    change ρ ^ (0 : ZMod k).val = 1
     rw [ZMod.val_zero, pow_zero]
   have hρz_neg : ∀ i : ZMod k, ρz (-i) = (ρz i)⁻¹ := by
     intro i
@@ -1172,9 +1172,9 @@ theorem mulEquiv_dihedralGroup_of_conj_inv
   have hsinv : s⁻¹ = s := inv_eq_of_mul_eq_one_right hs2
   have hconj_pow : ∀ i : ZMod k, s * ρz i * s⁻¹ = (ρz i)⁻¹ := by
     intro i
-    show s * ρ ^ i.val * s⁻¹ = (ρ ^ i.val)⁻¹
+    change s * ρ ^ i.val * s⁻¹ = (ρ ^ i.val)⁻¹
     have hsc : SemiconjBy s ρ ρ⁻¹ := by
-      show s * ρ = ρ⁻¹ * s
+      change s * ρ = ρ⁻¹ * s
       rw [← hconj, mul_assoc, inv_mul_cancel, mul_one]
     have hp := hsc.pow_right i.val
     rw [SemiconjBy, inv_pow] at hp
@@ -1194,16 +1194,16 @@ theorem mulEquiv_dihedralGroup_of_conj_inv
     | DihedralGroup.sr i => s * ρz i
   have hmul : ∀ a b : DihedralGroup k, F (a * b) = F a * F b := by
     rintro (i | i) (j | j)
-    · show ρz (i + j) = ρz i * ρz j
+    · change ρz (i + j) = ρz i * ρz j
       exact hρz_add i j
-    · show s * ρz (j - i) = ρz i * (s * ρz j)
+    · change s * ρz (j - i) = ρz i * (s * ρz j)
       have e1 : ρz i * (s * ρz j) = ρz i * s * ρz j := by group
       rw [e1, hcomm i]
       have e2 : s * (ρz i)⁻¹ * ρz j = s * ((ρz i)⁻¹ * ρz j) := by group
       rw [e2, ← hρz_neg, ← hρz_add, neg_add_eq_sub]
-    · show s * ρz (i + j) = s * ρz i * ρz j
+    · change s * ρz (i + j) = s * ρz i * ρz j
       rw [hρz_add, mul_assoc]
-    · show ρz (j - i) = s * ρz i * (s * ρz j)
+    · change ρz (j - i) = s * ρz i * (s * ρz j)
       have e1 : s * ρz i * (s * ρz j) = s * (ρz i * s) * ρz j := by group
       rw [e1, hcomm i]
       have e2 : s * (s * (ρz i)⁻¹) * ρz j = (s * s) * ((ρz i)⁻¹ * ρz j) := by group
@@ -1330,7 +1330,7 @@ private lemma so3_swap_induced_plane (g : specialOrthogonalGroup (Fin 3) ℝ)
   have hrestrict : (euclideanIso g).toLinearMap.restrict hmaps = f.toLinearMap := by
     refine LinearMap.ext fun y => ?_
     apply Subtype.ext
-    rw [LinearMap.restrict_coe_apply]
+    rw [LinearMap.coe_restrict_apply]
     exact (coef y).symm
   have hquot : W.mapQ W (euclideanIso g).toLinearMap hmaps = -LinearMap.id := by
     have hne : W.mkQ β₀ ≠ 0 := by
@@ -1413,11 +1413,11 @@ private lemma so3_sq_of_swap (g : specialOrthogonalGroup (Fin 3) ℝ)
         subst hz
         simp only [SetLike.mem_coe, LinearMap.mem_eqLocus, LinearMap.comp_apply, LinearMap.id_coe,
           id_eq]
-        show euclideanIso g (euclideanIso g β₀) = β₀
+        change euclideanIso g (euclideanIso g β₀) = β₀
         rw [hswap₀, map_neg, hswap₀, neg_neg]
       · intro z hz
         simp only [LinearMap.mem_eqLocus, LinearMap.comp_apply, LinearMap.id_coe, id_eq]
-        show euclideanIso g (euclideanIso g z) = z
+        change euclideanIso g (euclideanIso g z) = z
         have e1 : euclideanIso g z = ((f ⟨z, hz⟩ : W) : EuclideanSpace ℝ (Fin 3)) :=
           (coef ⟨z, hz⟩).symm
         have e2 : euclideanIso g ((f ⟨z, hz⟩ : W) : EuclideanSpace ℝ (Fin 3))
@@ -1889,7 +1889,7 @@ theorem octahedral_order3_pole_neg_mem_orbit
       rw [← Nat.card_prod]
       exact Nat.card_congr (MulAction.orbitProdStabilizerEquivGroup ↥G w)
     rw [horbw, hcard] at hos
-    show Nat.card (MulAction.stabilizer ↥G w) = 3
+    change Nat.card (MulAction.stabilizer ↥G w) = 3
     omega
   have hOncard : (MulAction.orbit ↥G b).ncard = 8 := by
     rw [← Nat.card_coe_set_eq]; exact horbit_card
@@ -2106,7 +2106,7 @@ theorem octahedral_kernel_negates_or_fixes_trivial
   have hTfr : 2 ≤ finrank ℝ (Submodule.span ℝ (Set.range (fun w : ↥(MulAction.orbit ↥G b) =>
       (toLp 2 w.1.1 : EuclideanSpace ℝ (Fin 3))))) := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hspanle : (ℝ ∙ (toLp 2 (b : ↥(poleSet G)).1 : EuclideanSpace ℝ (Fin 3)))
         ≤ Submodule.span ℝ (Set.range (fun w : ↥(MulAction.orbit ↥G b) =>
           (toLp 2 w.1.1 : EuclideanSpace ℝ (Fin 3)))) := by
@@ -2323,7 +2323,7 @@ theorem exists_octahedral_faithful_hom
   -- The relation is `G`-invariant, so the `G`-action descends to the quotient.
   have hSinv : ∀ (g : ↥G) (a c : ↥(MulAction.orbit ↥G b)), S.r a c → S.r (g • a) (g • c) := by
     intro g a c h
-    show (g • a).1.1 = (g • c).1.1 ∨ (g • a).1.1 = -((g • c).1.1)
+    change (g • a).1.1 = (g • c).1.1 ∨ (g • a).1.1 = -((g • c).1.1)
     rw [hvec_smul, hvec_smul]
     rcases h with h | h
     · exact Or.inl (by rw [h])
@@ -2955,7 +2955,7 @@ theorem isSimpleGroup_of_card_sixty_of_nontrivial_sylow5
   refine { eq_bot_or_eq_top_of_normal := fun N hN => ?_ }
   haveI : N.Normal := hN
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hNbot, hNtop⟩ := hcon
   -- `|N|` divides `60`, and is neither `1` (else `N = ⊥`) nor `60` (else `N = ⊤`).
   have hdvd : Nat.card N ∣ 60 := by
@@ -3121,7 +3121,7 @@ private theorem exists_index_five_of_sylow2_card_fifteen {Grp : Type*} [Group Gr
       exact htc (hsub (Set.mem_singleton t))
   · -- No two distinct Sylow `2`-subgroups share a non-identity element: counting contradiction.
     exfalso
-    push_neg at hinter
+    push Not at hinter
     have hDcard : Nat.card (Σ P : Sylow 2 Grp, {x : (P : Subgroup Grp) // x ≠ 1}) = 45 := by
       letI : Fintype (Sylow 2 Grp) := Fintype.ofFinite _
       have hfib : ∀ P : Sylow 2 Grp, Nat.card {x : (P : Subgroup Grp) // x ≠ 1} = 3 := by
@@ -3232,7 +3232,7 @@ theorem so3_icosahedral_G_simple
   have hoffaxis : ∃ g : ↥G, ((g • b : ↥(poleSet G)) : Fin 3 → ℝ) ≠ (b : ↥(poleSet G)).1
       ∧ ((g • b : ↥(poleSet G)) : Fin 3 → ℝ) ≠ -((b : ↥(poleSet G)).1) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     -- Every group element sends `b` onto its own axis `{b, -b}`.
     have hmem : ∀ g : ↥G, ((g • b : ↥(poleSet G)) : Fin 3 → ℝ) = (b : ↥(poleSet G)).1
         ∨ ((g • b : ↥(poleSet G)) : Fin 3 → ℝ) = -((b : ↥(poleSet G)).1) := by

@@ -268,7 +268,7 @@ private lemma altSum_eq_toTensorPower_comp_π :
     (fun σ => ?_)
   -- Rewrite `(Equiv.inv _) σ` to `σ.symm` via `Equiv.Perm.inv_def`, then use
   -- `sign σ⁻¹ = sign σ`.
-  show ((Equiv.Perm.sign σ : ℤ) : k) • (PiTensorProduct.tprod k) (fun i => v (σ.symm i)) =
+  change ((Equiv.Perm.sign σ : ℤ) : k) • (PiTensorProduct.tprod k) (fun i => v (σ.symm i)) =
       ((Equiv.Perm.sign σ⁻¹ : ℤ) : k) • (PiTensorProduct.tprod k) (fun i => v (σ⁻¹ i))
   rw [Equiv.Perm.inv_def, sign_symm_eq_sign]
 

@@ -256,7 +256,7 @@ def bpDecr {n : ℕ} (a : Fin (n + 1) → ℕ) (hant : Antitone a) (hsum : ∑ j
   parts j := if j = i then a j - 1 else a j
   decreasing := by
     intro p r hpr
-    show (if r = i then a r - 1 else a r) ≤ (if p = i then a p - 1 else a p)
+    change (if r = i then a r - 1 else a r) ≤ (if p = i then a p - 1 else a p)
     by_cases hp : p = i <;> by_cases hr : r = i
     · rw [if_pos hp, if_pos hr]
       have : a p = a r := by rw [hp, hr]
@@ -351,7 +351,7 @@ lemma res_charValue_sum (n : ℕ) (bpμ : BoundedPartition (n + 1) (n + 1)) (ν 
     intro i hleg
     have hpe : (bpd i hleg).parts = (resBP (partOf i hleg)).parts := by
       funext k
-      show (bpd i hleg).parts k = (partOf i hleg).toYoungDiagram.rowLen k.val
+      change (bpd i hleg).parts k = (partOf i hleg).toYoungDiagram.rowLen k.val
       simp only [hpartOf]; exact bp_parts_eq_rowLen (bpd i hleg) k
     rw [hexp i hleg, hpe]; rfl
   -- Legal ⇒ in support.
@@ -422,7 +422,7 @@ lemma res_charValue_sum (n : ℕ) (bpμ : BoundedPartition (n + 1) (n + 1)) (ν 
     by_contra hne
     have h1 : (bpd i hleg).parts i = (bpd i' hleg').parts i := by
       rw [bp_parts_eq_rowLen (bpd i hleg) i, bp_parts_eq_rowLen (bpd i' hleg') i]
-      show (partOf i hleg).toYoungDiagram.rowLen i.val
+      change (partOf i hleg).toYoungDiagram.rowLen i.val
           = (partOf i' hleg').toYoungDiagram.rowLen i.val
       rw [heq]
     rw [hbpd_parts i hleg i, hbpd_parts i' hleg' i, if_pos rfl, if_neg hne] at h1

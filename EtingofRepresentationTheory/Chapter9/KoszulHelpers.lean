@@ -42,7 +42,7 @@ theorem koszul_module_inst_eq :
     Polynomial.module (R := R) := by
   apply Module.ext'; intro r p
   let p' : Polynomial R := p
-  show Polynomial.C r * p' = r • p'
+  change Polynomial.C r * p' = r • p'
   rw [← Polynomial.smul_eq_C_mul]
 
 -- The Koszul differential on PolynomialModule is injective.
@@ -172,12 +172,12 @@ theorem coordMapCH_rightInverse
       (ModuleCat.of (Polynomial R) (Polynomial R))).isModule
   intro f
   refine Finsupp.ext fun k => ?_
-  simp only [Function.comp, coordMapCHInv, LinearMap.coe_mk, AddHom.coe_mk]
+  simp only [coordMapCHInv, LinearMap.coe_mk, AddHom.coe_mk]
   -- coordMapCH(Σ X^n ⊗ f(n)) = Σ coordMapCH(X^n ⊗ f(n))
   rw [Finsupp.sum, map_sum]
   simp only [coordMapCH, TensorProduct.lift.tmul, LinearMap.coe_mk, AddHom.coe_mk,
     Polynomial.toFinsupp_X_pow, Finsupp.mapRange_single, one_smul,
-    Finsupp.finset_sum_apply, Finsupp.single_apply]
+    Finsupp.finsetSum_apply, Finsupp.single_apply]
   rw [Finset.sum_eq_single k
     (fun n _ hne => if_neg hne)
     (fun h => by simp [Finsupp.mem_support_iff, not_not] at h; simp [h])]

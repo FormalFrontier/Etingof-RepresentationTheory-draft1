@@ -226,7 +226,7 @@ private theorem coxeterAction_periodic
     intro hinj
     exact (Set.infinite_range_of_injective hinj) hfin
   rw [Function.Injective] at hnotinj
-  push_neg at hnotinj
+  push Not at hnotinj
   obtain ⟨j, k, hjk, hne⟩ := hnotinj
   set c := coxeterAction n adj with hc_def
   have hc_inj : Function.Injective c := coxeterAction_injective hDynkin
@@ -507,7 +507,7 @@ theorem Lemma6_7_2
       coxeterActionIter n adj N β i < 0 := by
   -- Proof by contradiction: assume all iterates have nonneg coordinates
   by_contra h
-  push_neg at h
+  push Not at h
   -- h : ∀ N i, 0 ≤ coxeterActionIter n adj N β i
   -- Step 1: Get periodicity M > 0 with c^M(β) = β
   obtain ⟨M, hM_pos, hM_period⟩ := coxeterAction_periodic hDynkin β

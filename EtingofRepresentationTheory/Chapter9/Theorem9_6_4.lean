@@ -197,7 +197,7 @@ instance Etingof.IsProgenerator.finite_hom_module
           (↑({𝟙 P} : Finset _) : Set _) :=
         Submodule.subset_span (by simp)
       have hsmul : MulOpposite.op f • (𝟙 P : End P) = f := by
-        show f ≫ 𝟙 P = f; simp
+        change f ≫ 𝟙 P = f; simp
       rw [← hsmul]
       exact Submodule.smul_mem _ _ hmem
     -- Fin n → End P is f.g. by Module.Finite.pi
@@ -225,7 +225,7 @@ instance Etingof.IsProgenerator.finite_hom_module
         (Fin n → End P) →ₗ[(End P)ᵐᵒᵖ] (P ⟶ biproduct F))
       (fun g => ⟨fun i => g ≫ biproduct.π F i, by
         apply @biproduct.hom_ext _ _ _ _ F hbp; intro i
-        show (biproduct.lift fun j => g ≫ biproduct.π F j) ≫ biproduct.π F i =
+        change (biproduct.lift fun j => g ≫ biproduct.π F j) ≫ biproduct.π F i =
              g ≫ biproduct.π F i
         exact biproduct.lift_π _ _⟩)
   exact Module.Finite.of_surjective φ hφ_surj
@@ -277,7 +277,7 @@ private noncomputable def Etingof.freeModuleIsoHom
   map_smul' s v := by
     apply biproduct.hom_ext; intro i
     simp only [biproduct.lift_π, RingHom.id_apply]
-    show (s * v i).unop = (s.unop ≫ biproduct.lift fun j => (v j).unop) ≫ biproduct.π _ i
+    change (s * v i).unop = (s.unop ≫ biproduct.lift fun j => (v j).unop) ≫ biproduct.π _ i
     rw [Category.assoc, biproduct.lift_π, Etingof.unop_mul_eq_comp]
 
 -- Essential surjectivity of Hom(P, -) restricted to finitely generated modules.

@@ -206,7 +206,7 @@ theorem natCard_irrepClasses_le_of_ringHom_field
     intro x
     obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective x
     refine ⟨ι p, ?_⟩
-    show φ (ι p) = (1 : K) ⊗ₜ[k] Ideal.Quotient.mk J p
+    change φ (ι p) = (1 : K) ⊗ₜ[k] Ideal.Quotient.mk J p
     have := AlgHom.congr_fun hcomp p
     rw [AlgHom.comp_apply, AlgHom.restrictScalars_apply] at this
     rw [this, hψ, AlgHom.comp_apply, Algebra.TensorProduct.includeRight_apply,

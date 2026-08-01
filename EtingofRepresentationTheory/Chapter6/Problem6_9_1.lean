@@ -19,14 +19,14 @@ private lemma shift_matrix_pow_entry {n : ℕ} (S : Matrix (Fin n) (Fin n) ℂ)
       rw [Finset.sum_eq_single ⟨j.val + k, hm⟩]
       · simp [show i.val = (j.val + k) + 1 from by omega]
       · intro m _ hne
-        simp only [mul_ite, mul_one, mul_zero, ite_mul, one_mul, zero_mul]
+        simp only [mul_ite, mul_one, mul_zero]
         split_ifs with h1 h2
         · exact absurd (Fin.ext (by omega)) hne
         all_goals rfl
       · simp
     · apply Finset.sum_eq_zero
       intro m _
-      simp only [mul_ite, mul_one, mul_zero, ite_mul, one_mul, zero_mul]
+      simp only [mul_ite, mul_one, mul_zero]
       split_ifs with h1 h2
       · exact absurd (by omega : i.val = j.val + (k + 1)) h
       all_goals rfl
@@ -370,7 +370,7 @@ theorem Etingof.Q₂Rep_E_indecomposable (n : ℕ) (hn : 0 < n) (eigenval : ℂ)
       · right; exact ⟨h, hqWeq ▸ h⟩
     -- By contradiction: assume both subspaces are nonzero
     by_contra h_both
-    push_neg at h_both
+    push Not at h_both
     obtain ⟨hpV_ne, hqV_ne⟩ := h_both
     -- Define the nilpotent part N = A - eigenval • id (the shift matrix)
     set N : Module.End ℂ (EuclideanSpace ℂ (Fin n)) :=
@@ -430,7 +430,7 @@ theorem Etingof.Q₂Rep_E_indecomposable (n : ℕ) (hn : 0 < n) (eigenval : ℂ)
       have h0 := congr_fun (congr_fun hS_pow_ne ⟨n - 1, by omega⟩) ⟨0, hn⟩
       simp only [Matrix.zero_apply] at h0
       rw [shift_matrix_pow_entry S hS_entry _ ⟨n - 1, by omega⟩ ⟨0, hn⟩] at h0
-      simp [Fin.val_mk] at h0
+      simp  at h0
     -- Since pV ≠ ⊤ and qV ≠ ⊤ (from the complement being nonzero)
     have hpV_ne_top : pV ≠ ⊤ := by
       intro h
@@ -1258,7 +1258,7 @@ private lemma nilpotent_nontrivial_decomp {V : Type*} [AddCommGroup V] [Module �
           have hm : m = Module.AEval'.of T v := (LinearEquiv.apply_symm_apply _ m).symm
           rw [hm, Submonoid.smul_def, Module.AEval'.X_pow_smul_of,
             LinearEquiv.map_eq_zero_iff]
-          show (T ^ n) v = 0
+          change (T ^ n) v = 0
           simp [hn]
         -- Apply PID structure theorem: AEval' T ≅ ⨁ (i : Fin d) ℂ[X]/(X^kᵢ)
         open Polynomial in
@@ -1267,7 +1267,7 @@ private lemma nilpotent_nontrivial_decomp {V : Type*} [AddCommGroup V] [Module �
         -- d ≥ 2: each summand contributes 1 to dim(ker T), and dim(ker T) ≥ 2
         have hd : 2 ≤ d := by
           by_contra hd_lt
-          push_neg at hd_lt
+          push Not at hd_lt
           interval_cases d
           · -- d = 0: direct sum is trivial, V = 0, contradicts dim(ker T) ≥ 2
             have hsub : Subsingleton V := by
@@ -1355,7 +1355,7 @@ private lemma nilpotent_nontrivial_decomp {V : Type*} [AddCommGroup V] [Module �
         obtain ⟨j₀, j₁, hkj₀, hkj₁, hne⟩ :
             ∃ j₀ j₁ : Fin d, 0 < k j₀ ∧ 0 < k j₁ ∧ j₀ ≠ j₁ := by
           by_contra hall
-          push_neg at hall
+          push Not at hall
           -- hall : ∀ a b, 0 < k a → 0 < k b → a = b
           -- At most one index has k > 0. Show finrank(ker T) ≤ 1.
           exfalso
@@ -1373,7 +1373,7 @@ private lemma nilpotent_nontrivial_decomp {V : Type*} [AddCommGroup V] [Module �
               have := Module.finrank_zero_of_subsingleton (M := V) (R := ℂ)
               omega
             · -- Exactly one nontrivial summand
-              push_neg at hk_all
+              push Not at hk_all
               obtain ⟨j₀, hkj₀⟩ := hk_all
               have hkj₀_pos : 0 < k j₀ := Nat.pos_of_ne_zero hkj₀
               have hothers : ∀ j, j ≠ j₀ → k j = 0 := by
@@ -1908,7 +1908,7 @@ private lemma swapOp_pure_order
     (swapOp A B ^ k) (v, (0 : W)) ≠ 0 ∨
     (swapOp A B ^ k) ((0 : V), w) ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨h1, h2⟩ := h
   apply hk1
   have : (swapOp A B ^ k) (v, w) =
@@ -1989,7 +1989,7 @@ private lemma product_complement_decomp
     rw [← Submodule.ker_projectionOnto hcompl, LinearMap.mem_ker,
       show projM (x - proj x) = projM x - projM (proj x) from map_sub _ _ _]
     have : projM (proj x) = projM x := by
-      show projM ↑(projM x) = projM x
+      change projM ↑(projM x) = projM x
       exact Submodule.projectionOnto_apply_left hcompl (projM x)
     rw [this, sub_self]
   -- proj commutes with X
@@ -2014,13 +2014,13 @@ private lemma product_complement_decomp
   have hπ_fix : ∀ v ∈ V', π_V v = v := by
     intro v hv
     have hmem : ιV v ∈ M := Submodule.mem_prod.mpr ⟨hv, Submodule.zero_mem _⟩
-    show (proj (ιV v)).1 = v
+    change (proj (ιV v)).1 = v
     rw [hproj_M _ hmem]; rfl
   -- σ_W fixes W'
   have hσ_fix : ∀ w ∈ W', σ_W w = w := by
     intro w hw
     have hmem : ιW w ∈ M := Submodule.mem_prod.mpr ⟨Submodule.zero_mem _, hw⟩
-    show (proj (ιW w)).2 = w
+    change (proj (ιW w)).2 = w
     rw [hproj_M _ hmem]; rfl
   -- Build π_V' : V →ₗ V' and σ_W' : W →ₗ W'
   set π_V' : V →ₗ[ℂ] V' :=
@@ -2132,7 +2132,7 @@ private lemma exists_invariant_product_complement
   set_option synthInstance.maxHeartbeats 40000 in
   have hd : 2 ≤ d := by
     by_contra hd_lt
-    push_neg at hd_lt
+    push Not at hd_lt
     let N : Fin d → Type := fun i => ℂ[X] ⧸ ℂ[X] ∙ (Polynomial.X : ℂ[X]) ^ k i
     interval_cases d
     · haveI : Subsingleton (V × W) := by
@@ -2277,7 +2277,7 @@ private lemma exists_invariant_product_complement
   -- By swapOp_pure_order, at least one pure component has same X-order as g
   -- k j_max > 0 since otherwise all summands are trivial → V×W = 0 → contradicts dim(ker X) ≥ 2
   have hk_pos : 0 < k j_max := by
-    by_contra h; push_neg at h
+    by_contra h; push Not at h
     have hk0 : ∀ j : Fin d, k j = 0 := fun j => by
       have := hj_max j (Finset.mem_univ j); omega
     haveI : Subsingleton (V × W) := by
@@ -2312,7 +2312,7 @@ private lemma exists_invariant_product_complement
       exact (Module.AEval'.of (R := ℂ) X).injective h1
     obtain ⟨j₀, hj₀_ne⟩ : ∃ j₀ : Fin d,
         ((Polynomial.X : ℂ[X]) ^ (k j_max - 1) • e p_aeval : DirectSum (Fin d) N) j₀ ≠ 0 := by
-      by_contra h; push_neg at h; apply hp_ne
+      by_contra h; push Not at h; apply hp_ne
       exact DFinsupp.ext fun j => by simpa using h j
     -- k j₀ = k j_max (otherwise X^{k_max-1} kills N j₀, contradicting hj₀_ne)
     have hk_j₀ : k j₀ = k j_max := by
@@ -2325,7 +2325,7 @@ private lemma exists_invariant_product_complement
         intro c
         induction c using Quotient.inductionOn' with
         | h f =>
-          show Submodule.Quotient.mk ((Polynomial.X ^ k j₀) • f) = 0
+          change Submodule.Quotient.mk ((Polynomial.X ^ k j₀) • f) = 0
           rw [Submodule.Quotient.mk_eq_zero, smul_eq_mul]
           exact Submodule.mem_span_singleton.mpr ⟨f, by rw [smul_eq_mul, mul_comm]⟩
       rw [show (k j_max - 1 : ℕ) = k j₀ + (k j_max - 1 - k j₀) from by omega,
@@ -2342,7 +2342,7 @@ private lemma exists_invariant_product_complement
       intro q; rw [Module.AEval'.X_smul_of]
     have hφ_comm : ∀ q : V × W, φ (X q) = (Polynomial.X : ℂ[X]) • φ q := by
       intro q
-      show (DirectSum.component ℂ[X] (Fin d) N j₀)
+      change (DirectSum.component ℂ[X] (Fin d) N j₀)
         (e ((Module.AEval'.of (R := ℂ) X) (X q))) =
         (Polynomial.X : ℂ[X]) • (DirectSum.component ℂ[X] (Fin d) N j₀)
           (e ((Module.AEval'.of (R := ℂ) X) q))
@@ -2362,7 +2362,7 @@ private lemma exists_invariant_product_complement
     have hB_map : Submodule.map B W'₀ ≤ V'₀ := by
       rw [W'₀_def, Submodule.map_span]; apply Submodule.span_mono
       rintro _ ⟨_, ⟨m, rfl⟩, rfl⟩
-      exact ⟨m + 1, by simp [pow_succ', LinearMap.mul_apply', LinearMap.comp_apply]⟩
+      exact ⟨m + 1, by simp [pow_succ', LinearMap.comp_apply]⟩
     -- V'₀.prod W'₀ is X-invariant
     have hVW_inv : ∀ q ∈ V'₀.prod W'₀, X q ∈ V'₀.prod W'₀ := by
       intro q hq; rw [Submodule.mem_prod] at hq ⊢; rw [swapOp_apply]
@@ -2382,7 +2382,7 @@ private lemma exists_invariant_product_complement
     -- φ(p) is a unit in N j₀ (X^{k-1}•φ(p) ≠ 0 → coprime to X → unit)
     set p : V × W := (v₁, (0 : W))
     have hφp_ne : (Polynomial.X : ℂ[X]) ^ (k j₀ - 1) • φ p ≠ 0 := by
-      show (Polynomial.X : ℂ[X]) ^ (k j₀ - 1) •
+      change (Polynomial.X : ℂ[X]) ^ (k j₀ - 1) •
         (DirectSum.component ℂ[X] (Fin d) N j₀ (e p_aeval)) ≠ 0
       rw [← map_smul, show k j₀ - 1 = k j_max - 1 from by omega]
       exact hj₀_ne
@@ -2411,7 +2411,7 @@ private lemma exists_invariant_product_complement
     -- Step A: φ composed with polynomial evaluation = polynomial action on φ(p)
     have hφ_aeval : ∀ f : ℂ[X], φ ((Polynomial.aeval X f) p) = f • φ p := by
       intro f
-      show (DirectSum.component ℂ[X] (Fin d) N j₀)
+      change (DirectSum.component ℂ[X] (Fin d) N j₀)
         (e ((Module.AEval'.of (R := ℂ) X) ((Polynomial.aeval X f) p))) =
         f • (DirectSum.component ℂ[X] (Fin d) N j₀)
           (e ((Module.AEval'.of (R := ℂ) X) p))
@@ -2439,7 +2439,7 @@ private lemma exists_invariant_product_complement
         DirectSum.component.lof_self]
     -- Step D: finrank(N j₀) = k j₀
     have hfr_N : Module.finrank ℂ (N j₀) = k j₀ := by
-      show Module.finrank ℂ (ℂ[X] ⧸ (ℂ[X] ∙ (Polynomial.X : ℂ[X]) ^ k j₀)) = k j₀
+      change Module.finrank ℂ (ℂ[X] ⧸ (ℂ[X] ∙ (Polynomial.X : ℂ[X]) ^ k j₀)) = k j₀
       rw [show (ℂ[X] ∙ (Polynomial.X : ℂ[X]) ^ k j₀ : Submodule ℂ[X] ℂ[X]) =
           (Ideal.span {(Polynomial.X : ℂ[X]) ^ k j₀} : Ideal ℂ[X]) from
         (Ideal.submodule_span_eq).symm]
@@ -2467,7 +2467,7 @@ private lemma exists_invariant_product_complement
         · have hmap : Submodule.map (LinearMap.inl ℂ V W) V'₀ ≤ Submodule.span ℂ (↑SF) := by
             rw [V'₀_def, Submodule.map_span]; apply Submodule.span_le.mpr
             rintro _ ⟨_, ⟨m, rfl⟩, rfl⟩
-            show (((B.comp A) ^ m) v₁, (0 : W)) ∈ Submodule.span ℂ (↑SF)
+            change (((B.comp A) ^ m) v₁, (0 : W)) ∈ Submodule.span ℂ (↑SF)
             by_cases hm : 2 * m < k j₀
             · apply Submodule.subset_span; simp [SF]
               exact ⟨⟨2 * m, hm⟩, swapOp_pow_even_fst A B m v₁⟩
@@ -2479,7 +2479,7 @@ private lemma exists_invariant_product_complement
         · have hmap : Submodule.map (LinearMap.inr ℂ V W) W'₀ ≤ Submodule.span ℂ (↑SF) := by
             rw [W'₀_def, Submodule.map_span]; apply Submodule.span_le.mpr
             rintro _ ⟨_, ⟨m, rfl⟩, rfl⟩
-            show ((0 : V), A (((B.comp A) ^ m) v₁)) ∈ Submodule.span ℂ (↑SF)
+            change ((0 : V), A (((B.comp A) ^ m) v₁)) ∈ Submodule.span ℂ (↑SF)
             by_cases hm : 2 * m + 1 < k j₀
             · apply Submodule.subset_span; simp [SF]
               exact ⟨⟨2 * m + 1, hm⟩, swapOp_pow_odd_fst A B m v₁⟩
@@ -2575,7 +2575,7 @@ private lemma exists_invariant_product_complement
       exact (Module.AEval'.of (R := ℂ) X).injective h1
     obtain ⟨j₀, hj₀_ne⟩ : ∃ j₀ : Fin d,
         ((Polynomial.X : ℂ[X]) ^ (k j_max - 1) • e p_aeval : DirectSum (Fin d) N) j₀ ≠ 0 := by
-      by_contra h; push_neg at h; apply hp_ne
+      by_contra h; push Not at h; apply hp_ne
       exact DFinsupp.ext fun j => by simpa using h j
     have hk_j₀ : k j₀ = k j_max := by
       have hle := hj_max j₀ (Finset.mem_univ j₀)
@@ -2586,7 +2586,7 @@ private lemma exists_invariant_product_complement
         intro c
         induction c using Quotient.inductionOn' with
         | h f =>
-          show Submodule.Quotient.mk ((Polynomial.X ^ k j₀) • f) = 0
+          change Submodule.Quotient.mk ((Polynomial.X ^ k j₀) • f) = 0
           rw [Submodule.Quotient.mk_eq_zero, smul_eq_mul]
           exact Submodule.mem_span_singleton.mpr ⟨f, by rw [smul_eq_mul, mul_comm]⟩
       rw [show (k j_max - 1 : ℕ) = k j₀ + (k j_max - 1 - k j₀) from by omega,
@@ -2601,7 +2601,7 @@ private lemma exists_invariant_product_complement
       intro q; rw [Module.AEval'.X_smul_of]
     have hφ_comm : ∀ q : V × W, φ (X q) = (Polynomial.X : ℂ[X]) • φ q := by
       intro q
-      show (DirectSum.component ℂ[X] (Fin d) N j₀)
+      change (DirectSum.component ℂ[X] (Fin d) N j₀)
         (e ((Module.AEval'.of (R := ℂ) X) (X q))) =
         (Polynomial.X : ℂ[X]) • (DirectSum.component ℂ[X] (Fin d) N j₀)
           (e ((Module.AEval'.of (R := ℂ) X) q))
@@ -2618,7 +2618,7 @@ private lemma exists_invariant_product_complement
     have hA_map : Submodule.map A V'₀ ≤ W'₀ := by
       rw [V'₀_def, Submodule.map_span]; apply Submodule.span_mono
       rintro _ ⟨_, ⟨m, rfl⟩, rfl⟩
-      exact ⟨m + 1, by simp [pow_succ', LinearMap.mul_apply', LinearMap.comp_apply]⟩
+      exact ⟨m + 1, by simp [pow_succ', LinearMap.comp_apply]⟩
     have hVW_inv : ∀ q ∈ V'₀.prod W'₀, X q ∈ V'₀.prod W'₀ := by
       intro q hq; rw [Submodule.mem_prod] at hq ⊢; rw [swapOp_apply]
       exact ⟨hB_map ⟨q.2, hq.2, rfl⟩, hA_map ⟨q.1, hq.1, rfl⟩⟩
@@ -2632,7 +2632,7 @@ private lemma exists_invariant_product_complement
     -- φ(p) is a unit in N j₀ (X^{k-1}•φ(p) ≠ 0 → coprime to X → unit)
     set p : V × W := ((0 : V), w₁)
     have hφp_ne : (Polynomial.X : ℂ[X]) ^ (k j₀ - 1) • φ p ≠ 0 := by
-      show (Polynomial.X : ℂ[X]) ^ (k j₀ - 1) •
+      change (Polynomial.X : ℂ[X]) ^ (k j₀ - 1) •
         (DirectSum.component ℂ[X] (Fin d) N j₀ (e p_aeval)) ≠ 0
       rw [← map_smul, show k j₀ - 1 = k j_max - 1 from by omega]
       exact hj₀_ne
@@ -2658,7 +2658,7 @@ private lemma exists_invariant_product_complement
     -- Step A: φ ∘ aeval = polynomial action on φ(p)
     have hφ_aeval : ∀ f : ℂ[X], φ ((Polynomial.aeval X f) p) = f • φ p := by
       intro f
-      show (DirectSum.component ℂ[X] (Fin d) N j₀)
+      change (DirectSum.component ℂ[X] (Fin d) N j₀)
         (e ((Module.AEval'.of (R := ℂ) X) ((Polynomial.aeval X f) p))) =
         f • (DirectSum.component ℂ[X] (Fin d) N j₀)
           (e ((Module.AEval'.of (R := ℂ) X) p))
@@ -2686,7 +2686,7 @@ private lemma exists_invariant_product_complement
         DirectSum.component.lof_self]
     -- Step D: finrank(N j₀) = k j₀
     have hfr_N : Module.finrank ℂ (N j₀) = k j₀ := by
-      show Module.finrank ℂ (ℂ[X] ⧸ (ℂ[X] ∙ (Polynomial.X : ℂ[X]) ^ k j₀)) = k j₀
+      change Module.finrank ℂ (ℂ[X] ⧸ (ℂ[X] ∙ (Polynomial.X : ℂ[X]) ^ k j₀)) = k j₀
       rw [show (ℂ[X] ∙ (Polynomial.X : ℂ[X]) ^ k j₀ : Submodule ℂ[X] ℂ[X]) =
           (Ideal.span {(Polynomial.X : ℂ[X]) ^ k j₀} : Ideal ℂ[X]) from
         (Ideal.submodule_span_eq).symm]
@@ -2712,7 +2712,7 @@ private lemma exists_invariant_product_complement
         · have hmap : Submodule.map (LinearMap.inl ℂ V W) V'₀ ≤ Submodule.span ℂ (↑SF) := by
             rw [V'₀_def, Submodule.map_span]; apply Submodule.span_le.mpr
             rintro _ ⟨_, ⟨m, rfl⟩, rfl⟩
-            show (B (((A.comp B) ^ m) w₁), (0 : W)) ∈ Submodule.span ℂ (↑SF)
+            change (B (((A.comp B) ^ m) w₁), (0 : W)) ∈ Submodule.span ℂ (↑SF)
             by_cases hm : 2 * m + 1 < k j₀
             · apply Submodule.subset_span; simp [SF]
               exact ⟨⟨2 * m + 1, hm⟩, swapOp_pow_odd_snd A B m w₁⟩
@@ -2724,7 +2724,7 @@ private lemma exists_invariant_product_complement
         · have hmap : Submodule.map (LinearMap.inr ℂ V W) W'₀ ≤ Submodule.span ℂ (↑SF) := by
             rw [W'₀_def, Submodule.map_span]; apply Submodule.span_le.mpr
             rintro _ ⟨_, ⟨m, rfl⟩, rfl⟩
-            show ((0 : V), ((A.comp B) ^ m) w₁) ∈ Submodule.span ℂ (↑SF)
+            change ((0 : V), ((A.comp B) ^ m) w₁) ∈ Submodule.span ℂ (↑SF)
             by_cases hm : 2 * m < k j₀
             · apply Submodule.subset_span; simp [SF]
               exact ⟨⟨2 * m, hm⟩, swapOp_pow_even_snd A B m w₁⟩
@@ -2830,10 +2830,10 @@ private lemma compatible_product_decomp
   apply hC_ne
   rw [hqV] at hcV; rw [hqW] at hcW
   have hV' : V' = ⊤ := by
-    have h := hcV.sup_eq_top; simp [hqV] at h; exact h
+    have h := hcV.sup_eq_top; simp  at h; exact h
   have hW' : W' = ⊤ := by
-    have h := hcW.sup_eq_top; simp [hqW] at h; exact h
-  have htop : V'.prod W' = ⊤ := by rw [hV', hW']; ext ⟨v, w⟩; simp [Submodule.mem_prod]
+    have h := hcW.sup_eq_top; simp  at h; exact h
+  have htop : V'.prod W' = ⊤ := by rw [hV', hW']; ext ⟨v, w⟩; simp
   have := hcompl.inf_eq_bot; rw [htop, top_inf_eq] at this; exact this
 
 lemma off_diagonal_nilpotent_product_decomp
@@ -2858,11 +2858,11 @@ lemma off_diagonal_nilpotent_product_decomp
         by_cases hW : 0 < Module.finrank ℂ W
         · exact Or.inl hW
         · right
-          push_neg at hW
+          push Not at hW
           have : Module.finrank ℂ (LinearMap.ker B) = 0 :=
             le_antisymm (le_trans (Submodule.finrank_le _) (by omega)) (Nat.zero_le _)
           linarith)
-  · push_neg at h1
+  · push Not at h1
     -- h1 : ker A ≤ range B
     by_cases h2 : ∃ w ∈ LinearMap.ker B, w ∉ LinearMap.range A
     · -- Symmetric case: w ∈ ker B, w ∉ range A
@@ -2875,14 +2875,14 @@ lemma off_diagonal_nilpotent_product_decomp
             by_cases hV : 0 < Module.finrank ℂ V
             · exact Or.inl hV
             · right
-              push_neg at hV
+              push Not at hV
               have : Module.finrank ℂ (LinearMap.ker A) = 0 :=
                 le_antisymm (le_trans (Submodule.finrank_le _) (by omega)) (Nat.zero_le _)
               linarith)
       refine ⟨pV, qV, pW, qW, hcV, hcW, hApV, hAqV, hBpW, hBqW, ?_, ?_⟩
       · intro ⟨hpV, hpW⟩; exact h1_ne ⟨hpW, hpV⟩
       · intro ⟨hqV, hqW⟩; exact h2_ne ⟨hqW, hqV⟩
-    · push_neg at h2
+    · push Not at h2
       -- Hard case: ker A ≤ range B AND ker B ≤ range A.
       -- Strategy: AB is nilpotent on W with dim(ker AB) ≥ 2,
       -- so nilpotent_nontrivial_decomp gives W = pW ⊕ qW both AB-invariant.

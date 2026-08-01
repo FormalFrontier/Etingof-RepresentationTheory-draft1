@@ -116,11 +116,11 @@ noncomputable def repHom (G X : Module.End ℂ V)
     induction r with
     | anticomm =>
         simp only [map_add, map_mul, map_zero, FreeAlgebra.lift_ι_apply,
-          Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+          Matrix.cons_val_zero, Matrix.cons_val_one]
         exact hgx
     | xsq =>
         simp only [map_mul, map_zero, FreeAlgebra.lift_ι_apply,
-          Matrix.cons_val_one, Matrix.head_cons]
+          Matrix.cons_val_one]
         exact hxx
     | gsq =>
         simp only [map_mul, map_one, FreeAlgebra.lift_ι_apply, Matrix.cons_val_zero]
@@ -240,10 +240,10 @@ lemma Sminus.smul_def (a : A) (v : Sminus) : a • v = ρminus a v := rfl
 /-! ### `S₊` and `S₋` are simple and non-isomorphic -/
 
 instance : IsScalarTower ℂ A Splus :=
-  ⟨fun c a v => by show ρplus (c • a) v = c • ρplus a v; rw [map_smul]; rfl⟩
+  ⟨fun c a v => by change ρplus (c • a) v = c • ρplus a v; rw [map_smul]; rfl⟩
 
 instance : IsScalarTower ℂ A Sminus :=
-  ⟨fun c a v => by show ρminus (c • a) v = c • ρminus a v; rw [map_smul]; rfl⟩
+  ⟨fun c a v => by change ρminus (c • a) v = c • ρminus a v; rw [map_smul]; rfl⟩
 
 /-- `S₊` is a simple `A`-module: a one-dimensional `ℂ`-space has only the trivial
 `ℂ`-subspaces, and every `A`-submodule is in particular a `ℂ`-subspace. -/
@@ -336,7 +336,7 @@ end Pplus
 /-- The action of `g` on `P₊`, the diagonal matrix `diag(1, -1)`. -/
 def PG : Module.End ℂ Pplus where
   toFun v := ![v 0, -v 1]
-  map_add' u v := by refine Pplus.ext fun i => ?_; fin_cases i <;> simp <;> ring
+  map_add' u v := by refine Pplus.ext fun i => ?_; fin_cases i <;> simp ; ring
   map_smul' c v := by refine Pplus.ext fun i => ?_; fin_cases i <;> simp [mul_neg]
 
 /-- The action of `x` on `P₊`, the nilpotent matrix `[[0,0],[1,0]]`. -/
@@ -480,7 +480,7 @@ theorem extClass_ne_zero : ses_shortExact.extClass ≠ 0 := by
     rw [Splus.x_smul, map_zero, Pplus.x_smul] at hx1
     have hzero : (h.hom s) 0 = 0 := by
       have h3 := congrFun hx1 1
-      simp only [Matrix.cons_val_one, Matrix.head_cons] at h3
+      simp only [Matrix.cons_val_one] at h3
       exact h3.symm
     rw [gSES_apply, hzero] at key
     exact key.symm
@@ -495,7 +495,7 @@ the `A`-linear section `(a, b) ↦ a • e₊ + b • (x·e₊)`, exhibiting `P�
 of the free module `A`. Hence `P₊` is projective. -/
 
 instance : IsScalarTower ℂ A Pplus :=
-  ⟨fun c a v => by show ρP (c • a) v = c • ρP a v; rw [map_smul]; rfl⟩
+  ⟨fun c a v => by change ρP (c • a) v = c • ρP a v; rw [map_smul]; rfl⟩
 
 /-- The idempotent `e₊ = (1 + g)/2 ∈ A` (a generator of the summand `A·e₊ ≅ P₊`). -/
 noncomputable def eplus : A := (2⁻¹ : ℂ) • (1 + g)
@@ -539,7 +539,7 @@ lemma eplus_smul_e0 : eplus • Pplus.e0 = Pplus.e0 := by
     rw [eplus, smul_assoc, add_smul, one_smul]
   rw [h, Pplus.g_smul]
   refine Pplus.ext fun i => ?_
-  fin_cases i <;> simp <;> norm_num
+  fin_cases i <;> simp ; norm_num
 
 lemma xeplus_smul_e0 : xeplus • Pplus.e0 = Pplus.e1 := by
   rw [← x_mul_eplus, mul_smul, eplus_smul_e0, Pplus.x_smul]
@@ -719,7 +719,7 @@ end Pminus
 /-- The action of `g` on `P₋`, the diagonal matrix `diag(-1, 1)`. -/
 def PGm : Module.End ℂ Pminus where
   toFun v := ![-v 0, v 1]
-  map_add' u v := by refine Pminus.ext fun i => ?_; fin_cases i <;> simp <;> ring
+  map_add' u v := by refine Pminus.ext fun i => ?_; fin_cases i <;> simp ; ring
   map_smul' c v := by refine Pminus.ext fun i => ?_; fin_cases i <;> simp [mul_neg]
 
 /-- The action of `x` on `P₋`, the nilpotent matrix `[[0,0],[1,0]]`. -/
@@ -771,7 +771,7 @@ lemma Pminus.smul_def (a : A) (v : Pminus) : a • v = ρPm a v := rfl
   rw [Pminus.smul_def, ρPm, repHom_x, PXm_apply]
 
 instance : IsScalarTower ℂ A Pminus :=
-  ⟨fun c a v => by show ρPm (c • a) v = c • ρPm a v; rw [map_smul]; rfl⟩
+  ⟨fun c a v => by change ρPm (c • a) v = c • ρPm a v; rw [map_smul]; rfl⟩
 
 /-- The `ℂ`-linear inclusion of the socle of `P₋`: `c ↦ (0, c)`. -/
 def φfm : Splus →ₗ[ℂ] Pminus where
@@ -883,7 +883,7 @@ lemma eminus_smul_e0 : eminus • Pminus.e0 = Pminus.e0 := by
     rw [eminus, smul_assoc, sub_smul, one_smul]
   rw [h, Pminus.g_smul]
   refine Pminus.ext fun i => ?_
-  fin_cases i <;> simp <;> norm_num
+  fin_cases i <;> simp ; norm_num
 
 lemma xeminus_smul_e0 : xeminus • Pminus.e0 = Pminus.e1 := by
   rw [← x_mul_eminus, mul_smul, eminus_smul_e0, Pminus.x_smul]
@@ -1052,11 +1052,11 @@ lemma exists_mul_eq_mul_x (a : A) : ∃ b : A, x * a = b * x := by
   | grade1 i =>
       fin_cases i
       · refine ⟨-g, ?_⟩
-        show x * g = -g * x
+        change x * g = -g * x
         have h2 : x * g = -(g * x) := by
           rw [eq_neg_iff_add_eq_zero, add_comm]; exact anticomm_rel
         exact h2.trans (neg_mul g x).symm
-      · exact ⟨0, by show x * x = 0 * x; rw [xsq_rel, zero_mul]⟩
+      · exact ⟨0, by change x * x = 0 * x; rw [xsq_rel, zero_mul]⟩
   | mul p q hp hq =>
       obtain ⟨bp, hbp⟩ := hp
       obtain ⟨bq, hbq⟩ := hq
@@ -1079,15 +1079,15 @@ def xAnnihilator : Submodule A S where
   carrier := {s : S | x • s = 0}
   add_mem' := by
     intro a b ha hb
-    show x • (a + b) = 0
+    change x • (a + b) = 0
     rw [smul_add, show x • a = 0 from ha, show x • b = 0 from hb, add_zero]
-  zero_mem' := by show x • (0 : S) = 0; rw [smul_zero]
+  zero_mem' := by change x • (0 : S) = 0; rw [smul_zero]
   smul_mem' := by
     intro c s hs
     obtain ⟨b, hb⟩ := exists_mul_eq_mul_x c
-    show x • (c • s) = 0
+    change x • (c • s) = 0
     rw [smul_smul, hb, ← smul_smul]
-    show b • (x • s) = 0
+    change b • (x • s) = 0
     rw [show x • s = 0 from hs, smul_zero]
 
 variable {S}
@@ -1101,7 +1101,7 @@ theorem x_smul_eq_zero_of_isSimpleModule [IsSimpleModule A S] (s : S) : x • s 
   · exact h s
   · obtain ⟨t, ht⟩ := not_forall.mp h
     have hmem : x • t ∈ xAnnihilator S := by
-      show x • (x • t) = 0
+      change x • (x • t) = 0
       rw [smul_smul, xsq_rel, zero_smul]
     have hne : xAnnihilator S ≠ ⊥ := fun hb => ht (by simpa [hb] using hmem)
     have htop : xAnnihilator S = ⊤ := (eq_bot_or_eq_top (xAnnihilator S)).resolve_left hne
@@ -1124,7 +1124,7 @@ lemma smul_mem_of_g_stable (W : Submodule ℂ S)
       intro w hw
       fin_cases i
       · exact hg w hw
-      · show x • w ∈ W
+      · change x • w ∈ W
         rw [hx w]
         exact W.zero_mem
   | mul p q hp hq =>
@@ -1165,7 +1165,7 @@ theorem g_smul_eq_self_or_neg [IsSimpleModule A S] :
   rcases eq_bot_or_eq_top N with hb | ht
   · refine Or.inr fun s => ?_
     have hmem : s + g • s ∈ N := by
-      show s + g • s ∈ (gPlusEigenspace : Submodule ℂ S)
+      change s + g • s ∈ (gPlusEigenspace : Submodule ℂ S)
       rw [mem_gPlusEigenspace, smul_add, g_smul_g_smul, add_comm]
     have hz : s + g • s = 0 := by simpa [hb] using hmem
     rw [eq_neg_iff_add_eq_zero, add_comm]
@@ -1529,7 +1529,7 @@ lemma homCoeffPP_bijective : Function.Bijective homCoeffPP := by
     exact congrArg (fun c : ℂ => c • Pplus.e0) h
   · intro c
     refine ⟨c • LinearMap.id, ?_⟩
-    show ((c • (LinearMap.id : Pplus →ₗ[A] Pplus)) Pplus.e0) 0 = c
+    change ((c • (LinearMap.id : Pplus →ₗ[A] Pplus)) Pplus.e0) 0 = c
     simp
 
 lemma homCoeffPM_bijective : Function.Bijective homCoeffPM := by
@@ -1541,7 +1541,7 @@ lemma homCoeffPM_bijective : Function.Bijective homCoeffPM := by
     exact congrArg (fun c : ℂ => c • Pminus.e1) h
   · intro c
     refine ⟨c • Tpm, ?_⟩
-    show ((c • Tpm) Pplus.e0) 1 = c
+    change ((c • Tpm) Pplus.e0) 1 = c
     rw [LinearMap.smul_apply, Tpm_e0]
     simp
 
@@ -1554,7 +1554,7 @@ lemma homCoeffMP_bijective : Function.Bijective homCoeffMP := by
     exact congrArg (fun c : ℂ => c • Pplus.e1) h
   · intro c
     refine ⟨c • Tmp, ?_⟩
-    show ((c • Tmp) Pminus.e0) 1 = c
+    change ((c • Tmp) Pminus.e0) 1 = c
     rw [LinearMap.smul_apply, Tmp_e0]
     simp
 
@@ -1567,7 +1567,7 @@ lemma homCoeffMM_bijective : Function.Bijective homCoeffMM := by
     exact congrArg (fun c : ℂ => c • Pminus.e0) h
   · intro c
     refine ⟨c • LinearMap.id, ?_⟩
-    show ((c • (LinearMap.id : Pminus →ₗ[A] Pminus)) Pminus.e0) 0 = c
+    change ((c • (LinearMap.id : Pminus →ₗ[A] Pminus)) Pminus.e0) 0 = c
     simp
 
 /-- `Hom_A(P₊, P₊) ≅ ℂ`, the isomorphism sending `φ` to its coefficient on `id`. -/
@@ -1723,11 +1723,11 @@ lemma xeplus_smul_Pminus_e0 : xeplus • Pminus.e0 = 0 := by
   rw [← x_mul_eplus, mul_smul, eplus_smul_Pminus_e0, smul_zero]
 
 @[simp] lemma iPlus_e0 : iPlus Pplus.e0 = eplus := by
-  show Pplus.e0 0 • eplus + Pplus.e0 1 • xeplus = eplus
+  change Pplus.e0 0 • eplus + Pplus.e0 1 • xeplus = eplus
   rw [Pplus.e0_zero, Pplus.e0_one, one_smul, zero_smul, add_zero]
 
 @[simp] lemma iMinus_e0 : iMinus Pminus.e0 = eminus := by
-  show Pminus.e0 0 • eminus + Pminus.e0 1 • xeminus = eminus
+  change Pminus.e0 0 • eminus + Pminus.e0 1 • xeminus = eminus
   rw [Pminus.e0_zero, Pminus.e0_one, one_smul, zero_smul, add_zero]
 
 lemma rPlus_iPlus (u : Pplus) : rPlus (iPlus u) = u :=
@@ -1763,13 +1763,13 @@ noncomputable def rProd : A →ₗ[A] (Pplus × Pminus) := rPlus.prod rMinus
 
 lemma iProd_comp_rProd : iProd.comp rProd = LinearMap.id := by
   refine LinearMap.ext fun a => ?_
-  show iPlus (rPlus a) + iMinus (rMinus a) = a
+  change iPlus (rPlus a) + iMinus (rMinus a) = a
   rw [rPlus, rMinus, LinearMap.toSpanSingleton_apply, LinearMap.toSpanSingleton_apply,
     map_smul, map_smul, iPlus_e0, iMinus_e0, ← smul_add, eplus_add_eminus, smul_eq_mul, mul_one]
 
 lemma rProd_comp_iProd : rProd.comp iProd = LinearMap.id := by
   refine LinearMap.ext fun p => ?_
-  show (rPlus (iPlus p.1 + iMinus p.2), rMinus (iPlus p.1 + iMinus p.2)) = p
+  change (rPlus (iPlus p.1 + iMinus p.2), rMinus (iPlus p.1 + iMinus p.2)) = p
   rw [map_add, map_add, rPlus_iMinus, rMinus_iPlus, add_zero, zero_add, rPlus_iPlus,
     rMinus_iMinus]
 
@@ -1790,11 +1790,11 @@ noncomputable def regularEquivProd : (Pplus × Pminus) ≃ₗ[A] A :=
 /-! ### `A` is four-dimensional over `ℂ` -/
 
 lemma Pplus.finrank_complex : Module.finrank ℂ Pplus = 2 := by
-  show Module.finrank ℂ (Fin 2 → ℂ) = 2
+  change Module.finrank ℂ (Fin 2 → ℂ) = 2
   simp
 
 lemma Pminus.finrank_complex : Module.finrank ℂ Pminus = 2 := by
-  show Module.finrank ℂ (Fin 2 → ℂ) = 2
+  change Module.finrank ℂ (Fin 2 → ℂ) = 2
   simp
 
 /-- The `ℂ`-linear form of the decomposition, obtained by restricting scalars. -/

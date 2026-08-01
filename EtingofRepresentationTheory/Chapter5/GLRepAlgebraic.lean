@@ -127,7 +127,7 @@ theorem IsAlgebraicCoefficientFamily.restrict {k : Type*} [Field k] {N : ℕ}
   let φ : Y →ₗ[k] k := (Finsupp.lapply a).comp (b'.repr.toLinearMap.comp π)
   have hφ_apply : ∀ y, φ y = b'.repr (π y) a := fun _ => rfl
   have hcoe : (W.subtype) ((ρ g).restrict (hW g) (b' c)) = ρ g (W.subtype (b' c)) :=
-    LinearMap.restrict_coe_apply (ρ g) (hW g) (b' c)
+    LinearMap.coe_restrict_apply (hW g) (b' c)
   -- Reduce the LHS coefficient to a double sum over the ambient basis.
   have hlhs : b'.repr ((ρ g).restrict (hW g) (b' c)) a
       = ∑ d, ∑ e, B.repr (W.subtype (b' c)) d
@@ -308,7 +308,7 @@ theorem evalAtGL_bind₁_invSubst {k : Type*} [Field k] {N : ℕ}
     cases i with
     | inl ij =>
         obtain ⟨a, b⟩ := ij
-        show Etingof.evalAtGL g
+        change Etingof.evalAtGL g
             (MvPolynomial.X (Sum.inr ()) *
               (Matrix.of fun i j : Fin N => MvPolynomial.X (R := k) (Sum.inl (i, j))).adjugate a b)
           = ((g⁻¹ : Matrix.GeneralLinearGroup (Fin N) k) : Matrix (Fin N) (Fin N) k) a b
@@ -316,7 +316,7 @@ theorem evalAtGL_bind₁_invSubst {k : Type*} [Field k] {N : ℕ}
           Matrix.GeneralLinearGroup.coe_inv, Matrix.inv_def, Matrix.smul_apply, smul_eq_mul,
           Ring.inverse_eq_inv]
     | inr u =>
-        show Etingof.evalAtGL g (detPolyGL k N)
+        change Etingof.evalAtGL g (detPolyGL k N)
           = (((g⁻¹ : Matrix.GeneralLinearGroup (Fin N) k) : Matrix (Fin N) (Fin N) k).det)⁻¹
         rw [evalAtGL_detPolyGL, Matrix.GeneralLinearGroup.val_det_apply,
           Matrix.GeneralLinearGroup.coe_inv, Matrix.det_nonsing_inv, Ring.inverse_eq_inv, inv_inv]

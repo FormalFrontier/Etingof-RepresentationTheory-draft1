@@ -89,10 +89,10 @@ def Etingof.GL2.principalSeriesSubmodule
   carrier := {f | ∀ (b : ↥(Etingof.GL2.BorelSubgroup p n)) (g : GL2 p n),
     f (b.val * g) = Etingof.GL2.borelCharValue p n chi1 chi2 b * f g}
   add_mem' {f g} hf hg := by
-    intro b x; simp only [Set.mem_setOf_eq, Pi.add_apply]; rw [hf b x, hg b x, mul_add]
+    intro b x; simp only [Pi.add_apply]; rw [hf b x, hg b x, mul_add]
   zero_mem' := by intro b g; simp
   smul_mem' c f hf := by
-    intro b g; simp only [Set.mem_setOf_eq, Pi.smul_apply, smul_eq_mul]
+    intro b g; simp only [Pi.smul_apply, smul_eq_mul]
     rw [hf b g, mul_left_comm]
 
 /-- The principal series as a representation via right translation. -/
@@ -148,17 +148,17 @@ private lemma Etingof.GL2.complementW_mem_of_mul
   · -- Augmentation = 0: ∑_g f(gh) · μ(det g)⁻¹ = 0
     -- Reindex g ↦ g·h⁻¹, use det multiplicativity, factor out constant
     have hker : ∑ g : GL2 p n, f g * ↑(mu (Matrix.GeneralLinearGroup.det g))⁻¹ = 0 := by
-      have := hf.2; simp only [LinearMap.mem_ker, Etingof.GL2.augmentation,
-        LinearMap.coe_mk, AddHom.coe_mk] at this; exact this
-    show (fun g => f (g * h)) ∈ LinearMap.ker (Etingof.GL2.augmentation p n mu)
+      have := hf.2; simp only [Etingof.GL2.augmentation,
+        LinearMap.coe_mk] at this; exact this
+    change (fun g => f (g * h)) ∈ LinearMap.ker (Etingof.GL2.augmentation p n mu)
     rw [LinearMap.mem_ker]
-    show ∑ g : GL2 p n,
+    change ∑ g : GL2 p n,
       f (g * h) * ↑(mu (Matrix.GeneralLinearGroup.det g))⁻¹ = 0
     -- Reindex via g ↦ g * h⁻¹: transforms ∑ f(g*h)*c(g) into ∑ f(g)*c(g*h⁻¹)
     rw [Fintype.sum_equiv (Equiv.mulRight h)
         (fun g => f (g * h) * ↑(mu (Matrix.GeneralLinearGroup.det g))⁻¹)
         (fun g => f g * ↑(mu (Matrix.GeneralLinearGroup.det (g * h⁻¹)))⁻¹)
-        (fun g => by simp [Equiv.coe_mulRight, inv_mul_cancel_right])]
+        (fun g => by simp [Equiv.coe_mulRight])]
     -- Now: ∑_g f(g) * μ(det(g * h⁻¹))⁻¹ = 0
     -- Use det multiplicativity and factor out the constant
     simp_rw [map_mul, mul_inv_rev, Units.val_mul]
@@ -232,7 +232,7 @@ private lemma sum_monoidHom_units_eq_zero
     ∑ x : F, (φ x : ℂ) = 0 := by
   -- Find an element where φ is nontrivial
   have ⟨b, hb⟩ : ∃ b, φ b ≠ 1 := by
-    by_contra h; push_neg at h
+    by_contra h; push Not at h
     exact hφ (MonoidHom.ext fun x => h x)
   -- Reindex sum: ∑ φ(x) = ∑ φ(b*x) = φ(b) · ∑ φ(x)
   have hreindex : ∑ x : F, (φ (b * x) : ℂ) = ∑ x : F, (φ x : ℂ) :=
@@ -338,7 +338,7 @@ lemma Etingof.GL2.cosetBorel_mul_cosetRep
       Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
       Matrix.unitOfDetInvertible, Matrix.mul_apply, Fin.sum_univ_two]
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.det_fin_two] <;> field_simp <;> ring
+      simp [Matrix.det_fin_two] <;> field_simp ; ring
 
 /-- Every g ∈ GL₂ satisfies g = b * rep(idx(g)) for some b ∈ B. -/
 lemma Etingof.GL2.mem_coset_of_cosetIndex
@@ -359,7 +359,7 @@ lemma Etingof.GL2.mem_coset_of_cosetIndex
       rw [this]; exact hdet
     refine ⟨⟨Matrix.GeneralLinearGroup.mkOfDetNeZero bmat hbdet, ?_⟩, ?_⟩
     · -- b ∈ B: b₁₀ = 0
-      show ((Matrix.GeneralLinearGroup.mkOfDetNeZero bmat hbdet).val :
+      change ((Matrix.GeneralLinearGroup.mkOfDetNeZero bmat hbdet).val :
         Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0
       simp [Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
             Matrix.unitOfDetInvertible, bmat]
@@ -369,7 +369,7 @@ lemma Etingof.GL2.mem_coset_of_cosetIndex
         Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
         Matrix.unitOfDetInvertible, Matrix.mul_apply, Fin.sum_univ_two]
       fin_cases i <;> fin_cases j <;>
-        simp [bmat, Matrix.det_fin_two, Matrix.unitOfDetInvertible] <;>
+        simp [bmat, Matrix.det_fin_two] <;>
         (try ring) <;> (field_simp; ring)
 
 /-- cosetIndex is invariant under left-multiplication by Borel elements. -/
@@ -395,7 +395,7 @@ lemma Etingof.GL2.cosetIndex_borel_mul
     have hbg11 : ((b.val * g).val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 1 =
       (b.val.val : Matrix _ _ _) 1 1 * (g.val : Matrix _ _ _) 1 1 := by
       simp [Units.val_mul, Matrix.mul_apply, Fin.sum_univ_two, hb10]
-    simp only [hg10, hbg10_ne, ↓reduceDIte, dite_false]
+    simp only [hg10, hbg10_ne, ↓reduceDIte]
     congr 1
     rw [show ((b.val * g).val : Matrix _ _ _) 1 1 =
         (b.val.val : Matrix _ _ _) 1 1 * (g.val : Matrix _ _ _) 1 1 from hbg11,
@@ -423,7 +423,7 @@ lemma Etingof.GL2.borelCharValue_mul
     Units.mk0 _ (Etingof.GL2.borel_diag00_ne_zero p n b1) *
     Units.mk0 _ (Etingof.GL2.borel_diag00_ne_zero p n b2) := by
     ext
-    show ((b1.val * b2.val).val : Matrix _ _ _) 0 0 =
+    change ((b1.val * b2.val).val : Matrix _ _ _) 0 0 =
       (b1.val.val : Matrix _ _ _) 0 0 * (b2.val.val : Matrix _ _ _) 0 0
     change ((b1.val.val * b2.val.val) 0 0 : _) = _
     simp [Matrix.mul_apply, Fin.sum_univ_two, hb2_10']
@@ -432,7 +432,7 @@ lemma Etingof.GL2.borelCharValue_mul
     Units.mk0 _ (Etingof.GL2.borel_diag11_ne_zero p n b1) *
     Units.mk0 _ (Etingof.GL2.borel_diag11_ne_zero p n b2) := by
     ext
-    show ((b1.val * b2.val).val : Matrix _ _ _) 1 1 =
+    change ((b1.val * b2.val).val : Matrix _ _ _) 1 1 =
       (b1.val.val : Matrix _ _ _) 1 1 * (b2.val.val : Matrix _ _ _) 1 1
     change ((b1.val.val * b2.val.val) 1 1 : _) = _
     simp [Matrix.mul_apply, Fin.sum_univ_two, hb1_10']
@@ -507,8 +507,8 @@ lemma Etingof.GL2.cosetIndex_cosetRep
         (by simp [Matrix.det_fin_two])).val 1 0 ≠ 0 := by
       simp [Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
             Matrix.unitOfDetInvertible]
-    simp [Etingof.GL2.cosetIndex, h10,
-          Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
+    simp [
+
           Matrix.unitOfDetInvertible]
 
 /-- borelCharValue at 1 is 1. -/
@@ -543,7 +543,7 @@ lemma Etingof.GL2.cosetBorel_cosetRep
     intro i j
     simp [Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
           Matrix.unitOfDetInvertible, Matrix.det_fin_two]
-    fin_cases i <;> fin_cases j <;> simp [Matrix.det_fin_two]
+    fin_cases i <;> fin_cases j <;> simp
 
 /-- The covariant function evaluates to c at coset reps. -/
 lemma Etingof.GL2.mkCovariantFun_eval
@@ -601,7 +601,7 @@ private lemma Etingof.GL2.cosetRep_mul_translation_some
     Etingof.GL2.cosetRep, Etingof.GL2.translationElt,
     Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
     Matrix.unitOfDetInvertible, Matrix.mul_apply, Fin.sum_univ_two]
-  fin_cases i <;> fin_cases j <;> simp <;> ring
+  fin_cases i <;> fin_cases j <;> simp ; ring
 
 /-- (ρ(τ_s) f)(rep(some t)) = f(rep(some(t + s))). -/
 private lemma Etingof.GL2.action_translation_some
@@ -631,7 +631,7 @@ private lemma Etingof.GL2.action_translation_none
     simp [Etingof.GL2.translationElt, Matrix.GeneralLinearGroup.mkOfDetNeZero,
       Matrix.GeneralLinearGroup.mk', Matrix.unitOfDetInvertible]
   have hcov := f.prop ⟨Etingof.GL2.translationElt p n s, hb_mem⟩ 1
-  simp only [Subgroup.coe_mk, mul_one] at hcov
+  simp only [mul_one] at hcov
   rw [hcov]
   simp [Etingof.GL2.borelCharValue, Etingof.GL2.translationElt,
     Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
@@ -690,7 +690,7 @@ private lemma Etingof.GL2.action_diagonal_none
     simp [Etingof.GL2.diagElt, Matrix.GeneralLinearGroup.mkOfDetNeZero,
       Matrix.GeneralLinearGroup.mk', Matrix.unitOfDetInvertible]
   have hcov := f.prop ⟨Etingof.GL2.diagElt p n c, hb_mem⟩ 1
-  simp only [Subgroup.coe_mk, mul_one] at hcov
+  simp only [mul_one] at hcov
   rw [hcov]
   congr 1
   simp [Etingof.GL2.borelCharValue, Etingof.GL2.diagElt,
@@ -762,10 +762,10 @@ private lemma Etingof.GL2.principalSeries_construct_delta_none
       f'.val (Etingof.GL2.cosetRep p n none) ≠ 0 := by
     by_cases hfnone : f.val (Etingof.GL2.cosetRep p n none) ≠ 0
     · exact ⟨f, hfS, hfnone⟩
-    · push_neg at hfnone
+    · push Not at hfnone
       -- f ≠ 0 but f(rep(none)) = 0, so some f(rep(some t₀)) ≠ 0
       have hsome : ∃ t₀, f.val (Etingof.GL2.cosetRep p n (some t₀)) ≠ 0 := by
-        by_contra hall; push_neg at hall
+        by_contra hall; push Not at hall
         exact hfne (Etingof.GL2.principalSeries_eval_injective p n chi1 chi2 f
           (fun i => match i with | none => hfnone | some t => hall t))
       obtain ⟨t₀, ht₀⟩ := hsome
@@ -821,7 +821,7 @@ private lemma Etingof.GL2.principalSeries_construct_delta_none
     exact Fintype.sum_equiv (Equiv.addLeft t) _ _ (fun s => rfl)
   -- Step 3: ρ(δ_c)(avg) - χ₂(c) · avg kills the "some" part
   have ⟨c, hc⟩ : ∃ c : (GaloisField p n)ˣ, chi1 c ≠ chi2 c := by
-    by_contra h; push_neg at h; exact hne (MonoidHom.ext h)
+    by_contra h; push Not at h; exact hne (MonoidHom.ext h)
   set g := ρ (Etingof.GL2.diagElt p n c) avg - (chi2 c : ℂ) • avg
   refine ⟨g, ?_, ?_, ?_⟩
   · -- g ∈ S
@@ -833,7 +833,7 @@ private lemma Etingof.GL2.principalSeries_construct_delta_none
     have hgval : g.val (Etingof.GL2.cosetRep p n none) =
         ((chi1 c : ℂ) - (chi2 c : ℂ)) * ((Fintype.card (GaloisField p n) : ℂ) *
           f'.val (Etingof.GL2.cosetRep p n none)) := by
-      show (ρ (Etingof.GL2.diagElt p n c) avg - (chi2 c : ℂ) • avg).val
+      change (ρ (Etingof.GL2.diagElt p n c) avg - (chi2 c : ℂ) • avg).val
         (Etingof.GL2.cosetRep p n none) = _
       simp only [Submodule.coe_sub, Submodule.coe_smul, Pi.sub_apply, Pi.smul_apply,
         smul_eq_mul]
@@ -848,7 +848,7 @@ private lemma Etingof.GL2.principalSeries_construct_delta_none
       · exact hf'none hf
   · -- g(rep(some t)) = 0: diagonal and averaging cancel
     intro t
-    show (ρ (Etingof.GL2.diagElt p n c) avg - (chi2 c : ℂ) • avg).val
+    change (ρ (Etingof.GL2.diagElt p n c) avg - (chi2 c : ℂ) • avg).val
       (Etingof.GL2.cosetRep p n (some t)) = 0
     simp only [Submodule.coe_sub, Submodule.coe_smul, Pi.sub_apply, Pi.smul_apply,
       smul_eq_mul]
@@ -907,7 +907,7 @@ private lemma Etingof.GL2.action_weyl_some_ne_zero
       (Etingof.GL2.cosetRep p n (some t)).val *
         (Etingof.GL2.cosetRep p n (some 0)).val from
       Units.val_mul _ _] at h10
-    simp [Etingof.GL2.cosetIndex, h10]
+    simp [h10]
   obtain ⟨s, hs⟩ := hidx
   rw [hs, hfsome, mul_zero]
 
@@ -930,7 +930,7 @@ private lemma Etingof.GL2.principalSeries_delta_spans_top
     exact inv_mul_cancel₀ hgnone
   have hg'_some : ∀ t, g'.val (Etingof.GL2.cosetRep p n (some t)) = 0 := by
     intro t
-    simp [g'_def, Submodule.coe_smul, Pi.smul_apply, smul_eq_mul, hgsome]
+    simp [g'_def, Pi.smul_apply, smul_eq_mul, hgsome]
   -- wg' = ρ(w)(g') is a delta at rep(some 0):
   -- wg'(rep(none)) = 0, wg'(rep(some t)) = 0 for t ≠ 0,
   -- wg'(rep(some 0)) ≠ 0
@@ -966,7 +966,7 @@ private lemma Etingof.GL2.principalSeries_delta_spans_top
         Matrix.GeneralLinearGroup.mkOfDetNeZero,
         Matrix.GeneralLinearGroup.mk',
         Matrix.unitOfDetInvertible,
-        Matrix.GeneralLinearGroup.coe_mul,
+
         Matrix.mul_apply, Fin.sum_univ_two]
     rw [hidx, hg'_none]
     simp [Etingof.GL2.borelCharValue]
@@ -1057,7 +1057,7 @@ private lemma Etingof.GL2.principalSeries_simple_of_ne
       have hSne : S.toSubmodule ≠ ⊥ := by
         intro heq; apply hS
         exact Subrepresentation.toSubmodule_injective heq
-      rw [ne_eq, Submodule.eq_bot_iff] at hSne; push_neg at hSne
+      rw [ne_eq, Submodule.eq_bot_iff] at hSne; push Not at hSne
       obtain ⟨f, hfS, hfne⟩ := hSne
       -- Construct delta at none, deltas at all some, show they span
       obtain ⟨g, hgS, hgnone, hgsome⟩ :=
@@ -1129,7 +1129,7 @@ private lemma Etingof.GL2.complementW_eval_injective
       intro g hg10
       -- g ∈ B, so g = b · rep(none) = b · 1 = b
       have hcov_g := hcov ⟨g, hg10⟩ 1
-      simp only [Units.val_one, mul_one] at hcov_g ⊢
+      simp only [mul_one] at hcov_g ⊢
       -- f(g) = borelCharValue(g) · f(1)
       rw [hcov_g]
       -- borelCharValue = μ(g₀₀) · μ(g₁₁), det(g) = g₀₀ · g₁₁ (since g₁₀ = 0)
@@ -1150,8 +1150,8 @@ private lemma Etingof.GL2.complementW_eval_injective
     have hker_val : ∑ g : GL2 p n,
         f.val g * ↑(mu (Matrix.GeneralLinearGroup.det g))⁻¹ = 0 := by
       have := hker
-      simp only [LinearMap.mem_ker, Etingof.GL2.augmentation,
-        LinearMap.coe_mk, AddHom.coe_mk] at this
+      simp only [Etingof.GL2.augmentation,
+        LinearMap.coe_mk] at this
       exact this
     -- Split sum into B and non-B parts
     have hterm : ∀ g : GL2 p n,
@@ -1355,7 +1355,7 @@ private lemma Etingof.GL2.detFun_mem_principalSeries
   have hb10 : (b.val.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0 := b.prop
   have hdet_eq : (Matrix.GeneralLinearGroup.det b.val : GaloisField p n) =
       (b.val.val : Matrix _ _ _) 0 0 * (b.val.val : Matrix _ _ _) 1 1 := by
-    show (b.val.val : Matrix _ _ _).det = _
+    change (b.val.val : Matrix _ _ _).det = _
     rw [Matrix.det_fin_two, hb10, mul_zero, sub_zero]
   have : Matrix.GeneralLinearGroup.det b.val =
       Units.mk0 ((b.val.val : Matrix _ _ _) 0 0) (Etingof.GL2.borel_diag00_ne_zero p n b) *
@@ -1452,7 +1452,7 @@ private noncomputable def Etingof.GL2.augMorphism
   comm g := by
     apply FGModuleCat.hom_ext
     ext ⟨f, hf⟩
-    show Etingof.GL2.augOnPrincipalSeries p n mu
+    change Etingof.GL2.augOnPrincipalSeries p n mu
       (Etingof.GL2.principalSeriesRep p n mu mu g ⟨f, hf⟩) =
       ((mu (Matrix.GeneralLinearGroup.det g) : ℂˣ) : ℂ) *
         Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩
@@ -1485,7 +1485,7 @@ private noncomputable def Etingof.GL2.detCharEmbedding
     apply FGModuleCat.hom_ext; ext1
     apply Subtype.ext; funext x
     -- Both sides reduce to μ(det g) * μ(det x) vs μ(det(x*g))
-    show ((mu (Matrix.GeneralLinearGroup.det g) : ℂˣ) : ℂ) • (1 : ℂ) *
+    change ((mu (Matrix.GeneralLinearGroup.det g) : ℂˣ) : ℂ) • (1 : ℂ) *
       ↑(mu (Matrix.GeneralLinearGroup.det x)) =
       1 * ↑(mu (Matrix.GeneralLinearGroup.det (x * g)))
     simp only [smul_eq_mul, mul_one, one_mul, map_mul, Units.val_mul]; ring
@@ -1632,7 +1632,7 @@ private noncomputable def Etingof.GL2.complementWProjection_toAmbient
   map_add' := fun ⟨a, ha⟩ ⟨b, hb⟩ => by
     funext g
     simp only [Etingof.GL2.augOnPrincipalSeries, LinearMap.comp_apply,
-      Submodule.coe_subtype, Submodule.coe_add, Pi.add_apply, LinearMap.map_add]
+      Submodule.coe_subtype, Pi.add_apply, LinearMap.map_add]
     ring
   map_smul' := fun r ⟨a, ha⟩ => by
     funext g
@@ -1700,7 +1700,7 @@ private lemma Etingof.GL2.complementWProjection_comm
         (Etingof.GL2.complementWProjection_linearMap p n mu) := by
   apply LinearMap.ext; intro ⟨f, hf⟩
   apply Subtype.ext; funext x
-  show f (x * g) -
+  change f (x * g) -
       (Fintype.card (GL2 p n) : ℂ)⁻¹ *
         Etingof.GL2.augOnPrincipalSeries p n mu
           (Etingof.GL2.principalSeriesRep p n mu mu g ⟨f, hf⟩) *
@@ -1745,7 +1745,7 @@ private lemma Etingof.GL2.emb_comp_scaledAug_eq_id
       Etingof.GL2.scaledAugMorphism p n mu = 𝟙 _ := by
   refine Action.Hom.ext (FGModuleCat.hom_ext (LinearMap.ext (fun c => ?_)))
   -- (emb ≫ scaledAug)(c) = (1/|G|) · aug(emb(c)) = (1/|G|) · c · |G| = c
-  show (Fintype.card (GL2 p n) : ℂ)⁻¹ *
+  change (Fintype.card (GL2 p n) : ℂ)⁻¹ *
     Etingof.GL2.augOnPrincipalSeries p n mu
       (Etingof.GL2.detCharEmbedding_linearMap p n mu c) = c
   rw [Etingof.GL2.aug_comp_emb_eq]
@@ -1759,7 +1759,7 @@ private lemma Etingof.GL2.total_condition
       𝟙 _ := by
   refine Action.Hom.ext (FGModuleCat.hom_ext (LinearMap.ext (fun ⟨f, hf⟩ => ?_)))
   apply Subtype.ext; funext g
-  show ((Fintype.card (GL2 p n) : ℂ)⁻¹ *
+  change ((Fintype.card (GL2 p n) : ℂ)⁻¹ *
     Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩) *
     ↑(mu (Matrix.GeneralLinearGroup.det g)) +
     (f g - (Fintype.card (GL2 p n) : ℂ)⁻¹ *
@@ -1780,7 +1780,7 @@ private lemma Etingof.GL2.emb_comp_proj_eq_zero
   apply Subtype.ext; funext g
   -- LHS: emb(1)(g) = μ(det g), then proj subtracts (1/|G|)*aug(emb(1))*μ(det g)
   -- aug(emb(1)) = |G|, so proj(emb(1))(g) = μ(det g) - μ(det g) = 0
-  show (1 : ℂ) * ↑(mu (Matrix.GeneralLinearGroup.det g)) -
+  change (1 : ℂ) * ↑(mu (Matrix.GeneralLinearGroup.det g)) -
     (Fintype.card (GL2 p n) : ℂ)⁻¹ *
       Etingof.GL2.augOnPrincipalSeries p n mu
         (Etingof.GL2.detCharEmbedding_linearMap p n mu (1 : ℂ)) *
@@ -1795,7 +1795,7 @@ private lemma Etingof.GL2.incl_comp_proj_eq_id
       Etingof.GL2.complementWProjection p n mu = 𝟙 _ := by
   refine Action.Hom.ext (FGModuleCat.hom_ext (LinearMap.ext (fun ⟨f, hf⟩ => ?_)))
   apply Subtype.ext; funext g
-  show f g - (Fintype.card (GL2 p n) : ℂ)⁻¹ *
+  change f g - (Fintype.card (GL2 p n) : ℂ)⁻¹ *
     Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf.1⟩ *
     ↑(mu (Matrix.GeneralLinearGroup.det g)) = f g
   have hker : Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf.1⟩ = 0 := by
@@ -2162,11 +2162,11 @@ private lemma Etingof.GL2.complementW_simple
       -- S ≠ ⊥ → ∃ nonzero f ∈ S
       have hSne : S.toSubmodule ≠ ⊥ := by
         intro heq; exact hS (Subrepresentation.toSubmodule_injective heq)
-      rw [ne_eq, Submodule.eq_bot_iff] at hSne; push_neg at hSne
+      rw [ne_eq, Submodule.eq_bot_iff] at hSne; push Not at hSne
       obtain ⟨f, hfS, hfne⟩ := hSne
       -- f ≠ 0 → ∃ t₀ with f(rep(some t₀)) ≠ 0
       have hsome : ∃ t₀, f.val (Etingof.GL2.cosetRep p n (some t₀)) ≠ 0 := by
-        by_contra hall; push_neg at hall
+        by_contra hall; push Not at hall
         exact hfne (Etingof.GL2.complementW_eval_injective p n mu f hall)
       obtain ⟨t₀, ht₀⟩ := hsome
       -- Step 1: Translate to get f' with f'(rep(some 0)) ≠ 0
@@ -2187,7 +2187,7 @@ private lemma Etingof.GL2.complementW_simple
           ∑ t : GaloisField p n, g.val (Etingof.GL2.cosetRep p n (some t)) ≠ 0 := by
         by_cases hσ : σ₀ ≠ 0
         · exact ⟨f', hf'S, hσ⟩
-        · push_neg at hσ
+        · push Not at hσ
           -- σ₀ = 0 → f'(rep(none)) = -σ₀ = 0
           have hf'_none : f'.val (Etingof.GL2.cosetRep p n none) = 0 := by
             rw [Etingof.GL2.complementW_none_eq_neg_sum]
@@ -2539,7 +2539,7 @@ private lemma Etingof.GL2.sum_nontrivial_char_eq_zero
     (χ : G →* ℂˣ) (hχ : χ ≠ 1) :
     ∑ g : G, (χ g : ℂ) = 0 := by
   have ⟨g₀, hg₀⟩ : ∃ g₀, χ g₀ ≠ 1 := by
-    by_contra h; push_neg at h; exact absurd (MonoidHom.ext h) hχ
+    by_contra h; push Not at h; exact absurd (MonoidHom.ext h) hχ
   have hne : (χ g₀ : ℂ) ≠ 1 := fun h => hg₀ (Units.val_injective h)
   have key : (χ g₀ : ℂ) * ∑ g, (χ g : ℂ) = ∑ g, (χ g : ℂ) := by
     rw [Finset.mul_sum]
@@ -2576,8 +2576,8 @@ private lemma Etingof.GL2.cosetRep_some_mul_borel_factor
   set b'mat : Matrix (Fin 2) (Fin 2) (GaloisField p n) := !![d, 0; 0, a]
   have hb'det : b'mat.det ≠ 0 := by
     simp only [b'mat, Matrix.det_fin_two, Matrix.of_apply, Matrix.cons_val',
-      Matrix.cons_val_zero, Matrix.empty_val', Matrix.cons_val_one, Matrix.vecHead,
-      Matrix.vecTail, mul_zero, sub_zero]
+      Matrix.cons_val_zero, Matrix.empty_val', Matrix.cons_val_one,
+      mul_zero, sub_zero]
     exact mul_ne_zero hd ha
   set b'gl := Matrix.GeneralLinearGroup.mkOfDetNeZero b'mat hb'det
   have hb'mem : (b'gl.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0 := by
@@ -2594,23 +2594,23 @@ private lemma Etingof.GL2.cosetRep_some_mul_borel_factor
     have hb10 : bm 1 0 = 0 := b.prop
     have ha' : (b.val.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 0 0 ≠ 0 := ha
     fin_cases i <;> fin_cases j <;>
-      simp [hb10, a, d, c, v, bm, b'mat, b'gl,
-        Matrix.GeneralLinearGroup.coe_mul, Etingof.GL2.cosetRep,
-        Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
-        Matrix.unitOfDetInvertible, Matrix.mul_apply, Fin.sum_univ_two,
+      simp [hb10, a, d, bm, b'mat,
+
+
+
         Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.empty_val',
-        Matrix.cons_val_one, Matrix.vecHead, Matrix.vecTail] <;>
+        Matrix.cons_val_one] ;
       (try field_simp [ha', ha, hd]) <;> ring
   · -- (0,0) entry of b' is d
     simp only [b'gl, b'mat, Matrix.GeneralLinearGroup.mkOfDetNeZero,
       Matrix.GeneralLinearGroup.mk', Matrix.unitOfDetInvertible,
-      Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.empty_val',
-      Matrix.cons_val_one, Matrix.vecHead, Matrix.vecTail]; rfl
+
+      Matrix.cons_val_one]; rfl
   · -- (1,1) entry of b' is a
     simp only [b'gl, b'mat, Matrix.GeneralLinearGroup.mkOfDetNeZero,
       Matrix.GeneralLinearGroup.mk', Matrix.unitOfDetInvertible,
-      Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.empty_val',
-      Matrix.cons_val_one, Matrix.vecHead, Matrix.vecTail]; rfl
+
+      Matrix.cons_val_one]; rfl
 
 /-- The intertwining sum ∑_u f(r_u * b * g) = χ₂(b₀₀)·χ₁(b₁₁) · ∑_u f(r_u * g). -/
 private lemma Etingof.GL2.intertwining_sum_covariant

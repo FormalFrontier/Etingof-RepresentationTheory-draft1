@@ -134,7 +134,7 @@ theorem Etingof.Theorem5_4_3
         by_contra hne; push Not at hne
         have hconj : IsConj g (y * g * y⁻¹) :=
           ⟨⟨y, y⁻¹, mul_inv_cancel y, inv_mul_cancel y⟩, by
-            show y * g = y * g * y⁻¹ * y; group⟩
+            change y * g = y * g * y⁻¹ * y; group⟩
         have heq := this _ hconj
         have : y * g = g * y := by
           have : y * g * y⁻¹ = g := heq

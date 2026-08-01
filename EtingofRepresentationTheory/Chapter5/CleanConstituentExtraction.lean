@@ -415,12 +415,12 @@ theorem clean_simple_constituent_formalCharacter_eq_schurPoly_mem (N : ℕ)
       have hUnit : ∑ _x : Unit, a (Sum.inl _x) • formalCharacter k N (R (Sum.inl _x))
           = formalCharacter k N L := by
         simp only [Finset.univ_unique, Finset.sum_singleton]
-        show (1 : ℚ) • formalCharacter k N L = formalCharacter k N L
+        change (1 : ℚ) • formalCharacter k N L = formalCharacter k N L
         rw [one_smul]
       have hW : ∑ j : Fin p, a (Sum.inr (Sum.inl j)) • formalCharacter k N (R (Sum.inr (Sum.inl j)))
           = ∑ j, formalCharacter k N (W j) := by
         refine Finset.sum_congr rfl (fun j _ => ?_)
-        show (1 : ℚ) • formalCharacter k N (W j) = formalCharacter k N (W j)
+        change (1 : ℚ) • formalCharacter k N (W j) = formalCharacter k N (W j)
         rw [one_smul]
       have hV : ∑ ν : {ν // ν ∈ S},
             a (Sum.inr (Sum.inr ν)) • formalCharacter k N (R (Sum.inr (Sum.inr ν)))
@@ -428,7 +428,7 @@ theorem clean_simple_constituent_formalCharacter_eq_schurPoly_mem (N : ℕ)
         rw [← Finset.sum_neg_distrib,
           ← Finset.sum_coe_sort S (fun ν => -((c ν : ℚ) • schurPoly N ν.val))]
         refine Finset.sum_congr rfl (fun ν _ => ?_)
-        show (-(c ν.1 : ℚ)) • formalCharacter k N (SchurModule k N ν.1.val)
+        change (-(c ν.1 : ℚ)) • formalCharacter k N (SchurModule k N ν.1.val)
             = -((c ν.1 : ℚ) • schurPoly N ν.1.val)
         rw [formalCharacter_schurModule_eq_schurPoly k N ν.1.val ν.1.property, neg_smul]
       rw [hUnit, hW, hV, ← add_assoc]
@@ -437,7 +437,7 @@ theorem clean_simple_constituent_formalCharacter_eq_schurPoly_mem (N : ℕ)
   have hnet := net_coeff_zero_of_char_combination_zero k N R hRalg hRsimp hRspan a hcomb
   -- ### Step E: read off the conclusion from the net coefficient at `char L`.
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   -- `hcon : ∀ ν ∈ S, 0 < c ν → formalCharacter k N L ≠ schurPoly N ν.val`
   have hcν0 : ∀ ν ∈ S, schurPoly N ν.val = formalCharacter k N L → c ν = 0 := by
     intro ν hν heq
@@ -451,15 +451,15 @@ theorem clean_simple_constituent_formalCharacter_eq_schurPoly_mem (N : ℕ)
     rw [Finset.mem_filter] at hi
     obtain ⟨_, hχi⟩ := hi
     match i with
-    | Sum.inl () => show (0 : ℚ) ≤ 1; norm_num
-    | Sum.inr (Sum.inl j) => show (0 : ℚ) ≤ 1; norm_num
+    | Sum.inl () => change (0 : ℚ) ≤ 1; norm_num
+    | Sum.inr (Sum.inl j) => change (0 : ℚ) ≤ 1; norm_num
     | Sum.inr (Sum.inr ν) =>
         have hchareq : formalCharacter k N (SchurModule k N ν.1.val) = schurPoly N ν.1.val :=
           formalCharacter_schurModule_eq_schurPoly k N ν.1.val ν.1.property
         rw [show formalCharacter k N (R (Sum.inr (Sum.inr ν)))
             = formalCharacter k N (SchurModule k N ν.1.val) from rfl, hchareq] at hχi
         have hc0 : c ν.1 = 0 := hcν0 ν.1 ν.2 hχi
-        show (0 : ℚ) ≤ -(c ν.1 : ℚ)
+        change (0 : ℚ) ≤ -(c ν.1 : ℚ)
         rw [hc0]; norm_num
   have hmem0 : (Sum.inl () : Unit ⊕ Fin p ⊕ {ν // ν ∈ S})
       ∈ Finset.univ.filter (fun i => formalCharacter k N (R i) = formalCharacter k N L) := by

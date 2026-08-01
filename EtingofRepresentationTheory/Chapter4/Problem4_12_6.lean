@@ -550,7 +550,7 @@ theorem exists_simpleFDRep [Fintype K] [DecidableEq K]
   refine ⟨FDRep.of (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ)),
     Etingof.simple_fdRepOf_of_isSimpleModule (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ)), ?_⟩
   have h1 : Module.finrank ℂ (FDRep.of (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ))) = dM := by
-    show Module.finrank ℂ (Fin dM → ℂ) = dM
+    change Module.finrank ℂ (Fin dM → ℂ) = dM
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_fin]
   rw [h1, hdM]
   exact (Representation.asModuleEquiv ρ).finrank_eq
@@ -594,7 +594,7 @@ theorem exists_simpleFDRep' [Fintype K] [DecidableEq K]
       (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ)), ?_, ?_⟩
   · have h1 : Module.finrank ℂ
         (FDRep.of (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ))) = dM := by
-      show Module.finrank ℂ (Fin dM → ℂ) = dM
+      change Module.finrank ℂ (Fin dM → ℂ) = dM
       rw [Module.finrank_fintype_fun_eq_card, Fintype.card_fin]
     rw [h1, hdM]
     exact (Representation.asModuleEquiv ρ).finrank_eq
@@ -655,7 +655,7 @@ theorem irreducible_dim [Fintype K]
     let E : (Affine K →* ℂˣ) ⊕ Unit → FDRep ℂ (Affine K) :=
       Sum.elim (fun χ => FDRep.of (charRep χ)) (fun _ => UV)
     have hEfinL : ∀ χ : Affine K →* ℂˣ, Module.finrank ℂ (E (Sum.inl χ)) = 1 := fun χ => by
-      show Module.finrank ℂ ℂ = 1; exact Module.finrank_self ℂ
+      change Module.finrank ℂ ℂ = 1; exact Module.finrank_self ℂ
     have hEfinR : ∀ u : Unit, Module.finrank ℂ (E (Sum.inr u)) = Fintype.card K - 1 :=
       fun _ => hUVdim
     have hEsimple : ∀ i, Simple (E i) := by
@@ -1119,7 +1119,7 @@ def smulChar (χ : Affine K →* ℂˣ) {W : Type*} [AddCommGroup W] [Module ℂ
   map_one' := by simp
   map_mul' g h := by
     ext x
-    simp only [map_mul, Module.End.mul_apply, LinearMap.smul_apply, MonoidHom.map_mul,
+    simp only [map_mul, Module.End.mul_apply, LinearMap.smul_apply,
       Units.val_mul, map_smul, smul_smul, mul_comm]
 
 @[simp] lemma smulChar_apply (χ : Affine K →* ℂˣ) {W : Type*} [AddCommGroup W] [Module ℂ W]
@@ -1329,7 +1329,7 @@ theorem rhsRep_character [Fintype K] [Fintype (Affine K →* ℂˣ)]
   · -- `kvc`'s summand carries the `↥(zeroSum K)` carrier instance, defeq to the natural
     -- `↥Vsub.toSubmodule` one on the right; `show` re-expresses the goal with the natural atom
     -- so the arithmetic normalization sees a single atom.
-    show (∑ _i : Fin (Fintype.card K - 2), (Vsub (K := K)).toRepresentation.character g)
+    change (∑ _i : Fin (Fintype.card K - 2), (Vsub (K := K)).toRepresentation.character g)
         = ((Fintype.card K : ℂ) - 2) * (Vsub (K := K)).toRepresentation.character g
     rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul,
       Nat.cast_sub (by omega)]
@@ -1372,7 +1372,7 @@ theorem simple_FDRep_iso_enum [Fintype K] [DecidableEq K] (hK : 3 ≤ Fintype.ca
   let E : (Affine K →* ℂˣ) ⊕ Unit → FDRep ℂ (Affine K) :=
     Sum.elim (fun χ => FDRep.of (charRep χ)) (fun _ => UV)
   have hEfinL : ∀ χ : Affine K →* ℂˣ, Module.finrank ℂ (E (Sum.inl χ)) = 1 := fun χ => by
-    show Module.finrank ℂ ℂ = 1; exact Module.finrank_self ℂ
+    change Module.finrank ℂ ℂ = 1; exact Module.finrank_self ℂ
   have hEfinR : ∀ u : Unit, Module.finrank ℂ (E (Sum.inr u)) = Fintype.card K - 1 :=
     fun _ => hUVdim
   have hEsimple : ∀ i, Simple (E i) := by
@@ -1667,7 +1667,7 @@ theorem exists_charRep_equiv_of_finrank_one
   ext x
   simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply]
   rw [hkey g x]
-  show c g * e x = ((χ g : ℂˣ) : ℂ) • (e x)
+  change c g * e x = ((χ g : ℂˣ) : ℂ) • (e x)
   rw [hχval, smul_eq_mul]
 
 /-- For `q = 2` every element of the affine group squares to the identity: `Kˣ` is trivial so
@@ -1696,7 +1696,7 @@ theorem Affine.sq_eq_one_of_card_two [Fintype K] [DecidableEq K]
   · have hbb : g.b + g.b = 0 := by
       have : g.b + g.b = (1 + 1) * g.b := by ring
       rw [this, h11, zero_mul]
-    simp only [mul_b, mul_a, hga, Units.val_one, one_mul, one_b]
+    simp only [mul_b, hga, Units.val_one, one_mul, one_b]
     exact hbb
 
 /-- **Number of irreducibles for `q = 2`.** The affine group over the two-element field is `C₂`,
@@ -1741,7 +1741,7 @@ theorem q2_irreducible_isCharRep [Fintype K] [DecidableEq K] (hq2 : Fintype.card
 theorem q2_Vrep_isCharRep [Fintype K] [DecidableEq K] (hq2 : Fintype.card K = 2) :
     ∃ χ : Affine K →* ℂˣ, Nonempty ((Vsub (K := K)).toRepresentation.Equiv (charRep χ)) :=
   exists_charRep_equiv_of_finrank_one _
-    (by show Module.finrank ℂ ↥(zeroSum K) = 1; rw [zeroSum_finrank, hq2])
+    (by change Module.finrank ℂ ↥(zeroSum K) = 1; rw [zeroSum_finrank, hq2])
 
 /-- **Character values for `q = 2`.** Any character `χ : G →* ℂˣ` sends the identity to `1` and
 the unique nontrivial element `⟨1, 1⟩` to a square root of unity, so `χ ⟨1,1⟩ ∈ {1, -1}`. The

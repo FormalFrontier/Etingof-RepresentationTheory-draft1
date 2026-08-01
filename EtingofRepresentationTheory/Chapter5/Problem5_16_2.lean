@@ -442,7 +442,7 @@ lemma sumTranspositions_mul_youngSymmetrizer (n : ℕ) (la : Nat.Partition n) :
         rw [← mul_assoc, sumTranspositions_central n a, mul_assoc] }
   have hmaps : ∀ x ∈ V, LC x ∈ V := by
     intro x hx
-    show sumTranspositions n * x ∈ V
+    change sumTranspositions n * x ∈ V
     rw [← smul_eq_mul]
     exact V.smul_mem _ hx
   -- Restrict `LC` to the simple submodule `V`.

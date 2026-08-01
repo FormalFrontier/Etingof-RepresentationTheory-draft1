@@ -419,7 +419,7 @@ theorem formalCharacter_shift_of_weightSpace_finrank (N : ℕ)
   · -- Case: ¬(onesFinsupp N ≤ μ), i.e., some μ i = 0
     have hexists : ∃ i : Fin N, (μ i : ℕ) = 0 := by
       by_contra hall
-      push_neg at hall
+      push Not at hall
       exact h fun i => by rw [onesFinsupp_apply]; exact Nat.one_le_iff_ne_zero.mpr (hall i)
     exact_mod_cast h_vanish (⇑μ) hexists
 
@@ -482,7 +482,7 @@ private lemma mem_glWeightSpace_directSum_iff (N : ℕ)
   · intro h i t
     -- Goal: Rep.directSum ρ (diag) x - t^μi • LinearMap.id x = 0
     refine DFinsupp.ext fun j => ?_
-    show (Representation.directSum ρ (diagUnit k N i t) x -
+    change (Representation.directSum ρ (diagUnit k N i t) x -
         (↑t : k) ^ μ i • x) j = (0 : DirectSum ι V) j
     rw [DFinsupp.sub_apply, DFinsupp.smul_apply, directSum_rep_coord,
       DFinsupp.zero_apply]
@@ -518,7 +518,7 @@ noncomputable def glWeightSpace_directSum_equiv (N : ℕ)
       intro j
       -- Goal: (fwd₀ x) j ∈ glWeightSpace ρ_j μ
       -- fwd₀ x = DirectSum.lmap subtypes x, so (fwd₀ x) j = (x j).val by lmap_apply (rfl)
-      show (x j).val ∈ glWeightSpace k N (FDRep.of (ρ j)) μ
+      change (x j).val ∈ glWeightSpace k N (FDRep.of (ρ j)) μ
       exact (x j).2
     · intro hz
       rw [mem_glWeightSpace_directSum_iff] at hz
@@ -528,11 +528,11 @@ noncomputable def glWeightSpace_directSum_equiv (N : ℕ)
       -- fwd₀ is linear, so distributes across the sum; each summand becomes
       -- DirectSum.of V j (z j) via lmap_lof, and the total sum reconstructs z.
       rw [map_sum]
-      simp only [fwd₀, DirectSum.lmap_lof, Submodule.subtype_apply]
+      simp only [fwd₀]
       -- Now goal: ∑ j, DirectSum.of V j (z j) = z
       -- This is DirectSum.sum_univ_of for Fintype
       ext j
-      rw [DFinsupp.finset_sum_apply]
+      rw [DFinsupp.finsetSum_apply]
       simp [DirectSum.of_apply]
   -- Assemble the equiv
   exact (LinearEquiv.ofInjective fwd₀ h_inj).trans
@@ -932,7 +932,7 @@ private theorem tensorStdBasis_repr_eq_zero_of_ne_weight
   -- Find an index `i` where the weights differ.
   obtain ⟨i, hi⟩ : ∃ i, (tensorWeight N f) i ≠ μ i := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (Finsupp.ext h)
   -- Pick a unit `t` with `t^(tensorWeight f i) ≠ t^(μ i)`.
   obtain ⟨t, ht⟩ := exists_unit_pow_ne k hi

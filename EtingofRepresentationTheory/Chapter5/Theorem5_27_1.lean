@@ -431,7 +431,7 @@ private lemma coset_char_witness {G A : Type} [Group G] [CommGroup A]
     (q₁ q₂ : G ⧸ stabAux φ χ) (hne : q₁ ≠ q₂) :
     ∃ a : A, (χ ((φ q₁.out⁻¹ : MulAut A) a) : ℂˣ) ≠ χ ((φ q₂.out⁻¹ : MulAut A) a) := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply hne
   exact coset_char_injective φ χ q₁ q₂ (DFunLike.ext _ _ (fun a => by
     simp only [dualSmulAux, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom]
@@ -572,7 +572,7 @@ private noncomputable def inducedRep_raw {G A : Type} [Group G] [CommGroup A] [F
         intro s hs v
         have : s = 1 := Subtype.ext hs
         rw [this, map_one, Module.End.one_apply]
-      exact this _ (by simp [SemidirectProduct.one_right, inv_mul_cancel]) _
+      exact this _ (by simp [inv_mul_cancel]) _
     map_mul' := fun ag₁ ag₂ => by
       apply LinearMap.ext; intro f; funext q
       simp only [SemidirectProduct.mul_left, SemidirectProduct.mul_right,
@@ -621,7 +621,7 @@ private lemma A_action_at_coset {G A : Type} [Group G] [CommGroup A] [Fintype G]
     (a : A) (f : (G ⧸ stabAux φ χ) → ↥U) (q : G ⧸ stabAux φ χ) :
     inducedRep_raw φ χ U ⟨a, 1⟩ f q =
       ((χ ((φ q.out⁻¹ : MulAut A) a) : ℂˣ) : ℂ) • f q := by
-  show ((χ ((φ q.out⁻¹ : MulAut A) a) : ℂˣ) : ℂ) •
+  change ((χ ((φ q.out⁻¹ : MulAut A) a) : ℂˣ) : ℂ) •
     (FDRep.ρ U ⟨q.out⁻¹ * (1 : G) * ((1 : G)⁻¹ • q).out,
       transition_mem_stab φ χ (1 : G) q⟩) (f ((1 : G)⁻¹ • q)) = _
   have hrho : ∀ (s : ↥(stabAux φ χ)) (hs : (s : G) = 1) (v : ↥U),
@@ -678,7 +678,7 @@ private lemma extract_single_support {G A : Type} [Group G] [CommGroup A] [Finty
     intro f hf hfq₀ hcard
     by_cases h_done : ∀ q, q ≠ q₀ → f q = 0
     · exact ⟨f, hf, hfq₀, h_done⟩
-    · push_neg at h_done
+    · push Not at h_done
       obtain ⟨q₁, hq₁_ne, hq₁_nz⟩ := h_done
       -- Get a witness a ∈ A where characters at q₀ and q₁ differ
       obtain ⟨a, ha⟩ := coset_char_witness φ χ q₀ q₁ hq₁_ne.symm
@@ -694,7 +694,7 @@ private lemma extract_single_support {G A : Type} [Group G] [CommGroup A] [Finty
       have hf'_eval : ∀ q, f' q =
           (((χ ((φ q.out⁻¹ : MulAut A) a) : ℂˣ) : ℂ) - c₁) • f q := by
         intro q
-        show inducedRep_raw φ χ U ⟨a, 1⟩ f q - c₁ • f q = _
+        change inducedRep_raw φ χ U ⟨a, 1⟩ f q - c₁ • f q = _
         rw [A_action_at_coset, sub_smul]
       -- f'(q₁) = 0 (since χ_{q₁}(a) - c₁ = 0)
       have hf'_q₁ : f' q₁ = 0 := by
@@ -812,8 +812,8 @@ private lemma sigma_contains_all_single {G A : Type} [Group G] [CommGroup A] [Fi
               (s₁ : G) = (s₂ : G) → ∀ w, (FDRep.ρ U s₁) w = (FDRep.ρ U s₂) w := by
             intro s₁ s₂ h w; rw [Subtype.ext h]
           exact hrho_eq _ s (by
-            show q₁.out⁻¹ * g' * q₁.out = ↑s
-            simp [g', mul_assoc, inv_mul_cancel, mul_inv_cancel]) v
+            change q₁.out⁻¹ * g' * q₁.out = ↑s
+            simp [g', mul_assoc, inv_mul_cancel]) v
         · -- At q ≠ q₁: f'(q) = ρ_U(trans)(f(g'⁻¹ • q)) = ρ_U(trans)(0) = 0
           intro q hq
           change (inducedRep_raw φ χ U ⟨1, g'⟩ f) q = 0
@@ -881,12 +881,12 @@ private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G
         · right
           -- σ is nonzero, get f ∈ σ with f ≠ 0
           have hσ_ne : ∃ f ∈ σ.toSubmodule, f ≠ 0 := by
-            by_contra h; push_neg at h
+            by_contra h; push Not at h
             apply hσ
             exact le_antisymm (fun x hx => (Submodule.mem_bot (R := ℂ)).mpr (h x hx)) bot_le
           obtain ⟨f, hf_mem, hf_ne⟩ := hσ_ne
           have ⟨q₀, hq₀⟩ : ∃ q₀, f q₀ ≠ 0 := by
-            by_contra h; push_neg at h; exact hf_ne (funext h)
+            by_contra h; push Not at h; exact hf_ne (funext h)
           -- Extract single-coset support using A-eigenspace trick
           have hσ_inv : ∀ ag f, f ∈ σ.toSubmodule → ρ ag f ∈ σ.toSubmodule :=
             fun ag f hf => σ.apply_mem_toSubmodule ag hf
@@ -1004,7 +1004,7 @@ private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G
                   (s₁ : G) = (s₂ : G) → ∀ v, (FDRep.ρ U s₁) v = (FDRep.ρ U s₂) v := by
                 intro s₁ s₂ h v; rw [Subtype.ext h]
               rw [hrho_eq _ t (by
-                show q.out⁻¹ * q.out * q₁.out = q₁.out
+                change q.out⁻¹ * q.out * q₁.out = q₁.out
                 rw [inv_mul_cancel, one_mul]) u']
               change (FDRep.ρ U t * FDRep.ρ U t⁻¹) u = u
               rw [← map_mul, mul_inv_cancel, map_one]; rfl
@@ -1063,7 +1063,7 @@ private lemma inducedRepV_orbit_injectivity {G A : Type} [Group G] [CommGroup A]
       T ((inducedRepV φ χ₁ U₁).ρ ag f) = (inducedRepV φ χ₂ U₂).ρ ag (T f) := by
     intro ag f
     have h := FDRep.Iso.conj_ρ e ag
-    show T (((inducedRepV φ χ₁ U₁).ρ ag) f) = ((inducedRepV φ χ₂ U₂).ρ ag) (T f)
+    change T (((inducedRepV φ χ₁ U₁).ρ ag) f) = ((inducedRepV φ χ₂ U₂).ρ ag) (T f)
     simp only [h, LinearEquiv.conj_apply, LinearMap.comp_apply, LinearEquiv.coe_coe]
     change T (((inducedRepV φ χ₁ U₁).ρ ag) f) = T (((inducedRepV φ χ₁ U₁).ρ ag) (T.symm (T f)))
     rw [LinearEquiv.symm_apply_apply]
@@ -1088,7 +1088,7 @@ private lemma inducedRepV_orbit_injectivity {G A : Type} [Group G] [CommGroup A]
     rw [ne_eq, ← T.map_zero]; exact T.injective.ne hf_ne
   -- ∃ q₂ with (Tf)(q₂) ≠ 0
   obtain ⟨q₂, hq₂⟩ : ∃ q₂ : G ⧸ stabAux φ χ₂, (T f) q₂ ≠ 0 := by
-    by_contra h; push_neg at h; exact hTf_ne (funext h)
+    by_contra h; push Not at h; exact hTf_ne (funext h)
   -- Key: dualSmulAux φ q₁.out χ₁ = dualSmulAux φ q₂.out χ₂
   -- (eigenvalue argument: characters must match where Tf is nonzero)
   have hchar_match : dualSmulAux φ q₁.out χ₁ = dualSmulAux φ q₂.out χ₂ := by
@@ -1236,7 +1236,7 @@ private lemma exists_character_in_rep {G A : Type} [Group G] [CommGroup A]
       map_mul' := fun a b => by ext; exact hχ_mul a b }
   -- Show weightSpace φ W χ ≠ ⊥
   refine ⟨χ, ?_⟩
-  rw [ne_eq, Submodule.eq_bot_iff]; push_neg
+  rw [ne_eq, Submodule.eq_bot_iff]; push Not
   refine ⟨(v : ρ_A.asModule), ?_, fun h => hv_ne (Subtype.ext h)⟩
   simp only [weightSpace, Submodule.mem_iInf, LinearMap.mem_ker, LinearMap.sub_apply,
     LinearMap.smul_apply, LinearMap.id_apply]
@@ -1271,10 +1271,10 @@ private lemma weightSpace_stabAux_invariant {G A : Type} [Group G] [CommGroup A]
   have hga : (⟨a, (1 : G)⟩ : A ⋊[φ] G) * ⟨1, (g : G)⟩ =
       ⟨1, (g : G)⟩ * ⟨(φ (g : G)⁻¹ : MulAut A) a, 1⟩ := by
     ext
-    · simp [SemidirectProduct.mul_left, SemidirectProduct.mul_right,
-        SemidirectProduct.one_left, SemidirectProduct.one_right]
-    · simp [SemidirectProduct.mul_left, SemidirectProduct.mul_right,
-        SemidirectProduct.one_left, SemidirectProduct.one_right]
+    · simp [SemidirectProduct.mul_left,
+        SemidirectProduct.one_left]
+    · simp [SemidirectProduct.mul_right,
+        SemidirectProduct.one_left]
   -- ρ(a,1)(ρ(1,g)(w)) = ρ((a,1)*(1,g))(w) = ρ((1,g)*(g⁻¹ag,1))(w)
   have step1 : W.ρ ⟨a, (1 : G)⟩ (W.ρ ⟨1, (g : G)⟩ w) =
       W.ρ ⟨1, (g : G)⟩ (W.ρ ⟨(φ (g : G)⁻¹ : MulAut A) a, 1⟩ w) := by
@@ -1309,7 +1309,7 @@ private noncomputable def weightSpaceRep {G A : Type} [Group G] [CommGroup A]
       -- Goal: action of 1 ∈ G_χ on (w, hw) = (w, hw)
       simp only [LinearMap.coe_mk, AddHom.coe_mk, Module.End.one_apply]
       congr 1
-      show (W.ρ ⟨1, ((1 : ↥(stabAux φ χ)) : G)⟩) w = w
+      change (W.ρ ⟨1, ((1 : ↥(stabAux φ χ)) : G)⟩) w = w
       rw [show ((1 : ↥(stabAux φ χ)) : G) = 1 from rfl]
       have : (⟨(1 : A), (1 : G)⟩ : A ⋊[φ] G) = 1 := by
         ext <;> simp [SemidirectProduct.one_left, SemidirectProduct.one_right]
@@ -1323,8 +1323,8 @@ private noncomputable def weightSpaceRep {G A : Type} [Group G] [CommGroup A]
       change (W.ρ ⟨1, ↑(g₁ * g₂)⟩) w = (W.ρ ⟨1, ↑g₁⟩) ((W.ρ ⟨1, ↑g₂⟩) w)
       rw [← Module.End.mul_apply, ← map_mul]
       congr 1
-      ext <;> simp [SemidirectProduct.mul_left, SemidirectProduct.one_left,
-          SemidirectProduct.mul_right, SemidirectProduct.one_right, Subgroup.coe_mul] }
+      ext ; simp [
+          Subgroup.coe_mul] }
 
 private lemma finrank_iso' {H : Type} [Group H] [Fintype H]
     (V W : FDRep ℂ H) (φ : V ≅ W) :
@@ -1341,7 +1341,7 @@ private lemma finrank_biprod' {H : Type} [Group H] [Fintype H]
   have hzero : ∀ (A B : FDRep ℂ H) (x : A.V),
       (0 : A ⟶ B).hom.hom.hom x = 0 := by
     intro A B x
-    show (0 : A.V.obj ⟶ B.V.obj).hom x = 0
+    change (0 : A.V.obj ⟶ B.V.obj).hom x = 0
     simp [ModuleCat.Hom.hom]
   have hid : ∀ (A : FDRep ℂ H) (x : A.V),
       (𝟙 A : A ⟶ A).hom.hom.hom x = x := fun _ _ => rfl
@@ -1353,7 +1353,7 @@ private lemma finrank_biprod' {H : Type} [Group H] [Fintype H]
     invFun := fun p => (biprod.inl : X ⟶ X ⊞ Y).hom.hom.hom p.1 +
                         (biprod.inr : Y ⟶ X ⊞ Y).hom.hom.hom p.2
     left_inv := fun v => by
-      show ((biprod.fst ≫ biprod.inl + biprod.snd ≫ biprod.inr :
+      change ((biprod.fst ≫ biprod.inl + biprod.snd ≫ biprod.inr :
         (X ⊞ Y : FDRep ℂ H) ⟶ (X ⊞ Y))).hom.hom.hom v = v
       rw [biprod.total]; rfl
     right_inv := fun p => by
@@ -1362,14 +1362,14 @@ private lemma finrank_biprod' {H : Type} [Group H] [Fintype H]
             ((biprod.inl : X ⟶ X ⊞ Y).hom.hom.hom p.1 +
              (biprod.inr : Y ⟶ X ⊞ Y).hom.hom.hom p.2) = p.1
         rw [map_add]
-        show ((biprod.inl ≫ biprod.fst : X ⟶ X)).hom.hom.hom p.1 +
+        change ((biprod.inl ≫ biprod.fst : X ⟶ X)).hom.hom.hom p.1 +
              ((biprod.inr ≫ biprod.fst : Y ⟶ X)).hom.hom.hom p.2 = p.1
         rw [biprod.inl_fst, biprod.inr_fst, hid, hzero, add_zero]
       · change ((biprod.snd : X ⊞ Y ⟶ Y)).hom.hom.hom
             ((biprod.inl : X ⟶ X ⊞ Y).hom.hom.hom p.1 +
              (biprod.inr : Y ⟶ X ⊞ Y).hom.hom.hom p.2) = p.2
         rw [map_add]
-        show ((biprod.inl ≫ biprod.snd : X ⟶ Y)).hom.hom.hom p.1 +
+        change ((biprod.inl ≫ biprod.snd : X ⟶ Y)).hom.hom.hom p.1 +
              ((biprod.inr ≫ biprod.snd : Y ⟶ Y)).hom.hom.hom p.2 = p.2
         rw [biprod.inl_snd, biprod.inr_snd, hzero, hid, zero_add] }
 
@@ -1432,7 +1432,7 @@ private lemma exists_simple_subrep {H : Type} [Group H] [Fintype H]
           Module.finrank ℂ (cokernel f : FDRep ℂ H) := by
         rw [finrank_iso' V (Y ⊞ cokernel f) iso_V, finrank_biprod']
       have hcok_pos : 0 < Module.finrank ℂ (cokernel f : FDRep ℂ H) := by
-        by_contra h; push_neg at h
+        by_contra h; push Not at h
         exact hcok_nz (by
           rw [IsZero.iff_id_eq_zero]
           have hsub : Subsingleton (cokernel f : FDRep ℂ H) :=
@@ -1532,7 +1532,7 @@ private lemma exists_nonzero_map_from_induced {G A : Type} [Group G] [CommGroup 
             ⟨1, g * r.out⟩ *
             ⟨(φ (g * r.out)⁻¹ : MulAut A) a, 1⟩ from by
         ext <;> simp [SemidirectProduct.mul_left,
-          SemidirectProduct.mul_right, SemidirectProduct.one_left,
+          SemidirectProduct.mul_right,
           SemidirectProduct.one_right],
         map_mul, Module.End.mul_apply]
       -- Weight space: W.ρ(b,1)(ι_W(v r)) = χ(b) • ι_W(v r)
@@ -1567,7 +1567,7 @@ private lemma exists_nonzero_map_from_induced {G A : Type} [Group G] [CommGroup 
           if q = q₀ then W.ρ ⟨1, q₀.out⟩ (ι_W u) else 0 := by
         intro q; by_cases hq : q = q₀
         · subst hq; simp [v₀, Pi.single_eq_same]
-        · simp [v₀, Pi.single_eq_of_ne hq, map_zero, hq]
+        · simp [v₀, map_zero, hq]
       simp_rw [hred, Finset.sum_ite_eq', Finset.mem_univ, if_true] at h
       exact h
     -- W.ρ(1,q₀.out) is injective (apply ρ(1,q₀.out⁻¹) to cancel)
@@ -1576,7 +1576,7 @@ private lemma exists_nonzero_map_from_induced {G A : Type} [Group G] [CommGroup 
       have h1 := congr_arg (W.ρ ⟨(1 : A), q₀.out⁻¹⟩) (h0 u)
       rw [map_zero, ← Module.End.mul_apply, ← map_mul] at h1
       rwa [show (⟨(1 : A), q₀.out⁻¹⟩ : A ⋊[φ] G) * ⟨1, q₀.out⟩ = 1 from by
-        ext <;> simp [SemidirectProduct.mul_left, SemidirectProduct.mul_right,
+        ext <;> simp [
           SemidirectProduct.one_left, SemidirectProduct.one_right],
         map_one, Module.End.one_apply] at h1
     -- ι_W = 0 implies ι = 0 (subtype inclusion is injective)
@@ -1603,7 +1603,7 @@ private lemma inducedRepV_completeness {G A : Type} [Group G] [CommGroup A]
   have hWχ_nz : ¬ CategoryTheory.Limits.IsZero Wχ := by
     -- Contrapositive: weightSpace ≠ ⊥ means Nontrivial carrier; Nontrivial carrier ⟹ ¬ IsZero
     rw [Ne, Submodule.eq_bot_iff, not_forall] at hχ
-    obtain ⟨v, hv⟩ := hχ; push_neg at hv; obtain ⟨hv_mem, hv_ne⟩ := hv
+    obtain ⟨v, hv⟩ := hχ; push Not at hv; obtain ⟨hv_mem, hv_ne⟩ := hv
     intro hzero; apply hv_ne
     -- IsZero implies Subsingleton carrier
     have hsub : Subsingleton ↑Wχ.V.obj := by
@@ -1670,7 +1670,7 @@ private lemma stabAux_conj_mem {G A : Type} [Group G] [CommGroup A]
     (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
     {h : G} (hh : h ∈ stabAux φ χ₂) : g⁻¹ * h * g ∈ stabAux φ χ₁ := by
   have hh' : dualSmulAux φ h χ₂ = χ₂ := hh
-  show dualSmulAux φ (g⁻¹ * h * g) χ₁ = χ₁
+  change dualSmulAux φ (g⁻¹ * h * g) χ₁ = χ₁
   rw [← dualSmulAux_mul, ← dualSmulAux_mul, hg, hh', ← hg, dualSmulAux_mul, inv_mul_cancel,
     dualSmulAux_one]
 
@@ -1679,7 +1679,7 @@ private lemma stabAux_conj_mem' {G A : Type} [Group G] [CommGroup A]
     (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
     {h : G} (hh : h ∈ stabAux φ χ₁) : g * h * g⁻¹ ∈ stabAux φ χ₂ := by
   have hh' : dualSmulAux φ h χ₁ = χ₁ := hh
-  show dualSmulAux φ (g * h * g⁻¹) χ₂ = χ₂
+  change dualSmulAux φ (g * h * g⁻¹) χ₂ = χ₂
   rw [← hg, dualSmulAux_mul, show g * h * g⁻¹ * g = g * h from by group, ← dualSmulAux_mul, hh']
 
 -- The conjugation group homomorphism `G_{χ₂} →* G_{χ₁}`, `h ↦ g⁻¹ h g`.
@@ -1743,7 +1743,7 @@ private lemma cosetEquiv_smul {G A : Type} [Group G] [CommGroup A] [Fintype G]
     (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
     (s : G) (p : G ⧸ stabAux φ χ₁) :
     s⁻¹ • cosetEquiv φ hg p = cosetEquiv φ hg (s⁻¹ • p) := by
-  show s⁻¹ • (QuotientGroup.mk (p.out * g⁻¹) : G ⧸ stabAux φ χ₂)
+  change s⁻¹ • (QuotientGroup.mk (p.out * g⁻¹) : G ⧸ stabAux φ χ₂)
       = QuotientGroup.mk ((s⁻¹ • p).out * g⁻¹)
   rw [MulAction.Quotient.smul_mk, smul_eq_mul]
   apply Quotient.sound'
@@ -1905,7 +1905,7 @@ theorem Etingof.inducedRepV_basepoint_independent {G A : Type} [Group G] [CommGr
     Nonempty (inducedRepV φ χ₂ (transportRep φ hg U) ≅ inducedRepV φ χ₁ U) :=
   ⟨Action.mkIso (baseChangeEquiv φ hg U).toFGModuleCatIso (fun x => by
     refine FGModuleCat.hom_ext (LinearMap.ext (fun v => ?_))
-    show (baseChangeEquiv φ hg U) ((inducedRepV φ χ₂ (transportRep φ hg U)).ρ x v)
+    change (baseChangeEquiv φ hg U) ((inducedRepV φ χ₂ (transportRep φ hg U)).ρ x v)
         = (inducedRepV φ χ₁ U).ρ x ((baseChangeEquiv φ hg U) v)
     exact baseChange_comm φ hg U x v)⟩
 
@@ -1973,7 +1973,7 @@ private lemma single_base_G_action {G A : Type} [Group G] [CommGroup A] [Fintype
         (s⁻¹ • (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)) = u := by
       rw [hsmul, Pi.single_eq_same]
     exact rho_congr φ U (by
-      show (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ).out⁻¹ * s *
+      change (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ).out⁻¹ * s *
           (s⁻¹ • (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)).out
         = (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ).out⁻¹ * s *
           (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ).out
@@ -1999,7 +1999,7 @@ private noncomputable def inducedRepV_U_iso {G A : Type} [Group G] [CommGroup A]
       T ((inducedRepV φ χ U).ρ ag f) = (inducedRepV φ χ U').ρ ag (T f) := by
     intro ag f
     have h := FDRep.Iso.conj_ρ e ag
-    show T (((inducedRepV φ χ U).ρ ag) f) = ((inducedRepV φ χ U').ρ ag) (T f)
+    change T (((inducedRepV φ χ U).ρ ag) f) = ((inducedRepV φ χ U').ρ ag) (T f)
     simp only [h, LinearEquiv.conj_apply, LinearMap.comp_apply, LinearEquiv.coe_coe]
     change T (((inducedRepV φ χ U).ρ ag) f)
       = T (((inducedRepV φ χ U).ρ ag) (T.symm (T f)))
@@ -2124,14 +2124,14 @@ private noncomputable def inducedRepV_U_iso {G A : Type} [Group G] [CommGroup A]
         (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
       left_inv := by
         intro u
-        show (T.symm (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
+        change (T.symm (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
           ((T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u))
             (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ))))
           (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) = u
         rw [← hSFeq u, LinearEquiv.symm_apply_apply, Pi.single_eq_same]
       right_inv := by
         intro u
-        show (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
+        change (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
           ((T.symm (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u))
             (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ))))
           (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) = u
@@ -2152,12 +2152,12 @@ private noncomputable def inducedRepV_U_iso {G A : Type} [Group G] [CommGroup A]
       exact (rho_congr φ V (by simp only [hc]; group) rfl).symm
     set w : ↥U' := (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u))
       (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) with hw
-    show (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) (FDRep.ρ U s u)))
+    change (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) (FDRep.ρ U s u)))
         (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) = FDRep.ρ U' s w
     rw [hEQ U u, hT_comm, hSFeq u, ← hEQ U' w, Pi.single_eq_same]
   exact Action.mkIso eU.toFGModuleCatIso (fun s => by
     refine FGModuleCat.hom_ext (LinearMap.ext (fun u => ?_))
-    show eU (FDRep.ρ U s u) = FDRep.ρ U' s (eU u)
+    change eU (FDRep.ρ U s u) = FDRep.ρ U' s (eU u)
     exact hEquiv s u)
 
 -- (ii) full classification: V(χ₁, U₁) ≅ V(χ₂, U₂) implies there is g with χ₂ = g · χ₁

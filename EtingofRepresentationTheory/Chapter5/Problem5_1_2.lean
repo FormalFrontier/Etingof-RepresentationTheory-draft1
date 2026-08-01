@@ -185,7 +185,7 @@ theorem exists_invariant_posdef_hermitian (ρ : Representation ℂ G V) :
     simp only [map_one, Module.End.one_apply]
     obtain ⟨i, hi⟩ : ∃ i, b.repr v i ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hv (b.repr.injective (by ext i; simp [hcon i]))
     exact Finset.sum_pos' (fun i _ => Complex.normSq_nonneg _)
       ⟨i, Finset.mem_univ i, Complex.normSq_pos.mpr hi⟩
@@ -238,7 +238,7 @@ private def toAntilinear (T : Module.End ℝ V)
   toFun := T
   map_add' := T.map_add
   map_smul' c v := by
-    show T (c • v) = (starRingEnd ℂ) c • T v
+    change T (c • v) = (starRingEnd ℂ) c • T v
     rw [complex_smul_eq_real c v, map_add, map_smul, map_smul, hI,
       complex_smul_eq_real ((starRingEnd ℂ) c) (T v), Complex.conj_re, Complex.conj_im,
       smul_neg, neg_smul]
@@ -249,12 +249,12 @@ noncomputable def hermToDual (H : V →ₗ[ℂ] V →ₗ⋆[ℂ] ℂ) : V →ₗ
   toFun w :=
     { toFun := fun v => H v w
       map_add' := fun a b => by
-        show H (a + b) w = H a w + H b w; simp only [map_add, LinearMap.add_apply]
+        change H (a + b) w = H a w + H b w; simp only [map_add, LinearMap.add_apply]
       map_smul' := fun c v => by
-        show H (c • v) w = c • H v w; simp only [map_smul, LinearMap.smul_apply] }
-  map_add' w₁ w₂ := by ext v; show H v (w₁ + w₂) = H v w₁ + H v w₂; rw [map_add]
+        change H (c • v) w = c • H v w; simp only [map_smul, LinearMap.smul_apply] }
+  map_add' w₁ w₂ := by ext v; change H v (w₁ + w₂) = H v w₁ + H v w₂; rw [map_add]
   map_smul' c w := by
-    ext v; show H v (c • w) = (starRingEnd ℂ) c • H v w; rw [map_smulₛₗ]
+    ext v; change H v (c • w) = (starRingEnd ℂ) c • H v w; rw [map_smulₛₗ]
 
 @[simp] theorem hermToDual_apply (H : V →ₗ[ℂ] V →ₗ⋆[ℂ] ℂ) (w v : V) :
     (hermToDual H w) v = H v w := rfl
@@ -367,7 +367,7 @@ theorem exists_antilinear_j_of_invariant_nondegenerate
   let j0 : V →ₗ⋆[ℂ] V := (hermEquiv.symm.toLinearMap).comp B.flip
   -- Defining relation: `H v (j0 w) = B v w`.
   have hj0dual : ∀ w, hermToDual H (j0 w) = B.flip w := fun w => by
-    show hermToDual H (hermEquiv.symm (B.flip w)) = B.flip w
+    change hermToDual H (hermEquiv.symm (B.flip w)) = B.flip w
     have : hermEquiv (hermEquiv.symm (B.flip w)) = B.flip w := hermEquiv.apply_symm_apply _
     simpa only [LinearEquiv.ofBijective_apply, hermEquiv] using this
   have hdefn : ∀ v w, H v (j0 w) = B v w := fun v w => by
@@ -375,7 +375,7 @@ theorem exists_antilinear_j_of_invariant_nondegenerate
     simpa only [hermToDual_apply, LinearMap.flip_apply] using this
   have hj0inj : Function.Injective j0 := by
     have : Function.Injective (⇑j0) := by
-      show Function.Injective (⇑hermEquiv.symm ∘ ⇑B.flip)
+      change Function.Injective (⇑hermEquiv.symm ∘ ⇑B.flip)
       exact hermEquiv.symm.injective.comp hBdinj
     exact this
   -- `j0` is `G`-equivariant (uniqueness via injectivity of `hermToDual H`).
@@ -401,7 +401,7 @@ theorem exists_antilinear_j_of_invariant_nondegenerate
         simp only [RingHom.id_apply]
         rw [map_smulₛₗ, map_smulₛₗ, Complex.conj_conj] }
   have hφequiv : ∀ g v, φ (ρ g v) = ρ g (φ v) := fun g v => by
-    show j0 (j0 (ρ g v)) = ρ g (j0 (j0 v))
+    change j0 (j0 (ρ g v)) = ρ g (j0 (j0 v))
     rw [hj0equiv, hj0equiv]
   obtain ⟨c, hc⟩ := schur_scalar hirr φ hφequiv
   have hcsq : ∀ v, j0 (j0 v) = c • v := hc
@@ -472,7 +472,7 @@ theorem exists_normalized_antilinear_of_isRealType
     ext v
     simp only [Module.End.mul_apply, SetLike.val_smul, Subalgebra.coe_one, LinearMap.smul_apply,
       Module.End.one_apply]
-    show j0 (j0 v) = lam • v
+    change j0 (j0 v) = lam • v
     rw [hjsq v, rcs lam v]
   -- `X` anticommutes with `J = ·i`.
   have hanti0 : realJ ρ * X = -(X * realJ ρ) := by
@@ -480,7 +480,7 @@ theorem exists_normalized_antilinear_of_isRealType
     rw [Subalgebra.coe_mul, Subalgebra.coe_neg, Subalgebra.coe_mul, hXdef]
     ext v
     simp only [Module.End.mul_apply, LinearMap.neg_apply, realJ, complexToRealGEnd_coe_apply]
-    show Complex.I • j0 v = -(j0 (Complex.I • v))
+    change Complex.I • j0 v = -(j0 (Complex.I • v))
     rw [map_smulₛₗ, Complex.conj_I, neg_smul, neg_neg]
   have hsqrt : Real.sqrt lam * Real.sqrt lam = lam := Real.mul_self_sqrt hpos.le
   have hsne : Real.sqrt lam ≠ 0 := (Real.sqrt_pos.mpr hpos).ne'
@@ -530,7 +530,7 @@ theorem exists_normalized_antilinear_of_isQuaternionicType
     ext v
     simp only [Module.End.mul_apply, SetLike.val_smul, Subalgebra.coe_one, LinearMap.smul_apply,
       Module.End.one_apply]
-    show j0 (j0 v) = lam • v
+    change j0 (j0 v) = lam • v
     rw [hjsq v, rcs lam v]
   -- `X` anticommutes with `J = ·i`.
   have hanti0 : realJ ρ * X = -(X * realJ ρ) := by
@@ -538,7 +538,7 @@ theorem exists_normalized_antilinear_of_isQuaternionicType
     rw [Subalgebra.coe_mul, Subalgebra.coe_neg, Subalgebra.coe_mul, hXdef]
     ext v
     simp only [Module.End.mul_apply, LinearMap.neg_apply, realJ, complexToRealGEnd_coe_apply]
-    show Complex.I • j0 v = -(j0 (Complex.I • v))
+    change Complex.I • j0 v = -(j0 (Complex.I • v))
     rw [map_smulₛₗ, Complex.conj_I, neg_smul, neg_neg]
   have hsqrt : Real.sqrt (-lam) * Real.sqrt (-lam) = -lam := Real.mul_self_sqrt hnlam.le
   refine ⟨(Real.sqrt (-lam))⁻¹ • X, ?_, ?_⟩
@@ -731,7 +731,7 @@ theorem realGEndAlgebra_equiv_complex_of_isComplexType
         refine ⟨e.linearEquivOfInjective heinj hdim, ?_⟩
         intro g v
         rw [LinearMap.linearEquivOfInjective_apply, LinearMap.linearEquivOfInjective_apply]
-        show hermToDual H (ψ (ρ g v)) = ρ.dual g (hermToDual H (ψ v))
+        change hermToDual H (ψ (ρ g v)) = ρ.dual g (hermToDual H (ψ v))
         rw [hψequiv, hermToDual_equivariant H hHinv]
       · exact hψne (by
           ext v
@@ -822,7 +822,7 @@ theorem realGEndAlgebra_equiv_matrix_of_isRealType
       module
     refine ⟨!![z.re + w.re, w.im - z.im; z.im + w.im, z.re - w.re], ?_⟩
     simp only [hΨ, matrixToSplitQuat_apply, Matrix.of_apply, Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val']
+      Matrix.cons_val_one, Matrix.cons_val']
     rw [hfbasis]
     module
   exact ⟨(AlgEquiv.ofBijective Ψ ⟨hinj, hsurj⟩).symm⟩
@@ -1029,11 +1029,11 @@ theorem exists_real_form_of_isRealType
             ← IsScalarTower.algebraMap_smul ℂ r (Complex.I • v), smul_smul, mul_comm]
         invFun := fun v => (-Complex.I) • v
         left_inv := fun v => by
-          show (-Complex.I) • Complex.I • v = v
+          change (-Complex.I) • Complex.I • v = v
           rw [smul_smul, show (-Complex.I) * Complex.I = 1 by
             rw [neg_mul, Complex.I_mul_I, neg_neg], one_smul]
         right_inv := fun v => by
-          show Complex.I • (-Complex.I) • v = v
+          change Complex.I • (-Complex.I) • v = v
           rw [smul_smul, show Complex.I * (-Complex.I) = 1 by
             rw [mul_neg, Complex.I_mul_I, neg_neg], one_smul] }
     have hle1 : Submodule.map (e : V →ₗ[ℝ] V) W ≤ W' := by
@@ -1102,7 +1102,7 @@ theorem isRealType_of_exists_real_form
   let Bform : V →ₗ[ℂ] V →ₗ[ℂ] ℂ :=
     bC.constr ℂ (fun i => bC.constr ℂ (fun j => ((H (bV i) (bV j)).re : ℂ)))
   have hBij : ∀ i j, Bform (bC i) (bC j) = ((H (bV i) (bV j)).re : ℂ) := fun i j => by
-    show (bC.constr ℂ (fun i => bC.constr ℂ (fun j => ((H (bV i) (bV j)).re : ℂ)))) (bC i) (bC j)
+    change (bC.constr ℂ (fun i => bC.constr ℂ (fun j => ((H (bV i) (bV j)).re : ℂ)))) (bC i) (bC j)
         = ((H (bV i) (bV j)).re : ℂ)
     rw [Module.Basis.constr_basis, Module.Basis.constr_basis]
   -- `Bform` restricted to `W` is `Re H`: two `ℝ`-bilinear forms agreeing on the basis `b`.
@@ -1131,7 +1131,7 @@ theorem isRealType_of_exists_real_form
     have hB12 : B1 = B2 := by
       apply Module.Basis.ext b; intro i
       apply Module.Basis.ext b; intro j
-      show Bform (↑(b i)) (↑(b j)) = ((H (↑(b i)) (↑(b j))).re : ℂ)
+      change Bform (↑(b i)) (↑(b j)) = ((H (↑(b i)) (↑(b j))).re : ℂ)
       have : (↑(b i) : V) = bV i := rfl
       have hj : (↑(b j) : V) = bV j := rfl
       rw [this, hj, ← hbC i, ← hbC j, hBij i j, hbC i, hbC j]

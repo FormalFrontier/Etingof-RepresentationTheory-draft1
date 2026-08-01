@@ -77,19 +77,19 @@ def heisenbergShear (a : ZMod p) : MulAut (Multiplicative (ZMod p × ZMod p)) wh
   left_inv x := by
     apply Multiplicative.toAdd.injective; apply Prod.ext
     · rfl
-    · show (Multiplicative.toAdd x).2 + a * (Multiplicative.toAdd x).1
+    · change (Multiplicative.toAdd x).2 + a * (Multiplicative.toAdd x).1
         - a * (Multiplicative.toAdd x).1 = (Multiplicative.toAdd x).2
       ring
   right_inv x := by
     apply Multiplicative.toAdd.injective; apply Prod.ext
     · rfl
-    · show (Multiplicative.toAdd x).2 - a * (Multiplicative.toAdd x).1
+    · change (Multiplicative.toAdd x).2 - a * (Multiplicative.toAdd x).1
         + a * (Multiplicative.toAdd x).1 = (Multiplicative.toAdd x).2
       ring
   map_mul' x y := by
     apply Multiplicative.toAdd.injective; apply Prod.ext
     · rfl
-    · show ((Multiplicative.toAdd x).2 + (Multiplicative.toAdd y).2)
+    · change ((Multiplicative.toAdd x).2 + (Multiplicative.toAdd y).2)
           + a * ((Multiplicative.toAdd x).1 + (Multiplicative.toAdd y).1)
         = ((Multiplicative.toAdd x).2 + a * (Multiplicative.toAdd x).1)
           + ((Multiplicative.toAdd y).2 + a * (Multiplicative.toAdd y).1)
@@ -99,11 +99,11 @@ def heisenbergShear (a : ZMod p) : MulAut (Multiplicative (ZMod p × ZMod p)) wh
   refine MulEquiv.ext fun x => ?_
   rw [MulAut.one_apply]
   apply Multiplicative.toAdd.injective
-  show ((Multiplicative.toAdd x).1, (Multiplicative.toAdd x).2 + 0 * (Multiplicative.toAdd x).1)
+  change ((Multiplicative.toAdd x).1, (Multiplicative.toAdd x).2 + 0 * (Multiplicative.toAdd x).1)
       = Multiplicative.toAdd x
   apply Prod.ext
   · rfl
-  · show (Multiplicative.toAdd x).2 + 0 * (Multiplicative.toAdd x).1 = (Multiplicative.toAdd x).2
+  · change (Multiplicative.toAdd x).2 + 0 * (Multiplicative.toAdd x).1 = (Multiplicative.toAdd x).2
     ring
 
 lemma heisenbergShear_add (a a' : ZMod p) :
@@ -111,12 +111,12 @@ lemma heisenbergShear_add (a a' : ZMod p) :
   refine MulEquiv.ext fun x => ?_
   rw [MulAut.mul_apply]
   apply Multiplicative.toAdd.injective
-  show ((Multiplicative.toAdd x).1, (Multiplicative.toAdd x).2 + (a + a') * (Multiplicative.toAdd x).1)
+  change ((Multiplicative.toAdd x).1, (Multiplicative.toAdd x).2 + (a + a') * (Multiplicative.toAdd x).1)
       = ((Multiplicative.toAdd x).1,
           (Multiplicative.toAdd x).2 + a' * (Multiplicative.toAdd x).1 + a * (Multiplicative.toAdd x).1)
   apply Prod.ext
   · rfl
-  · show (Multiplicative.toAdd x).2 + (a + a') * (Multiplicative.toAdd x).1
+  · change (Multiplicative.toAdd x).2 + (a + a') * (Multiplicative.toAdd x).1
         = (Multiplicative.toAdd x).2 + a' * (Multiplicative.toAdd x).1
           + a * ((Multiplicative.toAdd x).1)
     ring
@@ -126,10 +126,10 @@ multiplicative element `a ∈ G = Multiplicative (ZMod p)` acts by the shear `φ
 def heisenbergφ : Multiplicative (ZMod p) →* MulAut (Multiplicative (ZMod p × ZMod p)) where
   toFun a := heisenbergShear p (Multiplicative.toAdd a)
   map_one' := by
-    show heisenbergShear p (0 : ZMod p) = 1
+    change heisenbergShear p (0 : ZMod p) = 1
     exact heisenbergShear_zero p
   map_mul' a a' := by
-    show heisenbergShear p (Multiplicative.toAdd a + Multiplicative.toAdd a')
+    change heisenbergShear p (Multiplicative.toAdd a + Multiplicative.toAdd a')
       = heisenbergShear p (Multiplicative.toAdd a) * heisenbergShear p (Multiplicative.toAdd a')
     exact heisenbergShear_add p _ _
 
@@ -495,12 +495,12 @@ theorem heisenberg_classification :
   have hFdim1 : ∀ (β : ZMod p) (ρ : Multiplicative (ZMod p) →* ℂˣ),
       finrank ℂ (F (Sum.inl (β, ρ)) : Type) = 1 := by
     intro β ρ
-    show finrank ℂ (V (heisenbergChar p β 0) _ : Type) = 1
+    change finrank ℂ (V (heisenbergChar p β 0) _ : Type) = 1
     rw [hv, hstab_f β, Subgroup.index_top, Etingof.AbelianFDRep.charFDRep_finrank, mul_one]
   have hFdimp : ∀ (γ : ZMod p) (hγ : γ ≠ 0),
       finrank ℂ (F (Sum.inr ⟨γ, hγ⟩) : Type) = p := by
     intro γ hγ
-    show finrank ℂ (V (heisenbergChar p 0 γ) _ : Type) = p
+    change finrank ℂ (V (heisenbergChar p 0 γ) _ : Type) = p
     rw [hv, hstab_r 0 γ hγ, Subgroup.index_bot, Etingof.AbelianFDRep.charFDRep_finrank, mul_one,
       hcardG]
   have hFdim : ∀ a : ι, finrank ℂ (F a : Type) = 1 ∨ finrank ℂ (F a : Type) = p := by
@@ -623,11 +623,11 @@ theorem heisenberg_classification :
       have hρξ : (ξ.comp eStab.symm.toMonoidHom).comp
           (stab (heisenbergChar p β 0)).subtype = ξ := by
         refine MonoidHom.ext fun s => ?_
-        show ξ (eStab.symm ((stab (heisenbergChar p β 0)).subtype s)) = ξ s
+        change ξ (eStab.symm ((stab (heisenbergChar p β 0)).subtype s)) = ξ s
         rw [← heStab s, MulEquiv.symm_apply_apply]
       have hFeq : F (Sum.inl (β, ξ.comp eStab.symm.toMonoidHom))
           = V (heisenbergChar p β 0) (Etingof.AbelianFDRep.charFDRep ξ) := by
-        show V (heisenbergChar p β 0)
+        change V (heisenbergChar p β 0)
             (Etingof.AbelianFDRep.charFDRep
               ((ξ.comp eStab.symm.toMonoidHom).comp (stab (heisenbergChar p β 0)).subtype))
           = V (heisenbergChar p β 0) (Etingof.AbelianFDRep.charFDRep ξ)
@@ -700,7 +700,7 @@ theorem heisenberg_classification :
             if finrank ℂ (F (Sum.inr y) : Type) = 1 then (1 : ℕ) else 0 :=
       Fintype.sum_sum_type _
     rw [hsum]
-    simp only [hleft1, hright1, Finset.sum_const, Finset.sum_const_zero, smul_eq_mul, mul_one,
+    simp only [hleft1, hright1, Finset.sum_const, smul_eq_mul, mul_one,
       mul_zero, add_zero, Finset.card_univ, Fintype.card_prod, ZMod.card, hcardHom, pow_two]
   · rw [Finset.card_filter,
       Equiv.sum_comp e.symm (fun a => if finrank ℂ (F a : Type) = p then (1 : ℕ) else 0)]
@@ -711,7 +711,7 @@ theorem heisenberg_classification :
             if finrank ℂ (F (Sum.inr y) : Type) = p then (1 : ℕ) else 0 :=
       Fintype.sum_sum_type _
     rw [hsum]
-    simp only [hleftp, hrightp, Finset.sum_const, Finset.sum_const_zero, smul_eq_mul, mul_one,
+    simp only [hleftp, hrightp, Finset.sum_const, smul_eq_mul, mul_one,
       mul_zero, zero_add, Finset.card_univ, hcardSub]
 
 /-! ## Landing the classification on the group of Problem 4.12.2

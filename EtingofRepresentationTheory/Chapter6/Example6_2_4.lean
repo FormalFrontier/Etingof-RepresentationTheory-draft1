@@ -208,7 +208,7 @@ private lemma a3_ker_f {k : Type*} [Field k] (ρ : A₃Rep k)
     (hind : ρ.Indecomposable) :
     LinearMap.ker ρ.f = ⊥ ∨
     (Module.finrank k ρ.V₂ = 0 ∧ Module.finrank k ρ.V₃ = 0) := by
-  by_contra h; push_neg at h; obtain ⟨hker, hV₂₃⟩ := h
+  by_contra h; push Not at h; obtain ⟨hker, hV₂₃⟩ := h
   obtain ⟨_, hind_cond⟩ := hind
   obtain ⟨q₁, hq₁⟩ := Submodule.exists_isCompl (LinearMap.ker ρ.f)
   have := hind_cond (LinearMap.ker ρ.f) q₁ ⊥ ⊤ ⊥ ⊤ hq₁ isCompl_bot_top isCompl_bot_top
@@ -228,7 +228,7 @@ private lemma a3_range_g {k : Type*} [Field k] (ρ : A₃Rep k)
     (hind : ρ.Indecomposable) :
     LinearMap.range ρ.g = ⊤ ∨
     (Module.finrank k ρ.V₁ = 0 ∧ Module.finrank k ρ.V₂ = 0) := by
-  by_contra h; push_neg at h; obtain ⟨hrange, hV₁₂⟩ := h
+  by_contra h; push Not at h; obtain ⟨hrange, hV₁₂⟩ := h
   obtain ⟨_, hind_cond⟩ := hind
   obtain ⟨q₃, hq₃⟩ := Submodule.exists_isCompl (LinearMap.range ρ.g)
   have := hind_cond ⊤ ⊥ ⊤ ⊥ (LinearMap.range ρ.g) q₃

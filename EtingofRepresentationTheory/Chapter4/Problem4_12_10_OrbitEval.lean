@@ -102,7 +102,7 @@ def evalAt (p : Module.Dual ℂ V) (n : ℕ) : Sym[ℂ]^n V →ₗ[ℂ] ℂ wher
     induction h with
     | of x y h => cases h with
       | perm e f =>
-        show evalTensorPow p n (PiTensorProduct.tprod ℂ f)
+        change evalTensorPow p n (PiTensorProduct.tprod ℂ f)
           = evalTensorPow p n (PiTensorProduct.tprod ℂ fun i => f (e i))
         rw [evalTensorPow_tprod, evalTensorPow_tprod]
         exact (Equiv.prod_comp e (fun i => p (f i))).symm
@@ -110,7 +110,7 @@ def evalAt (p : Module.Dual ℂ V) (n : ℕ) : Sym[ℂ]^n V →ₗ[ℂ] ℂ wher
     | symm _ ih => exact ih.symm
     | trans _ _ ih₁ ih₂ => exact ih₁.trans ih₂
     | add _ _ ih₁ ih₂ =>
-        show evalTensorPow p n (_ + _) = evalTensorPow p n (_ + _)
+        change evalTensorPow p n (_ + _) = evalTensorPow p n (_ + _)
         rw [map_add, map_add]
         exact congr_arg₂ (· + ·) ih₁ ih₂)
   map_add' x y := by
@@ -164,7 +164,7 @@ def orbitCovector (g : G) : Module.Dual ℂ V := (Representation.dual ρ) g u
 lemma orbitCovector_comp (x g : G) :
     (orbitCovector ρ u x) ∘ₗ ρ g = orbitCovector ρ u (g⁻¹ * x) := by
   ext v
-  show (orbitCovector ρ u x) (ρ g v) = (orbitCovector ρ u (g⁻¹ * x)) v
+  change (orbitCovector ρ u x) (ρ g v) = (orbitCovector ρ u (g⁻¹ * x)) v
   simp only [orbitCovector, Representation.dual_apply, Module.Dual.transpose_apply,
     LinearMap.comp_apply]
   rw [← Module.End.mul_apply, ← map_mul, mul_inv_rev, inv_inv]
@@ -203,7 +203,7 @@ lemma orbitCovector_injective (hρ : Function.Injective ρ)
         = (Representation.dual ρ) y⁻¹ ((Representation.dual ρ) x u) := by
       rw [map_mul]; rfl
     rw [this, show (Representation.dual ρ) x u = orbitCovector ρ u x from rfl, hxy]
-    show (Representation.dual ρ) y⁻¹ ((Representation.dual ρ) y u) = u
+    change (Representation.dual ρ) y⁻¹ ((Representation.dual ρ) y u) = u
     rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply]
   have := hu _ h1
   rw [inv_mul_eq_one] at this
@@ -293,11 +293,11 @@ theorem exists_orbitEval_surjection (hρ : Function.Injective ρ) :
     apply Finsupp.ext
     intro x
     -- unfold the composite and the finsupp/function transport (both by `rfl`)
-    show orbitEval ρ u ((Representation.directSum (fun n => symPowRep ρ n)) g t) x
+    change orbitEval ρ u ((Representation.directSum (fun n => symPowRep ρ n)) g t) x
       = (Representation.ofMulAction ℂ G G) g
           ((Finsupp.linearEquivFunOnFinite ℂ ℂ G).symm (orbitEval ρ u t)) x
     rw [Representation.ofMulAction_apply]
-    show orbitEval ρ u ((Representation.directSum (fun n => symPowRep ρ n)) g t) x
+    change orbitEval ρ u ((Representation.directSum (fun n => symPowRep ρ n)) g t) x
       = orbitEval ρ u t (g⁻¹ • x)
     rw [orbitEval_apply, orbitEval_apply, smul_eq_mul,
       ← LinearMap.congr_fun (evalDsum_directSum ρ u g x) t]

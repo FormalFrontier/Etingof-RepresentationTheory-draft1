@@ -60,6 +60,8 @@ jobs:
           # mechanically synchronized. These checks are intentionally ahead of
           # the expensive Lean build so metadata drift fails fast.
           python3 scripts/validate_items.py
+          python3 scripts/validate_dependencies.py
+          python3 scripts/test_validate_dependencies.py
           python3 scripts/verify_blobs.py
           python3 scripts/reconcile_exercise_coverage.py --check
           python3 scripts/validate_exercise_coverage.py

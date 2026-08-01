@@ -143,7 +143,7 @@ lemma subgraph_contradiction {n m : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     the null vector (2,1,1,1,1) which gives B = 0 on the star. -/
 lemma dynkin_degree_le_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hD : IsDynkinDiagram n adj) (i : Fin n) : vertexDegree adj i ≤ 3 := by
-  by_contra hge; push_neg at hge
+  by_contra hge; push Not at hge
   obtain ⟨hsymm, hdiag, h01, _, hpos⟩ := hD
   -- Extract 4 neighbors
   set N := Finset.univ.filter (fun j => adj i j = 1) with hN_def
@@ -195,14 +195,14 @@ lemma dynkin_degree_le_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     rw [show ∑ b, (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) a b * x b =
         ∑ b, (2 * (1 : Matrix _ _ ℤ) a b * x b - adj a b * x b) from
       Finset.sum_congr rfl (fun b _ => by
-        simp only [Matrix.sub_apply, Matrix.smul_apply, smul_eq_mul]; ring)]
+        simp only [Matrix.sub_apply, Matrix.smul_apply]; ring)]
     rw [Finset.sum_sub_distrib]
     congr 1
     rw [show ∑ b, 2 * (1 : Matrix (Fin n) (Fin n) ℤ) a b * x b =
         ∑ b, if a = b then 2 * x b else 0 from
       Finset.sum_congr rfl (fun b _ => by
         simp only [Matrix.one_apply]; split_ifs <;> simp <;> ring)]
-    simp [Finset.sum_ite_eq']
+    simp
   -- B(x,x) = Σ_a x(a) * ((2I-adj)x)(a), show each term ≤ 0
   apply Finset.sum_nonpos; intro a _
   rw [mulVec_eq]
@@ -257,7 +257,7 @@ lemma dynkin_no_cycle {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     intro i j; simp only [adj_sub, φ]
     split_ifs with h
     · -- adj_sub = 1: show adj(cycle[i], cycle[j]) ≥ 1
-      show 1 ≤ adj (cycle.get i) (cycle.get j)
+      change 1 ≤ adj (cycle.get i) (cycle.get j)
       suffices adj (cycle.get i) (cycle.get j) = 1 by omega
       rcases h with h | h | ⟨hi, hj⟩ | ⟨hj, hi⟩
       · -- i.val + 1 = j.val: consecutive vertices
@@ -284,11 +284,11 @@ lemma dynkin_no_cycle {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
         rw [h1, h2]; exact hclose'
     · -- adj_sub = 0: trivially 0 ≤ adj(...)
       have : adj (φ i) (φ j) = 0 ∨ adj (φ i) (φ j) = 1 := h01 (φ i) (φ j)
-      show 0 ≤ adj (φ i) (φ j)
+      change 0 ≤ adj (φ i) (φ j)
       rcases this with h | h <;> simp [h]
   -- Null vector: all ones
   let v : Fin m → ℤ := fun _ => 1
-  have hv_nonneg : ∀ i, 0 ≤ v i := fun _ => by show (0 : ℤ) ≤ 1; omega
+  have hv_nonneg : ∀ i, 0 ≤ v i := fun _ => by change (0 : ℤ) ≤ 1; omega
   have hv_ne : v ≠ 0 := by
     intro h; have := congr_fun h ⟨0, by omega⟩; simp [v] at this
   -- B_sub(v,v) ≤ 0: each vertex has degree 2 in the cycle, so B(1,...,1) = 0
@@ -310,7 +310,7 @@ lemma dynkin_no_cycle {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     set nxt : Fin m := ⟨if i.val + 1 < m then i.val + 1 else 0, by split_ifs <;> omega⟩
     set prv : Fin m := ⟨if i.val = 0 then m - 1 else i.val - 1, by split_ifs <;> omega⟩
     have hne : nxt ≠ prv := by
-      simp only [nxt, prv, ne_eq, Fin.ext_iff, Fin.val_mk]; split_ifs <;> omega
+      simp only [nxt, prv, ne_eq, Fin.ext_iff]; split_ifs <;> omega
     suffices Finset.univ.filter (fun j : Fin m => adj_sub i j = 1) = {nxt, prv} by
       rw [this, Finset.card_pair hne]; norm_cast
     ext j; simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_insert,
@@ -320,13 +320,13 @@ lemma dynkin_no_cycle {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
       intro h; simp only [adj_sub] at h
       split_ifs at h with hcond
       · rcases hcond with hc | hc | ⟨hc1, hc2⟩ | ⟨hc1, hc2⟩
-        · left; exact Fin.ext (by simp only [nxt, Fin.val_mk]; split_ifs <;> omega)
-        · right; exact Fin.ext (by simp only [prv, Fin.val_mk]; split_ifs <;> omega)
-        · right; exact Fin.ext (by simp only [prv, Fin.val_mk]; split_ifs <;> omega)
-        · left; exact Fin.ext (by simp only [nxt, Fin.val_mk]; split_ifs <;> omega)
+        · left; exact Fin.ext (by simp only [nxt]; split_ifs <;> omega)
+        · right; exact Fin.ext (by simp only [prv]; split_ifs <;> omega)
+        · right; exact Fin.ext (by simp only [prv]; split_ifs ; omega)
+        · left; exact Fin.ext (by simp only [nxt]; split_ifs <;> omega)
       · omega -- h : 0 = 1 contradiction
     · -- j = nxt ∨ j = prv → adj_sub i j = 1
-      rintro (hj | hj) <;> subst hj <;> simp only [adj_sub, nxt, prv, Fin.val_mk] <;>
+      rintro (hj | hj) <;> subst hj <;> simp only [adj_sub, nxt, prv] <;>
         split_ifs <;> omega
   have hv_null : dotProduct v ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) - adj_sub).mulVec v) ≤ 0 := by
     suffices h0 : (2 • (1 : Matrix (Fin m) (Fin m) ℤ) - adj_sub).mulVec v = 0 by
@@ -402,14 +402,14 @@ lemma dynkin_edge_count {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
       rw [show ∑ b, (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) a b * x b =
           ∑ b, (2 * (1 : Matrix _ _ ℤ) a b * x b - adj a b * x b) from
         Finset.sum_congr rfl (fun b _ => by
-          simp only [Matrix.sub_apply, Matrix.smul_apply, smul_eq_mul]; ring)]
+          simp only [Matrix.sub_apply, Matrix.smul_apply]; ring)]
       rw [Finset.sum_sub_distrib]
       congr 1
       rw [show ∑ b, 2 * (1 : Matrix (Fin n) (Fin n) ℤ) a b * x b =
           ∑ b, if a = b then 2 * x b else 0 from
         Finset.sum_congr rfl (fun b _ => by
           simp only [Matrix.one_apply]; split_ifs <;> simp <;> ring)]
-      simp [Finset.sum_ite_eq']
+      simp
     -- B(1,...,1) = ∑_a (2 - deg(a))
     have hBpos := hpos x hx_ne
     simp only [dotProduct, show ∀ b, x b = (1 : ℤ) from fun _ => rfl, one_mul,
@@ -421,7 +421,7 @@ lemma dynkin_edge_count {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
       have : (↑(∑ i : Fin n, vertexDegree adj i) : ℤ) < 2 * ↑n := by
         have h1 : ∑ a : Fin n, (2 - ∑ b : Fin n, adj a b) =
             2 * ↑n - ∑ a, ∑ b, adj a b := by
-          rw [Finset.sum_sub_distrib]; simp [Finset.card_fin]; ring
+          rw [Finset.sum_sub_distrib]; simp ; ring
         have h2 : (∑ i : Fin n, (vertexDegree adj i : ℤ)) = ∑ i, ∑ j, adj i j := by
           congr 1; ext i; exact (adj_sum_eq_degree h01 i).symm
         push_cast; linarith
@@ -451,7 +451,7 @@ lemma dynkin_edge_count {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
 lemma dynkin_has_endpoint {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hD : IsDynkinDiagram n adj) (hn : 1 ≤ n) (hpath : ∀ i, vertexDegree adj i ≤ 2) :
     ∃ v, vertexDegree adj v ≤ 1 := by
-  by_contra h; push_neg at h
+  by_contra h; push Not at h
   obtain ⟨_, hdiag, h01, _, hpos⟩ := hD
   have hdeg2 : ∀ i, vertexDegree adj i = 2 := fun i => le_antisymm (hpath i) (h i)
   set x : Fin n → ℤ := fun _ => 1
@@ -464,14 +464,14 @@ lemma dynkin_has_endpoint {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     rw [show ∑ b, (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) a b * x b =
         ∑ b, (2 * (1 : Matrix _ _ ℤ) a b * x b - adj a b * x b) from
       Finset.sum_congr rfl (fun b _ => by
-        simp only [Matrix.sub_apply, Matrix.smul_apply, smul_eq_mul]; ring)]
+        simp only [Matrix.sub_apply, Matrix.smul_apply]; ring)]
     rw [Finset.sum_sub_distrib]
     congr 1
     rw [show ∑ b, 2 * (1 : Matrix (Fin n) (Fin n) ℤ) a b * x b =
         ∑ b, if a = b then 2 * x b else 0 from
       Finset.sum_congr rfl (fun b _ => by
         simp only [Matrix.one_apply]; split_ifs <;> simp <;> ring)]
-    simp [Finset.sum_ite_eq']
+    simp
   have hB_le : dotProduct x ((2 • (1 : Matrix _ _ ℤ) - adj).mulVec x) ≤ 0 := by
     apply Finset.sum_nonpos; intro a _
     simp only [show ∀ b, x b = (1 : ℤ) from fun _ => rfl, mul_one, one_mul, mulVec_eq]
@@ -851,7 +851,7 @@ lemma path_iso_An {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     · have hk : j.val + 1 < n := by linarith
       have heq : i = ⟨j.val + 1, by linarith⟩ := by ext; exact h_bwd.symm
       rw [heq, hsymm.apply]; exact hσ_fwd j hk
-  · push_neg at h
+  · push Not at h
     rcases h01 (σ i) (σ j) with h0 | h1
     · exact h0
     · exfalso
@@ -888,7 +888,7 @@ lemma arm_length_solutions (p q r : ℕ) (hp : 1 ≤ p) (hpq : p ≤ q) (hqr : q
   subst hp1
   -- Now p = 1. Upper bound on q: if q ≥ 3 then 1/2 + 1/4 + 1/(r+1) ≤ 1 (since r ≥ q ≥ 3).
   have hq_le : q ≤ 2 := by
-    by_contra hq_big; push_neg at hq_big
+    by_contra hq_big; push Not at hq_big
     have hq3 : 3 ≤ q := by omega
     have hr3 : 3 ≤ r := le_trans hq3 hqr
     nlinarith

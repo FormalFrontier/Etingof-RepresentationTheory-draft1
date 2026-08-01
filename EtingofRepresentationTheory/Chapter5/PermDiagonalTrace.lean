@@ -88,7 +88,7 @@ theorem permTracePoly_eq_powerSumCycleProduct (σ : Equiv.Perm (Fin n)) :
   obtain ⟨π, hπ_orbit, hπ_card⟩ := exists_orbIdx σ
   -- π is surjective (orbit fibers are nonempty since cycle lengths ≥ 1)
   have hπ_surj : Function.Surjective π := by
-    intro i; by_contra h; push_neg at h
+    intro i; by_contra h; push Not at h
     have h1 := hπ_card i
     have h2 : (univ.filter (fun k : Fin n => π k = i)).card = 0 := by
       rw [Finset.card_eq_zero, Finset.filter_eq_empty_iff]

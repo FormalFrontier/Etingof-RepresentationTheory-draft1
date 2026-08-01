@@ -89,7 +89,7 @@ private lemma Etingof.simpleRepresentation_finrank
     Module.finrank k ((Etingof.simpleRepresentation k p (Q := Q)).obj v) =
       if v = p then 1 else 0 := by
   change Module.finrank k (Fin (if v = p then 1 else 0) → k) = _
-  split_ifs with h <;> simp_all [Module.finrank_pi_fintype]
+  split_ifs with h <;> simp_all
 
 private lemma Etingof.simpleRepresentation_finrank_eq_simpleRoot
     (k : Type*) [Field k]
@@ -133,7 +133,7 @@ private lemma Etingof.simpleRepresentation_indecomposable
       letI : ∀ v, AddCommGroup ((Etingof.simpleRepresentation k p (Q := Q)).obj v) :=
         fun v => Etingof.addCommGroupOfRing (k := k)
       by_contra h
-      push_neg at h
+      push Not at h
       obtain ⟨h1, h2⟩ := h
       have hr1 := Submodule.one_le_finrank_iff.mpr h1
       have hr2 := Submodule.one_le_finrank_iff.mpr h2
@@ -190,15 +190,15 @@ private lemma Etingof.positive_root_cartan_bound
     (Etingof.cartanMatrix n adj).mulVec α k ≤ α k := by
   set A := Etingof.cartanMatrix n adj
   have hAsymm := Etingof.cartanMatrix_isSymm hDynkin.1
-  by_contra h; push_neg at h
+  by_contra h; push Not at h
   -- α_k ≥ 1: if α_k = 0, then (Aα)_k = -Σ adj_{k,j} α_j ≤ 0 ≤ α_k
   have hαk_pos : 1 ≤ α k := by
-    by_contra h'; push_neg at h'
+    by_contra h'; push Not at h'
     have hαk0 : α k = 0 := le_antisymm (by omega) (hα_nonneg k)
     have : A.mulVec α k ≤ 0 := by
-      show (∑ j : Fin n, A k j * α j) ≤ 0
+      change (∑ j : Fin n, A k j * α j) ≤ 0
       have hdiag : A k k = 2 := by
-        show (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) k k = 2
+        change (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) k k = 2
         simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply_eq]
         norm_num; have := hDynkin.2.1 k; omega
       calc ∑ j, A k j * α j = A k k * α k + ∑ j ∈ Finset.univ.erase k, A k j * α j := by
@@ -208,7 +208,7 @@ private lemma Etingof.positive_root_cartan_bound
                 apply Finset.sum_nonpos; intro j hj
                 have hne : j ≠ k := Finset.ne_of_mem_erase hj
                 have : A k j ≤ 0 := by
-                  show (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) k j ≤ 0
+                  change (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) k j ≤ 0
                   simp only [Matrix.sub_apply, Matrix.smul_apply,
                     Matrix.one_apply_ne (Ne.symm hne)]
                   norm_num; have := hDynkin.2.2.1 k j; omega
@@ -239,11 +239,11 @@ private lemma Etingof.positive_root_cartan_bound
   have hBee : dotProduct (Pi.single k (1 : ℤ)) (A.mulVec (Pi.single k (1 : ℤ))) = 2 := by
     simp only [dotProduct, Matrix.mulVec, Pi.single_apply, mul_ite, mul_one, mul_zero,
       ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
-    show (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) k k = 2
+    change (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) k k = 2
     simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply_eq]
     norm_num; have := hDynkin.2.1 k; omega
   have hBβ : dotProduct β (A.mulVec β) = 4 - 2 * A.mulVec α k := by
-    show dotProduct (α - Pi.single k 1) (A.mulVec (α - Pi.single k 1)) = _
+    change dotProduct (α - Pi.single k 1) (A.mulVec (α - Pi.single k 1)) = _
     simp only [Matrix.mulVec_sub]
     simp only [sub_dotProduct, dotProduct_sub]
     rw [hα_root, hBde, hBed, hBee]; ring
@@ -515,7 +515,7 @@ private lemma exists_prefix_to_simpleRoot
     rw [hfull_eq] at hnn
     exact not_le.mpr (hN) (hnn v_neg)
   -- Find the first "bad" index (where sum < 2)
-  push_neg at hbad
+  push Not at hbad
   obtain ⟨k₀, hk₀_lt, hk₀_sum⟩ := hbad
   -- Get the minimal such index using Nat.find
   have hexists : ∃ m, m < fullList.length ∧
@@ -532,7 +532,7 @@ private lemma exists_prefix_to_simpleRoot
   have hm_min : ∀ j < m,
       2 ≤ ∑ i, Etingof.iteratedSimpleReflection n A (fullList.take j) α i := by
     intro j hj
-    by_contra h; push_neg at h
+    by_contra h; push Not at h
     exact Nat.find_min hexists' hj ⟨by omega, h⟩
   -- All intermediates before m have sum ≥ 2, so the m-th is nonneg with B = 2
   obtain ⟨hm_nn, hm_B⟩ := hprefix_nonneg_B m (by omega) hm_min
@@ -608,7 +608,7 @@ private lemma backward_construct_rep
       subst hq
       exact Etingof.Corollary6_8_4_simpleRoot q k
     · -- d has sum ≥ 2: reflect at v (sink of Q), recurse
-      push_neg at hle
+      push Not at hle
       have hd_sum2 : 2 ≤ ∑ j, d j := by omega
       -- v is a sink of Q
       have hv_sink : @Etingof.IsSink (Fin n) Q v := by
@@ -652,7 +652,7 @@ private lemma backward_construct_rep
         rw [htake, hget] at h
         -- iteratedReversedAtVertices Q (v :: rest.take m) =
         --   iteratedReversedAtVertices Q_rev (rest.take m)
-        show @Etingof.IsSink (Fin n)
+        change @Etingof.IsSink (Fin n)
           (@Etingof.iteratedReversedAtVertices _ _ Q_rev (rest.take m))
           (rest.get ⟨m, hm⟩)
         convert h using 2
@@ -675,7 +675,7 @@ private lemma backward_construct_rep
         have hAev : (A.mulVec (Pi.single v (1 : ℤ))) v = 2 := by
           simp only [Matrix.mulVec, dotProduct, Pi.single_apply, mul_ite, mul_one, mul_zero,
             Finset.sum_ite_eq', Finset.mem_univ, ite_true]
-          show (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) v v = 2
+          change (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) v v = 2
           simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply_eq]
           norm_num; have := hDynkin.2.1 v; omega
         rw [hAev] at hd_sum_eq
@@ -854,7 +854,7 @@ theorem Etingof.Corollary6_8_4
       subst hp
       exact Etingof.Corollary6_8_4_simpleRoot p k
     · -- Inductive step: find good vertex, reflect, recurse.
-      push_neg at hle
+      push Not at hle
       have hd_sum2 : 2 ≤ ∑ j : Fin n, α j := by omega
       -- Step 1: Find a good vertex i with 0 < (Aα)_i ≤ α_i.
       obtain ⟨i, hi_pos, hi_le⟩ :=
@@ -930,7 +930,7 @@ theorem Etingof.Corollary6_8_4
               fun k hk => by rw [hαj k (Finset.ne_of_mem_erase hk), mul_zero]
             rw [Finset.sum_eq_zero this, add_zero]
             have hAii : A i i = 2 := by
-              show (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) i i = 2
+              change (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) i i = 2
               simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply_eq]
               norm_num; have := hDynkin.2.1 i; omega
             rw [hAii]
@@ -1081,7 +1081,7 @@ theorem Etingof.Corollary6_8_4
         have hDim_fp : ∀ v, (α v : ℤ) =
             ↑((@Etingof.reflectionFunctorPlus k _ (Fin n) _ Q' i hi_sink_Q' ρ').finrankAt' k v) := by
           intro v; rw [h668 v]
-          show (α v : ℤ) = Etingof.simpleReflectionDimVector
+          change (α v : ℤ) = Etingof.simpleReflectionDimVector
             (fun (a : @Etingof.ArrowsInto (Fin n) Q' i) => a.1) i d' v
           -- hbridge uses a different Fintype instance; reconcile via convert
           have hgoal : (α v : ℤ) = Etingof.simpleReflection n (Etingof.cartanMatrix n adj) i d' v := by
@@ -1182,7 +1182,7 @@ theorem Etingof.Corollary6_8_4
           -- Dim vector
           have hDim_fm : ∀ v, (α v : ℤ) = ↑(fm.finrankAt' k v) := by
             intro v; rw [h668 v]
-            show (α v : ℤ) = Etingof.simpleReflectionDimVector
+            change (α v : ℤ) = Etingof.simpleReflectionDimVector
               (fun (a : @Etingof.ArrowsOutOf (Fin n) Q' i) => a.1) i d' v
             have hgoal : (α v : ℤ) = Etingof.simpleReflection n (Etingof.cartanMatrix n adj) i d' v := by
               rw [← hA_def, hd_eq]; exact (congr_fun hinvol_α v).symm

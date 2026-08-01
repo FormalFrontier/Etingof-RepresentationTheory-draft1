@@ -347,7 +347,7 @@ theorem Etingof.reflFunctorPlus_mapLinear_ne_ne
     intro v hv
     have hdv : inst v i = .isFalse hv := by
       cases inst v i with | isTrue h => exact absurd h hv | isFalse _ => rfl
-    show HEq (⇑(Etingof.reflFunctorPlus_equivAtAt_ne ρ v hv (inst v i))) _
+    change HEq (⇑(Etingof.reflFunctorPlus_equivAtAt_ne ρ v hv (inst v i))) _
     rw [hdv]
     rfl
   -- (3) Assemble via HEq congruence.
@@ -469,7 +469,7 @@ theorem Etingof.reflFunctorPlus_mapLinear_eq_ne
       (id : ↥(ρ.sinkMap i).ker → ↥(ρ.sinkMap i).ker) := by
     have h_ii : inst i i = .isTrue rfl := by
       cases inst i i with | isTrue _ => rfl | isFalse h => exact absurd rfl h
-    show HEq (⇑(Etingof.reflFunctorPlus_equivAtAt_eq ρ (inst i i))) _
+    change HEq (⇑(Etingof.reflFunctorPlus_equivAtAt_eq ρ (inst i i))) _
     rw [h_ii]
     rfl
   have hwe : HEq ((Etingof.reflFunctorPlus_equivAt_eq hi ρ) w) w :=
@@ -512,7 +512,7 @@ theorem Etingof.reflFunctorPlus_mapLinear_eq_ne
     intro v hv
     have hdv : inst v i = .isFalse hv := by
       cases inst v i with | isTrue h => exact absurd h hv | isFalse _ => rfl
-    show HEq (⇑(Etingof.reflFunctorPlus_equivAtAt_ne ρ v hv (inst v i))) _
+    change HEq (⇑(Etingof.reflFunctorPlus_equivAtAt_ne ρ v hv (inst v i))) _
     rw [hdv]
     rfl
   have hfinal := Etingof.heq_apply (Etingof.reflFunctorPlus_obj_ne hi ρ b hb) rfl (heqv b hb)

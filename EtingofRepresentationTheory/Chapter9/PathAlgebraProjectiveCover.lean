@@ -90,7 +90,7 @@ theorem coeff_eIdem_mul (i : Q) (a : PathAlgebra k Q) (x : QuiverPathIndex Q) :
       · simp [coeff_single, Ne.symm hx]
     · rw [if_neg his, smul_zero, coeff_zero]
       by_cases hx : x = (⟨s, t, p⟩ : QuiverPathIndex Q)
-      · subst hx; simp [coeff_single, Ne.symm his]
+      · subst hx; simp [Ne.symm his]
       · simp [coeff_single, Ne.symm hx]
 
 /-- Coefficient of `a * eⱼ` at an index `x`: it keeps the paths whose target is `j` and kills
@@ -114,7 +114,7 @@ theorem coeff_mul_eIdem (j : Q) (a : PathAlgebra k Q) (x : QuiverPathIndex Q) :
       · simp [coeff_single, Ne.symm hx]
     · rw [if_neg htj, smul_zero, coeff_zero]
       by_cases hx : x = (⟨s, t, p⟩ : QuiverPathIndex Q)
-      · subst hx; simp [coeff_single, htj]
+      · subst hx; simp [htj]
       · simp [coeff_single, Ne.symm hx]
 
 /-- Coefficient of `eᵢ * a * eⱼ` at an index `x = ⟨s, t, p⟩`: it keeps the paths from `i` to `j`

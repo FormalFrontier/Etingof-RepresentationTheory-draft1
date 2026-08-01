@@ -44,7 +44,7 @@ def zEnd : Module.End ℂ ↥lam2Sub.toSubmodule :=
 /-- **Centrality of `z`.** `z` commutes with every `ρ(h)`, by the reindexing
 `h·z·h⁻¹ = Σ_g ρ((hg)·r·(hg)⁻¹) = z`. -/
 lemma zEnd_central (h : G) : Commute (lam2Sub.toRepresentation h) zEnd := by
-  show lam2Sub.toRepresentation h * zEnd = zEnd * lam2Sub.toRepresentation h
+  change lam2Sub.toRepresentation h * zEnd = zEnd * lam2Sub.toRepresentation h
   rw [zEnd, Finset.mul_sum, Finset.sum_mul,
     ← Equiv.sum_comp (Equiv.mulLeft h⁻¹)
       (fun g => lam2Sub.toRepresentation h * lam2Sub.toRepresentation (g * r5 * g⁻¹))]
@@ -86,7 +86,7 @@ def Zamb : Module.End ℂ (W4 ⊗[ℂ] W4) :=
 /-- **Centrality of the ambient `Z`.** `Z` commutes with every `(ρ_V ⊗ ρ_V)(h)`, by the
 reindexing `h·Z·h⁻¹ = Σ_g ρ((hg)·r·(hg)⁻¹) = Z`. -/
 lemma Zamb_comm (h : G) : Commute ((rhoV.tprod rhoV) h) Zamb := by
-  show (rhoV.tprod rhoV) h * Zamb = Zamb * (rhoV.tprod rhoV) h
+  change (rhoV.tprod rhoV) h * Zamb = Zamb * (rhoV.tprod rhoV) h
   rw [Zamb, Finset.mul_sum, Finset.sum_mul,
     ← Equiv.sum_comp (Equiv.mulLeft h⁻¹)
       (fun g => (rhoV.tprod rhoV) h * (rhoV.tprod rhoV) (g * r5 * g⁻¹))]
@@ -98,7 +98,7 @@ lemma Zamb_comm (h : G) : Commute ((rhoV.tprod rhoV) h) Zamb := by
 
 /-- `Z` commutes with the antisymmetriser `asym` (each summand does, by `asym_comm`). -/
 lemma Zamb_comm_asym : Commute asym Zamb := by
-  show asym * Zamb = Zamb * asym
+  change asym * Zamb = Zamb * asym
   rw [Zamb, Finset.mul_sum, Finset.sum_mul]
   exact Finset.sum_congr rfl fun g _ => asym_comm (g * r5 * g⁻¹)
 
@@ -757,7 +757,7 @@ private lemma character_eq_restrict_trace
       exact hsy.symm
     rw [hLHS, hRHS]
   -- Trace is invariant under the conjugation `e` (`trace_conj'`).
-  show LinearMap.trace ℂ ↥S.toSubmodule (S.toRepresentation g)
+  change LinearMap.trace ℂ ↥S.toSubmodule (S.toRepresentation g)
       = LinearMap.trace ℂ ↥E ((lam2Sub.toRepresentation g).restrict hmaps)
   rw [hconj]
   exact LinearMap.trace_conj' _ e
@@ -832,7 +832,7 @@ private lemma repC3_character_system (g : G) :
     refine LinearMap.ext fun x => Subtype.ext ?_
     have hmem : lam2Sub.toRepresentation g (x : ↥lam2Sub.toSubmodule)
         ∈ Module.End.eigenspace zEnd muPlus := hf 0 x.2
-    show zEnd (lam2Sub.toRepresentation g (x : ↥lam2Sub.toSubmodule))
+    change zEnd (lam2Sub.toRepresentation g (x : ↥lam2Sub.toSubmodule))
         = muPlus • lam2Sub.toRepresentation g (x : ↥lam2Sub.toSubmodule)
     exact Module.End.mem_eigenspace_iff.mp hmem
   have hM1 : (zEnd * lam2Sub.toRepresentation g).restrict (hMmaps 1)
@@ -840,7 +840,7 @@ private lemma repC3_character_system (g : G) :
     refine LinearMap.ext fun x => Subtype.ext ?_
     have hmem : lam2Sub.toRepresentation g (x : ↥lam2Sub.toSubmodule)
         ∈ Module.End.eigenspace zEnd muMinus := hf 1 x.2
-    show zEnd (lam2Sub.toRepresentation g (x : ↥lam2Sub.toSubmodule))
+    change zEnd (lam2Sub.toRepresentation g (x : ↥lam2Sub.toSubmodule))
         = muMinus • lam2Sub.toRepresentation g (x : ↥lam2Sub.toSubmodule)
     exact Module.End.mem_eigenspace_iff.mp hmem
   refine ⟨?_, ?_⟩

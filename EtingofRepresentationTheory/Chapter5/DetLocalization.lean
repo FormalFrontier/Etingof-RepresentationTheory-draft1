@@ -69,7 +69,7 @@ theorem powers_detPoly_le_nonZeroDivisors :
 `eval g` substitutes `Xᵢⱼ ↦ gᵢⱼ`. -/
 noncomputable def evalGLHom :
     MvPolynomial (Fin N × Fin N) k →+* (Matrix.GeneralLinearGroup (Fin N) k → k) :=
-  Pi.ringHom fun g =>
+  RingHom.pi fun g =>
     MvPolynomial.eval (fun ij : Fin N × Fin N => (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
 
 @[simp]
@@ -395,7 +395,7 @@ theorem detExp_eq_of_reduced {f : Localization.Away (detPoly k N)} {r : ℕ}
     (hred : r = 0 ∨ ¬ detPoly k N ∣ Q) : r = detExp f := by
   refine le_antisymm ?_ (detExp_le ⟨Q, hQ⟩)
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   rcases hred with h0 | hnd
   · omega
   · exact hnd (dvd_num_of_detExp_lt hQ hlt)

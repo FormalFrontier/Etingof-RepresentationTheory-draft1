@@ -312,9 +312,9 @@ private lemma inner_zero_of_span_mem {G : Type} [Group G] [Fintype G]
     simp only [mul_add, Finset.sum_add_distrib]
     rw [hx, hy, add_zero]
   | smul r x _ hx =>
-    show ∑ g : G, f g * (r • x) g⁻¹ = 0
+    change ∑ g : G, f g * (r • x) g⁻¹ = 0
     have key : ∀ g : G, f g * (r • x) g⁻¹ = (r : ℂ) * (f g * x g⁻¹) := by
-      intro g; show f g * r • x g⁻¹ = _; rw [show r • x g⁻¹ = (r : ℂ) * x g⁻¹ from
+      intro g; change f g * r • x g⁻¹ = _; rw [show r • x g⁻¹ = (r : ℂ) * x g⁻¹ from
         Algebra.smul_def r (x g⁻¹)]; ring
     simp_rw [key, ← Finset.mul_sum, hx, mul_zero]
 
@@ -819,7 +819,7 @@ theorem Etingof.Theorem5_26_1
     -- But the trivial character equals 1 at g₀, contradiction.
     intro hspan
     by_contra hncov
-    push_neg at hncov
+    push Not at hncov
     obtain ⟨g₀, hg₀⟩ := hncov
     -- Step 1: No conjugate of g₀ lies in any H ∈ X
     have hconj_out : ∀ H ∈ X, ∀ x : G, x⁻¹ * g₀ * x ∉ H := by

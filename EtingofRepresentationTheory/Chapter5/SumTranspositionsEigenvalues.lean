@@ -106,7 +106,7 @@ theorem sumTranspositions_isSemisimple_and_integer_eigenvalues
       -- `hW : IsSimpleModule A ↥W`
       haveI : IsSimpleModule (SymGroupAlgebra m) W := hW
       intro w hw
-      show q • w = 0
+      change q • w = 0
       -- classify the simple submodule as a Specht module `V_λ`
       obtain ⟨la, ⟨φ⟩⟩ := Etingof.classification_general_u ℂ m (W : Type _)
       have hmod : SpechtModuleK ℂ m la = SpechtModule m la := by

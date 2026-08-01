@@ -148,7 +148,7 @@ noncomputable instance instModuleMonoidAlgebraStd (D : SplitData K G) (i : Fin D
 instance (D : SplitData K G) (i : Fin D.n) :
     IsScalarTower K (MonoidAlgebra K G) (D.Std i) where
   smul_assoc c x m := by
-    show (D.blockHom i).toRingHom (c • x) • m = c • ((D.blockHom i).toRingHom x • m)
+    change (D.blockHom i).toRingHom (c • x) • m = c • ((D.blockHom i).toRingHom x • m)
     have hlin : (D.blockHom i).toRingHom (c • x) = c • (D.blockHom i).toRingHom x := by
       simp only [AlgHom.toRingHom_eq_coe, RingHom.coe_coe, map_smul]
     rw [hlin, smul_assoc]
@@ -298,7 +298,7 @@ theorem exists_Std_linearEquiv (D : SplitData K G)
   obtain ⟨m₀, hm₀⟩ : ∃ m : M, m ≠ 0 := exists_ne 0
   obtain ⟨i₀, hi₀⟩ : ∃ i₀, ε i₀ • m₀ ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hm₀ ((hsum m₀).symm.trans (Finset.sum_eq_zero (fun i _ => h i)))
   refine ⟨i₀, ?_⟩
   -- `ε i₀` acts as the identity on all of `M` (a nonzero idempotent on a simple module).

@@ -6,8 +6,9 @@ Checks:
 - All source item IDs exist in items.json
 - All dependency target IDs exist in items.json
 - No self-dependencies
-- No forward dependencies (item depending on a later item) unless flagged
+- Forward dependencies are reported and must be flagged in item metadata
 - Conservative default applied (each item depends on all preceding items)
+- No cycles in the resulting item graph
 """
 
 import json
@@ -50,6 +51,7 @@ def validate(deps_path, items_path):
     item_order = build_item_order(items)
     item_set = set(item_order)
     item_index = {item_id: idx for idx, item_id in enumerate(item_order)}
+    items_by_id = {item["id"]: item for item in items if isinstance(item, dict) and "id" in item}
 
     print(f"Loaded {len(item_order)} items from {items_path}")
 
@@ -104,12 +106,53 @@ def validate(deps_path, items_path):
                 warnings.append(f"{prefix}: duplicate dependency on '{dep_id}'")
             seen_deps.add(dep_id)
 
-            # No forward dependencies
+            # Forward dependencies are legitimate when an early textbook claim
+            # is formalized using later infrastructure, but must be explicit.
             if item_index[dep_id] > item_index[source_id]:
-                errors.append(
-                    f"{prefix}: forward dependency on '{dep_id}' "
-                    f"(index {item_index[dep_id]} > {item_index[source_id]})"
+                flagged = set(
+                    items_by_id[source_id].get("stage3_4", {}).get(
+                        "forward_internal_dependencies", []
+                    )
                 )
+                if dep_id not in flagged:
+                    errors.append(
+                        f"{prefix}: unflagged forward dependency on '{dep_id}' "
+                        f"(index {item_index[dep_id]} > {item_index[source_id]})"
+                    )
+
+    forward_count = sum(
+        1
+        for source_id, dep_list in deps.items()
+        if source_id in item_index and isinstance(dep_list, list)
+        for dep_id in dep_list
+        if dep_id in item_index and item_index[dep_id] > item_index[source_id]
+    )
+    if forward_count:
+        warnings.append(
+            f"Actual graph contains {forward_count} explicitly flagged forward edge(s)"
+        )
+
+    # Imports cannot be cyclic. Catch mapping mistakes that turn an acyclic
+    # module graph into a cyclic item graph.
+    visiting: set[str] = set()
+    visited: set[str] = set()
+
+    def visit(node: str, trail: list[str]) -> None:
+        if node in visiting:
+            start = trail.index(node)
+            errors.append("Dependency cycle: " + " -> ".join(trail[start:] + [node]))
+            return
+        if node in visited:
+            return
+        visiting.add(node)
+        for dependency in deps.get(node, []):
+            if dependency in item_set:
+                visit(dependency, trail + [dependency])
+        visiting.remove(node)
+        visited.add(node)
+
+    for item_id in item_order:
+        visit(item_id, [item_id])
 
     # --- Coverage check: every item in items.json should have an entry ---
     missing_entries = item_set - set(deps.keys())

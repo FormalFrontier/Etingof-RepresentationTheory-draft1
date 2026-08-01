@@ -522,14 +522,14 @@ private noncomputable def matchingPerm {α : Type*} [DecidableEq α] :
         funext i
         induction i using Fin.cases with
         | zero =>
-          show g 0 = f (σ_fn 0)
+          change g 0 = f (σ_fn 0)
           change g 0 = f l₀
           exact hl₀.symm
         | succ j =>
-          show g (Fin.succ j) = f (σ_fn (Fin.succ j))
+          change g (Fin.succ j) = f (σ_fn (Fin.succ j))
           change g (Fin.succ j) = f (l₀.succAbove (σ' j))
           have := congrFun hσ' j
-          show g' j = f' (σ' j)
+          change g' j = f' (σ' j)
           exact this⟩
 
 omit [CharZero k] in

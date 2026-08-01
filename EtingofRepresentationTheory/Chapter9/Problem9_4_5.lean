@@ -99,7 +99,7 @@ theorem exists_right_inverse_of_forall_mulVec
   have hcol : (C * Matrix.of fun i j => d j i) i j = C.mulVec (d j) i := by
     simp only [Matrix.mul_apply, Matrix.mulVec, Matrix.of_apply, dotProduct]
   rw [hcol, hd j]
-  simp [Pi.single_apply, Matrix.one_apply, eq_comm]
+  simp [Pi.single_apply, Matrix.one_apply]
 
 /-- **Composition-multiplicity class vector.** For an `A`-module `N`, the vector in `ℤ^ι`
 whose `i`-th entry is `dim_k Hom_A(Pᵢ, N)`. By Proposition 9.2.3

@@ -520,7 +520,7 @@ theorem schurWeyl_simple_summand_glWeightSpace_top
   let i0 : Fin (Module.finrank k (S i)) := ⟨0, hSne i⟩
   let φ : (S i) →ₗ[k] k := b.coord i0
   have hφ : φ (b i0) = 1 := by
-    show b.coord i0 (b i0) = 1
+    change b.coord i0 (b i0) = 1
     rw [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_eq_same]
   -- The "evaluate the `S i`-factor against `φ`" map `r : S i ⊗ L i → L i`, `a ⊗ x ↦ φ a • x`.
   let r : (S i ⊗[k] (L i : Type)) →ₗ[k] (L i : Type) :=
@@ -608,7 +608,7 @@ private theorem isAlgebraic_of_equivariant_linearEquiv
   have h2 : (b.map φ).repr (φ (ρ g (b c))) = b.repr (ρ g (b c)) := by
     change (φ.symm.trans b.repr) (φ (ρ g (b c))) = b.repr (ρ g (b c))
     rw [LinearEquiv.trans_apply, LinearEquiv.symm_apply_apply]
-  show (b.map φ).repr (ρ' g ((b.map φ) c)) a = evalAtGL g (P a c)
+  change (b.map φ).repr (ρ' g ((b.map φ) c)) a = evalAtGL g (P a c)
   rw [show ((b.map φ) c) = φ (b c) from rfl, ← hφ, h2, hP g a c]
 
 /-- **The simple summands `L i` of `V^{⊗n}` are algebraic representations.**
@@ -645,7 +645,7 @@ theorem schurWeyl_simple_summand_isAlgebraic
   let i0 : Fin (Module.finrank k (S i)) := ⟨0, hSne i⟩
   let φ : (S i) →ₗ[k] k := bS.coord i0
   have hφ1 : φ (bS i0) = 1 := by
-    show bS.coord i0 (bS i0) = 1
+    change bS.coord i0 (bS i0) = 1
     rw [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_eq_same]
   -- The equivariant embedding `s : L i ↪ V^{⊗n}`, `x ↦ e⁻¹ (lof i (s₀ ⊗ x))`.
   let s : (L i : Type) →ₗ[k] TensorPower k (Fin N → k) n :=
@@ -696,7 +696,7 @@ theorem schurWeyl_simple_summand_isAlgebraic
   apply φW.injective
   rw [LinearEquiv.apply_symm_apply]
   apply Subtype.ext
-  rw [LinearMap.restrict_coe_apply, hφWval, ← hs_equiv, ← hφWval, LinearEquiv.apply_symm_apply]
+  rw [LinearMap.coe_restrict_apply, hφWval, ← hs_equiv, ← hφWval, LinearEquiv.apply_symm_apply]
 
 /-- **Highest-weight classification of the Schur-Weyl simples (general `k`).**
 
@@ -899,7 +899,7 @@ theorem simpleRep_iso_schurModule_of_formalCharacter_eq (N : ℕ)
   -- Equal formal characters ⟹ the `(1, -1)`-combination of characters vanishes.
   have hcharsum : ∑ i, (![(1 : ℚ), -1] i) • formalCharacter k N (![L, S] i) = 0 := by
     rw [Fin.sum_univ_two]
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one]
     rw [h, hSchar, one_smul, neg_one_smul, add_neg_cancel]
   -- ⟹ the corresponding torus-trace combination vanishes at every diagonal torus element.
   have htorus : ∀ t : Fin N → kˣ,
@@ -1011,7 +1011,7 @@ theorem iso_of_formalCharacter_eq_schurPoly (N : ℕ)
         (fun j : Fin 1 => Representation.asModule (L (f j)).ρ) 0)
       (DirectSum.lof (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k)) (Fin 1)
         (fun j : Fin 1 => Representation.asModule (L (f j)).ρ) 0)
-      (by ext x; simp [DirectSum.component.lof_self])
+      (by ext x; simp )
       (by
         refine DirectSum.linearMap_ext
           (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k)) (fun i => ?_)

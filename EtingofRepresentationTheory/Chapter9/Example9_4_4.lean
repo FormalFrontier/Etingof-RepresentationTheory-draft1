@@ -183,8 +183,8 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
       -- d ≫ ε = 0 by counit naturality:
       -- d = X•𝟙 - F(G(X•𝟙_M)), and by naturality of counit,
       -- F(G(X•𝟙_M)) ≫ ε = ε ≫ X•𝟙_M = X•ε, so d ≫ ε = X•ε - X•ε = 0
-      show d ≫ adj.counit.app M = 0
-      show (Polynomial.X • 𝟙 FGM - F.map (xActionAsRLinear M)) ≫ adj.counit.app M = 0
+      change d ≫ adj.counit.app M = 0
+      change (Polynomial.X • 𝟙 FGM - F.map (xActionAsRLinear M)) ≫ adj.counit.app M = 0
       rw [Preadditive.sub_comp, Linear.smul_comp, Category.id_comp,
         show F.map (xActionAsRLinear M) = F.map (G.map (Polynomial.X • 𝟙 M)) from rfl,
         nat, Linear.comp_smul]
@@ -224,7 +224,7 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
         have hd_sub : d'.hom (p ⊗ₜ[R] m) =
             ((Polynomial.X : Polynomial R) • 𝟙 FGM').hom (p ⊗ₜ[R] m) -
             (F'.map (xActionAsRLinear M)).hom (p ⊗ₜ[R] m) := by
-          show (((Polynomial.X : Polynomial R) • 𝟙 FGM' -
+          change (((Polynomial.X : Polynomial R) • 𝟙 FGM' -
             F'.map (xActionAsRLinear M)).hom) (p ⊗ₜ[R] m) = _
           exact LinearMap.sub_apply _ _ _
         -- Reduce each morphism application to a pure tensor (definitional)
@@ -279,7 +279,7 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
       have hd_sub : d'.hom (p ⊗ₜ[R] m) =
           ((Polynomial.X : Polynomial R) • 𝟙 FGM').hom (p ⊗ₜ[R] m) -
           (F'.map (xActionAsRLinear M)).hom (p ⊗ₜ[R] m) := by
-        show (((Polynomial.X : Polynomial R) • 𝟙 FGM' -
+        change (((Polynomial.X : Polynomial R) • 𝟙 FGM' -
           F'.map (xActionAsRLinear M)).hom) (p ⊗ₜ[R] m) = _
         exact LinearMap.sub_apply _ _ _
       have h_smul : (ModuleCat.Hom.hom ((Polynomial.X : Polynomial R) • 𝟙 FGM'))
@@ -306,7 +306,7 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
       have hd_sub : d'.hom (p ⊗ₜ[R] m) =
           ((Polynomial.X : Polynomial R) • 𝟙 FGM').hom (p ⊗ₜ[R] m) -
           (F'.map (xActionAsRLinear M)).hom (p ⊗ₜ[R] m) := by
-        show (((Polynomial.X : Polynomial R) • 𝟙 FGM' -
+        change (((Polynomial.X : Polynomial R) • 𝟙 FGM' -
           F'.map (xActionAsRLinear M)).hom) (p ⊗ₜ[R] m) = _
         exact LinearMap.sub_apply _ _ _
       have h_smul : (ModuleCat.Hom.hom ((Polynomial.X : Polynomial R) • 𝟙 FGM'))
@@ -319,7 +319,7 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
       -- LHS: (X • p).toFinsupp 0 • m - p.toFinsupp 0 • xAct(m)
       -- (X • p).toFinsupp 0 = coeff(X * p, 0) = 0
       have h_zero : ((Polynomial.X : Polynomial R) • (p : _)).toFinsupp 0 = 0 := by
-        show Polynomial.coeff ((Polynomial.X : Polynomial R) * (show Polynomial R from p)) 0 = _
+        change Polynomial.coeff ((Polynomial.X : Polynomial R) * (show Polynomial R from p)) 0 = _
         exact Polynomial.coeff_X_mul_zero _
       rw [h_zero, zero_smul, zero_sub, neg_inj]
       exact (map_smul xAct _ _).symm
@@ -353,12 +353,12 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
   set g := Finsupp.onFinset (Finset.range B) g_fun (fun k hk => by
     simp only [Finset.mem_range]
     by_contra h
-    push_neg at h
+    push Not at h
     exact hk (g_fun_zero k h)) with g_def
   -- g satisfies the recurrence: g(k) = f(k+1) + xAct(g(k+1))
   have g_rec : ∀ k, g k = f (k + 1) + xAct (g (k + 1)) := by
     intro k
-    show g_fun k = f (k + 1) + xAct (g_fun (k + 1))
+    change g_fun k = f (k + 1) + xAct (g_fun (k + 1))
     simp only [g_fun_def]
     -- Split off j=0 from the sum, then shift index
     -- g(k) = Σ_{j ∈ range(B+1)} xAct^j(f(k+1+j))
@@ -446,7 +446,7 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
       · exact Nat.lt_succ_of_le (Finset.le_max' _ _ hn)
       · exact absurd ⟨n, hn⟩ h
     rw [neg_eq_iff_eq_neg, eq_neg_iff_add_eq_zero, add_comm, ← f_def]
-    show f 0 + xAct (g_fun 0) = 0
+    change f 0 + xAct (g_fun 0) = 0
     rw [show xAct (g_fun 0) = xAct ((Finset.range (B + 1)).sum
         (fun j => (xAct ^ j) (f (0 + 1 + j)))) from rfl]
     rw [finsupp_eval_sum xAct f B hB_bound]

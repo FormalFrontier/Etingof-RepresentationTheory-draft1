@@ -106,7 +106,7 @@ theorem Etingof.Proposition5_3_2
           (LinearMap.trace ℂ V.V.obj) (V.ρ (h : G)) = V.character g := by
         intro ⟨h, hh⟩
         -- V.character h = V.character g since h is conjugate to g
-        show V.character h = V.character g
+        change V.character h = V.character g
         obtain ⟨c, rfl⟩ := isConj_iff.mp hh
         exact V.char_conj g c
       simp_rw [this, Finset.sum_const, Finset.card_univ, nsmul_eq_mul]; rfl
@@ -132,7 +132,7 @@ theorem Etingof.Proposition5_3_2
   have hφe : φ e = c • LinearMap.id := by
     have hφ_of : ∀ h : G, φ (MonoidAlgebra.of ℤ G h) = V.ρ h := by
       intro h; simp [φ]
-    show φ (∑ h : { h : G // IsConj g h }, MonoidAlgebra.of ℤ G h) = c • LinearMap.id
+    change φ (∑ h : { h : G // IsConj g h }, MonoidAlgebra.of ℤ G h) = c • LinearMap.id
     rw [map_sum]; simp_rw [hφ_of]; exact hc
   -- φ(e) is integral over ℤ; transfer via ring hom
   have hφe_int : IsIntegral ℤ (φ e) := he.map φ.toIntAlgHom

@@ -139,7 +139,7 @@ private lemma mulLeft_youngSym_zero_of_ne (n : ℕ) (la la' : Nat.Partition n) (
   obtain ⟨w₀, hw₀⟩ : ∃ w₀ : SpechtModule n la',
       mulLeftOnSpecht n (YoungSymmetrizer n la) la' w₀ ≠ 0 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hT (LinearMap.ext hall)
   -- Construct the A-linear map φ : V_la → V_{la'} by φ(v) = v * w₀
   set φ : SpechtModule n la →ₗ[SymGroupAlgebra n] SpechtModule n la' :=

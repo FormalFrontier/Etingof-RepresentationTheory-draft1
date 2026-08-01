@@ -83,7 +83,7 @@ theorem exists_field_embedding_of_injective
   have hBK : Function.Injective (algebraMap B K) := IsFractionRing.injective B K
   have : Function.Injective
       (⇑(e.toAlgHom.comp ((IsScalarTower.toAlgHom k B K).comp φ))) := by
-    simp only [AlgHom.coe_comp, IsScalarTower.coe_toAlgHom', AlgEquiv.toAlgHom_eq_coe]
+    simp only [AlgHom.coe_comp, IsScalarTower.coe_toAlgHom']
     exact e.injective.comp (hBK.comp hφ)
   exact this
 

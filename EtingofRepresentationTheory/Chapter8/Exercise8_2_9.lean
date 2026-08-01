@@ -278,7 +278,7 @@ theorem Exercise_8_2_9_i_polynomial
   obtain ⟨y₀, hy₀⟩ := Submodule.Quotient.mk_surjective _ z
   obtain ⟨i, hi⟩ : ∃ i, b.coord i z ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hz (b.forall_coord_eq_zero_iff.mp hcon)
   -- `φ : P →ₗ[k[x]] k[x]/(p)`, built by hand from the `K`-linear coordinate `b.coord i`.
   set φ : P →ₗ[Polynomial k] (Polynomial k ⧸ Ideal.span {p}) :=

@@ -1,8 +1,9 @@
 # Formalization Planning Report (Stage 2.5)
 
-Generated retroactively during template reconciliation (2026-03-27). The project
-is deep in Phase 3 (97.4% of items sorry-free), so this report documents
-the current state rather than planning future work.
+Generated retroactively during template reconciliation (2026-03-27). This is a
+historical planning snapshot, not a current status report. The mathematical
+formalization reached its documented completion gate on 2026-07-29; see
+`PROGRESS.md` and `progress/reviews/2026-07-29-project-completion.md`.
 
 ## Suggested formalization order
 
@@ -12,8 +13,9 @@ largely follows chapter order: Chapters 2–4 (basic representation theory) →
 Chapter 5 (symmetric groups, Schur–Weyl) → Chapter 6 (quivers) →
 Chapters 7–8 (Lie algebras) → Chapter 9 (Hopf algebras/tensor categories).
 
-Chapters 3, 4, 7, and 8 are fully sorry-free. The remaining work concentrates
-in Chapters 5, 6, and 9.
+At the time of this snapshot, Chapters 3, 4, 7, and 8 were fully sorry-free and
+the remaining proof work was concentrated in Chapters 5, 6, and 9. Those proof
+gaps were subsequently closed.
 
 ## Dependency gaps
 
@@ -29,7 +31,7 @@ external gaps encountered during formalization:
 - **Power-sum / Cauchy identity machinery**: Built in
   `Chapter5/PowerSumCauchyBilinear.lean`.
 
-## Hardest items (remaining work)
+## Hardest items at the time of the snapshot
 
 22 files still contain `sorry` (approximately 33 proof obligations):
 

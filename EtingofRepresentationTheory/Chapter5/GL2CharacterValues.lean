@@ -232,7 +232,7 @@ lemma Etingof.scalar_conj_eq_self
     x⁻¹ * g * x = g := by
   obtain ⟨h01, h10, h00_eq_11⟩ := hg
   have hg_scalar : g.val = (g.val 0 0) • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) := by
-    ext i j; fin_cases i <;> fin_cases j <;> simp [*, Matrix.one_apply]
+    ext i j; fin_cases i <;> fin_cases j <;> simp [*]
   have hcomm : g * x = x * g := by
     apply Units.ext
     simp only [Units.val_mul]
@@ -333,7 +333,7 @@ lemma Etingof.scalar_eq_fieldExtEmbed
   rw [hval]
   ext i j
   rw [Algebra.leftMulMatrix_eq_repr_mul]
-  show g.val i j = (b.repr ((algebraMap (GaloisField p n) (GaloisField p (2 * n)))
+  change g.val i j = (b.repr ((algebraMap (GaloisField p n) (GaloisField p (2 * n)))
     (g.val 0 0) * b j)) i
   rw [Algebra.algebraMap_eq_smul_one, smul_mul_assoc, one_mul,
     map_smul, Finsupp.smul_apply, smul_eq_mul, b.repr_self,
@@ -433,7 +433,7 @@ lemma Etingof.normSq_complementaryChar_scalar
   have hreal : starRingEnd ℂ ((q - 1) * B⁻¹ * G - Kc⁻¹ * G) =
       (q - 1) * B⁻¹ * G - Kc⁻¹ * G := by
     simp only [q, G, Kc, B, map_sub, map_mul, map_inv₀, Complex.conj_natCast,
-      Complex.conj_ofNat, map_one, map_pow]
+      map_one]
   rw [hreal]
   -- Show the coefficient = q-1 by substituting cardinality values
   suffices h : (q - 1) * B⁻¹ * G - Kc⁻¹ * G = q - 1 by
@@ -738,7 +738,7 @@ lemma Etingof.charVα₁_conj
         (alpha (Units.mk0 ((z⁻¹ * g * z : GL2 p n).val 0 0) h) : ℂ)
       else 0
     else 0
-  show ∑ x, f' ((Equiv.mulLeft y) x) = ∑ x, f' x
+  change ∑ x, f' ((Equiv.mulLeft y) x) = ∑ x, f' x
   exact Equiv.sum_comp (Equiv.mulLeft y) f'
 
 /-- For upper-triangular parabolic g (g₁₀ = 0), the diagonal entry is nonzero. -/
@@ -950,7 +950,7 @@ lemma Etingof.charVα₁_parabolic_upperTri
       simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply] at h10_eq
       -- h10_eq: x₁₀ * (x⁻¹)₀₀ + x₁₁ * (x⁻¹)₁₀ = 0
       have hxinv10 : x⁻¹.val 1 0 = 0 := by
-        simp only [hx10, zero_mul, zero_add, Fin.isValue, Matrix.one_apply,
+        simp only [hx10, zero_mul, zero_add, Fin.isValue,
           one_ne_zero, ite_false] at h10_eq
         -- h10_eq : x.val 1 1 * x⁻¹.val 1 0 = 0
         -- x₁₁ ≠ 0 since det(x) ≠ 0 and x₁₀ = 0
@@ -1053,14 +1053,14 @@ lemma Etingof.charVα₁_parabolic_upperTri
       simp [M, Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
             Matrix.unitOfDetInvertible]
     have hM10 : M.val 1 0 = 0 := by
-      rw [hMval]; simp [mat, Matrix.cons_val_one, Matrix.cons_val_zero, Matrix.head_fin_const]
+      rw [hMval]; simp [mat, Matrix.cons_val_one, Matrix.cons_val_zero]
     have hM00 : M.val 0 0 = ↑w := by
-      rw [hMval]; simp [mat, Matrix.cons_val_zero, Matrix.vecHead]
+      rw [hMval]; simp [mat, Matrix.cons_val_zero]
     have hM01 : M.val 0 1 = u := by
       rw [hMval]; simp [mat, Matrix.cons_val_zero, Matrix.cons_val_one,
-            Matrix.vecHead, Matrix.vecTail]
+            Matrix.vecHead]
     have hM11 : M.val 1 1 = ↑z := by
-      rw [hMval]; simp [mat, Matrix.cons_val_one, Matrix.vecTail, Matrix.vecHead]
+      rw [hMval]; simp [mat, Matrix.cons_val_one]
     have hMS : M ∈ S := Finset.mem_filter.mpr ⟨Finset.mem_univ _, hM10⟩
     refine ⟨M, hMS, ?_⟩
     simp only [fwd]
@@ -1112,18 +1112,18 @@ lemma Etingof.charVα₁_parabolic
         -- Use y * g' = g * y (since g' = y⁻¹gy)
         have hconj : y * g' = g * y := by rw [hg'_def]; group
         -- Extract entries of y
-        have hy00 : y.val 0 0 = 0 := by rw [hyval]; simp [Matrix.cons_val_zero, Matrix.vecHead]
+        have hy00 : y.val 0 0 = 0 := by rw [hyval]; simp [Matrix.cons_val_zero]
         have hy01 : y.val 0 1 = 1 := by
-          rw [hyval]; simp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.vecHead, Matrix.vecTail]
+          rw [hyval]; simp [Matrix.cons_val_zero, Matrix.cons_val_one]
         have hy10 : y.val 1 0 = 1 := by
-          rw [hyval]; simp [Matrix.cons_val_one, Matrix.cons_val_zero, Matrix.head_fin_const]
+          rw [hyval]; simp [Matrix.cons_val_one, Matrix.cons_val_zero]
         have hy11 : y.val 1 1 = 0 := by
-          rw [hyval]; simp [Matrix.cons_val_one, Matrix.vecTail, Matrix.vecHead]
+          rw [hyval]; simp [Matrix.cons_val_one]
         -- Compare (0,0) entries: y₀₀*g'₀₀ + y₀₁*g'₁₀ = g₀₀*y₀₀ + g₀₁*y₁₀
         have hmul_eq : y.val * g'.val = g.val * y.val := by
           rw [← Units.val_mul, ← Units.val_mul]; exact congrArg _ hconj
         have h_eq00 : (y.val * g'.val) 0 0 = (g.val * y.val) 0 0 := by rw [hmul_eq]
-        simp only [Matrix.mul_apply, Fin.sum_univ_two, hy00, hy01, hy10, hy11] at h_eq00
+        simp only [Matrix.mul_apply, Fin.sum_univ_two, hy00, hy01, hy10] at h_eq00
         simp only [zero_mul, zero_add, one_mul, mul_zero, mul_one] at h_eq00
         -- h_eq00: g'₁₀ = g₀₁ = 0
         rw [h01] at h_eq00; exact h_eq00
@@ -1153,7 +1153,7 @@ lemma Etingof.charVα₁_parabolic
       have hroot_exists : ∃ c₀ : GaloisField p n,
           -g.val 0 1 * c₀ ^ 2 + (g.val 1 1 - g.val 0 0) * c₀ + g.val 1 0 = 0 := by
         by_contra hall
-        push_neg at hall
+        push Not at hall
         have : (Finset.univ.filter fun x => -g.val 0 1 * x ^ 2 +
           (g.val 1 1 - g.val 0 0) * x + g.val 1 0 = 0).card = 0 := by
           rw [Finset.card_eq_zero, Finset.filter_eq_empty_iff]
@@ -1169,13 +1169,13 @@ lemma Etingof.charVα₁_parabolic
         simp [y, Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
               Matrix.unitOfDetInvertible]
       -- Extract entries of y
-      have hy00 : y.val 0 0 = 1 := by rw [hyval]; simp [Matrix.cons_val_zero, Matrix.vecHead]
+      have hy00 : y.val 0 0 = 1 := by rw [hyval]; simp [Matrix.cons_val_zero]
       have hy01 : y.val 0 1 = 0 := by
-        rw [hyval]; simp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.vecHead, Matrix.vecTail]
+        rw [hyval]; simp [Matrix.cons_val_zero, Matrix.cons_val_one]
       have hy10 : y.val 1 0 = c₀ := by
-        rw [hyval]; simp [Matrix.cons_val_one, Matrix.cons_val_zero, Matrix.head_fin_const]
+        rw [hyval]; simp [Matrix.cons_val_one, Matrix.cons_val_zero]
       have hy11 : y.val 1 1 = 1 := by
-        rw [hyval]; simp [Matrix.cons_val_one, Matrix.vecTail, Matrix.vecHead]
+        rw [hyval]; simp [Matrix.cons_val_one]
       set g' := y⁻¹ * g * y with hg'_def
       -- Show (g')₁₀ = 0 using y * g' = g * y, entry (1,0)
       have hg'10 : g'.val 1 0 = 0 := by
@@ -1185,12 +1185,12 @@ lemma Etingof.charVα₁_parabolic
           rw [← Units.val_mul, ← Units.val_mul]; exact congrArg _ hconj
         -- Entry (1,0)
         have h_eq10 : (y.val * g'.val) 1 0 = (g.val * y.val) 1 0 := by rw [hmul_eq]
-        simp only [Matrix.mul_apply, Fin.sum_univ_two, hy00, hy01, hy10, hy11] at h_eq10
-        simp only [one_mul, zero_mul, add_zero, mul_zero, mul_one] at h_eq10
+        simp only [Matrix.mul_apply, Fin.sum_univ_two, hy00, hy10, hy11] at h_eq10
+        simp only [one_mul, mul_one] at h_eq10
         -- Entry (0,0)
         have h_eq00 : (y.val * g'.val) 0 0 = (g.val * y.val) 0 0 := by rw [hmul_eq]
-        simp only [Matrix.mul_apply, Fin.sum_univ_two, hy00, hy01, hy10, hy11] at h_eq00
-        simp only [one_mul, zero_mul, add_zero, mul_zero, mul_one] at h_eq00
+        simp only [Matrix.mul_apply, Fin.sum_univ_two, hy00, hy01, hy10] at h_eq00
+        simp only [one_mul, zero_mul, add_zero, mul_one] at h_eq00
         -- From h_eq10 and h_eq00 and hc₀, derive g'₁₀ = 0
         linear_combination h_eq10 - c₀ * h_eq00 + hc₀
       -- g' is parabolic
@@ -1514,7 +1514,7 @@ lemma Etingof.charW₁_splitSemisimple
   · -- Case M₀₁ = 0: infinity is fixed, affine equation is linear
     have h00_ne_11 : M 0 0 - M 1 1 ≠ 0 := by
       intro h; apply hdisc_ne
-      show (M 0 0 - M 1 1) ^ 2 + 4 * M 0 1 * M 1 0 = 0
+      change (M 0 0 - M 1 1) ^ 2 + 4 * M 0 1 * M 1 0 = 0
       rw [h01, h]; ring
     have hfilt : (Finset.univ.filter fun t : GaloisField p n =>
         M 0 1 * t ^ 2 + (M 0 0 - M 1 1) * t - M 1 0 = 0) =
@@ -1606,7 +1606,7 @@ lemma Etingof.not_isSquare_of_antisymmetric_root (hp2 : p ≠ 2) (hn : n ≠ 0)
   -- Key fact: algebraMap(r)^{p^n} = algebraMap(r) since r ∈ 𝔽_{p^n}
   haveI : Fintype (GaloisField p n) := Fintype.ofFinite _
   have hr_frob : r' ^ (p ^ n : ℕ) = r' := by
-    show (algebraMap (GaloisField p n) (GaloisField p (2 * n)) r) ^ (p ^ n : ℕ) = _
+    change (algebraMap (GaloisField p n) (GaloisField p (2 * n)) r) ^ (p ^ n : ℕ) = _
     rw [← map_pow]
     congr 1
     have hcard : Fintype.card (GaloisField p n) = p ^ n := by

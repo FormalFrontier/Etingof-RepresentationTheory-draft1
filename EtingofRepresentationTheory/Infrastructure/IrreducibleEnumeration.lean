@@ -115,7 +115,7 @@ instance Matrix.instIsSimpleModule {k : Type*} [Field k] (n : ℕ) [NeZero n] :
       intro v
       obtain ⟨w, hw, hwne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hm
       obtain ⟨i, hi⟩ : ∃ i, w i ≠ 0 := by
-        by_contra h; push_neg at h; exact hwne (funext h)
+        by_contra h; push Not at h; exact hwne (funext h)
       -- For any target v, construct M with M.mulVec w = v
       let M : Matrix (Fin n) (Fin n) k := fun j l => if l = i then v j * (w i)⁻¹ else 0
       have : M.mulVec w = v := by
@@ -465,7 +465,7 @@ private lemma Matrix.mul_single_eq_sum {n : ℕ}
     M * Matrix.single j j₀ (1 : k) =
       ∑ a, M a j • Matrix.single a j₀ (1 : k) := by
   ext p q; simp only [Matrix.mul_apply, Matrix.sum_apply, Matrix.single_apply,
-    Pi.smul_apply, smul_ite, smul_zero, smul_eq_mul, mul_one, mul_ite, mul_zero]
+    mul_one, mul_ite, mul_zero]
   -- LHS: ∑ x, if j = x ∧ j₀ = q then M p x else 0
   -- RHS: ∑ x, M x j * if x = p ∧ j₀ = q then 1 else 0
   -- Both evaluate to: if j₀ = q then M p j else 0
@@ -576,7 +576,7 @@ theorem IrrepDecomp.columnFDRep_surjective [NeZero (Nat.card G : k)]
     · left; exact h3
     · right; exact sub_eq_zero.mp h3
   obtain ⟨i₀, hi₀⟩ : ∃ i₀, c i₀ = 1 := by
-    by_contra h; push_neg at h
+    by_contra h; push Not at h
     have hall : ∀ i, c i = 0 := fun i => (hc_01 i).resolve_right (h i)
     rw [show ∑ i, c i = ∑ i, (0 : k) from Finset.sum_congr rfl (fun i _ => hall i),
       Finset.sum_const_zero] at hc_sum
@@ -620,7 +620,7 @@ theorem IrrepDecomp.columnFDRep_surjective [NeZero (Nat.card G : k)]
   haveI := D.columnFDRep_simple i₀
   -- W is nontrivial (from Simple)
   obtain ⟨w₀, hw₀⟩ : ∃ w₀ : W.V, w₀ ≠ 0 := by
-    by_contra h; push_neg at h
+    by_contra h; push Not at h
     exact id_nonzero W (by ext v; simp [h v]) -- v4.29.0: simp now closes goal
   -- Helper: projRingHom i₀ inverts iso.symm ∘ Pi.single i₀
   have hproj_single : ∀ X : Matrix (Fin (D.d i₀)) (Fin (D.d i₀)) k,
@@ -630,7 +630,7 @@ theorem IrrepDecomp.columnFDRep_surjective [NeZero (Nat.card G : k)]
   obtain ⟨j₀, hj₀⟩ : ∃ j₀ : Fin (D.d i₀),
       Representation.asAlgebraHom W.ρ
         (D.iso.symm (Pi.single i₀ (Matrix.single j₀ j₀ (1 : k)))) w₀ ≠ 0 := by
-    by_contra h; push_neg at h
+    by_contra h; push Not at h
     apply hw₀; rw [← hid_pt w₀]
     have : D.centralIdem i₀ =
         ∑ j, D.iso.symm (Pi.single i₀ (Matrix.single j j (1 : k))) := by
@@ -666,7 +666,7 @@ theorem IrrepDecomp.columnFDRep_surjective [NeZero (Nat.card G : k)]
     rw [Matrix.mul_single_eq_sum]
     -- Use linearity: the composition asAlgebraHom ∘ iso.symm ∘ Pi.single i₀ is linear
     -- So distributing over ∑ and • works step by step
-    show (Representation.asAlgebraHom W.ρ)
+    change (Representation.asAlgebraHom W.ρ)
       (D.iso.symm (Pi.single i₀ (∑ a, M a j • Matrix.single a j₀ (1 : k)))) w₀ =
       ∑ a, M a j • (Representation.asAlgebraHom W.ρ)
         (D.iso.symm (Pi.single i₀ (Matrix.single a j₀ 1))) w₀
@@ -692,7 +692,7 @@ theorem IrrepDecomp.columnFDRep_surjective [NeZero (Nat.card G : k)]
       comm := fun g => by
         ext v
         -- Goal: f(ρ_col(g)(v)) = W.ρ g (f(v))
-        show ∑ j, ((D.columnRep i₀) g v) j • φ j = W.ρ g (∑ j, v j • φ j)
+        change ∑ j, ((D.columnRep i₀) g v) j • φ j = W.ρ g (∑ j, v j • φ j)
         -- RHS: distribute W.ρ g over the sum
         rw [map_sum]; simp_rw [map_smul]
         -- Rewrite W.ρ g (φ j) using hphi_equivar
@@ -727,7 +727,7 @@ theorem IrrepDecomp.columnFDRep_surjective [NeZero (Nat.card G : k)]
     have hs : ∑ j, (Pi.single (M := fun _ => k) j₀ 1) j • φ j = φ j₀ := by
       rw [show ∑ j, (Pi.single (M := fun _ => k) j₀ 1) j • φ j =
         ∑ j, if j = j₀ then φ j else 0 from by
-          congr 1; ext j; by_cases hj : j = j₀ <;> simp [Pi.single_apply, hj]]
+          congr 1; ext j; by_cases hj : j = j₀ <;> simp [hj]]
       rw [Finset.sum_ite_eq']; simp
     rw [hs] at h2; exact h2
   -- By Schur's lemma, a nonzero morphism between simples is an isomorphism

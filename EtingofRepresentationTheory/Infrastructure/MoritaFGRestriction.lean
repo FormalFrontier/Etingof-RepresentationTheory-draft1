@@ -134,7 +134,7 @@ lemma inverse_regular_finite {R S : Type u} [Ring R] [Ring S]
       have hid : biproduct.ι (fun _ : Fin n => G) i ≫ Φ = g i := biproduct.ι_desc g i
       have := congrArg (fun m : G ⟶ ModuleCat.of.{u} S S => m.hom (x i)) hid
       simpa [ModuleCat.hom_comp] using this.trans (hx i)
-    show Φ.hom (∑ i : Fin n, (biproduct.ι (fun _ : Fin n => G) i).hom (x i)) = 1
+    change Φ.hom (∑ i : Fin n, (biproduct.ι (fun _ : Fin n => G) i).hom (x i)) = 1
     calc Φ.hom (∑ i : Fin n, (biproduct.ι (fun _ : Fin n => G) i).hom (x i))
         = ∑ i : Fin n, Φ.hom ((biproduct.ι (fun _ : Fin n => G) i).hom (x i)) := by
           rw [map_sum]

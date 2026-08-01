@@ -68,14 +68,14 @@ lemma dynkin_unique_degree_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     rw [show ∑ b, (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) a b * x b =
         ∑ b, (2 * (1 : Matrix _ _ ℤ) a b * x b - adj a b * x b) from
       Finset.sum_congr rfl (fun b _ => by
-        simp only [Matrix.sub_apply, Matrix.smul_apply, smul_eq_mul]; ring)]
+        simp only [Matrix.sub_apply, Matrix.smul_apply]; ring)]
     rw [Finset.sum_sub_distrib]
     congr 1
     rw [show ∑ b, 2 * (1 : Matrix (Fin n) (Fin n) ℤ) a b * x b =
         ∑ b, if a = b then 2 * x b else 0 from
       Finset.sum_congr rfl (fun b _ => by
         simp only [Matrix.one_apply]; split_ifs <;> simp <;> ring)]
-    simp [Finset.sum_ite_eq']
+    simp
   have adj_sum_lb : ∀ (a b₁ b₂ : Fin n), b₁ ≠ b₂ →
       adj a b₁ = 1 → adj a b₂ = 1 →
       adj a b₁ * x b₁ + adj a b₂ * x b₂ ≤ ∑ b, adj a b * x b := by
@@ -237,7 +237,7 @@ lemma branch_has_leaf_neighbor {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     ∃ u, adj v u = 1 ∧ vertexDegree adj u = 1 := by
   obtain ⟨hsymm, hdiag, h01, _, hpos⟩ := hD
   -- By contradiction: if every neighbor of v has degree ≥ 2
-  by_contra h; push_neg at h
+  by_contra h; push Not at h
   -- Every neighbor u of v has vertexDegree ≠ 1, so degree ≥ 2 (it's ≥ 1 since adj v u = 1)
   have h_nbr_deg : ∀ u, adj v u = 1 → 2 ≤ vertexDegree adj u := by
     intro u hu
@@ -336,13 +336,13 @@ lemma branch_has_leaf_neighbor {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     -- x values for specific vertices
     have hxv : x v = 3 := by simp [x]
     have hxn1 : x n₁ = 2 := by
-      show (if n₁ = v then 3 else if n₁ = n₁ ∨ n₁ = n₂ ∨ n₁ = n₃ then 2 else _) = 2
+      change (if n₁ = v then 3 else if n₁ = n₁ ∨ n₁ = n₂ ∨ n₁ = n₃ then 2 else _) = 2
       rw [if_neg hv_ne1, if_pos (Or.inl rfl)]
     have hxn2 : x n₂ = 2 := by
-      show (if n₂ = v then 3 else if n₂ = n₁ ∨ n₂ = n₂ ∨ n₂ = n₃ then 2 else _) = 2
+      change (if n₂ = v then 3 else if n₂ = n₁ ∨ n₂ = n₂ ∨ n₂ = n₃ then 2 else _) = 2
       rw [if_neg hv_ne2, if_pos (Or.inr (Or.inl rfl))]
     have hxn3 : x n₃ = 2 := by
-      show (if n₃ = v then 3 else if n₃ = n₁ ∨ n₃ = n₂ ∨ n₃ = n₃ then 2 else _) = 2
+      change (if n₃ = v then 3 else if n₃ = n₁ ∨ n₃ = n₂ ∨ n₃ = n₃ then 2 else _) = 2
       rw [if_neg hv_ne3, if_pos (Or.inr (Or.inr rfl))]
     -- Key: for each i, 2*x(i) ≤ Σⱼ adj(i,j)*x(j)
     suffices h_bound : ∀ i : Fin n, 2 * x i ≤ ∑ j : Fin n, adj i j * x j by
@@ -353,7 +353,7 @@ lemma branch_has_leaf_neighbor {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
       intro i _
       apply mul_nonpos_of_nonneg_of_nonpos (hx_nonneg i)
       -- 2 • and (2 : ℤ) * are definitionally equal, so use * form directly
-      show ∑ j : Fin n, ((2 : ℤ) * (if i = j then 1 else 0) - adj i j) * x j ≤ 0
+      change ∑ j : Fin n, ((2 : ℤ) * (if i = j then 1 else 0) - adj i j) * x j ≤ 0
       have : ∑ j : Fin n, ((2 : ℤ) * (if i = j then (1 : ℤ) else 0) - adj i j) * x j =
           2 * x i - ∑ j : Fin n, adj i j * x j := by
         simp_rw [sub_mul]
@@ -380,7 +380,7 @@ lemma branch_has_leaf_neighbor {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
             (fun j _ _ => hadj_x_nn v j)
         have hS_eq : ({n₁, n₂, n₃} : Finset _).sum (fun j => adj v j * x j) = 6 := by
           have hm1 : n₁ ∉ ({n₂, n₃} : Finset _) := by
-            simp only [Finset.mem_insert, Finset.mem_singleton]; push_neg; exact ⟨hne12, hne13⟩
+            simp only [Finset.mem_insert, Finset.mem_singleton]; push Not; exact ⟨hne12, hne13⟩
           rw [Finset.sum_insert hm1, Finset.sum_pair hne23,
               hn₁_adj, hn₂_adj, hn₃_adj, hxn1, hxn2, hxn3]; norm_num
         rw [hxv]; linarith
@@ -392,7 +392,7 @@ lemma branch_has_leaf_neighbor {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
         have hS_ge : ({v, a₁} : Finset _).sum (fun j => adj n₁ j * x j) ≥ 4 := by
           rw [Finset.sum_pair (Ne.symm ha₁_nv), ha_n1v, ha₁_adj, one_mul, one_mul, hxv]
           have : x a₁ ≥ 1 := by
-            show (if a₁ = v then 3 else if a₁ = n₁ ∨ a₁ = n₂ ∨ a₁ = n₃ then 2
+            change (if a₁ = v then 3 else if a₁ = n₁ ∨ a₁ = n₂ ∨ a₁ = n₃ then 2
               else if a₁ = a₁ ∨ a₁ = a₂ ∨ a₁ = a₃ then 1 else 0) ≥ 1
             rw [if_neg ha₁_nv]
             by_cases h : a₁ = n₁ ∨ a₁ = n₂ ∨ a₁ = n₃
@@ -408,7 +408,7 @@ lemma branch_has_leaf_neighbor {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
         have hS_ge : ({v, a₂} : Finset _).sum (fun j => adj n₂ j * x j) ≥ 4 := by
           rw [Finset.sum_pair (Ne.symm ha₂_nv), ha_n2v, ha₂_adj, one_mul, one_mul, hxv]
           have : x a₂ ≥ 1 := by
-            show (if a₂ = v then 3 else if a₂ = n₁ ∨ a₂ = n₂ ∨ a₂ = n₃ then 2
+            change (if a₂ = v then 3 else if a₂ = n₁ ∨ a₂ = n₂ ∨ a₂ = n₃ then 2
               else if a₂ = a₁ ∨ a₂ = a₂ ∨ a₂ = a₃ then 1 else 0) ≥ 1
             rw [if_neg ha₂_nv]
             by_cases h : a₂ = n₁ ∨ a₂ = n₂ ∨ a₂ = n₃
@@ -424,7 +424,7 @@ lemma branch_has_leaf_neighbor {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
         have hS_ge : ({v, a₃} : Finset _).sum (fun j => adj n₃ j * x j) ≥ 4 := by
           rw [Finset.sum_pair (Ne.symm ha₃_nv), ha_n3v, ha₃_adj, one_mul, one_mul, hxv]
           have : x a₃ ≥ 1 := by
-            show (if a₃ = v then 3 else if a₃ = n₁ ∨ a₃ = n₂ ∨ a₃ = n₃ then 2
+            change (if a₃ = v then 3 else if a₃ = n₁ ∨ a₃ = n₂ ∨ a₃ = n₃ then 2
               else if a₃ = a₁ ∨ a₃ = a₂ ∨ a₃ = a₃ then 1 else 0) ≥ 1
             rw [if_neg ha₃_nv]
             by_cases h : a₃ = n₁ ∨ a₃ = n₂ ∨ a₃ = n₃
@@ -569,11 +569,11 @@ private lemma star_adj_of_deg3_n4 {adj : Matrix (Fin 4) (Fin 4) ℤ}
   by_cases hiv : i = v <;> by_cases hjv : j = v
   · -- i = v, j = v: adj v v = 0
     have : (i = v) = (j = v) := by simp [hiv, hjv]
-    simp only [this, ite_true, hiv, hjv, hdiag]
+    simp only [ite_true, hiv, hjv, hdiag]
   · -- i = v, j ≠ v: adj v j = 1
-    simp only [hiv, hjv, eq_self_iff_true, ite_false]; exact hadj_v j hjv
+    simp only [hiv, hjv]; exact hadj_v j hjv
   · -- i ≠ v, j = v: adj i v = 1
-    simp only [hjv, eq_self_iff_true, eq_true, hiv, ite_false]
+    simp only [hjv, eq_true, hiv]
     exact hsymm.apply i v ▸ hadj_v i hiv
   · -- Neither i nor j is v: adj i j = 0
     have : (i = v) = (j = v) := by rw [eq_false hiv, eq_false hjv]
@@ -668,7 +668,7 @@ lemma tree_branch_iso {k : ℕ} {adj : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ}
     · exact Fin.ext h.symm
     · rcases hb_match with rfl | hrev
       · exact absurd rfl h
-      · apply Fin.ext; show k - 1 - b_std = b; omega
+      · apply Fin.ext; change k - 1 - b_std = b; omega
   have hMR_consec : ∀ (i j : Fin k),
       (maybeRevEquiv i).val + 1 = (maybeRevEquiv j).val ∨
         (maybeRevEquiv j).val + 1 = (maybeRevEquiv i).val ↔
@@ -676,7 +676,7 @@ lemma tree_branch_iso {k : ℕ} {adj : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ}
     intro i j; simp only [maybeRevEquiv]
     split_ifs with h
     · simp [Equiv.refl_apply]
-    · show (k - 1 - i.val) + 1 = (k - 1 - j.val) ∨
+    · change (k - 1 - i.val) + 1 = (k - 1 - j.val) ∨
            (k - 1 - j.val) + 1 = (k - 1 - i.val) ↔
            i.val + 1 = j.val ∨ j.val + 1 = i.val
       have hi := i.isLt; have hj := j.isLt
@@ -788,7 +788,7 @@ lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
   -- n ≥ 4: branch vertex v has 3 distinct neighbors, needing at least 4 vertices
   have hn4 : 4 ≤ n := by
     obtain ⟨_, hdiag, _, _, _⟩ := hD
-    by_contra h; push_neg at h
+    by_contra h; push Not at h
     have : (Finset.univ.filter (fun j => adj v j = 1)).card ≤
         (Finset.univ.erase v).card := by
       apply Finset.card_le_card
@@ -1006,7 +1006,7 @@ lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
         have hw_ne : w ≠ u := Finset.ne_of_mem_erase hw
         obtain ⟨w', hw'⟩ := Fin.exists_succAbove_eq hw_ne
         refine ⟨w', hw', ?_⟩
-        show adj (u.succAbove v') (u.succAbove w') = 1
+        change adj (u.succAbove v') (u.succAbove w') = 1
         rw [hv', hw']
         exact (Finset.mem_filter.mp hw_mem).2
       obtain ⟨a₁, a₂, ha_ne, ha_cover⟩ :=
@@ -1029,7 +1029,7 @@ lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
                  · exact hw₁_adj
                  · exact hw₂_adj⟩)
     have hb_pos : 0 < b := by
-      by_contra h; push_neg at h; have hb0 : b = 0 := by omega
+      by_contra h; push Not at h; have hb0 : b = 0 := by omega
       have hv'_eq : v' = v₀' := by
         have hbf0 : bfin = ⟨0, by omega⟩ := Fin.ext hb0
         have h1 : σ' bfin = v' := hσ'_b
@@ -1037,7 +1037,7 @@ lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
         exact h1.symm.trans hσ'0
       linarith [hv'_eq ▸ hv₀'_deg]
     have hb_lt_k1 : b < k - 1 := by
-      by_contra h; push_neg at h; have hbk : b = k - 1 := by omega
+      by_contra h; push Not at h; have hbk : b = k - 1 := by omega
       have hdeg_le1 : vertexDegree adj' v' ≤ 1 := by
         unfold vertexDegree
         suffices h : (Finset.univ.filter
@@ -1100,9 +1100,9 @@ lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
       have hy_at : ∀ (m : ℕ) (hm : m < k), y (σ' ⟨m, hm⟩) = f m := by
         intro m hm; simp only [hy_def, Equiv.symm_apply_apply]
       -- Key values
-      have hfb : f b = 2 * ↑(k - b) * (↑b + 1) := by simp [hf_def, le_refl]
+      have hfb : f b = 2 * ↑(k - b) * (↑b + 1) := by simp [hf_def]
       have hxv : x v = f b := by
-        show x v = f (σ'.symm v').val
+        change x v = f (σ'.symm v').val
         have : x v = x (u.succAbove v') := by rw [hv']
         rw [this, hx_sa]
       -- x ≠ 0
@@ -1122,7 +1122,7 @@ lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
           simp only [hf_def]
           split_ifs with hle
           · have : (m : ℤ) ≥ 0 := Int.natCast_nonneg m; positivity
-          · push_neg at hle
+          · push Not at hle
             have hm_lt : m < k := (σ'.symm j).isLt
             have : (k : ℤ) - ↑m > 0 := by omega
             positivity
@@ -1381,7 +1381,7 @@ lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
               if_pos (show m.val ≤ b by omega), if_pos (show m.val + 1 ≤ b by omega)]
             push_cast; rw [show (m.val : ℤ) = 0 from by exact_mod_cast (by omega : m.val = 0)]
             ring
-        · push_neg at hm_lt_b
+        · push Not at hm_lt_b
           have hm_gt_b : b < m.val := by omega
           simp only [hf_def]
           rw [if_pos (show 0 < m.val by omega), if_neg (show ¬(m.val ≤ b) by omega)]
@@ -1433,14 +1433,14 @@ lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
         hu_adj' hu_unique' σ' hσ'_fwd hσ'_only b hb_lt hσ'_b
         _ (k - 2) (by omega) hbm
         (by intro i j hi hj
-            show (if ((i.val + 1 = j.val ∧ j.val ≤ (k + 1) - 2) ∨
+            change (if ((i.val + 1 = j.val ∧ j.val ≤ (k + 1) - 2) ∨
                       (j.val + 1 = i.val ∧ i.val ≤ (k + 1) - 2)) ∨
                      ((i.val = (k + 1) - 3 ∧ j.val = (k + 1) - 1) ∨
                       (j.val = (k + 1) - 3 ∧ i.val = (k + 1) - 1))
                  then 1 else 0) = if (i.val + 1 = j.val ∨ j.val + 1 = i.val) then 1 else 0
             split_ifs <;> omega)
         (by intro i hi
-            show (if ((i.val + 1 = (⟨k, by omega⟩ : Fin (k + 1)).val ∧
+            change (if ((i.val + 1 = (⟨k, by omega⟩ : Fin (k + 1)).val ∧
                        (⟨k, by omega⟩ : Fin (k + 1)).val ≤ (k + 1) - 2) ∨
                       ((⟨k, by omega⟩ : Fin (k + 1)).val + 1 = i.val ∧
                        i.val ≤ (k + 1) - 2)) ∨
@@ -1450,7 +1450,7 @@ lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
             simp only [show (⟨k, by omega⟩ : Fin (k + 1)).val = k from rfl]
             split_ifs <;> omega)
         (by intro i hi
-            show (if (((⟨k, by omega⟩ : Fin (k + 1)).val + 1 = i.val ∧
+            change (if (((⟨k, by omega⟩ : Fin (k + 1)).val + 1 = i.val ∧
                        i.val ≤ (k + 1) - 2) ∨
                       (i.val + 1 = (⟨k, by omega⟩ : Fin (k + 1)).val ∧
                        (⟨k, by omega⟩ : Fin (k + 1)).val ≤ (k + 1) - 2)) ∨
@@ -1459,7 +1459,7 @@ lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
                  then 1 else 0) = if i.val = k - 2 then 1 else 0
             simp only [show (⟨k, by omega⟩ : Fin (k + 1)).val = k from rfl]
             split_ifs <;> omega)
-        (by show (if (((⟨k, by omega⟩ : Fin (k + 1)).val + 1 = (⟨k, by omega⟩ : Fin (k + 1)).val ∧
+        (by change (if (((⟨k, by omega⟩ : Fin (k + 1)).val + 1 = (⟨k, by omega⟩ : Fin (k + 1)).val ∧
                        (⟨k, by omega⟩ : Fin (k + 1)).val ≤ (k + 1) - 2) ∨
                       ((⟨k, by omega⟩ : Fin (k + 1)).val + 1 = (⟨k, by omega⟩ : Fin (k + 1)).val ∧
                        (⟨k, by omega⟩ : Fin (k + 1)).val ≤ (k + 1) - 2)) ∨
@@ -1529,7 +1529,7 @@ private lemma dynkin_classification_forward {n : ℕ} {adj : Matrix (Fin n) (Fin
   · -- Branch case: tree with one branch → D_n or E-type
     exact branch_classification hD hn hbranch
   · -- Path case: all degrees ≤ 2 → A_n
-    push_neg at hbranch
+    push Not at hbranch
     have hpath : ∀ i, vertexDegree adj i ≤ 2 := by
       intro i; have := hdeg i
       rcases Nat.eq_or_lt_of_le this with h | h

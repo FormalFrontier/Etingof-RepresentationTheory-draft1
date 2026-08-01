@@ -142,13 +142,13 @@ private theorem dominantWeight_shift_nonneg {n : ℕ} (lz : DominantWeight n) (i
     0 ≤ lz.val i + (lz.shift : ℤ) := by
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 := ⟨n - 1, (Nat.succ_pred_eq_of_pos (Fin.pos i)).symm⟩
   have hlast : lz.val (Fin.last m) ≤ lz.val i := lz.property (Fin.le_last i)
-  show 0 ≤ lz.val i + (((-(lz.val (Fin.last m))).toNat : ℕ) : ℤ)
+  change 0 ≤ lz.val i + (((-(lz.val (Fin.last m))).toNat : ℕ) : ℤ)
   omega
 
 /-- The non-negative weight `λ.toNatWeight` recovers `λ`: `(λ.toNatWeight i : ℤ) = λ_i + shift`. -/
 private theorem dominantWeight_toNatWeight_cast {n : ℕ} (lz : DominantWeight n) (i : Fin n) :
     (lz.toNatWeight i : ℤ) = lz.val i + (lz.shift : ℤ) := by
-  show (((lz.val i + (lz.shift : ℤ)).toNat : ℕ) : ℤ) = lz.val i + (lz.shift : ℤ)
+  change (((lz.val i + (lz.shift : ℤ)).toNat : ℕ) : ℤ) = lz.val i + (lz.shift : ℤ)
   rw [Int.toNat_of_nonneg (dominantWeight_shift_nonneg lz i)]
 
 /-- **Distinct dominant weights give non-isomorphic `L_λ`.** For `λ ≠ μ`,

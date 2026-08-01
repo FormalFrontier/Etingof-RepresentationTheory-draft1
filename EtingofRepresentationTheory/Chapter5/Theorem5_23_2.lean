@@ -108,7 +108,7 @@ theorem Theorem5_23_2_i
   have hcoe : ⇑(charTwistRep (detChar k n ^ s) ρ)
       = fun g => ((Matrix.GeneralLinearGroup.det g : k) ^ s) • ρ g := by
     funext g
-    show ((detChar k n ^ s) g : k) • ρ g = _
+    change ((detChar k n ^ s) g : k) • ρ g = _
     rw [MonoidHom.pow_apply, Units.val_pow_eq_pow_val]
     rfl
   have hpoly_tw : IsPolynomialRepresentation n ⇑(charTwistRep (detChar k n ^ s) ρ) := by

@@ -84,7 +84,7 @@ theorem Etingof.Theorem_8_1_5_i_iff_ii
       simp only [j_def, k_def, LinearMap.coe_comp, Function.comp_apply,
         LinearMap.inl_apply, LinearMap.inr_apply, Submodule.mkQ_apply]
       rw [Submodule.Quotient.eq]
-      show (g x, (0 : Y)) - ((0 : I), α x) ∈ K
+      change (g x, (0 : Y)) - ((0 : I), α x) ∈ K
       simp only [Prod.mk_sub_mk, sub_zero, zero_sub]
       exact ⟨x, rfl⟩
     -- Extension: h' = r ∘ k, and h'(α(x)) = r(k(α(x))) = r(j(g(x))) = g(x)

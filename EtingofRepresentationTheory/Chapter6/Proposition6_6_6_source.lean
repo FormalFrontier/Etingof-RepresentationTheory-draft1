@@ -124,7 +124,7 @@ private theorem Etingof.sourceMap_sum_reindex
   obtain ⟨j, e⟩ := a
   -- `reversedArrow_ne_eq` is definitionally a `cast`, so `simp` closes the goal directly.
   simp only [arrowReindexEquivSource, Equiv.coe_fn_symm_mk,
-    reversedArrow_ne_eq_is_cast, cast_cast]
+    reversedArrow_ne_eq_is_cast]
 
 open Classical in
 set_option maxHeartbeats 3200000 in
@@ -307,7 +307,7 @@ private noncomputable def Etingof.equivAt_eq_source
         (key x).symm.trans (h_c.trans (key y))
       intro v
       simp only [f_ds, LinearMap.sum_apply, LinearMap.comp_apply]
-      rw [DFinsupp.finset_sum_apply,
+      rw [DFinsupp.finsetSum_apply,
         Finset.sum_eq_single c
           (fun b _ hbc => by erw [DFinsupp.single_eq_of_ne (Ne.symm hbc)])
           (fun h => absurd (Finset.mem_univ c) h)]
@@ -329,7 +329,7 @@ private noncomputable def Etingof.equivAt_eq_source
       rw [h_rt] at h_ml
       exact h_ml
     -- sourceMap x = sourceMap y
-    show @Etingof.QuiverRepresentation.sourceMap k _ Q inst ρ i _ x =
+    change @Etingof.QuiverRepresentation.sourceMap k _ Q inst ρ i _ x =
          @Etingof.QuiverRepresentation.sourceMap k _ Q inst ρ i _ y
     delta Etingof.QuiverRepresentation.sourceMap
     simp only [LinearMap.sum_apply, LinearMap.comp_apply]
@@ -457,7 +457,7 @@ private noncomputable def Etingof.equivAt_eq_source
           (@Etingof.reflFunctorMinus_equivAt_ne k _ Q _ inst i hi ρ _ c.fst
             (@Etingof.arrowsIntoReversed_ne Q _ inst i hi c)) ((x : Π₀ _, _) c) := by
         conv_lhs => rw [(DirectSum.sum_univ_of x).symm]
-        rw [map_sum, DFinsupp.finset_sum_apply]
+        rw [map_sum, DFinsupp.finsetSum_apply]
         rw [Finset.sum_eq_single c
           (fun d _ hdc => Phi_of_ne c d _ (Ne.symm hdc))
           (fun h => absurd (Finset.mem_univ c) h)]

@@ -18,20 +18,20 @@ in `progress/items.json`. The currently approved Ado–Iwasawa marker in Remark
 Run `scripts/check_proof_placeholders.py --enforce-completion` to check these
 release criteria.
 
-The mathematical formalization reached this completion gate on 2026-07-29:
-the scanner reports zero blocking placeholders, the exercise ledger reports no
-untracked gaps, and the sole wanted theorem is the explicitly approved Ado–Iwasawa
-scope marker. The post-formalization dependency-trimming and style-polishing
-workflow remains tracked separately and does not change this scope decision.
+The mathematical formalization reached this completion gate on 2026-07-29. The
+Lean import-DAG and bounded completeness passes closed on 2026-08-01, along with
+a repository-wide diagnostic style pass. The scanner reports zero blocking
+placeholders, the exercise ledger reports no untracked gaps, and the sole wanted
+theorem is the explicitly approved Ado–Iwasawa scope marker. The proof-term
+dependency review required by Stage 3.4 and proof-by-proof quality review
+required by Stage 3.5 remain separate release tasks.
 
-## GitHub configuration
+## Verification
 
-To set up your new GitHub repository, follow these steps:
-
-* Under your repository name, click **Settings**.
-* In the **Actions** section of the sidebar, click "General".
-* Check the box **Allow GitHub Actions to create and approve pull requests**.
-* Click the **Pages** section of the settings sidebar.
-* In the **Source** dropdown menu, select "GitHub Actions".
-
-After following the steps above, you can remove this section from the README file.
+`PROGRESS.md` records the completed stages and final metrics. The bounded audit
+certificate is `progress/coverage-audit/completeness-audit-wave-1.md`; it
+documents both the dry stopping rule and residual risk. The standard release
+checks are the full `lake build`, `scripts/check_proof_placeholders.py
+--enforce-completion`, and the item, dependency, exercise-coverage, and lint
+validators under `scripts/`. Upstream-contribution triage is deliberately not
+part of this project's plan.

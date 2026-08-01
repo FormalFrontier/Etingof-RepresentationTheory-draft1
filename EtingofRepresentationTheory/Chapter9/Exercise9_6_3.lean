@@ -173,7 +173,7 @@ theorem isProgenerator_iff_hom_simple_ne_zero
     -- Some component `biproduct.ι k ≫ f : P ⟶ L` is therefore nonzero.
     have : ∃ k, biproduct.ι (fun _ : Fin n => P) k ≫ f ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hfne (biproduct.hom_ext' _ _ (fun k => by rw [hc k, comp_zero]))
     obtain ⟨k, hk⟩ := this
     exact ⟨_, hk⟩

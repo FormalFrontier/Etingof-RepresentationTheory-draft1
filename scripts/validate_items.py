@@ -31,8 +31,26 @@ VALID_TYPES = {
 # blob, so they carry no line span and are skipped by the contiguity check.
 DERIVED_TYPE = "derived"
 DERIVED_REQUIRED_FIELDS = {"type", "derived_from", "source_span", "claim", "status"}
+DERIVED_OPTIONAL_FIELDS = {
+    "coverage", "coverage_issue", "last_updated", "lean_file", "lean_ref",
+    "note", "stage3_5",
+}
 
-# PLAN Stage 3.7 requires every exercise item to carry one of these honest
+# Audit and implementation metadata accumulated after the original Stage 1
+# partition.  Keep this explicit so misspelled fields still produce warnings.
+PARTITION_OPTIONAL_FIELDS = {
+    "aristotle_project_id", "aristotle_projects", "attention_needed",
+    "attention_note", "claim_coverage", "coverage", "coverage_issue",
+    "coverage_note", "coverage_swept", "fidelity", "fidelity_decl",
+    "fidelity_issue", "fidelity_note", "followup_issue",
+    "has_true_hypothesis", "last_updated", "lean_decl", "lean_file",
+    "lean_ref", "needs_statement", "note", "notes",
+    "proof_wanted_approval", "reason", "sorries", "sorry_count",
+    "sorry_free", "source_regression_note", "stage3_3", "stage3_4",
+    "stage3_5", "status",
+}
+
+# PLAN Stage 3.6 requires every exercise item to carry one of these honest
 # coverage states.  In particular, `status: sorry_free` is not a substitute:
 # an exercise can have no matching Lean declaration and still be sorry-free.
 VALID_EXERCISE_COVERAGE = {
@@ -225,7 +243,7 @@ def validate(items_path):
                 errors.append(f"{prefix}: missing fields: {missing}")
                 continue
 
-            extra = set(item.keys()) - DERIVED_REQUIRED_FIELDS
+            extra = set(item.keys()) - DERIVED_REQUIRED_FIELDS - DERIVED_OPTIONAL_FIELDS
             if extra:
                 warnings.append(f"{prefix}: unexpected fields: {extra}")
 
@@ -245,7 +263,7 @@ def validate(items_path):
             continue
 
         # Extra fields
-        extra = set(item.keys()) - required_fields
+        extra = set(item.keys()) - required_fields - PARTITION_OPTIONAL_FIELDS
         if extra:
             warnings.append(f"{prefix}: unexpected fields: {extra}")
 
@@ -258,7 +276,7 @@ def validate(items_path):
         if item["type"] not in VALID_TYPES:
             errors.append(f"{prefix}: invalid type '{item['type']}'")
 
-        # Stage 3.7 exercise-coverage ratchet.  This is deliberately limited to
+        # Stage 3.6 exercise-coverage ratchet.  This is deliberately limited to
         # the mechanically checkable part of the requirement: presence of a
         # recognized state.  Whether the state is mathematically accurate still
         # requires the source/Lean review recorded in `coverage_note`.

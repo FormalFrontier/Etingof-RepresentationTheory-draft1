@@ -65,13 +65,13 @@ theorem exists_sink_of_dynkin_orientation
     ∃ i : Fin n, IsSink (Fin n) i := by
   -- Suppose no sink exists
   by_contra h
-  push_neg at h
+  push Not at h
   -- Then every vertex has an outgoing edge
   have hout : ∀ v : Fin n, ∃ w : Fin n, Nonempty (v ⟶ w) := by
     intro v
     have hv := h v
     unfold IsSink at hv
-    push_neg at hv
+    push Not at hv
     obtain ⟨w, hw⟩ := hv
     exact ⟨w, hw⟩
   -- Pick a successor function
@@ -270,7 +270,7 @@ private lemma iteratedReversed_hom_not_mem
     have hbv : b ≠ v := fun h => hb (List.mem_cons.mpr (Or.inl h))
     have ha' : a ∉ vs := fun h => ha (List.mem_cons.mpr (Or.inr h))
     have hb' : b ∉ vs := fun h => hb (List.mem_cons.mpr (Or.inr h))
-    show @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) vs) a b =
+    change @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) vs) a b =
       @Quiver.Hom _ Q a b
     rw [ih _ ha' hb']
     exact ReversedAtVertexHom_ne_ne hav hbv
@@ -288,7 +288,7 @@ private theorem exists_local_sink_of_dynkin
     (S : Finset (Fin n)) (hS : S.Nonempty) :
     ∃ v ∈ S, ∀ w ∈ S, @IsEmpty (@Quiver.Hom _ Q v w) := by
   by_contra hall
-  push_neg at hall
+  push Not at hall
   -- Every vertex in S has an outgoing edge within S
   have hout : ∀ v ∈ S, ∃ w ∈ S, Nonempty (@Quiver.Hom _ Q v w) := by
     intro v hv; obtain ⟨w, hw, hne⟩ := hall v hv
@@ -425,14 +425,14 @@ private lemma iteratedReversed_hom_to_mem
     · -- b = v (head): reversal at b flips the edge (rfl replaced v with b)
       have ha' : a ∉ vs := fun h => ha (List.mem_cons.mpr (Or.inr h))
       have hav : a ≠ b := fun h => ha (List.mem_cons.mpr (Or.inl h))
-      show @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q b) vs) a b = _
+      change @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q b) vs) a b = _
       rw [iteratedReversed_hom_not_mem _ vs ha' hvs.1]
       exact ReversedAtVertexHom_ne_eq hav rfl
     · -- b ∈ vs (tail): IH handles, reversal at v is transparent
       have ha' : a ∉ vs := fun h => ha (List.mem_cons.mpr (Or.inr h))
       have hav : a ≠ v := fun h => ha (List.mem_cons.mpr (Or.inl h))
       have hbv : b ≠ v := by intro h; subst h; exact hvs.1 hb_vs
-      show @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) vs) a b = _
+      change @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) vs) a b = _
       rw [ih (@reversedAtVertex _ _ Q v) hvs.2 ha' hb_vs]
       exact ReversedAtVertexHom_ne_ne hbv hav
 
@@ -452,14 +452,14 @@ private lemma iteratedReversed_hom_from_mem
     · -- a = v (head)
       have hb' : b ∉ vs := fun h => hb (List.mem_cons.mpr (Or.inr h))
       have hbv : b ≠ a := fun h => hb (List.mem_cons.mpr (Or.inl h))
-      show @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q a) vs) a b = _
+      change @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q a) vs) a b = _
       rw [iteratedReversed_hom_not_mem _ vs hvs.1 hb']
       exact ReversedAtVertexHom_eq_ne rfl hbv
     · -- a ∈ vs (tail)
       have hb' : b ∉ vs := fun h => hb (List.mem_cons.mpr (Or.inr h))
       have hav : a ≠ v := by intro h; subst h; exact hvs.1 ha_vs
       have hbv : b ≠ v := fun h => hb (List.mem_cons.mpr (Or.inl h))
-      show @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) vs) a b = _
+      change @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) vs) a b = _
       rw [ih (@reversedAtVertex _ _ Q v) hvs.2 ha_vs hb']
       exact ReversedAtVertexHom_ne_ne hbv hav
 
@@ -482,7 +482,7 @@ private lemma iteratedReversed_hom_both_mem
         rcases List.mem_cons.mp hb with rfl | h
         · exact absurd rfl hab
         · exact h
-      show @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q a) vs) a b = _
+      change @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q a) vs) a b = _
       rw [iteratedReversed_hom_to_mem _ vs hvs.2 ha_not hb_vs]
       -- Now: @Hom (reversedAtVertex Q a) b a = @Hom Q a b
       -- b ≠ a, so ReversedAtVertexHom a b a: x=b ≠ i=a, y=a = i → (i ⟶ x) = (a ⟶ b)
@@ -490,7 +490,7 @@ private lemma iteratedReversed_hom_both_mem
     · rcases List.mem_cons.mp hb with rfl | hb_vs
       · -- b = v: b ∉ vs (by nodup), a ∈ vs
         have hb_not : b ∉ vs := hvs.1
-        show @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q b) vs) a b = _
+        change @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q b) vs) a b = _
         rw [iteratedReversed_hom_from_mem _ vs hvs.2 ha_vs hb_not]
         -- Now: @Hom (reversedAtVertex Q b) b a = @Hom Q a b
         -- a ≠ b, so ReversedAtVertexHom b b a: x=b = i=b, y=a ≠ i → (y ⟶ i) = (a ⟶ b)
@@ -498,7 +498,7 @@ private lemma iteratedReversed_hom_both_mem
       · -- Both in vs (tail): use IH
         have hav : a ≠ v := by intro h; subst h; exact hvs.1 ha_vs
         have hbv : b ≠ v := by intro h; subst h; exact hvs.1 hb_vs
-        show @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) vs) a b = _
+        change @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) vs) a b = _
         rw [ih (@reversedAtVertex _ _ Q v) hvs.2 ha_vs hb_vs]
         exact ReversedAtVertexHom_ne_ne hav hbv
 
@@ -513,7 +513,7 @@ private lemma iteratedReversed_self_hom
   | nil => rfl
   | cons v vs ih =>
     rw [List.nodup_cons] at hvs
-    show @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) vs) a a = _
+    change @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) vs) a a = _
     rw [ih (@reversedAtVertex _ _ Q v) hvs.2]
     by_cases hav : a = v
     · exact ReversedAtVertexHom_eq_eq hav hav
@@ -692,7 +692,7 @@ theorem admissibleOrdering_exists
     have h_eq := iteratedReversed_hom_not_mem Q (ordering.take k) hk_not hm_not
     exact (htopo k m hk hm hkm).false (h_eq ▸ e)
   · -- m < k: ordering[m] IS in ordering.take k, edge gets flipped
-    push_neg at hkm
+    push Not at hkm
     have hm_in := get_mem_take m k hm hkm
     have hk_not := get_not_mem_take k hk
     have htake_nodup : (ordering.take k).Nodup := hnodup.take
@@ -963,7 +963,7 @@ private theorem finite_B_level_set
     simp only [dotProduct, Matrix.mulVec, Pi.single_apply, mul_ite, mul_one, mul_zero,
       ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     simp only [hA_def, cartanMatrix, Matrix.sub_apply, Matrix.smul_apply,
-      Matrix.one_apply, if_pos rfl, smul_eq_mul, mul_one]
+      Matrix.one_apply]
     have := hDynkin.2.1 i; simp_all
   -- Symmetry helpers
   have hB_coord : ∀ (v : Fin n → ℤ) (i : Fin n),
@@ -1085,7 +1085,7 @@ private theorem iteratedSimpleReflection_periodic
   -- there exist a ≠ b with c^a(v) = c^b(v)
   have hnotinj : ∃ a b, c^[a] v = c^[b] v ∧ a ≠ b := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     -- hall : ∀ a b, c^a(v) = c^b(v) → a = b, i.e. the orbit map is injective
     exact Set.infinite_range_of_injective (fun a b hab => hall a b hab) |>.not_finite hfin
   obtain ⟨a, b, hab, hne⟩ := hnotinj
@@ -1115,7 +1115,7 @@ theorem generalized_Lemma6_7_2
       ((fun v => iteratedSimpleReflection n (cartanMatrix n adj) σ v)^[N] β) i < 0 := by
   set c := fun v => iteratedSimpleReflection n (cartanMatrix n adj) σ v
   by_contra h
-  push_neg at h
+  push Not at h
   -- h : ∀ N i, 0 ≤ c^[N](β) i
   -- Step 1: Get periodicity M > 0 with c^M(β) = β
   obtain ⟨M, hM_pos, hM_period⟩ := iteratedSimpleReflection_periodic hDynkin σ hσ β
@@ -1924,7 +1924,7 @@ theorem admissible_sinks_replicated
       rw [htake, hget]
       exact hσ.isSink m hm_lt
     · -- m ≥ σ.length: we're past the first copy of σ
-      push_neg at hm_lt
+      push Not at hm_lt
       set m' := m - σ.length with hm'_def
       have hm_eq : m = σ.length + m' := by omega
       have hm'_lt : m' < tail.length := by

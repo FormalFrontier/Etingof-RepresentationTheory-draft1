@@ -207,7 +207,7 @@ theorem formalCharacter_add_of_shortExact (N : ℕ)
 theorem detChar_diagUnit_val (N : ℕ) (i : Fin N) (t : kˣ) :
     ((detChar k N (diagUnit k N i t) : kˣ) : k) = (t : k) := by
   rw [detChar, Matrix.GeneralLinearGroup.val_det_apply]
-  show (Matrix.diagonal (Function.update (1 : Fin N → k) i (t : k))).det = (t : k)
+  change (Matrix.diagonal (Function.update (1 : Fin N → k) i (t : k))).det = (t : k)
   rw [Matrix.det_diagonal, Finset.prod_update_of_mem (Finset.mem_univ i)]
   simp
 
@@ -432,7 +432,7 @@ theorem twistFDRep_ρ_apply (e : ℕ) (g : Matrix.GeneralLinearGroup (Fin N) k)
     (v : twistFDRep k N e) :
     (twistFDRep k N e).ρ g v
       = (detChar k N g : k) • (polyRightDegreeFDRep k N e).ρ g v := by
-  show (charTwistRep (detChar k N) (polyRightHomogeneousSubrep k N e).toRepresentation) g v
+  change (charTwistRep (detChar k N) (polyRightHomogeneousSubrep k N e).toRepresentation) g v
       = (detChar k N g : k) • (polyRightHomogeneousSubrep k N e).toRepresentation g v
   rw [charTwistRep_apply]
 
@@ -449,7 +449,7 @@ theorem glWeightSpace_twistFDRep_pos (e : ℕ) (μ : Fin N → ℕ) (hμ : ∀ i
   constructor
   · intro h
     refine smul_right_injective _ (Units.ne_zero t) ?_
-    show (t : k) • (polyRightDegreeFDRep k N e).ρ (diagUnit k N i t) v
+    change (t : k) • (polyRightDegreeFDRep k N e).ρ (diagUnit k N i t) v
         = (t : k) • ((t : k) ^ (μ i - 1) • v)
     rw [h, smul_smul, ← pow_succ', Nat.sub_add_cancel (hμ i)]
   · intro h
@@ -486,7 +486,7 @@ private noncomputable def allOnes (N : ℕ) : Fin N →₀ ℕ :=
 
 private theorem allOnes_apply (N : ℕ) (i : Fin N) : allOnes N i = 1 := by
   classical
-  simp only [allOnes, Finsupp.finset_sum_apply, Finsupp.single_apply,
+  simp only [allOnes, Finsupp.finsetSum_apply, Finsupp.single_apply,
     Finset.sum_ite_eq', Finset.mem_univ, if_true]
 
 private theorem prod_X_eq_monomial_allOnes (N : ℕ) :
@@ -522,7 +522,7 @@ theorem formalCharacter_twistFDRep (e : ℕ) :
       (fun w => Module.finrank k (glWeightSpace k N (polyRightDegreeFDRep k N e) w)) harg
   · rw [if_neg hμ]
     have hj : ∃ j, μ j = 0 := by
-      by_contra h; push_neg at h
+      by_contra h; push Not at h
       exact hμ (Finsupp.le_def.mpr fun i => by rw [allOnes_apply]; have := h i; omega)
     obtain ⟨j, hj0⟩ := hj
     rw [glWeightSpace_twistFDRep_zero e (fun i => μ i) j hj0, finrank_bot,

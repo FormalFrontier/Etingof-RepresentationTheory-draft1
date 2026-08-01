@@ -369,7 +369,7 @@ private noncomputable def sytBranchingToFun (n : ℕ) (la : Nat.Partition (n + 1
       refine ⟨⟨cell.val, originalCell_mem_reduced (hcorner := hcorner_oc)
         cell.property hne⟩, ?_⟩
       ext
-      show (t.val ⟨cell.val, _⟩).val = v.val
+      change (t.val ⟨cell.val, _⟩).val = v.val
       have : (⟨cell.val, reducedCell_mem_original (hcorner := hcorner_oc)
         (originalCell_mem_reduced (hcorner := hcorner_oc)
           cell.property hne)⟩ :
@@ -651,12 +651,12 @@ lemma YoungDiagram.removeCorner_rowLen_ne
     (hc : μ.IsOuterCorner i j) {a : ℕ} (ha : a ≠ i) :
     (μ.removeCorner i j hc).rowLen a = μ.rowLen a := by
   apply le_antisymm
-  · by_contra h; push_neg at h
+  · by_contra h; push Not at h
     have := (removeCorner_mem_row hc ha (μ.rowLen a)).mp
       (YoungDiagram.mem_iff_lt_rowLen.mpr h)
     exact absurd (YoungDiagram.mem_iff_lt_rowLen.mp this)
       (lt_irrefl _)
-  · by_contra h; push_neg at h
+  · by_contra h; push Not at h
     have := (removeCorner_mem_row hc ha _).mpr
       (YoungDiagram.mem_iff_lt_rowLen.mpr h)
     exact absurd (YoungDiagram.mem_iff_lt_rowLen.mp this)
@@ -669,13 +669,13 @@ lemma YoungDiagram.removeCorner_rowLen_eq
     (μ.removeCorner i j hc).rowLen i = j := by
   apply le_antisymm
   · -- removeCorner.rowLen i ≤ j: cell (i, j) was removed
-    by_contra h; push_neg at h
+    by_contra h; push Not at h
     have : (i, j) ∈ (μ.removeCorner i j hc) :=
       YoungDiagram.mem_iff_lt_rowLen.mpr h
     rw [mem_removeCorner_iff hc] at this
     exact this.2 rfl
   · -- j ≤ removeCorner.rowLen i: cells (i, b) for b < j still in
-    by_contra h; push_neg at h
+    by_contra h; push Not at h
     have hr := Etingof.YoungDiagram.IsOuterCorner.rowLen_eq hc
     have : (i, (μ.removeCorner i j hc).rowLen i) ∈ μ :=
       YoungDiagram.mem_iff_lt_rowLen.mpr (by omega)
@@ -704,12 +704,12 @@ lemma YoungDiagram.removeCorner_colLen_ne
     (hc : μ.IsOuterCorner i j) {b : ℕ} (hb : b ≠ j) :
     (μ.removeCorner i j hc).colLen b = μ.colLen b := by
   apply le_antisymm
-  · by_contra h; push_neg at h
+  · by_contra h; push Not at h
     have := (removeCorner_mem_col hc hb (μ.colLen b)).mp
       (YoungDiagram.mem_iff_lt_colLen.mpr h)
     exact absurd (YoungDiagram.mem_iff_lt_colLen.mp this)
       (lt_irrefl _)
-  · by_contra h; push_neg at h
+  · by_contra h; push Not at h
     have := (removeCorner_mem_col hc hb _).mpr
       (YoungDiagram.mem_iff_lt_colLen.mpr h)
     exact absurd (YoungDiagram.mem_iff_lt_colLen.mp this)
@@ -721,12 +721,12 @@ lemma YoungDiagram.removeCorner_colLen_eq
     (hc : μ.IsOuterCorner i j) :
     (μ.removeCorner i j hc).colLen j = i := by
   apply le_antisymm
-  · by_contra h; push_neg at h
+  · by_contra h; push Not at h
     have : (i, j) ∈ (μ.removeCorner i j hc) :=
       YoungDiagram.mem_iff_lt_colLen.mpr h
     rw [mem_removeCorner_iff hc] at this
     exact this.2 rfl
-  · by_contra h; push_neg at h
+  · by_contra h; push Not at h
     have hc_col := YoungDiagram.IsOuterCorner.colLen_eq hc
     have : ((μ.removeCorner i j hc).colLen j, j) ∈ μ :=
       YoungDiagram.mem_iff_lt_colLen.mpr (by omega)
@@ -1323,7 +1323,7 @@ private lemma YoungDiagram.hookWalkWeight_factorization
               μ.hookWalkWeight a j (i, j) * μ.hookWalkWeight i b (i, j) *
                 (↑(μ.hookLength a b) - 1) by
             rw [YoungDiagram.hookWalkWeight_unfold_noncorner hmem hone]
-            show (∑ x ∈ (μ.hookCellsExcl a b).attach,
+            change (∑ x ∈ (μ.hookCellsExcl a b).attach,
                 μ.hookWalkWeight x.val.1 x.val.2 (i, j)) /
                 (↑(μ.hookLength a b) - 1) =
               μ.hookWalkWeight a j (i, j) * μ.hookWalkWeight i b (i, j)
@@ -1336,7 +1336,7 @@ private lemma YoungDiagram.hookWalkWeight_factorization
           -- Convert image sums to index sums
           rw [Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h),
               Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h)]
-          simp only [Prod.fst, Prod.snd]
+          simp only [Prod.fst]
           -- Now: w(a,j)*w(i,b)*(h-1) =
           --   ∑_{b' in Ico(b+1, rowLen a)} w(a,b',(i,j)) +
           --   ∑_{a' in Ico(a+1, colLen b)} w(a',b,(i,j))
@@ -1411,7 +1411,7 @@ private lemma YoungDiagram.hookWalkWeight_factorization
                 (μ.hookCellsExcl i b).sum (fun v => μ.hookWalkWeight v.1 v.2 (i, j)) /
                   (↑(μ.hookLength i b) - 1) := by
               have h := YoungDiagram.hookWalkWeight_unfold_noncorner hmem_ib hone_ib (i, j)
-              show μ.hookWalkWeight i b (i, j) = _
+              change μ.hookWalkWeight i b (i, j) = _
               rw [h]; congr 1
               rw [@Finset.sum_attach _ _ _ (μ.hookCellsExcl i b)
                 (fun v => μ.hookWalkWeight v.1 v.2 (i, j))]
@@ -1419,7 +1419,7 @@ private lemma YoungDiagram.hookWalkWeight_factorization
                 Finset.sum_union (YoungDiagram.hookCellsExcl_disjoint μ i b),
                 Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h),
                 Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h)] at hunf
-            simp only [Prod.fst, Prod.snd] at hunf
+            simp only [Prod.fst] at hunf
             rw [hrl] at hunf
             have hleg_van : (Finset.Ico (i + 1) (μ.colLen b)).sum
                 (fun a' => μ.hookWalkWeight a' b (i, j)) = 0 :=
@@ -1440,7 +1440,7 @@ private lemma YoungDiagram.hookWalkWeight_factorization
                 (μ.hookCellsExcl a j).sum (fun v => μ.hookWalkWeight v.1 v.2 (i, j)) /
                   (↑(μ.hookLength a j) - 1) := by
               have h := YoungDiagram.hookWalkWeight_unfold_noncorner hmem_aj hone_aj (i, j)
-              show μ.hookWalkWeight a j (i, j) = _
+              change μ.hookWalkWeight a j (i, j) = _
               rw [h]; congr 1
               rw [@Finset.sum_attach _ _ _ (μ.hookCellsExcl a j)
                 (fun v => μ.hookWalkWeight v.1 v.2 (i, j))]
@@ -1448,7 +1448,7 @@ private lemma YoungDiagram.hookWalkWeight_factorization
                 Finset.sum_union (YoungDiagram.hookCellsExcl_disjoint μ a j),
                 Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h),
                 Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h)] at hunf
-            simp only [Prod.fst, Prod.snd] at hunf
+            simp only [Prod.fst] at hunf
             rw [hcl] at hunf
             have harm_van : (Finset.Ico (j + 1) (μ.rowLen a)).sum
                 (fun b' => μ.hookWalkWeight a b' (i, j)) = 0 :=
@@ -1530,7 +1530,7 @@ private lemma YoungDiagram.hookWalkWeight_row_telescope
             (μ.hookLength i b - 1 : ℚ) := by
         rw [YoungDiagram.hookWalkWeight_unfold_noncorner hmem_ib hone_ib]
         congr 1
-        show (∑ x ∈ (μ.hookCellsExcl i b).attach,
+        change (∑ x ∈ (μ.hookCellsExcl i b).attach,
             μ.hookWalkWeight x.val.1 x.val.2 (i, j)) = _
         rw [@Finset.sum_attach _ _ _ (μ.hookCellsExcl i b)
             (fun v => μ.hookWalkWeight v.1 v.2 (i, j))]
@@ -1538,7 +1538,7 @@ private lemma YoungDiagram.hookWalkWeight_row_telescope
             Finset.sum_union (YoungDiagram.hookCellsExcl_disjoint μ i b),
             Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h),
             Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h)]
-        simp only [Prod.fst, Prod.snd]
+        simp only [Prod.fst]
         rw [hrl]
         have hleg_van : (Finset.Ico (i + 1) (μ.colLen b)).sum
             (fun a' => μ.hookWalkWeight a' b (i, j)) = 0 :=
@@ -1599,7 +1599,7 @@ private lemma YoungDiagram.hookWalkWeight_col_telescope
             (μ.hookLength a j - 1 : ℚ) := by
         rw [YoungDiagram.hookWalkWeight_unfold_noncorner hmem_aj hone_aj]
         congr 1
-        show (∑ x ∈ (μ.hookCellsExcl a j).attach,
+        change (∑ x ∈ (μ.hookCellsExcl a j).attach,
             μ.hookWalkWeight x.val.1 x.val.2 (i, j)) = _
         rw [@Finset.sum_attach _ _ _ (μ.hookCellsExcl a j)
             (fun v => μ.hookWalkWeight v.1 v.2 (i, j))]
@@ -1607,7 +1607,7 @@ private lemma YoungDiagram.hookWalkWeight_col_telescope
             Finset.sum_union (YoungDiagram.hookCellsExcl_disjoint μ a j),
             Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h),
             Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h)]
-        simp only [Prod.fst, Prod.snd]
+        simp only [Prod.fst]
         rw [hcl]
         have harm_van : (Finset.Ico (j + 1) (μ.rowLen a)).sum
             (fun b' => μ.hookWalkWeight a b' (i, j)) = 0 :=
@@ -1652,7 +1652,7 @@ private lemma YoungDiagram.hookRatio_eq_range_prods
       rw [if_pos (Or.inl hai)]
       have hmem_ib := hai ▸ hmem'
       have h_pos := YoungDiagram.hookLength_pos μ i b hmem_ib
-      congr 1; simp only [Prod.fst, Prod.snd]
+      congr 1; simp only [Prod.fst]
       rw [hai, Etingof.YoungDiagram.removeCorner_hookLength_row hc hblt]
       exact Nat.cast_sub (by omega)
     · by_cases hbj : b = j
@@ -1662,11 +1662,11 @@ private lemma YoungDiagram.hookRatio_eq_range_prods
         rw [if_pos (Or.inr hbj)]
         have hmem_aj := hbj ▸ hmem'
         have h_pos := YoungDiagram.hookLength_pos μ a j hmem_aj
-        congr 1; simp only [Prod.fst, Prod.snd]
+        congr 1; simp only [Prod.fst]
         rw [hbj, Etingof.YoungDiagram.removeCorner_hookLength_col hc halt]
         exact Nat.cast_sub (by omega)
-      · rw [if_neg (by push_neg; exact ⟨hai, hbj⟩)]
-        simp only [Prod.fst, Prod.snd]
+      · rw [if_neg (by push Not; exact ⟨hai, hbj⟩)]
+        simp only [Prod.fst]
         rw [Etingof.YoungDiagram.removeCorner_hookLength_other hc hai hbj]
         have h_pos := YoungDiagram.hookLength_pos μ a b hmem'
         exact div_self (Nat.cast_ne_zero.mpr (by omega))
@@ -1766,7 +1766,7 @@ theorem YoungDiagram.hookWalkWeight_col_sum
         omega
       exact hookWalkWeight_col_sum_singleton μ hc hcard1
     · -- Inductive step: n > 1
-      push_neg at hn
+      push Not at hn
       -- Step 1: Restrict to rectangle {(a,b) : a ≤ i, b ≤ j} via vanishing
       have hrl := Etingof.YoungDiagram.IsOuterCorner.rowLen_eq hc
       have hcl := Etingof.YoungDiagram.IsOuterCorner.colLen_eq hc
@@ -1777,7 +1777,7 @@ theorem YoungDiagram.hookWalkWeight_col_sum
         rw [Finset.sum_filter_of_ne]
         intro ⟨a, b⟩ hmem hne
         by_contra hab
-        simp only [Prod.fst, Prod.snd, not_and_or, not_le] at hab
+        simp only [not_and_or, not_le] at hab
         rcases hab with ha | hb
         · exact absurd (YoungDiagram.hookWalkWeight_zero_of_row_gt ha hmem) hne
         · exact absurd (YoungDiagram.hookWalkWeight_zero_of_col_gt hb hmem) hne
@@ -1789,7 +1789,7 @@ theorem YoungDiagram.hookWalkWeight_col_sum
             (fun u => μ.hookWalkWeight u.1 j (i, j) * μ.hookWalkWeight i u.2 (i, j)) := by
         apply Finset.sum_congr rfl
         intro ⟨a, b⟩ hmem
-        simp only [Finset.mem_filter, decide_eq_true_eq] at hmem
+        simp only [Finset.mem_filter] at hmem
         exact YoungDiagram.hookWalkWeight_factorization hc hmem.2.1 hmem.2.2 hmem.1
       rw [hfact]
       -- Step 3: The filter set = Ico 0 (i+1) ×ˢ Ico 0 (j+1) ∩ μ.cells
@@ -1798,7 +1798,7 @@ theorem YoungDiagram.hookWalkWeight_col_sum
       have hfilter_eq : μ.cells.filter (fun u => u.1 ≤ i ∧ u.2 ≤ j) =
           Finset.Ico 0 (i + 1) ×ˢ Finset.Ico 0 (j + 1) := by
         ext ⟨a, b⟩
-        simp only [Finset.mem_filter, Finset.mem_product, Finset.mem_Ico, decide_eq_true_eq]
+        simp only [Finset.mem_filter, Finset.mem_product, Finset.mem_Ico]
         constructor
         · rintro ⟨_, ha, hb⟩; exact ⟨⟨Nat.zero_le _, Nat.lt_succ_of_le ha⟩,
             ⟨Nat.zero_le _, Nat.lt_succ_of_le hb⟩⟩

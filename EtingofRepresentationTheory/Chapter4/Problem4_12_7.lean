@@ -367,7 +367,7 @@ lemma qmat_injective : Function.Injective qmat := by
 lemma qmat_neg_one : qmat (-1 : ℍ[ℝ]) = -1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [qmat, Complex.ext_iff]
+    simp [qmat]
 
 /-! ### Part (f): the conjugation action `SU(2) → SO(3)`
 
@@ -508,17 +508,17 @@ attribute [local simp] Quaternion.re_mul Quaternion.imI_mul Quaternion.imJ_mul Q
 lemma rotMat_neg (q : ℍ[ℝ]) : rotMat (-q) = rotMat q := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp only [rotMat, star_neg, neg_mul, mul_neg, neg_neg, Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val', Matrix.empty_val',
-      Matrix.cons_val_fin_one, Matrix.of_apply, Fin.isValue]
+    simp only [rotMat, star_neg, neg_mul, mul_neg, neg_neg,
+      Matrix.cons_val', Matrix.empty_val',
+      Matrix.cons_val_fin_one, Matrix.of_apply]
 
 /-- `rotMat` sends `1` to the identity matrix. -/
 lemma rotMat_one : rotMat (1 : ℍ[ℝ]) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp only [rotMat, star_one, one_mul, mul_one, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.cons_val', Matrix.empty_val', Matrix.cons_val_fin_one,
-      Matrix.of_apply, Fin.isValue, qI_imI, qI_imJ, qI_imK, qJ_imI, qJ_imJ, qJ_imK,
+    simp only [rotMat, star_one, one_mul, mul_one,
+      Matrix.cons_val', Matrix.empty_val', Matrix.cons_val_fin_one,
+      Matrix.of_apply, qI_imI, qI_imJ, qI_imK, qJ_imI, qJ_imJ, qJ_imK,
       qK_imI, qK_imJ, qK_imK, Matrix.one_apply] <;> norm_num
 
 /-- `rotMat (-1) = 1`. -/
@@ -532,7 +532,7 @@ lemma rotMat_mul (q₁ q₂ : ℍ[ℝ]) : rotMat (q₁ * q₂) = rotMat q₁ * r
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp only [rotMat, Matrix.mul_apply, Fin.sum_univ_three, Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val', Matrix.empty_val',
+      Matrix.cons_val_one, Matrix.cons_val', Matrix.empty_val',
       Matrix.cons_val_fin_one, Matrix.of_apply, Fin.isValue] <;>
     simp <;> ring
 
@@ -541,14 +541,14 @@ lemma rotMat_apply_00 (q : ℍ[ℝ]) :
     rotMat q 0 0 = q.re ^ 2 + q.imI ^ 2 - q.imJ ^ 2 - q.imK ^ 2 := by
   simp only [rotMat, Matrix.cons_val_zero, Matrix.cons_val', Matrix.empty_val',
     Matrix.cons_val_fin_one, Matrix.of_apply]
-  simp <;> ring
+  simp ; ring
 
 /-- The `(1,1)` entry of `rotMat q` in closed form. -/
 lemma rotMat_apply_11 (q : ℍ[ℝ]) :
     rotMat q 1 1 = q.re ^ 2 - q.imI ^ 2 + q.imJ ^ 2 - q.imK ^ 2 := by
-  simp only [rotMat, Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val', Matrix.empty_val',
+  simp only [rotMat, Matrix.cons_val_one, Matrix.cons_val', Matrix.empty_val',
     Matrix.cons_val_fin_one, Matrix.of_apply, Fin.isValue]
-  simp <;> ring
+  simp ; ring
 
 /-- For a unit quaternion `q` (`normSq q = 1`), the conjugation matrix `rotMat q` is a special
 orthogonal matrix: it preserves the standard inner product on `ℝ³` and has determinant `1`. -/
@@ -562,7 +562,7 @@ lemma rotMat_mem_SO3 (q : ℍ[ℝ]) (hq : Quaternion.normSq q = 1) :
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp only [rotMat, Matrix.mul_apply, Matrix.transpose_apply, Fin.sum_univ_three,
-        Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
+        Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
         Matrix.cons_val', Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.of_apply,
         Matrix.one_apply, Fin.isValue] <;>
       simp <;>
@@ -571,7 +571,7 @@ lemma rotMat_mem_SO3 (q : ℍ[ℝ]) (hq : Quaternion.normSq q = 1) :
         | linear_combination (0 : ℝ)
   · rw [Matrix.det_fin_three]
     simp only [rotMat, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-      Matrix.head_cons, Matrix.cons_val', Matrix.empty_val', Matrix.cons_val_fin_one,
+      Matrix.cons_val', Matrix.empty_val', Matrix.cons_val_fin_one,
       Matrix.of_apply, Fin.isValue]
     simp
     linear_combination
@@ -587,8 +587,8 @@ lemma rotMat_eq_one_iff (q : ℍ[ℝ]) (hq : Quaternion.normSq q = 1) :
   · intro h
     have h4 : q.re ^ 2 + q.imI ^ 2 + q.imJ ^ 2 + q.imK ^ 2 = 1 := by
       rw [Quaternion.normSq_def'] at hq; linarith
-    have e00 : rotMat q 0 0 = 1 := by rw [h]; simp [Matrix.one_apply]
-    have e11 : rotMat q 1 1 = 1 := by rw [h]; simp [Matrix.one_apply]
+    have e00 : rotMat q 0 0 = 1 := by rw [h]; simp
+    have e11 : rotMat q 1 1 = 1 := by rw [h]; simp
     rw [rotMat_apply_00] at e00
     rw [rotMat_apply_11] at e11
     have hb : q.imI = 0 := by nlinarith [sq_nonneg q.imI, sq_nonneg q.imJ, sq_nonneg q.imK]
@@ -802,7 +802,7 @@ theorem so3_euler_zyz (R : Matrix (Fin 3) (Fin 3) ℝ)
         simp only [Rz, Ry, mul_apply, Fin.sum_univ_three] <;>
         simp <;>
         (try simp only [hca, hsa, hcb, hs0, h22, hz02, hz12, hz20, hz21,
-          Real.cos_zero, Real.sin_zero])
+          Real.cos_zero])
       all_goals
         first
           | linear_combination e01
@@ -824,7 +824,7 @@ theorem so3_euler_zyz (R : Matrix (Fin 3) (Fin 3) ℝ)
         simp only [Rz, Ry, mul_apply, Fin.sum_univ_three] <;>
         simp <;>
         (try simp only [hca, hsa, hcb, hs0, h22, hz02, hz12, hz20, hz21,
-          Real.cos_zero, Real.sin_zero])
+          Real.cos_zero])
       all_goals
         first
           | linear_combination e01
@@ -887,7 +887,7 @@ theorem rotHom_surjective : Function.Surjective rotHom := by
   refine ⟨⟨q, mem_unitary_iff_normSq.mpr hnq⟩, ?_⟩
   apply Subtype.ext
   rw [rotHom_coe]
-  show rotMat q = (R : Matrix (Fin 3) (Fin 3) ℝ)
+  change rotMat q = (R : Matrix (Fin 3) (Fin 3) ℝ)
   rw [hq, rotMat_mul, rotMat_mul, hqz1, hqy, hqz2, rotMat_zAxis_half, rotMat_yAxis_half,
     rotMat_zAxis_half]
   exact hR.symm
@@ -975,7 +975,7 @@ noncomputable def su2Act (A : Matrix.specialUnitaryGroup (Fin 2) ℂ) :
 
 @[simp] lemma su2Act_apply (A : Matrix.specialUnitaryGroup (Fin 2) ℂ) (v : Fin 2 → ℂ) :
     su2Act A v = (A : Matrix (Fin 2) (Fin 2) ℂ).mulVec v := by
-  simp [su2Act, Matrix.mulVecLin_apply]
+  simp [su2Act]
 
 /-- **Part (b), the commutant.** The `ℝ`-subalgebra of `End_ℝ(ℂ²)` of endomorphisms commuting
 with the `SU(2)` action, the endomorphisms of `V = ℂ²` as a real representation.  As a
@@ -1096,7 +1096,7 @@ noncomputable def jMap : Module.End ℝ (Fin 2 → ℂ) where
   toFun v := Jmat.mulVec (star v)
   map_add' _ _ := by rw [star_add, Matrix.mulVec_add]
   map_smul' r v := by
-    show Jmat.mulVec (star (r • v)) = r • Jmat.mulVec (star v)
+    change Jmat.mulVec (star (r • v)) = r • Jmat.mulVec (star v)
     have hs : star (r • v) = r • star v := by
       funext i
       simp only [Pi.star_apply, Pi.smul_apply]
@@ -1136,7 +1136,7 @@ private lemma star_mulVec_eq (A : Matrix (Fin 2) (Fin 2) ℂ) (v : Fin 2 → ℂ
     star (A.mulVec v) = (A.map (starRingEnd ℂ)).mulVec (star v) := by
   funext i
   simp only [Pi.star_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_two, Matrix.map_apply,
-    star_add, star_mul', starRingEnd_apply, mul_comm]
+    star_add, star_mul', starRingEnd_apply]
 
 /-- The quaternionic identity for `SU(2)`: `J · conj(A) = A · J`. -/
 lemma su2_Jmat_comm (A : Matrix.specialUnitaryGroup (Fin 2) ℂ) :
@@ -1146,14 +1146,14 @@ lemma su2_Jmat_comm (A : Matrix.specialUnitaryGroup (Fin 2) ℂ) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp only [Jmat, Matrix.mul_apply, Fin.sum_univ_two, Matrix.map_apply, Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.head_cons, Matrix.of_apply, Matrix.cons_val', Matrix.empty_val',
+      Matrix.cons_val_one, Matrix.of_apply, Matrix.cons_val', Matrix.empty_val',
       Matrix.cons_val_fin_one, Fin.isValue, starRingEnd_apply] <;>
-    simp [h11, h10, star_star]
+    simp [h11, h10]
 
 lemma jMap_mem : jMap ∈ commutant := by
   rw [mem_commutant_iff]
   intro A v
-  show Jmat.mulVec (star ((A : Matrix (Fin 2) (Fin 2) ℂ).mulVec v))
+  change Jmat.mulVec (star ((A : Matrix (Fin 2) (Fin 2) ℂ).mulVec v))
       = (A : Matrix (Fin 2) (Fin 2) ℂ).mulVec (Jmat.mulVec (star v))
   rw [star_mulVec_eq, Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, su2_Jmat_comm]
 
@@ -1186,7 +1186,7 @@ lemma ev_surjective : Function.Surjective ev := by
       simp [ev_apply, jMap_apply, e0, Jmat, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
   have evK : ev ⟨iMap * jMap, mul_mem iMap_mem jMap_mem⟩ = ![0, Complex.I] := by
     funext i; fin_cases i <;>
-      simp [ev_apply, Module.End.mul_apply, iMap_apply, jMap_apply, e0, Jmat, Matrix.mulVec,
+      simp [ev_apply, Module.End.mul_apply, iMap_apply, jMap_apply, e0, Jmat,
         dotProduct, Fin.sum_univ_two]
   rw [map_add, map_add, map_add, map_smul, map_smul, map_smul, map_smul, ev1, evI, evJ, evK]
   funext i
