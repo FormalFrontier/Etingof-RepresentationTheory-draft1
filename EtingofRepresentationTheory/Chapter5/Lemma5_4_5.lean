@@ -102,11 +102,13 @@ private lemma roots_of_unity_avg_norm_bound
   have hprod := Algebra.norm_eq_prod_embeddings ℚ ℂ (α : L)
   -- ∏ ‖σ(α)‖ < 1 (each ≤ 1, one < 1)
   have hprod_lt : ∏ σ : L →ₐ[ℚ] ℂ, ‖σ α‖ < 1 := by
-    rw [← Finset.prod_const_one]
     have hσ_pos : ∀ σ : L →ₐ[ℚ] ℂ, 0 < ‖σ α‖ := by
       intro σ; rw [norm_pos_iff, ne_eq, ← map_zero σ]; exact σ.injective.ne hα_ne
-    exact Finset.prod_lt_prod (fun σ _ => hσ_pos σ) (fun σ _ => hσ_bound σ)
-      ⟨ι₀, Finset.mem_univ _, by rw [hι_val]; exact hlt⟩
+    calc
+      ∏ σ : L →ₐ[ℚ] ℂ, ‖σ α‖ < ∏ _σ : L →ₐ[ℚ] ℂ, (1 : ℝ) :=
+        Finset.prod_lt_prod (fun σ _ => hσ_pos σ) (fun σ _ => hσ_bound σ)
+          ⟨ι₀, Finset.mem_univ _, by simpa only [hι_val] using hlt⟩
+      _ = 1 := by simp
   -- Norm(α) is integral over ℤ (hence an integer)
   have hα_int_L : IsIntegral ℤ (α : L) := by
     have : IsIntegral ℤ (algebraMap L ℂ α) := hint

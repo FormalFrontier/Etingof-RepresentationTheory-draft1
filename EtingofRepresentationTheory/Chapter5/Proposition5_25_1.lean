@@ -116,7 +116,10 @@ theorem exists_ne_zero_ne_one (hcard : 2 < Nat.card F) :
     by_contra hx; push Not at hx; exact absurd (h x hx.1) hx.2
   have : Fintype.card F ≤ 2 := Fintype.card_le_of_surjective
     (fun b : Bool => if b then (1 : F) else 0)
-    (fun x => by rcases huniv x with rfl | rfl; exact ⟨false, rfl⟩; exact ⟨true, rfl⟩)
+    (fun x => by
+      rcases huniv x with rfl | rfl
+      · exact ⟨false, rfl⟩
+      · exact ⟨true, rfl⟩)
     |>.trans (by simp [Fintype.card_bool])
   omega
 

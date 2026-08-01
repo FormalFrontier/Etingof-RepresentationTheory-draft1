@@ -427,7 +427,7 @@ noncomputable def quaternionBasis : Module.Basis (Fin 4) ℝ ℍ[ℝ] :=
 @[simp] lemma quaternionBasis_zero : quaternionBasis 0 = 1 := by
   change QuaternionAlgebra.basisOneIJK (-1) 0 (-1) 0 = 1
   apply Module.Basis.apply_eq_iff.mpr; ext i
-  fin_cases i <;> simp [QuaternionAlgebra.coe_basisOneIJK_repr] <;> rfl
+  fin_cases i <;> simp [QuaternionAlgebra.coe_basisOneIJK_repr]
 @[simp] lemma quaternionBasis_one : quaternionBasis 1 = qI := by
   change QuaternionAlgebra.basisOneIJK (-1) 0 (-1) 1 = qI
   apply Module.Basis.apply_eq_iff.mpr; ext i
@@ -856,11 +856,6 @@ theorem so3_euler_zyz (R : Matrix (Fin 3) (Fin 3) ℝ)
         | linear_combination key01 + R 0 1 * hsb2row
         | linear_combination key10 + R 1 0 * hsb2row
         | linear_combination key11 + R 1 1 * hsb2row
-        | linear_combination -(key00 + R 0 0 * hsb2row)
-        | linear_combination -(key01 + R 0 1 * hsb2row)
-        | linear_combination -(key10 + R 1 0 * hsb2row)
-        | linear_combination -(key11 + R 1 1 * hsb2row)
-        | linear_combination (0 : ℝ)
 
 /-- **Surjectivity of the quaternion cover.** Every rotation of Euclidean `ℝ³` is conjugation by a
 unit quaternion: the classical statement that `SU(2) → SO(3)` is the (`2:1`) universal cover.

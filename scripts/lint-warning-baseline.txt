@@ -6,9 +6,7 @@
 #
 # Regenerate after a deliberate change with:
 #   scripts/check_lint_clean.py --log <build.log> --update
-EtingofRepresentationTheory/Chapter2.lean
 EtingofRepresentationTheory/Chapter2/Theorem2_1_1.lean
-EtingofRepresentationTheory/Chapter3.lean
 EtingofRepresentationTheory/Chapter3/Problem3_8_4_Main.lean
 EtingofRepresentationTheory/Chapter3/Problem3_9_1.lean
 EtingofRepresentationTheory/Chapter3/Problem3_9_2.lean
@@ -17,7 +15,6 @@ EtingofRepresentationTheory/Chapter3/Problem3_9_5.lean
 EtingofRepresentationTheory/Chapter3/Remark3_8_6.lean
 EtingofRepresentationTheory/Chapter3/Theorem3_10_2.lean
 EtingofRepresentationTheory/Chapter3/Theorem3_8_1.lean
-EtingofRepresentationTheory/Chapter4.lean
 EtingofRepresentationTheory/Chapter4/Example4_3_S4.lean
 EtingofRepresentationTheory/Chapter4/Example4_8_1/A5Classes.lean
 EtingofRepresentationTheory/Chapter4/Example4_8_1/A5Golden.lean
@@ -41,7 +38,6 @@ EtingofRepresentationTheory/Chapter4/Remark4_5_3.lean
 EtingofRepresentationTheory/Chapter4/Remark4_5_5.lean
 EtingofRepresentationTheory/Chapter4/Theorem4_10_2.lean
 EtingofRepresentationTheory/Chapter4/Theorem4_5_4.lean
-EtingofRepresentationTheory/Chapter5.lean
 EtingofRepresentationTheory/Chapter5/CauchyDetQuotientDegree.lean
 EtingofRepresentationTheory/Chapter5/CharValueHookFormula.lean
 EtingofRepresentationTheory/Chapter5/CharacterIndependence.lean
@@ -67,14 +63,12 @@ EtingofRepresentationTheory/Chapter5/GL2CharacterValues.lean
 EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean
 EtingofRepresentationTheory/Chapter5/GL2ConjugacyClasses.lean
 EtingofRepresentationTheory/Chapter5/GL2NormalizerInfra.lean
-EtingofRepresentationTheory/Chapter5/GLRepAlgebraic.lean
 EtingofRepresentationTheory/Chapter5/Introduction5_14.lean
 EtingofRepresentationTheory/Chapter5/Lemma5_13_1.lean
 EtingofRepresentationTheory/Chapter5/Lemma5_13_2.lean
 EtingofRepresentationTheory/Chapter5/Lemma5_15_3.lean
 EtingofRepresentationTheory/Chapter5/Lemma5_18_3.lean
 EtingofRepresentationTheory/Chapter5/Lemma5_25_3.lean
-EtingofRepresentationTheory/Chapter5/Lemma5_4_5.lean
 EtingofRepresentationTheory/Chapter5/Lemma5_4_7.lean
 EtingofRepresentationTheory/Chapter5/LinearDualDetTwistCharacter.lean
 EtingofRepresentationTheory/Chapter5/MultiplicitySpaceBiduality.lean
@@ -131,11 +125,9 @@ EtingofRepresentationTheory/Chapter5/Theorem5_27_1.lean
 EtingofRepresentationTheory/Chapter5/Theorem5_4_6.lean
 EtingofRepresentationTheory/Chapter5/Theorem5_6_1.lean
 EtingofRepresentationTheory/Chapter5/TraceVanishingDensity.lean
-EtingofRepresentationTheory/Chapter6.lean
 EtingofRepresentationTheory/Chapter6/Corollary6_8_3.lean
 EtingofRepresentationTheory/Chapter6/Corollary6_8_4.lean
 EtingofRepresentationTheory/Chapter6/CoxeterInfrastructure.lean
-EtingofRepresentationTheory/Chapter6/DecompositionExistence.lean
 EtingofRepresentationTheory/Chapter6/Definition6_6_2.lean
 EtingofRepresentationTheory/Chapter6/Definition6_6_3.lean
 EtingofRepresentationTheory/Chapter6/Definition6_6_4.lean
@@ -148,7 +140,6 @@ EtingofRepresentationTheory/Chapter6/Example6_2_4_Sink.lean
 EtingofRepresentationTheory/Chapter6/Example6_3_1_Helpers.lean
 EtingofRepresentationTheory/Chapter6/Example6_4_9_An.lean
 EtingofRepresentationTheory/Chapter6/Example6_4_9_Dn.lean
-EtingofRepresentationTheory/Chapter6/Example6_4_9_EType.lean
 EtingofRepresentationTheory/Chapter6/Lemma6_4_2.lean
 EtingofRepresentationTheory/Chapter6/Lemma6_7_2.lean
 EtingofRepresentationTheory/Chapter6/OrientationDefs.lean
@@ -163,7 +154,6 @@ EtingofRepresentationTheory/Chapter6/Proposition6_6_7.lean
 EtingofRepresentationTheory/Chapter6/ReflectionFunctorInfrastructure.lean
 EtingofRepresentationTheory/Chapter6/Theorem6_8_1.lean
 EtingofRepresentationTheory/Chapter6/Theorem_Dynkin_classification.lean
-EtingofRepresentationTheory/Chapter7.lean
 EtingofRepresentationTheory/Chapter7/Exercise7_9_8.lean
 EtingofRepresentationTheory/Chapter8/Exercise8_1_4.lean
 EtingofRepresentationTheory/Chapter8/ExtAbelianComparison.lean
@@ -194,6 +184,7 @@ EtingofRepresentationTheory/Chapter9/Problem9_5_3.lean
 EtingofRepresentationTheory/Chapter9/Problem9_5_3_S3Char2.lean
 EtingofRepresentationTheory/Chapter9/Proposition9_2_3.lean
 EtingofRepresentationTheory/Chapter9/Theorem9_2_1.lean
+EtingofRepresentationTheory/ExerciseCoverageDeclarations.lean
 EtingofRepresentationTheory/Infrastructure/BasicAlgebraExistence.lean
 EtingofRepresentationTheory/Infrastructure/ColumnRepSimple.lean
 EtingofRepresentationTheory/Infrastructure/CompletenessByCounting.lean

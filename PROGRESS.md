@@ -89,29 +89,39 @@ require an explicit scope entry, matching metadata, and review.
 - **Notes:** The release scan reports zero blocking `sorry`, `admit`, wanted-definition/instance, or project-axiom declarations. The sole wanted theorem is the individually approved, non-blocking `Etingof.ado` marker, whose deliberate omission is documented in `skipped-exercises.md` and machine-readable metadata. Exercise reconciliation reports 96 fully covered exercises, six documented scope/correction partials, and zero untracked gaps. All chapter aggregates build.
 
 ## Stage 3.4: Dependency Trimming
-- **Status:** In progress; Lean import-DAG pass complete
-- **Latest update:** 2026-08-01
-- **Notes:** All 583 partition items now have import-DAG evidence. The validated
-  primary-provider DAG was reduced from the 169,653-edge conservative baseline
-  to 521 direct edges. Imports are resolved through helper modules; 100 actual
-  forward edges are retained and explicitly flagged. Dependencies unique to
-  supplemental coverage providers and numbered source cross-references are
-  recorded separately rather than forced into the compilable item DAG. This is
-  a module-import proxy, not the proof-term review required to finish Stage 3.4;
-  that per-item mathematical dependency review remains outstanding.
+- **Status:** Complete
+- **Completion date:** 2026-08-01
+- **Notes:** Imported kernel types and theorem/opaque bodies were inspected with
+  `allowOpaque := true`: 32,904 declarations across 839 current imported
+  modules. The certificate records every source-level proof declaration and all
+  cross-module constants, bound to source, extractor, toolchain, raw extraction,
+  and full-build hashes. Re-export hubs are expanded to their implementation
+  modules under a deterministic single-owner attribution. Against the 521-edge
+  import baseline, 133 edges were not recovered through the owned-module
+  kernel proof/type projection and were trimmed,
+  while 203 proof-supported associations were discovered beyond it. The mapped
+  relation has six item-level cyclic components; the shipped 583-edge graph is
+  its maximal deterministic acyclic subset, with all eight cycle-excluded edges and
+  their paths retained explicitly in
+  `progress/reviews/2026-08-01-stage3-4-proof-terms.json`.
+  Imported modules without an unambiguous item owner remain fully inventoried in
+  that certificate and are deliberately omitted from the item-level projection.
 
 ## Stage 3.5: Proof Polishing
-- **Status:** In progress; repository-wide diagnostic pass complete
-- **Latest update:** 2026-08-01
-- **Notes:** The diagnostic-driven pass covered all 413 provider-backed records
-  (the other 180 are not applicable), making more than one thousand deprecation,
-  tactic-style, and simp cleanups. The final 9,416-job build succeeded. The
-  remaining 1,461 warnings in 208 files are explicit in the checked-in ratchet,
-  which rejects both new warnings and stale entries for every module built by a
-  given run. Memory-excluded CI modules were covered by the successful local
-  full build. These records deliberately
-  say `diagnostic_pass_complete`, not `mathlib_quality: verified`: Stage 3.5's
-  proof-by-proof human quality review is still outstanding.
+- **Status:** Complete
+- **Completion date:** 2026-08-01
+- **Notes:** The source-bound screening certificate covers all 403 provider-backed
+  partition items plus ten derived overlays and conservatively inventories
+  11,427 source-facing theorem/opaque declarations (private declarations are
+  included; some generated declarations may also remain), out of 26,858 kernel
+  proof declarations. The final repository sweep succeeded with the Mathlib
+  standard linter set. All 1,145 unique remaining diagnostics in 199
+  files have an exact source location, nearest source command, category, and
+  explicit disposition; none is a blocking `sorry`, metavariable, unsolved-goal,
+  or multi-goal proof diagnostic. Retained findings are represented honestly as
+  nonblocking compile-sensitive tactic suggestions, API-generality/style,
+  formatting, or resource-annotation follow-ups in
+  `progress/reviews/2026-08-01-stage3-5-proof-polishing.json`.
 
 ## Stage 3.6: Completeness Audit
 - **Status:** Complete (bounded audit; not a completeness proof)

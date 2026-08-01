@@ -222,7 +222,7 @@ theorem areIsomorphic_subRep_directSum (V : QuiverRepresentation k (Fin n))
     simp only [sc]
     rw [LinearMap.coprod_apply, LinearMap.coprod_apply, map_add,
       Submodule.coe_subtype, Submodule.coe_subtype, Submodule.coe_subtype, Submodule.coe_subtype]
-    congr 1 <;> exact LinearMap.coe_restrict_apply _ _
+    congr 1
   refine ⟨fun v => (pe v).symm, ?_⟩
   intro a b f
   ext x

@@ -668,7 +668,6 @@ lemma Etingof.disc_fieldExtEmbed (hn : n ≠ 0) (α : (GaloisField p (2 * n))ˣ)
   rw [GL2.disc_eq, Etingof.disc_eq_tr_det]
   have hval : (Etingof.GL2.fieldExtEmbed p n α).val =
       Algebra.leftMulMatrix b (α : GaloisField p (2 * n)) := by
-    change (Etingof.GL2.fieldExtEmbed p n α).val = _
     simp only [Etingof.GL2.fieldExtEmbed, dif_neg hn]; rfl
   congr 1
   · congr 1; rw [hval]; exact (Algebra.trace_eq_matrix_trace b _).symm
@@ -804,9 +803,9 @@ lemma Etingof.parabolic_upperTri_entry
     exact Matrix.det_units_conj' x g.val
   -- det(M) = M₀₀² (since M₁₀ = 0 and M₀₀ = M₁₁)
   have hdetM : Matrix.det M = M 0 0 * M 0 0 - M 0 1 * 0 := by
-    rw [Matrix.det_fin_two]; congr 1; rw [h00_eq_11]; rw [hx10]
+    rw [Matrix.det_fin_two, h00_eq_11, hx10]
   have hdetG : Matrix.det g.val = g.val 0 0 * g.val 0 0 - g.val 0 1 * 0 := by
-    rw [Matrix.det_fin_two]; congr 1; rw [hg00_eq_11]; rw [h10]
+    rw [Matrix.det_fin_two, hg00_eq_11, h10]
   simp only [mul_zero, sub_zero] at hdetM hdetG
   -- M₀₀² = g₀₀²
   have hsq : M 0 0 * M 0 0 = g.val 0 0 * g.val 0 0 := by
@@ -1808,7 +1807,6 @@ lemma Etingof.parabolic_conj_not_in_ellipticSubgroup
           (GL2.fieldExtEmbed p n α).val i j =
             a * if j = i then 1 else 0 := by
         intro i j
-        change (GL2.fieldExtEmbed p n α).val i j = _
         rw [show (GL2.fieldExtEmbed p n α).val i j =
             (Algebra.leftMulMatrix b (α : GaloisField p (2 * n))) i j from
           congr_fun (congr_fun hval i) j]

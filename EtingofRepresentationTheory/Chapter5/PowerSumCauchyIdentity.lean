@@ -267,7 +267,7 @@ theorem cauchyRHS_coeff_diag [CharZero k]
     intro σ
     split_ifs with h1 h2 h2
     · rfl
-    · exfalso; apply h2; ext j; simp [Equiv.Perm.coe_one]
+    · exfalso; apply h2; ext j; simp only [Equiv.Perm.coe_one, id_eq]
       exact congrArg Fin.val ((hα (h1 j)).symm)
     · exfalso; apply h1; intro j; simp [h2]
     · rfl

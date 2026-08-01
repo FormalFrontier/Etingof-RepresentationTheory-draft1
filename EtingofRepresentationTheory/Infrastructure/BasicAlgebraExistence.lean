@@ -1281,7 +1281,6 @@ private noncomputable instance cornerFunctor_linear_k {e : A} (he : IsIdempotent
       (CornerRing.instRing (k := k) he).toSemiring.toMulOneClass.toOne).val = e
     rfl
   have h_alg : (↑(algebraMap k (CornerRing (k := k) e) r) : A) = algebraMap k A r * e := by
-    change (algebraMap k (CornerRing (k := k) e) r).val = algebraMap k A r * e
     rw [Algebra.algebraMap_eq_smul_one, show (r • (1 : CornerRing (k := k) e)).val =
       r • (1 : CornerRing (k := k) e).val from rfl, h_one_val, Algebra.smul_def]
   rw [h_alg, mul_smul]

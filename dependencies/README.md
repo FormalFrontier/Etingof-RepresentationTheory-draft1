@@ -9,18 +9,27 @@ progressively replaced by actual dependencies during Stage 3.4.
 | Metric | Value |
 |---|---:|
 | Items | 583 |
-| Recorded direct edges | 512 |
-| Conservative baseline edges removed | 169,141 |
-| Items with no internal dependency | 91 |
-| Largest recorded direct dependency set | 4 |
-| Items through Stage 3.4 | 147 |
-| Items through Stage 3.5 | 129 |
+| Recorded direct proof-term edges | 583 |
+| Conservative all-predecessors edges removed | 169,197 |
+| Items with no internal dependency | 385 |
+| Largest recorded direct dependency set | 16 |
+| Items through Stage 3.4 | 583 partition + 10 derived |
+| Provider-backed records through Stage 3.5 | 403 partition + 10 derived |
 
-The graph is intentionally mixed-state while the post-formalization quality
-workflow continues. Reviewed items record their actual semantic dependencies;
-unreviewed later sections generally retain the conservative immediate-predecessor
-edge. `progress/items.json` records the item-level Stage 3.4 evidence where that
-review is complete.
+The graph is the completed, acyclic projection of direct kernel constants from
+declaration types and theorem/opaque bodies. The immutable 521-edge import-DAG
+input is `import-dag-stage3-4-baseline.json`. Re-export hubs are expanded to their
+implementation modules under a deterministic single-owner attribution. Stage 3.4
+trimmed 133 import edges not recovered through the owned-module kernel mapping
+and found 203 proof-supported
+associations beyond the import baseline. Item coarsening creates six cyclic
+components; `internal.json` contains the maximal deterministic acyclic subset,
+while all eight excluded edges and their cycle paths remain explicit in
+`progress/reviews/2026-08-01-stage3-4-proof-terms.json`.
+
+Root-imported modules without an unambiguous item owner remain in the declaration
+inventory and source-hash audit but are deliberately omitted from the item-level
+projection; the certificate lists them under `modules_without_item_owner`.
 
 This dependency workflow is separate from mathematical completion. The latter is
 defined by the zero-placeholder and reconciled exercise-coverage gates documented

@@ -61,7 +61,6 @@ lemma Etingof.GL2.frobeniusMatrix_sq_eq_one (hn : n ≠ 0) :
   -- Unfold frobeniusMatrix to expose the internal basis
   have hval : (Etingof.GL2.frobeniusMatrix p n).val =
       LinearMap.toMatrix b b σ.toLinearMap := by
-    change (Etingof.GL2.frobeniusMatrix p n).val = _
     simp only [Etingof.GL2.frobeniusMatrix, dif_neg hn]
     congr; exact Subsingleton.elim _ _
   simp only [Units.val_mul, Units.val_one, hval, ← LinearMap.toMatrix_mul]
@@ -121,14 +120,12 @@ lemma Etingof.GL2.frobeniusMatrix_conj [Fintype (GaloisField p n)] (hn : n ≠ 0
   apply Units.ext
   have hfrob : (Etingof.GL2.frobeniusMatrix p n).val =
       LinearMap.toMatrix b b σ.toLinearMap := by
-    change (Etingof.GL2.frobeniusMatrix p n).val = _
     simp only [Etingof.GL2.frobeniusMatrix, dif_neg hn]
     congr; exact Subsingleton.elim _ _
   have hembed : ∀ (β : (GaloisField p (2 * n))ˣ),
       (Etingof.GL2.fieldExtEmbed p n β).val =
       Algebra.leftMulMatrix b (β : GaloisField p (2 * n)) := by
     intro β
-    change (Etingof.GL2.fieldExtEmbed p n β).val = _
     simp only [Etingof.GL2.fieldExtEmbed, dif_neg hn]
     congr 1
   simp only [Units.val_mul, hfrob, hembed, Algebra.leftMulMatrix_apply,

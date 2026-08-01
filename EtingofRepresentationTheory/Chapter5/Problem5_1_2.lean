@@ -423,7 +423,6 @@ theorem exists_antilinear_j_of_invariant_nondegenerate
   -- From `conj c * p1 = s * p2` deduce `conj c` is the real number `s * p2 / p1`.
   have hconj : (starRingEnd ℂ) c = ((s * p2 / p1 : ℝ) : ℂ) := by
     rw [Complex.ofReal_div, Complex.ofReal_mul, eq_div_iff (by exact_mod_cast hp1.ne')]
-    push_cast at hkey ⊢
     linear_combination hkey
   have hcre : c = ((s * p2 / p1 : ℝ) : ℂ) := by
     have := congrArg (starRingEnd ℂ) hconj

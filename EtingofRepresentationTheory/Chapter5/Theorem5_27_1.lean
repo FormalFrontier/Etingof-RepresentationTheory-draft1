@@ -1308,7 +1308,6 @@ private noncomputable def weightSpaceRep {G A : Type} [Group G] [CommGroup A]
       ext ⟨w, hw⟩
       -- Goal: action of 1 ∈ G_χ on (w, hw) = (w, hw)
       simp only [LinearMap.coe_mk, AddHom.coe_mk, Module.End.one_apply]
-      congr 1
       change (W.ρ ⟨1, ((1 : ↥(stabAux φ χ)) : G)⟩) w = w
       rw [show ((1 : ↥(stabAux φ χ)) : G) = 1 from rfl]
       have : (⟨(1 : A), (1 : G)⟩ : A ⋊[φ] G) = 1 := by

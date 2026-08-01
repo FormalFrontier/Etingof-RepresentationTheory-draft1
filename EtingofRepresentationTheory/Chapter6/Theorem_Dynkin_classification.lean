@@ -74,7 +74,7 @@ lemma dynkin_unique_degree_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     rw [show ∑ b, 2 * (1 : Matrix (Fin n) (Fin n) ℤ) a b * x b =
         ∑ b, if a = b then 2 * x b else 0 from
       Finset.sum_congr rfl (fun b _ => by
-        simp only [Matrix.one_apply]; split_ifs <;> simp <;> ring)]
+        simp only [Matrix.one_apply]; split_ifs <;> simp)]
     simp
   have adj_sum_lb : ∀ (a b₁ b₂ : Fin n), b₁ ≠ b₂ →
       adj a b₁ = 1 → adj a b₂ = 1 →
@@ -820,7 +820,9 @@ lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
         calc 2 = ({v, w} : Finset _).card := by rw [Finset.card_pair (Ne.symm hne_w)]
           _ ≤ _ := Finset.card_le_card (fun x hx => by
             simp only [Finset.mem_insert, Finset.mem_singleton] at hx
-            rcases hx with rfl | rfl; exact hv_mem; exact hw_mem)
+            rcases hx with rfl | rfl
+            · exact hv_mem
+            · exact hw_mem)
       omega
     -- Step 2: Remove u to get reduced graph adj' on Fin (n-1)
     have hn2 : 2 ≤ n := by omega

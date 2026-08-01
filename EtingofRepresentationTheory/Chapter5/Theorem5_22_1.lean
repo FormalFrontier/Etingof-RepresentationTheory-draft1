@@ -1374,7 +1374,6 @@ private lemma symGroupAction_tensorStdBasis (k' : Type*) [Field k'] (N n : ℕ)
       tensorStdBasis k' N n (f ∘ σ.symm) := by
   simp only [tensorStdBasis, _root_.Basis.piTensorProduct_apply, symGroupAction,
     PiTensorProduct.reindex_tprod, Function.comp, Pi.basisFun_apply]
-  done
 
 /-- The diagonal entry of the Young symmetrizer in the standard tensor basis:
 the (f,f)-entry of E is `∑_{σ : f ∘ σ⁻¹ = f} c_λ(σ)`.
@@ -1467,7 +1466,6 @@ lemma glTensorRep_diagUnit_basis (N n : ℕ) (i : Fin N) (t : kˣ)
   -- ∏ j, update 1 i t (f j) = t ^ #{j : f j = i}
   simp only [Function.update_apply, Pi.one_apply]
   rw [Finset.prod_ite, Finset.prod_const_one, mul_one, Finset.prod_const]
-  done
 
 /-! #### Infrastructure for weight-restricted trace formula -/
 
@@ -3507,7 +3505,6 @@ theorem youngSym_charValue_orthogonality
   have h_sum : (∑ σ, (YoungSymmetrizerK ℚ (∑ i, lam i) (weightToPartition N lam) σ : ℚ) *
       charValue N lam' (fullCycleTypePartition σ) : ℂ) =
       if lam'.parts = lam then (α : ℂ) else 0 := by
-    push_cast [Finset.sum_comm]
     simp_rw [h_ℂ, h_trace]
     split_ifs with h1 h2 h2
     · rfl

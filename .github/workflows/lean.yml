@@ -66,6 +66,8 @@ jobs:
           python3 scripts/reconcile_exercise_coverage.py --check
           python3 scripts/validate_exercise_coverage.py
           python3 scripts/test_exercise_coverage.py
+          python3 scripts/test_finalize_proof_polishing.py
+          python3 scripts/validate_postformalization_reviews.py
       - uses: leanprover/lean-action@v1
         with:
           use-github-cache: false
@@ -77,7 +79,8 @@ jobs:
           # and asks Lean to resolve every declaration pointer. In particular,
           # it does not re-import the root aggregate and thereby defeat the
           # runner-memory exclusions in the per-file sweep below.
-          lake build EtingofRepresentationTheory.ExerciseCoverageDeclarations
+          lake build EtingofRepresentationTheory.ExerciseCoverageDeclarations \
+            2>&1 | tee "$RUNNER_TEMP/build.log"
           # Build individual modules, excluding:
           # - Chapter/root aggregation files (mindepth 2 skips these)
           # - Modules that import full Mathlib + large chapter environments,
@@ -89,7 +92,8 @@ jobs:
             > "$RUNNER_TEMP/modules.txt"
           # Keep the log: the lint-clean check below reads warnings out of it
           # rather than paying for a second build.
-          xargs lake build < "$RUNNER_TEMP/modules.txt" 2>&1 | tee "$RUNNER_TEMP/build.log"
+          xargs lake build < "$RUNNER_TEMP/modules.txt" 2>&1 | tee -a "$RUNNER_TEMP/build.log"
+          echo EtingofRepresentationTheory.ExerciseCoverageDeclarations >> "$RUNNER_TEMP/modules.txt"
       - name: No new build warnings
         run: |
           # `lake build` exits 0 on warnings, so without this step nothing

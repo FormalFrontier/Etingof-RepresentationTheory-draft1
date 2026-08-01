@@ -38,17 +38,17 @@ theorem Etingof.Lemma5_15_3
       have h_factor : Matrix.det (Matrix.of (fun i j => (z i - y j)⁻¹)) = (z 0 - y 0)⁻¹ * Matrix.det (Matrix.of (fun i j => (z (Fin.succ i) - y (Fin.succ j))⁻¹ - (z (Fin.succ i) - y 0)⁻¹ * (z 0 - y (Fin.succ j))⁻¹ * (z 0 - y 0))) := by
         have h_factor : Matrix.det (Matrix.of (fun i j => (z i - y j)⁻¹)) = Matrix.det (Matrix.of (fun i j => if i = 0 then (z 0 - y j)⁻¹ else if j = 0 then 0 else (z i - y j)⁻¹ - (z i - y 0)⁻¹ * (z 0 - y j)⁻¹ * (z 0 - y 0))) := by
           have h_row_ops : ∃ P : Matrix (Fin (N + 1)) (Fin (N + 1)) ℂ, P.det = 1 ∧ P * Matrix.of (fun i j => (z i - y j)⁻¹) = Matrix.of (fun i j => if i = 0 then (z 0 - y j)⁻¹ else if j = 0 then 0 else (z i - y j)⁻¹ - (z i - y 0)⁻¹ * (z 0 - y j)⁻¹ * (z 0 - y 0)) := by
-            refine' ⟨ Matrix.of ( fun i j => if i = 0 then if j = 0 then 1 else 0 else if j = 0 then - ( z i - y 0 ) ⁻¹ * ( z 0 - y 0 ) else if i = j then 1 else 0 ), _, _ ⟩ <;> simp +decide [ Matrix.det_succ_row_zero ];
+            refine ⟨ Matrix.of ( fun i j => if i = 0 then if j = 0 then 1 else 0 else if j = 0 then - ( z i - y 0 ) ⁻¹ * ( z 0 - y 0 ) else if i = j then 1 else 0 ), ?_, ?_ ⟩ <;> simp +decide [ Matrix.det_succ_row_zero ];
             · erw [ Matrix.det_of_upperTriangular ] <;> norm_num [ Matrix.submatrix ];
               intro i j hij; aesop;
-            · ext i j; simp +decide [ Matrix.mul_apply ] ; split_ifs <;> simp_all +decide [ sub_eq_iff_eq_add ] ; ring_nf;
+            · ext i j; simp +decide [ Matrix.mul_apply ] ; split_ifs <;> simp_all +decide [ sub_eq_iff_eq_add ] <;> ring_nf;
               · simp +decide [ Finset.sum_ite, Finset.filter_eq', Finset.filter_ne', * ] ; ring_nf;
               · simp +decide [ Finset.sum_ite, Finset.filter_eq', Finset.filter_ne', * ] ; ring_nf;
           obtain ⟨ P, hP₁, hP₂ ⟩ := h_row_ops; rw [ ← hP₂, Matrix.det_mul, hP₁, one_mul ] ;
         rw [ h_factor, Matrix.det_succ_column_zero ];
         simp +decide [ Matrix.submatrix ];
       have h_simplify : Matrix.det (Matrix.of (fun i j => (z (Fin.succ i) - y (Fin.succ j))⁻¹ - (z (Fin.succ i) - y 0)⁻¹ * (z 0 - y (Fin.succ j))⁻¹ * (z 0 - y 0))) = Matrix.det (Matrix.of (fun i j => (z (Fin.succ i) - y (Fin.succ j))⁻¹ * ((z (Fin.succ i) - z 0) * (y 0 - y (Fin.succ j))) / ((z (Fin.succ i) - y 0) * (z 0 - y (Fin.succ j))))) := by
-        refine' congr_arg Matrix.det ( funext fun i => funext fun j => _ );
+        refine congr_arg Matrix.det ( funext fun i => funext fun j => ?_ );
         simp +decide [ sub_eq_iff_eq_add ];
         field_simp;
         rw [ div_add', div_div, div_eq_div_iff ] <;> simp +decide [ sub_eq_iff_eq_add, hzy ] ; ring_nf;

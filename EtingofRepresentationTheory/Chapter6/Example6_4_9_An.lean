@@ -23,7 +23,7 @@ private lemma An_cartan_entry (n : ℕ) (hn : 1 ≤ n) (k j : Fin n) :
     else 0 := by
   simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
     Etingof.DynkinType.adj]
-  split_ifs with h1 h2 <;> simp_all [Fin.ext_iff] <;> omega
+  split_ifs with h1 h2 <;> simp_all [Fin.ext_iff]
 
 /-- Decomposition: q_{m+1}(x) = q_m(x|_{0..m-1}) + 2x_m² - 2x_{m-1}·x_m. -/
 private lemma An_qform_peel (m : ℕ) (hm : 1 ≤ m) (x : Fin (m + 1) → ℤ) :
@@ -483,7 +483,7 @@ private lemma root_is_ivec : ∀ (n : ℕ) (hn : 1 ≤ n) (v : Fin n → Fin 2),
           2 * (v ⟨m - 1, by omega⟩ : ℤ) * (v ⟨m, by omega⟩ : ℤ) = 2 := by
         have := An_qform_peel m hm1 x
         simp only [hx_def] at this
-        rw [this] at hq; convert hq using 2 <;> rfl
+        rw [this] at hq; convert hq using 2
       -- Helper to build rootCountFinset membership for v'
       have mk_mem : ∀ (hne' : v' ≠ 0),
           dotProduct (fun i : Fin m => (v' i : ℤ))
@@ -497,7 +497,7 @@ private lemma root_is_ivec : ∀ (n : ℕ) (hn : 1 ≤ n) (v : Fin n → Fin 2),
         constructor
         · intro h; apply hne'; funext i
           have := congr_fun h i
-          simp  at this
+          simp only [Pi.zero_apply, Fin.isValue] at this
           exact_mod_cast this
         · convert hq' using 1
       -- Case split on v_m

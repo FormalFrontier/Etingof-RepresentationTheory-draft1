@@ -214,7 +214,7 @@ private lemma cartan_Dn_succ' (k : ℕ) (i j : Fin (k + 4)) :
       DynkinType.adj (.D (k + 4) (by omega))) i j := by
   simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, DynkinType.adj,
     Fin.val_succ, Fin.ext_iff]
-  simp_all <;> omega
+  simp_all
 
 /-- The D_{k+5} dot product recurrence: peel off vertex 0. -/
 private lemma Dn_dotProduct_recurrence' (k : ℕ) (x : Fin (k + 5) → ℤ) :
@@ -239,17 +239,17 @@ private lemma Dn_dotProduct_recurrence' (k : ℕ) (x : Fin (k + 5) → ℤ) :
     have hC00 : C 0 0 = 2 := by
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
         DynkinType.adj, Fin.val_zero]
-      simp_all <;> omega
+      simp_all
     have hC01 : C 0 (Fin.succ (0 : Fin (k + 4))) = -1 := by
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
         DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
-      simp_all <;> omega
+      simp_all
     have hrest : ∑ i : Fin (k + 3), C 0 (Fin.succ (Fin.succ i)) * x (Fin.succ (Fin.succ i)) = 0 :=
       Finset.sum_eq_zero fun j _ => by
         have : C 0 (Fin.succ (Fin.succ j)) = 0 := by
           simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
             DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
-          simp_all <;> omega
+          simp_all
         rw [this, zero_mul]
     rw [hC00, hC01, hrest]
     have : x (Fin.succ (0 : Fin (k + 4))) = x ⟨1, by omega⟩ := by congr 1
@@ -272,13 +272,13 @@ private lemma Dn_dotProduct_recurrence' (k : ℕ) (x : Fin (k + 5) → ℤ) :
     have hC10 : C (Fin.succ (0 : Fin (k + 4))) 0 = -1 := by
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
         DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
-      simp_all <;> omega
+      simp_all
     rw [hC10]
     have hrest : ∀ j : Fin (k + 3), C (Fin.succ (Fin.succ j)) 0 = 0 := by
       intro j
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
         DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
-      simp_all <;> omega
+      simp_all
     have : ∑ j : Fin (k + 3), x (Fin.succ (Fin.succ j)) *
         (C (Fin.succ (Fin.succ j)) 0 * x 0) = 0 :=
       Finset.sum_eq_zero (fun j _ => by rw [hrest]; ring)
@@ -404,7 +404,7 @@ private lemma cartan_An_succ (k : ℕ) (i j : Fin (k + 1)) :
       DynkinType.adj (.A (k + 1) (by omega))) i j := by
   simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, DynkinType.adj,
     Fin.val_succ, Fin.ext_iff]
-  simp_all <;> omega
+  simp_all
 
 /-- Cartan matrix entry C(0, succ(succ j)) = 0 for A_{k+2}. -/
 private lemma cartan_An_zero_ge2 (k : ℕ) (j : Fin k) :
@@ -412,7 +412,7 @@ private lemma cartan_An_zero_ge2 (k : ℕ) (j : Fin k) :
       DynkinType.adj (.A (k + 2) (by omega))) 0 (Fin.succ (Fin.succ j)) = 0 := by
   simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, DynkinType.adj,
     Fin.val_zero, Fin.val_succ, Fin.ext_iff]
-  simp_all <;> omega
+  simp_all
 
 /-- Cartan matrix entry C(succ i, 0) for A_{k+2}. -/
 private lemma cartan_An_succ_zero (k : ℕ) (i : Fin (k + 1)) :
@@ -421,7 +421,7 @@ private lemma cartan_An_succ_zero (k : ℕ) (i : Fin (k + 1)) :
     if (i : ℕ) = 0 then -1 else 0 := by
   simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
     DynkinType.adj, Fin.val_zero, Fin.val_succ, Fin.ext_iff]
-  split_ifs <;> simp_all <;> omega
+  split_ifs <;> simp_all
 
 /-- The A_n quadratic form satisfies a recurrence: peeling off vertex 0. -/
 private lemma An_dotProduct_recurrence (k : ℕ) (x : Fin (k + 2) → ℤ) :
@@ -446,14 +446,14 @@ private lemma An_dotProduct_recurrence (k : ℕ) (x : Fin (k + 2) → ℤ) :
     have hC00 : C 0 0 = 2 := by
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
         DynkinType.adj, Fin.val_zero]
-      simp_all <;> omega
+      simp_all
     -- Remaining sum: split off j=0 in Fin (k+1)
     rw [Fin.sum_univ_succ (f := fun j : Fin (k + 1) => C 0 (Fin.succ j) * x (Fin.succ j))]
     -- Second term: C 0 (succ 0) = C 0 1 = -1
     have hC01 : C 0 (Fin.succ (0 : Fin (k + 1))) = -1 := by
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
         DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
-      simp_all <;> omega
+      simp_all
     -- Remaining sum: C 0 (succ (succ j)) = 0 for all j
     have hrest : ∑ i : Fin k, C 0 (Fin.succ (Fin.succ i)) * x (Fin.succ (Fin.succ i)) = 0 := by
       apply Finset.sum_eq_zero; intro j _; rw [show C 0 (Fin.succ (Fin.succ j)) = 0 from cartan_An_zero_ge2 k j, zero_mul]
@@ -487,14 +487,14 @@ private lemma An_dotProduct_recurrence (k : ℕ) (x : Fin (k + 2) → ℤ) :
     have hC10 : C (Fin.succ (0 : Fin (k + 1))) 0 = -1 := by
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
         DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
-      simp_all <;> omega
+      simp_all
     rw [hC10]
     -- Remaining terms: C(succ(succ j), 0) = 0 for all j
     have hrest : ∀ j : Fin k, C (Fin.succ (Fin.succ j)) 0 = 0 := by
       intro j
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
         DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
-      simp_all <;> omega
+      simp_all
     have : ∑ j : Fin k, x (Fin.succ (Fin.succ j)) *
         (C (Fin.succ (Fin.succ j)) 0 * x 0) = 0 := by
       apply Finset.sum_eq_zero; intro j _; rw [hrest]; ring
@@ -691,7 +691,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
                   simp only [List.get_eq_getElem, List.getElem_cons_zero,
                     List.getElem_cons_succ]
                   rw [hhead]; simp only [DynkinType.adj]
-                  rw [if_pos]; right; right; refine ⟨?_, ?_⟩ <;> dsimp <;> omega
+                  rw [if_pos]; right; right; refine ⟨?_, ?_⟩ <;> dsimp
               | k + 1 =>
                 simp only [List.get_eq_getElem, List.getElem_cons_succ]
                 exact hedges k (by omega)
@@ -705,7 +705,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
               match k with
               | 0 =>
                 dsimp only [List.get]; simp only [DynkinType.adj]
-                rw [if_pos]; right; right; refine ⟨?_, ?_⟩ <;> dsimp <;> omega
+                rw [if_pos]; right; right; refine ⟨?_, ?_⟩ <;> dsimp
         · -- j = n-2: path [n-1, n-3, n-2]
           refine ⟨[⟨n - 1, by omega⟩, ⟨n - 3, by omega⟩, ⟨n - 2, by omega⟩], ?_, ?_, ?_⟩
           · simp only [List.head?_cons, Option.some.injEq]; exact Fin.ext (by dsimp; omega)
@@ -716,7 +716,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
             match k with
             | 0 =>
               dsimp only [List.get]; simp only [DynkinType.adj]
-              rw [if_pos]; right; right; refine ⟨?_, ?_⟩ <;> dsimp <;> omega
+              rw [if_pos]; right; right; refine ⟨?_, ?_⟩ <;> dsimp
             | 1 =>
               dsimp only [List.get]; simp only [DynkinType.adj]
               -- `dsimp` does not reduce the `Fin.val` goals here; `omega` closes them directly
@@ -770,7 +770,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
                   ((path ++ [⟨n - 1, by omega⟩])[k + 1]'(by simp; omega)) = 1
                 rw [List.getElem_append_left (by omega), hpath_k, hsucc]
                 simp only [DynkinType.adj]
-                rw [if_pos]; right; left; refine ⟨?_, ?_⟩ <;> dsimp <;> omega
+                rw [if_pos]; right; left; refine ⟨?_, ?_⟩ <;> dsimp
           · -- i = n-3: path [n-3, n-1]
             refine ⟨[⟨n - 3, by omega⟩, ⟨n - 1, by omega⟩], ?_, ?_, ?_⟩
             · simp only [List.head?_cons, Option.some.injEq]; exact Fin.ext (by dsimp; omega)
@@ -781,7 +781,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
               match k with
               | 0 =>
                 dsimp only [List.get]; simp only [DynkinType.adj]
-                rw [if_pos]; right; left; refine ⟨?_, ?_⟩ <;> dsimp <;> omega
+                rw [if_pos]; right; left; refine ⟨?_, ?_⟩ <;> dsimp
         · -- i = n-2: path [n-2, n-3, n-1]
           refine ⟨[⟨n - 2, by omega⟩, ⟨n - 3, by omega⟩, ⟨n - 1, by omega⟩], ?_, ?_, ?_⟩
           · simp only [List.head?_cons, Option.some.injEq]; exact Fin.ext (by dsimp; omega)
@@ -796,7 +796,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
               rw [if_pos]; left; right; refine ⟨?_, ?_⟩ <;> omega
             | 1 =>
               dsimp only [List.get]; simp only [DynkinType.adj]
-              rw [if_pos]; right; left; refine ⟨?_, ?_⟩ <;> dsimp <;> omega
+              rw [if_pos]; right; left; refine ⟨?_, ?_⟩ <;> dsimp
       · -- Both on main path
         by_cases hij : i.val ≤ j.val
         · exact main_asc i j (by omega) (by omega) hij

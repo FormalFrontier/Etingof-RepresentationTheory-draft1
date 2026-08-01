@@ -2108,7 +2108,7 @@ lemma affine_degree_balance {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1
     rw [show ∑ b, 2 * (1 : Matrix (Fin n) (Fin n) ℤ) a b * w b =
         ∑ b, if a = b then 2 * w b else 0 from
       Finset.sum_congr rfl (fun b _ => by
-        simp only [Matrix.one_apply]; split_ifs <;> simp <;> ring)]
+        simp only [Matrix.one_apply]; split_ifs <;> simp)]
     simp
   have hrow0 : ∀ a, 2 * w a - ∑ b, adj a b * w b = 0 := by
     intro a; rw [← mulVec_eq a]; simpa using congrFun hMw a
