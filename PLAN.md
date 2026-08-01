@@ -197,7 +197,7 @@ Where `start_line` and `end_line` refer to line numbers within the page markdown
 
 Types: `theorem`, `lemma`, `proposition`, `corollary`, `definition`, `example`, `exercise`, `remark`, `discussion`, `introduction`, `preface`, `notation`, `bibliography`, `index`, `derived`
 
-**Derived items (overlay, not part of the partition).** A formalizable claim discovered *inside* an existing blob (e.g. a well-definedness assertion or dimension formula embedded in a discussion) is recorded as a `derived` item with extra fields: `derived_from` (the parent item id), `source_span` (the exact quoted sentence, for provenance), `claim` (a one-line normalized statement), and a `status` drawn from `accepted`, `rejected_duplicate`, `rejected_trivial`, `rejected_nonformal`, `rejected_already_covered`. Derived items are an **overlay on the text partition, not members of it**: the contiguity check below skips `type == "derived"`. They flow through the normal Phase 3 work loop once `accepted`, and are produced by the Stage 3.7 completeness audit, not by initial structure analysis.
+**Derived items (overlay, not part of the partition).** A formalizable claim discovered *inside* an existing blob (e.g. a well-definedness assertion or dimension formula embedded in a discussion) is recorded as a `derived` item with extra fields: `derived_from` (the parent item id), `source_span` (the exact quoted sentence, for provenance), `claim` (a one-line normalized statement), and a `status` drawn from `accepted`, `rejected_duplicate`, `rejected_trivial`, `rejected_nonformal`, `rejected_already_covered`. Derived items are an **overlay on the text partition, not members of it**: the contiguity check below skips `type == "derived"`. They flow through the normal Phase 3 work loop once `accepted`, and are produced by the Stage 3.6 completeness audit, not by initial structure analysis.
 
 Once all the agents performing structure analysis have merged their PRs, run a **contiguity check** (over partition items only, skipping `derived`) to verify that:
 1. Every line of every page markdown file belongs to exactly one blob
@@ -600,7 +600,7 @@ The status check must:
 
 1. **Scan for definition-level sorries (regression check).** Re-run the Stage 3.2 scaffolding check. New definition-level sorries can be introduced during proof work when agents create helper definitions with sorry bodies. Any found must become issues — these are the highest priority, since they make downstream theorem statements vacuous.
 
-1b. **Scan for vacuous and silently-weakened statements, and missing claim-coverage (regression check).** Re-apply the Stage 3.2 step 6–7 tests, not just a `True` grep — it misses the dangerous cases: conclusions true for any inhabitant, unconstrained existentials, and statements weaker than their blob claim. Verify every formalizable item has a `claim_coverage` record (Stage 3.2) and every exercise a `coverage` field (Stage 3.7). **`sorry_free` must mean "real statement, faithful to the book, real proof"**; the headline "formalized" metric excludes `statement_vacuous`, `needs_statement`, and missing-`claim_coverage` items.
+1b. **Scan for vacuous and silently-weakened statements, and missing claim-coverage (regression check).** Re-apply the Stage 3.2 step 6–7 tests, not just a `True` grep — it misses the dangerous cases: conclusions true for any inhabitant, unconstrained existentials, and statements weaker than their blob claim. Verify every formalizable item has a `claim_coverage` record (Stage 3.2) and every exercise a `coverage` field (Stage 3.6). **`sorry_free` must mean "real statement, faithful to the book, real proof"**; the headline "formalized" metric excludes `statement_vacuous`, `needs_statement`, and missing-`claim_coverage` items.
 
 2. **Identify the hardest remaining items.** This is a mathematical assessment, not just a sorry count. For each chapter with remaining work, identify the items that are hardest to complete, considering:
    - Mathematical depth and complexity (e.g., developing significant theory vs a routine calculation)
@@ -673,36 +673,7 @@ After polishing: items move from `dependency_trimmed` → `proof_polished` in `p
 
 **Verify:** All previously sorry-free items have status `proof_polished`. `lake build` succeeds.
 
-### Stage 3.6: Upstreaming Analysis
-
-Identify formalized results that may be worth contributing to Mathlib. The output is a non-binding `UPSTREAMING.md` report — no actual upstreaming happens here.
-
-Can begin per-item as soon as that item's proof is polished (Stage 3.5). Create one issue per item for the triage and research below.
-
-#### Phase 1: Lightweight triage
-
-Scan all proof-polished items. Reject immediately if the proof is a one-liner delegating to a named Mathlib theorem, or trivial glue between two or three existing Mathlib facts. Keep as candidate if the proof is substantive and the result appears absent from Mathlib's API.
-
-#### Phase 2: Deep Mathlib research
-
-For each candidate, search the **local Mathlib source** (`.lake/packages/mathlib/`) for closely related results — do not rely on web searches or AI knowledge of Mathlib, which may be out of date. Check for equivalent results under different names, close relatives that make the candidate a straightforward corollary, and proof approaches that reconstruct something Mathlib already proves elsewhere. Open one GitHub issue per candidate to track the research.
-
-Assign one of three verdicts:
-
-- **Reject — already in Mathlib:** Create a GitHub issue to refactor the proof to use the Mathlib declaration directly, and set `upstreaming_status` to `mathlib_covered`.
-- **Reject — insufficient interest:** Too narrow, not at Mathlib quality/generality, or not a good fit.
-- **Refactor - we can write a better proof based on our research**.
-- **Include in UPSTREAMING.md:** Genuinely new to Mathlib, correct, and at appropriate generality.
-
-#### Output
-
-Write `UPSTREAMING.md` at the repository root. For each included candidate: the item ID, Lean declaration name, file path, Lean statement, why it's new (what was searched, what was found), and suggested Mathlib module. For excluded items: one-line reason each.
-
-Update `progress/items.json` with `"upstreaming_status"`: `"candidate"`, `"mathlib_covered"`, or `"rejected"`.
-
-**Verify:** `UPSTREAMING.md` exists. Every proof-polished item has an `upstreaming_status` in `progress/items.json`.
-
-### Stage 3.7: Completeness Audit (bounded)
+### Stage 3.6: Completeness Audit (bounded)
 
 Runs once substantial Lean coverage exists (after most of Stage 3.5). It has two arms: (1) **coverage** — find *formalizable claims and exercises never reflected in Lean* (the three steps below); (2) **fidelity** — verify *already-formalized statements faithfully assert their claims* (the fidelity sweep below). It is a **bounded risk-reduction audit, not an open-ended hunt, and it does not claim to prove completeness.**
 
@@ -793,6 +764,8 @@ Each status is set by a specific stage:
 | `proof_formalized` | Stage 3.3 | Proof work submitted (may still contain sorries) |
 | `sorry_free` | Stage 3.3 | All sorries removed from the item's `.lean` file |
 | `dependency_trimmed` | Stage 3.4 | Actual dependencies analyzed and recorded |
+| `not_applicable` | Stages 3.4–3.5 | No dedicated provider or proof body exists for this item |
+| `diagnostically_polished` | Stage 3.5 | Repository-wide compiler/linter diagnostic pass completed; proof-by-proof review remains |
 | `proof_polished` | Stage 3.5 | Proof cleaned up to Mathlib quality |
 
 Special statuses (set during review):

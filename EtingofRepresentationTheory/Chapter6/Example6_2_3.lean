@@ -48,7 +48,7 @@ private lemma ker_or_V₂_zero {k : Type*} [Field k] (ρ : A₂Rep k)
     (hind : ρ.Indecomposable) :
     LinearMap.ker ρ.f = ⊥ ∨ Module.finrank k ρ.V₂ = 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨hker, hV₂⟩ := h
   -- Decompose V₁ = ker f ⊕ complement, V₂ = ⊥ ⊕ ⊤
   obtain ⟨q₁, hq₁⟩ := Submodule.exists_isCompl (LinearMap.ker ρ.f)
@@ -64,7 +64,7 @@ private lemma range_or_V₁_zero {k : Type*} [Field k] (ρ : A₂Rep k)
     (hind : ρ.Indecomposable) :
     LinearMap.range ρ.f = ⊤ ∨ Module.finrank k ρ.V₁ = 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨hrange, hV₁⟩ := h
   obtain ⟨q₂, hq₂⟩ := Submodule.exists_isCompl (LinearMap.range ρ.f)
   have hind_cond := hind.2 ⊤ ⊥ (LinearMap.range ρ.f) q₂ isCompl_top_bot hq₂

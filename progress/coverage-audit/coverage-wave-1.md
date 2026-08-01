@@ -1,4 +1,4 @@
-# Stage 3.7 Coverage Arm — certificate
+# Stage 3.6 Coverage Arm — certificate
 
 Sweep of all **211 prose blobs** (type discussion/introduction; exercises and proof-correctness out of scope) for formalizable mathematical claims with no Lean declaration. Model-diverse Sonnet subagents; Codex cross-vendor tiebreak; recording = lightweight + per-blob `coverage_swept` stamp (user decision).
 

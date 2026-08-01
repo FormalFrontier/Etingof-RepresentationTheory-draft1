@@ -187,7 +187,7 @@ private lemma exists_unique_block (n : ℕ) (D : IrrepDecomp k (G' n))
   obtain ⟨l₀, hl₀⟩ := exists_ne (0 : L)
   have hexists : ∃ j, ∀ l : L, centralIdem' k n D j • l = l := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have : ∀ j, ∀ l : L, centralIdem' k n D j • l = 0 := by
       intro j; exact (hact j).resolve_right (fun h => (hall j).elim (fun l hl => hl (h l)))
     exact hl₀ (by rw [hsum l₀, Finset.sum_eq_zero (fun j _ => this j l₀)])
@@ -447,7 +447,7 @@ private lemma exists_young_symmetrizer_nontrivial_general (n : ℕ)
     [IsSimpleModule (A' k n) M] :
     ∃ la : Nat.Partition n, ∃ m : M, YoungSymmetrizerK k n la • m ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   let D := IrrepDecomp.mk' (k := k) (G := G' n)
   set j₀ := blockOf k n D M
   have hspecht_simple : ∀ la : Nat.Partition n,

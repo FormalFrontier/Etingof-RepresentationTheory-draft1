@@ -1,6 +1,6 @@
 # Exercise / problem coverage
 
-Final audit date: 2026-07-28.
+Final audit date: 2026-08-01.
 
 This file is the human-readable projection of the per-item/per-subpart ledger in
 `progress/items.json`. Regenerate both with

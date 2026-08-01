@@ -189,7 +189,7 @@ private theorem X_sub_X_prime {N : ℕ} {i j : Fin N} (hij : i ≠ j) :
   let e : MvPolynomial (Fin N) ℚ ≃ₐ[ℚ] MvPolynomial (Fin N) ℚ :=
     AlgEquiv.ofAlgHom φ ψ hφψ hψφ
   rw [show (MvPolynomial.X i : MvPolynomial (Fin N) ℚ) - MvPolynomial.X j = e (MvPolynomial.X i)
-    from by show _ = φ (MvPolynomial.X i); simp [φ]]
+    from by change _ = φ (MvPolynomial.X i); simp [φ]]
   exact (MulEquiv.prime_iff e.toMulEquiv).mpr (MvPolynomial.X_prime (i := i))
 
 /-- Distinct linear factors `X_j₁ - X_i₁` and `X_j₂ - X_i₂` (with `i < j` in each)

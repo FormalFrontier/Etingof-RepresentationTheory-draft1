@@ -95,8 +95,7 @@ theorem boundedSubrep_toRepresentation_coe (d : ℕ)
     (g : Matrix.GeneralLinearGroup (Fin N) k) (w : (boundedSubrep k N d).toSubmodule) :
     ((boundedSubrep k N d).toRepresentation g w : MvPolynomial (Fin N × Fin N) k)
       = polyRightRep k N g (w : MvPolynomial (Fin N × Fin N) k) :=
-  LinearMap.restrict_coe_apply (polyRightRep k N g)
-    ((boundedSubrep k N d).apply_mem_toSubmodule g) w
+  LinearMap.coe_restrict_apply ((boundedSubrep k N d).apply_mem_toSubmodule g) w
 
 /-- **Right translation on bounded-degree polynomials is algebraic.** On the monomial basis of
 `restrictTotalDegree ≤ d`, right translation acts with matrix coefficients `rightTransPoly`,
@@ -264,21 +263,20 @@ theorem rightHull_isSemisimple (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
   haveI : Module.Finite k U := inferInstance
   -- `ι` carries `U` isomorphically onto the hull
   have hmap : U.map ι = (rightHullSubrep φ).toSubmodule := by
-    show U.map ι = rightHull φ
+    change U.map ι = rightHull φ
     rw [hU, Submodule.map_comap_eq, inf_eq_right.mpr hIII]
   let e : U ≃ₗ[k] (rightHullSubrep φ).toSubmodule :=
     (Submodule.equivMapOfInjective ι hι_inj U).trans (LinearEquiv.ofEq _ _ hmap)
   have he_coe : ∀ y : U,
       (e y : Localization.Away (detPoly k N)) = ι (y : (boundedSubrep k N d).toSubmodule) := by
     intro y
-    show ((LinearEquiv.ofEq _ _ hmap) (Submodule.equivMapOfInjective ι hι_inj U y) :
+    change ((LinearEquiv.ofEq _ _ hmap) (Submodule.equivMapOfInjective ι hι_inj U y) :
         Localization.Away (detPoly k N)) = _
     rw [LinearEquiv.coe_ofEq_apply, Submodule.coe_equivMapOfInjective_apply]
   have hrh_coe : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (z : (rightHullSubrep φ).toSubmodule),
       ((rightHullSubrep φ).toRepresentation g z : Localization.Away (detPoly k N))
         = localRightRep k N g (z : Localization.Away (detPoly k N)) :=
-    fun g z => LinearMap.restrict_coe_apply (localRightRep k N g)
-      ((rightHullSubrep φ).apply_mem_toSubmodule g) z
+    fun g z => LinearMap.coe_restrict_apply ((rightHullSubrep φ).apply_mem_toSubmodule g) z
   -- `e` intertwines the restricted bounded action with the twisted hull action
   have hcomm : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (y : U),
       e (((boundedSubrep k N d).toRepresentation g).restrict (hU_inv g) y)
@@ -288,7 +286,7 @@ theorem rightHull_isSemisimple (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     have hL : (↑(e (((boundedSubrep k N d).toRepresentation g).restrict (hU_inv g) y)) :
         Localization.Away (detPoly k N))
         = charTwistRep (detChar k N ^ r) (localRightRep k N) g (ι (y : _)) := by
-      rw [he_coe, LinearMap.restrict_coe_apply, hinter]
+      rw [he_coe, LinearMap.coe_restrict_apply, hinter]
     have hR : (↑(charTwistRep (detChar k N ^ r) (rightHullSubrep φ).toRepresentation g (e y)) :
         Localization.Away (detPoly k N))
         = charTwistRep (detChar k N ^ r) (localRightRep k N) g (ι (y : _)) := by

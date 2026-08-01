@@ -1,7 +1,9 @@
 # Readiness Report — Etingof, Introduction to Representation Theory
 
 **Generated:** 2026-03-16 (Stage 2.6)
-**Status:** Awaiting human review before Phase 3 formalization begins.
+**Status:** Historical pre-formalization report. Phase 3 was subsequently completed;
+see `PROGRESS.md` and `progress/reviews/2026-07-29-project-completion.md` for the
+current state.
 
 ---
 

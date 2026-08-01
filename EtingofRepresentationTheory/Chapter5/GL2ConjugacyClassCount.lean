@@ -292,13 +292,13 @@ private lemma det_smul_one_add_smul (A : Matrix (Fin 2) (Fin 2) F) (α β : F) :
       = α ^ 2 + (A 0 0 + A 1 1) * (α * β)
         + (A 0 0 * A 1 1 - A 0 1 * A 1 0) * β ^ 2 := by
   have h00 : (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A) 0 0 = α + β * A 0 0 := by
-    simp [Matrix.one_apply]
+    simp
   have h01 : (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A) 0 1 = β * A 0 1 := by
-    simp [Matrix.one_apply]
+    simp
   have h10 : (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A) 1 0 = β * A 1 0 := by
-    simp [Matrix.one_apply]
+    simp
   have h11 : (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A) 1 1 = α + β * A 1 1 := by
-    simp [Matrix.one_apply]
+    simp
   rw [Matrix.det_fin_two, h00, h01, h10, h11]; ring
 
 variable [Fintype F] [DecidableEq F]
@@ -555,7 +555,7 @@ private lemma centralizerCard_eq_card_units {g : GL2' p n} (hns : ¬ GL2.IsScala
       refine ⟨⟨(α, β), hdet⟩, ?_⟩
       apply Subtype.ext
       apply Units.ext
-      show (Matrix.GeneralLinearGroup.mkOfDetNeZero _ hdet).val = M.val
+      change (Matrix.GeneralLinearGroup.mkOfDetNeZero _ hdet).val = M.val
       rw [hvalMk]; exact hαβ.symm
   rw [(Nat.card_congr (Equiv.ofBijective f hbij)).symm, Nat.card_eq_fintype_card,
     Fintype.card_subtype]
@@ -647,7 +647,7 @@ private lemma centralizerCard_splitSemisimple (hp2 : p ≠ 2) {g : GL2' p n}
   rw [centralizerCard_of_nonscalar hns hr]
   obtain ⟨m, hm⟩ := Nat.exists_eq_succ_of_ne_zero (Fintype.card_ne_zero (α := GaloisField p n))
   rw [hm]
-  simp only [Nat.succ_sub_one, Nat.succ_eq_add_one, mul_one]
+  simp only [Nat.succ_sub_one, Nat.succ_eq_add_one]
   have e1 : (m + 1) ^ 2 = m ^ 2 + 2 * m + 1 := by ring
   omega
 
@@ -724,7 +724,7 @@ theorem numScalarClasses_eq (hn : n ≠ 0) :
     intro g hg _ _ hgh
     simp only [Set.mem_setOf_eq] at hg
     exact eq_of_isConj_of_isScalar hg (ConjClasses.mk_eq_mk_iff_isConj.mp hgh)
-  rw [numScalarClasses, Set.ncard_image_of_injOn hinj]
+  rw [numScalarClasses, Set.InjOn.ncard_image hinj]
   -- Rewrite the scalar set as the coercion of the scalar filter, then count.
   have hset : {g : GL2' p n | GL2.IsScalar g}
       = ↑(Finset.univ.filter fun g : GL2' p n => GL2.IsScalar g) := by
@@ -747,7 +747,7 @@ theorem numParabolicClasses_eq (hp2 : p ≠ 2) (hn : n ≠ 0) :
       = Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) := by
     obtain ⟨m, hm⟩ :=
       Nat.exists_eq_succ_of_ne_zero (show Fintype.card (GaloisField p n) ≠ 0 by omega)
-    rw [hm]; simp only [Nat.succ_sub_one, Nat.add_sub_cancel, Nat.succ_eq_add_one]
+    rw [hm]; simp only [Nat.succ_sub_one, Nat.succ_eq_add_one]
     have : (m + 1) ^ 2 = (m + 1) * m + (m + 1) := by ring
     omega
   apply count_from_bridge (P := fun g => GL2.IsParabolic g)
@@ -799,7 +799,7 @@ theorem numSplitSemisimpleClasses_eq (hp2 : p ≠ 2) (hn : n ≠ 0) :
     rw [card_GL2_eq]
     obtain ⟨k, hk⟩ :=
       Nat.exists_eq_succ_of_ne_zero (show Fintype.card (GaloisField p n) ≠ 0 by omega)
-    rw [hk]; simp only [Nat.succ_sub_one, Nat.add_sub_cancel, Nat.succ_eq_add_one]
+    rw [hk]; simp only [Nat.succ_sub_one, Nat.succ_eq_add_one]
     have h1 : (k + 1) ^ 2 - 1 = k ^ 2 + 2 * k := by
       have : (k + 1) ^ 2 = k ^ 2 + 2 * k + 1 := by ring
       omega
@@ -876,7 +876,7 @@ theorem numEllipticClasses_eq (hp2 : p ≠ 2) (hn : n ≠ 0) :
         (by omega : 0 < Fintype.card (GaloisField p n) ^ 2 - 1)]
     obtain ⟨k, hk⟩ :=
       Nat.exists_eq_succ_of_ne_zero (show Fintype.card (GaloisField p n) ≠ 0 by omega)
-    rw [hk]; simp only [Nat.succ_sub_one, Nat.add_sub_cancel, Nat.succ_eq_add_one]
+    rw [hk]; simp only [Nat.succ_sub_one, Nat.succ_eq_add_one]
     have : (k + 1) ^ 2 = (k + 1) * k + (k + 1) := by ring
     omega
   case hpos => exact Nat.mul_pos (by omega) (by omega)
@@ -1102,7 +1102,7 @@ theorem classCard_isSplitSemisimple (hp2 : p ≠ 2) (hn : n ≠ 0) {g : GL2' p n
   -- `(q²−1)(q²−q) = (q²+q)(q−1)²`
   obtain ⟨k, hk⟩ :=
     Nat.exists_eq_succ_of_ne_zero (show Fintype.card (GaloisField p n) ≠ 0 by omega)
-  rw [hk]; simp only [Nat.succ_sub_one, Nat.add_sub_cancel, Nat.succ_eq_add_one]
+  rw [hk]; simp only [Nat.succ_sub_one, Nat.succ_eq_add_one]
   have h1 : (k + 1) ^ 2 - 1 = k ^ 2 + 2 * k := by
     have : (k + 1) ^ 2 = k ^ 2 + 2 * k + 1 := by ring
     omega
@@ -1206,7 +1206,7 @@ theorem exists_conj_isScalar {g : GL2' p n} (hg : GL2.IsScalar g) :
     rw [scalarRepr_val]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.one_apply, h01, h10, h00]
+      simp [h01, h10, h00]
   rw [heq]
 
 /-- The **parabolic (Jordan) representative** `!![x,1;0,x]` for a nonzero `x`. -/
@@ -1282,7 +1282,7 @@ theorem exists_conj_isParabolic (hp2 : p ≠ 2) {g : GL2' p n} (hg : GL2.IsParab
     rw [mkOfDetNeZero_val, jordanRepr_val]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_two, ← ha, ← hb, ← hc', ← hd, hc0, hax, hdx] <;>
+      simp [Matrix.mul_apply, Fin.sum_univ_two, ← ha, ← hb, ← hc', ← hd, hc0, hax, hdx] ;
       ring
   · -- `c ≠ 0`: representative conjugator `!![a-x,1;c,0]`, det `-c ≠ 0`.
     have hPdet : Matrix.det (!![a - x, 1; c, 0] : Matrix (Fin 2) (Fin 2) (GaloisField p n)) ≠ 0 := by
@@ -1398,7 +1398,7 @@ theorem exists_conj_isSplitSemisimple (hp2 : p ≠ 2) {g : GL2' p n}
       ext i j
       fin_cases i <;> fin_cases j <;>
         simp [Matrix.mul_apply, Fin.sum_univ_two, ← ha, ← hb, ← hc', ← hd] <;>
-        (try ring) <;> (try linear_combination -hxroot) <;> (try linear_combination -hyroot)
+        (try ring) <;> (try linear_combination -hxroot) ; (try linear_combination -hyroot)
   · -- `b ≠ 0`: conjugator `!![b,b;x-a,y-a]`, det `-b·s`.
     have hPdet : (!![b, b; x - a, y - a] :
         Matrix (Fin 2) (Fin 2) (GaloisField p n)).det ≠ 0 := by
@@ -1412,7 +1412,7 @@ theorem exists_conj_isSplitSemisimple (hp2 : p ≠ 2) {g : GL2' p n}
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Fin.sum_univ_two, ← ha, ← hb, ← hc', ← hd] <;>
-      (try ring) <;> (try linear_combination -hxroot) <;> (try linear_combination -hyroot)
+      (try ring) <;> (try linear_combination -hxroot) ; (try linear_combination -hyroot)
 
 /-- **Companion form.** Every non-scalar `g ∈ GL₂` is conjugate to the companion matrix
 `!![0,-det;1,tr]` of its characteristic polynomial. For a cyclic vector `v` (one with
@@ -1553,12 +1553,12 @@ theorem exists_conj_isElliptic (hp2 : p ≠ 2) (hn : n ≠ 0) {g : GL2' p n}
   · intro hsc
     have hy0 : (ellipticRep ε x y hε hy).val 1 0 = 0 := ((GL2.isScalar_iff _).mp hsc).2.1
     rw [ellipticRep_val] at hy0
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val',
-      Matrix.head_fin_const, Matrix.cons_val_fin_one, Matrix.of_apply, Matrix.empty_val'] at hy0
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val',
+      Matrix.cons_val_fin_one, Matrix.of_apply, Matrix.empty_val'] at hy0
     exact hy hy0
   · rw [ellipticRep_val]
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.head_fin_const, Matrix.cons_val_fin_one, Matrix.of_apply, Matrix.cons_val',
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one,
+      Matrix.cons_val_fin_one, Matrix.of_apply, Matrix.cons_val',
       Matrix.empty_val', ← ha, ← hd]
     linear_combination -hx2
   · rw [ellipticRep_val, Matrix.det_fin_two, Matrix.det_fin_two_of, ← ha, ← hb, ← hc', ← hd]

@@ -117,7 +117,7 @@ private theorem one_sub_mul_partialTarget (σ : Equiv.Perm (Fin N)) (S : Finset 
     · -- Insert-cond holds, S-cond fails → j-slot nonzero and diagonal
       have hj_eq : d (Sum.inl j) = d (Sum.inr (σ j)) := hA.1 j (Finset.mem_insert_self j S)
       have hj_pos : 0 < d (Sum.inl j) := by
-        by_contra h; push_neg at h
+        by_contra h; push Not at h
         have hj0 : d (Sum.inl j) = 0 := by omega
         apply hS
         exact ⟨fun i hiS => hA.1 i (Finset.mem_insert_of_mem hiS),
@@ -199,7 +199,7 @@ private theorem partialTarget_empty_eq_one (σ : Equiv.Perm (Fin N)) :
     partialTarget N k σ ∅ = 1 := by
   apply MvPowerSeries.ext; intro d
   simp only [partialTarget_coeff, MvPowerSeries.coeff_one, Finset.notMem_empty,
-    not_false_eq_true, forall_const, IsEmpty.forall_iff, true_and]
+    not_false_eq_true, forall_const, IsEmpty.forall_iff]
   congr 1
   apply propext
   constructor

@@ -110,7 +110,7 @@ private lemma exists_unique_block (n : ℕ) (D : IrrepDecomp ℂ (G' n))
   obtain ⟨l₀, hl₀⟩ := exists_ne (0 : L)
   have hexists : ∃ j, ∀ l : L, centralIdem' n D j • l = l := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have : ∀ j, ∀ l : L, centralIdem' n D j • l = 0 := by
       intro j; exact (hact j).resolve_right (fun h => (hall j).elim (fun l hl => hl (h l)))
     exact hl₀ (by rw [hsum l₀, Finset.sum_eq_zero (fun j _ => this j l₀)])
@@ -393,7 +393,7 @@ private lemma exists_young_symmetrizer_nontrivial (n : ℕ)
     [IsSimpleModule (A' n) M] :
     ∃ la : Nat.Partition n, ∃ m : M, YoungSymmetrizer n la • m ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   -- h : ∀ la m, YoungSymmetrizer n la • m = 0
   -- Build the Wedderburn decomposition
   let D := IrrepDecomp.mk' (k := ℂ) (G := G' n)

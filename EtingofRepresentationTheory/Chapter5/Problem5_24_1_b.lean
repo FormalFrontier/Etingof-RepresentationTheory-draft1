@@ -59,7 +59,7 @@ private theorem sum_list_range_map (n : ℕ) (f : ℕ → ℕ) :
 cells, and each row `i` has `rowLen i` cells. -/
 private theorem rowLens_sum_eq_card (μ : YoungDiagram) : μ.rowLens.sum = μ.card := by
   rw [YoungDiagram.rowLens, sum_list_range_map]
-  show _ = μ.cells.card
+  change _ = μ.cells.card
   rw [Finset.card_eq_sum_card_fiberwise (f := Prod.fst) (t := Finset.range (μ.colLen 0)) ?_]
   · apply Finset.sum_congr rfl
     intro i _
@@ -72,7 +72,7 @@ private theorem rowLens_sum_eq_card (μ : YoungDiagram) : μ.rowLens.sum = μ.ca
 
 /-- Transposing a Young diagram preserves the number of cells (it permutes the cells). -/
 private theorem card_transpose (μ : YoungDiagram) : μ.transpose.card = μ.card := by
-  show μ.transpose.cells.card = μ.cells.card
+  change μ.transpose.cells.card = μ.cells.card
   rw [YoungDiagram.transpose]
   simp [Equiv.finsetCongr_apply]
 
@@ -137,7 +137,7 @@ theorem signTwist_bijective (n : ℕ) : Function.Bijective (signTwist n) := by
     intro g
     have hsq : ((Equiv.Perm.sign g : ℤ) : ℂ) * ((Equiv.Perm.sign g : ℤ) : ℂ) = 1 := by
       rw [← Int.cast_mul, ← Units.val_mul, Int.units_mul_self, Units.val_one, Int.cast_one]
-    show signTwist n (signTwist n (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g))
+    change signTwist n (signTwist n (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g))
         = MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g
     rw [signTwist_of, map_smul, signTwist_of, smul_smul, hsq, one_smul]
   have hinv : Function.Involutive (signTwist n) := fun a => by
@@ -393,12 +393,12 @@ private noncomputable def rowColConjEquiv {n : ℕ} (la : Nat.Partition n) :
     rw [h]; exact g.prop⟩
   left_inv h := by
     apply Subtype.ext
-    show transposePerm la * ((transposePerm la)⁻¹ * h.val * transposePerm la)
+    change transposePerm la * ((transposePerm la)⁻¹ * h.val * transposePerm la)
       * (transposePerm la)⁻¹ = h.val
     group
   right_inv g := by
     apply Subtype.ext
-    show (transposePerm la)⁻¹ * (transposePerm la * g.val * (transposePerm la)⁻¹)
+    change (transposePerm la)⁻¹ * (transposePerm la * g.val * (transposePerm la)⁻¹)
       * transposePerm la = g.val
     group
 
@@ -415,12 +415,12 @@ private noncomputable def colRowConjEquiv {n : ℕ} (la : Nat.Partition n) :
     rw [h]; exact g.prop⟩
   left_inv h := by
     apply Subtype.ext
-    show transposePerm la * ((transposePerm la)⁻¹ * h.val * transposePerm la)
+    change transposePerm la * ((transposePerm la)⁻¹ * h.val * transposePerm la)
       * (transposePerm la)⁻¹ = h.val
     group
   right_inv g := by
     apply Subtype.ext
-    show (transposePerm la)⁻¹ * (transposePerm la * g.val * (transposePerm la)⁻¹)
+    change (transposePerm la)⁻¹ * (transposePerm la * g.val * (transposePerm la)⁻¹)
       * transposePerm la = g.val
     group
 
@@ -441,7 +441,7 @@ private theorem conj_of_columnSum {n : ℕ} (la : Nat.Partition n) :
   intro h _
   rw [← map_mul, ← map_mul]
   congr 1
-  show transposePerm la * ((transposePerm la)⁻¹ * h.val * transposePerm la)
+  change transposePerm la * ((transposePerm la)⁻¹ * h.val * transposePerm la)
     * (transposePerm la)⁻¹ = h.val
   group
 
@@ -462,12 +462,12 @@ private theorem conj_of_rowSignSum {n : ℕ} (la : Nat.Partition n) :
   apply Finset.sum_congr rfl
   intro h _
   have hperm : Equiv.Perm.sign (((colRowConjEquiv la) h).val) = Equiv.Perm.sign h.val := by
-    show Equiv.Perm.sign ((transposePerm la)⁻¹ * h.val * transposePerm la)
+    change Equiv.Perm.sign ((transposePerm la)⁻¹ * h.val * transposePerm la)
       = Equiv.Perm.sign h.val
     rw [Equiv.Perm.sign_mul, Equiv.Perm.sign_mul, Equiv.Perm.sign_inv, mul_right_comm,
       Int.units_mul_self, one_mul]
   have hval : transposePerm la * ((colRowConjEquiv la) h).val * (transposePerm la)⁻¹ = h.val := by
-    show transposePerm la * ((transposePerm la)⁻¹ * h.val * transposePerm la)
+    change transposePerm la * ((transposePerm la)⁻¹ * h.val * transposePerm la)
       * (transposePerm la)⁻¹ = h.val
     group
   rw [mul_smul_comm, smul_mul_assoc, ← map_mul, ← map_mul, hperm, hval]
@@ -522,7 +522,7 @@ private theorem signTwist_signTwist {n : ℕ} (z : SymGroupAlgebra n) :
     intro g
     have hsq : ((Equiv.Perm.sign g : ℤ) : ℂ) * ((Equiv.Perm.sign g : ℤ) : ℂ) = 1 := by
       rw [← Int.cast_mul, ← Units.val_mul, Int.units_mul_self, Units.val_one, Int.cast_one]
-    show signTwist n (signTwist n (MonoidAlgebra.of ℂ _ g)) = MonoidAlgebra.of ℂ _ g
+    change signTwist n (signTwist n (MonoidAlgebra.of ℂ _ g)) = MonoidAlgebra.of ℂ _ g
     rw [signTwist_of, map_smul, signTwist_of, smul_smul, hsq, one_smul]
   simpa using DFunLike.congr_fun hcomp z
 
@@ -600,12 +600,12 @@ private noncomputable def rightMulSpanEquiv {n : ℕ}
     rwa [smul_eq_mul]⟩
   left_inv y := by
     apply Subtype.ext
-    show y.val * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹
+    change y.val * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹
       * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ = y.val
     rw [mul_assoc, ← map_mul, inv_mul_cancel, map_one, mul_one]
   right_inv z := by
     apply Subtype.ext
-    show z.val * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ
+    change z.val * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ
       * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹ = z.val
     rw [mul_assoc, ← map_mul, mul_inv_cancel, map_one, mul_one]
 

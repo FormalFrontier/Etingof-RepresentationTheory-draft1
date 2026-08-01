@@ -83,7 +83,7 @@ theorem symGroupAction_comm_diagonalAction (σ : Equiv.Perm (Fin n)) (f : Module
   unfold symGroupAction
   apply LinearMap.ext
   intro x
-  show (PiTensorProduct.reindex k (fun _ => V) σ) (PiTensorProduct.map (fun _ => f) x) =
+  change (PiTensorProduct.reindex k (fun _ => V) σ) (PiTensorProduct.map (fun _ => f) x) =
     PiTensorProduct.map (fun _ => f) ((PiTensorProduct.reindex k (fun _ => V) σ) x)
   exact (PiTensorProduct.map_reindex (fun (_ : Fin n) => f) σ x).symm
 

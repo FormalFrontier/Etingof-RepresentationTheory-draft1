@@ -96,7 +96,7 @@ theorem extTensorComplex_projective (P₁ : ProjectiveResolution M₁) (P₂ : P
     rw [hg]; rintro ⟨⟨i₁, i₂⟩, h⟩
     exact extTensor_projective k A₁ A₂ (P₁.complex.X i₁) (P₂.complex.X i₂)
   haveI hcop : HasCoproduct g := by rw [hg]; infer_instance
-  show Projective (∐ g)
+  change Projective (∐ g)
   refine ⟨fun {E X} f e he => ⟨Sigma.desc fun b => Projective.factorThru (Sigma.ι g b ≫ f) e, ?_⟩⟩
   apply Sigma.hom_ext
   intro b
@@ -232,7 +232,7 @@ noncomputable def isColimitCokernelCofork_tensorObj_augmentation
       HomologicalComplex.mapBifunctor.d₁_eq (K₁ := C₁) (K₂ := C₂)
         (F := curriedTensor (ModuleCat.{u} k)) (c := ComplexShape.down ℕ)
         (i₁ := 1) (i₁' := 0) (i₂ := 0) (j := 0) (by simp [ComplexShape.down_Rel])
-        (by simp [ComplexShape.down_Rel]),
+        (by simp ),
       show ComplexShape.ε₁ (ComplexShape.down ℕ) (ComplexShape.down ℕ)
         (ComplexShape.down ℕ) (1, 0) = 1 from rfl, one_smul, add_zero]
     rfl
@@ -247,7 +247,7 @@ noncomputable def isColimitCokernelCofork_tensorObj_augmentation
       HomologicalComplex.mapBifunctor.d₂_eq (K₁ := C₁) (K₂ := C₂)
         (F := curriedTensor (ModuleCat.{u} k)) (c := ComplexShape.down ℕ)
         (i₁ := 0) (i₂ := 1) (i₂' := 0) (j := 0) (by simp [ComplexShape.down_Rel])
-        (by simp [ComplexShape.down_Rel]),
+        (by simp ),
       show ComplexShape.ε₂ (ComplexShape.down ℕ) (ComplexShape.down ℕ)
         (ComplexShape.down ℕ) (0, 1) = 1 from by simp [ComplexShape.ε₂, ComplexShape.ε],
       one_smul, zero_add]
@@ -341,13 +341,13 @@ noncomputable def extTensorProjectiveResolution
         have hs0 : sIso.inv.f 0 = (extRestrictComplexXIso P₁ P₂ 0).inv := by rw [hsIso]; rfl
         have hmid0 : (((resExt k A₁ A₂).mapHomologicalComplex (ComplexShape.down ℕ)).map
             (extTensorπ P₁ P₂)).f 0 = (resExt k A₁ A₂).map (extTensorAug₀ P₁ P₂) := by
-          show (resExt k A₁ A₂).map ((extTensorπ P₁ P₂).f 0) = _
+          change (resExt k A₁ A₂).map ((extTensorπ P₁ P₂).f 0) = _
           congr 1
         have ht0 : tIso.hom.f 0 = (extRestrictObjIso M₁ M₂).hom := by
           rw [htIso, Iso.trans_hom, HomologicalComplex.comp_f, Iso.app_hom,
             HomologicalComplex.singleMapHomologicalComplex_hom_app_self]
           simp only [ChainComplex.single₀ObjXSelf, Iso.refl_hom, CategoryTheory.Functor.map_id,
-            Iso.refl_inv, Category.comp_id, Category.id_comp,
+            Iso.refl_inv, Category.id_comp,
             CategoryTheory.Functor.mapIso_hom, ChainComplex.single₀_map_f_zero]
           exact Category.id_comp _
         rw [hΦ]

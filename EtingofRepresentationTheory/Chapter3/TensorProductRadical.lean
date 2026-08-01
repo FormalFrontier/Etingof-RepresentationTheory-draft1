@@ -404,6 +404,42 @@ end Main
 
 section ImageAlgebras
 
+/-- If two algebra representations commute, their images act on the same module through the
+tensor product of the image algebras.  This packages the module-descent step used in the
+opening reduction of the book's proof of Theorem 3.10.2(ii). -/
+noncomputable def tensorProductRangeRep
+    {k A B M : Type*} [CommSemiring k] [Semiring A] [Semiring B]
+    [Algebra k A] [Algebra k B] [AddCommMonoid M] [Module k M]
+    (rhoA : A →ₐ[k] Module.End k M) (rhoB : B →ₐ[k] Module.End k M)
+    (hcomm : ∀ a b, Commute (rhoA a) (rhoB b)) :
+    rhoA.range ⊗[k] rhoB.range →ₐ[k] Module.End k M :=
+  Algebra.TensorProduct.lift (Subalgebra.val rhoA.range) (Subalgebra.val rhoB.range) fun x y => by
+    obtain ⟨a, ha⟩ := x.property
+    obtain ⟨b, hb⟩ := y.property
+    change Commute (x : Module.End k M) (y : Module.End k M)
+    rw [← ha, ← hb]
+    exact hcomm a b
+
+@[simp]
+theorem tensorProductRangeRep_tmul
+    {k A B M : Type*} [CommSemiring k] [Semiring A] [Semiring B]
+    [Algebra k A] [Algebra k B] [AddCommMonoid M] [Module k M]
+    (rhoA : A →ₐ[k] Module.End k M) (rhoB : B →ₐ[k] Module.End k M)
+    (hcomm : ∀ a b, Commute (rhoA a) (rhoB b)) (a : A) (b : B) :
+    tensorProductRangeRep rhoA rhoB hcomm (rhoA.rangeRestrict a ⊗ₜ[k] rhoB.rangeRestrict b) =
+      rhoA a * rhoB b := by
+  exact Algebra.TensorProduct.lift_tmul _ _ _ _ _
+
+/-- The induced module structure on `M` over the tensor product of the two image algebras. -/
+@[reducible]
+noncomputable def tensorProductRangeModule
+    {k A B M : Type*} [CommSemiring k] [Semiring A] [Semiring B]
+    [Algebra k A] [Algebra k B] [AddCommMonoid M] [Module k M]
+    (rhoA : A →ₐ[k] Module.End k M) (rhoB : B →ₐ[k] Module.End k M)
+    (hcomm : ∀ a b, Commute (rhoA a) (rhoB b)) :
+    Module (rhoA.range ⊗[k] rhoB.range) M :=
+  Module.compHom M (tensorProductRangeRep rhoA rhoB hcomm).toRingHom
+
 variable (k : Type*) (A B M : Type*) [Field k] [IsAlgClosed k]
 variable [Ring A] [Algebra k A] [Ring B] [Algebra k B]
 variable [AddCommGroup M] [Module k M] [FiniteDimensional k M]

@@ -411,7 +411,7 @@ theorem hatMap_apply (v : Fin 3 → ℝ) :
     hatMap v = !![0, -v 2, v 1; v 2, 0, -v 0; -v 1, v 0, 0] := rfl
 
 theorem hatMap_mem (v : Fin 3 → ℝ) : hatMap v ∈ skewSub := by
-  show (hatMap v)ᵀ = -hatMap v
+  change (hatMap v)ᵀ = -hatMap v
   ext i j; fin_cases i <;> fin_cases j <;> simp
 
 /-- The hat map transforms under an arbitrary `3 × 3` matrix by
@@ -507,7 +507,7 @@ def sbasis : Fin 3 → EndV :=
     !![0, 0, 0; 0, 0, 1; 0, -1, 0]]
 
 theorem sbasis_mem (i : Fin 3) : sbasis i ∈ skewSub := by
-  fin_cases i <;> · show (_ : EndV)ᵀ = -_; ext a b; fin_cases a <;> fin_cases b <;> simp [sbasis]
+  fin_cases i <;> · change (_ : EndV)ᵀ = -_; ext a b; fin_cases a <;> fin_cases b <;> simp [sbasis]
 
 /-- Every skew-symmetric matrix is a combination of the three basis matrices. -/
 theorem skew_decomp (M : EndV) (hM : Mᵀ = -M) :
@@ -815,7 +815,7 @@ theorem skewSub_irreducible (U : Submodule ℝ EndV) (hUle : U ≤ skewSub)
   -- `M ≠ 0` gives a nonzero coordinate, so each basis vector lies in `U`.
   have hne3 : M 0 1 ≠ 0 ∨ M 0 2 ≠ 0 ∨ M 1 2 ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hMne (by rw [hMdec, hcon.1, hcon.2.1, hcon.2.2]; simp)
   have extract : ∀ w : EndV,
       (M 0 1) • w ∈ U → (M 0 2) • w ∈ U → (M 1 2) • w ∈ U → w ∈ U := by
@@ -1206,7 +1206,7 @@ theorem skewSub_irreducible_complexified (U : Submodule ℂ EndVc) (hUle : U ≤
     exact neg_mem_iff.mp t
   have hne3 : M 0 1 ≠ 0 ∨ M 0 2 ≠ 0 ∨ M 1 2 ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hMne (by rw [hMdec, hcon.1, hcon.2.1, hcon.2.2]; simp)
   have extract : ∀ w : EndVc,
       M 0 1 • w ∈ U → M 0 2 • w ∈ U → M 1 2 • w ∈ U → w ∈ U := by

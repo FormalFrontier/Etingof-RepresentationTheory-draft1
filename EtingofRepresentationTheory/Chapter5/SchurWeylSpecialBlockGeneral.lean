@@ -120,7 +120,7 @@ private lemma mulLeft_youngSym_zero_of_neK (n : ℕ) (la la' : Nat.Partition n)
   by_contra hT
   obtain ⟨w₀, hw₀⟩ : ∃ w₀ : SpechtModuleK k n la',
       mulLeftBlockK n (YoungSymmetrizerK k n la) la' w₀ ≠ 0 := by
-    by_contra hall; push_neg at hall; exact hT (LinearMap.ext hall)
+    by_contra hall; push Not at hall; exact hT (LinearMap.ext hall)
   set φ : SpechtModuleK k n la →ₗ[MonoidAlgebra k (G n)] SpechtModuleK k n la' :=
     { toFun := fun v => ⟨(v : MonoidAlgebra k (G n)) * (w₀ : MonoidAlgebra k (G n)),
         (SpechtModuleK k n la').smul_mem (v : MonoidAlgebra k (G n)) w₀.prop⟩

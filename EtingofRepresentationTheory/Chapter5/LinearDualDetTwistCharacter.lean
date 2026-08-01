@@ -369,7 +369,7 @@ noncomputable def revBox (N D : ℕ) :
 
 @[simp] lemma revBox_monomial (N D : ℕ) (c : Fin N →₀ ℕ) (a : ℚ) :
     revBox N D (monomial c a) = monomial (revExp N D c) a := by
-  show Finsupp.lsum ℚ (fun e => monomial (revExp N D e)) (monomial c a) = _
+  change Finsupp.lsum ℚ (fun e => monomial (revExp N D e)) (monomial c a) = _
   rw [show (monomial c a : MvPolynomial (Fin N) ℚ) = Finsupp.single c a from
       (single_eq_monomial c a).symm, Finsupp.lsum_single]
 
@@ -596,7 +596,7 @@ theorem formalCharacter_detTwist_linearDual_eq_schurPoly (n : ℕ) (lam : Domina
          funext i; have := hμ i; omega,
        finrank_glWeightSpaceℤ_schurModule_natWeight k n lz hlz (fun i => m - μ i)]
   · rw [dif_neg hμ]
-    push_neg at hμ
+    push Not at hμ
     obtain ⟨i₀, hi₀⟩ := hμ
     rw [finrank_glWeightSpaceℤ_schurModule_neg k n lz (fun i => (m : ℤ) - (μ i : ℤ)) i₀
       (by omega)]

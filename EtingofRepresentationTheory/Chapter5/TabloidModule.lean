@@ -445,7 +445,7 @@ theorem tabloidDominates_antisymm_toTabloid {σ₁ σ₂ σ₃ : Equiv.Perm (Fin
             constructor
             · intro ⟨hle, hrow⟩
               constructor
-              · by_contra hgt; push_neg at hgt
+              · by_contra hgt; push Not at hgt
                 have : e = m' + 1 := by omega
                 subst this; exact Nat.lt_irrefl _ hrow
               · exact hrow
@@ -515,7 +515,7 @@ theorem tabloidDominates_antisymm_toTabloid {σ₁ σ₂ σ₃ : Equiv.Perm (Fin
       constructor
       · intro ⟨hle, hrow⟩
         constructor
-        · by_contra hgt; push_neg at hgt
+        · by_contra hgt; push Not at hgt
           have : e = m + 1 := by omega
           subst this; exact Nat.lt_irrefl _ hrow
         · exact hrow
@@ -613,7 +613,7 @@ private theorem syt_row_le_of_entry_le (T : StandardYoungTableau n la)
     rowOfPos la.sortedParts (sytPerm n la T e₁).val ≤
     rowOfPos la.sortedParts (sytPerm n la T e₂).val := by
   by_contra h
-  push_neg at h
+  push Not at h
   have := syt_entry_lt_of_row_lt T e₂ e₁ hcol.symm h
   omega
 
@@ -660,7 +660,7 @@ private theorem swap_column_dominance (σ : Equiv.Perm (Fin n))
         · rw [he₂]; exact hi₂
         · rw [Equiv.swap_apply_of_ne_of_ne he₁ he₂] at hrow; exact hrow
     · -- row(p₁) < i ≤ row(p₂): the interesting case
-      push_neg at hi₂
+      push Not at hi₂
       -- Count the difference: at most -1 for e₁ leaving, +1 for e₂ entering
       -- If e₁ > k: both e₁, e₂ > k, no change for threshold k
       -- If e₁ ≤ k and e₂ > k: lose 1 (net -1), new ≤ old ✓
@@ -708,7 +708,7 @@ private theorem swap_column_dominance (σ : Equiv.Perm (Fin n))
       have : σ e ≠ p₂ := fun h => hne₂ (σ.injective (h ▸ (σ.apply_symm_apply p₂).symm))
       rw [Equiv.swap_apply_of_ne_of_ne ‹σ e ≠ p₁› ‹σ e ≠ p₂›]
   · -- row(p₁) ≥ i: both positions have row ≥ i, swap irrelevant for rows < i
-    push_neg at hi₁
+    push Not at hi₁
     apply Finset.card_le_card
     intro e
     simp only [Finset.mem_filter, Finset.mem_univ, true_and]
@@ -761,12 +761,12 @@ theorem column_perm_dominance (T : StandardYoungTableau n la)
     exact fun ⟨⟨h1, _⟩, h2⟩ => ⟨h1, h2⟩
   · -- Case 2: some entry e₀ ≤ k in col c has row ≥ i.
     -- By SYT monotonicity, row < i in col c implies ≤ k.
-    push_neg at hall
+    push Not at hall
     obtain ⟨e₀, hecol₀, hle₀, hrow₀⟩ := hall
     have hrow_imp : ∀ e : Fin n, ecol e = c →
         rowOfPos la.sortedParts (σ e).val < i → e ≤ k := by
       intro e hec hri
-      by_contra hgt; push_neg at hgt
+      by_contra hgt; push Not at hgt
       have he₀_le : e₀ ≤ e := by omega
       have hcol_eq : colOfPos la.sortedParts (sytPerm n la T e₀).val =
           colOfPos la.sortedParts (sytPerm n la T e).val := by
@@ -883,7 +883,7 @@ lemma exists_dominance_maximal
       sytToTabloid n la T' = sytToTabloid n la T
   · exact ⟨T, hTS, hfT, hmax⟩
   · -- T is not maximal: there exists T' with f(T') ≠ 0 that strictly dominates T
-    push_neg at hmax
+    push Not at hmax
     obtain ⟨T', hT'S, hfT', hdom, hne_tab⟩ := hmax
     -- T' strictly dominates T
     have hstrict : tabloidStrictDominates la (sytPerm n la T') (sytPerm n la T) :=
@@ -974,7 +974,7 @@ lemma exists_dominance_maximal_tabloid
       tabloidDominates la (Quotient.out t') (Quotient.out t) → t' = t
   · exact ⟨t, htS, hmax⟩
   · -- `t` is not maximal: some `t'` strictly dominates it.
-    push_neg at hmax
+    push Not at hmax
     obtain ⟨t', ht'S, hdom, hne⟩ := hmax
     apply ih (S.filter fun t'' =>
         tabloidDominates la (Quotient.out t'') (Quotient.out t') ∧ t'' ≠ t').card
@@ -1049,7 +1049,7 @@ theorem polytabloidTab_coeff_self (T : StandardYoungTableau n la) :
     polytabloidTab T (sytToTabloid n la T) = 1 := by
   classical
   simp only [polytabloidTab, sytToTabloid]
-  rw [Finsupp.finset_sum_apply]
+  rw [Finsupp.finsetSum_apply]
   rw [Finset.sum_eq_single (⟨1, (ColumnSubgroup n la).one_mem⟩ :
       ↥(ColumnSubgroup n la))]
   · -- q = 1: sign(1) * single(σ_T)(toTabloid(σ_T)) = 1
@@ -1075,7 +1075,7 @@ theorem polytabloidTab_coeff_dominance (T : StandardYoungTableau n la)
     tabloidDominates la (sytPerm n la T) σ := by
   classical
   simp only [polytabloidTab] at hne
-  rw [Finsupp.finset_sum_apply] at hne
+  rw [Finsupp.finsetSum_apply] at hne
   -- Some term in the sum is nonzero
   obtain ⟨q, _, hq_term⟩ := Finset.exists_ne_zero_of_sum_ne_zero hne
   rw [Finsupp.smul_apply, smul_eq_mul, Finsupp.single_apply] at hq_term
@@ -1111,7 +1111,7 @@ private lemma polytabloidTab_coeff_zero_of_maximal
   -- Evaluate at the tabloid of T₀
   have heval : (∑ t ∈ S, f t • polytabloidTab t) (sytToTabloid n la T₀) = 0 := by
     rw [hf]; rfl
-  rw [Finsupp.finset_sum_apply] at heval
+  rw [Finsupp.finsetSum_apply] at heval
   simp only [Finsupp.smul_apply, smul_eq_mul] at heval
   -- Split off the T₀ term
   rw [← Finset.add_sum_erase S _ hT₀] at heval
@@ -1411,7 +1411,7 @@ theorem tabloidProjection_youngSymmetrizer_ne_zero :
     fun f hf => by rw [hf]; rfl
   have h0 := h_eval _ h
   -- Expand the sum at the identity tabloid
-  simp only [Finsupp.finset_sum_apply, Finsupp.smul_apply, smul_eq_mul,
+  simp only [Finsupp.finsetSum_apply, Finsupp.smul_apply, smul_eq_mul,
     Finsupp.single_apply] at h0
   -- Each term: sign(q) * |P_λ| * [toTabloid(q⁻¹) = toTabloid(1)]
   -- Only q with toTabloid(q⁻¹) = toTabloid(1) contribute, i.e., q⁻¹ ∈ P_λ ∩ Q_λ = {1}
@@ -1438,7 +1438,7 @@ theorem tabloidProjection_youngSymmetrizer_ne_zero :
   have h_coe : ∀ x : ↥(ColumnSubgroup n la),
       ((↑x : Equiv.Perm (Fin n)) = 1) =
         (x = ⟨1, (ColumnSubgroup n la).one_mem⟩) :=
-    fun x => by simp only [Subtype.ext_iff, OneMemClass.coe_one]
+    fun x => by simp only [Subtype.ext_iff]
   simp only [h_coe] at h0
   rw [Finset.sum_ite_eq'] at h0
   simp only [Finset.mem_univ, ↓reduceIte, Equiv.Perm.sign_one, Int.cast_one,
@@ -1458,7 +1458,7 @@ theorem tabloidProjection_ker_mul_closed
   apply Finset.sum_eq_zero
   intro τ _
   rw [show Finsupp.single τ (a τ) = (a τ) • MonoidAlgebra.of ℂ _ τ from by
-    simp [MonoidAlgebra.of_apply, Finsupp.smul_single', mul_one]]
+    simp [MonoidAlgebra.of_apply, mul_one]]
   rw [smul_mul_assoc, map_smul, tabloidProjection_ker_smul_closed v hv, smul_zero]
 
 /-- The tabloid projection is injective on the Specht module V_λ:
@@ -1537,7 +1537,7 @@ theorem tabloidProjection_of_mul_youngSymmetrizer (σ : Equiv.Perm (Fin n)) :
   congr 1
   -- Step 2: mapDomain(rightMul σ⁻¹)(ψ_1) = ψ_{σ⁻¹}
   simp only [generalizedPolytabloidTab]
-  rw [Finsupp.mapDomain_finset_sum]
+  rw [Finsupp.mapDomain_finsetSum]
   congr 1; ext ⟨q, hq⟩
   rw [Finsupp.mapDomain_smul, Finsupp.mapDomain_single, tabloidRightMul_toTabloid, mul_one]
 

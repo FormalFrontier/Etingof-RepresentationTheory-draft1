@@ -181,11 +181,11 @@ theorem simple_constituent_formalCharacter_eq_schurPoly_mem (N n : ℕ)
     simp only [Finsupp.linearCombination_single, one_smul]
     rw [← hM_sum, hchar]
   have hLHSpos : 0 < (∑ j : Fin p, Finsupp.single (lam_cl (f j)) (1 : ℚ)) x := by
-    rw [Finsupp.finset_sum_apply]
+    rw [Finsupp.finsetSum_apply]
     refine Finset.sum_pos' (fun j _ => ?_) ⟨j₀, Finset.mem_univ _, ?_⟩
     · rw [Finsupp.single_apply]; split <;> norm_num
     · rw [Finsupp.single_apply, if_pos hx.symm]; norm_num
-  rw [hcoeff, Finsupp.finset_sum_apply] at hLHSpos
+  rw [hcoeff, Finsupp.finsetSum_apply] at hLHSpos
   simp only [Finsupp.single_apply] at hLHSpos
   rw [Finset.sum_ite_eq' S x (fun ν => (c ν : ℚ))] at hLHSpos
   by_cases hxS : x ∈ S

@@ -383,7 +383,7 @@ theorem irreducible_iff [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1)
         have hSne : S.Nonempty := by
           rw [hS, Finset.filter_nonempty_iff]
           by_contra hcon
-          push_neg at hcon
+          push Not at hcon
           exact hf0 (funext fun t => hcon t (Finset.mem_univ t))
         rcases eq_or_lt_of_le (Finset.one_le_card.mpr hSne) with h1 | h2
         · -- support is a singleton `{a}`, so `f = f a • e_a` and `e_a ∈ W`.
@@ -395,12 +395,12 @@ theorem irreducible_iff [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1)
           have hfeq : Pi.single a (1 : ℂ) = (f a)⁻¹ • f := by
             funext t
             by_cases h : t = a
-            · subst h; simp [Pi.single_apply, inv_mul_cancel₀ hfa]
+            · subst h; simp [inv_mul_cancel₀ hfa]
             · have ht0 : f t = 0 := by
                 by_contra hne
                 have : t ∈ S := by rw [hS, Finset.mem_filter]; exact ⟨Finset.mem_univ t, hne⟩
                 rw [ha, Finset.mem_singleton] at this; exact h this
-              simp [Pi.single_apply, h, ht0]
+              simp [h, ht0]
           rw [hfeq]
           exact Submodule.smul_mem _ _ hfW
         · -- support has ≥ 2 elements; subtract an eigenvalue to shrink it.
@@ -426,7 +426,7 @@ theorem irreducible_iff [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1)
             refine ⟨Finset.mem_univ t, fun hf0' => ht.2 ?_⟩
             rw [hgval, hf0', mul_zero]
           have ht₂notin : t₂ ∉ Finset.univ.filter (fun t => g t ≠ 0) := by
-            rw [Finset.mem_filter]; push_neg
+            rw [Finset.mem_filter]; push Not
             intro _
             rw [hgval, sub_self, zero_mul]
           have hlt : (Finset.univ.filter (fun t => g t ≠ 0)).card < n := by
@@ -443,7 +443,7 @@ theorem irreducible_iff [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1)
     rcases eq_or_ne σ.toSubmodule ⊥ with hbot | hne
     · exact Or.inl (Subrepresentation.toSubmodule_injective hbot)
     · refine Or.inr (Subrepresentation.toSubmodule_injective ?_)
-      show σ.toSubmodule = ⊤
+      change σ.toSubmodule = ⊤
       obtain ⟨f, hfW, hf0⟩ := (Submodule.ne_bot_iff _).mp hne
       obtain ⟨t₀, ht₀⟩ :=
         keySingle σ.toSubmodule (fun v hv => σ.apply_mem_toSubmodule (yGen p) hv) f hfW hf0
@@ -592,7 +592,7 @@ theorem R1_decomposes [Fact p.Prime]
     intro j
     funext t
     rw [hx, Pi.smul_apply, smul_eq_mul]
-    show ζ ^ (j * (t - 1)).val = ζ ^ ((-j).val) * ζ ^ (j * t).val
+    change ζ ^ (j * (t - 1)).val = ζ ^ ((-j).val) * ζ ^ (j * t).val
     have he : j * (t - 1) = (-j) + j * t := by ring
     rw [he, zpow_val_add hζp]
   -- `ρ(yGen)` fixes `χ_j` (since `z = 1`).
@@ -741,7 +741,7 @@ theorem rhoHom_central [NeZero p] (z : ℂ) (hz : z ^ p = 1) :
 /-- `R_z` is a `p`-dimensional representation. -/
 theorem finrank_rhoHom [NeZero p] (z : ℂ) (hz : z ^ p = 1) :
     Module.finrank ℂ (FDRep.of (rhoHom z hz)) = p := by
-  show Module.finrank ℂ (ZMod p → ℂ) = p
+  change Module.finrank ℂ (ZMod p → ℂ) = p
   rw [Module.finrank_fintype_fun_eq_card, ZMod.card]
 
 /-- The character of `R_z` on the central generator `⟨0,0,1⟩` equals `z^{(-1).val} · p`. This
@@ -828,7 +828,7 @@ theorem simple_iso_charRep_or_rhoHom [Fact p.Prime]
   have hζp : ζ ^ p = 1 := hζ.pow_eq_one
   let zof : {k : ZMod p // k ≠ 0} → ℂ := fun k => ζ ^ (k.1).val
   have hzof_p : ∀ k, (zof k) ^ p = 1 := fun k => by
-    show (ζ ^ (k.1).val) ^ p = 1
+    change (ζ ^ (k.1).val) ^ p = 1
     rw [← pow_mul, mul_comm, pow_mul, hζp, one_pow]
   have hzof_ne1 : ∀ k, zof k ≠ 1 := by
     intro k h
@@ -852,7 +852,7 @@ theorem simple_iso_charRep_or_rhoHom [Fact p.Prime]
   -- Dimensions: `1` for a character, `p` for an `R_z`.
   have hEfinL : ∀ χ : Heisenberg p →* ℂˣ, Module.finrank ℂ (E (Sum.inl χ)) = 1 := by
     intro χ
-    show Module.finrank ℂ ℂ = 1
+    change Module.finrank ℂ ℂ = 1
     exact Module.finrank_self ℂ
   have hEfinR : ∀ k : {k : ZMod p // k ≠ 0}, Module.finrank ℂ (E (Sum.inr k)) = p := by
     intro k
@@ -1037,7 +1037,7 @@ theorem irreducible_dim [Fact p.Prime]
     Etingof.simple_fdRepOf_of_isSimpleModule (Etingof.repOfModule (Fin dM → ℂ))
   have hWU : Module.finrank ℂ W = Module.finrank ℂ U := by
     have h1 : Module.finrank ℂ U = dM := by
-      show Module.finrank ℂ (Fin dM → ℂ) = dM
+      change Module.finrank ℂ (Fin dM → ℂ) = dM
       rw [Module.finrank_fintype_fun_eq_card, Fintype.card_fin]
     have h2 : dM = Module.finrank ℂ W := by
       rw [hdM]; exact (Representation.asModuleEquiv σ).finrank_eq
@@ -1046,7 +1046,7 @@ theorem irreducible_dim [Fact p.Prime]
   rcases simple_iso_charRep_or_rhoHom U with ⟨χ, hχ⟩ | ⟨z, hz, _, hziso⟩
   · left
     rw [LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hχ.some)]
-    show Module.finrank ℂ ℂ = 1
+    change Module.finrank ℂ ℂ = 1
     exact Module.finrank_self ℂ
   · right
     rw [LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hziso.some)]

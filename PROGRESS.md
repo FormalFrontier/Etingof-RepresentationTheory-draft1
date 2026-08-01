@@ -89,11 +89,37 @@ require an explicit scope entry, matching metadata, and review.
 - **Notes:** The release scan reports zero blocking `sorry`, `admit`, wanted-definition/instance, or project-axiom declarations. The sole wanted theorem is the individually approved, non-blocking `Etingof.ado` marker, whose deliberate omission is documented in `skipped-exercises.md` and machine-readable metadata. Exercise reconciliation reports 96 fully covered exercises, six documented scope/correction partials, and zero untracked gaps. All chapter aggregates build.
 
 ## Stage 3.4: Dependency Trimming
-- **Status:** In progress (post-formalization quality workflow)
-- **Latest update:** 2026-07-29
-- **Notes:** The validated 583-entry dependency graph has been reduced from the 169,653-edge conservative baseline to 512 recorded direct edges. Detailed per-item Stage 3.4 records are complete for 147 items that have reached `dependency_trimmed` or `proof_polished`; remaining items retain a conservative direct predecessor until reviewed.
+- **Status:** In progress; Lean import-DAG pass complete
+- **Latest update:** 2026-08-01
+- **Notes:** All 583 partition items now have import-DAG evidence. The validated
+  primary-provider DAG was reduced from the 169,653-edge conservative baseline
+  to 521 direct edges. Imports are resolved through helper modules; 100 actual
+  forward edges are retained and explicitly flagged. Dependencies unique to
+  supplemental coverage providers and numbered source cross-references are
+  recorded separately rather than forced into the compilable item DAG. This is
+  a module-import proxy, not the proof-term review required to finish Stage 3.4;
+  that per-item mathematical dependency review remains outstanding.
 
 ## Stage 3.5: Proof Polishing
-- **Status:** In progress (post-formalization quality workflow)
-- **Latest update:** 2026-07-29
-- **Notes:** 129 items have reached `proof_polished`. CI enforces a ratcheting warning baseline, and mathematical completion is independently protected by the proof-placeholder and exercise-coverage release gates.
+- **Status:** In progress; repository-wide diagnostic pass complete
+- **Latest update:** 2026-08-01
+- **Notes:** The diagnostic-driven pass covered all 413 provider-backed records
+  (the other 180 are not applicable), making more than one thousand deprecation,
+  tactic-style, and simp cleanups. The final 9,416-job build succeeded. The
+  remaining 1,461 warnings in 208 files are explicit in the checked-in ratchet,
+  which rejects both new warnings and stale entries for every module built by a
+  given run. Memory-excluded CI modules were covered by the successful local
+  full build. These records deliberately
+  say `diagnostic_pass_complete`, not `mathlib_quality: verified`: Stage 3.5's
+  proof-by-proof human quality review is still outstanding.
+
+## Stage 3.6: Completeness Audit
+- **Status:** Complete (bounded audit; not a completeness proof)
+- **Completion date:** 2026-08-01
+- **Notes:** The final certificate is
+  `progress/coverage-audit/completeness-audit-wave-1.md`. Two consecutive dry
+  coverage passes closed the search; all 266 claim-bearing partition items have
+  verified fidelity and structured claim coverage; all ten accepted derived
+  claims have sorry-free providers; and all 102 exercises are reconciled (96
+  full, six documented partial, zero untracked gaps). The certificate records
+  the bounded method and residual false-negative risk.

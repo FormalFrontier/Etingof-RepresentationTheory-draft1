@@ -148,7 +148,7 @@ noncomputable instance spechtModuleFDRep_simple (n : ℕ) (la : Nat.Partition n)
     intro a v
     induction a using MonoidAlgebra.induction_on with
     | hM g =>
-      show MonoidAlgebra.single g 1 • v = _
+      change MonoidAlgebra.single g 1 • v = _
       rw [Representation.single_smul]
       simp only [one_smul, Representation.asModuleEquiv]
       simp [spechtModuleRep, spechtModuleAction]
@@ -477,7 +477,7 @@ theorem spechtModuleFDRep_iso_iff_eq (n : ℕ) (ν₁ ν₂ : Nat.Partition n) :
       have hconj : (FDRep.isoToLinearEquiv f).conj ((spechtModuleFDRep n ν₁).ρ σ) (φ v) =
           φ ((spechtModuleFDRep n ν₁).ρ σ v) := by
         simp only [LinearEquiv.conj_apply, LinearMap.comp_apply, LinearEquiv.coe_coe]
-        show φ (((spechtModuleFDRep n ν₁).ρ σ) (φ.symm (φ v))) = φ (((spechtModuleFDRep n ν₁).ρ σ) v)
+        change φ (((spechtModuleFDRep n ν₁).ρ σ) (φ.symm (φ v))) = φ (((spechtModuleFDRep n ν₁).ρ σ) v)
         rw [φ.symm_apply_apply]
       rw [h, hconj]
     -- Extend to SymGroupAlgebra-linear by Finsupp induction

@@ -175,7 +175,7 @@ private theorem map_piecewise_neg_smul_eq (n : ℕ) (f : Module.End k V) (c : k)
       ext j; simp [Finset.mem_sdiff]
     rw [hfilt, Finset.card_sdiff_of_subset (Finset.subset_univ _)]
     simp [Fintype.card_fin]
-  show (∏ j : Fin n, (if j ∈ s then (1 : k) else (-c))) •
+  change (∏ j : Fin n, (if j ∈ s then (1 : k) else (-c))) •
       PiTensorProduct.map (R := k)
         (fun j : Fin n => if j ∈ s then f else (1 : Module.End k V)) =
       (-c) ^ (n - s.card) • mixedTensorPow k n f s
@@ -200,7 +200,7 @@ theorem tensorPow_sub_smul_eq_sum_coeff (n : ℕ)
           PiTensorProduct.map (R := k)
             (s.piecewise (fun _ : Fin n => f)
               (fun _ : Fin n => (-c) • (1 : Module.End k V))) := by
-    show ml _ = _
+    change ml _ = _
     rw [h_eq]
     have : ml ((fun _ : Fin n => f) + (fun _ : Fin n => (-c) • (1 : Module.End k V))) =
         ∑ s : Finset (Fin n),
@@ -250,7 +250,7 @@ theorem tensorPow_sub_smul_eq_sum_coeff (n : ℕ)
   · intro j hj
     simp only [Finset.mem_range] at hj
     -- Goal: ∑_{|s| = j} (-c)^{n - |s|} • mixedTensorPow ... = c^(n - j) • tensorPowCoeff k n f (n - j)
-    show ∑ s ∈ (Finset.univ : Finset (Fin n)).powersetCard j,
+    change ∑ s ∈ (Finset.univ : Finset (Fin n)).powersetCard j,
         (-c) ^ (n - s.card) • mixedTensorPow k n f s =
       c ^ (n - j) • tensorPowCoeff k n f (n - j)
     have hj' : n - (n - j) = j := by omega

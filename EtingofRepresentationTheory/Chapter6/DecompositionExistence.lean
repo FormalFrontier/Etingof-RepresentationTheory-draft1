@@ -142,14 +142,14 @@ theorem areIsomorphic_directSum_zeroRep (V : QuiverRepresentation k (Fin n)) :
     V.AreIsomorphic (directSum k (Fin n) V zeroRep) := by
   refine ⟨fun v => (LinearEquiv.prodUnique (R := k) (M := V.obj v) (M₂ := PUnit)).symm, ?_⟩
   intro a b f
-  ext x <;> rfl
+  ext x ; rfl
 
 /-- `0 ⊕ V ≅ V`: left unit for the direct sum. -/
 theorem areIsomorphic_zeroRep_directSum (V : QuiverRepresentation k (Fin n)) :
     (directSum k (Fin n) zeroRep V).AreIsomorphic V := by
   refine ⟨fun v => LinearEquiv.uniqueProd (R := k) (M := V.obj v) (M₂ := PUnit), ?_⟩
   intro a b f
-  ext x <;> rfl
+  ext x ; rfl
 
 /-- Associativity of the direct sum, up to isomorphism. -/
 theorem areIsomorphic_directSum_assoc (A B C : QuiverRepresentation k (Fin n)) :
@@ -157,7 +157,7 @@ theorem areIsomorphic_directSum_assoc (A B C : QuiverRepresentation k (Fin n)) :
       (directSum k (Fin n) A (directSum k (Fin n) B C)) := by
   refine ⟨fun v => LinearEquiv.prodAssoc k (A.obj v) (B.obj v) (C.obj v), ?_⟩
   intro a b f
-  ext x <;> rfl
+  ext x ; rfl
 
 /-- The direct sum of two list direct sums is the list direct sum of the concatenation. -/
 theorem areIsomorphic_directSumList_append
@@ -170,7 +170,7 @@ theorem areIsomorphic_directSumList_append
       refine ⟨fun v => ?_, ?_⟩
       · exact LinearEquiv.uniqueProd (R := k) (M := (directSumList LB).obj v) (M₂ := PUnit)
       · intro a b f
-        ext x <;> rfl
+        ext x ; rfl
   | cons a L IH =>
       simp only [List.cons_append, directSumList_cons]
       refine (areIsomorphic_directSum_assoc a (directSumList L) (directSumList LB)).trans ?_
@@ -222,7 +222,7 @@ theorem areIsomorphic_subRep_directSum (V : QuiverRepresentation k (Fin n))
     simp only [sc]
     rw [LinearMap.coprod_apply, LinearMap.coprod_apply, map_add,
       Submodule.coe_subtype, Submodule.coe_subtype, Submodule.coe_subtype, Submodule.coe_subtype]
-    congr 1 <;> exact LinearMap.restrict_coe_apply _ _ _
+    congr 1 <;> exact LinearMap.coe_restrict_apply _ _
   refine ⟨fun v => (pe v).symm, ?_⟩
   intro a b f
   ext x
@@ -279,10 +279,10 @@ theorem exists_decomposition {k : Type uk} [Field k] {n : ℕ} [Quiver.{uh} (Fin
       rw [QuiverRepresentation.IsIndecomposable, not_and_or] at hInd
       rcases hInd with hzero | hsplit
       · -- Zero representation: empty list.
-        push_neg at hzero
+        push Not at hzero
         exact ⟨[], by simp, areIsomorphic_zeroRep V hzero⟩
       · -- Proper splitting.
-        push_neg at hsplit
+        push Not at hsplit
         obtain ⟨W₁, W₂, hW₁, hW₂, hc, hne₁, hne₂⟩ := hsplit
         -- The two complementary subreps, both finite-dimensional. The ambient additive-group
         -- instance the submodule-finiteness lemma needs is supplied explicitly.

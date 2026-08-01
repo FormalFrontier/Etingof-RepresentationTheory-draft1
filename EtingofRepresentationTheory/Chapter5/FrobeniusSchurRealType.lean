@@ -228,7 +228,7 @@ theorem exists_nonzero_invariant_symmetric_of_FS_eq_one
     rw [← e1, LinearMap.trace_comp_comm', LinearMap.comp_assoc, hEsymm',
       LinearMap.comp_id, hFg, trace_comm_comp_map]
     rw [show ρ.dual g ∘ₗ ρ.dual g = ρ.dual (g * g) from by rw [map_mul]; rfl]
-    show ρ.dual.character (g * g) = ρ.character (g⁻¹ * g⁻¹)
+    change ρ.dual.character (g * g) = ρ.character (g⁻¹ * g⁻¹)
     rw [Representation.char_dual, mul_inv_rev]
   -- the averaging projector onto invariants
   set P := Representation.averageMap Λ with hPdef
@@ -261,7 +261,7 @@ theorem exists_nonzero_invariant_symmetric_of_FS_eq_one
   set Psym : Bil →ₗ[ℂ] Bil := (2⁻¹ : ℂ) • (P + τ ∘ₗ P) with hPsymdef
   have hPsymapp : ∀ C, Psym C = (2⁻¹ : ℂ) • (P C + τ (P C)) := by
     intro C
-    show ((2⁻¹ : ℂ) • (P + τ ∘ₗ P)) C = _
+    change ((2⁻¹ : ℂ) • (P + τ ∘ₗ P)) C = _
     rw [LinearMap.smul_apply, LinearMap.add_apply, LinearMap.comp_apply]
   have hτfixPsym : ∀ C, τ (Psym C) = Psym C := by
     intro C
@@ -413,7 +413,7 @@ theorem frobeniusSchurIndicator_eq_one_of_isRealType
     rw [← e1, LinearMap.trace_comp_comm', LinearMap.comp_assoc, hEsymm',
       LinearMap.comp_id, hFg, trace_comm_comp_map]
     rw [show ρ.dual g ∘ₗ ρ.dual g = ρ.dual (g * g) from by rw [map_mul]; rfl]
-    show ρ.dual.character (g * g) = ρ.character (g⁻¹ * g⁻¹)
+    change ρ.dual.character (g * g) = ρ.character (g⁻¹ * g⁻¹)
     rw [Representation.char_dual, mul_inv_rev]
   -- the averaging projector onto invariants
   set P := Representation.averageMap Λ with hPdef
@@ -446,7 +446,7 @@ theorem frobeniusSchurIndicator_eq_one_of_isRealType
   set Psym : Bil →ₗ[ℂ] Bil := (2⁻¹ : ℂ) • (P + τ ∘ₗ P) with hPsymdef
   have hPsymapp : ∀ C, Psym C = (2⁻¹ : ℂ) • (P C + τ (P C)) := by
     intro C
-    show ((2⁻¹ : ℂ) • (P + τ ∘ₗ P)) C = _
+    change ((2⁻¹ : ℂ) • (P + τ ∘ₗ P)) C = _
     rw [LinearMap.smul_apply, LinearMap.add_apply, LinearMap.comp_apply]
   have hτfixPsym : ∀ C, τ (Psym C) = Psym C := by
     intro C

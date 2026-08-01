@@ -791,7 +791,7 @@ private lemma sum_getD_eq_sum (l : List ℕ) (n : ℕ) (hlen : l.length ≤ n) :
 private lemma getD_antitone_of_pairwise {n : ℕ} (l : List ℕ) (h : l.Pairwise (· ≥ ·)) :
     Antitone (fun i : Fin n => l.getD i.val 0) := by
   intro i j hij
-  show l.getD j.val 0 ≤ l.getD i.val 0
+  change l.getD j.val 0 ≤ l.getD i.val 0
   rcases eq_or_lt_of_le hij with rfl | hlt
   · exact le_refl _
   · by_cases hj : j.val < l.length
@@ -823,7 +823,7 @@ private lemma ofFn_getD_filter_pos :
       rw [show decide (0 < a) = true from decide_eq_true ha]
       simp only [ite_true]
       congr 1
-      show (List.ofFn (fun i : Fin m => t.getD i.val 0)).filter (fun x => decide (0 < x)) = t
+      change (List.ofFn (fun i : Fin m => t.getD i.val 0)).filter (fun x => decide (0 < x)) = t
       exact ih t (fun x hx => hll x (by simp [hx]))
         (by simp only [List.length_cons] at hlen; omega)
 
@@ -854,7 +854,7 @@ theorem exists_boundedPartition_weightToPartition_eq (n : ℕ) (la : Nat.Partiti
     intro p q h P; subst h; rfl
   apply Nat.Partition.ext
   rw [hrec _ _ _ (weightToPartition n (fun i : Fin n => la.sortedParts.getD i.val 0))]
-  show (Finset.univ.val.map (fun i : Fin n => la.sortedParts.getD i.val 0)).filter (0 < ·) =
+  change (Finset.univ.val.map (fun i : Fin n => la.sortedParts.getD i.val 0)).filter (0 < ·) =
       la.parts
   rw [Fin.univ_val_map, Multiset.filter_coe, ofFn_getD_filter_pos n la.sortedParts hpos hlen]
   exact Multiset.sort_eq _ _

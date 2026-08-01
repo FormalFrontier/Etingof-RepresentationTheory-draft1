@@ -111,7 +111,7 @@ theorem algIrrepGLRepρ_isAlgebraic :
           (((g : Matrix (Fin n) (Fin n) k).det)⁻¹) ^ lam.shift •
           (SchurModule k n lam.toNatWeight).ρ g) := by
     funext g
-    show ((detChar k n ^ (-(lam.shift : ℤ))) g : k) • schurModuleRep k n lam.toNatWeight g = _
+    change ((detChar k n ^ (-(lam.shift : ℤ))) g : k) • schurModuleRep k n lam.toNatWeight g = _
     rw [detChar_zpow_neg_apply']
     rfl
   rw [hfun]

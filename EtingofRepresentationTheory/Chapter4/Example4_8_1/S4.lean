@@ -233,7 +233,7 @@ lemma fixCardM_conj (c g : G) :
         refine ⟨c⁻¹ • b, ?_, smul_inv_smul c b⟩
         rw [mul_smul, mul_smul] at hb
         refine MulAction.injective c ?_
-        show c • (g • (c⁻¹ • b)) = c • (c⁻¹ • b)
+        change c • (g • (c⁻¹ • b)) = c • (c⁻¹ • b)
         rw [smul_inv_smul]
         exact hb
       · rintro ⟨a, ha, rfl⟩

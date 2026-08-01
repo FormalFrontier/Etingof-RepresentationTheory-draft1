@@ -390,7 +390,7 @@ private theorem Etingof.reflectionFunctorMinus_map_iso_equivAt_factor
         LinearMap.range (ρ₁.sourceMap i)) →
         ((DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₁.obj a.1)) ⧸
           LinearMap.range (ρ₁.sourceMap i))) := by
-    show HEq (⇑(Etingof.reflFunctorMinus_equivAtAt_eq ρ₁ (inst i i))) _
+    change HEq (⇑(Etingof.reflFunctorMinus_equivAtAt_eq ρ₁ (inst i i))) _
     rw [h_di]
     rfl
   have heq_chart₂ : HEq (⇑(Etingof.reflFunctorMinus_equivAt_eq hi ρ₂))
@@ -398,7 +398,7 @@ private theorem Etingof.reflectionFunctorMinus_map_iso_equivAt_factor
         LinearMap.range (ρ₂.sourceMap i)) →
         ((DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₂.obj a.1)) ⧸
           LinearMap.range (ρ₂.sourceMap i))) := by
-    show HEq (⇑(Etingof.reflFunctorMinus_equivAtAt_eq ρ₂ (inst i i))) _
+    change HEq (⇑(Etingof.reflFunctorMinus_equivAtAt_eq ρ₂ (inst i i))) _
     rw [h_di]
     rfl
   -- The map iso at `i`, in cokernel coordinates, is the descended quotient equiv. We package

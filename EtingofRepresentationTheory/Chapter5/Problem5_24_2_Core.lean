@@ -107,7 +107,7 @@ theorem traceWord_mem_invariantSubalgebra (w : List (Fin k)) :
     intro i
     refine Matrix.ext fun r c => ?_
     rw [Matrix.map_apply]
-    show conjAlgHom k N g (MvPolynomial.X (i, r, c)) = _
+    change conjAlgHom k N g (MvPolynomial.X (i, r, c)) = _
     rw [conjAlgHom, MvPolynomial.aeval_X, ← hG, ← hG']
   -- Conjugating the whole word: `(conjAlgHom g).mapMatrix P = G · P · G⁻¹`.
   have key : (conjAlgHom k N g).mapMatrix ((w.map (genericMatrix k N)).prod)

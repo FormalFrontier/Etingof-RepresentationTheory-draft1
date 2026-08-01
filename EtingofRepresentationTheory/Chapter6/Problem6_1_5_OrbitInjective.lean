@@ -87,7 +87,7 @@ theorem exists_isAlgDense_orbit [Infinite k] (m : Fin n → ℕ)
     ∃ v₀ : repSpace (k := k) m, IsAlgDense m (orbit (repGroup k m) v₀) := by
   classical
   by_contra h
-  push_neg at h
+  push Not at h
   set Q := orbitRel.Quotient (repGroup k m) (repSpace (k := k) m) with hQ
   letI : Fintype Q := Fintype.ofFinite Q
   -- one nonzero polynomial per orbit, vanishing on that orbit
@@ -96,7 +96,7 @@ theorem exists_isAlgDense_orbit [Infinite k] (m : Fin n → ℕ)
     intro q
     have hq := h q.out
     unfold IsAlgDense at hq
-    push_neg at hq
+    push Not at hq
     exact hq
   choose f hfvan hf0 using hw
   -- their product is nonzero (polynomial ring over a field is a domain) ...

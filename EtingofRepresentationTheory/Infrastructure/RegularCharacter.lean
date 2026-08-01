@@ -147,7 +147,7 @@ private lemma columnFDRep_character_eq [Fintype G] [IsAlgClosed k] [NeZero (Nat.
     (D : IrrepDecomp k G) (i : Fin D.n) (g : G) :
     (D.columnFDRep i).character g =
       Matrix.trace (D.projRingHom i (MonoidAlgebra.of k G g)) := by
-  show LinearMap.trace k (Fin (D.d i) → k) (Matrix.mulVecLin _) = _
+  change LinearMap.trace k (Fin (D.d i) → k) (Matrix.mulVecLin _) = _
   rw [← Matrix.toLin'_apply']; exact Matrix.trace_toLin'_eq _
 
 /-! #### Main theorem -/
@@ -251,7 +251,7 @@ theorem IrrepDecomp.d_cast_ne_zero [Fintype G] [IsAlgClosed k]
     intro β
     -- Way 1: via Wedderburn decomposition
     have hiso : D.iso (e * β) = Pi.single i (D.projRingHom i β) := by
-      show D.iso (D.iso.symm (Pi.single i 1) * β) = _
+      change D.iso (D.iso.symm (Pi.single i 1) * β) = _
       rw [map_mul, AlgEquiv.apply_symm_apply]
       funext j
       simp only [Pi.mul_apply]

@@ -883,7 +883,7 @@ private lemma isHomogeneous_of_gl_scaling [Infinite k] {n : ℕ}
         have key2 : (∑ e ∈ Finset.range (td+1), c e * t^e) = t^n * MvPolynomial.eval G Q := by
           rw [← hsum_id t]; exact hu
         rw [Polynomial.IsRoot.def, hP]
-        simp only [Polynomial.eval_sub, Polynomial.eval_finset_sum, Polynomial.eval_mul,
+        simp only [Polynomial.eval_sub, Polynomial.eval_finsetSum, Polynomial.eval_mul,
           Polynomial.eval_C, Polynomial.eval_pow, Polynomial.eval_X]
         rw [key2]; ring
       have hinf : Set.Infinite {t : k | P.IsRoot t} := by
@@ -893,7 +893,7 @@ private lemma isHomogeneous_of_gl_scaling [Infinite k] {n : ℕ}
       have hP0 : P = 0 := Polynomial.eq_zero_of_infinite_isRoot P hinf
       have hcoeff : P.coeff i = c i := by
         rw [hP]
-        simp only [Polynomial.coeff_sub, Polynomial.finset_sum_coeff, Polynomial.coeff_C_mul,
+        simp only [Polynomial.coeff_sub, Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul,
           Polynomial.coeff_X_pow, mul_ite, mul_one, mul_zero]
         rw [Finset.sum_ite_eq (Finset.range (td+1)) i (fun e => c e)]
         simp only [Finset.mem_range, Nat.lt_succ_iff, hile, if_true]
@@ -995,7 +995,7 @@ private theorem matrixCoeff_isHomogeneous (n : ℕ) [CharZero k] [IsAlgClosed k]
           Matrix (Fin N) (Fin N) k) ij.1 ij.2
         = (t : k) * (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2 := by
     intro ij
-    show ((scalarGL k N t : Matrix (Fin N) (Fin N) k) *
+    change ((scalarGL k N t : Matrix (Fin N) (Fin N) k) *
         (g : Matrix (Fin N) (Fin N) k)) ij.1 ij.2 = _
     rw [show (scalarGL k N t : Matrix (Fin N) (Fin N) k)
           = Matrix.diagonal (fun _ => (t : k)) from rfl, Matrix.diagonal_mul]

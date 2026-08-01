@@ -172,7 +172,7 @@ private theorem one_sub_xy_mul_geomTarget (n : ℕ) (i j : Fin n) :
     by_cases hm : e = e (Sum.inl i) • m
     · -- Case 2: e = k • m with k > 0
       have hk : 0 < e (Sum.inl i) := by
-        by_contra hle; push_neg at hle
+        by_contra hle; push Not at hle
         rw [Nat.le_zero.mp hle, zero_smul] at hm; exact h0 hm
       rw [if_pos hm]
       have hle : m ≤ e := by
@@ -281,14 +281,14 @@ private lemma matrixToAntidiag_mem (n : ℕ) (α β : Fin n → ℕ)
     simp [matrixToAntidiag]
   ext v; cases v with
   | inl i =>
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, key,
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, key,
       Finsupp.smul_apply, smul_eq_mul, xyPairMon_inl, mul_ite, mul_one, mul_zero,
       bilinExponent_inl]
     rw [Fintype.sum_prod_type, Finset.sum_eq_single i
       (fun i' _ hi' => by simp [hi']) (fun h => absurd (Finset.mem_univ i) h)]
     simp [K.2.1 i]
   | inr j =>
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, key,
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, key,
       Finsupp.smul_apply, smul_eq_mul, xyPairMon_inr, mul_ite, mul_one, mul_zero,
       bilinExponent_inr]
     rw [Fintype.sum_prod_type, Finset.sum_comm, Finset.sum_eq_single j
@@ -311,7 +311,7 @@ private lemma extract_row_sum (n : ℕ) (α β : Fin n → ℕ)
     (hx_valid : ∀ p : Fin n × Fin n, x p = (x p) (Sum.inl p.1) • xyPairMon n p.1 p.2)
     (i : Fin n) : ∑ j : Fin n, (x (i, j)) (Sum.inl i) = α i := by
   have h := DFunLike.congr_fun (Finset.mem_finsuppAntidiag.mp hx_mem).1 (Sum.inl i)
-  simp only [Finsupp.coe_finset_sum, Finset.sum_apply, bilinExponent_inl] at h
+  simp only [Finsupp.coe_finsetSum, Finset.sum_apply, bilinExponent_inl] at h
   rw [Fintype.sum_prod_type, Finset.sum_eq_single i _ _] at h
   · exact h
   · intro i' _ hi'
@@ -327,7 +327,7 @@ private lemma extract_col_sum (n : ℕ) (α β : Fin n → ℕ)
     (hx_valid : ∀ p : Fin n × Fin n, x p = (x p) (Sum.inl p.1) • xyPairMon n p.1 p.2)
     (j : Fin n) : ∑ i : Fin n, (x (i, j)) (Sum.inl i) = β j := by
   have h := DFunLike.congr_fun (Finset.mem_finsuppAntidiag.mp hx_mem).1 (Sum.inr j)
-  simp only [Finsupp.coe_finset_sum, Finset.sum_apply, bilinExponent_inr] at h
+  simp only [Finsupp.coe_finsetSum, Finset.sum_apply, bilinExponent_inr] at h
   rw [Fintype.sum_prod_type, Finset.sum_comm, Finset.sum_eq_single j _ _] at h
   · rwa [show (∑ i : Fin n, (x (i, j)) (Sum.inr j)) =
         ∑ i : Fin n, (x (i, j)) (Sum.inl i) from
@@ -416,11 +416,11 @@ private lemma finsupp_sum_single_iff' (n : ℕ) (α : Fin n →₀ ℕ) (σ : Eq
   constructor
   · intro heq j
     have hj := DFunLike.congr_fun heq j
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.single_apply] at hj
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.single_apply] at hj
     rw [← hj, Finset.sum_filter]
   · intro hall
     ext j
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.single_apply]
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.single_apply]
     rw [← Finset.sum_filter]
     exact hall j
 
@@ -513,7 +513,7 @@ private lemma cycleColToBicol_compat (n : ℕ) (α β : Fin n →₀ ℕ)
   simp only [cycleColToBicol]
   let π := (exists_orbIdx σ).choose
   have hπ := (exists_orbIdx σ).choose_spec
-  show (fg.1.val (π (σ x)), fg.2.val (π (σ x))) = (fg.1.val (π x), fg.2.val (π x))
+  change (fg.1.val (π (σ x)), fg.2.val (π (σ x))) = (fg.1.val (π x), fg.2.val (π x))
   have hkey : π (σ x) = π x := (hπ.1 (σ x) x).mpr ⟨-1, by simp⟩
   rw [hkey]
 
@@ -681,10 +681,10 @@ private noncomputable instance permMulActionElemBicol {n : ℕ} {α β : Fin n �
     MulAction (Equiv.Perm (Fin n)) (ElemBicol n α β) where
   smul := permSmulElemBicol
   one_smul hb := Subtype.ext (funext fun _ => by
-    show (permSmulElemBicol 1 hb).val _ = hb.val _
+    change (permSmulElemBicol 1 hb).val _ = hb.val _
     simp [permSmulElemBicol_val, Function.comp])
   mul_smul σ τ hb := Subtype.ext (funext fun x => by
-    show (permSmulElemBicol (σ * τ) hb).val x = (permSmulElemBicol σ (permSmulElemBicol τ hb)).val x
+    change (permSmulElemBicol (σ * τ) hb).val x = (permSmulElemBicol σ (permSmulElemBicol τ hb)).val x
     simp [permSmulElemBicol_val, Function.comp, mul_inv_rev, Equiv.Perm.mul_apply])
 
 /-- The stabilizer of h under the Perm action equals FiberPerm h. -/
@@ -1042,7 +1042,7 @@ private theorem bilinExponent_sub_permExponentX (N : ℕ) (α β : Fin N → ℕ
     bilinExponent N α β - permExponentX N π =
     bilinExponent N (fun i => α i - (π⁻¹ i).val) β := by
   ext v; cases v with
-  | inl i => simp [bilinExponent, permExponentX, Finsupp.equivFunOnFinite, h i]
+  | inl i => simp [bilinExponent, permExponentX, Finsupp.equivFunOnFinite]
   | inr j => simp [bilinExponent, permExponentX, Finsupp.equivFunOnFinite]
 
 /-- The `≤` condition for `permExponentX` vs `bilinExponent`. -/
@@ -1512,7 +1512,7 @@ theorem vandermonde_cauchy_general (N : ℕ) (α β : Fin N → ℕ)
       -- StrictAnti α, β + ∀j α j = β (σ j) ⟹ σ is StrictMono ⟹ σ = id
       have hσ_mono : StrictMono (⇑σ : Fin N → Fin N) := by
         intro i k hik
-        by_contra hle; push_neg at hle
+        by_contra hle; push Not at hle
         rcases hle.eq_or_lt with heq' | hlt
         · exact absurd (σ.injective heq'.symm) (ne_of_lt hik)
         · exact absurd (hα hik) (not_lt.mpr (le_of_lt (by rw [hall i, hall k]; exact hβ hlt)))

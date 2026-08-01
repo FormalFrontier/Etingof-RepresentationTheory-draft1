@@ -396,7 +396,7 @@ lemma exists_orthogonal_idempotents_for_simples
   have hc_comm : ∀ (l : Fin n) (q : A ⧸ Ring.jacobson A), c l * q = q * c l := by
     intro l q
     obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective q
-    show WA.symm (Pi.single l 1) * π b = π b * WA.symm (Pi.single l 1)
+    change WA.symm (Pi.single l 1) * π b = π b * WA.symm (Pi.single l 1)
     rw [show π b = WA.symm (WA (π b)) from (WA.symm_apply_apply _).symm]
     rw [hWA_mul, hWA_mul]
     congr 1
@@ -411,7 +411,7 @@ lemma exists_orthogonal_idempotents_for_simples
     -- So by hsmul_eq, (ba) • m = (ab) • m = a • (b • m)
     have hcomm : π (b * a) = π (a * b) := by
       rw [map_mul, map_mul, ha]; exact (hc_comm l (π b)).symm
-    show b • (a • m) ∈ smulRange (k := k) (A := A) (M j) a
+    change b • (a • m) ∈ smulRange (k := k) (A := A) (M j) a
     rw [← mul_smul, hsmul_eq _ _ j _ hcomm, mul_smul]
     exact ⟨b • m, rfl⟩
   -- Helper: smulRange for c_l on M_j is ⊥ or ⊤
@@ -441,7 +441,7 @@ lemma exists_orthogonal_idempotents_for_simples
     (S := fun l => Matrix (Fin (d l)) (Fin (d l)) k)
   -- Completeness: ∑ c_l = 1 in A/J
   have hc_sum : ∑ l, c l = 1 := by
-    show ∑ l, WA.symm (Pi.single l 1) = 1
+    change ∑ l, WA.symm (Pi.single l 1) = 1
     rw [← map_sum]; rw [hcoi.complete]; exact map_one WA.symm
   have hblock_exists : ∀ j : ι, ∃ l : Fin n, ∀ a : A,
       π a = WA.symm (Pi.single l 1) →
@@ -449,7 +449,7 @@ lemma exists_orthogonal_idempotents_for_simples
     intro j
     -- If no block acts surjectively, all blocks act as 0 (by bot_or_top + hsmulRange_eq)
     by_contra h_none
-    push_neg at h_none
+    push Not at h_none
     -- For each l, some lift of c_l has smulRange ≠ ⊤, hence by hsmulRange_eq ALL lifts do too
     -- (smulRange depends only on π a), and by bot_or_top it must be ⊥
     have hall_bot : ∀ l : Fin n, ∀ a : A, π a = c l →
@@ -613,11 +613,11 @@ lemma exists_orthogonal_idempotents_for_simples
       by_cases hl' : l' = l
       · subst hl'; simp [Pi.single_eq_same]
       · have hne : l ≠ l' := fun h => hl' h.symm
-        simp [Pi.mul_apply, hne, Pi.single_apply]
+        simp [Pi.mul_apply, hne]
     have hmatAct_mul : ∀ (p : ι) (mat1 mat2 : Matrix (Fin (d l)) (Fin (d l)) k) (m : M p),
         matAct p (mat1 * mat2) m = matAct p mat1 (matAct p mat2 m) := by
       intro p mat1 mat2 m
-      show lft (WA.symm (Pi.single l (mat1 * mat2))) • m =
+      change lft (WA.symm (Pi.single l (mat1 * mat2))) • m =
         lft (WA.symm (Pi.single l mat1)) • (lft (WA.symm (Pi.single l mat2)) • m)
       rw [← mul_smul]; apply hsmul_eq
       rw [map_mul, hlft, hlft]; conv_rhs => rw [hlft]
@@ -625,7 +625,7 @@ lemma exists_orthogonal_idempotents_for_simples
     have hmatAct_add : ∀ (p : ι) (mat1 mat2 : Matrix (Fin (d l)) (Fin (d l)) k) (m : M p),
         matAct p (mat1 + mat2) m = matAct p mat1 m + matAct p mat2 m := by
       intro p mat1 mat2 m
-      show lft (WA.symm (Pi.single l (mat1 + mat2))) • m =
+      change lft (WA.symm (Pi.single l (mat1 + mat2))) • m =
         lft (WA.symm (Pi.single l mat1)) • m + lft (WA.symm (Pi.single l mat2)) • m
       rw [← add_smul]; apply hsmul_eq
       rw [map_add, hlft, hlft]; conv_rhs => rw [hlft]
@@ -635,7 +635,7 @@ lemma exists_orthogonal_idempotents_for_simples
       by_cases hl' : l' = l
       · subst hl'; simp [Pi.single_eq_same]
       · have hne : l ≠ l' := fun h => hl' h.symm
-        simp [Pi.single_apply, hne]
+        simp [hne]
     have hmatAct_one : ∀ (p : ι) (hp : σ p = l) (m : M p), matAct p 1 m = m := by
       intro p hp m
       exact hc_identity p (lft (c l)) (by rw [hlft]; exact (congrArg c hp).symm ▸ rfl) m
@@ -728,7 +728,7 @@ lemma exists_orthogonal_idempotents_for_simples
       -- But ∑ E_{j0}·E₁₁·E_{0j} = I in Mat_d(k), so c_l acts as 0.
       -- This contradicts c_l acting as identity on M_i.
       have ha_ne_zero : ∃ m₀ : M i, a • m₀ ≠ 0 := by
-        by_contra hall; push_neg at hall
+        by_contra hall; push Not at hall
         have h_prod_zero : ∀ (b₁ b₂ : A) (m : M i), (b₁ * a * b₂) • m = 0 := by
           intro b₁ b₂ m
           rw [mul_smul, mul_smul, hall, smul_zero]
@@ -744,7 +744,7 @@ lemma exists_orthogonal_idempotents_for_simples
           simp_rw [hWA_mul, ← Pi.single_mul_left, Pi.single_eq_same,
             Matrix.single_mul_mul_single, one_mul, mul_one]
           simp_rw [show (Matrix.single (0 : Fin (d l)) (0 : Fin (d l)) (1 : k))
-            (0 : Fin (d l)) (0 : Fin (d l)) = 1 from by simp [Matrix.single_apply]]
+            (0 : Fin (d l)) (0 : Fin (d l)) = 1 from by simp]
           -- Goal: ∑ x, WA.symm (Pi.single l (Matrix.single x x 1)) = c l
           rw [show c l = WA.symm (Pi.single l 1) from rfl]
           rw [show ∑ x, WA.symm (Pi.single l (Matrix.single x x (1 : k))) =
@@ -756,10 +756,10 @@ lemma exists_orthogonal_idempotents_for_simples
             ext r s
             simp only [Matrix.sum_apply, Matrix.single_apply, Matrix.one_apply]
             split_ifs with h
-            · subst h; simp [Finset.sum_ite_eq, Finset.mem_univ]
+            · subst h; simp [Finset.mem_univ]
             · apply Finset.sum_eq_zero; intro x _
               simp [show ¬(x = r ∧ x = s) from fun ⟨h1, h2⟩ => h (h1.symm.trans h2)]
-          · simp [Finset.sum_apply, Pi.single_apply, hl']
+          · simp [Finset.sum_apply, hl']
         -- Choose lifts and show the sum acts as 0 (by h_prod_zero) yet lifts c_l
         let b₁ : Fin (d l) → A := fun j =>
           (Ideal.Quotient.mk_surjective (WA.symm (Pi.single l (Matrix.single j (0 : Fin (d l)) 1)))).choose
@@ -823,7 +823,7 @@ lemma exists_orthogonal_idempotents_for_simples
             simp only [Pi.single_eq_same, Pi.mul_apply, Algebra.algebraMap_eq_smul_one,
               Pi.smul_apply, Pi.one_apply, Matrix.smul_apply, smul_eq_mul, one_mul,
               smul_mul_assoc, hc_val_def]
-          · simp [Pi.mul_apply, Pi.single_apply, hl']
+          · simp [Pi.mul_apply, hl']
         -- Conclude: (a*b*a) • v₀ = c_val • v₀
         have : (a * b * a) • v₀ = c_val • v₀ := by
           have h := hsmul_eq (a * b * a) ((algebraMap k A c_val) * a) i v₀ hpi_aba
@@ -837,7 +837,7 @@ lemma exists_orthogonal_idempotents_for_simples
         · intro hw
           rw [Submodule.mem_span_singleton] at hw
           obtain ⟨c_val, rfl⟩ := hw
-          exact ⟨c_val • m₀, by simp [smulEnd, smul_comm a c_val m₀, hv₀_def]⟩
+          exact ⟨c_val • m₀, by simp [smulEnd, hv₀_def]⟩
       rw [hspan]; exact finrank_span_singleton hm₀
     · -- Case i ≠ j: E₁₁ in block σ(i) acts as 0 on M_j.
       -- Pi.single (σ i) (E₁₁) is "supported" on block σ(i).
@@ -942,13 +942,13 @@ def leftIdeal_equiv_of_conjugate
     rw [show b * ↑u * e₁ * ↑u⁻¹ * ↑u = b * ↑u * e₁ from by
       rw [mul_assoc (b * ↑u * e₁), Units.inv_mul, mul_one]]
   left_inv := fun ⟨x, _⟩ => by
-    ext; show x * ↑u⁻¹ * ↑u = x
+    ext; change x * ↑u⁻¹ * ↑u = x
     rw [mul_assoc, Units.inv_mul, mul_one]
   right_inv := fun ⟨y, _⟩ => by
-    ext; show y * ↑u * ↑u⁻¹ = y
+    ext; change y * ↑u * ↑u⁻¹ = y
     rw [mul_assoc, Units.mul_inv, mul_one]
   map_add' := fun ⟨x, _⟩ ⟨y, _⟩ => by ext; simp [add_mul]
-  map_smul' := fun r ⟨x, _⟩ => by ext; show r * x * ↑u⁻¹ = r * (x * ↑u⁻¹); rw [mul_assoc]
+  map_smul' := fun r ⟨x, _⟩ => by ext; change r * x * ↑u⁻¹ = r * (x * ↑u⁻¹); rw [mul_assoc]
 
 /-- For complete orthogonal idempotents e₁,...,eₙ in a ring A, the left ideals Aeᵢ form
 an internal direct sum decomposition of A. The canonical map ⨁ᵢ Aeᵢ → A is bijective. -/
@@ -1054,7 +1054,7 @@ lemma leftIdeal_indecomposable_of_hom_delta
     -- hdim which says dim = 1.
     intro W₁ W₂ hcompl
     by_contra h_both
-    push_neg at h_both
+    push Not at h_both
     obtain ⟨hW₁, hW₂⟩ := h_both
     -- Set up the complement decomposition equivalence
     set equiv := Submodule.prodEquivOfIsCompl W₁ W₂ hcompl
@@ -1114,11 +1114,11 @@ lemma leftIdeal_indecomposable_of_hom_delta
     -- Helper: proj₁ ∘ equiv is fst (proj₁ (equiv (w₁, w₂)) = w₁)
     have hproj₁_equiv : ∀ (w₁ : ↥W₁) (w₂ : ↥W₂), proj₁ (equiv (w₁, w₂)) = w₁ := by
       intro w₁ w₂
-      show (LinearMap.fst A ↥W₁ ↥W₂) (equiv.symm (equiv (w₁, w₂))) = w₁
+      change (LinearMap.fst A ↥W₁ ↥W₂) (equiv.symm (equiv (w₁, w₂))) = w₁
       rw [equiv.symm_apply_apply]; rfl
     have hproj₂_equiv : ∀ (w₁ : ↥W₁) (w₂ : ↥W₂), proj₂ (equiv (w₁, w₂)) = w₂ := by
       intro w₁ w₂
-      show (LinearMap.snd A ↥W₁ ↥W₂) (equiv.symm (equiv (w₁, w₂))) = w₂
+      change (LinearMap.snd A ↥W₁ ↥W₂) (equiv.symm (equiv (w₁, w₂))) = w₂
       rw [equiv.symm_apply_apply]; rfl
     -- f₁ is nonzero
     have hf₁_ne : f₁ ≠ 0 := by
@@ -1216,11 +1216,11 @@ lemma leftIdeal_indecomposable_of_hom_delta
       rw [linearIndependent_fin2]
       refine ⟨?_, ?_⟩
       · -- Need ![f₁, f₂'] 1 ≠ 0, i.e., f₂' ≠ 0
-        simp only [Matrix.cons_val_one, Matrix.head_cons]
+        simp only [Matrix.cons_val_one]
         exact hf₂'_ne
       · intro a ha
         -- ha : a • f₂' = f₁
-        simp only [Matrix.cons_val_one, Matrix.head_cons,
+        simp only [Matrix.cons_val_one,
                     Matrix.cons_val_zero] at ha
         -- f₁ = a • f₂'. f₁ kills W₂, so a • f₂' kills W₂ too.
         -- f₂' kills W₁. So for any s = equiv(w₁, w₂):
@@ -1263,7 +1263,7 @@ lemma finrank_hom_leftIdeal_eq
   have hfwd_mem : ∀ (φ : S →ₗ[A] M), φ ⟨e, he_mem_S⟩ ∈ smulRange (k := k) (A := A) M e := by
     intro φ
     refine ⟨φ ⟨e, he_mem_S⟩, ?_⟩
-    show e • φ ⟨e, he_mem_S⟩ = φ ⟨e, he_mem_S⟩
+    change e • φ ⟨e, he_mem_S⟩ = φ ⟨e, he_mem_S⟩
     rw [← φ.map_smul]; congr 1
     exact Subtype.ext (IsIdempotentElem.eq he)
   -- Backward map: m ∈ eM ↦ (⟨x, _⟩ ↦ x • m) where x acts on m via the A-module structure
@@ -1298,9 +1298,9 @@ lemma finrank_hom_leftIdeal_eq
         obtain ⟨m₀, hm₀⟩ := hm
         -- hm₀ : e • m₀ = m, so e • m = e • (e • m₀) = (e*e) • m₀ = e • m₀ = m
         apply Subtype.ext
-        show (e : A) • m = m
+        change (e : A) • m = m
         rw [← hm₀]
-        show e • (e • m₀) = e • m₀
+        change e • (e • m₀) = e • m₀
         rw [← mul_smul, IsIdempotentElem.eq he]
       map_add' := fun φ ψ => by ext; simp
       map_smul' := fun c φ => by
@@ -1564,7 +1564,7 @@ lemma Etingof.Theorem921.completeOrthogonalIdempotents_matrix_single
     CompleteOrthogonalIdempotents
       (fun j : Fin n => Matrix.single j j (1 : R)) := by
   refine CompleteOrthogonalIdempotents.iff_ortho_complete.mpr ⟨fun j k' hjk => ?_, ?_⟩
-  · show Matrix.single j j 1 * Matrix.single k' k' 1 = 0
+  · change Matrix.single j j 1 * Matrix.single k' k' 1 = 0
     ext r s
     simp only [Matrix.mul_apply, Matrix.single_apply, Matrix.zero_apply]
     apply Finset.sum_eq_zero; intro x _
@@ -1602,9 +1602,9 @@ lemma Etingof.Theorem921.completeOrthogonalIdempotents_pi_matrix
       by_cases hxp : j₁ = r ∧ j₁ = x <;> by_cases hxq : j₂ = x ∧ j₂ = s
       · exact absurd (hxp.2.trans hxq.1.symm) h2
       all_goals simp_all
-    · simp [Pi.single_apply, h₁, h₂]
-    · simp [Pi.single_apply, h₁, h₂]
-    · simp [Pi.single_apply, h₁, h₂]
+    · simp [h₂]
+    · simp [h₁]
+    · simp [h₁, h₂]
   · -- Completeness: ∑ p, Pi.single p.1 (E_{p.2,p.2}) = 1
     -- Split ∑_{(l,j)} into ∑_l ∑_j
     rw [show (∑ x : Σ l : Fin n, Fin (d l),
@@ -1762,7 +1762,7 @@ lemma Etingof.Theorem921.exists_complete_orthogonal_idempotents_for_simples
         by simp [Equiv.sum_comp reindex_equiv, he_raw_coi.complete]⟩
     refine ⟨e, he_coi, fun p j => ?_⟩
     -- Rank property: finrank k (smulRange M_j (e p)) = δ_{p.1, j}
-    show Module.finrank k (smulRange (k := k) (A := A) (M j)
+    change Module.finrank k (smulRange (k := k) (A := A) (M j)
       (e_raw ⟨σ p.1, (finCongr (hd_eq p.1).symm) p.2⟩)) =
       if p.fst = j then 1 else 0
     -- Use hrank with q = (σ p.1, cast p.2)
@@ -1778,7 +1778,7 @@ lemma Etingof.Theorem921.exists_complete_orthogonal_idempotents_for_simples
   have hc_comm : ∀ (l : Fin n) (q : A ⧸ Ring.jacobson A), c l * q = q * c l := by
     intro l q
     obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective q
-    show WA.symm (Pi.single l 1) * π b = π b * WA.symm (Pi.single l 1)
+    change WA.symm (Pi.single l 1) * π b = π b * WA.symm (Pi.single l 1)
     rw [show π b = WA.symm (WA (π b)) from (WA.symm_apply_apply _).symm]
     rw [hWA_mul, hWA_mul]; congr 1; exact pi_single_one_comm l (WA (π b))
   have hsmulRange_A_sub : ∀ (j : ι) (l : Fin n) (a : A) (ha : π a = c l),
@@ -1788,7 +1788,7 @@ lemma Etingof.Theorem921.exists_complete_orthogonal_idempotents_for_simples
     rw [← hm]
     have hcomm : π (b * a) = π (a * b) := by
       rw [map_mul, map_mul, ha]; exact (hc_comm l (π b)).symm
-    show b • (a • m) ∈ smulRange (k := k) (A := A) (M j) a
+    change b • (a • m) ∈ smulRange (k := k) (A := A) (M j) a
     rw [← mul_smul, hsmul_eq _ _ j _ hcomm, mul_smul]; exact ⟨b • m, rfl⟩
   have hsmulRange_bot_or_top : ∀ (j : ι) (l : Fin n) (a : A) (ha : π a = c l),
       smulRange (k := k) (A := A) (M j) a = ⊥ ∨
@@ -1811,12 +1811,12 @@ lemma Etingof.Theorem921.exists_complete_orthogonal_idempotents_for_simples
   have hcoi := completeOrthogonalIdempotents_pi_single_one
     (S := fun l => Matrix (Fin (d l)) (Fin (d l)) k)
   have hc_sum : ∑ l, c l = 1 := by
-    show ∑ l, WA.symm (Pi.single l 1) = 1
+    change ∑ l, WA.symm (Pi.single l 1) = 1
     rw [← map_sum, hcoi.complete, map_one WA.symm]
   have hblock_exists : ∀ j : ι, ∃ l : Fin n, ∀ a : A,
       π a = WA.symm (Pi.single l 1) →
       smulRange (k := k) (A := A) (M j) a = ⊤ := by
-    intro j; by_contra h_none; push_neg at h_none
+    intro j; by_contra h_none; push Not at h_none
     have hall_bot : ∀ l : Fin n, ∀ a : A, π a = c l →
         smulRange (k := k) (A := A) (M j) a = ⊥ := by
       intro l a ha
@@ -1921,11 +1921,11 @@ lemma Etingof.Theorem921.exists_complete_orthogonal_idempotents_for_simples
       by_cases hl' : l' = l
       · subst hl'; simp [Pi.single_eq_same]
       · have hne : l ≠ l' := fun h => hl' h.symm
-        simp [Pi.mul_apply, hne, Pi.single_apply]
+        simp [Pi.mul_apply, hne]
     have hmatAct_mul : ∀ (p : ι) (mat1 mat2 : Matrix (Fin (d l)) (Fin (d l)) k) (m : M p),
         matAct p (mat1 * mat2) m = matAct p mat1 (matAct p mat2 m) := by
       intro p mat1 mat2 m
-      show lft (WA.symm (Pi.single l (mat1 * mat2))) • m =
+      change lft (WA.symm (Pi.single l (mat1 * mat2))) • m =
         lft (WA.symm (Pi.single l mat1)) • (lft (WA.symm (Pi.single l mat2)) • m)
       rw [← mul_smul]; apply hsmul_eq
       rw [map_mul, hlft, hlft]; conv_rhs => rw [hlft]
@@ -1933,7 +1933,7 @@ lemma Etingof.Theorem921.exists_complete_orthogonal_idempotents_for_simples
     have hmatAct_add : ∀ (p : ι) (mat1 mat2 : Matrix (Fin (d l)) (Fin (d l)) k) (m : M p),
         matAct p (mat1 + mat2) m = matAct p mat1 m + matAct p mat2 m := by
       intro p mat1 mat2 m
-      show lft (WA.symm (Pi.single l (mat1 + mat2))) • m =
+      change lft (WA.symm (Pi.single l (mat1 + mat2))) • m =
         lft (WA.symm (Pi.single l mat1)) • m + lft (WA.symm (Pi.single l mat2)) • m
       rw [← add_smul]; apply hsmul_eq
       rw [map_add, hlft, hlft]; conv_rhs => rw [hlft]
@@ -1943,7 +1943,7 @@ lemma Etingof.Theorem921.exists_complete_orthogonal_idempotents_for_simples
       by_cases hl' : l' = l
       · subst hl'; simp [Pi.single_eq_same]
       · have hne : l ≠ l' := fun h => hl' h.symm
-        simp [Pi.single_apply, hne]
+        simp [hne]
     have hmatAct_one : ∀ (p : ι) (hp : σ p = l) (m : M p), matAct p 1 m = m := by
       intro p hp m
       exact hc_identity p (lft (c l)) (by rw [hlft]; exact (congrArg c hp).symm ▸ rfl) m
@@ -2027,7 +2027,7 @@ lemma Etingof.Theorem921.exists_complete_orthogonal_idempotents_for_simples
           exact (matrix_single_zero_isIdempotentElem j_idx).eq)
       -- Step 2: Image is nonzero (two-sided ideal argument)
       have ha_ne_zero : ∃ m₀ : M j, e_raw ⟨σ j, j_idx⟩ • m₀ ≠ 0 := by
-        by_contra hall; push_neg at hall
+        by_contra hall; push Not at hall
         have h_prod_zero : ∀ (b₁ b₂ : A) (m : M j),
             (b₁ * e_raw ⟨σ j, j_idx⟩ * b₂) • m = 0 := by
           intro b₁ b₂ m; rw [mul_smul, mul_smul, hall, smul_zero]
@@ -2042,7 +2042,7 @@ lemma Etingof.Theorem921.exists_complete_orthogonal_idempotents_for_simples
           simp_rw [hWA_mul, ← Pi.single_mul_left, Pi.single_eq_same,
             Matrix.single_mul_mul_single, one_mul, mul_one]
           simp_rw [show (Matrix.single j_idx j_idx (1 : k))
-            j_idx j_idx = 1 from by simp [Matrix.single_apply]]
+            j_idx j_idx = 1 from by simp ]
           rw [show c (σ j) = WA.symm (Pi.single (σ j) 1) from rfl]
           rw [show ∑ x, WA.symm (Pi.single (σ j) (Matrix.single x x (1 : k))) =
             WA.symm (∑ x, Pi.single (σ j) (Matrix.single x x (1 : k))) from
@@ -2052,10 +2052,10 @@ lemma Etingof.Theorem921.exists_complete_orthogonal_idempotents_for_simples
             ext r s
             simp only [Matrix.sum_apply, Matrix.single_apply, Matrix.one_apply]
             split_ifs with h
-            · subst h; simp [Finset.sum_ite_eq, Finset.mem_univ]
+            · subst h; simp [Finset.mem_univ]
             · apply Finset.sum_eq_zero; intro x _
               simp [show ¬(x = r ∧ x = s) from fun ⟨h1, h2⟩ => h (h1.symm.trans h2)]
-          · simp [Finset.sum_apply, Pi.single_apply, hl']
+          · simp [Finset.sum_apply, hl']
         let b₁ : Fin (d (σ j)) → A := fun k' =>
           (Ideal.Quotient.mk_surjective (WA.symm (Pi.single (σ j)
             (Matrix.single k' j_idx 1)))).choose
@@ -2111,7 +2111,7 @@ lemma Etingof.Theorem921.exists_complete_orthogonal_idempotents_for_simples
             simp only [Pi.single_eq_same, Pi.mul_apply, Algebra.algebraMap_eq_smul_one,
               Pi.smul_apply, Pi.one_apply, Matrix.smul_apply, smul_eq_mul, one_mul,
               smul_mul_assoc, hc_val_def]
-          · simp [Pi.mul_apply, Pi.single_apply, hl']
+          · simp [Pi.mul_apply, hl']
         have : (e_raw ⟨σ j, j_idx⟩ * b * e_raw ⟨σ j, j_idx⟩) • v₀ = c_val • v₀ := by
           have h := hsmul_eq (e_raw ⟨σ j, j_idx⟩ * b * e_raw ⟨σ j, j_idx⟩)
             ((algebraMap k A c_val) * e_raw ⟨σ j, j_idx⟩) j v₀ hpi_aba
@@ -2127,7 +2127,7 @@ lemma Etingof.Theorem921.exists_complete_orthogonal_idempotents_for_simples
           rw [Submodule.mem_span_singleton] at hw
           obtain ⟨c_val, rfl⟩ := hw
           exact ⟨c_val • m₀, by
-            simp [smulEnd, smul_comm (e_raw ⟨σ j, j_idx⟩) c_val m₀, hv₀_def]⟩
+            simp [smulEnd, hv₀_def]⟩
       rw [hspan]; exact finrank_span_singleton hm₀
     · -- Case σ j ≠ l: rank 0
       -- E_{j_idx, j_idx} is in block l. c_l * E = E. c_l acts as 0 on M j (since σ j ≠ l).
@@ -2267,7 +2267,7 @@ lemma Etingof.Theorem921.exists_complete_orthogonal_idempotents_for_simples
   have hσ_surj : Function.Surjective σ := by
     intro l₀
     by_contra h_not
-    push_neg at h_not
+    push Not at h_not
     -- h_not : ∀ i, σ i ≠ l₀
     -- Step 1: e_raw ⟨l₀, 0⟩ annihilates all M j (rank = 0 for all j)
     haveI := hd l₀
@@ -2317,7 +2317,7 @@ lemma Etingof.Theorem921.exists_complete_orthogonal_idempotents_for_simples
       rw [Pi.single_eq_same, Pi.zero_apply] at h2
       -- h2 : Matrix.single 0 0 (1 : k) = 0 in Mat_{d(l₀)}(k)
       have h3 := congr_fun (congr_fun h2 (0 : Fin (d l₀))) (0 : Fin (d l₀))
-      simp [Matrix.single_apply] at h3
+      simp  at h3
     exact h_ne_zero h_eq_zero
   exact ⟨σ, ⟨hσ_inj, hσ_surj⟩, hd_eq, hrank⟩
 

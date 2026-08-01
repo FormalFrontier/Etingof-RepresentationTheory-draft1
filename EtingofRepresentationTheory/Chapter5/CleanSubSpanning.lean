@@ -277,7 +277,7 @@ theorem torusInvariant_iSup_inf_glWeightSpace_eq (N : ℕ)
       exact genEigenspace_diagTorus_eq_glWeightSpace N M t hinj hMtop ν hν
     rw [hG, inf_comm]
     exact le_iSup (fun μ : Fin N →₀ ℕ => glWeightSpace k N M (fun i => μ i) ⊓ R) ν
-  · push_neg at hcase
+  · push Not at hcase
     have hbot : f.genEigenspace lam ⊤ = ⊥ :=
       genEigenspace_diagTorus_eq_bot N M t hinj hMtop lam hcase
     rw [hbot, inf_bot_eq]

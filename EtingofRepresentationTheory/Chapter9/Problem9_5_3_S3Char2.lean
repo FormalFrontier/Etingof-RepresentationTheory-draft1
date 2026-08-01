@@ -796,7 +796,7 @@ noncomputable def uHom : ℤˣ →* kt2 k where
 @[simp] lemma uHom_one : uHom k 1 = 1 := by simp [uHom]
 
 @[simp] lemma uHom_neg_one : uHom k (-1) = 1 + t2gen k := by
-  show (if (-1 : ℤˣ) = 1 then (1 : kt2 k) else 1 + t2gen k) = 1 + t2gen k
+  change (if (-1 : ℤˣ) = 1 then (1 : kt2 k) else 1 + t2gen k) = 1 + t2gen k
   rw [if_neg (show (-1 : ℤˣ) ≠ 1 from by decide)]
 
 /-- The sign character of `S₃`, valued in `{1, 1 + t} ⊆ k[t]/(t²)`. -/
@@ -820,7 +820,7 @@ lemma psi_surjective : Function.Surjective (psi k) := by
     rw [Algebra.adjoin_le_iff]
     rintro x hx
     rw [Set.mem_singleton_iff] at hx; subst hx
-    show t2gen k ∈ (psi k).range
+    change t2gen k ∈ (psi k).range
     have ht1 : (1 + t2gen k) ∈ (psi k).range :=
       (psi k).mem_range.mpr ⟨MonoidAlgebra.single (Equiv.swap 0 1) 1, by
         rw [psi_single, Equiv.Perm.sign_swap (show (0 : Fin 3) ≠ 1 by decide), uHom_neg_one]⟩
@@ -843,7 +843,7 @@ def coordEquiv : (stdSubr k).toSubmodule ≃ₗ[k] (Fin 2 → k) where
   map_add' a b := by
     ext i; fin_cases i <;> simp [Submodule.coe_add]
   map_smul' r a := by
-    ext i; fin_cases i <;> simp [Submodule.coe_smul]
+    ext i; fin_cases i <;> simp
   invFun c := ⟨![c 0, c 0 + c 1, c 1], by
     have h2 : (2 : k) = 0 := CharTwo.two_eq_zero
     simp only [stdSubr, LinearMap.mem_ker, sumLM_apply, Fin.sum_univ_three,
@@ -857,7 +857,7 @@ def coordEquiv : (stdSubr k).toSubmodule ≃ₗ[k] (Fin 2 → k) where
       simpa only [stdSubr, LinearMap.mem_ker, sumLM_apply, Fin.sum_univ_three] using this
     apply Subtype.ext; funext i; fin_cases i
     · rfl
-    · show (v : Fin 3 → k) 0 + (v : Fin 3 → k) 2 = (v : Fin 3 → k) 1
+    · change (v : Fin 3 → k) 0 + (v : Fin 3 → k) 2 = (v : Fin 3 → k) 1
       linear_combination hv - (v : Fin 3 → k) 1 * h2
     · rfl
   right_inv c := by
@@ -936,23 +936,23 @@ lemma rhoStd_surjective : Function.Surjective (rhoStd k) := by
     have h : Matrix.single (0 : Fin 2) (0 : Fin 2) (1 : k)
         = 1 + !![0, 1; 1, 1] + !![0, 1; 1, 0] := by
       ext a b; fin_cases a <;> fin_cases b <;>
-        simp [Matrix.single_apply, Matrix.one_apply, CharTwo.add_self_eq_zero]
+        simp [CharTwo.add_self_eq_zero]
     rw [h]; exact add_mem (add_mem m1 mA) mE
   have u01 : Matrix.single (0 : Fin 2) (1 : Fin 2) (1 : k) ∈ (rhoStd k).range := by
     have h : Matrix.single (0 : Fin 2) (1 : Fin 2) (1 : k) = !![1, 1; 0, 1] + 1 := by
       ext a b; fin_cases a <;> fin_cases b <;>
-        simp [Matrix.single_apply, Matrix.one_apply, CharTwo.add_self_eq_zero]
+        simp [CharTwo.add_self_eq_zero]
     rw [h]; exact add_mem mC m1
   have u10 : Matrix.single (1 : Fin 2) (0 : Fin 2) (1 : k) ∈ (rhoStd k).range := by
     have h : Matrix.single (1 : Fin 2) (0 : Fin 2) (1 : k)
         = !![0, 1; 1, 0] + !![1, 1; 0, 1] + 1 := by
       ext a b; fin_cases a <;> fin_cases b <;>
-        simp [Matrix.single_apply, Matrix.one_apply, CharTwo.add_self_eq_zero]
+        simp [CharTwo.add_self_eq_zero]
     rw [h]; exact add_mem (add_mem mE mC) m1
   have u11 : Matrix.single (1 : Fin 2) (1 : Fin 2) (1 : k) ∈ (rhoStd k).range := by
     have h : Matrix.single (1 : Fin 2) (1 : Fin 2) (1 : k) = !![0, 1; 1, 1] + !![0, 1; 1, 0] := by
       ext a b; fin_cases a <;> fin_cases b <;>
-        simp [Matrix.single_apply, Matrix.one_apply, CharTwo.add_self_eq_zero]
+        simp [CharTwo.add_self_eq_zero]
     rw [h]; exact add_mem mA mE
   have huniv : ∀ (i j : Fin 2) (x : k), Matrix.single i j x ∈ (rhoStd k).range := by
     intro i j x
@@ -982,7 +982,7 @@ lemma rhoStd_eStd : rhoStd k (eStd k) = 1 := by
   rw [eStd]
   simp only [map_add, rhoStd_thc, rhoStd_thc_sq]
   ext i j; fin_cases i <;> fin_cases j <;>
-    simp [Matrix.add_apply, Matrix.one_apply, CharTwo.add_self_eq_zero]
+    simp [Matrix.add_apply, CharTwo.add_self_eq_zero]
 
 /-- `psi` sends `e = (123) + (132)` to `0` (both `3`-cycles are even). -/
 lemma psi_eStd : psi k (eStd k) = 0 := by
@@ -1020,7 +1020,7 @@ theorem algebra_decomposition :
     exact ⟨hr, hp⟩
   -- Both algebras have `k`-dimension `6`, so surjectivity upgrades to bijectivity.
   have hfL : Module.finrank k (MonoidAlgebra k S3) = 6 := by
-    show Module.finrank k (S3 →₀ k) = 6
+    change Module.finrank k (S3 →₀ k) = 6
     rw [Module.finrank_finsupp_self]
     decide
   have hfR : Module.finrank k (Matrix (Fin 2) (Fin 2) k × kt2 k) = 6 := by

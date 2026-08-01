@@ -136,7 +136,7 @@ theorem character_multSum (V : ι → FDRep ℂ G) (n : ι → ℕ) (g : G) :
   refine Finset.sum_congr rfl fun k _ => ?_
   -- the summand `(V ⟨k, s⟩.1).character g` is `(V k).character g` by iota reduction, but not
   -- syntactically constant in `s`, so `Finset.sum_const` needs the reduced form first
-  show ∑ _s : Fin (n k), (V k).character g = (n k : ℂ) * (V k).character g
+  change ∑ _s : Fin (n k), (V k).character g = (n k : ℂ) * (V k).character g
   rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
 
 /-- **The bridge from a multiplicity identity to a decomposition of representations.**  If the

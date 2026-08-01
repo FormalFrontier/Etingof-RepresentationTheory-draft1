@@ -51,13 +51,13 @@ theorem simpleRep_isIrreducible [DecidableEq Q] (i : Q) :
   -- Off-vertices `v ≠ i` carry the zero space `Fin 0 → k`, which is a subsingleton.
   have hsub : ∀ v, v ≠ i → Subsingleton ((simpleRep (k := k) i).obj v) := by
     intro v hv
-    show Subsingleton (Fin (if v = i then 1 else 0) → k)
+    change Subsingleton (Fin (if v = i then 1 else 0) → k)
     rw [if_neg hv]
     infer_instance
   refine ⟨⟨i, ?_⟩, ?_⟩
   · -- Nontriviality at vertex `i`: the fibre there is `Fin 1 → k`.
     have hobj : ((simpleRep (k := k) i).obj i) = (Fin 1 → k) := by
-      show (Fin (if i = i then 1 else 0) → k) = (Fin 1 → k)
+      change (Fin (if i = i then 1 else 0) → k) = (Fin 1 → k)
       rw [if_pos rfl]
     rw [hobj]
     have hne : (0 : Fin 1 → k) ≠ 1 := by
@@ -76,7 +76,7 @@ theorem simpleRep_isIrreducible [DecidableEq Q] (i : Q) :
         right_inv := fun _ => rfl, map_add' := fun _ _ => rfl, map_smul' := fun _ _ => rfl }
     haveI : IsSimpleOrder (Submodule k (Fin (if i = i then 1 else 0) → k)) :=
       is_simple_module_of_finrank_eq_one (K := k) (A := k)
-        (by simp [Module.finrank_fin_fun])
+        (by simp )
     -- `W i` is `⊥` or `⊤` by transporting the simple-order dichotomy back along `e`.
     have hWi : W i = ⊥ ∨ W i = ⊤ := by
       have f := Submodule.orderIsoMapComap e
@@ -234,7 +234,7 @@ theorem irreducible_isSimpleRep [DecidableEq Q] [Finite Q]
   have hsimpleFinrank : ∀ v,
       Module.finrank k ((simpleRep (k := k) v₀).obj v) = if v = v₀ then 1 else 0 := by
     intro v
-    show Module.finrank k (Fin (if v = v₀ then 1 else 0) → k) = _
+    change Module.finrank k (Fin (if v = v₀ then 1 else 0) → k) = _
     rw [Module.finrank_pi k, Fintype.card_fin]
   -- Step C: a vertexwise linear equivalence `ρ ≅ simpleRep v₀`.
   have hEquiv : ∀ v, Nonempty (ρ.obj v ≃ₗ[k] (simpleRep (k := k) v₀).obj v) := by
@@ -247,14 +247,14 @@ theorem irreducible_isSimpleRep [DecidableEq Q] [Finite Q]
         exact Module.Finite.of_surjective (LinearMap.toSpanSingleton k (ρ.obj v) x)
           (IsSimpleModule.toSpanSingleton_surjective k hx)
       haveI : Module.Finite k ((simpleRep (k := k) v).obj v) := by
-        show Module.Finite k (Fin (if v = v then 1 else 0) → k); rw [if_pos rfl]; infer_instance
+        change Module.Finite k (Fin (if v = v then 1 else 0) → k); rw [if_pos rfl]; infer_instance
       haveI : Module.Free k ((simpleRep (k := k) v).obj v) := by
-        show Module.Free k (Fin (if v = v then 1 else 0) → k); rw [if_pos rfl]; infer_instance
+        change Module.Free k (Fin (if v = v then 1 else 0) → k); rw [if_pos rfl]; infer_instance
       apply FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
       rw [hsimpleFinrank v, if_pos rfl, isSimpleModule_iff_finrank_eq_one.mp hsimple]
     · haveI : Subsingleton (ρ.obj v) := hconc v h
       haveI : Subsingleton ((simpleRep (k := k) v₀).obj v) := by
-        show Subsingleton (Fin (if v = v₀ then 1 else 0) → k); rw [if_neg h]; infer_instance
+        change Subsingleton (Fin (if v = v₀ then 1 else 0) → k); rw [if_neg h]; infer_instance
       exact ⟨LinearEquiv.ofBijective (0 : ρ.obj v →ₗ[k] (simpleRep (k := k) v₀).obj v)
         ⟨fun a b _ => Subsingleton.elim a b, fun y => ⟨0, Subsingleton.elim _ _⟩⟩⟩
   -- Assemble the isomorphism. `commutes` is automatic: all arrow maps vanish on both sides.
@@ -277,7 +277,7 @@ theorem ext1_simpleRep_vanishes_iff [DecidableEq Q] (i j : Q) :
     -- The subtraction in `extDiff` uses the `acg` group on the shared codomain; supply it here as a
     -- per-carrier (class-headed) local instance so `sub_self` sees the matching `AddGroup`.
     letI : AddCommGroup ((simpleRep (k := k) j).obj p.2.1) := Etingof.Problem6_9_3.acg (k := k)
-    show (simpleRep (k := k) j).mapLinear p.2.2 ∘ₗ f p.1
+    change (simpleRep (k := k) j).mapLinear p.2.2 ∘ₗ f p.1
         - f p.2.1 ∘ₗ (simpleRep (k := k) i).mapLinear p.2.2 = 0
     simp only [simpleRep, Etingof.vertexSimple_mapLinear, LinearMap.zero_comp,
       LinearMap.comp_zero]
@@ -321,13 +321,13 @@ theorem ext1_simpleRep_vanishes_iff [DecidableEq Q] (i j : Q) :
         symm
         refine LinearMap.ext fun x => ?_
         have hsub : Subsingleton ((simpleRep (k := k) i).obj a) := by
-          show Subsingleton (Fin (if a = i then 1 else 0) → k)
+          change Subsingleton (Fin (if a = i then 1 else 0) → k)
           rw [if_neg ha]; infer_instance
         rw [Subsingleton.elim x 0, map_zero, LinearMap.zero_apply]
     · -- Codomain `S_j(b)` is trivial (`b ≠ j`), so any map into it is 0.
       symm
       have hsub : Subsingleton ((simpleRep (k := k) j).obj b) := by
-        show Subsingleton (Fin (if b = j then 1 else 0) → k)
+        change Subsingleton (Fin (if b = j then 1 else 0) → k)
         rw [if_neg hb]; infer_instance
       exact LinearMap.ext fun x => Subsingleton.elim _ _
 
@@ -394,7 +394,7 @@ theorem extDiffₗ_simpleRep_eq_zero [DecidableEq Q] (i j : Q) :
   refine LinearMap.ext fun f => funext fun p => ?_
   -- Match the `acg` group baked into `extDiffₗ`'s subtraction with a per-carrier local instance.
   letI : AddCommGroup ((simpleRep (k := k) j).obj p.2.1) := Etingof.Problem6_9_3.acg (k := k)
-  show (simpleRep (k := k) j).mapLinear p.2.2 ∘ₗ f p.1
+  change (simpleRep (k := k) j).mapLinear p.2.2 ∘ₗ f p.1
       - f p.2.1 ∘ₗ (simpleRep (k := k) i).mapLinear p.2.2 = 0
   simp only [simpleRep, Etingof.vertexSimple_mapLinear, LinearMap.zero_comp,
       LinearMap.comp_zero]
@@ -426,17 +426,17 @@ theorem finrank_ext1_simpleRep [DecidableEq Q] [Fintype Q] [∀ a b : Q, Fintype
     intro p
     rw [Module.finrank_linearMap]
     congr 1
-    · show Module.finrank k (Fin (if p.1 = i then 1 else 0) → k) = _
+    · change Module.finrank k (Fin (if p.1 = i then 1 else 0) → k) = _
       rw [Module.finrank_pi k, Fintype.card_fin]
-    · show Module.finrank k (Fin (if p.2.1 = j then 1 else 0) → k) = _
+    · change Module.finrank k (Fin (if p.2.1 = j then 1 else 0) → k) = _
       rw [Module.finrank_pi k, Fintype.card_fin]
   simp only [hcomp]
   -- Expand the sum over `Σ a b, (a ⟶ b)` into iterated sums, then collapse: the innermost
   -- arrow-sum contributes `#(a ⟶ b)`, and the two `if`s select `a = i` and `b = j`.
   rw [Fintype.sum_sigma]
   simp only [Fintype.sum_sigma]
-  simp [Finset.sum_const, Finset.card_univ, Finset.card_empty, mul_ite, ite_mul,
-    apply_ite Finset.card, Fintype.sum_ite_eq', Finset.sum_ite_irrel, Finset.sum_const_zero]
+  simp [Finset.card_univ, Finset.card_empty, mul_ite,
+    apply_ite Finset.card, Finset.sum_ite_irrel, Finset.sum_const_zero]
 
 /-- **Classification of 2-dimensional representations.** For a quiver without oriented cycles,
 a representation `ρ` of total dimension `2` is either decomposable, necessarily a direct sum
@@ -454,7 +454,7 @@ theorem two_dim_classification [DecidableEq Q] [Fintype Q]
   -- If some distinct-endpoint arrow already acts bijectively, we land in the right disjunct.
   by_cases hbij : ∃ (i j : Q) (a : i ⟶ j), i ≠ j ∧ Function.Bijective (ρ.mapLinear a)
   · exact Or.inr hbij
-  push_neg at hbij
+  push Not at hbij
   -- No self-loops: an arrow `v ⟶ v` would be a nontrivial cycle.
   have hnoloop : ∀ (v : Q), IsEmpty (v ⟶ v) := by
     intro v
@@ -532,7 +532,7 @@ theorem two_dim_classification [DecidableEq Q] [Fintype Q]
     have hspan : Submodule.span k {x} = ⊤ := by
       have h := hC.sup_eq_top; rwa [hCbot, sup_bot_eq] at h
     have hv0dim : dimVec ρ v₀ = 1 := by
-      show Module.finrank k (ρ.obj v₀) = 1
+      change Module.finrank k (ρ.obj v₀) = 1
       rw [← finrank_top (R := k) (M := ρ.obj v₀), ← hspan, finrank_span_singleton hx]
     have hvdim : ∀ v, v ≠ v₀ → dimVec ρ v = 0 := by
       intro v hv
@@ -540,7 +540,7 @@ theorem two_dim_classification [DecidableEq Q] [Fintype Q]
         have h := hbot2 v
         rwa [show W₂ v = (⊤ : Submodule k (ρ.obj v)) by
           simp only [W₂, Function.update_of_ne hv]] at h
-      show Module.finrank k (ρ.obj v) = 0
+      change Module.finrank k (ρ.obj v) = 0
       rw [← finrank_top (R := k) (M := ρ.obj v), hWv, finrank_bot]
     have hsum1 : ∑ v, dimVec ρ v = 1 := by
       rw [Finset.sum_eq_single v₀ (fun v _ hv => hvdim v hv) (fun h => absurd (Finset.mem_univ v₀) h)]

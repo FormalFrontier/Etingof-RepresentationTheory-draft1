@@ -392,7 +392,7 @@ theorem Etingof.reflFunctorMinus_mapLinear_ne_ne
     intro v hv
     have hdv : inst v i = .isFalse hv := by
       cases inst v i with | isTrue h => exact absurd h hv | isFalse _ => rfl
-    show HEq (⇑(Etingof.reflFunctorMinus_equivAtAt_ne ρ v hv (inst v i))) _
+    change HEq (⇑(Etingof.reflFunctorMinus_equivAtAt_ne ρ v hv (inst v i))) _
     rw [hdv]
     rfl
   -- (3) Instance HEqs relating `hmap` to the HEq of coercions.
@@ -567,7 +567,7 @@ theorem Etingof.reflFunctorMinus_mapLinear_ne_eq
     intro v hv
     have hdv : inst v i = .isFalse hv := by
       cases inst v i with | isTrue h => exact absurd h hv | isFalse _ => rfl
-    show HEq (⇑(Etingof.reflFunctorMinus_equivAtAt_ne ρ v hv (inst v i))) _
+    change HEq (⇑(Etingof.reflFunctorMinus_equivAtAt_ne ρ v hv (inst v i))) _
     rw [hdv]
     rfl
   have hwa : HEq ((Etingof.reflFunctorMinus_equivAt_ne hi ρ a ha) w) w :=
@@ -612,7 +612,7 @@ theorem Etingof.reflFunctorMinus_mapLinear_ne_eq
         LinearMap.range (ρ.sourceMap i)) →
         ((DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) ⧸
           LinearMap.range (ρ.sourceMap i))) := by
-    show HEq (⇑(Etingof.reflFunctorMinus_equivAtAt_eq ρ (inst i i))) _
+    change HEq (⇑(Etingof.reflFunctorMinus_equivAtAt_eq ρ (inst i i))) _
     rw [h_di]
     rfl
   -- The RHS of the goal, `reflFunctorMinus_mkQ (lof ...)`, equals `equivAt_eq.symm (mkQ (lof ...))`.

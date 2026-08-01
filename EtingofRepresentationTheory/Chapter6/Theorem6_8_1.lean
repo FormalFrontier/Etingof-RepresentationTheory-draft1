@@ -58,7 +58,7 @@ variable {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
 
 lemma cartanMatrix_isSymm (hadj : adj.IsSymm) :
     (cartanMatrix n adj).IsSymm := by
-  show (cartanMatrix n adj)ᵀ = cartanMatrix n adj
+  change (cartanMatrix n adj)ᵀ = cartanMatrix n adj
   unfold cartanMatrix
   rw [Matrix.transpose_sub, Matrix.transpose_smul, Matrix.transpose_one]
   rw [show adjᵀ = adj from hadj]
@@ -67,8 +67,8 @@ lemma cartanMatrix_isSymm (hadj : adj.IsSymm) :
 lemma simpleReflection_apply_ne {A : Matrix (Fin n) (Fin n) ℤ}
     (v : Fin n → ℤ) (i j : Fin n) (hij : j ≠ i) :
     simpleReflection n A i v j = v j := by
-  simp [simpleReflection, rootReflection, Pi.sub_apply, Pi.smul_apply,
-    Pi.single_apply, hij]
+  simp [simpleReflection, rootReflection, Pi.sub_apply,
+    hij]
 
 /-- Simple reflection at i changes coordinate i. For symmetric A, this equals
     v i - (A.mulVec v) i. -/
@@ -82,7 +82,7 @@ lemma simpleReflection_apply_self {A : Matrix (Fin n) (Fin n) ℤ}
       mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     exact Finset.sum_congr rfl fun j _ => by rw [symm j]; ring
   simp only [simpleReflection, rootReflection, Pi.sub_apply, Pi.smul_apply,
-    Pi.single_apply, if_pos rfl, mul_one, key, ite_true, smul_eq_mul]
+    Pi.single_apply, mul_one, key, ite_true, smul_eq_mul]
 
 /-- Sum of coordinates after reflection. -/
 lemma simpleReflection_sum {A : Matrix (Fin n) (Fin n) ℤ}
@@ -120,7 +120,7 @@ lemma simpleReflection_preserves_B
   -- A_ii = 2 for Cartan matrix
   have hAii : A i i = 2 := by
     simp only [hA_def, cartanMatrix, Matrix.sub_apply, Matrix.smul_apply,
-      Matrix.one_apply, if_pos rfl, smul_eq_mul, mul_one]
+      Matrix.one_apply]
     have := hDynkin.2.1 i; simp_all
   -- B(α,α) = A_ii = 2
   have hBaa : dotProduct (Pi.single i (1 : ℤ)) (A.mulVec (Pi.single i (1 : ℤ))) = 2 := by
@@ -165,7 +165,7 @@ lemma simpleReflection_nonzero
 lemma sum_pos_of_nonneg_ne_zero
     (d : Fin n → ℤ) (hd_pos : ∀ i, 0 ≤ d i) (hd_nonzero : d ≠ 0) :
     1 ≤ ∑ i : Fin n, d i := by
-  by_contra h; push_neg at h
+  by_contra h; push Not at h
   have hsum0 : ∑ i : Fin n, d i = 0 := by
     have := Finset.sum_nonneg (fun i (_ : i ∈ Finset.univ) => hd_pos i); omega
   have : ∀ i, d i = 0 := fun i =>
@@ -179,12 +179,12 @@ lemma sum_one_is_simpleRoot
     ∃ p, d = simpleRoot n p := by
   simp only [simpleRoot]
   have ⟨p, hp⟩ : ∃ p, d p = 1 := by
-    by_contra h; push_neg at h
+    by_contra h; push Not at h
     -- Every nonzero entry is ≥ 2 (since d ≥ 0 and no entry = 1)
     -- But d ≠ 0, so some entry ≥ 2, making ∑ d ≥ 2, contradicting ∑ d = 1
     have hne1 : ∀ i, d i ≠ 1 := h
     have ⟨i, hi⟩ : ∃ i, 0 < d i := by
-      by_contra h'; push_neg at h'
+      by_contra h'; push Not at h'
       exact hd_nonzero (funext fun i => le_antisymm (h' i) (hd_pos i))
     have hi2 : 2 ≤ d i := by have := hne1 i; omega
     have : 2 ≤ ∑ j : Fin n, d j :=
@@ -192,7 +192,7 @@ lemma sum_one_is_simpleRoot
     linarith
   refine ⟨p, funext fun i => ?_⟩
   by_cases h : i = p
-  · simp [Pi.single_apply, h, hp]
+  · simp [h, hp]
   · simp only [Pi.single_apply, if_neg h]
     -- d i ≥ 0, d p = 1, and ∑ d = 1, so d i = 0
     have h1 : d i + d p ≤ ∑ j : Fin n, d j := by
@@ -214,11 +214,11 @@ lemma exists_good_vertex
          (cartanMatrix n adj).mulVec d k ≤ d k := by
   set A := cartanMatrix n adj with hA_def
   set Ad := A.mulVec d
-  by_contra hcon; push_neg at hcon
+  by_contra hcon; push Not at hcon
   -- hcon : ∀ k, 0 < Ad k → d k < Ad k  (so Ad k ≥ d k + 1 when Ad k > 0)
   -- Step 1: Find k₀ with d_{k₀} > 0 and Ad_{k₀} > 0
   have ⟨k₀, hdk₀, hAdk₀⟩ : ∃ k, 0 < d k ∧ 0 < Ad k := by
-    by_contra hall; push_neg at hall
+    by_contra hall; push Not at hall
     -- All terms d_k * Ad_k ≤ 0, contradicting B(d,d) = 2
     have : ∀ k, d k * Ad k ≤ 0 := fun k => by
       by_cases hdk : 0 < d k
@@ -249,13 +249,13 @@ lemma exists_good_vertex
     simp only [dotProduct, mulVec, Pi.single_apply, mul_ite, mul_one, mul_zero,
       ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     simp only [hA_def, cartanMatrix, Matrix.sub_apply, Matrix.smul_apply,
-      Matrix.one_apply, if_pos rfl, smul_eq_mul, mul_one]
+      Matrix.one_apply]
     have := hDynkin.2.1 k₀; simp_all
   -- B(d', d') = B(d,d) - 2·Ad_{k₀} + 2 = 4 - 2·Ad_{k₀} ≤ 0
   have hBd' : dotProduct d' (A.mulVec d') = 4 - 2 * Ad k₀ := by
-    show dotProduct (d - Pi.single k₀ 1) (A.mulVec (d - Pi.single k₀ 1)) = _
-    simp only [Matrix.mulVec_sub, Matrix.mulVec_smul]
-    simp only [sub_dotProduct, dotProduct_sub, smul_dotProduct, dotProduct_smul]
+    change dotProduct (d - Pi.single k₀ 1) (A.mulVec (d - Pi.single k₀ 1)) = _
+    simp only [Matrix.mulVec_sub]
+    simp only [sub_dotProduct, dotProduct_sub]
     rw [hd_root, hBde, hBed, hBee]
     ring
   have hBd'_nonpos : dotProduct d' (A.mulVec d') ≤ 0 := by linarith
@@ -267,7 +267,7 @@ lemma exists_good_vertex
       have := sub_eq_zero.mp (funext fun j => by exact congr_fun hd'_zero j)
       exact this
     have : ∑ i : Fin n, d i = 1 := by
-      rw [this]; simp [Finset.sum_ite_eq']
+      rw [this]; simp
     linarith
   · -- d' ≠ 0: positive definiteness gives B(d', d') > 0
     have hpos_def := hDynkin.2.2.2.2
@@ -319,7 +319,7 @@ theorem Etingof.Theorem6_8_1
       obtain ⟨p, hp⟩ := Etingof.sum_one_is_simpleRoot d hd_pos hd_nonzero hd_sum
       exact ⟨[], p, by simp [Etingof.iteratedSimpleReflection, hp]⟩
     · -- Inductive step: find good vertex, reflect, recurse
-      push_neg at hle
+      push Not at hle
       have hd_sum2 : 2 ≤ ∑ i : Fin n, d i := by omega
       obtain ⟨k, hk_pos, hk_le⟩ :=
         Etingof.exists_good_vertex hDynkin d hd_pos hd_nonzero hd_root hd_sum2

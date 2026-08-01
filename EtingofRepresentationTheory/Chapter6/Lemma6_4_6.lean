@@ -30,7 +30,7 @@ theorem Etingof.Lemma_6_4_6 (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
     (hroot : Etingof.IsRoot n adj x) :
     (∀ i, 0 ≤ x i) ∨ (∀ i, x i ≤ 0) := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨⟨i₀, hi₀⟩, ⟨j₀, hj₀⟩⟩ := h
   -- hi₀ : x i₀ < 0, hj₀ : 0 < x j₀
   set A := (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) with hA_def

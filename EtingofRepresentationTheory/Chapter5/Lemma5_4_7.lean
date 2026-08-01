@@ -63,7 +63,7 @@ private lemma character_isIntegral (V : FDRep ℂ G) (g : G) :
     by_contra h
     rw [not_nonempty_iff] at h
     have : M.charpoly = 1 := by simp [Matrix.charpoly, Matrix.det_isEmpty]
-    simp [this] at hr
+    simp  at hr
   -- r^n = 1 via spectrum
   have h_spec : r ∈ spectrum ℂ M :=
     Matrix.mem_spectrum_iff_isRoot_charpoly.mpr hr_root
@@ -74,7 +74,7 @@ private lemma character_isIntegral (V : FDRep ℂ G) (g : G) :
   -- r is integral: root of the monic polynomial X^n - 1 over ℤ
   refine ⟨Polynomial.X ^ n - 1,
     Polynomial.monic_X_pow_sub_C 1 Fintype.card_pos.ne', ?_⟩
-  simp only [Polynomial.aeval_def, Polynomial.eval₂_sub, Polynomial.eval₂_pow,
+  simp only [Polynomial.eval₂_sub, Polynomial.eval₂_pow,
     Polynomial.eval₂_X, Polynomial.eval₂_one, hrn, sub_self]
 
 /-- The trivial representation character at any g is 1. -/

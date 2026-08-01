@@ -208,7 +208,7 @@ theorem exists_unique_special_block
   -- Existence: some block carries the label `weightToPartition N lam`.
   have hExists : ∃ iLam, lab iLam = weightToPartition N lam := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     -- Every block: `youngSymEndomorphism` vanishes on `S i`.
     have hvanish : ∀ (i : ι) (v : ↥(S i)),
         youngSymEndomorphism ℂ N lam v.val = 0 := by
@@ -219,7 +219,7 @@ theorem exists_unique_special_block
       have hv0 := LinearMap.congr_fun hr v
       rw [LinearMap.zero_apply] at hv0
       have := congrArg Subtype.val hv0
-      rwa [LinearMap.restrict_coe_apply, ZeroMemClass.coe_zero] at this
+      rwa [LinearMap.coe_restrict_apply, ZeroMemClass.coe_zero] at this
     -- Block factorization forces `youngSymEndomorphism ℂ N lam = 0`.
     exact youngSymEndomorphism_ne_zero N lam hlam
       (youngSymEndomorphism_eq_zero_of_blocks_vanish N lam S e he hvanish)
@@ -371,7 +371,7 @@ theorem exists_unique_special_block_general
   -- Existence: some block carries the label `weightToPartition N lam`.
   have hExists : ∃ iLam, lab iLam = weightToPartition N lam := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     -- Every block: `youngSymEndomorphism` vanishes on `S i`.
     have hvanish : ∀ (i : ι) (v : ↥(S i)),
         youngSymEndomorphism k N lam v.val = 0 := by
@@ -382,7 +382,7 @@ theorem exists_unique_special_block_general
       have hv0 := LinearMap.congr_fun hr v
       rw [LinearMap.zero_apply] at hv0
       have := congrArg Subtype.val hv0
-      rwa [LinearMap.restrict_coe_apply, ZeroMemClass.coe_zero] at this
+      rwa [LinearMap.coe_restrict_apply, ZeroMemClass.coe_zero] at this
     -- Block factorization forces `youngSymEndomorphism k N lam = 0`.
     exact youngSymEndomorphism_ne_zero_general N lam hlam
       (youngSymEndomorphism_eq_zero_of_blocks_vanish_general N lam S e he hvanish)

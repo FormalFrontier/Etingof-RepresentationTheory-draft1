@@ -541,7 +541,7 @@ private lemma fullDiag_le_diag [CharZero k] :
           have hBA : ∀ i, B i ∈ A := fun i => Algebra.subset_adjoin ⟨i, rfl⟩
           -- All elements of A commute (generators commute, closure properties)
           have hcommA : ∀ (a b : A), a * b = b * a := by
-            intro a b; apply Subtype.ext; show a.val * b.val = b.val * a.val
+            intro a b; apply Subtype.ext; change a.val * b.val = b.val * a.val
             exact Algebra.adjoin_induction₂
               (fun _ _ ⟨i, hi⟩ ⟨j, hj⟩ => hi ▸ hj ▸ hcomm i j)
               (fun r₁ r₂ => by rw [← map_mul, mul_comm, map_mul])
@@ -567,7 +567,7 @@ private lemma fullDiag_le_diag [CharZero k] :
             | empty => simp [Finset.noncommProd_empty]
             | cons a s ha ih =>
               rw [Finset.prod_cons, Finset.noncommProd_cons]
-              show (B' a * ∏ i ∈ s, B' i).val = B a * s.noncommProd B _
+              change (B' a * ∏ i ∈ s, B' i).val = B a * s.noncommProd B _
               simp only [Subalgebra.coe_mul]; rw [ih]
           -- ψ maps esymm to e
           have esymm_val : ∀ j,
@@ -817,7 +817,7 @@ private lemma tensor_fullDiag_le_diag [CharZero k] :
     intro i j
     simp only [B, singleAlgHom_apply]
     apply Commute.tprod
-    show (MonoidHom.mulSingle (fun _ : Fin n => A) i f) *
+    change (MonoidHom.mulSingle (fun _ : Fin n => A) i f) *
         (MonoidHom.mulSingle (fun _ : Fin n => A) j f) =
       (MonoidHom.mulSingle (fun _ : Fin n => A) j f) *
         (MonoidHom.mulSingle (fun _ : Fin n => A) i f)
@@ -854,7 +854,7 @@ private lemma tensor_fullDiag_le_diag [CharZero k] :
         set Asub := Algebra.adjoin k (Set.range B)
         have hBA : ∀ i, B i ∈ Asub := fun i => Algebra.subset_adjoin ⟨i, rfl⟩
         have hcommA : ∀ (x y : Asub), x * y = y * x := by
-          intro x y; apply Subtype.ext; show x.val * y.val = y.val * x.val
+          intro x y; apply Subtype.ext; change x.val * y.val = y.val * x.val
           exact Algebra.adjoin_induction₂
             (fun _ _ ⟨i, hi⟩ ⟨j, hj⟩ => hi ▸ hj ▸ hcomm i j)
             (fun r₁ r₂ => by rw [← map_mul, mul_comm, map_mul])
@@ -876,7 +876,7 @@ private lemma tensor_fullDiag_le_diag [CharZero k] :
           | empty => simp [Finset.noncommProd_empty]
           | cons a s ha ih =>
             rw [Finset.prod_cons, Finset.noncommProd_cons]
-            show (B' a * ∏ i ∈ s, B' i).val = B a * s.noncommProd B _
+            change (B' a * ∏ i ∈ s, B' i).val = B a * s.noncommProd B _
             simp only [Subalgebra.coe_mul]; rw [ih]
         have esymm_val : ∀ j,
             (ψ (MvPolynomial.esymm (Fin n) k j) : ⨂[k] (_ : Fin n), A) = e j := by

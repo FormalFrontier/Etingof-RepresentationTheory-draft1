@@ -190,7 +190,7 @@ theorem instModule_eq_extTensorModuleLeft
   -- algebra map). Rewriting the goal into that explicit-linear-map form removes the second
   -- `Module` instance, so plain `rw` on the source `instM` side and `map_add`/`map_zero` on the
   -- representation side suffice.
-  show (haveI := instM; r • x) = extTensorRepLeft k A₁ A₂ M₁ M₂ r x
+  change (haveI := instM; r • x) = extTensorRepLeft k A₁ A₂ M₁ M₂ r x
   induction r using TensorProduct.induction_on with
   | zero => rw [zero_smul, map_zero, LinearMap.zero_apply]
   | tmul a₁ a₂ =>

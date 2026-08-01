@@ -69,7 +69,7 @@ theorem isIndecomposableCentralIdempotent_comm_iff {A : Type*} [CommRing A] {e :
   · rintro ⟨he0, hei, _, hns⟩
     refine ⟨he0, hei, fun x hx hxe => ?_⟩
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨hx0, hxe'⟩ := hcon
     -- witness the forbidden splitting `e = x + (e - x)`
     refine hns ⟨x, e - x, hx0, ?_, hx, ?_, fun y => by ring, fun y => by ring, ?_, by ring⟩
@@ -203,7 +203,7 @@ theorem exists_completeOrthogonal_isIndecomposable_of_commArtinian
       -- `ψ e₁, ψ e₂` are orthogonal idempotents summing to `Pi.single i 1`; not both nonzero
       have key : ψ e₁ = 0 ∨ ψ e₂ = 0 := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         have hidem1 : IsIdempotentElem (ψ e₁) := by
           change ψ e₁ * ψ e₁ = ψ e₁; rw [← map_mul, hi1.eq]
         have hidem2 : IsIdempotentElem (ψ e₂) := by
@@ -235,7 +235,7 @@ theorem exists_completeOrthogonal_isIndecomposable_of_commArtinian
       rw [this, hfi.eq]
     have hne : ∃ i, f * e i ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hf0 (by rw [← hsum]; exact Finset.sum_eq_zero (fun i _ => hc i))
     obtain ⟨i, hi⟩ := hne
     rcases hfsub (f * e i) (hidem i) (hbelow i) with h | h

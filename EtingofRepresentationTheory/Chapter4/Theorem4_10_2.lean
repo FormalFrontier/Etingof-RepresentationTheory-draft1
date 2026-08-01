@@ -498,7 +498,7 @@ private lemma IrrepDecomp.blockPoly_totalDegree [NeZero (Nat.card G : k)]
     unfold blockPoly
     let M := of fun (a b : Fin (D.d i)) =>
       ∑ g : G, C (D.projRingHom i (MonoidAlgebra.of k G g) a b) * X g
-    show (det M).totalDegree ≤ D.d i
+    change (det M).totalDegree ≤ D.d i
     rw [det_apply]
     apply (totalDegree_finsetSum _ _).trans
     apply Finset.sup_le
@@ -513,7 +513,7 @@ private lemma IrrepDecomp.blockPoly_totalDegree [NeZero (Nat.card G : k)]
         ≤ ∑ a, (M (σ a) a).totalDegree := totalDegree_finsetProd _ _
       _ ≤ ∑ _a : Fin (D.d i), 1 := by
           apply Finset.sum_le_sum; intro a _
-          show (∑ g : G, C (D.projRingHom i (MonoidAlgebra.of k G g) (σ a) a) *
+          change (∑ g : G, C (D.projRingHom i (MonoidAlgebra.of k G g) (σ a) a) *
             X g).totalDegree ≤ 1
           apply (totalDegree_finsetSum _ _).trans
           apply Finset.sup_le; intro g _
@@ -694,7 +694,7 @@ private lemma IrrepDecomp.blockPoly_irreducible [NeZero (Nat.card G : k)]
       apply MvPolynomial.algHom_ext; intro v
       simp only [AlgHom.comp_apply, MvPolynomial.aeval_X, AlgHom.id_apply]
       exact hretract v
-    show ((MvPolynomial.aeval ψ).comp (MvPolynomial.aeval φ)) p = p
+    change ((MvPolynomial.aeval ψ).comp (MvPolynomial.aeval φ)) p = p
     rw [h]; rfl
   -- Each φ(a,b) also has totalDegree ≤ 1
   have hφ_deg : ∀ v : Fin di × Fin di, (φ v).totalDegree ≤ 1 := by
@@ -921,7 +921,7 @@ private lemma IrrepDecomp.n_eq_card_conjClasses [NeZero (Nat.card G : k)]
           rw [add_smul]; rfl
         map_smul' := fun r c => by
           apply Subtype.ext; funext i
-          show (r * c i) • (1 : Matrix _ _ k) = (r • fun i => c i • (1 : Matrix _ _ k)) i
+          change (r * c i) • (1 : Matrix _ _ k) = (r • fun i => c i • (1 : Matrix _ _ k)) i
           simp [Pi.smul_apply, smul_smul] }
     have hfb : ∀ c, fwd (bwd c) = c := fun c => funext fun i => by
       simp only [fwd, bwd, bwd_fun, LinearMap.coe_mk, AddHom.coe_mk]
@@ -969,7 +969,7 @@ private lemma IrrepDecomp.n_eq_card_conjClasses [NeZero (Nat.card G : k)]
         map_add' := by intro ⟨a, _⟩ ⟨b, _⟩; ext; simp [map_add]
         map_smul' := by
           intro r ⟨a, _⟩; apply Subtype.ext
-          show D.iso (r • a) = r • D.iso a
+          change D.iso (r • a) = r • D.iso a
           rw [map_smul] }
     exact e_center.finrank_eq
   -- Combine

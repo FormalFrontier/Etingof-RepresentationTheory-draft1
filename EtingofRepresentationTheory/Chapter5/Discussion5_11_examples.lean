@@ -428,7 +428,7 @@ theorem finrank_hom_symm {G : Type} [Group G] [Finite G] (V W : FDRep ℂ G) :
     congr 1
     rw [← Equiv.sum_comp (Equiv.inv G) (fun g => V.character g * W.character g⁻¹)]
     refine Finset.sum_congr rfl (fun g _ => ?_)
-    show W.character g * V.character g⁻¹ = V.character g⁻¹ * W.character g⁻¹⁻¹
+    change W.character g * V.character g⁻¹ = V.character g⁻¹ * W.character g⁻¹⁻¹
     rw [inv_inv, mul_comm]
   exact_mod_cast hcast
 

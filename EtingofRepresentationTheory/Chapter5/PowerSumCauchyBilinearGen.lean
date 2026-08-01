@@ -60,11 +60,11 @@ private lemma finsupp_sum_single_iff_gen (α : Fin N →₀ ℕ) (σ : Equiv.Per
   constructor
   · intro heq j
     have hj := DFunLike.congr_fun heq j
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.single_apply] at hj
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.single_apply] at hj
     rw [← hj, Finset.sum_filter]
   · intro hall
     ext j
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.single_apply]
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.single_apply]
     rw [← Finset.sum_filter]
     exact hall j
 
@@ -165,7 +165,7 @@ private lemma cycleColToBicolGen_compat (α β : Fin N →₀ ℕ)
   simp only [cycleColToBicolGen]
   let π := (exists_orbIdx σ).choose
   have hπ := (exists_orbIdx σ).choose_spec
-  show (fg.1.val (π (σ x)), fg.2.val (π (σ x))) = (fg.1.val (π x), fg.2.val (π x))
+  change (fg.1.val (π (σ x)), fg.2.val (π (σ x))) = (fg.1.val (π x), fg.2.val (π x))
   have hkey : π (σ x) = π x := (hπ.1 (σ x) x).mpr ⟨-1, by simp⟩
   rw [hkey]
 
@@ -318,10 +318,10 @@ private noncomputable instance permMulActionElemBicolGen {α β : Fin N →₀ �
     MulAction (Equiv.Perm (Fin n)) (ElemBicolGen N (n := n) α β) where
   smul := permSmulElemBicolGen N
   one_smul hb := Subtype.ext (funext fun _ => by
-    show (permSmulElemBicolGen N 1 hb).val _ = hb.val _
+    change (permSmulElemBicolGen N 1 hb).val _ = hb.val _
     simp [permSmulElemBicolGen_val, Function.comp])
   mul_smul σ τ hb := Subtype.ext (funext fun x => by
-    show (permSmulElemBicolGen N (σ * τ) hb).val x =
+    change (permSmulElemBicolGen N (σ * τ) hb).val x =
       (permSmulElemBicolGen N σ (permSmulElemBicolGen N τ hb)).val x
     simp [permSmulElemBicolGen_val, Function.comp, mul_inv_rev, Equiv.Perm.mul_apply])
 
@@ -366,7 +366,7 @@ private lemma fiberSizesGen_smul_eq {α β : Fin N →₀ ℕ}
     (σ : Equiv.Perm (Fin n)) (hb : ElemBicolGen N (n := n) α β) :
     fiberSizesGen N (σ • hb) = fiberSizesGen N hb := by
   apply Subtype.ext; funext i; funext j; apply Fin.ext
-  simp only [fiberSizesGen, permSmulElemBicolGen_val]
+  simp only [fiberSizesGen]
   have : (Finset.univ.filter (fun x => (hb.val ∘ ⇑σ⁻¹) x = (i, j))).card =
       (Finset.univ.filter (fun x => hb.val x = (i, j))).card := by
     apply Finset.card_bij' (fun x _ => σ⁻¹ x) (fun x _ => σ x)
@@ -392,7 +392,7 @@ private lemma same_fiberSizes_same_orbitGen {α β : Fin N →₀ ℕ}
       (fun p => Fintype.equivOfCardEq (hcard p))
   have hσ : ∀ x, h₂.val (σ x) = h₁.val x := Equiv.ofFiberEquiv_map _
   refine ⟨σ⁻¹, Subtype.ext (funext fun x => ?_)⟩
-  simp only [permSmulElemBicolGen_val, Function.comp, inv_inv]
+  simp only [permSmulElemBicolGen_val]
   exact hσ x
 
 /-- Helper for counting sigma-types over filter. -/
@@ -683,13 +683,13 @@ theorem fullCauchyProd_coeff_eq_card_gen (α β : Fin N → ℕ)
       ∀ i, ∑ j, (x (i, j)) (Sum.inl i) = α i := by
     intro x hx hvalid i
     have h := DFunLike.congr_fun (Finset.mem_finsuppAntidiag.mp hx).1 (Sum.inl i)
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, bilinExponent_inl] at h
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, bilinExponent_inl] at h
     rw [Fintype.sum_prod_type, Finset.sum_eq_single i _ _] at h
     · exact h
     · intro i' _ hi'
       exact Finset.sum_eq_zero fun j _ => by
         have := DFunLike.congr_fun (hvalid (i', j)) (Sum.inl i)
-        simp [xyMon, Finsupp.single_apply, hi'] at this; exact this
+        simp [xyMon, hi'] at this; exact this
     · exact fun h' => absurd (Finset.mem_univ i) h'
   have extract_col : ∀ (x : (Fin N × Fin N) →₀ (CauchyVars N →₀ ℕ)),
       x ∈ Finset.univ.finsuppAntidiag (bilinExponent N α β) →
@@ -697,16 +697,16 @@ theorem fullCauchyProd_coeff_eq_card_gen (α β : Fin N → ℕ)
       ∀ j, ∑ i, (x (i, j)) (Sum.inl i) = β j := by
     intro x hx hvalid j
     have h := DFunLike.congr_fun (Finset.mem_finsuppAntidiag.mp hx).1 (Sum.inr j)
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, bilinExponent_inr] at h
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, bilinExponent_inr] at h
     rw [Fintype.sum_prod_type, Finset.sum_comm, Finset.sum_eq_single j _ _] at h
     · rwa [show (∑ i, (x (i, j)) (Sum.inr j)) = ∑ i, (x (i, j)) (Sum.inl i) from
         Finset.sum_congr rfl fun i _ => by
           have := DFunLike.congr_fun (hvalid (i, j)) (Sum.inr j)
-          simp [xyMon, Finsupp.single_apply] at this; exact this] at h
+          simp [xyMon] at this; exact this] at h
     · intro j' _ hj'
       exact Finset.sum_eq_zero fun i _ => by
         have := DFunLike.congr_fun (hvalid (i, j')) (Sum.inr j)
-        simp [xyMon, Finsupp.single_apply, hj'] at this; exact this
+        simp [xyMon, hj'] at this; exact this
     · exact fun h' => absurd (Finset.mem_univ j) h'
   have entry_bound : ∀ (x : (Fin N × Fin N) →₀ (CauchyVars N →₀ ℕ)),
       x ∈ Finset.univ.finsuppAntidiag (bilinExponent N α β) →
@@ -735,7 +735,7 @@ theorem fullCauchyProd_coeff_eq_card_gen (α β : Fin N → ℕ)
       · rw [Finset.mem_finsuppAntidiag]
         constructor
         · apply DFunLike.ext; intro v
-          simp only [Finsupp.coe_finset_sum, Finset.sum_apply,
+          simp only [Finsupp.coe_finsetSum, Finset.sum_apply,
             Finsupp.coe_equivFunOnFinite_symm]
           cases v with
           | inl i =>
@@ -759,7 +759,7 @@ theorem fullCauchyProd_coeff_eq_card_gen (α β : Fin N → ℕ)
       exact ((Finset.mem_filter.mp hx).2 (i, j)).symm)
     (fun K _ => by
       refine Subtype.ext (funext fun i => funext fun j => Fin.ext ?_)
-      simp [xyMon, Finsupp.single_apply])
+      simp [xyMon])
 
 /-- **Generalized Power Sum Cauchy Identity** (coefficient-level bilinear version):
 

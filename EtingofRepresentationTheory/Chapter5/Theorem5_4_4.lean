@@ -54,7 +54,7 @@ private lemma character_eigenvalue_decomposition
   -- f^d = 1 where d = orderOf g
   have hd_pos : 0 < orderOf g := orderOf_pos g
   have hf_pow : f ^ orderOf g = 1 := by
-    show (V.ρ g) ^ orderOf g = 1
+    change (V.ρ g) ^ orderOf g = 1
     rw [← map_pow, pow_orderOf_eq_one, map_one]
   -- Charpoly roots cardinality = n
   have hne : LinearMap.charpoly f ≠ 0 := (LinearMap.charpoly_monic f).ne_zero
@@ -100,7 +100,7 @@ private lemma character_eigenvalue_decomposition
     exact Multiset.mem_toList.mp (List.getElem_mem (hlt i))
   -- Part 2: character g = ∑ ε_i
   · -- V.character g = trace(f) = sum of charpoly roots
-    show LinearMap.trace ℂ V f = _
+    change LinearMap.trace ℂ V f = _
     -- Use matrix trace = sum of charpoly roots
     set b := Module.finBasis ℂ V
     rw [LinearMap.trace_eq_matrix_trace ℂ b]
@@ -280,7 +280,7 @@ private lemma class_sum_scalar_isIntegral
           (LinearMap.trace ℂ V.V.obj) (V.ρ (h : G)) = V.character g := by
         intro ⟨h, hh⟩
         -- V.character h = V.character g since h is conjugate to g
-        show V.character h = V.character g
+        change V.character h = V.character g
         obtain ⟨c, rfl⟩ := isConj_iff.mp hh
         exact V.char_conj g c
       simp_rw [this, Finset.sum_const, Finset.card_univ, nsmul_eq_mul]; rfl
@@ -309,7 +309,7 @@ private lemma class_sum_scalar_isIntegral
   have hφe : φ e = c • LinearMap.id := by
     have hφ_of : ∀ h : G, φ (MonoidAlgebra.of ℤ G h) = V.ρ h := by
       intro h; simp [φ]
-    show φ (∑ h : { h : G // IsConj g h }, MonoidAlgebra.of ℤ G h) = c • LinearMap.id
+    change φ (∑ h : { h : G // IsConj g h }, MonoidAlgebra.of ℤ G h) = c • LinearMap.id
     rw [map_sum]; simp_rw [hφ_of]; exact hc
   -- φ(e) is integral over ℤ (ℤ[G] is module-finite over ℤ), transferred along φ.
   have hφe_int : IsIntegral ℤ (φ e) := IsIntegral.map φ he

@@ -145,7 +145,7 @@ private theorem map_lsmul_mem_of_extTprod_stable
     -- Reduce the left factor: `lsmul (single g c) = c • ρ g`.
     have hL : (Algebra.lsmul k k ρ.asModule (MonoidAlgebra.single g c)) = c • ρ g := by
       ext v
-      show (MonoidAlgebra.single g c) • v = (c • ρ g) v
+      change (MonoidAlgebra.single g c) • v = (c • ρ g) v
       rw [Representation.single_smul]
       rfl
     induction b using MonoidAlgebra.induction_linear with
@@ -158,7 +158,7 @@ private theorem map_lsmul_mem_of_extTprod_stable
     | single h d =>
       have hR : (Algebra.lsmul k k σ.asModule (MonoidAlgebra.single h d)) = d • σ h := by
         ext w
-        show (MonoidAlgebra.single h d) • w = (d • σ h) w
+        change (MonoidAlgebra.single h d) • w = (d • σ h) w
         rw [Representation.single_smul]
         rfl
       rw [hL, hR, TensorProduct.map_smul_left, TensorProduct.map_smul_right,

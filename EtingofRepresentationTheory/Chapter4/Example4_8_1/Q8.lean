@@ -299,28 +299,28 @@ noncomputable def Mfun : QuaternionGroup 2 → Matrix (Fin 2) (Fin 2) ℂ
 noncomputable def Mhom : QuaternionGroup 2 →* Matrix (Fin 2) (Fin 2) ℂ where
   toFun := Mfun
   map_one' := by
-    show Mfun 1 = 1
+    change Mfun 1 = 1
     rw [QuaternionGroup.one_def]; simp [Mfun]
   map_mul' := by
     rintro (i | i) (j | j)
-    · show Mfun (a i * a j) = Mfun (a i) * Mfun (a j)
+    · change Mfun (a i * a j) = Mfun (a i) * Mfun (a j)
       rw [QuaternionGroup.a_mul_a]
       simp only [Mfun]
       rw [← pow_add]
       exact A_pow_congr (by push_cast [ZMod.natCast_val, ZMod.cast_id]; ring)
-    · show Mfun (a i * xa j) = Mfun (a i) * Mfun (xa j)
+    · change Mfun (a i * xa j) = Mfun (a i) * Mfun (xa j)
       rw [QuaternionGroup.a_mul_xa]
       simp only [Mfun]
       rw [← mul_assoc, A_pow_mul_X, mul_assoc, ← pow_add]
       congr 1
       exact A_pow_congr (by push_cast [ZMod.natCast_val, ZMod.cast_id]; revert i j; decide)
-    · show Mfun (xa i * a j) = Mfun (xa i) * Mfun (a j)
+    · change Mfun (xa i * a j) = Mfun (xa i) * Mfun (a j)
       rw [QuaternionGroup.xa_mul_a]
       simp only [Mfun]
       rw [mul_assoc, ← pow_add]
       congr 1
       exact A_pow_congr (by push_cast [ZMod.natCast_val, ZMod.cast_id]; ring)
-    · show Mfun (xa i * xa j) = Mfun (xa i) * Mfun (xa j)
+    · change Mfun (xa i * xa j) = Mfun (xa i) * Mfun (xa j)
       rw [QuaternionGroup.xa_mul_xa]
       simp only [Mfun]
       rw [← mul_assoc (X * A ^ i.val) X (A ^ j.val), X_mul_A_pow_mul_X, ← pow_add]
@@ -334,7 +334,7 @@ noncomputable def rho : Representation ℂ (QuaternionGroup 2) (Fin 2 → ℂ) w
 
 lemma rho_apply (g : QuaternionGroup 2) (v : Fin 2 → ℂ) :
     rho g v = (Mhom g).mulVec v := by
-  simp [rho, Matrix.toLinAlgEquiv'_apply, Matrix.toLin'_apply]
+  simp [rho, Matrix.toLinAlgEquiv'_apply]
 
 /-- The 2-dimensional character is the matrix trace of `Mhom`. -/
 lemma char2_eq (g : QuaternionGroup 2) :
@@ -395,7 +395,7 @@ lemma oneDim_norm (χ : QuaternionGroup 2 →* ℂ) :
 
 lemma char2_a0 : (FDRep.of rho).character (a 0) = 2 := by
   rw [char2_eq]; change (Mfun (a 0)).trace = 2
-  simp [Mfun, Matrix.trace_fin_two, Matrix.one_apply]
+  simp [Mfun]
 
 lemma char2_a1 : (FDRep.of rho).character (a 1) = 0 := by
   rw [char2_eq]; change (Mfun (a 1)).trace = 0
@@ -405,13 +405,13 @@ lemma char2_a1 : (FDRep.of rho).character (a 1) = 0 := by
 lemma char2_a2 : (FDRep.of rho).character (a 2) = -2 := by
   rw [char2_eq]; change (Mfun (a 2)).trace = -2
   simp only [Mfun, show (2 : ZMod (2 * 2)).val = 2 from by decide]
-  rw [A_sq]; simp [Matrix.trace_fin_two, Matrix.one_apply]
+  rw [A_sq]; simp
 
 lemma char2_a3 : (FDRep.of rho).character (a 3) = 0 := by
   rw [char2_eq]; change (Mfun (a 3)).trace = 0
   simp only [Mfun, show (3 : ZMod (2 * 2)).val = 3 from by decide]
   rw [show (3 : ℕ) = 2 + 1 by rfl, pow_succ, A_sq]
-  simp [A, Matrix.mul_apply, Fin.sum_univ_two, Matrix.trace_fin_two]
+  simp [A, Matrix.trace_fin_two]
 
 lemma char2_xa0 : (FDRep.of rho).character (xa 0) = 0 := by
   rw [char2_eq]; change (Mfun (xa 0)).trace = 0
@@ -421,19 +421,19 @@ lemma char2_xa0 : (FDRep.of rho).character (xa 0) = 0 := by
 lemma char2_xa1 : (FDRep.of rho).character (xa 1) = 0 := by
   rw [char2_eq]; change (Mfun (xa 1)).trace = 0
   simp only [Mfun, show (1 : ZMod (2 * 2)).val = 1 from by decide, pow_one]
-  simp [X, A, Matrix.mul_apply, Fin.sum_univ_two, Matrix.trace_fin_two]
+  simp [X, A, Matrix.trace_fin_two]
 
 lemma char2_xa2 : (FDRep.of rho).character (xa 2) = 0 := by
   rw [char2_eq]; change (Mfun (xa 2)).trace = 0
   simp only [Mfun, show (2 : ZMod (2 * 2)).val = 2 from by decide]
   rw [A_sq]
-  simp [X, Matrix.mul_apply, Fin.sum_univ_two, Matrix.trace_fin_two, Matrix.one_apply]
+  simp [X, Matrix.trace_fin_two]
 
 lemma char2_xa3 : (FDRep.of rho).character (xa 3) = 0 := by
   rw [char2_eq]; change (Mfun (xa 3)).trace = 0
   simp only [Mfun, show (3 : ZMod (2 * 2)).val = 3 from by decide]
   rw [show (3 : ℕ) = 2 + 1 by rfl, pow_succ, A_sq]
-  simp [X, A, Matrix.mul_apply, Fin.sum_univ_two, Matrix.trace_fin_two]
+  simp [X, A, Matrix.trace_fin_two]
 
 /-- Norm-one identity for the 2-dimensional representation: `∑_g χ(g)·χ(g⁻¹) = |Q₈| = 8`. -/
 lemma twoDim_norm :
@@ -458,8 +458,8 @@ lemma twoDim_norm :
 /-- Each of the five representations is simple. -/
 lemma irrep_simple (i : Fin 5) : CategoryTheory.Simple (irrep i) := by
   fin_cases i <;>
-    simp only [irrep, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.cons_val_two, Matrix.cons_val_three, Matrix.cons_val_four, Matrix.tail_cons]
+    simp only [irrep,
+      Matrix.cons_val_two]
   · exact (FDRep.simple_iff_char_is_norm_one _).mpr (oneDim_norm chi00)
   · exact (FDRep.simple_iff_char_is_norm_one _).mpr (oneDim_norm chi01)
   · exact (FDRep.simple_iff_char_is_norm_one _).mpr (oneDim_norm chi10)

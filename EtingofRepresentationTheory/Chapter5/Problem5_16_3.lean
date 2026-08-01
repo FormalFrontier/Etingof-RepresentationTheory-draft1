@@ -167,7 +167,7 @@ lemma asAlgebraHom_sumTranspositionsStab (m : ℕ) {V : Type*} [AddCommGroup V] 
   refine Finset.sum_congr rfl (fun p _ => ?_)
   simp only [Function.Embedding.coe_prodMap, Fin.coe_succEmb]
   rw [Representation.asAlgebraHom_of, Representation.asAlgebraHom_of]
-  show ρ (Equiv.swap p.1.succ p.2.succ) = ρ (permEmbZero m (Equiv.swap p.1 p.2))
+  change ρ (Equiv.swap p.1.succ p.2.succ) = ρ (permEmbZero m (Equiv.swap p.1 p.2))
   rw [permEmbZero_swap]
 
 /-- **Step 3 (integer eigenvalues).** For any finite-dimensional representation `ρ` of `S_{m+1}`,
@@ -192,7 +192,7 @@ lemma sumTranspositionsWith1_hasEigenvalue_integer (m : ℕ)
     rw [hT, hA, hB, ← map_sub, sumTranspositionsWith1_eq_sub]
   -- `A` commutes with `B` (`C_n` is central in `ℂ[S_n]`).
   have hAB : Commute A B := by
-    show A * B = B * A
+    change A * B = B * A
     rw [hA, hB, ← map_mul, ← map_mul,
       sumTranspositions_central (m + 1) (sumTranspositionsStab (m + 1))]
   -- `A` commutes with `T = A - B`.
@@ -623,7 +623,7 @@ lemma sumTranspositionsStab_acts_scalar_iff_content_const_of (m : ℕ)
       have hcν : (content ν : ℂ) = c := hQ ν hνmem
       intro w hw
       rw [LinearMap.mem_ker]
-      show q • w = 0
+      change q • w = 0
       set wW : ↥W := ⟨w, hw⟩ with hwW
       have hact_Vnu : sumTranspositions m • (e wW) = (content ν : ℂ) • (e wW) := by
         apply Subtype.ext
@@ -801,7 +801,7 @@ lemma content_const_removeSquare_iff_rectangular (m : ℕ) (la : Nat.Partition (
   have hbot : la.toYoungDiagram.IsOuterCorner
       (r - 1, la.sortedParts.getD (r - 1) 0 - 1).1
       (r - 1, la.sortedParts.getD (r - 1) 0 - 1).2 := by
-    show la.toYoungDiagram.IsOuterCorner (r - 1) (la.sortedParts.getD (r - 1) 0 - 1)
+    change la.toYoungDiagram.IsOuterCorner (r - 1) (la.sortedParts.getD (r - 1) 0 - 1)
     rw [isOuterCorner_iff]
     have h1 : 0 < la.sortedParts.getD (r - 1) 0 := hpos (r - 1) (by omega)
     have h2 : la.sortedParts.getD r 0 = 0 := hzero r le_rfl
@@ -843,7 +843,7 @@ lemma content_const_removeSquare_iff_rectangular (m : ℕ) (la : Nat.Partition (
     have hcorner1 : la.toYoungDiagram.IsOuterCorner
         (i₀, la.sortedParts.getD i₀ 0 - 1).1
         (i₀, la.sortedParts.getD i₀ 0 - 1).2 := by
-      show la.toYoungDiagram.IsOuterCorner i₀ (la.sortedParts.getD i₀ 0 - 1)
+      change la.toYoungDiagram.IsOuterCorner i₀ (la.sortedParts.getD i₀ 0 - 1)
       rw [isOuterCorner_iff]
       have hpi : 0 < la.sortedParts.getD i₀ 0 := hpos i₀ (by omega)
       exact ⟨by omega, hi₀desc⟩

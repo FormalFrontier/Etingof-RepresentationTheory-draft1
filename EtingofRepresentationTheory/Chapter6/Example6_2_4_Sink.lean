@@ -102,7 +102,7 @@ private lemma ker_f_or (ρ : A₃SinkRep k) (hind : ρ.Indecomposable) :
     LinearMap.ker ρ.f = ⊥ ∨
       (Module.finrank k ρ.V₂ = 0 ∧ Module.finrank k ρ.V₃ = 0) := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨hker, hrest⟩ := h
   obtain ⟨q₁, hq₁⟩ := Submodule.exists_isCompl (LinearMap.ker ρ.f)
   have hres := hind.2 (LinearMap.ker ρ.f) q₁ ⊥ ⊤ ⊥ ⊤ hq₁ isCompl_bot_top isCompl_bot_top
@@ -119,7 +119,7 @@ private lemma ker_g_or (ρ : A₃SinkRep k) (hind : ρ.Indecomposable) :
     LinearMap.ker ρ.g = ⊥ ∨
       (Module.finrank k ρ.V₂ = 0 ∧ Module.finrank k ρ.V₁ = 0) := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨hker, hrest⟩ := h
   obtain ⟨q₃, hq₃⟩ := Submodule.exists_isCompl (LinearMap.ker ρ.g)
   have hres := hind.2 ⊥ ⊤ ⊥ ⊤ (LinearMap.ker ρ.g) q₃ isCompl_bot_top isCompl_bot_top hq₃
@@ -137,7 +137,7 @@ private lemma range_sup_or (ρ : A₃SinkRep k) (hind : ρ.Indecomposable) :
     LinearMap.range ρ.f ⊔ LinearMap.range ρ.g = ⊤ ∨
       (Module.finrank k ρ.V₁ = 0 ∧ Module.finrank k ρ.V₃ = 0) := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨hsup, hrest⟩ := h
   obtain ⟨T, hT⟩ := Submodule.exists_isCompl (LinearMap.range ρ.f ⊔ LinearMap.range ρ.g)
   have hres := hind.2 ⊤ ⊥ (LinearMap.range ρ.f ⊔ LinearMap.range ρ.g) T ⊤ ⊥

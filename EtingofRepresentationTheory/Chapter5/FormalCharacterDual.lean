@@ -96,7 +96,7 @@ theorem finrank_glWeightSpaceℤ_of_eigenbasis (k : Type*) [Field k] [CharZero k
       have hzero : ∀ c, wt c ≠ ν → r c = 0 := by
         intro c hc
         obtain ⟨i, hi⟩ : ∃ i, wt c i ≠ ν i := by
-          by_contra h; push_neg at h; exact hc (funext h)
+          by_contra h; push Not at h; exact hc (funext h)
         obtain ⟨t, ht⟩ := exists_unit_zpow_ne k hi
         have expand : σ (diagUnit k N i t) w
             = ∑ dd, (r dd * ((t ^ wt dd i : kˣ) : k)) • b dd := by

@@ -1006,7 +1006,7 @@ lemma eq_negIdSU_of_sq_eq_one {g : specialUnitaryGroup (Fin 2) ℂ}
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.sub_apply, Matrix.smul_apply,
-        Matrix.trace_fin_two, Matrix.det_fin_two, Matrix.one_apply, smul_eq_mul] <;> ring
+        Matrix.trace_fin_two, Matrix.det_fin_two, smul_eq_mul] <;> ring
   -- Hence `(tr A) • A = 2 • 1`.
   have hT : A.trace • A = (2 : ℂ) • (1 : Matrix (Fin 2) (Fin 2) ℂ) := by
     have h := hCH
@@ -1088,7 +1088,7 @@ private lemma exists_eigen_character_of_not_simple
       ∃ N : Submodule (MonoidAlgebra ℂ G) (Representation.asModule (tautRep G)),
         N ≠ ⊥ ∧ N ≠ ⊤ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     haveI : Nontrivial (Representation.asModule (tautRep G)) := hnt
     exact hnsm { eq_bot_or_eq_top := fun N => (em (N = ⊥)).imp id (hcon N) }
   -- transport `N` to a `G`-invariant subspace `P` of `ℂ²`.
@@ -1251,7 +1251,7 @@ picks up a factor `εᵢ⁻¹·(-εᵢ) = -1`, forcing the sum to equal its own 
 /-- A simple `FDRep ℂ G` has positive finrank (it is a nonzero object). -/
 private lemma finrank_pos_of_simple (S : FDRep ℂ G) [Simple S] : 0 < Module.finrank ℂ S := by
   by_contra h
-  push_neg at h
+  push Not at h
   have h0 : Module.finrank ℂ S = 0 := Nat.le_zero.mp h
   have hsub : Subsingleton S := Module.finrank_zero_iff.mp h0
   have hsub2 : Subsingleton (S ⟶ S) := by
@@ -1492,7 +1492,7 @@ lemma mult_le_one_off (hW : IsCompleteIrreps W) (hm : 3 ≤ m) {i j : Fin m} (hi
     linarith
   -- the main bound, by contradiction
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hR2 : (2 : ℤ) ≤ (mult W i j : ℤ) := by
     have : 2 ≤ mult W i j := hcon; exact_mod_cast this
   have hprod1 : (0 : ℤ) ≤ ((mult W i j : ℤ) - 2) * (finrank ℂ (W j) : ℤ) :=
@@ -1515,7 +1515,7 @@ lemma mult_le_one_off (hW : IsCompleteIrreps W) (hm : 3 ≤ m) {i j : Fin m} (hi
   -- connectivity contradiction: `{i, j}` cannot be an isolated pair when `m ≥ 3`
   obtain ⟨l, hl⟩ : ∃ l : Fin m, l ∉ ({i, j} : Finset (Fin m)) := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have hsubuniv : (Finset.univ : Finset (Fin m)) ⊆ {i, j} := fun l _ => hc l
     have h1 := Finset.card_le_card hsubuniv
     rw [Finset.card_univ, Fintype.card_fin] at h1
@@ -1543,11 +1543,11 @@ lemma mult_le_one_off (hW : IsCompleteIrreps W) (hm : 3 ≤ m) {i j : Fin m} (hi
           have hb : b = i ∨ b = j := by
             rcases hab with rfl | rfl
             · by_contra hbc
-              push_neg at hbc
+              push Not at hbc
               have h0 := hzi b hbc.2
               unfold McKayAdj at hadj; omega
             · by_contra hbc
-              push_neg at hbc
+              push Not at hbc
               have h0 := hzj b hbc.1
               unfold McKayAdj at hadj; omega
           exact ih hchain'.2 b (by simp) hb y hyt

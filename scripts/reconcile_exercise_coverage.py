@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parent.parent
 ITEMS = ROOT / "progress" / "items.json"
 SUMMARY = ROOT / "progress" / "coverage-audit" / "exercise-coverage.md"
 DECLARATION_CHECKER = ROOT / "EtingofRepresentationTheory" / "ExerciseCoverageDeclarations.lean"
-TODAY = "2026-07-28"
+TODAY = "2026-08-01"
 
 
 def units(**entries: str) -> dict[str, str]:
@@ -1245,7 +1245,7 @@ def main(argv: list[str] | None = None) -> None:
             # partial/regression prose would make the terminal ledger disagree
             # with itself.
             "derived", "fidelity_note", "fidelity_decl", "coverage_arm",
-            "coverage_arm_note", "coverage_swept", "stage3_4", "stage3_5",
+            "coverage_arm_note", "coverage_swept",
         ):
             item.pop(stale_key, None)
 

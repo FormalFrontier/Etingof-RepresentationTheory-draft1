@@ -22,7 +22,7 @@ variable [NeZero (Nat.card G : k)] (D : IrrepDecomp k G) (i : Fin D.n)
 /-- `projRingHom` preserves k-scalar multiplication. -/
 private lemma projRingHom_smul (r : k) (α : MonoidAlgebra k G) :
     D.projRingHom i (r • α) = r • D.projRingHom i α := by
-  show (Pi.evalRingHom _ i) (D.iso (r • α)) = r • (Pi.evalRingHom _ i) (D.iso α)
+  change (Pi.evalRingHom _ i) (D.iso (r • α)) = r • (Pi.evalRingHom _ i) (D.iso α)
   rw [show D.iso (r • α) = r • D.iso α from map_smul D.iso r α]; simp [Pi.evalRingHom_apply, Pi.smul_apply]
 
 /-- For any α ∈ k[G], the action of `projRingHom(α)` preserves a subrepresentation. -/
@@ -82,7 +82,7 @@ instance columnRep_isIrreducible : (D.columnRep i).IsIrreducible := by
       apply le_antisymm
       · exact le_top
       · intro x _
-        show x ∈ (D.toMatSubmodule i S)
+        change x ∈ (D.toMatSubmodule i S)
         rw [h]; exact Submodule.mem_top
 
 /-- Helper: `ρ g⁻¹ (ρ g v) = v` for a group representation. -/

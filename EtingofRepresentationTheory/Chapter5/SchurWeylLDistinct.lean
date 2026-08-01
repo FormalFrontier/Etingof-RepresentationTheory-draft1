@@ -297,7 +297,7 @@ theorem schurWeyl_L_pairwise_distinct_of_explicit
     -- `(D.comp (L_carrier m y)) v = D ((L_carrier m y) v) = g^{⊗n} ((L_carrier m y) v)`
     -- (defeq through `centralizerToEndA`/`unitTensorPowCentralizer`), then match the
     -- diagonal-action map functions via `hgh : mulVecLin h.val = g`.
-    show PiTensorProduct.map (R := k) (fun _ : Fin n => (g : Module.End k (Fin N → k)))
+    change PiTensorProduct.map (R := k) (fun _ : Fin n => (g : Module.End k (Fin N → k)))
           ((L_carrier m y) v)
         = PiTensorProduct.map (R := k)
             (fun _ : Fin n => Matrix.mulVecLin (R := k) (h : Matrix (Fin N) (Fin N) k))

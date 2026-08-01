@@ -99,7 +99,7 @@ private lemma Dn_adj_succ_succ (m : ℕ) (hm : 4 ≤ m) (i j : Fin m) :
 private lemma Dn_adj_zero_succ (m : ℕ) (hm : 4 ≤ m) (j : Fin m) :
     (Etingof.DynkinType.D (m + 1) (by omega)).adj (⟨0, by omega⟩ : Fin (m + 1)) j.succ =
     if j.val = 0 then 1 else 0 := by
-  simp only [Etingof.DynkinType.adj, Fin.val_succ, Fin.val_mk]
+  simp only [Etingof.DynkinType.adj, Fin.val_succ]
   have hj := j.isLt
   congr 1; apply propext; constructor
   · rintro ((⟨h1, h2⟩ | ⟨h3, h4⟩) | (⟨h5, h6⟩ | ⟨h7, h8⟩)) <;> omega
@@ -108,7 +108,7 @@ private lemma Dn_adj_zero_succ (m : ℕ) (hm : 4 ≤ m) (j : Fin m) :
 /-- Vertex 0 in D_{m+1} has no self-loop. -/
 private lemma Dn_adj_zero_zero (m : ℕ) (hm : 4 ≤ m) :
     (Etingof.DynkinType.D (m + 1) (by omega)).adj (⟨0, by omega⟩ : Fin (m + 1)) (⟨0, by omega⟩ : Fin (m + 1)) = 0 := by
-  simp only [Etingof.DynkinType.adj, Fin.val_mk]
+  simp only [Etingof.DynkinType.adj]
   have : ¬(((0 + 1 = 0 ∧ (0 : ℕ) ≤ m + 1 - 2) ∨ (0 + 1 = 0 ∧ (0 : ℕ) ≤ m + 1 - 2)) ∨
     ((0 = m + 1 - 3 ∧ (0 : ℕ) = m + 1 - 1) ∨ (0 = m + 1 - 3 ∧ (0 : ℕ) = m + 1 - 1))) := by omega
   rw [if_neg this]
@@ -117,7 +117,7 @@ private lemma Dn_adj_zero_zero (m : ℕ) (hm : 4 ≤ m) :
 private lemma Dn_adj_succ_zero (m : ℕ) (hm : 4 ≤ m) (i : Fin m) :
     (Etingof.DynkinType.D (m + 1) (by omega)).adj i.succ (⟨0, by omega⟩ : Fin (m + 1)) =
     if i.val = 0 then 1 else 0 := by
-  simp only [Etingof.DynkinType.adj, Fin.val_succ, Fin.val_mk]
+  simp only [Etingof.DynkinType.adj, Fin.val_succ]
   have hi := i.isLt
   congr 1; apply propext; constructor
   · rintro ((⟨h1, h2⟩ | ⟨h3, h4⟩) | (⟨h5, h6⟩ | ⟨h7, h8⟩)) <;> omega
@@ -129,7 +129,7 @@ private lemma Dn_cartan_succ_succ (m : ℕ) (hm : 4 ≤ m) (i j : Fin m) :
       (Etingof.DynkinType.D (m + 1) (by omega)).adj) i.succ j.succ =
     (2 • (1 : Matrix (Fin m) (Fin m) ℤ) -
       (Etingof.DynkinType.D m hm).adj) i j := by
-  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
+  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
     Dn_adj_succ_succ m hm i j, show (i.succ : Fin (m + 1)) = j.succ ↔ i = j from Fin.succ_inj]
 
 /-- The Cartan matrix of D_{m+1} at (0, succ j). -/
@@ -138,7 +138,7 @@ private lemma Dn_cartan_zero_succ (m : ℕ) (hm : 4 ≤ m) (j : Fin m) :
       (Etingof.DynkinType.D (m + 1) (by omega)).adj) 0 j.succ =
     if j.val = 0 then -1 else 0 := by
   simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
-    Etingof.DynkinType.adj, Fin.val_succ, Fin.val_mk]
+    Etingof.DynkinType.adj, Fin.val_succ]
   have hj := j.isLt
   have : ¬((0 : Fin (m + 1)) = j.succ) := (Fin.succ_ne_zero j).symm
   rw [if_neg this]; simp
@@ -150,7 +150,7 @@ private lemma Dn_cartan_succ_zero (m : ℕ) (hm : 4 ≤ m) (i : Fin m) :
       (Etingof.DynkinType.D (m + 1) (by omega)).adj) i.succ 0 =
     if i.val = 0 then -1 else 0 := by
   simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
-    Etingof.DynkinType.adj, Fin.val_succ, Fin.val_mk]
+    Etingof.DynkinType.adj, Fin.val_succ]
   have hi := i.isLt
   have : ¬((i.succ : Fin (m + 1)) = 0) := Fin.succ_ne_zero i
   rw [if_neg this]; simp
@@ -179,7 +179,7 @@ private lemma Dn_qform_peel (m : ℕ) (hm : 4 ≤ m) (x : Fin (m + 1) → ℤ) :
   simp only [Dn_cartan_zero_zero m hm, Dn_cartan_zero_succ m hm,
     Dn_cartan_succ_zero m hm, Dn_cartan_succ_succ m hm]
   -- Simplify ite expressions
-  simp only [ite_mul, one_mul, zero_mul, neg_mul, mul_ite, mul_one, mul_zero, mul_neg]
+  simp only [ite_mul, one_mul, zero_mul, neg_mul]
   -- Convert i.val = 0 conditions to i = ⟨0, _⟩
   have hconv : ∀ (i : Fin m) (a b : ℤ),
       (if i.val = 0 then a else b) = if i = ⟨0, by omega⟩ then a else b := by
@@ -223,7 +223,7 @@ private lemma Dn_qform_ge_sq_and_posDef : ∀ (n : ℕ) (hn : 4 ≤ n) (x : Fin 
           (2*x 3-x 1)^2 + x 1^2 := by linarith
       constructor
       · -- 2q - 2x₀² = 2(x₀-x₁)² + (2x₂-x₁)² + (2x₃-x₁)² ≥ 0
-        show (x 0) ^ 2 ≤ q
+        change (x 0) ^ 2 ≤ q
         nlinarith [hsos2, sq_nonneg (x 0 - x 1), sq_nonneg (2 * x 2 - x 1),
           sq_nonneg (2 * x 3 - x 1)]
       · intro hne
@@ -231,8 +231,8 @@ private lemma Dn_qform_ge_sq_and_posDef : ∀ (n : ℕ) (hn : 4 ≤ n) (x : Fin 
         by_cases h1 : x 1 = 0
         · -- x₁ = 0: 2q = 4(x₀²+x₂²+x₃²)
           have : x 0 ≠ 0 ∨ x 2 ≠ 0 ∨ x 3 ≠ 0 := by
-            by_contra h; push_neg at h; apply hne; ext i; fin_cases i <;> simp_all
-          simp only [h1, mul_zero, sub_zero, zero_mul, add_zero, sq_abs] at hsos2
+            by_contra h; push Not at h; apply hne; ext i; fin_cases i <;> simp_all
+          simp only [h1, sub_zero] at hsos2
           rcases this with h | h | h <;>
             nlinarith [sq_nonneg (x 0), sq_nonneg (x 2), sq_nonneg (x 3),
               mul_self_pos.mpr h]
@@ -589,7 +589,7 @@ private lemma qFourFinset_peel (m : ℕ) (hm : 4 ≤ m) :
       Bool.and_eq_true, decide_eq_true_eq] at hw ⊢
     set v : Fin (m + 1) → Fin 3 := Fin.cons 2 w with hv_def
     constructor
-    · show v ⟨0, by omega⟩ = 2
+    · change v ⟨0, by omega⟩ = 2
       simp [hv_def, Fin.cons_zero]
     · have hpeel := Dn_qform_peel m hm (fun i => (↑↑(v i) : ℤ))
       have hcomp : (fun i ↦ (↑↑(v i) : ℤ)) ∘ Fin.succ = fun i ↦ (↑↑(w i) : ℤ) := by

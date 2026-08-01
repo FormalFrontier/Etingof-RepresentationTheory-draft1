@@ -4,3 +4,5 @@ build/
 .DS_Store
 .claude/.pod-checksums
 __pycache__/
+.pod/
+sessions/

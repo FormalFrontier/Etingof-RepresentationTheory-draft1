@@ -79,7 +79,7 @@ theorem centralIdempotent_smul_simple {M : Type*} [AddCommGroup M] [Module R M]
   -- `φ` is idempotent because `e` is.
   have hφ : IsIdempotentElem φ := by
     ext m
-    show e • e • m = e • m
+    change e • e • m = e • m
     rw [smul_smul, he]
   -- `Module.End R M` is a division ring (Schur), whose only idempotents are `0` and `1`.
   rcases IsIdempotentElem.iff_eq_zero_or_one.mp hφ with h | h

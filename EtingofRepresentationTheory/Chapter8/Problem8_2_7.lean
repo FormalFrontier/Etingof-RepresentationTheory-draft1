@@ -660,7 +660,7 @@ private noncomputable def zmodZeroOpEquiv : ℤ ≃ₗ[ℤᵐᵒᵖ] (ZMod 0) :=
   { (AddEquiv.refl ℤ) with
     map_smul' := fun r x => by
       rw [MulOpposite.smul_eq_mul_unop]
-      show x * MulOpposite.unop r = MulOpposite.unop r • x
+      change x * MulOpposite.unop r = MulOpposite.unop r • x
       rw [smul_eq_mul, mul_comm] }
 
 open Limits in

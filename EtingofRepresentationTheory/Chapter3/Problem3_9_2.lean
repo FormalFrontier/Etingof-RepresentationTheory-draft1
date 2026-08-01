@@ -323,7 +323,7 @@ theorem ext1_subsingleton_of_ne {n : ℕ} (a b : Fin n → ℂ) (hab : a ≠ b) 
     rw [sub_smul, sub_smul, sub_eq_sub_iff_add_eq_add]; exact heq
   -- Pick an index where the weights differ and set the proportionality constant `ξ`.
   obtain ⟨jj, hjj⟩ : ∃ j, a j ≠ b j := by
-    by_contra hcon; push_neg at hcon; exact hab (funext hcon)
+    by_contra hcon; push Not at hcon; exact hab (funext hcon)
   have hbaj : (b jj - a jj) ≠ 0 := sub_ne_zero.mpr (Ne.symm hjj)
   set ξ : Vrep b := (b jj - a jj)⁻¹ • h (X jj) with hξ
   -- The candidate coboundary datum `cb p = (b(p) - a(p)) • ξ`.
@@ -446,7 +446,7 @@ lemma exists_common_eigenvector {n : ℕ} (U : Type)
   · choose b hb using hall
     obtain ⟨v, hv⟩ := exists_ne (0 : U)
     exact ⟨b, v, hv, fun i => hb i v⟩
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨j, hj⟩ := hall
     let T : Module.End ℂ U :=
       { toFun := fun u => (X j : polyAlg n) • u
@@ -688,9 +688,9 @@ theorem infinitely_many_indecomposables {n : ℕ} (hn : 1 < n) :
         set a : ℂ := w 1 with ha
         have hwv : w = a • socleVec n k := by
           funext j; fin_cases j
-          · show w 0 = a • socleVec n k 0
+          · change w 0 = a • socleVec n k 0
             simp [socleVec, socleVecR, h0]
-          · show w 1 = a • socleVec n k 1
+          · change w 1 = a • socleVec n k 1
             simp [socleVec, socleVecR, ha]
         have hw1 : a ≠ 0 := fun h1 => hw0 (by rw [hwv, h1, zero_smul])
         have hv : socleVec n k = a⁻¹ • w := by
@@ -699,7 +699,7 @@ theorem infinitely_many_indecomposables {n : ℕ} (hn : 1 < n) :
       · -- Apply `x₀` (acting as `N`) to reach the socle line.
         have hxw : (gen n (0 : Fin n)) • w ∈ W := W.smul_mem _ hwW
         have hact : (gen n (0 : Fin n)) • w = w 0 • socleVec n k := by
-          show rep n k (gen n 0) w = w 0 • socleVec n k
+          change rep n k (gen n 0) w = w 0 • socleVec n k
           rw [rep_gen, wt_zero]; simp
         rw [hact] at hxw
         have hv : socleVec n k = (w 0)⁻¹ • (w 0 • socleVec n k) := by
@@ -708,7 +708,7 @@ theorem infinitely_many_indecomposables {n : ℕ} (hn : 1 < n) :
     refine ⟨inferInstance, ?_⟩
     intro W₁ W₂ hcompl
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨hW1, hW2⟩ := hcon
     have hv : socleVec n k ∈ W₁ ⊓ W₂ := ⟨mem_of_ne_bot _ hW1, mem_of_ne_bot _ hW2⟩
     rw [disjoint_iff.mp hcompl.disjoint] at hv

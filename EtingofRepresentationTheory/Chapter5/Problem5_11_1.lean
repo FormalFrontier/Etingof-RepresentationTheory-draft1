@@ -297,7 +297,7 @@ lemma sign_char (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 
   have hf2 : σ.ρ t' * σ.ρ t' = 1 := by rw [← map_mul, ht'2, map_one]
   set p : Module.End ℂ σ := (2⁻¹ : ℂ) • (1 + σ.ρ t') with hp_def
   have hidem : IsIdempotentElem p := by
-    show p * p = p
+    change p * p = p
     have e1 : p * p = (2⁻¹ * 2⁻¹ : ℂ) • ((1 + σ.ρ t') * (1 + σ.ρ t')) := by
       simp only [hp_def, smul_mul_assoc, mul_smul_comm, smul_smul]
     have e2 : (1 + σ.ρ t') * (1 + σ.ρ t') = (2 : ℂ) • (1 + σ.ρ t') := by
@@ -1641,7 +1641,7 @@ lemma indA4_nontriv_linear_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (h
       by_cases hx : x * classRepA5 0 * x⁻¹ ∈ H
       · rw [dif_pos hx, if_pos hx]
         apply hP1
-        show (x * classRepA5 0 * x⁻¹) ^ 2 = 1
+        change (x * classRepA5 0 * x⁻¹) ^ 2 = 1
         rw [show classRepA5 0 = 1 from rfl, mul_one, mul_inv_cancel, one_pow]
       · rw [dif_neg hx, if_neg hx]
     rw [hsum, Finset.sum_boole, countH_eq12 H hH, twisted_A4std]
@@ -1658,7 +1658,7 @@ lemma indA4_nontriv_linear_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (h
       by_cases hx : x * classRepA5 2 * x⁻¹ ∈ H
       · rw [dif_pos hx, if_pos hx]
         apply hP1
-        show (x * classRepA5 2 * x⁻¹) ^ 2 = 1
+        change (x * classRepA5 2 * x⁻¹) ^ 2 = 1
         have heq : (x * classRepA5 2 * x⁻¹) ^ 2 = x * ((classRepA5 2) ^ 2) * x⁻¹ := by
           rw [pow_two, pow_two]; group
         rw [heq, hc2]; group
@@ -1801,7 +1801,7 @@ lemma indA4_nontriv_linear_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (h
           rw [Finset.card_eq_zero, Finset.filter_eq_empty_iff]
           intro x _ hxeq
           have hsc : SemiconjBy x (classRepA5 1) (x * classRepA5 1 * x⁻¹) := by
-            show x * classRepA5 1 = x * classRepA5 1 * x⁻¹ * x; group
+            change x * classRepA5 1 = x * classRepA5 1 * x⁻¹ * x; group
           have hord : orderOf (z : A5) = 3 := by
             rw [← hxeq, ← SemiconjBy.orderOf_eq x hsc, Etingof.Problem4_12_5.ord_cr1]
           have hdvd : orderOf (z : A5) ∣ 2 := orderOf_dvd_of_pow_eq_one hz2
@@ -1932,7 +1932,7 @@ lemma indA4_threeDim_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Na
       by_cases hx : x * classRepA5 j * x⁻¹ ∈ H
       · rw [dif_pos hx, if_pos hx, hcharval ⟨x * classRepA5 j * x⁻¹, hx⟩, hw]
         congr 1
-        show classIdxA5 (x * classRepA5 j * x⁻¹) = j
+        change classIdxA5 (x * classRepA5 j * x⁻¹) = j
         rw [classIdxA5_conj, classIdxA5_classRepA5]
       · rw [dif_neg hx, if_neg hx]
     rw [hstep, ← Finset.sum_filter, Finset.sum_const, nsmul_eq_mul, mul_comm]
@@ -2077,7 +2077,7 @@ lemma kleinV_card (H : Subgroup A5) (hH : Nat.card H = 12) :
   have bwd_mem : ∀ z : {z : A5 // z ∈ A4std ∧ z ^ 2 = 1},
       (⟨d⁻¹ * (z : A5) * d, bwd_memH z⟩ : ↥H) ∈ kleinV H hH := by
     intro z
-    show (d⁻¹ * (z : A5) * d) ^ 2 = 1
+    change (d⁻¹ * (z : A5) * d) ^ 2 = 1
     rw [show (d⁻¹ * (z : A5) * d) ^ 2 = d⁻¹ * ((z : A5) ^ 2) * d by
       rw [pow_two, pow_two]; group, z.2.2]; group
   let e : ↥(kleinV H hH) ≃ {z : A5 // z ∈ A4std ∧ z ^ 2 = 1} :=
@@ -2085,10 +2085,10 @@ lemma kleinV_card (H : Subgroup A5) (hH : Nat.card H = 12) :
       invFun := fun z => ⟨⟨d⁻¹ * (z : A5) * d, bwd_memH z⟩, bwd_mem z⟩
       left_inv := fun y => by
         apply Subtype.ext; apply Subtype.ext
-        show d⁻¹ * (d * (((y : ↥H) : A5)) * d⁻¹) * d = (((y : ↥H) : A5)); group
+        change d⁻¹ * (d * (((y : ↥H) : A5)) * d⁻¹) * d = (((y : ↥H) : A5)); group
       right_inv := fun z => by
         apply Subtype.ext
-        show d * (d⁻¹ * (z : A5) * d) * d⁻¹ = (z : A5); group }
+        change d * (d⁻¹ * (z : A5) * d) * d⁻¹ = (z : A5); group }
   rw [Nat.card_congr e, Nat.card_eq_fintype_card, Fintype.card_subtype]
   exact A4std_invol_count
 
@@ -2156,7 +2156,7 @@ lemma charval_A4_involution (H : Subgroup A5) (hH : Nat.card H = 12)
   have hρ2 : T * T = 1 := by rw [hT_def, ← map_mul, ← pow_two, hh2, map_one]
   set p : Module.End ℂ σ := (2⁻¹ : ℂ) • (1 + T) with hp_def
   have hp_idem : IsIdempotentElem p := by
-    show p * p = p
+    change p * p = p
     rw [hp_def, smul_mul_smul_comm,
       show (1 + T) * (1 + T) = 1 + T + T + T * T by noncomm_ring, hρ2,
       show (1 : Module.End ℂ σ) + T + T + 1 = (2 : ℂ) • (1 + T) by
@@ -2198,7 +2198,7 @@ lemma charval_A4_involution (H : Subgroup A5) (hH : Nat.card H = 12)
       (Finset.add_sum_erase _ _ (Finset.mem_univ _)).symm
     rw [h1, hone_term, Finset.sum_congr rfl hconst, Finset.sum_const,
       Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ, hcard4]
-    show (3 : ℂ) + (4 - 1) • a = 3 + 3 * a
+    change (3 : ℂ) + (4 - 1) • a = 3 + 3 * a
     rw [nsmul_eq_mul]; push_cast; ring
   have havg := avg_char_subgroup σ (kleinV H hH)
   rw [hsum] at havg
@@ -2245,7 +2245,7 @@ lemma charval_A4_involution (H : Subgroup A5) (hH : Nat.card H = 12)
           (FDRep.ρ ((Action.res (FGModuleCat ℂ) (kleinV H hH).subtype).obj σ)) :=
         (Submodule.eq_top_iff'.mp hinv_top) x
       have hfix := (Representation.mem_invariants _ x).mp hx (⟨w, hwV⟩ : ↥(kleinV H hH))
-      show (σ.ρ w) x = x
+      change (σ.ρ w) x = x
       exact hfix
     -- commutators lie in `V ⊆ ker σ`, so the image is abelian
     have hcomm : ∀ g k : ↥H, σ.ρ g * σ.ρ k = σ.ρ k * σ.ρ g := by

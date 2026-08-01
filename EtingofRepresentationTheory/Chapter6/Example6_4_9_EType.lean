@@ -135,12 +135,12 @@ private lemma lookup_addOne (h : List (ℤ × ℕ)) (v s : ℤ) :
     obtain ⟨w, n⟩ := hd; simp only [addOne]
     split <;> rename_i hvw
     · subst hvw; simp only [lookupH]; split <;> rename_i hsw <;> simp_all
-    · simp only [lookupH]; split <;> rename_i hsw <;> simp_all <;> omega
+    · simp only [lookupH]; split <;> rename_i hsw <;> simp_all; omega
 
 private lemma lookupH_foldl (l : List ℤ) (acc : List (ℤ × ℕ)) (s : ℤ) :
     lookupH (l.foldl addOne acc) s = lookupH acc s + l.count s := by
   induction l generalizing acc with
-  | nil => simp [lookupH]
+  | nil => simp
   | cons hd tl ih =>
     rw [List.foldl_cons, ih, lookup_addOne, List.count_cons]
     simp only [beq_iff_eq]; split_ifs <;> omega
@@ -285,7 +285,7 @@ private def E7equiv : (Fin 7 → Fin 5) ≃ Fin 5 × E7.T3 × E7.T3 where
   left_inv v := by funext i; fin_cases i <;> simp [asm7, dis7]
   right_inv w := by
     obtain ⟨c, ⟨a, b, d⟩, ⟨e, f, g⟩⟩ := w
-    simp only [asm7, dis7, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
+    simp only [asm7, dis7, Matrix.cons_val_zero, Matrix.cons_val_one,
       Matrix.cons_val, Fin.isValue]
 
 /-- Tits form contribution of the `{0,1,6}` component (edges 0-1, 1-2, 2-6). -/
@@ -463,7 +463,7 @@ private lemma E8_bound (x : Fin 8 → ℤ)
   -- Step 2: c ≤ 6 via integrality (c = 7 → d = 6 → no integer e)
   have hc6 : c ≤ 6 := by
     by_contra hc_ge7
-    push_neg at hc_ge7
+    push Not at hc_ge7
     have hc_eq : c = 7 := le_antisymm hc7 hc_ge7
     -- Isolate the d-dependent term: 3*(5d-28)² ≤ 22
     have h3sq : 3 * (5 * d - 28) ^ 2 ≤ 22 := by
@@ -554,7 +554,7 @@ private def E8equiv : (Fin 8 → Fin 7) ≃ Fin 7 × E8.U3 × E8.U4 where
   left_inv v := by funext i; fin_cases i <;> simp [asm8, dis8]
   right_inv w := by
     obtain ⟨c, ⟨a, b, d⟩, ⟨e, f, g, h⟩⟩ := w
-    simp only [asm8, dis8, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
+    simp only [asm8, dis8, Matrix.cons_val_zero, Matrix.cons_val_one,
       Matrix.cons_val, Fin.isValue]
 
 /-- Tits form contribution of the `{0,1,7}` component (edges 0-1, 1-2, 2-7). -/

@@ -297,7 +297,7 @@ diagram of `(3,1)` (rows `3, 1`) across its main diagonal gives the column lengt
 `2, 1, 1`. -/
 theorem conjugatePartition_p_31 : conjugatePartition p_31 = p_211 := by
   apply Nat.Partition.ext
-  show (↑(p_31.toYoungDiagram.transpose.rowLens) : Multiset ℕ) = ({2, 1, 1} : Multiset ℕ)
+  change (↑(p_31.toYoungDiagram.transpose.rowLens) : Multiset ℕ) = ({2, 1, 1} : Multiset ℕ)
   have hsp : p_31.sortedParts = [3, 1] := sortedParts_eq_of _ [3, 1] rfl (by decide)
   have hc0 : p_31.toYoungDiagram.colLen 0 = 2 := by
     rw [toYoungDiagram_colLen_eq, hsp]; decide

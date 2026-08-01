@@ -465,12 +465,12 @@ noncomputable def Etingof.homFMinusEquivReducedEquiv
                       (Etingof.reflFunctorMinus_equivAt_ne hi V a ha y)) := by
                 unfold Etingof.reflFunctorMinus_mkQ
                 rw [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply]
-              show (liftG r) ((Etingof.reflFunctorMinus_equivAt_eq hi V) _) = _
+              change (liftG r) ((Etingof.reflFunctorMinus_equivAt_eq hi V) _) = _
               rw [hmkQ]
-              show (g r) (DirectSum.lof k (Etingof.ArrowsOutOf Q i) (fun a => V.obj a.1)
+              change (g r) (DirectSum.lof k (Etingof.ArrowsOutOf Q i) (fun a => V.obj a.1)
                 ⟨a, Etingof.reversedArrow_ne_eq ha e⟩
                 (Etingof.reflFunctorMinus_equivAt_ne hi V a ha y)) = _
-              show (DirectSum.toModule k (Etingof.ArrowsOutOf Q i) _ _) _ = _
+              change (DirectSum.toModule k (Etingof.ArrowsOutOf Q i) _ _) _ = _
               rw [DirectSum.toModule_lof]
               simp only [LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]
               rw [Etingof.revOut_reversedArrow_ne_eq hi ha e]
@@ -499,7 +499,7 @@ noncomputable def Etingof.homFMinusEquivReducedEquiv
           (Etingof.reflectionFunctorMinus Q i hi V) W (invFun (toFun f)) i) =
           appAtI (toFun f) :=
         LinearMap.ext fun z => by
-          show (@Etingof.QuiverRepresentationHom.app k Q _ (Etingof.reversedAtVertex Q i)
+          change (@Etingof.QuiverRepresentationHom.app k Q _ (Etingof.reversedAtVertex Q i)
               (Etingof.reflectionFunctorMinus Q i hi V) W
               (@Etingof.QuiverRepresentationHom.mk k Q _ (Etingof.reversedAtVertex Q i)
                 (Etingof.reflectionFunctorMinus Q i hi V) W _ _) i) z = appAtI (toFun f) z
@@ -511,7 +511,7 @@ noncomputable def Etingof.homFMinusEquivReducedEquiv
       | add x y hx hy => simp only [map_add, hx, hy]
       | of a u =>
         -- `DirectSum.of` is definitionally `DirectSum.lof`; restate in `lof` form.
-        show appAtI (toFun f) (Etingof.reflFunctorMinus_mkQ hi V
+        change appAtI (toFun f) (Etingof.reflFunctorMinus_mkQ hi V
               (DirectSum.lof k (Etingof.ArrowsOutOf Q i) (fun a => V.obj a.1) a u)) =
             (@Etingof.QuiverRepresentationHom.app k Q _ (Etingof.reversedAtVertex Q i)
               (Etingof.reflectionFunctorMinus Q i hi V) W f i)
@@ -529,11 +529,11 @@ noncomputable def Etingof.homFMinusEquivReducedEquiv
             (@Etingof.QuiverRepresentation.mapLinear k Q _ (Etingof.reversedAtVertex Q i) W
                 a.fst i (Etingof.revOut hi a))
               ((toFun f).h a.fst (Etingof.arrowsOutOf_target_ne_source hi a) u) := by
-          show (liftG (toFun f)) ((Etingof.reflFunctorMinus_equivAt_eq hi V) _) = _
+          change (liftG (toFun f)) ((Etingof.reflFunctorMinus_equivAt_eq hi V) _) = _
           rw [hmkQ]
-          show (g (toFun f))
+          change (g (toFun f))
             (DirectSum.lof k (Etingof.ArrowsOutOf Q i) (fun a => V.obj a.1) a u) = _
-          show (DirectSum.toModule k (Etingof.ArrowsOutOf Q i) _ _) _ = _
+          change (DirectSum.toModule k (Etingof.ArrowsOutOf Q i) _ _) _ = _
           rw [DirectSum.toModule_lof, LinearMap.comp_apply]
         rw [hLHS, Etingof.reflFunctorMinus_mkQ_lof hi V a u,
           @Etingof.QuiverRepresentationHom.naturality k Q _ (Etingof.reversedAtVertex Q i)
@@ -544,12 +544,12 @@ noncomputable def Etingof.homFMinusEquivReducedEquiv
     · -- at `v ≠ i`, `(invFun (toFun f)).app v = (toFun f).h v hv ∘ equivAt_ne`, and
       -- `(toFun f).h v hv = f.app v ∘ equivAt_ne⁻¹`, so the equivalences cancel.
       refine LinearMap.ext fun x => ?_
-      show (@Etingof.QuiverRepresentationHom.app k Q _ (Etingof.reversedAtVertex Q i)
+      change (@Etingof.QuiverRepresentationHom.app k Q _ (Etingof.reversedAtVertex Q i)
           (Etingof.reflectionFunctorMinus Q i hi V) W
           (@Etingof.QuiverRepresentationHom.mk k Q _ (Etingof.reversedAtVertex Q i)
             (Etingof.reflectionFunctorMinus Q i hi V) W _ _) v) x = _
       simp only [dif_neg hv]
-      show (((@Etingof.QuiverRepresentationHom.app k Q _ (Etingof.reversedAtVertex Q i)
+      change (((@Etingof.QuiverRepresentationHom.app k Q _ (Etingof.reversedAtVertex Q i)
           (Etingof.reflectionFunctorMinus Q i hi V) W f v).comp
           (Etingof.reflFunctorMinus_equivAt_ne hi V v hv).symm.toLinearMap).comp
           (Etingof.reflFunctorMinus_equivAt_ne hi V v hv).toLinearMap) x = _
@@ -558,13 +558,13 @@ noncomputable def Etingof.homFMinusEquivReducedEquiv
   · -- right_inv: `toFun (invFun r) = r`
     intro r
     ext v hv x
-    show ((@Etingof.QuiverRepresentationHom.app k Q _ (Etingof.reversedAtVertex Q i)
+    change ((@Etingof.QuiverRepresentationHom.app k Q _ (Etingof.reversedAtVertex Q i)
         (Etingof.reflectionFunctorMinus Q i hi V) W
         (@Etingof.QuiverRepresentationHom.mk k Q _ (Etingof.reversedAtVertex Q i)
           (Etingof.reflectionFunctorMinus Q i hi V) W _ _) v).comp
         (Etingof.reflFunctorMinus_equivAt_ne hi V v hv).symm.toLinearMap) x = r.h v hv x
     simp only [dif_neg hv]
-    show (((r.h v hv).comp (Etingof.reflFunctorMinus_equivAt_ne hi V v hv).toLinearMap).comp
+    change (((r.h v hv).comp (Etingof.reflFunctorMinus_equivAt_ne hi V v hv).toLinearMap).comp
         (Etingof.reflFunctorMinus_equivAt_ne hi V v hv).symm.toLinearMap) x = r.h v hv x
     rw [LinearMap.comp_apply, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
       LinearEquiv.coe_toLinearMap, LinearEquiv.apply_symm_apply]
@@ -785,7 +785,7 @@ noncomputable def Etingof.homTransportPlusEquivReducedEquiv
   have hκ_appAtI : ∀ (r : Etingof.AdjReducedData hi V W) (x : V.obj i),
       κ (appAtI r x) = ⟨sumMap r x, hker r x⟩ := by
     intro r x
-    show κ (κ.symm (LinearMap.codRestrict _ (sumMap r) (hker r) x)) = _
+    change κ (κ.symm (LinearMap.codRestrict _ (sumMap r) (hker r) x)) = _
     rw [LinearEquiv.apply_symm_apply]
     rfl
   -- Reading off the `reindex a₀`-component of `sumMap r x`.

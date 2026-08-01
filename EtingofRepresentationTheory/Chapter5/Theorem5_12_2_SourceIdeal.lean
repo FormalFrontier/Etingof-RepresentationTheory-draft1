@@ -259,6 +259,20 @@ theorem youngProjectorLeftIdeal_isSimpleModule (n : ℕ) (la : Nat.Partition n) 
   (spechtModule_linearEquiv_youngProjectorLeftIdeal n la).isSimpleModule_iff.mp
     (Theorem5_12_2_irreducible n la)
 
+/-- Etingof's source-order Young projector `c_λ = a_λ b_λ` is nonzero.  This is the
+claim immediately following its definition: its principal left ideal is isomorphic to the
+nonzero simple Specht module, so that ideal cannot be bottom. -/
+theorem youngProjector_ne_zero (n : ℕ) (la : Nat.Partition n) :
+    youngProjector n la ≠ 0 := by
+  intro hzero
+  haveI : IsSimpleModule (SymGroupAlgebra n) (youngProjectorLeftIdeal n la) :=
+    youngProjectorLeftIdeal_isSimpleModule n la
+  have hne : youngProjectorLeftIdeal n la ≠ ⊥ :=
+    Submodule.nontrivial_iff_ne_bot.mp
+      (IsSimpleModule.nontrivial (SymGroupAlgebra n) (youngProjectorLeftIdeal n la))
+  apply hne
+  simp [youngProjectorLeftIdeal, hzero]
+
 end
 
 end Etingof

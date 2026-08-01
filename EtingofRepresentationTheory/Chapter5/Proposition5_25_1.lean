@@ -65,13 +65,13 @@ theorem comm_diag_E12 (a t : F) (ha : a ≠ 0) :
     diagGL a 1 ha one_ne_zero * E12 t * (diagGL a 1 ha one_ne_zero)⁻¹ * (E12 t)⁻¹ =
       E12 ((a - 1) * t) := by
   apply Units.ext; ext i j; fin_cases i <;> fin_cases j <;>
-    simp [mul_apply, Fin.sum_univ_two, E12, diagGL, Units.inv_mk] <;> field_simp <;> ring
+    simp [mul_apply, Fin.sum_univ_two, E12, diagGL, Units.inv_mk] <;> field_simp ; ring
 
 theorem comm_diag_E21 (a t : F) (ha : a ≠ 0) :
     diagGL 1 a one_ne_zero ha * E21 t * (diagGL 1 a one_ne_zero ha)⁻¹ * (E21 t)⁻¹ =
       E21 ((a - 1) * t) := by
   apply Units.ext; ext i j; fin_cases i <;> fin_cases j <;>
-    simp [mul_apply, Fin.sum_univ_two, E21, diagGL, Units.inv_mk] <;> field_simp <;> ring
+    simp [mul_apply, Fin.sum_univ_two, E21, diagGL, Units.inv_mk] <;> field_simp ; ring
 
 theorem comm_diag_weyl (d : F) (hd : d ≠ 0) :
     diagGL d 1 hd one_ne_zero * weylGL * (diagGL d 1 hd one_ne_zero)⁻¹ * weylGL⁻¹ =
@@ -111,9 +111,9 @@ theorem exists_ne_zero_ne_one (hcard : 2 < Nat.card F) :
   haveI : Finite F := Nat.finite_of_card_ne_zero (by omega)
   haveI := Fintype.ofFinite F
   rw [Nat.card_eq_fintype_card] at hcard
-  by_contra h; push_neg at h
+  by_contra h; push Not at h
   have huniv : ∀ x : F, x = 0 ∨ x = 1 := fun x => by
-    by_contra hx; push_neg at hx; exact absurd (h x hx.1) hx.2
+    by_contra hx; push Not at hx; exact absurd (h x hx.1) hx.2
   have : Fintype.card F ≤ 2 := Fintype.card_le_of_surjective
     (fun b : Bool => if b then (1 : F) else 0)
     (fun x => by rcases huniv x with rfl | rfl; exact ⟨false, rfl⟩; exact ⟨true, rfl⟩)
@@ -141,7 +141,7 @@ theorem sl2_mem_commutator (s : SpecialLinearGroup (Fin 2) F)
         E12 ((M 0 0)⁻¹ * M 0 1) := by
       apply Units.ext; ext i j; fin_cases i <;> fin_cases j <;>
         simp [Units.val_mul, E12, diagGL, mul_apply, Fin.sum_univ_two,
-          SpecialLinearGroup.coe_GL_coe_matrix, hM, hc, hd_eq] <;>
+          SpecialLinearGroup.coe_GL_coe_matrix, hM, hc, hd_eq] ;
         field_simp
     rw [hval]
     exact (commutator _).mul_mem (diag_det1_mem_commutator _ ha_ne)

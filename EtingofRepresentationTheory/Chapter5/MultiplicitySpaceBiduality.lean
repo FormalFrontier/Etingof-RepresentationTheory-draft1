@@ -214,7 +214,7 @@ theorem multiplicitySpace_double_hom_finrank
       map_add' := fun v w => by ext l; exact l.map_add v w
       map_smul' := fun a v => by
         ext l
-        show l (a • v) = (σ a).val (l v)
+        change l (a • v) = (σ a).val (l v)
         rw [l.map_smul a v]; rfl }
   -- `biSk` is injective (evaluating at `S.subtype` recovers `↑v`).
   have hinj : Function.Injective biSk := by

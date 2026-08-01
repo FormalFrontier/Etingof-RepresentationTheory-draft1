@@ -383,7 +383,7 @@ theorem cycle_cartan_mulVec_one_eq_zero (n : ℕ) (hn : 3 ≤ n) :
             ⟨if i.val = 0 then n - 1 else i.val - 1, hlt2⟩} := by
       ext j
       simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_insert,
-        Finset.mem_singleton, Fin.ext_iff, Fin.val_mk]
+        Finset.mem_singleton, Fin.ext_iff]
       rw [hmod i.val i.isLt, hmod j.val j.isLt]
       split_ifs <;> omega
     have hab : (⟨(i.val + 1) % n, hlt1⟩ : Fin n)
@@ -528,7 +528,7 @@ tree/no-cycle input is required. -/
 theorem isDynkinDiagram_degree_le_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hD : IsDynkinDiagram n adj) (v : Fin n) : vertexDegree adj v ≤ 3 := by
   by_contra hdeg
-  push_neg at hdeg
+  push Not at hdeg
   simp only [vertexDegree] at hdeg
   obtain ⟨hsymm, hdiag, h01, _hconn, hpos⟩ := hD
   set N := univ.filter (fun j => adj v j = 1) with hN_def
@@ -550,7 +550,7 @@ theorem isDynkinDiagram_degree_le_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) 
     rw [Matrix.transpose_apply] at h
     exact h
   have hnn : ∀ a b, 0 ≤ adj a b := fun a b => by
-    rcases h01 a b with h | h <;> rw [h] <;> norm_num
+    rcases h01 a b with h | h <;> rw [h] ; norm_num
   -- The affine-star test vector.
   set x : Fin n → ℤ := fun j => 2 * (if j = v then 1 else 0) + (if j ∈ S then 1 else 0)
     with hx_def
@@ -644,7 +644,7 @@ theorem isDynkinDiagram_unique_degree_three {n : ℕ} {adj : Matrix (Fin n) (Fin
   have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
     have h := congrFun (congrFun hsymm b) a; rwa [Matrix.transpose_apply] at h
   have hnn : ∀ a b, 0 ≤ adj a b := fun a b => by
-    rcases h01 a b with h | h <;> rw [h] <;> norm_num
+    rcases h01 a b with h | h <;> rw [h] ; norm_num
   -- The simple graph of the diagram.
   let G : SimpleGraph (Fin n) :=
     { Adj := fun i j => adj i j = 1

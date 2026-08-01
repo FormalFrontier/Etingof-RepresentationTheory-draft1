@@ -72,11 +72,11 @@ def sqEquivOfOdd (hodd : Odd (Fintype.card G)) : G ≃ G where
   invFun g := g ^ ((Fintype.card G + 1) / 2)
   left_inv g := by
     have hdvd : 2 ∣ Fintype.card G + 1 := hodd.add_one.two_dvd
-    show (g ^ 2) ^ ((Fintype.card G + 1) / 2) = g
+    change (g ^ 2) ^ ((Fintype.card G + 1) / 2) = g
     rw [← pow_mul, Nat.mul_div_cancel' hdvd, pow_succ, pow_card_eq_one, one_mul]
   right_inv g := by
     have hdvd : 2 ∣ Fintype.card G + 1 := hodd.add_one.two_dvd
-    show (g ^ ((Fintype.card G + 1) / 2)) ^ 2 = g
+    change (g ^ ((Fintype.card G + 1) / 2)) ^ 2 = g
     rw [← pow_mul, Nat.div_mul_cancel hdvd, pow_succ, pow_card_eq_one, one_mul]
 
 @[simp] theorem sqEquivOfOdd_apply (hodd : Odd (Fintype.card G)) (g : G) :

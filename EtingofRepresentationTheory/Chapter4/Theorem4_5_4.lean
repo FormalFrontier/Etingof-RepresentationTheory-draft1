@@ -176,9 +176,9 @@ private lemma matrix_single_mul_entry {n : ℕ} (M N : Matrix (Fin n) (Fin n) k)
     (M * Matrix.single i j (1 : k) * N) p q = M p i * N j q := by
   rw [Matrix.mul_assoc]
   rw [show Matrix.single i j (1 : k) * N = fun r c => if r = i then N j c else 0 from by
-    ext r c; simp [Matrix.mul_apply, Matrix.single_apply, Finset.sum_ite_eq',
+    ext r c; simp [Matrix.mul_apply, Matrix.single_apply,
       Finset.mem_univ, ite_and, ite_mul, one_mul, zero_mul, eq_comm]]
-  simp [Matrix.mul_apply, Finset.sum_ite_eq, Finset.mem_univ, mul_comm]
+  simp [Matrix.mul_apply, Finset.mem_univ]
 
 /-- The character of `D.columnFDRep i` at `g` equals the matrix trace of the
 i-th Wedderburn-Artin block evaluated at `MonoidAlgebra.of k G g`.
@@ -189,7 +189,7 @@ lemma IrrepDecomp.columnFDRep_character
     (D : IrrepDecomp k G) (i : Fin D.n) (g : G) :
     (D.columnFDRep i).character g =
       Matrix.trace (D.iso (MonoidAlgebra.of k G g) i) := by
-  show LinearMap.trace k _ (Matrix.mulVecLin (D.projRingHom i (MonoidAlgebra.of k G g))) = _
+  change LinearMap.trace k _ (Matrix.mulVecLin (D.projRingHom i (MonoidAlgebra.of k G g))) = _
   rw [← Matrix.toLin'_apply']
   rw [Matrix.trace_toLin'_eq]
   rfl
@@ -260,7 +260,7 @@ theorem trace_mulLeftRight_monoidAlgebra (g h : G) :
     rw [MonoidAlgebra.single_mul_single, MonoidAlgebra.single_mul_single, one_mul, mul_one]
     rw [show b.repr (MonoidAlgebra.single (g * x * h⁻¹) 1) x =
         if g * x * h⁻¹ = x then 1 else 0 from by
-      show (LinearEquiv.refl k (G →₀ k) (Finsupp.single (g * x * h⁻¹) 1)) x = _
+      change (LinearEquiv.refl k (G →₀ k) (Finsupp.single (g * x * h⁻¹) 1)) x = _
       simp [Finsupp.single_apply]]
   trans ↑(∑ x : G, if g * x * h⁻¹ = x then (1 : ℕ) else 0)
   · push_cast; rfl

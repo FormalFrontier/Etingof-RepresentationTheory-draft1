@@ -188,7 +188,7 @@ theorem aeval_formalCharacter_eq_trace
     have hrestrict : (M.ρ (diagTorus k N t)).restrict (hmaps μ) =
         (∏ i, (t i : k) ^ (μ i)) • LinearMap.id := by
       ext ⟨w, hw⟩
-      simp only [LinearMap.restrict_coe_apply, LinearMap.smul_apply, LinearMap.id_coe, id_eq,
+      simp only [LinearMap.coe_restrict_apply, LinearMap.smul_apply, LinearMap.id_coe, id_eq,
         SetLike.val_smul]
       exact glWeightSpace_diagTorus_apply M (fun i => μ i) t hw
     rw [hrestrict, map_smul, LinearMap.trace_id, smul_eq_mul, mul_comm]
