@@ -1,10 +1,10 @@
 {
   "generated_on": "2026-08-01",
   "method": "kernel source-level proof inventory plus successful repository-wide Mathlib linter build",
-  "build_log_sha256": "55b9cbffe6513f84a558a95d36ca379ab20d20439f6cbc7a9176e2ab130955ae",
+  "build_log_sha256": "9ccaf4bdff2f02a1b7a19971b6aed01e4d8d41fa18370c8cf2345b6cc78a17c0",
   "build_log_archive": "progress/reviews/2026-08-01-stage3-5-build.log.gz",
   "dependency_evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
-  "dependency_evidence_sha256": "bd1baede0141fc22fa874a1df1c76b8f5c9dc3d11c2dfde03cbc8a12e6bec5f7",
+  "dependency_evidence_sha256": "001da1ec817ec7783f0852ac2fe138b0287e4ee643e0a4bfa677f70c828b256e",
   "provider_item_count": 403,
   "source_level_proof_declaration_count": 11427,
   "kernel_proof_declaration_count_including_generated_helpers": 26858,
@@ -27172,7 +27172,7 @@
     },
     "EtingofRepresentationTheory.Infrastructure.HasFiniteLengthSubobject": {
       "source": "EtingofRepresentationTheory/Infrastructure/HasFiniteLengthSubobject.lean",
-      "source_sha256": "33a184c88f8d09315481ca8c3f53bb3850327385ddc23b21b8c69d9356fb0b9e",
+      "source_sha256": "92c92ffa6ca2ed95659d059827b8fa69a7380ac324e6273c343e1550564deb0d",
       "source_level_proof_declaration_count": 15,
       "source_level_proof_declaration_names_sha256": "51b03b4ca17f7b3884cb7db3269b4644d797766a0a53f16bf6e8598a9ea80dc9",
       "diagnostics": [],
