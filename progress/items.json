@@ -29351,7 +29351,7 @@
         {
           "claim": "Induction constructs a G-representation from an H-representation.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Definition5_8_1"
+          "lean_decl": "Etingof.Definition5_8_1_functionSpace; Etingof.Definition5_8_1"
         }
       ]
     },
@@ -29393,12 +29393,12 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-08-01",
+    "last_updated": "2026-08-02",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
       "section": "5.8",
-      "reviewed_on": "2026-07-29",
+      "reviewed_on": "2026-08-02",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -29406,7 +29406,12 @@
         {
           "claim": "Ind_H^G V is the equivariant-function representation f(hx)=h·f(x), with G acting by right translation.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Definition5_8_1; Representation.coindV"
+          "lean_decl": "Etingof.Definition5_8_1_functionSpace; Etingof.Definition5_8_1_functionSpace_condition; Etingof.Definition5_8_1_functionSpace_apply; Representation.coindV"
+        },
+        {
+          "claim": "For finite-index H, the tensor/coinvariant induction model agrees canonically with the book's function-space model.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Definition5_8_1; Etingof.inducedTensorModel; Etingof.Definition5_8_1_iso_functionSpace"
         }
       ]
     },
@@ -29533,28 +29538,31 @@
     "end_page": "108",
     "start_line": 9,
     "end_line": 18,
-    "status": "not_applicable",
+    "status": "proof_polished",
+    "coverage_issue": 8527,
+    "lean_file": "EtingofRepresentationTheory/Chapter5/Definition5_8_1.lean",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Definition5_8_1.lean :: Etingof.mem_Definition5_8_1_functionSpace, Etingof.Definition5_8_1_functionSpace_condition, Etingof.Definition5_8_1_functionSpace_apply, Etingof.Definition5_8_1_functionSpace_one, Etingof.Definition5_8_1_functionSpace_mul",
     "coverage": "covered_full",
-    "coverage_note": "Etingof.Definition5_8_1 is the public induced representation, and Mathlib's finite-group indCoindIso bridges its induction construction with the book's function model.",
-    "last_updated": "2026-08-01",
+    "coverage_note": "The covariance equation is the carrier predicate of Definition5_8_1_functionSpace, right translation is stated by Definition5_8_1_functionSpace_apply, and the representation laws are the map_one/map_mul fields of Representation.coind.",
+    "last_updated": "2026-08-02",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
-      "section": "5.17",
-      "reviewed_on": "2026-07-29",
+      "section": "5.8",
+      "reviewed_on": "2026-08-02",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
       "claims": [
         {
-          "claim": "The Specht-module dimension equals the number of standard Young tableaux of the same shape.",
+          "claim": "Right translation preserves the covariance condition f(hx)=rho(h)f(x).",
           "verdict": "formalized",
-          "lean_decl": "Etingof.finrank_spechtModule_eq_card_standardYoungTableau"
+          "lean_decl": "Etingof.mem_Definition5_8_1_functionSpace; Etingof.Definition5_8_1_functionSpace_condition; Etingof.Definition5_8_1_functionSpace_apply"
         },
         {
-          "claim": "The Specht-module dimension is n! divided by the product of all hook lengths.",
+          "claim": "Successive right translations by g and g' equal right translation by gg', so the construction is a G-representation.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Theorem5_17_1"
+          "lean_decl": "Etingof.Definition5_8_1_functionSpace_one; Etingof.Definition5_8_1_functionSpace_mul"
         }
       ]
     },
@@ -29562,8 +29570,8 @@
       "supplemental_provider_dependencies": [],
       "explicit_source_references": [],
       "status": "complete",
-      "section": null,
-      "verified_on": "2026-08-01",
+      "section": "5.8",
+      "verified_on": "2026-08-02",
       "actual_internal_dependencies": [],
       "forward_internal_dependencies": [],
       "import_dag_dependencies": [],
@@ -29573,15 +29581,15 @@
       "type_dependency_modules": [],
       "declarations_reviewed": 0,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
-      "basis": "No dedicated Lean provider belongs to this editorial/folded partition item.",
+      "basis": "The verification is folded into the Definition5_8_1 provider: the public condition/action lemmas expose the book's calculations, while Representation.coind supplies the representation-law proof fields.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
     },
     "stage3_5": {
       "status": "not_applicable",
-      "section": null,
-      "reviewed_on": "2026-08-01",
-      "mathlib_quality": "not_applicable",
-      "result": "No dedicated Lean declaration belongs to this partition item; proof polishing is not applicable."
+      "section": "5.8",
+      "reviewed_on": "2026-08-02",
+      "mathlib_quality": "source_reviewed_and_build_verified",
+      "result": "The folded verification lemmas are public, sorry-free, and pass the Definition5_8_1 module build."
     }
   },
   {
@@ -29594,15 +29602,15 @@
     "end_line": 26,
     "status": "proof_polished",
     "coverage": "covered_full",
-    "last_updated": "2026-08-01",
+    "last_updated": "2026-08-02",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "Fixed in #5652: added EtingofRepresentationTheory/Chapter5/Remark5_8_3.lean. `Etingof.Remark5_8_3` proves `finrank ℂ (IndV H.subtype ρ) = finrank ℂ V * H.index` for a finite index subgroup and finite-dimensional V. The proof follows the book: `Etingof.coindVEquivPi` is the ℂ-linear equivalence coindV ≅ (right cosets → V) given by evaluation at chosen coset representatives (Etingof's observation that f is determined by {f(x_σ)}), and `Etingof.indVLinearEquivCoindV` transfers this to the tensor model IndV via Mathlib's finite-index Ind ≅ Coind isomorphism.",
+    "fidelity_note": "`Etingof.Remark5_8_3` now states the dimension formula directly for the book's function-space carrier `coindV H.subtype ρ`. The proof uses `Etingof.coindVEquivPi`, evaluation at chosen right-coset representatives. `Etingof.Remark5_8_3_tensor` transports the result to the finite-index tensor model through the canonical Ind-Coind equivalence.",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
       "section": "5.8",
-      "reviewed_on": "2026-07-29",
+      "reviewed_on": "2026-08-02",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -29615,7 +29623,7 @@
         {
           "claim": "dim Ind_H^G V = dim(V)·(G:H).",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Remark5_8_3"
+          "lean_decl": "Etingof.Remark5_8_3; Etingof.Remark5_8_3_tensor"
         }
       ]
     },
@@ -29676,27 +29684,28 @@
       "EtingofRepresentationTheory/Chapter5/Problem5_8_4.lean"
     ],
     "lean_decl": "Etingof.ind_ind_iso_ind",
-    "last_updated": "2026-08-01",
-    "coverage_note": "Final source-subpart audit complete. Every formalizable source unit is formalized or covered by the accepted derived declaration recorded in claim_coverage; current providers compile in the repository-wide build.",
+    "last_updated": "2026-08-02",
+    "coverage_note": "The unrestricted induction-in-stages theorem is proved for the tensor/coinvariant left-adjoint model `inducedTensorModel`. Under finite index this transports to the book's function-space model through `Definition5_8_1_iso_functionSpace`.",
     "fidelity": "verified",
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
-      "reviewed_on": "2026-08-01",
+      "reviewed_on": "2026-08-02",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
       "claims": [
         {
           "unit": "induction_in_stages",
-          "claim": "Induction in stages is a genuine natural representation isomorphism.",
+          "claim": "Tensor/coinvariant induction in stages is a genuine equivariant representation isomorphism, and agrees with the book's model under finite index.",
           "verdict": "formalized",
           "source_ref": "blobs/Chapter5/Problem5.8.4.md",
           "lean_file": [
             "EtingofRepresentationTheory/Chapter5/Problem5_8_4.lean"
           ],
           "lean_decl": [
-            "Etingof.ind_ind_iso_ind"
+            "Etingof.ind_ind_iso_ind",
+            "Etingof.Definition5_8_1_iso_functionSpace"
           ]
         }
       ]

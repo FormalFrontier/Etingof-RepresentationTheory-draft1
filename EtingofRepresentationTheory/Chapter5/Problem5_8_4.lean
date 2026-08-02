@@ -9,8 +9,10 @@ import EtingofRepresentationTheory.Chapter5.Definition5_8_1
 
 ## Formalization
 
-We take subgroups `K H : Subgroup G` with `K ≤ H`. Induction is the project's
-`Etingof.Definition5_8_1` (Mathlib's `Representation.ind` along a subgroup inclusion).
+We take subgroups `K H : Subgroup G` with `K ≤ H`.  This unrestricted induction-in-stages
+statement concerns the tensor/coinvariant left adjoint, exposed as `Etingof.inducedTensorModel`
+(Mathlib's `Representation.ind`).  Under finite index it transports to the book's function-space
+model through `Etingof.Definition5_8_1_iso_functionSpace`.
 
 For the inner induction `Ind_K^H` we need `K` viewed as a subgroup of `H`, namely
 `K.subgroupOf H`, and the representation `V` of `K` transported to `K.subgroupOf H` along the
@@ -400,12 +402,13 @@ theorem ind_stages_exists {S H : Type*} [Group S] [Group H]
 theorem ind_ind_iso_ind
     (H K : Subgroup G) (hKH : K ≤ H) (ρ : Representation ℂ K V) :
     ∃ e : Representation.IndV H.subtype
-            (Etingof.Definition5_8_1 (K.subgroupOf H) (indStagesInnerRep H K hKH ρ))
+            (Etingof.inducedTensorModel (K.subgroupOf H) (indStagesInnerRep H K hKH ρ))
           ≃ₗ[ℂ] Representation.IndV K.subtype ρ,
       ∀ (g : G) x,
-        e (Etingof.Definition5_8_1 H
-              (Etingof.Definition5_8_1 (K.subgroupOf H) (indStagesInnerRep H K hKH ρ)) g x)
-          = Etingof.Definition5_8_1 K ρ g (e x) := by
+        e (Etingof.inducedTensorModel H
+              (Etingof.inducedTensorModel (K.subgroupOf H)
+                (indStagesInnerRep H K hKH ρ)) g x)
+          = Etingof.inducedTensorModel K ρ g (e x) := by
   classical
   have hσbij : Function.Bijective (Subgroup.subgroupOfEquivOfLe hKH).toMonoidHom :=
     (Subgroup.subgroupOfEquivOfLe hKH).bijective
@@ -439,7 +442,7 @@ theorem ind_ind_iso_ind
     rfl
   refine ⟨e1.trans relabelLE, ?_⟩
   intro g x
-  -- Unfold the `Definition5_8_1` wrappers to the underlying `Representation.ind` (definitionally
+  -- Unfold the `inducedTensorModel` wrappers to `Representation.ind` (definitionally
   -- equal) so that `he1` and `stepB` apply syntactically; unfolding via `simp` leaves an ill-typed
   -- instance argument, so restate the goal with `change` instead.
   change relabelLE (e1 (Representation.ind H.subtype
