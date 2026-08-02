@@ -171,6 +171,68 @@ def section_from_item_id(item_id):
     return f"{chapter}.{section_match.group(1)}"
 
 
+def sections_from_item_order(items):
+    """Infer each partition item's section from the ordered source partition.
+
+    Many editorial item IDs do not contain a section number.  Such an item
+    belongs to the most recent numbered section in its chapter; resetting at a
+    chapter boundary prevents an introduction from inheriting the preceding
+    chapter's last section.
+    """
+    result = {}
+    current_chapter = None
+    current_section = None
+    for item in items:
+        if not isinstance(item, dict) or not isinstance(item.get("id"), str):
+            continue
+        item_id = item["id"]
+        chapter_match = re.match(r"^Chapter(\d+)/", item_id)
+        chapter = chapter_match.group(1) if chapter_match is not None else None
+        if chapter != current_chapter:
+            current_chapter = chapter
+            current_section = None
+        explicit_section = section_from_item_id(item_id)
+        # An editorial ID can refer back to an earlier theorem (for example a
+        # proof of Theorem 5.12.2 printed in §5.13).  Such a reference must not
+        # move the physical source context backwards.
+        inferred_section = current_section
+        if explicit_section is not None and (
+            current_section is None
+            or int(explicit_section.split(".")[1]) >= int(current_section.split(".")[1])
+        ):
+            current_section = explicit_section
+        # Validate an explicitly numbered back-reference against its own ID,
+        # while retaining the physical section for following editorial items.
+        if explicit_section is not None:
+            inferred_section = explicit_section
+        else:
+            inferred_section = current_section
+        result[item_id] = inferred_section
+    return result
+
+
+def partition_order_errors(items, page_order):
+    """Return errors when partition records are not ordered by source position."""
+    errors = []
+    page_indices = {page: index for index, page in enumerate(page_order)}
+    previous = None
+    for item in items:
+        if not isinstance(item, dict) or "id" not in item:
+            continue
+        page = item.get("start_page")
+        line = item.get("start_line")
+        if page not in page_indices or not isinstance(line, int):
+            continue
+        position = (page_indices[page], line)
+        if previous is not None and position < previous[0]:
+            errors.append(
+                f"Item '{item['id']}': source position {page}:{line} precedes "
+                f"the previous partition item '{previous[1]}'"
+            )
+        previous = (position, item["id"])
+    return errors
+
+
 def expand_item_lines(item, page_order):
     """Expand an item into a set of (page, line) tuples it covers.
 
@@ -255,6 +317,7 @@ def validate(items_path):
     global page_order_set
     page_order_set = set(page_order)
     page_files = get_page_files()
+    errors.extend(partition_order_errors(items, page_order))
 
     # --- Schema-level checks per item ---
     required_fields = {"id", "type", "title", "start_page", "end_page", "start_line", "end_line"}
@@ -266,6 +329,7 @@ def validate(items_path):
         item["id"] for item in items
         if isinstance(item, dict) and "id" in item
     }
+    inferred_sections = sections_from_item_order(items)
     derived_count = 0
 
     for i, item in enumerate(items):
@@ -340,7 +404,7 @@ def validate(items_path):
         # failure mode where a broad JSON patch lands on an earlier item with
         # the same generic fields.
         claim_coverage = item.get("claim_coverage")
-        expected_section = section_from_item_id(item_id)
+        expected_section = inferred_sections.get(item_id)
         if isinstance(claim_coverage, dict) and expected_section is not None:
             actual_section = claim_coverage.get("section")
             if actual_section is not None and str(actual_section) != expected_section:
@@ -348,6 +412,16 @@ def validate(items_path):
                     f"{prefix}: claim_coverage.section is {actual_section!r}, "
                     f"expected {expected_section!r} from the item id"
                 )
+        elif isinstance(claim_coverage, dict):
+            actual_section = claim_coverage.get("section")
+            chapter_match = re.match(r"^Chapter(\d+)/", item_id)
+            if actual_section is not None and chapter_match is not None:
+                actual_chapter = str(actual_section).partition(".")[0]
+                if actual_chapter != chapter_match.group(1):
+                    errors.append(
+                        f"{prefix}: claim_coverage.section is {actual_section!r}, "
+                        f"but the item belongs to Chapter {chapter_match.group(1)}"
+                    )
 
         # Every deliberate omission must resolve to the project-wide scope
         # register. This keeps the prose policy and the machine ledger in sync.
