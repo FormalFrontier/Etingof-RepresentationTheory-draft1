@@ -3,14 +3,14 @@
 Completed 2026-08-01 using imported Lean kernel terms with opaque/theorem bodies enabled.
 
 - Current root-imported modules: 840
-- Declarations inspected: 32946
+- Declarations inspected: 32978
 - Import-DAG edges: 521
-- Mapped proof/type edges beyond the old import DAG: 206
+- Mapped proof/type edges beyond the old import DAG: 207
 - Old import edges not recovered through owned-module proof/type mapping (trimmed): 133
-- Mapped proof/type relation edges: 594
+- Mapped proof/type relation edges: 595
 - Cyclic item components in that relation: 6
 - Explicitly recorded cycle edges excluded from the DAG: 8
-- Shipped acyclic proof-term edges: 586
+- Shipped acyclic proof-term edges: 587
 - Current sources outside the root import: 1
 - Stale imported modules without source: 0
 

@@ -15317,7 +15317,7 @@
     "end_line": 16,
     "status": "proof_polished",
     "coverage": "covered_full",
-    "last_updated": "2026-08-02",
+    "last_updated": "2026-08-01",
     "fidelity": "verified",
     "sorry_free": true,
     "claim_coverage": {
@@ -15352,7 +15352,7 @@
       "explicit_source_references": [],
       "status": "complete",
       "section": "3.5",
-      "verified_on": "2026-08-02",
+      "verified_on": "2026-08-01",
       "actual_internal_dependencies": [],
       "forward_internal_dependencies": [],
       "import_dag_dependencies": [],
@@ -15376,7 +15376,7 @@
     "stage3_5": {
       "status": "complete",
       "section": "3.5",
-      "reviewed_on": "2026-08-02",
+      "reviewed_on": "2026-08-01",
       "mathlib_quality": "linter_screened",
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter3.Definition3_5_1"
@@ -21361,7 +21361,7 @@
     "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[coverage] The book's Example 4.3 for Q8 explicitly describes the 2-dimensional representation via Pauli matrices (4.3.1) and states the five representations include a genuine 2-dimensional one. The L",
+    "fidelity_note": "The four one-dimensional characters and the two-dimensional Pauli representation are constructed and proved simple. The one-dimensional objects are pairwise non-isomorphic, their dimensions are 1,1,1,1 while the Pauli representation has dimension 2, and Q8_simple_iso proves that every simple complex Q8-representation is isomorphic to one of these five.",
     "fidelity_issue": 5632,
     "coverage": "covered_full",
     "last_updated": "2026-08-01",
@@ -21369,7 +21369,7 @@
       "stage": "3.2",
       "status": "complete",
       "section": "4.3",
-      "reviewed_on": "2026-07-29",
+      "reviewed_on": "2026-08-02",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -21377,7 +21377,7 @@
         {
           "claim": "Q8 has the stated relations, five conjugacy classes, center {±1}, and irreducible dimensions 1,1,1,1,2.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example4_3_Q8"
+          "lean_decl": "Etingof.Example4_3_Q8_conj_classes; Etingof.Example4_3_Q8.mem_center_iff; Etingof.Example4_3_Q8.irreps_pairwise_noniso; Etingof.Example4_3_Q8.irreps_dim_sum_of_squares; Etingof.Example4_3_Q8.Q8_simple_iso"
         },
         {
           "claim": "Four one-dimensional representations arise from the quotient by the center.",
@@ -21387,7 +21387,7 @@
         {
           "claim": "The two-dimensional representation acts by the displayed Pauli matrices and is irreducible.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example4_3_Q8.rep_i; Etingof.Example4_3_Q8.rep_j; Etingof.Example4_3_Q8.rep_k; Etingof.Example4_3_Q8.twoDimRep_simple"
+          "lean_decl": "Etingof.Example4_3_Q8.rep_i; Etingof.Example4_3_Q8.rep_j; Etingof.Example4_3_Q8.rep_k; Etingof.Example4_3_Q8.repFD_simple"
         }
       ]
     },
@@ -21397,10 +21397,14 @@
       "status": "complete",
       "section": "4.3",
       "verified_on": "2026-08-01",
-      "actual_internal_dependencies": [],
+      "actual_internal_dependencies": [
+        "Chapter4/Corollary4.2.2"
+      ],
       "forward_internal_dependencies": [],
       "import_dag_dependencies": [],
-      "proof_term_dependencies": [],
+      "proof_term_dependencies": [
+        "Chapter4/Corollary4.2.2"
+      ],
       "provider_module_attribution": {
         "EtingofRepresentationTheory.Chapter4.Example4_3_Q8": {
           "owner": "Chapter4/Example4.3_Q8",
@@ -21410,9 +21414,11 @@
           "other_explicit_claimants": []
         }
       },
-      "proof_dependency_modules": [],
+      "proof_dependency_modules": [
+        "EtingofRepresentationTheory.Chapter4.Corollary4_2_2"
+      ],
       "type_dependency_modules": [],
-      "declarations_reviewed": 94,
+      "declarations_reviewed": 126,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -21425,7 +21431,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter4.Example4_3_Q8"
       ],
-      "source_level_proof_declarations_reviewed": 53,
+      "source_level_proof_declarations_reviewed": 68,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",
@@ -37307,7 +37313,7 @@
     "coverage": "covered_full",
     "coverage_note": "The four conjugacy types form an exhaustive disjoint partition. Public declarations give the four population counts, class counts, centralizer orders, class sizes, and existence of the corresponding normal forms. The total number of conjugacy classes is q²−1; #7500 is closed.",
     "lean_ref": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClasses.lean :: Etingof.GL2.conjugacyClass_partition, card_isScalar, card_isParabolic, card_isSplitSemisimple, card_isElliptic; EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean :: GL2.card_generalLinearGroup_two, GL2.card_generalLinearGroup_two_factored, Etingof.numScalarClasses_eq, numParabolicClasses_eq, numSplitSemisimpleClasses_eq, numEllipticClasses_eq, card_conjClasses_eq, centralizerCard_isScalar, centralizerCard_isParabolic, centralizerCard_isSplitSemisimple, centralizerCard_isElliptic, classCard_isScalar, classCard_isParabolic, classCard_isSplitSemisimple, classCard_isElliptic, exists_conj_isScalar, exists_conj_isParabolic, exists_conj_isSplitSemisimple, exists_conj_isElliptic",
-    "last_updated": "2026-08-02",
+    "last_updated": "2026-08-01",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -37344,7 +37350,7 @@
       "explicit_source_references": [],
       "status": "complete",
       "section": "5.25",
-      "verified_on": "2026-08-02",
+      "verified_on": "2026-08-01",
       "actual_internal_dependencies": [],
       "forward_internal_dependencies": [],
       "import_dag_dependencies": [],
@@ -37377,7 +37383,7 @@
     "stage3_5": {
       "status": "complete",
       "section": "5.25",
-      "reviewed_on": "2026-08-02",
+      "reviewed_on": "2026-08-01",
       "mathlib_quality": "linter_screened_with_retained_nonblocking_diagnostics",
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount",
@@ -41411,7 +41417,7 @@
     "sorry_free": true,
     "coverage_note": "The concrete triple-of-subspaces model is equivalent to the inward D₄ quiver model for indecomposability and isomorphism. Twelve canonical representatives are constructed, proved indecomposable and pairwise nonisomorphic, and every concrete indecomposable belongs to exactly one class.",
     "lean_ref": "EtingofRepresentationTheory/Chapter6/Example6_3_1.lean :: Etingof.Example_6_3_1; EtingofRepresentationTheory/Chapter6/Example6_3_1_Classification.lean :: D₄Rep.canonicalRepresentation, D₄Rep.canonicalRepresentation_indecomposable, D₄Rep.canonical_pairwise_nonisomorphic, D₄Rep.classification, D₄Rep.classIndex_card",
-    "last_updated": "2026-08-02",
+    "last_updated": "2026-08-01",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -42123,7 +42129,7 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "The public lemma proves the exact all-nonnegative or all-nonpositive coordinate dichotomy.",
-    "last_updated": "2026-08-02",
+    "last_updated": "2026-08-01",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -43037,7 +43043,7 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-08-02",
+    "last_updated": "2026-08-01",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -47862,7 +47868,7 @@
     "coverage": "covered_full",
     "fidelity": "verified",
     "coverage_note": "Mathlib's Linear structure gives vector-space homs and bilinear composition for module categories over a k-algebra.",
-    "last_updated": "2026-08-02",
+    "last_updated": "2026-08-01",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -47887,7 +47893,7 @@
       ],
       "status": "complete",
       "section": "7.7",
-      "verified_on": "2026-08-02",
+      "verified_on": "2026-08-01",
       "actual_internal_dependencies": [
         "Chapter7/Example7.7.2"
       ],
@@ -47917,7 +47923,7 @@
     "stage3_5": {
       "status": "complete",
       "section": "7.7",
-      "reviewed_on": "2026-08-02",
+      "reviewed_on": "2026-08-01",
       "mathlib_quality": "linter_screened",
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter7.Discussion_after_Remark7_7_4"
