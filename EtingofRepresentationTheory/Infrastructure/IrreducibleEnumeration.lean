@@ -78,8 +78,7 @@ omit [IsAlgClosed k] [Group G] in
 /-- The dimension of `k[G]` equals `|G|`. -/
 theorem MonoidAlgebra.finrank_eq_card :
     Module.finrank k (MonoidAlgebra k G) = Fintype.card G := by
-  change Module.finrank k (G →₀ k) = _
-  simp
+  exact Module.finrank_eq_card_basis (MonoidAlgebra.basis G k)
 
 omit [IsAlgClosed k] [Group G] [Fintype G] in
 /-- The dimension of a product of matrix algebras is the sum of squares of the sizes. -/

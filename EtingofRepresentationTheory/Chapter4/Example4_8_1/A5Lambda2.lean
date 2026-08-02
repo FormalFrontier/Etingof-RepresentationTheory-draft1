@@ -275,7 +275,7 @@ lemma lam2_hom_finrank : Module.finrank ℂ (lam2 ⟶ lam2) = 2 := by
   rw [hZ] at key
   have h60 : Fintype.card G = 60 := by rw [← Nat.card_eq_fintype_card, card_G]
   -- `key : ⅟(card G) • (¼ · 480 : ℂ) = ↑(finrank ℂ (lam2 ⟶ lam2))`; the LHS is `2`.
-  rw [invOf_eq_inv, smul_eq_mul, h60] at key
+  rw [card_G] at key
   have hval : ((60 : ℕ) : ℂ)⁻¹ * ((4⁻¹ : ℂ) * ((480 : ℤ) : ℂ)) = (2 : ℂ) := by
     push_cast; norm_num
   rw [hval] at key

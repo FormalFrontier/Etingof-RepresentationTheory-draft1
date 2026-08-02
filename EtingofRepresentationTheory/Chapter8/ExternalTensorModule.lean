@@ -76,7 +76,7 @@ theorem extTensorModule_op_smul_tmul (a₁ : A₁) (a₂ : A₂) (m₁ : M₁) (
   rw [extTensorRep, AlgHom.comp_apply]
   rw [show (Algebra.TensorProduct.opAlgEquiv k k A₁ A₂).symm.toAlgHom
         (MulOpposite.op (a₁ ⊗ₜ[k] a₂)) = MulOpposite.op a₁ ⊗ₜ[k] MulOpposite.op a₂ from by
-    rw [AlgEquiv.coe_algHom, Algebra.TensorProduct.opAlgEquiv_symm_apply]
+    rw [AlgEquiv.coe_toAlgHom, Algebra.TensorProduct.opAlgEquiv_symm_apply]
     rfl]
   rw [extTensorRepAux, AlgHom.comp_apply, Algebra.TensorProduct.map_tmul,
     Module.endTensorEndAlgHom_apply]

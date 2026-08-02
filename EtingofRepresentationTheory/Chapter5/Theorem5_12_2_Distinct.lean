@@ -20,6 +20,10 @@ open scoped Classical
 private abbrev G' (n : ℕ) := Equiv.Perm (Fin n)
 private abbrev A' (n : ℕ) := MonoidAlgebra ℂ (G' n)
 
+local instance theorem5122DistinctCoeFun {R G : Type*} [Semiring R] :
+    CoeFun (MonoidAlgebra R G) (fun _ => G → R) :=
+  ⟨fun a => a.coeff⟩
+
 /-- The Young symmetrizer c_λ annihilates V_μ when μ does not dominate λ:
 c_λ · (x · c_μ) = 0 for all x ∈ ℂ[S_n]. -/
 private lemma young_symmetrizer_annihilates_specht (n : ℕ) (la mu : Nat.Partition n)
@@ -120,9 +124,10 @@ private lemma center_coeff_conj_invariant'
     (g h : G) : a (g * h * g⁻¹) = a h := by
   rw [Subalgebra.mem_center_iff] at ha
   have key := congr_fun (congr_arg (⇑) (ha (MonoidAlgebra.of ℂ G g))) (g * h)
-  simp only [MonoidAlgebra.of, MonoidHom.coe_mk, OneHom.coe_mk,
-    MonoidAlgebra.single_mul_apply, MonoidAlgebra.mul_single_apply,
-    one_mul, mul_one, inv_mul_cancel_left] at key
+  change (MonoidAlgebra.single g 1 * a).coeff (g * h) =
+    (a * MonoidAlgebra.single g 1).coeff (g * h) at key
+  rw [MonoidAlgebra.coeff_single_mul_apply, MonoidAlgebra.coeff_mul_single_apply] at key
+  simp only [one_mul, mul_one, inv_mul_cancel_left] at key
   exact key.symm
 
 private lemma finrank_center_monoidAlgebra_le_card_conjClasses

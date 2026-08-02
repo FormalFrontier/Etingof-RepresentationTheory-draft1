@@ -379,7 +379,7 @@ private abbrev Q_n (n : ℕ) (la : Nat.Partition n) := G_n n ⧸ RowSubgroup n l
 by σ, viewed as a ℂ-linear map. This is the representation action. -/
 noncomputable def permModuleEndomorphism (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) : PermutationModule n la →ₗ[ℂ] PermutationModule n la :=
-  Finsupp.lmapDomain ℂ ℂ (fun q : Q_n n la => σ • q)
+  Representation.ofMulAction ℂ (G_n n) (Q_n n la) σ
 
 /-- The trace of the permutation action on `PermutationModule` equals
 `permModuleCharacter` (the fixed-point count). This is the standard fact that
@@ -394,19 +394,18 @@ theorem permModuleCharacter_eq_trace (n : ℕ) (la : Nat.Partition n)
       LinearMap.trace ℂ _ (permModuleEndomorphism n la σ) := by
   classical
   simp only [permModuleCharacter, permModuleEndomorphism]
-  rw [LinearMap.trace_eq_matrix_trace ℂ (Finsupp.basisSingleOne)]
+  rw [LinearMap.trace_eq_matrix_trace ℂ (MonoidAlgebra.basis (Q_n n la) ℂ)]
   simp only [Matrix.trace, Matrix.diag, LinearMap.toMatrix_apply,
-    Finsupp.lmapDomain_apply]
+    Representation.ofMulAction]
   have hb : ∀ q : Q_n n la,
-      (Finsupp.basisSingleOne (R := ℂ) (ι := Q_n n la) q) = Finsupp.single q 1 :=
+      (MonoidAlgebra.basis (Q_n n la) ℂ q) = MonoidAlgebra.single q 1 :=
     fun q => rfl
-  have hr : ∀ v : Q_n n la →₀ ℂ,
-      (Finsupp.basisSingleOne (R := ℂ) (ι := Q_n n la)).repr v = v :=
+  have hr : ∀ v : MonoidAlgebra ℂ (Q_n n la),
+      (MonoidAlgebra.basis (Q_n n la) ℂ).repr v = v.coeff :=
     fun v => rfl
-  simp only [hb, hr, Finsupp.mapDomain_single, Finsupp.single_apply,
-    Finset.sum_boole]
+  simp only [hb, hr]
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
-  simp [MulAction.mem_fixedBy]
+  simp [Finsupp.single_apply, Finset.sum_boole, MulAction.mem_fixedBy]
 
 /-! ### Isotypic decomposition infrastructure for Young's Rule
 
@@ -579,6 +578,8 @@ private theorem iSup_isotypicComponent_eq_top (n : ℕ) (mu : Nat.Partition n) :
   exact le_iSup (fun nu => isotypicComponent (SymGroupAlgebra n) (PermutationModule n mu)
     (SpechtModule n nu)) nu
 
+set_option maxHeartbeats 800000 in
+-- Comparing nested isotypic components requires expensive module-instance normalization.
 /-- The indexed family of isotypic components is iSup-independent
 in the SymGroupAlgebra-submodule lattice. This deduces the indexed version from
 `sSupIndep_isotypicComponents` (Mathlib) via the classification of simple modules. -/
@@ -693,13 +694,7 @@ private lemma permModuleEndomorphism_eq_smul (n : ℕ) (mu : Nat.Partition n)
     permModuleEndomorphism n mu σ v =
       (MonoidAlgebra.of ℂ _ σ : SymGroupAlgebra n) • v := by
   simp only [permMod_smul_eq', permModuleEndomorphism]
-  -- Both sides are Finsupp.lmapDomain ℂ ℂ (σ • ·) v
-  -- rep.asAlgebraHom (of σ) = representation σ = lmapDomain (σ • ·)
-  change Finsupp.lmapDomain ℂ ℂ (fun q => σ • q) v =
-    (Representation.ofMulAction ℂ (G_n n) (Q_n n mu)).asAlgebraHom
-      (MonoidAlgebra.of ℂ _ σ) v
   simp [Representation.asAlgebraHom_single]
-  rfl
 
 theorem permModuleEndomorphism_mapsTo_isotypic (n : ℕ) (mu : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) (nu : Nat.Partition n) :
@@ -2371,7 +2366,7 @@ theorem specht_char_inner (n : ℕ) (ν μ : Nat.Partition n) :
   have horth := FDRep.char_orthonormal (spechtModuleFDRep n ν) (spechtModuleFDRep n μ)
   rw [spechtModuleFDRep_iso_iff_eq] at horth
   simp only [spechtModuleFDRep_character] at horth
-  rw [smul_eq_mul, invOf_eq_inv] at horth
+  rw [Nat.card_eq_fintype_card] at horth
   -- From c⁻¹ * s = d, derive s = c * d
   rw [mul_comm] at horth
   rw [← div_eq_mul_inv] at horth

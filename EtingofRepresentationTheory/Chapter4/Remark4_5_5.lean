@@ -1,4 +1,5 @@
 import Mathlib
+import EtingofRepresentationTheory.Infrastructure.CharacterOrthogonalityCompat
 import EtingofRepresentationTheory.Chapter5.FrobeniusSchurRealType
 
 /-!
@@ -186,7 +187,7 @@ theorem character_matrix_mul_conjTranspose
     rw [Matrix.conjTranspose_apply]
     exact U_mul_starU V i j c
   rw [hrow, sum_class_function (fun g => (V i).character g * (V j).character g⁻¹) ?hF]
-  · rw [FDRep.char_orthonormal, Matrix.one_apply]
+  · rw [FDRep.char_orthonormal_fintype, Matrix.one_apply]
     by_cases h : i = j
     · subst h
       rw [if_pos ⟨Iso.refl _⟩, if_pos rfl]

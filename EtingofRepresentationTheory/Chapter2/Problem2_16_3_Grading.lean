@@ -93,8 +93,7 @@ noncomputable def coeffAt (p : ℕ × ℕ) : degAlg k →ₗ[k] k :=
 theorem coeffAt_degMon (p q : ℕ × ℕ) :
     coeffAt k p (degMon k q) = if q = p then 1 else 0 := by
   classical
-  simp [coeffAt, degMon, AddMonoidAlgebra.coeffLinearEquiv_apply, AddMonoidAlgebra.coeff,
-    Finsupp.single_apply]
+  simp [coeffAt, degMon, AddMonoidAlgebra.coeffLinearEquiv_apply, Finsupp.single_apply]
 
 /-- Coefficient extraction on `degAlg k ⊗[k] FreeLieAlgebra k (Fin 2)`. -/
 noncomputable def tCoeff (p : ℕ × ℕ) :

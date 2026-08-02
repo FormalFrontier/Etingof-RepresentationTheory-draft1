@@ -195,6 +195,8 @@ private def projImage (n : ℕ) (D : IrrepDecomp ℂ (G' n)) (j₀ : Fin D.n)
     exact ⟨a * l, L.smul_mem a hl, by
       rw [map_mul, ha, he, smul_eq_mul]⟩
 
+set_option maxHeartbeats 12800000 in
+-- The nested pullback submodule construction elaborates slowly with opaque `MonoidAlgebra`.
 /-- The projImage of a simple left ideal (in the correct block) is simple as a Matj-module. -/
 private lemma projImage_isSimple (n : ℕ) (D : IrrepDecomp ℂ (G' n)) (j₀ : Fin D.n)
     (L : Submodule (A' n) (A' n)) [IsSimpleModule (A' n) L]

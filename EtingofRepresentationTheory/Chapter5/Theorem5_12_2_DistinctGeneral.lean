@@ -123,11 +123,11 @@ theorem Lemma5_13_2_K (k : Type*) [Field k] [CharZero k] (n : ℕ)
     (la mu : Nat.Partition n) (h : ¬ mu.Dominates la)
     (x : MonoidAlgebra k (G' n)) :
     RowSymmetrizerK k n la * x * ColumnAntisymmetrizerK k n mu = 0 := by
-  induction x using Finsupp.induction_linear with
+  induction x using MonoidAlgebra.induction_linear with
   | zero => simp
   | add x y hx hy => rw [mul_add, add_mul, hx, hy, add_zero]
   | single g c =>
-    have hsg : (Finsupp.single g c : MonoidAlgebra k (G' n)) =
+    have hsg : MonoidAlgebra.single g c =
         c • MonoidAlgebra.of k (G' n) g := by
       simp [MonoidAlgebra.of_apply, mul_one]
     rw [hsg, mul_smul_comm, smul_mul_assoc, basis_vanishing_K k n la mu h g, smul_zero]
@@ -144,7 +144,7 @@ theorem youngSymmetrizerK_sq_ne_zero (k : Type*) [Field k] [CharZero k] (n : ℕ
   have hαc : α • YoungSymmetrizerK k n la = 0 := by rw [← hα, hsq0]
   have hc0 : YoungSymmetrizerK k n la = 0 :=
     (smul_eq_zero.mp hαc).resolve_left hα_ne
-  have hone : (YoungSymmetrizerK k n la) 1 = 1 := by
+  have hone : (YoungSymmetrizerK k n la).coeff 1 = 1 := by
     rw [YoungSymmetrizerK_eq_mapRange k n la]
     simp [MonoidAlgebra.mapRingHom_apply, YoungSymmetrizerZ_apply_one]
   rw [hc0] at hone

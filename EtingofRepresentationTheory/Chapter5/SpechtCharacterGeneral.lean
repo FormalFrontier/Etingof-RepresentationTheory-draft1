@@ -30,6 +30,10 @@ namespace Etingof
 
 open MonoidAlgebra
 
+local instance spechtCharacterGeneralCoeFun {R M : Type*} [Semiring R] :
+    CoeFun (MonoidAlgebra R M) (fun _ => M → R) :=
+  ⟨fun a => a.coeff⟩
+
 variable (k : Type*) [Field k] [CharZero k]
 
 /-- The left multiplication action of `σ ∈ S_n` on the general-`k` Specht module
@@ -138,7 +142,8 @@ private lemma spechtModuleCharacterK_eq_intCast (n : ℕ) (la : Nat.Partition n)
     have hval : (c * c) 1 = (((YoungSymmetrizerZ n la * YoungSymmetrizerZ n la) 1 : ℤ) : k) := by
       rw [hcc, MonoidAlgebra.mapRingHom_apply]; rfl
     have : (c * c) 1 = α := by
-      rw [hα, Finsupp.smul_apply, smul_eq_mul, youngSymmetrizerK_apply_one k n la, mul_one]
+      rw [hα, MonoidAlgebra.coeff_smul_apply, smul_eq_mul,
+        youngSymmetrizerK_apply_one k n la, mul_one]
     rw [← this, hval]
   have hsum : (∑ τ : Equiv.Perm (Fin n), c (τ⁻¹ * σ⁻¹ * τ))
       = ((∑ τ : Equiv.Perm (Fin n), (YoungSymmetrizerZ n la) (τ⁻¹ * σ⁻¹ * τ) : ℤ) : k) := by

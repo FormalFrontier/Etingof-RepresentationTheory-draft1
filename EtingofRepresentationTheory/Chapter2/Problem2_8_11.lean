@@ -135,9 +135,10 @@ noncomputable def freeAlgebraWordEquiv (k : Type*) [Field k] (m : ℕ) :
 
 /-- The word-length-`n` homogeneous component in the canonical word-basis realization of the
 free algebra. -/
-def freeAlgebraDegreePiece (k : Type*) [Field k] (m n : ℕ) :
+noncomputable def freeAlgebraDegreePiece (k : Type*) [Field k] (m n : ℕ) :
     Submodule k (MonoidAlgebra k (FreeMonoid (Fin m))) :=
-  Finsupp.supported k k {w | w.length = n}
+  Submodule.map (MonoidAlgebra.coeffLinearEquiv k).symm.toLinearMap
+    (Finsupp.supported k k {w : FreeMonoid (Fin m) | w.length = n})
 
 /-- **(b)** The number of words of length `n` in `m` letters is `mⁿ`; this is the dimension of the
 length-`n` graded piece of the free algebra `k⟨x₁,…,x_m⟩` (whose basis is the set of words).
@@ -157,9 +158,11 @@ theorem finrank_freeAlgebra_degreePiece (k : Type*) [Field k] (m n : ℕ) :
     Module.finrank k (freeAlgebraDegreePiece k m n) = m ^ n := by
   let b : Module.Basis {w : FreeMonoid (Fin m) // w.length = n} k
       (freeAlgebraDegreePiece k m n) :=
-    Finsupp.basisSingleOne.map
+    (Finsupp.basisSingleOne.map
       (Finsupp.supportedEquivFinsupp (R := k)
-        {w : FreeMonoid (Fin m) | w.length = n}).symm
+        {w : FreeMonoid (Fin m) | w.length = n}).symm).map
+      ((MonoidAlgebra.coeffLinearEquiv k).symm.submoduleMap
+        (Finsupp.supported k k {w : FreeMonoid (Fin m) | w.length = n}))
   calc
     Module.finrank k (freeAlgebraDegreePiece k m n) =
         Nat.card {w : FreeMonoid (Fin m) // w.length = n} :=

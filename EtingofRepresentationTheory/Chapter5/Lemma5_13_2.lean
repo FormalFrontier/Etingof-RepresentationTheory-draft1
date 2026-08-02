@@ -459,7 +459,7 @@ theorem Lemma5_13_2
     (hdom : la.StrictDominates mu)
     (x : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) :
     RowSymmetrizer n la * x * ColumnAntisymmetrizer n mu = 0 := by
-  induction x using Finsupp.induction_linear with
+  induction x using MonoidAlgebra.induction_linear with
   | zero =>
     have hleft : RowSymmetrizer n la *
         (0 : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) * ColumnAntisymmetrizer n mu = 0 := by
@@ -471,9 +471,10 @@ theorem Lemma5_13_2
     change RowSymmetrizer n la * (x' + y') * ColumnAntisymmetrizer n mu = 0
     rw [mul_add, add_mul, hx, hy, add_zero]
   | single g c =>
-    have h : (Finsupp.single g c : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) =
+    have h : MonoidAlgebra.single g c =
         c • MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g := by
-      simp [MonoidAlgebra.of_apply, mul_one]
+      ext h
+      simp [MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single, Finsupp.single_apply]
     rw [h, mul_smul_comm, smul_mul_assoc, basis_vanishing n la mu hdom g, smul_zero]
 
 /-- Generalized pigeonhole: if μ does NOT dominate λ, then for any σ,
@@ -533,7 +534,7 @@ theorem Lemma5_13_2_general
     (h : ¬ mu.Dominates la)
     (x : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) :
     RowSymmetrizer n la * x * ColumnAntisymmetrizer n mu = 0 := by
-  induction x using Finsupp.induction_linear with
+  induction x using MonoidAlgebra.induction_linear with
   | zero =>
     have hleft : RowSymmetrizer n la *
         (0 : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) * ColumnAntisymmetrizer n mu = 0 := by
@@ -545,9 +546,10 @@ theorem Lemma5_13_2_general
     change RowSymmetrizer n la * (x' + y') * ColumnAntisymmetrizer n mu = 0
     rw [mul_add, add_mul, hx, hy, add_zero]
   | single g c =>
-    have hsg : (Finsupp.single g c : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) =
+    have hsg : MonoidAlgebra.single g c =
         c • MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g := by
-      simp [MonoidAlgebra.of_apply, mul_one]
+      ext h
+      simp [MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single, Finsupp.single_apply]
     rw [hsg, mul_smul_comm, smul_mul_assoc,
       basis_vanishing_general n la mu h g, smul_zero]
 

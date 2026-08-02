@@ -318,7 +318,7 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
         AddHom.coe_mk, Finsupp.mapRange_apply, Finsupp.sub_apply]
       -- LHS: (X • p).toFinsupp 0 • m - p.toFinsupp 0 • xAct(m)
       -- (X • p).toFinsupp 0 = coeff(X * p, 0) = 0
-      have h_zero : ((Polynomial.X : Polynomial R) • (p : _)).toFinsupp 0 = 0 := by
+      have h_zero : ((Polynomial.X : Polynomial R) • (p : _)).toFinsupp.coeff 0 = 0 := by
         change Polynomial.coeff ((Polynomial.X : Polynomial R) * (show Polynomial R from p)) 0 = _
         exact Polynomial.coeff_X_mul_zero _
       rw [h_zero, zero_smul, zero_sub, neg_inj]

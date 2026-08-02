@@ -46,20 +46,7 @@ resolution needs to unfold `.toAddCommMonoid` back to that ambient monoid. -/
 @[reducible]
 noncomputable def Etingof.addCommGroupOfRing {k : Type*} [CommRing k] {M : Type*}
     [inst : AddCommMonoid M] [Module k M] : AddCommGroup M :=
-  { inst with
-    neg := fun x => (-1 : k) • x
-    zsmul := fun n x => (n : k) • x
-    neg_add_cancel := fun a => by
-      change (-1 : k) • a + a = 0
-      nth_rw 2 [show a = (1 : k) • a from (one_smul k a).symm]
-      rw [← add_smul, neg_add_cancel, zero_smul]
-    zsmul_zero' := fun a => by simp [zero_smul]
-    zsmul_succ' := fun n a => by
-      simp only [Nat.succ_eq_add_one, Nat.cast_add, Nat.cast_one,
-                  Int.cast_add, Int.cast_natCast, Int.cast_one, add_smul, one_smul]
-    zsmul_neg' := fun n a => by
-      simp only [Int.negSucc_eq, Nat.succ_eq_add_one, Nat.cast_add, Nat.cast_one,
-                  Int.cast_neg, smul_smul, neg_one_mul] }
+  Module.addCommMonoidToAddCommGroup k
 
 /-- The canonical map ψ : V_i → ⊕_{i→j} V_j at a source vertex i. -/
 noncomputable def Etingof.QuiverRepresentation.sourceMap

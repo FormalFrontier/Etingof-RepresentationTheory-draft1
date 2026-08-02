@@ -451,17 +451,17 @@ private theorem sandwich_not_mem {n : ℕ} {la : Nat.Partition n}
     rw [hsign_u, neg_one_smul] at heq
     -- heq : x = -x. Pointwise: x g = -(x g), so 2*(x g) = 0, so x g = 0.
     have hg : ∀ g, (ColumnAntisymmetrizer n la * MonoidAlgebra.of ℂ _ σ *
-        RowSymmetrizer n la) g = 0 := by
+        RowSymmetrizer n la).coeff g = 0 := by
       intro g
-      have := Finsupp.ext_iff.mp heq g
+      have := Finsupp.ext_iff.mp (congrArg MonoidAlgebra.coeff heq) g
       have hneg : (ColumnAntisymmetrizer n la * MonoidAlgebra.of ℂ _ σ *
-          RowSymmetrizer n la) g =
+          RowSymmetrizer n la).coeff g =
           - (ColumnAntisymmetrizer n la * MonoidAlgebra.of ℂ _ σ *
-            RowSymmetrizer n la) g := by
+            RowSymmetrizer n la).coeff g := by
         simpa using this
       exact (mul_eq_zero.mp (show (2 : ℂ) * _ = 0 by linear_combination hneg)).resolve_left
         (by norm_num)
-    exact Finsupp.ext hg
+    exact MonoidAlgebra.coeff_injective (Finsupp.ext hg)
   -- Proof of x = sign(u) • x:
   -- Insert of(t) before a_λ (absorbed), combine of(σ)*of(t)=of(σ*t)=of(u*σ),
   -- split of(u)*of(σ), absorb of(u) into b_λ with sign.
@@ -479,9 +479,11 @@ private theorem sandwich_not_mem {n : ℕ} {la : Nat.Partition n}
       Algebra.smul_mul_assoc]
   exact h1.trans (hσt ▸ h2)
 
+set_option maxHeartbeats 800000 in
+-- The nested group-algebra normalization is substantially slower on the opaque representation.
 /-- Dual sandwich (member case): for p ∈ P_λ, q ∈ Q_λ,
 a_λ * of(p*q) * b_λ = sign(q) • (a_λ · b_λ). -/
-private theorem dual_sandwich_mem {n : ℕ} {la : Nat.Partition n}
+private lemma dual_sandwich_mem {n : ℕ} {la : Nat.Partition n}
     (p : Equiv.Perm (Fin n)) (hp : p ∈ RowSubgroup n la)
     (q : Equiv.Perm (Fin n)) (hq : q ∈ ColumnSubgroup n la) :
     RowSymmetrizer n la * MonoidAlgebra.of ℂ _ (p * q) * ColumnAntisymmetrizer n la =
@@ -519,17 +521,17 @@ private theorem dual_sandwich_not_mem {n : ℕ} {la : Nat.Partition n}
         (RowSymmetrizer n la * MonoidAlgebra.of ℂ _ σ * ColumnAntisymmetrizer n la) by
     rw [hsign_u, neg_one_smul] at heq
     have hg : ∀ g, (RowSymmetrizer n la * MonoidAlgebra.of ℂ _ σ *
-        ColumnAntisymmetrizer n la) g = 0 := by
+        ColumnAntisymmetrizer n la).coeff g = 0 := by
       intro g
-      have := Finsupp.ext_iff.mp heq g
+      have := Finsupp.ext_iff.mp (congrArg MonoidAlgebra.coeff heq) g
       have hneg : (RowSymmetrizer n la * MonoidAlgebra.of ℂ _ σ *
-          ColumnAntisymmetrizer n la) g =
+          ColumnAntisymmetrizer n la).coeff g =
           - (RowSymmetrizer n la * MonoidAlgebra.of ℂ _ σ *
-            ColumnAntisymmetrizer n la) g := by
+            ColumnAntisymmetrizer n la).coeff g := by
         simpa using this
       exact (mul_eq_zero.mp (show (2 : ℂ) * _ = 0 by linear_combination hneg)).resolve_left
         (by norm_num)
-    exact Finsupp.ext hg
+    exact MonoidAlgebra.coeff_injective (Finsupp.ext hg)
   have h1 : RowSymmetrizer n la * MonoidAlgebra.of ℂ _ σ * ColumnAntisymmetrizer n la =
       RowSymmetrizer n la * MonoidAlgebra.of ℂ _ (t * σ) * ColumnAntisymmetrizer n la := by
     conv_lhs => rw [← RowSymmetrizer_mul_of_row t ht_row]
@@ -666,9 +668,10 @@ theorem Etingof.Lemma5_13_1
   -- Extract coefficient function and build linear functional
   choose f hf using basis_mul
   let ℓ : MonoidAlgebra ℂ (Equiv.Perm (Fin n)) →ₗ[ℂ] ℂ :=
-    Finsupp.lsum ℂ (fun σ => f σ • (LinearMap.id : ℂ →ₗ[ℂ] ℂ))
+    (Finsupp.lsum ℂ (fun σ => f σ • (LinearMap.id : ℂ →ₗ[ℂ] ℂ))).comp
+      (MonoidAlgebra.coeffLinearEquiv ℂ).toLinearMap
   refine ⟨ℓ, fun x => ?_⟩
-  induction x using Finsupp.induction_linear with
+  induction x using MonoidAlgebra.induction_linear with
   | zero =>
     have hleft : ColumnAntisymmetrizer n la *
         (0 : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) * RowSymmetrizer n la = 0 := by
@@ -685,12 +688,13 @@ theorem Etingof.Lemma5_13_1
     rw [map_add, add_smul, mul_add, add_mul]
     exact congr_arg₂ (· + ·) hx hy
   | single σ r =>
-    have hℓ : ℓ (Finsupp.single σ r) = f σ * r := by
+    have hℓ : ℓ (MonoidAlgebra.single σ r) = f σ * r := by
       change (Finsupp.lsum ℂ (fun σ => f σ • (LinearMap.id : ℂ →ₗ[ℂ] ℂ)))
         (Finsupp.single σ r) = f σ * r
       rw [Finsupp.lsum_single, LinearMap.smul_apply, LinearMap.id_apply, smul_eq_mul]
-    have hsingle : (Finsupp.single σ r : MonoidAlgebra ℂ _) = r • MonoidAlgebra.of ℂ _ σ := by
-      simp [MonoidAlgebra.of_apply, mul_one]
+    have hsingle : MonoidAlgebra.single σ r = r • MonoidAlgebra.of ℂ _ σ := by
+      ext g
+      simp [MonoidAlgebra.coeff_single]
     conv_lhs => rw [hsingle]
     rw [Algebra.mul_smul_comm, Algebra.smul_mul_assoc, hf, smul_smul, hℓ, mul_comm]
 
@@ -716,9 +720,10 @@ theorem Etingof.Lemma5_13_1_dual
     · exact ⟨0, by rw [zero_smul]; exact dual_sandwich_not_mem σ hmem⟩
   choose f hf using basis_mul
   let ℓ : MonoidAlgebra ℂ (Equiv.Perm (Fin n)) →ₗ[ℂ] ℂ :=
-    Finsupp.lsum ℂ (fun σ => f σ • (LinearMap.id : ℂ →ₗ[ℂ] ℂ))
+    (Finsupp.lsum ℂ (fun σ => f σ • (LinearMap.id : ℂ →ₗ[ℂ] ℂ))).comp
+      (MonoidAlgebra.coeffLinearEquiv ℂ).toLinearMap
   refine ⟨ℓ, fun x => ?_⟩
-  induction x using Finsupp.induction_linear with
+  induction x using MonoidAlgebra.induction_linear with
   | zero =>
     have hleft : RowSymmetrizer n la *
         (0 : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) * ColumnAntisymmetrizer n la = 0 := by
@@ -735,12 +740,13 @@ theorem Etingof.Lemma5_13_1_dual
     rw [map_add, add_smul, mul_add, add_mul]
     exact congr_arg₂ (· + ·) hx hy
   | single σ r =>
-    have hℓ : ℓ (Finsupp.single σ r) = f σ * r := by
+    have hℓ : ℓ (MonoidAlgebra.single σ r) = f σ * r := by
       change (Finsupp.lsum ℂ (fun σ => f σ • (LinearMap.id : ℂ →ₗ[ℂ] ℂ)))
         (Finsupp.single σ r) = f σ * r
       rw [Finsupp.lsum_single, LinearMap.smul_apply, LinearMap.id_apply, smul_eq_mul]
-    have hsingle : (Finsupp.single σ r : MonoidAlgebra ℂ _) = r • MonoidAlgebra.of ℂ _ σ := by
-      simp [MonoidAlgebra.of_apply, mul_one]
+    have hsingle : MonoidAlgebra.single σ r = r • MonoidAlgebra.of ℂ _ σ := by
+      ext g
+      simp [MonoidAlgebra.coeff_single]
     conv_lhs => rw [hsingle]
     rw [Algebra.mul_smul_comm, Algebra.smul_mul_assoc, hf, smul_smul, hℓ, mul_comm]
 

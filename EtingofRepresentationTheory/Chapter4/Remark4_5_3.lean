@@ -48,6 +48,11 @@ group algebra `ℂ[G]`, realised as `MonoidAlgebra ℂ G`, with its group-algebr
 (associativity, unit `δ_e`). -/
 abbrev ConvolutionAlgebra (G : Type u) [Group G] : Type u := MonoidAlgebra ℂ G
 
+/-- During the migration to the structure-based `MonoidAlgebra`, retain the natural coefficient
+function notation used throughout the convolution-algebra development. -/
+local instance (G : Type u) [Group G] : CoeFun (ConvolutionAlgebra G) (fun _ => G → ℂ) :=
+  ⟨fun f => f.coeff⟩
+
 variable {G : Type u} [Group G]
 
 /-- The unit of the convolution algebra is `δ_e`, the indicator function of the identity
@@ -144,15 +149,13 @@ theorem renormCharElt_apply (V : FDRep ℂ G) (z : G) :
     renormCharElt V z = (V.character 1 / (Fintype.card G : ℂ)) * V.character z := by
   unfold renormCharElt
   have hsum : (∑ g : G, V.character g • single g (1 : ℂ)) z = V.character z := by
-    rw [show (∑ g : G, V.character g • single g (1 : ℂ)) z
-          = Finsupp.applyAddHom z (∑ g : G, V.character g • single g (1 : ℂ)) from rfl,
-        map_sum]
-    simp only [Finsupp.applyAddHom_apply]
-    rw [show (fun g => (V.character g • single g (1 : ℂ)) z)
-          = (fun g => if g = z then V.character g else 0) from
-        funext fun g => by simp [Finsupp.single_apply]]
-    rw [Finset.sum_ite_eq' Finset.univ z]
-    simp
+    change (∑ g : G, V.character g • single g (1 : ℂ)).coeff z = V.character z
+    rw [MonoidAlgebra.coeff_sum]
+    change Finsupp.applyAddHom z
+      (∑ g : G, (V.character g • single g (1 : ℂ)).coeff) = V.character z
+    rw [map_sum]
+    simp [MonoidAlgebra.coeff_smul_apply, MonoidAlgebra.coeff_single,
+      Finsupp.single_apply]
   -- the outer scalar multiplication
   have : ((V.character 1 / (Fintype.card G : ℂ)) • ∑ g : G, V.character g • single g (1 : ℂ)) z
       = (V.character 1 / (Fintype.card G : ℂ)) * (∑ g : G, V.character g • single g (1 : ℂ)) z := by
@@ -345,7 +348,15 @@ theorem renormChar_isPrimitiveIdempotent (V : FDRep ℂ G) [Simple V] :
     have horth := FDRep.char_orthonormal V V
     rw [if_pos ⟨Iso.refl V⟩] at horth
     have hsum : (∑ g : G, V.character g * V.character g⁻¹) = (Fintype.card G : ℂ) := by
-      rw [invOf_smul_eq_iff] at horth; simpa using horth
+      have hcard : (Fintype.card G : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr Fintype.card_ne_zero
+      have horth' : (Fintype.card G : ℂ)⁻¹ *
+          ∑ g : G, V.character g * V.character g⁻¹ = 1 := by
+        simpa only [Nat.card_eq_fintype_card] using horth
+      calc
+        _ = (Fintype.card G : ℂ) *
+            ((Fintype.card G : ℂ)⁻¹ * ∑ g : G, V.character g * V.character g⁻¹) := by
+              field_simp
+        _ = (Fintype.card G : ℂ) := by rw [horth', mul_one]
     rw [hsum, renormCharElt_apply]
     field_simp
   have hidem : renormCharElt V * renormCharElt V = renormCharElt V := by
@@ -494,7 +505,9 @@ theorem sum_renormChar_eq_one [NeZero (Nat.card G₀ : ℂ)] (D : IrrepDecomp �
           rw [Finset.sum_insert ha, Finset.sum_insert ha]
           exact congrArg (renormCharElt (D.columnFDRep a) g + ·) ih
     have happly := happly_finset Finset.univ
-    rw [happly, one_eq_deltaE, Finsupp.single_apply]
+    rw [happly, one_eq_deltaE]
+    change _ = (Finsupp.single (1 : G₀) (1 : ℂ)) g
+    rw [Finsupp.single_apply]
     simp_rw [renormCharElt_apply]
     by_cases hg : g = 1
     · subst g

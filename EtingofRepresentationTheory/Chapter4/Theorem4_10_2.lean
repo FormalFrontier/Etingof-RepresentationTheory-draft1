@@ -27,6 +27,8 @@ open MvPolynomial Matrix Finset
 
 variable {k G : Type u} [Field k] [IsAlgClosed k] [Group G] [Fintype G] [DecidableEq G]
 
+local instance : CoeFun (MonoidAlgebra k G) (fun _ => G → k) := ⟨fun a => a.coeff⟩
+
 set_option linter.unusedSectionVars false
 
 /-! ### Block polynomial definition -/
@@ -139,10 +141,10 @@ end NormHelpers
 has `(g, h)` entry `a (g * h⁻¹)`. -/
 private lemma leftMulMatrix_monoidAlgebra_entry
     (a : MonoidAlgebra k G) (g h : G) :
-    Algebra.leftMulMatrix (Finsupp.basisSingleOne (R := k)) a g h =
+    Algebra.leftMulMatrix (MonoidAlgebra.basis G k) a g h =
       a (g * h⁻¹) := by
-  simp only [Algebra.leftMulMatrix_eq_repr_mul, Finsupp.basisSingleOne_repr]
-  exact (a.mul_single_apply_aux
+  simp only [Algebra.leftMulMatrix_eq_repr_mul]
+  exact (a.coeff_mul_single_eq_coeff_mul (g * h⁻¹)
     (fun m' _ => eq_mul_inv_iff_mul_eq.symm)).trans (mul_one _)
 
 /-- The projection ring homomorphism commutes with scalar multiplication. -/
@@ -205,18 +207,17 @@ private lemma IrrepDecomp.frobeniusDet_eq_signSmul_prod [NeZero (Nat.card G : k)
     apply Finset.sum_congr rfl; intro g _; ring
   -- The operator matrix det equals Algebra.norm k a
   have hLHS_eq : (Matrix.of fun g h : G => σ (g * h⁻¹)).det = Algebra.norm k a := by
-    rw [Algebra.norm_eq_matrix_det (Finsupp.basisSingleOne (R := k))]
+    rw [Algebra.norm_eq_matrix_det (MonoidAlgebra.basis G k)]
     congr 1
     funext g h
     rw [of_apply, leftMulMatrix_monoidAlgebra_entry]
-    change σ (g * h⁻¹) = (∑ s : G, σ s • MonoidAlgebra.of k G s : MonoidAlgebra k G) (g * h⁻¹)
-    -- Push the pointwise evaluation through the finite sum. The sum lives in
-    -- `MonoidAlgebra k G`, so `Finsupp.finsetSum_apply` cannot match the coercion
-    -- directly; apply the evaluation `AddMonoidHom` via `map_sum` instead.
-    rw [show (∑ s : G, σ s • MonoidAlgebra.of k G s : MonoidAlgebra k G) (g * h⁻¹)
-          = ∑ s : G, (σ s • MonoidAlgebra.of k G s : MonoidAlgebra k G) (g * h⁻¹) from
-        map_sum (Finsupp.applyAddHom (g * h⁻¹)) _ _]
-    simp [MonoidAlgebra.of_apply, MonoidAlgebra.single_apply]
+    change σ (g * h⁻¹) =
+      (∑ s : G, σ s • MonoidAlgebra.of k G s : MonoidAlgebra k G).coeff (g * h⁻¹)
+    rw [MonoidAlgebra.coeff_sum]
+    simp only [MonoidAlgebra.coeff_smul, MonoidAlgebra.of_apply,
+      MonoidAlgebra.single, MonoidAlgebra.coeff_ofCoeff, smul_eq_mul, mul_one]
+    simpa using Finsupp.ext_iff.mp
+      (Finsupp.univ_sum_single (Finsupp.equivFunOnFinite.symm σ)).symm (g * h⁻¹)
   -- Evaluate the scalar smul on the RHS
   have hsmul : MvPolynomial.eval σ
       (((Equiv.Perm.sign (Equiv.inv G) : ℤ) : k) • ∏ i : Fin D.n, D.blockPoly i ^ D.d i) =
@@ -661,10 +662,9 @@ private lemma IrrepDecomp.blockPoly_irreducible [NeZero (Nat.card G : k)]
         (D.projRingHom i (sect r c)) a b := by
       intro r c
       have hsrc : sect r c = ∑ g : G, (sect r c) g • MonoidAlgebra.of k G g := by
-        have : ∀ g, (sect r c) g • MonoidAlgebra.of k G g =
-            Finsupp.single g ((sect r c) g) := by
-          intro g; simp [MonoidAlgebra.of_apply, mul_one]
-        simp_rw [this]; exact (Finsupp.univ_sum_single _).symm
+        apply MonoidAlgebra.coeff_injective
+        ext h
+        simp [MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single, Finsupp.single_apply]
       conv_rhs => rw [hsrc]
       rw [map_sum]; simp_rw [D.projRingHom_smul' i]
       simp only [Matrix.sum_apply, Matrix.smul_apply, smul_eq_mul, mul_comm]
@@ -788,7 +788,8 @@ private lemma IrrepDecomp.blockPoly_not_associated [NeZero (Nat.card G : k)]
   set σ : G → k := fun g => e g with hσ_def
   -- The group algebra element reconstructed from σ equals e
   have ha_eq : ∑ g : G, σ g • MonoidAlgebra.of k G g = e := by
-    conv_rhs => rw [← Finsupp.univ_sum_single e]
+    conv_rhs => rw [show e = MonoidAlgebra.ofCoeff (∑ g : G, Finsupp.single g (e.coeff g)) by
+      rw [Finsupp.univ_sum_single, MonoidAlgebra.ofCoeff_coeff]]
     congr 1; ext g
     simp [hσ_def, MonoidAlgebra.of_apply, mul_one]
   -- Evaluate blockPoly at σ: eval σ (blockPoly l) = det(projRingHom l (e))
@@ -818,7 +819,7 @@ private lemma IrrepDecomp.blockPoly_not_associated [NeZero (Nat.card G : k)]
     rw [heval_eq, hej]
     haveI := D.d_pos j
     haveI : Nonempty (Fin (D.d j)) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩⟩
-    exact Matrix.det_zero ‹_›
+    exact Matrix.det_zero
   -- From hu: blockPoly i * ↑u = blockPoly j, apply eval σ
   have heval_u : MvPolynomial.eval σ (↑u : MvPolynomial G k) = 0 := by
     have h := congr_arg (MvPolynomial.eval σ) hu
@@ -843,9 +844,10 @@ private lemma IrrepDecomp.n_eq_card_conjClasses [NeZero (Nat.card G : k)]
       intro a ha g h
       rw [Subalgebra.mem_center_iff] at ha
       have key := congr_fun (congr_arg (⇑) (ha (MonoidAlgebra.of k G g))) (g * h)
-      simp only [MonoidAlgebra.of, MonoidHom.coe_mk, OneHom.coe_mk,
-        MonoidAlgebra.single_mul_apply, MonoidAlgebra.mul_single_apply,
-        one_mul, mul_one, inv_mul_cancel_left] at key
+      change (MonoidAlgebra.single g 1 * a).coeff (g * h) =
+        (a * MonoidAlgebra.single g 1).coeff (g * h) at key
+      rw [MonoidAlgebra.coeff_single_mul_apply, MonoidAlgebra.coeff_mul_single_apply] at key
+      simp only [one_mul, mul_one, inv_mul_cancel_left] at key
       exact key.symm
     have conj_inv_center : ∀ (a : MonoidAlgebra k G),
         (∀ g h : G, a (g * h * g⁻¹) = a h) → a ∈ Subalgebra.center k (MonoidAlgebra k G) := by
@@ -854,8 +856,8 @@ private lemma IrrepDecomp.n_eq_card_conjClasses [NeZero (Nat.card G : k)]
       induction b using MonoidAlgebra.induction_on with
       | hM g =>
         ext x
-        simp only [MonoidAlgebra.of_apply, MonoidAlgebra.single_mul_apply,
-          MonoidAlgebra.mul_single_apply, one_mul, mul_one]
+        simp only [MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single_mul_apply,
+          MonoidAlgebra.coeff_mul_single_apply, one_mul, mul_one]
         have h1 := ha g⁻¹ (x * g⁻¹)
         simp only [inv_inv, mul_assoc, inv_mul_cancel, mul_one] at h1
         exact h1
@@ -866,16 +868,16 @@ private lemma IrrepDecomp.n_eq_card_conjClasses [NeZero (Nat.card G : k)]
         map_add' := fun _ _ => funext fun _ => Finsupp.add_apply _ _ _
         map_smul' := fun _ _ => funext fun _ => Finsupp.smul_apply _ _ _ }
     let bwd : (ConjClasses G → k) →ₗ[k] ↥(Subalgebra.center k (MonoidAlgebra k G)) :=
-      { toFun := fun f => ⟨Finsupp.onFinset Finset.univ
-            (fun g => f (ConjClasses.mk g)) (fun _ _ => Finset.mem_univ _),
+      { toFun := fun f => ⟨MonoidAlgebra.ofCoeff (Finsupp.onFinset Finset.univ
+            (fun g => f (ConjClasses.mk g)) (fun _ _ => Finset.mem_univ _)),
           conj_inv_center _ (fun g h => by
             simp only [Finsupp.onFinset_apply]; congr 1
             rw [ConjClasses.mk_eq_mk_iff_isConj]
             exact isConj_iff.mpr ⟨g⁻¹, by group⟩)⟩
-        map_add' := fun f₁ f₂ => Subtype.ext (Finsupp.ext fun g => by
-          simp [Finsupp.onFinset_apply])
-        map_smul' := fun r f => Subtype.ext (Finsupp.ext fun g => by
-          simp [Finsupp.onFinset_apply]) }
+        map_add' := fun f₁ f₂ => Subtype.ext (MonoidAlgebra.coeff_injective
+          (Finsupp.ext fun g => by simp [Finsupp.onFinset_apply]))
+        map_smul' := fun r f => Subtype.ext (MonoidAlgebra.coeff_injective
+          (Finsupp.ext fun g => by simp [Finsupp.onFinset_apply])) }
     have hfb : ∀ f, fwd (bwd f) = f := fun f => funext fun C => by
       simp only [fwd, bwd, LinearMap.coe_mk, AddHom.coe_mk, Finsupp.onFinset_apply]
       congr 1; exact Quotient.out_eq C

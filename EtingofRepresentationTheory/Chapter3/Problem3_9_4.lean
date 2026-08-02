@@ -65,7 +65,7 @@ noncomputable def constDeformation : FormalDeformation k A V where
     rcases Nat.eq_zero_or_pos n with hn | hn
     · subst hn
       -- `baseRho` is multiplicative: `ρ(ab) = ρ(a) ∘ ρ(b)`.
-      simp only [Finset.antidiagonal_zero, Finset.sum_singleton]
+      simp only [Finset.Nat.antidiagonal_zero, Finset.sum_singleton]
       ext v
       change (a * b) • v = a • b • v
       exact mul_smul a b v

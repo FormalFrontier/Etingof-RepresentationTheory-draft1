@@ -2135,7 +2135,9 @@ lemma avg_char_subgroup {H : Subgroup A5} (σ : FDRep ℂ ↥H) (K : Subgroup �
   rw [show (∑ g : ↥K, σ.character (g : ↥H))
       = ∑ g : ↥K, FDRep.character ((Action.res (FGModuleCat ℂ) K.subtype).obj σ) g from
     Finset.sum_congr rfl (fun g _ => rfl)]
-  exact FDRep.average_char_eq_finrank_invariants _
+  rw [smul_eq_mul, invOf_eq_inv, ← Nat.card_eq_fintype_card]
+  exact FDRep.average_char_eq_finrank_invariants
+    ((Action.res (FGModuleCat ℂ) K.subtype).obj σ)
 
 /-- **Character `-1` on involutions (key point of part (d)).** The unique `3`-dimensional simple
 representation `σ` of an order-`12` subgroup `H ≅ A₄ ≤ A₅` takes the value `-1` on every
@@ -2375,7 +2377,7 @@ lemma charval_A4_threeDim (H : Subgroup A5) (hH : Nat.card H = 12)
         invertibleOfNonzero (by rw [hcardC]; norm_num)
       have horth := FDRep.char_orthonormal σ σ
       rw [if_pos ⟨CategoryTheory.Iso.refl σ⟩] at horth
-      rw [smul_eq_mul, invOf_eq_inv] at horth
+      rw [Nat.card_eq_fintype_card] at horth
       have hSeq : (∑ g : ↥H, σ.character g * σ.character g⁻¹) = (Fintype.card ↥H : ℂ) := by
         have hne0 : (Fintype.card ↥H : ℂ) ≠ 0 := by rw [hcardC]; norm_num
         field_simp [hne0] at horth

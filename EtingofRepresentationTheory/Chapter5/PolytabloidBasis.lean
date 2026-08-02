@@ -39,6 +39,10 @@ issue:
 
 namespace Etingof
 
+local instance polytabloidBasisCoeFun {R M : Type*} [Semiring R] :
+    CoeFun (MonoidAlgebra R M) (fun _ => M → R) :=
+  ⟨fun a => a.coeff⟩
+
 noncomputable section
 
 
@@ -239,9 +243,13 @@ private lemma columnAntisymmetrizer_apply_not_mem' (n : ℕ) (la : Nat.Partition
     (ColumnAntisymmetrizer n la : SymGroupAlgebra n) σ = 0 := by
   classical
   simp only [ColumnAntisymmetrizer, MonoidAlgebra.of_apply]
-  change (Finsupp.applyAddHom σ) (∑ q : ↥(ColumnSubgroup n la),
+  change (∑ q : ↥(ColumnSubgroup n la),
     ((↑(↑(Equiv.Perm.sign (q : Equiv.Perm (Fin n))) : ℤ) : ℂ) •
-      MonoidAlgebra.single (q : Equiv.Perm (Fin n)) (1 : ℂ))) = 0
+      MonoidAlgebra.single (q : Equiv.Perm (Fin n)) (1 : ℂ))).coeff σ = 0
+  rw [MonoidAlgebra.coeff_sum]
+  change (Finsupp.applyAddHom σ) (∑ q : ↥(ColumnSubgroup n la),
+    (((↑(↑(Equiv.Perm.sign (q : Equiv.Perm (Fin n))) : ℤ) : ℂ) •
+      MonoidAlgebra.single (q : Equiv.Perm (Fin n)) (1 : ℂ))).coeff) = 0
   rw [map_sum]
   exact Fintype.sum_eq_zero _ (fun q => by
   change ((↑(↑(Equiv.Perm.sign (q : Equiv.Perm (Fin n))) : ℤ) : ℂ) •
@@ -257,12 +265,15 @@ private lemma rowSymmetrizer_apply_not_mem' (n : ℕ) (la : Nat.Partition n)
     (RowSymmetrizer n la : SymGroupAlgebra n) σ = 0 := by
   classical
   simp only [RowSymmetrizer, MonoidAlgebra.of_apply]
+  change (∑ p : ↥(RowSubgroup n la),
+    MonoidAlgebra.single (p : Equiv.Perm (Fin n)) (1 : ℂ)).coeff σ = 0
+  rw [MonoidAlgebra.coeff_sum]
   change (Finsupp.applyAddHom σ) (∑ p : ↥(RowSubgroup n la),
-    MonoidAlgebra.single (p : Equiv.Perm (Fin n)) (1 : ℂ)) = 0
+    (MonoidAlgebra.single (p : Equiv.Perm (Fin n)) (1 : ℂ)).coeff) = 0
   rw [map_sum]
   exact Fintype.sum_eq_zero _ (fun p => by
     simp only [Finsupp.applyAddHom_apply]
-    rw [Finsupp.single_apply]
+    rw [MonoidAlgebra.coeff_single, Finsupp.single_apply]
     split_ifs with h
     · exact absurd (h ▸ p.prop) hσ
     · rfl)
@@ -287,10 +298,11 @@ theorem youngSymmetrizer_support (n : ℕ) (la : Nat.Partition n)
       g = q * p := by
   classical
   change (ColumnAntisymmetrizer n la * RowSymmetrizer n la) g ≠ 0 at hg
-  have hmem : g ∈ (ColumnAntisymmetrizer n la * RowSymmetrizer n la).support :=
+  have hmem : g ∈ (ColumnAntisymmetrizer n la * RowSymmetrizer n la).coeff.support :=
     Finsupp.mem_support_iff.mpr hg
-  obtain ⟨q', hq'_mem, p', hp'_mem, hg_eq⟩ :=
-    Finset.mem_mul.mp (MonoidAlgebra.support_mul _ _ hmem)
+  have hmem' := MonoidAlgebra.support_coeff_mul_subset
+    (ColumnAntisymmetrizer n la) (RowSymmetrizer n la) hmem
+  obtain ⟨q', hq'_mem, p', hp'_mem, hg_eq⟩ := Finset.mem_mul.mp hmem'
   have hq'_col : q' ∈ ColumnSubgroup n la := by
     by_contra h_not
     exact (Finsupp.mem_support_iff.mp hq'_mem)
@@ -321,14 +333,22 @@ theorem youngSymmetrizer_pq_coeff (n : ℕ) (la : Nat.Partition n)
           (RowSymmetrizer n la : SymGroupAlgebra n) (q'.val⁻¹ * (q * p))) := by
     unfold ColumnAntisymmetrizer
     simp only [MonoidAlgebra.of_apply, Finset.sum_mul]
-    change (Finsupp.applyAddHom (q * p)) (∑ q' : ↥(ColumnSubgroup n la),
+    change (∑ q' : ↥(ColumnSubgroup n la),
       (((↑(↑(Equiv.Perm.sign (q' : Equiv.Perm (Fin n))) : ℤ) : ℂ) •
-        MonoidAlgebra.single (q' : Equiv.Perm (Fin n)) (1 : ℂ)) * RowSymmetrizer n la)) =
+        MonoidAlgebra.single (q' : Equiv.Perm (Fin n)) (1 : ℂ)) *
+          RowSymmetrizer n la)).coeff (q * p) =
         ∑ q' : ↥(ColumnSubgroup n la),
           ((↑(↑(Equiv.Perm.sign q'.val) : ℤ) : ℂ) *
             (RowSymmetrizer n la : SymGroupAlgebra n) (q'.val⁻¹ * (q * p)))
+    rw [MonoidAlgebra.coeff_sum]
+    change (Finsupp.applyAddHom (q * p))
+        (∑ q' : ↥(ColumnSubgroup n la),
+          ((((↑(↑(Equiv.Perm.sign (q' : Equiv.Perm (Fin n))) : ℤ) : ℂ) •
+            MonoidAlgebra.single (q' : Equiv.Perm (Fin n)) (1 : ℂ)) *
+              RowSymmetrizer n la)).coeff) = _
     rw [map_sum]
-    congr 1; ext q'
+    apply Finset.sum_congr rfl
+    intro q' _
     rw [Algebra.smul_mul_assoc]
     simp [MonoidAlgebra.single_mul_apply]
   rw [heval]
@@ -338,14 +358,18 @@ theorem youngSymmetrizer_pq_coeff (n : ℕ) (la : Nat.Partition n)
     simp only [inv_mul_cancel_left]
     rw [show (RowSymmetrizer n la : SymGroupAlgebra n) p = 1 from by
       simp only [RowSymmetrizer, MonoidAlgebra.of_apply]
+      change (∑ p' : ↥(RowSubgroup n la),
+        MonoidAlgebra.single (p' : Equiv.Perm (Fin n)) (1 : ℂ)).coeff p = 1
+      rw [MonoidAlgebra.coeff_sum]
       change (Finsupp.applyAddHom p) (∑ p' : ↥(RowSubgroup n la),
-        MonoidAlgebra.single (p' : Equiv.Perm (Fin n)) (1 : ℂ)) = 1
+        (MonoidAlgebra.single (p' : Equiv.Perm (Fin n)) (1 : ℂ)).coeff) = 1
       rw [map_sum]
       rw [Finset.sum_eq_single (⟨p, hp⟩ : ↥(RowSubgroup n la))]
       · simp
       · intro ⟨p', _⟩ _ hne
         simp only [Finsupp.applyAddHom_apply]
-        rw [Finsupp.single_apply, if_neg (fun h => hne (Subtype.ext h))]
+        rw [MonoidAlgebra.coeff_single, Finsupp.single_apply,
+          if_neg (fun h => hne (Subtype.ext h))]
       · intro h; exact absurd (Finset.mem_univ _) h]
     ring
   · -- q' ≠ q: q'⁻¹ * (q * p) = (q'⁻¹ * q) * p, and a_λ at this is 0 unless q'⁻¹q ∈ P_λ
@@ -353,13 +377,18 @@ theorem youngSymmetrizer_pq_coeff (n : ℕ) (la : Nat.Partition n)
     suffices h : (RowSymmetrizer n la : SymGroupAlgebra n) (q'⁻¹ * (q * p)) = 0 by
       rw [h, mul_zero]
     simp only [RowSymmetrizer, MonoidAlgebra.of_apply]
-    change (Finsupp.applyAddHom (q'⁻¹ * (q * p))) (∑ p' : ↥(RowSubgroup n la),
-      MonoidAlgebra.single (p' : Equiv.Perm (Fin n)) (1 : ℂ)) = 0
+    change (∑ p' : ↥(RowSubgroup n la),
+      MonoidAlgebra.single (p' : Equiv.Perm (Fin n)) (1 : ℂ)).coeff
+        (q'⁻¹ * (q * p)) = 0
+    rw [MonoidAlgebra.coeff_sum]
+    change (Finsupp.applyAddHom (q'⁻¹ * (q * p)))
+      (∑ p' : ↥(RowSubgroup n la),
+        (MonoidAlgebra.single (p' : Equiv.Perm (Fin n)) (1 : ℂ)).coeff) = 0
     rw [map_sum]
     apply Fintype.sum_eq_zero
     intro ⟨p', hp'⟩
     simp only [Finsupp.applyAddHom_apply]
-    rw [Finsupp.single_apply]
+    rw [MonoidAlgebra.coeff_single, Finsupp.single_apply]
     rw [if_neg]
     intro heq
     -- q'⁻¹ * q * p = p' implies q'⁻¹ * q = p' * p⁻¹ ∈ P_λ

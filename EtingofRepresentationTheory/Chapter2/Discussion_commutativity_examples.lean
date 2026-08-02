@@ -38,7 +38,7 @@ theorem monoidAlgebra_mul_comm_iff (k : Type*) [CommSemiring k] [Nontrivial k]
     have key := hcomm (MonoidAlgebra.single g 1) (MonoidAlgebra.single h 1)
     rw [MonoidAlgebra.single_mul_single, MonoidAlgebra.single_mul_single] at key
     simp only [mul_one] at key
-    exact Finsupp.single_left_injective one_ne_zero key
+    exact MonoidAlgebra.single_left_injective one_ne_zero key
   · -- `G` commutative ⇒ `k[G]` commutative: this is Mathlib's `CommSemiring` instance.
     intro hcomm
     letI : CommMonoid G := { (inferInstance : Monoid G) with mul_comm := hcomm }

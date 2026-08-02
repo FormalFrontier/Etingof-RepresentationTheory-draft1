@@ -205,7 +205,7 @@ open scoped BigOperators
 
 variable {k : Type*} [Field k] [IsAlgClosed k]
 
-set_option maxHeartbeats 1600000 in
+set_option maxHeartbeats 6400000 in
 -- Heavy: the orthogonal-idempotent extraction runs two matrix-density passes and
 -- transports between `toMatrix`/`toLin` over the FDRep carrier; raise the heartbeat budget.
 /-- **Weight-space saturation for polynomial `GL_N`-representations**, the heart of
@@ -255,9 +255,9 @@ theorem polynomial_rep_iSup_glWeightSpace_eq_top {N : ℕ}
     rw [hS, Finset.mem_biUnion]
     exact ⟨(a, c), Finset.mem_univ _, MvPolynomial.mem_support_iff.mpr hne⟩
   have hsub : ∀ a c : Fin m, (Q a c).support ⊆ S := by
-    intro a c
-    rw [hS]
-    exact Finset.subset_biUnion_of_mem (fun ac => (Q ac.1 ac.2).support) (Finset.mem_univ (a, c))
+    intro a c μ hμ
+    rw [hS, Finset.mem_biUnion]
+    exact ⟨(a, c), Finset.mem_univ _, hμ⟩
   -- The weight monomial.
   set w : (Fin N → kˣ) → (Fin N →₀ ℕ) → k := fun t μ => ∏ i, (t i : k) ^ μ i with hw
   have hw_apply : ∀ t μ, w t μ = ∏ i, (t i : k) ^ μ i := fun _ _ => rfl

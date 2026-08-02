@@ -38,6 +38,10 @@ noncomputable section
 
 namespace Etingof
 
+local instance schurWeylSpecialBlockGeneralCoeFun {R M : Type*} [Semiring R] :
+    CoeFun (MonoidAlgebra R M) (fun _ => M → R) :=
+  ⟨fun a => a.coeff⟩
+
 variable {k : Type*} [Field k] [CharZero k]
 
 private abbrev G (n : ℕ) := Equiv.Perm (Fin n)
@@ -64,10 +68,10 @@ def spechtBlockCharacterK (k : Type*) [Field k] (n : ℕ) (la : Nat.Partition n)
 
 /-- Left multiplication by `c ∈ k[S_n]` on the Specht block `SpechtModuleK k n la`. -/
 private def mulLeftBlockK (n : ℕ) (c : MonoidAlgebra k (G n)) (la : Nat.Partition n) :
-    ↥(SpechtModuleK k n la) →ₗ[k] ↥(SpechtModuleK k n la) where
-  toFun v := ⟨c * ↑v, (SpechtModuleK k n la).smul_mem c v.prop⟩
-  map_add' a b := Subtype.ext (mul_add c ↑a ↑b)
-  map_smul' r v := Subtype.ext (Algebra.mul_smul_comm r c ↑v)
+    ↥(SpechtModuleK k n la) →ₗ[k] ↥(SpechtModuleK k n la) :=
+  LinearMap.codRestrict ((SpechtModuleK k n la).restrictScalars k)
+    ((LinearMap.mulLeft k c).comp ((SpechtModuleK k n la).restrictScalars k).subtype)
+    (fun v => (SpechtModuleK k n la).smul_mem c v.prop)
 
 omit [CharZero k] in
 private lemma mulLeftBlockK_of (n : ℕ) (la : Nat.Partition n) (σ : G n) :
@@ -78,8 +82,16 @@ private def mulLeftBlockKLinear (n : ℕ) (la : Nat.Partition n) :
     MonoidAlgebra k (G n) →ₗ[k]
       (↥(SpechtModuleK k n la) →ₗ[k] ↥(SpechtModuleK k n la)) where
   toFun c := mulLeftBlockK n c la
-  map_add' a b := by ext ⟨m, hm⟩; simp [mulLeftBlockK, add_mul]
-  map_smul' r c := by ext ⟨m, hm⟩; simp [mulLeftBlockK]
+  map_add' a b := by
+    apply LinearMap.ext
+    intro m
+    apply Subtype.ext
+    exact add_mul a b m
+  map_smul' r c := by
+    apply LinearMap.ext
+    intro m
+    apply Subtype.ext
+    exact smul_mul_assoc r c m
 
 omit [CharZero k] in
 /-- Trace linearity: `∑_σ c(σ) · χ_{V_la}(σ) = trace of left mult by c on V_la`. -/
@@ -89,29 +101,31 @@ private lemma sum_coeff_char_eq_traceK (n : ℕ) (la : Nat.Partition n)
       LinearMap.trace k _ (mulLeftBlockK n c la) := by
   symm
   have key : (LinearMap.trace k _) (mulLeftBlockK n c la) =
-      ∑ σ ∈ c.support, c σ * spechtBlockCharacterK k n la σ := by
+      ∑ σ ∈ c.coeff.support, c σ * spechtBlockCharacterK k n la σ := by
     have hlin : mulLeftBlockK n c la = (mulLeftBlockKLinear n la) c := rfl
     rw [hlin]
     simp_rw [spechtBlockCharacterK, ← mulLeftBlockK_of n la]
-    have hc : c = ∑ σ ∈ c.support, c σ • MonoidAlgebra.of k (G n) σ := by
-      conv_lhs => rw [← Finsupp.sum_single c]
+    have hc : c = ∑ σ ∈ c.coeff.support, c σ • MonoidAlgebra.of k (G n) σ := by
+      conv_lhs => rw [← MonoidAlgebra.sum_single c]
       unfold Finsupp.sum
       refine Finset.sum_congr rfl (fun σ _ => ?_)
-      rw [MonoidAlgebra.of_apply, Finsupp.smul_single', mul_one]
+      rw [MonoidAlgebra.of_apply, MonoidAlgebra.smul_single', mul_one]
     conv_lhs => rw [show (mulLeftBlockKLinear n la) c =
         (mulLeftBlockKLinear n la)
-          (∑ σ ∈ c.support, c σ • MonoidAlgebra.of k _ σ) from by rw [← hc]]
+          (∑ σ ∈ c.coeff.support, c σ • MonoidAlgebra.of k _ σ) from by rw [← hc]]
     rw [map_sum, map_sum]
     refine Finset.sum_congr rfl (fun σ _ => ?_)
     rw [map_smul, LinearMap.map_smul, smul_eq_mul]; rfl
   rw [key]
-  apply Finset.sum_subset (Finset.subset_univ c.support)
+  apply Finset.sum_subset (Finset.subset_univ c.coeff.support)
   intro σ _ hσ
   have : c σ = 0 := by rwa [Finsupp.mem_support_iff, not_not] at hσ
   simp [this]
 
 /-! ### Off-diagonal vanishing -/
 
+set_option maxHeartbeats 1600000 in
+-- Constructing and comparing the subtype-valued intertwiner is elaboration-intensive.
 /-- Off-diagonal: `c_λ` acts as `0` on `V_{la'}` when `la ≠ la'`. Uses general-`k`
 Specht-module simplicity and distinctness. -/
 private lemma mulLeft_youngSym_zero_of_neK (n : ℕ) (la la' : Nat.Partition n)
@@ -127,11 +141,16 @@ private lemma mulLeft_youngSym_zero_of_neK (n : ℕ) (la la' : Nat.Partition n)
       map_add' := fun a b => Subtype.ext (add_mul (a : MonoidAlgebra k (G n)) b w₀)
       map_smul' := fun a v => Subtype.ext (mul_assoc a (v : MonoidAlgebra k (G n)) w₀) }
   have hφ_ne : φ ≠ 0 := by
-    intro h; apply hw₀
-    have : φ ⟨YoungSymmetrizerK k n la, Submodule.subset_span rfl⟩ = 0 :=
-      congr_fun (congr_arg DFunLike.coe h)
-        ⟨YoungSymmetrizerK k n la, Submodule.subset_span rfl⟩
-    simp only [mulLeftBlockK, LinearMap.coe_mk, AddHom.coe_mk] at this ⊢; exact this
+    intro h
+    apply hw₀
+    let e : SpechtModuleK k n la :=
+      ⟨YoungSymmetrizerK k n la, Submodule.subset_span rfl⟩
+    have he := LinearMap.congr_fun h e
+    apply Subtype.ext
+    change YoungSymmetrizerK k n la * (w₀ : MonoidAlgebra k (G n)) = 0
+    have hev := congrArg Subtype.val he
+    change YoungSymmetrizerK k n la * (w₀ : MonoidAlgebra k (G n)) = 0 at hev
+    exact hev
   haveI : IsSimpleModule (MonoidAlgebra k (G n)) (SpechtModuleK k n la) :=
     SpechtModuleK_isSimpleModule_general k n la
   haveI : IsSimpleModule (MonoidAlgebra k (G n)) (SpechtModuleK k n la') :=
@@ -164,7 +183,7 @@ private lemma mul_mem_specht_proportionalK (n : ℕ) (la : Nat.Partition n)
     rw [← ha, ← mul_assoc, hf a]
   rw [hcv]
   congr 1
-  rw [Finsupp.smul_apply, smul_eq_mul, youngSymK_coeff_one, mul_one]
+  rw [MonoidAlgebra.coeff_smul_apply, smul_eq_mul, youngSymK_coeff_one, mul_one]
 
 omit [CharZero k] in
 /-- Diagonal case: trace of `c_λ` on `V_λ` equals `α`. -/
@@ -184,7 +203,7 @@ private lemma trace_mulLeft_youngSym_eqK (n : ℕ) (la : Nat.Partition n)
       map_add' := fun x y => by simp [mul_add]
       map_smul' := fun r x => by
         change (c * (r • x.val)) 1 = r * (c * x.val) 1
-        rw [Algebra.mul_smul_comm, Finsupp.smul_apply, smul_eq_mul] }
+        rw [Algebra.mul_smul_comm, MonoidAlgebra.coeff_smul_apply, smul_eq_mul] }
   have hT_eq : T = ι.comp π := by
     apply LinearMap.ext; intro ⟨v, hv⟩; apply Subtype.ext
     exact mul_mem_specht_proportionalK n la ⟨v, hv⟩
@@ -192,8 +211,9 @@ private lemma trace_mulLeft_youngSym_eqK (n : ℕ) (la : Nat.Partition n)
   have h_comp : π.comp ι = α • LinearMap.id := by
     apply LinearMap.ext; intro x
     change (c * (x • c)) 1 = α * x
-    rw [Algebra.mul_smul_comm, Finsupp.smul_apply, smul_eq_mul]
-    rw [hα_sq, Finsupp.smul_apply, smul_eq_mul, youngSymK_coeff_one, mul_one, mul_comm]
+    rw [Algebra.mul_smul_comm, MonoidAlgebra.coeff_smul_apply, smul_eq_mul]
+    rw [hα_sq, MonoidAlgebra.coeff_smul_apply, smul_eq_mul,
+      youngSymK_coeff_one, mul_one, mul_comm]
   rw [h_comp]; simp [map_smul, LinearMap.trace_id, Module.finrank_self]
 
 /-! ### Character-orthogonality (Kronecker) identity over `k` -/

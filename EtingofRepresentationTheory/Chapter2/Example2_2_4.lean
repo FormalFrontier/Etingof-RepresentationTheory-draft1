@@ -77,7 +77,7 @@ noncomputable example (k : Type*) [CommRing k] (G : Type*) [Group G] :
 /-- The elements `a_g` indexed by `g : G` form the standard basis of the group algebra. -/
 noncomputable example (k : Type*) [CommRing k] (G : Type*) [Group G] :
     Module.Basis G k (MonoidAlgebra k G) :=
-  Finsupp.basisSingleOne
+  MonoidAlgebra.basis G k
 
 /-- The group-algebra basis obeys `a_g a_h = a_{gh}`. -/
 example (k : Type*) [CommRing k] (G : Type*) [Group G] (g h : G) :

@@ -58,7 +58,8 @@ private abbrev jHom : MonoidAlgebra ℚ (Equiv.Perm (Fin n)) →+*
 /-- `j (of σ) = of σ`. -/
 private lemma jHom_of (σ : Equiv.Perm (Fin n)) :
     jHom n (MonoidAlgebra.of ℚ _ σ) = MonoidAlgebra.of ℂ _ σ := by
-  change MonoidAlgebra.mapRingHom _ _ (Finsupp.single σ 1) = Finsupp.single σ 1
+  change MonoidAlgebra.mapRingHom _ _ (MonoidAlgebra.single σ 1) =
+    MonoidAlgebra.single σ 1
   rw [MonoidAlgebra.mapRingHom_single, map_one]
 
 /-- `j (c_λ over ℚ) = c_λ over ℂ`. -/
@@ -105,24 +106,40 @@ private lemma psiMap_injective : Function.Injective (psiMap n la) := by
   have hlT : Function.Injective
       (LinearMap.lTensor ℂ ((SpechtModuleK ℚ n la).subtype.restrictScalars ℚ)) :=
     Module.Flat.lTensor_preserves_injective_linearMap _ hincl_inj
-  set F := TensorProduct.finsuppScalarRight ℚ ℂ ℂ (Equiv.Perm (Fin n)) with hF
+  let coeffQ := (MonoidAlgebra.coeffLinearEquiv ℚ :
+    MonoidAlgebra ℚ (Equiv.Perm (Fin n)) ≃ₗ[ℚ]
+      Equiv.Perm (Fin n) →₀ ℚ)
+  let coeffC := (MonoidAlgebra.coeffLinearEquiv ℂ :
+    MonoidAlgebra ℂ (Equiv.Perm (Fin n)) ≃ₗ[ℂ]
+      Equiv.Perm (Fin n) →₀ ℂ)
+  let F₀ := TensorProduct.finsuppScalarRight ℚ ℂ ℂ (Equiv.Perm (Fin n))
+  let F : ℂ ⊗[ℚ] MonoidAlgebra ℚ (Equiv.Perm (Fin n)) →
+      MonoidAlgebra ℂ (Equiv.Perm (Fin n)) := fun t =>
+    coeffC.symm (F₀ (LinearMap.lTensor ℂ coeffQ.toLinearMap t))
+  have hF_inj : Function.Injective F :=
+    coeffC.symm.injective.comp (F₀.injective.comp
+      (Module.Flat.lTensor_preserves_injective_linearMap _ coeffQ.injective))
   have hcomp : ∀ t, psiMap n la t =
       F (LinearMap.lTensor ℂ ((SpechtModuleK ℚ n la).subtype.restrictScalars ℚ) t) := by
     intro t
     induction t using TensorProduct.induction_on with
-    | zero => simp
+    | zero => simp [F]
     | tmul z v =>
       rw [psiMap_tmul, LinearMap.lTensor_tmul]
       ext g
-      rw [TensorProduct.finsuppScalarRight_apply_tmul_apply, Finsupp.smul_apply, smul_eq_mul,
-        jHom, MonoidAlgebra.mapRingHom_apply]
+      simp only [F, coeffQ, coeffC, F₀,
+        MonoidAlgebra.coeffLinearEquiv_apply,
+        MonoidAlgebra.coeffLinearEquiv_symm_apply]
+      rw [LinearMap.lTensor_tmul]
+      rw [TensorProduct.finsuppScalarRight_apply_tmul_apply,
+        MonoidAlgebra.coeff_smul_apply, jHom, MonoidAlgebra.coeff_mapRingHom]
       simp only [LinearMap.coe_restrictScalars, Submodule.coe_subtype]
-      rw [Algebra.smul_def, mul_comm]
-    | add x y hx hy => rw [map_add, map_add, map_add, hx, hy]
+      simp [Algebra.smul_def, mul_comm]
+    | add x y hx hy => simp [F, hx, hy]
   have hcompose : Function.Injective
       (fun t => F (LinearMap.lTensor ℂ
         ((SpechtModuleK ℚ n la).subtype.restrictScalars ℚ) t)) :=
-    F.injective.comp hlT
+    hF_inj.comp hlT
   rw [show (psiMap n la : _ → _) = fun t => F (LinearMap.lTensor ℂ
       ((SpechtModuleK ℚ n la).subtype.restrictScalars ℚ) t) from funext hcomp]
   exact hcompose
@@ -149,15 +166,10 @@ private lemma psiMap_range :
     have hmul : ∀ b : MonoidAlgebra ℂ (Equiv.Perm (Fin n)),
         b * YoungSymmetrizerK ℂ n la ∈ T := by
       intro b
-      induction b using Finsupp.induction_linear with
-      | zero => rw [zero_mul]; exact T.zero_mem
-      | add x y hx hy => rw [add_mul]; exact T.add_mem hx hy
-      | single σ r =>
-        have hsingle : (Finsupp.single σ r : MonoidAlgebra ℂ _)
-            = r • MonoidAlgebra.of ℂ _ σ := by
-          simp [MonoidAlgebra.of_apply, mul_one]
-        rw [hsingle, smul_mul_assoc]
-        refine T.smul_mem r ?_
+      induction b using MonoidAlgebra.induction_on with
+      | hadd x y hx hy => rw [add_mul]; exact T.add_mem hx hy
+      | hsmul r x hx => rw [smul_mul_assoc]; exact T.smul_mem r hx
+      | hM σ =>
         -- `of σ * c_ℂ = g ⟨of σ * c_ℚ, _⟩ ∈ range g ⊆ T`
         have hmem : MonoidAlgebra.of ℚ _ σ * YoungSymmetrizerK ℚ n la ∈ SpechtModuleK ℚ n la :=
           Submodule.smul_mem _ (MonoidAlgebra.of ℚ _ σ) (Submodule.subset_span rfl)

@@ -56,24 +56,29 @@ theorem pm_koszul_injective
         PolynomialModule.map R xAct : PolynomialModule R N →ₗ[R] PolynomialModule R N)) := by
   rw [← LinearMap.ker_eq_bot, Submodule.eq_bot_iff]
   intro f hf
-  have hdf : ∀ n, ((Polynomial.X : Polynomial R) • f - PolynomialModule.map R xAct f) n = 0 := by
-    intro n; exact DFunLike.congr_fun (LinearMap.mem_ker.mp hf) n
-  have hshift : ∀ k, f k = xAct (f (k + 1)) := by
+  have hdf : ∀ n,
+      ((Polynomial.X : Polynomial R) • f - PolynomialModule.map R xAct f).coeff n = 0 := by
+    intro n
+    exact DFunLike.congr_fun (congrArg PolynomialModule.coeff (LinearMap.mem_ker.mp hf)) n
+  have hshift : ∀ k, f.coeff k = xAct (f.coeff (k + 1)) := by
     intro k
     have := hdf (k + 1)
-    change ((Polynomial.X : Polynomial R) • f) (k + 1) -
-        (PolynomialModule.map R xAct f) (k + 1) = 0 at this
+    change ((Polynomial.X : Polynomial R) • f).coeff (k + 1) -
+        (PolynomialModule.map R xAct f).coeff (k + 1) = 0 at this
     rw [show (Polynomial.X : Polynomial R) = Polynomial.monomial 1 1 from rfl,
         PolynomialModule.monomial_smul_apply,
         if_pos (Nat.one_le_iff_ne_zero.mpr (Nat.succ_ne_zero k))] at this
     simp only [Nat.add_sub_cancel, one_smul, PolynomialModule.map] at this
-    change f k - xAct (f (k + 1)) = 0 at this
+    change f.coeff k - xAct (f.coeff (k + 1)) = 0 at this
     exact sub_eq_zero.mp this
   by_contra hf_ne
-  have hsup : f.support.Nonempty := Finsupp.support_nonempty_iff.mpr hf_ne
-  set K := f.support.max' hsup
+  have hcoeff_ne : f.coeff ≠ 0 := by
+    intro h
+    exact hf_ne (PolynomialModule.coeff_inj.mp h)
+  have hsup : f.coeff.support.Nonempty := Finsupp.support_nonempty_iff.mpr hcoeff_ne
+  set K := f.coeff.support.max' hsup
   exact Finsupp.mem_support_iff.mp (Finset.max'_mem _ hsup)
-    (by rw [hshift K, show f (K + 1) = 0 from by
+    (by rw [hshift K, show f.coeff (K + 1) = 0 from by
       by_contra h'; exact Nat.not_succ_le_self K
         (Finset.le_max' _ _ (Finsupp.mem_support_iff.mpr h')), map_zero])
 
@@ -90,17 +95,21 @@ noncomputable def coordMapCH
       (ModuleCat.of (Polynomial R) (Polynomial R))).isModule
   exact TensorProduct.lift
     { toFun := fun (p : Polynomial R) =>
-        { toFun := fun (m : N) => p.toFinsupp.mapRange (· • m) (by simp)
+        { toFun := fun (m : N) => p.toFinsupp.coeff.mapRange (· • m) (by simp)
           map_add' := fun m₁ m₂ => by ext k; simp [smul_add]
-          map_smul' := fun r m => by ext k; simp only [Finsupp.mapRange_apply, PolynomialModule.funLike_eq, RingHom.id_apply, Finsupp.coe_smul,
-                                              Pi.smul_apply]; exact smul_comm _ _ _ }
+          map_smul' := fun r m => by
+            ext k
+            simp only [Finsupp.mapRange_apply, RingHom.id_apply, Finsupp.coe_smul,
+              Pi.smul_apply]
+            exact smul_comm _ _ _ }
       map_add' := fun p q => by ext m k; simp [add_smul, Polynomial.toFinsupp_add]
       map_smul' := fun r p => by
         ext m k
         simp only [Finsupp.mapRange_apply, LinearMap.coe_mk, AddHom.coe_mk,
           RingHom.id_apply, LinearMap.smul_apply, Finsupp.smul_apply]
-        change (Polynomial.C r * p).toFinsupp k • m = r • (p.toFinsupp k • m)
-        rw [show (Polynomial.C r * p).toFinsupp k = r * p.toFinsupp k from
+        change (Polynomial.C r * p).toFinsupp.coeff k • m =
+          r • (p.toFinsupp.coeff k • m)
+        rw [show (Polynomial.C r * p).toFinsupp.coeff k = r * p.toFinsupp.coeff k from
           Polynomial.coeff_C_mul p]
         exact mul_smul _ _ _ }
 
@@ -146,7 +155,8 @@ theorem coordMapCH_leftInverse
       rw [TensorProduct.add_tmul, map_add, map_add, ih₁, ih₂]
     · intro n a
       simp only [coordMapCH, TensorProduct.lift.tmul, LinearMap.coe_mk, AddHom.coe_mk]
-      rw [Polynomial.toFinsupp_monomial, Finsupp.mapRange_single]
+      rw [Polynomial.toFinsupp_monomial, AddMonoidAlgebra.coeff_single,
+        Finsupp.mapRange_single]
       simp only [coordMapCHInv, LinearMap.coe_mk, AddHom.coe_mk]
       have key : ((Finsupp.single n (a • m)).sum fun (k : ℕ) (v : N) =>
           @TensorProduct.tmul R _ (Polynomial R) N _ _ _ _ ((X : Polynomial R) ^ k) v) =
@@ -177,7 +187,8 @@ theorem coordMapCH_rightInverse
   -- coordMapCH(Σ X^n ⊗ f(n)) = Σ coordMapCH(X^n ⊗ f(n))
   rw [Finsupp.sum, map_sum]
   simp only [coordMapCH, TensorProduct.lift.tmul, LinearMap.coe_mk, AddHom.coe_mk,
-    Polynomial.toFinsupp_X_pow, Finsupp.mapRange_single, one_smul,
+    Polynomial.toFinsupp_X_pow, AddMonoidAlgebra.coeff_single,
+    Finsupp.mapRange_single, one_smul,
     Finsupp.finsetSum_apply, Finsupp.single_apply]
   rw [Finset.sum_eq_single k
     (fun n _ hne => if_neg hne)

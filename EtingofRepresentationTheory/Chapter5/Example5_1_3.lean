@@ -32,6 +32,10 @@ and the type predicates `Etingof.IsRealType` / `Etingof.IsQuaternionicType` come
 Definition 5.1.1.
 -/
 
+local instance example513CoeFun {R M : Type*} [Semiring R] :
+    CoeFun (MonoidAlgebra R M) (fun _ => M → R) :=
+  ⟨fun a => a.coeff⟩
+
 /-- **General one-dimensional not-real-type criterion.** A one-dimensional complex
 representation `ρ` on `ℂ` whose character `g ↦ ρ g 1` takes some value other than `±1`
 is not of real type: a `G`-invariant nondegenerate bilinear form on the character `χ`
@@ -674,7 +678,9 @@ variable {G : Type*} [Group G] [Fintype G]
 `coordForm x y = ∑_g (x g) * (y g)`. -/
 noncomputable def coordForm :
     MonoidAlgebra ℂ G →ₗ[ℂ] MonoidAlgebra ℂ G →ₗ[ℂ] ℂ :=
-  ∑ g : G, (LinearMap.mul ℂ ℂ).compl₁₂ (Finsupp.lapply g) (Finsupp.lapply g)
+  ∑ g : G, (LinearMap.mul ℂ ℂ).compl₁₂
+    ((Finsupp.lapply g).comp (MonoidAlgebra.coeffLinearEquiv ℂ).toLinearMap)
+    ((Finsupp.lapply g).comp (MonoidAlgebra.coeffLinearEquiv ℂ).toLinearMap)
 
 lemma coordForm_apply (x y : MonoidAlgebra ℂ G) :
     coordForm x y = ∑ g : G, x g * y g := by

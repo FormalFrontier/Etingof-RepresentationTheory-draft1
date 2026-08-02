@@ -97,6 +97,8 @@ theorem boundedSubrep_toRepresentation_coe (d : ℕ)
       = polyRightRep k N g (w : MvPolynomial (Fin N × Fin N) k) :=
   LinearMap.coe_restrict_apply ((boundedSubrep k N d).apply_mem_toSubmodule g) w
 
+set_option maxHeartbeats 6400000 in
+-- Elaborating the bounded polynomial basis and its transported coefficient family is expensive.
 /-- **Right translation on bounded-degree polynomials is algebraic.** On the monomial basis of
 `restrictTotalDegree ≤ d`, right translation acts with matrix coefficients `rightTransPoly`,
 polynomial in the entries of `g` (`evalAtGL_rightTransPoly`). Mirrors the homogeneous Cauchy

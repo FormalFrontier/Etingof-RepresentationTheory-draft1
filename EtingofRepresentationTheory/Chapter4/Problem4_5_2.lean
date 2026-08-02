@@ -1,4 +1,5 @@
 import Mathlib
+import EtingofRepresentationTheory.Infrastructure.CharacterOrthogonalityCompat
 
 /-!
 # Problem 4.5.2: the primitive central idempotents of `ℂ[G]`
@@ -168,7 +169,7 @@ theorem psi_acts_self (V : FDRep ℂ G) [Simple V] :
   haveI : Invertible (Fintype.card G : ℂ) := invertibleOfNonzero card_ne_zero_cx
   obtain ⟨c, hTc, htr⟩ := endo_scalar V _ (asAlgebraHom_psi_comm V V)
   have hsum : ∑ g : G, V.character g * V.character g⁻¹ = (Fintype.card G : ℂ) := by
-    have ho := FDRep.char_orthonormal V V
+    have ho := FDRep.char_orthonormal_fintype V V
     rw [if_pos ⟨Iso.refl V⟩] at ho
     have h2 : ∑ g : G, V.character g * V.character g⁻¹
         = (Fintype.card G : ℂ) •
@@ -191,7 +192,7 @@ theorem psi_acts_other (V W : FDRep ℂ G) [Simple V] [Simple W] (h : IsEmpty (W
   haveI : Invertible (Fintype.card G : ℂ) := invertibleOfNonzero card_ne_zero_cx
   obtain ⟨c, hTc, htr⟩ := endo_scalar W _ (asAlgebraHom_psi_comm V W)
   have hsum : ∑ g : G, V.character g * W.character g⁻¹ = 0 := by
-    have ho := FDRep.char_orthonormal V W
+    have ho := FDRep.char_orthonormal_fintype V W
     rw [if_neg (by rintro ⟨e⟩; exact h.false e.symm)] at ho
     have h2 : ∑ g : G, V.character g * W.character g⁻¹
         = (Fintype.card G : ℂ) •

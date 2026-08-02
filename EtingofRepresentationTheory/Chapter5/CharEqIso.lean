@@ -181,12 +181,13 @@ section CharField
 
 variable [Fintype G] [Invertible (Fintype.card G : ℂ)]
 
-omit [Finite G] in
+omit [Fintype G] [Invertible (Fintype.card G : ℂ)] in
 /-- Equal characters force equal hom-dimensions out of every object `S`. This is the
 character-side input to the isomorphism argument: it follows immediately from
 `scalar_product_char_eq_finrank_equivariant`. -/
 theorem finrank_hom_eq_of_character_eq (S V W : FDRep ℂ G) (h : V.character = W.character) :
     finrank ℂ (S ⟶ V) = finrank ℂ (S ⟶ W) := by
+  letI := Fintype.ofFinite G
   have hV := FDRep.scalar_product_char_eq_finrank_equivariant S V
   have hW := FDRep.scalar_product_char_eq_finrank_equivariant S W
   rw [h] at hV

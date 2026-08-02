@@ -22,6 +22,11 @@ noncomputable section
 set_option linter.unusedSectionVars false
 set_option linter.unusedFintypeInType false
 set_option linter.unusedDecidableInType false
+
+-- Cache this inherited submodule instance once; Lean 4.32's typeclass search otherwise repeatedly
+-- reconstructs it through the exterior-power representation and exhausts the default budget.
+set_option synthInstance.maxHeartbeats 400000 in
+local instance lam2SubAddCommGroup : AddCommGroup ↑lam2Sub.toSubmodule := inferInstance
 /-! #### Phase B: the central 5-cycle class-sum splits `Λ²(ℂ⁴)`
 
 The 5-cycle class-sum acts on `Λ²(ℂ⁴)` as a central element `z = Σ_{g∈A₅} ρ(g·r·g⁻¹)`
@@ -469,7 +474,15 @@ lemma zEnd_sq_eq_aux : ∃ a b : ℂ, zEnd * zEnd = a • zEnd + b • 1 := by
     by_cases h1 : c 1 = 0
     · rw [h1, zero_smul, add_zero] at himg
       have hc0 : c 0 = 0 := (smul_eq_zero.mp himg).resolve_right hone
-      fin_cases i₀ <;> simp_all
+      apply hne
+      have hi : (i₀ : ℕ) = 0 ∨ (i₀ : ℕ) = 1 ∨ (i₀ : ℕ) = 2 := by omega
+      rcases hi with hi | hi | hi
+      · have hi' : i₀ = 0 := Fin.ext_iff.mpr hi
+        simpa [hi'] using hc0
+      · have hi' : i₀ = 1 := Fin.ext_iff.mpr hi
+        simpa [hi'] using h1
+      · have hi' : i₀ = 2 := Fin.ext_iff.mpr hi
+        simpa [hi'] using h2
     · refine zEnd_not_scalar (-((c 1)⁻¹ * c 0)) ?_
       -- Scale the relation by `c₁⁻¹` (avoids the `Module.End` neg/sub instance diamond).
       have hscaled := congrArg (fun x => (c 1)⁻¹ • x) himg

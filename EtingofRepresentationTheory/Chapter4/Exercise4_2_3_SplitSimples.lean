@@ -74,7 +74,7 @@ algebras; precomposing with the quotient map yields the surjective structure hom
 noncomputable def SplitData.of : SplitData K G := by
   classical
   haveI : Module.Finite K (MonoidAlgebra K G) :=
-    Module.Finite.of_basis (Finsupp.basisSingleOne (ι := G) (R := K))
+    Module.Finite.of_basis (MonoidAlgebra.basis G K)
   haveI : IsArtinianRing (MonoidAlgebra K G) := IsArtinianRing.of_finite K (MonoidAlgebra K G)
   haveI : IsSemiprimaryRing (MonoidAlgebra K G) := inferInstance
   set J := Ring.jacobson (MonoidAlgebra K G) with hJ

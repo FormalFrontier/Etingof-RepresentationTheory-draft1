@@ -636,6 +636,7 @@ lemma ind_finrank_eq_scalar (H : Subgroup S3) [Fintype ↥H] [Invertible (Fintyp
     ← FDRep.scalar_product_char_eq_finrank_equivariant (FDRep.of ρ)
       ((Action.res (FGModuleCat ℂ) H.subtype).obj S)]
   simp only [resObj_character]
+  simp [Nat.card_eq_fintype_card, invOf_eq_inv, smul_eq_mul]
 
 /-! ### Subgroup cardinalities and remaining character values -/
 

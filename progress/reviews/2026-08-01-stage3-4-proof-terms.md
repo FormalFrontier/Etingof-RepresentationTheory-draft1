@@ -2,8 +2,8 @@
 
 Completed 2026-08-01 using imported Lean kernel terms with opaque/theorem bodies enabled.
 
-- Current root-imported modules: 839
-- Declarations inspected: 32904
+- Current root-imported modules: 840
+- Declarations inspected: 32931
 - Import-DAG edges: 521
 - Mapped proof/type edges beyond the old import DAG: 203
 - Old import edges not recovered through owned-module proof/type mapping (trimmed): 133
@@ -14,4 +14,4 @@ Completed 2026-08-01 using imported Lean kernel terms with opaque/theorem bodies
 - Current sources outside the root import: 1
 - Stale imported modules without source: 0
 
-The JSON companion conservatively covers every source-level theorem/opaque declaration and its direct cross-module project-local type and proof-body constants, plus every other declaration that contributes a cross-module edge and the source, extractor, toolchain, raw-extraction, and build-log identity. Re-export implementation modules are attributed to the closest unambiguous explicit provider item; 208 root-imported modules without an unambiguous item owner remain in the declaration inventory but are not projected into the item graph. The shipped graph trims import edges not recovered through owned-module kernel mapping and includes every mapped proof edge compatible with acyclicity; each edge excluded for an item-coarsening cycle is named with its cycle path in the certificate.
+The JSON companion conservatively covers every source-level theorem/opaque declaration and its direct cross-module project-local type and proof-body constants, plus every other declaration that contributes a cross-module edge and the source, extractor, toolchain, raw-extraction, and build-log identity. Re-export implementation modules are attributed to the closest unambiguous explicit provider item; 209 root-imported modules without an unambiguous item owner remain in the declaration inventory but are not projected into the item graph. The shipped graph trims import edges not recovered through owned-module kernel mapping and includes every mapped proof edge compatible with acyclicity; each edge excluded for an item-coarsening cycle is named with its cycle path in the certificate.

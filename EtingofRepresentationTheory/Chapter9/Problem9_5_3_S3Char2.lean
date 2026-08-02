@@ -1020,8 +1020,7 @@ theorem algebra_decomposition :
     exact ⟨hr, hp⟩
   -- Both algebras have `k`-dimension `6`, so surjectivity upgrades to bijectivity.
   have hfL : Module.finrank k (MonoidAlgebra k S3) = 6 := by
-    change Module.finrank k (S3 →₀ k) = 6
-    rw [Module.finrank_finsupp_self]
+    rw [Module.finrank_eq_card_basis (MonoidAlgebra.basis S3 k)]
     decide
   have hfR : Module.finrank k (Matrix (Fin 2) (Fin 2) k × kt2 k) = 6 := by
     rw [Module.finrank_prod, Module.finrank_matrix, finrank_quotient_span_eq_natDegree,

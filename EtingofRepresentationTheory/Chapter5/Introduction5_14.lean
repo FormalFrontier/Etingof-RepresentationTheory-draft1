@@ -38,16 +38,11 @@ variable (n : ℕ) (la : Nat.Partition n)
 /-- The identity bridge between the group-algebra instances and the `Finsupp` instances on the
 same carrier. -/
 noncomputable def toFinsuppLE :
-    MonoidAlgebra ℂ (Equiv.Perm (Fin n)) ≃ₗ[ℂ] (Equiv.Perm (Fin n) →₀ ℂ) where
-  toFun := id
-  map_add' _ _ := rfl
-  map_smul' _ _ := rfl
-  invFun := id
-  left_inv _ := rfl
-  right_inv _ := rfl
+    MonoidAlgebra ℂ (Equiv.Perm (Fin n)) ≃ₗ[ℂ] (Equiv.Perm (Fin n) →₀ ℂ) :=
+  MonoidAlgebra.coeffLinearEquiv ℂ
 
 @[simp] lemma toFinsuppLE_apply (z : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) :
-    toFinsuppLE n z = z := rfl
+    toFinsuppLE n z = z.coeff := rfl
 
 /-- The trivial 1-dimensional representation of the row subgroup `P_λ`. -/
 noncomputable abbrev trivRep : Representation ℂ (↥(RowSubgroup n la)) ℂ :=
@@ -97,23 +92,32 @@ theorem leftRegular_eq_mul (g : Equiv.Perm (Fin n))
 
 /-- Inversion `δ_h ↦ δ_{h⁻¹}` as a linear map into the group algebra. -/
 noncomputable def invMap :
-    (Equiv.Perm (Fin n) →₀ ℂ) →ₗ[ℂ] MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
-  Finsupp.lsum ℂ fun h =>
-    LinearMap.smulRight (LinearMap.id : ℂ →ₗ[ℂ] ℂ) (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) h⁻¹)
+    MonoidAlgebra ℂ (Equiv.Perm (Fin n)) →ₗ[ℂ]
+      MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
+  (Finsupp.lsum ℂ fun h =>
+    LinearMap.smulRight (LinearMap.id : ℂ →ₗ[ℂ] ℂ)
+      (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) h⁻¹)) ∘ₗ
+    (MonoidAlgebra.coeffLinearEquiv ℂ).toLinearMap
 
 set_option backward.isDefEq.respectTransparency false in
 @[simp] lemma invMap_single (h : Equiv.Perm (Fin n)) (r : ℂ) :
-    invMap n (Finsupp.single h r) = Finsupp.single h⁻¹ r := by
-  rw [invMap, Finsupp.lsum_single, LinearMap.smulRight_apply, LinearMap.id_apply,
-    MonoidAlgebra.of_apply, Finsupp.smul_single_one]
+    invMap n (MonoidAlgebra.single h r) = MonoidAlgebra.single h⁻¹ r := by
+  rw [invMap, LinearMap.comp_apply]
+  change (Finsupp.lsum ℂ fun h =>
+      LinearMap.smulRight (LinearMap.id : ℂ →ₗ[ℂ] ℂ)
+        (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) h⁻¹)) (Finsupp.single h r) = _
+  rw [Finsupp.lsum_single, LinearMap.smulRight_apply, LinearMap.id_apply,
+    MonoidAlgebra.of_apply, MonoidAlgebra.smul_single', mul_one]
 
 /-- The linear map `δ_h ↦ δ_{h⁻¹} · a_λ`. -/
 noncomputable def g0 :
-    (Equiv.Perm (Fin n) →₀ ℂ) →ₗ[ℂ] MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
+    MonoidAlgebra ℂ (Equiv.Perm (Fin n)) →ₗ[ℂ]
+      MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
   LinearMap.mulRight ℂ (RowSymmetrizer n la) ∘ₗ invMap n
 
 @[simp] lemma g0_single (h : Equiv.Perm (Fin n)) (r : ℂ) :
-    g0 n la (Finsupp.single h r) = MonoidAlgebra.single h⁻¹ r * RowSymmetrizer n la := by
+    g0 n la (MonoidAlgebra.single h r) =
+      MonoidAlgebra.single h⁻¹ r * RowSymmetrizer n la := by
   rw [g0, LinearMap.comp_apply, invMap_single, LinearMap.mulRight_apply]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -132,24 +136,26 @@ lemma g0_of_mul (p : ↥(RowSubgroup n la)) (x : MonoidAlgebra ℂ (Equiv.Perm (
             rw [MonoidAlgebra.of_apply, MonoidAlgebra.single_mul_single, mul_one]]
       rw [mul_assoc, of_mul_rowSymmetrizer n la (inv_mem p.2)]
 
-lemma g0_mem (y : Equiv.Perm (Fin n) →₀ ℂ) : g0 n la y ∈ rowIdeal n la := by
-  induction y using Finsupp.induction_linear with
+lemma g0_mem (y : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) : g0 n la y ∈ rowIdeal n la := by
+  induction y using MonoidAlgebra.induction_linear with
   | zero => simp
   | add u v hu hv => rw [map_add]; exact add_mem hu hv
   | single h r =>
       rw [g0_single]
-      exact ⟨Finsupp.single h⁻¹ r, by rw [LinearMap.mulRight_apply]⟩
+      exact ⟨MonoidAlgebra.single h⁻¹ r, by rw [LinearMap.mulRight_apply]⟩
 
 /-- The forward map on the tensor module `ℂ[S_n] ⊗ ℂ`, `x ⊗ c ↦ c • (g0 x)`. -/
 noncomputable def f0 :
-    TensorProduct ℂ (Equiv.Perm (Fin n) →₀ ℂ) ℂ →ₗ[ℂ] MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
+    TensorProduct ℂ (MonoidAlgebra ℂ (Equiv.Perm (Fin n))) ℂ →ₗ[ℂ]
+      MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
   TensorProduct.lift ((LinearMap.lsmul ℂ (MonoidAlgebra ℂ (Equiv.Perm (Fin n)))).flip ∘ₗ g0 n la)
 
-@[simp] lemma f0_tmul (x : Equiv.Perm (Fin n) →₀ ℂ) (c : ℂ) :
+@[simp] lemma f0_tmul (x : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) (c : ℂ) :
     f0 n la (x ⊗ₜ[ℂ] c) = c • g0 n la x := by
   simp [f0, TensorProduct.lift.tmul]
 
-lemma f0_mem (t : TensorProduct ℂ (Equiv.Perm (Fin n) →₀ ℂ) ℂ) : f0 n la t ∈ rowIdeal n la := by
+lemma f0_mem (t : TensorProduct ℂ (MonoidAlgebra ℂ (Equiv.Perm (Fin n))) ℂ) :
+    f0 n la t ∈ rowIdeal n la := by
   induction t using TensorProduct.induction_on with
   | zero => simp
   | tmul x c => rw [f0_tmul]; exact Submodule.smul_mem _ _ (g0_mem n la x)
@@ -168,13 +174,14 @@ lemma f0_invariant (p : ↥(RowSubgroup n la)) :
 noncomputable def Ffull : srcMod n la →ₗ[ℂ] MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
   Coinvariants.lift (tensRep n la) (f0 n la) (f0_invariant n la)
 
-@[simp] lemma Ffull_mk (t : TensorProduct ℂ (Equiv.Perm (Fin n) →₀ ℂ) ℂ) :
+@[simp] lemma Ffull_mk
+    (t : TensorProduct ℂ (MonoidAlgebra ℂ (Equiv.Perm (Fin n))) ℂ) :
     Ffull n la (Coinvariants.mk (tensRep n la) t) = f0 n la t :=
   Coinvariants.lift_mk _ _ _ t
 
 lemma IndVmk_apply (h : Equiv.Perm (Fin n)) (c : ℂ) :
     Representation.IndV.mk (RowSubgroup n la).subtype (trivRep n la) h c
-      = Coinvariants.mk (tensRep n la) (Finsupp.single h 1 ⊗ₜ[ℂ] c) := rfl
+      = Coinvariants.mk (tensRep n la) (MonoidAlgebra.single h 1 ⊗ₜ[ℂ] c) := rfl
 
 lemma Ffull_IndVmk (h : Equiv.Perm (Fin n)) (c : ℂ) :
     Ffull n la (Representation.IndV.mk (RowSubgroup n la).subtype (trivRep n la) h c)
@@ -201,10 +208,11 @@ noncomputable def sMap : MonoidAlgebra ℂ (Equiv.Perm (Fin n)) →ₗ[ℂ] srcM
     ∘ₗ (toFinsuppLE n).toLinearMap
 
 @[simp] lemma sMap_single (x : Equiv.Perm (Fin n)) (r : ℂ) :
-    sMap n la (Finsupp.single x r)
+    sMap n la (MonoidAlgebra.single x r)
       = r • Representation.IndV.mk (RowSubgroup n la).subtype (trivRep n la) x⁻¹ 1 := by
   rw [sMap, LinearMap.comp_apply, LinearEquiv.coe_coe, toFinsuppLE_apply,
-    Finsupp.linearCombination_single]
+    MonoidAlgebra.coeff_single]
+  exact Finsupp.linearCombination_single ℂ r x
 
 /-- The normalised inverse `δ_x ↦ (1/|P_λ|) • ⟦δ_{x⁻¹} ⊗ 1⟧`, a left inverse to `Ffull`. -/
 noncomputable def Gfull : MonoidAlgebra ℂ (Equiv.Perm (Fin n)) →ₗ[ℂ] srcMod n la :=
@@ -214,19 +222,20 @@ noncomputable def Gfull : MonoidAlgebra ℂ (Equiv.Perm (Fin n)) →ₗ[ℂ] src
     ∘ₗ (toFinsuppLE n).toLinearMap
 
 @[simp] lemma Gfull_single (x : Equiv.Perm (Fin n)) (r : ℂ) :
-    Gfull n la (Finsupp.single x r)
+    Gfull n la (MonoidAlgebra.single x r)
       = r • ((Fintype.card (↥(RowSubgroup n la)) : ℂ)⁻¹ •
           Representation.IndV.mk (RowSubgroup n la).subtype (trivRep n la) x⁻¹ 1) := by
   rw [Gfull, LinearMap.comp_apply, LinearEquiv.coe_coe, toFinsuppLE_apply,
-    Finsupp.linearCombination_single]
+    MonoidAlgebra.coeff_single]
+  exact Finsupp.linearCombination_single ℂ r x
 
 /-- Left multiplication by a row-subgroup element does not change a coinvariant generator. -/
 lemma IndVmk_rowSubgroup_smul (p : ↥(RowSubgroup n la)) (h : Equiv.Perm (Fin n)) (c : ℂ) :
     Representation.IndV.mk (RowSubgroup n la).subtype (trivRep n la)
         ((p : Equiv.Perm (Fin n)) * h) c
       = Representation.IndV.mk (RowSubgroup n la).subtype (trivRep n la) h c := by
-  have hkey : (tensRep n la) p (Finsupp.single h 1 ⊗ₜ[ℂ] c)
-      = Finsupp.single ((p : Equiv.Perm (Fin n)) * h) 1 ⊗ₜ[ℂ] c := by
+  have hkey : (tensRep n la) p (MonoidAlgebra.single h 1 ⊗ₜ[ℂ] c)
+      = MonoidAlgebra.single ((p : Equiv.Perm (Fin n)) * h) 1 ⊗ₜ[ℂ] c := by
     simp only [Representation.tprod_apply, TensorProduct.map_tmul, MonoidHom.comp_apply,
       Subgroup.coe_subtype, Representation.trivial_apply]
     rw [leftRegular_eq_mul, MonoidAlgebra.of_apply, MonoidAlgebra.single_mul_single, one_mul]
@@ -243,7 +252,7 @@ lemma Ffull_sMap (z : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) :
   | add u v hu hv => rw [map_add, map_add, add_mul, hu, hv]
   | single x r =>
       rw [sMap_single, map_smul, Ffull_IndVmk, one_smul, inv_inv, MonoidAlgebra.of_apply,
-        ← smul_mul_assoc, Finsupp.smul_single_one]
+        ← smul_mul_assoc, MonoidAlgebra.smul_single', mul_one]
 
 set_option backward.isDefEq.respectTransparency false in
 /-- `Gfull ∘ Ffull = id`, so `Ffull` is injective. -/
@@ -259,7 +268,8 @@ lemma Gfull_comp_Ffull : (Gfull n la) ∘ₗ (Ffull n la) = LinearMap.id := by
     = Representation.IndV.mk (RowSubgroup n la).subtype (trivRep n la) h 1
   rw [Ffull_IndVmk, one_smul,
     show MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) h⁻¹ * RowSymmetrizer n la
-        = ∑ g : ↥(RowSubgroup n la), Finsupp.single (h⁻¹ * (g : Equiv.Perm (Fin n))) 1 by
+        = ∑ g : ↥(RowSubgroup n la),
+          MonoidAlgebra.single (h⁻¹ * (g : Equiv.Perm (Fin n))) 1 by
       simp only [RowSymmetrizer, Finset.mul_sum]
       refine Finset.sum_congr rfl (fun g _ => ?_)
       rw [← map_mul, MonoidAlgebra.of_apply]]

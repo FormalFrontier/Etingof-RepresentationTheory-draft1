@@ -88,6 +88,9 @@ section burnside
 variable {k G V : Type*} [Field k] [IsAlgClosed k] [Monoid G]
   [AddCommGroup V] [Module k V] [FiniteDimensional k V]
 
+set_option maxHeartbeats 8000000 in
+-- Burnside density needs an enlarged budget for the Jacobson-density instance search.
+set_option synthInstance.maxHeartbeats 8000000 in
 /-- **Burnside density.** The `k`-linear span of the image `{ρ g}` of a
 finite-dimensional simple representation over an algebraically closed field is all of
 `End k V`. Equivalently, the algebra map `k[G] → End k V` (`ρ.asAlgebraHom`) is

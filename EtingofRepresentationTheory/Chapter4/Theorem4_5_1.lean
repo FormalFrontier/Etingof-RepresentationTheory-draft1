@@ -1,4 +1,4 @@
-import Mathlib
+import EtingofRepresentationTheory.Infrastructure.CharacterOrthogonalityCompat
 
 /-!
 # Theorem 4.5.1: Orthogonality of Characters (First Orthogonality Relation)
@@ -21,27 +21,27 @@ Part (ii) corresponds to `FDRep.char_orthonormal`.
 
 open FDRep CategoryTheory
 
-universe u
+universe u v
 
 /-- First orthogonality relation, part (i): the inner product of characters equals the
 dimension of the equivariant Hom space.
 ⟨χ_V, χ_W⟩ = dim_k Hom_G(W, V). (Etingof Theorem 4.5.1(i)) -/
 theorem Etingof.Theorem4_5_1_i
-    {k G : Type u} [Field k] [Group G] [Fintype G]
+    {k : Type u} {G : Type v} [Field k] [Group G] [Fintype G]
     [Invertible (Fintype.card G : k)]
     (V W : FDRep k G) :
     ⅟(Fintype.card G : k) • ∑ g : G, V.character g * W.character g⁻¹ =
     Module.finrank k (W ⟶ V) := by
-  exact scalar_product_char_eq_finrank_equivariant W V
+  exact scalar_product_char_eq_finrank_equivariant_fintype V W
 
 open scoped Classical in
 /-- First orthogonality relation, part (ii): for irreducible representations, the inner
 product of characters is 1 if they are isomorphic, 0 otherwise.
 ⟨χ_V, χ_W⟩ = δ_{V,W}. (Etingof Theorem 4.5.1(ii)) -/
 theorem Etingof.Theorem4_5_1_ii
-    {k G : Type u} [Field k] [IsAlgClosed k] [Group G] [Fintype G]
+    {k : Type u} {G : Type v} [Field k] [IsAlgClosed k] [Group G] [Fintype G]
     [Invertible (Fintype.card G : k)]
     (V W : FDRep k G) [Simple V] [Simple W] :
     ⅟(Fintype.card G : k) • ∑ g : G, V.character g * W.character g⁻¹ =
     if Nonempty (V ≅ W) then (1 : k) else (0 : k) := by
-  exact char_orthonormal V W
+  exact char_orthonormal_fintype V W

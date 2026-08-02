@@ -19,7 +19,7 @@ private abbrev Q (n : ℕ) (mu : Nat.Partition n) := G n ⧸ RowSubgroup n mu
 
 private abbrev identityCosetVector (n : ℕ) (mu : Nat.Partition n) :
     PermutationModule n mu :=
-  Finsupp.single (QuotientGroup.mk (1 : G n)) 1
+  MonoidAlgebra.single (QuotientGroup.mk (1 : G n)) 1
 
 /-- The row-invariant subspace of `V_nu` for the row subgroup attached to `mu`.
 
@@ -47,8 +47,8 @@ private theorem permMod_smul_eq (n : ℕ) (mu : Nat.Partition n)
 private theorem of_smul_single (n : ℕ) (mu : Nat.Partition n)
     (g : G n) (q : Q n mu) (c : ℂ) :
     (MonoidAlgebra.of ℂ _ g : SymGroupAlgebra n) •
-        (Finsupp.single q c : PermutationModule n mu) =
-      Finsupp.single (g • q) c := by
+        (MonoidAlgebra.single q c : PermutationModule n mu) =
+      MonoidAlgebra.single (g • q) c := by
   simp [permMod_smul_eq, Representation.ofMulAction_single]
 
 private theorem permMod_smul_assoc (n : ℕ) (mu : Nat.Partition n)
@@ -72,23 +72,29 @@ private theorem equivariantMap_ext (n : ℕ) (mu nu : Nat.Partition n)
     (h : f (identityCosetVector n mu) = g (identityCosetVector n mu)) : f = g := by
   apply LinearMap.ext
   intro x
-  induction x using Finsupp.induction_linear with
-  | zero => simp
-  | add x y hx hy => rw [map_add, map_add, hx, hy]
-  | single q c =>
+  let P : (Q n mu →₀ ℂ) → Prop := fun y =>
+    f (MonoidAlgebra.ofCoeff y) = g (MonoidAlgebra.ofCoeff y)
+  have hx : P x.coeff := by
+    induction x.coeff using Finsupp.induction_linear with
+    | zero => simp [P]
+    | add x y hx hy => simpa [P, map_add] using congrArg₂ (· + ·) hx hy
+    | single q c =>
       obtain ⟨σ, rfl⟩ := Quotient.exists_rep q
       have htranslate :
           (MonoidAlgebra.of ℂ _ σ : SymGroupAlgebra n) • identityCosetVector n mu =
-            (Finsupp.single (QuotientGroup.mk σ) 1 : PermutationModule n mu) := by
+            (MonoidAlgebra.single (QuotientGroup.mk σ) 1 : PermutationModule n mu) := by
         rw [of_smul_single]
         rfl
       have hsingle :
-          (Finsupp.single (QuotientGroup.mk σ) c : PermutationModule n mu) =
-            (c • (MonoidAlgebra.of ℂ _ σ : SymGroupAlgebra n)) •
-              identityCosetVector n mu := by
-        rw [permMod_smul_assoc, htranslate]
+          (MonoidAlgebra.single (QuotientGroup.mk σ) c : PermutationModule n mu) =
+            c • ((MonoidAlgebra.of ℂ _ σ : SymGroupAlgebra n) •
+              identityCosetVector n mu) := by
+        rw [htranslate]
         simp
-      rw [hsingle, map_smul, map_smul, h]
+      change f (MonoidAlgebra.single (QuotientGroup.mk σ) c) =
+        g (MonoidAlgebra.single (QuotientGroup.mk σ) c)
+      rw [hsingle, f.map_smul_of_tower, g.map_smul_of_tower, map_smul, map_smul, h]
+  simpa [P] using hx
 
 /-- Evaluation at the identity coset, landing in the row-invariant subspace. -/
 noncomputable def youngRuleEvaluation (n : ℕ) (mu nu : Nat.Partition n) :
@@ -133,11 +139,13 @@ private noncomputable def rowInvariantValue (n : ℕ) (mu nu : Nat.Partition n)
 private noncomputable def rowInvariantHomC (n : ℕ) (mu nu : Nat.Partition n)
     (v : ↥(YoungRuleRowInvariants n mu nu)) :
     PermutationModule n mu →ₗ[ℂ] ↥(SpechtModule n nu) :=
-  Finsupp.lift ↥(SpechtModule n nu) ℂ (Q n mu) (rowInvariantValue n mu nu v)
+  (Finsupp.lift ↥(SpechtModule n nu) ℂ (Q n mu)
+    (rowInvariantValue n mu nu v)).comp
+      (MonoidAlgebra.coeffLinearEquiv ℂ).toLinearMap
 
 @[simp] private theorem rowInvariantHomC_single (n : ℕ) (mu nu : Nat.Partition n)
     (v : ↥(YoungRuleRowInvariants n mu nu)) (q : Q n mu) (c : ℂ) :
-    rowInvariantHomC n mu nu v (Finsupp.single q c) =
+    rowInvariantHomC n mu nu v (MonoidAlgebra.single q c) =
       c • rowInvariantValue n mu nu v q := by
   simp [rowInvariantHomC, rowInvariantValue]
 
@@ -151,11 +159,24 @@ noncomputable def rowInvariantHom (n : ℕ) (mu nu : Nat.Partition n)
     change rowInvariantHomC n mu nu v (a • x) = a • rowInvariantHomC n mu nu v x
     induction a using MonoidAlgebra.induction_on with
     | hM σ =>
-        induction x using Finsupp.induction_linear with
-        | zero => simp
-        | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
-        | single q c =>
-            rw [of_smul_single, rowInvariantHomC_single, rowInvariantHomC_single]
+        let P : (Q n mu →₀ ℂ) → Prop := fun y =>
+          rowInvariantHomC n mu nu v
+              ((MonoidAlgebra.of ℂ _ σ : SymGroupAlgebra n) • MonoidAlgebra.ofCoeff y) =
+            (MonoidAlgebra.of ℂ _ σ : SymGroupAlgebra n) •
+              rowInvariantHomC n mu nu v (MonoidAlgebra.ofCoeff y)
+        have hx : P x.coeff := by
+          induction x.coeff using Finsupp.induction_linear with
+          | zero => simp [P]
+          | add x y hx hy => simpa [P, smul_add, map_add] using congrArg₂ (· + ·) hx hy
+          | single q c =>
+            change rowInvariantHomC n mu nu v
+                ((MonoidAlgebra.of ℂ _ σ : SymGroupAlgebra n) •
+                  (MonoidAlgebra.single q c : PermutationModule n mu)) = _
+            rw [of_smul_single, rowInvariantHomC_single]
+            change c • rowInvariantValue n mu nu v (σ • q) =
+              (MonoidAlgebra.of ℂ _ σ : SymGroupAlgebra n) •
+                rowInvariantHomC n mu nu v (MonoidAlgebra.single q c)
+            rw [rowInvariantHomC_single]
             apply Subtype.ext
             simp only [rowInvariantValue, SetLike.val_smul]
             change c • (MonoidAlgebra.of ℂ _ (Quotient.out (σ • q)) *
@@ -166,6 +187,7 @@ noncomputable def rowInvariantHom (n : ℕ) (mu nu : Nat.Partition n)
             rw [Algebra.mul_smul_comm]
             congr 1
             simpa only [mul_assoc] using cosetRep_equivariance n mu nu v σ q
+        simpa [P] using hx
     | hadd a b ha hb => rw [add_smul, map_add, ha, hb, add_smul]
     | hsmul r a ha => rw [permMod_smul_assoc, map_smul, ha, smul_assoc]
 

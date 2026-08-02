@@ -903,7 +903,7 @@ lemma affineNullVector_pos {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 
     have hrtg := List.relationReflTransGen_of_exists_isChain p hchain hne
     rw [hi, hj] at hrtg
     exact (SimpleGraph.reachable_iff_reflTransGen i j).mpr
-      (Relation.ReflTransGen.mono (fun a b h => hGadj a b h) hrtg)
+      (Relation.ReflTransGen.mono (fun a b h => hGadj a b h) i j hrtg)
   have hconn' : G.Connected := ⟨hpre⟩
   -- Edge propagation of the zero-set: an edge out of a zero entry lands on a zero entry.
   have hprop : ∀ p q, G.Adj p q → w p = 0 → w q = 0 := by
@@ -1104,7 +1104,7 @@ lemma affine_kernel_off_vertex_eq_zero {n : ℕ}
     have hrtg := List.relationReflTransGen_of_exists_isChain q hchain hne
     rw [hi, hj] at hrtg
     exact (SimpleGraph.reachable_iff_reflTransGen i j).mpr
-      (Relation.ReflTransGen.mono (fun a b h => hGadj a b h) hrtg)
+      (Relation.ReflTransGen.mono (fun a b h => hGadj a b h) i j hrtg)
   have hconn' : G.Connected := ⟨hpre⟩
   have hprop : ∀ a b, G.Adj a b → z a = 0 → z b = 0 := by
     intro a b hab hza

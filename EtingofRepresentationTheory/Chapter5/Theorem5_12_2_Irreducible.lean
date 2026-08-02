@@ -33,11 +33,16 @@ open scoped Classical
 private abbrev G' (n : ℕ) := Equiv.Perm (Fin n)
 private abbrev A' (n : ℕ) := MonoidAlgebra ℂ (G' n)
 
+local instance theorem5122IrreducibleCoeFun {R G : Type*} [Semiring R] :
+    CoeFun (MonoidAlgebra R G) (fun _ => G → R) :=
+  ⟨fun a => a.coeff⟩
+
 private lemma monoidAlgebra_fintype_sum_apply {ι R G : Type*} [Fintype ι] [Semiring R]
     (f : ι → MonoidAlgebra R G) (a : G) :
     (∑ i, f i) a = ∑ i, f i a := by
   classical
-  exact Finsupp.finsetSum_apply Finset.univ f a
+  simpa only [Finsupp.finsetSum_apply] using
+    Finsupp.ext_iff.mp (MonoidAlgebra.coeff_sum Finset.univ f) a
 
 instance neZero_card_perm (n : ℕ) : NeZero (Nat.card (G' n) : ℂ) :=
   ⟨by exact_mod_cast Nat.card_pos.ne'⟩
@@ -75,7 +80,7 @@ private lemma trace_lmul_monoidAlgebra
     (Algebra.lmul ℂ (MonoidAlgebra ℂ G) a (MonoidAlgebra.single g 1))) g = a 1 := by
     intro g
     -- repr is identity for this basis; lmul a x = a * x
-    change (a * MonoidAlgebra.single g 1 : G →₀ ℂ) g = (a : G →₀ ℂ) 1
+    change (a * MonoidAlgebra.single g 1).coeff g = a.coeff 1
     exact (MonoidAlgebra.mul_single_apply a (1 : ℂ) g g).trans (by simp)
   simp only [this, Finset.sum_const, Finset.card_univ]
 
@@ -160,7 +165,7 @@ lemma youngSymmetrizer_identity_coeff (n : ℕ) (la : Nat.Partition n) :
     simp only [RowSymmetrizer, MonoidAlgebra.of_apply]
     rw [monoidAlgebra_fintype_sum_apply]
     apply Finset.sum_eq_zero; intro p _
-    rw [Finsupp.single_apply]
+    rw [MonoidAlgebra.coeff_single, Finsupp.single_apply]
     split_ifs with h
     · exfalso; exact hq_ne (inv_eq_one.mp (row_col_inter_trivial n la (q : G' n)⁻¹
         (h ▸ p.prop)

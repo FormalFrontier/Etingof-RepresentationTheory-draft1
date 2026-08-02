@@ -161,7 +161,7 @@ noncomputable def Problem5_10_2_d_cosetTerm (W : Rep k H)
     (fun g₁ g₂ ⟨s, (hs : _ * _ = _)⟩ =>
       (Submodule.Quotient.eq _).2 <|
         Representation.Coinvariants.mem_ker_of_eq s
-          (Finsupp.single g₂ 1 ⊗ₜ[k] f.1 g₂) _ (by
+          (MonoidAlgebra.single g₂ (1 : k) ⊗ₜ[k] f.1 g₂) _ (by
             have := f.2 s g₂
             simp_all))
 

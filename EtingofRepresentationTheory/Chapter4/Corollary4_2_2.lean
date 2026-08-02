@@ -32,26 +32,24 @@ omit [IsAlgClosed k] [Fintype G] [DecidableEq G] [NeZero (Nat.card G : k)] in
 /-- Central elements of `MonoidAlgebra k G` have conjugation-invariant coefficients. -/
 private lemma center_coeff_conj_invariant
     {a : MonoidAlgebra k G} (ha : a ∈ Subalgebra.center k (MonoidAlgebra k G))
-    (g h : G) : a (g * h * g⁻¹) = a h := by
+    (g h : G) : a.coeff (g * h * g⁻¹) = a.coeff h := by
   rw [Subalgebra.mem_center_iff] at ha
-  have key := congr_fun (congr_arg (⇑) (ha (MonoidAlgebra.of k G g))) (g * h)
-  simp only [MonoidAlgebra.of, MonoidHom.coe_mk, OneHom.coe_mk,
-    MonoidAlgebra.single_mul_apply, MonoidAlgebra.mul_single_apply,
-    one_mul, mul_one, inv_mul_cancel_left] at key
-  exact key.symm
+  have key := congrArg (fun z : MonoidAlgebra k G ↦ z.coeff (g * h))
+    (ha (MonoidAlgebra.single g 1))
+  simpa using key.symm
 
 omit [IsAlgClosed k] [Fintype G] [DecidableEq G] [NeZero (Nat.card G : k)] in
 /-- Elements with conjugation-invariant coefficients are central in `MonoidAlgebra k G`. -/
 private lemma mem_center_of_conj_invariant (a : MonoidAlgebra k G)
-    (ha : ∀ g h : G, a (g * h * g⁻¹) = a h) :
+    (ha : ∀ g h : G, a.coeff (g * h * g⁻¹) = a.coeff h) :
     a ∈ Subalgebra.center k (MonoidAlgebra k G) := by
   rw [Subalgebra.mem_center_iff]
   intro b
   induction b using MonoidAlgebra.induction_on with
   | hM g =>
     ext x
-    simp only [MonoidAlgebra.of_apply, MonoidAlgebra.single_mul_apply,
-      MonoidAlgebra.mul_single_apply, one_mul, mul_one]
+    simp only [MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single_mul_apply,
+      MonoidAlgebra.coeff_mul_single_apply, one_mul, mul_one]
     -- Need: a (g⁻¹ * x) = a (x * g⁻¹)
     -- ha g⁻¹ (x * g⁻¹) : a (g⁻¹ * (x * g⁻¹) * (g⁻¹)⁻¹) = a (x * g⁻¹)
     -- LHS simplifies to a (g⁻¹ * x) by group
@@ -72,22 +70,20 @@ private lemma finrank_center_monoidAlgebra :
       Fintype.card (ConjClasses G) := by
   -- Forward map: center → (ConjClasses G → k)
   let fwd : ↥(Subalgebra.center k (MonoidAlgebra k G)) →ₗ[k] (ConjClasses G → k) :=
-    { toFun := fun a C => (a : MonoidAlgebra k G) (Quotient.out C)
-      map_add' := fun _ _ => funext fun _ => Finsupp.add_apply _ _ _
-      map_smul' := fun _ _ => funext fun _ => Finsupp.smul_apply _ _ _ }
+    { toFun := fun a C => (a : MonoidAlgebra k G).coeff (Quotient.out C)
+      map_add' := fun _ _ => rfl
+      map_smul' := fun _ _ => rfl }
   -- Backward map: (ConjClasses G → k) → center
   let bwd : (ConjClasses G → k) →ₗ[k] ↥(Subalgebra.center k (MonoidAlgebra k G)) :=
-    { toFun := fun f => ⟨Finsupp.onFinset Finset.univ
-          (fun g => f (ConjClasses.mk g)) (fun _ _ => Finset.mem_univ _),
+    { toFun := fun f => ⟨MonoidAlgebra.ofCoeff (Finsupp.onFinset Finset.univ
+          (fun g => f (ConjClasses.mk g)) (fun _ _ => Finset.mem_univ _)),
         mem_center_of_conj_invariant _ (fun g h => by
           simp only [Finsupp.onFinset_apply]
           congr 1
           rw [ConjClasses.mk_eq_mk_iff_isConj]
           exact isConj_iff.mpr ⟨g⁻¹, by group⟩)⟩
-      map_add' := fun f₁ f₂ => Subtype.ext (Finsupp.ext fun g => by
-        simp [Finsupp.onFinset_apply])
-      map_smul' := fun r f => Subtype.ext (Finsupp.ext fun g => by
-        simp [Finsupp.onFinset_apply]) }
+      map_add' := fun f₁ f₂ => by ext g; simp [Finsupp.onFinset_apply]
+      map_smul' := fun r f => by ext g; simp [Finsupp.onFinset_apply] }
   -- Round trips
   have hfb : ∀ f, fwd (bwd f) = f := fun f => funext fun C => by
     simp only [fwd, bwd, LinearMap.coe_mk, AddHom.coe_mk, Finsupp.onFinset_apply]
@@ -102,8 +98,8 @@ private lemma finrank_center_monoidAlgebra :
       rw [ConjClasses.quotient_mk_eq_mk] at h
       exact ConjClasses.mk_eq_mk_iff_isConj.mp h
     obtain ⟨c, hc⟩ := isConj_iff.mp hconj
-    rw [show a (Quotient.out (ConjClasses.mk g)) =
-        a (c * Quotient.out (ConjClasses.mk g) * c⁻¹) from
+    rw [show a.coeff (Quotient.out (ConjClasses.mk g)) =
+        a.coeff (c * Quotient.out (ConjClasses.mk g) * c⁻¹) from
       (center_coeff_conj_invariant ha c _).symm, hc]
   -- Combine into LinearEquiv
   have e : ↥(Subalgebra.center k (MonoidAlgebra k G)) ≃ₗ[k] (ConjClasses G → k) :=

@@ -34,14 +34,17 @@ variable {k G : Type*} [CommRing k] [Group G]
 /-- An element `x` of the group algebra `k[G]` lies in the center iff its coefficient
 function is invariant under conjugation, i.e. it is constant on conjugacy classes. -/
 theorem mem_center_iff_coeff (x : MonoidAlgebra k G) :
-    x ∈ Subalgebra.center k (MonoidAlgebra k G) ↔ ∀ g h : G, x (g * h * g⁻¹) = x h := by
+    x ∈ Subalgebra.center k (MonoidAlgebra k G) ↔
+      ∀ g h : G, x.coeff (g * h * g⁻¹) = x.coeff h := by
   rw [Subalgebra.mem_center_iff]
   constructor
   · -- centrality ⇒ conjugation-invariance of coefficients
     intro hx g h
     have hcomm := hx (single g (1 : k))
-    have h1 : (single g (1 : k) * x) (g * h) = x h := by simp [single_mul_apply]
-    have h2 : (x * single g (1 : k)) (g * h) = x (g * h * g⁻¹) := by simp [mul_single_apply]
+    have h1 : (single g (1 : k) * x).coeff (g * h) = x.coeff h := by
+      simp
+    have h2 : (x * single g (1 : k)).coeff (g * h) = x.coeff (g * h * g⁻¹) := by
+      simp
     rw [hcomm] at h1
     rw [h2] at h1
     exact h1
@@ -51,30 +54,32 @@ theorem mem_center_iff_coeff (x : MonoidAlgebra k G) :
     have hsingle : ∀ (g : G) (c : k), single g c * x = x * single g c := by
       intro g c
       ext h
-      rw [single_mul_apply, mul_single_apply, mul_comm]
+      rw [coeff_single_mul_apply, coeff_mul_single_apply, mul_comm]
       congr 1
       -- `x (g⁻¹ * h) = x (h * g⁻¹)`, conjugate of one another
       have := hcoeff g (g⁻¹ * h)
       rw [← mul_assoc, mul_inv_cancel, one_mul] at this
       exact this.symm
     -- extend from generators to all of `y` by linearity
-    conv_lhs => rw [← y.sum_single]
-    conv_rhs => rw [← y.sum_single]
+    conv_lhs => rw [← y.sum_coeff_single]
+    conv_rhs => rw [← y.sum_coeff_single]
     simp only [Finsupp.sum]
     rw [Finset.mul_sum, Finset.sum_mul]
-    exact Finset.sum_congr rfl fun g _ => hsingle g (y g)
+    exact Finset.sum_congr rfl fun g _ => hsingle g (y.coeff g)
 
 variable [Fintype G]
 
 omit [Group G] in
 /-- The value at `h` of the "diagonal" element `∑ g, single g (c g)` is just `c h`. -/
 private theorem apply_sum_single (c : G → k) (h : G) :
-    (∑ g : G, single g (c g)) h = c h := by
+    (∑ g : G, single g (c g)).coeff h = c h := by
   classical
-  rw [Finsupp.finsetSum_apply]
-  simp only [single_apply]
-  rw [Finset.sum_ite_eq' Finset.univ h c]
-  simp
+  rw [MonoidAlgebra.coeff_sum, Finsupp.finsetSum_apply]
+  rw [Finset.sum_eq_single h]
+  · simp
+  · intro b _ hbh
+    simp [hbh]
+  · simp
 
 /-- The canonical central group-algebra element attached to a class function `f` is central:
 its coefficients are constant on conjugacy classes by construction. -/
@@ -99,7 +104,7 @@ variable (k G : Type*) [Field k] [Group G] [Fintype G]
 class functions `ConjClasses G → k`, via `x ↦ (c ↦ coefficient of x on the class c)`. -/
 noncomputable def centerEquivClassFun :
     ↥(Subalgebra.center k (MonoidAlgebra k G)) ≃ₗ[k] (ConjClasses G → k) where
-  toFun x c := Quotient.liftOn c (fun g => (x : MonoidAlgebra k G) g)
+  toFun x c := Quotient.liftOn c (fun g => (x : MonoidAlgebra k G).coeff g)
     (fun a b hab => by
       obtain ⟨c, rfl⟩ := isConj_iff.mp hab
       exact ((mem_center_iff_coeff (x : MonoidAlgebra k G)).mp x.2 c a).symm)
@@ -115,7 +120,7 @@ noncomputable def centerEquivClassFun :
   left_inv x := by
     apply Subtype.ext
     ext h
-    exact apply_sum_single (fun g => (x : MonoidAlgebra k G) g) h
+    exact apply_sum_single (fun g => (x : MonoidAlgebra k G).coeff g) h
   right_inv f := by
     funext c
     induction c using Quotient.inductionOn with

@@ -1,4 +1,5 @@
 import Mathlib
+import EtingofRepresentationTheory.Infrastructure.CharacterOrthogonalityCompat
 import EtingofRepresentationTheory.Chapter4.Example4_3_S4
 import EtingofRepresentationTheory.Chapter5.CharEqIso
 import EtingofRepresentationTheory.Chapter5.Definition5_8_1
@@ -240,8 +241,8 @@ lemma ind_finrank_eq_scalar_gen (H : Subgroup G) [Fintype ↥H] [Invertible (Fin
     (finrank ℂ (S ⟶ FDRep.of (Etingof.Definition5_8_1 H ρ)) : ℂ)
       = ⅟(Fintype.card ↥H : ℂ) • ∑ h : ↥H, S.character (h : G) * (FDRep.of ρ).character h⁻¹ := by
   rw [Etingof.Discussion5_11.finrank_hom_symm, frobenius_finrank_gen,
-    ← FDRep.scalar_product_char_eq_finrank_equivariant (FDRep.of ρ)
-      ((Action.res (FGModuleCat ℂ) H.subtype).obj S)]
+    ← FDRep.scalar_product_char_eq_finrank_equivariant_fintype
+      ((Action.res (FGModuleCat ℂ) H.subtype).obj S) (FDRep.of ρ)]
   simp only [resObj_character']
 
 omit [Finite G] in

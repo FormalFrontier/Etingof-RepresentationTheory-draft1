@@ -365,13 +365,12 @@ def revExp (N D : ℕ) (c : Fin N →₀ ℕ) : Fin N →₀ ℕ :=
 `monomial (D·1 − c) a`. -/
 noncomputable def revBox (N D : ℕ) :
     MvPolynomial (Fin N) ℚ →ₗ[ℚ] MvPolynomial (Fin N) ℚ :=
-  Finsupp.lsum ℚ (fun e => monomial (revExp N D e))
+  (Finsupp.lsum ℚ (fun e => monomial (revExp N D e))).comp
+    (AddMonoidAlgebra.coeffLinearEquiv ℚ).toLinearMap
 
 @[simp] lemma revBox_monomial (N D : ℕ) (c : Fin N →₀ ℕ) (a : ℚ) :
     revBox N D (monomial c a) = monomial (revExp N D c) a := by
-  change Finsupp.lsum ℚ (fun e => monomial (revExp N D e)) (monomial c a) = _
-  rw [show (monomial c a : MvPolynomial (Fin N) ℚ) = Finsupp.single c a from
-      (single_eq_monomial c a).symm, Finsupp.lsum_single]
+  simp [revBox, MvPolynomial.monomial, AddMonoidAlgebra.coeffLinearEquiv_apply]
 
 /-- Box reversal as a sum over the support. -/
 lemma revBox_eq_sum (N D : ℕ) (P : MvPolynomial (Fin N) ℚ) :

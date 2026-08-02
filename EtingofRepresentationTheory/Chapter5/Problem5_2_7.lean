@@ -4,6 +4,7 @@ import EtingofRepresentationTheory.Chapter4.Discussion_4_4
 import EtingofRepresentationTheory.Infrastructure.FDRepDirectSum
 import EtingofRepresentationTheory.Infrastructure.FDRepIsotypic
 import EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration
+import EtingofRepresentationTheory.Infrastructure.CharacterOrthogonalityCompat
 
 /-!
 # Problem 5.2.7: fields of definition and a vanishing character value
@@ -633,7 +634,7 @@ group `G`, `∑_{g} χ_V(g)·χ_V(g⁻¹) = |G|`. This is the first orthogonalit
 theorem sum_char_mul_inv_eq_card (V : FDRep ℂ G) [Simple V]
     [Invertible (Fintype.card G : ℂ)] :
     ∑ g : G, V.character g * V.character g⁻¹ = (Fintype.card G : ℂ) := by
-  have horth := FDRep.char_orthonormal V V
+  have horth := FDRep.char_orthonormal_fintype V V
   rw [if_pos ⟨Iso.refl V⟩, smul_eq_mul] at horth
   -- `⅟|G| * S = 1`, so multiplying by `|G|` gives `S = |G|`.
   have h2 : (Fintype.card G : ℂ) * (⅟(Fintype.card G : ℂ) *
