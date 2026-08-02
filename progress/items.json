@@ -34369,8 +34369,8 @@
       "supplemental_provider_dependencies": [],
       "explicit_source_references": [],
       "status": "complete",
-      "section": "5.17",
-      "verified_on": "2026-08-02",
+      "section": null,
+      "verified_on": "2026-08-01",
       "actual_internal_dependencies": [],
       "forward_internal_dependencies": [],
       "import_dag_dependencies": [],
@@ -34380,7 +34380,7 @@
       "type_dependency_modules": [],
       "declarations_reviewed": 0,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
-      "basis": "This discussion item is folded into the adjacent Theorem 5.17.1 provider module CharValueHookFormula; no separate provider attribution is assigned to the editorial item.",
+      "basis": "No dedicated Lean provider belongs to this editorial/folded partition item.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
     },
     "stage3_5": {

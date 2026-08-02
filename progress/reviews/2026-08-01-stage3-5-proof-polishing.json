@@ -1,13 +1,13 @@
 {
   "generated_on": "2026-08-01",
   "method": "kernel source-level proof inventory plus successful repository-wide Mathlib linter build",
-  "build_log_sha256": "f36a8ff05808d1b2669f77b22b40bb03015df61fbdbef5cfa397e5e77fe64cc4",
+  "build_log_sha256": "797a09ce05b28a533f07bf9889930b2c427fa1f1c27d1625de0775a09777ead4",
   "build_log_archive": "progress/reviews/2026-08-01-stage3-5-build.log.gz",
   "dependency_evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
-  "dependency_evidence_sha256": "b8839f4dc6c9bbb5e4ce5140325bab258afeba9b1e2826894b2e5191ba0f2db2",
+  "dependency_evidence_sha256": "c2b36e1691b183d050dc4d3ff27bd36284fd87995a26005fcabfdcdc21f28d7d",
   "provider_item_count": 403,
-  "source_level_proof_declaration_count": 11454,
-  "kernel_proof_declaration_count_including_generated_helpers": 26911,
+  "source_level_proof_declaration_count": 11457,
+  "kernel_proof_declaration_count_including_generated_helpers": 26915,
   "unique_warning_count": 1242,
   "warning_file_count": 216,
   "warning_counts_by_category": {
@@ -1953,7 +1953,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/CharValueHookFormula.lean",
-      "line": 203,
+      "line": 207,
       "column": 100,
       "source_command": "hookLength_eq_arm_add_leg",
       "category": "long_line",
@@ -15380,13 +15380,13 @@
     },
     "EtingofRepresentationTheory.Chapter5.CharValueHookFormula": {
       "source": "EtingofRepresentationTheory/Chapter5/CharValueHookFormula.lean",
-      "source_sha256": "99faccb00139dd5cfd2d92593e4658de37612a9696d805b47d5e5977f4f10ba6",
-      "source_level_proof_declaration_count": 27,
-      "source_level_proof_declaration_names_sha256": "41f00be693c7ae578d5c49a6ce3e6f2aeb9f380a4d296261297e29f2dfafb69f",
+      "source_sha256": "b7ecbcf481aae220d295ed9bbc155c6432ead278961a2a40d64fc66e295395ee",
+      "source_level_proof_declaration_count": 30,
+      "source_level_proof_declaration_names_sha256": "371a38ea7cb6b6a8579f9851ee9610fcbca4e93c092b5fa28da4c5fe1733550e",
       "diagnostics": [
         {
           "file": "EtingofRepresentationTheory/Chapter5/CharValueHookFormula.lean",
-          "line": 203,
+          "line": 207,
           "column": 100,
           "source_command": "hookLength_eq_arm_add_leg",
           "category": "long_line",

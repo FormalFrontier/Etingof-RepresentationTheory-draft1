@@ -3,7 +3,7 @@
 Completed 2026-08-01 using imported Lean kernel terms with opaque/theorem bodies enabled.
 
 - Current root-imported modules: 840
-- Declarations inspected: 32978
+- Declarations inspected: 32982
 - Import-DAG edges: 521
 - Mapped proof/type edges beyond the old import DAG: 207
 - Old import edges not recovered through owned-module proof/type mapping (trimmed): 133
