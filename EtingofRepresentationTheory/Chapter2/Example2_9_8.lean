@@ -38,10 +38,13 @@ The zero vector space, realised as `PUnit`, carries a representation. Its underl
 zero (`Subsingleton`), and the action is necessarily zero. -/
 
 /-- (1) The zero representation: `V = 0` is a representation of `𝔤`. (Etingof 2.9.8(1)) -/
-example : LieAlgebraRepresentation k L (TrivialLieModule k L PUnit) := inferInstance
+theorem Etingof.Example2_9_8.zeroRepresentation :
+    LieAlgebraRepresentation k L (TrivialLieModule k L PUnit) := inferInstance
 
+omit [CommRing k] [LieRing L] [LieAlgebra k L] in
 /-- The underlying space of the zero representation is zero. -/
-example : Subsingleton (TrivialLieModule k L PUnit) := inferInstanceAs (Subsingleton PUnit)
+theorem Etingof.Example2_9_8.zeroRepresentation_subsingleton :
+    Subsingleton (TrivialLieModule k L PUnit) := inferInstanceAs (Subsingleton PUnit)
 
 /-! ## (2) The trivial representation `ρ = 0`
 
@@ -52,10 +55,13 @@ variable (V : Type*) [AddCommGroup V] [Module k V]
 
 /-- (2) The trivial representation: any vector space `V` with `ρ = 0` is a representation.
 (Etingof 2.9.8(2)) -/
-example : LieAlgebraRepresentation k L (TrivialLieModule k L V) := inferInstance
+theorem Etingof.Example2_9_8.trivialRepresentation :
+    LieAlgebraRepresentation k L (TrivialLieModule k L V) := inferInstance
 
+omit [CommRing k] [LieAlgebra k L] [Module k V] in
 /-- The trivial representation has `ρ = 0`: every element of `𝔤` acts as `0`. -/
-example (a : L) (v : TrivialLieModule k L V) : ⁅a, v⁆ = 0 := rfl
+theorem Etingof.Example2_9_8.trivialRepresentation_bracket
+    (a : L) (v : TrivialLieModule k L V) : ⁅a, v⁆ = 0 := rfl
 
 /-! ## (3) The adjoint representation `V = 𝔤`, `ρ(a)(b) := [a, b]`
 
@@ -65,16 +71,20 @@ The adjoint representation is `LieAlgebra.ad`, the Lie algebra homomorphism
 the existence of the adjoint representation is equivalent to the Jacobi identity. -/
 
 /-- (3) The adjoint representation: `V = 𝔤` is a representation of `𝔤`. (Etingof 2.9.8(3)) -/
-example : LieAlgebraRepresentation k L L := inferInstance
+theorem Etingof.Example2_9_8.adjointRepresentation : LieAlgebraRepresentation k L L :=
+  inferInstance
 
 /-- The adjoint representation as the Lie algebra homomorphism `ρ : 𝔤 → End(𝔤)` of
 Definition 2.9.7. -/
-noncomputable example : L →ₗ⁅k⁆ Module.End k L := LieAlgebra.ad k L
+noncomputable def Etingof.Example2_9_8.adjointHom : L →ₗ⁅k⁆ Module.End k L :=
+  LieAlgebra.ad k L
 
 /-- The adjoint action is `ρ(a)(b) = [a, b]`, as Etingof specifies. -/
-example (a b : L) : LieAlgebra.ad k L a b = ⁅a, b⁆ := LieAlgebra.ad_apply k L a b
+theorem Etingof.Example2_9_8.adjoint_apply (a b : L) :
+    LieAlgebra.ad k L a b = ⁅a, b⁆ := LieAlgebra.ad_apply k L a b
 
 /-- That `ρ = ad` preserves the bracket, `ad ⁅a, b⁆ = ⁅ad a, ad b⁆`, is exactly the Jacobi
 identity: this is what makes the adjoint action a representation. -/
-example (a b : L) : LieAlgebra.ad k L ⁅a, b⁆ = ⁅LieAlgebra.ad k L a, LieAlgebra.ad k L b⁆ :=
+theorem Etingof.Example2_9_8.adjoint_map_lie (a b : L) :
+    LieAlgebra.ad k L ⁅a, b⁆ = ⁅LieAlgebra.ad k L a, LieAlgebra.ad k L b⁆ :=
   LieHom.map_lie (LieAlgebra.ad k L) a b

@@ -72,11 +72,13 @@ attribute [local instance 100] LieRing.ofAssociativeRing
 
 /-- Any associative algebra has a Lie algebra structure via `[a, b] = ab - ba`.
 (Etingof Example 2.9.2(2)) -/
-example (k : Type*) [CommRing k] (A : Type*) [Ring A] [Algebra k A] :
+@[reducible] def associativeLieRing (k : Type*) [CommRing k]
+    (A : Type*) [Ring A] [Algebra k A] :
     LieRing A := inferInstance
 
 /-- `End(V) = 𝔤𝔩(V)` is a Lie algebra. (Etingof Example 2.9.2(2)) -/
-example (k : Type*) [CommRing k] (V : Type*) [AddCommGroup V] [Module k V] :
+@[reducible] def endomorphismLieAlgebra (k : Type*) [CommRing k] (V : Type*)
+    [AddCommGroup V] [Module k V] :
     LieAlgebra k (Module.End k V) := inferInstance
 
 /-! ## (3) Any subspace of an associative algebra closed under the bracket -/
@@ -84,7 +86,8 @@ example (k : Type*) [CommRing k] (V : Type*) [AddCommGroup V] [Module k V] :
 /-- Any `k`-subspace `U` of an associative algebra `A` that is closed under the commutator bracket
 `[a, b] = ab - ba` is itself a Lie algebra: a Lie subalgebra of `A` regarded as a Lie algebra.
 (Etingof Example 2.9.2(3)) -/
-example (k A : Type*) [CommRing k] [Ring A] [Algebra k A] (U : LieSubalgebra k A) :
+@[reducible] def lieSubalgebraLieAlgebra (k A : Type*) [CommRing k] [Ring A] [Algebra k A]
+    (U : LieSubalgebra k A) :
     LieAlgebra k U := inferInstance
 
 /-! ## (4) The space `Der(A)` of derivations of an algebra `A`

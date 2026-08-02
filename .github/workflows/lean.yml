@@ -72,6 +72,8 @@ jobs:
           python3 scripts/reconcile_exercise_coverage.py --check
           python3 scripts/validate_exercise_coverage.py
           python3 scripts/test_exercise_coverage.py
+          python3 scripts/test_validate_lean_decls.py
+          python3 scripts/validate_lean_decls.py --check
           python3 scripts/test_finalize_proof_polishing.py
           python3 scripts/validate_postformalization_reviews.py
       - uses: leanprover/lean-action@v1
@@ -95,6 +97,7 @@ jobs:
           EXCLUDE="SpechtModuleSimple|SpechtCharacterGeneral|YoungSymTraceKronecker|FrobeniusCharacterBridge|Proposition5_22_2|Example6_4_9_EType|Example6_4_9\.lean"
           find EtingofRepresentationTheory -mindepth 2 -name '*.lean' \
             | grep -vE "$EXCLUDE" \
+            | grep -v '/ClaimCoverageDeclarations/' \
             | sed 's|/|.|g; s|\.lean$||' \
             > "$RUNNER_TEMP/modules.txt"
           # Keep the log: the lint-clean check below reads warnings out of it
@@ -102,6 +105,16 @@ jobs:
           xargs lake build < "$RUNNER_TEMP/modules.txt" 2>&1 | tee -a "$RUNNER_TEMP/build.log"
           echo EtingofRepresentationTheory.MathlibCoverageDeclarations >> "$RUNNER_TEMP/modules.txt"
           echo EtingofRepresentationTheory.ExerciseCoverageDeclarations >> "$RUNNER_TEMP/modules.txt"
+          # Check claim-ledger pointers in small, direct-import environments.
+          # Building these sequentially avoids recreating the root aggregate's
+          # peak memory use while still asking Lean to elaborate every #check.
+          while read -r checker_file; do
+            checker_module=${checker_file//\//.}
+            checker_module=${checker_module%.lean}
+            lake build "$checker_module" 2>&1 | tee -a "$RUNNER_TEMP/build.log"
+            echo "$checker_module" >> "$RUNNER_TEMP/modules.txt"
+          done < <(find EtingofRepresentationTheory/ClaimCoverageDeclarations \
+            -maxdepth 1 -name 'Shard*.lean' | sort)
       - name: No new build warnings
         run: |
           # `lake build` exits 0 on warnings, so without this step nothing
