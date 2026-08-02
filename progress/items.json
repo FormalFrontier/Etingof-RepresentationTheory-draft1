@@ -37306,17 +37306,22 @@
     "fidelity": "verified",
     "coverage": "covered_full",
     "coverage_note": "The four conjugacy types form an exhaustive disjoint partition. Public declarations give the four population counts, class counts, centralizer orders, class sizes, and existence of the corresponding normal forms. The total number of conjugacy classes is q²−1; #7500 is closed.",
-    "lean_ref": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClasses.lean :: Etingof.GL2.conjugacyClass_partition, card_isScalar, card_isParabolic, card_isSplitSemisimple, card_isElliptic; EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean :: Etingof.numScalarClasses_eq, numParabolicClasses_eq, numSplitSemisimpleClasses_eq, numEllipticClasses_eq, card_conjClasses_eq, centralizerCard_isScalar, centralizerCard_isParabolic, centralizerCard_isSplitSemisimple, centralizerCard_isElliptic, classCard_isScalar, classCard_isParabolic, classCard_isSplitSemisimple, classCard_isElliptic, exists_conj_isScalar, exists_conj_isParabolic, exists_conj_isSplitSemisimple, exists_conj_isElliptic",
-    "last_updated": "2026-08-01",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClasses.lean :: Etingof.GL2.conjugacyClass_partition, card_isScalar, card_isParabolic, card_isSplitSemisimple, card_isElliptic; EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean :: GL2.card_generalLinearGroup_two, GL2.card_generalLinearGroup_two_factored, Etingof.numScalarClasses_eq, numParabolicClasses_eq, numSplitSemisimpleClasses_eq, numEllipticClasses_eq, card_conjClasses_eq, centralizerCard_isScalar, centralizerCard_isParabolic, centralizerCard_isSplitSemisimple, centralizerCard_isElliptic, classCard_isScalar, classCard_isParabolic, classCard_isSplitSemisimple, classCard_isElliptic, exists_conj_isScalar, exists_conj_isParabolic, exists_conj_isSplitSemisimple, exists_conj_isElliptic",
+    "last_updated": "2026-08-02",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
       "section": "5.25",
-      "reviewed_on": "2026-07-29",
+      "reviewed_on": "2026-08-02",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
       "claims": [
+        {
+          "claim": "The order of GL₂(𝔽_q) is (q² − 1)(q² − q), equivalently q(q + 1)(q − 1)².",
+          "verdict": "formalized",
+          "lean_decl": "GL2.card_generalLinearGroup_two; GL2.card_generalLinearGroup_two_factored"
+        },
         {
           "claim": "Every element of GL₂(F_q) belongs to exactly one of the scalar, parabolic, split-semisimple, or elliptic types.",
           "verdict": "formalized",
@@ -37339,7 +37344,7 @@
       "explicit_source_references": [],
       "status": "complete",
       "section": "5.25",
-      "verified_on": "2026-08-01",
+      "verified_on": "2026-08-02",
       "actual_internal_dependencies": [],
       "forward_internal_dependencies": [],
       "import_dag_dependencies": [],
@@ -37364,7 +37369,7 @@
         "EtingofRepresentationTheory.Chapter5.GL2CharacterValues"
       ],
       "type_dependency_modules": [],
-      "declarations_reviewed": 297,
+      "declarations_reviewed": 300,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -37372,14 +37377,14 @@
     "stage3_5": {
       "status": "complete",
       "section": "5.25",
-      "reviewed_on": "2026-08-01",
+      "reviewed_on": "2026-08-02",
       "mathlib_quality": "linter_screened_with_retained_nonblocking_diagnostics",
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount",
         "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClasses"
       ],
-      "source_level_proof_declarations_reviewed": 95,
-      "diagnostic_count": 61,
+      "source_level_proof_declarations_reviewed": 97,
+      "diagnostic_count": 60,
       "diagnostic_categories": [
         "flexible_tactic",
         "generality",
@@ -47857,17 +47862,17 @@
     "coverage": "covered_full",
     "fidelity": "verified",
     "coverage_note": "Mathlib's Linear structure gives vector-space homs and bilinear composition for module categories over a k-algebra.",
-    "last_updated": "2026-08-01",
+    "last_updated": "2026-08-02",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
       "section": "7.7",
-      "reviewed_on": "2026-07-29",
+      "reviewed_on": "2026-08-02",
       "claims": [
         {
-          "claim": "Module categories over a k-algebra are k-linear abelian categories.",
+          "claim": "For a finite-dimensional k-algebra A, both the category of all A-modules and the category of finite-dimensional A-modules are k-linear abelian categories.",
           "verdict": "formalized",
-          "lean_decl": "CategoryTheory.Linear; CategoryTheory.Abelian"
+          "lean_decl": "Etingof.moduleCatLinear; Etingof.moduleCatAbelian; Etingof.fgModuleCatLinear; Etingof.fgModuleCatAbelian"
         }
       ]
     },
@@ -47882,11 +47887,15 @@
       ],
       "status": "complete",
       "section": "7.7",
-      "verified_on": "2026-08-01",
-      "actual_internal_dependencies": [],
+      "verified_on": "2026-08-02",
+      "actual_internal_dependencies": [
+        "Chapter7/Example7.7.2"
+      ],
       "forward_internal_dependencies": [],
       "import_dag_dependencies": [],
-      "proof_term_dependencies": [],
+      "proof_term_dependencies": [
+        "Chapter7/Example7.7.2"
+      ],
       "provider_module_attribution": {
         "EtingofRepresentationTheory.Chapter7.Discussion_after_Remark7_7_4": {
           "owner": "Chapter7/Discussion_after_Remark7.7.4",
@@ -47896,9 +47905,11 @@
           "other_explicit_claimants": []
         }
       },
-      "proof_dependency_modules": [],
+      "proof_dependency_modules": [
+        "EtingofRepresentationTheory.Chapter7.Example7_7_2"
+      ],
       "type_dependency_modules": [],
-      "declarations_reviewed": 0,
+      "declarations_reviewed": 4,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -47906,7 +47917,7 @@
     "stage3_5": {
       "status": "complete",
       "section": "7.7",
-      "reviewed_on": "2026-08-01",
+      "reviewed_on": "2026-08-02",
       "mathlib_quality": "linter_screened",
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter7.Discussion_after_Remark7_7_4"
@@ -55815,8 +55826,8 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
       ],
-      "source_level_proof_declarations_reviewed": 60,
-      "diagnostic_count": 47,
+      "source_level_proof_declarations_reviewed": 62,
+      "diagnostic_count": 46,
       "diagnostic_categories": [
         "flexible_tactic",
         "generality",
@@ -55835,7 +55846,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
       ],
-      "declarations_reviewed": 173,
+      "declarations_reviewed": 176,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Derived claims are overlays keyed by `derived_from`, not graph nodes. Their provider modules and kernel proof terms were reviewed in the same certificate; their item dependencies are represented by the parent partition item."
     }
@@ -55904,8 +55915,8 @@
         "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary",
         "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
       ],
-      "source_level_proof_declarations_reviewed": 73,
-      "diagnostic_count": 47,
+      "source_level_proof_declarations_reviewed": 75,
+      "diagnostic_count": 46,
       "diagnostic_categories": [
         "flexible_tactic",
         "generality",
@@ -55925,7 +55936,7 @@
         "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary",
         "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
       ],
-      "declarations_reviewed": 204,
+      "declarations_reviewed": 207,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Derived claims are overlays keyed by `derived_from`, not graph nodes. Their provider modules and kernel proof terms were reviewed in the same certificate; their item dependencies are represented by the parent partition item."
     }

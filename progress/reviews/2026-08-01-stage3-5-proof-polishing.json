@@ -1,21 +1,21 @@
 {
   "generated_on": "2026-08-01",
   "method": "kernel source-level proof inventory plus successful repository-wide Mathlib linter build",
-  "build_log_sha256": "4e88a834014cfa4a037813224f96525ca8a248d1348ac4a59d718529b627e8a9",
+  "build_log_sha256": "2c1e97b7bdb46f54887b7059e90fabc2d17117f7f664bb71316c5a908d604035",
   "build_log_archive": "progress/reviews/2026-08-01-stage3-5-build.log.gz",
   "dependency_evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
-  "dependency_evidence_sha256": "5638cdb28bc3bdd484ba835d2aa67c09f947366dff633e634670f802fa4055a6",
+  "dependency_evidence_sha256": "6bb080b95d9b68a39892bbc7424ffc3566452bc04da9cb4fdb6791094198f7aa",
   "provider_item_count": 403,
-  "source_level_proof_declaration_count": 11437,
-  "kernel_proof_declaration_count_including_generated_helpers": 26877,
-  "unique_warning_count": 1243,
+  "source_level_proof_declaration_count": 11439,
+  "kernel_proof_declaration_count_including_generated_helpers": 26880,
+  "unique_warning_count": 1242,
   "warning_file_count": 216,
   "warning_counts_by_category": {
     "class_definition_reducibility": 16,
     "definition_is_proposition": 6,
     "deprecation": 78,
     "flexible_tactic": 123,
-    "generality": 357,
+    "generality": 356,
     "header": 31,
     "heartbeat_comment": 149,
     "linear_combination_constant": 3,
@@ -3114,34 +3114,16 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 672,
+      "line": 714,
       "column": 0,
-      "source_command": "centralizerCard_elliptic",
-      "category": "generality",
-      "message": "`card_GL2_eq` does not use the following hypothesis in its type:",
-      "disposition": "reviewed_api_generality_followup_not_proof_defect"
-    },
-    {
-      "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 673,
-      "column": 8,
-      "source_command": "card_GL2_eq",
-      "category": "generality",
-      "message": "automatically included section variable(s) unused in theorem `_private.EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount.0.GL2.card_GL2_eq`:",
-      "disposition": "reviewed_api_generality_followup_not_proof_defect"
-    },
-    {
-      "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 681,
-      "column": 0,
-      "source_command": "card_GL2_eq",
+      "source_command": "card_generalLinearGroup_two_factored",
       "category": "generality",
       "message": "`card_ge_three` does not use the following hypothesis in its type:",
       "disposition": "reviewed_api_generality_followup_not_proof_defect"
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 682,
+      "line": 715,
       "column": 8,
       "source_command": "card_ge_three",
       "category": "generality",
@@ -3150,7 +3132,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 690,
+      "line": 723,
       "column": 0,
       "source_command": "card_ge_three",
       "category": "generality",
@@ -3159,7 +3141,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 694,
+      "line": 727,
       "column": 8,
       "source_command": "count_from_bridge",
       "category": "generality",
@@ -3168,7 +3150,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 716,
+      "line": 749,
       "column": 0,
       "source_command": "half_mul",
       "category": "generality",
@@ -3177,7 +3159,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 734,
+      "line": 767,
       "column": 0,
       "source_command": "numScalarClasses_eq",
       "category": "generality",
@@ -3186,7 +3168,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 777,
+      "line": 810,
       "column": 0,
       "source_command": "numParabolicClasses_eq",
       "category": "generality",
@@ -3195,7 +3177,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 836,
+      "line": 869,
       "column": 0,
       "source_command": "numSplitSemisimpleClasses_eq",
       "category": "generality",
@@ -3204,7 +3186,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 887,
+      "line": 920,
       "column": 0,
       "source_command": "numEllipticClasses_eq",
       "category": "generality",
@@ -3213,7 +3195,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 887,
+      "line": 920,
       "column": 0,
       "source_command": "numEllipticClasses_eq",
       "category": "generality",
@@ -3222,7 +3204,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 892,
+      "line": 925,
       "column": 0,
       "source_command": "card_conjClasses_eq_sum",
       "category": "generality",
@@ -3231,7 +3213,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 935,
+      "line": 968,
       "column": 0,
       "source_command": "card_conjClasses_eq_sum",
       "category": "generality",
@@ -3240,7 +3222,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 1004,
+      "line": 1037,
       "column": 0,
       "source_command": "card_conjClasses_eq",
       "category": "generality",
@@ -3249,7 +3231,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 1007,
+      "line": 1040,
       "column": 0,
       "source_command": "orbit_card_mul_centralizerCard",
       "category": "generality",
@@ -3258,7 +3240,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 1017,
+      "line": 1050,
       "column": 0,
       "source_command": "orbit_card_mul_centralizerCard",
       "category": "generality",
@@ -3267,7 +3249,16 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 1032,
+      "line": 1052,
+      "column": 0,
+      "source_command": "centralizerCard_isScalar",
+      "category": "generality",
+      "message": "automatically included section variable(s) unused in theorem `GL2.centralizerCard_isScalar`:",
+      "disposition": "reviewed_api_generality_followup_not_proof_defect"
+    },
+    {
+      "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
+      "line": 1065,
       "column": 0,
       "source_command": "centralizerCard_isScalar",
       "category": "generality",
@@ -3276,7 +3267,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 1039,
+      "line": 1072,
       "column": 0,
       "source_command": "centralizerCard_isParabolic",
       "category": "generality",
@@ -3285,7 +3276,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 1047,
+      "line": 1080,
       "column": 0,
       "source_command": "centralizerCard_isSplitSemisimple",
       "category": "generality",
@@ -3294,7 +3285,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 1054,
+      "line": 1087,
       "column": 0,
       "source_command": "centralizerCard_isElliptic",
       "category": "generality",
@@ -3303,7 +3294,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 1055,
+      "line": 1088,
       "column": 8,
       "source_command": "card_ge_two",
       "category": "generality",
@@ -3312,7 +3303,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 1071,
+      "line": 1104,
       "column": 0,
       "source_command": "sq_sub_self",
       "category": "generality",
@@ -3321,7 +3312,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 1071,
+      "line": 1104,
       "column": 0,
       "source_command": "sq_sub_self",
       "category": "generality",
@@ -3330,7 +3321,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 1079,
+      "line": 1112,
       "column": 0,
       "source_command": "classCard_isScalar",
       "category": "generality",
@@ -3339,7 +3330,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 1091,
+      "line": 1124,
       "column": 0,
       "source_command": "classCard_isParabolic",
       "category": "generality",
@@ -3348,7 +3339,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 1114,
+      "line": 1147,
       "column": 0,
       "source_command": "classCard_isSplitSemisimple",
       "category": "generality",
@@ -3357,7 +3348,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 1288,
+      "line": 1321,
       "column": 100,
       "source_command": "exists_conj_isParabolic",
       "category": "long_line",
@@ -3366,7 +3357,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 1294,
+      "line": 1327,
       "column": 6,
       "source_command": "exists_conj_isParabolic",
       "category": "flexible_tactic",
@@ -3375,7 +3366,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 1400,
+      "line": 1433,
       "column": 8,
       "source_command": "exists_conj_isSplitSemisimple",
       "category": "flexible_tactic",
@@ -3384,7 +3375,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 1414,
+      "line": 1447,
       "column": 6,
       "source_command": "exists_conj_isSplitSemisimple",
       "category": "flexible_tactic",
@@ -3393,7 +3384,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "line": 1503,
+      "line": 1536,
       "column": 46,
       "source_command": "exists_conj_isElliptic",
       "category": "unused_variable",
@@ -17029,9 +17020,9 @@
     },
     "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount": {
       "source": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-      "source_sha256": "c3815720ddd447319d4c9fa436af56fa96c967af480e2ad7073c1cc719d2c56c",
-      "source_level_proof_declaration_count": 60,
-      "source_level_proof_declaration_names_sha256": "45711c10ad91e204af50aa59f714a7f42dad34add609b80519734a4e1d962e25",
+      "source_sha256": "e707f09cefdff8265c991a02faaf76f9cb1663c5953c67eb7ca5bb040a7416b7",
+      "source_level_proof_declaration_count": 62,
+      "source_level_proof_declaration_names_sha256": "a60cd38ae896a42d4e9124eedbc38a5fbe0ef8034e8bdf32021b56c2585fa230",
       "diagnostics": [
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
@@ -17170,34 +17161,16 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 672,
+          "line": 714,
           "column": 0,
-          "source_command": "centralizerCard_elliptic",
-          "category": "generality",
-          "message": "`card_GL2_eq` does not use the following hypothesis in its type:",
-          "disposition": "reviewed_api_generality_followup_not_proof_defect"
-        },
-        {
-          "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 673,
-          "column": 8,
-          "source_command": "card_GL2_eq",
-          "category": "generality",
-          "message": "automatically included section variable(s) unused in theorem `_private.EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount.0.GL2.card_GL2_eq`:",
-          "disposition": "reviewed_api_generality_followup_not_proof_defect"
-        },
-        {
-          "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 681,
-          "column": 0,
-          "source_command": "card_GL2_eq",
+          "source_command": "card_generalLinearGroup_two_factored",
           "category": "generality",
           "message": "`card_ge_three` does not use the following hypothesis in its type:",
           "disposition": "reviewed_api_generality_followup_not_proof_defect"
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 682,
+          "line": 715,
           "column": 8,
           "source_command": "card_ge_three",
           "category": "generality",
@@ -17206,7 +17179,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 690,
+          "line": 723,
           "column": 0,
           "source_command": "card_ge_three",
           "category": "generality",
@@ -17215,7 +17188,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 694,
+          "line": 727,
           "column": 8,
           "source_command": "count_from_bridge",
           "category": "generality",
@@ -17224,7 +17197,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 716,
+          "line": 749,
           "column": 0,
           "source_command": "half_mul",
           "category": "generality",
@@ -17233,7 +17206,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 734,
+          "line": 767,
           "column": 0,
           "source_command": "numScalarClasses_eq",
           "category": "generality",
@@ -17242,7 +17215,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 777,
+          "line": 810,
           "column": 0,
           "source_command": "numParabolicClasses_eq",
           "category": "generality",
@@ -17251,7 +17224,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 836,
+          "line": 869,
           "column": 0,
           "source_command": "numSplitSemisimpleClasses_eq",
           "category": "generality",
@@ -17260,7 +17233,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 887,
+          "line": 920,
           "column": 0,
           "source_command": "numEllipticClasses_eq",
           "category": "generality",
@@ -17269,7 +17242,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 887,
+          "line": 920,
           "column": 0,
           "source_command": "numEllipticClasses_eq",
           "category": "generality",
@@ -17278,7 +17251,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 892,
+          "line": 925,
           "column": 0,
           "source_command": "card_conjClasses_eq_sum",
           "category": "generality",
@@ -17287,7 +17260,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 935,
+          "line": 968,
           "column": 0,
           "source_command": "card_conjClasses_eq_sum",
           "category": "generality",
@@ -17296,7 +17269,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 1004,
+          "line": 1037,
           "column": 0,
           "source_command": "card_conjClasses_eq",
           "category": "generality",
@@ -17305,7 +17278,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 1007,
+          "line": 1040,
           "column": 0,
           "source_command": "orbit_card_mul_centralizerCard",
           "category": "generality",
@@ -17314,7 +17287,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 1017,
+          "line": 1050,
           "column": 0,
           "source_command": "orbit_card_mul_centralizerCard",
           "category": "generality",
@@ -17323,7 +17296,16 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 1032,
+          "line": 1052,
+          "column": 0,
+          "source_command": "centralizerCard_isScalar",
+          "category": "generality",
+          "message": "automatically included section variable(s) unused in theorem `GL2.centralizerCard_isScalar`:",
+          "disposition": "reviewed_api_generality_followup_not_proof_defect"
+        },
+        {
+          "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
+          "line": 1065,
           "column": 0,
           "source_command": "centralizerCard_isScalar",
           "category": "generality",
@@ -17332,7 +17314,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 1039,
+          "line": 1072,
           "column": 0,
           "source_command": "centralizerCard_isParabolic",
           "category": "generality",
@@ -17341,7 +17323,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 1047,
+          "line": 1080,
           "column": 0,
           "source_command": "centralizerCard_isSplitSemisimple",
           "category": "generality",
@@ -17350,7 +17332,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 1054,
+          "line": 1087,
           "column": 0,
           "source_command": "centralizerCard_isElliptic",
           "category": "generality",
@@ -17359,7 +17341,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 1055,
+          "line": 1088,
           "column": 8,
           "source_command": "card_ge_two",
           "category": "generality",
@@ -17368,7 +17350,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 1071,
+          "line": 1104,
           "column": 0,
           "source_command": "sq_sub_self",
           "category": "generality",
@@ -17377,7 +17359,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 1071,
+          "line": 1104,
           "column": 0,
           "source_command": "sq_sub_self",
           "category": "generality",
@@ -17386,7 +17368,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 1079,
+          "line": 1112,
           "column": 0,
           "source_command": "classCard_isScalar",
           "category": "generality",
@@ -17395,7 +17377,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 1091,
+          "line": 1124,
           "column": 0,
           "source_command": "classCard_isParabolic",
           "category": "generality",
@@ -17404,7 +17386,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 1114,
+          "line": 1147,
           "column": 0,
           "source_command": "classCard_isSplitSemisimple",
           "category": "generality",
@@ -17413,7 +17395,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 1288,
+          "line": 1321,
           "column": 100,
           "source_command": "exists_conj_isParabolic",
           "category": "long_line",
@@ -17422,7 +17404,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 1294,
+          "line": 1327,
           "column": 6,
           "source_command": "exists_conj_isParabolic",
           "category": "flexible_tactic",
@@ -17431,7 +17413,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 1400,
+          "line": 1433,
           "column": 8,
           "source_command": "exists_conj_isSplitSemisimple",
           "category": "flexible_tactic",
@@ -17440,7 +17422,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 1414,
+          "line": 1447,
           "column": 6,
           "source_command": "exists_conj_isSplitSemisimple",
           "category": "flexible_tactic",
@@ -17449,7 +17431,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-          "line": 1503,
+          "line": 1536,
           "column": 46,
           "source_command": "exists_conj_isElliptic",
           "category": "unused_variable",
@@ -25846,7 +25828,7 @@
     },
     "EtingofRepresentationTheory.Chapter7.Discussion_after_Remark7_7_4": {
       "source": "EtingofRepresentationTheory/Chapter7/Discussion_after_Remark7_7_4.lean",
-      "source_sha256": "47396b4b7891dc2c252a64a593bcf99367396e5091ed6923d378cb191a25bc89",
+      "source_sha256": "fc9d7ec5f3a319af895c30e1b5c05f74cae2a3a01f10c3cb26f7cd61a7ed511f",
       "source_level_proof_declaration_count": 0,
       "source_level_proof_declaration_names_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "diagnostics": [],
@@ -32314,8 +32296,8 @@
         "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount",
         "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClasses"
       ],
-      "source_level_proof_declarations_reviewed": 95,
-      "diagnostic_count": 61,
+      "source_level_proof_declarations_reviewed": 97,
+      "diagnostic_count": 60,
       "diagnostic_categories": [
         "flexible_tactic",
         "generality",
@@ -34101,8 +34083,8 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
       ],
-      "source_level_proof_declarations_reviewed": 60,
-      "diagnostic_count": 47,
+      "source_level_proof_declarations_reviewed": 62,
+      "diagnostic_count": 46,
       "diagnostic_categories": [
         "flexible_tactic",
         "generality",
@@ -34135,8 +34117,8 @@
         "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary",
         "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount"
       ],
-      "source_level_proof_declarations_reviewed": 73,
-      "diagnostic_count": 47,
+      "source_level_proof_declarations_reviewed": 75,
+      "diagnostic_count": 46,
       "diagnostic_categories": [
         "flexible_tactic",
         "generality",
