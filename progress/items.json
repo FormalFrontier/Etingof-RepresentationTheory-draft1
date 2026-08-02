@@ -50666,19 +50666,25 @@
     "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
+    "fidelity_note": "The lifting-property predicates Etingof.ProjectiveObject and Etingof.InjectiveObject are connected to the book's definitions by Etingof.projectiveObject_iff and Etingof.injectiveObject_iff, which characterize them by exactness of the corresponding preadditive Hom functors.",
     "coverage": "covered_full",
-    "last_updated": "2026-08-01",
-    "coverage_note": "ProjectiveObject and InjectiveObject use the standard categorical lifting predicates equivalent to exactness of the corresponding Hom functors.",
+    "last_updated": "2026-08-02",
+    "coverage_note": "ProjectiveObject and InjectiveObject use the standard categorical lifting predicates, and explicit iff theorems prove their equivalence to preservation of finite limits and finite colimits by Hom(P, -) and Hom(-, I).",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
       "section": "8.1",
-      "reviewed_on": "2026-07-29",
+      "reviewed_on": "2026-08-02",
       "claims": [
         {
-          "claim": "Projective and injective objects are characterized by exact covariant and contravariant Hom functors.",
+          "claim": "A projective object P in an abelian category is characterized by exactness of the covariant Hom functor Hom(P, -).",
           "verdict": "formalized",
-          "lean_decl": "Etingof.ProjectiveObject; Etingof.InjectiveObject"
+          "lean_decl": "Etingof.ProjectiveObject; Etingof.projectiveObject_iff"
+        },
+        {
+          "claim": "An injective object I in an abelian category is characterized by exactness of the contravariant Hom functor Hom(-, I).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.InjectiveObject; Etingof.injectiveObject_iff"
         }
       ]
     },
