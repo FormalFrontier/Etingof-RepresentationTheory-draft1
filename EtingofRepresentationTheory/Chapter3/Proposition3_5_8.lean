@@ -1,6 +1,7 @@
 import Mathlib.RingTheory.SimpleModule.IsAlgClosed
 import EtingofRepresentationTheory.Chapter3.Theorem3_5_4
 import EtingofRepresentationTheory.Chapter2.Definition2_3_8
+import EtingofRepresentationTheory.Chapter3.Definition3_5_7
 
 /-!
 # Proposition 3.5.8: Equivalent Characterizations of Semisimple Algebras
@@ -8,7 +9,7 @@ import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 For a finite dimensional algebra `A` over an algebraically closed field `k`, the following are
 equivalent:
 
-(1) `A` is semisimple (`Rad(A) = 0`, i.e. `IsSemisimpleRing A`).
+(1) `A` is semisimple (`Rad(A) = 0`).
 (2) `∑ᵢ (dim Vᵢ)² = dim A`, where the `Vᵢ` are the irreducible representations of `A`.
 (3) `A ≅ ⊕ᵢ Mat_{dᵢ}(k)` for some `dᵢ`.
 (4) Any finite dimensional representation of `A` is completely reducible.
@@ -18,8 +19,8 @@ The proof follows Etingof: `(1) ⇔ (2)` by the dimension count
 `dim A - dim Rad(A) = ∑ᵢ (dim Vᵢ)²` coming from Theorem 3.5.4 (`A / Rad(A) ≅ ⊕ᵢ End Vᵢ`);
 `(1) ⇒ (3)` by Wedderburn–Artin over an algebraically closed field; `(3) ⇒ (4)` because a
 finite product of matrix algebras is semisimple, so all its modules are; `(4) ⇒ (5)` by
-specializing to `A` itself; and `(5) ⇒ (1)` definitionally (`IsSemisimpleRing` *is*
-`IsSemisimpleModule A A`).
+specializing to `A` itself; and `(5) ⇒ (1)` using the Artinian-ring equivalence between
+`IsSemisimpleRing A` and vanishing of the radical.
 -/
 
 open Module
@@ -40,7 +41,7 @@ theorem Etingof.semisimple_algebra_equiv (k : Type*) (A : Type u)
       [IsScalarTower k A W] [FiniteDimensional k W] [IsSimpleModule A W],
       ∃ i, Nonempty (W ≃ₗ[A] V i)) :
     [ -- (1) A is semisimple
-      IsSemisimpleRing A,
+      Etingof.IsSemisimpleAlgebra k A,
       -- (2) ∑ᵢ (dim Vᵢ)² = dim A
       ∑ i, finrank k (V i) ^ 2 = finrank k A,
       -- (3) A ≅ ⊕ᵢ Mat_{dᵢ}(k)
@@ -66,37 +67,40 @@ theorem Etingof.semisimple_algebra_equiv (k : Type*) (A : Type u)
       + finrank k ((Etingof.Radical A).restrictScalars k) = finrank k A := by
     have h := Submodule.finrank_quotient_add_finrank ((Etingof.Radical A).restrictScalars k)
     rwa [(Submodule.Quotient.restrictScalarsEquiv k (Etingof.Radical A)).finrank_eq] at h
-  -- `Rad(A) = ⊥ ↔ IsSemisimpleRing A`, with `Rad(A) = Ring.jacobson A`.
-  have rad_jac : Etingof.Radical A = ⊥ ↔ IsSemisimpleRing A := by
-    rw [Etingof.Radical, Ideal.jacobson_bot, ← IsArtinianRing.isSemisimpleRing_iff_jacobson]
+  have semisimple_bridge := Etingof.isSemisimpleAlgebra_iff_isSemisimpleRing k A
   tfae_have 1 → 2 := by
     intro h1
     -- semisimple ⇒ Rad = ⊥ ⇒ its `k`-dimension is 0 ⇒ `dim A = ∑ᵢ (dim Vᵢ)²`.
-    have hbot : Etingof.Radical A = ⊥ := rad_jac.mpr h1
+    have h1' : Etingof.Radical A = ⊥ := h1
     have : ((Etingof.Radical A).restrictScalars k) = ⊥ := by
-      rw [hbot, Submodule.restrictScalars_bot]
+      rw [h1', Submodule.restrictScalars_bot]
     rw [← bridge, this, finrank_bot, add_zero, key]
   tfae_have 2 → 1 := by
     intro h2
     -- `dim A = ∑ᵢ (dim Vᵢ)²` ⇒ `dim Rad = 0` ⇒ `Rad = ⊥` ⇒ semisimple.
-    rw [← rad_jac]
     have hr : finrank k ((Etingof.Radical A).restrictScalars k) = 0 := by
       have := bridge
       rw [key, ← h2] at this
       omega
-    rw [← Submodule.restrictScalars_eq_bot_iff (S := k)]
-    exact Submodule.finrank_eq_zero.mp hr
+    have hrad : Etingof.Radical A = ⊥ := by
+      rw [← Submodule.restrictScalars_eq_bot_iff (S := k)]
+      exact Submodule.finrank_eq_zero.mp hr
+    exact hrad
   tfae_have 1 → 3 := by
     intro h1
+    haveI : IsSemisimpleRing A := h1.isSemisimpleRing
     exact IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed k A
   tfae_have 3 → 1 := by
     rintro ⟨n, d, _, ⟨e⟩⟩
-    exact e.toRingEquiv.symm.isSemisimpleRing
+    exact semisimple_bridge.mpr e.toRingEquiv.symm.isSemisimpleRing
   tfae_have 1 → 4 := by
     intro h1 M _ _ _ _ _
+    haveI : IsSemisimpleRing A := h1.isSemisimpleRing
     exact IsSemisimpleRing.isSemisimpleModule
   tfae_have 4 → 5 := fun h4 => h4 A
-  tfae_have 5 → 1 := id
+  tfae_have 5 → 1 := by
+    intro h5
+    exact Etingof.isSemisimpleAlgebra_of_isSemisimpleRing k A h5
   tfae_finish
 
 /-! ## The zero algebra (footnote to Proposition 3.5.8)
@@ -115,6 +119,12 @@ reference). Footnote to Etingof Proposition 3.5.8. -/
 theorem Etingof.subsingleton_isSemisimpleRing (A : Type*) [Ring A] [Subsingleton A] :
     IsSemisimpleRing A :=
   inferInstance
+
+/-- The zero/subsingleton algebra is semisimple in the book's radical-vanishing sense. -/
+theorem Etingof.subsingleton_isSemisimpleAlgebra (k A : Type*) [Field k] [Ring A]
+    [Algebra k A] [FiniteDimensional k A] [Subsingleton A] :
+    Etingof.IsSemisimpleAlgebra k A :=
+  Etingof.isSemisimpleAlgebra_of_isSemisimpleRing k A (subsingleton_isSemisimpleRing A)
 
 /-- A zero/subsingleton ring is **not** simple: simplicity forces nontriviality, contradicting
 `Subsingleton`. Footnote to Etingof Proposition 3.5.8. -/

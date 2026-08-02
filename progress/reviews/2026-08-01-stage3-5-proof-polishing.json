@@ -1,13 +1,13 @@
 {
   "generated_on": "2026-08-01",
   "method": "kernel source-level proof inventory plus successful repository-wide Mathlib linter build",
-  "build_log_sha256": "8d3e168b583eaba73ab924d9fac1f2ef963b08b011fd4831c30215e7cc928df1",
+  "build_log_sha256": "9cc1733a6d262c905bc9fcb70fe1eb7f9495fe5146a303c7b5b283a7085a1eb2",
   "build_log_archive": "progress/reviews/2026-08-01-stage3-5-build.log.gz",
   "dependency_evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
-  "dependency_evidence_sha256": "8a1f7b37ea3e6c73fdf0464fd0450771e2dd11379eb52bccc438d45f844af6ad",
+  "dependency_evidence_sha256": "be7fdaf851aabaf29f10c0d85795154124000cb3b85813cd2fc87ef8ad6a9f4b",
   "provider_item_count": 403,
-  "source_level_proof_declaration_count": 11431,
-  "kernel_proof_declaration_count_including_generated_helpers": 26869,
+  "source_level_proof_declaration_count": 11435,
+  "kernel_proof_declaration_count_including_generated_helpers": 26874,
   "unique_warning_count": 1243,
   "warning_file_count": 216,
   "warning_counts_by_category": {
@@ -12430,9 +12430,9 @@
     },
     "EtingofRepresentationTheory.Chapter3.Definition3_5_7": {
       "source": "EtingofRepresentationTheory/Chapter3/Definition3_5_7.lean",
-      "source_sha256": "fcc73947dc86d9e5344ee0e3d729052da91baa0168add4c42b97f06fcabb2a57",
-      "source_level_proof_declaration_count": 0,
-      "source_level_proof_declaration_names_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "dfebb02e614c4171da4a9b676e5ca1676e9ecad9e06dfbe4229f5e66c9eee7f7",
+      "source_level_proof_declaration_count": 3,
+      "source_level_proof_declaration_names_sha256": "956fbc02ee760438283ebf00380724a7c305b29c989fa5ed1c3cf2b9c5003312",
       "diagnostics": [],
       "review_result": "screened_no_direct_diagnostic"
     },
@@ -12813,9 +12813,9 @@
     },
     "EtingofRepresentationTheory.Chapter3.Proposition3_5_8": {
       "source": "EtingofRepresentationTheory/Chapter3/Proposition3_5_8.lean",
-      "source_sha256": "eea08a2282c9a9f36dcd53f70c4fe8afb0cc606237f912556d5c9a262c3bea37",
-      "source_level_proof_declaration_count": 7,
-      "source_level_proof_declaration_names_sha256": "130bc796a2d6ec1d4365858aa337c795b1979852a8b5b216ad98d893a6a4b947",
+      "source_sha256": "5f0a58714df25c78fa40356bb898aca75399ec586f298ef882598ff43eb611b8",
+      "source_level_proof_declaration_count": 8,
+      "source_level_proof_declaration_names_sha256": "fbab68cdc763b46337f9c6eba524f226c0d03923daf92b8f6bdf7624856923ee",
       "diagnostics": [],
       "review_result": "screened_no_direct_diagnostic"
     },
@@ -30560,7 +30560,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter3.Definition3_5_7"
       ],
-      "source_level_proof_declarations_reviewed": 0,
+      "source_level_proof_declarations_reviewed": 3,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",
@@ -30570,7 +30570,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter3.Proposition3_5_8"
       ],
-      "source_level_proof_declarations_reviewed": 7,
+      "source_level_proof_declarations_reviewed": 8,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",

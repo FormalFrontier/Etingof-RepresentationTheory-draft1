@@ -15953,7 +15953,7 @@
         {
           "claim": "A finite-dimensional algebra is semisimple exactly when Rad(A) = 0.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.IsSemisimpleAlgebra; IsArtinianRing.isSemisimpleRing_iff_jacobson; Ideal.jacobson_bot"
+          "lean_decl": "Etingof.IsSemisimpleAlgebra; Etingof.isSemisimpleAlgebra_iff_isSemisimpleRing"
         }
       ]
     },
@@ -15963,7 +15963,10 @@
       "verified_on": "2026-07-27",
       "proof_integrity": "sorry_free",
       "declarations": [
-        "Etingof.IsSemisimpleAlgebra"
+        "Etingof.IsSemisimpleAlgebra",
+        "Etingof.IsSemisimpleAlgebra.isSemisimpleRing",
+        "Etingof.isSemisimpleAlgebra_iff_isSemisimpleRing",
+        "Etingof.isSemisimpleAlgebra_of_isSemisimpleRing"
       ]
     },
     "stage3_4": {
@@ -15972,10 +15975,14 @@
       "status": "complete",
       "section": "3.5",
       "verified_on": "2026-08-01",
-      "actual_internal_dependencies": [],
+      "actual_internal_dependencies": [
+        "Chapter3/Definition3.5.1"
+      ],
       "forward_internal_dependencies": [],
       "import_dag_dependencies": [],
-      "proof_term_dependencies": [],
+      "proof_term_dependencies": [
+        "Chapter3/Definition3.5.1"
+      ],
       "provider_module_attribution": {
         "EtingofRepresentationTheory.Chapter3.Definition3_5_7": {
           "owner": "Chapter3/Definition3.5.7",
@@ -15985,9 +15992,13 @@
           "other_explicit_claimants": []
         }
       },
-      "proof_dependency_modules": [],
-      "type_dependency_modules": [],
-      "declarations_reviewed": 1,
+      "proof_dependency_modules": [
+        "EtingofRepresentationTheory.Chapter3.Definition3_5_1"
+      ],
+      "type_dependency_modules": [
+        "EtingofRepresentationTheory.Chapter3.Definition3_5_1"
+      ],
+      "declarations_reviewed": 6,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -16000,7 +16011,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter3.Definition3_5_7"
       ],
-      "source_level_proof_declarations_reviewed": 0,
+      "source_level_proof_declarations_reviewed": 3,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",
@@ -16041,7 +16052,7 @@
         {
           "claim": "The zero algebra is semisimple.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.subsingleton_isSemisimpleRing"
+          "lean_decl": "Etingof.subsingleton_isSemisimpleAlgebra"
         },
         {
           "claim": "The zero algebra is not simple.",
@@ -16079,6 +16090,7 @@
         "Etingof.Radical.eq_1",
         "Etingof.semisimple_algebra_equiv",
         "Etingof.subsingleton_algEquiv_pi_matrix",
+        "Etingof.subsingleton_isSemisimpleAlgebra",
         "Etingof.subsingleton_isSemisimpleRing",
         "Etingof.subsingleton_module_of_subsingleton",
         "Etingof.subsingleton_not_isIndecomposable",
@@ -16098,7 +16110,8 @@
       "actual_internal_dependencies": [
         "Chapter2/Definition2.3.8",
         "Chapter3/Definition3.5.1",
-        "Chapter3/Theorem3.5.4"
+        "Chapter3/Theorem3.5.4",
+        "Chapter3/Definition3.5.7"
       ],
       "forward_internal_dependencies": [],
       "import_dag_dependencies": [
@@ -16108,7 +16121,8 @@
       "proof_term_dependencies": [
         "Chapter2/Definition2.3.8",
         "Chapter3/Definition3.5.1",
-        "Chapter3/Theorem3.5.4"
+        "Chapter3/Theorem3.5.4",
+        "Chapter3/Definition3.5.7"
       ],
       "provider_module_attribution": {
         "EtingofRepresentationTheory.Chapter3.Proposition3_5_8": {
@@ -16122,11 +16136,13 @@
       "proof_dependency_modules": [
         "EtingofRepresentationTheory.Chapter2.Definition2_3_8",
         "EtingofRepresentationTheory.Chapter3.Definition3_5_1",
+        "EtingofRepresentationTheory.Chapter3.Definition3_5_7",
         "EtingofRepresentationTheory.Chapter3.Theorem3_5_4"
       ],
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter2.Definition2_3_8",
-        "EtingofRepresentationTheory.Chapter3.Definition3_5_1"
+        "EtingofRepresentationTheory.Chapter3.Definition3_5_1",
+        "EtingofRepresentationTheory.Chapter3.Definition3_5_7"
       ],
       "declarations_reviewed": 9,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
@@ -16141,7 +16157,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter3.Proposition3_5_8"
       ],
-      "source_level_proof_declarations_reviewed": 7,
+      "source_level_proof_declarations_reviewed": 8,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",
