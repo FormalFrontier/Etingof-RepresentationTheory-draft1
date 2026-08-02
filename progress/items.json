@@ -41395,7 +41395,7 @@
     "sorry_free": true,
     "coverage_note": "The concrete triple-of-subspaces model is equivalent to the inward D₄ quiver model for indecomposability and isomorphism. Twelve canonical representatives are constructed, proved indecomposable and pairwise nonisomorphic, and every concrete indecomposable belongs to exactly one class.",
     "lean_ref": "EtingofRepresentationTheory/Chapter6/Example6_3_1.lean :: Etingof.Example_6_3_1; EtingofRepresentationTheory/Chapter6/Example6_3_1_Classification.lean :: D₄Rep.canonicalRepresentation, D₄Rep.canonicalRepresentation_indecomposable, D₄Rep.canonical_pairwise_nonisomorphic, D₄Rep.classification, D₄Rep.classIndex_card",
-    "last_updated": "2026-08-01",
+    "last_updated": "2026-08-02",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -42107,7 +42107,7 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "coverage_note": "The public lemma proves the exact all-nonnegative or all-nonpositive coordinate dichotomy.",
-    "last_updated": "2026-08-01",
+    "last_updated": "2026-08-02",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -43021,7 +43021,7 @@
     "fidelity": "verified",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-08-01",
+    "last_updated": "2026-08-02",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
