@@ -8,8 +8,8 @@ import EtingofRepresentationTheory.Chapter7.Definition7_9_4
 import EtingofRepresentationTheory.Chapter7.Discussion_after_Definition7_4_1
 import EtingofRepresentationTheory.Chapter7.Discussion_after_Definition7_6_1
 import EtingofRepresentationTheory.Chapter7.Discussion_after_Example7_9_5
+import EtingofRepresentationTheory.Chapter7.Discussion_after_Remark7_7_4
 import EtingofRepresentationTheory.Chapter7.EnrichedRepresentability
-import EtingofRepresentationTheory.Chapter7.Example7_1_3
 
 /-!
 # Claim-ledger declaration pointers
@@ -95,6 +95,16 @@ set_option linter.style.longLine false
 -- from:Chapter7/Discussion_after_Example7.9.5.lean_ref
 #check @Etingof.additiveFunctor_shortExact_of_isSemisimpleCategory
 
+-- Provider: EtingofRepresentationTheory.Chapter7.Discussion_after_Remark7_7_4
+-- Chapter7/Discussion_after_Remark7.7.4.claim_coverage.claims[1].lean_decl
+#check @Etingof.fgModuleCatAbelian
+-- Chapter7/Discussion_after_Remark7.7.4.claim_coverage.claims[1].lean_decl
+#check @Etingof.fgModuleCatLinear
+-- Chapter7/Discussion_after_Remark7.7.4.claim_coverage.claims[1].lean_decl
+#check @Etingof.moduleCatAbelian
+-- Chapter7/Discussion_after_Remark7.7.4.claim_coverage.claims[1].lean_decl
+#check @Etingof.moduleCatLinear
+
 -- Provider: EtingofRepresentationTheory.Chapter7.EnrichedRepresentability
 -- Chapter7/Discussion_after_Example7.1.5.claim_coverage.claims[1].lean_decl
 #check @Etingof.EnrichedCategory
@@ -104,9 +114,3 @@ set_option linter.style.longLine false
 #check @Etingof.eCoyoneda_enrichedRepresentable
 -- Chapter7/Discussion_after_Example7.1.5.claim_coverage.claims[1].lean_decl
 #check @Etingof.enrichedComposition
-
--- Provider: EtingofRepresentationTheory.Chapter7.Example7_1_3
--- Chapter7/Example7.1.3.claim_coverage.claims[1].lean_decl
-#check @HomotopyTopCat
--- Chapter7/Example7.1.3.claim_coverage.claims[1].lean_decl
-#check @homotopyRel

@@ -71,10 +71,14 @@ set_option linter.style.longLine false
 #check @Etingof.nonempty_mulEquiv_characterGroup
 
 -- Provider: EtingofRepresentationTheory.Chapter4.Example4_3_Q8
+-- Chapter4/Example4.3_Q8.claim_coverage.claims[1].lean_decl
+#check @Etingof.Example4_3_Q8.Q8_simple_iso
 -- Chapter4/Example4.3_Q8.claim_coverage.claims[2].lean_decl
 #check @Etingof.Example4_3_Q8.chiHom
 -- Chapter4/Example4.3_Q8.claim_coverage.claims[1].lean_decl
 #check @Etingof.Example4_3_Q8.irreps_dim_sum_of_squares
+-- Chapter4/Example4.3_Q8.claim_coverage.claims[1].lean_decl
+#check @Etingof.Example4_3_Q8.irreps_pairwise_noniso
 -- Chapter4/Example4.3_Q8.claim_coverage.claims[1].lean_decl
 #check @Etingof.Example4_3_Q8.mem_center_iff
 -- Chapter4/Example4.3_Q8.claim_coverage.claims[2].lean_decl
