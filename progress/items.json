@@ -48284,7 +48284,7 @@
     "sorry_free": true,
     "fidelity_note": "Definition 7.8.2 is represented by Etingof.ShortExactSequence, while Etingof.shortExact_iff proves the stated mono/epi/cokernel-isomorphism characterization. Etingof.Extension stores the endpoint isomorphisms for an extension of Z by X, with explicit conversions to and from short exact sequences.",
     "coverage": "covered_full",
-    "last_updated": "2026-08-02",
+    "last_updated": "2026-08-01",
     "coverage_note": "Short exact sequences are bundled four-term complexes 0 to X to Y to Z to 0 carrying a ShortExact proof. The book's iff is proved using the canonical map from the cokernel Y/X to Z, and extensions carry explicit endpoint isomorphisms plus conversions to and from short exact sequences.",
     "claim_coverage": {
       "stage": "3.2",
@@ -48325,7 +48325,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 1,
+      "declarations_reviewed": 22,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -48338,7 +48338,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter7.Definition7_8_2"
       ],
-      "source_level_proof_declarations_reviewed": 0,
+      "source_level_proof_declarations_reviewed": 4,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",
