@@ -27900,22 +27900,22 @@
     "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "The standard public Mathlib predicate IsSolvable is exactly the source derived-series definition.",
+    "fidelity_note": "HasAbelianSeries states the book's finite nested-series definition using the equivalent commutator containment for abelian factors; the step lemmas recover normality and quotient commutativity, and hasAbelianSeries_iff_isSolvable identifies it with Mathlib's terminating derived series.",
     "coverage": "covered_full",
-    "last_updated": "2026-08-01",
+    "last_updated": "2026-08-02",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
       "section": "5.4",
-      "reviewed_on": "2026-07-29",
+      "reviewed_on": "2026-08-02",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
       "claims": [
         {
           "claim": "A solvable group is one admitting a finite normal series with abelian successive quotients, equivalently one whose derived series terminates.",
-          "verdict": "covered_elsewhere",
-          "lean_decl": "IsSolvable"
+          "verdict": "formalized",
+          "lean_decl": "Etingof.HasAbelianSeries; Etingof.abelianSeries_step_normal; Etingof.abelianSeries_step_quotient_commutative; Etingof.hasAbelianSeries_iff_isSolvable"
         }
       ]
     },
