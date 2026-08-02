@@ -1,6 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Definition5_12_1
 import EtingofRepresentationTheory.Chapter5.Theorem5_12_2
+import EtingofRepresentationTheory.Chapter5.Lemma5_13_2
 import EtingofRepresentationTheory.Chapter5.Definition5_14_2
 
 /-!
@@ -220,6 +221,19 @@ theorem Proposition5_14_1_vanishing_general
     rw [h_row_sym] at h_annihilate
     exact (smul_eq_zero.mp h_annihilate).resolve_left h_card_ne_zero
   exact Subtype.ext hv₀_val_zero
+
+/-- **Proposition 5.14.1 in the book's stated order.** If `la` is strictly
+larger than `mu` lexicographically, every equivariant map `U_la → V_mu`
+vanishes. -/
+theorem Proposition5_14_1_vanishing_lex
+    (n : ℕ) (la mu : Nat.Partition n)
+    (h : _root_.Nat.Partition.LexLt mu la) :
+    ∀ f : PermutationModule n la →ₗ[SymGroupAlgebra n] ↥(SpechtModule n mu), f = 0 := by
+  apply Proposition5_14_1_vanishing_general n la mu
+  intro hdom
+  -- This file's older namespaced `Dominates` duplicate unfolds to the root
+  -- predicate used by `LexLt.not_dominates`; transfer it pointwise.
+  exact h.not_dominates (fun k => hdom k)
 
 noncomputable section
 set_option linter.style.openClassical false in

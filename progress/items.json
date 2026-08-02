@@ -32000,17 +32000,45 @@
     "end_page": "115",
     "start_line": 3,
     "end_line": 4,
-    "status": "not_applicable",
+    "status": "proof_polished",
+    "coverage_issue": 8525,
+    "lean_file": "EtingofRepresentationTheory/Chapter5/Lemma5_13_2.lean",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Lemma5_13_2.lean :: Nat.Partition.LexLt, Nat.Partition.LexLe, Nat.Partition.Dominates.lexLe, Nat.Partition.LexLt.not_dominates, Nat.Partition.exists_lexLt",
     "coverage_swept": {
       "wave": 1,
-      "result": "trivial"
+      "result": "covered"
+    },
+    "fidelity": "verified",
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The book's first-difference lexicographic order is defined directly on zero-extended decreasing part lists. Dominance is proved to imply the corresponding lexicographic inequality, and the book-form vanishing results are explicit corollaries of the stronger generalized theorems.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "5.13",
+      "reviewed_on": "2026-08-02",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Partitions are ordered lexicographically by the sign of their first differing part.",
+          "verdict": "formalized",
+          "lean_decl": "Nat.Partition.LexLt; Nat.Partition.LexLe; Nat.Partition.exists_lexLt"
+        },
+        {
+          "claim": "Dominance implies the corresponding lexicographic inequality, so a strict reverse lexicographic inequality rules out dominance.",
+          "verdict": "formalized",
+          "lean_decl": "Nat.Partition.Dominates.lexLe; Nat.Partition.LexLt.not_dominates"
+        }
+      ]
     },
     "stage3_4": {
       "supplemental_provider_dependencies": [],
       "explicit_source_references": [],
       "status": "complete",
-      "section": null,
-      "verified_on": "2026-08-01",
+      "section": "5.13",
+      "verified_on": "2026-08-02",
       "actual_internal_dependencies": [],
       "forward_internal_dependencies": [],
       "import_dag_dependencies": [],
@@ -32020,17 +32048,17 @@
       "type_dependency_modules": [],
       "declarations_reviewed": 0,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
-      "basis": "No dedicated Lean provider belongs to this editorial/folded partition item.",
+      "basis": "The lexicographic declarations live in the shared Lemma5_13_2 provider module, whose generated proof-term ownership remains with the adjacent lemma item; this discussion records the explicit source references without claiming separate module ownership.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
     },
     "stage3_5": {
       "status": "not_applicable",
-      "section": null,
-      "reviewed_on": "2026-08-01",
-      "mathlib_quality": "not_applicable",
-      "result": "No dedicated Lean declaration belongs to this partition item; proof polishing is not applicable."
+      "section": "5.13",
+      "reviewed_on": "2026-08-02",
+      "mathlib_quality": "source_reviewed_and_build_verified",
+      "result": "The shared Lemma5_13_2 provider's lexicographic declarations were independently source-reviewed and pass the module build; generated source-hash certificates will be refreshed before the PR is opened."
     },
-    "last_updated": "2026-08-01"
+    "last_updated": "2026-08-02"
   },
   {
     "id": "Chapter5/Lemma5.13.2",
@@ -32046,20 +32074,25 @@
     "notes": "Fully proved. pigeonhole_transposition proved via column fiber decomposition + double counting identity.",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-08-01",
+    "last_updated": "2026-08-02",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
       "section": "5.13",
-      "reviewed_on": "2026-07-29",
+      "reviewed_on": "2026-08-02",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
       "claims": [
         {
-          "claim": "If lambda strictly dominates mu, then a_lambda C[S_n] b_mu=0.",
+          "claim": "If lambda is lexicographically larger than mu, then a_lambda C[S_n] b_mu=0.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Lemma5_13_2; Etingof.pigeonhole_transposition; Etingof.basis_vanishing"
+          "lean_decl": "Etingof.Lemma5_13_2_lex; Etingof.Lemma5_13_2_general; Nat.Partition.LexLt.not_dominates"
+        },
+        {
+          "claim": "The stronger generalized vanishing holds whenever mu does not dominate lambda, with strict dominance as a special case.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Lemma5_13_2_general; Etingof.Lemma5_13_2; Etingof.pigeonhole_transposition_general; Etingof.basis_vanishing_general"
         }
       ]
     },
@@ -32519,20 +32552,20 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "fidelity_note": "Etingof.youngRuleKostkaDecomposition gives the public SymGroupAlgebra-linear direct-sum isomorphism with multiplicities indexed by the combinatorial KostkaNumber. The equality with the representation-theoretic Hom-space multiplicity is Etingof.youngRuleMultiplicity_eq_kostkaNumber.",
-    "last_updated": "2026-08-01",
+    "last_updated": "2026-08-02",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
       "section": "5.14",
-      "reviewed_on": "2026-07-29",
+      "reviewed_on": "2026-08-02",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
       "claims": [
         {
-          "claim": "Hom(U_lambda,V_mu)=0 below lambda in dominance order, while dim Hom(U_lambda,V_lambda)=1.",
+          "claim": "Hom(U_lambda,V_mu)=0 when mu is lexicographically below lambda, while dim Hom(U_lambda,V_lambda)=1.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Proposition5_14_1_vanishing_general; Etingof.Proposition5_14_1_diagonal"
+          "lean_decl": "Etingof.Proposition5_14_1_vanishing_lex; Etingof.Proposition5_14_1_vanishing_general; Etingof.Proposition5_14_1_diagonal"
         },
         {
           "claim": "Young's rule decomposes U_lambda with Kostka multiplicities and diagonal multiplicity one.",

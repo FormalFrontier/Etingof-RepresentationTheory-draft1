@@ -26,6 +26,90 @@ def Nat.Partition.Dominates {n : ℕ} (la mu : Nat.Partition n) : Prop :=
 def Nat.Partition.StrictDominates {n : ℕ} (la mu : Nat.Partition n) : Prop :=
   la.Dominates mu ∧ la ≠ mu
 
+/-- The strict lexicographic order on partitions.  Thus `la.LexLt mu` means that,
+at the first index where their (decreasing) parts differ, the part of `la` is
+smaller than the part of `mu`.  Missing parts are read as zero.  This is the
+unbounded-index counterpart of the `toLex` finite vectors used later in
+`Discussion_footnote_5_15`. -/
+def Nat.Partition.LexLt {n : ℕ} (la mu : Nat.Partition n) : Prop :=
+  toLex (fun i : ℕ => la.sortedParts.getD i 0) <
+    toLex (fun i : ℕ => mu.sortedParts.getD i 0)
+
+/-- The non-strict lexicographic order on partitions. -/
+def Nat.Partition.LexLe {n : ℕ} (la mu : Nat.Partition n) : Prop :=
+  toLex (fun i : ℕ => la.sortedParts.getD i 0) ≤
+    toLex (fun i : ℕ => mu.sortedParts.getD i 0)
+
+/-- Express a prefix sum of length `k + 1` using the `k`-th part, with a zero
+default after the end of the list. -/
+private theorem sum_take_succ_getD (l : List ℕ) (k : ℕ) :
+    (l.take (k + 1)).sum = (l.take k).sum + l.getD k 0 := by
+  induction l generalizing k with
+  | nil => simp
+  | cons a l ih =>
+      cases k with
+      | zero => simp
+      | succ k => simp [ih, Nat.add_assoc]
+
+/-- Equal coordinates below `k` give equal prefix sums of length `k`. -/
+private theorem sum_take_eq_of_getD_eq (l₁ l₂ : List ℕ) (k : ℕ)
+    (h : ∀ j < k, l₁.getD j 0 = l₂.getD j 0) :
+    (l₁.take k).sum = (l₂.take k).sum := by
+  induction k with
+  | zero => simp
+  | succ k ih =>
+      rw [sum_take_succ_getD, sum_take_succ_getD,
+        ih (fun j hj => h j (Nat.lt_succ_of_lt hj)), h k (Nat.lt_succ_self k)]
+
+/-- Dominance implies the corresponding lexicographic inequality: if `la`
+dominates `mu`, then `mu` is lexicographically at most `la`. -/
+theorem Nat.Partition.Dominates.lexLe {n : ℕ} {la mu : Nat.Partition n}
+    (h : la.Dominates mu) : mu.LexLe la := by
+  rw [Nat.Partition.LexLe]
+  apply le_of_not_gt
+  intro hlt
+  obtain ⟨i, hbefore, hi⟩ := hlt
+  have hpref : (la.sortedParts.take i).sum = (mu.sortedParts.take i).sum :=
+    sum_take_eq_of_getD_eq la.sortedParts mu.sortedParts i hbefore
+  have hi' : la.sortedParts.getD i 0 < mu.sortedParts.getD i 0 := hi
+  have hdom := h (i + 1)
+  rw [sum_take_succ_getD, sum_take_succ_getD, hpref] at hdom
+  omega
+
+/-- A strict lexicographic inequality in the opposite direction rules out
+dominance.  This is the bridge from the book's order to the generalized
+vanishing theorem below. -/
+theorem Nat.Partition.LexLt.not_dominates {n : ℕ} {la mu : Nat.Partition n}
+    (h : mu.LexLt la) : ¬ mu.Dominates la := by
+  intro hdom
+  exact (not_lt_of_ge hdom.lexLe) h
+
+/-- The lexicographic order on partitions is nontrivial: `(1,1) < (2)`. -/
+theorem Nat.Partition.exists_lexLt :
+    ∃ la mu : Nat.Partition 2, mu.LexLt la := by
+  let la : Nat.Partition 2 :=
+    { parts := {2}
+      parts_pos := by simp
+      parts_sum := by simp }
+  let mu : Nat.Partition 2 :=
+    { parts := {1, 1}
+      parts_pos := by simp
+      parts_sum := by simp }
+  have hla : la.sortedParts = [2] := by
+    unfold Nat.Partition.sortedParts
+    rw [show la.parts = (↑[2] : Multiset ℕ) by rfl, Multiset.coe_sort]
+    exact List.mergeSort_eq_self (r := (· ≥ ·)) (by simp)
+  have hmu : mu.sortedParts = [1, 1] := by
+    unfold Nat.Partition.sortedParts
+    rw [show mu.parts = (↑[1, 1] : Multiset ℕ) by rfl, Multiset.coe_sort]
+    exact List.mergeSort_eq_self (r := (· ≥ ·)) (by simp)
+  refine ⟨la, mu, ?_⟩
+  rw [Nat.Partition.LexLt]
+  refine ⟨0, ?_, ?_⟩
+  · intro j hj
+    omega
+  · simp [hla, hmu]
+
 /-! ## Helper lemmas for rowOfPos/colOfPos -/
 
 /-- For the canonical position at (row r, col c) in a Young diagram: rowOfPos and colOfPos
@@ -552,6 +636,15 @@ theorem Lemma5_13_2_general
       simp [MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single, Finsupp.single_apply]
     rw [hsg, mul_smul_comm, smul_mul_assoc,
       basis_vanishing_general n la mu h g, smul_zero]
+
+/-- **Lemma 5.13.2 in the book's stated order.** If `la` is strictly larger
+than `mu` lexicographically, then `a_la · x · b_mu = 0`. -/
+theorem Lemma5_13_2_lex
+    (n : ℕ) (la mu : Nat.Partition n)
+    (h : mu.LexLt la)
+    (x : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) :
+    RowSymmetrizer n la * x * ColumnAntisymmetrizer n mu = 0 :=
+  Lemma5_13_2_general n la mu h.not_dominates x
 
 end Etingof
 
