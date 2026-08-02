@@ -1,5 +1,6 @@
 import EtingofRepresentationTheory.Chapter5.AlgIrrepGLNonIso
 import EtingofRepresentationTheory.Chapter5.AlgIrrepGLRep
+import EtingofRepresentationTheory.Chapter5.CharValueHookFormula
 import EtingofRepresentationTheory.Chapter5.CleanCharacterExtractionBase
 import EtingofRepresentationTheory.Chapter5.Corollary5_12_4
 import EtingofRepresentationTheory.Chapter5.Corollary5_15_4
@@ -9,7 +10,6 @@ import EtingofRepresentationTheory.Chapter5.Corollary5_26_3
 import EtingofRepresentationTheory.Chapter5.Definition5_12_1
 import EtingofRepresentationTheory.Chapter5.Definition5_14_2
 import EtingofRepresentationTheory.Chapter5.Definition5_1_1
-import EtingofRepresentationTheory.Chapter5.Definition5_1_4
 
 /-!
 # Claim-ledger declaration pointers
@@ -29,6 +29,16 @@ set_option linter.style.longLine false
 #check @Etingof.AlgIrrepGLRep
 -- derived-from:Chapter5/Discussion_after_Definition5.23.1.lean_ref
 #check @Etingof.algIrrepGLRepρ
+
+-- Provider: EtingofRepresentationTheory.Chapter5.CharValueHookFormula
+-- Chapter5/Discussion_hook_length_derivation.claim_coverage.claims[1].lean_decl
+#check @Etingof.charValue_trivialCycleType_eq_descPochhammer_det
+-- Chapter5/Discussion_hook_length_derivation.claim_coverage.claims[2].lean_decl
+#check @Etingof.descPochhammer_alternant_det_eq_pow_alternant_det
+-- Chapter5/Discussion_hook_length_derivation.claim_coverage.claims[3].lean_decl
+#check @Etingof.finrank_spechtModule_eq_frobeniusDetForm
+-- Chapter5/Discussion_hook_length_derivation.claim_coverage.claims[2].lean_decl
+#check @Etingof.finrank_spechtModule_eq_frobeniusPowerDetForm
 
 -- Provider: EtingofRepresentationTheory.Chapter5.CleanCharacterExtractionBase
 -- derived-from:Chapter5/Discussion_after_Definition5.23.1.lean_ref
@@ -93,8 +103,3 @@ set_option linter.style.longLine false
 -- Chapter5/Definition5.1.1.claim_coverage.claims[2].lean_decl,
 -- Chapter5/Introduction.claim_coverage.claims[1].lean_decl
 #check @Etingof.IsRealType
-
--- Provider: EtingofRepresentationTheory.Chapter5.Definition5_1_4
--- Chapter5/Definition5.1.4.claim_coverage.claims[1].lean_decl,
--- Chapter5/Introduction.claim_coverage.claims[1].lean_decl
-#check @Etingof.frobeniusSchurIndicator

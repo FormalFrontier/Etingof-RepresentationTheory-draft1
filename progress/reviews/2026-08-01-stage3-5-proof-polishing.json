@@ -1,13 +1,13 @@
 {
   "generated_on": "2026-08-01",
   "method": "kernel source-level proof inventory plus successful repository-wide Mathlib linter build",
-  "build_log_sha256": "51f5b57d4324183c5f5dfc09664bdcc76a64b93efa6ba21a0715e1d27d452b80",
+  "build_log_sha256": "8671a71b6edd341b3083787a183d7aa0aab1a2d8090f71900b8bea11de96c4b5",
   "build_log_archive": "progress/reviews/2026-08-01-stage3-5-build.log.gz",
   "dependency_evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
-  "dependency_evidence_sha256": "6e28499740a6ed6833a74c8d2acef81a12a6547c39f27edd10108b6a70e7aedb",
+  "dependency_evidence_sha256": "45f62c79e31c7d196452d08e05f12db5b67a118f3fa39b2087e5dc4417a6043f",
   "provider_item_count": 405,
-  "source_level_proof_declaration_count": 11479,
-  "kernel_proof_declaration_count_including_generated_helpers": 26944,
+  "source_level_proof_declaration_count": 11488,
+  "kernel_proof_declaration_count_including_generated_helpers": 26956,
   "unique_warning_count": 1242,
   "warning_file_count": 216,
   "warning_counts_by_category": {
@@ -90,7 +90,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter2/Theorem2_1_1.lean",
-      "line": 607,
+      "line": 627,
       "column": 2,
       "source_command": "binaryPolynomialEquiv_basis",
       "category": "flexible_tactic",
@@ -99,7 +99,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter2/Theorem2_1_1.lean",
-      "line": 655,
+      "line": 675,
       "column": 2,
       "source_command": "h_action_basis",
       "category": "flexible_tactic",
@@ -108,7 +108,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter2/Theorem2_1_1.lean",
-      "line": 749,
+      "line": 769,
       "column": 4,
       "source_command": "f_action_basis",
       "category": "flexible_tactic",
@@ -11671,7 +11671,7 @@
     },
     "EtingofRepresentationTheory.Chapter2.Example2_9_2": {
       "source": "EtingofRepresentationTheory/Chapter2/Example2_9_2.lean",
-      "source_sha256": "523fb639113352bc7ec3157343fce151c29cd097bc6bb38736c6434f700b7194",
+      "source_sha256": "51abc1ce1ccbcda1cf393a4415174260945887079cb8ed7e97a8f635662286bc",
       "source_level_proof_declaration_count": 10,
       "source_level_proof_declaration_names_sha256": "cb12534ddc63a78a1eae89375e4ef12251c1fda643928e6c920d802b84a9daf9",
       "diagnostics": [],
@@ -11679,7 +11679,7 @@
     },
     "EtingofRepresentationTheory.Chapter2.Example2_9_2_continued": {
       "source": "EtingofRepresentationTheory/Chapter2/Example2_9_2_continued.lean",
-      "source_sha256": "905b34ee791de3c6ed34844e0110a1ee63b89c22a2a60ac71cf1aca1148b235b",
+      "source_sha256": "638c82182019c8594f08c95d1a231a5152f8703b9be287901bf4b7702b0366b6",
       "source_level_proof_declaration_count": 0,
       "source_level_proof_declaration_names_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "diagnostics": [],
@@ -11687,9 +11687,9 @@
     },
     "EtingofRepresentationTheory.Chapter2.Example2_9_8": {
       "source": "EtingofRepresentationTheory/Chapter2/Example2_9_8.lean",
-      "source_sha256": "f4f53d162ede0094651d785ac6553ea72ee450c142e0636bb7563160ec314a8b",
-      "source_level_proof_declaration_count": 0,
-      "source_level_proof_declaration_names_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "3c2357b95ef4fdf4a98999dbab2ffbfe877c6a7ddec92b257f7c426e27a2d633",
+      "source_level_proof_declaration_count": 7,
+      "source_level_proof_declaration_names_sha256": "a6f000ed043c2d4964d65857009c2f8b5b25bd4460e7d414c2c459b0e49ede06",
       "diagnostics": [],
       "review_result": "screened_no_direct_diagnostic"
     },
@@ -12279,13 +12279,13 @@
     },
     "EtingofRepresentationTheory.Chapter2.Theorem2_1_1": {
       "source": "EtingofRepresentationTheory/Chapter2/Theorem2_1_1.lean",
-      "source_sha256": "2f938061f6ca20df00b1e21f6d55eab26c45a2398c4cba08d92ab5f4785bedc8",
-      "source_level_proof_declaration_count": 56,
-      "source_level_proof_declaration_names_sha256": "7e4f1bc099fb26dc655659b1e49e031462b4e7c4f68f731c75774edb034ec50a",
+      "source_sha256": "2e3819547e6f631a97e56aa19b713bf07f346b4973b180f60dda5b9a6ce17d8e",
+      "source_level_proof_declaration_count": 58,
+      "source_level_proof_declaration_names_sha256": "e84bc5c73728fdda1b8b7d7978c940546cf2af9eb504db84021028c83ba63b60",
       "diagnostics": [
         {
           "file": "EtingofRepresentationTheory/Chapter2/Theorem2_1_1.lean",
-          "line": 607,
+          "line": 627,
           "column": 2,
           "source_command": "binaryPolynomialEquiv_basis",
           "category": "flexible_tactic",
@@ -12294,7 +12294,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter2/Theorem2_1_1.lean",
-          "line": 655,
+          "line": 675,
           "column": 2,
           "source_command": "h_action_basis",
           "category": "flexible_tactic",
@@ -12303,7 +12303,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter2/Theorem2_1_1.lean",
-          "line": 749,
+          "line": 769,
           "column": 4,
           "source_command": "f_action_basis",
           "category": "flexible_tactic",
@@ -14823,9 +14823,9 @@
     },
     "EtingofRepresentationTheory.Chapter4.Theorem4_10_2": {
       "source": "EtingofRepresentationTheory/Chapter4/Theorem4_10_2.lean",
-      "source_sha256": "91b79e4d30b9af1cb39db6902e1cbb6321c00c1af926d9b23c8579b7291975a1",
+      "source_sha256": "0474e4b420698681267361bf09dfc95307c0fa20cd4f5fdf0898f9fb7607d451",
       "source_level_proof_declaration_count": 14,
-      "source_level_proof_declaration_names_sha256": "459dcf5be26d90d8e7e77d8c06020eca647d1232c9a30b132844b5c3b3b25ad6",
+      "source_level_proof_declaration_names_sha256": "0d02cbf654eb46867b1bc02a2ec346d52c78632c88754ab3cdad183cdf082375",
       "diagnostics": [
         {
           "file": "EtingofRepresentationTheory/Chapter4/Theorem4_10_2.lean",
@@ -29371,7 +29371,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter2.Theorem2_1_1"
       ],
-      "source_level_proof_declarations_reviewed": 56,
+      "source_level_proof_declarations_reviewed": 58,
       "diagnostic_count": 3,
       "diagnostic_categories": [
         "flexible_tactic"
@@ -30044,7 +30044,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter2.Example2_9_8"
       ],
-      "source_level_proof_declarations_reviewed": 0,
+      "source_level_proof_declarations_reviewed": 7,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",
