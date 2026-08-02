@@ -66,7 +66,7 @@ def Representation.stableSubmodule (ρ : Representation k G V)
     | single g a =>
         have hsingle : (MonoidAlgebra.single g a : MonoidAlgebra k G) =
             a • MonoidAlgebra.single g (1 : k) := by
-          rw [Finsupp.smul_single, smul_eq_mul, mul_one]
+          rw [MonoidAlgebra.smul_single', mul_one]
         rw [hsingle, smul_assoc]
         apply P.smul_mem
         rw [Representation.single_smul, one_smul]

@@ -649,9 +649,10 @@ noncomputable def groupAlgebraAdjunction (k : Type u) [CommRing k] :
         (MonoidAlgebra.lift k A G ((Units.coeHom A).comp g.hom)).comp
           (MonoidAlgebra.mapDomainAlgHom k k f.hom)
       apply MonoidAlgebra.algHom_ext
-      intro x
-      simp
-      rfl
+      · intro x
+        simp
+        rfl
+      · ext
     homEquiv_naturality_right := by
       intro G A A' f g
       apply GrpCat.hom_ext

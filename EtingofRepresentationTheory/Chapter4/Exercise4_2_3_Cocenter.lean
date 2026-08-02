@@ -55,27 +55,27 @@ variable (k G) in
 /-- The **class-coefficient map**: `φ a C'` is the sum of the coefficients of `a` over the
 conjugacy class `C'`. On a basis element, `φ (single g c) C' = if mk g = C' then c else 0`. -/
 noncomputable def classCoeff : MonoidAlgebra k G →ₗ[k] (ConjClasses G → k) where
-  toFun a := fun C' => ∑ g : G, if ConjClasses.mk g = C' then a g else 0
+  toFun a := fun C' => ∑ g : G, if ConjClasses.mk g = C' then a.coeff g else 0
   map_add' a b := by
     funext C'
     simp only [Pi.add_apply]
     rw [← Finset.sum_add_distrib]
     exact Finset.sum_congr rfl fun g _ => by
-      rw [show (a + b) g = a g + b g from rfl]; split <;> simp
+      rw [show (a + b).coeff g = a.coeff g + b.coeff g from rfl]; split <;> simp
   map_smul' r a := by
     funext C'
     simp only [RingHom.id_apply, Pi.smul_apply, smul_eq_mul, Finset.mul_sum]
     exact Finset.sum_congr rfl fun g _ => by
-      rw [show (r • a) g = r • a g from rfl, smul_eq_mul]; split <;> simp
+      rw [show (r • a).coeff g = r • a.coeff g from rfl, smul_eq_mul]; split <;> simp
 
 lemma classCoeff_single (g : G) (c : k) :
     classCoeff k G (single g c) = fun C' => if ConjClasses.mk g = C' then c else 0 := by
   funext C'
   simp only [classCoeff, LinearMap.coe_mk, AddHom.coe_mk]
   rw [Finset.sum_eq_single g]
-  · rw [Finsupp.single_apply, if_pos rfl]
+  · rw [MonoidAlgebra.coeff_single, Finsupp.single_apply, if_pos rfl]
   · intro b _ hbg
-    rw [Finsupp.single_apply, if_neg (Ne.symm hbg), ite_self]
+    rw [MonoidAlgebra.coeff_single, Finsupp.single_apply, if_neg (Ne.symm hbg), ite_self]
   · intro hg; exact absurd (Finset.mem_univ g) hg
 
 /-- The class-coefficient map is a trace: `φ (x*y) = φ (y*x)`. This is the algebraic
@@ -179,7 +179,7 @@ lemma span_range_classRep_eq_top :
 /-! ### The dimension of the cocenter -/
 
 noncomputable instance : Module.Finite k (MonoidAlgebra k G) :=
-  Module.Finite.of_basis (Finsupp.basisSingleOne (ι := G) (R := k))
+  Module.Finite.of_basis (MonoidAlgebra.basis G k)
 
 noncomputable instance : Module.Finite k (Cocenter k G) :=
   Module.Finite.of_surjective (Submodule.mkQ (commSubmodule k G)) (Submodule.mkQ_surjective _)

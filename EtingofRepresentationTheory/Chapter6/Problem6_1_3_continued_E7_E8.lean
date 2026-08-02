@@ -465,7 +465,7 @@ theorem isDynkinDiagram_isTree {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     have hrtg := List.relationReflTransGen_of_exists_isChain p hchain hne
     rw [hi, hj] at hrtg
     exact (SimpleGraph.reachable_iff_reflTransGen i j).mpr
-      (Relation.ReflTransGen.mono (fun a b h => hGadj a b h) hrtg)
+      (Relation.ReflTransGen.mono (fun a b h => hGadj a b h) i j hrtg)
   have hconn' : G.Connected := ⟨hpre⟩
   -- Edge-count translation: `∑ᵢ∑ⱼ adjᵢⱼ = 2 · #edges`.
   have hcount : (∑ i, ∑ j, adj i j) = 2 * (#G.edgeFinset : ℤ) := by

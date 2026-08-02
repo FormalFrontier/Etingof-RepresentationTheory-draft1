@@ -102,9 +102,10 @@ agrees with the original `k[G]`-action on `M`. -/
 theorem repOfModule_asAlgebraHom :
     (repOfModule (k := k) (G := G) M).asAlgebraHom = Algebra.lsmul k k M := by
   apply MonoidAlgebra.algHom_ext
-  intro g
-  rw [Representation.asAlgebraHom_single_one]
-  rfl
+  · intro g
+    rw [Representation.asAlgebraHom_single_one]
+    rfl
+  · ext
 
 /-- The identity map is a `k[G]`-linear equivalence between `(repOfModule M).asModule`
 and `M` (the two `k[G]`-actions coincide). -/

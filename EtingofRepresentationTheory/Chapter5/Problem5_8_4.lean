@@ -77,112 +77,116 @@ variable {S H : Type*} [Group S] [Group H]
   (φ : S →* H) (ψ : H →* G) (τ : Representation ℂ S V)
 
 /-- The target representation of the direct induction `Ind_{ψ∘φ} τ`. -/
-private noncomputable abbrev ρT : Representation ℂ S (TensorProduct ℂ (G →₀ ℂ) V) :=
+private noncomputable abbrev ρT : Representation ℂ S (TensorProduct ℂ (MonoidAlgebra ℂ G) V) :=
   Representation.tprod ((Representation.leftRegular ℂ G).comp (ψ.comp φ)) τ
 
 /-- Group-algebra multiplication, kept `Finsupp`-typed so it can sit in tensor factors.
 Defined through `LinearMap.mul` to force the `MonoidAlgebra` convolution product (not the
 pointwise `Finsupp` product available under `import Mathlib`). -/
-private noncomputable def gmul {K : Type*} [Group K] (x y : K →₀ ℂ) : K →₀ ℂ :=
+private noncomputable def gmul {K : Type*} [Group K]
+    (x y : MonoidAlgebra ℂ K) : MonoidAlgebra ℂ K :=
   LinearMap.mul ℂ (MonoidAlgebra ℂ K) x y
 
 /-- The convolution product as a genuine `Finsupp`-typed bilinear map. Ascribing the honest
-`K →₀ ℂ` domains (definitionally `MonoidAlgebra ℂ K`) lets `map_add`/`map_smul` fire without
-crossing the `MonoidAlgebra`/`Finsupp` transparency boundary. -/
+`MonoidAlgebra ℂ K` domains lets `map_add`/`map_smul` fire without crossing the
+`MonoidAlgebra`/`Finsupp` transparency boundary. -/
 private noncomputable def gmulBilin {K : Type*} [Group K] :
-    (K →₀ ℂ) →ₗ[ℂ] (K →₀ ℂ) →ₗ[ℂ] (K →₀ ℂ) :=
+    (MonoidAlgebra ℂ K) →ₗ[ℂ] (MonoidAlgebra ℂ K) →ₗ[ℂ] (MonoidAlgebra ℂ K) :=
   LinearMap.mul ℂ (MonoidAlgebra ℂ K)
 
-private theorem gmul_eq_bilin {K : Type*} [Group K] (x y : K →₀ ℂ) :
+private theorem gmul_eq_bilin {K : Type*} [Group K] (x y : MonoidAlgebra ℂ K) :
     gmul x y = gmulBilin x y := rfl
 
 private theorem gmul_single {K : Type*} [Group K] (a b : K) (r s : ℂ) :
-    gmul (Finsupp.single a r) (Finsupp.single b s) = Finsupp.single (a * b) (r * s) := by
+    gmul (MonoidAlgebra.single a r) (MonoidAlgebra.single b s) =
+      MonoidAlgebra.single (a * b) (r * s) := by
   simp only [gmul, LinearMap.mul_apply']
   exact MonoidAlgebra.single_mul_single a b r s
 
-private theorem gmul_assoc {K : Type*} [Group K] (x y z : K →₀ ℂ) :
+private theorem gmul_assoc {K : Type*} [Group K] (x y z : MonoidAlgebra ℂ K) :
     gmul (gmul x y) z = gmul x (gmul y z) := by
   simp only [gmul, LinearMap.mul_apply']; rw [mul_assoc]
 
-private theorem gmul_one_left {K : Type*} [Group K] (x : K →₀ ℂ) :
-    gmul (Finsupp.single (1 : K) 1) x = x :=
+private theorem gmul_one_left {K : Type*} [Group K] (x : MonoidAlgebra ℂ K) :
+    gmul (MonoidAlgebra.single (1 : K) 1) x = x :=
   @one_mul (MonoidAlgebra ℂ K) _ x
 
-private theorem gmul_add_left {K : Type*} [Group K] (x y z : K →₀ ℂ) :
+private theorem gmul_add_left {K : Type*} [Group K] (x y z : MonoidAlgebra ℂ K) :
     gmul (x + y) z = gmul x z + gmul y z := by
   simp only [gmul_eq_bilin, map_add, LinearMap.add_apply]
 
-private theorem gmul_add_right {K : Type*} [Group K] (x y z : K →₀ ℂ) :
+private theorem gmul_add_right {K : Type*} [Group K] (x y z : MonoidAlgebra ℂ K) :
     gmul x (y + z) = gmul x y + gmul x z := by
   simp only [gmul_eq_bilin, map_add]
 
-private theorem gmul_smul_left {K : Type*} [Group K] (c : ℂ) (x y : K →₀ ℂ) :
+private theorem gmul_smul_left {K : Type*} [Group K] (c : ℂ) (x y : MonoidAlgebra ℂ K) :
     gmul (c • x) y = c • gmul x y := by
   simp only [gmul_eq_bilin, map_smul, LinearMap.smul_apply]
 
 /-- Left multiplication by `x`, as a linear map (`Finsupp`-typed). -/
-private noncomputable def gmulLeftMap {K : Type*} [Group K] (x : K →₀ ℂ) :
-    (K →₀ ℂ) →ₗ[ℂ] (K →₀ ℂ) :=
+private noncomputable def gmulLeftMap {K : Type*} [Group K] (x : MonoidAlgebra ℂ K) :
+    (MonoidAlgebra ℂ K) →ₗ[ℂ] (MonoidAlgebra ℂ K) :=
   LinearMap.mul ℂ (MonoidAlgebra ℂ K) x
 
-private theorem gmulLeftMap_apply {K : Type*} [Group K] (x y : K →₀ ℂ) :
+private theorem gmulLeftMap_apply {K : Type*} [Group K] (x y : MonoidAlgebra ℂ K) :
     gmulLeftMap x y = gmul x y := rfl
 
 /-- `ψ_* : ℂ[H] →ₗ ℂ[G]`, the pushforward of coefficients along `ψ` (`Finsupp`-typed). -/
-private noncomputable def psiL : (H →₀ ℂ) →ₗ[ℂ] (G →₀ ℂ) := Finsupp.lmapDomain ℂ ℂ ψ
+private noncomputable def psiL : (MonoidAlgebra ℂ H) →ₗ[ℂ] (MonoidAlgebra ℂ G) :=
+  MonoidAlgebra.mapDomainLinearMap ℂ ℂ ψ
 
-private theorem psiL_eq_mapDomainAlgHom (a : H →₀ ℂ) :
+private theorem psiL_eq_mapDomainAlgHom (a : MonoidAlgebra ℂ H) :
     psiL ψ a = MonoidAlgebra.mapDomainAlgHom ℂ ℂ ψ a := by
-  rw [psiL, Finsupp.lmapDomain_apply, MonoidAlgebra.mapDomainAlgHom_apply]
+  rfl
 
 /-- `ψ_*` sends `single h r` to `single (ψ h) r`. -/
 private theorem psiStar_single (h : H) (r : ℂ) :
-    psiL ψ (Finsupp.single h r) = Finsupp.single (ψ h) r := by
-  rw [psiL, Finsupp.lmapDomain_apply, Finsupp.mapDomain_single]
+    psiL ψ (MonoidAlgebra.single h r) = MonoidAlgebra.single (ψ h) r := by
+  rw [psiL, MonoidAlgebra.mapDomainLinearMap_single]
 
 /-- `ψ_*` is multiplicative. -/
-private theorem psiStar_gmul (x y : H →₀ ℂ) :
+private theorem psiStar_gmul (x y : MonoidAlgebra ℂ H) :
     psiL ψ (gmul x y) = gmul (psiL ψ x) (psiL ψ y) := by
   rw [psiL_eq_mapDomainAlgHom, psiL_eq_mapDomainAlgHom, psiL_eq_mapDomainAlgHom]
   simp only [gmul, LinearMap.mul_apply']; rw [map_mul]
 
 /-- `leftRegular` acts by left multiplication in the group algebra. -/
-private theorem leftRegular_gmul {K : Type*} [Group K] (g : K) (b : K →₀ ℂ) :
-    Representation.leftRegular ℂ K g b = gmul (Finsupp.single g 1) b := by
-  induction b using Finsupp.induction_linear with
+private theorem leftRegular_gmul {K : Type*} [Group K] (g : K) (b : MonoidAlgebra ℂ K) :
+    Representation.leftRegular ℂ K g b = gmul (MonoidAlgebra.single g 1) b := by
+  induction b using MonoidAlgebra.induction_linear with
   | zero => simp [gmul_eq_bilin]
   | add x y hx hy => rw [map_add, hx, hy, gmul_add_right]
   | single x r =>
     rw [Representation.ofMulAction_single, gmul_single, one_mul, smul_eq_mul]
 
 /-- `lmapDomain (· * g)` is right multiplication by `single g 1`. -/
-private theorem lmapDomain_gmul {K : Type*} [Group K] (g : K) (a : K →₀ ℂ) :
-    Finsupp.lmapDomain ℂ ℂ (· * g) a = gmul a (Finsupp.single g 1) := by
-  induction a using Finsupp.induction_linear with
+private theorem lmapDomain_gmul {K : Type*} [Group K] (g : K) (a : MonoidAlgebra ℂ K) :
+    MonoidAlgebra.mapDomainLinearMap ℂ ℂ (· * g) a =
+      gmul a (MonoidAlgebra.single g 1) := by
+  induction a using MonoidAlgebra.induction_linear with
   | zero => simp [gmul_eq_bilin]
   | add x y hx hy => rw [map_add, hx, hy, gmul_add_left]
   | single x r =>
-    rw [Finsupp.lmapDomain_apply, Finsupp.mapDomain_single, gmul_single, mul_one]
+    rw [MonoidAlgebra.mapDomainLinearMap_single, gmul_single, mul_one]
 
 /-- `ind` on a coinvariants generator: right multiply the group-algebra factor. -/
 private theorem ind_mk_tmul {K L : Type*} [Group K] [Group L] (χ : K →* L)
     {W : Type*} [AddCommGroup W] [Module ℂ W] (υ : Representation ℂ K W)
-    (l : L) (a : L →₀ ℂ) (w : W) :
+    (l : L) (a : MonoidAlgebra ℂ L) (w : W) :
     Representation.ind χ υ l (Coinvariants.mk _ (a ⊗ₜ[ℂ] w))
-      = Coinvariants.mk _ (gmul a (Finsupp.single l⁻¹ 1) ⊗ₜ[ℂ] w) := by
+      = Coinvariants.mk _ (gmul a (MonoidAlgebra.single l⁻¹ 1) ⊗ₜ[ℂ] w) := by
   rw [Representation.ind_apply, Coinvariants.map_mk]
   congr 1
   rw [Representation.IntertwiningMap.coe_mk, LinearMap.rTensor_tmul, lmapDomain_gmul]
 
 /-- The elementary building block of the forward map: for `aH, v`, the linear map
 `aG ↦ ⟦(ψ_*(aH) * aG) ⊗ v⟧`. -/
-private noncomputable def elt (aH : H →₀ ℂ) (v : V) :
-    (G →₀ ℂ) →ₗ[ℂ] Representation.IndV (ψ.comp φ) τ :=
-  Coinvariants.mk _ ∘ₗ (TensorProduct.mk ℂ (G →₀ ℂ) V).flip v ∘ₗ
+private noncomputable def elt (aH : MonoidAlgebra ℂ H) (v : V) :
+    (MonoidAlgebra ℂ G) →ₗ[ℂ] Representation.IndV (ψ.comp φ) τ :=
+  Coinvariants.mk _ ∘ₗ (TensorProduct.mk ℂ (MonoidAlgebra ℂ G) V).flip v ∘ₗ
     gmulLeftMap (psiL ψ aH)
 
-private theorem elt_apply (aH : H →₀ ℂ) (v : V) (aG : G →₀ ℂ) :
+private theorem elt_apply (aH : MonoidAlgebra ℂ H) (v : V) (aG : MonoidAlgebra ℂ G) :
     elt φ ψ τ aH v aG
       = Coinvariants.mk (ρT φ ψ τ)
           (gmul (psiL ψ aH) aG ⊗ₜ[ℂ] v) := by
@@ -190,7 +194,7 @@ private theorem elt_apply (aH : H →₀ ℂ) (v : V) (aG : G →₀ ℂ) :
     gmulLeftMap_apply]
 
 /-- The bilinear map `(aH, v) ↦ elt aH v`. -/
-private noncomputable def Cbil : (H →₀ ℂ) →ₗ[ℂ] V →ₗ[ℂ] ((G →₀ ℂ) →ₗ[ℂ]
+private noncomputable def Cbil : (MonoidAlgebra ℂ H) →ₗ[ℂ] V →ₗ[ℂ] ((MonoidAlgebra ℂ G) →ₗ[ℂ]
     Representation.IndV (ψ.comp φ) τ) :=
   LinearMap.mk₂ ℂ (fun aH v => elt φ ψ τ aH v)
     (fun aH aH' v => by
@@ -208,14 +212,18 @@ private noncomputable def Cbil : (H →₀ ℂ) →ₗ[ℂ] V →ₗ[ℂ] ((G �
       refine LinearMap.ext fun aG => ?_
       simp only [elt_apply, LinearMap.smul_apply, TensorProduct.tmul_smul, map_smul])
 
-private theorem Cbil_apply (aH : H →₀ ℂ) (v : V) : Cbil φ ψ τ aH v = elt φ ψ τ aH v := rfl
+private theorem Cbil_apply (aH : MonoidAlgebra ℂ H) (v : V) :
+    Cbil φ ψ τ aH v = elt φ ψ τ aH v := rfl
 
-/-- The map `⟦aH ⊗ v⟧ ↦ (aG ↦ ⟦ψ_*(aH)·aG ⊗ v⟧)` before descending the outer coinvariants. -/
+/-- The map `⟦aH ⊗ v⟧ ↦ (aG ↦ ⟦ψ_*(aH)·aG ⊗ v⟧)` before descending the outer
+coinvariants. -/
 private noncomputable def h0 :
-    TensorProduct ℂ (H →₀ ℂ) V →ₗ[ℂ] ((G →₀ ℂ) →ₗ[ℂ] Representation.IndV (ψ.comp φ) τ) :=
+    TensorProduct ℂ (MonoidAlgebra ℂ H) V →ₗ[ℂ]
+      ((MonoidAlgebra ℂ G) →ₗ[ℂ] Representation.IndV (ψ.comp φ) τ) :=
   TensorProduct.lift (Cbil φ ψ τ)
 
-private theorem h0_tmul (aH : H →₀ ℂ) (v : V) : h0 φ ψ τ (aH ⊗ₜ[ℂ] v) = elt φ ψ τ aH v := by
+private theorem h0_tmul (aH : MonoidAlgebra ℂ H) (v : V) :
+    h0 φ ψ τ (aH ⊗ₜ[ℂ] v) = elt φ ψ τ aH v := by
   rw [h0, TensorProduct.lift.tmul, Cbil_apply]
 
 /-- `S`-invariance of `h0` (descends the inner induction's coinvariants). -/
@@ -233,22 +241,23 @@ private theorem h0_invariant (s : S) :
     Function.comp_apply, leftRegular_gmul] at hkey
   exact hkey
 
-/-- The forward map descended over the inner coinvariants, as a map into `Hom(G →₀ ℂ, ·)`. -/
+/-- The forward map descended over the inner coinvariants, as a map into
+`Hom(MonoidAlgebra ℂ G, ·)`. -/
 private noncomputable def bflip :
-    Representation.IndV φ τ →ₗ[ℂ] ((G →₀ ℂ) →ₗ[ℂ] Representation.IndV (ψ.comp φ) τ) :=
+    Representation.IndV φ τ →ₗ[ℂ] ((MonoidAlgebra ℂ G) →ₗ[ℂ] Representation.IndV (ψ.comp φ) τ) :=
   Coinvariants.lift _ (h0 φ ψ τ) (h0_invariant φ ψ τ)
 
-private theorem bflip_mk (aH : H →₀ ℂ) (v : V) :
+private theorem bflip_mk (aH : MonoidAlgebra ℂ H) (v : V) :
     bflip φ ψ τ (Coinvariants.mk _ (aH ⊗ₜ[ℂ] v)) = elt φ ψ τ aH v := by
   rw [bflip, Coinvariants.lift_mk, h0_tmul]
 
 /-- The forward map before descending the outer coinvariants. -/
 private noncomputable def f0 :
-    TensorProduct ℂ (G →₀ ℂ) (Representation.IndV φ τ) →ₗ[ℂ]
+    TensorProduct ℂ (MonoidAlgebra ℂ G) (Representation.IndV φ τ) →ₗ[ℂ]
       Representation.IndV (ψ.comp φ) τ :=
   TensorProduct.lift (bflip φ ψ τ).flip
 
-private theorem f0_tmul (aG : G →₀ ℂ) (w : Representation.IndV φ τ) :
+private theorem f0_tmul (aG : MonoidAlgebra ℂ G) (w : Representation.IndV φ τ) :
     f0 φ ψ τ (aG ⊗ₜ[ℂ] w) = bflip φ ψ τ w aG := by
   rw [f0, TensorProduct.lift.tmul, LinearMap.flip_apply]
 
@@ -265,7 +274,7 @@ private theorem f0_invariant (h : H) :
   · simp only [LinearMap.comp_apply, Representation.tprod_apply, TensorProduct.map_tmul,
       MonoidHom.coe_comp, Function.comp_apply, ind_mk_tmul, f0_tmul, bflip_mk, elt_apply,
       leftRegular_gmul, psiStar_gmul, psiStar_single]
-    rw [gmul_assoc, ← gmul_assoc (Finsupp.single (ψ h⁻¹) 1) (Finsupp.single (ψ h) 1) aG,
+    rw [gmul_assoc, ← gmul_assoc (MonoidAlgebra.single (ψ h⁻¹) 1) (MonoidAlgebra.single (ψ h) 1) aG,
       gmul_single, show ψ h⁻¹ * ψ h = (1 : G) from by rw [← map_mul, inv_mul_cancel, map_one],
       mul_one, gmul_one_left]
   · simp only [map_add, TensorProduct.tmul_add]; rw [h₁, h₂]
@@ -276,21 +285,21 @@ private noncomputable def fwd :
       Representation.IndV (ψ.comp φ) τ :=
   Coinvariants.lift _ (f0 φ ψ τ) (f0_invariant φ ψ τ)
 
-private theorem fwd_mk (aG : G →₀ ℂ) (aH : H →₀ ℂ) (v : V) :
+private theorem fwd_mk (aG : MonoidAlgebra ℂ G) (aH : MonoidAlgebra ℂ H) (v : V) :
     fwd φ ψ τ (Coinvariants.mk _ (aG ⊗ₜ[ℂ] Coinvariants.mk _ (aH ⊗ₜ[ℂ] v)))
       = Coinvariants.mk _ (gmul (psiL ψ aH) aG ⊗ₜ[ℂ] v) := by
   rw [fwd, Coinvariants.lift_mk, f0_tmul, bflip_mk, elt_apply]
 
 /-- The inverse building block: `⟦aG ⊗ v⟧ ↦ ⟦aG ⊗ ⟦single 1 1 ⊗ v⟧⟧`. -/
 private noncomputable def g1 :
-    TensorProduct ℂ (G →₀ ℂ) V →ₗ[ℂ]
+    TensorProduct ℂ (MonoidAlgebra ℂ G) V →ₗ[ℂ]
       Representation.IndV ψ (Representation.ind φ τ) :=
   Coinvariants.mk _ ∘ₗ TensorProduct.map LinearMap.id (Representation.IndV.mk φ τ 1)
 
-private theorem g1_tmul (aG : G →₀ ℂ) (v : V) :
+private theorem g1_tmul (aG : MonoidAlgebra ℂ G) (v : V) :
     g1 φ ψ τ (aG ⊗ₜ[ℂ] v)
       = Coinvariants.mk _ (aG ⊗ₜ[ℂ]
-          Coinvariants.mk _ (Finsupp.single (1 : H) 1 ⊗ₜ[ℂ] v)) := by
+          Coinvariants.mk _ (MonoidAlgebra.single (1 : H) (1 : ℂ) ⊗ₜ[ℂ] v)) := by
   rw [g1, LinearMap.comp_apply, TensorProduct.map_tmul, LinearMap.id_apply]
   rfl
 
@@ -302,11 +311,11 @@ private theorem g1_invariant (s : S) :
     MonoidHom.coe_comp, Function.comp_apply, g1_tmul, leftRegular_gmul]
   -- inner S-relation: ⟦single 1 1 ⊗ τ s v⟧ = ⟦single (φ s)⁻¹ 1 ⊗ v⟧
   have hinner : Coinvariants.mk (Representation.tprod ((Representation.leftRegular ℂ H).comp φ) τ)
-        (Finsupp.single (1 : H) 1 ⊗ₜ[ℂ] τ s v)
-      = Coinvariants.mk _ (Finsupp.single (φ s)⁻¹ 1 ⊗ₜ[ℂ] v) := by
+        (MonoidAlgebra.single (1 : H) (1 : ℂ) ⊗ₜ[ℂ] τ s v)
+      = Coinvariants.mk _ (MonoidAlgebra.single (φ s)⁻¹ (1 : ℂ) ⊗ₜ[ℂ] v) := by
     have hh := Coinvariants.mk_self_apply
       (Representation.tprod ((Representation.leftRegular ℂ H).comp φ) τ) s
-      (Finsupp.single (φ s)⁻¹ 1 ⊗ₜ[ℂ] v)
+      (MonoidAlgebra.single (φ s)⁻¹ (1 : ℂ) ⊗ₜ[ℂ] v)
     rw [Representation.tprod_apply, TensorProduct.map_tmul, MonoidHom.coe_comp,
       Function.comp_apply, leftRegular_gmul, gmul_single, mul_inv_cancel, mul_one] at hh
     exact hh
@@ -314,7 +323,7 @@ private theorem g1_invariant (s : S) :
   have houter := Coinvariants.mk_self_apply
     (Representation.tprod ((Representation.leftRegular ℂ G).comp ψ) (Representation.ind φ τ))
     (φ s)
-    (aG ⊗ₜ[ℂ] Coinvariants.mk _ (Finsupp.single (1 : H) 1 ⊗ₜ[ℂ] v))
+    (aG ⊗ₜ[ℂ] Coinvariants.mk _ (MonoidAlgebra.single (1 : H) (1 : ℂ) ⊗ₜ[ℂ] v))
   rw [Representation.tprod_apply, TensorProduct.map_tmul, MonoidHom.coe_comp,
     Function.comp_apply, leftRegular_gmul, ind_mk_tmul, gmul_one_left] at houter
   rw [hinner]
@@ -326,10 +335,10 @@ private noncomputable def inv :
       Representation.IndV ψ (Representation.ind φ τ) :=
   Coinvariants.lift _ (g1 φ ψ τ) (g1_invariant φ ψ τ)
 
-private theorem inv_mk (aG : G →₀ ℂ) (v : V) :
+private theorem inv_mk (aG : MonoidAlgebra ℂ G) (v : V) :
     inv φ ψ τ (Coinvariants.mk _ (aG ⊗ₜ[ℂ] v))
       = Coinvariants.mk _ (aG ⊗ₜ[ℂ]
-          Coinvariants.mk _ (Finsupp.single (1 : H) 1 ⊗ₜ[ℂ] v)) := by
+          Coinvariants.mk _ (MonoidAlgebra.single (1 : H) (1 : ℂ) ⊗ₜ[ℂ] v)) := by
   rw [inv, Coinvariants.lift_mk, g1_tmul]
 
 /-- `fwd ∘ inv = id`. -/
@@ -350,7 +359,7 @@ private theorem inv_comp_fwd : (inv φ ψ τ).comp (fwd φ ψ τ) = LinearMap.id
   rw [fwd_mk, inv_mk, psiStar_single, gmul_single, one_mul]
   have hkey := Coinvariants.mk_self_apply
     (Representation.tprod ((Representation.leftRegular ℂ G).comp ψ) (Representation.ind φ τ)) h
-    (Finsupp.single g 1 ⊗ₜ[ℂ] Coinvariants.mk _ (Finsupp.single h 1 ⊗ₜ[ℂ] v))
+    (MonoidAlgebra.single g 1 ⊗ₜ[ℂ] Coinvariants.mk _ (MonoidAlgebra.single h 1 ⊗ₜ[ℂ] v))
   rw [Representation.tprod_apply, TensorProduct.map_tmul, MonoidHom.coe_comp,
     Function.comp_apply, leftRegular_gmul, gmul_single, ind_mk_tmul, gmul_single,
     mul_inv_cancel] at hkey
@@ -417,7 +426,7 @@ theorem ind_ind_iso_ind
       relabelLE (Representation.ind (H.subtype.comp (K.subgroupOf H).subtype)
           (indStagesInnerRep H K hKH ρ) g y)
         = Representation.ind K.subtype ρ g (relabelLE y) := by
-    have hrel : ∀ w : TensorProduct ℂ (G →₀ ℂ) V,
+    have hrel : ∀ w : TensorProduct ℂ (MonoidAlgebra ℂ G) V,
         relabelLE (Representation.Coinvariants.mk _ w)
           = Representation.Coinvariants.mk _ w := by
       intro w

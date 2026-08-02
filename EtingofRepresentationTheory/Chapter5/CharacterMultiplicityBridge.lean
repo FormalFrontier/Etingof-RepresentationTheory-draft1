@@ -87,6 +87,8 @@ theorem gen_iSup_isotypicComponent_eq_top :
   rw [e.isotypicComponent_eq]
   exact le_iSup (fun ν => isotypicComponent (SymGroupAlgebra n) M (SpechtModule n ν)) ν
 
+set_option maxHeartbeats 800000 in
+-- Comparing nested isotypic components requires expensive module-instance normalization.
 omit [IsScalarTower ℂ (SymGroupAlgebra n) M] in
 /-- The indexed family of isotypic components is `iSup`-independent. -/
 theorem gen_iSupIndep_isotypicComponent [Module.Finite ℂ M] :

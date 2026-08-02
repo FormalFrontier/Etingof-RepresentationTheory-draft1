@@ -282,20 +282,24 @@ theorem exists_orbitEval_surjection (hρ : Function.Injective ρ) :
   -- The trivial-stabilizer covector.
   obtain ⟨u, hu⟩ := Etingof.exists_trivialStabilizer_covector ρ hρ
   -- Transport `orbitEval` (into `G → ℂ`) to `MonoidAlgebra ℂ G = G →₀ ℂ`.
-  refine ⟨(Finsupp.linearEquivFunOnFinite ℂ ℂ G).symm.toLinearMap ∘ₗ orbitEval ρ u, ?_, ?_⟩
+  refine ⟨(MonoidAlgebra.coeffLinearEquiv ℂ).symm.toLinearMap ∘ₗ
+      (Finsupp.linearEquivFunOnFinite ℂ ℂ G).symm.toLinearMap ∘ₗ orbitEval ρ u, ?_, ?_⟩
   · -- surjective: composite of surjections
-    exact (Finsupp.linearEquivFunOnFinite ℂ ℂ G).symm.surjective.comp
-      (orbitEval_surjective ρ u hρ hu)
+    exact (MonoidAlgebra.coeffLinearEquiv ℂ).symm.surjective.comp
+      ((Finsupp.linearEquivFunOnFinite ℂ ℂ G).symm.surjective.comp
+        (orbitEval_surjective ρ u hρ hu))
   · -- equivariance
     intro g
     apply LinearMap.ext
     intro t
+    apply MonoidAlgebra.ext
     apply Finsupp.ext
     intro x
     -- unfold the composite and the finsupp/function transport (both by `rfl`)
     change orbitEval ρ u ((Representation.directSum (fun n => symPowRep ρ n)) g t) x
-      = (Representation.ofMulAction ℂ G G) g
-          ((Finsupp.linearEquivFunOnFinite ℂ ℂ G).symm (orbitEval ρ u t)) x
+      = ((Representation.ofMulAction ℂ G G) g
+          (MonoidAlgebra.ofCoeff
+            ((Finsupp.linearEquivFunOnFinite ℂ ℂ G).symm (orbitEval ρ u t)))).coeff x
     rw [Representation.ofMulAction_apply]
     change orbitEval ρ u ((Representation.directSum (fun n => symPowRep ρ n)) g t) x
       = orbitEval ρ u t (g⁻¹ • x)

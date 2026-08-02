@@ -27,34 +27,36 @@ variable {k G : Type u} [Field k] [Group G]
 
 /-- The character of the regular representation at the identity is `|G|`. -/
 theorem regularCharacter_one [Fintype G] :
-    LinearMap.trace k (G →₀ k) ((Representation.ofMulAction k G G) 1) =
+    LinearMap.trace k (MonoidAlgebra k G) ((Representation.ofMulAction k G G) 1) =
       (Fintype.card G : k) := by
   rw [map_one, LinearMap.trace_one]
-  simp
+  norm_num [MonoidAlgebra.finrank_eq_card (k := k) (G := G)]
 
 /-- The character of the regular representation at `g ≠ 1` is `0`. -/
 theorem regularCharacter_ne_one [Finite G] (g : G) (hg : g ≠ 1) :
-    LinearMap.trace k (G →₀ k) ((Representation.ofMulAction k G G) g) = 0 := by
+    LinearMap.trace k (MonoidAlgebra k G) ((Representation.ofMulAction k G G) g) = 0 := by
   classical
   cases nonempty_fintype G
-  have key : ∀ h : G, ofMulAction k G G g (Finsupp.single h 1) h = 0 := by
+  have key : ∀ h : G, (ofMulAction k G G g (MonoidAlgebra.single h 1)).coeff h = 0 := by
     intro h
-    rw [ofMulAction_apply, Finsupp.single_apply, if_neg]
+    rw [Representation.coeff_ofMulAction]
+    change (Finsupp.single h 1) (g⁻¹ • h) = 0
+    rw [Finsupp.single_apply, if_neg]
     intro heq
     rw [smul_eq_mul] at heq
     -- heq : h = g⁻¹ * h, need g = 1
     exact hg (inv_eq_one.mp (mul_right_cancel (show g⁻¹ * h = 1 * h by rw [one_mul, ← heq])))
-  rw [LinearMap.trace_eq_matrix_trace k (Finsupp.basisSingleOne (ι := G) (R := k))]
+  rw [LinearMap.trace_eq_matrix_trace k (MonoidAlgebra.basis G k)]
   simp only [Matrix.trace, Matrix.diag_apply, LinearMap.toMatrix_apply]
   apply Finset.sum_eq_zero
   intro h _
-  rw [Finsupp.basisSingleOne_repr, LinearEquiv.refl_apply, Finsupp.coe_basisSingleOne]
+  change (ofMulAction k G G g (MonoidAlgebra.single h 1)).coeff h = 0
   exact key h
 
 open scoped Classical in
 /-- Combined form: `χ_reg(g)` equals `|G|` if `g = 1` and `0` otherwise. -/
 theorem regularCharacter_eq [Fintype G] (g : G) :
-    LinearMap.trace k (G →₀ k) ((Representation.ofMulAction k G G) g) =
+    LinearMap.trace k (MonoidAlgebra k G) ((Representation.ofMulAction k G G) g) =
       if g = 1 then (Fintype.card G : k) else 0 := by
   split
   · subst_vars; exact regularCharacter_one
@@ -81,15 +83,11 @@ private lemma stdBasis_repr_apply' [IsAlgClosed k] {n : ℕ}
 
 /-- The regular representation at `g` equals left multiplication by `of g` on `k[G]`. -/
 private lemma ofMulAction_eq_mulLeft (g : G) :
-    (Representation.ofMulAction k G G g : (G →₀ k) →ₗ[k] (G →₀ k)) =
+    (Representation.ofMulAction k G G g : MonoidAlgebra k G →ₗ[k] MonoidAlgebra k G) =
       LinearMap.mulLeft k (MonoidAlgebra.of k G g) := by
-  apply Finsupp.lhom_ext'
+  apply (MonoidAlgebra.basis G k).ext
   intro h
-  ext c
-  simp only [ofMulAction_single, LinearMap.mulLeft_apply, MonoidAlgebra.of_apply,
-    LinearMap.comp_apply, Finsupp.lsingle_apply, smul_eq_mul]
-  congr 1
-  rw [MonoidAlgebra.single_mul_single, one_mul]
+  simp [LinearMap.mulLeft_apply, MonoidAlgebra.basis_apply]
 
 /-- Trace of left multiplication is preserved by algebra isomorphisms. -/
 private lemma trace_mulLeft_algEquiv [IsAlgClosed k]
@@ -201,7 +199,7 @@ equals `|G| * γ(1)`, where `γ(1)` is the coefficient of the identity element. 
 private theorem regTrace_eq_card_mul [Fintype G]
     (γ : MonoidAlgebra k G) :
     LinearMap.trace k (MonoidAlgebra k G) (LinearMap.mulLeft k γ) =
-      (Fintype.card G : k) * γ 1 := by
+      (Fintype.card G : k) * γ.coeff 1 := by
   classical
   -- Both sides are linear in γ; suffices to check on basis {single g 1}.
   -- Use the existing regularCharacter_eq which computes trace of ofMulAction.
@@ -211,9 +209,10 @@ private theorem regTrace_eq_card_mul [Fintype G]
   suffices h_eq :
       (LinearMap.trace k (MonoidAlgebra k G)).comp
         (Algebra.lmul k (MonoidAlgebra k G)).toLinearMap =
-      (Fintype.card G : k) • (Finsupp.lapply (1 : G) : MonoidAlgebra k G →ₗ[k] k) by
+      (Fintype.card G : k) •
+        ((Finsupp.lapply (1 : G)).comp (MonoidAlgebra.coeffLinearEquiv k).toLinearMap) by
     exact LinearMap.ext_iff.mp h_eq γ
-  apply (Finsupp.basisSingleOne (ι := G) (R := k)).ext
+  apply (MonoidAlgebra.basis G k).ext
   intro g
   simp only [LinearMap.comp_apply, AlgHom.toLinearMap_apply,
     LinearMap.smul_apply, smul_eq_mul, Finsupp.lapply_apply]
@@ -221,10 +220,14 @@ private theorem regTrace_eq_card_mul [Fintype G]
   change LinearMap.trace k (MonoidAlgebra k G) (LinearMap.mulLeft k _) = _
   have := regularCharacter_eq (k := k) g
   rw [ofMulAction_eq_mulLeft] at this
-  simp only [Finsupp.coe_basisSingleOne, Finsupp.single_apply]
+  simp only [MonoidAlgebra.basis_apply]
+  change LinearMap.trace k (MonoidAlgebra k G)
+      (LinearMap.mulLeft k (MonoidAlgebra.single g 1)) =
+    (Fintype.card G : k) * (MonoidAlgebra.single g 1).coeff 1
+  rw [MonoidAlgebra.coeff_single]
   convert this using 1
   · rfl
-  · split_ifs <;> ring
+  · split_ifs with h <;> simp [Finsupp.single_apply, h]
 
 /-- In a Wedderburn decomposition of `k[G]`, each block dimension `d_i` is nonzero in `k`.
 This is proved via the nondegeneracy of the coefficient-at-identity form on `k[G]`:
@@ -247,7 +250,7 @@ theorem IrrepDecomp.d_cast_ne_zero [Fintype G] [IsAlgClosed k]
     haveI : Nonempty (Fin (D.d i)) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩⟩
     exact one_ne_zero ((Pi.single_eq_same i 1).symm.trans (congr_fun h1 i))
   -- For any β, compute regTrace(e * β) two ways to show (e * β)(1) = 0.
-  have he_ann : ∀ β : MonoidAlgebra k G, (e * β) 1 = 0 := by
+  have he_ann : ∀ β : MonoidAlgebra k G, (e * β).coeff 1 = 0 := by
     intro β
     -- Way 1: via Wedderburn decomposition
     have hiso : D.iso (e * β) = Pi.single i (D.projRingHom i β) := by
@@ -278,9 +281,14 @@ theorem IrrepDecomp.d_cast_ne_zero [Fintype G] [IsAlgClosed k]
     rw [hrt_wd, hd_zero, zero_mul] at hrt_reg
     exact (mul_eq_zero.mp hrt_reg.symm).resolve_left (Invertible.ne_zero _)
   -- Contradiction: e ≠ 0 means ∃ g with e(g) ≠ 0
-  obtain ⟨g, hg⟩ := Finsupp.support_nonempty_iff.mpr he_ne
+  have hecoeff : e.coeff ≠ 0 := by
+    intro h
+    apply he_ne
+    apply MonoidAlgebra.coeff_inj.mp
+    simpa using h
+  obtain ⟨g, hg⟩ := Finsupp.support_nonempty_iff.mpr hecoeff
   rw [Finsupp.mem_support_iff] at hg
   -- But (e * single g⁻¹ 1)(1) = e(g) ≠ 0
-  have : (e * MonoidAlgebra.single g⁻¹ (1 : k)) (1 : G) = e g := by
-    rw [MonoidAlgebra.mul_single_apply, inv_inv, one_mul, mul_one]
+  have : (e * MonoidAlgebra.single g⁻¹ (1 : k)).coeff (1 : G) = e.coeff g := by
+    rw [MonoidAlgebra.coeff_mul_single_apply, inv_inv, one_mul, mul_one]
   exact hg (this ▸ he_ann _)

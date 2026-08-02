@@ -36,6 +36,10 @@ namespace Etingof
 
 open scoped Classical
 
+local instance problem5162CoeFun {R M : Type*} [Semiring R] :
+    CoeFun (MonoidAlgebra R M) (fun _ => M → R) :=
+  ⟨fun a => a.coeff⟩
+
 /-- `C = ∑_{i < j} (i j)`: the sum of all transpositions in `ℂ[S_n]`. -/
 noncomputable def sumTranspositions (n : ℕ) : SymGroupAlgebra n :=
   ∑ p ∈ Finset.univ.filter (fun p : Fin n × Fin n => p.1 < p.2),
@@ -420,9 +424,16 @@ combinatorial identity `youngSymmetrizer_transposition_sum_eq_content`. -/
 private lemma sumTranspositions_youngSymmetrizer_coeff_one (n : ℕ) (la : Nat.Partition n) :
     (sumTranspositions n * YoungSymmetrizer n la : SymGroupAlgebra n) 1 = (content la : ℂ) := by
   rw [← youngSymmetrizer_transposition_sum_eq_content n la, sumTranspositions, Finset.sum_mul,
-    Finsupp.finsetSum_apply]
+    MonoidAlgebra.coeff_sum]
+  change (Finsupp.applyAddHom 1)
+    (∑ p ∈ Finset.univ.filter (fun p : Fin n × Fin n => p.1 < p.2),
+      ((MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (Equiv.swap p.1 p.2) :
+        SymGroupAlgebra n) * YoungSymmetrizer n la).coeff) = _
+  rw [map_sum]
   refine Finset.sum_congr rfl (fun p _ => ?_)
-  rw [MonoidAlgebra.of_apply, MonoidAlgebra.single_mul_apply]
+  change (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (Equiv.swap p.1 p.2) *
+    YoungSymmetrizer n la).coeff 1 = _
+  rw [MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single_mul_apply]
   simp [Equiv.swap_inv]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -465,7 +476,8 @@ lemma sumTranspositions_mul_youngSymmetrizer (n : ℕ) (la : Nat.Partition n) :
     have h1 : (sumTranspositions n * YoungSymmetrizer n la : SymGroupAlgebra n) 1
         = (μ • YoungSymmetrizer n la : SymGroupAlgebra n) 1 := by rw [hCeq]
     rw [sumTranspositions_youngSymmetrizer_coeff_one] at h1
-    rw [Finsupp.smul_apply, smul_eq_mul, youngSymmetrizer_identity_coeff, mul_one] at h1
+    rw [MonoidAlgebra.coeff_smul_apply, smul_eq_mul,
+      youngSymmetrizer_identity_coeff, mul_one] at h1
     exact h1.symm
   rw [hCeq, hμval]
 

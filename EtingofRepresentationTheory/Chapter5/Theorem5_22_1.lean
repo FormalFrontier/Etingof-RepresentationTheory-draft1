@@ -26,6 +26,10 @@ set_option backward.isDefEq.respectTransparency false
 
 namespace Etingof
 
+local instance theorem5221CoeFun {R M : Type*} [Semiring R] :
+    CoeFun (MonoidAlgebra R M) (fun _ => M → R) :=
+  ⟨fun a => a.coeff⟩
+
 noncomputable local instance (priority := high) theorem5221SymGroupImageRing
     {k : Type*} [Field k] {V : Type*} [AddCommGroup V] [Module k V]
     [Module.Finite k V] (n : ℕ) :
@@ -78,7 +82,8 @@ def YoungSymmetrizerZ (n : ℕ) (la : Nat.Partition n) :
 private theorem mapRange_of {G : Type*} [Monoid G] (R : Type*) [CommRing R]
     (f : ℤ →+* R) (g : G) :
     MonoidAlgebra.mapRingHom G f (MonoidAlgebra.of ℤ G g) = MonoidAlgebra.of R G g := by
-  change MonoidAlgebra.mapRingHom G f (Finsupp.single g 1) = Finsupp.single g 1
+  change MonoidAlgebra.mapRingHom G f (MonoidAlgebra.single g 1) =
+    MonoidAlgebra.single g 1
   rw [MonoidAlgebra.mapRingHom_single, map_one]
 
 /-- `YoungSymmetrizerK k` is the image of `YoungSymmetrizerZ` under the base change `ℤ → k`. -/
@@ -142,13 +147,13 @@ theorem YoungSymmetrizerZ_apply_one (n : ℕ) (la : Nat.Partition n) :
   simp_rw [Finset.mul_sum, smul_mul_assoc]
   -- Unfold of to single, then simplify multiplication of singles
   have hof : ∀ (g : Equiv.Perm (Fin n)),
-      (MonoidAlgebra.of ℂ _ g : MonoidAlgebra ℂ _) = Finsupp.single g 1 := fun _ => rfl
+      (MonoidAlgebra.of ℂ _ g : MonoidAlgebra ℂ _) = MonoidAlgebra.single g 1 :=
+    fun _ => rfl
   simp_rw [hof, MonoidAlgebra.single_mul_single, mul_one]
   -- Goal: (∑ q ∑ p, (sign q) • single (q*p) 1)(1) = 1
-  rw [Finset.sum_apply']
-  conv_lhs => arg 2; ext k; rw [Finset.sum_apply']
-  simp only [MonoidAlgebra.smul_apply, smul_eq_mul, MonoidAlgebra.single_apply,
-    mul_ite, mul_one, mul_zero]
+  simp only [MonoidAlgebra.coeff_sum, Finsupp.finsetSum_apply,
+    MonoidAlgebra.coeff_smul_apply, MonoidAlgebra.coeff_single, smul_eq_mul,
+    Finsupp.single_apply, mul_ite, mul_one, mul_zero]
   -- ∑_q ∑_p, if q * p = 1 then (sign q : ℂ) else 0 = 1
   rw [Fintype.sum_eq_single ⟨1, (ColumnSubgroup n la).one_mem⟩]
   · rw [Fintype.sum_eq_single ⟨1, (RowSubgroup n la).one_mem⟩]
@@ -190,14 +195,14 @@ theorem YoungSymmetrizerK_sq_scalar (k : Type*) [CommRing k] [CharZero k]
     rw [map_mul]; exact h_ℂ ▸ hα
   -- Evaluating at identity: α_ℂ = Int.cast β
   have hα_eq : α_ℂ = (β : ℂ) := by
-    have h1 := Finsupp.ext_iff.mp hmul 1
+    have h1 := congrArg (fun x => x.coeff 1) hmul
     simp only [MonoidAlgebra.mapRingHom_apply, MonoidAlgebra.smul_apply,
       smul_eq_mul, hcZ1, map_one, mul_one, φ_ℂ] at h1
     exact h1.symm
   -- Therefore: for all σ, (cZ * cZ)(σ) = β * cZ(σ)  (by injectivity of ℤ → ℂ)
   have hZ : cZ * cZ = β • cZ := by
     ext σ
-    have h1 := Finsupp.ext_iff.mp hmul σ
+    have h1 := congrArg (fun x => x.coeff σ) hmul
     simp only [MonoidAlgebra.mapRingHom_apply, MonoidAlgebra.smul_apply,
       smul_eq_mul, hα_eq, φ_ℂ] at h1
     -- h1 : (↑((cZ * cZ) σ) : ℂ) = ↑β * ↑(cZ σ)
@@ -788,13 +793,13 @@ private lemma youngSymEndomorphism_eq_sum_symGroupAction
       (symGroupAction k (Fin N → k) (∑ i, lam i) σ).toLinearMap := by
   set c := YoungSymmetrizerK k (∑ i, lam i) (weightToPartition N lam) with hc
   have hE : youngSymEndomorphism k N lam =
-      c.sum (fun σ a => a •
+      c.coeff.sum (fun σ a => a •
         (symGroupAction k (Fin N → k) (∑ i, lam i) σ).toLinearMap) := by
     unfold youngSymEndomorphism symGroupAlgHom
     rw [MonoidAlgebra.lift_apply]
     rfl
   rw [hE, Finsupp.sum]
-  apply Finset.sum_subset (Finset.subset_univ c.support)
+  apply Finset.sum_subset (Finset.subset_univ c.coeff.support)
   intro σ _ hmem
   simp only [Finsupp.mem_support_iff, not_not] at hmem
   rw [hmem, zero_smul]
@@ -1388,7 +1393,8 @@ private lemma youngSym_diagonal_entry (k' : Type*) [Field k'] (N : ℕ) (lam : F
   set c := YoungSymmetrizerK k' (∑ i, lam i) (weightToPartition N lam)
   -- Unfold youngSymEndomorphism = symGroupAlgHom(c) as a Finsupp.sum
   have hE : youngSymEndomorphism k' N lam =
-      c.sum (fun σ a => a • (symGroupAction k' (Fin N → k') (∑ i, lam i) σ).toLinearMap) := by
+      c.coeff.sum (fun σ a => a •
+        (symGroupAction k' (Fin N → k') (∑ i, lam i) σ).toLinearMap) := by
     unfold youngSymEndomorphism symGroupAlgHom
     rw [MonoidAlgebra.lift_apply]
     rfl
@@ -1408,7 +1414,7 @@ private lemma youngSym_diagonal_entry (k' : Type*) [Field k'] (N : ℕ) (lam : F
   -- ∑_{σ ∈ support} c(σ) • (if f ∘ σ⁻¹ = f then 1 else 0) = ∑_{σ : f ∘ σ = f} c(σ)
   simp only [smul_eq_mul, Finset.sum_filter]
   -- Extend from c.support to Finset.univ
-  rw [← Finset.sum_subset (Finset.subset_univ c.support)]
+  rw [← Finset.sum_subset (Finset.subset_univ c.coeff.support)]
   · congr 1; ext σ
     -- Show: c σ * (if f ∘ σ⁻¹ = f then 1 else 0) = (if ∀ j, f(σ j) = f j then c σ else 0)
     -- First show the conditions are equivalent
@@ -1592,7 +1598,7 @@ private lemma youngSym_repr_zero_of_ne_weight (k' : Type*) [Field k'] (N : ℕ) 
   -- since wt(f∘σ⁻¹) = wt(f) ≠ wt(g)
   set c := YoungSymmetrizerK k' (∑ i, lam i) (weightToPartition N lam)
   have hE : youngSymEndomorphism k' N lam =
-      c.sum (fun σ a => a • (symGroupAction k' (Fin N → k') (∑ i, lam i) σ :
+      c.coeff.sum (fun σ a => a • (symGroupAction k' (Fin N → k') (∑ i, lam i) σ :
         TensorPower k' (Fin N → k') (∑ i, lam i) →ₗ[k']
         TensorPower k' (Fin N → k') (∑ i, lam i))) := by
     unfold youngSymEndomorphism symGroupAlgHom
@@ -1613,7 +1619,7 @@ private lemma youngSym_repr_zero_of_ne_weight (k' : Type*) [Field k'] (N : ℕ) 
   · ring
 
 -- Raise the heartbeat budget for this core structural lemma.
-set_option maxHeartbeats 400000 in
+set_option maxHeartbeats 1600000 in
 -- v4.30: synthesizing `Module.Free k (LinearMap.range Φ)` is slower; raise the limit.
 set_option synthInstance.maxHeartbeats 80000 in
 /-- **Core structural lemma**: The finrank of the weight space of the Schur module
@@ -1642,7 +1648,7 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
     have h1 : (MonoidAlgebra.mapRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℚ)) (cZ * cZ) =
         α • (MonoidAlgebra.mapRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℚ)) cZ := by
       rw [map_mul]; exact (YoungSymmetrizerK_eq_mapRange ℚ n la) ▸ hα_sq
-    have h2 := Finsupp.ext_iff.mp h1 1
+    have h2 := congrArg (fun x => x.coeff 1) h1
     simp only [MonoidAlgebra.mapRingHom_apply,
       MonoidAlgebra.smul_apply, smul_eq_mul, mul_comm α] at h2
     -- h2 : (Int.castRingHom ℚ) ((cZ * cZ) 1) = (Int.castRingHom ℚ) (cZ 1) * α
@@ -1657,7 +1663,7 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
     have h_ℚ : (MonoidAlgebra.mapRingHom _ (Int.castRingHom ℚ)) (cZ * cZ) =
         (β : ℚ) • (MonoidAlgebra.mapRingHom _ (Int.castRingHom ℚ)) cZ := by
       rw [map_mul, ← hα_eq_β]; exact (YoungSymmetrizerK_eq_mapRange ℚ n la) ▸ hα_sq
-    have h2 := Finsupp.ext_iff.mp h_ℚ σ
+    have h2 := congrArg (fun x => x.coeff σ) h_ℚ
     simp only [MonoidAlgebra.mapRingHom_apply,
       MonoidAlgebra.smul_apply, smul_eq_mul] at h2
     rw [MonoidAlgebra.smul_apply, smul_eq_mul]
@@ -1875,7 +1881,8 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
     apply Finset.sum_congr rfl; intro f _
     rw [youngSym_diagonal_entry k N lam f, Int.cast_sum]
     apply Finset.sum_congr rfl; intro σ _
-    rw [YoungSymmetrizerK_eq_mapRange k n la, MonoidAlgebra.mapRingHom_apply]; norm_cast
+    rw [YoungSymmetrizerK_eq_mapRange k n la, MonoidAlgebra.coeff_mapRingHom]
+    norm_cast
   -- Diagonal sum over ℚ = (D_ℤ : ℚ)
   have hD_ℚ : ∑ f ∈ wt_μ, (tensorStdBasis ℚ N n).repr
       (youngSymEndomorphism ℚ N lam ((tensorStdBasis ℚ N n) f)) f = (D_ℤ : ℚ) := by
@@ -1883,7 +1890,8 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
     apply Finset.sum_congr rfl; intro f _
     rw [youngSym_diagonal_entry ℚ N lam f, Int.cast_sum]
     apply Finset.sum_congr rfl; intro σ _
-    rw [YoungSymmetrizerK_eq_mapRange ℚ n la, MonoidAlgebra.mapRingHom_apply]; norm_cast
+    rw [YoungSymmetrizerK_eq_mapRange ℚ n la, MonoidAlgebra.coeff_mapRingHom]
+    norm_cast
   -- Suffices: finrank * β = D_ℤ as integers
   suffices h_int : (Module.finrank k
       (glWeightSpace k N (SchurModule k N lam) fun i => (μ i : ℕ)) : ℤ) * β = D_ℤ by
@@ -2108,13 +2116,13 @@ private lemma youngSym_sq_ℂ' (n : ℕ) (la : Nat.Partition n)
   have hcZ1 : cZ 1 = 1 := YoungSymmetrizerZ_apply_one n la
   have hmul_ℚ : φ_ℚ (cZ * cZ) = α • φ_ℚ cZ := by rw [map_mul]; exact h_ℚ ▸ hα
   have hα_eq : α = (β : ℚ) := by
-    have h1 := Finsupp.ext_iff.mp hmul_ℚ 1
+    have h1 := congrArg (fun x => x.coeff 1) hmul_ℚ
     simp only [MonoidAlgebra.mapRingHom_apply, MonoidAlgebra.smul_apply,
       smul_eq_mul, hcZ1, map_one, mul_one, φ_ℚ] at h1
     exact h1.symm
   have hZ : cZ * cZ = β • cZ := by
     ext σ
-    have h1 := Finsupp.ext_iff.mp hmul_ℚ σ
+    have h1 := congrArg (fun x => x.coeff σ) hmul_ℚ
     simp only [MonoidAlgebra.mapRingHom_apply, MonoidAlgebra.smul_apply,
       smul_eq_mul, hα_eq, φ_ℚ] at h1
     have h2 : ((cZ * cZ) σ : ℚ) = ((β * cZ σ : ℤ) : ℚ) := by push_cast; exact h1
@@ -2123,12 +2131,15 @@ private lemma youngSym_sq_ℂ' (n : ℕ) (la : Nat.Partition n)
   rw [h_ℂ, ← map_mul, hZ, map_zsmul, ← Int.cast_smul_eq_zsmul ℂ]
   congr 1; exact_mod_cast hα_eq.symm
 
+set_option maxHeartbeats 1600000 in
+-- Elaborating the subtype-valued restriction of `LinearMap.mulLeft` is expensive.
 /-- Left multiplication on the Specht module. -/
 private def mulLeftOnSpecht' (n : ℕ) (c : SymGroupAlgebra n) (la' : Nat.Partition n) :
-    ↥(SpechtModule n la') →ₗ[ℂ] ↥(SpechtModule n la') where
-  toFun v := ⟨c * ↑v, (SpechtModule n la').smul_mem c v.prop⟩
-  map_add' a b := Subtype.ext (mul_add c ↑a ↑b)
-  map_smul' r v := Subtype.ext (Algebra.mul_smul_comm r c ↑v)
+    ↥(SpechtModule n la') →ₗ[ℂ] ↥(SpechtModule n la') :=
+  LinearMap.codRestrict ((SpechtModule n la').restrictScalars ℂ)
+    ((LinearMap.mulLeft ℂ c).comp
+      ((SpechtModule n la').restrictScalars ℂ).subtype)
+    (fun v => (SpechtModule n la').smul_mem c v.prop)
 
 private lemma mulLeftOnSpecht_of' (n : ℕ) (la' : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
     mulLeftOnSpecht' n (MonoidAlgebra.of ℂ _ σ) la' = spechtModuleAction n la' σ := by
@@ -2137,8 +2148,16 @@ private lemma mulLeftOnSpecht_of' (n : ℕ) (la' : Nat.Partition n) (σ : Equiv.
 private noncomputable def mulLeftOnSpechtLinear' (n : ℕ) (la' : Nat.Partition n) :
     SymGroupAlgebra n →ₗ[ℂ] (↥(SpechtModule n la') →ₗ[ℂ] ↥(SpechtModule n la')) where
   toFun c := mulLeftOnSpecht' n c la'
-  map_add' a b := by ext ⟨m, hm⟩; simp [mulLeftOnSpecht', add_mul]
-  map_smul' r c := by ext ⟨m, hm⟩; simp [mulLeftOnSpecht']
+  map_add' a b := by
+    apply LinearMap.ext
+    intro m
+    apply Subtype.ext
+    exact add_mul a b m
+  map_smul' r c := by
+    apply LinearMap.ext
+    intro m
+    apply Subtype.ext
+    exact smul_mul_assoc r c m
 
 /-- Trace linearity: ∑_σ c(σ) · χ_{V}(σ) = trace of left mult by c on V. -/
 private lemma sum_coeff_char_eq_trace' (n : ℕ) (la' : Nat.Partition n) (c : SymGroupAlgebra n) :
@@ -2146,27 +2165,30 @@ private lemma sum_coeff_char_eq_trace' (n : ℕ) (la' : Nat.Partition n) (c : Sy
       LinearMap.trace ℂ _ (mulLeftOnSpecht' n c la') := by
   symm
   have key : (LinearMap.trace ℂ _) (mulLeftOnSpecht' n c la') =
-      ∑ σ ∈ c.support, c σ * spechtModuleCharacter n la' σ := by
+      ∑ σ ∈ c.coeff.support, c σ * spechtModuleCharacter n la' σ := by
     have hlin : mulLeftOnSpecht' n c la' = (mulLeftOnSpechtLinear' n la') c := rfl
     rw [hlin]
     simp_rw [spechtModuleCharacter, ← mulLeftOnSpecht_of' n la']
-    have hc : c = ∑ σ ∈ c.support, c σ • MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) σ := by
-      conv_lhs => rw [← Finsupp.sum_single c]
+    have hc : c = ∑ σ ∈ c.coeff.support,
+        c σ • MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) σ := by
+      conv_lhs => rw [← MonoidAlgebra.sum_single c]
       unfold Finsupp.sum
       refine Finset.sum_congr rfl (fun σ _ => ?_)
-      rw [MonoidAlgebra.of_apply, Finsupp.smul_single', mul_one]
+      rw [MonoidAlgebra.of_apply, MonoidAlgebra.smul_single', mul_one]
     conv_lhs => rw [show (mulLeftOnSpechtLinear' n la') c =
         (mulLeftOnSpechtLinear' n la')
-          (∑ σ ∈ c.support, c σ • MonoidAlgebra.of ℂ _ σ) from by rw [← hc]]
+          (∑ σ ∈ c.coeff.support, c σ • MonoidAlgebra.of ℂ _ σ) from by rw [← hc]]
     rw [map_sum, map_sum]
     refine Finset.sum_congr rfl (fun σ _ => ?_)
     rw [map_smul, LinearMap.map_smul, smul_eq_mul]; rfl
   rw [key]
-  apply Finset.sum_subset (Finset.subset_univ c.support)
+  apply Finset.sum_subset (Finset.subset_univ c.coeff.support)
   intro σ _ hσ
   have : c σ = 0 := by rwa [Finsupp.mem_support_iff, not_not] at hσ
   simp [this]
 
+set_option maxHeartbeats 1600000 in
+-- Constructing and comparing the subtype-valued intertwiner is elaboration-intensive.
 /-- Off-diagonal: c_λ acts as 0 on V_{λ'} when λ ≠ λ'. -/
 private lemma mulLeft_youngSym_zero_of_ne' (n : ℕ) (la la' : Nat.Partition n) (hne : la ≠ la') :
     mulLeftOnSpecht' n (YoungSymmetrizer n la) la' = 0 := by
@@ -2180,10 +2202,16 @@ private lemma mulLeft_youngSym_zero_of_ne' (n : ℕ) (la la' : Nat.Partition n) 
       map_add' := fun a b => Subtype.ext (add_mul (a : SymGroupAlgebra n) b w₀)
       map_smul' := fun a v => Subtype.ext (mul_assoc a (v : SymGroupAlgebra n) w₀) }
   have hφ_ne : φ ≠ 0 := by
-    intro h; apply hw₀
-    have : φ ⟨YoungSymmetrizer n la, Submodule.subset_span rfl⟩ = 0 :=
-      congr_fun (congr_arg DFunLike.coe h) ⟨YoungSymmetrizer n la, Submodule.subset_span rfl⟩
-    simp only [mulLeftOnSpecht', LinearMap.coe_mk, AddHom.coe_mk] at this ⊢; exact this
+    intro h
+    apply hw₀
+    let e : SpechtModule n la :=
+      ⟨YoungSymmetrizer n la, Submodule.subset_span rfl⟩
+    have he := LinearMap.congr_fun h e
+    apply Subtype.ext
+    change YoungSymmetrizer n la * (w₀ : SymGroupAlgebra n) = 0
+    have hev := congrArg Subtype.val he
+    change YoungSymmetrizer n la * (w₀ : SymGroupAlgebra n) = 0 at hev
+    exact hev
   haveI : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n la) :=
     Theorem5_12_2_irreducible n la
   haveI : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n la') :=
@@ -2221,7 +2249,8 @@ private lemma mul_mem_specht_proportional' (n : ℕ) (la : Nat.Partition n)
   conv_lhs at hsand => rw [mul_assoc]
   conv_lhs => rw [show v.val = a * c from ha.symm, hsand]
   conv_rhs => rw [show v.val = a * c from ha.symm, hsand]
-  congr 1; rw [Finsupp.smul_apply, smul_eq_mul, youngSym_coeff_one', mul_one]
+  congr 1
+  rw [MonoidAlgebra.coeff_smul_apply, smul_eq_mul, youngSym_coeff_one', mul_one]
 
 /-- Diagonal case: trace of c_λ on V_λ equals α. -/
 private lemma trace_mulLeft_youngSym_eq' (n : ℕ) (la : Nat.Partition n)
@@ -2239,7 +2268,7 @@ private lemma trace_mulLeft_youngSym_eq' (n : ℕ) (la : Nat.Partition n)
       map_add' := fun x y => by simp [mul_add]
       map_smul' := fun r x => by
         change (c * (r • x.val)) 1 = r * (c * x.val) 1
-        rw [Algebra.mul_smul_comm, Finsupp.smul_apply, smul_eq_mul] }
+        rw [Algebra.mul_smul_comm, MonoidAlgebra.coeff_smul_apply, smul_eq_mul] }
   have hT_eq : T = ι.comp π := by
     apply LinearMap.ext; intro ⟨v, hv⟩; apply Subtype.ext
     exact mul_mem_specht_proportional' n la ⟨v, hv⟩
@@ -2247,8 +2276,9 @@ private lemma trace_mulLeft_youngSym_eq' (n : ℕ) (la : Nat.Partition n)
   have h_comp : π.comp ι = α • LinearMap.id := by
     apply LinearMap.ext; intro x
     change (c * (x • c)) 1 = α * x
-    rw [Algebra.mul_smul_comm, Finsupp.smul_apply, smul_eq_mul]
-    rw [hα_sq, Finsupp.smul_apply, smul_eq_mul, youngSym_coeff_one', mul_one, mul_comm]
+    rw [Algebra.mul_smul_comm, MonoidAlgebra.coeff_smul_apply, smul_eq_mul]
+    rw [hα_sq, MonoidAlgebra.coeff_smul_apply, smul_eq_mul,
+      youngSym_coeff_one', mul_one, mul_comm]
   rw [h_comp]; simp [map_smul, LinearMap.trace_id, Module.finrank_self]
 
 /-- Young symmetrizer trace Kronecker (inlined version):
@@ -3540,7 +3570,7 @@ theorem sum_youngSym_permTracePoly_eq_alpha_schurPoly
   set la := weightToPartition N lam
   set c := YoungSymmetrizerK ℚ n la
   set Δ := (alternantMatrix N (vandermondeExps N)).det
-  set F := ∑ σ : Equiv.Perm (Fin n), (c σ : ℚ) • permTracePoly N σ
+  set F := ∑ σ : Equiv.Perm (Fin n), c.coeff σ • permTracePoly N σ
   -- Cancel the Vandermonde determinant (nonzero in MvPolynomial integral domain)
   have hΔ : Δ ≠ 0 := alternantMatrix_vandermondeExps_det_ne_zero N
   apply mul_right_cancel₀ hΔ
@@ -3591,7 +3621,7 @@ theorem sum_youngSym_permTracePoly_eq_alpha_schurPoly
     -- Compute F * Δ coefficient using linearity
     have hF_coeff : MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e) (F * Δ) =
         ∑ σ : Equiv.Perm (Fin n),
-          (c σ : ℚ) * MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e)
+          c.coeff σ * MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e)
             (Δ * permTracePoly N σ) := by
       show MvPolynomial.coeff _ (F * Δ) = _
       simp only [F, Finset.sum_mul, MvPolynomial.coeff_sum]

@@ -182,7 +182,7 @@ theorem Etingof.inducedCharacter_eq_irrepDecomp_sum
           ∑ g : G, (D.columnFDRep i).character g * (D.columnFDRep j).character g⁻¹ =
           if i = j then (Fintype.card G : ℂ) else 0 := by
         intro i
-        have h := FDRep.char_orthonormal (D.columnFDRep i) (D.columnFDRep j)
+        have h := FDRep.char_orthonormal_fintype (D.columnFDRep i) (D.columnFDRep j)
         rw [smul_eq_mul] at h
         have hinv : ∀ (x y : ℂ), ⅟(Fintype.card G : ℂ) * x = y →
             x = (Fintype.card G : ℂ) * y := fun x y hxy => by
@@ -219,7 +219,7 @@ theorem Etingof.inducedCharacter_eq_irrepDecomp_sum
         rw [hlhs_rw]
         have hmult : ⅟(Fintype.card ↥H : ℂ) •
             ∑ h : ↥H, (resH j).character h * W.character h⁻¹ = ↑(m j) := by
-          have h := FDRep.scalar_product_char_eq_finrank_equivariant W (resH j)
+          have h := FDRep.scalar_product_char_eq_finrank_equivariant_fintype (resH j) W
           rw [smul_eq_mul] at h ⊢
           convert h using 1
         have hsum_H : ∑ h : ↥H, (resH j).character h * W.character h⁻¹ =
@@ -452,7 +452,7 @@ private lemma artin_Q_span_of_induced_chars {G : Type} [Group G] [Fintype G]
             ∑ g : G, (D.columnFDRep i).character g * (D.columnFDRep j).character g⁻¹ =
             if i = j then (Fintype.card G : ℂ) else 0 := by
           intro i
-          have h := FDRep.char_orthonormal (D.columnFDRep i) (D.columnFDRep j)
+          have h := FDRep.char_orthonormal_fintype (D.columnFDRep i) (D.columnFDRep j)
           rw [smul_eq_mul] at h
           have hinv : ∀ (x y : ℂ), ⅟(Fintype.card G : ℂ) * x = y →
               x = (Fintype.card G : ℂ) * y := fun x y h => by
@@ -489,7 +489,7 @@ private lemma artin_Q_span_of_induced_chars {G : Type} [Group G] [Fintype G]
           -- scalar_product_char_eq_finrank_equivariant on H
           have hmult : ⅟(Fintype.card ↥H : ℂ) •
               ∑ h : ↥H, (resH j).character h * W.character h⁻¹ = ↑(m j) := by
-            have := FDRep.scalar_product_char_eq_finrank_equivariant W (resH j)
+            have := FDRep.scalar_product_char_eq_finrank_equivariant_fintype (resH j) W
             rw [smul_eq_mul] at this ⊢
             convert this using 1
           -- Extract: ∑_h = |H| * m_j
@@ -533,7 +533,7 @@ private lemma artin_Q_span_of_induced_chars {G : Type} [Group G] [Fintype G]
           (D.columnFDRep i).character g * (D.columnFDRep j).character g⁻¹ =
         if i = j then 1 else 0 := by
       intro i
-      rw [FDRep.char_orthonormal]
+      rw [FDRep.char_orthonormal_fintype]
       simp [h_iso_iff]
     -- From hc: ∑ c_i • χ_i = 0, evaluate at each g
     have lhs_zero : ∀ g, (∑ i : Fin D.n, c i * (D.columnFDRep i).character g) = 0 := by
@@ -609,7 +609,7 @@ private lemma artin_Q_span_of_induced_chars {G : Type} [Group G] [Fintype G]
       ∑ g : G, (D.columnFDRep i).character g * (D.columnFDRep j).character g⁻¹ =
       if i = j then (Fintype.card G : ℂ) else 0 := by
     intro i j
-    have h := FDRep.char_orthonormal (D.columnFDRep i) (D.columnFDRep j)
+    have h := FDRep.char_orthonormal_fintype (D.columnFDRep i) (D.columnFDRep j)
     rw [smul_eq_mul] at h
     have hinv : ∀ (x y : ℂ), ⅟(Fintype.card G : ℂ) * x = y →
         x = (Fintype.card G : ℂ) * y := fun x y h => by

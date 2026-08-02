@@ -177,8 +177,8 @@ theorem mult_symm (_hW : IsCompleteIrreps W) (i j : Fin m) :
   have : Fintype G := Fintype.ofFinite G
   have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
-  have h1 := FDRep.scalar_product_char_eq_finrank_equivariant (W i) (V G ⊗ W j)
-  have h2 := FDRep.scalar_product_char_eq_finrank_equivariant (W j) (V G ⊗ W i)
+  have h1 := FDRep.scalar_product_char_eq_finrank_equivariant_fintype (V G ⊗ W j) (W i)
+  have h2 := FDRep.scalar_product_char_eq_finrank_equivariant_fintype (V G ⊗ W i) (W j)
   have hC : (mult W i j : ℂ) = (mult W j i : ℂ) := by
     simp only [mult]
     rw [← h1, ← h2]
@@ -231,7 +231,7 @@ lemma char_eq_sum_mult (hW : IsCompleteIrreps W) (S : FDRep ℂ G) :
       -- LHS scalar product: `∑_g χ_S χ_{Wₖ}(·⁻¹) = |G| · mₖ`
       have hL : ∑ g : G, S.character g * (W k).character g⁻¹
           = (Fintype.card G : ℂ) * (finrank ℂ (W k ⟶ S) : ℂ) := by
-        have h := FDRep.scalar_product_char_eq_finrank_equivariant (W k) S
+        have h := FDRep.scalar_product_char_eq_finrank_equivariant_fintype S (W k)
         rw [smul_eq_mul] at h
         rw [← h, ← mul_assoc, mul_invOf_self, one_mul]
       -- orthogonality of irreducible characters
@@ -239,7 +239,7 @@ lemma char_eq_sum_mult (hW : IsCompleteIrreps W) (S : FDRep ℂ G) :
           = (Fintype.card G : ℂ) * (if j = k then 1 else 0) := by
         intro j
         haveI : Simple (W j) := hW.simple j
-        have h := FDRep.char_orthonormal (W j) (W k)
+        have h := FDRep.char_orthonormal_fintype (W j) (W k)
         rw [smul_eq_mul] at h
         -- collapse the `Nonempty (Wⱼ ≅ Wₖ)` condition to `j = k`
         have hval : ⅟(Fintype.card G : ℂ) * ∑ g : G, (W j).character g * (W k).character g⁻¹
@@ -518,8 +518,8 @@ theorem mckay_connected (hW : IsCompleteIrreps W) (i j : Fin m) :
     intro a ha
     have hval : occ 0 a
         = (Module.finrank ℂ (W a ⟶ FDRep.of (Representation.trivial ℂ G ℂ)) : ℂ) := by
-      have hsp := FDRep.scalar_product_char_eq_finrank_equivariant (W a)
-        (FDRep.of (Representation.trivial ℂ G ℂ))
+      have hsp := FDRep.scalar_product_char_eq_finrank_equivariant_fintype
+        (FDRep.of (Representation.trivial ℂ G ℂ)) (W a)
       rw [smul_eq_mul] at hsp
       change ⅟(Fintype.card G : ℂ) * ∑ g : G, ((V G).character g) ^ 0 * (W a).character g⁻¹ = _
       rw [← hsp]
@@ -653,7 +653,7 @@ theorem mckayCartan_posSemidef (hW : IsCompleteIrreps W) (hne : Nontrivial G)
         = (Fintype.card G : ℂ) * (if i = j then (1 : ℂ) else 0) := by
       haveI : Simple (W i) := hW.simple i
       haveI : Simple (W j) := hW.simple j
-      have h := FDRep.char_orthonormal (W i) (W j)
+      have h := FDRep.char_orthonormal_fintype (W i) (W j)
       rw [smul_eq_mul] at h
       have hval : (if Nonempty (W i ≅ W j) then (1 : ℂ) else 0)
           = (if i = j then (1 : ℂ) else 0) := by
@@ -664,7 +664,7 @@ theorem mckayCartan_posSemidef (hW : IsCompleteIrreps W) (hne : Nontrivial G)
     -- multiplicity: `∑_g χ_V χ_{Wᵢ} χ_{Wⱼ}(·⁻¹) = |G| · rⱼᵢ`
     have sca : (∑ g : G, (V G).character g * (W i).character g * (W j).character g⁻¹)
         = (Fintype.card G : ℂ) * (mult W j i : ℂ) := by
-      have h := FDRep.scalar_product_char_eq_finrank_equivariant (W j) (V G ⊗ W i)
+      have h := FDRep.scalar_product_char_eq_finrank_equivariant_fintype (V G ⊗ W i) (W j)
       rw [smul_eq_mul] at h
       have hs : (∑ g : G, (V G ⊗ W i).character g * (W j).character g⁻¹)
           = ∑ g : G, (V G).character g * (W i).character g * (W j).character g⁻¹ := by
@@ -1384,7 +1384,7 @@ lemma mckayAdj_no_selfLoop_of_central_neg (hW : IsCompleteIrreps W)
   -- the character scalar product
   set f : G → ℂ := fun g => (V G).character g * (W i).character g * (W i).character g⁻¹ with hf
   have hmultC : (mult W i i : ℂ) = ⅟(Fintype.card G : ℂ) • ∑ g : G, f g := by
-    have h := FDRep.scalar_product_char_eq_finrank_equivariant (W i) (V G ⊗ W i)
+    have h := FDRep.scalar_product_char_eq_finrank_equivariant_fintype (V G ⊗ W i) (W i)
     simp only [mult]
     rw [← h]
     congr 1

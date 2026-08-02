@@ -1304,7 +1304,8 @@ tabloid representation, defined by of(σ) ↦ single(toTabloid(σ⁻¹), 1).
 Concretely, this maps a = Σ a(σ) · of(σ) to Σ a(σ) · single(toTabloid(σ⁻¹), 1). -/
 noncomputable def tabloidProjection :
     SymGroupAlgebra n →ₗ[ℂ] TabloidRepresentation n la :=
-  Finsupp.lmapDomain ℂ ℂ (fun σ => toTabloid n la σ⁻¹)
+  (Finsupp.lmapDomain ℂ ℂ (fun σ => toTabloid n la σ⁻¹)).comp
+    (MonoidAlgebra.coeffLinearEquiv ℂ).toLinearMap
 
 /-- Evaluation of tabloidProjection on a basis element of(σ). -/
 theorem tabloidProjection_of (σ : Equiv.Perm (Fin n)) :
@@ -1453,13 +1454,10 @@ theorem tabloidProjection_ker_mul_closed
     (v : SymGroupAlgebra n) (hv : tabloidProjection (n := n) (la := la) v = 0)
     (a : SymGroupAlgebra n) :
     tabloidProjection (n := n) (la := la) (a * v) = 0 := by
-  conv_lhs => rw [← Finsupp.sum_single a]
-  rw [Finsupp.sum, Finset.sum_mul, map_sum]
-  apply Finset.sum_eq_zero
-  intro τ _
-  rw [show Finsupp.single τ (a τ) = (a τ) • MonoidAlgebra.of ℂ _ τ from by
-    simp [MonoidAlgebra.of_apply, mul_one]]
-  rw [smul_mul_assoc, map_smul, tabloidProjection_ker_smul_closed v hv, smul_zero]
+  induction a using MonoidAlgebra.induction_on with
+  | hM τ => exact tabloidProjection_ker_smul_closed v hv τ
+  | hadd a b ha hb => rw [add_mul, map_add, ha, hb, add_zero]
+  | hsmul r a ha => rw [smul_mul_assoc, map_smul, ha, smul_zero]
 
 /-- The tabloid projection is injective on the Specht module V_λ:
 if v ∈ V_λ and ψ(v) = 0, then v = 0.

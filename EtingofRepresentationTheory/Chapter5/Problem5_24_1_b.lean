@@ -134,12 +134,13 @@ theorem signTwist_of (n : ℕ) (g : Equiv.Perm (Fin n)) :
 theorem signTwist_bijective (n : ℕ) : Function.Bijective (signTwist n) := by
   have hcomp : (signTwist n).comp (signTwist n) = AlgHom.id ℂ (SymGroupAlgebra n) := by
     apply MonoidAlgebra.algHom_ext
-    intro g
-    have hsq : ((Equiv.Perm.sign g : ℤ) : ℂ) * ((Equiv.Perm.sign g : ℤ) : ℂ) = 1 := by
-      rw [← Int.cast_mul, ← Units.val_mul, Int.units_mul_self, Units.val_one, Int.cast_one]
-    change signTwist n (signTwist n (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g))
-        = MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g
-    rw [signTwist_of, map_smul, signTwist_of, smul_smul, hsq, one_smul]
+    · intro g
+      have hsq : ((Equiv.Perm.sign g : ℤ) : ℂ) * ((Equiv.Perm.sign g : ℤ) : ℂ) = 1 := by
+        rw [← Int.cast_mul, ← Units.val_mul, Int.units_mul_self, Units.val_one, Int.cast_one]
+      change signTwist n (signTwist n (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g))
+          = MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g
+      rw [signTwist_of, map_smul, signTwist_of, smul_smul, hsq, one_smul]
+    · ext
   have hinv : Function.Involutive (signTwist n) := fun a => by
     have := DFunLike.congr_fun hcomp a
     simpa using this
@@ -519,11 +520,12 @@ private theorem signTwist_signTwist {n : ℕ} (z : SymGroupAlgebra n) :
     signTwist n (signTwist n z) = z := by
   have hcomp : (signTwist n).comp (signTwist n) = AlgHom.id ℂ (SymGroupAlgebra n) := by
     apply MonoidAlgebra.algHom_ext
-    intro g
-    have hsq : ((Equiv.Perm.sign g : ℤ) : ℂ) * ((Equiv.Perm.sign g : ℤ) : ℂ) = 1 := by
-      rw [← Int.cast_mul, ← Units.val_mul, Int.units_mul_self, Units.val_one, Int.cast_one]
-    change signTwist n (signTwist n (MonoidAlgebra.of ℂ _ g)) = MonoidAlgebra.of ℂ _ g
-    rw [signTwist_of, map_smul, signTwist_of, smul_smul, hsq, one_smul]
+    · intro g
+      have hsq : ((Equiv.Perm.sign g : ℤ) : ℂ) * ((Equiv.Perm.sign g : ℤ) : ℂ) = 1 := by
+        rw [← Int.cast_mul, ← Units.val_mul, Int.units_mul_self, Units.val_one, Int.cast_one]
+      change signTwist n (signTwist n (MonoidAlgebra.of ℂ _ g)) = MonoidAlgebra.of ℂ _ g
+      rw [signTwist_of, map_smul, signTwist_of, smul_smul, hsq, one_smul]
+    · ext
   simpa using DFunLike.congr_fun hcomp z
 
 /-- `φ` restricted to a principal left ideal: a `ℂ`-linear equivalence `p ≃ q` when

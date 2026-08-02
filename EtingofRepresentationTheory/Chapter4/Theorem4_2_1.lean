@@ -2,6 +2,7 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter4.Introduction_4_2
 import EtingofRepresentationTheory.Infrastructure.ColumnRepSimple
 import EtingofRepresentationTheory.Infrastructure.RegularCharacter
+import EtingofRepresentationTheory.Infrastructure.CharacterOrthogonalityCompat
 
 /-!
 # Theorem 4.2.1: Characters Form a Basis of Class Functions
@@ -60,14 +61,16 @@ private lemma toGroupAlgebra_injective (f : G → k) (h : toGroupAlgebra f = 0) 
   classical
   ext g
   simp only [Pi.zero_apply]
-  have heval : (toGroupAlgebra f) g⁻¹ = 0 := by rw [h]; rfl
+  have heval : (toGroupAlgebra f).coeff g⁻¹ = 0 := by rw [h]; rfl
   simp only [toGroupAlgebra] at heval
-  rw [show (∑ x : G, MonoidAlgebra.single x⁻¹ (f x)) g⁻¹ =
-    ∑ x : G, (MonoidAlgebra.single x⁻¹ (f x) : G →₀ k) g⁻¹ from
-    Finsupp.finsetSum_apply _ _ _] at heval
+  rw [MonoidAlgebra.coeff_sum] at heval
+  change Finsupp.applyAddHom g⁻¹
+      (∑ x : G, (MonoidAlgebra.single x⁻¹ (f x)).coeff) = 0 at heval
+  rw [map_sum] at heval
   rw [Finset.sum_eq_single g] at heval
   · simpa [Finsupp.single_apply] using heval
   · intro b _ hb
+    simp only [Finsupp.applyAddHom_apply, MonoidAlgebra.coeff_single]
     rw [Finsupp.single_apply, if_neg (show b⁻¹ ≠ g⁻¹ from fun h => hb (inv_injective h))]
   · intro h; exact absurd (Finset.mem_univ g) h
 
@@ -265,7 +268,7 @@ theorem Etingof.Theorem4_2_1
         ∑ g : G, (D.columnFDRep i).character g * (D.columnFDRep j).character g⁻¹ =
           if i = j then (Fintype.card G : k) else 0 := by
       intro i
-      have h := FDRep.char_orthonormal (D.columnFDRep i) (D.columnFDRep j)
+      have h := FDRep.char_orthonormal_fintype (D.columnFDRep i) (D.columnFDRep j)
       rw [smul_eq_mul] at h
       by_cases hij : i = j
       · subst hij
@@ -322,7 +325,7 @@ theorem Etingof.Theorem4_2_1_linearIndependent
     · congr 1
       rw [← hVchar i₀]
       haveI : Simple (V i₀) := hVmem i₀
-      have h := FDRep.char_orthonormal (V i₀) (V i₀)
+      have h := FDRep.char_orthonormal_fintype (V i₀) (V i₀)
       rw [smul_eq_mul, if_pos ⟨Iso.refl _⟩] at h
       exact (hinv _ _ h).trans (mul_one _)
     · intro i _ hne
@@ -334,7 +337,7 @@ theorem Etingof.Theorem4_2_1_linearIndependent
         rw [← hVchar i]
         haveI : Simple (V i) := hVmem i
         haveI : Simple (V i₀) := hVmem i₀
-        have h := FDRep.char_orthonormal (V i) (V i₀)
+        have h := FDRep.char_orthonormal_fintype (V i) (V i₀)
         rw [smul_eq_mul, if_neg hno_iso] at h
         exact (hinv _ _ h).trans (mul_zero _)
       rw [hzero, mul_zero]

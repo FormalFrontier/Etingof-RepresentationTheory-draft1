@@ -162,7 +162,8 @@ theorem weightedHomogeneous_invariant_mem_adjoin (d : Fin k →₀ ℕ)
   rw [← hMp]
   -- `symGroupAlgHom x = ∑_{σ ∈ x.support} x σ • symGroupAction σ`.
   have hxsum : symGroupAlgHom ℂ (BridgeV N) n x
-      = ∑ σ ∈ x.support, x σ • (symGroupAction ℂ (BridgeV N) n σ).toLinearMap := by
+      = ∑ σ ∈ x.coeff.support,
+        x.coeff σ • (symGroupAction ℂ (BridgeV N) n σ).toLinearMap := by
     rw [symGroupAlgHom]
     rw [MonoidAlgebra.lift_apply]
     simp only [symGroupMonoidHom, MonoidHom.coe_mk, OneHom.coe_mk]

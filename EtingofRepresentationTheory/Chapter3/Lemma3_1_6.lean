@@ -128,7 +128,7 @@ theorem exists_subfamily_bijective (p : ι → Submodule A V)
     ∃ J : Set ι, Function.Bijective (f.domRestrict (⨆ i ∈ J, p i)) := by
   obtain ⟨J, hJ⟩ := exists_subfamily_isCompl_ker p hsimple hspan f
   refine ⟨J, ?_, ?_⟩
-  · exact injective_domRestrict_iff.mpr (disjoint_iff.mp hJ.disjoint)
+  · exact injective_domRestrict_iff.mpr hJ.disjoint
   · -- Surjective: the image of `V_J` is all of `U`.
     have hkermap : (LinearMap.ker f).map f = ⊥ := by
       rw [eq_bot_iff]

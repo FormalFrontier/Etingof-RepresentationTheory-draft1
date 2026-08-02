@@ -100,7 +100,7 @@ theorem irrepCharacters_linearIndependent (D : IrrepDecomp ℂ G) :
         (D.columnFDRep i).character g * (D.columnFDRep j).character g⁻¹ =
       if i = j then 1 else 0 := by
     intro i
-    rw [FDRep.char_orthonormal]
+    rw [FDRep.char_orthonormal_fintype]
     simp [h_iso_iff]
   have lhs_zero : ∀ g,
       (∑ i : Fin D.n, c i * (D.columnFDRep i).character g) = 0 := by

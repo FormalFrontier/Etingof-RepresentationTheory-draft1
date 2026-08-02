@@ -23,6 +23,10 @@ import EtingofRepresentationTheory.Infrastructure.SpechtModuleSimple
 
 namespace Etingof
 
+local instance youngSymTraceKroneckerCoeFun {R M : Type*} [Semiring R] :
+    CoeFun (MonoidAlgebra R M) (fun _ => M → R) :=
+  ⟨fun a => a.coeff⟩
+
 noncomputable section
 open Classical in
 /-! ### Coefficient transfer: ℚ ↔ ℂ -/
@@ -56,14 +60,14 @@ private lemma youngSym_sq_ℂ (n : ℕ) (la : Nat.Partition n)
     rw [map_mul]; exact h_ℚ ▸ hα
   -- Evaluating at 1: α = (β : ℚ)
   have hα_eq : α = (β : ℚ) := by
-    have h1 := Finsupp.ext_iff.mp hmul_ℚ 1
+    have h1 := congrArg (fun x => x.coeff 1) hmul_ℚ
     simp only [MonoidAlgebra.mapRingHom_apply, MonoidAlgebra.smul_apply,
       smul_eq_mul, hcZ1, map_one, mul_one, φ_ℚ] at h1
     exact h1.symm
   -- Derive cZ * cZ = β • cZ over ℤ (by injectivity of ℤ → ℚ)
   have hZ : cZ * cZ = β • cZ := by
     ext σ
-    have h1 := Finsupp.ext_iff.mp hmul_ℚ σ
+    have h1 := congrArg (fun x => x.coeff σ) hmul_ℚ
     simp only [MonoidAlgebra.mapRingHom_apply, MonoidAlgebra.smul_apply,
       smul_eq_mul, hα_eq, φ_ℚ] at h1
     have h2 : ((cZ * cZ) σ : ℚ) = ((β * cZ σ : ℤ) : ℚ) := by push_cast; exact h1
@@ -77,10 +81,11 @@ private lemma youngSym_sq_ℂ (n : ℕ) (la : Nat.Partition n)
 /-! ### Left multiplication on Specht modules -/
 
 private def mulLeftOnSpecht (n : ℕ) (c : SymGroupAlgebra n) (la' : Nat.Partition n) :
-    ↥(SpechtModule n la') →ₗ[ℂ] ↥(SpechtModule n la') where
-  toFun v := ⟨c * ↑v, (SpechtModule n la').smul_mem c v.prop⟩
-  map_add' a b := Subtype.ext (mul_add c ↑a ↑b)
-  map_smul' r v := Subtype.ext (Algebra.mul_smul_comm r c ↑v)
+    ↥(SpechtModule n la') →ₗ[ℂ] ↥(SpechtModule n la') :=
+  LinearMap.codRestrict ((SpechtModule n la').restrictScalars ℂ)
+    ((LinearMap.mulLeft ℂ c).comp
+      ((SpechtModule n la').restrictScalars ℂ).subtype)
+    (fun v => (SpechtModule n la').smul_mem c v.prop)
 
 /-! ### Trace linearity -/
 
@@ -93,8 +98,16 @@ private lemma mulLeftOnSpecht_of (n : ℕ) (la' : Nat.Partition n)
 private noncomputable def mulLeftOnSpechtLinear (n : ℕ) (la' : Nat.Partition n) :
     SymGroupAlgebra n →ₗ[ℂ] (↥(SpechtModule n la') →ₗ[ℂ] ↥(SpechtModule n la')) where
   toFun c := mulLeftOnSpecht n c la'
-  map_add' a b := by ext ⟨m, hm⟩; simp [mulLeftOnSpecht, add_mul]
-  map_smul' r c := by ext ⟨m, hm⟩; simp [mulLeftOnSpecht]
+  map_add' a b := by
+    apply LinearMap.ext
+    intro m
+    apply Subtype.ext
+    exact add_mul a b m
+  map_smul' r c := by
+    apply LinearMap.ext
+    intro m
+    apply Subtype.ext
+    exact smul_mul_assoc r c m
 
 /-- The sum `∑_σ c(σ) · χ_{V}(σ)` equals the trace of left multiplication by `c` on `V`.
 Uses the decomposition `c = ∑ c(σ) · of(σ)` and linearity of trace. -/
@@ -104,30 +117,33 @@ private lemma sum_coeff_char_eq_trace (n : ℕ) (la' : Nat.Partition n)
       LinearMap.trace ℂ _ (mulLeftOnSpecht n c la') := by
   symm
   have key : (LinearMap.trace ℂ _) (mulLeftOnSpecht n c la') =
-      ∑ σ ∈ c.support, c σ * spechtModuleCharacter n la' σ := by
+      ∑ σ ∈ c.coeff.support, c σ * spechtModuleCharacter n la' σ := by
     have hlin : mulLeftOnSpecht n c la' = (mulLeftOnSpechtLinear n la') c := rfl
     rw [hlin]
     simp_rw [spechtModuleCharacter, ← mulLeftOnSpecht_of n la']
-    have hc : c = ∑ σ ∈ c.support, c σ • MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) σ := by
-      conv_lhs => rw [← Finsupp.sum_single c]
+    have hc : c = ∑ σ ∈ c.coeff.support,
+        c σ • MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) σ := by
+      conv_lhs => rw [← MonoidAlgebra.sum_single c]
       unfold Finsupp.sum
       refine Finset.sum_congr rfl (fun σ _ => ?_)
-      rw [MonoidAlgebra.of_apply, Finsupp.smul_single', mul_one]
+      rw [MonoidAlgebra.of_apply, MonoidAlgebra.smul_single', mul_one]
     conv_lhs => rw [show (mulLeftOnSpechtLinear n la') c =
         (mulLeftOnSpechtLinear n la')
-          (∑ σ ∈ c.support, c σ • MonoidAlgebra.of ℂ _ σ) from by rw [← hc]]
+          (∑ σ ∈ c.coeff.support, c σ • MonoidAlgebra.of ℂ _ σ) from by rw [← hc]]
     rw [map_sum, map_sum]
     refine Finset.sum_congr rfl (fun σ _ => ?_)
     rw [map_smul, LinearMap.map_smul, smul_eq_mul]
     rfl
   rw [key]
-  apply Finset.sum_subset (Finset.subset_univ c.support)
+  apply Finset.sum_subset (Finset.subset_univ c.coeff.support)
   intro σ _ hσ
   have : c σ = 0 := by rwa [Finsupp.mem_support_iff, not_not] at hσ
   simp [this]
 
 /-! ### Off-diagonal case -/
 
+set_option maxHeartbeats 1600000 in
+-- Constructing and comparing the subtype-valued intertwiner is elaboration-intensive.
 /-- Left multiplication by `c_λ` is zero on `V_{λ'}` when `λ ≠ λ'`.
 If nonzero, right multiplication by a witness `w₀` gives an A-linear map
 `V_λ → V_{λ'}`, which by Schur's lemma (both simple) is bijective,
@@ -151,10 +167,14 @@ private lemma mulLeft_youngSym_zero_of_ne (n : ℕ) (la la' : Nat.Partition n) (
   have hφ_ne : φ ≠ 0 := by
     intro h
     apply hw₀
-    have : φ ⟨YoungSymmetrizer n la, Submodule.subset_span rfl⟩ = 0 :=
-      congr_fun (congr_arg DFunLike.coe h) ⟨YoungSymmetrizer n la, Submodule.subset_span rfl⟩
-    simp only [mulLeftOnSpecht, LinearMap.coe_mk, AddHom.coe_mk] at this ⊢
-    exact this
+    let e : SpechtModule n la :=
+      ⟨YoungSymmetrizer n la, Submodule.subset_span rfl⟩
+    have he := LinearMap.congr_fun h e
+    apply Subtype.ext
+    change YoungSymmetrizer n la * (w₀ : SymGroupAlgebra n) = 0
+    have hev := congrArg Subtype.val he
+    change YoungSymmetrizer n la * (w₀ : SymGroupAlgebra n) = 0 at hev
+    exact hev
   -- Both modules are simple
   haveI : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n la) :=
     Theorem5_12_2_irreducible n la
@@ -199,7 +219,7 @@ private lemma mul_mem_specht_proportional (n : ℕ) (la : Nat.Partition n)
   conv_lhs => rw [show v.val = a * c from ha.symm, hsand]
   conv_rhs => rw [show v.val = a * c from ha.symm, hsand]
   congr 1
-  rw [Finsupp.smul_apply, smul_eq_mul, youngSym_coeff_one, mul_one]
+  rw [MonoidAlgebra.coeff_smul_apply, smul_eq_mul, youngSym_coeff_one, mul_one]
 
 /-- The trace of left multiplication by `c_λ` on `V_λ = span({c_λ})` equals `α`.
 Factor `T = ι ∘ π` where `ι : ℂ → V` and `π : V → ℂ` using the sandwich
@@ -221,7 +241,7 @@ private lemma trace_mulLeft_youngSym_eq (n : ℕ) (la : Nat.Partition n)
       map_add' := fun x y => by simp [mul_add]
       map_smul' := fun r x => by
         change (c * (r • x.val)) 1 = r * (c * x.val) 1
-        rw [Algebra.mul_smul_comm, Finsupp.smul_apply, smul_eq_mul] }
+        rw [Algebra.mul_smul_comm, MonoidAlgebra.coeff_smul_apply, smul_eq_mul] }
   -- T = ι ∘ π (using sandwich property)
   have hT_eq : T = ι.comp π := by
     apply LinearMap.ext
@@ -235,8 +255,9 @@ private lemma trace_mulLeft_youngSym_eq (n : ℕ) (la : Nat.Partition n)
     apply LinearMap.ext
     intro x
     change (c * (x • c)) 1 = α * x
-    rw [Algebra.mul_smul_comm, Finsupp.smul_apply, smul_eq_mul]
-    rw [hα_sq, Finsupp.smul_apply, smul_eq_mul, youngSym_coeff_one, mul_one, mul_comm]
+    rw [Algebra.mul_smul_comm, MonoidAlgebra.coeff_smul_apply, smul_eq_mul]
+    rw [hα_sq, MonoidAlgebra.coeff_smul_apply, smul_eq_mul,
+      youngSym_coeff_one, mul_one, mul_comm]
   rw [h_comp]
   simp [map_smul, LinearMap.trace_id, Module.finrank_self]
 

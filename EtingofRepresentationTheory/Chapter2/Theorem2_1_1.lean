@@ -603,12 +603,13 @@ private lemma binaryPolynomialEquiv_basis (d : ℕ+) (i : Fin d) :
     apply (MvPolynomial.basisRestrictSupport ℂ _).repr.injective
     rw [Module.Basis.repr_self, LinearEquiv.apply_symm_apply]
   rw [hb]
-  change (↑((Finsupp.supportedEquivFinsupp (M := ℂ) (R := ℂ)
-      {m : Fin 2 →₀ ℕ | m.degree = (d : ℕ) - 1}).symm
-        (Finsupp.single ((binaryExponentEquiv d) i) 1)) : (Fin 2 →₀ ℕ) →₀ ℂ) =
-    Finsupp.single (binaryExponent d i) 1
-  rw [Finsupp.supportedEquivFinsupp_symm_single]
-  rfl
+  ext m
+  simp [MvPolynomial.basisRestrictSupport, AddMonoidAlgebra.supportedEquivFinsupp,
+    MvPolynomial.coeff, AddMonoidAlgebra.coeff_single]
+  change _ = MvPolynomial.coeff m (MvPolynomial.monomial (binaryExponent d i) 1)
+  rw [MvPolynomial.coeff_monomial]
+  rw [show ↑((binaryExponentEquiv d) i) = binaryExponent d i by rfl]
+  exact Finsupp.single_apply
 
 private noncomputable def polynomialMap (d : ℕ+) :
     (Fin d → ℂ) →ₗ[ℂ] MvPolynomial (Fin 2) ℂ :=

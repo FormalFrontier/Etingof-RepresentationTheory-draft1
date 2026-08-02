@@ -158,7 +158,7 @@ private lemma homogeneousComponent_mul_of_isHomogeneous_right
   · rw [MvPolynomial.coeff_mul, MvPolynomial.coeff_mul]
     refine Finset.sum_congr rfl ?_
     intro x hx
-    rw [Finset.mem_antidiagonal] at hx
+    rw [Finset.HasAntidiagonal.mem_antidiagonal] at hx
     rw [MvPolynomial.coeff_homogeneousComponent]
     have hdeg : d.degree = x.1.degree + x.2.degree := by
       rw [← hx]; exact map_add Finsupp.degree x.1 x.2
@@ -170,7 +170,7 @@ private lemma homogeneousComponent_mul_of_isHomogeneous_right
     rw [MvPolynomial.coeff_mul]
     apply Finset.sum_eq_zero
     intro x hx
-    rw [Finset.mem_antidiagonal] at hx
+    rw [Finset.HasAntidiagonal.mem_antidiagonal] at hx
     rw [MvPolynomial.coeff_homogeneousComponent]
     have hdeg : d.degree = x.1.degree + x.2.degree := by
       rw [← hx]; exact map_add Finsupp.degree x.1 x.2

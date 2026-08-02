@@ -377,6 +377,8 @@ theorem exists_typed_isotypic_decomposition {n : ℕ} (act : A5 →* Equiv.Perm 
     refine Finset.sum_congr rfl fun k _ => ?_
     haveI := irrepA5_simple (type k)
     haveI := irrepA5_simple i
+    rw [smul_eq_mul, invOf_eq_inv]
+    rw [← Nat.card_eq_fintype_card]
     rw [FDRep.char_orthonormal (irrepA5 (type k)) (irrepA5 i), irrepA5_iso_iff]
     by_cases h : type k = i <;> simp [h]
   rw [hcard]

@@ -57,27 +57,28 @@ private theorem castQC_young (n : ℕ) (la : Nat.Partition n) :
   norm_cast
 
 /-- The complexification map `T : ℂ ⊗_ℚ (ℚ[Sₙ]·c) → ℂ[Sₙ]`. -/
+private def groupAlgebraBaseChange (n : ℕ) :
+    (ℂ ⊗[ℚ] MonoidAlgebra ℚ (Equiv.Perm (Fin n))) →ₗ[ℂ]
+      MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
+  (MonoidAlgebra.coeffLinearEquiv ℂ).symm.toLinearMap ∘ₗ
+    (TensorProduct.finsuppScalarRight ℚ ℂ ℂ (Equiv.Perm (Fin n))).toLinearMap ∘ₗ
+      LinearMap.baseChange ℂ (MonoidAlgebra.coeffLinearEquiv ℚ).toLinearMap
+
 private def Tmap (n : ℕ) (la : Nat.Partition n) :
     (ℂ ⊗[ℚ] (SpechtModuleK ℚ n la)) →ₗ[ℂ] (MonoidAlgebra ℂ (Equiv.Perm (Fin n))) :=
-  (TensorProduct.finsuppScalarRight ℚ ℂ ℂ (Equiv.Perm (Fin n))).toLinearMap ∘ₗ
+  groupAlgebraBaseChange n ∘ₗ
     LinearMap.baseChange ℂ (((SpechtModuleK ℚ n la).subtype).restrictScalars ℚ)
 
 private theorem Tmap_tmul (z : ℂ) (w : SpechtModuleK ℚ n la) :
     Tmap n la (z ⊗ₜ[ℚ] w) = z • (castQC n (w : MonoidAlgebra ℚ (Equiv.Perm (Fin n)))) := by
   ext g
-  change (TensorProduct.finsuppScalarRight ℚ ℂ ℂ (Equiv.Perm (Fin n)))
-      (LinearMap.baseChange ℂ (((SpechtModuleK ℚ n la).subtype).restrictScalars ℚ)
-        (z ⊗ₜ[ℚ] w)) g = _
-  rw [LinearMap.baseChange_tmul]
-  -- `finsuppScalarRight` expects its `Finsupp`-typed factor, but the base-changed
-  -- element carries the `MonoidAlgebra` instances (defeq, but not syntactically equal:
-  -- `MonoidAlgebra.addCommMonoid` overrides the `nsmul` field). Build the coefficient
-  -- value with the `Finsupp` typing and transport across the defeq via `Eq.trans`.
-  have h := TensorProduct.finsuppScalarRight_apply_tmul_apply (R := ℚ) (S := ℂ) (M := ℂ)
-    (ι := Equiv.Perm (Fin n)) z ((SpechtModuleK ℚ n la).subtype w) g
-  refine h.trans ?_
-  rw [Algebra.smul_def, mul_comm]
-  rfl
+  simp only [Tmap, groupAlgebraBaseChange, LinearMap.comp_apply,
+    LinearMap.baseChange_tmul, MonoidAlgebra.coeffLinearEquiv_apply,
+    MonoidAlgebra.coeffLinearEquiv_symm_apply,
+    TensorProduct.finsuppScalarRight_apply_tmul_apply,
+    MonoidAlgebra.coeff_smul_apply, castQC, MonoidAlgebra.coeff_mapRingHom,
+    LinearMap.coe_restrictScalars, Submodule.coe_subtype]
+  simp [Algebra.smul_def, mul_comm]
 
 private theorem Tmap_injective : Function.Injective (Tmap n la) := by
   have h : Function.Injective
@@ -86,7 +87,17 @@ private theorem Tmap_injective : Function.Injective (Tmap n la) := by
       ⇑(LinearMap.baseChange ℂ (((SpechtModuleK ℚ n la).subtype).restrictScalars ℚ)) := by
     rw [LinearMap.baseChange_eq_ltensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap _ h
-  exact (TensorProduct.finsuppScalarRight ℚ ℂ ℂ (Equiv.Perm (Fin n))).injective.comp hbc
+  have hcoeff : Function.Injective
+      (LinearMap.baseChange ℂ
+        (MonoidAlgebra.coeffLinearEquiv ℚ :
+          MonoidAlgebra ℚ (Equiv.Perm (Fin n)) ≃ₗ[ℚ]
+            Equiv.Perm (Fin n) →₀ ℚ).toLinearMap) := by
+    rw [LinearMap.baseChange_eq_ltensor]
+    exact Module.Flat.lTensor_preserves_injective_linearMap _
+      (MonoidAlgebra.coeffLinearEquiv ℚ).injective
+  exact (MonoidAlgebra.coeffLinearEquiv ℂ).symm.injective.comp
+    ((TensorProduct.finsuppScalarRight ℚ ℂ ℂ (Equiv.Perm (Fin n))).injective.comp
+      (hcoeff.comp hbc))
 
 /-- The cast maps the rational Specht module into the complex one. -/
 private theorem castQC_mem_spechtModule (y : MonoidAlgebra ℚ (Equiv.Perm (Fin n)))

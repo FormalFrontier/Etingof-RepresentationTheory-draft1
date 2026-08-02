@@ -168,9 +168,9 @@ theorem natCard_irrepClasses_le_of_ringHom_field
   classical
   -- Finiteness of the two group algebras over their base fields.
   haveI : Module.Finite k (MonoidAlgebra k G) :=
-    Module.Finite.of_basis (Finsupp.basisSingleOne (ι := G) (R := k))
+    Module.Finite.of_basis (MonoidAlgebra.basis G k)
   haveI : Module.Finite K (MonoidAlgebra K G) :=
-    Module.Finite.of_basis (Finsupp.basisSingleOne (ι := G) (R := K))
+    Module.Finite.of_basis (MonoidAlgebra.basis G K)
   -- The semisimple radical quotient `A = k[G]/rad(k[G])`.
   set J : Ideal (MonoidAlgebra k G) := Ring.jacobson (MonoidAlgebra k G) with hJ
   haveI : IsArtinianRing (MonoidAlgebra k G) := IsArtinianRing.of_finite k (MonoidAlgebra k G)
@@ -193,14 +193,16 @@ theorem natCard_irrepClasses_le_of_ringHom_field
     MonoidAlgebra.lift k (MonoidAlgebra K G) G (MonoidAlgebra.of K G) with hι
   -- `φ ∘ ι = ψ`: both are `k`-algebra maps `k[G] → K ⊗_k A`, agreeing on group elements.
   have hcomp : (φ.restrictScalars k).comp ι = ψ := by
-    refine MonoidAlgebra.algHom_ext fun g => ?_
-    have hιg : ι (MonoidAlgebra.single g (1 : k)) = MonoidAlgebra.single g (1 : K) := by
-      rw [hι, MonoidAlgebra.lift_single, one_smul, MonoidAlgebra.of_apply]
-    have hφg : φ (MonoidAlgebra.single g (1 : K)) = ψ (MonoidAlgebra.single g (1 : k)) := by
-      rw [hφ, MonoidAlgebra.lift_single, one_smul, hmh, MonoidHom.coe_comp,
-        Function.comp_apply, MonoidAlgebra.of_apply]
-      rfl
-    rw [AlgHom.comp_apply, AlgHom.restrictScalars_apply, hιg, hφg]
+    refine MonoidAlgebra.algHom_ext (M := G) (fun g => ?_) ?_
+    · have hιg : ι (MonoidAlgebra.single g (1 : k)) = MonoidAlgebra.single g (1 : K) := by
+        rw [hι, MonoidAlgebra.lift_single, one_smul, MonoidAlgebra.of_apply]
+      have hφg : φ (MonoidAlgebra.single g (1 : K)) =
+          ψ (MonoidAlgebra.single g (1 : k)) := by
+        rw [hφ, MonoidAlgebra.lift_single, one_smul, hmh, MonoidHom.coe_comp,
+          Function.comp_apply, MonoidAlgebra.of_apply]
+        rfl
+      rw [AlgHom.comp_apply, AlgHom.restrictScalars_apply, hιg, hφg]
+    · ext
   -- Every pure tensor `1 ⊗ x` is in the range of `φ` (via `ι` on a lift of `x`).
   have hone : ∀ x : MonoidAlgebra k G ⧸ J, (1 : K) ⊗ₜ[k] x ∈ φ.range := by
     intro x

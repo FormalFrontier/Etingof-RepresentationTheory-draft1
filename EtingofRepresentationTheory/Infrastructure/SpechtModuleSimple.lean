@@ -20,6 +20,10 @@ noncomputable section
 
 namespace Etingof
 
+local instance spechtModuleSimpleCoeFun {R M : Type*} [Semiring R] :
+    CoeFun (MonoidAlgebra R M) (fun _ => M → R) :=
+  ⟨fun a => a.coeff⟩
+
 private abbrev G' (n : ℕ) := Equiv.Perm (Fin n)
 private abbrev AQ (n : ℕ) := MonoidAlgebra ℚ (G' n)
 
@@ -35,8 +39,12 @@ def SpechtModuleK (k : Type*) [CommRing k] (n : ℕ) (la : Nat.Partition n) :
 private lemma mapRingHom_int_complex_injective (n : ℕ) :
     Function.Injective (MonoidAlgebra.mapRingHom (Equiv.Perm (Fin n))
       (Int.castRingHom ℂ)) := by
-  rw [MonoidAlgebra.coe_mapRingHom]
-  exact Finsupp.mapRange_injective _ (map_zero _) Int.cast_injective
+  intro x y h
+  apply MonoidAlgebra.ext
+  apply Finsupp.ext
+  intro g
+  have hg := congrArg (fun z => z.coeff g) h
+  simpa only [MonoidAlgebra.coeff_mapRingHom] using Int.cast_injective hg
 
 /-- For each σ, the element c_ℤ * of(σ) * c_ℤ in ℤ[S_n] is proportional to c_ℤ.
 
@@ -59,7 +67,8 @@ theorem YoungSymmetrizerZ_sandwich_basis (n : ℕ) (la : Nat.Partition n)
   have hφc : φ cZ = YoungSymmetrizer n la :=
     (YoungSymmetrizer_eq_mapRange n la).symm
   have hφσ : φ (MonoidAlgebra.of ℤ _ σ) = MonoidAlgebra.of ℂ _ σ := by
-    change MonoidAlgebra.mapRingHom _ _ (Finsupp.single σ 1) = Finsupp.single σ 1
+    change MonoidAlgebra.mapRingHom _ _ (MonoidAlgebra.single σ 1) =
+      MonoidAlgebra.single σ 1
     rw [MonoidAlgebra.mapRingHom_single, map_one]
   -- Over ℂ: b * x * a = ℓ(x) • c (Lemma 5.13.1)
   obtain ⟨ℓ, hℓ⟩ := Etingof.Lemma5_13_1 n la
@@ -89,7 +98,7 @@ theorem YoungSymmetrizerZ_sandwich_basis (n : ℕ) (la : Nat.Partition n)
   have hf_eq : f_val = ((y 1 : ℤ) : ℂ) := by
     -- Evaluate h_ℂ at identity
     have h1 : (f_val • φ cZ) (1 : Equiv.Perm (Fin n)) = f_val := by
-      rw [Finsupp.smul_apply, smul_eq_mul]
+      rw [MonoidAlgebra.coeff_smul_apply, smul_eq_mul]
       change f_val * ((cZ 1 : ℤ) : ℂ) = f_val
       rw [hcZ1, Int.cast_one, mul_one]
     have h2 : (φ y) (1 : Equiv.Perm (Fin n)) = ((y 1 : ℤ) : ℂ) := by
@@ -118,7 +127,8 @@ theorem YoungSymmetrizerK_sandwich_ℚ (n : ℕ) (la : Nat.Partition n) :
     set β := (cZ * MonoidAlgebra.of ℤ _ σ * cZ) 1
     refine ⟨β, ?_⟩
     have hψσ : ψ (MonoidAlgebra.of ℤ _ σ) = MonoidAlgebra.of ℚ _ σ := by
-      change MonoidAlgebra.mapRingHom _ _ (Finsupp.single σ 1) = Finsupp.single σ 1
+      change MonoidAlgebra.mapRingHom _ _ (MonoidAlgebra.single σ 1) =
+        MonoidAlgebra.single σ 1
       rw [MonoidAlgebra.mapRingHom_single, map_one]
     have hZ := YoungSymmetrizerZ_sandwich_basis n la σ
     calc cQ * MonoidAlgebra.of ℚ _ σ * cQ
@@ -130,19 +140,20 @@ theorem YoungSymmetrizerK_sandwich_ℚ (n : ℕ) (la : Nat.Partition n) :
   -- Build the linear functional
   choose β hβ using basis_prop
   let f : AQ n →ₗ[ℚ] ℚ :=
-    Finsupp.lsum ℚ (fun σ => (β σ : ℚ) • (LinearMap.id : ℚ →ₗ[ℚ] ℚ))
+    (Finsupp.lsum ℚ (fun σ => (β σ : ℚ) • (LinearMap.id : ℚ →ₗ[ℚ] ℚ))) ∘ₗ
+      (MonoidAlgebra.coeffLinearEquiv ℚ).toLinearMap
   refine ⟨f, fun x => ?_⟩
-  induction x using Finsupp.induction_linear with
+  induction x using MonoidAlgebra.induction_linear with
   | zero => simp
   | add x y hx hy =>
     simp only [mul_add, add_mul, map_add, add_smul]
     exact congr_arg₂ (· + ·) hx hy
   | single σ r =>
-    have hf_single : f (Finsupp.single σ r) = (β σ : ℚ) * r := by
+    have hf_single : f (MonoidAlgebra.single σ r) = (β σ : ℚ) * r := by
       change (Finsupp.lsum ℚ (fun σ => (β σ : ℚ) • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)))
         (Finsupp.single σ r) = _
       rw [Finsupp.lsum_single, LinearMap.smul_apply, LinearMap.id_apply, smul_eq_mul]
-    have hsingle : (Finsupp.single σ r : MonoidAlgebra ℚ _) = r • MonoidAlgebra.of ℚ _ σ := by
+    have hsingle : MonoidAlgebra.single σ r = r • MonoidAlgebra.of ℚ _ σ := by
       simp [MonoidAlgebra.of_apply, mul_one]
     conv_lhs => rw [hsingle]
     rw [Algebra.mul_smul_comm, Algebra.smul_mul_assoc, hβ, smul_smul, hf_single, mul_comm]
@@ -160,7 +171,7 @@ private lemma YoungSymmetrizerK_ℚ_ne_zero (n : ℕ) (la : Nat.Partition n) :
     YoungSymmetrizerK ℚ n la ≠ 0 := by
   intro h
   have := YoungSymmetrizerK_ℚ_apply_one n la
-  rw [h, Finsupp.zero_apply] at this
+  rw [h] at this
   exact zero_ne_one this
 
 /-! ### Simplicity of the ℚ-Specht module -/
@@ -251,7 +262,8 @@ theorem YoungSymmetrizerK_sandwich_general (k : Type*) [CommRing k]
     set β := (cZ * MonoidAlgebra.of ℤ _ σ * cZ) 1
     refine ⟨β, ?_⟩
     have hψσ : ψ (MonoidAlgebra.of ℤ _ σ) = MonoidAlgebra.of k _ σ := by
-      change MonoidAlgebra.mapRingHom _ _ (Finsupp.single σ 1) = Finsupp.single σ 1
+      change MonoidAlgebra.mapRingHom _ _ (MonoidAlgebra.single σ 1) =
+        MonoidAlgebra.single σ 1
       rw [MonoidAlgebra.mapRingHom_single, map_one]
     have hZ := YoungSymmetrizerZ_sandwich_basis n la σ
     calc cK * MonoidAlgebra.of k _ σ * cK
@@ -262,19 +274,20 @@ theorem YoungSymmetrizerK_sandwich_general (k : Type*) [CommRing k]
   -- Build the linear functional
   choose β hβ using basis_prop
   let f : MonoidAlgebra k (Equiv.Perm (Fin n)) →ₗ[k] k :=
-    Finsupp.lsum k (fun σ => (β σ : k) • (LinearMap.id : k →ₗ[k] k))
+    (Finsupp.lsum k (fun σ => (β σ : k) • (LinearMap.id : k →ₗ[k] k))) ∘ₗ
+      (MonoidAlgebra.coeffLinearEquiv k).toLinearMap
   refine ⟨f, fun x => ?_⟩
-  induction x using Finsupp.induction_linear with
+  induction x using MonoidAlgebra.induction_linear with
   | zero => simp
   | add x y hx hy =>
     simp only [mul_add, add_mul, map_add, add_smul]
     exact congr_arg₂ (· + ·) hx hy
   | single σ r =>
-    have hf_single : f (Finsupp.single σ r) = (β σ : k) * r := by
+    have hf_single : f (MonoidAlgebra.single σ r) = (β σ : k) * r := by
       change (Finsupp.lsum k (fun σ => (β σ : k) • (LinearMap.id : k →ₗ[k] k)))
         (Finsupp.single σ r) = _
       rw [Finsupp.lsum_single, LinearMap.smul_apply, LinearMap.id_apply, smul_eq_mul]
-    have hsingle : (Finsupp.single σ r : MonoidAlgebra k _) = r • MonoidAlgebra.of k _ σ := by
+    have hsingle : MonoidAlgebra.single σ r = r • MonoidAlgebra.of k _ σ := by
       simp [MonoidAlgebra.of_apply, mul_one]
     conv_lhs => rw [hsingle]
     rw [Algebra.mul_smul_comm, Algebra.smul_mul_assoc, hβ, smul_smul, hf_single, mul_comm]
@@ -292,22 +305,23 @@ private lemma YoungSymmetrizerK_general_ne_zero (k : Type*) [CommRing k] [Nontri
     YoungSymmetrizerK k n la ≠ 0 := by
   intro h
   have := YoungSymmetrizerK_general_apply_one k n la
-  rw [h, Finsupp.zero_apply] at this
+  rw [h] at this
   exact zero_ne_one this
 
 /-- The trace of left multiplication by `c` in `MonoidAlgebra k G` equals `|G| · c(1)`. -/
 private theorem monoidAlgebra_trace_mulLeft_eq_general (k : Type*) [CommRing k]
     {G : Type*} [Group G] [Fintype G]
     (c : MonoidAlgebra k G) :
-    LinearMap.trace k _ (LinearMap.mulLeft k c) = Fintype.card G * c 1 := by
+    LinearMap.trace k _ (LinearMap.mulLeft k c) = Fintype.card G * c.coeff 1 := by
   classical
   set b := MonoidAlgebra.basis G k
   rw [LinearMap.trace_eq_matrix_trace k b]
   simp only [Matrix.trace, Matrix.diag, LinearMap.toMatrix_apply]
-  have hdiag : ∀ σ : G, b.repr (LinearMap.mulLeft k c (b σ)) σ = c 1 := by
+  have hdiag : ∀ σ : G, b.repr (LinearMap.mulLeft k c (b σ)) σ = c.coeff 1 := by
     intro σ
     rw [LinearMap.mulLeft_apply, MonoidAlgebra.basis_apply]
-    have hrepr : ∀ (x : MonoidAlgebra k G) (g : G), b.repr x g = x g := fun _ _ => rfl
+    have hrepr : ∀ (x : MonoidAlgebra k G) (g : G), b.repr x g = x.coeff g :=
+      fun _ _ => rfl
     rw [hrepr, MonoidAlgebra.mul_single_apply, mul_one, mul_inv_cancel]
   simp_rw [hdiag, Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
 
@@ -329,7 +343,7 @@ theorem YoungSymmetrizerK_sq_scalar_ne_zero_general (k : Type*) [Field k] [CharZ
   have htr_nil := LinearMap.isNilpotent_trace_of_isNilpotent hnil
   rw [isNilpotent_iff_eq_zero] at htr_nil
   rw [monoidAlgebra_trace_mulLeft_eq_general] at htr_nil
-  have hone : c 1 = 1 := YoungSymmetrizerK_general_apply_one k n la
+  have hone : c.coeff 1 = 1 := YoungSymmetrizerK_general_apply_one k n la
   rw [hone, mul_one] at htr_nil
   exact (Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n))
     (by rwa [Fintype.card_perm, Fintype.card_fin] at htr_nil)

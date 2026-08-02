@@ -545,7 +545,7 @@ def charEquiv (N : ℕ) [NeZero N] :
 theorem card_sqrtOne : Nat.card {w : ℂˣ // w ^ 2 = 1} = 2 := by
   have e : {w : ℂˣ // w ^ 2 = 1} ≃ (rootsOfUnity 2 ℂ) :=
     Equiv.subtypeEquivRight (fun w => (mem_rootsOfUnity 2 w).symm)
-  rw [Nat.card_congr e, Nat.card_eq_fintype_card, Complex.card_rootsOfUnity]
+  rw [Nat.card_congr e, Complex.card_rootsOfUnity]
 
 omit [NeZero N] in
 /-- For odd `N`, the only unit with `u ^ N = 1` and `u ^ 2 = 1` is `1`. -/

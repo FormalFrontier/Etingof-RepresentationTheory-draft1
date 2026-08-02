@@ -89,7 +89,7 @@ theorem Etingof.Theorem5_9_1
   rw [show Etingof.Definition5_8_1 H ρ g = Representation.ind H.subtype ρ g from rfl,
     Representation.ind_apply, Etingof.trace_coinvariantsMap]
   congr 1
-  set τ : Representation ℂ H ((G →₀ ℂ) ⊗[ℂ] V) :=
+  set τ : Representation ℂ H ((MonoidAlgebra ℂ G) ⊗[ℂ] V) :=
     Representation.tprod ((Representation.leftRegular ℂ G).comp H.subtype) ρ with hτ
   -- `τ h` as a tensor product of the (left-regular shift, `ρ h`).
   have hτh : ∀ h : H,
@@ -97,23 +97,24 @@ theorem Etingof.Theorem5_9_1
     intro h; rw [hτ, Representation.tprod_apply]; rfl
   -- The shift on `ℂ[G]` commutes with left-translation by `↑h`.
   have hshift : ∀ h : H,
-      Representation.leftRegular ℂ G (↑h : G) ∘ₗ Finsupp.lmapDomain ℂ ℂ (· * g⁻¹)
-        = Finsupp.lmapDomain ℂ ℂ (fun x => (↑h : G) * x * g⁻¹) := by
+      Representation.leftRegular ℂ G (↑h : G) ∘ₗ
+          MonoidAlgebra.mapDomainLinearMap ℂ ℂ (· * g⁻¹) =
+        MonoidAlgebra.mapDomainLinearMap ℂ ℂ (fun x => (↑h : G) * x * g⁻¹) := by
     intro h
-    refine Finsupp.lhom_ext fun y r => ?_
-    simp [Representation.leftRegular, Representation.ofMulAction_single,
-      Finsupp.lmapDomain_apply, Finsupp.mapDomain_single, mul_assoc]
+    ext y
+    simp [Representation.leftRegular, Representation.ofMulAction_single, mul_assoc]
   -- Compute each twisted trace as a tensor trace.
   have hper : ∀ h : H,
-      LinearMap.trace ℂ ((G →₀ ℂ) ⊗[ℂ] V)
-          (τ h ∘ₗ (Finsupp.lmapDomain ℂ ℂ (· * g⁻¹)).rTensor V)
+      LinearMap.trace ℂ ((MonoidAlgebra ℂ G) ⊗[ℂ] V)
+          (τ h ∘ₗ (MonoidAlgebra.mapDomainLinearMap ℂ ℂ (· * g⁻¹)).rTensor V)
         = (∑ x : G, if (↑h : G) * x * g⁻¹ = x then (1 : ℂ) else 0)
             * LinearMap.trace ℂ V (ρ h) := by
     intro h
-    have hmap : τ h ∘ₗ (Finsupp.lmapDomain ℂ ℂ (· * g⁻¹)).rTensor V
-        = TensorProduct.map (Finsupp.lmapDomain ℂ ℂ (fun x => (↑h : G) * x * g⁻¹)) (ρ h) := by
+    have hmap : τ h ∘ₗ (MonoidAlgebra.mapDomainLinearMap ℂ ℂ (· * g⁻¹)).rTensor V
+        = TensorProduct.map
+            (MonoidAlgebra.mapDomainLinearMap ℂ ℂ (fun x => (↑h : G) * x * g⁻¹)) (ρ h) := by
       rw [hτh h, LinearMap.rTensor_def, ← TensorProduct.map_comp, hshift h, LinearMap.comp_id]
-    rw [hmap, LinearMap.trace_tensorProduct', Etingof.trace_lmapDomain]
+    rw [hmap, LinearMap.trace_tensorProduct', Etingof.trace_monoidAlgebra_mapDomain]
   rw [Finset.sum_congr rfl (fun h _ => hper h)]
   -- Distribute, swap the order of summation, and collapse each fibre.
   simp_rw [Finset.sum_mul]

@@ -167,6 +167,18 @@ lemma trace_lmapDomain {k : Type*} [Field k] {ι : Type*} [Fintype ι] [Decidabl
   rw [Matrix.diag_apply, LinearMap.toMatrix_apply, Finsupp.coe_basisSingleOne]
   simp [Finsupp.lmapDomain_apply, Finsupp.mapDomain_single, Finsupp.single_apply]
 
+/-- The trace of the corresponding domain map on a monoid algebra counts fixed points. -/
+lemma trace_monoidAlgebra_mapDomain {k : Type*} [Field k] {ι : Type*}
+    [Monoid ι] [Fintype ι] [DecidableEq ι] (φ : ι → ι) :
+    LinearMap.trace k (MonoidAlgebra k ι) (MonoidAlgebra.mapDomainLinearMap k k φ) =
+      ∑ x : ι, if φ x = x then (1 : k) else 0 := by
+  rw [LinearMap.trace_eq_matrix_trace k (MonoidAlgebra.basis ι k), Matrix.trace]
+  refine Finset.sum_congr rfl fun x _ ↦ ?_
+  rw [Matrix.diag_apply, LinearMap.toMatrix_apply]
+  rw [MonoidAlgebra.basis_apply, MonoidAlgebra.mapDomainLinearMap_single]
+  change (Finsupp.single (φ x) 1) x = _
+  exact Finsupp.single_apply
+
 /-- A sum over a subgroup `H` of an indicator on the coercion `↑h = a` picks out the unique
 preimage when `a ∈ H`. -/
 lemma sum_subtype_ite_coe {G : Type*} [Group G] [DecidableEq G] (H : Subgroup G) [Fintype H]
@@ -191,5 +203,3 @@ lemma sum_subtype_ite_coe {G : Type*} [Group G] [DecidableEq G] (H : Subgroup G)
 end Helpers
 
 end Etingof
-
-

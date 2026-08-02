@@ -73,11 +73,10 @@ variable {k G}
 
 omit [Group G] in
 /-- Every coefficient of `P = ∑_g g` equals `1`. -/
-@[simp] lemma groupSum_apply (x : G) : (groupSum k G) x = 1 := by
+@[simp] lemma groupSum_apply (x : G) : (groupSum k G).coeff x = 1 := by
   classical
-  have happly : (groupSum k G) x = ∑ g : G, (MonoidAlgebra.single g (1 : k)) x :=
-    Finsupp.finsetSum_apply Finset.univ (fun g => MonoidAlgebra.single g (1 : k)) x
-  rw [happly, Finset.sum_eq_single x
+  rw [groupSum, MonoidAlgebra.coeff_sum, Finsupp.finsetSum_apply,
+    Finset.sum_eq_single x
     (fun b _ hb => by simp [hb])
     (fun hx => absurd (Finset.mem_univ x) hx)]
   simp
@@ -125,7 +124,7 @@ lemma groupSum_isNilpotent (hcard : (Fintype.card G : k) = 0) :
 lemma groupSum_ne_zero : groupSum k G ≠ 0 := by
   intro h
   have h1 := groupSum_apply (k := k) (G := G) (1 : G)
-  rw [h, show (0 : MonoidAlgebra k G) (1 : G) = 0 from rfl] at h1
+  rw [h, show (0 : MonoidAlgebra k G).coeff (1 : G) = 0 from rfl] at h1
   exact zero_ne_one h1
 
 /-- **Non-semisimplicity in the modular case.** If `|G| = 0` in `k` then the group algebra
@@ -239,7 +238,7 @@ theorem finite_k_of_isSimpleModule [Finite G] {M : Type u} [AddCommGroup M]
       rw [Submodule.span_singleton_eq_bot]; exact hm0)
   haveI : Module.Finite (MonoidAlgebra k G) M := ⟨⟨{m}, by simpa using htop⟩⟩
   haveI : Module.Finite k (MonoidAlgebra k G) :=
-    Module.Finite.of_basis (Finsupp.basisSingleOne (ι := G) (R := k))
+    Module.Finite.of_basis (MonoidAlgebra.basis G k)
   exact Module.Finite.trans (MonoidAlgebra k G) M
 
 /-- Being a simple object, packaged as an `ObjectProperty`. -/
@@ -684,7 +683,7 @@ theorem natCard_simpleModuleClasses_quotient_jacobson (k : Type u) [Field k] [Al
 instance IrrepClasses.instFinite {k G : Type*} [Field k] [Group G] [Finite G] :
     Finite (IrrepClasses k G) := by
   haveI : Module.Finite k (MonoidAlgebra k G) :=
-    Module.Finite.of_basis (Finsupp.basisSingleOne (ι := G) (R := k))
+    Module.Finite.of_basis (MonoidAlgebra.basis G k)
   haveI := finite_simpleModuleClasses k (R := MonoidAlgebra k G)
   exact Finite.of_equiv _ (irrepClassesEquivSimpleModuleClasses k G).symm
 

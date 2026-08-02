@@ -2,6 +2,7 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_27_1
 import EtingofRepresentationTheory.Chapter5.CharEqIso
 import EtingofRepresentationTheory.Infrastructure.CompletenessCriterion
+import EtingofRepresentationTheory.Infrastructure.CharacterOrthogonalityCompat
 
 /-!
 # Exercise 5.27.3: deduce parts (i)–(iii) of Theorem 5.27.1 from part (iv)
@@ -838,7 +839,7 @@ theorem Exercise5_27_3
       have : Fintype.card ↥(stab χ₂) ≠ 0 := Fintype.card_ne_zero
       exact_mod_cast this
     haveI : Invertible (Fintype.card ↥(stab χ₂) : ℂ) := invertibleOfNonzero hs2ne
-    have horth := FDRep.char_orthonormal U₂ W
+    have horth := FDRep.char_orthonormal_fintype U₂ W
     by_contra hcon
     apply hS_ne
     rw [hrestrict]

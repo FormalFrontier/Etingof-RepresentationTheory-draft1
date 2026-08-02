@@ -13,6 +13,10 @@ namespace Etingof
 private abbrev G (n : ℕ) := Equiv.Perm (Fin n)
 private abbrev A (n : ℕ) := MonoidAlgebra ℂ (G n)
 
+local instance lemma5133ExactCoeFun {R M : Type*} [Semiring R] :
+    CoeFun (MonoidAlgebra R M) (fun _ => M → R) :=
+  ⟨fun a => a.coeff⟩
+
 /-- The trace of right multiplication by a group-algebra element is the group order times its
 identity coefficient. -/
 private lemma trace_mulRight_monoidAlgebra

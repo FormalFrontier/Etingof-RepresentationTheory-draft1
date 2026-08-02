@@ -152,11 +152,12 @@ theorem symGroupAlgHom_range :
   apply le_antisymm
   · -- range ⊆ adjoin: every element in range is in adjoin
     rintro x ⟨f, rfl⟩
-    induction f using Finsupp.induction_linear with
+    induction f using MonoidAlgebra.induction_linear with
     | zero => exact Subalgebra.zero_mem _
     | add f g hf hg => rw [map_add]; exact Subalgebra.add_mem _ hf hg
     | single a b =>
-      change (MonoidAlgebra.lift k _ _ (symGroupMonoidHom k V n)) (Finsupp.single a b) ∈ _
+      change (MonoidAlgebra.lift k _ _ (symGroupMonoidHom k V n))
+        (MonoidAlgebra.single a b) ∈ _
       rw [MonoidAlgebra.lift_single]
       exact Subalgebra.smul_mem _
         (Algebra.subset_adjoin (Set.mem_range.mpr ⟨a, by simp [symGroupMonoidHom]⟩)) _

@@ -63,7 +63,8 @@ namespace MvLaurent
 def monomial {n : ℕ} (e : Fin n →₀ ℤ) (c : ℂ) : MvLaurent n := AddMonoidAlgebra.single e c
 
 /-- The coefficient of `x^e` in a Laurent polynomial. -/
-def coeff {n : ℕ} (e : Fin n →₀ ℤ) (f : MvLaurent n) : ℂ := f e
+def coeff {n : ℕ} (e : Fin n →₀ ℤ) (f : MvLaurent n) : ℂ :=
+  (AddMonoidAlgebra.coeff f) e
 
 /-- The variable `x i`. -/
 def X {n : ℕ} (i : Fin n) : MvLaurent n := monomial (Finsupp.single i 1) 1
@@ -100,7 +101,7 @@ theorem monomial_pow {n : ℕ} (e : Fin n →₀ ℤ) (k : ℕ) :
 /-- Multiplying by the monomial `x^e` shifts coefficient extraction by `e`. -/
 theorem coeff_monomial_mul {n : ℕ} (e a : Fin n →₀ ℤ) (c : ℂ) (f : MvLaurent n) :
     coeff (e + a) (monomial e c * f) = c * coeff a f := by
-  rw [coeff, coeff, monomial, AddMonoidAlgebra.single_mul_apply]
+  rw [coeff, coeff, monomial, AddMonoidAlgebra.coeff_single_mul_apply]
   simp
 
 end MvLaurent
@@ -128,7 +129,7 @@ def toLaurent (n : ℕ) : MvPolynomial (Fin n) ℂ →+* MvLaurent n :=
 /-- Coefficients are unchanged by `toLaurent`. -/
 theorem coeff_toLaurent (n : ℕ) (P : MvPolynomial (Fin n) ℂ) (e : Fin n →₀ ℕ) :
     MvLaurent.coeff (expEmbed n e) (toLaurent n P) = MvPolynomial.coeff e P := by
-  change Finsupp.mapDomain (expEmbed n) P (expEmbed n e) = _
+  change Finsupp.mapDomain (expEmbed n) (AddMonoidAlgebra.coeff P) (expEmbed n e) = _
   rw [Finsupp.mapDomain_apply (expEmbed_injective n)]
   rfl
 
@@ -141,10 +142,14 @@ theorem toLaurent_injective (n : ℕ) : Function.Injective (toLaurent n) := by
 
 @[simp] theorem toLaurent_X (n : ℕ) (i : Fin n) :
     toLaurent n (MvPolynomial.X i) = MvLaurent.X i := by
-  change Finsupp.mapDomain (expEmbed n) (MvPolynomial.X i) = _
   rw [MvPolynomial.X, MvPolynomial.monomial]
-  simp [Finsupp.mapDomain_single, expEmbed, MvLaurent.X, MvLaurent.monomial,
-    AddMonoidAlgebra.single]
+  change AddMonoidAlgebra.mapDomain (expEmbed n)
+      (AddMonoidAlgebra.single (Finsupp.single i 1) (1 : ℂ)) =
+    AddMonoidAlgebra.single (Finsupp.single i 1) (1 : ℂ)
+  rw [AddMonoidAlgebra.mapDomain_single]
+  congr 1
+  ext j
+  simp [expEmbed]
 
 /-! ## The book's Vandermonde product and its Laurent factorisation -/
 

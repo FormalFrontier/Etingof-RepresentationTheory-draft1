@@ -116,20 +116,30 @@ private lemma idempotentOfChar_mul_self :
 
 /-- The linear functional `ℂ[G] → ℂ[G]`, `single g c ↦ c • (of g⁻¹ * e_χ)`, that (after tensoring
 down) underlies the forward map. -/
-private noncomputable abbrev fwdFin : (G →₀ ℂ) →ₗ[ℂ] MonoidAlgebra ℂ G :=
-  Finsupp.linearCombination ℂ (fun g : G => MonoidAlgebra.of ℂ G g⁻¹ * idempotentOfChar K χ)
+private noncomputable def fwdFin : MonoidAlgebra ℂ G →ₗ[ℂ] MonoidAlgebra ℂ G :=
+  Finsupp.linearCombination ℂ
+      (fun g : G => MonoidAlgebra.of ℂ G g⁻¹ * idempotentOfChar K χ) ∘ₗ
+    (MonoidAlgebra.coeffLinearEquiv ℂ).toLinearMap
+
+@[simp] private lemma fwdFin_single (x : G) (c : ℂ) :
+    fwdFin K χ (MonoidAlgebra.single x c) =
+      c • (MonoidAlgebra.of ℂ G x⁻¹ * idempotentOfChar K χ) := by
+  rw [fwdFin, LinearMap.comp_apply]
+  change (Finsupp.linearCombination ℂ
+    (fun g : G => MonoidAlgebra.of ℂ G g⁻¹ * idempotentOfChar K χ))
+      (Finsupp.single x c) = _
+  exact Finsupp.linearCombination_single ℂ c x
 
 /-- The invariance step: pushing the `K`-action through `fwdFin` scales by `χ k` and cancels. -/
-private lemma fwdFin_leftRegular (k : K) (a : G →₀ ℂ) :
+private lemma fwdFin_leftRegular (k : K) (a : MonoidAlgebra ℂ G) :
     ((χ k : ℂˣ) : ℂ) • fwdFin K χ ((leftRegular ℂ G) (K.subtype k) a) = fwdFin K χ a := by
   classical
   have ha : ((χ k : ℂˣ) : ℂ) ≠ 0 := Units.ne_zero _
-  induction a using Finsupp.induction_linear with
+  induction a using MonoidAlgebra.induction_linear with
   | zero => simp
   | add p q hp hq => simp only [map_add, smul_add, hp, hq]
   | single x c =>
-    simp only [fwdFin, Subgroup.coe_subtype, ofMulAction_single, smul_eq_mul,
-      Finsupp.linearCombination_single]
+    simp only [Subgroup.coe_subtype, ofMulAction_single, smul_eq_mul, fwdFin_single]
     rw [smul_smul, mul_comm ((χ k : ℂˣ) : ℂ) c, ← smul_smul]
     congr 1
     rw [mul_inv_rev, ← Subgroup.coe_inv, map_mul, mul_assoc, of_smul_idempotentOfChar,
@@ -141,7 +151,7 @@ private lemma fwdFin_leftRegular (k : K) (a : G →₀ ℂ) :
 private noncomputable def fwd :
     Representation.IndV K.subtype (chiRep K χ) →ₗ[ℂ] MonoidAlgebra ℂ G :=
   Coinvariants.lift (indRep K χ)
-    ((fwdFin K χ) ∘ₗ (TensorProduct.rid ℂ (G →₀ ℂ)).toLinearMap)
+    ((fwdFin K χ) ∘ₗ (TensorProduct.rid ℂ (MonoidAlgebra ℂ G)).toLinearMap)
     (by
       intro k
       refine TensorProduct.ext' (fun a z => ?_)
@@ -155,28 +165,30 @@ private lemma fwd_mk (h : G) (z : ℂ) :
     fwd K χ (Representation.IndV.mk K.subtype (chiRep K χ) h z)
       = z • (MonoidAlgebra.of ℂ G h⁻¹ * idempotentOfChar K χ) := by
   simp only [fwd, Representation.IndV.mk, LinearMap.comp_apply, LinearEquiv.coe_coe,
-    TensorProduct.mk_apply, Coinvariants.lift_mk, TensorProduct.rid_tmul, fwdFin, map_smul,
-    Finsupp.linearCombination_single, one_smul]
+    TensorProduct.mk_apply, Coinvariants.lift_mk, TensorProduct.rid_tmul, map_smul,
+    fwdFin_single, one_smul]
 
 /-- The range of `fwdFin`, and hence of `fwd`, lands in the left ideal. -/
-private lemma fwdFin_eq (y : G →₀ ℂ) :
+private lemma fwdFin_eq (y : MonoidAlgebra ℂ G) :
     fwdFin K χ y
-      = (Finsupp.linearCombination ℂ (fun g : G => MonoidAlgebra.of ℂ G g⁻¹) y)
+      = (Finsupp.linearCombination ℂ (fun g : G => MonoidAlgebra.of ℂ G g⁻¹) y.coeff)
         * idempotentOfChar K χ := by
-  induction y using Finsupp.induction_linear with
+  induction y using MonoidAlgebra.induction_linear with
   | zero => simp
-  | add p q hp hq => simp only [map_add, hp, hq, add_mul]
+  | add p q hp hq =>
+      rw [map_add, hp, hq, MonoidAlgebra.coeff_add, map_add, add_mul]
   | single x c =>
-    simp only [fwdFin, Finsupp.linearCombination_single, smul_mul_assoc]
+    rw [fwdFin_single, MonoidAlgebra.coeff_single,
+      Finsupp.linearCombination_single, smul_mul_assoc]
 
 private lemma fwd_mem (x : Representation.IndV K.subtype (chiRep K χ)) :
     fwd K χ x ∈ charLeftIdeal K χ := by
   obtain ⟨v, rfl⟩ := Coinvariants.mk_surjective (indRep K χ) x
   have hfx : fwd K χ (Coinvariants.mk (indRep K χ) v)
       = (Finsupp.linearCombination ℂ (fun g : G => MonoidAlgebra.of ℂ G g⁻¹)
-          ((TensorProduct.rid ℂ (G →₀ ℂ)) v)) * idempotentOfChar K χ := by
+          ((TensorProduct.rid ℂ (MonoidAlgebra ℂ G)) v).coeff) * idempotentOfChar K χ := by
     rw [show fwd K χ (Coinvariants.mk (indRep K χ) v)
-        = fwdFin K χ ((TensorProduct.rid ℂ (G →₀ ℂ)) v) from rfl, fwdFin_eq]
+        = fwdFin K χ ((TensorProduct.rid ℂ (MonoidAlgebra ℂ G)) v) from rfl, fwdFin_eq]
   rw [hfx, charLeftIdeal]
   exact Submodule.mem_span_singleton.2 ⟨_, smul_eq_mul _ _⟩
 
@@ -184,13 +196,16 @@ omit [Fintype G] in
 /-- The backward map `ℂ[G] → Ind_K^G ℂ_χ`, `single g c ↦ c • ⟦single g⁻¹ 1 ⊗ 1⟧`. -/
 private noncomputable def bwd :
     MonoidAlgebra ℂ G →ₗ[ℂ] Representation.IndV K.subtype (chiRep K χ) :=
-  Finsupp.linearCombination ℂ (fun g : G => Representation.IndV.mk K.subtype (chiRep K χ) g⁻¹ 1)
+  Finsupp.linearCombination ℂ
+      (fun g : G => Representation.IndV.mk K.subtype (chiRep K χ) g⁻¹ 1) ∘ₗ
+    (MonoidAlgebra.coeffLinearEquiv ℂ).toLinearMap
 
 omit [Fintype G] in
 private lemma bwd_of (x : G) :
     bwd K χ (MonoidAlgebra.of ℂ G x) = Representation.IndV.mk K.subtype (chiRep K χ) x⁻¹ 1 := by
   change Finsupp.linearCombination ℂ
-      (fun g : G => Representation.IndV.mk K.subtype (chiRep K χ) g⁻¹ 1) (Finsupp.single x 1) = _
+      (fun g : G => Representation.IndV.mk K.subtype (chiRep K χ) g⁻¹ 1)
+        (Finsupp.single x 1) = _
   rw [Finsupp.linearCombination_single, one_smul]
 
 omit [Fintype G] in
@@ -198,7 +213,8 @@ omit [Fintype G] in
 private lemma indV_mk_smul (κ : K) (x : G) (w : ℂ) :
     Representation.IndV.mk K.subtype (chiRep K χ) ((κ : G) * x) (((χ κ : ℂˣ) : ℂ) • w)
       = Representation.IndV.mk K.subtype (chiRep K χ) x w := by
-  have h := Coinvariants.mk_self_apply (indRep K χ) κ (Finsupp.single x 1 ⊗ₜ[ℂ] w)
+  have h := Coinvariants.mk_self_apply (indRep K χ) κ
+    (MonoidAlgebra.single x (1 : ℂ) ⊗ₜ[ℂ] w)
   simpa only [Representation.IndV.mk, LinearMap.comp_apply, TensorProduct.mk_apply, indRep,
     Representation.tprod_apply, TensorProduct.map_tmul, MonoidHom.comp_apply,
     Subgroup.coe_subtype, ofMulAction_single, smul_eq_mul, chiRep_apply] using h

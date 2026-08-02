@@ -1,4 +1,5 @@
 import Mathlib
+import EtingofRepresentationTheory.Infrastructure.CharacterOrthogonalityCompat
 
 /-!
 # Lemma 5.7.2: Virtual Representation to Irreducible Criterion
@@ -58,7 +59,7 @@ theorem Etingof.Lemma5_7_2
       haveI : Subsingleton (W i) := Module.finrank_zero_iff.mp hfr0
       have hzero : ∀ g : G, (W i).character g = 0 := fun g => by
         rw [FDRep.character, Subsingleton.elim ((W i).ρ g) 0, map_zero]
-      have h1 := FDRep.char_orthonormal (W i) (W i)
+      have h1 := FDRep.char_orthonormal_fintype (W i) (W i)
       rw [if_pos ⟨CategoryTheory.Iso.refl _⟩] at h1
       simp only [hzero, zero_mul, Finset.sum_const_zero, smul_zero] at h1
       exact one_ne_zero h1.symm
@@ -67,7 +68,7 @@ theorem Etingof.Lemma5_7_2
   have horth : ∀ i j, ⅟(Fintype.card G : ℂ) •
       ∑ g : G, (W i).character g * (W j).character g⁻¹ = if i = j then (1 : ℂ) else 0 := by
     intro i j
-    rw [FDRep.char_orthonormal (W i) (W j)]
+    rw [FDRep.char_orthonormal_fintype (W i) (W j)]
     have hiff : Nonempty (W i ≅ W j) ↔ i = j :=
       ⟨hdistinct i j, fun h => ⟨h ▸ CategoryTheory.Iso.refl (W i)⟩⟩
     simp [hiff]

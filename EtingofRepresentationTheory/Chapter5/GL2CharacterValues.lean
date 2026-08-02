@@ -43,6 +43,7 @@ lemma Etingof.dvd_X_pow_sub_X :
   rw [decomp]
   exact dvd_add (dvd_pow_self f (pow_ne_zero n hp.out.pos.ne')) dvd_rfl
 
+set_option maxHeartbeats 8000000 in
 /-- X^(p^n) - X splits in GaloisField p (2*n) because it divides X^(p^(2n)) - X
 which splits there. -/
 lemma Etingof.splits_X_pow_sub_X :
@@ -62,7 +63,11 @@ lemma Etingof.splits_X_pow_sub_X :
     have hne : (X ^ p ^ (2 * n) - X : (ZMod p)[X]) ≠ 0 :=
       FiniteField.X_pow_card_pow_sub_X_ne_zero (ZMod p)
         (Nat.mul_ne_zero two_ne_zero hn) hp.out.one_lt
-    exact hsplits.of_dvd (map_ne_zero hne) (map_dvd _ (Etingof.dvd_X_pow_sub_X p n))
+    obtain ⟨q, hq⟩ := Etingof.dvd_X_pow_sub_X p n
+    refine hsplits.of_dvd (map_ne_zero hne) ⟨map
+      (algebraMap (ZMod p) (GaloisField p (2 * n))) q, ?_⟩
+    rw [hq]
+    exact Polynomial.map_mul _
 
 /-- The algebra homomorphism GaloisField p n →ₐ[ZMod p] GaloisField p (2*n)
 obtained from IsSplittingField.lift. -/

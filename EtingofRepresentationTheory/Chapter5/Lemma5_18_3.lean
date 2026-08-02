@@ -596,10 +596,18 @@ private lemma fullDiag_le_diag [CharZero k] :
           rw [map_natCast Φ m] at h
           -- h : ↑m * e m = (-1)^(m+1) * ∑ antidiag, (-1)^x.1 * e x.1 * ∑ i, B i ^ x.2
           -- Convert antidiagonal sum to range sum in h
-          rw [show (Finset.antidiagonal m).filter (fun x => x.1 < m) =
+          rw [show (Finset.HasAntidiagonal.antidiagonal m).filter (fun x => x.1 < m) =
               (Finset.range m).map ⟨fun j => (j, m - j), fun a b h => by
                 simp [Prod.ext_iff] at h; exact h.1⟩ from by
-            ext ⟨a, b⟩; simp [Finset.mem_antidiagonal, Finset.mem_range]; omega,
+            ext ⟨a, b⟩
+            simp only [Finset.mem_filter, Finset.HasAntidiagonal.mem_antidiagonal,
+              Finset.mem_range, Finset.mem_map, Function.Embedding.coeFn_mk]
+            constructor
+            · rintro ⟨hab, ha⟩
+              exact ⟨a, ha, by ext <;> omega⟩
+            · rintro ⟨j, hj, hpair⟩
+              rcases Prod.ext_iff.mp hpair with ⟨rfl, hb⟩
+              exact ⟨by omega, by omega⟩,
             Finset.sum_map] at h
           simp only [Function.Embedding.coeFn_mk] at h
           -- h : ↑m * e m = (-1)^(m+1) * ∑ j ∈ range m, (-1)^j * e j * ∑ i, B i ^ (m-j)
@@ -898,10 +906,18 @@ private lemma tensor_fullDiag_le_diag [CharZero k] :
         simp only [map_mul, map_pow, map_neg, map_one, map_sum,
           Φ_esymm, Φ_psum] at h
         rw [map_natCast Φ m] at h
-        rw [show (Finset.antidiagonal m).filter (fun x => x.1 < m) =
+        rw [show (Finset.HasAntidiagonal.antidiagonal m).filter (fun x => x.1 < m) =
             (Finset.range m).map ⟨fun j => (j, m - j), fun a b h => by
               simp [Prod.ext_iff] at h; exact h.1⟩ from by
-          ext ⟨a, b⟩; simp [Finset.mem_antidiagonal, Finset.mem_range]; omega,
+          ext ⟨a, b⟩
+          simp only [Finset.mem_filter, Finset.HasAntidiagonal.mem_antidiagonal,
+            Finset.mem_range, Finset.mem_map, Function.Embedding.coeFn_mk]
+          constructor
+          · rintro ⟨hab, ha⟩
+            exact ⟨a, ha, by ext <;> omega⟩
+          · rintro ⟨j, hj, hpair⟩
+            rcases Prod.ext_iff.mp hpair with ⟨rfl, hb⟩
+            exact ⟨by omega, by omega⟩,
           Finset.sum_map] at h
         simp only [Function.Embedding.coeFn_mk] at h
         rw [Nat.cast_smul_eq_nsmul k m (e m), nsmul_eq_mul, h]

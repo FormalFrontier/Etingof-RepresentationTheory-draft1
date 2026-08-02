@@ -1,4 +1,5 @@
 import Mathlib
+import EtingofRepresentationTheory.Infrastructure.CharacterOrthogonalityCompat
 
 /-!
 # The dimension of a complex irreducible representation divides `|G|`
@@ -210,7 +211,8 @@ theorem isIntegral_classSum_scalar (V : FDRep ℂ G) [Simple V] (g₀ : G) :
   rw [hω]
   -- `z` is integral over `ℤ` (`ℤ[G]` is module-finite over `ℤ`), so `Φ z = c • id` is too.
   have hz_int : IsIntegral ℤ z := by
-    haveI : Module.Finite ℤ (MonoidAlgebra ℤ G) := Module.Finite.of_basis Finsupp.basisSingleOne
+    haveI : Module.Finite ℤ (MonoidAlgebra ℤ G) :=
+      Module.Finite.of_basis (MonoidAlgebra.basis G ℤ)
     exact IsIntegral.of_finite ℤ z
   have hΦz_int : IsIntegral ℤ (Φ z) := IsIntegral.map Φ hz_int
   rw [hΦz_scalar, ← Module.algebraMap_end_eq_smul_id] at hΦz_int
@@ -258,7 +260,7 @@ theorem finrank_dvd_card_of_irreducible {G : Type*} [Group G] [Fintype G]
   have hdℂ : (d : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr hd0.ne'
   -- Schur orthogonality gives `∑_g χ(g) χ(g⁻¹) = |G|`.
   have hnorm : ∑ g : G, V.character g * V.character g⁻¹ = (Fintype.card G : ℂ) := by
-    have hco := FDRep.char_orthonormal V V
+    have hco := FDRep.char_orthonormal_fintype V V
     rw [if_pos ⟨Iso.refl V⟩] at hco
     have h2 : (Fintype.card G : ℂ) * (⅟(Fintype.card G : ℂ) •
         ∑ g : G, V.character g * V.character g⁻¹) = (Fintype.card G : ℂ) * (↑1 : ℂ) :=

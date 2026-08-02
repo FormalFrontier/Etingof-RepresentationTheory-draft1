@@ -256,7 +256,7 @@ theorem trace_mulLeftRight_monoidAlgebra (g h : G) :
     LinearMap.mulLeftRight_apply, MonoidAlgebra.of_apply]
   conv_lhs =>
     arg 2; ext x
-    rw [show b x = MonoidAlgebra.single x 1 from by simp [b, MonoidAlgebra.basis]; rfl]
+    rw [show b x = MonoidAlgebra.single x 1 from by simp [b, MonoidAlgebra.basis]]
     rw [MonoidAlgebra.single_mul_single, MonoidAlgebra.single_mul_single, one_mul, mul_one]
     rw [show b.repr (MonoidAlgebra.single (g * x * h⁻¹) 1) x =
         if g * x * h⁻¹ = x then 1 else 0 from by
