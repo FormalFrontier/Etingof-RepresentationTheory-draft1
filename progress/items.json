@@ -32000,10 +32000,38 @@
     "end_page": "115",
     "start_line": 3,
     "end_line": 4,
-    "status": "not_applicable",
+    "status": "proof_polished",
+    "coverage_issue": 8525,
+    "lean_file": "EtingofRepresentationTheory/Chapter5/Lemma5_13_2.lean",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Lemma5_13_2.lean :: Nat.Partition.LexLt, Nat.Partition.LexLe, Nat.Partition.Dominates.lexLe, Nat.Partition.LexLt.not_dominates, Nat.Partition.exists_lexLt",
     "coverage_swept": {
       "wave": 1,
-      "result": "trivial"
+      "result": "covered"
+    },
+    "fidelity": "verified",
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The book's first-difference lexicographic order is defined directly on zero-extended decreasing part lists. Dominance is proved to imply the corresponding lexicographic inequality, and the book-form vanishing results are explicit corollaries of the stronger generalized theorems.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "5.13",
+      "reviewed_on": "2026-08-02",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "Partitions are ordered lexicographically by the sign of their first differing part.",
+          "verdict": "formalized",
+          "lean_decl": "Nat.Partition.LexLt; Nat.Partition.LexLe; Nat.Partition.exists_lexLt"
+        },
+        {
+          "claim": "Dominance implies the corresponding lexicographic inequality, so a strict reverse lexicographic inequality rules out dominance.",
+          "verdict": "formalized",
+          "lean_decl": "Nat.Partition.Dominates.lexLe; Nat.Partition.LexLt.not_dominates"
+        }
+      ]
     },
     "stage3_4": {
       "supplemental_provider_dependencies": [],
@@ -32011,24 +32039,56 @@
       "status": "complete",
       "section": null,
       "verified_on": "2026-08-01",
-      "actual_internal_dependencies": [],
+      "actual_internal_dependencies": [
+        "Chapter5/Definition5.12.1",
+        "Chapter5/Lemma5.13.1"
+      ],
       "forward_internal_dependencies": [],
       "import_dag_dependencies": [],
-      "proof_term_dependencies": [],
-      "provider_module_attribution": {},
-      "proof_dependency_modules": [],
-      "type_dependency_modules": [],
-      "declarations_reviewed": 0,
+      "proof_term_dependencies": [
+        "Chapter5/Definition5.12.1",
+        "Chapter5/Lemma5.13.1"
+      ],
+      "provider_module_attribution": {
+        "EtingofRepresentationTheory.Chapter5.Lemma5_13_2": {
+          "owner": "Chapter5/Lemma5.13.2",
+          "basis": "exact_item_stem",
+          "seed_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2",
+          "distance": 0,
+          "other_explicit_claimants": [
+            "Chapter5/Discussion_lexicographic_ordering"
+          ]
+        }
+      },
+      "proof_dependency_modules": [
+        "EtingofRepresentationTheory.Chapter5.Definition5_12_1",
+        "EtingofRepresentationTheory.Chapter5.Lemma5_13_1"
+      ],
+      "type_dependency_modules": [
+        "EtingofRepresentationTheory.Chapter5.Definition5_12_1"
+      ],
+      "declarations_reviewed": 101,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
-      "basis": "No dedicated Lean provider belongs to this editorial/folded partition item.",
+      "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
     },
     "stage3_5": {
-      "status": "not_applicable",
+      "status": "complete",
       "section": null,
       "reviewed_on": "2026-08-01",
-      "mathlib_quality": "not_applicable",
-      "result": "No dedicated Lean declaration belongs to this partition item; proof polishing is not applicable."
+      "mathlib_quality": "linter_screened_with_retained_nonblocking_diagnostics",
+      "provider_modules": [
+        "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+      ],
+      "source_level_proof_declarations_reviewed": 35,
+      "diagnostic_count": 4,
+      "diagnostic_categories": [
+        "flexible_tactic",
+        "long_line"
+      ],
+      "result": "proof_review_screened_with_dispositions",
+      "evidence": "progress/reviews/2026-08-01-stage3-5-proof-polishing.json",
+      "basis": "Every source-level theorem/opaque declaration in the provider modules was included in the conservative kernel-bound review inventory, which may also retain generated declarations. A successful repository-wide Mathlib linter build screened the proof text; every direct diagnostic is named, located, assigned to its nearest source command, and dispositioned in the evidence certificate."
     },
     "last_updated": "2026-08-01"
   },
@@ -32051,15 +32111,20 @@
       "stage": "3.2",
       "status": "complete",
       "section": "5.13",
-      "reviewed_on": "2026-07-29",
+      "reviewed_on": "2026-08-02",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
       "claims": [
         {
-          "claim": "If lambda strictly dominates mu, then a_lambda C[S_n] b_mu=0.",
+          "claim": "If lambda is lexicographically larger than mu, then a_lambda C[S_n] b_mu=0.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Lemma5_13_2; Etingof.pigeonhole_transposition; Etingof.basis_vanishing"
+          "lean_decl": "Etingof.Lemma5_13_2_lex; Etingof.Lemma5_13_2_general; Nat.Partition.LexLt.not_dominates"
+        },
+        {
+          "claim": "The stronger generalized vanishing holds whenever mu does not dominate lambda, with strict dominance as a special case.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Lemma5_13_2_general; Etingof.Lemma5_13_2; Etingof.pigeonhole_transposition_general; Etingof.basis_vanishing_general"
         }
       ]
     },
@@ -32087,7 +32152,9 @@
           "basis": "exact_item_stem",
           "seed_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2",
           "distance": 0,
-          "other_explicit_claimants": []
+          "other_explicit_claimants": [
+            "Chapter5/Discussion_lexicographic_ordering"
+          ]
         }
       },
       "proof_dependency_modules": [
@@ -32097,7 +32164,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter5.Definition5_12_1"
       ],
-      "declarations_reviewed": 89,
+      "declarations_reviewed": 101,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -32110,7 +32177,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
       ],
-      "source_level_proof_declarations_reviewed": 29,
+      "source_level_proof_declarations_reviewed": 35,
       "diagnostic_count": 4,
       "diagnostic_categories": [
         "flexible_tactic",
@@ -32524,15 +32591,15 @@
       "stage": "3.2",
       "status": "complete",
       "section": "5.14",
-      "reviewed_on": "2026-07-29",
+      "reviewed_on": "2026-08-02",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
       "claims": [
         {
-          "claim": "Hom(U_lambda,V_mu)=0 below lambda in dominance order, while dim Hom(U_lambda,V_lambda)=1.",
+          "claim": "Hom(U_lambda,V_mu)=0 when mu is lexicographically below lambda, while dim Hom(U_lambda,V_lambda)=1.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Proposition5_14_1_vanishing_general; Etingof.Proposition5_14_1_diagonal"
+          "lean_decl": "Etingof.Proposition5_14_1_vanishing_lex; Etingof.Proposition5_14_1_vanishing_general; Etingof.Proposition5_14_1_diagonal"
         },
         {
           "claim": "Young's rule decomposes U_lambda with Kostka multiplicities and diagonal multiplicity one.",
@@ -32582,9 +32649,10 @@
       ],
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter5.Definition5_12_1",
+        "EtingofRepresentationTheory.Chapter5.Lemma5_13_2",
         "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Irreducible"
       ],
-      "declarations_reviewed": 45,
+      "declarations_reviewed": 46,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -32597,7 +32665,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.Proposition5_14_1"
       ],
-      "source_level_proof_declarations_reviewed": 18,
+      "source_level_proof_declarations_reviewed": 19,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",

@@ -1,13 +1,13 @@
 {
   "generated_on": "2026-08-01",
   "method": "kernel source-level proof inventory plus successful repository-wide Mathlib linter build",
-  "build_log_sha256": "ddbd1f949fdd48e4d394d0ef3eaa9625272528d5d6e125510731f08105a2e610",
+  "build_log_sha256": "50b854f1892713bd284b54d85143ddf9b6c999fc7edfeff65bc191ceed308bcc",
   "build_log_archive": "progress/reviews/2026-08-01-stage3-5-build.log.gz",
   "dependency_evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
-  "dependency_evidence_sha256": "5eb5757813a2e800a7d46367455b8646e7af4d67c37ebc97f546996a24b1fc07",
-  "provider_item_count": 403,
-  "source_level_proof_declaration_count": 11460,
-  "kernel_proof_declaration_count_including_generated_helpers": 26918,
+  "dependency_evidence_sha256": "48b1a516cdd5e4968730ef0f5c8bf8eb5b692f718b197f435518aacec814601d",
+  "provider_item_count": 404,
+  "source_level_proof_declaration_count": 11467,
+  "kernel_proof_declaration_count_including_generated_helpers": 26929,
   "unique_warning_count": 1242,
   "warning_file_count": 216,
   "warning_counts_by_category": {
@@ -3726,7 +3726,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/Lemma5_13_2.lean",
-      "line": 128,
+      "line": 212,
       "column": 2,
       "source_command": "colOfPos_lt_getElem",
       "category": "flexible_tactic",
@@ -3735,7 +3735,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/Lemma5_13_2.lean",
-      "line": 164,
+      "line": 248,
       "column": 4,
       "source_command": "colHeight_eq_zero_of_ge_headD",
       "category": "flexible_tactic",
@@ -3744,7 +3744,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/Lemma5_13_2.lean",
-      "line": 220,
+      "line": 304,
       "column": 100,
       "source_command": "sum_min_colHeight",
       "category": "long_line",
@@ -3753,7 +3753,7 @@
     },
     {
       "file": "EtingofRepresentationTheory/Chapter5/Lemma5_13_2.lean",
-      "line": 239,
+      "line": 323,
       "column": 68,
       "source_command": "card_filter_val_lt",
       "category": "flexible_tactic",
@@ -17876,13 +17876,13 @@
     },
     "EtingofRepresentationTheory.Chapter5.Lemma5_13_2": {
       "source": "EtingofRepresentationTheory/Chapter5/Lemma5_13_2.lean",
-      "source_sha256": "b02bcba8faa16d54b7a3271c148a2b66f60182a7761aa6302e511830daa4a870",
-      "source_level_proof_declaration_count": 29,
-      "source_level_proof_declaration_names_sha256": "d4aff1d189e5cf5aece9ed685b830deed61d936f992efa9b625d93efcab2fedc",
+      "source_sha256": "f6d172131a56108b053dbf6f1ad88def58d4bd49e34a70a50d96c8c057ff7124",
+      "source_level_proof_declaration_count": 35,
+      "source_level_proof_declaration_names_sha256": "ee2688f26efcb19f3771805c37458ac76b98419fc6af6c141fb3320b69b4563b",
       "diagnostics": [
         {
           "file": "EtingofRepresentationTheory/Chapter5/Lemma5_13_2.lean",
-          "line": 128,
+          "line": 212,
           "column": 2,
           "source_command": "colOfPos_lt_getElem",
           "category": "flexible_tactic",
@@ -17891,7 +17891,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/Lemma5_13_2.lean",
-          "line": 164,
+          "line": 248,
           "column": 4,
           "source_command": "colHeight_eq_zero_of_ge_headD",
           "category": "flexible_tactic",
@@ -17900,7 +17900,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/Lemma5_13_2.lean",
-          "line": 220,
+          "line": 304,
           "column": 100,
           "source_command": "sum_min_colHeight",
           "category": "long_line",
@@ -17909,7 +17909,7 @@
         },
         {
           "file": "EtingofRepresentationTheory/Chapter5/Lemma5_13_2.lean",
-          "line": 239,
+          "line": 323,
           "column": 68,
           "source_command": "card_filter_val_lt",
           "category": "flexible_tactic",
@@ -20096,9 +20096,9 @@
     },
     "EtingofRepresentationTheory.Chapter5.Proposition5_14_1": {
       "source": "EtingofRepresentationTheory/Chapter5/Proposition5_14_1.lean",
-      "source_sha256": "486aca3909eb4b4ae442a6741e3b6bdb593bc54b8ec94ba64a4655d2888f4b23",
-      "source_level_proof_declaration_count": 18,
-      "source_level_proof_declaration_names_sha256": "aacf43e1990421f12cf40a5fb2287c57eac6a455cdebda277ecfd6ab4a87183c",
+      "source_sha256": "21b83dff036abf7f0ce49f4a84be9b3f426ac9601e492336a160fa629872e899",
+      "source_level_proof_declaration_count": 19,
+      "source_level_proof_declaration_names_sha256": "aabbdb205caf047a1a3f39893519d8e3020447c00fceeb2641b40302f7feeb94",
       "diagnostics": [],
       "review_result": "screened_no_direct_diagnostic"
     },
@@ -31849,11 +31849,23 @@
       "result": "proof_review_screened_with_dispositions",
       "proof_polish_issue": 8343
     },
+    "Chapter5/Discussion_lexicographic_ordering": {
+      "provider_modules": [
+        "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+      ],
+      "source_level_proof_declarations_reviewed": 35,
+      "diagnostic_count": 4,
+      "diagnostic_categories": [
+        "flexible_tactic",
+        "long_line"
+      ],
+      "result": "proof_review_screened_with_dispositions"
+    },
     "Chapter5/Lemma5.13.2": {
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
       ],
-      "source_level_proof_declarations_reviewed": 29,
+      "source_level_proof_declarations_reviewed": 35,
       "diagnostic_count": 4,
       "diagnostic_categories": [
         "flexible_tactic",
@@ -31899,7 +31911,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.Proposition5_14_1"
       ],
-      "source_level_proof_declarations_reviewed": 18,
+      "source_level_proof_declarations_reviewed": 19,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",
