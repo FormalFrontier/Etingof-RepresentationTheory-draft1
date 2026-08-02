@@ -50668,7 +50668,7 @@
     "sorry_free": true,
     "fidelity_note": "The lifting-property predicates Etingof.ProjectiveObject and Etingof.InjectiveObject are connected to the book's definitions by Etingof.projectiveObject_iff and Etingof.injectiveObject_iff, which characterize them by exactness of the corresponding preadditive Hom functors.",
     "coverage": "covered_full",
-    "last_updated": "2026-08-02",
+    "last_updated": "2026-08-01",
     "coverage_note": "ProjectiveObject and InjectiveObject use the standard categorical lifting predicates, and explicit iff theorems prove their equivalence to preservation of finite limits and finite colimits by Hom(P, -) and Hom(-, I).",
     "claim_coverage": {
       "stage": "3.2",
@@ -50709,7 +50709,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 2,
+      "declarations_reviewed": 4,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -50722,7 +50722,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter8.Definition8_1_8"
       ],
-      "source_level_proof_declarations_reviewed": 0,
+      "source_level_proof_declarations_reviewed": 2,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",
