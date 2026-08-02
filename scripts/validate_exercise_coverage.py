@@ -17,6 +17,7 @@ from pathlib import Path
 from urllib.parse import unquote
 
 from reconcile_exercise_coverage import PARTIAL_SCOPE_REFS
+from scope_refs import github_heading_slug
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -58,16 +59,6 @@ def declaration_names(value: object) -> list[str]:
     for entry in as_list(value):
         result.extend(part.strip() for part in str(entry).split(";") if part.strip())
     return result
-
-
-def github_heading_slug(heading: str) -> str:
-    """Compute the subset of GitHub's heading slug rules used by this file."""
-    spaces_replaced = re.sub(r"\s", "-", heading.lower().strip())
-    return "".join(
-        char
-        for char in spaces_replaced
-        if char.isalpha() or "0" <= char <= "9" or char == "-"
-    )
 
 
 def validate_scope_anchors(errors: list[str]) -> None:
