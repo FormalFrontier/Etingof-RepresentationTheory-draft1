@@ -10,9 +10,12 @@ skipped by the contiguity check."""
 import json
 import re
 import sys
+from functools import lru_cache
 from pathlib import Path
+from urllib.parse import unquote
 
 from proof_wanted_policy import validate_item_approval
+from scope_refs import github_heading_slug
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 PAGES_DIR = REPO_ROOT / "pages"
@@ -60,8 +63,48 @@ VALID_EXERCISE_COVERAGE = {
     "non_formalizable",
 }
 
+VALID_CLAIM_VERDICTS = {
+    "context_only",
+    "covered_elsewhere",
+    "formalized",
+    "historical_context",
+    "intentional_omission",
+    "non_formalizable",
+    "proof_route",
+    "source_correction",
+}
+
 # Files in pages/ that are not actual page content
 EXCLUDED_FILES = {"CONVENTIONS.md"}
+
+
+@lru_cache
+def markdown_heading_slugs(path: Path) -> frozenset[str]:
+    """Read and cache the GitHub fragments of all headings in a Markdown file."""
+    return frozenset(
+        github_heading_slug(line.lstrip("#").strip())
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line.startswith("#")
+    )
+
+
+def validate_scope_ref(scope_ref: object) -> str | None:
+    """Return an error for a missing or non-resolving omission scope reference."""
+    if not isinstance(scope_ref, str):
+        return "intentional_omission claim has no string scope_ref"
+    path_text, separator, fragment = scope_ref.partition("#")
+    if not separator or not path_text or not fragment:
+        return f"invalid omission scope_ref {scope_ref!r}"
+    scope_path = (REPO_ROOT / path_text).resolve()
+    try:
+        scope_path.relative_to(REPO_ROOT.resolve())
+    except ValueError:
+        return f"omission scope_ref escapes the repository: {scope_ref!r}"
+    if not scope_path.is_file():
+        return f"invalid omission scope_ref {scope_ref!r}"
+    if unquote(fragment) not in markdown_heading_slugs(scope_path):
+        return f"omission scope_ref anchor does not resolve: {scope_ref!r}"
+    return None
 
 
 def get_page_order():
@@ -305,6 +348,26 @@ def validate(items_path):
                     f"{prefix}: claim_coverage.section is {actual_section!r}, "
                     f"expected {expected_section!r} from the item id"
                 )
+
+        # Every deliberate omission must resolve to the project-wide scope
+        # register. This keeps the prose policy and the machine ledger in sync.
+        if isinstance(claim_coverage, dict):
+            claims = claim_coverage.get("claims")
+            if isinstance(claims, list):
+                for claim_index, claim in enumerate(claims, 1):
+                    if not isinstance(claim, dict):
+                        continue
+                    verdict = claim.get("verdict")
+                    if verdict not in VALID_CLAIM_VERDICTS:
+                        errors.append(
+                            f"{prefix} claim {claim_index}: invalid verdict {verdict!r}"
+                        )
+                    if verdict == "intentional_omission":
+                        scope_error = validate_scope_ref(claim.get("scope_ref"))
+                        if scope_error is not None:
+                            errors.append(
+                                f"{prefix} claim {claim_index}: {scope_error}"
+                            )
 
         # Line number types
         if not isinstance(item["start_line"], int):

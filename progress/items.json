@@ -821,7 +821,8 @@
         {
           "claim": "The finite-type classification is valid over an arbitrary field, not only an algebraically closed one.",
           "verdict": "intentional_omission",
-          "reason": "The footnote asserts this stronger generalization, but the book explicitly says that it only proves the algebraically closed case. The formalization tracks the proof supplied by the book rather than introducing an unproved arbitrary-field theorem."
+          "reason": "The footnote asserts this stronger generalization, but the book explicitly says that it only proves the algebraically closed case. The formalization tracks the proof supplied by the book rather than introducing an unproved arbitrary-field theorem.",
+          "scope_ref": "skipped-exercises.md#theorem-212--arbitrary-field-gabriel-classification"
         },
         {
           "claim": "The nonempty connected Dynkin graphs are precisely A_n, D_n, E6, E7, and E8.",
@@ -20345,22 +20346,26 @@
         {
           "claim": "Schur's lemma gives Hom_{k[G]}(k, k[G]) = kΛ for a nonzero invariant inclusion Λ, unique up to scaling.",
           "verdict": "intentional_omission",
-          "reason": "The provider constructs the invariant group sum internally but does not define this representation homomorphism or formalize the Hom-space classification."
+          "reason": "The provider constructs the invariant group sum internally but does not define this representation homomorphism or formalize the Hom-space classification.",
+          "scope_ref": "skipped-exercises.md#proposition-412--the-sources-hom-space-proof-route"
         },
         {
           "claim": "Schur's lemma gives Hom_{k[G]}(k[G], k) = kε for a nonzero augmentation ε, unique up to scaling.",
           "verdict": "intentional_omission",
-          "reason": "The provider's alternative ideal-theoretic proof does not define ε or formalize this Hom-space classification."
+          "reason": "The provider's alternative ideal-theoretic proof does not define ε or formalize this Hom-space classification.",
+          "scope_ref": "skipped-exercises.md#proposition-412--the-sources-hom-space-proof-route"
         },
         {
           "claim": "One may normalize ε(g) = 1 and Λ(1) = ∑_g g, which gives ε ∘ Λ(1) = |G|.",
           "verdict": "intentional_omission",
-          "reason": "The provider constructs the same group sum and proves its central square identity, but it does not formalize ε or this source composition calculation."
+          "reason": "The provider constructs the same group sum and proves its central square identity, but it does not formalize ε or this source composition calculation.",
+          "scope_ref": "skipped-exercises.md#proposition-412--the-sources-hom-space-proof-route"
         },
         {
           "claim": "If |G| = 0, every possible left inverse aε of Λ has zero composite with Λ, contradicting the splitting forced by semisimplicity.",
           "verdict": "intentional_omission",
-          "reason": "The endpoint is proved by an equivalent ideal-theoretic argument; the source's splitting and no-left-inverse route is not formalized."
+          "reason": "The endpoint is proved by an equivalent ideal-theoretic argument; the source's splitting and no-left-inverse route is not formalized.",
+          "scope_ref": "skipped-exercises.md#proposition-412--the-sources-hom-space-proof-route"
         }
       ]
     },
@@ -20448,12 +20453,14 @@
         {
           "claim": "An irreducible representation is one-dimensional and its generator acts by a p-th root of unity.",
           "verdict": "intentional_omission",
-          "reason": "The provider proves the stronger trivial-action endpoint directly via a nilpotent self-intertwiner, without formalizing this preliminary one-dimensional scalar-action route."
+          "reason": "The provider proves the stronger trivial-action endpoint directly via a nilpotent self-intertwiner, without formalizing this preliminary one-dimensional scalar-action route.",
+          "scope_ref": "skipped-exercises.md#example-413--the-scalar-root-proof-route"
         },
         {
           "claim": "Every p-th root of unity in a field of characteristic p equals 1.",
           "verdict": "intentional_omission",
-          "reason": "The scalar-root argument is not packaged as a Lean declaration; the provider instead proves the representation endpoint by operator nilpotence and Schur's lemma."
+          "reason": "The scalar-root argument is not packaged as a Lean declaration; the provider instead proves the representation endpoint by operator nilpotence and Schur's lemma.",
+          "scope_ref": "skipped-exercises.md#example-413--the-scalar-root-proof-route"
         },
         {
           "claim": "In characteristic p, x^p - 1 = (x - 1)^p.",
@@ -20727,7 +20734,8 @@
         {
           "claim": "The proof identifies (k[G]/[k[G],k[G]])* with class functions.",
           "verdict": "intentional_omission",
-          "reason": "The provider proves the same endpoint directly by the center/Wedderburn and character-orthogonality argument, so this proof-route isomorphism is not separately packaged."
+          "reason": "The provider proves the same endpoint directly by the center/Wedderburn and character-orthogonality argument, so this proof-route isomorphism is not separately packaged.",
+          "scope_ref": "skipped-exercises.md#theorem-421--the-commutator-quotient-dual-proof-route"
         }
       ]
     },
@@ -21292,7 +21300,8 @@
         {
           "claim": "The standard representation is displayed in a geometric eigenbasis by the source matrices.",
           "verdict": "intentional_omission",
-          "reason": "The provider constructs the canonically equivalent deleted permutation representation; the basis-dependent geometric matrices are not separately packaged."
+          "reason": "The provider constructs the canonically equivalent deleted permutation representation; the basis-dependent geometric matrices are not separately packaged.",
+          "scope_ref": "skipped-exercises.md#example-43-for-s--basis-dependent-geometric-matrices"
         }
       ]
     },
@@ -28641,7 +28650,8 @@
         {
           "claim": "The book's particular subgroup generated by ab⁻¹ for a,b in C is proper, nontrivial, and normal.",
           "verdict": "intentional_omission",
-          "reason": "The provider proves the stronger required endpoint by contradiction from simplicity; the particular witness subgroup is a proof-route artifact and is not separately packaged."
+          "reason": "The provider proves the stronger required endpoint by contradiction from simplicity; the particular witness subgroup is a proof-route artifact and is not separately packaged.",
+          "scope_ref": "skipped-exercises.md#discussion--completion-of-the-proof-of-theorem-546"
         }
       ]
     },
@@ -36756,8 +36766,9 @@
         },
         {
           "claim": "The explicitly deferred sl_N Lie-algebra classification is outside project scope.",
-          "verdict": "skipped_by_source",
-          "source_ref": "skipped-exercises.md"
+          "verdict": "intentional_omission",
+          "source_ref": "blobs/Chapter5/Remark5.23.3.md",
+          "scope_ref": "skipped-exercises.md#remark-5233--the-𝔰𝔩v-complete-reducibility-and-highest-weight-assertions"
         }
       ]
     },
