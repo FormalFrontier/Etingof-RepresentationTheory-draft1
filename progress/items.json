@@ -34325,12 +34325,52 @@
       "wave": 1,
       "result": "covered"
     },
+    "fidelity": "verified",
+    "sorry_free": true,
+    "coverage": "covered_full",
+    "coverage_note": "The coefficient extraction, descending-factorial determinant, both determinant forms of equation (5.17.1), and the hook-count interpretation are formalized explicitly. The subsequent cancellation to the hook-length formula is supplied by CharValueHookFormula and FRTHelpers.",
+    "claim_coverage": {
+      "stage": "3.2",
+      "status": "complete",
+      "section": "5.17",
+      "reviewed_on": "2026-08-02",
+      "definition_integrity": "verified",
+      "statement_fidelity": "verified",
+      "nonvacuity": "verified",
+      "claims": [
+        {
+          "claim": "The Frobenius coefficient extraction and signed permutation expansion reduce the identity character value to the descending-factorial determinant.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.charValue; Etingof.psumPart_trivialCycleType; Etingof.charValue_trivialCycleType_eq_descPochhammer_det"
+        },
+        {
+          "claim": "Column reduction replaces the descending-factorial determinant by det(l_j^(N-i)), giving the first equality in equation (5.17.1).",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.descPochhammer_alternant_det_eq_pow_alternant_det; Etingof.finrank_spechtModule_eq_frobeniusPowerDetForm"
+        },
+        {
+          "claim": "The Vandermonde determinant gives dim V_lambda as n! times the product of l_i-l_j for i<j divided by the beta-number factorial product.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.finrank_spechtModule_eq_frobeniusDetForm"
+        },
+        {
+          "claim": "The hook of a cell consists of that cell together with the cells to its right and below, and its cardinality is the hook length.",
+          "verdict": "formalized",
+          "lean_decl": "YoungDiagram.hookCellsExcl; YoungDiagram.card_hookCellsExcl; YoungDiagram.hookLength"
+        },
+        {
+          "claim": "The hook-length product ranges over all cells of the Young diagram.",
+          "verdict": "formalized",
+          "lean_decl": "YoungDiagram.hookLengthProduct"
+        }
+      ]
+    },
     "stage3_4": {
       "supplemental_provider_dependencies": [],
       "explicit_source_references": [],
       "status": "complete",
-      "section": null,
-      "verified_on": "2026-08-01",
+      "section": "5.17",
+      "verified_on": "2026-08-02",
       "actual_internal_dependencies": [],
       "forward_internal_dependencies": [],
       "import_dag_dependencies": [],
@@ -34340,17 +34380,17 @@
       "type_dependency_modules": [],
       "declarations_reviewed": 0,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
-      "basis": "No dedicated Lean provider belongs to this editorial/folded partition item.",
+      "basis": "This discussion item is folded into the adjacent Theorem 5.17.1 provider module CharValueHookFormula; no separate provider attribution is assigned to the editorial item.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
     },
     "stage3_5": {
       "status": "not_applicable",
-      "section": null,
-      "reviewed_on": "2026-08-01",
+      "section": "5.17",
+      "reviewed_on": "2026-08-02",
       "mathlib_quality": "not_applicable",
-      "result": "No dedicated Lean declaration belongs to this partition item; proof polishing is not applicable."
+      "result": "The folded discussion claims are implemented in the adjacent CharValueHookFormula provider and were source-reviewed there; no separate polishing inventory is assigned to this editorial item."
     },
-    "last_updated": "2026-08-01"
+    "last_updated": "2026-08-02"
   },
   {
     "id": "Chapter5/Theorem5.17.1",
