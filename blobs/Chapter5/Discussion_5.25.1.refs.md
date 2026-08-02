@@ -6,8 +6,8 @@
   Mathlib (exact): `Field`, `IsAlgClosed`, `IntermediateField`, `CharP`, `GaloisField`
   All core field theory is well-covered. `Field`, `IsAlgClosed`, `CharP` are standard typeclasses. Finite fields via `GaloisField` and `FiniteField.card`.
 - **Matrix algebra: matrix multiplication, trace, determinant, similarity, matrix units** (undergraduate_prerequisite)
-  Mathlib (exact): `Matrix`, `Matrix.mul`, `Matrix.trace`, `Matrix.det`, `Matrix.StdBasisMatrix`, `Matrix.trace_mul_comm`
-  Full matrix algebra. `Matrix.StdBasisMatrix` provides matrix units. `Matrix.trace_mul_comm` gives tr(AB) = tr(BA).
+  Mathlib (exact): `Matrix`, `Matrix.mul_apply`, `Matrix.trace`, `Matrix.det`, `Matrix.single`, `Matrix.trace_mul_comm`
+  Full matrix algebra. `Matrix.single` provides matrix units. `Matrix.trace_mul_comm` gives tr(AB) = tr(BA).
 - **Eigenvalues and eigenvectors: characteristic polynomial, eigenspaces, diagonalization** (undergraduate_prerequisite)
   Mathlib (exact): `Module.End.HasEigenvalue`, `Module.End.eigenspace`, `Matrix.charpoly`
   Eigenvalues and eigenspaces well-covered. Characteristic polynomial via `Matrix.charpoly`. Diagonalization results available.

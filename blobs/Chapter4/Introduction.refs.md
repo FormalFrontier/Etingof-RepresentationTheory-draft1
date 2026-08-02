@@ -3,7 +3,7 @@
 ## External Dependencies
 
 - **Groups: definition, subgroups, normal subgroups, quotient groups, group homomorphisms, group actions, conjugacy classes, center of a group** (undergraduate_prerequisite)
-  Mathlib (exact): `Group`, `Subgroup`, `Subgroup.Normal`, `QuotientGroup.Quotient`, `MonoidHom`, `MulAction`, `ConjClasses`, `Subgroup.center`
+  Mathlib (exact): `Group`, `Subgroup`, `Subgroup.Normal`, `QuotientGroup.mk'`, `MonoidHom`, `MulAction`, `ConjClasses`, `Subgroup.center`
   Comprehensive group theory. All listed concepts have direct Mathlib counterparts.
 - **Group algebra k[G]: construction, basis indexed by group elements, convolution product** (undergraduate_prerequisite)
   Mathlib (exact): `MonoidAlgebra`

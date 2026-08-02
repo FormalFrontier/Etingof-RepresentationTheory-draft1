@@ -62,6 +62,10 @@ jobs:
           python3 scripts/validate_items.py
           python3 scripts/validate_dependencies.py
           python3 scripts/test_validate_dependencies.py
+          python3 scripts/validate_external_deps.py
+          python3 scripts/validate_mathlib_coverage.py
+          python3 scripts/test_validate_mathlib_coverage.py
+          python3 scripts/generate_refs.py --check
           python3 scripts/verify_blobs.py
           python3 scripts/reconcile_exercise_coverage.py --check
           python3 scripts/validate_exercise_coverage.py
@@ -79,7 +83,8 @@ jobs:
           # and asks Lean to resolve every declaration pointer. In particular,
           # it does not re-import the root aggregate and thereby defeat the
           # runner-memory exclusions in the per-file sweep below.
-          lake build EtingofRepresentationTheory.ExerciseCoverageDeclarations \
+          lake build EtingofRepresentationTheory.MathlibCoverageDeclarations \
+            EtingofRepresentationTheory.ExerciseCoverageDeclarations \
             2>&1 | tee "$RUNNER_TEMP/build.log"
           # Build individual modules, excluding:
           # - Chapter/root aggregation files (mindepth 2 skips these)
@@ -93,6 +98,7 @@ jobs:
           # Keep the log: the lint-clean check below reads warnings out of it
           # rather than paying for a second build.
           xargs lake build < "$RUNNER_TEMP/modules.txt" 2>&1 | tee -a "$RUNNER_TEMP/build.log"
+          echo EtingofRepresentationTheory.MathlibCoverageDeclarations >> "$RUNNER_TEMP/modules.txt"
           echo EtingofRepresentationTheory.ExerciseCoverageDeclarations >> "$RUNNER_TEMP/modules.txt"
       - name: No new build warnings
         run: |

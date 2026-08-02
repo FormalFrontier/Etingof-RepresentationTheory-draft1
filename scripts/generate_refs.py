@@ -183,17 +183,23 @@ def main():
     parser = argparse.ArgumentParser(description="Generate .refs.md files")
     parser.add_argument("--dry-run", action="store_true",
                         help="Print what would be generated without writing files")
+    parser.add_argument("--check", action="store_true",
+                        help="Fail if generated .refs.md files are absent, stale, or orphaned")
     args = parser.parse_args()
+    if args.dry_run and args.check:
+        parser.error("--dry-run and --check are mutually exclusive")
 
     # Load all data
-    items = load_json("progress/items.json")
+    # `progress/items.json` also contains derived overlay records, which have
+    # `derived_from` rather than a standalone blob `id` and therefore do not
+    # own `.refs.md` files.
+    items = [item for item in load_json("progress/items.json") if "id" in item]
     defs_data = load_json("research/mathlib-coverage-definitions.json")
     ext_coverage = load_json("research/mathlib-coverage-external.json")
     ext_sources = load_json("research/external-sources.json")
     ext_deps = load_json("dependencies/external.json")
 
     # Build lookup structures
-    item_index = build_item_index(items)
     def_coverage = build_definition_coverage(defs_data)
     ext_dep_map = build_external_dep_map(ext_deps)
     ext_coverage_map = build_ext_coverage_map(ext_coverage)
@@ -201,6 +207,7 @@ def main():
     ext_dep_gaps = build_ext_dep_gap_map(ext_sources)
 
     generated = 0
+    removed = 0
     skipped = 0
     errors = []
 
@@ -219,12 +226,28 @@ def main():
             def_gap_map, ext_dep_gaps,
         )
 
+        rp = refs_path(item_id)
         if content is None:
+            # These files are wholly generated. Remove a former companion when
+            # its item no longer has any references, otherwise stale coverage
+            # claims survive a successful regeneration.
+            if rp.exists():
+                if args.check:
+                    errors.append(f"Stale generated refs file has no references: {rp}")
+                elif args.dry_run:
+                    print(f"Would remove: {rp}")
+                else:
+                    rp.unlink()
+                removed += 1
             skipped += 1
             continue
 
-        rp = refs_path(item_id)
-        if args.dry_run:
+        if args.check:
+            if not rp.exists():
+                errors.append(f"Generated refs file missing: {rp}")
+            elif rp.read_text() != content:
+                errors.append(f"Generated refs file stale: {rp}")
+        elif args.dry_run:
             print(f"Would write: {rp} ({len(content)} bytes)")
         else:
             rp.parent.mkdir(parents=True, exist_ok=True)
@@ -232,7 +255,10 @@ def main():
 
         generated += 1
 
-    print(f"\nSummary: {generated} refs files generated, {skipped} items with no references")
+    print(
+        f"\nSummary: {generated} refs files {'checked' if args.check else 'generated'}, "
+        f"{removed} stale refs files {'found' if args.check else 'removed'}, "
+        f"{skipped} items with no references")
     if errors:
         print(f"Errors ({len(errors)}):")
         for e in errors:

@@ -472,13 +472,11 @@
     "source": "Schur (1901), Weyl (1946)"
   },
   {
-    "description": "Frobenius reciprocity: Hom_G(Ind_H^G V, W) ≅ Hom_H(V, Res_H W) naturally",
+    "description": "Frobenius reciprocity: Hom_G(V, Ind_H^G W) ≅ Hom_H(Res_H^G V, W) naturally",
     "category": "external_result",
     "items": [
-      "Chapter5/Definition5.8.1",
-      "Chapter5/Remark5.8.2",
-      "Chapter5/Problem5.8.4",
-      "Chapter5/Theorem5.9.1"
+      "Chapter5/Theorem5.10.1",
+      "Chapter5/Problem5.10.2"
     ],
     "source": "Frobenius (1898)"
   },
@@ -486,8 +484,9 @@
     "description": "Mackey's theorem (intertwining number formula for induced representations and double coset decomposition)",
     "category": "external_result",
     "items": [
-      "Chapter5/Theorem5.10.1",
-      "Chapter5/Problem5.10.2"
+      "Chapter5/Theorem5.9.1",
+      "Chapter5/Theorem5.27.1",
+      "Chapter5/Exercise5.27.3"
     ],
     "source": "Mackey (1951)"
   },

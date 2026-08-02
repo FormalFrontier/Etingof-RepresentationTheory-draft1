@@ -1,4 +1,4 @@
-# References: Frobenius formula for the character of an induced representation
+# References: Deduce parts (i)-(iii) of Theorem 5.27.1 from part (iv)
 
 ## External Dependencies
 

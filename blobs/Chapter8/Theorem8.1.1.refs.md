@@ -3,7 +3,7 @@
 ## External Dependencies
 
 - **Modules over rings: left modules, right modules, submodules, quotient modules, free modules, simple modules** (undergraduate_prerequisite)
-  Mathlib (exact): `Module`, `Submodule`, `Submodule.Quotient`, `Module.Free`, `IsSimpleModule`
+  Mathlib (exact): `Module`, `Submodule`, `Submodule.Quotient.mk`, `Module.Free`, `IsSimpleModule`
   Full module theory. Mathlib uses left modules by convention. `IsSimpleModule` for simple modules. Free modules via `Module.Free`.
 - **Exact sequences of modules: short exact sequences, left/right exactness of functors, splitting of exact sequences** (undergraduate_prerequisite)
   Mathlib (exact): `CategoryTheory.ShortComplex`, `CategoryTheory.ShortComplex.Exact`, `CategoryTheory.Limits.PreservesFiniteLimits`
@@ -12,5 +12,5 @@
   Mathlib (exact): `CategoryTheory.yoneda`, `CategoryTheory.coyoneda`, `LinearMap`
   Yoneda embedding provides the Hom functor abstractly. For modules, `LinearMap` (i.e., `M →ₗ[R] N`) is the Hom. Left exactness of Hom available.
 - **Every module over a ring is a quotient of a free module (existence of free resolutions)** (folklore)
-  Mathlib (partial): `Module.Free`, `Submodule.Quotient`
-  Free modules and quotients exist. The statement that every module is a quotient of a free module is a standard construction (take generators, map from a free module). Projective resolutions available via `CategoryTheory.ProjectiveResolution`.
+  Mathlib (exact): `Module.Free`, `Finsupp.linearCombination_id_surjective`, `ModuleCat.enoughProjectives`
+  `Finsupp.linearCombination_id_surjective` states directly that every module is a quotient of its free module on the underlying set. `ModuleCat.enoughProjectives` supplies projective resolutions categorically.

@@ -16,8 +16,8 @@ Mathlib has `UnitaryGroup` and inner product spaces, but a dedicated `UnitaryRep
 ## External Dependencies
 
 - **Matrix algebra: matrix multiplication, trace, determinant, similarity, matrix units** (undergraduate_prerequisite)
-  Mathlib (exact): `Matrix`, `Matrix.mul`, `Matrix.trace`, `Matrix.det`, `Matrix.StdBasisMatrix`, `Matrix.trace_mul_comm`
-  Full matrix algebra. `Matrix.StdBasisMatrix` provides matrix units. `Matrix.trace_mul_comm` gives tr(AB) = tr(BA).
+  Mathlib (exact): `Matrix`, `Matrix.mul_apply`, `Matrix.trace`, `Matrix.det`, `Matrix.single`, `Matrix.trace_mul_comm`
+  Full matrix algebra. `Matrix.single` provides matrix units. `Matrix.trace_mul_comm` gives tr(AB) = tr(BA).
 - **Eigenvalues and eigenvectors: characteristic polynomial, eigenspaces, diagonalization** (undergraduate_prerequisite)
   Mathlib (exact): `Module.End.HasEigenvalue`, `Module.End.eigenspace`, `Matrix.charpoly`
   Eigenvalues and eigenspaces well-covered. Characteristic polynomial via `Matrix.charpoly`. Diagonalization results available.
@@ -25,8 +25,8 @@ Mathlib has `UnitaryGroup` and inner product spaces, but a dedicated `UnitaryRep
   Mathlib (exact): `Module.Dual`, `Module.evalEquiv`, `LinearMap.dualMap`
   `Module.Dual R M` is `M →ₗ[R] R`. `Module.evalEquiv` gives the canonical isomorphism `M ≃ₗ[R] (M*)* ` for reflexive modules. `LinearMap.dualMap` is the transpose/dual map.
 - **Characters of representations are class functions; character of a direct sum is sum of characters; character of a tensor product is product of characters** (folklore)
-  Mathlib (partial): `FDRep.character`, `Representation`, `FDRep`
-  `FDRep.character` gives the character of a finite-dimensional representation. The properties (class function, additivity over direct sums, multiplicativity over tensor products) may need to be proved from the definition, though some are likely available.
+  Mathlib (partial): `FDRep.character`, `FDRep.char_conj`, `FDRep.char_tensor`
+  `FDRep.char_conj` proves the class-function property and `FDRep.char_tensor` proves tensor multiplicativity. A general direct-sum additivity theorem is not packaged in Mathlib, so that remaining clause is supplied in the project.
   External source [natural_language]: Serre, 'Linear Representations of Finite Groups' — Section 2.1
   External source [other_formal]: MathComp (Coq) — character.v, classfun.v
 - **Properties of the trace: tr(AB) = tr(BA), trace of identity is dimension, trace is basis-independent** (folklore)

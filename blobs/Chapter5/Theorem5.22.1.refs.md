@@ -1,4 +1,4 @@
-# References: Weyl character formula: character of L_lambda is the Schur polynomial
+# References: Weyl character formula: vanishing criterion, character of L_lambda, and dimension formula
 
 ## External Dependencies
 

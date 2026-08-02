@@ -1,0 +1,9 @@
+{
+  "audited_on": "2026-08-02",
+  "mathlib_input_revision": "v4.32.2",
+  "mathlib_revision": "905b95818eb32af7874a58b427f50c1711a5e96c",
+  "entries_reviewed": 58,
+  "previously_partial_and_missing_entries_reviewed": 24,
+  "nonexact_entries_after_audit": 17,
+  "method": "All partial and missing entries were re-audited against the pinned Mathlib source tree. Every non-empty declaration pointer is compiler-checked by EtingofRepresentationTheory.MathlibCoverageDeclarations; negative coverage claims remain human-reviewed against this recorded revision."
+}

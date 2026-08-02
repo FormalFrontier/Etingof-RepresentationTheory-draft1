@@ -3,5 +3,5 @@
 ## External Dependencies
 
 - **Bilinear forms and inner products: Hermitian inner product on complex vector spaces, orthogonality** (undergraduate_prerequisite)
-  Mathlib (exact): `LinearMap.BilinForm`, `InnerProductSpace`, `inner`, `Orthogonal`
+  Mathlib (exact): `LinearMap.BilinForm`, `InnerProductSpace`, `inner`, `LinearMap.BilinForm.orthogonal`
   Inner products via `InnerProductSpace`. Bilinear forms via `LinearMap.BilinForm`. Complex Hermitian inner product supported via `RCLike` typeclass.
