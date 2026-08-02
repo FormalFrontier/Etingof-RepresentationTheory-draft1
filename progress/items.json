@@ -27900,7 +27900,7 @@
     "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "HasAbelianSeries states the book's finite nested-series definition using the equivalent commutator containment for abelian factors; the step lemmas recover normality and quotient commutativity, and hasAbelianSeries_iff_isSolvable identifies it with Mathlib's terminating derived series.",
+    "fidelity_note": "HasAbelianSeries states the book's finite nested-series definition using commutator containment; the step lemmas recover normality and prove this condition equivalent to quotient commutativity, and hasAbelianSeries_iff_isSolvable identifies it with Mathlib's terminating derived series.",
     "coverage": "covered_full",
     "last_updated": "2026-08-02",
     "claim_coverage": {
@@ -27915,7 +27915,7 @@
         {
           "claim": "A solvable group is one admitting a finite normal series with abelian successive quotients, equivalently one whose derived series terminates.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.HasAbelianSeries; Etingof.abelianSeries_step_normal; Etingof.abelianSeries_step_quotient_commutative; Etingof.hasAbelianSeries_iff_isSolvable"
+          "lean_decl": "Etingof.HasAbelianSeries; Etingof.abelianSeries_step_normal; Etingof.abelianSeries_step_quotient_commutative_iff; Etingof.hasAbelianSeries_iff_isSolvable"
         }
       ]
     },

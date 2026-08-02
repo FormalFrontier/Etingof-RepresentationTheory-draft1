@@ -25,8 +25,8 @@ def HasAbelianSeries (G : Type*) [Group G] : Prop :=
     H 0 = ⊤ ∧ H n = ⊥ ∧
       ∀ i : ℕ, i < n → H (i + 1) ≤ H i ∧ ⁅H i, H i⁆ ≤ H (i + 1)
 
-/-- The commutator condition in an abelian series makes the next subgroup normal in the
-preceding one. -/
+/-- The commutator condition makes the intersection of the next subgroup with the preceding one
+normal in the latter.  For a nested series this intersection is the next subgroup itself. -/
 theorem abelianSeries_step_normal {G : Type*} [Group G] (H : ℕ → Subgroup G) (i : ℕ)
     (hcomm : ⁅H i, H i⁆ ≤ H (i + 1)) :
     ((H (i + 1)).comap (H i).subtype).Normal := by
@@ -34,16 +34,22 @@ theorem abelianSeries_step_normal {G : Type*} [Group G] (H : ℕ → Subgroup G)
   apply Subgroup.map_le_iff_le_comap.mp
   rwa [(H i).map_subtype_commutator]
 
-/-- Each factor in an abelian series is an abelian quotient, matching the quotient condition in
-the book's definition. -/
-theorem abelianSeries_step_quotient_commutative {G : Type*} [Group G]
+/-- Commutativity of a successive quotient is equivalent to the commutator containment used in
+`HasAbelianSeries`, matching the quotient condition in the book's definition. -/
+theorem abelianSeries_step_quotient_commutative_iff {G : Type*} [Group G]
     (H : ℕ → Subgroup G) (i : ℕ)
     [((H (i + 1)).comap (H i).subtype).Normal]
-    (hcomm : ⁅H i, H i⁆ ≤ H (i + 1)) :
-    IsMulCommutative ((H i) ⧸ (H (i + 1)).comap (H i).subtype) := by
-  apply Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr
-  apply Subgroup.map_le_iff_le_comap.mp
-  rwa [(H i).map_subtype_commutator]
+    : IsMulCommutative ((H i) ⧸ (H (i + 1)).comap (H i).subtype) ↔
+      ⁅H i, H i⁆ ≤ H (i + 1) := by
+  constructor
+  · intro hquot
+    rw [← (H i).map_subtype_commutator]
+    apply Subgroup.map_le_iff_le_comap.mpr
+    exact Subgroup.Normal.quotient_commutative_iff_commutator_le.mp hquot
+  · intro hcomm
+    apply Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr
+    apply Subgroup.map_le_iff_le_comap.mp
+    rwa [(H i).map_subtype_commutator]
 
 /-- The book's finite-series definition of solvability is equivalent to Mathlib's derived-series
 definition. (Etingof Definition 5.4.1) -/
