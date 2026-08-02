@@ -6,10 +6,10 @@
   Mathlib (exact): `Field`, `IsAlgClosed`, `IntermediateField`, `CharP`, `GaloisField`
   All core field theory is well-covered. `Field`, `IsAlgClosed`, `CharP` are standard typeclasses. Finite fields via `GaloisField` and `FiniteField.card`.
 - **Vector spaces over a field: definition, dimension, subspaces, quotient spaces, direct sums, bases** (undergraduate_prerequisite)
-  Mathlib (exact): `Module`, `FiniteDimensional`, `Module.finrank`, `Submodule`, `Submodule.Quotient`, `DirectSum`, `Basis`
+  Mathlib (exact): `Module`, `FiniteDimensional`, `Module.finrank`, `Submodule`, `Submodule.Quotient.mk`, `DirectSum`, `Module.Basis`
   Vector spaces are modeled as `Module k V` where `k` is a `Field`. Dimension via `Module.finrank`. Full support for subspaces, quotients, direct sums, and bases.
 - **Groups: definition, subgroups, normal subgroups, quotient groups, group homomorphisms, group actions, conjugacy classes, center of a group** (undergraduate_prerequisite)
-  Mathlib (exact): `Group`, `Subgroup`, `Subgroup.Normal`, `QuotientGroup.Quotient`, `MonoidHom`, `MulAction`, `ConjClasses`, `Subgroup.center`
+  Mathlib (exact): `Group`, `Subgroup`, `Subgroup.Normal`, `QuotientGroup.mk'`, `MonoidHom`, `MulAction`, `ConjClasses`, `Subgroup.center`
   Comprehensive group theory. All listed concepts have direct Mathlib counterparts.
 - **Group algebra k[G]: construction, basis indexed by group elements, convolution product** (undergraduate_prerequisite)
   Mathlib (exact): `MonoidAlgebra`
@@ -18,6 +18,6 @@
   Mathlib (exact): `LinearMap.rank_range_add_rank_ker`, `Submodule.finrank_sup_add_finrank_inf_eq`, `Module.finrank`
   Rank-nullity via `LinearMap.rank_range_add_rank_ker`. Dimension of direct sums available. `Module.finrank` for finite-dimensional spaces.
 - **Averaging (Reynolds) operator for finite group actions: (1/|G|) Σ_g ρ(g) is the projection onto invariants when char k does not divide |G|** (folklore)
-  Mathlib (partial): `Representation`, `IsSemisimpleModule`
-  The averaging operator is not explicitly named in Mathlib, but `IsSemisimpleModule` captures its consequence (complete reducibility). Maschke's theorem (semisimplicity of group algebra when char k ∤ |G|) is available via the semisimplicity framework.
+  Mathlib (exact): `Representation.averageMap`, `Representation.isProj_averageMap`
+  `Representation.averageMap` is the Reynolds operator and `Representation.isProj_averageMap` proves that it is the projection onto invariants under the invertibility hypothesis on the group order.
   External source [natural_language]: Serre, 'Linear Representations of Finite Groups' — Section 1.3

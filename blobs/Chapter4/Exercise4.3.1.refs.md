@@ -3,6 +3,6 @@
 ## External Dependencies
 
 - **Finite abelian groups: classification by elementary divisors, structure theorem, characters of abelian groups** (undergraduate_prerequisite)
-  Mathlib (partial): `CommGroup`, `Module.equiv_directSum_of_isTorsion`, `CharacterModule`
-  Basic finite abelian group theory present. The full classification theorem (elementary divisors) has partial coverage. `CharacterModule` provides character theory for abelian groups. The structure theorem for finitely generated abelian groups may require piecing together several results.
+  Mathlib (exact): `CommGroup`, `AddCommGroup.equiv_directSum_zmod_of_finite`, `CommGroup.equiv_prod_multiplicative_zmod_of_finite`, `CharacterModule`, `CommGroup.monoidHom_mulEquiv_of_hasEnoughRootsOfUnity`
+  `AddCommGroup.equiv_directSum_zmod_of_finite` gives the elementary-divisor (prime-power) decomposition, while its multiplicative counterpart gives a product of cyclic factors. `CharacterModule` and `CommGroup.monoidHom_mulEquiv_of_hasEnoughRootsOfUnity` supply character-group structure and duality.
   External source [natural_language]: Lang, 'Algebra' — Chapter I, Section 10
