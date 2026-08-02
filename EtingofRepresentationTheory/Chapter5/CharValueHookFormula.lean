@@ -12,6 +12,10 @@ of `Discussion_hook_length_derivation`, captured as
 are already proved:
 
 * `charValue_trivialCycleType_eq_spechtFinrank_rat`: `dim V_λ = charValue(λ, 1)`.
+* `finrank_spechtModule_eq_frobeniusPowerDetForm`: equation (5.17.1) in its
+  power-determinant form.
+* `finrank_spechtModule_eq_frobeniusDetForm`: equation (5.17.1) in its
+  Vandermonde-product form.
 * `card_standardYoungTableau_eq`: `#SYT = n!/∏hooks` (Frame–Robinson–Thrall).
 
 With the one hard lemma, `dim V_λ = charValue(λ,1) = n!/∏hooks = #SYT`.
@@ -310,6 +314,46 @@ private theorem descPochhammer_alternant_det_eq_prod_sub
   · intro x _; simp only [Fin.rev_rev]
   · intro x _; simp only [hγ]
 
+/-- Replacing descending factorials by their leading monomials does not change
+the reflected alternant determinant.  This is the column-reduction step in the
+book immediately before equation (5.17.1). -/
+theorem descPochhammer_alternant_det_eq_pow_alternant_det
+    (N : ℕ) (β : Fin N → ℕ) :
+    (Matrix.of fun i j : Fin N =>
+        (descPochhammer ℤ (vandermondeExps N j)).eval (β i : ℤ)).det =
+      (Matrix.of fun i j : Fin N =>
+        (β i : ℤ) ^ vandermondeExps N j).det := by
+  classical
+  set γ : Fin N → ℤ := fun i => (β (Fin.rev i) : ℤ) with hγ
+  have hdesc : (Matrix.of fun i j : Fin N =>
+        (descPochhammer ℤ (vandermondeExps N j)).eval (β i : ℤ)).submatrix
+          Fin.revPerm Fin.revPerm =
+      Matrix.of fun i j : Fin N => (descPochhammer ℤ (j : ℕ)).eval (γ i) := by
+    ext i j
+    have hvj : vandermondeExps N (Fin.rev j) = (j : ℕ) := by
+      have hj := j.isLt
+      simp only [vandermondeExps, Fin.val_rev]
+      omega
+    simp only [Matrix.submatrix_apply, Matrix.of_apply, Fin.revPerm_apply, hγ, hvj]
+  have hpow : (Matrix.of fun i j : Fin N =>
+        (β i : ℤ) ^ vandermondeExps N j).submatrix Fin.revPerm Fin.revPerm =
+      Matrix.vandermonde γ := by
+    ext i j
+    have hvj : vandermondeExps N (Fin.rev j) = (j : ℕ) := by
+      have hj := j.isLt
+      simp only [vandermondeExps, Fin.val_rev]
+      omega
+    simp only [Matrix.submatrix_apply, Matrix.of_apply, Fin.revPerm_apply,
+      Matrix.vandermonde, hγ, hvj]
+  rw [← Matrix.det_submatrix_equiv_self Fin.revPerm
+        (Matrix.of fun i j : Fin N =>
+          (descPochhammer ℤ (vandermondeExps N j)).eval (β i : ℤ)),
+    hdesc, ← Matrix.det_eval_matrixOfPolynomials_eq_det_vandermonde γ
+      (fun i : Fin N => descPochhammer ℤ (i : ℕ))
+      (fun i => descPochhammer_natDegree ℤ i)
+      (fun i => monic_descPochhammer ℤ i),
+    ← hpow, Matrix.det_submatrix_equiv_self]
+
 /-! ### Part A, steps 1–6 (analytic / coefficient extraction half)
 
 Reduce `charValue N λ 1` to a falling-factorial (`descPochhammer`) determinant,
@@ -380,7 +424,7 @@ monomial sum (`Matrix.det_apply`), the coefficient extraction shifts each monomi
 (`multinomial_mul_prod_factorial_eq`) folds the signed sum back into the
 determinant of the descending-factorial matrix
 `Aᵢⱼ = (descPochhammer ℤ (N−1−j)).eval βᵢ`, with `β = shiftedExps`. -/
-private theorem charValue_trivialCycleType_eq_descPochhammer_det
+theorem charValue_trivialCycleType_eq_descPochhammer_det
     (N : ℕ) {n : ℕ} (lam : BoundedPartition N n) :
     charValue N lam (trivialCycleType n) =
       (n.factorial : ℚ) / (∏ j, ((shiftedExps N lam.parts j).factorial : ℚ)) *
@@ -495,6 +539,40 @@ theorem charValue_trivialCycleType_eq_frobeniusDetForm
       (shiftedExps_strictAnti lam)]
   push_cast
   ring
+
+/-- **Equation (5.17.1), power-determinant form.**
+
+Column reduction replaces the descending-factorial determinant by
+`det(l_i ^ (N - 1 - j))` without changing its value.  With Lean's 0-based
+`Fin N` indices, `shiftedExps N lam.parts i` is the book's `l_{i+1}`. -/
+theorem finrank_spechtModule_eq_frobeniusPowerDetForm
+    (N : ℕ) {n : ℕ} (lam : BoundedPartition N n) :
+    (Module.finrank ℂ
+        (SpechtModule n (lam.sum_eq ▸ weightToPartition N lam.parts)) : ℚ) =
+      (n.factorial : ℚ) /
+          (∏ j, ((shiftedExps N lam.parts j).factorial : ℚ)) *
+        ((Matrix.of fun i j : Fin N =>
+          (shiftedExps N lam.parts i : ℤ) ^ vandermondeExps N j).det : ℚ) := by
+  rw [← charValue_trivialCycleType_eq_spechtFinrank_rat,
+    charValue_trivialCycleType_eq_descPochhammer_det,
+    descPochhammer_alternant_det_eq_pow_alternant_det]
+
+/-- **Equation (5.17.1): the Specht dimension in Frobenius–Vandermonde form.**
+
+With Lean's 0-based `Fin N` indices, `shiftedExps N lam.parts i = λ_i + N - 1 - i`
+is the book's beta-number `l_{i+1}`.  The complex dimension of `V_λ` is
+`n! · ∏_{i<j}(l_i-l_j) / ∏_j l_j!`.  The hypothesis that `λ` has at most `N`
+rows is carried by `BoundedPartition N n`. -/
+theorem finrank_spechtModule_eq_frobeniusDetForm
+    (N : ℕ) {n : ℕ} (lam : BoundedPartition N n) :
+    (Module.finrank ℂ
+        (SpechtModule n (lam.sum_eq ▸ weightToPartition N lam.parts)) : ℚ) =
+      (n.factorial : ℚ) *
+        ((∏ i, ∏ j ∈ Finset.Ioi i,
+            (shiftedExps N lam.parts i - shiftedExps N lam.parts j) : ℕ) : ℚ) /
+        ((∏ j, (shiftedExps N lam.parts j).factorial : ℕ) : ℚ) := by
+  rw [← charValue_trivialCycleType_eq_spechtFinrank_rat]
+  exact charValue_trivialCycleType_eq_frobeniusDetForm N lam
 
 /-- The descending product `∏_{x < k} (k - x)` equals `k!`. -/
 private theorem prod_range_sub_eq_factorial (k : ℕ) :
