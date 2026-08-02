@@ -616,7 +616,10 @@
     "Chapter5/Definition5.12.1"
   ],
   "Chapter5/Discussion_end_of_Lemma5.13.1_proof": [],
-  "Chapter5/Discussion_lexicographic_ordering": [],
+  "Chapter5/Discussion_lexicographic_ordering": [
+    "Chapter5/Definition5.12.1",
+    "Chapter5/Lemma5.13.1"
+  ],
   "Chapter5/Lemma5.13.2": [
     "Chapter5/Definition5.12.1",
     "Chapter5/Lemma5.13.1"

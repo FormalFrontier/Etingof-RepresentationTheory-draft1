@@ -32037,28 +32037,60 @@
       "supplemental_provider_dependencies": [],
       "explicit_source_references": [],
       "status": "complete",
-      "section": "5.13",
-      "verified_on": "2026-08-02",
-      "actual_internal_dependencies": [],
+      "section": null,
+      "verified_on": "2026-08-01",
+      "actual_internal_dependencies": [
+        "Chapter5/Definition5.12.1",
+        "Chapter5/Lemma5.13.1"
+      ],
       "forward_internal_dependencies": [],
       "import_dag_dependencies": [],
-      "proof_term_dependencies": [],
-      "provider_module_attribution": {},
-      "proof_dependency_modules": [],
-      "type_dependency_modules": [],
-      "declarations_reviewed": 0,
+      "proof_term_dependencies": [
+        "Chapter5/Definition5.12.1",
+        "Chapter5/Lemma5.13.1"
+      ],
+      "provider_module_attribution": {
+        "EtingofRepresentationTheory.Chapter5.Lemma5_13_2": {
+          "owner": "Chapter5/Lemma5.13.2",
+          "basis": "exact_item_stem",
+          "seed_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2",
+          "distance": 0,
+          "other_explicit_claimants": [
+            "Chapter5/Discussion_lexicographic_ordering"
+          ]
+        }
+      },
+      "proof_dependency_modules": [
+        "EtingofRepresentationTheory.Chapter5.Definition5_12_1",
+        "EtingofRepresentationTheory.Chapter5.Lemma5_13_1"
+      ],
+      "type_dependency_modules": [
+        "EtingofRepresentationTheory.Chapter5.Definition5_12_1"
+      ],
+      "declarations_reviewed": 101,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
-      "basis": "The lexicographic declarations live in the shared Lemma5_13_2 provider module, whose generated proof-term ownership remains with the adjacent lemma item; this discussion records the explicit source references without claiming separate module ownership.",
+      "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
     },
     "stage3_5": {
-      "status": "not_applicable",
-      "section": "5.13",
-      "reviewed_on": "2026-08-02",
-      "mathlib_quality": "source_reviewed_and_build_verified",
-      "result": "The shared Lemma5_13_2 provider's lexicographic declarations were independently source-reviewed and pass the module build; generated source-hash certificates will be refreshed before the PR is opened."
+      "status": "complete",
+      "section": null,
+      "reviewed_on": "2026-08-01",
+      "mathlib_quality": "linter_screened_with_retained_nonblocking_diagnostics",
+      "provider_modules": [
+        "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
+      ],
+      "source_level_proof_declarations_reviewed": 35,
+      "diagnostic_count": 4,
+      "diagnostic_categories": [
+        "flexible_tactic",
+        "long_line"
+      ],
+      "result": "proof_review_screened_with_dispositions",
+      "evidence": "progress/reviews/2026-08-01-stage3-5-proof-polishing.json",
+      "basis": "Every source-level theorem/opaque declaration in the provider modules was included in the conservative kernel-bound review inventory, which may also retain generated declarations. A successful repository-wide Mathlib linter build screened the proof text; every direct diagnostic is named, located, assigned to its nearest source command, and dispositioned in the evidence certificate."
     },
-    "last_updated": "2026-08-02"
+    "last_updated": "2026-08-01"
   },
   {
     "id": "Chapter5/Lemma5.13.2",
@@ -32074,7 +32106,7 @@
     "notes": "Fully proved. pigeonhole_transposition proved via column fiber decomposition + double counting identity.",
     "sorry_free": true,
     "coverage": "covered_full",
-    "last_updated": "2026-08-02",
+    "last_updated": "2026-08-01",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -32120,7 +32152,9 @@
           "basis": "exact_item_stem",
           "seed_module": "EtingofRepresentationTheory.Chapter5.Lemma5_13_2",
           "distance": 0,
-          "other_explicit_claimants": []
+          "other_explicit_claimants": [
+            "Chapter5/Discussion_lexicographic_ordering"
+          ]
         }
       },
       "proof_dependency_modules": [
@@ -32130,7 +32164,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter5.Definition5_12_1"
       ],
-      "declarations_reviewed": 89,
+      "declarations_reviewed": 101,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -32143,7 +32177,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.Lemma5_13_2"
       ],
-      "source_level_proof_declarations_reviewed": 29,
+      "source_level_proof_declarations_reviewed": 35,
       "diagnostic_count": 4,
       "diagnostic_categories": [
         "flexible_tactic",
@@ -32552,7 +32586,7 @@
     "sorry_free": true,
     "coverage": "covered_full",
     "fidelity_note": "Etingof.youngRuleKostkaDecomposition gives the public SymGroupAlgebra-linear direct-sum isomorphism with multiplicities indexed by the combinatorial KostkaNumber. The equality with the representation-theoretic Hom-space multiplicity is Etingof.youngRuleMultiplicity_eq_kostkaNumber.",
-    "last_updated": "2026-08-02",
+    "last_updated": "2026-08-01",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -32615,9 +32649,10 @@
       ],
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter5.Definition5_12_1",
+        "EtingofRepresentationTheory.Chapter5.Lemma5_13_2",
         "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Irreducible"
       ],
-      "declarations_reviewed": 45,
+      "declarations_reviewed": 46,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -32630,7 +32665,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.Proposition5_14_1"
       ],
-      "source_level_proof_declarations_reviewed": 18,
+      "source_level_proof_declarations_reviewed": 19,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",
