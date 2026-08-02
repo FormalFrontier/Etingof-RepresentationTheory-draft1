@@ -491,6 +491,18 @@ lemma repMP_not_iso_repFD : ¬ Nonempty (repMP ≅ repFD) :=
 lemma repMM_not_iso_repFD : ¬ Nonempty (repMM ≅ repFD) :=
   not_iso_repFD_of_finrank_one repMM_finrank
 
+/-- The five displayed irreducible representations of `Q₈` are pairwise non-isomorphic. -/
+theorem irreps_pairwise_noniso :
+    ¬ Nonempty (repPP ≅ repPM) ∧ ¬ Nonempty (repPP ≅ repMP) ∧
+      ¬ Nonempty (repPP ≅ repMM) ∧ ¬ Nonempty (repPP ≅ repFD) ∧
+      ¬ Nonempty (repPM ≅ repMP) ∧ ¬ Nonempty (repPM ≅ repMM) ∧
+      ¬ Nonempty (repPM ≅ repFD) ∧ ¬ Nonempty (repMP ≅ repMM) ∧
+      ¬ Nonempty (repMP ≅ repFD) ∧ ¬ Nonempty (repMM ≅ repFD) :=
+  ⟨repPP_not_iso_repPM, repPP_not_iso_repMP, repPP_not_iso_repMM,
+    repPP_not_iso_repFD, repPM_not_iso_repMP, repPM_not_iso_repMM,
+    repPM_not_iso_repFD, repMP_not_iso_repMM, repMP_not_iso_repFD,
+    repMM_not_iso_repFD⟩
+
 /-- The dimensions `1, 1, 1, 1, 2` of the five irreducible representations realise the
 sum-of-squares decomposition `1² + 1² + 1² + 1² + 2² = 8 = |Q₈|`, now tied to the actual
 `finrank` of the constructed irreducibles. (Etingof Example 4.3) -/
