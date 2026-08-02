@@ -245,11 +245,14 @@
     "Chapter3/Theorem3.2.2"
   ],
   "Chapter3/Example3.5.6": [],
-  "Chapter3/Definition3.5.7": [],
+  "Chapter3/Definition3.5.7": [
+    "Chapter3/Definition3.5.1"
+  ],
   "Chapter3/Proposition3.5.8": [
     "Chapter2/Definition2.3.8",
     "Chapter3/Definition3.5.1",
-    "Chapter3/Theorem3.5.4"
+    "Chapter3/Theorem3.5.4",
+    "Chapter3/Definition3.5.7"
   ],
   "Chapter3/Introduction_to_3.6": [],
   "Chapter3/Exercise3.6.1": [
