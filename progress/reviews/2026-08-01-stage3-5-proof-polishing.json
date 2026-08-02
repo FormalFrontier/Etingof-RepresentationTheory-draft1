@@ -1,13 +1,13 @@
 {
   "generated_on": "2026-08-01",
   "method": "kernel source-level proof inventory plus successful repository-wide Mathlib linter build",
-  "build_log_sha256": "797a09ce05b28a533f07bf9889930b2c427fa1f1c27d1625de0775a09777ead4",
+  "build_log_sha256": "ddbd1f949fdd48e4d394d0ef3eaa9625272528d5d6e125510731f08105a2e610",
   "build_log_archive": "progress/reviews/2026-08-01-stage3-5-build.log.gz",
   "dependency_evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
-  "dependency_evidence_sha256": "c2b36e1691b183d050dc4d3ff27bd36284fd87995a26005fcabfdcdc21f28d7d",
+  "dependency_evidence_sha256": "5eb5757813a2e800a7d46367455b8646e7af4d67c37ebc97f546996a24b1fc07",
   "provider_item_count": 403,
-  "source_level_proof_declaration_count": 11457,
-  "kernel_proof_declaration_count_including_generated_helpers": 26915,
+  "source_level_proof_declaration_count": 11460,
+  "kernel_proof_declaration_count_including_generated_helpers": 26918,
   "unique_warning_count": 1242,
   "warning_file_count": 216,
   "warning_counts_by_category": {
@@ -15757,9 +15757,9 @@
     },
     "EtingofRepresentationTheory.Chapter5.Definition5_4_1": {
       "source": "EtingofRepresentationTheory/Chapter5/Definition5_4_1.lean",
-      "source_sha256": "69a51369bd1b30909c8b479b90c9ef8a0c0c522dbe4ee7ea7afb877bc1fdd1c5",
-      "source_level_proof_declaration_count": 0,
-      "source_level_proof_declaration_names_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "712fb8e933ba9631c8b2eef3cb9a0802d73bd00515cdfea2a836d4435c569c03",
+      "source_level_proof_declaration_count": 3,
+      "source_level_proof_declaration_names_sha256": "3f07e726a919d09bac0e1952b22770735d42a1147dfd888c253b315477acb9f2",
       "diagnostics": [],
       "review_result": "screened_no_direct_diagnostic"
     },
@@ -31531,7 +31531,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.Definition5_4_1"
       ],
-      "source_level_proof_declarations_reviewed": 0,
+      "source_level_proof_declarations_reviewed": 3,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",

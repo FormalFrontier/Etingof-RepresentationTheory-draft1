@@ -27900,23 +27900,35 @@
     "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "The standard public Mathlib predicate IsSolvable is exactly the source derived-series definition.",
+    "fidelity_note": "HasAbelianSeries states the book's finite nested-series definition using commutator containment; the step lemmas recover normality and prove this condition equivalent to quotient commutativity, and hasAbelianSeries_iff_isSolvable identifies it with Mathlib's terminating derived series.",
     "coverage": "covered_full",
     "last_updated": "2026-08-01",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
       "section": "5.4",
-      "reviewed_on": "2026-07-29",
+      "reviewed_on": "2026-08-02",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
       "claims": [
         {
           "claim": "A solvable group is one admitting a finite normal series with abelian successive quotients, equivalently one whose derived series terminates.",
-          "verdict": "covered_elsewhere",
-          "lean_decl": "IsSolvable"
+          "verdict": "formalized",
+          "lean_decl": "Etingof.HasAbelianSeries; Etingof.abelianSeries_step_normal; Etingof.abelianSeries_step_quotient_commutative_iff; Etingof.hasAbelianSeries_iff_isSolvable"
         }
+      ]
+    },
+    "stage3_3": {
+      "status": "complete",
+      "section": "5.4",
+      "verified_on": "2026-08-02",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.HasAbelianSeries",
+        "Etingof.abelianSeries_step_normal",
+        "Etingof.abelianSeries_step_quotient_commutative_iff",
+        "Etingof.hasAbelianSeries_iff_isSolvable"
       ]
     },
     "stage3_4": {
@@ -27940,7 +27952,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 0,
+      "declarations_reviewed": 4,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -27953,7 +27965,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.Definition5_4_1"
       ],
-      "source_level_proof_declarations_reviewed": 0,
+      "source_level_proof_declarations_reviewed": 3,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",
