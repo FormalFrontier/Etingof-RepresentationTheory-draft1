@@ -15316,14 +15316,14 @@
     "end_line": 16,
     "status": "proof_polished",
     "coverage": "covered_full",
-    "last_updated": "2026-08-01",
+    "last_updated": "2026-08-02",
     "fidelity": "verified",
     "sorry_free": true,
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
       "section": "3.5",
-      "reviewed_on": "2026-07-27",
+      "reviewed_on": "2026-08-02",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -15331,17 +15331,19 @@
         {
           "claim": "The radical of A is the set of elements acting by zero in every irreducible A-representation, denoted Rad(A).",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Radical; Etingof.structure_mod_radical; IsSemisimpleModule.jacobson_le_annihilator"
+          "lean_decl": "Etingof.Radical; Etingof.mem_radical_iff"
         }
       ]
     },
     "stage3_3": {
       "status": "complete",
       "section": "3.5",
-      "verified_on": "2026-07-27",
+      "verified_on": "2026-08-02",
       "proof_integrity": "sorry_free",
       "declarations": [
-        "Etingof.Radical"
+        "Etingof.Radical",
+        "Etingof.radical_smul_eq_zero",
+        "Etingof.mem_radical_iff"
       ]
     },
     "stage3_4": {
@@ -15349,7 +15351,7 @@
       "explicit_source_references": [],
       "status": "complete",
       "section": "3.5",
-      "verified_on": "2026-08-01",
+      "verified_on": "2026-08-02",
       "actual_internal_dependencies": [],
       "forward_internal_dependencies": [],
       "import_dag_dependencies": [],
@@ -15365,7 +15367,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 1,
+      "declarations_reviewed": 5,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -15373,12 +15375,12 @@
     "stage3_5": {
       "status": "complete",
       "section": "3.5",
-      "reviewed_on": "2026-08-01",
+      "reviewed_on": "2026-08-02",
       "mathlib_quality": "linter_screened",
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter3.Definition3_5_1"
       ],
-      "source_level_proof_declarations_reviewed": 0,
+      "source_level_proof_declarations_reviewed": 2,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",
@@ -15998,7 +16000,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter3.Definition3_5_1"
       ],
-      "declarations_reviewed": 6,
+      "declarations_reviewed": 5,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []

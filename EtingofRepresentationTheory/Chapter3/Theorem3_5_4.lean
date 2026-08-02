@@ -43,12 +43,8 @@ theorem Etingof.structure_mod_radical (k : Type*) (A : Type u)
     ext i : 1
     -- Need: (Algebra.lsmul k k (V i)) a = 0, i.e., ∀ v, a • v = 0
     ext v : 1
-    -- a ∈ Rad(A) = Ideal.jacobson ⊥ = Ring.jacobson A. V i is simple hence semisimple.
-    -- The Jacobson radical annihilates all semisimple modules.
     change a • v = 0
-    have ha' : a ∈ Ring.jacobson A := by rwa [← Ideal.jacobson_bot]
-    have h_le := IsSemisimpleModule.jacobson_le_annihilator (R := A) (M := V i)
-    exact Module.mem_annihilator.mp (h_le ha') v
+    exact (Etingof.mem_radical_iff A a).mp ha (V i) v
   -- ker(φ) ≤ Rad(A): elements acting by 0 on all V_i are in the radical
   have hker_le_rad : RingHom.ker φ.toRingHom ≤ Etingof.Radical A := by
     -- For each maximal left ideal J, A/J is a simple A-module, hence ≅ some V_j.

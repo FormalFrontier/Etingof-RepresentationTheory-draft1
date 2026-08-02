@@ -3,8 +3,8 @@
 Completed 2026-08-01 against a successful full repository build with the Mathlib standard linter set enabled.
 
 - Provider-backed book items reviewed: 403
-- Conservative source-facing theorem/opaque inventory: 11435
-- Kernel proof declarations including generated helpers: 26874
+- Conservative source-facing theorem/opaque inventory: 11437
+- Kernel proof declarations including generated helpers: 26877
 - Unique diagnostics dispositioned: 1243
 - Blocking proof diagnostics (`sorry`, metavariables, unsolved/multi-goal proofs): 0
 
