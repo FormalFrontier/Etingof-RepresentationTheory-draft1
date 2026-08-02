@@ -340,7 +340,9 @@
   "Chapter4/Introduction_4.3": [],
   "Chapter4/Example4.3_FiniteAbelianGroups": [],
   "Chapter4/Example4.3_S3": [],
-  "Chapter4/Example4.3_Q8": [],
+  "Chapter4/Example4.3_Q8": [
+    "Chapter4/Corollary4.2.2"
+  ],
   "Chapter4/Exercise4.3.1": [],
   "Chapter4/Example4.3_S4": [],
   "Chapter4/Discussion_4.4": [

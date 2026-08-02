@@ -21361,15 +21361,15 @@
     "status": "proof_polished",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[coverage] The book's Example 4.3 for Q8 explicitly describes the 2-dimensional representation via Pauli matrices (4.3.1) and states the five representations include a genuine 2-dimensional one. The L",
+    "fidelity_note": "The four one-dimensional characters and the two-dimensional Pauli representation are constructed and proved simple. The one-dimensional objects are pairwise non-isomorphic, their dimensions are 1,1,1,1 while the Pauli representation has dimension 2, and Q8_simple_iso proves that every simple complex Q8-representation is isomorphic to one of these five.",
     "fidelity_issue": 5632,
     "coverage": "covered_full",
-    "last_updated": "2026-08-01",
+    "last_updated": "2026-08-02",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
       "section": "4.3",
-      "reviewed_on": "2026-07-29",
+      "reviewed_on": "2026-08-02",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -21377,7 +21377,7 @@
         {
           "claim": "Q8 has the stated relations, five conjugacy classes, center {±1}, and irreducible dimensions 1,1,1,1,2.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example4_3_Q8"
+          "lean_decl": "Etingof.Example4_3_Q8_conj_classes; Etingof.Example4_3_Q8.mem_center_iff; Etingof.Example4_3_Q8.oneDim_pairwise_noniso; Etingof.Example4_3_Q8.irreps_dim_sum_of_squares; Etingof.Example4_3_Q8.Q8_simple_iso"
         },
         {
           "claim": "Four one-dimensional representations arise from the quotient by the center.",
@@ -21387,7 +21387,7 @@
         {
           "claim": "The two-dimensional representation acts by the displayed Pauli matrices and is irreducible.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example4_3_Q8.rep_i; Etingof.Example4_3_Q8.rep_j; Etingof.Example4_3_Q8.rep_k; Etingof.Example4_3_Q8.twoDimRep_simple"
+          "lean_decl": "Etingof.Example4_3_Q8.rep_i; Etingof.Example4_3_Q8.rep_j; Etingof.Example4_3_Q8.rep_k; Etingof.Example4_3_Q8.repFD_simple"
         }
       ]
     },
@@ -21397,10 +21397,14 @@
       "status": "complete",
       "section": "4.3",
       "verified_on": "2026-08-01",
-      "actual_internal_dependencies": [],
+      "actual_internal_dependencies": [
+        "Chapter4/Corollary4.2.2"
+      ],
       "forward_internal_dependencies": [],
       "import_dag_dependencies": [],
-      "proof_term_dependencies": [],
+      "proof_term_dependencies": [
+        "Chapter4/Corollary4.2.2"
+      ],
       "provider_module_attribution": {
         "EtingofRepresentationTheory.Chapter4.Example4_3_Q8": {
           "owner": "Chapter4/Example4.3_Q8",
@@ -21410,9 +21414,11 @@
           "other_explicit_claimants": []
         }
       },
-      "proof_dependency_modules": [],
+      "proof_dependency_modules": [
+        "EtingofRepresentationTheory.Chapter4.Corollary4_2_2"
+      ],
       "type_dependency_modules": [],
-      "declarations_reviewed": 94,
+      "declarations_reviewed": 125,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -21425,7 +21431,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter4.Example4_3_Q8"
       ],
-      "source_level_proof_declarations_reviewed": 53,
+      "source_level_proof_declarations_reviewed": 67,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",

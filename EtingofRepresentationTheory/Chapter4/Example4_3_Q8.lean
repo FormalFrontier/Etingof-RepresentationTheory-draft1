@@ -1,4 +1,4 @@
-import Mathlib
+import EtingofRepresentationTheory.Chapter4.Corollary4_2_2
 
 /-!
 # Example 4.3: Irreducible Representations of Q₈
@@ -429,6 +429,68 @@ lemma repFD_finrank : finrank ℂ (repFD : Type) = 2 := by
   rw [show (1 : QuaternionGroup 2) = a 0 from QuaternionGroup.one_def, char2_a0] at h
   exact_mod_cast h.symm
 
+/-! ## Pairwise non-isomorphism -/
+
+/-- Distinct one-dimensional characters give non-isomorphic one-dimensional
+representations. -/
+lemma oneDim_not_iso_of_apply_ne (chi psi : QuaternionGroup 2 →* ℂ)
+    (g : QuaternionGroup 2) (h : chi g ≠ psi g) :
+    ¬ Nonempty (FDRep.of (oneDimRep chi) ≅ FDRep.of (oneDimRep psi)) := by
+  rintro ⟨e⟩
+  apply h
+  simpa only [oneDim_char] using congrFun (FDRep.char_iso e) g
+
+lemma repPP_not_iso_repPM : ¬ Nonempty (repPP ≅ repPM) := by
+  simpa only [repPP, repPM] using oneDim_not_iso_of_apply_ne chiPP chiPM (xa 0) (by
+    norm_num [chiPP, chiPM, chiHom, chiFun])
+
+lemma repPP_not_iso_repMP : ¬ Nonempty (repPP ≅ repMP) := by
+  simpa only [repPP, repMP] using oneDim_not_iso_of_apply_ne chiPP chiMP (a 1) (by
+    norm_num [chiPP, chiMP, chiHom, chiFun, show (1 : ZMod 4).val = 1 from rfl])
+
+lemma repPP_not_iso_repMM : ¬ Nonempty (repPP ≅ repMM) := by
+  simpa only [repPP, repMM] using oneDim_not_iso_of_apply_ne chiPP chiMM (a 1) (by
+    norm_num [chiPP, chiMM, chiHom, chiFun, show (1 : ZMod 4).val = 1 from rfl])
+
+lemma repPM_not_iso_repMP : ¬ Nonempty (repPM ≅ repMP) := by
+  simpa only [repPM, repMP] using oneDim_not_iso_of_apply_ne chiPM chiMP (a 1) (by
+    norm_num [chiPM, chiMP, chiHom, chiFun, show (1 : ZMod 4).val = 1 from rfl])
+
+lemma repPM_not_iso_repMM : ¬ Nonempty (repPM ≅ repMM) := by
+  simpa only [repPM, repMM] using oneDim_not_iso_of_apply_ne chiPM chiMM (a 1) (by
+    norm_num [chiPM, chiMM, chiHom, chiFun, show (1 : ZMod 4).val = 1 from rfl])
+
+lemma repMP_not_iso_repMM : ¬ Nonempty (repMP ≅ repMM) := by
+  simpa only [repMP, repMM] using oneDim_not_iso_of_apply_ne chiMP chiMM (xa 0) (by
+    norm_num [chiMP, chiMM, chiHom, chiFun])
+
+/-- The four representations pulled back from `Q₈/Z(Q₈)` are pairwise non-isomorphic. -/
+theorem oneDim_pairwise_noniso :
+    ¬ Nonempty (repPP ≅ repPM) ∧ ¬ Nonempty (repPP ≅ repMP) ∧
+      ¬ Nonempty (repPP ≅ repMM) ∧ ¬ Nonempty (repPM ≅ repMP) ∧
+      ¬ Nonempty (repPM ≅ repMM) ∧ ¬ Nonempty (repMP ≅ repMM) :=
+  ⟨repPP_not_iso_repPM, repPP_not_iso_repMP, repPP_not_iso_repMM,
+    repPM_not_iso_repMP, repPM_not_iso_repMM, repMP_not_iso_repMM⟩
+
+private lemma not_iso_repFD_of_finrank_one {V : FDRep ℂ (QuaternionGroup 2)}
+    (hV : finrank ℂ (V : Type) = 1) : ¬ Nonempty (V ≅ repFD) := by
+  rintro ⟨e⟩
+  have h := (FDRep.isoToLinearEquiv e).finrank_eq
+  rw [hV, repFD_finrank] at h
+  omega
+
+lemma repPP_not_iso_repFD : ¬ Nonempty (repPP ≅ repFD) :=
+  not_iso_repFD_of_finrank_one repPP_finrank
+
+lemma repPM_not_iso_repFD : ¬ Nonempty (repPM ≅ repFD) :=
+  not_iso_repFD_of_finrank_one repPM_finrank
+
+lemma repMP_not_iso_repFD : ¬ Nonempty (repMP ≅ repFD) :=
+  not_iso_repFD_of_finrank_one repMP_finrank
+
+lemma repMM_not_iso_repFD : ¬ Nonempty (repMM ≅ repFD) :=
+  not_iso_repFD_of_finrank_one repMM_finrank
+
 /-- The dimensions `1, 1, 1, 1, 2` of the five irreducible representations realise the
 sum-of-squares decomposition `1² + 1² + 1² + 1² + 2² = 8 = |Q₈|`, now tied to the actual
 `finrank` of the constructed irreducibles. (Etingof Example 4.3) -/
@@ -438,6 +500,50 @@ theorem irreps_dim_sum_of_squares :
       + finrank ℂ (repFD : Type) ^ 2 = Fintype.card (QuaternionGroup 2) := by
   rw [repPP_finrank, repPM_finrank, repMP_finrank, repMM_finrank, repFD_finrank]
   decide
+
+/-! ## Completeness of the catalogue -/
+
+/-- Every simple complex representation of `Q₈` is isomorphic to one of the four
+one-dimensional representations or the displayed two-dimensional Pauli representation. -/
+theorem Q8_simple_iso (S : FDRep ℂ (QuaternionGroup 2)) [Simple S] :
+    Nonempty (S ≅ repPP) ∨ Nonempty (S ≅ repPM) ∨ Nonempty (S ≅ repMP) ∨
+      Nonempty (S ≅ repMM) ∨ Nonempty (S ≅ repFD) := by
+  classical
+  letI : Invertible (Fintype.card (QuaternionGroup 2) : ℂ) :=
+    invertibleOfNonzero (by norm_num [QuaternionGroup.card])
+  obtain ⟨n, V, _, _, hsurj, hn⟩ :=
+    Etingof.Corollary4_2_2 (G := QuaternionGroup 2) (k := ℂ)
+  obtain ⟨a, ⟨ea⟩⟩ := hsurj repPP repPP_simple
+  obtain ⟨b, ⟨eb⟩⟩ := hsurj repPM repPM_simple
+  obtain ⟨c, ⟨ec⟩⟩ := hsurj repMP repMP_simple
+  obtain ⟨d, ⟨ed⟩⟩ := hsurj repMM repMM_simple
+  obtain ⟨e, ⟨ee⟩⟩ := hsurj repFD repFD_simple
+  obtain ⟨s, ⟨es⟩⟩ := hsurj S inferInstance
+  have hab : a ≠ b := by rintro rfl; exact repPP_not_iso_repPM ⟨ea ≪≫ eb.symm⟩
+  have hac : a ≠ c := by rintro rfl; exact repPP_not_iso_repMP ⟨ea ≪≫ ec.symm⟩
+  have had : a ≠ d := by rintro rfl; exact repPP_not_iso_repMM ⟨ea ≪≫ ed.symm⟩
+  have hae : a ≠ e := by rintro rfl; exact repPP_not_iso_repFD ⟨ea ≪≫ ee.symm⟩
+  have hbc : b ≠ c := by rintro rfl; exact repPM_not_iso_repMP ⟨eb ≪≫ ec.symm⟩
+  have hbd : b ≠ d := by rintro rfl; exact repPM_not_iso_repMM ⟨eb ≪≫ ed.symm⟩
+  have hbe : b ≠ e := by rintro rfl; exact repPM_not_iso_repFD ⟨eb ≪≫ ee.symm⟩
+  have hcd : c ≠ d := by rintro rfl; exact repMP_not_iso_repMM ⟨ec ≪≫ ed.symm⟩
+  have hce : c ≠ e := by rintro rfl; exact repMP_not_iso_repFD ⟨ec ≪≫ ee.symm⟩
+  have hde : d ≠ e := by rintro rfl; exact repMM_not_iso_repFD ⟨ed ≪≫ ee.symm⟩
+  have hn5 : n = 5 := hn.trans Etingof.Example4_3_Q8_conj_classes
+  have hcard : ({a, b, c, d, e} : Finset (Fin n)).card = 5 := by
+    simp [hab, hac, had, hae, hbc, hbd, hbe, hcd, hce, hde]
+  have hall : ({a, b, c, d, e} : Finset (Fin n)) = Finset.univ := by
+    apply Finset.eq_univ_of_card
+    simpa [hn5] using hcard
+  have hs : s = a ∨ s = b ∨ s = c ∨ s = d ∨ s = e := by
+    have : s ∈ ({a, b, c, d, e} : Finset (Fin n)) := by rw [hall]; simp
+    simpa only [Finset.mem_insert, Finset.mem_singleton] using this
+  rcases hs with rfl | rfl | rfl | rfl | rfl
+  · exact Or.inl ⟨es ≪≫ ea.symm⟩
+  · exact Or.inr (Or.inl ⟨es ≪≫ eb.symm⟩)
+  · exact Or.inr (Or.inr (Or.inl ⟨es ≪≫ ec.symm⟩))
+  · exact Or.inr (Or.inr (Or.inr (Or.inl ⟨es ≪≫ ed.symm⟩)))
+  · exact Or.inr (Or.inr (Or.inr (Or.inr ⟨es ≪≫ ee.symm⟩)))
 
 /-! ## The center `Z(Q₈) = {±1}` -/
 
