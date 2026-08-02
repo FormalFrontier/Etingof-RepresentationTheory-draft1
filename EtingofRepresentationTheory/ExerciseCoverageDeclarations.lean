@@ -201,6 +201,8 @@ or source-correction claim units in `progress/items.json`.
 #check @Etingof.Coregular
 -- Chapter2/Problem2.5.2::claim-09
 #check @Etingof.Coregular.toDual_smul
+-- Chapter5/Problem5.8.4::induction_in_stages
+#check @Etingof.Definition5_8_1_iso_functionSpace
 -- Chapter2/Problem2.3.17::claim-02
 #check @Etingof.EndSelfEquivOp
 -- Chapter2/Problem2.3.17::claim-03

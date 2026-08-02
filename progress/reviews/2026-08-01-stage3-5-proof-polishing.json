@@ -1,13 +1,13 @@
 {
   "generated_on": "2026-08-01",
   "method": "kernel source-level proof inventory plus successful repository-wide Mathlib linter build",
-  "build_log_sha256": "50b854f1892713bd284b54d85143ddf9b6c999fc7edfeff65bc191ceed308bcc",
+  "build_log_sha256": "985e036e170c6f1989b85e22985ee5cfa8cd3af72cd3fef3e0b184d345b7811a",
   "build_log_archive": "progress/reviews/2026-08-01-stage3-5-build.log.gz",
   "dependency_evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
-  "dependency_evidence_sha256": "48b1a516cdd5e4968730ef0f5c8bf8eb5b692f718b197f435518aacec814601d",
-  "provider_item_count": 404,
-  "source_level_proof_declaration_count": 11467,
-  "kernel_proof_declaration_count_including_generated_helpers": 26929,
+  "dependency_evidence_sha256": "5cc68ef9674ec14e26117546accb5768b7801b321b8d3a2e9660e833abea581e",
+  "provider_item_count": 405,
+  "source_level_proof_declaration_count": 11473,
+  "kernel_proof_declaration_count_including_generated_helpers": 26938,
   "unique_warning_count": 1242,
   "warning_file_count": 216,
   "warning_counts_by_category": {
@@ -15781,9 +15781,9 @@
     },
     "EtingofRepresentationTheory.Chapter5.Definition5_8_1": {
       "source": "EtingofRepresentationTheory/Chapter5/Definition5_8_1.lean",
-      "source_sha256": "251f296ac71b9a295115eb2cecf3639c454093d3e398629b8608237e904cf2f5",
-      "source_level_proof_declaration_count": 0,
-      "source_level_proof_declaration_names_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "081ef37d100ea88c94f7e6404101ab114ea42dd64aeb8f65aa21158d578e87df",
+      "source_level_proof_declaration_count": 5,
+      "source_level_proof_declaration_names_sha256": "ff1464391fa898ff2b9d88ca70cbd9760510d2ec05e7618bb07e8f9924c9fe6a",
       "diagnostics": [],
       "review_result": "screened_no_direct_diagnostic"
     },
@@ -20088,7 +20088,7 @@
     },
     "EtingofRepresentationTheory.Chapter5.Problem5_8_4": {
       "source": "EtingofRepresentationTheory/Chapter5/Problem5_8_4.lean",
-      "source_sha256": "2307b552f319ddf64edfd99578c477a99f990a451e06563739db2c14d115587c",
+      "source_sha256": "997d05a1ad03883fd67748e04c1d1af6ea97f56dd4782e4e6197d5eb69985619",
       "source_level_proof_declaration_count": 31,
       "source_level_proof_declaration_names_sha256": "19c7534f4079bcb22bd9423f78c2f91eb40229d0897bd9f2be75147b2581f4b2",
       "diagnostics": [],
@@ -20367,9 +20367,9 @@
     },
     "EtingofRepresentationTheory.Chapter5.Remark5_8_3": {
       "source": "EtingofRepresentationTheory/Chapter5/Remark5_8_3.lean",
-      "source_sha256": "dc810b6b57cae7e9bc3badc203cb40ccf5421785e978f0c3c68e369b021fb34e",
-      "source_level_proof_declaration_count": 2,
-      "source_level_proof_declaration_names_sha256": "5c7c21eb6894783f75e8b040363bfd8be5c1b16556c4ad8ec468524eeedef81c",
+      "source_sha256": "e7845fbf264434fb5f22c77adba0972b6b3a58f7829d08560c35498e10b43fd8",
+      "source_level_proof_declaration_count": 3,
+      "source_level_proof_declaration_names_sha256": "4b1541bc5c4b74915fe863f640cf8f2a34a7ec57b5f09bdd0c652fe5ab91f69b",
       "diagnostics": [],
       "review_result": "screened_no_direct_diagnostic"
     },
@@ -31627,7 +31627,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.Definition5_8_1"
       ],
-      "source_level_proof_declarations_reviewed": 0,
+      "source_level_proof_declarations_reviewed": 5,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",
@@ -31643,11 +31643,20 @@
       "result": "proof_review_screened_clean",
       "proof_polish_issue": 8326
     },
+    "Chapter5/Discussion_verification_of_Ind": {
+      "provider_modules": [
+        "EtingofRepresentationTheory.Chapter5.Definition5_8_1"
+      ],
+      "source_level_proof_declarations_reviewed": 5,
+      "diagnostic_count": 0,
+      "diagnostic_categories": [],
+      "result": "proof_review_screened_clean"
+    },
     "Chapter5/Remark5.8.3": {
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.Remark5_8_3"
       ],
-      "source_level_proof_declarations_reviewed": 2,
+      "source_level_proof_declarations_reviewed": 3,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",
