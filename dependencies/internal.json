@@ -1170,7 +1170,9 @@
   "Chapter7/Remark7.7.4": [
     "Chapter9/Discussion_after_Definition9.7.1"
   ],
-  "Chapter7/Discussion_after_Remark7.7.4": [],
+  "Chapter7/Discussion_after_Remark7.7.4": [
+    "Chapter7/Example7.7.2"
+  ],
   "Chapter7/Introduction_7.8": [],
   "Chapter7/Definition7.8.1": [],
   "Chapter7/Discussion_after_Definition7.8.1": [],

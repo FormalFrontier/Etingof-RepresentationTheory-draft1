@@ -669,6 +669,7 @@ private lemma centralizerCard_elliptic {g : GL2' p n} (hg : GL2.IsElliptic g) :
   rw [centralizerCard_of_nonscalar hns hr]
   simp
 
+omit [DecidableEq (GaloisField p n)] in
 /-- `|GL₂(𝔽_q)| = (q²−1)(q²−q)`. -/
 private lemma card_GL2_eq :
     Fintype.card (GL2' p n)
@@ -677,6 +678,38 @@ private lemma card_GL2_eq :
   have h := Matrix.card_GL_field (𝔽 := GaloisField p n) 2
   rw [Nat.card_eq_fintype_card] at h
   rw [h]; simp [Fin.prod_univ_two, pow_zero, pow_one]
+
+omit [DecidableEq (GaloisField p n)] in
+omit [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)] [Fintype (GL2' p n)] in
+/-- The public, instance-free order formula `|GL₂(𝔽_q)| = (q²−1)(q²−q)`. -/
+theorem card_generalLinearGroup_two :
+    Nat.card (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n))
+      = (Nat.card (GaloisField p n) ^ 2 - 1)
+        * (Nat.card (GaloisField p n) ^ 2 - Nat.card (GaloisField p n)) := by
+  letI := Fintype.ofFinite (GaloisField p n)
+  simpa [Fin.prod_univ_two, pow_zero, pow_one] using
+    (Matrix.card_GL_field (𝔽 := GaloisField p n) 2)
+
+omit [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)] [Fintype (GL2' p n)] in
+/-- The public, factored order formula `|GL₂(𝔽_q)| = q(q+1)(q−1)²`. -/
+theorem card_generalLinearGroup_two_factored :
+    Nat.card (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n))
+      = Nat.card (GaloisField p n) * (Nat.card (GaloisField p n) + 1)
+        * (Nat.card (GaloisField p n) - 1) ^ 2 := by
+  rw [card_generalLinearGroup_two]
+  have hsq : Nat.card (GaloisField p n) ^ 2 - 1
+      = (Nat.card (GaloisField p n) - 1) * (Nat.card (GaloisField p n) + 1) := by
+    rw [Nat.sub_mul]
+    have hmul : Nat.card (GaloisField p n) * (Nat.card (GaloisField p n) + 1)
+        = Nat.card (GaloisField p n) ^ 2 + Nat.card (GaloisField p n) := by ring
+    rw [hmul, one_mul]
+    omega
+  have hlin : Nat.card (GaloisField p n) ^ 2 - Nat.card (GaloisField p n)
+      = Nat.card (GaloisField p n) * (Nat.card (GaloisField p n) - 1) := by
+    rw [Nat.mul_sub_left_distrib]
+    simp only [mul_one, pow_two]
+  rw [hsq, hlin]
+  ring
 
 /-- `q = pⁿ ≥ 3` when `p ≠ 2`. -/
 private lemma card_ge_three (hp2 : p ≠ 2) (hn : n ≠ 0) :

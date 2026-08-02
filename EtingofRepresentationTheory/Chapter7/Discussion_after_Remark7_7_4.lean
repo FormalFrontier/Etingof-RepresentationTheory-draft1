@@ -1,4 +1,6 @@
 import Mathlib.Algebra.Category.ModuleCat.Algebra
+import Mathlib.Algebra.Category.FGModuleCat.Basic
+import EtingofRepresentationTheory.Chapter7.Example7_7_2
 
 /-!
 # Discussion after Remark 7.7.4: k-linear abelian categories
@@ -11,13 +13,32 @@ An abelian category `𝒞` is **k-linear** (for a field `k`) if the groups
 
 ## Mathlib correspondence
 
-Exact match. For a field `k` and a `k`-algebra `A`, `ModuleCat.linearOverField`
-provides the `CategoryTheory.Linear k (ModuleCat A)` instance.
+Exact match. For a field `k` and a `k`-algebra `A`, Mathlib provides the
+`CategoryTheory.Linear k (ModuleCat A)` instance, and the induced full-subcategory
+structure makes `FGModuleCat A` linear as well. When `A` is finite dimensional over `k`,
+finite generation over `A` is equivalent, objectwise after restriction of scalars, to
+finite dimensionality over `k` by `module_finite_iff_finiteDimensional`.
 -/
 
 open CategoryTheory
 
-/-- Discussion after Remark 7.7.4: for a field `k` and `k`-algebra `A`, the category
-of `A`-modules is `k`-linear. -/
-example (k : Type*) [Field k] (A : Type*) [Ring A] [Algebra k A] :
+/-- The category of all modules over a `k`-algebra is `k`-linear. -/
+@[reducible] def Etingof.moduleCatLinear (k : Type*) [Field k] (A : Type*) [Ring A]
+    [Algebra k A] :
     Linear k (ModuleCat A) := inferInstance
+
+/-- The category of all modules over a ring is abelian. -/
+@[reducible] noncomputable def Etingof.moduleCatAbelian (A : Type*) [Ring A] :
+    Abelian (ModuleCat A) := inferInstance
+
+/-- For a finite-dimensional `k`-algebra, its category of finite-dimensional modules,
+realized as `FGModuleCat A`, is `k`-linear. -/
+@[reducible] def Etingof.fgModuleCatLinear (k : Type*) [Field k] (A : Type*) [Ring A]
+    [Algebra k A]
+    [FiniteDimensional k A] : Linear k (FGModuleCat A) := inferInstance
+
+/-- For a finite-dimensional `k`-algebra, its category of finite-dimensional modules,
+realized as `FGModuleCat A`, is abelian. -/
+@[reducible] noncomputable def Etingof.fgModuleCatAbelian (k : Type*) [Field k]
+    (A : Type*) [Ring A] [Algebra k A] [FiniteDimensional k A] : Abelian (FGModuleCat A) :=
+  abelian_fgModuleCat_of_finiteDimensional k A
