@@ -27919,6 +27919,18 @@
         }
       ]
     },
+    "stage3_3": {
+      "status": "complete",
+      "section": "5.4",
+      "verified_on": "2026-08-02",
+      "proof_integrity": "sorry_free",
+      "declarations": [
+        "Etingof.HasAbelianSeries",
+        "Etingof.abelianSeries_step_normal",
+        "Etingof.abelianSeries_step_quotient_commutative_iff",
+        "Etingof.hasAbelianSeries_iff_isSolvable"
+      ]
+    },
     "stage3_4": {
       "supplemental_provider_dependencies": [],
       "explicit_source_references": [],
