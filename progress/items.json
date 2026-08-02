@@ -611,12 +611,12 @@
         {
           "claim": "For every positive dimension d there exists an irreducible complex sl(2)-representation of dimension d.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Theorem_2_1_1_i"
+          "lean_decl": "Etingof.Theorem_2_1_1_i_exists"
         },
         {
           "claim": "Any two irreducible complex sl(2)-representations of the same positive dimension d are equivalent.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Theorem_2_1_1_i"
+          "lean_decl": "Etingof.Theorem_2_1_1_i_unique"
         },
         {
           "claim": "The d-dimensional irreducible is realized by homogeneous polynomials of degree d-1 in x,y with h=x∂x-y∂y, e=x∂y, and f=y∂x.",
@@ -1746,7 +1746,7 @@
         {
           "claim": "The base field and polynomial algebra examples are commutative.",
           "verdict": "covered_elsewhere",
-          "lean_decl": "CommRing; MvPolynomial"
+          "lean_decl": "CommRing; AddMonoidAlgebra.commRing; MvPolynomial"
         },
         {
           "claim": "End_k(V) is noncommutative whenever dim V > 1, including for infinite-dimensional V.",
@@ -15155,7 +15155,7 @@
         {
           "claim": "The quotient U = V/V₁ is again a representation of A.",
           "verdict": "covered_elsewhere",
-          "lean_decl": "Submodule.Quotient.mk",
+          "lean_decl": "Submodule.Quotient.module",
           "note": "Mathlib's submodule quotient carries the induced A-module structure used in the successive-quotient statement."
         },
         {
@@ -23580,7 +23580,7 @@
         {
           "claim": "For a finite group, introduce one polynomial variable indexed by each group element.",
           "verdict": "formalized",
-          "lean_decl": "MvPolynomial; Etingof.FrobeniusDeterminant"
+          "lean_decl": "MvPolynomial.X; Etingof.FrobeniusDeterminant"
         }
       ]
     },
@@ -23768,7 +23768,7 @@
         {
           "claim": "The group determinant factors into pairwise nonproportional irreducible polynomials, each raised to its degree, with one factor per conjugacy class.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Theorem4_10_2"
+          "lean_decl": "IrrepDecomp.frobeniusDet_eq_signSmul_prod"
         }
       ]
     },
@@ -23995,12 +23995,12 @@
         {
           "claim": "The regular-representation operator matrix agrees with XG up to the inversion column permutation and its determinant sign.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Theorem4_10_2"
+          "lean_decl": "IrrepDecomp.frobeniusDet_eq_signSmul_prod; IrrepDecomp.blockPoly_totalDegree"
         },
         {
           "claim": "Artin–Wedderburn decomposes the determinant into representation-block determinants with exponents dim Vi.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Theorem4_10_2"
+          "lean_decl": "IrrepDecomp.blockPoly_irreducible; IrrepDecomp.blockPoly_not_associated"
         },
         {
           "claim": "Each block determinant is irreducible and different blocks yield nonproportional factors.",

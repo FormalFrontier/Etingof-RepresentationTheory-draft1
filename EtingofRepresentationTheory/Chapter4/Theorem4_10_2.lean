@@ -162,7 +162,7 @@ of the regular-representation operator `L(x) = ∑ x_g ρ(g)` has entries `x_{g�
 its determinant is the algebra norm of `∑ x_g g`. The two matrices differ by the column
 permutation `h ↦ h⁻¹`, hence their determinants differ by the sign of that permutation.
 This sign is a unit and is absorbed into the irreducible factors in Theorem 4.10.2. -/
-private lemma IrrepDecomp.frobeniusDet_eq_signSmul_prod [NeZero (Nat.card G : k)]
+lemma IrrepDecomp.frobeniusDet_eq_signSmul_prod [NeZero (Nat.card G : k)]
     (D : IrrepDecomp k G) :
     Etingof.FrobeniusDeterminant k G =
       ((Equiv.Perm.sign (Equiv.inv G) : ℤ) : k) • ∏ i : Fin D.n, D.blockPoly i ^ D.d i := by
@@ -491,7 +491,7 @@ private lemma genDet_irreducible (k' : Type*) [Field k'] (n : ℕ) (hn : 0 < n) 
 /-- The total degree of the i-th block polynomial equals d_i. Each entry of the
 representation matrix is a linear polynomial in the x_g, so det has degree ≤ d_i.
 For ≥ d_i, evaluation at x₁=t, xg=0 gives det(tI)=t^{d_i}. -/
-private lemma IrrepDecomp.blockPoly_totalDegree [NeZero (Nat.card G : k)]
+lemma IrrepDecomp.blockPoly_totalDegree [NeZero (Nat.card G : k)]
     (D : IrrepDecomp k G) (i : Fin D.n) :
     (D.blockPoly i).totalDegree = D.d i := by
   apply le_antisymm
@@ -612,7 +612,7 @@ private lemma totalDegree_aeval_le_of_deg_le_one
     _ = d.sum fun _ n => n := by rfl
     _ ≤ p.totalDegree := MvPolynomial.le_totalDegree hd
 
-private lemma IrrepDecomp.blockPoly_irreducible [NeZero (Nat.card G : k)]
+lemma IrrepDecomp.blockPoly_irreducible [NeZero (Nat.card G : k)]
     (D : IrrepDecomp k G) (i : Fin D.n) :
     Irreducible (D.blockPoly i) := by
   haveI := D.d_pos i
@@ -779,7 +779,7 @@ private lemma IrrepDecomp.blockPoly_irreducible [NeZero (Nat.card G : k)]
 /-- Block polynomials for different Wedderburn components are not associated.
 If d_i ≠ d_j, they have different total degrees. If d_i = d_j, they involve
 different linear combinations of variables (by the injectivity of column FDReps). -/
-private lemma IrrepDecomp.blockPoly_not_associated [NeZero (Nat.card G : k)]
+lemma IrrepDecomp.blockPoly_not_associated [NeZero (Nat.card G : k)]
     (D : IrrepDecomp k G) (i j : Fin D.n) (hij : i ≠ j) :
     ¬Associated (D.blockPoly i) (D.blockPoly j) := by
   intro ⟨u, hu⟩

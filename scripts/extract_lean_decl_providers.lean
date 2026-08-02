@@ -31,7 +31,10 @@ unsafe def main (args : List String) : IO Unit := do
     if nameText.isEmpty then continue
     let name := nameFromString nameText
     unless env.constants.contains name do
-      IO.eprintln s!"unknown declaration (or namespace): {nameText}"
+      IO.eprintln s!"unknown public declaration (or namespace): {nameText}"
+      IO.eprintln <|
+        "Private declarations have mangled environment names; expose a public lemma " ++
+          "before citing them."
       throw <| IO.userError "declaration resolution failed"
     let module ← match env.getModuleIdxFor? name with
       | some index => pure env.header.moduleNames[index]!.toString

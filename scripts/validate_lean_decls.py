@@ -5,12 +5,15 @@ The durable provider map is produced from Lean's imported environment, not by
 source-text matching.  Generated checker shards then import the defining
 modules directly and `#check` every cited name.  CI builds the shards only
 after its provider-file sweep, keeping each environment small and avoiding the
-root aggregate's runner-memory cost.
+root aggregate's runner-memory cost.  Ledger editors should cite the most
+specific public declaration that proves a claim, never a coarser theorem merely
+to make validation pass.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import subprocess
@@ -26,27 +29,47 @@ ITEMS = ROOT / "progress" / "items.json"
 PROVIDERS = ROOT / "scripts" / "lean-decl-providers.json"
 CHECKER_DIR = ROOT / "EtingofRepresentationTheory" / "ClaimCoverageDeclarations"
 EXTRACTOR = ROOT / "scripts" / "extract_lean_decl_providers.lean"
+CI_EXCLUDED_MODULES_FILE = ROOT / "scripts" / "ci-excluded-lean-modules.txt"
+EXCLUDED_ATTESTATIONS = ROOT / "scripts" / "lean-decl-excluded-attestations.json"
 
 EXACT_NAME = re.compile(r"^[^\s,;()/:\[\]]+$")
 LEAN_PATH = re.compile(r"^EtingofRepresentationTheory/.+\.lean$")
 MODULES_PER_SHARD = 12
 
-# These entry modules are intentionally absent from cold CI because elaborating
-# one of them exceeds the hosted runner's memory.  Their names are still
-# resolved by Lean when the provider map is refreshed locally; the exact-key
-# check below prevents unreviewed pointer changes from bypassing that audit.
-CI_EXCLUDED_PROVIDER_PATTERNS = tuple(
-    re.compile(pattern)
-    for pattern in (
-        r"^EtingofRepresentationTheory\.Infrastructure\.SpechtModuleSimple$",
-        r"^EtingofRepresentationTheory\.Chapter5\.SpechtCharacterGeneral$",
-        r"^EtingofRepresentationTheory\.Chapter5\.YoungSymTraceKronecker$",
-        r"^EtingofRepresentationTheory\.Chapter5\.FrobeniusCharacterBridge$",
-        r"^EtingofRepresentationTheory\.Chapter5\.Proposition5_22_2$",
-        r"^EtingofRepresentationTheory\.Chapter6\.Example6_4_9_EType$",
-        r"^EtingofRepresentationTheory\.Chapter6\.Example6_4_9$",
-    )
-)
+def load_ci_excluded_modules() -> frozenset[str]:
+    modules = [
+        line.strip() for line in
+        CI_EXCLUDED_MODULES_FILE.read_text(encoding="utf-8").splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    ]
+    if len(modules) != len(set(modules)):
+        raise ValueError(f"duplicate module in {CI_EXCLUDED_MODULES_FILE}")
+    for module in modules:
+        if not module_source_path(module).is_file():
+            raise ValueError(f"CI-excluded module has no source file: {module}")
+    return frozenset(modules)
+
+
+def module_source_path(module: str) -> Path:
+    return ROOT / (module.replace(".", "/") + ".lean")
+
+
+def source_sha256(module: str) -> str:
+    return hashlib.sha256(module_source_path(module).read_bytes()).hexdigest()
+
+
+def environment_pins() -> dict[str, str]:
+    manifest = json.loads((ROOT / "lake-manifest.json").read_text(encoding="utf-8"))
+    mathlib = [package for package in manifest["packages"] if package["name"] == "mathlib"]
+    if len(mathlib) != 1:
+        raise ValueError("lake-manifest.json must contain exactly one mathlib package")
+    return {
+        "lean_toolchain": (ROOT / "lean-toolchain").read_text(encoding="utf-8").strip(),
+        "mathlib_revision": mathlib[0]["rev"],
+    }
+
+
+CI_EXCLUDED_PROVIDER_MODULES = load_ci_excluded_modules()
 
 
 @dataclass(frozen=True)
@@ -114,7 +137,8 @@ def collect(items: list[dict[str, object]]) -> tuple[list[Pointer], list[str]]:
             for key, child in value.items():
                 where = f"{label}.{key}"
                 if key == "lean_decl":
-                    pointers.extend(Pointer(name, where) for name in exact_names(child, where, errors))
+                    pointers.extend(
+                        Pointer(name, where) for name in exact_names(child, where, errors))
                 elif key == "lean_ref":
                     for _, names in lean_ref_groups(child, where, errors):
                         pointers.extend(Pointer(name, where) for name in names)
@@ -127,6 +151,39 @@ def collect(items: list[dict[str, object]]) -> tuple[list[Pointer], list[str]]:
     for item in items:
         walk(item, item_label(item))
     return pointers, errors
+
+
+def validate_lean_ref_providers(
+    items: list[dict[str, object]], providers: dict[str, str]
+) -> list[str]:
+    """Require every lean_ref declaration to be defined by its cited file."""
+    errors: list[str] = []
+
+    def walk(value: object, label: str) -> None:
+        if isinstance(value, dict):
+            for key, child in value.items():
+                where = f"{label}.{key}"
+                if key == "lean_ref":
+                    parse_errors: list[str] = []
+                    for path, names in lean_ref_groups(child, where, parse_errors):
+                        expected_module = path.removesuffix(".lean").replace("/", ".")
+                        for name in names:
+                            actual_module = providers.get(name)
+                            if actual_module is not None and actual_module != expected_module:
+                                errors.append(
+                                    f"{where}: {name} is provided by {actual_module}, "
+                                    f"not {expected_module}"
+                                )
+                    errors.extend(parse_errors)
+                else:
+                    walk(child, where)
+        elif isinstance(value, list):
+            for index, child in enumerate(value, 1):
+                walk(child, f"{label}[{index}]")
+
+    for item in items:
+        walk(item, item_label(item))
+    return errors
 
 
 def refresh_providers(names: list[str]) -> dict[str, str]:
@@ -152,15 +209,64 @@ def refresh_providers(names: list[str]) -> dict[str, str]:
         providers[name] = module
     if set(providers) != set(names):
         raise RuntimeError("provider discovery did not return exactly the requested declarations")
-    PROVIDERS.write_text(json.dumps(providers, indent=2, sort_keys=True) + "\n")
+    PROVIDERS.write_text(
+        json.dumps(providers, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    write_excluded_attestations(providers)
     return providers
 
 
 def provider_is_ci_excluded(module: str) -> bool:
-    return any(pattern.fullmatch(module) for pattern in CI_EXCLUDED_PROVIDER_PATTERNS)
+    return module in CI_EXCLUDED_PROVIDER_MODULES
 
 
-def render_shards(pointers: list[Pointer], providers: dict[str, str]) -> tuple[dict[str, str], int]:
+def write_excluded_attestations(providers: dict[str, str]) -> None:
+    """Record the locally compiler-resolved names omitted from cold CI."""
+    attestations = {
+        name: {
+            "module": module,
+            "source_sha256": source_sha256(module),
+            **environment_pins(),
+        }
+        for name, module in sorted(providers.items())
+        if provider_is_ci_excluded(module)
+    }
+    EXCLUDED_ATTESTATIONS.write_text(
+        json.dumps(attestations, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def validate_excluded_attestations(
+    providers: dict[str, str], attestations: dict[str, object]
+) -> list[str]:
+    """Ratchet local Lean resolution for providers too large for cold CI."""
+    errors: list[str] = []
+    expected = {
+        name for name, module in providers.items() if provider_is_ci_excluded(module)
+    }
+    if set(attestations) != expected:
+        missing = sorted(expected - set(attestations))
+        stale = sorted(set(attestations) - expected)
+        if missing:
+            errors.append(f"excluded attestations missing: {', '.join(missing)}")
+        if stale:
+            errors.append(f"excluded attestations stale: {', '.join(stale)}")
+    for name in sorted(expected & set(attestations)):
+        record = attestations[name]
+        module = providers[name]
+        wanted = {
+            "module": module,
+            "source_sha256": source_sha256(module),
+            **environment_pins(),
+        }
+        if record != wanted:
+            errors.append(
+                f"excluded attestation stale for {name}; rerun --refresh-providers"
+            )
+    return errors
+
+
+def render_shards(
+    pointers: list[Pointer], providers: dict[str, str]
+) -> tuple[dict[str, str], list[str]]:
     labels_by_name: dict[str, set[str]] = {}
     for pointer in pointers:
         labels_by_name.setdefault(pointer.name, set()).add(pointer.label)
@@ -180,11 +286,11 @@ def render_shards(pointers: list[Pointer], providers: dict[str, str]) -> tuple[d
         )
 
     names_by_module: dict[str, list[str]] = {}
-    excluded_count = 0
+    excluded_names: list[str] = []
     for name in sorted(names):
         module = providers[name]
         if provider_is_ci_excluded(module):
-            excluded_count += 1
+            excluded_names.append(name)
             continue
         names_by_module.setdefault(module, []).append(name)
 
@@ -192,7 +298,18 @@ def render_shards(pointers: list[Pointer], providers: dict[str, str]) -> tuple[d
     shards: dict[str, str] = {}
     for start in range(0, len(modules), MODULES_PER_SHARD):
         shard_modules = modules[start:start + MODULES_PER_SHARD]
-        lines = [*(f"import {module}" for module in shard_modules), "", "/-!", "# Claim-ledger declaration pointers", "", "Generated by `scripts/validate_lean_decls.py --apply`.", "-/", ""]
+        lines = [
+            *(f"import {module}" for module in shard_modules),
+            "",
+            "/-!",
+            "# Claim-ledger declaration pointers",
+            "",
+            "Generated by `scripts/validate_lean_decls.py --apply`.",
+            "-/",
+            "",
+            "set_option linter.style.longLine false",
+            "",
+        ]
         for module in shard_modules:
             lines.append(f"-- Provider: {module}")
             for name in names_by_module[module]:
@@ -202,7 +319,7 @@ def render_shards(pointers: list[Pointer], providers: dict[str, str]) -> tuple[d
             lines.append("")
         filename = f"Shard{start // MODULES_PER_SHARD + 1:03d}.lean"
         shards[filename] = "\n".join(lines)
-    return shards, excluded_count
+    return shards, excluded_names
 
 
 def apply_shards(shards: dict[str, str]) -> None:
@@ -211,14 +328,16 @@ def apply_shards(shards: dict[str, str]) -> None:
         if path.name not in shards:
             path.unlink()
     for filename, content in shards.items():
-        (CHECKER_DIR / filename).write_text(content)
+        (CHECKER_DIR / filename).write_text(content, encoding="utf-8")
 
 
 def check_shards(shards: dict[str, str]) -> bool:
     actual = {path.name for path in CHECKER_DIR.glob("*.lean")} if CHECKER_DIR.is_dir() else set()
     if actual != set(shards):
         return False
-    return all((CHECKER_DIR / name).read_text() == content for name, content in shards.items())
+    return all(
+        (CHECKER_DIR / name).read_text(encoding="utf-8") == content
+        for name, content in shards.items())
 
 
 def main() -> int:
@@ -229,10 +348,12 @@ def main() -> int:
         "--refresh-providers", action="store_true",
         help="resolve every name in Lean, rewrite the provider map, and apply shards",
     )
-    mode.add_argument("--check", action="store_true", help="require provider map and shards to be current")
+    mode.add_argument(
+        "--check", action="store_true",
+        help="require provider map and shards to be current")
     args = parser.parse_args()
 
-    items = json.loads(ITEMS.read_text())
+    items = json.loads(ITEMS.read_text(encoding="utf-8"))
     pointers, errors = collect(items)
     if errors:
         print("Declaration-evidence validation failed:", file=sys.stderr)
@@ -245,8 +366,18 @@ def main() -> int:
         if args.refresh_providers:
             providers = refresh_providers(names)
         else:
-            providers = json.loads(PROVIDERS.read_text()) if PROVIDERS.is_file() else {}
-        shards, excluded_count = render_shards(pointers, providers)
+            providers = (
+                json.loads(PROVIDERS.read_text(encoding="utf-8"))
+                if PROVIDERS.is_file() else {})
+        ref_errors = validate_lean_ref_providers(items, providers)
+        attestations = (
+            json.loads(EXCLUDED_ATTESTATIONS.read_text(encoding="utf-8"))
+            if EXCLUDED_ATTESTATIONS.is_file() else {}
+        )
+        attestation_errors = validate_excluded_attestations(providers, attestations)
+        if ref_errors or attestation_errors:
+            raise ValueError("; ".join(ref_errors + attestation_errors))
+        shards, excluded_names = render_shards(pointers, providers)
     except (RuntimeError, ValueError, json.JSONDecodeError) as error:
         print(error, file=sys.stderr)
         return 1
@@ -262,9 +393,13 @@ def main() -> int:
         return 1
 
     print(
-        f"LEAN DECLARATION POINTERS VALIDATED: {len(pointers)} uses, {len(names)} unique names, "
-        f"{len(shards)} checker shards, {excluded_count} locally resolved runner exclusions"
+        f"LEAN DECLARATION POINTERS VALIDATED: {len(pointers)} uses, "
+        f"{len(names) - len(excluded_names)} compiler-checked CI names, "
+        f"{len(excluded_names)} locally attested runner exclusions, "
+        f"{len(shards)} checker shards"
     )
+    for name in excluded_names:
+        print(f"  locally attested (CI memory exclusion): {name}")
     return 0
 
 

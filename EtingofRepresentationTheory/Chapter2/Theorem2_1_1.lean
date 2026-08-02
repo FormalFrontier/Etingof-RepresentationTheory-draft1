@@ -535,6 +535,26 @@ theorem Theorem_2_1_1_i (d : ℕ+) :
     subst hneq
     exact ⟨sl2_irrep_equiv hirrV hirrW mV mW nV PV PW⟩
 
+/-- The existence half of `Theorem_2_1_1_i`, exposed separately for precise
+claim-ledger evidence. -/
+theorem Theorem_2_1_1_i_exists (d : ℕ+) :
+    ∃ (V : Type) (_ : AddCommGroup V) (_ : Module ℂ V)
+      (_ : LieRingModule sl2 V) (_ : LieModule ℂ sl2 V),
+      Module.finrank ℂ V = d ∧ LieModule.IsIrreducible ℂ sl2 V :=
+  (Theorem_2_1_1_i d).1
+
+/-- The uniqueness half of `Theorem_2_1_1_i`, exposed separately for precise
+claim-ledger evidence. -/
+theorem Theorem_2_1_1_i_unique (d : ℕ+) :
+    ∀ (V W : Type) [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
+      [LieRingModule sl2 V] [LieModule ℂ sl2 V]
+      [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+      [LieRingModule sl2 W] [LieModule ℂ sl2 W],
+      Module.finrank ℂ V = d → LieModule.IsIrreducible ℂ sl2 V →
+      Module.finrank ℂ W = d → LieModule.IsIrreducible ℂ sl2 W →
+      Nonempty (V ≃ₗ⁅ℂ, sl2⁆ W) :=
+  (Theorem_2_1_1_i d).2
+
 /-! The existential in `Theorem_2_1_1_i` establishes classification, but the book also names a
 specific representative: homogeneous binary polynomials of degree `d - 1`, with three explicit
 differential operators.  The following statement makes every part of that representative visible
