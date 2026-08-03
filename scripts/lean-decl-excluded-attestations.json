@@ -1,0 +1,44 @@
+{
+  "Etingof.Example_6_4_9_E6": {
+    "lean_toolchain": "leanprover/lean4:v4.32.2",
+    "mathlib_revision": "905b95818eb32af7874a58b427f50c1711a5e96c",
+    "module": "EtingofRepresentationTheory.Chapter6.Example6_4_9_EType",
+    "source_sha256": "563650774530a41ffbcf496313e83172e6f3be0db8125fb80192dc50099c3b58"
+  },
+  "Etingof.Example_6_4_9_E7": {
+    "lean_toolchain": "leanprover/lean4:v4.32.2",
+    "mathlib_revision": "905b95818eb32af7874a58b427f50c1711a5e96c",
+    "module": "EtingofRepresentationTheory.Chapter6.Example6_4_9_EType",
+    "source_sha256": "563650774530a41ffbcf496313e83172e6f3be0db8125fb80192dc50099c3b58"
+  },
+  "Etingof.Example_6_4_9_E8": {
+    "lean_toolchain": "leanprover/lean4:v4.32.2",
+    "mathlib_revision": "905b95818eb32af7874a58b427f50c1711a5e96c",
+    "module": "EtingofRepresentationTheory.Chapter6.Example6_4_9_EType",
+    "source_sha256": "563650774530a41ffbcf496313e83172e6f3be0db8125fb80192dc50099c3b58"
+  },
+  "Etingof.Proposition5_22_2": {
+    "lean_toolchain": "leanprover/lean4:v4.32.2",
+    "mathlib_revision": "905b95818eb32af7874a58b427f50c1711a5e96c",
+    "module": "EtingofRepresentationTheory.Chapter5.Proposition5_22_2",
+    "source_sha256": "bb5f33a97e277876de03cbe1c16e8f495c593cb6b1af783ca3ea0e3aa8a7a856"
+  },
+  "Etingof.Proposition5_22_2_detRep": {
+    "lean_toolchain": "leanprover/lean4:v4.32.2",
+    "mathlib_revision": "905b95818eb32af7874a58b427f50c1711a5e96c",
+    "module": "EtingofRepresentationTheory.Chapter5.Proposition5_22_2",
+    "source_sha256": "bb5f33a97e277876de03cbe1c16e8f495c593cb6b1af783ca3ea0e3aa8a7a856"
+  },
+  "Etingof.topExtPowerRep_eq_det_smul": {
+    "lean_toolchain": "leanprover/lean4:v4.32.2",
+    "mathlib_revision": "905b95818eb32af7874a58b427f50c1711a5e96c",
+    "module": "EtingofRepresentationTheory.Chapter5.Proposition5_22_2",
+    "source_sha256": "bb5f33a97e277876de03cbe1c16e8f495c593cb6b1af783ca3ea0e3aa8a7a856"
+  },
+  "Etingof.topExteriorPowerRep_iso_detRep": {
+    "lean_toolchain": "leanprover/lean4:v4.32.2",
+    "mathlib_revision": "905b95818eb32af7874a58b427f50c1711a5e96c",
+    "module": "EtingofRepresentationTheory.Chapter5.Proposition5_22_2",
+    "source_sha256": "bb5f33a97e277876de03cbe1c16e8f495c593cb6b1af783ca3ea0e3aa8a7a856"
+  }
+}

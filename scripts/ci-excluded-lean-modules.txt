@@ -1,0 +1,10 @@
+# Exact module names omitted from the cold hosted-runner sweep because their
+# elaboration exceeds the runner's memory.  validate_lean_decls.py consumes
+# the same list when constructing declaration-checker shards.
+EtingofRepresentationTheory.Infrastructure.SpechtModuleSimple
+EtingofRepresentationTheory.Chapter5.SpechtCharacterGeneral
+EtingofRepresentationTheory.Infrastructure.YoungSymTraceKronecker
+EtingofRepresentationTheory.Infrastructure.FrobeniusCharacterBridge
+EtingofRepresentationTheory.Chapter5.Proposition5_22_2
+EtingofRepresentationTheory.Chapter6.Example6_4_9_EType
+EtingofRepresentationTheory.Chapter6.Example6_4_9

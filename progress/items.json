@@ -374,7 +374,7 @@
         {
           "claim": "Algebras given by generators and relations, group algebras, and universal enveloping algebras are associative-algebra constructions.",
           "verdict": "covered_elsewhere",
-          "lean_decl": "PresentedAlgebra; MonoidAlgebra; UniversalEnvelopingAlgebra"
+          "lean_decl": "Etingof.PresentedAlgebra; MonoidAlgebra; UniversalEnvelopingAlgebra"
         },
         {
           "claim": "A representation of A is a vector space V with a unital algebra homomorphism A → End(V), equivalently a left A-module.",
@@ -611,12 +611,12 @@
         {
           "claim": "For every positive dimension d there exists an irreducible complex sl(2)-representation of dimension d.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Theorem_2_1_1_i (existence conjunct)"
+          "lean_decl": "Etingof.Theorem_2_1_1_i_exists"
         },
         {
           "claim": "Any two irreducible complex sl(2)-representations of the same positive dimension d are equivalent.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Theorem_2_1_1_i (uniqueness conjunct)"
+          "lean_decl": "Etingof.Theorem_2_1_1_i_unique"
         },
         {
           "claim": "The d-dimensional irreducible is realized by homogeneous polynomials of degree d-1 in x,y with h=x∂x-y∂y, e=x∂y, and f=y∂x.",
@@ -678,7 +678,7 @@
         "EtingofRepresentationTheory.Chapter2.Sl2Defs",
         "EtingofRepresentationTheory.Chapter2.Sl2Irrep"
       ],
-      "declarations_reviewed": 172,
+      "declarations_reviewed": 174,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -691,7 +691,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter2.Theorem2_1_1"
       ],
-      "source_level_proof_declarations_reviewed": 56,
+      "source_level_proof_declarations_reviewed": 58,
       "diagnostic_count": 3,
       "diagnostic_categories": [
         "flexible_tactic"
@@ -1556,7 +1556,7 @@
         {
           "claim": "The polynomial ring k[x_1, ..., x_n] is a k-algebra.",
           "verdict": "formalized",
-          "lean_decl": "AddMonoidAlgebra.algebra (the canonical Algebra instance for MvPolynomial)"
+          "lean_decl": "AddMonoidAlgebra.algebra"
         },
         {
           "claim": "End_k(V) is a k-algebra whose multiplication is composition.",
@@ -1662,7 +1662,7 @@
         {
           "claim": "A unital algebra A is commutative when ab = ba for every a and b.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.CommutativeAlgebra (via CommRing.mul_comm)"
+          "lean_decl": "Etingof.CommutativeAlgebra"
         }
       ]
     },
@@ -1746,7 +1746,7 @@
         {
           "claim": "The base field and polynomial algebra examples are commutative.",
           "verdict": "covered_elsewhere",
-          "lean_decl": "CommRing k; inferInstance : CommRing (MvPolynomial (Fin n) k)"
+          "lean_decl": "CommRing; AddMonoidAlgebra.commRing; MvPolynomial"
         },
         {
           "claim": "End_k(V) is noncommutative whenever dim V > 1, including for infinite-dimensional V.",
@@ -1843,7 +1843,7 @@
         {
           "claim": "An algebra homomorphism f : A -> B is k-linear, multiplicative, and preserves one.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.AlgebraHom (Mathlib AlgHom)"
+          "lean_decl": "Etingof.AlgebraHom"
         }
       ]
     },
@@ -1938,17 +1938,17 @@
         {
           "claim": "The algebra-homomorphism and module presentations are mutually inverse.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Representation.toAlgHom_ofAlgHom / Etingof.Representation.ofAlgHom_toAlgHom"
+          "lean_decl": "Etingof.Representation.toAlgHom_ofAlgHom; Etingof.Representation.ofAlgHom_toAlgHom"
         },
         {
           "claim": "A right representation is equivalently a module over Aᵐᵒᵖ, hence an antihomomorphism A → End(V).",
           "verdict": "formalized",
-          "lean_decl": "Etingof.RightRepresentation / Etingof.Representation.rightToAlgHom"
+          "lean_decl": "Etingof.RightRepresentation; Etingof.Representation.rightToAlgHom"
         },
         {
           "claim": "The abbreviated left and right actions satisfy (ab)v = a(bv) and (va)b = v(ab).",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Representation.mul_smul_apply / Etingof.Representation.right_smul_mul_apply"
+          "lean_decl": "Etingof.Representation.mul_smul_apply; Etingof.Representation.right_smul_mul_apply"
         }
       ]
     },
@@ -2036,12 +2036,12 @@
         {
           "claim": "A left module over a commutative ring becomes a right module via ma := am.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.rightModuleOfLeft / Etingof.rightModuleOfLeft_smul"
+          "lean_decl": "Etingof.rightModuleOfLeft; Etingof.rightModuleOfLeft_smul"
         },
         {
           "claim": "A right module over a commutative ring becomes a left module via am := ma.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.leftModuleOfRight / Etingof.leftModuleOfRight_smul"
+          "lean_decl": "Etingof.leftModuleOfRight; Etingof.leftModuleOfRight_smul"
         },
         {
           "claim": "Consequently the text uses the unqualified term A-module in the commutative case.",
@@ -2206,7 +2206,7 @@
         {
           "claim": "A acts on itself on the right by ba, encoded as an Aᵐᵒᵖ-module.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.rightRegularRepresentationModule / Etingof.rightRegularRepresentation_apply"
+          "lean_decl": "Etingof.rightRegularRepresentationModule; Etingof.rightRegularRepresentation_apply"
         },
         {
           "claim": "A representation of the ground field k is simply a k-vector space.",
@@ -2221,7 +2221,7 @@
         {
           "claim": "Under this equivalence, the action on each free generator is the chosen endomorphism.",
           "verdict": "formalized",
-          "lean_decl": "FreeAlgebra.lift_symm_apply / FreeAlgebra.lift_ι_apply"
+          "lean_decl": "FreeAlgebra.lift_symm_apply; FreeAlgebra.lift_ι_apply"
         }
       ]
     },
@@ -2313,7 +2313,7 @@
         {
           "claim": "The zero subspace and the whole space are always subrepresentations.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.zeroSubrepresentation / Etingof.fullSubrepresentation"
+          "lean_decl": "Etingof.zeroSubrepresentation; Etingof.fullSubrepresentation"
         }
       ]
     },
@@ -2588,7 +2588,7 @@
         {
           "claim": "V₁ ⊕ V₂ carries the componentwise A-action.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.DirectSumRepresentation / Etingof.DirectSumRepresentation_smul"
+          "lean_decl": "Etingof.DirectSumRepresentation; Etingof.DirectSumRepresentation_smul"
         },
         {
           "claim": "This representation is called the direct sum of V₁ and V₂.",
@@ -2929,7 +2929,7 @@
         {
           "claim": "The kernel and image of a representation homomorphism are subrepresentations.",
           "verdict": "covered_elsewhere",
-          "lean_decl": "LinearMap.ker / LinearMap.range"
+          "lean_decl": "LinearMap.ker; LinearMap.range"
         }
       ]
     },
@@ -3099,7 +3099,7 @@
         {
           "claim": "The preceding scalar-endomorphism corollary is false over ℝ; A = ℂ and V = A give a counterexample.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Remark_2_3_11 / Etingof.Remark_2_3_11_witness"
+          "lean_decl": "Etingof.Remark_2_3_11; Etingof.Remark_2_3_11_witness"
         }
       ]
     },
@@ -3433,7 +3433,7 @@
         {
           "claim": "Schur's lemma makes every ρ(a) scalar, so every subspace is a subrepresentation.",
           "verdict": "covered_elsewhere",
-          "lean_decl": "Etingof.Corollary_2_3_10 / Etingof.Corollary_2_3_12"
+          "lean_decl": "Etingof.Corollary_2_3_10; Etingof.Corollary_2_3_12"
         },
         {
           "claim": "Irreducibility and nonzeroness then force dim(V) = 1.",
@@ -3517,7 +3517,7 @@
         {
           "claim": "Finite-dimensional irreducible k[x]-representations are one-dimensional and parameterized by the scalar action of x.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example_2_3_14_polynomial_reps / Etingof.Example_2_3_14.jordanRep"
+          "lean_decl": "Etingof.Example_2_3_14_polynomial_reps; Etingof.Example_2_3_14.jordanRep"
         },
         {
           "claim": "The representations V_λ are pairwise nonisomorphic.",
@@ -3527,7 +3527,7 @@
         {
           "claim": "The Jordan block J_{λ,n} has the displayed standard-basis action.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example_2_3_14.jordanBlock / Etingof.Example_2_3_14.jordanBlock_apply"
+          "lean_decl": "Etingof.Example_2_3_14.jordanBlock; Etingof.Example_2_3_14.jordanBlock_apply"
         },
         {
           "claim": "Every finite-dimensional linear operator, equivalently every finite-dimensional k[x]-module, decomposes as a finite direct sum of Jordan blocks.",
@@ -3537,7 +3537,7 @@
         {
           "claim": "The finite-dimensional indecomposable k[x]-representations are exactly the Jordan-block representations V_{λ,n}.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example_2_3_14.jordanRep_indecomposable / Etingof.Example_2_3_14.exists_equiv_jordanRep"
+          "lean_decl": "Etingof.Example_2_3_14.jordanRep_indecomposable; Etingof.Example_2_3_14.exists_equiv_jordanRep"
         },
         {
           "claim": "The Jordan-block representations V_{λ,n} are pairwise nonisomorphic, with both λ and n determined.",
@@ -3659,7 +3659,7 @@
         {
           "claim": "GL(V) is the group of invertible linear endomorphisms and the two encodings have the same action on vectors.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example_2_3_14_continued.repEquivGL_apply / Etingof.Example_2_3_14_continued.repEquivGL_symm_apply"
+          "lean_decl": "Etingof.Example_2_3_14_continued.repEquivGL_apply; Etingof.Example_2_3_14_continued.repEquivGL_symm_apply"
         }
       ]
     },
@@ -5188,7 +5188,7 @@
         {
           "claim": "The book's module E = t^a k[a][t,t^-1], with x acting by a shift and y by the twisted derivative, is a faithful Weyl-algebra representation and proves linear independence in every characteristic.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.WeylE; Etingof.repE; Etingof.repE_x; Etingof.repE_y; Etingof.WeylAlgebra.repE_injective"
+          "lean_decl": "Etingof.WeylE; Etingof.repE; Etingof.repE_x; Etingof.repE_y; Etingof.repE_injective"
         },
         {
           "claim": "The ordered monomials x^i y^j for i,j in Z form a basis of the q-Weyl algebra.",
@@ -7417,7 +7417,7 @@
         {
           "claim": "The bracket is bilinear over the ground field.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Discussion2_9.bracket_add_left; bracket_add_right; bracket_smul_left; bracket_smul_right"
+          "lean_decl": "Etingof.Discussion2_9.bracket_add_left; Etingof.Discussion2_9.bracket_add_right; Etingof.Discussion2_9.bracket_smul_left; Etingof.Discussion2_9.bracket_smul_right"
         },
         {
           "claim": "The bracket is alternating: [a,a] = 0.",
@@ -7605,32 +7605,32 @@
         {
           "claim": "Every vector space with zero bracket is an abelian Lie algebra.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example2_9_2.Abelian; Abelian.instLieRing; Abelian.instLieAlgebra; Abelian.instIsLieAbelian"
+          "lean_decl": "Etingof.Example2_9_2.Abelian; Etingof.Example2_9_2.Abelian.instLieRing; Etingof.Example2_9_2.Abelian.instLieAlgebra; Etingof.Example2_9_2.Abelian.instIsLieAbelian"
         },
         {
           "claim": "Every associative algebra is a Lie algebra under the commutator bracket.",
           "verdict": "formalized",
-          "lean_decl": "LieRing.ofAssociativeRing; Etingof.Example2_9_2 example at lines 75-76"
+          "lean_decl": "LieRing.ofAssociativeRing; Etingof.Example2_9_2.associativeLieRing"
         },
         {
           "claim": "End(V), denoted gl(V), is the principal associative-commutator example.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example2_9_2 example at lines 79-80"
+          "lean_decl": "Etingof.Example2_9_2.endomorphismLieAlgebra"
         },
         {
           "claim": "A subspace of an associative algebra closed under commutators is a Lie algebra.",
           "verdict": "formalized",
-          "lean_decl": "LieSubalgebra; Etingof.Example2_9_2 example at lines 87-88"
+          "lean_decl": "LieSubalgebra; Etingof.Example2_9_2.lieSubalgebraLieAlgebra"
         },
         {
           "claim": "Der(A) consists of linear endomorphisms satisfying D(ab)=D(a)b+aD(b), for arbitrary associative A.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example2_9_2.IsLeibniz; Der; mem_Der; Der.leibniz"
+          "lean_decl": "Etingof.Example2_9_2.IsLeibniz; Etingof.Example2_9_2.Der; Etingof.Example2_9_2.mem_Der; Etingof.Example2_9_2.Der.leibniz"
         },
         {
           "claim": "Der(A) is closed under commutators and hence is a Lie algebra.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example2_9_2.Der; Der.bracket_apply; derivationLieEquiv"
+          "lean_decl": "Etingof.Example2_9_2.Der; Etingof.Example2_9_2.Der.bracket_apply; Etingof.Example2_9_2.derivationLieEquiv"
         }
       ]
     },
@@ -7667,7 +7667,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 72,
+      "declarations_reviewed": 77,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -7714,7 +7714,7 @@
         {
           "claim": "A subspace of a Lie algebra closed under the bracket is a Lie subalgebra and inherits a Lie-algebra structure.",
           "verdict": "formalized",
-          "lean_decl": "LieSubalgebra; EtingofRepresentationTheory.Chapter2.Example2_9_2_continued example"
+          "lean_decl": "LieSubalgebra; Etingof.Example2_9_2.lieSubalgebraOfLieAlgebra"
         }
       ]
     },
@@ -7748,7 +7748,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 0,
+      "declarations_reviewed": 1,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -7803,8 +7803,9 @@
       "claims": [
         {
           "claim": "Every finite-dimensional Lie algebra over the chapter's field admits an injective finite-dimensional representation into gl(V) (Ado-Iwasawa).",
-          "verdict": "formalized",
-          "lean_decl": "Etingof.ado",
+          "verdict": "intentional_omission",
+          "reason": "The book states Ado–Iwasawa without proof; the project records the proposition with proof_wanted and introduces no axiom.",
+          "scope_ref": "skipped-exercises.md#remark-293--adoiwasawa-theorem",
           "proof_status": "scope_approved_nonblocking"
         }
       ]
@@ -7902,12 +7903,12 @@
         {
           "claim": "For a derivation D, exp(tD) is multiplicative and unital.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Remark2_9_4.expDeriv_map_mul; expDeriv_map_one"
+          "lean_decl": "Etingof.Remark2_9_4.expDeriv_map_mul; Etingof.Remark2_9_4.expDeriv_map_one"
         },
         {
           "claim": "The maps exp(tD) are algebra automorphisms forming a one-parameter group.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Remark2_9_4.expDerivAut; expDeriv_zero; expDeriv_add"
+          "lean_decl": "Etingof.Remark2_9_4.expDerivAut; Etingof.Remark2_9_4.expDeriv_zero; Etingof.Remark2_9_4.expDeriv_add"
         },
         {
           "claim": "Lie algebras broadly arise as infinitesimal automorphisms of many algebraic structures.",
@@ -8000,7 +8001,7 @@
         {
           "claim": "R^3 with the cross product is a Lie algebra.",
           "verdict": "covered_elsewhere",
-          "lean_decl": "Etingof.Exercise2_9_5.bracket_eq_cross; Exercise2_9_5.crossLieAlgebra"
+          "lean_decl": "Etingof.Exercise2_9_5.bracket_eq_cross; Etingof.Exercise2_9_5.crossLieAlgebra"
         },
         {
           "claim": "sl(n) is the Lie algebra of trace-zero n by n matrices.",
@@ -8010,27 +8011,27 @@
         {
           "claim": "For sl(2), e, f, h are the displayed matrix basis.",
           "verdict": "covered_elsewhere",
-          "lean_decl": "Etingof.Example2_9_12.slEquiv; slEquiv_e; slEquiv_f; slEquiv_h"
+          "lean_decl": "Etingof.Example2_9_12.slEquiv; Etingof.Example2_9_12.slEquiv_e; Etingof.Example2_9_12.slEquiv_f; Etingof.Example2_9_12.slEquiv_h"
         },
         {
           "claim": "The sl(2) basis satisfies [h,e]=2e, [h,f]=-2f, [e,f]=h.",
           "verdict": "covered_elsewhere",
-          "lean_decl": "Etingof.Example2_9_12.bracket_h_e; bracket_h_f; bracket_e_f"
+          "lean_decl": "Etingof.Example2_9_12.bracket_h_e; Etingof.Example2_9_12.bracket_h_f; Etingof.Example2_9_12.bracket_e_f"
         },
         {
           "claim": "The Heisenberg Lie algebra is the displayed strictly upper-triangular 3 by 3 matrix algebra.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.DiscussionConcreteLieExamples.heisenbergMatrices; heisenbergMatrixEquiv"
+          "lean_decl": "Etingof.DiscussionConcreteLieExamples.heisenbergMatrices; Etingof.DiscussionConcreteLieExamples.heisenbergMatrixEquiv"
         },
         {
           "claim": "Its basis x=E12, y=E01, c=E02 is the displayed matrix basis.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.DiscussionConcreteLieExamples.heisenbergMatrixEquiv_x; heisenbergMatrixEquiv_y; heisenbergMatrixEquiv_c"
+          "lean_decl": "Etingof.DiscussionConcreteLieExamples.heisenbergMatrixEquiv_x; Etingof.DiscussionConcreteLieExamples.heisenbergMatrixEquiv_y; Etingof.DiscussionConcreteLieExamples.heisenbergMatrixEquiv_c"
         },
         {
           "claim": "The Heisenberg relations are [y,x]=c and [y,c]=[x,c]=0.",
           "verdict": "covered_elsewhere",
-          "lean_decl": "Etingof.Example2_9_13.bracket_y_x; bracket_y_c; bracket_x_c"
+          "lean_decl": "Etingof.Example2_9_13.bracket_y_x; Etingof.Example2_9_13.bracket_y_c; Etingof.Example2_9_13.bracket_x_c"
         }
       ]
     },
@@ -8140,12 +8141,12 @@
         {
           "claim": "aff(1) is the Lie algebra of 2 by 2 matrices with bottom row zero.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Problem2_16_2.aff; g_eq_rowZero"
+          "lean_decl": "Etingof.Problem2_16_2.aff; Etingof.Problem2_16_2.g_eq_rowZero"
         },
         {
           "claim": "X=E00 and Y=E01 form a basis of aff(1).",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Problem2_16_2.basisXY; linearIndependent_XY; span_XY; finrank_aff"
+          "lean_decl": "Etingof.Problem2_16_2.basisXY; Etingof.Problem2_16_2.linearIndependent_XY; Etingof.Problem2_16_2.span_XY; Etingof.Problem2_16_2.finrank_aff"
         },
         {
           "claim": "The aff(1) basis satisfies [X,Y]=Y.",
@@ -8513,22 +8514,22 @@
         {
           "claim": "The zero vector space is a representation.",
           "verdict": "formalized",
-          "lean_decl": "Example2_9_8 zero-representation examples at lines 41-44"
+          "lean_decl": "Etingof.Example2_9_8.zeroRepresentation; Etingof.Example2_9_8.zeroRepresentation_subsingleton"
         },
         {
           "claim": "Every vector space carries the trivial representation rho=0.",
           "verdict": "formalized",
-          "lean_decl": "Example2_9_8 trivial-representation examples at lines 55-58"
+          "lean_decl": "Etingof.Example2_9_8.trivialRepresentation; Etingof.Example2_9_8.trivialRepresentation_bracket"
         },
         {
           "claim": "The adjoint representation has rho(a)(b)=[a,b].",
           "verdict": "formalized",
-          "lean_decl": "LieAlgebra.ad; Example2_9_8 adjoint examples at lines 68-75"
+          "lean_decl": "LieAlgebra.ad; Etingof.Example2_9_8.adjointRepresentation; Etingof.Example2_9_8.adjointHom; Etingof.Example2_9_8.adjoint_apply"
         },
         {
           "claim": "The Jacobi identity makes the adjoint action a Lie-algebra homomorphism.",
           "verdict": "formalized",
-          "lean_decl": "LieHom.map_lie (LieAlgebra.ad k L); Example2_9_8 line 79"
+          "lean_decl": "LieHom.map_lie; Etingof.Example2_9_8.adjoint_map_lie"
         },
         {
           "claim": "Representations of a Lie algebra are the same as representations of its enveloping algebra.",
@@ -8553,12 +8554,16 @@
       "status": "complete",
       "section": "2.9",
       "verified_on": "2026-08-01",
-      "actual_internal_dependencies": [],
+      "actual_internal_dependencies": [
+        "Chapter2/Definition2.9.7"
+      ],
       "forward_internal_dependencies": [],
       "import_dag_dependencies": [
         "Chapter2/Definition2.9.7"
       ],
-      "proof_term_dependencies": [],
+      "proof_term_dependencies": [
+        "Chapter2/Definition2.9.7"
+      ],
       "provider_module_attribution": {
         "EtingofRepresentationTheory.Chapter2.Example2_9_8": {
           "owner": "Chapter2/Example2.9.8",
@@ -8568,9 +8573,13 @@
           "other_explicit_claimants": []
         }
       },
-      "proof_dependency_modules": [],
-      "type_dependency_modules": [],
-      "declarations_reviewed": 0,
+      "proof_dependency_modules": [
+        "EtingofRepresentationTheory.Chapter2.Definition2_9_7"
+      ],
+      "type_dependency_modules": [
+        "EtingofRepresentationTheory.Chapter2.Definition2_9_7"
+      ],
+      "declarations_reviewed": 9,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -8583,7 +8592,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter2.Example2_9_8"
       ],
-      "source_level_proof_declarations_reviewed": 0,
+      "source_level_proof_declarations_reviewed": 7,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",
@@ -8623,7 +8632,7 @@
         {
           "claim": "U(g) is the associative algebra generated by the basis elements subject to exactly those relations.",
           "verdict": "covered_elsewhere",
-          "lean_decl": "Etingof.UEABasisPresentation; ueaBasisAlgEquiv; UniversalEnvelopingAlgebraDef"
+          "lean_decl": "Etingof.UEABasisPresentation; Etingof.ueaBasisAlgEquiv; Etingof.UniversalEnvelopingAlgebraDef"
         }
       ]
     },
@@ -8905,17 +8914,17 @@
         {
           "claim": "These three relations are a complete presentation of U(sl2).",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example2_9_12.Presentation; presentationEquiv; presentationEquiv_gen_zero; presentationEquiv_gen_one; presentationEquiv_gen_two"
+          "lean_decl": "Etingof.Example2_9_12.Presentation; Etingof.Example2_9_12.presentationEquiv; Etingof.Example2_9_12.presentationEquiv_gen_zero; Etingof.Example2_9_12.presentationEquiv_gen_one; Etingof.Example2_9_12.presentationEquiv_gen_two"
         },
         {
           "claim": "The coordinate sl2 used in the presentation is the canonical traceless 2 by 2 matrix algebra with the displayed basis.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example2_9_12.slEquiv; slEquiv_e; slEquiv_f; slEquiv_h"
+          "lean_decl": "Etingof.Example2_9_12.slEquiv; Etingof.Example2_9_12.slEquiv_e; Etingof.Example2_9_12.slEquiv_f; Etingof.Example2_9_12.slEquiv_h"
         },
         {
           "claim": "The presentation is nontrivial.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example2_9_12.ι_e_ne_zero; nontrivial_U; nontrivial_Presentation"
+          "lean_decl": "Etingof.Example2_9_12.ι_e_ne_zero; Etingof.Example2_9_12.nontrivial_U; Etingof.Example2_9_12.nontrivial_Presentation"
         }
       ]
     },
@@ -9001,7 +9010,7 @@
         {
           "claim": "The Heisenberg algebra has basis x,y,c with [y,x]=c and c central.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example2_9_13.Heisenberg; x; y; c; bracket_y_x; bracket_y_c; bracket_x_c"
+          "lean_decl": "Etingof.Example2_9_13.Heisenberg; Etingof.Example2_9_13.x; Etingof.Example2_9_13.y; Etingof.Example2_9_13.c; Etingof.Example2_9_13.bracket_y_x; Etingof.Example2_9_13.bracket_y_c; Etingof.Example2_9_13.bracket_x_c"
         },
         {
           "claim": "The displayed relations hold for the generators in U(H).",
@@ -9011,12 +9020,12 @@
         {
           "claim": "Those three relations are a complete presentation of U(H).",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example2_9_13.HeisenbergPresentation; heisenbergPresentationAlgEquiv; heisenbergPresentationEquiv"
+          "lean_decl": "Etingof.Example2_9_13.HeisenbergPresentation; Etingof.Example2_9_13.heisenbergPresentationAlgEquiv; Etingof.Example2_9_13.heisenbergPresentationEquiv"
         },
         {
           "claim": "Imposing c=1 yields the Weyl algebra.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example2_9_13.HeisenbergWeylQuot; weyl_c_eq_one; heisenbergWeylEquiv"
+          "lean_decl": "Etingof.Example2_9_13.HeisenbergWeylQuot; Etingof.Example2_9_13.weyl_c_eq_one; Etingof.Example2_9_13.heisenbergWeylEquiv"
         }
       ]
     },
@@ -15154,7 +15163,7 @@
         {
           "claim": "The quotient U = V/V₁ is again a representation of A.",
           "verdict": "covered_elsewhere",
-          "lean_decl": "Submodule.Quotient",
+          "lean_decl": "Submodule.Quotient.module",
           "note": "Mathlib's submodule quotient carries the induced A-module structure used in the successive-quotient statement."
         },
         {
@@ -16696,7 +16705,7 @@
         {
           "claim": "If the distinct submodules W_1 and W'_1 are irreducible, then W_1 intersect W'_1 = 0.",
           "verdict": "covered_elsewhere",
-          "lean_decl": "eq_bot_or_eq_top"
+          "lean_decl": "IsSimpleOrder.eq_bot_or_eq_top"
         },
         {
           "claim": "The zero intersection gives an embedding W_1 direct-sum W'_1 into V.",
@@ -21292,12 +21301,12 @@
         {
           "claim": "S3 has three conjugacy classes and irreducible dimensions 1,1,2 with the stated sum of squares.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example4_3_S3_conj_classes; Etingof.Example4_3_S3_sum_of_squares"
+          "lean_decl": "Etingof.Example4_3_S3_irreps_count; Etingof.Example4_3_S3_sum_of_squares"
         },
         {
           "claim": "The trivial, sign, and two-dimensional standard representations are simple, pairwise distinct, and exhaustive.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example4_3_S3; Etingof.S3_simple_iso"
+          "lean_decl": "Etingof.Discussion5_11.S3_simple_iso"
         },
         {
           "claim": "The standard representation is displayed in a geometric eigenbasis by the source matrices.",
@@ -21556,18 +21565,18 @@
         {
           "claim": "The trivial, sign, two-dimensional quotient, standard three-dimensional, and sign-twisted three-dimensional representations are genuine, simple, distinct, and exhaustive.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example4_3_S4"
+          "lean_decl": "Etingof.Example4_3_S4.S4_simple_iso"
         },
         {
           "claim": "The two-dimensional representation is pulled back from S3 along S4/V4.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example4_3_S4.actHom; Etingof.Example4_3_S4.twoRep",
+          "lean_decl": "Etingof.Example4_3_S4.actHom; Etingof.Example4_3_S4.twoDimRep",
           "note": "Implemented by the equivalent action on the three pair partitions."
         },
         {
           "claim": "The two three-dimensional representations differ, and the standard one is the zero-sum function model.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example4_3_S4.stdRep; Etingof.Example4_3_S4.twistRep; Etingof.Example4_3_S4.pairwise_noniso"
+          "lean_decl": "Etingof.Example4_3_S4.stdRep; Etingof.Example4_3_S4.twistRep; Etingof.Example4_3_S4.S4_simple_iso"
         }
       ]
     },
@@ -22781,7 +22790,7 @@
         {
           "claim": "Theorems 4.6.2 and 4.6.3 give an alternative proof of Maschke's theorem over ℂ.",
           "verdict": "covered_elsewhere",
-          "lean_decl": "Etingof.Theorem4_1_1",
+          "lean_decl": "Etingof.Theorem4_1_1_semisimple",
           "reason": "This paragraph supplies a new proof route to the already formalized theorem."
         }
       ]
@@ -22970,7 +22979,7 @@
     "coverage": "covered_full",
     "fidelity": "verified",
     "sorry_free": true,
-    "lean_decl": "Etingof.Proposition4_7_1_i, Etingof.Proposition4_7_1_ii, Etingof.Proposition4_7_1_orthogonal_basis, Etingof.Proposition4_7_1_exists_orthogonal_basis",
+    "lean_decl": "Etingof.Proposition4_7_1_i; Etingof.Proposition4_7_1_ii; Etingof.Proposition4_7_1_orthogonal_basis; Etingof.Proposition4_7_1_exists_orthogonal_basis",
     "fidelity_note": "All three sentences are formalized. Parts (i) and (ii) are the two matrix-coefficient orthogonality formulas. The concluding sentence -- that the irreducible matrix coefficients form an orthogonal basis of F(G, ℂ) -- is `Etingof.MatrixCoefficients.basis` (the `Module.Basis` itself), packaged as `Etingof.Proposition4_7_1_orthogonal_basis` and, unconditionally for algebraically closed characteristic-zero k, as `Etingof.Proposition4_7_1_exists_orthogonal_basis`; spanning comes from the Artin-Wedderburn sum-of-squares count as the source indicates. Orthogonality is stated for the bilinear convolution pairing |G|^-1 sum_g f(g) h(g^-1) rather than the source's Hermitian form, since parts (i) and (ii) hold over any algebraically closed k; the two agree on matrix coefficients over the complex numbers in a unitary basis.",
     "last_updated": "2026-08-01",
     "claim_coverage": {
@@ -23085,7 +23094,7 @@
         {
           "claim": "The displayed S₃ table is obtained from the genuine irreducible representations.",
           "verdict": "covered_elsewhere",
-          "lean_decl": "Etingof.Example4_3_S3.irrep; Etingof.Example4_3_S3.irrep_character"
+          "lean_decl": "Etingof.Example4_3_S3.trivRep; Etingof.Example4_3_S3.signRep; Etingof.Example4_3_S3.stdRep; Etingof.Example4_3_S3.stdRep_character; Etingof.Discussion5_11.S3_simple_iso"
         },
         {
           "claim": "A₄ has the displayed four classes and four complete irreducible rows, including the quotient A₄/V₄ ≃ Z/3 and the deleted natural three-dimensional representation.",
@@ -23206,7 +23215,7 @@
         {
           "claim": "The S₄ two-dimensional row is pulled back from S₃ through S₄/V₄ ≃ S₃, and the second three-dimensional row is the sign twist of the first.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example4_3_S4.quotientKleinFourEquivS3; Etingof.Example4_8_1.S4.repC2_iso_s3StandardPullback; Etingof.Example4_8_1.S4.repC3minus"
+          "lean_decl": "Etingof.Example4_3_S4.quotientKleinFourEquivS3; Etingof.Example4_8_1.S4.repC2_iso_s3StandardPullback; Etingof.Example4_8_1.S4.repStdPlus"
         },
         {
           "claim": "The A₅ table consists of five genuine simple, pairwise nonisomorphic representations with the displayed values and is complete.",
@@ -23579,7 +23588,7 @@
         {
           "claim": "For a finite group, introduce one polynomial variable indexed by each group element.",
           "verdict": "formalized",
-          "lean_decl": "MvPolynomial G k; Etingof.FrobeniusDeterminant"
+          "lean_decl": "MvPolynomial.X; Etingof.FrobeniusDeterminant"
         }
       ]
     },
@@ -23767,7 +23776,7 @@
         {
           "claim": "The group determinant factors into pairwise nonproportional irreducible polynomials, each raised to its degree, with one factor per conjugacy class.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Theorem4_10_2"
+          "lean_decl": "IrrepDecomp.frobeniusDet_eq_signSmul_prod"
         }
       ]
     },
@@ -23994,17 +24003,17 @@
         {
           "claim": "The regular-representation operator matrix agrees with XG up to the inversion column permutation and its determinant sign.",
           "verdict": "formalized",
-          "lean_decl": "IrrepDecomp.frobeniusDet_eq_signSmul_prod"
+          "lean_decl": "IrrepDecomp.frobeniusDet_eq_signSmul_prod; IrrepDecomp.blockPoly_totalDegree"
         },
         {
           "claim": "Artin–Wedderburn decomposes the determinant into representation-block determinants with exponents dim Vi.",
           "verdict": "formalized",
-          "lean_decl": "IrrepDecomp.frobeniusDet_eq_signSmul_prod; IrrepDecomp.blockPoly_totalDegree"
+          "lean_decl": "IrrepDecomp.blockPoly_irreducible; IrrepDecomp.blockPoly_not_associated"
         },
         {
           "claim": "Each block determinant is irreducible and different blocks yield nonproportional factors.",
           "verdict": "formalized",
-          "lean_decl": "IrrepDecomp.blockPoly_irreducible; IrrepDecomp.blockPoly_not_associated"
+          "lean_decl": "Etingof.Theorem4_10_2"
         },
         {
           "claim": "The inversion sign is absorbed into an irreducible factor and the number of factors equals the conjugacy-class count.",
@@ -29572,7 +29581,7 @@
       "supplemental_provider_dependencies": [],
       "explicit_source_references": [],
       "status": "complete",
-      "section": "5.8",
+      "section": null,
       "verified_on": "2026-08-01",
       "actual_internal_dependencies": [],
       "forward_internal_dependencies": [],
@@ -29598,7 +29607,7 @@
     },
     "stage3_5": {
       "status": "complete",
-      "section": "5.8",
+      "section": null,
       "reviewed_on": "2026-08-01",
       "mathlib_quality": "linter_screened",
       "provider_modules": [
@@ -33380,7 +33389,7 @@
         {
           "claim": "The shifted-permutation terms are above lambda, with equality only for the identity permutation in the source convention.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.rhoVec_comp_perm_le; Etingof.rhoVec_comp_perm_eq_iff; Etingof.laVec_eq_shifted_sub_perm_iff"
+          "lean_decl": "Chapter5.Footnote_5_15.rhoVec_comp_perm_le; Chapter5.Footnote_5_15.rhoVec_comp_perm_eq_iff; Chapter5.Footnote_5_15.laVec_eq_shifted_sub_perm_iff"
         },
         {
           "claim": "Character orthogonality and the Cauchy coefficient computation force the triangular class function to equal chi_lambda.",
@@ -33527,7 +33536,7 @@
         {
           "claim": "sigma(rho) is lexicographically at most rho, with equality iff sigma is the identity; subtracting yields the corresponding shifted-partition statement.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.rhoVec_comp_perm_le; Etingof.rhoVec_comp_perm_eq_iff; Etingof.laVec_le_shifted_sub_perm; Etingof.laVec_eq_shifted_sub_perm_iff"
+          "lean_decl": "Chapter5.Footnote_5_15.rhoVec_comp_perm_le; Chapter5.Footnote_5_15.rhoVec_comp_perm_eq_iff; Chapter5.Footnote_5_15.laVec_le_shifted_sub_perm; Chapter5.Footnote_5_15.laVec_eq_shifted_sub_perm_iff"
         }
       ]
     },
@@ -34794,7 +34803,7 @@
         {
           "claim": "The centralizer of the symmetric-group action on V tensor n is exactly the image of the universal enveloping algebra under the diagonal Lie action.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.centralizer_eq_universalEnvelopingImage"
+          "lean_decl": "Etingof.Theorem5_18_2.centralizer_eq_universalEnvelopingImage"
         }
       ]
     },
@@ -36065,7 +36074,7 @@
     "coverage": "covered_full",
     "fidelity": "verified",
     "fidelity_note": "All three branches of the source statement are formalized. SchurModuleVanishing.lean lifts the Schur module off the truncating index type: SchurModuleP k N la takes an arbitrary la : Nat.Partition n with no bound tying its parts to N, and is rfl-equal to Theorem5_22_1.lean's SchurModule at weightToPartition. The first branch is SchurModuleP_eq_bot_iff : SchurModulePSubmodule k N la = ⊥ ↔ N < Multiset.card la.parts (equivalently finrank_SchurModuleP_eq_zero_iff); the character and dimension branches are recovered on la.parts.card ≤ N as formalCharacter_SchurModuleP and finrank_SchurModuleP, and Theorem5_22_1_full bundles all three. Both sides of the criterion are witnessed non-vacuously by SchurModuleP_onePlusOne_dim_one / SchurModuleP_onePlusOne_dim_two.",
-    "lean_ref": "EtingofRepresentationTheory/Chapter5/SchurModuleVanishing.lean :: Etingof.Theorem5_22_1_full, SchurModuleP_eq_bot_iff, SchurModuleP_ne_bot_iff, finrank_SchurModuleP_eq_zero_iff, formalCharacter_SchurModuleP, finrank_SchurModuleP; EtingofRepresentationTheory/Chapter5/Theorem5_22_1.lean :: Etingof.Theorem5_22_1, Theorem5_22_1_dim",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/SchurModuleVanishing.lean :: Etingof.Theorem5_22_1_full, Etingof.SchurModuleP_eq_bot_iff, Etingof.SchurModuleP_ne_bot_iff, Etingof.finrank_SchurModuleP_eq_zero_iff, Etingof.formalCharacter_SchurModuleP, Etingof.finrank_SchurModuleP; EtingofRepresentationTheory/Chapter5/Theorem5_22_1.lean :: Etingof.Theorem5_22_1, Etingof.Theorem5_22_1_dim",
     "last_updated": "2026-08-01",
     "claim_coverage": {
       "stage": "3.2",
@@ -36616,7 +36625,7 @@
         {
           "claim": "These representations are simple and two are isomorphic exactly when their dominant weights agree.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.algIrrepGLRepro_isSimpleModule; Etingof.algIrrepGLRepro_iso_iff_eq"
+          "lean_decl": "Etingof.algIrrepGLRepρ_isSimpleModule; Etingof.algIrrepGLRepρ_iso_iff_eq"
         },
         {
           "claim": "Every simple algebraic GL_N representation has a unique dominant highest weight.",
@@ -37290,7 +37299,7 @@
     "lean_file": [
       "EtingofRepresentationTheory/Chapter5/Problem5_24_2.lean"
     ],
-    "lean_decl": "invariantSubalgebra_eq_adjoin_traceWord",
+    "lean_decl": "Etingof.invariantSubalgebra_eq_adjoin_traceWord",
     "claim_coverage": {
       "stage": "final-exercise-audit",
       "status": "complete",
@@ -37461,7 +37470,7 @@
     "fidelity": "verified",
     "coverage": "covered_full",
     "coverage_note": "The four conjugacy types form an exhaustive disjoint partition. Public declarations give the four population counts, class counts, centralizer orders, class sizes, and existence of the corresponding normal forms. The total number of conjugacy classes is q²−1; #7500 is closed.",
-    "lean_ref": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClasses.lean :: Etingof.GL2.conjugacyClass_partition, card_isScalar, card_isParabolic, card_isSplitSemisimple, card_isElliptic; EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean :: GL2.card_generalLinearGroup_two, GL2.card_generalLinearGroup_two_factored, Etingof.numScalarClasses_eq, numParabolicClasses_eq, numSplitSemisimpleClasses_eq, numEllipticClasses_eq, card_conjClasses_eq, centralizerCard_isScalar, centralizerCard_isParabolic, centralizerCard_isSplitSemisimple, centralizerCard_isElliptic, classCard_isScalar, classCard_isParabolic, classCard_isSplitSemisimple, classCard_isElliptic, exists_conj_isScalar, exists_conj_isParabolic, exists_conj_isSplitSemisimple, exists_conj_isElliptic",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClasses.lean :: GL2.conjugacyClass_partition, GL2.card_isScalar, GL2.card_isParabolic, GL2.card_isSplitSemisimple, GL2.card_isElliptic; EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean :: GL2.numScalarClasses_eq, GL2.numParabolicClasses_eq, GL2.numSplitSemisimpleClasses_eq, GL2.numEllipticClasses_eq, GL2.card_conjClasses_eq, GL2.centralizerCard_isScalar, GL2.centralizerCard_isParabolic, GL2.centralizerCard_isSplitSemisimple, GL2.centralizerCard_isElliptic, GL2.classCard_isScalar, GL2.classCard_isParabolic, GL2.classCard_isSplitSemisimple, GL2.classCard_isElliptic, GL2.exists_conj_isScalar, GL2.exists_conj_isParabolic, GL2.exists_conj_isSplitSemisimple, GL2.exists_conj_isElliptic",
     "last_updated": "2026-08-01",
     "claim_coverage": {
       "stage": "3.2",
@@ -37480,17 +37489,17 @@
         {
           "claim": "Every element of GL₂(F_q) belongs to exactly one of the scalar, parabolic, split-semisimple, or elliptic types.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.GL2.conjugacyClass_partition"
+          "lean_decl": "GL2.conjugacyClass_partition"
         },
         {
           "claim": "The table's type counts, centralizer orders, conjugacy-class sizes, and normal forms have public theorems.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.numScalarClasses_eq; Etingof.numParabolicClasses_eq; Etingof.numSplitSemisimpleClasses_eq; Etingof.numEllipticClasses_eq; Etingof.centralizerCard_isScalar; Etingof.centralizerCard_isParabolic; Etingof.centralizerCard_isSplitSemisimple; Etingof.centralizerCard_isElliptic; Etingof.classCard_isScalar; Etingof.classCard_isParabolic; Etingof.classCard_isSplitSemisimple; Etingof.classCard_isElliptic; Etingof.exists_conj_isScalar; Etingof.exists_conj_isParabolic; Etingof.exists_conj_isSplitSemisimple; Etingof.exists_conj_isElliptic"
+          "lean_decl": "GL2.numScalarClasses_eq; GL2.numParabolicClasses_eq; GL2.numSplitSemisimpleClasses_eq; GL2.numEllipticClasses_eq; GL2.centralizerCard_isScalar; GL2.centralizerCard_isParabolic; GL2.centralizerCard_isSplitSemisimple; GL2.centralizerCard_isElliptic; GL2.classCard_isScalar; GL2.classCard_isParabolic; GL2.classCard_isSplitSemisimple; GL2.classCard_isElliptic; GL2.exists_conj_isScalar; GL2.exists_conj_isParabolic; GL2.exists_conj_isSplitSemisimple; GL2.exists_conj_isElliptic"
         },
         {
           "claim": "GL₂(F_q) has q²−1 conjugacy classes.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.card_conjClasses_eq"
+          "lean_decl": "GL2.card_conjClasses_eq"
         }
       ]
     },
@@ -37875,7 +37884,7 @@
     "coverage": "covered_full",
     "coverage_note": "Parts 1, 2, 3a, and 3b are public and fresh-compile. The one-dimensional summand endpoints, all cross-kind nonisomorphisms, and a single simple pairwise-nonisomorphic principal family of the required cardinality are public. The former #7516 is closed.",
     "last_updated": "2026-08-01",
-    "lean_ref": "EtingofRepresentationTheory/Chapter5/Theorem5_25_2.lean :: Etingof.Theorem5_25_2_part1, part2, part3a, part3b, Etingof.GL2.detChar_simple, Etingof.GL2.principalSeries_finrank; EtingofRepresentationTheory/Chapter5/GL2PrincipalFamily.lean :: Etingof.GL2.detChar_finrank, detChar_character, detChar_iso_iff, principalFamily, principalFamily_simple, principalFamily_injective, card_principalIndex, exists_principal_family",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Theorem5_25_2.lean :: Etingof.Theorem5_25_2_part1, Etingof.Theorem5_25_2_part2, Etingof.Theorem5_25_2_part3a, Etingof.Theorem5_25_2_part3b, Etingof.GL2.detChar_simple, Etingof.GL2.principalSeries_finrank; EtingofRepresentationTheory/Chapter5/GL2PrincipalFamily.lean :: Etingof.GL2.detChar_finrank, Etingof.GL2.detChar_character, Etingof.GL2.detChar_iso_iff, Etingof.GL2.principalFamily, Etingof.GL2.principalFamily_simple, Etingof.GL2.principalFamily_injective, Etingof.GL2.card_principalIndex, Etingof.GL2.exists_principal_family",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -38035,7 +38044,7 @@
     "fidelity": "verified",
     "coverage": "covered_full",
     "coverage_note": "The virtual character is realized by the honest simple FDRep Etingof.GL2.complementarySeriesRep, with character and dimension q−1. GL2ComplementarySeriesOrbits.lean identifies actual elliptic-torus characters with ZMod (q²−1), transports Frobenius to multiplication by q, constructs the Frobenius isomorphism, proves the converse isomorphism classification, and packages the canonical q(q−1)/2-element transversal as pairwise non-isomorphic simple FDReps (#7947).",
-    "lean_ref": "EtingofRepresentationTheory/Chapter5/GL2ComplementarySeries.lean :: Etingof.GL2.complementarySeriesRep, complementarySeriesRep_simple, complementarySeriesRep_character, finrank_complementarySeriesRep; EtingofRepresentationTheory/Chapter5/GL2ComplementarySeriesOrbits.lean :: Etingof.GL2.complementaryCharParamEquiv, complementarySeriesRepFrobeniusIso, complementarySeriesRep_iso_iff, complementaryFamily, complementaryFamily_simple, complementaryFamily_injective, card_complementaryIndex, exists_complementary_family",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/GL2ComplementarySeries.lean :: Etingof.GL2.complementarySeriesRep, Etingof.GL2.complementarySeriesRep_simple, Etingof.GL2.complementarySeriesRep_character, Etingof.GL2.finrank_complementarySeriesRep; EtingofRepresentationTheory/Chapter5/GL2ComplementarySeriesOrbits.lean :: Etingof.GL2.complementaryCharParamEquiv, Etingof.GL2.complementarySeriesRepFrobeniusIso, Etingof.GL2.complementarySeriesRep_iso_iff, Etingof.GL2.complementaryFamily, Etingof.GL2.complementaryFamily_simple, Etingof.GL2.complementaryFamily_injective, Etingof.GL2.card_complementaryIndex, Etingof.GL2.exists_complementary_family",
     "last_updated": "2026-08-01",
     "claim_coverage": {
       "stage": "3.2",
@@ -38289,7 +38298,7 @@
       "result": "covered",
       "note": "The named one-dimensional, principal-series, and complementary-series representations are assembled into one family of q^2-1 pairwise non-isomorphic simple FDRep objects, and every simple representation is isomorphic to exactly one member."
     },
-    "lean_ref": "EtingofRepresentationTheory/Chapter5/Discussion_complementary_series_summary.lean :: Etingof.GL2.constructedCount_eq_card_conjClasses, foundAllIrreducibles_galoisField, constructed_irreps_complete, constructed_irreps_complete_unconditional, card_irreps_eq_q_sq_sub_one, exists_complete_simples, constructed_families_exhaust, constructedFamily, constructedFamily_simple, constructedFamily_injective, card_constructedIndex, constructed_irreps_complete_final",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Discussion_complementary_series_summary.lean :: Etingof.GL2.constructedCount_eq_card_conjClasses, Etingof.GL2.foundAllIrreducibles_galoisField, Etingof.GL2.constructed_irreps_complete, Etingof.GL2.constructed_irreps_complete_unconditional, Etingof.GL2.card_irreps_eq_q_sq_sub_one, Etingof.GL2.exists_complete_simples, Etingof.GL2.constructed_families_exhaust, Etingof.GL2.constructedFamily, Etingof.GL2.constructedFamily_simple, Etingof.GL2.constructedFamily_injective, Etingof.GL2.card_constructedIndex, Etingof.GL2.constructed_irreps_complete_final",
     "fidelity": "verified",
     "coverage": {
       "result": "covered_full",
@@ -41313,7 +41322,7 @@
     "needs_statement": false,
     "sorry_free": true,
     "fidelity_note": "The three representatives are constructed and proved indecomposable; every indecomposable A₂ representation is isomorphic to a unique one. The former #7404 is closed.",
-    "lean_ref": "EtingofRepresentationTheory/Chapter6/Example6_2_3.lean :: Etingof.Example_6_2_3, Etingof.A₂Rep.rep, Etingof.A₂Rep.rep_indecomposable, Etingof.A₂Rep.exists_unique_iso_rep",
+    "lean_ref": "EtingofRepresentationTheory/Chapter6/Example6_2_3.lean :: Etingof.Example_6_2_3, A₂Rep.rep, A₂Rep.rep_indecomposable, A₂Rep.exists_unique_iso_rep",
     "last_updated": "2026-08-01",
     "claim_coverage": {
       "stage": "3.2",
@@ -41327,12 +41336,12 @@
         {
           "claim": "The three A₂ dimension vectors (1,0), (0,1), and (1,1) have explicit indecomposable representatives.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.A₂Rep.rep; Etingof.A₂Rep.rep_indecomposable"
+          "lean_decl": "A₂Rep.rep; A₂Rep.rep_indecomposable"
         },
         {
           "claim": "Every indecomposable A₂ representation is isomorphic to exactly one of those representatives.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.A₂Rep.exists_unique_iso_rep"
+          "lean_decl": "A₂Rep.exists_unique_iso_rep"
         }
       ]
     },
@@ -41416,12 +41425,12 @@
         {
           "claim": "For each of the two A₃ orientations, the six positive-root dimension vectors have explicit indecomposable representatives.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.A₃Rep.rep_indecomposable; Etingof.A₃SinkRep.rep_indecomposable"
+          "lean_decl": "A₃Rep.rep_indecomposable; A₃SinkRep.rep_indecomposable"
         },
         {
           "claim": "Every indecomposable representation in either orientation is isomorphic to a unique representative.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.A₃Rep.exists_unique_iso_rep; Etingof.A₃SinkRep.exists_unique_iso_rep"
+          "lean_decl": "A₃Rep.exists_unique_iso_rep; A₃SinkRep.exists_unique_iso_rep"
         }
       ]
     },
@@ -41797,7 +41806,7 @@
         {
           "claim": "The number and dimension vectors of indecomposable classes depend only on the underlying Dynkin diagram, not its orientation.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Theorem6_5_2; D₄Rep.classification"
+          "lean_decl": "Etingof.Theorem_6_5_2_Gabriels_theorem; D₄Rep.classification"
         }
       ]
     },
@@ -42519,7 +42528,7 @@
         {
           "claim": "The D_n, E₆, E₇, and E₈ positive-root counts are the standard ones.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Example_6_4_9"
+          "lean_decl": "Etingof.Example_6_4_9_Dn; Etingof.Example_6_4_9_E6; Etingof.Example_6_4_9_E7; Etingof.Example_6_4_9_E8"
         }
       ]
     },
@@ -45605,8 +45614,8 @@
       "claims": [
         {
           "claim": "Chapter 7 introduces categories.",
-          "verdict": "formalized",
-          "lean_decl": "EtingofRepresentationTheory.Chapter7"
+          "verdict": "context_only",
+          "reason": "This is the chapter's editorial scope statement; the umbrella module is not a Lean declaration."
         }
       ]
     },
@@ -46566,7 +46575,7 @@
         {
           "claim": "A natural transformation is a natural family of component morphisms; invertible ones are natural isomorphisms.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.NatTrans; CategoryTheory.NatIso"
+          "lean_decl": "Etingof.NatTrans; CategoryTheory.NatIso.ofComponents"
         }
       ]
     },
@@ -47730,7 +47739,7 @@
         {
           "claim": "All modules over a ring form an abelian category.",
           "verdict": "formalized",
-          "lean_decl": "CategoryTheory.Abelian (ModuleCat A)"
+          "lean_decl": "ModuleCat.abelian"
         },
         {
           "claim": "Finite-dimensional modules over a finite-dimensional k-algebra form an abelian category.",
@@ -48236,7 +48245,7 @@
         {
           "claim": "Complex morphisms commute with differentials and compose; cycles, boundaries, cohomology classes, acyclicity, and bounded complexes have the stated meanings.",
           "verdict": "formalized",
-          "lean_decl": "CategoryTheory.HomologicalComplex; CategoryTheory.HomologicalComplex.Hom; CategoryTheory.HomologicalComplex.homology"
+          "lean_decl": "HomologicalComplex; HomologicalComplex.Hom; HomologicalComplex.homology"
         }
       ]
     },
@@ -49879,8 +49888,8 @@
       "claims": [
         {
           "claim": "Chapter 8 develops homological algebra for representation categories.",
-          "verdict": "formalized",
-          "lean_decl": "EtingofRepresentationTheory.Chapter8"
+          "verdict": "context_only",
+          "reason": "This is the chapter's editorial scope statement; the umbrella module is not a Lean declaration."
         }
       ]
     },
@@ -51057,7 +51066,7 @@
         {
           "claim": "Ext^i_A(M,N) is the cohomology of Hom_A(P_i,N) for a projective resolution P of M.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Ext; Etingof.extIsoCohomologyHom"
+          "lean_decl": "Etingof.Ext; Etingof.extIsoCohomologyHomₖ"
         }
       ]
     },
@@ -55872,7 +55881,7 @@
     "source_span": "Obviously, irreducible implies indecomposable, but not vice versa.",
     "claim": "Every irreducible (simple) representation is indecomposable: IsSimpleModule A V → Etingof.IsIndecomposable A V.",
     "status": "proof_polished",
-    "lean_ref": "Chapter2/Discussion_2_1_irreducible_indecomposable.lean (Etingof.IsIndecomposable.of_isSimpleModule)",
+    "lean_ref": "EtingofRepresentationTheory/Chapter2/Discussion_2_1_irreducible_indecomposable.lean :: Etingof.IsIndecomposable.of_isSimpleModule",
     "coverage_issue": 5676,
     "note": "Derived items are keyed by `derived_from`, not `id` (per PLAN Stage 1.6) — the empty-id flag in audit #7001 was a false positive. Etingof.IsIndecomposable.of_isSimpleModule proved sorry-free; #print axioms: propext/Classical.choice/Quot.sound only. Status bumped formalized→sorry_free in audit #7001.",
     "stage3_5": {
@@ -55909,7 +55918,7 @@
     "claim": "Every 1-dimensional representation of GL₂(𝔽_q) is of the form g ↦ ξ(det g) for a unique character ξ : 𝔽_q× → ℂ×; there are exactly q−1 such representations.",
     "status": "proof_polished",
     "coverage_issue": 5677,
-    "lean_ref": "Chapter5/Discussion_1dim_reps.lean (Etingof.Discussion_1dim_reps.characterCompDetEquiv / characterCompDetEquiv_apply / card_oneDimRep)",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Discussion_1dim_reps.lean :: Etingof.Discussion_1dim_reps.characterCompDetEquiv, Etingof.Discussion_1dim_reps.characterCompDetEquiv_apply, Etingof.Discussion_1dim_reps.card_oneDimRep",
     "note": "Stage 3.7 reconciliation (audit #7245): covered_full. characterCompDetEquiv is a genuine bijection (characters ξ:𝔽_q×→ℂˣ) ≃ (1-dim reps G→ℂˣ) — surjectivity = every 1-dim rep has form ξ∘det, injectivity = uniqueness of ξ; characterCompDetEquiv_apply pins the map to ξ(det g); card_oneDimRep gives the count q−1. Sorry-free, axiom-clean. Formalized for q>2 (needs [G,G]=SL₂), matching the source. Status accepted→sorry_free.",
     "stage3_5": {
       "status": "complete",
@@ -55947,7 +55956,7 @@
     "coverage_issue": 5678,
     "lean_file": "EtingofRepresentationTheory/Chapter5/Discussion5_11_S4S3.lean",
     "note": "Stage 3.7 reconciliation (audit #7245): covered_full. All three Ind_{S₃}^{S₄} decompositions proved as genuine FDRep ℂ S₄ isomorphisms (Nonempty (… ≅ …)) with correct summands/multiplicities via the semisimple Hom-multiplicity classifier iso_of_forall_finrank_hom_eq — not mere character-scalar equalities. Sorry-free. Status accepted→sorry_free. (Prior issues #5678/#5797.)",
-    "lean_ref": "Chapter5/Discussion5_11_S4S3.lean (Etingof.Example4_3_S4.indH_triv_decomp / indH_sign_decomp / indH_twoDim_decomp)",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Discussion5_11_S4S3.lean :: Etingof.Example4_3_S4.indH_triv_decomp, Etingof.Example4_3_S4.indH_sign_decomp, Etingof.Example4_3_S4.indH_twoDim_decomp",
     "stage3_5": {
       "status": "complete",
       "reviewed_on": "2026-08-01",
@@ -56024,7 +56033,7 @@
     "claim": "For any weakly decreasing integer sequence λ₁ ≥ … ≥ λ_N, there is a unique irreducible algebraic representation L_λ of GL_N with highest weight λ; it is constructed as (Schur module L_{λ+r·1^N}) ⊗ (det^*)^r for r ≫ 0",
     "status": "proof_polished",
     "coverage_issue": 5680,
-    "lean_ref": "Chapter5/AlgIrrepGLRep.lean (Etingof.algIrrepGLRepρ — construction, all dominant integer weights); Chapter5/Theorem5_23_2_PeterWeyl.lean (Etingof.algIrrepGLRepρ_isSimpleModule — irreducibility of L_λ for EVERY dominant integer weight over any char-0 alg-closed field, no Schur–Weyl-range bound); Chapter5/CleanCharacterExtractionBase.lean (Etingof.schurModule_isSimple_general — unconditional Schur-module simplicity, the degree-guard-free core); Chapter5/AlgIrrepGLNonIso.lean (Etingof.algIrrepGLRepρ_iso_iff_eq — uniqueness)",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/AlgIrrepGLRep.lean :: Etingof.algIrrepGLRepρ; EtingofRepresentationTheory/Chapter5/Theorem5_23_2_PeterWeyl.lean :: Etingof.algIrrepGLRepρ_isSimpleModule; EtingofRepresentationTheory/Chapter5/CleanCharacterExtractionBase.lean :: Etingof.schurModule_isSimple_general; EtingofRepresentationTheory/Chapter5/AlgIrrepGLNonIso.lean :: Etingof.algIrrepGLRepρ_iso_iff_eq",
     "note": "Stage 3.7 reconciliation (audit #7245) → closed by #7251 (tracking-only). Construction of L_λ (honest det^{-shift} twist of the Schur module, defined for every weakly-decreasing integer weight incl. negatives), uniqueness (highest weight a complete iso-invariant, L_λ≅L_μ↔λ=μ), AND irreducibility are all fully formalized and sorry-free. The residual flagged by #7245 — irreducibility only proved over ℂ within the Schur–Weyl range ∑λ.toNatWeight≤N in AlgIrrepGLRep.lean's algIrrepGLRep_isSimple — was ALREADY lifted downstream in the Peter–Weyl development: Etingof.algIrrepGLRepρ_isSimpleModule (Theorem5_23_2_PeterWeyl.lean) proves simplicity of algIrrepGLRepρ for EVERY dominant integer weight over any char-0 algebraically-closed field k, with NO ∑-weight bound (verified 2026-07-22: signature ∀ n k [Field][IsAlgClosed][CharZero] lam, no hN; #print axioms clean = propext/Classical.choice/Quot.sound). Route: a det^{-shift} twist preserves simplicity (isSimpleModule_charTwistRep), reducing to schurModule_isSimple_general — unconditional Schur-module simplicity via the degree-guard-free schurModuleSubmodule_isSimple_centralizer_general (λ.toNatWeight : Fin N → ℕ has ≤ N parts by construction, so S^λ(k^N) is always irreducible; the old ∑≤N guard was a ℂ-special-block artifact). The audit missed this because the general lemma lives in the Peter–Weyl file, not the construction file. The ℂ-only algIrrepGLRep_isSimple is retained for its existing hN-threaded call sites (AlgIrrepDualPairing.lean).",
     "stage3_5": {
       "status": "complete",
@@ -56070,7 +56079,7 @@
     "claim": "The total count (q-1) + q(q-1)/2 + q(q-1)/2 = q²-1 equals the number of conjugacy classes, so the listed representations are all irreducible representations of GL₂(𝔽_q)",
     "status": "proof_polished",
     "coverage_issue": 5681,
-    "lean_ref": "Chapter5/Discussion_complementary_series_summary.lean (Etingof.GL2.constructed_irrep_count, constructedFamily, constructedFamily_simple, constructedFamily_injective, card_constructedIndex, constructed_irreps_complete_final); Chapter5/GL2ConjugacyClassCount.lean (GL2.card_conjClasses_eq)",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Discussion_complementary_series_summary.lean :: Etingof.GL2.constructed_irrep_count, Etingof.GL2.constructedFamily, Etingof.GL2.constructedFamily_simple, Etingof.GL2.constructedFamily_injective, Etingof.GL2.card_constructedIndex, Etingof.GL2.constructed_irreps_complete_final; EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean :: GL2.card_conjClasses_eq",
     "note": "Completed 2026-07-27. The arithmetic total and conjugacy-class count are proved, and the actual named determinant, principal-series, and complementary-series representations are packaged into ConstructedIndex/constructedFamily. They are simple and pairwise non-isomorphic, including the cross-family cases separated by dimensions 1, q, q+1 versus q−1. Their index cardinality is the required constructed total, and constructed_irreps_complete_final proves every simple FDRep ℂ (GL₂ 𝔽_q) is isomorphic to exactly one family member. The earlier residual is fully discharged.",
     "stage3_5": {
       "status": "complete",
@@ -56115,7 +56124,7 @@
     "status": "proof_polished",
     "coverage_issue": 5682,
     "note": "Stage 3.7 reconciliation (audit #7245): covered_full. Both directions formalized: the lex inequality σ(ρ)≤ρ on the staircase ρ=(N−1,…,0) (rhoVec_comp_perm_le) AND the load-bearing equality-iff-identity (rhoVec_comp_perm_eq_iff, an actual ↔ σ=1), plus the equivalent λ+ρ−σ(ρ)≥λ form with its own equality-iff-identity (laVec_eq_shifted_sub_perm_iff). Proved via the least-non-fixed-point argument, not assumed. Sorry-free. Status accepted→sorry_free. Same claim reused by Chapter5/Discussion_proof_of_Frobenius_character_formula; formalization lives in this footnote file. (Prior issue #5682.)",
-    "lean_ref": "Chapter5/Discussion_footnote_5_15.lean (Chapter5.Footnote_5_15.rhoVec_comp_perm_le / rhoVec_comp_perm_eq_iff / laVec_eq_shifted_sub_perm_iff)",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Discussion_footnote_5_15.lean :: Chapter5.Footnote_5_15.rhoVec_comp_perm_le, Chapter5.Footnote_5_15.rhoVec_comp_perm_eq_iff, Chapter5.Footnote_5_15.laVec_eq_shifted_sub_perm_iff",
     "stage3_5": {
       "status": "complete",
       "reviewed_on": "2026-08-01",
@@ -56149,7 +56158,7 @@
     "source_span": "It is easy to show that if F is an additive functor, then F(X ⊕ Y) is canonically isomorphic to F(X) ⊕ F(Y).",
     "claim": "An additive functor F between preadditive categories with biproducts satisfies F(X ⊞ Y) ≅ F(X) ⊞ F(Y) canonically.",
     "status": "proof_polished",
-    "lean_ref": "Chapter7/Definition7_9_1.lean (Etingof.AdditiveFunctor.mapBiprod)",
+    "lean_ref": "EtingofRepresentationTheory/Chapter7/Definition7_9_1.lean :: Etingof.AdditiveFunctor.mapBiprod",
     "coverage_issue": 5683,
     "note": "Derived items are keyed by `derived_from`, not `id` (per PLAN Stage 1.6) — the empty-id flag in audit #7001 was a false positive. Etingof.AdditiveFunctor.mapBiprod_hom proved sorry-free; #print axioms: propext/Classical.choice/Quot.sound only. Status bumped formalized→sorry_free in audit #7001.",
     "stage3_5": {
@@ -56186,7 +56195,7 @@
     "claim": "For a semisimple abelian category C (every short exact sequence splits), any additive functor F : C → D is both left and right exact.",
     "status": "proof_polished",
     "coverage_issue": 5684,
-    "lean_ref": "Chapter7/Discussion_after_Example7_9_5.lean (Etingof.additiveFunctor_shortExact_of_isSemisimpleCategory)",
+    "lean_ref": "EtingofRepresentationTheory/Chapter7/Discussion_after_Example7_9_5.lean :: Etingof.additiveFunctor_shortExact_of_isSemisimpleCategory",
     "note": "Stage 3.7 reconciliation (audit #7245): covered_full. IsSemisimpleCategory faithfully = \"every short exact sequence splits\"; conclusion (S.map F).ShortExact is genuine two-sided exactness (mono+epi+middle-exact). Proof genuinely consumes semisimplicity (extracts splitting, pushes through F via F.Additive) — quantified over all short exact S, not just split ones. Sorry-free. Status accepted→sorry_free. (Prior issue #5684.)",
     "stage3_5": {
       "status": "complete",
@@ -56223,7 +56232,7 @@
     "status": "proof_polished",
     "coverage": "covered_full",
     "coverage_issue": 7353,
-    "lean_ref": "Chapter5/Problem5_2_7.lean (Etingof.Problem5_2_7.exists_character_eq_zero; bound Etingof.Problem5_2_7.beta_lt_one). Axiom-clean [propext, Classical.choice, Quot.sound], no sorryAx.",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Problem5_2_7.lean :: Etingof.Problem5_2_7.exists_character_eq_zero, Etingof.Problem5_2_7.beta_lt_one",
     "last_updated": "2026-08-01",
     "stage3_5": {
       "status": "complete",

@@ -4,17 +4,17 @@
   "source_proof_inventory_policy": "Conservative source-facing theorem/opaque inventory: private declarations are retained; only anchored compiler-helper name forms are excluded. The inventory may retain other generated declarations, so it is a coverage superset rather than an exact syntax count.",
   "lean_toolchain": "leanprover/lean4:v4.32.2",
   "extractor_sha256": "ad77beb2df52eb1baf40d38935bccb2beec8ad214e8b7443094c314117555b9d",
-  "build_log_sha256": "51f5b57d4324183c5f5dfc09664bdcc76a64b93efa6ba21a0715e1d27d452b80",
+  "build_log_sha256": "8671a71b6edd341b3083787a183d7aa0aab1a2d8090f71900b8bea11de96c4b5",
   "import_dag_baseline": "dependencies/import-dag-stage3-4-baseline.json",
   "import_dag_baseline_sha256": "7cda493a0c96b55bffe0ef6f7c200bd9f1e410196192d1b16f906a34d17396e3",
-  "raw_extraction_sha256": "d1fd13271e8ee489881a434a9d541999dd65289baed3c9d505babcae16a2f642",
+  "raw_extraction_sha256": "1250d5e00e00101c1b927c795d0b2c84dba994b214e01950ff86e7c329ac401a",
   "raw_extraction_archive": "progress/reviews/2026-08-01-stage3-4-proof-terms.tsv.gz",
   "module_count": 840,
-  "declaration_count": 33034,
-  "proof_declaration_count": 11479,
-  "kernel_proof_declaration_count": 26944,
+  "declaration_count": 33051,
+  "proof_declaration_count": 11488,
+  "kernel_proof_declaration_count": 26956,
   "proof_only_item_edges_added_to_import_dag": 209,
-  "import_edges_without_kernel_proof_or_type_support": 133,
+  "import_edges_without_kernel_proof_or_type_support": 132,
   "import_edges_without_mapped_owned_module_support": [
     {
       "item": "Chapter2/Theorem2.1.2",
@@ -63,10 +63,6 @@
     {
       "item": "Chapter2/Discussion_concrete_Lie_examples",
       "dependency": "Chapter2/Example2.9.12"
-    },
-    {
-      "item": "Chapter2/Example2.9.8",
-      "dependency": "Chapter2/Definition2.9.7"
     },
     {
       "item": "Chapter3/Problem3.9.3",
@@ -653,7 +649,7 @@
       ]
     }
   ],
-  "shipped_item_edge_count": 589,
+  "shipped_item_edge_count": 590,
   "graph_policy": "dependencies/internal.json is the maximal deterministic acyclic subset of mapped kernel proof/type edges. Import edges without kernel support are trimmed; proof edges excluded solely to avoid item-coarsening cycles are listed explicitly.",
   "module_attribution": {
     "EtingofRepresentationTheory.Chapter2.Discussion_2_1_irreducible_indecomposable": {
@@ -910,6 +906,15 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
+    "EtingofRepresentationTheory.Chapter2.Proposition2_7_1_ii": {
+      "owner": "Chapter2/Discussion_2.7_intro",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter2.Proposition2_7_1_ii",
+      "distance": 0,
+      "other_explicit_claimants": [
+        "Chapter2/Proposition2.7.1"
+      ]
+    },
     "EtingofRepresentationTheory.Chapter2.Proposition2_7_1": {
       "owner": "Chapter2/Proposition2.7.1",
       "basis": "exact_item_stem",
@@ -918,15 +923,6 @@
       "other_explicit_claimants": [
         "Chapter2/Discussion_2.7_intro",
         "Chapter2/Discussion_faithful_example"
-      ]
-    },
-    "EtingofRepresentationTheory.Chapter2.Proposition2_7_1_ii": {
-      "owner": "Chapter2/Discussion_2.7_intro",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter2.Proposition2_7_1_ii",
-      "distance": 0,
-      "other_explicit_claimants": [
-        "Chapter2/Proposition2.7.1"
       ]
     },
     "EtingofRepresentationTheory.Chapter2.FaithfulWeylModule": {
@@ -952,6 +948,13 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
+    "EtingofRepresentationTheory.Chapter2.Problem2_7_4": {
+      "owner": "Chapter2/Problem2.7.4",
+      "basis": "exact_item_stem",
+      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_4",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
     "EtingofRepresentationTheory.Chapter2.Problem2_7_4_Family": {
       "owner": "Chapter2/Problem2.7.4",
       "basis": "explicit_provider_tiebreak",
@@ -959,10 +962,10 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter2.Problem2_7_4": {
-      "owner": "Chapter2/Problem2.7.4",
-      "basis": "exact_item_stem",
-      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_4",
+    "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Family": {
+      "owner": "Chapter2/Problem2.7.5",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Family",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -973,10 +976,10 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Family": {
+    "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Exhaustive": {
       "owner": "Chapter2/Problem2.7.5",
       "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Family",
+      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Exhaustive",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -991,13 +994,6 @@
       "owner": "Chapter2/Problem2.7.5",
       "basis": "explicit_provider_tiebreak",
       "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Converse",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Exhaustive": {
-      "owner": "Chapter2/Problem2.7.5",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_7_5_Exhaustive",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -1239,17 +1235,17 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
+    "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow": {
+      "owner": "Chapter2/Problem2.11.3",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
     "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtSubspace": {
       "owner": "Chapter2/Problem2.11.3",
       "basis": "explicit_provider_tiebreak",
       "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtSubspace",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter2.Problem2_11_3_Trace": {
-      "owner": "Chapter2/Problem2.11.3",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3_Trace",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -1260,10 +1256,10 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow": {
+    "EtingofRepresentationTheory.Chapter2.Problem2_11_3_Trace": {
       "owner": "Chapter2/Problem2.11.3",
       "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow",
+      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_11_3_Trace",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -1339,10 +1335,17 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter2.Problem2_15_1_m": {
+    "EtingofRepresentationTheory.Chapter2.Problem2_15_1_a_e": {
       "owner": "Chapter2/Problem2.15.1",
       "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_m",
+      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_a_e",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter2.Problem2_15_1_m_Module": {
+      "owner": "Chapter2/Problem2.15.1",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_m_Module",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -1353,17 +1356,17 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter2.Problem2_15_1_a_e": {
-      "owner": "Chapter2/Problem2.15.1",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_a_e",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
     "EtingofRepresentationTheory.Chapter2.Problem2_15_1_complete_reducibility": {
       "owner": "Chapter2/Problem2.15.1",
       "basis": "explicit_provider_tiebreak",
       "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_complete_reducibility",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter2.Problem2_15_1_m": {
+      "owner": "Chapter2/Problem2.15.1",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_m",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -1378,13 +1381,6 @@
       "owner": "Chapter2/Problem2.15.1",
       "basis": "explicit_provider_tiebreak",
       "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_n",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter2.Problem2_15_1_m_Module": {
-      "owner": "Chapter2/Problem2.15.1",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_15_1_m_Module",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -1409,24 +1405,10 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Center": {
+    "EtingofRepresentationTheory.Chapter2.Problem2_16_3": {
       "owner": "Chapter2/Problem2.16.3",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Center",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Layers": {
-      "owner": "Chapter2/Problem2.16.3",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Layers",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter2.Problem2_16_3_CocycleVanishing": {
-      "owner": "Chapter2/Problem2.16.3",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_CocycleVanishing",
+      "basis": "exact_item_stem",
+      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -1437,38 +1419,10 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter2.Problem2_16_3_CocycleRecurrence": {
+    "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Layers": {
       "owner": "Chapter2/Problem2.16.3",
       "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_CocycleRecurrence",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Commutation": {
-      "owner": "Chapter2/Problem2.16.3",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Commutation",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter2.Problem2_16_3": {
-      "owner": "Chapter2/Problem2.16.3",
-      "basis": "exact_item_stem",
-      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Tower": {
-      "owner": "Chapter2/Problem2.16.3",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Tower",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Grading": {
-      "owner": "Chapter2/Problem2.16.3",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Grading",
+      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Layers",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -1479,10 +1433,52 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
+    "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Commutation": {
+      "owner": "Chapter2/Problem2.16.3",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Commutation",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
     "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Bidegree": {
       "owner": "Chapter2/Problem2.16.3",
       "basis": "explicit_provider_tiebreak",
       "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Bidegree",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter2.Problem2_16_3_CocycleVanishing": {
+      "owner": "Chapter2/Problem2.16.3",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_CocycleVanishing",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Center": {
+      "owner": "Chapter2/Problem2.16.3",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Center",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Tower": {
+      "owner": "Chapter2/Problem2.16.3",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Tower",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter2.Problem2_16_3_CocycleRecurrence": {
+      "owner": "Chapter2/Problem2.16.3",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_CocycleRecurrence",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Grading": {
+      "owner": "Chapter2/Problem2.16.3",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_3_Grading",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -1721,13 +1717,6 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter3.Problem3_8_4_General": {
-      "owner": "Chapter3/Problem3.8.4",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_4_General",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
     "EtingofRepresentationTheory.Chapter3.Problem3_8_4_Main": {
       "owner": "Chapter3/Problem3.8.4",
       "basis": "explicit_provider_tiebreak",
@@ -1739,6 +1728,13 @@
       "owner": "Chapter3/Problem3.8.4",
       "basis": "exact_item_stem",
       "seed_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_4",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter3.Problem3_8_4_General": {
+      "owner": "Chapter3/Problem3.8.4",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter3.Problem3_8_4_General",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -1763,13 +1759,6 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter3.Problem3_9_2": {
-      "owner": "Chapter3/Problem3.9.2",
-      "basis": "exact_item_stem",
-      "seed_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
     "EtingofRepresentationTheory.Chapter3.Problem3_9_2_Classification": {
       "owner": "Chapter3/Problem3.9.2",
       "basis": "explicit_provider_tiebreak",
@@ -1777,10 +1766,10 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter3.Problem3_9_3": {
-      "owner": "Chapter3/Problem3.9.3",
+    "EtingofRepresentationTheory.Chapter3.Problem3_9_2": {
+      "owner": "Chapter3/Problem3.9.2",
       "basis": "exact_item_stem",
-      "seed_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3",
+      "seed_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_2",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -1791,24 +1780,17 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
+    "EtingofRepresentationTheory.Chapter3.Problem3_9_3": {
+      "owner": "Chapter3/Problem3.9.3",
+      "basis": "exact_item_stem",
+      "seed_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_3",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
     "EtingofRepresentationTheory.Chapter3.Problem3_9_4": {
       "owner": "Chapter3/Problem3.9.4",
       "basis": "exact_item_stem",
       "seed_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_4",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Transport": {
-      "owner": "Chapter3/Problem3.9.5",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Transport",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Odd": {
-      "owner": "Chapter3/Problem3.9.5",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Odd",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -1823,6 +1805,20 @@
       "owner": "Chapter3/Problem3.9.5",
       "basis": "exact_item_stem",
       "seed_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Transport": {
+      "owner": "Chapter3/Problem3.9.5",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Transport",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Odd": {
+      "owner": "Chapter3/Problem3.9.5",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Odd",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -2183,17 +2179,17 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter4.Problem4_12_10": {
-      "owner": "Chapter4/Problem4.12.10",
-      "basis": "exact_item_stem",
-      "seed_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_10",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
     "EtingofRepresentationTheory.Chapter4.Problem4_12_10_OrbitEval": {
       "owner": "Chapter4/Problem4.12.10",
       "basis": "explicit_provider_tiebreak",
       "seed_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_10_OrbitEval",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter4.Problem4_12_10": {
+      "owner": "Chapter4/Problem4.12.10",
+      "basis": "exact_item_stem",
+      "seed_module": "EtingofRepresentationTheory.Chapter4.Problem4_12_10",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -2430,17 +2426,17 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter5.Theorem5_9_1": {
-      "owner": "Chapter5/Theorem5.9.1",
-      "basis": "exact_item_stem",
-      "seed_module": "EtingofRepresentationTheory.Chapter5.Theorem5_9_1",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
     "EtingofRepresentationTheory.Chapter5.Theorem5_9_1_Coset": {
       "owner": "Chapter5/Theorem5.9.1",
       "basis": "explicit_provider_tiebreak",
       "seed_module": "EtingofRepresentationTheory.Chapter5.Theorem5_9_1_Coset",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter5.Theorem5_9_1": {
+      "owner": "Chapter5/Theorem5.9.1",
+      "basis": "exact_item_stem",
+      "seed_module": "EtingofRepresentationTheory.Chapter5.Theorem5_9_1",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -2493,6 +2489,13 @@
         "Chapter5/Discussion_Young_projectors"
       ]
     },
+    "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_SourceIdeal": {
+      "owner": "Chapter5/Discussion_Young_projectors",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_SourceIdeal",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
     "EtingofRepresentationTheory.Chapter5.Lemma5_13_1": {
       "owner": "Chapter5/Lemma5.13.1",
       "basis": "exact_item_stem",
@@ -2501,13 +2504,6 @@
       "other_explicit_claimants": [
         "Chapter5/Discussion_Young_projectors"
       ]
-    },
-    "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_SourceIdeal": {
-      "owner": "Chapter5/Discussion_Young_projectors",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_SourceIdeal",
-      "distance": 0,
-      "other_explicit_claimants": []
     },
     "EtingofRepresentationTheory.Chapter5.Theorem5_12_2": {
       "owner": "Chapter5/Theorem5.12.2",
@@ -2595,17 +2591,17 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter5.Remark5_15_2_Test": {
-      "owner": "Chapter5/Remark5.15.2",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter5.Remark5_15_2_Test",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
     "EtingofRepresentationTheory.Chapter5.Remark5_15_2": {
       "owner": "Chapter5/Remark5.15.2",
       "basis": "exact_item_stem",
       "seed_module": "EtingofRepresentationTheory.Chapter5.Remark5_15_2",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter5.Remark5_15_2_Test": {
+      "owner": "Chapter5/Remark5.15.2",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter5.Remark5_15_2_Test",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -2637,17 +2633,17 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter5.Problem5_16_1_Iso": {
-      "owner": "Chapter5/Problem5.16.1",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter5.Problem5_16_1_Iso",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
     "EtingofRepresentationTheory.Chapter5.Problem5_16_1": {
       "owner": "Chapter5/Problem5.16.1",
       "basis": "exact_item_stem",
       "seed_module": "EtingofRepresentationTheory.Chapter5.Problem5_16_1",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter5.Problem5_16_1_Iso": {
+      "owner": "Chapter5/Problem5.16.1",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter5.Problem5_16_1_Iso",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -2777,17 +2773,17 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter5.Problem5_24_1_b": {
-      "owner": "Chapter5/Problem5.24.1",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter5.Problem5_24_1_b",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
     "EtingofRepresentationTheory.Chapter5.Problem5_24_1": {
       "owner": "Chapter5/Problem5.24.1",
       "basis": "exact_item_stem",
       "seed_module": "EtingofRepresentationTheory.Chapter5.Problem5_24_1",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter5.Problem5_24_1_b": {
+      "owner": "Chapter5/Problem5.24.1",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter5.Problem5_24_1_b",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -2833,6 +2829,13 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
+    "EtingofRepresentationTheory.Chapter5.Theorem5_25_2": {
+      "owner": "Chapter5/Theorem5.25.2",
+      "basis": "exact_item_stem",
+      "seed_module": "EtingofRepresentationTheory.Chapter5.Theorem5_25_2",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
     "EtingofRepresentationTheory.Chapter5.GL2PrincipalFamily": {
       "owner": "Chapter5/Theorem5.25.2",
       "basis": "explicit_provider_tiebreak",
@@ -2840,10 +2843,10 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter5.Theorem5_25_2": {
-      "owner": "Chapter5/Theorem5.25.2",
-      "basis": "exact_item_stem",
-      "seed_module": "EtingofRepresentationTheory.Chapter5.Theorem5_25_2",
+    "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits": {
+      "owner": "Chapter5/Discussion_5.25.4",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -2858,13 +2861,6 @@
       "owner": "Chapter5/Discussion_5.25.4",
       "basis": "exact_item_stem",
       "seed_module": "EtingofRepresentationTheory.Chapter5.Discussion5_25_4",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits": {
-      "owner": "Chapter5/Discussion_5.25.4",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -2912,6 +2908,13 @@
         "Chapter5/Discussion_semidirect_products"
       ]
     },
+    "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Dihedral": {
+      "owner": "Chapter5/Exercise5.27.2",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Dihedral",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
     "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Affine": {
       "owner": "Chapter5/Exercise5.27.2",
       "basis": "explicit_provider_tiebreak",
@@ -2923,13 +2926,6 @@
       "owner": "Chapter5/Exercise5.27.2",
       "basis": "explicit_provider_tiebreak",
       "seed_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Heisenberg",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Dihedral": {
-      "owner": "Chapter5/Exercise5.27.2",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Dihedral",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -2963,13 +2959,6 @@
         "Chapter6/Problem6.1.3"
       ]
     },
-    "EtingofRepresentationTheory.Chapter6.Problem6_1_3": {
-      "owner": "Chapter6/Problem6.1.3",
-      "basis": "exact_item_stem",
-      "seed_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_3",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
     "EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_tildeE": {
       "owner": "Chapter6/Problem6.1.3_continued_tildeE",
       "basis": "exact_item_stem",
@@ -2979,6 +2968,13 @@
         "Chapter6/Problem6.1.3",
         "Chapter6/Problem6.1.3_continued_E7_E8"
       ]
+    },
+    "EtingofRepresentationTheory.Chapter6.Problem6_1_3": {
+      "owner": "Chapter6/Problem6.1.3",
+      "basis": "exact_item_stem",
+      "seed_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_3",
+      "distance": 0,
+      "other_explicit_claimants": []
     },
     "EtingofRepresentationTheory.Chapter6.Definition6_1_4": {
       "owner": "Chapter6/Definition6.1.4",
@@ -3011,10 +3007,10 @@
         "Chapter6/Problem6.1.5_parts"
       ]
     },
-    "EtingofRepresentationTheory.Chapter6.Problem6_1_5_DenseOrbit": {
+    "EtingofRepresentationTheory.Chapter6.Problem6_1_5_DimBound": {
       "owner": "Chapter6/Problem6.1.5_parts",
       "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_5_DenseOrbit",
+      "seed_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_5_DimBound",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -3025,17 +3021,10 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter6.Problem6_1_5_TitsBridge": {
+    "EtingofRepresentationTheory.Chapter6.Problem6_1_5_DenseOrbit": {
       "owner": "Chapter6/Problem6.1.5_parts",
       "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_5_TitsBridge",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter6.Problem6_1_5_DimBound": {
-      "owner": "Chapter6/Problem6.1.5_parts",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_5_DimBound",
+      "seed_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_5_DenseOrbit",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -3043,6 +3032,13 @@
       "owner": "Chapter6/Problem6.1.5_parts",
       "basis": "explicit_provider_tiebreak",
       "seed_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_5_PosDef",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter6.Problem6_1_5_TitsBridge": {
+      "owner": "Chapter6/Problem6.1.5_parts",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter6.Problem6_1_5_TitsBridge",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -3088,17 +3084,17 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter6.Example6_3_1": {
-      "owner": "Chapter6/Example6.3.1",
-      "basis": "exact_item_stem",
-      "seed_module": "EtingofRepresentationTheory.Chapter6.Example6_3_1",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
     "EtingofRepresentationTheory.Chapter6.Example6_3_1_Classification": {
       "owner": "Chapter6/Example6.3.1",
       "basis": "explicit_provider_tiebreak",
       "seed_module": "EtingofRepresentationTheory.Chapter6.Example6_3_1_Classification",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter6.Example6_3_1": {
+      "owner": "Chapter6/Example6.3.1",
+      "basis": "exact_item_stem",
+      "seed_module": "EtingofRepresentationTheory.Chapter6.Example6_3_1",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -3291,17 +3287,17 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter6.Problem6_9_1_Classification": {
-      "owner": "Chapter6/Problem6.9.1",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_1_Classification",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
     "EtingofRepresentationTheory.Chapter6.Problem6_9_1": {
       "owner": "Chapter6/Problem6.9.1",
       "basis": "exact_item_stem",
       "seed_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_1",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter6.Problem6_9_1_Classification": {
+      "owner": "Chapter6/Problem6.9.1",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_1_Classification",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -3319,17 +3315,17 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter6.Problem6_9_3_JordanHolder": {
-      "owner": "Chapter6/Problem6.9.3",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_3_JordanHolder",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
     "EtingofRepresentationTheory.Chapter6.Problem6_9_3": {
       "owner": "Chapter6/Problem6.9.3",
       "basis": "exact_item_stem",
       "seed_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_3",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter6.Problem6_9_3_JordanHolder": {
+      "owner": "Chapter6/Problem6.9.3",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter6.Problem6_9_3_JordanHolder",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -3529,17 +3525,17 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter7.Problem7_8_7": {
-      "owner": "Chapter7/Problem7.8.7",
-      "basis": "exact_item_stem",
-      "seed_module": "EtingofRepresentationTheory.Chapter7.Problem7_8_7",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
     "EtingofRepresentationTheory.Chapter7.KunnethIso": {
       "owner": "Chapter7/Problem7.8.7",
       "basis": "explicit_provider_tiebreak",
       "seed_module": "EtingofRepresentationTheory.Chapter7.KunnethIso",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter7.Problem7_8_7": {
+      "owner": "Chapter7/Problem7.8.7",
+      "basis": "exact_item_stem",
+      "seed_module": "EtingofRepresentationTheory.Chapter7.Problem7_8_7",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -3704,6 +3700,13 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
+    "EtingofRepresentationTheory.Chapter8.Horseshoe": {
+      "owner": "Chapter8/Problem8.2.6",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter8.Horseshoe",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
     "EtingofRepresentationTheory.Chapter8.Problem8_2_6_Core": {
       "owner": "Chapter8/Problem8.2.6",
       "basis": "explicit_provider_tiebreak",
@@ -3732,10 +3735,10 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter8.Horseshoe": {
-      "owner": "Chapter8/Problem8.2.6",
+    "EtingofRepresentationTheory.Chapter8.Additivity": {
+      "owner": "Chapter8/Problem8.2.7",
       "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter8.Horseshoe",
+      "seed_module": "EtingofRepresentationTheory.Chapter8.Additivity",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -3746,24 +3749,24 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
+    "EtingofRepresentationTheory.Chapter8.Problem8_2_7_ExtFG": {
+      "owner": "Chapter8/Problem8.2.7",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_7_ExtFG",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter8.PIDDecomposition": {
+      "owner": "Chapter8/Problem8.2.7",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter8.PIDDecomposition",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
     "EtingofRepresentationTheory.Chapter8.Problem8_2_7_ExtInt": {
       "owner": "Chapter8/Problem8.2.7",
       "basis": "explicit_provider_tiebreak",
       "seed_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_7_ExtInt",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter8.Problem8_2_7_TorInt": {
-      "owner": "Chapter8/Problem8.2.7",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_7_TorInt",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter8.Problem8_2_7": {
-      "owner": "Chapter8/Problem8.2.7",
-      "basis": "exact_item_stem",
-      "seed_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_7",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -3781,24 +3784,17 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter8.PIDDecomposition": {
+    "EtingofRepresentationTheory.Chapter8.Problem8_2_7": {
       "owner": "Chapter8/Problem8.2.7",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter8.PIDDecomposition",
+      "basis": "exact_item_stem",
+      "seed_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_7",
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter8.Problem8_2_7_ExtFG": {
+    "EtingofRepresentationTheory.Chapter8.Problem8_2_7_TorInt": {
       "owner": "Chapter8/Problem8.2.7",
       "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_7_ExtFG",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter8.Additivity": {
-      "owner": "Chapter8/Problem8.2.7",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter8.Additivity",
+      "seed_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_7_TorInt",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -3823,17 +3819,10 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter8.Problem8_2_10": {
-      "owner": "Chapter8/Problem8.2.10",
-      "basis": "exact_item_stem",
-      "seed_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter8.Problem8_2_10_HilbertSyzygyResolution": {
+    "EtingofRepresentationTheory.Chapter8.KoszulBimoduleShear": {
       "owner": "Chapter8/Problem8.2.10",
       "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10_HilbertSyzygyResolution",
+      "seed_module": "EtingofRepresentationTheory.Chapter8.KoszulBimoduleShear",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -3844,10 +3833,17 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter8.KoszulBimoduleShear": {
+    "EtingofRepresentationTheory.Chapter8.Problem8_2_10_HilbertSyzygyResolution": {
       "owner": "Chapter8/Problem8.2.10",
       "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter8.KoszulBimoduleShear",
+      "seed_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10_HilbertSyzygyResolution",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter8.Problem8_2_10": {
+      "owner": "Chapter8/Problem8.2.10",
+      "basis": "exact_item_stem",
+      "seed_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -3970,6 +3966,55 @@
       "distance": 0,
       "other_explicit_claimants": []
     },
+    "EtingofRepresentationTheory.Chapter9.Problem9_5_3_Devissage": {
+      "owner": "Chapter9/Problem9.5.3",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3_Devissage",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter9.Problem9_5_3_BlockCategory": {
+      "owner": "Chapter9/Problem9.5.3",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3_BlockCategory",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter9.Problem9_5_3_Splitting": {
+      "owner": "Chapter9/Problem9.5.3",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3_Splitting",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter9.Problem9_5_3_CompositionFactor": {
+      "owner": "Chapter9/Problem9.5.3",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3_CompositionFactor",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter9.Problem9_5_3_S3Char2": {
+      "owner": "Chapter9/Problem9.5.3",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3_S3Char2",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter9.Problem9_5_3": {
+      "owner": "Chapter9/Problem9.5.3",
+      "basis": "exact_item_stem",
+      "seed_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter9.Problem9_5_3_PrimitiveIdempotents": {
+      "owner": "Chapter9/Problem9.5.3",
+      "basis": "explicit_provider_tiebreak",
+      "seed_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3_PrimitiveIdempotents",
+      "distance": 0,
+      "other_explicit_claimants": []
+    },
     "EtingofRepresentationTheory.Chapter9.Problem9_5_3_Connectivity": {
       "owner": "Chapter9/Problem9.5.3",
       "basis": "explicit_provider_tiebreak",
@@ -3981,55 +4026,6 @@
       "owner": "Chapter9/Problem9.5.3",
       "basis": "explicit_provider_tiebreak",
       "seed_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3_BlockIdempotent",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter9.Problem9_5_3_S3Char2": {
-      "owner": "Chapter9/Problem9.5.3",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3_S3Char2",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter9.Problem9_5_3_PrimitiveIdempotents": {
-      "owner": "Chapter9/Problem9.5.3",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3_PrimitiveIdempotents",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter9.Problem9_5_3_CompositionFactor": {
-      "owner": "Chapter9/Problem9.5.3",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3_CompositionFactor",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter9.Problem9_5_3": {
-      "owner": "Chapter9/Problem9.5.3",
-      "basis": "exact_item_stem",
-      "seed_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter9.Problem9_5_3_BlockCategory": {
-      "owner": "Chapter9/Problem9.5.3",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3_BlockCategory",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter9.Problem9_5_3_Devissage": {
-      "owner": "Chapter9/Problem9.5.3",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3_Devissage",
-      "distance": 0,
-      "other_explicit_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter9.Problem9_5_3_Splitting": {
-      "owner": "Chapter9/Problem9.5.3",
-      "basis": "explicit_provider_tiebreak",
-      "seed_module": "EtingofRepresentationTheory.Chapter9.Problem9_5_3_Splitting",
       "distance": 0,
       "other_explicit_claimants": []
     },
@@ -4649,17 +4645,17 @@
       "distance": 2,
       "other_equal_distance_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Transport": {
-      "owner": "Chapter5/Exercise5.27.2",
-      "basis": "closest_transitive_import_of_provider",
-      "seed_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Affine",
-      "distance": 1,
-      "other_equal_distance_claimants": []
-    },
     "EtingofRepresentationTheory.Chapter5.DihedralCharacterCombinatorics": {
       "owner": "Chapter5/Exercise5.27.2",
       "basis": "closest_transitive_import_of_provider",
       "seed_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Dihedral",
+      "distance": 1,
+      "other_equal_distance_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Transport": {
+      "owner": "Chapter5/Exercise5.27.2",
+      "basis": "closest_transitive_import_of_provider",
+      "seed_module": "EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Affine",
       "distance": 1,
       "other_equal_distance_claimants": []
     },
@@ -4670,17 +4666,17 @@
       "distance": 1,
       "other_equal_distance_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter6.Example6_3_1_Helpers": {
-      "owner": "Chapter6/Example6.3.1",
-      "basis": "closest_transitive_import_of_provider",
-      "seed_module": "EtingofRepresentationTheory.Chapter6.Example6_3_1",
-      "distance": 1,
-      "other_equal_distance_claimants": []
-    },
     "EtingofRepresentationTheory.Chapter6.Example6_8_5_Geometry": {
       "owner": "Chapter6/Example6.3.1",
       "basis": "closest_transitive_import_of_provider",
       "seed_module": "EtingofRepresentationTheory.Chapter6.Example6_3_1_Classification",
+      "distance": 1,
+      "other_equal_distance_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter6.Example6_3_1_Helpers": {
+      "owner": "Chapter6/Example6.3.1",
+      "basis": "closest_transitive_import_of_provider",
+      "seed_module": "EtingofRepresentationTheory.Chapter6.Example6_3_1",
       "distance": 1,
       "other_equal_distance_claimants": []
     },
@@ -4768,17 +4764,17 @@
       "distance": 2,
       "other_equal_distance_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter7.TensorComplexBiprod": {
-      "owner": "Chapter7/Problem7.8.7",
-      "basis": "closest_transitive_import_of_provider",
-      "seed_module": "EtingofRepresentationTheory.Chapter7.Problem7_8_7",
-      "distance": 1,
-      "other_equal_distance_claimants": []
-    },
     "EtingofRepresentationTheory.Chapter7.KunnethNatural": {
       "owner": "Chapter7/Problem7.8.7",
       "basis": "closest_transitive_import_of_provider",
       "seed_module": "EtingofRepresentationTheory.Chapter7.KunnethIso",
+      "distance": 1,
+      "other_equal_distance_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter7.TensorComplexBiprod": {
+      "owner": "Chapter7/Problem7.8.7",
+      "basis": "closest_transitive_import_of_provider",
+      "seed_module": "EtingofRepresentationTheory.Chapter7.Problem7_8_7",
       "distance": 1,
       "other_equal_distance_claimants": []
     },
@@ -4908,14 +4904,21 @@
       "distance": 4,
       "other_equal_distance_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter8.KoszulContraction": {
+    "EtingofRepresentationTheory.Chapter8.KoszulResolution": {
       "owner": "Chapter8/Problem8.2.10",
       "basis": "closest_transitive_import_of_provider",
-      "seed_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10",
+      "seed_module": "EtingofRepresentationTheory.Chapter8.KoszulBimoduleShear",
       "distance": 1,
       "other_equal_distance_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter8.KoszulDifferential": {
+    "EtingofRepresentationTheory.Chapter8.KoszulHomotopy": {
+      "owner": "Chapter8/Problem8.2.10",
+      "basis": "closest_transitive_import_of_provider",
+      "seed_module": "EtingofRepresentationTheory.Chapter8.KoszulBimoduleShear",
+      "distance": 2,
+      "other_equal_distance_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter8.KoszulBasis": {
       "owner": "Chapter8/Problem8.2.10",
       "basis": "closest_transitive_import_of_provider",
       "seed_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10",
@@ -4929,17 +4932,24 @@
       "distance": 1,
       "other_equal_distance_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter8.KoszulBasis": {
+    "EtingofRepresentationTheory.Chapter8.KoszulDifferential": {
       "owner": "Chapter8/Problem8.2.10",
       "basis": "closest_transitive_import_of_provider",
       "seed_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10",
       "distance": 1,
       "other_equal_distance_claimants": []
     },
-    "EtingofRepresentationTheory.Chapter8.KoszulResolution": {
+    "EtingofRepresentationTheory.Chapter8.KoszulContraction": {
       "owner": "Chapter8/Problem8.2.10",
       "basis": "closest_transitive_import_of_provider",
-      "seed_module": "EtingofRepresentationTheory.Chapter8.KoszulBimoduleShear",
+      "seed_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10",
+      "distance": 1,
+      "other_equal_distance_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter9.HomologicalDimensionRingEquiv": {
+      "owner": "Chapter9/Problem9.4.6",
+      "basis": "closest_transitive_import_of_provider",
+      "seed_module": "EtingofRepresentationTheory.Chapter9.Problem9_4_6",
       "distance": 1,
       "other_equal_distance_claimants": []
     },
@@ -4954,27 +4964,6 @@
       "owner": "Chapter8/Problem8.2.10",
       "basis": "closest_transitive_import_of_provider",
       "seed_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10",
-      "distance": 1,
-      "other_equal_distance_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter8.KoszulHomotopy": {
-      "owner": "Chapter8/Problem8.2.10",
-      "basis": "closest_transitive_import_of_provider",
-      "seed_module": "EtingofRepresentationTheory.Chapter8.KoszulBimoduleShear",
-      "distance": 2,
-      "other_equal_distance_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter8.SymmetricAlgebraDirectSum": {
-      "owner": "Chapter8/Problem8.2.10",
-      "basis": "closest_transitive_import_of_provider",
-      "seed_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10",
-      "distance": 2,
-      "other_equal_distance_claimants": []
-    },
-    "EtingofRepresentationTheory.Chapter9.HomologicalDimensionRingEquiv": {
-      "owner": "Chapter9/Problem9.4.6",
-      "basis": "closest_transitive_import_of_provider",
-      "seed_module": "EtingofRepresentationTheory.Chapter9.Problem9_4_6",
       "distance": 1,
       "other_equal_distance_claimants": []
     },
@@ -4997,6 +4986,13 @@
       "basis": "closest_transitive_import_of_provider",
       "seed_module": "EtingofRepresentationTheory.Chapter9.Problem9_4_2",
       "distance": 1,
+      "other_equal_distance_claimants": []
+    },
+    "EtingofRepresentationTheory.Chapter8.SymmetricAlgebraDirectSum": {
+      "owner": "Chapter8/Problem8.2.10",
+      "basis": "closest_transitive_import_of_provider",
+      "seed_module": "EtingofRepresentationTheory.Chapter8.Problem8_2_10",
+      "distance": 2,
       "other_equal_distance_claimants": []
     },
     "EtingofRepresentationTheory.Chapter9.TruncatedPolynomial": {
@@ -5325,6 +5321,53 @@
   ],
   "stale_imported_modules_without_source": [],
   "current_sources_absent_from_root_import": [
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard001.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard002.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard003.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard004.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard005.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard006.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard007.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard008.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard009.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard010.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard011.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard012.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard013.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard014.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard015.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard016.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard017.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard018.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard019.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard020.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard021.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard022.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard023.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard024.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard025.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard026.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard027.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard028.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard029.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard030.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard031.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard032.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard033.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard034.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard035.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard036.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard037.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard038.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard039.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard040.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard041.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard042.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard043.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard044.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard045.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard046.lean",
+    "EtingofRepresentationTheory/ClaimCoverageDeclarations/Shard047.lean",
     "EtingofRepresentationTheory/ExerciseCoverageDeclarations.lean",
     "EtingofRepresentationTheory/MathlibCoverageDeclarations.lean"
   ],
@@ -19665,9 +19708,9 @@
     },
     "EtingofRepresentationTheory.Chapter2.Example2_9_2": {
       "source": "EtingofRepresentationTheory/Chapter2/Example2_9_2.lean",
-      "source_sha256": "523fb639113352bc7ec3157343fce151c29cd097bc6bb38736c6434f700b7194",
-      "declaration_count": 72,
-      "kernel_proof_declaration_count": 55,
+      "source_sha256": "51abc1ce1ccbcda1cf393a4415174260945887079cb8ed7e97a8f635662286bc",
+      "declaration_count": 77,
+      "kernel_proof_declaration_count": 57,
       "proof_declaration_count": 10,
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
@@ -19737,8 +19780,8 @@
     },
     "EtingofRepresentationTheory.Chapter2.Example2_9_2_continued": {
       "source": "EtingofRepresentationTheory/Chapter2/Example2_9_2_continued.lean",
-      "source_sha256": "905b34ee791de3c6ed34844e0110a1ee63b89c22a2a60ac71cf1aca1148b235b",
-      "declaration_count": 0,
+      "source_sha256": "638c82182019c8594f08c95d1a231a5152f8703b9be287901bf4b7702b0366b6",
+      "declaration_count": 1,
       "kernel_proof_declaration_count": 0,
       "proof_declaration_count": 0,
       "proof_dependency_modules": [],
@@ -19748,13 +19791,90 @@
     },
     "EtingofRepresentationTheory.Chapter2.Example2_9_8": {
       "source": "EtingofRepresentationTheory/Chapter2/Example2_9_8.lean",
-      "source_sha256": "f4f53d162ede0094651d785ac6553ea72ee450c142e0636bb7563160ec314a8b",
-      "declaration_count": 0,
-      "kernel_proof_declaration_count": 0,
-      "proof_declaration_count": 0,
-      "proof_dependency_modules": [],
-      "type_dependency_modules": [],
-      "proof_declarations": [],
+      "source_sha256": "3c2357b95ef4fdf4a98999dbab2ffbfe877c6a7ddec92b257f7c426e27a2d633",
+      "declaration_count": 9,
+      "kernel_proof_declaration_count": 8,
+      "proof_declaration_count": 7,
+      "proof_dependency_modules": [
+        "EtingofRepresentationTheory.Chapter2.Definition2_9_7"
+      ],
+      "type_dependency_modules": [
+        "EtingofRepresentationTheory.Chapter2.Definition2_9_7"
+      ],
+      "proof_declarations": [
+        {
+          "name": "Etingof.Example2_9_8.adjoint_map_lie",
+          "kind": "theorem",
+          "type_dependencies": [],
+          "proof_dependencies": []
+        },
+        {
+          "name": "Etingof.Example2_9_8.trivialRepresentation_bracket",
+          "kind": "theorem",
+          "type_dependencies": [],
+          "proof_dependencies": []
+        },
+        {
+          "name": "Etingof.Example2_9_8.adjointRepresentation",
+          "kind": "theorem",
+          "type_dependencies": [
+            {
+              "name": "Etingof.LieAlgebraRepresentation",
+              "module": "EtingofRepresentationTheory.Chapter2.Definition2_9_7"
+            }
+          ],
+          "proof_dependencies": [
+            {
+              "name": "Etingof.LieAlgebraRepresentation",
+              "module": "EtingofRepresentationTheory.Chapter2.Definition2_9_7"
+            }
+          ]
+        },
+        {
+          "name": "Etingof.Example2_9_8.zeroRepresentation",
+          "kind": "theorem",
+          "type_dependencies": [
+            {
+              "name": "Etingof.LieAlgebraRepresentation",
+              "module": "EtingofRepresentationTheory.Chapter2.Definition2_9_7"
+            }
+          ],
+          "proof_dependencies": [
+            {
+              "name": "Etingof.LieAlgebraRepresentation",
+              "module": "EtingofRepresentationTheory.Chapter2.Definition2_9_7"
+            }
+          ]
+        },
+        {
+          "name": "Etingof.Example2_9_8.adjoint_apply",
+          "kind": "theorem",
+          "type_dependencies": [],
+          "proof_dependencies": []
+        },
+        {
+          "name": "Etingof.Example2_9_8.trivialRepresentation",
+          "kind": "theorem",
+          "type_dependencies": [
+            {
+              "name": "Etingof.LieAlgebraRepresentation",
+              "module": "EtingofRepresentationTheory.Chapter2.Definition2_9_7"
+            }
+          ],
+          "proof_dependencies": [
+            {
+              "name": "Etingof.LieAlgebraRepresentation",
+              "module": "EtingofRepresentationTheory.Chapter2.Definition2_9_7"
+            }
+          ]
+        },
+        {
+          "name": "Etingof.Example2_9_8.zeroRepresentation_subsingleton",
+          "kind": "theorem",
+          "type_dependencies": [],
+          "proof_dependencies": []
+        }
+      ],
       "cross_module_supporting_declarations": []
     },
     "EtingofRepresentationTheory.Chapter2.Exercise2_11_2": {
@@ -56630,10 +56750,10 @@
     },
     "EtingofRepresentationTheory.Chapter2.Theorem2_1_1": {
       "source": "EtingofRepresentationTheory/Chapter2/Theorem2_1_1.lean",
-      "source_sha256": "2f938061f6ca20df00b1e21f6d55eab26c45a2398c4cba08d92ab5f4785bedc8",
-      "declaration_count": 172,
-      "kernel_proof_declaration_count": 147,
-      "proof_declaration_count": 56,
+      "source_sha256": "2e3819547e6f631a97e56aa19b713bf07f346b4973b180f60dda5b9a6ce17d8e",
+      "declaration_count": 174,
+      "kernel_proof_declaration_count": 149,
+      "proof_declaration_count": 58,
       "proof_dependency_modules": [
         "EtingofRepresentationTheory.Chapter2.Sl2Defs",
         "EtingofRepresentationTheory.Chapter2.Sl2Irrep"
@@ -57242,6 +57362,22 @@
           ]
         },
         {
+          "name": "Etingof.Theorem_2_1_1_i_exists",
+          "kind": "theorem",
+          "type_dependencies": [
+            {
+              "name": "Etingof.sl2",
+              "module": "EtingofRepresentationTheory.Chapter2.Sl2Defs"
+            }
+          ],
+          "proof_dependencies": [
+            {
+              "name": "Etingof.sl2",
+              "module": "EtingofRepresentationTheory.Chapter2.Sl2Defs"
+            }
+          ]
+        },
+        {
           "name": "Etingof.sl2Intertwiner_iff_ueaIntertwiner",
           "kind": "theorem",
           "type_dependencies": [
@@ -57737,6 +57873,22 @@
             {
               "name": "Etingof.Sl2Irrep.sl2_triple",
               "module": "EtingofRepresentationTheory.Chapter2.Sl2Irrep"
+            }
+          ]
+        },
+        {
+          "name": "Etingof.Theorem_2_1_1_i_unique",
+          "kind": "theorem",
+          "type_dependencies": [
+            {
+              "name": "Etingof.sl2",
+              "module": "EtingofRepresentationTheory.Chapter2.Sl2Defs"
+            }
+          ],
+          "proof_dependencies": [
+            {
+              "name": "Etingof.sl2",
+              "module": "EtingofRepresentationTheory.Chapter2.Sl2Defs"
             }
           ]
         },
@@ -90422,7 +90574,7 @@
     },
     "EtingofRepresentationTheory.Chapter4.Theorem4_10_2": {
       "source": "EtingofRepresentationTheory/Chapter4/Theorem4_10_2.lean",
-      "source_sha256": "91b79e4d30b9af1cb39db6902e1cbb6321c00c1af926d9b23c8579b7291975a1",
+      "source_sha256": "0474e4b420698681267361bf09dfc95307c0fa20cd4f5fdf0898f9fb7607d451",
       "declaration_count": 57,
       "kernel_proof_declaration_count": 44,
       "proof_declaration_count": 14,
@@ -90442,7 +90594,13 @@
           "proof_dependencies": []
         },
         {
-          "name": "_private.EtingofRepresentationTheory.Chapter4.Theorem4_10_2.0.IrrepDecomp.blockPoly_not_associated",
+          "name": "_private.EtingofRepresentationTheory.Chapter4.Theorem4_10_2.0.rename_irred",
+          "kind": "theorem",
+          "type_dependencies": [],
+          "proof_dependencies": []
+        },
+        {
+          "name": "IrrepDecomp.blockPoly_irreducible",
           "kind": "theorem",
           "type_dependencies": [
             {
@@ -90480,12 +90638,6 @@
               "module": "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
             }
           ]
-        },
-        {
-          "name": "_private.EtingofRepresentationTheory.Chapter4.Theorem4_10_2.0.rename_irred",
-          "kind": "theorem",
-          "type_dependencies": [],
-          "proof_dependencies": []
         },
         {
           "name": "_private.EtingofRepresentationTheory.Chapter4.Theorem4_10_2.0.IrrepDecomp.projRingHom_smul'",
@@ -90586,15 +90738,11 @@
           "proof_dependencies": []
         },
         {
-          "name": "_private.EtingofRepresentationTheory.Chapter4.Theorem4_10_2.0.IrrepDecomp.blockPoly_totalDegree",
+          "name": "IrrepDecomp.blockPoly_not_associated",
           "kind": "theorem",
           "type_dependencies": [
             {
               "name": "IrrepDecomp",
-              "module": "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
-            },
-            {
-              "name": "IrrepDecomp.d",
               "module": "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
             },
             {
@@ -90609,6 +90757,14 @@
             },
             {
               "name": "IrrepDecomp.d",
+              "module": "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
+            },
+            {
+              "name": "IrrepDecomp.d_pos",
+              "module": "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
+            },
+            {
+              "name": "IrrepDecomp.iso",
               "module": "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
             },
             {
@@ -90634,7 +90790,7 @@
           "proof_dependencies": []
         },
         {
-          "name": "_private.EtingofRepresentationTheory.Chapter4.Theorem4_10_2.0.IrrepDecomp.frobeniusDet_eq_signSmul_prod",
+          "name": "IrrepDecomp.frobeniusDet_eq_signSmul_prod",
           "kind": "theorem",
           "type_dependencies": [
             {
@@ -90686,11 +90842,15 @@
           ]
         },
         {
-          "name": "_private.EtingofRepresentationTheory.Chapter4.Theorem4_10_2.0.IrrepDecomp.blockPoly_irreducible",
+          "name": "IrrepDecomp.blockPoly_totalDegree",
           "kind": "theorem",
           "type_dependencies": [
             {
               "name": "IrrepDecomp",
+              "module": "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
+            },
+            {
+              "name": "IrrepDecomp.d",
               "module": "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
             },
             {
@@ -90705,14 +90865,6 @@
             },
             {
               "name": "IrrepDecomp.d",
-              "module": "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
-            },
-            {
-              "name": "IrrepDecomp.d_pos",
-              "module": "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
-            },
-            {
-              "name": "IrrepDecomp.iso",
               "module": "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
             },
             {
@@ -90892,7 +91044,7 @@
           ]
         },
         {
-          "name": "_private.EtingofRepresentationTheory.Chapter4.Theorem4_10_2.0.IrrepDecomp.blockPoly_not_associated.match_1_1",
+          "name": "IrrepDecomp.blockPoly_not_associated.match_1_1",
           "kind": "definition",
           "type_dependencies": [
             {

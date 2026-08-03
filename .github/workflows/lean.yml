@@ -72,6 +72,8 @@ jobs:
           python3 scripts/reconcile_exercise_coverage.py --check
           python3 scripts/validate_exercise_coverage.py
           python3 scripts/test_exercise_coverage.py
+          python3 scripts/test_validate_lean_decls.py
+          python3 scripts/validate_lean_decls.py --check
           python3 scripts/test_finalize_proof_polishing.py
           python3 scripts/validate_postformalization_reviews.py
       - uses: leanprover/lean-action@v1
@@ -92,9 +94,11 @@ jobs:
           # - Chapter/root aggregation files (mindepth 2 skips these)
           # - Modules that import full Mathlib + large chapter environments,
           #   which require >15GB to compile (exceeds runner capacity)
-          EXCLUDE="SpechtModuleSimple|SpechtCharacterGeneral|YoungSymTraceKronecker|FrobeniusCharacterBridge|Proposition5_22_2|Example6_4_9_EType|Example6_4_9\.lean"
+          sed '/^#/d; /^$/d; s|\.|/|g; s|$|.lean|' \
+            scripts/ci-excluded-lean-modules.txt > "$RUNNER_TEMP/excluded-modules.txt"
           find EtingofRepresentationTheory -mindepth 2 -name '*.lean' \
-            | grep -vE "$EXCLUDE" \
+            | grep -vxFf "$RUNNER_TEMP/excluded-modules.txt" \
+            | grep -v '/ClaimCoverageDeclarations/' \
             | sed 's|/|.|g; s|\.lean$||' \
             > "$RUNNER_TEMP/modules.txt"
           # Keep the log: the lint-clean check below reads warnings out of it
@@ -102,6 +106,27 @@ jobs:
           xargs lake build < "$RUNNER_TEMP/modules.txt" 2>&1 | tee -a "$RUNNER_TEMP/build.log"
           echo EtingofRepresentationTheory.MathlibCoverageDeclarations >> "$RUNNER_TEMP/modules.txt"
           echo EtingofRepresentationTheory.ExerciseCoverageDeclarations >> "$RUNNER_TEMP/modules.txt"
+          # Check claim-ledger pointers in small, direct-import environments.
+          # One single-worker Lake invocation amortizes trace discovery without
+          # recreating the root aggregate's peak parallel memory use.
+          # Successful #check output is extremely verbose, so retain warning
+          # headers for the lint ratchet and print the full log only on failure.
+          find EtingofRepresentationTheory/ClaimCoverageDeclarations \
+            -maxdepth 1 -name 'Shard*.lean' | sort \
+            | sed 's|/|.|g; s|\.lean$||' > "$RUNNER_TEMP/checker-modules.txt"
+          checker_count=$(wc -l < "$RUNNER_TEMP/checker-modules.txt")
+          if [ "$checker_count" -eq 0 ]; then
+            echo "::error::No claim-coverage checker shards found"
+            exit 1
+          fi
+          echo "Building $checker_count claim-coverage checker shards"
+          if ! xargs lake -Kjobs=1 build < "$RUNNER_TEMP/checker-modules.txt" \
+              > "$RUNNER_TEMP/checker.log" 2>&1; then
+            cat "$RUNNER_TEMP/checker.log"
+            exit 1
+          fi
+          grep '^warning: ' "$RUNNER_TEMP/checker.log" >> "$RUNNER_TEMP/build.log" || true
+          cat "$RUNNER_TEMP/checker-modules.txt" >> "$RUNNER_TEMP/modules.txt"
       - name: No new build warnings
         run: |
           # `lake build` exits 0 on warnings, so without this step nothing

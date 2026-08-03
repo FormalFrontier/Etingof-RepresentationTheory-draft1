@@ -13,5 +13,7 @@ Exact match. `LieSubalgebra R L` in Mathlib captures exactly this concept.
 -/
 
 /-- A Lie subalgebra is a subspace closed under the Lie bracket. (Etingof Example 2.9.2(5)) -/
-example (k : Type*) [CommRing k] (L : Type*) [LieRing L] [LieAlgebra k L]
+@[reducible] def Etingof.Example2_9_2.lieSubalgebraOfLieAlgebra
+    (k : Type*) [CommRing k]
+    (L : Type*) [LieRing L] [LieAlgebra k L]
     (S : LieSubalgebra k L) : LieAlgebra k S := inferInstance
