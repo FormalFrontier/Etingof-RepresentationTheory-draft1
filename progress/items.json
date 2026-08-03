@@ -20027,8 +20027,8 @@
     "end_line": 10,
     "status": "not_applicable",
     "coverage": "covered_full",
-    "coverage_note": "The section's hook-length derivation and theorem are fully formalized in CharValueHookFormula.lean and Theorem5_17_1.lean.",
-    "last_updated": "2026-08-01",
+    "coverage_note": "The mathematical content is covered by Representation and Rep.equivalenceModuleMonoidAlgebra; the chapter title, roadmap, and section heading are organizational prose.",
+    "last_updated": "2026-08-02",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -21729,8 +21729,8 @@
     "end_line": 2,
     "status": "not_applicable",
     "coverage": "covered_full",
-    "coverage_note": "The book's Frobenius/Vandermonde derivation, Young-diagram hook bookkeeping, determinant evaluation, and cancellation are formalized in CharValueHookFormula.lean.",
-    "last_updated": "2026-08-01",
+    "coverage_note": "The normalized Hermitian pairing and irreducible-character orthogonality are formalized by Theorem4_5_1_i and Theorem4_5_1_ii; spanning is supplied by Theorem4_2_1_span_eq_classFunctionSubmodule.",
+    "last_updated": "2026-08-02",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
@@ -29557,14 +29557,14 @@
       "nonvacuity": "verified",
       "claims": [
         {
-          "claim": "Right translation preserves the covariance condition f(hx)=rho(h)f(x).",
-          "verdict": "formalized",
-          "lean_decl": "Etingof.mem_Definition5_8_1_functionSpace; Etingof.Definition5_8_1_functionSpace_condition; Etingof.Definition5_8_1_functionSpace_apply"
+          "claim": "Right translation preserves the covariance condition f(hx) = ρ_V(h)f(x), so the displayed action sends the induced function space to itself.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Representation.coindV; Representation.coind"
         },
         {
-          "claim": "Successive right translations by g and g' equal right translation by gg', so the construction is a G-representation.",
-          "verdict": "formalized",
-          "lean_decl": "Etingof.Definition5_8_1_functionSpace_one; Etingof.Definition5_8_1_functionSpace_mul"
+          "claim": "The right-translation operators satisfy g(g'(f)) = (gg')(f), the displayed multiplication law required of a representation of G.",
+          "verdict": "covered_elsewhere",
+          "lean_decl": "Representation.coind"
         }
       ]
     },
@@ -29572,7 +29572,7 @@
       "supplemental_provider_dependencies": [],
       "explicit_source_references": [],
       "status": "complete",
-      "section": null,
+      "section": "5.8",
       "verified_on": "2026-08-01",
       "actual_internal_dependencies": [],
       "forward_internal_dependencies": [],
@@ -29598,7 +29598,7 @@
     },
     "stage3_5": {
       "status": "complete",
-      "section": null,
+      "section": "5.8",
       "reviewed_on": "2026-08-01",
       "mathlib_quality": "linter_screened",
       "provider_modules": [
