@@ -11,11 +11,11 @@ where `(G : H)` is the index of `H` in `G`.
 
 ## Formalization
 
-The induced representation of Etingof's `Definition 5.8.1` is `Representation.ind H.subtype ρ`,
-built on the module `Representation.IndV H.subtype ρ` (the tensor model, `H`-coinvariants of
-`ℂ[G] ⊗ V`). Etingof's remark reasons about the isomorphic *function-space* (coinduced) model
-`Representation.coindV H.subtype ρ = {f : G → V | f(s x) = ρ(s) f(x) for all s ∈ H}`, where the
-representative-evaluation observation is transparent.
+Etingof's `Definition 5.8.1` is the function-space model
+`Etingof.Definition5_8_1_functionSpace`, whose carrier is
+`Representation.coindV H.subtype ρ = {f : G → V | f(s x) = ρ(s) f(x) for all s ∈ H}`.
+The representative-evaluation observation is transparent in this model.  Under finite index it
+is canonically isomorphic to the tensor model `Representation.IndV H.subtype ρ`.
 
 We formalize the remark in three steps:
 
@@ -26,7 +26,8 @@ We formalize the remark in three steps:
 * `Etingof.indVLinearEquivCoindV`: the `ℂ`-linear equivalence `IndV ≃ₗ[ℂ] coindV` between the
   tensor and function-space models, extracted from Mathlib's finite-index isomorphism
   `Rep.indToCoind` / `Rep.coindToInd`.
-* `Etingof.Remark5_8_3`: the dimension formula
+* `Etingof.Remark5_8_3`: the dimension formula for the book's function-space model.
+* `Etingof.Remark5_8_3_tensor`: the transported dimension formula
   `finrank ℂ (IndV H.subtype ρ) = finrank ℂ V * H.index`.
 -/
 
@@ -120,19 +121,26 @@ noncomputable def indVLinearEquivCoindV (H : Subgroup G)
     (Rep.indToCoind (Rep.of ρ)) (Rep.coindToInd (Rep.of ρ))
     (Rep.coindToInd_indToCoind (Rep.of ρ)) (Rep.indToCoind_coindToInd (Rep.of ρ))
 
-/-- **Remark 5.8.3.** The dimension of the induced representation `Ind_H^G V` of a finite index
-subgroup `H ≤ G` equals `dim V` times the index `(G : H)`:
+/-- **Remark 5.8.3.** The dimension of the book's function-space induced representation for a
+finite-index subgroup `H ≤ G` equals `dim V` times the index `(G : H)`:
 $$\dim(\operatorname{Ind}_H^G V) = \dim V \cdot (G : H).$$
 (Etingof Remark 5.8.3) -/
 theorem Remark5_8_3 (H : Subgroup G) [H.FiniteIndex] [FiniteDimensional ℂ V]
     (ρ : Representation ℂ H V) :
-    finrank ℂ (Representation.IndV H.subtype ρ) = finrank ℂ V * H.index := by
+    finrank ℂ (Representation.coindV H.subtype ρ) = finrank ℂ V * H.index := by
   classical
   letI : Fintype (G ⧸ H) := Subgroup.fintypeQuotientOfFiniteIndex
   letI : Fintype (Quotient (QuotientGroup.rightRel H)) := inferInstance
-  rw [(indVLinearEquivCoindV H ρ).finrank_eq, (coindVEquivPi H ρ).finrank_eq,
+  rw [(coindVEquivPi H ρ).finrank_eq,
     Module.finrank_pi_fintype (R := ℂ), Finset.sum_const, Finset.card_univ, smul_eq_mul,
     QuotientGroup.card_quotient_rightRel H, Subgroup.index_eq_card, Nat.card_eq_fintype_card,
     Nat.mul_comm]
+
+/-- The same dimension formula transported to the finite-index tensor model. -/
+theorem Remark5_8_3_tensor (H : Subgroup G) [H.FiniteIndex] [FiniteDimensional ℂ V]
+    (ρ : Representation ℂ H V) :
+    finrank ℂ (Representation.IndV H.subtype ρ) = finrank ℂ V * H.index := by
+  classical
+  rw [(indVLinearEquivCoindV H ρ).finrank_eq, Remark5_8_3 H ρ]
 
 end Etingof

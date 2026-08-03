@@ -29351,7 +29351,7 @@
         {
           "claim": "Induction constructs a G-representation from an H-representation.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Definition5_8_1"
+          "lean_decl": "Etingof.Definition5_8_1_functionSpace; Etingof.Definition5_8_1"
         }
       ]
     },
@@ -29398,7 +29398,7 @@
       "stage": "3.2",
       "status": "complete",
       "section": "5.8",
-      "reviewed_on": "2026-07-29",
+      "reviewed_on": "2026-08-02",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -29406,7 +29406,12 @@
         {
           "claim": "Ind_H^G V is the equivariant-function representation f(hx)=h·f(x), with G acting by right translation.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Definition5_8_1; Representation.coindV"
+          "lean_decl": "Etingof.Definition5_8_1_functionSpace; Etingof.Definition5_8_1_functionSpace_condition; Etingof.Definition5_8_1_functionSpace_apply; Representation.coindV"
+        },
+        {
+          "claim": "For finite-index H, the tensor/coinvariant induction model agrees canonically with the book's function-space model.",
+          "verdict": "formalized",
+          "lean_decl": "Etingof.Definition5_8_1; Etingof.inducedTensorModel; Etingof.Definition5_8_1_iso_functionSpace"
         }
       ]
     },
@@ -29426,12 +29431,14 @@
           "basis": "exact_item_stem",
           "seed_module": "EtingofRepresentationTheory.Chapter5.Definition5_8_1",
           "distance": 0,
-          "other_explicit_claimants": []
+          "other_explicit_claimants": [
+            "Chapter5/Discussion_verification_of_Ind"
+          ]
         }
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 1,
+      "declarations_reviewed": 9,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -29444,7 +29451,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.Definition5_8_1"
       ],
-      "source_level_proof_declarations_reviewed": 0,
+      "source_level_proof_declarations_reviewed": 5,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",
@@ -29533,28 +29540,31 @@
     "end_page": "108",
     "start_line": 9,
     "end_line": 18,
-    "status": "not_applicable",
+    "status": "proof_polished",
+    "coverage_issue": 8527,
+    "lean_file": "EtingofRepresentationTheory/Chapter5/Definition5_8_1.lean",
+    "lean_ref": "EtingofRepresentationTheory/Chapter5/Definition5_8_1.lean :: Etingof.mem_Definition5_8_1_functionSpace, Etingof.Definition5_8_1_functionSpace_condition, Etingof.Definition5_8_1_functionSpace_apply, Etingof.Definition5_8_1_functionSpace_one, Etingof.Definition5_8_1_functionSpace_mul",
     "coverage": "covered_full",
-    "coverage_note": "Etingof.Definition5_8_1 is the public induced representation, and Mathlib's finite-group indCoindIso bridges its induction construction with the book's function model.",
+    "coverage_note": "The covariance equation is the carrier predicate of Definition5_8_1_functionSpace, right translation is stated by Definition5_8_1_functionSpace_apply, and the representation laws are the map_one/map_mul fields of Representation.coind.",
     "last_updated": "2026-08-01",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
-      "section": "5.17",
-      "reviewed_on": "2026-07-29",
+      "section": "5.8",
+      "reviewed_on": "2026-08-02",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
       "claims": [
         {
-          "claim": "The Specht-module dimension equals the number of standard Young tableaux of the same shape.",
+          "claim": "Right translation preserves the covariance condition f(hx)=rho(h)f(x).",
           "verdict": "formalized",
-          "lean_decl": "Etingof.finrank_spechtModule_eq_card_standardYoungTableau"
+          "lean_decl": "Etingof.mem_Definition5_8_1_functionSpace; Etingof.Definition5_8_1_functionSpace_condition; Etingof.Definition5_8_1_functionSpace_apply"
         },
         {
-          "claim": "The Specht-module dimension is n! divided by the product of all hook lengths.",
+          "claim": "Successive right translations by g and g' equal right translation by gg', so the construction is a G-representation.",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Theorem5_17_1"
+          "lean_decl": "Etingof.Definition5_8_1_functionSpace_one; Etingof.Definition5_8_1_functionSpace_mul"
         }
       ]
     },
@@ -29568,20 +29578,38 @@
       "forward_internal_dependencies": [],
       "import_dag_dependencies": [],
       "proof_term_dependencies": [],
-      "provider_module_attribution": {},
+      "provider_module_attribution": {
+        "EtingofRepresentationTheory.Chapter5.Definition5_8_1": {
+          "owner": "Chapter5/Definition5.8.1",
+          "basis": "exact_item_stem",
+          "seed_module": "EtingofRepresentationTheory.Chapter5.Definition5_8_1",
+          "distance": 0,
+          "other_explicit_claimants": [
+            "Chapter5/Discussion_verification_of_Ind"
+          ]
+        }
+      },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 0,
+      "declarations_reviewed": 9,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
-      "basis": "No dedicated Lean provider belongs to this editorial/folded partition item.",
+      "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
     },
     "stage3_5": {
-      "status": "not_applicable",
+      "status": "complete",
       "section": null,
       "reviewed_on": "2026-08-01",
-      "mathlib_quality": "not_applicable",
-      "result": "No dedicated Lean declaration belongs to this partition item; proof polishing is not applicable."
+      "mathlib_quality": "linter_screened",
+      "provider_modules": [
+        "EtingofRepresentationTheory.Chapter5.Definition5_8_1"
+      ],
+      "source_level_proof_declarations_reviewed": 5,
+      "diagnostic_count": 0,
+      "diagnostic_categories": [],
+      "result": "proof_review_screened_clean",
+      "evidence": "progress/reviews/2026-08-01-stage3-5-proof-polishing.json",
+      "basis": "Every source-level theorem/opaque declaration in the provider modules was included in the conservative kernel-bound review inventory, which may also retain generated declarations. A successful repository-wide Mathlib linter build screened the proof text; every direct diagnostic is named, located, assigned to its nearest source command, and dispositioned in the evidence certificate."
     }
   },
   {
@@ -29597,12 +29625,12 @@
     "last_updated": "2026-08-01",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "Fixed in #5652: added EtingofRepresentationTheory/Chapter5/Remark5_8_3.lean. `Etingof.Remark5_8_3` proves `finrank ℂ (IndV H.subtype ρ) = finrank ℂ V * H.index` for a finite index subgroup and finite-dimensional V. The proof follows the book: `Etingof.coindVEquivPi` is the ℂ-linear equivalence coindV ≅ (right cosets → V) given by evaluation at chosen coset representatives (Etingof's observation that f is determined by {f(x_σ)}), and `Etingof.indVLinearEquivCoindV` transfers this to the tensor model IndV via Mathlib's finite-index Ind ≅ Coind isomorphism.",
+    "fidelity_note": "`Etingof.Remark5_8_3` now states the dimension formula directly for the book's function-space carrier `coindV H.subtype ρ`. The proof uses `Etingof.coindVEquivPi`, evaluation at chosen right-coset representatives. `Etingof.Remark5_8_3_tensor` transports the result to the finite-index tensor model through the canonical Ind-Coind equivalence.",
     "claim_coverage": {
       "stage": "3.2",
       "status": "complete",
       "section": "5.8",
-      "reviewed_on": "2026-07-29",
+      "reviewed_on": "2026-08-02",
       "definition_integrity": "verified",
       "statement_fidelity": "verified",
       "nonvacuity": "verified",
@@ -29615,7 +29643,7 @@
         {
           "claim": "dim Ind_H^G V = dim(V)·(G:H).",
           "verdict": "formalized",
-          "lean_decl": "Etingof.Remark5_8_3"
+          "lean_decl": "Etingof.Remark5_8_3; Etingof.Remark5_8_3_tensor"
         }
       ]
     },
@@ -29640,7 +29668,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 22,
+      "declarations_reviewed": 23,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -29653,7 +29681,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.Remark5_8_3"
       ],
-      "source_level_proof_declarations_reviewed": 2,
+      "source_level_proof_declarations_reviewed": 3,
       "diagnostic_count": 0,
       "diagnostic_categories": [],
       "result": "proof_review_screened_clean",
@@ -29696,7 +29724,8 @@
             "EtingofRepresentationTheory/Chapter5/Problem5_8_4.lean"
           ],
           "lean_decl": [
-            "Etingof.ind_ind_iso_ind"
+            "Etingof.ind_ind_iso_ind",
+            "Etingof.Definition5_8_1_iso_functionSpace"
           ]
         }
       ]
@@ -30926,7 +30955,7 @@
         "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Reps",
         "EtingofRepresentationTheory.Chapter4.Problem4_12_5"
       ],
-      "declarations_reviewed": 230,
+      "declarations_reviewed": 231,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -32546,7 +32575,7 @@
         "EtingofRepresentationTheory.Chapter5.Definition5_12_1",
         "EtingofRepresentationTheory.Chapter5.Definition5_8_1"
       ],
-      "declarations_reviewed": 61,
+      "declarations_reviewed": 63,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
